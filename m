@@ -2,182 +2,212 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id F1987428A3B
-	for <lists+linux-media@lfdr.de>; Mon, 11 Oct 2021 11:56:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0CF16428A48
+	for <lists+linux-media@lfdr.de>; Mon, 11 Oct 2021 12:01:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235602AbhJKJ6l (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 11 Oct 2021 05:58:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37642 "EHLO
+        id S235705AbhJKKC7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 11 Oct 2021 06:02:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38600 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235522AbhJKJ6k (ORCPT
+        with ESMTP id S235602AbhJKKC6 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 11 Oct 2021 05:58:40 -0400
-Received: from lb1-smtp-cloud7.xs4all.net (lb1-smtp-cloud7.xs4all.net [IPv6:2001:888:0:108::1a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5A3A0C061570;
-        Mon, 11 Oct 2021 02:56:40 -0700 (PDT)
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud7.xs4all.net with ESMTPA
-        id Zs2qmxezZk3b0Zs2tmLyFv; Mon, 11 Oct 2021 11:56:36 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1633946196; bh=LG8kagaKuABxfT0AH2KzGKN8lZd+955tYJGlfULwuEM=;
-        h=Subject:From:To:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=FAWXWuFGc4FXI+oc1huK5f+QRuMsVep8QBV+wiUgK8b7OY0EZBJjk7gmOqs64lzqx
-         vYhsBI9A4IrPmbfsUKJ81mLRtKEi47hVkeqbPNIz4NvheuAOkD+yuiwVbVas+NvNXH
-         13zXTuaq5C8w2haRhsAxdAhytBpkCUNHZikvEd0yfRRMzStjG0T3vQ/JtRGj3uNBJe
-         fcxbl5aLT5qOHfYMAlH4FjpXD4HbDe/ASxpofFZTwk3Y/sgG/ORI3O7X2hX+ylgaQV
-         oyniUHdDdBIT3/CfKqeSINKPU99jMHipextB4O1pMbcQlNVx2GqdOziqvM7aENqHCs
-         +LcJ6rpNSKELA==
-Subject: Re: [RESENT PATCH V0 0/4] media: some framework interface extension
- for new feature of Mediatek Camsys driver
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-To:     Louis Kuo <louis.kuo@mediatek.com>, sakari.ailus@linux.intel.com,
-        laurent.pinchart@ideasonboard.com, mchehab@kernel.org,
-        matthias.bgg@gmail.com, arnd@arndb.de,
-        sergey.senozhatsky@gmail.com, helen.koike@collabora.com,
-        niklas.soderlund+renesas@ragnatech.se, yepeilin.cs@gmail.com
-Cc:     frederic.chen@mediatek.com, linux-media@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org
-References: <20210507074604.15079-1-louis.kuo@mediatek.com>
- <61393c9e-6f28-a357-8ea1-3590e883f107@xs4all.nl>
-Message-ID: <4109bf9b-7210-6b1c-1614-abb1bbd74c6c@xs4all.nl>
-Date:   Mon, 11 Oct 2021 11:56:32 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Firefox/78.0 Thunderbird/78.14.0
+        Mon, 11 Oct 2021 06:02:58 -0400
+Received: from mail-io1-xd34.google.com (mail-io1-xd34.google.com [IPv6:2607:f8b0:4864:20::d34])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 592F5C061570;
+        Mon, 11 Oct 2021 03:00:58 -0700 (PDT)
+Received: by mail-io1-xd34.google.com with SMTP id 5so19076403iov.9;
+        Mon, 11 Oct 2021 03:00:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=yXcvq1zADtmcg32ryQtdH4a+0FvgZKed0QthCOmoDpI=;
+        b=QAQqV+bDQO33uF6/KpR9PYACxfCcadoANuvPU7QoHKA0od6J0LHRYUxhgY+Ygo5K9B
+         l31yjNV3TWME2U8o3xy8xoTAj9d31NtM7T1tmVgMizsqcAFY/VOIr1LydauRgLj8qjaH
+         2jMTrlzUf9EFxOq1mReHwa3+yI+/AbAaAkJGPn3dO2k4j75o59XafFv4PRZdUQRyNQXT
+         jjfQjAVyw+jqueCZixlDtbYCJel+1r2Hf7/iUzO6JeDbwlFL58KOi4//2eQpFQgz8tza
+         t2mGtfo0ZFVbqwVNgSWmm/Bxi2Ub9/8/5nZ2aNNWonGCoalVHlAH6pPBAftRKVo1BueJ
+         voNQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=yXcvq1zADtmcg32ryQtdH4a+0FvgZKed0QthCOmoDpI=;
+        b=sbwrLRTIEA9HtUfWxAwk9d2RkaAOReKW8IV0b+9Epz7/hdOLTz98QCVeZYSsk42TaG
+         VDKSjlICH5uES2UYWFnnilXcpxAqwE1W/T+u3QgrUHpCmgFwn2TEyycT5Q3nvMj/uSXa
+         1Os8/wjkKMaJei2Dl/jE2ZKg/qBUBL0dV5WlOyXU1NXhexKzV5vNe1XdSgzmfs/S0eUC
+         p/KKZsOACQznBJUySb/ivjdRH4Nrnso19jzQ7XNvWwWrbNn/vz4Sjk/Tur3JSBRdW6S7
+         Hnqi8v1gLiHiHhTi8TT2n9IqMslnXfD/swykeNHNoWsYzWfq44GYGRgKrEpCrIIx1tO9
+         N7Vw==
+X-Gm-Message-State: AOAM531a/44bsAbsGhsOaJBYByi1jR5OCEdU9QdsGROEX2+rrLpktegq
+        tYV9PPuWZrPsTR94NmTdj6zKKrz4VcpyNFKsbpU=
+X-Google-Smtp-Source: ABdhPJwxaGE2iK30U5/jrs1jVvsUDLIabaQ09onY1Mk3bondvsaQahhYyWt4k5W8cnGvxl3udGcwTpQ+9J3IO1h35kE=
+X-Received: by 2002:a02:7105:: with SMTP id n5mr1133311jac.64.1633946457732;
+ Mon, 11 Oct 2021 03:00:57 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <61393c9e-6f28-a357-8ea1-3590e883f107@xs4all.nl>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4xfH4GmGFpw4AelMZ2xke1e8WqwMh2XTbSad9xxewZIIjI+sAPk6WMnJOZRxBsAhuiDitwhJn0KvEp3M9tTPq16AJJCLhi+0hdwBIxCAf08bkfaWArKNM7
- +6yukj4sV4Ev1dwni52GzkMex74U43WPzhajZCw0+7pgoP7LZM17k0MSvRo4VFNqFgpCHSopQaWeD2a0l/zSgKhJcpOXgpyqp4393uZD6h1lJ+XgA6v5nxME
- ihDZWZ2fig2zqbe9x+i4GAbamVy50WeQqlkcQyOpxYHLXLaZ8cHgtRR6Omerp8TI2cS+wW55R5TOpyxRrLsZN76MnV6vYwklthsJL+BxakUGtKSUkehrADdp
- zxMr2/5G14E9fzaxGnWhUv7FUb1YAxuyRPTh1VbQwG3/Y3nIlW2GGFJjMd0eKm0TuhaR/jFQfFbdVR4uEVdwG48Z/gZneoZEANsorBl4VMwxJ7KKL04zI/rk
- I6hPwd6fFVKn4izpHN7OHgrWQ895JOsrtHvOv0XGTH+WcWERZJcG6Nx8z+i+fGKeytQkMq7E+eR7X0wWU2QrmOtmbFXNVoFLepSZ0lUl6sLVGiTGICoIw1Y7
- TBf7nKoPn6n7bkTwKiStwTo64sVyv1bgwPG7qamBtrNVZH2M6KxOqF8XlqrAEn9Cbu8TDW/fBRg70l72OjvjtI+L0J+KNspQGNeJ2RfQbYkNDTw5elNpeY+m
- RL+0Qx7DIOFNK7nQ0qQ93WhBuPk3HSKmy8ahR803QfbQet6ycA5eIldHNoGkmR0xlLojO+QLN7Q=
+References: <1633689012-14492-1-git-send-email-dillon.minfei@gmail.com>
+ <1633689012-14492-7-git-send-email-dillon.minfei@gmail.com> <290d78b5-b6d4-a115-9556-f2f909f573da@xs4all.nl>
+In-Reply-To: <290d78b5-b6d4-a115-9556-f2f909f573da@xs4all.nl>
+From:   Dillon Min <dillon.minfei@gmail.com>
+Date:   Mon, 11 Oct 2021 18:00:21 +0800
+Message-ID: <CAL9mu0KxAmULQofQMgt2JxVLs=L-YT5HZa+mA7sSKebG88GbcA@mail.gmail.com>
+Subject: Re: [PATCH v3 6/8] media: v4l2-ctrls: Add ARGB color effects control
+To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        mchehab+huawei@kernel.org, ezequiel@collabora.com,
+        gnurou@gmail.com, Pi-Hsun Shih <pihsun@chromium.org>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        Alexandre TORGUE <alexandre.torgue@foss.st.com>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>, gabriel.fernandez@st.com,
+        gabriel.fernandez@foss.st.com,
+        Patrice CHOTARD <patrice.chotard@foss.st.com>,
+        hugues.fruchet@foss.st.com,
+        linux-media <linux-media@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-stm32@st-md-mailman.stormreply.com,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        linux-clk <linux-clk@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 14/06/2021 12:56, Hans Verkuil wrote:
-> Hi Louis,
-> 
-> On 07/05/2021 09:46, Louis Kuo wrote:
->> Hello,
->>
->> This is the first version of the patch series extending V4L2 and media
->> framework to support some advanced camera function, for example, to change
->> the sensor when ISP is still streaming. A typical scenario is the wide-angle
->> sensor and telephoto sensor switching in camera application. When the user
->> is using the zooming UI, the application needs to switch the sensor from
->> wide-angle sensor to telephoto sensor smoothly.
->>
->> To finish the function, we may need to modify the links of a pipeline and
->> the format of pad and video device per request. Currently, the link,
->> pad and video device format and selection settings are not involved in
->> media request's design. Therefore, we try to extend the related interface
->> to support the request-based operations. In the early version, we added
->> request fd to the parameters of MEDIA_IOC_SETUP_LINK,
->> VIDIOC_S_FMT, VIDIOC_SUBDEV_S_SELECTION, VIDIOC_SUBDEV_S_FMT.
->> The driver uses media_request_get_by_fd() to retrieve the media request
->> and save the pending change in it, so that we can apply the pending change
->> in req_queue() callback then.
->>
->> Here is an example:
->>
->> int mtk_cam_vidioc_s_selection(struct file *file, void *fh,
->> 				struct v4l2_selection *s)
->> {
->> 	struct mtk_cam_device *cam = video_drvdata(file);
->> 	struct mtk_cam_video_device *node = file_to_mtk_cam_node(file);
->> 	struct mtk_cam_request_stream_data *stream_data;
->> 	struct mtk_cam_request *cam_req;
->> 	struct media_request *req;
->> 	s32 fd;
->>
->> 	fd = s->request_fd;
->> 	if (fd < 0)
->> 		return -EINVAL;
->>
->> 	req = media_request_get_by_fd(&cam->media_dev, fd);
->>
->> 	/* .... */
->>  
->> 	cam_req = to_mtk_cam_req(req);
->> 	stream_data = &cam_req->stream_data[node->uid.pipe_id];
->> 	stream_data->vdev_selection_update |= (1 << node->desc.id);
->> 	stream_data->vdev_selection[node->desc.id] = *s;
->>
->> 	/* .... */
->>
->> 	media_request_put(req);
->>
->> 	return 0;
->> }
->>
->> I posted interface change to discuss first and would like some
->> review comments.
->>
->> Thank you very much.
-> 
-> Just adding a request_fd in several places is the easy bit. The much
-> harder part is where to store that information, and even harder is an
-> outstanding issue with the request framework:
-> 
-> Currently the request framework is only used with decoder drivers, so
-> there are no subdev drivers involved. I suspect that there is a fair
-> amount of work to do to make it work well if part of the request configuration
-> is for subdev drivers.
-> 
-> Ideally I would like to see a proof-of-concept with the vimc driver.
-> 
-> I think getting this right is quite a lot of work. The public API part
-> is just a minor part of that since the public API was designed with support
-> for this in mind. It's the internal kernel support that is lacking.
-> 
-> If you want to pursue this (and that would be great!), then start with
-> vimc and initially just support controls in a request. The core problem
-> is likely to be how to keep track of the request data if it is spread
-> out between the bridge driver and subdev drivers, and that can be tested
-> with just supporting controls.
-> 
-> Adding support for formats and selection rectangles is, I think, much less
-> difficult and can be addressed later. Changing the topology in a request
-> is a separate issue as well, and I would suggest that you postpone that.
-> There is some low-level work going on that might make this easier in the
-> near future (1), we'll have to wait and see.
+Hi Hans
 
-Just FYI: I have not heard anything about this since my reply, so I am marking
-this series as RFC in patchwork.
+Thanks for the quick reply.
 
-Regards,
+On Mon, 11 Oct 2021 at 17:40, Hans Verkuil <hverkuil-cisco@xs4all.nl> wrote:
+>
+> On 08/10/2021 12:30, dillon.minfei@gmail.com wrote:
+> > From: Dillon Min <dillon.minfei@gmail.com>
+> >
+> > - add V4L2_COLORFX_SET_ARGB color effects control.
+> > - add V4L2_CID_COLORFX_ARGB for ARGB color setting.
+> >
+> > Signed-off-by: Dillon Min <dillon.minfei@gmail.com>
+> > ---
+> > v3: according to Hans's suggestion, thanks.
+> > - remove old stm32 private R2M ioctl
+> > - add V4L2_CID_COLORFX_ARGB
+> > - add V4L2_COLORFX_SET_ARGB
+> >
+> >  Documentation/userspace-api/media/v4l/control.rst | 8 ++++++++
+> >  drivers/media/v4l2-core/v4l2-ctrls-defs.c         | 2 ++
+> >  include/uapi/linux/v4l2-controls.h                | 4 +++-
+> >  3 files changed, 13 insertions(+), 1 deletion(-)
+> >
+> > diff --git a/Documentation/userspace-api/media/v4l/control.rst b/Documentation/userspace-api/media/v4l/control.rst
+> > index f8d0b923da20..319606a6288f 100644
+> > --- a/Documentation/userspace-api/media/v4l/control.rst
+> > +++ b/Documentation/userspace-api/media/v4l/control.rst
+> > @@ -242,8 +242,16 @@ Control IDs
+> >      * - ``V4L2_COLORFX_SET_CBCR``
+> >        - The Cb and Cr chroma components are replaced by fixed coefficients
+> >       determined by ``V4L2_CID_COLORFX_CBCR`` control.
+> > +    * - ``V4L2_COLORFX_SET_ARGB``
+> > +      - ARGB colors.
+>
+> How about:
+>
+>         - The ARGB components are replaced by the fixed ARGB components
+>         determined by ``V4L2_CID_COLORFX_ARGB`` control.
 
-	Hans
+Sure, will be addressed by v4.
 
-> 
+>
+> I also wonder if it makes sense to include the alpha channel here.
+>
+> Looking at the driver code it appears to me (I might be wrong) that the alpha
+> channel is never touched (DMA2D_ALPHA_MODE_NO_MODIF), and setting the alpha
+> channel as part of a color effects control is rather odd as well.
+
+Indeed, Alpha channel is not used in current code. I'll remove this item in v4.
+how about change the code like below:
+
+    * - ``V4L2_COLORFX_SET_RGB``
+       - The RGB components are replaced by the fixed RGB components
+         determined by ``V4L2_CID_COLORFX_RGB`` control.
+
+``V4L2_CID_COLORFX_RGB`` ``(integer)``
+    Determines the Red, Green, and Blue coefficients for
+    ``V4L2_COLORFX_SET_RGB`` color effect.
+    Bits [7:0] of the supplied 32 bit value are interpreted as Blue component,
+    bits [15:8] as Green component, bits [23:16] as Red component, and
+    bits [31:24] must be zero.
+
+
+>
+> Alpha channel manipulation really is separate from the color and - if needed - should
+> be done with a separate control.
+
+OK, Will use a separate control when adding blend features.
+
+Best Regards,
+Dillon
+
+>
 > Regards,
-> 
-> 	Hans
-> 
-> (1): https://patchwork.linuxtv.org/project/linux-media/cover/20210524104408.599645-1-tomi.valkeinen@ideasonboard.com/
-> 
->>
->>   media: v4l2-core: extend the v4l2 format to support request
->>   media: subdev: support which in v4l2_subdev_frame_interval
->>   media: v4l2-ctrl: Add ISP Camsys user control
->>   media: pixfmt: Add ISP Camsys formats
->>
->>  drivers/media/mc/mc-device.c         |   7 +-
->>  drivers/media/v4l2-core/v4l2-ioctl.c | 153 ++++++++++++++++++++++++++-
->>  include/media/media-entity.h         |   3 +
->>  include/uapi/linux/media.h           |   3 +-
->>  include/uapi/linux/v4l2-controls.h   |   4 +
->>  include/uapi/linux/v4l2-subdev.h     |   8 +-
->>  include/uapi/linux/videodev2.h       | 109 ++++++++++++++++++-
->>  7 files changed, 275 insertions(+), 12 deletions(-)
->>
->>
-> 
-
+>
+>         Hans
+>
+> >
+> >
+> > +``V4L2_CID_COLORFX_ARGB`` ``(integer)``
+> > +    Determines the Alpha, Red, Green, and Blue coefficients for
+> > +    ``V4L2_COLORFX_SET_ARGB`` color effect.
+> > +    Bits [7:0] of the supplied 32 bit value are interpreted as Blue component,
+> > +    bits [15:8] as Green component, bits [23:16] as Red component, and
+> > +    bits [31:24] as Alpha component.
+> >
+> >  ``V4L2_CID_COLORFX_CBCR`` ``(integer)``
+> >      Determines the Cb and Cr coefficients for ``V4L2_COLORFX_SET_CBCR``
+> > diff --git a/drivers/media/v4l2-core/v4l2-ctrls-defs.c b/drivers/media/v4l2-core/v4l2-ctrls-defs.c
+> > index 421300e13a41..53be6aadb289 100644
+> > --- a/drivers/media/v4l2-core/v4l2-ctrls-defs.c
+> > +++ b/drivers/media/v4l2-core/v4l2-ctrls-defs.c
+> > @@ -785,6 +785,7 @@ const char *v4l2_ctrl_get_name(u32 id)
+> >       case V4L2_CID_MIN_BUFFERS_FOR_OUTPUT:   return "Min Number of Output Buffers";
+> >       case V4L2_CID_ALPHA_COMPONENT:          return "Alpha Component";
+> >       case V4L2_CID_COLORFX_CBCR:             return "Color Effects, CbCr";
+> > +     case V4L2_CID_COLORFX_ARGB:             return "Color Effects, ARGB";
+> >
+> >       /*
+> >        * Codec controls
+> > @@ -1392,6 +1393,7 @@ void v4l2_ctrl_fill(u32 id, const char **name, enum v4l2_ctrl_type *type,
+> >               *min = *max = *step = *def = 0;
+> >               break;
+> >       case V4L2_CID_BG_COLOR:
+> > +     case V4L2_CID_COLORFX_ARGB:
+> >               *type = V4L2_CTRL_TYPE_INTEGER;
+> >               *step = 1;
+> >               *min = 0;
+> > diff --git a/include/uapi/linux/v4l2-controls.h b/include/uapi/linux/v4l2-controls.h
+> > index 5532b5f68493..2876c2282a68 100644
+> > --- a/include/uapi/linux/v4l2-controls.h
+> > +++ b/include/uapi/linux/v4l2-controls.h
+> > @@ -128,6 +128,7 @@ enum v4l2_colorfx {
+> >       V4L2_COLORFX_SOLARIZATION               = 13,
+> >       V4L2_COLORFX_ANTIQUE                    = 14,
+> >       V4L2_COLORFX_SET_CBCR                   = 15,
+> > +     V4L2_COLORFX_SET_ARGB                   = 16,
+> >  };
+> >  #define V4L2_CID_AUTOBRIGHTNESS                      (V4L2_CID_BASE+32)
+> >  #define V4L2_CID_BAND_STOP_FILTER            (V4L2_CID_BASE+33)
+> > @@ -145,9 +146,10 @@ enum v4l2_colorfx {
+> >
+> >  #define V4L2_CID_ALPHA_COMPONENT             (V4L2_CID_BASE+41)
+> >  #define V4L2_CID_COLORFX_CBCR                        (V4L2_CID_BASE+42)
+> > +#define V4L2_CID_COLORFX_ARGB                        (V4L2_CID_BASE+43)
+> >
+> >  /* last CID + 1 */
+> > -#define V4L2_CID_LASTP1                         (V4L2_CID_BASE+43)
+> > +#define V4L2_CID_LASTP1                         (V4L2_CID_BASE+44)
+> >
+> >  /* USER-class private control IDs */
+> >
+> >
+>
