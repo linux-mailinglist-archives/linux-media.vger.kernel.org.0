@@ -2,131 +2,79 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 01F274292C6
-	for <lists+linux-media@lfdr.de>; Mon, 11 Oct 2021 17:02:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 19B244292E6
+	for <lists+linux-media@lfdr.de>; Mon, 11 Oct 2021 17:15:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237945AbhJKPEI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 11 Oct 2021 11:04:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52218 "EHLO
+        id S234009AbhJKPRh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 11 Oct 2021 11:17:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55612 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236647AbhJKPEI (ORCPT
+        with ESMTP id S233622AbhJKPRg (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 11 Oct 2021 11:04:08 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EDD4FC061570
-        for <linux-media@vger.kernel.org>; Mon, 11 Oct 2021 08:02:07 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 05A922BD;
-        Mon, 11 Oct 2021 17:02:04 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1633964525;
-        bh=gUoRF0/sUEr4DgKYFNnkAmFoJ4X95Idgnal/Vk9tm0k=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=DTD1EeUc8XoqvHtvZESG4osNc+F0pZBWn8ztmUOoqMNJOWPhRVe7kl/L9RZOsg1Hv
-         0Z7VxsjJ2zTweXFrmx4j6CxAcbLPSK5WcpZCn1/FFHh7xq9njTqaq8taugPdJg8fNX
-         H9DtEFVwFY2gZEuZlP/DBnsMe2VmXOUCTSd+yuh8=
-Date:   Mon, 11 Oct 2021 18:01:52 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Cc:     linux-media@vger.kernel.org, sakari.ailus@linux.intel.com,
-        Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        niklas.soderlund+renesas@ragnatech.se,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Pratyush Yadav <p.yadav@ti.com>
-Subject: Re: [PATCH v9 33/36] media: subdev: add "opposite" stream helper
- funcs
-Message-ID: <YWRR4HFknenCkJQ+@pendragon.ideasonboard.com>
-References: <20211005085750.138151-1-tomi.valkeinen@ideasonboard.com>
- <20211005085750.138151-34-tomi.valkeinen@ideasonboard.com>
- <YWL1cTmobr+RI/01@pendragon.ideasonboard.com>
- <0756f120-260a-cb56-fd7f-f707148bc3db@ideasonboard.com>
+        Mon, 11 Oct 2021 11:17:36 -0400
+Received: from mail-pf1-x443.google.com (mail-pf1-x443.google.com [IPv6:2607:f8b0:4864:20::443])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3BD93C06161C
+        for <linux-media@vger.kernel.org>; Mon, 11 Oct 2021 08:15:36 -0700 (PDT)
+Received: by mail-pf1-x443.google.com with SMTP id m26so15122128pff.3
+        for <linux-media@vger.kernel.org>; Mon, 11 Oct 2021 08:15:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=CFfLWX6AJG8qG4KTh1qAKguzlfSz5S0XavInYaNQNMM=;
+        b=AzurSuPd3ek+9HlKb1xaXG71fRbGWZ92l/ZlE68dBhzBXQp3k0Y8sZPg9w7PHuPh8O
+         eeDF0EjH3zRjc/4zySuBSIg/u4ij7e4WE+OOiNpBv2D8UuzifOTUeZy8u2/eLOJso7ZE
+         H7KUC3tnj+mqzB8XZlWltrSOqhI3dK7t9EWWn4K7oB8HPxKxz9/LSQ/eN99MTHSgezn6
+         xotybMdZTg1gEg9pgx8ZOv0Iiqyn7UzeqaCv3Catvc2AIrfNOit3iSXELHqVnLKlJU5g
+         c0ZgU7DW71s/RHjJP8+wkg2ePQdjyq3iwJNNhEJB7dlPya+iYw4QPKmGgH/L4zAQE8oP
+         1SKQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to;
+        bh=CFfLWX6AJG8qG4KTh1qAKguzlfSz5S0XavInYaNQNMM=;
+        b=Opk0OV1nlCwe7GuqVjgfWrv+s5KYBCL0gMWDKz1G8eHNMxozIcTcmTDhS5nELqsI+6
+         lsB3LXqSpoup5pdsURT/IVwcVi4Day44jp8CmFUbDczFAoRav1jdiD6iNyg9pJNJjKLt
+         6YS9LcRAZLXHW9MiL8mVNGCaPeFfDffveo6ovJZ2lo8wQ6oRwQOsHNfZjmeO3C2FZ+JO
+         HNkbRawI9OUPWCvWjNt1KA4rUtsyhxvYqNoSay8ndoEOn2n/Mo5nxBOy+NKaV3kjSaPx
+         nYX834T4WkyanQqLgNkmcrx+ONYlHIKLAVr649/RHDj8tkhtRDfM44BQ6SxS+F2Ppnsm
+         ahFw==
+X-Gm-Message-State: AOAM5327md+JGHXOWPA9JqKdzLbRzILzNAbtUqo7JyRe3lme5sWVpdqV
+        zVYBumojkCw8kOFUEXZVjxe9nMFvfY6nbmgery4=
+X-Google-Smtp-Source: ABdhPJzxxhpNqxAtqfsRkLvEuG14EoBFQlTWuUCGTfr156KhNZrYRC4773W1Hqq/qO4TFks90Hx4hgL11GnfVFbZtUo=
+X-Received: by 2002:a05:6a00:1a15:b0:44d:a80:a194 with SMTP id
+ g21-20020a056a001a1500b0044d0a80a194mr9710245pfv.78.1633965335732; Mon, 11
+ Oct 2021 08:15:35 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <0756f120-260a-cb56-fd7f-f707148bc3db@ideasonboard.com>
+Received: by 2002:a17:90b:1e4b:0:0:0:0 with HTTP; Mon, 11 Oct 2021 08:15:35
+ -0700 (PDT)
+Reply-To: mrsaishag45@gmail.com
+From:   Mrs Aisha Gaddafi <mrshannahwhite055@gmail.com>
+Date:   Mon, 11 Oct 2021 08:15:35 -0700
+Message-ID: <CAMy6vF_dB7NWK7W5zY9c5fE=QxdtiruA+hmYYdm5RbeHJCgzFg@mail.gmail.com>
+Subject: Dear Friend,
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Tomi,
+Dear Friend,
 
-On Mon, Oct 11, 2021 at 11:21:14AM +0300, Tomi Valkeinen wrote:
-> On 10/10/2021 17:15, Laurent Pinchart wrote:
-> > On Tue, Oct 05, 2021 at 11:57:47AM +0300, Tomi Valkeinen wrote:
-> >> Add two helper functions to make dealing with streams easier:
-> >>
-> >> v4l2_state_find_opposite_end - given a routing table and a pad + stream,
-> >> return the pad + stream on the opposite side of the subdev.
-> >>
-> >> v4l2_state_get_opposite_stream_format - return a pointer to the format
-> >> on the pad + stream on the opposite side from the given pad + stream.
-> >>
-> >> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-> >> ---
-> >>   drivers/media/v4l2-core/v4l2-subdev.c | 42 +++++++++++++++++++++++++++
-> >>   include/media/v4l2-subdev.h           | 32 ++++++++++++++++++++
-> >>   2 files changed, 74 insertions(+)
-> >>
-> >> diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
-> >> index 37e2e1f907fc..9eeadad997c8 100644
-> >> --- a/drivers/media/v4l2-core/v4l2-subdev.c
-> >> +++ b/drivers/media/v4l2-core/v4l2-subdev.c
-> >> @@ -1484,3 +1484,45 @@ v4l2_state_get_stream_format(struct v4l2_subdev_state *state, unsigned int pad,
-> >>   	return NULL;
-> >>   }
-> >>   EXPORT_SYMBOL_GPL(v4l2_state_get_stream_format);
-> >> +
-> >> +int v4l2_state_find_opposite_end(struct v4l2_subdev_krouting *routing, u32 pad,
-> >> +				 u32 stream, u32 *other_pad, u32 *other_stream)
-> > 
-> > This function should take a state pointer given its name. I would also
-> > rename it to v4l2_subdev_state_find_opposite_end(). Same for
-> > v4l2_state_get_opposite_stream_format() which should be
-> > v4l2_subdev_state_get_opposite_stream_format().
-> 
-> It doesn't need the state. I think it's better to rename this to 
-> v4l2_routing_find_opposite_end(). Or 
-> v4l2_subdev_routing_find_opposite_end() if you want the "subdev" to be 
-> there.
+I came across your e-mail contact prior to a private search while in
+need of your assistance. I am Aisha Al-Qaddafi, the only biological
+Daughter of Former President of Libya Col. Muammar Al-Qaddafi. Am a
+single Mother and a Widow with three Children.
 
-Is there any use case for calling this function on a
-v4l2_subdev_krouting instance that isn't stored in a v4l2_subdev_state ?
-If not, I'd prefer standardizing on operating on the state in all cases.
+I have investment funds worth Twenty Seven Million Five Hundred
+Thousand United State Dollar ($27.500.000.00 ) and i need a trusted
+investment Manager/Partner because of my current refugee status,
+however, I am interested in you for investment project assistance in
+your country, may be from there, we can build business relationship in
+the nearest future.
 
-> >> +{
-> >> +	unsigned int i;
-> >> +
-> >> +	for (i = 0; i < routing->num_routes; ++i) {
-> >> +		struct v4l2_subdev_route *route = &routing->routes[i];
-> >> +
-> >> +		if (route->source_pad == pad &&
-> >> +		    route->source_stream == stream) {
-> >> +			*other_pad = route->sink_pad;
-> >> +			*other_stream = route->sink_stream;
-> > 
-> > Can we support other_stream being NULL ? When the subdev implements the
-> > routing API without multiplexed streams, the other_stream number will
-> > always be 0 and it would be nice if the caller didn't have to declare a
-> > placeholder variable.
-> > 
-> > There are less use cases for other_pad being NULL, but maybe we could
-> > also allow that for consistency reasons ? Up to you.
-> 
-> Sure. But are you sure the ignored stream is 0? Should the function 
-> verify that the stream is indeed 0 if other_stream is NULL?
-
-I'd expect the routing table to have been validated at .set_routing()
-time, with != 0 streams rejected at that point, so ignoring the stream
-when calling v4l2_state_find_opposite_end() in drivers that don't
-support multiplexed streams should be safe.
-
-> For the pad, I don't know when it would be used, so it's perhaps better 
-> not to add that (as we can't have similar validation as for the stream).
-
-OK, we can only handle a NULL other_stream then.
-
--- 
-Regards,
-
-Laurent Pinchart
+I am willing to negotiate an investment/business profit sharing ratio
+with you based on the future investment earning profits.
+.
+Your Urgent Reply Will Be Appreciated
+Best Regards
+Mrs Aisha Al-Qaddafi
