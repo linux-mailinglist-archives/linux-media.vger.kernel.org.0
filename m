@@ -2,89 +2,206 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 41F694289AC
-	for <lists+linux-media@lfdr.de>; Mon, 11 Oct 2021 11:31:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 001AE4289C7
+	for <lists+linux-media@lfdr.de>; Mon, 11 Oct 2021 11:38:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235505AbhJKJdI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 11 Oct 2021 05:33:08 -0400
-Received: from mga01.intel.com ([192.55.52.88]:48063 "EHLO mga01.intel.com"
+        id S235559AbhJKJkl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 11 Oct 2021 05:40:41 -0400
+Received: from www.linuxtv.org ([130.149.80.248]:54044 "EHLO www.linuxtv.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S235452AbhJKJdI (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 11 Oct 2021 05:33:08 -0400
-X-IronPort-AV: E=McAfee;i="6200,9189,10133"; a="250221457"
-X-IronPort-AV: E=Sophos;i="5.85,364,1624345200"; 
-   d="scan'208";a="250221457"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Oct 2021 02:30:50 -0700
-X-IronPort-AV: E=Sophos;i="5.85,364,1624345200"; 
-   d="scan'208";a="479785314"
-Received: from lahna.fi.intel.com (HELO lahna) ([10.237.72.163])
-  by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Oct 2021 02:30:44 -0700
-Received: by lahna (sSMTP sendmail emulation); Mon, 11 Oct 2021 12:30:41 +0300
-Date:   Mon, 11 Oct 2021 12:30:41 +0300
-From:   Mika Westerberg <mika.westerberg@linux.intel.com>
-To:     Hans de Goede <hdegoede@redhat.com>
-Cc:     "Rafael J . Wysocki" <rjw@rjwysocki.net>,
-        Mark Gross <markgross@kernel.org>,
-        Andy Shevchenko <andy@infradead.org>,
-        Wolfram Sang <wsa@the-dreams.de>,
-        Daniel Scally <djrscally@gmail.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Mark Brown <broonie@kernel.org>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>, Len Brown <lenb@kernel.org>,
-        linux-acpi@vger.kernel.org, platform-driver-x86@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-i2c@vger.kernel.org,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Kate Hsuan <hpa@redhat.com>, linux-media@vger.kernel.org,
-        linux-clk@vger.kernel.org
-Subject: Re: [PATCH v3 01/11] ACPI: delay enumeration of devices with a _DEP
- pointing to an INT3472 device
-Message-ID: <YWQEQVzF2nMjE10y@lahna>
-References: <20211010185707.195883-1-hdegoede@redhat.com>
- <20211010185707.195883-2-hdegoede@redhat.com>
- <YWPXixp/J6KIzWp6@lahna>
- <0c08069e-7758-fc09-c200-d867d097b499@redhat.com>
+        id S235500AbhJKJkk (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Mon, 11 Oct 2021 05:40:40 -0400
+Received: from builder.linuxtv.org ([140.211.167.10] helo=slave0)
+        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1mZrlX-00EwNS-Fj; Mon, 11 Oct 2021 09:38:39 +0000
+Received: from ip6-localhost ([::1] helo=localhost.localdomain)
+        by slave0 with esmtp (Exim 4.94.2)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1mZrlU-00DqYO-Ap; Mon, 11 Oct 2021 09:38:36 +0000
+From:   Jenkins <jenkins@linuxtv.org>
+To:     mchehab+samsung@kernel.org, linux-media@vger.kernel.org
+Cc:     builder@linuxtv.org
+Subject: Re: [GIT PULL FOR v5.16] Allegro fixes/enhancements (#77656)
+Date:   Mon, 11 Oct 2021 09:38:35 +0000
+Message-Id: <20211011093835.3300234-1-jenkins@linuxtv.org>
+X-Mailer: git-send-email 2.30.2
+In-Reply-To: <710cddfc-e3c3-0cf3-d2f9-c38ef6ca8b1a@xs4all.nl>
+References: 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <0c08069e-7758-fc09-c200-d867d097b499@redhat.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, Oct 11, 2021 at 09:11:05AM +0200, Hans de Goede wrote:
-> Hi,
-> 
-> On 10/11/21 8:19 AM, Mika Westerberg wrote:
-> > Hi,
-> > 
-> > On Sun, Oct 10, 2021 at 08:56:57PM +0200, Hans de Goede wrote:
-> >> +/* List of HIDs for which we honor deps of matching ACPI devs, when checking _DEP lists. */
-> >> +static const char * const acpi_honor_dep_ids[] = {
-> >> +	"INT3472", /* Camera sensor PMIC / clk and regulator info */
-> > 
-> > Is there some reason why we can't do this for all devices with _DEP?
-> > That way we don't need to maintain lists like this.
-> 
-> Up until now the ACPI core deliberate mostly ignores _DEP-s because the
-> _DEP method may point to pretty much any random ACPI object and Linux does
-> not necessarily have a driver for all ACPI objects the driver points too,
-> which would lead to the devices never getting instantiated.
-> 
-> In hindsight this might not have been the best solution (1), but if we
-> now start honoring _DEP-s for all devices all of a sudden then this
-> will almost certainly lead to a whole bunch of regressions.
-> 
-> Note that in this case the HID which triggers this is for the device
-> being depended upon and for all camera sensors used with the IPU3 and
-> IPU4 Intel camera blocks this is the INT3472 device. By triggering on
-> this HID (rather then on the sensor HIDs) I expect that we will not
-> need to update this list all that often.
+From: builder@linuxtv.org
 
-I see and agree. Thanks for the explanation!
+Pull request: https://patchwork.linuxtv.org/project/linux-media/patch/710cddfc-e3c3-0cf3-d2f9-c38ef6ca8b1a@xs4all.nl/
+Build log: https://builder.linuxtv.org/job/patchwork/147010/
+Build time: 00:41:54
+Link: https://lore.kernel.org/linux-media/710cddfc-e3c3-0cf3-d2f9-c38ef6ca8b1a@xs4all.nl
 
-No objections from my side then :)
+gpg: Signature made Mon 11 Oct 2021 08:44:58 AM UTC
+gpg:                using RSA key AAA7FFBA4D2D77EF4CAEA1421326E0CD23ABDCE5
+gpg: Good signature from "Hans Verkuil <hverkuil-cisco@xs4all.nl>" [unknown]
+gpg:                 aka "Hans Verkuil <hverkuil@xs4all.nl>" [unknown]
+gpg: Note: This key has expired!
+Primary key fingerprint: 052C DE7B C215 053B 689F  1BCA BD2D 6148 6614 3B4C
+     Subkey fingerprint: AAA7 FFBA 4D2D 77EF 4CAE  A142 1326 E0CD 23AB DCE5
+
+Summary: got 5/13 patches with issues, being 5 at build time, plus one error when buinding PDF document
+
+Error/warnings:
+
+patches/0001-media-allegro-ignore-interrupt-if-mailbox-is-not-ini.patch:
+
+    allyesconfig: return code #0:
+	../scripts/genksyms/parse.y: warning: 9 shift/reduce conflicts [-Wconflicts-sr]
+	../scripts/genksyms/parse.y: warning: 5 reduce/reduce conflicts [-Wconflicts-rr]
+	../scripts/genksyms/parse.y: note: rerun with option '-Wcounterexamples' to generate conflict counterexamples
+
+    allyesconfig: return code #0:
+	../drivers/media/cec/core/cec-adap.c: ../drivers/media/cec/core/cec-adap.c:926 cec_transmit_msg_fh() warn: '&data->list' not removed from list
+	../drivers/media/rc/meson-ir-tx.c:22: warning: expecting prototype for meson(). Prototype was for DEVICE_NAME() instead
+	SPARSE:../drivers/media/rc/ir_toy.c ../drivers/media/rc/ir_toy.c:321:20: warning: incorrect type in assignment (different base types)
+	SPARSE:../drivers/media/rc/ir_toy.c ../drivers/media/rc/ir_toy.c:321:20:    expected restricted __be16 [usertype]
+	SPARSE:../drivers/media/rc/ir_toy.c ../drivers/media/rc/ir_toy.c:321:20:    got int
+	../drivers/media/pci/intel/ipu3/cio2-bridge.c:242 cio2_bridge_connect_sensor() warn: missing error code 'ret'
+	SMATCH:../drivers/media/usb/siano/smsusb.c ../drivers/media/usb/siano/smsusb.c:53:38: :warning: array of flexible structures
+	SPARSE:../drivers/media/usb/siano/smsusb.c ../drivers/media/usb/siano/smsusb.c:53:38: warning: array of flexible structures
+	../drivers/media/platform/qcom/venus/helpers.c: ../drivers/media/platform/qcom/venus/helpers.c:627 venus_helper_get_bufreq() error: we previously assumed 'req' could be null (see line 623)
+	../drivers/media/usb/pvrusb2/pvrusb2-encoder.c: ../drivers/media/usb/pvrusb2/pvrusb2-encoder.c:288 pvr2_encoder_cmd() warn: inconsistent indenting
+	../drivers/media/usb/pvrusb2/pvrusb2-hdw.c: ../drivers/media/usb/pvrusb2/pvrusb2-hdw.c:1730 pvr2_hdw_set_streaming() warn: inconsistent indenting
+	../drivers/media/usb/pvrusb2/pvrusb2-hdw.c: ../drivers/media/usb/pvrusb2/pvrusb2-hdw.c:3461 pvr2_hdw_cpufw_set_enabled() warn: inconsistent indenting
+	../drivers/media/usb/pvrusb2/pvrusb2-hdw.c: ../drivers/media/usb/pvrusb2/pvrusb2-hdw.c:3501 pvr2_hdw_cpufw_get() warn: inconsistent indenting
+
+patches/0006-media-allegro-add-control-to-disable-encoder-buffer.patch:
+
+    allyesconfig: return code #0:
+	../drivers/media/pci/intel/ipu3/cio2-bridge.c:242 cio2_bridge_connect_sensor() warn: missing error code 'ret'
+	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2625 dvb_register() parse error: turning off implications after 60 seconds
+	../drivers/media/usb/pvrusb2/pvrusb2-encoder.c: ../drivers/media/usb/pvrusb2/pvrusb2-encoder.c:288 pvr2_encoder_cmd() warn: inconsistent indenting
+	../drivers/media/platform/qcom/venus/helpers.c: ../drivers/media/platform/qcom/venus/helpers.c:627 venus_helper_get_bufreq() error: we previously assumed 'req' could be null (see line 623)
+	../drivers/media/usb/pvrusb2/pvrusb2-hdw.c: ../drivers/media/usb/pvrusb2/pvrusb2-hdw.c:1730 pvr2_hdw_set_streaming() warn: inconsistent indenting
+	../drivers/media/usb/pvrusb2/pvrusb2-hdw.c: ../drivers/media/usb/pvrusb2/pvrusb2-hdw.c:3461 pvr2_hdw_cpufw_set_enabled() warn: inconsistent indenting
+	../drivers/media/usb/pvrusb2/pvrusb2-hdw.c: ../drivers/media/usb/pvrusb2/pvrusb2-hdw.c:3501 pvr2_hdw_cpufw_get() warn: inconsistent indenting
+	../drivers/media/usb/em28xx/em28xx-video.c: ../drivers/media/usb/em28xx/em28xx-video.c:2900 em28xx_v4l2_init() parse error: turning off implications after 60 seconds
+
+   checkpatch.pl:
+	$ cat patches/0006-media-allegro-add-control-to-disable-encoder-buffer.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
+	-:115: CHECK: Alignment should match open parenthesis
+
+patches/0010-media-allegro-extract-nal-value-lookup-functions-to-.patch:
+
+    allyesconfig: return code #512:
+	In file included from ../drivers/media/platform/allegro-dvt/nal-hevc.c:24:
+	../drivers/media/platform/allegro-dvt/nal-hevc.h:416:30: error: ‘enum v4l2_quantization’ declared inside parameter list will not be visible outside of this definition or declaration [-Werror]
+	../drivers/media/platform/allegro-dvt/nal-hevc.h:417:40: error: ‘enum v4l2_colorspace’ declared inside parameter list will not be visible outside of this definition or declaration [-Werror]
+	../drivers/media/platform/allegro-dvt/nal-hevc.h:419:14: error: ‘enum v4l2_xfer_func’ declared inside parameter list will not be visible outside of this definition or declaration [-Werror]
+	../drivers/media/platform/allegro-dvt/nal-hevc.h:418:49: error: ‘enum v4l2_colorspace’ declared inside parameter list will not be visible outside of this definition or declaration [-Werror]
+	../drivers/media/platform/allegro-dvt/nal-hevc.h:421:10: error: ‘enum v4l2_ycbcr_encoding’ declared inside parameter list will not be visible outside of this definition or declaration [-Werror]
+	../drivers/media/platform/allegro-dvt/nal-hevc.h:420:38: error: ‘enum v4l2_colorspace’ declared inside parameter list will not be visible outside of this definition or declaration [-Werror]
+	cc1: all warnings being treated as errors
+	make[5]: *** [../scripts/Makefile.build:277: drivers/media/platform/allegro-dvt/nal-hevc.o] Error 1
+	make[5]: *** Waiting for unfinished jobs....
+	make[4]: *** [../scripts/Makefile.build:540: drivers/media/platform/allegro-dvt] Error 2
+	make[3]: *** [../scripts/Makefile.build:540: drivers/media/platform] Error 2
+	make[2]: *** [../scripts/Makefile.build:540: drivers/media] Error 2
+	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:1868: drivers] Error 2
+	make: *** [Makefile:219: __sub-make] Error 2
+
+    allmodconfig: return code #512:
+	In file included from ../drivers/media/platform/allegro-dvt/nal-hevc.c:24:
+	../drivers/media/platform/allegro-dvt/nal-hevc.h:416:30: error: ‘enum v4l2_quantization’ declared inside parameter list will not be visible outside of this definition or declaration [-Werror]
+	../drivers/media/platform/allegro-dvt/nal-hevc.h:417:40: error: ‘enum v4l2_colorspace’ declared inside parameter list will not be visible outside of this definition or declaration [-Werror]
+	../drivers/media/platform/allegro-dvt/nal-hevc.h:419:14: error: ‘enum v4l2_xfer_func’ declared inside parameter list will not be visible outside of this definition or declaration [-Werror]
+	../drivers/media/platform/allegro-dvt/nal-hevc.h:418:49: error: ‘enum v4l2_colorspace’ declared inside parameter list will not be visible outside of this definition or declaration [-Werror]
+	../drivers/media/platform/allegro-dvt/nal-hevc.h:421:10: error: ‘enum v4l2_ycbcr_encoding’ declared inside parameter list will not be visible outside of this definition or declaration [-Werror]
+	../drivers/media/platform/allegro-dvt/nal-hevc.h:420:38: error: ‘enum v4l2_colorspace’ declared inside parameter list will not be visible outside of this definition or declaration [-Werror]
+	cc1: all warnings being treated as errors
+	make[5]: *** [../scripts/Makefile.build:277: drivers/media/platform/allegro-dvt/nal-hevc.o] Error 1
+	make[5]: *** Waiting for unfinished jobs....
+	make[4]: *** [../scripts/Makefile.build:540: drivers/media/platform/allegro-dvt] Error 2
+	make[3]: *** [../scripts/Makefile.build:540: drivers/media/platform] Error 2
+	make[2]: *** [../scripts/Makefile.build:540: drivers/media] Error 2
+	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:1868: drivers] Error 2
+	make: *** [Makefile:219: __sub-make] Error 2
+
+patches/0011-media-allegro-write-correct-colorspace-into-SPS.patch:
+
+    allyesconfig: return code #512:
+	In file included from ../drivers/media/platform/allegro-dvt/nal-hevc.c:24:
+	../drivers/media/platform/allegro-dvt/nal-hevc.h:416:30: error: ‘enum v4l2_quantization’ declared inside parameter list will not be visible outside of this definition or declaration [-Werror]
+	../drivers/media/platform/allegro-dvt/nal-hevc.h:417:40: error: ‘enum v4l2_colorspace’ declared inside parameter list will not be visible outside of this definition or declaration [-Werror]
+	../drivers/media/platform/allegro-dvt/nal-hevc.h:419:14: error: ‘enum v4l2_xfer_func’ declared inside parameter list will not be visible outside of this definition or declaration [-Werror]
+	../drivers/media/platform/allegro-dvt/nal-hevc.h:418:49: error: ‘enum v4l2_colorspace’ declared inside parameter list will not be visible outside of this definition or declaration [-Werror]
+	../drivers/media/platform/allegro-dvt/nal-hevc.h:421:10: error: ‘enum v4l2_ycbcr_encoding’ declared inside parameter list will not be visible outside of this definition or declaration [-Werror]
+	../drivers/media/platform/allegro-dvt/nal-hevc.h:420:38: error: ‘enum v4l2_colorspace’ declared inside parameter list will not be visible outside of this definition or declaration [-Werror]
+	cc1: all warnings being treated as errors
+	make[5]: *** [../scripts/Makefile.build:277: drivers/media/platform/allegro-dvt/nal-hevc.o] Error 1
+	make[5]: *** Waiting for unfinished jobs....
+	make[4]: *** [../scripts/Makefile.build:540: drivers/media/platform/allegro-dvt] Error 2
+	make[3]: *** [../scripts/Makefile.build:540: drivers/media/platform] Error 2
+	make[2]: *** [../scripts/Makefile.build:540: drivers/media] Error 2
+	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:1868: drivers] Error 2
+	make: *** [Makefile:219: __sub-make] Error 2
+
+    allmodconfig: return code #512:
+	In file included from ../drivers/media/platform/allegro-dvt/nal-hevc.c:24:
+	../drivers/media/platform/allegro-dvt/nal-hevc.h:416:30: error: ‘enum v4l2_quantization’ declared inside parameter list will not be visible outside of this definition or declaration [-Werror]
+	../drivers/media/platform/allegro-dvt/nal-hevc.h:417:40: error: ‘enum v4l2_colorspace’ declared inside parameter list will not be visible outside of this definition or declaration [-Werror]
+	../drivers/media/platform/allegro-dvt/nal-hevc.h:419:14: error: ‘enum v4l2_xfer_func’ declared inside parameter list will not be visible outside of this definition or declaration [-Werror]
+	../drivers/media/platform/allegro-dvt/nal-hevc.h:418:49: error: ‘enum v4l2_colorspace’ declared inside parameter list will not be visible outside of this definition or declaration [-Werror]
+	../drivers/media/platform/allegro-dvt/nal-hevc.h:421:10: error: ‘enum v4l2_ycbcr_encoding’ declared inside parameter list will not be visible outside of this definition or declaration [-Werror]
+	../drivers/media/platform/allegro-dvt/nal-hevc.h:420:38: error: ‘enum v4l2_colorspace’ declared inside parameter list will not be visible outside of this definition or declaration [-Werror]
+	cc1: all warnings being treated as errors
+	make[5]: *** [../scripts/Makefile.build:277: drivers/media/platform/allegro-dvt/nal-hevc.o] Error 1
+	make[5]: *** Waiting for unfinished jobs....
+	make[4]: *** [../scripts/Makefile.build:540: drivers/media/platform/allegro-dvt] Error 2
+	make[3]: *** [../scripts/Makefile.build:540: drivers/media/platform] Error 2
+	make[2]: *** [../scripts/Makefile.build:540: drivers/media] Error 2
+	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:1868: drivers] Error 2
+	make: *** [Makefile:219: __sub-make] Error 2
+
+patches/0012-media-allegro-nal-hevc-implement-generator-for-vui.patch:
+
+    allyesconfig: return code #512:
+	In file included from ../drivers/media/platform/allegro-dvt/nal-hevc.c:24:
+	../drivers/media/platform/allegro-dvt/nal-hevc.h:416:30: error: ‘enum v4l2_quantization’ declared inside parameter list will not be visible outside of this definition or declaration [-Werror]
+	../drivers/media/platform/allegro-dvt/nal-hevc.h:417:40: error: ‘enum v4l2_colorspace’ declared inside parameter list will not be visible outside of this definition or declaration [-Werror]
+	../drivers/media/platform/allegro-dvt/nal-hevc.h:419:14: error: ‘enum v4l2_xfer_func’ declared inside parameter list will not be visible outside of this definition or declaration [-Werror]
+	../drivers/media/platform/allegro-dvt/nal-hevc.h:418:49: error: ‘enum v4l2_colorspace’ declared inside parameter list will not be visible outside of this definition or declaration [-Werror]
+	../drivers/media/platform/allegro-dvt/nal-hevc.h:421:10: error: ‘enum v4l2_ycbcr_encoding’ declared inside parameter list will not be visible outside of this definition or declaration [-Werror]
+	../drivers/media/platform/allegro-dvt/nal-hevc.h:420:38: error: ‘enum v4l2_colorspace’ declared inside parameter list will not be visible outside of this definition or declaration [-Werror]
+	cc1: all warnings being treated as errors
+	make[5]: *** [../scripts/Makefile.build:277: drivers/media/platform/allegro-dvt/nal-hevc.o] Error 1
+	make[4]: *** [../scripts/Makefile.build:540: drivers/media/platform/allegro-dvt] Error 2
+	make[3]: *** [../scripts/Makefile.build:540: drivers/media/platform] Error 2
+	make[3]: *** Waiting for unfinished jobs....
+	make[2]: *** [../scripts/Makefile.build:540: drivers/media] Error 2
+	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:1868: drivers] Error 2
+	make: *** [Makefile:219: __sub-make] Error 2
+
+    allmodconfig: return code #512:
+	In file included from ../drivers/media/platform/allegro-dvt/nal-hevc.c:24:
+	../drivers/media/platform/allegro-dvt/nal-hevc.h:416:30: error: ‘enum v4l2_quantization’ declared inside parameter list will not be visible outside of this definition or declaration [-Werror]
+	../drivers/media/platform/allegro-dvt/nal-hevc.h:417:40: error: ‘enum v4l2_colorspace’ declared inside parameter list will not be visible outside of this definition or declaration [-Werror]
+	../drivers/media/platform/allegro-dvt/nal-hevc.h:419:14: error: ‘enum v4l2_xfer_func’ declared inside parameter list will not be visible outside of this definition or declaration [-Werror]
+	../drivers/media/platform/allegro-dvt/nal-hevc.h:418:49: error: ‘enum v4l2_colorspace’ declared inside parameter list will not be visible outside of this definition or declaration [-Werror]
+	../drivers/media/platform/allegro-dvt/nal-hevc.h:421:10: error: ‘enum v4l2_ycbcr_encoding’ declared inside parameter list will not be visible outside of this definition or declaration [-Werror]
+	../drivers/media/platform/allegro-dvt/nal-hevc.h:420:38: error: ‘enum v4l2_colorspace’ declared inside parameter list will not be visible outside of this definition or declaration [-Werror]
+	cc1: all warnings being treated as errors
+	make[5]: *** [../scripts/Makefile.build:277: drivers/media/platform/allegro-dvt/nal-hevc.o] Error 1
+	make[4]: *** [../scripts/Makefile.build:540: drivers/media/platform/allegro-dvt] Error 2
+	make[4]: *** Waiting for unfinished jobs....
+	make[3]: *** [../scripts/Makefile.build:540: drivers/media/platform] Error 2
+	make[3]: *** Waiting for unfinished jobs....
+	make[2]: *** [../scripts/Makefile.build:540: drivers/media] Error 2
+	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:1868: drivers] Error 2
+	make: *** [Makefile:219: __sub-make] Error 2
+
+
+Error #512 when building PDF docs
+
