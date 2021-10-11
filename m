@@ -2,30 +2,27 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BCE4942989A
-	for <lists+linux-media@lfdr.de>; Mon, 11 Oct 2021 23:06:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E6C014298A5
+	for <lists+linux-media@lfdr.de>; Mon, 11 Oct 2021 23:08:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235084AbhJKVIk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 11 Oct 2021 17:08:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51038 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230299AbhJKVIj (ORCPT
+        id S235210AbhJKVKf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 11 Oct 2021 17:10:35 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:42304 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S235137AbhJKVKe (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 11 Oct 2021 17:08:39 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2F9C0C061570
-        for <linux-media@vger.kernel.org>; Mon, 11 Oct 2021 14:06:39 -0700 (PDT)
+        Mon, 11 Oct 2021 17:10:34 -0400
 Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 92833E7;
-        Mon, 11 Oct 2021 23:06:37 +0200 (CEST)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 9BBB28F0;
+        Mon, 11 Oct 2021 23:08:32 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1633986397;
-        bh=WhFUqdZaRKh1eh3RQfjx3hgdaRCia0gPU/4Alohx/UY=;
+        s=mail; t=1633986512;
+        bh=lVNywGa6vlGSaYx1BdRH0IGVHMFaYncs6fPHXs/NoBE=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=mm8eIh2gxYyeIFz9n7goxAMTgD6kWwq0iGfsaygnUKzlDwPshQH1DYdxhbQ15FM1C
-         y2u/hQeSTtlD97yxNlAcDq49yCIw77aRTVzFFO5s9uw0oFJRKV1F43Lm2lRsufexgA
-         eucpVCteyGd2riFJSe0OkTF2T3jI8gwjqGtMGUqA=
-Date:   Tue, 12 Oct 2021 00:06:24 +0300
+        b=mfFO7mpqXyuKiWFjJ0myPl8ZQci0Z3+y1oH3LuKB6TlvxN3kmuqwLUFYMeR4QLeb3
+         k+wwSjepBWRN2ndCzV0aNlN7c8LqqVl9YWQ8HdTHAgnU0yWM9o5KNJMQuTcO5gktRP
+         eMeRmQKY4do00joCP3QevKCSa6OOWB/sm1O1rCpc=
+Date:   Tue, 12 Oct 2021 00:08:19 +0300
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 Cc:     linux-media@vger.kernel.org, sakari.ailus@linux.intel.com,
@@ -34,114 +31,95 @@ Cc:     linux-media@vger.kernel.org, sakari.ailus@linux.intel.com,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         Hans Verkuil <hverkuil-cisco@xs4all.nl>,
         Pratyush Yadav <p.yadav@ti.com>
-Subject: Re: [PATCH v9 29/36] media: subdev: add v4l2_subdev_set_routing
- helper()
-Message-ID: <YWSnUI9/n0IEBOGy@pendragon.ideasonboard.com>
+Subject: Re: [PATCH v9 36/36] media: subdev: add v4l2_routing_simple_verify()
+ helper
+Message-ID: <YWSnw20duzUl87Zc@pendragon.ideasonboard.com>
 References: <20211005085750.138151-1-tomi.valkeinen@ideasonboard.com>
- <20211005085750.138151-30-tomi.valkeinen@ideasonboard.com>
- <YWK+meG0VMWSeouu@pendragon.ideasonboard.com>
- <148b62b8-5c08-2799-052c-882aa49648f8@ideasonboard.com>
+ <20211005085750.138151-37-tomi.valkeinen@ideasonboard.com>
+ <YWJArM0uUL8UebwU@pendragon.ideasonboard.com>
+ <9a80f21c-49af-5f90-b7e0-f30cc47a8de9@ideasonboard.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <148b62b8-5c08-2799-052c-882aa49648f8@ideasonboard.com>
+In-Reply-To: <9a80f21c-49af-5f90-b7e0-f30cc47a8de9@ideasonboard.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Tomi,
-
-On Mon, Oct 11, 2021 at 11:13:40AM +0300, Tomi Valkeinen wrote:
-> On 10/10/2021 13:21, Laurent Pinchart wrote:
-> > On Tue, Oct 05, 2021 at 11:57:43AM +0300, Tomi Valkeinen wrote:
-> >> Add a helper function to set the subdev routing. The helper can be used
-> >> from subdev driver's set_routing op to store the routing table.
+On Mon, Oct 11, 2021 at 10:25:49AM +0300, Tomi Valkeinen wrote:
+> On 10/10/2021 04:23, Laurent Pinchart wrote:
+> > Hi Tomi,
+> > 
+> > Thank you for the patch.
+> > 
+> > On Tue, Oct 05, 2021 at 11:57:50AM +0300, Tomi Valkeinen wrote:
+> >> Add a helper for verifying routing for the common case of
+> >> non-overlapping 1-to-1 streams.
 > >>
 > >> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 > >> ---
-> >>   drivers/media/v4l2-core/v4l2-subdev.c | 28 +++++++++++++++++++++++++++
-> >>   include/media/v4l2-subdev.h           | 16 +++++++++++++++
-> >>   2 files changed, 44 insertions(+)
+> >>   drivers/media/v4l2-core/v4l2-subdev.c | 24 ++++++++++++++++++++++++
+> >>   include/media/v4l2-subdev.h           | 14 ++++++++++++++
+> >>   2 files changed, 38 insertions(+)
 > >>
 > >> diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
-> >> index 14b8282fe45b..af53f827ec27 100644
+> >> index 22a9bea0fa85..2a64ff003e4b 100644
 > >> --- a/drivers/media/v4l2-core/v4l2-subdev.c
 > >> +++ b/drivers/media/v4l2-core/v4l2-subdev.c
-> >> @@ -1151,3 +1151,31 @@ void v4l2_subdev_unlock_state(struct v4l2_subdev_state *state)
-> >>   	mutex_unlock(&state->lock);
+> >> @@ -1569,3 +1569,27 @@ int v4l2_subdev_get_fmt(struct v4l2_subdev *sd, struct v4l2_subdev_state *state,
+> >>   	return 0;
 > >>   }
-> >>   EXPORT_SYMBOL_GPL(v4l2_subdev_unlock_state);
+> >>   EXPORT_SYMBOL_GPL(v4l2_subdev_get_fmt);
 > >> +
-> >> +int v4l2_subdev_set_routing(struct v4l2_subdev *sd,
-> >> +			    struct v4l2_subdev_state *state,
-> >> +			    struct v4l2_subdev_krouting *routing)
+> >> +int v4l2_routing_simple_verify(const struct v4l2_subdev_krouting *routing)
 > >> +{
-> >> +	struct v4l2_subdev_krouting *dst = &state->routing;
-> >> +	const struct v4l2_subdev_krouting *src = routing;
+> >> +	unsigned int i, j;
 > >> +
-> >> +	lockdep_assert_held(&state->lock);
-> > 
-> > Calling this function doesn't make much sense if the subdev doesn't have
-> > the V4L2_SUBDEV_FL_MULTIPLEXED set, right ? If that's correct, should
-> > this be documented below, and/or possibly checked here ?
-> > 
-> > 	if (WARN_ON(!(sd->flags & V4L2_SUBDEV_FL_MULTIPLEXED)))
-> > 		return -E???;
-> 
-> That is true, but it's true for all the functions introduced in the 
-> series. Do we want to add the check everywhere? In many cases this 
-> should be quite obvious: if you haven't ported the subdev driver to the 
-> new API, you don't have routing table, and can't sensibly call this 
-> function. Or you don't have stream ID, so you can't sensibly call 
-> functions that take a stream number.
-
-That's right. I was mostly concern about driver conversion, it's likely
-easy to forget to add V4L2_SUBDEV_FL_MULTIPLEXED and then spend time
-debugging issues.
-
-I'm fine either way for the WARN_ON, but would still like to capture
-this in the documentation.
-
+> >> +	for (i = 0; i < routing->num_routes; ++i) {
+> >> +		const struct v4l2_subdev_route *route = &routing->routes[i];
 > >> +
-> >> +	kvfree(dst->routes);
-> >> +	dst->routes = NULL;
-> >> +	dst->num_routes = 0;
+> >> +		for (j = i + 1; j < routing->num_routes; ++j) {
+> >> +			const struct v4l2_subdev_route *r = &routing->routes[j];
 > >> +
-> >> +	if (src->num_routes > 0) {
-> >> +		dst->routes = kvmalloc_array(src->num_routes,
-> >> +					     sizeof(*src->routes), GFP_KERNEL);
-> > 
-> > How many routes do we typically expect, is it worth a vmalloc ? If not,
-> 
-> I have to say I have no clue if it's worth it. vmalloc is used for the 
-> pads, and was used in the original routing patches. I did wonder about 
-> this but just went with what's already there.
-> 
-> It's not easy to guess the expected number of routes. I'd say... 4 pads 
-> on each side and 8 streams per pad-pair sounds kind of a lot but still 
-> sounds feasible. That would be 32 routes. But that would be on the 
-> maximum side. On average, I guess we'll have... 1 or 2 routes? That's 
-> wha the sensors will have.
-> 
-> > kmemdup() could be a candidate (as I think by the time we get here,
-> > num_routes should have been validated to not overflow, but please tell
-> > me if I got this part wrong).
-> 
-> I'm not sure what you mean here. We are allocating (enough) new memory, 
-> it will never overflow.
-
-I mean an integer overflow in the size * nelems calculation. The array
-allocation functions pay special attention to this.
-
-> >> +		if (!dst->routes)
-> >> +			return -ENOMEM;
+> >> +			if (route->sink_pad == r->sink_pad &&
+> >> +			    route->sink_stream == r->sink_stream)
+> >> +				return -EINVAL;
 > >> +
-> >> +		memcpy(dst->routes, src->routes,
-> >> +		       src->num_routes * sizeof(*src->routes));
-> >> +		dst->num_routes = src->num_routes;
+> >> +			if (route->source_pad == r->source_pad &&
+> >> +			    route->source_stream == r->source_stream)
+> >> +				return -EINVAL;
+> >> +		}
 > >> +	}
 > >> +
 > >> +	return 0;
+> >> +}
+> >> +EXPORT_SYMBOL_GPL(v4l2_routing_simple_verify);
+> >> diff --git a/include/media/v4l2-subdev.h b/include/media/v4l2-subdev.h
+> >> index 1a4df0aafe8a..5e50f2ded653 100644
+> >> --- a/include/media/v4l2-subdev.h
+> >> +++ b/include/media/v4l2-subdev.h
+> >> @@ -1565,4 +1565,18 @@ v4l2_state_get_opposite_stream_format(struct v4l2_subdev_state *state, u32 pad,
+> >>   int v4l2_subdev_get_fmt(struct v4l2_subdev *sd, struct v4l2_subdev_state *state,
+> >>   			struct v4l2_subdev_format *format);
+> >>   
+> >> +/**
+> >> + * v4l2_routing_simple_verify() - Verify that all streams are non-overlapping
+> >> + *				  1-to-1 streams
+> > 
+> > Let's reflect this in the function name then, we can call it
+> > v4l2_routing_verify_1_to_1(). This will make it possible to add a
+> > v4l2_subdev_routing_validate_1_to_n() later.
+> 
+> Sounds fine to me.
+> 
+> > I'd rename verify to validate though, and add subdev to the function
+> > name, calling it v4l2_subdev_routing_validate_1_to_1().
+> 
+> I don't mind changing the name, but what's the difference with verify 
+> and validate?
+
+verify = to check or prove the truth, validate = to check or prove the
+validatity.
 
 -- 
 Regards,
