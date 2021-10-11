@@ -2,149 +2,148 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2415E429844
-	for <lists+linux-media@lfdr.de>; Mon, 11 Oct 2021 22:42:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BCE4942989A
+	for <lists+linux-media@lfdr.de>; Mon, 11 Oct 2021 23:06:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235030AbhJKUox (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 11 Oct 2021 16:44:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45624 "EHLO
+        id S235084AbhJKVIk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 11 Oct 2021 17:08:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51038 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235027AbhJKUow (ORCPT
+        with ESMTP id S230299AbhJKVIj (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 11 Oct 2021 16:44:52 -0400
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CB874C061570
-        for <linux-media@vger.kernel.org>; Mon, 11 Oct 2021 13:42:51 -0700 (PDT)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1ma27j-0006Dn-4t; Mon, 11 Oct 2021 22:42:15 +0200
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
-        by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.92)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1ma27c-0003x4-Pt; Mon, 11 Oct 2021 22:42:08 +0200
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.92)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1ma27c-0001bN-Nd; Mon, 11 Oct 2021 22:42:08 +0200
-Date:   Mon, 11 Oct 2021 22:42:07 +0200
-From:   Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To:     Alexandre Torgue <alexandre.torgue@foss.st.com>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Jarkko Sakkinen <jarkko@kernel.org>,
-        Jean Delvare <jdelvare@suse.com>,
-        Jiri Slaby <jirislaby@kernel.org>,
-        Lee Jones <lee.jones@linaro.org>,
+        Mon, 11 Oct 2021 17:08:39 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2F9C0C061570
+        for <linux-media@vger.kernel.org>; Mon, 11 Oct 2021 14:06:39 -0700 (PDT)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 92833E7;
+        Mon, 11 Oct 2021 23:06:37 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1633986397;
+        bh=WhFUqdZaRKh1eh3RQfjx3hgdaRCia0gPU/4Alohx/UY=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=mm8eIh2gxYyeIFz9n7goxAMTgD6kWwq0iGfsaygnUKzlDwPshQH1DYdxhbQ15FM1C
+         y2u/hQeSTtlD97yxNlAcDq49yCIw77aRTVzFFO5s9uw0oFJRKV1F43Lm2lRsufexgA
+         eucpVCteyGd2riFJSe0OkTF2T3jI8gwjqGtMGUqA=
+Date:   Tue, 12 Oct 2021 00:06:24 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Cc:     linux-media@vger.kernel.org, sakari.ailus@linux.intel.com,
+        Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        niklas.soderlund+renesas@ragnatech.se,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        Michael Hennerich <michael.hennerich@analog.com>,
-        Peter Huewe <peterhuewe@gmx.de>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Yasunari Takiguchi <Yasunari.Takiguchi@sony.com>
-Cc:     linux-hwmon@vger.kernel.org, linux-serial@vger.kernel.org,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, linux-spi@vger.kernel.org,
-        Wolfram Sang <wsa@kernel.org>,
-        "Jason Gunthorpe linux-integrity @ vger . kernel . org" 
-        <jgg@ziepe.ca>, Mark Brown <broonie@kernel.org>,
-        linux-i2c@vger.kernel.org, kernel@pengutronix.de,
-        linux-input@vger.kernel.org, Sam Ravnborg <sam@ravnborg.org>,
-        linux-stm32@st-md-mailman.stormreply.com,
-        linux-media@vger.kernel.org
-Subject: Re: [PATCH 00/13] Make some spi device drivers return zero in
- .remove()
-Message-ID: <20211011204207.zfmofwf4d6ga45ao@pengutronix.de>
-References: <20211011132754.2479853-1-u.kleine-koenig@pengutronix.de>
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Pratyush Yadav <p.yadav@ti.com>
+Subject: Re: [PATCH v9 29/36] media: subdev: add v4l2_subdev_set_routing
+ helper()
+Message-ID: <YWSnUI9/n0IEBOGy@pendragon.ideasonboard.com>
+References: <20211005085750.138151-1-tomi.valkeinen@ideasonboard.com>
+ <20211005085750.138151-30-tomi.valkeinen@ideasonboard.com>
+ <YWK+meG0VMWSeouu@pendragon.ideasonboard.com>
+ <148b62b8-5c08-2799-052c-882aa49648f8@ideasonboard.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="4crg6rmgkslx3kie"
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20211011132754.2479853-1-u.kleine-koenig@pengutronix.de>
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-media@vger.kernel.org
+In-Reply-To: <148b62b8-5c08-2799-052c-882aa49648f8@ideasonboard.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Hi Tomi,
 
---4crg6rmgkslx3kie
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Mon, Oct 11, 2021 at 11:13:40AM +0300, Tomi Valkeinen wrote:
+> On 10/10/2021 13:21, Laurent Pinchart wrote:
+> > On Tue, Oct 05, 2021 at 11:57:43AM +0300, Tomi Valkeinen wrote:
+> >> Add a helper function to set the subdev routing. The helper can be used
+> >> from subdev driver's set_routing op to store the routing table.
+> >>
+> >> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+> >> ---
+> >>   drivers/media/v4l2-core/v4l2-subdev.c | 28 +++++++++++++++++++++++++++
+> >>   include/media/v4l2-subdev.h           | 16 +++++++++++++++
+> >>   2 files changed, 44 insertions(+)
+> >>
+> >> diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
+> >> index 14b8282fe45b..af53f827ec27 100644
+> >> --- a/drivers/media/v4l2-core/v4l2-subdev.c
+> >> +++ b/drivers/media/v4l2-core/v4l2-subdev.c
+> >> @@ -1151,3 +1151,31 @@ void v4l2_subdev_unlock_state(struct v4l2_subdev_state *state)
+> >>   	mutex_unlock(&state->lock);
+> >>   }
+> >>   EXPORT_SYMBOL_GPL(v4l2_subdev_unlock_state);
+> >> +
+> >> +int v4l2_subdev_set_routing(struct v4l2_subdev *sd,
+> >> +			    struct v4l2_subdev_state *state,
+> >> +			    struct v4l2_subdev_krouting *routing)
+> >> +{
+> >> +	struct v4l2_subdev_krouting *dst = &state->routing;
+> >> +	const struct v4l2_subdev_krouting *src = routing;
+> >> +
+> >> +	lockdep_assert_held(&state->lock);
+> > 
+> > Calling this function doesn't make much sense if the subdev doesn't have
+> > the V4L2_SUBDEV_FL_MULTIPLEXED set, right ? If that's correct, should
+> > this be documented below, and/or possibly checked here ?
+> > 
+> > 	if (WARN_ON(!(sd->flags & V4L2_SUBDEV_FL_MULTIPLEXED)))
+> > 		return -E???;
+> 
+> That is true, but it's true for all the functions introduced in the 
+> series. Do we want to add the check everywhere? In many cases this 
+> should be quite obvious: if you haven't ported the subdev driver to the 
+> new API, you don't have routing table, and can't sensibly call this 
+> function. Or you don't have stream ID, so you can't sensibly call 
+> functions that take a stream number.
 
-Hello,
+That's right. I was mostly concern about driver conversion, it's likely
+easy to forget to add V4L2_SUBDEV_FL_MULTIPLEXED and then spend time
+debugging issues.
 
-On Mon, Oct 11, 2021 at 03:27:41PM +0200, Uwe Kleine-K=F6nig wrote:
-> this series is part of my new quest to make spi remove callbacks return
-> void. Today they return an int, but the only result of returning a
-> non-zero value is a warning message. So it's a bad idea to return an
-> error code in the expectation that not freeing some resources is ok
-> then. The same holds true for i2c and platform devices which benefit en
-> passant for a few drivers.
->=20
-> The patches in this series address some of the spi drivers that might
-> return non-zero and adapt them accordingly to return zero instead. For
-> most drivers it's just about not hiding the fact that they already
-> return zero.
->=20
-> Given that there are quite some more patches of this type to create
-> before I can change the spi remove callback, I suggest the respecive
-> subsystem maintainers pick up these patches. There are no
-> interdependencies in this series.
->=20
-> Uwe Kleine-K=F6nig (13):
->   drm/panel: s6e63m0: Make s6e63m0_remove() return void
->   hwmon: adt7x10: Make adt7x10_remove() return void
->   hwmon: max31722: Warn about failure to put device in stand-by in
->     .remove()
->   input: adxl34xx: Make adxl34x_remove() return void
->   input: touchscreen: tsc200x: Make tsc200x_remove() return void
->   media: cxd2880: Eliminate dead code
->   mfd: mc13xxx: Make mc13xxx_common_exit() return void
->   mfd: stmpe: Make stmpe_remove() return void
->   mfd: tps65912: Make tps65912_device_exit() return void
->   serial: max310x: Make max310x_remove() return void
->   serial: sc16is7xx: Make sc16is7xx_remove() return void
->   staging: fbtft: Make fbtft_remove_common() return void
->   tpm: st33zp24: Make st33zp24_remove() return void
+I'm fine either way for the WARN_ON, but would still like to capture
+this in the documentation.
 
-I thought I would be a good enough programmer to not need build tests.
-Obviously I was wrong and introduced build problems with the following
-patches:
+> >> +
+> >> +	kvfree(dst->routes);
+> >> +	dst->routes = NULL;
+> >> +	dst->num_routes = 0;
+> >> +
+> >> +	if (src->num_routes > 0) {
+> >> +		dst->routes = kvmalloc_array(src->num_routes,
+> >> +					     sizeof(*src->routes), GFP_KERNEL);
+> > 
+> > How many routes do we typically expect, is it worth a vmalloc ? If not,
+> 
+> I have to say I have no clue if it's worth it. vmalloc is used for the 
+> pads, and was used in the original routing patches. I did wonder about 
+> this but just went with what's already there.
+> 
+> It's not easy to guess the expected number of routes. I'd say... 4 pads 
+> on each side and 8 streams per pad-pair sounds kind of a lot but still 
+> sounds feasible. That would be 32 routes. But that would be on the 
+> maximum side. On average, I guess we'll have... 1 or 2 routes? That's 
+> wha the sensors will have.
+> 
+> > kmemdup() could be a candidate (as I think by the time we get here,
+> > num_routes should have been validated to not overflow, but please tell
+> > me if I got this part wrong).
+> 
+> I'm not sure what you mean here. We are allocating (enough) new memory, 
+> it will never overflow.
 
-	input: touchscreen: tsc200x: Make tsc200x_remove() return void
-	mfd: mc13xxx: Make mc13xxx_common_exit() return void
-	serial: max310x: Make max310x_remove() return void
-	serial: sc16is7xx: Make sc16is7xx_remove() return void
+I mean an integer overflow in the size * nelems calculation. The array
+allocation functions pay special attention to this.
 
-Please don't apply these (unless you also fix the trivial problems in
-them). I will prepare a v2 soon.
+> >> +		if (!dst->routes)
+> >> +			return -ENOMEM;
+> >> +
+> >> +		memcpy(dst->routes, src->routes,
+> >> +		       src->num_routes * sizeof(*src->routes));
+> >> +		dst->num_routes = src->num_routes;
+> >> +	}
+> >> +
+> >> +	return 0;
 
-Best regards and sorry for the inconvenience,
-Uwe
+-- 
+Regards,
 
---=20
-Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
-Industrial Linux Solutions                 | https://www.pengutronix.de/ |
-
---4crg6rmgkslx3kie
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEfnIqFpAYrP8+dKQLwfwUeK3K7AkFAmFkoZsACgkQwfwUeK3K
-7AkTugf9FW8u+Q+uOdqyv/dig5mZMoKZ01YqhMcNB1hLm+NpjtUVPs0yR3CgUTq2
-lhQH+cy+0zeuFQEuyDRBXSLYHuSJJKVES8CBrpN960wFh6WaLLKLet8ri0sBJRe3
-gakaZ/TcwPP4RwY/f1V4w/APWuU3or8dviF7hasfFR+D8tIMK+Wgi0LbdWMQIRHf
-P9T60rK5sOnHH33Kksf5stqLxdk06MBHzwJV15PhzWc0TUQAmO+oG0FDfxq+C8tQ
-8lXq6dtxtEMlzLhtLsBBHoUegGR/XbnKUmxT6kC0nO+G88xCYTO+BBjIGacAxhmQ
-2mK/fRgMytsTSX41qXejUgp6TuoW+Q==
-=mP11
------END PGP SIGNATURE-----
-
---4crg6rmgkslx3kie--
+Laurent Pinchart
