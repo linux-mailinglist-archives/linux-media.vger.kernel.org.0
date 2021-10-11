@@ -2,168 +2,232 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 75A8D428C47
-	for <lists+linux-media@lfdr.de>; Mon, 11 Oct 2021 13:43:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C80B5428C8F
+	for <lists+linux-media@lfdr.de>; Mon, 11 Oct 2021 14:06:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234724AbhJKLpr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 11 Oct 2021 07:45:47 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:26646 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S234464AbhJKLpp (ORCPT
+        id S236118AbhJKMIt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 11 Oct 2021 08:08:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39286 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S234336AbhJKMIr (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 11 Oct 2021 07:45:45 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1633952624;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=sLERr4wwqXS0zpFcNWBnvOvmmDhWW73fjpWHdhZQYhI=;
-        b=Nl7C079gA4K0aKVX3UIKYhoMQ/fshtvJBW1YH6viejuSFVir9Q031jWLSlQvaGHczaTFF9
-        0qUqKNYupT5U3vuyMUBSI3yU2O1+7vEoY/X++zU4Oq1VHXvo9yLbCBKt+yuSyMwzBdJPBR
-        +iIG6WjfiwPJTIVaHJa3q/orfwVDY/0=
-Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
- [209.85.208.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-401-fduc6abYO2u_VG8oEoMiyg-1; Mon, 11 Oct 2021 07:43:43 -0400
-X-MC-Unique: fduc6abYO2u_VG8oEoMiyg-1
-Received: by mail-ed1-f71.google.com with SMTP id h19-20020aa7de13000000b003db6ad5245bso7030100edv.9
-        for <linux-media@vger.kernel.org>; Mon, 11 Oct 2021 04:43:42 -0700 (PDT)
+        Mon, 11 Oct 2021 08:08:47 -0400
+Received: from mail-io1-xd2f.google.com (mail-io1-xd2f.google.com [IPv6:2607:f8b0:4864:20::d2f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 03FA0C061570;
+        Mon, 11 Oct 2021 05:06:48 -0700 (PDT)
+Received: by mail-io1-xd2f.google.com with SMTP id h196so6726304iof.2;
+        Mon, 11 Oct 2021 05:06:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=dvdG6HlDmxXl9QNwcywivYC+PXm6/ITcCVPBJxzG4NY=;
+        b=C1qWsjLw5l4MNV2aAjNVBfIS0Ba83JnhaE5w4yLp23z9eyqZcY7rCQUlPqisUVyy61
+         TMR4OYOYxcKtyP4116tuDpZBxy8KS6/jU3LQ/mifoV4Ku6/1LBL1c61SsoU6El1THs1T
+         HuxSdtePsl06pPukRu7yEn1suDC/Pay8UyDRmMtLbf+Fc+IktFu4R8ZBabk9RCgNjKbJ
+         eLohIYPRD5N4g+zvuH0kTsrDamfeZlWI/gSWVxG30BmXaDB0T72z94uL2aKUvNaLl6ew
+         wt06vHeiZM1mPC2O48ACgXGiiw2oJ4sAzPUO9/iFB4dOeUyKOar1/qFxwX2eSQBf8ga7
+         kKwg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=sLERr4wwqXS0zpFcNWBnvOvmmDhWW73fjpWHdhZQYhI=;
-        b=1omG4NbOPnTjVbNjIGlNDhP4GMT2+e0NMXMbDyfEFGhYhbxRngkNhUnsbSwqYN23kP
-         Yiex3/CIAGxTB0sywxgAMvrKvMuDNar5MgzBktfudSky3DmacRQppb3vh196k7vpk5LG
-         2dKXLJ5odLDL2DM+FqBsHt8k9PDftYxDhGGFQiNujogxPAXhGkR4QSNBhSPTf57nvbIK
-         cC23ZZcsw8eBilG2NOOn6kDkCA0H0JMsJFhnKsW3x3VDm3N2UUHFh7ATASF9Z3Y6Xz38
-         LpPqsZDkSmFD6c8giH8jHTEgzmc/zrsjj3WCTTg0q0dPEyKK6tjqejpPjjO9Kmn0CQYD
-         E1Kw==
-X-Gm-Message-State: AOAM53331THHKc1+zyIuOSXFgcKptgLmb9dOyaPHtqgMrTUGjAhd+wDR
-        jUeQY9JbRG7WyBAKH8bXptWvWn2p3k5tOTpwfF6Y6A9IW+8WJUHuwQ/h6ukueGiVdnOZsBPEgVH
-        aMxMAObgt87mmE8nWzWgjqOw=
-X-Received: by 2002:a50:e142:: with SMTP id i2mr39787464edl.107.1633952621874;
-        Mon, 11 Oct 2021 04:43:41 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzoBMlYivGscv/CpFZXt+Isxb/TUwR/lh7DEa3/tPor+O3a4b49kIUWc1t55oZdKq8JCUSS4w==
-X-Received: by 2002:a50:e142:: with SMTP id i2mr39787430edl.107.1633952621702;
-        Mon, 11 Oct 2021 04:43:41 -0700 (PDT)
-Received: from x1.localdomain ([81.30.35.201])
-        by smtp.gmail.com with ESMTPSA id g9sm3400631ejo.60.2021.10.11.04.43.41
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 11 Oct 2021 04:43:41 -0700 (PDT)
-Subject: Re: [PATCH 05/12] regulator: Introduce tps68470-regulator driver
-To:     Mark Brown <broonie@kernel.org>
-Cc:     "Rafael J . Wysocki" <rjw@rjwysocki.net>,
-        Mark Gross <markgross@kernel.org>,
-        Andy Shevchenko <andy@infradead.org>,
-        Daniel Scally <djrscally@gmail.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>, Len Brown <lenb@kernel.org>,
-        linux-acpi@vger.kernel.org, platform-driver-x86@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Kate Hsuan <hpa@redhat.com>, linux-media@vger.kernel.org,
-        linux-clk@vger.kernel.org
-References: <20211008162121.6628-1-hdegoede@redhat.com>
- <20211008162121.6628-6-hdegoede@redhat.com> <YWQU/SYTT5Vk24XH@sirena.org.uk>
-From:   Hans de Goede <hdegoede@redhat.com>
-Message-ID: <f6f2d7e8-fdb8-ed64-0cdd-65aded9fc42c@redhat.com>
-Date:   Mon, 11 Oct 2021 13:43:40 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=dvdG6HlDmxXl9QNwcywivYC+PXm6/ITcCVPBJxzG4NY=;
+        b=Va0d5GkUpxaoMUvlQjgb/71ZAsW4zQl+Pj2M1ArQFyV/1yi2fdHZvBrpf6crLRULUJ
+         UUNScAtUnoXrtIYmbKHxg7iYV4VRy7ev+ydgGdhnnzN/u4cwYrWkW7zoOcXsFkiaNygD
+         iNt5R+Ll8UITsm6W4BOsn7KOt2UIHZlNtb+Ca4CtPgv29l2hluOz35ZFQcTAZHBQCmE2
+         JZsUGYklZvzKFo12vxdJOoNX4xqxNUQ72+ebGo5ZsK/qpVqhb6e4ABHxIS6MXBqNC6B5
+         RSJNx1OyNGln7PPhP6adis7AJN81fMJObf/Y0z0dyRHZVBg9KVkUQjuyDahsN2zfWJje
+         qymw==
+X-Gm-Message-State: AOAM533FLNBWfm/+zsWTdqKURtNYgmZDNuZZV9mBrnENKWtzhUsZ02Jh
+        rUHnipfUMvIgQRP0FIAEckjropc/zexS3BChewAZ55BC5O0=
+X-Google-Smtp-Source: ABdhPJxle/Xfeq3Sdhdl2xj1q6S4qQCVGRu1IYV9HGZIZOmwpayBPeL+fM6GCwe1jE9UBeOgci4CTt5bzx3wirfDGkU=
+X-Received: by 2002:a05:6638:24c4:: with SMTP id y4mr18408723jat.31.1633954006985;
+ Mon, 11 Oct 2021 05:06:46 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <YWQU/SYTT5Vk24XH@sirena.org.uk>
-Content-Type: text/plain; charset=windows-1252
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+References: <1633689012-14492-1-git-send-email-dillon.minfei@gmail.com>
+ <1633689012-14492-7-git-send-email-dillon.minfei@gmail.com>
+ <290d78b5-b6d4-a115-9556-f2f909f573da@xs4all.nl> <CAL9mu0KxAmULQofQMgt2JxVLs=L-YT5HZa+mA7sSKebG88GbcA@mail.gmail.com>
+ <8331ab8a-39b7-588c-146d-77197d7637a8@xs4all.nl>
+In-Reply-To: <8331ab8a-39b7-588c-146d-77197d7637a8@xs4all.nl>
+From:   Dillon Min <dillon.minfei@gmail.com>
+Date:   Mon, 11 Oct 2021 20:06:10 +0800
+Message-ID: <CAL9mu0J7GmojuRbvqpCg6X=nkXiMgb9NLMmt3RxLO8wfhMUL-g@mail.gmail.com>
+Subject: Re: [PATCH v3 6/8] media: v4l2-ctrls: Add ARGB color effects control
+To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        mchehab+huawei@kernel.org, ezequiel@collabora.com,
+        gnurou@gmail.com, Pi-Hsun Shih <pihsun@chromium.org>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        Alexandre TORGUE <alexandre.torgue@foss.st.com>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>, gabriel.fernandez@st.com,
+        gabriel.fernandez@foss.st.com,
+        Patrice CHOTARD <patrice.chotard@foss.st.com>,
+        hugues.fruchet@foss.st.com,
+        linux-media <linux-media@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-stm32@st-md-mailman.stormreply.com,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        linux-clk <linux-clk@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi,
+On Mon, 11 Oct 2021 at 18:04, Hans Verkuil <hverkuil-cisco@xs4all.nl> wrote:
+>
+> On 11/10/2021 12:00, Dillon Min wrote:
+> > Hi Hans
+> >
+> > Thanks for the quick reply.
+> >
+> > On Mon, 11 Oct 2021 at 17:40, Hans Verkuil <hverkuil-cisco@xs4all.nl> wrote:
+> >>
+> >> On 08/10/2021 12:30, dillon.minfei@gmail.com wrote:
+> >>> From: Dillon Min <dillon.minfei@gmail.com>
+> >>>
+> >>> - add V4L2_COLORFX_SET_ARGB color effects control.
+> >>> - add V4L2_CID_COLORFX_ARGB for ARGB color setting.
+> >>>
+> >>> Signed-off-by: Dillon Min <dillon.minfei@gmail.com>
+> >>> ---
+> >>> v3: according to Hans's suggestion, thanks.
+> >>> - remove old stm32 private R2M ioctl
+> >>> - add V4L2_CID_COLORFX_ARGB
+> >>> - add V4L2_COLORFX_SET_ARGB
+> >>>
+> >>>  Documentation/userspace-api/media/v4l/control.rst | 8 ++++++++
+> >>>  drivers/media/v4l2-core/v4l2-ctrls-defs.c         | 2 ++
+> >>>  include/uapi/linux/v4l2-controls.h                | 4 +++-
+> >>>  3 files changed, 13 insertions(+), 1 deletion(-)
+> >>>
+> >>> diff --git a/Documentation/userspace-api/media/v4l/control.rst b/Documentation/userspace-api/media/v4l/control.rst
+> >>> index f8d0b923da20..319606a6288f 100644
+> >>> --- a/Documentation/userspace-api/media/v4l/control.rst
+> >>> +++ b/Documentation/userspace-api/media/v4l/control.rst
+> >>> @@ -242,8 +242,16 @@ Control IDs
+> >>>      * - ``V4L2_COLORFX_SET_CBCR``
+> >>>        - The Cb and Cr chroma components are replaced by fixed coefficients
+> >>>       determined by ``V4L2_CID_COLORFX_CBCR`` control.
+> >>> +    * - ``V4L2_COLORFX_SET_ARGB``
+> >>> +      - ARGB colors.
+> >>
+> >> How about:
+> >>
+> >>         - The ARGB components are replaced by the fixed ARGB components
+> >>         determined by ``V4L2_CID_COLORFX_ARGB`` control.
+> >
+> > Sure, will be addressed by v4.
+> >
+> >>
+> >> I also wonder if it makes sense to include the alpha channel here.
+> >>
+> >> Looking at the driver code it appears to me (I might be wrong) that the alpha
+> >> channel is never touched (DMA2D_ALPHA_MODE_NO_MODIF), and setting the alpha
+> >> channel as part of a color effects control is rather odd as well.
+> >
+> > Indeed, Alpha channel is not used in current code. I'll remove this item in v4.
+> > how about change the code like below:
+> >
+> >     * - ``V4L2_COLORFX_SET_RGB``
+> >        - The RGB components are replaced by the fixed RGB components
+> >          determined by ``V4L2_CID_COLORFX_RGB`` control.
+> >
+> > ``V4L2_CID_COLORFX_RGB`` ``(integer)``
+> >     Determines the Red, Green, and Blue coefficients for
+> >     ``V4L2_COLORFX_SET_RGB`` color effect.
+> >     Bits [7:0] of the supplied 32 bit value are interpreted as Blue component,
+> >     bits [15:8] as Green component, bits [23:16] as Red component, and
+> >     bits [31:24] must be zero.
+>
+> Yes, that looks OK to me.
 
-On 10/11/21 12:42 PM, Mark Brown wrote:
-> On Fri, Oct 08, 2021 at 06:21:14PM +0200, Hans de Goede wrote:
-> 
->> +++ b/drivers/regulator/tps68470-regulator.c
->> @@ -0,0 +1,194 @@
->> +// SPDX-License-Identifier: GPL-2.0
->> +/*
->> + * Regulator driver for TPS68470 PMIC
->> + *
-> 
-> Please make the entire comment a C++ one so things look more
-> intentional.
+Ok, after getting your review feedback about the dma2d driver code.
+I will submit the v4 version. thanks.
 
-Ok, will do so for the next version.
+Best Regards.
+Dillon
 
-
->> +
->> +/*
->> + * The ACPI tps68470 probe-ordering depends on the clk/gpio/regulator drivers
->> + * being registered before the MFD cells are created (the MFD driver calls
->> + * acpi_dev_clear_dependencies() after the cell creation).
->> + * subsys_initcall() ensures this when the drivers are builtin.
->> + */
->> +static int __init tps68470_regulator_init(void)
->> +{
->> +	return platform_driver_register(&tps68470_regulator_driver);
->> +}
->> +subsys_initcall(tps68470_regulator_init);
-> 
-> If this is actually required then the driver is broken for modular use
-> which frankly is just generally broken.  I don't understand why this
-> driver would require this when other drivers don't, or what the actual
-> requirement is here - what does the call do and why is the ordering
-> important?
-
-For the camera-sensor which is a consumer of this devices to be able
-to get the regulators (and not end up with a dummy regulator) the
-consumer info added through the constraints passed as platform data
-must be available to the regulator framework before the sensor-driver's
-probe() method tries to get the regulators.
-
-The ACPI fwnode describing the sensor has an ACPI _DEP dependency on
-the ACPI fwnode describing the PMIC. To ensure that the PMIC driver
-binds first patches 1 + 2 of this series make the ACPI code use this
-dependency to not instantiate the i2c-client for the sensor until
-the PMIC driver has bound.
-
-The PMIC driver is a MFD driver creating GPIO, clk and regulator
-MFD cells. So in order for the ACPI code delaying the instantiation
-to help, the regulator constraints / consumer info must be registered
-when the MFD driver is done binding. This means that the regulator
-driver for the regulator MFD cells must be registered before the
-platform_dev-s for the cell is instantiated, so that the driver
-binds immediately (during instantiation) and thus the regulator
-consumer info is available before the PMIC-MFD-driver's probe()
-method is done.
-
-The use of a subsys_initcall() here ensures that when builtin
-the regulator driver is registered before the PMIC-MFD-driver
-is registered (the PMIC driver uses a normal device_initcall).
-
-To make this work when everything is build as a module patch 12/12
-adds the following to the PMIC-MFD-driver:
-
-MODULE_SOFTDEP("pre: clk-tps68470 tps68470-regulator");
-
-This will make modprobe load the clk and regulator drivers
-before it loads the main/MFD tps68470 driver.
-
-I've tested this with everything built as module (the typical
-setup for standard x86 setups) and without the MODULE_SOFTDEP
-the sensor driver ends up with a dummy regulator (illustrating
-the problem) and with the SOFTDEP in place everything works
-as it should.
-
-I hope this helps explain things.
-
-Regards,
-
-Hans
-
+>
+> Regards,
+>
+>         Hans
+>
+> >
+> >
+> >>
+> >> Alpha channel manipulation really is separate from the color and - if needed - should
+> >> be done with a separate control.
+> >
+> > OK, Will use a separate control when adding blend features.
+> >
+> > Best Regards,
+> > Dillon
+> >
+> >>
+> >> Regards,
+> >>
+> >>         Hans
+> >>
+> >>>
+> >>>
+> >>> +``V4L2_CID_COLORFX_ARGB`` ``(integer)``
+> >>> +    Determines the Alpha, Red, Green, and Blue coefficients for
+> >>> +    ``V4L2_COLORFX_SET_ARGB`` color effect.
+> >>> +    Bits [7:0] of the supplied 32 bit value are interpreted as Blue component,
+> >>> +    bits [15:8] as Green component, bits [23:16] as Red component, and
+> >>> +    bits [31:24] as Alpha component.
+> >>>
+> >>>  ``V4L2_CID_COLORFX_CBCR`` ``(integer)``
+> >>>      Determines the Cb and Cr coefficients for ``V4L2_COLORFX_SET_CBCR``
+> >>> diff --git a/drivers/media/v4l2-core/v4l2-ctrls-defs.c b/drivers/media/v4l2-core/v4l2-ctrls-defs.c
+> >>> index 421300e13a41..53be6aadb289 100644
+> >>> --- a/drivers/media/v4l2-core/v4l2-ctrls-defs.c
+> >>> +++ b/drivers/media/v4l2-core/v4l2-ctrls-defs.c
+> >>> @@ -785,6 +785,7 @@ const char *v4l2_ctrl_get_name(u32 id)
+> >>>       case V4L2_CID_MIN_BUFFERS_FOR_OUTPUT:   return "Min Number of Output Buffers";
+> >>>       case V4L2_CID_ALPHA_COMPONENT:          return "Alpha Component";
+> >>>       case V4L2_CID_COLORFX_CBCR:             return "Color Effects, CbCr";
+> >>> +     case V4L2_CID_COLORFX_ARGB:             return "Color Effects, ARGB";
+> >>>
+> >>>       /*
+> >>>        * Codec controls
+> >>> @@ -1392,6 +1393,7 @@ void v4l2_ctrl_fill(u32 id, const char **name, enum v4l2_ctrl_type *type,
+> >>>               *min = *max = *step = *def = 0;
+> >>>               break;
+> >>>       case V4L2_CID_BG_COLOR:
+> >>> +     case V4L2_CID_COLORFX_ARGB:
+> >>>               *type = V4L2_CTRL_TYPE_INTEGER;
+> >>>               *step = 1;
+> >>>               *min = 0;
+> >>> diff --git a/include/uapi/linux/v4l2-controls.h b/include/uapi/linux/v4l2-controls.h
+> >>> index 5532b5f68493..2876c2282a68 100644
+> >>> --- a/include/uapi/linux/v4l2-controls.h
+> >>> +++ b/include/uapi/linux/v4l2-controls.h
+> >>> @@ -128,6 +128,7 @@ enum v4l2_colorfx {
+> >>>       V4L2_COLORFX_SOLARIZATION               = 13,
+> >>>       V4L2_COLORFX_ANTIQUE                    = 14,
+> >>>       V4L2_COLORFX_SET_CBCR                   = 15,
+> >>> +     V4L2_COLORFX_SET_ARGB                   = 16,
+> >>>  };
+> >>>  #define V4L2_CID_AUTOBRIGHTNESS                      (V4L2_CID_BASE+32)
+> >>>  #define V4L2_CID_BAND_STOP_FILTER            (V4L2_CID_BASE+33)
+> >>> @@ -145,9 +146,10 @@ enum v4l2_colorfx {
+> >>>
+> >>>  #define V4L2_CID_ALPHA_COMPONENT             (V4L2_CID_BASE+41)
+> >>>  #define V4L2_CID_COLORFX_CBCR                        (V4L2_CID_BASE+42)
+> >>> +#define V4L2_CID_COLORFX_ARGB                        (V4L2_CID_BASE+43)
+> >>>
+> >>>  /* last CID + 1 */
+> >>> -#define V4L2_CID_LASTP1                         (V4L2_CID_BASE+43)
+> >>> +#define V4L2_CID_LASTP1                         (V4L2_CID_BASE+44)
+> >>>
+> >>>  /* USER-class private control IDs */
+> >>>
+> >>>
+> >>
+>
