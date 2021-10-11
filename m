@@ -2,107 +2,79 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E079D428AF1
-	for <lists+linux-media@lfdr.de>; Mon, 11 Oct 2021 12:42:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 32178428AFD
+	for <lists+linux-media@lfdr.de>; Mon, 11 Oct 2021 12:45:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235963AbhJKKoO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 11 Oct 2021 06:44:14 -0400
-Received: from mail.kernel.org ([198.145.29.99]:39016 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S235925AbhJKKoK (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 11 Oct 2021 06:44:10 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id ED12A60187;
-        Mon, 11 Oct 2021 10:42:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1633948930;
-        bh=cjx+5rsYe8UvNF1b9zMrsBf02i/1bJyf0x9UEIvBXgU=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=gWQav5hpST88/wYDpkh53hX1b4+V0AC77g6mqN4yfcQ9TTH+8ZwTBgH5rzi/pnN3x
-         wSYLuiKJfUdEboJUvENckKIQM0lLvsR9oNoRIjX9KPi+P/tSPMy1tCzXrLXXSOobVJ
-         QbwXpBFpzucrT72JyhRUaL3GoZYGD3ke87TB4QHVFBVMetChnkPndzy63f0UiUpbYQ
-         pb8FgD97npdel3t9qA1/z4wSDmjH/CiwHXNFp6n4f2hkBuuKg/8/lgzzHQL0nUfp35
-         PawwqUfJMsLYAecPFvBAEHYTS0R4zGvDbeLlrkntEtIUBD92XuMX8qiHgR2z9WR1wh
-         irg2MXFeVLmGw==
-Date:   Mon, 11 Oct 2021 11:42:05 +0100
-From:   Mark Brown <broonie@kernel.org>
-To:     Hans de Goede <hdegoede@redhat.com>
-Cc:     "Rafael J . Wysocki" <rjw@rjwysocki.net>,
-        Mark Gross <markgross@kernel.org>,
-        Andy Shevchenko <andy@infradead.org>,
-        Daniel Scally <djrscally@gmail.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>, Len Brown <lenb@kernel.org>,
-        linux-acpi@vger.kernel.org, platform-driver-x86@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Kate Hsuan <hpa@redhat.com>, linux-media@vger.kernel.org,
-        linux-clk@vger.kernel.org
-Subject: Re: [PATCH 05/12] regulator: Introduce tps68470-regulator driver
-Message-ID: <YWQU/SYTT5Vk24XH@sirena.org.uk>
-References: <20211008162121.6628-1-hdegoede@redhat.com>
- <20211008162121.6628-6-hdegoede@redhat.com>
+        id S235792AbhJKKrO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 11 Oct 2021 06:47:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48884 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S235446AbhJKKrN (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Mon, 11 Oct 2021 06:47:13 -0400
+Received: from mail-yb1-xb30.google.com (mail-yb1-xb30.google.com [IPv6:2607:f8b0:4864:20::b30])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5FDC4C061570
+        for <linux-media@vger.kernel.org>; Mon, 11 Oct 2021 03:45:13 -0700 (PDT)
+Received: by mail-yb1-xb30.google.com with SMTP id g6so37949600ybb.3
+        for <linux-media@vger.kernel.org>; Mon, 11 Oct 2021 03:45:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:reply-to:from:date:message-id:subject:to
+         :content-transfer-encoding;
+        bh=zO20pXIc4aHnqYviESIViCK1/daYvjDKa+lAXFV6ImY=;
+        b=Z30CScqdT9B2AVuZ9+JCREQ9IUSHwVIIkSD1l8KFSNBLvTAHHO5tJOOi509W8XXZRG
+         yPK+/wu8/f04lAqnEirG59fU7Di3pgrtLftinhXXoffhYtmTruV04OKsVo7m+jbxWtsN
+         jcY5mow1+7QZdRP5Iq0Hg76vMi2ezVG9LudjNbJTXMVZzzCzOiqvykL391sj7SJGutnL
+         kjbcO+0vkTRVJ1eZj+qH7FcaQS12I6cFOjbHIVPKsCluGojWhkPOj3VkLRNCL1F6hCXV
+         A3fDTWTd71D/+4UwXHChv5Ryn8Qry3/2R7Fem/UHwdVb/bHN2zNzvWg2zuZF0SXiXpkW
+         JETg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to:content-transfer-encoding;
+        bh=zO20pXIc4aHnqYviESIViCK1/daYvjDKa+lAXFV6ImY=;
+        b=lRsv7QBLvqynYJDUGsb8PrGxGN9yicHgsQdenK4VNdtheuo5h7WJwAiePCn+zVzENt
+         NMrEhEsR5lYkmo22uFUUiVKIWN96PRaVG2eXCUUaf9pu4hong6lQNeqVHRaimuE1q61G
+         W+w4X8vPNkjr2PLGckskELlYOd8jTUpleThWVPXj+2VvR/Ux5EUCf/SxnpqWjQJjBu2k
+         gY8VMeP4ixe9WmX/bVlGJEMXEVAQ/gSifKEZINn4zA5OM7OFWEx/S09X8x2b+fvBS1+6
+         tYGl9+DzhlSmEBMhLRK+7cpfrWheDTbWP87s4kiFAXRJKdR6tFCo0fkypVCQvgd4jXx3
+         sHkA==
+X-Gm-Message-State: AOAM530t7xJxhLiMtV5r5Tou2gn6su22Srx8wdbBjBs8ysD16ePN2U6Q
+        +tJba8vwr7UOEw7gTdjnVfcDu9E3qKpsazds5QA=
+X-Google-Smtp-Source: ABdhPJyCV+tSU18l/Q2mR16pBpwqXWe5PDxn4lzoMcI1mis+QvlunlxZKWRrsYqx9xoOwzWznS3MNgoa9jgftucXKnk=
+X-Received: by 2002:a25:5093:: with SMTP id e141mr21005571ybb.171.1633949112074;
+ Mon, 11 Oct 2021 03:45:12 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="CXmdVO9SzkamGhvy"
-Content-Disposition: inline
-In-Reply-To: <20211008162121.6628-6-hdegoede@redhat.com>
-X-Cookie: Your ignorance cramps my conversation.
+Received: by 2002:a05:7000:3652:0:0:0:0 with HTTP; Mon, 11 Oct 2021 03:45:11
+ -0700 (PDT)
+Reply-To: robertskelvin22@gmail.com
+From:   Roberts kelvin <delepeters200@gmail.com>
+Date:   Mon, 11 Oct 2021 10:45:11 +0000
+Message-ID: <CAPcm=sMLkE1SvjEP5rkjH6jw_PVK8XcMXftagZw__OT4LVieGg@mail.gmail.com>
+Subject: Greetings
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Dear Sir/Madam,
 
---CXmdVO9SzkamGhvy
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+My principals have now obtained foreign exchange quotas and approvals
+including capital and under accounts, trade platform, corporate
+accounts and even private accounts.
 
-On Fri, Oct 08, 2021 at 06:21:14PM +0200, Hans de Goede wrote:
+Do you have any viable business plan that needs funding? Depending on
+your business plan/project our principals are in the position to
+provide the capital to the ideal partner ready to work for a mutual
+benefit and the capital will be delivered to you under a non-recourse
+Finance platform.
 
-> +++ b/drivers/regulator/tps68470-regulator.c
-> @@ -0,0 +1,194 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +/*
-> + * Regulator driver for TPS68470 PMIC
-> + *
+It will be my duty to guide you to secure a successful corporate small
+or large capital investment or private capital enhancement.
 
-Please make the entire comment a C++ one so things look more
-intentional.
+For more d=C3=A9tails contact me { robertskelvin22@gmail.com }
+Whatsapp +1 {901} 6545402
 
-> +
-> +/*
-> + * The ACPI tps68470 probe-ordering depends on the clk/gpio/regulator drivers
-> + * being registered before the MFD cells are created (the MFD driver calls
-> + * acpi_dev_clear_dependencies() after the cell creation).
-> + * subsys_initcall() ensures this when the drivers are builtin.
-> + */
-> +static int __init tps68470_regulator_init(void)
-> +{
-> +	return platform_driver_register(&tps68470_regulator_driver);
-> +}
-> +subsys_initcall(tps68470_regulator_init);
-
-If this is actually required then the driver is broken for modular use
-which frankly is just generally broken.  I don't understand why this
-driver would require this when other drivers don't, or what the actual
-requirement is here - what does the call do and why is the ordering
-important?
-
---CXmdVO9SzkamGhvy
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmFkFPwACgkQJNaLcl1U
-h9DYAQf/ZlwsujMRBtUtj8bnTodoar5ljYIwvbbIIPON2PaSlXELcV/AX9h7me8A
-R3OBXlixWnyr94CUY3iH/jQFJKqMuIreX0T9TCwjfMgHltPFQUiTbyPA+HhsTYAn
-dyxV8AF3WBEJVmrRJ3nhSkM8UFz5we/AqLeSwbhhW6Z/J/Cy/n1bhSyEJVomkT1j
-cw7+RmGlwHCvVHM0qmZs0h59wL1fQhGL5BH0IgjEDFokKBEfg+zPJTeRYtf4FU0n
-7RjHcJF067H+I4hOCikqmtG+FzdT+wewYIWNwFkOmkvVYLEHqg/uV/8q0oLVzxxi
-QI2Rqn2VTDC8k/pQZA+vsyF5fNNgmA==
-=5gYB
------END PGP SIGNATURE-----
-
---CXmdVO9SzkamGhvy--
+Regards, Roberts Kelvin
