@@ -2,104 +2,129 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E5ABC429965
-	for <lists+linux-media@lfdr.de>; Tue, 12 Oct 2021 00:22:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4B3DB4299D4
+	for <lists+linux-media@lfdr.de>; Tue, 12 Oct 2021 01:28:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235519AbhJKWYQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 11 Oct 2021 18:24:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39562 "EHLO
+        id S235701AbhJKXan (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 11 Oct 2021 19:30:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54052 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235518AbhJKWYO (ORCPT
+        with ESMTP id S235646AbhJKXam (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 11 Oct 2021 18:24:14 -0400
-Received: from mail-wr1-x42d.google.com (mail-wr1-x42d.google.com [IPv6:2a00:1450:4864:20::42d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 018C2C061570;
-        Mon, 11 Oct 2021 15:22:13 -0700 (PDT)
-Received: by mail-wr1-x42d.google.com with SMTP id y3so27542539wrl.1;
-        Mon, 11 Oct 2021 15:22:12 -0700 (PDT)
+        Mon, 11 Oct 2021 19:30:42 -0400
+Received: from mail-qk1-x735.google.com (mail-qk1-x735.google.com [IPv6:2607:f8b0:4864:20::735])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 51600C061745
+        for <linux-media@vger.kernel.org>; Mon, 11 Oct 2021 16:28:42 -0700 (PDT)
+Received: by mail-qk1-x735.google.com with SMTP id r15so9726989qkp.8
+        for <linux-media@vger.kernel.org>; Mon, 11 Oct 2021 16:28:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-transfer-encoding:content-language;
-        bh=Wzwc8Zds8WxUCA2iltmTu79XnAcWeld1vKm+I7X0eX0=;
-        b=mSZatvINRRZjPX+0garswmZjx3ENM7kwyc3ofRjl3kKPWW9CAttdblYYL5be2SkX+e
-         qYCRDtBMj0m43F04qbww9eDcEQtMJ+v+s0y/UK/1cjKlmYVEILv42gLuJRlBzceqgCXo
-         DnzrxywV1AwIPypIiTTElhuFWOORk0AuLZZ+s6k2XQSd24cD/l3qE3wfpKGKoI7u7bVt
-         rhPa18u+9UvZSTgc7hbHsT11uQXIxqGEXoPhrR5iWYUhXBX91by55DfY46nFAhctKfFL
-         LjtiDBG2RUsx1jhQc1MZW8OMZy/B+hjc2RsIE4tC/A6o2/URVrH0YwoXAsIDwNB69QoC
-         P9XQ==
+        d=ziepe.ca; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=hKTDl4kdaWB0vdYudkwpZowlFD1zaZpzSpL3qYnGjpI=;
+        b=HgSVsa1leI1AlSIfToVWroe+BjAOI3ghwR21CHGPDVexnWIRNvq+Q6E9d3FU+ST+no
+         ocS0/TW3SNZ8jyMLrwCJrPh0ePUJ+a688MNeO/SOH6dsbggdYjQGAUsJxiPe5U0kF/4c
+         XY58+grwbQEppK31zpbsIZaW6qYJZ2vewp8ofGFLbXaclZQIMcZ93nEBHioo26AFAdN3
+         o9ugEBJiQo11Zaj9DuRnUJDPPLYMfgS8KowTy+yVz6++iq5k4ln0p/MdXC+vaaQP/YGk
+         4LaDhUUPgzqijbwXAaNpf83nIDlspt7EVCcaadtiRVk58NDA1pLNB31/ejPvhAokpOj1
+         4Y3A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-transfer-encoding
-         :content-language;
-        bh=Wzwc8Zds8WxUCA2iltmTu79XnAcWeld1vKm+I7X0eX0=;
-        b=Qcu9VnfWHf73lLn4IoM+4Q7DYqfTeAd4Y0FifUYkX5NZMeMD01CYQwtWkjrZz1KjF/
-         vfqN/Bia2ZPUzVxF2gidq0KgjlBVbSjpSSYV47TNNyRVkdWaMspCKPLnGZR1WPwqvtQy
-         ImFvLGA+9jxnXnka4dZf2PoVFlGffTMh5e4P3bqm5ds024iSUXnWiFT/ubjwEUQBp3o3
-         yhaRurXDElL6juBHz/zHjDXdBrwBY8VguMV8gdCPeJ6/i0QRF4BfVrbTaGgloB7WVHAQ
-         wHv0AtxUSQAi+wSlhbxEjtB3pMhDgQS68QRLJABcGwisMJOjFu9TzJm9srSZpj3NWKu5
-         FOXQ==
-X-Gm-Message-State: AOAM533GsfrNkiaopRnsaSqzYBkB+YRGcxIC8fSUr5p/FNg+yc0SnJnt
-        +tKKlOg2we4A9Y9KgSHQRVo=
-X-Google-Smtp-Source: ABdhPJxj06KJgwq0WGrAms1tHSD6U3i52V2ukLpmfdIgLIHfebskhjSsPyB186aFPVzTxPeQryef+A==
-X-Received: by 2002:adf:9787:: with SMTP id s7mr27003707wrb.191.1633990931598;
-        Mon, 11 Oct 2021 15:22:11 -0700 (PDT)
-Received: from [192.168.0.14] (cpc141996-chfd3-2-0-cust928.12-3.cable.virginm.net. [86.13.91.161])
-        by smtp.gmail.com with ESMTPSA id g144sm708389wmg.5.2021.10.11.15.22.10
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 11 Oct 2021 15:22:11 -0700 (PDT)
-Subject: Re: [PATCH v5] Driver for ON Semi AR0521 camera sensor
-To:     Jacopo Mondi <jacopo@jmondi.org>,
-        =?UTF-8?Q?Krzysztof_Ha=c5=82asa?= <khalasa@piap.pl>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Sakari Ailus <sakari.ailus@iki.fi>,
-        Matteo Lisi <matteo.lisi@engicam.com>
-References: <m3fstfoexa.fsf@t19.piap.pl>
- <20211009102446.jrvrdr7whtd2rv4z@uno.localdomain>
- <m3mtnflpna.fsf@t19.piap.pl>
- <20211011143420.vm6ncl5gdv44nsn3@uno.localdomain>
-From:   Daniel Scally <djrscally@gmail.com>
-Message-ID: <6c89cdb5-4920-8d01-2051-b64b804db9f6@gmail.com>
-Date:   Mon, 11 Oct 2021 23:22:10 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=hKTDl4kdaWB0vdYudkwpZowlFD1zaZpzSpL3qYnGjpI=;
+        b=tkAhheQvdNFvsBDyn/Cbh60fAyWGjlOUUc02C3nIssejBoSYL4NcZES/qnXFinb+nO
+         Ffb+fRKF29VML2VVH7a86tUq4lK0yHpI7bXjPD+IOdXRqnIIUvbg41hvLnJY+qMynZM0
+         /UP27F74YAvD5QevkOPIQIF7YPKFPQ8aweI2idOhsw+J8SEu30r5q4X19iXw3U21oMaU
+         4yeSoNiDZEjU0ExpBEUZiIrp3uwcubliYwoTDe0PUEGK6EkcszIUeMzvBDErgzQ2V88l
+         nnqRAKbXy0fSnlB1y6pRXv4TWuyNpWLlXtzIfpplkvSOOKzINkfEUDyKxxpBP9TuVrSB
+         mWKQ==
+X-Gm-Message-State: AOAM532pkzE3ujKBM/S1xNJ/36umUidHEbOIb0navk3vJ7j9cHORH6hr
+        GuxMrkq9fyY903urAd32GLAlCpp567eXqw==
+X-Google-Smtp-Source: ABdhPJztEyniOAoNC1NU3iq7Ij0MXitTU2tCF7xYZyS71yMXt88Vb38CmA4delGadNYZaeqqHQ8bqQ==
+X-Received: by 2002:a37:f71a:: with SMTP id q26mr16843729qkj.3.1633994921355;
+        Mon, 11 Oct 2021 16:28:41 -0700 (PDT)
+Received: from ziepe.ca (hlfxns017vw-142-162-113-129.dhcp-dynamic.fibreop.ns.bellaliant.net. [142.162.113.129])
+        by smtp.gmail.com with ESMTPSA id d5sm5245821qtr.61.2021.10.11.16.28.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 11 Oct 2021 16:28:40 -0700 (PDT)
+Received: from jgg by mlx with local (Exim 4.94)
+        (envelope-from <jgg@ziepe.ca>)
+        id 1ma4il-00Dk4y-VJ; Mon, 11 Oct 2021 20:28:39 -0300
+Date:   Mon, 11 Oct 2021 20:28:39 -0300
+From:   Jason Gunthorpe <jgg@ziepe.ca>
+To:     Gal Pressman <galpress@amazon.com>
+Cc:     Sumit Semwal <sumit.semwal@linaro.org>,
+        Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+        Doug Ledford <dledford@redhat.com>,
+        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linux-kernel@vger.kernel.org, linux-rdma@vger.kernel.org,
+        Oded Gabbay <ogabbay@habana.ai>,
+        Tomer Tayar <ttayar@habana.ai>,
+        Yossi Leybovich <sleybo@amazon.com>,
+        Alexander Matushevsky <matua@amazon.com>,
+        Leon Romanovsky <leonro@nvidia.com>,
+        Jianxin Xiong <jianxin.xiong@intel.com>,
+        Firas Jahjah <firasj@amazon.com>
+Subject: Re: [RFC PATCH 2/2] RDMA/efa: Add support for dmabuf memory regions
+Message-ID: <20211011232839.GF2688930@ziepe.ca>
+References: <20211007104301.76693-1-galpress@amazon.com>
+ <20211007104301.76693-3-galpress@amazon.com>
+ <20211007114018.GD2688930@ziepe.ca>
+ <77082c57-29f8-1eba-b260-7cb658ec34d1@amazon.com>
 MIME-Version: 1.0
-In-Reply-To: <20211011143420.vm6ncl5gdv44nsn3@uno.localdomain>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <77082c57-29f8-1eba-b260-7cb658ec34d1@amazon.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Jacopo
+On Sun, Oct 10, 2021 at 09:55:49AM +0300, Gal Pressman wrote:
+> On 07/10/2021 14:40, Jason Gunthorpe wrote:
+> > On Thu, Oct 07, 2021 at 01:43:00PM +0300, Gal Pressman wrote:
+> > 
+> >> @@ -1491,26 +1493,29 @@ static int efa_create_pbl(struct efa_dev *dev,
+> >>  	return 0;
+> >>  }
+> >>  
+> >> -struct ib_mr *efa_reg_mr(struct ib_pd *ibpd, u64 start, u64 length,
+> >> -			 u64 virt_addr, int access_flags,
+> >> -			 struct ib_udata *udata)
+> >> +static void efa_dmabuf_invalidate_cb(struct dma_buf_attachment *attach)
+> >> +{
+> >> +	WARN_ON_ONCE(1,
+> >> +		     "Invalidate callback should not be called when memory is pinned\n");
+> >> +}
+> >> +
+> >> +static struct dma_buf_attach_ops efa_dmabuf_attach_ops = {
+> >> +	.allow_peer2peer = true,
+> >> +	.move_notify = efa_dmabuf_invalidate_cb,
+> >> +};
+> > 
+> > Shouldn't move_notify really just be left as NULL? I mean fixing
+> > whatever is preventing that?
+> 
+> That's what I had in the previous RFC and I think Christian didn't really like it.
 
-On 11/10/2021 15:34, Jacopo Mondi wrote:
->>>> +static int ar0521_remove(struct i2c_client *client)
->>>> +{
->>>> +	struct v4l2_subdev *sd = i2c_get_clientdata(client);
->>>> +	struct ar0521_dev *sensor = to_ar0521_dev(sd);
->>>> +
->>>> +	v4l2_async_unregister_subdev(&sensor->sd);
->>>> +	media_entity_cleanup(&sensor->sd.entity);
->>>> +	v4l2_ctrl_handler_free(&sensor->ctrls.handler);
->>>> +	pm_runtime_disable(&client->dev);
->>>> +	pm_runtime_set_suspended(&client->dev);
->>> set_suspended() then disable maybe ?
->> Other drivers seem to do it the above way but I don't know the
->> difference.
-> Maybe I'm wrong but calling set_suspend() after pm_runtime() had been
-> disabled seems pointless. A minor anyway as it's in the driver's
-> remove function.
->
+Well, having drivers define a dummy function that only fails looks
+a lot worse to me. If not null then it should be a general
+'dmabuf_unsupported_move_notify' shared function
 
-fwiw, the kernel doc [1] for pm_runtime_set_suspended() does say that
-it's not valid to call it for devices where runtime PM is still enabled.
+> >> +	err = ib_umem_dmabuf_map_pages(umem_dmabuf);
+> >> +	if (err) {
+> >> +		ibdev_dbg(&dev->ibdev, "Failed to map dmabuf pages\n");
+> >> +		goto err_unpin;
+> >> +	}
+> >> +	dma_resv_unlock(umem_dmabuf->attach->dmabuf->resv);
+> > 
+> > If it is really this simple the core code should have this logic,
+> > 'ib_umem_dmabuf_get_pinned()' or something
+> 
+> Should get_pinned do just get + dma_buf_pin, or should it do
+> ib_umem_dmabuf_map_pages as well?
 
+Yes the map_pages too, a umem is supposed to be dma mapped after
+creation.
 
-[1]
-https://elixir.bootlin.com/linux/latest/source/include/linux/pm_runtime.h#L510
-
+Jason
