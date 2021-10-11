@@ -2,108 +2,168 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6E667428BAC
-	for <lists+linux-media@lfdr.de>; Mon, 11 Oct 2021 13:01:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 75A8D428C47
+	for <lists+linux-media@lfdr.de>; Mon, 11 Oct 2021 13:43:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236059AbhJKLDJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 11 Oct 2021 07:03:09 -0400
-Received: from szxga08-in.huawei.com ([45.249.212.255]:25119 "EHLO
-        szxga08-in.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235971AbhJKLDI (ORCPT
+        id S234724AbhJKLpr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 11 Oct 2021 07:45:47 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:26646 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S234464AbhJKLpp (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 11 Oct 2021 07:03:08 -0400
-Received: from dggemv703-chm.china.huawei.com (unknown [172.30.72.57])
-        by szxga08-in.huawei.com (SkyGuard) with ESMTP id 4HSbQq5nBPz1DHYp;
-        Mon, 11 Oct 2021 18:59:31 +0800 (CST)
-Received: from dggpemm100009.china.huawei.com (7.185.36.113) by
- dggemv703-chm.china.huawei.com (10.3.19.46) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.8; Mon, 11 Oct 2021 19:01:06 +0800
-Received: from huawei.com (10.175.113.32) by dggpemm100009.china.huawei.com
- (7.185.36.113) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.8; Mon, 11 Oct
- 2021 19:01:05 +0800
-From:   Liu Shixin <liushixin2@huawei.com>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>
-CC:     <linux-media@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        Liu Shixin <liushixin2@huawei.com>
-Subject: [PATCH] media: lm3560: prevent memory leak of v4l2_ctrl_handler
-Date:   Mon, 11 Oct 2021 19:39:15 +0800
-Message-ID: <20211011113915.2646960-1-liushixin2@huawei.com>
-X-Mailer: git-send-email 2.25.1
+        Mon, 11 Oct 2021 07:45:45 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1633952624;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=sLERr4wwqXS0zpFcNWBnvOvmmDhWW73fjpWHdhZQYhI=;
+        b=Nl7C079gA4K0aKVX3UIKYhoMQ/fshtvJBW1YH6viejuSFVir9Q031jWLSlQvaGHczaTFF9
+        0qUqKNYupT5U3vuyMUBSI3yU2O1+7vEoY/X++zU4Oq1VHXvo9yLbCBKt+yuSyMwzBdJPBR
+        +iIG6WjfiwPJTIVaHJa3q/orfwVDY/0=
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
+ [209.85.208.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-401-fduc6abYO2u_VG8oEoMiyg-1; Mon, 11 Oct 2021 07:43:43 -0400
+X-MC-Unique: fduc6abYO2u_VG8oEoMiyg-1
+Received: by mail-ed1-f71.google.com with SMTP id h19-20020aa7de13000000b003db6ad5245bso7030100edv.9
+        for <linux-media@vger.kernel.org>; Mon, 11 Oct 2021 04:43:42 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=sLERr4wwqXS0zpFcNWBnvOvmmDhWW73fjpWHdhZQYhI=;
+        b=1omG4NbOPnTjVbNjIGlNDhP4GMT2+e0NMXMbDyfEFGhYhbxRngkNhUnsbSwqYN23kP
+         Yiex3/CIAGxTB0sywxgAMvrKvMuDNar5MgzBktfudSky3DmacRQppb3vh196k7vpk5LG
+         2dKXLJ5odLDL2DM+FqBsHt8k9PDftYxDhGGFQiNujogxPAXhGkR4QSNBhSPTf57nvbIK
+         cC23ZZcsw8eBilG2NOOn6kDkCA0H0JMsJFhnKsW3x3VDm3N2UUHFh7ATASF9Z3Y6Xz38
+         LpPqsZDkSmFD6c8giH8jHTEgzmc/zrsjj3WCTTg0q0dPEyKK6tjqejpPjjO9Kmn0CQYD
+         E1Kw==
+X-Gm-Message-State: AOAM53331THHKc1+zyIuOSXFgcKptgLmb9dOyaPHtqgMrTUGjAhd+wDR
+        jUeQY9JbRG7WyBAKH8bXptWvWn2p3k5tOTpwfF6Y6A9IW+8WJUHuwQ/h6ukueGiVdnOZsBPEgVH
+        aMxMAObgt87mmE8nWzWgjqOw=
+X-Received: by 2002:a50:e142:: with SMTP id i2mr39787464edl.107.1633952621874;
+        Mon, 11 Oct 2021 04:43:41 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzoBMlYivGscv/CpFZXt+Isxb/TUwR/lh7DEa3/tPor+O3a4b49kIUWc1t55oZdKq8JCUSS4w==
+X-Received: by 2002:a50:e142:: with SMTP id i2mr39787430edl.107.1633952621702;
+        Mon, 11 Oct 2021 04:43:41 -0700 (PDT)
+Received: from x1.localdomain ([81.30.35.201])
+        by smtp.gmail.com with ESMTPSA id g9sm3400631ejo.60.2021.10.11.04.43.41
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 11 Oct 2021 04:43:41 -0700 (PDT)
+Subject: Re: [PATCH 05/12] regulator: Introduce tps68470-regulator driver
+To:     Mark Brown <broonie@kernel.org>
+Cc:     "Rafael J . Wysocki" <rjw@rjwysocki.net>,
+        Mark Gross <markgross@kernel.org>,
+        Andy Shevchenko <andy@infradead.org>,
+        Daniel Scally <djrscally@gmail.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>, Len Brown <lenb@kernel.org>,
+        linux-acpi@vger.kernel.org, platform-driver-x86@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Kate Hsuan <hpa@redhat.com>, linux-media@vger.kernel.org,
+        linux-clk@vger.kernel.org
+References: <20211008162121.6628-1-hdegoede@redhat.com>
+ <20211008162121.6628-6-hdegoede@redhat.com> <YWQU/SYTT5Vk24XH@sirena.org.uk>
+From:   Hans de Goede <hdegoede@redhat.com>
+Message-ID: <f6f2d7e8-fdb8-ed64-0cdd-65aded9fc42c@redhat.com>
+Date:   Mon, 11 Oct 2021 13:43:40 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7BIT
-Content-Type:   text/plain; charset=US-ASCII
-X-Originating-IP: [10.175.113.32]
-X-ClientProxiedBy: dggems705-chm.china.huawei.com (10.3.19.182) To
- dggpemm100009.china.huawei.com (7.185.36.113)
-X-CFilter-Loop: Reflected
+In-Reply-To: <YWQU/SYTT5Vk24XH@sirena.org.uk>
+Content-Type: text/plain; charset=windows-1252
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-If lm3560_subdev_init() or lm3560_init_device() failed, lm3560_probe() will
-directly return without free v4l2_ctrl_handler, which results memory leak:
+Hi,
 
-unreferenced object 0xffff8881ea566e00 (size 256):
-  comm "xrun", pid 396, jiffies 4294949372 (age 80.376s)
-  hex dump (first 32 bytes):
-    d8 82 81 4d 81 88 ff ff 00 4c 56 ea 81 88 ff ff  ...M.....LV.....
-    10 6e 56 ea 81 88 ff ff 10 6e 56 ea 81 88 ff ff  .nV......nV.....
-  backtrace:
-    [<0000000055d4bb48>] __kmalloc_node+0x198/0x330
-    [<00000000e3b57405>] kvmalloc_node+0x65/0x130
-    [<0000000061e6063e>] v4l2_ctrl_new+0x820/0x1d40 [videodev]
-    [<00000000d7174c1b>] v4l2_ctrl_new_std+0x1d5/0x2b0 [videodev]
-    [<00000000cefb1a26>] lm3560_subdev_init+0x374/0x5e0 [lm3560]
-    [<00000000cda4c495>] lm3560_probe+0x1c2/0x61a [lm3560]
-    [<00000000d9502788>] i2c_device_probe+0xa07/0xbb0
-    [<00000000a5e908d0>] really_probe+0x285/0xc30
-    [<000000002fee9400>] __driver_probe_device+0x35f/0x4f0
-    [<0000000025fd5e96>] driver_probe_device+0x4f/0x140
-    [<00000000d37732ef>] __device_attach_driver+0x24c/0x330
-    [<000000001e0f0dfd>] bus_for_each_drv+0x15d/0x1e0
-    [<00000000c6c72d57>] __device_attach+0x267/0x410
-    [<000000005f7e4b8c>] bus_probe_device+0x1ec/0x2a0
-    [<000000001c3d09f6>] device_add+0xc1c/0x1d50
-    [<00000000cddb870a>] i2c_new_client_device+0x614/0xb00
+On 10/11/21 12:42 PM, Mark Brown wrote:
+> On Fri, Oct 08, 2021 at 06:21:14PM +0200, Hans de Goede wrote:
+> 
+>> +++ b/drivers/regulator/tps68470-regulator.c
+>> @@ -0,0 +1,194 @@
+>> +// SPDX-License-Identifier: GPL-2.0
+>> +/*
+>> + * Regulator driver for TPS68470 PMIC
+>> + *
+> 
+> Please make the entire comment a C++ one so things look more
+> intentional.
 
-Fixes: 7f6b11a18c30 ("[media] media: i2c: add driver for dual LED Flash, lm3560")
-Reported-by: Hulk Robot <hulkci@huawei.com>
-Signed-off-by: Liu Shixin <liushixin2@huawei.com>
----
- drivers/media/i2c/lm3560.c | 11 +++++++++--
- 1 file changed, 9 insertions(+), 2 deletions(-)
+Ok, will do so for the next version.
 
-diff --git a/drivers/media/i2c/lm3560.c b/drivers/media/i2c/lm3560.c
-index 9e34ccce4fc3..8d2e224c725b 100644
---- a/drivers/media/i2c/lm3560.c
-+++ b/drivers/media/i2c/lm3560.c
-@@ -432,15 +432,22 @@ static int lm3560_probe(struct i2c_client *client,
- 
- 	rval = lm3560_subdev_init(flash, LM3560_LED1, "lm3560-led1");
- 	if (rval < 0)
--		return rval;
-+		goto free_led0;
- 
- 	rval = lm3560_init_device(flash);
- 	if (rval < 0)
--		return rval;
-+		goto free_led1;
- 
- 	i2c_set_clientdata(client, flash);
- 
- 	return 0;
-+
-+free_led1:
-+	v4l2_ctrl_handler_free(&flash->ctrls_led[LM3560_LED1]);
-+free_led0:
-+	v4l2_ctrl_handler_free(&flash->ctrls_led[LM3560_LED0]);
-+
-+	return rval;
- }
- 
- static int lm3560_remove(struct i2c_client *client)
--- 
-2.25.1
+
+>> +
+>> +/*
+>> + * The ACPI tps68470 probe-ordering depends on the clk/gpio/regulator drivers
+>> + * being registered before the MFD cells are created (the MFD driver calls
+>> + * acpi_dev_clear_dependencies() after the cell creation).
+>> + * subsys_initcall() ensures this when the drivers are builtin.
+>> + */
+>> +static int __init tps68470_regulator_init(void)
+>> +{
+>> +	return platform_driver_register(&tps68470_regulator_driver);
+>> +}
+>> +subsys_initcall(tps68470_regulator_init);
+> 
+> If this is actually required then the driver is broken for modular use
+> which frankly is just generally broken.  I don't understand why this
+> driver would require this when other drivers don't, or what the actual
+> requirement is here - what does the call do and why is the ordering
+> important?
+
+For the camera-sensor which is a consumer of this devices to be able
+to get the regulators (and not end up with a dummy regulator) the
+consumer info added through the constraints passed as platform data
+must be available to the regulator framework before the sensor-driver's
+probe() method tries to get the regulators.
+
+The ACPI fwnode describing the sensor has an ACPI _DEP dependency on
+the ACPI fwnode describing the PMIC. To ensure that the PMIC driver
+binds first patches 1 + 2 of this series make the ACPI code use this
+dependency to not instantiate the i2c-client for the sensor until
+the PMIC driver has bound.
+
+The PMIC driver is a MFD driver creating GPIO, clk and regulator
+MFD cells. So in order for the ACPI code delaying the instantiation
+to help, the regulator constraints / consumer info must be registered
+when the MFD driver is done binding. This means that the regulator
+driver for the regulator MFD cells must be registered before the
+platform_dev-s for the cell is instantiated, so that the driver
+binds immediately (during instantiation) and thus the regulator
+consumer info is available before the PMIC-MFD-driver's probe()
+method is done.
+
+The use of a subsys_initcall() here ensures that when builtin
+the regulator driver is registered before the PMIC-MFD-driver
+is registered (the PMIC driver uses a normal device_initcall).
+
+To make this work when everything is build as a module patch 12/12
+adds the following to the PMIC-MFD-driver:
+
+MODULE_SOFTDEP("pre: clk-tps68470 tps68470-regulator");
+
+This will make modprobe load the clk and regulator drivers
+before it loads the main/MFD tps68470 driver.
+
+I've tested this with everything built as module (the typical
+setup for standard x86 setups) and without the MODULE_SOFTDEP
+the sensor driver ends up with a dummy regulator (illustrating
+the problem) and with the SOFTDEP in place everything works
+as it should.
+
+I hope this helps explain things.
+
+Regards,
+
+Hans
 
