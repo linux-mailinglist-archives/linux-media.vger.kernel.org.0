@@ -2,247 +2,149 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C2E34428759
-	for <lists+linux-media@lfdr.de>; Mon, 11 Oct 2021 09:03:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 520AD428767
+	for <lists+linux-media@lfdr.de>; Mon, 11 Oct 2021 09:04:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234568AbhJKHFk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 11 Oct 2021 03:05:40 -0400
-Received: from mailgw02.mediatek.com ([210.61.82.184]:55094 "EHLO
-        mailgw02.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
-        with ESMTP id S234502AbhJKHFP (ORCPT
+        id S233790AbhJKHGx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 11 Oct 2021 03:06:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53932 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S234696AbhJKHGr (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 11 Oct 2021 03:05:15 -0400
-X-UUID: 31bc1166288945fea44b634d3b43aae5-20211011
-X-UUID: 31bc1166288945fea44b634d3b43aae5-20211011
-Received: from mtkexhb02.mediatek.inc [(172.21.101.103)] by mailgw02.mediatek.com
-        (envelope-from <yunfei.dong@mediatek.com>)
-        (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
-        with ESMTP id 666275840; Mon, 11 Oct 2021 15:03:12 +0800
-Received: from mtkexhb01.mediatek.inc (172.21.101.102) by
- mtkmbs07n1.mediatek.inc (172.21.101.16) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Mon, 11 Oct 2021 15:03:08 +0800
-Received: from mtkcas10.mediatek.inc (172.21.101.39) by mtkexhb01.mediatek.inc
- (172.21.101.102) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Mon, 11 Oct
- 2021 15:03:08 +0800
-Received: from localhost.localdomain (10.17.3.154) by mtkcas10.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Mon, 11 Oct 2021 15:03:06 +0800
-From:   Yunfei Dong <yunfei.dong@mediatek.com>
-To:     Yunfei Dong <yunfei.dong@mediatek.com>,
-        Alexandre Courbot <acourbot@chromium.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        "Tzung-Bi Shih" <tzungbi@chromium.org>,
-        Tiffany Lin <tiffany.lin@mediatek.com>,
-        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Tomasz Figa <tfiga@google.com>
-CC:     Hsin-Yi Wang <hsinyi@chromium.org>,
-        Fritz Koenig <frkoenig@chromium.org>,
-        Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
-        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        Irui Wang <irui.wang@mediatek.com>,
-        <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <srv_heupstream@mediatek.com>,
-        <linux-mediatek@lists.infradead.org>,
-        <Project_Global_Chrome_Upstream_Group@mediatek.com>
-Subject: [PATCH v7, 15/15] media: mtk-vcodec: Use codec type to separate different hardware
-Date:   Mon, 11 Oct 2021 15:02:47 +0800
-Message-ID: <20211011070247.792-16-yunfei.dong@mediatek.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20211011070247.792-1-yunfei.dong@mediatek.com>
-References: <20211011070247.792-1-yunfei.dong@mediatek.com>
+        Mon, 11 Oct 2021 03:06:47 -0400
+Received: from mail-wr1-x434.google.com (mail-wr1-x434.google.com [IPv6:2a00:1450:4864:20::434])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E98A6C0613E8
+        for <linux-media@vger.kernel.org>; Mon, 11 Oct 2021 00:04:25 -0700 (PDT)
+Received: by mail-wr1-x434.google.com with SMTP id y3so19644501wrl.1
+        for <linux-media@vger.kernel.org>; Mon, 11 Oct 2021 00:04:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=sender:date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=du8QhncD3/8fEKWYuS9xbEo9XYz4mqp2LK0z+3qErJw=;
+        b=mcXEIlsaPuULrUMzeX39RcAhbqTtTfElSCJS3WVgjfxAL9tZHwPbopwoXpNwOojWvu
+         W/109PJmzQWyKESOoQptXGJgi6vLRw3ePcmqxZ7Moxm96ZMb1G+QnBY4ctdpFstCut5C
+         dDnpw3Ptxu//YElmTFSsSh/OLOYkyFOwVHnSxPZ+LvUqgI7cWZIpJkft35Rcj0m3bHW1
+         u0mcB7xoAIky3nwZZNwa6AHL1DTfpTCS26qiMSvVdtnypakaeRgO4cqDANsv+lMPR1b/
+         slf+9itOKhiTtMlKTji76nAQDp8js7DY/T0FTqmbBm6n0HjMAQVs+dZe+ytr0GrNae4t
+         x/Nw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
+         :references:mime-version:content-disposition:in-reply-to;
+        bh=du8QhncD3/8fEKWYuS9xbEo9XYz4mqp2LK0z+3qErJw=;
+        b=FHgtkOCQzEEpXtsFC7eRe6bcoryH1VD5idRY+kRrcuryED2WsvMG/yVdT7gIVN7XZG
+         FDXEiLZCBZ5vfChp5ajAsuZErMjObqhTTbXAhc0beE1yQi8X3RB9s8KuuvMuAeUleIdM
+         CZE1uiAqoiHqoeuH4HQJbeSBWjWyrKpgrWdDYXKFWv7+ONViBzXfsLpNwbhERpUqk5Be
+         Y34/uKk9ZMwKIJEHjfUe1EuQnP3ETgMXikL5LgwGtjwmR9rUJ3RofuaQibfsE5kFQygz
+         1HwwCxqJwQeuCSBWayjDMDLExIUopCafB8kWlG8XCZgls6DfJpI7r/bcPyQ9n4oBMEWf
+         oCgw==
+X-Gm-Message-State: AOAM532MIiSwwIn9OvdahBMVmP48DMCOm75RpHWJ/OyhrPCuGc6nUm9d
+        Xrfg0r/pNlVCz5s8k7O/SGY=
+X-Google-Smtp-Source: ABdhPJxMJ2uYUJkht+pCADr1MZqe3PlCBbSqVW71DPcm0BN2QsLs+duucXukcoyGivjscHe1jnAXwQ==
+X-Received: by 2002:adf:aa88:: with SMTP id h8mr22628450wrc.112.1633935864505;
+        Mon, 11 Oct 2021 00:04:24 -0700 (PDT)
+Received: from eldamar (80-218-24-251.dclient.hispeed.ch. [80.218.24.251])
+        by smtp.gmail.com with ESMTPSA id e8sm9620052wrg.48.2021.10.11.00.04.23
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 11 Oct 2021 00:04:24 -0700 (PDT)
+Sender: Salvatore Bonaccorso <salvatore.bonaccorso@gmail.com>
+Date:   Mon, 11 Oct 2021 09:04:23 +0200
+From:   Salvatore Bonaccorso <carnil@debian.org>
+To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc:     Dan Carpenter <dan.carpenter@oracle.com>,
+        Linus Torvalds <torvalds@linuxfoundation.org>,
+        Stefan Richter <stefanr@s5r6.in-berlin.de>,
+        Luo Likang <luolikang@nsfocus.com>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        linux1394-devel@lists.sourceforge.net,
+        Yang Yanchao <yangyanchao6@huawei.com>,
+        Security Officers <security@kernel.org>
+Subject: Re: [PATCH v2 RESEND] media: firewire: firedtv-avc: fix a buffer
+ overflow in avc_ca_pmt()
+Message-ID: <YWPh9zin9JuQinwd@eldamar.lan>
+References: <YRoNTX3Krtw9NdkI@eldamar.lan>
+ <20210816072721.GA10534@kili>
+ <20210901104026.GB2129@kadam>
+ <YT39LBTgGL/b/V5N@eldamar.lan>
+ <CAHk-=wjOW3Fx8td1Snezd1_9sf8q7KuQx8TyQNR0ypS2rVBHtg@mail.gmail.com>
+ <20210913152302.76d57784@coco.lan>
+ <YUeFVpGsWFpSPUsM@eldamar.lan>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7BIT
-Content-Type:   text/plain; charset=US-ASCII
-X-MTK:  N
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YUeFVpGsWFpSPUsM@eldamar.lan>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-There are just one core thread, in order to separeate different
-hardware, using codec type to separeate it in scp driver.
+Hi,
 
-Signed-off-by: Yunfei Dong <yunfei.dong@mediatek.com>
----
- .../media/platform/mtk-vcodec/vdec_ipi_msg.h  | 12 ++++---
- .../media/platform/mtk-vcodec/vdec_vpu_if.c   | 34 ++++++++++++++++---
- .../media/platform/mtk-vcodec/vdec_vpu_if.h   |  4 +++
- 3 files changed, 41 insertions(+), 9 deletions(-)
+On Sun, Sep 19, 2021 at 08:45:42PM +0200, Salvatore Bonaccorso wrote:
+> Hi Dan,
+> 
+> On Mon, Sep 13, 2021 at 03:23:02PM +0200, Mauro Carvalho Chehab wrote:
+> > Em Sun, 12 Sep 2021 11:26:10 -0700
+> > Linus Torvalds <torvalds@linuxfoundation.org> escreveu:
+> > 
+> > > On Sun, Sep 12, 2021 at 6:14 AM Salvatore Bonaccorso <carnil@debian.org> wrote:
+> > > >
+> > > > On Wed, Sep 01, 2021 at 01:40:26PM +0300, Dan Carpenter wrote:  
+> > > > > On Mon, Aug 16, 2021 at 10:27:22AM +0300, Dan Carpenter wrote:  
+> > > > > > The bounds checking in avc_ca_pmt() is not strict enough.  It should
+> > > > > > be checking "read_pos + 4" because it's reading 5 bytes.  If the
+> > > > > > "es_info_length" is non-zero then it reads a 6th byte so there needs to
+> > > > > > be an additional check for that.
+> > > > > >
+> > > > > > I also added checks for the "write_pos".  I don't think these are
+> > > > > > required because "read_pos" and "write_pos" are tied together so
+> > > > > > checking one ought to be enough.  
+> > > 
+> > > They may be in sync at a fixed offset, but the buffer length of the
+> > > read ("int length") is not in sync with the buffer length for the
+> > > write ("sizeof(c->operand)").
+> > > 
+> > > So I do think the write pos limit checking is actually necessary and needed.
+> > > 
+> > > > > > RESEND: this patch got lost somehow.  
+> > > > >
+> > > > > What the heck?  Someone on patchwork just marked this patch as obsolete
+> > > > > again!!!  
+> > > 
+> > > Can we please make sure patchwork has some logging so that that kind
+> > > of thing shows _who_ did this?
+> > 
+> > I've been wanting a feature like that on patchwork for years. Basically,
+> > when there's more then a single person capable of accessing a patchwork
+> > instance, there's no way to log who changed the status, nor to control who
+> > can delegate a patch to someone else or not.
+> > 
+> > At least for me, touching patchwork is very hard, as the the entire login
+> > logic, as well as the database model itself, is abstracted by Django. So,
+> > I can't simply change a SQL insert clause there to add something else to
+> > their logs nor to change the sent email that it is pushed when a patch
+> > status changed.
+> > 
+> > I ended adding an internal log to indicate when I do some changes on my
+> > patchwork instance via script a couple of years ago.
+> > 
+> > > > Someone knows what is going on here, i.e. what is the problem?  
+> > > 
+> > > Dan, can you just send that fix to me directly, with the fixed commit
+> > > message (see above), and we can close this.
+> > 
+> > Feel free to add my:
+> > 
+> > 	Acked-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+> 
+> I'm sorry for prodding again, I guess I'm becoming a bit annoying :-/
+> 
+> Dan, could you sent the patch with the above to Linus directly so it
+> can show up in at least 5.15-rc3? I guess it's now to late for
+> 5.15-rc2.
 
-diff --git a/drivers/media/platform/mtk-vcodec/vdec_ipi_msg.h b/drivers/media/platform/mtk-vcodec/vdec_ipi_msg.h
-index 9d8079c4f976..c488f0c40190 100644
---- a/drivers/media/platform/mtk-vcodec/vdec_ipi_msg.h
-+++ b/drivers/media/platform/mtk-vcodec/vdec_ipi_msg.h
-@@ -35,6 +35,8 @@ enum vdec_ipi_msgid {
-  * @msg_id	: vdec_ipi_msgid
-  * @vpu_inst_addr : VPU decoder instance address. Used if ABI version < 2.
-  * @inst_id     : instance ID. Used if the ABI version >= 2.
-+ * @codec_type	: Codec fourcc
-+ * @reserved	: reserved param
-  */
- struct vdec_ap_ipi_cmd {
- 	uint32_t msg_id;
-@@ -42,6 +44,8 @@ struct vdec_ap_ipi_cmd {
- 		uint32_t vpu_inst_addr;
- 		uint32_t inst_id;
- 	};
-+	uint32_t codec_type;
-+	uint32_t reserved;
- };
- 
- /**
-@@ -59,12 +63,12 @@ struct vdec_vpu_ipi_ack {
- /**
-  * struct vdec_ap_ipi_init - for AP_IPIMSG_DEC_INIT
-  * @msg_id	: AP_IPIMSG_DEC_INIT
-- * @reserved	: Reserved field
-+ * @codec_type	: Codec fourcc
-  * @ap_inst_addr	: AP video decoder instance address
-  */
- struct vdec_ap_ipi_init {
- 	uint32_t msg_id;
--	uint32_t reserved;
-+	uint32_t codec_type;
- 	uint64_t ap_inst_addr;
- };
- 
-@@ -77,7 +81,7 @@ struct vdec_ap_ipi_init {
-  *	H264 decoder [0]:buf_sz [1]:nal_start
-  *	VP8 decoder  [0]:width/height
-  *	VP9 decoder  [0]:profile, [1][2] width/height
-- * @reserved	: Reserved field
-+ * @codec_type	: Codec fourcc
-  */
- struct vdec_ap_ipi_dec_start {
- 	uint32_t msg_id;
-@@ -86,7 +90,7 @@ struct vdec_ap_ipi_dec_start {
- 		uint32_t inst_id;
- 	};
- 	uint32_t data[3];
--	uint32_t reserved;
-+	uint32_t codec_type;
- };
- 
- /**
-diff --git a/drivers/media/platform/mtk-vcodec/vdec_vpu_if.c b/drivers/media/platform/mtk-vcodec/vdec_vpu_if.c
-index bfd8e87dceff..c84fac52fe26 100644
---- a/drivers/media/platform/mtk-vcodec/vdec_vpu_if.c
-+++ b/drivers/media/platform/mtk-vcodec/vdec_vpu_if.c
-@@ -100,18 +100,29 @@ static void vpu_dec_ipi_handler(void *data, unsigned int len, void *priv)
- 
- static int vcodec_vpu_send_msg(struct vdec_vpu_inst *vpu, void *msg, int len)
- {
--	int err;
-+	int err, id, msgid;
- 
--	mtk_vcodec_debug(vpu, "id=%X", *(uint32_t *)msg);
-+	msgid = *(uint32_t *)msg;
-+	mtk_vcodec_debug(vpu, "id=%X", msgid);
- 
- 	vpu->failure = 0;
- 	vpu->signaled = 0;
- 
--	err = mtk_vcodec_fw_ipi_send(vpu->ctx->dev->fw_handler, vpu->id, msg,
-+	if (vpu->ctx->dev->vdec_pdata->hw_arch == MTK_VDEC_LAT_SINGLE_CORE) {
-+		if (msgid == AP_IPIMSG_DEC_CORE ||
-+			msgid == AP_IPIMSG_DEC_CORE_END)
-+			id = vpu->core_id;
-+		else
-+			id = vpu->id;
-+	} else {
-+		id = vpu->id;
-+	}
-+
-+	err = mtk_vcodec_fw_ipi_send(vpu->ctx->dev->fw_handler, id, msg,
- 				     len, 2000);
- 	if (err) {
- 		mtk_vcodec_err(vpu, "send fail vpu_id=%d msg_id=%X status=%d",
--			       vpu->id, *(uint32_t *)msg, err);
-+			       id, msgid, err);
- 		return err;
- 	}
- 
-@@ -131,6 +142,7 @@ static int vcodec_send_ap_ipi(struct vdec_vpu_inst *vpu, unsigned int msg_id)
- 		msg.vpu_inst_addr = vpu->inst_addr;
- 	else
- 		msg.inst_id = vpu->inst_id;
-+	msg.codec_type = vpu->codec_type;
- 
- 	err = vcodec_vpu_send_msg(vpu, &msg, sizeof(msg));
- 	mtk_vcodec_debug(vpu, "- id=%X ret=%d", msg_id, err);
-@@ -149,14 +161,25 @@ int vpu_dec_init(struct vdec_vpu_inst *vpu)
- 
- 	err = mtk_vcodec_fw_ipi_register(vpu->ctx->dev->fw_handler, vpu->id,
- 					 vpu->handler, "vdec", NULL);
--	if (err != 0) {
-+	if (err) {
- 		mtk_vcodec_err(vpu, "vpu_ipi_register fail status=%d", err);
- 		return err;
- 	}
- 
-+	if (vpu->ctx->dev->vdec_pdata->hw_arch == MTK_VDEC_LAT_SINGLE_CORE) {
-+		err = mtk_vcodec_fw_ipi_register(vpu->ctx->dev->fw_handler,
-+					 vpu->core_id, vpu->handler,
-+					 "vdec", NULL);
-+		if (err) {
-+			mtk_vcodec_err(vpu, "vpu_ipi_register core fail status=%d", err);
-+			return err;
-+		}
-+	}
-+
- 	memset(&msg, 0, sizeof(msg));
- 	msg.msg_id = AP_IPIMSG_DEC_INIT;
- 	msg.ap_inst_addr = (unsigned long)vpu;
-+	msg.codec_type = vpu->codec_type;
- 
- 	mtk_vcodec_debug(vpu, "vdec_inst=%p", vpu);
- 
-@@ -187,6 +210,7 @@ int vpu_dec_start(struct vdec_vpu_inst *vpu, uint32_t *data, unsigned int len)
- 
- 	for (i = 0; i < len; i++)
- 		msg.data[i] = data[i];
-+	msg.codec_type = vpu->codec_type;
- 
- 	err = vcodec_vpu_send_msg(vpu, (void *)&msg, sizeof(msg));
- 	mtk_vcodec_debug(vpu, "- ret=%d", err);
-diff --git a/drivers/media/platform/mtk-vcodec/vdec_vpu_if.h b/drivers/media/platform/mtk-vcodec/vdec_vpu_if.h
-index ae24b75d1649..802660770a87 100644
---- a/drivers/media/platform/mtk-vcodec/vdec_vpu_if.h
-+++ b/drivers/media/platform/mtk-vcodec/vdec_vpu_if.h
-@@ -14,6 +14,7 @@ struct mtk_vcodec_ctx;
- /**
-  * struct vdec_vpu_inst - VPU instance for video codec
-  * @id          : ipi msg id for each decoder
-+ * @core_id     : core id used to separate different hardware
-  * @vsi         : driver structure allocated by VPU side and shared to AP side
-  *                for control and info share
-  * @failure     : VPU execution result status, 0: success, others: fail
-@@ -26,9 +27,11 @@ struct mtk_vcodec_ctx;
-  * @dev		: platform device of VPU
-  * @wq          : wait queue to wait VPU message ack
-  * @handler     : ipi handler for each decoder
-+ * @codec_type     : used codec type to separate different codecs
-  */
- struct vdec_vpu_inst {
- 	int id;
-+	int core_id;
- 	void *vsi;
- 	int32_t failure;
- 	uint32_t inst_addr;
-@@ -38,6 +41,7 @@ struct vdec_vpu_inst {
- 	struct mtk_vcodec_ctx *ctx;
- 	wait_queue_head_t wq;
- 	mtk_vcodec_ipi_handler handler;
-+	unsigned int codec_type;
- };
- 
- /**
--- 
-2.25.1
+It looks this is still not yet applied up to 5.15-rc5, if I'm not
+mistaken.
 
+Regards,
+Salvatore
