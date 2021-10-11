@@ -2,149 +2,125 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 520AD428767
-	for <lists+linux-media@lfdr.de>; Mon, 11 Oct 2021 09:04:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 151E742877B
+	for <lists+linux-media@lfdr.de>; Mon, 11 Oct 2021 09:11:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233790AbhJKHGx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 11 Oct 2021 03:06:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53932 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234696AbhJKHGr (ORCPT
+        id S234272AbhJKHNX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 11 Oct 2021 03:13:23 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:34183 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S234253AbhJKHNL (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 11 Oct 2021 03:06:47 -0400
-Received: from mail-wr1-x434.google.com (mail-wr1-x434.google.com [IPv6:2a00:1450:4864:20::434])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E98A6C0613E8
-        for <linux-media@vger.kernel.org>; Mon, 11 Oct 2021 00:04:25 -0700 (PDT)
-Received: by mail-wr1-x434.google.com with SMTP id y3so19644501wrl.1
-        for <linux-media@vger.kernel.org>; Mon, 11 Oct 2021 00:04:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=sender:date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=du8QhncD3/8fEKWYuS9xbEo9XYz4mqp2LK0z+3qErJw=;
-        b=mcXEIlsaPuULrUMzeX39RcAhbqTtTfElSCJS3WVgjfxAL9tZHwPbopwoXpNwOojWvu
-         W/109PJmzQWyKESOoQptXGJgi6vLRw3ePcmqxZ7Moxm96ZMb1G+QnBY4ctdpFstCut5C
-         dDnpw3Ptxu//YElmTFSsSh/OLOYkyFOwVHnSxPZ+LvUqgI7cWZIpJkft35Rcj0m3bHW1
-         u0mcB7xoAIky3nwZZNwa6AHL1DTfpTCS26qiMSvVdtnypakaeRgO4cqDANsv+lMPR1b/
-         slf+9itOKhiTtMlKTji76nAQDp8js7DY/T0FTqmbBm6n0HjMAQVs+dZe+ytr0GrNae4t
-         x/Nw==
+        Mon, 11 Oct 2021 03:13:11 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1633936271;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=4ufHdDwqlN79+UhpsetonLDLuFxLVpaRNLOG0+gN/fs=;
+        b=S54aJoFQubylvDHvckDd6KEPRlF6krP3lq11ss/oTWCKumlSX9GMOdSvoGBFqheU55rBRN
+        7VLHBPN3XW44ibVTIut/ab+id9uQn4unYSscyxdi1ZL7xPlk6JaWz/cxcPqCXJORKO85HT
+        WhWtDM2k3+ZgbQbr3zWxlxpFlirm9I4=
+Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
+ [209.85.208.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-441-g5WrXlVhP92yNZ2dKk9D7g-1; Mon, 11 Oct 2021 03:11:07 -0400
+X-MC-Unique: g5WrXlVhP92yNZ2dKk9D7g-1
+Received: by mail-ed1-f72.google.com with SMTP id c8-20020a50d648000000b003daa53c7518so14957149edj.21
+        for <linux-media@vger.kernel.org>; Mon, 11 Oct 2021 00:11:07 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
-         :references:mime-version:content-disposition:in-reply-to;
-        bh=du8QhncD3/8fEKWYuS9xbEo9XYz4mqp2LK0z+3qErJw=;
-        b=FHgtkOCQzEEpXtsFC7eRe6bcoryH1VD5idRY+kRrcuryED2WsvMG/yVdT7gIVN7XZG
-         FDXEiLZCBZ5vfChp5ajAsuZErMjObqhTTbXAhc0beE1yQi8X3RB9s8KuuvMuAeUleIdM
-         CZE1uiAqoiHqoeuH4HQJbeSBWjWyrKpgrWdDYXKFWv7+ONViBzXfsLpNwbhERpUqk5Be
-         Y34/uKk9ZMwKIJEHjfUe1EuQnP3ETgMXikL5LgwGtjwmR9rUJ3RofuaQibfsE5kFQygz
-         1HwwCxqJwQeuCSBWayjDMDLExIUopCafB8kWlG8XCZgls6DfJpI7r/bcPyQ9n4oBMEWf
-         oCgw==
-X-Gm-Message-State: AOAM532MIiSwwIn9OvdahBMVmP48DMCOm75RpHWJ/OyhrPCuGc6nUm9d
-        Xrfg0r/pNlVCz5s8k7O/SGY=
-X-Google-Smtp-Source: ABdhPJxMJ2uYUJkht+pCADr1MZqe3PlCBbSqVW71DPcm0BN2QsLs+duucXukcoyGivjscHe1jnAXwQ==
-X-Received: by 2002:adf:aa88:: with SMTP id h8mr22628450wrc.112.1633935864505;
-        Mon, 11 Oct 2021 00:04:24 -0700 (PDT)
-Received: from eldamar (80-218-24-251.dclient.hispeed.ch. [80.218.24.251])
-        by smtp.gmail.com with ESMTPSA id e8sm9620052wrg.48.2021.10.11.00.04.23
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 11 Oct 2021 00:04:24 -0700 (PDT)
-Sender: Salvatore Bonaccorso <salvatore.bonaccorso@gmail.com>
-Date:   Mon, 11 Oct 2021 09:04:23 +0200
-From:   Salvatore Bonaccorso <carnil@debian.org>
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc:     Dan Carpenter <dan.carpenter@oracle.com>,
-        Linus Torvalds <torvalds@linuxfoundation.org>,
-        Stefan Richter <stefanr@s5r6.in-berlin.de>,
-        Luo Likang <luolikang@nsfocus.com>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        linux1394-devel@lists.sourceforge.net,
-        Yang Yanchao <yangyanchao6@huawei.com>,
-        Security Officers <security@kernel.org>
-Subject: Re: [PATCH v2 RESEND] media: firewire: firedtv-avc: fix a buffer
- overflow in avc_ca_pmt()
-Message-ID: <YWPh9zin9JuQinwd@eldamar.lan>
-References: <YRoNTX3Krtw9NdkI@eldamar.lan>
- <20210816072721.GA10534@kili>
- <20210901104026.GB2129@kadam>
- <YT39LBTgGL/b/V5N@eldamar.lan>
- <CAHk-=wjOW3Fx8td1Snezd1_9sf8q7KuQx8TyQNR0ypS2rVBHtg@mail.gmail.com>
- <20210913152302.76d57784@coco.lan>
- <YUeFVpGsWFpSPUsM@eldamar.lan>
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=4ufHdDwqlN79+UhpsetonLDLuFxLVpaRNLOG0+gN/fs=;
+        b=4Vl4XOD21ui/jB9bcc+oWdqqo3Hk6C2qzPyTZIcq/eMoxKhkKfplNys6o/ryW/dOZv
+         HHmiv8xedpNBDzjZ8LAARTgXNgaUh6O49Vq2mh0HzBI1r4CRVyWpMSAaYh8CtNpeuGjq
+         PLbvE5WwpEoOjIuk4nmtUfDOnxxYIeEPnDstZC3Auyhj6UZO2zSodzDEn/k5+i0iYVdn
+         GbeLwbB93OMlOfmxxMUIF67VO+GGopimGuKtGFg9KXYnAjouOvN1Wbiq7QnX1oIhVr8h
+         0rElKHNW5B18iupsBeMkZ4Yte1qyC1EEGTsX0xl4VdE+PFW2QfyQqvyTv+x1Yr7Vaxo7
+         vYww==
+X-Gm-Message-State: AOAM530P83Kqr+NJkPPld3zJLEXTol15XTp7UnYMou4mFEsJjKQYifuB
+        gUKMIW6eD0CBtFQiFRU5Uvxw73uqXVZ8nLP7fq7ylFTLudRjlfqlbE2ZvY9zOutd3vl+3HLlhZZ
+        fUZT+QrDV+Jlnmyo61EpWy+k=
+X-Received: by 2002:a50:e1c3:: with SMTP id m3mr39024424edl.28.1633936266780;
+        Mon, 11 Oct 2021 00:11:06 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzRmTTHfeZR3GBvJS0BieP8VpiV3k5sbhkh02O6Mc2oySZA1exPg32XReVdqCdWp4D448Zz+Q==
+X-Received: by 2002:a50:e1c3:: with SMTP id m3mr39024383edl.28.1633936266561;
+        Mon, 11 Oct 2021 00:11:06 -0700 (PDT)
+Received: from x1.localdomain ([81.30.35.201])
+        by smtp.gmail.com with ESMTPSA id la1sm2996905ejc.48.2021.10.11.00.11.05
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 11 Oct 2021 00:11:06 -0700 (PDT)
+Subject: Re: [PATCH v3 01/11] ACPI: delay enumeration of devices with a _DEP
+ pointing to an INT3472 device
+To:     Mika Westerberg <mika.westerberg@linux.intel.com>
+Cc:     "Rafael J . Wysocki" <rjw@rjwysocki.net>,
+        Mark Gross <markgross@kernel.org>,
+        Andy Shevchenko <andy@infradead.org>,
+        Wolfram Sang <wsa@the-dreams.de>,
+        Daniel Scally <djrscally@gmail.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Mark Brown <broonie@kernel.org>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>, Len Brown <lenb@kernel.org>,
+        linux-acpi@vger.kernel.org, platform-driver-x86@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-i2c@vger.kernel.org,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Kate Hsuan <hpa@redhat.com>, linux-media@vger.kernel.org,
+        linux-clk@vger.kernel.org
+References: <20211010185707.195883-1-hdegoede@redhat.com>
+ <20211010185707.195883-2-hdegoede@redhat.com> <YWPXixp/J6KIzWp6@lahna>
+From:   Hans de Goede <hdegoede@redhat.com>
+Message-ID: <0c08069e-7758-fc09-c200-d867d097b499@redhat.com>
+Date:   Mon, 11 Oct 2021 09:11:05 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YUeFVpGsWFpSPUsM@eldamar.lan>
+In-Reply-To: <YWPXixp/J6KIzWp6@lahna>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
 Hi,
 
-On Sun, Sep 19, 2021 at 08:45:42PM +0200, Salvatore Bonaccorso wrote:
-> Hi Dan,
+On 10/11/21 8:19 AM, Mika Westerberg wrote:
+> Hi,
 > 
-> On Mon, Sep 13, 2021 at 03:23:02PM +0200, Mauro Carvalho Chehab wrote:
-> > Em Sun, 12 Sep 2021 11:26:10 -0700
-> > Linus Torvalds <torvalds@linuxfoundation.org> escreveu:
-> > 
-> > > On Sun, Sep 12, 2021 at 6:14 AM Salvatore Bonaccorso <carnil@debian.org> wrote:
-> > > >
-> > > > On Wed, Sep 01, 2021 at 01:40:26PM +0300, Dan Carpenter wrote:  
-> > > > > On Mon, Aug 16, 2021 at 10:27:22AM +0300, Dan Carpenter wrote:  
-> > > > > > The bounds checking in avc_ca_pmt() is not strict enough.  It should
-> > > > > > be checking "read_pos + 4" because it's reading 5 bytes.  If the
-> > > > > > "es_info_length" is non-zero then it reads a 6th byte so there needs to
-> > > > > > be an additional check for that.
-> > > > > >
-> > > > > > I also added checks for the "write_pos".  I don't think these are
-> > > > > > required because "read_pos" and "write_pos" are tied together so
-> > > > > > checking one ought to be enough.  
-> > > 
-> > > They may be in sync at a fixed offset, but the buffer length of the
-> > > read ("int length") is not in sync with the buffer length for the
-> > > write ("sizeof(c->operand)").
-> > > 
-> > > So I do think the write pos limit checking is actually necessary and needed.
-> > > 
-> > > > > > RESEND: this patch got lost somehow.  
-> > > > >
-> > > > > What the heck?  Someone on patchwork just marked this patch as obsolete
-> > > > > again!!!  
-> > > 
-> > > Can we please make sure patchwork has some logging so that that kind
-> > > of thing shows _who_ did this?
-> > 
-> > I've been wanting a feature like that on patchwork for years. Basically,
-> > when there's more then a single person capable of accessing a patchwork
-> > instance, there's no way to log who changed the status, nor to control who
-> > can delegate a patch to someone else or not.
-> > 
-> > At least for me, touching patchwork is very hard, as the the entire login
-> > logic, as well as the database model itself, is abstracted by Django. So,
-> > I can't simply change a SQL insert clause there to add something else to
-> > their logs nor to change the sent email that it is pushed when a patch
-> > status changed.
-> > 
-> > I ended adding an internal log to indicate when I do some changes on my
-> > patchwork instance via script a couple of years ago.
-> > 
-> > > > Someone knows what is going on here, i.e. what is the problem?  
-> > > 
-> > > Dan, can you just send that fix to me directly, with the fixed commit
-> > > message (see above), and we can close this.
-> > 
-> > Feel free to add my:
-> > 
-> > 	Acked-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+> On Sun, Oct 10, 2021 at 08:56:57PM +0200, Hans de Goede wrote:
+>> +/* List of HIDs for which we honor deps of matching ACPI devs, when checking _DEP lists. */
+>> +static const char * const acpi_honor_dep_ids[] = {
+>> +	"INT3472", /* Camera sensor PMIC / clk and regulator info */
 > 
-> I'm sorry for prodding again, I guess I'm becoming a bit annoying :-/
-> 
-> Dan, could you sent the patch with the above to Linus directly so it
-> can show up in at least 5.15-rc3? I guess it's now to late for
-> 5.15-rc2.
+> Is there some reason why we can't do this for all devices with _DEP?
+> That way we don't need to maintain lists like this.
 
-It looks this is still not yet applied up to 5.15-rc5, if I'm not
-mistaken.
+Up until now the ACPI core deliberate mostly ignores _DEP-s because the
+_DEP method may point to pretty much any random ACPI object and Linux does
+not necessarily have a driver for all ACPI objects the driver points too,
+which would lead to the devices never getting instantiated.
+
+In hindsight this might not have been the best solution (1), but if we
+now start honoring _DEP-s for all devices all of a sudden then this
+will almost certainly lead to a whole bunch of regressions.
+
+Note that in this case the HID which triggers this is for the device
+being depended upon and for all camera sensors used with the IPU3 and
+IPU4 Intel camera blocks this is the INT3472 device. By triggering on
+this HID (rather then on the sensor HIDs) I expect that we will not
+need to update this list all that often.
 
 Regards,
-Salvatore
+
+Hans
+
+
+
+1) I believe that Windows does pay more reference to the _DEP-s and we've
+had some other related issues lately.
+
