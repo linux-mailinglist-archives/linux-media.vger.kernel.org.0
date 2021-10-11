@@ -2,78 +2,149 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 79EAF429417
-	for <lists+linux-media@lfdr.de>; Mon, 11 Oct 2021 18:03:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2415E429844
+	for <lists+linux-media@lfdr.de>; Mon, 11 Oct 2021 22:42:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230330AbhJKQFA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 11 Oct 2021 12:05:00 -0400
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:50560 "EHLO
-        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230341AbhJKQEx (ORCPT
+        id S235030AbhJKUox (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 11 Oct 2021 16:44:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45624 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S235027AbhJKUow (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 11 Oct 2021 12:04:53 -0400
-Received: from guri.fritz.box (unknown [IPv6:2a02:810a:880:f54:b116:1535:401e:a6ca])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        (Authenticated sender: dafna)
-        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id ACBE71F42A6B;
-        Mon, 11 Oct 2021 17:02:45 +0100 (BST)
-From:   Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
-To:     linux-media@vger.kernel.org
-Cc:     Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
-        kernel@collabora.com, acourbot@chromium.org,
-        andrew-ct.chen@mediatek.com, courbot@chromium.org,
-        dafna3@gmail.com, eizan@chromium.org, enric.balletbo@collabora.com,
-        houlong.wei@mediatek.com, hsinyi@chromium.org, hverkuil@xs4all.nl,
-        irui.wang@mediatek.com, maoguang.meng@mediatek.com,
-        matthias.bgg@gmail.com, mchehab@kernel.org,
-        minghsiu.tsai@mediatek.com, tfiga@chromium.org,
-        tiffany.lin@mediatek.com, Rob Herring <robh+dt@kernel.org>,
-        linux-kernel@vger.kernel.org, linux-mediatek@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org (moderated list:ARM/Mediatek SoC
-        support),
-        devicetree@vger.kernel.org (open list:OPEN FIRMWARE AND FLATTENED
-        DEVICE TREE BINDINGS)
-Subject: [PATCH] arm64: dts: mediatek: mt8173: remove double 'assigned-clocks' binding
-Date:   Mon, 11 Oct 2021 18:02:36 +0200
-Message-Id: <20211011160236.6815-1-dafna.hirschfeld@collabora.com>
-X-Mailer: git-send-email 2.17.1
+        Mon, 11 Oct 2021 16:44:52 -0400
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CB874C061570
+        for <linux-media@vger.kernel.org>; Mon, 11 Oct 2021 13:42:51 -0700 (PDT)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1ma27j-0006Dn-4t; Mon, 11 Oct 2021 22:42:15 +0200
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+        by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.92)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1ma27c-0003x4-Pt; Mon, 11 Oct 2021 22:42:08 +0200
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.92)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1ma27c-0001bN-Nd; Mon, 11 Oct 2021 22:42:08 +0200
+Date:   Mon, 11 Oct 2021 22:42:07 +0200
+From:   Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To:     Alexandre Torgue <alexandre.torgue@foss.st.com>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Jarkko Sakkinen <jarkko@kernel.org>,
+        Jean Delvare <jdelvare@suse.com>,
+        Jiri Slaby <jirislaby@kernel.org>,
+        Lee Jones <lee.jones@linaro.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        Michael Hennerich <michael.hennerich@analog.com>,
+        Peter Huewe <peterhuewe@gmx.de>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Yasunari Takiguchi <Yasunari.Takiguchi@sony.com>
+Cc:     linux-hwmon@vger.kernel.org, linux-serial@vger.kernel.org,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, linux-spi@vger.kernel.org,
+        Wolfram Sang <wsa@kernel.org>,
+        "Jason Gunthorpe linux-integrity @ vger . kernel . org" 
+        <jgg@ziepe.ca>, Mark Brown <broonie@kernel.org>,
+        linux-i2c@vger.kernel.org, kernel@pengutronix.de,
+        linux-input@vger.kernel.org, Sam Ravnborg <sam@ravnborg.org>,
+        linux-stm32@st-md-mailman.stormreply.com,
+        linux-media@vger.kernel.org
+Subject: Re: [PATCH 00/13] Make some spi device drivers return zero in
+ .remove()
+Message-ID: <20211011204207.zfmofwf4d6ga45ao@pengutronix.de>
+References: <20211011132754.2479853-1-u.kleine-koenig@pengutronix.de>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="4crg6rmgkslx3kie"
+Content-Disposition: inline
+In-Reply-To: <20211011132754.2479853-1-u.kleine-koenig@pengutronix.de>
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-media@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The clock '<&topckgen CLK_TOP_VENC_LT_SEL>' is declared twice
-in an 'assigned-clocks' list - in vcodec_dec and in
-vcodec_enc_vp8. Fix it to be declared only in vcodec_enc_vp8
 
-Signed-off-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
----
- arch/arm64/boot/dts/mediatek/mt8173.dtsi | 8 +++-----
- 1 file changed, 3 insertions(+), 5 deletions(-)
+--4crg6rmgkslx3kie
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/arch/arm64/boot/dts/mediatek/mt8173.dtsi b/arch/arm64/boot/dts/mediatek/mt8173.dtsi
-index d9e005ae5bb0..51781444cedd 100644
---- a/arch/arm64/boot/dts/mediatek/mt8173.dtsi
-+++ b/arch/arm64/boot/dts/mediatek/mt8173.dtsi
-@@ -1422,15 +1422,13 @@
- 				      "vencpll",
- 				      "venc_lt_sel",
- 				      "vdec_bus_clk_src";
--			assigned-clocks = <&topckgen CLK_TOP_VENC_LT_SEL>,
--					  <&topckgen CLK_TOP_CCI400_SEL>,
-+			assigned-clocks = <&topckgen CLK_TOP_CCI400_SEL>,
- 					  <&topckgen CLK_TOP_VDEC_SEL>,
- 					  <&apmixedsys CLK_APMIXED_VCODECPLL>,
- 					  <&apmixedsys CLK_APMIXED_VENCPLL>;
--			assigned-clock-parents = <&topckgen CLK_TOP_VCODECPLL_370P5>,
--						 <&topckgen CLK_TOP_UNIVPLL_D2>,
-+			assigned-clock-parents = <&topckgen CLK_TOP_UNIVPLL_D2>,
- 						 <&topckgen CLK_TOP_VCODECPLL>;
--			assigned-clock-rates = <0>, <0>, <0>, <1482000000>, <800000000>;
-+			assigned-clock-rates = <0>, <0>, <1482000000>, <800000000>;
- 		};
- 
- 		larb1: larb@16010000 {
--- 
-2.17.1
+Hello,
 
+On Mon, Oct 11, 2021 at 03:27:41PM +0200, Uwe Kleine-K=F6nig wrote:
+> this series is part of my new quest to make spi remove callbacks return
+> void. Today they return an int, but the only result of returning a
+> non-zero value is a warning message. So it's a bad idea to return an
+> error code in the expectation that not freeing some resources is ok
+> then. The same holds true for i2c and platform devices which benefit en
+> passant for a few drivers.
+>=20
+> The patches in this series address some of the spi drivers that might
+> return non-zero and adapt them accordingly to return zero instead. For
+> most drivers it's just about not hiding the fact that they already
+> return zero.
+>=20
+> Given that there are quite some more patches of this type to create
+> before I can change the spi remove callback, I suggest the respecive
+> subsystem maintainers pick up these patches. There are no
+> interdependencies in this series.
+>=20
+> Uwe Kleine-K=F6nig (13):
+>   drm/panel: s6e63m0: Make s6e63m0_remove() return void
+>   hwmon: adt7x10: Make adt7x10_remove() return void
+>   hwmon: max31722: Warn about failure to put device in stand-by in
+>     .remove()
+>   input: adxl34xx: Make adxl34x_remove() return void
+>   input: touchscreen: tsc200x: Make tsc200x_remove() return void
+>   media: cxd2880: Eliminate dead code
+>   mfd: mc13xxx: Make mc13xxx_common_exit() return void
+>   mfd: stmpe: Make stmpe_remove() return void
+>   mfd: tps65912: Make tps65912_device_exit() return void
+>   serial: max310x: Make max310x_remove() return void
+>   serial: sc16is7xx: Make sc16is7xx_remove() return void
+>   staging: fbtft: Make fbtft_remove_common() return void
+>   tpm: st33zp24: Make st33zp24_remove() return void
+
+I thought I would be a good enough programmer to not need build tests.
+Obviously I was wrong and introduced build problems with the following
+patches:
+
+	input: touchscreen: tsc200x: Make tsc200x_remove() return void
+	mfd: mc13xxx: Make mc13xxx_common_exit() return void
+	serial: max310x: Make max310x_remove() return void
+	serial: sc16is7xx: Make sc16is7xx_remove() return void
+
+Please don't apply these (unless you also fix the trivial problems in
+them). I will prepare a v2 soon.
+
+Best regards and sorry for the inconvenience,
+Uwe
+
+--=20
+Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
+Industrial Linux Solutions                 | https://www.pengutronix.de/ |
+
+--4crg6rmgkslx3kie
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEfnIqFpAYrP8+dKQLwfwUeK3K7AkFAmFkoZsACgkQwfwUeK3K
+7AkTugf9FW8u+Q+uOdqyv/dig5mZMoKZ01YqhMcNB1hLm+NpjtUVPs0yR3CgUTq2
+lhQH+cy+0zeuFQEuyDRBXSLYHuSJJKVES8CBrpN960wFh6WaLLKLet8ri0sBJRe3
+gakaZ/TcwPP4RwY/f1V4w/APWuU3or8dviF7hasfFR+D8tIMK+Wgi0LbdWMQIRHf
+P9T60rK5sOnHH33Kksf5stqLxdk06MBHzwJV15PhzWc0TUQAmO+oG0FDfxq+C8tQ
+8lXq6dtxtEMlzLhtLsBBHoUegGR/XbnKUmxT6kC0nO+G88xCYTO+BBjIGacAxhmQ
+2mK/fRgMytsTSX41qXejUgp6TuoW+Q==
+=mP11
+-----END PGP SIGNATURE-----
+
+--4crg6rmgkslx3kie--
