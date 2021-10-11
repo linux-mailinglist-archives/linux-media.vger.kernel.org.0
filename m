@@ -2,165 +2,255 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 662C94286D9
-	for <lists+linux-media@lfdr.de>; Mon, 11 Oct 2021 08:31:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A54CD428721
+	for <lists+linux-media@lfdr.de>; Mon, 11 Oct 2021 09:02:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234166AbhJKGdi (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 11 Oct 2021 02:33:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46674 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231425AbhJKGdi (ORCPT
+        id S234437AbhJKHEw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 11 Oct 2021 03:04:52 -0400
+Received: from mailgw01.mediatek.com ([60.244.123.138]:60664 "EHLO
+        mailgw01.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
+        with ESMTP id S233775AbhJKHEv (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 11 Oct 2021 02:33:38 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B642CC061570;
-        Sun, 10 Oct 2021 23:31:38 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id CC2DB2BD;
-        Mon, 11 Oct 2021 08:31:34 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1633933895;
-        bh=NZEWtQSQNMfMfU0P9SAiyUbuKJVmjgo9nSzOUAPZHkY=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=qr8TJWxwC1hjcQd6r4aghWFqpkqA2EgAutnW0jZF8zFrKkk6e5muJbaMI9nMYMOcn
-         y9s+bb/3JrwtW6X07khCZSxlrI8MJ62YlsxACrtJuCVPfXGzgjcvMosEf8xJbzClLK
-         gGCcx2oz3BQhzNWf1gigVrZPvRYJMVaDxEenrkvE=
-Date:   Mon, 11 Oct 2021 09:31:22 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Krzysztof =?utf-8?Q?Ha=C5=82asa?= <khalasa@piap.pl>
-Cc:     Jacopo Mondi <jacopo@jmondi.org>,
-        Sakari Ailus <sakari.ailus@iki.fi>,
+        Mon, 11 Oct 2021 03:04:51 -0400
+X-UUID: fdd0e469a2e949298b1827122c71b0bf-20211011
+X-UUID: fdd0e469a2e949298b1827122c71b0bf-20211011
+Received: from mtkexhb02.mediatek.inc [(172.21.101.103)] by mailgw01.mediatek.com
+        (envelope-from <yunfei.dong@mediatek.com>)
+        (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
+        with ESMTP id 2083840527; Mon, 11 Oct 2021 15:02:48 +0800
+Received: from mtkexhb01.mediatek.inc (172.21.101.102) by
+ mtkmbs07n1.mediatek.inc (172.21.101.16) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Mon, 11 Oct 2021 15:02:47 +0800
+Received: from mtkcas10.mediatek.inc (172.21.101.39) by mtkexhb01.mediatek.inc
+ (172.21.101.102) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Mon, 11 Oct
+ 2021 15:02:46 +0800
+Received: from localhost.localdomain (10.17.3.154) by mtkcas10.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
+ Transport; Mon, 11 Oct 2021 15:02:45 +0800
+From:   Yunfei Dong <yunfei.dong@mediatek.com>
+To:     Yunfei Dong <yunfei.dong@mediatek.com>,
+        Alexandre Courbot <acourbot@chromium.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        "Tzung-Bi Shih" <tzungbi@chromium.org>,
+        Tiffany Lin <tiffany.lin@mediatek.com>,
+        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v5] Driver for ON Semi AR0521 camera sensor
-Message-ID: <YWPaOjbBZ0wmJHHM@pendragon.ideasonboard.com>
-References: <m3fstfoexa.fsf@t19.piap.pl>
- <YV3YkXAKxiLmPYwL@valkosipuli.retiisi.eu>
- <m3zgrlkxn6.fsf@t19.piap.pl>
- <20211009090749.hujuwamgkjw2tfcx@uno.localdomain>
- <m3v924krpr.fsf@t19.piap.pl>
+        Rob Herring <robh+dt@kernel.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Tomasz Figa <tfiga@google.com>
+CC:     Hsin-Yi Wang <hsinyi@chromium.org>,
+        Fritz Koenig <frkoenig@chromium.org>,
+        Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
+        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        Irui Wang <irui.wang@mediatek.com>,
+        <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <srv_heupstream@mediatek.com>,
+        <linux-mediatek@lists.infradead.org>,
+        <Project_Global_Chrome_Upstream_Group@mediatek.com>
+Subject: [PATCH v7, 00/15] Support multi hardware decode using of_platform_populate
+Date:   Mon, 11 Oct 2021 15:02:32 +0800
+Message-ID: <20211011070247.792-1-yunfei.dong@mediatek.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <m3v924krpr.fsf@t19.piap.pl>
+Content-Transfer-Encoding: 7BIT
+Content-Type:   text/plain; charset=US-ASCII
+X-MTK:  N
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Krzysztof,
+This series adds support for multi hardware decode into mtk-vcodec, by first
+adding use of_platform_populate to manage each hardware information: interrupt,
+clock, register bases and power. Secondly add core thread to deal with core
+hardware message, at the same time, add msg queue for different hardware
+share messages. Lastly, the architecture of different specs are not the same,
+using specs type to separate them.
 
-On Mon, Oct 11, 2021 at 08:20:32AM +0200, Krzysztof Hałasa wrote:
-> Hi Jacopo,
-> 
-> Thanks for your input.
-> 
-> Jacopo Mondi <jacopo@jmondi.org> writes:
-> 
-> > To my understanding the C99 standard added support for the //
-> > commenting style and tollerate them, but they're still from C++
-> 
-> Sure. Not everything coming from C++ is bad.
-> 
-> > and I
-> > see very few places where they're used in the kernel,
-> 
-> It's not going to change if no one uses //.
-> 
-> > and per as far I
-> > know they're still not allowed by the coding style
-> > https://www.kernel.org/doc/html/latest/process/coding-style.html#commenting
-> 
-> As Randy wrote, perhaps we need to bring the coding-style up to date?
-> 
-> > Looking at how you used comments in the driver I think you could get
-> > rid of most // comments easily, the register tables might be an
-> > exception but I would really try to remove them from there as well.
-> 
-> I could. The question is "why?" IMHO the C++ style is (in places I use
-> it) better than the /* */. Why should I use the worse thing?
+This series has been tested with both MT8183 and MT8173. Decoding was working
+for both chips.
 
-It's also a matter of consistency, to try and unify the coding style
-across similar drivers in a subsytem. In this case, the media system
-frowns upon C++-style comments.
+Patches 1~3 rewrite get register bases and power on/off interface.
 
-> > In my personal opinion lifting that restriction caused more pain than
-> > anything, as different subsystem are now imposing different
-> > requirements.
-> 
-> I think it was always the restriction causing more harm than good.
-> It's not like the "spirit" behind it was wrong - no. The oversided lines
-> SHOULD be avoided. It was the hard limit which was wrong: a) the limit
-> itself (80) was definitely inadequate, and b) the hard limit should have
-> never existed. 8-character tabs only made this worse (e.g. I use 4-chars
-> tabs outside the kernel).
-> 
-> This is all about readability, right? Hard rules don't play well with
-> it.
-> 
-> Things like:
->                                        fst_tx_dma(card,
->                                                    card->tx_dma_handle_card,
->                                                    BUF_OFFSET(txBuffer[pi]
->                                                               [port->txpos][0]),
->                                                    skb->len);
-> Is this better, isn't it?
-> However I do realize my opinion may be a bit distorted since I have some
-> vision problems.
-> 
-> > 	ret = ar0521_write_regs(sensor, pixel_timing_recommended, ARRAY_SIZE(pixel_timing_recommended));
-> > 	if (ret)
-> > 		goto off;
-> >
-> >
-> > should be
-> >
-> > 	ret = ar0521_write_regs(sensor, pixel_timing_recommended,
-> >                                 ARRAY_SIZE(pixel_timing_recommended));
-> > 	if (ret)
-> > 		goto off;
-> 
-> Do you consider the second one BETTER? I definitely don't (though it
-> this case the difference is small). If it's worse, why should I use it?
+Patch 4 add to support multi hardware.
 
-I find the second option much more readable, yes.
+Patch 5 separate video encoder and decoder document
 
-Code is written once and read often, so you should consider the coding
-style in use in the subsystem.
+Patches 6-15 add interfaces to support core hardware.
+----
+Changes compared with v6:
+- Use of_platform_populate to manage multi hardware, not component framework for patch 4/15
+- Re-write dtsi document for hardware architecture changed for patch 13/15
+-The dtsi will write like below in patch 13/15:
+    vcodec_dec: vcodec_dec@16000000 {
+        compatible = "mediatek,mt8192-vcodec-dec";
+        #address-cells = <2>;
+        #size-cells = <2>;
+        ranges;
+        reg = <0 0x16000000 0 0x1000>;		/* VDEC_SYS */
+        mediatek,scp = <&scp>;
+        iommus = <&iommu0 M4U_PORT_L4_VDEC_MC_EXT>;
+        dma-ranges = <0x1 0x0 0x0 0x40000000 0x0 0xfff00000>;
+        vcodec_lat {
+            compatible = "mediatek,mtk-vcodec-lat";
+            reg = <0 0x16010000 0 0x800>;		/* VDEC_MISC */
+            reg-name = "reg-misc";
+            interrupts = <GIC_SPI 426 IRQ_TYPE_LEVEL_HIGH 0>;
+            iommus = <&iommu0 M4U_PORT_L5_VDEC_LAT0_VLD_EXT>,
+                 <&iommu0 M4U_PORT_L5_VDEC_LAT0_VLD2_EXT>,
+                 <&iommu0 M4U_PORT_L5_VDEC_LAT0_AVC_MV_EXT>,
+                 <&iommu0 M4U_PORT_L5_VDEC_LAT0_PRED_RD_EXT>,
+                 <&iommu0 M4U_PORT_L5_VDEC_LAT0_TILE_EXT>,
+                 <&iommu0 M4U_PORT_L5_VDEC_LAT0_WDMA_EXT>,
+                 <&iommu0 M4U_PORT_L5_VDEC_LAT0_RG_CTRL_DMA_EXT>,
+                 <&iommu0 M4U_PORT_L5_VDEC_UFO_ENC_EXT>;
+            clocks = <&topckgen CLK_TOP_VDEC_SEL>,
+                 <&vdecsys_soc CLK_VDEC_SOC_VDEC>,
+                 <&vdecsys_soc CLK_VDEC_SOC_LAT>,
+                 <&vdecsys_soc CLK_VDEC_SOC_LARB1>,
+                 <&topckgen CLK_TOP_MAINPLL_D4>;
+            clock-names = "vdec-sel", "vdec-soc-vdec", "vdec-soc-lat",
+                  "vdec-vdec", "vdec-top";
+            assigned-clocks = <&topckgen CLK_TOP_VDEC_SEL>;
+            assigned-clock-parents = <&topckgen CLK_TOP_MAINPLL_D4>;
+            power-domains = <&spm MT8192_POWER_DOMAIN_VDEC>;
+        };
 
-> Also, in such cases I try to align the arguments (ARRAY_SIZE right below
-> sensor). Still IMHO worse than #1.
-> 
-> > if you go over 100 you should ask yourself what are you doing :)
-> 
-> I do. Sometimes the answer is I'm doing the right thing :-)
-> And sometimes I change the code. You won't see it because it's already
-> changed.
-> 
-> > The sensor frame rate is configured by userspace by changing the
-> > blankings through the V4L2_CID_[VH]BLANK.
-> >
-> > You are right the current definition is akward to work with, as there
-> > is no way to set the 'total pixels' like you have suggested, but it's
-> > rather userspace that knowing the desired total sizes has to compute
-> > the blankings by subtracting the visible sizes (plus the mandatory min
-> > blanking sizes).
-> 
-> But it can't do that, can it?
-> This could be adequate for a sensor with fixed pixel clock. Here we can
-> control pixel clocks at will, how is the driver going to know what pixel
-> clock should it use? Also, the "extra delay" can't be set with
-> V4L2_CID_[VH]BLANK, it needs interval-based timings or the "total pixel"
-> or something alike.
+        vcodec_core {
+            compatible = "mediatek,mtk-vcodec-core";
+            reg = <0 0x16025000 0 0x1000>;		/* VDEC_CORE_MISC */
+            reg-names = "reg-misc";
+            interrupts = <GIC_SPI 425 IRQ_TYPE_LEVEL_HIGH 0>;
+            iommus = <&iommu0 M4U_PORT_L4_VDEC_MC_EXT>,
+                 <&iommu0 M4U_PORT_L4_VDEC_UFO_EXT>,
+                 <&iommu0 M4U_PORT_L4_VDEC_PP_EXT>,
+                 <&iommu0 M4U_PORT_L4_VDEC_PRED_RD_EXT>,
+                 <&iommu0 M4U_PORT_L4_VDEC_PRED_WR_EXT>,
+                 <&iommu0 M4U_PORT_L4_VDEC_PPWRAP_EXT>,
+                 <&iommu0 M4U_PORT_L4_VDEC_TILE_EXT>,
+                 <&iommu0 M4U_PORT_L4_VDEC_VLD_EXT>,
+                 <&iommu0 M4U_PORT_L4_VDEC_VLD2_EXT>,
+                 <&iommu0 M4U_PORT_L4_VDEC_AVC_MV_EXT>,
+                 <&iommu0 M4U_PORT_L4_VDEC_RG_CTRL_DMA_EXT>;
+            clocks = <&topckgen CLK_TOP_VDEC_SEL>,
+                 <&vdecsys CLK_VDEC_VDEC>,
+                 <&vdecsys CLK_VDEC_LAT>,
+                 <&vdecsys CLK_VDEC_LARB1>,
+                 <&topckgen CLK_TOP_MAINPLL_D4>;
+            clock-names = "vdec-sel", "vdec-soc-vdec", "vdec-soc-lat",
+                  "vdec-vdec", "vdec-top";
+            assigned-clocks = <&topckgen CLK_TOP_VDEC_SEL>;
+            assigned-clock-parents = <&topckgen CLK_TOP_MAINPLL_D4>;
+            power-domains = <&spm MT8192_POWER_DOMAIN_VDEC2>;
+        };
+    };
 
-Additional controls may be needed, I haven't studied this particular
-sensor in details, but in general frame rate is controlled explicitly
-through low-level parameters for raw sensors, which means controlling
-h/v blank and possibly the pixel clock from userspace. The
-.g_frame_interval() and .s_frame_interval() operations are deprecated
-(and should never have been used) for raw sensors.
+Changes compared with v5:
+- Add decoder hardware block diagram for patch 13/15
+
+Changes compared with v4:
+- Fix comments for patch 4/15
+  >> +     if (dev->is_comp_supported) {
+  >> +             ret = mtk_vcodec_init_master(dev);
+  >> +             if (ret < 0)
+  >> +                     goto err_component_match;
+  >> +     } else {
+  >> +             platform_set_drvdata(pdev, dev);
+  >> +     }
+  Fix platform_set_drvdata.
+- Fix build error for patch 9/15
+- Add depend patch in case of error header file for patch 13/15
+
+Changes compared with v3:
+- Fix return value for patch 1/15
+- Fix comments for patch 4/15
+  > Looking up "mediatek,mtk-vcodec-core" to determine if it uses component framwork sounds like...
+  Add prameter in pdata, for all platform will use compoent after mt8183
+
+  >> +     if (dev->is_comp_supported) {
+  >> +             ret = mtk_vcodec_init_master(dev);
+  >> +             if (ret < 0)
+  >> +                     goto err_component_match;
+  >> +     } else {
+  >> +             platform_set_drvdata(pdev, dev);
+  >> +     }
+  > + Has asked the same question in [1].  Why it removes the
+  > +platform_set_drvdata() above?  mtk_vcodec_init_master() also calls platform_set_drvdata().
+  Must call component_master_add_with_match after platform_set_drvdata for component architecture.
+- Fix yaml files check fail for patch 5/15
+- Fix yaml file check fail for patch 14/15
+
+Changes compared with v1:
+- Fix many comments for patch 3/14
+- Remove unnecessary code for patch 4/14
+- Using enum mtk_vdec_hw_count instead of magic numbers for patch 6/14
+- Reconstructed get/put lat buffer for lat and core hardware for patch 7/14
+- Using yaml format to instead of txt file for patch 12/14
+
+Yunfei Dong (15):
+  media: mtk-vcodec: Get numbers of register bases from DT
+  media: mtk-vcodec: Align vcodec wake up interrupt interface
+  media: mtk-vcodec: Refactor vcodec pm interface
+  media: mtk-vcodec: Manage multi hardware information
+  dt-bindings: media: mtk-vcodec: Separate video encoder and decoder
+    dt-bindings
+  media: mtk-vcodec: Use pure single core for MT8183
+  media: mtk-vcodec: Add irq interface for multi hardware
+  media: mtk-vcodec: Add msg queue feature for lat and core architecture
+  media: mtk-vcodec: Generalize power and clock on/off interfaces
+  media: mtk-vcodec: Add new interface to lock different hardware
+  media: mtk-vcodec: Add core thread
+  media: mtk-vcodec: Support 34bits dma address for vdec
+  dt-bindings: media: mtk-vcodec: Adds decoder dt-bindings for mt8192
+  media: mtk-vcodec: Add core dec and dec end ipi msg
+  media: mtk-vcodec: Use codec type to separate different hardware
+
+ .../media/mediatek,vcodec-comp-decoder.yaml   | 193 ++++++++++++
+ .../media/mediatek,vcodec-decoder.yaml        | 175 +++++++++++
+ .../media/mediatek,vcodec-encoder.yaml        | 185 +++++++++++
+ .../bindings/media/mediatek-vcodec.txt        | 130 --------
+ drivers/media/platform/mtk-vcodec/Makefile    |   2 +
+ .../platform/mtk-vcodec/mtk_vcodec_dec.c      |   4 +-
+ .../platform/mtk-vcodec/mtk_vcodec_dec.h      |   1 +
+ .../platform/mtk-vcodec/mtk_vcodec_dec_drv.c  | 233 +++++++++++---
+ .../platform/mtk-vcodec/mtk_vcodec_dec_hw.c   | 165 ++++++++++
+ .../platform/mtk-vcodec/mtk_vcodec_dec_hw.h   |  53 ++++
+ .../platform/mtk-vcodec/mtk_vcodec_dec_pm.c   |  98 ++++--
+ .../platform/mtk-vcodec/mtk_vcodec_dec_pm.h   |  13 +-
+ .../mtk-vcodec/mtk_vcodec_dec_stateful.c      |   2 +
+ .../mtk-vcodec/mtk_vcodec_dec_stateless.c     |   2 +
+ .../platform/mtk-vcodec/mtk_vcodec_drv.h      |  75 ++++-
+ .../platform/mtk-vcodec/mtk_vcodec_enc_drv.c  |  12 +-
+ .../platform/mtk-vcodec/mtk_vcodec_enc_pm.c   |   1 -
+ .../platform/mtk-vcodec/mtk_vcodec_intr.c     |  27 +-
+ .../platform/mtk-vcodec/mtk_vcodec_intr.h     |   4 +-
+ .../platform/mtk-vcodec/mtk_vcodec_util.c     |  87 +++++-
+ .../platform/mtk-vcodec/mtk_vcodec_util.h     |   8 +-
+ .../platform/mtk-vcodec/vdec/vdec_h264_if.c   |   2 +-
+ .../mtk-vcodec/vdec/vdec_h264_req_if.c        |   2 +-
+ .../platform/mtk-vcodec/vdec/vdec_vp8_if.c    |   2 +-
+ .../platform/mtk-vcodec/vdec/vdec_vp9_if.c    |   2 +-
+ .../media/platform/mtk-vcodec/vdec_drv_if.c   |  21 +-
+ .../media/platform/mtk-vcodec/vdec_ipi_msg.h  |  16 +-
+ .../platform/mtk-vcodec/vdec_msg_queue.c      | 290 ++++++++++++++++++
+ .../platform/mtk-vcodec/vdec_msg_queue.h      | 157 ++++++++++
+ .../media/platform/mtk-vcodec/vdec_vpu_if.c   |  46 ++-
+ .../media/platform/mtk-vcodec/vdec_vpu_if.h   |  22 ++
+ .../platform/mtk-vcodec/venc/venc_h264_if.c   |   2 +-
+ .../platform/mtk-vcodec/venc/venc_vp8_if.c    |   2 +-
+ 33 files changed, 1756 insertions(+), 278 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/media/mediatek,vcodec-comp-decoder.yaml
+ create mode 100644 Documentation/devicetree/bindings/media/mediatek,vcodec-decoder.yaml
+ create mode 100644 Documentation/devicetree/bindings/media/mediatek,vcodec-encoder.yaml
+ delete mode 100644 Documentation/devicetree/bindings/media/mediatek-vcodec.txt
+ create mode 100644 drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_hw.c
+ create mode 100644 drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_hw.h
+ create mode 100644 drivers/media/platform/mtk-vcodec/vdec_msg_queue.c
+ create mode 100644 drivers/media/platform/mtk-vcodec/vdec_msg_queue.h
 
 -- 
-Regards,
+2.25.1
 
-Laurent Pinchart
