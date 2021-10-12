@@ -2,22 +2,22 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id F415142A754
-	for <lists+linux-media@lfdr.de>; Tue, 12 Oct 2021 16:36:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 303D542A756
+	for <lists+linux-media@lfdr.de>; Tue, 12 Oct 2021 16:36:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237295AbhJLOiH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 12 Oct 2021 10:38:07 -0400
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:53926 "EHLO
+        id S237316AbhJLOiJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 12 Oct 2021 10:38:09 -0400
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:53950 "EHLO
         bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236976AbhJLOiF (ORCPT
+        with ESMTP id S237289AbhJLOiG (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 12 Oct 2021 10:38:05 -0400
+        Tue, 12 Oct 2021 10:38:06 -0400
 Received: from benjamin-XPS-13-9310.. (unknown [IPv6:2a01:e0a:4cb:a870:dcd8:9f87:c3be:dc06])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
         (Authenticated sender: benjamin.gaignard)
-        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 58C061F43BC8;
-        Tue, 12 Oct 2021 15:36:02 +0100 (BST)
+        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 572AA1F43BC9;
+        Tue, 12 Oct 2021 15:36:03 +0100 (BST)
 From:   Benjamin Gaignard <benjamin.gaignard@collabora.com>
 To:     mchehab@kernel.org, p.zabel@pengutronix.de,
         gregkh@linuxfoundation.org, mripard@kernel.org,
@@ -28,9 +28,9 @@ Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev,
         linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
         Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Subject: [PATCH v2 2/4] media: hevc: Embedded indexes in RPS
-Date:   Tue, 12 Oct 2021 16:35:50 +0200
-Message-Id: <20211012143552.661751-3-benjamin.gaignard@collabora.com>
+Subject: [PATCH v2 3/4] media: hantro: Use syscon instead of 'ctrl' register
+Date:   Tue, 12 Oct 2021 16:35:51 +0200
+Message-Id: <20211012143552.661751-4-benjamin.gaignard@collabora.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20211012143552.661751-1-benjamin.gaignard@collabora.com>
 References: <20211012143552.661751-1-benjamin.gaignard@collabora.com>
@@ -40,99 +40,146 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Reference Picture Set lists provide indexes of short and long term
-reference in DBP array.
-Fix Hantro to not do a look up in DBP entries.
-Make documentation more clear about it.
+In order to be able to share the control hardware block between
+VPUs use a syscon instead a ioremap it in the driver.
+To keep the compatibility with older DT if 'nxp,imx8mq-vpu-ctrl'
+phandle is not found look at 'ctrl' reg-name.
+With the method it becomes useless to provide a list of register
+names so remove it.
 
 Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
----
- .../media/v4l/ext-ctrls-codec.rst             |  6 ++---
- .../staging/media/hantro/hantro_g2_hevc_dec.c | 25 +++++--------------
- 2 files changed, 9 insertions(+), 22 deletions(-)
+Reviewed-by: Philipp Zabel <p.zabel@pengutronix.de>
 
-diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
-index 38da33e61c3d..b12ad5b3eaba 100644
---- a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
-+++ b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
-@@ -3381,15 +3381,15 @@ enum v4l2_mpeg_video_hevc_size_of_length_field -
-     * - __u8
-       - ``poc_st_curr_before[V4L2_HEVC_DPB_ENTRIES_NUM_MAX]``
-       - PocStCurrBefore as described in section 8.3.2 "Decoding process for reference
--        picture set.
-+        picture set": provides the index of the short term before references in DPB array.
-     * - __u8
-       - ``poc_st_curr_after[V4L2_HEVC_DPB_ENTRIES_NUM_MAX]``
-       - PocStCurrAfter as described in section 8.3.2 "Decoding process for reference
--        picture set.
-+        picture set": provides the index of the short term after references in DPB array.
-     * - __u8
-       - ``poc_lt_curr[V4L2_HEVC_DPB_ENTRIES_NUM_MAX]``
-       - PocLtCurr as described in section 8.3.2 "Decoding process for reference
--        picture set.
-+        picture set": provides the index of the long term references in DPB array.
-     * - __u64
-       - ``flags``
-       - See :ref:`Decode Parameters Flags <hevc_decode_params_flags>`
-diff --git a/drivers/staging/media/hantro/hantro_g2_hevc_dec.c b/drivers/staging/media/hantro/hantro_g2_hevc_dec.c
-index bbf71dcea099..33fe502de447 100644
---- a/drivers/staging/media/hantro/hantro_g2_hevc_dec.c
-+++ b/drivers/staging/media/hantro/hantro_g2_hevc_dec.c
-@@ -269,24 +269,11 @@ static void set_params(struct hantro_ctx *ctx)
- 	hantro_reg_write(vpu, &g2_apf_threshold, 8);
+Please note that the only purpose of this commit is to allow to test
+G2 hardware block for IMX8MQ until a proper solution isuing power domain
+can be found. Do not merge it.
+
+---
+ drivers/staging/media/hantro/hantro.h       |  5 ++-
+ drivers/staging/media/hantro/imx8m_vpu_hw.c | 48 +++++++++++++--------
+ 2 files changed, 34 insertions(+), 19 deletions(-)
+
+diff --git a/drivers/staging/media/hantro/hantro.h b/drivers/staging/media/hantro/hantro.h
+index c2e2dca38628..20478988a55e 100644
+--- a/drivers/staging/media/hantro/hantro.h
++++ b/drivers/staging/media/hantro/hantro.h
+@@ -13,6 +13,7 @@
+ #define HANTRO_H_
+ 
+ #include <linux/platform_device.h>
++#include <linux/regmap.h>
+ #include <linux/videodev2.h>
+ #include <linux/wait.h>
+ #include <linux/clk.h>
+@@ -170,7 +171,7 @@ hantro_vdev_to_func(struct video_device *vdev)
+  * @reg_bases:		Mapped addresses of VPU registers.
+  * @enc_base:		Mapped address of VPU encoder register for convenience.
+  * @dec_base:		Mapped address of VPU decoder register for convenience.
+- * @ctrl_base:		Mapped address of VPU control block.
++ * @ctrl_base:		Regmap of VPU control block.
+  * @vpu_mutex:		Mutex to synchronize V4L2 calls.
+  * @irqlock:		Spinlock to synchronize access to data structures
+  *			shared with interrupt handlers.
+@@ -189,7 +190,7 @@ struct hantro_dev {
+ 	void __iomem **reg_bases;
+ 	void __iomem *enc_base;
+ 	void __iomem *dec_base;
+-	void __iomem *ctrl_base;
++	struct regmap *ctrl_base;
+ 
+ 	struct mutex vpu_mutex;	/* video_device lock */
+ 	spinlock_t irqlock;
+diff --git a/drivers/staging/media/hantro/imx8m_vpu_hw.c b/drivers/staging/media/hantro/imx8m_vpu_hw.c
+index ea919bfb9891..ec0b16d12b54 100644
+--- a/drivers/staging/media/hantro/imx8m_vpu_hw.c
++++ b/drivers/staging/media/hantro/imx8m_vpu_hw.c
+@@ -7,6 +7,7 @@
+ 
+ #include <linux/clk.h>
+ #include <linux/delay.h>
++#include <linux/mfd/syscon.h>
+ 
+ #include "hantro.h"
+ #include "hantro_jpeg.h"
+@@ -25,30 +26,28 @@
+ #define CTRL_G1_PP_FUSE		0x0c
+ #define CTRL_G2_DEC_FUSE	0x10
+ 
++static const struct regmap_config ctrl_regmap_ctrl = {
++	.reg_bits = 32,
++	.val_bits = 32,
++	.reg_stride = 0x14,
++};
++
+ static void imx8m_soft_reset(struct hantro_dev *vpu, u32 reset_bits)
+ {
+-	u32 val;
+-
+ 	/* Assert */
+-	val = readl(vpu->ctrl_base + CTRL_SOFT_RESET);
+-	val &= ~reset_bits;
+-	writel(val, vpu->ctrl_base + CTRL_SOFT_RESET);
++	regmap_update_bits(vpu->ctrl_base, CTRL_SOFT_RESET, reset_bits, 0);
+ 
+ 	udelay(2);
+ 
+ 	/* Release */
+-	val = readl(vpu->ctrl_base + CTRL_SOFT_RESET);
+-	val |= reset_bits;
+-	writel(val, vpu->ctrl_base + CTRL_SOFT_RESET);
++	regmap_update_bits(vpu->ctrl_base, CTRL_SOFT_RESET,
++			   reset_bits, reset_bits);
  }
  
--static int find_ref_pic_index(const struct v4l2_hevc_dpb_entry *dpb, int pic_order_cnt)
--{
--	int i;
--
--	for (i = 0; i < V4L2_HEVC_DPB_ENTRIES_NUM_MAX; i++) {
--		if (dpb[i].pic_order_cnt[0] == pic_order_cnt)
--			return i;
--	}
--
--	return 0x0;
--}
--
- static void set_ref_pic_list(struct hantro_ctx *ctx)
+ static void imx8m_clk_enable(struct hantro_dev *vpu, u32 clock_bits)
  {
- 	const struct hantro_hevc_dec_ctrls *ctrls = &ctx->hevc_dec.ctrls;
- 	struct hantro_dev *vpu = ctx->dev;
- 	const struct v4l2_ctrl_hevc_decode_params *decode_params = ctrls->decode_params;
--	const struct v4l2_hevc_dpb_entry *dpb = decode_params->dpb;
- 	u32 list0[V4L2_HEVC_DPB_ENTRIES_NUM_MAX] = {};
- 	u32 list1[V4L2_HEVC_DPB_ENTRIES_NUM_MAX] = {};
- 	static const struct hantro_reg ref_pic_regs0[] = {
-@@ -330,11 +317,11 @@ static void set_ref_pic_list(struct hantro_ctx *ctx)
- 	/* List 0 contains: short term before, short term after and long term */
- 	j = 0;
- 	for (i = 0; i < decode_params->num_poc_st_curr_before && j < ARRAY_SIZE(list0); i++)
--		list0[j++] = find_ref_pic_index(dpb, decode_params->poc_st_curr_before[i]);
-+		list0[j++] = decode_params->poc_st_curr_before[i];
- 	for (i = 0; i < decode_params->num_poc_st_curr_after && j < ARRAY_SIZE(list0); i++)
--		list0[j++] = find_ref_pic_index(dpb, decode_params->poc_st_curr_after[i]);
-+		list0[j++] = decode_params->poc_st_curr_after[i];
- 	for (i = 0; i < decode_params->num_poc_lt_curr && j < ARRAY_SIZE(list0); i++)
--		list0[j++] = find_ref_pic_index(dpb, decode_params->poc_lt_curr[i]);
-+		list0[j++] = decode_params->poc_lt_curr[i];
+-	u32 val;
+-
+-	val = readl(vpu->ctrl_base + CTRL_CLOCK_ENABLE);
+-	val |= clock_bits;
+-	writel(val, vpu->ctrl_base + CTRL_CLOCK_ENABLE);
++	regmap_update_bits(vpu->ctrl_base, CTRL_CLOCK_ENABLE,
++			   clock_bits, clock_bits);
+ }
  
- 	/* Fill the list, copying over and over */
- 	i = 0;
-@@ -343,11 +330,11 @@ static void set_ref_pic_list(struct hantro_ctx *ctx)
+ static int imx8mq_runtime_resume(struct hantro_dev *vpu)
+@@ -65,9 +64,9 @@ static int imx8mq_runtime_resume(struct hantro_dev *vpu)
+ 	imx8m_clk_enable(vpu, CLOCK_G1 | CLOCK_G2);
  
- 	j = 0;
- 	for (i = 0; i < decode_params->num_poc_st_curr_after && j < ARRAY_SIZE(list1); i++)
--		list1[j++] = find_ref_pic_index(dpb, decode_params->poc_st_curr_after[i]);
-+		list1[j++] = decode_params->poc_st_curr_after[i];
- 	for (i = 0; i < decode_params->num_poc_st_curr_before && j < ARRAY_SIZE(list1); i++)
--		list1[j++] = find_ref_pic_index(dpb, decode_params->poc_st_curr_before[i]);
-+		list1[j++] = decode_params->poc_st_curr_before[i];
- 	for (i = 0; i < decode_params->num_poc_lt_curr && j < ARRAY_SIZE(list1); i++)
--		list1[j++] = find_ref_pic_index(dpb, decode_params->poc_lt_curr[i]);
-+		list1[j++] = decode_params->poc_lt_curr[i];
+ 	/* Set values of the fuse registers */
+-	writel(0xffffffff, vpu->ctrl_base + CTRL_G1_DEC_FUSE);
+-	writel(0xffffffff, vpu->ctrl_base + CTRL_G1_PP_FUSE);
+-	writel(0xffffffff, vpu->ctrl_base + CTRL_G2_DEC_FUSE);
++	regmap_write(vpu->ctrl_base, CTRL_G1_DEC_FUSE, 0xffffffff);
++	regmap_write(vpu->ctrl_base, CTRL_G1_PP_FUSE, 0xffffffff);
++	regmap_write(vpu->ctrl_base, CTRL_G2_DEC_FUSE, 0xffffffff);
  
- 	i = 0;
- 	while (j < ARRAY_SIZE(list1))
+ 	clk_bulk_disable_unprepare(vpu->variant->num_clocks, vpu->clocks);
+ 
+@@ -189,7 +188,22 @@ static irqreturn_t imx8m_vpu_g2_irq(int irq, void *dev_id)
+ 
+ static int imx8mq_vpu_hw_init(struct hantro_dev *vpu)
+ {
+-	vpu->ctrl_base = vpu->reg_bases[vpu->variant->num_regs - 1];
++	struct device_node *np = vpu->dev->of_node;
++
++	vpu->ctrl_base = syscon_regmap_lookup_by_phandle(np, "nxp,imx8m-vpu-ctrl");
++	if (IS_ERR(vpu->ctrl_base)) {
++		struct resource *res;
++		void __iomem *ctrl;
++
++		res = platform_get_resource_byname(vpu->pdev, IORESOURCE_MEM, "ctrl");
++		ctrl = devm_ioremap_resource(vpu->dev, res);
++		if (IS_ERR(ctrl))
++			return PTR_ERR(ctrl);
++
++		vpu->ctrl_base = devm_regmap_init_mmio(vpu->dev, ctrl, &ctrl_regmap_ctrl);
++		if (IS_ERR(vpu->ctrl_base))
++			return PTR_ERR(vpu->ctrl_base);
++	}
+ 
+ 	return 0;
+ }
 -- 
 2.30.2
 
