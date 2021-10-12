@@ -2,307 +2,294 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 31FF242A854
-	for <lists+linux-media@lfdr.de>; Tue, 12 Oct 2021 17:34:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5416042A89E
+	for <lists+linux-media@lfdr.de>; Tue, 12 Oct 2021 17:41:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237422AbhJLPgo (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 12 Oct 2021 11:36:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46356 "EHLO
+        id S237630AbhJLPm5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 12 Oct 2021 11:42:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47812 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237192AbhJLPgn (ORCPT
+        with ESMTP id S237322AbhJLPmu (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 12 Oct 2021 11:36:43 -0400
-Received: from lb2-smtp-cloud8.xs4all.net (lb2-smtp-cloud8.xs4all.net [IPv6:2001:888:0:108::2b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 23E10C061570
-        for <linux-media@vger.kernel.org>; Tue, 12 Oct 2021 08:34:40 -0700 (PDT)
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud8.xs4all.net with ESMTPA
-        id aJnVmso60x7rIaJnYmMVuV; Tue, 12 Oct 2021 17:34:39 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1634052879; bh=MmVnyi5so2o2gDe/IqIUp8ye8U0RD58RTlQpRgjP5is=;
-        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=aNGPsKknbe/005uYbSfOoX0qoy8gdljvei94hD+1tIRuAEuiQux0dkn+rsOL+3cku
-         LKdSp/I4RkiFbkWP+BmBrGk5gSDm3Pj7mkxda32kEkKxuAflpktsmNl1efR58+BRVz
-         3D6b8mTTQSv3UTbfwsaAivNrQDUblRwNGvz0a5EjfD07ULHFaWWJrcyMfGytt/xMaz
-         ItzxVpcPDYxEJVh1Dx+WDU3BLBZ0XDTe8o43ogcdyxnonq1zbb3QLn6SNXh/sYV/UO
-         K4i/N78/3zvvrGQ425jQSKiDGVMdt53N/CQ/ECD7XfXGmaNurhj3DJAnzi0ZTmiqsq
-         IOiT8kI41tHOg==
-Subject: Re: [PATCH v9 30/36] media: Documentation: add multiplexed streams
- documentation
-To:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-        linux-media@vger.kernel.org, sakari.ailus@linux.intel.com,
-        Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        niklas.soderlund+renesas@ragnatech.se
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Pratyush Yadav <p.yadav@ti.com>
-References: <20211005085750.138151-1-tomi.valkeinen@ideasonboard.com>
- <20211005085750.138151-31-tomi.valkeinen@ideasonboard.com>
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Message-ID: <d89afbd7-2f12-5231-a227-853f7e975e8e@xs4all.nl>
-Date:   Tue, 12 Oct 2021 17:34:33 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Firefox/78.0 Thunderbird/78.14.0
+        Tue, 12 Oct 2021 11:42:50 -0400
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9A8F1C061765
+        for <linux-media@vger.kernel.org>; Tue, 12 Oct 2021 08:40:45 -0700 (PDT)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1maJsk-0008NN-05; Tue, 12 Oct 2021 17:39:58 +0200
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+        by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.92)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1maJsa-0004iS-RQ; Tue, 12 Oct 2021 17:39:48 +0200
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.92)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1maJsa-0004WY-O6; Tue, 12 Oct 2021 17:39:48 +0200
+From:   =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= 
+        <u.kleine-koenig@pengutronix.de>
+To:     Alexandre Torgue <alexandre.torgue@foss.st.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Bartosz Golaszewski <brgl@bgdev.pl>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Eric Piel <eric.piel@tremplin-utc.net>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Jarkko Sakkinen <jarkko@kernel.org>,
+        Jason Gunthorpe <jgg@ziepe.ca>,
+        Jean Delvare <jdelvare@suse.com>,
+        Jiri Slaby <jirislaby@kernel.org>,
+        Lee Jones <lee.jones@linaro.org>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Mark Gross <mgross@linux.intel.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        Michael Hennerich <michael.hennerich@analog.com>,
+        Miquel Raynal <miquel.raynal@bootlin.com>,
+        Peter Huewe <peterhuewe@gmx.de>,
+        Richard Weinberger <richard@nod.at>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Vignesh Raghavendra <vigneshr@ti.com>,
+        Yasunari Takiguchi <Yasunari.Takiguchi@sony.com>
+Cc:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Colin Ian King <colin.king@canonical.com>,
+        Dan Carpenter <dan.carpenter@oracle.com>,
+        Fabio Estevam <festevam@gmail.com>,
+        Heiko Schocher <hs@denx.de>, Len Baker <len.baker@gmx.com>,
+        Mark Brown <broonie@kernel.org>,
+        Phil Reid <preid@electromag.com.au>,
+        Sam Ravnborg <sam@ravnborg.org>,
+        Tudor Ambarus <tudor.ambarus@microchip.com>,
+        dri-devel@lists.freedesktop.org, kernel@pengutronix.de,
+        linux-fbdev@vger.kernel.org, linux-gpio@vger.kernel.org,
+        linux-hwmon@vger.kernel.org, linux-input@vger.kernel.org,
+        linux-integrity@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-mtd@lists.infradead.org,
+        linux-serial@vger.kernel.org, linux-spi@vger.kernel.org,
+        linux-staging@lists.linux.dev,
+        linux-stm32@st-md-mailman.stormreply.com,
+        platform-driver-x86@vger.kernel.org
+Subject: [PATCH v2 00/20] Make some spi device drivers return zero in .remove()
+Date:   Tue, 12 Oct 2021 17:39:25 +0200
+Message-Id: <20211012153945.2651412-1-u.kleine-koenig@pengutronix.de>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-In-Reply-To: <20211005085750.138151-31-tomi.valkeinen@ideasonboard.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4xfIpMnIREkW0WH5rtVtumhDXeImqLAuyb1d6RoZ+vguuocaGVvAsFyBNFxlldgzQGOrkEU/A/owXp4bj7VAvWgzqtjNtOw6vJbGvFnYVn/f0hAaKRf4WO
- K6GwweUVgSqXx82mQsP5YC6F2kF44ZwPWNLIh/OLRSEshPKRYNpss4XTbKdMaUxJVsX9niH7xJy/0r562tfSNX2pY0CwG/nsUWnnpXE6Qa1k97E96+zyYnGs
- J1jUpkcsInnv60Q2fqEPlbca+WUjGBtARoo1hvBHL0Y/LSCVCi9PMSVVSAE7p/eFbI8LEvN5LBiKPMoJV0N2kKnsbaDq+jU/rUgnaRwaupZI6Bkj4MCMhVyl
- 8jL5rTPOE6E+ppRCJQOb/TD9ywQD+8kOv+VzOvr3bAxs/otVUYUZefGdtL4+6yh3v/tkLGchMRhUjjWV19uB6OOjk2J2GCaj1fGnghLiZl0bP11v82yMgaR5
- dLCfUBszs65bQrs9ZjGM0Jlvacc8SU6vj7dy7Q==
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-media@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 05/10/2021 10:57, Tomi Valkeinen wrote:
-> Add documentation related to multiplexed streams.
-> 
-> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-> ---
->  .../driver-api/media/v4l2-subdev.rst          |   8 +
->  .../userspace-api/media/v4l/dev-subdev.rst    | 164 ++++++++++++++++++
->  2 files changed, 172 insertions(+)
-> 
-> diff --git a/Documentation/driver-api/media/v4l2-subdev.rst b/Documentation/driver-api/media/v4l2-subdev.rst
-> index c3fd57fff668..410e03a29f2a 100644
-> --- a/Documentation/driver-api/media/v4l2-subdev.rst
-> +++ b/Documentation/driver-api/media/v4l2-subdev.rst
-> @@ -546,6 +546,14 @@ subdev drivers. In these cases the called subdev ops must also handle the NULL
->  case. This can be easily managed by the use of
->  v4l2_subdev_validate_and_lock_state() helper.
->  
-> +Streams, multiplexed media pads and internal routing
-> +----------------------------------------------------
-> +
-> +A subdevice driver can implement support for multiplexed streams by setting
-> +the V4L2_SUBDEV_FL_MULTIPLEXED subdev flag and implementing support for
-> +centrally managed subdev active state, routing and stream based
-> +configuration.
-> +
->  V4L2 sub-device functions and data structures
->  ---------------------------------------------
->  
-> diff --git a/Documentation/userspace-api/media/v4l/dev-subdev.rst b/Documentation/userspace-api/media/v4l/dev-subdev.rst
-> index a67c2749089a..ea3efa97bb08 100644
-> --- a/Documentation/userspace-api/media/v4l/dev-subdev.rst
-> +++ b/Documentation/userspace-api/media/v4l/dev-subdev.rst
-> @@ -503,3 +503,167 @@ source pads.
->      :maxdepth: 1
->  
->      subdev-formats
-> +
-> +Streams, multiplexed media pads and internal routing
-> +----------------------------------------------------
-> +
-> +Commonly V4L2 subdevices support only separate video streams, that is, each
-> +link in the media grap and each pad in a subdevice passes through a single
+Hello,
 
-passes -> pass
-grap -> graph
+this is v2 of my quest to make spi remove callbacks return void. Today
+they return an int, but the only result of returning a non-zero value is
+a warning message. So it's a bad idea to return an error code in the
+expectation that not freeing some resources is ok then. The same holds
+true for i2c and platform devices which benefit en passant for a few
+drivers.
 
-> +video stream. Thus each pad contains a format configuration for that single
-> +stream. In some cases a subdev can do stream processing and split a stream
-> +into two or compose two streams into one, but the inputs and outputs for the
-> +subdev are still a single stream per pad.
-> +
-> +Some hardware, e.g. MIPI CSI-2, support multiplexed streams, that is, a single
-> +bus carries multiple streams. Thus a camera could output two streams, a pixel
-> +stream and a metadata stream, and a bridge subdev could route the streams
-> +from multiple input pads into a single output pad.
-> +
-> +Subdevice drivers that support multiplexed streams are compatible with
-> +non-multiplexed subdev drivers, but, of course, requires such a routing
+The patches in this series address some of the spi drivers that might
+return non-zero and adapt them accordingly to return zero instead. For
+most drivers it's just about not hiding the fact that they already
+return zero.
 
-requires such -> require
+Given that there are quite some more patches of this type to create
+before I can change the spi remove callback, I suggest the respective
+subsystem maintainers pick up these patches. There are no
+interdependencies in this series.
 
-> +configuration where the link between those two types of drivers contain only
+Compared to (implicit) v1
 
-contain -> contains
+ - I fixed a few compiler issues (this series it build tested with an
+   allmoddefconfig on arm64, m68k, powerpc, riscv, s390, sparc64 and
+   x86_64).
+ - A few new patches (2x gpio, 2x misc, 4x mtd)
+ - One patch already landed in next, this one I dropped. The drm/panel
+   patch as claimed to applied, too, but not yet in next. It's included
+   here, but I assume I was just too impatient and this one should be
+   ignored.
 
-> +a single stream.
-> +
-> +Understanding streams
-> +^^^^^^^^^^^^^^^^^^^^^
-> +
-> +A stream is a stream of content (e.g. pixel data or metadata) flowing through
-> +the media pipeline from a source (e.g. a sensor) towards the final sink
-> +(e.g. a receiver in a SoC). Each media link carries all the streams from
+Full range-diff below.
 
-'receiver' is a bit vague. What sort of receiver are we talking about here?
-What about: 'a receiver and demultiplexer in a SoC'. This implies that it is
-the block that can receive a multiplexed stream and demux it. The demuxing
-part is the critical feature of this block IMHO.
+Best regards
+Uwe
 
-> +one end of the link to the other, whereas subdevices have routing tables
+Uwe Kleine-König (20):
+  drm/panel: s6e63m0: Make s6e63m0_remove() return void
+  gpio: max730x: Make __max730x_remove() return void
+  gpio: mc33880: Drop if with an always false condition
+  hwmon: max31722: Warn about failure to put device in stand-by in
+    .remove()
+  input: adxl34xx: Make adxl34x_remove() return void
+  input: touchscreen: tsc200x: Make tsc200x_remove() return void
+  media: cxd2880: Eliminate dead code
+  mfd: mc13xxx: Make mc13xxx_common_exit() return void
+  mfd: stmpe: Make stmpe_remove() return void
+  mfd: tps65912: Make tps65912_device_exit() return void
+  misc: ad525x_dpot: Make ad_dpot_remove() return void
+  misc: lis3lv02d: Make lis3lv02d_remove_fs() return void
+  mtd: dataflash: Warn about failure to unregister mtd device
+  mtd: mchp23k256: Warn about failure to unregister mtd device
+  mtd: mchp48l640: Warn about failure to unregister mtd device
+  mtd: sst25l: Warn about failure to unregister mtd device
+  serial: max310x: Make max310x_remove() return void
+  serial: sc16is7xx: Make sc16is7xx_remove() return void
+  staging: fbtft: Make fbtft_remove_common() return void
+  tpm: st33zp24: Make st33zp24_remove() return void
 
-'whereas' is an odd word. Would simply 'and' not be a better word to use here?
+ drivers/char/tpm/st33zp24/i2c.c                   |  5 +----
+ drivers/char/tpm/st33zp24/spi.c                   |  5 +----
+ drivers/char/tpm/st33zp24/st33zp24.c              |  3 +--
+ drivers/char/tpm/st33zp24/st33zp24.h              |  2 +-
+ drivers/gpio/gpio-max7300.c                       |  4 +++-
+ drivers/gpio/gpio-max7301.c                       |  4 +++-
+ drivers/gpio/gpio-max730x.c                       |  6 +-----
+ drivers/gpio/gpio-mc33880.c                       |  2 --
+ drivers/gpu/drm/panel/panel-samsung-s6e63m0-dsi.c |  3 ++-
+ drivers/gpu/drm/panel/panel-samsung-s6e63m0-spi.c |  3 ++-
+ drivers/gpu/drm/panel/panel-samsung-s6e63m0.c     |  4 +---
+ drivers/gpu/drm/panel/panel-samsung-s6e63m0.h     |  2 +-
+ drivers/hwmon/max31722.c                          |  8 +++++++-
+ drivers/input/misc/adxl34x-i2c.c                  |  4 +++-
+ drivers/input/misc/adxl34x-spi.c                  |  4 +++-
+ drivers/input/misc/adxl34x.c                      |  4 +---
+ drivers/input/misc/adxl34x.h                      |  2 +-
+ drivers/input/touchscreen/tsc2004.c               |  4 +++-
+ drivers/input/touchscreen/tsc2005.c               |  4 +++-
+ drivers/input/touchscreen/tsc200x-core.c          |  4 +---
+ drivers/input/touchscreen/tsc200x-core.h          |  2 +-
+ drivers/media/spi/cxd2880-spi.c                   | 13 +------------
+ drivers/mfd/mc13xxx-core.c                        |  4 +---
+ drivers/mfd/mc13xxx-i2c.c                         |  3 ++-
+ drivers/mfd/mc13xxx-spi.c                         |  3 ++-
+ drivers/mfd/mc13xxx.h                             |  2 +-
+ drivers/mfd/stmpe-i2c.c                           |  4 +++-
+ drivers/mfd/stmpe-spi.c                           |  4 +++-
+ drivers/mfd/stmpe.c                               |  4 +---
+ drivers/mfd/stmpe.h                               |  2 +-
+ drivers/mfd/tps65912-core.c                       |  4 +---
+ drivers/mfd/tps65912-i2c.c                        |  4 +++-
+ drivers/mfd/tps65912-spi.c                        |  4 +++-
+ drivers/misc/ad525x_dpot-i2c.c                    |  3 ++-
+ drivers/misc/ad525x_dpot-spi.c                    |  3 ++-
+ drivers/misc/ad525x_dpot.c                        |  4 +---
+ drivers/misc/ad525x_dpot.h                        |  2 +-
+ drivers/misc/lis3lv02d/lis3lv02d.c                |  3 +--
+ drivers/misc/lis3lv02d/lis3lv02d.h                |  2 +-
+ drivers/misc/lis3lv02d/lis3lv02d_spi.c            |  4 +++-
+ drivers/mtd/devices/mchp23k256.c                  |  9 ++++++++-
+ drivers/mtd/devices/mchp48l640.c                  |  8 +++++++-
+ drivers/mtd/devices/mtd_dataflash.c               |  5 ++++-
+ drivers/mtd/devices/sst25l.c                      |  8 +++++++-
+ drivers/platform/x86/hp_accel.c                   |  3 ++-
+ drivers/staging/fbtft/fbtft-core.c                |  8 +-------
+ drivers/staging/fbtft/fbtft.h                     |  8 +++++---
+ drivers/tty/serial/max310x.c                      |  7 +++----
+ drivers/tty/serial/sc16is7xx.c                    | 12 +++++++-----
+ include/linux/mfd/tps65912.h                      |  2 +-
+ include/linux/spi/max7301.h                       |  2 +-
+ 51 files changed, 119 insertions(+), 104 deletions(-)
 
-> +which describe how the incoming streams from sink pads are routed to the
-> +source pads.
-> +
-> +A stream ID (often just "stream") is a media link-local identifier for a
-> +stream. In other words, configuration for a particular stream ID must exist
+Range-diff against v1:
+ 1:  73a1a54d9ea0 =  1:  87fd7940fbfd drm/panel: s6e63m0: Make s6e63m0_remove() return void
+ 2:  3bcc8e8bd1a3 <  -:  ------------ hwmon: adt7x10: Make adt7x10_remove() return void
+ -:  ------------ >  2:  305311d63bbb gpio: max730x: Make __max730x_remove() return void
+ -:  ------------ >  3:  0cafc31ea5c5 gpio: mc33880: Drop if with an always false condition
+ 3:  07f067732aa9 !  4:  f39467b50f06 hwmon: max31722: Warn about failure to put device in stand-by in .remove()
+    @@ Commit message
+         nothing happens apart from emitting a generic error message. Make this
+         error message more device specific and return zero instead.
+     
+    -    Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
+         Acked-by: Michael Hennerich <michael.hennerich@analog.com>
+    +    Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
+     
+      ## drivers/hwmon/max31722.c ##
+     @@ drivers/hwmon/max31722.c: static int max31722_probe(struct spi_device *spi)
+ 4:  0b0a5497d105 =  5:  de3a78214008 input: adxl34xx: Make adxl34x_remove() return void
+ 5:  0d4f14bc2dd6 !  6:  9629ac3f9e13 input: touchscreen: tsc200x: Make tsc200x_remove() return void
+    @@ drivers/input/touchscreen/tsc2005.c: static int tsc2005_probe(struct spi_device
+     -	return tsc200x_remove(&spi->dev);
+     +	tsc200x_remove(&spi->dev);
+     +
+    -+	return 0
+    ++	return 0;
+      }
+      
+      #ifdef CONFIG_OF
+ 6:  a68bbd23223b =  7:  1aab41df9262 media: cxd2880: Eliminate dead code
+ 7:  3801b37ac18f !  8:  745d1a5f840e mfd: mc13xxx: Make mc13xxx_common_exit() return void
+    @@ drivers/mfd/mc13xxx-spi.c: static int mc13xxx_spi_probe(struct spi_device *spi)
+      {
+     -	return mc13xxx_common_exit(&spi->dev);
+     +	mc13xxx_common_exit(&spi->dev);
+    -+	return 0
+    ++	return 0;
+      }
+      
+      static struct spi_driver mc13xxx_spi_driver = {
+ 8:  22159093ce71 =  9:  7ee04277db66 mfd: stmpe: Make stmpe_remove() return void
+ 9:  f91da216c752 = 10:  4a21c90a57f8 mfd: tps65912: Make tps65912_device_exit() return void
+ -:  ------------ > 11:  f92aa824fd1c misc: ad525x_dpot: Make ad_dpot_remove() return void
+ -:  ------------ > 12:  5b2fccd09a24 misc: lis3lv02d: Make lis3lv02d_remove_fs() return void
+ -:  ------------ > 13:  609ab18323fc mtd: dataflash: Warn about failure to unregister mtd device
+ -:  ------------ > 14:  3b220d5fa547 mtd: mchp23k256: Warn about failure to unregister mtd device
+ -:  ------------ > 15:  baf6f4b3a8c7 mtd: mchp48l640: Warn about failure to unregister mtd device
+ -:  ------------ > 16:  edf3788a30b0 mtd: sst25l: Warn about failure to unregister mtd device
+10:  f2def77b74d1 ! 17:  614f7c001377 serial: max310x: Make max310x_remove() return void
+    @@ drivers/tty/serial/max310x.c: static int max310x_spi_probe(struct spi_device *sp
+      {
+     -	return max310x_remove(&spi->dev);
+     +	max310x_remove(&spi->dev);
+    -+	return 0
+    ++	return 0;
+      }
+      
+      static const struct spi_device_id max310x_id_table[] = {
+11:  283e4bbeff38 ! 18:  35d1f5b36de5 serial: sc16is7xx: Make sc16is7xx_remove() return void
+    @@ drivers/tty/serial/sc16is7xx.c: static int sc16is7xx_probe(struct device *dev,
+      {
+      	struct sc16is7xx_port *s = dev_get_drvdata(dev);
+      	int i;
+    +@@ drivers/tty/serial/sc16is7xx.c: static int sc16is7xx_remove(struct device *dev)
+    + 	kthread_stop(s->kworker_task);
+    + 
+    + 	clk_disable_unprepare(s->clk);
+    +-
+    +-	return 0;
+    + }
+    + 
+    + static const struct of_device_id __maybe_unused sc16is7xx_dt_ids[] = {
+     @@ drivers/tty/serial/sc16is7xx.c: static int sc16is7xx_spi_probe(struct spi_device *spi)
+      
+      static int sc16is7xx_spi_remove(struct spi_device *spi)
+12:  5093fbdceee5 ! 19:  d9ec9a96fbb8 staging: fbtft: Make fbtft_remove_common() return void
+    @@ drivers/staging/fbtft/fbtft-core.c: EXPORT_SYMBOL(fbtft_probe_common);
+      
+     
+      ## drivers/staging/fbtft/fbtft.h ##
+    +@@ drivers/staging/fbtft/fbtft.h: void fbtft_unregister_backlight(struct fbtft_par *par);
+    + int fbtft_init_display(struct fbtft_par *par);
+    + int fbtft_probe_common(struct fbtft_display *display, struct spi_device *sdev,
+    + 		       struct platform_device *pdev);
+    +-int fbtft_remove_common(struct device *dev, struct fb_info *info);
+    ++void fbtft_remove_common(struct device *dev, struct fb_info *info);
+    + 
+    + /* fbtft-io.c */
+    + int fbtft_write_spi(struct fbtft_par *par, void *buf, size_t len);
+     @@ drivers/staging/fbtft/fbtft.h: static int fbtft_driver_remove_spi(struct spi_device *spi)                 \
+      {                                                                          \
+      	struct fb_info *info = spi_get_drvdata(spi);                       \
+13:  9156e6380a5e = 20:  89d0b85968a9 tpm: st33zp24: Make st33zp24_remove() return void
 
-configuration -> a configuration
+base-commit: 9e1ff307c779ce1f0f810c7ecce3d95bbae40896
+-- 
+2.30.2
 
-> +on both sides of a media link, but another stream ID can be used for the same
-> +stream at the other side of the subdevice.
-> +
-> +A stream at a specific point in the media pipeline is identified with the
-> +subdev and a (pad, stream) pair. For subdevices that do not support
-> +multiplexed streams the 'stream' is always 0.
-
-I find this section confusing. I think there are two issues here: what exactly is
-meant with 'media link': a link between two pads from different entities?
-
-And I also think that 'subdev' is sometimes used where 'media entity' is actually
-meant. E.g. "at the other side of the subdevice" makes no sense, but "between two
-other entities" makes more sense.
-
-> +
-> +Configuring streams
-> +^^^^^^^^^^^^^^^^^^^
-> +
-> +The configuration of the streams is done individually for each subdevice and
-> +the validity of the streams between subdevices is validated when the pipeline
-> +is started.
-
-Here too I think you really mean 'entities'. A subdev device node controls an
-entity. It might be me, but when I think of a media stream I see it as a data
-stream running through entities, and subdevs are just the interfaces through
-which the entities are controlled.
-
-> +
-> +There are three steps in configuring the streams:
-> +
-> +1) Set up links. Connect the pads between subdevices using the :ref:`Media
-> +Controller API <media_controller>`
-> +
-> +2) Routing. The routing table for the subdevice must be set with
-> +:ref:`VIDIOC_SUBDEV_S_ROUTING <VIDIOC_SUBDEV_G_ROUTING>` ioctl.
-> +
-> +3) Configure streams. Each route endpoint must be configured
-> +with :ref:`VIDIOC_SUBDEV_S_FMT <VIDIOC_SUBDEV_G_FMT>`.
-> +
-> +Multiplexed streams setup example
-> +^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-> +
-> +A simple example of a multiplexed stream setup might be as follows:
-> +
-> +- Two identical sensors (Sensor A and Sensor B). Each sensor has a single
-> +  source pad (pad 0), and outputs two streams, pixel data and metadata.
-> +
-> +- Multiplexer bridge (Bridge). The bridge has two sink pads, connected to the
-> +  sensors (pads 0, 1), and one source pad (pad 2), which outputs all 4
-> +  streams.
-> +
-> +- Receiver in the SoC (Receiver). The receiver has a single sink pad (pad 0),
-> +  connected to the bridge, and four source pads (pads 1-4), going to the DMA
-> +  engine. The receiver demultiplexes the incoming streams to the four source
-> +  pads.
-> +
-> +- Four DMA Engines in the SoC (DMA Engine). Each DMA engine is connected to a
-> +  single source pad in the receiver.
-> +
-> +The sensors, the bridge and the receiver are modeled as V4L2 subdevices,
-> +exposed to userspace via /dev/v4l-subdevX device nodes. The DMA engines are
-> +modeled as V4L2 devices, exposed to userspace via /dev/videoX nodes.
-> +
-> +To configure this pipeline, the userspace must take the following steps:
-> +
-> +1) Set up media links between entities: connect the sensors to the bridge,
-> +bridge to the receiver, and the receiver to the DMA engines. This step does
-> +not differ from normal non-multiplexed media controller setup.
-> +
-> +2) Configure routing.
-> +
-> +.. flat-table:: Sensor routing table (identical on both sensors)
-> +    :header-rows:  1
-> +
-> +    * - Sink Pad/Stream
-> +      - Source Pad/Stream
-> +      - Routing Flags
-> +      - Comments
-> +    * - 0/0 (unused)
-> +      - 0/0
-> +      - V4L2_SUBDEV_ROUTE_FL_ACTIVE | V4L2_SUBDEV_ROUTE_FL_SOURCE
-> +      - Pixel data stream. Source route, i.e. the sink fields are unused.
-> +    * - 0/0 (unused)
-> +      - 0/1
-> +      - V4L2_SUBDEV_ROUTE_FL_ACTIVE | V4L2_SUBDEV_ROUTE_FL_SOURCE
-> +      - Metadata stream. Source route, i.e. the sink fields are unused.
-> +
-> +.. flat-table:: Bridge routing table
-> +    :header-rows:  1
-> +
-> +    * - Sink Pad/Stream
-> +      - Source Pad/Stream
-> +      - Routing Flags
-> +      - Comments
-> +    * - 0/0
-> +      - 2/0
-> +      - V4L2_SUBDEV_ROUTE_FL_ACTIVE
-> +      - Pixel data stream from Sensor A
-> +    * - 0/1
-> +      - 2/1
-> +      - V4L2_SUBDEV_ROUTE_FL_ACTIVE
-> +      - Metadata stream from Sensor A
-> +    * - 1/0
-> +      - 2/2
-> +      - V4L2_SUBDEV_ROUTE_FL_ACTIVE
-> +      - Pixel data stream from Sensor B
-> +    * - 1/1
-> +      - 2/3
-> +      - V4L2_SUBDEV_ROUTE_FL_ACTIVE
-> +      - Metadata stream from Sensor B
-> +
-> +.. flat-table:: Receiver routing table
-> +    :header-rows:  1
-> +
-> +    * - Sink Pad/Stream
-> +      - Source Pad/Stream
-> +      - Routing Flags
-> +      - Comments
-> +    * - 0/0
-> +      - 1/0
-> +      - V4L2_SUBDEV_ROUTE_FL_ACTIVE
-> +      - Pixel data stream from Sensor A
-> +    * - 0/1
-> +      - 2/0
-> +      - V4L2_SUBDEV_ROUTE_FL_ACTIVE
-> +      - Metadata stream from Sensor A
-> +    * - 0/2
-> +      - 3/0
-> +      - V4L2_SUBDEV_ROUTE_FL_ACTIVE
-> +      - Pixel data stream from Sensor B
-> +    * - 0/3
-> +      - 4/0
-> +      - V4L2_SUBDEV_ROUTE_FL_ACTIVE
-> +      - Metadata stream from Sensor B
-> +
-> +3) Configure streams
-> +
-> +After configuring the routing table, the next step is configuring the streams.
-> +This step is similar to configuring the pads in a non-multiplexed streams
-> +setup, with the difference that we need to configure each (pad, stream) pair
-> +(i.e. route endpoint), instead of just a pad.
-> +
-> +Presuming there are no format conversions in the pipeline, the userspace needs
-
-Presuming -> Assuming
-
-> +to configure all the route endpoints using four formats (two pixel formats
-> +and two metadata formats) with VIDIOC_SUBDEV_S_FMT.
-> 
-
-Actually, if there are format conversions, wouldn't you still do the same thing?
-
-Is that 'Presuming...pipeline,' needed at all?
-
-Regards,
-
-	Hans
