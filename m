@@ -2,93 +2,55 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C1C9042A2BB
-	for <lists+linux-media@lfdr.de>; Tue, 12 Oct 2021 12:57:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F25B842A354
+	for <lists+linux-media@lfdr.de>; Tue, 12 Oct 2021 13:30:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236036AbhJLK7k (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 12 Oct 2021 06:59:40 -0400
-Received: from www.linuxtv.org ([130.149.80.248]:57790 "EHLO www.linuxtv.org"
+        id S236193AbhJLLca convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-media@lfdr.de>); Tue, 12 Oct 2021 07:32:30 -0400
+Received: from ni.piap.pl ([195.187.100.5]:59078 "EHLO ni.piap.pl"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S236084AbhJLK7k (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Tue, 12 Oct 2021 06:59:40 -0400
-Received: from builder.linuxtv.org ([140.211.167.10] helo=slave0)
-        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1maFTV-00GU0v-N2; Tue, 12 Oct 2021 10:57:37 +0000
-Received: from ip6-localhost ([::1] helo=localhost.localdomain)
-        by slave0 with esmtp (Exim 4.94.2)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1maFTS-000De9-TG; Tue, 12 Oct 2021 10:57:34 +0000
-From:   Jenkins <jenkins@linuxtv.org>
-To:     mchehab+samsung@kernel.org, linux-media@vger.kernel.org
-Cc:     builder@linuxtv.org
-Subject: Re: [GIT PULL FOR v5.16] Various fixes/enhancements (#77668)
-Date:   Tue, 12 Oct 2021 10:57:34 +0000
-Message-Id: <20211012105734.52411-1-jenkins@linuxtv.org>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <3be5a55b-a986-4555-b4f8-74a51c09c65c@xs4all.nl>
-References: 
+        id S232665AbhJLLc2 (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 12 Oct 2021 07:32:28 -0400
+From:   =?utf-8?Q?Krzysztof_Ha=C5=82asa?= <khalasa@piap.pl>
+To:     Hans Verkuil <hverkuil@xs4all.nl>
+Cc:     Philipp Zabel <p.zabel@pengutronix.de>,
+        Steve Longerbeam <slongerbeam@gmail.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-staging@lists.linux.dev, linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH v2] i.MX6: Support 16-bit BT.1120 video input
+References: <m34k9uml6s.fsf@t19.piap.pl>
+        <07f22ee105dd8d3eaa47cbb27428032f5b9e3043.camel@pengutronix.de>
+        <3a638276-8a1b-835e-1728-669bbd49a1ac@xs4all.nl>
+Date:   Tue, 12 Oct 2021 13:30:23 +0200
+In-Reply-To: <3a638276-8a1b-835e-1728-669bbd49a1ac@xs4all.nl> (Hans Verkuil's
+        message of "Tue, 12 Oct 2021 09:51:20 +0200")
+Message-ID: <m3bl3ulbu8.fsf@t19.piap.pl>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8BIT
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: builder@linuxtv.org
+Hi Hans,
 
-Pull request: https://patchwork.linuxtv.org/project/linux-media/patch/3be5a55b-a986-4555-b4f8-74a51c09c65c@xs4all.nl/
-Build log: https://builder.linuxtv.org/job/patchwork/147310/
-Build time: 00:24:02
-Link: https://lore.kernel.org/linux-media/3be5a55b-a986-4555-b4f8-74a51c09c65c@xs4all.nl
+Hans Verkuil <hverkuil@xs4all.nl> writes:
 
-gpg: Signature made Tue 12 Oct 2021 10:26:08 AM UTC
-gpg:                using RSA key AAA7FFBA4D2D77EF4CAEA1421326E0CD23ABDCE5
-gpg: Good signature from "Hans Verkuil <hverkuil-cisco@xs4all.nl>" [unknown]
-gpg:                 aka "Hans Verkuil <hverkuil@xs4all.nl>" [unknown]
-gpg: Note: This key has expired!
-Primary key fingerprint: 052C DE7B C215 053B 689F  1BCA BD2D 6148 6614 3B4C
-     Subkey fingerprint: AAA7 FFBA 4D2D 77EF 4CAE  A142 1326 E0CD 23AB DCE5
+> I can take this patch and merge it, right? Even though it mostly changes
+> drivers/gpu/ipu-v3/ipu-csi.c, it is still something for the media tree to pick
+> up, I think. Just checking to avoid this patch going in via two subsystems...
 
-Summary: got 3/18 patches with issues, being 1 at build time, plus one error when buinding PDF document
+Aah, sorry about that, didn't want to produce too much patch-noise.
+-- 
+Krzysztof "Chris" Hałasa
 
-Error/warnings:
-
-patches/0001-media-cedrus-fix-double-free.patch:
-
-    allyesconfig: return code #0:
-	../scripts/genksyms/parse.y: warning: 9 shift/reduce conflicts [-Wconflicts-sr]
-	../scripts/genksyms/parse.y: warning: 5 reduce/reduce conflicts [-Wconflicts-rr]
-	../scripts/genksyms/parse.y: note: rerun with option '-Wcounterexamples' to generate conflict counterexamples
-
-    allyesconfig: return code #0:
-	../drivers/media/cec/core/cec-adap.c: ../drivers/media/cec/core/cec-adap.c:926 cec_transmit_msg_fh() warn: '&data->list' not removed from list
-	../drivers/media/rc/meson-ir-tx.c:22: warning: expecting prototype for meson(). Prototype was for DEVICE_NAME() instead
-	SPARSE:../drivers/media/rc/ir_toy.c ../drivers/media/rc/ir_toy.c:321:20: warning: incorrect type in assignment (different base types)
-	SPARSE:../drivers/media/rc/ir_toy.c ../drivers/media/rc/ir_toy.c:321:20:    expected restricted __be16 [usertype]
-	SPARSE:../drivers/media/rc/ir_toy.c ../drivers/media/rc/ir_toy.c:321:20:    got int
-	SMATCH:../drivers/media/usb/siano/smsusb.c ../drivers/media/usb/siano/smsusb.c:53:38: :warning: array of flexible structures
-	SPARSE:../drivers/media/usb/siano/smsusb.c ../drivers/media/usb/siano/smsusb.c:53:38: warning: array of flexible structures
-	../drivers/media/pci/intel/ipu3/cio2-bridge.c:242 cio2_bridge_connect_sensor() warn: missing error code 'ret'
-	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2625 dvb_register() parse error: turning off implications after 60 seconds
-	../drivers/media/usb/pvrusb2/pvrusb2-encoder.c: ../drivers/media/usb/pvrusb2/pvrusb2-encoder.c:288 pvr2_encoder_cmd() warn: inconsistent indenting
-	../drivers/media/usb/pvrusb2/pvrusb2-hdw.c: ../drivers/media/usb/pvrusb2/pvrusb2-hdw.c:1730 pvr2_hdw_set_streaming() warn: inconsistent indenting
-	../drivers/media/usb/pvrusb2/pvrusb2-hdw.c: ../drivers/media/usb/pvrusb2/pvrusb2-hdw.c:3461 pvr2_hdw_cpufw_set_enabled() warn: inconsistent indenting
-	../drivers/media/usb/pvrusb2/pvrusb2-hdw.c: ../drivers/media/usb/pvrusb2/pvrusb2-hdw.c:3501 pvr2_hdw_cpufw_get() warn: inconsistent indenting
-	../drivers/media/platform/qcom/venus/helpers.c: ../drivers/media/platform/qcom/venus/helpers.c:627 venus_helper_get_bufreq() error: we previously assumed 'req' could be null (see line 623)
-
-patches/0003-media-i2c-select-V4L2_ASYNC-where-needed.patch:
-
-   checkpatch.pl:
-	$ cat patches/0003-media-i2c-select-V4L2_ASYNC-where-needed.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
-	-:9: WARNING: Possible unwrapped commit description (prefer a maximum 75 chars per line)
-
-patches/0008-gspca-gl860-mi1320-ov9655-avoid-Wstring-concatenatio.patch:
-
-   checkpatch.pl:
-	$ cat patches/0008-gspca-gl860-mi1320-ov9655-avoid-Wstring-concatenatio.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
-	-:11: WARNING: Possible unwrapped commit description (prefer a maximum 75 chars per line)
-
-
-Error #512 when building PDF docs
-
+Sieć Badawcza Łukasiewicz
+Przemysłowy Instytut Automatyki i Pomiarów PIAP
+Al. Jerozolimskie 202, 02-486 Warszawa
