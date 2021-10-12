@@ -2,129 +2,84 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4B3DB4299D4
-	for <lists+linux-media@lfdr.de>; Tue, 12 Oct 2021 01:28:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 63198429B36
+	for <lists+linux-media@lfdr.de>; Tue, 12 Oct 2021 03:57:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235701AbhJKXan (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 11 Oct 2021 19:30:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54052 "EHLO
+        id S230516AbhJLB7L (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 11 Oct 2021 21:59:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58686 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235646AbhJKXam (ORCPT
+        with ESMTP id S229556AbhJLB7J (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 11 Oct 2021 19:30:42 -0400
-Received: from mail-qk1-x735.google.com (mail-qk1-x735.google.com [IPv6:2607:f8b0:4864:20::735])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 51600C061745
-        for <linux-media@vger.kernel.org>; Mon, 11 Oct 2021 16:28:42 -0700 (PDT)
-Received: by mail-qk1-x735.google.com with SMTP id r15so9726989qkp.8
-        for <linux-media@vger.kernel.org>; Mon, 11 Oct 2021 16:28:42 -0700 (PDT)
+        Mon, 11 Oct 2021 21:59:09 -0400
+Received: from mail-pl1-x630.google.com (mail-pl1-x630.google.com [IPv6:2607:f8b0:4864:20::630])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2748BC06161C
+        for <linux-media@vger.kernel.org>; Mon, 11 Oct 2021 18:57:09 -0700 (PDT)
+Received: by mail-pl1-x630.google.com with SMTP id x4so12505909pln.5
+        for <linux-media@vger.kernel.org>; Mon, 11 Oct 2021 18:57:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ziepe.ca; s=google;
+        d=chromium.org; s=google;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=hKTDl4kdaWB0vdYudkwpZowlFD1zaZpzSpL3qYnGjpI=;
-        b=HgSVsa1leI1AlSIfToVWroe+BjAOI3ghwR21CHGPDVexnWIRNvq+Q6E9d3FU+ST+no
-         ocS0/TW3SNZ8jyMLrwCJrPh0ePUJ+a688MNeO/SOH6dsbggdYjQGAUsJxiPe5U0kF/4c
-         XY58+grwbQEppK31zpbsIZaW6qYJZ2vewp8ofGFLbXaclZQIMcZ93nEBHioo26AFAdN3
-         o9ugEBJiQo11Zaj9DuRnUJDPPLYMfgS8KowTy+yVz6++iq5k4ln0p/MdXC+vaaQP/YGk
-         4LaDhUUPgzqijbwXAaNpf83nIDlspt7EVCcaadtiRVk58NDA1pLNB31/ejPvhAokpOj1
-         4Y3A==
+        bh=8a2/JQmuX57q2aJcf/iLLoukKQpiybtglq5HXNGxygk=;
+        b=PF5vNeMNX9icXXQWUjw/IfVkmeyvFN8puq/1IIkvkghg5Xvth78HKDEiB2/0abuRWD
+         YgylLNMG+Krukn/+gt8Q+0JLMQl8kbW62p/YuHM/DDYZO00e4H9BLLcEojJMsdkbf1GW
+         EnF8hdhlzzKwCB5FeYJsPHzJJxT0j/QJoCS24=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=hKTDl4kdaWB0vdYudkwpZowlFD1zaZpzSpL3qYnGjpI=;
-        b=tkAhheQvdNFvsBDyn/Cbh60fAyWGjlOUUc02C3nIssejBoSYL4NcZES/qnXFinb+nO
-         Ffb+fRKF29VML2VVH7a86tUq4lK0yHpI7bXjPD+IOdXRqnIIUvbg41hvLnJY+qMynZM0
-         /UP27F74YAvD5QevkOPIQIF7YPKFPQ8aweI2idOhsw+J8SEu30r5q4X19iXw3U21oMaU
-         4yeSoNiDZEjU0ExpBEUZiIrp3uwcubliYwoTDe0PUEGK6EkcszIUeMzvBDErgzQ2V88l
-         nnqRAKbXy0fSnlB1y6pRXv4TWuyNpWLlXtzIfpplkvSOOKzINkfEUDyKxxpBP9TuVrSB
-         mWKQ==
-X-Gm-Message-State: AOAM532pkzE3ujKBM/S1xNJ/36umUidHEbOIb0navk3vJ7j9cHORH6hr
-        GuxMrkq9fyY903urAd32GLAlCpp567eXqw==
-X-Google-Smtp-Source: ABdhPJztEyniOAoNC1NU3iq7Ij0MXitTU2tCF7xYZyS71yMXt88Vb38CmA4delGadNYZaeqqHQ8bqQ==
-X-Received: by 2002:a37:f71a:: with SMTP id q26mr16843729qkj.3.1633994921355;
-        Mon, 11 Oct 2021 16:28:41 -0700 (PDT)
-Received: from ziepe.ca (hlfxns017vw-142-162-113-129.dhcp-dynamic.fibreop.ns.bellaliant.net. [142.162.113.129])
-        by smtp.gmail.com with ESMTPSA id d5sm5245821qtr.61.2021.10.11.16.28.40
+        bh=8a2/JQmuX57q2aJcf/iLLoukKQpiybtglq5HXNGxygk=;
+        b=dB2d6b2dB5d2LtQuGGywVsJ/hLd+aubtzgAJ7ZQsJQMSs7mCjiUBJhL80oQNlIJS4y
+         PXMwUgtAqY70Z5oGXjjzveCDSwK370Aa+HBAdrZnDxs+v/+fwZFa9rzF7PuqnTOI7NQW
+         L/VlTaoC2oS4xxLRVuDU1JW8Rh0xxCZ/kg4PnxSOF5mGxBHM2FLQ+qP4KVbEQRt1jg0Q
+         MYhVx8Zs/9QYwfY36J8A8aJP4ZRwDP68/TNyBXrcICIZo+0GkJvLo/OmtgqMwGe0D1aH
+         ob6kuZoJQ4qrZZP/XjM2Zhk7HlEkNme1ntK1GcDNqwIK1Cn2mdE2vJVi6CJ45+A1bnd8
+         ZZgw==
+X-Gm-Message-State: AOAM531osS6zfvfJwE5IAQkRNV4GEUVmheOEFljhx1QxLVFT2pdXxqE7
+        4CCR+u/YUwIU42bbCCz/lK472g==
+X-Google-Smtp-Source: ABdhPJzcFDpZfHc3nRVVa+/bAj0gmaEk7b2C9Ped1tQLsHMJultYAblQyLdBAYeCsoDxNIF9/iTxSw==
+X-Received: by 2002:a17:90b:4011:: with SMTP id ie17mr2858973pjb.41.1634003828296;
+        Mon, 11 Oct 2021 18:57:08 -0700 (PDT)
+Received: from google.com ([2409:10:2e40:5100:61aa:8522:1051:5bfe])
+        by smtp.gmail.com with ESMTPSA id h23sm5850281pfn.109.2021.10.11.18.57.05
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 11 Oct 2021 16:28:40 -0700 (PDT)
-Received: from jgg by mlx with local (Exim 4.94)
-        (envelope-from <jgg@ziepe.ca>)
-        id 1ma4il-00Dk4y-VJ; Mon, 11 Oct 2021 20:28:39 -0300
-Date:   Mon, 11 Oct 2021 20:28:39 -0300
-From:   Jason Gunthorpe <jgg@ziepe.ca>
-To:     Gal Pressman <galpress@amazon.com>
-Cc:     Sumit Semwal <sumit.semwal@linaro.org>,
-        Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
-        Doug Ledford <dledford@redhat.com>,
-        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        linux-kernel@vger.kernel.org, linux-rdma@vger.kernel.org,
-        Oded Gabbay <ogabbay@habana.ai>,
-        Tomer Tayar <ttayar@habana.ai>,
-        Yossi Leybovich <sleybo@amazon.com>,
-        Alexander Matushevsky <matua@amazon.com>,
-        Leon Romanovsky <leonro@nvidia.com>,
-        Jianxin Xiong <jianxin.xiong@intel.com>,
-        Firas Jahjah <firasj@amazon.com>
-Subject: Re: [RFC PATCH 2/2] RDMA/efa: Add support for dmabuf memory regions
-Message-ID: <20211011232839.GF2688930@ziepe.ca>
-References: <20211007104301.76693-1-galpress@amazon.com>
- <20211007104301.76693-3-galpress@amazon.com>
- <20211007114018.GD2688930@ziepe.ca>
- <77082c57-29f8-1eba-b260-7cb658ec34d1@amazon.com>
+        Mon, 11 Oct 2021 18:57:07 -0700 (PDT)
+Date:   Tue, 12 Oct 2021 10:57:03 +0900
+From:   Sergey Senozhatsky <senozhatsky@chromium.org>
+To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     Tomasz Figa <tfiga@chromium.org>,
+        Sergey Senozhatsky <senozhatsky@chromium.org>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        Ricardo Ribalda <ribalda@chromium.org>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] media: videobuf2: always set buffer vb2 pointer
+Message-ID: <YWTrb0ZXv1HRmtfZ@google.com>
+References: <20210928034634.333785-1-senozhatsky@chromium.org>
+ <CAAFQd5DLiW23a0U_JjnpvoYmpcbiKbStq7=w=7KvbDP7zLvBaA@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <77082c57-29f8-1eba-b260-7cb658ec34d1@amazon.com>
+In-Reply-To: <CAAFQd5DLiW23a0U_JjnpvoYmpcbiKbStq7=w=7KvbDP7zLvBaA@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Sun, Oct 10, 2021 at 09:55:49AM +0300, Gal Pressman wrote:
-> On 07/10/2021 14:40, Jason Gunthorpe wrote:
-> > On Thu, Oct 07, 2021 at 01:43:00PM +0300, Gal Pressman wrote:
-> > 
-> >> @@ -1491,26 +1493,29 @@ static int efa_create_pbl(struct efa_dev *dev,
-> >>  	return 0;
-> >>  }
-> >>  
-> >> -struct ib_mr *efa_reg_mr(struct ib_pd *ibpd, u64 start, u64 length,
-> >> -			 u64 virt_addr, int access_flags,
-> >> -			 struct ib_udata *udata)
-> >> +static void efa_dmabuf_invalidate_cb(struct dma_buf_attachment *attach)
-> >> +{
-> >> +	WARN_ON_ONCE(1,
-> >> +		     "Invalidate callback should not be called when memory is pinned\n");
-> >> +}
-> >> +
-> >> +static struct dma_buf_attach_ops efa_dmabuf_attach_ops = {
-> >> +	.allow_peer2peer = true,
-> >> +	.move_notify = efa_dmabuf_invalidate_cb,
-> >> +};
-> > 
-> > Shouldn't move_notify really just be left as NULL? I mean fixing
-> > whatever is preventing that?
+On (21/10/05 18:57), Tomasz Figa wrote:
 > 
-> That's what I had in the previous RFC and I think Christian didn't really like it.
-
-Well, having drivers define a dummy function that only fails looks
-a lot worse to me. If not null then it should be a general
-'dmabuf_unsupported_move_notify' shared function
-
-> >> +	err = ib_umem_dmabuf_map_pages(umem_dmabuf);
-> >> +	if (err) {
-> >> +		ibdev_dbg(&dev->ibdev, "Failed to map dmabuf pages\n");
-> >> +		goto err_unpin;
-> >> +	}
-> >> +	dma_resv_unlock(umem_dmabuf->attach->dmabuf->resv);
-> > 
-> > If it is really this simple the core code should have this logic,
-> > 'ib_umem_dmabuf_get_pinned()' or something
+> On Tue, Sep 28, 2021 at 12:46 PM Sergey Senozhatsky
+> <senozhatsky@chromium.org> wrote:
+> >
+> > We need to always link allocated vb2_dc_buf back to vb2_buffer because
+> > we dereference vb2 in prepare() and finish() callbacks.
+> >
+> > Signed-off-by: Sergey Senozhatsky <senozhatsky@chromium.org>
+> > ---
+> >  drivers/media/common/videobuf2/videobuf2-dma-contig.c | 3 +++
+> >  1 file changed, 3 insertions(+)
+> >
 > 
-> Should get_pinned do just get + dma_buf_pin, or should it do
-> ib_umem_dmabuf_map_pages as well?
+> Acked-by: Tomasz Figa <tfiga@chromium.org>
 
-Yes the map_pages too, a umem is supposed to be dma mapped after
-creation.
-
-Jason
+Hans, can you please pick up this patch?
