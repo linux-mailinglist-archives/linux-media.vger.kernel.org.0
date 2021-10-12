@@ -2,94 +2,122 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6388242A883
-	for <lists+linux-media@lfdr.de>; Tue, 12 Oct 2021 17:40:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2E5C242A8EE
+	for <lists+linux-media@lfdr.de>; Tue, 12 Oct 2021 17:57:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237540AbhJLPmK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 12 Oct 2021 11:42:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47634 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237542AbhJLPmC (ORCPT
+        id S237446AbhJLP76 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 12 Oct 2021 11:59:58 -0400
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:54990 "EHLO
+        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S234892AbhJLP75 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 12 Oct 2021 11:42:02 -0400
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2F5F8C061764
-        for <linux-media@vger.kernel.org>; Tue, 12 Oct 2021 08:40:01 -0700 (PDT)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1maJsj-0000I1-Qq; Tue, 12 Oct 2021 17:39:57 +0200
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
-        by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.92)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1maJsj-0004kB-9q; Tue, 12 Oct 2021 17:39:57 +0200
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.92)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1maJsc-0004YH-6D; Tue, 12 Oct 2021 17:39:50 +0200
-From:   =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= 
-        <u.kleine-koenig@pengutronix.de>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Yasunari Takiguchi <Yasunari.Takiguchi@sony.com>
-Cc:     Mark Brown <broonie@kernel.org>, kernel@pengutronix.de,
-        linux-media@vger.kernel.org, linux-spi@vger.kernel.org
-Subject: [PATCH v2 07/20] media: cxd2880: Eliminate dead code
-Date:   Tue, 12 Oct 2021 17:39:32 +0200
-Message-Id: <20211012153945.2651412-8-u.kleine-koenig@pengutronix.de>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20211012153945.2651412-1-u.kleine-koenig@pengutronix.de>
-References: <20211012153945.2651412-1-u.kleine-koenig@pengutronix.de>
+        Tue, 12 Oct 2021 11:59:57 -0400
+Received: from [IPv6:2a01:e0a:4cb:a870:dcd8:9f87:c3be:dc06] (unknown [IPv6:2a01:e0a:4cb:a870:dcd8:9f87:c3be:dc06])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        (Authenticated sender: benjamin.gaignard)
+        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id AF3521F43876;
+        Tue, 12 Oct 2021 16:57:53 +0100 (BST)
+Subject: Re: [PATCH v2 0/4] media: HEVC: RPS clean up
+To:     =?UTF-8?Q?Jernej_=c5=a0krabec?= <jernej.skrabec@gmail.com>,
+        mchehab@kernel.org, p.zabel@pengutronix.de,
+        gregkh@linuxfoundation.org, mripard@kernel.org,
+        paul.kocialkowski@bootlin.com, wens@csie.org,
+        hverkuil-cisco@xs4all.nl, jc@kynesim.co.uk,
+        ezequiel@vanguardiasur.com.ar
+Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev,
+        linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
+References: <20211012143552.661751-1-benjamin.gaignard@collabora.com>
+ <21222555.EfDdHjke4D@kista>
+From:   Benjamin Gaignard <benjamin.gaignard@collabora.com>
+Message-ID: <3c5851ac-3b8a-decc-93c1-01a65b1f8611@collabora.com>
+Date:   Tue, 12 Oct 2021 17:57:50 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Patch-Hashes: v=1; h=sha256; i=i/V0IwiXrJHb2puTsy4r3UAQrVBpJK4uRHfeGK5dIi4=; m=6Brp6ipiIrN4N0gba2jlJ7ZY/JS2k/XshUNdN7/roa8=; p=8ZiFid/gojahfXRtSIUMwOZadkeWb7YdowfHaijfOII=; g=d6494736086a7092e3c965bf6057c1246baeecdc
-X-Patch-Sig: m=pgp; i=u.kleine-koenig@pengutronix.de; s=0x0D2511F322BFAB1C1580266BE2DCDD9132669BD6; b=iQEzBAABCgAdFiEEfnIqFpAYrP8+dKQLwfwUeK3K7AkFAmFlrA0ACgkQwfwUeK3K7AmsNgf7BfZ I7zwHdHpHgVO+f3PbnRyDrjG6tyn0xgkcl2ZNNWmkO0e3wtFAGep6OmlaRjEFEb7uz6XTIDdQZds0 K2cFwH5xSVJF+C9Y95vGqz7sr81H0imQJ908h3lpoqVZzdzNaxm2jFV/CTUZB/h/rE1e/ymSnFY6M 7KSC2dCwKbohf/IWACgBCc4BTxjQqcJA/YpTYzqoFJVANDpLF/fA3N3pihjeXB1aBaDu8tfPp4Fhz tTIUTOiFAQ60Oh3ihxCRB7IpjD68df45f3+J1qfuWhZBoN0S4bl0sA+fZWx5B7zAP343Cij38bDH6 jy3bUzJWLhv1g4KA2UzL1A4oSoxmfEA==
+In-Reply-To: <21222555.EfDdHjke4D@kista>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-media@vger.kernel.org
+Content-Language: en-US
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-An spi remove callback is never called with an spi_device pointer that
-is NULL. Also it is only called for devices that probed successfully. As
-cxd2880_spi_probe() always sets driver data, spi_get_drvdata() cannot be
-NULL.
 
-Also the return value of spi remove callbacks is ignored anyway and not
-freeing resources in .remove() is a bad idea.
+Le 12/10/2021 à 17:34, Jernej Škrabec a écrit :
+> Hi Benjamin!
+>
+> Dne torek, 12. oktober 2021 ob 16:35:48 CEST je Benjamin Gaignard napisal(a):
+>> This series aims to clean up Reference Picture Set usage and flags.
+>>
+>> Long term flag was named with RPS prefix while it is not used for RPS
+>> but for mark long term references in DBP. Remane it and remove the two
+>> other useless RPS flags.
+>>
+>> Clarify documentation about RPS lists content and make sure that Hantro
+>> driver use them correctly (i.e without look up in DBP).
+>>
+>> These patches are the last in my backlog impacting HEVC uAPI.
+>>  From my point of view, once they get merged, you could start talking
+>> about how move HEVC uAPI to stable.
+> With your changes, HEVC uAPI controls still won't be complete. Cedrus needs
+> entry point control, which in turn needs dynamic array support. I'm a bit lazy
+> implementing that control, but I guess I can take a look in a month or so.
+> rkvdec also needs more fields for HEVC. With patches collected here:
+> https://github.com/LibreELEC/LibreELEC.tv/blob/master/projects/Rockchip/
+> patches/linux/default/linux-2001-v4l-wip-rkvdec-hevc.patch
+> fluster HEVC test score is reportedly 121/135 (8-bit tests only).
 
-Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
----
- drivers/media/spi/cxd2880-spi.c | 13 +------------
- 1 file changed, 1 insertion(+), 12 deletions(-)
+Hi Jernej,
 
-diff --git a/drivers/media/spi/cxd2880-spi.c b/drivers/media/spi/cxd2880-spi.c
-index b91a1e845b97..67cacf29a61e 100644
---- a/drivers/media/spi/cxd2880-spi.c
-+++ b/drivers/media/spi/cxd2880-spi.c
-@@ -628,19 +628,8 @@ cxd2880_spi_probe(struct spi_device *spi)
- static int
- cxd2880_spi_remove(struct spi_device *spi)
- {
--	struct cxd2880_dvb_spi *dvb_spi;
-+	struct cxd2880_dvb_spi *dvb_spi = spi_get_drvdata(spi);
- 
--	if (!spi) {
--		pr_err("invalid arg\n");
--		return -EINVAL;
--	}
--
--	dvb_spi = spi_get_drvdata(spi);
--
--	if (!dvb_spi) {
--		pr_err("failed\n");
--		return -EINVAL;
--	}
- 	dvb_spi->demux.dmx.remove_frontend(&dvb_spi->demux.dmx,
- 					   &dvb_spi->dmx_fe);
- 	dvb_dmxdev_release(&dvb_spi->dmxdev);
--- 
-2.30.2
+Thanks for your feedback, getting a list of missing items in HEVC uAPI
+will definitively help to fill the hope.
+The patch you mention for rkvdec are already merged in mainline kernel (at
+least for uAPI part).
+Cedrus needs are about num_entry_point_offsets, offset_len_minus1 and entry_point_offset_minus1[ i ]
+in HEVC specifications ?
 
+Regards,
+Benjamin
+
+>
+> I would certainly wait with moving HEVC uAPI to stable.
+>
+> Best regards,
+> Jernej
+>
+>> version 2:
+>> - change DPB field name from rps to flags
+>>
+>> Please note that the only purpose of commits 3 and 4 is to allow to test
+>> G2 hardware block for IMX8MQ until a proper solution isuing power domain
+>> can be found. Do not merge them.
+>>
+>> GStreamer HEVC plugin merge request can be found here:
+>> https://gitlab.freedesktop.org/gstreamer/gstreamer/-/merge_requests/1079
+>>
+>> With those piece of code fluster score is 77/147.
+>>
+>> Benjamin
+>>
+>> Benjamin Gaignard (4):
+>>    media: hevc: Remove RPS named flags
+>>    media: hevc: Embedded indexes in RPS
+>>    media: hantro: Use syscon instead of 'ctrl' register
+>>    arm64: dts: imx8mq: Add node to G2 hardware
+>>
+>>   .../media/v4l/ext-ctrls-codec.rst             | 14 +++---
+>>   arch/arm64/boot/dts/freescale/imx8mq.dtsi     | 43 +++++++++++++----
+>>   drivers/staging/media/hantro/hantro.h         |  5 +-
+>>   .../staging/media/hantro/hantro_g2_hevc_dec.c | 27 +++--------
+>>   drivers/staging/media/hantro/imx8m_vpu_hw.c   | 48 ++++++++++++-------
+>>   .../staging/media/sunxi/cedrus/cedrus_h265.c  |  2 +-
+>>   include/media/hevc-ctrls.h                    |  6 +--
+>>   7 files changed, 84 insertions(+), 61 deletions(-)
+>>
+>> -- 
+>> 2.30.2
+>>
+>>
+>
