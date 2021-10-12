@@ -2,161 +2,120 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E21A142AD6F
-	for <lists+linux-media@lfdr.de>; Tue, 12 Oct 2021 21:46:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3784D42ADD3
+	for <lists+linux-media@lfdr.de>; Tue, 12 Oct 2021 22:30:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233210AbhJLTsW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 12 Oct 2021 15:48:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48754 "EHLO
+        id S234687AbhJLUcM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 12 Oct 2021 16:32:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58504 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232145AbhJLTsW (ORCPT
+        with ESMTP id S233308AbhJLUcH (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 12 Oct 2021 15:48:22 -0400
-Received: from mail-ua1-x92a.google.com (mail-ua1-x92a.google.com [IPv6:2607:f8b0:4864:20::92a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 04380C061570
-        for <linux-media@vger.kernel.org>; Tue, 12 Oct 2021 12:46:20 -0700 (PDT)
-Received: by mail-ua1-x92a.google.com with SMTP id i15so913334uap.0
-        for <linux-media@vger.kernel.org>; Tue, 12 Oct 2021 12:46:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=usp.br; s=usp-google;
-        h=date:from:to:cc:subject:message-id:mime-version:content-disposition
-         :content-transfer-encoding;
-        bh=jvxgRd8YxGNgcUbs08KjHruyLVddDgpA1yDFDwiPukM=;
-        b=Ztopj+aQ+s1iwk14nTROpLv4jNvUXXapHHemwEP96ihC4ZMxec5uul/5rGJoPgYvVr
-         qWVdWEMFXydHBLet4pqJJ6+wAzwGbt2153L+unDLEdSzGgaI/TgLwbVkB6v5S6synmTk
-         iXOiNlApQqssScXfoyEpQ5RmanBZqzgnJBOLMcelfTAzQfomZ2McuhPejsGMDdf/bpbN
-         SVxlufxAz4eZoGI7H+43GJFhZa6IVAbtmX4Dt0av2dwgMZbU2lZJ+JrRVawJD0tSrkFa
-         fKRuQzC/2KLUjk17vIAnKvIIjwIeWgLIdrX/oBN6JeGThpbw6/u5QzY3vDLFxmi3imPs
-         zl+Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
-         :content-disposition:content-transfer-encoding;
-        bh=jvxgRd8YxGNgcUbs08KjHruyLVddDgpA1yDFDwiPukM=;
-        b=5iZAp1Rs14uHglQ5XBnkFL1sXowjKzCb/P36zhkil5mgZWsCBOSuWnWKYgt8+/eiVH
-         RNDUmOKG0jh8plC/hx1onTVlLxs+RKVShfleLy1zuO7ZJy71fpEumGzv0RoXlAoSLVJL
-         ab8KR4JVz3rebsCD1tLOD0VoAHJR64iw3a2VWvgAIIGPrabcOuJD/kDcybkNvFVaOytF
-         a9V7wzE+wV4yRx0QwmtCWztgN3g1tZrikHCRbQT87oAjCKacQcFPtGlQpTosTxT4lEBH
-         PTtEp2QDD4+3cJM3xsCy9uH5yFOWcYk+7CwAGAlfhl86PUNLGrR5VPQ5TAfXx3wWtR6Q
-         3Xig==
-X-Gm-Message-State: AOAM53322vgL08pX7bi2jQgihiwr4tRx1CrvXDbER9ojOFoB0WN0W0K3
-        ptLBE0g9TqGf+O1ndLAE9rAUfU+Ky2U9Hbb1
-X-Google-Smtp-Source: ABdhPJzx0n+J9qsQyaRKqPHUA7R+y/TNzuuxldhR8N0cATxljXVxnBwjZTplz+A+UWHCwEee6Vtm1w==
-X-Received: by 2002:a05:6102:38c6:: with SMTP id k6mr8360143vst.59.1634067978908;
-        Tue, 12 Oct 2021 12:46:18 -0700 (PDT)
-Received: from fedora ([187.64.134.142])
-        by smtp.gmail.com with ESMTPSA id h21sm4795449vsl.14.2021.10.12.12.46.17
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 12 Oct 2021 12:46:18 -0700 (PDT)
-Date:   Tue, 12 Oct 2021 16:46:15 -0300
-From:   =?iso-8859-1?Q?Ma=EDra?= Canal <maira.canal@usp.br>
-To:     linux-media@vger.kernel.org
-Cc:     a.hajda@samsung.com, mchehab@kernel.org, hverkuil-cisco@xs4all.nl
-Subject: [PATCH] s5c73m3: adding gpiod support for the s5c73m3
-Message-ID: <YWXmB3yHDeR9ORN7@fedora>
+        Tue, 12 Oct 2021 16:32:07 -0400
+Received: from lahtoruutu.iki.fi (lahtoruutu.iki.fi [IPv6:2a0b:5c81:1c1::37])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E662FC061745;
+        Tue, 12 Oct 2021 13:30:05 -0700 (PDT)
+Received: from hillosipuli.retiisi.eu (dkvn5pty0gzs3nltj987t-3.rev.dnainternet.fi [IPv6:2001:14ba:4457:9640:1e2d:1f75:a607:ef37])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: sailus)
+        by lahtoruutu.iki.fi (Postfix) with ESMTPSA id 1390E1B000E5;
+        Tue, 12 Oct 2021 23:30:02 +0300 (EEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=lahtoruutu;
+        t=1634070602;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=5BeTqxU2tuCzwC78oNi5R6K+v6fdklNFj2d/0XcPbR0=;
+        b=IVqOLMmaw/yB1KRguzY4U6cLAmOe3Iitlnn1vXaAqgPbaUf/B4gs5gpB3PSmcnbpXT+gAM
+        t6EC1M421Fw8+rSo0mw7fA5NBW8iVbmrywo+BCzzeFsuG5LviSQlP65RZReBlJWUSVpo/X
+        9igrTvNO8Si0K+WmldyecApKBUzwuRHHOWLtffox5ELRyjcOM1zen12huhlSrMqgzOVVva
+        gUXCh49HH7FFmp4xV08nYb6ecXbYJPEL//n0kEw9D56PBTKRXgGJU+vPmTkzDCEeHDGsuO
+        fyHZ7iuIpAKUSPXH+MEOz4FDoj3vgLr/ec3H8LrZ2wN2r8LrmNoE1IuD1NSerg==
+Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 46723634C90;
+        Tue, 12 Oct 2021 23:30:01 +0300 (EEST)
+Date:   Tue, 12 Oct 2021 23:30:00 +0300
+From:   Sakari Ailus <sakari.ailus@iki.fi>
+To:     Krzysztof =?utf-8?Q?Ha=C5=82asa?= <khalasa@piap.pl>
+Cc:     Jacopo Mondi <jacopo@jmondi.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Matteo Lisi <matteo.lisi@engicam.com>
+Subject: Re: [PATCH v5] Driver for ON Semi AR0521 camera sensor
+Message-ID: <YWXwSAm3OO/WTkOL@valkosipuli.retiisi.eu>
+References: <m3fstfoexa.fsf@t19.piap.pl>
+ <20211009102446.jrvrdr7whtd2rv4z@uno.localdomain>
+ <m3mtnflpna.fsf@t19.piap.pl>
+ <20211011143420.vm6ncl5gdv44nsn3@uno.localdomain>
+ <m3a6jel9ce.fsf@t19.piap.pl>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <m3a6jel9ce.fsf@t19.piap.pl>
+ARC-Seal: i=1; s=lahtoruutu; d=iki.fi; t=1634070602; a=rsa-sha256;
+        cv=none;
+        b=pYuGKFQjZO3IAe5G6WaOKEi/KNw/4uPQ8WDmLUNFmK+lTVRQ6GWaI2TwAFRsk4GDhfnRDd
+        Xezagpd7dudZti9Zr+gH2BNO0c5C108+ffCP7wdEDc/H+WkXry5ENA610Hl5JtfbnNXkum
+        qseRqeaUvWct3IvdI36CnrilUsBy3PmhvQTwSQVr5jj7xQ/259tuAz+5Qxp7UNeUG6ffEh
+        V090BLAnt0ArUMN8ZcoIlbWt/jlQw5d1NYvwcqFm/fMFm3LoEGjMrglj+L1FuUPAGKmhFX
+        35bZuz8yTkPfy/GL+IRI6rA5/AU0oCgOzFTI7QSFsdpdTGb01Goj1cv3GehKNQ==
+ARC-Authentication-Results: i=1;
+        ORIGINATING;
+        auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
+        s=lahtoruutu; t=1634070602;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=5BeTqxU2tuCzwC78oNi5R6K+v6fdklNFj2d/0XcPbR0=;
+        b=BHreCLVohgrtNfn39GHj8c8le+62JHSOpl62LuRKJjo0mSTipZPovIWoVvo38FHnB6XvUa
+        HKiLnqEVQFpT2e4yLLvQhm5WPeU1Qwef7Gp2W9azE88nD9YjxhyulGADKLVMsxpQ3PEQ6M
+        GPY3fJ676z8wwNYaS0Zz394Bo3OT4yvmSiZr+uZFSozAn6r0GMywIZgctcEi4RuODT+CCL
+        BeV0wQIZHVh9ogbwur0mxnp/rS5e7z/uT8LTaeXusDxtuBT8EPSvHor2rJQSU511V8upri
+        WFs/l7cRrM47MA1nd4NIcCgcuKZGO4SlQ1vjDstx7vULRE3XS849IEZMQ5to1g==
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Removing old gpiod interface and replacing it for the gpiod consumer
-interface.
+Hi Krzysztof,
 
-Signed-off-by: Maíra Canal <maira.canal@usp.br>
----
- drivers/media/i2c/s5c73m3/s5c73m3-core.c | 25 +++++++++++++-----------
- include/media/i2c/s5c73m3.h              |  3 ++-
- 2 files changed, 16 insertions(+), 12 deletions(-)
+On Tue, Oct 12, 2021 at 02:24:17PM +0200, Krzysztof HaÅ‚asa wrote:
+> Jacopo,
+> 
+> > I'll pretend I haven't read this not to be dragged in tangential
+> > discussions. My whole point was such a commit message is useless as I
+> > assume if you submit a driver for inclusion you have tested it.
+> 
+> Fine, I will remove that very commit comment.
+> 
+> > I think the clock rate should be assigned in DTS and you should verify
+> > it falls in the supported clock ranges.
+> 
+> Which driver does that, please?
+> clk_set_rate() appears to be used by multiple drivers, I was thinking
+> I can use it.
+> I can see clock frequencies in DTS, but they usually refer to fixed
+> clocks (e.g. crystal-based). The clock I use is IMX6QDL_CLK_CKO, some
+> sort of a shared generic clock from inside of the CPU. I don't know if
+> I could even set its frequency in DTS.
 
-diff --git a/drivers/media/i2c/s5c73m3/s5c73m3-core.c b/drivers/media/i2c/s5c73m3/s5c73m3-core.c
-index e2b88c5e4f98..0c69a3fc7ebe 100644
---- a/drivers/media/i2c/s5c73m3/s5c73m3-core.c
-+++ b/drivers/media/i2c/s5c73m3/s5c73m3-core.c
-@@ -10,7 +10,7 @@
- #include <linux/clk.h>
- #include <linux/delay.h>
- #include <linux/firmware.h>
--#include <linux/gpio.h>
-+#include <linux/gpio/consumer.h>
- #include <linux/i2c.h>
- #include <linux/init.h>
- #include <linux/media.h>
-@@ -1349,9 +1349,9 @@ static int s5c73m3_oif_open(struct v4l2_subdev *sd, struct v4l2_subdev_fh *fh)
- 
- static int s5c73m3_gpio_set_value(struct s5c73m3 *priv, int id, u32 val)
- {
--	if (!gpio_is_valid(priv->gpio[id].gpio))
-+	if (!priv->gpio[id].gpio)
- 		return 0;
--	gpio_set_value(priv->gpio[id].gpio, !!val);
-+	gpiod_set_value(priv->gpio[id].gpio, !!val);
- 	return 1;
- }
- 
-@@ -1548,20 +1548,24 @@ static int s5c73m3_configure_gpios(struct s5c73m3 *state)
- 	static const char * const gpio_names[] = {
- 		"S5C73M3_STBY", "S5C73M3_RST"
- 	};
-+	static const char * const prop_names[] = {
-+		"standby", "xshutdown",
-+	};
-+
- 	struct i2c_client *c = state->i2c_client;
- 	struct s5c73m3_gpio *g = state->gpio;
--	int ret, i;
-+	int i;
- 
- 	for (i = 0; i < GPIO_NUM; ++i) {
--		unsigned int flags = GPIOF_DIR_OUT;
-+		unsigned int flags = GPIOD_OUT_LOW;
- 		if (g[i].level)
--			flags |= GPIOF_INIT_HIGH;
--		ret = devm_gpio_request_one(&c->dev, g[i].gpio, flags,
--					    gpio_names[i]);
--		if (ret) {
-+			flags = GPIOD_OUT_HIGH;
-+		g[i].gpio = devm_gpiod_get_optional(&c->dev, prop_names[i],
-+				flags);
-+		if (IS_ERR(g[i].gpio)) {
- 			v4l2_err(c, "failed to request gpio %s\n",
- 				 gpio_names[i]);
--			return ret;
-+			return PTR_ERR(g[i].gpio);
- 		}
- 	}
- 	return 0;
-@@ -1586,7 +1590,6 @@ static int s5c73m3_parse_gpios(struct s5c73m3 *state)
- 				prop_names[i]);
- 			return -EINVAL;
- 		}
--		state->gpio[i].gpio = ret;
- 		state->gpio[i].level = !(of_flags & OF_GPIO_ACTIVE_LOW);
- 	}
- 	return 0;
-diff --git a/include/media/i2c/s5c73m3.h b/include/media/i2c/s5c73m3.h
-index a51f1025ba1c..41e2235f0626 100644
---- a/include/media/i2c/s5c73m3.h
-+++ b/include/media/i2c/s5c73m3.h
-@@ -17,6 +17,7 @@
- #ifndef MEDIA_S5C73M3__
- #define MEDIA_S5C73M3__
- 
-+#include <linux/gpio/consumer.h>
- #include <linux/videodev2.h>
- #include <media/v4l2-mediabus.h>
- 
-@@ -26,7 +27,7 @@
-  * @level: indicates active state of the @gpio
-  */
- struct s5c73m3_gpio {
--	int gpio;
-+	struct gpio_desc *gpio;
- 	int level;
- };
- 
+Please see:
+
+	https://hverkuil.home.xs4all.nl/spec/driver-api/camera-sensor.html
+
+Generally camera sensor drivers that set the clock in drivers themselves
+are (very) old.
+
 -- 
-2.31.1
+Regards,
 
+Sakari Ailus
