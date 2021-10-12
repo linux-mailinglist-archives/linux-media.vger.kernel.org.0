@@ -2,135 +2,137 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AD4B642A7E8
-	for <lists+linux-media@lfdr.de>; Tue, 12 Oct 2021 17:07:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3D77642A851
+	for <lists+linux-media@lfdr.de>; Tue, 12 Oct 2021 17:34:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237374AbhJLPJX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 12 Oct 2021 11:09:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40218 "EHLO
+        id S237079AbhJLPgg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 12 Oct 2021 11:36:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46290 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232568AbhJLPJW (ORCPT
+        with ESMTP id S237192AbhJLPgZ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 12 Oct 2021 11:09:22 -0400
-Received: from lb2-smtp-cloud8.xs4all.net (lb2-smtp-cloud8.xs4all.net [IPv6:2001:888:0:108::2b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 97CC7C061570
-        for <linux-media@vger.kernel.org>; Tue, 12 Oct 2021 08:07:20 -0700 (PDT)
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud8.xs4all.net with ESMTPA
-        id aJN5msfUzx7rIaJN8mMRpV; Tue, 12 Oct 2021 17:07:19 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1634051239; bh=nWZk2khgSq9nr/IGXSFf5g+KZA7oDyrQY7yfkr8Lp+o=;
-        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=O4uYSoYTs89DtyWxFg+I6ZfS0lHd9sOC5mA3PSXp4h4s886DUX3BeGQWpI5Q2tMTE
-         FDvOuSLvKNAkEeWSlWurmX/lw96VjgUTcyhY6Y+WmYXeaXavIDJAvBl0cSFn89EEOH
-         e/YifYTP8rHyb69ht5nQJqapW54wGMSv3RuzxeZDvQany6xh4wv68ei3TqbVq9Y9Kp
-         8xtqu2qjh840p+SzEfmVNaLWGRESY1FHWqrOix7SNnCLnz1a/pgtXE+whEAxnQ0W07
-         CzRKaauLj8+CFBff2rA0CSD/ueHZhjy1ELRp9nKLVrf15PbDn+1ZLbygGVECkTWMhI
-         uxIz1tzjsqAZA==
-Subject: Re: [PATCH v9 29/36] media: subdev: add v4l2_subdev_set_routing
- helper()
-To:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-        linux-media@vger.kernel.org, sakari.ailus@linux.intel.com,
-        Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        niklas.soderlund+renesas@ragnatech.se
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Pratyush Yadav <p.yadav@ti.com>
-References: <20211005085750.138151-1-tomi.valkeinen@ideasonboard.com>
- <20211005085750.138151-30-tomi.valkeinen@ideasonboard.com>
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Message-ID: <6eb3751f-1d62-2e24-127b-61de25ad9905@xs4all.nl>
-Date:   Tue, 12 Oct 2021 17:07:15 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Firefox/78.0 Thunderbird/78.14.0
+        Tue, 12 Oct 2021 11:36:25 -0400
+Received: from mail-wr1-x42e.google.com (mail-wr1-x42e.google.com [IPv6:2a00:1450:4864:20::42e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9EB6DC061745;
+        Tue, 12 Oct 2021 08:34:23 -0700 (PDT)
+Received: by mail-wr1-x42e.google.com with SMTP id k7so68000065wrd.13;
+        Tue, 12 Oct 2021 08:34:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=BP/Jzg1o84avvBiAAVMKsyPyktS8JE3pNY0emzlJRR4=;
+        b=ECwqR6XRApqzjnKzFwgGgnGPhONoNpqYRGNWWmqUAk/S2Kl0ketM+2GZniFXr+WEHW
+         Q/gR1ZiIJL6XEiiU5Xf/vYUrnHHzMxIkKLY76jNIEUEeXfPg4gDk80U/47j2kLsKTFY6
+         mSSKzus4KuRovaOlCiCoB/JtSXXiGYgZZMMVrVyZ40TZFRIDyUZfF1RaiP+Drj6EfFPR
+         G4os43c51rOxBbv+wtClXXDwV/5obJ2M9vZxWRVRaXOv043mRuRLoaVJZH4gRdN77F29
+         TNiDok6/LdinixEar9eHYa1jVsKu3G6tbhg/kGlNTlrguc/7Sa2tFA9weEN1H8uTF6Ak
+         VGnw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=BP/Jzg1o84avvBiAAVMKsyPyktS8JE3pNY0emzlJRR4=;
+        b=PksXipY/HgUjL5CeP7M6XLXJKW1Yh8nuFvoCha8zSOu4zuYzQBi4Hvh3sDRN+JjeRr
+         VLxGoUvpZraRXDGW5/PoZuqmfXZpUVdegID25FGvQXchPZFWpf560E46agiu/33gHMO5
+         0jTL0Bzz6GO8yKrYnT2TRYVu/RAOuR5NnNR9W/IoE/FnUYKidNmcAiNcn62z7Dm8cBxW
+         zn+aeJYD5KgMvqN3oxQNlh72YcNWvfp77hijMO2yKvv8lsetDZ6UbUJ49WPLDz0rQXyC
+         VrJ+rPq9WP6rhUI9i9kLaiDwg6IdfSjEEBBsiqJherChA/FMJ3uncrz1zuLO9yO3YJyR
+         s8Zg==
+X-Gm-Message-State: AOAM531clalO032KVi4OssAsNjz8jf8CnAxZAyo8F84UDf47dx5xgf3G
+        0Y427tQo5TaoHM+sDdIUc6Y1olS2r5NdJg==
+X-Google-Smtp-Source: ABdhPJxTqeLCMlwwJrqItDvWvZrbEbSTwEDtZ98ME6yzw3kWZ8DXDs4wp5uQOOcfJ4LNcmavhLTNQA==
+X-Received: by 2002:adf:a387:: with SMTP id l7mr32531103wrb.214.1634052862098;
+        Tue, 12 Oct 2021 08:34:22 -0700 (PDT)
+Received: from kista.localnet (cpe-86-58-29-253.static.triera.net. [86.58.29.253])
+        by smtp.gmail.com with ESMTPSA id q12sm2735972wmj.6.2021.10.12.08.34.20
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 12 Oct 2021 08:34:21 -0700 (PDT)
+From:   Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
+To:     mchehab@kernel.org, p.zabel@pengutronix.de,
+        gregkh@linuxfoundation.org, mripard@kernel.org,
+        paul.kocialkowski@bootlin.com, wens@csie.org,
+        hverkuil-cisco@xs4all.nl, jc@kynesim.co.uk,
+        ezequiel@vanguardiasur.com.ar,
+        Benjamin Gaignard <benjamin.gaignard@collabora.com>
+Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev,
+        linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+        Benjamin Gaignard <benjamin.gaignard@collabora.com>
+Subject: Re: [PATCH v2 0/4]  media: HEVC: RPS clean up
+Date:   Tue, 12 Oct 2021 17:34:19 +0200
+Message-ID: <21222555.EfDdHjke4D@kista>
+In-Reply-To: <20211012143552.661751-1-benjamin.gaignard@collabora.com>
+References: <20211012143552.661751-1-benjamin.gaignard@collabora.com>
 MIME-Version: 1.0
-In-Reply-To: <20211005085750.138151-30-tomi.valkeinen@ideasonboard.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4xfAm6RdkpZBMckme/KbbiZHXx0+SxR3pWLAF/bCqZ4XdHx5TopwsN/0Tl9ut5RyrMKSr01CV4xhdq5asyVE0/Vv17DUTpCYa1dsGYoItOAM4EGf0GLm4F
- uIR+DcKZkpQNmVjOpn6jXpu9RJ9Immc0Bvw5mYYa0Z3538i4C9DKx/VNfbPCvb3+hJQn0IYuyryDiHKk0QP8OX9AB3uZTmWY8fDychOdOKBl/ImOgoD3PU1g
- F+tHTAwxxJzyZzaonO5WaMsuDShOs2iTZk/wbBWE5BbbgRWD3XoKwPo9w+Jbp8vXjQk1fTTlanMYGKEx0AcyZV9qL7yiaDEqaPqi0B+W+6BwZdGTb6MRUD2D
- jTGxeXRX38LH3l/XhYChAnQI+mjUrxkNmlcWlWT1JFZCX8ElBMR6Pl5dgDLEWpSg8KWU51FD00VxJuYZ9idbe1XVA5Kv9/HkJdb1L9bVJko6T9ZTsCr/JXq1
- UuYXDo4q2YJxR4lQT6o2fdXv5uRlM6tc7X6c0w==
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 05/10/2021 10:57, Tomi Valkeinen wrote:
-> Add a helper function to set the subdev routing. The helper can be used
-> from subdev driver's set_routing op to store the routing table.
-> 
-> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Hi Benjamin!
 
-Reviewed-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Dne torek, 12. oktober 2021 ob 16:35:48 CEST je Benjamin Gaignard napisal(a):
+> This series aims to clean up Reference Picture Set usage and flags.
+> 
+> Long term flag was named with RPS prefix while it is not used for RPS
+> but for mark long term references in DBP. Remane it and remove the two
+> other useless RPS flags.
+> 
+> Clarify documentation about RPS lists content and make sure that Hantro
+> driver use them correctly (i.e without look up in DBP).
+> 
+> These patches are the last in my backlog impacting HEVC uAPI.
+> From my point of view, once they get merged, you could start talking
+> about how move HEVC uAPI to stable.
 
-> ---
->  drivers/media/v4l2-core/v4l2-subdev.c | 28 +++++++++++++++++++++++++++
->  include/media/v4l2-subdev.h           | 16 +++++++++++++++
->  2 files changed, 44 insertions(+)
+With your changes, HEVC uAPI controls still won't be complete. Cedrus needs 
+entry point control, which in turn needs dynamic array support. I'm a bit lazy 
+implementing that control, but I guess I can take a look in a month or so. 
+rkvdec also needs more fields for HEVC. With patches collected here:
+https://github.com/LibreELEC/LibreELEC.tv/blob/master/projects/Rockchip/
+patches/linux/default/linux-2001-v4l-wip-rkvdec-hevc.patch
+fluster HEVC test score is reportedly 121/135 (8-bit tests only).
+
+I would certainly wait with moving HEVC uAPI to stable.
+
+Best regards,
+Jernej
+
 > 
-> diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
-> index 14b8282fe45b..af53f827ec27 100644
-> --- a/drivers/media/v4l2-core/v4l2-subdev.c
-> +++ b/drivers/media/v4l2-core/v4l2-subdev.c
-> @@ -1151,3 +1151,31 @@ void v4l2_subdev_unlock_state(struct v4l2_subdev_state *state)
->  	mutex_unlock(&state->lock);
->  }
->  EXPORT_SYMBOL_GPL(v4l2_subdev_unlock_state);
-> +
-> +int v4l2_subdev_set_routing(struct v4l2_subdev *sd,
-> +			    struct v4l2_subdev_state *state,
-> +			    struct v4l2_subdev_krouting *routing)
-> +{
-> +	struct v4l2_subdev_krouting *dst = &state->routing;
-> +	const struct v4l2_subdev_krouting *src = routing;
-> +
-> +	lockdep_assert_held(&state->lock);
-> +
-> +	kvfree(dst->routes);
-> +	dst->routes = NULL;
-> +	dst->num_routes = 0;
-> +
-> +	if (src->num_routes > 0) {
-> +		dst->routes = kvmalloc_array(src->num_routes,
-> +					     sizeof(*src->routes), GFP_KERNEL);
-> +		if (!dst->routes)
-> +			return -ENOMEM;
-> +
-> +		memcpy(dst->routes, src->routes,
-> +		       src->num_routes * sizeof(*src->routes));
-> +		dst->num_routes = src->num_routes;
-> +	}
-> +
-> +	return 0;
-> +}
-> +EXPORT_SYMBOL_GPL(v4l2_subdev_set_routing);
-> diff --git a/include/media/v4l2-subdev.h b/include/media/v4l2-subdev.h
-> index 8b2cf3190276..b6c5cd00831e 100644
-> --- a/include/media/v4l2-subdev.h
-> +++ b/include/media/v4l2-subdev.h
-> @@ -1437,4 +1437,20 @@ v4l2_subdev_validate_and_lock_state(struct v4l2_subdev *sd,
->  	return state;
->  }
->  
-> +/**
-> + * v4l2_subdev_set_routing() - Set given routing to subdev state
-> + * @sd: The subdevice
-> + * @state: The subdevice state
-> + * @routing: Routing that will be copied to subdev state
-> + *
-> + * This will release old routing table (if any) from the state, allocate
-> + * enough space for the given routing, and copy the routing.
-> + *
-> + * This can be used from the subdev driver's set_routing op, after validating
-> + * the routing.
-> + */
-> +int v4l2_subdev_set_routing(struct v4l2_subdev *sd,
-> +			    struct v4l2_subdev_state *state,
-> +			    struct v4l2_subdev_krouting *routing);
-> +
->  #endif
+> version 2:
+> - change DPB field name from rps to flags
 > 
+> Please note that the only purpose of commits 3 and 4 is to allow to test
+> G2 hardware block for IMX8MQ until a proper solution isuing power domain
+> can be found. Do not merge them.
+> 
+> GStreamer HEVC plugin merge request can be found here:
+> https://gitlab.freedesktop.org/gstreamer/gstreamer/-/merge_requests/1079
+> 
+> With those piece of code fluster score is 77/147.
+> 
+> Benjamin
+> 
+> Benjamin Gaignard (4):
+>   media: hevc: Remove RPS named flags
+>   media: hevc: Embedded indexes in RPS
+>   media: hantro: Use syscon instead of 'ctrl' register
+>   arm64: dts: imx8mq: Add node to G2 hardware
+> 
+>  .../media/v4l/ext-ctrls-codec.rst             | 14 +++---
+>  arch/arm64/boot/dts/freescale/imx8mq.dtsi     | 43 +++++++++++++----
+>  drivers/staging/media/hantro/hantro.h         |  5 +-
+>  .../staging/media/hantro/hantro_g2_hevc_dec.c | 27 +++--------
+>  drivers/staging/media/hantro/imx8m_vpu_hw.c   | 48 ++++++++++++-------
+>  .../staging/media/sunxi/cedrus/cedrus_h265.c  |  2 +-
+>  include/media/hevc-ctrls.h                    |  6 +--
+>  7 files changed, 84 insertions(+), 61 deletions(-)
+> 
+> -- 
+> 2.30.2
+> 
+> 
+
 
