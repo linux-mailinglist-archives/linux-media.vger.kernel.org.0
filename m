@@ -2,107 +2,125 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0F814429FB3
-	for <lists+linux-media@lfdr.de>; Tue, 12 Oct 2021 10:23:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8922C42A00C
+	for <lists+linux-media@lfdr.de>; Tue, 12 Oct 2021 10:39:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234812AbhJLIZQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 12 Oct 2021 04:25:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59934 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234501AbhJLIZP (ORCPT
+        id S235028AbhJLIl0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 12 Oct 2021 04:41:26 -0400
+Received: from mailgw02.mediatek.com ([210.61.82.184]:42782 "EHLO
+        mailgw02.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
+        with ESMTP id S234870AbhJLIlZ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 12 Oct 2021 04:25:15 -0400
-Received: from lb1-smtp-cloud7.xs4all.net (lb1-smtp-cloud7.xs4all.net [IPv6:2001:888:0:108::1a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B75A2C061570;
-        Tue, 12 Oct 2021 01:23:13 -0700 (PDT)
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud7.xs4all.net with ESMTPA
-        id aD40m6YsKk3b0aD44mPZdY; Tue, 12 Oct 2021 10:23:12 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1634026992; bh=IcmG4hlwkywRE0PK6X1+E437tEYrBkwUPVeE4O1mHiY=;
-        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=RCnAujWlRxHBoL1QdKw48WfQpGdxT6iixcng9vb0Xc1Z1wUrLPFQ1mVx9C7flL3a8
-         Y7TZllynMNSC9Mvw0HgVf/SUIz2OQieIJ3LmTTLAIHzreKT+aJe968qIOqekjDSLqd
-         p9i641lKestJ0hR6dFGgkny/B9rrd6TlRmlj/V+bh441ZYM2AifkLjgnKlxru5Xp7n
-         /3JW8PNUlReSH2oWq7bz36bnVcUEY1x0WSsIInhHqAMC7b14d4KNqF4oNSKmBqnrqv
-         RvySXj/7O8zdxhcTdmAmo/h9+OdU08NA9H3PnCCK7TlqYTXqa3sNxE2kH8x/rQt1Dy
-         zg/yZtjKhOSzw==
-Subject: Re: [PATCH] media: Kconfig: Make DVB_CORE=m possible when
- MEDIA_SUPPORT=y
-To:     Lecopzer Chen <lecopzer.chen@mediatek.com>, mchehab@kernel.org,
-        linux-media@vger.kernel.org
-Cc:     linux-kernel@vger.kernel.org, yj.chiang@mediatek.com
-References: <20211005105110.14082-1-lecopzer.chen@mediatek.com>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <5086eb11-621f-29ed-e2dd-2a262857b78c@xs4all.nl>
-Date:   Tue, 12 Oct 2021 10:23:08 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Firefox/78.0 Thunderbird/78.14.0
+        Tue, 12 Oct 2021 04:41:25 -0400
+X-UUID: 4cf412d9876e48d4b14de15c2228a019-20211012
+X-UUID: 4cf412d9876e48d4b14de15c2228a019-20211012
+Received: from mtkmbs10n1.mediatek.inc [(172.21.101.34)] by mailgw02.mediatek.com
+        (envelope-from <guangming.cao@mediatek.com>)
+        (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+        with ESMTP id 1964211283; Tue, 12 Oct 2021 16:39:21 +0800
+Received: from mtkcas11.mediatek.inc (172.21.101.40) by
+ mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.792.3;
+ Tue, 12 Oct 2021 16:39:20 +0800
+Received: from mszswglt01.gcn.mediatek.inc (10.16.20.20) by
+ mtkcas11.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
+ 15.0.1497.2 via Frontend Transport; Tue, 12 Oct 2021 16:39:20 +0800
+From:   <guangming.cao@mediatek.com>
+To:     <christian.koenig@amd.com>
+CC:     <dri-devel@lists.freedesktop.org>, <guangming.cao@mediatek.com>,
+        <linaro-mm-sig@lists.linaro.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-kernel@vger.kernel.org>, <linux-media@vger.kernel.org>,
+        <linux-mediatek@lists.infradead.org>, <matthias.bgg@gmail.com>,
+        <rdunlap@infradead.org>, <sumit.semwal@linaro.org>,
+        <wsd_upstream@mediatek.com>,
+        Guangming Cao <Guangming.Cao@mediatek.com>
+Subject: Re: [PATCH v2] dma-buf: remove restriction of IOCTL:DMA_BUF_SET_NAME
+Date:   Tue, 12 Oct 2021 16:41:09 +0800
+Message-ID: <20211012084109.176542-1-guangming.cao@mediatek.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <eba79a76-413b-570c-aec0-899a5f918d38@amd.com>
+References: <eba79a76-413b-570c-aec0-899a5f918d38@amd.com>
 MIME-Version: 1.0
-In-Reply-To: <20211005105110.14082-1-lecopzer.chen@mediatek.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4xfE/P2szUh3UowWLMZqnKxz/PUYZfRHCTaA2A7qVF8Y5nVArKLxkVRNI9niMZUYQjgR2wrx96rDLeiC+F1OrKBhpbh1S2YxkJeEWDEpZR/K9rqsFcGD7i
- xnG4TRY9gW44QLWvk/71efYDqvDpEjIl4g7Eh3/CP6vx+0laTcwJuy/RSIWNHGFHlat5UM+o3zDLPB0Hf7WhgZScMBHlfoWd/9Y6oqNL8PazR/lVE/8bx2YW
- v+GY5T/P0FE7ht0fhuUHSdaccWVgBnRrBHYmqSSFF/DmiyhStMWU1dE0AhU8ZAAgeG8IPwqCmO0+Wp8PniuZrdDVC62qD/iNAnSBXvBRbXAOQ01BXNgL85C7
- 63DCnrFp
+Content-Type: text/plain
+X-MTK:  N
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 05/10/2021 12:51, Lecopzer Chen wrote:
-> A case that we need VIDEO_DEV=y but DVB_CORE=m, and this doesn't
-> work since DVB_CORE is default MEDIA_DIGITAL_TV_SUPPORT and then
-> follows MEDIA_SUPPORT.
+From: Guangming Cao <Guangming.Cao@mediatek.com>
+
+> Am 09.10.21 um 07:55 schrieb guangming.cao@mediatek.com:
+> From: Guangming Cao <Guangming.Cao@mediatek.com>
+> >
+> > If dma-buf don't want userspace users to touch the dmabuf buffer,
+> > it seems we should add this restriction into dma_buf_ops.mmap,
+> > not in this IOCTL:DMA_BUF_SET_NAME.
+> >
+> > With this restriction, we can only know the kernel users of the dmabuf
+> > by attachments.
+> > However, for many userspace users, such as userpsace users of dma_heap,
+> > they also need to mark the usage of dma-buf, and they don't care about
+> > who attached to this dmabuf, and seems it's no meaning to be waiting for
+> > IOCTL:DMA_BUF_SET_NAME rather than mmap.
 > 
-> Change to tristate to make DVB_CORE=m possible when MEDIA_SUPPORT=y
+> Sounds valid to me, but I have no idea why this restriction was added in 
+> the first place.
 > 
-> Signed-off-by: Lecopzer Chen <lecopzer.chen@mediatek.com>
-> ---
->  drivers/media/Kconfig | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+> Can you double check the git history and maybe identify when that was 
+> added? Mentioning this change in the commit message then might make 
+> things a bit easier to understand.
 > 
-> diff --git a/drivers/media/Kconfig b/drivers/media/Kconfig
-> index b07812657cee..c3baf92b4d02 100644
-> --- a/drivers/media/Kconfig
-> +++ b/drivers/media/Kconfig
-> @@ -88,7 +88,7 @@ config MEDIA_ANALOG_TV_SUPPORT
->  		will disable support for them.
->  
->  config MEDIA_DIGITAL_TV_SUPPORT
-> -	bool
-> +	tristate
->  	prompt "Digital TV" if MEDIA_SUPPORT_FILTER
->  	default y if !MEDIA_SUPPORT_FILTER
->  	help
+> Thanks,
+> Christian.
+It was add in this patch: https://patchwork.freedesktop.org/patch/310349/.
+However, there is no illustration about it.
+I guess it wants users to set_name when no attachments on the dmabuf,
+for case with attachments, we can find owner by device in attachments.
+But just I said in commit message, this is might not a good idea.
+
+Do you have any idea?
 > 
-
-I don't think this is the right approach.
-
-I think the following patch would fix the issue, and it is also in line
-with what config VIDEO_DEV does.
-
-What do you think, Mauro?
-
-Regards,
-
-	Hans
-
-Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
----
-diff --git a/drivers/media/Kconfig b/drivers/media/Kconfig
-index c3baf92b4d02..46f7b1f75630 100644
---- a/drivers/media/Kconfig
-+++ b/drivers/media/Kconfig
-@@ -179,8 +179,7 @@ config MEDIA_CONTROLLER
- #
-
- config DVB_CORE
--	tristate
--	depends on MEDIA_DIGITAL_TV_SUPPORT
-+	tristate "DVB core"
- 	depends on (I2C || I2C=n)
- 	default MEDIA_DIGITAL_TV_SUPPORT
- 	select CRC32
+> >
+> > Signed-off-by: Guangming Cao <Guangming.Cao@mediatek.com>
+> > ---
+> >   drivers/dma-buf/dma-buf.c | 14 ++------------
+> >   1 file changed, 2 insertions(+), 12 deletions(-)
+> >
+> > diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
+> > index 511fe0d217a0..db2f4efdec32 100644
+> > --- a/drivers/dma-buf/dma-buf.c
+> > +++ b/drivers/dma-buf/dma-buf.c
+> > @@ -325,10 +325,8 @@ static __poll_t dma_buf_poll(struct file *file, poll_table *poll)
+> >   
+> >   /**
+> >    * dma_buf_set_name - Set a name to a specific dma_buf to track the usage.
+> > - * The name of the dma-buf buffer can only be set when the dma-buf is not
+> > - * attached to any devices. It could theoritically support changing the
+> > - * name of the dma-buf if the same piece of memory is used for multiple
+> > - * purpose between different devices.
+> > + * It could theoretically support changing the name of the dma-buf if the same
+> > + * piece of memory is used for multiple purpose between different devices.
+> >    *
+> >    * @dmabuf: [in]     dmabuf buffer that will be renamed.
+> >    * @buf:    [in]     A piece of userspace memory that contains the name of
+> > @@ -346,19 +344,11 @@ static long dma_buf_set_name(struct dma_buf *dmabuf, const char __user *buf)
+> >   	if (IS_ERR(name))
+> >   		return PTR_ERR(name);
+> >   
+> > -	dma_resv_lock(dmabuf->resv, NULL);
+> > -	if (!list_empty(&dmabuf->attachments)) {
+> > -		ret = -EBUSY;
+> > -		kfree(name);
+> > -		goto out_unlock;
+> > -	}
+> >   	spin_lock(&dmabuf->name_lock);
+> >   	kfree(dmabuf->name);
+> >   	dmabuf->name = name;
+> >   	spin_unlock(&dmabuf->name_lock);
+> >   
+> > -out_unlock:
+> > -	dma_resv_unlock(dmabuf->resv);
+> >   	return ret;
+> >   }
+> >   
