@@ -2,133 +2,93 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2057F42A217
-	for <lists+linux-media@lfdr.de>; Tue, 12 Oct 2021 12:27:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C1C9042A2BB
+	for <lists+linux-media@lfdr.de>; Tue, 12 Oct 2021 12:57:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236088AbhJLK3m (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 12 Oct 2021 06:29:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60156 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236148AbhJLK3V (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Tue, 12 Oct 2021 06:29:21 -0400
-Received: from lb2-smtp-cloud9.xs4all.net (lb2-smtp-cloud9.xs4all.net [IPv6:2001:888:0:108::2c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9CD3DC061771
-        for <linux-media@vger.kernel.org>; Tue, 12 Oct 2021 03:27:15 -0700 (PDT)
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud9.xs4all.net with ESMTPA
-        id aF01mkD078cVwaF04m8apm; Tue, 12 Oct 2021 12:27:13 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1634034433; bh=lP8lqE2Bv9OrUzpkF2Q1sgLiaN6QfQKH2vzQOrP8FsU=;
-        h=To:From:Subject:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=hKVycfUbr9Y9J/mn9N+ASZMP6wRx1MnNTRh2oxpjgqGk0qpchIGxHOoZ0DKAic5DJ
-         p1Kb9QzEuuYcsm+yKVUbkAIUOzWcuKlG/2IPJgT299mQ/YQYxFpv3E9+3rKebqh6uY
-         UWlNKYqgdIlP7YIKkU/UFOL3+r4+k1KXClfrUfGm8FGA+6P+U2k1R8N8QwF6yDNnNl
-         LyMLY16SOJFlx6MD4d4K+x21Prdk2dxEDwxMZvuOjQRlg7DdiNvxa8vHeo9gYPaciP
-         Cx/qnO0zpyY7F2oY1YLnk7ExKkK72cm7XQrOhh7K/FszBpXQlxf1W1FPAaGLvqWKa6
-         URO86iRHEy+Ow==
-To:     Linux Media Mailing List <linux-media@vger.kernel.org>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Subject: [GIT PULL FOR v5.16] Various fixes/enhancements
-Message-ID: <3be5a55b-a986-4555-b4f8-74a51c09c65c@xs4all.nl>
-Date:   Tue, 12 Oct 2021 12:27:09 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Firefox/78.0 Thunderbird/78.14.0
+        id S236036AbhJLK7k (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 12 Oct 2021 06:59:40 -0400
+Received: from www.linuxtv.org ([130.149.80.248]:57790 "EHLO www.linuxtv.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S236084AbhJLK7k (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 12 Oct 2021 06:59:40 -0400
+Received: from builder.linuxtv.org ([140.211.167.10] helo=slave0)
+        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1maFTV-00GU0v-N2; Tue, 12 Oct 2021 10:57:37 +0000
+Received: from ip6-localhost ([::1] helo=localhost.localdomain)
+        by slave0 with esmtp (Exim 4.94.2)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1maFTS-000De9-TG; Tue, 12 Oct 2021 10:57:34 +0000
+From:   Jenkins <jenkins@linuxtv.org>
+To:     mchehab+samsung@kernel.org, linux-media@vger.kernel.org
+Cc:     builder@linuxtv.org
+Subject: Re: [GIT PULL FOR v5.16] Various fixes/enhancements (#77668)
+Date:   Tue, 12 Oct 2021 10:57:34 +0000
+Message-Id: <20211012105734.52411-1-jenkins@linuxtv.org>
+X-Mailer: git-send-email 2.30.2
+In-Reply-To: <3be5a55b-a986-4555-b4f8-74a51c09c65c@xs4all.nl>
+References: 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-X-CMAE-Envelope: MS4xfNu95uzi2u0G/las9ggUz/AFWGZ5Y7jhJ7ettdublsQWTOWOZMEF/OwWVO4zBLzW+Rl4Bq4fezZKdf+m3YsNoUKvk4BRTlcbSQlrYrxQMeR2LqqXe6rN
- EHB1M8djsrfr55mMLdrFaODV07YU1ob/FXMLm9O6r0rmbYIYwHkZRM9zFdDhO/jFhkH+aL1h5cD7NddOmYpqvpc8/3D1ZO57S84=
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The following changes since commit fd2eda71a47b095e81b9170c3f8b7ae82b04e785:
+From: builder@linuxtv.org
 
-  media: remove myself from dvb media maintainers (2021-10-08 13:56:25 +0200)
+Pull request: https://patchwork.linuxtv.org/project/linux-media/patch/3be5a55b-a986-4555-b4f8-74a51c09c65c@xs4all.nl/
+Build log: https://builder.linuxtv.org/job/patchwork/147310/
+Build time: 00:24:02
+Link: https://lore.kernel.org/linux-media/3be5a55b-a986-4555-b4f8-74a51c09c65c@xs4all.nl
 
-are available in the Git repository at:
+gpg: Signature made Tue 12 Oct 2021 10:26:08 AM UTC
+gpg:                using RSA key AAA7FFBA4D2D77EF4CAEA1421326E0CD23ABDCE5
+gpg: Good signature from "Hans Verkuil <hverkuil-cisco@xs4all.nl>" [unknown]
+gpg:                 aka "Hans Verkuil <hverkuil@xs4all.nl>" [unknown]
+gpg: Note: This key has expired!
+Primary key fingerprint: 052C DE7B C215 053B 689F  1BCA BD2D 6148 6614 3B4C
+     Subkey fingerprint: AAA7 FFBA 4D2D 77EF 4CAE  A142 1326 E0CD 23AB DCE5
 
-  git://linuxtv.org/hverkuil/media_tree.git tags/br-v5.16j
+Summary: got 3/18 patches with issues, being 1 at build time, plus one error when buinding PDF document
 
-for you to fetch changes up to 72ea5a0e23e4282dc4df899577ef62f822aec741:
+Error/warnings:
 
-  media: ivtv: fix build for UML (2021-10-12 12:00:08 +0200)
+patches/0001-media-cedrus-fix-double-free.patch:
 
-----------------------------------------------------------------
-Tag branch
+    allyesconfig: return code #0:
+	../scripts/genksyms/parse.y: warning: 9 shift/reduce conflicts [-Wconflicts-sr]
+	../scripts/genksyms/parse.y: warning: 5 reduce/reduce conflicts [-Wconflicts-rr]
+	../scripts/genksyms/parse.y: note: rerun with option '-Wcounterexamples' to generate conflict counterexamples
 
-----------------------------------------------------------------
-Arnd Bergmann (1):
-      media: i2c: select V4L2_ASYNC where needed
+    allyesconfig: return code #0:
+	../drivers/media/cec/core/cec-adap.c: ../drivers/media/cec/core/cec-adap.c:926 cec_transmit_msg_fh() warn: '&data->list' not removed from list
+	../drivers/media/rc/meson-ir-tx.c:22: warning: expecting prototype for meson(). Prototype was for DEVICE_NAME() instead
+	SPARSE:../drivers/media/rc/ir_toy.c ../drivers/media/rc/ir_toy.c:321:20: warning: incorrect type in assignment (different base types)
+	SPARSE:../drivers/media/rc/ir_toy.c ../drivers/media/rc/ir_toy.c:321:20:    expected restricted __be16 [usertype]
+	SPARSE:../drivers/media/rc/ir_toy.c ../drivers/media/rc/ir_toy.c:321:20:    got int
+	SMATCH:../drivers/media/usb/siano/smsusb.c ../drivers/media/usb/siano/smsusb.c:53:38: :warning: array of flexible structures
+	SPARSE:../drivers/media/usb/siano/smsusb.c ../drivers/media/usb/siano/smsusb.c:53:38: warning: array of flexible structures
+	../drivers/media/pci/intel/ipu3/cio2-bridge.c:242 cio2_bridge_connect_sensor() warn: missing error code 'ret'
+	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2625 dvb_register() parse error: turning off implications after 60 seconds
+	../drivers/media/usb/pvrusb2/pvrusb2-encoder.c: ../drivers/media/usb/pvrusb2/pvrusb2-encoder.c:288 pvr2_encoder_cmd() warn: inconsistent indenting
+	../drivers/media/usb/pvrusb2/pvrusb2-hdw.c: ../drivers/media/usb/pvrusb2/pvrusb2-hdw.c:1730 pvr2_hdw_set_streaming() warn: inconsistent indenting
+	../drivers/media/usb/pvrusb2/pvrusb2-hdw.c: ../drivers/media/usb/pvrusb2/pvrusb2-hdw.c:3461 pvr2_hdw_cpufw_set_enabled() warn: inconsistent indenting
+	../drivers/media/usb/pvrusb2/pvrusb2-hdw.c: ../drivers/media/usb/pvrusb2/pvrusb2-hdw.c:3501 pvr2_hdw_cpufw_get() warn: inconsistent indenting
+	../drivers/media/platform/qcom/venus/helpers.c: ../drivers/media/platform/qcom/venus/helpers.c:627 venus_helper_get_bufreq() error: we previously assumed 'req' could be null (see line 623)
 
-Chen-Yu Tsai (2):
-      media: rkvdec: Do not override sizeimage for output format
-      media: rkvdec: Support dynamic resolution changes
+patches/0003-media-i2c-select-V4L2_ASYNC-where-needed.patch:
 
-Daniel Almeida (1):
-      media: cedrus: fix double free
+   checkpatch.pl:
+	$ cat patches/0003-media-i2c-select-V4L2_ASYNC-where-needed.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
+	-:9: WARNING: Possible unwrapped commit description (prefer a maximum 75 chars per line)
 
-Hans Verkuil (2):
-      vidtv: move kfree(dvb) to vidtv_bridge_dev_release()
-      gspca/gl860-mi1320/ov9655: avoid -Wstring-concatenation warning
+patches/0008-gspca-gl860-mi1320-ov9655-avoid-Wstring-concatenatio.patch:
 
-Jammy Huang (1):
-      media: aspeed: add debugfs
+   checkpatch.pl:
+	$ cat patches/0008-gspca-gl860-mi1320-ov9655-avoid-Wstring-concatenatio.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
+	-:11: WARNING: Possible unwrapped commit description (prefer a maximum 75 chars per line)
 
-Jeff Chase (1):
-      MAINTAINERS: update maintainer for ch7322 driver
 
-Jernej Skrabec (1):
-      media: cedrus: Don't kernel map most buffers
+Error #512 when building PDF docs
 
-Krzysztof Hałasa (4):
-      TDA1997x: replace video detection routine
-      Add ADV7610 support for adv7604 driver - DT docs.
-      Add ADV7610 support for adv7604 driver.
-      i.MX6: Support 16-bit BT.1120 video input
-
-Mirela Rabulea (1):
-      media: imx-jpeg: Add pm-runtime support for imx-jpeg
-
-Randy Dunlap (1):
-      media: ivtv: fix build for UML
-
-Scott K Logan (1):
-      media: saa7134: Add support for Leadtek WinFast HDTV200 H
-
-Sergey Senozhatsky (1):
-      media: videobuf2: always set buffer vb2 pointer
-
-Vladimir Barinov (1):
-      media: rcar-vin: add G/S_PARM ioctls
-
- Documentation/devicetree/bindings/media/i2c/adv7604.yaml |  13 ++---
- MAINTAINERS                                              |   2 +-
- drivers/gpu/ipu-v3/ipu-csi.c                             |  31 ++++++++++--
- drivers/media/common/videobuf2/videobuf2-dma-contig.c    |   3 ++
- drivers/media/i2c/Kconfig                                |   2 +
- drivers/media/i2c/adv7604.c                              |  15 +++---
- drivers/media/i2c/tda1997x.c                             | 119 ++++++++++++++++++++++++-------------------
- drivers/media/i2c/tda1997x_regs.h                        |   3 ++
- drivers/media/pci/ivtv/ivtvfb.c                          |   4 +-
- drivers/media/pci/saa7134/saa7134-cards.c                |  53 ++++++++++++++++++++
- drivers/media/pci/saa7134/saa7134-dvb.c                  |  29 +++++++++++
- drivers/media/pci/saa7134/saa7134.h                      |   1 +
- drivers/media/platform/aspeed-video.c                    | 100 +++++++++++++++++++++++++++++++++++++
- drivers/media/platform/imx-jpeg/mxc-jpeg.c               |  73 +++++++++++++++++++++++++--
- drivers/media/platform/imx-jpeg/mxc-jpeg.h               |   2 +
- drivers/media/platform/rcar-vin/rcar-v4l2.c              |  21 ++++++++
- drivers/media/test-drivers/vidtv/vidtv_bridge.c          |   5 +-
- drivers/media/usb/gspca/gl860/gl860-mi1320.c             |  87 +++++++++++++++++++++-----------
- drivers/media/usb/gspca/gl860/gl860-ov9655.c             | 169 ++++++++++++++++++++++++++++++++++++++++----------------------
- drivers/staging/media/imx/imx-media-csi.c                |   5 ++
- drivers/staging/media/rkvdec/rkvdec-h264.c               |   5 +-
- drivers/staging/media/rkvdec/rkvdec.c                    |  40 +++++++--------
- drivers/staging/media/sunxi/cedrus/cedrus.c              |   1 +
- drivers/staging/media/sunxi/cedrus/cedrus_h264.c         | 113 +++++++++++++++++++++++------------------
- drivers/staging/media/sunxi/cedrus/cedrus_h265.c         |  30 ++++++-----
- drivers/staging/media/sunxi/cedrus/cedrus_video.c        |   1 +
- 26 files changed, 677 insertions(+), 250 deletions(-)
