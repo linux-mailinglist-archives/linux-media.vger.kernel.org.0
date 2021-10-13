@@ -2,163 +2,89 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A9B2D42B396
-	for <lists+linux-media@lfdr.de>; Wed, 13 Oct 2021 05:29:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D8FB542B3F2
+	for <lists+linux-media@lfdr.de>; Wed, 13 Oct 2021 06:15:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237672AbhJMDb3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 12 Oct 2021 23:31:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39044 "EHLO
+        id S229599AbhJMERp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 13 Oct 2021 00:17:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49232 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237704AbhJMDb2 (ORCPT
+        with ESMTP id S229453AbhJMERp (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 12 Oct 2021 23:31:28 -0400
-Received: from lb2-smtp-cloud7.xs4all.net (lb2-smtp-cloud7.xs4all.net [IPv6:2001:888:0:108::2a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9FF20C061570
-        for <linux-media@vger.kernel.org>; Tue, 12 Oct 2021 20:29:25 -0700 (PDT)
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud7.xs4all.net with ESMTPA
-        id aUxDmE0Wdk3b0aUxGmShYk; Wed, 13 Oct 2021 05:29:23 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1634095763; bh=bdc6A83N/BzMcfvpmi/e566qPdo2i0+MTUVSKKcdpfU=;
-        h=Message-ID:Date:From:To:Subject:From:Subject;
-        b=hISyrvl9poXUdPcqPv/1vNmrIeEbA5oYeITX3dvkBBhVpBvBrGmpeijfm8g2S5lom
-         pcHxtfqXsClgBcJYqw9JzwwQJGxiMA6+HjxTejmkpzKzZO05K/jpxKodXl6EoPTvtj
-         UhPW47saD2coGBYc8bYQSfA+uWoEosSzc0hocdhyBR800/QXBhuIATVFqV0zW0QZh7
-         kNOW2N2eC6TrT1OXUQmZkT7vnG9IYOpfONyFk+FYrNK5YYChiXZO2IN5hMkuFys5jG
-         Vf+PcyZ9IUk2NOuyaY2iMZXEgx1cfFnSiWVcu1mvkgFUzktsCCMqUV2pYFq4Mvq10J
-         vCvdZzyiI89wA==
-Message-ID: <3d35ce05a2092e7b477f1d5f9a734766@smtp-cloud7.xs4all.net>
-Date:   Wed, 13 Oct 2021 05:29:19 +0200
-From:   "Hans Verkuil" <hverkuil@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: ERRORS
-X-CMAE-Envelope: MS4xfOOxttOxUEE2cLD5rwwEt9YgJJvSppLyGRTtYBiCx5DHDAbpDzgcL1YSTgi0rvYZwefP3bSnkoAHGc4cPYHvl/FWcz6Dnw4TBOoTItRw67cwR2zF5BIl
- inAcZZjfXS/dbK2LT5G4IRpRfG8ZifwG9SKi7eYRVxgU0At0pELgjSrKUXaIzpWT+ph/E4wcFP88xQ==
+        Wed, 13 Oct 2021 00:17:45 -0400
+Received: from mail-pj1-x1034.google.com (mail-pj1-x1034.google.com [IPv6:2607:f8b0:4864:20::1034])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D9319C061570;
+        Tue, 12 Oct 2021 21:15:42 -0700 (PDT)
+Received: by mail-pj1-x1034.google.com with SMTP id np13so1177403pjb.4;
+        Tue, 12 Oct 2021 21:15:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=OoNwDG0VaNCscP5oae7CbtI3WG7cND2vHYt3onq3SNY=;
+        b=EONSpaH4SsEm5+DwSQao2ztUky6nZqQ38/ui6H+/JNXaQ+/beQXMMxhvDax+gK31c5
+         w88TJPEYrMsBD7xjRDw7ePcJ024b6QIsmXXrFnOWtpPdmKPgCYqW827ztz7s1iJKDKQL
+         HoSNQxy8sF2V8Sc/NcGGNIpl6En9E9QCBZZY5caoUxpEbZctYjjEfDxACbbtuxAQcHFr
+         ama7qI5agLNNzOq5iQ+Gx7Lyo9cNU9rgYt9bLjHwFmhZTBWUY/ip7OJsgjH5gN3GPt+4
+         GGI7sn6+67kOoIBknxgZZj9Mnb/RrIvR21DLwbPsllS1gsuEEOx51I6m4PYplqyFyUFf
+         e2fA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=OoNwDG0VaNCscP5oae7CbtI3WG7cND2vHYt3onq3SNY=;
+        b=eVtQ63bZ0USev4WVPWq47IrGEhCMD1eq+6zOXrDatSaFxLTVAZ2p03NEhDgFM9a7H+
+         Ky2x6QPB5wBVHW3MYQ3GCmjKpHJ2urEQYUo55i4ZM3Q1ZU6zTF/vNBucFHnqTmJG6nKx
+         nGYrBN7e5SHHIkUpA2YGfD+OimR7N9GML9e6WJ/MnVunFA2eMza44F/nLgMY9K+lgVOp
+         H/8O8rm2uuVPMH1Pjgp2BmNeX8d4nACS39oDuDov1Y/b8lfE9DPCNbxop0/zTT3kX3Pj
+         AeINa0y41y9BO5D7N8SDvHesIzkJTZhDiNpOTza6n6QyOPmOxETU+UwLbBrNeEs57YM/
+         jYnQ==
+X-Gm-Message-State: AOAM531wyplD6MTMhoV6Ybab9dBP6YEAlCiRjKUrWDinkel1ClFMYTuw
+        Vd15Hd/cFOyBhhXXi/1i6aeoRPXWIil7aQyHmAI=
+X-Google-Smtp-Source: ABdhPJx/W4DMTjZDZyIWn8CLwfUJrNXINXnyIyLGTsU3+wcbAQD85flLv5PcZ62fQOwWo5qfuXahVA==
+X-Received: by 2002:a17:90b:1c8f:: with SMTP id oo15mr10582188pjb.169.1634098542104;
+        Tue, 12 Oct 2021 21:15:42 -0700 (PDT)
+Received: from localhost.localdomain ([94.177.118.45])
+        by smtp.gmail.com with ESMTPSA id i12sm13062356pgd.56.2021.10.12.21.15.39
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 12 Oct 2021 21:15:41 -0700 (PDT)
+From:   Dongliang Mu <mudongliangabcd@gmail.com>
+To:     Fabien Dessenne <fabien.dessenne@foss.st.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     Dongliang Mu <mudongliangabcd@gmail.com>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] driver: bdisp: add pm_runtime_disable in the error handling code
+Date:   Wed, 13 Oct 2021 12:15:27 +0800
+Message-Id: <20211013041527.2859626-1-mudongliangabcd@gmail.com>
+X-Mailer: git-send-email 2.25.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the kernels and architectures in the list below.
+In the error handling code of bdisp_probe, it fails to invoke
+pm_runtime_disable in many error sites.
 
-Results of the daily build of media_tree:
+Fix this by adding pm_runtime_disable after pm_runtime_put.
 
-date:			Wed Oct 13 05:00:10 CEST 2021
-media-tree git hash:	fd2eda71a47b095e81b9170c3f8b7ae82b04e785
-media_build git hash:	e602a6acc36ed3f6a8ebeb27fae6f32712f1293f
-v4l-utils git hash:	493af03f3c576fad69c050d33215d1f4fc0d532d
-edid-decode git hash:	985024f0ccb7eb0014397f2d562ecebfdd340c3b
-gcc version:		i686-linux-gcc (GCC) 11.2.0
-sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
-sparse version:		0.6.3
-smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
-smatch version:		0.6.3
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: 3e03ddc26ffb1808285327d1a7fb2038379d04a2
-host hardware:		x86_64
-host os:		5.14.0-2-amd64
+Signed-off-by: Dongliang Mu <mudongliangabcd@gmail.com>
+---
+ drivers/media/platform/sti/bdisp/bdisp-v4l2.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-linux-git-sh: OK
-linux-git-arm-davinci: OK
-linux-git-arm-at91: OK
-linux-git-mips: OK
-linux-git-arm-stm32: OK
-linux-git-arm-pxa: OK
-linux-git-arm64: OK
-linux-git-powerpc64: OK
-linux-git-arm-multi: OK
-linux-git-i686: OK
-linux-git-x86_64: OK
-Check COMPILE_TEST: OK
-Check for strcpy/strncpy/strlcpy: OK
-linux-4.4.283-i686: OK
-linux-4.4.283-x86_64: OK
-linux-4.5.7-i686: WARNINGS
-linux-4.5.7-x86_64: WARNINGS
-linux-4.6.7-i686: WARNINGS
-linux-4.6.7-x86_64: WARNINGS
-linux-4.7.10-i686: WARNINGS
-linux-4.7.10-x86_64: WARNINGS
-linux-4.8.17-i686: WARNINGS
-linux-4.8.17-x86_64: WARNINGS
-linux-4.9.246-i686: OK
-linux-4.9.246-x86_64: OK
-linux-4.10.17-i686: WARNINGS
-linux-4.10.17-x86_64: WARNINGS
-linux-4.11.12-i686: WARNINGS
-linux-4.11.12-x86_64: WARNINGS
-linux-4.12.14-i686: WARNINGS
-linux-4.12.14-x86_64: WARNINGS
-linux-4.13.16-i686: WARNINGS
-linux-4.13.16-x86_64: WARNINGS
-linux-4.14.246-i686: OK
-linux-4.14.246-x86_64: OK
-linux-4.15.18-i686: WARNINGS
-linux-4.15.18-x86_64: WARNINGS
-linux-4.16.18-i686: WARNINGS
-linux-4.16.18-x86_64: WARNINGS
-linux-4.17.19-i686: WARNINGS
-linux-4.17.19-x86_64: WARNINGS
-linux-4.18.20-i686: WARNINGS
-linux-4.18.20-x86_64: WARNINGS
-linux-4.19.206-i686: OK
-linux-4.19.206-x86_64: OK
-linux-4.20.17-i686: WARNINGS
-linux-4.20.17-x86_64: WARNINGS
-linux-5.0.21-i686: OK
-linux-5.0.21-x86_64: OK
-linux-5.1.21-i686: OK
-linux-5.1.21-x86_64: OK
-linux-5.2.21-i686: OK
-linux-5.2.21-x86_64: OK
-linux-5.3.18-i686: OK
-linux-5.3.18-x86_64: OK
-linux-5.4.144-i686: OK
-linux-5.4.144-x86_64: OK
-linux-5.5.19-i686: OK
-linux-5.5.19-x86_64: OK
-linux-5.6.19-i686: OK
-linux-5.6.19-x86_64: OK
-linux-5.7.19-i686: OK
-linux-5.7.19-x86_64: OK
-linux-5.8.18-i686: OK
-linux-5.8.18-x86_64: OK
-linux-5.9.16-i686: OK
-linux-5.9.16-x86_64: OK
-linux-5.10.62-i686: OK
-linux-5.10.62-x86_64: OK
-linux-5.11.22-i686: OK
-linux-5.11.22-x86_64: OK
-linux-5.12.19-i686: OK
-linux-5.12.19-x86_64: OK
-linux-5.13.14-i686: OK
-linux-5.13.14-x86_64: OK
-linux-5.14.1-i686: OK
-linux-5.14.1-x86_64: OK
-linux-5.15-rc1-i686: OK
-linux-5.15-rc1-x86_64: OK
-apps: OK
-spec-git: OK
-virtme: ERRORS
-virtme-32: ERRORS
-sparse: WARNINGS
-smatch: ERRORS
-kerneldoc: WARNINGS
+diff --git a/drivers/media/platform/sti/bdisp/bdisp-v4l2.c b/drivers/media/platform/sti/bdisp/bdisp-v4l2.c
+index 6413cd279125..1f220f216b72 100644
+--- a/drivers/media/platform/sti/bdisp/bdisp-v4l2.c
++++ b/drivers/media/platform/sti/bdisp/bdisp-v4l2.c
+@@ -1394,6 +1394,7 @@ static int bdisp_probe(struct platform_device *pdev)
+ 	bdisp_hw_free_filters(bdisp->dev);
+ err_pm:
+ 	pm_runtime_put(dev);
++	pm_runtime_disable(dev);
+ err_remove:
+ 	bdisp_debugfs_remove(bdisp);
+ 	v4l2_device_unregister(&bdisp->v4l2_dev);
+-- 
+2.25.1
 
-Detailed results are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Wednesday.log
-
-Detailed regression test results are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Wednesday-test-media.log
-http://www.xs4all.nl/~hverkuil/logs/Wednesday-test-media-32.log
-http://www.xs4all.nl/~hverkuil/logs/Wednesday-test-media-dmesg.log
-
-Full logs are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Wednesday.tar.bz2
-
-The Media Infrastructure API from this daily build is here:
-
-http://www.xs4all.nl/~hverkuil/spec/index.html
