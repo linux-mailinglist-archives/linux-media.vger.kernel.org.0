@@ -2,274 +2,128 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DDC0342BCD9
-	for <lists+linux-media@lfdr.de>; Wed, 13 Oct 2021 12:31:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2C20F42BDEB
+	for <lists+linux-media@lfdr.de>; Wed, 13 Oct 2021 12:55:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232784AbhJMKdu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 13 Oct 2021 06:33:50 -0400
-Received: from mga04.intel.com ([192.55.52.120]:43420 "EHLO mga04.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229495AbhJMKdt (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 13 Oct 2021 06:33:49 -0400
-X-IronPort-AV: E=McAfee;i="6200,9189,10135"; a="226170344"
-X-IronPort-AV: E=Sophos;i="5.85,370,1624345200"; 
-   d="scan'208";a="226170344"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Oct 2021 03:31:46 -0700
-X-IronPort-AV: E=Sophos;i="5.85,370,1624345200"; 
-   d="scan'208";a="547782394"
-Received: from smile.fi.intel.com (HELO smile) ([10.237.72.159])
-  by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Oct 2021 03:31:41 -0700
-Received: from andy by smile with local (Exim 4.95)
-        (envelope-from <andy.shevchenko@gmail.com>)
-        id 1mabXu-000JEQ-AK;
-        Wed, 13 Oct 2021 13:31:38 +0300
-Date:   Wed, 13 Oct 2021 13:31:38 +0300
-From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-To:     Thorsten Leemhuis <linux@leemhuis.info>
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>,
-        KUnit Development <kunit-dev@googlegroups.com>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        netdev <netdev@vger.kernel.org>,
-        Brendan Higgins <brendanhiggins@google.com>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Ingo Molnar <mingo@redhat.com>, Will Deacon <will@kernel.org>,
-        Waiman Long <longman@redhat.com>,
-        Boqun Feng <boqun.feng@gmail.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        id S230297AbhJMK5b (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 13 Oct 2021 06:57:31 -0400
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:35238 "EHLO
+        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229666AbhJMK5b (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Wed, 13 Oct 2021 06:57:31 -0400
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: andrzej.p)
+        with ESMTPSA id 376CE1F4415E
+Subject: Re: [PATCH v7, 00/15] Support multi hardware decode using
+ of_platform_populate
+To:     "yunfei.dong@mediatek.com" <yunfei.dong@mediatek.com>,
+        Alexandre Courbot <acourbot@chromium.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Tzung-Bi Shih <tzungbi@chromium.org>,
+        Tiffany Lin <tiffany.lin@mediatek.com>,
+        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Thomas Graf <tgraf@suug.ch>,
-        Herbert Xu <herbert@gondor.apana.org.au>,
-        Andrew Morton <akpm@linux-foundation.org>
-Subject: Re: [PATCH v2 0/4] kernel.h further split
-Message-ID: <YWa1igOl4eAxv6FL@smile.fi.intel.com>
-References: <20211007095129.22037-1-andriy.shevchenko@linux.intel.com>
- <YV7NEze2IvUgHusJ@kroah.com>
- <CAHp75VfoQ-rFEEFu2FnaPuPDwyiTHpA_dCwqfA1SYSkFPM2uMA@mail.gmail.com>
- <20211008113758.6cbee642@t14s>
+        Rob Herring <robh+dt@kernel.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Tomasz Figa <tfiga@google.com>
+Cc:     Hsin-Yi Wang <hsinyi@chromium.org>,
+        Fritz Koenig <frkoenig@chromium.org>,
+        Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
+        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        Irui Wang <irui.wang@mediatek.com>,
+        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        srv_heupstream@mediatek.com, linux-mediatek@lists.infradead.org,
+        Project_Global_Chrome_Upstream_Group@mediatek.com
+References: <20211011070247.792-1-yunfei.dong@mediatek.com>
+ <73f83f00-5d49-ba77-f46d-9c0855dc5268@collabora.com>
+ <11498cb8b7f1754f6134ce8143bd4f81272d0ffc.camel@mediatek.com>
+From:   Andrzej Pietrasiewicz <andrzej.p@collabora.com>
+Message-ID: <e62baef3-3fa6-5dd4-cbd0-026227b4cf7c@collabora.com>
+Date:   Wed, 13 Oct 2021 12:55:23 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+In-Reply-To: <11498cb8b7f1754f6134ce8143bd4f81272d0ffc.camel@mediatek.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20211008113758.6cbee642@t14s>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, Oct 08, 2021 at 11:37:58AM +0200, Thorsten Leemhuis wrote:
-> On Thu, 7 Oct 2021 14:51:15 +0300
-> Andy Shevchenko <andy.shevchenko@gmail.com> wrote:
-> > On Thu, Oct 7, 2021 at 1:34 PM Greg Kroah-Hartman
-> > <gregkh@linuxfoundation.org> wrote:
-> > > On Thu, Oct 07, 2021 at 12:51:25PM +0300, Andy Shevchenko wrote:
-> > > > The kernel.h is a set of something which is not related to each
-> > > > other and often used in non-crossed compilation units, especially
-> > > > when drivers need only one or two macro definitions from it.
-> > > >
-> > > > Here is the split of container_of(). The goals are the following:
-> > > > - untwist the dependency hell a bit
-> > > > - drop kernel.h inclusion where it's only used for container_of()
-> > > > - speed up C preprocessing.
-> > > >
-> > > > People, like Greg KH and Miguel Ojeda, were asking about the
-> > > > latter. Read below the methodology and test setup with outcome
-> > > > numbers.
-> > > >
-> > > > The methodology
-> > > > ===============
-> > > > The question here is how to measure in the more or less clean way
-> > > > the C preprocessing time when building a project like Linux
-> > > > kernel. To answer it, let's look around and see what tools do we
-> > > > have that may help. Aha, here is ccache tool that seems quite
-> > > > plausible to be used. Its core idea is to preprocess C file,
-> > > > count hash (MD4) and compare to ones that are in the cache. If
-> > > > found, return the object file, avoiding compilation stage.
-> > > >
-> > > > Taking into account the property of the ccache, configure and use
-> > > > it in the below steps:
-> > > >
-> > > > 1. Configure kernel with allyesconfig
-> > > >
-> > > > 2. Make it with `make` to be sure that the cache is filled with
-> > > >    the latest data. I.o.w. warm up the cache.
-> > > >
-> > > > 3. Run `make -s` (silent mode to reduce the influence of
-> > > >    the unrelated things, like console output) 10 times and
-> > > >    measure 'real' time spent.
-> > > >
-> > > > 4. Repeat 1-3 for each patch or patch set to get data sets before
-> > > >    and after.
-> > > >
-> > > > When we get the raw data, calculating median will show us the
-> > > > number. Comparing them before and after we will see the
-> > > > difference.
-> > > >
-> > > > The setup
-> > > > =========
-> > > > I have used the Intel x86_64 server platform (see partial output
-> > > > of `lscpu` below):
-> > > >
-> > > > $ lscpu
-> > > > Architecture:            x86_64
-> > > >   CPU op-mode(s):        32-bit, 64-bit
-> > > >   Address sizes:         46 bits physical, 48 bits virtual
-> > > >   Byte Order:            Little Endian
-> > > > CPU(s):                  88
-> > > >   On-line CPU(s) list:   0-87
-> > > > Vendor ID:               GenuineIntel
-> > > >   Model name:            Intel(R) Xeon(R) CPU E5-2699 v4 @ 2.20GHz
-> > > >     CPU family:          6
-> > > >     Model:               79
-> > > >     Thread(s) per core:  2
-> > > >     Core(s) per socket:  22
-> > > >     Socket(s):           2
-> > > >     Stepping:            1
-> > > >     CPU max MHz:         3600.0000
-> > > >     CPU min MHz:         1200.0000
-> > > > ...
-> > > > Caches (sum of all):
-> > > >   L1d:                   1.4 MiB (44 instances)
-> > > >   L1i:                   1.4 MiB (44 instances)
-> > > >   L2:                    11 MiB (44 instances)
-> > > >   L3:                    110 MiB (2 instances)
-> > > > NUMA:
-> > > >   NUMA node(s):          2
-> > > >   NUMA node0 CPU(s):     0-21,44-65
-> > > >   NUMA node1 CPU(s):     22-43,66-87
-> > > > Vulnerabilities:
-> > > >   Itlb multihit:         KVM: Mitigation: Split huge pages
-> > > >   L1tf:                  Mitigation; PTE Inversion; VMX
-> > > > conditional cache flushes, SMT vulnerable Mds:
-> > > > Mitigation; Clear CPU buffers; SMT vulnerable Meltdown:
-> > > >    Mitigation; PTI Spec store bypass:     Mitigation; Speculative
-> > > > Store Bypass disabled via prctl and seccomp Spectre v1:
-> > > >  Mitigation; usercopy/swapgs barriers and __user pointer
-> > > > sanitization Spectre v2:            Mitigation; Full generic
-> > > > retpoline, IBPB conditional, IBRS_FW, STIBP conditional, RSB
-> > > > filling Tsx async abort:       Mitigation; Clear CPU buffers; SMT
-> > > > vulnerable
-> > > >
-> > > > With the following GCC:
-> > > >
-> > > > $ gcc --version
-> > > > gcc (Debian 10.3.0-11) 10.3.0
-> > > >
-> > > > The commands I have run during the measurement were:
-> > > >
-> > > >       rm -rf $O
-> > > >       make O=$O allyesconfig
-> > > >       time make O=$O -s -j64  # this step has been measured
+Hi,
+
+W dniu 13.10.2021 o 03:08, yunfei.dong@mediatek.com pisze:
+> Hi Andrzej,
 > 
-> BTW, what kcbench does in the end is not that different, but it only
-> builds the config once and that uses it for all further testing.
-
-Since I measure the third operation only this shouldn't affect recreation
-of the configuration file.
-
-> > > > The raw data and median
-> > > > =======================
-> > > > Before patch 2 (yes, I have measured the only patch 2 effect) in
-> > > > the series (the data is sorted by time):
-> > > >
-> > > > real    2m8.794s
-> > > > real    2m11.183s
-> > > > real    2m11.235s
-> > > > real    2m11.639s
-> > > > real    2m11.960s
-> > > > real    2m12.014s
-> > > > real    2m12.609s
-> > > > real    2m13.177s
-> > > > real    2m13.462s
-> > > > real    2m19.132s
-> > > >
-> > > > After patch 2 has been applied:
-> > > >
-> > > > real    2m8.536s
-> > > > real    2m8.776s
-> > > > real    2m9.071s
-> > > > real    2m9.459s
-> > > > real    2m9.531s
-> > > > real    2m9.610s
-> > > > real    2m10.356s
-> > > > real    2m10.430s
-> > > > real    2m11.117s
-> > > > real    2m11.885s
-> > > >
-> > > > Median values are:
-> > > >       131.987s before
-> > > >       129.571s after
-> > > >
-> > > > We see the steady speedup as of 1.83%.
-> > >
-> > > You do know about kcbench:
-> > >         https://gitlab.com/knurd42/kcbench.git
-> > >
-> > > Try running that to make it such that we know how it was tested :)
-> > 
-> > I'll try it.
-> > 
-> > Meanwhile, Thorsten, can you have a look at my approach and tell if it
-> > makes sense?
 > 
-> I'm not the right person to ask here, I don't know enough about the
-> inner working of ccache and C preprocessing. Reminder: I'm not a real
-> kernel/C developer, but more kind of a parasite that lives on the
-> fringes of kernel development. ;-) Kcbench in fact originated as a
-> benchmark magazine for the computer magazine I used to work for – where
-> I also did quite a few benchmarks. But that knowledge might be helpful
-> here:
+> On Tue, 2021-10-12 at 16:27 +0200, Andrzej Pietrasiewicz wrote:
+>> Hi Yunfei Dong,
+>>
+>> W dniu 11.10.2021 o 09:02, Yunfei Dong pisze:
+>>> This series adds support for multi hardware decode into mtk-vcodec,
+>>> by first
+>>> adding use of_platform_populate to manage each hardware
+>>> information: interrupt,
+>>> clock, register bases and power. Secondly add core thread to deal
+>>> with core
+>>> hardware message, at the same time, add msg queue for different
+>>> hardware
+>>> share messages. Lastly, the architecture of different specs are not
+>>> the same,
+>>> using specs type to separate them.
+>>>
+>>> This series has been tested with both MT8183 and MT8173. Decoding
+>>> was working
+>>> for both chips.
+>>>
+>>> Patches 1~3 rewrite get register bases and power on/off interface.
+>>>
+>>> Patch 4 add to support multi hardware.
+>>>
+>>> Patch 5 separate video encoder and decoder document
+>>>
+>>> Patches 6-15 add interfaces to support core hardware.
+>>
+>> Which tree does the series apply to?
 > 
-> The measurements before and after patch 2 was applied get slower over
-> time. That is a hint that something is interfering. Is the disk filling
-> up and making the fs do more work? Or is the machine getting to hot? It
-> IMHO would be worth investigating and ruling out, as the differences
-> you are looking out are likely quite small
+> I don't understand your mean clearly. Media tree?
+> 
+> You can get the patches from this link:
+> 
+> https://patchwork.linuxtv.org/project/linux-media/cover/20211011070247.792-1-yunfei.dong@mediatek.com/
+> 
 
-I tried to explain why my methodology is closer to what we need to measure
-in the above and replies. TL;DR: mathematically the O() shadows o() and as
-we know the CPU and disk usage during compilation is a huge in comparison
-to the C preprocessing. I'm not sure what you are referring by "slower
-over time" since I explicitly said that I have _sorted_ the data. Nothing
-should be done here, I believe.
+Here's what I get:
 
-> Also: the last run of the first measurement cycle is off by quite a
-> bit, so I wouldn't even include the result, as there like was something
-> that disturbed the benchmark.
+$ git remote update media_tree
+Fetching media_tree
 
-I believe you missed the very same remark, i.e. that the data is sorted.
+$ git branch
+   master
+* media_tree
+   mediatek-master
 
-> And I might be missing something, but why were you using "-j 64" on a
-> machine with 44 cores/88 threads?
+$ git-pw --server https://patchwork.linuxtv.org/api/1.1 --project linux-media 
+series apply 6465 -3
+Failed to apply patch:
+Applying: media: mtk-vcodec: Get numbers of register bases from DT
+Applying: media: mtk-vcodec: Align vcodec wake up interrupt interface
+Applying: media: mtk-vcodec: Refactor vcodec pm interface
+Applying: media: mtk-vcodec: Manage multi hardware information
+error: sha1 information is lacking or useless 
+(drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_drv.c).
+error: could not build fake ancestor
+Patch failed at 0004 media: mtk-vcodec: Manage multi hardware information
+Use 'git am --show-current-patch' to see the failed patch
+When you have resolved this problem, run "git am --continue".
+If you prefer to skip this patch, run "git am --skip" instead.
+To restore the original branch and stop patching, run "git am --abort".
 
-Because that machine has more processes being run. And I would like to
-minimize fluctuation of the CPU scheduling when some process requires
-a resource to perform little work.
+Regards,
 
-> I wonder if that might lead do
-> interesting effects due to SMT (some core will run two threads, other
-> only one). Using either "-j 44" or "-j 88" might be better.
-
-How -j64 can be better? Nothing will guarantee that any of the core will
-be half-loaded. But -j88 is worse because any process that wakes up and
-requires for a resource may affect the measurements.
-
-> But I
-> suggest you run kcbench once without specifying "-j", as that will
-> check which setting is the fastest on this system – and then use that
-> for all further tests.
-
-Next time I will try this approach, thanks for your reply and insights!
-
--- 
-With Best Regards,
-Andy Shevchenko
-
-
+Andrzej
