@@ -2,149 +2,164 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 777FD42B5A9
-	for <lists+linux-media@lfdr.de>; Wed, 13 Oct 2021 07:39:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C55B042B861
+	for <lists+linux-media@lfdr.de>; Wed, 13 Oct 2021 09:05:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230103AbhJMFlO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 13 Oct 2021 01:41:14 -0400
-Received: from ni.piap.pl ([195.187.100.5]:44190 "EHLO ni.piap.pl"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229735AbhJMFlN (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 13 Oct 2021 01:41:13 -0400
-Received: from t19.piap.pl (OSB1819.piap.pl [10.0.9.19])
-        by ni.piap.pl (Postfix) with ESMTPSA id A707FC36955E;
-        Wed, 13 Oct 2021 07:39:07 +0200 (CEST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ni.piap.pl A707FC36955E
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=piap.pl; s=mail;
-        t=1634103547; bh=5GPJZkCmh6R4KMyc90zRKGcT2ecjuzI4fDbaZ5mnFYw=;
-        h=From:To:Cc:Subject:References:Date:In-Reply-To:From;
-        b=Jq7QRpZCQpKYz3uAgihW9NsSw4Ilf+tdFVpGWgi8tAdSIyVu8CPBTxDYwZ7+Gv1d6
-         q/nCIjL9HmyuBKHnSymTJ9bwS43cyHofuXGi7tbmIbRBcxElVbtfT2QogBsMpgKrXK
-         ohs5d066aKq6TBD2RoIRvBGF0FSjYASyEAzrtqmk=
-From:   =?utf-8?Q?Krzysztof_Ha=C5=82asa?= <khalasa@piap.pl>
-To:     Sakari Ailus <sakari.ailus@iki.fi>
-Cc:     Jacopo Mondi <jacopo@jmondi.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Matteo Lisi <matteo.lisi@engicam.com>
-Subject: Re: [PATCH v5] Driver for ON Semi AR0521 camera sensor
-References: <m3fstfoexa.fsf@t19.piap.pl>
-        <20211009102446.jrvrdr7whtd2rv4z@uno.localdomain>
-        <m3mtnflpna.fsf@t19.piap.pl>
-        <20211011143420.vm6ncl5gdv44nsn3@uno.localdomain>
-        <m3a6jel9ce.fsf@t19.piap.pl> <YWXwSAm3OO/WTkOL@valkosipuli.retiisi.eu>
-Sender: khalasa@piap.pl
-Date:   Wed, 13 Oct 2021 07:39:07 +0200
-In-Reply-To: <YWXwSAm3OO/WTkOL@valkosipuli.retiisi.eu> (Sakari Ailus's message
-        of "Tue, 12 Oct 2021 23:30:00 +0300")
-Message-ID: <m335p5lc04.fsf@t19.piap.pl>
+        id S232206AbhJMHH2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 13 Oct 2021 03:07:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59586 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229819AbhJMHH1 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Wed, 13 Oct 2021 03:07:27 -0400
+Received: from mail-lf1-x130.google.com (mail-lf1-x130.google.com [IPv6:2a00:1450:4864:20::130])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E5C8CC061746
+        for <linux-media@vger.kernel.org>; Wed, 13 Oct 2021 00:05:24 -0700 (PDT)
+Received: by mail-lf1-x130.google.com with SMTP id r19so7302230lfe.10
+        for <linux-media@vger.kernel.org>; Wed, 13 Oct 2021 00:05:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=PfnVX7fs5mOAIg5g0IqUeD9+3NCJp4mY90XboBsyTc0=;
+        b=PJn70qZ0of/CLO+ZxZI67bYUqZTq5pvu4J69Nxw34dbToC6iLbo2ubHihqjbU+KWvU
+         jT02ga161bl+/F27IiyaK0qLauaVLgIhgN5hOmgGgxjZ+XoUH49428zf2pNFYPHFfaCR
+         bplSjSXtd3xozXnXz7wtrKc5ZFxoqxM+9OoRo=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=PfnVX7fs5mOAIg5g0IqUeD9+3NCJp4mY90XboBsyTc0=;
+        b=WVTmeC1pfdFtLPvaiQMaQ56kuKi0axag9PtaxW3UCHrCKVEW4bwR9wslnNesO9XRrD
+         +Fs+/jtLl5xX0J6acUy4Hhc0KKed5SeZkyliZjmT+NHaDuXrCt2Hss0AN6FxripYZZMK
+         WA4e7M6E+FDHY8wxOZer/JohINTBEkI0N3Zc5GwK9srj2R1OEuI5FYa9H3zgoIDI6+Fi
+         WI2q8ExgkbtBJ5Ia9FEhh7sCzPclLRCLjNTafxm65jvJQe5sBfrHFJ9dJ8wtedAPwF1R
+         RuzRQ2LjJ5xLoEUHapncdBG+yVlAtH/MiCkR+evqFGh0yWKy4+oxXWlWVbiksn/ViNHm
+         112w==
+X-Gm-Message-State: AOAM5336H497g6wFk10o1oRXmE8PLgUvAS+Vs/tY3S78hHJvEACVV9B5
+        U40uE6XCp2XnnDySV1tX+SA0pghXKwJhEQiB1CWBM4kw3VbUdQ==
+X-Google-Smtp-Source: ABdhPJxYjLoBprzSyIXGzP7xjmn68PtGM7ruxdJkHX33kuYTv8KEpFlP6xZXAhM7paKE8nSoUpMNEuk3fyQqHBpe0pM=
+X-Received: by 2002:ac2:4e07:: with SMTP id e7mr1074589lfr.308.1634108722948;
+ Wed, 13 Oct 2021 00:05:22 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+References: <20211008100423.739462-1-wenst@chromium.org> <f108f23dadc846222c63c88af826dae9c5082d83.camel@ndufresne.ca>
+In-Reply-To: <f108f23dadc846222c63c88af826dae9c5082d83.camel@ndufresne.ca>
+From:   Chen-Yu Tsai <wenst@chromium.org>
+Date:   Wed, 13 Oct 2021 15:05:11 +0800
+Message-ID: <CAGXv+5FnFq1mN79sqUp-o6pHirYvp55gurnsUCgqYvEAX2=4oQ@mail.gmail.com>
+Subject: Re: [PATCH 0/2] media: rkvdec: Align decoder behavior with Hantro and Cedrus
+To:     Nicolas Dufresne <nicolas@ndufresne.ca>
+Cc:     Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        "open list:ARM/Rockchip SoC..." <linux-rockchip@lists.infradead.org>,
+        linux-staging@lists.linux.dev, LKML <linux-kernel@vger.kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Andrzej Pietrasiewicz <andrzej.p@collabora.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-KLMS-Rule-ID: 1
-X-KLMS-Message-Action: clean
-X-KLMS-AntiSpam-Lua-Profiles: 166679 [Oct 13 2021]
-X-KLMS-AntiSpam-Version: 5.9.20.0
-X-KLMS-AntiSpam-Envelope-From: khalasa@piap.pl
-X-KLMS-AntiSpam-Rate: 0
-X-KLMS-AntiSpam-Status: not_detected
-X-KLMS-AntiSpam-Method: none
-X-KLMS-AntiSpam-Auth: dkim=pass header.d=piap.pl
-X-KLMS-AntiSpam-Info: LuaCore: 463 463 5854868460de3f0d8e8c0a4df98aeb05fb764a09, {Tracking_uf_ne_domains}, {Tracking_marketers, three}, {Tracking_from_domain_doesnt_match_to}, t19.piap.pl:7.1.1;piap.pl:7.1.1;127.0.0.199:7.1.2;d41d8cd98f00b204e9800998ecf8427e.com:7.1.1;hverkuil.home.xs4all.nl:7.1.1
-X-MS-Exchange-Organization-SCL: -1
-X-KLMS-AntiSpam-Interceptor-Info: scan successful
-X-KLMS-AntiPhishing: Clean, bases: 2021/10/13 04:39:00
-X-KLMS-AntiVirus: Kaspersky Security for Linux Mail Server, version 8.0.3.30, bases: 2021/10/13 03:14:00 #17311323
-X-KLMS-AntiVirus-Status: Clean, skipped
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Sakari,
+Hi,
 
-> 	https://hverkuil.home.xs4all.nl/spec/driver-api/camera-sensor.html
+On Fri, Oct 8, 2021 at 11:42 PM Nicolas Dufresne <nicolas@ndufresne.ca> wro=
+te:
+>
+> Hi Chen-Yu,
+>
+> thanks for looking into this.
+>
+> Le vendredi 08 octobre 2021 =C3=A0 18:04 +0800, Chen-Yu Tsai a =C3=A9crit=
+ :
+> > Hi everyone,
+> >
+> > While working on the rkvdec H.264 decoder for ChromeOS, I noticed some
+> > behavioral differences compared to Hantro and Cedrus:
+> >
+> > 1. The driver always overrides the sizeimage setting given by userspace
+> >    for the output format. This results in insufficient buffer space whe=
+n
+> >    running the ChromeOS video_decode_accelerator_tests test program,
+> >    likely due to a small initial resolution followed by dynamic
+> >    resolution change.
+> >
+> > 2. Doesn't support dynamic resolution change.
+> >
+> > This small series fixes both and aligns the behavior with the other two
+> > stateless decoder drivers. This was tested on the downstream ChromeOS
+> > 5.10 kernel with ChromeOS. Also compiled tested on mainline but I don't
+> > have any other RK3399 devices set up to test video stuff, so testing
+> > would be very much appreciated.
+> >
+> > Also, I'm not sure if user applications are required to check the value
+> > of sizeimage upon S_FMT return. If the value is different or too small,
+> > what can the application do besides fail? AFAICT it can't split the
+> > data of one frame (or slice) between different buffers.
+>
+> While most software out there just assumes that driver will do it right a=
+nd
+> crash when it's not the case, application that do map the buffer to CPU m=
+ust
+> read back the fmt structure as the drivers are all fail-safe and will mod=
+ify
+> that structure to a set of valid value s for the context.
 
-Ok:
-"8.2.2. Devicetree
+I believe what is happening in Chromium is that the decoder is opened with
+some default settings, including the smallest viable resolution for the
+output side, and the buffers allocated accordingly. When dynamic resolution
+change happens, the decoder does not check if the current buffers are
+sufficiently sized; it just assumes that they are. And when it starts
+pushing data into the buffers, it realizes they are too small and fails.
 
-The currently preferred way to achieve this is using assigned-clocks,
-assigned-clock-parents and assigned-clock-rates properties. See
-Documentation/devicetree/bindings/clock/clock-bindings.txt for more
-information. The driver then gets the frequency using clk_get_rate()."
+The spec also says:
 
-Let's see:
-Documentation/devicetree/bindings/clock/clock-bindings.txt:
+    Clients are allowed to set the sizeimage field for variable length
+    compressed data flagged with V4L2_FMT_FLAG_COMPRESSED at ioctl
+    VIDIOC_ENUM_FMT, but the driver may ignore it and set the value itself,
+    or it may modify the provided value based on alignment requirements or
+    minimum/maximum size requirements.
 
-"=3D=3DAssigned clock parents and rates=3D=3D
+The spec only guarantees that the buffers are of sufficient size for the
+resolution configured at the time they were allocated/requested.
 
-Some platforms may require initial configuration of default parent clocks
-and clock frequencies. Such a configuration can be specified in a device tr=
-ee
-node through assigned-clocks, assigned-clock-parents and assigned-clock-rat=
-es
-properties. The assigned-clock-parents property should contain a list of pa=
-rent
-clocks in the form of a phandle and clock specifier pair and the
-assigned-clock-rates property should contain a list of frequencies in Hz. B=
-oth
-these properties should correspond to the clocks listed in the assigned-clo=
-cks
-property."
+So I think my first patch is a workaround for a somewhat broken userspace.
+But it seems the other stateless drivers are providing similar behavior,
+as I previously mentioned.
 
-So I'm after "assigned-clock-rates", right?
+> As for opposite direction (output vs capture) format being changed, this =
+should
+> be documented in the spec, if you find it too unclear or missing for sate=
+less
+> codec (I know it's there for stateful but can't remember, would have to r=
+e-read,
+> for stateless) let us know.
 
-"Configuring a clock's parent and rate through the device node that consumes
-the clock can be done only for clocks that have a single user. Specifying
-conflicting parent or rate configuration in multiple consumer nodes for
-a shared clock is forbidden."
+AFAICT the capture side is working OK and to spec.
 
-This sounds a bit problematic, the clock I use is at least potentially
-shared by multiple parts of the system, depending on current (run time)
-configuration. I am/was getting different frequencies depending of the
-particular system (all based on the same i.MX6* SoC, but with different
-peripherals used/enabled). I think it's quite a common situation.
 
-> Generally camera sensor drivers that set the clock in drivers themselves
-> are (very) old.
+Regards
+ChenYu
 
-Let's have a look... ov9282 is (one of) the newest drivers. It does:
-#define OV9282_INCLK_RATE    24000000
-
-        /* Get sensor input clock */
-        ov9282->inclk =3D devm_clk_get(ov9282->dev, NULL);
-        if (IS_ERR(ov9282->inclk)) {
-                dev_err(ov9282->dev, "could not get inclk");
-                return PTR_ERR(ov9282->inclk);
-        }
-
-        rate =3D clk_get_rate(ov9282->inclk);
-        if (rate !=3D OV9282_INCLK_RATE) {
-                dev_err(ov9282->dev, "inclk frequency mismatch");
-                return -EINVAL;
-        }
-
-$ git grep -l ov9282
-Documentation/devicetree/bindings/media/i2c/ovti,ov9282.yaml
-MAINTAINERS
-drivers/media/i2c/Kconfig
-drivers/media/i2c/Makefile
-drivers/media/i2c/ov9282.c
-
-  clocks:
-    description: Clock frequency from 6 to 27MHz
-
-No in-tree DTS exists, but the single frequency (both in the driver -
-this one can be fixed - and in the DTS) is rather limiting. Maybe
-another:
-
-imx412, imx335, imx334, imx258 - same here.
-imx208 is ACPI-based.
-
-Which driver should I consult?
---=20
-Krzysztof "Chris" Ha=C5=82asa
-
-Sie=C4=87 Badawcza =C5=81ukasiewicz
-Przemys=C5=82owy Instytut Automatyki i Pomiar=C3=B3w PIAP
-Al. Jerozolimskie 202, 02-486 Warszawa
+> regards,
+> Nicolas
+>
+> >
+> > Andrzej, I believe the second patch would conflict with your VP9 series=
+.
+> >
+> >
+> > Regards
+> > ChenYu
+> >
+> > Chen-Yu Tsai (2):
+> >   media: rkvdec: Do not override sizeimage for output format
+> >   media: rkvdec: Support dynamic resolution changes
+> >
+> >  drivers/staging/media/rkvdec/rkvdec-h264.c |  5 +--
+> >  drivers/staging/media/rkvdec/rkvdec.c      | 40 +++++++++++-----------
+> >  2 files changed, 23 insertions(+), 22 deletions(-)
+> >
+>
+>
