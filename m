@@ -2,460 +2,473 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id EBD8B42BA26
-	for <lists+linux-media@lfdr.de>; Wed, 13 Oct 2021 10:25:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B3DF042BA3D
+	for <lists+linux-media@lfdr.de>; Wed, 13 Oct 2021 10:28:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238394AbhJMI1z (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 13 Oct 2021 04:27:55 -0400
-Received: from relay3-d.mail.gandi.net ([217.70.183.195]:39345 "EHLO
-        relay3-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231208AbhJMI1x (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Wed, 13 Oct 2021 04:27:53 -0400
-Received: (Authenticated sender: jacopo@jmondi.org)
-        by relay3-d.mail.gandi.net (Postfix) with ESMTPSA id 954906000B;
-        Wed, 13 Oct 2021 08:25:46 +0000 (UTC)
-Date:   Wed, 13 Oct 2021 10:26:34 +0200
-From:   Jacopo Mondi <jacopo@jmondi.org>
-To:     Krzysztof =?utf-8?Q?Ha=C5=82asa?= <khalasa@piap.pl>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        id S232921AbhJMIa3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 13 Oct 2021 04:30:29 -0400
+Received: from mail-eopbgr80048.outbound.protection.outlook.com ([40.107.8.48]:63458
+        "EHLO EUR04-VI1-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S232147AbhJMIa2 (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 13 Oct 2021 04:30:28 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=GDY0HmghSrCKQJoEdZ2zw8jVhaj8mS46sV0LcxPBzlQ7R3YKW2EUmXhkV4mHUUiIfLVjiiuVwfVsAVpYe7mg43xFxnuNVBaofVoZbp/XxSDu6dq/jkeqVR4Piv5qskqjF6KO7tujtBKLj67KcfDLezNGIL7MyDEJ0g8R0xjE0xwtoPnsaq/rMjte5I+PYFC9EqvtS6FUs734liMjKWnnJ9lmm+5+PnGVBsQ/9nxIT1/X7cEF2T9AW0vKOPtOqPEdaMX7WjEqHXIla+yus3y7Hyv30XkTIkPCvZ2+6BmmLkHFPLlKthyvkbdxCHq0pblV2IJXfI2dcxndUTrskHJnrA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=I8WfWr9wNO3UXdwAgumP47Yw0i1cY6+Zm/KkGfozz7A=;
+ b=CpiWjQOzh0hYZqd9adnDYjJDZgKWeErUaHMc9UY+UOqdAQXu2jvJw8OBET1gyOrSB6+j7UgrhDv6EuS8vNM6rJVF9bZyVzrigZMZ8zdi4NARvu6h1kAmTzi3MdjPFSZO2hCMlkWXHYkFQxjyi2sCAE9Htza12hQztUXo+SN81FeBY/ozNcXTLw+lc60ONqzh8ulQe4un4E9rrR+WNnVXdT8zySk4kUzUvqDLYH0c3o2uX2iWFetmOd/hyilffqYzTmTrTc7PwU890hOgRNGdppxAVPbrmKm8tDr5sajtj/2f4kzEWqZsYUejiWuPstZBzNhVW85NYpwXSToa1KIDgQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=I8WfWr9wNO3UXdwAgumP47Yw0i1cY6+Zm/KkGfozz7A=;
+ b=Edhm7I9NyDwtR4danpDKyYCGnOpaa7NjSJg0iydoptezfckT4hdnSHrPH8sXXF5Y2MOtkNhmWtPn41l7VlKmNm41XVAVdqe+FrtW4a97/FyUzSY5tRYfS2e2fmmUfHAWUJg69CMo5vMKhkm1a9x81ZDigwYNLP3kl8ubQi02viU=
+Authentication-Results: kernel.org; dkim=none (message not signed)
+ header.d=none;kernel.org; dmarc=none action=none header.from=nxp.com;
+Received: from AM6PR04MB6341.eurprd04.prod.outlook.com (2603:10a6:20b:d8::14)
+ by AM6PR04MB4789.eurprd04.prod.outlook.com (2603:10a6:20b:7::24) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4587.25; Wed, 13 Oct
+ 2021 08:28:23 +0000
+Received: from AM6PR04MB6341.eurprd04.prod.outlook.com
+ ([fe80::fc3a:8aea:2c92:3886]) by AM6PR04MB6341.eurprd04.prod.outlook.com
+ ([fe80::fc3a:8aea:2c92:3886%5]) with mapi id 15.20.4587.026; Wed, 13 Oct 2021
+ 08:28:23 +0000
+From:   Ming Qian <ming.qian@nxp.com>
+To:     mchehab@kernel.org, shawnguo@kernel.org, robh+dt@kernel.org,
+        s.hauer@pengutronix.de
+Cc:     hverkuil-cisco@xs4all.nl, kernel@pengutronix.de,
+        festevam@gmail.com, linux-imx@nxp.com, aisheng.dong@nxp.com,
         linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Sakari Ailus <sakari.ailus@iki.fi>,
-        Matteo Lisi <matteo.lisi@engicam.com>
-Subject: Re: [PATCH v5] Driver for ON Semi AR0521 camera sensor
-Message-ID: <20211013082634.53zh5j26gucddome@uno.localdomain>
-References: <m3fstfoexa.fsf@t19.piap.pl>
- <20211009102446.jrvrdr7whtd2rv4z@uno.localdomain>
- <m3mtnflpna.fsf@t19.piap.pl>
- <20211011143420.vm6ncl5gdv44nsn3@uno.localdomain>
- <m3a6jel9ce.fsf@t19.piap.pl>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+Subject: [PATCH v10 00/13] amphion video decoder/encoder driver
+Date:   Wed, 13 Oct 2021 16:27:16 +0800
+Message-Id: <cover.1634095309.git.ming.qian@nxp.com>
+X-Mailer: git-send-email 2.33.0
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <m3a6jel9ce.fsf@t19.piap.pl>
+Content-Type: text/plain
+X-ClientProxiedBy: SG2PR03CA0121.apcprd03.prod.outlook.com
+ (2603:1096:4:91::25) To AM6PR04MB6341.eurprd04.prod.outlook.com
+ (2603:10a6:20b:d8::14)
+MIME-Version: 1.0
+Received: from lsv11149.swis.cn-sha01.nxp.com (119.31.174.70) by SG2PR03CA0121.apcprd03.prod.outlook.com (2603:1096:4:91::25) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4608.12 via Frontend Transport; Wed, 13 Oct 2021 08:28:19 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 1a3f7aef-852f-4b7f-fd6e-08d98e236b7f
+X-MS-TrafficTypeDiagnostic: AM6PR04MB4789:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <AM6PR04MB478963985DC8A8615627129DE7B79@AM6PR04MB4789.eurprd04.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:2000;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: BazQqrV2ySORSHcadUdOWxc6Kd1DxmLQNzMbdEyE0x1LF31+Ws/k8IvYdabVm/jVb9VPjzQUdPoGMBB1pvt5U2XrYftyu/sVAw8SYXusH8FBFgcyDPkcWbxJoWPrxF4YZrdrMsNQpOyQCzs6w5qaej/wQ8n3wbWdSLSdA8Q/h4RPY6BA/hib+0y+Ywz2Pm3CEHlcYfb//YE8S7K3TZwwT6aDiBKDx+kNQII9jvw8gp/RnUbhBlKriv6Ly1Zhr9P7jISwuODLC7d33MqreiwIvV4FpIqx4w8aZwuAiCY4CQQIX0uZOYUe6u6z/oHpudfxCcfRxFq5zcMSfgi7d6ddzYhtrGWI4eaJFhpYctJu4VViWAS9wiGtNrLzX+Fz1E/ErlLycnB2gvLaCzFXpMvsgTLzFFA/GoAyBEB/obBHTrCV0TAvGCAJO9VUUxRgTwuIE4aYVt++wMiBK8NZHMpuLQC+PL1TZJT7JRStVYnTOySU7uGpTUDDM+BA/OXUMOXCi8HzTIXwj3yrMHl1BRZzkCm/6D+aJmnczhqXPNfhKzQGs479IBrrBMKKDkOlH9EPQ8AAE73slQPxW1RCgxWxb1RhVGtutOBNj4TcLuG4cCCR9YnOdL3gPxNTUu7YKOVXeRmm33WQbfUFRgGyR+ar/ECXVh9n+2nP7L1alTjO8Ok6KM2Ug67jRwf3mYdeMraePd57y7GL7H54WtL7sf3+baxvW0xzRseFa78CpA3+ohOTWgn209h3+iE9LNmpJ5sBq8wGmoUUdySDs0OGkdqUtLonBH7iUD4pOORvtX7/ayg=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM6PR04MB6341.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(366004)(2906002)(36756003)(83380400001)(186003)(966005)(2616005)(66556008)(66946007)(26005)(956004)(66476007)(6486002)(44832011)(316002)(7696005)(86362001)(30864003)(6666004)(508600001)(52116002)(8676002)(4326008)(38100700002)(5660300002)(7416002)(38350700002)(8936002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?j8VRHUKYDnl1g+D3mGehaKvt0/DKPepduBsxpcgaF5v7nQzd7bi2xeQ0dY03?=
+ =?us-ascii?Q?kbvEv1u9+ZkVKzqpAnn3JiE8Cz1bOnaCtjazNoGmQ5QtlFoyiQSSlvg2QCIk?=
+ =?us-ascii?Q?uidSVASieU4J9i2nFavgZpezPNTEwUdwsRmFnrbZ8oFb/lbJGH5y7s+fAt5r?=
+ =?us-ascii?Q?/TYVkRIbMoqyqyQYTffwMSb1imZ71voPZRiLm+vuvoaVrw7+113Bsjf42ZWS?=
+ =?us-ascii?Q?2QjZI6yzLc31iTkC4qemYjOhwEk47XO0gpBiRwX2kNrz1Q21U2s3GZx9jS74?=
+ =?us-ascii?Q?/N0lkHM3ZaYPRQ+7pB9fl2Tx2W/PfN83fH3dmFu/TFt5l/k4sQcN+glHiACT?=
+ =?us-ascii?Q?u8xIyUyua5KHQvj1FPzD3mZO5wcPO4nP0zRF9RHZ9rnwLPQ169haWZ68mZcE?=
+ =?us-ascii?Q?heb03B1h2DOKmXinuEyOoE42nXhV9fcJ/MYhrKGhyufh5FuoXEhaBtOdRvHs?=
+ =?us-ascii?Q?eM8ce7BQsSVrEntMkxo8yksbKOn6OpTrYdsnEW4knvsVzCdvMdoJyOpiCmXh?=
+ =?us-ascii?Q?sGBgp8sljnH01m6OXEgAO8vW8/axhkiyOd+Xw+xWZqynQYZncMYNK4cD5FtK?=
+ =?us-ascii?Q?omSpDJa6QVdL7i8yboOmPP6WPdn4ng6qyZFn5UA+5eLKfGpbHGRoK5E36HWh?=
+ =?us-ascii?Q?VpSf9tyiNa5X7uZATP43lknUkKIcVVV4PkkmMpN7OpsRQucDMMuCMi8h/N5s?=
+ =?us-ascii?Q?tXjTUgXFoc+Tf8/p7vG6rywkvEC1/+H7v0kPwmYYcaZ9mcCJpA86cYstCke6?=
+ =?us-ascii?Q?06F9CJPJDrwuO/oQ5pahYzl79b/bJXjIxbxj9ntChw9fhSHavbofPfvcPIEo?=
+ =?us-ascii?Q?RPUalYHUk2MRqA4DuESP6yVFLv6+uyZmwsCccgTo6r22o6xe0bCZA7BCeWz/?=
+ =?us-ascii?Q?SvjCewjmNBmRLLBp0PF4uF7SiyfSoBEGKBjUMgeb6Lj3bSGTyiyM8XbNxJLn?=
+ =?us-ascii?Q?rPr6VvS4dFWO+p7sfsZK6eRKouDus6ifEsd3mzg4aA2+xSk/vODE9cCCqXWe?=
+ =?us-ascii?Q?hbHEPUo9M2S++Ti1FzqRWG23RbmN685UarPgMXvvM1ixHr2F6xNcGb3k817Q?=
+ =?us-ascii?Q?WruQXxpmIF3qPV6p70R1itBC5dWjIP5vDD3s540WmlF76BkQvGOYu4XzpxH9?=
+ =?us-ascii?Q?LrRFOD3gzZKvK6x+6iiGap3WO/BbIiRoWgNA6c5RdwD5S/Wi+TbuGiGylW1E?=
+ =?us-ascii?Q?bZwnfEGteL/6TbMxxZAyvrJA50+6NFbkwXnz99hhetgg4MqQtK8Vl1P4LaZN?=
+ =?us-ascii?Q?thfYKdJ/rqcZEY/VmU+d0ZTiZz2g3HZyyvVmF/XF2VlYA4XYCUPTXzxB5vqd?=
+ =?us-ascii?Q?eBIYQ/rtuMvAV5cXLygWmk6d?=
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1a3f7aef-852f-4b7f-fd6e-08d98e236b7f
+X-MS-Exchange-CrossTenant-AuthSource: AM6PR04MB6341.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Oct 2021 08:28:23.1013
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: JmP3/puJBocgZhbd+2j5JdKsZK8BVcintZJjF5Mq+gMf4oiJkBgmIz5V7zIuJJzA7xLA/Rif0dXp/D5mm7lhOw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR04MB4789
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Krzysztof
+Hi all,
 
-On Tue, Oct 12, 2021 at 02:24:17PM +0200, Krzysztof Hałasa wrote:
-> Jacopo,
->
-> > I'll pretend I haven't read this not to be dragged in tangential
-> > discussions. My whole point was such a commit message is useless as I
-> > assume if you submit a driver for inclusion you have tested it.
->
-> Fine, I will remove that very commit comment.
->
-> > I think the clock rate should be assigned in DTS and you should verify
-> > it falls in the supported clock ranges.
->
-> Which driver does that, please?
-> clk_set_rate() appears to be used by multiple drivers, I was thinking
-> I can use it.
-> I can see clock frequencies in DTS, but they usually refer to fixed
-> clocks (e.g. crystal-based). The clock I use is IMX6QDL_CLK_CKO, some
-> sort of a shared generic clock from inside of the CPU. I don't know if
-> I could even set its frequency in DTS.
->
-> >> total_width = max(sensor->fmt.width + AR0521_WIDTH_BLANKING_MIN, AR0521_TOTAL_WIDTH_MIN);
-> >> But this needs verifying.
-> >
-> > There's usually a minimum amount of blankings to be respected, not a
-> > total, even less if the sensor capable of producing smaller modes
-> > through subsampling. Is this sensor different ? I haven't found any
-> > mention in the datasheet.
->
-> I got these values experimentally. But it was few years ago and I have
-> to look at them again.
->
-> > Everyone has preferences. I do have mine, and they DON'T MATTER when I
-> > submit code for inclusion.
->
-> This is a straw man argument, I don't force anyone to my prefs (like
-> e.g. 4-chars tabs). What we have here is a written coding-style
-> document, and documented amendments from high profile developers.
-> Now there are additional, informal and previously unknown to me
-> requirements, of unknown source, which I'm apparently required to
-> follow, so my questions shouldn't came as a surprise, should they?
->
+This patch series adds support for
+the amphion video encoder and decoder
+via the VPU block present in imx8q platforms.
+Currently, support for IMX8QXP and IMX8QM is included.
 
-You have never been told before, while submitting code to Linux, not
-to use C++ comments ? Are you surprised someone contests that ?
+It features decoding for the following formats:
+- H.264
+- HEVC
+- MPEG4
+- MPEG2
+- VC1
+- VP8
 
-> > "We" is me reporting what I've been told in these years from people
-> > that spent their time reviewing my code and making sure the result is
-> > consistent among the whole subsystem. The style of this driver is
-> > totally alien to any convention in place here, and if you can ignore
-> > my comments as I'm just a random idiot on the internet, you have been
-> > told the same by the other people that cared enough to look into your
-> > code.
->
-> Well I must say I wasn't told that "style of this driver is totally
-> alien to any convention in place here" by anyone else yet.
->
+It features encoding for the following formats:
+- H.264
 
-It is.
+The driver creates a separate device node for the encoder and decoder.
 
-No driver in media (which I'm aware of) uses C++ comments.
-Your one is entirely commented with C++ comments.
+This driver is dependent on vpu firmwares.
+The firmwares have been submitted to linux-firmware.
+The firmware patch is since commit
+b563148fd28623f6b6ce68bb06c3dd3bd138b058:
+linux-firmware: Update firmware file for Intel Bluetooth 9462
+(Fri Oct 8 16:30:14 2021 +0530)
 
-They all try to stay in the 80-cols limit.
-Yours have lines that span to 140 cols and goes regularly over 100.
+and it's available in the git repository at:
+    https://github.com/mingqian-0/linux-firmware.git
 
-Lowercase hex is preferred (based on the review I read on the list)
-but not enforced, I give you that.
+for you to fetch changes up to bb3eee4f99589d4910dee4c053a3a685546b5dbb:
+amphion: add VPU firmwares for NXP i.MX8Q SoCs
+(Tue Oct 12 15:09:57 2021 +0800)
 
-> > It all really sounds like "it's better my way, please don't annoy me".
-> > I don't find this a productive way to operate in a cooperative space
-> > :)
->
-> I have already changed a lot of stuff, based on the feedback by several
-> people, and will probably change a lot more. Is it really like you say?
-> I don't think so.
-> Now swap the seats and tell me that what you say isn't now true.
->
-> Think about it.
->
 
-Ok, I give up then, feels like a waste of time reviewing a driver
-(for the only sake of code consistency) and have every single comment
-contested.
+Changelog:
 
-I don't have interest in blocking this driver, the contrary, if it's
-fine for everyone else the way it is. Let me just point you to
+v10
+- refine vpu log, remove custom logging infrastructure
+- support non contiguous planes format nv12m instead of nv12
+- rename V4L2_PIX_FMT_NV12_8L128 to V4L2_PIX_FMT_NV12MT_8L128
+- rename V4L2_PIX_FMT_NV12_10BE_8L128 to V4L2_PIX_FMT_NV12MT_10BE_8L128
+- merge two module into one
+- fix kernel panic in rmmod
 
-Documentation/driver-api/media/maintainer-entry-profile.rst
+v9
+- drop V4L2_BUF_FLAG_CODECCONFIG
+- drop V4L2_EVENT_CODEC_ERROR
+- drop V4L2_EVENT_SKIP - use the v4l2_buffer.sequence counter
+- fix some build warnings with W=1 reported by kernel test robot
 
-and has there suggested have the patch go through
-./scripts/checkpatch.pl --strict --max-line-length=80
+v8
+- move driver from driver/media/platform/imx/vpu-8q to
+  driver/media/platform/amphion
+- rename driver name to amphion
+- remove imx_vpu.h
+- move the definition of V4L2_EVENT_CODEC_ERROR to videodev2.h
+- move the definition of V4L2_EVENT_SKIP to videodev2.h
 
-Then I'll stop bothering about style and I'll let maintainers decide
-what to pick up.
+v7
+- fix build warnings with W=1 reported by kernel test robot
 
-> >> Even on otherwise idle I2C bus this would add unnecessary latency.
-> >> I prefer to have a much faster code, even if using that be() macro
-> >> (which isn't ugly IMHO).
-> >
-> > 'be()' is bad as it is only used in this driver, modifying the
-> > register tables requires to handle the be() macro. I had tested this
-> > by moving register tables to and from a different driver and I had to
-> > manually insert the be() thing and remove it on the other way around.
-> >
-> > For one that writes code there are tens that reads, use and modify it.
-> > And you should be mostly concerned about them.
->
-> I think I have to be most concerned about the operation of the driver.
-> What good is a nicely looking code if it doesn't work?
-> Also, I would think the author (me in this case) is the person who reads
-> his/her code most often, though obviously it may be much less that all
-> others combined.
->
-> I'd love to get rid of the be(), though. What do you propose instead?
->
+v6:
+- rename V4L2_PIX_FMT_NT8 to V4L2_PIX_FMT_NV12_8L128
+- rename V4L2_PIX_FMT_NT10 to V4L2_PIX_FMT_NV12_10BE_8L128
 
-Mode based sensor drivers usually rely on long register tables, whose
-writing is an expensive operation to be done at streamon time. Power
-up is usually done at devnode open time but you relay on the legacy
-s_power() here, so it's in control of the receiver driver which
-depending on the implemenation might call it at open() time or stream
-on. Sorry, I didn't notice that, has you register a devnode I assumed
-you had an open() function, which you don't.
+v5:
+- move some definition from imx_vph.h to videodev2.h
+- remove some unnecessary content
+- add some documentation descriptions
+- pass the lateset v4l2-compliance test
 
-You have two tables of registers:
-- the initial settings (70 register) that you write in pairs (which
-  means 280 bytes on the bus)
-- recommended timings (216 registers) that you write in a single i2c
-  transaction. A third of those registers is 0x0000 (no be() is
-  needed).
+v4:
+- redefine the memory-region in devicetree bindings documentation
+- use v4l2's mechanism to implement synchronize queuing ioctl
+- remove the unnecessary mutex ioctl_sync
+- don't notify source change event if the parameters are same as previously established
+- add flag V4L2_FMT_FLAG_DYN_RESOLUTION to decoder's capture format
 
-There are more or less 15 other occurrences of be(), which are for
-registers writes at streamon time (timings, pll and gains mostly).
+v3:
+- don't make vpu device node a simple-bus
+- trigger probing vpu core in the driver
+- remove unnecessary vpu core index property
 
-The efficiency argument holds as long as we are in an hot path and I
-understand writing 216 registers in pairs has an overhead which to
-me, at open devnode open time is marginal, but if done at streamon time
-should be avoided.
+v2:
+- fix dt bindings build error
+- split driver patch into several parts to avoid exceeding bytes limit
 
-Please keep the suggested timings table declared as big endian in
-place then. I would not use be() to write the handful of registers for
-pll and gains at runtime, but up to you.
+Compliance
+==========
+# v4l2-compliance -d /dev/video0
+v4l2-compliance 1.21.0-4838, 64 bits, 64-bit time_t
+v4l2-compliance SHA: 22466798f9a9 2021-08-25 11:05:21
 
-> > The long table writes should be done once at power-up time, not in any
-> > hot path.
->
-> Power-up isn't "once" anymore. It looks like it's to be done before
-> every start of capture operation (my device will not do that).
->
+Compliance test for amphion-vpu device /dev/video0:
 
-As said, as your driver registers a subdev devnode, but also support
-operations with a devnode-centric receivers, you're not in control of
-when s_power() is called.
+Driver Info:
+	Driver name      : amphion-vpu
+	Card type        : amphion vpu decoder
+	Bus info         : platform: amphion-vpu
+	Driver version   : 5.14.0
+	Capabilities     : 0x84204000
+		Video Memory-to-Memory Multiplanar
+		Streaming
+		Extended Pix Format
+		Device Capabilities
+	Device Caps      : 0x04204000
+		Video Memory-to-Memory Multiplanar
+		Streaming
+		Extended Pix Format
+	Detected Stateful Decoder
 
-> > That said, if the efficiency argument holds for others, feel free to
-> > keep it the way it is.
->
-> It's just how the 1982 hardware thing work.
->
-> > I tested with that yes, I can try remove the already programmed totals
-> > and see if it's only 0x300c that makes a difference
->
-> Just tested it and it works for me in 1920x1080p30 without any changes.
-> Would it be possible it's the gain/exposure settings? If not, what exact
-> clock frequency (for the chip) do you use?
+Required ioctls:
+	test VIDIOC_QUERYCAP: OK
+	test invalid ioctls: OK
 
-24Mhz
+Allow for multiple opens:
+	test second /dev/video0 open: OK
+	test VIDIOC_QUERYCAP: OK
+	test VIDIOC_G/S_PRIORITY: OK
+	test for unlimited opens: OK
 
-> (I haven't yet a chance to test this 0x300c register, but will do).
+Debug ioctls:
+	test VIDIOC_DBG_G/S_REGISTER: OK (Not Supported)
+	test VIDIOC_LOG_STATUS: OK (Not Supported)
 
-I tested it again, and programming the right 0x300c (or the mirror
-register) makes a difference between having completely dark images or
-good ones.
+Input ioctls:
+	test VIDIOC_G/S_TUNER/ENUM_FREQ_BANDS: OK (Not Supported)
+	test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+	test VIDIOC_S_HW_FREQ_SEEK: OK (Not Supported)
+	test VIDIOC_ENUMAUDIO: OK (Not Supported)
+	test VIDIOC_G/S/ENUMINPUT: OK (Not Supported)
+	test VIDIOC_G/S_AUDIO: OK (Not Supported)
+	Inputs: 0 Audio Inputs: 0 Tuners: 0
 
-Also I got mangled frames before I changed the streamon sequence to
-what I've shared. But I need to verify that again as the receiver code
-was moving too.
+Output ioctls:
+	test VIDIOC_G/S_MODULATOR: OK (Not Supported)
+	test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+	test VIDIOC_ENUMAUDOUT: OK (Not Supported)
+	test VIDIOC_G/S/ENUMOUTPUT: OK (Not Supported)
+	test VIDIOC_G/S_AUDOUT: OK (Not Supported)
+	Outputs: 0 Audio Outputs: 0 Modulators: 0
 
->
-> > Do you know why registers are mirrored ? I haven't find any reference
-> > to register shadowing in the manual.
->
-> I think the first set follows some standard, but it lacks something -
-> thus a new set. Or maybe it's how the chip was build from blocks - I
-> don't know.
->
+Input/Output configuration ioctls:
+	test VIDIOC_ENUM/G/S/QUERY_STD: OK (Not Supported)
+	test VIDIOC_ENUM/G/S/QUERY_DV_TIMINGS: OK (Not Supported)
+	test VIDIOC_DV_TIMINGS_CAP: OK (Not Supported)
+	test VIDIOC_G/S_EDID: OK (Not Supported)
 
-The difference is that the 0x3xxx ones are frame synchronized and
-apply to 'bad frames' too.
+Control ioctls:
+	test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: OK
+	test VIDIOC_QUERYCTRL: OK
+	test VIDIOC_G/S_CTRL: OK
+	test VIDIOC_G/S/TRY_EXT_CTRLS: OK
+	test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: OK
+	test VIDIOC_G/S_JPEGCOMP: OK (Not Supported)
+	Standard Controls: 3 Private Controls: 0
 
-> >> When you disable streaming, the clock lanes are apparently in LP-11
-> >> state, however data lanes are LP-00.
-> >
-> > I see. Reading this and your below reply I get you need to enable test
-> > mode, force the lines in LP-11 state and then disable the test mode
-> > and start streaming. Feels like an ack, but maybe that's how the
-> > sensor is intended to be operated.
->
-> I don't think so. I think, in proprietary development, nobody cares
-> about what does the chip send while not streaming.
->
+Format ioctls:
+	test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: OK
+	test VIDIOC_G/S_PARM: OK (Not Supported)
+	test VIDIOC_G_FBUF: OK (Not Supported)
+	test VIDIOC_G_FMT: OK
+	test VIDIOC_TRY_FMT: OK
+	test VIDIOC_S_FMT: OK
+	test VIDIOC_G_SLICED_VBI_CAP: OK (Not Supported)
+	test Cropping: OK (Not Supported)
+	test Composing: OK
+	test Scaling: OK (Not Supported)
 
-afaict only imx6 has this check enforced (but I might be wrong)
+Codec ioctls:
+	test VIDIOC_(TRY_)ENCODER_CMD: OK (Not Supported)
+	test VIDIOC_G_ENC_INDEX: OK (Not Supported)
+	test VIDIOC_(TRY_)DECODER_CMD: OK
 
-> > I anyway think doing this here is not the best idea. "We" have a
-> > pre_streamon() operation but it's also usually done at s_stream(0)
-> > which you can call at device node open time to coax the lines in
-> > LP-11. You already do most of these things, so I would move the test
-> > mode handling to s_stream(0) and start/stop stream by just toggling
-> > the RESET_STREAM bit as suggested in the s_stream() code snippet I've
-> > shared in my previous reply.
->
-> I don't get it completely. However I see I could use the pre_stream()
-> to put the sensor in LP-11 mode (doing this in s_stream(0) would then be
-> pointless). I will see if it works.
+Buffer ioctls:
+	test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK
+	test VIDIOC_EXPBUF: OK
+	test Requests: OK (Not Supported)
 
-Be aware that relying on pre_streamon() requires the receiver driver
-to be instrumented to call the operation. Doing that at s_stream(0)
-time works with all receivers.
+Total for amphion-vpu device /dev/video0: 45, Succeeded: 45, Failed: 0, Warnings: 0
 
-> RESET_STREAM must be already set to 1 (ACTIVE STREAMING) before
-> s_stream(1) is called.
->
-> >> > This register controls the HiSPI interface while my understanding is
-> >> > that everything is MIPI CSI-2 in the rest of the driver. Why is it
-> >> > here ? does it play any role in your setup ?
-> >>
-> >> Yes, it also controls MIPI mode.
-> >
-> > Maybe by accident, as a consequence enabling/disabling the test modes on
-> > the CSI-2 lanes ?
->
-> I guess it simply enables/disables the chosen test mode in the CSI-2
-> lanes :-)
-> I've chosen the test mode to be, well, LP-11 on all lines.
->
-> >> >> +	return ar0521_write_reg(sensor, AR0521_REG_RESET,
-> >> >> +				AR0521_REG_RESET_DEFAULTS |
-> >> >> +				AR0521_REG_RESET_RESTART |
-> >> >> +				AR0521_REG_RESET_STREAM);
-> >> >> +}
-> >>
-> >> That's correct. It's the only way I have found.
-> >
-> > I think it's wrong. RESTART as per its definition interrupts the frame
-> > and re starts the stream. START enables/disable streaming. You set
-> > them both, even at s_stream(0) time, and things might work by
-> > accident because you enable/disable the test mode at s_stream() time.
-> >
-> > As suggested I would rather coax the data lanes in LP-11 state at
-> > s_stream(0) time by enabling test mode after having disabled streaming
-> > by clearing the RESET_STREAM bit in AR0521_REG_RESET.
->
-> How would you do that?
-> If you disable streaming, LP-11 is gone.
-> You need STREAMING to actually "stream" LP-11.
->
+# v4l2-compliance -d /dev/video1
+v4l2-compliance 1.21.0-4838, 64 bits, 64-bit time_t
+v4l2-compliance SHA: 22466798f9a9 2021-08-25 11:05:21
 
-Even for test mode ? So for you streamoff is:
-- Enable test mode (programmed to be LP-11)
-- Start stream
-?
+Compliance test for amphion-vpu device /dev/video1:
 
-Anyway, should the AR0521_REG_RESET_RESTART bit be dropped ?
+Driver Info:
+	Driver name      : amphion-vpu
+	Card type        : amphion vpu encoder
+	Bus info         : platform: amphion-vpu
+	Driver version   : 5.14.0
+	Capabilities     : 0x84204000
+		Video Memory-to-Memory Multiplanar
+		Streaming
+		Extended Pix Format
+		Device Capabilities
+	Device Caps      : 0x04204000
+		Video Memory-to-Memory Multiplanar
+		Streaming
+		Extended Pix Format
+	Detected Stateful Encoder
 
-> > Similarly at
-> > s_stream(1) time I would disable the test mode (I bet it could be done
-> > by clearing bits [9:6] in 0x3066 without touching the HiSpi control
-> > register) and the start streaming by setting RESET_STREAM.
->
-> You lost your bet :-)
-> Clearing these bits disables test on data lanes only.
+Required ioctls:
+	test VIDIOC_QUERYCAP: OK
+	test invalid ioctls: OK
 
-Ack
+Allow for multiple opens:
+	test second /dev/video1 open: OK
+	test VIDIOC_QUERYCAP: OK
+	test VIDIOC_G/S_PRIORITY: OK
+	test for unlimited opens: OK
 
-> To disable clock lane test you have to clear 0x31C6.
-> This is what I do in s_stream(1):
->
->                 // normal output on clock and data lanes
->                 ret = ar0521_write_reg(sensor, AR0521_REG_HISPI_CONTROL_STATUS, 0);
->
-> 0x31C6 = AR0521_REG_HISPI_CONTROL_STATUS which is a misnomer and perhaps
-> I should call it AR0521_REG_MIPI_AND_HISPI_CONTROL_STATUS.
->
+Debug ioctls:
+	test VIDIOC_DBG_G/S_REGISTER: OK (Not Supported)
+	test VIDIOC_LOG_STATUS: OK (Not Supported)
 
-I don't have a way to test LP-11 state, but it feels really weird to
-have to go through a test mode, programmed through a register
-dedicated to HiSPi handling, to be able to have lanes in that state.
-But sensors are weird, and if this works for you it's fine.
+Input ioctls:
+	test VIDIOC_G/S_TUNER/ENUM_FREQ_BANDS: OK (Not Supported)
+	test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+	test VIDIOC_S_HW_FREQ_SEEK: OK (Not Supported)
+	test VIDIOC_ENUMAUDIO: OK (Not Supported)
+	test VIDIOC_G/S/ENUMINPUT: OK (Not Supported)
+	test VIDIOC_G/S_AUDIO: OK (Not Supported)
+	Inputs: 0 Audio Inputs: 0 Tuners: 0
 
-I would just try to centralize it in s_stream()
+Output ioctls:
+	test VIDIOC_G/S_MODULATOR: OK (Not Supported)
+	test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+	test VIDIOC_ENUMAUDOUT: OK (Not Supported)
+	test VIDIOC_G/S/ENUMOUTPUT: OK (Not Supported)
+	test VIDIOC_G/S_AUDOUT: OK (Not Supported)
+	Outputs: 0 Audio Outputs: 0 Modulators: 0
 
-> >> I wonder if you can call set_fmt() etc. when the sensor is streaming.
-> >> Why not?
-> >
-> > Because
-> > https://www.kernel.org/doc/html/latest/userspace-api/media/v4l/vidioc-subdev-g-fmt.html?highlight=subdev_s_fmt#c.V4L.VIDIOC_SUBDEV_S_FMT
-> >
-> > EBUSY
-> > The format can’t be changed because the pad is currently busy. This
-> > can be caused, for instance, by an active video stream on the pad. The
-> > ioctl must not be retried without performing another action to fix the
-> > problem first. Only returned by VIDIOC_SUBDEV_S_FMT
->
-> But it doesn't say EBUSY MUST BE returned when the sensor is streaming,
-> only that it MAY BE returned. Looking at the code, I can see nothing
-> forcing the EBUSY (subdev_do_ioctl(VIDIOC_SUBDEV_S_FMT) ->
+Input/Output configuration ioctls:
+	test VIDIOC_ENUM/G/S/QUERY_STD: OK (Not Supported)
+	test VIDIOC_ENUM/G/S/QUERY_DV_TIMINGS: OK (Not Supported)
+	test VIDIOC_DV_TIMINGS_CAP: OK (Not Supported)
+	test VIDIOC_G/S_EDID: OK (Not Supported)
 
-There's nothing in the core that has the notion of 'active streaming'
+Control ioctls:
+	test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: OK
+	test VIDIOC_QUERYCTRL: OK
+	test VIDIOC_G/S_CTRL: OK
+	test VIDIOC_G/S/TRY_EXT_CTRLS: OK
+	test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: OK
+	test VIDIOC_G/S_JPEGCOMP: OK (Not Supported)
+	Standard Controls: 20 Private Controls: 0
 
-> v4l2_subdev_call(set_fmt)). It also appears several drivers update
-> registers in their set_fmt(), so I think it's the desirable action
-> there.
->
+Format ioctls:
+	test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: OK
+	test VIDIOC_G/S_PARM: OK
+	test VIDIOC_G_FBUF: OK (Not Supported)
+	test VIDIOC_G_FMT: OK
+	test VIDIOC_TRY_FMT: OK
+	test VIDIOC_S_FMT: OK
+	test VIDIOC_G_SLICED_VBI_CAP: OK (Not Supported)
+	test Cropping: OK
+	test Composing: OK (Not Supported)
+	test Scaling: OK (Not Supported)
 
-I hardly see a case where changing format on the sensor through an
-operation on the subdev while streaming, is a good idea.
+Codec ioctls:
+	test VIDIOC_(TRY_)ENCODER_CMD: OK
+	test VIDIOC_G_ENC_INDEX: OK (Not Supported)
+	test VIDIOC_(TRY_)DECODER_CMD: OK (Not Supported)
 
-Also, you have a devnode, so you can change the format on the subdev
-only, without informing the receiver.
+Buffer ioctls:
+	test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK
+	test VIDIOC_EXPBUF: OK
+	test Requests: OK (Not Supported)
 
-Also, your s_fmt() and s_frame_interval() call write_mode() which
-stops the streaming and it doesn't get restarted. I think that's
-wrong and it's an undesired side effect.
+Total for amphion-vpu device /dev/video1: 45, Succeeded: 45, Failed: 0, Warnings: 0
 
-(Also had a chat with Hans about this, the takeaway is that it's a
-really bad idea and you need very strong reasons to allow that. It
-could be considered for extreme cases like changing the color spaces of
-reducing the image size as the allocated buffers are big enough but
-again, you need very strong reasons to do so)
+Ming Qian (13):
+  dt-bindings: media: amphion: add amphion video codec bindings
+  media:Add nv12mt_8l128 and nv12mt_10be_8l128 video format.
+  media: amphion: add amphion vpu device driver
+  media: amphion: add vpu core driver
+  media: amphion: implement vpu core communication based on mailbox
+  media: amphion: add vpu v4l2 m2m support
+  media: amphion: add v4l2 m2m vpu encoder stateful driver
+  media: amphion: add v4l2 m2m vpu decoder stateful driver
+  media: amphion: implement windsor encoder rpc interface
+  media: amphion: implement malone decoder rpc interface
+  ARM64: dts: freescale: imx8q: add imx vpu codec entries
+  firmware: imx: scu-pd: imx8q: add vpu mu resources
+  MAINTAINERS: add AMPHION VPU CODEC V4L2 driver entry
 
-> >> >> +	ret = ar0521_write_reg(sensor, AR0521_REG_ROW_SPEED, 0x110 | 4 / sensor->lane_count);
-> >> >
-> >> > I wasn't able to interpret this register right
-> >> >
-> >> > pc_speed
-> >> > Slows down the internal pixel clock frequency relative to the system
-> >> > clock frequency.  A programmed value of N gives a pixel clock period
-> >> > of N system clocks.  Only values 1, 2 and 4 are supported.
-> >> >
-> >> > Shouldn't this be part of the PLL calculation ?
-> >>
-> >> Well, this doesn't seem to be part of the PLL, and it's constant (as
-> >> long as MIPI lane# is constant). Why do you think it belongs there?
-> >
-> > Because seems like a clock downscaler intended to be used to adapt the CSI-2
-> > clock frequency (lane dependent) to the pixel clock and could be
-> > programmed once.
->
-> Exactly. This "programmed once" (per power-up) is exactly why I set it
-> in ar0521_power_on() instead of calc_pll().
-> First, calc_pll is calculations-only, no hw access (suggested by Laurent
-> IIRC, and it plays well). Second, calc_pll() is called multiple times.
->
-> > Also note that the number of data lanes in use can actually be modified at
-> > run time but it's not something that has to be considered here.
->
-> Yes, #lanes is constant here, though variable lane count could be
-> useful - for tests, and in my other (unpublished) experiments. I don't
-> know if it was possible back then, when I wrote the driver.
->
-> [initial_regs]
->
-> >> You know, I try not to throw unnecessary traffic at I2C bus, too.
-> >
-> > So this could moved to the register tables ? :)
->
-> The truth is, I've considered doing exactly that. But they're quite
-> fragmented (pixel_timing_recommended is linear) and well, perhaps I
-> didn't want to complicate code too much. I may still do it, though.
-> Guess I should.
->
-> > i think you can remove any reference to events
->
-> Good :-)
->
-> > You should probably also support init_cfg as you expose a subdev video
-> > device and you can have an init_format() or similar to be called there
-> > for the try format and called here for the active format.
->
-> Will have a look.
->
-> > Maybe I'm wrong but calling set_suspend() after pm_runtime() had been
-> > disabled seems pointless. A minor anyway as it's in the driver's
-> > remove function.
->
-> Daniel already posted a comment about this, however the whole
-> pm_runtime*() in this driver is a bit fragile and I'd welcome someone
-> who know how does this PM stuff work looking at it...
-> ... with the following quick patch applied on top of v5:
->
-> -	pm_runtime_idle(&client->dev);
-> +	if (pm_runtime_idle(&client->dev) == -ENOSYS) {
-> +		ret = ar0521_power_on(sensor);
-> +		if (ret)
-> +			goto disable;
-> +	}
->  	dev_dbg(dev, "AR0521 driver initialized, master clock frequency: %u MHz, %u MIPI data lanes\n",
->  		sensor->extclk_freq, sensor->lane_count);
->  	return 0;
->
-> +disable:
-> +	v4l2_async_unregister_subdev(&sensor->sd);
-> +	media_entity_cleanup(&sensor->sd.entity);
->  free_ctrls:
->  	v4l2_ctrl_handler_free(&sensor->ctrls.handler);
->  entity_cleanup:
->
-> (Power is only needed after probe()).
->
-> I'll post v6 eventually, of course, but have to squeeze this in
-> somewhere.
-> --
-> Krzysztof "Chris" Hałasa
->
-> Sieć Badawcza Łukasiewicz
-> Przemysłowy Instytut Automatyki i Pomiarów PIAP
-> Al. Jerozolimskie 202, 02-486 Warszawa
+ .../bindings/media/amphion,vpu.yaml           |  178 ++
+ .../media/v4l/pixfmt-yuv-planar.rst           |   15 +
+ MAINTAINERS                                   |    9 +
+ .../arm64/boot/dts/freescale/imx8-ss-vpu.dtsi |   72 +
+ arch/arm64/boot/dts/freescale/imx8qxp-mek.dts |   17 +
+ arch/arm64/boot/dts/freescale/imx8qxp.dtsi    |   24 +
+ drivers/firmware/imx/scu-pd.c                 |    4 +
+ drivers/media/platform/Kconfig                |   19 +
+ drivers/media/platform/Makefile               |    2 +
+ drivers/media/platform/amphion/Makefile       |   20 +
+ drivers/media/platform/amphion/vdec.c         | 1634 ++++++++++++++++
+ drivers/media/platform/amphion/venc.c         | 1370 ++++++++++++++
+ drivers/media/platform/amphion/vpu.h          |  344 ++++
+ drivers/media/platform/amphion/vpu_cmds.c     |  431 +++++
+ drivers/media/platform/amphion/vpu_cmds.h     |   25 +
+ drivers/media/platform/amphion/vpu_codec.h    |   67 +
+ drivers/media/platform/amphion/vpu_color.c    |  190 ++
+ drivers/media/platform/amphion/vpu_core.c     |  906 +++++++++
+ drivers/media/platform/amphion/vpu_core.h     |   16 +
+ drivers/media/platform/amphion/vpu_dbg.c      |  493 +++++
+ drivers/media/platform/amphion/vpu_defs.h     |  186 ++
+ drivers/media/platform/amphion/vpu_drv.c      |  236 +++
+ drivers/media/platform/amphion/vpu_helpers.c  |  429 +++++
+ drivers/media/platform/amphion/vpu_helpers.h  |   71 +
+ drivers/media/platform/amphion/vpu_imx8q.c    |  271 +++
+ drivers/media/platform/amphion/vpu_imx8q.h    |  116 ++
+ drivers/media/platform/amphion/vpu_malone.c   | 1677 +++++++++++++++++
+ drivers/media/platform/amphion/vpu_malone.h   |   42 +
+ drivers/media/platform/amphion/vpu_mbox.c     |  124 ++
+ drivers/media/platform/amphion/vpu_mbox.h     |   16 +
+ drivers/media/platform/amphion/vpu_msgs.c     |  410 ++++
+ drivers/media/platform/amphion/vpu_msgs.h     |   14 +
+ drivers/media/platform/amphion/vpu_rpc.c      |  261 +++
+ drivers/media/platform/amphion/vpu_rpc.h      |  463 +++++
+ drivers/media/platform/amphion/vpu_v4l2.c     |  633 +++++++
+ drivers/media/platform/amphion/vpu_v4l2.h     |   53 +
+ drivers/media/platform/amphion/vpu_windsor.c  | 1222 ++++++++++++
+ drivers/media/platform/amphion/vpu_windsor.h  |   39 +
+ drivers/media/v4l2-core/v4l2-ioctl.c          |    2 +
+ include/uapi/linux/videodev2.h                |    2 +
+ 40 files changed, 12103 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/media/amphion,vpu.yaml
+ create mode 100644 arch/arm64/boot/dts/freescale/imx8-ss-vpu.dtsi
+ create mode 100644 drivers/media/platform/amphion/Makefile
+ create mode 100644 drivers/media/platform/amphion/vdec.c
+ create mode 100644 drivers/media/platform/amphion/venc.c
+ create mode 100644 drivers/media/platform/amphion/vpu.h
+ create mode 100644 drivers/media/platform/amphion/vpu_cmds.c
+ create mode 100644 drivers/media/platform/amphion/vpu_cmds.h
+ create mode 100644 drivers/media/platform/amphion/vpu_codec.h
+ create mode 100644 drivers/media/platform/amphion/vpu_color.c
+ create mode 100644 drivers/media/platform/amphion/vpu_core.c
+ create mode 100644 drivers/media/platform/amphion/vpu_core.h
+ create mode 100644 drivers/media/platform/amphion/vpu_dbg.c
+ create mode 100644 drivers/media/platform/amphion/vpu_defs.h
+ create mode 100644 drivers/media/platform/amphion/vpu_drv.c
+ create mode 100644 drivers/media/platform/amphion/vpu_helpers.c
+ create mode 100644 drivers/media/platform/amphion/vpu_helpers.h
+ create mode 100644 drivers/media/platform/amphion/vpu_imx8q.c
+ create mode 100644 drivers/media/platform/amphion/vpu_imx8q.h
+ create mode 100644 drivers/media/platform/amphion/vpu_malone.c
+ create mode 100644 drivers/media/platform/amphion/vpu_malone.h
+ create mode 100644 drivers/media/platform/amphion/vpu_mbox.c
+ create mode 100644 drivers/media/platform/amphion/vpu_mbox.h
+ create mode 100644 drivers/media/platform/amphion/vpu_msgs.c
+ create mode 100644 drivers/media/platform/amphion/vpu_msgs.h
+ create mode 100644 drivers/media/platform/amphion/vpu_rpc.c
+ create mode 100644 drivers/media/platform/amphion/vpu_rpc.h
+ create mode 100644 drivers/media/platform/amphion/vpu_v4l2.c
+ create mode 100644 drivers/media/platform/amphion/vpu_v4l2.h
+ create mode 100644 drivers/media/platform/amphion/vpu_windsor.c
+ create mode 100644 drivers/media/platform/amphion/vpu_windsor.h
+
+
+base-commit: 64cdf7e5a3aac0e7c9efdb079e74e22875b0419a
+-- 
+2.33.0
+
