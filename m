@@ -2,105 +2,137 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C76E742C349
-	for <lists+linux-media@lfdr.de>; Wed, 13 Oct 2021 16:32:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 88A3742C480
+	for <lists+linux-media@lfdr.de>; Wed, 13 Oct 2021 17:08:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237449AbhJMOe1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 13 Oct 2021 10:34:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50470 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236703AbhJMOeU (ORCPT
+        id S229836AbhJMPLA convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-media@lfdr.de>); Wed, 13 Oct 2021 11:11:00 -0400
+Received: from mail-ua1-f49.google.com ([209.85.222.49]:33356 "EHLO
+        mail-ua1-f49.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229514AbhJMPK7 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 13 Oct 2021 10:34:20 -0400
-Received: from mail-wr1-x42e.google.com (mail-wr1-x42e.google.com [IPv6:2a00:1450:4864:20::42e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5910BC061753
-        for <linux-media@vger.kernel.org>; Wed, 13 Oct 2021 07:32:17 -0700 (PDT)
-Received: by mail-wr1-x42e.google.com with SMTP id y3so9187770wrl.1
-        for <linux-media@vger.kernel.org>; Wed, 13 Oct 2021 07:32:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ffwll.ch; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=iKQ96m1zzkQMuFL3fcXQPzaxnnE4DluBXjRvFkSR5wI=;
-        b=ODf6itJ3fnWbDlharuS4Wj+1XeDkgwC8SSXHTy+CeDfYmS8y1a4+OuduJ3MChaifTP
-         GgeKZkeLiaUbLvIOiC9S9XqAmkICJYYBhlnJYHE/QKU/OA30SExGMtA3ucg3zDbW//2+
-         KcKkk1wVoLLSvWfWDVDOeUNBKIGDSsrz3/GoE=
+        Wed, 13 Oct 2021 11:10:59 -0400
+Received: by mail-ua1-f49.google.com with SMTP id i15so5256367uap.0;
+        Wed, 13 Oct 2021 08:08:56 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=iKQ96m1zzkQMuFL3fcXQPzaxnnE4DluBXjRvFkSR5wI=;
-        b=0WDD/gU7j9m5Lt6wlmYFYItKnxa+qObMfzDWa3GOtNF+sPCMGSDrITmpTDH5KSiIB/
-         bLvKY+ifIkZHF4YTfVnKc1851cPLC2nEN/Z9NosI807Op4QoJh+7W7XadrzH86/T6cOu
-         tYlODyvCF4KxK1G1ANcyFCdf3oi+M0kkDDE++KS1xXZFFMVyByr/VkEhD0LZLvs2ileJ
-         7ifsDDafL2o14p7Tkfculh1VP0VwG/SEzufnYD6xN9se3NtnJAvyMkAed/mARuhwV6ip
-         rHOeVm01N08kVl/nWLNEHQLxSN6BbY21bAO3LObLYa0OSY3/5EqPJ+6dQh0oJxdruzIS
-         rySw==
-X-Gm-Message-State: AOAM530w0VsnWDqicio0lpvFzicipzPdCDGtfeIRnXQdC3bDh7DafxS6
-        I8JI52ku8NKFjaQ3gJtJvOYRDQ==
-X-Google-Smtp-Source: ABdhPJxOOVUWtj4KaDAa/dBN+HmwBExqoN7dFMBZ9hrJ2SWC4H73/jm3/GoodLipJP6b1uo6WHOAGQ==
-X-Received: by 2002:a7b:c114:: with SMTP id w20mr13006075wmi.143.1634135535984;
-        Wed, 13 Oct 2021 07:32:15 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
-        by smtp.gmail.com with ESMTPSA id b19sm5756585wmb.1.2021.10.13.07.32.15
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 13 Oct 2021 07:32:15 -0700 (PDT)
-Date:   Wed, 13 Oct 2021 16:32:13 +0200
-From:   Daniel Vetter <daniel@ffwll.ch>
-To:     Christian =?iso-8859-1?Q?K=F6nig?= 
-        <ckoenig.leichtzumerken@gmail.com>
-Cc:     linaro-mm-sig@lists.linaro.org, dri-devel@lists.freedesktop.org,
-        linux-media@vger.kernel.org, intel-gfx@lists.freedesktop.org,
-        daniel@ffwll.ch, tvrtko.ursulin@linux.intel.com
-Subject: Re: [PATCH 28/28] drm/etnaviv: replace dma_resv_get_excl_unlocked
-Message-ID: <YWbt7cLOLDSQhkOV@phenom.ffwll.local>
-References: <20211005113742.1101-1-christian.koenig@amd.com>
- <20211005113742.1101-29-christian.koenig@amd.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=oFBAfPgyMuB17AqaY51r0mJ1e8vUmKj2hXWfsRy5A/I=;
+        b=s1PFQeBjY7ahXzB6d3bs5mW4d1YDM+i4gdPl1PZyicUFV5RD9ownQJlh3swezpAkGz
+         Nfs75+oRdCTxssz+mZjhqMz55GsK5GlGlV/GJCS4QGfgP2p8xWYOQ+tbz2m8+113n+nj
+         1cjUGIAwwfp4+wLRc7agYNrJJ4w1V3IRDzvr+K9yEwNoBTHB+sogqUl2sWU5LANOM8Mm
+         SDFE7t/RLkE8RiytWIcWaN8pOSz4WbYXVE0Gk698aucT0hUmx5kmWsnxpBpbILdScLhw
+         qJG/LWR5eXAQ0SzVWGaEiwLA17jfwQBdvSgabW824yx+jqWEJZQ5k4F3JAN3nj2VbA81
+         C2hg==
+X-Gm-Message-State: AOAM533Begi86te5hqnBHBWc8rqslvScyonWQcXVaVkY+L8MUFPVXI3+
+        DQbOatGWzBszvmgUV5GK16KSzRdIIzprRHGgIU3gul9F5TE=
+X-Google-Smtp-Source: ABdhPJyq/aqaQT5yX/UCK1Tolq/X2MRdqalWJlYJWiRxvS5BF9LwB21plAGTnUadD4q5Mu7TrFEE7lFo7wqtSzWDky0=
+X-Received: by 2002:a67:cb0a:: with SMTP id b10mr39805069vsl.9.1634137735682;
+ Wed, 13 Oct 2021 08:08:55 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20211005113742.1101-29-christian.koenig@amd.com>
-X-Operating-System: Linux phenom 5.10.0-8-amd64 
+References: <20211012183324.717975-1-niklas.soderlund+renesas@ragnatech.se>
+In-Reply-To: <20211012183324.717975-1-niklas.soderlund+renesas@ragnatech.se>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Wed, 13 Oct 2021 17:08:44 +0200
+Message-ID: <CAMuHMdX8LzmksfB85iSMX4+RYq=SYTamw5C3GNgbAV+9f1uAyQ@mail.gmail.com>
+Subject: Re: [PATCH] dt-bindings: adv748x: Convert bindings to json-schema
+To:     =?UTF-8?Q?Niklas_S=C3=B6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>
+Cc:     Rob Herring <robh+dt@kernel.org>,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8BIT
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Oct 05, 2021 at 01:37:42PM +0200, Christian König wrote:
-> We certainly hold the reservation lock here, no need for the RCU dance.
-> 
-> Signed-off-by: Christian König <christian.koenig@amd.com>
-> ---
->  drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c b/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c
-> index 4dd7d9d541c0..7e17bc2b5df1 100644
-> --- a/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c
-> +++ b/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c
-> @@ -195,7 +195,7 @@ static int submit_fence_sync(struct etnaviv_gem_submit *submit)
->  			if (ret)
->  				return ret;
->  		} else {
-> -			bo->excl = dma_resv_get_excl_unlocked(robj);
+Hi Niklas,
 
-Maybe have that in the series to sunset dma_resv_get_excl_unlocked()? Just
-so it makes a bit more sense from a motivation pov. Or explain that in the
-commit message.
+Thanks for your patch!
 
-Anyway looks correct.
+On Tue, Oct 12, 2021 at 8:48 PM Niklas SÃ¶derlund
+<niklas.soderlund+renesas@ragnatech.se> wrote:
+> Convert ADV748X analog video decoder documentation to json-schema.
 
-Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-> +			bo->excl = dma_fence_get(dma_resv_excl_fence(robj));
->  		}
->  
->  	}
-> -- 
-> 2.25.1
-> 
+You may want to list what changes you made:
+  - Add missing ports subnode
+  - Anything else I didn't notice? ;-)
+
+> Signed-off-by: Niklas SÃ¶derlund <niklas.soderlund+renesas@ragnatech.se>
+
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/media/i2c/adv748x.yaml
+
+> +  reg-names:
+> +    minItems: 1
+> +    items:
+> +      - const: main
+> +      - enum: [ dpll, cp, hdmi, edid, repeater, infoframe, cbus, cec, sdp, txa, txb ]
+> +      - enum: [ dpll, cp, hdmi, edid, repeater, infoframe, cbus, cec, sdp, txa, txb ]
+> +      - enum: [ dpll, cp, hdmi, edid, repeater, infoframe, cbus, cec, sdp, txa, txb ]
+> +      - enum: [ dpll, cp, hdmi, edid, repeater, infoframe, cbus, cec, sdp, txa, txb ]
+> +      - enum: [ dpll, cp, hdmi, edid, repeater, infoframe, cbus, cec, sdp, txa, txb ]
+> +      - enum: [ dpll, cp, hdmi, edid, repeater, infoframe, cbus, cec, sdp, txa, txb ]
+> +      - enum: [ dpll, cp, hdmi, edid, repeater, infoframe, cbus, cec, sdp, txa, txb ]
+> +      - enum: [ dpll, cp, hdmi, edid, repeater, infoframe, cbus, cec, sdp, txa, txb ]
+> +      - enum: [ dpll, cp, hdmi, edid, repeater, infoframe, cbus, cec, sdp, txa, txb ]
+> +      - enum: [ dpll, cp, hdmi, edid, repeater, infoframe, cbus, cec, sdp, txa, txb ]
+> +      - enum: [ dpll, cp, hdmi, edid, repeater, infoframe, cbus, cec, sdp, txa, txb ]
+
+They can really appear in any order?
+
+> +allOf:
+> +  - if:
+> +      properties:
+> +        compatible:
+> +          contains:
+> +            const: adi,adv7481
+> +    then:
+> +      properties:
+> +        interrupts:
+> +          minItems: 1
+> +          maxItems: 3
+> +
+> +        interrupt-names:
+> +          minItems: 1
+> +          items:
+> +            - enum: [ intrq1, intrq2, intrq3 ]
+> +            - enum: [ intrq1, intrq2, intrq3 ]
+> +            - enum: [ intrq1, intrq2, intrq3 ]
+
+They can really appear in any order?
+
+> +    else:
+> +      properties:
+> +        interrupts:
+> +          minItems: 1
+> +          maxItems: 2
+> +
+> +        interrupt-names:
+> +          minItems: 1
+> +          items:
+> +            - enum: [ intrq1, intrq2 ]
+> +            - enum: [ intrq1, intrq2 ]
+
+They can really appear in any order?
+
+If not, you can merge the entries, and just override maxItems.
+
+The rest looks good to me, but I'm no graph expert.
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+
+Gr{oetje,eeting}s,
+
+                        Geert
 
 -- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
