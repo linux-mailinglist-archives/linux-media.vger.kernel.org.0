@@ -2,128 +2,130 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2C20F42BDEB
-	for <lists+linux-media@lfdr.de>; Wed, 13 Oct 2021 12:55:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0EEBA42BE12
+	for <lists+linux-media@lfdr.de>; Wed, 13 Oct 2021 12:56:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230297AbhJMK5b (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 13 Oct 2021 06:57:31 -0400
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:35238 "EHLO
+        id S232145AbhJMK6j (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 13 Oct 2021 06:58:39 -0400
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:35244 "EHLO
         bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229666AbhJMK5b (ORCPT
+        with ESMTP id S231787AbhJMK6W (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 13 Oct 2021 06:57:31 -0400
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: andrzej.p)
-        with ESMTPSA id 376CE1F4415E
-Subject: Re: [PATCH v7, 00/15] Support multi hardware decode using
- of_platform_populate
-To:     "yunfei.dong@mediatek.com" <yunfei.dong@mediatek.com>,
-        Alexandre Courbot <acourbot@chromium.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Tzung-Bi Shih <tzungbi@chromium.org>,
-        Tiffany Lin <tiffany.lin@mediatek.com>,
-        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+        Wed, 13 Oct 2021 06:58:22 -0400
+Received: from guri.fritz.box (unknown [IPv6:2a02:810a:880:f54:2d05:985b:ed8c:969a])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        (Authenticated sender: dafna)
+        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id E64761F4415E;
+        Wed, 13 Oct 2021 11:56:17 +0100 (BST)
+From:   Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+To:     linux-media@vger.kernel.org
+Cc:     Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Tomasz Figa <tfiga@google.com>
-Cc:     Hsin-Yi Wang <hsinyi@chromium.org>,
-        Fritz Koenig <frkoenig@chromium.org>,
-        Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
-        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        Irui Wang <irui.wang@mediatek.com>,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        srv_heupstream@mediatek.com, linux-mediatek@lists.infradead.org,
-        Project_Global_Chrome_Upstream_Group@mediatek.com
-References: <20211011070247.792-1-yunfei.dong@mediatek.com>
- <73f83f00-5d49-ba77-f46d-9c0855dc5268@collabora.com>
- <11498cb8b7f1754f6134ce8143bd4f81272d0ffc.camel@mediatek.com>
-From:   Andrzej Pietrasiewicz <andrzej.p@collabora.com>
-Message-ID: <e62baef3-3fa6-5dd4-cbd0-026227b4cf7c@collabora.com>
-Date:   Wed, 13 Oct 2021 12:55:23 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
-MIME-Version: 1.0
-In-Reply-To: <11498cb8b7f1754f6134ce8143bd4f81272d0ffc.camel@mediatek.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-staging@lists.linux.dev (open list:STAGING SUBSYSTEM),
+        linux-kernel@vger.kernel.org (open list),
+        laurent.pinchart@ideasonboard.com, hverkuil@xs4all.nl,
+        kernel@collabora.com, dafna3@gmail.com, bob.beckett@collabora.com,
+        kiril.bicevski@collabora.com,
+        Nas Chung <nas.chung@chipsnmedia.com>,
+        lafley.kim@chipsnmedia.com, scott.woo@chipsnmedia.com,
+        olivier.crete@collabora.com
+Subject: [PATCH v2 0/6] staging: media: wave5: add wave5 codec driver
+Date:   Wed, 13 Oct 2021 12:56:03 +0200
+Message-Id: <20211013105609.21457-1-dafna.hirschfeld@collabora.com>
+X-Mailer: git-send-email 2.17.1
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi,
+The wave5 codec is a stateful encoder/decoder.
+It is found on the JH7100 SoC.
 
-W dniu 13.10.2021 o 03:08, yunfei.dong@mediatek.com pisze:
-> Hi Andrzej,
-> 
-> 
-> On Tue, 2021-10-12 at 16:27 +0200, Andrzej Pietrasiewicz wrote:
->> Hi Yunfei Dong,
->>
->> W dniu 11.10.2021 o 09:02, Yunfei Dong pisze:
->>> This series adds support for multi hardware decode into mtk-vcodec,
->>> by first
->>> adding use of_platform_populate to manage each hardware
->>> information: interrupt,
->>> clock, register bases and power. Secondly add core thread to deal
->>> with core
->>> hardware message, at the same time, add msg queue for different
->>> hardware
->>> share messages. Lastly, the architecture of different specs are not
->>> the same,
->>> using specs type to separate them.
->>>
->>> This series has been tested with both MT8183 and MT8173. Decoding
->>> was working
->>> for both chips.
->>>
->>> Patches 1~3 rewrite get register bases and power on/off interface.
->>>
->>> Patch 4 add to support multi hardware.
->>>
->>> Patch 5 separate video encoder and decoder document
->>>
->>> Patches 6-15 add interfaces to support core hardware.
->>
->> Which tree does the series apply to?
-> 
-> I don't understand your mean clearly. Media tree?
-> 
-> You can get the patches from this link:
-> 
-> https://patchwork.linuxtv.org/project/linux-media/cover/20211011070247.792-1-yunfei.dong@mediatek.com/
-> 
+The driver currently supports V4L2_PIX_FMT_HEVC, V4L2_PIX_FMT_H264.
 
-Here's what I get:
+This driver has so far been tested on pre-silicon FPGA and on the beta BeagleV
+board which uses the StarFive JH7100 beta SoC.
 
-$ git remote update media_tree
-Fetching media_tree
+Testing on FPGA shows it working fine, though the FPGA uses polled interrupts
+and copied buffers between the host and it's on board RAM.
 
-$ git branch
-   master
-* media_tree
-   mediatek-master
+Testing on BeagleV shows buffer corruption that is currently attributed to a
+known silicon issue in the SoC that makes the cache coherent interconnect not
+so coherent.
+This can likely be solved when the riscv non-coherent dma support lands and
+provide optional v4l2 non-contiguous allocator, though it remains to be seen
+whether support non-coherent use cases will be useful in real world hw.
 
-$ git-pw --server https://patchwork.linuxtv.org/api/1.1 --project linux-media 
-series apply 6465 -3
-Failed to apply patch:
-Applying: media: mtk-vcodec: Get numbers of register bases from DT
-Applying: media: mtk-vcodec: Align vcodec wake up interrupt interface
-Applying: media: mtk-vcodec: Refactor vcodec pm interface
-Applying: media: mtk-vcodec: Manage multi hardware information
-error: sha1 information is lacking or useless 
-(drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_drv.c).
-error: could not build fake ancestor
-Patch failed at 0004 media: mtk-vcodec: Manage multi hardware information
-Use 'git am --show-current-patch' to see the failed patch
-When you have resolved this problem, run "git am --continue".
-If you prefer to skip this patch, run "git am --skip" instead.
-To restore the original branch and stop patching, run "git am --abort".
+Until we can test and resolve any issues on final silicon (due 2H 2021)
+this driver should remain in staging.
 
-Regards,
+We currently tested only the decoder.
+Testing the encoder is currently impossible because of the BeagleV buffer problems,
+That will need to be tested once we have fixed beaglev buffer problems.
 
-Andrzej
+v4l2-compliance all pass for v2 as well.
+
+changes since v1:
+
+Fix chanes due to comments from Ezequiel and Dan Carpenter. Main fixes inclueds:
+* move all files to one dir 'wave5'
+* replace private error codes with standart error codes
+* fix extra spaces
+* various checkpatch fixes
+* replace private 'DPRINTK' macro with standart 'dev_err/dbg ..'
+* fix error handling
+* add more possible fixes to the TODO file
+
+Dafna Hirschfeld (4):
+  staging: media: wave5: Add vpuapi layer
+  staging: media: wave5: Add the vdi layer
+  staging: media: wave5: Add the v4l2 layer
+  staging: media: wave5: Add TODO file
+
+Robert Beckett (2):
+  dt-bindings: media: staging: wave5: add yaml devicetree bindings
+  media: wave5: Add wave5 driver to maintainers file
+
+ .../bindings/staging/media/cnm,wave.yaml      |   71 +
+ MAINTAINERS                                   |    9 +
+ drivers/staging/media/Kconfig                 |    2 +
+ drivers/staging/media/Makefile                |    1 +
+ drivers/staging/media/wave5/Kconfig           |   12 +
+ drivers/staging/media/wave5/Makefile          |   10 +
+ drivers/staging/media/wave5/TODO              |   58 +
+ drivers/staging/media/wave5/vdi.c             |  260 ++
+ drivers/staging/media/wave5/vdi.h             |   79 +
+ drivers/staging/media/wave5/vpu.c             |  353 ++
+ drivers/staging/media/wave5/vpu.h             |   63 +
+ drivers/staging/media/wave5/vpu_dec.c         | 1400 +++++++
+ drivers/staging/media/wave5/vpu_enc.c         | 1587 ++++++++
+ drivers/staging/media/wave5/vpuapi.c          | 1096 +++++
+ drivers/staging/media/wave5/vpuapi.h          | 1148 ++++++
+ drivers/staging/media/wave5/vpuconfig.h       |   85 +
+ drivers/staging/media/wave5/vpuerror.h        |  455 +++
+ drivers/staging/media/wave5/wave5-hw.c        | 3513 +++++++++++++++++
+ drivers/staging/media/wave5/wave5.h           |   80 +
+ drivers/staging/media/wave5/wave5_regdefine.h |  638 +++
+ 20 files changed, 10920 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/staging/media/cnm,wave.yaml
+ create mode 100644 drivers/staging/media/wave5/Kconfig
+ create mode 100644 drivers/staging/media/wave5/Makefile
+ create mode 100644 drivers/staging/media/wave5/TODO
+ create mode 100644 drivers/staging/media/wave5/vdi.c
+ create mode 100644 drivers/staging/media/wave5/vdi.h
+ create mode 100644 drivers/staging/media/wave5/vpu.c
+ create mode 100644 drivers/staging/media/wave5/vpu.h
+ create mode 100644 drivers/staging/media/wave5/vpu_dec.c
+ create mode 100644 drivers/staging/media/wave5/vpu_enc.c
+ create mode 100644 drivers/staging/media/wave5/vpuapi.c
+ create mode 100644 drivers/staging/media/wave5/vpuapi.h
+ create mode 100644 drivers/staging/media/wave5/vpuconfig.h
+ create mode 100644 drivers/staging/media/wave5/vpuerror.h
+ create mode 100644 drivers/staging/media/wave5/wave5-hw.c
+ create mode 100644 drivers/staging/media/wave5/wave5.h
+ create mode 100644 drivers/staging/media/wave5/wave5_regdefine.h
+
+-- 
+2.17.1
+
