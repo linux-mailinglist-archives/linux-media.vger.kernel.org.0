@@ -2,89 +2,149 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D8FB542B3F2
-	for <lists+linux-media@lfdr.de>; Wed, 13 Oct 2021 06:15:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 777FD42B5A9
+	for <lists+linux-media@lfdr.de>; Wed, 13 Oct 2021 07:39:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229599AbhJMERp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 13 Oct 2021 00:17:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49232 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229453AbhJMERp (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Wed, 13 Oct 2021 00:17:45 -0400
-Received: from mail-pj1-x1034.google.com (mail-pj1-x1034.google.com [IPv6:2607:f8b0:4864:20::1034])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D9319C061570;
-        Tue, 12 Oct 2021 21:15:42 -0700 (PDT)
-Received: by mail-pj1-x1034.google.com with SMTP id np13so1177403pjb.4;
-        Tue, 12 Oct 2021 21:15:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=OoNwDG0VaNCscP5oae7CbtI3WG7cND2vHYt3onq3SNY=;
-        b=EONSpaH4SsEm5+DwSQao2ztUky6nZqQ38/ui6H+/JNXaQ+/beQXMMxhvDax+gK31c5
-         w88TJPEYrMsBD7xjRDw7ePcJ024b6QIsmXXrFnOWtpPdmKPgCYqW827ztz7s1iJKDKQL
-         HoSNQxy8sF2V8Sc/NcGGNIpl6En9E9QCBZZY5caoUxpEbZctYjjEfDxACbbtuxAQcHFr
-         ama7qI5agLNNzOq5iQ+Gx7Lyo9cNU9rgYt9bLjHwFmhZTBWUY/ip7OJsgjH5gN3GPt+4
-         GGI7sn6+67kOoIBknxgZZj9Mnb/RrIvR21DLwbPsllS1gsuEEOx51I6m4PYplqyFyUFf
-         e2fA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=OoNwDG0VaNCscP5oae7CbtI3WG7cND2vHYt3onq3SNY=;
-        b=eVtQ63bZ0USev4WVPWq47IrGEhCMD1eq+6zOXrDatSaFxLTVAZ2p03NEhDgFM9a7H+
-         Ky2x6QPB5wBVHW3MYQ3GCmjKpHJ2urEQYUo55i4ZM3Q1ZU6zTF/vNBucFHnqTmJG6nKx
-         nGYrBN7e5SHHIkUpA2YGfD+OimR7N9GML9e6WJ/MnVunFA2eMza44F/nLgMY9K+lgVOp
-         H/8O8rm2uuVPMH1Pjgp2BmNeX8d4nACS39oDuDov1Y/b8lfE9DPCNbxop0/zTT3kX3Pj
-         AeINa0y41y9BO5D7N8SDvHesIzkJTZhDiNpOTza6n6QyOPmOxETU+UwLbBrNeEs57YM/
-         jYnQ==
-X-Gm-Message-State: AOAM531wyplD6MTMhoV6Ybab9dBP6YEAlCiRjKUrWDinkel1ClFMYTuw
-        Vd15Hd/cFOyBhhXXi/1i6aeoRPXWIil7aQyHmAI=
-X-Google-Smtp-Source: ABdhPJx/W4DMTjZDZyIWn8CLwfUJrNXINXnyIyLGTsU3+wcbAQD85flLv5PcZ62fQOwWo5qfuXahVA==
-X-Received: by 2002:a17:90b:1c8f:: with SMTP id oo15mr10582188pjb.169.1634098542104;
-        Tue, 12 Oct 2021 21:15:42 -0700 (PDT)
-Received: from localhost.localdomain ([94.177.118.45])
-        by smtp.gmail.com with ESMTPSA id i12sm13062356pgd.56.2021.10.12.21.15.39
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 12 Oct 2021 21:15:41 -0700 (PDT)
-From:   Dongliang Mu <mudongliangabcd@gmail.com>
-To:     Fabien Dessenne <fabien.dessenne@foss.st.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     Dongliang Mu <mudongliangabcd@gmail.com>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] driver: bdisp: add pm_runtime_disable in the error handling code
-Date:   Wed, 13 Oct 2021 12:15:27 +0800
-Message-Id: <20211013041527.2859626-1-mudongliangabcd@gmail.com>
-X-Mailer: git-send-email 2.25.1
+        id S230103AbhJMFlO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 13 Oct 2021 01:41:14 -0400
+Received: from ni.piap.pl ([195.187.100.5]:44190 "EHLO ni.piap.pl"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229735AbhJMFlN (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 13 Oct 2021 01:41:13 -0400
+Received: from t19.piap.pl (OSB1819.piap.pl [10.0.9.19])
+        by ni.piap.pl (Postfix) with ESMTPSA id A707FC36955E;
+        Wed, 13 Oct 2021 07:39:07 +0200 (CEST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ni.piap.pl A707FC36955E
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=piap.pl; s=mail;
+        t=1634103547; bh=5GPJZkCmh6R4KMyc90zRKGcT2ecjuzI4fDbaZ5mnFYw=;
+        h=From:To:Cc:Subject:References:Date:In-Reply-To:From;
+        b=Jq7QRpZCQpKYz3uAgihW9NsSw4Ilf+tdFVpGWgi8tAdSIyVu8CPBTxDYwZ7+Gv1d6
+         q/nCIjL9HmyuBKHnSymTJ9bwS43cyHofuXGi7tbmIbRBcxElVbtfT2QogBsMpgKrXK
+         ohs5d066aKq6TBD2RoIRvBGF0FSjYASyEAzrtqmk=
+From:   =?utf-8?Q?Krzysztof_Ha=C5=82asa?= <khalasa@piap.pl>
+To:     Sakari Ailus <sakari.ailus@iki.fi>
+Cc:     Jacopo Mondi <jacopo@jmondi.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Matteo Lisi <matteo.lisi@engicam.com>
+Subject: Re: [PATCH v5] Driver for ON Semi AR0521 camera sensor
+References: <m3fstfoexa.fsf@t19.piap.pl>
+        <20211009102446.jrvrdr7whtd2rv4z@uno.localdomain>
+        <m3mtnflpna.fsf@t19.piap.pl>
+        <20211011143420.vm6ncl5gdv44nsn3@uno.localdomain>
+        <m3a6jel9ce.fsf@t19.piap.pl> <YWXwSAm3OO/WTkOL@valkosipuli.retiisi.eu>
+Sender: khalasa@piap.pl
+Date:   Wed, 13 Oct 2021 07:39:07 +0200
+In-Reply-To: <YWXwSAm3OO/WTkOL@valkosipuli.retiisi.eu> (Sakari Ailus's message
+        of "Tue, 12 Oct 2021 23:30:00 +0300")
+Message-ID: <m335p5lc04.fsf@t19.piap.pl>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-KLMS-Rule-ID: 1
+X-KLMS-Message-Action: clean
+X-KLMS-AntiSpam-Lua-Profiles: 166679 [Oct 13 2021]
+X-KLMS-AntiSpam-Version: 5.9.20.0
+X-KLMS-AntiSpam-Envelope-From: khalasa@piap.pl
+X-KLMS-AntiSpam-Rate: 0
+X-KLMS-AntiSpam-Status: not_detected
+X-KLMS-AntiSpam-Method: none
+X-KLMS-AntiSpam-Auth: dkim=pass header.d=piap.pl
+X-KLMS-AntiSpam-Info: LuaCore: 463 463 5854868460de3f0d8e8c0a4df98aeb05fb764a09, {Tracking_uf_ne_domains}, {Tracking_marketers, three}, {Tracking_from_domain_doesnt_match_to}, t19.piap.pl:7.1.1;piap.pl:7.1.1;127.0.0.199:7.1.2;d41d8cd98f00b204e9800998ecf8427e.com:7.1.1;hverkuil.home.xs4all.nl:7.1.1
+X-MS-Exchange-Organization-SCL: -1
+X-KLMS-AntiSpam-Interceptor-Info: scan successful
+X-KLMS-AntiPhishing: Clean, bases: 2021/10/13 04:39:00
+X-KLMS-AntiVirus: Kaspersky Security for Linux Mail Server, version 8.0.3.30, bases: 2021/10/13 03:14:00 #17311323
+X-KLMS-AntiVirus-Status: Clean, skipped
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-In the error handling code of bdisp_probe, it fails to invoke
-pm_runtime_disable in many error sites.
+Hi Sakari,
 
-Fix this by adding pm_runtime_disable after pm_runtime_put.
+> 	https://hverkuil.home.xs4all.nl/spec/driver-api/camera-sensor.html
 
-Signed-off-by: Dongliang Mu <mudongliangabcd@gmail.com>
----
- drivers/media/platform/sti/bdisp/bdisp-v4l2.c | 1 +
- 1 file changed, 1 insertion(+)
+Ok:
+"8.2.2. Devicetree
 
-diff --git a/drivers/media/platform/sti/bdisp/bdisp-v4l2.c b/drivers/media/platform/sti/bdisp/bdisp-v4l2.c
-index 6413cd279125..1f220f216b72 100644
---- a/drivers/media/platform/sti/bdisp/bdisp-v4l2.c
-+++ b/drivers/media/platform/sti/bdisp/bdisp-v4l2.c
-@@ -1394,6 +1394,7 @@ static int bdisp_probe(struct platform_device *pdev)
- 	bdisp_hw_free_filters(bdisp->dev);
- err_pm:
- 	pm_runtime_put(dev);
-+	pm_runtime_disable(dev);
- err_remove:
- 	bdisp_debugfs_remove(bdisp);
- 	v4l2_device_unregister(&bdisp->v4l2_dev);
--- 
-2.25.1
+The currently preferred way to achieve this is using assigned-clocks,
+assigned-clock-parents and assigned-clock-rates properties. See
+Documentation/devicetree/bindings/clock/clock-bindings.txt for more
+information. The driver then gets the frequency using clk_get_rate()."
 
+Let's see:
+Documentation/devicetree/bindings/clock/clock-bindings.txt:
+
+"=3D=3DAssigned clock parents and rates=3D=3D
+
+Some platforms may require initial configuration of default parent clocks
+and clock frequencies. Such a configuration can be specified in a device tr=
+ee
+node through assigned-clocks, assigned-clock-parents and assigned-clock-rat=
+es
+properties. The assigned-clock-parents property should contain a list of pa=
+rent
+clocks in the form of a phandle and clock specifier pair and the
+assigned-clock-rates property should contain a list of frequencies in Hz. B=
+oth
+these properties should correspond to the clocks listed in the assigned-clo=
+cks
+property."
+
+So I'm after "assigned-clock-rates", right?
+
+"Configuring a clock's parent and rate through the device node that consumes
+the clock can be done only for clocks that have a single user. Specifying
+conflicting parent or rate configuration in multiple consumer nodes for
+a shared clock is forbidden."
+
+This sounds a bit problematic, the clock I use is at least potentially
+shared by multiple parts of the system, depending on current (run time)
+configuration. I am/was getting different frequencies depending of the
+particular system (all based on the same i.MX6* SoC, but with different
+peripherals used/enabled). I think it's quite a common situation.
+
+> Generally camera sensor drivers that set the clock in drivers themselves
+> are (very) old.
+
+Let's have a look... ov9282 is (one of) the newest drivers. It does:
+#define OV9282_INCLK_RATE    24000000
+
+        /* Get sensor input clock */
+        ov9282->inclk =3D devm_clk_get(ov9282->dev, NULL);
+        if (IS_ERR(ov9282->inclk)) {
+                dev_err(ov9282->dev, "could not get inclk");
+                return PTR_ERR(ov9282->inclk);
+        }
+
+        rate =3D clk_get_rate(ov9282->inclk);
+        if (rate !=3D OV9282_INCLK_RATE) {
+                dev_err(ov9282->dev, "inclk frequency mismatch");
+                return -EINVAL;
+        }
+
+$ git grep -l ov9282
+Documentation/devicetree/bindings/media/i2c/ovti,ov9282.yaml
+MAINTAINERS
+drivers/media/i2c/Kconfig
+drivers/media/i2c/Makefile
+drivers/media/i2c/ov9282.c
+
+  clocks:
+    description: Clock frequency from 6 to 27MHz
+
+No in-tree DTS exists, but the single frequency (both in the driver -
+this one can be fixed - and in the DTS) is rather limiting. Maybe
+another:
+
+imx412, imx335, imx334, imx258 - same here.
+imx208 is ACPI-based.
+
+Which driver should I consult?
+--=20
+Krzysztof "Chris" Ha=C5=82asa
+
+Sie=C4=87 Badawcza =C5=81ukasiewicz
+Przemys=C5=82owy Instytut Automatyki i Pomiar=C3=B3w PIAP
+Al. Jerozolimskie 202, 02-486 Warszawa
