@@ -2,177 +2,409 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2569042C197
-	for <lists+linux-media@lfdr.de>; Wed, 13 Oct 2021 15:40:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 799A342C20D
+	for <lists+linux-media@lfdr.de>; Wed, 13 Oct 2021 16:04:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233901AbhJMNmy (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 13 Oct 2021 09:42:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38226 "EHLO
+        id S231644AbhJMOGy (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 13 Oct 2021 10:06:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43730 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234032AbhJMNmx (ORCPT
+        with ESMTP id S229794AbhJMOGx (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 13 Oct 2021 09:42:53 -0400
-Received: from mail-qk1-x72f.google.com (mail-qk1-x72f.google.com [IPv6:2607:f8b0:4864:20::72f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CA04DC061749
-        for <linux-media@vger.kernel.org>; Wed, 13 Oct 2021 06:40:50 -0700 (PDT)
-Received: by mail-qk1-x72f.google.com with SMTP id p4so2207152qki.3
-        for <linux-media@vger.kernel.org>; Wed, 13 Oct 2021 06:40:50 -0700 (PDT)
+        Wed, 13 Oct 2021 10:06:53 -0400
+Received: from mail-wr1-x430.google.com (mail-wr1-x430.google.com [IPv6:2a00:1450:4864:20::430])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 28DD3C061570
+        for <linux-media@vger.kernel.org>; Wed, 13 Oct 2021 07:04:50 -0700 (PDT)
+Received: by mail-wr1-x430.google.com with SMTP id y3so8900915wrl.1
+        for <linux-media@vger.kernel.org>; Wed, 13 Oct 2021 07:04:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ndufresne-ca.20210112.gappssmtp.com; s=20210112;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :user-agent:mime-version:content-transfer-encoding;
-        bh=fOYbDlxyEHO5mkyCfKHOpCUjsLY9l97TCTcV9KNabAI=;
-        b=XEMDZnEQl+Zq4wdmUGLLkjtYBSRaidWKvmxJuA15ySkjsui1JPqSa1ZWzleiUodnS4
-         4kEGOVz0bH/AxD0L3s6/3RIDu4RfcqE2LLDhVlB6gfyzxNSPDLjn8nKwor3ZW4B2trQ4
-         bqYp7O2eM/tWm58CSJcTcb+uzkk6SVgv7INyUW35WUFBcOYiq7WIEzKL+hjzXHiCejph
-         QHpMYkfvIuDNhSItQqmJ+Vc1XYqrKQgGHazI8WnHTrCsouXpwYyiAYgiM2QEsVF5gHdz
-         ZJLvnUp5Oc2Rp0xJOZhR7zuun0gEe51MGZSvFVnEu+r4qI4EqOf+bJ6xWqK0udAIUOEO
-         2D7A==
+        d=ffwll.ch; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=8arhVRVJMM/h5+bGfd41jsxKdQFpqyddyEDa37EQIQ8=;
+        b=TdCz2jiMPVNPGmXy1MfLiPR+cHK0cAYyfdkweSUyxLdb93OAoNSp0t1ewpI4zSMeA4
+         dY+WsqKuPpowLcQY8W1qL29R4MwcY94W6g+eSpWuF0gRLqmpYRYUzqlCTVe16cJh3/Vh
+         pN1WbuyNHLBMLwTZsjyNQusxAOeMxNvF0NWu4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=fOYbDlxyEHO5mkyCfKHOpCUjsLY9l97TCTcV9KNabAI=;
-        b=u/iVAysML8010o18Z/X+SzJveT+XO5ClumxO2rCWSVRj8v44fwBkSaEWtunuu0fuBW
-         wH3z2bwuB6Kfoh+WAbkMtGNL0If+pBNpbTnKPxA/ZgpLZhXBZ1oMyTb9l1dxOQi14i3I
-         jU7VM/wt0mSY/xWjw50DRRaf1ebvKOfHqbLglkgKas1x5r2dI3L0crSqZvCEMZTqN29A
-         AYkz/4iFXfYvambXiDToI6hx86ZTZl2pRIvNIFJPyaKAh9sCSoKHXr2DnnQ2fxZkBS/I
-         4wB+iIq0oe0k+Y2JjZaWSp2uMFiomJj6KCpmoutB94+dwfrtYxQdrohi956xen7hB3b8
-         k1QQ==
-X-Gm-Message-State: AOAM533ARB3NmcUbfOsCi3QPicdv9RgWUJ9Kpppha7et1ZI2viXmzO9m
-        SB3wehVq21XZfkTFg91Pdnx+gw==
-X-Google-Smtp-Source: ABdhPJzOTaRXeM7E9FNDf2aud4bzU/5ORGrb5nxt55vCz9M67pEiwG1gJqMRtM1pQtJ5njQL8zGp2w==
-X-Received: by 2002:a37:a754:: with SMTP id q81mr18304335qke.303.1634132449920;
-        Wed, 13 Oct 2021 06:40:49 -0700 (PDT)
-Received: from nicolas-tpx395.localdomain (173-246-12-168.qc.cable.ebox.net. [173.246.12.168])
-        by smtp.gmail.com with ESMTPSA id p2sm4953006qtq.41.2021.10.13.06.40.49
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=8arhVRVJMM/h5+bGfd41jsxKdQFpqyddyEDa37EQIQ8=;
+        b=MbKGIyvfzp36Y4mWF4Yszswv2zma0k6CA13R3BrqMRlCPRyY3tJGkpve+cVHyiOijU
+         9MFhyJkj1HAlAKojCdAFZP8b4bCgVe7VkkuD0Wrd2Ytwj1VQeGtYTxZmUxODvVKNWOHm
+         LOlT/zsnSOHWEpsGSXajwtbmiKi0n6uvQPetKRk9amUCswkmFi0PXmrgt3UqR8/kjCDv
+         joqyq4Q2QtB/ydrbB+c1TGQGS8AlR9E78o7xA2ufgzp0LgkN4Lcxe1Zrb4ITNH0BN4gJ
+         7ax9rjMfrp6ZxghM8PBgN6bZmktQQgXFPcHckdWGkYpo3cM6kVpwxm5N+UUZ26DQe1Vn
+         cc2Q==
+X-Gm-Message-State: AOAM530U4modXKfttl0DKGmgggYqesHnz4e1BXg5HJdeduoRl4vbtDBc
+        sVhI32gW64CvSU6hFDRICuIlPA==
+X-Google-Smtp-Source: ABdhPJygRDKWOSNpd6ZdotmTHdQYpKRtkoIUvlMILRACpq5gJocRd+rbfydJiSsRbGMYRPk3kb970w==
+X-Received: by 2002:a05:600c:378a:: with SMTP id o10mr12659347wmr.77.1634133888765;
+        Wed, 13 Oct 2021 07:04:48 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+        by smtp.gmail.com with ESMTPSA id c132sm5643138wma.22.2021.10.13.07.04.47
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 13 Oct 2021 06:40:49 -0700 (PDT)
-Message-ID: <ff0769efee51e15451d48e23860f8b1710593cd7.camel@ndufresne.ca>
-Subject: Re: [PATCH 0/2] media: rkvdec: Align decoder behavior with Hantro
- and Cedrus
-From:   Nicolas Dufresne <nicolas@ndufresne.ca>
-To:     Chen-Yu Tsai <wenst@chromium.org>
-Cc:     Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        "open list:ARM/Rockchip SoC..." <linux-rockchip@lists.infradead.org>,
-        linux-staging@lists.linux.dev, LKML <linux-kernel@vger.kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Andrzej Pietrasiewicz <andrzej.p@collabora.com>
-Date:   Wed, 13 Oct 2021 09:40:48 -0400
-In-Reply-To: <CAGXv+5FnFq1mN79sqUp-o6pHirYvp55gurnsUCgqYvEAX2=4oQ@mail.gmail.com>
-References: <20211008100423.739462-1-wenst@chromium.org>
-         <f108f23dadc846222c63c88af826dae9c5082d83.camel@ndufresne.ca>
-         <CAGXv+5FnFq1mN79sqUp-o6pHirYvp55gurnsUCgqYvEAX2=4oQ@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.40.4 (3.40.4-1.fc34) 
+        Wed, 13 Oct 2021 07:04:48 -0700 (PDT)
+Date:   Wed, 13 Oct 2021 16:04:46 +0200
+From:   Daniel Vetter <daniel@ffwll.ch>
+To:     Christian =?iso-8859-1?Q?K=F6nig?= 
+        <ckoenig.leichtzumerken@gmail.com>
+Cc:     linaro-mm-sig@lists.linaro.org, dri-devel@lists.freedesktop.org,
+        linux-media@vger.kernel.org, intel-gfx@lists.freedesktop.org,
+        daniel@ffwll.ch, tvrtko.ursulin@linux.intel.com
+Subject: Re: [PATCH 03/28] dma-buf: add dma_resv selftest v3
+Message-ID: <YWbnfhU+4bHKluhf@phenom.ffwll.local>
+References: <20211005113742.1101-1-christian.koenig@amd.com>
+ <20211005113742.1101-4-christian.koenig@amd.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20211005113742.1101-4-christian.koenig@amd.com>
+X-Operating-System: Linux phenom 5.10.0-8-amd64 
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Le mercredi 13 octobre 2021 Ã  15:05 +0800, Chen-Yu Tsai a Ã©critÂ :
-> Hi,
+On Tue, Oct 05, 2021 at 01:37:17PM +0200, Christian König wrote:
+> Just exercising a very minor subset of the functionality, but already
+> proven useful.
 > 
-> On Fri, Oct 8, 2021 at 11:42 PM Nicolas Dufresne <nicolas@ndufresne.ca> wrote:
-> > 
-> > Hi Chen-Yu,
-> > 
-> > thanks for looking into this.
-> > 
-> > Le vendredi 08 octobre 2021 Ã  18:04 +0800, Chen-Yu Tsai a Ã©crit :
-> > > Hi everyone,
-> > > 
-> > > While working on the rkvdec H.264 decoder for ChromeOS, I noticed some
-> > > behavioral differences compared to Hantro and Cedrus:
-> > > 
-> > > 1. The driver always overrides the sizeimage setting given by userspace
-> > >    for the output format. This results in insufficient buffer space when
-> > >    running the ChromeOS video_decode_accelerator_tests test program,
-> > >    likely due to a small initial resolution followed by dynamic
-> > >    resolution change.
-> > > 
-> > > 2. Doesn't support dynamic resolution change.
-> > > 
-> > > This small series fixes both and aligns the behavior with the other two
-> > > stateless decoder drivers. This was tested on the downstream ChromeOS
-> > > 5.10 kernel with ChromeOS. Also compiled tested on mainline but I don't
-> > > have any other RK3399 devices set up to test video stuff, so testing
-> > > would be very much appreciated.
-> > > 
-> > > Also, I'm not sure if user applications are required to check the value
-> > > of sizeimage upon S_FMT return. If the value is different or too small,
-> > > what can the application do besides fail? AFAICT it can't split the
-> > > data of one frame (or slice) between different buffers.
-> > 
-> > While most software out there just assumes that driver will do it right and
-> > crash when it's not the case, application that do map the buffer to CPU must
-> > read back the fmt structure as the drivers are all fail-safe and will modify
-> > that structure to a set of valid value s for the context.
+> v2: add missing locking
+> v3: some more cleanup and consolidation, add unlocked test as well
 > 
-> I believe what is happening in Chromium is that the decoder is opened with
-> some default settings, including the smallest viable resolution for the
-> output side, and the buffers allocated accordingly. When dynamic resolution
-> change happens, the decoder does not check if the current buffers are
-> sufficiently sized; it just assumes that they are. And when it starts
-> pushing data into the buffers, it realizes they are too small and fails.
-> 
-> The spec also says:
-> 
->     Clients are allowed to set the sizeimage field for variable length
->     compressed data flagged with V4L2_FMT_FLAG_COMPRESSED at ioctl
->     VIDIOC_ENUM_FMT, but the driver may ignore it and set the value itself,
->     or it may modify the provided value based on alignment requirements or
->     minimum/maximum size requirements.
-> 
-> The spec only guarantees that the buffers are of sufficient size for the
-> resolution configured at the time they were allocated/requested.
-> 
-> So I think my first patch is a workaround for a somewhat broken userspace.
-> But it seems the other stateless drivers are providing similar behavior,
-> as I previously mentioned.
+> Signed-off-by: Christian König <christian.koenig@amd.com>
 
-That's what I mean, this is not a driver bug strictly speaking (assuming it does
-guaranty the buffer size is sufficient) but it is without your change
-inconvenient, as userspace may be aware of the largest resolution it will
-decode, and may want to allocate larger buffer upfront.
+Yeah this is great, since if we then get some specific bug later on it's
+going to be very easy to add the unit test for the precise bug hopefully.
 
-As per Chromium bug, this is being addressed already. Thanks for this driver
-improvement.
+I scrolled through, looks correct.
 
-> 
-> > As for opposite direction (output vs capture) format being changed, this should
-> > be documented in the spec, if you find it too unclear or missing for sateless
-> > codec (I know it's there for stateful but can't remember, would have to re-read,
-> > for stateless) let us know.
-> 
-> AFAICT the capture side is working OK and to spec.
-> 
-> 
-> Regards
-> ChenYu
-> 
-> > regards,
-> > Nicolas
-> > 
-> > > 
-> > > Andrzej, I believe the second patch would conflict with your VP9 series.
-> > > 
-> > > 
-> > > Regards
-> > > ChenYu
-> > > 
-> > > Chen-Yu Tsai (2):
-> > >   media: rkvdec: Do not override sizeimage for output format
-> > >   media: rkvdec: Support dynamic resolution changes
-> > > 
-> > >  drivers/staging/media/rkvdec/rkvdec-h264.c |  5 +--
-> > >  drivers/staging/media/rkvdec/rkvdec.c      | 40 +++++++++++-----------
-> > >  2 files changed, 23 insertions(+), 22 deletions(-)
-> > > 
-> > 
-> > 
+Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
 
+> ---
+>  drivers/dma-buf/Makefile      |   3 +-
+>  drivers/dma-buf/selftests.h   |   1 +
+>  drivers/dma-buf/st-dma-resv.c | 282 ++++++++++++++++++++++++++++++++++
+>  3 files changed, 285 insertions(+), 1 deletion(-)
+>  create mode 100644 drivers/dma-buf/st-dma-resv.c
+> 
+> diff --git a/drivers/dma-buf/Makefile b/drivers/dma-buf/Makefile
+> index 1ef021273a06..511805dbeb75 100644
+> --- a/drivers/dma-buf/Makefile
+> +++ b/drivers/dma-buf/Makefile
+> @@ -11,6 +11,7 @@ obj-$(CONFIG_DMABUF_SYSFS_STATS) += dma-buf-sysfs-stats.o
+>  dmabuf_selftests-y := \
+>  	selftest.o \
+>  	st-dma-fence.o \
+> -	st-dma-fence-chain.o
+> +	st-dma-fence-chain.o \
+> +	st-dma-resv.o
+>  
+>  obj-$(CONFIG_DMABUF_SELFTESTS)	+= dmabuf_selftests.o
+> diff --git a/drivers/dma-buf/selftests.h b/drivers/dma-buf/selftests.h
+> index bc8cea67bf1e..97d73aaa31da 100644
+> --- a/drivers/dma-buf/selftests.h
+> +++ b/drivers/dma-buf/selftests.h
+> @@ -12,3 +12,4 @@
+>  selftest(sanitycheck, __sanitycheck__) /* keep first (igt selfcheck) */
+>  selftest(dma_fence, dma_fence)
+>  selftest(dma_fence_chain, dma_fence_chain)
+> +selftest(dma_resv, dma_resv)
+> diff --git a/drivers/dma-buf/st-dma-resv.c b/drivers/dma-buf/st-dma-resv.c
+> new file mode 100644
+> index 000000000000..50d3791ccb8c
+> --- /dev/null
+> +++ b/drivers/dma-buf/st-dma-resv.c
+> @@ -0,0 +1,282 @@
+> +/* SPDX-License-Identifier: MIT */
+> +
+> +/*
+> +* Copyright © 2019 Intel Corporation
+> +* Copyright © 2021 Advanced Micro Devices, Inc.
+> +*/
+> +
+> +#include <linux/slab.h>
+> +#include <linux/spinlock.h>
+> +#include <linux/dma-resv.h>
+> +
+> +#include "selftest.h"
+> +
+> +static struct spinlock fence_lock;
+> +
+> +static const char *fence_name(struct dma_fence *f)
+> +{
+> +	return "selftest";
+> +}
+> +
+> +static const struct dma_fence_ops fence_ops = {
+> +	.get_driver_name = fence_name,
+> +	.get_timeline_name = fence_name,
+> +};
+> +
+> +static struct dma_fence *alloc_fence(void)
+> +{
+> +	struct dma_fence *f;
+> +
+> +	f = kmalloc(sizeof(*f), GFP_KERNEL);
+> +	if (!f)
+> +		return NULL;
+> +
+> +	dma_fence_init(f, &fence_ops, &fence_lock, 0, 0);
+> +	return f;
+> +}
+> +
+> +static int sanitycheck(void *arg)
+> +{
+> +	struct dma_resv resv;
+> +	struct dma_fence *f;
+> +	int r;
+> +
+> +	f = alloc_fence();
+> +	if (!f)
+> +		return -ENOMEM;
+> +
+> +	dma_fence_signal(f);
+> +	dma_fence_put(f);
+> +
+> +	dma_resv_init(&resv);
+> +	r = dma_resv_lock(&resv, NULL);
+> +	if (r)
+> +		pr_err("Resv locking failed\n");
+> +	else
+> +		dma_resv_unlock(&resv);
+> +	dma_resv_fini(&resv);
+> +	return r;
+> +}
+> +
+> +static int test_signaling(void *arg, bool shared)
+> +{
+> +	struct dma_resv resv;
+> +	struct dma_fence *f;
+> +	int r;
+> +
+> +	f = alloc_fence();
+> +	if (!f)
+> +		return -ENOMEM;
+> +
+> +	dma_resv_init(&resv);
+> +	r = dma_resv_lock(&resv, NULL);
+> +	if (r) {
+> +		pr_err("Resv locking failed\n");
+> +		goto err_free;
+> +	}
+> +
+> +	if (shared) {
+> +		r = dma_resv_reserve_shared(&resv, 1);
+> +		if (r) {
+> +			pr_err("Resv shared slot allocation failed\n");
+> +			goto err_unlock;
+> +		}
+> +
+> +		dma_resv_add_shared_fence(&resv, f);
+> +	} else {
+> +		dma_resv_add_excl_fence(&resv, f);
+> +	}
+> +
+> +	if (dma_resv_test_signaled(&resv, shared)) {
+> +		pr_err("Resv unexpectedly signaled\n");
+> +		r = -EINVAL;
+> +		goto err_unlock;
+> +	}
+> +	dma_fence_signal(f);
+> +	if (!dma_resv_test_signaled(&resv, shared)) {
+> +		pr_err("Resv not reporting signaled\n");
+> +		r = -EINVAL;
+> +		goto err_unlock;
+> +	}
+> +err_unlock:
+> +	dma_resv_unlock(&resv);
+> +err_free:
+> +	dma_resv_fini(&resv);
+> +	dma_fence_put(f);
+> +	return r;
+> +}
+> +
+> +static int test_excl_signaling(void *arg)
+> +{
+> +	return test_signaling(arg, false);
+> +}
+> +
+> +static int test_shared_signaling(void *arg)
+> +{
+> +	return test_signaling(arg, true);
+> +}
+> +
+> +static int test_for_each(void *arg, bool shared)
+> +{
+> +	struct dma_resv_iter cursor;
+> +	struct dma_fence *f, *fence;
+> +	struct dma_resv resv;
+> +	int r;
+> +
+> +	f = alloc_fence();
+> +	if (!f)
+> +		return -ENOMEM;
+> +
+> +	dma_resv_init(&resv);
+> +	r = dma_resv_lock(&resv, NULL);
+> +	if (r) {
+> +		pr_err("Resv locking failed\n");
+> +		goto err_free;
+> +	}
+> +
+> +	if (shared) {
+> +		r = dma_resv_reserve_shared(&resv, 1);
+> +		if (r) {
+> +			pr_err("Resv shared slot allocation failed\n");
+> +			goto err_unlock;
+> +		}
+> +
+> +		dma_resv_add_shared_fence(&resv, f);
+> +	} else {
+> +		dma_resv_add_excl_fence(&resv, f);
+> +	}
+> +
+> +	r = -ENOENT;
+> +	dma_resv_for_each_fence(&cursor, &resv, shared, fence) {
+> +		if (!r) {
+> +			pr_err("More than one fence found\n");
+> +			r = -EINVAL;
+> +			goto err_unlock;
+> +		}
+> +		if (f != fence) {
+> +			pr_err("Unexpected fence\n");
+> +			r = -EINVAL;
+> +			goto err_unlock;
+> +		}
+> +		if (dma_resv_iter_is_exclusive(&cursor) != !shared) {
+> +			pr_err("Unexpected fence usage\n");
+> +			r = -EINVAL;
+> +			goto err_unlock;
+> +		}
+> +		r = 0;
+> +	}
+> +	if (r) {
+> +		pr_err("No fence found\n");
+> +		goto err_unlock;
+> +	}
+> +	dma_fence_signal(f);
+> +err_unlock:
+> +	dma_resv_unlock(&resv);
+> +err_free:
+> +	dma_resv_fini(&resv);
+> +	dma_fence_put(f);
+> +	return r;
+> +}
+> +
+> +static int test_excl_for_each(void *arg)
+> +{
+> +	return test_for_each(arg, false);
+> +}
+> +
+> +static int test_shared_for_each(void *arg)
+> +{
+> +	return test_for_each(arg, false);
+> +}
+> +
+> +static int test_for_each_unlocked(void *arg, bool shared)
+> +{
+> +	struct dma_resv_iter cursor;
+> +	struct dma_fence *f, *fence;
+> +	struct dma_resv resv;
+> +	int r;
+> +
+> +	f = alloc_fence();
+> +	if (!f)
+> +		return -ENOMEM;
+> +
+> +	dma_resv_init(&resv);
+> +	r = dma_resv_lock(&resv, NULL);
+> +	if (r) {
+> +		pr_err("Resv locking failed\n");
+> +		goto err_free;
+> +	}
+> +
+> +	if (shared) {
+> +		r = dma_resv_reserve_shared(&resv, 1);
+> +		if (r) {
+> +			pr_err("Resv shared slot allocation failed\n");
+> +			dma_resv_unlock(&resv);
+> +			goto err_free;
+> +		}
+> +
+> +		dma_resv_add_shared_fence(&resv, f);
+> +	} else {
+> +		dma_resv_add_excl_fence(&resv, f);
+> +	}
+> +	dma_resv_unlock(&resv);
+> +
+> +	r = -ENOENT;
+> +	dma_resv_iter_begin(&cursor, &resv, shared);
+> +	dma_resv_for_each_fence_unlocked(&cursor, fence) {
+> +		if (!r) {
+> +			dma_resv_iter_end(&cursor);
+> +			pr_err("More than one fence found\n");
+> +			r = -EINVAL;
+> +			goto err_free;
+> +		}
+> +		if (f != fence) {
+> +			dma_resv_iter_end(&cursor);
+> +			pr_err("Unexpected fence\n");
+> +			r = -EINVAL;
+> +			goto err_free;
+> +		}
+> +		if (dma_resv_iter_is_exclusive(&cursor) != !shared) {
+> +			dma_resv_iter_end(&cursor);
+> +			pr_err("Unexpected fence usage\n");
+> +			r = -EINVAL;
+> +			goto err_free;
+> +		}
+> +		r = 0;
+> +	}
+> +	dma_resv_iter_end(&cursor);
+> +	if (r) {
+> +		pr_err("No fence found\n");
+> +		goto err_free;
+> +	}
+> +	dma_fence_signal(f);
+> +err_free:
+> +	dma_resv_fini(&resv);
+> +	dma_fence_put(f);
+> +	return r;
+> +}
+> +
+> +static int test_excl_for_each_unlocked(void *arg)
+> +{
+> +	return test_for_each_unlocked(arg, false);
+> +}
+> +
+> +static int test_shared_for_each_unlocked(void *arg)
+> +{
+> +	return test_for_each_unlocked(arg, true);
+> +}
+> +
+> +int dma_resv(void)
+> +{
+> +	static const struct subtest tests[] = {
+> +		SUBTEST(sanitycheck),
+> +		SUBTEST(test_excl_signaling),
+> +		SUBTEST(test_shared_signaling),
+> +		SUBTEST(test_excl_for_each),
+> +		SUBTEST(test_shared_for_each),
+> +		SUBTEST(test_excl_for_each_unlocked),
+> +		SUBTEST(test_shared_for_each_unlocked),
+> +	};
+> +
+> +	spin_lock_init(&fence_lock);
+> +	return subtests(tests, NULL);
+> +}
+> -- 
+> 2.25.1
+> 
 
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
