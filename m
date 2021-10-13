@@ -2,111 +2,97 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B84AA42CECE
-	for <lists+linux-media@lfdr.de>; Thu, 14 Oct 2021 00:42:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 89E5A42CEDC
+	for <lists+linux-media@lfdr.de>; Thu, 14 Oct 2021 00:50:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231843AbhJMWnf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 13 Oct 2021 18:43:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51394 "EHLO
+        id S231231AbhJMWwi (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 13 Oct 2021 18:52:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53812 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231709AbhJMWn0 (ORCPT
+        with ESMTP id S230032AbhJMWwh (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 13 Oct 2021 18:43:26 -0400
-Received: from mail-wr1-x42f.google.com (mail-wr1-x42f.google.com [IPv6:2a00:1450:4864:20::42f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 02FA1C061746;
-        Wed, 13 Oct 2021 15:41:22 -0700 (PDT)
-Received: by mail-wr1-x42f.google.com with SMTP id k7so13143522wrd.13;
-        Wed, 13 Oct 2021 15:41:21 -0700 (PDT)
+        Wed, 13 Oct 2021 18:52:37 -0400
+Received: from mail-qt1-x82a.google.com (mail-qt1-x82a.google.com [IPv6:2607:f8b0:4864:20::82a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AF551C061746
+        for <linux-media@vger.kernel.org>; Wed, 13 Oct 2021 15:50:33 -0700 (PDT)
+Received: by mail-qt1-x82a.google.com with SMTP id r17so4152051qtx.10
+        for <linux-media@vger.kernel.org>; Wed, 13 Oct 2021 15:50:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-transfer-encoding:content-language;
-        bh=sHa7mUQcHOXPtd83ipXEUE5aNuvEdNtFQHzuxVianM4=;
-        b=ZsOiV9UXctlmyCDtxU0V9dSXTqOm1H5EAcOBySQOL27UuG2JhfhqJxqxfWmJdjBun3
-         YRYyhSxSdIqYo82Ev82Q+wk4KvHxQPVdb4MrbMh/Rh7R62kq4VjRaQnPQJ+vUV7/227B
-         4R+GHCVaoHWXcrJq4KjsnpoFfntZqDHTBsE5SPb8dvaaJHgfXJYLHnc6o5QLoJVExuVo
-         iI01UCzPM+ht3vR9zqiiq+XBhsW3dbFBeCMbDHQ1ynvYmPh7+NmeT78zHll+naOC68lJ
-         8vsrE/reLqnFFt6zGviI9atZeI5SLLlWr+StfNS0aAbphmcSYW6JR8nLt7jeZ1wcs0Z5
-         rD3g==
+        d=vanguardiasur-com-ar.20210112.gappssmtp.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=xM1fMd37P0GkH+ZlVvAIHq/XlgyRCHndX09GA3o6I2w=;
+        b=sV74+qP2MQF6w9NmafHoTpTolVfVwa0rljewKiYT94oDqfz0A5uHEVwWv2+SmELSHc
+         tWi6VdT69T4pL6mhUtsPnJwakwfrCd8tASkny/rtRx3bV5bZnliB+S91yJtXbcd4cJsP
+         CEhnBkaQthmsfom4VTyB5PDG8CoKhTHAi0ufvApv/LElVrWx/9vAwQnuQ4FIx80EIjgr
+         yeORRy5s1q4pLKS0K3IRbLLUlzgFwOrD4yiBCTNTw7+G6ykXocghAiFCj3U3+GBI2e/7
+         5awydk+SNqULo5yRmsVegI6pH+Cn83rFSzSS36NqX0k3ET+lDcgZ6BH/8i5vOlv2eUAo
+         Kakw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-transfer-encoding
-         :content-language;
-        bh=sHa7mUQcHOXPtd83ipXEUE5aNuvEdNtFQHzuxVianM4=;
-        b=UmuXqF/2UdzfiXVCABzyn6NRVB4+HafUQyybQ00PEN036RInGD3HsiJzWxf3mhaLWW
-         TlylY3q0NGoBXs9wxAZssaG8yIXb5KEj/BnhZpcAa7bdduA1dBz1q5CKNQu86gecnYpJ
-         eFizmb+quYfHwo/deD0eHmkjGlZkGkvqgdBLxLD3yQ0RBwjGR4RVoGOquMyIkPZhQDGT
-         DZoMqVooS6ZtyZ0znC8jIAb2ifC76j8drJYwGYoFhSXVlIBsbGsQ2YtfhbZwcazmGhm0
-         /i9tYFN8N6VhRD8uZc7Kmx6+r0N4dODqsenRBkuWgOw8VRYpnJ0oqwnhO/l01CGz2zYX
-         o0LQ==
-X-Gm-Message-State: AOAM533PdSGaYvgvpJX1GlFXgK0LkfPt32KEtll0rcdXR+a0YTWvnq0E
-        xvGdXYIrsbGGMSlMXgKdbO2XJlQq9cs=
-X-Google-Smtp-Source: ABdhPJwvVcg84aeYFhzB9lFcqYYWuT+A7VqvfveWNpzOGIK4hhJMe0U6ZM6DfK0ot6qnyHAQ1Yjx7Q==
-X-Received: by 2002:a5d:4d06:: with SMTP id z6mr2224720wrt.149.1634164880569;
-        Wed, 13 Oct 2021 15:41:20 -0700 (PDT)
-Received: from [192.168.0.14] (cpc141996-chfd3-2-0-cust928.12-3.cable.virginm.net. [86.13.91.161])
-        by smtp.gmail.com with ESMTPSA id v3sm776456wrg.23.2021.10.13.15.41.19
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 13 Oct 2021 15:41:20 -0700 (PDT)
-Subject: Re: [PATCH] media: ipu3-cio2: fix error code in
- cio2_bridge_connect_sensor()
-To:     Dan Carpenter <dan.carpenter@oracle.com>,
-        Yong Zhi <yong.zhi@intel.com>,
-        =?UTF-8?Q?Fabian_W=c3=bcthrich?= <me@fabwu.ch>
-Cc:     Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Bingbu Cao <bingbu.cao@intel.com>,
-        Tianshu Qiu <tian.shu.qiu@intel.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Andy Shevchenko <andy.shevchenko@gmail.com>,
-        linux-media@vger.kernel.org, kernel-janitors@vger.kernel.org
-References: <20211013075319.GA6010@kili>
-From:   Daniel Scally <djrscally@gmail.com>
-Message-ID: <e3880fc8-6189-ccca-e50b-d1bca27633dc@gmail.com>
-Date:   Wed, 13 Oct 2021 23:41:18 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=xM1fMd37P0GkH+ZlVvAIHq/XlgyRCHndX09GA3o6I2w=;
+        b=feCqo+GM4ASJ3OIwqdJ6LTWjrFPOXCEXbVjtVQ1bLD10zYKaqrWxJs5lly8ABHSzcJ
+         zoNPt3BYQCbgyaFR/+iPO+UZO+HHkMFXNBxkkqSq9yEukVVhcCgj82ImBUcfmrPkH+iX
+         pWzTRqFOoJ9yHMQISHe+dOP4wj1fkQ9OZM0SynyiLVMUKb9sLNR0kxuJGkUzJFGLqIZr
+         CAZo+ocl60gaiHlpTkY+4LjbFrqLq0augwBgkmHcl+gqy4gDk9FNsb3xO/IESF4glFkN
+         2Vn9Rxpo4Uiw+/If+oQK2ze9+jD1Uh8vQxY1aZySvwVWoCbPIc45Tg9n/onI78Q8MyHH
+         LvYw==
+X-Gm-Message-State: AOAM5328DS8dGHNSboLkEHDJ/szLs4aJIFMjFsoQ161D7oUhaLy2SRCo
+        awzl0jCggkd77MrEgUfUqZ7bxA==
+X-Google-Smtp-Source: ABdhPJyMyktfWBfUtcNLXQN+ND/84ayn5d3dsHNkBD7ZxYgHVbjL6ZghrpM+UN8x+hQpM+G+IwpnBw==
+X-Received: by 2002:ac8:7f44:: with SMTP id g4mr2516291qtk.130.1634165432864;
+        Wed, 13 Oct 2021 15:50:32 -0700 (PDT)
+Received: from fedora ([196.32.91.248])
+        by smtp.gmail.com with ESMTPSA id g11sm606454qko.31.2021.10.13.15.50.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 13 Oct 2021 15:50:31 -0700 (PDT)
+Date:   Wed, 13 Oct 2021 19:50:27 -0300
+From:   Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
+To:     Rikard Falkeborn <rikard.falkeborn@gmail.com>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
+        linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging: media: rkvdec: Constify static struct
+ v4l2_m2m_ops
+Message-ID: <YWdis9cj3OyLFNaR@fedora>
+References: <20211012221144.30638-1-rikard.falkeborn@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20211013075319.GA6010@kili>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20211012221144.30638-1-rikard.falkeborn@gmail.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Dan
+On Wed, Oct 13, 2021 at 12:11:44AM +0200, Rikard Falkeborn wrote:
+> The only usage of rkvdec_m2m_ops is to pass its address to v4l2_m2m_init(),
+> which takes a pointer to const v4l2_m2m_ops as argument. Make it const
+> to allow the compiler to put it in read-only memory.
+> 
+> Signed-off-by: Rikard Falkeborn <rikard.falkeborn@gmail.com>
 
-On 13/10/2021 08:53, Dan Carpenter wrote:
-> Return -ENODEV if acpi_get_physical_device_location() fails.  Don't
-> return success.
->
-> Fixes: 485aa3df0dff ("media: ipu3-cio2: Parse sensor orientation and rotation")
-> Signed-off-by: Dan Carpenter <dan.carpenter@oracle.com>
-
-
-Thanks for catching that.
-
-
-Reviewed-by: Daniel Scally <djrscally@gmail.com>
+Reviewed-by: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
 
 > ---
->  drivers/media/pci/intel/ipu3/cio2-bridge.c | 4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
->
-> diff --git a/drivers/media/pci/intel/ipu3/cio2-bridge.c b/drivers/media/pci/intel/ipu3/cio2-bridge.c
-> index 67c467d3c81f..0b586b4e537e 100644
-> --- a/drivers/media/pci/intel/ipu3/cio2-bridge.c
-> +++ b/drivers/media/pci/intel/ipu3/cio2-bridge.c
-> @@ -238,8 +238,10 @@ static int cio2_bridge_connect_sensor(const struct cio2_sensor_config *cfg,
->  			goto err_put_adev;
+>  drivers/staging/media/rkvdec/rkvdec.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/staging/media/rkvdec/rkvdec.c b/drivers/staging/media/rkvdec/rkvdec.c
+> index bf00fe6534a3..28aab5c7fe33 100644
+> --- a/drivers/staging/media/rkvdec/rkvdec.c
+> +++ b/drivers/staging/media/rkvdec/rkvdec.c
+> @@ -677,7 +677,7 @@ static void rkvdec_device_run(void *priv)
+>  		rkvdec_job_finish(ctx, VB2_BUF_STATE_ERROR);
+>  }
 >  
->  		status = acpi_get_physical_device_location(adev->handle, &sensor->pld);
-> -		if (ACPI_FAILURE(status))
-> +		if (ACPI_FAILURE(status)) {
-> +			ret = -ENODEV;
->  			goto err_put_adev;
-> +		}
+> -static struct v4l2_m2m_ops rkvdec_m2m_ops = {
+> +static const struct v4l2_m2m_ops rkvdec_m2m_ops = {
+>  	.device_run = rkvdec_device_run,
+>  };
 >  
->  		if (sensor->ssdb.lanes > CIO2_MAX_LANES) {
->  			dev_err(&adev->dev,
+> -- 
+> 2.33.0
+> 
