@@ -2,91 +2,96 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 30B8542AF8C
-	for <lists+linux-media@lfdr.de>; Wed, 13 Oct 2021 00:11:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DE53242B1CE
+	for <lists+linux-media@lfdr.de>; Wed, 13 Oct 2021 03:08:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235833AbhJLWNw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 12 Oct 2021 18:13:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53416 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235360AbhJLWNw (ORCPT
+        id S235403AbhJMBKb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 12 Oct 2021 21:10:31 -0400
+Received: from mailgw02.mediatek.com ([210.61.82.184]:48638 "EHLO
+        mailgw02.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
+        with ESMTP id S234233AbhJMBKa (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 12 Oct 2021 18:13:52 -0400
-Received: from mail-lf1-x12d.google.com (mail-lf1-x12d.google.com [IPv6:2a00:1450:4864:20::12d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EBAFCC061570;
-        Tue, 12 Oct 2021 15:11:49 -0700 (PDT)
-Received: by mail-lf1-x12d.google.com with SMTP id j5so2883814lfg.8;
-        Tue, 12 Oct 2021 15:11:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=PB0eDMKhk86i0GI1+A0jAKhTWNFDGyw5uusrHp5qJ1o=;
-        b=S1OiTP1dWe72LOR+oSOBC80jt1H1zlBIVX4x6c0VO9fYYYYlJV9jIoBJcmiir1CgZa
-         n/UUUUjfYZoqNE0vw4ZzgPB03GAJ/j3ffCDPLwoImscEzNeP1RHSPBBEzZPgSdiGdqte
-         3t0C6qwdCyPPsdinRhIx5a2du9iE4zGl3E4Xfo95x6xJsFA+w+0t3ocBUBxxYcBfdP7V
-         XSKTRGeldYrhJ66ILf7kPHtvZOAgZAXqCn6r0T04NxuMnKbeDnqo9wj9Dy31ydqxc1k2
-         qSTFz71PGVYfV0nBypO0UDPSUH69CV6KxE2YRgrwtk9TZZUxfOgq2cZcJ80d6UdaEaPa
-         Fg3A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=PB0eDMKhk86i0GI1+A0jAKhTWNFDGyw5uusrHp5qJ1o=;
-        b=dzIhLdG9joVJYSdDMN6deendWlAz4wvrk5QnZfd4f5vNpydZfg9Z685PEB6iRUhxDU
-         MjYobU75dAJYiglpH0/Fpj1AwJBPqukVaG7jUFW+GZFkxeVZLq5buQQoLgjRyZueZuvE
-         my+Rc/i5N899B+rll/HkKy7T4/jN9JiUZ0TfPImyRcpCrpGYZkOHlWky3GZJO51u9d/G
-         f+LwCKZCccJ6RHTGEu1vsq5sRhGo25obsi4TlRYL2zoecZ9ChRflXIlz+E8NOYIggL++
-         /lJAbXVoWdOdQX6hv4p3JGFFpDrx1PjfI6Eor7kANIwQ/EELVE3VUlxsZq1F/RSEXEUP
-         42kg==
-X-Gm-Message-State: AOAM530JWgKVi0T97FptvehEIHVgKzDga82SSOSlwcD6EEDoRw84AS+f
-        BhuIrhyIJqmwOnWDkhqszAQ=
-X-Google-Smtp-Source: ABdhPJzhfBx5c1yogIsQxrarVmSKN6V4lDQZbMNMVOMA7DFH4f6xxS3aIqwHk7TFuKFe4AJ/YqRnpQ==
-X-Received: by 2002:a2e:8756:: with SMTP id q22mr24920778ljj.271.1634076708253;
-        Tue, 12 Oct 2021 15:11:48 -0700 (PDT)
-Received: from localhost.localdomain (h-158-174-22-5.NA.cust.bahnhof.se. [158.174.22.5])
-        by smtp.gmail.com with ESMTPSA id v2sm645467lfo.119.2021.10.12.15.11.47
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 12 Oct 2021 15:11:47 -0700 (PDT)
-From:   Rikard Falkeborn <rikard.falkeborn@gmail.com>
-To:     Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
-        linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
-        Rikard Falkeborn <rikard.falkeborn@gmail.com>
-Subject: [PATCH] staging: media: rkvdec: Constify static struct v4l2_m2m_ops
-Date:   Wed, 13 Oct 2021 00:11:44 +0200
-Message-Id: <20211012221144.30638-1-rikard.falkeborn@gmail.com>
-X-Mailer: git-send-email 2.33.0
+        Tue, 12 Oct 2021 21:10:30 -0400
+X-UUID: 4915edeb9e3a439b8345c27e9e01e9a3-20211013
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
+        h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:From:Subject:Message-ID; bh=Wo5UR62GlfUL19duHdY33pqBzIfdVlywwUiTsVrdB9Y=;
+        b=ntE7ZJg7bHqFtCQ0l2P9nW5f9dlxp5mkubMVgd83ZgZSY3rr9HPT/tQrAzXXsXT35DD82yQ2rTAiB1DgBMSkJb8EXUNEa8vN+llUbBwMvFN1t6TWr/hP3acYgG0ISE3me9Vo6s8ppxszXo2veQYUZeylFv74ukXwL1eM7D/MQmY=;
+X-UUID: 4915edeb9e3a439b8345c27e9e01e9a3-20211013
+Received: from mtkcas10.mediatek.inc [(172.21.101.39)] by mailgw02.mediatek.com
+        (envelope-from <yunfei.dong@mediatek.com>)
+        (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
+        with ESMTP id 317307619; Wed, 13 Oct 2021 09:08:24 +0800
+Received: from mtkexhb01.mediatek.inc (172.21.101.102) by
+ mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.792.3;
+ Wed, 13 Oct 2021 09:08:23 +0800
+Received: from mtkcas10.mediatek.inc (172.21.101.39) by mtkexhb01.mediatek.inc
+ (172.21.101.102) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Wed, 13 Oct
+ 2021 09:08:22 +0800
+Received: from mhfsdcap04 (10.17.3.154) by mtkcas10.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
+ Transport; Wed, 13 Oct 2021 09:08:20 +0800
+Message-ID: <11498cb8b7f1754f6134ce8143bd4f81272d0ffc.camel@mediatek.com>
+Subject: Re: [PATCH v7, 00/15] Support multi hardware decode using
+ of_platform_populate
+From:   "yunfei.dong@mediatek.com" <yunfei.dong@mediatek.com>
+To:     Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
+        Alexandre Courbot <acourbot@chromium.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        "Tzung-Bi Shih" <tzungbi@chromium.org>,
+        Tiffany Lin <tiffany.lin@mediatek.com>,
+        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Tomasz Figa <tfiga@google.com>
+CC:     Hsin-Yi Wang <hsinyi@chromium.org>,
+        Fritz Koenig <frkoenig@chromium.org>,
+        Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
+        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        Irui Wang <irui.wang@mediatek.com>,
+        <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <srv_heupstream@mediatek.com>,
+        <linux-mediatek@lists.infradead.org>,
+        <Project_Global_Chrome_Upstream_Group@mediatek.com>
+Date:   Wed, 13 Oct 2021 09:08:24 +0800
+In-Reply-To: <73f83f00-5d49-ba77-f46d-9c0855dc5268@collabora.com>
+References: <20211011070247.792-1-yunfei.dong@mediatek.com>
+         <73f83f00-5d49-ba77-f46d-9c0855dc5268@collabora.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MTK:  N
+Content-Transfer-Encoding: base64
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The only usage of rkvdec_m2m_ops is to pass its address to v4l2_m2m_init(),
-which takes a pointer to const v4l2_m2m_ops as argument. Make it const
-to allow the compiler to put it in read-only memory.
-
-Signed-off-by: Rikard Falkeborn <rikard.falkeborn@gmail.com>
----
- drivers/staging/media/rkvdec/rkvdec.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/staging/media/rkvdec/rkvdec.c b/drivers/staging/media/rkvdec/rkvdec.c
-index bf00fe6534a3..28aab5c7fe33 100644
---- a/drivers/staging/media/rkvdec/rkvdec.c
-+++ b/drivers/staging/media/rkvdec/rkvdec.c
-@@ -677,7 +677,7 @@ static void rkvdec_device_run(void *priv)
- 		rkvdec_job_finish(ctx, VB2_BUF_STATE_ERROR);
- }
- 
--static struct v4l2_m2m_ops rkvdec_m2m_ops = {
-+static const struct v4l2_m2m_ops rkvdec_m2m_ops = {
- 	.device_run = rkvdec_device_run,
- };
- 
--- 
-2.33.0
+SGkgQW5kcnplaiwNCg0KDQpPbiBUdWUsIDIwMjEtMTAtMTIgYXQgMTY6MjcgKzAyMDAsIEFuZHJ6
+ZWogUGlldHJhc2lld2ljeiB3cm90ZToNCj4gSGkgWXVuZmVpIERvbmcsDQo+IA0KPiBXIGRuaXUg
+MTEuMTAuMjAyMSBvIDA5OjAyLCBZdW5mZWkgRG9uZyBwaXN6ZToNCj4gPiBUaGlzIHNlcmllcyBh
+ZGRzIHN1cHBvcnQgZm9yIG11bHRpIGhhcmR3YXJlIGRlY29kZSBpbnRvIG10ay12Y29kZWMsIA0K
+PiA+IGJ5IGZpcnN0DQo+ID4gYWRkaW5nIHVzZSBvZl9wbGF0Zm9ybV9wb3B1bGF0ZSB0byBtYW5h
+Z2UgZWFjaCBoYXJkd2FyZQ0KPiA+IGluZm9ybWF0aW9uOiBpbnRlcnJ1cHQsDQo+ID4gY2xvY2ss
+IHJlZ2lzdGVyIGJhc2VzIGFuZCBwb3dlci4gU2Vjb25kbHkgYWRkIGNvcmUgdGhyZWFkIHRvIGRl
+YWwNCj4gPiB3aXRoIGNvcmUNCj4gPiBoYXJkd2FyZSBtZXNzYWdlLCBhdCB0aGUgc2FtZSB0aW1l
+LCBhZGQgbXNnIHF1ZXVlIGZvciBkaWZmZXJlbnQNCj4gPiBoYXJkd2FyZQ0KPiA+IHNoYXJlIG1l
+c3NhZ2VzLiBMYXN0bHksIHRoZSBhcmNoaXRlY3R1cmUgb2YgZGlmZmVyZW50IHNwZWNzIGFyZSBu
+b3QNCj4gPiB0aGUgc2FtZSwNCj4gPiB1c2luZyBzcGVjcyB0eXBlIHRvIHNlcGFyYXRlIHRoZW0u
+DQo+ID4gDQo+ID4gVGhpcyBzZXJpZXMgaGFzIGJlZW4gdGVzdGVkIHdpdGggYm90aCBNVDgxODMg
+YW5kIE1UODE3My4gRGVjb2RpbmcNCj4gPiB3YXMgd29ya2luZw0KPiA+IGZvciBib3RoIGNoaXBz
+Lg0KPiA+IA0KPiA+IFBhdGNoZXMgMX4zIHJld3JpdGUgZ2V0IHJlZ2lzdGVyIGJhc2VzIGFuZCBw
+b3dlciBvbi9vZmYgaW50ZXJmYWNlLg0KPiA+IA0KPiA+IFBhdGNoIDQgYWRkIHRvIHN1cHBvcnQg
+bXVsdGkgaGFyZHdhcmUuDQo+ID4gDQo+ID4gUGF0Y2ggNSBzZXBhcmF0ZSB2aWRlbyBlbmNvZGVy
+IGFuZCBkZWNvZGVyIGRvY3VtZW50DQo+ID4gDQo+ID4gUGF0Y2hlcyA2LTE1IGFkZCBpbnRlcmZh
+Y2VzIHRvIHN1cHBvcnQgY29yZSBoYXJkd2FyZS4NCj4gDQo+IFdoaWNoIHRyZWUgZG9lcyB0aGUg
+c2VyaWVzIGFwcGx5IHRvPw0KDQpJIGRvbid0IHVuZGVyc3RhbmQgeW91ciBtZWFuIGNsZWFybHku
+IE1lZGlhIHRyZWU/DQoNCllvdSBjYW4gZ2V0IHRoZSBwYXRjaGVzIGZyb20gdGhpcyBsaW5rOg0K
+DQpodHRwczovL3BhdGNod29yay5saW51eHR2Lm9yZy9wcm9qZWN0L2xpbnV4LW1lZGlhL2NvdmVy
+LzIwMjExMDExMDcwMjQ3Ljc5Mi0xLXl1bmZlaS5kb25nQG1lZGlhdGVrLmNvbS8NCg0KVGhhbmtz
+LA0KWXVuZmVpIERvbmcNCj4gDQo+IFJlZ2FyZHMsDQo+IA0KPiBBbmRyemVqDQo=
 
