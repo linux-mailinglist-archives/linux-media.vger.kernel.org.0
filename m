@@ -2,130 +2,123 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9C01242C28E
-	for <lists+linux-media@lfdr.de>; Wed, 13 Oct 2021 16:14:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 30DED42C2A6
+	for <lists+linux-media@lfdr.de>; Wed, 13 Oct 2021 16:15:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235564AbhJMOQw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 13 Oct 2021 10:16:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46110 "EHLO
+        id S236535AbhJMOR1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 13 Oct 2021 10:17:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46270 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233133AbhJMOQw (ORCPT
+        with ESMTP id S236491AbhJMOR0 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 13 Oct 2021 10:16:52 -0400
-Received: from mail-wr1-x432.google.com (mail-wr1-x432.google.com [IPv6:2a00:1450:4864:20::432])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AEF04C061570
-        for <linux-media@vger.kernel.org>; Wed, 13 Oct 2021 07:14:48 -0700 (PDT)
-Received: by mail-wr1-x432.google.com with SMTP id k7so8800569wrd.13
-        for <linux-media@vger.kernel.org>; Wed, 13 Oct 2021 07:14:48 -0700 (PDT)
+        Wed, 13 Oct 2021 10:17:26 -0400
+Received: from mail-wr1-x42f.google.com (mail-wr1-x42f.google.com [IPv6:2a00:1450:4864:20::42f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 449AAC061570
+        for <linux-media@vger.kernel.org>; Wed, 13 Oct 2021 07:15:23 -0700 (PDT)
+Received: by mail-wr1-x42f.google.com with SMTP id g25so8973485wrb.2
+        for <linux-media@vger.kernel.org>; Wed, 13 Oct 2021 07:15:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=ffwll.ch; s=google;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=QGMl28YhRUiVkwlLZBmVBXM/gyOekGqQg/96lael90E=;
-        b=P0JFBTHJb1PbNMI8zjyzr7d9fJsFYOFHA0yBi6E2RZWs9BbG3pgP09Q5ZbfNPBYrfe
-         omcKg0S8cPzW2K3NVO1TtfBvQGSQmGi81ZTXvdFcqcuT3/GvLOrN8on5acW1QONc+L3Q
-         dVWlOopJ2jZgRk57IgcSw6BClvk7y94ehK1mY=
+        bh=WfZtUnTgQXcuUIGw85OC0CUsD42sr1oPRAFFNuvZ6vU=;
+        b=ExMubW21+4a97m5mSEFLHC9XE9MQ2rqhKXnFfUtb02KNCJ6frbMJapifImudEV85yE
+         ZoSRmocQMD0h+MlCb+wna6t9fVtMP10RYA858x3kZZoI//0nLM9SWPKgo5N+WhoyqGqH
+         HoAyDoNdNZagrHVtOf8MKVvQLwookmfLTFgtQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:content-transfer-encoding
          :in-reply-to;
-        bh=QGMl28YhRUiVkwlLZBmVBXM/gyOekGqQg/96lael90E=;
-        b=j/GlAAgFXH9t6GvHm2AKhUukFL5PtU6CHBYNb6tS3qCFLIuO1ImLKTBCGjkRBLIWH/
-         T0+vI0EIdrkObXUxalRcgdpq7PSpxh5+DNSRjuml4/La8OIWGNZ5D9ZZ2IncPR+TOU2W
-         72ghNwW/sjRVWQ5bQrgY1PX5D2SpByKQ7jk4mP/Nj4J7JeVpQ8hHoubhmjzoDLfThMwC
-         SsZ8LL5234nLDmJ+3hpBOxBfuNSfNfXhVdugiVpyeDsrMo4z9Ov9REijZOYNLGStlrjk
-         YsirAUUQrC2QwVk5tT6xFoB1m8TgsLYoJoLIrvO2BnzrxupIwqdu0zfsa60TSfbclvpg
-         YUOg==
-X-Gm-Message-State: AOAM532aMtvTqaJUwXnZCAOfYoVqq/rT+u9y+Tc4kHlAsrh7qbr6SChL
-        cDR8dxzHZeHieoFvg1Nvvi2gcw==
-X-Google-Smtp-Source: ABdhPJz3DWZJUUUVjvwZK5GxUdwNkVvvYKU7kkJTlhYb5/u8jsP/6ywjOD2vzguomUiuBwi9+TI1iA==
-X-Received: by 2002:a5d:6ad2:: with SMTP id u18mr40933209wrw.47.1634134487220;
-        Wed, 13 Oct 2021 07:14:47 -0700 (PDT)
+        bh=WfZtUnTgQXcuUIGw85OC0CUsD42sr1oPRAFFNuvZ6vU=;
+        b=tBr5sDannzx2Yg42ys5iT4OGf2lH43D3kauaYza2JUzXJkp+TLgziVeG87gWLpREpY
+         vuYA9/PNc3phU5iQolHCb0NZ6SCUzZDKoxpKYLeyx+cRTvp41FcEifNeJ2XHqllB/Q+k
+         ALCW0gLoD3l9ZMaGSsJ6x3UVWbZ4Mt4BnmEDZgv+i8BPrBgW/KJr/q8w/4Bsy3PTLmrJ
+         4tpHEmjpLYs6y3wSoWoCnReqqrgr6/Gg5qu3HoRehK+/IcaJBzroX9HjpaIi4/A8uAT6
+         1EyRn+YWJIdygZlSmiiVEvpDuQ853UwstdyDdJVZUqrYKvSHDELT6gIrQwJ1MXz8TMi9
+         3i3w==
+X-Gm-Message-State: AOAM531OJ17HRdQKsiohfuLK2BEYfBf3+8faFoiAJdkTfKa7rvvDjfc5
+        lVGkW2Hi+6f4YFBGVnmf/f4mvA==
+X-Google-Smtp-Source: ABdhPJxEdOAPir5NiPEsWYJ0b0z5FbQiLYs1r5nFHyg+GaXVx1ytCUeEH/1VyYHA7NvIhI+FT3AUsg==
+X-Received: by 2002:adf:a78a:: with SMTP id j10mr40605280wrc.231.1634134519349;
+        Wed, 13 Oct 2021 07:15:19 -0700 (PDT)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
-        by smtp.gmail.com with ESMTPSA id b190sm5490616wmd.25.2021.10.13.07.14.46
+        by smtp.gmail.com with ESMTPSA id b190sm5491879wmd.25.2021.10.13.07.15.18
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 13 Oct 2021 07:14:46 -0700 (PDT)
-Date:   Wed, 13 Oct 2021 16:14:44 +0200
+        Wed, 13 Oct 2021 07:15:18 -0700 (PDT)
+Date:   Wed, 13 Oct 2021 16:15:17 +0200
 From:   Daniel Vetter <daniel@ffwll.ch>
 To:     Christian =?iso-8859-1?Q?K=F6nig?= 
         <ckoenig.leichtzumerken@gmail.com>
 Cc:     linaro-mm-sig@lists.linaro.org, dri-devel@lists.freedesktop.org,
         linux-media@vger.kernel.org, intel-gfx@lists.freedesktop.org,
         daniel@ffwll.ch, tvrtko.ursulin@linux.intel.com
-Subject: Re: [PATCH 14/28] drm/msm: use new iterator in msm_gem_describe
-Message-ID: <YWbp1PoezuLqHpKZ@phenom.ffwll.local>
+Subject: Re: [PATCH 15/28] drm/radeon: use new iterator in radeon_sync_resv
+Message-ID: <YWbp9ewEovFMgsR+@phenom.ffwll.local>
 References: <20211005113742.1101-1-christian.koenig@amd.com>
- <20211005113742.1101-15-christian.koenig@amd.com>
+ <20211005113742.1101-16-christian.koenig@amd.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20211005113742.1101-15-christian.koenig@amd.com>
+In-Reply-To: <20211005113742.1101-16-christian.koenig@amd.com>
 X-Operating-System: Linux phenom 5.10.0-8-amd64 
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Oct 05, 2021 at 01:37:28PM +0200, Christian König wrote:
-> Simplifying the code a bit. Also drop the RCU read side lock since the
-> object is locked anyway.
+On Tue, Oct 05, 2021 at 01:37:29PM +0200, Christian König wrote:
+> Simplifying the code a bit.
 > 
-> Untested since I can't get the driver to compile on !ARM.
-
-Cross-compiler install is pretty easy and you should have that for pushing
-drm changes to drm-misc :-)
-
 > Signed-off-by: Christian König <christian.koenig@amd.com>
-
-Assuming this compiles, it looks correct.
 
 Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
 
 > ---
->  drivers/gpu/drm/msm/msm_gem.c | 19 +++++--------------
->  1 file changed, 5 insertions(+), 14 deletions(-)
+>  drivers/gpu/drm/radeon/radeon_sync.c | 22 +++-------------------
+>  1 file changed, 3 insertions(+), 19 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/msm/msm_gem.c b/drivers/gpu/drm/msm/msm_gem.c
-> index 40a9863f5951..5bd511f07c07 100644
-> --- a/drivers/gpu/drm/msm/msm_gem.c
-> +++ b/drivers/gpu/drm/msm/msm_gem.c
-> @@ -880,7 +880,7 @@ void msm_gem_describe(struct drm_gem_object *obj, struct seq_file *m,
+> diff --git a/drivers/gpu/drm/radeon/radeon_sync.c b/drivers/gpu/drm/radeon/radeon_sync.c
+> index 9257b60144c4..b991ba1bcd51 100644
+> --- a/drivers/gpu/drm/radeon/radeon_sync.c
+> +++ b/drivers/gpu/drm/radeon/radeon_sync.c
+> @@ -91,33 +91,17 @@ int radeon_sync_resv(struct radeon_device *rdev,
+>  		     struct dma_resv *resv,
+>  		     bool shared)
 >  {
->  	struct msm_gem_object *msm_obj = to_msm_bo(obj);
->  	struct dma_resv *robj = obj->resv;
-> -	struct dma_resv_list *fobj;
+> -	struct dma_resv_list *flist;
+> -	struct dma_fence *f;
 > +	struct dma_resv_iter cursor;
->  	struct dma_fence *fence;
->  	struct msm_gem_vma *vma;
->  	uint64_t off = drm_vma_node_start(&obj->vma_node);
-> @@ -955,22 +955,13 @@ void msm_gem_describe(struct drm_gem_object *obj, struct seq_file *m,
->  		seq_puts(m, "\n");
->  	}
+>  	struct radeon_fence *fence;
+> -	unsigned i;
+> +	struct dma_fence *f;
+>  	int r = 0;
 >  
-> -	rcu_read_lock();
-> -	fobj = dma_resv_shared_list(robj);
-> -	if (fobj) {
-> -		unsigned int i, shared_count = fobj->shared_count;
+> -	/* always sync to the exclusive fence */
+> -	f = dma_resv_excl_fence(resv);
+> -	fence = f ? to_radeon_fence(f) : NULL;
+> -	if (fence && fence->rdev == rdev)
+> -		radeon_sync_fence(sync, fence);
+> -	else if (f)
+> -		r = dma_fence_wait(f, true);
 > -
-> -		for (i = 0; i < shared_count; i++) {
-> -			fence = rcu_dereference(fobj->shared[i]);
-> +	dma_resv_for_each_fence(&cursor, robj, true, fence) {
-> +		if (dma_resv_iter_is_exclusive(&cursor))
-> +			describe_fence(fence, "Exclusive", m);
-> +		else
->  			describe_fence(fence, "Shared", m);
-> -		}
->  	}
->  
-> -	fence = dma_resv_excl_fence(robj);
-> -	if (fence)
-> -		describe_fence(fence, "Exclusive", m);
-> -	rcu_read_unlock();
+> -	flist = dma_resv_shared_list(resv);
+> -	if (shared || !flist || r)
+> -		return r;
 > -
->  	msm_gem_unlock(obj);
->  }
->  
+> -	for (i = 0; i < flist->shared_count; ++i) {
+> -		f = rcu_dereference_protected(flist->shared[i],
+> -					      dma_resv_held(resv));
+> +	dma_resv_for_each_fence(&cursor, resv, shared, f) {
+>  		fence = to_radeon_fence(f);
+>  		if (fence && fence->rdev == rdev)
+>  			radeon_sync_fence(sync, fence);
+>  		else
+>  			r = dma_fence_wait(f, true);
+> -
+>  		if (r)
+>  			break;
+>  	}
 > -- 
 > 2.25.1
 > 
