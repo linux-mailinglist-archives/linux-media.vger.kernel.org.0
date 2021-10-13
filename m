@@ -2,173 +2,274 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id ADBC342BB81
-	for <lists+linux-media@lfdr.de>; Wed, 13 Oct 2021 11:27:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DDC0342BCD9
+	for <lists+linux-media@lfdr.de>; Wed, 13 Oct 2021 12:31:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236858AbhJMJ3f (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 13 Oct 2021 05:29:35 -0400
-Received: from comms.puri.sm ([159.203.221.185]:58508 "EHLO comms.puri.sm"
+        id S232784AbhJMKdu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 13 Oct 2021 06:33:50 -0400
+Received: from mga04.intel.com ([192.55.52.120]:43420 "EHLO mga04.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S237194AbhJMJ30 (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 13 Oct 2021 05:29:26 -0400
-Received: from localhost (localhost [127.0.0.1])
-        by comms.puri.sm (Postfix) with ESMTP id EE175DF6D2;
-        Wed, 13 Oct 2021 02:26:52 -0700 (PDT)
-Received: from comms.puri.sm ([127.0.0.1])
-        by localhost (comms.puri.sm [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id 7tBAZzFwpWvF; Wed, 13 Oct 2021 02:26:52 -0700 (PDT)
-Date:   Wed, 13 Oct 2021 11:26:36 +0200
-From:   Dorota Czaplejewicz <dorota.czaplejewicz@puri.sm>
-To:     Philipp Zabel <p.zabel@pengutronix.de>
-Cc:     Steve Longerbeam <slongerbeam@gmail.com>,
+        id S229495AbhJMKdt (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 13 Oct 2021 06:33:49 -0400
+X-IronPort-AV: E=McAfee;i="6200,9189,10135"; a="226170344"
+X-IronPort-AV: E=Sophos;i="5.85,370,1624345200"; 
+   d="scan'208";a="226170344"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Oct 2021 03:31:46 -0700
+X-IronPort-AV: E=Sophos;i="5.85,370,1624345200"; 
+   d="scan'208";a="547782394"
+Received: from smile.fi.intel.com (HELO smile) ([10.237.72.159])
+  by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Oct 2021 03:31:41 -0700
+Received: from andy by smile with local (Exim 4.95)
+        (envelope-from <andy.shevchenko@gmail.com>)
+        id 1mabXu-000JEQ-AK;
+        Wed, 13 Oct 2021 13:31:38 +0300
+Date:   Wed, 13 Oct 2021 13:31:38 +0300
+From:   Andy Shevchenko <andy.shevchenko@gmail.com>
+To:     Thorsten Leemhuis <linux@leemhuis.info>
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>,
+        KUnit Development <kunit-dev@googlegroups.com>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        netdev <netdev@vger.kernel.org>,
+        Brendan Higgins <brendanhiggins@google.com>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Ingo Molnar <mingo@redhat.com>, Will Deacon <will@kernel.org>,
+        Waiman Long <longman@redhat.com>,
+        Boqun Feng <boqun.feng@gmail.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        kernel@puri.sm, phone-devel@vger.kernel.org
-Subject: Re: [PATCH] media: imx: Round line size to 4 bytes
-Message-ID: <20211013112636.6963344d.dorota.czaplejewicz@puri.sm>
-In-Reply-To: <7d61fdbd161fce40874766bde5f95c3b73f1a96d.camel@pengutronix.de>
-References: <20211006110207.256325-1-dorota.czaplejewicz@puri.sm>
-        <7d61fdbd161fce40874766bde5f95c3b73f1a96d.camel@pengutronix.de>
-Organization: Purism
+        Thomas Graf <tgraf@suug.ch>,
+        Herbert Xu <herbert@gondor.apana.org.au>,
+        Andrew Morton <akpm@linux-foundation.org>
+Subject: Re: [PATCH v2 0/4] kernel.h further split
+Message-ID: <YWa1igOl4eAxv6FL@smile.fi.intel.com>
+References: <20211007095129.22037-1-andriy.shevchenko@linux.intel.com>
+ <YV7NEze2IvUgHusJ@kroah.com>
+ <CAHp75VfoQ-rFEEFu2FnaPuPDwyiTHpA_dCwqfA1SYSkFPM2uMA@mail.gmail.com>
+ <20211008113758.6cbee642@t14s>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/Lb+aKW2dEDTyBgr2xwG1woU";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20211008113758.6cbee642@t14s>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
---Sig_/Lb+aKW2dEDTyBgr2xwG1woU
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+On Fri, Oct 08, 2021 at 11:37:58AM +0200, Thorsten Leemhuis wrote:
+> On Thu, 7 Oct 2021 14:51:15 +0300
+> Andy Shevchenko <andy.shevchenko@gmail.com> wrote:
+> > On Thu, Oct 7, 2021 at 1:34 PM Greg Kroah-Hartman
+> > <gregkh@linuxfoundation.org> wrote:
+> > > On Thu, Oct 07, 2021 at 12:51:25PM +0300, Andy Shevchenko wrote:
+> > > > The kernel.h is a set of something which is not related to each
+> > > > other and often used in non-crossed compilation units, especially
+> > > > when drivers need only one or two macro definitions from it.
+> > > >
+> > > > Here is the split of container_of(). The goals are the following:
+> > > > - untwist the dependency hell a bit
+> > > > - drop kernel.h inclusion where it's only used for container_of()
+> > > > - speed up C preprocessing.
+> > > >
+> > > > People, like Greg KH and Miguel Ojeda, were asking about the
+> > > > latter. Read below the methodology and test setup with outcome
+> > > > numbers.
+> > > >
+> > > > The methodology
+> > > > ===============
+> > > > The question here is how to measure in the more or less clean way
+> > > > the C preprocessing time when building a project like Linux
+> > > > kernel. To answer it, let's look around and see what tools do we
+> > > > have that may help. Aha, here is ccache tool that seems quite
+> > > > plausible to be used. Its core idea is to preprocess C file,
+> > > > count hash (MD4) and compare to ones that are in the cache. If
+> > > > found, return the object file, avoiding compilation stage.
+> > > >
+> > > > Taking into account the property of the ccache, configure and use
+> > > > it in the below steps:
+> > > >
+> > > > 1. Configure kernel with allyesconfig
+> > > >
+> > > > 2. Make it with `make` to be sure that the cache is filled with
+> > > >    the latest data. I.o.w. warm up the cache.
+> > > >
+> > > > 3. Run `make -s` (silent mode to reduce the influence of
+> > > >    the unrelated things, like console output) 10 times and
+> > > >    measure 'real' time spent.
+> > > >
+> > > > 4. Repeat 1-3 for each patch or patch set to get data sets before
+> > > >    and after.
+> > > >
+> > > > When we get the raw data, calculating median will show us the
+> > > > number. Comparing them before and after we will see the
+> > > > difference.
+> > > >
+> > > > The setup
+> > > > =========
+> > > > I have used the Intel x86_64 server platform (see partial output
+> > > > of `lscpu` below):
+> > > >
+> > > > $ lscpu
+> > > > Architecture:            x86_64
+> > > >   CPU op-mode(s):        32-bit, 64-bit
+> > > >   Address sizes:         46 bits physical, 48 bits virtual
+> > > >   Byte Order:            Little Endian
+> > > > CPU(s):                  88
+> > > >   On-line CPU(s) list:   0-87
+> > > > Vendor ID:               GenuineIntel
+> > > >   Model name:            Intel(R) Xeon(R) CPU E5-2699 v4 @ 2.20GHz
+> > > >     CPU family:          6
+> > > >     Model:               79
+> > > >     Thread(s) per core:  2
+> > > >     Core(s) per socket:  22
+> > > >     Socket(s):           2
+> > > >     Stepping:            1
+> > > >     CPU max MHz:         3600.0000
+> > > >     CPU min MHz:         1200.0000
+> > > > ...
+> > > > Caches (sum of all):
+> > > >   L1d:                   1.4 MiB (44 instances)
+> > > >   L1i:                   1.4 MiB (44 instances)
+> > > >   L2:                    11 MiB (44 instances)
+> > > >   L3:                    110 MiB (2 instances)
+> > > > NUMA:
+> > > >   NUMA node(s):          2
+> > > >   NUMA node0 CPU(s):     0-21,44-65
+> > > >   NUMA node1 CPU(s):     22-43,66-87
+> > > > Vulnerabilities:
+> > > >   Itlb multihit:         KVM: Mitigation: Split huge pages
+> > > >   L1tf:                  Mitigation; PTE Inversion; VMX
+> > > > conditional cache flushes, SMT vulnerable Mds:
+> > > > Mitigation; Clear CPU buffers; SMT vulnerable Meltdown:
+> > > >    Mitigation; PTI Spec store bypass:     Mitigation; Speculative
+> > > > Store Bypass disabled via prctl and seccomp Spectre v1:
+> > > >  Mitigation; usercopy/swapgs barriers and __user pointer
+> > > > sanitization Spectre v2:            Mitigation; Full generic
+> > > > retpoline, IBPB conditional, IBRS_FW, STIBP conditional, RSB
+> > > > filling Tsx async abort:       Mitigation; Clear CPU buffers; SMT
+> > > > vulnerable
+> > > >
+> > > > With the following GCC:
+> > > >
+> > > > $ gcc --version
+> > > > gcc (Debian 10.3.0-11) 10.3.0
+> > > >
+> > > > The commands I have run during the measurement were:
+> > > >
+> > > >       rm -rf $O
+> > > >       make O=$O allyesconfig
+> > > >       time make O=$O -s -j64  # this step has been measured
+> 
+> BTW, what kcbench does in the end is not that different, but it only
+> builds the config once and that uses it for all further testing.
 
-Hello,
+Since I measure the third operation only this shouldn't affect recreation
+of the configuration file.
 
-On Fri, 08 Oct 2021 14:19:41 +0200
-Philipp Zabel <p.zabel@pengutronix.de> wrote:
+> > > > The raw data and median
+> > > > =======================
+> > > > Before patch 2 (yes, I have measured the only patch 2 effect) in
+> > > > the series (the data is sorted by time):
+> > > >
+> > > > real    2m8.794s
+> > > > real    2m11.183s
+> > > > real    2m11.235s
+> > > > real    2m11.639s
+> > > > real    2m11.960s
+> > > > real    2m12.014s
+> > > > real    2m12.609s
+> > > > real    2m13.177s
+> > > > real    2m13.462s
+> > > > real    2m19.132s
+> > > >
+> > > > After patch 2 has been applied:
+> > > >
+> > > > real    2m8.536s
+> > > > real    2m8.776s
+> > > > real    2m9.071s
+> > > > real    2m9.459s
+> > > > real    2m9.531s
+> > > > real    2m9.610s
+> > > > real    2m10.356s
+> > > > real    2m10.430s
+> > > > real    2m11.117s
+> > > > real    2m11.885s
+> > > >
+> > > > Median values are:
+> > > >       131.987s before
+> > > >       129.571s after
+> > > >
+> > > > We see the steady speedup as of 1.83%.
+> > >
+> > > You do know about kcbench:
+> > >         https://gitlab.com/knurd42/kcbench.git
+> > >
+> > > Try running that to make it such that we know how it was tested :)
+> > 
+> > I'll try it.
+> > 
+> > Meanwhile, Thorsten, can you have a look at my approach and tell if it
+> > makes sense?
+> 
+> I'm not the right person to ask here, I don't know enough about the
+> inner working of ccache and C preprocessing. Reminder: I'm not a real
+> kernel/C developer, but more kind of a parasite that lives on the
+> fringes of kernel development. ;-) Kcbench in fact originated as a
+> benchmark magazine for the computer magazine I used to work for – where
+> I also did quite a few benchmarks. But that knowledge might be helpful
+> here:
+> 
+> The measurements before and after patch 2 was applied get slower over
+> time. That is a hint that something is interfering. Is the disk filling
+> up and making the fs do more work? Or is the machine getting to hot? It
+> IMHO would be worth investigating and ruling out, as the differences
+> you are looking out are likely quite small
 
-> Hi Dorota,
->=20
-> On Wed, 2021-10-06 at 13:05 +0200, Dorota Czaplejewicz wrote:
-> > Section 13.7.6.13 "CSI Image Parameter Register" of the
-> > i.MX 8M Quad Applications Processors Reference Manual
-> > states that the line size should be divisible by 8 bytes.
-> > However, the hardware also accepts sizes divisible by 4 bytes.
-> >=20
-> > This patch accepts line sizes divisible 4-bytes in non-planar mode. =20
->=20
-> Thank you, this makes it much clearer. I see two issues with this,
-> though, one small and one a bit bigger:
->=20
-> First, I'd be wary of disregarding the reference manual - unless we know
-> better, and then it should be well documented in the code. It might be
-> that the 8-byte alignment requirement stems from the fact that the FIFO
-> operates in double-word units, which might cause the CSI to write over
-> the end of the buffer if the line width is odd (in 32-bit words).
-> Or maybe it's just that the FBUF_STRIDE conflicts with this, I'm unclear
-> on whether that is only given in units of dwords (although the driver
-> currently doesn't support this anyway).
->=20
-> I wonder: if you use 4-byte aligned width and odd height, does the CSI
-> write over the end of the buffer?
+I tried to explain why my methodology is closer to what we need to measure
+in the above and replies. TL;DR: mathematically the O() shadows o() and as
+we know the CPU and disk usage during compilation is a huge in comparison
+to the C preprocessing. I'm not sure what you are referring by "slower
+over time" since I explicitly said that I have _sorted_ the data. Nothing
+should be done here, I believe.
 
-I tested this case, and found a glitch which suggests the last 4 bytes are =
-ignored:
+> Also: the last run of the first measurement cycle is off by quite a
+> bit, so I wouldn't even include the result, as there like was something
+> that disturbed the benchmark.
 
-https://source.puri.sm/Librem5/linux-next/uploads/cfb59e3832431aaa3a6954945=
-5502568/image.png
+I believe you missed the very same remark, i.e. that the data is sorted.
 
-That would be taken care of rounding up towards a number decided at runtime=
-, like:
+> And I might be missing something, but why were you using "-j 64" on a
+> machine with 44 cores/88 threads?
 
-divisor =3D 8 >> (mbus->height % 2);
->=20
-> > Signed-off-by: Dorota Czaplejewicz <dorota.czaplejewicz@puri.sm>
-> > ---
-> >=20
-> > Hello,
-> >=20
-> > my previous patch identified something that was not a problem,
-> > so I'm sending a different one.
-> >=20
-> > This has been tested on the Librem 5.
-> >=20
-> > Cheers,
-> > Dorota
-> >=20
-> >  drivers/staging/media/imx/imx-media-utils.c | 4 ++--
-> >  1 file changed, 2 insertions(+), 2 deletions(-)
-> >=20
-> > diff --git a/drivers/staging/media/imx/imx-media-utils.c b/drivers/stag=
-ing/media/imx/imx-media-utils.c
-> > index 5128915a5d6f..a303003929e3 100644
-> > --- a/drivers/staging/media/imx/imx-media-utils.c
-> > +++ b/drivers/staging/media/imx/imx-media-utils.c
-> > @@ -545,13 +545,13 @@ int imx_media_mbus_fmt_to_pix_fmt(struct v4l2_pix=
-_format *pix,
-> >  	}
-> > =20
-> >  	/* Round up width for minimum burst size */
-> > -	width =3D round_up(mbus->width, 8);
-> > +	width =3D round_up(mbus->width, 4);
-> > =20
-> >  	/* Round up stride for IDMAC line start address alignment */
-> >  	if (cc->planar)
-> >  		stride =3D round_up(width, 16);
-> >  	else
-> > -		stride =3D round_up((width * cc->bpp) >> 3, 8);
-> > +		stride =3D round_up((width * cc->bpp) >> 3, 4); =20
->=20
-> Second, even if this works fine on the i.MX7/8M CSI, the alignment is
-> still required for the i.MX5/6 IPU, for which this code and the comments
-> were written. So we need a way to differentiate the two cases here.
->=20
-> regards
-> Philipp
+Because that machine has more processes being run. And I would like to
+minimize fluctuation of the CPU scheduling when some process requires
+a resource to perform little work.
 
-How best to go about this? I can see in the file imx-media-capture.c that t=
-here the video device lives in struct capture_priv.vdev.vfd. Would that be =
-the right place to query about the underlying hardware?
+> I wonder if that might lead do
+> interesting effects due to SMT (some core will run two threads, other
+> only one). Using either "-j 44" or "-j 88" might be better.
 
-Then the following functions would gain a new "small_divisor" parameter:
-- imx_media_mbus_fmt_to_pix_fmt (a GPL symbol)
-- imx_media_mbus_fmt_to_ipu_image (a GPL symbol)
-- __capture_try_fmt
+How -j64 can be better? Nothing will guarantee that any of the core will
+be half-loaded. But -j88 is worse because any process that wakes up and
+requires for a resource may affect the measurements.
 
-Those would have to extract the device type from struct capture_priv:
-- __capture_legacy_try_fmt
-- capture_try_fmt_vid_cap
-- capture_s_fmt_vid_cap
-- capture_init_format
+> But I
+> suggest you run kcbench once without specifying "-j", as that will
+> check which setting is the fastest on this system – and then use that
+> for all further tests.
 
-Regards,
-Dorota
+Next time I will try this approach, thanks for your reply and insights!
 
---Sig_/Lb+aKW2dEDTyBgr2xwG1woU
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
+-- 
+With Best Regards,
+Andy Shevchenko
 
------BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEExKRqtqfFqmh+lu1oADBpX4S8ZncFAmFmpkwACgkQADBpX4S8
-Zne+Wg/+MuIDGf86E/3/MqRiCINZ9zRQOQ7IPp/BCUpsxVBh5BEVKZKjkDQAoi1O
-x5/OXocME8+T7mU6NMuShIoXdCt9nX1yZ8kZTv9TcLjV+/Fd4gu5e7M6WQ4PP7CT
-V+EU38QiIPpMCavCQBKU+MIS2HNwMeZsz8G/Z5gjtPMR/Xnhh764c7wPuwWOpsOH
-aDulbdrJ0nkKSrOznou6eDgxWXDk4cuHOVe14e61k52MfXsSbXzNYV9IWUkzOL/d
-6gXVSOp9X0QC5TeDgjgVXFIJy/G5c7iOO1xNzfz4Ayg+C98lwWKfkCELUUSJGQer
-Az1t1NSjLS3oZQBL1BkDp+N9y1/Q7PBPVGi6e5wtCjeoLQuRZnyRb04+qVLM/lfo
-IieI8RtIiSx7g0jg0EALCfksUEPddln5lcR994AEtVrHjnmexOFsSFtBKZiKNNS8
-tfWO/dIfDrE8+HbXGzXWuijAQMq7M7D5t7OeHjZ+lCXuZJlCY2EmVTz20ho1rs82
-1KaX/S9/fq8Qk56xc4oUXPfWm7GZwgqBguRPHiSeIeIe0C5Y3sV9MCWqZ3Fze1ey
-7IW3mgMbFWT6wg8KAPMEa2oegymDxgO0P4r58qY3r4D2yJ5j34wpjm05PC06uBvZ
-atqqq9dIOsZ1XeKetuj5yieHhzpNId5n7GKfmIaEtObhCinXZrI=
-=YM5e
------END PGP SIGNATURE-----
-
---Sig_/Lb+aKW2dEDTyBgr2xwG1woU--
