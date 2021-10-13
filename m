@@ -2,80 +2,57 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DC21542BE22
-	for <lists+linux-media@lfdr.de>; Wed, 13 Oct 2021 12:57:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5B66E42BE8F
+	for <lists+linux-media@lfdr.de>; Wed, 13 Oct 2021 13:03:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233922AbhJMK7A (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 13 Oct 2021 06:59:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56472 "EHLO
+        id S229750AbhJMLFI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 13 Oct 2021 07:05:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56402 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232211AbhJMK60 (ORCPT
+        with ESMTP id S231145AbhJMLDD (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 13 Oct 2021 06:58:26 -0400
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A58F6C06176E;
-        Wed, 13 Oct 2021 03:56:23 -0700 (PDT)
-Received: from guri.fritz.box (unknown [IPv6:2a02:810a:880:f54:2d05:985b:ed8c:969a])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        (Authenticated sender: dafna)
-        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id EEA8A1F4416B;
-        Wed, 13 Oct 2021 11:56:21 +0100 (BST)
-From:   Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
-To:     linux-media@vger.kernel.org
-Cc:     Robert Beckett <bob.beckett@collabora.com>,
-        Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-staging@lists.linux.dev (open list:STAGING SUBSYSTEM),
-        linux-kernel@vger.kernel.org (open list),
-        laurent.pinchart@ideasonboard.com, hverkuil@xs4all.nl,
-        kernel@collabora.com, dafna3@gmail.com,
-        kiril.bicevski@collabora.com,
-        Nas Chung <nas.chung@chipsnmedia.com>,
-        lafley.kim@chipsnmedia.com, scott.woo@chipsnmedia.com,
-        olivier.crete@collabora.com
-Subject: [PATCH v2 6/6] media: wave5: Add wave5 driver to maintainers file
-Date:   Wed, 13 Oct 2021 12:56:09 +0200
-Message-Id: <20211013105609.21457-7-dafna.hirschfeld@collabora.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20211013105609.21457-1-dafna.hirschfeld@collabora.com>
-References: <20211013105609.21457-1-dafna.hirschfeld@collabora.com>
+        Wed, 13 Oct 2021 07:03:03 -0400
+Received: from lb2-smtp-cloud8.xs4all.net (lb2-smtp-cloud8.xs4all.net [IPv6:2001:888:0:108::2b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E1668C06178A
+        for <linux-media@vger.kernel.org>; Wed, 13 Oct 2021 03:58:46 -0700 (PDT)
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud8.xs4all.net with ESMTPA
+        id aby1myCqQx7rIaby6mOoY3; Wed, 13 Oct 2021 12:58:42 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
+        t=1634122722; bh=hovtf3uJo4srOdHSZY4NwYZa264IU3iT/uKB7h2QPQY=;
+        h=To:From:Subject:Message-ID:Date:MIME-Version:Content-Type:From:
+         Subject;
+        b=Vzd1u0XocWXY7OziyIpWsEfy9YV0yhDtSr/Gjjp30T3nYSJpzWsWYINfleFYpOcPy
+         M5BcgVrxNr41El5Cb2nugxGI8F+bl78dl75ywURJqWTeh0MCWKb4CPSG5XneDQ1rIG
+         k605NXNzme4kHzGuxY9uVc3ZHX+tznbPYgop9i0NMtke/RZK/jDk/4fQ3k8lfJX64i
+         XZRQZYAlbAhVl68S3n6LqCNXDgqZq06H0ZzWDwCeKvmHcGBJQHD+y1pirQJRSSeEsw
+         mo+qbpMOQvQF7Giy+2d9Qnoi/jeY7rYQa5pMKl0HdypmOqHJSCvqozI+u3BlFUS+MM
+         bWfA7D63AgHsg==
+To:     Gregor Jasny <gjasny@googlemail.com>
+Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Subject: v4l-utils: time for a new release?
+Message-ID: <379a9c95-c42e-0bf9-83b7-b62c9acfd598@xs4all.nl>
+Date:   Wed, 13 Oct 2021 12:58:37 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4xfFAzDJ8JB8pRE/TKBSbEua3pIWiJP11ge/tR7dNLbgZZWvGuhlG64bb3U6X4hPKk5uNTX4P9UNr/Id+xxWP5E06UrhPt0Y64FulWnhZd/UCmucYkLQCZ
+ Raprv/OLeDuYNgNdOpr4Xvf7/oWDHcxf3BIsxOwab58EsjxdzyfSZ17imVriJ5JuUB6jCmXMJeXTOwYWz7zDI08zE1hIkQKECCpFiVAzjXvEt4+zyiRYgA39
+ Rzr14x/n9ZN/+5vB89fsWj4/PC3HV3E7QZhPPhdS4UsbJjroJsqIc5dh8WNv3BGIIJupLymvoP9AfDGbeS+/rUSwmSTssX3bBRHYFfUeDgo=
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Robert Beckett <bob.beckett@collabora.com>
+Hi Gregor,
 
-Add the Chips&Media wave5 encoder/decoder driver
-to the maintainers file
+I think it is a good idea if you can make a new release of v4l-utils. It's a long time since the last one.
 
-Signed-off-by: Robert Beckett <bob.beckett@collabora.com>
-Signed-off-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
----
- MAINTAINERS | 9 +++++++++
- 1 file changed, 9 insertions(+)
+Do you have time to do that?
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index ee91c5472bc1..3538e1a9b492 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -20190,6 +20190,15 @@ F:	drivers/watchdog/
- F:	include/linux/watchdog.h
- F:	include/uapi/linux/watchdog.h
- 
-+WAVE5 VPU CODEC DRIVER
-+M:	Nas Chung <nas.chung@chipsnmedia.com>
-+M:	Robert Beckett <bob.beckett@collabora.com>
-+M:	Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
-+L:	linux-media@vger.kernel.org
-+S:	Maintained
-+F:	Documentation/devicetree/bindings/staging/media/cnm,wave.yaml
-+F:	drivers/staging/media/wave5/
-+
- WHISKEYCOVE PMIC GPIO DRIVER
- M:	Kuppuswamy Sathyanarayanan <sathyanarayanan.kuppuswamy@linux.intel.com>
- L:	linux-gpio@vger.kernel.org
--- 
-2.17.1
+Regards,
 
+	Hans
