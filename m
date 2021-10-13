@@ -2,209 +2,85 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BC44D42C0AD
-	for <lists+linux-media@lfdr.de>; Wed, 13 Oct 2021 14:56:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B2EBF42C111
+	for <lists+linux-media@lfdr.de>; Wed, 13 Oct 2021 15:11:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233955AbhJMM6D (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 13 Oct 2021 08:58:03 -0400
-Received: from ni.piap.pl ([195.187.100.5]:50132 "EHLO ni.piap.pl"
+        id S234864AbhJMNN1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 13 Oct 2021 09:13:27 -0400
+Received: from www.linuxtv.org ([130.149.80.248]:44608 "EHLO www.linuxtv.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S233859AbhJMM6C (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 13 Oct 2021 08:58:02 -0400
-Received: from t19.piap.pl (OSB1819.piap.pl [10.0.9.19])
-        by ni.piap.pl (Postfix) with ESMTPSA id 6F607C36955D;
-        Wed, 13 Oct 2021 14:55:54 +0200 (CEST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ni.piap.pl 6F607C36955D
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=piap.pl; s=mail;
-        t=1634129755; bh=sIcUI8mTmZIydzUXeyZ3J5UffwR7mSdChbwCl8LylUM=;
-        h=From:To:Cc:Subject:References:Date:In-Reply-To:From;
-        b=lXXv7SrHezO9kprc+RtdzBI7iBhj783hV76a5IuI0UjebTi7qPoMsjvMvZ1LIEBpv
-         lsfDkcZGq/ysQQoIpP/FujsUF5sfGzuXPru4qkl9xt2f19YN93QkgcbF8zMVLBrUg/
-         a62IU7oigYVV8vbcZFm+RIeTquM1vnYH/wp2GgM4=
-From:   =?utf-8?Q?Krzysztof_Ha=C5=82asa?= <khalasa@piap.pl>
-To:     Jacopo Mondi <jacopo@jmondi.org>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Sakari Ailus <sakari.ailus@iki.fi>,
-        Matteo Lisi <matteo.lisi@engicam.com>
-Subject: Re: [PATCH v5] Driver for ON Semi AR0521 camera sensor
-References: <m3fstfoexa.fsf@t19.piap.pl>
-        <20211009102446.jrvrdr7whtd2rv4z@uno.localdomain>
-        <m3mtnflpna.fsf@t19.piap.pl>
-        <20211011143420.vm6ncl5gdv44nsn3@uno.localdomain>
-        <m3a6jel9ce.fsf@t19.piap.pl>
-        <20211013082634.53zh5j26gucddome@uno.localdomain>
-Sender: khalasa@piap.pl
-Date:   Wed, 13 Oct 2021 14:55:54 +0200
-In-Reply-To: <20211013082634.53zh5j26gucddome@uno.localdomain> (Jacopo Mondi's
-        message of "Wed, 13 Oct 2021 10:26:34 +0200")
-Message-ID: <m3y26xjd7p.fsf@t19.piap.pl>
+        id S234870AbhJMNN1 (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 13 Oct 2021 09:13:27 -0400
+Received: from builder.linuxtv.org ([140.211.167.10] helo=slave0)
+        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1mae2U-000RT9-Un; Wed, 13 Oct 2021 13:11:22 +0000
+Received: from ip6-localhost ([::1] helo=localhost.localdomain)
+        by slave0 with esmtp (Exim 4.94.2)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1mae2S-003qxR-9B; Wed, 13 Oct 2021 13:11:20 +0000
+From:   Jenkins <jenkins@linuxtv.org>
+To:     mchehab+samsung@kernel.org, linux-media@vger.kernel.org
+Cc:     builder@linuxtv.org
+Subject: Re: [GIT PULL FOR v5.16] ir fixes (#77710)
+Date:   Wed, 13 Oct 2021 13:11:19 +0000
+Message-Id: <20211013131119.918507-1-jenkins@linuxtv.org>
+X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20211013124551.GA25487@gofer.mess.org>
+References: 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-KLMS-Rule-ID: 3
-X-KLMS-Message-Action: skipped
-X-KLMS-AntiSpam-Status: not scanned, whitelist
-X-KLMS-AntiPhishing: not scanned, whitelist
-X-KLMS-AntiVirus: Kaspersky Security for Linux Mail Server, version 8.0.3.30, not scanned, whitelist
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Jacopo Mondi <jacopo@jmondi.org> writes:
+From: builder@linuxtv.org
 
-> You have never been told before, while submitting code to Linux, not
-> to use C++ comments ? Are you surprised someone contests that ?
+Pull request: https://patchwork.linuxtv.org/project/linux-media/patch/20211013124551.GA25487@gofer.mess.org/
+Build log: https://builder.linuxtv.org/job/patchwork/147622/
+Build time: 00:17:15
+Link: https://lore.kernel.org/linux-media/20211013124551.GA25487@gofer.mess.org
 
-Surprised, far from it. Linus has decided C++ comments are ok.
-I simply follow his advice (C++ comments are, after all, technically
-a little bit better).
+gpg: Signature made Wed 13 Oct 2021 12:42:45 PM UTC
+gpg:                using RSA key A624251A26084A9ED9E4C8B6425F639D3960FA9E
+gpg:                issuer "sean@mess.org"
+gpg: Good signature from "Sean Young <sean@mess.org>" [unknown]
+gpg: WARNING: This key is not certified with a trusted signature!
+gpg:          There is no indication that the signature belongs to the owner.
+Primary key fingerprint: A624 251A 2608 4A9E D9E4  C8B6 425F 639D 3960 FA9E
 
-> No driver in media (which I'm aware of) uses C++ comments.
-> Your one is entirely commented with C++ comments.
->
-> They all try to stay in the 80-cols limit.
-> Yours have lines that span to 140 cols and goes regularly over 100.
+Summary: got 2/2 patches with issues, being 1 at build time, plus one error when buinding PDF document
 
-Linus has already (in 2016 IIRC) said 80 cols are BS. This is BTW what
-several people (me included) postulated long before. Would it make sense
-to use this limit now?
+Error/warnings:
 
-If the above constitutes being "alien", well, don't worry about it.
+patches/0001-media-ir_toy-assignment-to-be16-should-be-of-correct.patch:
 
-> Ok, I give up then, feels like a waste of time reviewing a driver
-> (for the only sake of code consistency) and have every single comment
-> contested.
+    allyesconfig: return code #0:
+	../scripts/genksyms/parse.y: warning: 9 shift/reduce conflicts [-Wconflicts-sr]
+	../scripts/genksyms/parse.y: warning: 5 reduce/reduce conflicts [-Wconflicts-rr]
+	../scripts/genksyms/parse.y: note: rerun with option '-Wcounterexamples' to generate conflict counterexamples
 
-Please note a didn't contest your every comment. Actually, I have
-contested only those... which I contested, by definition. I have
-(perhaps too silently) accepted the rest.
+    allyesconfig: return code #0:
+	../drivers/media/cec/core/cec-adap.c: ../drivers/media/cec/core/cec-adap.c:926 cec_transmit_msg_fh() warn: '&data->list' not removed from list
+	../drivers/media/rc/meson-ir-tx.c:22: warning: expecting prototype for meson(). Prototype was for DEVICE_NAME() instead
+	SMATCH:../drivers/media/usb/siano/smsusb.c ../drivers/media/usb/siano/smsusb.c:53:38: :warning: array of flexible structures
+	SPARSE:../drivers/media/usb/siano/smsusb.c ../drivers/media/usb/siano/smsusb.c:53:38: warning: array of flexible structures
+	../drivers/media/pci/intel/ipu3/cio2-bridge.c:242 cio2_bridge_connect_sensor() warn: missing error code 'ret'
+	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2625 dvb_register() parse error: turning off implications after 60 seconds
+	../drivers/media/usb/pvrusb2/pvrusb2-encoder.c: ../drivers/media/usb/pvrusb2/pvrusb2-encoder.c:288 pvr2_encoder_cmd() warn: inconsistent indenting
+	../drivers/media/usb/pvrusb2/pvrusb2-hdw.c: ../drivers/media/usb/pvrusb2/pvrusb2-hdw.c:1730 pvr2_hdw_set_streaming() warn: inconsistent indenting
+	../drivers/media/usb/pvrusb2/pvrusb2-hdw.c: ../drivers/media/usb/pvrusb2/pvrusb2-hdw.c:3461 pvr2_hdw_cpufw_set_enabled() warn: inconsistent indenting
+	../drivers/media/usb/pvrusb2/pvrusb2-hdw.c: ../drivers/media/usb/pvrusb2/pvrusb2-hdw.c:3501 pvr2_hdw_cpufw_get() warn: inconsistent indenting
+	../drivers/media/usb/em28xx/em28xx-video.c: ../drivers/media/usb/em28xx/em28xx-video.c:2874 em28xx_v4l2_init() parse error: turning off implications after 60 seconds
+	../drivers/media/platform/qcom/venus/helpers.c: ../drivers/media/platform/qcom/venus/helpers.c:627 venus_helper_get_bufreq() error: we previously assumed 'req' could be null (see line 623)
 
-> Documentation/driver-api/media/maintainer-entry-profile.rst
->
-> and has there suggested have the patch go through
-> ./scripts/checkpatch.pl --strict --max-line-length=3D80
+patches/0002-media-sir_ir-remove-broken-driver.patch:
 
-You suggest I'm to fix this (.rst) file first? I think I can at least
-try.
+   checkpatch.pl:
+	$ cat patches/0002-media-sir_ir-remove-broken-driver.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
+	-:56: WARNING: added, moved or deleted file(s), does MAINTAINERS need updating?
 
->> I'd love to get rid of the be(), though. What do you propose instead?
->
-> Mode based sensor drivers usually rely on long register tables, whose
-> writing is an expensive operation to be done at streamon time. Power
-> up is usually done at devnode open time but you relay on the legacy
-> s_power() here,
 
-It's been suggested I get rid of it, and I'm going to do exactly this.
+Error #512 when building PDF docs
 
-> so it's in control of the receiver driver which
-> depending on the implemenation might call it at open() time or stream
-> on. Sorry, I didn't notice that, has you register a devnode I assumed
-> you had an open() function, which you don't.
-
-Should I have one? Why? Are other drivers expected to have an open()?
-Shouldn't I register a devnode?
-
-> The efficiency argument holds as long as we are in an hot path and I
-> understand writing 216 registers in pairs has an overhead which to
-> me, at open devnode open time is marginal, but if done at streamon time
-> should be avoided.
-
-It *may*be* marginal in some cases, but it you have a single I^2 bus for
-a bunch of devices, some of them e.g. MEMS, it may be as well critical.
-
->> Just tested it and it works for me in 1920x1080p30 without any changes.
->> Would it be possible it's the gain/exposure settings? If not, what exact
->> clock frequency (for the chip) do you use?
->
-> 24Mhz
-
-I will try to use that.
-What SoC (or MIPI receiver) are you using?
-
-> The difference is that the 0x3xxx ones are frame synchronized and
-> apply to 'bad frames' too.
-
-Is it stated in the docs?
-
->> I don't think so. I think, in proprietary development, nobody cares
->> about what does the chip send while not streaming.
->>
->
-> afaict only imx6 has this check enforced (but I might be wrong)
-
-Possibly only in the official tree (not the FSL/NXP).
-
->> How would you do that?
->> If you disable streaming, LP-11 is gone.
->> You need STREAMING to actually "stream" LP-11.
->
-> Even for test mode ? So for you streamoff is:
-> - Enable test mode (programmed to be LP-11)
-> - Start stream
-> ?
-
-That's correct. LP-11 here *is* a test mode.
-
-> Anyway, should the AR0521_REG_RESET_RESTART bit be dropped ?
-
-Not sure. Why do you think so?
-
-> I don't have a way to test LP-11 state,
-
-On i.MX6 you can read a MIPI RX status register. IIRC the results may be
-a bit unclear, though - using an oscilloscope removes any doubt.
-
->> But it doesn't say EBUSY MUST BE returned when the sensor is streaming,
->> only that it MAY BE returned. Looking at the code, I can see nothing
->> forcing the EBUSY (subdev_do_ioctl(VIDIOC_SUBDEV_S_FMT) ->
->
-> There's nothing in the core that has the notion of 'active streaming'
-
-Come on. It appears Linux (from top to the bottom) will accept set_fmt
-while streaming. With certain (most?) drivers only, that's it. Not that
-I actually tested it, but the v4l2 core code suggests it.
-So I'm either to return -EBUSY, or - as others, probably most drivers -
-update the registers. I can't just drop it on the floor, and let the
-driver apply it on the next s_stream(1)... can I?
-
-> I hardly see a case where changing format on the sensor through an
-> operation on the subdev while streaming, is a good idea.
-
-I'm not in control of this.
-
-> Also, your s_fmt() and s_frame_interval() call write_mode() which
-> stops the streaming and it doesn't get restarted. I think that's
-> wrong and it's an undesired side effect.
-
-That would be wrong indeed, but I can't see it in the code.
-write_mode() stop streaming only momentarily, I can't avoid this.
-s_frame_interval() returns -EBUSY if streaming (which I guess I should
-remove). If not for the return, it wouldn't stop streaming either.
-
-I will do some experiments, though.
-
-> (Also had a chat with Hans about this, the takeaway is that it's a
-> really bad idea and you need very strong reasons to allow that. It
-> could be considered for extreme cases like changing the color spaces of
-> reducing the image size as the allocated buffers are big enough but
-> again, you need very strong reasons to do so)
-
-Ah, buffers are a different story. You can't, for example, request
-buffers which streaming etc. This is a completely different territory.
-
-Now... I don't have buffers :-)
-
-It's a MIPI sensor, the output is a bunch of LVDS lines.
-Certain devices (like THC63LVD104C, an LVDS -> parallel receiver) simply
-always stream (well, not in powerdown and not without incoming clock).
-They don't even notice that some format has maybe changed.
-A MIPI sensor is a bit smarter than that, but buffers - it's the
-receiver's problem.
---=20
-Krzysztof "Chris" Ha=C5=82asa
-
-Sie=C4=87 Badawcza =C5=81ukasiewicz
-Przemys=C5=82owy Instytut Automatyki i Pomiar=C3=B3w PIAP
-Al. Jerozolimskie 202, 02-486 Warszawa
