@@ -2,86 +2,157 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 24A4C42D874
-	for <lists+linux-media@lfdr.de>; Thu, 14 Oct 2021 13:45:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 373FF42D8C3
+	for <lists+linux-media@lfdr.de>; Thu, 14 Oct 2021 14:04:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231249AbhJNLra (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 14 Oct 2021 07:47:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58722 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231177AbhJNLra (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Thu, 14 Oct 2021 07:47:30 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7093FC061570;
-        Thu, 14 Oct 2021 04:45:25 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 04671268;
-        Thu, 14 Oct 2021 13:45:21 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1634211922;
-        bh=NI2yghy2CK+mNIPPcMsps/HtBL1jPLdPKXJdpTj0gME=;
-        h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
-        b=d+hTpRv1NhXOK10IXrYWY2aw9P63m3nLAw/U/BVs9oFvQ7tSUrZUAwTdpToEppoJn
-         vIN/MdWC1nNIfEfiMWV+ujb3n6pqRT62lZTtT9qmuDehabZXUSLSaME134JfHqUE6p
-         C9kjiWOUdFkXDqqMtx4wwDyfYENSTxdRWU7s8cNs=
-Content-Type: text/plain; charset="utf-8"
+        id S231398AbhJNMGd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 14 Oct 2021 08:06:33 -0400
+Received: from mga02.intel.com ([134.134.136.20]:21518 "EHLO mga02.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S230032AbhJNMGc (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 14 Oct 2021 08:06:32 -0400
+X-IronPort-AV: E=McAfee;i="6200,9189,10136"; a="214823753"
+X-IronPort-AV: E=Sophos;i="5.85,372,1624345200"; 
+   d="scan'208";a="214823753"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Oct 2021 05:04:21 -0700
+X-IronPort-AV: E=Sophos;i="5.85,372,1624345200"; 
+   d="scan'208";a="481235432"
+Received: from thanners-mobl.ger.corp.intel.com (HELO [10.252.62.140]) ([10.252.62.140])
+  by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Oct 2021 05:04:20 -0700
+Subject: Re: [PATCH 20/28] drm/i915: use new iterator in
+ i915_gem_object_wait_reservation
+To:     =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>,
+        linaro-mm-sig@lists.linaro.org, dri-devel@lists.freedesktop.org,
+        linux-media@vger.kernel.org, intel-gfx@lists.freedesktop.org
+Cc:     daniel@ffwll.ch, tvrtko.ursulin@linux.intel.com
+References: <20211005113742.1101-1-christian.koenig@amd.com>
+ <20211005113742.1101-21-christian.koenig@amd.com>
+From:   Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+Message-ID: <5accca25-8ac3-47ca-ee56-8b33c208fc80@linux.intel.com>
+Date:   Thu, 14 Oct 2021 14:04:26 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Firefox/78.0 Thunderbird/78.14.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <20211013075319.GA6010@kili>
-References: <20211013075319.GA6010@kili>
-Subject: Re: [PATCH] media: ipu3-cio2: fix error code in cio2_bridge_connect_sensor()
-From:   Kieran Bingham <kieran.bingham@ideasonboard.com>
-Cc:     Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Bingbu Cao <bingbu.cao@intel.com>,
-        Dan Scally <djrscally@gmail.com>,
-        Tianshu Qiu <tian.shu.qiu@intel.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Andy Shevchenko <andy.shevchenko@gmail.com>,
-        linux-media@vger.kernel.org, kernel-janitors@vger.kernel.org
-To:     Dan Carpenter <dan.carpenter@oracle.com>,
-        Fabian =?utf-8?q?W=C3=BCthrich?= <me@fabwu.ch>,
-        Yong Zhi <yong.zhi@intel.com>
-Date:   Thu, 14 Oct 2021 12:45:19 +0100
-Message-ID: <163421191963.3878617.4945041938867839263@Monstersaurus>
-User-Agent: alot/0.9.1
+In-Reply-To: <20211005113742.1101-21-christian.koenig@amd.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Quoting Dan Carpenter (2021-10-13 08:53:19)
-> Return -ENODEV if acpi_get_physical_device_location() fails.  Don't
-> return success.
->=20
-> Fixes: 485aa3df0dff ("media: ipu3-cio2: Parse sensor orientation and rota=
-tion")
-> Signed-off-by: Dan Carpenter <dan.carpenter@oracle.com>
-
-Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-
-> ---
->  drivers/media/pci/intel/ipu3/cio2-bridge.c | 4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
->=20
-> diff --git a/drivers/media/pci/intel/ipu3/cio2-bridge.c b/drivers/media/p=
-ci/intel/ipu3/cio2-bridge.c
-> index 67c467d3c81f..0b586b4e537e 100644
-> --- a/drivers/media/pci/intel/ipu3/cio2-bridge.c
-> +++ b/drivers/media/pci/intel/ipu3/cio2-bridge.c
-> @@ -238,8 +238,10 @@ static int cio2_bridge_connect_sensor(const struct c=
-io2_sensor_config *cfg,
->                         goto err_put_adev;
-> =20
->                 status =3D acpi_get_physical_device_location(adev->handle=
-, &sensor->pld);
-> -               if (ACPI_FAILURE(status))
-> +               if (ACPI_FAILURE(status)) {
-> +                       ret =3D -ENODEV;
->                         goto err_put_adev;
-> +               }
-> =20
->                 if (sensor->ssdb.lanes > CIO2_MAX_LANES) {
->                         dev_err(&adev->dev,
-> --=20
-> 2.20.1
+Op 05-10-2021 om 13:37 schreef Christian König:
+> Simplifying the code a bit.
 >
+> Signed-off-by: Christian König <christian.koenig@amd.com>
+> ---
+>  drivers/gpu/drm/i915/gem/i915_gem_wait.c | 51 +++++-------------------
+>  1 file changed, 9 insertions(+), 42 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_wait.c b/drivers/gpu/drm/i915/gem/i915_gem_wait.c
+> index f909aaa09d9c..a13193db1dba 100644
+> --- a/drivers/gpu/drm/i915/gem/i915_gem_wait.c
+> +++ b/drivers/gpu/drm/i915/gem/i915_gem_wait.c
+> @@ -37,55 +37,22 @@ i915_gem_object_wait_reservation(struct dma_resv *resv,
+>  				 unsigned int flags,
+>  				 long timeout)
+>  {
+> -	struct dma_fence *excl;
+> -	bool prune_fences = false;
+> -
+> -	if (flags & I915_WAIT_ALL) {
+> -		struct dma_fence **shared;
+> -		unsigned int count, i;
+> -		int ret;
+> +	struct dma_resv_iter cursor;
+> +	struct dma_fence *fence;
+>  
+> -		ret = dma_resv_get_fences(resv, &excl, &count, &shared);
+> -		if (ret)
+> -			return ret;
+> -
+> -		for (i = 0; i < count; i++) {
+> -			timeout = i915_gem_object_wait_fence(shared[i],
+> -							     flags, timeout);
+> -			if (timeout < 0)
+> -				break;
+> -
+> -			dma_fence_put(shared[i]);
+> -		}
+> -
+> -		for (; i < count; i++)
+> -			dma_fence_put(shared[i]);
+> -		kfree(shared);
+> -
+> -		/*
+> -		 * If both shared fences and an exclusive fence exist,
+> -		 * then by construction the shared fences must be later
+> -		 * than the exclusive fence. If we successfully wait for
+> -		 * all the shared fences, we know that the exclusive fence
+> -		 * must all be signaled. If all the shared fences are
+> -		 * signaled, we can prune the array and recover the
+> -		 * floating references on the fences/requests.
+> -		 */
+> -		prune_fences = count && timeout >= 0;
+> -	} else {
+> -		excl = dma_resv_get_excl_unlocked(resv);
+> +	dma_resv_iter_begin(&cursor, resv, flags & I915_WAIT_ALL);
+> +	dma_resv_for_each_fence_unlocked(&cursor, fence) {
+> +		timeout = i915_gem_object_wait_fence(fence, flags, timeout);
+> +		if (timeout < 0)
+> +			break;
+>  	}
+> -
+> -	if (excl && timeout >= 0)
+> -		timeout = i915_gem_object_wait_fence(excl, flags, timeout);
+> -
+> -	dma_fence_put(excl);
+> +	dma_resv_iter_end(&cursor);
+>  
+>  	/*
+>  	 * Opportunistically prune the fences iff we know they have *all* been
+>  	 * signaled.
+>  	 */
+> -	if (prune_fences)
+> +	if (timeout > 0)
+>  		dma_resv_prune(resv);
+>  
+>  	return timeout;
+
+When replying to tvrtko about correctness of the conversion, I just now noticed a logic bug here, the same logic bug also affects dma_resv_wait_timeout.
+
+long dma_resv_wait_timeout(struct dma_resv *obj, bool wait_all, bool intr,
+			   unsigned long timeout)
+{
+	long ret = timeout ? timeout : 1;
+	struct dma_resv_iter cursor;
+	struct dma_fence *fence;
+
+	dma_resv_iter_begin(&cursor, obj, wait_all);
+	dma_resv_for_each_fence_unlocked(&cursor, fence) {
+
+		ret = dma_fence_wait_timeout(fence, intr, ret);
+		if (ret <= 0) {
+			dma_resv_iter_end(&cursor);
+			return ret;
+		}
+	}
+	dma_resv_iter_end(&cursor);
+
+	return ret;
+}
+
+It fails to handle the case correctly when timeout = 0, I think the original code probably did.
+dma_fence_wait_timeout should be called with timeout = 0 explicitly.
+
+Fixed code for inner loop:
+ret = dma_fence_wait_timeout(fence, intr, timeout);
+if (ret <= 0) break;
+if (timeout) timeout = ret;
+
+This bug also affects i915_gem_object_wait_reservation, so the whole series might need to be
+respinned, or at least checked, if more wait conversions are affected.
+
+~Maarten
+
