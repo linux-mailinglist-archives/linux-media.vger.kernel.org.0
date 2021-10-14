@@ -2,98 +2,176 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7ACB942D2FF
-	for <lists+linux-media@lfdr.de>; Thu, 14 Oct 2021 08:53:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D428542D306
+	for <lists+linux-media@lfdr.de>; Thu, 14 Oct 2021 08:54:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229502AbhJNGzZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 14 Oct 2021 02:55:25 -0400
-Received: from mga18.intel.com ([134.134.136.126]:36630 "EHLO mga18.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229947AbhJNGzT (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 14 Oct 2021 02:55:19 -0400
-X-IronPort-AV: E=McAfee;i="6200,9189,10136"; a="214553568"
-X-IronPort-AV: E=Sophos;i="5.85,371,1624345200"; 
-   d="scan'208";a="214553568"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Oct 2021 23:53:15 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.85,371,1624345200"; 
-   d="scan'208";a="659841776"
-Received: from ipu5-build.bj.intel.com (HELO [10.238.232.188]) ([10.238.232.188])
-  by orsmga005.jf.intel.com with ESMTP; 13 Oct 2021 23:53:13 -0700
-Subject: Re: [PATCH] media: ipu3-cio2: Update high watermark to support higher
- data rate camera sensors
-To:     Tomasz Figa <tfiga@chromium.org>, Bingbu Cao <bingbu.cao@intel.com>
-Cc:     linux-media@vger.kernel.org, sakari.ailus@linux.intel.com,
-        tian.shu.qiu@intel.com, laurent.pinchart@ideasonboard.com
-References: <1632370218-5508-1-git-send-email-bingbu.cao@intel.com>
- <CAAFQd5BdXTYZDAQcyLVurqdjuT6fHdGpzQQ0c1NJ5y=81v7hcg@mail.gmail.com>
-From:   Bingbu Cao <bingbu.cao@linux.intel.com>
-Message-ID: <0309ef19-8411-ae6c-3304-0e180420baa5@linux.intel.com>
-Date:   Thu, 14 Oct 2021 14:49:19 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        id S229933AbhJNG4t (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 14 Oct 2021 02:56:49 -0400
+Received: from mx3.molgen.mpg.de ([141.14.17.11]:45655 "EHLO mx1.molgen.mpg.de"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S229619AbhJNG4p (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 14 Oct 2021 02:56:45 -0400
+Received: from [192.168.0.2] (ip5f5ae921.dynamic.kabel-deutschland.de [95.90.233.33])
+        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        (Authenticated sender: pmenzel)
+        by mx.molgen.mpg.de (Postfix) with ESMTPSA id EF74161E64760;
+        Thu, 14 Oct 2021 08:54:39 +0200 (CEST)
+Subject: Re: [PATCH 6/6] media: aspeed: richer debugfs
+To:     Jammy Huang <jammy_huang@aspeedtech.com>
+References: <20211014034819.2283-1-jammy_huang@aspeedtech.com>
+ <20211014034819.2283-7-jammy_huang@aspeedtech.com>
+Cc:     eajames@linux.ibm.com, mchehab@kernel.org, joel@jms.id.au,
+        andrew@aj.id.au, linux-media@vger.kernel.org,
+        openbmc@lists.ozlabs.org, linux-arm-kernel@lists.infradead.org,
+        linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org
+From:   Paul Menzel <pmenzel@molgen.mpg.de>
+Message-ID: <f7d3900f-9e1c-1c2b-f14a-a3828852eadc@molgen.mpg.de>
+Date:   Thu, 14 Oct 2021 08:54:39 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 MIME-Version: 1.0
-In-Reply-To: <CAAFQd5BdXTYZDAQcyLVurqdjuT6fHdGpzQQ0c1NJ5y=81v7hcg@mail.gmail.com>
-Content-Type: text/plain; charset=windows-1252
+In-Reply-To: <20211014034819.2283-7-jammy_huang@aspeedtech.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Tomasz,
+Dear Jammy,
 
-On 10/6/21 1:03 PM, Tomasz Figa wrote:
-> Hi Bingbu,
+
+Am 14.10.21 um 05:48 schrieb Jammy Huang:
+> updated as below:
 > 
-> On Thu, Sep 23, 2021 at 1:11 PM Bingbu Cao <bingbu.cao@intel.com> wrote:
->>
->> CIO2 worked well with most camera sensors so far, but CIO2 will meet SRAM
->> overflow when working with higher data rate camera sensors such as 13M@30fps.
->> We must set lower high watermark value to trigger the DRAM write to support
->> such camera sensors.
->>
->> Signed-off-by: Bingbu Cao <bingbu.cao@intel.com>
->> ---
->>  drivers/media/pci/intel/ipu3/ipu3-cio2.h | 2 +-
->>  1 file changed, 1 insertion(+), 1 deletion(-)
->>
+> Caputre:
+
+Capture
+
+>    Mode                : Direct fetch
+>    VGA bpp mode        : 32
+>    Signal              : Unlock
+>    Width               : 1920
+>    Height              : 1080
+>    FRC                 : 30
 > 
-> Thanks for the patch. Would this have any implications for other
-> (lower) operating modes, such as increased power consumption, or it's
-> harmless? If so, what's the reason we didn't use the value from the
-> very beginning?
-
-Yes, we meet that the frame data corruption for some high data rate camera sensors like
-imx258 (13M@30fps) with current watermark settings. The higher watermark potentially has
-power concern as it  request DMA transfer more than before.
-
-To keep the old settings for low data rate camera sensor, I am thinking the rationality
-to determine the HWM value based on the link_frequency? Apparently, it is not reliable
-to determine by the format.
-
+> Compression:
+>    Format              : JPEG
+>    Subsampling         : 444
+>    Quality             : 0
+>    HQ Mode             : N/A
+>    HQ Quality          : 0
+>    Mode                : N/A
 > 
-> Best regards,
-> Tomasz
-> 
->> diff --git a/drivers/media/pci/intel/ipu3/ipu3-cio2.h b/drivers/media/pci/intel/ipu3/ipu3-cio2.h
->> index 3806d7f04d69..fde80d48533b 100644
->> --- a/drivers/media/pci/intel/ipu3/ipu3-cio2.h
->> +++ b/drivers/media/pci/intel/ipu3/ipu3-cio2.h
->> @@ -181,7 +181,7 @@ struct pci_dev;
->>  #define CIO2_PBM_WMCTRL1_MID1_2CK      (16 << CIO2_PBM_WMCTRL1_MID1_2CK_SHIFT)
->>  #define CIO2_PBM_WMCTRL1_MID2_2CK      (21 << CIO2_PBM_WMCTRL1_MID2_2CK_SHIFT)
->>  #define CIO2_REG_PBM_WMCTRL2                           0x1468
->> -#define CIO2_PBM_WMCTRL2_HWM_2CK                       40U
->> +#define CIO2_PBM_WMCTRL2_HWM_2CK                       30U
->>  #define CIO2_PBM_WMCTRL2_HWM_2CK_SHIFT                 0U
->>  #define CIO2_PBM_WMCTRL2_LWM_2CK                       22U
->>  #define CIO2_PBM_WMCTRL2_LWM_2CK_SHIFT                 8U
->> --
->> 2.7.4
->>
+> Performance:
+>    Frame#              : 0
+>    Frame Duration(ms)  :
+>      Now               : 0
+>      Min               : 0
+>      Max               : 0
+>    FPS                 : 0
 
--- 
-Best regards,
-Bingbu Cao
+Do you have output with non-zero values? ;-)
+
+On what device did you test this?
+
+> Signed-off-by: Jammy Huang <jammy_huang@aspeedtech.com>
+> ---
+>   drivers/media/platform/aspeed-video.c | 41 +++++++++++++++++++++++++--
+>   1 file changed, 38 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/media/platform/aspeed-video.c b/drivers/media/platform/aspeed-video.c
+> index e1031fd09ac6..f2e5c49ee906 100644
+> --- a/drivers/media/platform/aspeed-video.c
+> +++ b/drivers/media/platform/aspeed-video.c
+> @@ -464,6 +464,9 @@ static const struct v4l2_dv_timings_cap aspeed_video_timings_cap = {
+>   	},
+>   };
+>   
+> +static const char * const compress_mode_str[] = {"DCT Only",
+> +	"DCT VQ mix 2-color", "DCT VQ mix 4-color"};
+> +
+>   static unsigned int debug;
+>   
+>   static void aspeed_video_init_jpeg_table(u32 *table, bool yuv420)
+> @@ -1077,8 +1080,6 @@ static void aspeed_video_set_resolution(struct aspeed_video *video)
+>   
+>   static void aspeed_video_update_regs(struct aspeed_video *video)
+>   {
+> -	static const char * const compress_mode_str[] = {"DCT Only",
+> -		"DCT VQ mix 2-color", "DCT VQ mix 4-color"};
+>   	u32 comp_ctrl =	FIELD_PREP(VE_COMP_CTRL_DCT_LUM, video->jpeg_quality) |
+>   		FIELD_PREP(VE_COMP_CTRL_DCT_CHR, video->jpeg_quality | 0x10) |
+>   		FIELD_PREP(VE_COMP_CTRL_EN_HQ, video->hq_mode) |
+> @@ -1795,9 +1796,29 @@ static const struct vb2_ops aspeed_video_vb2_ops = {
+>   static int aspeed_video_debugfs_show(struct seq_file *s, void *data)
+>   {
+>   	struct aspeed_video *v = s->private;
+> +	u32 val08;
+
+Why does `08` refer to?
+
+>   
+>   	seq_puts(s, "\n");
+>   
+> +	val08 = aspeed_video_read(v, VE_CTRL);
+> +	seq_puts(s, "Caputre:\n");
+> +	if (FIELD_GET(VE_CTRL_DIRECT_FETCH, val08)) {
+> +		seq_printf(s, "  %-20s:\tDirect fetch\n", "Mode");
+> +		seq_printf(s, "  %-20s:\t%s\n", "VGA bpp mode",
+> +			   FIELD_GET(VE_CTRL_INT_DE, val08) ? "16" : "32");
+> +	} else {
+> +		seq_printf(s, "  %-20s:\tSync\n", "Mode");
+> +		seq_printf(s, "  %-20s:\t%s\n", "Video source",
+> +			   FIELD_GET(VE_CTRL_SOURCE, val08) ?
+> +			   "external" : "internal");
+> +		seq_printf(s, "  %-20s:\t%s\n", "DE source",
+> +			   FIELD_GET(VE_CTRL_INT_DE, val08) ?
+> +			   "internal" : "external");
+> +		seq_printf(s, "  %-20s:\t%s\n", "Cursor overlay",
+> +			   FIELD_GET(VE_CTRL_AUTO_OR_CURSOR, val08) ?
+> +			   "Without" : "With");
+> +	}
+> +
+>   	seq_printf(s, "  %-20s:\t%s\n", "Signal",
+>   		   v->v4l2_input_status ? "Unlock" : "Lock");
+>   	seq_printf(s, "  %-20s:\t%d\n", "Width", v->pix_fmt.width);
+> @@ -1806,6 +1827,21 @@ static int aspeed_video_debugfs_show(struct seq_file *s, void *data)
+>   
+>   	seq_puts(s, "\n");
+>   
+> +	seq_puts(s, "Compression:\n");
+> +	seq_printf(s, "  %-20s:\t%s\n", "Format",
+> +		   v->partial_jpeg ? "Aspeed" : "JPEG");
+> +	seq_printf(s, "  %-20s:\t%s\n", "Subsampling",
+> +		   v->yuv420 ? "420" : "444");
+> +	seq_printf(s, "  %-20s:\t%d\n", "Quality", v->jpeg_quality);
+> +	seq_printf(s, "  %-20s:\t%s\n", "HQ Mode",
+> +		   v->partial_jpeg ? (v->hq_mode ? "on" : "off") : "N/A");
+> +	seq_printf(s, "  %-20s:\t%d\n", "HQ Quality", v->jpeg_hq_quality);
+> +	seq_printf(s, "  %-20s:\t%s\n", "Mode",
+> +		   v->partial_jpeg ? compress_mode_str[v->compression_mode]
+> +				   : "N/A");
+> +
+> +	seq_puts(s, "\n");
+> +
+>   	seq_puts(s, "Performance:\n");
+>   	seq_printf(s, "  %-20s:\t%d\n", "Frame#", v->sequence);
+>   	seq_printf(s, "  %-20s:\n", "Frame Duration(ms)");
+
+Remove the colon, and add a space before (?
+
+> @@ -1814,7 +1850,6 @@ static int aspeed_video_debugfs_show(struct seq_file *s, void *data)
+>   	seq_printf(s, "    %-18s:\t%d\n", "Max", v->perf.duration_max);
+>   	seq_printf(s, "  %-20s:\t%d\n", "FPS", 1000/(v->perf.totaltime/v->sequence));
+>   
+> -
+>   	return 0;
+>   }
+
+
+Kind regards,
+
+Paul
