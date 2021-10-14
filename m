@@ -2,260 +2,162 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7385C42D581
-	for <lists+linux-media@lfdr.de>; Thu, 14 Oct 2021 10:57:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 63A7142D59F
+	for <lists+linux-media@lfdr.de>; Thu, 14 Oct 2021 11:04:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229988AbhJNI7j (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 14 Oct 2021 04:59:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48344 "EHLO
+        id S230042AbhJNJGW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 14 Oct 2021 05:06:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49922 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229910AbhJNI7i (ORCPT
+        with ESMTP id S230026AbhJNJGU (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 14 Oct 2021 04:59:38 -0400
-Received: from mail-lf1-x131.google.com (mail-lf1-x131.google.com [IPv6:2a00:1450:4864:20::131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D4E1CC061746
-        for <linux-media@vger.kernel.org>; Thu, 14 Oct 2021 01:57:33 -0700 (PDT)
-Received: by mail-lf1-x131.google.com with SMTP id t9so23672072lfd.1
-        for <linux-media@vger.kernel.org>; Thu, 14 Oct 2021 01:57:33 -0700 (PDT)
+        Thu, 14 Oct 2021 05:06:20 -0400
+Received: from mail-ua1-x92c.google.com (mail-ua1-x92c.google.com [IPv6:2607:f8b0:4864:20::92c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AF93BC061570
+        for <linux-media@vger.kernel.org>; Thu, 14 Oct 2021 02:04:15 -0700 (PDT)
+Received: by mail-ua1-x92c.google.com with SMTP id e10so5242719uab.3
+        for <linux-media@vger.kernel.org>; Thu, 14 Oct 2021 02:04:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=cJkXtllod03ASJOjpCx5K+AcoQxgr0tE6UkPMxu5Eto=;
-        b=eueADRYoewoSYpVz8YvCdvPt7I/D1V1WPupQU1Q0pWkueR15ZggK44wUZUCER0czoP
-         pFz6nf61zrCCNBoJF39y/tNKVlHQEwE3kLio6beL8/kizOUfWmruII1ZC3ypxB5GzlNf
-         yPzyf8NkFOX1x5+idgWIjkDi4RnjMkW+FDMyk=
+        d=vanguardiasur-com-ar.20210112.gappssmtp.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=gCQivZ8gRzBRQ5j1FLIiAHT/GjTqN2xJlUgLj8Dx02k=;
+        b=QYme62iW6Dpakq1dSAs8/GUCGJwSB4+OIeXFcr5NHsHZLqUntSpxFB3xU4hPHKdTlC
+         NjA/GRF8IWme/Wh7X9g0WLxfSR6IeXBNOqhOxIzy4xKiTv2aPUQR3381oI6by0vH7Ipc
+         fKIGo1LiIL8HLWYBBvi9YUWL6A//ukuG7bwsDzB6O5IG1rGCroWxzQiQnz37bJIyuGyB
+         85Rzh9JkB5PN/xzWdPoRybSJL5NlZYLgrS0xRubVPgjhSTElUhCT5v++m0SEQDH+0RUe
+         ZEaQDHTOhilMdReAJU4LvOA6Y177o/4FBv7v0JkDv8BTsqEmHXNShInnkOU9durwxo1P
+         dMzw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=cJkXtllod03ASJOjpCx5K+AcoQxgr0tE6UkPMxu5Eto=;
-        b=gTJoINMtwRfQZW19diTtvd8jNVjKDxotFyRGrDOBN1iwPO+sRQFq/ZkCr2PdEYgJuX
-         glTTS5EmuIybdIZzvg3Hu+9AS9J/mMReMsA3B42fRzjj2Yyuh0d2eQbql2xDEZ7NOxYn
-         zkEzxrNiNn9AQb2TX9baJgRhkNsdNcQAGTJbGjaxufjaiUAhi9l6lNw2TqC/vO0Pspen
-         dUPCCVM82cnslKSF0UMvBx+uizY8VC63lhLHsx3LCKrdolmOfn4hdCoGz7jvfAz6LDJm
-         OpB6lqlToIvEBpvtjv1Xb5WV8r7zXeWtVNTgqdFjKU9eX2sf4LX6Z+pIprN72gLqbwsv
-         obWw==
-X-Gm-Message-State: AOAM5327wYh02mXRuVKdPKtVO8XpFiu4MHIS2mL/PLwDkMyRDhssiiiN
-        FDyb1+fclxRrGGKgwPNZyd19mfRZh59YZ2dBmPraIQ==
-X-Google-Smtp-Source: ABdhPJxFnqXoY5+ZoP8h/WSL8B0pcFOtWM1x/foifUtGjGhbuT/pwWs8Tlj7xNuioIoY240fAwHSYqpG+CLdiB6pvbc=
-X-Received: by 2002:a2e:b618:: with SMTP id r24mr4768727ljn.414.1634201852088;
- Thu, 14 Oct 2021 01:57:32 -0700 (PDT)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=gCQivZ8gRzBRQ5j1FLIiAHT/GjTqN2xJlUgLj8Dx02k=;
+        b=OwO8OTv79xWjofEmBzXRaAMRF4IvsuTY7yvER7heXQfLe4a9dxIM5SojPEo1jbBcZk
+         OCaIOhaBa9QiwNPNoJojy8yHbUwBLFXI29hJ3NNqnwU7TijbS2X195aBYFqLAIHOk5zU
+         uW8/gRe+zOZKU68o8dRYR8A76uwAb5iCznSwV36a0/u7mNC9jThRygvA11u3xsMVO00Y
+         OBe/ZemwGVshd9eDWVn5jpJqascXAJFEiauidsJdEcM0H21tGQIac3TOvsqWvQOgLMZ1
+         2KIWDt9fm6ASka6wXUzwKtJoLeTIF8ybK8K2E44FO2u0tmhcrFEKQut/XkWdX/7qKkTo
+         BOnQ==
+X-Gm-Message-State: AOAM5339xFDcPV+qJ/ZuOvR06RBB8EEBCH12lhTZ1SIl0QGuC7zKShd6
+        w7vx05rzcfxi77dXrZ2RN5KZpQ==
+X-Google-Smtp-Source: ABdhPJwkYCO9hZLrEGqbYwQPPZ9KIqpQHCmz1Bq4SdZWxkdHLhRnfph+8nV2sgA1L88bu0z5zUOFrA==
+X-Received: by 2002:a67:c30b:: with SMTP id r11mr5414370vsj.20.1634202254777;
+        Thu, 14 Oct 2021 02:04:14 -0700 (PDT)
+Received: from fedora ([2803:9800:98c2:8470:9f4:8e2a:88e5:ec01])
+        by smtp.gmail.com with ESMTPSA id n20sm1263125vkn.7.2021.10.14.02.04.12
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 14 Oct 2021 02:04:13 -0700 (PDT)
+Date:   Thu, 14 Oct 2021 06:04:09 -0300
+From:   Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
+To:     Benjamin Gaignard <benjamin.gaignard@collabora.com>
+Cc:     p.zabel@pengutronix.de, mchehab@kernel.org,
+        gregkh@linuxfoundation.org, linux-media@vger.kernel.org,
+        linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev,
+        linux-kernel@vger.kernel.org,
+        Enric Balletbo i Serra <enric.balletbo@collabora.com>
+Subject: Re: [PATCH v2] media: hantro: Auto generate the AXI ID to avoid
+ conflicts
+Message-ID: <YWfyiSUqNHnsGzzp@fedora>
+References: <20210924132447.2288167-1-benjamin.gaignard@collabora.com>
 MIME-Version: 1.0
-References: <20211008100423.739462-1-wenst@chromium.org> <f108f23dadc846222c63c88af826dae9c5082d83.camel@ndufresne.ca>
- <CAGXv+5FnFq1mN79sqUp-o6pHirYvp55gurnsUCgqYvEAX2=4oQ@mail.gmail.com>
- <ff0769efee51e15451d48e23860f8b1710593cd7.camel@ndufresne.ca>
- <CAGXv+5GJCaxnPPkXRp5xrTBuq-5=ggfjPbRhyS4vdm3meM_4eg@mail.gmail.com> <CAAEAJfAratFPK0iU8QWMr36ZFCL5cgBneKkzymy+gCgJV=goOg@mail.gmail.com>
-In-Reply-To: <CAAEAJfAratFPK0iU8QWMr36ZFCL5cgBneKkzymy+gCgJV=goOg@mail.gmail.com>
-From:   Chen-Yu Tsai <wenst@chromium.org>
-Date:   Thu, 14 Oct 2021 16:57:20 +0800
-Message-ID: <CAGXv+5FsjNihOfvLib=MHf9Qq3X3t=fR2BY4myQ1tivkSJc6pw@mail.gmail.com>
-Subject: Re: [PATCH 0/2] media: rkvdec: Align decoder behavior with Hantro and Cedrus
-To:     Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
-Cc:     Nicolas Dufresne <nicolas@ndufresne.ca>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        "open list:ARM/Rockchip SoC..." <linux-rockchip@lists.infradead.org>,
-        "open list:STAGING SUBSYSTEM" <linux-staging@lists.linux.dev>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
-        Jernej Skrabec <jernej.skrabec@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210924132447.2288167-1-benjamin.gaignard@collabora.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, Oct 14, 2021 at 4:46 PM Ezequiel Garcia
-<ezequiel@vanguardiasur.com.ar> wrote:
->
-> On Thu, 14 Oct 2021 at 04:31, Chen-Yu Tsai <wenst@chromium.org> wrote:
-> >
-> > On Wed, Oct 13, 2021 at 9:40 PM Nicolas Dufresne <nicolas@ndufresne.ca>=
- wrote:
-> > >
-> > > Le mercredi 13 octobre 2021 =C3=A0 15:05 +0800, Chen-Yu Tsai a =C3=A9=
-crit :
-> > > > Hi,
-> > > >
-> > > > On Fri, Oct 8, 2021 at 11:42 PM Nicolas Dufresne <nicolas@ndufresne=
-.ca> wrote:
-> > > > >
-> > > > > Hi Chen-Yu,
-> > > > >
-> > > > > thanks for looking into this.
-> > > > >
-> > > > > Le vendredi 08 octobre 2021 =C3=A0 18:04 +0800, Chen-Yu Tsai a =
-=C3=A9crit :
-> > > > > > Hi everyone,
-> > > > > >
-> > > > > > While working on the rkvdec H.264 decoder for ChromeOS, I notic=
-ed some
-> > > > > > behavioral differences compared to Hantro and Cedrus:
-> > > > > >
-> > > > > > 1. The driver always overrides the sizeimage setting given by u=
-serspace
-> > > > > >    for the output format. This results in insufficient buffer s=
-pace when
-> > > > > >    running the ChromeOS video_decode_accelerator_tests test pro=
-gram,
-> > > > > >    likely due to a small initial resolution followed by dynamic
-> > > > > >    resolution change.
-> > > > > >
-> > > > > > 2. Doesn't support dynamic resolution change.
-> > > > > >
-> > > > > > This small series fixes both and aligns the behavior with the o=
-ther two
-> > > > > > stateless decoder drivers. This was tested on the downstream Ch=
-romeOS
-> > > > > > 5.10 kernel with ChromeOS. Also compiled tested on mainline but=
- I don't
-> > > > > > have any other RK3399 devices set up to test video stuff, so te=
-sting
-> > > > > > would be very much appreciated.
-> > > > > >
-> > > > > > Also, I'm not sure if user applications are required to check t=
-he value
-> > > > > > of sizeimage upon S_FMT return. If the value is different or to=
-o small,
-> > > > > > what can the application do besides fail? AFAICT it can't split=
- the
-> > > > > > data of one frame (or slice) between different buffers.
-> > > > >
-> > > > > While most software out there just assumes that driver will do it=
- right and
-> > > > > crash when it's not the case, application that do map the buffer =
-to CPU must
-> > > > > read back the fmt structure as the drivers are all fail-safe and =
-will modify
-> > > > > that structure to a set of valid value s for the context.
-> > > >
-> > > > I believe what is happening in Chromium is that the decoder is open=
-ed with
-> > > > some default settings, including the smallest viable resolution for=
- the
-> > > > output side, and the buffers allocated accordingly. When dynamic re=
-solution
-> > > > change happens, the decoder does not check if the current buffers a=
-re
-> > > > sufficiently sized; it just assumes that they are. And when it star=
-ts
-> > > > pushing data into the buffers, it realizes they are too small and f=
-ails.
-> > > >
-> > > > The spec also says:
-> > > >
-> > > >     Clients are allowed to set the sizeimage field for variable len=
-gth
-> > > >     compressed data flagged with V4L2_FMT_FLAG_COMPRESSED at ioctl
-> > > >     VIDIOC_ENUM_FMT, but the driver may ignore it and set the value=
- itself,
-> > > >     or it may modify the provided value based on alignment requirem=
-ents or
-> > > >     minimum/maximum size requirements.
-> > > >
-> > > > The spec only guarantees that the buffers are of sufficient size fo=
-r the
-> > > > resolution configured at the time they were allocated/requested.
-> > > >
-> > > > So I think my first patch is a workaround for a somewhat broken use=
-rspace.
-> > > > But it seems the other stateless drivers are providing similar beha=
-vior,
-> > > > as I previously mentioned.
-> > >
-> > > That's what I mean, this is not a driver bug strictly speaking (assum=
-ing it does
-> > > guaranty the buffer size is sufficient) but it is without your change
-> > > inconvenient, as userspace may be aware of the largest resolution it =
-will
-> > > decode, and may want to allocate larger buffer upfront.
-> >
-> > Thinking about this more, I think a few follow up fixes for each driver
-> > are in order. The spec implies that the driver should override the valu=
-e
-> > should userspace give some unrealistic value, such as asking for a 256 =
-byte
-> > buffer for a 4K frame size.
-> >
->
-> Where is the spec implying that?
+Hi Benjamin,
 
-In Documentation/userspace-api/media/v4l/pixfmt-v4l2-mplane.rst:
+Thanks for picking up the patch.
 
-    Clients are allowed to set the sizeimage field for variable length
-    compressed data flagged with ``V4L2_FMT_FLAG_COMPRESSED`` at
-    :ref:`VIDIOC_ENUM_FMT`, but the driver may ignore it and set the
-    value itself, or it may modify the provided value based on
-    alignment requirements or minimum/maximum size requirements.
+On Fri, Sep 24, 2021 at 03:24:47PM +0200, Benjamin Gaignard wrote:
+> The AXI ID is an AXI bus configuration for improve bus performance. 
+> If read and write operations use different ID the operations can be paralleled,
+> whereas when they have the same ID the operations will be serialized. 
+> Right now, the write ID is fixed to 0 but we can set it to 0xff to get auto
+> generated ID to avoid possible conflicts.
+> 
+> This change has no functional changes, but seems reasonable to let the
+> hardware to autogenerate the ID instead of hardcoding in software.
+> 
 
-I guess I read "minimum/maximum size requirements" a bit liberally.
-Maybe it refers to how much buffer space the hardware can address or
-program for each request?
+Well, it may not have functional changes, but it is expected to have
+performance impact on a contended AXI bus.
 
-> This is encoded content, so I'm really inclined to avoid this path.
-> Having the driver decide what is "unrealistic" would mean some
-> heuristics in the drivers for something that should really come from user=
-space.
+> Signed-off-by: Enric Balletbo i Serra <enric.balletbo@collabora.com>
+> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+> ---
+> changes in version 2:
+> - Add a macro with comment about the value.
+> - Make VP8 and H264 codecs use the macro.
+> - fluster tests on the both codecs show no regressions.
+>   ./fluster.py run -ts VP8-TEST-VECTORS -d GStreamer-VP8-V4L2SL-Gst1.0
+>   ./fluster.py run -ts JVT-AVC_V1 -d GStreamer-H.264-V4L2SL-Gst1.0
+> - The both codec write other bits in the same configuration register
+>   so the simplest solution is to use the macro in the both cases.
+> 
 
-And if the driver refuses to give adequate buffer space, then it's a bug?
+Please describe the performance test that you did to make
+sure it's not regressing.
 
+>  drivers/staging/media/hantro/hantro_g1_h264_dec.c | 2 +-
+>  drivers/staging/media/hantro/hantro_g1_regs.h     | 2 ++
+>  drivers/staging/media/hantro/hantro_g1_vp8_dec.c  | 3 ++-
 
-Regards
-ChenYu
+This covers VP8 and H264 on some of the cores (i.MX8 and Rockchip VPU1).
+I believe you are missing the VPU2 cores (RK3399), see for instance
+rockchip_vpu2_hw_h264_dec.c.
 
+What about MPEG-2? If the tests show no performance impact,
+then please do the change for MPEG-2 as well.
 
-> Thanks,
-> Ezequiel
->
-> > Cedrus (CCing Jernej) comes close, but a 1K buffer might not be enough =
-for
-> > really large frames, even though it's slice based?
-> >
-> > ChenYu
-> >
-> >
-> > > As per Chromium bug, this is being addressed already. Thanks for this=
- driver
-> > > improvement.
-> > >
-> > > >
-> > > > > As for opposite direction (output vs capture) format being change=
-d, this should
-> > > > > be documented in the spec, if you find it too unclear or missing =
-for sateless
-> > > > > codec (I know it's there for stateful but can't remember, would h=
-ave to re-read,
-> > > > > for stateless) let us know.
-> > > >
-> > > > AFAICT the capture side is working OK and to spec.
-> > > >
-> > > >
-> > > > Regards
-> > > > ChenYu
-> > > >
-> > > > > regards,
-> > > > > Nicolas
-> > > > >
-> > > > > >
-> > > > > > Andrzej, I believe the second patch would conflict with your VP=
-9 series.
-> > > > > >
-> > > > > >
-> > > > > > Regards
-> > > > > > ChenYu
-> > > > > >
-> > > > > > Chen-Yu Tsai (2):
-> > > > > >   media: rkvdec: Do not override sizeimage for output format
-> > > > > >   media: rkvdec: Support dynamic resolution changes
-> > > > > >
-> > > > > >  drivers/staging/media/rkvdec/rkvdec-h264.c |  5 +--
-> > > > > >  drivers/staging/media/rkvdec/rkvdec.c      | 40 +++++++++++---=
---------
-> > > > > >  2 files changed, 23 insertions(+), 22 deletions(-)
-> > > > > >
-> > > > >
-> > > > >
-> > >
-> > >
+Thanks,
+Ezequiel
+
+>  3 files changed, 5 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/staging/media/hantro/hantro_g1_h264_dec.c b/drivers/staging/media/hantro/hantro_g1_h264_dec.c
+> index 236ce24ca00c..f49dbfb8a843 100644
+> --- a/drivers/staging/media/hantro/hantro_g1_h264_dec.c
+> +++ b/drivers/staging/media/hantro/hantro_g1_h264_dec.c
+> @@ -29,7 +29,7 @@ static void set_params(struct hantro_ctx *ctx, struct vb2_v4l2_buffer *src_buf)
+>  	u32 reg;
+>  
+>  	/* Decoder control register 0. */
+> -	reg = G1_REG_DEC_CTRL0_DEC_AXI_WR_ID(0x0);
+> +	reg = G1_REG_DEC_CTRL0_DEC_AXI_AUTO;
+>  	if (sps->flags & V4L2_H264_SPS_FLAG_MB_ADAPTIVE_FRAME_FIELD)
+>  		reg |= G1_REG_DEC_CTRL0_SEQ_MBAFF_E;
+>  	if (sps->profile_idc > 66) {
+> diff --git a/drivers/staging/media/hantro/hantro_g1_regs.h b/drivers/staging/media/hantro/hantro_g1_regs.h
+> index c1756e3d5391..c623b3b0be18 100644
+> --- a/drivers/staging/media/hantro/hantro_g1_regs.h
+> +++ b/drivers/staging/media/hantro/hantro_g1_regs.h
+> @@ -68,6 +68,8 @@
+>  #define     G1_REG_DEC_CTRL0_PICORD_COUNT_E		BIT(9)
+>  #define     G1_REG_DEC_CTRL0_DEC_AHB_HLOCK_E		BIT(8)
+>  #define     G1_REG_DEC_CTRL0_DEC_AXI_WR_ID(x)		(((x) & 0xff) << 0)
+> +/* Setting AXI ID to 0xff to get auto generated ID to avoid possible conflicts */
+> +#define     G1_REG_DEC_CTRL0_DEC_AXI_AUTO		G1_REG_DEC_CTRL0_DEC_AXI_WR_ID(0xff)
+>  #define G1_REG_DEC_CTRL1				0x010
+>  #define     G1_REG_DEC_CTRL1_PIC_MB_WIDTH(x)		(((x) & 0x1ff) << 23)
+>  #define     G1_REG_DEC_CTRL1_MB_WIDTH_OFF(x)		(((x) & 0xf) << 19)
+> diff --git a/drivers/staging/media/hantro/hantro_g1_vp8_dec.c b/drivers/staging/media/hantro/hantro_g1_vp8_dec.c
+> index 6180b23e7d94..851eb67f19f5 100644
+> --- a/drivers/staging/media/hantro/hantro_g1_vp8_dec.c
+> +++ b/drivers/staging/media/hantro/hantro_g1_vp8_dec.c
+> @@ -463,7 +463,8 @@ int hantro_g1_vp8_dec_run(struct hantro_ctx *ctx)
+>  	      G1_REG_CONFIG_DEC_MAX_BURST(16);
+>  	vdpu_write_relaxed(vpu, reg, G1_REG_CONFIG);
+>  
+> -	reg = G1_REG_DEC_CTRL0_DEC_MODE(10);
+> +	reg = G1_REG_DEC_CTRL0_DEC_MODE(10) |
+> +	      G1_REG_DEC_CTRL0_DEC_AXI_AUTO;
+>  	if (!V4L2_VP8_FRAME_IS_KEY_FRAME(hdr))
+>  		reg |= G1_REG_DEC_CTRL0_PIC_INTER_E;
+>  	if (!(hdr->flags & V4L2_VP8_FRAME_FLAG_MB_NO_SKIP_COEFF))
+> -- 
+> 2.30.2
+> 
