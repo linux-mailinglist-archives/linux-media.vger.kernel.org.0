@@ -2,196 +2,370 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C890842D1FE
-	for <lists+linux-media@lfdr.de>; Thu, 14 Oct 2021 07:43:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BA6A342D29A
+	for <lists+linux-media@lfdr.de>; Thu, 14 Oct 2021 08:28:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229592AbhJNFpK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 14 Oct 2021 01:45:10 -0400
-Received: from ni.piap.pl ([195.187.100.5]:57758 "EHLO ni.piap.pl"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229913AbhJNFpJ (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 14 Oct 2021 01:45:09 -0400
-Received: from t19.piap.pl (OSB1819.piap.pl [10.0.9.19])
-        by ni.piap.pl (Postfix) with ESMTPSA id BEE88C36955E;
-        Thu, 14 Oct 2021 07:43:02 +0200 (CEST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ni.piap.pl BEE88C36955E
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=piap.pl; s=mail;
-        t=1634190183; bh=gNxzoBhyekpDiI2tjxKi398V3oczutXqWeJX5U1VbRg=;
-        h=From:To:Cc:Subject:References:Date:In-Reply-To:From;
-        b=c4DjuV8kxYurSXnXqWFadMh2rb6EJ1JvzlnRuWG4qSq8LJIHdJTXSNhNhBuCbb0qQ
-         lBirQcyS+uqJK0SGCmCI5RKZ//K4dJk8gH0pgNMnC9W1+UdHTSO4JgZ1mzKMcqX7Uf
-         iRemHt3kFGLcNDajMPsOGQIiwTct6CaAIcWG2Onk=
-From:   =?utf-8?Q?Krzysztof_Ha=C5=82asa?= <khalasa@piap.pl>
-To:     Jacopo Mondi <jacopo@jmondi.org>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Sakari Ailus <sakari.ailus@iki.fi>,
-        Matteo Lisi <matteo.lisi@engicam.com>
-Subject: Re: [PATCH v5] Driver for ON Semi AR0521 camera sensor
-References: <m3fstfoexa.fsf@t19.piap.pl>
-        <20211009102446.jrvrdr7whtd2rv4z@uno.localdomain>
-        <m3mtnflpna.fsf@t19.piap.pl>
-        <20211011143420.vm6ncl5gdv44nsn3@uno.localdomain>
-        <m3a6jel9ce.fsf@t19.piap.pl>
-        <20211013082634.53zh5j26gucddome@uno.localdomain>
-        <m3y26xjd7p.fsf@t19.piap.pl>
-        <20211013151400.i2s3gcshb3xvuy2e@uno.localdomain>
-Sender: khalasa@piap.pl
-Date:   Thu, 14 Oct 2021 07:43:02 +0200
-In-Reply-To: <20211013151400.i2s3gcshb3xvuy2e@uno.localdomain> (Jacopo Mondi's
-        message of "Wed, 13 Oct 2021 17:14:00 +0200")
-Message-ID: <m3tuhkjh5l.fsf@t19.piap.pl>
+        id S229613AbhJNGa3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 14 Oct 2021 02:30:29 -0400
+Received: from mx3.molgen.mpg.de ([141.14.17.11]:35031 "EHLO mx1.molgen.mpg.de"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S229530AbhJNGa3 (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 14 Oct 2021 02:30:29 -0400
+Received: from [192.168.0.2] (ip5f5ae921.dynamic.kabel-deutschland.de [95.90.233.33])
+        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: pmenzel)
+        by mx.molgen.mpg.de (Postfix) with ESMTPSA id 7177361E64760;
+        Thu, 14 Oct 2021 08:28:21 +0200 (CEST)
+Subject: Re: [PATCH 2/6] media: aspeed: add dprintk for more detailed log
+ control
+To:     Jammy Huang <jammy_huang@aspeedtech.com>
+References: <20211014034819.2283-1-jammy_huang@aspeedtech.com>
+ <20211014034819.2283-3-jammy_huang@aspeedtech.com>
+Cc:     eajames@linux.ibm.com, mchehab@kernel.org, joel@jms.id.au,
+        andrew@aj.id.au, linux-media@vger.kernel.org,
+        openbmc@lists.ozlabs.org, linux-arm-kernel@lists.infradead.org,
+        linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Ingo Molnar <mingo@redhat.com>
+From:   Paul Menzel <pmenzel@molgen.mpg.de>
+Message-ID: <5b8f81aa-9d08-dc42-8bd5-e9e7560f37f6@molgen.mpg.de>
+Date:   Thu, 14 Oct 2021 08:28:21 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-KLMS-Rule-ID: 3
-X-KLMS-Message-Action: skipped
-X-KLMS-AntiSpam-Status: not scanned, whitelist
-X-KLMS-AntiPhishing: not scanned, whitelist
-X-KLMS-AntiVirus: Kaspersky Security for Linux Mail Server, version 8.0.3.30, not scanned, whitelist
+In-Reply-To: <20211014034819.2283-3-jammy_huang@aspeedtech.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Jacopo,
+[Cc: +Steven, +Ingo for tracing questions]
 
-> To each open file handled is associated a try format, which should be
-> initialized to some meaningful default.
+Dear Jammy,
 
-I will look at it then.
 
-> If you operate with a legacy implementation where everything goes
-> through the video device node, you don't care about the subdev
-> devnode.
+Am 14.10.21 um 05:48 schrieb Jammy Huang:
+> Add dprintk to categorize the log into NOTICE/INFO/TRACE/IRQ/REG.
+> The on/off is controlled by module_param, debug.
 
-This can't be done in case of a sensor driver, right? Output from the
-sensor is MIPI CSI, there is no connection to the memory bus.
+Currently dev_dbg is dynamic debug, which can be controlled using the 
+Linux kernel command line or debugfs already?
 
-BTW: What SoC (or MIPI receiver etc.) are you using?
+ From your patch:
 
->> > The difference is that the 0x3xxx ones are frame synchronized and
->> > apply to 'bad frames' too.
->>
->> Is it stated in the docs?
->
-> Yes, in the right-most columns of the register tables.
+> +MODULE_PARM_DESC(debug, "set debugging level (0=reg,2=irq,4=trace,8=info(|-able)).");
 
-Right.
-Interesting - they are marked both "frame sync'd" and "bad frame" (not
-all of them), where the 0x340 ones are both "N". I will try some tests,
-but such a combination looks a bit suspicious.
-(I guess I already tested it, but don't remember the results).
+What does (|-able) mean? Maybe give some examples in the commit message 
+as documentation?
 
-> Because it's documented as:
->
-> Setting this bit causes the sensor to truncate the current frame at
-> the end of the current row and start resetting (integrating) the first
-> row. The delay before the first valid frame is read out is equal to
-> the integration time.
->
-> and since you're moving from test mode to stream mode, there's no
-> frame integration going on.
+Lastly, instead of parameter name `debug`, I’d use `log_level`, which 
+would be more accurate.
 
-But there is :-)
-Remember we're streaming, the whole sensor is working. It's just the
-LP-11 on the output lines.
+Why is more granularity needed/useful, and not just debug and non-debug, 
+where the existing Linux kernel levels `pr_info`, `pr_warn`, … are used? 
+Looking at the amount of log messages, the granularity does not look needed.
 
-> What do you mean with "Linux from top to the bottom" ?
+> Signed-off-by: Jammy Huang <jammy_huang@aspeedtech.com>
+> ---
+>   drivers/media/platform/aspeed-video.c | 73 ++++++++++++++++++++++-----
+>   1 file changed, 60 insertions(+), 13 deletions(-)
+> 
+> diff --git a/drivers/media/platform/aspeed-video.c b/drivers/media/platform/aspeed-video.c
+> index 6259cf17a7cc..7b8129b0ca5f 100644
+> --- a/drivers/media/platform/aspeed-video.c
+> +++ b/drivers/media/platform/aspeed-video.c
+> @@ -31,6 +31,19 @@
+>   #include <media/v4l2-ioctl.h>
+>   #include <media/videobuf2-dma-contig.h>
+>   
+> +
+> +#define LOG_REG		BIT(4)
+> +#define LOG_DEBUG	BIT(3)
+> +#define LOG_TRACE	BIT(2)
 
-Userspace + ioctl on top, the driver/hw on the bottom.
+Could ftrace be used for this? It looks like there are static functions. 
+No idea, if there is already a “native” Linux kernel solution for this.
 
-> What I meant is that the core cannot prevent ioctls and subdev
-> operations to be called on the sensor while streaming, as the 'is
-> streaming' state is only kept in the driver and there's no state
-> keeping in the V4L2 core.
+> +#define LOG_INFO	BIT(1)
+> +#define LOG_NOTICE	BIT(0)
+> +
+> +#define dprintk(level, fmt, arg...) do {					\
+> +	if (debug & level)							\
+> +		pr_debug(pr_fmt("[%s]: " fmt), DEVICE_NAME, ##arg);		\
+> +} while (0)
+> +
+> +
+>   #define DEVICE_NAME			"aspeed-video"
+>   
+>   #define ASPEED_VIDEO_JPEG_NUM_QUALITIES	12
+> @@ -390,6 +403,8 @@ static const struct v4l2_dv_timings_cap aspeed_video_timings_cap = {
+>   	},
+>   };
+>   
+> +static unsigned int debug;
+> +
+>   static void aspeed_video_init_jpeg_table(u32 *table, bool yuv420)
+>   {
+>   	int i;
+> @@ -437,7 +452,7 @@ static void aspeed_video_update(struct aspeed_video *video, u32 reg, u32 clear,
+>   	t &= ~clear;
+>   	t |= bits;
+>   	writel(t, video->base + reg);
+> -	dev_dbg(video->dev, "update %03x[%08x -> %08x]\n", reg, before,
+> +	dprintk(LOG_REG, "update %03x[%08x -> %08x]\n", reg, before,
+>   		readl(video->base + reg));
+>   }
+>   
+> @@ -445,14 +460,14 @@ static u32 aspeed_video_read(struct aspeed_video *video, u32 reg)
+>   {
+>   	u32 t = readl(video->base + reg);
+>   
+> -	dev_dbg(video->dev, "read %03x[%08x]\n", reg, t);
+> +	dprintk(LOG_REG, "read %03x[%08x]\n", reg, t);
+>   	return t;
+>   }
+>   
+>   static void aspeed_video_write(struct aspeed_video *video, u32 reg, u32 val)
+>   {
+>   	writel(val, video->base + reg);
+> -	dev_dbg(video->dev, "write %03x[%08x]\n", reg,
+> +	dprintk(LOG_REG, "write %03x[%08x]\n", reg,
+>   		readl(video->base + reg));
+>   }
+>   
+> @@ -474,13 +489,13 @@ static int aspeed_video_start_frame(struct aspeed_video *video)
+>   	u32 seq_ctrl = aspeed_video_read(video, VE_SEQ_CTRL);
+>   
+>   	if (video->v4l2_input_status) {
+> -		dev_dbg(video->dev, "No signal; don't start frame\n");
+> +		dprintk(LOG_NOTICE, "No signal; don't start frame\n");
+>   		return 0;
+>   	}
+>   
+>   	if (!(seq_ctrl & VE_SEQ_CTRL_COMP_BUSY) ||
+>   	    !(seq_ctrl & VE_SEQ_CTRL_CAP_BUSY)) {
+> -		dev_dbg(video->dev, "Engine busy; don't start frame\n");
+> +		dprintk(LOG_NOTICE, "Engine busy; don't start frame\n");
+>   		return -EBUSY;
+>   	}
+>   
+> @@ -489,7 +504,7 @@ static int aspeed_video_start_frame(struct aspeed_video *video)
+>   				       struct aspeed_video_buffer, link);
+>   	if (!buf) {
+>   		spin_unlock_irqrestore(&video->lock, flags);
+> -		dev_dbg(video->dev, "No buffers; don't start frame\n");
+> +		dprintk(LOG_NOTICE, "No buffers; don't start frame\n");
+>   		return -EPROTO;
+>   	}
+>   
+> @@ -565,7 +580,7 @@ static void aspeed_video_bufs_done(struct aspeed_video *video,
+>   
+>   static void aspeed_video_irq_res_change(struct aspeed_video *video, ulong delay)
+>   {
+> -	dev_dbg(video->dev, "Resolution changed; resetting\n");
+> +	dprintk(LOG_INFO, "Resolution changed; resetting\n");
+>   
+>   	set_bit(VIDEO_RES_CHANGE, &video->flags);
+>   	clear_bit(VIDEO_FRAME_INPRG, &video->flags);
+> @@ -590,6 +605,12 @@ static irqreturn_t aspeed_video_irq(int irq, void *arg)
+>   	struct aspeed_video *video = arg;
+>   	u32 sts = aspeed_video_read(video, VE_INTERRUPT_STATUS);
+>   
+> +	dprintk(LOG_DEBUG, "irq sts=%#x %s%s%s%s\n", sts,
+> +		sts & VE_INTERRUPT_MODE_DETECT_WD ? ", unlock" : "",
+> +		sts & VE_INTERRUPT_MODE_DETECT ? ", lock" : "",
+> +		sts & VE_INTERRUPT_CAPTURE_COMPLETE ? ", capture-done" : "",
+> +		sts & VE_INTERRUPT_COMP_COMPLETE ? ", comp-done" : "");
+> +
 
-Exactly, that's what I thought.
+Please split adding new log messages out into a separate commit.
 
->> while streaming. With certain (most?) drivers only, that's it. Not that
->> I actually tested it, but the v4l2 core code suggests it.
->
-> spec says no.
+>   	/*
+>   	 * Resolution changed or signal was lost; reset the engine and
+>   	 * re-initialize
+> @@ -766,7 +787,7 @@ static void aspeed_video_calc_compressed_size(struct aspeed_video *video,
+>   	aspeed_video_write(video, VE_STREAM_BUF_SIZE,
+>   			   compression_buffer_size_reg);
+>   
+> -	dev_dbg(video->dev, "Max compressed size: %x\n",
+> +	dprintk(LOG_INFO, "Max compressed size: %#x\n",
+>   		video->max_compressed_size);
+>   }
+>   
+> @@ -804,7 +825,7 @@ static void aspeed_video_get_resolution(struct aspeed_video *video)
+>   						      res_check(video),
+>   						      MODE_DETECT_TIMEOUT);
+>   		if (!rc) {
+> -			dev_dbg(video->dev, "Timed out; first mode detect\n");
+> +			dprintk(LOG_INFO, "Timed out; first mode detect\n");
+>   			clear_bit(VIDEO_RES_DETECT, &video->flags);
+>   			return;
+>   		}
+> @@ -822,7 +843,7 @@ static void aspeed_video_get_resolution(struct aspeed_video *video)
+>   						      MODE_DETECT_TIMEOUT);
+>   		clear_bit(VIDEO_RES_DETECT, &video->flags);
+>   		if (!rc) {
+> -			dev_dbg(video->dev, "Timed out; second mode detect\n");
+> +			dprintk(LOG_INFO, "Timed out; second mode detect\n");
+>   			return;
+>   		}
+>   
+> @@ -856,7 +877,7 @@ static void aspeed_video_get_resolution(struct aspeed_video *video)
+>   	} while (invalid_resolution && (tries++ < INVALID_RESOLUTION_RETRIES));
+>   
+>   	if (invalid_resolution) {
+> -		dev_dbg(video->dev, "Invalid resolution detected\n");
+> +		dprintk(LOG_NOTICE, "Invalid resolution detected\n");
+>   		return;
+>   	}
+>   
+> @@ -873,7 +894,7 @@ static void aspeed_video_get_resolution(struct aspeed_video *video)
+>   	aspeed_video_update(video, VE_SEQ_CTRL, 0,
+>   			    VE_SEQ_CTRL_AUTO_COMP | VE_SEQ_CTRL_EN_WATCHDOG);
+>   
+> -	dev_dbg(video->dev, "Got resolution: %dx%d\n", det->width,
+> +	dprintk(LOG_INFO, "Got resolution: %dx%d\n", det->width,
+>   		det->height);
+>   }
+>   
+> @@ -907,6 +928,7 @@ static void aspeed_video_set_resolution(struct aspeed_video *video)
+>   
+>   	/* Don't use direct mode below 1024 x 768 (irqs don't fire) */
+>   	if (size < DIRECT_FETCH_THRESHOLD) {
+> +		dprintk(LOG_INFO, "Capture: Sync Mode\n");
+>   		aspeed_video_write(video, VE_TGS_0,
+>   				   FIELD_PREP(VE_TGS_FIRST,
+>   					      video->frame_left - 1) |
+> @@ -918,6 +940,7 @@ static void aspeed_video_set_resolution(struct aspeed_video *video)
+>   					      video->frame_bottom + 1));
+>   		aspeed_video_update(video, VE_CTRL, 0, VE_CTRL_INT_DE);
+>   	} else {
+> +		dprintk(LOG_INFO, "Capture: Direct Mode\n");
+>   		aspeed_video_update(video, VE_CTRL, 0, VE_CTRL_DIRECT_FETCH);
+>   	}
+>   
+> @@ -934,6 +957,10 @@ static void aspeed_video_set_resolution(struct aspeed_video *video)
+>   		if (!aspeed_video_alloc_buf(video, &video->srcs[1], size))
+>   			goto err_mem;
+>   
+> +		dprintk(LOG_INFO, "src buf0 addr(%#x) size(%d)\n",
+> +			video->srcs[0].dma, video->srcs[0].size);
+> +		dprintk(LOG_INFO, "src buf1 addr(%#x) size(%d)\n",
+> +			video->srcs[1].dma, video->srcs[1].size);
+>   		aspeed_video_write(video, VE_SRC0_ADDR, video->srcs[0].dma);
+>   		aspeed_video_write(video, VE_SRC1_ADDR, video->srcs[1].dma);
+>   	}
+> @@ -1010,6 +1037,8 @@ static void aspeed_video_start(struct aspeed_video *video)
+>   
+>   static void aspeed_video_stop(struct aspeed_video *video)
+>   {
+> +	dprintk(LOG_TRACE, "%s\n", __func__);
+> +
+>   	set_bit(VIDEO_STOPPED, &video->flags);
+>   	cancel_delayed_work_sync(&video->res_work);
+>   
+> @@ -1198,6 +1227,9 @@ static int aspeed_video_set_dv_timings(struct file *file, void *fh,
+>   
+>   	timings->type = V4L2_DV_BT_656_1120;
+>   
+> +	dprintk(LOG_INFO, "set new timings(%dx%d)\n", timings->bt.width,
+> +		timings->bt.height);
+> +
+>   	return 0;
+>   }
+>   
+> @@ -1362,6 +1394,8 @@ static void aspeed_video_resolution_work(struct work_struct *work)
+>   						  res_work);
+>   	u32 input_status = video->v4l2_input_status;
+>   
+> +	dprintk(LOG_TRACE, "%s+\n", __func__);
+> +
+>   	aspeed_video_on(video);
+>   
+>   	/* Exit early in case no clients remain */
+> @@ -1380,6 +1414,7 @@ static void aspeed_video_resolution_work(struct work_struct *work)
+>   			.u.src_change.changes = V4L2_EVENT_SRC_CH_RESOLUTION,
+>   		};
+>   
+> +		dprintk(LOG_INFO, "fire source change event\n");
+>   		v4l2_event_queue(&video->vdev, &ev);
+>   	} else if (test_bit(VIDEO_STREAMING, &video->flags)) {
+>   		/* No resolution change so just restart streaming */
+> @@ -1389,6 +1424,8 @@ static void aspeed_video_resolution_work(struct work_struct *work)
+>   done:
+>   	clear_bit(VIDEO_RES_CHANGE, &video->flags);
+>   	wake_up_interruptible_all(&video->wait);
+> +
+> +	dprintk(LOG_TRACE, "%s-\n", __func__);
+>   }
+>   
+>   static int aspeed_video_open(struct file *file)
+> @@ -1476,6 +1513,7 @@ static int aspeed_video_start_streaming(struct vb2_queue *q,
+>   	int rc;
+>   	struct aspeed_video *video = vb2_get_drv_priv(q);
+>   
+> +	dprintk(LOG_TRACE, "%s\n", __func__);
+>   	video->sequence = 0;
+>   	video->perf.duration_max = 0;
+>   	video->perf.duration_min = 0xffffffff;
+> @@ -1495,13 +1533,15 @@ static void aspeed_video_stop_streaming(struct vb2_queue *q)
+>   	int rc;
+>   	struct aspeed_video *video = vb2_get_drv_priv(q);
+>   
+> +	dprintk(LOG_TRACE, "%s+\n", __func__);
+> +
+>   	clear_bit(VIDEO_STREAMING, &video->flags);
+>   
+>   	rc = wait_event_timeout(video->wait,
+>   				!test_bit(VIDEO_FRAME_INPRG, &video->flags),
+>   				STOP_TIMEOUT);
+>   	if (!rc) {
+> -		dev_dbg(video->dev, "Timed out when stopping streaming\n");
+> +		dprintk(LOG_NOTICE, "Timed out when stopping streaming\n");
+>   
+>   		/*
+>   		 * Need to force stop any DMA and try and get HW into a good
+> @@ -1516,6 +1556,7 @@ static void aspeed_video_stop_streaming(struct vb2_queue *q)
+>   	}
+>   
+>   	aspeed_video_bufs_done(video, VB2_BUF_STATE_ERROR);
+> +	dprintk(LOG_TRACE, "%s-\n", __func__);
+>   }
+>   
+>   static void aspeed_video_buf_queue(struct vb2_buffer *vb)
+> @@ -1715,6 +1756,7 @@ static int aspeed_video_init(struct aspeed_video *video)
+>   		dev_err(dev, "Unable to request IRQ %d\n", irq);
+>   		return rc;
+>   	}
+> +	dev_info(video->dev, "irq %d\n", irq);
+>   
+>   	video->eclk = devm_clk_get(dev, "eclk");
+>   	if (IS_ERR(video->eclk)) {
+> @@ -1751,6 +1793,8 @@ static int aspeed_video_init(struct aspeed_video *video)
+>   		rc = -ENOMEM;
+>   		goto err_release_reserved_mem;
+>   	}
+> +	dev_info(video->dev, "alloc mem size(%d) at %#x for jpeg header\n",
+> +		 VE_JPEG_HEADER_SIZE, video->jpeg.dma);
+>   
+>   	aspeed_video_init_jpeg_table(video->jpeg.virt, video->yuv420);
+>   
+> @@ -1856,6 +1900,9 @@ static struct platform_driver aspeed_video_driver = {
+>   
+>   module_platform_driver(aspeed_video_driver);
+>   
+> +module_param(debug, int, 0644);
+> +MODULE_PARM_DESC(debug, "set debugging level (0=reg,2=irq,4=trace,8=info(|-able)).");
+> +
+>   MODULE_DESCRIPTION("ASPEED Video Engine Driver");
+>   MODULE_AUTHOR("Eddie James");
+>   MODULE_LICENSE("GPL v2");
 
-I'm not aware of it. The specs say a driver *is*allowed* to return
-EBUSY, if it can't handle the condition.
 
-> reviewers say no.
+Kind regards,
 
-Haven't seen this either. The existing code (other drivers) suggests
-otherwise.
-
-> maintainers say no.
-
-Ditto.
-Buffers are a completely different thing.
-
->> So I'm either to return -EBUSY, or - as others, probably most drivers -
->
-> maybe they just assume they knew better when they got being told
-> not to do so during review.
-
-All of the others are wrong?
-Maybe nobody told them otherwise - because there was no reason?
-
->> > I hardly see a case where changing format on the sensor through an
->> > operation on the subdev while streaming, is a good idea.
->>
->> I'm not in control of this.
->
-> As you're not in control of how your driver will be used once merged
-
-Exactly, it's the very same thing.
-
-> That's why there are specs, reviews and collective knowledge that
-> helps enforce a consistent behavior.
-
-That's correct. Now you tell me I'm not to write to the hw in set_fmt(),
-while I can clearly see other drivers do exactly that, and nobody else
-suggests they (I) shouldn't.
-
-> There's a potential point of failure in every single part of the
-> capture pipeline, from the on-going transfer in the SoC's DMA engines
-> to the CSI-2 receiver port.
-
-I'm not in control of this, why should I set a policy for them? I don't
-even know if there is a SoC and DMA engines - maybe this goes straight
-to the antenna or *SDI transmitter? :-)
-
-> Even without the stop/restart sequence, what happens if you increase
-> the frame size which is output from the sensor without re-negotiating
-> buffers or image formats ?
-
-*I* don't change frame sizes. It's the upper levels which are making
-such decisions. My code can only comply or return an error.
-Perhaps the upper levels know what they're doing?
-
-If they are wrong after all, well - a misprogrammed i.MX6 will corrupt
-the frames, the output stream will lose sync, and the userspace can get
-I/O errors on ioctls. The userspace will get what it asked for.
-
-This is BTW completely orthogonal to the -EBUSY on set_fmt(). The
-effects will be exactly the same if the e.g. geometry changes come when
-the sensor is not streaming.
-
-> There's no single valid reason to allow such a use case, if not making
-> out of it a matter of principle like you're doing.
-
-Then why other drivers do exactly that? Eg. all imx*.
-Including the newest one imx412, merged 2021-08-04, and:
-    Signed-off-by: Martina Krasteva <martinax.krasteva@intel.com>
-    Acked-by: Daniele Alessandrelli <daniele.alessandrelli@intel.com>
-    Acked-by: Paul J. Murphy <paul.j.murphy@intel.com>
-    Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-    Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-
-Are they really all wrong? Really?
-
-BTW principles are important to me, yes. One of them is "allow unless
-required otherwise".
---=20
-Krzysztof "Chris" Ha=C5=82asa
-
-Sie=C4=87 Badawcza =C5=81ukasiewicz
-Przemys=C5=82owy Instytut Automatyki i Pomiar=C3=B3w PIAP
-Al. Jerozolimskie 202, 02-486 Warszawa
+Paul
