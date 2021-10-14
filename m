@@ -2,410 +2,167 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8A70B42CEFC
-	for <lists+linux-media@lfdr.de>; Thu, 14 Oct 2021 01:10:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6A37342D010
+	for <lists+linux-media@lfdr.de>; Thu, 14 Oct 2021 03:50:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229882AbhJMXMk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 13 Oct 2021 19:12:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58238 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229668AbhJMXMj (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Wed, 13 Oct 2021 19:12:39 -0400
-Received: from mail-lf1-x134.google.com (mail-lf1-x134.google.com [IPv6:2a00:1450:4864:20::134])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B80E4C061570
-        for <linux-media@vger.kernel.org>; Wed, 13 Oct 2021 16:10:35 -0700 (PDT)
-Received: by mail-lf1-x134.google.com with SMTP id x27so18488234lfa.9
-        for <linux-media@vger.kernel.org>; Wed, 13 Oct 2021 16:10:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=igel-co-jp.20210112.gappssmtp.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=Qan44gaKVp95l/9iJFC+LzKNkAC30U78FrBM+ZiMrrU=;
-        b=7piTNBSNTjA2ol5lFwaYf7ug6QtfCqjriJYrmkgKWWgsfc08kKXo7kRGfM8VhE612T
-         TTQxqwX38SbU81y7fDeS83IcIwQBu1o0pNwN52fh9UX735Gz6+MbkDRcyX8l3B/CkFlE
-         7jPSUiGtydhn5FfEXoKDuJWZsH4Alo4Q6WVtxv4NLWqzQrgxMc5r+RFwxPHN0vyqnEzM
-         +k6vnTqmgWEemsStU0Ug2wAv1WnxDn6t9cDV8mZsvbcx1SZYoQ0HHqijrSl8SSlqwAA1
-         CTE6qotMFNJjfWGe6G8DiIkIOx+mUoD0NSxFGOjnKmnV/AYes0Xi+UbCn3FputAdY313
-         Z9bA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=Qan44gaKVp95l/9iJFC+LzKNkAC30U78FrBM+ZiMrrU=;
-        b=456vJt/D9xtAtjjQj1Q7BXJaRRy4GJqtVM6fzuNb9xaHvDFMBRLlq4k0TsjUPNK2xm
-         buFoRbJBnIM8HO8q/9f5lhBOaEW+iyvbSftu2GCHvz06cfnXWJjabfIdPM4+w6PVbkl+
-         79kYgJMnPb1yL/2Ob94bpcqbug0fUwjdSnDSW1nRzEn1Kw7xnXJujbAx30QmUUAPOApE
-         5ejBQ7OM7NuUfR4Zm/1u8LI6Ifl0ccQ73gZqVTb7zOMGuQEQ6bvbaBYfEyH3wCnrvL45
-         GpSANe7L1Kl2LsJX70wZHOHxoojiWdvT1VMonrPwdoe3q4j4hIJcnsfeywGzJgkt/vEx
-         kotA==
-X-Gm-Message-State: AOAM531LEkobqRyoRNdfYrd7QlUto3NVumfImSrUE+chas+6Z+rn8dav
-        hr7j3bXODM3jVWpCcHAk4L0Mi8/K4C8uLAZFHnDk6A==
-X-Google-Smtp-Source: ABdhPJwYyNB1JughgQdu2dMcMWEqOVJtkITltUfCjnBI9pRp+XszKtQdKVln2wetCF4ZjYgGLL2xLlWbJEpPvv5mY/E=
-X-Received: by 2002:a2e:7807:: with SMTP id t7mr2177891ljc.449.1634166633676;
- Wed, 13 Oct 2021 16:10:33 -0700 (PDT)
+        id S229949AbhJNBv5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 13 Oct 2021 21:51:57 -0400
+Received: from mail-eopbgr60060.outbound.protection.outlook.com ([40.107.6.60]:12679
+        "EHLO EUR04-DB3-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S229930AbhJNBv4 (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 13 Oct 2021 21:51:56 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=TGYfgSJ5LuLmA1InMKymsFnyjeDY86MejBWzAdjZMksJ0WRuaF+l9ohrik54rYYFsOR0uAuNuvd2tlLhpxfGflBPCGocg21a6hK3U628jRU9jv33IBsnEg73ORkZhkSF7qLMaMBszT3DuMkGFl6OyVTv+/yHZiYY3T8hX3NthzBD3l7Abfax66+bCqG40qbGExDpKUsEbTDx31E2obBieWpAlbRkPjJoN5oiaBVVAZ5FARVMNERqlPF8WKoMMYk2NoNzq2rjQ1znuICZt6LfirBAt4Gv86JprsJrR05VNkmrnFECCUeMEjmkTVkopibhkTf6s+Mc1/3jdCKfuRQbiQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=pM7uV141XBfU82z3CJ1pJ7ku43hbnQa2Qju4alFoLBY=;
+ b=CCyzfcGfDjo/Y/ilDJcNqcfwP8vNIl6A854/g+hYEacPHPoUWY3jY4mWqOPlMdcW1BUMjmj2zn7VULHU19EHdXXNpvn6Sc46DVY1t9SjjrZdnv/4v375Es9uLRnelcjlfk+SBIwbGWh0FaC8Ouo2DnPr1ghaPx/9Vgvuwv9/3L/88JoNaAOiyVBzbfwfEIibGpnLSWMh2EKsjcFpkFjb+XN53HlbaA0mDC4q5ldbu/0+FrBrlpKW5TSN/XWhbwx1IE8mqikEkwjtPleQVAEFN9aJucH1RQlnG5yxb17ZRTkb6KAdRHul2bgmmyYWquJHHtOe1RnIMpb8LnTbqhafYQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=pM7uV141XBfU82z3CJ1pJ7ku43hbnQa2Qju4alFoLBY=;
+ b=kO6HBDL2WIeetClPH9ZOEoT98nTXPtwTueZPc12RQ/v75USfPaCEfMoEzX97/zhBLP4FP6ZnmuYe75dKEwracKYH+KfHGRd6vds88Fbbt43rKIAvO6cnIqm+Fm7R9c3+CSZQ0QvX4F0dIO4agUQqhrT9uiOBEEejRQGi8sw/ubc=
+Received: from AM6PR04MB6341.eurprd04.prod.outlook.com (2603:10a6:20b:d8::14)
+ by AM6PR04MB4021.eurprd04.prod.outlook.com (2603:10a6:209:3f::26) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4608.16; Thu, 14 Oct
+ 2021 01:49:49 +0000
+Received: from AM6PR04MB6341.eurprd04.prod.outlook.com
+ ([fe80::fc3a:8aea:2c92:3886]) by AM6PR04MB6341.eurprd04.prod.outlook.com
+ ([fe80::fc3a:8aea:2c92:3886%5]) with mapi id 15.20.4587.026; Thu, 14 Oct 2021
+ 01:49:49 +0000
+From:   Ming Qian <ming.qian@nxp.com>
+To:     Randy Dunlap <rdunlap@infradead.org>,
+        "mchehab@kernel.org" <mchehab@kernel.org>,
+        "shawnguo@kernel.org" <shawnguo@kernel.org>,
+        "robh+dt@kernel.org" <robh+dt@kernel.org>,
+        "s.hauer@pengutronix.de" <s.hauer@pengutronix.de>
+CC:     "hverkuil-cisco@xs4all.nl" <hverkuil-cisco@xs4all.nl>,
+        "kernel@pengutronix.de" <kernel@pengutronix.de>,
+        "festevam@gmail.com" <festevam@gmail.com>,
+        dl-linux-imx <linux-imx@nxp.com>,
+        Aisheng Dong <aisheng.dong@nxp.com>,
+        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>
+Subject: RE: [EXT] Re: [PATCH v10 03/13] media: amphion: add amphion vpu
+ device driver
+Thread-Topic: [EXT] Re: [PATCH v10 03/13] media: amphion: add amphion vpu
+ device driver
+Thread-Index: AQHXv/9iMWizhmuKXESNdb1YjXwXu6vRf/wAgAA7SRA=
+Date:   Thu, 14 Oct 2021 01:49:49 +0000
+Message-ID: <AM6PR04MB63414D1465CDABB6E5550529E7B89@AM6PR04MB6341.eurprd04.prod.outlook.com>
+References: <cover.1634095309.git.ming.qian@nxp.com>
+ <2a70d55e012874b9a3381e0aca23010edf65b2f4.1634095309.git.ming.qian@nxp.com>
+ <591813d6-2633-bc64-110e-8f62ca07044e@infradead.org>
+In-Reply-To: <591813d6-2633-bc64-110e-8f62ca07044e@infradead.org>
+Accept-Language: zh-CN, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: infradead.org; dkim=none (message not signed)
+ header.d=none;infradead.org; dmarc=none action=none header.from=nxp.com;
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 587d6140-ef4a-4aeb-b6f8-08d98eb4e8a4
+x-ms-traffictypediagnostic: AM6PR04MB4021:
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <AM6PR04MB402135447A4FEAD18E4D55E1E7B89@AM6PR04MB4021.eurprd04.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:5797;
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: K5loU/dIFjhtIGsxXBdqKIM+TWmHxoTaCstvo6aYC9iuWYTBW9sZ+fwyWfmYrYETsXMIBlZNc8VyHyDeXqEdVElghakUaztGbIbiTqv57keVl0uSUVqyjBuIdQUX3zhRuvWdTyqcC095cQeOtZqydkEqdVf4hvaIyDPQVrZ3x4QMRb6J4XyOhp2QfbmblaUlWRTDzcantAkiC4fOViNdBEp4iSPkqMe0YzK+bmLCnnM+qVoxUZppcGcAQ3nP+TaQ1lN3I6foA+FOYRFCepD5Z9YJfVpY+zsqNFr9A+1OKG8m6blekQJeMouV8FBUURSalukU/lsXoz3yWpbjF2ftEJyUrvg9aDeD0KFoLLyiB3kpFmeUykZaJyDQvTJNLKjhe7ggEx9Wc7b6uQyYamiezA8c1uign6SaB4cyxyGsgf4D9RDNMTGcHFHTfQIdRWxjbi5EfmXVgqZMTBRMOlyjMKJDY4qRqkYYcqc6uNXWaB1TVR4pQ4xj4k8NkUOvm+PmpVSHLx8Ct90k15u9oIn39HYAkfRCpWvtgUlqCjEWZf6+tHGDSzYYmzbAuEwJrzq9XrRlSf6cPO6qJW+OxVV8XUqNucTWS+NUbyQ/rNZSkNJ0jFw3+GV525I4GFy7mJSc4vPbrYsxTc5qOxwwEluWubxK9m208f7/ATBYqwZElhCtYKAmTXuavnE6wBw52yhX8dOr+eYJtylJb/d4oDNgYw==
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM6PR04MB6341.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(366004)(4326008)(53546011)(186003)(6506007)(508600001)(76116006)(8936002)(26005)(110136005)(9686003)(54906003)(316002)(71200400001)(7696005)(44832011)(2906002)(66446008)(66946007)(55016002)(33656002)(66556008)(5660300002)(66476007)(64756008)(122000001)(38070700005)(38100700002)(83380400001)(86362001)(52536014)(8676002)(7416002);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?MSttZ3M4Z2pJTW5leUdYUjFuNVZEeWJseThkUFdRaTJGMDQvMXFvK3FyOUNU?=
+ =?utf-8?B?bXFldjI1aGdad1VLTUVCNUEzaFZnZmUzQkVjSW02UWFURnVJSGIrRFRtcTYx?=
+ =?utf-8?B?QmQ2LzhJQWJzMHlyUTFxZ1ZicUozWEZNcC9jMUdnVkIrQmVueE9Vb2RDbFBP?=
+ =?utf-8?B?eFN3MVdYanBJWEk3QXlFakRzTjRWTzdBQmJtRksvaGp0cU1neGJScVJhWjdO?=
+ =?utf-8?B?a1g2dGZLZHE0Vzk4U2dZVlFDcVV1WEVCcTg1R0s3bFFRb3VBQ3FQUTlrcEVL?=
+ =?utf-8?B?UFBMaTZHeDhwVWpLc3VrL2hQelc5SVR3TGNvT0JreDc4dTV0M2hqcW9VbDR6?=
+ =?utf-8?B?eTZwU04wZ3hQMEF6K0VPRjh3Z0ZGYmpoTDBVMGRHSUpSQjBxN09aZERQclNz?=
+ =?utf-8?B?TDdDMUFWd052VHRQZ1N1UlJsczdJdFVXcjJDZDlrdGxoR3l2aWR5cGxpRllF?=
+ =?utf-8?B?QzVjckRhaCs4UXdleUtyZWNieUVaQ0VvK29kS1AzNldUTmlpZ08zUVlsS25m?=
+ =?utf-8?B?NUhQMjZvYXY1elJtVGlpQkFncDhYMFBPNHZSUVZoaGY0YlBGZWlCdy9COFpq?=
+ =?utf-8?B?WWVJbUlMU3IyWExtWC9RNW1HQXpNODI2KytwZXBRRW85N25SS1hqTVViNUUw?=
+ =?utf-8?B?ODZDRTNJSmNMYlNNcjllOFB3MmhhTHA4Uk83dTdQOS9pcjdvR05QeS91MjZF?=
+ =?utf-8?B?Z1BMRTdrYlBlZWlNYy95RVBHM0p4WFFUNittOVU3Um9sWngyRFFqRkRmbVNX?=
+ =?utf-8?B?RjFuNHZ6cTF4UXFZRElCd2YrUEZUMkZ6V2Nja3U0SVdwRGZFM3hzdFRQY1dE?=
+ =?utf-8?B?VHYyOEI2bUhuaHdwWENmQnJGLzdWUTJyeUhBd3JPZXE1UXg5d2dwYzRPMnNt?=
+ =?utf-8?B?TCtxUTZZS2dFdXhrUlNSUUxOVUJORE1jUmx2WjZPamZzaS9CYXduVlJOaHpo?=
+ =?utf-8?B?MWZOcmd1RTBkdGE1aXhzZHF2ek5aYStSVk5keTVnRWpyVVBPZVo2UnZkNXl1?=
+ =?utf-8?B?YmNQQjVVQ1oxQ0IvdFl1bmNSaG1XRW9sSDNPN3lnL1BteHQ1b2I4Qnp2M1Np?=
+ =?utf-8?B?SGx5MUdBb1FOS1JhcVp0N1I0ZG5jNllLTG4xNXdRUURsengvSnhGVXltWGkx?=
+ =?utf-8?B?ZmNhTWZ2akNtVWhnY0hKaFZwejlueUo4RnZlMFVBdlhKYW4rUGdsZDdSK2dQ?=
+ =?utf-8?B?UEFXSFQzWGxvSmFMaXJrWHZnNDNvSis3RVJ1SUhhT1RwQVc5d2R1eXBqajlJ?=
+ =?utf-8?B?Y3VOTjJYME92WFNBK25IWitoeXJvKzViMDI2Y2JEangxMmV6cDN3V0hVYXE0?=
+ =?utf-8?B?ZGlDOU1QWGN4SUx6UWMreUd5VENzU0ZYVmxJNmRXTnJUYnNNaGpVSXpGcXVs?=
+ =?utf-8?B?dXZaSllSK2Rud2tJT3NCVlRJMjJyWkxtTEpvSU9wTkU1RnFQblJ2WFRCR0RU?=
+ =?utf-8?B?dTFlR2dQRXJ1ZW5EdTd4SG9XUVBUb3pzTHE5bDBJUnhrdUl1c3NrQmpHK0tW?=
+ =?utf-8?B?ak9VYTcwVmFGa282RWdmdFlMKzFSUWNmem5oZzJUaXJhZjVza0NxS05JMkVv?=
+ =?utf-8?B?dFdrMUhPVUFMTVA1Wmk3QVVIWEFqRmpIVkRxN0ZUTTVuODQzaVJFUG5WYndZ?=
+ =?utf-8?B?ZWdreGF6UHJmTC8xMWFvb1NPa2xQK0c4NDUvenpoV3ozaWdnUDBCVmhBb09h?=
+ =?utf-8?B?VkF2Q29qUDNCSWhTZDdjNWJCWW14c0RYUkQxT3RPRVhTTGlIVFRIMmowS2xw?=
+ =?utf-8?Q?M80TjD0ttM9H/HoR9o=3D?=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-References: <20210929041905.126454-1-mie@igel.co.jp> <20210929041905.126454-3-mie@igel.co.jp>
- <YVXMkSDXybju88TU@phenom.ffwll.local> <CANXvt5rD82Lvvag_k9k+XE-Sj1S6Qwp5uf+-feUTvez1-t4xUA@mail.gmail.com>
- <YWbGFkzkFRHmBcpa@phenom.ffwll.local>
-In-Reply-To: <YWbGFkzkFRHmBcpa@phenom.ffwll.local>
-From:   Shunsuke Mie <mie@igel.co.jp>
-Date:   Thu, 14 Oct 2021 08:10:22 +0900
-Message-ID: <CANXvt5p3Oo7VBq1DSDaPH8QexAus9+Q4DuzFo0JO583C7ZS9Gw@mail.gmail.com>
-Subject: Re: [RFC PATCH v2 2/2] RDMA/rxe: Add dma-buf support
-To:     Shunsuke Mie <mie@igel.co.jp>, Zhu Yanjun <zyjzyj2000@gmail.com>,
-        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
-        Alex Deucher <alexander.deucher@amd.com>,
-        Doug Ledford <dledford@redhat.com>,
-        Jason Gunthorpe <jgg@ziepe.ca>,
-        Jianxin Xiong <jianxin.xiong@intel.com>,
-        Leon Romanovsky <leon@kernel.org>,
-        Maor Gottlieb <maorg@nvidia.com>,
-        Sean Hefty <sean.hefty@intel.com>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
-        linux-media@vger.kernel.org,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-rdma <linux-rdma@vger.kernel.org>,
-        Damian Hobson-Garcia <dhobsong@igel.co.jp>,
-        Takanari Hayama <taki@igel.co.jp>,
-        Tomohito Esaki <etom@igel.co.jp>
-Cc:     Daniel Vetter <daniel.vetter@ffwll.ch>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: AM6PR04MB6341.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 587d6140-ef4a-4aeb-b6f8-08d98eb4e8a4
+X-MS-Exchange-CrossTenant-originalarrivaltime: 14 Oct 2021 01:49:49.6782
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: /H1Uv2E93BSPLqP9/aqraxTDSJ52ESY1KfQNjOnvFxqvcN5eiQtQY+K6r0LKuI/JmDUvUH+T98ww6W3WFkmXKQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR04MB4021
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-2021=E5=B9=B410=E6=9C=8813=E6=97=A5(=E6=B0=B4) 20:42 Daniel Vetter <daniel@=
-ffwll.ch>:
->
-> On Fri, Oct 01, 2021 at 12:56:48PM +0900, Shunsuke Mie wrote:
-> > 2021=E5=B9=B49=E6=9C=8830=E6=97=A5(=E6=9C=A8) 23:41 Daniel Vetter <dani=
-el@ffwll.ch>:
-> > >
-> > > On Wed, Sep 29, 2021 at 01:19:05PM +0900, Shunsuke Mie wrote:
-> > > > Implement a ib device operation =E2=80=98reg_user_mr_dmabuf=E2=80=
-=99. Generate a
-> > > > rxe_map from the memory space linked the passed dma-buf.
-> > > >
-> > > > Signed-off-by: Shunsuke Mie <mie@igel.co.jp>
-> > > > ---
-> > > >  drivers/infiniband/sw/rxe/rxe_loc.h   |   2 +
-> > > >  drivers/infiniband/sw/rxe/rxe_mr.c    | 118 ++++++++++++++++++++++=
-++++
-> > > >  drivers/infiniband/sw/rxe/rxe_verbs.c |  34 ++++++++
-> > > >  drivers/infiniband/sw/rxe/rxe_verbs.h |   2 +
-> > > >  4 files changed, 156 insertions(+)
-> > > >
-> > > > diff --git a/drivers/infiniband/sw/rxe/rxe_loc.h b/drivers/infiniba=
-nd/sw/rxe/rxe_loc.h
-> > > > index 1ca43b859d80..8bc19ea1a376 100644
-> > > > --- a/drivers/infiniband/sw/rxe/rxe_loc.h
-> > > > +++ b/drivers/infiniband/sw/rxe/rxe_loc.h
-> > > > @@ -75,6 +75,8 @@ u8 rxe_get_next_key(u32 last_key);
-> > > >  void rxe_mr_init_dma(struct rxe_pd *pd, int access, struct rxe_mr =
-*mr);
-> > > >  int rxe_mr_init_user(struct rxe_pd *pd, u64 start, u64 length, u64=
- iova,
-> > > >                    int access, struct rxe_mr *mr);
-> > > > +int rxe_mr_dmabuf_init_user(struct rxe_pd *pd, int fd, u64 start, =
-u64 length,
-> > > > +                         u64 iova, int access, struct rxe_mr *mr);
-> > > >  int rxe_mr_init_fast(struct rxe_pd *pd, int max_pages, struct rxe_=
-mr *mr);
-> > > >  int rxe_mr_copy(struct rxe_mr *mr, u64 iova, void *addr, int lengt=
-h,
-> > > >               enum rxe_mr_copy_dir dir);
-> > > > diff --git a/drivers/infiniband/sw/rxe/rxe_mr.c b/drivers/infiniban=
-d/sw/rxe/rxe_mr.c
-> > > > index 53271df10e47..af6ef671c3a5 100644
-> > > > --- a/drivers/infiniband/sw/rxe/rxe_mr.c
-> > > > +++ b/drivers/infiniband/sw/rxe/rxe_mr.c
-> > > > @@ -4,6 +4,7 @@
-> > > >   * Copyright (c) 2015 System Fabric Works, Inc. All rights reserve=
-d.
-> > > >   */
-> > > >
-> > > > +#include <linux/dma-buf.h>
-> > > >  #include "rxe.h"
-> > > >  #include "rxe_loc.h"
-> > > >
-> > > > @@ -245,6 +246,120 @@ int rxe_mr_init_user(struct rxe_pd *pd, u64 s=
-tart, u64 length, u64 iova,
-> > > >       return err;
-> > > >  }
-> > > >
-> > > > +static int rxe_map_dmabuf_mr(struct rxe_mr *mr,
-> > > > +                          struct ib_umem_dmabuf *umem_dmabuf)
-> > > > +{
-> > > > +     struct rxe_map_set *set;
-> > > > +     struct rxe_phys_buf *buf =3D NULL;
-> > > > +     struct rxe_map **map;
-> > > > +     void *vaddr, *vaddr_end;
-> > > > +     int num_buf =3D 0;
-> > > > +     int err;
-> > > > +     size_t remain;
-> > > > +
-> > > > +     mr->dmabuf_map =3D kzalloc(sizeof &mr->dmabuf_map, GFP_KERNEL=
-);
-> > >
-> > > dmabuf_maps are just tagged pointers (and we could shrink them to act=
-ually
-> > > just a tagged pointer if anyone cares about the overhead of the separ=
-ate
-> > > bool), allocating them seperately is overkill.
-> >
-> > I agree with you. However, I think it is needed to unmap by
-> > dma_buf_vunmap(). If there is another simple way to unmap it. It is not
-> > needed I think. What do you think about it?
->
-> dma_buf_vunmap does not kfree the dma_buf_map argument, so that's no
-> reason to allocate it separately. Or I'm confused.
-I had a misunderstood. Yes, It is not needed to allocate an object.
-Actually some
-implementations don't alloc/free the argument.
-e.g. gpu/drm/drm_gem_cma_helper.c
-I'll fix it.
-
-> Also apologies, I'm way behind on mails.
-No problem. Thank you for your answer.
-
-Thanks,
-Shunsuke
-
-> -Daniel
->
-> >
-> > > > +     if (!mr->dmabuf_map) {
-> > > > +             err =3D -ENOMEM;
-> > > > +             goto err_out;
-> > > > +     }
-> > > > +
-> > > > +     err =3D dma_buf_vmap(umem_dmabuf->dmabuf, mr->dmabuf_map);
-> > > > +     if (err)
-> > > > +             goto err_free_dmabuf_map;
-> > > > +
-> > > > +     set =3D mr->cur_map_set;
-> > > > +     set->page_shift =3D PAGE_SHIFT;
-> > > > +     set->page_mask =3D PAGE_SIZE - 1;
-> > > > +
-> > > > +     map =3D set->map;
-> > > > +     buf =3D map[0]->buf;
-> > > > +
-> > > > +     vaddr =3D mr->dmabuf_map->vaddr;
-> > >
-> > > dma_buf_map can be an __iomem too, you shouldn't dig around in this, =
-but
-> > > use the dma-buf-map.h helpers instead. On x86 (and I think also on mo=
-st
-> > > arm) it doesn't matter, but it's kinda not very nice in a pure softwa=
-re
-> > > driver.
-> > >
-> > > If anything is missing in dma-buf-map.h wrappers just add more.
-> > >
-> > > Or alternatively you need to fail the import if you can't handle __io=
-mem.
-> > >
-> > > Aside from these I think the dma-buf side here for cpu access looks
-> > > reasonable now.
-> > > -Daniel
-> > I'll see the dma-buf-map.h and consider the error handling that you sug=
-gested.
-> > I appreciate your support.
-> >
-> > Thanks a lot,
-> > Shunsuke.
-> >
-> > > > +     vaddr_end =3D vaddr + umem_dmabuf->dmabuf->size;
-> > > > +     remain =3D umem_dmabuf->dmabuf->size;
-> > > > +
-> > > > +     for (; remain; vaddr +=3D PAGE_SIZE) {
-> > > > +             if (num_buf >=3D RXE_BUF_PER_MAP) {
-> > > > +                     map++;
-> > > > +                     buf =3D map[0]->buf;
-> > > > +                     num_buf =3D 0;
-> > > > +             }
-> > > > +
-> > > > +             buf->addr =3D (uintptr_t)vaddr;
-> > > > +             if (remain >=3D PAGE_SIZE)
-> > > > +                     buf->size =3D PAGE_SIZE;
-> > > > +             else
-> > > > +                     buf->size =3D remain;
-> > > > +             remain -=3D buf->size;
-> > > > +
-> > > > +             num_buf++;
-> > > > +             buf++;
-> > > > +     }
-> > > > +
-> > > > +     return 0;
-> > > > +
-> > > > +err_free_dmabuf_map:
-> > > > +     kfree(mr->dmabuf_map);
-> > > > +err_out:
-> > > > +     return err;
-> > > > +}
-> > > > +
-> > > > +static void rxe_unmap_dmabuf_mr(struct rxe_mr *mr)
-> > > > +{
-> > > > +     struct ib_umem_dmabuf *umem_dmabuf =3D to_ib_umem_dmabuf(mr->=
-umem);
-> > > > +
-> > > > +     dma_buf_vunmap(umem_dmabuf->dmabuf, mr->dmabuf_map);
-> > > > +     kfree(mr->dmabuf_map);
-> > > > +}
-> > > > +
-> > > > +int rxe_mr_dmabuf_init_user(struct rxe_pd *pd, int fd, u64 start, =
-u64 length,
-> > > > +                         u64 iova, int access, struct rxe_mr *mr)
-> > > > +{
-> > > > +     struct ib_umem_dmabuf *umem_dmabuf;
-> > > > +     struct rxe_map_set *set;
-> > > > +     int err;
-> > > > +
-> > > > +     umem_dmabuf =3D ib_umem_dmabuf_get(pd->ibpd.device, start, le=
-ngth, fd,
-> > > > +                                      access, NULL);
-> > > > +     if (IS_ERR(umem_dmabuf)) {
-> > > > +             err =3D PTR_ERR(umem_dmabuf);
-> > > > +             goto err_out;
-> > > > +     }
-> > > > +
-> > > > +     rxe_mr_init(access, mr);
-> > > > +
-> > > > +     err =3D rxe_mr_alloc(mr, ib_umem_num_pages(&umem_dmabuf->umem=
-), 0);
-> > > > +     if (err) {
-> > > > +             pr_warn("%s: Unable to allocate memory for map\n", __=
-func__);
-> > > > +             goto err_release_umem;
-> > > > +     }
-> > > > +
-> > > > +     mr->ibmr.pd =3D &pd->ibpd;
-> > > > +     mr->umem =3D &umem_dmabuf->umem;
-> > > > +     mr->access =3D access;
-> > > > +     mr->state =3D RXE_MR_STATE_VALID;
-> > > > +     mr->type =3D IB_MR_TYPE_USER;
-> > > > +
-> > > > +     set =3D mr->cur_map_set;
-> > > > +     set->length =3D length;
-> > > > +     set->iova =3D iova;
-> > > > +     set->va =3D start;
-> > > > +     set->offset =3D ib_umem_offset(mr->umem);
-> > > > +
-> > > > +     err =3D rxe_map_dmabuf_mr(mr, umem_dmabuf);
-> > > > +     if (err)
-> > > > +             goto err_free_map_set;
-> > > > +
-> > > > +     return 0;
-> > > > +
-> > > > +err_free_map_set:
-> > > > +     rxe_mr_free_map_set(mr->num_map, mr->cur_map_set);
-> > > > +err_release_umem:
-> > > > +     ib_umem_release(&umem_dmabuf->umem);
-> > > > +err_out:
-> > > > +     return err;
-> > > > +}
-> > > > +
-> > > >  int rxe_mr_init_fast(struct rxe_pd *pd, int max_pages, struct rxe_=
-mr *mr)
-> > > >  {
-> > > >       int err;
-> > > > @@ -703,6 +818,9 @@ void rxe_mr_cleanup(struct rxe_pool_entry *arg)
-> > > >  {
-> > > >       struct rxe_mr *mr =3D container_of(arg, typeof(*mr), pelem);
-> > > >
-> > > > +     if (mr->umem && mr->umem->is_dmabuf)
-> > > > +             rxe_unmap_dmabuf_mr(mr);
-> > > > +
-> > > >       ib_umem_release(mr->umem);
-> > > >
-> > > >       if (mr->cur_map_set)
-> > > > diff --git a/drivers/infiniband/sw/rxe/rxe_verbs.c b/drivers/infini=
-band/sw/rxe/rxe_verbs.c
-> > > > index 9d0bb9aa7514..6191bb4f434d 100644
-> > > > --- a/drivers/infiniband/sw/rxe/rxe_verbs.c
-> > > > +++ b/drivers/infiniband/sw/rxe/rxe_verbs.c
-> > > > @@ -916,6 +916,39 @@ static struct ib_mr *rxe_reg_user_mr(struct ib=
-_pd *ibpd,
-> > > >       return ERR_PTR(err);
-> > > >  }
-> > > >
-> > > > +static struct ib_mr *rxe_reg_user_mr_dmabuf(struct ib_pd *ibpd, u6=
-4 start,
-> > > > +                                         u64 length, u64 iova, int=
- fd,
-> > > > +                                         int access, struct ib_uda=
-ta *udata)
-> > > > +{
-> > > > +     int err;
-> > > > +     struct rxe_dev *rxe =3D to_rdev(ibpd->device);
-> > > > +     struct rxe_pd *pd =3D to_rpd(ibpd);
-> > > > +     struct rxe_mr *mr;
-> > > > +
-> > > > +     mr =3D rxe_alloc(&rxe->mr_pool);
-> > > > +     if (!mr) {
-> > > > +             err =3D -ENOMEM;
-> > > > +             goto err2;
-> > > > +     }
-> > > > +
-> > > > +     rxe_add_index(mr);
-> > > > +
-> > > > +     rxe_add_ref(pd);
-> > > > +
-> > > > +     err =3D rxe_mr_dmabuf_init_user(pd, fd, start, length, iova, =
-access, mr);
-> > > > +     if (err)
-> > > > +             goto err3;
-> > > > +
-> > > > +     return &mr->ibmr;
-> > > > +
-> > > > +err3:
-> > > > +     rxe_drop_ref(pd);
-> > > > +     rxe_drop_index(mr);
-> > > > +     rxe_drop_ref(mr);
-> > > > +err2:
-> > > > +     return ERR_PTR(err);
-> > > > +}
-> > > > +
-> > > >  static struct ib_mr *rxe_alloc_mr(struct ib_pd *ibpd, enum ib_mr_t=
-ype mr_type,
-> > > >                                 u32 max_num_sg)
-> > > >  {
-> > > > @@ -1081,6 +1114,7 @@ static const struct ib_device_ops rxe_dev_ops=
- =3D {
-> > > >       .query_qp =3D rxe_query_qp,
-> > > >       .query_srq =3D rxe_query_srq,
-> > > >       .reg_user_mr =3D rxe_reg_user_mr,
-> > > > +     .reg_user_mr_dmabuf =3D rxe_reg_user_mr_dmabuf,
-> > > >       .req_notify_cq =3D rxe_req_notify_cq,
-> > > >       .resize_cq =3D rxe_resize_cq,
-> > > >
-> > > > diff --git a/drivers/infiniband/sw/rxe/rxe_verbs.h b/drivers/infini=
-band/sw/rxe/rxe_verbs.h
-> > > > index c807639435eb..0aa95ab06b6e 100644
-> > > > --- a/drivers/infiniband/sw/rxe/rxe_verbs.h
-> > > > +++ b/drivers/infiniband/sw/rxe/rxe_verbs.h
-> > > > @@ -334,6 +334,8 @@ struct rxe_mr {
-> > > >
-> > > >       struct rxe_map_set      *cur_map_set;
-> > > >       struct rxe_map_set      *next_map_set;
-> > > > +
-> > > > +     struct dma_buf_map *dmabuf_map;
-> > > >  };
-> > > >
-> > > >  enum rxe_mw_state {
-> > > > --
-> > > > 2.17.1
-> > > >
-> > >
-> > > --
-> > > Daniel Vetter
-> > > Software Engineer, Intel Corporation
-> > > http://blog.ffwll.ch
->
-> --
-> Daniel Vetter
-> Software Engineer, Intel Corporation
-> http://blog.ffwll.ch
+PiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBSYW5keSBEdW5sYXAgW21haWx0
+bzpyZHVubGFwQGluZnJhZGVhZC5vcmddDQo+IFNlbnQ6IFRodXJzZGF5LCBPY3RvYmVyIDE0LCAy
+MDIxIDY6MTcgQU0NCj4gVG86IE1pbmcgUWlhbiA8bWluZy5xaWFuQG54cC5jb20+OyBtY2hlaGFi
+QGtlcm5lbC5vcmc7DQo+IHNoYXduZ3VvQGtlcm5lbC5vcmc7IHJvYmgrZHRAa2VybmVsLm9yZzsg
+cy5oYXVlckBwZW5ndXRyb25peC5kZQ0KPiBDYzogaHZlcmt1aWwtY2lzY29AeHM0YWxsLm5sOyBr
+ZXJuZWxAcGVuZ3V0cm9uaXguZGU7IGZlc3RldmFtQGdtYWlsLmNvbTsNCj4gZGwtbGludXgtaW14
+IDxsaW51eC1pbXhAbnhwLmNvbT47IEFpc2hlbmcgRG9uZyA8YWlzaGVuZy5kb25nQG54cC5jb20+
+Ow0KPiBsaW51eC1tZWRpYUB2Z2VyLmtlcm5lbC5vcmc7IGxpbnV4LWtlcm5lbEB2Z2VyLmtlcm5l
+bC5vcmc7DQo+IGRldmljZXRyZWVAdmdlci5rZXJuZWwub3JnOyBsaW51eC1hcm0ta2VybmVsQGxp
+c3RzLmluZnJhZGVhZC5vcmcNCj4gU3ViamVjdDogW0VYVF0gUmU6IFtQQVRDSCB2MTAgMDMvMTNd
+IG1lZGlhOiBhbXBoaW9uOiBhZGQgYW1waGlvbiB2cHUNCj4gZGV2aWNlIGRyaXZlcg0KPiANCj4g
+Q2F1dGlvbjogRVhUIEVtYWlsDQo+IA0KPiBPbiAxMC8xMy8yMSAxOjI3IEFNLCBNaW5nIFFpYW4g
+d3JvdGU6DQo+ID4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvbWVkaWEvcGxhdGZvcm0vS2NvbmZpZw0K
+PiA+IGIvZHJpdmVycy9tZWRpYS9wbGF0Zm9ybS9LY29uZmlnIGluZGV4IGQ5ZjkwMDg0YzJmNi4u
+MjQ2NWE1ZjdhMDczDQo+ID4gMTAwNjQ0DQo+ID4gLS0tIGEvZHJpdmVycy9tZWRpYS9wbGF0Zm9y
+bS9LY29uZmlnDQo+ID4gKysrIGIvZHJpdmVycy9tZWRpYS9wbGF0Zm9ybS9LY29uZmlnDQo+ID4g
+QEAgLTIwMCw2ICsyMDAsMjUgQEAgY29uZmlnIFZJREVPX1RJX0NBTF9NQw0KPiA+DQo+ID4gICBl
+bmRpZiAjIFZJREVPX1RJX0NBTA0KPiA+DQo+ID4gK2NvbmZpZyBWSURFT19BTVBISU9OX1ZQVQ0K
+PiA+ICsgICAgIHRyaXN0YXRlICJBbXBoaW9uIFZQVShWaWRlbyBQcm9jZXNzaW5nIFVuaXQpIENv
+ZGVjIElQIg0KPiA+ICsgICAgIGRlcGVuZHMgb24gQVJDSF9NWEMNCj4gPiArICAgICBkZXBlbmRz
+IG9uIE1FRElBX1NVUFBPUlQNCj4gPiArICAgICBkZXBlbmRzIG9uIFZJREVPX0RFVg0KPiA+ICsg
+ICAgIGRlcGVuZHMgb24gVklERU9fVjRMMg0KPiA+ICsgICAgIHNlbGVjdCBWNEwyX01FTTJNRU1f
+REVWDQo+ID4gKyAgICAgc2VsZWN0IFZJREVPQlVGMl9ETUFfQ09OVElHDQo+ID4gKyAgICAgc2Vs
+ZWN0IFZJREVPQlVGMl9WTUFMTE9DDQo+ID4gKyAgICAgZGVmYXVsdCB5DQo+IA0KPiBUaGlzIHNo
+b3VsZCBub3QgYmUgImRlZmF1bHQgeSIgdW5sZXNzIGl0IGlzIG5lZWRlZCB0byBib290IHVwIHNv
+bWUNCj4gcGxhdGZvcm0vbWFjaGluZS4gQW5kIGV2ZW4gdGhlbiBpdCBzaG91bGQgZGVwZW5kIG9u
+IHRoYXQgcGxhdGZvcm0vbWFjaGluZQ0KPiBpZiBwb3NzaWJsZS4NCg0KSSdsbCByZW1vdmUgdGhl
+ICIgZGVmYXVsdCB5ICIgYW5kIHN1Ym1pdCBhZ2Fpbg0KDQo+IA0KPiBBbmQgdGhlcmUgYXJlIDIg
+b3RoZXIgZHJpdmVycyBpbiB0aGF0IHNhbWUgS2NvbmZpZyBmaWxlIHRoYXQgaGF2ZSB0aGUgc2Ft
+ZQ0KPiBwcm9ibGVtLg0KPiANCj4gPiArICAgICBoZWxwDQo+ID4gKyAgICAgICBBbXBoaW9uIFZQ
+VSBDb2RlYyBJUCBjb250YWlucyB0d28gcGFydHM6IFdpbmRzb3IgYW5kIE1hbG9uZS4NCj4gPiAr
+ICAgICAgIFdpbmRzb3IgaXMgZW5jb2RlciB0aGF0IHN1cHBvcnRzIEguMjY0LCBhbmQgTWFsb25l
+IGlzIGRlY29kZXINCj4gPiArICAgICAgIHRoYXQgc3VwcG9ydHMgSC4yNjQsIEhFVkMsIGFuZCBv
+dGhlciB2aWRlbyBmb3JtYXRzLg0KPiA+ICsgICAgICAgVGhpcyBpcyBhIFY0TDIgZHJpdmVyIGZv
+ciBOWFAgTVhDIDhRIHZpZGVvIGFjY2VsZXJhdG9yIGhhcmR3YXJlLg0KPiA+ICsgICAgICAgSXQg
+YWNjZWxlcmF0ZXMgZW5jb2RpbmcgYW5kIGRlY29kaW5nIG9wZXJhdGlvbnMgb24NCj4gPiArICAg
+ICAgIHZhcmlvdXMgTlhQIFNvQ3MuDQo+ID4gKyAgICAgICBUbyBjb21waWxlIHRoaXMgZHJpdmVy
+IGFzIGEgbW9kdWxlIGNob29zZSBtIGhlcmUuDQo+IA0KPiANCj4gLS0NCj4gflJhbmR5DQo=
