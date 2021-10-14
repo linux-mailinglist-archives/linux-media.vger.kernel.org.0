@@ -2,156 +2,151 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 064FA42D82A
-	for <lists+linux-media@lfdr.de>; Thu, 14 Oct 2021 13:26:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9DAF342D856
+	for <lists+linux-media@lfdr.de>; Thu, 14 Oct 2021 13:39:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230431AbhJNL2q convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-media@lfdr.de>); Thu, 14 Oct 2021 07:28:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54414 "EHLO
+        id S231186AbhJNLlp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 14 Oct 2021 07:41:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57402 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230346AbhJNL2p (ORCPT
+        with ESMTP id S231187AbhJNLlo (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 14 Oct 2021 07:28:45 -0400
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E7046C06174E
-        for <linux-media@vger.kernel.org>; Thu, 14 Oct 2021 04:26:40 -0700 (PDT)
-Received: from lupine.hi.pengutronix.de ([2001:67c:670:100:3ad5:47ff:feaf:1a17] helo=lupine)
-        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <p.zabel@pengutronix.de>)
-        id 1maysW-0004lM-9W; Thu, 14 Oct 2021 13:26:28 +0200
-Received: from pza by lupine with local (Exim 4.92)
-        (envelope-from <p.zabel@pengutronix.de>)
-        id 1maysU-0003kx-LL; Thu, 14 Oct 2021 13:26:26 +0200
-Message-ID: <1d8878e86b862ae8d551b6796e86c4fb1eb5d671.camel@pengutronix.de>
-Subject: Re: [PATCH] media: imx: Round line size to 4 bytes
-From:   Philipp Zabel <p.zabel@pengutronix.de>
-To:     Dorota Czaplejewicz <dorota.czaplejewicz@puri.sm>
-Cc:     Steve Longerbeam <slongerbeam@gmail.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        kernel@puri.sm, phone-devel@vger.kernel.org
-Date:   Thu, 14 Oct 2021 13:26:26 +0200
-In-Reply-To: <20211013112636.6963344d.dorota.czaplejewicz@puri.sm>
-References: <20211006110207.256325-1-dorota.czaplejewicz@puri.sm>
-         <7d61fdbd161fce40874766bde5f95c3b73f1a96d.camel@pengutronix.de>
-         <20211013112636.6963344d.dorota.czaplejewicz@puri.sm>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
-User-Agent: Evolution 3.30.5-1.1 
+        Thu, 14 Oct 2021 07:41:44 -0400
+Received: from mail-lf1-x129.google.com (mail-lf1-x129.google.com [IPv6:2a00:1450:4864:20::129])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0F9C5C061753
+        for <linux-media@vger.kernel.org>; Thu, 14 Oct 2021 04:39:40 -0700 (PDT)
+Received: by mail-lf1-x129.google.com with SMTP id u18so25399538lfd.12
+        for <linux-media@vger.kernel.org>; Thu, 14 Oct 2021 04:39:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ragnatech-se.20210112.gappssmtp.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=0dmeydzjhaUi1kEyRO+tb4cDfJwd9a/eF0Dg2+vEquw=;
+        b=2AueeCKKy9ILP/UiZl+F8fvvaaVmLXBx/d4uZ6k98hdUJIVBfA5QWLLkSNdx6RYdr+
+         jmMs4hbEAA+zDBy5zNRriTNaQaTIdgg1FFQIiV/bBj2pO1WWZHw4EwC78D/uBB71FTjp
+         DrS63xLNcpD9lxKqNt6J4U7r+KznQLRuBtA+fd0t/i2N1f7Ic4ZcGV6a0C9pyD8IxBt4
+         ZEK5Yb372dYpgGhSzgI5domlkoqHIEPdNsRKszt8MWCFlY2teqPjUTwszoJtMpuMyrRU
+         bo0YB8DbswvqXB4AToZIMJ9nU6DMgd/rveJsLUpcyxUmN6uLVlmes+b99Pr7UQ5bDeMl
+         uw8w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=0dmeydzjhaUi1kEyRO+tb4cDfJwd9a/eF0Dg2+vEquw=;
+        b=KzYmyzLoKsUUAtR6kLZ5L2OcGWHvBRMGRaY/ORGk+GBdbE5gndbnmAtDORgMLeAkd9
+         grFzRQ+gH+KUxu08OXvTnei4sIJYcB2IekZ/qcYko48ZHZlOnfq6tPejJUyWXFWnXo7/
+         EylG+HF9C07KsXvQEcZ4VyTHABkfj9oHwDkFJ2B8a20RuK+/NQEsFpbfjVyVYyicnnYG
+         Lnf8R//alBSyAp9IMvHX5CjPa5LyM59Sc2ABJabz8lgXjGw5sDQAigxNcO/rnVaM8mzf
+         ef08+4xCdl+WkAwK+iYGtspM0wJPzt4r3pHec5ePXUTDArK4kr2rRmS3Q2hoVdJ2nKsG
+         0uAQ==
+X-Gm-Message-State: AOAM532f85NwQOdSl4LRZN31FqFlIEs3GxBSlHQxoe8SaiyCQ9CjyNLp
+        6LTpsWGbhk0zDiGCNI6coV2X8g==
+X-Google-Smtp-Source: ABdhPJxepoSD617Qvj7aawKidSUQxI0Uz5yaRoelAIbImt2LucJ3idusCV/Mtxdzuim+F8F/+Y/lsw==
+X-Received: by 2002:a05:6512:3b7:: with SMTP id v23mr4774988lfp.127.1634211577829;
+        Thu, 14 Oct 2021 04:39:37 -0700 (PDT)
+Received: from localhost (h-46-59-88-219.A463.priv.bahnhof.se. [46.59.88.219])
+        by smtp.gmail.com with ESMTPSA id r14sm206650lfe.13.2021.10.14.04.39.37
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 14 Oct 2021 04:39:37 -0700 (PDT)
+Date:   Thu, 14 Oct 2021 13:39:36 +0200
+From:   Niklas =?iso-8859-1?Q?S=F6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     Rob Herring <robh+dt@kernel.org>,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Subject: Re: [PATCH] dt-bindings: adv748x: Convert bindings to json-schema
+Message-ID: <YWgW+ArZ48NeHr5F@oden.dyn.berto.se>
+References: <20211012183324.717975-1-niklas.soderlund+renesas@ragnatech.se>
+ <CAMuHMdX8LzmksfB85iSMX4+RYq=SYTamw5C3GNgbAV+9f1uAyQ@mail.gmail.com>
+ <YWgK3c+8wHWw8IYM@oden.dyn.berto.se>
+ <CAMuHMdWsLzLqVNdt2EGD20fMXxb3R70Hx3EyPHwLsFc82qAG8A@mail.gmail.com>
 MIME-Version: 1.0
-X-SA-Exim-Connect-IP: 2001:67c:670:100:3ad5:47ff:feaf:1a17
-X-SA-Exim-Mail-From: p.zabel@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-media@vger.kernel.org
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAMuHMdWsLzLqVNdt2EGD20fMXxb3R70Hx3EyPHwLsFc82qAG8A@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Dorota,
+Hi Geert,
 
-On Wed, 2021-10-13 at 11:26 +0200, Dorota Czaplejewicz wrote:
-> On Fri, 08 Oct 2021 14:19:41 +0200 Philipp Zabel <p.zabel@pengutronix.de> wrote:
-[...]
-> > I wonder: if you use 4-byte aligned width and odd height, does the CSI
-> > write over the end of the buffer?
+On 2021-10-14 13:07:30 +0200, Geert Uytterhoeven wrote:
+> Hi Niklas,
 > 
-> I tested this case, and found a glitch which suggests the last 4 bytes are ignored:
+> On Thu, Oct 14, 2021 at 12:48 PM Niklas Söderlund
+> <niklas.soderlund+renesas@ragnatech.se> wrote:
+> > On 2021-10-13 17:08:44 +0200, Geert Uytterhoeven wrote:
+> > > On Tue, Oct 12, 2021 at 8:48 PM Niklas Söderlund
+> > > <niklas.soderlund+renesas@ragnatech.se> wrote:
+> > > > Convert ADV748X analog video decoder documentation to json-schema.
 > 
-> https://source.puri.sm/Librem5/linux-next/uploads/cfb59e3832431aaa3a69549455502568/image.png
-
-Thank you for testing, so it appears that at least without FBUF_STRIDE
-the only requirement is that the whole image size must be a multiple of
-8 bytes.
-
-> That would be taken care of rounding up towards a number decided at runtime, like:
+> > > > --- /dev/null
+> > > > +++ b/Documentation/devicetree/bindings/media/i2c/adv748x.yaml
 > 
-> divisor = 8 >> (mbus->height % 2);
-
-Which would then cause the CSI to write past the end of the buffer?
-
-I'd rather make sure that either the number of lines is even or the
-width is a multiple of 8 bytes.
-
-> > > Signed-off-by: Dorota Czaplejewicz <dorota.czaplejewicz@puri.sm>
-> > > ---
-> > > 
-> > > Hello,
-> > > 
-> > > my previous patch identified something that was not a problem,
-> > > so I'm sending a different one.
-> > > 
-> > > This has been tested on the Librem 5.
-> > > 
-> > > Cheers,
-> > > Dorota
-> > > 
-> > >  drivers/staging/media/imx/imx-media-utils.c | 4 ++--
-> > >  1 file changed, 2 insertions(+), 2 deletions(-)
-> > > 
-> > > diff --git a/drivers/staging/media/imx/imx-media-utils.c b/drivers/staging/media/imx/imx-media-utils.c
-> > > index 5128915a5d6f..a303003929e3 100644
-> > > --- a/drivers/staging/media/imx/imx-media-utils.c
-> > > +++ b/drivers/staging/media/imx/imx-media-utils.c
-> > > @@ -545,13 +545,13 @@ int imx_media_mbus_fmt_to_pix_fmt(struct v4l2_pix_format *pix,
-> > >  	}
-> > >  
-> > >  	/* Round up width for minimum burst size */
-> > > -	width = round_up(mbus->width, 8);
-> > > +	width = round_up(mbus->width, 4);
-> > >  
-> > >  	/* Round up stride for IDMAC line start address alignment */
-> > >  	if (cc->planar)
-> > >  		stride = round_up(width, 16);
-> > >  	else
-> > > -		stride = round_up((width * cc->bpp) >> 3, 8);
-> > > +		stride = round_up((width * cc->bpp) >> 3, 4);  
-> > 
-> > Second, even if this works fine on the i.MX7/8M CSI, the alignment is
-> > still required for the i.MX5/6 IPU, for which this code and the comments
-> > were written. So we need a way to differentiate the two cases here.
-> > 
-> > regards
-> > Philipp
+> > > > +allOf:
+> > > > +  - if:
+> > > > +      properties:
+> > > > +        compatible:
+> > > > +          contains:
+> > > > +            const: adi,adv7481
+> > > > +    then:
+> > > > +      properties:
+> > > > +        interrupts:
+> > > > +          minItems: 1
+> > > > +          maxItems: 3
+> > > > +
+> > > > +        interrupt-names:
+> > > > +          minItems: 1
+> > > > +          items:
+> > > > +            - enum: [ intrq1, intrq2, intrq3 ]
+> > > > +            - enum: [ intrq1, intrq2, intrq3 ]
+> > > > +            - enum: [ intrq1, intrq2, intrq3 ]
+> > >
+> > > They can really appear in any order?
+> >
+> > Yes, as not all interrupt lines may be wired up. It would be nice to
+> > enforce that intrq2 must come before intrq3 if both are wired but I'm
+> > not sure how to express that.
 > 
-> How best to go about this? I can see in the file imx-media-capture.c
-> that there the video device lives in struct capture_priv.vdev.vfd.
-> Would that be the right place to query about the underlying hardware?
+> You mean
 > 
-> Then the following functions would gain a new "small_divisor" parameter:
-> - imx_media_mbus_fmt_to_pix_fmt (a GPL symbol)
-> - imx_media_mbus_fmt_to_ipu_image (a GPL symbol)
-> - __capture_try_fmt
+>     items:
+>       - const: intrq1
+>       - const: intrq2
+>       - const: intrq3
 
-That sounds like it would work around the current code when it (at least
-part of imx_media_mbus_fmt_to_pix_fmt()) should be split between i.MX5/6
-and i.MX7/8 implementations. For example rounding up the stride is not
-useful on i.MX7/8, it just doesn't currently hurt because imx7-media-csi 
-is not using bytesperline to set up FBUF_STRIDE. And certainly the
-comments don't apply.
+Will this not enforce that if intrq2 is present intrq1 must be too?
 
-imx_media_mbus_fmt_to_ipu_image() is unused and should probably be
-dropped, same as imx_media_ipu_image_to_mbus_fmt().
+> 
+> ?
+> 
+> If the first two might be exchanged, you can still fix the last one:
+> 
+>     items:
+>       - const: [ intrq1, intrq2 ]
+>       - const: [ intrq1, intrq2 ]
+>       - const: intrq3
 
-> Those would have to extract the device type from struct capture_priv:
-> - __capture_legacy_try_fmt
-> - capture_try_fmt_vid_cap
-> - capture_s_fmt_vid_cap
-> - capture_init_format
+Same here, will this not fail if only intrq3 is given?
 
-Maybe imx_media_mbus_fmt_to_pix_fmt should be moved into imx-media-
-capture.c be passed struct capture_priv to avoid duplicating the device
-type check?
+> 
+> Gr{oetje,eeting}s,
+> 
+>                         Geert
+> 
+> -- 
+> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+> 
+> In personal conversations with technical people, I call myself a hacker. But
+> when I'm talking to journalists I just say "programmer" or something like that.
+>                                 -- Linus Torvalds
 
-imx_media_capture_device_init() could gain a new parameter (or maybe
-replace legacy_api) to set the device type.
-
-regards
-Philipp
+-- 
+Regards,
+Niklas Söderlund
