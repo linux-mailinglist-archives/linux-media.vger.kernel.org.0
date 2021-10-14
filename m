@@ -2,427 +2,522 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4773442D499
-	for <lists+linux-media@lfdr.de>; Thu, 14 Oct 2021 10:14:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E99CD42D551
+	for <lists+linux-media@lfdr.de>; Thu, 14 Oct 2021 10:43:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229992AbhJNIQo (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 14 Oct 2021 04:16:44 -0400
-Received: from mga09.intel.com ([134.134.136.24]:62230 "EHLO mga09.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229551AbhJNIQn (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 14 Oct 2021 04:16:43 -0400
-X-IronPort-AV: E=McAfee;i="6200,9189,10136"; a="227525233"
-X-IronPort-AV: E=Sophos;i="5.85,372,1624345200"; 
-   d="scan'208";a="227525233"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Oct 2021 01:14:38 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.85,372,1624345200"; 
-   d="scan'208";a="548433856"
-Received: from orsmsx603.amr.corp.intel.com ([10.22.229.16])
-  by fmsmga004.fm.intel.com with ESMTP; 14 Oct 2021 01:14:38 -0700
-Received: from orsmsx608.amr.corp.intel.com (10.22.229.21) by
- ORSMSX603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2242.12; Thu, 14 Oct 2021 01:14:38 -0700
-Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
- orsmsx608.amr.corp.intel.com (10.22.229.21) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2242.12 via Frontend Transport; Thu, 14 Oct 2021 01:14:38 -0700
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com (104.47.55.104)
- by edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2242.12; Thu, 14 Oct 2021 01:14:38 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=FnMycNAArxC42+oG4UaDnu7SbH/Rcofj9Ds2XC5Tkpe48W7BvGWfyFBifhgfDS0+259HLCQjzieUA08W1wS1i8vG5sJ6xmmSE2yRG1a6F3UC139afJDFGp36FbwXki03Z1NIJQHAj30Wcm+2RaRrEP88PhfefUrezBaHzvohkeDdEpahQzyv2+lonEz5ocqU8U7fvZVXQ5fGm7yJy0krOwjoJR3d4lB0QWyFKYve9Wj1w7K+m6UiwXffP23SI0iVjll85Tj3hqNuWVj6nFbOC93+dAMIptcwr3gK8oB7zly2kueK2szl7xwW1z01QyhMOo0HSSAiuEW4lkXVfJ0iEg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=lRCxx2MmLrOcS/X5kMBf6LBbTGVxdVnLrIiDU5XGWPI=;
- b=EYrqxaSs9ICaCL/Q01Dkgr1RJYeiLuARt9efCogzvuvic/clsceRexedhGgrNHrRho1GUnfSaCMgWRM1gv5rV1Rmla9uGGA7I63Z7W9IF9FdPjcQAzzTkrEcruRAbn5Iknh57iVBcN30RVyKQngV8g67d+WrDhTcIyBeNpJv/px7DeSd2jiEot32ZVk0poN38scTHmIYK58U0d63YshsUr6IeE80PFM04a+EiKzBIjHIi+gArmzs+4Ubi06SdZwdNfE9PAV5JYOeKzHQcVa///T5qwa0Vzc4Ag0rR57RXfNQJNUaeHb6XFO4iOJSFYkyZCdRC7vIUK9oaeoxnJtNOA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=intel.onmicrosoft.com;
- s=selector2-intel-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=lRCxx2MmLrOcS/X5kMBf6LBbTGVxdVnLrIiDU5XGWPI=;
- b=M2prY6N2Du8Ih6Ue80tXUWKOvErZwl4DiUuuLFHEtKBjNYMIE3XmxTp3JQzfOi5T5rjZ0vWUur9PbYUu4gK721gZKO3gYCSjTusn3zqyOdHvyPiOXC8Z+5tQKdSQBWLuiiSWKNtB8mnbim8x+WTpU80smuu9xTPIdnyU2G1n0U4=
-Received: from DM8PR11MB5653.namprd11.prod.outlook.com (2603:10b6:8:25::8) by
- DM8PR11MB5639.namprd11.prod.outlook.com (2603:10b6:8:24::15) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4587.18; Thu, 14 Oct 2021 08:14:36 +0000
-Received: from DM8PR11MB5653.namprd11.prod.outlook.com
- ([fe80::f40d:164c:f22:5ad6]) by DM8PR11MB5653.namprd11.prod.outlook.com
- ([fe80::f40d:164c:f22:5ad6%8]) with mapi id 15.20.4608.016; Thu, 14 Oct 2021
- 08:14:36 +0000
-From:   "Cao, Bingbu" <bingbu.cao@intel.com>
-To:     Jean-Michel Hautbois <jeanmichel.hautbois@ideasonboard.com>,
-        "Jean-Michel Hautbois" <jeanmichel.hautbois@gmail.com>,
+        id S230035AbhJNIp1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 14 Oct 2021 04:45:27 -0400
+Received: from mailgw02.mediatek.com ([210.61.82.184]:37162 "EHLO
+        mailgw02.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
+        with ESMTP id S229970AbhJNIp1 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Thu, 14 Oct 2021 04:45:27 -0400
+X-UUID: 3ce46c0826c94b70bc6b09db3601ba85-20211014
+X-UUID: 3ce46c0826c94b70bc6b09db3601ba85-20211014
+Received: from mtkmbs10n2.mediatek.inc [(172.21.101.183)] by mailgw02.mediatek.com
+        (envelope-from <moudy.ho@mediatek.com>)
+        (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+        with ESMTP id 1107982130; Thu, 14 Oct 2021 16:43:19 +0800
+Received: from mtkexhb01.mediatek.inc (172.21.101.102) by
+ mtkmbs10n1.mediatek.inc (172.21.101.34) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ 15.2.792.15; Thu, 14 Oct 2021 16:43:18 +0800
+Received: from mtkcas10.mediatek.inc (172.21.101.39) by mtkexhb01.mediatek.inc
+ (172.21.101.102) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Thu, 14 Oct
+ 2021 16:43:17 +0800
+Received: from mtksdccf07 (172.21.84.99) by mtkcas10.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
+ Transport; Thu, 14 Oct 2021 16:43:17 +0800
+Message-ID: <3a07501641da72ea9b3cf528050c9d7516e09497.camel@mediatek.com>
+Subject: Re: [PATCH v7 0/5] media: mediatek: support mdp3 on mt8183 platform
+From:   moudy ho <moudy.ho@mediatek.com>
+To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Jernej Skrabec <jernej.skrabec@siol.net>
+CC:     Maoguang Meng <maoguang.meng@mediatek.com>,
+        daoyuan huang <daoyuan.huang@mediatek.com>,
+        Ping-Hsun Wu <ping-hsun.wu@mediatek.com>,
+        "Geert Uytterhoeven" <geert+renesas@glider.be>,
+        Rob Landley <rob@landley.net>,
         Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        "tfiga@google.com" <tfiga@google.com>
-CC:     Sakari Ailus <sakari.ailus@linux.intel.com>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        "Qiu, Tian Shu" <tian.shu.qiu@intel.com>
-Subject: RE: [PATCH] media: staging: ipu3-imgu: Initialise height_per_slice in
- the stripes
-Thread-Topic: [PATCH] media: staging: ipu3-imgu: Initialise height_per_slice
- in the stripes
-Thread-Index: AQHXqx/Y72VMy1pUFEiS45AyrkgVKauuW1+AgAAg14CAABjrAIAA3LCQgAAkcoCAAccnAIAAC/aAgAAChACAAA8qAIAK6n4AgBDNtBCABQf0AIAAEE2Q
-Date:   Thu, 14 Oct 2021 08:14:36 +0000
-Message-ID: <DM8PR11MB565388EB9AA10DA54A85F31699B89@DM8PR11MB5653.namprd11.prod.outlook.com>
-References: <20210916172504.677919-1-jeanmichel.hautbois@ideasonboard.com>
- <YUm82RNBbu9VbQj9@paasikivi.fi.intel.com>
- <19a2a09a-dcdd-fc32-0410-7f752cceffb5@ideasonboard.com>
- <YUntTJQwZJ7U3m/E@pendragon.ideasonboard.com>
- <DM8PR11MB5653D63F3F76CA1D9E80E01199A29@DM8PR11MB5653.namprd11.prod.outlook.com>
- <a8a0ee6f-e83c-7f99-6967-f017c549ff05@ideasonboard.com>
- <DM8PR11MB5653CFD59F01C2AB66508F8A99A39@DM8PR11MB5653.namprd11.prod.outlook.com>
- <YUxM18uOp0eamBPH@pendragon.ideasonboard.com>
- <SJ0PR11MB5664666D6D4C573D2D4A406D99A39@SJ0PR11MB5664.namprd11.prod.outlook.com>
- <YUxbrFDvdI68Te8q@pendragon.ideasonboard.com>
- <502ca584-0dd8-018b-14b1-6cf4658d9668@gmail.com>
- <DM8PR11MB5653363BCFD75A7CE82B150899B59@DM8PR11MB5653.namprd11.prod.outlook.com>
- <6da57396-800f-52bf-f8ec-934138d97729@ideasonboard.com>
-In-Reply-To: <6da57396-800f-52bf-f8ec-934138d97729@ideasonboard.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-dlp-product: dlpe-windows
-dlp-reaction: no-action
-dlp-version: 11.6.200.16
-authentication-results: ideasonboard.com; dkim=none (message not signed)
- header.d=none;ideasonboard.com; dmarc=none action=none header.from=intel.com;
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: fc82f415-043c-47e9-0467-08d98eeaa942
-x-ms-traffictypediagnostic: DM8PR11MB5639:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <DM8PR11MB5639A1F6BC4C1AE6153C15A499B89@DM8PR11MB5639.namprd11.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:10000;
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: wm65WMKiD+11CAZ0g+afxXnSzkE+QhqgYOw0sMoRmEBipUl2Hs5PitjKP7ujCczNAS4FetWrQgrtDD1JYaXYQxYnq2lXX3z3qeiymCHOET/upJ/KLqUVJxDlF087dJKBmYI9rV2QTN8tMaxbw0YeRpK3ycvKOWbezHoB6neTACB/LJTx/E2M+0BAWT2FkYJXR6ZQVniVPXBITIppUsPqvGmP0Km6LUbZCFEM0cAybqgBolQrHxgpolMEIgd4i8MBDwaRhCauokjyCmqPFZdjDNcC8aLYV7qHv8+dFUH9TKjLvUliRJusvEme7TVn3IBtDcvZ87qRZtbs0PWDB4lISbi8aHR7+1jJJWRe+uVTGy0D4Fah0iOMKmvD8E2VR3TgBdApX1cASir4RxOLxWwRdYY10CwMR+ITph+kRDUJ/9qEHkarQChvPd6O+0BrslQu+52zVjF0rNThCFYLtd3CcYydE+cOn+4VTY5SH1P1LnVVkTs8svR8kws+yT25jmQVrAoj9GKglS0vawyXNaY+bSNw5HL8tgvZEIsDkhcsTalSTFJ4LZIM3C5U/9dl/OODp9XmXojw03gOHturT5U4BXCgmOcxSjmBe3BqghDlVJe7pTLkP5v1Ci7KS2QjTU4+buAX8LPQkrPQIEZX5t1aE6rqkrOdG0GJbv/eWYn3PWZJaV4/gaX6mR5y3UFmU+XeMJU0eRes2SzKKvcTgL8k9x1A5LKSQItG1cYe3sZCLYCiKlwA6QY2AFtNWHlk67SQyeA+KiU0VX4vMGe6BT0d3PuCsX53w6Q4IHE5RjxfL/+iujmjT2HgymCrpyofLBwLm7SIzi0RW4Y0ljtnwBcFIA==
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM8PR11MB5653.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(366004)(26005)(5660300002)(966005)(86362001)(186003)(38070700005)(7696005)(508600001)(66946007)(4326008)(38100700002)(64756008)(8936002)(2906002)(6506007)(71200400001)(33656002)(122000001)(54906003)(53546011)(66556008)(83380400001)(66446008)(55016002)(316002)(110136005)(82960400001)(52536014)(9686003)(8676002)(30864003)(76116006)(66476007);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?cUgvcnkyNmFyMURBZjQ2VTdqRmdVVVd3OUJQUElQVms1RkdERUtmWXROK0dG?=
- =?utf-8?B?czhqekxWdzhMd0N2aHgzMmJ5b2dVdU9CNWRqNVU4VXpoMkI0dzZtM0tHbVJB?=
- =?utf-8?B?c092VFJXU05ONE03VG5JczRwL0VNbVJNRmxUZ0taK1h3YUlmeWtZZkpQb2Vw?=
- =?utf-8?B?UmtZNUlld2c2RXIwSHViUDhnY1gwSGtQckE2U1FGN05Gb2IvaHJvTmZDZ1JM?=
- =?utf-8?B?dGtBSy9kMUh0UUdUNmZOU2U2VWYxMjBnZEpYQm9xU2tHZC9BQUc2cmxUNUYr?=
- =?utf-8?B?ay92Tm9kWWREOTlkWUN5Y1prMFFKaWM5a0oxUW1QNmtGQk82WWxJM2tuamZm?=
- =?utf-8?B?bmpvWnZIY1dBaU1SbTVzbVNpVWwwOG0wTUFCY3F6cVRXNGZiTkJlWVo5cTZR?=
- =?utf-8?B?a2FxNTNuWWtSQzF4N09BSHltcVdmaVB3MGtuNGpRaTU5dGN1c2tBL1FaOTZ2?=
- =?utf-8?B?dlVBNW9CdXhURjQ0TkwvWUVlWU8wNktldWVYZVBYQk84VVZDSlVGdzU2U1Y3?=
- =?utf-8?B?R0ZReTZPOFh3dzR5S2dzTXZGVExnS0Jwb25WclBPSzZXeDY4c2tvc0duRFhj?=
- =?utf-8?B?V2tmWnNBR3NOOHhVckhoSnErZTR0WVhNM2FTS2Y5SDJqTm5zQ01WMDdjT0Nq?=
- =?utf-8?B?ODBvYXNnYnZmN3F5VU0yd3FGV3I0OG85OGNuVTIyZURpUHlYbytIczFhSG4x?=
- =?utf-8?B?L1Z6di9NSjAvb3JaallBejlmdG1idTUxZ3BGMy9FZVU5SG5pS1g4Y012Z3RW?=
- =?utf-8?B?OVR4aU9yWkVTNGFQcWE0ai90NzZENlFtZjZ1cjBVSm85SXZHUlVrcUZBTFQ0?=
- =?utf-8?B?TnB0blNXelYra2l5N1A4Yzd2RUk0aVVRT1pjTWdZWEFCY3FrK2U4ak5wclJZ?=
- =?utf-8?B?bklHQVp6aEJubzBFVUowZEd6OGM5MHlwV1pyeVpOLytXNW5DRnVJaHlIc0Fz?=
- =?utf-8?B?UG90dDlFcC82dkN0ZE5Eb2J0VGVyeW54ampacVIrTUxTdVJ3N1lBdjFyZklU?=
- =?utf-8?B?c0NiWlBSeVdDZnBTUTZRSHNIaUR6OUVOTXZTcFdoOEcxK1UxVWw5N0RQNmdj?=
- =?utf-8?B?blN3TWt6OXBiWndjcndnd2pnYUg1ZUVKMk03TUVJWlJsWkZIdlJweVY1TitY?=
- =?utf-8?B?ZlRwSUx3QjVrUXJuU01FNlZ3RGNCK2YzYkdQTEtKWG1YOTNnSlkySExEOGND?=
- =?utf-8?B?QUxmTnpGODhTMWZpemRxekZBeWZMWWRDc2UwNEZUTkJqaS9GN0h6d05kRFNs?=
- =?utf-8?B?Z3V2OXBUcHc5a0Z4eGc4ejV6VGJmRXdidXFXNlVZZXppTmpyMVFHRlpHYnp3?=
- =?utf-8?B?NXMwYmQ3ZnVhL0FHM3dDbWtld0FGOFM1djZPb3hSSTc1cTVlWURMT3o2Zm80?=
- =?utf-8?B?K0dxTFRNd3ZkRnNXQXlkQWRxY2RZbUVmU2ZNSGZsQ3lhUnZPallIRTQ5Q2tI?=
- =?utf-8?B?UUJWbEltV0ZLMkl5azd4SU1aMlJZRkUxeHd3S2ZTK3Z2ZGwyU2lXNFVMNS9o?=
- =?utf-8?B?MFk3amVJdlBPUHJmV3JWT3BYYnZUR1ZiUjhkNGtvdk5SSGkrVDJBZlFwTGlp?=
- =?utf-8?B?OGpGQWs3QlBFSFBmUzAvYmFHSHVoS2FacDNYM3JkTmpXNHZXRmVEUFMxaDJo?=
- =?utf-8?B?UHJLK0FLRlBjRjVlQmR3UGJxa1RMVUl1c1YxUFVJOEZzTi93bjFDNnVLRFlm?=
- =?utf-8?B?RFlwRTJ6RmJLUW44VnB4bzR5RWpPcWxJc3ptdTJjcllxVnRPZlpmc2JZYUZJ?=
- =?utf-8?Q?2LEYnwSc0PalGOBeBtw91VL3EWaQE9GfE7q2OAl?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+        <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-mediatek@lists.infradead.org>,
+        <linux-kernel@vger.kernel.org>, <tfiga@chromium.org>,
+        <drinkcat@chromium.org>, <acourbot@chromium.org>,
+        <pihsun@chromium.org>, <menghui.lin@mediatek.com>,
+        <sj.huang@mediatek.com>, <ben.lok@mediatek.com>,
+        <randy.wu@mediatek.com>, <srv_heupstream@mediatek.com>,
+        <hsinyi@google.com>
+Date:   Thu, 14 Oct 2021 16:43:17 +0800
+In-Reply-To: <0a50c059-bb13-0823-778c-b631ed07d76f@xs4all.nl>
+References: <20210824100027.25989-1-moudy.ho@mediatek.com>
+         <0a50c059-bb13-0823-778c-b631ed07d76f@xs4all.nl>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DM8PR11MB5653.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: fc82f415-043c-47e9-0467-08d98eeaa942
-X-MS-Exchange-CrossTenant-originalarrivaltime: 14 Oct 2021 08:14:36.1100
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: SEEkl3w2pGXI64+CBgxNZSA+rX7kyZPoNCgucEbd0J9qzrvmZq/uu3EoKUCAzoBoKiL+XRX76QksB2tSfChOMQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM8PR11MB5639
-X-OriginatorOrg: intel.com
+Content-Transfer-Encoding: 8bit
+X-MTK:  N
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-SmVhbi1NaWNoZWwsDQoNCl9fX19fX19fX19fX19fX19fX19fX19fXw0KQlJzLCAgDQpCaW5nYnUg
-Q2FvIA0KDQo+IC0tLS0tT3JpZ2luYWwgTWVzc2FnZS0tLS0tDQo+IEZyb206IEplYW4tTWljaGVs
-IEhhdXRib2lzIDxqZWFubWljaGVsLmhhdXRib2lzQGlkZWFzb25ib2FyZC5jb20+DQo+IFNlbnQ6
-IFRodXJzZGF5LCBPY3RvYmVyIDE0LCAyMDIxIDI6NTcgUE0NCj4gVG86IENhbywgQmluZ2J1IDxi
-aW5nYnUuY2FvQGludGVsLmNvbT47IEplYW4tTWljaGVsIEhhdXRib2lzDQo+IDxqZWFubWljaGVs
-LmhhdXRib2lzQGdtYWlsLmNvbT47IExhdXJlbnQgUGluY2hhcnQNCj4gPGxhdXJlbnQucGluY2hh
-cnRAaWRlYXNvbmJvYXJkLmNvbT47IHRmaWdhQGdvb2dsZS5jb20NCj4gQ2M6IFNha2FyaSBBaWx1
-cyA8c2FrYXJpLmFpbHVzQGxpbnV4LmludGVsLmNvbT47IGxpbnV4LQ0KPiBtZWRpYUB2Z2VyLmtl
-cm5lbC5vcmc7IFFpdSwgVGlhbiBTaHUgPHRpYW4uc2h1LnFpdUBpbnRlbC5jb20+DQo+IFN1Ympl
-Y3Q6IFJlOiBbUEFUQ0hdIG1lZGlhOiBzdGFnaW5nOiBpcHUzLWltZ3U6IEluaXRpYWxpc2UNCj4g
-aGVpZ2h0X3Blcl9zbGljZSBpbiB0aGUgc3RyaXBlcw0KPiANCj4gSGkgQmluZ2J1IChhbmQgVG9t
-YXN6KSwNCj4gDQo+IE9uIDExLzEwLzIwMjEgMDQ6NDIsIENhbywgQmluZ2J1IHdyb3RlOg0KPiA+
-IEhpLCBKZWFuLU1pY2hlbCBhbmQgTGF1cmVudCwNCj4gPg0KPiA+IFNvcnJ5IGZvciByZXBseSBs
-YXRlIGFzIEkgYW0ganVzdCBiYWNrIGZyb20gaG9saWRheS4NCj4gPg0KPiA+IF9fX19fX19fX19f
-X19fX19fX19fX19fXw0KPiA+IEJScywNCj4gPiBCaW5nYnUgQ2FvDQo+ID4NCj4gPj4gLS0tLS1P
-cmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gPj4gRnJvbTogSmVhbi1NaWNoZWwgSGF1dGJvaXMgPGpl
-YW5taWNoZWwuaGF1dGJvaXNAZ21haWwuY29tPg0KPiA+PiBTZW50OiBUaHVyc2RheSwgU2VwdGVt
-YmVyIDMwLCAyMDIxIDU6MzEgUE0NCj4gPj4gVG86IExhdXJlbnQgUGluY2hhcnQgPGxhdXJlbnQu
-cGluY2hhcnRAaWRlYXNvbmJvYXJkLmNvbT47IENhbywgQmluZ2J1DQo+ID4+IDxiaW5nYnUuY2Fv
-QGludGVsLmNvbT4NCj4gPj4gQ2M6IEplYW4tTWljaGVsIEhhdXRib2lzIDxqZWFubWljaGVsLmhh
-dXRib2lzQGlkZWFzb25ib2FyZC5jb20+Ow0KPiA+PiBTYWthcmkgQWlsdXMgPHNha2FyaS5haWx1
-c0BsaW51eC5pbnRlbC5jb20+OyB0ZmlnYUBnb29nbGUuY29tOyBsaW51eC0NCj4gPj4gbWVkaWFA
-dmdlci5rZXJuZWwub3JnOyBRaXUsIFRpYW4gU2h1IDx0aWFuLnNodS5xaXVAaW50ZWwuY29tPg0K
-PiA+PiBTdWJqZWN0OiBSZTogW1BBVENIXSBtZWRpYTogc3RhZ2luZzogaXB1My1pbWd1OiBJbml0
-aWFsaXNlDQo+ID4+IGhlaWdodF9wZXJfc2xpY2UgaW4gdGhlIHN0cmlwZXMNCj4gPj4NCj4gPj4g
-SGkgQmluZ2J1LA0KPiA+Pg0KPiA+PiBPbiAyMy8wOS8yMDIxIDEyOjQ5LCBMYXVyZW50IFBpbmNo
-YXJ0IHdyb3RlOg0KPiA+Pj4gSGkgQmluZ2J1LA0KPiA+Pj4NCj4gPj4+IE9uIFRodSwgU2VwIDIz
-LCAyMDIxIGF0IDEwOjI5OjMzQU0gKzAwMDAsIENhbywgQmluZ2J1IHdyb3RlOg0KPiA+Pj4+IE9u
-IFRodXJzZGF5LCBTZXB0ZW1iZXIgMjMsIDIwMjEgNTo0NiBQTSwgTGF1cmVudCBQaW5jaGFydCB3
-cm90ZToNCj4gPj4+Pj4gT24gVGh1LCBTZXAgMjMsIDIwMjEgYXQgMDk6MDY6MzJBTSArMDAwMCwg
-Q2FvLCBCaW5nYnUgd3JvdGU6DQo+ID4+Pj4+PiBKZWFuLU1pY2hlbCwNCj4gPj4+Pj4+DQo+ID4+
-Pj4+PiBGaXJzdGx5LCB0aGUgLmhlaWdodF9wZXJfc2xpY2UgY291bGQgYmUgMCBpZiB5b3VyIC5n
-cmlkLndpZHRoDQo+ID4+Pj4+PiBsYXJnZXIgdGhhbiAzMi4NCj4gPj4+Pj4NCj4gPj4+Pj4gV2hp
-Y2ggLmhlaWdodF9wZXJfc2xpY2UgYXJlIHlvdSB0YWxraW5nIGFib3V0ID8gQSBmaWVsZCBvZiB0
-aGF0DQo+ID4+Pj4+IG5hbWUgZXhpc3RzIGluIGJvdGggaXB1M191YXBpX2FjY19wYXJhbS5hd2Iu
-Y29uZmlnLmdyaWQgYW5kIHN0cnVjdA0KPiA+Pj4+PiBpcHUzX3VhcGlfZ3JpZF9jb25maWcgYW5k
-IGltZ3VfYWJpX2F3Yl9jb25maWcuc3RyaXBlcy5ncmlkLg0KPiA+Pj4+Pg0KPiA+Pj4+PiBUaGV5
-IGFyZSBib3RoIGNvbXB1dGVkIGJ5IHRoZSBkcml2ZXIsIGluIGltZ3VfY3NzX2NmZ19hY2MoKS4g
-VGhlDQo+ID4+Pj4+IGZvcm1lciBpcyBzZXQgdG8NCj4gPj4+Pj4NCj4gPj4+Pj4gCWFjYy0+YXdi
-LmNvbmZpZy5ncmlkLmhlaWdodF9wZXJfc2xpY2UgPQ0KPiA+Pj4+PiAJCUlNR1VfQUJJX0FXQl9N
-QVhfQ0VMTFNfUEVSX1NFVCAvIGFjYy0+YXdiLmNvbmZpZy5ncmlkLndpZHRoLA0KPiA+Pj4+Pg0K
-PiA+Pj4+PiBJTUdVX0FCSV9BV0JfTUFYX0NFTExTX1BFUl9TRVQgaXMgZXF1YWwgdG8gMTYwLCBz
-byBpdCBjYW4gb25seSBiZQ0KPiA+Pj4+PiAwIGlmIGdyaWQud2lkdGggPiAxNjAsIHdoaWNoIGlz
-IGludmFsaWQuDQo+ID4+Pj4NCj4gPj4+PiBGb3IgYXdiX2ZyIGFuZCBhZiwgaXQgY291bGQgYmUg
-MCBpZiB0aGUgLmNvbmZpZy5ncmlkX2NmZy53aWR0aCA+IDMyLg0KPiA+Pj4NCj4gPj4+IEluZGVl
-ZCwgbXkgYmFkLiBJIHdhcyBmb2N1c3Npbmcgb24gdGhlIEFXQiBzdGF0aXN0aWNzLg0KPiA+Pj4N
-Cj4gPj4+IFdoYXQgYXJlIHRoZSBpbXBsaWNhdGlvbnMgb2YgYSBoZWlnaHRfcGVyX3NsaWNlIHZh
-bHVlIG9mIDAgPw0KPiA+Pj4NCj4gPj4+IFdoaWxlIHdlIGFyZSBvbiB0aGlzIHRvcGljLCB3aGF0
-IGlzIGEgInNsaWNlIiA/IERvZXMgaXQgbWF0dGVyIGZvcg0KPiA+Pj4gdGhlIHVzZXIsIGFzIGlu
-IGRvZXMgaXQgaGF2ZSBhbiBpbXBhY3Qgb24gdGhlIHN0YXRpc3RpY3MgdmFsdWVzLCBvcg0KPiA+
-Pj4gb24gaG93IHRoZXkncmUgYXJyYW5nZWQgaW4gbWVtb3J5LCBvciBpcyBpdCBhbiBpbXBsZW1l
-bnRhdGlvbiBkZXRhaWwNCj4gPj4+IG9mIHRoZSBmaXJtd2FyZSB0aGF0IGhhcyBubyBjb25zZXF1
-ZW5jZSBvbiB3aGF0IGNhbiBiZSBzZWVuIGJ5IHRoZQ0KPiB1c2VyID8NCj4gPj4+IChUaGUgInVz
-ZXIiIGhlcmUgaXMgdGhlIGNvZGUgdGhhdCByZWFkcyB0aGUgc3RhdGlzdGljcyBpbiB1c2Vyc3Bh
-Y2UpLg0KPiA+Pj4NCj4gPj4NCj4gPj4gR2VudGxlIHBpbmcgb24gdGhlc2Ugc3BlY2lmaWMgcXVl
-c3Rpb25zIGZyb20gTGF1cmVudCA6LSkgPw0KPiA+DQo+ID4gSSBhbSBub3QgYW4gZXhwZXJ0IG9u
-IHRoaXMgc3RhdGlzdGljcyBhbGdvLg0KPiA+DQo+ID4gTXkgdW5kZXJzdGFuZGluZzoNCj4gPiBo
-ZWlnaHRfcGVyX3NsaWNlIG1lYW5zIG51bWJlciBvZiBibG9ja3MgaW4gdmVydGljYWwgYXhpcyBw
-ZXIgTWV0YWRhdGENCj4gc2xpY2UuDQo+ID4gSW1nVSBkaXZpZGUgZ3JpZC1iYXNlZCBNZXRhZGF0
-YSBpbnRvIHNsaWNlcywgZWFjaCBzbGljZSByZWZlcnMgdG8NCj4gPiBncmlkX3dpZHRoICogaGVp
-Z2h0X3Blcl9zbGljZSBibG9ja3MsIGlmIGhlaWdodF9wZXJfc2xpY2UgaXMgMCwgdGhhdA0KPiA+
-IG1lYW5zIHRoZSBncmlkX3dpZHRoIGlzIHRvbyBsYXJnZSB0byB1c2UuIElPVywgaXQgaXMgYW4g
-aW52YWxpZA0KPiA+IHBhcmFtZXRlciwgd2UgbmVlZCBjaGVjayB0aGlzIGludmFsaWQgdmFsdWUg
-aW5zdGVhZCBvZiBqdXN0IHNldHRpbmcgdG8NCj4gMS4NCj4gPg0KPiANCj4gSXMgaXQgdHJ1ZSBv
-bmx5IGZvciBhd2JfZnIgYW5kIGFmLCBvciBhbHNvIGZvciBhd2IgPw0KPiBJZiBpdCBpcyBub3Qg
-Zm9yIGF3YiwgdGhlIHBhdGNoIGNvdWxkIGJlIG9ubHkgZm9yIGF3YiwgYXMgaXQgcmVhbGx5DQo+
-IHNvbHZlcyBhbiBpc3N1ZSA/DQoNCmhlaWdodF9wZXJfc2xpY2UgY291bGQgYmUgMSwgMiwgZXRj
-Lg0KDQpJIHRoaW5rIHRoZSBncmlkX2NmZy53aWR0aCBjaGVja2luZyBjb3VsZCBiZSBkb25lIGlu
-IHVzZXJzcGFjZSB0byBhdm9pZA0KaGVpZ2h0X3Blcl9zbGljZSBiZWVuIHNldCB0byAwLCBpdCBk
-b2VzIG5vdCBoZWxwIG1vcmUgdG8gZGlzY2FyZCB0aGUNCnNldHRpbmdzIGluIGRyaXZlciB3aGVu
-IGRyaXZlciBub3RpY2UgdGhlIGhlaWdodF9wZXJfc2xpY2UgaXMgMC4NCg0KRm9yIGF3Yl9mciBh
-bmQgYWYsIHNldCB0aGUgZ3JpZCB3aWR0aCBsZXNzIHRoYW4gMzIuDQpGb3IgYXdiLCBzZXQgdGhl
-IGdyaWQgd2lkdGggbGVzcyB0aGFuIDE2MC4NCg0KU28sIGNvdWxkIHlvdSB0cnkgd2l0aCBiaWdn
-ZXIgZ3JpZF9jZmcuYmxvY2tfd2lkdGhfbG9nMiBhbmQgc21hbGxlcg0KZ3JpZF9jZmcud2lkdGgg
-Zm9yIHlvdXIgaXNzdWU/DQoNCj4gDQo+IFRvbWFzeiwgZG8geW91IHRoaW5rIGl0IG1heSBpbnRy
-b2R1Y2UgYSByZWdyZXNzaW9uIGluIHRoZSBiaW5hcnkNCj4gbGlicmFyeSA/IFdvdWxkIGl0IGJl
-IHBvc3NpYmxlIHRvIHRlc3QgaXQgPyBJIGNhbiBzZW5kIGEgdjIgd2l0aCBvbmx5DQo+IGF3YiBp
-ZiBpdCBpcyBuZWVkZWQuDQo+IA0KPiA+Pg0KPiA+Pj4+Pj4gRnJvbSB5b3VyIGNvbmZpZ3VyYXRp
-b24sIGxvb2tzIGxpa2Ugc29tZXRoaW5nIHdyb25nIGluIHRoZSBzdHJpcGUNCj4gPj4+Pj4+IGNv
-bmZpZ3VyYXRpb24gY2F1c2Ugbm90IGVudGVyaW5nIHRoZSAyIHN0cmlwZXMgYnJhbmNoLg0KPiA+
-Pj4+Pg0KPiA+Pj4+PiBXaHkgaXMgdGhhdCA/IElzbid0IGl0IHZhbGlkIGZvciBhIGdyaWQgY29u
-ZmlndXJhdGlvbiB0byB1c2UgYQ0KPiA+Pj4+PiBzaW5nbGUgc3RyaXBlLCBpZiB0aGUgaW1hZ2Ug
-aXMgc21hbGwgZW5vdWdoLCBvciBpZiB0aGUgZ3JpZCBvbmx5DQo+ID4+Pj4+IGNvdmVycyB0aGUg
-bGVmdCBwYXJ0IG9mIHRoZSBpbWFnZSA/DQo+ID4+Pj4+DQo+ID4+Pj4+PiBPbiBXZWRuZXNkYXks
-IFNlcHRlbWJlciAyMiwgMjAyMSAxOjU0IFBNLCBKZWFuLU1pY2hlbCBIYXV0Ym9pcw0KPiB3cm90
-ZToNCj4gPj4+Pj4+PiBPbiAyMi8wOS8yMDIxIDA2OjMzLCBDYW8sIEJpbmdidSB3cm90ZToNCj4g
-Pj4+Pj4+Pj4gSmVhbi1NaWNoZWwsDQo+ID4+Pj4+Pj4+DQo+ID4+Pj4+Pj4+IFRoYW5rcyBmb3Ig
-eW91IHBhdGNoLg0KPiA+Pj4+Pj4+PiBXaGF0IGlzIHRoZSB2YWx1ZSBvZiAuY29uZmlnLmdyaWRf
-Y2ZnLndpZHRoIGZvciB5b3VyIGxvdw0KPiA+PiByZXNvbHV0aW9ucz8NCj4gPj4+Pj4+Pg0KPiA+
-Pj4+Pj4+IEkgZG9uJ3Qga25vdyBpZiBhIDE5MjB4MTI4MCBvdXRwdXQgaXMgYSBsb3cgcmVzb2x1
-dGlvbiwgYnV0IHRoZQ0KPiA+Pj4+Pj4+IGdyaWQgaXMgY29uZmlndXJlZCBhczoNCj4gPj4+Pj4+
-PiAtIGdyaWRfY2ZnLndpZHRoID0gNzkNCj4gPj4+Pj4+PiAtIGdyaWRfY2ZnLmhlaWdodCA9IDI0
-DQo+ID4+Pj4+Pj4gLSBncmlkX2NmZy5ibG9ja193aWR0aF9sb2cyID0gNA0KPiA+Pj4+Pj4+IC0g
-Z3JpZF9jZmcuYmxvY2tfaGVpZ2h0X2xvZzIgPSA2DQo+ID4+Pj4+Pj4NCj4gPj4+Pj4+PiBIZXJl
-IGlzIGEgZnVsbCBkZWJ1ZyBvdXRwdXQgb2YgdGhlIEFXQiBwYXJ0IGluDQo+IGltZ3VfY3NzX2Nm
-Z19hY2MoKToNCj4gPj4+Pj4+Pg0KPiA+Pj4+Pj4+IGFjYy0+c3RyaXBlLmRvd25fc2NhbGVkX3N0
-cmlwZXNbMF0ud2lkdGg6IDEyODANCj4gPj4+Pj4+PiBhY2MtPnN0cmlwZS5kb3duX3NjYWxlZF9z
-dHJpcGVzWzBdLmhlaWdodDogMTUzNg0KPiA+Pj4+Pj4+IGFjYy0+c3RyaXBlLmRvd25fc2NhbGVk
-X3N0cmlwZXNbMF0ub2Zmc2V0OiAwDQo+ID4+Pj4+Pj4gYWNjLT5zdHJpcGUuYmRzX291dF9zdHJp
-cGVzWzBdLndpZHRoOiAxMjgwDQo+ID4+Pj4+Pj4gYWNjLT5zdHJpcGUuYmRzX291dF9zdHJpcGVz
-WzBdLmhlaWdodDogMTUzNg0KPiA+Pj4+Pj4+IGFjYy0+c3RyaXBlLmJkc19vdXRfc3RyaXBlc1sw
-XS5vZmZzZXQ6IDANCj4gPj4+Pj4+PiBhY2MtPmFjYy0+YXdiLnN0cmlwZXNbMF0uZ3JpZC53aWR0
-aDogNzkNCj4gPj4+Pj4+PiBhY2MtPmF3Yi5zdHJpcGVzWzBdLmdyaWQuYmxvY2tfd2lkdGhfbG9n
-MjogNA0KPiA+Pj4+Pj4+IGFjYy0+YWNjLT5hd2Iuc3RyaXBlc1swXS5ncmlkLmhlaWdodDogMjQN
-Cj4gPj4+Pj4+PiBhY2MtPmF3Yi5zdHJpcGVzWzBdLmdyaWQuYmxvY2tfaGVpZ2h0X2xvZzI6IDYN
-Cj4gPj4+Pj4+PiBhY2MtPmF3Yi5zdHJpcGVzWzBdLmdyaWQueF9zdGFydDogMA0KPiA+Pj4+Pj4+
-IGFjYy0+YXdiLnN0cmlwZXNbMF0uZ3JpZC54X2VuZDogMTI2Mw0KPiA+Pj4+Pj4+IGFjYy0+YXdi
-LnN0cmlwZXNbMF0uZ3JpZC55X3N0YXJ0OiAwDQo+ID4+Pj4+Pj4gYWNjLT5hd2Iuc3RyaXBlc1sw
-XS5ncmlkLnlfZW5kOiAxNTM1DQo+ID4+Pj4+Pj4gYWNjLT5zdHJpcGUuZG93bl9zY2FsZWRfc3Ry
-aXBlc1sxXS53aWR0aDogMTI4MA0KPiA+Pj4+Pj4+IGFjYy0+c3RyaXBlLmRvd25fc2NhbGVkX3N0
-cmlwZXNbMV0uaGVpZ2h0OiAxNTM2DQo+ID4+Pj4+Pj4gYWNjLT5zdHJpcGUuZG93bl9zY2FsZWRf
-c3RyaXBlc1sxXS5vZmZzZXQ6IDEwMjQNCj4gPj4+Pj4+PiBhY2MtPnN0cmlwZS5iZHNfb3V0X3N0
-cmlwZXNbMV0ud2lkdGg6IDEyODANCj4gPj4+Pj4+PiBhY2MtPnN0cmlwZS5iZHNfb3V0X3N0cmlw
-ZXNbMV0uaGVpZ2h0OiAxNTM2DQo+ID4+Pj4+Pj4gYWNjLT5zdHJpcGUuYmRzX291dF9zdHJpcGVz
-WzFdLm9mZnNldDogMTAyNA0KPiA+Pj4+Pj4+IGFjYy0+YWNjLT5hd2Iuc3RyaXBlc1sxXS5ncmlk
-LndpZHRoOiA3OQ0KPiA+Pj4+Pj4+IGFjYy0+YXdiLnN0cmlwZXNbMV0uZ3JpZC5ibG9ja193aWR0
-aF9sb2cyOiA0DQo+ID4+Pj4+Pj4gYWNjLT5hY2MtPmF3Yi5zdHJpcGVzWzFdLmdyaWQuaGVpZ2h0
-OiAyNA0KPiA+Pj4+Pj4+IGFjYy0+YXdiLnN0cmlwZXNbMV0uZ3JpZC5ibG9ja19oZWlnaHRfbG9n
-MjogNg0KPiA+Pj4+Pj4+IGFjYy0+YXdiLnN0cmlwZXNbMV0uZ3JpZC54X3N0YXJ0OiAwDQo+ID4+
-Pj4+Pj4gYWNjLT5hd2Iuc3RyaXBlc1sxXS5ncmlkLnhfZW5kOiAxMjYzDQo+ID4+Pj4+Pj4gYWNj
-LT5hd2Iuc3RyaXBlc1sxXS5ncmlkLnlfc3RhcnQ6IDANCj4gPj4+Pj4+PiBhY2MtPmF3Yi5zdHJp
-cGVzWzFdLmdyaWQueV9lbmQ6IDE1MzUNCj4gPj4+Pg0KPiA+Pj4+IEFyZSB0aGVzZSBkdW1wcyBm
-cm9tIDE5MjB4MTI4MCBvdXRwdXQ/DQo+ID4+Pg0KPiA+Pj4gSmVhbi1NaWNoZWwsIGNvdWxkIHlv
-dSBjb21tZW50IG9uIHRoaXMgPw0KPiA+Pj4NCj4gPj4+IE5vdGUgdGhhdCB0aGUgZ3JpZCBpcyBj
-b25maWd1cmVkIHdpdGggNzkgY2VsbHMgb2YgMTYgcGl4ZWxzLA0KPiA+Pj4gY292ZXJpbmcNCj4g
-Pj4+IDEyNjQgcGl4ZWxzIGhvcml6b250YWxseS4gVGhhdCdzIG5vdCB0aGUgZnVsbCBpbWFnZSBm
-b3IgYSAxOTIwDQo+ID4+PiBwaXhlbHMgb3V0cHV0LCBhbmQgd2lsbCBwcm9iYWJseSBub3QgYmUg
-ZG9uZSBpbiBwcmFjdGljZSwgYnV0DQo+ID4+PiB0aGVyZSdzIG5vdGhpbmcgcHJldmVudGluZyB0
-aGUgZ3JpZCBmcm9tIGNvdmVyaW5nIHBhcnQgb2YgdGhlIGltYWdlDQo+IG9ubHkuDQo+ID4+Pg0K
-PiA+Pj4+Pj4+IFRoaXMgaGFzIGJlZW4gb3V0cHV0dGVkIHdpdGg6IGh0dHBzOi8vcGFzdGUuZGVi
-aWFuLm5ldC8xMjEyNzkxLw0KPiA+Pj4+Pj4+DQo+ID4+Pj4+Pj4gVGhlIGV4YW1wbGVzIEkgZ2F2
-ZSBiZWZvcmUgd2VyZSAxMjgweDcyMCBvdXRwdXQgYW5kIG5vdA0KPiA+Pj4+Pj4+IDE5MjB4MTA4
-MCwgaGVyZSBhcmUgdGhleToNCj4gPj4+Pj4+PiAtIHdpdGhvdXQgdGhlIHBhdGNoOiBodHRwczov
-L3Bhc3RlYm9hcmQuY28vaEhvNFFrVlVTazhlLnBuZw0KPiA+Pj4+Pj4+IC0gd2l0aCB0aGUgcGF0
-Y2g6IGh0dHBzOi8vcGFzdGVib2FyZC5jby9ZVUdVdlM1dEQwYm8ucG5nDQo+ID4+Pj4+Pj4NCj4g
-Pj4+Pj4+PiBBcyB5b3UgY2FuIHNlZSB3ZSBoYXZlIHRoZSBzYW1lIGJlaGF2aW91ci4NCj4gPj4+
-Pj4+Pg0KPiA+Pj4+Pj4+PiBPbiBUdWVzZGF5LCBTZXB0ZW1iZXIgMjEsIDIwMjEgMTA6MzQgUE0s
-IExhdXJlbnQgUGluY2hhcnQgd3JvdGU6DQo+ID4+Pj4+Pj4+PiBPbiBUdWUsIFNlcCAyMSwgMjAy
-MSBhdCAwMzowNDozN1BNICswMjAwLCBKZWFuLU1pY2hlbCBIYXV0Ym9pcw0KPiA+PiB3cm90ZToN
-Cj4gPj4+Pj4+Pj4+PiBPbiAyMS8wOS8yMDIxIDEzOjA3LCBTYWthcmkgQWlsdXMgd3JvdGU6DQo+
-ID4+Pj4+Pj4+Pj4+IE9uIFRodSwgU2VwIDE2LCAyMDIxIGF0IDA3OjI1OjA0UE0gKzAyMDAsIEpl
-YW4tTWljaGVsDQo+ID4+Pj4+Pj4+Pj4+IEhhdXRib2lzDQo+ID4+IHdyb3RlOg0KPiA+Pj4+Pj4+
-Pj4+Pj4gV2hpbGUgcGxheWluZyB3aXRoIGxvdyByZXNvbHV0aW9ucyBmb3IgdGhlIGdyaWQsIGl0
-DQo+ID4+Pj4+Pj4+Pj4+PiBhcHBlYXJlZCB0aGF0IGhlaWdodF9wZXJfc2xpY2UgaXMgbm90IGlu
-aXRpYWxpc2VkIGlmIHdlIGFyZQ0KPiA+Pj4+Pj4+Pj4+Pj4gbm90IHVzaW5nIGJvdGggc3RyaXBl
-cyBmb3IgdGhlIGNhbGN1bGF0aW9ucy4gVGhpcyBwYXR0ZXJuDQo+ID4+Pj4+Pj4+Pj4+PiBvY2N1
-cnMgdGhyZWUNCj4gPj4gdGltZXM6DQo+ID4+Pj4+Pj4+Pj4+PiAtIGZvciB0aGUgYXdiX2ZyIHBy
-b2Nlc3NpbmcgYmxvY2sNCj4gPj4+Pj4+Pj4+Pj4+IC0gZm9yIHRoZSBhZiBwcm9jZXNzaW5nIGJs
-b2NrDQo+ID4+Pj4+Pj4+Pj4+PiAtIGZvciB0aGUgYXdiIHByb2Nlc3NpbmcgYmxvY2sNCj4gPj4+
-Pj4+Pj4+Pj4+DQo+ID4+Pj4+Pj4+Pj4+PiBUaGUgaWRlYSBvZiB0aGlzIHNtYWxsIHBvcnRpb24g
-b2YgY29kZSBpcyB0byByZWR1Y2UNCj4gPj4+Pj4+Pj4+Pj4+IGNvbXBsZXhpdHkgaW4gbG9hZGlu
-ZyB0aGUgc3RhdGlzdGljcywgaXQgY291bGQgYmUgZG9uZSBhbHNvDQo+ID4+Pj4+Pj4+Pj4+PiB3
-aGVuIG9ubHkgb25lIHN0cmlwZSBpcyB1c2VkLiBGaXggaXQgYnkgZ2V0dGluZyB0aGlzDQo+ID4+
-Pj4+Pj4+Pj4+PiBpbml0aWFsaXNhdGlvbiBjb2RlIG91dHNpZGUgb2YgdGhlDQo+ID4+Pj4+Pj4+
-Pj4+PiBlbHNlKCkgdGVzdCBjYXNlLg0KPiA+Pj4+Pj4+Pj4+Pj4NCj4gPj4+Pj4+Pj4+Pj4+IFNp
-Z25lZC1vZmYtYnk6IEplYW4tTWljaGVsIEhhdXRib2lzDQo+ID4+Pj4+Pj4+Pj4+PiA8amVhbm1p
-Y2hlbC5oYXV0Ym9pc0BpZGVhc29uYm9hcmQuY29tPg0KPiA+Pj4+Pj4+Pj4+Pj4gLS0tDQo+ID4+
-Pj4+Pj4+Pj4+PiAgZHJpdmVycy9zdGFnaW5nL21lZGlhL2lwdTMvaXB1My1jc3MtcGFyYW1zLmMg
-fCA0NCA+Pj4+Pg0KPiA+Pj4+Pj4+Pj4+Pj4gKysrKysrKysrKy0tLS0tLS0tLS0NCj4gPj4+Pj4+
-Pj4+Pj4+ICAxIGZpbGUgY2hhbmdlZCwgMjIgaW5zZXJ0aW9ucygrKSwgMjIgZGVsZXRpb25zKC0p
-DQo+ID4+Pj4+Pj4+Pj4+Pg0KPiA+Pj4+Pj4+Pj4+Pj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvc3Rh
-Z2luZy9tZWRpYS9pcHUzL2lwdTMtY3NzLXBhcmFtcy5jDQo+ID4+Pj4+Pj4+Pj4+PiBiL2RyaXZl
-cnMvc3RhZ2luZy9tZWRpYS9pcHUzL2lwdTMtY3NzLXBhcmFtcy5jDQo+ID4+Pj4+Pj4+Pj4+PiBp
-bmRleCBlOWQ2YmQ5ZTkzMzIuLjA1ZGE3ZGJkY2E3OCAxMDA2NDQNCj4gPj4+Pj4+Pj4+Pj4+IC0t
-LSBhL2RyaXZlcnMvc3RhZ2luZy9tZWRpYS9pcHUzL2lwdTMtY3NzLXBhcmFtcy5jDQo+ID4+Pj4+
-Pj4+Pj4+PiArKysgYi9kcml2ZXJzL3N0YWdpbmcvbWVkaWEvaXB1My9pcHUzLWNzcy1wYXJhbXMu
-Yw0KPiA+Pj4+Pj4+Pj4+Pj4gQEAgLTI0MjgsMTYgKzI0MjgsMTYgQEAgaW50IGltZ3VfY3NzX2Nm
-Z19hY2Moc3RydWN0DQo+ID4+Pj4+Pj4+Pj4+PiBpbWd1X2Nzcw0KPiA+PiAqY3NzLCB1bnNpZ25l
-ZCBpbnQgcGlwZSwNCj4gPj4+Pj4+Pj4+Pj4+ICAJCQkJCWFjYy0NCj4gPj4+IGF3Yl9mci5zdHJp
-cGVzWzFdLmdyaWRfY2ZnLndpZHRoLA0KPiA+Pj4+Pj4+Pj4+Pj4gIAkJCQkJYl93X2xvZzIpOw0K
-PiA+Pj4+Pj4+Pj4+Pj4gIAkJYWNjLT5hd2JfZnIuc3RyaXBlc1sxXS5ncmlkX2NmZy54X2VuZCA9
-IGVuZDsNCj4gPj4+Pj4+Pj4+Pj4+IC0NCj4gPj4+Pj4+Pj4+Pj4+IC0JCS8qDQo+ID4+Pj4+Pj4+
-Pj4+PiAtCQkgKiBUbyByZWR1Y2UgY29tcGxleGl0eSBvZiBkZWJ1YmJsaW5nIGFuZA0KPiBsb2Fk
-aW5nDQo+ID4+Pj4+Pj4+Pj4+PiAtCQkgKiBzdGF0aXN0aWNzIGZpeCBncmlkX2hlaWdodF9wZXJf
-c2xpY2UgdG8gMQ0KPiBmb3IgYm90aA0KPiA+Pj4+Pj4+Pj4+Pj4gLQkJICogc3RyaXBlcy4NCj4g
-Pj4+Pj4+Pj4+Pj4+IC0JCSAqLw0KPiA+Pj4+Pj4+Pj4+Pj4gLQkJZm9yIChpID0gMDsgaSA8IHN0
-cmlwZXM7IGkrKykNCj4gPj4+Pj4+Pj4+Pj4+IC0JCQlhY2MtDQo+ID4+PiBhd2JfZnIuc3RyaXBl
-c1tpXS5ncmlkX2NmZy5oZWlnaHRfcGVyX3NsaWNlID0gMTsNCj4gPj4+Pj4+Pj4+Pj4+ICAJfQ0K
-PiA+Pj4+Pj4+Pj4+Pj4NCj4gPj4+Pj4+Pj4+Pj4+ICsJLyoNCj4gPj4+Pj4+Pj4+Pj4+ICsJICog
-VG8gcmVkdWNlIGNvbXBsZXhpdHkgb2YgZGVidWJibGluZyBhbmQgbG9hZGluZw0KPiA+Pj4+Pj4+
-Pj4+Pj4gKwkgKiBzdGF0aXN0aWNzIGZpeCBncmlkX2hlaWdodF9wZXJfc2xpY2UgdG8gMSBmb3IN
-Cj4gYm90aA0KPiA+Pj4+Pj4+Pj4+Pj4gKwkgKiBzdHJpcGVzLg0KPiA+Pj4+Pj4+Pj4+Pj4gKwkg
-Ki8NCj4gPj4+Pj4+Pj4+Pj4+ICsJZm9yIChpID0gMDsgaSA8IHN0cmlwZXM7IGkrKykNCj4gPj4+
-Pj4+Pj4+Pj4+ICsJCWFjYy0NCj4gPmF3Yl9mci5zdHJpcGVzW2ldLmdyaWRfY2ZnLmhlaWdodF9w
-ZXJfc2xpY2UgPSAxOw0KPiA+Pj4+Pj4+Pj4+Pj4gKw0KPiA+Pj4+Pj4+Pj4+Pj4gIAlpZiAoaW1n
-dV9jc3NfYXdiX2ZyX29wc19jYWxjKGNzcywgcGlwZSwgJmFjYy0NCj4gPmF3Yl9mcikpDQo+ID4+
-Pj4+Pj4+Pj4+PiAgCQlyZXR1cm4gLUVJTlZBTDsNCj4gPj4+Pj4+Pj4+Pj4+DQo+ID4+Pj4+Pj4+
-Pj4+PiBAQCAtMjU5MSwxNSArMjU5MSwxNSBAQCBpbnQgaW1ndV9jc3NfY2ZnX2FjYyhzdHJ1Y3QN
-Cj4gPj4+Pj4+Pj4+Pj4+IGltZ3VfY3NzDQo+ID4+ICpjc3MsIHVuc2lnbmVkIGludCBwaXBlLA0K
-PiA+Pj4+Pj4+Pj4+Pj4gIAkJCWltZ3VfY3NzX2dyaWRfZW5kKGFjYy0NCj4gPj4+IGFmLnN0cmlw
-ZXNbMV0uZ3JpZF9jZmcueF9zdGFydCwNCj4gPj4+Pj4+Pj4+Pj4+ICAJCQkJCSAgYWNjLQ0KPiA+
-Pj4gYWYuc3RyaXBlc1sxXS5ncmlkX2NmZy53aWR0aCwNCj4gPj4+Pj4+Pj4+Pj4+ICAJCQkJCSAg
-Yl93X2xvZzIpOw0KPiA+Pj4+Pj4+Pj4+Pj4gLQ0KPiA+Pj4+Pj4+Pj4+Pj4gLQkJLyoNCj4gPj4+
-Pj4+Pj4+Pj4+IC0JCSAqIFRvIHJlZHVjZSBjb21wbGV4aXR5IG9mIGRlYnViYmxpbmcgYW5kDQo+
-IGxvYWRpbmcNCj4gPj4gc3RhdGlzdGljcw0KPiA+Pj4+Pj4+Pj4+Pj4gLQkJICogZml4IGdyaWRf
-aGVpZ2h0X3Blcl9zbGljZSB0byAxIGZvciBib3RoDQo+IHN0cmlwZXMNCj4gPj4+Pj4+Pj4+Pj4+
-IC0JCSAqLw0KPiA+Pj4+Pj4+Pj4+Pj4gLQkJZm9yIChpID0gMDsgaSA8IHN0cmlwZXM7IGkrKykN
-Cj4gPj4+Pj4+Pj4+Pj4+IC0JCQlhY2MtDQo+ID5hZi5zdHJpcGVzW2ldLmdyaWRfY2ZnLmhlaWdo
-dF9wZXJfc2xpY2UgPQ0KPiA+PiAxOw0KPiA+Pj4+Pj4+Pj4+Pj4gIAl9DQo+ID4+Pj4+Pj4+Pj4+
-Pg0KPiA+Pj4+Pj4+Pj4+Pj4gKwkvKg0KPiA+Pj4+Pj4+Pj4+Pj4gKwkgKiBUbyByZWR1Y2UgY29t
-cGxleGl0eSBvZiBkZWJ1YmJsaW5nIGFuZCBsb2FkaW5nDQo+IHN0YXRpc3RpY3MNCj4gPj4+Pj4+
-Pj4+Pj4+ICsJICogZml4IGdyaWRfaGVpZ2h0X3Blcl9zbGljZSB0byAxIGZvciBib3RoIHN0cmlw
-ZXMNCj4gPj4+Pj4+Pj4+Pj4+ICsJICovDQo+ID4+Pj4+Pj4+Pj4+PiArCWZvciAoaSA9IDA7IGkg
-PCBzdHJpcGVzOyBpKyspDQo+ID4+Pj4+Pj4+Pj4+PiArCQlhY2MtPmFmLnN0cmlwZXNbaV0uZ3Jp
-ZF9jZmcuaGVpZ2h0X3Blcl9zbGljZSA9DQo+IDE7DQo+ID4+Pj4+Pj4+Pj4+PiArDQo+ID4+Pj4+
-Pj4+Pj4+PiAgCWlmIChpbWd1X2Nzc19hZl9vcHNfY2FsYyhjc3MsIHBpcGUsICZhY2MtPmFmKSkN
-Cj4gPj4+Pj4+Pj4+Pj4+ICAJCXJldHVybiAtRUlOVkFMOw0KPiA+Pj4+Pj4+Pj4+Pj4NCj4gPj4+
-Pj4+Pj4+Pj4+IEBAIC0yNjYwLDE1ICsyNjYwLDE1IEBAIGludCBpbWd1X2Nzc19jZmdfYWNjKHN0
-cnVjdA0KPiA+Pj4+Pj4+Pj4+Pj4gaW1ndV9jc3MNCj4gPj4gKmNzcywgdW5zaWduZWQgaW50IHBp
-cGUsDQo+ID4+Pj4+Pj4+Pj4+PiAgCQkJaW1ndV9jc3NfZ3JpZF9lbmQoYWNjLQ0KPiA+Pj4gYXdi
-LnN0cmlwZXNbMV0uZ3JpZC54X3N0YXJ0LA0KPiA+Pj4+Pj4+Pj4+Pj4gIAkJCQkJICBhY2MtDQo+
-ID5hd2Iuc3RyaXBlc1sxXS5ncmlkLndpZHRoLA0KPiA+Pj4+Pj4+Pj4+Pj4gIAkJCQkJICBiX3df
-bG9nMik7DQo+ID4+Pj4+Pj4+Pj4+PiAtDQo+ID4+Pj4+Pj4+Pj4+PiAtCQkvKg0KPiA+Pj4+Pj4+
-Pj4+Pj4gLQkJICogVG8gcmVkdWNlIGNvbXBsZXhpdHkgb2YgZGVidWJibGluZyBhbmQNCj4gbG9h
-ZGluZw0KPiA+PiBzdGF0aXN0aWNzDQo+ID4+Pj4+Pj4+Pj4+PiAtCQkgKiBmaXggZ3JpZF9oZWln
-aHRfcGVyX3NsaWNlIHRvIDEgZm9yIGJvdGgNCj4gc3RyaXBlcw0KPiA+Pj4+Pj4+Pj4+Pj4gLQkJ
-ICovDQo+ID4+Pj4+Pj4+Pj4+PiAtCQlmb3IgKGkgPSAwOyBpIDwgc3RyaXBlczsgaSsrKQ0KPiA+
-Pj4+Pj4+Pj4+Pj4gLQkJCWFjYy0NCj4gPmF3Yi5zdHJpcGVzW2ldLmdyaWQuaGVpZ2h0X3Blcl9z
-bGljZSA9IDE7DQo+ID4+Pj4+Pj4+Pj4+PiAgCX0NCj4gPj4+Pj4+Pj4+Pj4+DQo+ID4+Pj4+Pj4+
-Pj4+PiArCS8qDQo+ID4+Pj4+Pj4+Pj4+PiArCSAqIFRvIHJlZHVjZSBjb21wbGV4aXR5IG9mIGRl
-YnViYmxpbmcgYW5kIGxvYWRpbmcNCj4gc3RhdGlzdGljcw0KPiA+Pj4+Pj4+Pj4+Pj4gKwkgKiBm
-aXggZ3JpZF9oZWlnaHRfcGVyX3NsaWNlIHRvIDEgZm9yIGJvdGggc3RyaXBlcw0KPiA+Pj4+Pj4+
-Pj4+Pj4gKwkgKi8NCj4gPj4+Pj4+Pj4+Pj4+ICsJZm9yIChpID0gMDsgaSA8IHN0cmlwZXM7IGkr
-KykNCj4gPj4+Pj4+Pj4+Pj4+ICsJCWFjYy0+YXdiLnN0cmlwZXNbaV0uZ3JpZC5oZWlnaHRfcGVy
-X3NsaWNlID0gMTsNCj4gPj4+Pj4+Pj4+Pj4+ICsNCj4gPj4+Pj4+Pj4+Pj4+ICAJaWYgKGltZ3Vf
-Y3NzX2F3Yl9vcHNfY2FsYyhjc3MsIHBpcGUsICZhY2MtPmF3YikpDQo+ID4+Pj4+Pj4+Pj4+PiAg
-CQlyZXR1cm4gLUVJTlZBTDsNCj4gPj4+Pj4+Pj4+Pj4+DQo+ID4+Pj4+Pj4+Pj4+DQo+ID4+Pj4+
-Pj4+Pj4+IFdoaWxlIGl0IHNlZW1zIGxpa2UgYSBzZW5zaWJsZSBpZGVhIHRvIGluaXRpYWxpc2Ug
-YXJndW1lbnRzDQo+ID4+Pj4+Pj4+Pj4+IHRvIGZpcm13YXJlLCBkb2VzIHRoaXMgaGF2ZSBhbiBl
-ZmZlY3Qgb24gdGhlIHN0YXRpc3RpY3MNCj4gZm9ybWF0Pw0KPiA+Pj4+Pj4+Pj4+PiBJZiBzbywg
-Y2FuIHRoZSBleGlzdGluZyB1c2VyIHNwYWNlIGNvcGUgd2l0aCB0aGF0Pw0KPiA+Pj4+Pj4+Pj4+
-DQo+ID4+Pj4+Pj4+Pj4gVG8gdHJ5IGFuZCBmaWd1cmUgdGhhdCBvdXQsIHdlIGhhdmUgdGVzdGVk
-IHNldmVyYWwgZ3JpZA0KPiA+Pj4+Pj4+Pj4+IGNvbmZpZ3VyYXRpb25zIGFuZCBpbnNwZWN0ZWQg
-dGhlIGNhcHR1cmVkIHN0YXRpc3RpY3MuIFdlIGhhdmUNCj4gPj4+Pj4+Pj4+PiBjb252ZXJ0ZWQg
-dGhlIHN0YXRpc3RpY3MgaW4gYW4gaW1hZ2UsIHJlbmRlcmluZyBlYWNoIGNlbGwgYXMNCj4gPj4+
-Pj4+Pj4+PiBhIHBpeGVsIHdob3NlIHJlZCwgZ3JlZW4gYW5kIGJsdWUgY29tcG9uZW50cyBhcmUg
-dGhlIGNlbGwncw0KPiA+Pj4+Pj4+Pj4+IHJlZCwNCj4gPj4gZ3JlZW4gYW5kIGJsdWUgYXZlcmFn
-ZXMuDQo+ID4+Pj4+Pj4+Pj4gVGhpcyB0dXJuZWQgb3V0IHRvIGJlIGEgdmVyeSBlZmZlY3RpY2Ug
-dG9vbCB0byBxdWlja2x5DQo+ID4+Pj4+Pj4+Pj4gdmlzdWFsaXplIEFXQiBzdGF0aXN0aWNzLg0K
-PiA+Pj4+Pj4+Pj4+IFdlIGhhdmUgbWFkZSBhIGxvdCBvZiB0ZXN0cyB3aXRoIGRpZmZlcmVudCBv
-dXRwdXQNCj4gPj4+Pj4+Pj4+PiByZXNvbHV0aW9ucywgZnJvbSBhIHNtYWxsIG9uZSB1cCB0byB0
-aGUgZnVsbC1zY2FsZSBvbmUuDQo+ID4+Pj4+Pj4+Pj4NCj4gPj4+Pj4+Pj4+PiBIZXJlIGlzIG9u
-ZSBleGFtcGxlIG9mIGEgc3RhdGlzdGljcyBvdXRwdXQgd2l0aCBhIFZpZXdGaW5kZXINCj4gPj4+
-Pj4+Pj4+PiBjb25maWd1cmVkIGFzIDE5MjB4MTI4MCwgd2l0aCBhIEJEUyBvdXRwdXQgY29uZmln
-dXJhdGlvbiBzZXQNCj4gPj4+Pj4+Pj4+PiB0bw0KPiA+Pj4+Pj4+Pj4+IDIzMDR4MTUzNiAoc2Vu
-c29yIGlzIDI1OTJ4MTk0NCkuDQo+ID4+Pj4+Pj4+Pj4NCj4gPj4+Pj4+Pj4+PiBXaXRob3V0IHRo
-ZSBwYXRjaCwgY29uZmlndXJpbmcgYSA3OXg0NSBncmlkIG9mIDE2eDE2IGNlbGxzIHdlDQo+ID4+
-Pj4+Pj4+Pj4gb2J0YWluIHRoZQ0KPiA+Pj4+Pj4+Pj4+IGltYWdlOiBodHRwczovL3Bhc3RlYm9h
-cmQuY28vZzRuQzRmSGpiVkVSLnBuZy4NCj4gPj4+Pj4+Pj4+PiBXZSBjYW4gbm90aWNlIGEgd2Vp
-cmQgcGFkZGluZyBldmVyeSB0d28gbGluZXMgYW5kIGl0IHNlZW1zIHRvDQo+ID4+Pj4+Pj4+Pj4g
-YmUgbWlzc2luZyBoYWxmIG9mIHRoZSBmcmFtZS4NCj4gPj4+Pj4+Pj4+Pg0KPiA+Pj4+Pj4+Pj4+
-IFdpdGggdGhlIHBhdGNoIGFwcGxpZWQsIHRoZSBzYW1lIGNvbmZpZ3VyYXRpb24gZ2l2ZXMgdXMg
-dGhlDQo+ID4+IGltYWdlOg0KPiA+Pj4+Pj4+Pj4+IGh0dHBzOi8vcGFzdGVib2FyZC5jby9yemFw
-NmF4SXZWZHUucG5nDQo+ID4+Pj4+Pj4+Pj4NCj4gPj4+Pj4+Pj4+PiBXZSBjYW4gY2xlYXJseSBz
-ZWUgdGhlIG9uZSBwYWRkaW5nIHBpeGVsIG9uIHRoZSByaWdodCwgYW5kDQo+ID4+Pj4+Pj4+Pj4g
-dGhlIGZyYW1lIGlzIGFsbCB0aGVyZSwgYXMgZXhwZWN0ZWQuDQo+ID4+Pj4+Pj4+Pj4NCj4gPj4+
-Pj4+Pj4+PiBUb21hc3o6IFdlJ3JlIGNvbmNlcm5lZCB0aGF0IHRoaXMgcGF0Y2ggbWF5IGhhdmUg
-YW4gaW1wYWN0IG9uDQo+ID4+Pj4+Pj4+Pj4gdGhlIENocm9tZU9TIEludGVsIENhbWVyYSBIQUwg
-d2l0aCB0aGUgSVBVMy4gSXMgaXQgcG9zc2libGUNCj4gPj4+Pj4+Pj4+PiBmb3Igc29tZW9uZSB0
-byByZXZpZXcgYW5kIHRlc3QgdGhpcyBwbGVhc2U/DQo+ID4+Pj4+Pj4+Pg0KPiA+Pj4+Pj4+Pj4g
-QXMgc2hvd24gYnkgdGhlIGltYWdlcyBhYm92ZSwgdGhpcyBpcyBhIHJlYWwgZml4LiBJdCBvbmx5
-DQo+ID4+Pj4+Pj4+PiBhZmZlY3RzIGdyaWQgY29uZmlndXJhdGlvbnMgdGhhdCB1c2UgYSBzaW5n
-bGUgc3RyaXBlIChsZWZ0IG9yDQo+ID4+Pj4+Pj4+PiByaWdodCksIHNvIGVpdGhlciAic21hbGwi
-IHJlc29sdXRpb25zIChsZXNzIHRoYW4gMTI4MCBwaXhlbHMNCj4gPj4+Pj4+Pj4+IGF0IHRoZSBC
-RFMgb3V0cHV0IGlmIEkgcmVjYWxsIGNvcnJlY3RseSksIG9yIGdyaWQNCj4gPj4+Pj4+Pj4+IGNv
-bmZpZ3VyYXRpb25zIHRoYXQgc3BhbiB0aGUgbGVmdCBwYXJ0IG9mIHRoZSBpbWFnZSB3aXRoDQo+
-IGhpZ2hlciByZXNvbHV0aW9ucy4NCj4gPj4+Pj4+Pj4+IFRoZSBsYXR0ZXIgaXMgcHJvYmFibHkg
-dW5saWtlbHkuIEZvciB0aGUgZm9ybWVyLCBpdCBtYXkgYWZmZWN0DQo+ID4+Pj4+Pj4+PiB0aGUg
-YmluYXJ5IGxpYnJhcnksIGVzcGVjaWFsbHkgaWYgaXQgaW5jbHVkZXMgYSB3b3JrYXJvdW5kIGZv
-cg0KPiA+PiB0aGUgYnVnLg0KPiA+Pj4+Pj4+Pj4NCj4gPj4+Pj4+Pj4+IFN0aWxsLCB0aGlzIGNo
-YW5nZSBpcyBnb29kIEkgYmVsaWV2ZSwgc28gaXQgc2hvdWxkIGJlDQo+IHVwc3RyZWFtZWQuDQo+
-ID4+Pg0KPiA+DQo=
+Hi Hans,
+
+Thank you for your kind guidance, it is really helpful for us to
+comprehend V4L2 framework.
+After modifying the settings you mentioned, the V4L2-Compliance test
+results all passed and listed below.
+All these changes will be integrated into the next version.
+
+localhost ~ # v4l2-compliance -d 11
+v4l2-compliance SHA: not available
+, 32 bits, 32-bit time_t
+
+Compliance test for mtk-mdp3 device /dev/video11:
+
+Driver Info:
+        Driver name      : mtk-mdp3
+        Card type        : 14001000.mdp3_rdma0
+        Bus info         : platform:mtk-mdp3
+        Driver version   : 5.10.66
+        Capabilities     : 0x84204000
+                Video Memory-to-Memory Multiplanar
+                Streaming
+                Extended Pix Format
+                Device Capabilities
+        Device Caps      : 0x04204000
+                Video Memory-to-Memory Multiplanar
+                Streaming
+                Extended Pix Format
+
+Required ioctls:
+        test VIDIOC_QUERYCAP: OK
+
+Allow for multiple opens:
+        test second /dev/video11 open: OK
+        test VIDIOC_QUERYCAP: OK
+        test VIDIOC_G/S_PRIORITY: OK
+        test for unlimited opens: OK
+
+        test invalid ioctls: OK
+Debug ioctls:
+        test VIDIOC_DBG_G/S_REGISTER: OK (Not Supported)
+        test VIDIOC_LOG_STATUS: OK (Not Supported)
+
+Input ioctls:
+        test VIDIOC_G/S_TUNER/ENUM_FREQ_BANDS: OK (Not Supported)
+        test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+        test VIDIOC_S_HW_FREQ_SEEK: OK (Not Supported)
+        test VIDIOC_ENUMAUDIO: OK (Not Supported)
+        test VIDIOC_G/S/ENUMINPUT: OK (Not Supported)
+        test VIDIOC_G/S_AUDIO: OK (Not Supported)
+        Inputs: 0 Audio Inputs: 0 Tuners: 0
+
+Output ioctls:
+        test VIDIOC_G/S_MODULATOR: OK (Not Supported)
+        test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+        test VIDIOC_ENUMAUDOUT: OK (Not Supported)
+        test VIDIOC_G/S/ENUMOUTPUT: OK (Not Supported)
+        test VIDIOC_G/S_AUDOUT: OK (Not Supported)
+        Outputs: 0 Audio Outputs: 0 Modulators: 0
+
+Input/Output configuration ioctls:
+        test VIDIOC_ENUM/G/S/QUERY_STD: OK (Not Supported)
+        test VIDIOC_ENUM/G/S/QUERY_DV_TIMINGS: OK (Not Supported)
+        test VIDIOC_DV_TIMINGS_CAP: OK (Not Supported)
+        test VIDIOC_G/S_EDID: OK (Not Supported)
+
+Control ioctls:
+        test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: OK
+        test VIDIOC_QUERYCTRL: OK
+        test VIDIOC_G/S_CTRL: OK
+        test VIDIOC_G/S/TRY_EXT_CTRLS: OK
+        test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: OK
+        test VIDIOC_G/S_JPEGCOMP: OK (Not Supported)
+        Standard Controls: 4 Private Controls: 0
+
+Format ioctls:
+        test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: OK
+        test VIDIOC_G/S_PARM: OK (Not Supported)
+        test VIDIOC_G_FBUF: OK (Not Supported)
+        test VIDIOC_G_FMT: OK
+        test VIDIOC_TRY_FMT: OK
+        test VIDIOC_S_FMT: OK
+        test VIDIOC_G_SLICED_VBI_CAP: OK (Not Supported)
+        test Cropping: OK
+        test Composing: OK
+        test Scaling: OK
+
+Codec ioctls:
+        test VIDIOC_(TRY_)ENCODER_CMD: OK (Not Supported)
+        test VIDIOC_G_ENC_INDEX: OK (Not Supported)
+        test VIDIOC_(TRY_)DECODER_CMD: OK (Not Supported)
+
+Buffer ioctls:
+        test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK
+        test VIDIOC_EXPBUF: OK
+        test Requests: OK (Not Supported)
+
+Total for mtk-mdp3 device /dev/video11: 45, Succeeded: 45, Failed: 0,
+Warnings: 0
+
+localhost ~ # v4l2-compliance -d 11 -s 1
+v4l2-compliance SHA: not available
+, 32 bits, 32-bit time_t
+
+Compliance test for mtk-mdp3 device /dev/video11:
+
+Driver Info:
+        Driver name      : mtk-mdp3
+        Card type        : 14001000.mdp3_rdma0
+        Bus info         : platform:mtk-mdp3
+        Driver version   : 5.10.66
+        Capabilities     : 0x84204000
+                Video Memory-to-Memory Multiplanar
+                Streaming
+                Extended Pix Format
+                Device Capabilities
+        Device Caps      : 0x04204000
+                Video Memory-to-Memory Multiplanar
+                Streaming
+                Extended Pix Format
+
+Required ioctls:
+        test VIDIOC_QUERYCAP: OK
+
+Allow for multiple opens:
+        test second /dev/video11 open: OK
+        test VIDIOC_QUERYCAP: OK
+        test VIDIOC_G/S_PRIORITY: OK
+        test for unlimited opens: OK
+
+        test invalid ioctls: OK
+Debug ioctls:
+        test VIDIOC_DBG_G/S_REGISTER: OK (Not Supported)
+        test VIDIOC_LOG_STATUS: OK (Not Supported)
+
+Input ioctls:
+        test VIDIOC_G/S_TUNER/ENUM_FREQ_BANDS: OK (Not Supported)
+        test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+        test VIDIOC_S_HW_FREQ_SEEK: OK (Not Supported)
+        test VIDIOC_ENUMAUDIO: OK (Not Supported)
+        test VIDIOC_G/S/ENUMINPUT: OK (Not Supported)
+        test VIDIOC_G/S_AUDIO: OK (Not Supported)
+        Inputs: 0 Audio Inputs: 0 Tuners: 0
+
+Output ioctls:
+        test VIDIOC_G/S_MODULATOR: OK (Not Supported)
+        test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+        test VIDIOC_ENUMAUDOUT: OK (Not Supported)
+        test VIDIOC_G/S/ENUMOUTPUT: OK (Not Supported)
+        test VIDIOC_G/S_AUDOUT: OK (Not Supported)
+        Outputs: 0 Audio Outputs: 0 Modulators: 0
+
+Input/Output configuration ioctls:
+        test VIDIOC_ENUM/G/S/QUERY_STD: OK (Not Supported)
+        test VIDIOC_ENUM/G/S/QUERY_DV_TIMINGS: OK (Not Supported)
+        test VIDIOC_DV_TIMINGS_CAP: OK (Not Supported)
+        test VIDIOC_G/S_EDID: OK (Not Supported)
+
+Control ioctls:
+        test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: OK
+        test VIDIOC_QUERYCTRL: OK
+        test VIDIOC_G/S_CTRL: OK
+        test VIDIOC_G/S/TRY_EXT_CTRLS: OK
+        test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: OK
+        test VIDIOC_G/S_JPEGCOMP: OK (Not Supported)
+        Standard Controls: 4 Private Controls: 0
+
+Format ioctls:
+        test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: OK
+        test VIDIOC_G/S_PARM: OK (Not Supported)
+        test VIDIOC_G_FBUF: OK (Not Supported)
+        test VIDIOC_G_FMT: OK
+        test VIDIOC_TRY_FMT: OK
+        test VIDIOC_S_FMT: OK
+        test VIDIOC_G_SLICED_VBI_CAP: OK (Not Supported)
+        test Cropping: OK
+        test Composing: OK
+        test Scaling: OK
+
+Codec ioctls:
+        test VIDIOC_(TRY_)ENCODER_CMD: OK (Not Supported)
+        test VIDIOC_G_ENC_INDEX: OK (Not Supported)
+        test VIDIOC_(TRY_)DECODER_CMD: OK (Not Supported)
+
+Buffer ioctls:
+        test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK
+        test VIDIOC_EXPBUF: OK
+        test Requests: OK (Not Supported)
+
+Test input 0:
+
+Streaming ioctls:
+        test read/write: OK (Not Supported)
+        test blocking wait: OK
+        Video Capture Multiplanar: Captured 1 buffers
+        test MMAP (no poll): OK
+        Video Capture Multiplanar: Captured 1 buffers
+        test MMAP (select): OK
+        Video Capture Multiplanar: Captured 1 buffers
+        test MMAP (epoll): OK
+        test USERPTR (no poll): OK (Not Supported)
+        test USERPTR (select): OK (Not Supported)
+        test DMABUF: Cannot test, specify --expbuf-device
+
+Total for mtk-mdp3 device /dev/video11: 52, Succeeded: 52, Failed: 0,
+Warnings: 0
+
+Thanks & Regards,
+Moudy Ho
+
+On Fri, 2021-09-03 at 12:01 +0200, Hans Verkuil wrote:
+> Hi Moudy,
+> 
+> Can you provide the 'v4l2-compliance -s' output?
+> 
+> Make sure to compile v4l2-compliance from the latest code base:
+> 
+https://urldefense.com/v3/__https://git.linuxtv.org/v4l-utils.git/__;!!CTRNKA9wMg0ARbw!2QmkFhMoYBCR4MC5d_l8b7zvdEdwkfd6826nOY6WAHQChU4rMl8P9UtO6Z8ZrcPD$
+>  
+> 
+> Compiling on x86_64 (so using COMPILE_TEST) fails:
+> 
+>   LD      .tmp_vmlinux.kallsyms1
+> ld: drivers/media/platform/mtk-mdp3/mtk-mdp3-core.o: in function
+> `mdp_probe':
+> mtk-mdp3-core.c:(.text+0x415): undefined reference to
+> `mtk_mutex_mdp_get'
+> ld: drivers/media/platform/mtk-mdp3/mtk-mdp3-comp.o: in function
+> `config_camin_subfrm':
+> mtk-mdp3-comp.c:(.text+0x9b): undefined reference to
+> `mtk_mmsys_mdp_camin_ctrl'
+> ld: mtk-mdp3-comp.c:(.text+0xbc): undefined reference to
+> `mtk_mmsys_mdp_camin_ctrl'
+> ld: drivers/media/platform/mtk-mdp3/mtk-mdp3-comp.o: in function
+> `mdp_component_deinit':
+> mtk-mdp3-comp.c:(.text+0x2707): undefined reference to
+> `mtk_mutex_put'
+> ld: drivers/media/platform/mtk-mdp3/mtk-mdp3-comp.o: in function
+> `init_isp.cold':
+> mtk-mdp3-comp.c:(.text.unlikely+0x4f): undefined reference to
+> `mtk_mmsys_mdp_isp_ctrl'
+> ld: mtk-mdp3-comp.c:(.text.unlikely+0x7a): undefined reference to
+> `mtk_mmsys_mdp_isp_ctrl'
+> ld: drivers/media/platform/mtk-mdp3/mtk-mdp3-cmdq.o: in function
+> `mdp_auto_release_work':
+> mtk-mdp3-cmdq.c:(.text+0x13): undefined reference to
+> `mtk_mutex_unprepare'
+> ld: drivers/media/platform/mtk-mdp3/mtk-mdp3-cmdq.o: in function
+> `mdp_path_subfrm_require':
+> mtk-mdp3-cmdq.c:(.text+0x45e): undefined reference to
+> `mtk_mutex_add_mdp_mod'
+> ld: drivers/media/platform/mtk-mdp3/mtk-mdp3-cmdq.o: in function
+> `mdp_path_subfrm_run.isra.0':
+> mtk-mdp3-cmdq.c:(.text+0x78b): undefined reference to
+> `mtk_mutex_enable_by_cmdq'
+> ld: drivers/media/platform/mtk-mdp3/mtk-mdp3-cmdq.o: in function
+> `mdp_path_config_subfrm':
+> mtk-mdp3-cmdq.c:(.text+0xa0d): undefined reference to
+> `mtk_mmsys_mdp_connect'
+> ld: mtk-mdp3-cmdq.c:(.text+0xd08): undefined reference to
+> `mtk_mmsys_mdp_disconnect'
+> ld: drivers/media/platform/mtk-mdp3/mtk-mdp3-cmdq.o: in function
+> `mdp_cmdq_send':
+> (.text+0x1358): undefined reference to `mtk_mutex_prepare'
+> ld: drivers/media/platform/mtk-mdp3/mtk-mdp3-cmdq.o: in function
+> `mdp_handle_cmdq_callback.cold':
+> mtk-mdp3-cmdq.c:(.text.unlikely+0x34): undefined reference to
+> `mtk_mutex_unprepare'
+> ld: drivers/media/platform/mtk-mdp3/mtk-mdp3-cmdq.o: in function
+> `mdp_cmdq_send.cold':
+> mtk-mdp3-cmdq.c:(.text.unlikely+0xe3): undefined reference to
+> `mtk_mutex_unprepare'
+> make: *** [Makefile:1177: vmlinux] Error 1
+> 
+> I also get compile warnings:
+> 
+> drivers/media/platform/mtk-mdp3/mtk-mdp3-comp.c: In function
+> ‘mdp_sub_comps_create’:
+> drivers/media/platform/mtk-mdp3/mtk-mdp3-comp.c:1151:29: warning:
+> implicit conversion from ‘enum mtk_mdp_comp_id’ to ‘enum
+> mdp_comp_type’ [-Wenum-conversion]
+>  1151 |   enum mdp_comp_type type = MDP_COMP_NONE;
+>       |                             ^~~~~~~~~~~~~
+> drivers/media/platform/mtk-mdp3/mtk-mdp3-comp.c: In function
+> ‘mdp_component_init’:
+> drivers/media/platform/mtk-mdp3/mtk-mdp3-comp.c:1217:6: warning:
+> unused variable ‘i’ [-Wunused-variable]
+>  1217 |  int i, ret;
+>       |      ^
+> drivers/media/platform/mtk-mdp3/mtk-mdp3-cmdq.c: In function
+> ‘mdp_cmdq_send’:
+> drivers/media/platform/mtk-mdp3/mtk-mdp3-cmdq.c:489:1: warning: the
+> frame size of 1312 bytes is larger than 1024 bytes [-Wframe-larger-
+> than=]
+>   489 | }
+>       | ^
+> 
+> Regards,
+> 
+> 	Hans
+> 
+> On 24/08/2021 12:00, Moudy Ho wrote:
+> > Changes since v6:
+> > - Refactor GCE event to corresponding node.
+> > - Fix dt_binding_check fail.
+> > - Fix compilation errors.
+> > 
+> > Changes since v5:
+> > - Rebase on v5.14-rc6.
+> > - Move MMSYS/Mutex settings to corresponding driver.
+> > - Revise the software license description and copyright.
+> > - Remove unnecessary enum. or definitions.
+> > - Optimize platform/chip definition conditions.
+> > - Use general printing functions instead of MDP3 private ones.
+> > - Fix compile warning.
+> > 
+> > Changes since v4:
+> > - Rebase on v5.13-rc1.
+> > - Remove the CMDQ flush flow to match the CMDQ API change.
+> > - Integrate four of MDP's direct-link subcomponents into MDP
+> > controller node
+> >   from syscon node to avoid illegal clock usage.
+> > - Rewrite dt-binding in a JSON compatible subset of YAML
+> > - Fix a bit of macro argument precedence.
+> > 
+> > Changes since v3:
+> > - Rebase on v5.9-rc1.
+> > - modify code for review comment from Rob Herring, cancel multiple
+> > nodes using
+> >   same register base situation.
+> > - control IOMMU port through pm runtime get/put to DMA components'
+> > device.
+> > - SCP(VPU) driver revision.
+> > - stop queuing jobs(remove flush_workqueue()) after
+> > mdp_m2m_release().
+> > - add computation of plane address with data_offset.
+> > - fix scale ratio check issue.
+> > - add default v4l2_format setting.
+> > 
+> > Changes since v2:
+> > - modify code for review comment from Tomasz Figa & Alexandre
+> > Courbot
+> > - review comment from Rob Herring will offer code revision in v4,
+> > due to
+> >   it's related to device node modification, will need to modify
+> > code
+> >   architecture
+> > 
+> > Changes since v1:
+> > - modify code for CMDQ v3 API support
+> > - EC ipi cmd migration
+> > - fix compliance test fail item (m2m cmd with -f) due to there is
+> > two problem in runing all format(-f) cmd:
+> > 1. out of memory before test complete
+> >         Due to capture buffer mmap (refcount + 1) after reqbuf but
+> > seems
+> >         no corresponding munmap called before device close.
+> >         There are total 12XX items(formats) in format test and each
+> > format
+> >         alloc 8 capture/output buffers.
+> > 2. unceasingly captureBufs() (randomly)
+> >         Seems the break statement didn't catch the count == 0
+> > situation:
+> >         In v4l2-test-buffers.cpp, function: captureBufs()
+> >                         ...
+> >                         count--;
+> >                         if (!node->is_m2m && !count)
+> >                                 break;
+> >         Log is as attachment
+> > 
+> > I will paste the test result with problem part in another e-mail
+> > 
+> > Hi,
+> > 
+> > This is the first version of RFC patch for Media Data Path 3
+> > (MDP3),
+> > MDP3 is used for scaling and color format conversion.
+> > support using GCE to write register in critical time limitation.
+> > support V4L2 m2m device control.
+> > 
+> > Moudy Ho (5):
+> >   soc: mediatek: mutex: add support for MDP
+> >   soc: mediatek: mmsys: Add support for MDP
+> >   dt-binding: mt8183: Add Mediatek MDP3 dt-bindings
+> >   dts: arm64: mt8183: Add Mediatek MDP3 nodes
+> >   media: platform: mtk-mdp3: Add Mediatek MDP3 driver
+> > 
+> >  .../bindings/media/mediatek,mdp3-ccorr.yaml   |   57 +
+> >  .../bindings/media/mediatek,mdp3-rdma.yaml    |  207 +++
+> >  .../bindings/media/mediatek,mdp3-rsz.yaml     |   65 +
+> >  .../bindings/media/mediatek,mdp3-wdma.yaml    |   71 +
+> >  .../bindings/media/mediatek,mdp3-wrot.yaml    |   71 +
+> >  arch/arm64/boot/dts/mediatek/mt8183.dtsi      |  110 ++
+> >  drivers/media/platform/Kconfig                |   19 +
+> >  drivers/media/platform/Makefile               |    2 +
+> >  drivers/media/platform/mtk-mdp3/Makefile      |    6 +
+> >  .../media/platform/mtk-mdp3/mdp_reg_ccorr.h   |   19 +
+> >  drivers/media/platform/mtk-mdp3/mdp_reg_isp.h |   27 +
+> >  .../media/platform/mtk-mdp3/mdp_reg_rdma.h    |   65 +
+> >  drivers/media/platform/mtk-mdp3/mdp_reg_rsz.h |   39 +
+> >  .../media/platform/mtk-mdp3/mdp_reg_wdma.h    |   47 +
+> >  .../media/platform/mtk-mdp3/mdp_reg_wrot.h    |   55 +
+> >  drivers/media/platform/mtk-mdp3/mtk-img-ipi.h |  280 ++++
+> >  .../media/platform/mtk-mdp3/mtk-mdp3-cmdq.c   |  507 +++++++
+> >  .../media/platform/mtk-mdp3/mtk-mdp3-cmdq.h   |   46 +
+> >  .../media/platform/mtk-mdp3/mtk-mdp3-comp.c   | 1307
+> > +++++++++++++++++
+> >  .../media/platform/mtk-mdp3/mtk-mdp3-comp.h   |  147 ++
+> >  .../media/platform/mtk-mdp3/mtk-mdp3-core.c   |  329 +++++
+> >  .../media/platform/mtk-mdp3/mtk-mdp3-core.h   |   75 +
+> >  .../media/platform/mtk-mdp3/mtk-mdp3-m2m.c    |  801 ++++++++++
+> >  .../media/platform/mtk-mdp3/mtk-mdp3-m2m.h    |   41 +
+> >  .../media/platform/mtk-mdp3/mtk-mdp3-regs.c   |  746 ++++++++++
+> >  .../media/platform/mtk-mdp3/mtk-mdp3-regs.h   |  372 +++++
+> >  .../media/platform/mtk-mdp3/mtk-mdp3-vpu.c    |  312 ++++
+> >  .../media/platform/mtk-mdp3/mtk-mdp3-vpu.h    |   78 +
+> >  drivers/soc/mediatek/mt8183-mmsys.h           |  235 +++
+> >  drivers/soc/mediatek/mtk-mmsys.c              |  164 +++
+> >  drivers/soc/mediatek/mtk-mmsys.h              |    9 +-
+> >  drivers/soc/mediatek/mtk-mutex.c              |  106 +-
+> >  include/linux/soc/mediatek/mtk-mmsys.h        |   81 +
+> >  include/linux/soc/mediatek/mtk-mutex.h        |    8 +
+> >  34 files changed, 6495 insertions(+), 9 deletions(-)
+> >  create mode 100644
+> > Documentation/devicetree/bindings/media/mediatek,mdp3-ccorr.yaml
+> >  create mode 100644
+> > Documentation/devicetree/bindings/media/mediatek,mdp3-rdma.yaml
+> >  create mode 100644
+> > Documentation/devicetree/bindings/media/mediatek,mdp3-rsz.yaml
+> >  create mode 100644
+> > Documentation/devicetree/bindings/media/mediatek,mdp3-wdma.yaml
+> >  create mode 100644
+> > Documentation/devicetree/bindings/media/mediatek,mdp3-wrot.yaml
+> >  create mode 100644 drivers/media/platform/mtk-mdp3/Makefile
+> >  create mode 100644 drivers/media/platform/mtk-mdp3/mdp_reg_ccorr.h
+> >  create mode 100644 drivers/media/platform/mtk-mdp3/mdp_reg_isp.h
+> >  create mode 100644 drivers/media/platform/mtk-mdp3/mdp_reg_rdma.h
+> >  create mode 100644 drivers/media/platform/mtk-mdp3/mdp_reg_rsz.h
+> >  create mode 100644 drivers/media/platform/mtk-mdp3/mdp_reg_wdma.h
+> >  create mode 100644 drivers/media/platform/mtk-mdp3/mdp_reg_wrot.h
+> >  create mode 100644 drivers/media/platform/mtk-mdp3/mtk-img-ipi.h
+> >  create mode 100644 drivers/media/platform/mtk-mdp3/mtk-mdp3-cmdq.c
+> >  create mode 100644 drivers/media/platform/mtk-mdp3/mtk-mdp3-cmdq.h
+> >  create mode 100644 drivers/media/platform/mtk-mdp3/mtk-mdp3-comp.c
+> >  create mode 100644 drivers/media/platform/mtk-mdp3/mtk-mdp3-comp.h
+> >  create mode 100644 drivers/media/platform/mtk-mdp3/mtk-mdp3-core.c
+> >  create mode 100644 drivers/media/platform/mtk-mdp3/mtk-mdp3-core.h
+> >  create mode 100644 drivers/media/platform/mtk-mdp3/mtk-mdp3-m2m.c
+> >  create mode 100644 drivers/media/platform/mtk-mdp3/mtk-mdp3-m2m.h
+> >  create mode 100644 drivers/media/platform/mtk-mdp3/mtk-mdp3-regs.c
+> >  create mode 100644 drivers/media/platform/mtk-mdp3/mtk-mdp3-regs.h
+> >  create mode 100644 drivers/media/platform/mtk-mdp3/mtk-mdp3-vpu.c
+> >  create mode 100644 drivers/media/platform/mtk-mdp3/mtk-mdp3-vpu.h
+> > 
+> 
+> 
+
