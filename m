@@ -2,181 +2,225 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 97DD642D44F
-	for <lists+linux-media@lfdr.de>; Thu, 14 Oct 2021 09:57:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A6B1242D464
+	for <lists+linux-media@lfdr.de>; Thu, 14 Oct 2021 09:59:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230026AbhJNH7R (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 14 Oct 2021 03:59:17 -0400
-Received: from mx0b-00069f02.pphosted.com ([205.220.177.32]:49518 "EHLO
-        mx0b-00069f02.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S229551AbhJNH7Q (ORCPT
+        id S230242AbhJNIBQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 14 Oct 2021 04:01:16 -0400
+Received: from relay11.mail.gandi.net ([217.70.178.231]:60163 "EHLO
+        relay11.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230320AbhJNIBO (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 14 Oct 2021 03:59:16 -0400
-Received: from pps.filterd (m0246631.ppops.net [127.0.0.1])
-        by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 19E71KUm007382;
-        Thu, 14 Oct 2021 07:56:55 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
- : subject : message-id : references : content-type : in-reply-to :
- mime-version; s=corp-2021-07-09;
- bh=Jd3/6V+AWh48jrDGHjjSbWrUddYfdje8RxlLvl5qWMo=;
- b=qOHjPo9nkZago01JWhoATmZq4vFKY9jMn64Y5GP/tA+zlmDRh6dDYYmDWlOYgKGKocwD
- DNnunc8WU+pZDwPL0ADEg7MZlodIDxfkAehPIW0CggF2Z78WKHfwLN4sP3wPDIHKvQSk
- YZYzg3n8ntTzP5Aalffk7s88BV+eSQ4ZJqtY02hjoobc7usQgJGTJIjS9r0vzd98uCtE
- j2DQDK4V4hCSD2auUwxSBCVApZICzECO9MrvKNJ04BRFXsVDvAyDR3JQNa98mXw17VJw
- 46wXLyA7t0xAGziuSCR6nBVRQt4t2MgIhjHkabEQ+/QsdsTavX4BKmh6du8DzFgMmJnm iA== 
-Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
-        by mx0b-00069f02.pphosted.com with ESMTP id 3bpfsyg8xu-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Thu, 14 Oct 2021 07:56:54 +0000
-Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
-        by userp3030.oracle.com (8.16.1.2/8.16.1.2) with SMTP id 19E7tDX6188472;
-        Thu, 14 Oct 2021 07:56:51 GMT
-Received: from nam12-dm6-obe.outbound.protection.outlook.com (mail-dm6nam12lp2168.outbound.protection.outlook.com [104.47.59.168])
-        by userp3030.oracle.com with ESMTP id 3bkyvc8f9j-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Thu, 14 Oct 2021 07:56:51 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=jUF547hzvLKY4iNJY30CTbEsGpO/2QfbaecERvpBZBm3NFIqk+LakupQBsUBcr65RoOfe6YQ1HhaqUuNHgxFcZt2awDs80kOhj+qm9KHxBQMpqX5RdgOXIqy8/tl21r/FNUF7fUOhwmuEmKvTwxoyzFZGNtVu5QwsIJd2vNQFWKMMtjRVNneUxWiTpg5WLOyoHdQfKJ4JEYxz/o5ubX8HdM/S9qt0GU8IMg6nU5iHMcmJmR7w0QY8fC8HjnURuzNPJIHozeVMQwe4djF53vMH1EE0He9zSa+uCwpjVaz3lMN9smohZ8aTeFdNScX+9d+Y/wuK/HH1q6wGf7MXtQIJw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Jd3/6V+AWh48jrDGHjjSbWrUddYfdje8RxlLvl5qWMo=;
- b=bNtsFGG2YtcMPhSdmTJNH2SWRwkAeVceqL0n5HYMmME5v+hNym9JRQzaFY51hvTjvq7cZOnBX+sPWnbyPi0rCFVc0t8ZCrZLkEhEoXzzaY8WLVfLwU5gr8MMCPRjUqa4u7TqwypbzGp8BbUa+2ornGflPVbqOW8O+mB/yVk2gPTydY1W0hbg6UyjSxRHBQomwUg6C88FysF1/2vIKtBmdyd6oy/vjIR+poIpirf99VzJfQwyLv00qiDMB20/rf43I5AIwA+sK4FcpyRKIWmJpI7b757HxBUyYmN5ct0XKZH9A7Q35nw3hx6O4OmyeJLR7oDuG7E3tJxUSQHL8lT3sA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Jd3/6V+AWh48jrDGHjjSbWrUddYfdje8RxlLvl5qWMo=;
- b=gmtDOwUDdhpBj9G1VSyGQWptp0LfbmhNGLh1M5EvJU7kZVzmBBfaQrKMLILUEkUxrmyZeB82KhbsUiGNWpTbsXRg5Nh3DZ/qkpFjQwwkUcYvRGEF1IVl0sO/OkevhzJ4PQnmUfuuzHCwB6SF/AWfG+yIRsacodpmHv/OiTz9qnQ=
-Authentication-Results: baylibre.com; dkim=none (message not signed)
- header.d=none;baylibre.com; dmarc=none action=none header.from=oracle.com;
-Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
- (2603:10b6:301:2d::28) by MWHPR10MB1359.namprd10.prod.outlook.com
- (2603:10b6:300:1f::10) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4608.16; Thu, 14 Oct
- 2021 07:56:47 +0000
-Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
- ([fe80::d409:11b5:5eb2:6be9]) by MWHPR1001MB2365.namprd10.prod.outlook.com
- ([fe80::d409:11b5:5eb2:6be9%5]) with mapi id 15.20.4608.016; Thu, 14 Oct 2021
- 07:56:47 +0000
-Date:   Thu, 14 Oct 2021 10:56:30 +0300
-From:   Dan Carpenter <dan.carpenter@oracle.com>
-To:     Corentin Labbe <clabbe@baylibre.com>
-Cc:     mchehab@kernel.org, hverkuil@xs4all.nl, gregkh@linuxfoundation.org,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-staging@lists.linux.dev, mjpeg-users@lists.sourceforge.net
-Subject: Re: [PATCH v2 06/10] staging: media: zoran: fusion all modules
-Message-ID: <20211014075630.GN8429@kadam>
-References: <20211013185812.590931-1-clabbe@baylibre.com>
- <20211013185812.590931-7-clabbe@baylibre.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20211013185812.590931-7-clabbe@baylibre.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-ClientProxiedBy: JNAP275CA0063.ZAFP275.PROD.OUTLOOK.COM (2603:1086:0:4f::21)
- To MWHPR1001MB2365.namprd10.prod.outlook.com (2603:10b6:301:2d::28)
+        Thu, 14 Oct 2021 04:01:14 -0400
+Received: (Authenticated sender: jacopo@jmondi.org)
+        by relay11.mail.gandi.net (Postfix) with ESMTPSA id 6BEAD100009;
+        Thu, 14 Oct 2021 07:59:07 +0000 (UTC)
+Date:   Thu, 14 Oct 2021 09:59:55 +0200
+From:   Jacopo Mondi <jacopo@jmondi.org>
+To:     Krzysztof =?utf-8?Q?Ha=C5=82asa?= <khalasa@piap.pl>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Sakari Ailus <sakari.ailus@iki.fi>,
+        Matteo Lisi <matteo.lisi@engicam.com>
+Subject: Re: [PATCH v5] Driver for ON Semi AR0521 camera sensor
+Message-ID: <20211014075955.xxbv2bzrx73v45bo@uno.localdomain>
+References: <m3fstfoexa.fsf@t19.piap.pl>
+ <20211009102446.jrvrdr7whtd2rv4z@uno.localdomain>
+ <m3mtnflpna.fsf@t19.piap.pl>
+ <20211011143420.vm6ncl5gdv44nsn3@uno.localdomain>
+ <m3a6jel9ce.fsf@t19.piap.pl>
+ <20211013082634.53zh5j26gucddome@uno.localdomain>
+ <m3y26xjd7p.fsf@t19.piap.pl>
+ <20211013151400.i2s3gcshb3xvuy2e@uno.localdomain>
+ <m3tuhkjh5l.fsf@t19.piap.pl>
 MIME-Version: 1.0
-Received: from kadam (62.8.83.99) by JNAP275CA0063.ZAFP275.PROD.OUTLOOK.COM (2603:1086:0:4f::21) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4608.15 via Frontend Transport; Thu, 14 Oct 2021 07:56:43 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 4728316d-82fa-425b-2071-08d98ee82c08
-X-MS-TrafficTypeDiagnostic: MWHPR10MB1359:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <MWHPR10MB13594B789C5744E640285F558EB89@MWHPR10MB1359.namprd10.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:2276;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: qE72FBkbsPlnJbCyN8UVXF3P63/UI1mqfFTJgF/TtRrUkZY705QbR7gZyyCwAJVxyyi1hPhBMv6UYDOx1IzKIoQ6M3jTJBLPQJ1mq3boENHLeMSuzumNtDOo33cJByXhA4VppZ5UsLwa7jiZW0zY3BAKa2oUZhgIbPRjZVcHXzMqNWSSXr0DUgmkrQXxWFCM9kmwChejnZc5vVJ1/AbnOPDPaalrDwHiihIWrRXZxvqR0BZC8rE2oAjM6lbX/ru/9qvKAdhe8avpcmylIO163F1/cWZDA/XzUIWFKDIBXLqfOYr/I/NyVJUgeqCfWSGUIX2/a9l696q8m09VQxEQcTZA9cNkkKmG9DRe5KpOpBkrNunNOjip8DG0XkS+WVdWW3cTDPpZnJhm0iRZiBfiay7NF5uJJsIHT2Wxodg3W7V/m/QBRae/t63O37Glpt/+asB54/KqJ91UBBZBapINGDuUgVQErhjSq2bzNJLIVHFTV63cd2+lvKx2nbfUDKeonOibr8nBFD2D9mvysS9WKRbi0zat5B1Rv8zS5V7iNq+mgeRiD+PSb+MF0L4nifHwaT0cEOK/BvjyBH2obzsQw9wcNL0PjhpR9qkaE6h9bjYaNgT5BdBaVMjRYdAM4O+SsgSFf0f9hKs9FLMbLVULE5HXmlHSKFHzAaJSOev56EEGNJpXcUV8s9Z23vrR60CGbdQwWotmhcSXh8BGWn50+Q==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MWHPR1001MB2365.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(366004)(8676002)(86362001)(9686003)(38100700002)(6916009)(66946007)(6496006)(52116002)(38350700002)(33716001)(83380400001)(508600001)(66476007)(66556008)(956004)(8936002)(55016002)(44832011)(2906002)(6666004)(9576002)(5660300002)(186003)(316002)(4326008)(1076003)(33656002)(26005);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?LUrSDA2z6MqKQ+/87IiwYu/t3w0Td8yceGpikLL/xgde66QlZO6bVBlWYpdG?=
- =?us-ascii?Q?dtIToDT1ObKJQAXNul/2hfAy9yL6rIhWBntbMTwH0kRMAElE2RXYAxDFPhMA?=
- =?us-ascii?Q?Vse0zHEP6iHlzB3RAYQGsvq4Ou6tvTw7eZiUtHtvK9l7eZEQ+ivWKAdZJN59?=
- =?us-ascii?Q?cVETYt0cRhYBbAWMwbR+BwS/sZ3iBeATyn7ukNF9TQEi/BJbTYo+tjvIfTsZ?=
- =?us-ascii?Q?lu6G4KgFBgg3BQzZkc/2Uss9TsO/v4qCGNopbvr9NMORghNvEWIawCyqp7sw?=
- =?us-ascii?Q?KAqBbe2S1n/07TVBALtPh81PSgsuxqeHeBu5ihfvYtyI3DzBR9r1HHB6xQ/z?=
- =?us-ascii?Q?xIlbp3xl2IalBqfyN1T+M5+Wlr9mvA5EUu6CPkCA5ic9b2mm49wa9ktE/hr7?=
- =?us-ascii?Q?n2fZ/hLShk3evp1RGfIyDc9aJfRjF8zC9haLywODIOh8YQfx+lAZQQ0L7Whc?=
- =?us-ascii?Q?hLDnV7uuFUitkg82er8FKf2SoiQpmHknlJ0BMHbLm3ShxAWReT7KhoZzFQTD?=
- =?us-ascii?Q?0cePTjkfTFM1KCrdMAL0YeVYSg7i5MQ5gSO8U/XUz0LJ8N4FMrpFxasnthIA?=
- =?us-ascii?Q?JlfPVLskOuGfTO4w6VvIllPOL6nhwJ6oOqoVH4wWZj1bJJXX33EolmNbwsa+?=
- =?us-ascii?Q?nhrRtJd37JpAqgFYeWfb12hQqyRZNHllvBHJsrfqA0A6NfmR9iYrVkLd3gyc?=
- =?us-ascii?Q?KtDeLsqi0U+647+//ONt8AD+EnweURrURoHn0HDySZ46ChUSURS83NyKG9NZ?=
- =?us-ascii?Q?9LeYQCRR7MKEwL1nfqxx3qfuUjUlsB6Ti45B2S/T00lG2O96DAJvaB0ECiVX?=
- =?us-ascii?Q?nrLF94b6X+bEHCfke9htqCJPKfDWeFfUA9Eqk2mF08hD0F3Ikk7m4rMsVJlB?=
- =?us-ascii?Q?O7fYGqaXUVCI6jGVLEqXtbjcLl187BFwqUgbtz5PZ4PT6CyDzqB/9vc7g4mD?=
- =?us-ascii?Q?mQB9kYAZlD8QPQAodM04agSF3O8S84qRdjkM3VpvtNBdNZ0bwTPBNN+aXCOW?=
- =?us-ascii?Q?k2nq08TGjgW22YKsEbkbmh5mHlp+vm2hmXtfeMGiZL62bsJRQ4nGHHl62FXq?=
- =?us-ascii?Q?/VIjdfGYZYdObGBbHvoweXR0GJ0uF5x4xkTZ5EFyilbzm86SU5bADpV5ld0r?=
- =?us-ascii?Q?rwDmVXfPjtTlHlr8dOYLElzbMA601CeOHPYJFMIlww3npI2x0uX637SMN0bh?=
- =?us-ascii?Q?eaaUIfkCraF5K06LCjDgAs5YXcE+pOUrhejvrhg1SQIBef6meGoKFL/td7Af?=
- =?us-ascii?Q?NQrf14EW3YhahfMrSJAX74LuYZj8eFk+hmqCQp0XeWaeGxXODvsRL+/yljUA?=
- =?us-ascii?Q?8Q+xHbmqPDIZ97LB3GXn2S9S?=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4728316d-82fa-425b-2071-08d98ee82c08
-X-MS-Exchange-CrossTenant-AuthSource: MWHPR1001MB2365.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Oct 2021 07:56:47.6390
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: czY6t0NHCOlvOE8f+Fn9mzz43d7s5ExdBEmgOMNX73EXPLu0FXgC9NdEa4PYmLZ+uudcYYMtHux3s1yV/7wOMcEEQh/ZXPhCjxfYMqv9G8g=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR10MB1359
-X-Proofpoint-Virus-Version: vendor=nai engine=6300 definitions=10136 signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0 phishscore=0 bulkscore=0
- malwarescore=0 adultscore=0 mlxscore=0 spamscore=0 mlxlogscore=999
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2109230001
- definitions=main-2110140048
-X-Proofpoint-ORIG-GUID: YkckKRMifYb8Nw9YSD55YFm3_mKXDwah
-X-Proofpoint-GUID: YkckKRMifYb8Nw9YSD55YFm3_mKXDwah
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <m3tuhkjh5l.fsf@t19.piap.pl>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Oct 13, 2021 at 06:58:08PM +0000, Corentin Labbe wrote:
-> +static int load_codec(struct zoran *zr, u16 codecid)
-> +{
-> +	switch (codecid) {
-> +	case CODEC_TYPE_ZR36060:
-> +#ifdef CONFIG_VIDEO_ZORAN_ZR36060
-> +		return zr36060_init_module();
-> +#else
-> +		pci_err(zr->pci_dev, "ZR36060 support is not enabled\n");
-> +		return -EINVAL;
-> +#endif
-> +		break;
-> +	case CODEC_TYPE_ZR36050:
-> +#ifdef CONFIG_VIDEO_ZORAN_DC30
-> +		return zr36050_init_module();
-> +#else
-> +		pci_err(zr->pci_dev, "ZR36050 support is not enabled\n");
-> +		return -EINVAL;
-> +#endif
-> +		break;
-> +	case CODEC_TYPE_ZR36016:
-> +#ifdef CONFIG_VIDEO_ZORAN_DC30
-> +		return zr36016_init_module();
-> +#else
-> +		pci_err(zr->pci_dev, "ZR36016 support is not enabled\n");
-> +		return -EINVAL;
-> +#endif
 
-The caller already prints an error message.  Can you look through the
-dmesg and make sure were not printing a bunch of duplicate stuff?  Also
-if load_codec() fails, the probe function still does
-zoran_setup_videocodec() on the failed codec.
+On Thu, Oct 14, 2021 at 07:43:02AM +0200, Krzysztof Hałasa wrote:
+> Jacopo,
+>
+> > To each open file handled is associated a try format, which should be
+> > initialized to some meaningful default.
+>
+> I will look at it then.
+>
+> > If you operate with a legacy implementation where everything goes
+> > through the video device node, you don't care about the subdev
+> > devnode.
+>
+> This can't be done in case of a sensor driver, right? Output from the
+> sensor is MIPI CSI, there is no connection to the memory bus.
+>
+> BTW: What SoC (or MIPI receiver etc.) are you using?
+>
+> >> > The difference is that the 0x3xxx ones are frame synchronized and
+> >> > apply to 'bad frames' too.
+> >>
+> >> Is it stated in the docs?
+> >
+> > Yes, in the right-most columns of the register tables.
+>
+> Right.
+> Interesting - they are marked both "frame sync'd" and "bad frame" (not
+> all of them), where the 0x340 ones are both "N". I will try some tests,
+> but such a combination looks a bit suspicious.
+> (I guess I already tested it, but don't remember the results).
+>
+> > Because it's documented as:
+> >
+> > Setting this bit causes the sensor to truncate the current frame at
+> > the end of the current row and start resetting (integrating) the first
+> > row. The delay before the first valid frame is read out is equal to
+> > the integration time.
+> >
+> > and since you're moving from test mode to stream mode, there's no
+> > frame integration going on.
+>
+> But there is :-)
+> Remember we're streaming, the whole sensor is working. It's just the
+> LP-11 on the output lines.
+>
+> > What do you mean with "Linux from top to the bottom" ?
+>
+> Userspace + ioctl on top, the driver/hw on the bottom.
+>
+> > What I meant is that the core cannot prevent ioctls and subdev
+> > operations to be called on the sensor while streaming, as the 'is
+> > streaming' state is only kept in the driver and there's no state
+> > keeping in the V4L2 core.
+>
+> Exactly, that's what I thought.
+>
+> >> while streaming. With certain (most?) drivers only, that's it. Not that
+> >> I actually tested it, but the v4l2 core code suggests it.
+> >
+> > spec says no.
+>
+> I'm not aware of it. The specs say a driver *is*allowed* to return
+> EBUSY, if it can't handle the condition.
+>
+> > reviewers say no.
+>
+> Haven't seen this either. The existing code (other drivers) suggests
+> otherwise.
+>
+> > maintainers say no.
+>
+> Ditto.
+> Buffers are a completely different thing.
+>
+> >> So I'm either to return -EBUSY, or - as others, probably most drivers -
+> >
+> > maybe they just assume they knew better when they got being told
+> > not to do so during review.
+>
+> All of the others are wrong?
+> Maybe nobody told them otherwise - because there was no reason?
+>
+> >> > I hardly see a case where changing format on the sensor through an
+> >> > operation on the subdev while streaming, is a good idea.
+> >>
+> >> I'm not in control of this.
+> >
+> > As you're not in control of how your driver will be used once merged
+>
+> Exactly, it's the very same thing.
+>
+> > That's why there are specs, reviews and collective knowledge that
+> > helps enforce a consistent behavior.
+>
+> That's correct. Now you tell me I'm not to write to the hw in set_fmt(),
+> while I can clearly see other drivers do exactly that, and nobody else
+> suggests they (I) shouldn't.
+>
+> > There's a potential point of failure in every single part of the
+> > capture pipeline, from the on-going transfer in the SoC's DMA engines
+> > to the CSI-2 receiver port.
+>
+> I'm not in control of this, why should I set a policy for them? I don't
+> even know if there is a SoC and DMA engines - maybe this goes straight
+> to the antenna or *SDI transmitter? :-)
+>
+> > Even without the stop/restart sequence, what happens if you increase
+> > the frame size which is output from the sensor without re-negotiating
+> > buffers or image formats ?
+>
+> *I* don't change frame sizes. It's the upper levels which are making
+> such decisions. My code can only comply or return an error.
+> Perhaps the upper levels know what they're doing?
+>
+> If they are wrong after all, well - a misprogrammed i.MX6 will corrupt
+> the frames, the output stream will lose sync, and the userspace can get
+> I/O errors on ioctls. The userspace will get what it asked for.
+>
+> This is BTW completely orthogonal to the -EBUSY on set_fmt(). The
+> effects will be exactly the same if the e.g. geometry changes come when
+> the sensor is not streaming.
+>
 
-These would be better in a .h file.
+No, this isn't true. Your s_fmt() implementation stops then restart the
+stream. It has an undocumented side effect and will cause undefined
+behaviour.
 
-#ifdef CONFIG_VIDEO_ZORAN_ZR36060
-int zr36060_init_module(void);
-#else
-int zr36060_init_module(void) { return -EINVAL; }
-#endif
+> > There's no single valid reason to allow such a use case, if not making
+> > out of it a matter of principle like you're doing.
+>
+> Then why other drivers do exactly that? Eg. all imx*.
+> Including the newest one imx412, merged 2021-08-04, and:
+>     Signed-off-by: Martina Krasteva <martinax.krasteva@intel.com>
+>     Acked-by: Daniele Alessandrelli <daniele.alessandrelli@intel.com>
+>     Acked-by: Paul J. Murphy <paul.j.murphy@intel.com>
+>     Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+>     Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+>
+> Are they really all wrong? Really?
+>
+> BTW principles are important to me, yes. One of them is "allow unless
+> required otherwise".
 
-regards,
-dan carpenter
+And that's how you will end up accepting the fact a s_fmt() has the
+slightly disruptive side effect of stopping/restarting the stream
+behind the back of the other components of the capture pipeline.
 
+If your s_fmt() has to stop and restart streaming to take effect,
+it means userspace should instead stop the stream, change
+the format where opportune in the pipeline, and then restart the stream.
+This allows the pipeline validation to take place, it allows buffers
+to be negotiated correctly, it makes it impossible to write
+application that rely on a side effect.
+
+There's a lot going on about correctness and avoiding undefined
+behaviours in the kernel these days. This is an example why I think a
+language change won't solve much, not when it comes to correctness
+towards user space. Allowing drivers to implement side-effects and
+what clearly is an example of undefined behaviour is the recipe to
+allow userspace to shot in their foot and makes it impossible to write
+portable software with a predictable behaviour.
+
+I still haven't heard a single reason why you want this, if not again,
+for a matter of principles, which is by the way the less possible
+productive way to carry on a converstation that should be based on
+facts and reasons, not a fight to impose your mindset no
+matter what.
+
+Anyway, since we're not going anywhere here, I'll let this upscale to
+anyone that will pick this driver up.
+
+Thanks again for the contribution, I hope to see this driver in soon.
+Cheers
+   j
+
+> --
+> Krzysztof "Chris" Hałasa
+>
+> Sieć Badawcza Łukasiewicz
+> Przemysłowy Instytut Automatyki i Pomiarów PIAP
+> Al. Jerozolimskie 202, 02-486 Warszawa
