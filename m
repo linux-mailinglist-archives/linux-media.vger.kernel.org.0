@@ -2,252 +2,196 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1DF1142D166
-	for <lists+linux-media@lfdr.de>; Thu, 14 Oct 2021 06:14:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C890842D1FE
+	for <lists+linux-media@lfdr.de>; Thu, 14 Oct 2021 07:43:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229541AbhJNEQk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 14 Oct 2021 00:16:40 -0400
-Received: from alexa-out.qualcomm.com ([129.46.98.28]:55360 "EHLO
-        alexa-out.qualcomm.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229457AbhJNEQj (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Thu, 14 Oct 2021 00:16:39 -0400
-Received: from ironmsg09-lv.qualcomm.com ([10.47.202.153])
-  by alexa-out.qualcomm.com with ESMTP; 13 Oct 2021 21:14:35 -0700
-X-QCInternal: smtphost
-Received: from ironmsg01-blr.qualcomm.com ([10.86.208.130])
-  by ironmsg09-lv.qualcomm.com with ESMTP/TLS/AES256-SHA; 13 Oct 2021 21:14:34 -0700
-X-QCInternal: smtphost
-Received: from c-mansur-linux.qualcomm.com ([10.204.83.180])
-  by ironmsg01-blr.qualcomm.com with ESMTP; 14 Oct 2021 09:44:23 +0530
-Received: by c-mansur-linux.qualcomm.com (Postfix, from userid 461723)
-        id B6F6A224F7; Thu, 14 Oct 2021 09:44:22 +0530 (IST)
-From:   Mansur Alisha Shaik <mansur@codeaurora.org>
-To:     linux-media@vger.kernel.org, stanimir.varbanov@linaro.org
-Cc:     linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        vgarodia@codeaurora.org, dikshita@codeaurora.org,
-        Mansur Alisha Shaik <mansur@codeaurora.org>
-Subject: [V4] venus: vdec: decoded picture buffer handling during reconfig sequence
-Date:   Thu, 14 Oct 2021 09:44:20 +0530
-Message-Id: <20211014041420.26451-1-mansur@codeaurora.org>
-X-Mailer: git-send-email 2.29.0
+        id S229592AbhJNFpK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 14 Oct 2021 01:45:10 -0400
+Received: from ni.piap.pl ([195.187.100.5]:57758 "EHLO ni.piap.pl"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229913AbhJNFpJ (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 14 Oct 2021 01:45:09 -0400
+Received: from t19.piap.pl (OSB1819.piap.pl [10.0.9.19])
+        by ni.piap.pl (Postfix) with ESMTPSA id BEE88C36955E;
+        Thu, 14 Oct 2021 07:43:02 +0200 (CEST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ni.piap.pl BEE88C36955E
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=piap.pl; s=mail;
+        t=1634190183; bh=gNxzoBhyekpDiI2tjxKi398V3oczutXqWeJX5U1VbRg=;
+        h=From:To:Cc:Subject:References:Date:In-Reply-To:From;
+        b=c4DjuV8kxYurSXnXqWFadMh2rb6EJ1JvzlnRuWG4qSq8LJIHdJTXSNhNhBuCbb0qQ
+         lBirQcyS+uqJK0SGCmCI5RKZ//K4dJk8gH0pgNMnC9W1+UdHTSO4JgZ1mzKMcqX7Uf
+         iRemHt3kFGLcNDajMPsOGQIiwTct6CaAIcWG2Onk=
+From:   =?utf-8?Q?Krzysztof_Ha=C5=82asa?= <khalasa@piap.pl>
+To:     Jacopo Mondi <jacopo@jmondi.org>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Sakari Ailus <sakari.ailus@iki.fi>,
+        Matteo Lisi <matteo.lisi@engicam.com>
+Subject: Re: [PATCH v5] Driver for ON Semi AR0521 camera sensor
+References: <m3fstfoexa.fsf@t19.piap.pl>
+        <20211009102446.jrvrdr7whtd2rv4z@uno.localdomain>
+        <m3mtnflpna.fsf@t19.piap.pl>
+        <20211011143420.vm6ncl5gdv44nsn3@uno.localdomain>
+        <m3a6jel9ce.fsf@t19.piap.pl>
+        <20211013082634.53zh5j26gucddome@uno.localdomain>
+        <m3y26xjd7p.fsf@t19.piap.pl>
+        <20211013151400.i2s3gcshb3xvuy2e@uno.localdomain>
+Sender: khalasa@piap.pl
+Date:   Thu, 14 Oct 2021 07:43:02 +0200
+In-Reply-To: <20211013151400.i2s3gcshb3xvuy2e@uno.localdomain> (Jacopo Mondi's
+        message of "Wed, 13 Oct 2021 17:14:00 +0200")
+Message-ID: <m3tuhkjh5l.fsf@t19.piap.pl>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-KLMS-Rule-ID: 3
+X-KLMS-Message-Action: skipped
+X-KLMS-AntiSpam-Status: not scanned, whitelist
+X-KLMS-AntiPhishing: not scanned, whitelist
+X-KLMS-AntiVirus: Kaspersky Security for Linux Mail Server, version 8.0.3.30, not scanned, whitelist
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-In existing implementation, driver is freeing and un-mapping all the
-decoded picture buffers(DPB) as part of dynamic resolution change(DRC)
-handling. As a result, when firmware try to access the DPB buffer, from
-previous sequence, SMMU context fault is seen due to the buffer being
-already unmapped.
+Jacopo,
 
-With this change, driver defines ownership of each DPB buffer. If a buffer
-is owned by firmware, driver would skip from un-mapping the same.
+> To each open file handled is associated a try format, which should be
+> initialized to some meaningful default.
 
-changes in V4:
-- As per comments moved static global variable to venus_inst structure
-- Addressed other review comments
-Changes in V3:
-- Migrated id allocation using kernel API ida_alloc_min()
+I will look at it then.
 
-Signed-off-by: Mansur Alisha Shaik <mansur@codeaurora.org>
----
- drivers/media/platform/qcom/venus/core.h    |  1 +
- drivers/media/platform/qcom/venus/helpers.c | 51 ++++++++++++++++++++-
- drivers/media/platform/qcom/venus/helpers.h |  3 ++
- drivers/media/platform/qcom/venus/vdec.c    |  8 +++-
- 4 files changed, 61 insertions(+), 2 deletions(-)
+> If you operate with a legacy implementation where everything goes
+> through the video device node, you don't care about the subdev
+> devnode.
 
-diff --git a/drivers/media/platform/qcom/venus/core.h b/drivers/media/platform/qcom/venus/core.h
-index a3f077f64be0..34cbd3ef0cd9 100644
---- a/drivers/media/platform/qcom/venus/core.h
-+++ b/drivers/media/platform/qcom/venus/core.h
-@@ -454,6 +454,7 @@ struct venus_inst {
- 	bool next_buf_last;
- 	bool drain_active;
- 	enum venus_inst_modes flags;
-+	struct ida dpb_ids;
- };
- 
- #define IS_V1(core)	((core)->res->hfi_version == HFI_VERSION_1XX)
-diff --git a/drivers/media/platform/qcom/venus/helpers.c b/drivers/media/platform/qcom/venus/helpers.c
-index 7f2f5b91caaa..464bc7693987 100644
---- a/drivers/media/platform/qcom/venus/helpers.c
-+++ b/drivers/media/platform/qcom/venus/helpers.c
-@@ -3,6 +3,7 @@
-  * Copyright (c) 2012-2016, The Linux Foundation. All rights reserved.
-  * Copyright (C) 2017 Linaro Ltd.
-  */
-+#include <linux/idr.h>
- #include <linux/list.h>
- #include <linux/mutex.h>
- #include <linux/slab.h>
-@@ -21,6 +22,11 @@
- #define NUM_MBS_720P	(((ALIGN(1280, 16)) >> 4) * ((ALIGN(736, 16)) >> 4))
- #define NUM_MBS_4K	(((ALIGN(4096, 16)) >> 4) * ((ALIGN(2304, 16)) >> 4))
- 
-+enum dpb_buf_owner {
-+	DRIVER,
-+	FIRMWARE,
-+};
-+
- struct intbuf {
- 	struct list_head list;
- 	u32 type;
-@@ -28,6 +34,8 @@ struct intbuf {
- 	void *va;
- 	dma_addr_t da;
- 	unsigned long attrs;
-+	enum dpb_buf_owner owned_by;
-+	u32 dpb_out_tag;
- };
- 
- bool venus_helper_check_codec(struct venus_inst *inst, u32 v4l2_pixfmt)
-@@ -95,9 +103,16 @@ int venus_helper_queue_dpb_bufs(struct venus_inst *inst)
- 		fdata.device_addr = buf->da;
- 		fdata.buffer_type = buf->type;
- 
-+		if (buf->owned_by == FIRMWARE)
-+			continue;
-+
-+		fdata.clnt_data = buf->dpb_out_tag;
-+
- 		ret = hfi_session_process_buf(inst, &fdata);
- 		if (ret)
- 			goto fail;
-+
-+		buf->owned_by = FIRMWARE;
- 	}
- 
- fail:
-@@ -110,13 +125,19 @@ int venus_helper_free_dpb_bufs(struct venus_inst *inst)
- 	struct intbuf *buf, *n;
- 
- 	list_for_each_entry_safe(buf, n, &inst->dpbbufs, list) {
-+		if (buf->owned_by == FIRMWARE)
-+			continue;
-+
-+		ida_free(&inst->dpb_ids, buf->dpb_out_tag);
-+
- 		list_del_init(&buf->list);
- 		dma_free_attrs(inst->core->dev, buf->size, buf->va, buf->da,
- 			       buf->attrs);
- 		kfree(buf);
- 	}
- 
--	INIT_LIST_HEAD(&inst->dpbbufs);
-+	if (list_empty(&inst->dpbbufs))
-+		INIT_LIST_HEAD(&inst->dpbbufs);
- 
- 	return 0;
- }
-@@ -134,6 +155,7 @@ int venus_helper_alloc_dpb_bufs(struct venus_inst *inst)
- 	unsigned int i;
- 	u32 count;
- 	int ret;
-+	int id;
- 
- 	/* no need to allocate dpb buffers */
- 	if (!inst->dpb_fmt)
-@@ -171,6 +193,15 @@ int venus_helper_alloc_dpb_bufs(struct venus_inst *inst)
- 			ret = -ENOMEM;
- 			goto fail;
- 		}
-+		buf->owned_by = DRIVER;
-+
-+		id = ida_alloc_min(&inst->dpb_ids, VB2_MAX_FRAME, GFP_KERNEL);
-+		if (id < 0) {
-+			ret = id;
-+			goto fail;
-+		}
-+
-+		buf->dpb_out_tag = id;
- 
- 		list_add_tail(&buf->list, &inst->dpbbufs);
- 	}
-@@ -1371,6 +1402,24 @@ venus_helper_find_buf(struct venus_inst *inst, unsigned int type, u32 idx)
- }
- EXPORT_SYMBOL_GPL(venus_helper_find_buf);
- 
-+void venus_helper_change_dpb_owner(struct venus_inst *inst,
-+				   struct vb2_v4l2_buffer *vbuf, unsigned int type,
-+				   unsigned int buf_type, u32 tag)
-+{
-+	struct intbuf *dpb_buf;
-+
-+	if (!V4L2_TYPE_IS_CAPTURE(type) ||
-+	    buf_type != inst->dpb_buftype)
-+		return;
-+
-+	list_for_each_entry(dpb_buf, &inst->dpbbufs, list)
-+		if (dpb_buf->dpb_out_tag == tag) {
-+			dpb_buf->owned_by = DRIVER;
-+			break;
-+		}
-+}
-+EXPORT_SYMBOL_GPL(venus_helper_change_dpb_owner);
-+
- int venus_helper_vb2_buf_init(struct vb2_buffer *vb)
- {
- 	struct venus_inst *inst = vb2_get_drv_priv(vb->vb2_queue);
-diff --git a/drivers/media/platform/qcom/venus/helpers.h b/drivers/media/platform/qcom/venus/helpers.h
-index e6269b4be3af..ff8889795b43 100644
---- a/drivers/media/platform/qcom/venus/helpers.h
-+++ b/drivers/media/platform/qcom/venus/helpers.h
-@@ -14,6 +14,9 @@ struct venus_core;
- bool venus_helper_check_codec(struct venus_inst *inst, u32 v4l2_pixfmt);
- struct vb2_v4l2_buffer *venus_helper_find_buf(struct venus_inst *inst,
- 					      unsigned int type, u32 idx);
-+void venus_helper_change_dpb_owner(struct venus_inst *inst,
-+				   struct vb2_v4l2_buffer *vbuf, unsigned int type,
-+				   unsigned int buf_type, u32 idx);
- void venus_helper_buffers_done(struct venus_inst *inst, unsigned int type,
- 			       enum vb2_buffer_state state);
- int venus_helper_vb2_buf_init(struct vb2_buffer *vb);
-diff --git a/drivers/media/platform/qcom/venus/vdec.c b/drivers/media/platform/qcom/venus/vdec.c
-index 41c5a353fcae..c2f24e454b28 100644
---- a/drivers/media/platform/qcom/venus/vdec.c
-+++ b/drivers/media/platform/qcom/venus/vdec.c
-@@ -1317,6 +1317,7 @@ static void vdec_buf_done(struct venus_inst *inst, unsigned int buf_type,
- 	struct vb2_v4l2_buffer *vbuf;
- 	struct vb2_buffer *vb;
- 	unsigned int type;
-+	struct intbuf *dpb_buf;
- 
- 	vdec_pm_touch(inst);
- 
-@@ -1326,8 +1327,10 @@ static void vdec_buf_done(struct venus_inst *inst, unsigned int buf_type,
- 		type = V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE;
- 
- 	vbuf = venus_helper_find_buf(inst, type, tag);
--	if (!vbuf)
-+	if (!vbuf) {
-+		venus_helper_change_dpb_buf_owner(inst, vbuf, type, buf_type, tag);
- 		return;
-+	}
- 
- 	vbuf->flags = flags;
- 	vbuf->field = V4L2_FIELD_NONE;
-@@ -1606,6 +1609,8 @@ static int vdec_open(struct file *file)
- 
- 	vdec_inst_init(inst);
- 
-+	ida_init(&inst->dpb_ids);
-+
- 	/*
- 	 * create m2m device for every instance, the m2m context scheduling
- 	 * is made by firmware side so we do not need to care about.
-@@ -1651,6 +1656,7 @@ static int vdec_close(struct file *file)
- 	v4l2_m2m_ctx_release(inst->m2m_ctx);
- 	v4l2_m2m_release(inst->m2m_dev);
- 	vdec_ctrl_deinit(inst);
-+	ida_destroy(&inst->dpb_ids);
- 	hfi_session_destroy(inst);
- 	mutex_destroy(&inst->lock);
- 	v4l2_fh_del(&inst->fh);
--- 
-QUALCOMM INDIA, on behalf of Qualcomm Innovation Center, Inc. is a member 
-of Code Aurora Forum, hosted by The Linux Foundation
+This can't be done in case of a sensor driver, right? Output from the
+sensor is MIPI CSI, there is no connection to the memory bus.
 
+BTW: What SoC (or MIPI receiver etc.) are you using?
+
+>> > The difference is that the 0x3xxx ones are frame synchronized and
+>> > apply to 'bad frames' too.
+>>
+>> Is it stated in the docs?
+>
+> Yes, in the right-most columns of the register tables.
+
+Right.
+Interesting - they are marked both "frame sync'd" and "bad frame" (not
+all of them), where the 0x340 ones are both "N". I will try some tests,
+but such a combination looks a bit suspicious.
+(I guess I already tested it, but don't remember the results).
+
+> Because it's documented as:
+>
+> Setting this bit causes the sensor to truncate the current frame at
+> the end of the current row and start resetting (integrating) the first
+> row. The delay before the first valid frame is read out is equal to
+> the integration time.
+>
+> and since you're moving from test mode to stream mode, there's no
+> frame integration going on.
+
+But there is :-)
+Remember we're streaming, the whole sensor is working. It's just the
+LP-11 on the output lines.
+
+> What do you mean with "Linux from top to the bottom" ?
+
+Userspace + ioctl on top, the driver/hw on the bottom.
+
+> What I meant is that the core cannot prevent ioctls and subdev
+> operations to be called on the sensor while streaming, as the 'is
+> streaming' state is only kept in the driver and there's no state
+> keeping in the V4L2 core.
+
+Exactly, that's what I thought.
+
+>> while streaming. With certain (most?) drivers only, that's it. Not that
+>> I actually tested it, but the v4l2 core code suggests it.
+>
+> spec says no.
+
+I'm not aware of it. The specs say a driver *is*allowed* to return
+EBUSY, if it can't handle the condition.
+
+> reviewers say no.
+
+Haven't seen this either. The existing code (other drivers) suggests
+otherwise.
+
+> maintainers say no.
+
+Ditto.
+Buffers are a completely different thing.
+
+>> So I'm either to return -EBUSY, or - as others, probably most drivers -
+>
+> maybe they just assume they knew better when they got being told
+> not to do so during review.
+
+All of the others are wrong?
+Maybe nobody told them otherwise - because there was no reason?
+
+>> > I hardly see a case where changing format on the sensor through an
+>> > operation on the subdev while streaming, is a good idea.
+>>
+>> I'm not in control of this.
+>
+> As you're not in control of how your driver will be used once merged
+
+Exactly, it's the very same thing.
+
+> That's why there are specs, reviews and collective knowledge that
+> helps enforce a consistent behavior.
+
+That's correct. Now you tell me I'm not to write to the hw in set_fmt(),
+while I can clearly see other drivers do exactly that, and nobody else
+suggests they (I) shouldn't.
+
+> There's a potential point of failure in every single part of the
+> capture pipeline, from the on-going transfer in the SoC's DMA engines
+> to the CSI-2 receiver port.
+
+I'm not in control of this, why should I set a policy for them? I don't
+even know if there is a SoC and DMA engines - maybe this goes straight
+to the antenna or *SDI transmitter? :-)
+
+> Even without the stop/restart sequence, what happens if you increase
+> the frame size which is output from the sensor without re-negotiating
+> buffers or image formats ?
+
+*I* don't change frame sizes. It's the upper levels which are making
+such decisions. My code can only comply or return an error.
+Perhaps the upper levels know what they're doing?
+
+If they are wrong after all, well - a misprogrammed i.MX6 will corrupt
+the frames, the output stream will lose sync, and the userspace can get
+I/O errors on ioctls. The userspace will get what it asked for.
+
+This is BTW completely orthogonal to the -EBUSY on set_fmt(). The
+effects will be exactly the same if the e.g. geometry changes come when
+the sensor is not streaming.
+
+> There's no single valid reason to allow such a use case, if not making
+> out of it a matter of principle like you're doing.
+
+Then why other drivers do exactly that? Eg. all imx*.
+Including the newest one imx412, merged 2021-08-04, and:
+    Signed-off-by: Martina Krasteva <martinax.krasteva@intel.com>
+    Acked-by: Daniele Alessandrelli <daniele.alessandrelli@intel.com>
+    Acked-by: Paul J. Murphy <paul.j.murphy@intel.com>
+    Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+    Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+
+Are they really all wrong? Really?
+
+BTW principles are important to me, yes. One of them is "allow unless
+required otherwise".
+--=20
+Krzysztof "Chris" Ha=C5=82asa
+
+Sie=C4=87 Badawcza =C5=81ukasiewicz
+Przemys=C5=82owy Instytut Automatyki i Pomiar=C3=B3w PIAP
+Al. Jerozolimskie 202, 02-486 Warszawa
