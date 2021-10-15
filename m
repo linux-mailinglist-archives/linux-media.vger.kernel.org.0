@@ -2,361 +2,101 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C4F5B42EA20
-	for <lists+linux-media@lfdr.de>; Fri, 15 Oct 2021 09:28:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 775EF42EA64
+	for <lists+linux-media@lfdr.de>; Fri, 15 Oct 2021 09:38:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232822AbhJOHaq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 15 Oct 2021 03:30:46 -0400
-Received: from new3-smtp.messagingengine.com ([66.111.4.229]:33277 "EHLO
-        new3-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S229546AbhJOHap (ORCPT
+        id S236161AbhJOHkZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 15 Oct 2021 03:40:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44860 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S236397AbhJOHkO (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 15 Oct 2021 03:30:45 -0400
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
-        by mailnew.nyi.internal (Postfix) with ESMTP id B6382580F1D;
-        Fri, 15 Oct 2021 03:28:34 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute3.internal (MEProxy); Fri, 15 Oct 2021 03:28:34 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
-        from:to:cc:subject:date:message-id:mime-version
-        :content-transfer-encoding; s=fm1; bh=VNKOcczGye8r1pQca6/rADupDx
-        1E7RNhhiNyjezLFkU=; b=FtucuTTwS0ornV6cd5ZA0imR622ocW1YuzBFct7hE6
-        dHlxZyXmyRsD3mmXXvhIzPew0i/hBdONXFehgTTTTmGhHUvsizi/2wgpsKvbFkh2
-        cmg2tS302ZvkOExCObi9q3KzHUDqCa3N5QTEeAwCXsiIXywVsx03HKFYOqlnLmZn
-        WlDWCinNV86TlyNaNRSxqzkMYU8bTdE5iSaF2aCm06XbCBQ6YgfaMSn7Mxc74mox
-        XRG5Qu2A+D3Z1CLucLBoNd8ccwOpqyvEWTMtNZR9mAFiT6z3Av0MOOpwhiwdJcxN
-        ucJD++w51uA51GERUvXM00nVFwp43adT9e4SQPOpo4Jw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:content-transfer-encoding:date:from
-        :message-id:mime-version:subject:to:x-me-proxy:x-me-proxy
-        :x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=VNKOcczGye8r1pQca
-        6/rADupDx1E7RNhhiNyjezLFkU=; b=TCBmH6a1HfmdxFK8d57mnMVkdOO0dLYZq
-        KG/Pj9GyTF2UZ3mVvqG9Wtt1LwPUBJVBQnAloQBZQbkXUSS9biibr8iJOAgV4Sxs
-        917BEX0vn59cEJt59XqU+UrsUh2q0NoyJjGqDsOzuoUfYUVnSwzNIbpo4ibUqnDR
-        h4qrn1C9xmcLFFjuUl6DhFskBZ4QlzfYiZZvAtQyJucI2DdY20Cvb8+jYwGY+Ikd
-        2O9qy3Dxkmqh4AaKbyonbuRSkscjjeaZA6/30V47ijCK5WszMVKdJ+DkzbSr36GQ
-        E1jdphuag0Qtm4K89gSqve/1wvPupDdvaSQFTOvA4j/66KkiFbSMg==
-X-ME-Sender: <xms:oi1pYY-HwsfL8aCyKRH8zknyq9myjR3-C9mL4gGA7HOJA8GpSbL9zw>
-    <xme:oi1pYQtOaBVj5ke4jWipTnmi_lmd9Wi0IPVhVXgSNaAAyTndlohGekwjZ_kALwhys
-    mfdoBtYeVSKGUpwPaQ>
-X-ME-Received: <xmr:oi1pYeB0C0cEowJTQSBNn8w6YHsohOCxx4l8w4vFNOrkrsCsr4B1htAA9IfhIVZszXsYpkuhPUr6MLbx3eGAqDxlqqDDTVlYhwURDG7u>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrvddufedguddugecutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
-    necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
-    enogevohgrshhtrghlqdfhgeduvddqtddvucdludehtddmnecujfgurhephffvufffkffo
-    ggfgsedtkeertdertddtnecuhfhrohhmpeforgigihhmvgcutfhiphgrrhguuceomhgrgi
-    himhgvsegtvghrnhhordhtvggthheqnecuggftrfgrthhtvghrnhephffhhfevtddthefg
-    ieeigeffudehkefgtdeufedvtdduheduieekvddvfedvkeetnecuffhomhgrihhnpeguvg
-    hvihgtvghtrhgvvgdrohhrghenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhep
-    mhgrihhlfhhrohhmpehmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:oi1pYYdvRc6lxhaV-wc5n80f_lUF0zJu7j4rVrryEoZpucEtTi8IyQ>
-    <xmx:oi1pYdOKe1RQ_yRnlBFBpcug25T_ifTVh8ed4bnDxmwWYLY84dtWCg>
-    <xmx:oi1pYSlKvmzqOqN7VXrLDIXkyTqz_O42P_-T8Si1b--nYJWIY2-UbQ>
-    <xmx:oi1pYQqAwTAmYUJw2NBm4JO3mQkGqT8vNJA8pJZfW8yjZ8LtDsGurQ>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 15 Oct 2021 03:28:33 -0400 (EDT)
-From:   Maxime Ripard <maxime@cerno.tech>
-To:     Rob Herring <robh+dt@kernel.org>,
-        Frank Rowand <frowand.list@gmail.com>
-Cc:     devicetree@vger.kernel.org,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Maxime Ripard <maxime@cerno.tech>, linux-media@vger.kernel.org,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Steve Longerbeam <slongerbeam@gmail.com>
-Subject: [PATCH v3] dt-bindings: media: Convert OV5640 binding to a schema
-Date:   Fri, 15 Oct 2021 09:28:30 +0200
-Message-Id: <20211015072830.8580-1-maxime@cerno.tech>
-X-Mailer: git-send-email 2.31.1
+        Fri, 15 Oct 2021 03:40:14 -0400
+Received: from mail-qt1-x841.google.com (mail-qt1-x841.google.com [IPv6:2607:f8b0:4864:20::841])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7D216C061753
+        for <linux-media@vger.kernel.org>; Fri, 15 Oct 2021 00:37:52 -0700 (PDT)
+Received: by mail-qt1-x841.google.com with SMTP id y11so8006078qtn.13
+        for <linux-media@vger.kernel.org>; Fri, 15 Oct 2021 00:37:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=rf85IIrYDoX56EbvJwzXLS38sc5yj7QH4axMImYh7js=;
+        b=JDxB4weLObILBW00Wz6Ii8b0UnclZsHGQtzirdo2Wr7Bj0x2Q5FWPebk5nOTYnzq/v
+         bXZjI2bY/OIIokZBpP9BHnrCdPqLluSUmjBRqpIYp+T7DeYmWXIV4yJatvXGqQexTIot
+         FL0xHIZTYuKUVS5lkl64cHjeQlkWnWk4CsOYCAFSBM/rbfPozyWUzh8Ovw8sGAK1gn1C
+         4WMeb+/fjXe4/+kEEWg7MDVFn6AFQ5DwhNlGDOd7lOiXgyv6AUEsZZ0whDHa36q9DtsQ
+         9HVvqLjUQpuJC7fjX1pUpTujNV851bhydlqFiGlJr1rMFSFaoF1ICsVwZv/Cu1XV/rTX
+         LIrg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to;
+        bh=rf85IIrYDoX56EbvJwzXLS38sc5yj7QH4axMImYh7js=;
+        b=0gRtHFXW16Rp8Res1dlUjILqtbmGS5UbdUQhMQBGSt+6p5GfK93kpZ2SUdBjvbAe8M
+         wXTKdoM759jJJcaTzXT8OQlt2Lt9MunBCFCsitaCDsUNSJBep8ijV9QImhJumOImddkH
+         LuvbU6087S/Ant9zQHED5bjApVBL4OwMg8dKeXrfgxOmtWk/RiMutzLmjGzrn7YbETn2
+         dnc0ZO3nXO8LcJ/XKyJsanZfpMjvzyr5/pLs9rcq4RUEZCCyyy8kzA+KupD9Xm8WNe0i
+         wH//yb4R3eK09qBeLivJu/tJCXOKqN+LJ5mHdHRJkL0M4pnXXxTNNbcjBmJ1q1boUmm5
+         bfyA==
+X-Gm-Message-State: AOAM5332SqOcIk3bhVUJz0czLtiMAtmWGjeWAS0R+tdyqItSpurXxEN6
+        ImcHHGk8KfZvGY6tDB6TcSebshz8FVmlD3+bHQ==
+X-Google-Smtp-Source: ABdhPJwE1y7fABVR1+lQGtaQ4Z6m8aaEgmay2K2iVZufWCE1TilnnMmIDoImu3hxBE5rWO/1/5R9bDlB+8vkfVKrKFo=
+X-Received: by 2002:a05:622a:b:: with SMTP id x11mr11884500qtw.211.1634283471452;
+ Fri, 15 Oct 2021 00:37:51 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Received: by 2002:a05:6214:2a83:0:0:0:0 with HTTP; Fri, 15 Oct 2021 00:37:50
+ -0700 (PDT)
+Reply-To: mr.sawadogomichel1@gmail.com
+From:   "Mr.Sawadogo Michel" <wendgykipkalya@gmail.com>
+Date:   Fri, 15 Oct 2021 00:37:50 -0700
+Message-ID: <CABq_S8h_pRirwRmHLRqpO3VOMGrT3d+nZ3QK5RkMBk3xc29y=w@mail.gmail.com>
+Subject: Hello Dear Friend
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The Omnivision OV5640 is supported by Linux thanks to its device tree
-binding.
+Hello Dear Friend,
 
-Now that we have the DT validation in place, let's convert the device
-tree bindings for that driver over to a YAML schema.
+My name is Mr.Sawadogo Michel. I have decided to seek a confidential
+co-operation  with you in the execution of the deal described
+here-under for our both  mutual benefit and I hope you will keep it a
+top secret because of the nature  of the transaction, During the
+course of our bank year auditing, I discovered  an unclaimed/abandoned
+fund, sum total of {US$19.3 Million United State  Dollars} in the bank
+account that belongs to a Saudi Arabia businessman Who unfortunately
+lost his life and entire family in a Motor Accident.
 
-Cc: linux-media@vger.kernel.org
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: Steve Longerbeam <slongerbeam@gmail.com>
-Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+Now our bank has been waiting for any of the relatives to come-up for
+the claim but nobody has done that. I personally has been unsuccessful
+in locating any of the relatives, now, I sincerely seek your consent
+to present you as the next of kin / Will Beneficiary to the deceased
+so that the proceeds of this account valued at {US$19.3 Million United
+State Dollars} can be paid to you, which we will share in these
+percentages ratio, 60% to me and 40% to you. All I request is your
+utmost sincere co-operation; trust and maximum confidentiality to
+achieve this project successfully. I have carefully mapped out the
+moralities for execution of this transaction under a legitimate
+arrangement to protect you from any breach of the law both in your
+country and here in Burkina Faso when the fund is being transferred to
+your bank account.
 
----
+I will have to provide all the relevant document that will be
+requested to indicate that you are the rightful beneficiary of this
+legacy and our bank will release the fund to you without any further
+delay, upon your consideration and acceptance of this offer, please
+send me the following information as stated below so we can proceed
+and get this fund transferred to your designated bank account
+immediately.
 
-Changes from v2:
-  - Fix whitespace error
-  - Changed schema referenced for the port validation
----
- .../devicetree/bindings/media/i2c/ov5640.txt  |  92 -----------
- .../bindings/media/i2c/ovti,ov5640.yaml       | 154 ++++++++++++++++++
- 2 files changed, 154 insertions(+), 92 deletions(-)
- delete mode 100644 Documentation/devicetree/bindings/media/i2c/ov5640.txt
- create mode 100644 Documentation/devicetree/bindings/media/i2c/ovti,ov5640.yaml
+-Your Full Name:
+-Your Contact Address:
+-Your direct Mobile telephone Number:
+-Your Date of Birth:
+-Your occupation:
 
-diff --git a/Documentation/devicetree/bindings/media/i2c/ov5640.txt b/Documentation/devicetree/bindings/media/i2c/ov5640.txt
-deleted file mode 100644
-index c97c2f2da12d..000000000000
---- a/Documentation/devicetree/bindings/media/i2c/ov5640.txt
-+++ /dev/null
-@@ -1,92 +0,0 @@
--* Omnivision OV5640 MIPI CSI-2 / parallel sensor
--
--Required Properties:
--- compatible: should be "ovti,ov5640"
--- clocks: reference to the xclk input clock.
--- clock-names: should be "xclk".
--- DOVDD-supply: Digital I/O voltage supply, 1.8 volts
--- AVDD-supply: Analog voltage supply, 2.8 volts
--- DVDD-supply: Digital core voltage supply, 1.5 volts
--
--Optional Properties:
--- reset-gpios: reference to the GPIO connected to the reset pin, if any.
--	       This is an active low signal to the OV5640.
--- powerdown-gpios: reference to the GPIO connected to the powerdown pin,
--		   if any. This is an active high signal to the OV5640.
--- rotation: as defined in
--	    Documentation/devicetree/bindings/media/video-interfaces.txt,
--	    valid values are 0 (sensor mounted upright) and 180 (sensor
--	    mounted upside down).
--
--The device node must contain one 'port' child node for its digital output
--video port, in accordance with the video interface bindings defined in
--Documentation/devicetree/bindings/media/video-interfaces.txt.
--
--OV5640 can be connected to a MIPI CSI-2 bus or a parallel bus endpoint.
--
--Endpoint node required properties for CSI-2 connection are:
--- remote-endpoint: a phandle to the bus receiver's endpoint node.
--- clock-lanes: should be set to <0> (clock lane on hardware lane 0)
--- data-lanes: should be set to <1> or <1 2> (one or two CSI-2 lanes supported)
--
--Endpoint node required properties for parallel connection are:
--- remote-endpoint: a phandle to the bus receiver's endpoint node.
--- bus-width: shall be set to <8> for 8 bits parallel bus
--	     or <10> for 10 bits parallel bus
--- data-shift: shall be set to <2> for 8 bits parallel bus
--	      (lines 9:2 are used) or <0> for 10 bits parallel bus
--- hsync-active: active state of the HSYNC signal, 0/1 for LOW/HIGH respectively.
--- vsync-active: active state of the VSYNC signal, 0/1 for LOW/HIGH respectively.
--- pclk-sample: sample data on rising (1) or falling (0) edge of the pixel clock
--	       signal.
--
--Examples:
--
--&i2c1 {
--	ov5640: camera@3c {
--		compatible = "ovti,ov5640";
--		pinctrl-names = "default";
--		pinctrl-0 = <&pinctrl_ov5640>;
--		reg = <0x3c>;
--		clocks = <&clks IMX6QDL_CLK_CKO>;
--		clock-names = "xclk";
--		DOVDD-supply = <&vgen4_reg>; /* 1.8v */
--		AVDD-supply = <&vgen3_reg>;  /* 2.8v */
--		DVDD-supply = <&vgen2_reg>;  /* 1.5v */
--		powerdown-gpios = <&gpio1 19 GPIO_ACTIVE_HIGH>;
--		reset-gpios = <&gpio1 20 GPIO_ACTIVE_LOW>;
--		rotation = <180>;
--
--		port {
--			/* MIPI CSI-2 bus endpoint */
--			ov5640_to_mipi_csi2: endpoint {
--				remote-endpoint = <&mipi_csi2_from_ov5640>;
--				clock-lanes = <0>;
--				data-lanes = <1 2>;
--			};
--		};
--	};
--};
--
--&i2c1 {
--	ov5640: camera@3c {
--		compatible = "ovti,ov5640";
--		pinctrl-names = "default";
--		pinctrl-0 = <&pinctrl_ov5640>;
--		reg = <0x3c>;
--		clocks = <&clk_ext_camera>;
--		clock-names = "xclk";
--
--		port {
--			/* Parallel bus endpoint */
--			ov5640_to_parallel: endpoint {
--				remote-endpoint = <&parallel_from_ov5640>;
--				bus-width = <8>;
--				data-shift = <2>; /* lines 9:2 are used */
--				hsync-active = <0>;
--				vsync-active = <0>;
--				pclk-sample = <1>;
--			};
--		};
--	};
--};
-diff --git a/Documentation/devicetree/bindings/media/i2c/ovti,ov5640.yaml b/Documentation/devicetree/bindings/media/i2c/ovti,ov5640.yaml
-new file mode 100644
-index 000000000000..540fd69ac39f
---- /dev/null
-+++ b/Documentation/devicetree/bindings/media/i2c/ovti,ov5640.yaml
-@@ -0,0 +1,154 @@
-+# SPDX-License-Identifier: GPL-2.0
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/media/i2c/ovti,ov5640.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: OmniVision OV5640 Image Sensor Device Tree Bindings
-+
-+maintainers:
-+  - Steve Longerbeam <slongerbeam@gmail.com>
-+
-+allOf:
-+  - $ref: /schemas/media/video-interface-devices.yaml#
-+
-+properties:
-+  compatible:
-+    const: ovti,ov5640
-+
-+  reg:
-+    maxItems: 1
-+
-+  clocks:
-+    description: XCLK Input Clock
-+
-+  clock-names:
-+    const: xclk
-+
-+  AVDD-supply:
-+    description: Analog voltage supply, 2.8 volts
-+
-+  DVDD-supply:
-+    description: Digital core voltage supply, 1.5 volts
-+
-+  DOVDD-supply:
-+    description: Digital I/O voltage supply, 1.8 volts
-+
-+  powerdown-gpios:
-+    maxItems: 1
-+    description: >
-+      Reference to the GPIO connected to the powerdown pin, if any.
-+
-+  reset-gpios:
-+    maxItems: 1
-+    description: >
-+      Reference to the GPIO connected to the reset pin, if any.
-+
-+  rotation:
-+    enum:
-+      - 0
-+      - 180
-+
-+  port:
-+    description: Digital Output Port
-+    $ref: /schemas/graph.yaml#/$defs/port-base
-+    additionalProperties: false
-+
-+    properties:
-+      endpoint:
-+        $ref: /schemas/media/video-interfaces.yaml#
-+        unevaluatedProperties: false
-+
-+        properties:
-+          clock-lanes:
-+            const: 0
-+
-+          data-lanes:
-+            minItems: 1
-+            maxItems: 2
-+            items:
-+              enum: [1, 2]
-+
-+          bus-width:
-+            enum: [8, 10]
-+
-+          data-shift:
-+            enum: [0, 2]
-+
-+required:
-+  - compatible
-+  - reg
-+  - clocks
-+  - clock-names
-+  - AVDD-supply
-+  - DVDD-supply
-+  - DOVDD-supply
-+  - port
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+      #include <dt-bindings/clock/imx6qdl-clock.h>
-+      #include <dt-bindings/gpio/gpio.h>
-+
-+      i2c {
-+          #address-cells = <1>;
-+          #size-cells = <0>;
-+
-+          camera@3c {
-+              compatible = "ovti,ov5640";
-+              pinctrl-names = "default";
-+              pinctrl-0 = <&pinctrl_ov5640>;
-+              reg = <0x3c>;
-+              clocks = <&clks IMX6QDL_CLK_CKO>;
-+              clock-names = "xclk";
-+              DOVDD-supply = <&vgen4_reg>; /* 1.8v */
-+              AVDD-supply = <&vgen3_reg>;  /* 2.8v */
-+              DVDD-supply = <&vgen2_reg>;  /* 1.5v */
-+              powerdown-gpios = <&gpio1 19 GPIO_ACTIVE_HIGH>;
-+              reset-gpios = <&gpio1 20 GPIO_ACTIVE_LOW>;
-+              rotation = <180>;
-+
-+              port {
-+                  /* MIPI CSI-2 bus endpoint */
-+                  ov5640_to_mipi_csi2: endpoint {
-+                      remote-endpoint = <&mipi_csi2_from_ov5640>;
-+                      clock-lanes = <0>;
-+                      data-lanes = <1 2>;
-+                  };
-+              };
-+          };
-+      };
-+
-+  - |
-+      i2c {
-+          #address-cells = <1>;
-+          #size-cells = <0>;
-+
-+          camera@3c {
-+              compatible = "ovti,ov5640";
-+              pinctrl-names = "default";
-+              pinctrl-0 = <&pinctrl_ov5640>;
-+              reg = <0x3c>;
-+              clocks = <&clk_ext_camera>;
-+              clock-names = "xclk";
-+              DOVDD-supply = <&vgen4_reg>; /* 1.8v */
-+              AVDD-supply = <&vgen3_reg>;  /* 2.8v */
-+              DVDD-supply = <&vgen2_reg>;  /* 1.5v */
-+
-+              port {
-+                  /* Parallel bus endpoint */
-+                  ov5640_to_parallel: endpoint {
-+                      remote-endpoint = <&parallel_from_ov5640>;
-+                      bus-width = <8>;
-+                      data-shift = <2>; /* lines 9:2 are used */
-+                      hsync-active = <0>;
-+                      vsync-active = <0>;
-+                      pclk-sample = <1>;
-+                  };
-+              };
-+          };
-+      };
-+
-+...
--- 
-2.31.1
+I await your swift response and re-assurance.
 
+Best regards,
+Mr.Sawadogo Michel.
