@@ -2,238 +2,194 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9918842F647
-	for <lists+linux-media@lfdr.de>; Fri, 15 Oct 2021 16:53:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3E2E442F6DD
+	for <lists+linux-media@lfdr.de>; Fri, 15 Oct 2021 17:17:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237026AbhJOOzc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 15 Oct 2021 10:55:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33368 "EHLO
+        id S240877AbhJOPT7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 15 Oct 2021 11:19:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39038 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230471AbhJOOz3 (ORCPT
+        with ESMTP id S232267AbhJOPT6 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 15 Oct 2021 10:55:29 -0400
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EF420C061570;
-        Fri, 15 Oct 2021 07:53:22 -0700 (PDT)
-Received: from [IPv6:2a01:e0a:4cb:a870:6fac:80cf:59ad:86b] (unknown [IPv6:2a01:e0a:4cb:a870:6fac:80cf:59ad:86b])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        (Authenticated sender: benjamin.gaignard)
-        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id C23A41F453E9;
-        Fri, 15 Oct 2021 15:53:20 +0100 (BST)
-Subject: Re: [PATCH v2 0/4] media: HEVC: RPS clean up
-To:     Alex Bee <knaerzche@gmail.com>,
-        =?UTF-8?Q?Jernej_=c5=a0krabec?= <jernej.skrabec@gmail.com>,
-        mchehab@kernel.org, p.zabel@pengutronix.de,
-        gregkh@linuxfoundation.org, mripard@kernel.org,
-        paul.kocialkowski@bootlin.com, wens@csie.org,
-        hverkuil-cisco@xs4all.nl, jc@kynesim.co.uk,
-        ezequiel@vanguardiasur.com.ar
-Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev,
-        linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
-References: <20211012143552.661751-1-benjamin.gaignard@collabora.com>
- <21222555.EfDdHjke4D@kista>
- <3c5851ac-3b8a-decc-93c1-01a65b1f8611@collabora.com>
- <1705005.VLH7GnMWUR@kista> <4f8f6da3-70b1-5dd8-27b7-c9f9fd37920b@gmail.com>
- <9d9645a1-9d44-4fec-55e7-5b0a1c69e7ab@collabora.com>
- <7d6df94a-e0bb-b364-5ab1-3ef4d02803dc@gmail.com>
-From:   Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Message-ID: <302e317c-451e-eb1d-46d9-c4f6e5245c47@collabora.com>
-Date:   Fri, 15 Oct 2021 16:53:18 +0200
+        Fri, 15 Oct 2021 11:19:58 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 29BB2C061570
+        for <linux-media@vger.kernel.org>; Fri, 15 Oct 2021 08:17:52 -0700 (PDT)
+Received: from [192.168.1.136] (91-158-153-130.elisa-laajakaista.fi [91.158.153.130])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 6DD122E3;
+        Fri, 15 Oct 2021 17:17:48 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1634311069;
+        bh=pq8T99SCdGNGu6fJJxbDQbenHAxN1BhDvE2lzOA5xp4=;
+        h=To:Cc:References:From:Subject:Date:In-Reply-To:From;
+        b=WjmK/MteImYhzXA7pgNKhztYtu5ANdMGzUE61+wajL2mbAfQfVtDacSbbimPgyaH8
+         nCprSpSIjpCnUFa1tK1f8leha/AxQgIycrfiZZmtAhp3yU72+CSJmuyIefp34Jq8Pn
+         Dsch3ekh9R/vieB/I4odYzMp3X+Te5t3Dw6okK/U=
+To:     Jacopo Mondi <jacopo@jmondi.org>
+Cc:     linux-media@vger.kernel.org, sakari.ailus@linux.intel.com,
+        Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        niklas.soderlund+renesas@ragnatech.se,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Pratyush Yadav <p.yadav@ti.com>,
+        Michal Simek <michal.simek@xilinx.com>
+References: <20211005085750.138151-1-tomi.valkeinen@ideasonboard.com>
+ <20211005085750.138151-28-tomi.valkeinen@ideasonboard.com>
+ <20211015121320.c7ctjcvyvwx4mhy4@uno.localdomain>
+ <465623f3-c022-7ed3-29c3-d82a0cf8c952@ideasonboard.com>
+ <20211015140527.sjgtljfymhqzzflr@uno.localdomain>
+From:   Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Subject: Re: [PATCH v9 27/36] media: subdev: Add [GS]_ROUTING subdev ioctls
+ and operations
+Message-ID: <1bf26b9c-f468-2981-aa3e-df5bdc784849@ideasonboard.com>
+Date:   Fri, 15 Oct 2021 18:17:45 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.13.0
 MIME-Version: 1.0
-In-Reply-To: <7d6df94a-e0bb-b364-5ab1-3ef4d02803dc@gmail.com>
+In-Reply-To: <20211015140527.sjgtljfymhqzzflr@uno.localdomain>
 Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
 Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Hi,
 
-Le 15/10/2021 à 16:14, Alex Bee a écrit :
->
-> Am 15.10.21 um 16:06 schrieb Benjamin Gaignard:
->>
->> Le 15/10/2021 à 12:33, Alex Bee a écrit :
->>> Hi Benjamin, Jernej
->>> Am 12.10.21 um 18:08 schrieb Jernej Škrabec:
->>>> CC: Alex Bee
->>>>
->>>> Alex, please take a look to these patches too.
->>> These patches don't remove anything that would be need for rkvdec 
->>> hevc - but indeed - we need some more:
->>> https://github.com/LibreELEC/LibreELEC.tv/blob/master/projects/Rockchip/patches/linux/default/linux-2001-v4l-wip-rkvdec-hevc.patch#L242-L305 
->>>
->>>
->>> v4l2_ctrl_hevc_sps:
->>> __u8    video_parameter_set_id
->>> __u8    seq_parameter_set_id
->>>
->>> v4l2_ctrl_hevc_pps:
->>> __u8    pic_parameter_set_id
->>> __u16    short_term_ref_pic_set_size
->>> __u16    long_term_ref_pic_set_size
->>>
->>> As far as I can see, they are all part of the spec and should be 
->>> therefore good to go in the uapi.
->>
->> Do you have any plan to upstream these fields in HEVC uAPI ?
->
-> I might be upstreaming them at some point, yes.
->
-> With this I just wanted to underline Jernej said: HEVC uapi is NOT ready
-> to get unstaged yet.
+On 15/10/2021 17:05, Jacopo Mondi wrote:
 
-Ok but the question is how to get it unstaged ?
-Should we continue to do changes in staged uAPI ?
-or send a RFC to move it to stable and review all the missing parts at that time ?
+> Ok, I understand this allow you to
+> 
+>          int _set_routing(sd, state, krouting)
+>          {
+>                  v4l2_subdev_set_routing(krouting);
+> 
+>          }
+> 
+>          int set_routing(sd, state, which, krouting)
+>          {
+>                  _set_routing(sd, state, krouting);
+>                  if (which == ACTIVE)
+>                          apply_to_hw();
+>          }
+> 
+>          pad_ops ops = {
+>                  .set_routing = set_routing,
+>          };
+> 
+>          int init_cfg(sd, state)
+>          {
+>                  routes = {
+>                          ...
+>                  };
+> 
+>                  krouting routing {
+>                          .routes = routes,
+>                          .num_routes = 1,
+>                  };
+> 
+>                  _set_routing(sd, state, &routing);
+>          }
 
-Regards,
-Benjamin
+Yes, although I would guess that the likely use of which in set_routing is
 
->
->>
->> Regards,
->> Benjamin
->>
->>>
->>> As you might now, even rkvdec is a frame-based decoder, it doesn't 
->>> fully parse slice headers in HW for HEVC and we need to set 
->>> references in SW which requires looping over the slices. Downstream 
->>> we have a hack to give num_slices in v4l2_ctrl_hevc_sps for doing that.
->>> That could fully go away, if V4L2_CID_MPEG_VIDEO_HEVC_SLICE_PARAMS 
->>> could get dynamic array control support and would make upstreaming 
->>> this a lot easier - as far as I'm concered this would be required 
->>> for RPi HEVC decoder as well.
->>> As a last resort we could also implement a HW specifc control à la
->>> V4L2_CID_HANTRO_HEVC_SLICE_HEADER_SKIP - but I'd like to avoid that, 
->>> knowing it would certainly be better from performance pov.
->>>
->>> Alex.
->>>>
->>>> Dne torek, 12. oktober 2021 ob 17:57:50 CEST je Benjamin Gaignard 
->>>> napisal(a):
->>>>>
->>>>> Le 12/10/2021 à 17:34, Jernej Škrabec a écrit :
->>>>>> Hi Benjamin!
->>>>>>
->>>>>> Dne torek, 12. oktober 2021 ob 16:35:48 CEST je Benjamin Gaignard
->>>> napisal(a):
->>>>>>> This series aims to clean up Reference Picture Set usage and flags.
->>>>>>>
->>>>>>> Long term flag was named with RPS prefix while it is not used 
->>>>>>> for RPS
->>>>>>> but for mark long term references in DBP. Remane it and remove 
->>>>>>> the two
->>>>>>> other useless RPS flags.
->>>>>>>
->>>>>>> Clarify documentation about RPS lists content and make sure that 
->>>>>>> Hantro
->>>>>>> driver use them correctly (i.e without look up in DBP).
->>>>>>>
->>>>>>> These patches are the last in my backlog impacting HEVC uAPI.
->>>>>>>   From my point of view, once they get merged, you could start 
->>>>>>> talking
->>>>>>> about how move HEVC uAPI to stable.
->>>>>> With your changes, HEVC uAPI controls still won't be complete. 
->>>>>> Cedrus
->>>> needs
->>>>>> entry point control, which in turn needs dynamic array support. 
->>>>>> I'm a bit
->>>> lazy
->>>>>> implementing that control, but I guess I can take a look in a 
->>>>>> month or so.
->>>>>> rkvdec also needs more fields for HEVC. With patches collected here:
->>>>>> https://github.com/LibreELEC/LibreELEC.tv/blob/master/projects/Rockchip/ 
->>>>>>
->>>>>> patches/linux/default/linux-2001-v4l-wip-rkvdec-hevc.patch
->>>>>> fluster HEVC test score is reportedly 121/135 (8-bit tests only).
->>>>>
->>>>> Hi Jernej,
->>>>>
->>>>> Thanks for your feedback, getting a list of missing items in HEVC 
->>>>> uAPI
->>>>> will definitively help to fill the hope.
->>>>> The patch you mention for rkvdec are already merged in mainline 
->>>>> kernel (at
->>>>> least for uAPI part).
->>>>
->>>> Are they? What about:
->>>> video_parameter_set_id
->>>> seq_parameter_set_id
->>>> pic_parameter_set_id
->>>> short_term_ref_pic_set_size
->>>> long_term_ref_pic_set_size
->>>>
->>>> At least I don't see them in linux-next. Maybe that information can be
->>>> obtained in some other way?
->>>>
->>>>> Cedrus needs are about num_entry_point_offsets, offset_len_minus1 and
->>>> entry_point_offset_minus1[ i ]
->>>>> in HEVC specifications ?
->>>>
->>>> Yes, Cedrus needs to know whole list of entry points. I don't think 
->>>> we need to
->>>> worry about offset_len_minus1, list could be pre-processed - just 
->>>> number of
->>>> entry points and their values.
->>>>
->>>> Best regards,
->>>> Jernej
->>>>
->>>>>
->>>>> Regards,
->>>>> Benjamin
->>>>>
->>>>>>
->>>>>> I would certainly wait with moving HEVC uAPI to stable.
->>>>>>
->>>>>> Best regards,
->>>>>> Jernej
->>>>>>
->>>>>>> version 2:
->>>>>>> - change DPB field name from rps to flags
->>>>>>>
->>>>>>> Please note that the only purpose of commits 3 and 4 is to allow 
->>>>>>> to test
->>>>>>> G2 hardware block for IMX8MQ until a proper solution isuing 
->>>>>>> power domain
->>>>>>> can be found. Do not merge them.
->>>>>>>
->>>>>>> GStreamer HEVC plugin merge request can be found here:
->>>>>>> https://gitlab.freedesktop.org/gstreamer/gstreamer/-/merge_requests/1079 
->>>>>>>
->>>>>>>
->>>>>>> With those piece of code fluster score is 77/147.
->>>>>>>
->>>>>>> Benjamin
->>>>>>>
->>>>>>> Benjamin Gaignard (4):
->>>>>>>     media: hevc: Remove RPS named flags
->>>>>>>     media: hevc: Embedded indexes in RPS
->>>>>>>     media: hantro: Use syscon instead of 'ctrl' register
->>>>>>>     arm64: dts: imx8mq: Add node to G2 hardware
->>>>>>>
->>>>>>>    .../media/v4l/ext-ctrls-codec.rst             | 14 +++---
->>>>>>>    arch/arm64/boot/dts/freescale/imx8mq.dtsi     | 43 
->>>>>>> +++++++++++++----
->>>>>>>    drivers/staging/media/hantro/hantro.h         |  5 +-
->>>>>>>    .../staging/media/hantro/hantro_g2_hevc_dec.c | 27 +++--------
->>>>>>>    drivers/staging/media/hantro/imx8m_vpu_hw.c   | 48 
->>>>>>> ++++++++++++-------
->>>>>>>    .../staging/media/sunxi/cedrus/cedrus_h265.c  |  2 +-
->>>>>>>    include/media/hevc-ctrls.h                    |  6 +--
->>>>>>>    7 files changed, 84 insertions(+), 61 deletions(-)
->>>>>>>
->>>>>>> -- 
->>>>>>> 2.30.2
->>>>>>>
->>>>>>>
->>>>>>
->>>>>
->>>>
->>>>
->>>
+if (which == ACTIVE && priv->streaming)
+	return -EBUSY;
+
+> We're moving the issue with init_cfg() not being aware of the
+> active/try to the set_routing() operation signature (and in cascade to
+> all operation that operate on krouting from where 'which' had been
+> removed to comply with init_cfg).
+
+Hmm, what operations? set_routing() subdev op is the only place that 
+needs the which, afaics. The issue with the previous series was that we 
+needed 'which' in places where we shouldn't. In the v9, that issue is gone.
+
+Or do you see issues with your series caused by this change?
+
+> I was actually advocating instead for adding back which to
+> krouting and have all the other v4l2_subdev functions that operates on
+> routing and do not care about 'which' to use the raw routes and their
+> number
+> 
+> 
+>          --- v4l2-subdev.h/c ---
+> 
+>          struct krouting {
+>                  which;
+>                  num_routes;
+>                  routes;
+>          };
+> 
+>          int v4l2_subdev_set_routing(sd, state, routes, num_routes)
+>          {
+> 
+>                  /* Copy routes into state */
+> 
+>          }
+> 
+>          ---- subdevice driver ----
+> 
+>          int _set_routing(sd, state, routes, num_routes)
+>          {
+>                  return v4l2_subdev_set_routing(sd, state, routes,
+>                                                 num_routes);
+> 
+>          }
+> 
+>          int set_routing(sd, state, krouting)
+>          {
+>                  _set_routing(sd, state, krouting->routes, krouting->num_routes)
+> 
+>                  if (krouting->which == ACTIVE)
+>                          apply_to_hw();
+>          }
+> 
+>          pad_ops ops = {
+>                  .set_routing = set_routing,
+>          };
+> 
+>          int init_cfg(sd, state)
+>          {
+>                  routes routing[] = {
+>                          ...
+>                  };
+> 
+>                  _set_routing(sd, state, routing, ARRAY_SIZE(routing));
+>          }
+> 
+> So that
+> - krouting contains 'which' but is only used in the set_routing
+>    operation
+> - init_cfg doesn't have to initialize a krouting just for the purpose
+>    of pleasing the v4l2_subdev function signatures
+
+Why do you want the routes and num_routes handled separately? Isn't it 
+nicer if they're grouped together in a struct?
+
+> It requires to remove krouting from all the v4l2_subdev_*route*()
+> functions in v4l2_subdev.c and have them work on the raw routes
+> ('routes' and 'num_routes' could as well be grouped in one structure
+> like you had in v8).
+
+If they're grouped, then... Wouldn't we just be back in the case I 
+described in the mail you linked, having a struct for the sole purpose 
+of passing parameters to set_routing?
+
+> As you asked for opinions and I failed to provide one in v8 it
+> wouldn't be fair to ask you to backtrack just to see how it looks
+> like, so here you have a patch to be applied on top of your branch for
+> you to take into consideration (test on my gmsl work on top of your
+> v9).
+
+So it's not quite clear to me what's the issue you see here.
+
+Is it just that you don't like passing 'which' separately to 
+set_routing(), but other ops get it in a struct? If that's a problem, we 
+can create the extra struct used solely for calling set_routing.
+
+Or do you think it's better to have routes and num_routes used 
+separately, as you do in your patch? If so, why, what's the benefit?
+
+  Tomi
