@@ -2,317 +2,219 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9E93142EEBD
-	for <lists+linux-media@lfdr.de>; Fri, 15 Oct 2021 12:26:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4351142EEED
+	for <lists+linux-media@lfdr.de>; Fri, 15 Oct 2021 12:33:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237963AbhJOK2k (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 15 Oct 2021 06:28:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55722 "EHLO
+        id S235022AbhJOKfq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 15 Oct 2021 06:35:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57352 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232172AbhJOK2k (ORCPT
+        with ESMTP id S238215AbhJOKfg (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 15 Oct 2021 06:28:40 -0400
-Received: from mail-io1-xd35.google.com (mail-io1-xd35.google.com [IPv6:2607:f8b0:4864:20::d35])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 96920C061570
-        for <linux-media@vger.kernel.org>; Fri, 15 Oct 2021 03:26:33 -0700 (PDT)
-Received: by mail-io1-xd35.google.com with SMTP id x1so7107843iof.7
-        for <linux-media@vger.kernel.org>; Fri, 15 Oct 2021 03:26:33 -0700 (PDT)
+        Fri, 15 Oct 2021 06:35:36 -0400
+Received: from mail-wr1-x42d.google.com (mail-wr1-x42d.google.com [IPv6:2a00:1450:4864:20::42d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E43B1C061768;
+        Fri, 15 Oct 2021 03:33:29 -0700 (PDT)
+Received: by mail-wr1-x42d.google.com with SMTP id r7so25723996wrc.10;
+        Fri, 15 Oct 2021 03:33:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=rj7TZomBB0k48CQI/P48w8SDve0z+a72Yn45I3uorTo=;
-        b=dV+9iJljcTdBi0k7V7NFbX1s2EIqmmYvZ9kZk0ZStUT/Xd8WDNzN9smfoPaB1yuBQM
-         c9AyoAksp5ipZMANS5xjiy8HX6FA94xTlTgWy1kiLpArE4xhUVOQcjly2/z9Luxr0bEG
-         WXG+vUsz0lk+hU/p48BWo1v0lpypmWoTjoHpTvcFB6J49aebmv+NOBrr8LQdCSRqPOwO
-         cDFoC2ktj5FCN1/tiICTjDQaZpX4PNlNcSRsnfZmFRz6I6OKvXq6ebHXueLdv3wMGe1O
-         ZSMfLBfKTXF6BYyQyqX2TVIfHBx8BIM8HCxY7ECMtZZK2rKXjU7IhUICeVc1Fsi/0X+s
-         ihDg==
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=Q/m7Gr8n0zuK0aOcQb53oByaeENAR90+6+QHf9J6DSM=;
+        b=TXDzd3zQdeIQoWQ77fpiYlS7z59J6VV05QiogjrBw4247LxWZ57PND9ZXiFOwGvfBO
+         PGJI3poPd1nsaOTF4JNueLozKXv+2d50bPhbp5CQ5UooKWHZ4cD3XULb5FV6IBPuL2nG
+         +jYNtyG8Ku7/r4X3S4sKNju4mL2XmskqCDfoXJlTsQv3idNT2/UFbLDQ09S9tKl8AqHs
+         34HzNX/NxwxTn/6WnWKFEMZL4/KQ4RtFxnRH16HiJxeE9/sMndOLPHkNPZUmbIFexxBD
+         BCeRspUPZpEuQGgNec4HtpNcbTzPlzlHsWf/NDZkYJcFKkODhtYXRynRfnAB+zCNwykk
+         LwCA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=rj7TZomBB0k48CQI/P48w8SDve0z+a72Yn45I3uorTo=;
-        b=AlQvcGwGwTy9hpU47IwO6vEnC9yuBEC2FJ86GwNE8KPn4ID1nF//IpylCdgQrgCEeA
-         E3kHYybGIVUJzYz9itbgQmSdWr5hCyrKSYy0DrN7RsuRYSU3Wd5eVEHWApBRRUYWUyL/
-         yvZxFcNfMMardemg8gd4+PouN5DzfGP+U5OQYacmApKNYXL6oQga4dn/hYxCAuboBZJJ
-         MiQ/DTQm+OIH/ar9kjfMpraXOqG6qcFz6v9atmP7IuOgNkVowQY2fjPpmMrzeHlF0/dq
-         RBZBfOdL0UUBh+Y7H3gf+In1biPF4jYZdwN2+j2rkU1iEaWwMDg8g55TA3FAkd0wb9m8
-         SwCQ==
-X-Gm-Message-State: AOAM531NkuAcUW24Z30qIC7vUPHe94Li3ipFCNAJWoOqQipnS0W/uoOm
-        30Rq0Z45VzgFWlU03TElsvU9hYvLWOtsx67Sb32JVGMAQoyQGVZ1
-X-Google-Smtp-Source: ABdhPJyDTY7aWY+PLmcx7wBRw7vzMs6uPRd/UYJxFPablNxQNZfW/pL3XGPcsReX4VZo8GxR4k9L1rYvTavkbyMkjhs=
-X-Received: by 2002:a05:6602:1593:: with SMTP id e19mr3226594iow.43.1634293592889;
- Fri, 15 Oct 2021 03:26:32 -0700 (PDT)
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=Q/m7Gr8n0zuK0aOcQb53oByaeENAR90+6+QHf9J6DSM=;
+        b=jBT+zKEJ0PMm1QX/wSpH6Ggq9m+9s80VsL6f+VHjok7EpFu4ejMa+gbzu2oTjCu9Nt
+         hT0Zo8nfm4fVUjHEuzMu7KSLtZBO5uR833Xr2VqaUKLCWej6Q+uSWJjq5egvNj5NxqIZ
+         KrQa9G5wh4Ok5hZAv7l3E0uOeRZj9vxRnn62/rlGNyG/rrhoxx6md89tW5YbPbLMHw08
+         Q7f5hJ+paqSQALfYyJpl2EdTPWChsWGicL9BnXjdOgZL2ANj1rdj/xlnj9GdeVX6R7sf
+         cKLmK7VYOvEZ1tIQlZRe6HRBN+UWX4fhQRex9bywBfpT40EwVQY8APFUqgJ/D2apR2GY
+         yKwA==
+X-Gm-Message-State: AOAM531rVbKQV0+xEoZxNs4MzacpjhzvWXHipiudpYIVwBk5pS4iJEme
+        5nvn+b7Z+jz3TO6z0kpSZA==
+X-Google-Smtp-Source: ABdhPJzvQyuR8eS8meMNbWy6UhnS7ytKLdQcqebigSr/Ico0kVVTZpgTOZXQpY1KjPPNdBXCyqTkMw==
+X-Received: by 2002:a05:6000:1567:: with SMTP id 7mr13495413wrz.408.1634294008512;
+        Fri, 15 Oct 2021 03:33:28 -0700 (PDT)
+Received: from [192.168.200.23] (ip5b435a69.dynamic.kabel-deutschland.de. [91.67.90.105])
+        by smtp.gmail.com with ESMTPSA id o6sm6016884wri.49.2021.10.15.03.33.27
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 15 Oct 2021 03:33:28 -0700 (PDT)
+Subject: Re: [PATCH v2 0/4] media: HEVC: RPS clean up
+To:     =?UTF-8?Q?Jernej_=c5=a0krabec?= <jernej.skrabec@gmail.com>,
+        mchehab@kernel.org, p.zabel@pengutronix.de,
+        gregkh@linuxfoundation.org, mripard@kernel.org,
+        paul.kocialkowski@bootlin.com, wens@csie.org,
+        hverkuil-cisco@xs4all.nl, jc@kynesim.co.uk,
+        ezequiel@vanguardiasur.com.ar,
+        Benjamin Gaignard <benjamin.gaignard@collabora.com>
+Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev,
+        linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
+References: <20211012143552.661751-1-benjamin.gaignard@collabora.com>
+ <21222555.EfDdHjke4D@kista>
+ <3c5851ac-3b8a-decc-93c1-01a65b1f8611@collabora.com>
+ <1705005.VLH7GnMWUR@kista>
+From:   Alex Bee <knaerzche@gmail.com>
+Message-ID: <4f8f6da3-70b1-5dd8-27b7-c9f9fd37920b@gmail.com>
+Date:   Fri, 15 Oct 2021 12:33:26 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-References: <3acd9ee4-5a58-6ed4-17fe-61596a5252b8@xs4all.nl> <CAL9mu0+Vm9Xv4PYy-PG7EzVR1Jd1Jg7q=6_ABu1kOM+D3291ZQ@mail.gmail.com>
-In-Reply-To: <CAL9mu0+Vm9Xv4PYy-PG7EzVR1Jd1Jg7q=6_ABu1kOM+D3291ZQ@mail.gmail.com>
-From:   Dillon Min <dillon.minfei@gmail.com>
-Date:   Fri, 15 Oct 2021 18:25:56 +0800
-Message-ID: <CAL9mu0Juhr+nnw=hb78+dYyJDhoJVW_3R6PorhX+yzWEfGFttw@mail.gmail.com>
-Subject: Re: [RFC PATCH] media: check for NULL pointer argument in ioctl() if !CONFIG_MMU
-To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <1705005.VLH7GnMWUR@kista>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Hans
+Hi Benjamin, Jernej
+Am 12.10.21 um 18:08 schrieb Jernej Škrabec:
+> CC: Alex Bee
+> 
+> Alex, please take a look to these patches too.
+These patches don't remove anything that would be need for rkvdec hevc - 
+but indeed - we need some more:
+https://github.com/LibreELEC/LibreELEC.tv/blob/master/projects/Rockchip/patches/linux/default/linux-2001-v4l-wip-rkvdec-hevc.patch#L242-L305
 
-Your patch working fine on my setup:
-HW: stm32f469-disco https://www.st.com/en/evaluation-tools/32f469idiscovery.html
+v4l2_ctrl_hevc_sps:
+__u8	video_parameter_set_id
+__u8	seq_parameter_set_id
 
-The detail test step:
-- rebase kernel on the media tree from
-https://git.linuxtv.org/media_tree.git master branch.
-  commit 64cdf7e5a3aac0e7c9efdb079e74e22875b0419a
-   Author: Irui Wang <irui.wang@mediatek.com>
-  Date:   Sun Sep 26 05:39:35 2021 +0200
-- merge my 8 patches.
-- open nullptr check from v4l2-compliance.
-- build kernel & v4l2-compliance.
-- v4l2-compliance test failed as before.
-- merge your patch, rebuild kernel
-- the "fail: v4l2-compliance.cpp(624): doioctl(node, VIDIOC_QUERYCAP,
-nullptr) != EFAULT"
-  is gone.
+v4l2_ctrl_hevc_pps:
+__u8	pic_parameter_set_id
+__u16	short_term_ref_pic_set_size
+__u16	long_term_ref_pic_set_size
 
-Thanks & Regards
-Dillon
+As far as I can see, they are all part of the spec and should be 
+therefore good to go in the uapi.
 
-On Thu, 14 Oct 2021 at 22:02, Dillon Min <dillon.minfei@gmail.com> wrote:
->
-> On Thu, 14 Oct 2021 at 19:20, Hans Verkuil <hverkuil-cisco@xs4all.nl> wrote:
-> >
-> > If CONFIG_MMU is not set, then copying ioctl arguments from userspace to kernelspace
-> > and vice versa will just work (access_ok() always returns true in that case), even if
-> > the argument is a NULL pointer.
-> >
-> > This is definitely a corner case that we want to check for, so add a NULL pointer check
-> > to the various core ioctl functions in the media frameworks.
-> >
-> > Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-> > Reported-by: Dillon Min <dillon.minfei@gmail.com>
-> > ---
-> > Note: this is an RFC only, this might fail if there are ioctls that pass a value as
-> > the ioctl argument instead of a pointer to a buffer. I know that that never happens for
-> > the V4L2, CEC and MC APIs, but I'm less certain about the DVB/RC APIs.
-> >
-> > Dillon, can you test if the v4l2-compliance VIDIOC_QUERYCAP(NULL) test now passes with
-> > this patch applied?
->
-> Sure, I will test this patch.
->
-> Best Regards
-> Dillon
->
-> >
-> > Thanks!
-> >
-> >         Hans
-> > ---
-> > diff --git a/drivers/media/cec/core/cec-api.c b/drivers/media/cec/core/cec-api.c
-> > index 769e6b4cddce..b2498f0dd272 100644
-> > --- a/drivers/media/cec/core/cec-api.c
-> > +++ b/drivers/media/cec/core/cec-api.c
-> > @@ -511,6 +511,11 @@ static long cec_ioctl(struct file *filp, unsigned int cmd, unsigned long arg)
-> >         if (!cec_is_registered(adap))
-> >                 return -ENODEV;
-> >
-> > +#ifndef CONFIG_MMU
-> > +       if (_IOC_DIR(cmd) != _IOC_NONE && !arg)
-> > +               return -EFAULT;
-> > +#endif
-> > +
-> >         switch (cmd) {
-> >         case CEC_ADAP_G_CAPS:
-> >                 return cec_adap_g_caps(adap, parg);
-> > diff --git a/drivers/media/dvb-core/dmxdev.c b/drivers/media/dvb-core/dmxdev.c
-> > index 5d5a48475a54..1ab0fe8df2d6 100644
-> > --- a/drivers/media/dvb-core/dmxdev.c
-> > +++ b/drivers/media/dvb-core/dmxdev.c
-> > @@ -1187,6 +1187,10 @@ static int dvb_demux_do_ioctl(struct file *file,
-> >  static long dvb_demux_ioctl(struct file *file, unsigned int cmd,
-> >                             unsigned long arg)
-> >  {
-> > +#ifndef CONFIG_MMU
-> > +       if (_IOC_DIR(cmd) != _IOC_NONE && !arg)
-> > +               return -EFAULT;
-> > +#endif
-> >         return dvb_usercopy(file, cmd, arg, dvb_demux_do_ioctl);
-> >  }
-> >
-> > diff --git a/drivers/media/dvb-core/dvb_ca_en50221.c b/drivers/media/dvb-core/dvb_ca_en50221.c
-> > index 15a08d8c69ef..8ed33806fe13 100644
-> > --- a/drivers/media/dvb-core/dvb_ca_en50221.c
-> > +++ b/drivers/media/dvb-core/dvb_ca_en50221.c
-> > @@ -1422,6 +1422,10 @@ static int dvb_ca_en50221_io_do_ioctl(struct file *file,
-> >  static long dvb_ca_en50221_io_ioctl(struct file *file,
-> >                                     unsigned int cmd, unsigned long arg)
-> >  {
-> > +#ifndef CONFIG_MMU
-> > +       if (_IOC_DIR(cmd) != _IOC_NONE && !arg)
-> > +               return -EFAULT;
-> > +#endif
-> >         return dvb_usercopy(file, cmd, arg, dvb_ca_en50221_io_do_ioctl);
-> >  }
-> >
-> > diff --git a/drivers/media/dvb-core/dvb_frontend.c b/drivers/media/dvb-core/dvb_frontend.c
-> > index 258637d762d6..b21f28d6d6df 100644
-> > --- a/drivers/media/dvb-core/dvb_frontend.c
-> > +++ b/drivers/media/dvb-core/dvb_frontend.c
-> > @@ -2100,6 +2100,10 @@ static long dvb_frontend_ioctl(struct file *file, unsigned int cmd,
-> >         if (!dvbdev)
-> >                 return -ENODEV;
-> >
-> > +#ifndef CONFIG_MMU
-> > +       if (_IOC_DIR(cmd) != _IOC_NONE && !arg)
-> > +               return -EFAULT;
-> > +#endif
-> >         return dvb_usercopy(file, cmd, arg, dvb_frontend_do_ioctl);
-> >  }
-> >
-> > @@ -2136,6 +2140,10 @@ static int dvb_frontend_handle_compat_ioctl(struct file *file, unsigned int cmd,
-> >         struct dvb_frontend_private *fepriv = fe->frontend_priv;
-> >         int i, err = 0;
-> >
-> > +#ifndef CONFIG_MMU
-> > +       if (_IOC_DIR(cmd) != _IOC_NONE && !arg)
-> > +               return -EFAULT;
-> > +#endif
-> >         if (cmd == COMPAT_FE_SET_PROPERTY) {
-> >                 struct compat_dtv_properties prop, *tvps = NULL;
-> >                 struct compat_dtv_property *tvp = NULL;
-> > diff --git a/drivers/media/dvb-core/dvb_net.c b/drivers/media/dvb-core/dvb_net.c
-> > index dddebea644bb..97282946e35e 100644
-> > --- a/drivers/media/dvb-core/dvb_net.c
-> > +++ b/drivers/media/dvb-core/dvb_net.c
-> > @@ -1561,6 +1561,10 @@ static int dvb_net_do_ioctl(struct file *file,
-> >  static long dvb_net_ioctl(struct file *file,
-> >               unsigned int cmd, unsigned long arg)
-> >  {
-> > +#ifndef CONFIG_MMU
-> > +       if (_IOC_DIR(cmd) != _IOC_NONE && !arg)
-> > +               return -EFAULT;
-> > +#endif
-> >         return dvb_usercopy(file, cmd, arg, dvb_net_do_ioctl);
-> >  }
-> >
-> > diff --git a/drivers/media/dvb-core/dvbdev.c b/drivers/media/dvb-core/dvbdev.c
-> > index 795d9bfaba5c..f2311baadb00 100644
-> > --- a/drivers/media/dvb-core/dvbdev.c
-> > +++ b/drivers/media/dvb-core/dvbdev.c
-> > @@ -184,6 +184,10 @@ long dvb_generic_ioctl(struct file *file,
-> >         if (!dvbdev)
-> >                 return -ENODEV;
-> >
-> > +#ifndef CONFIG_MMU
-> > +       if (_IOC_DIR(cmd) != _IOC_NONE && !arg)
-> > +               return -EFAULT;
-> > +#endif
-> >         if (!dvbdev->kernel_ioctl)
-> >                 return -EINVAL;
-> >
-> > diff --git a/drivers/media/mc/mc-device.c b/drivers/media/mc/mc-device.c
-> > index cf5e459b1d96..e25a407b6194 100644
-> > --- a/drivers/media/mc/mc-device.c
-> > +++ b/drivers/media/mc/mc-device.c
-> > @@ -445,6 +445,10 @@ static long media_device_ioctl(struct file *filp, unsigned int cmd,
-> >         char __karg[256], *karg = __karg;
-> >         long ret;
-> >
-> > +#ifndef CONFIG_MMU
-> > +       if (_IOC_DIR(cmd) != _IOC_NONE && !__arg)
-> > +               return -EFAULT;
-> > +#endif
-> >         if (_IOC_NR(cmd) >= ARRAY_SIZE(ioctl_info)
-> >             || ioctl_info[_IOC_NR(cmd)].cmd != cmd)
-> >                 return -ENOIOCTLCMD;
-> > @@ -526,6 +530,10 @@ static long media_device_compat_ioctl(struct file *filp, unsigned int cmd,
-> >         struct media_device *dev = devnode->media_dev;
-> >         long ret;
-> >
-> > +#ifndef CONFIG_MMU
-> > +       if (_IOC_DIR(cmd) != _IOC_NONE && !arg)
-> > +               return -EFAULT;
-> > +#endif
-> >         switch (cmd) {
-> >         case MEDIA_IOC_ENUM_LINKS32:
-> >                 mutex_lock(&dev->graph_mutex);
-> > diff --git a/drivers/media/mc/mc-request.c b/drivers/media/mc/mc-request.c
-> > index addb8f2d8939..0c1956899fcb 100644
-> > --- a/drivers/media/mc/mc-request.c
-> > +++ b/drivers/media/mc/mc-request.c
-> > @@ -223,6 +223,10 @@ static long media_request_ioctl(struct file *filp, unsigned int cmd,
-> >  {
-> >         struct media_request *req = filp->private_data;
-> >
-> > +#ifndef CONFIG_MMU
-> > +       if (_IOC_DIR(cmd) != _IOC_NONE && !arg)
-> > +               return -EFAULT;
-> > +#endif
-> >         switch (cmd) {
-> >         case MEDIA_REQUEST_IOC_QUEUE:
-> >                 return media_request_ioctl_queue(req);
-> > diff --git a/drivers/media/pci/bt8xx/dst_ca.c b/drivers/media/pci/bt8xx/dst_ca.c
-> > index 85fcdc59f0d1..f7bd7a07606e 100644
-> > --- a/drivers/media/pci/bt8xx/dst_ca.c
-> > +++ b/drivers/media/pci/bt8xx/dst_ca.c
-> > @@ -532,6 +532,10 @@ static long dst_ca_ioctl(struct file *file, unsigned int cmd, unsigned long ioct
-> >         void __user *arg = (void __user *)ioctl_arg;
-> >         int result = 0;
-> >
-> > +#ifndef CONFIG_MMU
-> > +       if (_IOC_DIR(cmd) != _IOC_NONE && !ioctl_arg)
-> > +               return -EFAULT;
-> > +#endif
-> >         mutex_lock(&dst_ca_mutex);
-> >         dvbdev = file->private_data;
-> >         state = (struct dst_state *)dvbdev->priv;
-> > diff --git a/drivers/media/rc/lirc_dev.c b/drivers/media/rc/lirc_dev.c
-> > index 7f591ff5269d..9d89c68d2076 100644
-> > --- a/drivers/media/rc/lirc_dev.c
-> > +++ b/drivers/media/rc/lirc_dev.c
-> > @@ -372,6 +372,10 @@ static long lirc_ioctl(struct file *file, unsigned int cmd, unsigned long arg)
-> >         u32 val = 0;
-> >         int ret;
-> >
-> > +#ifndef CONFIG_MMU
-> > +       if (_IOC_DIR(cmd) != _IOC_NONE && !arg)
-> > +               return -EFAULT;
-> > +#endif
-> >         if (_IOC_DIR(cmd) & _IOC_WRITE) {
-> >                 ret = get_user(val, argp);
-> >                 if (ret)
-> > diff --git a/drivers/media/v4l2-core/v4l2-compat-ioctl32.c b/drivers/media/v4l2-core/v4l2-compat-ioctl32.c
-> > index 8176769a89fa..2bb8fa87aa46 100644
-> > --- a/drivers/media/v4l2-core/v4l2-compat-ioctl32.c
-> > +++ b/drivers/media/v4l2-core/v4l2-compat-ioctl32.c
-> > @@ -1254,6 +1254,11 @@ long v4l2_compat_ioctl32(struct file *file, unsigned int cmd, unsigned long arg)
-> >         if (!video_is_registered(vdev))
-> >                 return -ENODEV;
-> >
-> > +#ifndef CONFIG_MMU
-> > +       if (_IOC_DIR(cmd) != _IOC_NONE && !arg)
-> > +               return -EFAULT;
-> > +#endif
-> > +
-> >         if (_IOC_TYPE(cmd) == 'V' && _IOC_NR(cmd) < BASE_VIDIOC_PRIVATE)
-> >                 ret = file->f_op->unlocked_ioctl(file, cmd,
-> >                                         (unsigned long)compat_ptr(arg));
-> > diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-core/v4l2-ioctl.c
-> > index 31d0109ce5a8..d4ec18fd1770 100644
-> > --- a/drivers/media/v4l2-core/v4l2-ioctl.c
-> > +++ b/drivers/media/v4l2-core/v4l2-ioctl.c
-> > @@ -3279,6 +3279,10 @@ video_usercopy(struct file *file, unsigned int orig_cmd, unsigned long arg,
-> >
-> >         /*  Copy arguments into temp kernel buffer  */
-> >         if (_IOC_DIR(cmd) != _IOC_NONE) {
-> > +#ifndef CONFIG_MMU
-> > +               if (!arg)
-> > +                       return -EFAULT;
-> > +#endif
-> >                 if (ioc_size <= sizeof(sbuf)) {
-> >                         parg = sbuf;
-> >                 } else {
+As you might now, even rkvdec is a frame-based decoder, it doesn't fully 
+parse slice headers in HW for HEVC and we need to set references in SW 
+which requires looping over the slices. Downstream we have a hack to 
+give num_slices in v4l2_ctrl_hevc_sps for doing that.
+That could fully go away, if V4L2_CID_MPEG_VIDEO_HEVC_SLICE_PARAMS could 
+get dynamic array control support and would make upstreaming this a lot 
+easier - as far as I'm concered this would be required for RPi HEVC 
+decoder as well.
+As a last resort we could also implement a HW specifc control à la
+V4L2_CID_HANTRO_HEVC_SLICE_HEADER_SKIP - but I'd like to avoid that, 
+knowing it would certainly be better from performance pov.
+
+Alex.
+> 
+> Dne torek, 12. oktober 2021 ob 17:57:50 CEST je Benjamin Gaignard napisal(a):
+>>
+>> Le 12/10/2021 à 17:34, Jernej Škrabec a écrit :
+>>> Hi Benjamin!
+>>>
+>>> Dne torek, 12. oktober 2021 ob 16:35:48 CEST je Benjamin Gaignard
+> napisal(a):
+>>>> This series aims to clean up Reference Picture Set usage and flags.
+>>>>
+>>>> Long term flag was named with RPS prefix while it is not used for RPS
+>>>> but for mark long term references in DBP. Remane it and remove the two
+>>>> other useless RPS flags.
+>>>>
+>>>> Clarify documentation about RPS lists content and make sure that Hantro
+>>>> driver use them correctly (i.e without look up in DBP).
+>>>>
+>>>> These patches are the last in my backlog impacting HEVC uAPI.
+>>>>   From my point of view, once they get merged, you could start talking
+>>>> about how move HEVC uAPI to stable.
+>>> With your changes, HEVC uAPI controls still won't be complete. Cedrus
+> needs
+>>> entry point control, which in turn needs dynamic array support. I'm a bit
+> lazy
+>>> implementing that control, but I guess I can take a look in a month or so.
+>>> rkvdec also needs more fields for HEVC. With patches collected here:
+>>> https://github.com/LibreELEC/LibreELEC.tv/blob/master/projects/Rockchip/
+>>> patches/linux/default/linux-2001-v4l-wip-rkvdec-hevc.patch
+>>> fluster HEVC test score is reportedly 121/135 (8-bit tests only).
+>>
+>> Hi Jernej,
+>>
+>> Thanks for your feedback, getting a list of missing items in HEVC uAPI
+>> will definitively help to fill the hope.
+>> The patch you mention for rkvdec are already merged in mainline kernel (at
+>> least for uAPI part).
+> 
+> Are they? What about:
+> video_parameter_set_id
+> seq_parameter_set_id
+> pic_parameter_set_id
+> short_term_ref_pic_set_size
+> long_term_ref_pic_set_size
+> 
+> At least I don't see them in linux-next. Maybe that information can be
+> obtained in some other way?
+> 
+>> Cedrus needs are about num_entry_point_offsets, offset_len_minus1 and
+> entry_point_offset_minus1[ i ]
+>> in HEVC specifications ?
+> 
+> Yes, Cedrus needs to know whole list of entry points. I don't think we need to
+> worry about offset_len_minus1, list could be pre-processed - just number of
+> entry points and their values.
+> 
+> Best regards,
+> Jernej
+> 
+>>
+>> Regards,
+>> Benjamin
+>>
+>>>
+>>> I would certainly wait with moving HEVC uAPI to stable.
+>>>
+>>> Best regards,
+>>> Jernej
+>>>
+>>>> version 2:
+>>>> - change DPB field name from rps to flags
+>>>>
+>>>> Please note that the only purpose of commits 3 and 4 is to allow to test
+>>>> G2 hardware block for IMX8MQ until a proper solution isuing power domain
+>>>> can be found. Do not merge them.
+>>>>
+>>>> GStreamer HEVC plugin merge request can be found here:
+>>>> https://gitlab.freedesktop.org/gstreamer/gstreamer/-/merge_requests/1079
+>>>>
+>>>> With those piece of code fluster score is 77/147.
+>>>>
+>>>> Benjamin
+>>>>
+>>>> Benjamin Gaignard (4):
+>>>>     media: hevc: Remove RPS named flags
+>>>>     media: hevc: Embedded indexes in RPS
+>>>>     media: hantro: Use syscon instead of 'ctrl' register
+>>>>     arm64: dts: imx8mq: Add node to G2 hardware
+>>>>
+>>>>    .../media/v4l/ext-ctrls-codec.rst             | 14 +++---
+>>>>    arch/arm64/boot/dts/freescale/imx8mq.dtsi     | 43 +++++++++++++----
+>>>>    drivers/staging/media/hantro/hantro.h         |  5 +-
+>>>>    .../staging/media/hantro/hantro_g2_hevc_dec.c | 27 +++--------
+>>>>    drivers/staging/media/hantro/imx8m_vpu_hw.c   | 48 ++++++++++++-------
+>>>>    .../staging/media/sunxi/cedrus/cedrus_h265.c  |  2 +-
+>>>>    include/media/hevc-ctrls.h                    |  6 +--
+>>>>    7 files changed, 84 insertions(+), 61 deletions(-)
+>>>>
+>>>> -- 
+>>>> 2.30.2
+>>>>
+>>>>
+>>>
+>>
+> 
+> 
+
