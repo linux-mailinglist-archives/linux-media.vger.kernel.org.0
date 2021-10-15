@@ -2,179 +2,112 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9F8B642FCD7
-	for <lists+linux-media@lfdr.de>; Fri, 15 Oct 2021 22:14:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3790442FD97
+	for <lists+linux-media@lfdr.de>; Fri, 15 Oct 2021 23:45:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242937AbhJOUQm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 15 Oct 2021 16:16:42 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:37993 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S234130AbhJOUQm (ORCPT
+        id S243168AbhJOVrl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 15 Oct 2021 17:47:41 -0400
+Received: from mail-oi1-f171.google.com ([209.85.167.171]:38864 "EHLO
+        mail-oi1-f171.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S238695AbhJOVrk (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 15 Oct 2021 16:16:42 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1634328875;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=ob0cXS+iTVqhTc0LL+1lwvmPqj++Muh+HEaU63BqtuQ=;
-        b=OGWzt5e25yJYQiQD7/uF8o+UKGtYVDv5oE7oDURTcvbPBEYtOKPrlhvQfdWBaxwjDQS0JO
-        X9ECFLmDU7/O8GHVKiQtm2jVhUTa6cWeaclrBzB9SRvErD9jVWnhZ2vZT45KU4dmQW2N2Q
-        Slx3SPuQYj63wlRBl3g6xijzBjJWYHU=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-62-MhfvMnowN0OJX4gCthb-wA-1; Fri, 15 Oct 2021 16:14:34 -0400
-X-MC-Unique: MhfvMnowN0OJX4gCthb-wA-1
-Received: by mail-ed1-f69.google.com with SMTP id u23-20020a50a417000000b003db23c7e5e2so9271626edb.8
-        for <linux-media@vger.kernel.org>; Fri, 15 Oct 2021 13:14:33 -0700 (PDT)
+        Fri, 15 Oct 2021 17:47:40 -0400
+Received: by mail-oi1-f171.google.com with SMTP id t4so14951505oie.5;
+        Fri, 15 Oct 2021 14:45:33 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=ob0cXS+iTVqhTc0LL+1lwvmPqj++Muh+HEaU63BqtuQ=;
-        b=KKyPKtm+s7El+KZg/JdCdDqqwEgHtLc4pNH6reKiuV1ki+KazOAiyHm4mXRCI7FLP5
-         3HK9PgfmHIaGDigMlOJCiH8y7UWZeMFeiZpfQQiXvsS1dL+DijIgZTf0680BCflCTyse
-         F/Nsh8Ml97LlrnKRokrEQULF45rZt8WC2i8JEgL/Fx3AQrp7e6QQLm8jpl9KkyjE+Rci
-         SIDpanIP/M49re5uvxhcgj5Ty4zjnWIQfFLf/K+znXHGzN0pB8gL5GwY49VsDPTxeiFh
-         xXW0Uq24itiIJC4jdlQBOCzT9+tdbR5fCXuT5ys7C9qGa6TiBz5gDNPrdHB+mq4zTh3U
-         otjQ==
-X-Gm-Message-State: AOAM530NhWKLDUMETpf6Pjqg+GPUhqAWGdNit2m2TkHuvo8/vP/au46P
-        exAtGEWGPSRsRHIUdXF4R3dZuD/uosGyC5FPgyEonVs16qRwXoIkYQj/LmyKBf6vxof2xs+dPpt
-        JRShDBsY1dXu4teQKawXTdbk=
-X-Received: by 2002:a17:906:25d7:: with SMTP id n23mr9598452ejb.322.1634328872806;
-        Fri, 15 Oct 2021 13:14:32 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxezyePB9FvDabIoN4SDBtXb0EfYt6tXjhJ1dDf14blwJ1cW4KunpzRXCflX2qy8gweIQsg7g==
-X-Received: by 2002:a17:906:25d7:: with SMTP id n23mr9598434ejb.322.1634328872644;
-        Fri, 15 Oct 2021 13:14:32 -0700 (PDT)
-Received: from x1.localdomain ([2a0e:5700:4:11:334c:7e36:8d57:40cb])
-        by smtp.gmail.com with ESMTPSA id z18sm4752728ejl.67.2021.10.15.13.14.30
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 15 Oct 2021 13:14:31 -0700 (PDT)
-Subject: Re: [PATCH 05/12] regulator: Introduce tps68470-regulator driver
-To:     Mark Brown <broonie@kernel.org>
-Cc:     "Rafael J . Wysocki" <rjw@rjwysocki.net>,
-        Mark Gross <markgross@kernel.org>,
-        Andy Shevchenko <andy@infradead.org>,
-        Daniel Scally <djrscally@gmail.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        h=x-gm-message-state:from:to:cc:in-reply-to:references:subject:date
+         :message-id;
+        bh=NYOyme/cinRUC3bVzCpIQa4360myarzWLY66zGOmnyw=;
+        b=em9lMnAlGSyml7XvWGy4vWsm+YZZNN5iIpW+anlCUECLGDMwa5u7nPYny51pWSnEvj
+         HwbuJJRw3TkTqDUdgiyQU0nZsIvfSflinbL4ES0hhLCciWPs2CZ5Gu7lIhBVjuk9AKU6
+         jbxtXsjN1hsICwL4ekhqMuT4NIgddwdE5hoWYgDFF89RFKv8B0dOnsIybtLfkeS/CyUw
+         foBgHhRL0dEVpgEzffu6Pb/TwEL6XPzBr9EAEqs9htZWkNMzSRSjEpn+k3rZBgxYCjqz
+         IXSWrAuadhEvAGwWiLBkM84o4oYEb86aC5GTGN0rcMyv9Psg89SLqq/5+/vVx7Rcj5FO
+         Insg==
+X-Gm-Message-State: AOAM533H93c3rkvi0jwS78hxlvCoc/Lmug1uhwnhCMs/8dTzdTjNT9DU
+        vOMvjuLzJdqlVMYTkFydmg==
+X-Google-Smtp-Source: ABdhPJyxArKeXBHH7sHkPc47Cnex9p1URhiMiWu4n0F61RgItK1JWSN1OQ8mY/jCwu8apIz9fTyk1g==
+X-Received: by 2002:aca:d64a:: with SMTP id n71mr14261693oig.40.1634334333530;
+        Fri, 15 Oct 2021 14:45:33 -0700 (PDT)
+Received: from robh.at.kernel.org (66-90-148-213.dyn.grandenetworks.net. [66.90.148.213])
+        by smtp.gmail.com with ESMTPSA id m7sm1261843oiw.49.2021.10.15.14.45.32
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 15 Oct 2021 14:45:32 -0700 (PDT)
+Received: (nullmailer pid 2254012 invoked by uid 1000);
+        Fri, 15 Oct 2021 21:45:31 -0000
+From:   Rob Herring <robh@kernel.org>
+To:     Moudy Ho <moudy.ho@mediatek.com>
+Cc:     acourbot@chromium.org, srv_heupstream@mediatek.com,
+        pihsun@chromium.org, linux-mediatek@lists.infradead.org,
+        Rob Landley <rob@landley.net>, allen-kh.cheng@mediatek.com,
+        randy.wu@mediatek.com, tfiga@chromium.org,
+        daoyuan huang <daoyuan.huang@mediatek.com>,
+        linux-media@vger.kernel.org,
+        Ping-Hsun Wu <ping-hsun.wu@mediatek.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>, Len Brown <lenb@kernel.org>,
-        linux-acpi@vger.kernel.org, platform-driver-x86@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Kate Hsuan <hpa@redhat.com>, linux-media@vger.kernel.org,
-        linux-clk@vger.kernel.org
-References: <20211008162121.6628-1-hdegoede@redhat.com>
- <20211008162121.6628-6-hdegoede@redhat.com> <YWQU/SYTT5Vk24XH@sirena.org.uk>
- <f6f2d7e8-fdb8-ed64-0cdd-65aded9fc42c@redhat.com>
- <YWmwZJvDYjPWJdb4@sirena.org.uk>
- <d0d1dc05-4cc6-2f47-88a9-700cfc356d86@redhat.com>
- <YWnPaI/ZECdfYre9@sirena.org.uk>
- <843f939a-7e43-bc12-e9fc-582e01129b63@redhat.com>
- <YWnZIZTPiuAIazV+@sirena.org.uk>
- <c595b143-d7ed-e76b-7734-e03d14e0f76e@redhat.com>
- <YWndpGgBtLEAEaNj@sirena.org.uk>
-From:   Hans de Goede <hdegoede@redhat.com>
-Message-ID: <1805d16e-87ab-c291-6a73-adabf41344ca@redhat.com>
-Date:   Fri, 15 Oct 2021 22:14:30 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
-MIME-Version: 1.0
-In-Reply-To: <YWndpGgBtLEAEaNj@sirena.org.uk>
-Content-Type: text/plain; charset=windows-1252
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Maoguang Meng <maoguang.meng@mediatek.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        sj.huang@mediatek.com, menghui.lin@mediatek.com,
+        linux-kernel@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
+        linux-arm-kernel@lists.infradead.org, drinkcat@chromium.org,
+        Jernej Skrabec <jernej.skrabec@siol.net>,
+        devicetree@vger.kernel.org, hsinyi@google.com,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>
+In-Reply-To: <20211015123832.17914-6-moudy.ho@mediatek.com>
+References: <20211015123832.17914-1-moudy.ho@mediatek.com> <20211015123832.17914-6-moudy.ho@mediatek.com>
+Subject: Re: [PATCH v8 5/7] dt-binding: mt8183: add Mediatek MDP3 dt-bindings
+Date:   Fri, 15 Oct 2021 16:45:31 -0500
+Message-Id: <1634334331.594718.2254011.nullmailer@robh.at.kernel.org>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi,
-
-On 10/15/21 9:59 PM, Mark Brown wrote:
-> On Fri, Oct 15, 2021 at 09:48:24PM +0200, Hans de Goede wrote:
->> On 10/15/21 9:40 PM, Mark Brown wrote:
+On Fri, 15 Oct 2021 20:38:30 +0800, Moudy Ho wrote:
+> This patch adds DT binding document for Media Data Path 3 (MDP3)
+> a unit in multimedia system used for scaling and color format convert.
 > 
->>> I can't see how the quirking gets propagated through into the driver and
->>> I'd really expect that in a situation like this the platform data would
->>> be passed through as platform data from the code doing the quirks,
+> Signed-off-by: Moudy Ho <moudy.ho@mediatek.com>
+> ---
+>  .../bindings/arm/mediatek/mediatek,ccorr.yaml |  59 +++++
+>  .../bindings/arm/mediatek/mediatek,rdma.yaml  | 211 ++++++++++++++++++
+>  .../bindings/arm/mediatek/mediatek,wdma.yaml  |  70 ++++++
+>  .../bindings/media/mediatek,mdp3-rsz.yaml     |  68 ++++++
+>  .../bindings/media/mediatek,mdp3-wrot.yaml    |  70 ++++++
+>  5 files changed, 478 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/arm/mediatek/mediatek,ccorr.yaml
+>  create mode 100644 Documentation/devicetree/bindings/arm/mediatek/mediatek,rdma.yaml
+>  create mode 100644 Documentation/devicetree/bindings/arm/mediatek/mediatek,wdma.yaml
+>  create mode 100644 Documentation/devicetree/bindings/media/mediatek,mdp3-rsz.yaml
+>  create mode 100644 Documentation/devicetree/bindings/media/mediatek,mdp3-wrot.yaml
 > 
->> That is exactly what is happening here. The platform_data in this
->> case is just an array of regulator_init_data pointers (one per
->> regulator in the PMIC):
-> 
-> No, it's not.  What normally happens is that whatever registers the
-> device will when registering the device supply platform data that the
-> device later picks up from the struct device during probe.  What you're
-> saying is that the idea here is that driver unconditionally declares
-> platform data and then other code scribbles over that before the driver
-> instantiates.  This is cleaner in that it keeps the platform
-> configuration together and safer since the device can't exist before
-> it's configuration is provided.
 
-Right, this is the standard device-tree model. Unfortunately the
-information about which supplies are needed and the constraints
-for those supplies is missing from the ACPI description for the
-devices which we are dealing with here.
+My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
+on your patch (DT_CHECKER_FLAGS is new in v5.13):
 
-Daniel Scally tried to solve this by allowing specifying this
-in software-firmware-nodes. Which you nacked because those need
-separate parsing code in the regulator core.
+yamllint warnings/errors:
+./Documentation/devicetree/bindings/arm/mediatek/mediatek,wdma.yaml:20:9: [warning] wrong indentation: expected 10 but found 8 (indentation)
+./Documentation/devicetree/bindings/arm/mediatek/mediatek,rdma.yaml:211:7: [error] no new line character at the end of file (new-line-at-end-of-file)
+./Documentation/devicetree/bindings/arm/mediatek/mediatek,ccorr.yaml:19:9: [warning] wrong indentation: expected 10 but found 8 (indentation)
+./Documentation/devicetree/bindings/media/mediatek,mdp3-wrot.yaml:20:9: [warning] wrong indentation: expected 10 but found 8 (indentation)
+./Documentation/devicetree/bindings/media/mediatek,mdp3-rsz.yaml:20:9: [warning] wrong indentation: expected 10 but found 8 (indentation)
 
-During that discussion you said that instead we should sinmply
-directly pass the regulator_init_data, rather then first
-encoding this in device-properties in a swnode and then
-decoding those again in the regulator core.
+dtschema/dtc warnings/errors:
 
-And passing the regulator_init_data is exactly what we are doing
-now; and now again this is not what we should be doing ?
+doc reference errors (make refcheckdocs):
 
-Also note that the current solution is exactly what I suggested
-we should do during the discussion with Daniel and I even provided
-example code and you said absolutely nothing about this!
+See https://patchwork.ozlabs.org/patch/1541634
 
->> So we have the code doing the quirks determining the regulator_init_data
->> and passing this through platform_data, which AFAICT is exactly what
->> you want?
-> 
-> No.  There should be no sign of the platform data getting allocated or
-> initialised in the driver consuming the platform data.  It should purely
-> be reading the data it gets passed by the platform initialisation code.
-> 
-> Please make the use of platform data look like normal platform data use
-> rather than going and inventing some new scheme.
+This check can fail if there are any dependencies. The base for a patch
+series is generally the most recent rc1.
 
-I'm sorry but I no longer have any clue what it is what you want us to do /
-how you want us to solve this.
+If you already ran 'make dt_binding_check' and didn't see the above
+error(s), then make sure 'yamllint' is installed and dt-schema is up to
+date:
 
-AFAIK what the current code is doing is exactly what you requested during
-the discussion with Daniel.
+pip3 install dtschema --upgrade
 
-If this is not to your looking please provide some pseudo code explaining
-how you want us to solve this problem instead of the current solution.
-
-And please keep in mind that we *cannot* change the ACPI firmware interfaces
-and that whether we like it or not things simply work different in the ACPI
-world.
-
-Frankly I'm quit unhappy, angry even about how you are blocking progress
-here. You don't like APCI we get it, can we get over that now please?
-
-So far all you seem to be doing is shooting down solutions, then first
-being quiet about suggested alternative solutions and then once the
-alternative solutions are implemented shoot them down again...
-
-And all that without adding anything constructive. All you have
-told us is how things should not be done (according to you).
-
-So fine everything we come up is wrong, please tell us how we should
-solve this instead then!
-
-Regards,
-
-Hans
-
+Please check and re-submit.
 
