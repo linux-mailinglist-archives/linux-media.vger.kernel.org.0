@@ -2,173 +2,115 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B422642FC81
-	for <lists+linux-media@lfdr.de>; Fri, 15 Oct 2021 21:50:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0BC5742FCAC
+	for <lists+linux-media@lfdr.de>; Fri, 15 Oct 2021 21:59:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238413AbhJOTvn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 15 Oct 2021 15:51:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45504 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238379AbhJOTvm (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Fri, 15 Oct 2021 15:51:42 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EFD5CC061570
-        for <linux-media@vger.kernel.org>; Fri, 15 Oct 2021 12:49:35 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id D190E2E3;
-        Fri, 15 Oct 2021 21:49:33 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1634327373;
-        bh=WOPIo5Gb4zgxxx3yqsMasWxMxWeLB2CqPh3z0ZRRMgw=;
-        h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
-        b=OkYMF2PMz4BZyVTQ0usRV0aUobBSvTr7TlDA00FcOiQ4so0NGtBFuMtW+4PfFLRUY
-         2X3eSI/zEa3qyb8jXNHEGZwB3RdOhTp+XbD0RxBi1nSzww3ORG3b+56SMT3puQY6IO
-         t4s9g7rrTXezi3uMyTG0uOtKB/RSRMksEx06xSEI=
-Content-Type: text/plain; charset="utf-8"
+        id S242910AbhJOUBm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 15 Oct 2021 16:01:42 -0400
+Received: from mail.kernel.org ([198.145.29.99]:54398 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S233148AbhJOUBm (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Fri, 15 Oct 2021 16:01:42 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 0238E61164;
+        Fri, 15 Oct 2021 19:59:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1634327975;
+        bh=aDK8iZJAuvta5cySIJo1074ogrFA3hWL5lNWPdBB9go=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=dU7GudpA/i2qy5bF57zhQl06SCvKgJ1Lm5n0Vvilqexr6j2ZtfAMdyLb5Okwzi+wZ
+         Zx/fIwh1OXjcJdneChwzzWfD5VUBiPoCPdwmNdpkTWALHCsttw69nntjHocgXDEYKZ
+         Jty5atq741oSa+f0vdRCewqf9cDRPl1G3gIsQEVOQguKJIB7ql9J21hp0vcVhHm/40
+         rfM7xF9SxWenUD/2VcTVvLEVivIjapf10wBsEu69eQpN/rP669lTi9LUsR2VnpOD9p
+         wRrLDDQFTgwMow3rrmkLvQUFiBPwjqi4uTFpAfW+uNVFUv68bK753SYQDQ4CQmuOSn
+         a2h0nDoC0/aTg==
+Date:   Fri, 15 Oct 2021 20:59:32 +0100
+From:   Mark Brown <broonie@kernel.org>
+To:     Hans de Goede <hdegoede@redhat.com>
+Cc:     "Rafael J . Wysocki" <rjw@rjwysocki.net>,
+        Mark Gross <markgross@kernel.org>,
+        Andy Shevchenko <andy@infradead.org>,
+        Daniel Scally <djrscally@gmail.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>, Len Brown <lenb@kernel.org>,
+        linux-acpi@vger.kernel.org, platform-driver-x86@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Kate Hsuan <hpa@redhat.com>, linux-media@vger.kernel.org,
+        linux-clk@vger.kernel.org
+Subject: Re: [PATCH 05/12] regulator: Introduce tps68470-regulator driver
+Message-ID: <YWndpGgBtLEAEaNj@sirena.org.uk>
+References: <20211008162121.6628-1-hdegoede@redhat.com>
+ <20211008162121.6628-6-hdegoede@redhat.com>
+ <YWQU/SYTT5Vk24XH@sirena.org.uk>
+ <f6f2d7e8-fdb8-ed64-0cdd-65aded9fc42c@redhat.com>
+ <YWmwZJvDYjPWJdb4@sirena.org.uk>
+ <d0d1dc05-4cc6-2f47-88a9-700cfc356d86@redhat.com>
+ <YWnPaI/ZECdfYre9@sirena.org.uk>
+ <843f939a-7e43-bc12-e9fc-582e01129b63@redhat.com>
+ <YWnZIZTPiuAIazV+@sirena.org.uk>
+ <c595b143-d7ed-e76b-7734-e03d14e0f76e@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <1634281530-2238-1-git-send-email-bingbu.cao@intel.com>
-References: <1634281530-2238-1-git-send-email-bingbu.cao@intel.com>
-Subject: Re: [PATCH v2] media: imx258: add vblank control to support more frame rate range
-From:   Kieran Bingham <kieran.bingham@ideasonboard.com>
-Cc:     senozhatsky@chromium.org, tfiga@chromium.org, bingbu.cao@intel.com,
-        bingbu.cao@linux.intel.com
-To:     Bingbu Cao <bingbu.cao@intel.com>, linux-media@vger.kernel.org,
-        sakari.ailus@linux.intel.com
-Date:   Fri, 15 Oct 2021 20:49:31 +0100
-Message-ID: <163432737155.316423.6847119575037122257@Monstersaurus>
-User-Agent: alot/0.9.1
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="hwxuglK+oW+JgNbU"
+Content-Disposition: inline
+In-Reply-To: <c595b143-d7ed-e76b-7734-e03d14e0f76e@redhat.com>
+X-Cookie: 1: No code table for op: ++post
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Bingbu,
 
-Quoting Bingbu Cao (2021-10-15 08:05:30)
-> Current imx258 driver enable the automatic frame length tracking control
-> by default and did not support VBLANK change, it's always working at 30fp=
-s.
-> However, in reality we need a wider frame rate range from 15 to 30.
-> This patch disable the automatic frame length tracking control and enable
-> the v4l2 VBLANK control to allow user changing frame rate per requirement.
->=20
-> Signed-off-by: Bingbu Cao <bingbu.cao@intel.com>
-> ---
->  drivers/media/i2c/imx258.c | 23 +++++++++++++++++------
->  1 file changed, 17 insertions(+), 6 deletions(-)
-> ---
-> v1->v2: remove a wrong 'break'
-> ---
-> diff --git a/drivers/media/i2c/imx258.c b/drivers/media/i2c/imx258.c
-> index 81cdf37216ca..3f46744b1a26 100644
-> --- a/drivers/media/i2c/imx258.c
-> +++ b/drivers/media/i2c/imx258.c
-> @@ -29,6 +29,7 @@
->  #define IMX258_VTS_MAX                 0xffff
-> =20
->  /*Frame Length Line*/
-> +#define IMX258_REG_FLL                 0x0340
->  #define IMX258_FLL_MIN                 0x08a6
->  #define IMX258_FLL_MAX                 0xffff
->  #define IMX258_FLL_STEP                        1
-> @@ -241,7 +242,7 @@ static const struct imx258_reg mode_4208x3118_regs[] =
-=3D {
->         { 0x034D, 0x70 },
->         { 0x034E, 0x0C },
->         { 0x034F, 0x30 },
-> -       { 0x0350, 0x01 },
-> +       { 0x0350, 0x00 },
+--hwxuglK+oW+JgNbU
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-The commit message implies that the register 0x0350 controls the
-"automatic frame length tracking".
+On Fri, Oct 15, 2021 at 09:48:24PM +0200, Hans de Goede wrote:
+> On 10/15/21 9:40 PM, Mark Brown wrote:
 
-Is it worth adding that register description as a comment at the end of
-the line, to help future readers?
+> > I can't see how the quirking gets propagated through into the driver and
+> > I'd really expect that in a situation like this the platform data would
+> > be passed through as platform data from the code doing the quirks,
 
-> +       { 0x0350, 0x00 }, /* automatic frame length tracking */
+> That is exactly what is happening here. The platform_data in this
+> case is just an array of regulator_init_data pointers (one per
+> regulator in the PMIC):
 
-Without datasheets, these long register lists are very terse ...
+No, it's not.  What normally happens is that whatever registers the
+device will when registering the device supply platform data that the
+device later picks up from the struct device during probe.  What you're
+saying is that the idea here is that driver unconditionally declares
+platform data and then other code scribbles over that before the driver
+instantiates.  This is cleaner in that it keeps the platform
+configuration together and safer since the device can't exist before
+it's configuration is provided.
 
-If register names /functions can at least be identified then I suspect
-it would help with future maintenance of the code?
+> So we have the code doing the quirks determining the regulator_init_data
+> and passing this through platform_data, which AFAICT is exactly what
+> you want?
 
-Or is it too futile to imagine that these registers might improve in
-documentation as time goes on...
+No.  There should be no sign of the platform data getting allocated or
+initialised in the driver consuming the platform data.  It should purely
+be reading the data it gets passed by the platform initialisation code.
 
---
-Kieran
+Please make the use of platform data look like normal platform data use
+rather than going and inventing some new scheme.
 
+--hwxuglK+oW+JgNbU
+Content-Type: application/pgp-signature; name="signature.asc"
 
->         { 0x0202, 0x0C },
->         { 0x0203, 0x46 },
->         { 0x0204, 0x00 },
-> @@ -360,7 +361,7 @@ static const struct imx258_reg mode_2104_1560_regs[] =
-=3D {
->         { 0x034D, 0x38 },
->         { 0x034E, 0x06 },
->         { 0x034F, 0x18 },
-> -       { 0x0350, 0x01 },
-> +       { 0x0350, 0x00 },
->         { 0x0202, 0x06 },
->         { 0x0203, 0x2E },
->         { 0x0204, 0x00 },
-> @@ -479,7 +480,7 @@ static const struct imx258_reg mode_1048_780_regs[] =
-=3D {
->         { 0x034D, 0x18 },
->         { 0x034E, 0x03 },
->         { 0x034F, 0x0C },
-> -       { 0x0350, 0x01 },
-> +       { 0x0350, 0x00 },
->         { 0x0202, 0x03 },
->         { 0x0203, 0x42 },
->         { 0x0204, 0x00 },
-> @@ -753,8 +754,17 @@ static int imx258_set_ctrl(struct v4l2_ctrl *ctrl)
->         struct imx258 *imx258 =3D
->                 container_of(ctrl->handler, struct imx258, ctrl_handler);
->         struct i2c_client *client =3D v4l2_get_subdevdata(&imx258->sd);
-> +       s64 max;
->         int ret =3D 0;
-> =20
-> +       if (ctrl->id =3D=3D V4L2_CID_VBLANK) {
-> +               /* Update max exposure to meet expected vblanking */
-> +               max =3D imx258->cur_mode->height + ctrl->val - 10;
-> +               __v4l2_ctrl_modify_range(imx258->exposure,
-> +                                        imx258->exposure->minimum,
-> +                                        max, imx258->exposure->step, max=
-);
-> +       }
-> +
->         /*
->          * Applying V4L2 control value only happens
->          * when power is up for streaming
-> @@ -773,6 +783,10 @@ static int imx258_set_ctrl(struct v4l2_ctrl *ctrl)
->                                 IMX258_REG_VALUE_16BIT,
->                                 ctrl->val);
->                 break;
-> +       case V4L2_CID_VBLANK:
-> +               ret =3D imx258_write_reg(imx258, IMX258_REG_FLL, 2,
-> +                                      imx258->cur_mode->height + ctrl->v=
-al);
-> +               break;
->         case V4L2_CID_DIGITAL_GAIN:
->                 ret =3D imx258_update_digital_gain(imx258, IMX258_REG_VAL=
-UE_16BIT,
->                                 ctrl->val);
-> @@ -1189,9 +1203,6 @@ static int imx258_init_controls(struct imx258 *imx2=
-58)
->                                 IMX258_VTS_MAX - imx258->cur_mode->height=
-, 1,
->                                 vblank_def);
-> =20
-> -       if (imx258->vblank)
-> -               imx258->vblank->flags |=3D V4L2_CTRL_FLAG_READ_ONLY;
-> -
->         imx258->hblank =3D v4l2_ctrl_new_std(
->                                 ctrl_hdlr, &imx258_ctrl_ops, V4L2_CID_HBL=
-ANK,
->                                 IMX258_PPL_DEFAULT - imx258->cur_mode->wi=
-dth,
-> --=20
-> 2.7.4
->
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmFp3aQACgkQJNaLcl1U
+h9CMmQf9GXF+Ae5ZPsG+sX+gtPjIfCGeoaqaaFCL/JUl6WBgADy6d5JupE7xRn4k
+WbUPvFobIVxVafRgCdM8pKY5W6I3BQN5LMy+8fQwsyDBgjd6Cvc/cZC5gxANQkKg
+eEvLuXEOx8ZLSfEzIuqw1DZOX7Ka4jkH1KKJt6xbru7PCARlYIFDXbuSq0u86uXf
+JEQs5gqrTPmf1Az0X+b/nBQteQNJ4hy0V38LWkwb2iY1VgVZeBhR+grulQXpr1Jk
+lA1rTi//WYeohXMn7R4OjGK9JHruL8iiTCrsUw34XpVuin1Qlz47HMvtm/z3ZeXW
+/bIdhKDbnuMeV6tIDt35Nl8dvF2+cQ==
+=UmWu
+-----END PGP SIGNATURE-----
+
+--hwxuglK+oW+JgNbU--
