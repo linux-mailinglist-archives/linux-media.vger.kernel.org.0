@@ -2,163 +2,391 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E15F742F034
-	for <lists+linux-media@lfdr.de>; Fri, 15 Oct 2021 14:07:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E914442F044
+	for <lists+linux-media@lfdr.de>; Fri, 15 Oct 2021 14:12:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238617AbhJOMJx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 15 Oct 2021 08:09:53 -0400
-Received: from mail-dm6nam10on2043.outbound.protection.outlook.com ([40.107.93.43]:49888
-        "EHLO NAM10-DM6-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S238665AbhJOMJx (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Fri, 15 Oct 2021 08:09:53 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Nv/T1LqH9R2kC2GmQ+a23eRnmv5mD1VOFOnqlaZQA+s9ZgtmuKf4VWhEnup1CX4P1avClOfE9yvwQ+ZpWqyAw0Tdz5UtZ3o5o0uws3Y78EHuj/OMuJHZSdSI+lZ3b0uqFdhIE2QTsyk81tLuvCTW7+BnCPFnjDhVRLen199teO6GUi4q9jwqMGAKkoVVGQUa5a1JvX5QJuWiFO2EHggL9WdTmNBB5ZZxU5JWUldjESIXN33LKv6iysVQbxZhmZ6srsOGafhM9wjG0cuw2f1F5IKhY0FdgYeW8wz7aJkIInv2xV4Lkk5ecx3Y0VTZZ60Vx8dIpEyW3cmtDs7Epn9YKg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=1n9nBGawFx3E2HckJ0A3k0qVxmqhKa4lmXGycsNZs2E=;
- b=O42JuocmH5G46J5rAPhVprE3XwtuAfzrm59zrMrbpyv/qgFiFFRc1aBjj1Y+UFDKV/m3RTwA+MnHXtw3jt1RlVxGe72bI0HvgSkc/bkvMV18jRZroskmhBMgRjhOVdp+CJQvJRDXVxEcinGthZb9KiYGDMJ0wAA3s3XaZKme0E+D0oMwoBKwlFbD/YpWXIDCxXrotUDX9AqsAi8jUNeE7aAPLE12jKSbj3zqfhNABcUm6mkFZJCi85FEI6BOohmVrx7Arw95YSiaR9nZwTjq2xm3XycUaLOy7hWBLh4LE9QaAAPSxFXPsIqE4Ta/JHh4d8txf55c300D3hdGDoONPA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=1n9nBGawFx3E2HckJ0A3k0qVxmqhKa4lmXGycsNZs2E=;
- b=E/NB7gsJEJuwtDuMcv0TLUlXemKLAvJIiW1Ci1hS/wTa8Ad9gtvp2CPlcwwsB4oIIc/E02xxOnhbAWqHRSfHZEvDDSda2nNpYvRHUHK4kjj8pegAu6sTrhnu6X6R2zP3qYT9oPML6TsM1AZGYxuu0SrT/Y6CZULbHHt/bPNejag=
-Authentication-Results: ffwll.ch; dkim=none (message not signed)
- header.d=none;ffwll.ch; dmarc=none action=none header.from=amd.com;
-Received: from MWHPR1201MB0192.namprd12.prod.outlook.com
- (2603:10b6:301:5a::14) by MWHPR12MB1839.namprd12.prod.outlook.com
- (2603:10b6:300:10b::21) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4587.24; Fri, 15 Oct
- 2021 12:07:41 +0000
-Received: from MWHPR1201MB0192.namprd12.prod.outlook.com
- ([fe80::55c7:6fc9:b2b1:1e6a]) by MWHPR1201MB0192.namprd12.prod.outlook.com
- ([fe80::55c7:6fc9:b2b1:1e6a%10]) with mapi id 15.20.4608.017; Fri, 15 Oct
- 2021 12:07:41 +0000
-Subject: Re: [PATCH 2/2] dma-buf: Fix dma_resv_test_signaled.
-To:     Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        dri-devel@lists.freedesktop.org
-Cc:     intel-gfx@lists.freedesktop.org, linux-media@vger.kernel.org,
-        linaro-mm-sig@lists.linaro.org,
-        Daniel Vetter <daniel.vetter@ffwll.ch>
-References: <20211015115720.79958-1-maarten.lankhorst@linux.intel.com>
- <20211015115720.79958-3-maarten.lankhorst@linux.intel.com>
-From:   =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-Message-ID: <ebf0714c-2f49-a0ad-1861-16394ade468d@amd.com>
-Date:   Fri, 15 Oct 2021 14:07:32 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
-In-Reply-To: <20211015115720.79958-3-maarten.lankhorst@linux.intel.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-X-ClientProxiedBy: AM6PR04CA0011.eurprd04.prod.outlook.com
- (2603:10a6:20b:92::24) To MWHPR1201MB0192.namprd12.prod.outlook.com
- (2603:10b6:301:5a::14)
+        id S238685AbhJOMOm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 15 Oct 2021 08:14:42 -0400
+Received: from relay12.mail.gandi.net ([217.70.178.232]:60509 "EHLO
+        relay12.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231463AbhJOMOl (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Fri, 15 Oct 2021 08:14:41 -0400
+Received: (Authenticated sender: jacopo@jmondi.org)
+        by relay12.mail.gandi.net (Postfix) with ESMTPSA id 2BA78200015;
+        Fri, 15 Oct 2021 12:12:32 +0000 (UTC)
+Date:   Fri, 15 Oct 2021 14:13:20 +0200
+From:   Jacopo Mondi <jacopo@jmondi.org>
+To:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Cc:     linux-media@vger.kernel.org, sakari.ailus@linux.intel.com,
+        Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        niklas.soderlund+renesas@ragnatech.se,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Pratyush Yadav <p.yadav@ti.com>,
+        Michal Simek <michal.simek@xilinx.com>
+Subject: Re: [PATCH v9 27/36] media: subdev: Add [GS]_ROUTING subdev ioctls
+ and operations
+Message-ID: <20211015121320.c7ctjcvyvwx4mhy4@uno.localdomain>
+References: <20211005085750.138151-1-tomi.valkeinen@ideasonboard.com>
+ <20211005085750.138151-28-tomi.valkeinen@ideasonboard.com>
 MIME-Version: 1.0
-Received: from [IPv6:2a02:8109:333f:edd8:9fb4:b1b2:7db1:2374] (2a02:8109:333f:edd8:9fb4:b1b2:7db1:2374) by AM6PR04CA0011.eurprd04.prod.outlook.com (2603:10a6:20b:92::24) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4608.17 via Frontend Transport; Fri, 15 Oct 2021 12:07:37 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: a04e516a-a4c6-404d-65c8-08d98fd46302
-X-MS-TrafficTypeDiagnostic: MWHPR12MB1839:
-X-Microsoft-Antispam-PRVS: <MWHPR12MB18397A7E9474311DFBC3C92383B99@MWHPR12MB1839.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:6108;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: rlQVexEIWIeSIr5BXov8TYSgSF8gjQn0rZKewznDcfDjcMgu3fEoQVaunieJ7yQjCmw/X08OIDAjGDBxcUm41TB1fsF93zwdRNx2wd/ir8L2+9jFthXWKPI4vga61pFzypk3z3zIbXIicy10eMwGxEoZOKktAXkZygLzjx2QXSXTJhulXjgmH3QTMIhnLG9AB2cuwG7wIi53TDOZLJLm4/IBPmnR8kKmAHRPPy6g4myGABQtgiqWY0Do1hmzw6JOhCJf8hykgTskShXP6trm7AuTtDrmmTPz6vHBOyOpxPLLaVDOB1x5nUmQ1csADmGXZZzkH+4gZlspUQc/MAosXjVVWe2/R/Juc2rvFVCBy26YV1VCU/9Ssg3AAe/BhjPhr4w8oZvGpAtFWsZCRqD+jom1I3EfCTSRaP5293Aw22MBYqwo3cyLR9QXTHKcjYnZgJ4i7GSxhjH27XxFymh+5dgBbVnGkklBA0WbWSoNkRH7CsR7xm/etUs04k2aCRhwWuC35ptnRmS+X+OiZux/56yHxo+k/SpkSHLcYfSzom47qbEykVADoJykejAsmgG7MYoQNfK75kBAb+44SydTIQP22U1+jlFSQ8AkihowzTT9RmBxIlmknJtHISKAUogBJ2lPcKmwFau3G05zkUExuGNb/EItDyYIynsvgke/4Q+wO33KSdzq4cEVoNLO39A73PCiF9gfOsz3yY5ab/z6iX0eHuNEenLFbHtXZLy3vr4=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MWHPR1201MB0192.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(366004)(186003)(36756003)(2906002)(8936002)(66476007)(66556008)(66574015)(6486002)(8676002)(5660300002)(66946007)(83380400001)(508600001)(6666004)(4326008)(31686004)(2616005)(38100700002)(316002)(31696002)(86362001)(45980500001)(43740500002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?aERPWkxiYk9PcWc4TVpKUklYaHprbzk3WmVta3g0dWVBcUFoRXpzZ2wzRXdG?=
- =?utf-8?B?U2hWbW5tV3dUM01aRHVaYkVmNExDT09Tb1VEMHc4K1J1S1YxUEtkelJHRFNL?=
- =?utf-8?B?ZHNLSFg5VkV4dkdMNnNndjRORGc0YmsxdzVpcUxHanJCMXFNU0R4blVFR1VO?=
- =?utf-8?B?Z3NybXVGa2cvcjlaL0VtaURVblkvUWVDS0t3YVlmUnhPYUE3eWc3U3hQb0dR?=
- =?utf-8?B?b2NEZ1ByVDlTZjV6WDFteVgxVHF5Rk91VUMyNXczUGlmaGhyYXk2T1NyT2JH?=
- =?utf-8?B?cWZkVXQ3anREMGd4QjBZbGVoVndkc3hLK3JXbHNRVVVqT1czbmVPQjFuNTZw?=
- =?utf-8?B?QWZRMnRJa2R4V1p6dmxiMXZtQ0JUWHVZakJ2WWo4d3NmeHg2VmFhY0VVd01T?=
- =?utf-8?B?R3UydnprUldkVTZoSlVUMHNHQTFmd0pYeEhVQnFVdUpZZ1BTdVFtaitKSVpB?=
- =?utf-8?B?c09rcUw4K3NuUTRqZkZWalozZGJpTzFPbll2QWxWT0VDS1IxdEd3Mk5RWFRX?=
- =?utf-8?B?WERoRXRMWTdWcWxTaDRxb0c4OHVSNGpsWSszYlFFU2kxWDJaTmk5Mnl6QW1j?=
- =?utf-8?B?ZUFvUU9vTEpvWXd4Y0FDTnVDeWtPSU5LS2RVenNxTXgwa2NTYms4amdlOWtW?=
- =?utf-8?B?UENsK0JVcnVuTXBuVEtOdnVZNDZHbE16OU91ODN1WmJKRkpZSWJoOE1EakJq?=
- =?utf-8?B?Q1NadTErMzZFMXVkUExyUWo4b0R4YzFOalhTWmtkMmdKM1owQVBqcndvV3Zn?=
- =?utf-8?B?anpQcHhuTDRBNTdLWVcrblVNTzRXa0dhbCs0c2VzV3k0T1pGY1A5Z04rblJM?=
- =?utf-8?B?REpSMFFwU3A5WVNLTXJUQWViVGJ3dDZFcTNZRkVXQzhBYzlORHpnSW1Va1VW?=
- =?utf-8?B?SHlqV2ZzbDJwaUdnYkRxaHh5dFdndXhpajFiYzJ3R1d6dnpmaXRLeFNxVncz?=
- =?utf-8?B?L3p6RXR5Z0FoaVp0NGJWRWZ5ZDRqbjU3YXpPT05IdCtpeTJ1VWlSMzIzZ1lU?=
- =?utf-8?B?cWJVZk40TDBrRjlkYUZxekxUakdUVHVzcE5uT0l3K2NzTkE0S3BkTlNyRm1w?=
- =?utf-8?B?eWh4YjlCV045a0ZLSitxVnoxVGRITjNaNmIzT0NwU0l4NmdqYStmc214RnFw?=
- =?utf-8?B?YmdoTERncEtoK3MzcUp1MWRQNk9yRDFGYXZOMEJFRkY1eldxN21FTUl0WVA4?=
- =?utf-8?B?cUlwazdDS0Y3M3J4SDNrMUh3OEpsVkdoQzhwUDNKS2lSSVFzSDd4RmxiTjRn?=
- =?utf-8?B?NnpKelB6VDhJQ1JDYkJsUTJyQlVOZlI0MVNFVmNVSEVNTFVNZnAzTk5UTXpk?=
- =?utf-8?B?YlMzaVBLSm1VVmhDWm53cUw1c3NJY2tVNWM4MXdDbkV2dGJtVS84dmFVSGhl?=
- =?utf-8?B?Ty9vcGdUcHlzV1ViNnVEOFI2V3VlQjRWYWIzWWdiWVFtYmtwNEFTcjcyVEtz?=
- =?utf-8?B?aUM5clNtbTlxRnRJM25oWW8xMDlaSU40Zk9hMkNuQ2NTUC92Y1ZvNWp3ak9J?=
- =?utf-8?B?QVZPK0I1MWVkakJBdnhsSEo2eGJjMWxPQlpiRDVWeFpmTkw2Y3BNV3Z5NnBG?=
- =?utf-8?B?aDZXYzFkSEc5NzJKbEhBVUlrQnA0MEJrbkErQVNuaDBMTnFLaXg5VDh3TmZa?=
- =?utf-8?B?Z0lVNGJvdVBLMW1kb3ZNMHVncVZzcjRFa1BCWG1JN3F3b1ZlYjIzMDRGMlY5?=
- =?utf-8?B?RG5wQkpHSGY3S01mbXI4aXFvSkNlZkRFOGRNR2srb0xQbzR0K01pZGJjdWRM?=
- =?utf-8?B?SG5FVERFdTFYemFHQ3k3cHJKWlQ0L1VIQnJ6Qi9FMThhdGtWNVVxWHVja3ZI?=
- =?utf-8?B?dVk2SjR4Y1lsRzBVd0lMNHV0UktOdDRXOEdVMXlnQS9uTjl6OGhtTG9tN3N4?=
- =?utf-8?Q?qz0WvAHS6xxj1?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: a04e516a-a4c6-404d-65c8-08d98fd46302
-X-MS-Exchange-CrossTenant-AuthSource: MWHPR1201MB0192.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Oct 2021 12:07:40.9824
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: F9o6a63tZ3kxSugXd88cYBrWCC+FH+9SE0kBEsCwyI7WVnE/upGpfTQSniUfQoTR
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR12MB1839
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20211005085750.138151-28-tomi.valkeinen@ideasonboard.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Am 15.10.21 um 13:57 schrieb Maarten Lankhorst:
-> Commit 7fa828cb9265 ("dma-buf: use new iterator in dma_resv_test_signaled")
-> accidentally forgot to test whether the dma-buf is actually signaled, breaking
-> pretty much everything depending on it.
+Hi Tomi,
 
-NAK, the dma_resv_for_each_fence_unlocked() returns only unsignaled 
-fences. So the code is correct as it is.
-
-Regards,
-Christian.
-
+On Tue, Oct 05, 2021 at 11:57:41AM +0300, Tomi Valkeinen wrote:
+> From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 >
-> Fixes: 7fa828cb9265 ("dma-buf: use new iterator in dma_resv_test_signaled")
-> Cc: Christian König <christian.koenig@amd.com>
-> Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
-> Signed-off-by: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+> Add support for subdev internal routing. A route is defined as a single
+> stream from a sink pad to a source pad.
+>
+> The userspace can configure the routing via two new ioctls,
+> VIDIOC_SUBDEV_G_ROUTING and VIDIOC_SUBDEV_S_ROUTING, and subdevs can
+> implement the functionality with v4l2_subdev_pad_ops.set_routing().
+>
+> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> Signed-off-by: Michal Simek <michal.simek@xilinx.com>
+>
+> - Add sink and source streams for multiplexed links
+> - Copy the argument back in case of an error. This is needed to let the
+>   caller know the number of routes.
+>
+> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+>
+> - Expand and refine documentation.
+> - Make the 'routes' pointer a __u64 __user pointer so that a compat32
+>   version of the ioctl is not required.
+> - Add struct v4l2_subdev_krouting to be used for subdevice operations.
+>
+> Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
+>
+> - Fix typecasing warnings
+> - Check sink & source pad types
+> - Add 'which' field
+> - Add V4L2_SUBDEV_ROUTE_FL_SOURCE
+> - Routing to subdev state
+> - Dropped get_routing subdev op
+>
+> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 > ---
->   drivers/dma-buf/dma-resv.c | 8 +++++---
->   1 file changed, 5 insertions(+), 3 deletions(-)
+>  drivers/media/v4l2-core/v4l2-ioctl.c  | 25 ++++++++-
+>  drivers/media/v4l2-core/v4l2-subdev.c | 75 +++++++++++++++++++++++++++
+>  include/media/v4l2-subdev.h           | 22 ++++++++
+>  include/uapi/linux/v4l2-subdev.h      | 57 ++++++++++++++++++++
+>  4 files changed, 178 insertions(+), 1 deletion(-)
 >
-> diff --git a/drivers/dma-buf/dma-resv.c b/drivers/dma-buf/dma-resv.c
-> index 70a8082660c5..37ab2875e469 100644
-> --- a/drivers/dma-buf/dma-resv.c
-> +++ b/drivers/dma-buf/dma-resv.c
-> @@ -655,14 +655,16 @@ bool dma_resv_test_signaled(struct dma_resv *obj, bool test_all)
->   {
->   	struct dma_resv_iter cursor;
->   	struct dma_fence *fence;
-> +	bool ret = true;
->   
->   	dma_resv_iter_begin(&cursor, obj, test_all);
->   	dma_resv_for_each_fence_unlocked(&cursor, fence) {
-> -		dma_resv_iter_end(&cursor);
-> -		return false;
-> +		ret = dma_fence_is_signaled(fence);
-> +		if (!ret)
-> +			break;
->   	}
->   	dma_resv_iter_end(&cursor);
-> -	return true;
-> +	return ret;
->   }
->   EXPORT_SYMBOL_GPL(dma_resv_test_signaled);
->   
+> diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-core/v4l2-ioctl.c
+> index 05d5db3d85e5..8e9315ffcb99 100644
+> --- a/drivers/media/v4l2-core/v4l2-ioctl.c
+> +++ b/drivers/media/v4l2-core/v4l2-ioctl.c
+> @@ -16,6 +16,7 @@
+>  #include <linux/kernel.h>
+>  #include <linux/version.h>
+>
+> +#include <linux/v4l2-subdev.h>
+>  #include <linux/videodev2.h>
+>
+>  #include <media/v4l2-common.h>
+> @@ -3065,6 +3066,21 @@ static int check_array_args(unsigned int cmd, void *parg, size_t *array_size,
+>  		ret = 1;
+>  		break;
+>  	}
+> +
+> +	case VIDIOC_SUBDEV_G_ROUTING:
+> +	case VIDIOC_SUBDEV_S_ROUTING: {
+> +		struct v4l2_subdev_routing *routing = parg;
+> +
+> +		if (routing->num_routes > 256)
+> +			return -EINVAL;
+> +
+> +		*user_ptr = u64_to_user_ptr(routing->routes);
+> +		*kernel_ptr = (void **)&routing->routes;
+> +		*array_size = sizeof(struct v4l2_subdev_route)
+> +			    * routing->num_routes;
+> +		ret = 1;
+> +		break;
+> +	}
+>  	}
+>
+>  	return ret;
+> @@ -3328,8 +3344,15 @@ video_usercopy(struct file *file, unsigned int orig_cmd, unsigned long arg,
+>  	/*
+>  	 * Some ioctls can return an error, but still have valid
+>  	 * results that must be returned.
+> +	 *
+> +	 * FIXME: subdev IOCTLS are partially handled here and partially in
+> +	 * v4l2-subdev.c and the 'always_copy' flag can only be set for IOCTLS
+> +	 * defined here as part of the 'v4l2_ioctls' array. As
+> +	 * VIDIOC_SUBDEV_G_ROUTING needs to return results to applications even
+> +	 * in case of failure, but it is not defined here as part of the
+> +	 * 'v4l2_ioctls' array, insert an ad-hoc check to address that.
+>  	 */
+> -	if (err < 0 && !always_copy)
+> +	if (err < 0 && !always_copy && cmd != VIDIOC_SUBDEV_G_ROUTING)
+>  		goto out;
+>
+>  out_array_args:
+> diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
+> index 52309a299b03..b4e1f8772d96 100644
+> --- a/drivers/media/v4l2-core/v4l2-subdev.c
+> +++ b/drivers/media/v4l2-core/v4l2-subdev.c
+> @@ -394,6 +394,12 @@ subdev_ioctl_get_state(struct v4l2_subdev *sd, struct v4l2_subdev_fh *subdev_fh,
+>  		which = ((struct v4l2_subdev_selection *)arg)->which;
+>  		break;
+>  	}
+> +
+> +	case VIDIOC_SUBDEV_G_ROUTING:
+> +	case VIDIOC_SUBDEV_S_ROUTING: {
+> +		which = ((struct v4l2_subdev_routing *)arg)->which;
+> +		break;
+> +	}
+>  	}
+>
+>  	return which == V4L2_SUBDEV_FORMAT_TRY ?
+> @@ -710,6 +716,74 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg)
+>  	case VIDIOC_SUBDEV_QUERYSTD:
+>  		return v4l2_subdev_call(sd, video, querystd, arg);
+>
+> +	case VIDIOC_SUBDEV_G_ROUTING: {
+> +		struct v4l2_subdev_routing *routing = arg;
+> +		struct v4l2_subdev_krouting *krouting;
+> +
+> +		if (!(sd->flags & V4L2_SUBDEV_FL_MULTIPLEXED))
+> +			return -ENOIOCTLCMD;
+> +
+> +		memset(routing->reserved, 0, sizeof(routing->reserved));
+> +
+> +		krouting = &state->routing;
+> +
+> +		if (routing->num_routes < krouting->num_routes) {
+> +			routing->num_routes = krouting->num_routes;
+> +			return -ENOSPC;
+> +		}
+> +
+> +		memcpy((struct v4l2_subdev_route *)(uintptr_t)routing->routes,
+> +		       krouting->routes,
+> +		       krouting->num_routes * sizeof(*krouting->routes));
+> +		routing->num_routes = krouting->num_routes;
+> +
+> +		return 0;
+> +	}
+> +
+> +	case VIDIOC_SUBDEV_S_ROUTING: {
+> +		struct v4l2_subdev_routing *routing = arg;
+> +		struct v4l2_subdev_route *routes =
+> +			(struct v4l2_subdev_route *)(uintptr_t)routing->routes;
+> +		struct v4l2_subdev_krouting krouting = {};
+> +		unsigned int i;
+> +
+> +		if (!(sd->flags & V4L2_SUBDEV_FL_MULTIPLEXED))
+> +			return -ENOIOCTLCMD;
+> +
+> +		if (routing->which != V4L2_SUBDEV_FORMAT_TRY && ro_subdev)
+> +			return -EPERM;
+> +
+> +		memset(routing->reserved, 0, sizeof(routing->reserved));
+> +
+> +		for (i = 0; i < routing->num_routes; ++i) {
+> +			const struct v4l2_subdev_route *route = &routes[i];
+> +			const struct media_pad *pads = sd->entity.pads;
+> +
+> +			/* Do not check sink pad for source routes */
+> +			if (!(route->flags & V4L2_SUBDEV_ROUTE_FL_SOURCE)) {
+> +				if (route->sink_pad >= sd->entity.num_pads)
+> +					return -EINVAL;
+> +
+> +				if (!(pads[route->sink_pad].flags &
+> +				      MEDIA_PAD_FL_SINK))
+> +					return -EINVAL;
+> +			}
+> +
+> +			if (route->source_pad >= sd->entity.num_pads)
+> +				return -EINVAL;
+> +
+> +			if (!(pads[route->source_pad].flags &
+> +			      MEDIA_PAD_FL_SOURCE))
+> +				return -EINVAL;
+> +		}
+> +
+> +		krouting.num_routes = routing->num_routes;
+> +		krouting.routes = routes;
+> +
+> +		return v4l2_subdev_call(sd, pad, set_routing, state,
+> +					routing->which, &krouting);
+> +	}
+> +
+>  	default:
+>  		return v4l2_subdev_call(sd, core, ioctl, cmd, arg);
+>  	}
+> @@ -970,6 +1044,7 @@ void __v4l2_subdev_state_free(struct v4l2_subdev_state *state)
+>
+>  	mutex_destroy(&state->lock);
+>
+> +	kvfree(state->routing.routes);
+>  	kvfree(state->pads);
+>  	kfree(state);
+>  }
+> diff --git a/include/media/v4l2-subdev.h b/include/media/v4l2-subdev.h
+> index 7f9c83fac020..f318670a49c8 100644
+> --- a/include/media/v4l2-subdev.h
+> +++ b/include/media/v4l2-subdev.h
+> @@ -694,11 +694,25 @@ struct v4l2_subdev_pad_config {
+>  	struct v4l2_rect try_compose;
+>  };
+>
+> +/**
+> + * struct v4l2_subdev_krouting - subdev routing table
+> + *
+> + * @num_routes: number of routes
+> + * @routes: &struct v4l2_subdev_route
+> + *
+> + * This structure contains the routing table for a subdev.
+> + */
+> +struct v4l2_subdev_krouting {
+> +	unsigned int num_routes;
+> +	struct v4l2_subdev_route *routes;
+> +};
 
+Re-reading v8
+https://patchwork.linuxtv.org/project/linux-media/patch/20210830110116.488338-3-tomi.valkeinen@ideasonboard.com/#131630
+
+my understanding was that your intention was to pass to the
+set_routing() op the num_routes, *routes and which and drop
+v4l2_subdev_krouting
+
+> +
+>  /**
+>   * struct v4l2_subdev_state - Used for storing subdev state information.
+>   *
+>   * @lock: mutex for the state
+>   * @pads: &struct v4l2_subdev_pad_config array
+> + * @routing: routing table for the subdev
+>   *
+>   * This structure only needs to be passed to the pad op if the 'which' field
+>   * of the main argument is set to %V4L2_SUBDEV_FORMAT_TRY. For
+> @@ -707,6 +721,7 @@ struct v4l2_subdev_pad_config {
+>  struct v4l2_subdev_state {
+>  	struct mutex lock;
+>  	struct v4l2_subdev_pad_config *pads;
+> +	struct v4l2_subdev_krouting routing;
+>  };
+>
+>  /**
+> @@ -770,6 +785,9 @@ struct v4l2_subdev_state {
+>   *		     applied to the hardware. The operation shall fail if the
+>   *		     pad index it has been called on is not valid or in case of
+>   *		     unrecoverable failures.
+> + *
+> + * @set_routing: enable or disable data connection routes described in the
+> + *		 subdevice routing table.
+>   */
+>  struct v4l2_subdev_pad_ops {
+>  	int (*init_cfg)(struct v4l2_subdev *sd,
+> @@ -814,6 +832,10 @@ struct v4l2_subdev_pad_ops {
+>  			       struct v4l2_mbus_config *config);
+>  	int (*set_mbus_config)(struct v4l2_subdev *sd, unsigned int pad,
+>  			       struct v4l2_mbus_config *config);
+> +	int (*set_routing)(struct v4l2_subdev *sd,
+> +			   struct v4l2_subdev_state *state,
+> +			   enum v4l2_subdev_format_whence which,
+> +			   struct v4l2_subdev_krouting *route);
+
+But it seems you've instead coalesced v4l2_subdev_routing_table into
+v4l2_subdev_krouting (which I like!)
+
+But why keep 'which' as a standalone parameter instead of adding it to
+v4l2_subdev_krouting ? This operation signature is a bit of an
+outliner as other ops have 'which' embedded in op-specific
+structures.
+
+Thanks
+  j
+
+>  };
+>
+>  /**
+> diff --git a/include/uapi/linux/v4l2-subdev.h b/include/uapi/linux/v4l2-subdev.h
+> index 658106f5b5dc..5ba409db47ff 100644
+> --- a/include/uapi/linux/v4l2-subdev.h
+> +++ b/include/uapi/linux/v4l2-subdev.h
+> @@ -188,6 +188,61 @@ struct v4l2_subdev_capability {
+>  /* The v4l2 sub-device video device node is registered in read-only mode. */
+>  #define V4L2_SUBDEV_CAP_RO_SUBDEV		0x00000001
+>
+> +/*
+> + * Is the route active? An active route will start when streaming is enabled
+> + * on a video node.
+> + */
+> +#define V4L2_SUBDEV_ROUTE_FL_ACTIVE		(1 << 0)
+> +
+> +/*
+> + * Is the route immutable, i.e. can it be activated and inactivated?
+> + * Set by the driver.
+> + */
+> +#define V4L2_SUBDEV_ROUTE_FL_IMMUTABLE		(1 << 1)
+> +
+> +/*
+> + * Is the route a source endpoint? A source endpoint route refers to a stream
+> + * generated internally by the subdevice (usually a sensor), and thus there
+> + * is no sink-side endpoint for the route. The sink_pad and sink_stream
+> + * fields are unused.
+> + * Set by the driver.
+> + */
+> +#define V4L2_SUBDEV_ROUTE_FL_SOURCE		(1 << 2)
+> +
+> +/**
+> + * struct v4l2_subdev_route - A route inside a subdev
+> + *
+> + * @sink_pad: the sink pad index
+> + * @sink_stream: the sink stream identifier
+> + * @source_pad: the source pad index
+> + * @source_stream: the source stream identifier
+> + * @flags: route flags V4L2_SUBDEV_ROUTE_FL_*
+> + * @reserved: drivers and applications must zero this array
+> + */
+> +struct v4l2_subdev_route {
+> +	__u32 sink_pad;
+> +	__u32 sink_stream;
+> +	__u32 source_pad;
+> +	__u32 source_stream;
+> +	__u32 flags;
+> +	__u32 reserved[5];
+> +};
+> +
+> +/**
+> + * struct v4l2_subdev_routing - Subdev routing information
+> + *
+> + * @which: configuration type (from enum v4l2_subdev_format_whence)
+> + * @routes: pointer to the routes array
+> + * @num_routes: the total number of routes in the routes array
+> + * @reserved: drivers and applications must zero this array
+> + */
+> +struct v4l2_subdev_routing {
+> +	__u32 which;
+> +	__u64 routes;
+> +	__u32 num_routes;
+> +	__u32 reserved[5];
+> +};
+> +
+>  /* Backwards compatibility define --- to be removed */
+>  #define v4l2_subdev_edid v4l2_edid
+>
+> @@ -203,6 +258,8 @@ struct v4l2_subdev_capability {
+>  #define VIDIOC_SUBDEV_S_CROP			_IOWR('V', 60, struct v4l2_subdev_crop)
+>  #define VIDIOC_SUBDEV_G_SELECTION		_IOWR('V', 61, struct v4l2_subdev_selection)
+>  #define VIDIOC_SUBDEV_S_SELECTION		_IOWR('V', 62, struct v4l2_subdev_selection)
+> +#define VIDIOC_SUBDEV_G_ROUTING			_IOWR('V', 38, struct v4l2_subdev_routing)
+> +#define VIDIOC_SUBDEV_S_ROUTING			_IOWR('V', 39, struct v4l2_subdev_routing)
+>  /* The following ioctls are identical to the ioctls in videodev2.h */
+>  #define VIDIOC_SUBDEV_G_STD			_IOR('V', 23, v4l2_std_id)
+>  #define VIDIOC_SUBDEV_S_STD			_IOW('V', 24, v4l2_std_id)
+> --
+> 2.25.1
+>
