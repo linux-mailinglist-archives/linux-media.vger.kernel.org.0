@@ -2,140 +2,430 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0257C42EC2F
-	for <lists+linux-media@lfdr.de>; Fri, 15 Oct 2021 10:25:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D028642EC5B
+	for <lists+linux-media@lfdr.de>; Fri, 15 Oct 2021 10:29:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236502AbhJOI1n (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 15 Oct 2021 04:27:43 -0400
-Received: from mail-eopbgr50044.outbound.protection.outlook.com ([40.107.5.44]:29391
-        "EHLO EUR03-VE1-obe.outbound.protection.outlook.com"
+        id S233960AbhJOIb0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 15 Oct 2021 04:31:26 -0400
+Received: from mx3.molgen.mpg.de ([141.14.17.11]:58707 "EHLO mx1.molgen.mpg.de"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S235145AbhJOI0U (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Fri, 15 Oct 2021 04:26:20 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=dZ2luKfP58Xag9IpPAi9nNDB2n8Zb5sVN0yp3XqulLAPAcN1azvHa5WruMFjDv+YyeHygDPBLMVDvgiZNsdv7zYpLy0ZwbsAeKQ44vmz7ZZHVPBEJDxIaASCzua/t772/0Y0ROQfaB3F5f3issnhWBh+RCTCrmQ7hp6cFmuYSGTWLH2McTI0jI2IYLqM+MyiH/nfQpKlg+4Tqx70ry3598C7H/fpE/f2TW572U3Ax5g+AsQ3gNm32YReSZ7URZM+tswNmKpUV+LLtyysjF+DUZh0Mw87ILApluKADO5/ghMXBofV3YKuXPjh7lm5IXGbQyb96PPJxSuuDut+HybZ4Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=w7mS6O1b1O0KcJd6h45R8QJeIAHXl3SnWsN2qGrDDEA=;
- b=MFRnCT0q4OaBkPYznmtvd5CFzJ/4L4AMKuSTcdb6LYeKxuuAWSfXqUrw+02UbpQfu2jw8WqzUTf/jzGnbx7s2polcZFRu87ZvcX1V79ggwgf0d2JtY6xUUQc1+PTPF4mplx9GK9hvLBF26XIi/Omy2E9iw3BFcAKFdeF1rWSX5P2prBgk3s0BpGTSwGbytP8zrA4tdX+Z/07Jl8M7aHKk/48NUve9HG9ViG14nR1w+0Y1AirDpOqUklF6hl0QNBuC1NisSXF1soLhOUp4Hf8U7Ds//t4ilEtPRbiXzWcZaJP9jZooAC9imSWcNFBE0ISjXmjcEhTtjDusCLeyQyrkw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=w7mS6O1b1O0KcJd6h45R8QJeIAHXl3SnWsN2qGrDDEA=;
- b=chhpnJIK++MtVO0mhaBIlv70q9Z5aNh/JmvrMKcBJCFIHH8KnAGNE6gA0dDNzR7nZOC5kzpM8X1fKqv1x8CEJi7Ffk3i0jBcf0rKATprqoJZzLr42YL8nNCPqDUKNZ7t8oTEBdshIlgNc86uwv6hTD8MTaNrrCkkPz+A+vgPvPI=
-Authentication-Results: kernel.org; dkim=none (message not signed)
- header.d=none;kernel.org; dmarc=none action=none header.from=nxp.com;
-Received: from AM6PR04MB6341.eurprd04.prod.outlook.com (2603:10a6:20b:d8::14)
- by AM6PR0402MB3591.eurprd04.prod.outlook.com (2603:10a6:209:8::16) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4587.22; Fri, 15 Oct
- 2021 08:23:43 +0000
-Received: from AM6PR04MB6341.eurprd04.prod.outlook.com
- ([fe80::fc3a:8aea:2c92:3886]) by AM6PR04MB6341.eurprd04.prod.outlook.com
- ([fe80::fc3a:8aea:2c92:3886%5]) with mapi id 15.20.4587.026; Fri, 15 Oct 2021
- 08:23:43 +0000
-From:   Ming Qian <ming.qian@nxp.com>
-To:     mchehab@kernel.org, shawnguo@kernel.org, robh+dt@kernel.org,
-        s.hauer@pengutronix.de
-Cc:     hverkuil-cisco@xs4all.nl, kernel@pengutronix.de,
-        festevam@gmail.com, linux-imx@nxp.com, aisheng.dong@nxp.com,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org
-Subject: [PATCH v11 13/13] MAINTAINERS: add AMPHION VPU CODEC V4L2 driver entry
-Date:   Fri, 15 Oct 2021 16:22:02 +0800
-Message-Id: <f184c893eb6e1800ff9ed0785f65313bafc81ff0.1634282966.git.ming.qian@nxp.com>
-X-Mailer: git-send-email 2.33.0
-In-Reply-To: <cover.1634282966.git.ming.qian@nxp.com>
-References: <cover.1634282966.git.ming.qian@nxp.com>
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: SI2PR02CA0003.apcprd02.prod.outlook.com
- (2603:1096:4:194::13) To AM6PR04MB6341.eurprd04.prod.outlook.com
- (2603:10a6:20b:d8::14)
+        id S235478AbhJOIbZ (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Fri, 15 Oct 2021 04:31:25 -0400
+Received: from [192.168.0.2] (ip5f5ae90e.dynamic.kabel-deutschland.de [95.90.233.14])
+        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: pmenzel)
+        by mx.molgen.mpg.de (Postfix) with ESMTPSA id 7FEBA61E5FE02;
+        Fri, 15 Oct 2021 10:29:16 +0200 (CEST)
+Subject: Re: [PATCH 2/6] media: aspeed: add dprintk for more detailed log
+ control
+To:     Jammy Huang <jammy_huang@aspeedtech.com>
+Cc:     "eajames@linux.ibm.com" <eajames@linux.ibm.com>,
+        "mchehab@kernel.org" <mchehab@kernel.org>,
+        "joel@jms.id.au" <joel@jms.id.au>,
+        "andrew@aj.id.au" <andrew@aj.id.au>,
+        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+        "openbmc@lists.ozlabs.org" <openbmc@lists.ozlabs.org>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>,
+        "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Ingo Molnar <mingo@redhat.com>
+References: <20211014034819.2283-1-jammy_huang@aspeedtech.com>
+ <20211014034819.2283-3-jammy_huang@aspeedtech.com>
+ <5b8f81aa-9d08-dc42-8bd5-e9e7560f37f6@molgen.mpg.de>
+ <c367c670-5e57-4bf2-06ab-06c4af0853c7@aspeedtech.com>
+From:   Paul Menzel <pmenzel@molgen.mpg.de>
+Message-ID: <ca3b21b1-a982-cc9a-bda4-800033cc1d5f@molgen.mpg.de>
+Date:   Fri, 15 Oct 2021 10:29:16 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 MIME-Version: 1.0
-Received: from lsv11149.swis.cn-sha01.nxp.com (119.31.174.70) by SI2PR02CA0003.apcprd02.prod.outlook.com (2603:1096:4:194::13) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4608.15 via Frontend Transport; Fri, 15 Oct 2021 08:23:39 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: a67c654f-debf-4b4b-c5b0-08d98fb51978
-X-MS-TrafficTypeDiagnostic: AM6PR0402MB3591:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AM6PR0402MB3591722C25724BF8716F3776E7B99@AM6PR0402MB3591.eurprd04.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:296;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: f3uNeaa/ZmIt0ea2bSSQn299GtkiT3gP0B5wZMZUoMTysFmSvJkwSe/ByvC7LHeZKt1tyQWD23Uk4dlrrBGmyW97+L4kKsUEVJVmR2bHfsulnjxB2TYi28EnrS2dLeoImkamk7tdigciStpHBDPsSfysCJWnnqvjR6uPQ8Ny6nuobT205Vagh+tUDhiufaBIWoo+bXyljHECfWHFYOs7MNJzLxi1Ih7umPPlE4Zc/nMUxI0Rzqz8tBfi6XZJeDIOiPfKtD1HVtJSmcRTJK1nRUVIWiO1fHTdnHBAcAPYsGo0WLa+f7nZ3ZeFcolFPrViAQRYmGwtrsGL+4bgnlkhGfAYvImY56cs9xkZMwA/L8V1+11oGvrKxT8G/OSsm+XGbZ8KD4Ck7+45udXBNr6go3es7zM6drYV9kUokTmIQGYyyqib7RZAQhAy3nxfpKjEAWh7e8vGWhHZ+/eZdm3Wnj+P6o1el34zwMrmt2BzYxBC2L2Z2f/pGQgEHCn5A6O5vYrXk6Jeg7bBliLReb0YZmN3WyyBRddtVhjsSOfBEhLOf2s9Vj1TmdgsSGz3Xusbwd6ps6dSJzXXfcy41SPXSy3K4kOGB68s8N4GXDEnOaVGM3zrixmzM5mUJWlJ/v3kg/GlP5EYkktMzBpckOtDHs2ydXEySZ37q4AisONneLlkuXh6zagpcQKasn2X2t2a/4ikLQXyq23RgVsDyH/WrQ==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM6PR04MB6341.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(366004)(86362001)(66556008)(8936002)(956004)(4744005)(8676002)(316002)(508600001)(26005)(6486002)(186003)(4326008)(7416002)(2906002)(6666004)(52116002)(7696005)(2616005)(66946007)(5660300002)(66476007)(38100700002)(36756003)(38350700002)(44832011);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?VaIeZx4jyT85c5O1RhtsT8tEbT03k8fe2polERNmuIIXzilkHifbWpIPiGwK?=
- =?us-ascii?Q?Oo1aGV/HDxGzxIHpnlsqCIY6Ls6qwe6nv8ulRK4tZSWXOCASGUWZ4rHED8qq?=
- =?us-ascii?Q?BPkgWg+46ZRJc5z4/jtNXdYVixf4uCWwB3B0KKGT1tJ3KEO7wdL7coiVYFN1?=
- =?us-ascii?Q?3cvvSeZIWmFljv6/00QmwO85Ead3zUsvbUfrJMbwhF1R+4ItEQrxoecIENJF?=
- =?us-ascii?Q?7mavlwqQHqup3ZeeUYFOm/VnPNUXcogYjDeQYk9UFMJ/8WTl98NyiDZ6haCK?=
- =?us-ascii?Q?9F1NevW7+owSHb2SQd6xCoDjtbb0t/9LsNI6DoEau45hz/vS8uTChhlk0abH?=
- =?us-ascii?Q?3j5uD24i5PguKLjnxoH29kx7nG/R7fsOP8UWO8nFGc7oM04xmk9gRgairthJ?=
- =?us-ascii?Q?KOJc24Q/gpm9EPp+VpMw36DZngdQzlUQUbJaUZt3xozoLmPmfqLGdnJLhexi?=
- =?us-ascii?Q?B6PkhR+VftsjnBTVpwkT6+e1Y0waIWJj6N9zUOVjJtwvtmX3b+GsoxWcCmsu?=
- =?us-ascii?Q?AiZN1s/dEfxFqq7kjIsGmIE1aVGJrgQSssYLBkkAGQjteesYvU5ah9EM8UL1?=
- =?us-ascii?Q?LGOFoFNhWb/38EXUlx09jJMegWeCn6EbUlmdH2YNS+kKlyGAEM5++zzAaOgh?=
- =?us-ascii?Q?P1AIxXCKvIQZlNRKGGwmoO5BC47vP2tzxJp6liXfXrbmhZrEyN1j/2h8lRSA?=
- =?us-ascii?Q?SVl7sEW9om2QgF6exyeX/Q2HquxJ9udFLa/VyzfU5sd2VLLhbyPRqMctq8Zv?=
- =?us-ascii?Q?yQU5ckYmd89dzGK+Pz8bdB/RLSg3k7lYEe20aTWdEjvZj88GB8v1rUa2o3mm?=
- =?us-ascii?Q?Ea5eqy8LAOyQjlhJH3BN8cduABq1qb5cpDLyQNQ7ugkE5MgjRoNdyTwXu689?=
- =?us-ascii?Q?SKP6BWvnNKH/fqaoxMgeWIeEUfOuAwtX50AhHtcwY43z7BMPNmuZDG6+XsX0?=
- =?us-ascii?Q?RRLk90ZLOS9vkdl8mAMVyb+x3BwkL3Ba6DBjZXdzSHZdA7E+SVCJk7gelVgn?=
- =?us-ascii?Q?17QzH1FZ0B+7uBj+X/Y83BU+665s76muKkqmlHISFSdfn+Mf+bUr3TZiFd8c?=
- =?us-ascii?Q?+aNcU/mUYRBSprOPdGnlRXZ6eNbnJ4GhAbJSEh1JsM7l+gvsc0sm7cOLZnVz?=
- =?us-ascii?Q?pBW5UUByMtuTLY3nX9ppeyNB9QhHEykM/wRIyAPh7EWI+3/aIuax6d2itS64?=
- =?us-ascii?Q?s/vuMNyy/pX/0T+pG6U0H8zyqUsBQXRruDTQGHKnacD6QA7MDwGry4iTM7rN?=
- =?us-ascii?Q?QAiJvWifOd5i27JAN4/PLEwB5sNqBd6fpIWBalDLaGCraYhvYSUHGdXP3iph?=
- =?us-ascii?Q?Nf73RqqSapI54I/daCpLl71t?=
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: a67c654f-debf-4b4b-c5b0-08d98fb51978
-X-MS-Exchange-CrossTenant-AuthSource: AM6PR04MB6341.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Oct 2021 08:23:43.1961
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: JSzrJjZvCEVd/Mqw4J8e+fsK0fWebVM84KzLlsz26EQRE1Arj7ZGqVzFOGD8AKr7atluR1BN8T8EvlO4btiokQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR0402MB3591
+In-Reply-To: <c367c670-5e57-4bf2-06ab-06c4af0853c7@aspeedtech.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Add AMPHION VPU CODEC v4l2 driver entry
+Dear Jammy,
 
-Signed-off-by: Ming Qian <ming.qian@nxp.com>
-Signed-off-by: Shijie Qin <shijie.qin@nxp.com>
-Signed-off-by: Zhou Peng <eagle.zhou@nxp.com>
----
- MAINTAINERS | 9 +++++++++
- 1 file changed, 9 insertions(+)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index ee91c5472bc1..f35b746cb46c 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -13533,6 +13533,15 @@ S:	Maintained
- F:	Documentation/devicetree/bindings/media/imx8-jpeg.yaml
- F:	drivers/media/platform/imx-jpeg
- 
-+AMPHION VPU CODEC V4L2 DRIVER
-+M:	Ming Qian <ming.qian@nxp.com>
-+M:	Shijie Qin <shijie.qin@nxp.com>
-+M:	Zhou Peng <eagle.zhou@nxp.com>
-+L:	linux-media@vger.kernel.org
-+S:	Maintained
-+F:	Documentation/devicetree/bindings/media/amphion,vpu.yaml
-+F:	drivers/media/platform/amphion/
-+
- NZXT-KRAKEN2 HARDWARE MONITORING DRIVER
- M:	Jonas Malaco <jonas@protocubo.io>
- L:	linux-hwmon@vger.kernel.org
--- 
-2.33.0
+Thank you for your reply.
 
+Am 15.10.21 um 04:16 schrieb Jammy Huang:
+
+> I will try to come out another patch which uses either 
+> v4l2_info/v4l2_err/v4l2_warn/v4l2_dbg
+> or other 'native' Linux kernel solution.
+> 
+> On 2021/10/14 下午 02:28, Paul Menzel wrote:
+>> [Cc: +Steven, +Ingo for tracing questions]
+>>
+>> Dear Jammy,
+>>
+>>
+>> Am 14.10.21 um 05:48 schrieb Jammy Huang:
+>>> Add dprintk to categorize the log into NOTICE/INFO/TRACE/IRQ/REG.
+>>> The on/off is controlled by module_param, debug.
+>> Currently dev_dbg is dynamic debug, which can be controlled using the
+>> Linux kernel command line or debugfs already?
+>>
+>>   From your patch:
+>>
+>>> +MODULE_PARM_DESC(debug, "set debugging level 
+>>> (0=reg,2=irq,4=trace,8=info(|-able)).");
+>> What does (|-able) mean? Maybe give some examples in the commit message
+>> as documentation?
+> I will modify the description to make this more clear.
+>>
+>> Lastly, instead of parameter name `debug`, I’d use `log_level`, which
+>> would be more accurate.
+> Your consideration is understood, but please refer to the following 2 
+> cases:
+> 
+> 1. "include/media/v4l2-common.h"
+> 
+>   70 #define v4l2_dbg(level, debug, dev, fmt, arg...)                        \
+>   71         do {                                                            \
+>   72                 if (debug >= (level))                                   \
+>   73                         v4l2_printk(KERN_DEBUG, dev, fmt , ## arg);     \
+>   74         } while (0)
+
+Searching for `v4l2_dbg` in `drivers/media` that seems to quite commonly 
+used, though certain drivers also use their own debugging facility.
+
+> 2. "drivers/media/platform/vivid/vivid-core.c"
+> 
+> 135 unsigned vivid_debug;
+> 136 module_param(vivid_debug, uint, 0644);
+> 137 MODULE_PARM_DESC(vivid_debug, " activates debug info");
+
+That seems to be used like a boolean, and dynamic debug could replace it?
+
+>> Why is more granularity needed/useful, and not just debug and non-debug,
+>> where the existing Linux kernel levels `pr_info`, `pr_warn`, … are used?
+>> Looking at the amount of log messages, the granularity does not look 
+>> needed.
+> 
+> As you said, there isn't large amount of log messages currently. But 
+> during the development of the aspeed-jpeg support, the amount of log
+> increased. That is why I want to add this log control. Besides, the
+> log of reg-access, aspeed_video_read/aspeed_video_write/ 
+> aspeed_video_update,is too noisy.
+
+I would have thought that it’s easily selectable by using tools like 
+grep. No idea, if the log messages are only going to be used by 
+developers, or also for normal users.
+
+Each driver seems to define their own parameter, and it often not 
+(userfriendly) documented, what the values mean. (Your patch does 
+document it.)
+
+ From `drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c`:
+
+     static int debug;
+     module_param(debug, int, 0644);
+
+I guess, I was mostly confused by the info level, and would move that 
+outside the debugging, or rename it, so it’s more clear.
+
+As written, for developers, tracing using ftrace could be a solution 
+too, but probably not for normal users.
+
+Anyway, I just wanted to provide a user level view. If the maintainers 
+are fine with it, the current solution is also good.
+
+
+Kind regards,
+
+Paul
+
+
+>>> Signed-off-by: Jammy Huang <jammy_huang@aspeedtech.com>
+>>> ---
+>>>    drivers/media/platform/aspeed-video.c | 73 ++++++++++++++++++++++-----
+>>>    1 file changed, 60 insertions(+), 13 deletions(-)
+>>>
+>>> diff --git a/drivers/media/platform/aspeed-video.c 
+>>> b/drivers/media/platform/aspeed-video.c
+>>> index 6259cf17a7cc..7b8129b0ca5f 100644
+>>> --- a/drivers/media/platform/aspeed-video.c
+>>> +++ b/drivers/media/platform/aspeed-video.c
+>>> @@ -31,6 +31,19 @@
+>>>    #include <media/v4l2-ioctl.h>
+>>>    #include <media/videobuf2-dma-contig.h>
+>>> +
+>>> +#define LOG_REG        BIT(4)
+>>> +#define LOG_DEBUG    BIT(3)
+>>> +#define LOG_TRACE    BIT(2)
+>> Could ftrace be used for this? It looks like there are static functions.
+>> No idea, if there is already a “native” Linux kernel solution for this.
+>>
+>>> +#define LOG_INFO    BIT(1)
+>>> +#define LOG_NOTICE    BIT(0)
+>>> +
+>>> +#define dprintk(level, fmt, arg...) do {                    \
+>>> +    if (debug & level)                            \
+>>> +        pr_debug(pr_fmt("[%s]: " fmt), DEVICE_NAME, ##arg);        \
+>>> +} while (0)
+>>> +
+>>> +
+>>>    #define DEVICE_NAME            "aspeed-video"
+>>>    #define ASPEED_VIDEO_JPEG_NUM_QUALITIES    12
+>>> @@ -390,6 +403,8 @@ static const struct v4l2_dv_timings_cap 
+>>> aspeed_video_timings_cap = {
+>>>        },
+>>>    };
+>>> +static unsigned int debug;
+>>> +
+>>>    static void aspeed_video_init_jpeg_table(u32 *table, bool yuv420)
+>>>    {
+>>>        int i;
+>>> @@ -437,7 +452,7 @@ static void aspeed_video_update(struct 
+>>> aspeed_video *video, u32 reg, u32 clear,
+>>>        t &= ~clear;
+>>>        t |= bits;
+>>>        writel(t, video->base + reg);
+>>> -    dev_dbg(video->dev, "update %03x[%08x -> %08x]\n", reg, before,
+>>> +    dprintk(LOG_REG, "update %03x[%08x -> %08x]\n", reg, before,
+>>>            readl(video->base + reg));
+>>>    }
+>>> @@ -445,14 +460,14 @@ static u32 aspeed_video_read(struct 
+>>> aspeed_video *video, u32 reg)
+>>>    {
+>>>        u32 t = readl(video->base + reg);
+>>> -    dev_dbg(video->dev, "read %03x[%08x]\n", reg, t);
+>>> +    dprintk(LOG_REG, "read %03x[%08x]\n", reg, t);
+>>>        return t;
+>>>    }
+>>>    static void aspeed_video_write(struct aspeed_video *video, u32 
+>>> reg, u32 val)
+>>>    {
+>>>        writel(val, video->base + reg);
+>>> -    dev_dbg(video->dev, "write %03x[%08x]\n", reg,
+>>> +    dprintk(LOG_REG, "write %03x[%08x]\n", reg,
+>>>            readl(video->base + reg));
+>>>    }
+>>> @@ -474,13 +489,13 @@ static int aspeed_video_start_frame(struct 
+>>> aspeed_video *video)
+>>>        u32 seq_ctrl = aspeed_video_read(video, VE_SEQ_CTRL);
+>>>        if (video->v4l2_input_status) {
+>>> -        dev_dbg(video->dev, "No signal; don't start frame\n");
+>>> +        dprintk(LOG_NOTICE, "No signal; don't start frame\n");
+>>>            return 0;
+>>>        }
+>>>        if (!(seq_ctrl & VE_SEQ_CTRL_COMP_BUSY) ||
+>>>            !(seq_ctrl & VE_SEQ_CTRL_CAP_BUSY)) {
+>>> -        dev_dbg(video->dev, "Engine busy; don't start frame\n");
+>>> +        dprintk(LOG_NOTICE, "Engine busy; don't start frame\n");
+>>>            return -EBUSY;
+>>>        }
+>>> @@ -489,7 +504,7 @@ static int aspeed_video_start_frame(struct 
+>>> aspeed_video *video)
+>>>                           struct aspeed_video_buffer, link);
+>>>        if (!buf) {
+>>>            spin_unlock_irqrestore(&video->lock, flags);
+>>> -        dev_dbg(video->dev, "No buffers; don't start frame\n");
+>>> +        dprintk(LOG_NOTICE, "No buffers; don't start frame\n");
+>>>            return -EPROTO;
+>>>        }
+>>> @@ -565,7 +580,7 @@ static void aspeed_video_bufs_done(struct 
+>>> aspeed_video *video,
+>>>    static void aspeed_video_irq_res_change(struct aspeed_video 
+>>> *video, ulong delay)
+>>>    {
+>>> -    dev_dbg(video->dev, "Resolution changed; resetting\n");
+>>> +    dprintk(LOG_INFO, "Resolution changed; resetting\n");
+>>>        set_bit(VIDEO_RES_CHANGE, &video->flags);
+>>>        clear_bit(VIDEO_FRAME_INPRG, &video->flags);
+>>> @@ -590,6 +605,12 @@ static irqreturn_t aspeed_video_irq(int irq, 
+>>> void *arg)
+>>>        struct aspeed_video *video = arg;
+>>>        u32 sts = aspeed_video_read(video, VE_INTERRUPT_STATUS);
+>>> +    dprintk(LOG_DEBUG, "irq sts=%#x %s%s%s%s\n", sts,
+>>> +        sts & VE_INTERRUPT_MODE_DETECT_WD ? ", unlock" : "",
+>>> +        sts & VE_INTERRUPT_MODE_DETECT ? ", lock" : "",
+>>> +        sts & VE_INTERRUPT_CAPTURE_COMPLETE ? ", capture-done" : "",
+>>> +        sts & VE_INTERRUPT_COMP_COMPLETE ? ", comp-done" : "");
+>>> +
+>> Please split adding new log messages out into a separate commit.
+>>
+>>>        /*
+>>>         * Resolution changed or signal was lost; reset the engine and
+>>>         * re-initialize
+>>> @@ -766,7 +787,7 @@ static void 
+>>> aspeed_video_calc_compressed_size(struct aspeed_video *video,
+>>>        aspeed_video_write(video, VE_STREAM_BUF_SIZE,
+>>>                   compression_buffer_size_reg);
+>>> -    dev_dbg(video->dev, "Max compressed size: %x\n",
+>>> +    dprintk(LOG_INFO, "Max compressed size: %#x\n",
+>>>            video->max_compressed_size);
+>>>    }
+>>> @@ -804,7 +825,7 @@ static void aspeed_video_get_resolution(struct 
+>>> aspeed_video *video)
+>>>                                  res_check(video),
+>>>                                  MODE_DETECT_TIMEOUT);
+>>>            if (!rc) {
+>>> -            dev_dbg(video->dev, "Timed out; first mode detect\n");
+>>> +            dprintk(LOG_INFO, "Timed out; first mode detect\n");
+>>>                clear_bit(VIDEO_RES_DETECT, &video->flags);
+>>>                return;
+>>>            }
+>>> @@ -822,7 +843,7 @@ static void aspeed_video_get_resolution(struct 
+>>> aspeed_video *video)
+>>>                                  MODE_DETECT_TIMEOUT);
+>>>            clear_bit(VIDEO_RES_DETECT, &video->flags);
+>>>            if (!rc) {
+>>> -            dev_dbg(video->dev, "Timed out; second mode detect\n");
+>>> +            dprintk(LOG_INFO, "Timed out; second mode detect\n");
+>>>                return;
+>>>            }
+>>> @@ -856,7 +877,7 @@ static void aspeed_video_get_resolution(struct 
+>>> aspeed_video *video)
+>>>        } while (invalid_resolution && (tries++ < 
+>>> INVALID_RESOLUTION_RETRIES));
+>>>        if (invalid_resolution) {
+>>> -        dev_dbg(video->dev, "Invalid resolution detected\n");
+>>> +        dprintk(LOG_NOTICE, "Invalid resolution detected\n");
+>>>            return;
+>>>        }
+>>> @@ -873,7 +894,7 @@ static void aspeed_video_get_resolution(struct 
+>>> aspeed_video *video)
+>>>        aspeed_video_update(video, VE_SEQ_CTRL, 0,
+>>>                    VE_SEQ_CTRL_AUTO_COMP | VE_SEQ_CTRL_EN_WATCHDOG);
+>>> -    dev_dbg(video->dev, "Got resolution: %dx%d\n", det->width,
+>>> +    dprintk(LOG_INFO, "Got resolution: %dx%d\n", det->width,
+>>>            det->height);
+>>>    }
+>>> @@ -907,6 +928,7 @@ static void aspeed_video_set_resolution(struct 
+>>> aspeed_video *video)
+>>>        /* Don't use direct mode below 1024 x 768 (irqs don't fire) */
+>>>        if (size < DIRECT_FETCH_THRESHOLD) {
+>>> +        dprintk(LOG_INFO, "Capture: Sync Mode\n");
+>>>            aspeed_video_write(video, VE_TGS_0,
+>>>                       FIELD_PREP(VE_TGS_FIRST,
+>>>                              video->frame_left - 1) |
+>>> @@ -918,6 +940,7 @@ static void aspeed_video_set_resolution(struct 
+>>> aspeed_video *video)
+>>>                              video->frame_bottom + 1));
+>>>            aspeed_video_update(video, VE_CTRL, 0, VE_CTRL_INT_DE);
+>>>        } else {
+>>> +        dprintk(LOG_INFO, "Capture: Direct Mode\n");
+>>>            aspeed_video_update(video, VE_CTRL, 0, VE_CTRL_DIRECT_FETCH);
+>>>        }
+>>> @@ -934,6 +957,10 @@ static void aspeed_video_set_resolution(struct 
+>>> aspeed_video *video)
+>>>            if (!aspeed_video_alloc_buf(video, &video->srcs[1], size))
+>>>                goto err_mem;
+>>> +        dprintk(LOG_INFO, "src buf0 addr(%#x) size(%d)\n",
+>>> +            video->srcs[0].dma, video->srcs[0].size);
+>>> +        dprintk(LOG_INFO, "src buf1 addr(%#x) size(%d)\n",
+>>> +            video->srcs[1].dma, video->srcs[1].size);
+>>>            aspeed_video_write(video, VE_SRC0_ADDR, video->srcs[0].dma);
+>>>            aspeed_video_write(video, VE_SRC1_ADDR, video->srcs[1].dma);
+>>>        }
+>>> @@ -1010,6 +1037,8 @@ static void aspeed_video_start(struct 
+>>> aspeed_video *video)
+>>>    static void aspeed_video_stop(struct aspeed_video *video)
+>>>    {
+>>> +    dprintk(LOG_TRACE, "%s\n", __func__);
+>>> +
+>>>        set_bit(VIDEO_STOPPED, &video->flags);
+>>>        cancel_delayed_work_sync(&video->res_work);
+>>> @@ -1198,6 +1227,9 @@ static int aspeed_video_set_dv_timings(struct 
+>>> file *file, void *fh,
+>>>        timings->type = V4L2_DV_BT_656_1120;
+>>> +    dprintk(LOG_INFO, "set new timings(%dx%d)\n", timings->bt.width,
+>>> +        timings->bt.height);
+>>> +
+>>>        return 0;
+>>>    }
+>>> @@ -1362,6 +1394,8 @@ static void aspeed_video_resolution_work(struct 
+>>> work_struct *work)
+>>>                              res_work);
+>>>        u32 input_status = video->v4l2_input_status;
+>>> +    dprintk(LOG_TRACE, "%s+\n", __func__);
+>>> +
+>>>        aspeed_video_on(video);
+>>>        /* Exit early in case no clients remain */
+>>> @@ -1380,6 +1414,7 @@ static void aspeed_video_resolution_work(struct 
+>>> work_struct *work)
+>>>                .u.src_change.changes = V4L2_EVENT_SRC_CH_RESOLUTION,
+>>>            };
+>>> +        dprintk(LOG_INFO, "fire source change event\n");
+>>>            v4l2_event_queue(&video->vdev, &ev);
+>>>        } else if (test_bit(VIDEO_STREAMING, &video->flags)) {
+>>>            /* No resolution change so just restart streaming */
+>>> @@ -1389,6 +1424,8 @@ static void aspeed_video_resolution_work(struct 
+>>> work_struct *work)
+>>>    done:
+>>>        clear_bit(VIDEO_RES_CHANGE, &video->flags);
+>>>        wake_up_interruptible_all(&video->wait);
+>>> +
+>>> +    dprintk(LOG_TRACE, "%s-\n", __func__);
+>>>    }
+>>>    static int aspeed_video_open(struct file *file)
+>>> @@ -1476,6 +1513,7 @@ static int aspeed_video_start_streaming(struct 
+>>> vb2_queue *q,
+>>>        int rc;
+>>>        struct aspeed_video *video = vb2_get_drv_priv(q);
+>>> +    dprintk(LOG_TRACE, "%s\n", __func__);
+>>>        video->sequence = 0;
+>>>        video->perf.duration_max = 0;
+>>>        video->perf.duration_min = 0xffffffff;
+>>> @@ -1495,13 +1533,15 @@ static void 
+>>> aspeed_video_stop_streaming(struct vb2_queue *q)
+>>>        int rc;
+>>>        struct aspeed_video *video = vb2_get_drv_priv(q);
+>>> +    dprintk(LOG_TRACE, "%s+\n", __func__);
+>>> +
+>>>        clear_bit(VIDEO_STREAMING, &video->flags);
+>>>        rc = wait_event_timeout(video->wait,
+>>>                    !test_bit(VIDEO_FRAME_INPRG, &video->flags),
+>>>                    STOP_TIMEOUT);
+>>>        if (!rc) {
+>>> -        dev_dbg(video->dev, "Timed out when stopping streaming\n");
+>>> +        dprintk(LOG_NOTICE, "Timed out when stopping streaming\n");
+>>>            /*
+>>>             * Need to force stop any DMA and try and get HW into a good
+>>> @@ -1516,6 +1556,7 @@ static void aspeed_video_stop_streaming(struct 
+>>> vb2_queue *q)
+>>>        }
+>>>        aspeed_video_bufs_done(video, VB2_BUF_STATE_ERROR);
+>>> +    dprintk(LOG_TRACE, "%s-\n", __func__);
+>>>    }
+>>>    static void aspeed_video_buf_queue(struct vb2_buffer *vb)
+>>> @@ -1715,6 +1756,7 @@ static int aspeed_video_init(struct 
+>>> aspeed_video *video)
+>>>            dev_err(dev, "Unable to request IRQ %d\n", irq);
+>>>            return rc;
+>>>        }
+>>> +    dev_info(video->dev, "irq %d\n", irq);
+>>>        video->eclk = devm_clk_get(dev, "eclk");
+>>>        if (IS_ERR(video->eclk)) {
+>>> @@ -1751,6 +1793,8 @@ static int aspeed_video_init(struct 
+>>> aspeed_video *video)
+>>>            rc = -ENOMEM;
+>>>            goto err_release_reserved_mem;
+>>>        }
+>>> +    dev_info(video->dev, "alloc mem size(%d) at %#x for jpeg header\n",
+>>> +         VE_JPEG_HEADER_SIZE, video->jpeg.dma);
+>>>        aspeed_video_init_jpeg_table(video->jpeg.virt, video->yuv420);
+>>> @@ -1856,6 +1900,9 @@ static struct platform_driver 
+>>> aspeed_video_driver = {
+>>>    module_platform_driver(aspeed_video_driver);
+>>> +module_param(debug, int, 0644);
+>>> +MODULE_PARM_DESC(debug, "set debugging level 
+>>> (0=reg,2=irq,4=trace,8=info(|-able)).");
+>>> +
+>>>    MODULE_DESCRIPTION("ASPEED Video Engine Driver");
+>>>    MODULE_AUTHOR("Eddie James");
+>>>    MODULE_LICENSE("GPL v2");
+>>
+>> Kind regards,
+>>
+>> Paul
