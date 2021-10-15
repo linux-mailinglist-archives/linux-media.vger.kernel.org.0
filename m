@@ -2,430 +2,133 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D028642EC5B
-	for <lists+linux-media@lfdr.de>; Fri, 15 Oct 2021 10:29:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 675BC42ECF5
+	for <lists+linux-media@lfdr.de>; Fri, 15 Oct 2021 10:58:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233960AbhJOIb0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 15 Oct 2021 04:31:26 -0400
-Received: from mx3.molgen.mpg.de ([141.14.17.11]:58707 "EHLO mx1.molgen.mpg.de"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S235478AbhJOIbZ (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Fri, 15 Oct 2021 04:31:25 -0400
-Received: from [192.168.0.2] (ip5f5ae90e.dynamic.kabel-deutschland.de [95.90.233.14])
-        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-        (No client certificate requested)
-        (Authenticated sender: pmenzel)
-        by mx.molgen.mpg.de (Postfix) with ESMTPSA id 7FEBA61E5FE02;
-        Fri, 15 Oct 2021 10:29:16 +0200 (CEST)
-Subject: Re: [PATCH 2/6] media: aspeed: add dprintk for more detailed log
- control
-To:     Jammy Huang <jammy_huang@aspeedtech.com>
-Cc:     "eajames@linux.ibm.com" <eajames@linux.ibm.com>,
-        "mchehab@kernel.org" <mchehab@kernel.org>,
-        "joel@jms.id.au" <joel@jms.id.au>,
-        "andrew@aj.id.au" <andrew@aj.id.au>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        "openbmc@lists.ozlabs.org" <openbmc@lists.ozlabs.org>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>,
-        "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Ingo Molnar <mingo@redhat.com>
-References: <20211014034819.2283-1-jammy_huang@aspeedtech.com>
- <20211014034819.2283-3-jammy_huang@aspeedtech.com>
- <5b8f81aa-9d08-dc42-8bd5-e9e7560f37f6@molgen.mpg.de>
- <c367c670-5e57-4bf2-06ab-06c4af0853c7@aspeedtech.com>
-From:   Paul Menzel <pmenzel@molgen.mpg.de>
-Message-ID: <ca3b21b1-a982-cc9a-bda4-800033cc1d5f@molgen.mpg.de>
-Date:   Fri, 15 Oct 2021 10:29:16 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+        id S235359AbhJOJAo (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 15 Oct 2021 05:00:44 -0400
+Received: from szxga02-in.huawei.com ([45.249.212.188]:24321 "EHLO
+        szxga02-in.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229656AbhJOJAn (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Fri, 15 Oct 2021 05:00:43 -0400
+Received: from dggemv704-chm.china.huawei.com (unknown [172.30.72.53])
+        by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4HW0SF2s2Czbd24;
+        Fri, 15 Oct 2021 16:54:05 +0800 (CST)
+Received: from kwepemm600001.china.huawei.com (7.193.23.3) by
+ dggemv704-chm.china.huawei.com (10.3.19.47) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.8; Fri, 15 Oct 2021 16:58:35 +0800
+Received: from huawei.com (10.175.104.82) by kwepemm600001.china.huawei.com
+ (7.193.23.3) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.8; Fri, 15 Oct
+ 2021 16:58:34 +0800
+From:   Wang Hai <wanghai38@huawei.com>
+To:     <mchehab@kernel.org>
+CC:     <linux-media@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+Subject: [PATCH] media: dmxdev: fix UAF when dvb_register_device() fails
+Date:   Fri, 15 Oct 2021 16:57:41 +0800
+Message-ID: <20211015085741.1203283-1-wanghai38@huawei.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-In-Reply-To: <c367c670-5e57-4bf2-06ab-06c4af0853c7@aspeedtech.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7BIT
+Content-Type:   text/plain; charset=US-ASCII
+X-Originating-IP: [10.175.104.82]
+X-ClientProxiedBy: dggems702-chm.china.huawei.com (10.3.19.179) To
+ kwepemm600001.china.huawei.com (7.193.23.3)
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Dear Jammy,
+I got a use-after-free report:
 
+dvbdev: dvb_register_device: failed to create device dvb1.dvr0 (-12)
+...
+==================================================================
+BUG: KASAN: use-after-free in dvb_dmxdev_release+0xce/0x2f0
+...
+Call Trace:
+ dump_stack_lvl+0x6c/0x8b
+ print_address_description.constprop.0+0x48/0x70
+ kasan_report.cold+0x82/0xdb
+ __asan_load4+0x6b/0x90
+ dvb_dmxdev_release+0xce/0x2f0
+...
+Allocated by task 7666:
+ kasan_save_stack+0x23/0x50
+ __kasan_kmalloc+0x83/0xa0
+ kmem_cache_alloc_trace+0x22e/0x470
+ dvb_register_device+0x12f/0x980
+ dvb_dmxdev_init+0x1f3/0x230
+...
+Freed by task 7666:
+ kasan_save_stack+0x23/0x50
+ kasan_set_track+0x20/0x30
+ kasan_set_free_info+0x24/0x40
+ __kasan_slab_free+0xf2/0x130
+ kfree+0xd1/0x5c0
+ dvb_register_device.cold+0x1ac/0x1fa
+ dvb_dmxdev_init+0x1f3/0x230
+...
 
-Thank you for your reply.
+When dvb_register_device() in dvb_dmxdev_init() fails, dvb_dmxdev_init()
+does not return a failure, and the memory pointed to by dvbdev or
+dvr_dvbdev is invalid at this point. If they are used subsequently, it
+will result in UFA or null-ptr-deref.
 
-Am 15.10.21 um 04:16 schrieb Jammy Huang:
+If dvb_register_device() in dvb_dmxdev_init() fails, fix the bug by making
+dvb_dmxdev_init() return an error as well.
 
-> I will try to come out another patch which uses either 
-> v4l2_info/v4l2_err/v4l2_warn/v4l2_dbg
-> or other 'native' Linux kernel solution.
-> 
-> On 2021/10/14 下午 02:28, Paul Menzel wrote:
->> [Cc: +Steven, +Ingo for tracing questions]
->>
->> Dear Jammy,
->>
->>
->> Am 14.10.21 um 05:48 schrieb Jammy Huang:
->>> Add dprintk to categorize the log into NOTICE/INFO/TRACE/IRQ/REG.
->>> The on/off is controlled by module_param, debug.
->> Currently dev_dbg is dynamic debug, which can be controlled using the
->> Linux kernel command line or debugfs already?
->>
->>   From your patch:
->>
->>> +MODULE_PARM_DESC(debug, "set debugging level 
->>> (0=reg,2=irq,4=trace,8=info(|-able)).");
->> What does (|-able) mean? Maybe give some examples in the commit message
->> as documentation?
-> I will modify the description to make this more clear.
->>
->> Lastly, instead of parameter name `debug`, I’d use `log_level`, which
->> would be more accurate.
-> Your consideration is understood, but please refer to the following 2 
-> cases:
-> 
-> 1. "include/media/v4l2-common.h"
-> 
->   70 #define v4l2_dbg(level, debug, dev, fmt, arg...)                        \
->   71         do {                                                            \
->   72                 if (debug >= (level))                                   \
->   73                         v4l2_printk(KERN_DEBUG, dev, fmt , ## arg);     \
->   74         } while (0)
+Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
+Reported-by: Hulk Robot <hulkci@huawei.com>
+Signed-off-by: Wang Hai <wanghai38@huawei.com>
+---
+ drivers/media/dvb-core/dmxdev.c | 18 +++++++++++++++---
+ 1 file changed, 15 insertions(+), 3 deletions(-)
 
-Searching for `v4l2_dbg` in `drivers/media` that seems to quite commonly 
-used, though certain drivers also use their own debugging facility.
+diff --git a/drivers/media/dvb-core/dmxdev.c b/drivers/media/dvb-core/dmxdev.c
+index 5d5a48475a54..01f288fa37e0 100644
+--- a/drivers/media/dvb-core/dmxdev.c
++++ b/drivers/media/dvb-core/dmxdev.c
+@@ -1413,7 +1413,7 @@ static const struct dvb_device dvbdev_dvr = {
+ };
+ int dvb_dmxdev_init(struct dmxdev *dmxdev, struct dvb_adapter *dvb_adapter)
+ {
+-	int i;
++	int i, ret;
+ 
+ 	if (dmxdev->demux->open(dmxdev->demux) < 0)
+ 		return -EUSERS;
+@@ -1432,14 +1432,26 @@ int dvb_dmxdev_init(struct dmxdev *dmxdev, struct dvb_adapter *dvb_adapter)
+ 					    DMXDEV_STATE_FREE);
+ 	}
+ 
+-	dvb_register_device(dvb_adapter, &dmxdev->dvbdev, &dvbdev_demux, dmxdev,
++	ret = dvb_register_device(dvb_adapter, &dmxdev->dvbdev, &dvbdev_demux, dmxdev,
+ 			    DVB_DEVICE_DEMUX, dmxdev->filternum);
+-	dvb_register_device(dvb_adapter, &dmxdev->dvr_dvbdev, &dvbdev_dvr,
++	if (ret < 0)
++		goto err_register_dvbdev;
++
++	ret = dvb_register_device(dvb_adapter, &dmxdev->dvr_dvbdev, &dvbdev_dvr,
+ 			    dmxdev, DVB_DEVICE_DVR, dmxdev->filternum);
++	if (ret < 0)
++		goto err_register_dvr_dvbdev;
+ 
+ 	dvb_ringbuffer_init(&dmxdev->dvr_buffer, NULL, 8192);
+ 
+ 	return 0;
++
++err_register_dvr_dvbdev:
++	dvb_unregister_device(dmxdev->dvbdev);
++err_register_dvbdev:
++	vfree(dmxdev->filter);
++	dmxdev->filter = NULL;
++	return ret;
+ }
+ 
+ EXPORT_SYMBOL(dvb_dmxdev_init);
+-- 
+2.25.1
 
-> 2. "drivers/media/platform/vivid/vivid-core.c"
-> 
-> 135 unsigned vivid_debug;
-> 136 module_param(vivid_debug, uint, 0644);
-> 137 MODULE_PARM_DESC(vivid_debug, " activates debug info");
-
-That seems to be used like a boolean, and dynamic debug could replace it?
-
->> Why is more granularity needed/useful, and not just debug and non-debug,
->> where the existing Linux kernel levels `pr_info`, `pr_warn`, … are used?
->> Looking at the amount of log messages, the granularity does not look 
->> needed.
-> 
-> As you said, there isn't large amount of log messages currently. But 
-> during the development of the aspeed-jpeg support, the amount of log
-> increased. That is why I want to add this log control. Besides, the
-> log of reg-access, aspeed_video_read/aspeed_video_write/ 
-> aspeed_video_update,is too noisy.
-
-I would have thought that it’s easily selectable by using tools like 
-grep. No idea, if the log messages are only going to be used by 
-developers, or also for normal users.
-
-Each driver seems to define their own parameter, and it often not 
-(userfriendly) documented, what the values mean. (Your patch does 
-document it.)
-
- From `drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c`:
-
-     static int debug;
-     module_param(debug, int, 0644);
-
-I guess, I was mostly confused by the info level, and would move that 
-outside the debugging, or rename it, so it’s more clear.
-
-As written, for developers, tracing using ftrace could be a solution 
-too, but probably not for normal users.
-
-Anyway, I just wanted to provide a user level view. If the maintainers 
-are fine with it, the current solution is also good.
-
-
-Kind regards,
-
-Paul
-
-
->>> Signed-off-by: Jammy Huang <jammy_huang@aspeedtech.com>
->>> ---
->>>    drivers/media/platform/aspeed-video.c | 73 ++++++++++++++++++++++-----
->>>    1 file changed, 60 insertions(+), 13 deletions(-)
->>>
->>> diff --git a/drivers/media/platform/aspeed-video.c 
->>> b/drivers/media/platform/aspeed-video.c
->>> index 6259cf17a7cc..7b8129b0ca5f 100644
->>> --- a/drivers/media/platform/aspeed-video.c
->>> +++ b/drivers/media/platform/aspeed-video.c
->>> @@ -31,6 +31,19 @@
->>>    #include <media/v4l2-ioctl.h>
->>>    #include <media/videobuf2-dma-contig.h>
->>> +
->>> +#define LOG_REG        BIT(4)
->>> +#define LOG_DEBUG    BIT(3)
->>> +#define LOG_TRACE    BIT(2)
->> Could ftrace be used for this? It looks like there are static functions.
->> No idea, if there is already a “native” Linux kernel solution for this.
->>
->>> +#define LOG_INFO    BIT(1)
->>> +#define LOG_NOTICE    BIT(0)
->>> +
->>> +#define dprintk(level, fmt, arg...) do {                    \
->>> +    if (debug & level)                            \
->>> +        pr_debug(pr_fmt("[%s]: " fmt), DEVICE_NAME, ##arg);        \
->>> +} while (0)
->>> +
->>> +
->>>    #define DEVICE_NAME            "aspeed-video"
->>>    #define ASPEED_VIDEO_JPEG_NUM_QUALITIES    12
->>> @@ -390,6 +403,8 @@ static const struct v4l2_dv_timings_cap 
->>> aspeed_video_timings_cap = {
->>>        },
->>>    };
->>> +static unsigned int debug;
->>> +
->>>    static void aspeed_video_init_jpeg_table(u32 *table, bool yuv420)
->>>    {
->>>        int i;
->>> @@ -437,7 +452,7 @@ static void aspeed_video_update(struct 
->>> aspeed_video *video, u32 reg, u32 clear,
->>>        t &= ~clear;
->>>        t |= bits;
->>>        writel(t, video->base + reg);
->>> -    dev_dbg(video->dev, "update %03x[%08x -> %08x]\n", reg, before,
->>> +    dprintk(LOG_REG, "update %03x[%08x -> %08x]\n", reg, before,
->>>            readl(video->base + reg));
->>>    }
->>> @@ -445,14 +460,14 @@ static u32 aspeed_video_read(struct 
->>> aspeed_video *video, u32 reg)
->>>    {
->>>        u32 t = readl(video->base + reg);
->>> -    dev_dbg(video->dev, "read %03x[%08x]\n", reg, t);
->>> +    dprintk(LOG_REG, "read %03x[%08x]\n", reg, t);
->>>        return t;
->>>    }
->>>    static void aspeed_video_write(struct aspeed_video *video, u32 
->>> reg, u32 val)
->>>    {
->>>        writel(val, video->base + reg);
->>> -    dev_dbg(video->dev, "write %03x[%08x]\n", reg,
->>> +    dprintk(LOG_REG, "write %03x[%08x]\n", reg,
->>>            readl(video->base + reg));
->>>    }
->>> @@ -474,13 +489,13 @@ static int aspeed_video_start_frame(struct 
->>> aspeed_video *video)
->>>        u32 seq_ctrl = aspeed_video_read(video, VE_SEQ_CTRL);
->>>        if (video->v4l2_input_status) {
->>> -        dev_dbg(video->dev, "No signal; don't start frame\n");
->>> +        dprintk(LOG_NOTICE, "No signal; don't start frame\n");
->>>            return 0;
->>>        }
->>>        if (!(seq_ctrl & VE_SEQ_CTRL_COMP_BUSY) ||
->>>            !(seq_ctrl & VE_SEQ_CTRL_CAP_BUSY)) {
->>> -        dev_dbg(video->dev, "Engine busy; don't start frame\n");
->>> +        dprintk(LOG_NOTICE, "Engine busy; don't start frame\n");
->>>            return -EBUSY;
->>>        }
->>> @@ -489,7 +504,7 @@ static int aspeed_video_start_frame(struct 
->>> aspeed_video *video)
->>>                           struct aspeed_video_buffer, link);
->>>        if (!buf) {
->>>            spin_unlock_irqrestore(&video->lock, flags);
->>> -        dev_dbg(video->dev, "No buffers; don't start frame\n");
->>> +        dprintk(LOG_NOTICE, "No buffers; don't start frame\n");
->>>            return -EPROTO;
->>>        }
->>> @@ -565,7 +580,7 @@ static void aspeed_video_bufs_done(struct 
->>> aspeed_video *video,
->>>    static void aspeed_video_irq_res_change(struct aspeed_video 
->>> *video, ulong delay)
->>>    {
->>> -    dev_dbg(video->dev, "Resolution changed; resetting\n");
->>> +    dprintk(LOG_INFO, "Resolution changed; resetting\n");
->>>        set_bit(VIDEO_RES_CHANGE, &video->flags);
->>>        clear_bit(VIDEO_FRAME_INPRG, &video->flags);
->>> @@ -590,6 +605,12 @@ static irqreturn_t aspeed_video_irq(int irq, 
->>> void *arg)
->>>        struct aspeed_video *video = arg;
->>>        u32 sts = aspeed_video_read(video, VE_INTERRUPT_STATUS);
->>> +    dprintk(LOG_DEBUG, "irq sts=%#x %s%s%s%s\n", sts,
->>> +        sts & VE_INTERRUPT_MODE_DETECT_WD ? ", unlock" : "",
->>> +        sts & VE_INTERRUPT_MODE_DETECT ? ", lock" : "",
->>> +        sts & VE_INTERRUPT_CAPTURE_COMPLETE ? ", capture-done" : "",
->>> +        sts & VE_INTERRUPT_COMP_COMPLETE ? ", comp-done" : "");
->>> +
->> Please split adding new log messages out into a separate commit.
->>
->>>        /*
->>>         * Resolution changed or signal was lost; reset the engine and
->>>         * re-initialize
->>> @@ -766,7 +787,7 @@ static void 
->>> aspeed_video_calc_compressed_size(struct aspeed_video *video,
->>>        aspeed_video_write(video, VE_STREAM_BUF_SIZE,
->>>                   compression_buffer_size_reg);
->>> -    dev_dbg(video->dev, "Max compressed size: %x\n",
->>> +    dprintk(LOG_INFO, "Max compressed size: %#x\n",
->>>            video->max_compressed_size);
->>>    }
->>> @@ -804,7 +825,7 @@ static void aspeed_video_get_resolution(struct 
->>> aspeed_video *video)
->>>                                  res_check(video),
->>>                                  MODE_DETECT_TIMEOUT);
->>>            if (!rc) {
->>> -            dev_dbg(video->dev, "Timed out; first mode detect\n");
->>> +            dprintk(LOG_INFO, "Timed out; first mode detect\n");
->>>                clear_bit(VIDEO_RES_DETECT, &video->flags);
->>>                return;
->>>            }
->>> @@ -822,7 +843,7 @@ static void aspeed_video_get_resolution(struct 
->>> aspeed_video *video)
->>>                                  MODE_DETECT_TIMEOUT);
->>>            clear_bit(VIDEO_RES_DETECT, &video->flags);
->>>            if (!rc) {
->>> -            dev_dbg(video->dev, "Timed out; second mode detect\n");
->>> +            dprintk(LOG_INFO, "Timed out; second mode detect\n");
->>>                return;
->>>            }
->>> @@ -856,7 +877,7 @@ static void aspeed_video_get_resolution(struct 
->>> aspeed_video *video)
->>>        } while (invalid_resolution && (tries++ < 
->>> INVALID_RESOLUTION_RETRIES));
->>>        if (invalid_resolution) {
->>> -        dev_dbg(video->dev, "Invalid resolution detected\n");
->>> +        dprintk(LOG_NOTICE, "Invalid resolution detected\n");
->>>            return;
->>>        }
->>> @@ -873,7 +894,7 @@ static void aspeed_video_get_resolution(struct 
->>> aspeed_video *video)
->>>        aspeed_video_update(video, VE_SEQ_CTRL, 0,
->>>                    VE_SEQ_CTRL_AUTO_COMP | VE_SEQ_CTRL_EN_WATCHDOG);
->>> -    dev_dbg(video->dev, "Got resolution: %dx%d\n", det->width,
->>> +    dprintk(LOG_INFO, "Got resolution: %dx%d\n", det->width,
->>>            det->height);
->>>    }
->>> @@ -907,6 +928,7 @@ static void aspeed_video_set_resolution(struct 
->>> aspeed_video *video)
->>>        /* Don't use direct mode below 1024 x 768 (irqs don't fire) */
->>>        if (size < DIRECT_FETCH_THRESHOLD) {
->>> +        dprintk(LOG_INFO, "Capture: Sync Mode\n");
->>>            aspeed_video_write(video, VE_TGS_0,
->>>                       FIELD_PREP(VE_TGS_FIRST,
->>>                              video->frame_left - 1) |
->>> @@ -918,6 +940,7 @@ static void aspeed_video_set_resolution(struct 
->>> aspeed_video *video)
->>>                              video->frame_bottom + 1));
->>>            aspeed_video_update(video, VE_CTRL, 0, VE_CTRL_INT_DE);
->>>        } else {
->>> +        dprintk(LOG_INFO, "Capture: Direct Mode\n");
->>>            aspeed_video_update(video, VE_CTRL, 0, VE_CTRL_DIRECT_FETCH);
->>>        }
->>> @@ -934,6 +957,10 @@ static void aspeed_video_set_resolution(struct 
->>> aspeed_video *video)
->>>            if (!aspeed_video_alloc_buf(video, &video->srcs[1], size))
->>>                goto err_mem;
->>> +        dprintk(LOG_INFO, "src buf0 addr(%#x) size(%d)\n",
->>> +            video->srcs[0].dma, video->srcs[0].size);
->>> +        dprintk(LOG_INFO, "src buf1 addr(%#x) size(%d)\n",
->>> +            video->srcs[1].dma, video->srcs[1].size);
->>>            aspeed_video_write(video, VE_SRC0_ADDR, video->srcs[0].dma);
->>>            aspeed_video_write(video, VE_SRC1_ADDR, video->srcs[1].dma);
->>>        }
->>> @@ -1010,6 +1037,8 @@ static void aspeed_video_start(struct 
->>> aspeed_video *video)
->>>    static void aspeed_video_stop(struct aspeed_video *video)
->>>    {
->>> +    dprintk(LOG_TRACE, "%s\n", __func__);
->>> +
->>>        set_bit(VIDEO_STOPPED, &video->flags);
->>>        cancel_delayed_work_sync(&video->res_work);
->>> @@ -1198,6 +1227,9 @@ static int aspeed_video_set_dv_timings(struct 
->>> file *file, void *fh,
->>>        timings->type = V4L2_DV_BT_656_1120;
->>> +    dprintk(LOG_INFO, "set new timings(%dx%d)\n", timings->bt.width,
->>> +        timings->bt.height);
->>> +
->>>        return 0;
->>>    }
->>> @@ -1362,6 +1394,8 @@ static void aspeed_video_resolution_work(struct 
->>> work_struct *work)
->>>                              res_work);
->>>        u32 input_status = video->v4l2_input_status;
->>> +    dprintk(LOG_TRACE, "%s+\n", __func__);
->>> +
->>>        aspeed_video_on(video);
->>>        /* Exit early in case no clients remain */
->>> @@ -1380,6 +1414,7 @@ static void aspeed_video_resolution_work(struct 
->>> work_struct *work)
->>>                .u.src_change.changes = V4L2_EVENT_SRC_CH_RESOLUTION,
->>>            };
->>> +        dprintk(LOG_INFO, "fire source change event\n");
->>>            v4l2_event_queue(&video->vdev, &ev);
->>>        } else if (test_bit(VIDEO_STREAMING, &video->flags)) {
->>>            /* No resolution change so just restart streaming */
->>> @@ -1389,6 +1424,8 @@ static void aspeed_video_resolution_work(struct 
->>> work_struct *work)
->>>    done:
->>>        clear_bit(VIDEO_RES_CHANGE, &video->flags);
->>>        wake_up_interruptible_all(&video->wait);
->>> +
->>> +    dprintk(LOG_TRACE, "%s-\n", __func__);
->>>    }
->>>    static int aspeed_video_open(struct file *file)
->>> @@ -1476,6 +1513,7 @@ static int aspeed_video_start_streaming(struct 
->>> vb2_queue *q,
->>>        int rc;
->>>        struct aspeed_video *video = vb2_get_drv_priv(q);
->>> +    dprintk(LOG_TRACE, "%s\n", __func__);
->>>        video->sequence = 0;
->>>        video->perf.duration_max = 0;
->>>        video->perf.duration_min = 0xffffffff;
->>> @@ -1495,13 +1533,15 @@ static void 
->>> aspeed_video_stop_streaming(struct vb2_queue *q)
->>>        int rc;
->>>        struct aspeed_video *video = vb2_get_drv_priv(q);
->>> +    dprintk(LOG_TRACE, "%s+\n", __func__);
->>> +
->>>        clear_bit(VIDEO_STREAMING, &video->flags);
->>>        rc = wait_event_timeout(video->wait,
->>>                    !test_bit(VIDEO_FRAME_INPRG, &video->flags),
->>>                    STOP_TIMEOUT);
->>>        if (!rc) {
->>> -        dev_dbg(video->dev, "Timed out when stopping streaming\n");
->>> +        dprintk(LOG_NOTICE, "Timed out when stopping streaming\n");
->>>            /*
->>>             * Need to force stop any DMA and try and get HW into a good
->>> @@ -1516,6 +1556,7 @@ static void aspeed_video_stop_streaming(struct 
->>> vb2_queue *q)
->>>        }
->>>        aspeed_video_bufs_done(video, VB2_BUF_STATE_ERROR);
->>> +    dprintk(LOG_TRACE, "%s-\n", __func__);
->>>    }
->>>    static void aspeed_video_buf_queue(struct vb2_buffer *vb)
->>> @@ -1715,6 +1756,7 @@ static int aspeed_video_init(struct 
->>> aspeed_video *video)
->>>            dev_err(dev, "Unable to request IRQ %d\n", irq);
->>>            return rc;
->>>        }
->>> +    dev_info(video->dev, "irq %d\n", irq);
->>>        video->eclk = devm_clk_get(dev, "eclk");
->>>        if (IS_ERR(video->eclk)) {
->>> @@ -1751,6 +1793,8 @@ static int aspeed_video_init(struct 
->>> aspeed_video *video)
->>>            rc = -ENOMEM;
->>>            goto err_release_reserved_mem;
->>>        }
->>> +    dev_info(video->dev, "alloc mem size(%d) at %#x for jpeg header\n",
->>> +         VE_JPEG_HEADER_SIZE, video->jpeg.dma);
->>>        aspeed_video_init_jpeg_table(video->jpeg.virt, video->yuv420);
->>> @@ -1856,6 +1900,9 @@ static struct platform_driver 
->>> aspeed_video_driver = {
->>>    module_platform_driver(aspeed_video_driver);
->>> +module_param(debug, int, 0644);
->>> +MODULE_PARM_DESC(debug, "set debugging level 
->>> (0=reg,2=irq,4=trace,8=info(|-able)).");
->>> +
->>>    MODULE_DESCRIPTION("ASPEED Video Engine Driver");
->>>    MODULE_AUTHOR("Eddie James");
->>>    MODULE_LICENSE("GPL v2");
->>
->> Kind regards,
->>
->> Paul
