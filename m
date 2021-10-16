@@ -2,101 +2,163 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A29AA42FFC5
-	for <lists+linux-media@lfdr.de>; Sat, 16 Oct 2021 04:54:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 590E542FFE4
+	for <lists+linux-media@lfdr.de>; Sat, 16 Oct 2021 05:26:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236726AbhJPC4P (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 15 Oct 2021 22:56:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54624 "EHLO
+        id S243583AbhJPD2S (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 15 Oct 2021 23:28:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33398 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234792AbhJPC4O (ORCPT
+        with ESMTP id S239736AbhJPD2R (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 15 Oct 2021 22:56:14 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B0D2EC061570
-        for <linux-media@vger.kernel.org>; Fri, 15 Oct 2021 19:54:07 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 3113D268;
-        Sat, 16 Oct 2021 04:54:06 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1634352846;
-        bh=wD+S1EIdGkJlZfBLzkkESCFo9G+iAJmRgrVexEKZowE=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=kD1c7at8BQ+xfZxY9u9tL1fKuDJEjp8ac9UZ0TB0ehV4SkNt24RkDeJ03tmhVM4lr
-         HTKaoduOegSpLVH/0i2yg/E+r7m7zRUGfBA3ZO36QAO5wgZJu30jS4PqA6g4+Pal8Q
-         INEEm1nMDTH9+NBfbzQWyD/sCY1IO/cW+HYAymPc=
-Date:   Sat, 16 Oct 2021 05:53:50 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Bingbu Cao <bingbu.cao@linux.intel.com>
-Cc:     Tomasz Figa <tfiga@chromium.org>,
-        Bingbu Cao <bingbu.cao@intel.com>, linux-media@vger.kernel.org,
-        sakari.ailus@linux.intel.com, tian.shu.qiu@intel.com
-Subject: Re: [PATCH] media: ipu3-cio2: Update high watermark to support
- higher data rate camera sensors
-Message-ID: <YWo+vtVy5dR4tmQD@pendragon.ideasonboard.com>
-References: <1632370218-5508-1-git-send-email-bingbu.cao@intel.com>
- <CAAFQd5BdXTYZDAQcyLVurqdjuT6fHdGpzQQ0c1NJ5y=81v7hcg@mail.gmail.com>
- <0309ef19-8411-ae6c-3304-0e180420baa5@linux.intel.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <0309ef19-8411-ae6c-3304-0e180420baa5@linux.intel.com>
+        Fri, 15 Oct 2021 23:28:17 -0400
+Received: from lb2-smtp-cloud8.xs4all.net (lb2-smtp-cloud8.xs4all.net [IPv6:2001:888:0:108::2b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 490F4C061570
+        for <linux-media@vger.kernel.org>; Fri, 15 Oct 2021 20:26:10 -0700 (PDT)
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud8.xs4all.net with ESMTPA
+        id baKgmJSRPx7rIbaKlmYvWj; Sat, 16 Oct 2021 05:26:07 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
+        t=1634354767; bh=IoRikKl1/zOSXllM0gQLx++Do2KmpzJFtEiOwQnK2XI=;
+        h=Message-ID:Date:From:To:Subject:From:Subject;
+        b=csnt30S4zQ77eOKb17SVKFqsTvXautolQIcLkMMtzQTE/CqqsXUVn/gRVUDibNG5G
+         DW00TA8fW5OwttK6Zp6iYJV9eRu8m/ZvkEuELt5FNSurkB80YCHJmWxSyAJ45rtlvg
+         vu86vkFkX6OjeBWaJfyRqet68ef3vmqqt1V4UrDyBFNk37uOsXd+L8bsDxHDQTMEdQ
+         mc8odAzR7KKVlPUumyy/08VGyL1FK1jGOuWSwZLe+e2IBqM+JEj3oGBYglcqhfmMgK
+         yrxVqY9yzJvQtigEX4qQH91XoXB+3lrVI8VD3rb5rCdzwQlSiMwtG7PJ3JY3tOteju
+         YiKxUErhjOOug==
+Message-ID: <75edb9e30ae6f805c9279ff3da2e9072@smtp-cloud8.xs4all.net>
+Date:   Sat, 16 Oct 2021 05:26:02 +0200
+From:   "Hans Verkuil" <hverkuil@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: ERRORS
+X-CMAE-Envelope: MS4xfMZC2xtXQVIUXZG7Kuj3cwQkz21WZ6bYAhf8HdqwN3Ti376n7125N02gIpG479Ux2fGlKJ/h+4rIvk+d+nZL+wPwp6TDSo7eOrcxmL3kt3npthGgotUW
+ wqNVTKgZNPNQ1X0jof7vW8dSlwMkAEG7ESjuIEedrYcl09lS64wCtuPSx6EaY7GxhvDHo7h9fyP9yw==
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Bingbu,
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
 
-On Thu, Oct 14, 2021 at 02:49:19PM +0800, Bingbu Cao wrote:
-> On 10/6/21 1:03 PM, Tomasz Figa wrote:
-> > On Thu, Sep 23, 2021 at 1:11 PM Bingbu Cao wrote:
-> >>
-> >> CIO2 worked well with most camera sensors so far, but CIO2 will meet SRAM
-> >> overflow when working with higher data rate camera sensors such as 13M@30fps.
-> >> We must set lower high watermark value to trigger the DRAM write to support
-> >> such camera sensors.
-> >>
-> >> Signed-off-by: Bingbu Cao <bingbu.cao@intel.com>
-> >> ---
-> >>  drivers/media/pci/intel/ipu3/ipu3-cio2.h | 2 +-
-> >>  1 file changed, 1 insertion(+), 1 deletion(-)
-> >>
-> > 
-> > Thanks for the patch. Would this have any implications for other
-> > (lower) operating modes, such as increased power consumption, or it's
-> > harmless? If so, what's the reason we didn't use the value from the
-> > very beginning?
-> 
-> Yes, we meet that the frame data corruption for some high data rate camera sensors like
-> imx258 (13M@30fps) with current watermark settings. The higher watermark potentially has
-> power concern as it  request DMA transfer more than before.
-> 
-> To keep the old settings for low data rate camera sensor, I am thinking the rationality
-> to determine the HWM value based on the link_frequency? Apparently, it is not reliable
-> to determine by the format.
+Results of the daily build of media_tree:
 
-It depends on the SRAM buffer size, on the image width, the horizontal
-blanking, and the link frequency. If you can store a full line of data,
-you'll have time during horizontal blanking to finish the DMA transfer,
-so you can trigger it later. I don't know how the hardware works exactly
-so I can't provide an exact formula (and I suppose you'll need to
-reserve some margin to account for other traffic to the DRAM).
+date:			Sat Oct 16 05:00:14 CEST 2021
+media-tree git hash:	fd2eda71a47b095e81b9170c3f8b7ae82b04e785
+media_build git hash:	e602a6acc36ed3f6a8ebeb27fae6f32712f1293f
+v4l-utils git hash:	68fd71f0c8ec4c37513bdc5af09262270aafd606
+edid-decode git hash:	985024f0ccb7eb0014397f2d562ecebfdd340c3b
+gcc version:		i686-linux-gcc (GCC) 11.2.0
+sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
+sparse version:		0.6.3
+smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
+smatch version:		0.6.3
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: 3e03ddc26ffb1808285327d1a7fb2038379d04a2
+host hardware:		x86_64
+host os:		5.14.0-2-amd64
 
-> >> diff --git a/drivers/media/pci/intel/ipu3/ipu3-cio2.h b/drivers/media/pci/intel/ipu3/ipu3-cio2.h
-> >> index 3806d7f04d69..fde80d48533b 100644
-> >> --- a/drivers/media/pci/intel/ipu3/ipu3-cio2.h
-> >> +++ b/drivers/media/pci/intel/ipu3/ipu3-cio2.h
-> >> @@ -181,7 +181,7 @@ struct pci_dev;
-> >>  #define CIO2_PBM_WMCTRL1_MID1_2CK      (16 << CIO2_PBM_WMCTRL1_MID1_2CK_SHIFT)
-> >>  #define CIO2_PBM_WMCTRL1_MID2_2CK      (21 << CIO2_PBM_WMCTRL1_MID2_2CK_SHIFT)
-> >>  #define CIO2_REG_PBM_WMCTRL2                           0x1468
-> >> -#define CIO2_PBM_WMCTRL2_HWM_2CK                       40U
-> >> +#define CIO2_PBM_WMCTRL2_HWM_2CK                       30U
-> >>  #define CIO2_PBM_WMCTRL2_HWM_2CK_SHIFT                 0U
-> >>  #define CIO2_PBM_WMCTRL2_LWM_2CK                       22U
-> >>  #define CIO2_PBM_WMCTRL2_LWM_2CK_SHIFT                 8U
+linux-git-sh: OK
+linux-git-arm-davinci: OK
+linux-git-arm-at91: OK
+linux-git-arm-stm32: OK
+linux-git-mips: OK
+linux-git-arm-pxa: OK
+linux-git-arm64: OK
+linux-git-powerpc64: OK
+linux-git-arm-multi: OK
+linux-git-i686: OK
+linux-git-x86_64: OK
+Check COMPILE_TEST: OK
+Check for strcpy/strncpy/strlcpy: OK
+linux-4.4.283-i686: OK
+linux-4.4.283-x86_64: OK
+linux-4.5.7-i686: WARNINGS
+linux-4.5.7-x86_64: WARNINGS
+linux-4.6.7-i686: WARNINGS
+linux-4.6.7-x86_64: WARNINGS
+linux-4.7.10-i686: WARNINGS
+linux-4.7.10-x86_64: WARNINGS
+linux-4.8.17-i686: WARNINGS
+linux-4.8.17-x86_64: WARNINGS
+linux-4.9.246-i686: OK
+linux-4.9.246-x86_64: OK
+linux-4.10.17-i686: WARNINGS
+linux-4.10.17-x86_64: WARNINGS
+linux-4.11.12-i686: WARNINGS
+linux-4.11.12-x86_64: WARNINGS
+linux-4.12.14-i686: WARNINGS
+linux-4.12.14-x86_64: WARNINGS
+linux-4.13.16-i686: WARNINGS
+linux-4.13.16-x86_64: WARNINGS
+linux-4.14.246-i686: OK
+linux-4.14.246-x86_64: OK
+linux-4.15.18-i686: WARNINGS
+linux-4.15.18-x86_64: WARNINGS
+linux-4.16.18-i686: WARNINGS
+linux-4.16.18-x86_64: WARNINGS
+linux-4.17.19-i686: WARNINGS
+linux-4.17.19-x86_64: WARNINGS
+linux-4.18.20-i686: WARNINGS
+linux-4.18.20-x86_64: WARNINGS
+linux-4.19.206-i686: OK
+linux-4.19.206-x86_64: OK
+linux-4.20.17-i686: WARNINGS
+linux-4.20.17-x86_64: WARNINGS
+linux-5.0.21-i686: OK
+linux-5.0.21-x86_64: OK
+linux-5.1.21-i686: OK
+linux-5.1.21-x86_64: OK
+linux-5.2.21-i686: OK
+linux-5.2.21-x86_64: OK
+linux-5.3.18-i686: OK
+linux-5.3.18-x86_64: OK
+linux-5.4.144-i686: OK
+linux-5.4.144-x86_64: OK
+linux-5.5.19-i686: OK
+linux-5.5.19-x86_64: OK
+linux-5.6.19-i686: OK
+linux-5.6.19-x86_64: OK
+linux-5.7.19-i686: OK
+linux-5.7.19-x86_64: OK
+linux-5.8.18-i686: OK
+linux-5.8.18-x86_64: OK
+linux-5.9.16-i686: OK
+linux-5.9.16-x86_64: OK
+linux-5.10.62-i686: OK
+linux-5.10.62-x86_64: OK
+linux-5.11.22-i686: OK
+linux-5.11.22-x86_64: OK
+linux-5.12.19-i686: OK
+linux-5.12.19-x86_64: OK
+linux-5.13.14-i686: OK
+linux-5.13.14-x86_64: OK
+linux-5.14.1-i686: OK
+linux-5.14.1-x86_64: OK
+linux-5.15-rc1-i686: OK
+linux-5.15-rc1-x86_64: OK
+apps: OK
+spec-git: OK
+virtme: ERRORS
+virtme-32: ERRORS
+sparse: WARNINGS
+smatch: ERRORS
+kerneldoc: WARNINGS
 
--- 
-Regards,
+Detailed results are available here:
 
-Laurent Pinchart
+http://www.xs4all.nl/~hverkuil/logs/Saturday.log
+
+Detailed regression test results are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Saturday-test-media.log
+http://www.xs4all.nl/~hverkuil/logs/Saturday-test-media-32.log
+http://www.xs4all.nl/~hverkuil/logs/Saturday-test-media-dmesg.log
+
+Full logs are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Saturday.tar.bz2
+
+The Media Infrastructure API from this daily build is here:
+
+http://www.xs4all.nl/~hverkuil/spec/index.html
