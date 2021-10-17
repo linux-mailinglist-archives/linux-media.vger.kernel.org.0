@@ -2,52 +2,52 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 29A5D430AAF
-	for <lists+linux-media@lfdr.de>; Sun, 17 Oct 2021 18:24:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 013A1430AB1
+	for <lists+linux-media@lfdr.de>; Sun, 17 Oct 2021 18:24:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1344225AbhJQQ1A (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 17 Oct 2021 12:27:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36168 "EHLO
+        id S1344236AbhJQQ1G (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 17 Oct 2021 12:27:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36196 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1344217AbhJQQ07 (ORCPT
+        with ESMTP id S1344217AbhJQQ1G (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 17 Oct 2021 12:26:59 -0400
-Received: from mail-pf1-x430.google.com (mail-pf1-x430.google.com [IPv6:2607:f8b0:4864:20::430])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 100ABC061765;
-        Sun, 17 Oct 2021 09:24:50 -0700 (PDT)
-Received: by mail-pf1-x430.google.com with SMTP id t184so11982158pfd.0;
-        Sun, 17 Oct 2021 09:24:50 -0700 (PDT)
+        Sun, 17 Oct 2021 12:27:06 -0400
+Received: from mail-pj1-x102d.google.com (mail-pj1-x102d.google.com [IPv6:2607:f8b0:4864:20::102d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 584CEC06161C;
+        Sun, 17 Oct 2021 09:24:56 -0700 (PDT)
+Received: by mail-pj1-x102d.google.com with SMTP id oa4so10617939pjb.2;
+        Sun, 17 Oct 2021 09:24:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=WYXPUtxyGX4EHVRwa9EkXKsHEn/bCUipsYC+p0LtmcY=;
-        b=JCrJDp5psmSMf+XSRDk67SLhUWL9nia+febO+AT1nzYk/txu63RidrN+3/8HNex1mb
-         oF3ZGp5sdKVvU8jwYYYVg9FHhWUKT63oO1fb0rsJQsIYH7za03gB9ijJGu2tbefzPWAu
-         OH5dwMFH5iX+bcXQOHEySRD5cVQqHFpjbPRRpY22xoz7tde9FtEXYJ8q0+SWqkmK5tv9
-         ZZLPPw2hZ9smSoZV+OIt7xKi9LnkOf6Xz+p4MMU9S73BdGBmeclbUeKae6R8nJv+KRZo
-         OxDlcrXGaP/Sl4qeDHuAIeomIYQq2YYA8nQFQCsCI+Y0KC0WJXC3sxcLEmMlfzv/t6fb
-         TBxA==
+        bh=jAGZLpI+mWq1MhIyGaZ8+MrIr8zz341QTD21w5g9v7I=;
+        b=k7lHEWNelHHScIxzx2DAsM06/oTYFECwlRLQ9YEvKG0dGVeoKLI+LbO1BYaIoMy0gd
+         AzGxKWPMFM/rXRXI7byNQq8jtjBnGb1ae6FHc/IME+PTAUIB5NvkptP9hFJMdepKRSkA
+         mX7abZELYwBk67jEpS5DsSQaayvlOp3cM78u4EHQRhuBgRMI2adV8lZWjUkCg59pmfFC
+         vVytPEP21TtmXwFhTnjqvDrtfGcRVsnFdswhIg9OVPNIZCxOy/aWEx8HbQQVs90i99o1
+         aTeLsikkFViHqJcJ6J1iXVx4z7d1R9n1zpaSTHHYm8IRjVWkQITYJ9W4iB3LDTeIJPT/
+         lIVg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=WYXPUtxyGX4EHVRwa9EkXKsHEn/bCUipsYC+p0LtmcY=;
-        b=ElG9d4xtNYUpUP2OQpcFtZwUd7nfLdVZaXJgGxUZ9u2oJWxUO/X30p9IS//vn0DhYg
-         Kn+/5LYfdC/pAdOUms8AsSfh0zD/qzCn7SqolTppuINLNuTlyAnOUJvT2U6KRv8sweO1
-         gJ63rcllFPSvecTA0L9W7JcWs4jo7E46xIlvrFLaUBH+12AWBgrBHSRJIAaRWrVd4CVS
-         u3sXLH/lMY8oiwJA/vpdqySTMJteeLGgRtPa9PwSSOL2a2RwzNqRFLCqVK6/QfYmJ0BV
-         32i/iZpf6nssUOO6ZzgSOd5pHIhSKZfwYw2BpdCqJSvdIVuXlLGLt/t9vsVRQa3Z0DWZ
-         z2gA==
-X-Gm-Message-State: AOAM533q1PxOoFpnURgnONJNzhcGCorO+OcGOzJHbbD1pVUOnV+Reyc3
-        hUsOJzh4Xhj2VTf/7rcijsE=
-X-Google-Smtp-Source: ABdhPJyZ7iGBn+JSqD2HpnwsJydmJy//Uj+8a093TdCdiYLGJAjobzWA4QNU9rVoPXaEL2/swCEchg==
-X-Received: by 2002:a63:d14:: with SMTP id c20mr19162085pgl.118.1634487889419;
-        Sun, 17 Oct 2021 09:24:49 -0700 (PDT)
+        bh=jAGZLpI+mWq1MhIyGaZ8+MrIr8zz341QTD21w5g9v7I=;
+        b=10XZB3JVG3Q8IJDURy/PyZ+3FIkCZTZ+SMF39IESKByG9wFloenD7pBuYU9+BH3W25
+         jGLyPPC4eS8gpLldx7+2NhqAE7mAHjK+Zrl/2bDaJfFC3Pmdd2LazkKynHDNdUsHLgPL
+         7wZUU74+vt/B3XKYwmJQWLrIt1aVTR8j0NGmw3c7lBh+sI2lgdr2bKI+hbresNjOEZkx
+         VxRLzApFYI+dyUWKfQK9Q/w8xdbxf/Q9sUTv45am/dQAPLR9F7HGGq95sXd//GMiePTN
+         5qBEU8mIF7DfjI00fcJFzre3UYnIx71kedDmIKGJn1J0Gb8/CXmCPVQDhFekbZMhBagX
+         FR0w==
+X-Gm-Message-State: AOAM531BTW4f16Hmae8k0IbVmnxt1z95e8pM0P1r0m5xxYuLCTs7FSBf
+        H53foexG5vKCNXOJZxhEOFE=
+X-Google-Smtp-Source: ABdhPJw3x0qwawUL0DC06W1UbWd0MFLYZXGmurbzqsfsx+52YkFIX68On7k/avBx+jbC9Ogq42tlbA==
+X-Received: by 2002:a17:902:c402:b0:13f:1c07:5a25 with SMTP id k2-20020a170902c40200b0013f1c075a25mr22034609plk.38.1634487895777;
+        Sun, 17 Oct 2021 09:24:55 -0700 (PDT)
 Received: from sbwpb-arch.flets-east.jp ([2400:4052:6980:3800:dba7:2b1f:3f26:a5ec])
-        by smtp.gmail.com with ESMTPSA id f30sm10814332pfq.142.2021.10.17.09.24.44
+        by smtp.gmail.com with ESMTPSA id f30sm10814332pfq.142.2021.10.17.09.24.52
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 17 Oct 2021 09:24:49 -0700 (PDT)
+        Sun, 17 Oct 2021 09:24:55 -0700 (PDT)
 From:   Tsuchiya Yuto <kitakar@gmail.com>
 Cc:     Hans de Goede <hdegoede@redhat.com>,
         Patrik Gfeller <patrik.gfeller@gmail.com>,
@@ -55,23 +55,16 @@ Cc:     Hans de Goede <hdegoede@redhat.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         Sakari Ailus <sakari.ailus@linux.intel.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Kaixu Xia <kaixuxia@tencent.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Yang Li <abaci-bugfix@linux.alibaba.com>,
-        Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-        Alex Dewar <alex.dewar90@gmail.com>,
-        Aline Santana Cordeiro <alinesantanacordeiro@gmail.com>,
-        Arnd Bergmann <arnd@arndb.de>, Alan <alan@linux.intel.com>,
         Peter Zijlstra <peterz@infradead.org>,
-        Ingo Molnar <mingo@kernel.org>,
         Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Kaixu Xia <kaixuxia@tencent.com>,
+        Arnd Bergmann <arnd@arndb.de>,
         Dan Carpenter <dan.carpenter@oracle.com>,
         linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
         linux-kernel@vger.kernel.org
-Subject: [BUG/RFC PATCH 3/5] [BUG][RFC] media: atomisp: pci: add NULL check for asd obtained from atomisp_video_pipe
-Date:   Mon, 18 Oct 2021 01:23:34 +0900
-Message-Id: <20211017162337.44860-4-kitakar@gmail.com>
+Subject: [BUG 4/5] [BUG] media: atomisp: `modprobe -r` not working well (dup video4linux, ATOMISP_SUBDEV_{0,1})
+Date:   Mon, 18 Oct 2021 01:23:35 +0900
+Message-Id: <20211017162337.44860-5-kitakar@gmail.com>
 X-Mailer: git-send-email 2.33.1
 In-Reply-To: <20211017162337.44860-1-kitakar@gmail.com>
 References: <20211017162337.44860-1-kitakar@gmail.com>
@@ -82,501 +75,135 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This is almost a BUG report with RFC patch that just avoids kernel
-oopses. Thus, prefixed with [BUG][RFC].
+This is just a BUG report and I don't have any patch for this issue.
+For now, I use rmmod/insmod to reload atomisp modules.
 
-Here is the kernel log after running `v4l2-compliance -d /dev/video4`
-with this patch applied:
+When I use `modprobe -r` to unload atomisp drivers like the following,
 
-	kern  :err   : [25507.580392] atomisp-isp2 0000:00:03.0: can't change power state from D3cold to D0 (config space inaccessible)
-	kern  :warn  : [25507.592343] isys dma store at addr(0xcd408) val(0)
-	kern  :err   : [25507.592995] atomisp-isp2 0000:00:03.0: atomisp_queryctl(): asd is NULL, device is ATOMISP ISP ACC
-	kern  :err   : [25507.593685] atomisp-isp2 0000:00:03.0: atomisp_g_input(): asd is NULL, device is ATOMISP ISP ACC
-	kern  :err   : [25507.593719] atomisp-isp2 0000:00:03.0: atomisp_g_parm(): asd is NULL, device is ATOMISP ISP ACC
-	kern  :err   : [25507.593727] atomisp-isp2 0000:00:03.0: atomisp_queryctl(): asd is NULL, device is ATOMISP ISP ACC
-	[omitting 42 same messages]
-	kern  :err   : [25507.593976] atomisp-isp2 0000:00:03.0: atomisp_queryctl(): asd is NULL, device is ATOMISP ISP ACC
-	kern  :err   : [25507.594191] atomisp-isp2 0000:00:03.0: atomisp_g_input(): asd is NULL, device is ATOMISP ISP ACC
-	kern  :err   : [25507.594449] atomisp-isp2 0000:00:03.0: atomisp_queryctl(): asd is NULL, device is ATOMISP ISP ACC
-	[omitting 43 same messages]
-	kern  :err   : [25507.594756] atomisp-isp2 0000:00:03.0: atomisp_queryctl(): asd is NULL, device is ATOMISP ISP ACC
-	kern  :err   : [25507.594779] atomisp-isp2 0000:00:03.0: atomisp_g_ctrl(): asd is NULL, device is ATOMISP ISP ACC
-	kern  :err   : [25507.594787] atomisp-isp2 0000:00:03.0: atomisp_s_ctrl(): asd is NULL, device is ATOMISP ISP ACC
-	kern  :err   : [25507.594803] atomisp-isp2 0000:00:03.0: atomisp_camera_g_ext_ctrls(): asd is NULL, device is ATOMISP ISP ACC
-	kern  :err   : [25507.594880] atomisp-isp2 0000:00:03.0: atomisp_enum_fmt_cap(): asd is NULL, device is ATOMISP ISP ACC
-	kern  :err   : [25507.594915] atomisp-isp2 0000:00:03.0: atomisp_g_parm(): asd is NULL, device is ATOMISP ISP ACC
-	kern  :err   : [25507.595058] atomisp-isp2 0000:00:03.0: atomisp_try_fmt(): asd is NULL, device is ATOMISP ISP ACC
-	kern  :err   : [25507.595089] atomisp-isp2 0000:00:03.0: atomisp_set_fmt(): asd is NULL, device is ATOMISP ISP ACC
-	kern  :err   : [25507.595124] atomisp-isp2 0000:00:03.0: atomisp_set_fmt(): asd is NULL, device is ATOMISP ISP ACC
-	kern  :err   : [25507.595221] atomisp-isp2 0000:00:03.0: atomisp_set_fmt(): asd is NULL, device is ATOMISP ISP ACC
-	kern  :err   : [25507.595241] atomisp-isp2 0000:00:03.0: atomisp_set_fmt(): asd is NULL, device is ATOMISP ISP ACC
-	kern  :err   : [25507.601571] atomisp-isp2 0000:00:03.0: can't change power state from D3cold to D0 (config space inaccessible)
-	kern  :warn  : [25507.607496] isys dma store at addr(0xcd408) val(0)
-	kern  :err   : [25507.608604] atomisp-isp2 0000:00:03.0: atomisp_queryctl(): asd is NULL, device is ATOMISP ISP ACC
-	kern  :err   : [25507.611988] atomisp-isp2 0000:00:03.0: can't change power state from D3cold to D0 (config space inaccessible)
-	kern  :warn  : [25507.617420] isys dma store at addr(0xcd408) val(0)
-	kern  :err   : [25507.618429] atomisp-isp2 0000:00:03.0: atomisp_queryctl(): asd is NULL, device is ATOMISP ISP ACC
-	kern  :err   : [25507.618811] atomisp-isp2 0000:00:03.0: atomisp_g_parm(): asd is NULL, device is ATOMISP ISP ACC
-	kern  :err   : [25507.622193] atomisp-isp2 0000:00:03.0: can't change power state from D3cold to D0 (config space inaccessible)
-	kern  :warn  : [25507.627355] isys dma store at addr(0xcd408) val(0)
-	kern  :err   : [25507.628391] atomisp-isp2 0000:00:03.0: atomisp_queryctl(): asd is NULL, device is ATOMISP ISP ACC
-	kern  :err   : [25507.631143] atomisp-isp2 0000:00:03.0: can't change power state from D3cold to D0 (config space inaccessible)
-	kern  :warn  : [25507.635813] isys dma store at addr(0xcd408) val(0)
-	kern  :err   : [25507.636489] atomisp-isp2 0000:00:03.0: atomisp_queryctl(): asd is NULL, device is ATOMISP ISP ACC
-	kern  :err   : [25507.636504] atomisp-isp2 0000:00:03.0: atomisp_s_input(): asd is NULL, device is ATOMISP ISP ACC
-	kern  :err   : [25507.636516] atomisp-isp2 0000:00:03.0: atomisp_set_fmt(): asd is NULL, device is ATOMISP ISP ACC
-	kern  :err   : [25507.639111] atomisp-isp2 0000:00:03.0: can't change power state from D3cold to D0 (config space inaccessible)
-	kern  :warn  : [25507.646152] isys dma store at addr(0xcd408) val(0)
-	kern  :err   : [25507.646831] atomisp-isp2 0000:00:03.0: atomisp_queryctl(): asd is NULL, device is ATOMISP ISP ACC
-	kern  :err   : [25507.646847] atomisp-isp2 0000:00:03.0: atomisp_s_input(): asd is NULL, device is ATOMISP ISP ACC
-	kern  :err   : [25507.650079] atomisp-isp2 0000:00:03.0: can't change power state from D3cold to D0 (config space inaccessible)
-	kern  :warn  : [25507.657476] isys dma store at addr(0xcd408) val(0)
-	kern  :err   : [25507.658741] atomisp-isp2 0000:00:03.0: atomisp_queryctl(): asd is NULL, device is ATOMISP ISP ACC
-	kern  :err   : [25507.658759] atomisp-isp2 0000:00:03.0: atomisp_s_input(): asd is NULL, device is ATOMISP ISP ACC
-	kern  :err   : [25507.658771] atomisp-isp2 0000:00:03.0: atomisp_set_fmt(): asd is NULL, device is ATOMISP ISP ACC
-	kern  :err   : [25507.660959] atomisp-isp2 0000:00:03.0: can't change power state from D3cold to D0 (config space inaccessible)
-	kern  :warn  : [25507.666665] isys dma store at addr(0xcd408) val(0)
-	kern  :err   : [25507.667397] atomisp-isp2 0000:00:03.0: atomisp_queryctl(): asd is NULL, device is ATOMISP ISP ACC
+        $ sudo modprobe -r atomisp
+        $ sudo modprobe -r atomisp-ar0330
+        $ sudo modprobe -r atomisp-ov883x
 
-RFC:
-  We should rather look into why the asd is NULL when the opened device
-  is ACC node (video4/video10), instead of just avoiding NULL ptr derefs?
+it will fail to initialize on next load (with both modprobe and insmod).
 
->8-----------------------------------------------------------------8<
+Steps to reproduce:
 
-Currently, NULL pointer dereference can occur on running some userspace
-apps such as v4l2-compliance, gst-plugin-scanner, guvcview, cheese, etc.
+  1. boot without denylisting any atomisp modules (or load modules using
+     modprobe manually)
+  2. unload drivers with `modprobe -r`
+  3. try to load drivers (modprobe or insmod)
+  4. probe fails saying "duplicate filename [...] video4linux"
+     (log available below)
 
-Some debugging revealed that variable asd obtained from atomisp_video_pipe
-(e.g., atomisp_to_video_pipe(vdev)->asd) causes this issue.
+Note:
 
-More precisely, this issue occurs when (and only when) apps try to do
-its work for "ACC node"s, which are /dev/video4 and /dev/video10:
+  1. `modprobe -r` works when booting with denylisting then insmod-ing
+  2. rmmod always works without errors
 
-	$ grep . /sys/class/video4linux/video*/name
-	/sys/class/video4linux/video0/name:ATOMISP ISP CAPTURE output
-	/sys/class/video4linux/video10/name:ATOMISP ISP ACC
-	/sys/class/video4linux/video1/name:ATOMISP ISP VIEWFINDER output
-	/sys/class/video4linux/video2/name:ATOMISP ISP PREVIEW output
-	/sys/class/video4linux/video3/name:ATOMISP ISP VIDEO output
-	/sys/class/video4linux/video4/name:ATOMISP ISP ACC
-	/sys/class/video4linux/video5/name:ATOMISP ISP MEMORY input
-	/sys/class/video4linux/video6/name:ATOMISP ISP CAPTURE output
-	/sys/class/video4linux/video7/name:ATOMISP ISP VIEWFINDER output
-	/sys/class/video4linux/video8/name:ATOMISP ISP PREVIEW output
-	/sys/class/video4linux/video9/name:ATOMISP ISP VIDEO output
+Here is the dmesg log:
 
-For example, here are the commands to reproduce this issue with
-v4l2-compliance for device video4 or video10 (ACC node):
+        kern  :warn  : [  150.326240] sysfs: cannot create duplicate filename '/devices/pci0000:00/0000:00:03.0/video4linux'
+        kern  :warn  : [  150.326246] CPU: 1 PID: 2739 Comm: modprobe Tainted: G         C OE     5.15.0-rc3-1-surface-mainline #1 22942c127770b6216143942411a0f5916a743a60
+        kern  :warn  : [  150.326257] Hardware name: OEMB OEMB/OEMB, BIOS 1.51116.238 03/09/2015
+        kern  :warn  : [  150.326262] Call Trace:
+        kern  :warn  : [  150.326276]  dump_stack_lvl+0x46/0x5a
+        kern  :warn  : [  150.326292]  sysfs_warn_dup.cold+0x17/0x24
+        kern  :warn  : [  150.326304]  sysfs_create_dir_ns+0xcc/0xe0
+        kern  :warn  : [  150.326318]  kobject_add_internal+0xbd/0x2b0
+        kern  :warn  : [  150.326330]  kobject_add+0x98/0xd0
+        kern  :warn  : [  150.326338]  ? kmem_cache_alloc_trace+0x15c/0x2f0
+        kern  :warn  : [  150.326352]  get_device_parent+0x15e/0x1c0
+        kern  :warn  : [  150.326365]  device_add+0xd9/0x9a0
+        kern  :warn  : [  150.326375]  __video_register_device+0x8ee/0x11f0 [videodev 2ea57a870000384ef8d27d4d70e6e51a68e3f718]
+        kern  :warn  : [  150.326420]  atomisp_subdev_register_entities+0x83/0x220 [atomisp 752573cebc128314ca99d40a85c7801ade7015b0]
+        kern  :warn  : [  150.326528]  atomisp_pci_probe.cold+0xec3/0x1492 [atomisp 752573cebc128314ca99d40a85c7801ade7015b0]
+        kern  :warn  : [  150.326625]  local_pci_probe+0x45/0x80
+        kern  :warn  : [  150.326634]  ? pci_match_device+0xd7/0x130
+        kern  :warn  : [  150.326640]  pci_device_probe+0xfa/0x1b0
+        kern  :warn  : [  150.326650]  really_probe+0x1f5/0x3f0
+        kern  :warn  : [  150.326661]  __driver_probe_device+0xfe/0x180
+        kern  :warn  : [  150.326667]  driver_probe_device+0x1e/0x90
+        kern  :warn  : [  150.326674]  __driver_attach+0xc0/0x1c0
+        kern  :warn  : [  150.326680]  ? __device_attach_driver+0xe0/0xe0
+        kern  :warn  : [  150.326685]  ? __device_attach_driver+0xe0/0xe0
+        kern  :warn  : [  150.326691]  bus_for_each_dev+0x89/0xd0
+        kern  :warn  : [  150.326698]  bus_add_driver+0x12b/0x1e0
+        kern  :warn  : [  150.326704]  driver_register+0x8f/0xe0
+        kern  :warn  : [  150.326712]  ? 0xffffffffc09e6000
+        kern  :warn  : [  150.326717]  do_one_initcall+0x57/0x220
+        kern  :warn  : [  150.326733]  do_init_module+0x5c/0x260
+        kern  :warn  : [  150.326745]  load_module+0x24bd/0x26a0
+        kern  :warn  : [  150.326760]  ? __do_sys_finit_module+0xae/0x110
+        kern  :warn  : [  150.326766]  __do_sys_finit_module+0xae/0x110
+        kern  :warn  : [  150.326777]  do_syscall_64+0x5c/0x80
+        kern  :warn  : [  150.326789]  ? __audit_syscall_exit+0x24d/0x2a0
+        kern  :warn  : [  150.326796]  ? syscall_exit_to_user_mode+0x23/0x40
+        kern  :warn  : [  150.326804]  ? do_syscall_64+0x69/0x80
+        kern  :warn  : [  150.326810]  ? do_syscall_64+0x69/0x80
+        kern  :warn  : [  150.326816]  entry_SYSCALL_64_after_hwframe+0x44/0xae
+        kern  :warn  : [  150.326824] RIP: 0033:0x7f33b9de918d
+        kern  :warn  : [  150.326832] Code: b4 0c 00 0f 05 eb a9 66 0f 1f 44 00 00 f3 0f 1e fa 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 8b 0d b3 6c 0c 00 f7 d8 64 89 01 48
+        kern  :warn  : [  150.326836] RSP: 002b:00007fffce4b44a8 EFLAGS: 00000246 ORIG_RAX: 0000000000000139
+        kern  :warn  : [  150.326846] RAX: ffffffffffffffda RBX: 00005643ae549e10 RCX: 00007f33b9de918d
+        kern  :warn  : [  150.326851] RDX: 0000000000000000 RSI: 00005643acc65270 RDI: 0000000000000005
+        kern  :warn  : [  150.326854] RBP: 0000000000040000 R08: 0000000000000000 R09: 00005643ae549f20
+        kern  :warn  : [  150.326858] R10: 0000000000000005 R11: 0000000000000246 R12: 00005643acc65270
+        kern  :warn  : [  150.326861] R13: 0000000000000000 R14: 00005643ae549cc0 R15: 00005643ae549e10
+        kern  :err   : [  150.326871] kobject_add_internal failed for video4linux with -EEXIST, don't try to register things with the same name in the same directory.
+        kern  :err   : [  150.326878] videodev: __video_register_device: device_register failed
+        kern  :err   : [  150.326903] atomisp-isp2 0000:00:03.0: atomisp_subdev_register_entities fail
+        kern  :err   : [  150.326918] atomisp-isp2 0000:00:03.0: atomisp_register_entities failed (-17)
+        kern  :warn  : [  150.328150] atomisp-isp2: probe of 0000:00:03.0 failed with error -17
 
-        v4l2-compliance -d /dev/video4
-        # or
-        v4l2-compliance -d /dev/video10
+Later, I found that after unloading atomisp module (by both
+rmmod and `modprobe -r`), ATOMISP_SUBDEV_0 and ATOMISP_SUBDEV_1 were left
+under /sys/class/video4linux directory:
 
-You may also reproduce this issue when you just log in to a GNOME desktop.
-On my setup, someone calls gst-plugin-scanner app when logging in to the
-desktop and it causes this issue.
+        # list v4l device names
+        $ grep . /sys/class/video4linux/*/name
+        /sys/class/video4linux/v4l-subdev7/name:ATOMISP_SUBDEV_0
+        /sys/class/video4linux/v4l-subdev8/name:ATOMISP_SUBDEV_1
 
-The other examples are, just open camera apps such as guvcview, cheese,
-etc.
+These files will be added every time I reload atomisp module using
+rmmod/insmod:
 
-So, add NULL checks for asd obtained from `atomisp_to_video_pipe(vdev)->asd`
-to avoid kernel NULL pointer dereference.
+        /sys/class/video4linux/v4l-subdev7/name:ATOMISP_SUBDEV_0
+        /sys/class/video4linux/v4l-subdev8/name:ATOMISP_SUBDEV_1
+        /sys/class/video4linux/v4l-subdev9/name:ATOMISP_SUBDEV_0
+        /sys/class/video4linux/v4l-subdev10/name:ATOMISP_SUBDEV_1
 
-In some parts, `pipe->isp` is used instead of `pipe->asd->isp` to avoid
-using the asd which is potentially NULL.
+Note 1:
+  Somehow I can't reproduce this issue on Android kernel (using
+  Mi Pad 2) and my port of intel-aero atomisp [1].
 
-Signed-off-by: Tsuchiya Yuto <kitakar@gmail.com>
----
- .../staging/media/atomisp/pci/atomisp_cmd.c   | 73 +++++++++++++++
- .../staging/media/atomisp/pci/atomisp_fops.c  |  6 ++
- .../staging/media/atomisp/pci/atomisp_ioctl.c | 90 +++++++++++++++++++
- 3 files changed, 169 insertions(+)
+[1] https://github.com/kitakar5525/linux-kernel/tree/mainline+aero_atomisp_wo_kapi_changes-2021-10-11
 
-diff --git a/drivers/staging/media/atomisp/pci/atomisp_cmd.c b/drivers/staging/media/atomisp/pci/atomisp_cmd.c
-index 366161cff560..7206d29ba263 100644
---- a/drivers/staging/media/atomisp/pci/atomisp_cmd.c
-+++ b/drivers/staging/media/atomisp/pci/atomisp_cmd.c
-@@ -1715,6 +1715,12 @@ void atomisp_wdt_refresh_pipe(struct atomisp_video_pipe *pipe,
- {
- 	unsigned long next;
- 
-+	if(!pipe->asd) {
-+		dev_err(pipe->isp->dev, "%s(): asd is NULL, device is %s\n",
-+			__func__, pipe->vdev.name);
-+		return;
-+	}
-+
- 	if (delay != ATOMISP_WDT_KEEP_CURRENT_DELAY)
- 		pipe->wdt_duration = delay;
- 
-@@ -1777,6 +1783,12 @@ void atomisp_wdt_refresh(struct atomisp_sub_device *asd, unsigned int delay)
- /* ISP2401 */
- void atomisp_wdt_stop_pipe(struct atomisp_video_pipe *pipe, bool sync)
- {
-+	if(!pipe->asd) {
-+		dev_err(pipe->isp->dev, "%s(): asd is NULL, device is %s\n",
-+			__func__, pipe->vdev.name);
-+		return;
-+	}
-+
- 	if (!atomisp_is_wdt_running(pipe))
- 		return;
- 
-@@ -4109,6 +4121,12 @@ void atomisp_handle_parameter_and_buffer(struct atomisp_video_pipe *pipe)
- 	unsigned long irqflags;
- 	bool need_to_enqueue_buffer = false;
- 
-+	if(!asd) {
-+		dev_err(pipe->isp->dev, "%s(): asd is NULL, device is %s\n",
-+			__func__, pipe->vdev.name);
-+		return;
-+	}
-+
- 	if (atomisp_is_vf_pipe(pipe))
- 		return;
- 
-@@ -4196,6 +4214,12 @@ int atomisp_set_parameters(struct video_device *vdev,
- 	struct atomisp_css_params *css_param = &asd->params.css_param;
- 	int ret;
- 
-+	if(!asd) {
-+		dev_err(pipe->isp->dev, "%s(): asd is NULL, device is %s\n",
-+			__func__, vdev->name);
-+		return -EINVAL;
-+	}
-+
- 	if (!asd->stream_env[ATOMISP_INPUT_STREAM_GENERAL].stream) {
- 		dev_err(asd->isp->dev, "%s: internal error!\n", __func__);
- 		return -EINVAL;
-@@ -4857,6 +4881,12 @@ int atomisp_try_fmt(struct video_device *vdev, struct v4l2_pix_format *f,
- 	int source_pad = atomisp_subdev_source_pad(vdev);
- 	int ret;
- 
-+	if(!asd) {
-+		dev_err(isp->dev, "%s(): asd is NULL, device is %s\n",
-+			__func__, vdev->name);
-+		return -EINVAL;
-+	}
-+
- 	if (!isp->inputs[asd->input_curr].camera)
- 		return -EINVAL;
- 
-@@ -5198,6 +5228,12 @@ static int atomisp_set_fmt_to_isp(struct video_device *vdev,
- 	const struct atomisp_in_fmt_conv *fc;
- 	int ret, i;
- 
-+	if(!asd) {
-+		dev_err(isp->dev, "%s(): asd is NULL, device is %s\n",
-+			__func__, vdev->name);
-+		return -EINVAL;
-+	}
-+
- 	v4l2_fh_init(&fh.vfh, vdev);
- 
- 	isp_sink_crop = atomisp_subdev_get_rect(
-@@ -5494,6 +5530,7 @@ static int atomisp_set_fmt_to_snr(struct video_device *vdev,
- 				  unsigned int dvs_env_w, unsigned int dvs_env_h)
- {
- 	struct atomisp_sub_device *asd = atomisp_to_video_pipe(vdev)->asd;
-+	struct atomisp_video_pipe *pipe = atomisp_to_video_pipe(vdev);
- 	const struct atomisp_format_bridge *format;
- 	struct v4l2_subdev_pad_config pad_cfg;
- 	struct v4l2_subdev_state pad_state = {
-@@ -5512,6 +5549,12 @@ static int atomisp_set_fmt_to_snr(struct video_device *vdev,
- 	struct v4l2_subdev_fh fh;
- 	int ret;
- 
-+	if(!asd) {
-+		dev_err(pipe->isp->dev, "%s(): asd is NULL, device is %s\n",
-+			__func__, vdev->name);
-+		return -EINVAL;
-+	}
-+
- 	v4l2_fh_init(&fh.vfh, vdev);
- 
- 	stream_index = atomisp_source_pad_to_stream_id(asd, source_pad);
-@@ -5602,6 +5645,12 @@ int atomisp_set_fmt(struct video_device *vdev, struct v4l2_format *f)
- 	struct v4l2_subdev_fh fh;
- 	int ret;
- 
-+	if(!asd) {
-+		dev_err(isp->dev, "%s(): asd is NULL, device is %s\n",
-+			__func__, vdev->name);
-+		return -EINVAL;
-+	}
-+
- 	if (source_pad >= ATOMISP_SUBDEV_PADS_NUM)
- 		return -EINVAL;
- 
-@@ -6034,6 +6083,12 @@ int atomisp_set_fmt_file(struct video_device *vdev, struct v4l2_format *f)
- 	struct v4l2_subdev_fh fh;
- 	int ret;
- 
-+	if(!asd) {
-+		dev_err(isp->dev, "%s(): asd is NULL, device is %s\n",
-+			__func__, vdev->name);
-+		return -EINVAL;
-+	}
-+
- 	v4l2_fh_init(&fh.vfh, vdev);
- 
- 	dev_dbg(isp->dev, "setting fmt %ux%u 0x%x for file inject\n",
-@@ -6359,6 +6414,12 @@ bool atomisp_is_vf_pipe(struct atomisp_video_pipe *pipe)
- {
- 	struct atomisp_sub_device *asd = pipe->asd;
- 
-+	if(!asd) {
-+		dev_err(pipe->isp->dev, "%s(): asd is NULL, device is %s\n",
-+			__func__, pipe->vdev.name);
-+		return false;
-+	}
-+
- 	if (pipe == &asd->video_out_vf)
- 		return true;
- 
-@@ -6572,6 +6633,12 @@ static int atomisp_get_pipe_id(struct atomisp_video_pipe *pipe)
- {
- 	struct atomisp_sub_device *asd = pipe->asd;
- 
-+	if(!asd) {
-+		dev_err(pipe->isp->dev, "%s(): asd is NULL, device is %s\n",
-+			__func__, pipe->vdev.name);
-+		return -EINVAL;
-+	}
-+
- 	if (ATOMISP_USE_YUVPP(asd)) {
- 		return IA_CSS_PIPE_ID_YUVPP;
- 	} else if (asd->vfpp->val == ATOMISP_VFPP_DISABLE_SCALER) {
-@@ -6609,6 +6676,12 @@ int atomisp_get_invalid_frame_num(struct video_device *vdev,
- 	struct ia_css_pipe_info p_info;
- 	int ret;
- 
-+	if(!asd) {
-+		dev_err(pipe->isp->dev, "%s(): asd is NULL, device is %s\n",
-+			__func__, vdev->name);
-+		return -EINVAL;
-+	}
-+
- 	if (asd->isp->inputs[asd->input_curr].camera_caps->
- 	    sensor[asd->sensor_curr].stream_num > 1) {
- 		/* External ISP */
-diff --git a/drivers/staging/media/atomisp/pci/atomisp_fops.c b/drivers/staging/media/atomisp/pci/atomisp_fops.c
-index 62535e0f4429..e5cc93b39299 100644
---- a/drivers/staging/media/atomisp/pci/atomisp_fops.c
-+++ b/drivers/staging/media/atomisp/pci/atomisp_fops.c
-@@ -1183,6 +1183,12 @@ static int atomisp_mmap(struct file *file, struct vm_area_struct *vma)
- 	u32 origin_size, new_size;
- 	int ret;
- 
-+	if(!asd) {
-+		dev_err(isp->dev, "%s(): asd is NULL, device is %s\n",
-+			__func__, vdev->name);
-+		return -EINVAL;
-+	}
-+
- 	if (!(vma->vm_flags & (VM_WRITE | VM_READ)))
- 		return -EACCES;
- 
-diff --git a/drivers/staging/media/atomisp/pci/atomisp_ioctl.c b/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
-index 6fc64f0ccc31..01c6eda2c3cc 100644
---- a/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
-+++ b/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
-@@ -646,6 +646,12 @@ static int atomisp_g_input(struct file *file, void *fh, unsigned int *input)
- 	struct atomisp_device *isp = video_get_drvdata(vdev);
- 	struct atomisp_sub_device *asd = atomisp_to_video_pipe(vdev)->asd;
- 
-+	if(!asd) {
-+		dev_err(isp->dev, "%s(): asd is NULL, device is %s\n",
-+			__func__, vdev->name);
-+		return -EINVAL;
-+	}
-+
- 	rt_mutex_lock(&isp->mutex);
- 	*input = asd->input_curr;
- 	rt_mutex_unlock(&isp->mutex);
-@@ -665,6 +671,12 @@ static int atomisp_s_input(struct file *file, void *fh, unsigned int input)
- 	struct v4l2_subdev *motor;
- 	int ret;
- 
-+	if(!asd) {
-+		dev_err(isp->dev, "%s(): asd is NULL, device is %s\n",
-+			__func__, vdev->name);
-+		return -EINVAL;
-+	}
-+
- 	rt_mutex_lock(&isp->mutex);
- 	if (input >= ATOM_ISP_MAX_INPUTS || input >= isp->input_cnt) {
- 		dev_dbg(isp->dev, "input_cnt: %d\n", isp->input_cnt);
-@@ -765,6 +777,12 @@ static int atomisp_enum_fmt_cap(struct file *file, void *fh,
- 	unsigned int i, fi = 0;
- 	int rval;
- 
-+	if(!asd) {
-+		dev_err(isp->dev, "%s(): asd is NULL, device is %s\n",
-+			__func__, vdev->name);
-+		return -EINVAL;
-+	}
-+
- 	rt_mutex_lock(&isp->mutex);
- 	rval = v4l2_subdev_call(isp->inputs[asd->input_curr].camera, pad,
- 				enum_mbus_code, NULL, &code);
-@@ -1027,6 +1045,12 @@ int __atomisp_reqbufs(struct file *file, void *fh,
- 	u16 stream_id = atomisp_source_pad_to_stream_id(asd, source_pad);
- 	int ret = 0, i = 0;
- 
-+	if(!asd) {
-+		dev_err(pipe->isp->dev, "%s(): asd is NULL, device is %s\n",
-+			__func__, vdev->name);
-+		return -EINVAL;
-+	}
-+
- 	if (req->count == 0) {
- 		mutex_lock(&pipe->capq.vb_lock);
- 		if (!list_empty(&pipe->capq.stream))
-@@ -1154,6 +1178,12 @@ static int atomisp_qbuf(struct file *file, void *fh, struct v4l2_buffer *buf)
- 	u32 pgnr;
- 	int ret = 0;
- 
-+	if(!asd) {
-+		dev_err(isp->dev, "%s(): asd is NULL, device is %s\n",
-+			__func__, vdev->name);
-+		return -EINVAL;
-+	}
-+
- 	rt_mutex_lock(&isp->mutex);
- 	if (isp->isp_fatal_error) {
- 		ret = -EIO;
-@@ -1389,6 +1419,12 @@ static int atomisp_dqbuf(struct file *file, void *fh, struct v4l2_buffer *buf)
- 	struct atomisp_device *isp = video_get_drvdata(vdev);
- 	int ret = 0;
- 
-+	if(!asd) {
-+		dev_err(isp->dev, "%s(): asd is NULL, device is %s\n",
-+			__func__, vdev->name);
-+		return -EINVAL;
-+	}
-+
- 	rt_mutex_lock(&isp->mutex);
- 
- 	if (isp->isp_fatal_error) {
-@@ -1640,6 +1676,12 @@ static int atomisp_streamon(struct file *file, void *fh,
- 	int ret = 0;
- 	unsigned long irqflags;
- 
-+	if(!asd) {
-+		dev_err(isp->dev, "%s(): asd is NULL, device is %s\n",
-+			__func__, vdev->name);
-+		return -EINVAL;
-+	}
-+
- 	dev_dbg(isp->dev, "Start stream on pad %d for asd%d\n",
- 		atomisp_subdev_source_pad(vdev), asd->index);
- 
-@@ -1901,6 +1943,12 @@ int __atomisp_streamoff(struct file *file, void *fh, enum v4l2_buf_type type)
- 	unsigned long flags;
- 	bool first_streamoff = false;
- 
-+	if(!asd) {
-+		dev_err(isp->dev, "%s(): asd is NULL, device is %s\n",
-+			__func__, vdev->name);
-+		return -EINVAL;
-+	}
-+
- 	dev_dbg(isp->dev, "Stop stream on pad %d for asd%d\n",
- 		atomisp_subdev_source_pad(vdev), asd->index);
- 
-@@ -2150,6 +2198,12 @@ static int atomisp_g_ctrl(struct file *file, void *fh,
- 	struct atomisp_device *isp = video_get_drvdata(vdev);
- 	int i, ret = -EINVAL;
- 
-+	if(!asd) {
-+		dev_err(isp->dev, "%s(): asd is NULL, device is %s\n",
-+			__func__, vdev->name);
-+		return -EINVAL;
-+	}
-+
- 	for (i = 0; i < ctrls_num; i++) {
- 		if (ci_v4l2_controls[i].id == control->id) {
- 			ret = 0;
-@@ -2229,6 +2283,12 @@ static int atomisp_s_ctrl(struct file *file, void *fh,
- 	struct atomisp_device *isp = video_get_drvdata(vdev);
- 	int i, ret = -EINVAL;
- 
-+	if(!asd) {
-+		dev_err(isp->dev, "%s(): asd is NULL, device is %s\n",
-+			__func__, vdev->name);
-+		return -EINVAL;
-+	}
-+
- 	for (i = 0; i < ctrls_num; i++) {
- 		if (ci_v4l2_controls[i].id == control->id) {
- 			ret = 0;
-@@ -2310,6 +2370,12 @@ static int atomisp_queryctl(struct file *file, void *fh,
- 	struct atomisp_sub_device *asd = atomisp_to_video_pipe(vdev)->asd;
- 	struct atomisp_device *isp = video_get_drvdata(vdev);
- 
-+	if(!asd) {
-+		dev_err(isp->dev, "%s(): asd is NULL, device is %s\n",
-+			__func__, vdev->name);
-+		return -EINVAL;
-+	}
-+
- 	switch (qc->id) {
- 	case V4L2_CID_FOCUS_ABSOLUTE:
- 	case V4L2_CID_FOCUS_RELATIVE:
-@@ -2355,6 +2421,12 @@ static int atomisp_camera_g_ext_ctrls(struct file *file, void *fh,
- 	int i;
- 	int ret = 0;
- 
-+	if(!asd) {
-+		dev_err(isp->dev, "%s(): asd is NULL, device is %s\n",
-+			__func__, vdev->name);
-+		return -EINVAL;
-+	}
-+
- 	if (!IS_ISP2401)
- 		motor = isp->inputs[asd->input_curr].motor;
- 	else
-@@ -2466,6 +2538,12 @@ static int atomisp_camera_s_ext_ctrls(struct file *file, void *fh,
- 	int i;
- 	int ret = 0;
- 
-+	if(!asd) {
-+		dev_err(isp->dev, "%s(): asd is NULL, device is %s\n",
-+			__func__, vdev->name);
-+		return -EINVAL;
-+	}
-+
- 	if (!IS_ISP2401)
- 		motor = isp->inputs[asd->input_curr].motor;
- 	else
-@@ -2591,6 +2669,12 @@ static int atomisp_g_parm(struct file *file, void *fh,
- 	struct atomisp_sub_device *asd = atomisp_to_video_pipe(vdev)->asd;
- 	struct atomisp_device *isp = video_get_drvdata(vdev);
- 
-+	if(!asd) {
-+		dev_err(isp->dev, "%s(): asd is NULL, device is %s\n",
-+			__func__, vdev->name);
-+		return -EINVAL;
-+	}
-+
- 	if (parm->type != V4L2_BUF_TYPE_VIDEO_CAPTURE) {
- 		dev_err(isp->dev, "unsupported v4l2 buf type\n");
- 		return -EINVAL;
-@@ -2613,6 +2697,12 @@ static int atomisp_s_parm(struct file *file, void *fh,
- 	int rval;
- 	int fps;
- 
-+	if(!asd) {
-+		dev_err(isp->dev, "%s(): asd is NULL, device is %s\n",
-+			__func__, vdev->name);
-+		return -EINVAL;
-+	}
-+
- 	if (parm->type != V4L2_BUF_TYPE_VIDEO_CAPTURE) {
- 		dev_err(isp->dev, "unsupported v4l2 buf type\n");
- 		return -EINVAL;
+Note 2:
+  Here is the complete reload script (using rmmod/insmod) I use on
+  Surface 3:
+
+	# reload atomisp camera modules
+	# somehow `modprobe -r` does not work well
+	sudo rmmod atomisp
+	sudo rmmod atomisp-ar0330
+	sudo rmmod atomisp-ov883x
+	sudo rmmod atomisp_gmin_platform
+
+	# load drivers needed for atomisp first for insmod
+	# for sensor drivers
+	sudo modprobe media # needed for older LTS
+	sudo modprobe videodev
+	sudo modprobe v4l2_common # needed for older LTS
+	sudo modprobe v4l2_async # if using async_register
+	# for atomisp pci driver
+	sudo modprobe videobuf-core
+	sudo modprobe videobuf-vmalloc
+
+	# insmod upstreamed atomisp
+	sudo insmod upst/atomisp_gmin_platform.ko
+	sudo insmod upst/surface3/atomisp-ar0330.ko
+	sudo insmod upst/surface3/atomisp-ov883x.ko
+	sudo insmod upst/atomisp.ko dbg_level=1 #dyndbg
 -- 
 2.33.1
 
