@@ -2,52 +2,52 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C9737430A88
-	for <lists+linux-media@lfdr.de>; Sun, 17 Oct 2021 18:20:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C1544430A8A
+	for <lists+linux-media@lfdr.de>; Sun, 17 Oct 2021 18:21:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1343994AbhJQQW7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 17 Oct 2021 12:22:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35118 "EHLO
+        id S1344060AbhJQQXJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 17 Oct 2021 12:23:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35148 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1344044AbhJQQW4 (ORCPT
+        with ESMTP id S1344081AbhJQQXD (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 17 Oct 2021 12:22:56 -0400
-Received: from mail-pl1-x62c.google.com (mail-pl1-x62c.google.com [IPv6:2607:f8b0:4864:20::62c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 35A56C06161C;
-        Sun, 17 Oct 2021 09:20:47 -0700 (PDT)
-Received: by mail-pl1-x62c.google.com with SMTP id n11so9620833plf.4;
-        Sun, 17 Oct 2021 09:20:47 -0700 (PDT)
+        Sun, 17 Oct 2021 12:23:03 -0400
+Received: from mail-pg1-x52d.google.com (mail-pg1-x52d.google.com [IPv6:2607:f8b0:4864:20::52d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6E1A5C061768;
+        Sun, 17 Oct 2021 09:20:53 -0700 (PDT)
+Received: by mail-pg1-x52d.google.com with SMTP id f5so13511501pgc.12;
+        Sun, 17 Oct 2021 09:20:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=U00ruTBIXRJgbnte4h6umYs04Hf2Jn1ltdCVoHTbMog=;
-        b=j8t9n4DTolVN2UjTZru9R8vl6ztjRFfSczDy0L8gN4I/QfGrR+79kKppwfOlQJVQBL
-         I3nNBBw/I0/Ra82gWazQQKcrZUT9qqiQFNnOUmmfM/+EE8IzkOwzT1td3LjeoqqR/6sy
-         ks+yDJ90WY4+To7A24+Zp8eRfqTb0AxxGnHvsMCRIVrNYpTWCfF6PUqa2z0NnWvB3UQi
-         IzNPS3sMFr2SugSQZm/a6fhW7OpNBKncmhhesi67hj8EGIshmf1DbNUSuzKFx0eOyikA
-         XdqLwRAQUnyloYh92bHj40c1P1TWq6cA5IITw1K05PWZfzoiJvA4bIyiNF6DLM4WyGPV
-         dNuQ==
+        bh=RZvAniSv0/MLHUecBSIvKMrmoz6usDwoGMxlWRtqF5A=;
+        b=hifpVpT0bgGGW6BmmZDDJUbjAa6LEZGGiqzjSmU+G/KA2d0SLyzT7kx/421gnTRQTm
+         laSuGz8ATwzmRUoaJohyIfHwq2rTtebsydHTV+kUCUVrs+SBX+dJaSiVkf+eW5sYCJsb
+         VuwmUVXDymYfLjhNw+wCaZQPxLm5K6/Net8bWY8xAHPdiuzUdYftfIfuK3Ya6jobCLII
+         Kgv7vucadi9Jpt2l9IMd0XcVxhTnOPcuyV/SI7pQzQJ5JF2BHRPhJsqfQJHeLFivhb23
+         BSqASHYfBUO1k58cc8eqjkjQRrqzqDdud9EtXIAHBzCAfL7cBeIYhkjHjQnIBkKDLE7H
+         x/nQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=U00ruTBIXRJgbnte4h6umYs04Hf2Jn1ltdCVoHTbMog=;
-        b=wGL3QvRS6CAaxpmI/EomqqUa0xETSdwqNpMMiMDwEhqbnKQFDdK1Ri3ct4D7E07mrL
-         hBpZd6uvvbUBKwj7b3Xrib4F600W3jcNDVR6vkrOa4gIz3rQS23xUbeWbVKcAJLILMKO
-         zdyXleV5e12fnTGsap+CT/OJHKrWVkqqoAIs/B7aSTvE6XlmaYdDgLZDSGErvVtlGSPR
-         HQEqKzXphm/m01Ar/M6oE51se0vc0sRA2r5ib504RKuGiuHd804VcKEh1MH1hVcpUGMJ
-         Xi/ArycYzWZyEKm2eQ9cDUXDXnuuqA+uHfqk6Qo3+B7LBc7qBFLGFzgMwKaP4qajGzuX
-         76NQ==
-X-Gm-Message-State: AOAM531qX28P6/DTaiZLKRhC4IzAY3CHJD3js2OM8Ndvp5ehdrHB1M4+
-        Gjw0luWdkT5C33vxU/beZxU=
-X-Google-Smtp-Source: ABdhPJw9hheYwIYL5WJPaGEsn6dIeE1Ivg3cE1fIj8Pf+5a/ylyGzvit1kHMgVyAXgbYp+d90G+m6g==
-X-Received: by 2002:a17:902:c942:b0:13f:d1c:819a with SMTP id i2-20020a170902c94200b0013f0d1c819amr22616523pla.64.1634487646654;
-        Sun, 17 Oct 2021 09:20:46 -0700 (PDT)
+        bh=RZvAniSv0/MLHUecBSIvKMrmoz6usDwoGMxlWRtqF5A=;
+        b=VXfwbxDA2kwdHkO1kpoP71FAkomlUkqN/B72nE2s4K/+ZU9BLORxFrnhxHczuq+wo7
+         TSZzM/8rsjOvc4Emlv0He5X8zuXcLOK2nhUt43nDWEWAjSxyDJVk7IjikJe/FuqlQX5X
+         EorjBv6LrWTYQgZa9PsnS2Z7WgXMzmzqVGZBzl8xfGAWfH04XTZTo7D7Z2cEJgdkjAry
+         ihCGHDiVWYHxM/kzhxepbWO1VRSEDfi5lsaiXkyPWL8M5C4x9BOB5eAUooCua/+OCvWJ
+         XgCXJbOCFjVs/NmOPIdCqST6VEiwLhBeScumM+r07VYKta5B9npF3S6xMtTwNj3p1Vxk
+         syaw==
+X-Gm-Message-State: AOAM533lTQnRt7YVqvwjR/ZOcbX+oFO5msG90Cy2/EAu8k9mRHewxFvl
+        XQ9/0e7dIENMeUH+g/WmNPk=
+X-Google-Smtp-Source: ABdhPJzMotrPhQBXOH0NGjUXfGd5uHbE0KjOORaEY60ADI2/NYp8asnwfqP4CEsJOW0neaU22vqg2Q==
+X-Received: by 2002:a63:f410:: with SMTP id g16mr18634164pgi.201.1634487652994;
+        Sun, 17 Oct 2021 09:20:52 -0700 (PDT)
 Received: from sbwpb-arch.flets-east.jp ([2400:4052:6980:3800:dba7:2b1f:3f26:a5ec])
-        by smtp.gmail.com with ESMTPSA id mu11sm5155444pjb.20.2021.10.17.09.20.43
+        by smtp.gmail.com with ESMTPSA id mu11sm5155444pjb.20.2021.10.17.09.20.49
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 17 Oct 2021 09:20:46 -0700 (PDT)
+        Sun, 17 Oct 2021 09:20:52 -0700 (PDT)
 From:   Tsuchiya Yuto <kitakar@gmail.com>
 Cc:     Hans de Goede <hdegoede@redhat.com>,
         Patrik Gfeller <patrik.gfeller@gmail.com>,
@@ -59,11 +59,13 @@ Cc:     Hans de Goede <hdegoede@redhat.com>,
         Aline Santana Cordeiro <alinesantanacordeiro@gmail.com>,
         Yang Yingliang <yangyingliang@huawei.com>,
         Dinghao Liu <dinghao.liu@zju.edu.cn>,
-        Alan <alan@linux.intel.com>, linux-media@vger.kernel.org,
-        linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: [PATCH 02/17] media: atomisp: pci: fix punit_ddr_dvfs_enable() argument for mrfld_power up case
-Date:   Mon, 18 Oct 2021 01:19:42 +0900
-Message-Id: <20211017161958.44351-3-kitakar@gmail.com>
+        Alan <alan@linux.intel.com>, Deepak R Varma <drv@mailo.com>,
+        Alex Dewar <alex.dewar90@gmail.com>,
+        linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH 03/17] media: atomisp: pci: fix inverted logic in buffers_needed()
+Date:   Mon, 18 Oct 2021 01:19:43 +0900
+Message-Id: <20211017161958.44351-4-kitakar@gmail.com>
 X-Mailer: git-send-email 2.33.1
 In-Reply-To: <20211017161958.44351-1-kitakar@gmail.com>
 References: <20211017161958.44351-1-kitakar@gmail.com>
@@ -74,80 +76,41 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-When comparing with intel-aero atomisp [1], it looks like
-punit_ddr_dvfs_enable() should take `false` as an argument on mrfld_power
-up case.
+When config.mode is IA_CSS_INPUT_MODE_BUFFERED_SENSOR, it rather needs
+buffers. Fix it by inverting the return value.
 
-Code from the intel-aero kernel [1]:
-
-        int atomisp_mrfld_power_down(struct atomisp_device *isp)
-        {
-        [...]
-        	/*WA:Enable DVFS*/
-        	if (IS_CHT)
-        		punit_ddr_dvfs_enable(true);
-
-        int atomisp_mrfld_power_up(struct atomisp_device *isp)
-        {
-        [...]
-        	/*WA for PUNIT, if DVFS enabled, ISP timeout observed*/
-        	if (IS_CHT)
-        		punit_ddr_dvfs_enable(false);
-
-This patch fixes the inverted argument as per the intel-aero code, as
-well as its comment. While here, fix space issues for comments in
-atomisp_mrfld_power().
-
-Note that it does not seem to be possible to unify the up/down cases for
-punit_ddr_dvfs_enable(), i.e., we can't do something like the following:
-
-        if (IS_CHT)
-        	punit_ddr_dvfs_enable(!enable);
-
-because according to the intel-aero code [1], the DVFS is disabled
-before "writing 0x0 to ISPSSPM0 bit[1:0]" and the DVFS is enabled after
-"writing 0x3 to ISPSSPM0 bit[1:0]".
-
-[1] https://github.com/intel-aero/linux-kernel/blob/a1b673258feb915268377275130c5c5df0eafc82/drivers/media/pci/atomisp/atomisp_driver/atomisp_v4l2.c#L431-L514
-
-Fixes: 0f441fd70b1e ("media: atomisp: simplify the power down/up code")
+Fixes: 3c0538fbad9f ("media: atomisp: get rid of most checks for ISP2401 version")
 Signed-off-by: Tsuchiya Yuto <kitakar@gmail.com>
 ---
- drivers/staging/media/atomisp/pci/atomisp_v4l2.c | 8 ++++----
+ drivers/staging/media/atomisp/pci/sh_css_mipi.c | 8 ++++----
  1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/staging/media/atomisp/pci/atomisp_v4l2.c b/drivers/staging/media/atomisp/pci/atomisp_v4l2.c
-index 0511c454e769..f5362554638e 100644
---- a/drivers/staging/media/atomisp/pci/atomisp_v4l2.c
-+++ b/drivers/staging/media/atomisp/pci/atomisp_v4l2.c
-@@ -711,15 +711,15 @@ static int atomisp_mrfld_power(struct atomisp_device *isp, bool enable)
+diff --git a/drivers/staging/media/atomisp/pci/sh_css_mipi.c b/drivers/staging/media/atomisp/pci/sh_css_mipi.c
+index 75489f7d75ee..483d40a467c7 100644
+--- a/drivers/staging/media/atomisp/pci/sh_css_mipi.c
++++ b/drivers/staging/media/atomisp/pci/sh_css_mipi.c
+@@ -374,17 +374,17 @@ static bool buffers_needed(struct ia_css_pipe *pipe)
+ {
+ 	if (!IS_ISP2401) {
+ 		if (pipe->stream->config.mode == IA_CSS_INPUT_MODE_BUFFERED_SENSOR)
+-			return false;
+-		else
+ 			return true;
++		else
++			return false;
+ 	}
  
- 	dev_dbg(isp->dev, "IUNIT power-%s.\n", enable ? "on" : "off");
+ 	if (pipe->stream->config.mode == IA_CSS_INPUT_MODE_BUFFERED_SENSOR ||
+ 	    pipe->stream->config.mode == IA_CSS_INPUT_MODE_TPG ||
+ 	    pipe->stream->config.mode == IA_CSS_INPUT_MODE_PRBS)
+-		return false;
++		return true;
  
--	/*WA:Enable DVFS*/
-+	/* WA for PUNIT, if DVFS enabled, ISP timeout observed */
- 	if (IS_CHT && enable)
--		punit_ddr_dvfs_enable(true);
-+		punit_ddr_dvfs_enable(false);
+-	return true;
++	return false;
+ }
  
- 	/*
- 	 * FIXME:WA for ECS28A, with this sleep, CTS
- 	 * android.hardware.camera2.cts.CameraDeviceTest#testCameraDeviceAbort
- 	 * PASS, no impact on other platforms
--	*/
-+	 */
- 	if (IS_BYT && enable)
- 		msleep(10);
- 
-@@ -727,7 +727,7 @@ static int atomisp_mrfld_power(struct atomisp_device *isp, bool enable)
- 	iosf_mbi_modify(BT_MBI_UNIT_PMC, MBI_REG_READ, MRFLD_ISPSSPM0,
- 			val, MRFLD_ISPSSPM0_ISPSSC_MASK);
- 
--	/*WA:Enable DVFS*/
-+	/* WA:Enable DVFS */
- 	if (IS_CHT && !enable)
- 		punit_ddr_dvfs_enable(true);
- 
+ int
 -- 
 2.33.1
 
