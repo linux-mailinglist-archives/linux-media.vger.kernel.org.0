@@ -2,181 +2,204 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 962274305C1
-	for <lists+linux-media@lfdr.de>; Sun, 17 Oct 2021 02:54:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7AC62430838
+	for <lists+linux-media@lfdr.de>; Sun, 17 Oct 2021 13:07:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241322AbhJQA4r (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 16 Oct 2021 20:56:47 -0400
-Received: from mail.kernel.org ([198.145.29.99]:40154 "EHLO mail.kernel.org"
+        id S245393AbhJQLKG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 17 Oct 2021 07:10:06 -0400
+Received: from comms.puri.sm ([159.203.221.185]:52880 "EHLO comms.puri.sm"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S241313AbhJQA4p (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Sat, 16 Oct 2021 20:56:45 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id D456560FDA;
-        Sun, 17 Oct 2021 00:54:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1634432075;
-        bh=OEmB551Hy+I9B84wxjtS6fH5Iz7Na56wjkuE9tlgOGU=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=Zn1X4X7cLibXhQTb3hFsVMOA+Y3znbrReV6Pt0apdd4aOKoYdaHsR4r+LuFF7gRkd
-         cS2frlPx5p3UL1fVxMm4lQsMVbxlIeA42pYVn/VkbNy72Ld0Xc57hb/x39yKhzX48B
-         qzw7x2s9rZNM6XgAEcBu3KTdqco7P3F8APiCrtnQHIHBRrbtl5LUH6p0mB/JZmPLBJ
-         RA9s5Wr5FUNmGBZhdL42agZlKb+Lvc/70telBdUicep2BCkNw+sts/h751pgEe3hDk
-         e7qHSTQxH+toOWJ1uO4R+pblGVDlcGEFubc106ProwKzaEC4hOzjPMMYCsk2rnPWk9
-         oXzoKCFcsZ1eQ==
-Date:   Sun, 17 Oct 2021 01:54:31 +0100
-From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To:     Debucquoy Anthony <d.tonitch@gmail.com>
-Cc:     linux-media@vger.kernel.org
-Subject: Re: [Update] Grabster AV 350 no audio (now works with tvtime)
-Message-ID: <20211017015431.3ccee22b@sal.lan>
-In-Reply-To: <YWsNWs0JutJNHAeC@toninux>
-References: <YVXA2vZtsdzJD5Vs@toninux>
-        <20211001091909.16f24ed9@coco.lan>
-        <YWsNWs0JutJNHAeC@toninux>
-X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
+        id S235960AbhJQLKF (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Sun, 17 Oct 2021 07:10:05 -0400
+Received: from localhost (localhost [127.0.0.1])
+        by comms.puri.sm (Postfix) with ESMTP id AEB44DFA1F;
+        Sun, 17 Oct 2021 04:07:25 -0700 (PDT)
+Received: from comms.puri.sm ([127.0.0.1])
+        by localhost (comms.puri.sm [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id BdkqQhRX4NpW; Sun, 17 Oct 2021 04:07:24 -0700 (PDT)
+Date:   Sun, 17 Oct 2021 13:07:13 +0200
+From:   Dorota Czaplejewicz <dorota.czaplejewicz@puri.sm>
+To:     Philipp Zabel <p.zabel@pengutronix.de>
+Cc:     Steve Longerbeam <slongerbeam@gmail.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        kernel@puri.sm, phone-devel@vger.kernel.org
+Subject: Re: [PATCH] media: imx: Round line size to 4 bytes
+Message-ID: <20211017130713.4668c616.dorota.czaplejewicz@puri.sm>
+In-Reply-To: <1d8878e86b862ae8d551b6796e86c4fb1eb5d671.camel@pengutronix.de>
+References: <20211006110207.256325-1-dorota.czaplejewicz@puri.sm>
+        <7d61fdbd161fce40874766bde5f95c3b73f1a96d.camel@pengutronix.de>
+        <20211013112636.6963344d.dorota.czaplejewicz@puri.sm>
+        <1d8878e86b862ae8d551b6796e86c4fb1eb5d671.camel@pengutronix.de>
+Organization: Purism
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; boundary="Sig_/3Pfy1EoRadhkVVrPdaPSq/H";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Em Sat, 16 Oct 2021 19:35:22 +0200
-Debucquoy Anthony <d.tonitch@gmail.com> escreveu:
+--Sig_/3Pfy1EoRadhkVVrPdaPSq/H
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-Don't top post. It makes really hard for people to follow the discussions.
+Hello,
 
-This time, I'll re-order the discussion for it to make sense.
+On Thu, 14 Oct 2021 13:26:26 +0200
+Philipp Zabel <p.zabel@pengutronix.de> wrote:
 
-> On Fri, Oct 01, 2021 at 09:19:09AM +0200, Mauro Carvalho Chehab wrote:
-> > Hi Anthony,
-> > 
-> > Em Thu, 30 Sep 2021 15:51:22 +0200
-> > Debucquoy Anthony <d.tonitch@gmail.com> escreveu:
-> >   
-> > > Hello,
-> > > 
-> > > I have currently have a (Grabster AV 350)
-> > > [https://www.terratec.de/details.php?artnr=10599&lang=en]
-> > > (and 300 that work even less but I will do another thread for it I think) 
-> > > 
-> > > I can easily get video output out of it with /dev/video0 but the problem
-> > > is that I can't get audio by any way  
-> > 
-> > ...
-> >   
-> > > [ 7275.368159 ] em28xx 1-8:1.0: Identified as Terratec AV350 (card=68)
-> > > [ 7275.368163 ] em28xx 1-8:1.0: analog set to isoc mode.
-> > > [ 7275.368192 ] em28xx 1-8:1.0: Registering V4L2 extension
-> > > [ 7275.497387 ] tvp5150 9-005c: tvp5150 (4.0) chip found @ 0xb8 (1-8:1.0)
-> > > [ 7275.497396 ] tvp5150 9-005c: tvp5150am1 detected.
-> > > [ 7278.429769 ] em28xx 1-8:1.0: Config register raw data: 0x50
-> > > [ 7278.470775 ] em28xx 1-8:1.0: AC97 vendor ID = 0x83847666
-> > > [ 7278.490776 ] em28xx 1-8:1.0: AC97 features = 0x6a90
-> > > [ 7278.490782 ] em28xx 1-8:1.0: Sigmatel audio processor detected (stac
-> > > 9766)  
-> > 
-> > The em28xx devices use an external chip for audio, using AC97.
-> > 
-> > As AC97 is an industry standard, it is possible for board vendors
-> > to replace it with different chips. They do that with time, selecting
-> > a different chip when they need/want.
-> > 
-> > The boards entry at the em28xx has configurations for the device that
-> > was used at the time the code was introduced, but this may not be
-> > the case anymore for a newer device.
-> > 
-> > Anyway, the AC97 chips have several different entries. From its
-> > datasheet:
-> > 
-> > 	https://www.digchip.com/datasheets/parts/datasheet/649/STAC9766-pdf.php
-> > 
-> > It sees that it has the following input lines:
-> > 
-> > 	pc beep
-> > 	phone
-> > 	aux
-> > 	video
-> > 	cd
-> > 	mic
-> > 	line in
-> > 
-> > They also have a "Master" volume that the driver sets to be in 100%
-> > (but some apps and pulseaudio might reduce it to 0%, causing the device
-> > to be muted).
-> > 
-> > Anyway, the AC97 Kernel support will expose all lines reported by the
-> > hardware via an ALSA mixer. 
-> > 
-> > The AV 350 entry assumes that the "line in" mixer entry is the one 
-> > containing the audio. So, it will place the volume for such line
-> > in 100%.
-> > 
-> > However, maybe, on your device, some other input was used instead.
-> > 
-> > If this is the case, all you need to do is to open a mixer, unmute
-> > the right line and manually increase the volume.
-> > 
-> > -
-> > 
-> > There's a separate issue that might explain why some people
-> > are using a different card: some boards require a command to
-> > enable some pins (called GPIO). Those are used, among other
-> > things, to enable/disable some external chips. In the case of
-> > the original AV 350 that was used to add support for it,
-> > it used some of those GPIOs to enable the AC97 inputs.
-> > If your AV 350 requires a different setting, that will require
-> > to patch the Kernel, but it is more likely that the problem on
-> > your device is just due to a different AC97 volume.
+> Hi Dorota,
+>=20
+> On Wed, 2021-10-13 at 11:26 +0200, Dorota Czaplejewicz wrote:
+> > On Fri, 08 Oct 2021 14:19:41 +0200 Philipp Zabel <p.zabel@pengutronix.d=
+e> wrote: =20
+> [...]
+> > > I wonder: if you use 4-byte aligned width and odd height, does the CSI
+> > > write over the end of the buffer? =20
+> >=20
+> > I tested this case, and found a glitch which suggests the last 4 bytes =
+are ignored:
+> >=20
+> > https://source.puri.sm/Librem5/linux-next/uploads/cfb59e3832431aaa3a695=
+49455502568/image.png =20
+>=20
+> Thank you for testing, so it appears that at least without FBUF_STRIDE
+> the only requirement is that the whole image size must be a multiple of
+> 8 bytes.
+>=20
+> > That would be taken care of rounding up towards a number decided at run=
+time, like:
+> >=20
+> > divisor =3D 8 >> (mbus->height % 2); =20
+>=20
+> Which would then cause the CSI to write past the end of the buffer?
+>=20
+I'm not sure if you point out the mistake here (should be "4 <<"), or the f=
+act that rounding is happening. If it's the latter, then it's of no concern=
+: the values derived here are used to calculate buffer size.
 
-> Hey, I'm really sorry about Up this thread but I found some things that
-> can help but I'm not experimented enough to understand how to make it
-> work properly!
-> 
-> By looking on the net with the info you gave me in the previous message,
-> some people have request to try to use tvtime or xawtv !
-> 
-> So did I! and with tvtime, it was the first time I eared some song out
-> of my device!
+I'm submitting a new series where this is fixed.
 
-Ok. It means that there's nothing wrong with the Kernel driver.
+> I'd rather make sure that either the number of lines is even or the
+> width is a multiple of 8 bytes.
+>=20
+> > > > Signed-off-by: Dorota Czaplejewicz <dorota.czaplejewicz@puri.sm>
+> > > > ---
+> > > >=20
+> > > > Hello,
+> > > >=20
+> > > > my previous patch identified something that was not a problem,
+> > > > so I'm sending a different one.
+> > > >=20
+> > > > This has been tested on the Librem 5.
+> > > >=20
+> > > > Cheers,
+> > > > Dorota
+> > > >=20
+> > > >  drivers/staging/media/imx/imx-media-utils.c | 4 ++--
+> > > >  1 file changed, 2 insertions(+), 2 deletions(-)
+> > > >=20
+> > > > diff --git a/drivers/staging/media/imx/imx-media-utils.c b/drivers/=
+staging/media/imx/imx-media-utils.c
+> > > > index 5128915a5d6f..a303003929e3 100644
+> > > > --- a/drivers/staging/media/imx/imx-media-utils.c
+> > > > +++ b/drivers/staging/media/imx/imx-media-utils.c
+> > > > @@ -545,13 +545,13 @@ int imx_media_mbus_fmt_to_pix_fmt(struct v4l2=
+_pix_format *pix,
+> > > >  	}
+> > > > =20
+> > > >  	/* Round up width for minimum burst size */
+> > > > -	width =3D round_up(mbus->width, 8);
+> > > > +	width =3D round_up(mbus->width, 4);
+> > > > =20
+> > > >  	/* Round up stride for IDMAC line start address alignment */
+> > > >  	if (cc->planar)
+> > > >  		stride =3D round_up(width, 16);
+> > > >  	else
+> > > > -		stride =3D round_up((width * cc->bpp) >> 3, 8);
+> > > > +		stride =3D round_up((width * cc->bpp) >> 3, 4);   =20
+> > >=20
+> > > Second, even if this works fine on the i.MX7/8M CSI, the alignment is
+> > > still required for the i.MX5/6 IPU, for which this code and the comme=
+nts
+> > > were written. So we need a way to differentiate the two cases here.
+> > >=20
+> > > regards
+> > > Philipp =20
+> >=20
+> > How best to go about this? I can see in the file imx-media-capture.c
+> > that there the video device lives in struct capture_priv.vdev.vfd.
+> > Would that be the right place to query about the underlying hardware?
+> >=20
+> > Then the following functions would gain a new "small_divisor" parameter:
+> > - imx_media_mbus_fmt_to_pix_fmt (a GPL symbol)
+> > - imx_media_mbus_fmt_to_ipu_image (a GPL symbol)
+> > - __capture_try_fmt =20
+>=20
+> That sounds like it would work around the current code when it (at least
+> part of imx_media_mbus_fmt_to_pix_fmt()) should be split between i.MX5/6
+> and i.MX7/8 implementations. For example rounding up the stride is not
+> useful on i.MX7/8, it just doesn't currently hurt because imx7-media-csi=
+=20
+> is not using bytesperline to set up FBUF_STRIDE. And certainly the
+> comments don't apply.
+>=20
+> imx_media_mbus_fmt_to_ipu_image() is unused and should probably be
+> dropped, same as imx_media_ipu_image_to_mbus_fmt().
 
-What xawtv and tvtime does is that it starts a thread that does
-something similar to:
+Done in next series.
+>=20
+> > Those would have to extract the device type from struct capture_priv:
+> > - __capture_legacy_try_fmt
+> > - capture_try_fmt_vid_cap
+> > - capture_s_fmt_vid_cap
+> > - capture_init_format =20
+>=20
+> Maybe imx_media_mbus_fmt_to_pix_fmt should be moved into imx-media-
+> capture.c be passed struct capture_priv to avoid duplicating the device
+> type check?
+>=20
+I opted not to, in favor of passing the actual device type. It comes out to=
+ the same thing, except a simple value is passed around instead of a device.
 
-	$ arecord -D hw:1 -r 48000 -c 2 -f S16_LE | aplay -D hw:0
+> imx_media_capture_device_init() could gain a new parameter (or maybe
+> replace legacy_api) to set the device type.
 
-E. g. the thread reads audio from the capture card (in the above
-example, hw:1) and sends its output to another device (hw:0, on
-the above example).
+Thanks, this is what I was missing.
 
-> this is great news but I can't use it to record as I want!
+Regards,
+Dorota
+>=20
+> regards
+> Philipp
 
-You need to pass the right alsa device to the video recorder application.
 
-E. g., using a command line command, it would be something like:
+--Sig_/3Pfy1EoRadhkVVrPdaPSq/H
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
 
-	$ mencoder -tv driver=v4l2:device=/dev/video0:norm=pal-b:width=720:height=576:input=0:alsa:adevice=hw.1":amode=1:forceaudio:fps=25 tv:// -o my_output.mpg -oac mp3lame -lameopts cbr:br=224 -ovc lavc -lavcopts dia=-2:vcodec=mpeg4:vbitrate=1500 -noodml
+-----BEGIN PGP SIGNATURE-----
 
-I didn't test, but maybe some app like obs-studio would equally work,
-provided that you set the audio input device to the one exported by
-the em28xx driver, and that you set the right byte speed (if I'm not mistaken,
-most em28xx devices use 48k, but this depends on the AC97 chipset).
+iQIzBAEBCAAdFiEExKRqtqfFqmh+lu1oADBpX4S8ZncFAmFsA+EACgkQADBpX4S8
+ZncnvQ/+NEAYfdFoRmGgvfSL+jRzj/+XIvhViKP2W+CzU2lE4Y+YdG/4DQsAq4hv
+K34krzBX8ZG8wdxP4kTCKRmqZfQ47sRDW594mpvcTG4fsovyLlhr8TnMW69AMzXB
+nvaM5DSZhpz6msI9paaROyX6IXK7LRfehDlOLyCZO/U3u1Z3ujvKXyw45waM1LN/
+6hCBqflMO+pGV4XhVHlRc+1DlXn5o2/7XTVvT2qtVCkiyBFy24WaDYjtCjCtI6o1
+rIOGxdl5X6GiYL1Z5+Or3QOIQQxtbTaUhLxAzXyX5r/gb08BZQmJLJJHIEUSJfMf
+tr5m6eiCZhQxqfG9IagFM6c43kv4cVuf8tf7UrEu3wrFAziaJKfNvfWSOE6NbrLv
+JrP5XVNAigQNXss8NmQzyxSeHIJWH33+6oODC1SZ2q+8I1PrH6CvK+eFZQ1KAwUI
+OLp+SCd7BeXrG2s1gqTmTFP8t7rgWZ0eZc86h3nt2mCdsIGFQdB3ZF0X7Y4AQM+N
+nbcG1SyBAEX0Hdqm+2W5OnUjchi/5QZ6KyScPDO6ABolUd0kDzC8Cd3m4MOoqtXf
+moat42ZqQBvtmPmaxeuxJeVjpoOnp5z9/wihbtAqMVC0du/wbb61zQaB2iP5reVL
+VAOgMIzp141f8DPRf2954PcecPzjq+E5qZsFkUNafzk00f6BkG4=
+=pJAi
+-----END PGP SIGNATURE-----
 
-> By the way, the sound came out of one of my headset that I don't use but
-> is still plug in my pc by usb! this is not the default on pulse neither
-> on alsa (at least to my knowledge)!
-
-I guess there are parameters on both xawtv/tvtime to setup the audio
-output device, but they offer limited support to control it.
-
-> Then I tried with xawtv and this is the opposite, it doesn't even bother
-> to launch (rip) ^^
-> 
-> So maybe anyone know what tvtime does differently that make my device
-> work ? 
-> 
-> Again, sorry for the up ? :'(
-> Hopefully you can undestand!
-> 
-> Thanks a lot for your help so far!
+--Sig_/3Pfy1EoRadhkVVrPdaPSq/H--
