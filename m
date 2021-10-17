@@ -2,52 +2,52 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BF1D3430A97
-	for <lists+linux-media@lfdr.de>; Sun, 17 Oct 2021 18:21:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9B2C3430A99
+	for <lists+linux-media@lfdr.de>; Sun, 17 Oct 2021 18:21:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241513AbhJQQXw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 17 Oct 2021 12:23:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35380 "EHLO
+        id S1344150AbhJQQYA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 17 Oct 2021 12:24:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35410 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237973AbhJQQXw (ORCPT
+        with ESMTP id S1344141AbhJQQX7 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 17 Oct 2021 12:23:52 -0400
-Received: from mail-pl1-x629.google.com (mail-pl1-x629.google.com [IPv6:2607:f8b0:4864:20::629])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 66512C06161C;
-        Sun, 17 Oct 2021 09:21:42 -0700 (PDT)
-Received: by mail-pl1-x629.google.com with SMTP id 21so9590717plo.13;
-        Sun, 17 Oct 2021 09:21:42 -0700 (PDT)
+        Sun, 17 Oct 2021 12:23:59 -0400
+Received: from mail-pf1-x433.google.com (mail-pf1-x433.google.com [IPv6:2607:f8b0:4864:20::433])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 63881C06161C;
+        Sun, 17 Oct 2021 09:21:49 -0700 (PDT)
+Received: by mail-pf1-x433.google.com with SMTP id m26so12844885pff.3;
+        Sun, 17 Oct 2021 09:21:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=Fbsa0URnWzuJi7XOxccO2sQBebKEz+NX/dFiG0zgGO4=;
-        b=B83xL/3VlstQPjKHZYywePGzZAFglGVAulnqpe8h9HcDp/OVfERjQ7AjrqD5ePJpUZ
-         w46mp5JpHU8Hk7nkb6n+5XMchFgMewXILl8WFu1TaFVYe4VBUyZK2hDELxznRIRyFckj
-         MMlLIZoVektaUwB/DYnAg2sW8y5iLhTX+qfkazCIciFGJM/vUCfUDJ4H/goLRnkasydR
-         GXoVxcB2DrEV0jn6hhxfrdfgnBT7/gSAjoJP3HcBvG/GiGvCtLTfLgK+pNnBcYWpvLWt
-         7rq1wqSp/EL1WTFXkocTV3jIg82P1L2yyioEtzPZ/yBCY4uoJCXZJ6l1mAKStZPsO3KN
-         JuIw==
+        bh=mBvO4nQ+BAFAe5zffkplq2kww5VGhkJonMlWH4MfSDg=;
+        b=BfD5M6f+Tsx2kmeO0W3YIQ4HRFAwh9ZeFJnN9JTKHYJE9xTioaUSHNW4q+FgNojk/8
+         yKx0LYs4vT6qKVIwUDKrh35rfUC1I//ODWaRpuJQav1l46r5FIiktvBwPUvXD06nKuGE
+         XVDTc9mKVUkkAUYXnTWdq1kizwiY7kwHMxwlbt0+ao6DxKZBz/FWOY3G/QHtIshwhIbV
+         5rpLAJB6wWQynqJPuoaCX0401iVhNc2ESpvH++oQZUC2R2BcSRolv+HmKuLLSsaBegRw
+         K1BazLLyK4GTUuXIC4Lz79oQzez+WHGbJNy+J/APf+TmLXkkoqKsjUzBloP/VXM7ovO5
+         7OAg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=Fbsa0URnWzuJi7XOxccO2sQBebKEz+NX/dFiG0zgGO4=;
-        b=lk+za+27WHpdWcM116nuNfTh0bV2xSYJqRuQuTGixbICaNpBEotBtWWWFogPH+RhDX
-         ZBVtZW5jn+ujEXKhYlkOT0wXNWosZHcNcjHusQey4A1IAu9HmMfD2WIJBJ4h8DeTObOH
-         ucvPfyZUwYhuYgEWImAWrJ8LIWdUJBoXzht3nF0nrbtN9GDQNUo0Oumc1HNuSgTDlqYA
-         cI037eayRRF1OgDKPRmTlSrGS6netVN/3QOSnsYSkTkuBBVk0nGpl9+CTUq37LT+B4rg
-         p0gcFudCbqv7GQQ8cGGfGDTlMTiLUMRlFB+uBSh1qrgqgantPXxApsxQc8SNCMuCyyF3
-         wCfg==
-X-Gm-Message-State: AOAM530UEVl+VvF8IxTHKdQ56QSq2ThScmGCA7oWYoKHAFdwoyN3uteT
-        3eqYxeTVObxtgmMCDgMrYBw=
-X-Google-Smtp-Source: ABdhPJyDxSgHdoKNLuVky5RuouHPbiwrV9Olz1FhJAGIAUC6OLT9o5GL3aHduvxkILuTx+9qQCVDCQ==
-X-Received: by 2002:a17:902:7001:b0:13d:d5b7:d06e with SMTP id y1-20020a170902700100b0013dd5b7d06emr22612233plk.61.1634487701795;
-        Sun, 17 Oct 2021 09:21:41 -0700 (PDT)
+        bh=mBvO4nQ+BAFAe5zffkplq2kww5VGhkJonMlWH4MfSDg=;
+        b=oDE44UZFIxgoHlo1lWJW5EZ4TfLhIZZKQ0zA7bCi2BBEjeqwc3j2upV0HOgtfdjcTD
+         dCW5XWW791maZZ1bQxdkfMrx9eP/2Flo4YnRtwLjof03svnsJvngdIZofE+ATb6GqWnY
+         EYFSBrDQzcz+iv4G5GvD0Hef8sL29dSFPu78Qi10cMMQZcE96ABL8teFDr2W0nsCIm6B
+         A7IbInce1qV3oIJMCbxGrPLYjmZqdA/d+C1SULDmw8YS86lkVURryRa5TM82JUXk97U+
+         8iNC8Bju56+/IeH8mNv6rYgL7Q0wAp6EmgCIcds4FmSSfayAdwWsfMPfWDgkWSJWJ0Dt
+         x9MQ==
+X-Gm-Message-State: AOAM531vlUh8AhuRRVLywzhwq7JgxN9jnOZVkkN2rEjbYdHObitXBwSD
+        JSHmUg+fwwg/rIE1FTSWeN8=
+X-Google-Smtp-Source: ABdhPJw8E2F2t4ZNkzjK6WFOqT25HaBX7xYgwP30IA34H8YKwVrHS4YxBBZru8LNsWJIdfXA8OiooA==
+X-Received: by 2002:a65:6187:: with SMTP id c7mr18771665pgv.317.1634487708860;
+        Sun, 17 Oct 2021 09:21:48 -0700 (PDT)
 Received: from sbwpb-arch.flets-east.jp ([2400:4052:6980:3800:dba7:2b1f:3f26:a5ec])
-        by smtp.gmail.com with ESMTPSA id mu11sm5155444pjb.20.2021.10.17.09.21.38
+        by smtp.gmail.com with ESMTPSA id mu11sm5155444pjb.20.2021.10.17.09.21.45
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 17 Oct 2021 09:21:41 -0700 (PDT)
+        Sun, 17 Oct 2021 09:21:48 -0700 (PDT)
 From:   Tsuchiya Yuto <kitakar@gmail.com>
 Cc:     Hans de Goede <hdegoede@redhat.com>,
         Patrik Gfeller <patrik.gfeller@gmail.com>,
@@ -55,16 +55,15 @@ Cc:     Hans de Goede <hdegoede@redhat.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         Sakari Ailus <sakari.ailus@linux.intel.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Yang Yingliang <yangyingliang@huawei.com>,
         Aline Santana Cordeiro <alinesantanacordeiro@gmail.com>,
+        Yang Yingliang <yangyingliang@huawei.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
         Dinghao Liu <dinghao.liu@zju.edu.cn>,
-        Alan <alan@linux.intel.com>, Deepak R Varma <drv@mailo.com>,
-        linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH 09/17] media: atomisp: pci: make fw ver irci_stable_candrpv_0415_20150521_0458 work - 2/5
-Date:   Mon, 18 Oct 2021 01:19:49 +0900
-Message-Id: <20211017161958.44351-10-kitakar@gmail.com>
+        Alan <alan@linux.intel.com>, linux-media@vger.kernel.org,
+        linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: [PATCH 10/17] media: atomisp: pci: make fw ver irci_stable_candrpv_0415_20150521_0458 work - 3/5
+Date:   Mon, 18 Oct 2021 01:19:50 +0900
+Message-Id: <20211017161958.44351-11-kitakar@gmail.com>
 X-Mailer: git-send-email 2.33.1
 In-Reply-To: <20211017161958.44351-1-kitakar@gmail.com>
 References: <20211017161958.44351-1-kitakar@gmail.com>
@@ -85,8 +84,8 @@ same as css version irci_stable_candrpv_0415_20150521_0458 to make atomisp
 work for firmware made for such css version since we don't have firmware
 made for the current css version.
 
-This patch removes `struct ia_css_isp_parameter sc` from
-`struct ia_css_config_memory_offsets` as well as its usage [1].
+This patch removes `struct ia_css_isp_parameter xnr3` from
+`struct ia_css_memory_offsets` as well as its usage [1].
 
 [1] added on updating css version to irci_master_20150701_0213
     https://raw.githubusercontent.com/intel/ProductionKernelQuilts/cht-m1stable-2016_ww31/uefi/cht-m1stable/patches/cam-0439-atomisp2-css2401-and-2401_legacy-irci_master_2015070.patch
@@ -94,207 +93,58 @@ This patch removes `struct ia_css_isp_parameter sc` from
 
 Signed-off-by: Tsuchiya Yuto <kitakar@gmail.com>
 ---
- .../media/atomisp/pci/ia_css_isp_configs.h    |  8 ---
- .../isp/kernels/sc/sc_1.0/ia_css_sc.host.c    | 68 -------------------
- .../isp/kernels/sc/sc_1.0/ia_css_sc.host.h    | 33 ---------
- .../isp/kernels/sc/sc_1.0/ia_css_sc_types.h   | 14 ----
- drivers/staging/media/atomisp/pci/sh_css_sp.c |  4 --
- 5 files changed, 127 deletions(-)
+ .../css_2401_system/hive/ia_css_isp_params.c  | 23 -------------------
+ .../media/atomisp/pci/ia_css_isp_params.h     |  3 ---
+ 2 files changed, 26 deletions(-)
 
-diff --git a/drivers/staging/media/atomisp/pci/ia_css_isp_configs.h b/drivers/staging/media/atomisp/pci/ia_css_isp_configs.h
-index 1abb2fd6a913..0364b932e79b 100644
---- a/drivers/staging/media/atomisp/pci/ia_css_isp_configs.h
-+++ b/drivers/staging/media/atomisp/pci/ia_css_isp_configs.h
-@@ -23,10 +23,6 @@
- #include "isp/kernels/raw/raw_1.0/ia_css_raw.host.h"
- #include "isp/kernels/ref/ref_1.0/ia_css_ref.host.h"
- #include "isp/kernels/s3a/s3a_1.0/ia_css_s3a.host.h"
--
--/* ISP2401 */
--#include "isp/kernels/sc/sc_1.0/ia_css_sc.host.h"
--
- #include "isp/kernels/tnr/tnr_1.0/ia_css_tnr.host.h"
- #include "isp/kernels/vf/vf_1.0/ia_css_vf.host.h"
- #include "isp/kernels/iterator/iterator_1.0/ia_css_iterator.host.h"
-@@ -73,10 +69,6 @@ struct ia_css_config_memory_offsets {
- 		struct ia_css_isp_parameter output0;
- 		struct ia_css_isp_parameter output1;
- 		struct ia_css_isp_parameter output;
--
--		/* ISP2401 */
--		struct ia_css_isp_parameter sc;
--
- 		struct ia_css_isp_parameter raw;
- 		struct ia_css_isp_parameter tnr;
- 		struct ia_css_isp_parameter ref;
-diff --git a/drivers/staging/media/atomisp/pci/isp/kernels/sc/sc_1.0/ia_css_sc.host.c b/drivers/staging/media/atomisp/pci/isp/kernels/sc/sc_1.0/ia_css_sc.host.c
-index f3fb4b9b3c82..6974b3424d91 100644
---- a/drivers/staging/media/atomisp/pci/isp/kernels/sc/sc_1.0/ia_css_sc.host.c
-+++ b/drivers/staging/media/atomisp/pci/isp/kernels/sc/sc_1.0/ia_css_sc.host.c
-@@ -23,35 +23,6 @@
- 
- #include "ia_css_sc.host.h"
- 
--/* Code generated by genparam/genconfig.c:gen_configure_function() */
--
--/* ISP2401 */
--static void
--ia_css_configure_sc(
--    const struct ia_css_binary *binary,
--    const struct ia_css_sc_configuration *config_dmem)
--{
--	ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE_PRIVATE,
--			    "ia_css_configure_sc() enter:\n");
--
+diff --git a/drivers/staging/media/atomisp/pci/css_2401_system/hive/ia_css_isp_params.c b/drivers/staging/media/atomisp/pci/css_2401_system/hive/ia_css_isp_params.c
+index d9c672d8904e..503ac65da69b 100644
+--- a/drivers/staging/media/atomisp/pci/css_2401_system/hive/ia_css_isp_params.c
++++ b/drivers/staging/media/atomisp/pci/css_2401_system/hive/ia_css_isp_params.c
+@@ -1721,29 +1721,6 @@ ia_css_process_xnr3(
+ 					    "ia_css_process_xnr3() leave:\n");
+ 		}
+ 	}
 -	{
--		unsigned int offset = 0;
--		unsigned int size   = 0;
+-		unsigned int size   =
+-		    stage->binary->info->mem_offsets.offsets.param->vmem.xnr3.size;
 -
--		if (binary->info->mem_offsets.offsets.config) {
--			size   = binary->info->mem_offsets.offsets.config->dmem.sc.size;
--			offset = binary->info->mem_offsets.offsets.config->dmem.sc.offset;
--		}
+-		unsigned int offset =
+-		    stage->binary->info->mem_offsets.offsets.param->vmem.xnr3.offset;
+-
 -		if (size) {
--			ia_css_sc_config((struct sh_css_isp_sc_isp_config *)
--					 &binary->mem_params.params[IA_CSS_PARAM_CLASS_CONFIG][IA_CSS_ISP_DMEM].address[offset],
--					 config_dmem, size);
+-			ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE_PRIVATE,
+-					    "ia_css_process_xnr3() enter:\n");
+-
+-			ia_css_xnr3_vmem_encode((struct sh_css_isp_xnr3_vmem_params *)
+-						&stage->binary->mem_params.params[IA_CSS_PARAM_CLASS_PARAM][IA_CSS_ISP_VMEM].address[offset],
+-						&params->xnr3_config,
+-						size);
+-			params->isp_params_changed = true;
+-			params->isp_mem_params_changed[pipe_id][stage->stage_num][IA_CSS_ISP_VMEM] =
+-			    true;
+-
+-			ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE_PRIVATE,
+-					    "ia_css_process_xnr3() leave:\n");
 -		}
 -	}
--	ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE_PRIVATE,
--			    "ia_css_configure_sc() leave:\n");
--}
--
- void
- ia_css_sc_encode(
-     struct sh_css_isp_sc_params *to,
-@@ -73,45 +44,6 @@ ia_css_sc_dump(
- 			    "sc_gain_shift", sc->gain_shift);
  }
  
--/* ISP2401 */
--void
--ia_css_sc_config(
--    struct sh_css_isp_sc_isp_config *to,
--    const struct ia_css_sc_configuration *from,
--    unsigned int size)
--{
--	u32 internal_org_x_bqs = from->internal_frame_origin_x_bqs_on_sctbl;
--	u32 internal_org_y_bqs = from->internal_frame_origin_y_bqs_on_sctbl;
--	u32 slice, rest, i;
+ /* Code generated by genparam/gencode.c:gen_param_process_table() */
+diff --git a/drivers/staging/media/atomisp/pci/ia_css_isp_params.h b/drivers/staging/media/atomisp/pci/ia_css_isp_params.h
+index 6e3082b39ed6..c2de689877d1 100644
+--- a/drivers/staging/media/atomisp/pci/ia_css_isp_params.h
++++ b/drivers/staging/media/atomisp/pci/ia_css_isp_params.h
+@@ -121,9 +121,6 @@ struct ia_css_memory_offsets {
+ 		struct ia_css_isp_parameter sdis_vertcoef;
+ 		struct ia_css_isp_parameter sdis2_horicoef;
+ 		struct ia_css_isp_parameter sdis2_vertcoef;
 -
--	(void)size;
--
--	/* The internal_frame_origin_x_bqs_on_sctbl is separated to 8 times of slice_vec. */
--	rest = internal_org_x_bqs;
--	for (i = 0; i < SH_CSS_SC_INTERPED_GAIN_HOR_SLICE_TIMES; i++) {
--		slice = min(rest, ((uint32_t)ISP_SLICE_NELEMS));
--		rest = rest - slice;
--		to->interped_gain_hor_slice_bqs[i] = slice;
--	}
--
--	to->internal_frame_origin_y_bqs_on_sctbl = internal_org_y_bqs;
--}
--
--/* ISP2401 */
--void
--ia_css_sc_configure(
--    const struct ia_css_binary *binary,
--    u32 internal_frame_origin_x_bqs_on_sctbl,
--    uint32_t internal_frame_origin_y_bqs_on_sctbl)
--{
--	const struct ia_css_sc_configuration config = {
--		internal_frame_origin_x_bqs_on_sctbl,
--		internal_frame_origin_y_bqs_on_sctbl
--	};
--
--	ia_css_configure_sc(binary, &config);
--}
--
- /* ------ deprecated(bz675) : from ------ */
- /* It looks like @parameter{} (in *.pipe) is used to generate the process/get/set functions,
-    for parameters which should be used in the isp kernels.
-diff --git a/drivers/staging/media/atomisp/pci/isp/kernels/sc/sc_1.0/ia_css_sc.host.h b/drivers/staging/media/atomisp/pci/isp/kernels/sc/sc_1.0/ia_css_sc.host.h
-index f1eb568f23d4..d103103c9a87 100644
---- a/drivers/staging/media/atomisp/pci/isp/kernels/sc/sc_1.0/ia_css_sc.host.h
-+++ b/drivers/staging/media/atomisp/pci/isp/kernels/sc/sc_1.0/ia_css_sc.host.h
-@@ -32,39 +32,6 @@ ia_css_sc_dump(
-     const struct sh_css_isp_sc_params *sc,
-     unsigned int level);
- 
--/* @brief Configure the shading correction.
-- * @param[out]	to	Parameters used in the shading correction kernel in the isp.
-- * @param[in]	from	Parameters passed from the host.
-- * @param[in]	size	Size of the sh_css_isp_sc_isp_config structure.
-- *
-- * This function passes the parameters for the shading correction from the host to the isp.
-- */
--/* ISP2401 */
--void
--ia_css_sc_config(
--    struct sh_css_isp_sc_isp_config *to,
--    const struct ia_css_sc_configuration *from,
--    unsigned int size);
--
--/* @brief Configure the shading correction.
-- * @param[in]	binary	The binary, which has the shading correction.
-- * @param[in]	internal_frame_origin_x_bqs_on_sctbl
-- *			X coordinate (in bqs) of the origin of the internal frame on the shading table.
-- * @param[in]	internal_frame_origin_y_bqs_on_sctbl
-- *			Y coordinate (in bqs) of the origin of the internal frame on the shading table.
-- *
-- * This function calls the ia_css_configure_sc() function.
-- * (The ia_css_configure_sc() function is automatically generated in ia_css_isp.configs.c.)
-- * The ia_css_configure_sc() function calls the ia_css_sc_config() function
-- * to pass the parameters for the shading correction from the host to the isp.
-- */
--/* ISP2401 */
--void
--ia_css_sc_configure(
--    const struct ia_css_binary *binary,
--    u32 internal_frame_origin_x_bqs_on_sctbl,
--    uint32_t internal_frame_origin_y_bqs_on_sctbl);
--
- /* ------ deprecated(bz675) : from ------ */
- void
- sh_css_get_shading_settings(const struct ia_css_isp_parameters *params,
-diff --git a/drivers/staging/media/atomisp/pci/isp/kernels/sc/sc_1.0/ia_css_sc_types.h b/drivers/staging/media/atomisp/pci/isp/kernels/sc/sc_1.0/ia_css_sc_types.h
-index aae534521b7b..1d70f6b9a0ec 100644
---- a/drivers/staging/media/atomisp/pci/isp/kernels/sc/sc_1.0/ia_css_sc_types.h
-+++ b/drivers/staging/media/atomisp/pci/isp/kernels/sc/sc_1.0/ia_css_sc_types.h
-@@ -118,18 +118,4 @@ struct ia_css_shading_settings {
- 
- /* ------ deprecated(bz675) : to ------ */
- 
--/* Shading Correction configuration.
-- *
-- *  NOTE: The shading table size is larger than or equal to the internal frame size.
-- */
--/* ISP2401 */
--struct ia_css_sc_configuration {
--	u32 internal_frame_origin_x_bqs_on_sctbl; /** Origin X (in bqs) of internal frame on shading table. */
--	u32 internal_frame_origin_y_bqs_on_sctbl; /** Origin Y (in bqs) of internal frame on shading table. */
--	/** NOTE: bqs = size in BQ(Bayer Quad) unit.
--		1BQ means {Gr,R,B,Gb}(2x2 pixels).
--		Horizontal 1 bqs corresponds to horizontal 2 pixels.
--		Vertical 1 bqs corresponds to vertical 2 pixels. */
--};
--
- #endif /* __IA_CSS_SC_TYPES_H */
-diff --git a/drivers/staging/media/atomisp/pci/sh_css_sp.c b/drivers/staging/media/atomisp/pci/sh_css_sp.c
-index a73e8ca1e225..13b15a5a33bc 100644
---- a/drivers/staging/media/atomisp/pci/sh_css_sp.c
-+++ b/drivers/staging/media/atomisp/pci/sh_css_sp.c
-@@ -827,10 +827,6 @@ configure_isp_from_args(
- 	ia_css_output1_configure(binary, &args->out_vf_frame->info);
- 	ia_css_copy_output_configure(binary, args->copy_output);
- 	ia_css_output0_configure(binary, &args->out_frame[0]->info);
--#ifdef ISP2401
--	ia_css_sc_configure(binary, pipeline->shading.internal_frame_origin_x_bqs_on_sctbl,
--			    pipeline->shading.internal_frame_origin_y_bqs_on_sctbl);
--#endif
- 	ia_css_iterator_configure(binary, &args->in_frame->info);
- 	ia_css_dvs_configure(binary, &args->out_frame[0]->info);
- 	ia_css_output_configure(binary, &args->out_frame[0]->info);
+-		/* ISP2401 */
+-		struct ia_css_isp_parameter xnr3;
+ 	} vmem;
+ 	struct {
+ 		struct ia_css_isp_parameter bh;
 -- 
 2.33.1
 
