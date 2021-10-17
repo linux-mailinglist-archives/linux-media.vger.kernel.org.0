@@ -2,52 +2,52 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DC495430A90
-	for <lists+linux-media@lfdr.de>; Sun, 17 Oct 2021 18:21:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6A9B9430A92
+	for <lists+linux-media@lfdr.de>; Sun, 17 Oct 2021 18:21:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1344103AbhJQQX1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 17 Oct 2021 12:23:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35162 "EHLO
+        id S1344110AbhJQQXc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 17 Oct 2021 12:23:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35270 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1344128AbhJQQXW (ORCPT
+        with ESMTP id S1344085AbhJQQX3 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 17 Oct 2021 12:23:22 -0400
-Received: from mail-pg1-x52a.google.com (mail-pg1-x52a.google.com [IPv6:2607:f8b0:4864:20::52a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4C35DC06161C;
-        Sun, 17 Oct 2021 09:21:13 -0700 (PDT)
-Received: by mail-pg1-x52a.google.com with SMTP id c4so6485331pgv.11;
-        Sun, 17 Oct 2021 09:21:13 -0700 (PDT)
+        Sun, 17 Oct 2021 12:23:29 -0400
+Received: from mail-pl1-x631.google.com (mail-pl1-x631.google.com [IPv6:2607:f8b0:4864:20::631])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EC2B9C061768;
+        Sun, 17 Oct 2021 09:21:19 -0700 (PDT)
+Received: by mail-pl1-x631.google.com with SMTP id t21so1572938plr.6;
+        Sun, 17 Oct 2021 09:21:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=cXleAOz5sUQbG5Eded1WlMxLpubBbVfEG6e8M7J8b5M=;
-        b=qdJ72r3up7WkSea+cx4dHI6KxMSNGvsc1QiylhVVwNJnwQ607EMeVxo8a05ScfJfSX
-         MBKDjkF1Bz1ACnjA+1fC9WMu4UFYQlS2pOua2GalepIo8Wim8Q1Ttk/fksELsRTZRRXX
-         8UexZUV5qrDmkEWiMpYsDKUxDoe/bQo30e/BlXagVoe1orgaIQs/kr9cAl8b3HxPBitM
-         nr5SrcrRVzO7QHr/V9EPM7Nwi5KvdpYTxe8A4GwWcl1ABqI7r/Mco1WrZ5uMHYUEfkAU
-         89mJAuxkG+FNx8bql3hge35gqNL96dN1FlOkx1DlMLaRyradURxV3uocGtmhWjirEmJM
-         3VVA==
+        bh=ckrUwHLOukwoUB/hFCfgkrZjXpKJdUb5PQzUAqzB0DM=;
+        b=k1eH1OhyCCff9xIzkyBRVKg0zAOMdQZ40bFur0QFNYuR7/LJNh7HZC1nJnorXRwgzP
+         8tK9+V6diClLVZTJrh0k5ech1aDHjbdwZzBSygAhnYIKbmF5wWauJCQ2RqQqh85rR3A8
+         GUrAWSPdDAkDBp30Qo+TpocbKh/Q/4VdMw9nLC5l95ThHxIpztXh4IvQltFzHhbfuTzv
+         qPo/jPDaqEBEvu3F3iz2ap8LZrChh4GiojQ6/NpNDBO+dHP4ZShs8b42zkdRzG8VVydE
+         siMT6zMf2EcSSKGNn26uoK48wDQqBtx3SwrzpTjmXN4rV+zZ8FjRLgWm+P87ARTApFyS
+         GAIA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=cXleAOz5sUQbG5Eded1WlMxLpubBbVfEG6e8M7J8b5M=;
-        b=ElFIz5/U3j0Jp70EURUtyGbDnL/2lJAzh/QC42lvPxYUQsCex+rGC1RyWAuMFPWAoX
-         PtPTf8+60sP3nhF5vGVsiIO1B3l3okOL9sK6afZ36Ezow0yVqvLGzIt4KojpDDxEwE+a
-         lAxcYPKH3c+iRsN3OObuezqmTFVdoNwDIWlRk9rrgZZjUxioTRncU31BHv/BV/r5nPTs
-         Mp+CMASSWiLXbjumfXZ3uf1bjbEVc23vx4aVKtOdFMzIt+MkSt1Sjk4oP8Jpfvihkm+F
-         DIlIaPuZa8M1KW+/MBOGg5dgtCFpR5B/cdeX7H19SHUSzAeXOBREFI5avaidHi5x4stQ
-         /EHw==
-X-Gm-Message-State: AOAM530lm1s0AXFHiw/EPCMOmvS4olFkY9hkCKh5auPjc9Lp5fwMtd0w
-        P/w93oEgy1oP8ggvBzsmSL0=
-X-Google-Smtp-Source: ABdhPJxnKsNhivIZnicj1Gu+//OI/m1M2aSSmLdUGGJPhjw5hn3pVHMqRGmF430kExMT+S/HiQoTHw==
-X-Received: by 2002:a63:368a:: with SMTP id d132mr18604894pga.342.1634487672790;
-        Sun, 17 Oct 2021 09:21:12 -0700 (PDT)
+        bh=ckrUwHLOukwoUB/hFCfgkrZjXpKJdUb5PQzUAqzB0DM=;
+        b=VUm8RjYL0tCy4wreKS9SwikPkqwmAt8q2GRuyBZhMjj0w/ZSFO/vlju2pT/nyEZTIy
+         7rgKSsy8+rG3bde8UbHq6HudOazt3QF79/CtWG2EOBRzAU/ByJiVWhtX4Js71QG3l9yG
+         4UMlWYEf32okYgD0siXx8KPpdVeKtSoOdpcDMIyeD8eSlx7cGOA9Xbu49PuUokSZ8AJk
+         BbQn7I4GxyVtLX+UD7o8vOOmlYTKtNCEO+7WFkVvpExhNsjb3ly0OvrwG3K6Fn1sRHvF
+         ZbErG/qzCNUqFBvZUnLnbIrUhQ6u/iizYYJA9Mp9RX+Pzyu7e5JN/7TYVBEeQy2yhVtt
+         lodA==
+X-Gm-Message-State: AOAM530l0fAnlidgtZfM9QByWVehpcW9V+erf8+csvKbELvofHLJV0PN
+        Whiao3z0A8n2CrvLWFvbX14=
+X-Google-Smtp-Source: ABdhPJwNreFIIsKAxO7uA6IYRA1CYtWsWDd1nWy3NKWm6R3GxxKZQxz/93NizNpnxtujFFZnGg9qjg==
+X-Received: by 2002:a17:90b:17c3:: with SMTP id me3mr15557010pjb.70.1634487679400;
+        Sun, 17 Oct 2021 09:21:19 -0700 (PDT)
 Received: from sbwpb-arch.flets-east.jp ([2400:4052:6980:3800:dba7:2b1f:3f26:a5ec])
-        by smtp.gmail.com with ESMTPSA id mu11sm5155444pjb.20.2021.10.17.09.21.09
+        by smtp.gmail.com with ESMTPSA id mu11sm5155444pjb.20.2021.10.17.09.21.15
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 17 Oct 2021 09:21:12 -0700 (PDT)
+        Sun, 17 Oct 2021 09:21:19 -0700 (PDT)
 From:   Tsuchiya Yuto <kitakar@gmail.com>
 Cc:     Hans de Goede <hdegoede@redhat.com>,
         Patrik Gfeller <patrik.gfeller@gmail.com>,
@@ -55,18 +55,17 @@ Cc:     Hans de Goede <hdegoede@redhat.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         Sakari Ailus <sakari.ailus@linux.intel.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Yang Yingliang <yangyingliang@huawei.com>,
         Aline Santana Cordeiro <alinesantanacordeiro@gmail.com>,
+        Yang Yingliang <yangyingliang@huawei.com>,
         Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Alan <alan@linux.intel.com>,
         Dinghao Liu <dinghao.liu@zju.edu.cn>,
-        Deepak R Varma <drv@mailo.com>,
-        Alex Dewar <alex.dewar90@gmail.com>,
-        linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH 06/17] media: atomisp: pci: use IA_CSS_ERROR() for error messages in sh_css_mipi.c
-Date:   Mon, 18 Oct 2021 01:19:46 +0900
-Message-Id: <20211017161958.44351-7-kitakar@gmail.com>
+        Alan <alan@linux.intel.com>,
+        Martiros Shakhzadyan <vrzh@vrzh.net>,
+        Kees Cook <keescook@chromium.org>, linux-media@vger.kernel.org,
+        linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: [PATCH 07/17] media: atomisp: pci: fix ifdefs in sh_css.c
+Date:   Mon, 18 Oct 2021 01:19:47 +0900
+Message-Id: <20211017161958.44351-8-kitakar@gmail.com>
 X-Mailer: git-send-email 2.33.1
 In-Reply-To: <20211017161958.44351-1-kitakar@gmail.com>
 References: <20211017161958.44351-1-kitakar@gmail.com>
@@ -77,106 +76,128 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Some debug messages for error cases (messages contain "error: ") use
-IA_CSS_DEBUG_TRACE_PRIVATE debug level. This causes these error messages
-not to appear unless users raise debug output level to 7 or higher (using
-module parameter, dbg_level=7).
+ ## `if (pipe->stream->config.mode == IA_CSS_INPUT_MODE_TPG) {` case
 
-So, use IA_CSS_DEBUG_ERROR debug level (dbg_level=1) instead considering
-that these are error messages. There is already a macro IA_CSS_ERROR()
-for this use case. Let's use it. It automatically appends "error: " at
-the beginning and a newline to a message. Therefore, we can remove them
-from these messages.
+The intel-aero atomisp has `#if defined(IS_ISP_2400_SYSTEM)` [1]. It is
+to be defined in the following two places [2]:
 
-While here, remove the unnecessary newline from one IA_CSS_ERROR()
-occurrence in the same file.
+  - css/hive_isp_css_common/system_global.h
+  - css/css_2401_csi2p_system/system_global.h
 
+and the former file is to be included on ISP2400 devices, too. So, it
+is to be defined for both ISP2400 and ISP2401 devices.
+
+Because the upstreamed atomisp driver now supports only ISP2400 and
+ISP2401, just remove the ISP version test again. This matches the other
+upstream commits like 3c0538fbad9f ("media: atomisp: get rid of most
+checks for ISP2401 version").
+
+While here, moved the comment for define GP_ISEL_TPG_MODE to the
+appropriate place.
+
+[1] https://github.com/intel-aero/linux-kernel/blob/a1b673258feb915268377275130c5c5df0eafc82/drivers/media/pci/atomisp/css/sh_css.c#L552-L558
+[2] https://github.com/intel-aero/linux-kernel/search?q=IS_ISP_2400_SYSTEM
+
+  ## `isys_stream_descr->polling_mode` case
+
+This does not exist on the intel-aero atomisp. This is because it is
+based on css version irci_stable_candrpv_0415_20150521_0458.
+
+On the other hand, the upstreamed atomisp is based on the following css
+version depending on the ISP version using ifdefs:
+
+  - ISP2400: irci_stable_candrpv_0415_20150521_0458
+  - ISP2401: irci_master_20150911_0724
+
+The `isys_stream_descr->polling_mode` usage was added on updating css
+version to irci_master_20150701_0213 [3].
+
+So, it is not a ISP version specific thing, but css version specific
+thing. Because the upstreamed atomisp driver uses irci_master_20150911_0724
+for ISP2401, re-add the ISP version check for now.
+
+I say "for now" because ISP2401 should eventually use the same css
+version with ISP2400 (i.e., irci_stable_candrpv_0415_20150521_0458)
+
+[3] https://raw.githubusercontent.com/intel/ProductionKernelQuilts/cht-m1stable-2016_ww31/uefi/cht-m1stable/patches/cam-0439-atomisp2-css2401-and-2401_legacy-irci_master_2015070.patch
+    ("atomisp2: css2401 and 2401_legacy-irci_master_20150701_0213")
+    Link to Intel's Android kernel patch.
+
+ ## `coord = &me->config.internal_frame_origin_bqs_on_sctbl;` case
+
+it was added on commit 4f744a573db3 ("media: atomisp: make
+sh_css_sp_init_pipeline() ISP version independent") for ISP2401. Because
+the upstreamed atomisp for the ISP2401 part is based on
+irci_master_20150911_0724, hence the difference.
+
+Because the upstreamed atomisp driver uses irci_master_20150911_0724
+for ISP2401, revert the test back to `if (IS_ISP2401)`.
+
+Fixes: 27333dadef57 ("media: atomisp: adjust some code at sh_css that could be broken")
 Signed-off-by: Tsuchiya Yuto <kitakar@gmail.com>
 ---
- .../staging/media/atomisp/pci/sh_css_mipi.c   | 32 ++++++++-----------
- 1 file changed, 13 insertions(+), 19 deletions(-)
+ drivers/staging/media/atomisp/pci/sh_css.c | 27 +++++++++-------------
+ 1 file changed, 11 insertions(+), 16 deletions(-)
 
-diff --git a/drivers/staging/media/atomisp/pci/sh_css_mipi.c b/drivers/staging/media/atomisp/pci/sh_css_mipi.c
-index c1f2f6151c5f..de56a1da754d 100644
---- a/drivers/staging/media/atomisp/pci/sh_css_mipi.c
-+++ b/drivers/staging/media/atomisp/pci/sh_css_mipi.c
-@@ -434,9 +434,8 @@ allocate_mipi_frames(struct ia_css_pipe *pipe,
+diff --git a/drivers/staging/media/atomisp/pci/sh_css.c b/drivers/staging/media/atomisp/pci/sh_css.c
+index c4b35cbab373..ba25d0da8b81 100644
+--- a/drivers/staging/media/atomisp/pci/sh_css.c
++++ b/drivers/staging/media/atomisp/pci/sh_css.c
+@@ -522,6 +522,7 @@ ia_css_stream_input_format_bits_per_pixel(struct ia_css_stream *stream)
+ 	return bpp;
+ }
  
- 	if ((!IS_ISP2401 && port >= N_CSI_PORTS) ||
- 	    (IS_ISP2401 && err)) {
--		ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE_PRIVATE,
--				    "allocate_mipi_frames(%p) exit: error: port is not correct (port=%d).\n",
--				    pipe, port);
-+		IA_CSS_ERROR("allocate_mipi_frames(%p) exit: port is not correct (port=%d).",
-+			     pipe, port);
- 		return -EINVAL;
- 	}
++/* TODO: move define to proper file in tools */
+ #define GP_ISEL_TPG_MODE 0x90058
  
-@@ -497,9 +496,8 @@ allocate_mipi_frames(struct ia_css_pipe *pipe,
- 							my_css.mipi_frames[port][j] = NULL;
- 						}
- 					}
--					ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE_PRIVATE,
--							    "allocate_mipi_frames(%p, %d) exit: error: allocation failed.\n",
--							    pipe, port);
-+					IA_CSS_ERROR("allocate_mipi_frames(%p, %d) exit: allocation failed.",
-+						     pipe, port);
- 					return err;
- 				}
- 			}
-@@ -542,16 +540,14 @@ free_mipi_frames(struct ia_css_pipe *pipe)
- 	if (pipe) {
- 		assert(pipe->stream);
- 		if ((!pipe) || (!pipe->stream)) {
--			ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE_PRIVATE,
--					    "free_mipi_frames(%p) exit: error: pipe or stream is null.\n",
--					    pipe);
-+			IA_CSS_ERROR("free_mipi_frames(%p) exit: pipe or stream is null.",
-+				     pipe);
- 			return -EINVAL;
- 		}
- 
- 		if (!buffers_needed(pipe)) {
--			ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE_PRIVATE,
--					    "free_mipi_frames(%p) exit: error: wrong mode.\n",
--					    pipe);
-+			IA_CSS_ERROR("free_mipi_frames(%p) exit: wrong mode.",
-+				     pipe);
- 			return err;
- 		}
- 
-@@ -566,9 +562,8 @@ free_mipi_frames(struct ia_css_pipe *pipe)
- 
- 		if ((!IS_ISP2401 && port >= N_CSI_PORTS) ||
- 		    (IS_ISP2401 && err)) {
--			ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE_PRIVATE,
--					    "free_mipi_frames(%p, %d) exit: error: pipe port is not correct.\n",
--					    pipe, port);
-+			IA_CSS_ERROR("free_mipi_frames(%p, %d) exit: pipe port is not correct.",
-+				     pipe, port);
- 			return err;
- 		}
- 
-@@ -576,9 +571,8 @@ free_mipi_frames(struct ia_css_pipe *pipe)
  #if !defined(ISP2401)
- 			assert(ref_count_mipi_allocation[port] == 1);
- 			if (ref_count_mipi_allocation[port] != 1) {
--				ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE_PRIVATE,
--						    "free_mipi_frames(%p) exit: error: wrong ref_count (ref_count=%d).\n",
--						    pipe, ref_count_mipi_allocation[port]);
-+				IA_CSS_ERROR("free_mipi_frames(%p) exit: wrong ref_count (ref_count=%d).",
-+					     pipe, ref_count_mipi_allocation[port]);
- 				return err;
- 			}
- #endif
-@@ -680,7 +674,7 @@ send_mipi_frames(struct ia_css_pipe *pipe)
+@@ -573,12 +574,8 @@ sh_css_config_input_network(struct ia_css_stream *stream)
+ 		vblank_cycles = vblank_lines * (width + hblank_cycles);
+ 		sh_css_sp_configure_sync_gen(width, height, hblank_cycles,
+ 					     vblank_cycles);
+-		if (!IS_ISP2401) {
+-			if (pipe->stream->config.mode == IA_CSS_INPUT_MODE_TPG) {
+-				/* TODO: move define to proper file in tools */
+-				ia_css_device_store_uint32(GP_ISEL_TPG_MODE, 0);
+-			}
+-		}
++		if (pipe->stream->config.mode == IA_CSS_INPUT_MODE_TPG)
++			ia_css_device_store_uint32(GP_ISEL_TPG_MODE, 0);
+ 	}
+ 	ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE_PRIVATE,
+ 			    "sh_css_config_input_network() leave:\n");
+@@ -1009,16 +1006,14 @@ static bool sh_css_translate_stream_cfg_to_isys_stream_descr(
+ 	 * ia_css_isys_stream_capture_indication() instead of
+ 	 * ia_css_pipeline_sp_wait_for_isys_stream_N() as isp processing of
+ 	 * capture takes longer than getting an ISYS frame
+-	 *
+-	 * Only 2401 relevant ??
+ 	 */
+-#if 0 // FIXME: NOT USED on Yocto Aero
+-	isys_stream_descr->polling_mode
+-	    = early_polling ? INPUT_SYSTEM_POLL_ON_CAPTURE_REQUEST
+-	      : INPUT_SYSTEM_POLL_ON_WAIT_FOR_FRAME;
+-	ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE_PRIVATE,
+-			    "sh_css_translate_stream_cfg_to_isys_stream_descr() leave:\n");
+-#endif
++	if (IS_ISP2401) {
++		isys_stream_descr->polling_mode
++		    = early_polling ? INPUT_SYSTEM_POLL_ON_CAPTURE_REQUEST
++		      : INPUT_SYSTEM_POLL_ON_WAIT_FOR_FRAME;
++		ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE_PRIVATE,
++				    "sh_css_translate_stream_cfg_to_isys_stream_descr() leave:\n");
++	}
  
- 	if ((!IS_ISP2401 && port >= N_CSI_PORTS) ||
- 	    (IS_ISP2401 && err)) {
--		IA_CSS_ERROR("send_mipi_frames(%p) exit: invalid port specified (port=%d).\n",
-+		IA_CSS_ERROR("send_mipi_frames(%p) exit: invalid port specified (port=%d).",
- 			     pipe, port);
- 		return err;
+ 	return rc;
+ }
+@@ -1433,7 +1428,7 @@ static void start_pipe(
+ 
+ 	assert(me); /* all callers are in this file and call with non null argument */
+ 
+-	if (!IS_ISP2401) {
++	if (IS_ISP2401) {
+ 		coord = &me->config.internal_frame_origin_bqs_on_sctbl;
+ 		params = me->stream->isp_params_configs;
  	}
 -- 
 2.33.1
