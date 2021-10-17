@@ -2,25 +2,25 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7AC62430838
-	for <lists+linux-media@lfdr.de>; Sun, 17 Oct 2021 13:07:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9E95943083E
+	for <lists+linux-media@lfdr.de>; Sun, 17 Oct 2021 13:08:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S245393AbhJQLKG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 17 Oct 2021 07:10:06 -0400
-Received: from comms.puri.sm ([159.203.221.185]:52880 "EHLO comms.puri.sm"
+        id S245428AbhJQLKu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 17 Oct 2021 07:10:50 -0400
+Received: from comms.puri.sm ([159.203.221.185]:53474 "EHLO comms.puri.sm"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S235960AbhJQLKF (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Sun, 17 Oct 2021 07:10:05 -0400
+        id S245421AbhJQLKt (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Sun, 17 Oct 2021 07:10:49 -0400
 Received: from localhost (localhost [127.0.0.1])
-        by comms.puri.sm (Postfix) with ESMTP id AEB44DFA1F;
-        Sun, 17 Oct 2021 04:07:25 -0700 (PDT)
+        by comms.puri.sm (Postfix) with ESMTP id 19645DFA69;
+        Sun, 17 Oct 2021 04:08:10 -0700 (PDT)
 Received: from comms.puri.sm ([127.0.0.1])
         by localhost (comms.puri.sm [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id BdkqQhRX4NpW; Sun, 17 Oct 2021 04:07:24 -0700 (PDT)
-Date:   Sun, 17 Oct 2021 13:07:13 +0200
+        with ESMTP id xdWr8zFnNGxh; Sun, 17 Oct 2021 04:08:09 -0700 (PDT)
+Date:   Sun, 17 Oct 2021 13:08:02 +0200
 From:   Dorota Czaplejewicz <dorota.czaplejewicz@puri.sm>
-To:     Philipp Zabel <p.zabel@pengutronix.de>
-Cc:     Steve Longerbeam <slongerbeam@gmail.com>,
+To:     Steve Longerbeam <slongerbeam@gmail.com>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Shawn Guo <shawnguo@kernel.org>,
@@ -31,175 +31,143 @@ Cc:     Steve Longerbeam <slongerbeam@gmail.com>,
         linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
         linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
         kernel@puri.sm, phone-devel@vger.kernel.org
-Subject: Re: [PATCH] media: imx: Round line size to 4 bytes
-Message-ID: <20211017130713.4668c616.dorota.czaplejewicz@puri.sm>
-In-Reply-To: <1d8878e86b862ae8d551b6796e86c4fb1eb5d671.camel@pengutronix.de>
-References: <20211006110207.256325-1-dorota.czaplejewicz@puri.sm>
-        <7d61fdbd161fce40874766bde5f95c3b73f1a96d.camel@pengutronix.de>
-        <20211013112636.6963344d.dorota.czaplejewicz@puri.sm>
-        <1d8878e86b862ae8d551b6796e86c4fb1eb5d671.camel@pengutronix.de>
+Subject: [PATCHv2 1/4] media: imx: Remove unused functions
+Message-ID: <20211017102904.756408-1-dorota.czaplejewicz@puri.sm>
 Organization: Purism
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/3Pfy1EoRadhkVVrPdaPSq/H";
+Content-Type: multipart/signed; boundary="Sig_/IeWBxaTwi59gY3NqHrUWmfD";
  protocol="application/pgp-signature"; micalg=pgp-sha256
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
---Sig_/3Pfy1EoRadhkVVrPdaPSq/H
+--Sig_/IeWBxaTwi59gY3NqHrUWmfD
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 
+Neither imx_media_mbus_fmt_to_ipu_image nor imx_media_ipu_image_to_mbus_fmt
+were used anywhere.
+
+Signed-off-by: Dorota Czaplejewicz <dorota.czaplejewicz@puri.sm>
+---
 Hello,
 
-On Thu, 14 Oct 2021 13:26:26 +0200
-Philipp Zabel <p.zabel@pengutronix.de> wrote:
+This patch series attempts to separate image format handling between device=
+s in the i.MX5/6 and i.MX7/8 families.
 
-> Hi Dorota,
->=20
-> On Wed, 2021-10-13 at 11:26 +0200, Dorota Czaplejewicz wrote:
-> > On Fri, 08 Oct 2021 14:19:41 +0200 Philipp Zabel <p.zabel@pengutronix.d=
-e> wrote: =20
-> [...]
-> > > I wonder: if you use 4-byte aligned width and odd height, does the CSI
-> > > write over the end of the buffer? =20
-> >=20
-> > I tested this case, and found a glitch which suggests the last 4 bytes =
-are ignored:
-> >=20
-> > https://source.puri.sm/Librem5/linux-next/uploads/cfb59e3832431aaa3a695=
-49455502568/image.png =20
->=20
-> Thank you for testing, so it appears that at least without FBUF_STRIDE
-> the only requirement is that the whole image size must be a multiple of
-> 8 bytes.
->=20
-> > That would be taken care of rounding up towards a number decided at run=
-time, like:
-> >=20
-> > divisor =3D 8 >> (mbus->height % 2); =20
->=20
-> Which would then cause the CSI to write past the end of the buffer?
->=20
-I'm not sure if you point out the mistake here (should be "4 <<"), or the f=
-act that rounding is happening. If it's the latter, then it's of no concern=
-: the values derived here are used to calculate buffer size.
+The first patch in the series implements the suggestion I received from Phi=
+lipp Zabel as feedback to the previous series.
 
-I'm submitting a new series where this is fixed.
+The last 3 could in principle be submitted as a single patch, but I opted f=
+or minimal changes, for reviewing clarity.
 
-> I'd rather make sure that either the number of lines is even or the
-> width is a multiple of 8 bytes.
->=20
-> > > > Signed-off-by: Dorota Czaplejewicz <dorota.czaplejewicz@puri.sm>
-> > > > ---
-> > > >=20
-> > > > Hello,
-> > > >=20
-> > > > my previous patch identified something that was not a problem,
-> > > > so I'm sending a different one.
-> > > >=20
-> > > > This has been tested on the Librem 5.
-> > > >=20
-> > > > Cheers,
-> > > > Dorota
-> > > >=20
-> > > >  drivers/staging/media/imx/imx-media-utils.c | 4 ++--
-> > > >  1 file changed, 2 insertions(+), 2 deletions(-)
-> > > >=20
-> > > > diff --git a/drivers/staging/media/imx/imx-media-utils.c b/drivers/=
-staging/media/imx/imx-media-utils.c
-> > > > index 5128915a5d6f..a303003929e3 100644
-> > > > --- a/drivers/staging/media/imx/imx-media-utils.c
-> > > > +++ b/drivers/staging/media/imx/imx-media-utils.c
-> > > > @@ -545,13 +545,13 @@ int imx_media_mbus_fmt_to_pix_fmt(struct v4l2=
-_pix_format *pix,
-> > > >  	}
-> > > > =20
-> > > >  	/* Round up width for minimum burst size */
-> > > > -	width =3D round_up(mbus->width, 8);
-> > > > +	width =3D round_up(mbus->width, 4);
-> > > > =20
-> > > >  	/* Round up stride for IDMAC line start address alignment */
-> > > >  	if (cc->planar)
-> > > >  		stride =3D round_up(width, 16);
-> > > >  	else
-> > > > -		stride =3D round_up((width * cc->bpp) >> 3, 8);
-> > > > +		stride =3D round_up((width * cc->bpp) >> 3, 4);   =20
-> > >=20
-> > > Second, even if this works fine on the i.MX7/8M CSI, the alignment is
-> > > still required for the i.MX5/6 IPU, for which this code and the comme=
-nts
-> > > were written. So we need a way to differentiate the two cases here.
-> > >=20
-> > > regards
-> > > Philipp =20
-> >=20
-> > How best to go about this? I can see in the file imx-media-capture.c
-> > that there the video device lives in struct capture_priv.vdev.vfd.
-> > Would that be the right place to query about the underlying hardware?
-> >=20
-> > Then the following functions would gain a new "small_divisor" parameter:
-> > - imx_media_mbus_fmt_to_pix_fmt (a GPL symbol)
-> > - imx_media_mbus_fmt_to_ipu_image (a GPL symbol)
-> > - __capture_try_fmt =20
->=20
-> That sounds like it would work around the current code when it (at least
-> part of imx_media_mbus_fmt_to_pix_fmt()) should be split between i.MX5/6
-> and i.MX7/8 implementations. For example rounding up the stride is not
-> useful on i.MX7/8, it just doesn't currently hurt because imx7-media-csi=
-=20
-> is not using bytesperline to set up FBUF_STRIDE. And certainly the
-> comments don't apply.
->=20
-> imx_media_mbus_fmt_to_ipu_image() is unused and should probably be
-> dropped, same as imx_media_ipu_image_to_mbus_fmt().
-
-Done in next series.
->=20
-> > Those would have to extract the device type from struct capture_priv:
-> > - __capture_legacy_try_fmt
-> > - capture_try_fmt_vid_cap
-> > - capture_s_fmt_vid_cap
-> > - capture_init_format =20
->=20
-> Maybe imx_media_mbus_fmt_to_pix_fmt should be moved into imx-media-
-> capture.c be passed struct capture_priv to avoid duplicating the device
-> type check?
->=20
-I opted not to, in favor of passing the actual device type. It comes out to=
- the same thing, except a simple value is passed around instead of a device.
-
-> imx_media_capture_device_init() could gain a new parameter (or maybe
-> replace legacy_api) to set the device type.
-
-Thanks, this is what I was missing.
+The last patch is the core of the change, where i.MX5/6 uses the old code p=
+ath, and i.MX7/8 uses a slightly redacted copy of it. I have fairly limited=
+ experience with the parameters that go into determining the format, so I o=
+pted only to adjust the part I have tested: the rounding.
 
 Regards,
 Dorota
->=20
-> regards
-> Philipp
+
+ drivers/staging/media/imx/imx-media-utils.c | 42 ---------------------
+ drivers/staging/media/imx/imx-media.h       |  4 --
+ 2 files changed, 46 deletions(-)
+
+diff --git a/drivers/staging/media/imx/imx-media-utils.c b/drivers/staging/=
+media/imx/imx-media-utils.c
+index 5128915a5d6f..afa96e05ea7f 100644
+--- a/drivers/staging/media/imx/imx-media-utils.c
++++ b/drivers/staging/media/imx/imx-media-utils.c
+@@ -569,48 +569,6 @@ int imx_media_mbus_fmt_to_pix_fmt(struct v4l2_pix_form=
+at *pix,
+ }
+ EXPORT_SYMBOL_GPL(imx_media_mbus_fmt_to_pix_fmt);
+=20
+-int imx_media_mbus_fmt_to_ipu_image(struct ipu_image *image,
+-				    const struct v4l2_mbus_framefmt *mbus)
+-{
+-	int ret;
+-
+-	memset(image, 0, sizeof(*image));
+-
+-	ret =3D imx_media_mbus_fmt_to_pix_fmt(&image->pix, mbus, NULL);
+-	if (ret)
+-		return ret;
+-
+-	image->rect.width =3D mbus->width;
+-	image->rect.height =3D mbus->height;
+-
+-	return 0;
+-}
+-EXPORT_SYMBOL_GPL(imx_media_mbus_fmt_to_ipu_image);
+-
+-int imx_media_ipu_image_to_mbus_fmt(struct v4l2_mbus_framefmt *mbus,
+-				    const struct ipu_image *image)
+-{
+-	const struct imx_media_pixfmt *fmt;
+-
+-	fmt =3D imx_media_find_pixel_format(image->pix.pixelformat,
+-					  PIXFMT_SEL_ANY);
+-	if (!fmt || !fmt->codes || !fmt->codes[0])
+-		return -EINVAL;
+-
+-	memset(mbus, 0, sizeof(*mbus));
+-	mbus->width =3D image->pix.width;
+-	mbus->height =3D image->pix.height;
+-	mbus->code =3D fmt->codes[0];
+-	mbus->field =3D image->pix.field;
+-	mbus->colorspace =3D image->pix.colorspace;
+-	mbus->xfer_func =3D image->pix.xfer_func;
+-	mbus->ycbcr_enc =3D image->pix.ycbcr_enc;
+-	mbus->quantization =3D image->pix.quantization;
+-
+-	return 0;
+-}
+-EXPORT_SYMBOL_GPL(imx_media_ipu_image_to_mbus_fmt);
+-
+ void imx_media_free_dma_buf(struct device *dev,
+ 			    struct imx_media_dma_buf *buf)
+ {
+diff --git a/drivers/staging/media/imx/imx-media.h b/drivers/staging/media/=
+imx/imx-media.h
+index 492d9a64e704..d2a150aac6cd 100644
+--- a/drivers/staging/media/imx/imx-media.h
++++ b/drivers/staging/media/imx/imx-media.h
+@@ -199,10 +199,6 @@ void imx_media_try_colorimetry(struct v4l2_mbus_framef=
+mt *tryfmt,
+ int imx_media_mbus_fmt_to_pix_fmt(struct v4l2_pix_format *pix,
+ 				  const struct v4l2_mbus_framefmt *mbus,
+ 				  const struct imx_media_pixfmt *cc);
+-int imx_media_mbus_fmt_to_ipu_image(struct ipu_image *image,
+-				    const struct v4l2_mbus_framefmt *mbus);
+-int imx_media_ipu_image_to_mbus_fmt(struct v4l2_mbus_framefmt *mbus,
+-				    const struct ipu_image *image);
+ void imx_media_grp_id_to_sd_name(char *sd_name, int sz,
+ 				 u32 grp_id, int ipu_id);
+ struct v4l2_subdev *
+--=20
+2.31.1
 
 
---Sig_/3Pfy1EoRadhkVVrPdaPSq/H
+--Sig_/IeWBxaTwi59gY3NqHrUWmfD
 Content-Type: application/pgp-signature
 Content-Description: OpenPGP digital signature
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEExKRqtqfFqmh+lu1oADBpX4S8ZncFAmFsA+EACgkQADBpX4S8
-ZncnvQ/+NEAYfdFoRmGgvfSL+jRzj/+XIvhViKP2W+CzU2lE4Y+YdG/4DQsAq4hv
-K34krzBX8ZG8wdxP4kTCKRmqZfQ47sRDW594mpvcTG4fsovyLlhr8TnMW69AMzXB
-nvaM5DSZhpz6msI9paaROyX6IXK7LRfehDlOLyCZO/U3u1Z3ujvKXyw45waM1LN/
-6hCBqflMO+pGV4XhVHlRc+1DlXn5o2/7XTVvT2qtVCkiyBFy24WaDYjtCjCtI6o1
-rIOGxdl5X6GiYL1Z5+Or3QOIQQxtbTaUhLxAzXyX5r/gb08BZQmJLJJHIEUSJfMf
-tr5m6eiCZhQxqfG9IagFM6c43kv4cVuf8tf7UrEu3wrFAziaJKfNvfWSOE6NbrLv
-JrP5XVNAigQNXss8NmQzyxSeHIJWH33+6oODC1SZ2q+8I1PrH6CvK+eFZQ1KAwUI
-OLp+SCd7BeXrG2s1gqTmTFP8t7rgWZ0eZc86h3nt2mCdsIGFQdB3ZF0X7Y4AQM+N
-nbcG1SyBAEX0Hdqm+2W5OnUjchi/5QZ6KyScPDO6ABolUd0kDzC8Cd3m4MOoqtXf
-moat42ZqQBvtmPmaxeuxJeVjpoOnp5z9/wihbtAqMVC0du/wbb61zQaB2iP5reVL
-VAOgMIzp141f8DPRf2954PcecPzjq+E5qZsFkUNafzk00f6BkG4=
-=pJAi
+iQIzBAEBCAAdFiEExKRqtqfFqmh+lu1oADBpX4S8ZncFAmFsBBIACgkQADBpX4S8
+ZncOpBAAilkWS7552zCmzw6XFP9OCOcjyAcmet2jOnvtWLRzGtLLZJb1RlsfqIXI
+Cmty13PyOnHF6Y+pfs8gyB7LtIuICgDkJYDqOGF78eSmLu+0icX9zzEOGef9+ynN
+UmysNRJ/Z10KQbg/hf11oVPREV8n5x6/jXEFVF1KAEnr/hASb/ox6OTw6zEpKCE+
+jZVpg+YhX//EwNayLEl3R9FGvyVuwarGu0H3Trqb+EktzMVZM9X849snMcZXuabY
+oh6Yo8u605H/Zj9E15rqT6U7Rdifn+qoR89Gt0/LBGhxOXEadGXQkNrHawbNpwGU
+oUtnGYHYMCPHLOQ3Z3TFxjs0ldlmXtKQ0zCENfQG97p026J9AIwkw84iBXafi3Xr
+pfrHdpl59mX6yWZ7R0psgC+mi66FgSbktbunVj1xCro1uV1Df8Ccv05usSMKKtoK
+Quq10hwGBvVq+lCrgHk8+yFA4h9rPDemearxqR8VneehBQna5tEzmI7r7dpFc51G
+zHFrg483eObfMjcxZGROxvop9QjH22QC45aQ6vNGaZ1Jki+dYxiiWKJk+IcEvSCj
+CmWZgcYWfSdchZVCzJSw1APUq/Wr0kRwR5DsZOJI88XNvJbFuPlpKtO7kEcFoRtz
+q7f4qFGX6BQEto58WiiZloGzlBJDcQgA12wZvNfA9rF83hD0160=
+=Q4YH
 -----END PGP SIGNATURE-----
 
---Sig_/3Pfy1EoRadhkVVrPdaPSq/H--
+--Sig_/IeWBxaTwi59gY3NqHrUWmfD--
