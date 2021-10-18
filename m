@@ -2,119 +2,103 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D4DB64312F5
-	for <lists+linux-media@lfdr.de>; Mon, 18 Oct 2021 11:12:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B9926431307
+	for <lists+linux-media@lfdr.de>; Mon, 18 Oct 2021 11:14:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231467AbhJRJOr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 18 Oct 2021 05:14:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59008 "EHLO
+        id S231547AbhJRJRD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 18 Oct 2021 05:17:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59734 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231408AbhJRJOn (ORCPT
+        with ESMTP id S231570AbhJRJQy (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 18 Oct 2021 05:14:43 -0400
-Received: from lb2-smtp-cloud7.xs4all.net (lb2-smtp-cloud7.xs4all.net [IPv6:2001:888:0:108::2a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 32308C06161C
-        for <linux-media@vger.kernel.org>; Mon, 18 Oct 2021 02:12:31 -0700 (PDT)
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud7.xs4all.net with ESMTPA
-        id cOgymtfTxk3b0cOh1mh8K1; Mon, 18 Oct 2021 11:12:27 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1634548347; bh=J6XLdymtG12DEbeBBHOtCtlxbQ9ASidv0t4nvmcdhJs=;
-        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=r65v/QGs3LbKdQubxaxF+yohbLzwqL2k6mTUK61tL5O4TY6X6ipesnP84W5BrMcLB
-         a8V0nCK/0YL/eviwL3dMU5czn4pQUMVEQChsfhWLM3cPcz0h/JfUJnmK7j8d79n9/R
-         dDFaU2f2ZTaN1DbPs+xmR4nQJC1xX29FWrMvES12QKT2ZYlHMy3e2I9cKgsrfSYPK8
-         pnNcpdUNLUB7GwH4wTaCOji9b8B4sRuNs0lLX5dxt7RfEp5k+qlcgEkRyvV7+onjP6
-         0yhhzv0Tq9bOBx7lpJ+maKG8cJMKFsCADDtomG+Fp9tRzZWFWK1bpIhK5J8P0GdgnL
-         W0KI9HnDDgOSQ==
-Subject: Re: [GIT PULL FOR v5.16] Allegro fixes/enhancements
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Michael Tretter <m.tretter@pengutronix.de>
-References: <710cddfc-e3c3-0cf3-d2f9-c38ef6ca8b1a@xs4all.nl>
- <20211018094032.40f7c656@sal.lan>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <bacaa955-498c-a608-fdeb-d683f7d8b95e@xs4all.nl>
-Date:   Mon, 18 Oct 2021 11:12:24 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Firefox/78.0 Thunderbird/78.14.0
+        Mon, 18 Oct 2021 05:16:54 -0400
+Received: from mail-pf1-x42d.google.com (mail-pf1-x42d.google.com [IPv6:2607:f8b0:4864:20::42d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3175BC061768
+        for <linux-media@vger.kernel.org>; Mon, 18 Oct 2021 02:14:41 -0700 (PDT)
+Received: by mail-pf1-x42d.google.com with SMTP id y7so14227278pfg.8
+        for <linux-media@vger.kernel.org>; Mon, 18 Oct 2021 02:14:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=swVZpYip1M7ZqbqUB16EZPmqODBt6dsbtK7MQvHH9Ms=;
+        b=O9J7sn1LzSQ6p4gr7FpNZj9M9cN4f6kYuc+ctbUb4oIidsVmku9F63n+IY2YdbssWT
+         iJki+nzhYmyFS3YKEElMiPMYKrNzRN8GGt7YXRpX664AhS06LzH6VVNRzvYy7kX/o+VJ
+         ra9lFhsCAGTiODiJ/oNbBXRG1lVpBIt36Y2h4=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=swVZpYip1M7ZqbqUB16EZPmqODBt6dsbtK7MQvHH9Ms=;
+        b=BGcJ069MB404Aej+NZSy78gOKcrpAtUi/sHyxOmmOU5QiThwDf2XzEc7UrK8fEe3vL
+         92EwqKbsr9pUGBxE9xdGEVAPsE7CJ83SE1W9WhB1ghlDW8onnmyoZEBDsgVHqXhzKDvb
+         Y/JPa2yvdLSqkBa+pN45/W31P1BoYAthUSf+7xzs6+taLrUZQS1CLHWwjVkYa0524By8
+         wxOWeHD6bN40FozZfKATqt/NMHMlZFsBfOMaN3fwLmuAV+/g8tBzb49dwSPisVc0N1dg
+         AD1lL5ZDn9bySjWB9aQsAFteLBB2GiaFTfhM/EXvMIpoxTwyqnonkG4xkOqcDEbpmrwE
+         ooOg==
+X-Gm-Message-State: AOAM532y5a7C2eR48mBXFlaUQQbBsP3ZHTSsc3mXSJ/NCuGJRBxYzvKL
+        Ikrp0SNNGj3tMLJG1aapVNPT2A==
+X-Google-Smtp-Source: ABdhPJyrmN0hZbBGholHeCsXXLIU7TjeZyEavzVeHKjRQaxvIxsDnHK9rq9E1Y6KBEAioE6K09YMEQ==
+X-Received: by 2002:a05:6a00:21c2:b0:44c:fa0b:f72 with SMTP id t2-20020a056a0021c200b0044cfa0b0f72mr26988851pfj.13.1634548480611;
+        Mon, 18 Oct 2021 02:14:40 -0700 (PDT)
+Received: from acourbot.tok.corp.google.com ([2401:fa00:8f:203:155d:10d8:25e2:6e41])
+        by smtp.gmail.com with ESMTPSA id z19sm12416689pfj.156.2021.10.18.02.14.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 18 Oct 2021 02:14:40 -0700 (PDT)
+From:   Alexandre Courbot <acourbot@chromium.org>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Tomasz Figa <tfiga@chromium.org>
+Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Alexandre Courbot <acourbot@chromium.org>
+Subject: [PATCH] media: docs: dev-decoder: add restrictions about CAPTURE buffers
+Date:   Mon, 18 Oct 2021 18:14:27 +0900
+Message-Id: <20211018091427.88468-1-acourbot@chromium.org>
+X-Mailer: git-send-email 2.33.0.1079.g6e70778dc9-goog
 MIME-Version: 1.0
-In-Reply-To: <20211018094032.40f7c656@sal.lan>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-X-CMAE-Envelope: MS4xfChDZVYMawOHYAr+042K7tKRA9uNvowt6q6Xb3DidzF9kYqUiXqXhazmrtyhsHynjWXdsriQF2fFSGKnT88xHJjs8Qk0rWetwzAMpio2yXnyFestGYea
- DJ75u0uiAj2nLt3acDUrr/aaRc2T0o5b66JATNXMrtOmahXE72yoT7UyEcPCEhYU6VzzXoL49Zg16LSwEodsnOItIFjviKDS9kMDZo2zsAP5rjgOJlb7qudq
- sE4iUVIXu8ReK+tNCZ4+4QeZC/5CNBkgA4MGxSEZJFo=
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Mauro,
+CAPTURE buffers might be read by the hardware after they are dequeued,
+which goes against the general idea that userspace has full control over
+dequeued buffers. Explain why and document the restrictions that this
+implies for userspace.
 
-On 18/10/2021 10:40, Mauro Carvalho Chehab wrote:
-> Em Mon, 11 Oct 2021 10:49:14 +0200
-> Hans Verkuil <hverkuil@xs4all.nl> escreveu:
-> 
->> The following changes since commit fd2eda71a47b095e81b9170c3f8b7ae82b04e785:
->>
->>   media: remove myself from dvb media maintainers (2021-10-08 13:56:25 +0200)
->>
->> are available in the Git repository at:
->>
->>   git://linuxtv.org/hverkuil/media_tree.git tags/br-v5.16i
->>
->> for you to fetch changes up to 8f472ea73758255b366fae57bde772396231efcd:
->>
->>   media: allegro: write vui parameters for HEVC (2021-10-11 10:18:33 +0200)
->>
->> ----------------------------------------------------------------
->> Tag branch
->>
->> ----------------------------------------------------------------
->> Michael Tretter (13):
->>       media: allegro: ignore interrupt if mailbox is not initialized
->>       media: allegro: fix module removal if initialization failed
->>       media: allegro: lookup VCU settings
->>       media: allegro: add pm_runtime support
->>       media: allegro: add encoder buffer support
->>       media: allegro: add control to disable encoder buffer
->>       media: allegro: fix row and column in response message
->>       media: allegro: remove external QP table
->>       media: allegro: correctly scale the bit rate in SPS
->>       media: allegro: extract nal value lookup functions to header
->>       media: allegro: write correct colorspace into SPS
->>       media: allegro: nal-hevc: implement generator for vui
->>       media: allegro: write vui parameters for HEVC
-> 
-> Jenkins is reporting compilation breakage when -Werror is turned on:
-> 
-> patches/0010-media-allegro-extract-nal-value-lookup-functions-to-.patch:
-> 
->     allyesconfig: return code #512:
-> 	In file included from ../drivers/media/platform/allegro-dvt/nal-hevc.c:24:
-> 	../drivers/media/platform/allegro-dvt/nal-hevc.h:416:30: error: ‘enum v4l2_quantization’ declared inside parameter list will not be visible outside of this definition or declaration [-Werror]
-> 	../drivers/media/platform/allegro-dvt/nal-hevc.h:417:40: error: ‘enum v4l2_colorspace’ declared inside parameter list will not be visible outside of this definition or declaration [-Werror]
-> 	../drivers/media/platform/allegro-dvt/nal-hevc.h:419:14: error: ‘enum v4l2_xfer_func’ declared inside parameter list will not be visible outside of this definition or declaration [-Werror]
-> 	../drivers/media/platform/allegro-dvt/nal-hevc.h:418:49: error: ‘enum v4l2_colorspace’ declared inside parameter list will not be visible outside of this definition or declaration [-Werror]
-> 	../drivers/media/platform/allegro-dvt/nal-hevc.h:421:10: error: ‘enum v4l2_ycbcr_encoding’ declared inside parameter list will not be visible outside of this definition or declaration [-Werror]
-> 	../drivers/media/platform/allegro-dvt/nal-hevc.h:420:38: error: ‘enum v4l2_colorspace’ declared inside parameter list will not be visible
-> 
-> Are there any missing include?
+Signed-off-by: Alexandre Courbot <acourbot@chromium.org>
+---
+ .../userspace-api/media/v4l/dev-decoder.rst     | 17 +++++++++++++++++
+ 1 file changed, 17 insertions(+)
 
-Ah, the next two patches add the necessary videodev2.h includes. I've fixed up the
-patch series to add videodev2.h to this patch instead of later patches, and will
-post a new PR soon.
-
-Michael, no need for you to do anything.
-
-Regards,
-
-	Hans
-
-> 
-> Regards,
-> Mauro
-> 
+diff --git a/Documentation/userspace-api/media/v4l/dev-decoder.rst b/Documentation/userspace-api/media/v4l/dev-decoder.rst
+index 5b9b83feeceb..3cf2b496f2d0 100644
+--- a/Documentation/userspace-api/media/v4l/dev-decoder.rst
++++ b/Documentation/userspace-api/media/v4l/dev-decoder.rst
+@@ -752,6 +752,23 @@ available to dequeue. Specifically:
+      buffers are out-of-order compared to the ``OUTPUT`` buffers): ``CAPTURE``
+      timestamps will not retain the order of ``OUTPUT`` timestamps.
+ 
++.. note::
++
++   The backing memory of ``CAPTURE`` buffers that are used as reference frames
++   by the stream may be read by the hardware even after they are dequeued.
++   Consequently, the client should avoid writing into this memory while the
++   ``CAPTURE`` queue is streaming. Failure to observe this may result in
++   corruption of decoded frames.
++
++   Similarly, when using a memory type other than ``V4L2_MEMORY_MMAP``, the
++   client should make sure that each ``CAPTURE`` buffer is always queued with
++   the same backing memory for as long as the ``CAPTURE`` queue is streaming.
++   The reason for this is that V4L2 buffer indices can be used by drivers to
++   identify frames. Thus, if the backing memory of a reference frame is
++   submitted under a different buffer ID, the driver may misidentify it and
++   decode a new frame into it while it is still in use, resulting in corruption
++   of the following frames.
++
+ During the decoding, the decoder may initiate one of the special sequences, as
+ listed below. The sequences will result in the decoder returning all the
+ ``CAPTURE`` buffers that originated from all the ``OUTPUT`` buffers processed
+-- 
+2.33.0.1079.g6e70778dc9-goog
 
