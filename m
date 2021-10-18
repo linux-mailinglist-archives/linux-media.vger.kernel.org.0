@@ -2,98 +2,111 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C37384313DD
-	for <lists+linux-media@lfdr.de>; Mon, 18 Oct 2021 11:55:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 859E14313E0
+	for <lists+linux-media@lfdr.de>; Mon, 18 Oct 2021 11:55:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229602AbhJRJ5S (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 18 Oct 2021 05:57:18 -0400
-Received: from www.linuxtv.org ([130.149.80.248]:54864 "EHLO www.linuxtv.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229473AbhJRJ5R (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 18 Oct 2021 05:57:17 -0400
-Received: from builder.linuxtv.org ([140.211.167.10] helo=slave0)
-        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1mcPMH-007Wuc-L6; Mon, 18 Oct 2021 09:55:05 +0000
-Received: from ip6-localhost ([::1] helo=localhost.localdomain)
-        by slave0 with esmtp (Exim 4.94.2)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1mcPMF-001THI-0N; Mon, 18 Oct 2021 09:55:03 +0000
-From:   Jenkins <jenkins@linuxtv.org>
-To:     mchehab+samsung@kernel.org, linux-media@vger.kernel.org
-Cc:     builder@linuxtv.org
-Subject: Re: [GIT PULL FOR v5.16] v2: Allegro fixes/enhancements (#77850)
-Date:   Mon, 18 Oct 2021 09:55:02 +0000
-Message-Id: <20211018095502.350826-1-jenkins@linuxtv.org>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <9792587d-b4f3-27bc-add4-287126ed8eae@xs4all.nl>
-References: 
+        id S229683AbhJRJ55 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 18 Oct 2021 05:57:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40946 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229603AbhJRJ55 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Mon, 18 Oct 2021 05:57:57 -0400
+Received: from lb2-smtp-cloud7.xs4all.net (lb2-smtp-cloud7.xs4all.net [IPv6:2001:888:0:108::2a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0B8B3C06161C;
+        Mon, 18 Oct 2021 02:55:45 -0700 (PDT)
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud7.xs4all.net with ESMTPA
+        id cPMqmtvAyk3b0cPMtmhFmf; Mon, 18 Oct 2021 11:55:44 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
+        t=1634550944; bh=hZHvQDSjUd8uW3oRdpn55CUce4TBNbqxu4Un/iM6Hic=;
+        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
+         Subject;
+        b=s3GGNa29SESwabTksdMf/5josVX9HhU3ePTNA246K69Yd3XDAITe9bvm313pDt+lA
+         aat4e/vbTGP8jAP3mhHO232WBsR0Fa1Aawidgcu/PL/oAI/Ubv2Xw1obHAN9CamE7u
+         DSqW79QI22E2hVg3NC9DK4invFPwMoWlZY0drYCZmLylxgLQrxGiN9k7dN1jMgUSn1
+         YuHV3YlOhL+ViAYNIHNID7fukzTx87+MNDchi7VwqICd1Ysyu9kQyZjIjpw0DWD7kP
+         NdMcObb4Ur0NGgl7DgdFybqt5t67E+9CUmF1TFLdi87tgXex6IZUQ5ILlajrzL1gge
+         89oFSv83ZDUdg==
+Subject: Re: [PATCH v2 00/10] staging: media: zoran: fusion in one module
+To:     Corentin Labbe <clabbe@baylibre.com>, mchehab@kernel.org,
+        gregkh@linuxfoundation.org
+Cc:     linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-staging@lists.linux.dev, mjpeg-users@lists.sourceforge.net
+References: <20211013185812.590931-1-clabbe@baylibre.com>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Message-ID: <c2474663-3fe0-b0cd-ecb5-57ec370481e3@xs4all.nl>
+Date:   Mon, 18 Oct 2021 11:55:40 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Firefox/78.0 Thunderbird/78.14.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20211013185812.590931-1-clabbe@baylibre.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4xfABpTiDbIOWqhv/J0KgHGejzgKsf74X+dQmYcsnG5aGEDJ2FA6OqGsDMvag3VOhBTkdexTPFa2yBDbLg8ONSLHsP4VKJGynHGfctWki387MdEc5UqsZz
+ XlUENWwO2mW8uj2mdYo/IJECKp2EvM2IKe3+flx+UsqDcqkrct4B7j62CscVc4HSqTHGCb9IGAgP2o75qBUBstZ71HfpoGcfmaU5V0SFnUYoF5CvYz/Z7IEk
+ uYRbugx0l3E8e8ZkskU+sCt2/8xOG8XVCQ0n1k/6dBBgsAHYYbBxUM4J3vWtLNFkn1cp1A9rtAVlZX500Lfk78vNnAIarVhibjRO5Mqp/QFFWtUB5Pg/6+j+
+ YSJjPN4cPvz+mzRjjCTJCy30AZGycLBu/n6/lR0xfpcBHZGql6bqYirh3XpNM5ilE+uW6AIOmGDny01E93w4wFaVU6BDwQ==
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: builder@linuxtv.org
+Hi Corentin,
 
-Pull request: https://patchwork.linuxtv.org/project/linux-media/patch/9792587d-b4f3-27bc-add4-287126ed8eae@xs4all.nl/
-Build log: https://builder.linuxtv.org/job/patchwork/149014/
-Build time: 00:32:12
-Link: https://lore.kernel.org/linux-media/9792587d-b4f3-27bc-add4-287126ed8eae@xs4all.nl
+I noticed some code review comments from Dan and a kernel test robot issue.
+Can you post a v3 fixing those by the end of the week? Next week I will have
+access again to my zoran board, so then I can test the v3 series.
 
-gpg: Signature made Mon 18 Oct 2021 09:15:08 AM UTC
-gpg:                using RSA key AAA7FFBA4D2D77EF4CAEA1421326E0CD23ABDCE5
-gpg: Good signature from "Hans Verkuil <hverkuil-cisco@xs4all.nl>" [unknown]
-gpg:                 aka "Hans Verkuil <hverkuil@xs4all.nl>" [unknown]
-gpg: Note: This key has expired!
-Primary key fingerprint: 052C DE7B C215 053B 689F  1BCA BD2D 6148 6614 3B4C
-     Subkey fingerprint: AAA7 FFBA 4D2D 77EF 4CAE  A142 1326 E0CD 23AB DCE5
+BTW, I agree with Dan, just drop the 'Enable zoran debugfs' config option. It's
+not worth the additional complexity. Instead, just #ifdef CONFIG_DEBUG_FS
+where necessary (in most cases you shouldn't even have to do that since the
+since you have dummy debug_fs_* functions if CONFIG_DEBUG_FS isn't set).
 
-Summary: got 2/13 patches with issues, being 2 at build time, plus one error when buinding PDF document
+Regards,
 
-Error/warnings:
+	Hans
 
-patches/0001-media-allegro-ignore-interrupt-if-mailbox-is-not-ini.patch:
-
-    allyesconfig: return code #0:
-	../scripts/genksyms/parse.y: warning: 9 shift/reduce conflicts [-Wconflicts-sr]
-	../scripts/genksyms/parse.y: warning: 5 reduce/reduce conflicts [-Wconflicts-rr]
-	../scripts/genksyms/parse.y: note: rerun with option '-Wcounterexamples' to generate conflict counterexamples
-
-    allyesconfig: return code #0:
-	../drivers/media/cec/core/cec-adap.c: ../drivers/media/cec/core/cec-adap.c:926 cec_transmit_msg_fh() warn: '&data->list' not removed from list
-	../drivers/media/rc/meson-ir-tx.c:22: warning: expecting prototype for meson(). Prototype was for DEVICE_NAME() instead
-	SPARSE:../drivers/media/rc/ir_toy.c ../drivers/media/rc/ir_toy.c:321:20: warning: incorrect type in assignment (different base types)
-	SPARSE:../drivers/media/rc/ir_toy.c ../drivers/media/rc/ir_toy.c:321:20:    expected restricted __be16 [usertype]
-	SPARSE:../drivers/media/rc/ir_toy.c ../drivers/media/rc/ir_toy.c:321:20:    got int
-	../drivers/media/pci/intel/ipu3/cio2-bridge.c:242 cio2_bridge_connect_sensor() warn: missing error code 'ret'
-	SMATCH:../drivers/media/usb/siano/smsusb.c ../drivers/media/usb/siano/smsusb.c:53:38: :warning: array of flexible structures
-	SPARSE:../drivers/media/usb/siano/smsusb.c ../drivers/media/usb/siano/smsusb.c:53:38: warning: array of flexible structures
-	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2625 dvb_register() parse error: turning off implications after 60 seconds
-	../drivers/media/platform/qcom/venus/helpers.c: ../drivers/media/platform/qcom/venus/helpers.c:627 venus_helper_get_bufreq() error: we previously assumed 'req' could be null (see line 623)
-	../drivers/media/usb/pvrusb2/pvrusb2-encoder.c: ../drivers/media/usb/pvrusb2/pvrusb2-encoder.c:288 pvr2_encoder_cmd() warn: inconsistent indenting
-	../drivers/media/usb/pvrusb2/pvrusb2-hdw.c: ../drivers/media/usb/pvrusb2/pvrusb2-hdw.c:1730 pvr2_hdw_set_streaming() warn: inconsistent indenting
-	../drivers/media/usb/pvrusb2/pvrusb2-hdw.c: ../drivers/media/usb/pvrusb2/pvrusb2-hdw.c:3461 pvr2_hdw_cpufw_set_enabled() warn: inconsistent indenting
-	../drivers/media/usb/pvrusb2/pvrusb2-hdw.c: ../drivers/media/usb/pvrusb2/pvrusb2-hdw.c:3501 pvr2_hdw_cpufw_get() warn: inconsistent indenting
-	../drivers/media/usb/em28xx/em28xx-video.c: ../drivers/media/usb/em28xx/em28xx-video.c:2900 em28xx_v4l2_init() parse error: turning off implications after 60 seconds
-
-patches/0006-media-allegro-add-control-to-disable-encoder-buffer.patch:
-
-    allyesconfig: return code #0:
-	../drivers/media/pci/intel/ipu3/cio2-bridge.c:242 cio2_bridge_connect_sensor() warn: missing error code 'ret'
-	../drivers/media/platform/qcom/venus/helpers.c: ../drivers/media/platform/qcom/venus/helpers.c:627 venus_helper_get_bufreq() error: we previously assumed 'req' could be null (see line 623)
-	../drivers/media/usb/pvrusb2/pvrusb2-encoder.c: ../drivers/media/usb/pvrusb2/pvrusb2-encoder.c:288 pvr2_encoder_cmd() warn: inconsistent indenting
-	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2625 dvb_register() parse error: turning off implications after 60 seconds
-	../drivers/media/usb/pvrusb2/pvrusb2-hdw.c: ../drivers/media/usb/pvrusb2/pvrusb2-hdw.c:1730 pvr2_hdw_set_streaming() warn: inconsistent indenting
-	../drivers/media/usb/pvrusb2/pvrusb2-hdw.c: ../drivers/media/usb/pvrusb2/pvrusb2-hdw.c:3461 pvr2_hdw_cpufw_set_enabled() warn: inconsistent indenting
-	../drivers/media/usb/pvrusb2/pvrusb2-hdw.c: ../drivers/media/usb/pvrusb2/pvrusb2-hdw.c:3501 pvr2_hdw_cpufw_get() warn: inconsistent indenting
-	../drivers/media/usb/em28xx/em28xx-video.c: ../drivers/media/usb/em28xx/em28xx-video.c:2894 em28xx_v4l2_init() parse error: turning off implications after 60 seconds
-
-   checkpatch.pl:
-	$ cat patches/0006-media-allegro-add-control-to-disable-encoder-buffer.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
-	-:115: CHECK: Alignment should match open parenthesis
-
-
-Error #512 when building PDF docs
+On 13/10/2021 20:58, Corentin Labbe wrote:
+> Hello
+> 
+> The main change of this serie is to fusion all zoran related modules in
+> one.
+> This fixes the load order problem when everything is built-in.
+> 
+> Regards
+> 
+> Changes since v1:
+> - add missing debugfs cleaning
+> - clean some remaining module_get/put functions which made impossible to
+>   remove the zoran module
+> - added the two latest patchs
+> 
+> Corentin Labbe (10):
+>   staging: media: zoran: move module parameter checks to zoran_probe
+>   staging: media: zoran: use module_pci_driver
+>   staging: media: zoran: rename debug module parameter
+>   staging: media: zoran: add debugfs
+>   staging: media: zoran: videocode: remove procfs
+>   staging: media: zoran: fusion all modules
+>   staging: media: zoran: remove vidmem
+>   staging: media: zoran: move videodev alloc
+>   staging: media: zoran: move config select on primary kconfig
+>   staging: media: zoran: introduce zoran_i2c_init
+> 
+>  drivers/staging/media/zoran/Kconfig        |  46 +--
+>  drivers/staging/media/zoran/Makefile       |   8 +-
+>  drivers/staging/media/zoran/videocodec.c   |  68 +----
+>  drivers/staging/media/zoran/videocodec.h   |   6 +-
+>  drivers/staging/media/zoran/zoran.h        |   6 +-
+>  drivers/staging/media/zoran/zoran_card.c   | 328 ++++++++++++++-------
+>  drivers/staging/media/zoran/zoran_driver.c |   5 +-
+>  drivers/staging/media/zoran/zr36016.c      |  24 +-
+>  drivers/staging/media/zoran/zr36016.h      |   2 +
+>  drivers/staging/media/zoran/zr36050.c      |  21 +-
+>  drivers/staging/media/zoran/zr36050.h      |   2 +
+>  drivers/staging/media/zoran/zr36060.c      |  21 +-
+>  drivers/staging/media/zoran/zr36060.h      |   2 +
+>  13 files changed, 291 insertions(+), 248 deletions(-)
+> 
 
