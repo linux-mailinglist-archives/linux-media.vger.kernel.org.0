@@ -2,222 +2,159 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A0005430C67
-	for <lists+linux-media@lfdr.de>; Sun, 17 Oct 2021 23:48:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 15BC9430D60
+	for <lists+linux-media@lfdr.de>; Mon, 18 Oct 2021 03:17:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1344686AbhJQVuz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 17 Oct 2021 17:50:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50114 "EHLO
+        id S238519AbhJRBTU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 17 Oct 2021 21:19:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38398 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235532AbhJQVuy (ORCPT
+        with ESMTP id S232084AbhJRBTT (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 17 Oct 2021 17:50:54 -0400
-Received: from mail-ed1-x52c.google.com (mail-ed1-x52c.google.com [IPv6:2a00:1450:4864:20::52c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B3B8EC06161C
-        for <linux-media@vger.kernel.org>; Sun, 17 Oct 2021 14:48:44 -0700 (PDT)
-Received: by mail-ed1-x52c.google.com with SMTP id y30so45159799edi.0
-        for <linux-media@vger.kernel.org>; Sun, 17 Oct 2021 14:48:44 -0700 (PDT)
+        Sun, 17 Oct 2021 21:19:19 -0400
+Received: from mail-ed1-x529.google.com (mail-ed1-x529.google.com [IPv6:2a00:1450:4864:20::529])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 05CC4C061745
+        for <linux-media@vger.kernel.org>; Sun, 17 Oct 2021 18:17:08 -0700 (PDT)
+Received: by mail-ed1-x529.google.com with SMTP id y12so65846562eda.4
+        for <linux-media@vger.kernel.org>; Sun, 17 Oct 2021 18:17:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=5MLods2cZm4Sv88ukRDNKhzjgS5s2jLF9qGyIzb8ilM=;
-        b=OddTH53KLCQejZHv/Lcq9Y3FLXN7SdcPx8W97r2GmWKnPM5mghNtDze9C9SFJQtN4j
-         chpJdljukFBSqaTxTIiAOyIW6PW86EXuuQlLDbqGPpPYUhx/iM/MutBXo8Lrj+65kHSp
-         ubeNZahOq9a33X59vqI9F2EnLbl2YqUB/vrLX5e1l/cbpNYMSZeBx8r6ZZE7qDC+dhmS
-         Ov+ZhHMNPeVvZcL4IrJXt9N33hc7PKyHWYCYemeR9/6pI/n7oZ0UF1Ym72hUVZmEfiWJ
-         9BkBJ8wlih1Q+HwfJ5FDmOmE0QZkhSiKMgMbNPt6CJucw9M5HkFyG9fZL50iczRpbnkx
-         c3vw==
+        d=chromium.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=hnqEn1CtLr/NiyhAgmO/8MRbeaoY3H6FysR0WE07eMI=;
+        b=CAzzpQc8d6pvPmR8WujIwnG/8mp9OOfW/GJEz0cHJFQGuE8vZAdGMpq7oD2rT8f2jD
+         el8GQzh6RWyx9yp8C3agLrBlGNRm/6mrCWeM085GlIU6LOuzzZIXL67R2Ocri5EBx/kW
+         jaf4Qk9+6r5KuIqpO7H/L3MXKgoxk+ZJQs65w=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=5MLods2cZm4Sv88ukRDNKhzjgS5s2jLF9qGyIzb8ilM=;
-        b=JAiSo7E3LSUSy0/JQn80QB96VZ1R9kKQRTHW2H1TtdjmFo47RKZ8/7URUH2iB+bdyd
-         2196dwYY8v0LEUQRLxaktHz/YF40aStpazqx5xwYZlssYxLz6rcmzGP6oIHklFMlGb5X
-         rL90O0RoT+dqcd7Zf1zdK0qhO1byfF64VvNRdnOjJLeQkWLWBliaLHqGVid+wDn5vGTc
-         11QXhbXvF4redTFYKZMuTNwL49Iy8L2zUDkfsdSyPLPSTvirllROlU6ywhTb7xm2a5Cu
-         MghSNOKBB5ldrxfJs7wBFXP6dp5UV9FmbLMouEzFJmXEqABdEkX+zh9jfBqlVemlfPLi
-         Vt+g==
-X-Gm-Message-State: AOAM532nwZWSRNyEMaEEtC+qkzUpXvOj+TYEk2uW+GlA2gQ6AzK9ogXn
-        q9wGr2C16wKToHh+npnJMF0=
-X-Google-Smtp-Source: ABdhPJytDJpcHBZhCUQuTdaozT4E4epmkQwdMHxfkXcytpXQFPCOU4MxgmoOaMxfTLKK3SirjS+NtA==
-X-Received: by 2002:a17:906:f2d0:: with SMTP id gz16mr24929857ejb.102.1634507323165;
-        Sun, 17 Oct 2021 14:48:43 -0700 (PDT)
-Received: from toninux ([91.86.65.165])
-        by smtp.gmail.com with ESMTPSA id g23sm8641800edt.1.2021.10.17.14.48.42
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 17 Oct 2021 14:48:42 -0700 (PDT)
-Date:   Sun, 17 Oct 2021 23:47:24 +0200
-From:   Debucquoy Anthony <d.tonitch@gmail.com>
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc:     linux-media@vger.kernel.org
-Subject: Re: [Update] Grabster AV 350 no audio (now works with tvtime)
-Message-ID: <YWyZ7HT5BZQLXvCu@toninux>
-References: <YVXA2vZtsdzJD5Vs@toninux>
- <20211001091909.16f24ed9@coco.lan>
- <YWsNWs0JutJNHAeC@toninux>
- <20211017015431.3ccee22b@sal.lan>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=hnqEn1CtLr/NiyhAgmO/8MRbeaoY3H6FysR0WE07eMI=;
+        b=qn+yLb1kfysw2mJNePrAnz3rXWlpmZk9BazqlD84jC2qner1gYbsBSOdpXg0pwtLoa
+         /qcm/MRcfSftfNYf699Qr6JSSocDGItfcRnYWhpEh5jYBQmYtWBEv+WzVbBa3madkShV
+         4juhRG3MU/fkULvDHM19Uu7hwEjnFCKcI05JulBBO/d/cWaVd1lOzwSDrsGaQ1fTg1lU
+         WzlHi9Qn86IaTZjlqO3/LpaG0YGiW7d6Cw03OZ+/EgUz4KuPTpPStr6Xtfcmjr5eYyOz
+         YRgTfO0LPfuLBzbtblH4MH/5fD+UqoipcBkADYJnjzrsNNJxIN01ue3E6+wQHY3DpdBQ
+         Hx/w==
+X-Gm-Message-State: AOAM530Zjwr7R/p8NQD2Gka/zrN8inw3mimm2ZAdKqkEb6S/w/OEp5bb
+        byFrdge6QKoLT8VR5jfcPjZ0zkInE5iZyg==
+X-Google-Smtp-Source: ABdhPJzOiNJnp4M15dmvFoTIm3CuRp4qWyIw+FipMPTNSNx7XKLI9vQGuf7FHTW6HSguPZIjwNBh4w==
+X-Received: by 2002:a17:906:c041:: with SMTP id bm1mr26180447ejb.280.1634519827373;
+        Sun, 17 Oct 2021 18:17:07 -0700 (PDT)
+Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com. [209.85.208.47])
+        by smtp.gmail.com with ESMTPSA id r3sm8586699edo.59.2021.10.17.18.17.05
+        for <linux-media@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 17 Oct 2021 18:17:06 -0700 (PDT)
+Received: by mail-ed1-f47.google.com with SMTP id ec8so64336406edb.6
+        for <linux-media@vger.kernel.org>; Sun, 17 Oct 2021 18:17:05 -0700 (PDT)
+X-Received: by 2002:a17:906:912:: with SMTP id i18mr25269308ejd.131.1634519824911;
+ Sun, 17 Oct 2021 18:17:04 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20211017015431.3ccee22b@sal.lan>
+References: <20210920170408.1561-1-dafna.hirschfeld@collabora.com> <c59b7f40-d99e-370a-b797-5dc72979df46@xs4all.nl>
+In-Reply-To: <c59b7f40-d99e-370a-b797-5dc72979df46@xs4all.nl>
+From:   Alexandre Courbot <acourbot@chromium.org>
+Date:   Mon, 18 Oct 2021 10:16:54 +0900
+X-Gmail-Original-Message-ID: <CAPBb6MW_i1_Lh2ZaF8jGjcV-4XBhjswtyKkZCk3HxKO7LX79Og@mail.gmail.com>
+Message-ID: <CAPBb6MW_i1_Lh2ZaF8jGjcV-4XBhjswtyKkZCk3HxKO7LX79Og@mail.gmail.com>
+Subject: Re: [PATCH v4] media: mtk-vpu: Ensure alignment of 8 for DTCM buffer
+To:     Hans Verkuil <hverkuil@xs4all.nl>
+Cc:     Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        "moderated list:ARM/Mediatek SoC support" 
+        <linux-mediatek@lists.infradead.org>,
+        LKML <linux-kernel@vger.kernel.org>, kernel@collabora.com,
+        Enric Balletbo i Serra <enric.balletbo@collabora.com>,
+        Dafna Hirschfeld <dafna3@gmail.com>,
+        Tiffany Lin <tiffany.lin@mediatek.com>,
+        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+        minghsiu.tsai@mediatek.com, houlong.wei@mediatek.com,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Sun, Oct 17, 2021 at 01:54:31AM +0100, Mauro Carvalho Chehab wrote:
-> Em Sat, 16 Oct 2021 19:35:22 +0200
-> Debucquoy Anthony <d.tonitch@gmail.com> escreveu:
-> 
-> Don't top post. It makes really hard for people to follow the discussions.
-> 
-> This time, I'll re-order the discussion for it to make sense.
-> 
-> > On Fri, Oct 01, 2021 at 09:19:09AM +0200, Mauro Carvalho Chehab wrote:
-> > > Hi Anthony,
-> > > 
-> > > Em Thu, 30 Sep 2021 15:51:22 +0200
-> > > Debucquoy Anthony <d.tonitch@gmail.com> escreveu:
-> > >   
-> > > > Hello,
-> > > > 
-> > > > I have currently have a (Grabster AV 350)
-> > > > [https://www.terratec.de/details.php?artnr=10599&lang=en]
-> > > > (and 300 that work even less but I will do another thread for it I think) 
-> > > > 
-> > > > I can easily get video output out of it with /dev/video0 but the problem
-> > > > is that I can't get audio by any way  
-> > > 
-> > > ...
-> > >   
-> > > > [ 7275.368159 ] em28xx 1-8:1.0: Identified as Terratec AV350 (card=68)
-> > > > [ 7275.368163 ] em28xx 1-8:1.0: analog set to isoc mode.
-> > > > [ 7275.368192 ] em28xx 1-8:1.0: Registering V4L2 extension
-> > > > [ 7275.497387 ] tvp5150 9-005c: tvp5150 (4.0) chip found @ 0xb8 (1-8:1.0)
-> > > > [ 7275.497396 ] tvp5150 9-005c: tvp5150am1 detected.
-> > > > [ 7278.429769 ] em28xx 1-8:1.0: Config register raw data: 0x50
-> > > > [ 7278.470775 ] em28xx 1-8:1.0: AC97 vendor ID = 0x83847666
-> > > > [ 7278.490776 ] em28xx 1-8:1.0: AC97 features = 0x6a90
-> > > > [ 7278.490782 ] em28xx 1-8:1.0: Sigmatel audio processor detected (stac
-> > > > 9766)  
-> > > 
-> > > The em28xx devices use an external chip for audio, using AC97.
-> > > 
-> > > As AC97 is an industry standard, it is possible for board vendors
-> > > to replace it with different chips. They do that with time, selecting
-> > > a different chip when they need/want.
-> > > 
-> > > The boards entry at the em28xx has configurations for the device that
-> > > was used at the time the code was introduced, but this may not be
-> > > the case anymore for a newer device.
-> > > 
-> > > Anyway, the AC97 chips have several different entries. From its
-> > > datasheet:
-> > > 
-> > > 	https://www.digchip.com/datasheets/parts/datasheet/649/STAC9766-pdf.php
-> > > 
-> > > It sees that it has the following input lines:
-> > > 
-> > > 	pc beep
-> > > 	phone
-> > > 	aux
-> > > 	video
-> > > 	cd
-> > > 	mic
-> > > 	line in
-> > > 
-> > > They also have a "Master" volume that the driver sets to be in 100%
-> > > (but some apps and pulseaudio might reduce it to 0%, causing the device
-> > > to be muted).
-> > > 
-> > > Anyway, the AC97 Kernel support will expose all lines reported by the
-> > > hardware via an ALSA mixer. 
-> > > 
-> > > The AV 350 entry assumes that the "line in" mixer entry is the one 
-> > > containing the audio. So, it will place the volume for such line
-> > > in 100%.
-> > > 
-> > > However, maybe, on your device, some other input was used instead.
-> > > 
-> > > If this is the case, all you need to do is to open a mixer, unmute
-> > > the right line and manually increase the volume.
-> > > 
-> > > -
-> > > 
-> > > There's a separate issue that might explain why some people
-> > > are using a different card: some boards require a command to
-> > > enable some pins (called GPIO). Those are used, among other
-> > > things, to enable/disable some external chips. In the case of
-> > > the original AV 350 that was used to add support for it,
-> > > it used some of those GPIOs to enable the AC97 inputs.
-> > > If your AV 350 requires a different setting, that will require
-> > > to patch the Kernel, but it is more likely that the problem on
-> > > your device is just due to a different AC97 volume.
-> 
-> > Hey, I'm really sorry about Up this thread but I found some things that
-> > can help but I'm not experimented enough to understand how to make it
-> > work properly!
-> > 
-> > By looking on the net with the info you gave me in the previous message,
-> > some people have request to try to use tvtime or xawtv !
-> > 
-> > So did I! and with tvtime, it was the first time I eared some song out
-> > of my device!
-> 
-> Ok. It means that there's nothing wrong with the Kernel driver.
-> 
-> What xawtv and tvtime does is that it starts a thread that does
-> something similar to:
-> 
-> 	$ arecord -D hw:1 -r 48000 -c 2 -f S16_LE | aplay -D hw:0
-> 
-> E. g. the thread reads audio from the capture card (in the above
-> example, hw:1) and sends its output to another device (hw:0, on
-> the above example).
-> 
-> > this is great news but I can't use it to record as I want!
-> 
-> You need to pass the right alsa device to the video recorder application.
-> 
-> E. g., using a command line command, it would be something like:
-> 
-> 	$ mencoder -tv driver=v4l2:device=/dev/video0:norm=pal-b:width=720:height=576:input=0:alsa:adevice=hw.1":amode=1:forceaudio:fps=25 tv:// -o my_output.mpg -oac mp3lame -lameopts cbr:br=224 -ovc lavc -lavcopts dia=-2:vcodec=mpeg4:vbitrate=1500 -noodml
-> 
-> I didn't test, but maybe some app like obs-studio would equally work,
-> provided that you set the audio input device to the one exported by
-> the em28xx driver, and that you set the right byte speed (if I'm not mistaken,
-> most em28xx devices use 48k, but this depends on the AC97 chipset).
-> 
-> > By the way, the sound came out of one of my headset that I don't use but
-> > is still plug in my pc by usb! this is not the default on pulse neither
-> > on alsa (at least to my knowledge)!
-> 
-> I guess there are parameters on both xawtv/tvtime to setup the audio
-> output device, but they offer limited support to control it.
-> 
-> > Then I tried with xawtv and this is the opposite, it doesn't even bother
-> > to launch (rip) ^^
-> > 
-> > So maybe anyone know what tvtime does differently that make my device
-> > work ? 
-> > 
-> > Again, sorry for the up ? :'(
-> > Hopefully you can undestand!
-> > 
-> > Thanks a lot for your help so far!
+Hi Hans!
 
-Thanks a lot for your precious information!
-the problem is still there but I don't think (as u said) that this is a
-linux-media issue! I will explain everything to a mail for the alsa
-mailing list and try to get help there!
+On Mon, Oct 4, 2021 at 6:37 PM Hans Verkuil <hverkuil@xs4all.nl> wrote:
+>
+> On 20/09/2021 19:04, Dafna Hirschfeld wrote:
+> > From: Alexandre Courbot <acourbot@chromium.org>
+> >
+> > When running memcpy_toio:
+> > memcpy_toio(send_obj->share_buf, buf, len);
+> > it was found that errors appear if len is not a multiple of 8:
+> >
+> > [58.350841] mtk-mdp 14001000.rdma: processing failed: -22
+>
+> Why do errors appear? Is that due to a HW bug? Some other reason?
 
-Again, your help is really precious and I really respect your work for
-the linux community!
+MTK folks would be the best placed to answer this, but since the
+failure is reported by the firmware I'd suspect either a firmware or
+hardware limitation.
 
-Have a great day!
+>
+> >
+> > This patch ensures the copy of a multiple of 8 size by calling
+> > round_up(len, 8) when copying
+> >
+> > Fixes: e6599adfad30 ("media: mtk-vpu: avoid unaligned access to DTCM buffer.")
+> > Signed-off-by: Alexandre Courbot <acourbot@chromium.org>
+> > Signed-off-by: Enric Balletbo i Serra <enric.balletbo@collabora.com>
+> > Signed-off-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+> > Reviewed-by: Houlong Wei <houlong.wei@mediatek.com>
+> > ---
+> > changes since v3:
+> > 1. multile -> multiple
+> > 2. add inline doc
+> >
+> > changes since v2:
+> > 1. do the extra copy only if len is not multiple of 8
+> >
+> > changes since v1:
+> > 1. change sign-off-by tags
+> > 2. change values to memset
+> >
+> >  drivers/media/platform/mtk-vpu/mtk_vpu.c | 15 ++++++++++++++-
+> >  1 file changed, 14 insertions(+), 1 deletion(-)
+> >
+> > diff --git a/drivers/media/platform/mtk-vpu/mtk_vpu.c b/drivers/media/platform/mtk-vpu/mtk_vpu.c
+> > index ec290dde59cf..1df031716c8f 100644
+> > --- a/drivers/media/platform/mtk-vpu/mtk_vpu.c
+> > +++ b/drivers/media/platform/mtk-vpu/mtk_vpu.c
+> > @@ -349,7 +349,20 @@ int vpu_ipi_send(struct platform_device *pdev,
+> >               }
+> >       } while (vpu_cfg_readl(vpu, HOST_TO_VPU));
+> >
+> > -     memcpy_toio(send_obj->share_buf, buf, len);
+> > +     /*
+> > +      * when copying data to the vpu hardware, the memcpy_toio operation must copy
+> > +      * a multiple of 8. Otherwise the processing fails
+>
+> Same here: it needs to explain why the processing fails.
+>
+> > +      */
+> > +     if (len % 8 != 0) {
+> > +             unsigned char data[SHARE_BUF_SIZE];
+>
+> Wouldn't it be more robust if you say:
+>
+>                 unsigned char data[sizeof(send_obj->share_buf)];
 
-Debucquoy Anthony
+Definitely yes.
 
-Ps: sorry for the top-post (I assume is the fact that I wrote before the
-previous message) I will be more watchful in the future
+>
+> I also think that the SHARE_BUF_SIZE define needs a comment stating that it must be a
+> multiple of 8, otherwise unexpected things can happen.
+>
+> You also noticed that the current SHARE_BUF_SIZE define is too low, but I saw
+> no patch correcting this. Shouldn't that be fixed as well?
+
+AFAICT the firmware expects this exact size on its end, so I don't
+believe it can be changed that easily. But maybe someone from MTK can
+prove me wrong.
+
+Cheers,
+Alex.
