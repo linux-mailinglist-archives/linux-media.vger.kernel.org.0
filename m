@@ -2,111 +2,219 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 859E14313E0
-	for <lists+linux-media@lfdr.de>; Mon, 18 Oct 2021 11:55:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 67A2A4313E6
+	for <lists+linux-media@lfdr.de>; Mon, 18 Oct 2021 11:58:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229683AbhJRJ55 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 18 Oct 2021 05:57:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40946 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229603AbhJRJ55 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Mon, 18 Oct 2021 05:57:57 -0400
-Received: from lb2-smtp-cloud7.xs4all.net (lb2-smtp-cloud7.xs4all.net [IPv6:2001:888:0:108::2a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0B8B3C06161C;
-        Mon, 18 Oct 2021 02:55:45 -0700 (PDT)
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud7.xs4all.net with ESMTPA
-        id cPMqmtvAyk3b0cPMtmhFmf; Mon, 18 Oct 2021 11:55:44 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1634550944; bh=hZHvQDSjUd8uW3oRdpn55CUce4TBNbqxu4Un/iM6Hic=;
-        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=s3GGNa29SESwabTksdMf/5josVX9HhU3ePTNA246K69Yd3XDAITe9bvm313pDt+lA
-         aat4e/vbTGP8jAP3mhHO232WBsR0Fa1Aawidgcu/PL/oAI/Ubv2Xw1obHAN9CamE7u
-         DSqW79QI22E2hVg3NC9DK4invFPwMoWlZY0drYCZmLylxgLQrxGiN9k7dN1jMgUSn1
-         YuHV3YlOhL+ViAYNIHNID7fukzTx87+MNDchi7VwqICd1Ysyu9kQyZjIjpw0DWD7kP
-         NdMcObb4Ur0NGgl7DgdFybqt5t67E+9CUmF1TFLdi87tgXex6IZUQ5ILlajrzL1gge
-         89oFSv83ZDUdg==
-Subject: Re: [PATCH v2 00/10] staging: media: zoran: fusion in one module
-To:     Corentin Labbe <clabbe@baylibre.com>, mchehab@kernel.org,
-        gregkh@linuxfoundation.org
-Cc:     linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-staging@lists.linux.dev, mjpeg-users@lists.sourceforge.net
-References: <20211013185812.590931-1-clabbe@baylibre.com>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <c2474663-3fe0-b0cd-ecb5-57ec370481e3@xs4all.nl>
-Date:   Mon, 18 Oct 2021 11:55:40 +0200
+        id S229548AbhJRKBB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 18 Oct 2021 06:01:01 -0400
+Received: from mx3.molgen.mpg.de ([141.14.17.11]:57227 "EHLO mx1.molgen.mpg.de"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S229473AbhJRKBB (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Mon, 18 Oct 2021 06:01:01 -0400
+Received: from [192.168.0.2] (ip5f5aef76.dynamic.kabel-deutschland.de [95.90.239.118])
+        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        (Authenticated sender: pmenzel)
+        by mx.molgen.mpg.de (Postfix) with ESMTPSA id 3A67F61E5FE33;
+        Mon, 18 Oct 2021 11:58:49 +0200 (CEST)
+Subject: Re: [PATCH v2 2/7] media: aspeed: use v4l2_info/v4l2_warn/v4l2_dbg
+ for log
+To:     Jammy Huang <jammy_huang@aspeedtech.com>
+References: <20211018092207.13336-1-jammy_huang@aspeedtech.com>
+ <20211018092207.13336-3-jammy_huang@aspeedtech.com>
+Cc:     eajames@linux.ibm.com, mchehab@kernel.org, joel@jms.id.au,
+        andrew@aj.id.au, linux-media@vger.kernel.org,
+        openbmc@lists.ozlabs.org, linux-arm-kernel@lists.infradead.org,
+        linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org
+From:   Paul Menzel <pmenzel@molgen.mpg.de>
+Message-ID: <24ee2592-c62e-8108-58ff-56e648bdf445@molgen.mpg.de>
+Date:   Mon, 18 Oct 2021 11:58:48 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Firefox/78.0 Thunderbird/78.14.0
+ Thunderbird/78.14.0
 MIME-Version: 1.0
-In-Reply-To: <20211013185812.590931-1-clabbe@baylibre.com>
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <20211018092207.13336-3-jammy_huang@aspeedtech.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4xfABpTiDbIOWqhv/J0KgHGejzgKsf74X+dQmYcsnG5aGEDJ2FA6OqGsDMvag3VOhBTkdexTPFa2yBDbLg8ONSLHsP4VKJGynHGfctWki387MdEc5UqsZz
- XlUENWwO2mW8uj2mdYo/IJECKp2EvM2IKe3+flx+UsqDcqkrct4B7j62CscVc4HSqTHGCb9IGAgP2o75qBUBstZ71HfpoGcfmaU5V0SFnUYoF5CvYz/Z7IEk
- uYRbugx0l3E8e8ZkskU+sCt2/8xOG8XVCQ0n1k/6dBBgsAHYYbBxUM4J3vWtLNFkn1cp1A9rtAVlZX500Lfk78vNnAIarVhibjRO5Mqp/QFFWtUB5Pg/6+j+
- YSJjPN4cPvz+mzRjjCTJCy30AZGycLBu/n6/lR0xfpcBHZGql6bqYirh3XpNM5ilE+uW6AIOmGDny01E93w4wFaVU6BDwQ==
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Corentin,
+Dear Jammy,
 
-I noticed some code review comments from Dan and a kernel test robot issue.
-Can you post a v3 fixing those by the end of the week? Next week I will have
-access again to my zoran board, so then I can test the v3 series.
 
-BTW, I agree with Dan, just drop the 'Enable zoran debugfs' config option. It's
-not worth the additional complexity. Instead, just #ifdef CONFIG_DEBUG_FS
-where necessary (in most cases you shouldn't even have to do that since the
-since you have dummy debug_fs_* functions if CONFIG_DEBUG_FS isn't set).
+Am 18.10.21 um 11:22 schrieb Jammy Huang:
+> The debug log level, 0~3, is controlled by module_param, debug.
+> Higher the value, more the information.
 
-Regards,
+Nit: *The* higher …
 
-	Hans
+Please mention your “conversion heuristic”? For example, level 3 is for 
+register operations (read, update, write)? Maybe that could also be 
+added to the module parameter description.
 
-On 13/10/2021 20:58, Corentin Labbe wrote:
-> Hello
-> 
-> The main change of this serie is to fusion all zoran related modules in
-> one.
-> This fixes the load order problem when everything is built-in.
-> 
-> Regards
-> 
-> Changes since v1:
-> - add missing debugfs cleaning
-> - clean some remaining module_get/put functions which made impossible to
->   remove the zoran module
-> - added the two latest patchs
-> 
-> Corentin Labbe (10):
->   staging: media: zoran: move module parameter checks to zoran_probe
->   staging: media: zoran: use module_pci_driver
->   staging: media: zoran: rename debug module parameter
->   staging: media: zoran: add debugfs
->   staging: media: zoran: videocode: remove procfs
->   staging: media: zoran: fusion all modules
->   staging: media: zoran: remove vidmem
->   staging: media: zoran: move videodev alloc
->   staging: media: zoran: move config select on primary kconfig
->   staging: media: zoran: introduce zoran_i2c_init
-> 
->  drivers/staging/media/zoran/Kconfig        |  46 +--
->  drivers/staging/media/zoran/Makefile       |   8 +-
->  drivers/staging/media/zoran/videocodec.c   |  68 +----
->  drivers/staging/media/zoran/videocodec.h   |   6 +-
->  drivers/staging/media/zoran/zoran.h        |   6 +-
->  drivers/staging/media/zoran/zoran_card.c   | 328 ++++++++++++++-------
->  drivers/staging/media/zoran/zoran_driver.c |   5 +-
->  drivers/staging/media/zoran/zr36016.c      |  24 +-
->  drivers/staging/media/zoran/zr36016.h      |   2 +
->  drivers/staging/media/zoran/zr36050.c      |  21 +-
->  drivers/staging/media/zoran/zr36050.h      |   2 +
->  drivers/staging/media/zoran/zr36060.c      |  21 +-
->  drivers/staging/media/zoran/zr36060.h      |   2 +
->  13 files changed, 291 insertions(+), 248 deletions(-)
-> 
 
+Kind regards,
+
+Paul
+
+
+> Signed-off-by: Jammy Huang <jammy_huang@aspeedtech.com>
+> ---
+>   drivers/media/platform/aspeed-video.c | 40 +++++++++++++++------------
+>   1 file changed, 23 insertions(+), 17 deletions(-)
+> 
+> diff --git a/drivers/media/platform/aspeed-video.c b/drivers/media/platform/aspeed-video.c
+> index 6259cf17a7cc..642ca96c8c52 100644
+> --- a/drivers/media/platform/aspeed-video.c
+> +++ b/drivers/media/platform/aspeed-video.c
+> @@ -30,6 +30,7 @@
+>   #include <media/v4l2-event.h>
+>   #include <media/v4l2-ioctl.h>
+>   #include <media/videobuf2-dma-contig.h>
+> +#include <linux/videodev2.h>
+>   
+>   #define DEVICE_NAME			"aspeed-video"
+>   
+> @@ -390,6 +391,8 @@ static const struct v4l2_dv_timings_cap aspeed_video_timings_cap = {
+>   	},
+>   };
+>   
+> +static unsigned int debug;
+> +
+>   static void aspeed_video_init_jpeg_table(u32 *table, bool yuv420)
+>   {
+>   	int i;
+> @@ -437,23 +440,23 @@ static void aspeed_video_update(struct aspeed_video *video, u32 reg, u32 clear,
+>   	t &= ~clear;
+>   	t |= bits;
+>   	writel(t, video->base + reg);
+> -	dev_dbg(video->dev, "update %03x[%08x -> %08x]\n", reg, before,
+> -		readl(video->base + reg));
+> +	v4l2_dbg(3, debug, &video->v4l2_dev, "update %03x[%08x -> %08x]\n",
+> +		 reg, before, readl(video->base + reg));
+>   }
+>   
+>   static u32 aspeed_video_read(struct aspeed_video *video, u32 reg)
+>   {
+>   	u32 t = readl(video->base + reg);
+>   
+> -	dev_dbg(video->dev, "read %03x[%08x]\n", reg, t);
+> +	v4l2_dbg(3, debug, &video->v4l2_dev, "read %03x[%08x]\n", reg, t);
+>   	return t;
+>   }
+>   
+>   static void aspeed_video_write(struct aspeed_video *video, u32 reg, u32 val)
+>   {
+>   	writel(val, video->base + reg);
+> -	dev_dbg(video->dev, "write %03x[%08x]\n", reg,
+> -		readl(video->base + reg));
+> +	v4l2_dbg(3, debug, &video->v4l2_dev, "write %03x[%08x]\n", reg,
+> +		 readl(video->base + reg));
+>   }
+>   
+>   static void update_perf(struct aspeed_video_perf *p)
+> @@ -474,13 +477,13 @@ static int aspeed_video_start_frame(struct aspeed_video *video)
+>   	u32 seq_ctrl = aspeed_video_read(video, VE_SEQ_CTRL);
+>   
+>   	if (video->v4l2_input_status) {
+> -		dev_dbg(video->dev, "No signal; don't start frame\n");
+> +		v4l2_warn(&video->v4l2_dev, "No signal; don't start frame\n");
+>   		return 0;
+>   	}
+>   
+>   	if (!(seq_ctrl & VE_SEQ_CTRL_COMP_BUSY) ||
+>   	    !(seq_ctrl & VE_SEQ_CTRL_CAP_BUSY)) {
+> -		dev_dbg(video->dev, "Engine busy; don't start frame\n");
+> +		v4l2_warn(&video->v4l2_dev, "Engine busy; don't start frame\n");
+>   		return -EBUSY;
+>   	}
+>   
+> @@ -489,7 +492,7 @@ static int aspeed_video_start_frame(struct aspeed_video *video)
+>   				       struct aspeed_video_buffer, link);
+>   	if (!buf) {
+>   		spin_unlock_irqrestore(&video->lock, flags);
+> -		dev_dbg(video->dev, "No buffers; don't start frame\n");
+> +		v4l2_warn(&video->v4l2_dev, "No buffers; don't start frame\n");
+>   		return -EPROTO;
+>   	}
+>   
+> @@ -565,7 +568,7 @@ static void aspeed_video_bufs_done(struct aspeed_video *video,
+>   
+>   static void aspeed_video_irq_res_change(struct aspeed_video *video, ulong delay)
+>   {
+> -	dev_dbg(video->dev, "Resolution changed; resetting\n");
+> +	v4l2_dbg(1, debug, &video->v4l2_dev, "Resolution changed; resetting\n");
+>   
+>   	set_bit(VIDEO_RES_CHANGE, &video->flags);
+>   	clear_bit(VIDEO_FRAME_INPRG, &video->flags);
+> @@ -766,8 +769,8 @@ static void aspeed_video_calc_compressed_size(struct aspeed_video *video,
+>   	aspeed_video_write(video, VE_STREAM_BUF_SIZE,
+>   			   compression_buffer_size_reg);
+>   
+> -	dev_dbg(video->dev, "Max compressed size: %x\n",
+> -		video->max_compressed_size);
+> +	v4l2_dbg(1, debug, &video->v4l2_dev, "Max compressed size: %#x\n",
+> +		 video->max_compressed_size);
+>   }
+>   
+>   #define res_check(v) test_and_clear_bit(VIDEO_MODE_DETECT_DONE, &(v)->flags)
+> @@ -804,7 +807,7 @@ static void aspeed_video_get_resolution(struct aspeed_video *video)
+>   						      res_check(video),
+>   						      MODE_DETECT_TIMEOUT);
+>   		if (!rc) {
+> -			dev_dbg(video->dev, "Timed out; first mode detect\n");
+> +			v4l2_warn(&video->v4l2_dev, "Timed out; first mode detect\n");
+>   			clear_bit(VIDEO_RES_DETECT, &video->flags);
+>   			return;
+>   		}
+> @@ -822,7 +825,7 @@ static void aspeed_video_get_resolution(struct aspeed_video *video)
+>   						      MODE_DETECT_TIMEOUT);
+>   		clear_bit(VIDEO_RES_DETECT, &video->flags);
+>   		if (!rc) {
+> -			dev_dbg(video->dev, "Timed out; second mode detect\n");
+> +			v4l2_warn(&video->v4l2_dev, "Timed out; second mode detect\n");
+>   			return;
+>   		}
+>   
+> @@ -856,7 +859,7 @@ static void aspeed_video_get_resolution(struct aspeed_video *video)
+>   	} while (invalid_resolution && (tries++ < INVALID_RESOLUTION_RETRIES));
+>   
+>   	if (invalid_resolution) {
+> -		dev_dbg(video->dev, "Invalid resolution detected\n");
+> +		v4l2_warn(&video->v4l2_dev, "Invalid resolution detected\n");
+>   		return;
+>   	}
+>   
+> @@ -873,8 +876,8 @@ static void aspeed_video_get_resolution(struct aspeed_video *video)
+>   	aspeed_video_update(video, VE_SEQ_CTRL, 0,
+>   			    VE_SEQ_CTRL_AUTO_COMP | VE_SEQ_CTRL_EN_WATCHDOG);
+>   
+> -	dev_dbg(video->dev, "Got resolution: %dx%d\n", det->width,
+> -		det->height);
+> +	v4l2_dbg(1, debug, &video->v4l2_dev, "Got resolution: %dx%d\n",
+> +		 det->width, det->height);
+>   }
+>   
+>   static void aspeed_video_set_resolution(struct aspeed_video *video)
+> @@ -1501,7 +1504,7 @@ static void aspeed_video_stop_streaming(struct vb2_queue *q)
+>   				!test_bit(VIDEO_FRAME_INPRG, &video->flags),
+>   				STOP_TIMEOUT);
+>   	if (!rc) {
+> -		dev_dbg(video->dev, "Timed out when stopping streaming\n");
+> +		v4l2_warn(&video->v4l2_dev, "Timed out when stopping streaming\n");
+>   
+>   		/*
+>   		 * Need to force stop any DMA and try and get HW into a good
+> @@ -1856,6 +1859,9 @@ static struct platform_driver aspeed_video_driver = {
+>   
+>   module_platform_driver(aspeed_video_driver);
+>   
+> +module_param(debug, int, 0644);
+> +MODULE_PARM_DESC(debug, "Debug level (0-3)");
+> +
+>   MODULE_DESCRIPTION("ASPEED Video Engine Driver");
+>   MODULE_AUTHOR("Eddie James");
+>   MODULE_LICENSE("GPL v2");
+> 
