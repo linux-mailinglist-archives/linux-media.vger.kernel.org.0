@@ -2,152 +2,89 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B6037431197
-	for <lists+linux-media@lfdr.de>; Mon, 18 Oct 2021 09:50:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 255474311A8
+	for <lists+linux-media@lfdr.de>; Mon, 18 Oct 2021 09:57:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230521AbhJRHwX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 18 Oct 2021 03:52:23 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:36735 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S230507AbhJRHwW (ORCPT
+        id S231161AbhJRH7b (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 18 Oct 2021 03:59:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41976 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231144AbhJRH73 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 18 Oct 2021 03:52:22 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1634543411;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=cmUEjMvKdE4r0VlhoDyQ4AGcJgL1QHXNAMf5p+m+CiQ=;
-        b=Ziv0zJhEetxjheV0KjvvMcVzViYYbYPOV+v7AKvHhBNcIJA0QtrV3cbKtdolTAiERLKjRm
-        Yb9pgaNOfkxj4d1HS61Zmlolg4ic9O7ReeQspBH1tU5r3t2v+2UC7OSji+f84M3v/6o9/W
-        zOO8xaYiwojGlPXety7PlS0STnr+E3w=
-Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
- [209.85.208.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-591-v3kD-WAtOLO6NjmPErVDqg-1; Mon, 18 Oct 2021 03:50:10 -0400
-X-MC-Unique: v3kD-WAtOLO6NjmPErVDqg-1
-Received: by mail-ed1-f70.google.com with SMTP id h19-20020aa7de13000000b003db6ad5245bso13609567edv.9
-        for <linux-media@vger.kernel.org>; Mon, 18 Oct 2021 00:50:09 -0700 (PDT)
+        Mon, 18 Oct 2021 03:59:29 -0400
+Received: from mail-ed1-x531.google.com (mail-ed1-x531.google.com [IPv6:2a00:1450:4864:20::531])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 70CB7C06161C;
+        Mon, 18 Oct 2021 00:57:17 -0700 (PDT)
+Received: by mail-ed1-x531.google.com with SMTP id w14so67174300edv.11;
+        Mon, 18 Oct 2021 00:57:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=HxP9FmqmfEaYqrTDx3Bipn3FnKmcfcL4+wP2KmotZvw=;
+        b=fvudk6ZKIcg3nxc46JUcMYdXO1pUiNOPX7EXQ60tcUWsRcDMOktxOIwUp9gPEEmXHG
+         YqWYPlU+srC1lSBoFWaMRDkkWPshDQirDcMp6ueZOFdAQZbhdmlGKtqjEStCwhADGNRu
+         UvOOk+4d2m3oUxs/hrHqI84GjCs/Ekxt5Jhzk+XFhF8wdMwpo83WWn8+RVbkQPdZRntp
+         lUnGJDid4gFm7PJmejvdtWBHOtdw4sAlMQ3Aek0ZpAbT1hhNM9P5ip8Ub4bSrQEGKs6H
+         dIuQAlg2/nvYdz5A/j7vLllE5Lhy0s5cuFgKUqfcSOEHKLCeyVMcTQAVhUpsMtW36FgL
+         ynvw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=cmUEjMvKdE4r0VlhoDyQ4AGcJgL1QHXNAMf5p+m+CiQ=;
-        b=avVUgan0sW2vSehfMZ92+o6jDzhKRGCYdPvQ8A6ERmGWi3qeKQk3RcwZhgfHzdzMjf
-         RszPL7I5igPNUYIVBguE/hQrkl7ckAuz01cQutnrd/WwQbUFIEkRPGMs1mPzuNjhHWgS
-         lpa/XgFxK6UJSb/0AZ6ireyGGkh0kIomDrpG5ceAKVuMr63FBW54lb2mlOz0QvhggYnZ
-         QvLGSYsRhlxyQXgbO7qLutojeKOlGnoeD0/IQk2NYMUkDFTb8Jg0Dk2u4Xg1U/YcQg8+
-         Lz2BVYj4S1ZR39F/sWRh0YjOV64K0x1oY1FV2GoQsl3kF+OZt4/D5tT927q5CFJnEP/7
-         vchQ==
-X-Gm-Message-State: AOAM532zuTjw83EOQ1qhcHJhaxRKE5iFHCalGZZfk4IfNgy4UhxPmU/R
-        lcJ9wRBzF5yAoeNamLG3wAO9MoTcORMpHJRXV/kdeXFMtaOUo9oSkxS2z1tEEa7u6PyhKbQxxci
-        Gw47P01gdfncTeIASC2KnB4k=
-X-Received: by 2002:a50:e0cf:: with SMTP id j15mr43879055edl.23.1634543408939;
-        Mon, 18 Oct 2021 00:50:08 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzGqecflbkhXn6/d+bUvhqn3HokkMDIfFHxk40B17yyen9jLv9T9V/5qiLyonf33yklFJn63w==
-X-Received: by 2002:a50:e0cf:: with SMTP id j15mr43879025edl.23.1634543408670;
-        Mon, 18 Oct 2021 00:50:08 -0700 (PDT)
-Received: from [10.40.1.223] ([81.30.35.201])
-        by smtp.gmail.com with ESMTPSA id i19sm5918761ejo.101.2021.10.18.00.50.08
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 18 Oct 2021 00:50:08 -0700 (PDT)
-Message-ID: <2170cfdf-767f-969c-f241-4e61bfafd1f5@redhat.com>
-Date:   Mon, 18 Oct 2021 09:50:07 +0200
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=HxP9FmqmfEaYqrTDx3Bipn3FnKmcfcL4+wP2KmotZvw=;
+        b=pimd3gbpXpD3HSb+hFcHcjeevangBo86IuwkrnU+h2n38O3I72CCvxo6coDBlSGyzO
+         s7no2dbVcTwiqQpHDuSqVkapMewx7lEA8rgy/VIhTRDY9G3wKtHaSvvSyeNzsKI3KQQJ
+         Uy/L4h9lsx1PmDflCSJS/7m4RVyLPk4Hf0zwOeKfi1Dc3GZb7gk5IqM4v0pvZfqG+O9Y
+         SKQJTuqSi9y+XQ0Nz0K2V4UP/WBf9kP8uNd2jYDS4z2vvXGDgVtNk3/q7SYbdbpfi2Iq
+         2Kf8H6nrs+yR6Xw7pSJu0v1fOdun1WyyCb35OVvTFx1HeYZKsoA2lC5xu7aA24ASfPz2
+         pExA==
+X-Gm-Message-State: AOAM532WzAe8sg9PufZh4E8N4yLS/0vEK/0XPuSRmJO6lXYXtUaYyFgr
+        7AmNvyKy/94irDmzLsKhHPxjI6CiOmvk99T0YLg=
+X-Google-Smtp-Source: ABdhPJx1BV5cfPdBHoVU8zz0N9TiuGEE0ScuwlkW/XZZ3Pw8QqYsdGObM3d+Y4gsRadRDV9xw+UEdzoLDAzplkXWfPM=
+X-Received: by 2002:a17:907:8a27:: with SMTP id sc39mr27409842ejc.567.1634543836032;
+ Mon, 18 Oct 2021 00:57:16 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.1.0
-Subject: Re: [BUG 0/5] bug reports for atomisp to make it work
-Content-Language: en-US
+References: <20211017161958.44351-1-kitakar@gmail.com>
+In-Reply-To: <20211017161958.44351-1-kitakar@gmail.com>
+From:   Andy Shevchenko <andy.shevchenko@gmail.com>
+Date:   Mon, 18 Oct 2021 10:56:40 +0300
+Message-ID: <CAHp75VcDZQ1M2iNKewxqcG3C+bzSEGV05dTmYp3xXhnhNGdviw@mail.gmail.com>
+Subject: Re: [PATCH 00/17] various fixes for atomisp to make it work
 To:     Tsuchiya Yuto <kitakar@gmail.com>
-Cc:     Patrik Gfeller <patrik.gfeller@gmail.com>,
+Cc:     Hans de Goede <hdegoede@redhat.com>,
+        Patrik Gfeller <patrik.gfeller@gmail.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         Sakari Ailus <sakari.ailus@linux.intel.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Kaixu Xia <kaixuxia@tencent.com>,
-        Dan Carpenter <dan.carpenter@oracle.com>,
-        linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
-        linux-kernel@vger.kernel.org,
-        Nable <nable.maininbox@googlemail.com>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Fabio Aiuto <fabioaiuto83@gmail.com>,
-        "andrey.i.trufanov" <andrey.i.trufanov@gmail.com>
-References: <20211017162337.44860-1-kitakar@gmail.com>
-From:   Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <20211017162337.44860-1-kitakar@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+        Yang Yingliang <yangyingliang@huawei.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Aline Santana Cordeiro <alinesantanacordeiro@gmail.com>,
+        Dinghao Liu <dinghao.liu@zju.edu.cn>,
+        Alan <alan@linux.intel.com>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        linux-staging@lists.linux.dev,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi All,
-
-Just adding some folks to the Cc.
-
-Regards,
-
-Hans
-
-On 10/17/21 18:23, Tsuchiya Yuto wrote:
+On Mon, Oct 18, 2021 at 6:45 AM Tsuchiya Yuto <kitakar@gmail.com> wrote:
+>
 > Hi all,
-> 
-> These mails contain RFC patches, which are almost bug report and some
-> are just bug report, for atomisp to work (again). Tested on Microsoft
-> Surface 3 (Windows) and Xiaomi Mi Pad 2 (Android model) with v5.15-rc5.
-> Both are Cherry Trail (ISP2401) devices.
-> 
+>
+> This patch series contains fixes for atomisp to work (again). Tested on
+> Microsoft Surface 3 (Windows) and Xiaomi Mi Pad 2 (Android model) with
+> v5.15-rc5. Both are Cherry Trail (ISP2401) devices.
+>
 > I'm still not used to Linux patch sending flow. Sorry in advance
 > if there is some weirdness :-) but I did my best.
-> 
-> To try to take a picture, take a look at the series I sent earlier named
-> ("various fixes for atomisp to make it work")
-> 
-> The 1st patch is required to take a picture with atomsip (again):
-> 
->     [BUG][RFC] media: atomisp: pci: assume run_mode is PREVIEW
-> 
-> The 2nd patch is to avoid kernel warning message:
-> 
->     [BUG][RFC] media: atomisp: pci: remove dummy_ptr NULL check to avoid
->       duplicate active_bo
-> 
-> The 3rd patch is to avoid kernel oops, which is almost required for
-> using atomisp normally:
-> 
->     [BUG][RFC] media: atomisp: pci: add NULL check for asd obtained from
->       atomisp_video_pipe
-> 
-> The 4th-5th mail is bug reports, no patches for these issues yet:
-> 
->     [BUG] media: atomisp: `modprobe -r` not working well (dup video4linux,
->       ATOMISP_SUBDEV_{0,1})
->     [BUG] media: atomisp: atomisp causes touchscreen to stop working on
->       Microsoft Surface 3
-> 
-> I added further descriptions at the top of each RFC/BUG mails.
-> 
-> Regards,
-> Tsuchiya Yuto
-> 
-> Tsuchiya Yuto (5):
->   [BUG][RFC] media: atomisp: pci: assume run_mode is PREVIEW
->   [BUG][RFC] media: atomisp: pci: remove dummy_ptr NULL check to avoid
->     duplicate active_bo
->   [BUG][RFC] media: atomisp: pci: add NULL check for asd obtained from
->     atomisp_video_pipe
->   [BUG] media: atomisp: `modprobe -r` not working well (dup video4linux,
->     ATOMISP_SUBDEV_{0,1})
->   [BUG] media: atomisp: atomisp causes touchscreen to stop working on
->     Microsoft Surface 3
-> 
->  .../staging/media/atomisp/pci/atomisp_cmd.c   | 73 ++++++++++++++
->  .../staging/media/atomisp/pci/atomisp_fops.c  |  6 ++
->  .../staging/media/atomisp/pci/atomisp_ioctl.c | 96 ++++++++++++++++++-
->  drivers/staging/media/atomisp/pci/hmm/hmm.c   |  4 -
->  4 files changed, 174 insertions(+), 5 deletions(-)
-> 
 
+I agree with Hans, you did an excellent job!
+I will try to find time to look into this. In any case it seems to me
+that this is a material more likely for v5.17-rc1, rather than v5.16.
+
+-- 
+With Best Regards,
+Andy Shevchenko
