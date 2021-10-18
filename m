@@ -2,46 +2,61 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BEA33431101
-	for <lists+linux-media@lfdr.de>; Mon, 18 Oct 2021 09:07:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7A8AB431137
+	for <lists+linux-media@lfdr.de>; Mon, 18 Oct 2021 09:13:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230181AbhJRHJ0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 18 Oct 2021 03:09:26 -0400
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:58514 "EHLO
+        id S230329AbhJRHPn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 18 Oct 2021 03:15:43 -0400
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:58568 "EHLO
         bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229533AbhJRHJ0 (ORCPT
+        with ESMTP id S230006AbhJRHPi (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 18 Oct 2021 03:09:26 -0400
+        Mon, 18 Oct 2021 03:15:38 -0400
 Received: from [IPv6:2a02:810a:880:f54:88bb:da86:4533:43d6] (unknown [IPv6:2a02:810a:880:f54:88bb:da86:4533:43d6])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
         (Authenticated sender: dafna)
-        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 06E181F42612;
-        Mon, 18 Oct 2021 08:07:13 +0100 (BST)
-Subject: Re: [PATCH v4] media: mtk-vpu: Ensure alignment of 8 for DTCM buffer
-To:     Alexandre Courbot <acourbot@chromium.org>,
-        Hans Verkuil <hverkuil@xs4all.nl>
-Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
-        "moderated list:ARM/Mediatek SoC support" 
-        <linux-mediatek@lists.infradead.org>,
-        LKML <linux-kernel@vger.kernel.org>, kernel@collabora.com,
-        Enric Balletbo i Serra <enric.balletbo@collabora.com>,
-        Dafna Hirschfeld <dafna3@gmail.com>,
+        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id BE80A1F42642;
+        Mon, 18 Oct 2021 08:13:25 +0100 (BST)
+Subject: Re: [PATCH v8 04/12] iommu/mediatek: Add device_link between the
+ consumer and the larb devices
+To:     Yong Wu <yong.wu@mediatek.com>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Joerg Roedel <joro@8bytes.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
+        David Airlie <airlied@linux.ie>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     Evan Green <evgreen@chromium.org>,
+        Robin Murphy <robin.murphy@arm.com>,
+        Tomasz Figa <tfiga@chromium.org>,
+        Will Deacon <will.deacon@arm.com>,
+        linux-mediatek@lists.infradead.org, srv_heupstream@mediatek.com,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        iommu@lists.linux-foundation.org, youlin.pei@mediatek.com,
+        Matthias Kaehlcke <mka@chromium.org>, anan.sun@mediatek.com,
+        yi.kuo@mediatek.com, acourbot@chromium.org,
+        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
         Tiffany Lin <tiffany.lin@mediatek.com>,
-        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
-        minghsiu.tsai@mediatek.com, houlong.wei@mediatek.com,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>
-References: <20210920170408.1561-1-dafna.hirschfeld@collabora.com>
- <c59b7f40-d99e-370a-b797-5dc72979df46@xs4all.nl>
- <CAPBb6MW_i1_Lh2ZaF8jGjcV-4XBhjswtyKkZCk3HxKO7LX79Og@mail.gmail.com>
+        Hsin-Yi Wang <hsinyi@chromium.org>,
+        Eizan Miyamoto <eizan@chromium.org>,
+        anthony.huang@mediatek.com,
+        Frank Wunderlich <frank-w@public-files.de>
+References: <20210929013719.25120-1-yong.wu@mediatek.com>
+ <20210929013719.25120-5-yong.wu@mediatek.com>
+ <e00b92db-0562-27ca-2f96-1f03ff824988@collabora.com>
+ <e4c98036dd73b91b8352a162f80240171e2b3f0f.camel@mediatek.com>
 From:   Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
-Message-ID: <9475ac5b-79fe-da0e-ed1c-a91275cad46e@collabora.com>
-Date:   Mon, 18 Oct 2021 09:07:11 +0200
+Message-ID: <da5934de-65ad-4bac-c510-eb0d40d96d70@collabora.com>
+Date:   Mon, 18 Oct 2021 09:13:22 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.13.0
 MIME-Version: 1.0
-In-Reply-To: <CAPBb6MW_i1_Lh2ZaF8jGjcV-4XBhjswtyKkZCk3HxKO7LX79Og@mail.gmail.com>
+In-Reply-To: <e4c98036dd73b91b8352a162f80240171e2b3f0f.camel@mediatek.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -51,104 +66,125 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 
 
-On 18.10.21 03:16, Alexandre Courbot wrote:
-> Hi Hans!
-> 
-> On Mon, Oct 4, 2021 at 6:37 PM Hans Verkuil <hverkuil@xs4all.nl> wrote:
+On 16.10.21 04:23, Yong Wu wrote:
+> On Mon, 2021-10-11 at 14:36 +0200, Dafna Hirschfeld wrote:
 >>
->> On 20/09/2021 19:04, Dafna Hirschfeld wrote:
->>> From: Alexandre Courbot <acourbot@chromium.org>
+>> On 29.09.21 03:37, Yong Wu wrote:
+>>> MediaTek IOMMU-SMI diagram is like below. all the consumer connect
+>>> with
+>>> smi-larb, then connect with smi-common.
 >>>
->>> When running memcpy_toio:
->>> memcpy_toio(send_obj->share_buf, buf, len);
->>> it was found that errors appear if len is not a multiple of 8:
+>>>           M4U
+>>>            |
+>>>       smi-common
+>>>            |
+>>>     -------------
+>>>     |         |    ...
+>>>     |         |
+>>> larb1     larb2
+>>>     |         |
+>>> vdec       venc
 >>>
->>> [58.350841] mtk-mdp 14001000.rdma: processing failed: -22
->>
->> Why do errors appear? Is that due to a HW bug? Some other reason?
-> 
-> MTK folks would be the best placed to answer this, but since the
-> failure is reported by the firmware I'd suspect either a firmware or
-> hardware limitation.
-> 
->>
+>>> When the consumer works, it should enable the smi-larb's power
+>>> which
+>>> also need enable the smi-common's power firstly.
 >>>
->>> This patch ensures the copy of a multiple of 8 size by calling
->>> round_up(len, 8) when copying
+>>> Thus, First of all, use the device link connect the consumer and
+>>> the
+>>> smi-larbs. then add device link between the smi-larb and smi-
+>>> common.
 >>>
->>> Fixes: e6599adfad30 ("media: mtk-vpu: avoid unaligned access to DTCM buffer.")
->>> Signed-off-by: Alexandre Courbot <acourbot@chromium.org>
->>> Signed-off-by: Enric Balletbo i Serra <enric.balletbo@collabora.com>
->>> Signed-off-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
->>> Reviewed-by: Houlong Wei <houlong.wei@mediatek.com>
+>>> This patch adds device_link between the consumer and the larbs.
+>>>
+>>> When device_link_add, I add the flag DL_FLAG_STATELESS to avoid
+>>> calling
+>>> pm_runtime_xx to keep the original status of clocks. It can avoid
+>>> two
+>>> issues:
+>>> 1) Display HW show fastlogo abnormally reported in [1]. At the
+>>> beggining,
+>>> all the clocks are enabled before entering kernel, but the clocks
+>>> for
+>>> display HW(always in larb0) will be gated after clk_enable and
+>>> clk_disable
+>>> called from device_link_add(->pm_runtime_resume) and rpm_idle. The
+>>> clock
+>>> operation happened before display driver probe. At that time, the
+>>> display
+>>> HW will be abnormal.
+>>>
+>>> 2) A deadlock issue reported in [2]. Use DL_FLAG_STATELESS to skip
+>>> pm_runtime_xx to avoid the deadlock.
+>>>
+>>> Corresponding, DL_FLAG_AUTOREMOVE_CONSUMER can't be added, then
+>>> device_link_removed should be added explicitly.
+>>>
+>>> [1]
+>>> https://lore.kernel.org/linux-mediatek/1564213888.22908.4.camel@mhfsdcap03/
+>>> [2] https://lore.kernel.org/patchwork/patch/1086569/
+>>>
+>>> Suggested-by: Tomasz Figa <tfiga@chromium.org>
+>>> Signed-off-by: Yong Wu <yong.wu@mediatek.com>
+>>> Tested-by: Frank Wunderlich <frank-w@public-files.de> # BPI-
+>>> R2/MT7623
 >>> ---
->>> changes since v3:
->>> 1. multile -> multiple
->>> 2. add inline doc
+>>>    drivers/iommu/mtk_iommu.c    | 22 ++++++++++++++++++++++
+>>>    drivers/iommu/mtk_iommu_v1.c | 20 +++++++++++++++++++-
+>>>    2 files changed, 41 insertions(+), 1 deletion(-)
 >>>
->>> changes since v2:
->>> 1. do the extra copy only if len is not multiple of 8
->>>
->>> changes since v1:
->>> 1. change sign-off-by tags
->>> 2. change values to memset
->>>
->>>   drivers/media/platform/mtk-vpu/mtk_vpu.c | 15 ++++++++++++++-
->>>   1 file changed, 14 insertions(+), 1 deletion(-)
->>>
->>> diff --git a/drivers/media/platform/mtk-vpu/mtk_vpu.c b/drivers/media/platform/mtk-vpu/mtk_vpu.c
->>> index ec290dde59cf..1df031716c8f 100644
->>> --- a/drivers/media/platform/mtk-vpu/mtk_vpu.c
->>> +++ b/drivers/media/platform/mtk-vpu/mtk_vpu.c
->>> @@ -349,7 +349,20 @@ int vpu_ipi_send(struct platform_device *pdev,
->>>                }
->>>        } while (vpu_cfg_readl(vpu, HOST_TO_VPU));
->>>
->>> -     memcpy_toio(send_obj->share_buf, buf, len);
->>> +     /*
->>> +      * when copying data to the vpu hardware, the memcpy_toio operation must copy
->>> +      * a multiple of 8. Otherwise the processing fails
+>>> diff --git a/drivers/iommu/mtk_iommu.c b/drivers/iommu/mtk_iommu.c
+>>> index d5848f78a677..a2fa55899434 100644
+>>> --- a/drivers/iommu/mtk_iommu.c
+>>> +++ b/drivers/iommu/mtk_iommu.c
+>>> @@ -560,22 +560,44 @@ static struct iommu_device
+>>> *mtk_iommu_probe_device(struct device *dev)
+>>>    {
+>>>    	struct iommu_fwspec *fwspec = dev_iommu_fwspec_get(dev);
+>>>    	struct mtk_iommu_data *data;
+>>> +	struct device_link *link;
+>>> +	struct device *larbdev;
+>>> +	unsigned int larbid;
+>>>    
+>>>    	if (!fwspec || fwspec->ops != &mtk_iommu_ops)
+>>>    		return ERR_PTR(-ENODEV); /* Not a iommu client device
+>>> */
+>>>    
+>>>    	data = dev_iommu_priv_get(dev);
+>>>    
+>>> +	/*
+>>> +	 * Link the consumer device with the smi-larb device(supplier)
+>>> +	 * The device in each a larb is a independent HW. thus only
+>>> link
+>>> +	 * one larb here.
+>>> +	 */
+>>> +	larbid = MTK_M4U_TO_LARB(fwspec->ids[0]);
 >>
->> Same here: it needs to explain why the processing fails.
-
-Is writing 'due to hardware or firmware limitation' enough?
-If not, then we should wait for mediatek people's response to explain if they know more
-
->>
->>> +      */
->>> +     if (len % 8 != 0) {
->>> +             unsigned char data[SHARE_BUF_SIZE];
->>
->> Wouldn't it be more robust if you say:
->>
->>                  unsigned char data[sizeof(send_obj->share_buf)];
+>> so larbid is always the same for all the ids of a device?
 > 
-> Definitely yes.
-
-I'll send v5 fixing this
-
+> Yes. For me, each a dtsi node should represent a HW unit which can only
+> connect one larb.
 > 
->>
->> I also think that the SHARE_BUF_SIZE define needs a comment stating that it must be a
->> multiple of 8, otherwise unexpected things can happen.
->>
->> You also noticed that the current SHARE_BUF_SIZE define is too low, but I saw
->> no patch correcting this. Shouldn't that be fixed as well?
+>> If so maybe it worth testing it and return error if this is not the
+>> case.
 > 
-> AFAICT the firmware expects this exact size on its end, so I don't
-> believe it can be changed that easily. But maybe someone from MTK can
-> prove me wrong.
-> 
+> Thanks for the suggestion. This is very helpful. I did see someone put
+> the different larbs in one node. I will check this, and add return
 
-I looked further and noted that the structs that are larger than 'SHARE_BUF_SIZE'
-(venc_ap_ipi_msg_enc_ext venc_ap_ipi_msg_set_param_ext)
-are used by drivers that don't use this vpu api, so actually SHARE_BUF_SIZE is
-not too low and as Corurbot worte probably not changeable.
+I am working on bugs found on media drivers, could you please point me to
+that wrong node?
+Will you send a fix to that node in the dtsi?
 
 
 Thanks,
 Dafna
 
-> Cheers,
-> Alex.
+> EINVAL for this case.
+
+
+
 > 
+>>
+>> Thanks,
+>> Dafna
+>   
+>>>
