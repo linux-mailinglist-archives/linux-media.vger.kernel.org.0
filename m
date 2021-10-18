@@ -2,154 +2,256 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1932E431A41
-	for <lists+linux-media@lfdr.de>; Mon, 18 Oct 2021 15:00:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7F76B431DBB
+	for <lists+linux-media@lfdr.de>; Mon, 18 Oct 2021 15:53:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231829AbhJRNC0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 18 Oct 2021 09:02:26 -0400
-Received: from mail-bn8nam08on2062.outbound.protection.outlook.com ([40.107.100.62]:10849
-        "EHLO NAM04-BN8-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S231739AbhJRNCQ (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 18 Oct 2021 09:02:16 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=j/IJpI4hnSXRKj96difRuZA48Hmn4CazeaXwRvVnZSrQTEDW+VkIXvcDMKAWwM+DUsfcBziVM5+krWpr6GuYl4B9zXPtVKyYtg42B0HyRAe8Mmx77GIr9Lzb4J2egp68wSzGq3Anz2cadofbrrRn1IvvM8ZtlfX1hFogiUGhnLQFQYwXDEeyYa9iNs69AZ++ZGHPwZ59Rw2colDaB1Wm08hAAnMjqmx+n4XJkPh0kzST8rm7B00ZymgXH8e7pY7SATrnK8zRZu/cPC3DU/MBteV+FQDKdnKlK3zPP7OBUJm66MW+FrEqJaoBi8i4u9GKw6Acs9WRaVRUtzhUw5Sjpg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=EbsY80ymO0AMpfCnh03d23Xts2Zbfu+NqZQVPzGBCDE=;
- b=VRSVMH7p1Z7CnyBBoJ3KvlNVkRQrN2+QCvuqc0BJ22e0eQd5z34ZwSDiaNc7EWBULpxoi6HF72HEryP+9/9GvgBjX5LpJeD4Zsd1OoU6GnrXEYh/68zbSlEkdE+hvyh2afGM8KaIsyWUeTevs+3Oxnso9S5PeEe/8wfVUW+IzCr58X3qF4UsPL07VgPWQ+Wz5ntxGkF462zcdCCIvpafedkkP/kDBmGChb5u9VKwqj1K4Zy1GFgXMu/AJ7eJIugmvrwjid5qub3CcFXSVs5iQ2H8Vhzf8LUGlaZ8jDhiOenzVdcFziXGUhmhg0farEz/8S0MRwgJaHCfY1iA846Guw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=EbsY80ymO0AMpfCnh03d23Xts2Zbfu+NqZQVPzGBCDE=;
- b=Ygz+957KMIL0ME9TqXlZDz3h3HZrc4Dwe+R/bA7nadAxSR/GphKW+0t6zymh6qCzcGH4uL7baZzlhVySh7g+MigUT3VBic+vG5GTregVnWEZTwENjX+Andmb6479lwwHpxP8CDFjmBU14oD+KKAOxsH0R4aKMfZyjIE5t+0+Sq8=
-Authentication-Results: amazon.com; dkim=none (message not signed)
- header.d=none;amazon.com; dmarc=none action=none header.from=amd.com;
-Received: from MWHPR1201MB0192.namprd12.prod.outlook.com
- (2603:10b6:301:5a::14) by MWHPR12MB1341.namprd12.prod.outlook.com
- (2603:10b6:300:11::14) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4608.16; Mon, 18 Oct
- 2021 13:00:00 +0000
-Received: from MWHPR1201MB0192.namprd12.prod.outlook.com
- ([fe80::55c7:6fc9:b2b1:1e6a]) by MWHPR1201MB0192.namprd12.prod.outlook.com
- ([fe80::55c7:6fc9:b2b1:1e6a%10]) with mapi id 15.20.4608.018; Mon, 18 Oct
- 2021 13:00:00 +0000
-Subject: Re: [PATCH for-next 1/3] dma-buf: Fix pin callback comment
-To:     Gal Pressman <galpress@amazon.com>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        Doug Ledford <dledford@redhat.com>,
-        Jason Gunthorpe <jgg@ziepe.ca>
-Cc:     linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        linux-kernel@vger.kernel.org, linux-rdma@vger.kernel.org,
-        Oded Gabbay <ogabbay@habana.ai>,
-        Tomer Tayar <ttayar@habana.ai>,
-        Yossi Leybovich <sleybo@amazon.com>,
-        Alexander Matushevsky <matua@amazon.com>,
-        Leon Romanovsky <leonro@nvidia.com>,
-        Jianxin Xiong <jianxin.xiong@intel.com>,
-        Firas Jahjah <firasj@amazon.com>
-References: <20211012120903.96933-1-galpress@amazon.com>
- <20211012120903.96933-2-galpress@amazon.com>
-From:   =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-Message-ID: <912154f1-5809-3854-f205-61f0b7545a1c@amd.com>
-Date:   Mon, 18 Oct 2021 14:59:51 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
-In-Reply-To: <20211012120903.96933-2-galpress@amazon.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-X-ClientProxiedBy: AM6P193CA0118.EURP193.PROD.OUTLOOK.COM
- (2603:10a6:209:85::23) To MWHPR1201MB0192.namprd12.prod.outlook.com
- (2603:10b6:301:5a::14)
+        id S233778AbhJRNyd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 18 Oct 2021 09:54:33 -0400
+Received: from mail.kernel.org ([198.145.29.99]:50742 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S232327AbhJRNwa (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Mon, 18 Oct 2021 09:52:30 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 3B5116140A;
+        Mon, 18 Oct 2021 13:38:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1634564328;
+        bh=+KNkz7Nw4XNYaPsxS3VoMilJ6IGWgKggJgF0Dx0aCjM=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=MK+Hi/zS2sheljq77TCabhacPeJQVWHNDrGJq/pijFuQzh5p18E+aAaCVAgmSsIZG
+         YTI1EQcMkocgwYsyeeNvSG3Y+w4xb/nKUhQVSIltXstTektUD7bN7NV7urNftt7IPa
+         3jbbTz322yXShepmB8RmvttQAkI/WmBuzso6N2AGIlbFtXIwuF5xwo4d50q64Q5pWP
+         f06aXtzvACs7mN3nxi1NXbLnhIO54e1a2GxvVUjybxxoKH3Gi/ke4VwkDcg1sKxl1q
+         cBq53MW20kewjYXIJpMQF1X88qfnfYFawMRPWo13xCpq/UcxEiYUGbh7o5omG3EC7E
+         /9l/1e8ossTOQ==
+Received: by mail-ed1-f54.google.com with SMTP id w14so71206519edv.11;
+        Mon, 18 Oct 2021 06:38:48 -0700 (PDT)
+X-Gm-Message-State: AOAM532tw9h02Cw9swMQEl43AE72XxILnpceN2EOu8u/Zz2TcW8/hPrO
+        BZmae9Ddvswib+M047YOt3m9yCMCcy08W7XNjg==
+X-Google-Smtp-Source: ABdhPJzC8FCPx06z5aKCjWFU3VIkGsOX3tAUk7AlT9uiEN0CIXyCaWz0JWKVLuQfIZRXr0NuuVoDXKwt65WpQ/4p1+s=
+X-Received: by 2002:a05:6402:27d3:: with SMTP id c19mr43500965ede.70.1634564223968;
+ Mon, 18 Oct 2021 06:37:03 -0700 (PDT)
 MIME-Version: 1.0
-Received: from [IPv6:2a02:908:1252:fb60:c473:1c84:fac2:c272] (2a02:908:1252:fb60:c473:1c84:fac2:c272) by AM6P193CA0118.EURP193.PROD.OUTLOOK.COM (2603:10a6:209:85::23) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4608.17 via Frontend Transport; Mon, 18 Oct 2021 12:59:56 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 8a7da1c8-5c67-42fe-abee-08d992373133
-X-MS-TrafficTypeDiagnostic: MWHPR12MB1341:
-X-Microsoft-Antispam-PRVS: <MWHPR12MB1341CE237B8D9FF05F5E7D7B83BC9@MWHPR12MB1341.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:3383;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: Mjrkft8Py+W040TOzC7cDeqbfzY4JmvmxNZaL/MKQSNHjOrhlOmPvBAa0OQYE+EDgx04X1bAGqOzwShA8MUNa4kpJ9s6l0bI0rBQDYfrlua0P1XxETR54/0XAyMNdiJnbhNQHNnSCFalmL6kIfe1RuFDBUpROeFe7m+uM3QxnbrM0wp2HsoN5YyRu6h8Ry1Wh8DEUW46mLgT7VliE2X+ECBBkcyfJRiVHQpOBpiMv/8tM9sUmvhB9q+1vhkU8yJkKc9GpkGyAFP3BcwmUB8rMvp6i35qs8Tgny8zrQp/w5eeq66cOcU4Ghyf4y/n7haeQc1j6YWq8ZR3zzZqB7Jj7xzDMXUl1i2AVc6df6cVmj2rsZq3IsiwhPsVcGKg1E4B4aCxixkDeH/m0NFcvgAtom6MwETuzZCXEqTWz20Hy4ZXexBtUmQ2qlFYwcBWg+BteQd1A2yV4hKYVdiTz/yIeM72DHoQgbzqIegmUJcSXydH/alvDTtQ9vQhCB3+iDMGHit4DqDsx2DujVauwNFcvQaWLc/CI+VYzpchLVvQsX8XkorLg6KRAC371xejLx8PnpHYW4014ujYzh20SnHjj63Hbfe1sk7QB878L6KTeiKo1jpoVFf6p4qTtu0nXp+zL570zmBSCuFCDQxjhoCOT2gG6KJvRhdTj4WUGZo56BeXDUpd7WJeM6Jio9D4BjcS9QRZ7roJYv+41ilwgVdBQDG0QX8QfQgMnExTlVXB6LMjtCGvl9zoM3dMO0yNHqv7
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MWHPR1201MB0192.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(366004)(316002)(508600001)(36756003)(66946007)(4326008)(31696002)(2906002)(7416002)(2616005)(38100700002)(8676002)(6486002)(31686004)(54906003)(110136005)(6666004)(5660300002)(8936002)(66574015)(66556008)(66476007)(186003)(83380400001)(86362001)(45980500001)(43740500002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?ZHFSWVFRcWVFcHQ5SUY5OU5WQ2MwRXRMOXFLclJqY1lIcU1JVzRNM0xqRy9P?=
- =?utf-8?B?TCtZekJkWmx2QTNzNmRpS0tHcFRkbHBCMlE0dzUxZ0VrcWpZTFp6RzI0WnVn?=
- =?utf-8?B?VzRHUDNrMlE0QytBMDU4clBzN25mT2V4bERZSnl4bG0rR1JQcVV0L3JQUTIr?=
- =?utf-8?B?Y3l0VTBhbmNTNWRCVkhSMExXYVNydEFTbHdRb3oyMkgvSHo5VGFoWkFKVTg4?=
- =?utf-8?B?aGlQb3huUzArS3l5VnZaNElvN2VVNHBHSkJub3ltY0ZSdXVQQzYxb3VXUEZm?=
- =?utf-8?B?cmhyd2ZqNEQreG5MRFV0S2hTNjB4NEppTytTVi9PNHUzSzZwSUw3WlAzcEh0?=
- =?utf-8?B?cExBeUg0N2wxbWJMbXVRTGZ2YVAzZHNQUStHakwyUWk1M2Y1eThnVzI0cFBx?=
- =?utf-8?B?WW9pS0dwaUlScERBbzBhUE1IWVRCdS9zNXZMQ3VlNUp0OWpsZkRxRmNHMjE4?=
- =?utf-8?B?Nk9aNENKNkpqM0h2T0pKN1RVK2tOZXF3QWM2cVNQVGUzM3B3NFhUOWhEcE8r?=
- =?utf-8?B?ZW4xcjFZQkVWUlNWVVJKUUFHbWxqb2Q0bTFBUGtVaDlCR0hrenhEKzJyQUQr?=
- =?utf-8?B?clJpQklhTGFIT0VWdEVHTStQVlZUS21mZWxERmNiRUVlNUtWcjVLb2ZMNlNY?=
- =?utf-8?B?TlYxbWpEa2xaUUY2aW9Hd2M4L1JDQW1SRVNQaG5sRitGNk9JYW9aeHVKOExn?=
- =?utf-8?B?MWZGSHE1bENlWmtqT0F0ZHBGR01NYUswb05LVVJLYnNhWENGeFlMdTd4UmJl?=
- =?utf-8?B?SmdvT1djT3QyMm4xWFNMVm5CZW1LUkhWeEtFTzJsOUpsNElra1ZMbjQzVVdj?=
- =?utf-8?B?aVBNQ2NpWDhVK0hCTG1RdzFPc1RqNmlxY1BaOFdtVENSR0haaWVhTmIvenRq?=
- =?utf-8?B?NWpHMXhkcUxXU1FOdS9mWDAyaGxubXpSOU9ITjU5UXFJcmR5Z3FhUzhwc3dr?=
- =?utf-8?B?REJ5S2RnMjdYNG1WTG5tQTBHcVhyTXYrdFN1UWdBYWt1c0JHOVMxTlZmQTY5?=
- =?utf-8?B?RVBxZjVDam5aMVRhTDFQSXBVSGo0eDJiTU85UHZWMTMrK2hMV0hRclNzT2Vx?=
- =?utf-8?B?VUhXejZPRTlBb1JJNmpjWFJvck1hcHFJd05xTEo1SHlwNlFjNVNhS2YvRU1l?=
- =?utf-8?B?WXdYS01DdVAxbFhvam1pRHBlUHM3Vm55Z0E4SzB1OFNROGFhTXQ0YnV1ODB2?=
- =?utf-8?B?eG1HNUhLR21vcG82djYvK3FsTlVGdFBLQVdyNzNvZjgzYlo0bm5ERXRPcDFi?=
- =?utf-8?B?MHFvbDlISUo0SmZCQnc4Ykw0cHpKSytiVWlaeWl4SGd0TGNSKzg1ajRzTU5S?=
- =?utf-8?B?MmNsNFdWOWd1N0VndFAreTRtT0htbERVaWRQY0xpbisxZ2FTZHMwTVFraU5z?=
- =?utf-8?B?NThQUlZ6YlYzd2lPRDFCL0xuQXUyKzNYcjFUb0lCVXN1TmJMQmRXdk1VRzdq?=
- =?utf-8?B?UXl1eCtKVzArdUs1U3ZKakxPK1Nsd0JDcHdpRWpmVDhZQnFSTXl0R09UcDB5?=
- =?utf-8?B?SUg1YzlFdTVaZU5yRitxUHhtZGpEUDZSdExESUFVQjkySXkwcHd0Q1RhSVpn?=
- =?utf-8?B?YWZvZjR1MTNpcVFiTmpqWit3ZlpEYmc2QzFVbjVVVThyaFVzQ2JieVlwSjBw?=
- =?utf-8?B?c1dnNFE4bGtOQ2tndDY0SnBneFZYMXpMc3pHWWJmVjczalQ1L2NCV0pLN3do?=
- =?utf-8?B?T2FTZUtiVW81T2hvSFlseW9DQUI3SFZ1Ui9UTnh1YWpPc2piRXg2WGhGRHBL?=
- =?utf-8?B?OWtYTzJJWnRGM0xobFFNTFpTTzRNMkJsOGpjZFBoZk0yU3VYelRjc3VsamlE?=
- =?utf-8?B?WHdMY1Fuc3EvS2t1QVBXQTVPMjQrVTg3WjdtQW93MTFSUDNINDBWeHJIMDBG?=
- =?utf-8?Q?h7O66mYs58d4r?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8a7da1c8-5c67-42fe-abee-08d992373133
-X-MS-Exchange-CrossTenant-AuthSource: MWHPR1201MB0192.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Oct 2021 13:00:00.3518
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: CvkdnlTCyfbQZRuln3cXMWdH8AAMdAJ7nqGStDenpax0f2sZET3v+SQXD70SMHiR
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR12MB1341
+References: <20211006113254.3470-1-anil.mamidala@xilinx.com>
+ <20211006113254.3470-2-anil.mamidala@xilinx.com> <YWiK/xXEQwC5HgWD@robh.at.kernel.org>
+ <YWiRERUYZTBepOKU@pendragon.ideasonboard.com>
+In-Reply-To: <YWiRERUYZTBepOKU@pendragon.ideasonboard.com>
+From:   Rob Herring <robh@kernel.org>
+Date:   Mon, 18 Oct 2021 08:36:51 -0500
+X-Gmail-Original-Message-ID: <CAL_Jsq+DjGZpZgE7SiVeSQLsWFHOmBdK+sodUQAeBMd5QPYw0w@mail.gmail.com>
+Message-ID: <CAL_Jsq+DjGZpZgE7SiVeSQLsWFHOmBdK+sodUQAeBMd5QPYw0w@mail.gmail.com>
+Subject: Re: [PATCH v2 2/2] media: dt-bindings: media: i2c: Add bindings for AP1302
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Anil Kumar Mamidala <anil.mamidala@xilinx.com>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        devicetree@vger.kernel.org, Sakari Ailus <sakari.ailus@iki.fi>,
+        Naveen Kumar Gaddipati <naveenku@xilinx.com>,
+        Stefan Hladnik <stefan.hladnik@gmail.com>,
+        Florian Rebaudo <frebaudo@witekio.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Am 12.10.21 um 14:09 schrieb Gal Pressman:
-> The pin callback does not necessarily have to move the memory to system
-> memory, remove the sentence from the comment.
+On Thu, Oct 14, 2021 at 3:20 PM Laurent Pinchart
+<laurent.pinchart@ideasonboard.com> wrote:
 >
-> Signed-off-by: Gal Pressman <galpress@amazon.com>
-
-Reviewed-by: Christian König <christian.koenig@amd.com>
-
-> ---
->   include/linux/dma-buf.h | 4 ++--
->   1 file changed, 2 insertions(+), 2 deletions(-)
+> Hi Rob,
 >
-> diff --git a/include/linux/dma-buf.h b/include/linux/dma-buf.h
-> index efdc56b9d95f..225e09caeb98 100644
-> --- a/include/linux/dma-buf.h
-> +++ b/include/linux/dma-buf.h
-> @@ -86,8 +86,8 @@ struct dma_buf_ops {
->   	 * @pin:
->   	 *
->   	 * This is called by dma_buf_pin() and lets the exporter know that the
-> -	 * DMA-buf can't be moved any more. The exporter should pin the buffer
-> -	 * into system memory to make sure it is generally accessible by other
-> +	 * DMA-buf can't be moved any more. Ideally, the exporter should
-> +	 * pin the buffer so that it is generally accessible by all
->   	 * devices.
->   	 *
->   	 * This is called with the &dmabuf.resv object locked and is mutual
+> On Thu, Oct 14, 2021 at 02:54:39PM -0500, Rob Herring wrote:
+> > On Wed, Oct 06, 2021 at 05:32:54AM -0600, Anil Kumar Mamidala wrote:
+> > > The AP1302 is a standalone ISP for ON Semiconductor sensors.
+> > > Add corresponding DT bindings.
+> > >
+> > > Signed-off-by: Anil Kumar Mamidala <anil.mamidala@xilinx.com>
+> > > Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> > > Signed-off-by: Stefan Hladnik <stefan.hladnik@gmail.com>
+> > > Signed-off-by: Florian Rebaudo <frebaudo@witekio.com>
+> > > ---
+> > >  .../devicetree/bindings/media/i2c/onnn,ap1302.yaml | 202 +++++++++++++++++++++
+> > >  1 file changed, 202 insertions(+)
+> > >  create mode 100644 Documentation/devicetree/bindings/media/i2c/onnn,ap1302.yaml
+> > >
+> > > diff --git a/Documentation/devicetree/bindings/media/i2c/onnn,ap1302.yaml b/Documentation/devicetree/bindings/media/i2c/onnn,ap1302.yaml
+> > > new file mode 100644
+> > > index 0000000..d96e9db
+> > > --- /dev/null
+> > > +++ b/Documentation/devicetree/bindings/media/i2c/onnn,ap1302.yaml
+> > > @@ -0,0 +1,202 @@
+> > > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> > > +%YAML 1.2
+> > > +---
+> > > +$id: http://devicetree.org/schemas/media/i2c/onnn,ap1302.yaml#
+> > > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > > +
+> > > +title: ON Semiconductor AP1302 Advanced Image Coprocessor
+> > > +
+> > > +maintainers:
+> > > +  - Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> > > +  - Anil Kumar M <anil.mamidala@xilinx.com>
+> > > +
+> > > +description: |-
+> > > +  The AP1302 is a standalone ISP for ON Semiconductor sensors. It interfaces to
+> > > +  up to two RAW CMOS sensors over MIPI CSI-2 connections, processes the two
+> > > +  video streams and outputs YUV frames to the host over a MIPI CSI-2 interface.
+> > > +  Frames are output side by side or on two virtual channels.
+> > > +
+> > > +  The sensors must be identical. They are connected to the AP1302 on dedicated
+> > > +  I2C buses, and are controlled by the AP1302 firmware. They are not accessible
+> > > +  from the host.
+> >
+> > In your case, but in general I'd assume whatever sensors are used here
+> > could be attached directly to an SoC with a built-in ISP?
+>
+> That is correct, the same sensors can be used with a different ISP
+> (built-in or not), or even without any ISP.
+>
+> > The model and
+> > power supplies you specify wouldn't be different, so I think the same
+> > binding could be used for both. Though here, you probably just need a
+> > subset. More below.
+> >
+> > > +
+> > > +properties:
+> > > +  compatible:
+> > > +    const: onnn,ap1302
+> > > +
+> > > +  reg:
+> > > +    description: I2C device address.
+> > > +    maxItems: 1
+> > > +
+> > > +  clocks:
+> > > +    description: Reference to the CLK clock.
+> > > +    maxItems: 1
+> > > +
+> > > +  reset-gpios:
+> > > +    description: Reference to the GPIO connected to the RST pin (active low).
+> > > +    maxItems: 1
+> > > +
+> > > +  standby-gpios:
+> > > +    description:
+> > > +      Reference to the GPIO connected to the STANDBY pin (active high).
+> > > +    maxItems: 1
+> > > +
+> > > +  port:
+> > > +    $ref: /schemas/graph.yaml#/$defs/port-base
+> > > +    unevaluatedProperties: false
+> > > +    description: MIPI CSI-2 output interface to the host.
+> > > +
+> > > +    properties:
+> > > +      endpoint:
+> > > +        $ref: /schemas/graph.yaml#/$defs/endpoint-base
+> > > +        unevaluatedProperties: false
+> > > +
+> > > +        properties:
+> > > +          clock-noncontinuous:
+> > > +            type: boolean
+> > > +
+> > > +          data-lanes:
+> > > +            oneOf:
+> > > +              - items:
+> > > +                  - const: 1
+> > > +              - items:
+> > > +                  - const: 1
+> > > +                  - const: 2
+> > > +              - items:
+> > > +                  - const: 1
+> > > +                  - const: 2
+> > > +                  - const: 3
+> > > +                  - const: 4
+> > > +
+> > > +        required:
+> > > +          - data-lanes
+> > > +
+> > > +  sensors:
+> > > +    type: object
+> > > +    description: List of connected sensors
+> > > +
+> > > +    properties:
+> > > +      "#address-cells":
+> > > +        const: 1
+> > > +
+> > > +      "#size-cells":
+> > > +        const: 0
+> > > +
+> > > +      onnn,model:
+> > > +        $ref: "/schemas/types.yaml#/definitions/string"
+> > > +        description: |
+> > > +          Model of the connected sensors. Must be a valid compatible string.
+> >
+> > Then make it a compatible string and move into each child node.
+>
+> We started with that, but considered that it made mistakes more easily
+> in the device tree. As the two sensors have to be identical (it's a
+> limitation of the AP1302), moving the model to the sensor nodes means
+> that someone could set two different models, and the driver will have to
+> include corresponding validation code. It's more code on the driver
+> side, and more complexity on the DT side. Does it actually bring us
+> anything ?
 
+1 schema instead of 2.
+
+That doesn't really seem much more complex given you probably need to
+make sure you have 2 and only 2 child nodes. You're checking a
+property either outside or inside a loop:
+
+// check model or...
+// for_each_of_child_node()
+   // ...check compatible
+   // parse rest of node
+
+// check 2 nodes setup.
+
+>
+> > > +
+> > > +          If no sensor is connected, this property must no be specified, and
+> > > +          the AP1302 can be used with it's internal test pattern generator.
+> > > +
+> > > +    patternProperties:
+> > > +      "^sensor@[01]":
+> > > +        type: object
+> > > +        description: |
+> > > +          Sensors connected to the first and second input, with one node per
+> > > +          sensor.
+> > > +
+> > > +        properties:
+> > > +          reg:
+> > > +            description: AP1302 input port number
+> > > +            maxItems: 1
+> >
+> > items:
+> >   - enum: [ 0, 1]
+> >
+> > > +
+> > > +        patternProperties:
+> > > +          ".*-supply":
+> >
+> > You need to list the supplies out.
+>
+> Fair point, given that we have a list of supply names per sensor in the
+> AP1302 driver.
+>
+> > I would make this a schema for the
+> > sensor along with compatible. Here, you could either reference those if
+> > you want to document the list of supported sensors or don't reference
+> > them and just document 'reg'. With a compatible, the schema will be
+> > applied anyways.
+>
+> This I'm more concerned about. The sensors may be the same when used
+> with the AP1302 or when used standalone, but their integration in the
+> system is quite different. With the AP1302, the reg value is the AP1302
+> port number, while in the standalone case, it's an I2C address. We're
+> just lucky that the #address-cells and #size-cells happen to be the same
+> in both cases.
+
+'reg' and everything associated with it are properties of the bus and
+outside the scope of this binding. We have the same binding on devices
+that can be on I2C or SPI for example.
+
+> In the standalone case, there will be more properties
+> that are not applicable here. How would we prevent all those other
+> properties from being evaluated in the AP1302 case ?
+
+I'm not all that worried about that, but you could have a different
+compatible if you really wanted.
+
+Rob
