@@ -2,89 +2,155 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0D6554311ED
-	for <lists+linux-media@lfdr.de>; Mon, 18 Oct 2021 10:10:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id ECD3D431227
+	for <lists+linux-media@lfdr.de>; Mon, 18 Oct 2021 10:30:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231283AbhJRINB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 18 Oct 2021 04:13:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45086 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231232AbhJRINA (ORCPT
+        id S230442AbhJRIcU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 18 Oct 2021 04:32:20 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:49841 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S230416AbhJRIcT (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 18 Oct 2021 04:13:00 -0400
-Received: from mail-ed1-x532.google.com (mail-ed1-x532.google.com [IPv6:2a00:1450:4864:20::532])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5B2E7C06161C;
-        Mon, 18 Oct 2021 01:10:49 -0700 (PDT)
-Received: by mail-ed1-x532.google.com with SMTP id w14so67321271edv.11;
-        Mon, 18 Oct 2021 01:10:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=Ler5K+pi/RWyNTk3cRDoyW3msmkIcvt+niCNYs4vhI4=;
-        b=j25VgagUB0XYzVEYEMPeJiO/TxQgx4vUjZ1vJzNTVYzzFxwNpZiHYbYIZcYCiKmY86
-         dw4KLo07GDBDzw9E0ktxZ0tNoL4N/SX4LmArkhZRBhleZMXKofuyAoZrzrDV3xQhEUVV
-         9Zt99t4HAWrrY5Goet+JLrN8RbxgU/S4Ch86gZT6lhTr65lyuTcHFZt5TdOPxUhGqs2f
-         umFOeDIraJH9RwWWWPXJKpNdidiaP6tQ3FV9S4RpXwPpqTCYNyaD+mgun9Xe/K9U4xz3
-         9UElWEdASnaELeZdpJ79gH4gFChkkRBSDsPF6QbnBe5VRbPK42v36XCgQcz8iJhWbT3Q
-         x4vg==
+        Mon, 18 Oct 2021 04:32:19 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1634545808;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=lR6lHYfqRurTTNb2hz8P0iYHasRUVyst8KmFnIo9LRo=;
+        b=KsQUqau4JshIEk29QH2az6xsdJ+EvM8hAz22BwLMXzDgC72EV0YnqU3XiRuB5CzEJrYh8c
+        U2VoLTcgdK372KtPzQm9Wgjg3u0ClF/dxP+xMukRWp0OP0ZDUX26oe/FExSqVkENJyJFKx
+        bHtdeG5TlrFaeThwVVh6ne3oOVmB9FI=
+Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
+ [209.85.208.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-593-CHiiyYZkPjiwlmBKitX27A-1; Mon, 18 Oct 2021 04:30:06 -0400
+X-MC-Unique: CHiiyYZkPjiwlmBKitX27A-1
+Received: by mail-ed1-f72.google.com with SMTP id c25-20020a056402143900b003dc19782ea8so10162979edx.3
+        for <linux-media@vger.kernel.org>; Mon, 18 Oct 2021 01:30:06 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=Ler5K+pi/RWyNTk3cRDoyW3msmkIcvt+niCNYs4vhI4=;
-        b=a2Mikyf/1fSNTsw3pOvcagxNIG2vRjvSj/0QuWX/Z6iTYVo8qZA3LsbYvRXT43gv8C
-         cuCPlvjaKuAjk25X1pCDkJA/XD8Tcf9C01xdtaqLKFGVOEY8Sdchbc0DmJaROnOS4c5e
-         8y4a9OFIAl4QGjZvrUumPOKW8rN2NY7HFPQamV/cQ7pRbdxh6nisZatZC1uOsenOYwXO
-         rk5RB6EFh4qE1tfBaDbN35R5BDUih6vg8I8Opl9P+GzcFfoos3zzslJ3biooN98ZRhcx
-         l3ICC1spYweiOPypK0OadwBCULbG7qe1NUh2WvkR2gP8QC9QPPSoIgHdsQgZJDlNG+aS
-         lRjg==
-X-Gm-Message-State: AOAM533HPNyVQKaKDnK+ln0VSPXdiF1IAHo3K7wjR58rA+PMX1Bl0HQy
-        CnHH7irO4SLzrazVvAvyO+Cp1itDpIMLUA6w63o=
-X-Google-Smtp-Source: ABdhPJy98YOgiwxqoJsGmmJSOytB8DDjqipDtrX/LGPiIMliZzf5JlHUV9Y9vtMJzLjKrx3epk62PT68fO06WMeJ7k4=
-X-Received: by 2002:a05:6402:2787:: with SMTP id b7mr41868843ede.238.1634544648018;
- Mon, 18 Oct 2021 01:10:48 -0700 (PDT)
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=lR6lHYfqRurTTNb2hz8P0iYHasRUVyst8KmFnIo9LRo=;
+        b=FD1m2s27Hf30PsE2StFpyW9Xp7+W9EtAqNSelVH3/5TRTuErXXpNZWYLNgX44REUlf
+         T/DOPxDxoZEmTJwAu+L5miaUz7TwbqMVGW/i1u97DjJGYKuJtLQ4jA085Add0BJs4JLr
+         8xyTVONMUOCQZxBbgouhMyrLxFtvEoYNd1VKU1EdsJAD3xES+wOnF7KIfBQJEA3Voswk
+         TESuAY85LTo5+aBQ085nd54PkgXPhV7Fk4EZCHAJFGkmgbYzWA1yOu9BR9a9zeTafYu7
+         X8erL9FKAhV8ajBC8qskA/iXzz3fGNwgtwpfTMFimBow7kV9CkTW7vpEvId5B1bD1rJn
+         BGyg==
+X-Gm-Message-State: AOAM531AyDoa4nN/ksLpN5WEDIjx2zIw+7dN56J3CNNHYju1JfmkY6+Z
+        pK42H5MrdMZPoMQ0MZFS5RtpGR6XxDXl5TAbhUHOulDXY/4oqpC6UZ8EWs0nkoY7F42eoiyBYZH
+        t4h1zDfVF+6B7t3GjDsuRNfc=
+X-Received: by 2002:a50:fc17:: with SMTP id i23mr41133544edr.213.1634545805611;
+        Mon, 18 Oct 2021 01:30:05 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwrMhc7vcU2jV67qg01VSMajYU77IH44uhxXbXszh8rSXTGCseftvgmQJ1sKU52iD4gsvpnIg==
+X-Received: by 2002:a50:fc17:: with SMTP id i23mr41133507edr.213.1634545805463;
+        Mon, 18 Oct 2021 01:30:05 -0700 (PDT)
+Received: from [10.40.1.223] ([81.30.35.201])
+        by smtp.gmail.com with ESMTPSA id q23sm8925974ejr.0.2021.10.18.01.30.04
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 18 Oct 2021 01:30:05 -0700 (PDT)
+Message-ID: <103b5438-9f7c-7e89-28b9-29fe11eb818c@redhat.com>
+Date:   Mon, 18 Oct 2021 10:30:04 +0200
 MIME-Version: 1.0
-References: <20211017162337.44860-1-kitakar@gmail.com> <2170cfdf-767f-969c-f241-4e61bfafd1f5@redhat.com>
-In-Reply-To: <2170cfdf-767f-969c-f241-4e61bfafd1f5@redhat.com>
-From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Mon, 18 Oct 2021 11:10:11 +0300
-Message-ID: <CAHp75VcuP4NTYYL6FreW-bdB549T1WNwty74PUFm+LYLeLkdhA@mail.gmail.com>
-Subject: Re: [BUG 0/5] bug reports for atomisp to make it work
-To:     Hans de Goede <hdegoede@redhat.com>
-Cc:     Tsuchiya Yuto <kitakar@gmail.com>,
-        Patrik Gfeller <patrik.gfeller@gmail.com>,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.1.0
+Subject: Re: [BUG 5/5] [BUG] media: atomisp: atomisp causes touchscreen to
+ stop working on Microsoft Surface 3
+Content-Language: en-US
+To:     Tsuchiya Yuto <kitakar@gmail.com>
+Cc:     Patrik Gfeller <patrik.gfeller@gmail.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         Sakari Ailus <sakari.ailus@linux.intel.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Peter Zijlstra <peterz@infradead.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Arnd Bergmann <arnd@arndb.de>,
+        Ingo Molnar <mingo@kernel.org>,
         Kaixu Xia <kaixuxia@tencent.com>,
         Dan Carpenter <dan.carpenter@oracle.com>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        linux-staging@lists.linux.dev,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Nable <nable.maininbox@googlemail.com>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Fabio Aiuto <fabioaiuto83@gmail.com>,
-        "andrey.i.trufanov" <andrey.i.trufanov@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+        Arnd Bergmann <arnd@arndb.de>, linux-media@vger.kernel.org,
+        linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+References: <20211017162337.44860-1-kitakar@gmail.com>
+ <20211017162337.44860-6-kitakar@gmail.com>
+From:   Hans de Goede <hdegoede@redhat.com>
+In-Reply-To: <20211017162337.44860-6-kitakar@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, Oct 18, 2021 at 10:51 AM Hans de Goede <hdegoede@redhat.com> wrote:
+Hi,
 
-> Just adding some folks to the Cc.
+On 10/17/21 18:23, Tsuchiya Yuto wrote:
+> Touchscreen input works fine before loading atomisp driver on Surface 3.
+> 
+> However, after loading atomisp driver, touchscreen works only when
+> capturing images. This sounds like atomisp turns off something needed
+> for touchscreen when atomisp is idle.
+> 
+> There is no useful kernel log. Just the touchscreen stops working
+> with no log.
+> 
+> I'll update if I find something further. First of all, can someone
+> reproduce this issue on the other devices?
 
-A hint to the newly added folks, there is an archive of the Linux
-kernel related emails located on lore.kernel.org. The quite famous
-distros already have in their repositories the `b4` tool that helps to
-access that archive. So, after installing that tool you may download
-the whole thread as a mailbox or as a bundle ready for `git am` just
-using the Message-ID value.
+My first bet would be some regulator getting turned off.
 
--- 
-With Best Regards,
-Andy Shevchenko
+What you can do is:
+
+1. ls -l /dev/bus/i2c/devices
+
+And then write down the number of the i2c-bus to which the
+CRC PMIC is connected, lets say it is number "4". Then:
+
+2. Before loading the atomisp drivers run:
+   "sudo i2cdump -y -f 4 0x6e > crc-regs-good"
+
+3. After loading the atomisp drivers run:
+   "sudo i2cdump -y -f 4 0x6e > crc-regs-bad
+
+4. "diff -u crc-regs-good crc-regs-bad"
+
+And see what changed.
+
+There are 2 possible root causes here:
+
+1. Some regulator is shared between the cameras and
+touchscreen
+
+2. The crc code in atomisp which you are using is
+poking registers assuming the Bay Trail version of
+the Crystal Cove PMIC (aka CRC PMIC) but your
+Surface 3 has the Cherry Trail version and we know
+that the regulators are add different register
+addresses there, see the comment in:
+drivers/acpi/pmic/intel_pmic_chtcrc.c
+so it is possible that the atomisp code is simply
+poking the wrong register for one of the regulators
+
+I also wonder if this goes away if you do the
+
+	hrv = 0x03;
+
+Hack inside drivers/mfd/intel_soc_pmic_core.c ?
+
+Without that we end up using the wrong PMIC
+OpRegion driver which also uses the wrong
+regulator addresses.
+
+Regards,
+
+Hans
+
+
+p.s.
+
+Here are the 2 different regulator drivers the
+comment in drivers/acpi/pmic/intel_pmic_chtcrc.c
+refers to:
+
+https://github.com/Zenfone2-Dev/android_kernel_asus_moorefield-1/blob/stock/drivers/regulator/pmic_crystal_cove.c
+https://github.com/Zenfone2-Dev/android_kernel_asus_moorefield-1/blob/stock/drivers/regulator/pmic_crystal_cove_plus.c
+
