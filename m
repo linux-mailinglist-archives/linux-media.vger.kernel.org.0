@@ -2,51 +2,51 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id EA1EF430F8F
-	for <lists+linux-media@lfdr.de>; Mon, 18 Oct 2021 07:05:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 019F9430F8C
+	for <lists+linux-media@lfdr.de>; Mon, 18 Oct 2021 07:05:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230155AbhJRFHr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 18 Oct 2021 01:07:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60270 "EHLO
+        id S230022AbhJRFHn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 18 Oct 2021 01:07:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60284 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230017AbhJRFHc (ORCPT
+        with ESMTP id S230024AbhJRFHd (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 18 Oct 2021 01:07:32 -0400
-Received: from mail-pl1-x629.google.com (mail-pl1-x629.google.com [IPv6:2607:f8b0:4864:20::629])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 25D21C06176C;
-        Sun, 17 Oct 2021 22:05:16 -0700 (PDT)
-Received: by mail-pl1-x629.google.com with SMTP id t11so10371569plq.11;
-        Sun, 17 Oct 2021 22:05:16 -0700 (PDT)
+        Mon, 18 Oct 2021 01:07:33 -0400
+Received: from mail-pj1-x102e.google.com (mail-pj1-x102e.google.com [IPv6:2607:f8b0:4864:20::102e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F0CD7C061770;
+        Sun, 17 Oct 2021 22:05:20 -0700 (PDT)
+Received: by mail-pj1-x102e.google.com with SMTP id qe4-20020a17090b4f8400b0019f663cfcd1so13634898pjb.1;
+        Sun, 17 Oct 2021 22:05:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=PzGkUsbLWrD/fizVl6QbcWER2UnDlXJ5Kvt3KlRxinw=;
-        b=iJkleu9vPyrl+MLBEf1JKcbvSB5unQ9NbyHJ7fzqtoXdt6FOXerNLXhD31ERZAcNDN
-         0fejkyn1dAbqJntVNSqWJ+a9FBKjKIcywdXKLKWcUMv/ilPOUVj3/NPXIm2NA0U+iQNd
-         N6PUa2NI3iVYNPmlUM4x31yvfSniA0IAMVj9490PmmoU5UmGN1/5YRWrqQcqnx0cp5mU
-         GyYQdZDM6ywVao6Xw+3EzfM0zzIKHU8QfXAzCeXeB3tDDSjaa/vfZqgewmBpurh+iHgb
-         vVWRoQPDNCq//24Fc9QhCJ+k3jBGL4SEYDu7N2NNhTuGvr3wQETrVJIdKdI+9TIXA99K
-         GKnA==
+        bh=/KgrHMBG00+hza4vEi3Sk5N+IhB5EN8dqeg+sPQiG6I=;
+        b=pzPqaClK6ufzAvRjvqqGVvNodlH+jFduWTq3rrLMyo1Yfv9N+HKZnyTtipSk7tEnu7
+         7p/L4vQDzml6066nVC1pkb2uKk+317ERWxHfeVRE3DYWOeM7NlbcQAp0HI9WsgL0x8JK
+         eMJ5taQ82xnJsE/jVfvyazB4R8Fjuo88XvQNExTyh8GynNjUtXkX/805ZTPrbjwvltTB
+         upDOsxhJQ/SjMKt0eX/sPtR5hNH5XL78mxVAHRYKFgBsEx8IaMTPVVl9HFmsPpkdXwlA
+         q2xFIvP0gLA3tr8fGGL4H6ZnhzRQJ/ggz1K3ESxP2nPaHCiZiVXhIx52nkRnmc8nBg7D
+         9TIw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references;
-        bh=PzGkUsbLWrD/fizVl6QbcWER2UnDlXJ5Kvt3KlRxinw=;
-        b=ypgYAyHIrBb2Br4T3vn1ckbOXsgQC55Go4Oc2yFpBfcv2RXz5EnReJsmbrKVU/WOgp
-         Uv3YuUYm8VwwMQv7Svbld1D/Ou3JxBS1/Gkn7aCx+PDERinBsQemDUF0pRArM8IkQa9B
-         tpxOkjS6h3f3Z/JqwzdIOxRrHqoWYL/94TcKMQmq3wTayt3JrGDjuymJV6qSX757/S0P
-         QyCyhXcSQcTADpKWIVAjjekeWzmjOl8meAzACRLAZlHxMwoPZPDFMYNVbt6qB57pxFrA
-         21KAdDjTHS1idTmeyJ7c+qDZ80gt4f7U19GYULJudaFCfK2Fn7T+oA+VAh1GZ0kqM6i1
-         vUXg==
-X-Gm-Message-State: AOAM531JweQez87yr349og3w09aG+oZTZZtTSV4K5v+ptLqUrcoN1Y12
-        bt0qfJSlpOpze0dCJGO6nok=
-X-Google-Smtp-Source: ABdhPJzFIGL/C3R/Jx+goNAzsN41+4QdhLrtABR4a7qLxtm7YYYOXpSVS7AYDqWe/lbixFNQSl9fwQ==
-X-Received: by 2002:a17:902:ce85:b0:13f:9678:ecd2 with SMTP id f5-20020a170902ce8500b0013f9678ecd2mr15598799plg.39.1634533515562;
-        Sun, 17 Oct 2021 22:05:15 -0700 (PDT)
+        bh=/KgrHMBG00+hza4vEi3Sk5N+IhB5EN8dqeg+sPQiG6I=;
+        b=eFEJyZyswX3OFXRl1DzB79szVxYf/y9qL5F3J+P91x2Q+57okCW3salkcxFBrCEq8I
+         REl9JrgNRpWzx2aA3HAQPWQs/Or/z7hgaXSkmK5ThHDaCZIYzF5oUKqVTWBcRgp4Kw1R
+         1rjS59HwVR1vyampr1wM5mlpWUzBaQgE4UDvmlmOZMNf6phyuLR2HG/yWfCaNlHxgQP+
+         44D2jsbBylbdGKBeCNc62VpSlHz1nlYEuWd6fFxVc+ANwSF+4K0+WjCOpw8F+csiVOlw
+         G1w2ybwf9+O4wRYItmgNLHG3yrTfjzthSWUVWOvJRh1hFS2nGUeMs6amnHlPucRrmi/P
+         hyZw==
+X-Gm-Message-State: AOAM5307MQCvu12RCgq9X8PO8MLt1Qepf+6aFHUhPweu8a+/80tIfc5T
+        /Y2f7gga+/6DbhvOlcNp9+0=
+X-Google-Smtp-Source: ABdhPJz/mImGiCkwikDmckDe5cBvFzhIYC2QZquvZMhrF13R4qnXEjlRrntbc5i8TeX5qn5A1bcf0A==
+X-Received: by 2002:a17:902:e353:b0:13f:3276:a9d8 with SMTP id p19-20020a170902e35300b0013f3276a9d8mr25215762plc.81.1634533520585;
+        Sun, 17 Oct 2021 22:05:20 -0700 (PDT)
 Received: from fmin-OptiPlex-7060.nreal.work ([137.59.103.165])
-        by smtp.gmail.com with ESMTPSA id c205sm11416625pfc.43.2021.10.17.22.05.11
+        by smtp.gmail.com with ESMTPSA id c205sm11416625pfc.43.2021.10.17.22.05.16
         (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Sun, 17 Oct 2021 22:05:15 -0700 (PDT)
+        Sun, 17 Oct 2021 22:05:20 -0700 (PDT)
 From:   dillon.minfei@gmail.com
 To:     mchehab@kernel.org, mchehab+huawei@kernel.org,
         hverkuil-cisco@xs4all.nl, ezequiel@collabora.com, gnurou@gmail.com,
@@ -59,9 +59,9 @@ Cc:     patrice.chotard@foss.st.com, hugues.fruchet@foss.st.com,
         linux-stm32@st-md-mailman.stormreply.com,
         linux-arm-kernel@lists.infradead.org, linux-clk@vger.kernel.org,
         devicetree@vger.kernel.org, Dillon Min <dillon.minfei@gmail.com>
-Subject: [PATCH v5 04/10] ARM: dts: stm32: Enable DMA2D on STM32F469-DISCO board
-Date:   Mon, 18 Oct 2021 13:04:42 +0800
-Message-Id: <1634533488-25334-5-git-send-email-dillon.minfei@gmail.com>
+Subject: [PATCH v5 05/10] media: v4l2-mem2mem: add v4l2_m2m_get_unmapped_area for no-mmu platform
+Date:   Mon, 18 Oct 2021 13:04:43 +0800
+Message-Id: <1634533488-25334-6-git-send-email-dillon.minfei@gmail.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1634533488-25334-1-git-send-email-dillon.minfei@gmail.com>
 References: <1634533488-25334-1-git-send-email-dillon.minfei@gmail.com>
@@ -71,30 +71,69 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 From: Dillon Min <dillon.minfei@gmail.com>
 
-Enable DMA2D on STM32F469-DISCO board.
+For platforms without MMU the m2m provides a helper method
+v4l2_m2m_get_unmapped_area(), The mmap() routines will call
+this to get a proposed address for the mapping.
+
+More detailed information about get_unmapped_area can be found in
+Documentation/nommu-mmap.txt
 
 Signed-off-by: Dillon Min <dillon.minfei@gmail.com>
 ---
 v5: no change.
 
- arch/arm/boot/dts/stm32f469-disco.dts | 4 ++++
- 1 file changed, 4 insertions(+)
+ drivers/media/v4l2-core/v4l2-mem2mem.c | 21 +++++++++++++++++++++
+ include/media/v4l2-mem2mem.h           |  5 +++++
+ 2 files changed, 26 insertions(+)
 
-diff --git a/arch/arm/boot/dts/stm32f469-disco.dts b/arch/arm/boot/dts/stm32f469-disco.dts
-index 30905ce672a0..ba26a3375b0d 100644
---- a/arch/arm/boot/dts/stm32f469-disco.dts
-+++ b/arch/arm/boot/dts/stm32f469-disco.dts
-@@ -132,6 +132,10 @@
- 	clock-frequency = <8000000>;
- };
+diff --git a/drivers/media/v4l2-core/v4l2-mem2mem.c b/drivers/media/v4l2-core/v4l2-mem2mem.c
+index e7f4bf5bc8dd..e2654b422334 100644
+--- a/drivers/media/v4l2-core/v4l2-mem2mem.c
++++ b/drivers/media/v4l2-core/v4l2-mem2mem.c
+@@ -966,6 +966,27 @@ int v4l2_m2m_mmap(struct file *file, struct v4l2_m2m_ctx *m2m_ctx,
+ }
+ EXPORT_SYMBOL(v4l2_m2m_mmap);
  
-+&dma2d {
-+	status = "okay";
-+};
++#ifndef CONFIG_MMU
++unsigned long v4l2_m2m_get_unmapped_area(struct file *file, unsigned long addr,
++					 unsigned long len, unsigned long pgoff,
++					 unsigned long flags)
++{
++	struct v4l2_fh *fh = file->private_data;
++	unsigned long offset = pgoff << PAGE_SHIFT;
++	struct vb2_queue *vq;
 +
- &dsi {
- 	#address-cells = <1>;
- 	#size-cells = <0>;
++	if (offset < DST_QUEUE_OFF_BASE) {
++		vq = v4l2_m2m_get_src_vq(fh->m2m_ctx);
++	} else {
++		vq = v4l2_m2m_get_dst_vq(fh->m2m_ctx);
++		pgoff -= (DST_QUEUE_OFF_BASE >> PAGE_SHIFT);
++	}
++
++	return vb2_get_unmapped_area(vq, addr, len, pgoff, flags);
++}
++EXPORT_SYMBOL_GPL(v4l2_m2m_get_unmapped_area);
++#endif
++
+ #if defined(CONFIG_MEDIA_CONTROLLER)
+ void v4l2_m2m_unregister_media_controller(struct v4l2_m2m_dev *m2m_dev)
+ {
+diff --git a/include/media/v4l2-mem2mem.h b/include/media/v4l2-mem2mem.h
+index 5a91b548ecc0..fdbd5257e020 100644
+--- a/include/media/v4l2-mem2mem.h
++++ b/include/media/v4l2-mem2mem.h
+@@ -495,6 +495,11 @@ __poll_t v4l2_m2m_poll(struct file *file, struct v4l2_m2m_ctx *m2m_ctx,
+ int v4l2_m2m_mmap(struct file *file, struct v4l2_m2m_ctx *m2m_ctx,
+ 		  struct vm_area_struct *vma);
+ 
++#ifndef CONFIG_MMU
++unsigned long v4l2_m2m_get_unmapped_area(struct file *file, unsigned long addr,
++					 unsigned long len, unsigned long pgoff,
++					 unsigned long flags);
++#endif
+ /**
+  * v4l2_m2m_init() - initialize per-driver m2m data
+  *
 -- 
 2.7.4
 
