@@ -2,60 +2,60 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C08D9432C00
-	for <lists+linux-media@lfdr.de>; Tue, 19 Oct 2021 05:00:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 78E92432C10
+	for <lists+linux-media@lfdr.de>; Tue, 19 Oct 2021 05:08:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229663AbhJSDCz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 18 Oct 2021 23:02:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48992 "EHLO
+        id S229972AbhJSDKf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 18 Oct 2021 23:10:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50680 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229692AbhJSDCy (ORCPT
+        with ESMTP id S229692AbhJSDKe (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 18 Oct 2021 23:02:54 -0400
-Received: from mail-pg1-x531.google.com (mail-pg1-x531.google.com [IPv6:2607:f8b0:4864:20::531])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 09D6CC06161C;
-        Mon, 18 Oct 2021 20:00:43 -0700 (PDT)
-Received: by mail-pg1-x531.google.com with SMTP id j190so11298202pgd.0;
-        Mon, 18 Oct 2021 20:00:43 -0700 (PDT)
+        Mon, 18 Oct 2021 23:10:34 -0400
+Received: from mail-pg1-x52e.google.com (mail-pg1-x52e.google.com [IPv6:2607:f8b0:4864:20::52e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 20CE2C06161C;
+        Mon, 18 Oct 2021 20:08:21 -0700 (PDT)
+Received: by mail-pg1-x52e.google.com with SMTP id m21so18011720pgu.13;
+        Mon, 18 Oct 2021 20:08:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=Du7hGfWofk5Y9PYxqwgL02UhVD5OoKwO5dVIpF7FLGw=;
-        b=FX3JBsryhWMJVTta9l1Jhc5PsA9+IwgdmpKy41or5UgMVS/1AOLR79tkwB6XWOVOs8
-         AfX+qaSscxl67HZUJe+BvJkYX3A0rbQX6dGtyhs9aHg6PYo9SOgrQgSOqN9AY11U/qHR
-         +Da8iJI7LuZeztUyQEtoEFY+EqZfp34qmjY88631WuzBMQ4lVPhjNsC2gviR2qz0EVhv
-         Bvwxo3ce1+r2zYQCNvNvErjoPxjeOtgZKM4Co8MY1mXqXW09e/o6n7PhMz5jLRjQPzBu
-         YTeYzOKI5hCu//NuD1JaSOVT47GhD/Sb8vA+YmEMLhdeRbKdPedGPEqTCqU9Oy+qSGPL
-         e52Q==
+        bh=IUyhklULDNWU6fwM13VbKzX6fIzbRhikt8otoP7sTAU=;
+        b=ODhMPxDMQ6x3vBafBLKSVrdQgHJ4d3uLTxqAFPdKAPLcrc9/fA1Wf7Iyz0JH6rlRok
+         O5uyyhEJkmtBM8J0lCzrjsFp+TccGvNZyWW4l5t8yTo26WlH/UrZZ8S+tVhZkGzVh4Gy
+         YuLTfWYEVPTzurox8X4u5KazmMdSAEdUk0rxhn2HujrJAA+R/ndbOi+xrEMIuzrUTz22
+         xjXXDrBmo8AAwivdhX9GR2pgnzlcnjNsCh/rZfKcIg/pVqFRC5/TG5eZUSyl/mflsOHa
+         gdkRtIudH898d0lUiH46fjhIkLZOMPuIBeovrQZoNbQ3JR5JrTX5HQoUtTCbZ9hqgd9t
+         Aehg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=Du7hGfWofk5Y9PYxqwgL02UhVD5OoKwO5dVIpF7FLGw=;
-        b=Y0POp52WDaBDLqBMtR+DI+1uA20vwKJo7iOqnklpp257VbsInoElZhXs/S4I2KPYlX
-         SuBXd5YrfiDBbErQw+MqEVSlI13j1LarD3M9jbFFE11Xvm/qyfbXtyXjtBbzxiXsDpaz
-         7e344ojM+sR6tEsQn3jwrSjFwUzQAgwfyqIyh70ddx7U6dIItX8mqP3Y8UaqnvRtA1Fz
-         vwHkMoVsHygh37E8PFtuOc4P8tjoufFJeD+KvfE9ejUXM2KOFb9Y5hq9Mj84JTbE9gF4
-         p0mOxj50S1hu44kOXB0FArukPC1ieLssfVte46EfP8Wn4Yxpujsf4CJFyOHPlEijj/+q
-         VoKQ==
-X-Gm-Message-State: AOAM530MbxI+3xt9yRm6+7uixRV8G8y2rkO+CIdviN3zLK4jxMQFuFD0
-        5f9HyyePIsYjNFtXhEDg3Ns=
-X-Google-Smtp-Source: ABdhPJyFg858TcueogG6Qus2VVYUo5lmLkp1ZuiMzlw1Wt6+dmUfr5Y2So7INCraknWb9iOJQ12vAQ==
-X-Received: by 2002:a05:6a00:731:b0:44c:7c1b:fe6a with SMTP id 17-20020a056a00073100b0044c7c1bfe6amr32484334pfm.44.1634612442499;
-        Mon, 18 Oct 2021 20:00:42 -0700 (PDT)
+        bh=IUyhklULDNWU6fwM13VbKzX6fIzbRhikt8otoP7sTAU=;
+        b=2/k3SO7HE6CjeGZGf/XLnCixVVvdHuWxfI1YJOW6cVgzzT2h9mQOSNGPlwtQmoWLU8
+         uJbrPWkVdbrUCNsVepLRVDveUA60GZWSM6nZOOrzcBbs183an+SkN3ognxUxr4OOXiZd
+         UXHwsiKvLg0xgvGleDR82uKDUr+Bfw4mB21RCVkBgofjFimfe8yKo5xddHP33AAR0+XO
+         ITx90DVBiB0aQ68TydV7iBlAQB+ro1A9lXfyekM7zBHqLa2V0tCHa0+dvoQlfLHmZn1E
+         FlxJJJMxShIue0y+Ejtz8vUYceIXajQuszfD8gwO7mlEymWTb/1sAgyxIYf28WhdupQd
+         j6dA==
+X-Gm-Message-State: AOAM531O5MB73Rq8ZSSGJZC9ceFIw0rjaR/mUL0MW/GfXfPWg1lY2vSw
+        qZHpzwCJpXFof/ei+ef4JgU=
+X-Google-Smtp-Source: ABdhPJyfcMj79DF+NlyHb93YCbnanVUWgVrodo162DkAtvimiJfg5S71x3BGU6XMG6n+33G3M8YEAQ==
+X-Received: by 2002:a63:6dc1:: with SMTP id i184mr11756502pgc.165.1634612900522;
+        Mon, 18 Oct 2021 20:08:20 -0700 (PDT)
 Received: from localhost.localdomain ([94.177.118.15])
-        by smtp.gmail.com with ESMTPSA id lp9sm801540pjb.35.2021.10.18.20.00.39
+        by smtp.gmail.com with ESMTPSA id e6sm14405803pfm.212.2021.10.18.20.08.18
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 18 Oct 2021 20:00:41 -0700 (PDT)
+        Mon, 18 Oct 2021 20:08:20 -0700 (PDT)
 From:   Dongliang Mu <mudongliangabcd@gmail.com>
-To:     Jean-Christophe Trotin <jean-christophe.trotin@foss.st.com>,
+To:     Fabien Dessenne <fabien.dessenne@foss.st.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>
 Cc:     Dongliang Mu <mudongliangabcd@gmail.com>,
         linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] driver: hva: add pm_runtime_disable in the error handling code of hva_hw_probe
-Date:   Tue, 19 Oct 2021 11:00:29 +0800
-Message-Id: <20211019030030.3326236-1-mudongliangabcd@gmail.com>
+Subject: [PATCH v2] driver: bdisp: add pm_runtime_disable in the error handling code
+Date:   Tue, 19 Oct 2021 11:08:08 +0800
+Message-Id: <20211019030808.3327043-1-mudongliangabcd@gmail.com>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -63,39 +63,30 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-In the error handling code of hva_hw_probe, it fails to invoke
+In the error handling code of bdisp_probe, it fails to invoke
 pm_runtime_disable in many error sites.
 
-Fix this by adding a label err_disable with pm_runtime_disable and
-adjust one goto from label err_clk to err_disable.
+Fix this by adding pm_runtime_disable at the label err_remove.
 
 Signed-off-by: Dongliang Mu <mudongliangabcd@gmail.com>
 ---
- drivers/media/platform/sti/hva/hva-hw.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+v1->v2: move pm_runtime_disable from the end of label err_pm to
+	the beginning of err_remove
+ drivers/media/platform/sti/bdisp/bdisp-v4l2.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/media/platform/sti/hva/hva-hw.c b/drivers/media/platform/sti/hva/hva-hw.c
-index 30fb1aa4a351..5dd5dbf59cfe 100644
---- a/drivers/media/platform/sti/hva/hva-hw.c
-+++ b/drivers/media/platform/sti/hva/hva-hw.c
-@@ -387,7 +387,7 @@ int hva_hw_probe(struct platform_device *pdev, struct hva_dev *hva)
- 	ret = pm_runtime_resume_and_get(dev);
- 	if (ret < 0) {
- 		dev_err(dev, "%s     failed to set PM\n", HVA_PREFIX);
--		goto err_clk;
-+		goto err_disable;
- 	}
- 
- 	/* check IP hardware version */
-@@ -405,6 +405,8 @@ int hva_hw_probe(struct platform_device *pdev, struct hva_dev *hva)
- 
+diff --git a/drivers/media/platform/sti/bdisp/bdisp-v4l2.c b/drivers/media/platform/sti/bdisp/bdisp-v4l2.c
+index 6413cd279125..01cc8b577ad4 100644
+--- a/drivers/media/platform/sti/bdisp/bdisp-v4l2.c
++++ b/drivers/media/platform/sti/bdisp/bdisp-v4l2.c
+@@ -1395,6 +1395,7 @@ static int bdisp_probe(struct platform_device *pdev)
  err_pm:
  	pm_runtime_put(dev);
-+err_disable:
+ err_remove:
 +	pm_runtime_disable(dev);
+ 	bdisp_debugfs_remove(bdisp);
+ 	v4l2_device_unregister(&bdisp->v4l2_dev);
  err_clk:
- 	if (hva->clk)
- 		clk_unprepare(hva->clk);
 -- 
 2.25.1
 
