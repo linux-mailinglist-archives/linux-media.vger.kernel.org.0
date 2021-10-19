@@ -2,144 +2,107 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8FB3F43365E
-	for <lists+linux-media@lfdr.de>; Tue, 19 Oct 2021 14:54:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9E655433675
+	for <lists+linux-media@lfdr.de>; Tue, 19 Oct 2021 14:58:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235683AbhJSM40 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 19 Oct 2021 08:56:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42730 "EHLO
+        id S235738AbhJSNAo (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 19 Oct 2021 09:00:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43758 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230097AbhJSM40 (ORCPT
+        with ESMTP id S235517AbhJSNAo (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 19 Oct 2021 08:56:26 -0400
-Received: from mail-wr1-x433.google.com (mail-wr1-x433.google.com [IPv6:2a00:1450:4864:20::433])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8E76EC06161C
-        for <linux-media@vger.kernel.org>; Tue, 19 Oct 2021 05:54:07 -0700 (PDT)
-Received: by mail-wr1-x433.google.com with SMTP id y3so47740991wrl.1
-        for <linux-media@vger.kernel.org>; Tue, 19 Oct 2021 05:54:07 -0700 (PDT)
+        Tue, 19 Oct 2021 09:00:44 -0400
+Received: from mail-pj1-x102e.google.com (mail-pj1-x102e.google.com [IPv6:2607:f8b0:4864:20::102e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A4228C06161C;
+        Tue, 19 Oct 2021 05:58:31 -0700 (PDT)
+Received: by mail-pj1-x102e.google.com with SMTP id ls14-20020a17090b350e00b001a00e2251c8so2617532pjb.4;
+        Tue, 19 Oct 2021 05:58:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-transfer-encoding:content-language;
-        bh=1mvclZulp1jBGRqznG/b0fXQ3yElAWRCQ+ub5281RqY=;
-        b=DyFXLhO2hfmcRk4ZOfWcW28zmBfrAPLobYErFlCLG06QAX5ZvNHr/DLxehkTJHu3Jn
-         q6NJzPBjIU+CRVyMxKVSbh06aqUkoILHEHA3acN5Wt2YGTz239ZBwtiu6UQMhZE5w6mB
-         W/MhXuMU9VOMyTno6gEmYX9r12vkA2fDq6cIlsbChKyf5g2SoWcjwRPkoZnYaCFjw2t9
-         m+upfRu68oogpgtE7B0HpUbSds1XYQYJ0qOmXlOubz5sFz2GITTdbL+/g2DH7c6bGF7z
-         GK5ctOSWxAH/t3jJiiHJOlG0SsCDj5B5K/BBS0spkO7TT5DwMxNI6zGDXcI58ILa55i8
-         HdZQ==
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :user-agent:mime-version:content-transfer-encoding;
+        bh=cRLj0dV+xybjU6BvJI/d2YVe/BL8SIs28mcM3ps/fT8=;
+        b=R86cUnmkW5XYV20qN9VwZoUlESxhEQV5xEqlQfGbll3FizqrSnpSzmY5piDPRf8Ive
+         EHxV4UTFDEC/igQ+DWpoflZiV3D0HFRa3l02JAWortJvDvg1q+bZ5Zz6w1/Gi4ioQWI1
+         XB9jTB7ClFsSAuNSkrPwOIxrkA0z+d+vw7me8uqxdxBzlxuajlk2YQF+aU0Gj+a5DOFG
+         URGyR5UXUogiUR3TrpWeU7sAC8Fq5ezPIVBgrnYY+NdhVaahMXRNrgpbgKZQSRY7sA0P
+         MuXuy2yt5kWyG7Dt4CYt4enxG8xo4QjWocQZa0F/tIgwk1+l6GF53sqKU86ZvDBUKX72
+         agpQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-transfer-encoding
-         :content-language;
-        bh=1mvclZulp1jBGRqznG/b0fXQ3yElAWRCQ+ub5281RqY=;
-        b=NMpEJZdBMU2x6YppRDUXB1CZv9TGbu7s22L2dGAyICLL6ry7Slr62ZFETBSeweouXo
-         nXkfDT1X1T4bJb4XiDjzhcvo8zW1A09w+MJaGNGgksOeJDy4XywEswuvacf1OQ6I2oMV
-         CAgpYLv8tJf/ClwMPcj7602kzEWDrGoq/V2IFKxxY0gp0p8Con5P6x/9IKyjvaqiIbJU
-         299qVT3C9B3I1ze5+0uIrp0TyXHAwGLHYs3W/XdiELtjAQGwNNKxvPgFZiw3LzIqXAYc
-         I81ARZ70+rtPlswOXK3uZYOpv2CyqGwaPQFp9ZR5T62xfhlUQ/cQMhehHCr5TZS/G/eK
-         NFCg==
-X-Gm-Message-State: AOAM533nJ9utEa7Pdu4gMEL+lE/xalEGiDVqQpRX4cyiUHzsgrRbMNnO
-        NkvD7ZMc69mwq8T45Wfidqw=
-X-Google-Smtp-Source: ABdhPJznqWw6536w7KHmaGxJprPY+w8hHoqj2Re1K7qIk8KLaWxB9z9oathPltY4TElg2E6VG/42Uw==
-X-Received: by 2002:a5d:6245:: with SMTP id m5mr44059656wrv.148.1634648046127;
-        Tue, 19 Oct 2021 05:54:06 -0700 (PDT)
-Received: from ?IPv6:2a02:908:1252:fb60:f344:748e:38f7:c50? ([2a02:908:1252:fb60:f344:748e:38f7:c50])
-        by smtp.gmail.com with ESMTPSA id k10sm15045970wrh.64.2021.10.19.05.54.05
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 19 Oct 2021 05:54:05 -0700 (PDT)
-Subject: Re: [PATCH 23/28] drm: use new iterator in
- drm_gem_fence_array_add_implicit v3
-To:     Daniel Vetter <daniel@ffwll.ch>
-Cc:     linaro-mm-sig@lists.linaro.org, dri-devel@lists.freedesktop.org,
-        linux-media@vger.kernel.org, intel-gfx@lists.freedesktop.org,
-        tvrtko.ursulin@linux.intel.com
-References: <20211005113742.1101-1-christian.koenig@amd.com>
- <20211005113742.1101-24-christian.koenig@amd.com>
- <YWbrb7xQfTWU15U1@phenom.ffwll.local>
-From:   =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
-Message-ID: <71bf3523-7c18-dac7-de53-f7b20e737cc3@gmail.com>
-Date:   Tue, 19 Oct 2021 14:54:04 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=cRLj0dV+xybjU6BvJI/d2YVe/BL8SIs28mcM3ps/fT8=;
+        b=Ae1ZMoTPAyGO+zJJpsouj8joounp4NOrKQWcdeUOK8MbuPTMZWMcY6Rh59ylkGGOJO
+         H2mnxcUueqD+IHpqmOEuhC1LMHeCuNBXjeryNQEJwiQxPzT6Z3SwRP7YlPeSEwBIKQaH
+         oSJBXvyWd1S4pMjZa2OR9752LpBC/UnvvXazv0uII/q0losTirJHJti2qsieHNAFL+th
+         gYaL6t3pSJhEilVXUbbuW5yGc3UHGcnEIZG4BN1hfiHWJrmGsgRgDPLqhzArP6bayTRT
+         QI75nRMlTGcnPjX04GrCiu/t48iqMaMjGXiKWESF9gNmFRjs0gMws+sd2IJAeQtlAPG/
+         LEvQ==
+X-Gm-Message-State: AOAM531WEvDHg1edX2jcdbamGKsx48E7pItCCcFXFhoxe4iREx7gDEsM
+        HLn4W3aTBPQfH+DFxYG+EQA=
+X-Google-Smtp-Source: ABdhPJxKuD+xlD/uQj6A8Qk0A5EMuTkQopG7W58ylG30ezZKwhPIhzEqfw3ixqd1iGPc+yWIROJEbw==
+X-Received: by 2002:a17:902:c94f:b0:13f:4b5:cddd with SMTP id i15-20020a170902c94f00b0013f04b5cdddmr32736918pla.58.1634648310972;
+        Tue, 19 Oct 2021 05:58:30 -0700 (PDT)
+Received: from ?IPv6:2400:4052:6980:3800:dba7:2b1f:3f26:a5ec? ([2400:4052:6980:3800:dba7:2b1f:3f26:a5ec])
+        by smtp.gmail.com with ESMTPSA id qe17sm3305993pjb.39.2021.10.19.05.58.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 19 Oct 2021 05:58:30 -0700 (PDT)
+Message-ID: <919e6e09bf258b48dd8819ec43cd13ab48489aa7.camel@gmail.com>
+Subject: Re: [BUG 0/5] bug reports for atomisp to make it work
+From:   Tsuchiya Yuto <kitakar@gmail.com>
+To:     Andy Shevchenko <andy.shevchenko@gmail.com>,
+        Hans de Goede <hdegoede@redhat.com>
+Cc:     Patrik Gfeller <patrik.gfeller@gmail.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Kaixu Xia <kaixuxia@tencent.com>,
+        Dan Carpenter <dan.carpenter@oracle.com>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        linux-staging@lists.linux.dev,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Nable <nable.maininbox@googlemail.com>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Fabio Aiuto <fabioaiuto83@gmail.com>,
+        "andrey.i.trufanov" <andrey.i.trufanov@gmail.com>
+Date:   Tue, 19 Oct 2021 21:58:20 +0900
+In-Reply-To: <CAHp75VcuP4NTYYL6FreW-bdB549T1WNwty74PUFm+LYLeLkdhA@mail.gmail.com>
+References: <20211017162337.44860-1-kitakar@gmail.com>
+         <2170cfdf-767f-969c-f241-4e61bfafd1f5@redhat.com>
+         <CAHp75VcuP4NTYYL6FreW-bdB549T1WNwty74PUFm+LYLeLkdhA@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.40.4 
 MIME-Version: 1.0
-In-Reply-To: <YWbrb7xQfTWU15U1@phenom.ffwll.local>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Am 13.10.21 um 16:21 schrieb Daniel Vetter:
-> On Tue, Oct 05, 2021 at 01:37:37PM +0200, Christian König wrote:
->> Simplifying the code a bit.
->>
->> v2: add missing rcu_read_lock()/unlock()
->> v3: switch to locked version
->>
->> Signed-off-by: Christian König <christian.koenig@amd.com>
->> Reviewed-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
-> Please make sure you also apply this to the new copy of this code in
-> drm/sched. This one here is up for deletion, once I get all the driver
-> conversions I have landed ...
+On Mon, 2021-10-18 at 11:10 +0300, Andy Shevchenko wrote:
+> On Mon, Oct 18, 2021 at 10:51 AM Hans de Goede <hdegoede@redhat.com> wrote:
+> 
+> > Just adding some folks to the Cc.
+> 
+> A hint to the newly added folks, there is an archive of the Linux
+> kernel related emails located on lore.kernel.org. The quite famous
+> distros already have in their repositories the `b4` tool that helps to
+> access that archive. So, after installing that tool you may download
+> the whole thread as a mailbox or as a bundle ready for `git am` just
+> using the Message-ID value.
 
-Yeah, I do have that. Only added this patch here for completeness so 
-that I could at least consider dropping the old access functions.
+Ah sorry, I failed to add people to Cc who I should have definitly
+added.
 
-Put I will hold it back, just ping me when the code in question is removed.
+And I might have sent all of the emails to people who I should not
+by blindly using `scripts/get_maintainer.pl` for the first bug report
+with `--cc-cmd`.
 
-Christian.
+Sorry if that's the case for some of you...
 
-> -Daniel
->
->> ---
->>   drivers/gpu/drm/drm_gem.c | 26 +++++---------------------
->>   1 file changed, 5 insertions(+), 21 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/drm_gem.c b/drivers/gpu/drm/drm_gem.c
->> index 09c820045859..4dcdec6487bb 100644
->> --- a/drivers/gpu/drm/drm_gem.c
->> +++ b/drivers/gpu/drm/drm_gem.c
->> @@ -1340,31 +1340,15 @@ int drm_gem_fence_array_add_implicit(struct xarray *fence_array,
->>   				     struct drm_gem_object *obj,
->>   				     bool write)
->>   {
->> -	int ret;
->> -	struct dma_fence **fences;
->> -	unsigned int i, fence_count;
->> -
->> -	if (!write) {
->> -		struct dma_fence *fence =
->> -			dma_resv_get_excl_unlocked(obj->resv);
->> -
->> -		return drm_gem_fence_array_add(fence_array, fence);
->> -	}
->> +	struct dma_resv_iter cursor;
->> +	struct dma_fence *fence;
->> +	int ret = 0;
->>   
->> -	ret = dma_resv_get_fences(obj->resv, NULL,
->> -						&fence_count, &fences);
->> -	if (ret || !fence_count)
->> -		return ret;
->> -
->> -	for (i = 0; i < fence_count; i++) {
->> -		ret = drm_gem_fence_array_add(fence_array, fences[i]);
->> +	dma_resv_for_each_fence(&cursor, obj->resv, write, fence) {
->> +		ret = drm_gem_fence_array_add(fence_array, fence);
->>   		if (ret)
->>   			break;
->>   	}
->> -
->> -	for (; i < fence_count; i++)
->> -		dma_fence_put(fences[i]);
->> -	kfree(fences);
->>   	return ret;
->>   }
->>   EXPORT_SYMBOL(drm_gem_fence_array_add_implicit);
->> -- 
->> 2.25.1
->>
+Regards,
+Tsuchiya Yuto
 
