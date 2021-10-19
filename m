@@ -2,290 +2,103 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5586A433C6D
-	for <lists+linux-media@lfdr.de>; Tue, 19 Oct 2021 18:35:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B4ECF433C78
+	for <lists+linux-media@lfdr.de>; Tue, 19 Oct 2021 18:37:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234414AbhJSQh4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 19 Oct 2021 12:37:56 -0400
-Received: from mail.kernel.org ([198.145.29.99]:58434 "EHLO mail.kernel.org"
+        id S231574AbhJSQji (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 19 Oct 2021 12:39:38 -0400
+Received: from mga18.intel.com ([134.134.136.126]:34537 "EHLO mga18.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S234403AbhJSQhz (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Tue, 19 Oct 2021 12:37:55 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id D580761372;
-        Tue, 19 Oct 2021 16:35:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1634661341;
-        bh=t49fabp9Rfx1p92oCVg5Q37XFSqXUlR4XnM5csMMH+I=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=er+RrJb/mpqWHpwy4/tkl/h/3USK/scnMiv4TtRM/BRM0yORiZguEscDaMHD0qxun
-         tr0zJZ6hBASmkfo6x5TAy32ViDzDY33D5V4tafLH6CZZSBnz1QUOe2hfxFBV8LSSqm
-         wfu4v1lsCyDtF6R95CoaWabfEsY2ZlQxaofBQ5zrDRjhLPNO3emI6hWmd66rWuEir0
-         qxZEULJxVzidT+8E/Pa3Pe6td4ThIb0VTwKKCEEEJGa5hl5nb5SO4WHtQEpmI/gndw
-         +eR7tnT6Os8aZZGHPSoP5uzvPPx+eEHDabcm6c9+U3dyN1lcAkH1uqYu3opwA5OkcT
-         Ve1DwIyyXSXJA==
-Received: by mail-ed1-f50.google.com with SMTP id g10so14858908edj.1;
-        Tue, 19 Oct 2021 09:35:41 -0700 (PDT)
-X-Gm-Message-State: AOAM5325wN5bx5fNh2AaDzSV7oirhUQUMQH6UNOS+YZwUGS+ixGBzReH
-        GUYhr1Oac6rrWlTfcBU7n63XcA7KcfT3TP4X8g==
-X-Google-Smtp-Source: ABdhPJyOQ4I0nlKEjIn9sPypvjSCRL7wp1i7gqhfUE23s+bWssKSLXMWKBtgCWZCoWDaN3SZtx31rh4UJnjjaMybmU0=
-X-Received: by 2002:a17:906:9399:: with SMTP id l25mr37839139ejx.363.1634661168559;
- Tue, 19 Oct 2021 09:32:48 -0700 (PDT)
+        id S233499AbhJSQjh (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 19 Oct 2021 12:39:37 -0400
+X-IronPort-AV: E=McAfee;i="6200,9189,10142"; a="215489032"
+X-IronPort-AV: E=Sophos;i="5.87,164,1631602800"; 
+   d="scan'208";a="215489032"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Oct 2021 09:37:23 -0700
+X-IronPort-AV: E=Sophos;i="5.87,164,1631602800"; 
+   d="scan'208";a="444562961"
+Received: from smile.fi.intel.com (HELO smile) ([10.237.72.159])
+  by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Oct 2021 09:37:19 -0700
+Received: from andy by smile with local (Exim 4.95)
+        (envelope-from <andriy.shevchenko@linux.intel.com>)
+        id 1mcs6l-00025u-8z;
+        Tue, 19 Oct 2021 19:36:59 +0300
+Date:   Tue, 19 Oct 2021 19:36:59 +0300
+From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To:     Tsuchiya Yuto <kitakar@gmail.com>
+Cc:     Hans de Goede <hdegoede@redhat.com>,
+        Patrik Gfeller <patrik.gfeller@gmail.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Yang Yingliang <yangyingliang@huawei.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Aline Santana Cordeiro <alinesantanacordeiro@gmail.com>,
+        Dinghao Liu <dinghao.liu@zju.edu.cn>,
+        linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+        linux-kernel@vger.kernel.org,
+        Nable <nable.maininbox@googlemail.com>,
+        Fabio Aiuto <fabioaiuto83@gmail.com>,
+        "andrey.i.trufanov" <andrey.i.trufanov@gmail.com>
+Subject: Re: [PATCH 00/17] various fixes for atomisp to make it work
+Message-ID: <YW70KzXJ8q1ksEx5@smile.fi.intel.com>
+References: <20211017161958.44351-1-kitakar@gmail.com>
+ <bc7f699d-d77d-83ad-ce5b-6082f30881c1@redhat.com>
+ <7550e3359471726cf14572dd4860c238f166dde8.camel@gmail.com>
 MIME-Version: 1.0
-References: <20211006113254.3470-1-anil.mamidala@xilinx.com>
- <20211006113254.3470-2-anil.mamidala@xilinx.com> <YWiK/xXEQwC5HgWD@robh.at.kernel.org>
- <YWiRERUYZTBepOKU@pendragon.ideasonboard.com> <CAL_Jsq+DjGZpZgE7SiVeSQLsWFHOmBdK+sodUQAeBMd5QPYw0w@mail.gmail.com>
- <YW17d1nj3vyjiYu+@pendragon.ideasonboard.com>
-In-Reply-To: <YW17d1nj3vyjiYu+@pendragon.ideasonboard.com>
-From:   Rob Herring <robh@kernel.org>
-Date:   Tue, 19 Oct 2021 11:32:36 -0500
-X-Gmail-Original-Message-ID: <CAL_JsqKXB9MY7rdQZZ6NyuLXWBVKeS4m4kGX8OX5pYU6ZjeFPg@mail.gmail.com>
-Message-ID: <CAL_JsqKXB9MY7rdQZZ6NyuLXWBVKeS4m4kGX8OX5pYU6ZjeFPg@mail.gmail.com>
-Subject: Re: [PATCH v2 2/2] media: dt-bindings: media: i2c: Add bindings for AP1302
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Anil Kumar Mamidala <anil.mamidala@xilinx.com>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        devicetree@vger.kernel.org, Sakari Ailus <sakari.ailus@iki.fi>,
-        Naveen Kumar Gaddipati <naveenku@xilinx.com>,
-        Stefan Hladnik <stefan.hladnik@gmail.com>,
-        Florian Rebaudo <frebaudo@witekio.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <7550e3359471726cf14572dd4860c238f166dde8.camel@gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, Oct 18, 2021 at 8:50 AM Laurent Pinchart
-<laurent.pinchart@ideasonboard.com> wrote:
->
-> Hi Rob,
->
-> On Mon, Oct 18, 2021 at 08:36:51AM -0500, Rob Herring wrote:
-> > On Thu, Oct 14, 2021 at 3:20 PM Laurent Pinchart wrote:
-> > > On Thu, Oct 14, 2021 at 02:54:39PM -0500, Rob Herring wrote:
-> > > > On Wed, Oct 06, 2021 at 05:32:54AM -0600, Anil Kumar Mamidala wrote:
-> > > > > The AP1302 is a standalone ISP for ON Semiconductor sensors.
-> > > > > Add corresponding DT bindings.
-> > > > >
-> > > > > Signed-off-by: Anil Kumar Mamidala <anil.mamidala@xilinx.com>
-> > > > > Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> > > > > Signed-off-by: Stefan Hladnik <stefan.hladnik@gmail.com>
-> > > > > Signed-off-by: Florian Rebaudo <frebaudo@witekio.com>
-> > > > > ---
-> > > > >  .../devicetree/bindings/media/i2c/onnn,ap1302.yaml | 202 +++++++++++++++++++++
-> > > > >  1 file changed, 202 insertions(+)
-> > > > >  create mode 100644 Documentation/devicetree/bindings/media/i2c/onnn,ap1302.yaml
-> > > > >
-> > > > > diff --git a/Documentation/devicetree/bindings/media/i2c/onnn,ap1302.yaml b/Documentation/devicetree/bindings/media/i2c/onnn,ap1302.yaml
-> > > > > new file mode 100644
-> > > > > index 0000000..d96e9db
-> > > > > --- /dev/null
-> > > > > +++ b/Documentation/devicetree/bindings/media/i2c/onnn,ap1302.yaml
-> > > > > @@ -0,0 +1,202 @@
-> > > > > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> > > > > +%YAML 1.2
-> > > > > +---
-> > > > > +$id: http://devicetree.org/schemas/media/i2c/onnn,ap1302.yaml#
-> > > > > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > > > > +
-> > > > > +title: ON Semiconductor AP1302 Advanced Image Coprocessor
-> > > > > +
-> > > > > +maintainers:
-> > > > > +  - Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> > > > > +  - Anil Kumar M <anil.mamidala@xilinx.com>
-> > > > > +
-> > > > > +description: |-
-> > > > > +  The AP1302 is a standalone ISP for ON Semiconductor sensors. It interfaces to
-> > > > > +  up to two RAW CMOS sensors over MIPI CSI-2 connections, processes the two
-> > > > > +  video streams and outputs YUV frames to the host over a MIPI CSI-2 interface.
-> > > > > +  Frames are output side by side or on two virtual channels.
-> > > > > +
-> > > > > +  The sensors must be identical. They are connected to the AP1302 on dedicated
-> > > > > +  I2C buses, and are controlled by the AP1302 firmware. They are not accessible
-> > > > > +  from the host.
-> > > >
-> > > > In your case, but in general I'd assume whatever sensors are used here
-> > > > could be attached directly to an SoC with a built-in ISP?
-> > >
-> > > That is correct, the same sensors can be used with a different ISP
-> > > (built-in or not), or even without any ISP.
-> > >
-> > > > The model and
-> > > > power supplies you specify wouldn't be different, so I think the same
-> > > > binding could be used for both. Though here, you probably just need a
-> > > > subset. More below.
-> > > >
-> > > > > +
-> > > > > +properties:
-> > > > > +  compatible:
-> > > > > +    const: onnn,ap1302
-> > > > > +
-> > > > > +  reg:
-> > > > > +    description: I2C device address.
-> > > > > +    maxItems: 1
-> > > > > +
-> > > > > +  clocks:
-> > > > > +    description: Reference to the CLK clock.
-> > > > > +    maxItems: 1
-> > > > > +
-> > > > > +  reset-gpios:
-> > > > > +    description: Reference to the GPIO connected to the RST pin (active low).
-> > > > > +    maxItems: 1
-> > > > > +
-> > > > > +  standby-gpios:
-> > > > > +    description:
-> > > > > +      Reference to the GPIO connected to the STANDBY pin (active high).
-> > > > > +    maxItems: 1
-> > > > > +
-> > > > > +  port:
-> > > > > +    $ref: /schemas/graph.yaml#/$defs/port-base
-> > > > > +    unevaluatedProperties: false
-> > > > > +    description: MIPI CSI-2 output interface to the host.
-> > > > > +
-> > > > > +    properties:
-> > > > > +      endpoint:
-> > > > > +        $ref: /schemas/graph.yaml#/$defs/endpoint-base
-> > > > > +        unevaluatedProperties: false
-> > > > > +
-> > > > > +        properties:
-> > > > > +          clock-noncontinuous:
-> > > > > +            type: boolean
-> > > > > +
-> > > > > +          data-lanes:
-> > > > > +            oneOf:
-> > > > > +              - items:
-> > > > > +                  - const: 1
-> > > > > +              - items:
-> > > > > +                  - const: 1
-> > > > > +                  - const: 2
-> > > > > +              - items:
-> > > > > +                  - const: 1
-> > > > > +                  - const: 2
-> > > > > +                  - const: 3
-> > > > > +                  - const: 4
-> > > > > +
-> > > > > +        required:
-> > > > > +          - data-lanes
-> > > > > +
-> > > > > +  sensors:
-> > > > > +    type: object
-> > > > > +    description: List of connected sensors
-> > > > > +
-> > > > > +    properties:
-> > > > > +      "#address-cells":
-> > > > > +        const: 1
-> > > > > +
-> > > > > +      "#size-cells":
-> > > > > +        const: 0
-> > > > > +
-> > > > > +      onnn,model:
-> > > > > +        $ref: "/schemas/types.yaml#/definitions/string"
-> > > > > +        description: |
-> > > > > +          Model of the connected sensors. Must be a valid compatible string.
-> > > >
-> > > > Then make it a compatible string and move into each child node.
-> > >
-> > > We started with that, but considered that it made mistakes more easily
-> > > in the device tree. As the two sensors have to be identical (it's a
-> > > limitation of the AP1302), moving the model to the sensor nodes means
-> > > that someone could set two different models, and the driver will have to
-> > > include corresponding validation code. It's more code on the driver
-> > > side, and more complexity on the DT side. Does it actually bring us
-> > > anything ?
-> >
-> > 1 schema instead of 2.
->
-> I'm not follow you here, given that we would need two different
-> compatible strings according to your suggestion below. Won't that be two
-> schemas ?
+On Tue, Oct 19, 2021 at 10:50:27PM +0900, Tsuchiya Yuto wrote:
+> On Mon, 2021-10-18 at 09:48 +0200, Hans de Goede wrote:
+> > On 10/17/21 18:19, Tsuchiya Yuto wrote:
 
-Depends on how different they are. If it's just disallowing some
-properties for one compatible, that's probably just an if/then schema.
-And I said you *could* have different ones.
+...
 
-> > That doesn't really seem much more complex given you probably need to
-> > make sure you have 2 and only 2 child nodes. You're checking a
-> > property either outside or inside a loop:
-> >
-> > // check model or...
-> > // for_each_of_child_node()
-> >    // ...check compatible
-> >    // parse rest of node
-> >
-> > // check 2 nodes setup.
->
-> I didn't say it would be extremely complex, but it's still additional
-> complexity on both the driver side and the DT side.
->
-> > > > > +
-> > > > > +          If no sensor is connected, this property must no be specified, and
-> > > > > +          the AP1302 can be used with it's internal test pattern generator.
-> > > > > +
-> > > > > +    patternProperties:
-> > > > > +      "^sensor@[01]":
-> > > > > +        type: object
-> > > > > +        description: |
-> > > > > +          Sensors connected to the first and second input, with one node per
-> > > > > +          sensor.
-> > > > > +
-> > > > > +        properties:
-> > > > > +          reg:
-> > > > > +            description: AP1302 input port number
-> > > > > +            maxItems: 1
-> > > >
-> > > > items:
-> > > >   - enum: [ 0, 1]
-> > > >
-> > > > > +
-> > > > > +        patternProperties:
-> > > > > +          ".*-supply":
-> > > >
-> > > > You need to list the supplies out.
-> > >
-> > > Fair point, given that we have a list of supply names per sensor in the
-> > > AP1302 driver.
-> > >
-> > > > I would make this a schema for the
-> > > > sensor along with compatible. Here, you could either reference those if
-> > > > you want to document the list of supported sensors or don't reference
-> > > > them and just document 'reg'. With a compatible, the schema will be
-> > > > applied anyways.
-> > >
-> > > This I'm more concerned about. The sensors may be the same when used
-> > > with the AP1302 or when used standalone, but their integration in the
-> > > system is quite different. With the AP1302, the reg value is the AP1302
-> > > port number, while in the standalone case, it's an I2C address. We're
-> > > just lucky that the #address-cells and #size-cells happen to be the same
-> > > in both cases.
-> >
-> > 'reg' and everything associated with it are properties of the bus and
-> > outside the scope of this binding. We have the same binding on devices
-> > that can be on I2C or SPI for example.
->
-> There's no "bus" as such in this case. The AP1302 firmware handles the
-> sensors and hides them completely from Linux. We have no control bus
-> accessible by Linux for the sensors, and thus no driver binding to the
-> sensors. The reg property is specific to the AP1302 here, so it's not
-> out of scope of this binding.
+> > >   ## for mipad2 (and whiskey cove pmic based devices)
+> > > 
+> > > For devices which equip whiskey cove PMIC, you need to add non-upstream
+> > > regulator driver [1].
+> > > 
+> > > [1] work done by jekhor, which seems to be from intel-aero or old
+> > >     Android kernel
+> > >     https://github.com/jekhor/yogabook-linux-kernel/commit/11c05b365fb2eeb4fced5aa66b362c511be32a34
+> > >     ("intel_soc_pmic_chtwc: Add regulator driver and definition for VPROG1B")
+> > 
+> > Interesting I recently bought a 2nd hand mipad2 myself too. I still need
+> > to put Linux on there. I'm definitely motivated to do that now :)
+> 
+> I'm glad to hear that you also got a mipad2 :) It might be a interesting
+> device to look into. It even won't boot without nomodeset, no battery
+> charging/status on mainline kernel.
+> 
+> By the way, instead of adding whiskey cove regulator driver, we may also
+> add a "hack" like the other PMIC in atomisp_gmin_platform to control
+> regulators [1].
 
-If 'reg' is used, then then it is a bus of some kind in the DT
-definition of a bus. It's 'the way you address child devices' if you
-want to not use 'bus'.
+I looked briefly into the code and if we indeed need to turn off or on
+the regulators it should be a driver.
 
-> > > In the standalone case, there will be more properties
-> > > that are not applicable here. How would we prevent all those other
-> > > properties from being evaluated in the AP1302 case ?
-> >
-> > I'm not all that worried about that, but you could have a different
-> > compatible if you really wanted.
->
-> So that's two schemas, one for the sensor when used normally, and one
-> when used connected to the AP1302. That's not nice at all :-( I don't
-> think it's a good idea, given that the sensors are not exposed to Linux.
+I don't like having hacks outside of driver/staging to satisfy the one from
+the staging.
 
-Obviously they are exposed in some way or we wouldn't be having this
-conversation.
+I.o.w. having a regulator driver is a right thing to do in my opinion.
 
-Also, on the supplies, once you list them out, couldn't they be
-different per sensor model? How would you support that? That's going
-to mean a schema per sensor model.
+> It seems that to do so, it needs to "read" value from the PMIC before
+> writing. So, I'm not sure if this can be achieved easily with the current
+> mainline kernel though.
+> 
+> [1] https://github.com/MiCode/Xiaomi_Kernel_OpenSource/commit/6204d4b7aeefc4db622f8ac57b87bf2c76c6c8aa
+>     ("atomisp_platform: add whiskey cove pmic support")
 
-Rob
+-- 
+With Best Regards,
+Andy Shevchenko
+
+
