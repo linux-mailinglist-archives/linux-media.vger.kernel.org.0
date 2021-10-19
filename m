@@ -2,141 +2,144 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8B72D43365A
-	for <lists+linux-media@lfdr.de>; Tue, 19 Oct 2021 14:51:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8FB3F43365E
+	for <lists+linux-media@lfdr.de>; Tue, 19 Oct 2021 14:54:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230338AbhJSMyG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 19 Oct 2021 08:54:06 -0400
-Received: from mga02.intel.com ([134.134.136.20]:18456 "EHLO mga02.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230097AbhJSMyF (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Tue, 19 Oct 2021 08:54:05 -0400
-X-IronPort-AV: E=McAfee;i="6200,9189,10141"; a="215663213"
-X-IronPort-AV: E=Sophos;i="5.87,163,1631602800"; 
-   d="scan'208";a="215663213"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Oct 2021 05:51:52 -0700
-X-IronPort-AV: E=Sophos;i="5.87,163,1631602800"; 
-   d="scan'208";a="566937986"
-Received: from paasikivi.fi.intel.com ([10.237.72.42])
-  by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Oct 2021 05:51:50 -0700
-Received: from paasikivi.fi.intel.com (localhost [127.0.0.1])
-        by paasikivi.fi.intel.com (Postfix) with SMTP id B2C8920316;
-        Tue, 19 Oct 2021 15:51:48 +0300 (EEST)
-Date:   Tue, 19 Oct 2021 15:51:48 +0300
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Bingbu Cao <bingbu.cao@intel.com>
-Cc:     linux-media@vger.kernel.org, tfiga@chromium.org,
-        kieran.bingham@ideasonboard.com, bingbu.cao@linux.intel.com
-Subject: Re: [PATCH v3] media: imx258: add vblank control to support more
- frame rate range
-Message-ID: <YW6/ZGI5/j4UDaBQ@paasikivi.fi.intel.com>
-References: <1634527576-2928-1-git-send-email-bingbu.cao@intel.com>
+        id S235683AbhJSM40 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 19 Oct 2021 08:56:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42730 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230097AbhJSM40 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Tue, 19 Oct 2021 08:56:26 -0400
+Received: from mail-wr1-x433.google.com (mail-wr1-x433.google.com [IPv6:2a00:1450:4864:20::433])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8E76EC06161C
+        for <linux-media@vger.kernel.org>; Tue, 19 Oct 2021 05:54:07 -0700 (PDT)
+Received: by mail-wr1-x433.google.com with SMTP id y3so47740991wrl.1
+        for <linux-media@vger.kernel.org>; Tue, 19 Oct 2021 05:54:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-transfer-encoding:content-language;
+        bh=1mvclZulp1jBGRqznG/b0fXQ3yElAWRCQ+ub5281RqY=;
+        b=DyFXLhO2hfmcRk4ZOfWcW28zmBfrAPLobYErFlCLG06QAX5ZvNHr/DLxehkTJHu3Jn
+         q6NJzPBjIU+CRVyMxKVSbh06aqUkoILHEHA3acN5Wt2YGTz239ZBwtiu6UQMhZE5w6mB
+         W/MhXuMU9VOMyTno6gEmYX9r12vkA2fDq6cIlsbChKyf5g2SoWcjwRPkoZnYaCFjw2t9
+         m+upfRu68oogpgtE7B0HpUbSds1XYQYJ0qOmXlOubz5sFz2GITTdbL+/g2DH7c6bGF7z
+         GK5ctOSWxAH/t3jJiiHJOlG0SsCDj5B5K/BBS0spkO7TT5DwMxNI6zGDXcI58ILa55i8
+         HdZQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-transfer-encoding
+         :content-language;
+        bh=1mvclZulp1jBGRqznG/b0fXQ3yElAWRCQ+ub5281RqY=;
+        b=NMpEJZdBMU2x6YppRDUXB1CZv9TGbu7s22L2dGAyICLL6ry7Slr62ZFETBSeweouXo
+         nXkfDT1X1T4bJb4XiDjzhcvo8zW1A09w+MJaGNGgksOeJDy4XywEswuvacf1OQ6I2oMV
+         CAgpYLv8tJf/ClwMPcj7602kzEWDrGoq/V2IFKxxY0gp0p8Con5P6x/9IKyjvaqiIbJU
+         299qVT3C9B3I1ze5+0uIrp0TyXHAwGLHYs3W/XdiELtjAQGwNNKxvPgFZiw3LzIqXAYc
+         I81ARZ70+rtPlswOXK3uZYOpv2CyqGwaPQFp9ZR5T62xfhlUQ/cQMhehHCr5TZS/G/eK
+         NFCg==
+X-Gm-Message-State: AOAM533nJ9utEa7Pdu4gMEL+lE/xalEGiDVqQpRX4cyiUHzsgrRbMNnO
+        NkvD7ZMc69mwq8T45Wfidqw=
+X-Google-Smtp-Source: ABdhPJznqWw6536w7KHmaGxJprPY+w8hHoqj2Re1K7qIk8KLaWxB9z9oathPltY4TElg2E6VG/42Uw==
+X-Received: by 2002:a5d:6245:: with SMTP id m5mr44059656wrv.148.1634648046127;
+        Tue, 19 Oct 2021 05:54:06 -0700 (PDT)
+Received: from ?IPv6:2a02:908:1252:fb60:f344:748e:38f7:c50? ([2a02:908:1252:fb60:f344:748e:38f7:c50])
+        by smtp.gmail.com with ESMTPSA id k10sm15045970wrh.64.2021.10.19.05.54.05
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 19 Oct 2021 05:54:05 -0700 (PDT)
+Subject: Re: [PATCH 23/28] drm: use new iterator in
+ drm_gem_fence_array_add_implicit v3
+To:     Daniel Vetter <daniel@ffwll.ch>
+Cc:     linaro-mm-sig@lists.linaro.org, dri-devel@lists.freedesktop.org,
+        linux-media@vger.kernel.org, intel-gfx@lists.freedesktop.org,
+        tvrtko.ursulin@linux.intel.com
+References: <20211005113742.1101-1-christian.koenig@amd.com>
+ <20211005113742.1101-24-christian.koenig@amd.com>
+ <YWbrb7xQfTWU15U1@phenom.ffwll.local>
+From:   =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
+Message-ID: <71bf3523-7c18-dac7-de53-f7b20e737cc3@gmail.com>
+Date:   Tue, 19 Oct 2021 14:54:04 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1634527576-2928-1-git-send-email-bingbu.cao@intel.com>
+In-Reply-To: <YWbrb7xQfTWU15U1@phenom.ffwll.local>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Bingbu,
+Am 13.10.21 um 16:21 schrieb Daniel Vetter:
+> On Tue, Oct 05, 2021 at 01:37:37PM +0200, Christian König wrote:
+>> Simplifying the code a bit.
+>>
+>> v2: add missing rcu_read_lock()/unlock()
+>> v3: switch to locked version
+>>
+>> Signed-off-by: Christian König <christian.koenig@amd.com>
+>> Reviewed-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+> Please make sure you also apply this to the new copy of this code in
+> drm/sched. This one here is up for deletion, once I get all the driver
+> conversions I have landed ...
 
-On Mon, Oct 18, 2021 at 11:26:16AM +0800, Bingbu Cao wrote:
-> Current imx258 driver enable the automatic frame length tracking control
-> by default and did not support VBLANK change, it's always working at 30fps.
-> However, in reality we need a wider frame rate range from 15 to 30.
-> This patch disable the automatic frame length tracking control and enable
-> the v4l2 VBLANK control to allow user changing frame rate per requirement.
-> 
-> Signed-off-by: Bingbu Cao <bingbu.cao@intel.com>
-> ---
->  drivers/media/i2c/imx258.c | 23 +++++++++++++++++------
->  1 file changed, 17 insertions(+), 6 deletions(-)
-> 
-> diff --git a/drivers/media/i2c/imx258.c b/drivers/media/i2c/imx258.c
-> index 81cdf37216ca..2c787af7074d 100644
-> --- a/drivers/media/i2c/imx258.c
-> +++ b/drivers/media/i2c/imx258.c
-> @@ -29,6 +29,7 @@
->  #define IMX258_VTS_MAX			0xffff
->  
->  /*Frame Length Line*/
-> +#define IMX258_REG_FLL			0x0340
->  #define IMX258_FLL_MIN			0x08a6
->  #define IMX258_FLL_MAX			0xffff
->  #define IMX258_FLL_STEP			1
-> @@ -241,7 +242,7 @@ static const struct imx258_reg mode_4208x3118_regs[] = {
->  	{ 0x034D, 0x70 },
->  	{ 0x034E, 0x0C },
->  	{ 0x034F, 0x30 },
-> -	{ 0x0350, 0x01 },
-> +	{ 0x0350, 0x00 }, /* no frame length automatic tracking control */
->  	{ 0x0202, 0x0C },
->  	{ 0x0203, 0x46 },
->  	{ 0x0204, 0x00 },
-> @@ -360,7 +361,7 @@ static const struct imx258_reg mode_2104_1560_regs[] = {
->  	{ 0x034D, 0x38 },
->  	{ 0x034E, 0x06 },
->  	{ 0x034F, 0x18 },
-> -	{ 0x0350, 0x01 },
-> +	{ 0x0350, 0x00 }, /* no frame length automatic tracking control */
->  	{ 0x0202, 0x06 },
->  	{ 0x0203, 0x2E },
->  	{ 0x0204, 0x00 },
-> @@ -479,7 +480,7 @@ static const struct imx258_reg mode_1048_780_regs[] = {
->  	{ 0x034D, 0x18 },
->  	{ 0x034E, 0x03 },
->  	{ 0x034F, 0x0C },
-> -	{ 0x0350, 0x01 },
-> +	{ 0x0350, 0x00 }, /* no frame length automatic tracking control */
+Yeah, I do have that. Only added this patch here for completeness so 
+that I could at least consider dropping the old access functions.
 
-Why is automatic frame length control disabled?
+Put I will hold it back, just ping me when the code in question is removed.
 
->  	{ 0x0202, 0x03 },
->  	{ 0x0203, 0x42 },
->  	{ 0x0204, 0x00 },
-> @@ -753,8 +754,17 @@ static int imx258_set_ctrl(struct v4l2_ctrl *ctrl)
->  	struct imx258 *imx258 =
->  		container_of(ctrl->handler, struct imx258, ctrl_handler);
->  	struct i2c_client *client = v4l2_get_subdevdata(&imx258->sd);
-> +	s64 max;
->  	int ret = 0;
->  
-> +	if (ctrl->id == V4L2_CID_VBLANK) {
-> +		/* Update max exposure to meet expected vblanking */
-> +		max = imx258->cur_mode->height + ctrl->val - 10;
-> +		__v4l2_ctrl_modify_range(imx258->exposure,
-> +					 imx258->exposure->minimum,
-> +					 max, imx258->exposure->step, max);
-> +	}
-> +
->  	/*
->  	 * Applying V4L2 control value only happens
->  	 * when power is up for streaming
-> @@ -773,6 +783,10 @@ static int imx258_set_ctrl(struct v4l2_ctrl *ctrl)
->  				IMX258_REG_VALUE_16BIT,
->  				ctrl->val);
->  		break;
-> +	case V4L2_CID_VBLANK:
-> +		ret = imx258_write_reg(imx258, IMX258_REG_FLL, 2,
-> +				       imx258->cur_mode->height + ctrl->val);
-> +		break;
->  	case V4L2_CID_DIGITAL_GAIN:
->  		ret = imx258_update_digital_gain(imx258, IMX258_REG_VALUE_16BIT,
->  				ctrl->val);
-> @@ -1189,9 +1203,6 @@ static int imx258_init_controls(struct imx258 *imx258)
->  				IMX258_VTS_MAX - imx258->cur_mode->height, 1,
->  				vblank_def);
->  
-> -	if (imx258->vblank)
-> -		imx258->vblank->flags |= V4L2_CTRL_FLAG_READ_ONLY;
-> -
->  	imx258->hblank = v4l2_ctrl_new_std(
->  				ctrl_hdlr, &imx258_ctrl_ops, V4L2_CID_HBLANK,
->  				IMX258_PPL_DEFAULT - imx258->cur_mode->width,
+Christian.
 
--- 
-Kind regards,
+> -Daniel
+>
+>> ---
+>>   drivers/gpu/drm/drm_gem.c | 26 +++++---------------------
+>>   1 file changed, 5 insertions(+), 21 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/drm_gem.c b/drivers/gpu/drm/drm_gem.c
+>> index 09c820045859..4dcdec6487bb 100644
+>> --- a/drivers/gpu/drm/drm_gem.c
+>> +++ b/drivers/gpu/drm/drm_gem.c
+>> @@ -1340,31 +1340,15 @@ int drm_gem_fence_array_add_implicit(struct xarray *fence_array,
+>>   				     struct drm_gem_object *obj,
+>>   				     bool write)
+>>   {
+>> -	int ret;
+>> -	struct dma_fence **fences;
+>> -	unsigned int i, fence_count;
+>> -
+>> -	if (!write) {
+>> -		struct dma_fence *fence =
+>> -			dma_resv_get_excl_unlocked(obj->resv);
+>> -
+>> -		return drm_gem_fence_array_add(fence_array, fence);
+>> -	}
+>> +	struct dma_resv_iter cursor;
+>> +	struct dma_fence *fence;
+>> +	int ret = 0;
+>>   
+>> -	ret = dma_resv_get_fences(obj->resv, NULL,
+>> -						&fence_count, &fences);
+>> -	if (ret || !fence_count)
+>> -		return ret;
+>> -
+>> -	for (i = 0; i < fence_count; i++) {
+>> -		ret = drm_gem_fence_array_add(fence_array, fences[i]);
+>> +	dma_resv_for_each_fence(&cursor, obj->resv, write, fence) {
+>> +		ret = drm_gem_fence_array_add(fence_array, fence);
+>>   		if (ret)
+>>   			break;
+>>   	}
+>> -
+>> -	for (; i < fence_count; i++)
+>> -		dma_fence_put(fences[i]);
+>> -	kfree(fences);
+>>   	return ret;
+>>   }
+>>   EXPORT_SYMBOL(drm_gem_fence_array_add_implicit);
+>> -- 
+>> 2.25.1
+>>
 
-Sakari Ailus
