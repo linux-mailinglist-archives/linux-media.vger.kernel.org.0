@@ -2,192 +2,290 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id F2037433C39
-	for <lists+linux-media@lfdr.de>; Tue, 19 Oct 2021 18:30:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5586A433C6D
+	for <lists+linux-media@lfdr.de>; Tue, 19 Oct 2021 18:35:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234366AbhJSQdB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 19 Oct 2021 12:33:01 -0400
-Received: from mail-dm6nam10on2072.outbound.protection.outlook.com ([40.107.93.72]:45537
-        "EHLO NAM10-DM6-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S234361AbhJSQc6 (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Tue, 19 Oct 2021 12:32:58 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ELBwGwY6UzaeXepfjnkVhmxK5K9HkRqPB17jAUjlhLvk/Sq+sacqzz8/qI162rcbMFu3amyWrodaNWEuHxV1RbXvzmG61uqLkGWwf2Es4vHLtTQg5NSBtoTPgoReozDJg1kA77n/WhZ+5OuyukXMlGZINvZnqMiyqvyaExREBTgrW3b+LXzluubQLdjacY0W3YjtMuUbB5oH60C5/ws/JWaI46PcaLFtGFwsyvcO2sO+uNlzajHDrTf9TqqKwg4Xo1M2FsA2iDAXOejlT25ET5b1XubmCYYlb+XhbUyoeRRCWo5VSFe7yZ7gcMEQgA8+ynCxZUIYhQZyZ3zCi2FKrg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=LxJ4PM3w+2xOxLtg73UaRmKeFxYV4e0IiJ1Ne9ariCY=;
- b=Mim6sYmx+E1WrVrJDCDxXm2+YEXqoe+gUAE7aC15Hsl5uAzNaYFTKy/XvIbRHgEejm/bQjhcbtIq3OHeujoiz0DDRykHZcFVtwKLph30hFTGNG4o87ooi5co/WTTgCEe9gnK+5ent51ecyePlC32mxazqOJs77Q+8MVEENE2d8YvzBS9105M4R3gZEYe+w3y/xPJMkt32Huy/itgQ03aqqu7kyfA9w8iz9F0Hb6NQ7Yk2v694/1y7jyPb99GVfl7MUcNVnnIFaE7u8vfIIDHjbfkEAn0rxLEqARxRZTOq/uZ6eSK+z41hwPy48Jsehp282YTQR9hsQZu2R0shSlRxQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=LxJ4PM3w+2xOxLtg73UaRmKeFxYV4e0IiJ1Ne9ariCY=;
- b=vd0+fyga9CKYRU5tZG0ZYx6S9OJO627G1TuZi6R/SJfY+oqzRUewwQWfZQO1+qOikVWsABvWGuPo1Ri/G/V/jwlI2GPDXM/Jh0d5g5Kxi0ClL6B0eM2Y0vDMUXtK695kBrHM1L4ML2v0gQBeblE9+AytVZovKsCswhlFS4N3rVc=
-Authentication-Results: linux.intel.com; dkim=none (message not signed)
- header.d=none;linux.intel.com; dmarc=none action=none header.from=amd.com;
-Received: from DM5PR1201MB2491.namprd12.prod.outlook.com (2603:10b6:3:eb::23)
- by DM6PR12MB4265.namprd12.prod.outlook.com (2603:10b6:5:211::14) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4608.17; Tue, 19 Oct
- 2021 16:30:43 +0000
-Received: from DM5PR1201MB2491.namprd12.prod.outlook.com
- ([fe80::d153:3aa6:4677:e29]) by DM5PR1201MB2491.namprd12.prod.outlook.com
- ([fe80::d153:3aa6:4677:e29%7]) with mapi id 15.20.4608.018; Tue, 19 Oct 2021
- 16:30:43 +0000
-Subject: Re: [PATCH 12/28] drm/amdgpu: use new iterator in
- amdgpu_ttm_bo_eviction_valuable
-To:     =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>,
-        Daniel Vetter <daniel@ffwll.ch>
-Cc:     linaro-mm-sig@lists.linaro.org, dri-devel@lists.freedesktop.org,
-        linux-media@vger.kernel.org, intel-gfx@lists.freedesktop.org,
-        tvrtko.ursulin@linux.intel.com
-References: <20211005113742.1101-1-christian.koenig@amd.com>
- <20211005113742.1101-13-christian.koenig@amd.com>
- <YWboMfLOIjl1l7tF@phenom.ffwll.local>
- <a0a926a7-13d0-b996-5f32-36aa6d74165e@gmail.com>
-From:   Felix Kuehling <felix.kuehling@amd.com>
-Message-ID: <c18a4c91-93b4-79ed-0907-84adb29761d8@amd.com>
-Date:   Tue, 19 Oct 2021 12:30:40 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
-In-Reply-To: <a0a926a7-13d0-b996-5f32-36aa6d74165e@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-X-ClientProxiedBy: YT1PR01CA0099.CANPRD01.PROD.OUTLOOK.COM
- (2603:10b6:b01:2c::8) To DM5PR1201MB2491.namprd12.prod.outlook.com
- (2603:10b6:3:eb::23)
+        id S234414AbhJSQh4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 19 Oct 2021 12:37:56 -0400
+Received: from mail.kernel.org ([198.145.29.99]:58434 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S234403AbhJSQhz (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 19 Oct 2021 12:37:55 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id D580761372;
+        Tue, 19 Oct 2021 16:35:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1634661341;
+        bh=t49fabp9Rfx1p92oCVg5Q37XFSqXUlR4XnM5csMMH+I=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=er+RrJb/mpqWHpwy4/tkl/h/3USK/scnMiv4TtRM/BRM0yORiZguEscDaMHD0qxun
+         tr0zJZ6hBASmkfo6x5TAy32ViDzDY33D5V4tafLH6CZZSBnz1QUOe2hfxFBV8LSSqm
+         wfu4v1lsCyDtF6R95CoaWabfEsY2ZlQxaofBQ5zrDRjhLPNO3emI6hWmd66rWuEir0
+         qxZEULJxVzidT+8E/Pa3Pe6td4ThIb0VTwKKCEEEJGa5hl5nb5SO4WHtQEpmI/gndw
+         +eR7tnT6Os8aZZGHPSoP5uzvPPx+eEHDabcm6c9+U3dyN1lcAkH1uqYu3opwA5OkcT
+         Ve1DwIyyXSXJA==
+Received: by mail-ed1-f50.google.com with SMTP id g10so14858908edj.1;
+        Tue, 19 Oct 2021 09:35:41 -0700 (PDT)
+X-Gm-Message-State: AOAM5325wN5bx5fNh2AaDzSV7oirhUQUMQH6UNOS+YZwUGS+ixGBzReH
+        GUYhr1Oac6rrWlTfcBU7n63XcA7KcfT3TP4X8g==
+X-Google-Smtp-Source: ABdhPJyOQ4I0nlKEjIn9sPypvjSCRL7wp1i7gqhfUE23s+bWssKSLXMWKBtgCWZCoWDaN3SZtx31rh4UJnjjaMybmU0=
+X-Received: by 2002:a17:906:9399:: with SMTP id l25mr37839139ejx.363.1634661168559;
+ Tue, 19 Oct 2021 09:32:48 -0700 (PDT)
 MIME-Version: 1.0
-Received: from [192.168.2.100] (142.118.126.231) by YT1PR01CA0099.CANPRD01.PROD.OUTLOOK.COM (2603:10b6:b01:2c::8) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4628.15 via Frontend Transport; Tue, 19 Oct 2021 16:30:42 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: b716448e-00af-488b-8bf8-08d9931dcb8d
-X-MS-TrafficTypeDiagnostic: DM6PR12MB4265:
-X-Microsoft-Antispam-PRVS: <DM6PR12MB4265ED10CED6FB0F5484D24692BD9@DM6PR12MB4265.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:8273;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: u30dx3u18H3GfMtKoF1R5Ooc19TD9tCCaNh7s+I2awPPs2nzg7yYjWuyAOjjKW/roSq65I/E3L0o7Yutqc9T9hGJZnRZTLuWI2iIDRGOFXWN5SBfEiICTgdmyuGyvkLj7eD4WbkKauTPdNNlM9qWmGJN4giVXVC0pZSyIDGsbARCWay8kXur+J08k/8UUgMVtNLOe0K+KtQtHWONVSkpzFiO6Rmd58j6MEtIXBqiqYtaDc3zySyjtHxsjUzFjnZS9E9+azB/NqIvghs1rTSDrUbiZghxVwtku/Y0kEFmowIuE0/oqLuYP5G/rzHUhozxncysVzCF4vQh5jlHygt6VoYyDsJtpfZDgCBPv8DiZS19HeFORvrK8tgoIg+72cCqL7r3kjGkocnF//sZOEGVLskiK6F9YN+bi3CE369mntZxEqwnN7zsNZbZ2B8rqxCRbKNWxoqw3/VPXx6+iIf1VizZo/Hbh78t0fb7hGRS2XralVk8JHVCBqdIpV/yhzWJZiZqjogVInrtXpL+tpJGsoNVfInb5osueY1VHVpijU7HpYwY/TcPV3EqpjV6cunm8kstc+KE3ZD+opSunLDmQpWgoHbUoeZB0MNZDaca1AeDoEx4zjoG2AXvTGkvCot4ix5sqWMKddWSYeBwYQYFCdOusVgQzIX8fLE3TBAwUXA1L7ViOH5yyiA7UMrrjXemPy/GskGM5DRoKFknK8CQHDou8LTKDbAp6kGvbVzQ8F0MZ2hRYEm02ZD1xIKiTV3t
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM5PR1201MB2491.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(366004)(5660300002)(4001150100001)(66946007)(31686004)(4326008)(38100700002)(26005)(44832011)(6486002)(83380400001)(66476007)(66556008)(86362001)(8676002)(2616005)(31696002)(16576012)(316002)(8936002)(36756003)(508600001)(956004)(186003)(110136005)(2906002)(45980500001)(43740500002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?Ri9aaFpkZC9ZLzlDOTlOMlh6ZFRTL2JWcUtHM3VIWkh4UFRpRmlOdDRnVmk4?=
- =?utf-8?B?eWU1M0NlN3AxaU44UlQ3VGZJdWJLcXBmbTlRVmFETGVjbVh4aU9kYXQycTVq?=
- =?utf-8?B?QUYzQmJpRldUbnVSVENpYjg1djZmTDAwU05Gd0Q2UWQ1eGZkRkVKTnRrZCtx?=
- =?utf-8?B?dUpHcDdkNDYxKzFkR2ZqWDIra1dKMmFRSzE1ZlVUYTR3L0diQythQjdKVlpZ?=
- =?utf-8?B?UEcvN1U4akNtb2g3dndHMlV4OVQ3cHZiQ2ZIRjN4ODhqV1B2RVovRythTVpL?=
- =?utf-8?B?djlBUmZkQkZGVzFscDZ1bDhJS3VYMHhkZVlHYmZ4WmJudUZsUURVcGViQU1w?=
- =?utf-8?B?TjdYT3YzemZlRXZ6OFNlRmMrNDk2NlZVZVE1OFZYRHNGbkF1cC9qOWZocGdn?=
- =?utf-8?B?ZlRRYzFRbVMrS3hYSUNyNG9yYVROY2tWTGdZRnpGNU9Xcmo1N3gzNmlleUZS?=
- =?utf-8?B?azRwRFhlYnNGZjgzVTBNcTJPeEQ4THdlNThYZEk1eGJxaUF0SklXYVBPSnVC?=
- =?utf-8?B?NkFTbDR2TlVnSXZ6aWJ1WERKZ3dxM09Kd0FCTUYzZGRrM3FkRkFSQW9TQmI0?=
- =?utf-8?B?NlZhRmxmRC9kdDlwRUpLOTRyYVdTa0V5aC9uamVmeGlabGx3c2VUOXhiQ1dm?=
- =?utf-8?B?QUxPMmFlMUtzbFA0WDRVU0g2QmJLT0dGbDlEYTFVaGN1NnF3c1hhaGtiaEc0?=
- =?utf-8?B?WXhFd1dkVHBWYm1ENlVBMEU2R0F0UmJLcHhtNmpVRjEyY0FUaFk4Q2FTc1lm?=
- =?utf-8?B?VzdUSUFyOXhoc0ljbDdWMGx6c3dQSmlpQlUrRWJUT000Qmg3T1oweEoySko0?=
- =?utf-8?B?SFNXaVRyNzFQNUx0a0lWc2ZRYVNIMzZZWHdlaE1yYXcvWWd2WXZiWEY1WlJp?=
- =?utf-8?B?TUFHZStaMWFaL0RlcWJWQVF1TXhUdEdqSlNjM0FKelhZc0Z6VUZtMzE5QjRM?=
- =?utf-8?B?REpjOHBWdlNWd3ZORTdPSEh3Q1l2M2hTSFRZRGplVFpUbzBZWG5jQ1dJK2Ju?=
- =?utf-8?B?TmlOdmlpZHRHMEFiWGFiZXFhOEJ3YXJuazA5Z2hrOXhtMTZ2Y3lONjlCUDVm?=
- =?utf-8?B?SXlvNURqc1JMVEJLV3ZlK1dkbENHVmw3cWQ0anVKL24wbjFMNDFZMnNkcHNv?=
- =?utf-8?B?NUFnWUhPT2Ewb1Zxdk1xUVhXR3RpQWd0cmRjelFxLy9NNDR5eE8ydTdKMkhj?=
- =?utf-8?B?aTZkTi8zZ0JqUFN0Ymd0SHF1RWtXR1JBcXFvNlJ4elF2Um5ZTWhLQTJKT2p0?=
- =?utf-8?B?SkNyWjZSUlg3dXhnRWdyVU83ckN4MWpIUlFJZUhRSzVCOTlleTdpQ1pCYUNG?=
- =?utf-8?B?dnhuMXE4TkZvR3dhMXZoM0JXemd6MldLOERCbWJDMTFzNFU4enltbXNPaFhY?=
- =?utf-8?B?WmlrUjI4a09WNjFzTmVsQXE0WXVlZ3BuWnBDcWlseFpWR2E0c1lmY2c5RWRC?=
- =?utf-8?B?TzcvSmdJUUhwNFFWTDFib0R2VWRZckxnTWRpWis5Uk0yNUxQaFdKZytTeVBp?=
- =?utf-8?B?SmJqaDNaMXZHTHZWclk3OSswTG5vTVFSd0JrZi9uWG1KeDlwVzlhM3ZvRk0x?=
- =?utf-8?B?ajFac25tS3pJQ00zN3dkZm1NZkI4ajBCYzBhYWpuRzFnR2lKTHZoM1JFczVF?=
- =?utf-8?B?OEpMa2t5dUNGdjJtZ21kSlZvQ3FnVDZwSUdiOVRCdkRwYUhiRHlsbDVFbTBQ?=
- =?utf-8?B?VGQrS1Q2c2p3ZGJ6TjFBUmE3dUVJOXJ4T1hXemFzZW51SEtkM3AxRmM2UHZY?=
- =?utf-8?B?QmU0MjhMWCtReTVXMVhYenRlRmFjZkY0cWc3Z1ZSWjhVTEdhVVVGSGUzOC9o?=
- =?utf-8?B?Nk92TGs1dHZBQU9ab1FmQT09?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: b716448e-00af-488b-8bf8-08d9931dcb8d
-X-MS-Exchange-CrossTenant-AuthSource: DM5PR1201MB2491.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Oct 2021 16:30:43.1380
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: /3ftIQZ1VCKMHPMjp1yvaOElHNdUCAU6NFligJGhdmEb4DTDuUtuskRnjtdgVT07kKMMa8FpZViLR2gmJ28CWw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB4265
+References: <20211006113254.3470-1-anil.mamidala@xilinx.com>
+ <20211006113254.3470-2-anil.mamidala@xilinx.com> <YWiK/xXEQwC5HgWD@robh.at.kernel.org>
+ <YWiRERUYZTBepOKU@pendragon.ideasonboard.com> <CAL_Jsq+DjGZpZgE7SiVeSQLsWFHOmBdK+sodUQAeBMd5QPYw0w@mail.gmail.com>
+ <YW17d1nj3vyjiYu+@pendragon.ideasonboard.com>
+In-Reply-To: <YW17d1nj3vyjiYu+@pendragon.ideasonboard.com>
+From:   Rob Herring <robh@kernel.org>
+Date:   Tue, 19 Oct 2021 11:32:36 -0500
+X-Gmail-Original-Message-ID: <CAL_JsqKXB9MY7rdQZZ6NyuLXWBVKeS4m4kGX8OX5pYU6ZjeFPg@mail.gmail.com>
+Message-ID: <CAL_JsqKXB9MY7rdQZZ6NyuLXWBVKeS4m4kGX8OX5pYU6ZjeFPg@mail.gmail.com>
+Subject: Re: [PATCH v2 2/2] media: dt-bindings: media: i2c: Add bindings for AP1302
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Anil Kumar Mamidala <anil.mamidala@xilinx.com>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        devicetree@vger.kernel.org, Sakari Ailus <sakari.ailus@iki.fi>,
+        Naveen Kumar Gaddipati <naveenku@xilinx.com>,
+        Stefan Hladnik <stefan.hladnik@gmail.com>,
+        Florian Rebaudo <frebaudo@witekio.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Am 2021-10-19 um 7:36 a.m. schrieb Christian König:
-> Am 13.10.21 um 16:07 schrieb Daniel Vetter:
->> On Tue, Oct 05, 2021 at 01:37:26PM +0200, Christian König wrote:
->>> Simplifying the code a bit.
->>>
->>> Signed-off-by: Christian König <christian.koenig@amd.com>
->>> ---
->>>   drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c | 14 ++++----------
->>>   1 file changed, 4 insertions(+), 10 deletions(-)
->>>
->>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
->>> b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
->>> index e8d70b6e6737..722e3c9e8882 100644
->>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
->>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
->>> @@ -1345,10 +1345,9 @@ static bool
->>> amdgpu_ttm_bo_eviction_valuable(struct ttm_buffer_object *bo,
->>>                           const struct ttm_place *place)
->>>   {
->>>       unsigned long num_pages = bo->resource->num_pages;
->>> +    struct dma_resv_iter resv_cursor;
->>>       struct amdgpu_res_cursor cursor;
->>> -    struct dma_resv_list *flist;
->>>       struct dma_fence *f;
->>> -    int i;
->>>         /* Swapout? */
->>>       if (bo->resource->mem_type == TTM_PL_SYSTEM)
->>> @@ -1362,14 +1361,9 @@ static bool
->>> amdgpu_ttm_bo_eviction_valuable(struct ttm_buffer_object *bo,
->>>        * If true, then return false as any KFD process needs all its
->>> BOs to
->>>        * be resident to run successfully
->>>        */
->>> -    flist = dma_resv_shared_list(bo->base.resv);
->>> -    if (flist) {
->>> -        for (i = 0; i < flist->shared_count; ++i) {
->>> -            f = rcu_dereference_protected(flist->shared[i],
->>> -                dma_resv_held(bo->base.resv));
->>> -            if (amdkfd_fence_check_mm(f, current->mm))
->>> -                return false;
->>> -        }
->>> +    dma_resv_for_each_fence(&resv_cursor, bo->base.resv, true, f) {
->>                                 ^false?
->>
->> At least I'm not seeing the code look at the exclusive fence here.
+On Mon, Oct 18, 2021 at 8:50 AM Laurent Pinchart
+<laurent.pinchart@ideasonboard.com> wrote:
 >
-> Yes, but that's correct. We need to look at all potential fences.
+> Hi Rob,
+>
+> On Mon, Oct 18, 2021 at 08:36:51AM -0500, Rob Herring wrote:
+> > On Thu, Oct 14, 2021 at 3:20 PM Laurent Pinchart wrote:
+> > > On Thu, Oct 14, 2021 at 02:54:39PM -0500, Rob Herring wrote:
+> > > > On Wed, Oct 06, 2021 at 05:32:54AM -0600, Anil Kumar Mamidala wrote:
+> > > > > The AP1302 is a standalone ISP for ON Semiconductor sensors.
+> > > > > Add corresponding DT bindings.
+> > > > >
+> > > > > Signed-off-by: Anil Kumar Mamidala <anil.mamidala@xilinx.com>
+> > > > > Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> > > > > Signed-off-by: Stefan Hladnik <stefan.hladnik@gmail.com>
+> > > > > Signed-off-by: Florian Rebaudo <frebaudo@witekio.com>
+> > > > > ---
+> > > > >  .../devicetree/bindings/media/i2c/onnn,ap1302.yaml | 202 +++++++++++++++++++++
+> > > > >  1 file changed, 202 insertions(+)
+> > > > >  create mode 100644 Documentation/devicetree/bindings/media/i2c/onnn,ap1302.yaml
+> > > > >
+> > > > > diff --git a/Documentation/devicetree/bindings/media/i2c/onnn,ap1302.yaml b/Documentation/devicetree/bindings/media/i2c/onnn,ap1302.yaml
+> > > > > new file mode 100644
+> > > > > index 0000000..d96e9db
+> > > > > --- /dev/null
+> > > > > +++ b/Documentation/devicetree/bindings/media/i2c/onnn,ap1302.yaml
+> > > > > @@ -0,0 +1,202 @@
+> > > > > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> > > > > +%YAML 1.2
+> > > > > +---
+> > > > > +$id: http://devicetree.org/schemas/media/i2c/onnn,ap1302.yaml#
+> > > > > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > > > > +
+> > > > > +title: ON Semiconductor AP1302 Advanced Image Coprocessor
+> > > > > +
+> > > > > +maintainers:
+> > > > > +  - Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> > > > > +  - Anil Kumar M <anil.mamidala@xilinx.com>
+> > > > > +
+> > > > > +description: |-
+> > > > > +  The AP1302 is a standalone ISP for ON Semiconductor sensors. It interfaces to
+> > > > > +  up to two RAW CMOS sensors over MIPI CSI-2 connections, processes the two
+> > > > > +  video streams and outputs YUV frames to the host over a MIPI CSI-2 interface.
+> > > > > +  Frames are output side by side or on two virtual channels.
+> > > > > +
+> > > > > +  The sensors must be identical. They are connected to the AP1302 on dedicated
+> > > > > +  I2C buses, and are controlled by the AP1302 firmware. They are not accessible
+> > > > > +  from the host.
+> > > >
+> > > > In your case, but in general I'd assume whatever sensors are used here
+> > > > could be attached directly to an SoC with a built-in ISP?
+> > >
+> > > That is correct, the same sensors can be used with a different ISP
+> > > (built-in or not), or even without any ISP.
+> > >
+> > > > The model and
+> > > > power supplies you specify wouldn't be different, so I think the same
+> > > > binding could be used for both. Though here, you probably just need a
+> > > > subset. More below.
+> > > >
+> > > > > +
+> > > > > +properties:
+> > > > > +  compatible:
+> > > > > +    const: onnn,ap1302
+> > > > > +
+> > > > > +  reg:
+> > > > > +    description: I2C device address.
+> > > > > +    maxItems: 1
+> > > > > +
+> > > > > +  clocks:
+> > > > > +    description: Reference to the CLK clock.
+> > > > > +    maxItems: 1
+> > > > > +
+> > > > > +  reset-gpios:
+> > > > > +    description: Reference to the GPIO connected to the RST pin (active low).
+> > > > > +    maxItems: 1
+> > > > > +
+> > > > > +  standby-gpios:
+> > > > > +    description:
+> > > > > +      Reference to the GPIO connected to the STANDBY pin (active high).
+> > > > > +    maxItems: 1
+> > > > > +
+> > > > > +  port:
+> > > > > +    $ref: /schemas/graph.yaml#/$defs/port-base
+> > > > > +    unevaluatedProperties: false
+> > > > > +    description: MIPI CSI-2 output interface to the host.
+> > > > > +
+> > > > > +    properties:
+> > > > > +      endpoint:
+> > > > > +        $ref: /schemas/graph.yaml#/$defs/endpoint-base
+> > > > > +        unevaluatedProperties: false
+> > > > > +
+> > > > > +        properties:
+> > > > > +          clock-noncontinuous:
+> > > > > +            type: boolean
+> > > > > +
+> > > > > +          data-lanes:
+> > > > > +            oneOf:
+> > > > > +              - items:
+> > > > > +                  - const: 1
+> > > > > +              - items:
+> > > > > +                  - const: 1
+> > > > > +                  - const: 2
+> > > > > +              - items:
+> > > > > +                  - const: 1
+> > > > > +                  - const: 2
+> > > > > +                  - const: 3
+> > > > > +                  - const: 4
+> > > > > +
+> > > > > +        required:
+> > > > > +          - data-lanes
+> > > > > +
+> > > > > +  sensors:
+> > > > > +    type: object
+> > > > > +    description: List of connected sensors
+> > > > > +
+> > > > > +    properties:
+> > > > > +      "#address-cells":
+> > > > > +        const: 1
+> > > > > +
+> > > > > +      "#size-cells":
+> > > > > +        const: 0
+> > > > > +
+> > > > > +      onnn,model:
+> > > > > +        $ref: "/schemas/types.yaml#/definitions/string"
+> > > > > +        description: |
+> > > > > +          Model of the connected sensors. Must be a valid compatible string.
+> > > >
+> > > > Then make it a compatible string and move into each child node.
+> > >
+> > > We started with that, but considered that it made mistakes more easily
+> > > in the device tree. As the two sensors have to be identical (it's a
+> > > limitation of the AP1302), moving the model to the sensor nodes means
+> > > that someone could set two different models, and the driver will have to
+> > > include corresponding validation code. It's more code on the driver
+> > > side, and more complexity on the DT side. Does it actually bring us
+> > > anything ?
+> >
+> > 1 schema instead of 2.
+>
+> I'm not follow you here, given that we would need two different
+> compatible strings according to your suggestion below. Won't that be two
+> schemas ?
 
-amdkfd_fence_check_mm is only meaningful for KFD eviction fences, and
-they are always added as shared fences. I think setting all_fences =
-false would return only the exclusive fence.
+Depends on how different they are. If it's just disallowing some
+properties for one compatible, that's probably just an if/then schema.
+And I said you *could* have different ones.
 
-Regards,
-  Felix
+> > That doesn't really seem much more complex given you probably need to
+> > make sure you have 2 and only 2 child nodes. You're checking a
+> > property either outside or inside a loop:
+> >
+> > // check model or...
+> > // for_each_of_child_node()
+> >    // ...check compatible
+> >    // parse rest of node
+> >
+> > // check 2 nodes setup.
+>
+> I didn't say it would be extremely complex, but it's still additional
+> complexity on both the driver side and the DT side.
+>
+> > > > > +
+> > > > > +          If no sensor is connected, this property must no be specified, and
+> > > > > +          the AP1302 can be used with it's internal test pattern generator.
+> > > > > +
+> > > > > +    patternProperties:
+> > > > > +      "^sensor@[01]":
+> > > > > +        type: object
+> > > > > +        description: |
+> > > > > +          Sensors connected to the first and second input, with one node per
+> > > > > +          sensor.
+> > > > > +
+> > > > > +        properties:
+> > > > > +          reg:
+> > > > > +            description: AP1302 input port number
+> > > > > +            maxItems: 1
+> > > >
+> > > > items:
+> > > >   - enum: [ 0, 1]
+> > > >
+> > > > > +
+> > > > > +        patternProperties:
+> > > > > +          ".*-supply":
+> > > >
+> > > > You need to list the supplies out.
+> > >
+> > > Fair point, given that we have a list of supply names per sensor in the
+> > > AP1302 driver.
+> > >
+> > > > I would make this a schema for the
+> > > > sensor along with compatible. Here, you could either reference those if
+> > > > you want to document the list of supported sensors or don't reference
+> > > > them and just document 'reg'. With a compatible, the schema will be
+> > > > applied anyways.
+> > >
+> > > This I'm more concerned about. The sensors may be the same when used
+> > > with the AP1302 or when used standalone, but their integration in the
+> > > system is quite different. With the AP1302, the reg value is the AP1302
+> > > port number, while in the standalone case, it's an I2C address. We're
+> > > just lucky that the #address-cells and #size-cells happen to be the same
+> > > in both cases.
+> >
+> > 'reg' and everything associated with it are properties of the bus and
+> > outside the scope of this binding. We have the same binding on devices
+> > that can be on I2C or SPI for example.
+>
+> There's no "bus" as such in this case. The AP1302 firmware handles the
+> sensors and hides them completely from Linux. We have no control bus
+> accessible by Linux for the sensors, and thus no driver binding to the
+> sensors. The reg property is specific to the AP1302 here, so it's not
+> out of scope of this binding.
 
+If 'reg' is used, then then it is a bus of some kind in the DT
+definition of a bus. It's 'the way you address child devices' if you
+want to not use 'bus'.
 
+> > > In the standalone case, there will be more properties
+> > > that are not applicable here. How would we prevent all those other
+> > > properties from being evaluated in the AP1302 case ?
+> >
+> > I'm not all that worried about that, but you could have a different
+> > compatible if you really wanted.
 >
-> It's a design problem in KFD if you ask me, but that is a completely
-> different topic.
->
-> Christian.
->
->> -Daniel
->>
->>> +        if (amdkfd_fence_check_mm(f, current->mm))
->>> +            return false;
->>>       }
->>>         switch (bo->resource->mem_type) {
->>> -- 
->>> 2.25.1
->>>
->
+> So that's two schemas, one for the sensor when used normally, and one
+> when used connected to the AP1302. That's not nice at all :-( I don't
+> think it's a good idea, given that the sensors are not exposed to Linux.
+
+Obviously they are exposed in some way or we wouldn't be having this
+conversation.
+
+Also, on the supplies, once you list them out, couldn't they be
+different per sensor model? How would you support that? That's going
+to mean a schema per sensor model.
+
+Rob
