@@ -2,150 +2,122 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 01B61433504
-	for <lists+linux-media@lfdr.de>; Tue, 19 Oct 2021 13:49:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E77CD433540
+	for <lists+linux-media@lfdr.de>; Tue, 19 Oct 2021 13:59:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235180AbhJSLvY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 19 Oct 2021 07:51:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55844 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230097AbhJSLvX (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Tue, 19 Oct 2021 07:51:23 -0400
-Received: from mail-wm1-x333.google.com (mail-wm1-x333.google.com [IPv6:2a00:1450:4864:20::333])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CF8A5C06161C
-        for <linux-media@vger.kernel.org>; Tue, 19 Oct 2021 04:49:10 -0700 (PDT)
-Received: by mail-wm1-x333.google.com with SMTP id o24-20020a05600c511800b0030d9da600aeso2749896wms.4
-        for <linux-media@vger.kernel.org>; Tue, 19 Oct 2021 04:49:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-transfer-encoding:content-language;
-        bh=egDcJzLzf/Uxj848Ty7/5BUuy3wZZ0YFuTvjxwcidJg=;
-        b=K7mF4Ax5bWuDd0p6uv/wHlHOVoQSEMRCzONmjR/o+WxERYIScG9mhePG9bMfay2nwa
-         ARVpJsXLoaJ66xrGmSHd7EFFGapPdLdy/HMS6xnrbnCCvGXXHrNMONVuKWa8SLVPJlb4
-         1TmEIRHm6JFqXxgOyqffMcsnOBPskflIV/mbuu/AnKSdTIy9wl1VgCbXXdiXfY29HGQW
-         zv1mXdWq810MjhVw15AZ9CwqY6AX2635RzkXLG8I8p+nACvX8ZKKu2FPQqg2XX1ROvfz
-         T3XOgcs0jBiIaEHVB7sAu29WUYkvGya6Sq86+tILgdbopVFixVCKm98UiMQomhMSO8+E
-         55fw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-transfer-encoding
-         :content-language;
-        bh=egDcJzLzf/Uxj848Ty7/5BUuy3wZZ0YFuTvjxwcidJg=;
-        b=z6OB/7bIxVfYn9x+/Xm9JrJK8TTl/6ZbSw0Yllw+CPqTj75UlnOJO0eM+v0GxL1FJe
-         sek3vOvyG4KolHhHcd1FkGaHrpTUuZFHS89mAxoUWO7LQk25aVicKOZdvlgvac1pZr1h
-         dA/9ltlIGmMmeBbakQiyDvGX/Dgq8O1LiN4B1HP+4NhRnMvP/ROMuymv3x1Z+gP0ixKV
-         ELHuYh05VaIdSPyXA1fCrAza2CQ1gVYZBfiv7og7U515cUKIN42en533GS1/jk5IaO8x
-         J6Li8UminGXIF88iuF5UOMd7H466eRlzmuek/EoZwvW7nGUnUWAD2AEbNBE1Mebld9eY
-         7uJg==
-X-Gm-Message-State: AOAM532RMVDsw1SEL0uMNCRTgbRp+ykQ4O9gFc7Bm25aP22d9xMWA763
-        W07dnoYnt2aAgRU0CJliaDI=
-X-Google-Smtp-Source: ABdhPJy+IdMIzL2VFAVUXSkXWGgmJQypeQj8T16niNgUpDzi2GSZ+eSOF1fnyhlmfHh4rbR9QfeFbw==
-X-Received: by 2002:a05:600c:a0b:: with SMTP id z11mr5704474wmp.147.1634644149444;
-        Tue, 19 Oct 2021 04:49:09 -0700 (PDT)
-Received: from ?IPv6:2a02:908:1252:fb60:f344:748e:38f7:c50? ([2a02:908:1252:fb60:f344:748e:38f7:c50])
-        by smtp.gmail.com with ESMTPSA id a2sm15169311wru.82.2021.10.19.04.49.08
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 19 Oct 2021 04:49:09 -0700 (PDT)
-Subject: Re: [PATCH 14/28] drm/msm: use new iterator in msm_gem_describe
-To:     Daniel Vetter <daniel@ffwll.ch>
-Cc:     linaro-mm-sig@lists.linaro.org, dri-devel@lists.freedesktop.org,
-        linux-media@vger.kernel.org, intel-gfx@lists.freedesktop.org,
-        tvrtko.ursulin@linux.intel.com
-References: <20211005113742.1101-1-christian.koenig@amd.com>
- <20211005113742.1101-15-christian.koenig@amd.com>
- <YWbp1PoezuLqHpKZ@phenom.ffwll.local>
-From:   =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
-Message-ID: <9fff1e2b-b4f1-9c36-b621-4c896bf58c01@gmail.com>
-Date:   Tue, 19 Oct 2021 13:49:08 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+        id S235527AbhJSMCD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 19 Oct 2021 08:02:03 -0400
+Received: from comms.puri.sm ([159.203.221.185]:49260 "EHLO comms.puri.sm"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S235389AbhJSMB7 (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 19 Oct 2021 08:01:59 -0400
+Received: from localhost (localhost [127.0.0.1])
+        by comms.puri.sm (Postfix) with ESMTP id 0C42ADF854;
+        Tue, 19 Oct 2021 04:59:46 -0700 (PDT)
+Received: from comms.puri.sm ([127.0.0.1])
+        by localhost (comms.puri.sm [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id guT2m-3wI9ko; Tue, 19 Oct 2021 04:59:45 -0700 (PDT)
+Date:   Tue, 19 Oct 2021 13:59:29 +0200
+From:   Dorota Czaplejewicz <dorota.czaplejewicz@puri.sm>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Jacopo Mondi <jacopo@jmondi.org>,
+        Andrey Konovalov <andrey.konovalov@linaro.org>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        kernel@purism
+Subject: [PATCH] media: Add 16-bit Bayer formats
+Message-ID: <20211019114718.827400-1-dorota.czaplejewicz@puri.sm>
+Organization: Purism
 MIME-Version: 1.0
-In-Reply-To: <YWbp1PoezuLqHpKZ@phenom.ffwll.local>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
+Content-Type: multipart/signed; boundary="Sig_/wpPNuNnC_Dn6UWVV0uU2aGA";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Am 13.10.21 um 16:14 schrieb Daniel Vetter:
-> On Tue, Oct 05, 2021 at 01:37:28PM +0200, Christian König wrote:
->> Simplifying the code a bit. Also drop the RCU read side lock since the
->> object is locked anyway.
->>
->> Untested since I can't get the driver to compile on !ARM.
-> Cross-compiler install is pretty easy and you should have that for pushing
-> drm changes to drm-misc :-)
+--Sig_/wpPNuNnC_Dn6UWVV0uU2aGA
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-I do have cross compile setups for some architectures, but I seriously 
-can't do that for every single driver.
+16-bit bayer formats are used by the i.MX driver.
 
-With only a bit of work we allowed MSM to be compile tested on other 
-architectures as well now. That even yielded a couple of missing 
-includes and dependencies in MSM which just don't matter on ARM.
+Signed-off-by: Dorota Czaplejewicz <dorota.czaplejewicz@puri.sm>
+---
+Hello,
 
->
->> Signed-off-by: Christian König <christian.koenig@amd.com>
-> Assuming this compiles, it looks correct.
+While working on the i.MX8 video driver, I discovered that `v4l2_fill_pixfm=
+t` will fail when using 10-bit sensor formats. (For background, see the con=
+versation at https://lkml.org/lkml/2021/10/17/93 .)
 
-Yes it does.
+It appears that the video hardware will fill a 16-bit-per-pixel buffer when=
+ fed 10-bit-per-pixel Bayer data, making `v4l2_fill_pixfmt` effectively bro=
+ken for this case.
 
->
-> Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+This change adds the relevant entries to the format info structure.
+
+Difference in behaviour observed using the i846 driver on the Librem 5.
+
+Regards,
+Dorota Czaplejewicz
+
+ drivers/media/v4l2-core/v4l2-common.c | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+diff --git a/drivers/media/v4l2-core/v4l2-common.c b/drivers/media/v4l2-cor=
+e/v4l2-common.c
+index 04af03285a20..d2e61538e979 100644
+--- a/drivers/media/v4l2-core/v4l2-common.c
++++ b/drivers/media/v4l2-core/v4l2-common.c
+@@ -309,6 +309,10 @@ const struct v4l2_format_info *v4l2_format_info(u32 fo=
+rmat)
+ 		{ .format =3D V4L2_PIX_FMT_SGBRG12,	.pixel_enc =3D V4L2_PIXEL_ENC_BAYER,=
+ .mem_planes =3D 1, .comp_planes =3D 1, .bpp =3D { 2, 0, 0, 0 }, .hdiv =3D =
+1, .vdiv =3D 1 },
+ 		{ .format =3D V4L2_PIX_FMT_SGRBG12,	.pixel_enc =3D V4L2_PIXEL_ENC_BAYER,=
+ .mem_planes =3D 1, .comp_planes =3D 1, .bpp =3D { 2, 0, 0, 0 }, .hdiv =3D =
+1, .vdiv =3D 1 },
+ 		{ .format =3D V4L2_PIX_FMT_SRGGB12,	.pixel_enc =3D V4L2_PIXEL_ENC_BAYER,=
+ .mem_planes =3D 1, .comp_planes =3D 1, .bpp =3D { 2, 0, 0, 0 }, .hdiv =3D =
+1, .vdiv =3D 1 },
++		{ .format =3D V4L2_PIX_FMT_SBGGR16,	.pixel_enc =3D V4L2_PIXEL_ENC_BAYER,=
+ .mem_planes =3D 1, .comp_planes =3D 1, .bpp =3D { 2, 0, 0, 0 }, .hdiv =3D =
+1, .vdiv =3D 1 },
++		{ .format =3D V4L2_PIX_FMT_SGBRG16,	.pixel_enc =3D V4L2_PIXEL_ENC_BAYER,=
+ .mem_planes =3D 1, .comp_planes =3D 1, .bpp =3D { 2, 0, 0, 0 }, .hdiv =3D =
+1, .vdiv =3D 1 },
++		{ .format =3D V4L2_PIX_FMT_SGRBG16,	.pixel_enc =3D V4L2_PIXEL_ENC_BAYER,=
+ .mem_planes =3D 1, .comp_planes =3D 1, .bpp =3D { 2, 0, 0, 0 }, .hdiv =3D =
+1, .vdiv =3D 1 },
++		{ .format =3D V4L2_PIX_FMT_SRGGB16,	.pixel_enc =3D V4L2_PIXEL_ENC_BAYER,=
+ .mem_planes =3D 1, .comp_planes =3D 1, .bpp =3D { 2, 0, 0, 0 }, .hdiv =3D =
+1, .vdiv =3D 1 },
+ 	};
+ 	unsigned int i;
+=20
+--=20
+2.31.1
 
 
-Thanks,
-Christian.
+--Sig_/wpPNuNnC_Dn6UWVV0uU2aGA
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
 
->
->> ---
->>   drivers/gpu/drm/msm/msm_gem.c | 19 +++++--------------
->>   1 file changed, 5 insertions(+), 14 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/msm/msm_gem.c b/drivers/gpu/drm/msm/msm_gem.c
->> index 40a9863f5951..5bd511f07c07 100644
->> --- a/drivers/gpu/drm/msm/msm_gem.c
->> +++ b/drivers/gpu/drm/msm/msm_gem.c
->> @@ -880,7 +880,7 @@ void msm_gem_describe(struct drm_gem_object *obj, struct seq_file *m,
->>   {
->>   	struct msm_gem_object *msm_obj = to_msm_bo(obj);
->>   	struct dma_resv *robj = obj->resv;
->> -	struct dma_resv_list *fobj;
->> +	struct dma_resv_iter cursor;
->>   	struct dma_fence *fence;
->>   	struct msm_gem_vma *vma;
->>   	uint64_t off = drm_vma_node_start(&obj->vma_node);
->> @@ -955,22 +955,13 @@ void msm_gem_describe(struct drm_gem_object *obj, struct seq_file *m,
->>   		seq_puts(m, "\n");
->>   	}
->>   
->> -	rcu_read_lock();
->> -	fobj = dma_resv_shared_list(robj);
->> -	if (fobj) {
->> -		unsigned int i, shared_count = fobj->shared_count;
->> -
->> -		for (i = 0; i < shared_count; i++) {
->> -			fence = rcu_dereference(fobj->shared[i]);
->> +	dma_resv_for_each_fence(&cursor, robj, true, fence) {
->> +		if (dma_resv_iter_is_exclusive(&cursor))
->> +			describe_fence(fence, "Exclusive", m);
->> +		else
->>   			describe_fence(fence, "Shared", m);
->> -		}
->>   	}
->>   
->> -	fence = dma_resv_excl_fence(robj);
->> -	if (fence)
->> -		describe_fence(fence, "Exclusive", m);
->> -	rcu_read_unlock();
->> -
->>   	msm_gem_unlock(obj);
->>   }
->>   
->> -- 
->> 2.25.1
->>
+-----BEGIN PGP SIGNATURE-----
 
+iQIzBAEBCAAdFiEExKRqtqfFqmh+lu1oADBpX4S8ZncFAmFusyEACgkQADBpX4S8
+ZndwxQ/+LzSvfUPU6hgPC3U3pA2+klpV5QsqXz+Ikai/azH38h3ZdVe5JbXiI6MH
+p4TjBi2fteQHms0MyqRI9PAMcY9DtL67NOI9DUAxo8XQxjpft8f0Z9d6gWGXt/Su
+jLDaBBzGxbeSN0dPYs7l2CwjYHou4S0dMYF0iQZV280tb/qOj5GEc+qlIrtb10t8
+Vl3Ws7mNhUvezFzRstZwGuXtM1e4EXh1g1k2R5UDliIKEhYgWq24m8iuuJtPNCaH
+fFlhMyNrR4cqRT/P0Aoe2bViujhN8itmXLjI3P2uue2sflsGIB/ZnW6Wc7/eKuyd
+lp0llnEsIdbSdIguvYrX2U2B3ktayKX0BT4qC2tFr3ye9WQONv3GEHxonQo1qGXZ
+ovAezDI0ZGshOf4+cbLPGIMewR32tBJkG6//87J7PNznO+sCQ1JT83E2QJvIrqaQ
+vAaPGTkdrwUjCI3SjD6AyW8cC4NmLPL0d3XKRfIh+0i/KShhYFqoVdF18CDYQpbX
+Z+2Jl4xuLiEUeb5xsq5e9U5MWwkxY4GcWSuR5ttI0CS8bBigU8eim5YsIuwauZvI
+0PNn0wldmb6zjNZ4HXE3mZxbBeISJAG+Cf12uGWXtyE5TsRf+1oUBao2viukFKyj
+MlN7Trs9NEHconaL0Ivu1ghDoGSNawc2sHgUIM8feDILQa0+E6Q=
+=V9Ml
+-----END PGP SIGNATURE-----
+
+--Sig_/wpPNuNnC_Dn6UWVV0uU2aGA--
