@@ -2,163 +2,103 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 77A28432C42
-	for <lists+linux-media@lfdr.de>; Tue, 19 Oct 2021 05:26:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B57C9432C5C
+	for <lists+linux-media@lfdr.de>; Tue, 19 Oct 2021 05:40:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232338AbhJSD2k (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 18 Oct 2021 23:28:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54594 "EHLO
+        id S232549AbhJSDmU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 18 Oct 2021 23:42:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57608 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231893AbhJSD2j (ORCPT
+        with ESMTP id S232025AbhJSDmT (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 18 Oct 2021 23:28:39 -0400
-Received: from lb2-smtp-cloud8.xs4all.net (lb2-smtp-cloud8.xs4all.net [IPv6:2001:888:0:108::2b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7E738C06161C
-        for <linux-media@vger.kernel.org>; Mon, 18 Oct 2021 20:26:27 -0700 (PDT)
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud8.xs4all.net with ESMTPA
-        id cflcmgYy5x7rIcflfmikpP; Tue, 19 Oct 2021 05:26:23 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1634613983; bh=I0OpztjPnr6JwTjcju2bb3yCyKbQ0VfTzjToYx4DaOs=;
-        h=Message-ID:Date:From:To:Subject:From:Subject;
-        b=b4qh619E7w1hELOQ+4K7dlgFmFskllbQXTSk6CPMb0BasFBIGMgl46Km86C04mhlP
-         I/lZiyZEqGMTrDRxIfPnnaShDTl19FhwcIB8965GkokcoAtJs4yALa54/Yfx5aUWQF
-         CKAvzRyLTgo4SrBJAXphiDx4qt/k27o2OGzl6ZGwoJx5Ta23vmubqpH3JLBPFhMXoB
-         B/puGxKdYvDW24A8jUYI1VKTbwCbhqdQfqBUQRhbvlj/5HwdAXVlkuU/4DK+Xwhc7H
-         8BEe0Wg3H/3Tvo5khy6qudmnCWJDzvVRZ1HovmhzFlq4RB7Ud1H417Q9mqCnymFWAX
-         hTBT9ju0qoLkA==
-Message-ID: <093219885d114a03d12c4ea8ec6e1439@smtp-cloud8.xs4all.net>
-Date:   Tue, 19 Oct 2021 05:26:20 +0200
-From:   "Hans Verkuil" <hverkuil@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: ERRORS
-X-CMAE-Envelope: MS4xfP5lU5hjqYECEFBIgWkde7xqfp37NeTZEKqMnvuISn9vvFd9VvANZnQHDLT1mIpWOCwevR4wWgCC3DvdIIl3FR4SXxaYF3UH7x/HbBcPqr96SY0+UL3L
- ETYyVownC2lrPipoV/DOIQE0C/hvJPII0U/wHZ8vsh3XPr6ijspK8KnJyx5rpuF4N/DhH8VbN/Hahg==
+        Mon, 18 Oct 2021 23:42:19 -0400
+Received: from mail-pf1-x42b.google.com (mail-pf1-x42b.google.com [IPv6:2607:f8b0:4864:20::42b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B42A6C06161C;
+        Mon, 18 Oct 2021 20:40:07 -0700 (PDT)
+Received: by mail-pf1-x42b.google.com with SMTP id t184so15571360pfd.0;
+        Mon, 18 Oct 2021 20:40:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=tOq8p3az740sR6QT9kkDjUVDdnMQ5++3NL//gil0HwI=;
+        b=K8MKZ5H8jRnQ8zDmTuMJKCCXSA5LbWuQqn+kYiyjRzTK2JSOwOu7w/DRLr2K/xnyr6
+         oI5BxJoHnYxTePO1mzqD//LDDijw61YN5EBAsJW/uvYZwOp1wWivmVwyCL1Oz5kftBYb
+         UQLf3UZIpzD9dRPvRqMHgTSjF+N9gP837HW53XWzL+LIfNjZ8VDflLc5lV3aynEXzvmy
+         /TAxSpVT5oFMTKf6KaDikAPVlp7bZ1koqqMYzj7xf/YpYmKmk7sRpyZzESlmskXkcTq/
+         5Dz/lux08DIRF8mvC/opESlcioD5vTPfOX4FGPtsGomydxGjU95gbqFAyHlnzv0A2obp
+         xxbg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=tOq8p3az740sR6QT9kkDjUVDdnMQ5++3NL//gil0HwI=;
+        b=xJ4QdKpzUzCdL3zGCnaUGpm1Pv3lh3RQqcE5NPDATrM+4Aiyu+x85FI82+u+d7k62/
+         279KborB0a0u+TC/f3dkN6ETXsmQtI14PT5+HNdoB5/+ISWMuH2vMYzDIk+97ZCXIMJs
+         2IqDTioubRIFCB8tu1sDni93z6q64MWH+jhKKbm6rXvA0exmAwNV7vfW6Wqdtw7MjVg2
+         FxE/ASq8vlqJKFvyU4sxAktY5zq01J/4HONG/J3MzRu+KG20vC+GrBExpnAB990JDWVy
+         rqSL/nS0qIpnFPN9QkT74lkAE6tGvhMWoJl/DZgSe69JIMel+7Pwu/agdKbaB9FzUGPN
+         pl2w==
+X-Gm-Message-State: AOAM5324cmnYlHF2Y0OLyOuUzXHKnD+9FiyW/eR5OB1K5iLHmP8vA5cY
+        DALUV4BcUbcoCzTleGrXBb/QzaehhEYxQmzQKFo=
+X-Google-Smtp-Source: ABdhPJy3OQcJks3p/zF6f6RTyJWmySP+ASYh672j3wgFkROgmDPkiKiprFxm6AB+daH639RcUIsCcA==
+X-Received: by 2002:a63:ce0a:: with SMTP id y10mr26643738pgf.133.1634614807117;
+        Mon, 18 Oct 2021 20:40:07 -0700 (PDT)
+Received: from localhost.localdomain ([94.177.118.15])
+        by smtp.gmail.com with ESMTPSA id s21sm7377955pfg.70.2021.10.18.20.40.04
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 18 Oct 2021 20:40:06 -0700 (PDT)
+From:   Dongliang Mu <mudongliangabcd@gmail.com>
+To:     Sylwester Nawrocki <sylvester.nawrocki@gmail.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     Dongliang Mu <mudongliangabcd@gmail.com>,
+        linux-media@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH] driver: s3c_camif: move s3c_camif_unregister_subdev out of camif_unregister_media_entities
+Date:   Tue, 19 Oct 2021 11:39:52 +0800
+Message-Id: <20211019033953.3328944-1-mudongliangabcd@gmail.com>
+X-Mailer: git-send-email 2.25.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the kernels and architectures in the list below.
+In the error handling of s3c_camif_probe, s3c_camif_unregister_subdev
+may be executed twice, one is from camif_unregister_media_entities.
+Although there is sanity check about the registration status,
+it is not good to call s3c_camif_unregister_subdev twice in the error
+handling code.
 
-Results of the daily build of media_tree:
+Fix this by moving s3c_camif_unregister_subdev out of
+camif_unregister_media_entities, and add a s3c_camif_unregister_subdev
+in the s3c_camif_remove.
 
-date:			Tue Oct 19 05:00:14 CEST 2021
-media-tree git hash:	af82746a05230370a4b1fecd97404a2b88649119
-media_build git hash:	e602a6acc36ed3f6a8ebeb27fae6f32712f1293f
-v4l-utils git hash:	9f1d1e0cf8dbdcfb8bc6d817734d85417960a054
-edid-decode git hash:	985024f0ccb7eb0014397f2d562ecebfdd340c3b
-gcc version:		i686-linux-gcc (GCC) 11.2.0
-sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
-sparse version:		0.6.3
-smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
-smatch version:		0.6.3
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: 3e03ddc26ffb1808285327d1a7fb2038379d04a2
-host hardware:		x86_64
-host os:		5.14.0-2-amd64
+Signed-off-by: Dongliang Mu <mudongliangabcd@gmail.com>
+---
+ drivers/media/platform/s3c-camif/camif-core.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-linux-git-sh: OK
-linux-git-arm-at91: OK
-linux-git-arm-davinci: OK
-linux-git-arm-stm32: OK
-linux-git-mips: OK
-linux-git-arm-pxa: OK
-linux-git-powerpc64: OK
-linux-git-arm64: OK
-linux-git-arm-multi: OK
-linux-git-i686: OK
-linux-git-x86_64: OK
-Check COMPILE_TEST: OK
-Check for strcpy/strncpy/strlcpy: OK
-linux-4.4.283-i686: OK
-linux-4.4.283-x86_64: OK
-linux-4.5.7-i686: WARNINGS
-linux-4.5.7-x86_64: WARNINGS
-linux-4.6.7-i686: WARNINGS
-linux-4.6.7-x86_64: WARNINGS
-linux-4.7.10-i686: WARNINGS
-linux-4.7.10-x86_64: WARNINGS
-linux-4.8.17-i686: WARNINGS
-linux-4.8.17-x86_64: WARNINGS
-linux-4.9.246-i686: OK
-linux-4.9.246-x86_64: OK
-linux-4.10.17-i686: WARNINGS
-linux-4.10.17-x86_64: WARNINGS
-linux-4.11.12-i686: WARNINGS
-linux-4.11.12-x86_64: WARNINGS
-linux-4.12.14-i686: WARNINGS
-linux-4.12.14-x86_64: WARNINGS
-linux-4.13.16-i686: WARNINGS
-linux-4.13.16-x86_64: WARNINGS
-linux-4.14.246-i686: OK
-linux-4.14.246-x86_64: OK
-linux-4.15.18-i686: WARNINGS
-linux-4.15.18-x86_64: WARNINGS
-linux-4.16.18-i686: WARNINGS
-linux-4.16.18-x86_64: WARNINGS
-linux-4.17.19-i686: WARNINGS
-linux-4.17.19-x86_64: WARNINGS
-linux-4.18.20-i686: WARNINGS
-linux-4.18.20-x86_64: WARNINGS
-linux-4.19.206-i686: OK
-linux-4.19.206-x86_64: OK
-linux-4.20.17-i686: WARNINGS
-linux-4.20.17-x86_64: WARNINGS
-linux-5.0.21-i686: OK
-linux-5.0.21-x86_64: OK
-linux-5.1.21-i686: OK
-linux-5.1.21-x86_64: OK
-linux-5.2.21-i686: OK
-linux-5.2.21-x86_64: OK
-linux-5.3.18-i686: OK
-linux-5.3.18-x86_64: OK
-linux-5.4.144-i686: OK
-linux-5.4.144-x86_64: OK
-linux-5.5.19-i686: OK
-linux-5.5.19-x86_64: OK
-linux-5.6.19-i686: OK
-linux-5.6.19-x86_64: OK
-linux-5.7.19-i686: OK
-linux-5.7.19-x86_64: OK
-linux-5.8.18-i686: OK
-linux-5.8.18-x86_64: OK
-linux-5.9.16-i686: OK
-linux-5.9.16-x86_64: OK
-linux-5.10.62-i686: OK
-linux-5.10.62-x86_64: OK
-linux-5.11.22-i686: OK
-linux-5.11.22-x86_64: OK
-linux-5.12.19-i686: OK
-linux-5.12.19-x86_64: OK
-linux-5.13.14-i686: OK
-linux-5.13.14-x86_64: OK
-linux-5.14.1-i686: OK
-linux-5.14.1-x86_64: OK
-linux-5.15-rc1-i686: OK
-linux-5.15-rc1-x86_64: OK
-apps: OK
-spec-git: OK
-virtme: ERRORS
-virtme-32: ERRORS
-sparse: WARNINGS
-smatch: ERRORS
-kerneldoc: WARNINGS
+diff --git a/drivers/media/platform/s3c-camif/camif-core.c b/drivers/media/platform/s3c-camif/camif-core.c
+index e1d51fd3e700..ba91cf7d3ab0 100644
+--- a/drivers/media/platform/s3c-camif/camif-core.c
++++ b/drivers/media/platform/s3c-camif/camif-core.c
+@@ -292,7 +292,6 @@ static void camif_unregister_media_entities(struct camif_dev *camif)
+ {
+ 	camif_unregister_video_nodes(camif);
+ 	camif_unregister_sensor(camif);
+-	s3c_camif_unregister_subdev(camif);
+ }
+ 
+ /*
+@@ -524,6 +523,7 @@ static int s3c_camif_remove(struct platform_device *pdev)
+ 
+ 	pm_runtime_disable(&pdev->dev);
+ 	camif_clk_put(camif);
++	s3c_camif_unregister_subdev(camif);
+ 	pdata->gpio_put();
+ 
+ 	return 0;
+-- 
+2.25.1
 
-Detailed results are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Tuesday.log
-
-Detailed regression test results are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Tuesday-test-media.log
-http://www.xs4all.nl/~hverkuil/logs/Tuesday-test-media-32.log
-http://www.xs4all.nl/~hverkuil/logs/Tuesday-test-media-dmesg.log
-
-Full logs are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Tuesday.tar.bz2
-
-The Media Infrastructure API from this daily build is here:
-
-http://www.xs4all.nl/~hverkuil/spec/index.html
