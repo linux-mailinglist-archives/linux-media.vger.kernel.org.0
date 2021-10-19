@@ -2,160 +2,107 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 795334335B6
-	for <lists+linux-media@lfdr.de>; Tue, 19 Oct 2021 14:14:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 35D394335D8
+	for <lists+linux-media@lfdr.de>; Tue, 19 Oct 2021 14:23:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235566AbhJSMRF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 19 Oct 2021 08:17:05 -0400
-Received: from comms.puri.sm ([159.203.221.185]:50388 "EHLO comms.puri.sm"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230129AbhJSMRC (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Tue, 19 Oct 2021 08:17:02 -0400
-Received: from localhost (localhost [127.0.0.1])
-        by comms.puri.sm (Postfix) with ESMTP id BD63BDF8A3;
-        Tue, 19 Oct 2021 05:14:19 -0700 (PDT)
-Received: from comms.puri.sm ([127.0.0.1])
-        by localhost (comms.puri.sm [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id woGARjsew7sL; Tue, 19 Oct 2021 05:14:19 -0700 (PDT)
-Date:   Tue, 19 Oct 2021 14:14:12 +0200
-From:   Dorota Czaplejewicz <dorota.czaplejewicz@puri.sm>
-To:     Steve Longerbeam <slongerbeam@gmail.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        kernel@puri.sm, phone-devel@vger.kernel.org
-Subject: [PATCHv3 4/4] media: imx: Use dedicated format handler for i.MX7/8
-Message-ID: <20211019120047.827915-4-dorota.czaplejewicz@puri.sm>
-In-Reply-To: <20211019120047.827915-1-dorota.czaplejewicz@puri.sm>
-References: <20211019120047.827915-1-dorota.czaplejewicz@puri.sm>
-Organization: Purism
+        id S230527AbhJSM0C (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 19 Oct 2021 08:26:02 -0400
+Received: from mailgw01.mediatek.com ([60.244.123.138]:52618 "EHLO
+        mailgw01.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
+        with ESMTP id S230231AbhJSM0C (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Tue, 19 Oct 2021 08:26:02 -0400
+X-UUID: 397e8be8ddc3439cbd8ea5e09e71b96b-20211019
+X-UUID: 397e8be8ddc3439cbd8ea5e09e71b96b-20211019
+Received: from mtkmbs10n2.mediatek.inc [(172.21.101.183)] by mailgw01.mediatek.com
+        (envelope-from <guangming.cao@mediatek.com>)
+        (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+        with ESMTP id 2146541762; Tue, 19 Oct 2021 20:23:44 +0800
+Received: from mtkcas10.mediatek.inc (172.21.101.39) by
+ mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.792.3;
+ Tue, 19 Oct 2021 20:23:43 +0800
+Received: from mszswglt01.gcn.mediatek.inc (10.16.20.20) by
+ mtkcas10.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
+ 15.0.1497.2 via Frontend Transport; Tue, 19 Oct 2021 20:23:42 +0800
+From:   <guangming.cao@mediatek.com>
+To:     Sumit Semwal <sumit.semwal@linaro.org>,
+        =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        "open list:DMA BUFFER SHARING FRAMEWORK" 
+        <linux-media@vger.kernel.org>,
+        "open list:DMA BUFFER SHARING FRAMEWORK" 
+        <dri-devel@lists.freedesktop.org>,
+        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
+        <linaro-mm-sig@lists.linaro.org>,
+        open list <linux-kernel@vger.kernel.org>,
+        "moderated list:ARM/Mediatek SoC support" 
+        <linux-arm-kernel@lists.infradead.org>,
+        "moderated list:ARM/Mediatek SoC support" 
+        <linux-mediatek@lists.infradead.org>
+CC:     <wsd_upstream@mediatek.com>,
+        Guangming Cao <Guangming.Cao@mediatek.com>
+Subject: [PATCH] dma-buf: add attachments empty check for dma_buf_release
+Date:   Tue, 19 Oct 2021 20:23:45 +0800
+Message-ID: <20211019122345.160555-1-guangming.cao@mediatek.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/OrfD4L/d0u/BfKgT0T7LQaI";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+Content-Type: text/plain
+X-MTK:  N
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
---Sig_/OrfD4L/d0u/BfKgT0T7LQaI
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+From: Guangming Cao <Guangming.Cao@mediatek.com>
 
-This splits out a format handler which takes into account
-the capabilities of the i.MX7/8 video device,
-as opposed to the default handler compatible with both i.MX5/6 and i.MX7/8.
+Since there is no mandatory inspection for attachments in dma_buf_release.
+There will be a case that dma_buf already released but attachment is still
+in use, which can points to the dmabuf, and it maybe cause
+some unexpected issues.
 
-Signed-off-by: Dorota Czaplejewicz <dorota.czaplejewicz@puri.sm>
+With IOMMU, when this cases occurs, there will have IOMMU address
+translation fault(s) followed by this warning,
+I think it's useful for dma devices to debug issue.
+
+Signed-off-by: Guangming Cao <Guangming.Cao@mediatek.com>
 ---
- drivers/staging/media/imx/imx-media-utils.c | 56 +++++++++++++++++++--
- 1 file changed, 52 insertions(+), 4 deletions(-)
+ drivers/dma-buf/dma-buf.c | 23 +++++++++++++++++++++++
+ 1 file changed, 23 insertions(+)
 
-diff --git a/drivers/staging/media/imx/imx-media-utils.c b/drivers/staging/=
-media/imx/imx-media-utils.c
-index 8b5c6bcfd4fa..1ff7ec4c877a 100644
---- a/drivers/staging/media/imx/imx-media-utils.c
-+++ b/drivers/staging/media/imx/imx-media-utils.c
-@@ -516,10 +516,9 @@ void imx_media_try_colorimetry(struct v4l2_mbus_framef=
-mt *tryfmt,
- }
- EXPORT_SYMBOL_GPL(imx_media_try_colorimetry);
-=20
--int imx_media_mbus_fmt_to_pix_fmt(struct v4l2_pix_format *pix,
--				  const struct v4l2_mbus_framefmt *mbus,
--				  const struct imx_media_pixfmt *cc,
--				  enum imx_media_device_type type)
-+static int imx56_media_mbus_fmt_to_pix_fmt(struct v4l2_pix_format *pix,
-+					   const struct v4l2_mbus_framefmt *mbus,
-+					   const struct imx_media_pixfmt *cc)
- {
- 	u32 width;
- 	u32 stride;
-@@ -568,6 +567,55 @@ int imx_media_mbus_fmt_to_pix_fmt(struct v4l2_pix_form=
-at *pix,
-=20
- 	return 0;
- }
-+
-+static int imx78_media_mbus_fmt_to_pix_fmt(struct v4l2_pix_format *pix,
-+					   const struct v4l2_mbus_framefmt *mbus,
-+					   const struct imx_media_pixfmt *cc)
-+{
-+	int ret;
-+
-+	if (!cc)
-+		cc =3D imx_media_find_mbus_format(mbus->code, PIXFMT_SEL_ANY);
-+
-+	/*
-+	 * The hardware can handle line lengths divisible by 4 pixels
-+	 * as long as the whole buffer size ends up divisible by 8 bytes.
-+	 * If not, use the value of 8 pixels recommended in the datasheet.
-+	 */
-+	ret =3D v4l2_fill_pixfmt(pix, cc->fourcc,
-+			       round_up(mbus->width, 4), mbus->height);
-+	if (ret)
-+		return ret;
-+
-+	/* Only 8bits-per-pixel formats may need to get aligned to 8 pixels,
-+	 * because both 10-bit and 16-bit pixels occupy 2 bytes.
-+	 * In those, 4-pixel aligmnent is equal to 8-byte alignment.
-+	 */
-+	if (pix->sizeimage % 8 !=3D 0)
-+		ret =3D v4l2_fill_pixfmt(pix, cc->fourcc,
-+				       round_up(mbus->width, 8), mbus->height);
-+
-+	pix->colorspace =3D mbus->colorspace;
-+	pix->xfer_func =3D mbus->xfer_func;
-+	pix->ycbcr_enc =3D mbus->ycbcr_enc;
-+	pix->quantization =3D mbus->quantization;
-+	pix->field =3D mbus->field;
-+
-+	return ret;
-+}
-+
-+int imx_media_mbus_fmt_to_pix_fmt(struct v4l2_pix_format *pix,
-+				  const struct v4l2_mbus_framefmt *mbus,
-+				  const struct imx_media_pixfmt *cc,
-+				  enum imx_media_device_type type) {
-+	switch (type) {
-+	case DEVICE_TYPE_IMX56:
-+		return imx56_media_mbus_fmt_to_pix_fmt(pix, mbus, cc);
-+	case DEVICE_TYPE_IMX78:
-+		return imx78_media_mbus_fmt_to_pix_fmt(pix, mbus, cc);
+diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
+index 511fe0d217a0..672404857d6a 100644
+--- a/drivers/dma-buf/dma-buf.c
++++ b/drivers/dma-buf/dma-buf.c
+@@ -74,6 +74,29 @@ static void dma_buf_release(struct dentry *dentry)
+ 	 */
+ 	BUG_ON(dmabuf->cb_shared.active || dmabuf->cb_excl.active);
+ 
++	/* attachment check */
++	if (dma_resv_trylock(dmabuf->resv) && WARN(!list_empty(&dmabuf->attachments),
++	    "%s err, inode:%08lu size:%08zu name:%s exp_name:%s flags:0x%08x mode:0x%08x, %s\n",
++	    __func__, file_inode(dmabuf->file)->i_ino, dmabuf->size,
++	    dmabuf->name, dmabuf->exp_name,
++	    dmabuf->file->f_flags, dmabuf->file->f_mode,
++	    "Release dmabuf before detach all attachments, dump attach:\n")) {
++		int attach_cnt = 0;
++		dma_addr_t dma_addr;
++		struct dma_buf_attachment *attach_obj;
++		/* dump all attachment info */
++		list_for_each_entry(attach_obj, &dmabuf->attachments, node) {
++			dma_addr = (dma_addr_t)0;
++			if (attach_obj->sgt)
++				dma_addr = sg_dma_address(attach_obj->sgt->sgl);
++			pr_err("attach[%d]: dev:%s dma_addr:0x%-12lx\n",
++			       attach_cnt, dev_name(attach_obj->dev), dma_addr);
++			attach_cnt++;
++		}
++		pr_err("Total %d devices attached\n\n", attach_cnt);
++		dma_resv_unlock(dmabuf->resv);
 +	}
-+	return -EINVAL;
-+}
- EXPORT_SYMBOL_GPL(imx_media_mbus_fmt_to_pix_fmt);
-=20
- void imx_media_free_dma_buf(struct device *dev,
---=20
-2.31.1
++
+ 	dmabuf->ops->release(dmabuf);
+ 
+ 	if (dmabuf->resv == (struct dma_resv *)&dmabuf[1])
+-- 
+2.17.1
 
-
---Sig_/OrfD4L/d0u/BfKgT0T7LQaI
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEExKRqtqfFqmh+lu1oADBpX4S8ZncFAmFutpQACgkQADBpX4S8
-Znedzw//bzwh5zl4ZO7nmbF0ECF891A7VSwTcttePok80enVZxZqQhpYKydrNgEI
-BldE0MyfcP5oJ0RHLqiEDDDi/e+wkS2p2bddmvzGHCXjm3ITCd0+Hfu3LOY6DJsC
-qIbNYz3i9NGOkbfcxj6zW3Fq8+U/XouOTO+zwpqOKxCHQbLa3FWvkdhfFngah0gb
-oIul+P43EGoZcrxL37oMvYXIvVOcIIE29m2ThVWQAdI2iTDBvFq7iHxZ37qF712Y
-7PgDt0E/U8upIQtO/UFqpluI1yZe7byNc6cwR5CHYupw0fc/VL040RYAS3HlbVV1
-DC9p8RPSML5x/tQMsm+LblF0izwlZg5I5o/s+ZOoQySqccNWJg3lADVrZTLexmHM
-MavzC8UiXsW6iI+ByZVvxLHVOvhlcqQcYqoAsMj9z/XEqmMuaRV8MB3Z1bkd1VEk
-1/okpyeRZRzzcBT6Dd1fzfKKWVd8YVWneJgdbjZFOjpIh7ZEVVnrUAXWKjNOIJyW
-JW1Q85POxP3LfIRJk30WgOyAmpht5q3B2uSZEHVUC/VzgPXNMY+VqQSd6hl0q6uB
-uwxouUd73ucpf/CrnT/sgHhnikB0OXnjGlWOfLYkbrkcZAHnPgRbAif7q12TXC88
-xEumN1x95efo6q6gDxf50SEzX651fDSPCGsRE4lueofS44MbkGs=
-=tgUC
------END PGP SIGNATURE-----
-
---Sig_/OrfD4L/d0u/BfKgT0T7LQaI--
