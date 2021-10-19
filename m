@@ -2,107 +2,60 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 35D394335D8
-	for <lists+linux-media@lfdr.de>; Tue, 19 Oct 2021 14:23:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E25E74335EE
+	for <lists+linux-media@lfdr.de>; Tue, 19 Oct 2021 14:27:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230527AbhJSM0C (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 19 Oct 2021 08:26:02 -0400
-Received: from mailgw01.mediatek.com ([60.244.123.138]:52618 "EHLO
-        mailgw01.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
-        with ESMTP id S230231AbhJSM0C (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Tue, 19 Oct 2021 08:26:02 -0400
-X-UUID: 397e8be8ddc3439cbd8ea5e09e71b96b-20211019
-X-UUID: 397e8be8ddc3439cbd8ea5e09e71b96b-20211019
-Received: from mtkmbs10n2.mediatek.inc [(172.21.101.183)] by mailgw01.mediatek.com
-        (envelope-from <guangming.cao@mediatek.com>)
-        (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
-        with ESMTP id 2146541762; Tue, 19 Oct 2021 20:23:44 +0800
-Received: from mtkcas10.mediatek.inc (172.21.101.39) by
- mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.792.3;
- Tue, 19 Oct 2021 20:23:43 +0800
-Received: from mszswglt01.gcn.mediatek.inc (10.16.20.20) by
- mtkcas10.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
- 15.0.1497.2 via Frontend Transport; Tue, 19 Oct 2021 20:23:42 +0800
-From:   <guangming.cao@mediatek.com>
-To:     Sumit Semwal <sumit.semwal@linaro.org>,
-        =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        "open list:DMA BUFFER SHARING FRAMEWORK" 
-        <linux-media@vger.kernel.org>,
-        "open list:DMA BUFFER SHARING FRAMEWORK" 
-        <dri-devel@lists.freedesktop.org>,
-        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
-        <linaro-mm-sig@lists.linaro.org>,
-        open list <linux-kernel@vger.kernel.org>,
-        "moderated list:ARM/Mediatek SoC support" 
-        <linux-arm-kernel@lists.infradead.org>,
-        "moderated list:ARM/Mediatek SoC support" 
-        <linux-mediatek@lists.infradead.org>
-CC:     <wsd_upstream@mediatek.com>,
-        Guangming Cao <Guangming.Cao@mediatek.com>
-Subject: [PATCH] dma-buf: add attachments empty check for dma_buf_release
-Date:   Tue, 19 Oct 2021 20:23:45 +0800
-Message-ID: <20211019122345.160555-1-guangming.cao@mediatek.com>
-X-Mailer: git-send-email 2.17.1
+        id S235624AbhJSMaG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 19 Oct 2021 08:30:06 -0400
+Received: from mga07.intel.com ([134.134.136.100]:13390 "EHLO mga07.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S231441AbhJSMaF (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 19 Oct 2021 08:30:05 -0400
+X-IronPort-AV: E=McAfee;i="6200,9189,10141"; a="291959518"
+X-IronPort-AV: E=Sophos;i="5.85,384,1624345200"; 
+   d="scan'208";a="291959518"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Oct 2021 05:27:52 -0700
+X-IronPort-AV: E=Sophos;i="5.85,384,1624345200"; 
+   d="scan'208";a="531405674"
+Received: from paasikivi.fi.intel.com ([10.237.72.42])
+  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Oct 2021 05:27:50 -0700
+Received: from paasikivi.fi.intel.com (localhost [127.0.0.1])
+        by paasikivi.fi.intel.com (Postfix) with SMTP id 994E520316;
+        Tue, 19 Oct 2021 15:27:48 +0300 (EEST)
+Date:   Tue, 19 Oct 2021 15:27:48 +0300
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     Martin Kepplinger <martin.kepplinger@puri.sm>
+Cc:     kernel@puri.sm, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org, mchehab@kernel.org,
+        paul.kocialkowski@bootlin.com, kernel test robot <lkp@intel.com>
+Subject: Re: [PATCH v2] media: hi846: depend on OF
+Message-ID: <YW65xC1Ln9Lc2tHJ@paasikivi.fi.intel.com>
+References: <20211018095859.255912-1-martin.kepplinger@puri.sm>
+ <20211018134246.383594-1-martin.kepplinger@puri.sm>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-MTK:  N
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20211018134246.383594-1-martin.kepplinger@puri.sm>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Guangming Cao <Guangming.Cao@mediatek.com>
+Hi Martin,
 
-Since there is no mandatory inspection for attachments in dma_buf_release.
-There will be a case that dma_buf already released but attachment is still
-in use, which can points to the dmabuf, and it maybe cause
-some unexpected issues.
+On Mon, Oct 18, 2021 at 03:42:46PM +0200, Martin Kepplinger wrote:
+> Since other device enumerate mechanisms are currently not implemented,
+> make the hi846 sensor driver depend on CONFIG_OF.
 
-With IOMMU, when this cases occurs, there will have IOMMU address
-translation fault(s) followed by this warning,
-I think it's useful for dma devices to debug issue.
+As far as I understand, this should work on ACPI based systems with just
+of_match_ptr() macro removed.
 
-Signed-off-by: Guangming Cao <Guangming.Cao@mediatek.com>
----
- drivers/dma-buf/dma-buf.c | 23 +++++++++++++++++++++++
- 1 file changed, 23 insertions(+)
+In any case, linux/of_graph.h header should be replaced with
+linux/property.h.
 
-diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
-index 511fe0d217a0..672404857d6a 100644
---- a/drivers/dma-buf/dma-buf.c
-+++ b/drivers/dma-buf/dma-buf.c
-@@ -74,6 +74,29 @@ static void dma_buf_release(struct dentry *dentry)
- 	 */
- 	BUG_ON(dmabuf->cb_shared.active || dmabuf->cb_excl.active);
- 
-+	/* attachment check */
-+	if (dma_resv_trylock(dmabuf->resv) && WARN(!list_empty(&dmabuf->attachments),
-+	    "%s err, inode:%08lu size:%08zu name:%s exp_name:%s flags:0x%08x mode:0x%08x, %s\n",
-+	    __func__, file_inode(dmabuf->file)->i_ino, dmabuf->size,
-+	    dmabuf->name, dmabuf->exp_name,
-+	    dmabuf->file->f_flags, dmabuf->file->f_mode,
-+	    "Release dmabuf before detach all attachments, dump attach:\n")) {
-+		int attach_cnt = 0;
-+		dma_addr_t dma_addr;
-+		struct dma_buf_attachment *attach_obj;
-+		/* dump all attachment info */
-+		list_for_each_entry(attach_obj, &dmabuf->attachments, node) {
-+			dma_addr = (dma_addr_t)0;
-+			if (attach_obj->sgt)
-+				dma_addr = sg_dma_address(attach_obj->sgt->sgl);
-+			pr_err("attach[%d]: dev:%s dma_addr:0x%-12lx\n",
-+			       attach_cnt, dev_name(attach_obj->dev), dma_addr);
-+			attach_cnt++;
-+		}
-+		pr_err("Total %d devices attached\n\n", attach_cnt);
-+		dma_resv_unlock(dmabuf->resv);
-+	}
-+
- 	dmabuf->ops->release(dmabuf);
- 
- 	if (dmabuf->resv == (struct dma_resv *)&dmabuf[1])
+How about that instead?
+
 -- 
-2.17.1
+Kind regards,
 
+Sakari Ailus
