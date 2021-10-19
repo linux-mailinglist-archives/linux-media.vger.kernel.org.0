@@ -2,160 +2,141 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B4ECC433627
-	for <lists+linux-media@lfdr.de>; Tue, 19 Oct 2021 14:41:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8B72D43365A
+	for <lists+linux-media@lfdr.de>; Tue, 19 Oct 2021 14:51:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235512AbhJSMnc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 19 Oct 2021 08:43:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39818 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230231AbhJSMnb (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Tue, 19 Oct 2021 08:43:31 -0400
-Received: from mail-ed1-x533.google.com (mail-ed1-x533.google.com [IPv6:2a00:1450:4864:20::533])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B280FC06161C
-        for <linux-media@vger.kernel.org>; Tue, 19 Oct 2021 05:41:18 -0700 (PDT)
-Received: by mail-ed1-x533.google.com with SMTP id r4so5849056edi.5
-        for <linux-media@vger.kernel.org>; Tue, 19 Oct 2021 05:41:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ffwll.ch; s=google;
-        h=date:from:to:cc:subject:message-id:mail-followup-to:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=EHf1d6jYC47N493Pv/6pFABfQdMKx4e8O3xhKroDPbE=;
-        b=NyuJgkOEqVr2HgSuFzucrmFl6uCC47sSvbC4sO8TJI5tKjSPUp2CuXuUVzlYed/0Wd
-         UuwdEFSyvQRiZn4dT7Vi6Yr2OGeienXD0cr3JRJIZxso6VZBlHhPqR4DRBDUcM22HpyY
-         aTuV8ClK37PNqKNrFn6vFa4AlhIToFy9MbcfY=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id
-         :mail-followup-to:references:mime-version:content-disposition
-         :in-reply-to;
-        bh=EHf1d6jYC47N493Pv/6pFABfQdMKx4e8O3xhKroDPbE=;
-        b=YZcX6uNIh1wbqhQR+7NzGBZu0NGBGTs5jSMAb+qR4ZyPHsZEbRgiHIybdgASbLnLYY
-         xG5eyOgZIttvhsjK2oU4qlfa8ZKAfJnfJisbGwVcCuIef0SA2bNMgVMRwyY8I2Ae64yw
-         gQfrvpp+ozso5lylBarWJYVMjSA5K133YG8lp9YkleWKuREtYNFWFnExSsb410706cED
-         CQLfLPyQC+WHYtnF4LwVWZbgZzuScTd9E2fH1TuP9htFFGsRBLJ2PVPQIcW2nnekm0vA
-         126rvG7FgGzEVkBhD5sF7hCGdeFIIMl1V8yTcD+grsFbbjeVR7j3EBUud/ndvM6aoCgO
-         JTCQ==
-X-Gm-Message-State: AOAM531DseLWWBjYxVut2M4V1XPfqRsv7iY7ABLegvHr+cR7LP4omzvX
-        T+h36VrE2/I1iQT7XN5lftkq3g==
-X-Google-Smtp-Source: ABdhPJx6vSo6OufSaFH9rFLrzmjtgXdXhc8T6jVm1AlxqNyN88YtlQU+itfte1ctjSnqHOIrQwPvAg==
-X-Received: by 2002:a05:6402:84d:: with SMTP id b13mr54514480edz.110.1634647277354;
-        Tue, 19 Oct 2021 05:41:17 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
-        by smtp.gmail.com with ESMTPSA id p23sm12148807edw.94.2021.10.19.05.41.16
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 19 Oct 2021 05:41:16 -0700 (PDT)
-Date:   Tue, 19 Oct 2021 14:41:14 +0200
-From:   Daniel Vetter <daniel@ffwll.ch>
-To:     guangming.cao@mediatek.com
-Cc:     Sumit Semwal <sumit.semwal@linaro.org>,
-        Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        "open list:DMA BUFFER SHARING FRAMEWORK" 
-        <linux-media@vger.kernel.org>,
-        "open list:DMA BUFFER SHARING FRAMEWORK" 
-        <dri-devel@lists.freedesktop.org>,
-        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
-        <linaro-mm-sig@lists.linaro.org>,
-        open list <linux-kernel@vger.kernel.org>,
-        "moderated list:ARM/Mediatek SoC support" 
-        <linux-arm-kernel@lists.infradead.org>,
-        "moderated list:ARM/Mediatek SoC support" 
-        <linux-mediatek@lists.infradead.org>, wsd_upstream@mediatek.com
-Subject: Re: [PATCH] dma-buf: add attachments empty check for dma_buf_release
-Message-ID: <YW686sIZie4xRUQO@phenom.ffwll.local>
-Mail-Followup-To: guangming.cao@mediatek.com,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>,
-        "open list:DMA BUFFER SHARING FRAMEWORK" <dri-devel@lists.freedesktop.org>,
-        "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
-        open list <linux-kernel@vger.kernel.org>,
-        "moderated list:ARM/Mediatek SoC support" <linux-arm-kernel@lists.infradead.org>,
-        "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
-        wsd_upstream@mediatek.com
-References: <20211019122345.160555-1-guangming.cao@mediatek.com>
+        id S230338AbhJSMyG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 19 Oct 2021 08:54:06 -0400
+Received: from mga02.intel.com ([134.134.136.20]:18456 "EHLO mga02.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S230097AbhJSMyF (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 19 Oct 2021 08:54:05 -0400
+X-IronPort-AV: E=McAfee;i="6200,9189,10141"; a="215663213"
+X-IronPort-AV: E=Sophos;i="5.87,163,1631602800"; 
+   d="scan'208";a="215663213"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Oct 2021 05:51:52 -0700
+X-IronPort-AV: E=Sophos;i="5.87,163,1631602800"; 
+   d="scan'208";a="566937986"
+Received: from paasikivi.fi.intel.com ([10.237.72.42])
+  by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Oct 2021 05:51:50 -0700
+Received: from paasikivi.fi.intel.com (localhost [127.0.0.1])
+        by paasikivi.fi.intel.com (Postfix) with SMTP id B2C8920316;
+        Tue, 19 Oct 2021 15:51:48 +0300 (EEST)
+Date:   Tue, 19 Oct 2021 15:51:48 +0300
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     Bingbu Cao <bingbu.cao@intel.com>
+Cc:     linux-media@vger.kernel.org, tfiga@chromium.org,
+        kieran.bingham@ideasonboard.com, bingbu.cao@linux.intel.com
+Subject: Re: [PATCH v3] media: imx258: add vblank control to support more
+ frame rate range
+Message-ID: <YW6/ZGI5/j4UDaBQ@paasikivi.fi.intel.com>
+References: <1634527576-2928-1-git-send-email-bingbu.cao@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20211019122345.160555-1-guangming.cao@mediatek.com>
-X-Operating-System: Linux phenom 5.10.0-8-amd64 
+In-Reply-To: <1634527576-2928-1-git-send-email-bingbu.cao@intel.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Oct 19, 2021 at 08:23:45PM +0800, guangming.cao@mediatek.com wrote:
-> From: Guangming Cao <Guangming.Cao@mediatek.com>
-> 
-> Since there is no mandatory inspection for attachments in dma_buf_release.
-> There will be a case that dma_buf already released but attachment is still
-> in use, which can points to the dmabuf, and it maybe cause
-> some unexpected issues.
-> 
-> With IOMMU, when this cases occurs, there will have IOMMU address
-> translation fault(s) followed by this warning,
-> I think it's useful for dma devices to debug issue.
-> 
-> Signed-off-by: Guangming Cao <Guangming.Cao@mediatek.com>
+Hi Bingbu,
 
-This feels a lot like hand-rolling kobject debugging. If you want to do
-this then I think adding kobject debug support to
-dma_buf/dma_buf_attachment would be better than hand-rolling something
-bespoke here.
-
-Also on the patch itself: You don't need the trylock. For correctly
-working code non one else can get at the dma-buf, so no locking needed to
-iterate through the attachment list. For incorrect code the kernel will be
-on fire pretty soon anyway, trying to do locking won't help :-) And
-without the trylock we can catch more bugs (e.g. if you also forgot to
-unlock and not just forgot to detach).
--Daniel
-
+On Mon, Oct 18, 2021 at 11:26:16AM +0800, Bingbu Cao wrote:
+> Current imx258 driver enable the automatic frame length tracking control
+> by default and did not support VBLANK change, it's always working at 30fps.
+> However, in reality we need a wider frame rate range from 15 to 30.
+> This patch disable the automatic frame length tracking control and enable
+> the v4l2 VBLANK control to allow user changing frame rate per requirement.
+> 
+> Signed-off-by: Bingbu Cao <bingbu.cao@intel.com>
 > ---
->  drivers/dma-buf/dma-buf.c | 23 +++++++++++++++++++++++
->  1 file changed, 23 insertions(+)
+>  drivers/media/i2c/imx258.c | 23 +++++++++++++++++------
+>  1 file changed, 17 insertions(+), 6 deletions(-)
 > 
-> diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
-> index 511fe0d217a0..672404857d6a 100644
-> --- a/drivers/dma-buf/dma-buf.c
-> +++ b/drivers/dma-buf/dma-buf.c
-> @@ -74,6 +74,29 @@ static void dma_buf_release(struct dentry *dentry)
->  	 */
->  	BUG_ON(dmabuf->cb_shared.active || dmabuf->cb_excl.active);
+> diff --git a/drivers/media/i2c/imx258.c b/drivers/media/i2c/imx258.c
+> index 81cdf37216ca..2c787af7074d 100644
+> --- a/drivers/media/i2c/imx258.c
+> +++ b/drivers/media/i2c/imx258.c
+> @@ -29,6 +29,7 @@
+>  #define IMX258_VTS_MAX			0xffff
 >  
-> +	/* attachment check */
-> +	if (dma_resv_trylock(dmabuf->resv) && WARN(!list_empty(&dmabuf->attachments),
-> +	    "%s err, inode:%08lu size:%08zu name:%s exp_name:%s flags:0x%08x mode:0x%08x, %s\n",
-> +	    __func__, file_inode(dmabuf->file)->i_ino, dmabuf->size,
-> +	    dmabuf->name, dmabuf->exp_name,
-> +	    dmabuf->file->f_flags, dmabuf->file->f_mode,
-> +	    "Release dmabuf before detach all attachments, dump attach:\n")) {
-> +		int attach_cnt = 0;
-> +		dma_addr_t dma_addr;
-> +		struct dma_buf_attachment *attach_obj;
-> +		/* dump all attachment info */
-> +		list_for_each_entry(attach_obj, &dmabuf->attachments, node) {
-> +			dma_addr = (dma_addr_t)0;
-> +			if (attach_obj->sgt)
-> +				dma_addr = sg_dma_address(attach_obj->sgt->sgl);
-> +			pr_err("attach[%d]: dev:%s dma_addr:0x%-12lx\n",
-> +			       attach_cnt, dev_name(attach_obj->dev), dma_addr);
-> +			attach_cnt++;
-> +		}
-> +		pr_err("Total %d devices attached\n\n", attach_cnt);
-> +		dma_resv_unlock(dmabuf->resv);
+>  /*Frame Length Line*/
+> +#define IMX258_REG_FLL			0x0340
+>  #define IMX258_FLL_MIN			0x08a6
+>  #define IMX258_FLL_MAX			0xffff
+>  #define IMX258_FLL_STEP			1
+> @@ -241,7 +242,7 @@ static const struct imx258_reg mode_4208x3118_regs[] = {
+>  	{ 0x034D, 0x70 },
+>  	{ 0x034E, 0x0C },
+>  	{ 0x034F, 0x30 },
+> -	{ 0x0350, 0x01 },
+> +	{ 0x0350, 0x00 }, /* no frame length automatic tracking control */
+>  	{ 0x0202, 0x0C },
+>  	{ 0x0203, 0x46 },
+>  	{ 0x0204, 0x00 },
+> @@ -360,7 +361,7 @@ static const struct imx258_reg mode_2104_1560_regs[] = {
+>  	{ 0x034D, 0x38 },
+>  	{ 0x034E, 0x06 },
+>  	{ 0x034F, 0x18 },
+> -	{ 0x0350, 0x01 },
+> +	{ 0x0350, 0x00 }, /* no frame length automatic tracking control */
+>  	{ 0x0202, 0x06 },
+>  	{ 0x0203, 0x2E },
+>  	{ 0x0204, 0x00 },
+> @@ -479,7 +480,7 @@ static const struct imx258_reg mode_1048_780_regs[] = {
+>  	{ 0x034D, 0x18 },
+>  	{ 0x034E, 0x03 },
+>  	{ 0x034F, 0x0C },
+> -	{ 0x0350, 0x01 },
+> +	{ 0x0350, 0x00 }, /* no frame length automatic tracking control */
+
+Why is automatic frame length control disabled?
+
+>  	{ 0x0202, 0x03 },
+>  	{ 0x0203, 0x42 },
+>  	{ 0x0204, 0x00 },
+> @@ -753,8 +754,17 @@ static int imx258_set_ctrl(struct v4l2_ctrl *ctrl)
+>  	struct imx258 *imx258 =
+>  		container_of(ctrl->handler, struct imx258, ctrl_handler);
+>  	struct i2c_client *client = v4l2_get_subdevdata(&imx258->sd);
+> +	s64 max;
+>  	int ret = 0;
+>  
+> +	if (ctrl->id == V4L2_CID_VBLANK) {
+> +		/* Update max exposure to meet expected vblanking */
+> +		max = imx258->cur_mode->height + ctrl->val - 10;
+> +		__v4l2_ctrl_modify_range(imx258->exposure,
+> +					 imx258->exposure->minimum,
+> +					 max, imx258->exposure->step, max);
 > +	}
 > +
->  	dmabuf->ops->release(dmabuf);
+>  	/*
+>  	 * Applying V4L2 control value only happens
+>  	 * when power is up for streaming
+> @@ -773,6 +783,10 @@ static int imx258_set_ctrl(struct v4l2_ctrl *ctrl)
+>  				IMX258_REG_VALUE_16BIT,
+>  				ctrl->val);
+>  		break;
+> +	case V4L2_CID_VBLANK:
+> +		ret = imx258_write_reg(imx258, IMX258_REG_FLL, 2,
+> +				       imx258->cur_mode->height + ctrl->val);
+> +		break;
+>  	case V4L2_CID_DIGITAL_GAIN:
+>  		ret = imx258_update_digital_gain(imx258, IMX258_REG_VALUE_16BIT,
+>  				ctrl->val);
+> @@ -1189,9 +1203,6 @@ static int imx258_init_controls(struct imx258 *imx258)
+>  				IMX258_VTS_MAX - imx258->cur_mode->height, 1,
+>  				vblank_def);
 >  
->  	if (dmabuf->resv == (struct dma_resv *)&dmabuf[1])
-> -- 
-> 2.17.1
-> 
+> -	if (imx258->vblank)
+> -		imx258->vblank->flags |= V4L2_CTRL_FLAG_READ_ONLY;
+> -
+>  	imx258->hblank = v4l2_ctrl_new_std(
+>  				ctrl_hdlr, &imx258_ctrl_ops, V4L2_CID_HBLANK,
+>  				IMX258_PPL_DEFAULT - imx258->cur_mode->width,
 
 -- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+Kind regards,
+
+Sakari Ailus
