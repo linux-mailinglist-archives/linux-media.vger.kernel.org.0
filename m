@@ -2,51 +2,51 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 91DA143316E
-	for <lists+linux-media@lfdr.de>; Tue, 19 Oct 2021 10:44:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 80C29433171
+	for <lists+linux-media@lfdr.de>; Tue, 19 Oct 2021 10:44:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234864AbhJSIqd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 19 Oct 2021 04:46:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41378 "EHLO
+        id S234834AbhJSIqe (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 19 Oct 2021 04:46:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41408 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234857AbhJSIqZ (ORCPT
+        with ESMTP id S234925AbhJSIq3 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 19 Oct 2021 04:46:25 -0400
-Received: from mail-pl1-x630.google.com (mail-pl1-x630.google.com [IPv6:2607:f8b0:4864:20::630])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6AB5EC06176F;
-        Tue, 19 Oct 2021 01:44:09 -0700 (PDT)
-Received: by mail-pl1-x630.google.com with SMTP id t21so5148357plr.6;
-        Tue, 19 Oct 2021 01:44:09 -0700 (PDT)
+        Tue, 19 Oct 2021 04:46:29 -0400
+Received: from mail-pf1-x430.google.com (mail-pf1-x430.google.com [IPv6:2607:f8b0:4864:20::430])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D4C27C061768;
+        Tue, 19 Oct 2021 01:44:14 -0700 (PDT)
+Received: by mail-pf1-x430.google.com with SMTP id d9so9817997pfl.6;
+        Tue, 19 Oct 2021 01:44:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=1VqU4XTjCpirHS39n6Ik6WoFuzFscoD7Gz6T1rIL72A=;
-        b=fPX8rWmpzjzpH/OQxS77IoGJc3xbaB8bKw+m7+Tm3IR/qeFSLZ+qfSlnSTIlLhNPUO
-         PCOBf0TTrgZhPw7lrwp6QT6rIqSJcO7C5zaP9UftBVgxmevAzxSdqGtdmsfQgqc5SRb3
-         iiZf163blJRtfXNSk1bHC4H/GNa3tiFLtQUiLpLMe75nAkWPNrm/LaNuUFyccDavlJKB
-         g8tYXh8hH80mZiNF9gkb65qVfIJPIkd8vMpeDyAmKPT8Xv6BXSFOLBrVJbv7SbZ9kIT0
-         jHe32FPmK19AWygbE4lmFEmUSWGQpMpZhfuT1XmgaT5L8uBDQWMW/yPHDMru+EmAubFg
-         X/Bw==
+        bh=Qf2pjhCpfk07YQKtxJ7Ycuq1vo5ZtJccHCuLQD7alI0=;
+        b=RLrSpFbXOk9mKOfE+/CLCAUA8uCHIMz3SBRn996JqGd+oOkg9sDjTATvfD9We6xH/i
+         sRStywzhdvf0TRWHhm+RH0Bcm6ae+vKn98Rmhmecq92q4YeqeuTiwo5sXnpkBDEQmCBa
+         sKbIXuZFdQIxrF2wM1yceaDJZtSYA+n6iWnsBslT8wsyhhG12aIMQ2OEVT0dsMhPMGGw
+         DZa3rUH7h+jZ5SVygqD8zzh8/+fNM0a83/CQUzxcMk/fuhbZ8/7p32gT7zmLfpXPlvIq
+         +PAA7Lh0BVHkkpafxeRqMdpC19sEqZlbrh/XC+G1YwaO1Z6wShdCOckiRrv7vZ35Lznp
+         2uDA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references;
-        bh=1VqU4XTjCpirHS39n6Ik6WoFuzFscoD7Gz6T1rIL72A=;
-        b=QooJ/sdjZymE+KqG0YIPiTDBeatP/I5QnoEj1QSAj2IUq0uUxJrJc6lCscUuI1Q6a0
-         UDzG5qPOMkj1tp7nYZGtn6ZSS6unAN+bbDdBHv8eUqU9XWTcH3WNUGR/hiqntTi4fhVJ
-         F/Nb30oBhfK2flmbkSc49+DwxrS7Bm50G4FniSFAB2HDcCeRmLCMnOTF5jGCZAyMt/ds
-         nYeirX0oE5i9ZnuAxu8zB3D2X1ObTeLg1KNFlQAzMBw2oi3YxEkw5et2wfuDhZfQXQAR
-         EfVV6j2cUZxKkL9wLUB/kSl5YLnWBbyFnFPnVUiG4uqppl+w59KuaYTxUre6pwr/IBk5
-         TOaQ==
-X-Gm-Message-State: AOAM530/Y+FR4gCM9VsZ/6047dN6EKddUX2E4LoGmqp++Aj+k/eF2lhW
-        qCk5M8K1Bxq79zjQUCSQoCI=
-X-Google-Smtp-Source: ABdhPJyfW1mP1njhIKYVaL1M/HtxJBdQwz1eAcuC+TRtsUJLSXNJ8Z/JXZVOFK3MR3N6IyLcR1HsSA==
-X-Received: by 2002:a17:902:e746:b0:13f:398e:a0e2 with SMTP id p6-20020a170902e74600b0013f398ea0e2mr31807286plf.48.1634633049003;
-        Tue, 19 Oct 2021 01:44:09 -0700 (PDT)
+        bh=Qf2pjhCpfk07YQKtxJ7Ycuq1vo5ZtJccHCuLQD7alI0=;
+        b=JQdE7IU7oTAPX4+pnaBfOQWPr4b1vWSEOJPPKowYgVgJYfzCvVo0IIeCU5+rcV33ZW
+         cWGuykruEN+5VVkSKU8Gmh2hdzXGDD0oTEWOHBn8FZnT94xj8ZKpnK4dRUhiHAyxOU3g
+         BWEC5B6u5FepRTuqLn6vwKYx0GOGLP7qK/OWos3MOS5HMXDOTIdknzBFB57U8u7q+cGS
+         w58h5XDD/7VXBV57W4bwtm07xP3LGqI0eo4CHPshJ3Yg6eycG1Q0+XOyIq7j1FXI7sue
+         BHX1mmueu8CJXqtjjMeWPUuDsSPq0YCZgu2ZXl5dGKmAK9zewxZDxVGRPjt3ImedG1+R
+         vDdw==
+X-Gm-Message-State: AOAM531cfaij2CgBUtDTek80UaTLDKsVxwvnDkh1NALPZowSSFiXI/5L
+        1eKX2ctSSPYs6W4/AmFIzRE=
+X-Google-Smtp-Source: ABdhPJyldc/nOmHnQzAvE7388dI4Radsjo0IQ0KG1jEUqZoRWSO82e9aTHcG8Mp9CkR2nSbMCLLR8g==
+X-Received: by 2002:a63:1266:: with SMTP id 38mr27685059pgs.219.1634633054300;
+        Tue, 19 Oct 2021 01:44:14 -0700 (PDT)
 Received: from fmin-OptiPlex-7060.nreal.work ([137.59.103.165])
-        by smtp.gmail.com with ESMTPSA id c11sm1824716pji.38.2021.10.19.01.44.04
+        by smtp.gmail.com with ESMTPSA id c11sm1824716pji.38.2021.10.19.01.44.09
         (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 19 Oct 2021 01:44:08 -0700 (PDT)
+        Tue, 19 Oct 2021 01:44:14 -0700 (PDT)
 From:   Dillon Min <dillon.minfei@gmail.com>
 To:     mchehab@kernel.org, mchehab+huawei@kernel.org,
         hverkuil-cisco@xs4all.nl, ezequiel@collabora.com, gnurou@gmail.com,
@@ -59,9 +59,9 @@ Cc:     patrice.chotard@foss.st.com, hugues.fruchet@foss.st.com,
         linux-stm32@st-md-mailman.stormreply.com,
         linux-arm-kernel@lists.infradead.org, linux-clk@vger.kernel.org,
         devicetree@vger.kernel.org
-Subject: [PATCH v6 08/10] media: v4l2-ctrls: Add RGB color effects control
-Date:   Tue, 19 Oct 2021 16:43:21 +0800
-Message-Id: <1634633003-18132-9-git-send-email-dillon.minfei@gmail.com>
+Subject: [PATCH v6 09/10] clk: stm32: Fix ltdc's clock turn off by clk_disable_unused() after system enter shell
+Date:   Tue, 19 Oct 2021 16:43:22 +0800
+Message-Id: <1634633003-18132-10-git-send-email-dillon.minfei@gmail.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1634633003-18132-1-git-send-email-dillon.minfei@gmail.com>
 References: <1634633003-18132-1-git-send-email-dillon.minfei@gmail.com>
@@ -69,94 +69,64 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Add V4L2_COLORFX_SET_RGB color effects control, V4L2_CID_COLORFX_RGB
-for RGB color setting.
+stm32's clk driver register two ltdc gate clk to clk core by
+clk_hw_register_gate() and clk_hw_register_composite()
 
-with two mirror changes:
-- change 0xFFFFFF to 0xffffff
-- fix comments 2^24 to 2^24 - 1
+first: 'stm32f429_gates[]', clk name is 'ltdc', which no user to use.
+second: 'stm32f429_aux_clk[]', clk name is 'lcd-tft', used by ltdc driver
 
+both of them point to the same offset of stm32's RCC register. after
+kernel enter console, clk core turn off ltdc's clk as 'stm32f429_gates[]'
+is no one to use. but, actually 'stm32f429_aux_clk[]' is in use.
+
+stm32f469/746/769 have the same issue, fix it.
+
+Fixes: daf2d117cbca ("clk: stm32f4: Add lcd-tft clock")
+Acked-by: Stephen Boyd <sboyd@kernel.org>
+Link: https://lore.kernel.org/linux-arm-kernel/1590564453-24499-7-git-send-email-dillon.minfei@gmail.com/
+Link: https://lore.kernel.org/lkml/CAPTRvHkf0cK_4ZidM17rPo99gWDmxgqFt4CDUjqFFwkOeQeFDg@mail.gmail.com/
 Signed-off-by: Dillon Min <dillon.minfei@gmail.com>
 ---
-v6: add space in '(V4L2_CID_BASE+43)' to avoid checkpatch warrnings.
+v6: no change.
 
- Documentation/userspace-api/media/v4l/control.rst | 9 +++++++++
- drivers/media/v4l2-core/v4l2-ctrls-defs.c         | 6 ++++--
- include/uapi/linux/v4l2-controls.h                | 4 +++-
- 3 files changed, 16 insertions(+), 3 deletions(-)
+ drivers/clk/clk-stm32f4.c | 4 ----
+ 1 file changed, 4 deletions(-)
 
-diff --git a/Documentation/userspace-api/media/v4l/control.rst b/Documentation/userspace-api/media/v4l/control.rst
-index f8d0b923da20..3eec65174260 100644
---- a/Documentation/userspace-api/media/v4l/control.rst
-+++ b/Documentation/userspace-api/media/v4l/control.rst
-@@ -242,8 +242,17 @@ Control IDs
-     * - ``V4L2_COLORFX_SET_CBCR``
-       - The Cb and Cr chroma components are replaced by fixed coefficients
- 	determined by ``V4L2_CID_COLORFX_CBCR`` control.
-+    * - ``V4L2_COLORFX_SET_RGB``
-+      - The RGB components are replaced by the fixed RGB components determined
-+        by ``V4L2_CID_COLORFX_RGB`` control.
- 
- 
-+``V4L2_CID_COLORFX_RGB`` ``(integer)``
-+    Determines the Red, Green, and Blue coefficients for
-+    ``V4L2_COLORFX_SET_RGB`` color effect.
-+    Bits [7:0] of the supplied 32 bit value are interpreted as Blue component,
-+    bits [15:8] as Green component, bits [23:16] as Red component, and
-+    bits [31:24] must be zero.
- 
- ``V4L2_CID_COLORFX_CBCR`` ``(integer)``
-     Determines the Cb and Cr coefficients for ``V4L2_COLORFX_SET_CBCR``
-diff --git a/drivers/media/v4l2-core/v4l2-ctrls-defs.c b/drivers/media/v4l2-core/v4l2-ctrls-defs.c
-index 0cb6c0f18b39..431f7ec17557 100644
---- a/drivers/media/v4l2-core/v4l2-ctrls-defs.c
-+++ b/drivers/media/v4l2-core/v4l2-ctrls-defs.c
-@@ -785,6 +785,7 @@ const char *v4l2_ctrl_get_name(u32 id)
- 	case V4L2_CID_MIN_BUFFERS_FOR_OUTPUT:	return "Min Number of Output Buffers";
- 	case V4L2_CID_ALPHA_COMPONENT:		return "Alpha Component";
- 	case V4L2_CID_COLORFX_CBCR:		return "Color Effects, CbCr";
-+	case V4L2_CID_COLORFX_RGB:              return "Color Effects, RGB";
- 
- 	/*
- 	 * Codec controls
-@@ -1394,11 +1395,12 @@ void v4l2_ctrl_fill(u32 id, const char **name, enum v4l2_ctrl_type *type,
- 		*min = *max = *step = *def = 0;
- 		break;
- 	case V4L2_CID_BG_COLOR:
-+	case V4L2_CID_COLORFX_RGB:
- 		*type = V4L2_CTRL_TYPE_INTEGER;
- 		*step = 1;
- 		*min = 0;
--		/* Max is calculated as RGB888 that is 2^24 */
--		*max = 0xFFFFFF;
-+		/* Max is calculated as RGB888 that is 2^24 - 1 */
-+		*max = 0xffffff;
- 		break;
- 	case V4L2_CID_COLORFX_CBCR:
- 		*type = V4L2_CTRL_TYPE_INTEGER;
-diff --git a/include/uapi/linux/v4l2-controls.h b/include/uapi/linux/v4l2-controls.h
-index 133e20444939..1406df0cc107 100644
---- a/include/uapi/linux/v4l2-controls.h
-+++ b/include/uapi/linux/v4l2-controls.h
-@@ -128,6 +128,7 @@ enum v4l2_colorfx {
- 	V4L2_COLORFX_SOLARIZATION		= 13,
- 	V4L2_COLORFX_ANTIQUE			= 14,
- 	V4L2_COLORFX_SET_CBCR			= 15,
-+	V4L2_COLORFX_SET_RGB			= 16,
+diff --git a/drivers/clk/clk-stm32f4.c b/drivers/clk/clk-stm32f4.c
+index af46176ad053..473dfe632cc5 100644
+--- a/drivers/clk/clk-stm32f4.c
++++ b/drivers/clk/clk-stm32f4.c
+@@ -129,7 +129,6 @@ static const struct stm32f4_gate_data stm32f429_gates[] __initconst = {
+ 	{ STM32F4_RCC_APB2ENR, 20,	"spi5",		"apb2_div" },
+ 	{ STM32F4_RCC_APB2ENR, 21,	"spi6",		"apb2_div" },
+ 	{ STM32F4_RCC_APB2ENR, 22,	"sai1",		"apb2_div" },
+-	{ STM32F4_RCC_APB2ENR, 26,	"ltdc",		"apb2_div" },
  };
- #define V4L2_CID_AUTOBRIGHTNESS			(V4L2_CID_BASE+32)
- #define V4L2_CID_BAND_STOP_FILTER		(V4L2_CID_BASE+33)
-@@ -145,9 +146,10 @@ enum v4l2_colorfx {
  
- #define V4L2_CID_ALPHA_COMPONENT		(V4L2_CID_BASE+41)
- #define V4L2_CID_COLORFX_CBCR			(V4L2_CID_BASE+42)
-+#define V4L2_CID_COLORFX_RGB			(V4L2_CID_BASE + 43)
+ static const struct stm32f4_gate_data stm32f469_gates[] __initconst = {
+@@ -211,7 +210,6 @@ static const struct stm32f4_gate_data stm32f469_gates[] __initconst = {
+ 	{ STM32F4_RCC_APB2ENR, 20,	"spi5",		"apb2_div" },
+ 	{ STM32F4_RCC_APB2ENR, 21,	"spi6",		"apb2_div" },
+ 	{ STM32F4_RCC_APB2ENR, 22,	"sai1",		"apb2_div" },
+-	{ STM32F4_RCC_APB2ENR, 26,	"ltdc",		"apb2_div" },
+ };
  
- /* last CID + 1 */
--#define V4L2_CID_LASTP1                         (V4L2_CID_BASE+43)
-+#define V4L2_CID_LASTP1                         (V4L2_CID_BASE + 44)
+ static const struct stm32f4_gate_data stm32f746_gates[] __initconst = {
+@@ -286,7 +284,6 @@ static const struct stm32f4_gate_data stm32f746_gates[] __initconst = {
+ 	{ STM32F4_RCC_APB2ENR, 21,	"spi6",		"apb2_div" },
+ 	{ STM32F4_RCC_APB2ENR, 22,	"sai1",		"apb2_div" },
+ 	{ STM32F4_RCC_APB2ENR, 23,	"sai2",		"apb2_div" },
+-	{ STM32F4_RCC_APB2ENR, 26,	"ltdc",		"apb2_div" },
+ };
  
- /* USER-class private control IDs */
+ static const struct stm32f4_gate_data stm32f769_gates[] __initconst = {
+@@ -364,7 +361,6 @@ static const struct stm32f4_gate_data stm32f769_gates[] __initconst = {
+ 	{ STM32F4_RCC_APB2ENR, 21,	"spi6",		"apb2_div" },
+ 	{ STM32F4_RCC_APB2ENR, 22,	"sai1",		"apb2_div" },
+ 	{ STM32F4_RCC_APB2ENR, 23,	"sai2",		"apb2_div" },
+-	{ STM32F4_RCC_APB2ENR, 26,	"ltdc",		"apb2_div" },
+ 	{ STM32F4_RCC_APB2ENR, 30,	"mdio",		"apb2_div" },
+ };
  
 -- 
 2.7.4
