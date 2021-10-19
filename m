@@ -2,152 +2,90 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DED9E4337F0
-	for <lists+linux-media@lfdr.de>; Tue, 19 Oct 2021 16:00:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D6541433833
+	for <lists+linux-media@lfdr.de>; Tue, 19 Oct 2021 16:16:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232502AbhJSOC4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 19 Oct 2021 10:02:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58186 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230487AbhJSOCz (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Tue, 19 Oct 2021 10:02:55 -0400
-Received: from mail-ed1-x536.google.com (mail-ed1-x536.google.com [IPv6:2a00:1450:4864:20::536])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 81D51C06161C
-        for <linux-media@vger.kernel.org>; Tue, 19 Oct 2021 07:00:42 -0700 (PDT)
-Received: by mail-ed1-x536.google.com with SMTP id d3so13539469edp.3
-        for <linux-media@vger.kernel.org>; Tue, 19 Oct 2021 07:00:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ffwll.ch; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=cWgLVIxPlB0EUk2RA+dnfGL3b+FWQ/k3Rt9YVL8+es0=;
-        b=hJ0ux5wtmFWOMZz/2SKwcRPNzwKsJW+B9MJwj5Ck9iSM6SAXnilKiJhw098Q+Ryq44
-         4rSK+5FSV6PCBHh3IjzPi/Pa2n0PLuuuOPEnfb74Ls4ZWgafOv63rPfKDi6Dm5b4dfNN
-         /ZvpoEk6ynGgAfhE5I/pWjkCqcVgOU2Kwu0Cs=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=cWgLVIxPlB0EUk2RA+dnfGL3b+FWQ/k3Rt9YVL8+es0=;
-        b=E/K9QAaeFUvqlSYsYSu4SDZBvBXl5IipczMdgR0r2NkJIZ7o+MDIe/MOTFnst7w6DE
-         ddBADGpyty1pwfsCQGwQuMitMV7it5k3f0BniikQ/6x1JqYCgWKi6PvVd61ug53QZveY
-         HSVuURK6+mHkJp4l8yLkoxRQ2TQc0O9g3ZBpdraw0twUuI1s+TLpe3g4UPnAXJ1V1NMp
-         83pGtuH8MjUxuDdvpeQ2FR6tex+gEWVAazdgnbJ0CTBwbErA8g68cDELpEGVWlc2KGAc
-         SEJ2nXazbFP46W81uDgnJyr0bzcf7MQnD/mm5tdEoddZ3CCXrQSM8AXbb7lw6QApbzFp
-         8bHw==
-X-Gm-Message-State: AOAM533rPefckWaq52laFIh1ivUVuxpAFLsmYJSY4A6D+Fc80iYTigTn
-        4ZkLWef8kEYjXwcIehWug2LKgA==
-X-Google-Smtp-Source: ABdhPJw5lOzn70N0JgxP4QgPQhpr3WdffMJoX5zXj62wwNiS8Jd781tdyIjXbT1pBntzl16Ze7UW3w==
-X-Received: by 2002:a17:907:d08:: with SMTP id gn8mr4523917ejc.395.1634651960977;
-        Tue, 19 Oct 2021 06:59:20 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
-        by smtp.gmail.com with ESMTPSA id f22sm11268362edu.26.2021.10.19.06.59.20
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 19 Oct 2021 06:59:20 -0700 (PDT)
-Date:   Tue, 19 Oct 2021 15:59:18 +0200
-From:   Daniel Vetter <daniel@ffwll.ch>
-To:     Christian =?iso-8859-1?Q?K=F6nig?= 
-        <ckoenig.leichtzumerken@gmail.com>
-Cc:     Daniel Vetter <daniel@ffwll.ch>, linaro-mm-sig@lists.linaro.org,
-        dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
-        intel-gfx@lists.freedesktop.org, tvrtko.ursulin@linux.intel.com
-Subject: Re: [PATCH 23/28] drm: use new iterator in
- drm_gem_fence_array_add_implicit v3
-Message-ID: <YW7PNr4Tk2DWOeIH@phenom.ffwll.local>
-References: <20211005113742.1101-1-christian.koenig@amd.com>
- <20211005113742.1101-24-christian.koenig@amd.com>
- <YWbrb7xQfTWU15U1@phenom.ffwll.local>
- <71bf3523-7c18-dac7-de53-f7b20e737cc3@gmail.com>
+        id S232709AbhJSOSy (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 19 Oct 2021 10:18:54 -0400
+Received: from mga06.intel.com ([134.134.136.31]:43531 "EHLO mga06.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229584AbhJSOSx (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 19 Oct 2021 10:18:53 -0400
+X-IronPort-AV: E=McAfee;i="6200,9189,10142"; a="289374764"
+X-IronPort-AV: E=Sophos;i="5.87,164,1631602800"; 
+   d="scan'208";a="289374764"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Oct 2021 07:06:58 -0700
+X-IronPort-AV: E=Sophos;i="5.87,164,1631602800"; 
+   d="scan'208";a="526668039"
+Received: from smile.fi.intel.com (HELO smile) ([10.237.72.159])
+  by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Oct 2021 07:06:52 -0700
+Received: from andy by smile with local (Exim 4.95)
+        (envelope-from <andy.shevchenko@gmail.com>)
+        id 1mcplB-000f1m-2P;
+        Tue, 19 Oct 2021 17:06:33 +0300
+Date:   Tue, 19 Oct 2021 17:06:33 +0300
+From:   Andy Shevchenko <andy.shevchenko@gmail.com>
+To:     Tsuchiya Yuto <kitakar@gmail.com>
+Cc:     Hans de Goede <hdegoede@redhat.com>,
+        Patrik Gfeller <patrik.gfeller@gmail.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Kaixu Xia <kaixuxia@tencent.com>,
+        Dan Carpenter <dan.carpenter@oracle.com>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        linux-staging@lists.linux.dev,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Nable <nable.maininbox@googlemail.com>,
+        Fabio Aiuto <fabioaiuto83@gmail.com>,
+        "andrey.i.trufanov" <andrey.i.trufanov@gmail.com>
+Subject: Re: [BUG 0/5] bug reports for atomisp to make it work
+Message-ID: <YW7Q6ZXMffrNY3RL@smile.fi.intel.com>
+References: <20211017162337.44860-1-kitakar@gmail.com>
+ <2170cfdf-767f-969c-f241-4e61bfafd1f5@redhat.com>
+ <CAHp75VcuP4NTYYL6FreW-bdB549T1WNwty74PUFm+LYLeLkdhA@mail.gmail.com>
+ <919e6e09bf258b48dd8819ec43cd13ab48489aa7.camel@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <71bf3523-7c18-dac7-de53-f7b20e737cc3@gmail.com>
-X-Operating-System: Linux phenom 5.10.0-8-amd64 
+In-Reply-To: <919e6e09bf258b48dd8819ec43cd13ab48489aa7.camel@gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Oct 19, 2021 at 02:54:04PM +0200, Christian König wrote:
-> Am 13.10.21 um 16:21 schrieb Daniel Vetter:
-> > On Tue, Oct 05, 2021 at 01:37:37PM +0200, Christian König wrote:
-> > > Simplifying the code a bit.
-> > > 
-> > > v2: add missing rcu_read_lock()/unlock()
-> > > v3: switch to locked version
-> > > 
-> > > Signed-off-by: Christian König <christian.koenig@amd.com>
-> > > Reviewed-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
-> > Please make sure you also apply this to the new copy of this code in
-> > drm/sched. This one here is up for deletion, once I get all the driver
-> > conversions I have landed ...
-> 
-> Yeah, I do have that. Only added this patch here for completeness so that I
-> could at least consider dropping the old access functions.
-> 
-> Put I will hold it back, just ping me when the code in question is removed.
-
-Imo go ahead and push this, the rebasing is trivial since I just delete
-code. That way I don't have to remember to do anything :-)
--Daniel
-
-> 
-> Christian.
-> 
-> > -Daniel
+On Tue, Oct 19, 2021 at 09:58:20PM +0900, Tsuchiya Yuto wrote:
+> On Mon, 2021-10-18 at 11:10 +0300, Andy Shevchenko wrote:
+> > On Mon, Oct 18, 2021 at 10:51 AM Hans de Goede <hdegoede@redhat.com> wrote:
 > > 
-> > > ---
-> > >   drivers/gpu/drm/drm_gem.c | 26 +++++---------------------
-> > >   1 file changed, 5 insertions(+), 21 deletions(-)
-> > > 
-> > > diff --git a/drivers/gpu/drm/drm_gem.c b/drivers/gpu/drm/drm_gem.c
-> > > index 09c820045859..4dcdec6487bb 100644
-> > > --- a/drivers/gpu/drm/drm_gem.c
-> > > +++ b/drivers/gpu/drm/drm_gem.c
-> > > @@ -1340,31 +1340,15 @@ int drm_gem_fence_array_add_implicit(struct xarray *fence_array,
-> > >   				     struct drm_gem_object *obj,
-> > >   				     bool write)
-> > >   {
-> > > -	int ret;
-> > > -	struct dma_fence **fences;
-> > > -	unsigned int i, fence_count;
-> > > -
-> > > -	if (!write) {
-> > > -		struct dma_fence *fence =
-> > > -			dma_resv_get_excl_unlocked(obj->resv);
-> > > -
-> > > -		return drm_gem_fence_array_add(fence_array, fence);
-> > > -	}
-> > > +	struct dma_resv_iter cursor;
-> > > +	struct dma_fence *fence;
-> > > +	int ret = 0;
-> > > -	ret = dma_resv_get_fences(obj->resv, NULL,
-> > > -						&fence_count, &fences);
-> > > -	if (ret || !fence_count)
-> > > -		return ret;
-> > > -
-> > > -	for (i = 0; i < fence_count; i++) {
-> > > -		ret = drm_gem_fence_array_add(fence_array, fences[i]);
-> > > +	dma_resv_for_each_fence(&cursor, obj->resv, write, fence) {
-> > > +		ret = drm_gem_fence_array_add(fence_array, fence);
-> > >   		if (ret)
-> > >   			break;
-> > >   	}
-> > > -
-> > > -	for (; i < fence_count; i++)
-> > > -		dma_fence_put(fences[i]);
-> > > -	kfree(fences);
-> > >   	return ret;
-> > >   }
-> > >   EXPORT_SYMBOL(drm_gem_fence_array_add_implicit);
-> > > -- 
-> > > 2.25.1
-> > > 
+> > > Just adding some folks to the Cc.
+> > 
+> > A hint to the newly added folks, there is an archive of the Linux
+> > kernel related emails located on lore.kernel.org. The quite famous
+> > distros already have in their repositories the `b4` tool that helps to
+> > access that archive. So, after installing that tool you may download
+> > the whole thread as a mailbox or as a bundle ready for `git am` just
+> > using the Message-ID value.
 > 
+> Ah sorry, I failed to add people to Cc who I should have definitly
+> added.
+> 
+> And I might have sent all of the emails to people who I should not
+> by blindly using `scripts/get_maintainer.pl` for the first bug report
+> with `--cc-cmd`.
+
+I have written a script [1] for myself which helps me a lot nowadays.
+It tries to be smart enough to include all interested parties. Although,
+user may expand the Cc and/or To lists.
+
+[1]: https://github.com/andy-shev/home-bin-tools/blob/master/ge2maintainer.sh
 
 -- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+With Best Regards,
+Andy Shevchenko
+
+
