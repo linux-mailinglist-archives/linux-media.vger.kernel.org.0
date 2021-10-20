@@ -2,202 +2,255 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3A578434F03
-	for <lists+linux-media@lfdr.de>; Wed, 20 Oct 2021 17:27:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E625D43512E
+	for <lists+linux-media@lfdr.de>; Wed, 20 Oct 2021 19:26:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230397AbhJTP3f (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 20 Oct 2021 11:29:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36968 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230106AbhJTP3f (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Wed, 20 Oct 2021 11:29:35 -0400
-Received: from mail-ed1-x535.google.com (mail-ed1-x535.google.com [IPv6:2a00:1450:4864:20::535])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7502CC06161C
-        for <linux-media@vger.kernel.org>; Wed, 20 Oct 2021 08:27:20 -0700 (PDT)
-Received: by mail-ed1-x535.google.com with SMTP id a25so27281353edx.8
-        for <linux-media@vger.kernel.org>; Wed, 20 Oct 2021 08:27:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=vanguardiasur-com-ar.20210112.gappssmtp.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=FULRWRoy+gFirZw/mkbBQ8q4cmksOwfrZ4guTg9Tl+U=;
-        b=nex+L4XOCZL4tbASApL9Xuh4hwhhgN1r2dNtvKsccumvMfzlzHnB2ya0gT4hvAjmJw
-         827pqm61slx4Acel7pjiOYQkc0mxObWKMnil/93jtkCedlJqgTVxNTzG0WHAzbSOonSV
-         7BF4MCRJ/Dhap6Lr3BFTVT+PmXLV4HSgBvffAWLtkf+rUI3EFJF3jeyDyXgBpnEXeCVu
-         Je1YBGxaTJRDbeTsBbVOun+xNeH1HMeqinOjh0PIL5+IqSkV1H8d6y/8G3g64ARjkhOc
-         P01A37usngGKNmDkVoWSerl3pLBKsR9C7A7rmfrC9t6dGnsI0b9DLkx0lnFZXhwlSZlX
-         FzGA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=FULRWRoy+gFirZw/mkbBQ8q4cmksOwfrZ4guTg9Tl+U=;
-        b=cuuSwCL/M06Aro4gvE0xZNzmAc9xQjjmdlXJ3NQfVZs9ZHhD6CfIobh0mOJnSxKoZF
-         KXtSTrrKIqmHwwXK2hoEdA6anQaGkDHmLQugfs2kIJ0mgekrD1lTX+v1z7+3diabOMN7
-         0BnzaTDmk1RidqGdWQ+5bigK3lHU7bsRHhDt63YW+yR/xatXYqCJeldPe94V7/sM18Zc
-         XX9nq7jU1q3z+pBkejnwA0ezdPFT+x/8ln8PkL+lMWkkSZ2cuRbsa5hCIaw6icRyOYja
-         HiRpvp1hfzKu6IHa7fJJ6hqoEHTL+BynfZhEpXfFDi1zLsnO5viOjY+lxX+QG2beU1Ij
-         +9VA==
-X-Gm-Message-State: AOAM532SfQpQs91tv+/iBHBsEvzVHrAg0oFKpQvFwQX512mBp7KG/FBV
-        zgIAVnk03dOKWDdak2BvaeYv8bv1m/Bw9ywq/aoHXg==
-X-Google-Smtp-Source: ABdhPJynf5WOUxsBGg41X8Q4IxKp7op0CxQNUvHHG1TjyFF9SWSPhrPl3auMquoy9cL8gXK7A2UEISMfsGVCy9cAOqw=
-X-Received: by 2002:a17:906:e011:: with SMTP id cu17mr21963ejb.244.1634743552270;
- Wed, 20 Oct 2021 08:25:52 -0700 (PDT)
+        id S230343AbhJTR2S (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 20 Oct 2021 13:28:18 -0400
+Received: from mga11.intel.com ([192.55.52.93]:51725 "EHLO mga11.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S230031AbhJTR2R (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 20 Oct 2021 13:28:17 -0400
+X-IronPort-AV: E=McAfee;i="6200,9189,10143"; a="226302421"
+X-IronPort-AV: E=Sophos;i="5.87,167,1631602800"; 
+   d="scan'208";a="226302421"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Oct 2021 10:25:56 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.87,167,1631602800"; 
+   d="scan'208";a="662331651"
+Received: from lkp-server02.sh.intel.com (HELO 08b2c502c3de) ([10.239.97.151])
+  by orsmga005.jf.intel.com with ESMTP; 20 Oct 2021 10:25:52 -0700
+Received: from kbuild by 08b2c502c3de with local (Exim 4.92)
+        (envelope-from <lkp@intel.com>)
+        id 1mdFLb-000DXw-Qe; Wed, 20 Oct 2021 17:25:51 +0000
+Date:   Thu, 21 Oct 2021 01:25:21 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     linux-media@vger.kernel.org
+Subject: [ragnatech:media-next] BUILD SUCCESS
+ fdc881783099c6343921ff017450831c8766d12a
+Message-ID: <61705101.8CRaExygkFelF2lM%lkp@intel.com>
+User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
-References: <20210929160439.6601-1-andrzej.p@collabora.com>
- <11847752.O9o76ZdvQC@kista> <CAAEAJfBYwbUrjUFvs70u8YkuBgrCK6LuYdT9Y2Om7OLo6_cV1g@mail.gmail.com>
- <4350097.LvFx2qVVIh@kista>
-In-Reply-To: <4350097.LvFx2qVVIh@kista>
-From:   Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
-Date:   Wed, 20 Oct 2021 12:25:40 -0300
-Message-ID: <CAAEAJfDkOUp_kzrR-eAUiwO4EGHcuQVpCxBJwJr5_pZZqr-xwg@mail.gmail.com>
-Subject: Re: Re: Re: [PATCH v7 11/11] media: hantro: Support NV12 on the G2 core
-To:     =?UTF-8?Q?Jernej_=C5=A0krabec?= <jernej.skrabec@gmail.com>
-Cc:     linux-media <linux-media@vger.kernel.org>,
-        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        "open list:ARM/Rockchip SoC..." <linux-rockchip@lists.infradead.org>,
-        "open list:STAGING SUBSYSTEM" <linux-staging@lists.linux.dev>,
-        Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
-        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-        Boris Brezillon <boris.brezillon@collabora.com>,
-        Fabio Estevam <festevam@gmail.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Heiko Stuebner <heiko@sntech.de>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Nicolas Dufresne <nicolas.dufresne@collabora.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Collabora Kernel ML <kernel@collabora.com>,
-        Ezequiel Garcia <ezequiel@collabora.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, 20 Oct 2021 at 12:04, Jernej =C5=A0krabec <jernej.skrabec@gmail.com=
-> wrote:
->
-> Dne sreda, 20. oktober 2021 ob 13:06:59 CEST je Ezequiel Garcia napisal(a=
-):
-> > Hi Jernej,
-> >
-> > On Tue, 19 Oct 2021 at 13:38, Jernej =C5=A0krabec <jernej.skrabec@gmail=
-.com>
-> wrote:
-> > >
-> > > Hi Andrzej!
-> > >
-> > > Dne petek, 15. oktober 2021 ob 19:19:47 CEST je Andrzej Pietrasiewicz
-> > > napisal(a):
-> > > > Hi Jernej,
-> > > >
-> > > > W dniu 14.10.2021 o 19:42, Jernej =C5=A0krabec pisze:
-> > > > > Hi Andrzej!
-> > > > >
-> > > > > Dne sreda, 29. september 2021 ob 18:04:39 CEST je Andrzej
-> Pietrasiewicz
-> > > > > napisal(a):
-> > > > >> The G2 decoder block produces NV12 4x4 tiled format (NV12_4L4).
-> > > > >> Enable the G2 post-processor block, in order to produce regular =
-NV12.
-> > > > >>
-> > > > >> The logic in hantro_postproc.c is leveraged to take care of
-> allocating
-> > > > >> the extra buffers and configure the post-processor, which is
-> > > > >> significantly simpler than the one on the G1.
-> > > > >
-> > > > > Quick summary of discussion on LibreELEC Slack:
-> > > > > When using NV12 format on Allwinner H6 variant of G2 (needs some
-> driver
-> > > > > changes), I get frames out of order. If I use native NV12 tiled
-> format,
-> > > frames
-> > > > > are ordered correctly.
-> > > > >
-> > > > > Currently I'm not sure if this is issue with my changes or is thi=
-s
-> general
-> > > > > issue.
-> > > > >
-> > > > > I would be grateful if anyone can test frame order with and witho=
-ut
-> > > > > postprocessing enabled on imx8. Take some dynamic video with a lo=
-t of
-> > > short
-> > > > > scenes. It's pretty obvious when frames are out of order.
-> > > > >
-> > > >
-> > > > I checked on imx8 and cannot observe any such artifacts.
-> > >
-> > > I finally found the issue. As you mentioned on Slack, register write =
-order
-> once
-> > > already affected decoding. Well, it's the case again. I made hacky te=
-st and
-> > > moved postproc enable call after output buffers are set and it worked=
-. So,
-> this
-> > > is actually core quirk which is obviously fixed in newer variants.
-> > >
-> >
-> > Ugh, good catch.
-> >
-> > What happens if you move all the calls to HANTRO_PP_REG_WRITE_S
-> > (HANTRO_PP_REG_WRITE does a relaxed write)?
-> >
-> > Or what happens if the HANTRO_PP_REG_WRITE(vpu, out_luma_base, dst_dma)
-> > is moved to be done after all the other registers?
->
-> Those two macros aren't used on G2. Andrzej introduced new postproc helpe=
-rs
-> for G2.
->
+tree/branch: git://git.ragnatech.se/linux media-next
+branch HEAD: fdc881783099c6343921ff017450831c8766d12a  media: ite-cir: IR receiver stop working after receive overflow
 
-Ah, so the issue is specific on the G2 post-processor.
+elapsed time: 2034m
 
-> This commit solves issue for H6:
-> https://github.com/jernejsk/linux-1/commit/
-> a783a977c0843bb4b555dc9d0b5d64915cd219e7
->
+configs tested: 195
+configs skipped: 3
 
-Right, but see this comment:
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
-    /* Turn on pipeline mode. Must be done first. */
-    HANTRO_PP_REG_WRITE_S(vpu, pipeline_en, 0x1);
+gcc tested configs:
+arm                                 defconfig
+arm64                            allyesconfig
+arm64                               defconfig
+arm                              allyesconfig
+arm                              allmodconfig
+i386                 randconfig-c001-20211019
+i386                             alldefconfig
+powerpc                      mgcoge_defconfig
+sh                          r7780mp_defconfig
+arm                         hackkit_defconfig
+mips                        omega2p_defconfig
+powerpc                      cm5200_defconfig
+mips                        qi_lb60_defconfig
+xtensa                          iss_defconfig
+arm                           viper_defconfig
+mips                           gcw0_defconfig
+powerpc                 xes_mpc85xx_defconfig
+arm                           u8500_defconfig
+powerpc                mpc7448_hpc2_defconfig
+powerpc                     ksi8560_defconfig
+openrisc                         alldefconfig
+arm                          pcm027_defconfig
+mips                         mpc30x_defconfig
+arm                         vf610m4_defconfig
+sh                           se7343_defconfig
+h8300                       h8s-sim_defconfig
+arc                          axs101_defconfig
+powerpc                     asp8347_defconfig
+sh                        edosk7705_defconfig
+mips                         tb0287_defconfig
+powerpc                      ppc6xx_defconfig
+arm                             ezx_defconfig
+s390                             alldefconfig
+sh                            shmin_defconfig
+mips                      malta_kvm_defconfig
+powerpc                       eiger_defconfig
+arm                         nhk8815_defconfig
+mips                     cu1830-neo_defconfig
+powerpc                    mvme5100_defconfig
+mips                malta_qemu_32r6_defconfig
+arm                              alldefconfig
+sh                          rsk7264_defconfig
+powerpc                 mpc832x_mds_defconfig
+arm                         orion5x_defconfig
+powerpc                     ppa8548_defconfig
+arm                  colibri_pxa300_defconfig
+powerpc64                           defconfig
+arm                          simpad_defconfig
+arm                       imx_v4_v5_defconfig
+powerpc                     skiroot_defconfig
+arm                         s3c6400_defconfig
+mips                             allyesconfig
+powerpc                        icon_defconfig
+powerpc                     stx_gp3_defconfig
+arm                            mps2_defconfig
+arm                          collie_defconfig
+sh                   sh7724_generic_defconfig
+x86_64                           alldefconfig
+arc                          axs103_defconfig
+arm                           corgi_defconfig
+m68k                        m5407c3_defconfig
+arm                       imx_v6_v7_defconfig
+riscv                            alldefconfig
+arm                          pxa910_defconfig
+parisc                generic-64bit_defconfig
+sh                              ul2_defconfig
+arc                     nsimosci_hs_defconfig
+sh                           se7722_defconfig
+powerpc                   bluestone_defconfig
+x86_64                           allyesconfig
+mips                     decstation_defconfig
+m68k                       m5275evb_defconfig
+arm                          ep93xx_defconfig
+sh                          rsk7269_defconfig
+sh                            titan_defconfig
+alpha                            allyesconfig
+powerpc                      pasemi_defconfig
+powerpc               mpc834x_itxgp_defconfig
+powerpc                     pseries_defconfig
+powerpc                      acadia_defconfig
+ia64                            zx1_defconfig
+arm                     davinci_all_defconfig
+sh                          polaris_defconfig
+sh                        edosk7760_defconfig
+powerpc                      walnut_defconfig
+arm                        realview_defconfig
+m68k                         amcore_defconfig
+sh                        apsh4ad0a_defconfig
+openrisc                    or1ksim_defconfig
+arm                         axm55xx_defconfig
+powerpc                      pcm030_defconfig
+arm                         s3c2410_defconfig
+h8300                            alldefconfig
+mips                        vocore2_defconfig
+arm                         cm_x300_defconfig
+powerpc                      makalu_defconfig
+powerpc                 mpc85xx_cds_defconfig
+powerpc                     pq2fads_defconfig
+m68k                        m5307c3_defconfig
+xtensa                  audio_kc705_defconfig
+sh                           se7780_defconfig
+arc                      axs103_smp_defconfig
+powerpc                     tqm8540_defconfig
+mips                           ci20_defconfig
+powerpc                     tqm5200_defconfig
+powerpc                        fsp2_defconfig
+arm                         palmz72_defconfig
+mips                      maltasmvp_defconfig
+arm                  randconfig-c002-20211019
+x86_64               randconfig-c001-20211019
+ia64                             allmodconfig
+ia64                                defconfig
+ia64                             allyesconfig
+m68k                                defconfig
+m68k                             allmodconfig
+m68k                             allyesconfig
+nios2                               defconfig
+arc                              allyesconfig
+nds32                             allnoconfig
+nds32                               defconfig
+nios2                            allyesconfig
+csky                                defconfig
+alpha                               defconfig
+h8300                            allyesconfig
+arc                                 defconfig
+sh                               allmodconfig
+xtensa                           allyesconfig
+parisc                              defconfig
+s390                                defconfig
+s390                             allyesconfig
+s390                             allmodconfig
+parisc                           allyesconfig
+sparc                            allyesconfig
+sparc                               defconfig
+i386                                defconfig
+i386                             allyesconfig
+mips                             allmodconfig
+powerpc                           allnoconfig
+powerpc                          allyesconfig
+powerpc                          allmodconfig
+i386                 randconfig-a004-20211020
+i386                 randconfig-a003-20211020
+i386                 randconfig-a002-20211020
+i386                 randconfig-a005-20211020
+i386                 randconfig-a006-20211020
+i386                 randconfig-a001-20211020
+x86_64               randconfig-a015-20211019
+x86_64               randconfig-a012-20211019
+x86_64               randconfig-a016-20211019
+x86_64               randconfig-a014-20211019
+x86_64               randconfig-a013-20211019
+x86_64               randconfig-a011-20211019
+i386                 randconfig-a014-20211019
+i386                 randconfig-a016-20211019
+i386                 randconfig-a011-20211019
+i386                 randconfig-a015-20211019
+i386                 randconfig-a012-20211019
+i386                 randconfig-a013-20211019
+arc                  randconfig-r043-20211020
+riscv                    nommu_k210_defconfig
+riscv                    nommu_virt_defconfig
+riscv                             allnoconfig
+riscv                               defconfig
+riscv                          rv32_defconfig
+riscv                            allyesconfig
+riscv                            allmodconfig
+x86_64                    rhel-8.3-kselftests
+um                           x86_64_defconfig
+um                             i386_defconfig
+x86_64                              defconfig
+x86_64                               rhel-8.3
+x86_64                                  kexec
 
-I have vague recollection of why we have that comment,
-but I'm reluctant to move post-proc enable to the end.
-(or at least not do it on G1?).
+clang tested configs:
+arm                  randconfig-c002-20211019
+mips                 randconfig-c004-20211019
+i386                 randconfig-c001-20211019
+s390                 randconfig-c005-20211019
+x86_64               randconfig-c007-20211019
+riscv                randconfig-c006-20211019
+powerpc              randconfig-c003-20211019
+x86_64               randconfig-a004-20211019
+x86_64               randconfig-a006-20211019
+x86_64               randconfig-a005-20211019
+x86_64               randconfig-a001-20211019
+x86_64               randconfig-a002-20211019
+x86_64               randconfig-a003-20211019
+i386                 randconfig-a001-20211019
+i386                 randconfig-a003-20211019
+i386                 randconfig-a004-20211019
+i386                 randconfig-a005-20211019
+i386                 randconfig-a002-20211019
+i386                 randconfig-a006-20211019
+hexagon              randconfig-r041-20211019
+hexagon              randconfig-r045-20211019
+riscv                randconfig-r042-20211020
+s390                 randconfig-r044-20211020
+hexagon              randconfig-r045-20211020
+hexagon              randconfig-r041-20211020
 
-> >
-> > > This makes this series with minor adaptations completely working on H=
-6. I
-> see
-> > > no reason not to merge whole series.
-> > >
-> >
-> > Do you have plans to submit your H6 work on top of this?
->
-> Of course, why would I work on this otherwise? :) But before I do that, I=
- have
-> to clean up and split one commit, which adapts VP9 G2 code for H6 variant=
-.
->
-
-OK, sounds good.
-
-> If you're interested in changes, take a look here:
-> https://github.com/jernejsk/linux-1/commits/vp9
->
-
-Will take a look.
-
-Thanks,
-Ezequiel
+---
+0-DAY CI Kernel Test Service, Intel Corporation
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
