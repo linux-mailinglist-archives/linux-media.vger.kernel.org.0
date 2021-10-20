@@ -2,109 +2,171 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0C8DA43526E
-	for <lists+linux-media@lfdr.de>; Wed, 20 Oct 2021 20:11:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D3D964352E3
+	for <lists+linux-media@lfdr.de>; Wed, 20 Oct 2021 20:43:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230325AbhJTSNk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 20 Oct 2021 14:13:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46708 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230031AbhJTSNj (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Wed, 20 Oct 2021 14:13:39 -0400
-Received: from mail-pg1-x533.google.com (mail-pg1-x533.google.com [IPv6:2607:f8b0:4864:20::533])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1D9D0C06161C
-        for <linux-media@vger.kernel.org>; Wed, 20 Oct 2021 11:11:25 -0700 (PDT)
-Received: by mail-pg1-x533.google.com with SMTP id 136so3455343pgc.2
-        for <linux-media@vger.kernel.org>; Wed, 20 Oct 2021 11:11:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:reply-to:from:date:message-id:subject:to
-         :content-transfer-encoding;
-        bh=xV+lLzyHVxIjvZzd/hg4IldWQ3x8L8qi3sbsTagkSSs=;
-        b=Rbmjk2YoQVxSOTSZ+c1KpgGL5fVOEYhxW6CbwnJh+2SEeZxWtGQrbzvKMlxbI2TDJn
-         8aiyLMrGqNI0Pexsbs4sPhaiaD0PaF5iT1Glph+xbtiIzIMhJlgBhvdpv/e/ADvZmc+C
-         SzO2NQL8nCQTtY1TkYYLghjmf9miL2pjvbq439o95cwzLnM7ooNk2zq8vQFwOv2IxaPb
-         z/L8u6h/ulNd6bbEJc/AuPeqv4P8t0MIWnWWvUjjhSh0MmRsHTCX4+a2rSyfEZYUJzmB
-         VdpiQIRFsWSgHTVo26pJtClt4FL+if/HcsCsF6VK/PnapwoLhCMHtZHRzJkjvoTySi52
-         IIQQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to:content-transfer-encoding;
-        bh=xV+lLzyHVxIjvZzd/hg4IldWQ3x8L8qi3sbsTagkSSs=;
-        b=Jl0vsiGEhA2ctgcGrVJDWmHiXxDI+Gn2LerppyVo+RgmRL/ctNPujvb3YP6/MKdbvx
-         J9Bb6iYOVcSTJhVU5YENpl2fr6va8YA+wkQzycBLR2t3cbL0xGkidSzdGdy+DGUjsIAz
-         oC6ACxZwmMlGQyuFMFL8kPyiLCW0XpTjHnAjOX6jQ5Qy6X+zS8L59PXC7VZyl2SiTCNm
-         MU8bwJz5bEXOXzcsO9WJxUhoo8PRHD/beqzK4U25gii19a2Tqv6dTH4WqToDvHUTacir
-         MWwEv3Gj7Q54yDcPX1i1OYEENLKtsquMxrbguSzy5xTHhVSYW8vYefqNUXkqY2W6LgC3
-         DvOA==
-X-Gm-Message-State: AOAM532iNz6Ik7VQVGpbfFmL6rMMHrPD5Zp4p2KINKqjhXBHK/1HqqZ8
-        5GkK0iTVPuiC8yb1HRe9rRIt+1H304XP2jP1m+w=
-X-Google-Smtp-Source: ABdhPJzwaN4jQRfxYJ9P2kvyUVsLa7JFleNZ9nsUlD+wEW4YP4TGXTIcVBe5qArsp1yg8CfMRWkWIxfdM8jOT77px8g=
-X-Received: by 2002:a62:5209:0:b0:44c:68a7:3a61 with SMTP id
- g9-20020a625209000000b0044c68a73a61mr283203pfb.83.1634753484458; Wed, 20 Oct
- 2021 11:11:24 -0700 (PDT)
+        id S231278AbhJTSqD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 20 Oct 2021 14:46:03 -0400
+Received: from meesny.iki.fi ([195.140.195.201]:36916 "EHLO meesny.iki.fi"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S230076AbhJTSqD (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 20 Oct 2021 14:46:03 -0400
+Received: from hillosipuli.retiisi.eu (dkvn5pty0gzs3nltj987t-3.rev.dnainternet.fi [IPv6:2001:14ba:4457:9640:1e2d:1f75:a607:ef37])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: sailus)
+        by meesny.iki.fi (Postfix) with ESMTPSA id 69C4A200A4;
+        Wed, 20 Oct 2021 21:43:46 +0300 (EEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=meesny;
+        t=1634755426;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=RoYvvqZQkhJSELmgjkpysEUTTnb/9wmmXf4FzNHpdn4=;
+        b=SYlYaDz8mPMtSzfo7f+2jzLc7AjFYqb7YHgf8eB9lpAa1cNOz5/V6kK6wZFif4yT2B2M/8
+        b36oIylv6ajzENnwxh9JbZ+OEk76HRB1AQFs6PlwVAoIPWV6RlRnSfKxae0hqChzAi4uuV
+        7WJRe8WXOuJ6xrlUw3NFKj86hPI3ULo=
+Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 3C6BA634C90;
+        Wed, 20 Oct 2021 21:43:44 +0300 (EEST)
+Date:   Wed, 20 Oct 2021 21:43:43 +0300
+From:   Sakari Ailus <sakari.ailus@iki.fi>
+To:     Krzysztof =?utf-8?Q?Ha=C5=82asa?= <khalasa@piap.pl>
+Cc:     Jacopo Mondi <jacopo@jmondi.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Matteo Lisi <matteo.lisi@engicam.com>
+Subject: Re: [PATCH v5] Driver for ON Semi AR0521 camera sensor
+Message-ID: <YXBjX2vUwrKVOd78@valkosipuli.retiisi.eu>
+References: <m3fstfoexa.fsf@t19.piap.pl>
+ <20211009102446.jrvrdr7whtd2rv4z@uno.localdomain>
+ <m3mtnflpna.fsf@t19.piap.pl>
+ <20211011143420.vm6ncl5gdv44nsn3@uno.localdomain>
+ <m3a6jel9ce.fsf@t19.piap.pl>
+ <YWXwSAm3OO/WTkOL@valkosipuli.retiisi.eu>
+ <m335p5lc04.fsf@t19.piap.pl>
 MIME-Version: 1.0
-Received: by 2002:a05:6a10:bb0b:0:0:0:0 with HTTP; Wed, 20 Oct 2021 11:11:23
- -0700 (PDT)
-Reply-To: uchennailobi@gmail.com
-From:   uchenna <ohehehe3055@gmail.com>
-Date:   Wed, 20 Oct 2021 11:11:23 -0700
-Message-ID: <CADYWKHwPwae7LCW9-+1oRb_4Dj7mqT7JrbF0RLEhDfhuvvmSrw@mail.gmail.com>
-Subject: 
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <m335p5lc04.fsf@t19.piap.pl>
+ARC-Authentication-Results: i=1;
+        ORIGINATING;
+        auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
+ARC-Seal: i=1; s=meesny; d=iki.fi; t=1634755426; a=rsa-sha256; cv=none;
+        b=YVth3SL3n/8q/Y+6g18UnZ4TugSE/pDLHS49PElAlo8/NTiBl/xtwBer8I1rdSMz/L3N6Z
+        zXlrtmEnSM4NQLz2+2meyFb8Dxgcr+c266sAVKD37H4+FbdEIgUVwp9eLfGR/GiDb+VtwF
+        ColZdm/Zh3EeiEusBYosu2pR8ltSo2I=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
+        s=meesny; t=1634755426;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=RoYvvqZQkhJSELmgjkpysEUTTnb/9wmmXf4FzNHpdn4=;
+        b=w854VqFbZ0kTtLlb7l0UwUSVmDHmOQCY4Si79n2t+9kZx2Kj1Y8BxxwcWeQ7eKSimg7iZK
+        t3usWgnh/Ii+OhqqG3E+JAOJ1dxtxFJKh53yjHbVE/oFSP68GxjONoqqqKqQ1LtW5ccrh/
+        WdGJx1vUjsTs6N8+lZhxtag6PPPn/Cs=
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-0JTQvtGA0L7Qs9C+0Lkg0LTRgNGD0LMsDQoNCtCa0LDQuiDQv9C+0LbQuNCy0LDQtdGI0Yw/INCv
-INC00YPQvNCw0Y4sINGH0YLQviDQstGLINCyINC/0L7RgNGP0LTQutC1INC4INC30LTQvtGA0L7Q
-stGLLiDQrdGC0L4g0YHQvtC+0LHRidC40YLRjA0K0YfRgtC+INGPINGD0YHQv9C10YjQvdC+INC3
-0LDQutC70Y7Rh9C40Lsg0YHQtNC10LvQutGDLiDQrdGC0L4g0LHRi9C70L4g0LTQsNCy0L3Qvg0K
-0LLRgNC10LzRjyDRgSDQvNC+0LzQtdC90YLQsCDQvdCw0YjQtdCz0L4g0L/QvtGB0LvQtdC00L3Q
-tdCz0L4g0L7QsdGJ0LXQvdC40Y8uINCaINGB0L7QttCw0LvQtdC90LjRjiwg0LLQsNGI0LUg0L/Q
-sNGA0YLQvdC10YDRgdGC0LLQvg0K0YHQviDQvNC90L7QuSDQvdC1INGD0LTQsNC70L7RgdGMINC3
-0LDQstC10YDRiNC40YLRjCDQv9C10YDQtdCy0L7QtCDRgdGA0LXQtNGB0YLQsi4g0K8g0LTRg9C8
-0LDRjiwg0L3QsNGB0YLQsNC70L4g0LLRgNC10LzRjw0K0LrQvtCz0LTQsCDQsdGL0LvQviDRgtCw
-0Log0LzQvdC+0LPQviDQtNCw0LLQu9C10L3QuNGPINC4INC30LDQvNC10YjQsNGC0LXQu9GM0YHR
-gtCy0LAsINGH0YLQviDQstGLINGB0YLQsNC70Lgg0LzQtdC90YzRiNC1DQrQt9Cw0LjQvdGC0LXR
-gNC10YHQvtCy0LDQvSDQsiDRgdC00LXQu9C60LUuDQoNCg0K0JIg0LvRjtCx0L7QvCDRgdC70YPR
-h9Cw0LUg0Y8g0YDQsNC0INGB0L7QvtCx0YnQuNGC0Ywg0LLQsNC8INC+INC80L7QtdC8INGD0YHQ
-v9C10YXQtSDQsiDQv9C+0LvRg9GH0LXQvdC40Lgg0YTQvtC90LTQsA0K0L/QtdGA0LXQtNCw0L3R
-iyDQv9GA0Lgg0YHQvtGC0YDRg9C00L3QuNGH0LXRgdGC0LLQtSDQvdC+0LLQvtCz0L4g0L/QsNGA
-0YLQvdC10YDQsC4g0K8g0YHQtdC50YfQsNGBINCyDQrQktC10L3QtdGB0YPRjdC70LAg0L7QsSDQ
-uNC90LLQtdGB0YLQuNGG0LjRj9GFLiDQntC00L3QsNC60L47INGPINC90LUg0LfQsNCx0YvQuyDR
-gtCy0L7QuCDQv9GA0L7RiNC70YvQtSDRg9GB0LjQu9C40Y8g0LgNCtC/0YvRgtCw0LXRgtGB0Y8g
-0L/QvtC80L7Rh9GMINC80L3QtSDQsiDQv9C10YDQtdCy0L7QtNC1INGB0YDQtdC00YHRgtCyLCDQ
-vdC10YHQvNC+0YLRgNGPINC90LAg0YLQviwg0YfRgtC+INC80YsNCtC90LUg0YHQvNC+0LMg0L/R
-gNC40LnRgtC4INC6INC60L7QvdC60YDQtdGC0L3QvtC80YMg0LLRi9Cy0L7QtNGDLg0KDQrQkiDQ
-t9C90LDQuiDQv9GA0LjQt9C90LDRgtC10LvRjNC90L7RgdGC0Lgg0LfQsCDQstCw0YjRgyDQv9C+
-0L/Ri9GC0LrRgyDQv9C+0LzQvtGH0YwsINGPINC4INC80L7QuSDQvdC+0LLRi9C5INC/0LDRgNGC
-0L3QtdGAINC00L7RgdGC0LjQs9C70LgNCtGA0LXRiNC10L3QuNC1INC+INGC0L7QvCwg0YfRgtC+
-INCy0Ysg0LfQsNGB0LvRg9C20LjQstCw0LXRgtC1INC60L7QvNC/0LXQvdGB0LDRhtC40LgsINC/
-0L7RjdGC0L7QvNGDINGN0YLQviDQv9C40YHRjNC80L4NCtGB0L7QvtCx0YnQsNGOINCy0LDQvCwg
-0YfRgtC+INGPINC+0YHRgtCw0LLQuNC7INC60L7QvNC/0LXQvdGB0LDRhtC40Y4g0LIg0YDQsNC3
-0LzQtdGA0LUgMzUwIDAwMCDQtNC+0LvQu9Cw0YDQvtCyINCh0KjQkA0K0L3QsCDQstCw0YjQtSDQ
-uNC80Y8sINGH0YLQvtCx0YsNCtCS0Ysg0L/QvtC00LXQu9C40YLQtdGB0Ywg0YHQviDQvNC90L7Q
-uSDRgNCw0LTQvtGB0YLRjNGOLiDQodC+0LLQtdGC0YPRjiDQvtCx0YDQsNGC0LjRgtGM0YHRjyDQ
-siDQsdCw0L3QuiBCVENJINC00LvRjyDQv9C+0LvRg9GH0LXQvdC40Y8NCtC/0LXRgNC10LLQvtC0
-ICQgMzUwLDAwMC4wMC4g0KfRgtC+0LHRiyDQuNC30LHQtdC20LDRgtGMINC00L7Qu9Cz0L7QuSDQ
-t9Cw0LTQtdGA0LbQutC4INCy0YvQv9C70LDRgtGLDQrQutC+0LzQv9C10L3RgdCw0YbQuNC+0L3Q
-vdC+0LPQviDRhNC+0L3QtNCwDQrQv9C10YDQtdCy0L7QtCwg0Y8g0L/QvtGA0YPRh9C40Lsg0LHQ
-sNC90LrRgyBCVENJINCy0YvQv9GD0YHRgtC40YLRjCDQvNC10LbQtNGD0L3QsNGA0L7QtNC90YPR
-jiDQsdCw0L3QutC+0LzQsNGC0L3Rg9GOINC60LDRgNGC0YMgdmlzYQ0K0Lgg0L7RgtC/0YDQsNCy
-0YzRgtC1INC10LPQviDQvdCwINC00L7QvNCw0YjQvdC40Lkg0LDQtNGA0LXRgSDQutGD0YDRjNC1
-0YDRgdC60L7QuSDRgdC70YPQttCx0L7QuS4NCg0K0JrQvtC90YLQsNC60YLQvdCw0Y8g0LjQvdGE
-0L7RgNC80LDRhtC40Y8g0LHQsNC90LrQsCDRg9C60LDQt9Cw0L3QsCDQvdC40LbQtToNCg0K0J3Q
-sNC30LLQsNC90LjQtSDQsdCw0L3QutCwOiBCVENJIEJhbmsNCtCt0LvQtdC60YLRgNC+0L3QvdGL
-0Lkg0LDQtNGA0LXRgTogYnRjYmFua3RnNDc4QGdtYWlsLmNvbQ0K0JDQtNGA0LXRgTogMTY5LCBC
-b3VsZXZhcmQgZHUgMTMgamFudmllciBCUCAzNjMgTG9tw6ksINCi0L7Qs9C+Lg0K0JrQvtC90YLQ
-sNC60YLQvdC+0LUg0LvQuNGG0L46INCzLdC9INCb0LXQvtC90LDRgNC0INCc0LDRgtC40LDRgQ0K
-DQrQodC+0L7QsdGJ0LjRgtC1INC80L3QtSwg0LrQsNC6INGC0L7Qu9GM0LrQviDQv9C+0LvRg9GH
-0LjRgtC1INC60LDRgNGC0YMgVmlzYSDQtNC70Y8g0LHQsNC90LrQvtC80LDRgtC+0LIg0L7RgiDQ
-sdCw0L3QutCwDQpCVENJLiDRhdC+0YLQtdC7INCx0Ysg0Y8NCtCS0LDQvCDRg9GB0L/QtdGF0L7Q
-siDQstC+INCy0YHQtdGFINC90LDRh9C40L3QsNC90LjRj9GFLg0KDQrQoSDRg9Cy0LDQttC10L3Q
-uNC10LwNCtCR0LDRgNGA0LjRgdGC0LXRgCDRg9GH0LXQvdC90LAg0LjQu9C+0LHQuA0K
+Hi Krzysztof,
+
+On Wed, Oct 13, 2021 at 07:39:07AM +0200, Krzysztof Hałasa wrote:
+> Hi Sakari,
+> 
+> > 	https://hverkuil.home.xs4all.nl/spec/driver-api/camera-sensor.html
+> 
+> Ok:
+> "8.2.2. Devicetree
+> 
+> The currently preferred way to achieve this is using assigned-clocks,
+> assigned-clock-parents and assigned-clock-rates properties. See
+> Documentation/devicetree/bindings/clock/clock-bindings.txt for more
+> information. The driver then gets the frequency using clk_get_rate()."
+> 
+> Let's see:
+> Documentation/devicetree/bindings/clock/clock-bindings.txt:
+> 
+> "==Assigned clock parents and rates==
+> 
+> Some platforms may require initial configuration of default parent clocks
+> and clock frequencies. Such a configuration can be specified in a device tree
+> node through assigned-clocks, assigned-clock-parents and assigned-clock-rates
+> properties. The assigned-clock-parents property should contain a list of parent
+> clocks in the form of a phandle and clock specifier pair and the
+> assigned-clock-rates property should contain a list of frequencies in Hz. Both
+> these properties should correspond to the clocks listed in the assigned-clocks
+> property."
+> 
+> So I'm after "assigned-clock-rates", right?
+> 
+> "Configuring a clock's parent and rate through the device node that consumes
+> the clock can be done only for clocks that have a single user. Specifying
+> conflicting parent or rate configuration in multiple consumer nodes for
+> a shared clock is forbidden."
+> 
+> This sounds a bit problematic, the clock I use is at least potentially
+> shared by multiple parts of the system, depending on current (run time)
+> configuration. I am/was getting different frequencies depending of the
+> particular system (all based on the same i.MX6* SoC, but with different
+> peripherals used/enabled). I think it's quite a common situation.
+
+This was discussed some time ago before I wrote the documentation. The
+conclusion back then was that it's just fine, and such cases would need to
+be addressed when they turn up. We haven't had any yet as far as I know.
+
+> 
+> > Generally camera sensor drivers that set the clock in drivers themselves
+> > are (very) old.
+> 
+> Let's have a look... ov9282 is (one of) the newest drivers. It does:
+> #define OV9282_INCLK_RATE    24000000
+> 
+>         /* Get sensor input clock */
+>         ov9282->inclk = devm_clk_get(ov9282->dev, NULL);
+>         if (IS_ERR(ov9282->inclk)) {
+>                 dev_err(ov9282->dev, "could not get inclk");
+>                 return PTR_ERR(ov9282->inclk);
+>         }
+> 
+>         rate = clk_get_rate(ov9282->inclk);
+>         if (rate != OV9282_INCLK_RATE) {
+>                 dev_err(ov9282->dev, "inclk frequency mismatch");
+>                 return -EINVAL;
+>         }
+> 
+> $ git grep -l ov9282
+> Documentation/devicetree/bindings/media/i2c/ovti,ov9282.yaml
+> MAINTAINERS
+> drivers/media/i2c/Kconfig
+> drivers/media/i2c/Makefile
+> drivers/media/i2c/ov9282.c
+> 
+>   clocks:
+>     description: Clock frequency from 6 to 27MHz
+> 
+> No in-tree DTS exists, but the single frequency (both in the driver -
+> this one can be fixed - and in the DTS) is rather limiting. Maybe
+> another:
+> 
+> imx412, imx335, imx334, imx258 - same here.
+> imx208 is ACPI-based.
+> 
+> Which driver should I consult?
+
+The drivers you're looking at are based on register lists so they usually
+support just a single frequency. The sensors are not limited to this
+frequency however, which is why you see the frequency in DT bindings, too.
+
+-- 
+Regards,
+
+Sakari Ailus
