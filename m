@@ -2,145 +2,163 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2D2B343434D
-	for <lists+linux-media@lfdr.de>; Wed, 20 Oct 2021 04:14:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BF6CB4343DF
+	for <lists+linux-media@lfdr.de>; Wed, 20 Oct 2021 05:26:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229715AbhJTCQm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 19 Oct 2021 22:16:42 -0400
-Received: from mail-eopbgr1310094.outbound.protection.outlook.com ([40.107.131.94]:39072
-        "EHLO APC01-SG2-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S229555AbhJTCQm (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Tue, 19 Oct 2021 22:16:42 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=F2KqnrhOyQy41vBfxyFy7KKi1OaJQCcgcwY7yB30kwpLLVaCkj4nDR/rpkGfl3y4K018mxSNRNyX3zpUETbJIU5iqii6Yf6DZmVwIcIpvGu0EqI5uevT0UAxgtOWmDOg5sxEYUh7LPFZrdYoJVUvbWYHFQZ3jeQSdOrEiTlI9A7ZimGoZUxUYQVnA8CqycUCeJ+JCT2kha0ynzI47W5eFdi+rTN5uWwA0S7ZCuanwAvtFV9z3HxMUDpsuJAtM70erCU2luIuXK1QGOiRRNK67GOqZvNQS9D407lHAqRD0ZfAgMKX167JDpU/k9uTGZOwFfFY1htRgvuLiVjQfRfjzw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=OzApZZN0CDM9LWoGyqyTjvLOkCyDQxXEzJJ3sDa0sgA=;
- b=h4zgTZXTPLmWKkFyzxO6BzB0GiXuLEImiu0VojH5n4O3oW7VtLcVoNyEluK98WZgCWkRW9psklWpoirKNmI5AHZNmiZ43mj5oeKE3HYQwtpjyAl+br7Jjx1dVSAsto1gjPGZapWG3m0FurUZGm1+WFC5Am++7S7aOiMF67XqEBUoX6uCAyhfc6qhjb9BTYl3TeWozkqa0VsJI+oI4cEJZcAZpyKW6R2GNgcVCtqyztQ4FHTVQLno329guKoN3VOQqtx3c9iJ57KCQxu/G8npwWMxoqI2Scvz/GDE2KSGNHEYimpP7xDJD5/pYNpEeDqs/mgK+G/d2dsobHHZQEey2Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=vivo.com; dmarc=pass action=none header.from=vivo.com;
- dkim=pass header.d=vivo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vivo0.onmicrosoft.com;
- s=selector2-vivo0-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=OzApZZN0CDM9LWoGyqyTjvLOkCyDQxXEzJJ3sDa0sgA=;
- b=PXLIOjIxEOZG/XLDMmY2vjuniPEB08Vwbs6tzm4g5AH9REaR6B4M/otOGs4+HOC3qI4GsiN78+RLn2pmmv7JIxMUzukkwNCpm02NkfgwBMUO2xRGejqR4hxwbGIy9MkjsB43UyozPXpmlHBnqM7fs1m2DZcrjSnwcFTFk/cOFOU=
-Authentication-Results: linux.intel.com; dkim=none (message not signed)
- header.d=none;linux.intel.com; dmarc=none action=none header.from=vivo.com;
-Received: from SL2PR06MB3082.apcprd06.prod.outlook.com (2603:1096:100:37::17)
- by SL2PR06MB3244.apcprd06.prod.outlook.com (2603:1096:100:3b::14) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4608.16; Wed, 20 Oct
- 2021 02:14:22 +0000
-Received: from SL2PR06MB3082.apcprd06.prod.outlook.com
- ([fe80::4c9b:b71f:fb67:6414]) by SL2PR06MB3082.apcprd06.prod.outlook.com
- ([fe80::4c9b:b71f:fb67:6414%6]) with mapi id 15.20.4608.018; Wed, 20 Oct 2021
- 02:14:22 +0000
-From:   Qing Wang <wangqing@vivo.com>
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc:     Qing Wang <wangqing@vivo.com>
-Subject: [PATCH V3] media: i2c: ccs: replace snprintf in show functions with sysfs_emit
-Date:   Tue, 19 Oct 2021 19:14:15 -0700
-Message-Id: <1634696055-55861-1-git-send-email-wangqing@vivo.com>
-X-Mailer: git-send-email 2.7.4
-Content-Type: text/plain
-X-ClientProxiedBy: HK0PR03CA0105.apcprd03.prod.outlook.com
- (2603:1096:203:b0::21) To SL2PR06MB3082.apcprd06.prod.outlook.com
- (2603:1096:100:37::17)
-MIME-Version: 1.0
-Received: from ubuntu.localdomain (103.220.76.181) by HK0PR03CA0105.apcprd03.prod.outlook.com (2603:1096:203:b0::21) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id 15.20.4608.18 via Frontend Transport; Wed, 20 Oct 2021 02:14:21 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 8322ae22-12ce-4005-dcb4-08d9936f54a7
-X-MS-TrafficTypeDiagnostic: SL2PR06MB3244:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <SL2PR06MB324421D693DF09C8D0546E63BDBE9@SL2PR06MB3244.apcprd06.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:2657;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: oe1V5C53duXwZEvd06zw1Edwzu6aqWUvojoA9AHA5DkVKN0HxllZy3qifwkj9fR9UBML87GKBRD0ycgmWdRVDxozGh1v6l5dNSq0RrQcYWjHfr7yEdrV20vf0sOzz2RYuUQptgklWFm2Z6DpyvUfFGRCLjNOXs0W+6tQr8qMVrQCDxjeHQG7Wpi/GmJbRbIFxas9g5U6DhZsrZRi1+uz72Qq/vsgk8eptXohKg1bncp2PPpkk3f6Dc6MMWDJKLA2ty2Mr9b/JZicmfAnDivcZ3Ohkj7MFCXEVpLLrvc4GhfuEmSrAEiFCgL9PchL0+Ee15bg8E28Y9TjKTnPsjsdcNbwLWOcszkfkAXso4nvo9rD+YuRO1fPm2/fSLZK9f5IxaRx4uXnbk/pzZnwxY/m0gg5T7pgDZKSoKpjs3hRA1xLXTZbPgP4aEZX8pZ+pedakUYqh/K0mVkj2YRi8oMHLY+OH3cph9fClZ+rKq4HMcFGfnxMo6V/Zm7GctAqFeY2rIuFbdqTdu6+ACxZ2DulD2eRLQ5yhTJWm6g5Vnus89l5rK1NnLKgW57w8Y3APL3YJ8tGSEuiiAO7/o3j7ldGxKPCTyUi1XbXE9kXwVnm/sWd+tvA9eaYz1P13+hVH9xO0fLK5C9Gwwj2Xq06zcR/x6IN/JRzuWUF8cE7wbfM4KxbGtTMnSjq5XHumfcpRI/Jtoxn0CF7YNMecp4mHC84VQ==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SL2PR06MB3082.apcprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(366004)(316002)(66946007)(5660300002)(66556008)(508600001)(66476007)(186003)(4326008)(110136005)(26005)(2906002)(8936002)(6512007)(38100700002)(38350700002)(956004)(6666004)(2616005)(107886003)(6506007)(52116002)(36756003)(86362001)(8676002)(83380400001)(6486002);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?Qpb/3L1+VMCYcvZ3vttF5cV1Harygq65xkYGp3tOLetzK4vqavMTS2nFM+xB?=
- =?us-ascii?Q?gxktNbFti8AA6AxUOUQVgNOPJqaaFluku5dG5sx2Xrrgnaq/Bqb2LR9g0mNv?=
- =?us-ascii?Q?8Boygqf9gE9Ku7pzgXFqETaJ63rEKeMKxqIn9aM/YKVEmvCuxxcPu/HaCw8i?=
- =?us-ascii?Q?wZ+VNSO7pyxopO20x2FWWCBcSLr+0PzpmLkbwNJId8i+WaPf2DP2iggU6SDe?=
- =?us-ascii?Q?pHVu5B1tyFHfXrjhDPiv02sX/kS/Lnj8d1JwJy+zLd1lPC9QGKA4fX1rNhJe?=
- =?us-ascii?Q?/bnLjG+r/bNJTbtKsUCFOSTq6wNvqPNPL1FZAFmz6n/u7TIkh26EE7pm/FZq?=
- =?us-ascii?Q?rW8mZIPRINu5nrn4QH+IyJIFiwYOMMnm1aS3b6Br89yF++uQ1BA381DhQhoa?=
- =?us-ascii?Q?Td1oPR9o47O/gWossRWUD+7IUzEahv49qSsA16IEcDvPwtirloGyUfptXBKn?=
- =?us-ascii?Q?yJl2gKLrCDg6zB+x3/X9pUXRa3K0dTEoYhDk/qDPzj+yu/lgOm0TSDSM+jNp?=
- =?us-ascii?Q?3jj1vDgLNktD0fwCp1zZQpOMrue1eu5flLN621/KGu4fOGNX4OYME8jZ3P6/?=
- =?us-ascii?Q?1H3HCm1j/+8lYDLItrPTEAVZjw0og9uB7h029Tt+PxwOxwizFTqcbJ0MKgwl?=
- =?us-ascii?Q?5UTwedfTKPCQfyCFg3dqzyF4KBUtPuc6wnKLJccXiMEqyZTRLQAlGuAsbg7c?=
- =?us-ascii?Q?hGxBxY/8odrOyO5JmPDCryMqKG1rxOZ4m/AG+gbdcqxXCDIA5xxAs3Xw15Zm?=
- =?us-ascii?Q?DAMWY87X1nC+uNzddQGVoeGVqfSHZxMvkmmGMCDm8yifKp9h0xccOyx/gx4r?=
- =?us-ascii?Q?A/0x2XSlyMMREAk60GNCOWHNOHUU1E/SPorr/QhKNomHjccgEvqO+kDPCXIN?=
- =?us-ascii?Q?JED/q5Z+d8VPJoIZvf3W3wx2fIcpBk25Xe6u5XEDnTji4CEKXiZ6uV+kNz+K?=
- =?us-ascii?Q?wL8t0JoJrkJKQ1PcYJXV5pAnMmQDij8YXQTQA1V6EHM3SrSd0Y+aWF9Wpngc?=
- =?us-ascii?Q?keLlqEJXiKW+sFdt1T4kcok7XVneDdOc64OfcS/f4D+bPQJpFaQ9fGalVPIV?=
- =?us-ascii?Q?PUiretSDBYuD4EpBkksS9+NHbe92GKcxiHeOEE9XCHYnkYEw65YT4p5S/vos?=
- =?us-ascii?Q?M+V4qF3LMS+zueWnWEXk1dXQ+/wVvhXOU0VIk3jpdlYR6kjGIBbEgeBsfsfN?=
- =?us-ascii?Q?hO3u2sePNCLbaXyxnbaHPWlVSF+3uMw85JRPNOWTNnjczWQ2qUUzVTO5+jfE?=
- =?us-ascii?Q?CxHpzcVeFHX+TUIMqOknYdrg3oo2K7en01AVNPv1tpVSMbV7TccXLHDXi6Ci?=
- =?us-ascii?Q?3ZCy9mubHnXLCG6TPmDgX0x+?=
-X-OriginatorOrg: vivo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8322ae22-12ce-4005-dcb4-08d9936f54a7
-X-MS-Exchange-CrossTenant-AuthSource: SL2PR06MB3082.apcprd06.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Oct 2021 02:14:22.3474
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 923e42dc-48d5-4cbe-b582-1a797a6412ed
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 7EjDzBqerZ4M6WQ824WlQfj66OBE34QOIUXlnLSBi/6dNuN1tE1Jzf90EPKbmegObzV8UEn+78ibniWzV95srg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SL2PR06MB3244
+        id S229663AbhJTD2x (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 19 Oct 2021 23:28:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42848 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229555AbhJTD2w (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Tue, 19 Oct 2021 23:28:52 -0400
+Received: from lb2-smtp-cloud7.xs4all.net (lb2-smtp-cloud7.xs4all.net [IPv6:2001:888:0:108::2a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E6025C06161C
+        for <linux-media@vger.kernel.org>; Tue, 19 Oct 2021 20:26:38 -0700 (PDT)
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud7.xs4all.net with ESMTPA
+        id d2FJm7Fmqk3b0d2FMmm2YK; Wed, 20 Oct 2021 05:26:34 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
+        t=1634700394; bh=9jHsZI41QWGhNcvPBUMGIpn0EoX+R6tm/L0PCBZEguY=;
+        h=Message-ID:Date:From:To:Subject:From:Subject;
+        b=t2kZqgS+AmYi9IdvU7jMCfdFKX6tzIRKuez3xH++ZRRGcaro7fwef/vgtz84pT9F8
+         l39aGZK/sSYc9A7BnFe6aEjQcABjpXuAVFeFRJUQDbvmaAPAcbfoMk1i6F/hicXdwm
+         5TAkR8NTNUlmbJ1g5sYbhimttTlfNcsapJP/qjXMX5rOKYdxHBFAtIPe0swTc3cq2Q
+         A7mp23g77XM7/mStEveq2amGjG8YjRmQScvWi3utUCkW5zkD4RVlKaTqZH5zhRrSpn
+         Ph0lrvS/c6UXqEp2VuEEtfLnkaNawl6btc0YmgDDPoDdnXi2GaiyxmaYzg2MM31gK5
+         LFPzIMy+6BQNA==
+Message-ID: <281f81f5a156d56c3ba791bfe359c55b@smtp-cloud7.xs4all.net>
+Date:   Wed, 20 Oct 2021 05:26:29 +0200
+From:   "Hans Verkuil" <hverkuil@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: ERRORS
+X-CMAE-Envelope: MS4xfIesHJMXJ1C0y+UcpFDHWu4X7CkORI+wImJtWDoax/6tsvXFgn9SVDPAzbO+Omihw+mnplIoyvhH9V5KbVRr0ZsRwSyvPwfizzMxXbXr9vBNUf6roRTr
+ YiyEJ/YNKWolnjA5K92EuIYWKs8OBc/GMix1bi68lNJkXylSVEBfMAGOmMqyzwW3z81t/4X5b2ynQA==
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-show() should not use snprintf() when formatting the value to be
-returned to user space.
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
 
-Fix the following coccicheck warning:
-drivers/media/i2c/ccs/ccs-core.c:3761: WARNING: use scnprintf or sprintf.
+Results of the daily build of media_tree:
 
-V3:
-- Fix some formatting problems.
+date:			Wed Oct 20 05:00:14 CEST 2021
+media-tree git hash:	fdc881783099c6343921ff017450831c8766d12a
+media_build git hash:	e602a6acc36ed3f6a8ebeb27fae6f32712f1293f
+v4l-utils git hash:	9f1d1e0cf8dbdcfb8bc6d817734d85417960a054
+edid-decode git hash:	985024f0ccb7eb0014397f2d562ecebfdd340c3b
+gcc version:		i686-linux-gcc (GCC) 11.2.0
+sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
+sparse version:		0.6.3
+smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
+smatch version:		0.6.3
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: 3e03ddc26ffb1808285327d1a7fb2038379d04a2
+host hardware:		x86_64
+host os:		5.14.0-2-amd64
 
-Signed-off-by: Qing Wang <wangqing@vivo.com>
----
- drivers/media/i2c/ccs/ccs-core.c | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
+linux-git-sh: OK
+linux-git-arm-at91: OK
+linux-git-arm-davinci: OK
+linux-git-arm-stm32: OK
+linux-git-mips: OK
+linux-git-arm-pxa: OK
+linux-git-arm64: OK
+linux-git-powerpc64: OK
+linux-git-arm-multi: OK
+linux-git-i686: OK
+linux-git-x86_64: OK
+Check COMPILE_TEST: OK
+Check for strcpy/strncpy/strlcpy: OK
+linux-4.4.283-i686: OK
+linux-4.4.283-x86_64: OK
+linux-4.5.7-i686: WARNINGS
+linux-4.5.7-x86_64: WARNINGS
+linux-4.6.7-i686: WARNINGS
+linux-4.6.7-x86_64: WARNINGS
+linux-4.7.10-i686: WARNINGS
+linux-4.7.10-x86_64: WARNINGS
+linux-4.8.17-i686: WARNINGS
+linux-4.8.17-x86_64: WARNINGS
+linux-4.9.246-i686: OK
+linux-4.9.246-x86_64: OK
+linux-4.10.17-i686: WARNINGS
+linux-4.10.17-x86_64: WARNINGS
+linux-4.11.12-i686: WARNINGS
+linux-4.11.12-x86_64: WARNINGS
+linux-4.12.14-i686: WARNINGS
+linux-4.12.14-x86_64: WARNINGS
+linux-4.13.16-i686: WARNINGS
+linux-4.13.16-x86_64: WARNINGS
+linux-4.14.246-i686: OK
+linux-4.14.246-x86_64: OK
+linux-4.15.18-i686: WARNINGS
+linux-4.15.18-x86_64: WARNINGS
+linux-4.16.18-i686: WARNINGS
+linux-4.16.18-x86_64: WARNINGS
+linux-4.17.19-i686: WARNINGS
+linux-4.17.19-x86_64: WARNINGS
+linux-4.18.20-i686: WARNINGS
+linux-4.18.20-x86_64: WARNINGS
+linux-4.19.206-i686: OK
+linux-4.19.206-x86_64: OK
+linux-4.20.17-i686: WARNINGS
+linux-4.20.17-x86_64: WARNINGS
+linux-5.0.21-i686: OK
+linux-5.0.21-x86_64: OK
+linux-5.1.21-i686: OK
+linux-5.1.21-x86_64: OK
+linux-5.2.21-i686: OK
+linux-5.2.21-x86_64: OK
+linux-5.3.18-i686: OK
+linux-5.3.18-x86_64: OK
+linux-5.4.144-i686: OK
+linux-5.4.144-x86_64: OK
+linux-5.5.19-i686: OK
+linux-5.5.19-x86_64: OK
+linux-5.6.19-i686: OK
+linux-5.6.19-x86_64: OK
+linux-5.7.19-i686: OK
+linux-5.7.19-x86_64: OK
+linux-5.8.18-i686: OK
+linux-5.8.18-x86_64: OK
+linux-5.9.16-i686: OK
+linux-5.9.16-x86_64: OK
+linux-5.10.62-i686: OK
+linux-5.10.62-x86_64: OK
+linux-5.11.22-i686: OK
+linux-5.11.22-x86_64: OK
+linux-5.12.19-i686: OK
+linux-5.12.19-x86_64: OK
+linux-5.13.14-i686: OK
+linux-5.13.14-x86_64: OK
+linux-5.14.1-i686: OK
+linux-5.14.1-x86_64: OK
+linux-5.15-rc1-i686: OK
+linux-5.15-rc1-x86_64: OK
+apps: OK
+spec-git: OK
+virtme: ERRORS
+virtme-32: ERRORS
+sparse: WARNINGS
+smatch: ERRORS
+kerneldoc: WARNINGS
 
-diff --git a/drivers/media/i2c/ccs/ccs-core.c b/drivers/media/i2c/ccs/ccs-core.c
-index 5363f3b..9158d3c
---- a/drivers/media/i2c/ccs/ccs-core.c
-+++ b/drivers/media/i2c/ccs/ccs-core.c
-@@ -2758,13 +2758,13 @@ ident_show(struct device *dev, struct device_attribute *attr, char *buf)
- 	struct ccs_module_info *minfo = &sensor->minfo;
- 
- 	if (minfo->mipi_manufacturer_id)
--		return snprintf(buf, PAGE_SIZE, "%4.4x%4.4x%2.2x\n",
--				minfo->mipi_manufacturer_id, minfo->model_id,
--				minfo->revision_number) + 1;
-+		return sysfs_emit(buf, "%4.4x%4.4x%2.2x\n",
-+				  minfo->mipi_manufacturer_id, minfo->model_id,
-+				  minfo->revision_number) + 1;
- 	else
--		return snprintf(buf, PAGE_SIZE, "%2.2x%4.4x%2.2x\n",
--				minfo->smia_manufacturer_id, minfo->model_id,
--				minfo->revision_number) + 1;
-+		return sysfs_emit(buf, "%2.2x%4.4x%2.2x\n",
-+				  minfo->smia_manufacturer_id, minfo->model_id,
-+				  minfo->revision_number) + 1;
- }
- static DEVICE_ATTR_RO(ident);
- 
--- 
-2.7.4
+Detailed results are available here:
 
+http://www.xs4all.nl/~hverkuil/logs/Wednesday.log
+
+Detailed regression test results are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Wednesday-test-media.log
+http://www.xs4all.nl/~hverkuil/logs/Wednesday-test-media-32.log
+http://www.xs4all.nl/~hverkuil/logs/Wednesday-test-media-dmesg.log
+
+Full logs are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Wednesday.tar.bz2
+
+The Media Infrastructure API from this daily build is here:
+
+http://www.xs4all.nl/~hverkuil/spec/index.html
