@@ -2,267 +2,405 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 46E4F434C92
-	for <lists+linux-media@lfdr.de>; Wed, 20 Oct 2021 15:47:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 014B6434E91
+	for <lists+linux-media@lfdr.de>; Wed, 20 Oct 2021 17:04:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231215AbhJTNt0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 20 Oct 2021 09:49:26 -0400
-Received: from mail-eopbgr50133.outbound.protection.outlook.com ([40.107.5.133]:4323
-        "EHLO EUR03-VE1-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S230464AbhJTNtL (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 20 Oct 2021 09:49:11 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Z4m/jW2OBeA1acp8oLwzE9s9O3h+0S0M1gM8ztEmxXnSeNGROr5/Cnt7JTOC5wQXDEtIDhDdymuhxvc+KwgrwuRfuxUkuk46l8miVokxALvPzrwXPqF8qPVwaM0dqF8jmrWVluXqKftztGhS/Djijc2UonANR+OQGqfm3gKk3tg5f4PTF3boaB/xoft0LovLS0q+LFm3WqGz5VwT/AabQ4DUDUydIR2tkgV9c5sfmfhenFRfUYaivhfY8laSIA+AwuHUxSpehcC6iLCBrKNJrJLjCpalmgXiZE9AkACtiaZ/CONqJ/6/b+S7rSBvw3tlVgwf+Do0TOZ4vJt4vhmWwg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=tRq6vwQf+Yz2ySeMGPHG4x6APetWCSdJu/DjJsI3hQ0=;
- b=kxxK5PhqNKpq9pbJFKkQgB7xNnu5o7REOggy7daK6DSw5eDlxWlfgGtfn0CdTDNqQa2tb6jobbYWfmBKHVmN8NgQMUZRcCUA6UMrvYqa/aetYR0oSRdNLHqCMdU6U+cWBJKACwRwGSlU8wSw+at/6lsEBg6C21s9bBb0ooNPKB+X2f+Qra0RTY0mSUeI4uo7XL+cJ17rynCKpaLADEurSL6p4C8i53u7gD/RyATL89w1yJ9ugrtr205xrO7b6pTUs2V+Gzf+5u/7StMIkwL4HXdZ+8Tr7+lQV2MA6CIlXrJdTlTyiytMpwx5hXhY0h8n7y2/YW1yYwXWm7q2BRQPkA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=toradex.com; dmarc=pass action=none header.from=toradex.com;
- dkim=pass header.d=toradex.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=toradex.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=tRq6vwQf+Yz2ySeMGPHG4x6APetWCSdJu/DjJsI3hQ0=;
- b=szJp0j5A6PMowX3U402kxBg70EKZFzqaUTc05JmzJ93qGYrff7mT8N/px7F/wWgrK6wQGu6eVsbR9GPQxez30NNYfxvXOHxKgOxr8T8cdCrjiiCOcQLFNABh9jYVEWiV2SUap62xRn0H4VuSeNVGC9J7gIgnFB9oxJs5biqZHnE=
-Received: from DB7PR05MB5431.eurprd05.prod.outlook.com (2603:10a6:10:55::32)
- by DBBPR05MB6348.eurprd05.prod.outlook.com (2603:10a6:10:d2::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4608.16; Wed, 20 Oct
- 2021 13:46:50 +0000
-Received: from DB7PR05MB5431.eurprd05.prod.outlook.com
- ([fe80::91e8:e960:243:da70]) by DB7PR05MB5431.eurprd05.prod.outlook.com
- ([fe80::91e8:e960:243:da70%5]) with mapi id 15.20.4608.018; Wed, 20 Oct 2021
- 13:46:50 +0000
-From:   Marcel Ziswiler <marcel.ziswiler@toradex.com>
-To:     "s.hauer@pengutronix.de" <s.hauer@pengutronix.de>,
-        "mchehab@kernel.org" <mchehab@kernel.org>,
-        "ming.qian@nxp.com" <ming.qian@nxp.com>,
-        "shawnguo@kernel.org" <shawnguo@kernel.org>,
-        "robh+dt@kernel.org" <robh+dt@kernel.org>
-CC:     "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        "kernel@pengutronix.de" <kernel@pengutronix.de>,
-        "linux-imx@nxp.com" <linux-imx@nxp.com>,
-        "festevam@gmail.com" <festevam@gmail.com>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>,
-        "hverkuil-cisco@xs4all.nl" <hverkuil-cisco@xs4all.nl>,
-        "aisheng.dong@nxp.com" <aisheng.dong@nxp.com>
-Subject: Re: [PATCH v11 11/13] ARM64: dts: freescale: imx8q: add imx vpu codec
- entries
-Thread-Topic: [PATCH v11 11/13] ARM64: dts: freescale: imx8q: add imx vpu
- codec entries
-Thread-Index: AQHXxbjulGZYjuvRWEaIW4ubSv9GVw==
-Date:   Wed, 20 Oct 2021 13:46:50 +0000
-Message-ID: <8dca7c932d82815ef6d67181193a030ccb609c5b.camel@toradex.com>
-References: <cover.1634282966.git.ming.qian@nxp.com>
-         <82e0572a0a3f3dc9e859ebd9bcd2cf6505481726.1634282966.git.ming.qian@nxp.com>
-In-Reply-To: <82e0572a0a3f3dc9e859ebd9bcd2cf6505481726.1634282966.git.ming.qian@nxp.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: pengutronix.de; dkim=none (message not signed)
- header.d=none;pengutronix.de; dmarc=none action=none header.from=toradex.com;
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 21dd836e-2e6f-4f90-5a22-08d993d011aa
-x-ms-traffictypediagnostic: DBBPR05MB6348:
-x-microsoft-antispam-prvs: <DBBPR05MB63480A3B786A93E1628D056CFBBE9@DBBPR05MB6348.eurprd05.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:3826;
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: K2izlfrHp1VO6f+P02Bqdl264xoJ3TXM0UpePbtcYH7NGgbZqHXMjY/1r7zeVH+PJtUs8AZQzReXls+366lg4S5tPQpc1OR68vL/OtdTX0KTqba1avhAD1Qi+w7qtM2heeQ4fu2a7leH46nrJBWlQB17513fDHN0ed9oD+W7bld7icsiXH6q0p13E1c6zgRw9O74rEdQ0vA2TcSLKoCJ59zO2LgKBlei3zSTC5Av+8GjMthdtODYr/xqGs3BqXQFHV4nbU/tjov6MKcwbFADgkApWTMHBIzXXgSpZjO57cMiD6ZyCKWcLe+3NcwR4AOyHcHJTpwaOW2Ws5j7QIEa/NTtJ1EFML8XI7v2GHKxylulnp5al/Oq0gXNVPA+5FYytYf2KWqP7PJ0xi3DrqCUnAU5YfGJlsT/sMGZ2vbvSlgFYwdDdSX6zFfH5W2lIhIouV9KvzQ5N3zZy91LrhaAt9QCesqCTr6AVTJw6Ho/avMd7FnwzkZNdFjqPwUi509CT1ukIiTx0bZbaOXpuHqvpwbbe9QmZbKC4jOV8yo8NHi0BQ4GwexB3VIcwilvYJtuHopAFMUgxHI0FUz4MBSy9tsPX+kVe3dRk+5bmKYkXknO4LzMeB7kW2cKHNenZHgbzXAa4E9R9bxhz/zGpTq/jRI4VLhkzhXy94RVGTwkgigRIFyxLiUF/OWgUymlVOe+rBkm6RhCcQNrjt7mSuEc9RbavEFSO4y7xK3aBIAVCThM4jZg0b5Kr46o5m3EDIyOFtPPicd9BIjkJlXtNTnuI1Z4y8leRsOxQr3u1DMc72I=
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DB7PR05MB5431.eurprd05.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(366004)(346002)(186003)(76116006)(66946007)(8936002)(66556008)(66476007)(86362001)(4001150100001)(110136005)(91956017)(8676002)(38100700002)(2906002)(122000001)(2616005)(26005)(71200400001)(7416002)(54906003)(44832011)(66446008)(6512007)(508600001)(36756003)(4326008)(6506007)(316002)(38070700005)(5660300002)(83380400001)(64756008)(6486002)(32563001)(414714003)(473944003);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?T0VLcEExaWU2WGtEeFFOTGw5M29lMXpKb3lseERHZ2pjRWQvblRRdTNlbTdV?=
- =?utf-8?B?YjM3Zlo0eCtBSWEraVgxZmx4cjhrVFVPdUxVeXk3TlJSREE5STl0Nm1CQXVl?=
- =?utf-8?B?T000UklQTzk0TUdIdTcraG4vN3RobHpXZ2NWKzBFbEo2Z2tiMXlHZ3IxSkxn?=
- =?utf-8?B?OXBPSGxwTWhSNVl6R2NwZzFGUExsTmpNRGFkQmo3dmpRcG9oeFFldHlJZVNQ?=
- =?utf-8?B?THNIR2poMXpzak1qQXJ2eTl0STlrcklRNzc2M24rc0o5QjdtQkJKNm52enBQ?=
- =?utf-8?B?UXRER3hkREE2NCtlR3I1VldEeVFrdEpqeThKQWkybzl5a0g4dUQ5bkd1eW12?=
- =?utf-8?B?N1A2cnk1dGg2WWJQbG13cFBQamdtckRGN0NOcUpMWk5wYlRzMzhsd1dLQkhG?=
- =?utf-8?B?SCtoU3NmUVRpMFZZeFptM3F4bG1nRm96T0U3YmVqaFphV0tvVUF3SkZUMXRt?=
- =?utf-8?B?R1BiNjZIV0Mwa3dSVk1qaGRRK3J5Z2lsSVVSbFM5UWtZN0lLcTRxWlU2U2Fl?=
- =?utf-8?B?KzYwbGR6aXRzNmQ1aVovMXU3NWFjZ09TRUlkb0d1QXFUV1JDUndNUTlsS2Zz?=
- =?utf-8?B?dlpmRWNQejNpOVVZK2ZVd25CbDkwem1Uc3dBWEgrMVlTY3J0cG5saXF3a2tS?=
- =?utf-8?B?cmdKZ2ttNWx4Z1BnbVZXdGl2dExJaFRSOUp5OUR1L3Nvc3l3MUh1b0pZNUVa?=
- =?utf-8?B?dTNjRUJmN3M2elZSTzhmZHo4eVZjWjAwMzBPU1RSVk1MbS9mdlhoTE5KdTFC?=
- =?utf-8?B?bmJ2cCtpNUNvL3VJc0tORVBXZ1ZSK0w0NXZidDNmZ1ZGcWc3eitGUlMvTXo2?=
- =?utf-8?B?VDdzUUgyaHVtNkFIeWRJamRrQVQvbHc4VG9KNHZyZ2hOU3phNFNESmVpcHc3?=
- =?utf-8?B?RDJzNGg3Z1UvWGl5cFpPYTc2N0pFQUNWNkpTem5lR1RvdmY4VWkxTEZBU1J0?=
- =?utf-8?B?R2hQenlaT1dBK3oyK3lkNUF0clZMY1h1Z0pQZ3JrMTQ1OFNPeDI3VnJUellL?=
- =?utf-8?B?cWNVV21obHFoWWZ5M2ZtQUp3SVNuampZdEVqSW1iZU91RzF6eEpsTVpMRnFL?=
- =?utf-8?B?cUJSQlNRSkQ0RWh1b1hiY0d4UVd6SzRwSTBGQTNmZzdnYjdVeC9iS1hESDh1?=
- =?utf-8?B?Y3V5WGc5ajNGRk0wdXFkbzl0TFNFMkhSa3pCL1FKWnhCS3h0bCtpZ1p3N2Ju?=
- =?utf-8?B?ZE5KVGR2Tmo4MkNiTlU4RW1ZRklnRGtiakpkMlJQTWVSblRiSzUxTGc2QXE1?=
- =?utf-8?B?bzZDcSt6TW9teTJzeUJBeHBoS0podm1nb201WmRHbWRUdy9YNTVZcWlOWjVR?=
- =?utf-8?B?Y0I3YS91emZNbURNMEFqaFVYSVIyNkE1MlR5NXgrNDFsRUhTU2JVekdxNW9k?=
- =?utf-8?B?L25FM0ZZdlhGMEhDdFMyaUlXM0xLVFZLNGVURGVScFhvOTQ4WHZsMk9zYk9o?=
- =?utf-8?B?ZVUyNWJBSFJwSE1SUmtHWUJGUVZUcGRRTFc3bDZ3dFY4TERVYlVVMXBWVDEr?=
- =?utf-8?B?MUV6VWVPbWlIekFqOFdZMFBiQmdERGk5RHArdjFJdkY2RE9oSFVoUHdNdFJK?=
- =?utf-8?B?a3l0MlNuK3FFa2k2R1NkSkEvU1RROHRzZDFGME1ybTFkU1haN3cvdzNhVDVv?=
- =?utf-8?B?STdvM3lvdmdUeTF5aTZxM0xHRE5aMGp3OTdwUU9pUDhjNTdLMHdKa3JzRjJr?=
- =?utf-8?B?NWY4ZDNPQnpmNElYSm52NnNVN05DNzFIYUVZMUNJTlpEelVWb2tqVElMdzFY?=
- =?utf-8?B?czlCTzBsWXBGa2lWZlB4bW8xTnV5UFhzckpkbXVjd2ZnaUFxSU40bGhXL3dB?=
- =?utf-8?B?dWtYOUNRN0REcXVxU29PUT09?=
-x-ms-exchange-transport-forked: True
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <85B46DDCD4A1D1458622A6B6EC1624C0@eurprd05.prod.outlook.com>
-Content-Transfer-Encoding: base64
+        id S230380AbhJTPHC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 20 Oct 2021 11:07:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59970 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230213AbhJTPHB (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Wed, 20 Oct 2021 11:07:01 -0400
+Received: from mail-wm1-x331.google.com (mail-wm1-x331.google.com [IPv6:2a00:1450:4864:20::331])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E865BC06161C;
+        Wed, 20 Oct 2021 08:04:46 -0700 (PDT)
+Received: by mail-wm1-x331.google.com with SMTP id p21so19648947wmq.1;
+        Wed, 20 Oct 2021 08:04:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=iSI/ddQ6s8uFsqLKqgX7/KMZvCDEF1sF+QLFOwBijVo=;
+        b=WSm/g6FJplp5819Ycmp7EY5PXwMqWIT80+Dfw1Bzdwjs+gcuSenIDggXdBNm9ELwaf
+         am0FTewPLikgh806CvWSBxcCwpaIU4wBWzBj+lp+CQXRAyxnIsdnPzuUSKQPh8UpLNdf
+         Ye6t8eTDDuVQT3Gxog2cTfYWSTXyHADlWbP7qYbqsfdvqRYyMwdivigB0iM+eGHwrfSR
+         NmRPDAx90ouHf+vCm93C9NXSH6MXY0s4MugoIBPNDCOkPdwlJ08o/NdWfpLFFDKEIbfL
+         T6OT+/UHeGkQXbn1hJU5vI/534YQlGHzNFqa38reEJvVCdgdhffHzeiD2IRxWhHO+cdu
+         r4sw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=iSI/ddQ6s8uFsqLKqgX7/KMZvCDEF1sF+QLFOwBijVo=;
+        b=mdtrL+e3GP3nc3UGYb2du7SGvbu/TI7K0wW+cWsVU/r2FXISsHucoZcYV0c1pRJ1bS
+         J1nWs/Q05ix1zX2pTKlksemK4eQRzgRtVkb8L8p3mclj0t2k3P7A5uVTPDNHlne3ScKW
+         ef1+p8JwcKqclccipX5be82IRtY3Jy1uccWAVcp0uOkGC2Xeas1eS5tWeTjKzAhJRvsC
+         jDsVDNdWIF9RUj3fSCW+o0/5DDJpVs2meZDoUdTy27X44Ls+apaAAAcD03nuCTDkHXNr
+         eTjoXQYRQ/t5852H2GCOgGbgYMHfyCiJcmJPQJeF8TnjCy4MoPp0QTGq9cVdatgrK1om
+         FXMA==
+X-Gm-Message-State: AOAM530WSudnxrb397lLoZ7wvpCFfUJHoU7H8xvBm+3UcxzOJauoxRYN
+        lExG39CBc9zUN5E4As0QqNA=
+X-Google-Smtp-Source: ABdhPJw64D36JEnPwgRzr7aOlj86IE7a8hmJHL9NuiHWy+N92KexNY7aIB/3nMuRzNPy/cl0iT3n4w==
+X-Received: by 2002:a1c:7415:: with SMTP id p21mr14082917wmc.159.1634742285129;
+        Wed, 20 Oct 2021 08:04:45 -0700 (PDT)
+Received: from kista.localnet (cpe-86-58-29-253.static.triera.net. [86.58.29.253])
+        by smtp.gmail.com with ESMTPSA id r17sm2604269wmq.47.2021.10.20.08.04.43
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 20 Oct 2021 08:04:44 -0700 (PDT)
+From:   Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
+To:     Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
+Cc:     linux-media <linux-media@vger.kernel.org>,
+        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        "open list:ARM/Rockchip SoC..." <linux-rockchip@lists.infradead.org>,
+        "open list:STAGING SUBSYSTEM" <linux-staging@lists.linux.dev>,
+        Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
+        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+        Boris Brezillon <boris.brezillon@collabora.com>,
+        Fabio Estevam <festevam@gmail.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Heiko Stuebner <heiko@sntech.de>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Collabora Kernel ML <kernel@collabora.com>,
+        Ezequiel Garcia <ezequiel@collabora.com>
+Subject: Re: Re: Re: [PATCH v7 11/11] media: hantro: Support NV12 on the G2 core
+Date:   Wed, 20 Oct 2021 17:04:43 +0200
+Message-ID: <4350097.LvFx2qVVIh@kista>
+In-Reply-To: <CAAEAJfBYwbUrjUFvs70u8YkuBgrCK6LuYdT9Y2Om7OLo6_cV1g@mail.gmail.com>
+References: <20210929160439.6601-1-andrzej.p@collabora.com> <11847752.O9o76ZdvQC@kista> <CAAEAJfBYwbUrjUFvs70u8YkuBgrCK6LuYdT9Y2Om7OLo6_cV1g@mail.gmail.com>
 MIME-Version: 1.0
-X-OriginatorOrg: toradex.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DB7PR05MB5431.eurprd05.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 21dd836e-2e6f-4f90-5a22-08d993d011aa
-X-MS-Exchange-CrossTenant-originalarrivaltime: 20 Oct 2021 13:46:50.6784
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: d9995866-0d9b-4251-8315-093f062abab4
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: marcel.ziswiler@toradex.com
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DBBPR05MB6348
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-T24gRnJpLCAyMDIxLTEwLTE1IGF0IDE2OjIyICswODAwLCBNaW5nIFFpYW4gd3JvdGU6Cj4gQWRk
-IHRoZSBWaWRlbyBQcm9jZXNzaW5nIFVuaXQgbm9kZSBmb3IgSU1YOFEgU29DLgoKQXJlbid0IHRo
-b3NlIHVzdWFsbHkgY2FsbGVkIHRoZSBpLk1YIDhYIHJhdGhlciB0aGFuIDhRPwoKPiBTaWduZWQt
-b2ZmLWJ5OiBNaW5nIFFpYW4gPG1pbmcucWlhbkBueHAuY29tPgo+IFNpZ25lZC1vZmYtYnk6IFNo
-aWppZSBRaW4gPHNoaWppZS5xaW5AbnhwLmNvbT4KPiBTaWduZWQtb2ZmLWJ5OiBaaG91IFBlbmcg
-PGVhZ2xlLnpob3VAbnhwLmNvbT4KPiAtLS0KPiDCoC4uLi9hcm02NC9ib290L2R0cy9mcmVlc2Nh
-bGUvaW14OC1zcy12cHUuZHRzaSB8IDcyICsrKysrKysrKysrKysrKysrKysKPiDCoGFyY2gvYXJt
-NjQvYm9vdC9kdHMvZnJlZXNjYWxlL2lteDhxeHAtbWVrLmR0cyB8IDE3ICsrKysrCj4gwqBhcmNo
-L2FybTY0L2Jvb3QvZHRzL2ZyZWVzY2FsZS9pbXg4cXhwLmR0c2nCoMKgwqAgfCAyNCArKysrKysr
-Cj4gwqAzIGZpbGVzIGNoYW5nZWQsIDExMyBpbnNlcnRpb25zKCspCj4gwqBjcmVhdGUgbW9kZSAx
-MDA2NDQgYXJjaC9hcm02NC9ib290L2R0cy9mcmVlc2NhbGUvaW14OC1zcy12cHUuZHRzaQo+IAo+
-IGRpZmYgLS1naXQgYS9hcmNoL2FybTY0L2Jvb3QvZHRzL2ZyZWVzY2FsZS9pbXg4LXNzLXZwdS5k
-dHNpIGIvYXJjaC9hcm02NC9ib290L2R0cy9mcmVlc2NhbGUvaW14OC1zcy12cHUuZHRzaQo+IG5l
-dyBmaWxlIG1vZGUgMTAwNjQ0Cj4gaW5kZXggMDAwMDAwMDAwMDAwLi5mMmRkZTZkMTRjYTMKPiAt
-LS0gL2Rldi9udWxsCj4gKysrIGIvYXJjaC9hcm02NC9ib290L2R0cy9mcmVlc2NhbGUvaW14OC1z
-cy12cHUuZHRzaQo+IEBAIC0wLDAgKzEsNzIgQEAKPiArLy8gU1BEWC1MaWNlbnNlLUlkZW50aWZp
-ZXI6IEdQTC0yLjArCj4gKy8qCj4gKyAqIENvcHlyaWdodCAyMDIxIE5YUAo+ICsgKsKgwqDCoMKg
-wqBEb25nIEFpc2hlbmcgPGFpc2hlbmcuZG9uZ0BueHAuY29tPgo+ICsgKi8KPiArCj4gK3ZwdTog
-dnB1QDJjMDAwMDAwIHsKPiArwqDCoMKgwqDCoMKgwqAjYWRkcmVzcy1jZWxscyA9IDwxPjsKPiAr
-wqDCoMKgwqDCoMKgwqAjc2l6ZS1jZWxscyA9IDwxPjsKPiArwqDCoMKgwqDCoMKgwqByYW5nZXMg
-PSA8MHgyYzAwMDAwMCAweDAgMHgyYzAwMDAwMCAweDIwMDAwMDA+Owo+ICvCoMKgwqDCoMKgwqDC
-oHJlZyA9IDwwIDB4MmMwMDAwMDAgMCAweDEwMDAwMDA+Owo+ICvCoMKgwqDCoMKgwqDCoHBvd2Vy
-LWRvbWFpbnMgPSA8JnBkIElNWF9TQ19SX1ZQVT47Cj4gK8KgwqDCoMKgwqDCoMKgc3RhdHVzID0g
-ImRpc2FibGVkIjsKPiArCj4gK8KgwqDCoMKgwqDCoMKgbXVfbTA6IG1haWxib3hAMmQwMDAwMDAg
-ewo+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqBjb21wYXRpYmxlID0gImZzbCxpbXg2
-c3gtbXUiOwo+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqByZWcgPSA8MHgyZDAwMDAw
-MCAweDIwMDAwPjsKPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgaW50ZXJydXB0cyA9
-IDxHSUNfU1BJIDQ2OSBJUlFfVFlQRV9MRVZFTF9ISUdIPjsKPiArwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgI21ib3gtY2VsbHMgPSA8Mj47Cj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoHBvd2VyLWRvbWFpbnMgPSA8JnBkIElNWF9TQ19SX1ZQVV9NVV8wPjsKPiArwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgc3RhdHVzID0gIm9rYXkiOwo+ICvCoMKgwqDCoMKgwqDC
-oH07Cj4gKwo+ICvCoMKgwqDCoMKgwqDCoG11MV9tMDogbWFpbGJveEAyZDAyMDAwMCB7Cj4gK8Kg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoGNvbXBhdGlibGUgPSAiZnNsLGlteDZzeC1tdSI7
-Cj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoHJlZyA9IDwweDJkMDIwMDAwIDB4MjAw
-MDA+Owo+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqBpbnRlcnJ1cHRzID0gPEdJQ19T
-UEkgNDcwIElSUV9UWVBFX0xFVkVMX0hJR0g+Owo+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqAjbWJveC1jZWxscyA9IDwyPjsKPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-cG93ZXItZG9tYWlucyA9IDwmcGQgSU1YX1NDX1JfVlBVX01VXzE+Owo+ICvCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqBzdGF0dXMgPSAib2theSI7Cj4gK8KgwqDCoMKgwqDCoMKgfTsKPiAr
-Cj4gK8KgwqDCoMKgwqDCoMKgbXUyX20wOiBtYWlsYm94QDJkMDQwMDAwIHsKPiArwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgY29tcGF0aWJsZSA9ICJmc2wsaW14NnN4LW11IjsKPiArwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgcmVnID0gPDB4MmQwNDAwMDAgMHgyMDAwMD47Cj4g
-K8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoGludGVycnVwdHMgPSA8R0lDX1NQSSA0NzQg
-SVJRX1RZUEVfTEVWRUxfSElHSD47Cj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCNt
-Ym94LWNlbGxzID0gPDI+Owo+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqBwb3dlci1k
-b21haW5zID0gPCZwZCBJTVhfU0NfUl9WUFVfTVVfMj47Cj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoHN0YXR1cyA9ICJkaXNhYmxlZCI7Cj4gK8KgwqDCoMKgwqDCoMKgfTsKPiArCj4g
-K8KgwqDCoMKgwqDCoMKgdnB1X2NvcmUwOiB2cHVfY29yZUAyZDA4MDAwMCB7Cj4gK8KgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoHJlZyA9IDwweDJkMDgwMDAwIDB4MTAwMDA+Owo+ICvCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqBjb21wYXRpYmxlID0gIm54cCxpbXg4cS12cHUtZGVj
-b2RlciI7Cj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoHBvd2VyLWRvbWFpbnMgPSA8
-JnBkIElNWF9TQ19SX1ZQVV9ERUNfMD47Cj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oG1ib3gtbmFtZXMgPSAidHgwIiwgInR4MSIsICJyeCI7Cj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoG1ib3hlcyA9IDwmbXVfbTAgMCAwPiwKPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoDwmbXVfbTAgMCAxPiwKPiArwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoDwmbXVfbTAgMSAwPjsKPiArwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgc3RhdHVzID0gImRpc2FibGVkIjsKPiArwqDCoMKgwqDCoMKg
-wqB9Owo+ICvCoMKgwqDCoMKgwqDCoHZwdV9jb3JlMTogdnB1X2NvcmVAMmQwOTAwMDAgewo+ICvC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqByZWcgPSA8MHgyZDA5MDAwMCAweDEwMDAwPjsK
-PiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgY29tcGF0aWJsZSA9ICJueHAsaW14OHEt
-dnB1LWVuY29kZXIiOwo+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqBwb3dlci1kb21h
-aW5zID0gPCZwZCBJTVhfU0NfUl9WUFVfRU5DXzA+Owo+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqBtYm94LW5hbWVzID0gInR4MCIsICJ0eDEiLCAicngiOwo+ICvCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqBtYm94ZXMgPSA8Jm11MV9tMCAwIDA+LAo+ICvCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgPCZtdTFfbTAgMCAxPiwKPiArwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoDwmbXUxX20wIDEgMD47Cj4g
-K8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoHN0YXR1cyA9ICJkaXNhYmxlZCI7Cj4gK8Kg
-wqDCoMKgwqDCoMKgfTsKPiArwqDCoMKgwqDCoMKgwqB2cHVfY29yZTI6IHZwdV9jb3JlQDJkMGEw
-MDAwIHsKPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgcmVnID0gPDB4MmQwYTAwMDAg
-MHgxMDAwMD47Cj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoGNvbXBhdGlibGUgPSAi
-bnhwLGlteDhxLXZwdS1lbmNvZGVyIjsKPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-cG93ZXItZG9tYWlucyA9IDwmcGQgSU1YX1NDX1JfVlBVX0VOQ18xPjsKPiArwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgbWJveC1uYW1lcyA9ICJ0eDAiLCAidHgxIiwgInJ4IjsKPiArwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgbWJveGVzID0gPCZtdTJfbTAgMCAwPiwKPiArwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoDwmbXUyX20wIDAgMT4s
-Cj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqA8Jm11Ml9t
-MCAxIDA+Owo+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqBzdGF0dXMgPSAiZGlzYWJs
-ZWQiOwo+ICvCoMKgwqDCoMKgwqDCoH07Cj4gK307Cj4gZGlmZiAtLWdpdCBhL2FyY2gvYXJtNjQv
-Ym9vdC9kdHMvZnJlZXNjYWxlL2lteDhxeHAtbWVrLmR0cyBiL2FyY2gvYXJtNjQvYm9vdC9kdHMv
-ZnJlZXNjYWxlL2lteDhxeHAtbWVrLmR0cwo+IGluZGV4IDg2MzIzMmE0NzAwNC4uMDU0OTViNjBi
-ZWI4IDEwMDY0NAo+IC0tLSBhL2FyY2gvYXJtNjQvYm9vdC9kdHMvZnJlZXNjYWxlL2lteDhxeHAt
-bWVrLmR0cwo+ICsrKyBiL2FyY2gvYXJtNjQvYm9vdC9kdHMvZnJlZXNjYWxlL2lteDhxeHAtbWVr
-LmR0cwo+IEBAIC0xOTYsNiArMTk2LDIzIEBAICZ1c2RoYzIgewo+IMKgwqDCoMKgwqDCoMKgwqBz
-dGF0dXMgPSAib2theSI7Cj4gwqB9Owo+IMKgCj4gKyZ2cHUgewo+ICvCoMKgwqDCoMKgwqDCoGNv
-bXBhdGlibGUgPSAibnhwLGlteDhxeHAtdnB1IjsKPiArwqDCoMKgwqDCoMKgwqBzdGF0dXMgPSAi
-b2theSI7Cj4gK307Cj4gKwo+ICsmdnB1X2NvcmUwIHsKPiArwqDCoMKgwqDCoMKgwqByZWcgPSA8
-MHgyZDA0MDAwMCAweDEwMDAwPjsKPiArwqDCoMKgwqDCoMKgwqBtZW1vcnktcmVnaW9uID0gPCZk
-ZWNvZGVyX2Jvb3Q+LCA8JmRlY29kZXJfcnBjPjsKPiArwqDCoMKgwqDCoMKgwqBzdGF0dXMgPSAi
-b2theSI7Cj4gK307Cj4gKwo+ICsmdnB1X2NvcmUxIHsKPiArwqDCoMKgwqDCoMKgwqByZWcgPSA8
-MHgyZDA1MDAwMCAweDEwMDAwPjsKPiArwqDCoMKgwqDCoMKgwqBtZW1vcnktcmVnaW9uID0gPCZl
-bmNvZGVyX2Jvb3Q+LCA8JmVuY29kZXJfcnBjPjsKPiArwqDCoMKgwqDCoMKgwqBzdGF0dXMgPSAi
-b2theSI7Cj4gK307Cj4gKwo+IMKgJmlvbXV4YyB7Cj4gwqDCoMKgwqDCoMKgwqDCoHBpbmN0cmxf
-ZmVjMTogZmVjMWdycCB7Cj4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqBmc2wscGlu
-cyA9IDwKPiBkaWZmIC0tZ2l0IGEvYXJjaC9hcm02NC9ib290L2R0cy9mcmVlc2NhbGUvaW14OHF4
-cC5kdHNpIGIvYXJjaC9hcm02NC9ib290L2R0cy9mcmVlc2NhbGUvaW14OHF4cC5kdHNpCj4gaW5k
-ZXggNjE3NjE4ZWRmNzdlLi42YjZkM2M3MTYzMmIgMTAwNjQ0Cj4gLS0tIGEvYXJjaC9hcm02NC9i
-b290L2R0cy9mcmVlc2NhbGUvaW14OHF4cC5kdHNpCj4gKysrIGIvYXJjaC9hcm02NC9ib290L2R0
-cy9mcmVlc2NhbGUvaW14OHF4cC5kdHNpCj4gQEAgLTQ2LDYgKzQ2LDkgQEAgYWxpYXNlcyB7Cj4g
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqBzZXJpYWwxID0gJmxwdWFydDE7Cj4gwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqBzZXJpYWwyID0gJmxwdWFydDI7Cj4gwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqBzZXJpYWwzID0gJmxwdWFydDM7Cj4gK8KgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoHZwdV9jb3JlMCA9ICZ2cHVfY29yZTA7Cj4gK8KgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoHZwdV9jb3JlMSA9ICZ2cHVfY29yZTE7Cj4gK8KgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoHZwdV9jb3JlMiA9ICZ2cHVfY29yZTI7Cj4gwqDCoMKgwqDC
-oMKgwqDCoH07Cj4gwqAKPiDCoMKgwqDCoMKgwqDCoMKgY3B1cyB7Cj4gQEAgLTEzNCwxMCArMTM3
-LDMwIEBAIHJlc2VydmVkLW1lbW9yeSB7Cj4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqAjc2l6ZS1jZWxscyA9IDwyPjsKPiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoHJh
-bmdlczsKPiDCoAo+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqBkZWNvZGVyX2Jvb3Q6
-IGRlY29kZXItYm9vdEA4NDAwMDAwMCB7Cj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqByZWcgPSA8MCAweDg0MDAwMDAwIDAgMHgyMDAwMDAwPjsKPiArwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoG5vLW1hcDsKPiArwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgfTsKPiArCj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoGVuY29kZXJfYm9vdDogZW5jb2Rlci1ib290QDg2MDAwMDAwIHsKPiArwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoHJlZyA9IDwwIDB4ODYwMDAw
-MDAgMCAweDIwMDAwMD47Cj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqBuby1tYXA7Cj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoH07Cj4gKwo+
-ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqBkZWNvZGVyX3JwYzogZGVjb2Rlci1ycGNA
-MHg5MjAwMDAwMCB7Cj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqByZWcgPSA8MCAweDkyMDAwMDAwIDAgMHgxMDAwMDA+Owo+ICvCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgbm8tbWFwOwo+ICvCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqB9Owo+ICsKPiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoGRz
-cF9yZXNlcnZlZDogZHNwQDkyNDAwMDAwIHsKPiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqByZWcgPSA8MCAweDkyNDAwMDAwIDAgMHgyMDAwMDAwPjsKPiDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqBuby1tYXA7Cj4g
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqB9Owo+ICsKPiArwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgZW5jb2Rlcl9ycGM6IGVuY29kZXItcnBjQDB4OTQ0MDAwMDAgewo+ICvC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgcmVnID0gPDAgMHg5
-NDQwMDAwMCAwIDB4NzAwMDAwPjsKPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoG5vLW1hcDsKPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgfTsK
-PiDCoMKgwqDCoMKgwqDCoMKgfTsKPiDCoAo+IMKgwqDCoMKgwqDCoMKgwqBwbXUgewo+IEBAIC0y
-NTksNiArMjgyLDcgQEAgbWFwMCB7Cj4gwqAKPiDCoMKgwqDCoMKgwqDCoMKgLyogc29ydGVkIGlu
-IHJlZ2lzdGVyIGFkZHJlc3MgKi8KPiDCoMKgwqDCoMKgwqDCoMKgI2luY2x1ZGUgImlteDgtc3Mt
-aW1nLmR0c2kiCj4gK8KgwqDCoMKgwqDCoMKgI2luY2x1ZGUgImlteDgtc3MtdnB1LmR0c2kiCj4g
-wqDCoMKgwqDCoMKgwqDCoCNpbmNsdWRlICJpbXg4LXNzLWFkbWEuZHRzaSIKPiDCoMKgwqDCoMKg
-wqDCoMKgI2luY2x1ZGUgImlteDgtc3MtY29ubi5kdHNpIgo+IMKgwqDCoMKgwqDCoMKgwqAjaW5j
-bHVkZSAiaW14OC1zcy1kZHIuZHRzaSIK
+Dne sreda, 20. oktober 2021 ob 13:06:59 CEST je Ezequiel Garcia napisal(a):
+> Hi Jernej,
+>=20
+> On Tue, 19 Oct 2021 at 13:38, Jernej =C5=A0krabec <jernej.skrabec@gmail.c=
+om>=20
+wrote:
+> >
+> > Hi Andrzej!
+> >
+> > Dne petek, 15. oktober 2021 ob 19:19:47 CEST je Andrzej Pietrasiewicz
+> > napisal(a):
+> > > Hi Jernej,
+> > >
+> > > W dniu 14.10.2021 o 19:42, Jernej =C5=A0krabec pisze:
+> > > > Hi Andrzej!
+> > > >
+> > > > Dne sreda, 29. september 2021 ob 18:04:39 CEST je Andrzej=20
+Pietrasiewicz
+> > > > napisal(a):
+> > > >> The G2 decoder block produces NV12 4x4 tiled format (NV12_4L4).
+> > > >> Enable the G2 post-processor block, in order to produce regular NV=
+12.
+> > > >>
+> > > >> The logic in hantro_postproc.c is leveraged to take care of=20
+allocating
+> > > >> the extra buffers and configure the post-processor, which is
+> > > >> significantly simpler than the one on the G1.
+> > > >
+> > > > Quick summary of discussion on LibreELEC Slack:
+> > > > When using NV12 format on Allwinner H6 variant of G2 (needs some=20
+driver
+> > > > changes), I get frames out of order. If I use native NV12 tiled=20
+format,
+> > frames
+> > > > are ordered correctly.
+> > > >
+> > > > Currently I'm not sure if this is issue with my changes or is this=
+=20
+general
+> > > > issue.
+> > > >
+> > > > I would be grateful if anyone can test frame order with and without
+> > > > postprocessing enabled on imx8. Take some dynamic video with a lot =
+of
+> > short
+> > > > scenes. It's pretty obvious when frames are out of order.
+> > > >
+> > >
+> > > I checked on imx8 and cannot observe any such artifacts.
+> >
+> > I finally found the issue. As you mentioned on Slack, register write or=
+der=20
+once
+> > already affected decoding. Well, it's the case again. I made hacky test=
+ and
+> > moved postproc enable call after output buffers are set and it worked. =
+So,=20
+this
+> > is actually core quirk which is obviously fixed in newer variants.
+> >
+>=20
+> Ugh, good catch.
+>=20
+> What happens if you move all the calls to HANTRO_PP_REG_WRITE_S
+> (HANTRO_PP_REG_WRITE does a relaxed write)?
+>=20
+> Or what happens if the HANTRO_PP_REG_WRITE(vpu, out_luma_base, dst_dma)
+> is moved to be done after all the other registers?
+
+Those two macros aren't used on G2. Andrzej introduced new postproc helpers=
+=20
+for G2.
+
+This commit solves issue for H6:
+https://github.com/jernejsk/linux-1/commit/
+a783a977c0843bb4b555dc9d0b5d64915cd219e7
+
+>=20
+> > This makes this series with minor adaptations completely working on H6.=
+ I=20
+see
+> > no reason not to merge whole series.
+> >
+>=20
+> Do you have plans to submit your H6 work on top of this?
+
+Of course, why would I work on this otherwise? :) But before I do that, I h=
+ave=20
+to clean up and split one commit, which adapts VP9 G2 code for H6 variant.
+
+If you're interested in changes, take a look here:
+https://github.com/jernejsk/linux-1/commits/vp9
+
+Best regards,
+Jernej
+
+>=20
+> Thanks,
+> Ezequiel
+>=20
+>=20
+> > Thanks for testing.
+> >
+> > Best regards,
+> > Jernej
+> >
+> > >
+> > > Andrzej
+> > >
+> > > > However, given that frames themself are correctly decoded and witho=
+ut
+> > > > postprocessing in right order, that shouldn't block merging previous
+> > patches.
+> > > > I tried few different videos and frames were all decoded correctly.
+> > > >
+> > > > Best regards,
+> > > > Jernej
+> > > >
+> > > >>
+> > > >> Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
+> > > >> Signed-off-by: Andrzej Pietrasiewicz <andrzej.p@collabora.com>
+> > > >> ---
+> > > >>   .../staging/media/hantro/hantro_g2_vp9_dec.c  |  6 ++--
+> > > >>   drivers/staging/media/hantro/hantro_hw.h      |  1 +
+> > > >>   .../staging/media/hantro/hantro_postproc.c    | 31 +++++++++++++=
++++
++++
+> > > >>   drivers/staging/media/hantro/imx8m_vpu_hw.c   | 11 +++++++
+> > > >>   4 files changed, 46 insertions(+), 3 deletions(-)
+> > > >>
+> > > >> diff --git a/drivers/staging/media/hantro/hantro_g2_vp9_dec.c b/
+drivers/
+> > > > staging/media/hantro/hantro_g2_vp9_dec.c
+> > > >> index 7f827b9f0133..1a26be72c878 100644
+> > > >> --- a/drivers/staging/media/hantro/hantro_g2_vp9_dec.c
+> > > >> +++ b/drivers/staging/media/hantro/hantro_g2_vp9_dec.c
+> > > >> @@ -152,7 +152,7 @@ static void config_output(struct hantro_ctx *c=
+tx,
+> > > >>    hantro_reg_write(ctx->dev, &g2_out_dis, 0);
+> > > >>    hantro_reg_write(ctx->dev, &g2_output_format, 0);
+> > > >>
+> > > >> -  luma_addr =3D vb2_dma_contig_plane_dma_addr(&dst->base.vb.vb2_b=
+uf,
+> > > > 0);
+> > > >> +  luma_addr =3D hantro_get_dec_buf_addr(ctx, &dst->base.vb.vb2_bu=
+f);
+> > > >>    hantro_write_addr(ctx->dev, G2_OUT_LUMA_ADDR, luma_addr);
+> > > >>
+> > > >>    chroma_addr =3D luma_addr + chroma_offset(ctx, dec_params);
+> > > >> @@ -191,7 +191,7 @@ static void config_ref(struct hantro_ctx *ctx,
+> > > >>    hantro_reg_write(ctx->dev, &ref_reg->hor_scale, (refw << 14) /
+> > > > dst->vp9.width);
+> > > >>    hantro_reg_write(ctx->dev, &ref_reg->ver_scale, (refh << 14) /
+> > > > dst->vp9.height);
+> > > >>
+> > > >> -  luma_addr =3D vb2_dma_contig_plane_dma_addr(&buf->base.vb.vb2_b=
+uf,
+> > > > 0);
+> > > >> +  luma_addr =3D hantro_get_dec_buf_addr(ctx, &buf->base.vb.vb2_bu=
+f);
+> > > >>    hantro_write_addr(ctx->dev, ref_reg->y_base, luma_addr);
+> > > >>
+> > > >>    chroma_addr =3D luma_addr + chroma_offset(ctx, dec_params);
+> > > >> @@ -236,7 +236,7 @@ static void config_ref_registers(struct hantro=
+_ctx
+> > *ctx,
+> > > >>    config_ref(ctx, dst, &ref_regs[1], dec_params, dec_params-
+> > > >> golden_frame_ts);
+> > > >>    config_ref(ctx, dst, &ref_regs[2], dec_params, dec_params-
+> > > >> alt_frame_ts);
+> > > >>
+> > > >> -  mv_addr =3D vb2_dma_contig_plane_dma_addr(&mv_ref->base.vb.vb2_=
+buf,
+> > > > 0) +
+> > > >> +  mv_addr =3D hantro_get_dec_buf_addr(ctx, &mv_ref->base.vb.vb2_b=
+uf) +
+> > > >>              mv_offset(ctx, dec_params);
+> > > >>    hantro_write_addr(ctx->dev, G2_REF_MV_ADDR(0), mv_addr);
+> > > >>
+> > > >> diff --git a/drivers/staging/media/hantro/hantro_hw.h b/drivers/
+staging/
+> > > > media/hantro/hantro_hw.h
+> > > >> index 2961d399fd60..3d4a5dc1e6d5 100644
+> > > >> --- a/drivers/staging/media/hantro/hantro_hw.h
+> > > >> +++ b/drivers/staging/media/hantro/hantro_hw.h
+> > > >> @@ -274,6 +274,7 @@ extern const struct hantro_variant
+> > rk3399_vpu_variant;
+> > > >>   extern const struct hantro_variant sama5d4_vdec_variant;
+> > > >>
+> > > >>   extern const struct hantro_postproc_ops hantro_g1_postproc_ops;
+> > > >> +extern const struct hantro_postproc_ops hantro_g2_postproc_ops;
+> > > >>
+> > > >>   extern const u32 hantro_vp8_dec_mc_filter[8][6];
+> > > >>
+> > > >> diff --git a/drivers/staging/media/hantro/hantro_postproc.c b/driv=
+ers/
+> > > > staging/media/hantro/hantro_postproc.c
+> > > >> index 4549aec08feb..79a66d001738 100644
+> > > >> --- a/drivers/staging/media/hantro/hantro_postproc.c
+> > > >> +++ b/drivers/staging/media/hantro/hantro_postproc.c
+> > > >> @@ -11,6 +11,7 @@
+> > > >>   #include "hantro.h"
+> > > >>   #include "hantro_hw.h"
+> > > >>   #include "hantro_g1_regs.h"
+> > > >> +#include "hantro_g2_regs.h"
+> > > >>
+> > > >>   #define HANTRO_PP_REG_WRITE(vpu, reg_name, val) \
+> > > >>   { \
+> > > >> @@ -99,6 +100,21 @@ static void hantro_postproc_g1_enable(struct
+> > hantro_ctx
+> > > > *ctx)
+> > > >>    HANTRO_PP_REG_WRITE(vpu, display_width, ctx->dst_fmt.width);
+> > > >>   }
+> > > >>
+> > > >> +static void hantro_postproc_g2_enable(struct hantro_ctx *ctx)
+> > > >> +{
+> > > >> +  struct hantro_dev *vpu =3D ctx->dev;
+> > > >> +  struct vb2_v4l2_buffer *dst_buf;
+> > > >> +  size_t chroma_offset =3D ctx->dst_fmt.width * ctx->dst_fmt.heig=
+ht;
+> > > >> +  dma_addr_t dst_dma;
+> > > >> +
+> > > >> +  dst_buf =3D hantro_get_dst_buf(ctx);
+> > > >> +  dst_dma =3D vb2_dma_contig_plane_dma_addr(&dst_buf->vb2_buf, 0);
+> > > >> +
+> > > >> +  hantro_write_addr(vpu, G2_RS_OUT_LUMA_ADDR, dst_dma);
+> > > >> +  hantro_write_addr(vpu, G2_RS_OUT_CHROMA_ADDR, dst_dma +
+> > > > chroma_offset);
+> > > >> +  hantro_reg_write(vpu, &g2_out_rs_e, 1);
+> > > >> +}
+> > > >> +
+> > > >>   void hantro_postproc_free(struct hantro_ctx *ctx)
+> > > >>   {
+> > > >>    struct hantro_dev *vpu =3D ctx->dev;
+> > > >> @@ -127,6 +143,9 @@ int hantro_postproc_alloc(struct hantro_ctx *c=
+tx)
+> > > >>    if (ctx->vpu_src_fmt->fourcc =3D=3D V4L2_PIX_FMT_H264_SLICE)
+> > > >>            buf_size +=3D hantro_h264_mv_size(ctx->dst_fmt.width,
+> > > >>                                            ctx-
+> > > >> dst_fmt.height);
+> > > >> +  else if (ctx->vpu_src_fmt->fourcc =3D=3D V4L2_PIX_FMT_VP9_FRAME)
+> > > >> +          buf_size +=3D hantro_vp9_mv_size(ctx->dst_fmt.width,
+> > > >> +                                         ctx-
+> > > >> dst_fmt.height);
+> > > >>
+> > > >>    for (i =3D 0; i < num_buffers; ++i) {
+> > > >>            struct hantro_aux_buf *priv =3D &ctx->postproc.dec_q[i];
+> > > >> @@ -152,6 +171,13 @@ static void hantro_postproc_g1_disable(struct
+> > > > hantro_ctx *ctx)
+> > > >>    HANTRO_PP_REG_WRITE_S(vpu, pipeline_en, 0x0);
+> > > >>   }
+> > > >>
+> > > >> +static void hantro_postproc_g2_disable(struct hantro_ctx *ctx)
+> > > >> +{
+> > > >> +  struct hantro_dev *vpu =3D ctx->dev;
+> > > >> +
+> > > >> +  hantro_reg_write(vpu, &g2_out_rs_e, 0);
+> > > >> +}
+> > > >> +
+> > > >>   void hantro_postproc_disable(struct hantro_ctx *ctx)
+> > > >>   {
+> > > >>    struct hantro_dev *vpu =3D ctx->dev;
+> > > >> @@ -172,3 +198,8 @@ const struct hantro_postproc_ops
+> > hantro_g1_postproc_ops
+> > > > =3D {
+> > > >>    .enable =3D hantro_postproc_g1_enable,
+> > > >>    .disable =3D hantro_postproc_g1_disable,
+> > > >>   };
+> > > >> +
+> > > >> +const struct hantro_postproc_ops hantro_g2_postproc_ops =3D {
+> > > >> +  .enable =3D hantro_postproc_g2_enable,
+> > > >> +  .disable =3D hantro_postproc_g2_disable,
+> > > >> +};
+> > > >> diff --git a/drivers/staging/media/hantro/imx8m_vpu_hw.c b/drivers/
+> > staging/
+> > > > media/hantro/imx8m_vpu_hw.c
+> > > >> index 455a107ffb02..1a43f6fceef9 100644
+> > > >> --- a/drivers/staging/media/hantro/imx8m_vpu_hw.c
+> > > >> +++ b/drivers/staging/media/hantro/imx8m_vpu_hw.c
+> > > >> @@ -132,6 +132,14 @@ static const struct hantro_fmt=20
+imx8m_vpu_dec_fmts[]
+> > =3D {
+> > > >>    },
+> > > >>   };
+> > > >>
+> > > >> +static const struct hantro_fmt imx8m_vpu_g2_postproc_fmts[] =3D {
+> > > >> +  {
+> > > >> +          .fourcc =3D V4L2_PIX_FMT_NV12,
+> > > >> +          .codec_mode =3D HANTRO_MODE_NONE,
+> > > >> +          .postprocessed =3D true,
+> > > >> +  },
+> > > >> +};
+> > > >> +
+> > > >>   static const struct hantro_fmt imx8m_vpu_g2_dec_fmts[] =3D {
+> > > >>    {
+> > > >>            .fourcc =3D V4L2_PIX_FMT_NV12_4L4,
+> > > >> @@ -301,6 +309,9 @@ const struct hantro_variant imx8mq_vpu_g2_vari=
+ant=20
+=3D {
+> > > >>    .dec_offset =3D 0x0,
+> > > >>    .dec_fmts =3D imx8m_vpu_g2_dec_fmts,
+> > > >>    .num_dec_fmts =3D ARRAY_SIZE(imx8m_vpu_g2_dec_fmts),
+> > > >> +  .postproc_fmts =3D imx8m_vpu_g2_postproc_fmts,
+> > > >> +  .num_postproc_fmts =3D ARRAY_SIZE(imx8m_vpu_g2_postproc_fmts),
+> > > >> +  .postproc_ops =3D &hantro_g2_postproc_ops,
+> > > >>    .codec =3D HANTRO_HEVC_DECODER | HANTRO_VP9_DECODER,
+> > > >>    .codec_ops =3D imx8mq_vpu_g2_codec_ops,
+> > > >>    .init =3D imx8mq_vpu_hw_init,
+> > > >> --
+> > > >> 2.17.1
+> > > >>
+> > > >>
+> > > >
+> > > >
+> > >
+> > >
+> >
+> >
+>=20
+
+
