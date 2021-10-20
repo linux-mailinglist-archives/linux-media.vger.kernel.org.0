@@ -2,171 +2,142 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D3D964352E3
-	for <lists+linux-media@lfdr.de>; Wed, 20 Oct 2021 20:43:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 57346435456
+	for <lists+linux-media@lfdr.de>; Wed, 20 Oct 2021 22:09:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231278AbhJTSqD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 20 Oct 2021 14:46:03 -0400
-Received: from meesny.iki.fi ([195.140.195.201]:36916 "EHLO meesny.iki.fi"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230076AbhJTSqD (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 20 Oct 2021 14:46:03 -0400
-Received: from hillosipuli.retiisi.eu (dkvn5pty0gzs3nltj987t-3.rev.dnainternet.fi [IPv6:2001:14ba:4457:9640:1e2d:1f75:a607:ef37])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-        (No client certificate requested)
-        (Authenticated sender: sailus)
-        by meesny.iki.fi (Postfix) with ESMTPSA id 69C4A200A4;
-        Wed, 20 Oct 2021 21:43:46 +0300 (EEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=meesny;
-        t=1634755426;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=RoYvvqZQkhJSELmgjkpysEUTTnb/9wmmXf4FzNHpdn4=;
-        b=SYlYaDz8mPMtSzfo7f+2jzLc7AjFYqb7YHgf8eB9lpAa1cNOz5/V6kK6wZFif4yT2B2M/8
-        b36oIylv6ajzENnwxh9JbZ+OEk76HRB1AQFs6PlwVAoIPWV6RlRnSfKxae0hqChzAi4uuV
-        7WJRe8WXOuJ6xrlUw3NFKj86hPI3ULo=
-Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 3C6BA634C90;
-        Wed, 20 Oct 2021 21:43:44 +0300 (EEST)
-Date:   Wed, 20 Oct 2021 21:43:43 +0300
-From:   Sakari Ailus <sakari.ailus@iki.fi>
-To:     Krzysztof =?utf-8?Q?Ha=C5=82asa?= <khalasa@piap.pl>
-Cc:     Jacopo Mondi <jacopo@jmondi.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Matteo Lisi <matteo.lisi@engicam.com>
-Subject: Re: [PATCH v5] Driver for ON Semi AR0521 camera sensor
-Message-ID: <YXBjX2vUwrKVOd78@valkosipuli.retiisi.eu>
-References: <m3fstfoexa.fsf@t19.piap.pl>
- <20211009102446.jrvrdr7whtd2rv4z@uno.localdomain>
- <m3mtnflpna.fsf@t19.piap.pl>
- <20211011143420.vm6ncl5gdv44nsn3@uno.localdomain>
- <m3a6jel9ce.fsf@t19.piap.pl>
- <YWXwSAm3OO/WTkOL@valkosipuli.retiisi.eu>
- <m335p5lc04.fsf@t19.piap.pl>
+        id S231143AbhJTUL4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 20 Oct 2021 16:11:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45840 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231671AbhJTULz (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Wed, 20 Oct 2021 16:11:55 -0400
+Received: from mail-wm1-x32d.google.com (mail-wm1-x32d.google.com [IPv6:2a00:1450:4864:20::32d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CDD8AC061749
+        for <linux-media@vger.kernel.org>; Wed, 20 Oct 2021 13:09:40 -0700 (PDT)
+Received: by mail-wm1-x32d.google.com with SMTP id 67-20020a1c1946000000b0030d4c90fa87so12122404wmz.2
+        for <linux-media@vger.kernel.org>; Wed, 20 Oct 2021 13:09:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ragnatech-se.20210112.gappssmtp.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=V88g9/D29zrL6QHXR48P4CVKxzPOpttF64BNB2SYKh0=;
+        b=T3xM4yevAQsdlSbe7tJduXmvuw1wLh41A21wunlqMrt2wPTvY48XfGZiA7811S17dh
+         fhg5V50GGtvAeWfHaI2Hw7AlbfPoqs/uaW+XySPKNvNSwHwUK/Mi9yBbtqO1leS68XEB
+         4Ds1Z3EqL5ksQ+4S8++1kx5LB+lcqleMFMroPMY+aKSM0RQcKMr/bj2HuV2x408SJi8n
+         sU4NHn1lVTm7RV7bpTpGFBsuVTEo8E9ovDwIefVa4h+cbW0ndY16MIDhgtlS2LWkXBXG
+         Fkh9SI5HxWSjchWgfJBBXycDlv9kXSHmE1Zm7QWSVgodD1Pe/3YH8BDSDidIoMGAmH9m
+         HX8A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=V88g9/D29zrL6QHXR48P4CVKxzPOpttF64BNB2SYKh0=;
+        b=FjzGhsUWv9CBNhRzn9YOYYK8d5llfaaBiqmOzBH6ZzuOLYt7EkSnSXi+Hd2bUXc8H/
+         Yq7GsS+XtCp3HaSAmLDg8a8fU7FsLCixE62Nb2G5HBIkxBILPks1Jh2usqzDEpjmWh8T
+         MP8x7HaXt2hcpc1eiZH/h+BbkxIykyJM46x6vp9q7EeKJ+jao5V3BMUMkgl5pY6jp/pX
+         GSR4sINmgbOfjOeGvHYu5/wNoiPPafW3n2jhIYA4Zi9njxWsYubYe6u6UvGJp+P82IiR
+         ID5KhqJBMpsw8hkFVobN5Q9dNeCaCzk/ZOQXEOENwHgn5jS0O60rECxkJ6vjqYEcPxfa
+         A7LA==
+X-Gm-Message-State: AOAM532VUqOEoyvd+uA+oy8+Dd9Nk4VvkXNjYrigV78FrimNoMQ8DVb+
+        oIYL7G+GVp0J1LjufN7Cig/iWw==
+X-Google-Smtp-Source: ABdhPJyAT9FcwRXpA2k33OerYwYt9w+1kD0AOmcY0kTScuHqKuKZ4CMbckfEc7ftLk2Fdf4jjo4emg==
+X-Received: by 2002:a7b:c941:: with SMTP id i1mr16398540wml.40.1634760579350;
+        Wed, 20 Oct 2021 13:09:39 -0700 (PDT)
+Received: from bismarck.berto.se (p54ac5892.dip0.t-ipconnect.de. [84.172.88.146])
+        by smtp.googlemail.com with ESMTPSA id x7sm2849904wrq.69.2021.10.20.13.09.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 20 Oct 2021 13:09:38 -0700 (PDT)
+From:   =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>
+To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        linux-media@vger.kernel.org
+Cc:     linux-renesas-soc@vger.kernel.org,
+        =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>
+Subject: [PATCH 0/3] media: rcar-{csi2,vin}: Move to full Virtual Channel routing per CSI-2 IP
+Date:   Wed, 20 Oct 2021 22:02:22 +0200
+Message-Id: <20211020200225.1956048-1-niklas.soderlund+renesas@ragnatech.se>
+X-Mailer: git-send-email 2.33.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <m335p5lc04.fsf@t19.piap.pl>
-ARC-Authentication-Results: i=1;
-        ORIGINATING;
-        auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
-ARC-Seal: i=1; s=meesny; d=iki.fi; t=1634755426; a=rsa-sha256; cv=none;
-        b=YVth3SL3n/8q/Y+6g18UnZ4TugSE/pDLHS49PElAlo8/NTiBl/xtwBer8I1rdSMz/L3N6Z
-        zXlrtmEnSM4NQLz2+2meyFb8Dxgcr+c266sAVKD37H4+FbdEIgUVwp9eLfGR/GiDb+VtwF
-        ColZdm/Zh3EeiEusBYosu2pR8ltSo2I=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
-        s=meesny; t=1634755426;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=RoYvvqZQkhJSELmgjkpysEUTTnb/9wmmXf4FzNHpdn4=;
-        b=w854VqFbZ0kTtLlb7l0UwUSVmDHmOQCY4Si79n2t+9kZx2Kj1Y8BxxwcWeQ7eKSimg7iZK
-        t3usWgnh/Ii+OhqqG3E+JAOJ1dxtxFJKh53yjHbVE/oFSP68GxjONoqqqKqQ1LtW5ccrh/
-        WdGJx1vUjsTs6N8+lZhxtag6PPPn/Cs=
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Krzysztof,
+Hello,
 
-On Wed, Oct 13, 2021 at 07:39:07AM +0200, Krzysztof Hałasa wrote:
-> Hi Sakari,
-> 
-> > 	https://hverkuil.home.xs4all.nl/spec/driver-api/camera-sensor.html
-> 
-> Ok:
-> "8.2.2. Devicetree
-> 
-> The currently preferred way to achieve this is using assigned-clocks,
-> assigned-clock-parents and assigned-clock-rates properties. See
-> Documentation/devicetree/bindings/clock/clock-bindings.txt for more
-> information. The driver then gets the frequency using clk_get_rate()."
-> 
-> Let's see:
-> Documentation/devicetree/bindings/clock/clock-bindings.txt:
-> 
-> "==Assigned clock parents and rates==
-> 
-> Some platforms may require initial configuration of default parent clocks
-> and clock frequencies. Such a configuration can be specified in a device tree
-> node through assigned-clocks, assigned-clock-parents and assigned-clock-rates
-> properties. The assigned-clock-parents property should contain a list of parent
-> clocks in the form of a phandle and clock specifier pair and the
-> assigned-clock-rates property should contain a list of frequencies in Hz. Both
-> these properties should correspond to the clocks listed in the assigned-clocks
-> property."
-> 
-> So I'm after "assigned-clock-rates", right?
-> 
-> "Configuring a clock's parent and rate through the device node that consumes
-> the clock can be done only for clocks that have a single user. Specifying
-> conflicting parent or rate configuration in multiple consumer nodes for
-> a shared clock is forbidden."
-> 
-> This sounds a bit problematic, the clock I use is at least potentially
-> shared by multiple parts of the system, depending on current (run time)
-> configuration. I am/was getting different frequencies depending of the
-> particular system (all based on the same i.MX6* SoC, but with different
-> peripherals used/enabled). I think it's quite a common situation.
+This series attempts to increase the flexibility of the R-Car VIN 
+capture pipeline by allowing for free form Virtual Channel routing 
+within the same CSI-2 IP block.
 
-This was discussed some time ago before I wrote the documentation. The
-conclusion back then was that it's just fine, and such cases would need to
-be addressed when they turn up. We haven't had any yet as far as I know.
+When Gen3 support was first added to this R-Car VIN and CSI-2 driver the
+routing was centred around the CHSEL register which multiplex the
+different parallel buses that sits between the CSI-2 receivers source
+side and the VIN dma engines. This was a bad design as the multiplexing
+do allow for only a few combinations and do not play nice with many
+video streams in the system.
 
-> 
-> > Generally camera sensor drivers that set the clock in drivers themselves
-> > are (very) old.
-> 
-> Let's have a look... ov9282 is (one of) the newest drivers. It does:
-> #define OV9282_INCLK_RATE    24000000
-> 
->         /* Get sensor input clock */
->         ov9282->inclk = devm_clk_get(ov9282->dev, NULL);
->         if (IS_ERR(ov9282->inclk)) {
->                 dev_err(ov9282->dev, "could not get inclk");
->                 return PTR_ERR(ov9282->inclk);
->         }
-> 
->         rate = clk_get_rate(ov9282->inclk);
->         if (rate != OV9282_INCLK_RATE) {
->                 dev_err(ov9282->dev, "inclk frequency mismatch");
->                 return -EINVAL;
->         }
-> 
-> $ git grep -l ov9282
-> Documentation/devicetree/bindings/media/i2c/ovti,ov9282.yaml
-> MAINTAINERS
-> drivers/media/i2c/Kconfig
-> drivers/media/i2c/Makefile
-> drivers/media/i2c/ov9282.c
-> 
->   clocks:
->     description: Clock frequency from 6 to 27MHz
-> 
-> No in-tree DTS exists, but the single frequency (both in the driver -
-> this one can be fixed - and in the DTS) is rather limiting. Maybe
-> another:
-> 
-> imx412, imx335, imx334, imx258 - same here.
-> imx208 is ACPI-based.
-> 
-> Which driver should I consult?
+For example it's only possible for CSI-2 Virtual Channels 0 and 1 of any
+given CSI-2 receiver to be used together with the scaler.
 
-The drivers you're looking at are based on register lists so they usually
-support just a single frequency. The sensors are not limited to this
-frequency however, which is why you see the frequency in DT bindings, too.
+Later datasheets have expanded the documentation and it is now possible
+to improve on this design by allowing any Virtual Channel to be routed
+to any R-Car VIN instance, provided that there exists a parallel bus
+between them. This increases the flexibility as all Virtual Channels can
+now be used together with the scaler for example.
+
+The redesign is not however perfect. While the new design allows for
+many more routes, two constrains limit a small portion of routes that
+was possible in the old design but are no more.
+
+- It is no longer possible to route the same CSI-2 and VC to more then
+one VIN at a time. This was theoretically possible before if the
+specific SoC allowed for the same CSI-2 and VC to be routed to two
+different VIN capture groups.
+
+- It is no longer possible to simultaneously mix links from two CSI-2 IP
+blocks to the same VIN capture group.
+
+For example if VIN2 is capturing from CSI40 then VIN{0,1,3} must also
+capture from CSI40. While VIN{4,5,6,7} is still free to capture from
+any other CSI-2 IP in the system. Once all VIN{0,1,2,3} links to CSI40
+are disabled that VIN capture group is free again to capture from any
+other CSI-2 IP it is connected to.
+
+At the core of the redesign is greater cooperator of the R-Car VIN and
+CSI-2 drivers in configuring the routing. The VIN driver is after this
+change only responsible to configure the full VIN capture groups
+parallel buses to be to a particular CSI-2 IP. While the configuration
+of which CSI-2 Virtual Channel is outputted on which of the R-Car CSI-2
+IP output ports is handled by the CSI-2 driver.
+
+Before this change the CSI-2 Virtual Channel to output port was static
+in the CSI-2 driver and the different links only manipulated the VIN
+capture groups CHSEL register. With this change both the CHSEl register
+and the CSI-2 routing VCDT registers are modified for greater
+flexibility.
+
+Patch 1/3 and 2/3 are cleanup patches moving code around preparing for 
+the real work in 3/3. The work is based on the latest media-tree.
+
+Kind Regards,
+Niklas Söderlund
+
+Niklas Söderlund (3):
+  media: rcar-vin: Refactor link notify
+  media: rcar-vin: Breakout media link creation
+  media: rcar-{csi2,vin}: Move to full Virtual Channel routing per CSI-2
+    IP
+
+ drivers/media/platform/rcar-vin/rcar-core.c | 379 ++++++--------------
+ drivers/media/platform/rcar-vin/rcar-csi2.c |  58 ++-
+ drivers/media/platform/rcar-vin/rcar-dma.c  |   2 +-
+ drivers/media/platform/rcar-vin/rcar-vin.h  |  18 +-
+ 4 files changed, 167 insertions(+), 290 deletions(-)
 
 -- 
-Regards,
+2.33.1
 
-Sakari Ailus
