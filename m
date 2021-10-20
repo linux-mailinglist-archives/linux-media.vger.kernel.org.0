@@ -2,76 +2,73 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CB51B434BE9
-	for <lists+linux-media@lfdr.de>; Wed, 20 Oct 2021 15:18:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DAC85434C07
+	for <lists+linux-media@lfdr.de>; Wed, 20 Oct 2021 15:25:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229943AbhJTNUN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 20 Oct 2021 09:20:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34896 "EHLO
+        id S229897AbhJTN2E (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 20 Oct 2021 09:28:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36696 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229570AbhJTNUM (ORCPT
+        with ESMTP id S229632AbhJTN2D (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 20 Oct 2021 09:20:12 -0400
-Received: from mail-pg1-x532.google.com (mail-pg1-x532.google.com [IPv6:2607:f8b0:4864:20::532])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3EF36C06161C;
-        Wed, 20 Oct 2021 06:17:57 -0700 (PDT)
-Received: by mail-pg1-x532.google.com with SMTP id e65so20085787pgc.5;
-        Wed, 20 Oct 2021 06:17:57 -0700 (PDT)
+        Wed, 20 Oct 2021 09:28:03 -0400
+Received: from mail-pj1-x102f.google.com (mail-pj1-x102f.google.com [IPv6:2607:f8b0:4864:20::102f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BA38BC06161C;
+        Wed, 20 Oct 2021 06:25:49 -0700 (PDT)
+Received: by mail-pj1-x102f.google.com with SMTP id q2-20020a17090a2e0200b001a0fd4efd49so3807242pjd.1;
+        Wed, 20 Oct 2021 06:25:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=message-id:subject:from:to:cc:date:in-reply-to:references
          :user-agent:mime-version:content-transfer-encoding;
-        bh=WYRpv8N66/W2Mu0ccRwKp1YVNKPZWgSDjisZQyVjEx8=;
-        b=W7d9Dw6Txw6qqYUs29sbgFaYzX9bi87F7VBdCMsJ7mqOOp1beirt0jPgR760Fsbo31
-         ARnz7IgGxXpmQkeYXMcC+J7APY+AY949Cy+jACf/xmVirGjFqmIl6XKIZMefr0xhk6jr
-         sIT/i/ItkQRC3aDS3xqVIqXWEH2ceL85jd7D/JiWdVjEhP6nHRZEDeYByF1t1glBKhzb
-         JV5lolicYYlivX3A1evtWUA+SDhjBluj98VeL2/pXV9SDwnjz7myfjfd80sfItG7uJox
-         Qkq1FBaSEBuOR6rWwNUcUUyy1EYSQf5cyG3+eLg+0IEyppyWvfkGb163lsHZ/wMS9KqP
-         /vUA==
+        bh=KD04hsmi0lgerCpXrek0NWCbVNI3Lu/Nr105uWRTo8c=;
+        b=JXX65j3hX2NvMlynDH+nRMiKJKnN5UveBhRRhING9zBMpxapQoY7K6lmkEsfwoXcNE
+         +1wr5fwA2lmJPifFvCPcxsWfmUqdIp41SkQn/KQzajtgqpm4++tkOjjyv8VCgnWd8xqk
+         mVBv6xtmXQCdigbe32XYl/NPu30bCMIAOuewuQntcuhLQvJHb8l3F+WoLWF4woZGpN2o
+         kK3+B4EdBIr8tb9tj6k1yPO/DC3fsBU62T6Z0KTsODb+oGjfLl+P5ouwsUuCAWfTYHUj
+         KHpzg3DrrdGFNlVZ8m0EDYQhumuN49+1D7drhPy2NcIbmVmDX4J6rtBhyTwb/b3601s+
+         BBhQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
          :references:user-agent:mime-version:content-transfer-encoding;
-        bh=WYRpv8N66/W2Mu0ccRwKp1YVNKPZWgSDjisZQyVjEx8=;
-        b=bOy/R9E8cMpE557NklKlaxdIifS0Sh0kewv/T2h/XCp7AzxKe94J3LbMNvEBDqdN+C
-         UL9Bp4nu4reK7P9qO/ddh8sSkpC/dGRwYBBM4zRMuMCKpjW1w6LLJeDbHBIQVQwqow1L
-         HstHeUozbmskTiAIbmJ6Wa/1Z70+M8B13BHePxTQcD+VvoPcbVfAu489RLNK0bgT82In
-         jY00uMRrSH2HP8iCw7TejKb0GKVUxjJqfDzpDLebSeKck1Co5HwEi1JIJ2v+UydQqgVg
-         +I8HKgwDWEB2gseHGxADa90HoNGzm7mLkgrd/h85aoTQNuuwt8/GzmoVIBaMBNaFZRNe
-         fb/A==
-X-Gm-Message-State: AOAM533Ld9TjGwUv9ipLvnk6Glr59INs9Q9qaZGNhOP2Io6UIlyYAGE2
-        VQx2a6dX8mpIvwZdAKwCuac=
-X-Google-Smtp-Source: ABdhPJwe4OyYxZBBcTwn+Hoa8n9DNA0H7qO1dEf5kLqG6ddUb7u9Cp/PGSHNHAEg0gfmGXqe8ZgTYw==
-X-Received: by 2002:a63:b241:: with SMTP id t1mr33828806pgo.154.1634735876518;
-        Wed, 20 Oct 2021 06:17:56 -0700 (PDT)
+        bh=KD04hsmi0lgerCpXrek0NWCbVNI3Lu/Nr105uWRTo8c=;
+        b=Jo4EaH4RWqszXiTjH05ZuBy2vOLj8G93CWB4lVX4KKeHm+naje5bVnuF5NHP62nyuZ
+         HQef2YrP+aDZ37aotLP20Ble5eJGu3q4CGcJDCPcsq3q1MSjh9ECq+DwF8S56fLTkDwL
+         aV/qQNoQgi5GhnkxE+BSJLnaveBKn5F79DakDRFwNIkGg8CW1wKrAQE5MsgH7zLdPAg1
+         7B0mhvOUQ4NA0XCIMacs13LcM+BC6EqpxCn4et1Cz1ui2mLe1it+DQYdHzMblplBRIhv
+         FTzgjqZZVT9dzCBvfeCEdOusnDvUkqkz775yrSkx33Iwl4TwNku5PzHZ2gKY8xtHho2d
+         nrcg==
+X-Gm-Message-State: AOAM533XluDNE/vdMDR+UmxPCizlLQlfvT5qgejIpHhDMKTfFbfUzbP0
+        pJMNSazes9CLoXJo28Zh4Ag=
+X-Google-Smtp-Source: ABdhPJzEi+qF735DLvHgQoE5spz6cr2+SraesD/tRcTWc4xIQmSNH+/QZzgW1zjdcZjiyfzfw4Npew==
+X-Received: by 2002:a17:90b:4ad2:: with SMTP id mh18mr45250pjb.18.1634736349097;
+        Wed, 20 Oct 2021 06:25:49 -0700 (PDT)
 Received: from ?IPv6:2400:4052:6980:3800:dba7:2b1f:3f26:a5ec? ([2400:4052:6980:3800:dba7:2b1f:3f26:a5ec])
-        by smtp.gmail.com with ESMTPSA id b10sm2848145pfl.200.2021.10.20.06.17.52
+        by smtp.gmail.com with ESMTPSA id v9sm2556719pjc.55.2021.10.20.06.25.45
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 20 Oct 2021 06:17:56 -0700 (PDT)
-Message-ID: <9459d5dd265675d20905f4a02687cc08c31ee2fe.camel@gmail.com>
-Subject: Re: [PATCH 00/17] various fixes for atomisp to make it work
+        Wed, 20 Oct 2021 06:25:48 -0700 (PDT)
+Message-ID: <721eda4c6b65a0c0da4b85e1b24bada769890816.camel@gmail.com>
+Subject: Re: [PATCH 02/17] media: atomisp: pci: fix punit_ddr_dvfs_enable()
+ argument for mrfld_power up case
 From:   Tsuchiya Yuto <kitakar@gmail.com>
-To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To:     Andy Shevchenko <andriy.shevchenko@intel.com>
 Cc:     Hans de Goede <hdegoede@redhat.com>,
         Patrik Gfeller <patrik.gfeller@gmail.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         Sakari Ailus <sakari.ailus@linux.intel.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Yang Yingliang <yangyingliang@huawei.com>,
         Hans Verkuil <hverkuil-cisco@xs4all.nl>,
         Aline Santana Cordeiro <alinesantanacordeiro@gmail.com>,
+        Yang Yingliang <yangyingliang@huawei.com>,
         Dinghao Liu <dinghao.liu@zju.edu.cn>,
-        linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
-        linux-kernel@vger.kernel.org,
-        Nable <nable.maininbox@googlemail.com>,
-        Fabio Aiuto <fabioaiuto83@gmail.com>,
-        "andrey.i.trufanov" <andrey.i.trufanov@gmail.com>
-Date:   Wed, 20 Oct 2021 22:17:51 +0900
-In-Reply-To: <YW70KzXJ8q1ksEx5@smile.fi.intel.com>
+        Alan <alan@linux.intel.com>, linux-media@vger.kernel.org,
+        linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Date:   Wed, 20 Oct 2021 22:25:43 +0900
+In-Reply-To: <YW1Vj5jGybs8gXWr@smile.fi.intel.com>
 References: <20211017161958.44351-1-kitakar@gmail.com>
-         <bc7f699d-d77d-83ad-ce5b-6082f30881c1@redhat.com>
-         <7550e3359471726cf14572dd4860c238f166dde8.camel@gmail.com>
-         <YW70KzXJ8q1ksEx5@smile.fi.intel.com>
+         <20211017161958.44351-3-kitakar@gmail.com>
+         <YW1Vj5jGybs8gXWr@smile.fi.intel.com>
 Content-Type: text/plain; charset="UTF-8"
 User-Agent: Evolution 3.40.4 
 MIME-Version: 1.0
@@ -80,60 +77,90 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, 2021-10-19 at 19:36 +0300, Andy Shevchenko wrote:
-> On Tue, Oct 19, 2021 at 10:50:27PM +0900, Tsuchiya Yuto wrote:
-> > On Mon, 2021-10-18 at 09:48 +0200, Hans de Goede wrote:
-> > > On 10/17/21 18:19, Tsuchiya Yuto wrote:
-> 
-> ...
-> 
-> > > >   ## for mipad2 (and whiskey cove pmic based devices)
-> > > > 
-> > > > For devices which equip whiskey cove PMIC, you need to add non-upstream
-> > > > regulator driver [1].
-> > > > 
-> > > > [1] work done by jekhor, which seems to be from intel-aero or old
-> > > >     Android kernel
-> > > >     https://github.com/jekhor/yogabook-linux-kernel/commit/11c05b365fb2eeb4fced5aa66b362c511be32a34
-> > > >     ("intel_soc_pmic_chtwc: Add regulator driver and definition for VPROG1B")
-> > > 
-> > > Interesting I recently bought a 2nd hand mipad2 myself too. I still need
-> > > to put Linux on there. I'm definitely motivated to do that now :)
+On Mon, 2021-10-18 at 14:07 +0300, Andy Shevchenko wrote:
+> On Mon, Oct 18, 2021 at 01:19:42AM +0900, Tsuchiya Yuto wrote:
+> > When comparing with intel-aero atomisp [1], it looks like
+> > punit_ddr_dvfs_enable() should take `false` as an argument on mrfld_power
+> > up case.
 > > 
-> > I'm glad to hear that you also got a mipad2 :) It might be a interesting
-> > device to look into. It even won't boot without nomodeset, no battery
-> > charging/status on mainline kernel.
+> > Code from the intel-aero kernel [1]:
 > > 
-> > By the way, instead of adding whiskey cove regulator driver, we may also
-> > add a "hack" like the other PMIC in atomisp_gmin_platform to control
-> > regulators [1].
-> 
-> I looked briefly into the code and if we indeed need to turn off or on
-> the regulators it should be a driver.
-> 
-> I don't like having hacks outside of driver/staging to satisfy the one from
-> the staging.
-
-Yeah, if "reading" from the PMIC can't be achieved with the current
-mainline kernel, it does not make sense to add code for "reading" just
-for the hack inside atomisp. Rather, in this case, adding the regulator
-driver is a straightforward way.
-
-We can already write with intel_soc_pmic_exec_mipi_pmic_seq_element(),
-so what I wondered is, is there equivalent for "read"?
-
-But yes, we should eventually use regulator driver anyway.
-
-Regards,
-Tsuchiya Yuto
-
-> I.o.w. having a regulator driver is a right thing to do in my opinion.
-> 
-> > It seems that to do so, it needs to "read" value from the PMIC before
-> > writing. So, I'm not sure if this can be achieved easily with the current
-> > mainline kernel though.
+> >         int atomisp_mrfld_power_down(struct atomisp_device *isp)
+> >         {
+> >         [...]
+> >         	/*WA:Enable DVFS*/
+> >         	if (IS_CHT)
+> >         		punit_ddr_dvfs_enable(true);
 > > 
-> > [1] https://github.com/MiCode/Xiaomi_Kernel_OpenSource/commit/6204d4b7aeefc4db622f8ac57b87bf2c76c6c8aa
-> >     ("atomisp_platform: add whiskey cove pmic support")
+> >         int atomisp_mrfld_power_up(struct atomisp_device *isp)
+> >         {
+> >         [...]
+> >         	/*WA for PUNIT, if DVFS enabled, ISP timeout observed*/
+> >         	if (IS_CHT)
+> >         		punit_ddr_dvfs_enable(false);
+> > 
+> > This patch fixes the inverted argument as per the intel-aero code, as
+> > well as its comment. While here, fix space issues for comments in
+> > atomisp_mrfld_power().
+> > 
+> > Note that it does not seem to be possible to unify the up/down cases for
+> > punit_ddr_dvfs_enable(), i.e., we can't do something like the following:
+> > 
+> >         if (IS_CHT)
+> >         	punit_ddr_dvfs_enable(!enable);
+> > 
+> > because according to the intel-aero code [1], the DVFS is disabled
+> > before "writing 0x0 to ISPSSPM0 bit[1:0]" and the DVFS is enabled after
+> > "writing 0x3 to ISPSSPM0 bit[1:0]".
+> > 
+> > [1] https://github.com/intel-aero/linux-kernel/blob/a1b673258feb915268377275130c5c5df0eafc82/drivers/media/pci/atomisp/atomisp_driver/atomisp_v4l2.c#L431-L514
+> > 
+> > Fixes: 0f441fd70b1e ("media: atomisp: simplify the power down/up code")
+> > Signed-off-by: Tsuchiya Yuto <kitakar@gmail.com>
+> > ---
+> >  drivers/staging/media/atomisp/pci/atomisp_v4l2.c | 8 ++++----
+> >  1 file changed, 4 insertions(+), 4 deletions(-)
+> > 
+> > diff --git a/drivers/staging/media/atomisp/pci/atomisp_v4l2.c b/drivers/staging/media/atomisp/pci/atomisp_v4l2.c
+> > index 0511c454e769..f5362554638e 100644
+> > --- a/drivers/staging/media/atomisp/pci/atomisp_v4l2.c
+> > +++ b/drivers/staging/media/atomisp/pci/atomisp_v4l2.c
+> > @@ -711,15 +711,15 @@ static int atomisp_mrfld_power(struct atomisp_device *isp, bool enable)
+> >  
+> >  	dev_dbg(isp->dev, "IUNIT power-%s.\n", enable ? "on" : "off");
+> >  
+> > -	/*WA:Enable DVFS*/
+> > +	/* WA for PUNIT, if DVFS enabled, ISP timeout observed */
+> 
+> P-Unit
+
+Thanks, I'll fix this next time I send.
+
+> >  	if (IS_CHT && enable)
+> > -		punit_ddr_dvfs_enable(true);
+> > +		punit_ddr_dvfs_enable(false);
+> >  
+> >  	/*
+> >  	 * FIXME:WA for ECS28A, with this sleep, CTS
+> >  	 * android.hardware.camera2.cts.CameraDeviceTest#testCameraDeviceAbort
+> >  	 * PASS, no impact on other platforms
+> > -	*/
+> > +	 */
+> >  	if (IS_BYT && enable)
+> >  		msleep(10);
+> >  
+> > @@ -727,7 +727,7 @@ static int atomisp_mrfld_power(struct atomisp_device *isp, bool enable)
+> >  	iosf_mbi_modify(BT_MBI_UNIT_PMC, MBI_REG_READ, MRFLD_ISPSSPM0,
+> >  			val, MRFLD_ISPSSPM0_ISPSSC_MASK);
+> >  
+> > -	/*WA:Enable DVFS*/
+> > +	/* WA:Enable DVFS */
+> >  	if (IS_CHT && !enable)
+> >  		punit_ddr_dvfs_enable(true);
+> >  
+> > -- 
+> > 2.33.1
+> > 
+> > 
 > 
 
