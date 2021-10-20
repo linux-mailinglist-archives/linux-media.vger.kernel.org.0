@@ -2,74 +2,70 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4AEF9434B80
-	for <lists+linux-media@lfdr.de>; Wed, 20 Oct 2021 14:45:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 64B26434B8B
+	for <lists+linux-media@lfdr.de>; Wed, 20 Oct 2021 14:48:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230429AbhJTMrP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 20 Oct 2021 08:47:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55576 "EHLO
+        id S230200AbhJTMuf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 20 Oct 2021 08:50:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56434 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230447AbhJTMrG (ORCPT
+        with ESMTP id S229702AbhJTMue (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 20 Oct 2021 08:47:06 -0400
-Received: from mail-pf1-x429.google.com (mail-pf1-x429.google.com [IPv6:2607:f8b0:4864:20::429])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9A37FC061753;
-        Wed, 20 Oct 2021 05:44:52 -0700 (PDT)
-Received: by mail-pf1-x429.google.com with SMTP id d9so2878799pfl.6;
-        Wed, 20 Oct 2021 05:44:52 -0700 (PDT)
+        Wed, 20 Oct 2021 08:50:34 -0400
+Received: from mail-pg1-x534.google.com (mail-pg1-x534.google.com [IPv6:2607:f8b0:4864:20::534])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 85E3EC06161C;
+        Wed, 20 Oct 2021 05:48:20 -0700 (PDT)
+Received: by mail-pg1-x534.google.com with SMTP id e65so20009355pgc.5;
+        Wed, 20 Oct 2021 05:48:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=message-id:subject:from:to:cc:date:in-reply-to:references
          :user-agent:mime-version:content-transfer-encoding;
-        bh=yyWIeD3i9WahRcz0ArlWA7aLt2M5TmzmbUQm2c2ABac=;
-        b=osvHtzEQaUSIgQ+5TW2kFqmhU7DTyHXW13DjYTPWkeKcXJbSOltHkYB2aVxd3tu4ae
-         Ree1mWZ27PMcyVdk/yUTt0iM+dUHpaConpD2uCs6hSdYnMBbZRG/bMW4epO98wONZqTa
-         +SCiwzviYDc2mt6lNYI2kY3SN1ZPTjKAZnoza9EFbs74kPwmUE5oa8zS6tk4bu6bMLJd
-         icBUEDIWP5e8pvIibZGoNIXW4Y9IuESIkjpqNOaeR4l/VWxwDecZEVDG0AhakIkM/0wk
-         VcR296nF+P5NXqpfTBCRZ+YGMoNWM0Z7vUw+7rW6lF8mu/o8eckxpFVl0FIHOZvkRLfe
-         RIsw==
+        bh=/8aZ4SK2m8/sLSKz111lgbTcgtIRMhqxBR7wyJ7Da4o=;
+        b=fKBhoibSLqY2GF6nDhYN4xEhIBuJFvkjGY7GOVBHY+RuQ5iFg91hg3ClbhpUKgAmqp
+         fqTy0iOwiu2Gb1spscCi9NGNIB1Lai/O6ws4Lf/XYmqu/wh+ZeWWJVZL5ar0BMQvv5VT
+         fsc56U39si2lWQOlDKnwzlgagL9dK8ZmKxaRe9vL2VZZwKUhKd4Fwq42lCpw/KQlboKz
+         ubfC5HeuvS8YCLPbvCxswHB9eKj4QQ2HYQJ72nmplm5zyUIfCZfAo9lckrGNVtGKKcy2
+         fMBuHTo1Ib+78juabqOtCXJD67qVfbT5DvUReHY8S7QGQvcdyDv65DJ1ZV8R3DILgsgT
+         36QA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
          :references:user-agent:mime-version:content-transfer-encoding;
-        bh=yyWIeD3i9WahRcz0ArlWA7aLt2M5TmzmbUQm2c2ABac=;
-        b=vGzRMRx3ZUtYtYAii5MucvrD4hgqA3zb+OQzdDIneOAIb3aU8GdrjPl4PXrm91HJVk
-         +PQ933Q/dqbkxZbJR9WWONllrsAxnyO5PP9eBU+6sCpuH+HPN83rOLc6Ki5dXReDibVo
-         /54hfwHzA8klYGBR9gOUUZkTPmvF0A0IA0k8hV5p7o4pSFHOqlq3+wTk7i4oamGWhyL3
-         0dN4EKySJicbbP5IsFp1+oLgU89c+Pj/VWgLu0TNZoDvf13ll0RaV1i/rqK0R6cHiNzB
-         CoLFydXxr7U6lu4hXgM+d3/kL94i+9f4euelfeUeqfcMMReUFtZmgy9WIMsVUw0Bl9E4
-         UBzw==
-X-Gm-Message-State: AOAM530QwFflJgN+lOiRFyCPCmQSA0H/QXBA8X/mPG4Gfu8qyq5AEyyg
-        pZbqlLYcAoQSd4ucC1Te+68=
-X-Google-Smtp-Source: ABdhPJwwRky6RP6pTJ7x3IlNFf1UhIyZWGl8fIItdeYH/giK7DJt9lv86LhmSCihuRBiCaer4sv2MQ==
-X-Received: by 2002:a62:d11e:0:b0:446:d705:7175 with SMTP id z30-20020a62d11e000000b00446d7057175mr6288265pfg.74.1634733892023;
-        Wed, 20 Oct 2021 05:44:52 -0700 (PDT)
+        bh=/8aZ4SK2m8/sLSKz111lgbTcgtIRMhqxBR7wyJ7Da4o=;
+        b=lKlTATCWWQnLDbDeK7SGPSwkcDj/azbFQaWPc6iu1MaJSXDMHA0VI8i1QMI+PVRh+Q
+         bO2mO9snWudABdSGQEpUfRvwQfubYLwZf54s+paX91jqJBMg5aPjRq0BDvB+o/H7S9Kp
+         LSpCyrSvXcTA4+p5J+oiFBjHPw2zDc3kGSBI9+uirS5gWFp+s6QPTqgio5ExQ4+c2Fv1
+         elXY6Cv2gx9YKRSUsXJRcZkSUyLAuiD2hfP8+VGAsz8zB3xxueS4YKjYol9xyWTUREhb
+         JTouNoNWb3Wog/QNIZmbpRD2unQKN65twYkxInI4CRChiFdHj11xzPx6dLp7opCW+kuv
+         S34w==
+X-Gm-Message-State: AOAM5327PqvhR2PJ5KxfoAsYa+P3DnSooQ/ksAu7GWZ4M+gerK5Vhdo7
+        wgzQSMTg5CqqQFNOCdOVuXA=
+X-Google-Smtp-Source: ABdhPJwCOENoENYrA36VDJAwEewKW8FoJuumxo9secHYYu7z+3x8Kt/e0IVX10vzhKOCXoculCQS6w==
+X-Received: by 2002:a63:794b:: with SMTP id u72mr34325043pgc.191.1634734100009;
+        Wed, 20 Oct 2021 05:48:20 -0700 (PDT)
 Received: from ?IPv6:2400:4052:6980:3800:dba7:2b1f:3f26:a5ec? ([2400:4052:6980:3800:dba7:2b1f:3f26:a5ec])
-        by smtp.gmail.com with ESMTPSA id w11sm2264932pge.48.2021.10.20.05.44.48
+        by smtp.gmail.com with ESMTPSA id t4sm2784125pfj.13.2021.10.20.05.48.16
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 20 Oct 2021 05:44:51 -0700 (PDT)
-Message-ID: <b8b15020618e9b099cc0f22624cb726410bdec06.camel@gmail.com>
+        Wed, 20 Oct 2021 05:48:19 -0700 (PDT)
+Message-ID: <fa4ec49ac7abda3ef24c58bae1ee498e11bebc9a.camel@gmail.com>
 Subject: Re: [PATCH 00/17] various fixes for atomisp to make it work
 From:   Tsuchiya Yuto <kitakar@gmail.com>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Andy Shevchenko <andy.shevchenko@gmail.com>
+To:     Andy Shevchenko <andriy.shevchenko@intel.com>
 Cc:     Hans de Goede <hdegoede@redhat.com>,
         Patrik Gfeller <patrik.gfeller@gmail.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
         Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Yang Yingliang <yangyingliang@huawei.com>,
         Hans Verkuil <hverkuil-cisco@xs4all.nl>,
         Aline Santana Cordeiro <alinesantanacordeiro@gmail.com>,
         Dinghao Liu <dinghao.liu@zju.edu.cn>,
-        Alan <alan@linux.intel.com>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        linux-staging@lists.linux.dev,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Date:   Wed, 20 Oct 2021 21:44:47 +0900
-In-Reply-To: <20211020075015.316d827c@sal.lan>
+        Alan <alan@linux.intel.com>, linux-media@vger.kernel.org,
+        linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Date:   Wed, 20 Oct 2021 21:48:10 +0900
+In-Reply-To: <YW1U0UtNpA9DYZ56@smile.fi.intel.com>
 References: <20211017161958.44351-1-kitakar@gmail.com>
-         <CAHp75VcDZQ1M2iNKewxqcG3C+bzSEGV05dTmYp3xXhnhNGdviw@mail.gmail.com>
-         <20211020075015.316d827c@sal.lan>
+         <YW1U0UtNpA9DYZ56@smile.fi.intel.com>
 Content-Type: text/plain; charset="UTF-8"
 User-Agent: Evolution 3.40.4 
 MIME-Version: 1.0
@@ -78,33 +74,17 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, 2021-10-20 at 07:50 +0100, Mauro Carvalho Chehab wrote:
-> Em Mon, 18 Oct 2021 10:56:40 +0300
-> Andy Shevchenko <andy.shevchenko@gmail.com> escreveu:
+On Mon, 2021-10-18 at 14:04 +0300, Andy Shevchenko wrote:
+> On Mon, Oct 18, 2021 at 01:19:40AM +0900, Tsuchiya Yuto wrote:
 > 
-> > On Mon, Oct 18, 2021 at 6:45 AM Tsuchiya Yuto <kitakar@gmail.com> wrote:
-> > > 
-> > > Hi all,
-> > > 
-> > > This patch series contains fixes for atomisp to work (again). Tested on
-> > > Microsoft Surface 3 (Windows) and Xiaomi Mi Pad 2 (Android model) with
-> > > v5.15-rc5. Both are Cherry Trail (ISP2401) devices.
-> > > 
-> > > I'm still not used to Linux patch sending flow. Sorry in advance
-> > > if there is some weirdness :-) but I did my best.  
-> > 
-> > I agree with Hans, you did an excellent job!
-> > I will try to find time to look into this.
+> Just a remark, your To is not filled. At some point I had written a script [1]
+> to help me with patch series sending, It also tries to be smart to include
+> necessary people and mailing lists (you can always alter it by adding more).
+> [1]: https://github.com/andy-shev/home-bin-tools/blob/master/ge2maintainer.sh
 
-Thank you :)
-
-> > In any case it seems to me
-> > that this is a material more likely for v5.17-rc1, rather than v5.16.
-> 
-> Yeah, it sounds to late to apply it for 5.16.
-
-I see, but no problem. This series does not contain any fixes for
-critical issues (like NULL ptr deref)
+Ah thanks. I didn't use To but just used `--cc-cmd` with
+scripts/get_maintainer.pl without thinking deeply...
+I'll definitely try your script next time I send patches.
 
 Regards,
 Tsuchiya Yuto
