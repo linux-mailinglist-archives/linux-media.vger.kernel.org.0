@@ -2,168 +2,113 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 32D5A4364D0
-	for <lists+linux-media@lfdr.de>; Thu, 21 Oct 2021 16:55:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F17CC4364DA
+	for <lists+linux-media@lfdr.de>; Thu, 21 Oct 2021 16:57:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231574AbhJUO5i (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 21 Oct 2021 10:57:38 -0400
-Received: from mail.kernel.org ([198.145.29.99]:59796 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231169AbhJUO5f (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 21 Oct 2021 10:57:35 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 402CA610EA;
-        Thu, 21 Oct 2021 14:55:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1634828119;
-        bh=r63ma6vIwvOAJNMq0TkSE5Tea41rPItvlMFznvcB5dM=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=UrlnVS82wAQHpl4Ddp3W7mfndpN/LkYx4bB/6TdsyVIp3gvVI5dwYcjrS+tW9uPR2
-         njiQOOIBffg/J4XDKMR/Mm2yl9g645vffRGb0ToXaPpW4UXBVE8nEUnItSqa3aNMBM
-         EJSrBPD9b8axtGvlHM+eCyR/JEb0Lzg3ZINiZt1LEAYuc233I+ZcUi0i5fjhw8SFmA
-         EvoHvJLCC0GP2bGZ1ObIQd8s3rvdJQ0nf+YPygy5lExDNMjiWP7k9toXrSzUmoX9fO
-         2ttGwOj7VSaybEIBclhf+GgbsIVsR/uv8qmitaN9joNo0mO06loQKcmgEVoNMX7bM9
-         vw2bcVkrBP0GQ==
-Date:   Thu, 21 Oct 2021 15:55:12 +0100
-From:   Mauro Carvalho Chehab <mchehab@kernel.org>
-To:     Hans Verkuil <hverkuil@xs4all.nl>
-Cc:     Jacopo Mondi <jacopo@jmondi.org>, Sean Young <sean@mess.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        linux-media@vger.kernel.org
-Subject: Re: [PATCH] media: Document coding style requirements
-Message-ID: <20211021155512.153ecd48@sal.lan>
-In-Reply-To: <f48bbc19-9285-befe-e1cc-4c71d2735994@xs4all.nl>
-References: <20211013092005.14268-1-jacopo@jmondi.org>
-        <f48bbc19-9285-befe-e1cc-4c71d2735994@xs4all.nl>
-X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
+        id S231569AbhJUO74 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 21 Oct 2021 10:59:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45934 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230280AbhJUO7z (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Thu, 21 Oct 2021 10:59:55 -0400
+Received: from lb2-smtp-cloud9.xs4all.net (lb2-smtp-cloud9.xs4all.net [IPv6:2001:888:0:108::2c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8F195C0613B9
+        for <linux-media@vger.kernel.org>; Thu, 21 Oct 2021 07:57:39 -0700 (PDT)
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud9.xs4all.net with ESMTPA
+        id dZVemlGZHqPdpdZVhmwFtb; Thu, 21 Oct 2021 16:57:38 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
+        t=1634828258; bh=gcorpW3iN0G2e02Zb95T574z8K9ZWuCM3YtNqvGSBsI=;
+        h=Subject:From:To:Message-ID:Date:MIME-Version:Content-Type:From:
+         Subject;
+        b=jD2HD4LtSx9cshcuA8GBXw4Ufgxgk8UBGQX6kD4bOpamUSh+igFSgCoKEqiFjPg8F
+         X7WexCTou7GFD3wJrFUclYuWhEAUixDD3c+to7e3n67reyBIwsXNBkDwFPe6x75/nb
+         +9g/33eteWHoLFuoH2PoOCU3GHJycmcVcqnG04GCrG8RIM5roZ3x+i5Mwz911qNG6b
+         PvGGID9liUSN/SppoaKE+xzxMP36nDRjgQVwP7ifbyBR1CHhXkYC0LIKQTPjEy9U9T
+         PZ3b6L+hijHXqCE2TMkG4x4rQd8yf+B8yH9k0ibTMiC2CWWm2KvL3IJbU3/cpPeP8n
+         l0eUP1D7zC9xw==
+Subject: Re: [GIT PULL FOR v5.16] Add support for DMA2D of STMicroelectronics
+ STM32 Soc series
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+To:     Linux Media Mailing List <linux-media@vger.kernel.org>
+Cc:     Dillon Min <dillon.minfei@gmail.com>
+References: <126f13fc-1d37-8bef-3411-4553864fe5be@xs4all.nl>
+Message-ID: <dd8d7e0c-3f56-433d-a075-8e290ca2520a@xs4all.nl>
+Date:   Thu, 21 Oct 2021 16:57:34 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Firefox/78.0 Thunderbird/78.14.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+In-Reply-To: <126f13fc-1d37-8bef-3411-4553864fe5be@xs4all.nl>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4xfKQnS2ekSP/dNftzs9h64DHB2HpkVK6oL7WKFiX/yHOJ0tnLIfq6cETFH3ZzU6yf6fBYoQ1enf7XVGspIHz/C217qU0xq9quli+JjV6lURa4Vu+7gUoO
+ LArvOWkOliTrgujJhRHkwNfMs8kBcsOmB7weyyrczs5KHQ2V6YQtXq+M8Iz9QhE/JnhR67W5P5wUVTW4eyarU2GcZ6ZF+XZPVoxS/f+EnYLrtV9Et7Xk76My
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Em Thu, 21 Oct 2021 16:00:40 +0200
-Hans Verkuil <hverkuil@xs4all.nl> escreveu:
+I'll make a new PR for this without the clk patch.
 
-> On 13/10/2021 11:20, Jacopo Mondi wrote:
-> > There are a few additional coding style conventions in place in
-> > the media subsystem. If they do not get documented, it's hard to enforce
-> > them during review as well as it is hard for developers to follow them
-> > without having previously contributed to the subsystem.
-> > 
-> > Add them to the subsystem profile documentation.
-> > 
-> > Signed-off-by: Jacopo Mondi <jacopo@jmondi.org>
-> > ---
-> > 
-> > All points are up for discussion ofc.
-> > 
-> > But the idea is to get to have more requirement defined, as otherwise
-> > it's very hard to enforce them during review.
-> > 
-> > Thanks
-> >    j
-> > 
-> > ---
-> >  .../media/maintainer-entry-profile.rst        | 24 +++++++++++++++++++
-> >  1 file changed, 24 insertions(+)
-> > 
-> > diff --git a/Documentation/driver-api/media/maintainer-entry-profile.rst b/Documentation/driver-api/media/maintainer-entry-profile.rst
-> > index eb1cdfd280ba..9c376f843e1c 100644
-> > --- a/Documentation/driver-api/media/maintainer-entry-profile.rst
-> > +++ b/Documentation/driver-api/media/maintainer-entry-profile.rst
-> > @@ -180,6 +180,30 @@ In particular, we accept lines with more than 80 columns:
-> >      - when they avoid a line to end with an open parenthesis or an open
-> >        bracket.
-> > 
-> > +There are a few additional requirements which are not enforced by tooling
-> > +but mostly during the review process:
-> > +
-> > +    - C++ style comments are not allowed, if not for SPDX headers;  
-> 
-> if not -> except
+Sorry Dillon, after digging a bit more into the clk series I think that this
+should go to the CLK subsystem. I do not feel comfortable merging that patch
+via the media subsystem because: 1) from what I can see it is part of a larger
+unmerged patch series, and 2) I do not have the expertise to tell if this is
+correct or not to just merge this patch.
 
-While I prefer C99, I'm not really against having C++ comments on single
-line comments. 
+Regards,
 
-> 
-> > +    - hexadecimal values should be spelled using lowercase letters;
+	Hans
 
-> > +    - one structure/enum member declaration per line;
-> > +    - one variable declaration per line;  
+On 21/10/2021 16:45, Hans Verkuil wrote:
+> The following changes since commit 57c3b9f55ba875a6f6295fa59f0bdc0a01c544f8:
 > 
-> Hmm, I don't mind something like: int i, j;
+>   media: venus: core: Add sdm660 DT compatible and resource struct (2021-10-21 14:26:19 +0100)
+> 
+> are available in the Git repository at:
+> 
+>   git://linuxtv.org/hverkuil/media_tree.git tags/br-v5.16k
+> 
+> for you to fetch changes up to b019395c863f436adb30237b50f22b027bec7351:
+> 
+>   media: stm32-dma2d: STM32 DMA2D driver (2021-10-21 16:14:57 +0200)
+> 
+> ----------------------------------------------------------------
+> Tag branch
+> 
+> ----------------------------------------------------------------
+> Dillon Min (8):
+>       media: admin-guide: add stm32-dma2d description
+>       media: dt-bindings: media: add document for STM32 DMA2d bindings
+>       media: v4l2-mem2mem: add v4l2_m2m_get_unmapped_area for no-mmu platform
+>       media: videobuf2: Fix the size printk format
+>       media: v4l2-ctrls: Add V4L2_CID_COLORFX_CBCR max setting
+>       media: v4l2-ctrls: Add RGB color effects control
+>       clk: stm32: Fix ltdc's clock turn off by clk_disable_unused() after system enter shell
+>       media: stm32-dma2d: STM32 DMA2D driver
+> 
+>  Documentation/admin-guide/media/platform-cardlist.rst       |   1 +
+>  Documentation/devicetree/bindings/media/st,stm32-dma2d.yaml |  71 +++++
+>  Documentation/userspace-api/media/v4l/control.rst           |   9 +
+>  drivers/clk/clk-stm32f4.c                                   |   4 -
+>  drivers/media/common/videobuf2/videobuf2-dma-contig.c       |   8 +-
+>  drivers/media/platform/Kconfig                              |  11 +
+>  drivers/media/platform/Makefile                             |   1 +
+>  drivers/media/platform/stm32/Makefile                       |   2 +
+>  drivers/media/platform/stm32/dma2d/dma2d-hw.c               | 143 ++++++++++
+>  drivers/media/platform/stm32/dma2d/dma2d-regs.h             | 113 ++++++++
+>  drivers/media/platform/stm32/dma2d/dma2d.c                  | 739 ++++++++++++++++++++++++++++++++++++++++++++++++++++
+>  drivers/media/platform/stm32/dma2d/dma2d.h                  | 135 ++++++++++
+>  drivers/media/v4l2-core/v4l2-ctrls-defs.c                   |  12 +-
+>  drivers/media/v4l2-core/v4l2-mem2mem.c                      |  21 ++
+>  include/media/v4l2-mem2mem.h                                |   5 +
+>  include/uapi/linux/v4l2-controls.h                          |   4 +-
+>  16 files changed, 1268 insertions(+), 11 deletions(-)
+>  create mode 100644 Documentation/devicetree/bindings/media/st,stm32-dma2d.yaml
+>  create mode 100644 drivers/media/platform/stm32/dma2d/dma2d-hw.c
+>  create mode 100644 drivers/media/platform/stm32/dma2d/dma2d-regs.h
+>  create mode 100644 drivers/media/platform/stm32/dma2d/dma2d.c
+>  create mode 100644 drivers/media/platform/stm32/dma2d/dma2d.h
+> 
 
-I don't mind having things like:
-
-	struct *dev, *parent_dev;
-
-or even:
-
-	struct *parent_dev, *dev = pdev->dev;
-
-What it is really ugly is having multiple initialized vars at the
-same declaration, like:
-
-	struct *parent_dev = pdev->dev.parent, *dev = pdev->dev;
-
-or, even worse:
-
-	struct *dev = pdev->dev, *parent_dev = dev.parent;
-
-
-> But for anything more complex I too prefer one declaration per line.
-> 
-> > +    - prefer variable declaration order in reverse-x-mas-tree over
-> > +      initialization at variable declare time;  
-> 
-> Add something like:
-> 
-> ...unless there are dependencies or other readability reasons to
-> depart from this.
-
-+1
-
-> 
-> > +
-> > +      As an example, the following style is preferred::
-> > +
-> > +         struct priv_struct *priv = container_of(....)
-> > +         struct foo_struct *foo = priv->foo;
-> > +         int b;
-> > +
-> > +         b = a_very_long_operation_name(foo, s->bar)
-> > +
-> > +      over the following one::
-> > +
-> > +         struct priv_struct *priv = container_of(....)
-> > +         struct foo_struct *foo = priv->foo;
-> > +         int b = a_very_long_operation_name(foo, s->bar)  
-> 
-> I'm not sure if this is what you typically see.
-> 
-> Perhaps this is a better example:
-> 
-> 	int i;
-> 	struct foo_struct *foo = priv->foo;
-> 	int result;
-> 
-> should be written as:
-> 
-> 	struct foo_struct *foo = priv->foo;
-> 	int result;
-> 	int i;
-> 
-> Regards,
-> 
-> 	Hans
-> 
-> > +
-> >  Key Cycle Dates
-> >  ---------------
-> > 
-> > --
-> > 2.33.0
-> >   
-> 
