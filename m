@@ -2,52 +2,52 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 10A4A436CF4
+	by mail.lfdr.de (Postfix) with ESMTP id 59A29436CF5
 	for <lists+linux-media@lfdr.de>; Thu, 21 Oct 2021 23:44:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232274AbhJUVqa (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        id S232277AbhJUVqa (ORCPT <rfc822;lists+linux-media@lfdr.de>);
         Thu, 21 Oct 2021 17:46:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55186 "EHLO
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55192 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232261AbhJUVq0 (ORCPT
+        with ESMTP id S232213AbhJUVq1 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 21 Oct 2021 17:46:26 -0400
-Received: from mail-wm1-x330.google.com (mail-wm1-x330.google.com [IPv6:2a00:1450:4864:20::330])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4EDB8C061764
-        for <linux-media@vger.kernel.org>; Thu, 21 Oct 2021 14:44:10 -0700 (PDT)
-Received: by mail-wm1-x330.google.com with SMTP id o24so997447wms.0
-        for <linux-media@vger.kernel.org>; Thu, 21 Oct 2021 14:44:10 -0700 (PDT)
+        Thu, 21 Oct 2021 17:46:27 -0400
+Received: from mail-wr1-x42d.google.com (mail-wr1-x42d.google.com [IPv6:2a00:1450:4864:20::42d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 659DAC061764
+        for <linux-media@vger.kernel.org>; Thu, 21 Oct 2021 14:44:11 -0700 (PDT)
+Received: by mail-wr1-x42d.google.com with SMTP id k7so1572264wrd.13
+        for <linux-media@vger.kernel.org>; Thu, 21 Oct 2021 14:44:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=sHrUsYFVYm+IkCidB9wUGrczs/x78/ITOW6ys69BRks=;
-        b=LlMNKP/J6vlxUvOjfHav6NuhYch26Feoz2LDmkB2ABpNm41LB2DsOZVafnud9AIagf
-         Ae8N92ZrJAfOTj8OVb3dbym4XAhVnubs6EYJWQa8gE87340OnNoCjGdjwjz8GsmZk7wK
-         7tQZC62L7dfOpWOY/pGSbPsKo/SY1jpReP9lLoLkhdIfWmH6Xgwx0Haihn1dbuGs379H
-         jjn8jUP7tld+ShvZRRHnWc7erXP7nNS1IzqyAya6DtjKFaobYWQwHCkDxUe40sc+kpAM
-         g56m7Xb2ti2MY/SOfcL7JLVHOtGqA69YZo2CAdrllDpwIxAokEGSDBuThtNUx6WIIqrl
-         jekw==
+        bh=eYXk6mu1t2LWygmapm0MdeihIPOCQMZuJBpibJeSFrg=;
+        b=pipLd9DaH9X9ot+mnSW7A9glsVMiXNt8jyPO6ryvQPeufIgoWxUTYpO5pxiziBFTiw
+         /wfs81v1wfp5uuD964VhdPODilAzmvCRV/hvVnKdcV+oyYSYbKDeN6VgYEsVeo6fV516
+         zayL5cnKNaw3D/H1Vvtr7J1vallwZTvTuE7uBUTuERitc6IGcm5etPkAMVbp9UOK10hr
+         bPKZP+BmkXhVI9ypnjyCSMGFlFDG8Lq+yB+FIcwdgRuuMihAWuwVHiBy/KpbRui/iSij
+         tuTdZoOnGDFCddH8+2WpV7XXlq09e+BE9ACwihiJonKhGBkhuqVdxbNkimJQV5O4jY9k
+         6AlA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=sHrUsYFVYm+IkCidB9wUGrczs/x78/ITOW6ys69BRks=;
-        b=SiggLeSzKApz1wIqwtr3vdjRqyxXjjoj84x8W//reu6Lsq2ZcQK2+zbc4NUtPdFkv6
-         rkgLw2+dDN/2f/lvvTMdsYcdutAkWjPsQhXT5zo7W+1BU783D8uhc+shY+vN/h9CKFHX
-         cvRDLfzpl6XvJxVIe2t3XrBVRcb/JtEazypFSaknidWY8shTD8pfPpui4PqUM06vdrMB
-         yvpiHCRKR79CkWDFT7bZ5nlJ1VTRPfwHwtq9cH1DKvecPNFFuSr+/tn4+Nq/wjY7MtVu
-         KyIitU9iGnAaVS/CAlVhoE5h8fjsywhYbIpXxdrk4joFXzxRMAGVg6/s6g8TfOQxIY5O
-         YEgw==
-X-Gm-Message-State: AOAM53318cGE9Wol+o88q9x5LpFc9ipHTxCFihKQoGWCwI0EzDdYTg9b
-        XXOVM20ePnWgGPj6tEUn8ABh+21w6AE=
-X-Google-Smtp-Source: ABdhPJxk0V0gdHC+Azy/CDp+kZlkAHqz2Ty0lVC1tOh2ovOjvYvTSaji6BspBb9l+IYwGfWhavxoBg==
-X-Received: by 2002:a05:600c:21c4:: with SMTP id x4mr24303974wmj.111.1634852648944;
-        Thu, 21 Oct 2021 14:44:08 -0700 (PDT)
+        bh=eYXk6mu1t2LWygmapm0MdeihIPOCQMZuJBpibJeSFrg=;
+        b=3B8Gcrs7G+/fsig076X1flLuxWTDQZ89KAT5/KyTDSqwr49xZST4OGu/rpM0KuW4LD
+         gwElWJSjT+kfmdnaXYfaey6SosMkWmM1kV73Cg0p5wdBrSB+qY5DfYQ0H2/h2Hrr8J2t
+         UhMVMj1XgHtsgOGoRmu2Wkhx881eKFgHLRiUiuNaP8GlTIfnr12mHIHCj2GtDcXxXzBY
+         RP/kZ1ZehlZA4EvRZdE/2IAxL+uPy85S/sg14sCF8fBYZs9A+QvB2QVZS5DE9z4NJQZU
+         y7ohVLQRc4ZemAGqTwczgOAweMC7ty/m04fw5Gzlg/q1SPxLLOtTdhulOcJ7yLS5GBb4
+         UB2g==
+X-Gm-Message-State: AOAM5312X8v/X9t6+3wBxHI9EaGSQeTSE/m6BgrulAW74mzEcwLFprB8
+        RVvjm28WrhpS+0PMINdLC7xWKSb/GAA=
+X-Google-Smtp-Source: ABdhPJwgPGAP5hFSP4iGuCwPIy0Br+h5i0piF24KZGoZ418Y4BJRsZaQgpqSb/QkgoOMR0hSjqK5tw==
+X-Received: by 2002:adf:b350:: with SMTP id k16mr10436592wrd.368.1634852650001;
+        Thu, 21 Oct 2021 14:44:10 -0700 (PDT)
 Received: from localhost.localdomain (cpc141996-chfd3-2-0-cust928.12-3.cable.virginm.net. [86.13.91.161])
-        by smtp.gmail.com with ESMTPSA id r205sm6378507wma.3.2021.10.21.14.44.08
+        by smtp.gmail.com with ESMTPSA id r205sm6378507wma.3.2021.10.21.14.44.09
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 21 Oct 2021 14:44:08 -0700 (PDT)
+        Thu, 21 Oct 2021 14:44:09 -0700 (PDT)
 From:   Daniel Scally <djrscally@gmail.com>
 To:     linux-media@vger.kernel.org, paul.kocialkowski@bootlin.com
 Cc:     Yong Zhi <yong.zhi@intel.com>,
@@ -58,9 +58,9 @@ Cc:     Yong Zhi <yong.zhi@intel.com>,
         Andy Shevchenko <andy.shevchenko@gmail.com>,
         hdegoede@redhat.com, laurent.pinchart@ideasonboard.com,
         kieran.bingham@ideasonboard.com
-Subject: [PATCH v3 15/16] media: ipu3-cio2: Add INT347A to cio2-bridge
-Date:   Thu, 21 Oct 2021 22:43:30 +0100
-Message-Id: <20211021214331.1188787-16-djrscally@gmail.com>
+Subject: [PATCH v3 16/16] media: i2c: ov8865: Fix lockdep error
+Date:   Thu, 21 Oct 2021 22:43:31 +0100
+Message-Id: <20211021214331.1188787-17-djrscally@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20211021214331.1188787-1-djrscally@gmail.com>
 References: <20211021214331.1188787-1-djrscally@gmail.com>
@@ -70,34 +70,49 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-ACPI _HID INT347A represents the OV8865 sensor, the driver for which can
-support the platforms that the cio2-bridge serves. Add it to the array
-of supported sensors so the bridge will connect the sensor to the CIO2
-device.
+From: Hans de Goede <hdegoede@redhat.com>
 
-Reviewed-by: Andy Shevchenko <andy.shevchenko@gmail.com>
-Signed-off-by: Daniel Scally <djrscally@gmail.com>
+ov8865_state_init() calls ov8865_state_mipi_configure() which uses
+__v4l2_ctrl_s_ctrl[_int64](). This means that sensor->mutex (which
+is also sensor->ctrls.handler.lock) must be locked before calling
+ov8865_state_init().
+
+Note ov8865_state_mipi_configure() is also used in other places where
+the lock is already held so it cannot be changed itself.
+
+This fixes the following lockdep kernel WARN:
+
+[   13.233413] ------------[ cut here ]------------
+[   13.233421] WARNING: CPU: 0 PID: 8 at drivers/media/v4l2-core/v4l2-ctrls-api.c:833 __v4l2_ctrl_s_ctrl+0x4d/0x60 [videodev]
+...
+[   13.234063] Call Trace:
+[   13.234074]  ov8865_state_configure+0x98b/0xc00 [ov8865]
+[   13.234095]  ov8865_probe+0x4b1/0x54c [ov8865]
+[   13.234117]  i2c_device_probe+0x13c/0x2d0
+
+Signed-off-by: Hans de Goede <hdegoede@redhat.com>
 ---
 Changes in v3:
 
-	- None
+	- New patch fixing a problem Hans noticed - thank you!
 
- drivers/media/pci/intel/ipu3/cio2-bridge.c | 2 ++
+ drivers/media/i2c/ov8865.c | 2 ++
  1 file changed, 2 insertions(+)
 
-diff --git a/drivers/media/pci/intel/ipu3/cio2-bridge.c b/drivers/media/pci/intel/ipu3/cio2-bridge.c
-index 59a36f922675..fb7d708b16e2 100644
---- a/drivers/media/pci/intel/ipu3/cio2-bridge.c
-+++ b/drivers/media/pci/intel/ipu3/cio2-bridge.c
-@@ -22,6 +22,8 @@
- static const struct cio2_sensor_config cio2_supported_sensors[] = {
- 	/* Omnivision OV5693 */
- 	CIO2_SENSOR_CONFIG("INT33BE", 0),
-+	/* Omnivision OV8865 */
-+	CIO2_SENSOR_CONFIG("INT347A", 1, 360000000),
- 	/* Omnivision OV2680 */
- 	CIO2_SENSOR_CONFIG("OVTI2680", 0),
- };
+diff --git a/drivers/media/i2c/ov8865.c b/drivers/media/i2c/ov8865.c
+index 685539744041..27179f1d5cb8 100644
+--- a/drivers/media/i2c/ov8865.c
++++ b/drivers/media/i2c/ov8865.c
+@@ -3073,7 +3073,9 @@ static int ov8865_probe(struct i2c_client *client)
+ 	if (ret)
+ 		goto error_mutex;
+ 
++	mutex_lock(&sensor->mutex);
+ 	ret = ov8865_state_init(sensor);
++	mutex_unlock(&sensor->mutex);
+ 	if (ret)
+ 		goto error_ctrls;
+ 
 -- 
 2.25.1
 
