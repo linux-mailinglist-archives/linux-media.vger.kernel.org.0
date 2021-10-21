@@ -2,164 +2,205 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1E078436A7B
-	for <lists+linux-media@lfdr.de>; Thu, 21 Oct 2021 20:19:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8223F436ADC
+	for <lists+linux-media@lfdr.de>; Thu, 21 Oct 2021 20:46:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231640AbhJUSWN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 21 Oct 2021 14:22:13 -0400
-Received: from relay2-d.mail.gandi.net ([217.70.183.194]:57023 "EHLO
-        relay2-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231433AbhJUSWM (ORCPT
+        id S231433AbhJUSsy (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 21 Oct 2021 14:48:54 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:57748 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S232343AbhJUSsx (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 21 Oct 2021 14:22:12 -0400
-Received: (Authenticated sender: jacopo@jmondi.org)
-        by relay2-d.mail.gandi.net (Postfix) with ESMTPSA id 21B2F40005;
-        Thu, 21 Oct 2021 18:19:53 +0000 (UTC)
-Date:   Thu, 21 Oct 2021 20:20:42 +0200
-From:   Jacopo Mondi <jacopo@jmondi.org>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Hans Verkuil <hverkuil@xs4all.nl>, Sean Young <sean@mess.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        linux-media@vger.kernel.org
-Subject: Re: [PATCH] media: Document coding style requirements
-Message-ID: <20211021182042.6vebkm4ww4g35a37@uno.localdomain>
-References: <20211013092005.14268-1-jacopo@jmondi.org>
- <f48bbc19-9285-befe-e1cc-4c71d2735994@xs4all.nl>
- <20211021155512.153ecd48@sal.lan>
- <YXGHw6FPfPddXMj2@pendragon.ideasonboard.com>
- <20211021171759.1857aeef@sal.lan>
+        Thu, 21 Oct 2021 14:48:53 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1634841997;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=dwo9VIX6lsiT4Wv1KFdeEER1lG1DpM8l88ri6KFwDGU=;
+        b=KIwy2sQZzLeJOk9c356WbOuWq40T622lBuF6Ey5wDqVwhS6sTJVy6oQ9Z+Pqb/k3K4tzKr
+        LgjgnPSvKiug8nX2WYasTlWwrqNyQAdLOHS2VDLvwaWHnNzHityMmlrOFJ3D2uH+SLhi3T
+        9a03chZEImaHw7kfOoXDKJCD3jxZBeQ=
+Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
+ [209.85.208.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-84-fr_ZdQHpNEmnCZEEcs6ceA-1; Thu, 21 Oct 2021 14:46:35 -0400
+X-MC-Unique: fr_ZdQHpNEmnCZEEcs6ceA-1
+Received: by mail-ed1-f70.google.com with SMTP id p20-20020a50cd94000000b003db23619472so1258248edi.19
+        for <linux-media@vger.kernel.org>; Thu, 21 Oct 2021 11:46:35 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=dwo9VIX6lsiT4Wv1KFdeEER1lG1DpM8l88ri6KFwDGU=;
+        b=NGPzWvXj0otoL+ss3asXFiQSkv85uhl+zuPoNzU1T4v7vyWBKf4gxWMBzMGOWJcDFY
+         +A+djvQckZ5mZ+ZXATG074NK317txPR3WL++3NKg9sL4AGN23G45vtPKgBG2kT/FAE0E
+         tdSxTZ9G1iv60e08AWJeGLTLGOCMujFxYziw+eS6eUjrE5w6CQm3qLPGoaAYmlSWxioO
+         arCKI2n2kYbta+YtO2ivx0Sg3spFG3mW1apBqPsnlKonTxQZ/U8dgKpnZ1yOg7MQNyVf
+         FLSU8N0mIjV6VC2QF89MdAWL67c5OFlNnn+XDRF9MVeIy/ZFPLQfB2SlPa3fRkGp6amx
+         rdgw==
+X-Gm-Message-State: AOAM5335q9jKXpjzc9tQn3F1xPlWmcKWURWds9Lg3sLU0L+Rxw900iyN
+        983kwYZFFkus1E4Es+rN9cEZVaDYPRCXNx0mdsxKcsoMYbvX5Ae7JqoI+eUUCgq9ho6sv7IQyUh
+        vIm/z1RPCB1e+GQizIvNpWBA=
+X-Received: by 2002:a17:907:3d9e:: with SMTP id he30mr9106406ejc.348.1634841994172;
+        Thu, 21 Oct 2021 11:46:34 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyTboahS2w3/VAWWqbsfGX7K2SRfYOLcs9i8Sc9rVRRFwLr9tDOPWnBjoOK41QqrMRAhs3NRQ==
+X-Received: by 2002:a17:907:3d9e:: with SMTP id he30mr9106364ejc.348.1634841993903;
+        Thu, 21 Oct 2021 11:46:33 -0700 (PDT)
+Received: from ?IPV6:2001:1c00:c1e:bf00:1054:9d19:e0f0:8214? (2001-1c00-0c1e-bf00-1054-9d19-e0f0-8214.cable.dynamic.v6.ziggo.nl. [2001:1c00:c1e:bf00:1054:9d19:e0f0:8214])
+        by smtp.gmail.com with ESMTPSA id v15sm3215225edi.89.2021.10.21.11.46.31
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 21 Oct 2021 11:46:31 -0700 (PDT)
+Message-ID: <a2aa76c3-a8bb-99ef-9f5a-e62cc503a1e2@redhat.com>
+Date:   Thu, 21 Oct 2021 20:46:30 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20211021171759.1857aeef@sal.lan>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.2.0
+Subject: Re: [PATCH 16/17] [NOT-FOR-MERGE] media: atomsip: pci: add DMI match
+ for Microsoft Surface 3 with broken DMI (OEMB)
+Content-Language: en-US
+To:     Tsuchiya Yuto <kitakar@gmail.com>
+Cc:     Patrik Gfeller <patrik.gfeller@gmail.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Aniket Bhattacharyea <aniketmail669@gmail.com>,
+        Aline Santana Cordeiro <alinesantanacordeiro@gmail.com>,
+        Yang Yingliang <yangyingliang@huawei.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Alan <alan@linux.intel.com>,
+        Dinghao Liu <dinghao.liu@zju.edu.cn>,
+        linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+        linux-kernel@vger.kernel.org
+References: <20211017161958.44351-1-kitakar@gmail.com>
+ <20211017161958.44351-17-kitakar@gmail.com>
+ <71b5b886-2ca1-27a9-6776-b3bcc430e5ed@redhat.com>
+ <ace1264d7254f7159865602614d70caf7ff4b609.camel@gmail.com>
+From:   Hans de Goede <hdegoede@redhat.com>
+In-Reply-To: <ace1264d7254f7159865602614d70caf7ff4b609.camel@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Mauro, Laurent,
+Hi,
 
-On Thu, Oct 21, 2021 at 05:17:59PM +0100, Mauro Carvalho Chehab wrote:
-> Em Thu, 21 Oct 2021 18:31:15 +0300
-> Laurent Pinchart <laurent.pinchart@ideasonboard.com> escreveu:
->
-> > Hi Mauro,
-> >
->
-> > > > > +    - one structure/enum member declaration per line;
-> > > > > +    - one variable declaration per line;
-> > > >
-> > > > Hmm, I don't mind something like: int i, j;
-> > >
-> > > I don't mind having things like:
-> > >
-> > > 	struct *dev, *parent_dev;
-> > >
-> > > or even:
-> > >
-> > > 	struct *parent_dev, *dev = pdev->dev;
-> > >
-> > > What it is really ugly is having multiple initialized vars at the
-> > > same declaration, like:
-> > >
-> > > 	struct *parent_dev = pdev->dev.parent, *dev = pdev->dev;
-> > >
-> > > or, even worse:
-> > >
-> > > 	struct *dev = pdev->dev, *parent_dev = dev.parent;
-> >
-> > Cording style is one of the main candidate areas for bikeshedding. The
-> > first question that we should answer, I believe, is whether or not we
-> > want to define a more precise coding style for the subsystem to achieve
-> > higher uniformity, and how much latitude we want to give to developers.
->
-> I would prefer to give more freedom to developers, provided that the
-> code is easy to read/maintain. Having to request multiple reviews just
-> due coding style nitpicking seems to be a waste of time for everyone ;-)
->
+On 10/21/21 11:46, Tsuchiya Yuto wrote:
+> On Mon, 2021-10-18 at 09:56 +0200, Hans de Goede wrote:
+>> Hi,
+>>
+>> On 10/17/21 18:19, Tsuchiya Yuto wrote:
+>>> This commit is added for Surface 3 with broken DMI table. HACK-ish.
+>>> Not intended for upstreaming. Thus, NOT-FOR-MERGE. But, if someone
+>>> knows a nicer way to address this, comments are welcome...
+>>>
+>>>> 8-----------------------------------------------------------------8<
+>>>
+>>> On some Microsoft Surface 3, the DMI table gets corrupted for unknown
+>>> reasons and breaks existing DMI matching used for device-specific quirks.
+>>>
+>>> This commit adds the (broken) DMI data into dmi_system_id tables used
+>>> for quirks so that the driver can enable quirks even on the affected
+>>> systems.
+>>>
+>>> On affected systems, the DMI data will look like this:
+>>>
+>>>         $ grep . /sys/devices/virtual/dmi/id/{bios_vendor,board_name,board_vendor,\
+>>>         chassis_vendor,product_name,sys_vendor}
+>>>         /sys/devices/virtual/dmi/id/bios_vendor:American Megatrends Inc.
+>>>         /sys/devices/virtual/dmi/id/board_name:OEMB
+>>>         /sys/devices/virtual/dmi/id/board_vendor:OEMB
+>>>         /sys/devices/virtual/dmi/id/chassis_vendor:OEMB
+>>>         /sys/devices/virtual/dmi/id/product_name:OEMB
+>>>         /sys/devices/virtual/dmi/id/sys_vendor:OEMB
+>>
+>> I wonder what the bios_date field contains ? Typically when the DMI strings
+>> are no good (e.g. often they contain "Default String" or "To be filled by OEM")
+>> we add a check on the bios-date, which together with the broken strings is
+>> considered unique enough to still allow a match with broken strings in the
+>> kernel.
+> 
+> Thank you so much for the comment :-)
+> 
+> Here is the full output of "/sys/devices/virtual/dmi/id/*" (not showing
+> files that need root permission to read):
+> 
+>         $ grep . /sys/devices/virtual/dmi/id/*
+>         /sys/devices/virtual/dmi/id/bios_date:03/09/2015
+>         /sys/devices/virtual/dmi/id/bios_release:5.6
+>         /sys/devices/virtual/dmi/id/bios_vendor:American Megatrends Inc.
+>         /sys/devices/virtual/dmi/id/bios_version:1.51116.238
 
-I agree in principle, but at the same time, a particularly stubborn
-confrontation during a review made me realize that most 'rules' are
-tribal knowledge, and a particularly stubborn developer might impose
-his own preferences arguing that everything that is not prohibited is
-allowed. If you add to that in the most common case cargo cult is
-the default way to find out what a rule is, if one driver escapes
-others will take inspiration from it.
+Interesting, this is the latest BIOS from july 2019 according to:
+https://support.microsoft.com/en-us/surface/surface-3-update-history-5d86a7bc-03f7-2d27-d858-e90ce637fb52
+yet the date is still set to 03/09/2015.
 
-Now, I'm fine if it gets decided that everything not prohibited is
-allowed, but then I fear it will be very hard to maintain a consistent
-style among the subsystem.
+I just checked and the BIOS with not corrupted DMI strings also keeps
+the date at 03/09/2015 in BIOS updates.
+
+So the date is correct, and together with matching a coupleof the OEMB-s
+(which I've never seen anywhere else either) this should be plenty
+unique.
+
+So this not only allows adding this mathc to atomisp, but also to fix
+sound + wmi on bad DMI data OEMB Surface 3-s, by updating this patch:
+
+https://github.com/linux-surface/linux-surface/blob/2fb7e9ae91350098db9a280277f424272816a9ab/patches/5.5/0003-surface3-oemb.patch
+
+To include the BIOS-date match and then submitting this upstream
+(as 2 separate patches please).
+
+Tsuchiya, I take it that your Surface 3 has the OEMB issue, so you
+can actually test this ?
+
+If you can prepare 2 patches for the sound + wmi then; and submit
+them upstream that would be great. Please Cc me on both patches.
+
+Regards,
+
+Hans
 
 
-> > For instance, I don't mind
-> >
-> > 	unsigned int i, j;
-> >
-> > too much, but I would scream in horror at
-> >
-> > 	char *name = dev_name, c = '\0';
->
-> Yeah, multiple vars being declared and assigned at the same line is something
-> that should be avoided. See, even single letter vars with obvious assigns,
-> like:
->
-> 	int i = 0, j = 1;
->
-> are less readable than:
->
-> 	int	i = 0;
-> 	int	j = 1;
->
-> > (I'm sad C even allows declaring a char pointer and a char variable on
-> > the same line like this). There are lots of cases between those two
-> > extremes that are more or less good (or bad) depending on who you ask,
-> > so we won't be able to come up with a precise set of rules that draw a
-> > line somewhere in the middle. What we could do is err more on the side
-> > of strictness, for instance with
-> >
-> > - One variable declaration per line. As an exception, grouping multiple
-> >   single-letter counter variables on a single line is allowed.
-> >
-> > (or even allowing no exception). This is probably stricter than it needs
-> > to be, and in some cases it will result in a few more lines of code, but
-> > if it brings increased readability and maintainability through
-> > uniformity it's something we could consider.
->
-> I don't think that things like:
->
-> 	int ret, i, j;
->
-> are less readable/maintainable than:
->
-> 	int ret;
-> 	int i;
-> 	int j;
->
-> Between the above, I would opt to the shorter format, when there's no
-> variable initialization (no matter if the vars have single or multiple
-> chars).
->
-> On the other hand, I won't be nacking/rejecting a patch if it uses
-> the longer format, as, for me, both are equivalent, in terms of
-> maintenance and readability.
->
-> So, for me, the rule should be just:
->
-> - don't declare and initialize multiple variables at the same line.
->
-> >
-> > The same reasoning can apply to C++ comments, we can decide to allow
-> > them or not, but the more flexibility there will be in the rules, the
-> > less uniformity we'll have, which I personally believe hinders
-> > readability.
->
-> Yeah, agreed.
 
-Thanks, I'll send a new version taking all your comments into account.
 
-Thanks
-   j
 
->
+
+>         /sys/devices/virtual/dmi/id/board_name:OEMB
+>         grep: /sys/devices/virtual/dmi/id/board_serial: Permission denied
+>         /sys/devices/virtual/dmi/id/board_vendor:OEMB
+>         /sys/devices/virtual/dmi/id/board_version:00
+>         grep: /sys/devices/virtual/dmi/id/chassis_serial: Permission denied
+>         /sys/devices/virtual/dmi/id/chassis_type:9
+>         /sys/devices/virtual/dmi/id/chassis_vendor:OEMB
+>         /sys/devices/virtual/dmi/id/modalias:dmi:bvnAmericanMegatrendsInc.:bvr1.51116.238:bd03/09/2015:br5.6:svnOEMB:pnOEMB:pvrB16D0SM1C4G1X1:rvnOEMB:rnOEMB:rvr00:cvnOEMB:ct9:cvr:sku:
+>         grep: /sys/devices/virtual/dmi/id/power: Is a directory
+>         /sys/devices/virtual/dmi/id/product_name:OEMB
+>         grep: /sys/devices/virtual/dmi/id/product_serial: Permission denied
+>         grep: /sys/devices/virtual/dmi/id/product_uuid: Permission denied
+>         /sys/devices/virtual/dmi/id/product_version:B16D0SM1C4G1X1
+>         grep: /sys/devices/virtual/dmi/id/subsystem: Is a directory
+>         /sys/devices/virtual/dmi/id/sys_vendor:OEMB
+>         /sys/devices/virtual/dmi/id/uevent:MODALIAS=dmi:bvnAmericanMegatrendsInc.:bvr1.51116.238:bd03/09/2015:br5.6:svnOEMB:pnOEMB:pvrB16D0SM1C4G1X1:rvnOEMB:rnOEMB:rvr00:cvnOEMB:ct9:cvr:sku:
+> 
+> The "bios_date" ("03/09/2015") looks not broken.
+> 
+> I also noticed when writing this mail, regarding the ones that need root
+> permission to read, "board_serial" and "chassis_serial" are now empty.
+> "product_serial" now shows "OEM":
+> 
+>         $ sudo cat /sys/devices/virtual/dmi/id/product_serial
+>         OEM
+> 
+> "product_uuid" looks not broken.
+> 
+>> Also have you tried doing something like "load bios/setup defaults" in
+>> the BIOS setup ? Maybe that helps ?
+> 
+> Unfortunately, there is no option like this...
+> 
 > Regards,
-> Mauro
+> Tsuchiya Yuto
+> 
+
