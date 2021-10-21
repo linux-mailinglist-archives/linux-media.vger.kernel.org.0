@@ -2,93 +2,101 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5B9B94364DE
-	for <lists+linux-media@lfdr.de>; Thu, 21 Oct 2021 16:59:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2C1684364E9
+	for <lists+linux-media@lfdr.de>; Thu, 21 Oct 2021 17:00:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231408AbhJUPBR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 21 Oct 2021 11:01:17 -0400
-Received: from mail.kernel.org ([198.145.29.99]:60968 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230072AbhJUPBL (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 21 Oct 2021 11:01:11 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id C237160F9F;
-        Thu, 21 Oct 2021 14:58:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1634828334;
-        bh=bW/I/j2Kp4B2+TAS5IhfkFW8G7+AnavzGY5r/gc6q84=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=rk6PefiXfWpRvgTXUgs0RUAxC2hiStOf87Gk6dSbvEJ2JPgWT9kgVCW1zGf65lR+6
-         XgFCF+Ls69X94g3rt9+Oj+bfw/Cva5BRDgEzpHWVSHzaSBhF3loj5K5CqVm2N0fRnQ
-         JNH2t0rBYqnTqzTd97cakzR7e6tUoPZnLeOeUUpK+JiBfhHycHvtvCnFoELPCJQClp
-         jnx3JQnsP6UA/rCOVHiFBPInsvaY7Ft5eBQZo/Jbf8erLJWm4GqMycyqEH1kuApobP
-         aS4893awRMHWQ+FJrPL2Jnu4R4CrtkLlJOgEeoZp35bdeevizH4JcIBpwbo9HQdYUu
-         f4mQbpH6i8RQw==
-Date:   Thu, 21 Oct 2021 15:58:48 +0100
-From:   Mauro Carvalho Chehab <mchehab@kernel.org>
-To:     Hans Verkuil <hverkuil@xs4all.nl>
-Cc:     Jacopo Mondi <jacopo@jmondi.org>, Sean Young <sean@mess.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        linux-media@vger.kernel.org
-Subject: Re: [PATCH] media: Document coding style requirements
-Message-ID: <20211021155848.05af3a9b@sal.lan>
-In-Reply-To: <154bef2e-15e9-0f81-dac9-8a9e39d43b17@xs4all.nl>
-References: <20211013092005.14268-1-jacopo@jmondi.org>
-        <f48bbc19-9285-befe-e1cc-4c71d2735994@xs4all.nl>
-        <154bef2e-15e9-0f81-dac9-8a9e39d43b17@xs4all.nl>
-X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
+        id S231572AbhJUPDJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 21 Oct 2021 11:03:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46672 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231520AbhJUPDI (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Thu, 21 Oct 2021 11:03:08 -0400
+Received: from lb2-smtp-cloud9.xs4all.net (lb2-smtp-cloud9.xs4all.net [IPv6:2001:888:0:108::2c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5BD44C0613B9
+        for <linux-media@vger.kernel.org>; Thu, 21 Oct 2021 08:00:52 -0700 (PDT)
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud9.xs4all.net with ESMTPA
+        id dZYjmlHknqPdpdZYmmwGII; Thu, 21 Oct 2021 17:00:48 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
+        t=1634828448; bh=OVJKx8bTm54R2oo7E3LzY71j7it2GJYHGW/UPBhCWHU=;
+        h=To:From:Subject:Message-ID:Date:MIME-Version:Content-Type:From:
+         Subject;
+        b=I8n4ypE09b4Naq+hVIWuE3dIPFQZfb0AYSULEqOis+afk7dbuPPiXltY+OcvCu6zw
+         1NbL7GDiRitrJhW8vJlnNrOWkua5MmIx7XsyECVcmcrYkw0h+neP0W5o2TmbMJ3X3e
+         IXu6OZh4WhGGcFqkP74EBIQpyP9hhSPCJfanxeBxPmO0tIQa7tx5h67YNcXE0jCrL/
+         ATN4cs7guBBSjWa3zFC7RLWoFAEHGDiCgTC8NLyatQw25D5FIso06lPFz0VUSZQrQU
+         K5vEW4j49EYq0hVnsbCilTJWtLvVKN3X7G2s1wiiT31sIN8dDuD+4GDa2K2Czl8kRR
+         hewIKul3Ag5VQ==
+To:     Linux Media Mailing List <linux-media@vger.kernel.org>
+Cc:     Dillon Min <dillon.minfei@gmail.com>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Subject: [GIT PULL FOR v5.16] v2: Add support for DMA2D of STMicroelectronics
+ STM32 Soc series
+Message-ID: <8270d145-882d-82e4-307f-6a0f058cb0cf@xs4all.nl>
+Date:   Thu, 21 Oct 2021 17:00:45 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Firefox/78.0 Thunderbird/78.14.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4xfKxe8f5IBzrun1ezhzegnUAUGQ8a2GSLjPb1CdrQ+FbalM4a6tl8YLk2W1jD/hb6h0Xn8BzjMg+beAtLpO4SiM46vJcyqQQ4MtURfIGYG4PeMi1A/dUK
+ 91vxKi2Seu8rdWtYtqeL1ZdTbYLQtMSe3zOzIbU7cSI3IbgOw5suZjgGI33sMku6OK21UO1fILmJ1Xm2BleO+Ehrfcm5VcuuoimuIBllbf8TVtTcHfqcSUiq
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Em Thu, 21 Oct 2021 16:10:08 +0200
-Hans Verkuil <hverkuil@xs4all.nl> escreveu:
-
-> There is one other requirement: the patches must be run through
-> scripts/checkpatch.pl --strict. Anything that --strict notifies you of and
-> that is reasonable to fix (not everything can be fixed) should be fixed.
-
-This is already there:
-
-	Coding Style Addendum
-	+++++++++++++++++++++
-	
-	Media development uses ``checkpatch.pl`` on strict mode to verify the code
-	style, e.g.::
-
-		$ ./scripts/checkpatch.pl --strict --max-line-length=80
-
-> 
-> Also (although perhaps out of scope for a coding style) before new V4L2
-> drivers or substantial enhancements to V4L2 drivers can be accepted, you must
-> run 'v4l2-compliance -s' for the video device (or even better use -m if the driver
-> creates a media device) and include the output with the cover letter of
-> the patch series. Obviously, any failures should be fixed.
-
-This is also there:
-
-	There is a set of compliance tools at https://git.linuxtv.org/v4l-utils.git/
-	that should be used in order to check if the drivers are properly
-	implementing the media APIs:
-	
-	====================	=======================================================
-	Type			Tool
-	====================	=======================================================
-	V4L2 drivers\ [3]_	``v4l2-compliance``
-	V4L2 virtual drivers	``contrib/test/test-media``
-	CEC drivers		``cec-compliance``
-	====================	=======================================================
-	
-	.. [3] The ``v4l2-compliance`` also covers the media controller usage inside
-	       V4L2 drivers.
-	
-	Other compilance tools are under development to check other parts of the
-	subsystem.
-	
-	Those tests need to pass before the patches go upstream.
+Changes since v2: dropped the clk patch, on second thought that really should
+go in through the clk subsystem.
 
 Regards,
-Mauro
+
+	Hans
+
+The following changes since commit 57c3b9f55ba875a6f6295fa59f0bdc0a01c544f8:
+
+  media: venus: core: Add sdm660 DT compatible and resource struct (2021-10-21 14:26:19 +0100)
+
+are available in the Git repository at:
+
+  git://linuxtv.org/hverkuil/media_tree.git tags/br-v5.16k
+
+for you to fetch changes up to 38c3c6a58fc8619eebba57bfec022d22f448f709:
+
+  media: stm32-dma2d: STM32 DMA2D driver (2021-10-21 16:58:01 +0200)
+
+----------------------------------------------------------------
+tag branch
+
+----------------------------------------------------------------
+Dillon Min (7):
+      media: admin-guide: add stm32-dma2d description
+      media: dt-bindings: media: add document for STM32 DMA2d bindings
+      media: v4l2-mem2mem: add v4l2_m2m_get_unmapped_area for no-mmu platform
+      media: videobuf2: Fix the size printk format
+      media: v4l2-ctrls: Add V4L2_CID_COLORFX_CBCR max setting
+      media: v4l2-ctrls: Add RGB color effects control
+      media: stm32-dma2d: STM32 DMA2D driver
+
+ Documentation/admin-guide/media/platform-cardlist.rst       |   1 +
+ Documentation/devicetree/bindings/media/st,stm32-dma2d.yaml |  71 +++++
+ Documentation/userspace-api/media/v4l/control.rst           |   9 +
+ drivers/media/common/videobuf2/videobuf2-dma-contig.c       |   8 +-
+ drivers/media/platform/Kconfig                              |  11 +
+ drivers/media/platform/Makefile                             |   1 +
+ drivers/media/platform/stm32/Makefile                       |   2 +
+ drivers/media/platform/stm32/dma2d/dma2d-hw.c               | 143 ++++++++++
+ drivers/media/platform/stm32/dma2d/dma2d-regs.h             | 113 ++++++++
+ drivers/media/platform/stm32/dma2d/dma2d.c                  | 739 ++++++++++++++++++++++++++++++++++++++++++++++++++++
+ drivers/media/platform/stm32/dma2d/dma2d.h                  | 135 ++++++++++
+ drivers/media/v4l2-core/v4l2-ctrls-defs.c                   |  12 +-
+ drivers/media/v4l2-core/v4l2-mem2mem.c                      |  21 ++
+ include/media/v4l2-mem2mem.h                                |   5 +
+ include/uapi/linux/v4l2-controls.h                          |   4 +-
+ 15 files changed, 1268 insertions(+), 7 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/media/st,stm32-dma2d.yaml
+ create mode 100644 drivers/media/platform/stm32/dma2d/dma2d-hw.c
+ create mode 100644 drivers/media/platform/stm32/dma2d/dma2d-regs.h
+ create mode 100644 drivers/media/platform/stm32/dma2d/dma2d.c
+ create mode 100644 drivers/media/platform/stm32/dma2d/dma2d.h
