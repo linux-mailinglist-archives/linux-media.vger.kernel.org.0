@@ -2,52 +2,52 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2BA8D436CEF
-	for <lists+linux-media@lfdr.de>; Thu, 21 Oct 2021 23:44:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1C0D4436CF1
+	for <lists+linux-media@lfdr.de>; Thu, 21 Oct 2021 23:44:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232259AbhJUVq0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 21 Oct 2021 17:46:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55156 "EHLO
+        id S232263AbhJUVq2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 21 Oct 2021 17:46:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55168 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232230AbhJUVqW (ORCPT
+        with ESMTP id S232233AbhJUVqZ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 21 Oct 2021 17:46:22 -0400
-Received: from mail-wr1-x434.google.com (mail-wr1-x434.google.com [IPv6:2a00:1450:4864:20::434])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DF71BC061764
-        for <linux-media@vger.kernel.org>; Thu, 21 Oct 2021 14:44:05 -0700 (PDT)
-Received: by mail-wr1-x434.google.com with SMTP id i12so1604895wrb.7
-        for <linux-media@vger.kernel.org>; Thu, 21 Oct 2021 14:44:05 -0700 (PDT)
+        Thu, 21 Oct 2021 17:46:25 -0400
+Received: from mail-wm1-x334.google.com (mail-wm1-x334.google.com [IPv6:2a00:1450:4864:20::334])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B5F33C061764
+        for <linux-media@vger.kernel.org>; Thu, 21 Oct 2021 14:44:06 -0700 (PDT)
+Received: by mail-wm1-x334.google.com with SMTP id g141so932688wmg.4
+        for <linux-media@vger.kernel.org>; Thu, 21 Oct 2021 14:44:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=dLvw5T1WDItF4vTR3Zgsm+pRVTM/FpHw0z8/bM9ZpVU=;
-        b=Krkre2RdpZa8/7YYOZ+pedJhM0XtWg8/KUgWvvHXLcED+W0u+M8/y9h0sUfAC1/5L2
-         Aqj1NkkYppcJdlFZ1BHtPjTk4Q3J0REhZ0ZQkp5dL82EbfSqzYOfi+DKilc4Bv6pbW0J
-         PpB8j8us4foChGOZ4YyRiJAy+95esQNp6FAORcJNhyPIIbe1eyjJsosAVAE0lk84zTwI
-         YuHNJTzXbXOwL5MNqUDRmveBJqXx8Qzk8P3IXPw4xzxz4fKoNMQ8cJDUsaxFPb0heohd
-         EfilEAC3JxzGyykBuLlnWpVRykAjt/CTYan0wXKWep1Xyxg5gvUUm86gawCaAy4JTrwp
-         0eow==
+        bh=vz+RGnr815S40szO261I+Y15bFOsQiW7l3SOXVgc2UI=;
+        b=ew8s2YykeErG3e3hvnogp2+L3WcwL/bgXmBCqSu7hUA8pr6xubRa8tV4Lh9T0JuAg1
+         28JUh8oi7DKuequIbSo3aLyOS/LHdG3L/k2t5untsnklbAAwiobdQ7BZQKnaKq2wPcCS
+         euAd7sYlYbgHxknaEE78iLdwIjQl8mE8hmD1qjuZNHkpOPU6KDdz7LbIqviOW9OE5uxR
+         M0ERGn/u40zAw9wcwfAMkGxqNulh889N00kbyIH7YdZAk2VfK2jFbA8k/UufmqAEfDSq
+         SEBm8UO6nyJe0KW6jaTBcnuj0q29XCKO+ZAtrKWGZoB50KkK54hzoq2RaT5sCuHkNerd
+         DF+A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=dLvw5T1WDItF4vTR3Zgsm+pRVTM/FpHw0z8/bM9ZpVU=;
-        b=kni8rLchhiBF0+/aKVM9vBY/sTQQygWyk4XiOPYIkF1j11nJMGP7feXfxuaKPzbGZi
-         GqUSYmE9NT0beDg0prFCygHxpu8UuxtpoUuc2Py2lDZoSZIpg6YUqBWN3Xe9PFoEHpg/
-         GrWDesDZ0CQdWPhFk3FM2T9cTgSMUddLdchF/uGLRN9Fbs5Bd0E/z4+QVdb5kImxui5f
-         XoG9X7BTKimrVp/ZvFnhWIZsWuVimddSKAbxaiWoJC7nkwKdbZkJhdzFEWYDikkz2Svv
-         jT/xo+OkYoMvQ1YGTL3soFNV9I9W/mCn7xN0uPUtZoJWc28bUwkPhBvyZhiyCOrLyywS
-         qAVw==
-X-Gm-Message-State: AOAM532FNwqJ4lpY/yDFGFfgLaU+ji4czpwwGYlUFibl0rIriEVTZXnw
-        6QhN7Fy+EaF2RNDGBhkZ/Vph98VjCDE=
-X-Google-Smtp-Source: ABdhPJz8U4zccPlCvQG5V1Sj5Z6mkSyu7J4hdkMMVO1r3h9glJCBmqyYulUO2DMkOI0AQ+Jpk4xVtA==
-X-Received: by 2002:a05:6000:1289:: with SMTP id f9mr10516941wrx.192.1634852644550;
-        Thu, 21 Oct 2021 14:44:04 -0700 (PDT)
+        bh=vz+RGnr815S40szO261I+Y15bFOsQiW7l3SOXVgc2UI=;
+        b=ms9u7kQgsd4RAcwczgnSidatfeN+9aU6vUJV40LSurXbpm6ZA+79K4Z82ymXewQI9q
+         xQnr6bTvUJYfcuThnJPP2ZExspStJXny45LTqKjQfItiwHuLmOnpXNPvmawIcxdKkslY
+         +h1dXNFA///HV+eyDQ1YgwiKRDfSf/claF8rAk94zLtOffc2NNAMdXUNGb3ymQ/L9rG4
+         MMJFFnzylN8h72mCo/Y1j7f2CbYvJYPiXA60n2ipqW8lZBRfT/mYFl/5Y9ryoLjWy9X0
+         QBv7ldohz1YeyBwXpIpwNts4nOYY6gWC35uPnutTVVTUKDuAay6HmWQ1X/5dI7yuhsyu
+         5ETQ==
+X-Gm-Message-State: AOAM530J8Olx2pNozPaYFIMFPZWCecDbpw2hbJ52ebccTtzmV5sxzXaD
+        tF96J68a0XPq76zsL975BvJr6GTmvSI=
+X-Google-Smtp-Source: ABdhPJw1L8tBE5IIPT8Ggqm5MMqyTdrT7/2i5B4TdSoTVt1b0pxNMBmJ+idSjyAeqEs/PN8eXqHy5Q==
+X-Received: by 2002:a05:600c:2505:: with SMTP id d5mr9432891wma.36.1634852645425;
+        Thu, 21 Oct 2021 14:44:05 -0700 (PDT)
 Received: from localhost.localdomain (cpc141996-chfd3-2-0-cust928.12-3.cable.virginm.net. [86.13.91.161])
-        by smtp.gmail.com with ESMTPSA id r205sm6378507wma.3.2021.10.21.14.44.03
+        by smtp.gmail.com with ESMTPSA id r205sm6378507wma.3.2021.10.21.14.44.04
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 21 Oct 2021 14:44:04 -0700 (PDT)
+        Thu, 21 Oct 2021 14:44:05 -0700 (PDT)
 From:   Daniel Scally <djrscally@gmail.com>
 To:     linux-media@vger.kernel.org, paul.kocialkowski@bootlin.com
 Cc:     Yong Zhi <yong.zhi@intel.com>,
@@ -58,9 +58,9 @@ Cc:     Yong Zhi <yong.zhi@intel.com>,
         Andy Shevchenko <andy.shevchenko@gmail.com>,
         hdegoede@redhat.com, laurent.pinchart@ideasonboard.com,
         kieran.bingham@ideasonboard.com
-Subject: [PATCH v3 10/16] media: i2c: cap exposure at height + vblank in ov8865
-Date:   Thu, 21 Oct 2021 22:43:25 +0100
-Message-Id: <20211021214331.1188787-11-djrscally@gmail.com>
+Subject: [PATCH v3 11/16] media: i2c: Add controls from fwnode to ov8865
+Date:   Thu, 21 Oct 2021 22:43:26 +0100
+Message-Id: <20211021214331.1188787-12-djrscally@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20211021214331.1188787-1-djrscally@gmail.com>
 References: <20211021214331.1188787-1-djrscally@gmail.com>
@@ -70,9 +70,8 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Exposure limits depend on the total height; when vblank is altered (and
-thus the total height is altered), change the exposure limits to reflect
-the new cap.
+Add V4L2_CID_CAMERA_ORIENTATION and V4L2_CID_CAMERA_SENSOR_ROTATION
+controls to the ov8865 driver by attempting to parse them from firmware.
 
 Signed-off-by: Daniel Scally <djrscally@gmail.com>
 ---
@@ -80,74 +79,37 @@ Changes in v3:
 
 	- None
 
- drivers/media/i2c/ov8865.c | 26 ++++++++++++++++++++++++--
- 1 file changed, 24 insertions(+), 2 deletions(-)
+ drivers/media/i2c/ov8865.c | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
 diff --git a/drivers/media/i2c/ov8865.c b/drivers/media/i2c/ov8865.c
-index dccbc23afd2f..16c5ce80353c 100644
+index 16c5ce80353c..5fec1e35eea5 100644
 --- a/drivers/media/i2c/ov8865.c
 +++ b/drivers/media/i2c/ov8865.c
-@@ -677,6 +677,7 @@ struct ov8865_ctrls {
- 	struct v4l2_ctrl *pixel_rate;
- 	struct v4l2_ctrl *hblank;
- 	struct v4l2_ctrl *vblank;
-+	struct v4l2_ctrl *exposure;
- 
- 	struct v4l2_ctrl_handler handler;
- };
-@@ -2454,6 +2455,19 @@ static int ov8865_s_ctrl(struct v4l2_ctrl *ctrl)
- 	unsigned int index;
- 	int ret;
- 
-+	/* If VBLANK is altered we need to update exposure to compensate */
-+	if (ctrl->id == V4L2_CID_VBLANK) {
-+		int exposure_max;
-+
-+		exposure_max = sensor->state.mode->output_size_y + ctrl->val;
-+		__v4l2_ctrl_modify_range(sensor->ctrls.exposure,
-+					 sensor->ctrls.exposure->minimum,
-+					 exposure_max,
-+					 sensor->ctrls.exposure->step,
-+					 min(sensor->ctrls.exposure->val,
-+					     exposure_max));
-+	}
-+
- 	/* Wait for the sensor to be on before setting controls. */
- 	if (pm_runtime_suspended(sensor->dev))
- 		return 0;
-@@ -2510,8 +2524,8 @@ static int ov8865_ctrls_init(struct ov8865_sensor *sensor)
- 
- 	/* Exposure */
- 
--	v4l2_ctrl_new_std(handler, ops, V4L2_CID_EXPOSURE, 16, 1048575, 16,
--			  512);
-+	ctrls->exposure = v4l2_ctrl_new_std(handler, ops, V4L2_CID_EXPOSURE, 16,
-+					    1048575, 16, 512);
- 
- 	/* Gain */
- 
-@@ -2700,6 +2714,7 @@ static int ov8865_set_fmt(struct v4l2_subdev *subdev,
- 	u32 mbus_code = 0;
+@@ -2513,6 +2513,7 @@ static int ov8865_ctrls_init(struct ov8865_sensor *sensor)
+ 	struct v4l2_ctrl_handler *handler = &ctrls->handler;
+ 	const struct v4l2_ctrl_ops *ops = &ov8865_ctrl_ops;
+ 	const struct ov8865_mode *mode = sensor->state.mode;
++	struct v4l2_fwnode_device_properties props;
+ 	unsigned int vblank_max, vblank_def;
  	unsigned int hblank;
- 	unsigned int index;
-+	int exposure_max;
- 	int ret = 0;
+ 	int ret;
+@@ -2576,6 +2577,15 @@ static int ov8865_ctrls_init(struct ov8865_sensor *sensor)
+ 		v4l2_ctrl_new_std(handler, NULL, V4L2_CID_PIXEL_RATE, 1,
+ 				  INT_MAX, 1, 1);
  
- 	mutex_lock(&sensor->mutex);
-@@ -2747,6 +2762,13 @@ static int ov8865_set_fmt(struct v4l2_subdev *subdev,
- 	__v4l2_ctrl_modify_range(sensor->ctrls.hblank, hblank, hblank, 1,
- 				 hblank);
- 
-+	exposure_max = mode->vts;
-+	__v4l2_ctrl_modify_range(sensor->ctrls.exposure,
-+				 sensor->ctrls.exposure->minimum, exposure_max,
-+				 sensor->ctrls.exposure->step,
-+				 min(sensor->ctrls.exposure->val,
-+				     exposure_max));
++	/* set properties from fwnode (e.g. rotation, orientation) */
++	ret = v4l2_fwnode_device_parse(sensor->dev, &props);
++	if (ret)
++		goto error_ctrls;
 +
- complete:
- 	mutex_unlock(&sensor->mutex);
- 
++	ret = v4l2_ctrl_new_fwnode_properties(handler, ops, &props);
++	if (ret)
++		goto error_ctrls;
++
+ 	if (handler->error) {
+ 		ret = handler->error;
+ 		goto error_ctrls;
 -- 
 2.25.1
 
