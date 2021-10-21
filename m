@@ -2,133 +2,110 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 395654366B1
-	for <lists+linux-media@lfdr.de>; Thu, 21 Oct 2021 17:45:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 14D84436725
+	for <lists+linux-media@lfdr.de>; Thu, 21 Oct 2021 18:01:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230441AbhJUPsK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 21 Oct 2021 11:48:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57798 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230103AbhJUPsJ (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Thu, 21 Oct 2021 11:48:09 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 86B43C061764
-        for <linux-media@vger.kernel.org>; Thu, 21 Oct 2021 08:45:53 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 7167F8B6;
-        Thu, 21 Oct 2021 17:45:50 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1634831150;
-        bh=wzZxA0cK/kn7DNd0V55EiPIpkgW0zvh1qHfVB7opBPw=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=Pv1/kVKB9/KXVgEQU8It59einpoHcOpc/ShfdDv7hR5WjE2S4Z0xwOJBGhgbFCeAt
-         5aeyOQQBEUwM7Oa4JksbcNL4cZMk3UmvOqM9ruv6TNJl72G18DKqWx+qSB/Ehok/HC
-         MkIa8GXSrT6UA9ymzqfAbJOeEAwOJiCQb93isfIo=
-Date:   Thu, 21 Oct 2021 18:45:30 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc:     Jacopo Mondi <jacopo@jmondi.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sean Young <sean@mess.org>, Hans Verkuil <hverkuil@xs4all.nl>,
-        linux-media@vger.kernel.org
-Subject: Re: [PATCH] media: Document coding style requirements
-Message-ID: <YXGLGi5XIaJCJ6JN@pendragon.ideasonboard.com>
-References: <20211013092005.14268-1-jacopo@jmondi.org>
- <YW6O2Yl3YVyrTwO2@paasikivi.fi.intel.com>
+        id S231503AbhJUQDz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 21 Oct 2021 12:03:55 -0400
+Received: from www.linuxtv.org ([130.149.80.248]:51630 "EHLO www.linuxtv.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229702AbhJUQDz (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 21 Oct 2021 12:03:55 -0400
+Received: from builder.linuxtv.org ([140.211.167.10] helo=slave0)
+        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1mdaVe-00BzxA-Cv; Thu, 21 Oct 2021 16:01:38 +0000
+Received: from ip6-localhost ([::1] helo=localhost.localdomain)
+        by slave0 with esmtp (Exim 4.94.2)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1mdaVc-00Fi5Z-97; Thu, 21 Oct 2021 16:01:36 +0000
+From:   Jenkins <jenkins@linuxtv.org>
+To:     mchehab+samsung@kernel.org, linux-media@vger.kernel.org
+Cc:     builder@linuxtv.org
+Subject: Re: [GIT PULL FOR v5.16] v2: Add support for DMA2D of STMicroelectronics (#77909)
+Date:   Thu, 21 Oct 2021 16:01:36 +0000
+Message-Id: <20211021160136.3744351-1-jenkins@linuxtv.org>
+X-Mailer: git-send-email 2.30.2
+In-Reply-To: <8270d145-882d-82e4-307f-6a0f058cb0cf@xs4all.nl>
+References: 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <YW6O2Yl3YVyrTwO2@paasikivi.fi.intel.com>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Sakari,
+From: builder@linuxtv.org
 
-On Tue, Oct 19, 2021 at 12:24:41PM +0300, Sakari Ailus wrote:
-> On Wed, Oct 13, 2021 at 11:20:05AM +0200, Jacopo Mondi wrote:
-> > There are a few additional coding style conventions in place in
-> > the media subsystem. If they do not get documented, it's hard to enforce
-> > them during review as well as it is hard for developers to follow them
-> > without having previously contributed to the subsystem.
-> > 
-> > Add them to the subsystem profile documentation.
-> > 
-> > Signed-off-by: Jacopo Mondi <jacopo@jmondi.org>
-> > ---
-> > 
-> > All points are up for discussion ofc.
-> > 
-> > But the idea is to get to have more requirement defined, as otherwise
-> > it's very hard to enforce them during review.
-> 
-> Thanks for the patch.
-> 
-> Aren't these all common and/or preferred practices outside the media tree
-> as well? I suppose not each one of these is universally enforced though.
+Pull request: https://patchwork.linuxtv.org/project/linux-media/patch/8270d145-882d-82e4-307f-6a0f058cb0cf@xs4all.nl/
+Build log: https://builder.linuxtv.org/job/patchwork/149932/
+Build time: 00:29:26
+Link: https://lore.kernel.org/linux-media/8270d145-882d-82e4-307f-6a0f058cb0cf@xs4all.nl
 
-They're not I'm afraid :-) Different subsystems have different
-preferences, and within the realm of what a subsystem allows, different
-parts also use different coding style rules. It's the same for media,
-depending on who maintains a set of drivers, the rules will be
-different.
+gpg: Signature made Thu 21 Oct 2021 02:58:12 PM UTC
+gpg:                using RSA key AAA7FFBA4D2D77EF4CAEA1421326E0CD23ABDCE5
+gpg: Good signature from "Hans Verkuil <hverkuil-cisco@xs4all.nl>" [unknown]
+gpg:                 aka "Hans Verkuil <hverkuil@xs4all.nl>" [unknown]
+gpg: Note: This key has expired!
+Primary key fingerprint: 052C DE7B C215 053B 689F  1BCA BD2D 6148 6614 3B4C
+     Subkey fingerprint: AAA7 FFBA 4D2D 77EF 4CAE  A142 1326 E0CD 23AB DCE5
 
-> The coding style guide is lacking documentation on such things though.
+Summary: got 5/7 patches with issues, being 3 at build time
 
-Trying to fix that with a top-down approach will in my opinion not work.
-I'd rather focus on media first to see if we can do something at the
-subsystem level, in a bottom-up way (I've even considered writing rules
-specific to sensor drivers, but if we can reach an agreement at the
-subsystem level, that would be better).
+Error/warnings:
 
-> > ---
-> >  .../media/maintainer-entry-profile.rst        | 24 +++++++++++++++++++
-> >  1 file changed, 24 insertions(+)
-> > 
-> > diff --git a/Documentation/driver-api/media/maintainer-entry-profile.rst b/Documentation/driver-api/media/maintainer-entry-profile.rst
-> > index eb1cdfd280ba..9c376f843e1c 100644
-> > --- a/Documentation/driver-api/media/maintainer-entry-profile.rst
-> > +++ b/Documentation/driver-api/media/maintainer-entry-profile.rst
-> > @@ -180,6 +180,30 @@ In particular, we accept lines with more than 80 columns:
-> >      - when they avoid a line to end with an open parenthesis or an open
-> >        bracket.
-> > 
-> > +There are a few additional requirements which are not enforced by tooling
-> > +but mostly during the review process:
-> > +
-> > +    - C++ style comments are not allowed, if not for SPDX headers;
-> > +    - hexadecimal values should be spelled using lowercase letters;
-> > +    - one structure/enum member declaration per line;
-> > +    - one variable declaration per line;
-> > +    - prefer variable declaration order in reverse-x-mas-tree over
-> > +      initialization at variable declare time;
-> > +
-> > +      As an example, the following style is preferred::
-> > +
-> > +         struct priv_struct *priv = container_of(....)
-> > +         struct foo_struct *foo = priv->foo;
-> > +         int b;
-> > +
-> > +         b = a_very_long_operation_name(foo, s->bar)
-> > +
-> > +      over the following one::
-> > +
-> > +         struct priv_struct *priv = container_of(....)
-> > +         struct foo_struct *foo = priv->foo;
-> > +         int b = a_very_long_operation_name(foo, s->bar)
-> 
-> I wouldn't say this is required or even preferred if you have a dependency
-> between the variables.
-> 
-> Rather I'd say the latter is undesirable if a_very_long_operation_name()
-> can fail. But that's a bit out of scope now.
-> 
-> > +
-> >  Key Cycle Dates
-> >  ---------------
+patches/0001-media-admin-guide-add-stm32-dma2d-description.patch:
 
--- 
-Regards,
+    allyesconfig: return code #0:
+	../scripts/genksyms/parse.y: warning: 9 shift/reduce conflicts [-Wconflicts-sr]
+	../scripts/genksyms/parse.y: warning: 5 reduce/reduce conflicts [-Wconflicts-rr]
+	../scripts/genksyms/parse.y: note: rerun with option '-Wcounterexamples' to generate conflict counterexamples
 
-Laurent Pinchart
+    allyesconfig: return code #0:
+	../drivers/media/cec/core/cec-adap.c: ../drivers/media/cec/core/cec-adap.c:926 cec_transmit_msg_fh() warn: '&data->list' not removed from list
+	../drivers/media/rc/meson-ir-tx.c:22: warning: expecting prototype for meson(). Prototype was for DEVICE_NAME() instead
+	SMATCH:../drivers/media/usb/siano/smsusb.c ../drivers/media/usb/siano/smsusb.c:53:38: :warning: array of flexible structures
+	../drivers/media/pci/intel/ipu3/cio2-bridge.c:242 cio2_bridge_connect_sensor() warn: missing error code 'ret'
+	SPARSE:../drivers/media/usb/siano/smsusb.c ../drivers/media/usb/siano/smsusb.c:53:38: warning: array of flexible structures
+	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2625 dvb_register() parse error: turning off implications after 60 seconds
+	../drivers/media/usb/pvrusb2/pvrusb2-encoder.c: ../drivers/media/usb/pvrusb2/pvrusb2-encoder.c:288 pvr2_encoder_cmd() warn: inconsistent indenting
+	../drivers/media/usb/pvrusb2/pvrusb2-hdw.c: ../drivers/media/usb/pvrusb2/pvrusb2-hdw.c:1730 pvr2_hdw_set_streaming() warn: inconsistent indenting
+	../drivers/media/usb/pvrusb2/pvrusb2-hdw.c: ../drivers/media/usb/pvrusb2/pvrusb2-hdw.c:3461 pvr2_hdw_cpufw_set_enabled() warn: inconsistent indenting
+	../drivers/media/usb/pvrusb2/pvrusb2-hdw.c: ../drivers/media/usb/pvrusb2/pvrusb2-hdw.c:3501 pvr2_hdw_cpufw_get() warn: inconsistent indenting
+	../drivers/media/platform/qcom/venus/helpers.c: ../drivers/media/platform/qcom/venus/helpers.c:658 venus_helper_get_bufreq() error: we previously assumed 'req' could be null (see line 654)
+	../drivers/media/usb/em28xx/em28xx-video.c: ../drivers/media/usb/em28xx/em28xx-video.c:2874 em28xx_v4l2_init() parse error: turning off implications after 60 seconds
+
+patches/0002-media-dt-bindings-media-add-document-for-STM32-DMA2d.patch:
+
+   checkpatch.pl:
+	$ cat patches/0002-media-dt-bindings-media-add-document-for-STM32-DMA2d.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
+	-:17: WARNING: added, moved or deleted file(s), does MAINTAINERS need updating?
+
+patches/0003-media-v4l2-mem2mem-add-v4l2_m2m_get_unmapped_area-fo.patch:
+
+    allyesconfig: return code #0:
+	../drivers/media/platform/qcom/venus/helpers.c: ../drivers/media/platform/qcom/venus/helpers.c:658 venus_helper_get_bufreq() error: we previously assumed 'req' could be null (see line 654)
+
+patches/0006-media-v4l2-ctrls-Add-RGB-color-effects-control.patch:
+
+    allyesconfig: return code #0:
+	../drivers/media/pci/intel/ipu3/cio2-bridge.c:242 cio2_bridge_connect_sensor() warn: missing error code 'ret'
+	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2625 dvb_register() parse error: turning off implications after 60 seconds
+	../drivers/media/platform/qcom/venus/helpers.c: ../drivers/media/platform/qcom/venus/helpers.c:658 venus_helper_get_bufreq() error: we previously assumed 'req' could be null (see line 654)
+	../drivers/media/usb/pvrusb2/pvrusb2-encoder.c: ../drivers/media/usb/pvrusb2/pvrusb2-encoder.c:288 pvr2_encoder_cmd() warn: inconsistent indenting
+	../drivers/media/usb/pvrusb2/pvrusb2-hdw.c: ../drivers/media/usb/pvrusb2/pvrusb2-hdw.c:1730 pvr2_hdw_set_streaming() warn: inconsistent indenting
+	../drivers/media/usb/pvrusb2/pvrusb2-hdw.c: ../drivers/media/usb/pvrusb2/pvrusb2-hdw.c:3461 pvr2_hdw_cpufw_set_enabled() warn: inconsistent indenting
+	../drivers/media/usb/pvrusb2/pvrusb2-hdw.c: ../drivers/media/usb/pvrusb2/pvrusb2-hdw.c:3501 pvr2_hdw_cpufw_get() warn: inconsistent indenting
+
+   checkpatch.pl:
+	$ cat patches/0006-media-v4l2-ctrls-Add-RGB-color-effects-control.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
+	-:87: CHECK: spaces preferred around that '+' (ctx:VxV)
+	-:91: CHECK: spaces preferred around that '+' (ctx:VxV)
+
+patches/0007-media-stm32-dma2d-STM32-DMA2D-driver.patch:
+
+   checkpatch.pl:
+	$ cat patches/0007-media-stm32-dma2d-STM32-DMA2D-driver.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
+	-:42: WARNING: please write a paragraph that describes the config symbol fully
+	-:78: WARNING: added, moved or deleted file(s), does MAINTAINERS need updating?
+
