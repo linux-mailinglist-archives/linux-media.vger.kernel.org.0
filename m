@@ -2,115 +2,159 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6CBA0435E15
-	for <lists+linux-media@lfdr.de>; Thu, 21 Oct 2021 11:40:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 370DC435E2F
+	for <lists+linux-media@lfdr.de>; Thu, 21 Oct 2021 11:46:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231371AbhJUJmX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 21 Oct 2021 05:42:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56438 "EHLO
+        id S231629AbhJUJss (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 21 Oct 2021 05:48:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57906 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231330AbhJUJmW (ORCPT
+        with ESMTP id S231584AbhJUJsq (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 21 Oct 2021 05:42:22 -0400
-Received: from mail-ed1-x52f.google.com (mail-ed1-x52f.google.com [IPv6:2a00:1450:4864:20::52f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 12299C06161C
-        for <linux-media@vger.kernel.org>; Thu, 21 Oct 2021 02:40:07 -0700 (PDT)
-Received: by mail-ed1-x52f.google.com with SMTP id 5so2726872edw.7
-        for <linux-media@vger.kernel.org>; Thu, 21 Oct 2021 02:40:06 -0700 (PDT)
+        Thu, 21 Oct 2021 05:48:46 -0400
+Received: from mail-pf1-x433.google.com (mail-pf1-x433.google.com [IPv6:2607:f8b0:4864:20::433])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E2953C06161C;
+        Thu, 21 Oct 2021 02:46:30 -0700 (PDT)
+Received: by mail-pf1-x433.google.com with SMTP id o133so126835pfg.7;
+        Thu, 21 Oct 2021 02:46:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=ZxPzGOnYx9C4Of3wGaGSYtZEngNxbz8U+CuZjAgKy3I=;
-        b=vohO5WycQocXR7ZFtVPrWRqYyMxW4uhYOMFvzbER2ikSL+RdNeWYKEDWVY+cD+PXfL
-         Gakwwy7twyoiawFCKWg1bAKHOT2YLjDmuqvq0Ej2w03yURIiMJMkZ9ZBklZha+SbgR63
-         4lG0TSWj0I4WPiHcEx42VwsK+wYb3LA5PLyaPYKjJEHNHSA7lZVtrfkC3Q7/Afx+jw2B
-         TuAzdzvbJamZB3esyxVxX7h2ss8VeYJk5DBGsotlugnXk9Lxx0AtcPZXyMpiMx/4Gxcg
-         DnQUgb7kS4w3pz5RkheP8JJylAIdBIM2swutuX2CWSuHVG5XDUk+VyeQYGN67yV3fi0i
-         rjnA==
+        d=gmail.com; s=20210112;
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :user-agent:mime-version:content-transfer-encoding;
+        bh=EDRM8W6FOAtvtAXHLFNxHPspkjXHpbma09BaDzDAfkk=;
+        b=KgIdsoP/g2OAXrxTNMjC6ueK0rtI9wId6jmD1NLZ+ukOc6wed/9v2WdIPCOTb78aYz
+         GDEI0Tx1FzIjMhNSYKC0imMjswnVYlL12x0Iq29KUXq3cHcjFVqcnMb61bBpfCO/YIvy
+         J9BtJlXLY6L/4/oNs/djFOC4S13qOnFPQxQvj3KHl7Bbf+s/1xL4KlBNo0BZCiRhk8fd
+         f7MqX4qX2BcqBBt+T8loS5nxfKHOkZlz3Tw8fseURIG1IlQNXEZGj1T21nnlrtuzfm3m
+         Hs8POdJeffO/Ja0gLm0NXER5nZVtZy39KDVBeonuZxI8VcV4JWKAEK9tDmATfYQm4kAr
+         H1gQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=ZxPzGOnYx9C4Of3wGaGSYtZEngNxbz8U+CuZjAgKy3I=;
-        b=Krsl4NgxgkTqIQr0BQPZq+pduynFxHUua9XOEiZP10ClBlvw78wlkRipPBj+WdknoS
-         w6MOJz8oiV/IiRGrrcPKse7ZcIVDMknJ+P0/xQlK7gXMH7iZB/omAI+e+KIl7hlexDv7
-         4IaShIKTA87xYbKhS68NEJgOwjeMJ8y/QNo3nwMdon4SbAYyl0kBycxwyKtl69gctEws
-         /UCQLAVUSkfEzqptBI6BbY/DvIBj846GaQkrCz7X7wSHmGIQ88yj9r9CuiJhl5g8NUAq
-         61gOwRmFMi3HGcKWbPuRPyeoHgF0YofMx9YvvcAYslKEPpmykw3RXpXmKV0Z8sTK2ygw
-         B1hA==
-X-Gm-Message-State: AOAM5319l5DpmIzjSMQmfRGyeDUAeAg1497IUilEGF8slcL1lfeCyZ+Y
-        kcWYnmhCEwli6ua3m/FfRvd9a7N9e1yDHQ==
-X-Google-Smtp-Source: ABdhPJx9yfTg+nSwRzjhwDGPiO0HajMZSKOgyJ0HIJqzqMOoELq8Xibs0TaY6+cVhFZKqxPq9UTKwA==
-X-Received: by 2002:a17:906:2505:: with SMTP id i5mr5801111ejb.450.1634809205218;
-        Thu, 21 Oct 2021 02:40:05 -0700 (PDT)
-Received: from localhost.localdomain (hst-221-81.medicom.bg. [84.238.221.81])
-        by smtp.gmail.com with ESMTPSA id h9sm2241116ejy.108.2021.10.21.02.40.04
-        for <linux-media@vger.kernel.org>
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=EDRM8W6FOAtvtAXHLFNxHPspkjXHpbma09BaDzDAfkk=;
+        b=Fu05JTaw03d2Cn7YkHY1WfVOz+Fw6bB730mojB04qoF4CcNKsK/pxZ2HpZZLqubtJC
+         ZgnwPSJv91rXEf7j2V5VjWDJIoX8doBTlVMGwmRRwf2gCPVxNTtLvMEvGUY2bou4ZKuI
+         xlj2yLvd8HE/IpjOFusx2659Dgt7WYrqz5ndNUdgiiTPo066iPPeLe4pZIwWx3DT8hPJ
+         EQj37j4sMI0eEs5QWPgO+m3yQJpCgDUNucgD9aYQLusTigj9nPjbFmymyb1IcyzO4ssv
+         8qRG6SOf1xPmGPymlvMlUCRfDujq4LoDDtQX8yyUhLHOvfRl7bDwLFb7M/8AbGM5SNgo
+         xFMQ==
+X-Gm-Message-State: AOAM530JVsq7ltuJClC45ZswCh5k/NohAmMbUAAoBTsn91hgZbIbAVco
+        Oe7hcdlTHRBCo1asYWMLtpI=
+X-Google-Smtp-Source: ABdhPJzP9kiHoflcziBGhE9zKMR5PHN1xmhpPriwS/SWZWPCtCppPM0AVdWw26PUjZdV/baM0YInCQ==
+X-Received: by 2002:a63:b11:: with SMTP id 17mr3594840pgl.51.1634809590394;
+        Thu, 21 Oct 2021 02:46:30 -0700 (PDT)
+Received: from ?IPv6:2400:4052:6980:3800:dba7:2b1f:3f26:a5ec? ([2400:4052:6980:3800:dba7:2b1f:3f26:a5ec])
+        by smtp.gmail.com with ESMTPSA id g17sm5258410pfu.22.2021.10.21.02.46.26
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 21 Oct 2021 02:40:04 -0700 (PDT)
-From:   Stanimir Varbanov <stanimir.varbanov@linaro.org>
-To:     linux-media@vger.kernel.org
-Subject: [GIT PULL FOR v5.16] Venus updates - part2
-Date:   Thu, 21 Oct 2021 12:39:51 +0300
-Message-Id: <20211021093951.3963813-1-stanimir.varbanov@linaro.org>
-X-Mailer: git-send-email 2.25.1
+        Thu, 21 Oct 2021 02:46:29 -0700 (PDT)
+Message-ID: <ace1264d7254f7159865602614d70caf7ff4b609.camel@gmail.com>
+Subject: Re: [PATCH 16/17] [NOT-FOR-MERGE] media: atomsip: pci: add DMI
+ match for Microsoft Surface 3 with broken DMI (OEMB)
+From:   Tsuchiya Yuto <kitakar@gmail.com>
+To:     Hans de Goede <hdegoede@redhat.com>
+Cc:     Patrik Gfeller <patrik.gfeller@gmail.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Aniket Bhattacharyea <aniketmail669@gmail.com>,
+        Aline Santana Cordeiro <alinesantanacordeiro@gmail.com>,
+        Yang Yingliang <yangyingliang@huawei.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Alan <alan@linux.intel.com>,
+        Dinghao Liu <dinghao.liu@zju.edu.cn>,
+        linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+        linux-kernel@vger.kernel.org
+Date:   Thu, 21 Oct 2021 18:46:25 +0900
+In-Reply-To: <71b5b886-2ca1-27a9-6776-b3bcc430e5ed@redhat.com>
+References: <20211017161958.44351-1-kitakar@gmail.com>
+         <20211017161958.44351-17-kitakar@gmail.com>
+         <71b5b886-2ca1-27a9-6776-b3bcc430e5ed@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.40.4 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Mauro,
+On Mon, 2021-10-18 at 09:56 +0200, Hans de Goede wrote:
+> Hi,
+> 
+> On 10/17/21 18:19, Tsuchiya Yuto wrote:
+> > This commit is added for Surface 3 with broken DMI table. HACK-ish.
+> > Not intended for upstreaming. Thus, NOT-FOR-MERGE. But, if someone
+> > knows a nicer way to address this, comments are welcome...
+> > 
+> > > 8-----------------------------------------------------------------8<
+> > 
+> > On some Microsoft Surface 3, the DMI table gets corrupted for unknown
+> > reasons and breaks existing DMI matching used for device-specific quirks.
+> > 
+> > This commit adds the (broken) DMI data into dmi_system_id tables used
+> > for quirks so that the driver can enable quirks even on the affected
+> > systems.
+> > 
+> > On affected systems, the DMI data will look like this:
+> > 
+> >         $ grep . /sys/devices/virtual/dmi/id/{bios_vendor,board_name,board_vendor,\
+> >         chassis_vendor,product_name,sys_vendor}
+> >         /sys/devices/virtual/dmi/id/bios_vendor:American Megatrends Inc.
+> >         /sys/devices/virtual/dmi/id/board_name:OEMB
+> >         /sys/devices/virtual/dmi/id/board_vendor:OEMB
+> >         /sys/devices/virtual/dmi/id/chassis_vendor:OEMB
+> >         /sys/devices/virtual/dmi/id/product_name:OEMB
+> >         /sys/devices/virtual/dmi/id/sys_vendor:OEMB
+> 
+> I wonder what the bios_date field contains ? Typically when the DMI strings
+> are no good (e.g. often they contain "Default String" or "To be filled by OEM")
+> we add a check on the bios-date, which together with the broken strings is
+> considered unique enough to still allow a match with broken strings in the
+> kernel.
 
-This second part of Venus updates includes:
-  * Add sdm660 DT schema, DT compatible and resources.
-  * DPB internal buffers handing as part of DRC.
-  * Added pmruntime autosuspend for encoder.
-  * An attempt to handle fatal (firmware) errors as per the spec. 
+Thank you so much for the comment :-)
 
-Please pull.
+Here is the full output of "/sys/devices/virtual/dmi/id/*" (not showing
+files that need root permission to read):
 
-regards,
-Stan
+        $ grep . /sys/devices/virtual/dmi/id/*
+        /sys/devices/virtual/dmi/id/bios_date:03/09/2015
+        /sys/devices/virtual/dmi/id/bios_release:5.6
+        /sys/devices/virtual/dmi/id/bios_vendor:American Megatrends Inc.
+        /sys/devices/virtual/dmi/id/bios_version:1.51116.238
+        /sys/devices/virtual/dmi/id/board_name:OEMB
+        grep: /sys/devices/virtual/dmi/id/board_serial: Permission denied
+        /sys/devices/virtual/dmi/id/board_vendor:OEMB
+        /sys/devices/virtual/dmi/id/board_version:00
+        grep: /sys/devices/virtual/dmi/id/chassis_serial: Permission denied
+        /sys/devices/virtual/dmi/id/chassis_type:9
+        /sys/devices/virtual/dmi/id/chassis_vendor:OEMB
+        /sys/devices/virtual/dmi/id/modalias:dmi:bvnAmericanMegatrendsInc.:bvr1.51116.238:bd03/09/2015:br5.6:svnOEMB:pnOEMB:pvrB16D0SM1C4G1X1:rvnOEMB:rnOEMB:rvr00:cvnOEMB:ct9:cvr:sku:
+        grep: /sys/devices/virtual/dmi/id/power: Is a directory
+        /sys/devices/virtual/dmi/id/product_name:OEMB
+        grep: /sys/devices/virtual/dmi/id/product_serial: Permission denied
+        grep: /sys/devices/virtual/dmi/id/product_uuid: Permission denied
+        /sys/devices/virtual/dmi/id/product_version:B16D0SM1C4G1X1
+        grep: /sys/devices/virtual/dmi/id/subsystem: Is a directory
+        /sys/devices/virtual/dmi/id/sys_vendor:OEMB
+        /sys/devices/virtual/dmi/id/uevent:MODALIAS=dmi:bvnAmericanMegatrendsInc.:bvr1.51116.238:bd03/09/2015:br5.6:svnOEMB:pnOEMB:pvrB16D0SM1C4G1X1:rvnOEMB:rnOEMB:rvr00:cvnOEMB:ct9:cvr:sku:
 
-The following changes since commit fd2eda71a47b095e81b9170c3f8b7ae82b04e785:
+The "bios_date" ("03/09/2015") looks not broken.
 
-  media: remove myself from dvb media maintainers (2021-10-08 13:56:25 +0200)
+I also noticed when writing this mail, regarding the ones that need root
+permission to read, "board_serial" and "chassis_serial" are now empty.
+"product_serial" now shows "OEM":
 
-are available in the Git repository at:
+        $ sudo cat /sys/devices/virtual/dmi/id/product_serial
+        OEM
 
-  git://linuxtv.org/svarbanov/media_tree.git tags/venus-for-v5.16-part2
+"product_uuid" looks not broken.
 
-for you to fetch changes up to 1fc3539ba413a4302efae670fcfae25d75db31e9:
+> Also have you tried doing something like "load bios/setup defaults" in
+> the BIOS setup ? Maybe that helps ?
 
-  media: venus: core: Add sdm660 DT compatible and resource struct (2021-10-21 12:20:46 +0300)
+Unfortunately, there is no option like this...
 
-----------------------------------------------------------------
-Venus updates for v5.16 part2
+Regards,
+Tsuchiya Yuto
 
-----------------------------------------------------------------
-AngeloGioacchino Del Regno (2):
-      dt-bindings: media: venus: Add sdm660 dt schema
-      media: venus: core: Add sdm660 DT compatible and resource struct
-
-Mansur Alisha Shaik (1):
-      venus: vdec: decoded picture buffer handling during reconfig sequence
-
-Stanimir Varbanov (5):
-      venus: venc: Use pmruntime autosuspend
-      venus: Make sys_error flag an atomic bitops
-      venus: hfi: Check for sys error on session hfi functions
-      venus: helpers: Add helper to mark fatal vb2 error
-      venus: Handle fatal errors during encoding and decoding
-
- .../bindings/media/qcom,sdm660-venus.yaml          | 186 +++++++++++++++++++++
- drivers/media/platform/qcom/venus/core.c           |  77 ++++++++-
- drivers/media/platform/qcom/venus/core.h           |   7 +-
- drivers/media/platform/qcom/venus/helpers.c        |  67 +++++++-
- drivers/media/platform/qcom/venus/helpers.h        |   4 +
- drivers/media/platform/qcom/venus/hfi.c            |  48 +++++-
- drivers/media/platform/qcom/venus/vdec.c           |  25 ++-
- drivers/media/platform/qcom/venus/venc.c           | 116 ++++++++++++-
- 8 files changed, 511 insertions(+), 19 deletions(-)
- create mode 100644 Documentation/devicetree/bindings/media/qcom,sdm660-venus.yaml
