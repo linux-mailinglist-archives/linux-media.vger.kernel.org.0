@@ -2,21 +2,24 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 35F2E435F0C
-	for <lists+linux-media@lfdr.de>; Thu, 21 Oct 2021 12:28:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B6D8E435F7D
+	for <lists+linux-media@lfdr.de>; Thu, 21 Oct 2021 12:44:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230323AbhJUKaz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 21 Oct 2021 06:30:55 -0400
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:42768 "EHLO
-        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229567AbhJUKaz (ORCPT
+        id S230383AbhJUKrA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 21 Oct 2021 06:47:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42966 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230372AbhJUKq7 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 21 Oct 2021 06:30:55 -0400
+        Thu, 21 Oct 2021 06:46:59 -0400
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C80C9C06161C;
+        Thu, 21 Oct 2021 03:44:43 -0700 (PDT)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
         (Authenticated sender: kholk11)
-        with ESMTPSA id D75221F44855
-Subject: Re: [PATCH v1 3/4] media: platform: mtk-mdp3: Set
- dma_set_mask_and_coherent
+        with ESMTPSA id E9B121F44896
+Subject: Re: [PATCH v1 4/4] media: platform: mtk-mdp3: Set rdma compression
+ reg in each frame
 To:     "roy-cw.yeh" <roy-cw.yeh@mediatek.com>,
         Rob Herring <robh+dt@kernel.org>,
         Matthias Brugger <matthias.bgg@gmail.com>,
@@ -33,15 +36,15 @@ Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
         linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
         linux-mediatek@lists.infradead.org
 References: <20211021063414.23663-1-roy-cw.yeh@mediatek.com>
- <20211021063414.23663-4-roy-cw.yeh@mediatek.com>
+ <20211021063414.23663-5-roy-cw.yeh@mediatek.com>
 From:   AngeloGioacchino Del Regno 
         <angelogioacchino.delregno@collabora.com>
-Message-ID: <d0db66a3-04b4-1b1f-f6bb-8b45154559ff@collabora.com>
-Date:   Thu, 21 Oct 2021 12:28:35 +0200
+Message-ID: <4154479c-b0cc-dde4-eb73-bc6c65c9beca@collabora.com>
+Date:   Thu, 21 Oct 2021 12:44:39 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.13.0
 MIME-Version: 1.0
-In-Reply-To: <20211021063414.23663-4-roy-cw.yeh@mediatek.com>
+In-Reply-To: <20211021063414.23663-5-roy-cw.yeh@mediatek.com>
 Content-Type: text/plain; charset=iso-8859-15; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -52,28 +55,66 @@ X-Mailing-List: linux-media@vger.kernel.org
 Il 21/10/21 08:34, roy-cw.yeh ha scritto:
 > From: "Roy-CW.Yeh" <roy-cw.yeh@mediatek.com>
 > 
-> Set dma_set_mask_and_coherent
+> Set rdma compression reg in each frame
 > 
-
-Please explain why you're setting that and why 34 bits in the commit description.
-
 > Signed-off-by: Roy-CW.Yeh <roy-cw.yeh@mediatek.com>
 > ---
->   drivers/media/platform/mtk-mdp3/mtk-mdp3-core.c | 2 ++
->   1 file changed, 2 insertions(+)
+>   drivers/media/platform/mtk-mdp3/mtk-mdp3-comp.c | 10 ++++++----
+>   drivers/media/platform/mtk-mdp3/mtk-mdp3-core.c |  2 +-
+>   2 files changed, 7 insertions(+), 5 deletions(-)
 > 
+> diff --git a/drivers/media/platform/mtk-mdp3/mtk-mdp3-comp.c b/drivers/media/platform/mtk-mdp3/mtk-mdp3-comp.c
+> index 12d6c88c68d2..dc0d1b3ff218 100644
+> --- a/drivers/media/platform/mtk-mdp3/mtk-mdp3-comp.c
+> +++ b/drivers/media/platform/mtk-mdp3/mtk-mdp3-comp.c
+> @@ -178,15 +178,17 @@ static int config_rdma_frame(struct mdp_comp_ctx *ctx,
+>   			/* Setup Compression Control */
+>   			MM_REG_WRITE(cmd, subsys_id, base, MDP_RDMA_COMP_CON,
+>   				     rdma->comp_ctrl, write_mask);
+> -		}
+> -
+> -		if (mdp_cfg->rdma_support_afbc &&
+> -		    (MDP_COLOR_IS_COMPRESS(colorformat))) {
+> +		} else if (mdp_cfg->rdma_support_afbc &&
+> +			   (MDP_COLOR_IS_COMPRESS(colorformat))) {
+
+Looks like you're unconditionally writing to the compression control register,
+
+so you can just...
+
+>   			MM_REG_WRITE(cmd, subsys_id, base, MDP_RDMA_MF_BKGD_SIZE_IN_PXL,
+>   				     ((width + 31) >> 5) << 5, 0x001FFFFF);
+>   			MM_REG_WRITE(cmd, subsys_id, base, MDP_RDMA_MF_BKGD_H_SIZE_IN_PXL,
+>   				     ((height + 7) >> 3) << 3, 0x001FFFFF);
+>   
+		}
+		/* Setup Compression Control */
+
+		MM_REG_WRITE(cmd, subsys_id, base, MDP_RDMA_COMP_CON,
+
+			     rdma->comp_ctrl, write_mask);	
+
+... and avoid repeating the same thing over and over in all of the conditionals.
+
+> +			/* Setup Compression Control */
+> +			MM_REG_WRITE(cmd, subsys_id, base, MDP_RDMA_COMP_CON,
+> +				     rdma->comp_ctrl, write_mask);
+> +		} else {
+>   			/* Setup Compression Control */
+>   			MM_REG_WRITE(cmd, subsys_id, base, MDP_RDMA_COMP_CON,
+>   				     rdma->comp_ctrl, write_mask);
 > diff --git a/drivers/media/platform/mtk-mdp3/mtk-mdp3-core.c b/drivers/media/platform/mtk-mdp3/mtk-mdp3-core.c
-> index 1e61ac7ca790..875326afb686 100644
+> index 875326afb686..1a15490d45e7 100644
 > --- a/drivers/media/platform/mtk-mdp3/mtk-mdp3-core.c
 > +++ b/drivers/media/platform/mtk-mdp3/mtk-mdp3-core.c
-> @@ -1141,6 +1141,8 @@ static int mdp_probe(struct platform_device *pdev)
->   	mdp->pdev = pdev;
->   	mdp->mdp_data = of_device_get_match_data(&pdev->dev);
->   
-> +	dma_set_mask_and_coherent(&pdev->dev, DMA_BIT_MASK(34));
-> +
->   	ret = of_property_read_u32(dev->of_node, "mediatek,mdp3-id", &id);
->   	if (ret) {
->   		dev_err(dev, "Failed to get mdp-id\n");
+> @@ -34,7 +34,7 @@ static const struct mdp_platform_config mt8195_plat_cfg = {
+>   	.rdma_support_afbc              = true,
+>   	.rdma_esl_setting               = true,
+>   	.rdma_rsz1_sram_sharing         = false,
+> -	.rdma_upsample_repeat_only      = true,
+> +	.rdma_upsample_repeat_only      = false,
+>   	.rsz_disable_dcm_small_sample   = false,
+>   	.rsz_etc_control                = true,
+>   	.wrot_filter_constraint         = false,
 > 
 
