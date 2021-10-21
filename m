@@ -2,52 +2,52 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6BB84436CF2
+	by mail.lfdr.de (Postfix) with ESMTP id BB80B436CF3
 	for <lists+linux-media@lfdr.de>; Thu, 21 Oct 2021 23:44:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232268AbhJUVq3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        id S232271AbhJUVq3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
         Thu, 21 Oct 2021 17:46:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55176 "EHLO
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55178 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232249AbhJUVq0 (ORCPT
+        with ESMTP id S232258AbhJUVq0 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
         Thu, 21 Oct 2021 17:46:26 -0400
-Received: from mail-wr1-x431.google.com (mail-wr1-x431.google.com [IPv6:2a00:1450:4864:20::431])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 692B4C061243
-        for <linux-media@vger.kernel.org>; Thu, 21 Oct 2021 14:44:08 -0700 (PDT)
-Received: by mail-wr1-x431.google.com with SMTP id k7so1572126wrd.13
-        for <linux-media@vger.kernel.org>; Thu, 21 Oct 2021 14:44:08 -0700 (PDT)
+Received: from mail-wm1-x331.google.com (mail-wm1-x331.google.com [IPv6:2a00:1450:4864:20::331])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6986CC061220
+        for <linux-media@vger.kernel.org>; Thu, 21 Oct 2021 14:44:09 -0700 (PDT)
+Received: by mail-wm1-x331.google.com with SMTP id p21so961593wmq.1
+        for <linux-media@vger.kernel.org>; Thu, 21 Oct 2021 14:44:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=qstZiRiLUFrlQU1DowMt14WiuOpUvjb5Tv4Ka3RUSR0=;
-        b=UeQXXz5lrF3f3C0uBTi9jvimjXWehy7Mz/klAybFBdWC/Po3V8LobKahtL5taFqDkX
-         jB11F8oCJIR/kmcM1nFSZR97BVjbSY+3O74Jo+7lx6d0BMO1TNPZhcvzIJernUTiUVkE
-         3lZMN6K8YMjut/IuSYwM5v+17IcgndyaW678yJaZQCRcvT0QKF/YArEd3KQ3a4wR+GSO
-         kgvpmH1I1Mdit6Y6rQKc04rmBrQcRhwmyM1c5gkSze85Cl8tsc2d5COMNhuTZLmTWdu/
-         MNNWzReTYEdBL78gwF6ChTC3yoeUM5dPJslVe3VMR2v/fKVH86IjofwkeOZMtqmLRcE6
-         0oTQ==
+        bh=W6hpRDl94S/Eeu0a3abgL9PES9y85INw0M97kjxmgOQ=;
+        b=Ih/Jcq+oOxg2Kc7BYSo87rAgWBvl4tnjkQp60ggKpyZcm+chc/h83C6yY2ilTRiEly
+         mP518M8x8oG5H78DIKDfnL6N9vBhs42YVO30TqyVL8W7pgCBYWwLV+vMP6macJmIvUc2
+         mCqxM2q8sec2A1H41v7Q+WfJeAEoHPNOy/qQkD1kYKKblUVE62wG4IG8rYbWHtX2sgoJ
+         syDohBYrMIy612tYz36mlYKzku3InNUak3AXoml/GTIYuoD9hoo8VH1M1vE/qMd9i12y
+         7pBUXMxWn6YKLjBFnOknfM5T3qtrHIlmHLOj4GGGVYLViOgR7+zWdf884vegDZUjcIIX
+         uFpQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=qstZiRiLUFrlQU1DowMt14WiuOpUvjb5Tv4Ka3RUSR0=;
-        b=E5+B4glfbcZqSJ2NkHBZS0IIEUA4Sx0tBtjLQaQjOP6gnA8Q3CcJVheHkP/1dbVTGY
-         Mnj+4NXTj1aCr6+EhuV+v6BBADYTJZh26r+PQSlap2u5E6LbMP06SzzSdNB4xAq+wEvw
-         XBFiZ0wngV4jKxqr48SHAslMl8LPg742Em+dvJLMN7fvFTLURHWOnLEBMWThJzI79HlH
-         sBeLSAANpucSICRBLJ9N4dB+penxEVdnSCwjv4Q7dAgKsWN40lJu6K0aYl+CwiF+d5gU
-         R880/B/+Kc5Qbvw4GD2VnBB5z2kN+B9C48DOgQ15i6N5nUA/cIKAKkmCgGP0p1ZVgPJJ
-         znLw==
-X-Gm-Message-State: AOAM532rRkL+sk1U7/8136858UhZTZDXTonAZRi2vCYWmyCELrESMeqz
-        d1Rlmol4k8tB5Xb/eLxIs7vazjMnevs=
-X-Google-Smtp-Source: ABdhPJzbMwblFyWbfKKgBW2DezxustAG2ItKFIYkILc7P4leeS7Z0lHna91T53eNa0kyRie2E2QEuA==
-X-Received: by 2002:a5d:59ae:: with SMTP id p14mr10366405wrr.76.1634852647205;
-        Thu, 21 Oct 2021 14:44:07 -0700 (PDT)
+        bh=W6hpRDl94S/Eeu0a3abgL9PES9y85INw0M97kjxmgOQ=;
+        b=ytiGT+7iRKdu9AtMKkZzTviO40+DuqYwlKkx/aqvpbqRzZup24Hc8tx6uC73UCuznV
+         UTMtXoVPojA8yvsdDl0yavWUch9MLxpn+nW8YpS7GdiGpgAR9MFpBqqpJgCLjgPR2g4w
+         vF3OsovaoJF5KRnWNM1Tk3gQDGHeDtHV0ImWPJWDFsOFHlQ6cB2J8f3Jy48PUb372DAO
+         Py6zJ4pXIdns1g7DF67dUOsJiphqy0AvTkEHN10zkzA5mNNfMhhoqsMFDeLRDDQaP/0G
+         zDsmzVMYcfy1Zgo2SI0yxbEPM4H6theHk2cBC5dZ/oXDqWalhAsDISuynCv8lKNKv2t/
+         W2Ag==
+X-Gm-Message-State: AOAM533e3+J6deHg3/hKBTQ4BI4hc+DAS5kqvrnD8p8k+TN1evnOGnfM
+        NiLanVUrKh1DjzaNAw3bFFZkHibwFjg=
+X-Google-Smtp-Source: ABdhPJxKxUeisc4f4VMKftmhh4FGBPjPd/LPlsam1YowFPl5sYnRU5PYzYrDDDT+gh0Pcr0UXvu12A==
+X-Received: by 2002:a05:600c:3b88:: with SMTP id n8mr9222297wms.93.1634852648059;
+        Thu, 21 Oct 2021 14:44:08 -0700 (PDT)
 Received: from localhost.localdomain (cpc141996-chfd3-2-0-cust928.12-3.cable.virginm.net. [86.13.91.161])
-        by smtp.gmail.com with ESMTPSA id r205sm6378507wma.3.2021.10.21.14.44.06
+        by smtp.gmail.com with ESMTPSA id r205sm6378507wma.3.2021.10.21.14.44.07
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 21 Oct 2021 14:44:06 -0700 (PDT)
+        Thu, 21 Oct 2021 14:44:07 -0700 (PDT)
 From:   Daniel Scally <djrscally@gmail.com>
 To:     linux-media@vger.kernel.org, paul.kocialkowski@bootlin.com
 Cc:     Yong Zhi <yong.zhi@intel.com>,
@@ -58,9 +58,9 @@ Cc:     Yong Zhi <yong.zhi@intel.com>,
         Andy Shevchenko <andy.shevchenko@gmail.com>,
         hdegoede@redhat.com, laurent.pinchart@ideasonboard.com,
         kieran.bingham@ideasonboard.com
-Subject: [PATCH v3 13/16] media: i2c: Re-order runtime pm initialisation
-Date:   Thu, 21 Oct 2021 22:43:28 +0100
-Message-Id: <20211021214331.1188787-14-djrscally@gmail.com>
+Subject: [PATCH v3 14/16] media: i2c: Use dev_err_probe() in ov8865
+Date:   Thu, 21 Oct 2021 22:43:29 +0100
+Message-Id: <20211021214331.1188787-15-djrscally@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20211021214331.1188787-1-djrscally@gmail.com>
 References: <20211021214331.1188787-1-djrscally@gmail.com>
@@ -70,37 +70,84 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The kerneldoc for pm_runtime_set_suspended() says:
-
-"It is not valid to call this function for devices with runtime PM
-enabled"
-
-To satisfy that requirement, re-order the calls so that
-pm_runtime_enable() is the last one.
+There is a chance that regulator_get() returns -EPROBE_DEFER, in which
+case printing an error message is undesirable. To avoid spurious messages
+in dmesg in the event that -EPROBE_DEFER is returned, use dev_err_probe()
+on error paths for regulator_get().
 
 Signed-off-by: Daniel Scally <djrscally@gmail.com>
 ---
 Changes in v3:
 
-	- Patch introduced
+	- None
 
- drivers/media/i2c/ov8865.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/media/i2c/ov8865.c | 46 +++++++++++++++++---------------------
+ 1 file changed, 20 insertions(+), 26 deletions(-)
 
 diff --git a/drivers/media/i2c/ov8865.c b/drivers/media/i2c/ov8865.c
-index 0bf3f72892f7..572b9818e950 100644
+index 572b9818e950..685539744041 100644
 --- a/drivers/media/i2c/ov8865.c
 +++ b/drivers/media/i2c/ov8865.c
-@@ -3085,8 +3085,8 @@ static int ov8865_probe(struct i2c_client *client)
+@@ -2955,6 +2955,26 @@ static int ov8865_probe(struct i2c_client *client)
+ 	sensor->dev = dev;
+ 	sensor->i2c_client = client;
  
- 	/* Runtime PM */
++	/* Regulators */
++
++	/* DVDD: digital core */
++	sensor->dvdd = devm_regulator_get(dev, "dvdd");
++	if (IS_ERR(sensor->dvdd))
++		return dev_err_probe(dev, PTR_ERR(sensor->dvdd),
++				     "cannot get DVDD regulator\n");
++
++	/* DOVDD: digital I/O */
++	sensor->dovdd = devm_regulator_get(dev, "dovdd");
++	if (IS_ERR(sensor->dovdd))
++		return dev_err_probe(dev, PTR_ERR(sensor->dovdd),
++				     "cannot get DOVDD regulator\n");
++
++	/* AVDD: analog */
++	sensor->avdd = devm_regulator_get(dev, "avdd");
++	if (IS_ERR(sensor->avdd))
++		return dev_err_probe(dev, PTR_ERR(sensor->avdd),
++				     "cannot get AVDD (analog) regulator\n");
++
+ 	/* Graph Endpoint */
  
--	pm_runtime_enable(sensor->dev);
- 	pm_runtime_set_suspended(sensor->dev);
-+	pm_runtime_enable(sensor->dev);
+ 	handle = fwnode_graph_get_next_endpoint(dev_fwnode(dev), NULL);
+@@ -2985,32 +3005,6 @@ static int ov8865_probe(struct i2c_client *client)
+ 		goto error_endpoint;
+ 	}
  
- 	/* V4L2 subdev register */
+-	/* Regulators */
+-
+-	/* DVDD: digital core */
+-	sensor->dvdd = devm_regulator_get(dev, "dvdd");
+-	if (IS_ERR(sensor->dvdd)) {
+-		dev_err(dev, "cannot get DVDD (digital core) regulator\n");
+-		ret = PTR_ERR(sensor->dvdd);
+-		goto error_endpoint;
+-	}
+-
+-	/* DOVDD: digital I/O */
+-	sensor->dovdd = devm_regulator_get(dev, "dovdd");
+-	if (IS_ERR(sensor->dovdd)) {
+-		dev_err(dev, "cannot get DOVDD (digital I/O) regulator\n");
+-		ret = PTR_ERR(sensor->dovdd);
+-		goto error_endpoint;
+-	}
+-
+-	/* AVDD: analog */
+-	sensor->avdd = devm_regulator_get(dev, "avdd");
+-	if (IS_ERR(sensor->avdd)) {
+-		dev_err(dev, "cannot get AVDD (analog) regulator\n");
+-		ret = PTR_ERR(sensor->avdd);
+-		goto error_endpoint;
+-	}
+-
+ 	/* External Clock */
  
+ 	sensor->extclk = devm_clk_get(dev, "tps68470-clk");
 -- 
 2.25.1
 
