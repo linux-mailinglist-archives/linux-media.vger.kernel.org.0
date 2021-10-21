@@ -2,101 +2,139 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2C1684364E9
-	for <lists+linux-media@lfdr.de>; Thu, 21 Oct 2021 17:00:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 84C3D4365A0
+	for <lists+linux-media@lfdr.de>; Thu, 21 Oct 2021 17:14:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231572AbhJUPDJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 21 Oct 2021 11:03:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46672 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231520AbhJUPDI (ORCPT
+        id S232042AbhJUPRI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 21 Oct 2021 11:17:08 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:58836 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231331AbhJUPQy (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 21 Oct 2021 11:03:08 -0400
-Received: from lb2-smtp-cloud9.xs4all.net (lb2-smtp-cloud9.xs4all.net [IPv6:2001:888:0:108::2c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5BD44C0613B9
-        for <linux-media@vger.kernel.org>; Thu, 21 Oct 2021 08:00:52 -0700 (PDT)
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud9.xs4all.net with ESMTPA
-        id dZYjmlHknqPdpdZYmmwGII; Thu, 21 Oct 2021 17:00:48 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1634828448; bh=OVJKx8bTm54R2oo7E3LzY71j7it2GJYHGW/UPBhCWHU=;
-        h=To:From:Subject:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=I8n4ypE09b4Naq+hVIWuE3dIPFQZfb0AYSULEqOis+afk7dbuPPiXltY+OcvCu6zw
-         1NbL7GDiRitrJhW8vJlnNrOWkua5MmIx7XsyECVcmcrYkw0h+neP0W5o2TmbMJ3X3e
-         IXu6OZh4WhGGcFqkP74EBIQpyP9hhSPCJfanxeBxPmO0tIQa7tx5h67YNcXE0jCrL/
-         ATN4cs7guBBSjWa3zFC7RLWoFAEHGDiCgTC8NLyatQw25D5FIso06lPFz0VUSZQrQU
-         K5vEW4j49EYq0hVnsbCilTJWtLvVKN3X7G2s1wiiT31sIN8dDuD+4GDa2K2Czl8kRR
-         hewIKul3Ag5VQ==
-To:     Linux Media Mailing List <linux-media@vger.kernel.org>
-Cc:     Dillon Min <dillon.minfei@gmail.com>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Subject: [GIT PULL FOR v5.16] v2: Add support for DMA2D of STMicroelectronics
- STM32 Soc series
-Message-ID: <8270d145-882d-82e4-307f-6a0f058cb0cf@xs4all.nl>
-Date:   Thu, 21 Oct 2021 17:00:45 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Firefox/78.0 Thunderbird/78.14.0
+        Thu, 21 Oct 2021 11:16:54 -0400
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 1ACA68B6;
+        Thu, 21 Oct 2021 17:14:37 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1634829277;
+        bh=zOEFB7Jms20IR7qp5keHBdpl9QthTikkKor2iHB2Emc=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=OCdxF14dvBhfNzWLaZMJLF9ZgVJa7tsNjcxIFMVgrs1RDxD1rkHafXZO3oIA6kJse
+         N7l767FggIH7HqGtyT45n/Fhvc41lwbtbCfkN1e9l71VtgdbX3UgPyRlYeJdlVL4+H
+         ejD2iHtzABt8u7pAOvytTTeG1kGBzvTH0oGWDE+A=
+Date:   Thu, 21 Oct 2021 18:14:17 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Hans Verkuil <hverkuil@xs4all.nl>
+Cc:     Jacopo Mondi <jacopo@jmondi.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Sean Young <sean@mess.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        linux-media@vger.kernel.org
+Subject: Re: [PATCH] media: Document coding style requirements
+Message-ID: <YXGDyRgReDDTlF5J@pendragon.ideasonboard.com>
+References: <20211013092005.14268-1-jacopo@jmondi.org>
+ <f48bbc19-9285-befe-e1cc-4c71d2735994@xs4all.nl>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4xfKxe8f5IBzrun1ezhzegnUAUGQ8a2GSLjPb1CdrQ+FbalM4a6tl8YLk2W1jD/hb6h0Xn8BzjMg+beAtLpO4SiM46vJcyqQQ4MtURfIGYG4PeMi1A/dUK
- 91vxKi2Seu8rdWtYtqeL1ZdTbYLQtMSe3zOzIbU7cSI3IbgOw5suZjgGI33sMku6OK21UO1fILmJ1Xm2BleO+Ehrfcm5VcuuoimuIBllbf8TVtTcHfqcSUiq
+Content-Disposition: inline
+In-Reply-To: <f48bbc19-9285-befe-e1cc-4c71d2735994@xs4all.nl>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Changes since v2: dropped the clk patch, on second thought that really should
-go in through the clk subsystem.
+On Thu, Oct 21, 2021 at 04:00:40PM +0200, Hans Verkuil wrote:
+> On 13/10/2021 11:20, Jacopo Mondi wrote:
+> > There are a few additional coding style conventions in place in
+> > the media subsystem. If they do not get documented, it's hard to enforce
+> > them during review as well as it is hard for developers to follow them
+> > without having previously contributed to the subsystem.
+> > 
+> > Add them to the subsystem profile documentation.
+> > 
+> > Signed-off-by: Jacopo Mondi <jacopo@jmondi.org>
+> > ---
+> > 
+> > All points are up for discussion ofc.
+> > 
+> > But the idea is to get to have more requirement defined, as otherwise
+> > it's very hard to enforce them during review.
+> > 
+> > Thanks
+> >    j
+> > 
+> > ---
+> >  .../media/maintainer-entry-profile.rst        | 24 +++++++++++++++++++
+> >  1 file changed, 24 insertions(+)
+> > 
+> > diff --git a/Documentation/driver-api/media/maintainer-entry-profile.rst b/Documentation/driver-api/media/maintainer-entry-profile.rst
+> > index eb1cdfd280ba..9c376f843e1c 100644
+> > --- a/Documentation/driver-api/media/maintainer-entry-profile.rst
+> > +++ b/Documentation/driver-api/media/maintainer-entry-profile.rst
+> > @@ -180,6 +180,30 @@ In particular, we accept lines with more than 80 columns:
+> >      - when they avoid a line to end with an open parenthesis or an open
+> >        bracket.
+> > 
+> > +There are a few additional requirements which are not enforced by tooling
+> > +but mostly during the review process:
+> > +
+> > +    - C++ style comments are not allowed, if not for SPDX headers;
+> 
+> if not -> except
+> 
+> > +    - hexadecimal values should be spelled using lowercase letters;
+> > +    - one structure/enum member declaration per line;
+> > +    - one variable declaration per line;
+> 
+> Hmm, I don't mind something like: int i, j;
+> 
+> But for anything more complex I too prefer one declaration per line.
+> 
+> > +    - prefer variable declaration order in reverse-x-mas-tree over
+> > +      initialization at variable declare time;
+> 
+> Add something like:
+> 
+> ...unless there are dependencies or other readability reasons to
+> depart from this.
 
+This should probably go as the top-level, it's a valid comment for most
+(all ?) rules.
+
+> > +
+> > +      As an example, the following style is preferred::
+> > +
+> > +         struct priv_struct *priv = container_of(....)
+> > +         struct foo_struct *foo = priv->foo;
+> > +         int b;
+> > +
+> > +         b = a_very_long_operation_name(foo, s->bar)
+> > +
+> > +      over the following one::
+> > +
+> > +         struct priv_struct *priv = container_of(....)
+> > +         struct foo_struct *foo = priv->foo;
+> > +         int b = a_very_long_operation_name(foo, s->bar)
+> 
+> I'm not sure if this is what you typically see.
+> 
+> Perhaps this is a better example:
+> 
+> 	int i;
+> 	struct foo_struct *foo = priv->foo;
+> 	int result;
+> 
+> should be written as:
+> 
+> 	struct foo_struct *foo = priv->foo;
+> 	int result;
+> 	int i;
+> 
+> > +
+> >  Key Cycle Dates
+> >  ---------------
+> > 
+
+-- 
 Regards,
 
-	Hans
-
-The following changes since commit 57c3b9f55ba875a6f6295fa59f0bdc0a01c544f8:
-
-  media: venus: core: Add sdm660 DT compatible and resource struct (2021-10-21 14:26:19 +0100)
-
-are available in the Git repository at:
-
-  git://linuxtv.org/hverkuil/media_tree.git tags/br-v5.16k
-
-for you to fetch changes up to 38c3c6a58fc8619eebba57bfec022d22f448f709:
-
-  media: stm32-dma2d: STM32 DMA2D driver (2021-10-21 16:58:01 +0200)
-
-----------------------------------------------------------------
-tag branch
-
-----------------------------------------------------------------
-Dillon Min (7):
-      media: admin-guide: add stm32-dma2d description
-      media: dt-bindings: media: add document for STM32 DMA2d bindings
-      media: v4l2-mem2mem: add v4l2_m2m_get_unmapped_area for no-mmu platform
-      media: videobuf2: Fix the size printk format
-      media: v4l2-ctrls: Add V4L2_CID_COLORFX_CBCR max setting
-      media: v4l2-ctrls: Add RGB color effects control
-      media: stm32-dma2d: STM32 DMA2D driver
-
- Documentation/admin-guide/media/platform-cardlist.rst       |   1 +
- Documentation/devicetree/bindings/media/st,stm32-dma2d.yaml |  71 +++++
- Documentation/userspace-api/media/v4l/control.rst           |   9 +
- drivers/media/common/videobuf2/videobuf2-dma-contig.c       |   8 +-
- drivers/media/platform/Kconfig                              |  11 +
- drivers/media/platform/Makefile                             |   1 +
- drivers/media/platform/stm32/Makefile                       |   2 +
- drivers/media/platform/stm32/dma2d/dma2d-hw.c               | 143 ++++++++++
- drivers/media/platform/stm32/dma2d/dma2d-regs.h             | 113 ++++++++
- drivers/media/platform/stm32/dma2d/dma2d.c                  | 739 ++++++++++++++++++++++++++++++++++++++++++++++++++++
- drivers/media/platform/stm32/dma2d/dma2d.h                  | 135 ++++++++++
- drivers/media/v4l2-core/v4l2-ctrls-defs.c                   |  12 +-
- drivers/media/v4l2-core/v4l2-mem2mem.c                      |  21 ++
- include/media/v4l2-mem2mem.h                                |   5 +
- include/uapi/linux/v4l2-controls.h                          |   4 +-
- 15 files changed, 1268 insertions(+), 7 deletions(-)
- create mode 100644 Documentation/devicetree/bindings/media/st,stm32-dma2d.yaml
- create mode 100644 drivers/media/platform/stm32/dma2d/dma2d-hw.c
- create mode 100644 drivers/media/platform/stm32/dma2d/dma2d-regs.h
- create mode 100644 drivers/media/platform/stm32/dma2d/dma2d.c
- create mode 100644 drivers/media/platform/stm32/dma2d/dma2d.h
+Laurent Pinchart
