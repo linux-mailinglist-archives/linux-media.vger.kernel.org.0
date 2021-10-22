@@ -2,120 +2,175 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8A1AF43744B
-	for <lists+linux-media@lfdr.de>; Fri, 22 Oct 2021 11:04:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 95D90437463
+	for <lists+linux-media@lfdr.de>; Fri, 22 Oct 2021 11:10:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232397AbhJVJGz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 22 Oct 2021 05:06:55 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:44680 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S232060AbhJVJGy (ORCPT
+        id S232440AbhJVJM6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 22 Oct 2021 05:12:58 -0400
+Received: from mx08-00178001.pphosted.com ([91.207.212.93]:45894 "EHLO
+        mx07-00178001.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S232060AbhJVJMy (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 22 Oct 2021 05:06:54 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1634893477;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=NJGZhkxj38uYQtmuRmaa5a4QRl7cPEpIp72Xf6GYbis=;
-        b=P01r7vf+j+Shx4/WX9StNxXhU5Fklnw7hrahPr3r1HoBc7ONbEJtoPkBY6ekKOzXKilkEg
-        dUPC9vBhido5O6i0iYDC0C6kLyKxO5MWFvmSQ2J4kZcRIp4WBCTyv96+43BETGf6YANS/b
-        MCHkPabM0T9qRYG/tUyDgBXKIbyh1mk=
-Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
- [209.85.208.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-383-1LgTAb0yPT2RgI0kkI_55g-1; Fri, 22 Oct 2021 05:04:34 -0400
-X-MC-Unique: 1LgTAb0yPT2RgI0kkI_55g-1
-Received: by mail-ed1-f70.google.com with SMTP id r25-20020a05640216d900b003dca3501ab4so3036051edx.15
-        for <linux-media@vger.kernel.org>; Fri, 22 Oct 2021 02:04:34 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=NJGZhkxj38uYQtmuRmaa5a4QRl7cPEpIp72Xf6GYbis=;
-        b=Cp5Bod3Ewi9C6f3wCOcCfXGog7/BrHAakux0F7MpSQGGt4l1XBEkGByOj8IKVmDaBi
-         x/fHF/FgtqHI2aeHh02DgxvZcBOS8qH0wD/GV/fHnPiIagCyWGODWKt7jcSAAR5o/Ign
-         eekCGXVdef7U8VX7qFG7PYyBtaWJ9BF4i4XNZ/zAeR8UB3SsI2RC7S9aHs29VToXlogd
-         pxkRbbxX0R4vnENEkiX6cgrijxnyUqc6Wz6LdHWCo4a6N0VOzjiRYVMm+nzKKnUPv3KY
-         S6ELh8CfME2qyo+SzbEM6wf+A1rUTS1zy2tILslozkOl6cN6iM065kWX2SE/tdEEqhVT
-         43qQ==
-X-Gm-Message-State: AOAM531zDyIihuWVNjCjOnLqncA2/STm6QA0W47fAHRi8/iD6lXD7d2L
-        YK1YoucZxcRDGA0WJZjbqQU/nSOK3lUifhG9apyEzS0ofdvvmV+NQJDCC6kQiSaw4LMqMzE6LXw
-        lwg5F1CYoAO8H07qnwtpbT0U=
-X-Received: by 2002:a17:907:6d9f:: with SMTP id sb31mr13655312ejc.109.1634893473607;
-        Fri, 22 Oct 2021 02:04:33 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxgaLxV/q19thSWzWkPVL40Td4avhVP3W53ZxVNiGvYCe3dCcT5gMVAl5iE2ggZ3DTJDYw6TQ==
-X-Received: by 2002:a17:907:6d9f:: with SMTP id sb31mr13655281ejc.109.1634893473415;
-        Fri, 22 Oct 2021 02:04:33 -0700 (PDT)
-Received: from ?IPV6:2001:1c00:c1e:bf00:1054:9d19:e0f0:8214? (2001-1c00-0c1e-bf00-1054-9d19-e0f0-8214.cable.dynamic.v6.ziggo.nl. [2001:1c00:c1e:bf00:1054:9d19:e0f0:8214])
-        by smtp.gmail.com with ESMTPSA id j1sm4078740edk.53.2021.10.22.02.04.32
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 22 Oct 2021 02:04:32 -0700 (PDT)
-Message-ID: <fd11b3fb-1f14-cd9e-c6f7-cbea0aa6548b@redhat.com>
-Date:   Fri, 22 Oct 2021 11:04:31 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.0
-Subject: Re: [PATCH v3 05/11] clk: Introduce clk-tps68470 driver
-Content-Language: en-US
-To:     Andy Shevchenko <andy.shevchenko@gmail.com>
-Cc:     Stephen Boyd <sboyd@kernel.org>,
-        Andy Shevchenko <andy@infradead.org>,
-        Daniel Scally <djrscally@gmail.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Mark Brown <broonie@kernel.org>,
-        Mark Gross <markgross@kernel.org>,
+        Fri, 22 Oct 2021 05:12:54 -0400
+Received: from pps.filterd (m0046661.ppops.net [127.0.0.1])
+        by mx07-00178001.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 19M8DNR0028197;
+        Fri, 22 Oct 2021 11:10:19 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=subject : to : cc :
+ references : from : message-id : date : mime-version : in-reply-to :
+ content-type : content-transfer-encoding; s=selector1;
+ bh=WLxFl8E+ifmKfctJH7ZiFoNgZodLlqE6Mj4z0a45bFc=;
+ b=YOWtH8OcXMUk7bwAwi97wsotwqnZMHd5RPkulxPM/hSkIcqHitf8Kbh2TdPlGIvnLLAD
+ Y48IzSHhzyfDOWbQtnaAxuTh4042eic2xI0k38pwtMMST+oit/mDpCBG4mnic0geRf8P
+ zSm8OS5P7RjN/qST9AoCRbABdvUKwSw5EgIUpaf6yjubL8NjVkm+GIiDWLqr2ybo6tUF
+ kEgTignIGIrJ0D+7KpFuwfIY9cEqSQRmRXbB2VhyRONZ55FMXdna8U+OLA6ZNzWySy/Q
+ 0O3ZJ1ztGz9Hms7OnexVnCNur4ZFKTJqPgJol16Gfo0ahNYYJFcjVxrlYaJSP6MsOp0z +Q== 
+Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
+        by mx07-00178001.pphosted.com with ESMTP id 3bujdt2s8e-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Fri, 22 Oct 2021 11:10:19 +0200
+Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
+        by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id EB62110002A;
+        Fri, 22 Oct 2021 11:10:17 +0200 (CEST)
+Received: from Webmail-eu.st.com (sfhdag2node2.st.com [10.75.127.5])
+        by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id D1DE7216EDA;
+        Fri, 22 Oct 2021 11:10:17 +0200 (CEST)
+Received: from lmecxl0572.lme.st.com (10.75.127.48) by SFHDAG2NODE2.st.com
+ (10.75.127.5) with Microsoft SMTP Server (TLS) id 15.0.1497.18; Fri, 22 Oct
+ 2021 11:10:14 +0200
+Subject: Re: [PATCH v6 09/10] clk: stm32: Fix ltdc's clock turn off by
+ clk_disable_unused() after system enter shell
+To:     Dillon Min <dillon.minfei@gmail.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
+        <mchehab+huawei@kernel.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        <ezequiel@collabora.com>, <gnurou@gmail.com>,
+        Pi-Hsun Shih <pihsun@chromium.org>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        Alexandre TORGUE <alexandre.torgue@foss.st.com>,
         Michael Turquette <mturquette@baylibre.com>,
-        Mika Westerberg <mika.westerberg@linux.intel.com>,
-        "Rafael J.Wysocki" <rjw@rjwysocki.net>,
-        Wolfram Sang <wsa@the-dreams.de>, Len Brown <lenb@kernel.org>,
-        ACPI Devel Maling List <linux-acpi@vger.kernel.org>,
-        Platform Driver <platform-driver-x86@vger.kernel.org>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>, <gabriel.fernandez@st.com>
+CC:     Patrice CHOTARD <patrice.chotard@foss.st.com>,
+        <hugues.fruchet@foss.st.com>,
+        linux-media <linux-media@vger.kernel.org>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-i2c <linux-i2c@vger.kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Kate Hsuan <hpa@redhat.com>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        linux-clk <linux-clk@vger.kernel.org>
-References: <20211010185707.195883-1-hdegoede@redhat.com>
- <20211010185707.195883-6-hdegoede@redhat.com>
- <163415237957.936110.1269283416777498553@swboyd.mtv.corp.google.com>
- <4e5884d5-bcde-dac9-34fb-e29ed32f73c9@redhat.com>
- <CAHp75Ve_xqgnaCqc3oyDMWDE9kVm8HNOEcdMuDkOD9epwgfWnA@mail.gmail.com>
-From:   Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <CAHp75Ve_xqgnaCqc3oyDMWDE9kVm8HNOEcdMuDkOD9epwgfWnA@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
+        <linux-stm32@st-md-mailman.stormreply.com>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        linux-clk <linux-clk@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>
+References: <1634633003-18132-1-git-send-email-dillon.minfei@gmail.com>
+ <1634633003-18132-10-git-send-email-dillon.minfei@gmail.com>
+ <CAL9mu0Jw99aeSmwy7gnY3XQK3V1V-C1-R8ET5jvSMz7niH=g4g@mail.gmail.com>
+From:   "gabriel.fernandez@foss.st.com" <gabriel.fernandez@foss.st.com>
+Message-ID: <b43699a6-dc53-3fcd-6cc9-6b05025cad96@foss.st.com>
+Date:   Fri, 22 Oct 2021 11:10:14 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
+MIME-Version: 1.0
+In-Reply-To: <CAL9mu0Jw99aeSmwy7gnY3XQK3V1V-C1-R8ET5jvSMz7niH=g4g@mail.gmail.com>
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.75.127.48]
+X-ClientProxiedBy: SFHDAG1NODE2.st.com (10.75.127.2) To SFHDAG2NODE2.st.com
+ (10.75.127.5)
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.182.1,Aquarius:18.0.790,Hydra:6.0.425,FMLib:17.0.607.475
+ definitions=2021-10-22_02,2021-10-21_02,2020-04-07_01
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi,
+Hi Dillon,
 
-On 10/22/21 10:46, Andy Shevchenko wrote:
-> On Thu, Oct 21, 2021 at 8:31 PM Hans de Goede <hdegoede@redhat.com> wrote:
->> On 10/13/21 21:12, Stephen Boyd wrote:
-> 
-> ...
-> 
->>>> +       regmap_write(clkdata->regmap, TPS68470_REG_CLKCFG1,
-> 
->>>> +                          (TPS68470_PLL_OUTPUT_ENABLE <<
->>>> +                          TPS68470_OUTPUT_A_SHIFT) |
-> 
-> One line, please?
-> 
->>>> +                          (TPS68470_PLL_OUTPUT_ENABLE <<
->>>> +                          TPS68470_OUTPUT_B_SHIFT));
-> 
-> Ditto.
+You can add my Acked-by: Gabriel Fernandez <gabriel.fernandez@foss.st.com>
 
-Ack, both fixed for v4.
+Best Regards
+Gabriel
 
-Regards,
-
-Hans
-
+On 10/22/21 9:25 AM, Dillon Min wrote:
+> Hi Gabriel
+> 
+> I guess you are the maintainer of stm32 clk subsystem from [1], Could
+> you help to review this patch, just give a brief of the history:
+> 
+> - this patch was acked by Stephen Boyd at [2].
+> - reviewed by Patrice Chotard at [3].
+> 
+> Without this patch , the kernel will turn off ltdc's clk after the
+> system reach shell.
+> 
+> [1] https://lore.kernel.org/lkml/AM8PR10MB4785545DC980090C1E7D66B281009@AM8PR10MB4785.EURPRD10.PROD.OUTLOOK.COM/
+> 
+> [2] https://lore.kernel.org/linux-arm-kernel/159056850835.88029.9264848839121822798@swboyd.mtv.corp.google.com/
+> 
+> [3] https://lore.kernel.org/lkml/6915fa2a-e211-476f-8317-6825e280c322@foss.st.com/#t
+> 
+> Best Regards
+> Dillon
+> 
+> On Tue, 19 Oct 2021 at 16:44, Dillon Min <dillon.minfei@gmail.com> wrote:
+>>
+>> stm32's clk driver register two ltdc gate clk to clk core by
+>> clk_hw_register_gate() and clk_hw_register_composite()
+>>
+>> first: 'stm32f429_gates[]', clk name is 'ltdc', which no user to use.
+>> second: 'stm32f429_aux_clk[]', clk name is 'lcd-tft', used by ltdc driver
+>>
+>> both of them point to the same offset of stm32's RCC register. after
+>> kernel enter console, clk core turn off ltdc's clk as 'stm32f429_gates[]'
+>> is no one to use. but, actually 'stm32f429_aux_clk[]' is in use.
+>>
+>> stm32f469/746/769 have the same issue, fix it.
+>>
+>> Fixes: daf2d117cbca ("clk: stm32f4: Add lcd-tft clock")
+>> Acked-by: Stephen Boyd <sboyd@kernel.org>
+>> Link: https://lore.kernel.org/linux-arm-kernel/1590564453-24499-7-git-send-email-dillon.minfei@gmail.com/
+>> Link: https://lore.kernel.org/lkml/CAPTRvHkf0cK_4ZidM17rPo99gWDmxgqFt4CDUjqFFwkOeQeFDg@mail.gmail.com/
+>> Signed-off-by: Dillon Min <dillon.minfei@gmail.com>
+>> ---
+>> v6: no change.
+>>
+>>   drivers/clk/clk-stm32f4.c | 4 ----
+>>   1 file changed, 4 deletions(-)
+>>
+>> diff --git a/drivers/clk/clk-stm32f4.c b/drivers/clk/clk-stm32f4.c
+>> index af46176ad053..473dfe632cc5 100644
+>> --- a/drivers/clk/clk-stm32f4.c
+>> +++ b/drivers/clk/clk-stm32f4.c
+>> @@ -129,7 +129,6 @@ static const struct stm32f4_gate_data stm32f429_gates[] __initconst = {
+>>          { STM32F4_RCC_APB2ENR, 20,      "spi5",         "apb2_div" },
+>>          { STM32F4_RCC_APB2ENR, 21,      "spi6",         "apb2_div" },
+>>          { STM32F4_RCC_APB2ENR, 22,      "sai1",         "apb2_div" },
+>> -       { STM32F4_RCC_APB2ENR, 26,      "ltdc",         "apb2_div" },
+>>   };
+>>
+>>   static const struct stm32f4_gate_data stm32f469_gates[] __initconst = {
+>> @@ -211,7 +210,6 @@ static const struct stm32f4_gate_data stm32f469_gates[] __initconst = {
+>>          { STM32F4_RCC_APB2ENR, 20,      "spi5",         "apb2_div" },
+>>          { STM32F4_RCC_APB2ENR, 21,      "spi6",         "apb2_div" },
+>>          { STM32F4_RCC_APB2ENR, 22,      "sai1",         "apb2_div" },
+>> -       { STM32F4_RCC_APB2ENR, 26,      "ltdc",         "apb2_div" },
+>>   };
+>>
+>>   static const struct stm32f4_gate_data stm32f746_gates[] __initconst = {
+>> @@ -286,7 +284,6 @@ static const struct stm32f4_gate_data stm32f746_gates[] __initconst = {
+>>          { STM32F4_RCC_APB2ENR, 21,      "spi6",         "apb2_div" },
+>>          { STM32F4_RCC_APB2ENR, 22,      "sai1",         "apb2_div" },
+>>          { STM32F4_RCC_APB2ENR, 23,      "sai2",         "apb2_div" },
+>> -       { STM32F4_RCC_APB2ENR, 26,      "ltdc",         "apb2_div" },
+>>   };
+>>
+>>   static const struct stm32f4_gate_data stm32f769_gates[] __initconst = {
+>> @@ -364,7 +361,6 @@ static const struct stm32f4_gate_data stm32f769_gates[] __initconst = {
+>>          { STM32F4_RCC_APB2ENR, 21,      "spi6",         "apb2_div" },
+>>          { STM32F4_RCC_APB2ENR, 22,      "sai1",         "apb2_div" },
+>>          { STM32F4_RCC_APB2ENR, 23,      "sai2",         "apb2_div" },
+>> -       { STM32F4_RCC_APB2ENR, 26,      "ltdc",         "apb2_div" },
+>>          { STM32F4_RCC_APB2ENR, 30,      "mdio",         "apb2_div" },
+>>   };
+>>
+>> --
+>> 2.7.4
+>>
