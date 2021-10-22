@@ -2,174 +2,159 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 46DC9437151
-	for <lists+linux-media@lfdr.de>; Fri, 22 Oct 2021 07:24:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5567B4371C7
+	for <lists+linux-media@lfdr.de>; Fri, 22 Oct 2021 08:33:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229573AbhJVF0v (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 22 Oct 2021 01:26:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44586 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229478AbhJVF0v (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Fri, 22 Oct 2021 01:26:51 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 22614C061764
-        for <linux-media@vger.kernel.org>; Thu, 21 Oct 2021 22:24:34 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 57D7151D;
-        Fri, 22 Oct 2021 07:24:32 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1634880272;
-        bh=2HA3aMKglwfPY30y6UjJEkq7bmwv7Bpk4GO32D2o3iI=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=FSyL1X2s7AjjmT+KPWiAsRUpRfNnCBJtU6ba6ECJeA51Blmyz/m5GnqSesP+kEcRq
-         hCU9NtPjOHiquwARGahhbEQgiLKFQ/6u9AoYKt0SM3C7wkZGnGyLpm6RU2o48fsv8+
-         7e7fMBKGJ/1HpzGBDXYvigRTwP9oftVOqo5PxeW0=
-Date:   Fri, 22 Oct 2021 08:24:12 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Jacopo Mondi <jacopo@jmondi.org>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil@xs4all.nl>, Sean Young <sean@mess.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        linux-media@vger.kernel.org
-Subject: Re: [PATCH] media: Document coding style requirements
-Message-ID: <YXJK/F6ajSDLc/RS@pendragon.ideasonboard.com>
-References: <20211013092005.14268-1-jacopo@jmondi.org>
- <f48bbc19-9285-befe-e1cc-4c71d2735994@xs4all.nl>
- <20211021155512.153ecd48@sal.lan>
- <YXGHw6FPfPddXMj2@pendragon.ideasonboard.com>
- <20211021171759.1857aeef@sal.lan>
- <20211021182042.6vebkm4ww4g35a37@uno.localdomain>
+        id S231846AbhJVGfP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 22 Oct 2021 02:35:15 -0400
+Received: from mail-dm6nam12on2087.outbound.protection.outlook.com ([40.107.243.87]:51851
+        "EHLO NAM12-DM6-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S231773AbhJVGfN (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Fri, 22 Oct 2021 02:35:13 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=To5eSQJwx3tDexH4IGJAGGmQoWZ0Zhr0Z/qGUAzg8sxpFVWExtY9ARPZzVAsmEb7YFWG+dgv3QEs3zZyfalfKNXtI62FNfCOivGeH7Vyl0agOweoeaHj7VieL2w3J+Ra0xRkRzrYKWx+53pXA2iNHKlAcoHYOTQG27/48Pspb6peBSJwZjBqG6kAu7dhJQxpqvbqb+6XLcYBXYFV9UGT/M7J9YrArIoDSe/p/ASGyr24eWh4cwBeWshHGn3VNWZLU2giA9hM2uE7qyIStz3+o88FfZuhkDOp1lHDuJwAE5rWD5xkyngbUSpHhmOIf8Mit9iMX7z4V1dFUo5FI9guyg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Se1Qbu+Y9mhJc7XsX5Lcq06IkY3UNG3vMXR5kUf3UXA=;
+ b=JdnBpsisu57qm3LX/ZwHTYN5suuRnS6cXJJaPWMBmN6Pqwx+Bt7oaZ9AUiHDKUSKzxbnIIYJKYsxQ35UzhhxNv9WPZ2aGH2aGf5KogmGiQZRp5uN6G0NFWB6tVQfkRKJEBLmLVfIZS07E52QVwdfPonjivl1Mx4MzcjY6at87La8ADgvtUdaiDSGiHk4uSGFnsJuQ4BE/vjBtMlyTmkQKmaize1/2ARXR6tgnZBlBH8aLWUtZZs1mwB4ts6SAA4DyUDShFP22bBPX9roz/EtYxxPM9NIDZVTIixXWQ5zb8V8oSDRO9nYjV5Rx3OOUqOrfvp65fmWcyGOw7hgmKuNbg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Se1Qbu+Y9mhJc7XsX5Lcq06IkY3UNG3vMXR5kUf3UXA=;
+ b=qSPFE+wHb75l7NZmdCWL3YIOi2swaDQUYgrt0jHns9jy4/mYIoqDXk9L96ByNaTLo5pOYnIRQfRAh9GNVjDcUI77ymg3CFUi9Qir9X9ykdIJjlE3Ba+3hR7X0wKWBE6le5tvBDBKRfzf4Ywr20+s0j1z86REz0MaT7TfPQ5lADA=
+Authentication-Results: vger.kernel.org; dkim=none (message not signed)
+ header.d=none;vger.kernel.org; dmarc=none action=none header.from=amd.com;
+Received: from MWHPR1201MB0192.namprd12.prod.outlook.com
+ (2603:10b6:301:5a::14) by MWHPR12MB1487.namprd12.prod.outlook.com
+ (2603:10b6:301:3::9) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4628.18; Fri, 22 Oct
+ 2021 06:32:53 +0000
+Received: from MWHPR1201MB0192.namprd12.prod.outlook.com
+ ([fe80::55c7:6fc9:b2b1:1e6a]) by MWHPR1201MB0192.namprd12.prod.outlook.com
+ ([fe80::55c7:6fc9:b2b1:1e6a%10]) with mapi id 15.20.4628.018; Fri, 22 Oct
+ 2021 06:32:53 +0000
+Subject: Re: [PATCH v2] dma-buf: heaps: init heaps in subsys_initcall
+To:     John Stultz <john.stultz@linaro.org>,
+        Shuosheng Huang <huangshuosheng@allwinnertech.com>
+Cc:     Sumit Semwal <sumit.semwal@linaro.org>,
+        Liam Mark <lmark@codeaurora.org>,
+        Laura Abbott <labbott@redhat.com>,
+        Brian Starkey <Brian.Starkey@arm.com>,
+        linux-media <linux-media@vger.kernel.org>,
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        lkml <linux-kernel@vger.kernel.org>
+References: <20211022014850.22933-1-huangshuosheng@allwinnertech.com>
+ <CALAqxLXNMvaT3OU3Y-aYkH+KJA_g1QSOZNJHqvzt21WPy=6UJw@mail.gmail.com>
+From:   =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+Message-ID: <776ec196-08dd-4308-4484-b6ef91d3d4e9@amd.com>
+Date:   Fri, 22 Oct 2021 08:32:45 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
+In-Reply-To: <CALAqxLXNMvaT3OU3Y-aYkH+KJA_g1QSOZNJHqvzt21WPy=6UJw@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+X-ClientProxiedBy: AS9PR06CA0256.eurprd06.prod.outlook.com
+ (2603:10a6:20b:45f::7) To MWHPR1201MB0192.namprd12.prod.outlook.com
+ (2603:10b6:301:5a::14)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20211021182042.6vebkm4ww4g35a37@uno.localdomain>
+Received: from [IPv6:2a02:908:1252:fb60:9826:b15:8db5:7240] (2a02:908:1252:fb60:9826:b15:8db5:7240) by AS9PR06CA0256.eurprd06.prod.outlook.com (2603:10a6:20b:45f::7) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4628.18 via Frontend Transport; Fri, 22 Oct 2021 06:32:50 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 3a8d3968-44bf-4f5c-3eb9-08d99525c676
+X-MS-TrafficTypeDiagnostic: MWHPR12MB1487:
+X-Microsoft-Antispam-PRVS: <MWHPR12MB14870949DA9C8327F0C2826383809@MWHPR12MB1487.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: hpWgp4DTC4YfDL/5c3UCXbaf/i6Uu3ahrQ+PZ2133DrmSQHxziyfxEEAYOasggC+vRPm4Ax/9nPp/cf5gQboPpkMzKPeR3lTR54G+W9F/Eu9AdoV9UbcypljqGfH9dI99GUVDuHrDiQ1A0gXzbBdF9+rZUCWO5Y7pDKPvk6Uh3dG5GLXs4uQ2r487W780cyNUHW+xVbuOumrafMM5Mw0jgzsgMgkTxVFeNlcRVcwrBvOecQbdtLob6lSTquXWCWIpVqDIA60PV8qxfPx7Q+nr8zrM1VyAmKySY103tJkbq6KyypcvPWJ5m03mGlZtULY3PH2WlusxiJezejZkuM2YG+J3FeUG9mDnEk99okr9qIywNxs5QjvSPNVlPiWDhiNMKwsZosJ9rk8Fw84g8GROJkNMSV3v/xurwI2OltKwMThMuIYIxUcHmLwhtSmQAFCyzLg3F319sInAK+6EH8Jr54HRhFPzNXgAlHj56tug9fRMaXuEC21NFf6YJZLwJJ9CCgNtgldBzLaQ2X/ywrLP+pvDLymNj95v9ysFzyaFDUAsEw+Zhocn9GSCXmEKl8PKf+2IHEQbBS5avOGEhShABaw0i1Ll4ZQZrEjz39q/wH3cXPAEo57elLIsuorsLkqEISYSEHeABHpqA2DE3TMRNEznB131skkCOrdmdtD0Ae2IOm+OTiE74dZ3fSXxCkzua7QsjQXhxAxn1Gf3jzoORWNEpDLvz0np/CxpPxLUhY=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MWHPR1201MB0192.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(366004)(66476007)(66556008)(66946007)(8676002)(316002)(6486002)(2906002)(4326008)(2616005)(6666004)(8936002)(186003)(5660300002)(54906003)(53546011)(110136005)(508600001)(31686004)(31696002)(38100700002)(36756003)(86362001)(45980500001)(43740500002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?Y3lPK3NSdXZjUXJZbTB4a05xY1VYaDhITVd3eFNHSUN1aU1HSTQvMFhyYjQ3?=
+ =?utf-8?B?KzVTckhYaU9xOFFjQitPeThhSnA1K0ZzU2ZjSmRwekRtVjdWekVWcUFGeFFy?=
+ =?utf-8?B?Z1N2b2tqZ01ZZjlOeXFXUXVQMGJ4VStyZmFBODBkSTNxVzBZYVpMNVR6SnR2?=
+ =?utf-8?B?UlVkbnZURXNHOFJzYmV6WDF2ellzNjU0ZGt0NTM4OE93aEE5SDF3czNBN1dI?=
+ =?utf-8?B?UHpaQ3Q3V2twaU9qMlJGdU13VEFyMFZiUEgyVWNRUkVaS240cndsblo5cmVS?=
+ =?utf-8?B?K3NwTFNTMU5FQjVuYVVUR3hwRGtBazhFdy9aZnFUR2diWU1rWUtrdmwwZ2d1?=
+ =?utf-8?B?S3hXUllkRVAxWGk4N0h4UXhuakMwckFwNExrWHkzWVZZTXBWK0doczg0VXNC?=
+ =?utf-8?B?TVArc3JQLzdHWTlmbUlic3NVOHQyNGM4WUZiT2tVemJ2UTFzRHdMOEtkc3B5?=
+ =?utf-8?B?ZXEzNGFjZmRXcVVqb3BQelpSUGpTSFRKaTFwMzFiUEx1WkRvQmNNL2hNQjMr?=
+ =?utf-8?B?bk53ZWhRanIwaGQyOFRpc2RsUEtObSs1Z2g5Q0lmLzErdERBZ0VaMmpSYTV0?=
+ =?utf-8?B?TWFocWFGcmxSZ0xhZG9pQzRRaWpnTnVqRjhIRTg2K1RkZmN5M2pIRHhIVkYz?=
+ =?utf-8?B?YXBoRUNLVk9WVFNrVFZ2blcxTWh2Yk9JSnRGT21aVzFTWnNvTU9Wck5Md2Jy?=
+ =?utf-8?B?TUw0YldMZmVRbnpTVmYzZG1ySENjSGlxNDQwdEpZOXlxNEdyK0x4TURMQ0VV?=
+ =?utf-8?B?MjRYYVNrRE9GWFRsaWhSbVRBMUNwYzVsTGdOczRyTWJOT3FVVDc2ZitOR0pW?=
+ =?utf-8?B?Q05GdCtGMDF2bTVHU2F4QVFwZlcwSjVVZDFlRkpqeFZJdEdXS040MVIrTHVh?=
+ =?utf-8?B?cTEyZlUxN0Q1aGFFbjRtekN6SjVaWDdBRXpZQ1lNMlE4aVpORkVOaldVUmRH?=
+ =?utf-8?B?M3ZXWTVUYWloR21GWFVTcTMxR09SZWFLTFN4bUNvVDROeHJ5eVA1RDRTY2hV?=
+ =?utf-8?B?YjBabXZzY3M0K2N0SVh6RGRNNUJWcUtIVnU3T0xLMUtucjBGTVRBTDVTNnlD?=
+ =?utf-8?B?ZzMwNDV2ZFdFL1BuZng5RkFjSFRHYnAyYjU0SVN0S1o1UkwwWVlTL29WVzc3?=
+ =?utf-8?B?akhLL0xlazBNRmZ6M001ZnAvU0IreFk3azkyTFRYUk15OHZRcnRxMGZyVHRz?=
+ =?utf-8?B?MC9vdXB4MVA0T1pzUGpISU9jNk9yZTdsdTlsUTdZU3dENTE4U29QRnNORVRy?=
+ =?utf-8?B?TCsrY1k2SndCVzI5SW1ITThXeWl2c1FMbHd2VElONmRQMEdwQVdTemRXSTJP?=
+ =?utf-8?B?VnE2T1RJTWZmWnVIUWs1aFgzU2szbTlWMk5KdEZseThtcXJpdXZIb0JCTmxr?=
+ =?utf-8?B?WjFxYUd3WlFteFN0d3dUQVR5RGFwZXptU01xTXVWWEtCbm85ZHJUa2JrUUlm?=
+ =?utf-8?B?Ymc4S2ZIM3FwM2xYU0E4OUxwR1VEZENBak9DRVdma3JKWTk4QTg4TUJPOGJ3?=
+ =?utf-8?B?MmZ1MDZydzZwYVFLeFNMY2tYTnZkMVE0ZUVYYWFic3JNM1Iyd2NzM2hobllW?=
+ =?utf-8?B?M09mQkMybEtRQy9uRlY2MFp6cjRHalN4THdWdEF2bG9sdEF6NUJYS1d2YUN6?=
+ =?utf-8?B?Nml4SHVVNjFVd3RjKzRFT1cyeU1KR0J4d2R2M1dqVUhRU2NHbkg3am8xZVZo?=
+ =?utf-8?B?VXpDQ2grR0FxWXltUktjNDhjSjVnenhMMk42enZOWFhZR0VKY2dqRHJvcmt1?=
+ =?utf-8?B?Wk9QVXNPOVRJVnZKcXR4K0x3TXF1V0I0d0V3N1doZUVwaVJLZ0pwL1NNSFRD?=
+ =?utf-8?B?bVpqS3Z3bDFGTFR5WkI1Z1J6QlZpZjYwd04wTGFuZCtvdTI3M0dKd3F1dU1s?=
+ =?utf-8?B?VEZFNStuNWN2c2twZ0RjNTBtY3NzaUR0aE8xMHR5WVE0eGZ2c1RkWXBwYzdQ?=
+ =?utf-8?B?Y25Kc1VIa0ZZcUhqTW1VM2ZrMitZR1gwRWRtdldPSWd6Rm5NVlE3QUFja3U0?=
+ =?utf-8?Q?EFdNb+HsKza4eD/aGSzn521+ZWeZGc=3D?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3a8d3968-44bf-4f5c-3eb9-08d99525c676
+X-MS-Exchange-CrossTenant-AuthSource: MWHPR1201MB0192.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Oct 2021 06:32:52.9710
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: ckoenig@amd.com
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR12MB1487
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hello,
 
-On Thu, Oct 21, 2021 at 08:20:42PM +0200, Jacopo Mondi wrote:
-> On Thu, Oct 21, 2021 at 05:17:59PM +0100, Mauro Carvalho Chehab wrote:
-> > Em Thu, 21 Oct 2021 18:31:15 +0300 Laurent Pinchart escreveu:
-> >
-> > > > > > +    - one structure/enum member declaration per line;
-> > > > > > +    - one variable declaration per line;
-> > > > >
-> > > > > Hmm, I don't mind something like: int i, j;
-> > > >
-> > > > I don't mind having things like:
-> > > >
-> > > > 	struct *dev, *parent_dev;
-> > > >
-> > > > or even:
-> > > >
-> > > > 	struct *parent_dev, *dev = pdev->dev;
-> > > >
-> > > > What it is really ugly is having multiple initialized vars at the
-> > > > same declaration, like:
-> > > >
-> > > > 	struct *parent_dev = pdev->dev.parent, *dev = pdev->dev;
-> > > >
-> > > > or, even worse:
-> > > >
-> > > > 	struct *dev = pdev->dev, *parent_dev = dev.parent;
-> > >
-> > > Cording style is one of the main candidate areas for bikeshedding. The
-> > > first question that we should answer, I believe, is whether or not we
-> > > want to define a more precise coding style for the subsystem to achieve
-> > > higher uniformity, and how much latitude we want to give to developers.
-> >
-> > I would prefer to give more freedom to developers, provided that the
-> > code is easy to read/maintain. Having to request multiple reviews just
-> > due coding style nitpicking seems to be a waste of time for everyone ;-)
-> 
-> I agree in principle, but at the same time, a particularly stubborn
-> confrontation during a review made me realize that most 'rules' are
-> tribal knowledge, and a particularly stubborn developer might impose
-> his own preferences arguing that everything that is not prohibited is
-> allowed. If you add to that in the most common case cargo cult is
-> the default way to find out what a rule is, if one driver escapes
-> others will take inspiration from it.
-> 
-> Now, I'm fine if it gets decided that everything not prohibited is
-> allowed, but then I fear it will be very hard to maintain a consistent
-> style among the subsystem.
 
-I agree with this. Possibly more problematic than a consistent style, we
-will then also have different reviewers asking for different style
-changes during review, which will be confusing for developers and will
-waste everybody's type. I see a more detailed style guide as a way to
-streamline the process and make it more efficient.
+Am 22.10.21 um 04:56 schrieb John Stultz:
+> On Thu, Oct 21, 2021 at 6:49 PM Shuosheng Huang
+> <huangshuosheng@allwinnertech.com> wrote:
+>> Some built-in modules will failed to use dma-buf heap to allocate
+>> memory if the heap drivers are too late to be initialized.
+>> To fix this issue, move initialization of dma-buf heap drivers in
+>> subsys_initcall() which is more earlier to be called.
+> Hey! Thanks so much for sending this out! I appreciate it!
+>
+> So the change looks pretty straightforward to me, however, the
+> rationale for it is where we hit problems.
+>
+> With the upstream kernel, there are not yet any modules that directly
+> allocate from dmabuf heaps. So in the context of the upstream kernel,
+> the reasoning doesn't make much sense.
 
-> > > For instance, I don't mind
-> > >
-> > > 	unsigned int i, j;
-> > >
-> > > too much, but I would scream in horror at
-> > >
-> > > 	char *name = dev_name, c = '\0';
-> >
-> > Yeah, multiple vars being declared and assigned at the same line is something
-> > that should be avoided. See, even single letter vars with obvious assigns,
-> > like:
-> >
-> > 	int i = 0, j = 1;
-> >
-> > are less readable than:
-> >
-> > 	int	i = 0;
-> > 	int	j = 1;
-> >
-> > > (I'm sad C even allows declaring a char pointer and a char variable on
-> > > the same line like this). There are lots of cases between those two
-> > > extremes that are more or less good (or bad) depending on who you ask,
-> > > so we won't be able to come up with a precise set of rules that draw a
-> > > line somewhere in the middle. What we could do is err more on the side
-> > > of strictness, for instance with
-> > >
-> > > - One variable declaration per line. As an exception, grouping multiple
-> > >   single-letter counter variables on a single line is allowed.
-> > >
-> > > (or even allowing no exception). This is probably stricter than it needs
-> > > to be, and in some cases it will result in a few more lines of code, but
-> > > if it brings increased readability and maintainability through
-> > > uniformity it's something we could consider.
-> >
-> > I don't think that things like:
-> >
-> > 	int ret, i, j;
-> >
-> > are less readable/maintainable than:
-> >
-> > 	int ret;
-> > 	int i;
-> > 	int j;
-> >
-> > Between the above, I would opt to the shorter format, when there's no
-> > variable initialization (no matter if the vars have single or multiple
-> > chars).
-> >
-> > On the other hand, I won't be nacking/rejecting a patch if it uses
-> > the longer format, as, for me, both are equivalent, in terms of
-> > maintenance and readability.
-> >
-> > So, for me, the rule should be just:
-> >
-> > - don't declare and initialize multiple variables at the same line.
-> >
-> > >
-> > > The same reasoning can apply to C++ comments, we can decide to allow
-> > > them or not, but the more flexibility there will be in the rules, the
-> > > less uniformity we'll have, which I personally believe hinders
-> > > readability.
-> >
-> > Yeah, agreed.
-> 
-> Thanks, I'll send a new version taking all your comments into account.
+I was already wondering which driver does that.
 
--- 
+> Now, I know folks have their own drivers that want to allocate from
+> dmabuf heaps, but those haven't been submitted upstream yet.
+> So maybe can you submit those patches that need this along with this
+> change so it would make sense as part of a patch series? It would be
+> trivial to justify including this patch then.
+
+Yes, agree. This patch here alone has no justification to be upstream.
+
 Regards,
+Christian.
 
-Laurent Pinchart
+>
+> thanks
+> -john
+
