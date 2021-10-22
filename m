@@ -2,45 +2,45 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B0DA9437347
-	for <lists+linux-media@lfdr.de>; Fri, 22 Oct 2021 09:55:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8512F43734B
+	for <lists+linux-media@lfdr.de>; Fri, 22 Oct 2021 09:55:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232584AbhJVH5Q (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 22 Oct 2021 03:57:16 -0400
-Received: from esa.microchip.iphmx.com ([68.232.154.123]:17446 "EHLO
+        id S232624AbhJVH5W (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 22 Oct 2021 03:57:22 -0400
+Received: from esa.microchip.iphmx.com ([68.232.153.233]:13639 "EHLO
         esa.microchip.iphmx.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232586AbhJVH44 (ORCPT
+        with ESMTP id S232615AbhJVH5A (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 22 Oct 2021 03:56:56 -0400
+        Fri, 22 Oct 2021 03:57:00 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
   d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
-  t=1634889280; x=1666425280;
+  t=1634889283; x=1666425283;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=mGXSulOcLd/+pEdw+DTE5v6o3xipo1H1wT+9aSReL8M=;
-  b=OkIEw3lKSEKvDtXtKHYQdpF7MHRZto+L1nWWB2+gjRD9gBxzaeYxBIPc
-   TmoUkP7D8J4tfIcLJtV0HWofXm3loFm+06h9f5cjYg41sbe4mud4gnXPh
-   uI8AVGXiTNUdNp2HP0cShY/27ewgh+CFuCB/Wdgsni5p6FcCUTDn7pk1k
-   K1e1Cx2q4AJ0KUN2hk2Ii+o+4S1YcC0EAp5Xt00Ds6GUslGjYvDaVMtR7
-   cmY7QYVi2EE9u4eSK22xKsw3uNSgic6ZV1vkjDH4WyshPGX4Y8g5Tu2yI
-   2oU3mrRvFR6vyHxba630lkmrVxmcY3aBd/k2+FgwsVIYbjFlvPkWXZ30/
-   A==;
-IronPort-SDR: Nz/rmn6Caqi6ikJ75pwzOgC07QYIe7d2MhtiXUsQ2z3co3d1tRDalwK8z/qE9HVTkgvhbtDYdh
- C3PwljrQp71yh0Z29fI7y715kZ8n7Aqm/j7B+rId3LaO+PDiWtpwTxB/4BFJe15s0UXWksaFkV
- 7pb+avWIhhLHFZ1tUDWSFmo4TsTDunh7JyTjQf/nh4omih9r9tCyfxFIhf7lHNesd41jmx/e2n
- TCD9Yk98kiwT8Q0ggXKM7oSLtgcgUFTmZEgsju8x4dRj5fVsZkuogcAQ8ZwAb8+HjR9IS9aQDa
- sd8PXoSZAI/C/OkOCbI538nV
+  bh=3aLq+6t34WawSD7x49jHw5NnHLDsUbXrYRwccy4TZv0=;
+  b=MLlqq7AzKZTRuOiHtMixZ0b6ATjA/CNY7vtgNaAMzy3Lq7/4ePvaJXaU
+   erCUhe25D51raQIwg0pxSuxkwVu1Ggn1dDzj/w/4Z6F4/kecdcEhzzJco
+   374W7i8C7CRFHc/ChooI6d0htPq/JGtpPaS5tQCaTnfDE1TaZPMVF5WBN
+   tg65ZBcW2gvZU9vb0oAfzivWHcGHZLbw8HIUYfz1j8w1gyX3N4Yi5y6Wn
+   GVcn8E5TNptSjunLFt6VmswBlQg6cPk3IP0o1cvHvD3cIWt8f2isD8n1y
+   fBQr5lS4W+9iUfXl7em5dH92+MdfWi4dyu1FpEbS9lP7QGP2KlLi0Gurz
+   Q==;
+IronPort-SDR: H/EP0NVZkOR+SpcDtUhy70BhjWOBpL9EibPOBD1uVBeXvh1+W8x4OdK9cvdH1iO4vWSXPsnrz0
+ xTP1wygDqDsGOpIDuGuWJJ7xvVZZuRJkxFVmxPjMBaPeMolojBTeISynPL2LTkrWEfYoNl/2Ry
+ U94ej0E1UDhkece5em7PsCCpal65XdxRfWhy20P99E15Lt9HdlI+ZGo1rp1vnH0vSgIsyELvvj
+ y7+b2/61mzBfL7rGlEozK33FC++OeEej8QCPEonKs8g374mj11X/8oNak9zNTBfa4a6m7+y7PQ
+ f+tzkdu+Rcjt4GGmaJvzti8n
 X-IronPort-AV: E=Sophos;i="5.87,172,1631602800"; 
-   d="scan'208";a="136538127"
+   d="scan'208";a="141320555"
 Received: from smtpout.microchip.com (HELO email.microchip.com) ([198.175.253.82])
-  by esa2.microchip.iphmx.com with ESMTP/TLS/AES256-SHA256; 22 Oct 2021 00:54:39 -0700
+  by esa3.microchip.iphmx.com with ESMTP/TLS/AES256-SHA256; 22 Oct 2021 00:54:43 -0700
 Received: from chn-vm-ex02.mchp-main.com (10.10.85.144) by
- chn-vm-ex03.mchp-main.com (10.10.85.151) with Microsoft SMTP Server
+ chn-vm-ex01.mchp-main.com (10.10.85.143) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2176.14; Fri, 22 Oct 2021 00:54:38 -0700
+ 15.1.2176.14; Fri, 22 Oct 2021 00:54:42 -0700
 Received: from ROB-ULT-M18282.microchip.com (10.10.115.15) by
  chn-vm-ex02.mchp-main.com (10.10.85.144) with Microsoft SMTP Server id
- 15.1.2176.14 via Frontend Transport; Fri, 22 Oct 2021 00:54:35 -0700
+ 15.1.2176.14 via Frontend Transport; Fri, 22 Oct 2021 00:54:39 -0700
 From:   Eugen Hristev <eugen.hristev@microchip.com>
 To:     <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
         <linux-kernel@vger.kernel.org>,
@@ -49,9 +49,9 @@ CC:     <jacopo@jmondi.org>, <laurent.pinchart@ideasonboard.com>,
         <sakari.ailus@iki.fi>, <robh+dt@kernel.org>,
         <nicolas.ferre@microchip.com>,
         Eugen Hristev <eugen.hristev@microchip.com>
-Subject: [PATCH 15/21] ARM: dts: at91: sama7g5: add nodes for video capture
-Date:   Fri, 22 Oct 2021 10:52:41 +0300
-Message-ID: <20211022075247.518880-16-eugen.hristev@microchip.com>
+Subject: [PATCH 16/21] ARM: configs: at91: sama7: add xisc and csi2dc
+Date:   Fri, 22 Oct 2021 10:52:42 +0300
+Message-ID: <20211022075247.518880-17-eugen.hristev@microchip.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20211022075247.518880-1-eugen.hristev@microchip.com>
 References: <20211022075247.518880-1-eugen.hristev@microchip.com>
@@ -62,76 +62,26 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Add node for the XISC (eXtended Image Sensor Controller) and CSI2DC
-(csi2 demux controller).
-These nodes represent the top level of the video capture hardware pipeline
-and are directly connected in hardware.
+Enable XISC and CSI2DC drivers.
 
 Signed-off-by: Eugen Hristev <eugen.hristev@microchip.com>
 ---
- arch/arm/boot/dts/sama7g5.dtsi | 49 ++++++++++++++++++++++++++++++++++
- 1 file changed, 49 insertions(+)
+ arch/arm/configs/sama7_defconfig | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/arch/arm/boot/dts/sama7g5.dtsi b/arch/arm/boot/dts/sama7g5.dtsi
-index 6c58c151c6d9..a8dda38ff18b 100644
---- a/arch/arm/boot/dts/sama7g5.dtsi
-+++ b/arch/arm/boot/dts/sama7g5.dtsi
-@@ -203,6 +203,55 @@ sdmmc2: mmc@e120c000 {
- 			status = "disabled";
- 		};
- 
-+		csi2dc: csi2dc@e1404000 {
-+			compatible = "microchip,sama7g5-csi2dc";
-+			reg = <0xe1404000 0x500>;
-+			clocks = <&pmc PMC_TYPE_PERIPHERAL 34>, <&xisc>;
-+			clock-names = "pclk", "scck";
-+			assigned-clocks = <&xisc>;
-+			assigned-clock-rates = <266000000>;
-+
-+			ports {
-+				#address-cells = <1>;
-+				#size-cells = <0>;
-+				port@0 {
-+					reg = <0>;
-+					csi2dc_in: endpoint {
-+					};
-+				};
-+
-+				port@1 {
-+					reg = <1>;
-+					csi2dc_out: endpoint {
-+						bus-width = <12>;
-+						hsync-active = <1>;
-+						vsync-active = <1>;
-+						remote-endpoint = <&xisc_in>;
-+					};
-+				};
-+			};
-+		};
-+
-+		xisc: xisc@e1408000 {
-+			compatible = "microchip,sama7g5-isc";
-+			reg = <0xe1408000 0x2000>;
-+			interrupts = <GIC_SPI 56 IRQ_TYPE_LEVEL_HIGH>;
-+			clocks = <&pmc PMC_TYPE_PERIPHERAL 56>;
-+			clock-names = "hclock";
-+			#clock-cells = <0>;
-+			clock-output-names = "isc-mck";
-+
-+			port {
-+				xisc_in: endpoint {
-+					bus-type = <5>; /* Parallel */
-+					bus-width = <12>;
-+					hsync-active = <1>;
-+					vsync-active = <1>;
-+					remote-endpoint = <&csi2dc_out>;
-+				};
-+			};
-+		};
-+
- 		pwm: pwm@e1604000 {
- 			compatible = "microchip,sama7g5-pwm", "atmel,sama5d2-pwm";
- 			reg = <0xe1604000 0x4000>;
+diff --git a/arch/arm/configs/sama7_defconfig b/arch/arm/configs/sama7_defconfig
+index 938aae4bd80b..15978f2ab4ea 100644
+--- a/arch/arm/configs/sama7_defconfig
++++ b/arch/arm/configs/sama7_defconfig
+@@ -126,6 +126,8 @@ CONFIG_MEDIA_SUPPORT_FILTER=y
+ CONFIG_MEDIA_CAMERA_SUPPORT=y
+ CONFIG_MEDIA_PLATFORM_SUPPORT=y
+ CONFIG_V4L_PLATFORM_DRIVERS=y
++CONFIG_VIDEO_ATMEL_XISC=y
++CONFIG_VIDEO_MICROCHIP_CSI2DC=y
+ CONFIG_VIDEO_IMX219=m
+ CONFIG_VIDEO_IMX274=m
+ CONFIG_VIDEO_OV5647=m
 -- 
 2.25.1
 
