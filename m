@@ -2,86 +2,158 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id ABE99437B86
-	for <lists+linux-media@lfdr.de>; Fri, 22 Oct 2021 19:10:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3063F437F67
+	for <lists+linux-media@lfdr.de>; Fri, 22 Oct 2021 22:38:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233773AbhJVRM7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 22 Oct 2021 13:12:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34744 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233656AbhJVRM7 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Fri, 22 Oct 2021 13:12:59 -0400
-Received: from mail-ua1-x942.google.com (mail-ua1-x942.google.com [IPv6:2607:f8b0:4864:20::942])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9A973C061764
-        for <linux-media@vger.kernel.org>; Fri, 22 Oct 2021 10:10:41 -0700 (PDT)
-Received: by mail-ua1-x942.google.com with SMTP id h19so8992959uax.5
-        for <linux-media@vger.kernel.org>; Fri, 22 Oct 2021 10:10:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:sender:from:date:message-id:subject:to;
-        bh=ZiTHSehmnxvfWtJclbsgBAbfW68Z5Ayi+LEEDkDzW/s=;
-        b=M23yIELspRlX9L/qdEEVlH6VYgs2NM4NVUrZI09aQOtyl1Zdz5qgBs/30nHN5iKaAb
-         2LsfnCSSFw3BzH0Iz7guNyxmQE6f7Ogqb9UhbCgg1WVURyNPHW4peC6t7TfCQ7Ma0KcB
-         VtaKyczc5/+HeCRmegQK+Wo70h5scc1+pcmshxjlJ1UnKHaSVECMdOy4gbXN6Rv4PNh5
-         IvcJ/8hMS0EFjhmrEwsFjhKYUeVgPYUGWcgm2S6toXeUzZcSkFSQMTyEBbt3e3NoJ8F5
-         oB3u+RD7rCyfUdSdjCp857TdLTuOdqnKgN8uTE/SuQDgeICkH+FBqnBzGbnzcpDQyZgO
-         h7Fw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:sender:from:date:message-id:subject
-         :to;
-        bh=ZiTHSehmnxvfWtJclbsgBAbfW68Z5Ayi+LEEDkDzW/s=;
-        b=48EyY57+DVzNSIK0ubCULMIuDNhXhoNrEb7yYDO08/PJXNPOeH/vt034RkeZirYUQL
-         Sh8UU0hmHI/96h4mr06MOFiMzuWxnF8eh7SWCJ0lK/UmL+BvWWmzasGnfbi5biCqs3Mx
-         HiKC1XMNKogukwovTQcJl0p7mK9Hd1oqhzVRRR+9rPOgFqdYRuFA32P/ImyKLG82PL15
-         krgm21RynhURFsz7K0AO5Ci1rbtWp3yaDB5uNWgOpnlU0K5IfmW9o6b93QkOoDk8pF1v
-         PWUS2NhUpusLAuR0jC3jSBTdcUB+w4bPv0RSMLAxpEl6lbMFr9FfxNT5uDC/zTx3+0UE
-         TJ9g==
-X-Gm-Message-State: AOAM5335O13k4WRQxKHy+5m3vXehKVLSxo5nui682c+IRl6H0Sd9Ju6t
-        U5Zr6w4s0Ui1hH5DLkV/cqaI5jdIPg4N3toKpAA=
-X-Google-Smtp-Source: ABdhPJzDI3wZSkgh+n5uywLrfrRGNdhH6ytRMDWW1SxXvQkfaVvKpItI/9HoS/1y2LGHRhO0aSJpHmEsN/6lOkpX8GA=
-X-Received: by 2002:a05:6102:8f:: with SMTP id t15mr960183vsp.13.1634922640568;
- Fri, 22 Oct 2021 10:10:40 -0700 (PDT)
+        id S233417AbhJVUkT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 22 Oct 2021 16:40:19 -0400
+Received: from mga18.intel.com ([134.134.136.126]:2526 "EHLO mga18.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S232750AbhJVUkT (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Fri, 22 Oct 2021 16:40:19 -0400
+X-IronPort-AV: E=McAfee;i="6200,9189,10145"; a="216297693"
+X-IronPort-AV: E=Sophos;i="5.87,173,1631602800"; 
+   d="scan'208";a="216297693"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Oct 2021 13:38:01 -0700
+X-IronPort-AV: E=Sophos;i="5.87,173,1631602800"; 
+   d="scan'208";a="553451461"
+Received: from paasikivi.fi.intel.com ([10.237.72.42])
+  by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Oct 2021 13:37:58 -0700
+Received: from paasikivi.fi.intel.com (localhost [127.0.0.1])
+        by paasikivi.fi.intel.com (Postfix) with SMTP id 9E5BC2030C;
+        Fri, 22 Oct 2021 23:37:56 +0300 (EEST)
+Date:   Fri, 22 Oct 2021 23:37:56 +0300
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     "Cao, Bingbu" <bingbu.cao@intel.com>
+Cc:     "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+        "tfiga@chromium.org" <tfiga@chromium.org>,
+        "kieran.bingham@ideasonboard.com" <kieran.bingham@ideasonboard.com>,
+        "bingbu.cao@linux.intel.com" <bingbu.cao@linux.intel.com>
+Subject: Re: [PATCH v3] media: imx258: add vblank control to support more
+ frame rate range
+Message-ID: <YXMhJJJYZl+A6dU7@paasikivi.fi.intel.com>
+References: <1634527576-2928-1-git-send-email-bingbu.cao@intel.com>
+ <YW6/ZGI5/j4UDaBQ@paasikivi.fi.intel.com>
+ <DM8PR11MB56532CA3BC7F2FDCD78C4E7E99BD9@DM8PR11MB5653.namprd11.prod.outlook.com>
+ <DM8PR11MB5653B7646DEFC3F481B98CEF99BD9@DM8PR11MB5653.namprd11.prod.outlook.com>
 MIME-Version: 1.0
-Sender: bertipau4@gmail.com
-Received: by 2002:a59:cc26:0:b0:232:2c9b:25c0 with HTTP; Fri, 22 Oct 2021
- 10:10:39 -0700 (PDT)
-From:   Bolten Paul <boltenpa124@gmail.com>
-Date:   Fri, 22 Oct 2021 18:10:39 +0100
-X-Google-Sender-Auth: Q6Q-XzFqRcis5hhN3e68l6CTX_I
-Message-ID: <CAAyuv14u7muzViXUwu63tdDeQXFu+NV4DUPQqBtOHKSvyTQ-Jw@mail.gmail.com>
-Subject: Good day......!!
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <DM8PR11MB5653B7646DEFC3F481B98CEF99BD9@DM8PR11MB5653.namprd11.prod.outlook.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-PLEASE YOUR URGENT RESPONSE NEEDED!
+Hi Bingbu,
 
-I am Mr.Bolten Paul, the Audit and Account Manager (A.D.B)Bank in
-Ouagadougou Burkina Faso, West Africa
+On Tue, Oct 19, 2021 at 03:58:41PM +0000, Cao, Bingbu wrote:
+> > -----Original Message-----
+> > From: Cao, Bingbu
+> > Sent: Tuesday, October 19, 2021 11:30 PM
+> > To: Sakari Ailus <sakari.ailus@linux.intel.com>
+> > Cc: linux-media@vger.kernel.org; tfiga@chromium.org;
+> > kieran.bingham@ideasonboard.com; bingbu.cao@linux.intel.com
+> > Subject: RE: [PATCH v3] media: imx258: add vblank control to support more
+> > frame rate range
+> > 
+> > Sakari,
+> > 
+> > ________________________
+> > BRs,
+> > Bingbu Cao
+> > 
+> > > -----Original Message-----
+> > > From: Sakari Ailus <sakari.ailus@linux.intel.com>
+> > > Sent: Tuesday, October 19, 2021 8:52 PM
+> > > To: Cao, Bingbu <bingbu.cao@intel.com>
+> > > Cc: linux-media@vger.kernel.org; tfiga@chromium.org;
+> > > kieran.bingham@ideasonboard.com; bingbu.cao@linux.intel.com
+> > > Subject: Re: [PATCH v3] media: imx258: add vblank control to support
+> > > more frame rate range
+> > >
+> > > Hi Bingbu,
+> > >
+> > > On Mon, Oct 18, 2021 at 11:26:16AM +0800, Bingbu Cao wrote:
+> > > > Current imx258 driver enable the automatic frame length tracking
+> > > > control by default and did not support VBLANK change, it's always
+> > > working at 30fps.
+> > > > However, in reality we need a wider frame rate range from 15 to 30.
+> > > > This patch disable the automatic frame length tracking control and
+> > > > enable the v4l2 VBLANK control to allow user changing frame rate per
+> > > requirement.
+> > > >
+> > > > Signed-off-by: Bingbu Cao <bingbu.cao@intel.com>
+> > > > ---
+> > > >  drivers/media/i2c/imx258.c | 23 +++++++++++++++++------
+> > > >  1 file changed, 17 insertions(+), 6 deletions(-)
+> > > >
+> > > > diff --git a/drivers/media/i2c/imx258.c b/drivers/media/i2c/imx258.c
+> > > > index 81cdf37216ca..2c787af7074d 100644
+> > > > --- a/drivers/media/i2c/imx258.c
+> > > > +++ b/drivers/media/i2c/imx258.c
+> > > > @@ -29,6 +29,7 @@
+> > > >  #define IMX258_VTS_MAX			0xffff
+> > > >
+> > > >  /*Frame Length Line*/
+> > > > +#define IMX258_REG_FLL			0x0340
+> > > >  #define IMX258_FLL_MIN			0x08a6
+> > > >  #define IMX258_FLL_MAX			0xffff
+> > > >  #define IMX258_FLL_STEP			1
+> > > > @@ -241,7 +242,7 @@ static const struct imx258_reg
+> > > > mode_4208x3118_regs[]
+> > > = {
+> > > >  	{ 0x034D, 0x70 },
+> > > >  	{ 0x034E, 0x0C },
+> > > >  	{ 0x034F, 0x30 },
+> > > > -	{ 0x0350, 0x01 },
+> > > > +	{ 0x0350, 0x00 }, /* no frame length automatic tracking control */
+> > > >  	{ 0x0202, 0x0C },
+> > > >  	{ 0x0203, 0x46 },
+> > > >  	{ 0x0204, 0x00 },
+> > > > @@ -360,7 +361,7 @@ static const struct imx258_reg
+> > > > mode_2104_1560_regs[]
+> > > = {
+> > > >  	{ 0x034D, 0x38 },
+> > > >  	{ 0x034E, 0x06 },
+> > > >  	{ 0x034F, 0x18 },
+> > > > -	{ 0x0350, 0x01 },
+> > > > +	{ 0x0350, 0x00 }, /* no frame length automatic tracking control */
+> > > >  	{ 0x0202, 0x06 },
+> > > >  	{ 0x0203, 0x2E },
+> > > >  	{ 0x0204, 0x00 },
+> > > > @@ -479,7 +480,7 @@ static const struct imx258_reg
+> > > > mode_1048_780_regs[]
+> > > = {
+> > > >  	{ 0x034D, 0x18 },
+> > > >  	{ 0x034E, 0x03 },
+> > > >  	{ 0x034F, 0x0C },
+> > > > -	{ 0x0350, 0x01 },
+> > > > +	{ 0x0350, 0x00 }, /* no frame length automatic tracking control */
+> > >
+> > > Why is automatic frame length control disabled?
+> > 
+> > My understanding:
+> > If automatic frame length control enabled, the frame length is changed
+> > automatically when COARSE_INTEGRATE_TIME + 10 > FRAME_LENGTH_LINES, it
+> > may not meet the requirement - less integrate time with more frame length.
+> > we need control the vertical blank to do that.
+> > 
+> 
+> If frame length automatic tracking control enabled, the CORSE_INTEGRATE_TIME
+> could be larger than FRAME_LENGTH_LINES.
 
-I have a business transaction for you, In my department i discovered
-an abandoned Sum of US$10,2 Million Dollars, In an account that
-belongs to one of our late foreign customer who died on plane crash
-with his family member years ago. ever Since he died, Nobody to claim
-the left over balance in the account.
-It is therefore upon this discovery that I decided to seek your
-assistance to transfer the funds to your bank account.
+Both are controlled by the driver. The driver is generally responsible for
+ensuring the exposure time stays within the limits for a given frame
+length.
 
-If you accept i would give you the guide lines of how we can achieve
-this transfer of the balance $10,2 Million Dollars to your account.
-the fund will be share 50-50%. by both of us
+Unless this sensor does something weird, all you get by disabling this is
+undefined behaviour instead of increased frame length when the exposure
+time + margin exceeds frame length. This could mean broken frames.
 
-Send the information required below for more details,
+Of course, it takes a driver bug to arrive into this situation.
 
-1. Full Names:........
-2. Address:.....
-3. Your Age:.....
-4. Your Country:.....
-5. Your Private Phone Number:.....
+-- 
+Kind regards,
 
-Best Regards,
-Mr.Bolten Paul.
+Sakari Ailus
