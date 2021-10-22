@@ -2,129 +2,89 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0BD8B43798D
-	for <lists+linux-media@lfdr.de>; Fri, 22 Oct 2021 17:04:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id ACAC34379D8
+	for <lists+linux-media@lfdr.de>; Fri, 22 Oct 2021 17:25:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233301AbhJVPGl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 22 Oct 2021 11:06:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34098 "EHLO
+        id S233437AbhJVP0z (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 22 Oct 2021 11:26:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38818 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233297AbhJVPGj (ORCPT
+        with ESMTP id S233358AbhJVP0w (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 22 Oct 2021 11:06:39 -0400
+        Fri, 22 Oct 2021 11:26:52 -0400
 Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9FF4DC061767;
-        Fri, 22 Oct 2021 08:04:21 -0700 (PDT)
-Received: from guri.fritz.box (unknown [IPv6:2a02:810a:880:f54:50fa:5c7d:20f4:e8d3])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        (Authenticated sender: dafna)
-        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id D29DF1F417C2;
-        Fri, 22 Oct 2021 16:04:19 +0100 (BST)
-From:   Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
-To:     linux-media@vger.kernel.org
-Cc:     Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
-        kernel@collabora.com, acourbot@chromium.org,
-        andrew-ct.chen@mediatek.com, courbot@chromium.org,
-        dafna3@gmail.com, eizan@chromium.org, houlong.wei@mediatek.com,
-        hsinyi@chromium.org, hverkuil@xs4all.nl, irui.wang@mediatek.com,
-        linux-kernel@vger.kernel.org, linux-mediatek@lists.infradead.org,
-        maoguang.meng@mediatek.com, matthias.bgg@gmail.com,
-        mchehab@kernel.org, minghsiu.tsai@mediatek.com, tfiga@chromium.org,
-        tiffany.lin@mediatek.com
-Subject: [PATCH 3/3] meida: mtk-vcodec: remove unused func parameter
-Date:   Fri, 22 Oct 2021 17:04:10 +0200
-Message-Id: <20211022150410.29335-4-dafna.hirschfeld@collabora.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20211022150410.29335-1-dafna.hirschfeld@collabora.com>
-References: <20211022150410.29335-1-dafna.hirschfeld@collabora.com>
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0667DC061767;
+        Fri, 22 Oct 2021 08:24:35 -0700 (PDT)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: kholk11)
+        with ESMTPSA id 1D4241F44B70
+Subject: Re: [PATCH v2 3/4] media: platform: mtk-mdp3: Set
+ dma_set_mask_and_coherent
+To:     "roy-cw.yeh" <roy-cw.yeh@mediatek.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Chun-Kuang Hu <chunkuang.hu@kernel.org>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Fabien Parent <fparent@baylibre.com>,
+        "jason-jh . lin" <jason-jh.lin@mediatek.com>,
+        daoyuan huang <daoyuan.huang@mediatek.com>,
+        Ping-Hsun Wu <ping-hsun.wu@mediatek.com>,
+        Moudy Ho <moudy.ho@mediatek.com>,
+        "river . cheng" <river.cheng@mediatek.com>,
+        Yongqiang Niu <yongqiang.niu@mediatek.com>,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org
+References: <20211022092827.24631-1-roy-cw.yeh@mediatek.com>
+ <20211022092827.24631-4-roy-cw.yeh@mediatek.com>
+From:   AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>
+Message-ID: <448b3d2f-54a0-f021-dc2a-ea29dc56c146@collabora.com>
+Date:   Fri, 22 Oct 2021 17:24:31 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
+MIME-Version: 1.0
+In-Reply-To: <20211022092827.24631-4-roy-cw.yeh@mediatek.com>
+Content-Type: text/plain; charset=iso-8859-15; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The prarameter bs_size to function vpu_enc_encode
-is not used. Remove it.
+Il 22/10/21 11:28, roy-cw.yeh ha scritto:
+> From: "Roy-CW.Yeh" <roy-cw.yeh@mediatek.com>
+> 
+> Use the dma_set_mask_and_coherent helper to set mdp
+> DMA bit mask to support 34bits iova space(16GB) that
+> the mt8195 iommu HW supports.
+> 
+> The whole iova range separates to 0~4G/4G~8G/8G~12G/12G~16G.
+> Regarding which iova range mdp actually locates,
+> it depends on the dma-ranges property of mdp dtsi node.
+> 
+> Signed-off-by: Roy-CW.Yeh <roy-cw.yeh@mediatek.com>
 
-Signed-off-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
----
- drivers/media/platform/mtk-vcodec/venc/venc_h264_if.c | 9 +++------
- drivers/media/platform/mtk-vcodec/venc/venc_vp8_if.c  | 3 +--
- drivers/media/platform/mtk-vcodec/venc_vpu_if.c       | 1 -
- drivers/media/platform/mtk-vcodec/venc_vpu_if.h       | 1 -
- 4 files changed, 4 insertions(+), 10 deletions(-)
+Acked-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 
-diff --git a/drivers/media/platform/mtk-vcodec/venc/venc_h264_if.c b/drivers/media/platform/mtk-vcodec/venc/venc_h264_if.c
-index b6a4f2074fa5..bf03888a824f 100644
---- a/drivers/media/platform/mtk-vcodec/venc/venc_h264_if.c
-+++ b/drivers/media/platform/mtk-vcodec/venc/venc_h264_if.c
-@@ -367,8 +367,7 @@ static int h264_encode_sps(struct venc_h264_inst *inst,
- 
- 	mtk_vcodec_debug_enter(inst);
- 
--	ret = vpu_enc_encode(&inst->vpu_inst, H264_BS_MODE_SPS, NULL,
--			     bs_buf, bs_size, NULL);
-+	ret = vpu_enc_encode(&inst->vpu_inst, H264_BS_MODE_SPS, NULL, bs_buf, NULL);
- 	if (ret)
- 		return ret;
- 
-@@ -394,8 +393,7 @@ static int h264_encode_pps(struct venc_h264_inst *inst,
- 
- 	mtk_vcodec_debug_enter(inst);
- 
--	ret = vpu_enc_encode(&inst->vpu_inst, H264_BS_MODE_PPS, NULL,
--			     bs_buf, bs_size, NULL);
-+	ret = vpu_enc_encode(&inst->vpu_inst, H264_BS_MODE_PPS, NULL, bs_buf, NULL);
- 	if (ret)
- 		return ret;
- 
-@@ -451,8 +449,7 @@ static int h264_encode_frame(struct venc_h264_inst *inst,
- 	mtk_vcodec_debug(inst, "frm_count = %d,skip_frm_count =%d,frm_type=%d.\n",
- 			 frame_info.frm_count, frame_info.skip_frm_count,
- 			 frame_info.frm_type);
--	ret = vpu_enc_encode(&inst->vpu_inst, H264_BS_MODE_FRAME, frm_buf,
--			     bs_buf, bs_size, &frame_info);
-+	ret = vpu_enc_encode(&inst->vpu_inst, H264_BS_MODE_FRAME, frm_buf, bs_buf, &frame_info);
- 	if (ret)
- 		return ret;
- 
-diff --git a/drivers/media/platform/mtk-vcodec/venc/venc_vp8_if.c b/drivers/media/platform/mtk-vcodec/venc/venc_vp8_if.c
-index 8267a9c4fd25..6b66957d5192 100644
---- a/drivers/media/platform/mtk-vcodec/venc/venc_vp8_if.c
-+++ b/drivers/media/platform/mtk-vcodec/venc/venc_vp8_if.c
-@@ -302,8 +302,7 @@ static int vp8_enc_encode_frame(struct venc_vp8_inst *inst,
- 
- 	mtk_vcodec_debug(inst, "->frm_cnt=%d", inst->frm_cnt);
- 
--	ret = vpu_enc_encode(&inst->vpu_inst, 0, frm_buf, bs_buf, bs_size,
--			     NULL);
-+	ret = vpu_enc_encode(&inst->vpu_inst, 0, frm_buf, bs_buf, NULL);
- 	if (ret)
- 		return ret;
- 
-diff --git a/drivers/media/platform/mtk-vcodec/venc_vpu_if.c b/drivers/media/platform/mtk-vcodec/venc_vpu_if.c
-index be6d8790a41e..e7899d8a3e4e 100644
---- a/drivers/media/platform/mtk-vcodec/venc_vpu_if.c
-+++ b/drivers/media/platform/mtk-vcodec/venc_vpu_if.c
-@@ -225,7 +225,6 @@ int vpu_enc_set_param(struct venc_vpu_inst *vpu,
- int vpu_enc_encode(struct venc_vpu_inst *vpu, unsigned int bs_mode,
- 		   struct venc_frm_buf *frm_buf,
- 		   struct mtk_vcodec_mem *bs_buf,
--		   unsigned int *bs_size,
- 		   struct venc_frame_info *frame_info)
- {
- 	const bool is_ext = MTK_ENC_CTX_IS_EXT(vpu->ctx);
-diff --git a/drivers/media/platform/mtk-vcodec/venc_vpu_if.h b/drivers/media/platform/mtk-vcodec/venc_vpu_if.h
-index f9be9cab7ff7..f83bc1b3f2bf 100644
---- a/drivers/media/platform/mtk-vcodec/venc_vpu_if.h
-+++ b/drivers/media/platform/mtk-vcodec/venc_vpu_if.h
-@@ -45,7 +45,6 @@ int vpu_enc_set_param(struct venc_vpu_inst *vpu,
- int vpu_enc_encode(struct venc_vpu_inst *vpu, unsigned int bs_mode,
- 		   struct venc_frm_buf *frm_buf,
- 		   struct mtk_vcodec_mem *bs_buf,
--		   unsigned int *bs_size,
- 		   struct venc_frame_info *frame_info);
- int vpu_enc_deinit(struct venc_vpu_inst *vpu);
- 
--- 
-2.17.1
+> ---
+>   drivers/media/platform/mtk-mdp3/mtk-mdp3-core.c | 3 +++
+>   1 file changed, 3 insertions(+)
+> 
+> diff --git a/drivers/media/platform/mtk-mdp3/mtk-mdp3-core.c b/drivers/media/platform/mtk-mdp3/mtk-mdp3-core.c
+> index 12b029d145d6..51f7ef2b31ce 100644
+> --- a/drivers/media/platform/mtk-mdp3/mtk-mdp3-core.c
+> +++ b/drivers/media/platform/mtk-mdp3/mtk-mdp3-core.c
+> @@ -1141,6 +1141,9 @@ static int mdp_probe(struct platform_device *pdev)
+>   	mdp->pdev = pdev;
+>   	mdp->mdp_data = of_device_get_match_data(&pdev->dev);
+>   
+> +	if (of_get_property(pdev->dev.of_node, "dma-ranges", NULL))
+> +		dma_set_mask_and_coherent(&pdev->dev, DMA_BIT_MASK(34));
+> +
+>   	ret = of_property_read_u32(dev->of_node, "mediatek,mdp3-id", &id);
+>   	if (ret) {
+>   		dev_err(dev, "Failed to get mdp-id\n");
+> 
+
 
