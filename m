@@ -2,92 +2,116 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3740143735A
-	for <lists+linux-media@lfdr.de>; Fri, 22 Oct 2021 09:55:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F3DED4373E5
+	for <lists+linux-media@lfdr.de>; Fri, 22 Oct 2021 10:47:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232788AbhJVH5m (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 22 Oct 2021 03:57:42 -0400
-Received: from esa.microchip.iphmx.com ([68.232.154.123]:17502 "EHLO
-        esa.microchip.iphmx.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232601AbhJVH5U (ORCPT
+        id S232403AbhJVIuH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 22 Oct 2021 04:50:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33500 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232382AbhJVIuG (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 22 Oct 2021 03:57:20 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
-  t=1634889303; x=1666425303;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=wDcAUxy4+J7U+nbdqT4H/qC13HwZeJ4M+KkOlbGfiME=;
-  b=WNKYFIsX6oeMYEYqqdpd7eX4+WsBGHcvme8EvBUy0b8BtnB7EAG5teWn
-   Q53mNfWvjlvrMIihHz/ol9OFp9vJ1Wy7aZImxLKnNDizBT32c8vw434ff
-   vLsZVpv1R95P3ZSH2lT0FMnjF/2PmZ4PiK4GqrRZqtzbvkJ40jFXSMXzM
-   9JA+qnk3+4KtpO7PDaJ8D9mncGy7KuzE+puWnEVJkJ01m8rZmv7hKbroZ
-   f6KNXN6MQFUbPHSZ0YDItxurG5zrcmi6ikNerOfVJ9MV3CVobLj6DQb4V
-   ZaSpjzvi3jGAyLzYc3NS8PPAN+0tTxIqtNSmzyxYEzNu0ONM7pf7pw9SZ
-   Q==;
-IronPort-SDR: pQHfuea1n6HvBzLnXY4q2xY5gL5e2sVLtU/XkIjxJXH5IWwVumJOUTKrqIA4G48+f0LYa3v0/N
- j1O+74QXzZ4BWFHn7fdcWoQBndpZAWNvdleLQwWVktbIRErYMkB3chhmeQGT5oYpk/z8rTXr34
- ea5j/qt0GGRdHGZ1j51UXtf9Tmx8kG/30/qqSYLzUN9J+GsKvpv4idcEKe6Z7I9wXNWCD3+LOm
- T4sR+Y5gjQtpi2VNltRGTo3dp5mFWf0zSyDe9Mh63RxHnW4Kuzni2G/Bj45jdqYTG/POrBDRst
- c/pzKP+Rd+GTzkMdKxxqGoVD
-X-IronPort-AV: E=Sophos;i="5.87,172,1631602800"; 
-   d="scan'208";a="136538173"
-Received: from smtpout.microchip.com (HELO email.microchip.com) ([198.175.253.82])
-  by esa2.microchip.iphmx.com with ESMTP/TLS/AES256-SHA256; 22 Oct 2021 00:55:02 -0700
-Received: from chn-vm-ex02.mchp-main.com (10.10.85.144) by
- chn-vm-ex03.mchp-main.com (10.10.85.151) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2176.14; Fri, 22 Oct 2021 00:55:02 -0700
-Received: from ROB-ULT-M18282.microchip.com (10.10.115.15) by
- chn-vm-ex02.mchp-main.com (10.10.85.144) with Microsoft SMTP Server id
- 15.1.2176.14 via Frontend Transport; Fri, 22 Oct 2021 00:54:58 -0700
-From:   Eugen Hristev <eugen.hristev@microchip.com>
-To:     <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>
-CC:     <jacopo@jmondi.org>, <laurent.pinchart@ideasonboard.com>,
-        <sakari.ailus@iki.fi>, <robh+dt@kernel.org>,
-        <nicolas.ferre@microchip.com>,
-        Eugen Hristev <eugen.hristev@microchip.com>
-Subject: [PATCH 21/21] media: atmel: atmel-isc-base: clamp wb gain coefficients
-Date:   Fri, 22 Oct 2021 10:52:47 +0300
-Message-ID: <20211022075247.518880-22-eugen.hristev@microchip.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20211022075247.518880-1-eugen.hristev@microchip.com>
-References: <20211022075247.518880-1-eugen.hristev@microchip.com>
+        Fri, 22 Oct 2021 04:50:06 -0400
+Received: from mail-ed1-x534.google.com (mail-ed1-x534.google.com [IPv6:2a00:1450:4864:20::534])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4B9A9C061348;
+        Fri, 22 Oct 2021 01:47:49 -0700 (PDT)
+Received: by mail-ed1-x534.google.com with SMTP id 5so1086232edw.7;
+        Fri, 22 Oct 2021 01:47:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=mqw/x/vCZKbqjafLM39rvi0on+kDAQS0f57EQg/oMGM=;
+        b=SqMgUQ5JC2NqnLjncR7he30QQm6LqBBbJ6cIwA1IQqOw+af6qlYnX6Y5DdJWYKM3xX
+         5cFn4E+3J2Wi9yoLyjh1v4O5Kge16fTRATfNGHCaNcmA5ykHxz7XUe0POknDB5rLoiVL
+         q3ZHE0MS6MVkg6Hjkz2FlsFAWx7+PY1UQI5MkSGLqicVnnzD89p9n6iXh6XsoRBOifv5
+         ezX5/s7wp0lqFI0u7TGci7K8IyqMH8npNsJ/EbuMJnmLBXcwgwzeo1xp3uId+E9vSmI/
+         1P2+O6lRgKE+8Jvg18vtii+yNMuPUG+d9+rFrimNiqTMPZPQ45R5pOmRe3YLjSTvTJJM
+         yltw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=mqw/x/vCZKbqjafLM39rvi0on+kDAQS0f57EQg/oMGM=;
+        b=2+qRgZKfmZONZcrWierQ8rG5myGa8Tag1kBpEP4ORc9J2vR4YpweDK+J/m2BNCXhra
+         2ERp1cwzrCu/KekIg0tE2mjKgf8d6g7E3Qq2dHXfUvIIkzNx5J0XcL2vwj/byBRMLa65
+         PPYTGqAnHMUDRZPHZHy2hmmtAtCz4vmE1h7r+CKfn1p9v76LapIkeap1lOxtOhIUMbbd
+         P2NVlcXZaYqH4IC2ma0g43JEkEwSFMuug/Jc04r2F3v0roofC+OJx0NjCmW3VqQp0TRT
+         Bwy7qJ/tMTg0Sy9zUSTeULnNIP3amgkTlCTzPUzF6rYq+baIFXByYrqLy6Nq1CB9hDqv
+         /+aQ==
+X-Gm-Message-State: AOAM531T/asMGcQR0RIWH9NIqs0brK8BYYgfE3nwg4F3pxWsUJF+m7Ml
+        YowkFP6IxNKkVaqWdPBCVPi0XQWzncpvBKMe1p4=
+X-Google-Smtp-Source: ABdhPJyGk3siQwyG3NqnEjN0QkNpukSjalEA+eN76UWN1FifKQqpLxgKBn6CkVIHGlTpv8P2bWenUiHQ4c67AdGnQtQ=
+X-Received: by 2002:a17:906:5a47:: with SMTP id my7mr13255982ejc.128.1634892467672;
+ Fri, 22 Oct 2021 01:47:47 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
+References: <20211010185707.195883-1-hdegoede@redhat.com> <20211010185707.195883-6-hdegoede@redhat.com>
+ <163415237957.936110.1269283416777498553@swboyd.mtv.corp.google.com> <4e5884d5-bcde-dac9-34fb-e29ed32f73c9@redhat.com>
+In-Reply-To: <4e5884d5-bcde-dac9-34fb-e29ed32f73c9@redhat.com>
+From:   Andy Shevchenko <andy.shevchenko@gmail.com>
+Date:   Fri, 22 Oct 2021 11:46:51 +0300
+Message-ID: <CAHp75Ve_xqgnaCqc3oyDMWDE9kVm8HNOEcdMuDkOD9epwgfWnA@mail.gmail.com>
+Subject: Re: [PATCH v3 05/11] clk: Introduce clk-tps68470 driver
+To:     Hans de Goede <hdegoede@redhat.com>
+Cc:     Stephen Boyd <sboyd@kernel.org>,
+        Andy Shevchenko <andy@infradead.org>,
+        Daniel Scally <djrscally@gmail.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Mark Brown <broonie@kernel.org>,
+        Mark Gross <markgross@kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Mika Westerberg <mika.westerberg@linux.intel.com>,
+        "Rafael J.Wysocki" <rjw@rjwysocki.net>,
+        Wolfram Sang <wsa@the-dreams.de>, Len Brown <lenb@kernel.org>,
+        ACPI Devel Maling List <linux-acpi@vger.kernel.org>,
+        Platform Driver <platform-driver-x86@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-i2c <linux-i2c@vger.kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Kate Hsuan <hpa@redhat.com>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        linux-clk <linux-clk@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-White balance computed gains can overflow above the 13 bits hardware
-coefficient that can be used, in some specific scenarios like a subexposure
-from the sensor when the image is mostly black.
-In this case the computed gain has to be clamped to the maximum value
-allowed by the hardware.
+On Thu, Oct 21, 2021 at 8:31 PM Hans de Goede <hdegoede@redhat.com> wrote:
+> On 10/13/21 21:12, Stephen Boyd wrote:
 
-Signed-off-by: Eugen Hristev <eugen.hristev@microchip.com>
----
- drivers/media/platform/atmel/atmel-isc-base.c | 4 ++++
- 1 file changed, 4 insertions(+)
+...
 
-diff --git a/drivers/media/platform/atmel/atmel-isc-base.c b/drivers/media/platform/atmel/atmel-isc-base.c
-index 071ac5eec7ec..53141de78f67 100644
---- a/drivers/media/platform/atmel/atmel-isc-base.c
-+++ b/drivers/media/platform/atmel/atmel-isc-base.c
-@@ -1416,6 +1416,10 @@ static void isc_wb_update(struct isc_ctrls *ctrls)
- 		/* multiply both gains and adjust for decimals */
- 		ctrls->gain[c] = s_gain[c] * gw_gain[c];
- 		ctrls->gain[c] >>= 9;
-+
-+		/* make sure we are not out of range */
-+		ctrls->gain[c] = clamp_val(ctrls->gain[c], 0, GENMASK(12, 0));
-+
- 		v4l2_dbg(1, debug, &isc->v4l2_dev,
- 			 "isc wb: component %d, final gain %u\n",
- 			 c, ctrls->gain[c]);
+> >> +       regmap_write(clkdata->regmap, TPS68470_REG_CLKCFG1,
+
+> >> +                          (TPS68470_PLL_OUTPUT_ENABLE <<
+> >> +                          TPS68470_OUTPUT_A_SHIFT) |
+
+One line, please?
+
+> >> +                          (TPS68470_PLL_OUTPUT_ENABLE <<
+> >> +                          TPS68470_OUTPUT_B_SHIFT));
+
+Ditto.
+
+...
+
+> > Also, why isn't this function actually writing
+> > hardware?
+>
+> set_rate can only be called when the clock is disabled, all the
+> necessary values are programmed based on the clk_cfg_idx in
+> tps68470_clk_prepare().
+>
+> Note there is no enable() since enable() may not sleep and
+> this device is interfaced over I2C, so the clock is already
+> enabled from the prepare() op.
+
+This reminds me other drivers that do commit the changes to the
+hardware on bus lock, but I'm not sure if anything like that is
+applicable here.
+
 -- 
-2.25.1
-
+With Best Regards,
+Andy Shevchenko
