@@ -2,24 +2,24 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3FB70437990
-	for <lists+linux-media@lfdr.de>; Fri, 22 Oct 2021 17:04:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0BD8B43798D
+	for <lists+linux-media@lfdr.de>; Fri, 22 Oct 2021 17:04:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233341AbhJVPGp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 22 Oct 2021 11:06:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34092 "EHLO
+        id S233301AbhJVPGl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 22 Oct 2021 11:06:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34098 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233069AbhJVPGi (ORCPT
+        with ESMTP id S233297AbhJVPGj (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 22 Oct 2021 11:06:38 -0400
+        Fri, 22 Oct 2021 11:06:39 -0400
 Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E4B83C061764;
-        Fri, 22 Oct 2021 08:04:20 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9FF4DC061767;
+        Fri, 22 Oct 2021 08:04:21 -0700 (PDT)
 Received: from guri.fritz.box (unknown [IPv6:2a02:810a:880:f54:50fa:5c7d:20f4:e8d3])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
         (Authenticated sender: dafna)
-        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 117821F4163C;
+        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id D29DF1F417C2;
         Fri, 22 Oct 2021 16:04:19 +0100 (BST)
 From:   Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
 To:     linux-media@vger.kernel.org
@@ -32,9 +32,9 @@ Cc:     Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
         maoguang.meng@mediatek.com, matthias.bgg@gmail.com,
         mchehab@kernel.org, minghsiu.tsai@mediatek.com, tfiga@chromium.org,
         tiffany.lin@mediatek.com
-Subject: [PATCH 2/3] media: mtk-vcodec: enc: use "stream_started" flag for "stop/start_streaming"
-Date:   Fri, 22 Oct 2021 17:04:09 +0200
-Message-Id: <20211022150410.29335-3-dafna.hirschfeld@collabora.com>
+Subject: [PATCH 3/3] meida: mtk-vcodec: remove unused func parameter
+Date:   Fri, 22 Oct 2021 17:04:10 +0200
+Message-Id: <20211022150410.29335-4-dafna.hirschfeld@collabora.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20211022150410.29335-1-dafna.hirschfeld@collabora.com>
 References: <20211022150410.29335-1-dafna.hirschfeld@collabora.com>
@@ -42,83 +42,89 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Currently the mtk-vcodec encoder init the hardware
-upon "start_streaming" cb when both queues are streaming and turns off
-the hardware upon "stop_streaming" when both queues stop
-streaming. This is wrong since the same queue might be started and
-then stopped causing the driver to turn off the hardware without
-turning it on. This cause for example unbalanced
-calls to pm_runtime_*
+The prarameter bs_size to function vpu_enc_encode
+is not used. Remove it.
 
-Fixes: 4e855a6efa547 ("[media] vcodec: mediatek: Add Mediatek V4L2 Video Encoder Driver")
 Signed-off-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
 ---
- drivers/media/platform/mtk-vcodec/mtk_vcodec_drv.h | 4 ++++
- drivers/media/platform/mtk-vcodec/mtk_vcodec_enc.c | 8 ++++++++
- 2 files changed, 12 insertions(+)
+ drivers/media/platform/mtk-vcodec/venc/venc_h264_if.c | 9 +++------
+ drivers/media/platform/mtk-vcodec/venc/venc_vp8_if.c  | 3 +--
+ drivers/media/platform/mtk-vcodec/venc_vpu_if.c       | 1 -
+ drivers/media/platform/mtk-vcodec/venc_vpu_if.h       | 1 -
+ 4 files changed, 4 insertions(+), 10 deletions(-)
 
-diff --git a/drivers/media/platform/mtk-vcodec/mtk_vcodec_drv.h b/drivers/media/platform/mtk-vcodec/mtk_vcodec_drv.h
-index 9d36e3d27369..84c5289f872b 100644
---- a/drivers/media/platform/mtk-vcodec/mtk_vcodec_drv.h
-+++ b/drivers/media/platform/mtk-vcodec/mtk_vcodec_drv.h
-@@ -259,6 +259,9 @@ struct vdec_pic_info {
-  * @decoded_frame_cnt: number of decoded frames
-  * @lock: protect variables accessed by V4L2 threads and worker thread such as
-  *	  mtk_video_dec_buf.
-+ * @stream_started: this flag is turned on when both queues (cap and out) starts streaming
-+ *	  and it is turned off once both queues stop streaming. It is used for a correct
-+ *	  setup and set-down of the hardware when starting and stopping streaming.
-  */
- struct mtk_vcodec_ctx {
- 	enum mtk_instance_type type;
-@@ -301,6 +304,7 @@ struct mtk_vcodec_ctx {
+diff --git a/drivers/media/platform/mtk-vcodec/venc/venc_h264_if.c b/drivers/media/platform/mtk-vcodec/venc/venc_h264_if.c
+index b6a4f2074fa5..bf03888a824f 100644
+--- a/drivers/media/platform/mtk-vcodec/venc/venc_h264_if.c
++++ b/drivers/media/platform/mtk-vcodec/venc/venc_h264_if.c
+@@ -367,8 +367,7 @@ static int h264_encode_sps(struct venc_h264_inst *inst,
  
- 	int decoded_frame_cnt;
- 	struct mutex lock;
-+	bool stream_started;
+ 	mtk_vcodec_debug_enter(inst);
  
- };
+-	ret = vpu_enc_encode(&inst->vpu_inst, H264_BS_MODE_SPS, NULL,
+-			     bs_buf, bs_size, NULL);
++	ret = vpu_enc_encode(&inst->vpu_inst, H264_BS_MODE_SPS, NULL, bs_buf, NULL);
+ 	if (ret)
+ 		return ret;
  
-diff --git a/drivers/media/platform/mtk-vcodec/mtk_vcodec_enc.c b/drivers/media/platform/mtk-vcodec/mtk_vcodec_enc.c
-index 87a5114bf680..fb3cf804c96a 100644
---- a/drivers/media/platform/mtk-vcodec/mtk_vcodec_enc.c
-+++ b/drivers/media/platform/mtk-vcodec/mtk_vcodec_enc.c
-@@ -890,6 +890,9 @@ static int vb2ops_venc_start_streaming(struct vb2_queue *q, unsigned int count)
- 		goto err_start_stream;
- 	}
+@@ -394,8 +393,7 @@ static int h264_encode_pps(struct venc_h264_inst *inst,
  
-+	if (ctx->stream_started)
-+		return 0;
-+
- 	/* Do the initialization when both start_streaming have been called */
- 	if (V4L2_TYPE_IS_OUTPUT(q->type)) {
- 		if (!vb2_start_streaming_called(&ctx->m2m_ctx->cap_q_ctx.q))
-@@ -928,6 +931,7 @@ static int vb2ops_venc_start_streaming(struct vb2_queue *q, unsigned int count)
- 		ctx->state = MTK_STATE_HEADER;
- 	}
+ 	mtk_vcodec_debug_enter(inst);
  
-+	ctx->stream_started = true;
- 	return 0;
+-	ret = vpu_enc_encode(&inst->vpu_inst, H264_BS_MODE_PPS, NULL,
+-			     bs_buf, bs_size, NULL);
++	ret = vpu_enc_encode(&inst->vpu_inst, H264_BS_MODE_PPS, NULL, bs_buf, NULL);
+ 	if (ret)
+ 		return ret;
  
- err_set_param:
-@@ -1002,6 +1006,9 @@ static void vb2ops_venc_stop_streaming(struct vb2_queue *q)
- 		}
- 	}
+@@ -451,8 +449,7 @@ static int h264_encode_frame(struct venc_h264_inst *inst,
+ 	mtk_vcodec_debug(inst, "frm_count = %d,skip_frm_count =%d,frm_type=%d.\n",
+ 			 frame_info.frm_count, frame_info.skip_frm_count,
+ 			 frame_info.frm_type);
+-	ret = vpu_enc_encode(&inst->vpu_inst, H264_BS_MODE_FRAME, frm_buf,
+-			     bs_buf, bs_size, &frame_info);
++	ret = vpu_enc_encode(&inst->vpu_inst, H264_BS_MODE_FRAME, frm_buf, bs_buf, &frame_info);
+ 	if (ret)
+ 		return ret;
  
-+	if (!ctx->stream_started)
-+		return;
-+
- 	if ((q->type == V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE &&
- 	     vb2_is_streaming(&ctx->m2m_ctx->out_q_ctx.q)) ||
- 	    (q->type == V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE &&
-@@ -1023,6 +1030,7 @@ static void vb2ops_venc_stop_streaming(struct vb2_queue *q)
- 		mtk_v4l2_err("pm_runtime_put fail %d", ret);
+diff --git a/drivers/media/platform/mtk-vcodec/venc/venc_vp8_if.c b/drivers/media/platform/mtk-vcodec/venc/venc_vp8_if.c
+index 8267a9c4fd25..6b66957d5192 100644
+--- a/drivers/media/platform/mtk-vcodec/venc/venc_vp8_if.c
++++ b/drivers/media/platform/mtk-vcodec/venc/venc_vp8_if.c
+@@ -302,8 +302,7 @@ static int vp8_enc_encode_frame(struct venc_vp8_inst *inst,
  
- 	ctx->state = MTK_STATE_FREE;
-+	ctx->stream_started = false;
- }
+ 	mtk_vcodec_debug(inst, "->frm_cnt=%d", inst->frm_cnt);
  
- static int vb2ops_venc_buf_out_validate(struct vb2_buffer *vb)
+-	ret = vpu_enc_encode(&inst->vpu_inst, 0, frm_buf, bs_buf, bs_size,
+-			     NULL);
++	ret = vpu_enc_encode(&inst->vpu_inst, 0, frm_buf, bs_buf, NULL);
+ 	if (ret)
+ 		return ret;
+ 
+diff --git a/drivers/media/platform/mtk-vcodec/venc_vpu_if.c b/drivers/media/platform/mtk-vcodec/venc_vpu_if.c
+index be6d8790a41e..e7899d8a3e4e 100644
+--- a/drivers/media/platform/mtk-vcodec/venc_vpu_if.c
++++ b/drivers/media/platform/mtk-vcodec/venc_vpu_if.c
+@@ -225,7 +225,6 @@ int vpu_enc_set_param(struct venc_vpu_inst *vpu,
+ int vpu_enc_encode(struct venc_vpu_inst *vpu, unsigned int bs_mode,
+ 		   struct venc_frm_buf *frm_buf,
+ 		   struct mtk_vcodec_mem *bs_buf,
+-		   unsigned int *bs_size,
+ 		   struct venc_frame_info *frame_info)
+ {
+ 	const bool is_ext = MTK_ENC_CTX_IS_EXT(vpu->ctx);
+diff --git a/drivers/media/platform/mtk-vcodec/venc_vpu_if.h b/drivers/media/platform/mtk-vcodec/venc_vpu_if.h
+index f9be9cab7ff7..f83bc1b3f2bf 100644
+--- a/drivers/media/platform/mtk-vcodec/venc_vpu_if.h
++++ b/drivers/media/platform/mtk-vcodec/venc_vpu_if.h
+@@ -45,7 +45,6 @@ int vpu_enc_set_param(struct venc_vpu_inst *vpu,
+ int vpu_enc_encode(struct venc_vpu_inst *vpu, unsigned int bs_mode,
+ 		   struct venc_frm_buf *frm_buf,
+ 		   struct mtk_vcodec_mem *bs_buf,
+-		   unsigned int *bs_size,
+ 		   struct venc_frame_info *frame_info);
+ int vpu_enc_deinit(struct venc_vpu_inst *vpu);
+ 
 -- 
 2.17.1
 
