@@ -2,89 +2,86 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id ACAC34379D8
-	for <lists+linux-media@lfdr.de>; Fri, 22 Oct 2021 17:25:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id ABE99437B86
+	for <lists+linux-media@lfdr.de>; Fri, 22 Oct 2021 19:10:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233437AbhJVP0z (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 22 Oct 2021 11:26:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38818 "EHLO
+        id S233773AbhJVRM7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 22 Oct 2021 13:12:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34744 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233358AbhJVP0w (ORCPT
+        with ESMTP id S233656AbhJVRM7 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 22 Oct 2021 11:26:52 -0400
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0667DC061767;
-        Fri, 22 Oct 2021 08:24:35 -0700 (PDT)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: kholk11)
-        with ESMTPSA id 1D4241F44B70
-Subject: Re: [PATCH v2 3/4] media: platform: mtk-mdp3: Set
- dma_set_mask_and_coherent
-To:     "roy-cw.yeh" <roy-cw.yeh@mediatek.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Chun-Kuang Hu <chunkuang.hu@kernel.org>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Fabien Parent <fparent@baylibre.com>,
-        "jason-jh . lin" <jason-jh.lin@mediatek.com>,
-        daoyuan huang <daoyuan.huang@mediatek.com>,
-        Ping-Hsun Wu <ping-hsun.wu@mediatek.com>,
-        Moudy Ho <moudy.ho@mediatek.com>,
-        "river . cheng" <river.cheng@mediatek.com>,
-        Yongqiang Niu <yongqiang.niu@mediatek.com>,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org
-References: <20211022092827.24631-1-roy-cw.yeh@mediatek.com>
- <20211022092827.24631-4-roy-cw.yeh@mediatek.com>
-From:   AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>
-Message-ID: <448b3d2f-54a0-f021-dc2a-ea29dc56c146@collabora.com>
-Date:   Fri, 22 Oct 2021 17:24:31 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+        Fri, 22 Oct 2021 13:12:59 -0400
+Received: from mail-ua1-x942.google.com (mail-ua1-x942.google.com [IPv6:2607:f8b0:4864:20::942])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9A973C061764
+        for <linux-media@vger.kernel.org>; Fri, 22 Oct 2021 10:10:41 -0700 (PDT)
+Received: by mail-ua1-x942.google.com with SMTP id h19so8992959uax.5
+        for <linux-media@vger.kernel.org>; Fri, 22 Oct 2021 10:10:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:sender:from:date:message-id:subject:to;
+        bh=ZiTHSehmnxvfWtJclbsgBAbfW68Z5Ayi+LEEDkDzW/s=;
+        b=M23yIELspRlX9L/qdEEVlH6VYgs2NM4NVUrZI09aQOtyl1Zdz5qgBs/30nHN5iKaAb
+         2LsfnCSSFw3BzH0Iz7guNyxmQE6f7Ogqb9UhbCgg1WVURyNPHW4peC6t7TfCQ7Ma0KcB
+         VtaKyczc5/+HeCRmegQK+Wo70h5scc1+pcmshxjlJ1UnKHaSVECMdOy4gbXN6Rv4PNh5
+         IvcJ/8hMS0EFjhmrEwsFjhKYUeVgPYUGWcgm2S6toXeUzZcSkFSQMTyEBbt3e3NoJ8F5
+         oB3u+RD7rCyfUdSdjCp857TdLTuOdqnKgN8uTE/SuQDgeICkH+FBqnBzGbnzcpDQyZgO
+         h7Fw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:sender:from:date:message-id:subject
+         :to;
+        bh=ZiTHSehmnxvfWtJclbsgBAbfW68Z5Ayi+LEEDkDzW/s=;
+        b=48EyY57+DVzNSIK0ubCULMIuDNhXhoNrEb7yYDO08/PJXNPOeH/vt034RkeZirYUQL
+         Sh8UU0hmHI/96h4mr06MOFiMzuWxnF8eh7SWCJ0lK/UmL+BvWWmzasGnfbi5biCqs3Mx
+         HiKC1XMNKogukwovTQcJl0p7mK9Hd1oqhzVRRR+9rPOgFqdYRuFA32P/ImyKLG82PL15
+         krgm21RynhURFsz7K0AO5Ci1rbtWp3yaDB5uNWgOpnlU0K5IfmW9o6b93QkOoDk8pF1v
+         PWUS2NhUpusLAuR0jC3jSBTdcUB+w4bPv0RSMLAxpEl6lbMFr9FfxNT5uDC/zTx3+0UE
+         TJ9g==
+X-Gm-Message-State: AOAM5335O13k4WRQxKHy+5m3vXehKVLSxo5nui682c+IRl6H0Sd9Ju6t
+        U5Zr6w4s0Ui1hH5DLkV/cqaI5jdIPg4N3toKpAA=
+X-Google-Smtp-Source: ABdhPJzDI3wZSkgh+n5uywLrfrRGNdhH6ytRMDWW1SxXvQkfaVvKpItI/9HoS/1y2LGHRhO0aSJpHmEsN/6lOkpX8GA=
+X-Received: by 2002:a05:6102:8f:: with SMTP id t15mr960183vsp.13.1634922640568;
+ Fri, 22 Oct 2021 10:10:40 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20211022092827.24631-4-roy-cw.yeh@mediatek.com>
-Content-Type: text/plain; charset=iso-8859-15; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Sender: bertipau4@gmail.com
+Received: by 2002:a59:cc26:0:b0:232:2c9b:25c0 with HTTP; Fri, 22 Oct 2021
+ 10:10:39 -0700 (PDT)
+From:   Bolten Paul <boltenpa124@gmail.com>
+Date:   Fri, 22 Oct 2021 18:10:39 +0100
+X-Google-Sender-Auth: Q6Q-XzFqRcis5hhN3e68l6CTX_I
+Message-ID: <CAAyuv14u7muzViXUwu63tdDeQXFu+NV4DUPQqBtOHKSvyTQ-Jw@mail.gmail.com>
+Subject: Good day......!!
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Il 22/10/21 11:28, roy-cw.yeh ha scritto:
-> From: "Roy-CW.Yeh" <roy-cw.yeh@mediatek.com>
-> 
-> Use the dma_set_mask_and_coherent helper to set mdp
-> DMA bit mask to support 34bits iova space(16GB) that
-> the mt8195 iommu HW supports.
-> 
-> The whole iova range separates to 0~4G/4G~8G/8G~12G/12G~16G.
-> Regarding which iova range mdp actually locates,
-> it depends on the dma-ranges property of mdp dtsi node.
-> 
-> Signed-off-by: Roy-CW.Yeh <roy-cw.yeh@mediatek.com>
+PLEASE YOUR URGENT RESPONSE NEEDED!
 
-Acked-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+I am Mr.Bolten Paul, the Audit and Account Manager (A.D.B)Bank in
+Ouagadougou Burkina Faso, West Africa
 
-> ---
->   drivers/media/platform/mtk-mdp3/mtk-mdp3-core.c | 3 +++
->   1 file changed, 3 insertions(+)
-> 
-> diff --git a/drivers/media/platform/mtk-mdp3/mtk-mdp3-core.c b/drivers/media/platform/mtk-mdp3/mtk-mdp3-core.c
-> index 12b029d145d6..51f7ef2b31ce 100644
-> --- a/drivers/media/platform/mtk-mdp3/mtk-mdp3-core.c
-> +++ b/drivers/media/platform/mtk-mdp3/mtk-mdp3-core.c
-> @@ -1141,6 +1141,9 @@ static int mdp_probe(struct platform_device *pdev)
->   	mdp->pdev = pdev;
->   	mdp->mdp_data = of_device_get_match_data(&pdev->dev);
->   
-> +	if (of_get_property(pdev->dev.of_node, "dma-ranges", NULL))
-> +		dma_set_mask_and_coherent(&pdev->dev, DMA_BIT_MASK(34));
-> +
->   	ret = of_property_read_u32(dev->of_node, "mediatek,mdp3-id", &id);
->   	if (ret) {
->   		dev_err(dev, "Failed to get mdp-id\n");
-> 
+I have a business transaction for you, In my department i discovered
+an abandoned Sum of US$10,2 Million Dollars, In an account that
+belongs to one of our late foreign customer who died on plane crash
+with his family member years ago. ever Since he died, Nobody to claim
+the left over balance in the account.
+It is therefore upon this discovery that I decided to seek your
+assistance to transfer the funds to your bank account.
 
+If you accept i would give you the guide lines of how we can achieve
+this transfer of the balance $10,2 Million Dollars to your account.
+the fund will be share 50-50%. by both of us
 
+Send the information required below for more details,
+
+1. Full Names:........
+2. Address:.....
+3. Your Age:.....
+4. Your Country:.....
+5. Your Private Phone Number:.....
+
+Best Regards,
+Mr.Bolten Paul.
