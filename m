@@ -2,163 +2,174 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 10FA4437074
-	for <lists+linux-media@lfdr.de>; Fri, 22 Oct 2021 05:25:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 46DC9437151
+	for <lists+linux-media@lfdr.de>; Fri, 22 Oct 2021 07:24:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232464AbhJVD1W (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 21 Oct 2021 23:27:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46734 "EHLO
+        id S229573AbhJVF0v (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 22 Oct 2021 01:26:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44586 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230349AbhJVD1U (ORCPT
+        with ESMTP id S229478AbhJVF0v (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 21 Oct 2021 23:27:20 -0400
-Received: from lb2-smtp-cloud7.xs4all.net (lb2-smtp-cloud7.xs4all.net [IPv6:2001:888:0:108::2a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 45866C061764
-        for <linux-media@vger.kernel.org>; Thu, 21 Oct 2021 20:25:03 -0700 (PDT)
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud7.xs4all.net with ESMTPA
-        id dlAtmrzZfUo2HdlAxm7Esy; Fri, 22 Oct 2021 05:24:59 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1634873099; bh=IyGxBAl6AaoPMnwW1sdFG8iB3hYWJRa/5jHPmxAlTg4=;
-        h=Message-ID:Date:From:To:Subject:From:Subject;
-        b=lZt0TQI7Z/uPneZ9ZKaaZq2XsioomdptKkSmSSCasoBYPEHVHyuvyteH9lNHgliLh
-         i6iVFlTvedqC7fo/3mAVJBCfbkHhTh85YdSWLfNhKh1jSpkeV3FGEK8ujm0W7ZsUz6
-         bNo/YtxWbuOwIX6kilR0/x2hTRjurnRO2TnRAyHxjxm170qBNk3GOhFYkOQLrk0KJd
-         MYUmII/e2r5Rq2314S4i7Etk4Cj65Y4F0wt5QiDQeXfrvNjrpvVjV8LKTXqVbw9Mr/
-         a37dCtO3XVP87i/uJNRrWapBzXMLIs5QORVqbk57fkDo+wzbbPVS3jNXP8GqeSaoFz
-         4cvorxMXPdSLw==
-Message-ID: <0f08301372c2beb183ae8e9f05d69c1c@smtp-cloud7.xs4all.net>
-Date:   Fri, 22 Oct 2021 05:24:55 +0200
-From:   "Hans Verkuil" <hverkuil@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: ERRORS
-X-CMAE-Envelope: MS4xfO6d45ZHYdvujUVcYChy+xMvomLvbjVMYMak94u6V3fidfTGTyXNfn2bptZXBi1qdCj6YG8L7aPFCinMYw7l71AucQECgkaTuw/6epmW1modZoQFrl+/
- 1h+r0Q1ZiJpNm3v7OTiKdyAauSZNr/r2LRmjMlIsx6sWNw7tC/oF1fPhO8A4DMP5suE2a8O8r3FbBw==
+        Fri, 22 Oct 2021 01:26:51 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 22614C061764
+        for <linux-media@vger.kernel.org>; Thu, 21 Oct 2021 22:24:34 -0700 (PDT)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 57D7151D;
+        Fri, 22 Oct 2021 07:24:32 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1634880272;
+        bh=2HA3aMKglwfPY30y6UjJEkq7bmwv7Bpk4GO32D2o3iI=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=FSyL1X2s7AjjmT+KPWiAsRUpRfNnCBJtU6ba6ECJeA51Blmyz/m5GnqSesP+kEcRq
+         hCU9NtPjOHiquwARGahhbEQgiLKFQ/6u9AoYKt0SM3C7wkZGnGyLpm6RU2o48fsv8+
+         7e7fMBKGJ/1HpzGBDXYvigRTwP9oftVOqo5PxeW0=
+Date:   Fri, 22 Oct 2021 08:24:12 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Jacopo Mondi <jacopo@jmondi.org>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil@xs4all.nl>, Sean Young <sean@mess.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        linux-media@vger.kernel.org
+Subject: Re: [PATCH] media: Document coding style requirements
+Message-ID: <YXJK/F6ajSDLc/RS@pendragon.ideasonboard.com>
+References: <20211013092005.14268-1-jacopo@jmondi.org>
+ <f48bbc19-9285-befe-e1cc-4c71d2735994@xs4all.nl>
+ <20211021155512.153ecd48@sal.lan>
+ <YXGHw6FPfPddXMj2@pendragon.ideasonboard.com>
+ <20211021171759.1857aeef@sal.lan>
+ <20211021182042.6vebkm4ww4g35a37@uno.localdomain>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20211021182042.6vebkm4ww4g35a37@uno.localdomain>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the kernels and architectures in the list below.
+Hello,
 
-Results of the daily build of media_tree:
+On Thu, Oct 21, 2021 at 08:20:42PM +0200, Jacopo Mondi wrote:
+> On Thu, Oct 21, 2021 at 05:17:59PM +0100, Mauro Carvalho Chehab wrote:
+> > Em Thu, 21 Oct 2021 18:31:15 +0300 Laurent Pinchart escreveu:
+> >
+> > > > > > +    - one structure/enum member declaration per line;
+> > > > > > +    - one variable declaration per line;
+> > > > >
+> > > > > Hmm, I don't mind something like: int i, j;
+> > > >
+> > > > I don't mind having things like:
+> > > >
+> > > > 	struct *dev, *parent_dev;
+> > > >
+> > > > or even:
+> > > >
+> > > > 	struct *parent_dev, *dev = pdev->dev;
+> > > >
+> > > > What it is really ugly is having multiple initialized vars at the
+> > > > same declaration, like:
+> > > >
+> > > > 	struct *parent_dev = pdev->dev.parent, *dev = pdev->dev;
+> > > >
+> > > > or, even worse:
+> > > >
+> > > > 	struct *dev = pdev->dev, *parent_dev = dev.parent;
+> > >
+> > > Cording style is one of the main candidate areas for bikeshedding. The
+> > > first question that we should answer, I believe, is whether or not we
+> > > want to define a more precise coding style for the subsystem to achieve
+> > > higher uniformity, and how much latitude we want to give to developers.
+> >
+> > I would prefer to give more freedom to developers, provided that the
+> > code is easy to read/maintain. Having to request multiple reviews just
+> > due coding style nitpicking seems to be a waste of time for everyone ;-)
+> 
+> I agree in principle, but at the same time, a particularly stubborn
+> confrontation during a review made me realize that most 'rules' are
+> tribal knowledge, and a particularly stubborn developer might impose
+> his own preferences arguing that everything that is not prohibited is
+> allowed. If you add to that in the most common case cargo cult is
+> the default way to find out what a rule is, if one driver escapes
+> others will take inspiration from it.
+> 
+> Now, I'm fine if it gets decided that everything not prohibited is
+> allowed, but then I fear it will be very hard to maintain a consistent
+> style among the subsystem.
 
-date:			Fri Oct 22 05:00:11 CEST 2021
-media-tree git hash:	57c3b9f55ba875a6f6295fa59f0bdc0a01c544f8
-media_build git hash:	e602a6acc36ed3f6a8ebeb27fae6f32712f1293f
-v4l-utils git hash:	9f1d1e0cf8dbdcfb8bc6d817734d85417960a054
-edid-decode git hash:	1f2a7af287d9f077a05d524d974503ef131b56dd
-gcc version:		i686-linux-gcc (GCC) 11.2.0
-sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
-sparse version:		0.6.3
-smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
-smatch version:		0.6.3
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: f1c67b200f199ca44b793327582bb643ecabd35f
-host hardware:		x86_64
-host os:		5.14.0-2-amd64
+I agree with this. Possibly more problematic than a consistent style, we
+will then also have different reviewers asking for different style
+changes during review, which will be confusing for developers and will
+waste everybody's type. I see a more detailed style guide as a way to
+streamline the process and make it more efficient.
 
-linux-git-sh: OK
-linux-git-arm-at91: OK
-linux-git-arm-davinci: OK
-linux-git-arm-stm32: OK
-linux-git-mips: OK
-linux-git-arm-pxa: OK
-linux-git-powerpc64: OK
-linux-git-arm64: OK
-linux-git-arm-multi: OK
-linux-git-i686: OK
-linux-git-x86_64: OK
-Check COMPILE_TEST: OK
-Check for strcpy/strncpy/strlcpy: OK
-linux-4.4.283-i686: ERRORS
-linux-4.4.283-x86_64: ERRORS
-linux-4.5.7-i686: ERRORS
-linux-4.5.7-x86_64: ERRORS
-linux-4.6.7-i686: ERRORS
-linux-4.6.7-x86_64: ERRORS
-linux-4.7.10-i686: ERRORS
-linux-4.7.10-x86_64: ERRORS
-linux-4.8.17-i686: ERRORS
-linux-4.8.17-x86_64: ERRORS
-linux-4.9.246-i686: ERRORS
-linux-4.9.246-x86_64: ERRORS
-linux-4.10.17-i686: WARNINGS
-linux-4.10.17-x86_64: WARNINGS
-linux-4.11.12-i686: WARNINGS
-linux-4.11.12-x86_64: WARNINGS
-linux-4.12.14-i686: WARNINGS
-linux-4.12.14-x86_64: WARNINGS
-linux-4.13.16-i686: WARNINGS
-linux-4.13.16-x86_64: WARNINGS
-linux-4.14.246-i686: OK
-linux-4.14.246-x86_64: OK
-linux-4.15.18-i686: WARNINGS
-linux-4.15.18-x86_64: WARNINGS
-linux-4.16.18-i686: WARNINGS
-linux-4.16.18-x86_64: WARNINGS
-linux-4.17.19-i686: WARNINGS
-linux-4.17.19-x86_64: WARNINGS
-linux-4.18.20-i686: WARNINGS
-linux-4.18.20-x86_64: WARNINGS
-linux-4.19.206-i686: OK
-linux-4.19.206-x86_64: OK
-linux-4.20.17-i686: WARNINGS
-linux-4.20.17-x86_64: WARNINGS
-linux-5.0.21-i686: OK
-linux-5.0.21-x86_64: OK
-linux-5.1.21-i686: OK
-linux-5.1.21-x86_64: OK
-linux-5.2.21-i686: OK
-linux-5.2.21-x86_64: OK
-linux-5.3.18-i686: OK
-linux-5.3.18-x86_64: OK
-linux-5.4.144-i686: OK
-linux-5.4.144-x86_64: OK
-linux-5.5.19-i686: OK
-linux-5.5.19-x86_64: OK
-linux-5.6.19-i686: OK
-linux-5.6.19-x86_64: OK
-linux-5.7.19-i686: OK
-linux-5.7.19-x86_64: OK
-linux-5.8.18-i686: OK
-linux-5.8.18-x86_64: OK
-linux-5.9.16-i686: OK
-linux-5.9.16-x86_64: OK
-linux-5.10.62-i686: OK
-linux-5.10.62-x86_64: OK
-linux-5.11.22-i686: OK
-linux-5.11.22-x86_64: OK
-linux-5.12.19-i686: OK
-linux-5.12.19-x86_64: OK
-linux-5.13.14-i686: OK
-linux-5.13.14-x86_64: OK
-linux-5.14.1-i686: OK
-linux-5.14.1-x86_64: OK
-linux-5.15-rc1-i686: OK
-linux-5.15-rc1-x86_64: OK
-apps: OK
-spec-git: OK
-virtme: ERRORS
-virtme-32: ERRORS
-sparse: WARNINGS
-smatch: ERRORS
-kerneldoc: WARNINGS
+> > > For instance, I don't mind
+> > >
+> > > 	unsigned int i, j;
+> > >
+> > > too much, but I would scream in horror at
+> > >
+> > > 	char *name = dev_name, c = '\0';
+> >
+> > Yeah, multiple vars being declared and assigned at the same line is something
+> > that should be avoided. See, even single letter vars with obvious assigns,
+> > like:
+> >
+> > 	int i = 0, j = 1;
+> >
+> > are less readable than:
+> >
+> > 	int	i = 0;
+> > 	int	j = 1;
+> >
+> > > (I'm sad C even allows declaring a char pointer and a char variable on
+> > > the same line like this). There are lots of cases between those two
+> > > extremes that are more or less good (or bad) depending on who you ask,
+> > > so we won't be able to come up with a precise set of rules that draw a
+> > > line somewhere in the middle. What we could do is err more on the side
+> > > of strictness, for instance with
+> > >
+> > > - One variable declaration per line. As an exception, grouping multiple
+> > >   single-letter counter variables on a single line is allowed.
+> > >
+> > > (or even allowing no exception). This is probably stricter than it needs
+> > > to be, and in some cases it will result in a few more lines of code, but
+> > > if it brings increased readability and maintainability through
+> > > uniformity it's something we could consider.
+> >
+> > I don't think that things like:
+> >
+> > 	int ret, i, j;
+> >
+> > are less readable/maintainable than:
+> >
+> > 	int ret;
+> > 	int i;
+> > 	int j;
+> >
+> > Between the above, I would opt to the shorter format, when there's no
+> > variable initialization (no matter if the vars have single or multiple
+> > chars).
+> >
+> > On the other hand, I won't be nacking/rejecting a patch if it uses
+> > the longer format, as, for me, both are equivalent, in terms of
+> > maintenance and readability.
+> >
+> > So, for me, the rule should be just:
+> >
+> > - don't declare and initialize multiple variables at the same line.
+> >
+> > >
+> > > The same reasoning can apply to C++ comments, we can decide to allow
+> > > them or not, but the more flexibility there will be in the rules, the
+> > > less uniformity we'll have, which I personally believe hinders
+> > > readability.
+> >
+> > Yeah, agreed.
+> 
+> Thanks, I'll send a new version taking all your comments into account.
 
-Detailed results are available here:
+-- 
+Regards,
 
-http://www.xs4all.nl/~hverkuil/logs/Friday.log
-
-Detailed regression test results are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Friday-test-media.log
-http://www.xs4all.nl/~hverkuil/logs/Friday-test-media-32.log
-http://www.xs4all.nl/~hverkuil/logs/Friday-test-media-dmesg.log
-
-Full logs are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Friday.tar.bz2
-
-The Media Infrastructure API from this daily build is here:
-
-http://www.xs4all.nl/~hverkuil/spec/index.html
+Laurent Pinchart
