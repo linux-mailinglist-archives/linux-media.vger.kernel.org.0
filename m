@@ -2,161 +2,130 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 058904372B3
-	for <lists+linux-media@lfdr.de>; Fri, 22 Oct 2021 09:26:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EEE53437319
+	for <lists+linux-media@lfdr.de>; Fri, 22 Oct 2021 09:53:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232125AbhJVH2T (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 22 Oct 2021 03:28:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43390 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231334AbhJVH2T (ORCPT
+        id S232029AbhJVH4A (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 22 Oct 2021 03:56:00 -0400
+Received: from esa.microchip.iphmx.com ([68.232.153.233]:55648 "EHLO
+        esa.microchip.iphmx.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231773AbhJVH4A (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 22 Oct 2021 03:28:19 -0400
-Received: from mail-il1-x135.google.com (mail-il1-x135.google.com [IPv6:2607:f8b0:4864:20::135])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ED233C061764;
-        Fri, 22 Oct 2021 00:26:01 -0700 (PDT)
-Received: by mail-il1-x135.google.com with SMTP id a8so3257823ilj.10;
-        Fri, 22 Oct 2021 00:26:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=xGW6THywkFBuOv9pHK/lIzKrkZB0E8ZIytUvD2+0Xw8=;
-        b=Eh4hasD9RvEAh6ImQl27Ae2v7t2vwvorjoDgIoYVCE+rXO0eIBgQvFwbIQD/g7hjG8
-         SSTAEDjo228I1eH+2ZxK0SNqiNxVzHLqlxLwDSAwsd18aQLw0b1mNmAb9all+hB2mt1P
-         HtjnOE/qSbehdmf4XR7Q2K1EF4Es5SwxR3eVL7gO/+iHL/XLFauKArm0YveFUS5BOF6t
-         JDpgpVP0CkCf1I9qARXL2F8saP3ocO6f3XRCFHfsLo/u+yY5EoF7iMCN4Xb1riPwcuB1
-         azWIRU2HmiQ6tokGswRjYjrvzN7oI8HAkjpBXK3cqtAA0umeZIVp1MTovtBth4wAqrWx
-         knzw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=xGW6THywkFBuOv9pHK/lIzKrkZB0E8ZIytUvD2+0Xw8=;
-        b=VT9/ygnsVUrMN5tV3C8HxZL9oKI1/mCvOXgy3SA8y27RVGnd7IJ8WnkMar0UFpjqve
-         PXgSrkrziLkjgBUAa8zul4W4DykXSMrVl6n2VRWO7BDVl/99Ya1mJskFPWneNT65BELX
-         Zn3fksUidRTMh4eh2q9segyLxjjKVzY2sMFZpEnCl9kYDD8IqgJ9fmzH6d3fTl7uj+Up
-         Vnc30KaJG3JeJgmbdcn25tdsSn92cHkOhInv+jLX+iOrdI/MCplr6Ej4R5lqu0HlRDt1
-         k8NZeIujRQaN/5eo+u0Q1ZaEXak7xtU2rmjB+BlaOw/+4mr8a2dgSI9GTK0fYVt9V4oU
-         W12A==
-X-Gm-Message-State: AOAM533nJNfOQWofWU8SIt0n9QQn7cdCtfUz5VgAIKPNRGoOkiH6G843
-        z/9hesze1IyMdy59GJgIg6kHPe3IU7lQZXNsEQg=
-X-Google-Smtp-Source: ABdhPJzptGfW29mWmQ2t1Ao8a4dPISAZrav5sOoX2pl1Jm+Kj5xoE3Qsw272r5sA9jxvbALGZVvbQPMQ5FuvNiZm1XY=
-X-Received: by 2002:a05:6e02:164e:: with SMTP id v14mr6777429ilu.320.1634887561381;
- Fri, 22 Oct 2021 00:26:01 -0700 (PDT)
+        Fri, 22 Oct 2021 03:56:00 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
+  t=1634889223; x=1666425223;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=y+D2FT5j/LnL8Qi8aQ+TfjOl9CoE/Lrl6PtCtaRjKGg=;
+  b=H4QgZT9xpVpyP0p8zEZg6uuqCmCyyFmMC7tP3lWrIobmsYUDvpBLC90p
+   oX/eeW5NuZYXcIxDajOtkqhlan6nztEY1MMReDzrQoAOqKEQla1EyJRTs
+   idyV/DC/JuGhLw3Foz6nGIjpFZ20sz+ch1YtOLykYWROpmkBdm50QD8Ax
+   Gk8WjGf50Uk4nOZm/vCfGU3YrLnqwfvJQexDOQiGeAdr8AcITYQgqKjXn
+   OotNukvllbFitK0NPAZ34b9vsykZLrrNf+zr6uyWx2oP9VNBiLOvF7D3f
+   vq4ykCS7+DF2KkQnLNPKLHatreIIegq5xyNxqXRT5gk0bvgUUPo+82zGa
+   A==;
+IronPort-SDR: 9OpEuHiaqkKxHlZNKOn0MdTfU1kpWH1SRmNmjyHpOOr6EKaHUwnMz0Y83XpVwU5RzRzIYUx1Q6
+ WK+CXusf3hib6LAJ5wB5FpVkZGoigRwbnNlMyIG2nIeTAJdEOI/vw/jqvi/uwPe7YVnXuzR/iF
+ 9TtivW6wG1Q8WSNyYgpC20+19eXUKJJZZ4ukqWa3b53WYuEgogrRwc8KgkrwwGbWNLotS45uBe
+ +rQgBeRW8Ws3kLiQL/Y+L9CmVGUm8Ev2tA4hU4C4oF75BYYDNG+Cw406Nk6oNs5TTZPtk/Ma5B
+ tlaGHQ76YvJUlXdTvwZ6evcB
+X-IronPort-AV: E=Sophos;i="5.87,172,1631602800"; 
+   d="scan'208";a="149141099"
+Received: from smtpout.microchip.com (HELO email.microchip.com) ([198.175.253.82])
+  by esa1.microchip.iphmx.com with ESMTP/TLS/AES256-SHA256; 22 Oct 2021 00:53:42 -0700
+Received: from chn-vm-ex02.mchp-main.com (10.10.85.144) by
+ chn-vm-ex04.mchp-main.com (10.10.85.152) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2176.14; Fri, 22 Oct 2021 00:53:41 -0700
+Received: from ROB-ULT-M18282.microchip.com (10.10.115.15) by
+ chn-vm-ex02.mchp-main.com (10.10.85.144) with Microsoft SMTP Server id
+ 15.1.2176.14 via Frontend Transport; Fri, 22 Oct 2021 00:53:38 -0700
+From:   Eugen Hristev <eugen.hristev@microchip.com>
+To:     <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>
+CC:     <jacopo@jmondi.org>, <laurent.pinchart@ideasonboard.com>,
+        <sakari.ailus@iki.fi>, <robh+dt@kernel.org>,
+        <nicolas.ferre@microchip.com>,
+        Eugen Hristev <eugen.hristev@microchip.com>
+Subject: [PATCH 00/21] media: atmel: atmel-isc: implement media controller
+Date:   Fri, 22 Oct 2021 10:52:26 +0300
+Message-ID: <20211022075247.518880-1-eugen.hristev@microchip.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <1634633003-18132-1-git-send-email-dillon.minfei@gmail.com> <1634633003-18132-10-git-send-email-dillon.minfei@gmail.com>
-In-Reply-To: <1634633003-18132-10-git-send-email-dillon.minfei@gmail.com>
-From:   Dillon Min <dillon.minfei@gmail.com>
-Date:   Fri, 22 Oct 2021 15:25:25 +0800
-Message-ID: <CAL9mu0Jw99aeSmwy7gnY3XQK3V1V-C1-R8ET5jvSMz7niH=g4g@mail.gmail.com>
-Subject: Re: [PATCH v6 09/10] clk: stm32: Fix ltdc's clock turn off by
- clk_disable_unused() after system enter shell
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        mchehab+huawei@kernel.org, Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        ezequiel@collabora.com, gnurou@gmail.com,
-        Pi-Hsun Shih <pihsun@chromium.org>,
-        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        Alexandre TORGUE <alexandre.torgue@foss.st.com>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>, gabriel.fernandez@st.com,
-        gabriel.fernandez@foss.st.com
-Cc:     Patrice CHOTARD <patrice.chotard@foss.st.com>,
-        hugues.fruchet@foss.st.com,
-        linux-media <linux-media@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-stm32@st-md-mailman.stormreply.com,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        linux-clk <linux-clk@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Gabriel
+This series is a first attempt to support media controller in the atmel
+ISC and XISC drivers.
+This series also includes the csi2dc driver which was previously sent in a
+separate series:
+https://www.spinics.net/lists/linux-media/msg181042.html
+https://www.spinics.net/lists/linux-media/msg181044.html
+The driver now addresses comments received in latest v5 series from last year.
 
-I guess you are the maintainer of stm32 clk subsystem from [1], Could
-you help to review this patch, just give a brief of the history:
+The series includes some minor changes and fixes that improve the isc common
+code base, like removing the enum frameintervals VIDIOC, fixing bytesperline
+for planar formats, etc.
 
-- this patch was acked by Stephen Boyd at [2].
-- reviewed by Patrice Chotard at [3].
+Many thanks to folks from libcamera who helped a lot with understanding
+how a media controller driver should behave.
 
-Without this patch , the kernel will turn off ltdc's clk after the
-system reach shell.
+Feedback is welcome !
 
-[1] https://lore.kernel.org/lkml/AM8PR10MB4785545DC980090C1E7D66B281009@AM8PR10MB4785.EURPRD10.PROD.OUTLOOK.COM/
 
-[2] https://lore.kernel.org/linux-arm-kernel/159056850835.88029.9264848839121822798@swboyd.mtv.corp.google.com/
+Eugen Hristev (21):
+  MAINTAINERS: add microchip csi2dc
+  dt-bindings: media: atmel: csi2dc: add bindings for microchip csi2dc
+  media: atmel: introduce microchip csi2dc driver
+  MAINTAINERS: atmel-isc: add new file atmel-isc-clk.c
+  media: atmel: atmel-isc: split the clock code into separate source
+    file
+  media: atmel: atmel-isc: replace video device name with module name
+  media: atmel: atmel-sama7g5-isc: fix ispck leftover
+  media: atmel: atmel-isc-base: use streaming status when queueing
+    buffers
+  media: atmel: atmel-isc-base: remove frameintervals VIDIOC
+  media: atmel: atmel-isc-base: report frame sizes as full supported
+    range
+  media: atmel: atmel-isc-base: implement mbus_code support in enumfmt
+  media: atmel: atmel-isc-base: fix bytesperline value for planar
+    formats
+  MAINTAINERS: atmel-isc: add new file atmel-isc-mc.c
+  media: atmel: atmel-isc: implement media controller
+  ARM: dts: at91: sama7g5: add nodes for video capture
+  ARM: configs: at91: sama7: add xisc and csi2dc
+  ARM: multi_v7_defconfig: add atmel video pipeline modules
+  media: atmel: atmel-sama5d2-isc: fix wrong mask in YUYV format check
+  media: atmel: atmel-isc-base: use mutex to lock awb workqueue from
+    streaming
+  media: atmel: atmel-isc-base: add wb debug messages
+  media: atmel: atmel-isc-base: clamp wb gain coefficients
 
-[3] https://lore.kernel.org/lkml/6915fa2a-e211-476f-8317-6825e280c322@foss.st.com/#t
+ .../bindings/media/microchip,csi2dc.yaml      | 149 ++++
+ MAINTAINERS                                   |   9 +
+ arch/arm/boot/dts/sama7g5.dtsi                |  49 ++
+ arch/arm/configs/multi_v7_defconfig           |   3 +
+ arch/arm/configs/sama7_defconfig              |   2 +
+ drivers/media/platform/atmel/Kconfig          |  15 +
+ drivers/media/platform/atmel/Makefile         |   3 +-
+ drivers/media/platform/atmel/atmel-isc-base.c | 515 ++++---------
+ drivers/media/platform/atmel/atmel-isc-clk.c  | 316 ++++++++
+ drivers/media/platform/atmel/atmel-isc-mc.c   | 235 ++++++
+ drivers/media/platform/atmel/atmel-isc.h      |  33 +
+ .../media/platform/atmel/atmel-sama5d2-isc.c  |  16 +-
+ .../media/platform/atmel/atmel-sama7g5-isc.c  |  18 +-
+ .../media/platform/atmel/microchip-csi2dc.c   | 700 ++++++++++++++++++
+ 14 files changed, 1686 insertions(+), 377 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/media/microchip,csi2dc.yaml
+ create mode 100644 drivers/media/platform/atmel/atmel-isc-clk.c
+ create mode 100644 drivers/media/platform/atmel/atmel-isc-mc.c
+ create mode 100644 drivers/media/platform/atmel/microchip-csi2dc.c
 
-Best Regards
-Dillon
+-- 
+2.25.1
 
-On Tue, 19 Oct 2021 at 16:44, Dillon Min <dillon.minfei@gmail.com> wrote:
->
-> stm32's clk driver register two ltdc gate clk to clk core by
-> clk_hw_register_gate() and clk_hw_register_composite()
->
-> first: 'stm32f429_gates[]', clk name is 'ltdc', which no user to use.
-> second: 'stm32f429_aux_clk[]', clk name is 'lcd-tft', used by ltdc driver
->
-> both of them point to the same offset of stm32's RCC register. after
-> kernel enter console, clk core turn off ltdc's clk as 'stm32f429_gates[]'
-> is no one to use. but, actually 'stm32f429_aux_clk[]' is in use.
->
-> stm32f469/746/769 have the same issue, fix it.
->
-> Fixes: daf2d117cbca ("clk: stm32f4: Add lcd-tft clock")
-> Acked-by: Stephen Boyd <sboyd@kernel.org>
-> Link: https://lore.kernel.org/linux-arm-kernel/1590564453-24499-7-git-send-email-dillon.minfei@gmail.com/
-> Link: https://lore.kernel.org/lkml/CAPTRvHkf0cK_4ZidM17rPo99gWDmxgqFt4CDUjqFFwkOeQeFDg@mail.gmail.com/
-> Signed-off-by: Dillon Min <dillon.minfei@gmail.com>
-> ---
-> v6: no change.
->
->  drivers/clk/clk-stm32f4.c | 4 ----
->  1 file changed, 4 deletions(-)
->
-> diff --git a/drivers/clk/clk-stm32f4.c b/drivers/clk/clk-stm32f4.c
-> index af46176ad053..473dfe632cc5 100644
-> --- a/drivers/clk/clk-stm32f4.c
-> +++ b/drivers/clk/clk-stm32f4.c
-> @@ -129,7 +129,6 @@ static const struct stm32f4_gate_data stm32f429_gates[] __initconst = {
->         { STM32F4_RCC_APB2ENR, 20,      "spi5",         "apb2_div" },
->         { STM32F4_RCC_APB2ENR, 21,      "spi6",         "apb2_div" },
->         { STM32F4_RCC_APB2ENR, 22,      "sai1",         "apb2_div" },
-> -       { STM32F4_RCC_APB2ENR, 26,      "ltdc",         "apb2_div" },
->  };
->
->  static const struct stm32f4_gate_data stm32f469_gates[] __initconst = {
-> @@ -211,7 +210,6 @@ static const struct stm32f4_gate_data stm32f469_gates[] __initconst = {
->         { STM32F4_RCC_APB2ENR, 20,      "spi5",         "apb2_div" },
->         { STM32F4_RCC_APB2ENR, 21,      "spi6",         "apb2_div" },
->         { STM32F4_RCC_APB2ENR, 22,      "sai1",         "apb2_div" },
-> -       { STM32F4_RCC_APB2ENR, 26,      "ltdc",         "apb2_div" },
->  };
->
->  static const struct stm32f4_gate_data stm32f746_gates[] __initconst = {
-> @@ -286,7 +284,6 @@ static const struct stm32f4_gate_data stm32f746_gates[] __initconst = {
->         { STM32F4_RCC_APB2ENR, 21,      "spi6",         "apb2_div" },
->         { STM32F4_RCC_APB2ENR, 22,      "sai1",         "apb2_div" },
->         { STM32F4_RCC_APB2ENR, 23,      "sai2",         "apb2_div" },
-> -       { STM32F4_RCC_APB2ENR, 26,      "ltdc",         "apb2_div" },
->  };
->
->  static const struct stm32f4_gate_data stm32f769_gates[] __initconst = {
-> @@ -364,7 +361,6 @@ static const struct stm32f4_gate_data stm32f769_gates[] __initconst = {
->         { STM32F4_RCC_APB2ENR, 21,      "spi6",         "apb2_div" },
->         { STM32F4_RCC_APB2ENR, 22,      "sai1",         "apb2_div" },
->         { STM32F4_RCC_APB2ENR, 23,      "sai2",         "apb2_div" },
-> -       { STM32F4_RCC_APB2ENR, 26,      "ltdc",         "apb2_div" },
->         { STM32F4_RCC_APB2ENR, 30,      "mdio",         "apb2_div" },
->  };
->
-> --
-> 2.7.4
->
