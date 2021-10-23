@@ -2,89 +2,154 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BDF87438310
-	for <lists+linux-media@lfdr.de>; Sat, 23 Oct 2021 12:10:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 134C7438351
+	for <lists+linux-media@lfdr.de>; Sat, 23 Oct 2021 13:14:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230507AbhJWKNN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 23 Oct 2021 06:13:13 -0400
-Received: from smtp02.smtpout.orange.fr ([80.12.242.124]:52632 "EHLO
-        smtp.smtpout.orange.fr" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230140AbhJWKNM (ORCPT
+        id S230366AbhJWLQr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 23 Oct 2021 07:16:47 -0400
+Received: from mailgw02.mediatek.com ([210.61.82.184]:60968 "EHLO
+        mailgw02.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
+        with ESMTP id S230253AbhJWLQo (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 23 Oct 2021 06:13:12 -0400
-Received: from pop-os.home ([92.140.161.106])
-        by smtp.orange.fr with ESMTPA
-        id eDzFmzdx8niuxeDzFmn8rc; Sat, 23 Oct 2021 12:10:52 +0200
-X-ME-Helo: pop-os.home
-X-ME-Auth: YWZlNiIxYWMyZDliZWIzOTcwYTEyYzlhMmU3ZiQ1M2U2MzfzZDfyZTMxZTBkMTYyNDBjNDJlZmQ3ZQ==
-X-ME-Date: Sat, 23 Oct 2021 12:10:52 +0200
-X-ME-IP: 92.140.161.106
-From:   Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-To:     a.hajda@samsung.com, mchehab@kernel.org
-Cc:     linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
-        linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org,
-        Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-Subject: [PATCH] media: s5p-mfc: Use 'bitmap_zalloc()' when applicable
-Date:   Sat, 23 Oct 2021 12:10:48 +0200
-Message-Id: <065fd81346699cc8fda251d91227381f7e26740d.1634983722.git.christophe.jaillet@wanadoo.fr>
-X-Mailer: git-send-email 2.30.2
+        Sat, 23 Oct 2021 07:16:44 -0400
+X-UUID: 3f46e4ee1b6e4078b89e71402ecbb35e-20211023
+X-UUID: 3f46e4ee1b6e4078b89e71402ecbb35e-20211023
+Received: from mtkcas10.mediatek.inc [(172.21.101.39)] by mailgw02.mediatek.com
+        (envelope-from <flora.fu@mediatek.com>)
+        (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
+        with ESMTP id 1529089297; Sat, 23 Oct 2021 19:14:13 +0800
+Received: from mtkcas10.mediatek.inc (172.21.101.39) by
+ mtkmbs07n2.mediatek.inc (172.21.101.141) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Sat, 23 Oct 2021 19:14:12 +0800
+Received: from mtksdccf07.mediatek.inc (172.21.84.99) by mtkcas10.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
+ Transport; Sat, 23 Oct 2021 19:14:12 +0800
+From:   Flora Fu <flora.fu@mediatek.com>
+To:     Matthias Brugger <matthias.bgg@gmail.com>,
+        Mark Brown <broonie@kernel.org>,
+        Sumit Semwal <sumit.semwal@linaro.org>
+CC:     <linux-kernel@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-mediatek@lists.infradead.org>,
+        <linux-media@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
+        <linaro-mm-sig@lists.linaro.org>, Flora Fu <flora.fu@mediatek.com>,
+        Yong Wu <yong.wu@mediatek.com>,
+        Pi-Cheng Chen <pi-cheng.chen@mediatek.com>
+Subject: [RFC 00/13] MediaTek MT8192 APU
+Date:   Sat, 23 Oct 2021 19:13:56 +0800
+Message-ID: <20211023111409.30463-1-flora.fu@mediatek.com>
+X-Mailer: git-send-email 2.18.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-MTK:  N
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-'mfc_dev->mem_bitmap' is a bitmap. So use 'bitmap_zalloc()' to simplify
-code and improve the semantic.
+Add Support for MediaTek MT8192 APU.
 
-Also change the corresponding 'kfree()' into 'bitmap_free()' to keep
-consistency.
+The MediaTek AI Processing Unit (APU) is a proprietary hardware
+in the SoC to support AI functions.
+The patches support the MT8192 APU running on internal microprocess.
+Software packages contins power control, tinysys controller and middleware.
 
-Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
----
- drivers/media/platform/s5p-mfc/s5p_mfc.c | 9 +++------
- 1 file changed, 3 insertions(+), 6 deletions(-)
+This series is based on drivers implemented in
+MT8192 apu power domain[1] and IOMMU[2] patches.
+[1] https://patchwork.kernel.org/project/linux-mediatek/list/?series=568927
+[2] https://patchwork.kernel.org/project/linux-mediatek/list/?series=551641
+The device tree depends on [3][4][5] which haven't yet been accepted.
+[3] https://patchwork.kernel.org/project/linux-mediatek/list/?series=521655
+[4] https://patchwork.kernel.org/patch/12134935
+[5] https://patchwork.kernel.org/patch/12140237
 
-diff --git a/drivers/media/platform/s5p-mfc/s5p_mfc.c b/drivers/media/platform/s5p-mfc/s5p_mfc.c
-index fc85e4e2d020..f6732f031e96 100644
---- a/drivers/media/platform/s5p-mfc/s5p_mfc.c
-+++ b/drivers/media/platform/s5p-mfc/s5p_mfc.c
-@@ -1185,7 +1185,6 @@ static int s5p_mfc_configure_common_memory(struct s5p_mfc_dev *mfc_dev)
- {
- 	struct device *dev = &mfc_dev->plat_dev->dev;
- 	unsigned long mem_size = SZ_4M;
--	unsigned int bitmap_size;
- 
- 	if (IS_ENABLED(CONFIG_DMA_CMA) || exynos_is_iommu_available(dev))
- 		mem_size = SZ_8M;
-@@ -1193,16 +1192,14 @@ static int s5p_mfc_configure_common_memory(struct s5p_mfc_dev *mfc_dev)
- 	if (mfc_mem_size)
- 		mem_size = memparse(mfc_mem_size, NULL);
- 
--	bitmap_size = BITS_TO_LONGS(mem_size >> PAGE_SHIFT) * sizeof(long);
--
--	mfc_dev->mem_bitmap = kzalloc(bitmap_size, GFP_KERNEL);
-+	mfc_dev->mem_bitmap = bitmap_zalloc(mem_size >> PAGE_SHIFT, GFP_KERNEL);
- 	if (!mfc_dev->mem_bitmap)
- 		return -ENOMEM;
- 
- 	mfc_dev->mem_virt = dma_alloc_coherent(dev, mem_size,
- 					       &mfc_dev->mem_base, GFP_KERNEL);
- 	if (!mfc_dev->mem_virt) {
--		kfree(mfc_dev->mem_bitmap);
-+		bitmap_free(mfc_dev->mem_bitmap);
- 		dev_err(dev, "failed to preallocate %ld MiB for the firmware and context buffers\n",
- 			(mem_size / SZ_1M));
- 		return -ENOMEM;
-@@ -1241,7 +1238,7 @@ static void s5p_mfc_unconfigure_common_memory(struct s5p_mfc_dev *mfc_dev)
- 
- 	dma_free_coherent(dev, mfc_dev->mem_size, mfc_dev->mem_virt,
- 			  mfc_dev->mem_base);
--	kfree(mfc_dev->mem_bitmap);
-+	bitmap_free(mfc_dev->mem_bitmap);
- 	vb2_dma_contig_clear_max_seg_size(dev);
- }
- 
+
+Flora Fu (12):
+  dt-bindings: soc: mediatek: apusys: add mt8192 apu iommu bindings
+  dt-bindings: soc: mediatek: apusys: Add new document for APU power
+  dt-bindings: soc: mediatek: apusys: Add new document for APU tinysys
+  iommu/mediatek: Add APU iommu support
+  soc: mediatek: Add command for APU SMC call
+  soc: mediatek: apu: Add apu core driver
+  soc: mediatek: apu: Add apu power driver
+  soc: mediatek: apu: Add apusys rv driver
+  soc: mediatek: apu: Add middleware driver
+  arm64: dts: mt8192: Add apu power nodes
+  arm64: dts: mt8192: Add apu tinysys
+  arm64: dts: mt8192: Add regulator for APU
+
+Yong Wu (1):
+  arm64: dts: mt8192: Add APU-IOMMU nodes
+
+ .../bindings/iommu/mediatek,iommu.yaml        |   2 +
+ .../soc/mediatek/mediatek,apu-pwr.yaml        |  88 ++
+ .../soc/mediatek/mediatek,apu-rv.yaml         | 140 +++
+ arch/arm64/boot/dts/mediatek/mt8192-evb.dts   |   5 +
+ arch/arm64/boot/dts/mediatek/mt8192.dtsi      | 107 ++
+ drivers/iommu/mtk_iommu.c                     |  57 ++
+ drivers/soc/mediatek/Kconfig                  |  18 +
+ drivers/soc/mediatek/apusys/Makefile          |  22 +
+ drivers/soc/mediatek/apusys/apu-config.h      | 100 ++
+ drivers/soc/mediatek/apusys/apu-core.c        |  97 ++
+ drivers/soc/mediatek/apusys/apu-core.h        |  18 +
+ drivers/soc/mediatek/apusys/apu-device.h      |  39 +
+ drivers/soc/mediatek/apusys/apu-ipi.c         | 486 +++++++++
+ drivers/soc/mediatek/apusys/apu-mbox.c        |  83 ++
+ drivers/soc/mediatek/apusys/apu-mbox.h        |  27 +
+ drivers/soc/mediatek/apusys/apu-pwr-dbg.c     | 167 ++++
+ drivers/soc/mediatek/apusys/apu-pwr-ipi.c     | 377 +++++++
+ drivers/soc/mediatek/apusys/apu-pwr.c         | 599 +++++++++++
+ drivers/soc/mediatek/apusys/apu-pwr.h         | 260 +++++
+ drivers/soc/mediatek/apusys/apu-rproc.c       | 806 +++++++++++++++
+ drivers/soc/mediatek/apusys/apu-sw-logger.c   | 429 ++++++++
+ drivers/soc/mediatek/apusys/apu.h             | 256 +++++
+ drivers/soc/mediatek/apusys/mdw-cmd.c         | 618 ++++++++++++
+ drivers/soc/mediatek/apusys/mdw-drv.c         | 211 ++++
+ drivers/soc/mediatek/apusys/mdw-ioctl.c       | 331 ++++++
+ drivers/soc/mediatek/apusys/mdw-ioctl.h       | 256 +++++
+ drivers/soc/mediatek/apusys/mdw-mem.c         | 938 ++++++++++++++++++
+ drivers/soc/mediatek/apusys/mdw-mem.h         |  23 +
+ drivers/soc/mediatek/apusys/mdw-rv-cmd.c      | 158 +++
+ drivers/soc/mediatek/apusys/mdw-rv-dev.c      | 386 +++++++
+ drivers/soc/mediatek/apusys/mdw-rv-msg.h      |  90 ++
+ drivers/soc/mediatek/apusys/mdw-rv.c          | 131 +++
+ drivers/soc/mediatek/apusys/mdw-rv.h          |  98 ++
+ drivers/soc/mediatek/apusys/mdw-sysfs.c       | 200 ++++
+ drivers/soc/mediatek/apusys/mdw.h             | 208 ++++
+ drivers/soc/mediatek/apusys/mt81xx-plat.c     | 320 ++++++
+ include/dt-bindings/memory/mt8192-larb-port.h |   4 +
+ include/linux/soc/mediatek/mtk_sip_svc.h      |   2 +
+ 38 files changed, 8157 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/soc/mediatek/mediatek,apu-pwr.yaml
+ create mode 100644 Documentation/devicetree/bindings/soc/mediatek/mediatek,apu-rv.yaml
+ create mode 100644 drivers/soc/mediatek/apusys/apu-config.h
+ create mode 100644 drivers/soc/mediatek/apusys/apu-core.c
+ create mode 100644 drivers/soc/mediatek/apusys/apu-core.h
+ create mode 100644 drivers/soc/mediatek/apusys/apu-device.h
+ create mode 100644 drivers/soc/mediatek/apusys/apu-ipi.c
+ create mode 100644 drivers/soc/mediatek/apusys/apu-mbox.c
+ create mode 100644 drivers/soc/mediatek/apusys/apu-mbox.h
+ create mode 100644 drivers/soc/mediatek/apusys/apu-pwr-dbg.c
+ create mode 100644 drivers/soc/mediatek/apusys/apu-pwr-ipi.c
+ create mode 100644 drivers/soc/mediatek/apusys/apu-pwr.c
+ create mode 100644 drivers/soc/mediatek/apusys/apu-pwr.h
+ create mode 100644 drivers/soc/mediatek/apusys/apu-rproc.c
+ create mode 100644 drivers/soc/mediatek/apusys/apu-sw-logger.c
+ create mode 100644 drivers/soc/mediatek/apusys/apu.h
+ create mode 100644 drivers/soc/mediatek/apusys/mdw-cmd.c
+ create mode 100644 drivers/soc/mediatek/apusys/mdw-drv.c
+ create mode 100644 drivers/soc/mediatek/apusys/mdw-ioctl.c
+ create mode 100644 drivers/soc/mediatek/apusys/mdw-ioctl.h
+ create mode 100644 drivers/soc/mediatek/apusys/mdw-mem.c
+ create mode 100644 drivers/soc/mediatek/apusys/mdw-mem.h
+ create mode 100644 drivers/soc/mediatek/apusys/mdw-rv-cmd.c
+ create mode 100644 drivers/soc/mediatek/apusys/mdw-rv-dev.c
+ create mode 100644 drivers/soc/mediatek/apusys/mdw-rv-msg.h
+ create mode 100644 drivers/soc/mediatek/apusys/mdw-rv.c
+ create mode 100644 drivers/soc/mediatek/apusys/mdw-rv.h
+ create mode 100644 drivers/soc/mediatek/apusys/mdw-sysfs.c
+ create mode 100644 drivers/soc/mediatek/apusys/mdw.h
+ create mode 100644 drivers/soc/mediatek/apusys/mt81xx-plat.c
+
 -- 
-2.30.2
+2.18.0
 
