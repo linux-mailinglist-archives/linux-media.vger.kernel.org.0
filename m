@@ -2,112 +2,184 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1EBF3438889
-	for <lists+linux-media@lfdr.de>; Sun, 24 Oct 2021 13:16:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3C1634388CE
+	for <lists+linux-media@lfdr.de>; Sun, 24 Oct 2021 14:16:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231394AbhJXLTH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 24 Oct 2021 07:19:07 -0400
-Received: from sonic305-19.consmr.mail.ir2.yahoo.com ([77.238.177.81]:36091
-        "EHLO sonic305-19.consmr.mail.ir2.yahoo.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S230249AbhJXLTF (ORCPT
+        id S230355AbhJXMS3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 24 Oct 2021 08:18:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57874 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229867AbhJXMS2 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 24 Oct 2021 07:19:05 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=rocketmail.com; s=s2048; t=1635074204; bh=58hNjxmNoVwulI4sHiOijedVlURee+3gaHjRKrISsvo=; h=To:From:Subject:Date:References:From:Subject:Reply-To; b=VLu/zfGOIkTOLvxfWQV+bVV6yWxU1VqCTpL5rsLI36f2S996nlKt14sSFermA8FC02UwiMsaUlR3QgK/cGR3QdpLJRzM3kDE0xBRZ9axNSRZa0xCR0ONIqP0oI+R94cHrE9UUCAcAM98aKXiJjOphp+y9ts/vr1qddyHzruJQ7qgU2yl3f+cD5rvdSccNCp+DitI74mTm+/7b/dQXVGYMFHJf/gzBjbTICSyRGZop3mfsWl57qD4/zeY84oukx8HyVw4ByYyNZcKKXDQom+lLbAh0EKNzqBj4bDO3TShMtgGX+au2KS3CskcP3XFdZLST+YJOp0n47BKF8LfoV88Hw==
-X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1635074204; bh=ck3PyTeOJlApoghgNw89fH2jJPMcDZFuqfYuOx4Gugj=; h=X-Sonic-MF:To:From:Subject:Date:From:Subject; b=PJvaqrAH5S+YmfugBRu7SYNkwE+6v2sNELrm+zz9HpYcxdm05pRbl26A9dpWbY6EI2tkjkP/4203+mIACPKkS9eJsvmiVKGv7OM+FJHZaWiJazFyq2w9Jzr6BvdgL5cvgIpTYe6rRCnWzLMtbuuLeR3VNxcp1Azgavb9bnQkzBwcTaz+74hyT8DMoj99kKpjai8z5rjbvqC0UqKjrx/5dM5+QkXyIJXHXohvWd+aeMbpfqiQdt60X+mnHMM4dD3ylKRj3hjfyOjLbk2ekwnfshoG+wdSEr9xZChz9V3QQeP/kn27RwkfWnJsHOUlYAmpe98xHFuGNm7NAxaRUJZUfQ==
-X-YMail-OSG: MU1IEtkVM1m6KGzHCx8UqtERMAUVM5eLUygpnB2JSnmpB258xrt_3XacyIdrMd6
- tPD9IOKM5BngYeqzOfBvAlhm1OZde19wkSdSVYRLxC1EzN_qGvbcCD_xkGlm1a.NK_AHoboTIUA5
- INZuP7AgwOuoo8zCKHyXN46CHpKDle9uCDQ0_Twgmp5FzSwkCHnHCfEltviOgSiurPr3ZS55sIM.
- eNBll2CipAfzsA.ahRQxk8ZEz1NdJuI8KXq6MwmZkTwb_Kcm.W.CuhkIMnWPHo8t4BnipGyrFKVc
- liLuO3m4_Py20dh0mjKp97aR8idrw8HelTNIqrf1mQNbE.JPtrvZ54FO0T3V9IRMohYRJX9g_40k
- mUjUOPkijTYwxfBz7x.L0EMTtn19iF04CIHk2AY8IWNN2HFPTkpuY6bXk5nZotpl9HkuttnObtNL
- i3HhMDW9R.W9kACHY7VFAFVxz8zqADhCqJ0hWyYYv8x..y3OQ3ipMq2cYHhtgTEAfBWLsb01V740
- xkvmURlOQ5fLtKCI_g_EE8oNHMkKDzrdqsIqKUHyJwf3zpUXcZzDdI1xB5BTnNph.bdlOs44X6Tq
- ZWWNk_ywcNrO0G86PVV_Yp192MoqBIVnhzIt59SnHbRqt30HTKmpfmqgFKaD6Xm3K2zWGY02eWiu
- S3.V8bRsQbD7a6ZUrcN2sTSY2.JZdtbJ8U1K.YKj53YY3j.kaxV3zSEEmXA8iMoNV4r1LS7Eqego
- Z3KX8zuQzLmiBwI0mZvL86tRafsqA_IYemeugsK9Pg3Iy4htgvF2b4hCXhQukDpGw53sMRk03k6x
- jrIf5cdkA8VAqifukr8ArlMBbGl.B6xU0JPpytKvljcYb7Oek7Fo8YJAEPPFpzBIxOtLdLzWosxx
- zOMUObvb3QIaBKTRanahMSbIPj7K5a33UlO3EeMH1CYav5XC9.f2Fcs1HJdeu2Nc2TZ_4XnVmHyf
- W00do1r9vNrdJJ2NDOxQUd3U.njwU6hlpznZF8C4hmyost0M.FG__yGxumNGyAwWHNOCZBL7Nqdf
- RSp7u5YiCD.CclVRO94V22rFI_WWM7pGUKMDIae0yDFt5TrkpwSDEBHrEwtHBYutzm9XJyvUL2MG
- W.1JTR.KqQOQ6TgwHqidh40Bert5MNXJSHj82szgN8eoW1Y1fbDKw19KfYX0fpKOSic7aM5vYjE7
- bkoM1rv3TujprQZ_I4xRBPBeAik8BO3OssRwAS8nc8gS.y5E23Nk1fmJWQ9s9JRHFP9d4QuNOVnH
- 2LPph6BAYMM7oH1GgP.l6kU4ocHGzv5EyI4omNkFthH3D6SqflMnWcYc1YsURc3wxksLhgre6fMn
- KBDlJYojm46u6Eru6WUpvY4yX4LxziGtUkYM5_2PnDnz0fz8iwt5Lt3ZTQKsFMZBX0JOlavyOLzp
- CM0UMVJNng5ST2tAi5cAb80SgK7ySf_AltnsDazdSQ3Bj_p7Dmnwal5rOaf96Oi7jO6yLxjSnnjz
- 7d6ngEU3UvO7TgEdL2M_fcdu.aQ0BYU1Lh5n7XUjlciwqZdDrzCkn1yBcQAMNgiwAY0PADie8Ngn
- _Jenay8XLiZF011Wy0dIOC09tePF.1YWkQVh_Hyvd76jjlntisXtW6jfR.4MMdknLa4dooOZDa8R
- K5xL0uJ2myeVb.KI83fZJxs1KwbCUO15B_NSaRxF0SjKyQurQR7nViq6kXvb.S0RMih34QNgiQZs
- BsdZ0KkP7mAwd442IheWK4Yq011cb7336ucq00GDGlyZp8hjvW9KYZf_lhhpOvVImdz.RFJubegN
- IYQvRWLJe_5.s3Qv91W2ayz9R7h0eBKFZhb5pp_zNj3AcUhI4kZAcNhDxDGumnQfMerJHX3VSAjK
- 9_37qSK2CyVigIjgYwnMOmykgU5feos77T2mNuGANA3j6dNZCvG_VjtxuiigibmgrMUnVhytv4wM
- gegI35hm0D30rvERnQUuvIB8lftez6Bu7KuqMJdSHFUnc51ysK1PpbcN4KRi0cuF825NxUSAJSRj
- QwTh5s4hX8sX9gQlYrwhPD8GQnHJAiDWWKveWKckeH1FM5w.wrg3ZRLiPMZXIAopWY3POmOivtkz
- zDUMSOZiv1yd0Goz5DBzKDBBhPjBsdw17j8IiFaUY7sKdiuR06Wazz14t1A2YeTucr16kH.nvERT
- 799OPZhuw0KzDeIvaZqc36mUY9H1g6_TRC93L10HMn3wP0i4CcoLqrZyxL.ZyQ.vOilXmalMSEOD
- RqowEFLQXFeKiKR965r0u6H8RPPY2krsL5t0vvXJXKwK0QW0XapkommwC8aJbpqSYJ6cZPDOupiC
- _053rLA9Bnp4FgvfUv57gDDuT
-X-Sonic-MF: <kochnorman@rocketmail.com>
-Received: from sonic.gate.mail.ne1.yahoo.com by sonic305.consmr.mail.ir2.yahoo.com with HTTP; Sun, 24 Oct 2021 11:16:44 +0000
-Received: by kubenode521.mail-prod1.omega.ir2.yahoo.com (VZM Hermes SMTP Server) with ESMTPA ID 282bb951de3baf8022c0c4e50b533944;
-          Sun, 24 Oct 2021 11:16:39 +0000 (UTC)
-To:     linux-media@vger.kernel.org
-From:   Norman Koch <kochnorman@rocketmail.com>
-Subject: Problem with NFS when unplugging laptop from docking station
-Message-ID: <cf7d0c4c-e8b4-2611-8dfe-58fe6d74a813@rocketmail.com>
-Date:   Sun, 24 Oct 2021 13:16:38 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+        Sun, 24 Oct 2021 08:18:28 -0400
+Received: from mail-ua1-x933.google.com (mail-ua1-x933.google.com [IPv6:2607:f8b0:4864:20::933])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DFC00C061764;
+        Sun, 24 Oct 2021 05:16:07 -0700 (PDT)
+Received: by mail-ua1-x933.google.com with SMTP id o26so2713223uab.5;
+        Sun, 24 Oct 2021 05:16:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=FofuzBqLkd+T2rtEHLFNj2gffZMOmW0ei7V/aClPYto=;
+        b=bT/fmGgzF7gCQYUPGrIXzPx6RVnnJTYOUTe1x/Q/sUVw6bUjD3IipzvcgCo9+Yka05
+         l7/wqIF/aJkK/NRRFSqvIq5XfbaMRkDhbN1ChkHuif6vuHN1Ul+dre3bMaBpDqOQ5kNu
+         WblR469cmG3OrtCzuhBQ5ApbfjpvNOFxGqc/D03Tcojg9njvp3dGIOouNFjO00Jv+sWp
+         Bfg0dtNm/DD8k7D5OeyGgE4vQMQNa6cHzveNZngEFypcqY6/CxeUV4h/rvGzefYoAznz
+         BofMWD0SaS07tYi+NFKHHHXUnUGEglyPO8RrShm9OtgSfOr8PhvYsbyzcCc0Shbu4eEO
+         Su9A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=FofuzBqLkd+T2rtEHLFNj2gffZMOmW0ei7V/aClPYto=;
+        b=Ywy80NSWgsavnIMFS9vAlY8Y4sbHoRFIWKGinHh6xpSpOCt4IBvotpTi3iMfvADOCJ
+         Y0atcNAoKz9MzsJ7/Bam4+hH3eMAgVMiMGzhSQlWDsuzqEmFrM2cvtEv/JgXGRTdtwog
+         BrL7TVRgFWLG6PXqImRg+BsTh/QZQ9C3l61rgZaguQsFb/VKkc+OoXrMirKLUln2FuWM
+         hnfkmDAvoPhQGrHiZSzvasxhS7FjIWU8WbRzuJww/QRmZiD9z+Z37AKoP+JDG8+tjy15
+         0ThSa/VeO48ezB4YeHC0ZeKEEISMl92srlqEVrczfDAucwhXuE4uYmnVcSRu+S2Bg265
+         aEsQ==
+X-Gm-Message-State: AOAM531edcMbqtGs1iDE8iH933gwg7+Ca0Bsk/nbC0pXmSnzunHwbv6L
+        kQFASwkzYpAKdYXM0N3SV/9Eds/nDzkaQrr/woM=
+X-Google-Smtp-Source: ABdhPJwUKJCH/L2H4gU/gJAcL3L40AVxczebvSVd9hfAB9YXnSnSIYwzs1SpFOqHxNzXLJKiQcxOf1jEx9WaIo31olw=
+X-Received: by 2002:a05:6102:374e:: with SMTP id u14mr10331762vst.47.1635077766411;
+ Sun, 24 Oct 2021 05:16:06 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Content-Language: de-DE
-References: <cf7d0c4c-e8b4-2611-8dfe-58fe6d74a813.ref@rocketmail.com>
-X-Mailer: WebService/1.1.19198 mail.backend.jedi.jws.acl:role.jedi.acl.token.atz.jws.hermes.yahoo
+References: <20211023203457.1217821-1-aford173@gmail.com>
+In-Reply-To: <20211023203457.1217821-1-aford173@gmail.com>
+From:   Fabio Estevam <festevam@gmail.com>
+Date:   Sun, 24 Oct 2021 09:15:55 -0300
+Message-ID: <CAOMZO5BwPTWBhqzHgbzbC_UyzOX7LMGxX83H0FaJ-05ddOpqYQ@mail.gmail.com>
+Subject: Re: [RFC V2 0/5] arm64: dts: imx8mm: Enable CSI and OV5640 Camera
+To:     Adam Ford <aford173@gmail.com>
+Cc:     "moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE" 
+        <linux-arm-kernel@lists.infradead.org>,
+        linux-media <linux-media@vger.kernel.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        cstevens@beaconembedded.com,
+        Adam Ford-BE <aford@beaconembedded.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        Schrempf Frieder <frieder.schrempf@kontron.de>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hello,
+Hi Adam,
 
-I'm not sure if I'm correct to ask this here, sorry if it's not.
+[Adding Frieder on Cc]
 
-I use Debian 11 with 5.10.0-8-amd64 #1 SMP Debian 5.10.46-4 (2021-08-03)
-x86_64 GNU/Linux as Kernel on a ThinkPad T440. I also have a network
-attached storage device which I access over nfs. I load it via
+On Sat, Oct 23, 2021 at 5:35 PM Adam Ford <aford173@gmail.com> wrote:
+>
+> The imx8mm appears to have both a CSI bridge and mipi-csi-2 drivers.  With
+> those enabled, both the imx8mm-evk and imx8mm-beacon boards should be able
+> use an OV5640 camera.
+>
+> The mipi-csi2 driver sets the clock frequency to 333MHz, so the clock parent
+> of the CSI1 must be reparented to a faster clock.  On the custom NXP kernel,
+> they use IMX8MM_SYS_PLL2_1000M, so that is done in the device tree to match.
+>
+> With the CSI and mipi_csi2 drivers pointing to an OV5640 camera, the media
+> pipeline can be configured with the following:
+>
+>     media-ctl --links "'ov5640 1-003c':0->'imx7-mipi-csis.0':0[1]"
+>
+> The camera and various nodes in the pipeline can be configured for UYVY:
+>     media-ctl -v -V "'ov5640 1-003c':0 [fmt:UYVY8_1X16/640x480 field:none]"
+>     media-ctl -v -V "'csi':0 [fmt:UYVY8_1X16/640x480 field:none]"
+>
+> With that, the media pipeline looks like:
+>
+>
+> Media controller API version 5.15.0
+>
+> Media device information
+> ------------------------
+> driver          imx7-csi
+> model           imx-media
+> serial
+> bus info        platform:32e20000.csi
+> hw revision     0x0
+> driver version  5.15.0
+>
+> Device topology
+> - entity 1: csi (2 pads, 2 links)
+>             type V4L2 subdev subtype Unknown flags 0
+>             device node name /dev/v4l-subdev0
+>         pad0: Sink
+>                 [fmt:UYVY8_1X16/640x480 field:none colorspace:srgb xfer:srgb ycbcr:601 quantization:lim-range]
+>                 <- "imx7-mipi-csis.0":1 [ENABLED,IMMUTABLE]
+>         pad1: Source
+>                 [fmt:UYVY8_1X16/640x480 field:none colorspace:srgb xfer:srgb ycbcr:601 quantization:lim-range]
+>                 -> "csi capture":0 [ENABLED,IMMUTABLE]
+>
+> - entity 4: csi capture (1 pad, 1 link)
+>             type Node subtype V4L flags 0
+>             device node name /dev/video0
+>         pad0: Sink
+>                 <- "csi":1 [ENABLED,IMMUTABLE]
+>
+> - entity 10: imx7-mipi-csis.0 (2 pads, 2 links)
+>              type V4L2 subdev subtype Unknown flags 0
+>              device node name /dev/v4l-subdev1
+>         pad0: Sink
+>                 [fmt:UYVY8_1X16/640x480 field:none colorspace:smpte170m xfer:709 ycbcr:601 quantization:lim-range]
+>                 <- "ov5640 1-003c":0 [ENABLED]
+>         pad1: Source
+>                 [fmt:UYVY8_1X16/640x480 field:none colorspace:smpte170m xfer:709 ycbcr:601 quantization:lim-range]
+>                 -> "csi":0 [ENABLED,IMMUTABLE]
+>
+> - entity 15: ov5640 1-003c (1 pad, 1 link)
+>              type V4L2 subdev subtype Sensor flags 0
+>              device node name /dev/v4l-subdev2
+>         pad0: Source
+>                 [fmt:UYVY8_1X16/640x480@1/30 field:none colorspace:srgb xfer:srgb ycbcr:601 quantization:full-range]
+>                 -> "imx7-mipi-csis.0":0 [ENABLED]
+>
+> When configured, gstreamer can be used to capture 1 frame and store it to a file.
+>
+> gst-launch-1.0 -v v4l2src num-buffers=1 ! video/x-raw,format=UYVY,width=640,height=480,framerate=60/1 ! filesink location=test
+>
+> Unfortunately, the video capture never appears to happen.  No errors occur, not
+> interrupts are recorded and no errors are recorded.
+>
+> gst-launch-1.0 -v v4l2src num-buffers=1 ! video/x-raw,format=UYVY,width=640,height=480,framerate=60/1 ! filesink location=test
+> Setting pipeline to PAUSED ...
+> Pipeline is live and does not need PREROLL ...
+> Pipeline is PREROLLED ...
+> Setting pipeline to [  114.819632] v4l2_get_link_freq: Link frequency estimated using pixel rate: result might be inaccurate
+> PLAYING ...
+> New clock: GstSystem[  114.829203] v4l2_get_link_freq: Consider implementing support for V4L2_CID_LINK_FREQ in the transmitter driver
+> Clock
+> /GstPipeline:pipeline0/GstV4l2Src:v4l2src0.GstPad:src: caps = video/x-raw, format=(string)UYVY, width=(int)640, height=(int)480, framerate=(fraction)60/1, interlace-mode=(string)progressive, colorimetry=(string)bt709
+> /GstPipeline:pipeline0/GstCapsFilter:capsfilter0.GstPad:src: caps = video/x-raw, format=(string)UYVY, width=(int)640, height=(int)480, framerate=(fraction)60/1, interlace-mode=(string)progressive, colorimetry=(string)bt709
+> /GstPipeline:pipeline0/GstFileSink:filesink0.GstPad:sink: caps = video/x-raw, format=(string)UYVY, width=(int)640, height=(int)480, framerate=(fraction)60/1, interlace-mode=(string)progressive, colorimetry=(string)bt709
+> /GstPipeline:pipeline0/GstCapsFilter:capsfilter0.GstPad:sink: caps = video/x-raw, format=(string)UYVY, width=(int)640, height=(int)480, framerate=(fraction)60/1, interlace-mode=(string)progressive, colorimetry=(string)bt709
+>
+>
+> If anyone has any insight as to what might be wrong, I'd like feedback.
+> I posted a device tree that I beleive goes with the newer imx8mm-evk, but
+> I do not have this hardware, so I cannot test it.
 
-//192.168.0.103/fileserver /home/norman/fileserver cifs
-auto,rw,rsize=3D32768,wsize=3D32768,uid=3D1000,gid=3D1000,defaults,iochar=
-set=3Dutf8,username=3D<HERECOMESMYUSERNAME>,password=3D<HERECOMESMYPASSWO=
-RD>,vers=3D1.0
-0 0
+It seems that Frieder on Cc managed to get camera capture to work on
+i.MX8MM here:
+https://git.kontron-electronics.de/sw/misc/linux/-/commits/v5.10-mx8mm-csi
 
-in my fstab. It all works fine if I start using it while I am at my
-docking station (with LAN-cable to my router and IP 192.168.0.109), but
-it fails to access (and even re-mount and umount, when not using umount
--a -t cifs -l) on wifi (having 192.168.0.102 there). But when I umount
-before unplugging, and then unplug and re-mout, it works just fine.
+Hopefully, this can help to figure out what is missing in mainline to
+get camera capture to work on i.MX8M.
 
-When I am in the situations that it doesn't work, all windows keep stuck
-and I cannot interact with them anymore, if have anything at all to do
-with my NAS (even ls ~, because it's mounted in ~).
+I don't have access to an OV5640 camera to connect to the imx8mm-evk
+board to try your series.
 
-I am not a kernel programmer, so I cannot look into the source code to
-tell why this happens, but I can speculate. I believe the NFS-driver is
-somehow linked to the interface it was first connected on. So that, if
-you connect on enp0s25 first, then plug it out, and try to access the
-same host (the NAS) when enp0s25 is down, it fails to do something, and
-there seems to be no timeout set by default that prevents the system
-from crashing. So in short: use the IP so long as it works, but if it
-doesn't, use the MAC-address to arp-scan the network, maybe you're on a
-different port now.
+Regards,
 
-Is this reasonable?
-
-If this is the wrong mailing list, I'm very sorry. I'd like to be
-corrected on where to send this to be dealt this properly.
-
-Thanks,
-
-Norman
-
-
+Fabio Estevam
