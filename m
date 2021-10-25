@@ -2,126 +2,169 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C0060439448
-	for <lists+linux-media@lfdr.de>; Mon, 25 Oct 2021 12:55:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BD1CA439473
+	for <lists+linux-media@lfdr.de>; Mon, 25 Oct 2021 13:05:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232410AbhJYK6E (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 25 Oct 2021 06:58:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47096 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231422AbhJYK6D (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Mon, 25 Oct 2021 06:58:03 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D4EC3C061767
-        for <linux-media@vger.kernel.org>; Mon, 25 Oct 2021 03:55:41 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 155EEE0A;
-        Mon, 25 Oct 2021 12:55:40 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1635159340;
-        bh=UEq5GMgPT9eOgGtAvT5Rv+DD9SmBX91Gm41MrfhkshQ=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=T7bfBgGwQy0VZuL81x8ApUnLMA3AuVuS8FvADuYKYkN+pjZVN/vFYutbH+31BOAp3
-         o7vfkEl/ljb9FtLgzTTGT5ZlgQ/TO7yrLDMtQ1OZeRKmiJMa9jb/7etRd2/hMCUeXf
-         kbq1B50BD8Dege6XB5IVNfYEyiq2zI0g+iEpHvVs=
-Date:   Mon, 25 Oct 2021 13:55:18 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Hans Verkuil <hverkuil@xs4all.nl>
-Cc:     Hans de Goede <hdegoede@redhat.com>,
-        Dan Scally <djrscally@gmail.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Kate Hsuan <hpa@redhat.com>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        libcamera-devel@lists.libcamera.org
-Subject: Re: Userspace API for controlling the focus of the Surface Go [2]
- main/back-camera
-Message-ID: <YXaNFulQvs/P0iXC@pendragon.ideasonboard.com>
-References: <c7c94544-8af4-ad29-04ef-6131774e68b8@redhat.com>
- <YXaHMd3czQy0NKJn@pendragon.ideasonboard.com>
- <30ad631c-6c6e-6c1a-7b0a-d50d70a169d2@xs4all.nl>
+        id S232745AbhJYLHz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 25 Oct 2021 07:07:55 -0400
+Received: from mga02.intel.com ([134.134.136.20]:51333 "EHLO mga02.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S232525AbhJYLHy (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Mon, 25 Oct 2021 07:07:54 -0400
+X-IronPort-AV: E=McAfee;i="6200,9189,10147"; a="216793262"
+X-IronPort-AV: E=Sophos;i="5.87,180,1631602800"; 
+   d="scan'208";a="216793262"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Oct 2021 04:05:31 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.87,180,1631602800"; 
+   d="scan'208";a="664019365"
+Received: from ipu5-build.bj.intel.com (HELO [10.238.232.188]) ([10.238.232.188])
+  by orsmga005.jf.intel.com with ESMTP; 25 Oct 2021 04:05:27 -0700
+Subject: Re: [PATCH 3/6] Documentation: ACPI: Document _DSC object usage for
+ enum power state
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>,
+        linux-i2c@vger.kernel.org
+Cc:     Wolfram Sang <wsa@the-dreams.de>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        linux-acpi@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        rajmohan.mani@intel.com, Tomasz Figa <tfiga@chromium.org>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+        Bingbu Cao <bingbu.cao@intel.com>,
+        Chiranjeevi Rapolu <chiranjeevi.rapolu@intel.com>,
+        Hyungwoo Yang <hyungwoo.yang@intel.com>,
+        linux-media@vger.kernel.org
+References: <20211018121729.6357-1-sakari.ailus@linux.intel.com>
+ <20211018121729.6357-4-sakari.ailus@linux.intel.com>
+From:   Bingbu Cao <bingbu.cao@linux.intel.com>
+Message-ID: <4da84e63-0e3d-155f-f3db-5d3a9efe3aa7@linux.intel.com>
+Date:   Mon, 25 Oct 2021 19:01:41 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <30ad631c-6c6e-6c1a-7b0a-d50d70a169d2@xs4all.nl>
+In-Reply-To: <20211018121729.6357-4-sakari.ailus@linux.intel.com>
+Content-Type: text/plain; charset=windows-1252
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Hans,
+Sakari,
 
-On Mon, Oct 25, 2021 at 12:47:05PM +0200, Hans Verkuil wrote:
-> On 25/10/2021 12:30, Laurent Pinchart wrote:
-> > On Mon, Oct 25, 2021 at 12:06:30PM +0200, Hans de Goede wrote:
-> >> Hi All,
-> >>
-> >> With my (and Dan's) kernel patch-series to enable the back camera on
-> >> the Surface Go shaping up (and hopefully going upstream soon),
-> >> the next step is to enable control of the focus lens for the back
-> >> camera.
-> >>
-> >> The focus is controlled through a separate i2c-client which is
-> >> described by a 2nd I2cSerialBusV2 resource entry in the ACPI
-> >> device for the ov8865 sensor. By default the kernel only instantiates
-> >> an i2c-client for the first I2cSerialBusV2 resource entry for an
-> >> ACPI device, getting an i2c-client for the 2nd one is easy and
-> >> out of scope for this discussion.
-> >>
-> >> The question which I have is, assuming we have the 2nd i2c-client
-> >> instantiated and we have a i2c-driver binding to it, how do we
-> >> represent the focus control to userspace.
-> >>
-> >> I see 2 possible directions we can go here:
-> >>
-> >> 1. Somehow inject an extra v4l2ctrl for this into the v4l2ctrl
-> >> list of the sensor. AFAIK we don't have infra for this atm, but
-> >> we could add some generic mechanism to do this to the v4l2-ctrls
-> >> core. IMHO from a userspace pov this is the cleanest, but at the
-> >> cost of some extra work / possible ugliness on the kernel side.
-> >>
-> >> 2. Register a separate v4l2_subdev for the focus-ctrl and in
-> >> some way provide information to userspace to which sensor this
-> >> belongs.
-> > 
-> > The second approach is what V4L2 does already. We have a set of drivers
-> > for VCMs already (search for V4L2_CID_FOCUS_ABSOLUTE in
-> > drivers/media/i2c/).
-> > 
-> >> I believe that both are valid approaches. So before diving into
-> >> this I wonder what others are thinking about this.
-> >>
-> >> Specific questions:
-> >>
-> >> 1. Hans Verkuil, what do you think about adding
-> >> support for another driver to inject ctrls into the ctrl
-> >> list of another v4l2(sub)dev ? Maybe something like this
-> >> already exists ? If not do you think this is feasible
-> >> and desirable to add ?
-> >>
-> >> 2. If we go with a separate v4l2_subdev, how do we communicate
-> >> to which sensor the focus-control belongs to userspace ?
-> > 
-> > The information was initially envisioned to be conveyed to userspace
-> > through the media controller API, using the entity group ID to group the
-> > camera sensor, lens controller and flash controller, but the
-> > media_entity_desc.group_id field is now obsolete. No other mechanism
-> > exist to replace that as far as I know, so we'll have to create
-> > something. There have been some talks about using a special kind of link
-> > to expose the relationship between the camera sensor and other
-> > components.
+On 10/18/21 8:17 PM, Sakari Ailus wrote:
+> Document the use of the _DSC object for setting desirable power state
+> during probe.
 > 
-> I thought this was implemented: there should be an interface link from the
-> sensor entity to the subdev for the flash or focus control.
+> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> Reviewed-by: Tomasz Figa <tfiga@chromium.org>
+> ---
+>  Documentation/firmware-guide/acpi/index.rst   |  1 +
+>  .../firmware-guide/acpi/non-d0-probe.rst      | 78 +++++++++++++++++++
+>  2 files changed, 79 insertions(+)
+>  create mode 100644 Documentation/firmware-guide/acpi/non-d0-probe.rst
+> 
+> diff --git a/Documentation/firmware-guide/acpi/index.rst b/Documentation/firmware-guide/acpi/index.rst
+> index a99ee402b212b..b053b0c3d6969 100644
+> --- a/Documentation/firmware-guide/acpi/index.rst
+> +++ b/Documentation/firmware-guide/acpi/index.rst
+> @@ -26,5 +26,6 @@ ACPI Support
+>     acpi-lid
+>     lpit
+>     video_extension
+> +   non-d0-probe
+>     extcon-intel-int3496
+>     intel-pmc-mux
+> diff --git a/Documentation/firmware-guide/acpi/non-d0-probe.rst b/Documentation/firmware-guide/acpi/non-d0-probe.rst
+> new file mode 100644
+> index 0000000000000..78781e1ab6a3d
+> --- /dev/null
+> +++ b/Documentation/firmware-guide/acpi/non-d0-probe.rst
+> @@ -0,0 +1,78 @@
+> +.. SPDX-License-Identifier: GPL-2.0
+> +
+> +========================================
+> +Probing devices in other D states than 0
+> +========================================
+> +
+> +Introduction
+> +============
+> +
+> +In some cases it may be preferred to leave certain devices powered off for the
+> +entire system bootup if powering on these devices has adverse side effects,
+> +beyond just powering on the said device.
+> +
+> +How it works
+> +============
+> +
+> +The _DSC (Device State for Configuration) object that evaluates to an integer
+> +may be used to tell Linux the highest allowed D state for a device during
+> +probe. The support for _DSC requires support from the kernel bus type if the
+> +bus driver normally sets the device in D0 state for probe.
+> +
+> +The downside of using _DSC is that as the device is not powered on, even if
+> +there's a problem with the device, the driver likely probes just fine but the
+> +first user will find out the device doesn't work, instead of a failure at probe
+> +time. This feature should thus be used sparingly.
+> +
+> +I²C
+> +---
+> +
+> +If an I²C driver indicates its support for this by setting the
+> +I2C_DRV_ACPI_WAIVE_D0_PROBE flag in struct i2c_driver.flags field and the
+> +_DSC object evaluates to integer higher than the D state of the device,
+> +the device will not be powered on (put in D0 state) for probe.
+> +
+> +D states
+> +--------
+> +
+> +The D states and thus also the allowed values for _DSC are listed below. Refer
+> +to [1] for more information on device power states.
+> +
+> +.. code-block:: text
+> +
+> +	Number	State	Description
+> +	0	D0	Device fully powered on
+> +	1	D1
+> +	2	D2
+> +	3	D3hot
+> +	4	D3cold	Off
+> +
+> +References
+> +==========
+> +
+> +[1] https://uefi.org/specifications/ACPI/6.4/02_Definition_of_Terms/Definition_of_Terms.html#device-power-state-definitions
+> +
+> +Example
+> +=======
+> +
+> +An ASL example describing an ACPI device using _DSC object to tell Operating
+> +System the device should remain powered off during probe looks like this. Some
+> +objects not relevant from the example point of view have been omitted.
+> +
+> +.. code-block:: text
+> +
+> +	Device (CAM0)
+> +        {
+> +		Name (_HID, "SONY319A")
+> +		Name (_UID, Zero)
+> +		Name (_CRS, ResourceTemplate ()
+> +		{
+> +			I2cSerialBus(0x0020, ControllerInitiated, 0x00061A80,
+> +				     AddressingMode7Bit, "\\_SB.PCI0.I2C0",
+> +				     0x00, ResourceConsumer)
+> +		})
+> +		Name (_DSC, 0, NotSerialized)
+> +		{
+> +			Return (0x4)
+> +                }
+One question here:
+Is the value of _DSC object evaluated from 'Method' or 'Name' ?
 
-Interface links are only meant to link entities to interfaces, not
-entities to entities. media_create_intf_link() is only called for that
-purpose today.
-
-> To my knowledge, this is all available.
-
-To my knowledge, it isn't :-) I'd be happy to be proven wrong though.
+> +	}
+> 
 
 -- 
-Regards,
-
-Laurent Pinchart
+Best regards,
+Bingbu Cao
