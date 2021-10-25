@@ -2,123 +2,114 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 815DB43968F
-	for <lists+linux-media@lfdr.de>; Mon, 25 Oct 2021 14:45:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7235F4397A2
+	for <lists+linux-media@lfdr.de>; Mon, 25 Oct 2021 15:33:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233306AbhJYMrc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 25 Oct 2021 08:47:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44186 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233254AbhJYMra (ORCPT
+        id S230344AbhJYNgN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 25 Oct 2021 09:36:13 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:46762 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232514AbhJYNgM (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 25 Oct 2021 08:47:30 -0400
-Received: from lb2-smtp-cloud7.xs4all.net (lb2-smtp-cloud7.xs4all.net [IPv6:2001:888:0:108::2a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EE9D7C061745;
-        Mon, 25 Oct 2021 05:45:07 -0700 (PDT)
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud7.xs4all.net with ESMTPA
-        id ezLamN9JyUo2HezLbmIfLC; Mon, 25 Oct 2021 14:45:03 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1635165903; bh=MIrPmlZMXbntaIfNzNiL+53Ms2d0qAt5qT61zPsRcbQ=;
-        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=m+LHcJME2HJ9EGk9IY8grmg1yD4Ju2weXMHpTdctYcDZ1f3MIo8GHOYiT9xJuM20z
-         PGrgbqcIvJ1DmiN8w5eNx+gMw91DBp6MV6Ucjx+sAxdP/bKcAoRWHLoSAHeMvXCu92
-         cTVk4gumwFPGp+LzJxVZqPz++WMsNK2xRhnCfOl1NLlihSCI55nj0UZPPA4XqGEdZV
-         BMOQnyUq1DhLZMCvK3hdB2D+/ioyZ05F58mjr+4WM2IkMMsUSSPUqMtu12vArOiIwl
-         2AFCXK/tkY7TiKyJYEjZesB+hH0drxjYZc3RPxUTdT1tq9UBkS7IgRSARxNBhOhi1+
-         bMqRvvK/XbmsA==
-Subject: Re: [PATCH v2 00/10] staging: media: zoran: fusion in one module
-To:     Corentin Labbe <clabbe@baylibre.com>, mchehab@kernel.org,
-        gregkh@linuxfoundation.org
-Cc:     linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-staging@lists.linux.dev, mjpeg-users@lists.sourceforge.net
-References: <20211013185812.590931-1-clabbe@baylibre.com>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <da925d73-fdf0-3962-3841-a1dd53b5c5dd@xs4all.nl>
-Date:   Mon, 25 Oct 2021 14:45:02 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+        Mon, 25 Oct 2021 09:36:12 -0400
+Received: from pendragon.ideasonboard.com (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 68EE9E0A;
+        Mon, 25 Oct 2021 15:33:49 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1635168829;
+        bh=QB60RLer42RaRmmfdGHG1smpau9MFiLMb5LnfGBDlp8=;
+        h=In-Reply-To:References:Subject:From:To:Date:From;
+        b=UL7oNVKUVg0UWdpr8QlQBiu4saBeMmcVW2NPKUhHafdFDwQ9fUn5/shK4dbHL4Pkg
+         KbVpYTfRSlnAnaVGB5+s8yi4DtvJa3eLhKUnSbjGN3B+Rmx0fq63Rw2y2qX6KPNGd9
+         W7W1CTKbWEzALDjbflWrtp6a2DQ/Py+OOXpeOqgQ=
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-In-Reply-To: <20211013185812.590931-1-clabbe@baylibre.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4xfG4yLNWqnYNBP9/1n40nSetLdb+rU3jaz1ZDe2tK5Z8747Kg5+iSFSKeNp69iojMjYf8Q/XAlZFW9QUFkOnWaqd2etvO+PbYJnYieGVwd8wTN8u2qkYx
- mE7RyI7qYfdNTklpdzSqQu8kVhzm9pouB45Zri1vUBhJHecpHSxod+pWetwy/s8ZuFk73+mIGFNNs8aX+Eb+0Qirm5iRU9oZsmjFzCoyLr+3qn9W95FEvtSr
- pMPKYMFwnJj0Blv2b+B/xZ50TH1ePxcwO2yY39MAjBK/xNC33xO2P0JJEHc5PwMGCNjzWI5kbwvZFL5QkrTJEzodM5Ihi1hpSTairWzdb0VDLxo2e72IXCr8
- 33mE1IkGRoqlTjgeBbF/k6thPWfylWpHm+Pzhomptk0dbV/zSkVPue7AKq5wLzlzk1zwyW0HMQP8FfKV1WboMs4UJjYWKte/TcDXUH8ck1FO55j21dOZYCOx
- wRrmcoxHlCgNsJyVrltcdi+Hdq35o9Ud8N6IjdvzC5Hw7beS97rfl24OqXw=
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <cf7d0c4c-e8b4-2611-8dfe-58fe6d74a813@rocketmail.com>
+References: <cf7d0c4c-e8b4-2611-8dfe-58fe6d74a813.ref@rocketmail.com> <cf7d0c4c-e8b4-2611-8dfe-58fe6d74a813@rocketmail.com>
+Subject: Re: Problem with NFS when unplugging laptop from docking station
+From:   Kieran Bingham <kieran.bingham@ideasonboard.com>
+To:     Norman Koch <kochnorman@rocketmail.com>,
+        linux-media@vger.kernel.org
+Date:   Mon, 25 Oct 2021 14:33:46 +0100
+Message-ID: <163516882696.905629.2979605611158192768@Monstersaurus>
+User-Agent: alot/0.9.1
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Corentin,
+Hi Norman,
 
-On 13/10/2021 20:58, Corentin Labbe wrote:
-> Hello
-> 
-> The main change of this serie is to fusion all zoran related modules in
-> one.
-> This fixes the load order problem when everything is built-in.
-> 
-> Regards
-> 
-> Changes since v1:
-> - add missing debugfs cleaning
-> - clean some remaining module_get/put functions which made impossible to
->   remove the zoran module
-> - added the two latest patchs
+Quoting Norman Koch (2021-10-24 12:16:38)
+> Hello,
+>=20
+> I'm not sure if I'm correct to ask this here, sorry if it's not.
 
-Something weird is wrong with this series. I have a DC30, but loading this with:
+I'm afraid that I don't think this is the right place to ask your
+questions, and so I'm not sure you'll get much specific help from the
+linux-media subsystem on this. It's quite unrelated.
 
-modprobe zr36067 card=3
+> I use Debian 11 with 5.10.0-8-amd64 #1 SMP Debian 5.10.46-4 (2021-08-03)
+> x86_64 GNU/Linux as Kernel on a ThinkPad T440. I also have a network
+> attached storage device which I access over nfs. I load it via
 
-results in this error message in the kernel log:
+Having mentioned that you use Debian, I suspect a better place to get
+support for your issue is the Debian forums.
+ Perhaps: https://forums.debian.net/
 
-[   58.645557] zr36067: module is from the staging directory, the quality is unknown, you have been warned.
-[   58.646658] zr36067 0000:03:00.0: Zoran MJPEG board driver version 0.10.1
-[   58.646793] zr36067 0000:03:00.0: Zoran ZR36057 (rev 1), irq: 18, memory: 0xf4000000
-[   58.648821] zr36067 0000:03:00.0: Initializing i2c bus...
-[   58.662420] vpx3220 22-0047: vpx3216b found @ 0x8e (DC30[0])
-[   58.737445] zr36067 0000:03:00.0: Fail to get encoder
+However, I don't believe your issue is specific to Debian, but just
+general Linux system adminstration. So perhaps any forum related to
+linux system adminstration might also help you.
 
-This works before, so why this is now failing is not clear to me.
+> //192.168.0.103/fileserver /home/norman/fileserver cifs
+> auto,rw,rsize=3D32768,wsize=3D32768,uid=3D1000,gid=3D1000,defaults,iochar=
+set=3Dutf8,username=3D<HERECOMESMYUSERNAME>,password=3D<HERECOMESMYPASSWORD=
+>,vers=3D1.0
+> 0 0
+>=20
+> in my fstab. It all works fine if I start using it while I am at my
+> docking station (with LAN-cable to my router and IP 192.168.0.109), but
+> it fails to access (and even re-mount and umount, when not using umount
+> -a -t cifs -l) on wifi (having 192.168.0.102 there). But when I umount
+> before unplugging, and then unplug and re-mout, it works just fine.
+>=20
+> When I am in the situations that it doesn't work, all windows keep stuck
+> and I cannot interact with them anymore, if have anything at all to do
+> with my NAS (even ls ~, because it's mounted in ~).
+>=20
+> I am not a kernel programmer, so I cannot look into the source code to
+> tell why this happens, but I can speculate. I believe the NFS-driver is
+> somehow linked to the interface it was first connected on. So that, if
+> you connect on enp0s25 first, then plug it out, and try to access the
 
-It does work with 'card=0', but I really have a DC30.
+Yes, I don't know your full issue, but I can concur, NFS mounts don't
+usually like to have their network connection removed from underneath
+them.
 
-If I test with 'card=0' then the rmmod issue is now solved.
+> same host (the NAS) when enp0s25 is down, it fails to do something, and
+> there seems to be no timeout set by default that prevents the system
+> from crashing. So in short: use the IP so long as it works, but if it
+> doesn't, use the MAC-address to arp-scan the network, maybe you're on a
+> different port now.
+>=20
+> Is this reasonable?
+>=20
+> If this is the wrong mailing list, I'm very sorry. I'd like to be
+> corrected on where to send this to be dealt this properly.
 
-Regards,
+You would be best to find something like a system administration/network
+adminstration or networking support forum.
 
-	Hans
+Good luck with your investigations.
 
-> 
-> Corentin Labbe (10):
->   staging: media: zoran: move module parameter checks to zoran_probe
->   staging: media: zoran: use module_pci_driver
->   staging: media: zoran: rename debug module parameter
->   staging: media: zoran: add debugfs
->   staging: media: zoran: videocode: remove procfs
->   staging: media: zoran: fusion all modules
->   staging: media: zoran: remove vidmem
->   staging: media: zoran: move videodev alloc
->   staging: media: zoran: move config select on primary kconfig
->   staging: media: zoran: introduce zoran_i2c_init
-> 
->  drivers/staging/media/zoran/Kconfig        |  46 +--
->  drivers/staging/media/zoran/Makefile       |   8 +-
->  drivers/staging/media/zoran/videocodec.c   |  68 +----
->  drivers/staging/media/zoran/videocodec.h   |   6 +-
->  drivers/staging/media/zoran/zoran.h        |   6 +-
->  drivers/staging/media/zoran/zoran_card.c   | 328 ++++++++++++++-------
->  drivers/staging/media/zoran/zoran_driver.c |   5 +-
->  drivers/staging/media/zoran/zr36016.c      |  24 +-
->  drivers/staging/media/zoran/zr36016.h      |   2 +
->  drivers/staging/media/zoran/zr36050.c      |  21 +-
->  drivers/staging/media/zoran/zr36050.h      |   2 +
->  drivers/staging/media/zoran/zr36060.c      |  21 +-
->  drivers/staging/media/zoran/zr36060.h      |   2 +
->  13 files changed, 291 insertions(+), 248 deletions(-)
-> 
 
+Regards
+
+Kieran
+
+
+> Thanks,
+>=20
+> Norman
+>=20
+>
