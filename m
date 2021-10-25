@@ -2,149 +2,121 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id F20124392E6
-	for <lists+linux-media@lfdr.de>; Mon, 25 Oct 2021 11:43:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 36017439355
+	for <lists+linux-media@lfdr.de>; Mon, 25 Oct 2021 12:06:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232992AbhJYJp2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 25 Oct 2021 05:45:28 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:25178 "EHLO
+        id S232734AbhJYKI5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 25 Oct 2021 06:08:57 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:55667 "EHLO
         us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S232946AbhJYJo6 (ORCPT
+        by vger.kernel.org with ESMTP id S232710AbhJYKI4 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 25 Oct 2021 05:44:58 -0400
+        Mon, 25 Oct 2021 06:08:56 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1635154954;
+        s=mimecast20190719; t=1635156393;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=SKwKQKkno83iWdPQp68+jL3tuL2dNVk2AHtccPfXn80=;
-        b=U7IvCLnR4Hlky8FSv3f08I9JrWdAYGaL6r1yirKKZA17K9oDjEnVXex0FnzyXl7PYx/6Iw
-        BCpk5VLw/C+ZRRa+s7gxHV1wgxNjWbzWe8pEG+VDTyPymXN6D+M9kfrHS2vYgsbZKvHGtf
-        TlSA/nO0q0UnO2AyPEPFkMzBWotJvn8=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-27-mMaRfN7JOiOBDnDm30BBxg-1; Mon, 25 Oct 2021 05:42:31 -0400
-X-MC-Unique: mMaRfN7JOiOBDnDm30BBxg-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.12])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9E3968066F5;
-        Mon, 25 Oct 2021 09:42:28 +0000 (UTC)
-Received: from x1.localdomain (unknown [10.39.195.129])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 91B5760BF4;
-        Mon, 25 Oct 2021 09:42:23 +0000 (UTC)
-From:   Hans de Goede <hdegoede@redhat.com>
-To:     "Rafael J . Wysocki" <rjw@rjwysocki.net>,
-        Mark Gross <markgross@kernel.org>,
-        Andy Shevchenko <andy@infradead.org>,
-        Wolfram Sang <wsa@the-dreams.de>,
-        Mika Westerberg <mika.westerberg@linux.intel.com>,
-        Daniel Scally <djrscally@gmail.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Mark Brown <broonie@kernel.org>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>
-Cc:     Hans de Goede <hdegoede@redhat.com>, Len Brown <lenb@kernel.org>,
-        linux-acpi@vger.kernel.org, platform-driver-x86@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-i2c@vger.kernel.org,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Kate Hsuan <hpa@redhat.com>, linux-media@vger.kernel.org,
-        linux-clk@vger.kernel.org
-Subject: [PATCH v4 11/11] platform/x86: int3472: Deal with probe ordering issues
-Date:   Mon, 25 Oct 2021 11:41:19 +0200
-Message-Id: <20211025094119.82967-12-hdegoede@redhat.com>
-In-Reply-To: <20211025094119.82967-1-hdegoede@redhat.com>
-References: <20211025094119.82967-1-hdegoede@redhat.com>
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=ceyKC3V4hk0KTkaHTfWdP+WWLxWLFjYhQSVYOIImGDo=;
+        b=eaMqN0Vmw9XJVtVgsaBUXnzrFpG81iJ8cLKzuO7HSNXHo/nE6QXDFw98iipdS6reYFG2uA
+        tTwuXHdoUf+/wMktbRe1IkS/7AWFDh5WaiuZcDMCbJQguFerjKRw7HTAmU0eG7iEz2YXFf
+        5vSrLZjUIzctaR+XVREV0/cE5aZLyKQ=
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
+ [209.85.208.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-173-1mJu8sCVPmeLtOx97phkug-1; Mon, 25 Oct 2021 06:06:32 -0400
+X-MC-Unique: 1mJu8sCVPmeLtOx97phkug-1
+Received: by mail-ed1-f71.google.com with SMTP id i9-20020a508709000000b003dd4b55a3caso3054111edb.19
+        for <linux-media@vger.kernel.org>; Mon, 25 Oct 2021 03:06:32 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:from
+         :subject:to:cc:content-language:content-transfer-encoding;
+        bh=ceyKC3V4hk0KTkaHTfWdP+WWLxWLFjYhQSVYOIImGDo=;
+        b=J/P6aG3GMSIv9B9tQ9N0RgZPgxxvZf+kbq3j5bfqBsZOoRF7O0EL4U29QAhKXxGlMP
+         bmpxFhm7KFB7jK6PoAR16ZqKrZTULLBz6o+qt6MA4YzWLA1e3lgTqL+/jUhBO5KUVQfa
+         7hsdNvHwCP4Plc4f4uHx93xrHOwNV2EkFYRyqpJJhJoNYET3ufwsExIdkB3ig7PEvFHY
+         K2V3BGuAQGLKztTHsaLsuRGnIj+j+B1P/6CeMlVjVx9OArE4wpCDWFofOQrBD0ycum92
+         i9pGlqHw9v5LrnEhxIfUrrcLQ8DZ0k9ywyehggbqPnsOUOrwLFyBxnCvyVU316UpM7gX
+         sGxg==
+X-Gm-Message-State: AOAM5308c2Wqorx8O1XvGs8tKM1jOWV1xO7OMgy/ETSzY2/ZxUeRQvU0
+        8V5dOrtj1wL7BMtSdn59cAbw5rqi5MnkeaNm4MIp2hbqUQZpsFtNJbcK93Q0oiAsdJPkNqscp2o
+        ScIGYtvWC87F7sKokNrRrDxM=
+X-Received: by 2002:a17:906:3f83:: with SMTP id b3mr21633638ejj.233.1635156391218;
+        Mon, 25 Oct 2021 03:06:31 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxC1wnO4kFlFBTjWzoiQ+44BmcqeuK+O0ewlHPNVy1XYLsS0H3NooBFJ6e8X5e88dMafqtSSw==
+X-Received: by 2002:a17:906:3f83:: with SMTP id b3mr21633612ejj.233.1635156391012;
+        Mon, 25 Oct 2021 03:06:31 -0700 (PDT)
+Received: from [10.40.1.223] ([81.30.35.201])
+        by smtp.gmail.com with ESMTPSA id g26sm655521ejz.21.2021.10.25.03.06.30
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 25 Oct 2021 03:06:30 -0700 (PDT)
+Message-ID: <c7c94544-8af4-ad29-04ef-6131774e68b8@redhat.com>
+Date:   Mon, 25 Oct 2021 12:06:30 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.2.0
+From:   Hans de Goede <hdegoede@redhat.com>
+Subject: Userspace API for controlling the focus of the Surface Go [2]
+ main/back-camera
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Dan Scally <djrscally@gmail.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Hans Verkuil <hverkuil@xs4all.nl>
+Cc:     Kate Hsuan <hpa@redhat.com>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        libcamera-devel@lists.libcamera.org
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The clk and regulator frameworks expect clk/regulator consumer-devices
-to have info about the consumed clks/regulators described in the device's
-fw_node.
+Hi All,
 
-To work around this info missing from the ACPI tables on devices where
-the int3472 driver is used, the int3472 MFD-cell drivers attach info about
-consumers to the clks/regulators when registering these.
+With my (and Dan's) kernel patch-series to enable the back camera on
+the Surface Go shaping up (and hopefully going upstream soon),
+the next step is to enable control of the focus lens for the back
+camera.
 
-This causes problems with the probe ordering wrt drivers for consumers
-of these clks/regulators. Since the lookups are only registered when the
-provider-driver binds, trying to get these clks/regulators before then
-results in a -ENOENT error for clks and a dummy regulator for regulators.
+The focus is controlled through a separate i2c-client which is
+described by a 2nd I2cSerialBusV2 resource entry in the ACPI
+device for the ov8865 sensor. By default the kernel only instantiates
+an i2c-client for the first I2cSerialBusV2 resource entry for an
+ACPI device, getting an i2c-client for the 2nd one is easy and
+out of scope for this discussion.
 
-All the sensor ACPI fw-nodes have a _DEP dependency on the INT3472 ACPI
-fw-node, so to work around these probe ordering issues the ACPI core /
-i2c-code does not instantiate the I2C-clients for any ACPI devices
-which have a _DEP dependency on an INT3472 ACPI device until all
-_DEP-s are met.
+The question which I have is, assuming we have the 2nd i2c-client
+instantiated and we have a i2c-driver binding to it, how do we
+represent the focus control to userspace.
 
-This relies on acpi_dev_clear_dependencies() getting called by the driver
-for the _DEP-s when they are ready, add a acpi_dev_clear_dependencies()
-call to the discrete.c probe code.
+I see 2 possible directions we can go here:
 
-In the tps68470 case calling acpi_dev_clear_dependencies() is already done
-by the acpi_gpiochip_add() call done by the driver for the GPIO MFD cell
-(The GPIO cell is deliberately the last cell created to make sure the
-clk + regulator cells are already instantiated when this happens).
+1. Somehow inject an extra v4l2ctrl for this into the v4l2ctrl
+list of the sensor. AFAIK we don't have infra for this atm, but
+we could add some generic mechanism to do this to the v4l2-ctrls
+core. IMHO from a userspace pov this is the cleanest, but at the
+cost of some extra work / possible ugliness on the kernel side.
 
-However for proper probe ordering, the clk/regulator cells must not just
-be instantiated the must be fully ready (the clks + regulators must be
-registered with their subsystems).
+2. Register a separate v4l2_subdev for the focus-ctrl and in
+some way provide information to userspace to which sensor this
+belongs.
 
-Add MODULE_SOFTDEP dependencies for the clk and regulator drivers for
-the instantiated MFD-cells so that these are loaded before us and so
-that they bind immediately when the platform-devs are instantiated.
+I believe that both are valid approaches. So before diving into
+this I wonder what others are thinking about this.
 
-Signed-off-by: Hans de Goede <hdegoede@redhat.com>
----
-Changes in v2:
-- Only call acpi_dev_clear_dependencies() in the discrete.c case, for the
-  tps68470 case this is already done by the acpi_gpiochip_add() for the
-  GPIO MFD cell.
----
- drivers/platform/x86/intel/int3472/discrete.c | 1 +
- drivers/platform/x86/intel/int3472/tps68470.c | 6 ++++++
- 2 files changed, 7 insertions(+)
+Specific questions:
 
-diff --git a/drivers/platform/x86/intel/int3472/discrete.c b/drivers/platform/x86/intel/int3472/discrete.c
-index ff2bdbb8722c..5b514fa01a97 100644
---- a/drivers/platform/x86/intel/int3472/discrete.c
-+++ b/drivers/platform/x86/intel/int3472/discrete.c
-@@ -380,6 +380,7 @@ static int skl_int3472_discrete_probe(struct platform_device *pdev)
- 		return ret;
- 	}
- 
-+	acpi_dev_clear_dependencies(adev);
- 	return 0;
- }
- 
-diff --git a/drivers/platform/x86/intel/int3472/tps68470.c b/drivers/platform/x86/intel/int3472/tps68470.c
-index 5b881d6f5943..fcd872804101 100644
---- a/drivers/platform/x86/intel/int3472/tps68470.c
-+++ b/drivers/platform/x86/intel/int3472/tps68470.c
-@@ -174,6 +174,11 @@ static int skl_int3472_tps68470_probe(struct i2c_client *client)
- 		return device_type;
- 	}
- 
-+	/*
-+	 * No acpi_dev_clear_dependencies() here, since the acpi_gpiochip_add()
-+	 * for the GPIO cell already does this.
-+	 */
-+
- 	return ret;
- }
- 
-@@ -207,3 +212,4 @@ module_i2c_driver(int3472_tps68470);
- MODULE_DESCRIPTION("Intel SkyLake INT3472 ACPI TPS68470 Device Driver");
- MODULE_AUTHOR("Daniel Scally <djrscally@gmail.com>");
- MODULE_LICENSE("GPL v2");
-+MODULE_SOFTDEP("pre: clk-tps68470 tps68470-regulator");
--- 
-2.31.1
+1. Hans Verkuil, what do you think about adding
+support for another driver to inject ctrls into the ctrl
+list of another v4l2(sub)dev ? Maybe something like this
+already exists ? If not do you think this is feasible
+and desirable to add ?
+
+2. If we go with a separate v4l2_subdev, how do we communicate
+to which sensor the focus-control belongs to userspace ?
+
+Regards,
+
+Hans
 
