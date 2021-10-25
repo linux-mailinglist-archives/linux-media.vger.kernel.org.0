@@ -2,159 +2,146 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E8998438DEC
-	for <lists+linux-media@lfdr.de>; Mon, 25 Oct 2021 05:57:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1C287438F20
+	for <lists+linux-media@lfdr.de>; Mon, 25 Oct 2021 08:08:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229509AbhJYEAI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 25 Oct 2021 00:00:08 -0400
-Received: from mailgw01.mediatek.com ([60.244.123.138]:56082 "EHLO
-        mailgw01.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
-        with ESMTP id S229379AbhJYEAG (ORCPT
+        id S230169AbhJYGKn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 25 Oct 2021 02:10:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37774 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230168AbhJYGKm (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 25 Oct 2021 00:00:06 -0400
-X-UUID: 6cf5dab4038e407b895180c1d1649248-20211025
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
-        h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:From:Subject:Message-ID; bh=cV6dg7PsYHB6+UKop/Sg0rROLJ+oreSSfppKhlC8xGE=;
-        b=nBkGbQeC+Sa3c4WFbs6Ky01mc0hcpUC1VdMIVgp0Ci+nREwXGSXct8xkBhX2s3ToXb8z7bOAWuCxF6sm2/w1ZbvpyLWXSZSkGdcufbA7YrxHi4qeoC1Ri9RoqAAxoOpOmRoxjwmLJ+sjifSy3adpDDGLiZMJznJ7HwbTckMDANs=;
-X-UUID: 6cf5dab4038e407b895180c1d1649248-20211025
-Received: from mtkmbs10n1.mediatek.inc [(172.21.101.34)] by mailgw01.mediatek.com
-        (envelope-from <yong.wu@mediatek.com>)
-        (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
-        with ESMTP id 77251011; Mon, 25 Oct 2021 11:57:42 +0800
-Received: from mtkcas11.mediatek.inc (172.21.101.40) by
- mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.792.3;
- Mon, 25 Oct 2021 11:57:40 +0800
-Received: from mhfsdcap04 (10.17.3.154) by mtkcas11.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Mon, 25 Oct 2021 11:57:39 +0800
-Message-ID: <15d4ccb984f9e3919d6d7535d05aec0332dbe301.camel@mediatek.com>
-Subject: Re: [PATCH v8 04/12] iommu/mediatek: Add device_link between the
- consumer and the larb devices
-From:   Yong Wu <yong.wu@mediatek.com>
-To:     Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
-        David Airlie <airlied@linux.ie>,
-        "Mauro Carvalho Chehab" <mchehab@kernel.org>
-CC:     Evan Green <evgreen@chromium.org>,
-        Robin Murphy <robin.murphy@arm.com>,
-        Tomasz Figa <tfiga@chromium.org>,
-        Will Deacon <will.deacon@arm.com>,
-        <linux-mediatek@lists.infradead.org>,
-        <srv_heupstream@mediatek.com>, <devicetree@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <iommu@lists.linux-foundation.org>, <youlin.pei@mediatek.com>,
-        Matthias Kaehlcke <mka@chromium.org>, <anan.sun@mediatek.com>,
-        <yi.kuo@mediatek.com>, <acourbot@chromium.org>,
-        <linux-media@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
-        "Daniel Vetter" <daniel@ffwll.ch>,
-        Chun-Kuang Hu <chunkuang.hu@kernel.org>,
-        "Philipp Zabel" <p.zabel@pengutronix.de>,
-        Tiffany Lin <tiffany.lin@mediatek.com>,
-        Hsin-Yi Wang <hsinyi@chromium.org>,
-        Eizan Miyamoto <eizan@chromium.org>,
-        <anthony.huang@mediatek.com>,
-        Frank Wunderlich <frank-w@public-files.de>
-Date:   Mon, 25 Oct 2021 11:57:39 +0800
-In-Reply-To: <da5934de-65ad-4bac-c510-eb0d40d96d70@collabora.com>
-References: <20210929013719.25120-1-yong.wu@mediatek.com>
-         <20210929013719.25120-5-yong.wu@mediatek.com>
-         <e00b92db-0562-27ca-2f96-1f03ff824988@collabora.com>
-         <e4c98036dd73b91b8352a162f80240171e2b3f0f.camel@mediatek.com>
-         <da5934de-65ad-4bac-c510-eb0d40d96d70@collabora.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
+        Mon, 25 Oct 2021 02:10:42 -0400
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F3FE5C061745
+        for <linux-media@vger.kernel.org>; Sun, 24 Oct 2021 23:08:20 -0700 (PDT)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1met9d-0000sy-BV; Mon, 25 Oct 2021 08:08:17 +0200
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+        by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.92)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1met9a-0001tE-Og; Mon, 25 Oct 2021 08:08:14 +0200
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.92)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1met9a-0006St-Ng; Mon, 25 Oct 2021 08:08:14 +0200
+Date:   Mon, 25 Oct 2021 08:08:12 +0200
+From:   Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To:     =?utf-8?B?TWHDrXJh?= Canal <maira.canal@usp.br>
+Cc:     sean@mess.org, mchehab@kernel.org, thierry.reding@gmail.com,
+        lee.jones@linaro.org, linux-media@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-pwm@vger.kernel.org
+Subject: Re: [PATCH v3] media: rc: pwm-ir-tx: Switch to atomic PWM API
+Message-ID: <20211025060812.pqwapyqni4vx75tc@pengutronix.de>
+References: <YXU2i0FtAGDRCMSu@fedora>
 MIME-Version: 1.0
-X-MTK:  N
-Content-Transfer-Encoding: base64
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="c5jbsx2ilnzxwhem"
+Content-Disposition: inline
+In-Reply-To: <YXU2i0FtAGDRCMSu@fedora>
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-media@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-T24gTW9uLCAyMDIxLTEwLTE4IGF0IDA5OjEzICswMjAwLCBEYWZuYSBIaXJzY2hmZWxkIHdyb3Rl
-Og0KPiANCj4gT24gMTYuMTAuMjEgMDQ6MjMsIFlvbmcgV3Ugd3JvdGU6DQo+ID4gT24gTW9uLCAy
-MDIxLTEwLTExIGF0IDE0OjM2ICswMjAwLCBEYWZuYSBIaXJzY2hmZWxkIHdyb3RlOg0KPiA+ID4g
-DQo+ID4gPiBPbiAyOS4wOS4yMSAwMzozNywgWW9uZyBXdSB3cm90ZToNCj4gPiA+ID4gTWVkaWFU
-ZWsgSU9NTVUtU01JIGRpYWdyYW0gaXMgbGlrZSBiZWxvdy4gYWxsIHRoZSBjb25zdW1lcg0KPiA+
-ID4gPiBjb25uZWN0DQo+ID4gPiA+IHdpdGgNCj4gPiA+ID4gc21pLWxhcmIsIHRoZW4gY29ubmVj
-dCB3aXRoIHNtaS1jb21tb24uDQo+ID4gPiA+IA0KPiA+ID4gPiAgICAgICAgICAgTTRVDQo+ID4g
-PiA+ICAgICAgICAgICAgfA0KPiA+ID4gPiAgICAgICBzbWktY29tbW9uDQo+ID4gPiA+ICAgICAg
-ICAgICAgfA0KPiA+ID4gPiAgICAgLS0tLS0tLS0tLS0tLQ0KPiA+ID4gPiAgICAgfCAgICAgICAg
-IHwgICAgLi4uDQo+ID4gPiA+ICAgICB8ICAgICAgICAgfA0KPiA+ID4gPiBsYXJiMSAgICAgbGFy
-YjINCj4gPiA+ID4gICAgIHwgICAgICAgICB8DQo+ID4gPiA+IHZkZWMgICAgICAgdmVuYw0KPiA+
-ID4gPiANCj4gPiA+ID4gV2hlbiB0aGUgY29uc3VtZXIgd29ya3MsIGl0IHNob3VsZCBlbmFibGUg
-dGhlIHNtaS1sYXJiJ3MgcG93ZXINCj4gPiA+ID4gd2hpY2gNCj4gPiA+ID4gYWxzbyBuZWVkIGVu
-YWJsZSB0aGUgc21pLWNvbW1vbidzIHBvd2VyIGZpcnN0bHkuDQo+ID4gPiA+IA0KPiA+ID4gPiBU
-aHVzLCBGaXJzdCBvZiBhbGwsIHVzZSB0aGUgZGV2aWNlIGxpbmsgY29ubmVjdCB0aGUgY29uc3Vt
-ZXINCj4gPiA+ID4gYW5kDQo+ID4gPiA+IHRoZQ0KPiA+ID4gPiBzbWktbGFyYnMuIHRoZW4gYWRk
-IGRldmljZSBsaW5rIGJldHdlZW4gdGhlIHNtaS1sYXJiIGFuZCBzbWktDQo+ID4gPiA+IGNvbW1v
-bi4NCj4gPiA+ID4gDQo+ID4gPiA+IFRoaXMgcGF0Y2ggYWRkcyBkZXZpY2VfbGluayBiZXR3ZWVu
-IHRoZSBjb25zdW1lciBhbmQgdGhlIGxhcmJzLg0KPiA+ID4gPiANCj4gPiA+ID4gV2hlbiBkZXZp
-Y2VfbGlua19hZGQsIEkgYWRkIHRoZSBmbGFnIERMX0ZMQUdfU1RBVEVMRVNTIHRvIGF2b2lkDQo+
-ID4gPiA+IGNhbGxpbmcNCj4gPiA+ID4gcG1fcnVudGltZV94eCB0byBrZWVwIHRoZSBvcmlnaW5h
-bCBzdGF0dXMgb2YgY2xvY2tzLiBJdCBjYW4NCj4gPiA+ID4gYXZvaWQNCj4gPiA+ID4gdHdvDQo+
-ID4gPiA+IGlzc3VlczoNCj4gPiA+ID4gMSkgRGlzcGxheSBIVyBzaG93IGZhc3Rsb2dvIGFibm9y
-bWFsbHkgcmVwb3J0ZWQgaW4gWzFdLiBBdCB0aGUNCj4gPiA+ID4gYmVnZ2luaW5nLA0KPiA+ID4g
-PiBhbGwgdGhlIGNsb2NrcyBhcmUgZW5hYmxlZCBiZWZvcmUgZW50ZXJpbmcga2VybmVsLCBidXQg
-dGhlDQo+ID4gPiA+IGNsb2Nrcw0KPiA+ID4gPiBmb3INCj4gPiA+ID4gZGlzcGxheSBIVyhhbHdh
-eXMgaW4gbGFyYjApIHdpbGwgYmUgZ2F0ZWQgYWZ0ZXIgY2xrX2VuYWJsZSBhbmQNCj4gPiA+ID4g
-Y2xrX2Rpc2FibGUNCj4gPiA+ID4gY2FsbGVkIGZyb20gZGV2aWNlX2xpbmtfYWRkKC0+cG1fcnVu
-dGltZV9yZXN1bWUpIGFuZCBycG1faWRsZS4NCj4gPiA+ID4gVGhlDQo+ID4gPiA+IGNsb2NrDQo+
-ID4gPiA+IG9wZXJhdGlvbiBoYXBwZW5lZCBiZWZvcmUgZGlzcGxheSBkcml2ZXIgcHJvYmUuIEF0
-IHRoYXQgdGltZSwNCj4gPiA+ID4gdGhlDQo+ID4gPiA+IGRpc3BsYXkNCj4gPiA+ID4gSFcgd2ls
-bCBiZSBhYm5vcm1hbC4NCj4gPiA+ID4gDQo+ID4gPiA+IDIpIEEgZGVhZGxvY2sgaXNzdWUgcmVw
-b3J0ZWQgaW4gWzJdLiBVc2UgRExfRkxBR19TVEFURUxFU1MgdG8NCj4gPiA+ID4gc2tpcA0KPiA+
-ID4gPiBwbV9ydW50aW1lX3h4IHRvIGF2b2lkIHRoZSBkZWFkbG9jay4NCj4gPiA+ID4gDQo+ID4g
-PiA+IENvcnJlc3BvbmRpbmcsIERMX0ZMQUdfQVVUT1JFTU9WRV9DT05TVU1FUiBjYW4ndCBiZSBh
-ZGRlZCwgdGhlbg0KPiA+ID4gPiBkZXZpY2VfbGlua19yZW1vdmVkIHNob3VsZCBiZSBhZGRlZCBl
-eHBsaWNpdGx5Lg0KPiA+ID4gPiANCj4gPiA+ID4gWzFdDQo+ID4gPiA+IA0KaHR0cHM6Ly9sb3Jl
-Lmtlcm5lbC5vcmcvbGludXgtbWVkaWF0ZWsvMTU2NDIxMzg4OC4yMjkwOC40LmNhbWVsQG1oZnNk
-Y2FwMDMvDQo+ID4gPiA+IFsyXSBodHRwczovL2xvcmUua2VybmVsLm9yZy9wYXRjaHdvcmsvcGF0
-Y2gvMTA4NjU2OS8NCj4gPiA+ID4gDQo+ID4gPiA+IFN1Z2dlc3RlZC1ieTogVG9tYXN6IEZpZ2Eg
-PHRmaWdhQGNocm9taXVtLm9yZz4NCj4gPiA+ID4gU2lnbmVkLW9mZi1ieTogWW9uZyBXdSA8eW9u
-Zy53dUBtZWRpYXRlay5jb20+DQo+ID4gPiA+IFRlc3RlZC1ieTogRnJhbmsgV3VuZGVybGljaCA8
-ZnJhbmstd0BwdWJsaWMtZmlsZXMuZGU+ICMgQlBJLQ0KPiA+ID4gPiBSMi9NVDc2MjMNCj4gPiA+
-ID4gLS0tDQo+ID4gPiA+ICAgIGRyaXZlcnMvaW9tbXUvbXRrX2lvbW11LmMgICAgfCAyMiArKysr
-KysrKysrKysrKysrKysrKysrDQo+ID4gPiA+ICAgIGRyaXZlcnMvaW9tbXUvbXRrX2lvbW11X3Yx
-LmMgfCAyMCArKysrKysrKysrKysrKysrKysrLQ0KPiA+ID4gPiAgICAyIGZpbGVzIGNoYW5nZWQs
-IDQxIGluc2VydGlvbnMoKyksIDEgZGVsZXRpb24oLSkNCj4gPiA+ID4gDQo+ID4gPiA+IGRpZmYg
-LS1naXQgYS9kcml2ZXJzL2lvbW11L210a19pb21tdS5jDQo+ID4gPiA+IGIvZHJpdmVycy9pb21t
-dS9tdGtfaW9tbXUuYw0KPiA+ID4gPiBpbmRleCBkNTg0OGY3OGE2NzcuLmEyZmE1NTg5OTQzNCAx
-MDA2NDQNCj4gPiA+ID4gLS0tIGEvZHJpdmVycy9pb21tdS9tdGtfaW9tbXUuYw0KPiA+ID4gPiAr
-KysgYi9kcml2ZXJzL2lvbW11L210a19pb21tdS5jDQo+ID4gPiA+IEBAIC01NjAsMjIgKzU2MCw0
-NCBAQCBzdGF0aWMgc3RydWN0IGlvbW11X2RldmljZQ0KPiA+ID4gPiAqbXRrX2lvbW11X3Byb2Jl
-X2RldmljZShzdHJ1Y3QgZGV2aWNlICpkZXYpDQo+ID4gPiA+ICAgIHsNCj4gPiA+ID4gICAgCXN0
-cnVjdCBpb21tdV9md3NwZWMgKmZ3c3BlYyA9DQo+ID4gPiA+IGRldl9pb21tdV9md3NwZWNfZ2V0
-KGRldik7DQo+ID4gPiA+ICAgIAlzdHJ1Y3QgbXRrX2lvbW11X2RhdGEgKmRhdGE7DQo+ID4gPiA+
-ICsJc3RydWN0IGRldmljZV9saW5rICpsaW5rOw0KPiA+ID4gPiArCXN0cnVjdCBkZXZpY2UgKmxh
-cmJkZXY7DQo+ID4gPiA+ICsJdW5zaWduZWQgaW50IGxhcmJpZDsNCj4gPiA+ID4gICAgDQo+ID4g
-PiA+ICAgIAlpZiAoIWZ3c3BlYyB8fCBmd3NwZWMtPm9wcyAhPSAmbXRrX2lvbW11X29wcykNCj4g
-PiA+ID4gICAgCQlyZXR1cm4gRVJSX1BUUigtRU5PREVWKTsgLyogTm90IGEgaW9tbXUgY2xpZW50
-DQo+ID4gPiA+IGRldmljZQ0KPiA+ID4gPiAqLw0KPiA+ID4gPiAgICANCj4gPiA+ID4gICAgCWRh
-dGEgPSBkZXZfaW9tbXVfcHJpdl9nZXQoZGV2KTsNCj4gPiA+ID4gICAgDQo+ID4gPiA+ICsJLyoN
-Cj4gPiA+ID4gKwkgKiBMaW5rIHRoZSBjb25zdW1lciBkZXZpY2Ugd2l0aCB0aGUgc21pLWxhcmIN
-Cj4gPiA+ID4gZGV2aWNlKHN1cHBsaWVyKQ0KPiA+ID4gPiArCSAqIFRoZSBkZXZpY2UgaW4gZWFj
-aCBhIGxhcmIgaXMgYSBpbmRlcGVuZGVudCBIVy4gdGh1cw0KPiA+ID4gPiBvbmx5DQo+ID4gPiA+
-IGxpbmsNCj4gPiA+ID4gKwkgKiBvbmUgbGFyYiBoZXJlLg0KPiA+ID4gPiArCSAqLw0KPiA+ID4g
-PiArCWxhcmJpZCA9IE1US19NNFVfVE9fTEFSQihmd3NwZWMtPmlkc1swXSk7DQo+ID4gPiANCj4g
-PiA+IHNvIGxhcmJpZCBpcyBhbHdheXMgdGhlIHNhbWUgZm9yIGFsbCB0aGUgaWRzIG9mIGEgZGV2
-aWNlPw0KPiA+IA0KPiA+IFllcy4gRm9yIG1lLCBlYWNoIGEgZHRzaSBub2RlIHNob3VsZCByZXBy
-ZXNlbnQgYSBIVyB1bml0IHdoaWNoIGNhbg0KPiA+IG9ubHkNCj4gPiBjb25uZWN0IG9uZSBsYXJi
-Lg0KPiA+IA0KPiA+ID4gSWYgc28gbWF5YmUgaXQgd29ydGggdGVzdGluZyBpdCBhbmQgcmV0dXJu
-IGVycm9yIGlmIHRoaXMgaXMgbm90DQo+ID4gPiB0aGUNCj4gPiA+IGNhc2UuDQo+ID4gDQo+ID4g
-VGhhbmtzIGZvciB0aGUgc3VnZ2VzdGlvbi4gVGhpcyBpcyB2ZXJ5IGhlbHBmdWwuIEkgZGlkIHNl
-ZSBzb21lb25lDQo+ID4gcHV0DQo+ID4gdGhlIGRpZmZlcmVudCBsYXJicyBpbiBvbmUgbm9kZS4g
-SSB3aWxsIGNoZWNrIHRoaXMsIGFuZCBhZGQgcmV0dXJuDQo+IA0KPiBJIGFtIHdvcmtpbmcgb24g
-YnVncyBmb3VuZCBvbiBtZWRpYSBkcml2ZXJzLCBjb3VsZCB5b3UgcGxlYXNlIHBvaW50DQo+IG1l
-IHRvDQo+IHRoYXQgd3Jvbmcgbm9kZT8NCj4gV2lsbCB5b3Ugc2VuZCBhIGZpeCB0byB0aGF0IG5v
-ZGUgaW4gdGhlIGR0c2k/DQoNCnNvcnJ5LiBJIG1lYW4gaXQgaGFwcGVuZWQgaW4gdGhlIGludGVy
-bmFsIGJyYW5jaCBhbmQgaXQgaGFzIGFscmVhZHkNCmJlZW4gZml4ZWQgaW50ZXJuYWxseSwgIGFs
-bCB0aGUgdXBzdHJlYW0gbm9kZXMgYXJlIG9rIGZvciB0aGlzLg0KDQpUaGFua3MNCj4gDQo+IA0K
-PiBUaGFua3MsDQo+IERhZm5hDQo+IA0KPiA+IEVJTlZBTCBmb3IgdGhpcyBjYXNlLg0KPiANCj4g
-DQo+IA0KPiA+IA0KPiA+ID4gDQo+ID4gPiBUaGFua3MsDQo+ID4gPiBEYWZuYQ0KPiA+IA0KPiA+
-ICAgDQo+ID4gPiA+IA0K
 
+--c5jbsx2ilnzxwhem
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+Hello,
+
+On Sun, Oct 24, 2021 at 07:33:47AM -0300, Ma=EDra Canal wrote:
+> Remove legacy PWM interface (pwm_config, pwm_enable, pwm_disable) and
+> replace it for the atomic PWM API.
+>=20
+> Signed-off-by: Ma=EDra Canal <maira.canal@usp.br>
+> ---
+> V1 -> V2: Assign variables directly and simplify conditional statement
+> V2 -> V3: Fix declaration of undeclared variable
+> ---
+>  drivers/media/rc/pwm-ir-tx.c | 18 +++++++++---------
+>  1 file changed, 9 insertions(+), 9 deletions(-)
+>=20
+> diff --git a/drivers/media/rc/pwm-ir-tx.c b/drivers/media/rc/pwm-ir-tx.c
+> index 4bc28d2c9cc9..e1f348a962e8 100644
+> --- a/drivers/media/rc/pwm-ir-tx.c
+> +++ b/drivers/media/rc/pwm-ir-tx.c
+> @@ -53,22 +53,21 @@ static int pwm_ir_tx(struct rc_dev *dev, unsigned int=
+ *txbuf,
+>  {
+>  	struct pwm_ir *pwm_ir =3D dev->priv;
+>  	struct pwm_device *pwm =3D pwm_ir->pwm;
+> -	int i, duty, period;
+> +	struct pwm_state state;
+> +	int i;
+>  	ktime_t edge;
+>  	long delta;
+> =20
+> -	period =3D DIV_ROUND_CLOSEST(NSEC_PER_SEC, pwm_ir->carrier);
+> -	duty =3D DIV_ROUND_CLOSEST(pwm_ir->duty_cycle * period, 100);
+> +	pwm_init_state(pwm, &state);
+> =20
+> -	pwm_config(pwm, duty, period);
+> +	state.period =3D DIV_ROUND_CLOSEST(NSEC_PER_SEC, pwm_ir->carrier);
+> +	state.duty_cycle =3D DIV_ROUND_CLOSEST(pwm_ir->duty_cycle * state.perio=
+d, 100);
+> =20
+>  	edge =3D ktime_get();
+> =20
+>  	for (i =3D 0; i < count; i++) {
+> -		if (i % 2) // space
+> -			pwm_disable(pwm);
+> -		else
+> -			pwm_enable(pwm);
+> +		state.enabled =3D !(i % 2);
+> +		pwm_apply_state(pwm, &state);
+> =20
+>  		edge =3D ktime_add_us(edge, txbuf[i]);
+>  		delta =3D ktime_us_delta(edge, ktime_get());
+> @@ -76,7 +75,8 @@ static int pwm_ir_tx(struct rc_dev *dev, unsigned int *=
+txbuf,
+>  			usleep_range(delta, delta + 10);
+>  	}
+> =20
+> -	pwm_disable(pwm);
+> +	state.enabled =3D false;
+> +	pwm_apply_state(pwm, &state);
+
+I would have added a struct pwm_state to struct pwm_ir and then would
+call pwm_init_state() only once in .probe(). But that's subjective if
+you like it better or not, so do what you prefer.
+
+The other changes look fine, so:
+
+Acked-by: Uwe Kleine-K=F6nig <u.kleine-koenig@pengutronix.de>
+=20
+Best regards
+Uwe
+
+--=20
+Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
+Industrial Linux Solutions                 | https://www.pengutronix.de/ |
+
+--c5jbsx2ilnzxwhem
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEfnIqFpAYrP8+dKQLwfwUeK3K7AkFAmF2ScgACgkQwfwUeK3K
+7Anhawf/dhik4GZyFmS1CHn7YL/6mtOQfOCHwMhaLigyUAqmjtuC7ZM9WqWhzfE2
+sdAvJxh8KkP+K8M9vx6CHWtwipMBytT6biJOXS9xi0w6fGzv0Ax+CNEL8FVL/eQ/
+DbJI46T4EDgKWD5rkZ5Xd9wdOukQ0pQg5AJnpxiF8qhZagmc9OsYPU85o+WqW+d0
+E3z81hFe5g93RoFzsb094+u0iS+1nnuI5nh1/F7LsHkLlD7kvVZLtPvHrslJV3dJ
+b0DBL3B3ZLTIu/l1EfZYD645fzL5OySWG2wy63XhUVSHKDNXSSE368P2TJBLusp1
+Nptf94WxSIubEYTG8+Ol+PiqTo7u+w==
+=9aJw
+-----END PGP SIGNATURE-----
+
+--c5jbsx2ilnzxwhem--
