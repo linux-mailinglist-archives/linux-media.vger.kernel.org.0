@@ -2,114 +2,87 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7235F4397A2
-	for <lists+linux-media@lfdr.de>; Mon, 25 Oct 2021 15:33:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EB7B543981A
+	for <lists+linux-media@lfdr.de>; Mon, 25 Oct 2021 16:07:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230344AbhJYNgN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 25 Oct 2021 09:36:13 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:46762 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232514AbhJYNgM (ORCPT
+        id S233005AbhJYOJY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 25 Oct 2021 10:09:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34924 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S233004AbhJYOJX (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 25 Oct 2021 09:36:12 -0400
-Received: from pendragon.ideasonboard.com (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 68EE9E0A;
-        Mon, 25 Oct 2021 15:33:49 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1635168829;
-        bh=QB60RLer42RaRmmfdGHG1smpau9MFiLMb5LnfGBDlp8=;
-        h=In-Reply-To:References:Subject:From:To:Date:From;
-        b=UL7oNVKUVg0UWdpr8QlQBiu4saBeMmcVW2NPKUhHafdFDwQ9fUn5/shK4dbHL4Pkg
-         KbVpYTfRSlnAnaVGB5+s8yi4DtvJa3eLhKUnSbjGN3B+Rmx0fq63Rw2y2qX6KPNGd9
-         W7W1CTKbWEzALDjbflWrtp6a2DQ/Py+OOXpeOqgQ=
-Content-Type: text/plain; charset="utf-8"
+        Mon, 25 Oct 2021 10:09:23 -0400
+Received: from mail-wr1-x42e.google.com (mail-wr1-x42e.google.com [IPv6:2a00:1450:4864:20::42e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EC232C061220
+        for <linux-media@vger.kernel.org>; Mon, 25 Oct 2021 07:07:00 -0700 (PDT)
+Received: by mail-wr1-x42e.google.com with SMTP id e12so13071215wra.4
+        for <linux-media@vger.kernel.org>; Mon, 25 Oct 2021 07:07:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20210112.gappssmtp.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=YE/NzH8qBpbjmAapzAwapgPnCPKetXqI0pgiy9yOdQE=;
+        b=L2dGHyNoFi2z+4ecIyz89lYHwy1pDFUGrmT7X6ovQeMSwRJjiNQ1ptux181OyYZQ89
+         4CcnKb0YmJUuZ1HItQyP1HB1NQDmPVHLsnCXUJlC5kmnW3/QKBtREawB1ppLZmxjD3W3
+         nK/ZDxQDTMsjonxm1NySHvHsi3s+6J/djsF8TXOyaTMq+oYq+ViWg+iLzctDo76SY4yU
+         T9e20DiJrwxC8jHC/f+dgjyeGEsNRkFlDgiV8fq/pY4tCuYE+D7hDLQTRE1NZ+xFqERf
+         DmozuhP74V822Q2Y3bOfywpz6WtJnuI/qrlGayFvw6TqdbbWOVty+m+8BgUVn4tQGojm
+         /msA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=YE/NzH8qBpbjmAapzAwapgPnCPKetXqI0pgiy9yOdQE=;
+        b=SO7ZNujC+2zR2dNjzC4YGf1kZliHYIrnmpca+IgniivUQm73ugZRFTxKlCzhiZxgsu
+         EJ+dKtolcnoSx4M4MiFNr8YSEadLupa9nrUhaS2amdm9/zsFdeKsiZJYQ3wN6DKqmJS8
+         KAGv1Bd8ZKxb+2hTryusgCHXbsg13lo2GZobxgrxIINoyTGIzQx5+xaM+P8oJ/4iM6SB
+         njy/pRRrPJ+50jB70HF+wwkz5YR3nc3jSfd4USH7MJrkA4wNpyM59jCWb0UjBCHspAP8
+         fFHeDcwWRvDko61vESukHFxqky/E8CEvK8DdNtsVQPtzkJ5ISbunalqtzHKhZjBe6gvU
+         rojQ==
+X-Gm-Message-State: AOAM5332nQnqXAUKpkqWEutOTGn3odui2Pd4dGkSROhpNIrggxb2kJxq
+        FKCrQt5S4o28j4gzvG1Q7E+alA==
+X-Google-Smtp-Source: ABdhPJyRYFvibtgc8IKqIHYknb4PmyxGSQKD0RMQUpWrP7fkWuU1HAthN9l4r9nE/QnuRmGJqgGJBQ==
+X-Received: by 2002:adf:e607:: with SMTP id p7mr23358297wrm.30.1635170819465;
+        Mon, 25 Oct 2021 07:06:59 -0700 (PDT)
+Received: from Red ([2a01:cb1d:3d5:a100:264b:feff:fe03:2806])
+        by smtp.googlemail.com with ESMTPSA id p1sm5762489wmq.23.2021.10.25.07.06.58
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 25 Oct 2021 07:06:59 -0700 (PDT)
+Date:   Mon, 25 Oct 2021 16:06:57 +0200
+From:   LABBE Corentin <clabbe@baylibre.com>
+To:     Hans Verkuil <hverkuil@xs4all.nl>
+Cc:     mchehab@kernel.org, gregkh@linuxfoundation.org,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-staging@lists.linux.dev, mjpeg-users@lists.sourceforge.net
+Subject: Re: [PATCH v2 00/10] staging: media: zoran: fusion in one module
+Message-ID: <YXa6AVRmkkEuE+XZ@Red>
+References: <20211013185812.590931-1-clabbe@baylibre.com>
+ <c2474663-3fe0-b0cd-ecb5-57ec370481e3@xs4all.nl>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <cf7d0c4c-e8b4-2611-8dfe-58fe6d74a813@rocketmail.com>
-References: <cf7d0c4c-e8b4-2611-8dfe-58fe6d74a813.ref@rocketmail.com> <cf7d0c4c-e8b4-2611-8dfe-58fe6d74a813@rocketmail.com>
-Subject: Re: Problem with NFS when unplugging laptop from docking station
-From:   Kieran Bingham <kieran.bingham@ideasonboard.com>
-To:     Norman Koch <kochnorman@rocketmail.com>,
-        linux-media@vger.kernel.org
-Date:   Mon, 25 Oct 2021 14:33:46 +0100
-Message-ID: <163516882696.905629.2979605611158192768@Monstersaurus>
-User-Agent: alot/0.9.1
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <c2474663-3fe0-b0cd-ecb5-57ec370481e3@xs4all.nl>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Norman,
+Le Mon, Oct 18, 2021 at 11:55:40AM +0200, Hans Verkuil a écrit :
+> Hi Corentin,
+> 
+> I noticed some code review comments from Dan and a kernel test robot issue.
+> Can you post a v3 fixing those by the end of the week? Next week I will have
+> access again to my zoran board, so then I can test the v3 series.
+> 
+> BTW, I agree with Dan, just drop the 'Enable zoran debugfs' config option. It's
+> not worth the additional complexity. Instead, just #ifdef CONFIG_DEBUG_FS
+> where necessary (in most cases you shouldn't even have to do that since the
+> since you have dummy debug_fs_* functions if CONFIG_DEBUG_FS isn't set).
+> 
 
-Quoting Norman Koch (2021-10-24 12:16:38)
-> Hello,
->=20
-> I'm not sure if I'm correct to ask this here, sorry if it's not.
+Hello
 
-I'm afraid that I don't think this is the right place to ask your
-questions, and so I'm not sure you'll get much specific help from the
-linux-media subsystem on this. It's quite unrelated.
-
-> I use Debian 11 with 5.10.0-8-amd64 #1 SMP Debian 5.10.46-4 (2021-08-03)
-> x86_64 GNU/Linux as Kernel on a ThinkPad T440. I also have a network
-> attached storage device which I access over nfs. I load it via
-
-Having mentioned that you use Debian, I suspect a better place to get
-support for your issue is the Debian forums.
- Perhaps: https://forums.debian.net/
-
-However, I don't believe your issue is specific to Debian, but just
-general Linux system adminstration. So perhaps any forum related to
-linux system adminstration might also help you.
-
-> //192.168.0.103/fileserver /home/norman/fileserver cifs
-> auto,rw,rsize=3D32768,wsize=3D32768,uid=3D1000,gid=3D1000,defaults,iochar=
-set=3Dutf8,username=3D<HERECOMESMYUSERNAME>,password=3D<HERECOMESMYPASSWORD=
->,vers=3D1.0
-> 0 0
->=20
-> in my fstab. It all works fine if I start using it while I am at my
-> docking station (with LAN-cable to my router and IP 192.168.0.109), but
-> it fails to access (and even re-mount and umount, when not using umount
-> -a -t cifs -l) on wifi (having 192.168.0.102 there). But when I umount
-> before unplugging, and then unplug and re-mout, it works just fine.
->=20
-> When I am in the situations that it doesn't work, all windows keep stuck
-> and I cannot interact with them anymore, if have anything at all to do
-> with my NAS (even ls ~, because it's mounted in ~).
->=20
-> I am not a kernel programmer, so I cannot look into the source code to
-> tell why this happens, but I can speculate. I believe the NFS-driver is
-> somehow linked to the interface it was first connected on. So that, if
-> you connect on enp0s25 first, then plug it out, and try to access the
-
-Yes, I don't know your full issue, but I can concur, NFS mounts don't
-usually like to have their network connection removed from underneath
-them.
-
-> same host (the NAS) when enp0s25 is down, it fails to do something, and
-> there seems to be no timeout set by default that prevents the system
-> from crashing. So in short: use the IP so long as it works, but if it
-> doesn't, use the MAC-address to arp-scan the network, maybe you're on a
-> different port now.
->=20
-> Is this reasonable?
->=20
-> If this is the wrong mailing list, I'm very sorry. I'd like to be
-> corrected on where to send this to be dealt this properly.
-
-You would be best to find something like a system administration/network
-adminstration or networking support forum.
-
-Good luck with your investigations.
-
+Ok I started fixing issues and will send V3 this week.
 
 Regards
-
-Kieran
-
-
-> Thanks,
->=20
-> Norman
->=20
->
