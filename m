@@ -2,142 +2,133 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CA992439D91
-	for <lists+linux-media@lfdr.de>; Mon, 25 Oct 2021 19:26:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 588BA439E7B
+	for <lists+linux-media@lfdr.de>; Mon, 25 Oct 2021 20:25:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232342AbhJYR3U (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 25 Oct 2021 13:29:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53652 "EHLO
+        id S233217AbhJYS2Q (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 25 Oct 2021 14:28:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39020 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233367AbhJYR3T (ORCPT
+        with ESMTP id S233390AbhJYS2M (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 25 Oct 2021 13:29:19 -0400
-Received: from mail-pg1-x52b.google.com (mail-pg1-x52b.google.com [IPv6:2607:f8b0:4864:20::52b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7C95AC061745
-        for <linux-media@vger.kernel.org>; Mon, 25 Oct 2021 10:26:57 -0700 (PDT)
-Received: by mail-pg1-x52b.google.com with SMTP id s136so11642443pgs.4
-        for <linux-media@vger.kernel.org>; Mon, 25 Oct 2021 10:26:57 -0700 (PDT)
+        Mon, 25 Oct 2021 14:28:12 -0400
+Received: from mail-wr1-x42c.google.com (mail-wr1-x42c.google.com [IPv6:2a00:1450:4864:20::42c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2EA1FC061745
+        for <linux-media@vger.kernel.org>; Mon, 25 Oct 2021 11:25:50 -0700 (PDT)
+Received: by mail-wr1-x42c.google.com with SMTP id a16so13211069wrh.12
+        for <linux-media@vger.kernel.org>; Mon, 25 Oct 2021 11:25:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to;
-        bh=OmG6xBntmMGXxhxyRVsLhNyobSMCMLSy44S6T9/BLCI=;
-        b=M4+zk3tL83QLdghoCbDMnC1YCaQaY+H/gSNns+zWcQng5flC84EW1VPIDuQtcu6o40
-         F/3fY+knz43Kj7F9oL7j9xOa87+6ZL/VsV+SpYrT/ReT/ObtrdG8XD1dswjURmvbyB90
-         Uz1oRkYfWcBZnoL4YLMbTyTzxaLjDRuAMCGIeeVW+Z8Rk6LfMWzFkvtc7KEYlmH00S60
-         jgNHVBf1D+QCN5sRPTyAJhPHUL3CoTS6TSZpsIh4LqhbXKIJ2E/+Nm2VJv9cedt4wnY8
-         x48O3j0lrunDr6MZ+SlWX0i2Yfrj5DiHWbb5EQo4VYbevmn4MDdP4g1te7qyQ65Fq00U
-         CXSA==
+        d=baylibre-com.20210112.gappssmtp.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=9HKZ3WHs39Ll1KFWQ7mEVgrxMfllF9VNmXJhWSD6zbg=;
+        b=eGWi6BKNAikOTbSn81Sa7AREWjMIxOWCW6giZfRNlMcPV+2EmLigPFn+O2Z62O0sYa
+         iV0pfEifAhHfWukClZSiKZWUtW6KfA7KRV1ZDicdiR3B8Sti9c4fE1nIPwnUH2j2+yy7
+         CgbPrMSi7sMfeIugSlIidXNRbM0IBSpjeIFgbji9Hlzij/fQbDLUW6hA78f7gB7wW0sh
+         hdnUjbbgGjOghJEuveE8BUrJhuo37fkdHCNOCAypzkv6cD2ED+omeKUvRLDqTFZ9dh6M
+         fECVzVUsc+MnoY5NLk4U5AI8Mgr9mJEWB5ALlZ9FiHJ7gBZ6yAXbyhgvuYQRMS/29qp6
+         LSTg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to;
-        bh=OmG6xBntmMGXxhxyRVsLhNyobSMCMLSy44S6T9/BLCI=;
-        b=6oLui31YyDdycdnKZtjvoR0ohZKfobnhyCqEQ+YSyniK6KUmL2otjjkInslmTbjuZt
-         oR0He9FH5nFM357GCS9I/ZG0RaWGqELL4//JYnbyxhH/OppholJ2rcrK/fEj5u41MgaB
-         GpXmFwlvN1ZnA7u2sV4yuWewteuHzQ1myK/CHtX+tRSpSVJF4Dc8dthgtw5s+9z6ikCw
-         7mm0u8UdlUr8x3mx/XYM1EP5nwIKDsADQAzGi1Nvs17PFpmg9r6x6kTCoC7mhv9Pv3uh
-         5On7FL+OtCCpa2E42sCda1G2haF0yQCgTK0dvx+yKIONyiHNbo48k89awOGw3EBuYLON
-         kTMA==
-X-Gm-Message-State: AOAM5317/c8vKYjPMI9V05buB7qPo2itIpbU2uB6LuYxh+6pn5ZgQZj2
-        Wy4egnHN0qfdEAxPw4gmPFXL3A==
-X-Google-Smtp-Source: ABdhPJx52C7cZMgJJOavM1gVwcnwrSqtTXQXoGASpvY0Mkr4M2PmHJnKo7TiUrPRa2HTmIs1WNrW+A==
-X-Received: by 2002:a63:df06:: with SMTP id u6mr14963526pgg.148.1635182816928;
-        Mon, 25 Oct 2021 10:26:56 -0700 (PDT)
-Received: from [192.168.254.17] ([50.39.160.154])
-        by smtp.gmail.com with ESMTPSA id s25sm681700pfg.18.2021.10.25.10.26.56
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 25 Oct 2021 10:26:56 -0700 (PDT)
-Message-ID: <62da1abe-5864-7bb4-34e5-5d1251b66230@linaro.org>
-Date:   Mon, 25 Oct 2021 10:26:55 -0700
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=9HKZ3WHs39Ll1KFWQ7mEVgrxMfllF9VNmXJhWSD6zbg=;
+        b=Orrciip3PHn0Pl4Nr/Ua3VHGIXJdx66jP6PYHOCbtQKgMZ0LgXRHER0Qu2CJWEWDlL
+         Rn3amEyEQMVWJN/nuLa5k0txtAs8aX7QR5mt+yj2KoiBGp9VAbB2bC5wHeU93RG9zB6Q
+         2bQBNUTcvujsYTFTZFRX2FZmzptjJKEIP/eeSClnvnf67KMjep2iTowOEEiqfBXJ25nq
+         IHmkC4iRTfXrjJmEEYcpuqqg53D5XaDoWbEZf7CQN1qr2xZrRsXPA18YqodtfIhZP1op
+         ZecC+d1tOLzosRA6SxOTxz0FpBM5H9mmIT/Kv1OAJ2mao4Pgb8OFJx4aav86H7BAlNZW
+         +WBA==
+X-Gm-Message-State: AOAM530b2H++yisipOCmGgncIap49y03RsuyEvQlErciCZKyXiZwNfq+
+        khGQXaUYfkaDOQ1ZtOqEKDh1Qg==
+X-Google-Smtp-Source: ABdhPJwsdj/Ufj88FsRkYCdm3EHNUiDfxilc2w021XdzcMTc2/IYksh4yPlv764YLumxYKv43oMz1A==
+X-Received: by 2002:adf:f9d2:: with SMTP id w18mr12644602wrr.86.1635186348799;
+        Mon, 25 Oct 2021 11:25:48 -0700 (PDT)
+Received: from Red ([2a01:cb1d:3d5:a100:264b:feff:fe03:2806])
+        by smtp.googlemail.com with ESMTPSA id l1sm7730050wrb.73.2021.10.25.11.25.48
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 25 Oct 2021 11:25:48 -0700 (PDT)
+Date:   Mon, 25 Oct 2021 20:25:46 +0200
+From:   LABBE Corentin <clabbe@baylibre.com>
+To:     Hans Verkuil <hverkuil@xs4all.nl>
+Cc:     mchehab@kernel.org, gregkh@linuxfoundation.org,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-staging@lists.linux.dev, mjpeg-users@lists.sourceforge.net
+Subject: Re: [PATCH v2 00/10] staging: media: zoran: fusion in one module
+Message-ID: <YXb2quNLuUTKtjux@Red>
+References: <20211013185812.590931-1-clabbe@baylibre.com>
+ <da925d73-fdf0-3962-3841-a1dd53b5c5dd@xs4all.nl>
+ <YXa9WGs7ewyaHmI9@Red>
+ <71b72175-538e-87e4-d662-e59fd4131a43@xs4all.nl>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.0
-Subject: Re: [PATCH] media: venus: Synchronize probe() between venus_core and
- enc/dec
-Content-Language: en-US
-To:     Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
-        Stanimir Varbanov <stanimir.varbanov@linaro.org>,
-        Andy Gross <agross@kernel.org>
-Cc:     Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Lee Jones <lee.jones@linaro.org>,
-        Amit Pundir <amit.pundir@linaro.org>,
-        John Stultz <john.stultz@linaro.org>,
-        linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <20211025144345.267107-1-tadeusz.struk@linaro.org>
- <72f8dd7a-66c7-fb50-db23-f98ba753af1d@nexus-software.ie>
- <bba3acc1-cfa1-0c53-75de-f4ffa0a2bc9e@linaro.org>
- <00b817a4-f1ac-6a94-5f1e-836d8d313406@linaro.org>
- <25da5210-8e1f-7183-a8e7-8584f8dd2cef@linaro.org>
- <fac70dcc-2dcc-6c1f-2f71-6936deedb091@linaro.org>
-From:   Tadeusz Struk <tadeusz.struk@linaro.org>
-In-Reply-To: <fac70dcc-2dcc-6c1f-2f71-6936deedb091@linaro.org>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------jls6XvNBOfmN4HbnIy7wI2Ih"
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <71b72175-538e-87e4-d662-e59fd4131a43@xs4all.nl>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------jls6XvNBOfmN4HbnIy7wI2Ih
-Content-Type: multipart/mixed; boundary="------------PwvP3wcX0N0zche0sL7en6G2";
- protected-headers="v1"
-From: Tadeusz Struk <tadeusz.struk@linaro.org>
-To: Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
- Stanimir Varbanov <stanimir.varbanov@linaro.org>,
- Andy Gross <agross@kernel.org>
-Cc: Bjorn Andersson <bjorn.andersson@linaro.org>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, Lee Jones
- <lee.jones@linaro.org>, Amit Pundir <amit.pundir@linaro.org>,
- John Stultz <john.stultz@linaro.org>, linux-media@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org
-Message-ID: <62da1abe-5864-7bb4-34e5-5d1251b66230@linaro.org>
-Subject: Re: [PATCH] media: venus: Synchronize probe() between venus_core and
- enc/dec
-References: <20211025144345.267107-1-tadeusz.struk@linaro.org>
- <72f8dd7a-66c7-fb50-db23-f98ba753af1d@nexus-software.ie>
- <bba3acc1-cfa1-0c53-75de-f4ffa0a2bc9e@linaro.org>
- <00b817a4-f1ac-6a94-5f1e-836d8d313406@linaro.org>
- <25da5210-8e1f-7183-a8e7-8584f8dd2cef@linaro.org>
- <fac70dcc-2dcc-6c1f-2f71-6936deedb091@linaro.org>
-In-Reply-To: <fac70dcc-2dcc-6c1f-2f71-6936deedb091@linaro.org>
+Le Mon, Oct 25, 2021 at 05:13:04PM +0200, Hans Verkuil a écrit :
+> On 25/10/2021 16:21, LABBE Corentin wrote:
+> > Le Mon, Oct 25, 2021 at 02:45:02PM +0200, Hans Verkuil a écrit :
+> >> Hi Corentin,
+> >>
+> >> On 13/10/2021 20:58, Corentin Labbe wrote:
+> >>> Hello
+> >>>
+> >>> The main change of this serie is to fusion all zoran related modules in
+> >>> one.
+> >>> This fixes the load order problem when everything is built-in.
+> >>>
+> >>> Regards
+> >>>
+> >>> Changes since v1:
+> >>> - add missing debugfs cleaning
+> >>> - clean some remaining module_get/put functions which made impossible to
+> >>>   remove the zoran module
+> >>> - added the two latest patchs
+> >>
+> >> Something weird is wrong with this series. I have a DC30, but loading this with:
+> >>
+> >> modprobe zr36067 card=3
+> >>
+> >> results in this error message in the kernel log:
+> >>
+> >> [   58.645557] zr36067: module is from the staging directory, the quality is unknown, you have been warned.
+> >> [   58.646658] zr36067 0000:03:00.0: Zoran MJPEG board driver version 0.10.1
+> >> [   58.646793] zr36067 0000:03:00.0: Zoran ZR36057 (rev 1), irq: 18, memory: 0xf4000000
+> >> [   58.648821] zr36067 0000:03:00.0: Initializing i2c bus...
+> >> [   58.662420] vpx3220 22-0047: vpx3216b found @ 0x8e (DC30[0])
+> >> [   58.737445] zr36067 0000:03:00.0: Fail to get encoder
+> >>
+> >> This works before, so why this is now failing is not clear to me.
+> >>
+> >> It does work with 'card=0', but I really have a DC30.
+> >>
+> >> If I test with 'card=0' then the rmmod issue is now solved.
+> > 
+> > Everything normal, since card 0 does not have encoder.
+> > Could you check that adv7175 is compiled ?
+> 
+> Yes, and it loaded as well (I see it with lsmod).
+> 
+> However, there is no adv7175 on my board, instead it appears to have an ITT MSE3000.
+> There is no driver for this one (and I don't even think it is an i2c device), so
+> I suspect that before the driver just continued without encoder support, whereas now
+> it fails when it can't load the encoder.
+> 
+> Could that be the reason? In the absence of an encoder, I think it should just
+> continue, esp. since the driver doesn't use the encoder anyway.
+> 
 
---------------PwvP3wcX0N0zche0sL7en6G2
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+So probably the card list is wrong against DC30.
+I checked high resolution photo of DC30 on internet, and it confirms the fact that DC30 does not have adv7175.
 
-T24gMTAvMjUvMjEgMTA6MTcsIEJyeWFuIE8nRG9ub2dodWUgd3JvdGU6DQo+PiBhZ3JlZSwg
-YnV0IEkgZG9uJ3QgZGVwZW5kIG9uIG9mX3BsYXRmb3JtX3BvcHVsYXRlKCkuIFRoZSBvcmRl
-cmluZyBiZXR3ZWVuIHRoZQ0KPj4gdGhyZWUgcHJvYmUgZnVuY3Rpb25zIGlzIGVuZm9yY2Vk
-IGJ5IHRoZSBuZXcgc3luYyBtdXRleC4NCj4gDQo+IFRoYXQgZXhwbGFuYXRpb24gd29ya3Mg
-Zm9yIG1lLg0KPiANCj4gUmV2aWV3ZWQtYnk6IEJyeWFuIE8nRG9ub2dodWUgPGJyeWFuLm9k
-b25vZ2h1ZUBsaW5hcm8ub3JnPg0KDQpUaGFua3MgQnJpYW4sIEkgYXBwcmVjaWF0ZSB0aGF0
-Lg0K
+Since DC30 and DC30+ are identical in the card list, perhaps it is a very old copy/paste error.
 
---------------PwvP3wcX0N0zche0sL7en6G2--
+So I will add a patch removing adv7175 from DC30.
 
---------------jls6XvNBOfmN4HbnIy7wI2Ih
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
-
------BEGIN PGP SIGNATURE-----
-
-wsF5BAABCAAjFiEEb3ghm5bfkfSeegvwo0472xuDAo4FAmF26N8FAwAAAAAACgkQo0472xuDAo7L
-5w/+KIcA1wadY+Phvhpq85VfXfFE8WsuJvxyBFsf8zmxvPdAMH2ncjkx5IW0VReecFYKZhc9Lgrg
-WppOz9m3lWM50mCDpVhSpoGy8HA6SPwRAXM0M06H1PHlbktOyM/J6fVRuzQKRKxBAiqm+dukibvx
-6nVKLI20mdUt9uBA2yirgpV3WyNw8FVgMYc8cBZ0aCmkaVfDndlm3eJjrEanAiV9ximqQ89ZAVJO
-FvtH8d/HNvAHR0mQ3SWvHUSq4D+SlfiG2toPP9Wnf0PbYDnNLjJIt4+Dzgf+hEF606Vq/e/xtI5K
-UTELdC0sZ0kgDiaUDGvPGE09CyHl1Rd9YnLK0RnnEsoH5+VrzqmITXkcH/sQoC+jKMOdufriURC7
-5nmbJqD4qJzWB7Pg018zdRXiH81zCyEKhNDkD/U8MZi4m6H0EtGoKcyCGe4XALjrIng1AbsCc6rR
-VYcVg3IpxAmT4T25fhDrx4EnEX2zlWxoYGVDz3ZLCDFU0+fFLReyKBJfOydqiH6GfZQxEFstcPjf
-oYK4XmgKD7ix0C4uy7XpspCeZZOd9BGEKTL7lKymRlX8S8gCzJDwYmraDSaUq4ZbOTZjejjm3xcK
-Yhi5VmDk16wWZwco1Snq3Abv0z0rA81V0DWmvPIjXkUvG5LCSZiUDjY2GqoaS2BUt2gPosEJ2dMH
-8cY=
-=v5Ur
------END PGP SIGNATURE-----
-
---------------jls6XvNBOfmN4HbnIy7wI2Ih--
+Thanks for the report
+Regards
