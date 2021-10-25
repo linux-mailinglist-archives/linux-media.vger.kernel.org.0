@@ -2,141 +2,273 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B7EA9439489
-	for <lists+linux-media@lfdr.de>; Mon, 25 Oct 2021 13:12:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1CBE14394A1
+	for <lists+linux-media@lfdr.de>; Mon, 25 Oct 2021 13:17:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232958AbhJYLOm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 25 Oct 2021 07:14:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50904 "EHLO
+        id S231355AbhJYLUB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 25 Oct 2021 07:20:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52114 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230232AbhJYLOm (ORCPT
+        with ESMTP id S230126AbhJYLUB (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 25 Oct 2021 07:14:42 -0400
-Received: from mail-ed1-x531.google.com (mail-ed1-x531.google.com [IPv6:2a00:1450:4864:20::531])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 15CF4C061745;
-        Mon, 25 Oct 2021 04:12:20 -0700 (PDT)
-Received: by mail-ed1-x531.google.com with SMTP id l13so20991631edi.8;
-        Mon, 25 Oct 2021 04:12:20 -0700 (PDT)
+        Mon, 25 Oct 2021 07:20:01 -0400
+Received: from mail-wr1-x430.google.com (mail-wr1-x430.google.com [IPv6:2a00:1450:4864:20::430])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0B0ACC061745
+        for <linux-media@vger.kernel.org>; Mon, 25 Oct 2021 04:17:39 -0700 (PDT)
+Received: by mail-wr1-x430.google.com with SMTP id d3so8005175wrh.8
+        for <linux-media@vger.kernel.org>; Mon, 25 Oct 2021 04:17:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
+        d=raspberrypi.com; s=google;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=DE414Csss+ESJUsxIVSV3LbjKKBbROgWqQe4HOBfb1o=;
-        b=ZyabSViE6U7Oogdi/LL9eL0DoZU1mlE5KHkHL4kMn5iqw3evyYKxGSA/W6q38331bM
-         BwzH90IAxQMTWxLdXZBFrIRih2fY27usQYqwoOop1toa+3X5qgVXvc1SSSkIaifjMG/0
-         Nn8EUcL1MOUPCUYeDWwvaJGdDkKdIcBzOFHDrsGFP3UAEYKqqwC8UKGzt1d+d+AKgN9Z
-         wQdFk8V/VcpXrC3ZY98ZamMK/2y/sU589/tsO1FFMEwmDqZ4W+Mc5UKF79NVgKWRrklC
-         2W8tcKHBVZsh2pv3l2f4fM+1M5sUdZLbU57j6ep4wR4Azrw+8nf2Fz26huOrOA/Hpd9W
-         MrRw==
+        bh=RcfAYp5IIElF7w3McEB+Dbnj+yuADRZsTUdoj6M5UhM=;
+        b=LCHocTuc0PuSU5MCqW7kBZSwv6B4wtUIXqttCYG9Fw6hqYaH6MRI0A11YwxrM1a79I
+         VM96JO82XPIBcGohNDdB8MAouQfZ3WpMqO2kx546w6mnm9FOWU1GunMrmmKAXB2FiOSS
+         qlbVKD+CkaIgon8nNxUD5xigIRX5d/4Pl8OTAzbKY/oYp8FotB88JYsFG6e4Hk/ruDYR
+         M6Zf0eVAQc+7OjAuGMipPqzZpgcGJkO/Y5TmjdT7ZjILReazFmfgbwgAuVkKsN3NJ37q
+         d2C3gU3ZBO+yuPTwctgJCGnspbtfp3dG7Udev+GNc2+bN41en/fLtssREGvN9pH8c/6t
+         k96g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=DE414Csss+ESJUsxIVSV3LbjKKBbROgWqQe4HOBfb1o=;
-        b=TNSjPm7ipHVX8sD52eHcIyniuUWiAO9y3LfdaFSHP5xDYXF0ES/68BjuMWaF0Jdj6u
-         e2aCkRdRFxqOogJ228nA/ELufSXSHnNJUPl42jUMZK7xiuC7GrjI817R548sAIaLpWi9
-         sEyvZrRSqtvNSi/52wntKyThAWLfbdxL3k6qzw7jVx9//YOli1PoTcczo0tF2KBFaZdi
-         RckDP5le2i9YIHoID4aR6aUl/zYxTNrRgwh8cqGst+gZ9HX4MQJH9A/xq0zxtEwQr73k
-         DTtTPAREiIwfHUhY5emszO+WknbhxtAnms4Eyy7OWP6qabbH/re+rZAcRCXD6hb6vn48
-         Rw5g==
-X-Gm-Message-State: AOAM531wyNtFJQoV3TuE2TKpxyeJeHA0b+2C5NJGLFvjzHzCp/WxmQJj
-        t7YFQe5MLydqwOzSd9O7p0D6uVn/4LtCI//rc6o=
-X-Google-Smtp-Source: ABdhPJxsHqCxc9rcuWSI/uo1379vMzZ34fwIDA/WvIMYTprTuHb5Azjp9WOPaOClk9+sjtE6UnOhGd4VS5+dBo7YQhQ=
-X-Received: by 2002:a17:906:d553:: with SMTP id cr19mr14174870ejc.128.1635160338586;
- Mon, 25 Oct 2021 04:12:18 -0700 (PDT)
+        bh=RcfAYp5IIElF7w3McEB+Dbnj+yuADRZsTUdoj6M5UhM=;
+        b=LM8ldBe5pKLRAjsy1EvEi3dVNjUSqhwaYhvwwWzMKgTrHVrpR2eRcdtokoi8p+YcFp
+         rvBnEteT3FaY0pDwBhk7/y5E9hQXnizTojjsnWFRelA41IQ+t111IrfkVi1JOGJI1R2Q
+         nQPxi+7qC0/fBtvKFEN2zBzOdgsuEOBBcPJwljNY7Qx4e064LC8deCufsnBZZOlAj/ra
+         pXvoQiqkLseIEbtJx0apt+ewZzuHl72mIKKgbw1SxMfMt/vC5pyEChPHujCZF6OVojKh
+         rRzehGIN6cDJLHqsv3lrZhFWaGp9l3FO+EJ9AWZpEeXY2bwM3UCQ/9Ca/6lcqYpyOW3G
+         dmNQ==
+X-Gm-Message-State: AOAM533hjihE1o6RfDRHxVuW0aUXerJzGXmU8HNg0726h3eumzBk1XVy
+        j01/hL5sei/7Ea/04YlT/TQF4NvUaDzg5X25o8yOJw==
+X-Google-Smtp-Source: ABdhPJwSj0rwhBKb9LAV3IEanrT7+fpLSjk8NYuCuGxmkChFxVgmuuNd5S9TVhLKxcGkCUeMF5DOz5RO1E+B9kFS+Cs=
+X-Received: by 2002:adf:fe45:: with SMTP id m5mr22993964wrs.197.1635160657562;
+ Mon, 25 Oct 2021 04:17:37 -0700 (PDT)
 MIME-Version: 1.0
-References: <20211025094119.82967-1-hdegoede@redhat.com> <20211025094119.82967-5-hdegoede@redhat.com>
-In-Reply-To: <20211025094119.82967-5-hdegoede@redhat.com>
-From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Mon, 25 Oct 2021 14:11:24 +0300
-Message-ID: <CAHp75Ve4nu1WDURaSvUto6+aLoEDM2OfTCVi2Th6x-oagO6a-Q@mail.gmail.com>
-Subject: Re: [PATCH v4 04/11] regulator: Introduce tps68470-regulator driver
-To:     Hans de Goede <hdegoede@redhat.com>
-Cc:     "Rafael J . Wysocki" <rjw@rjwysocki.net>,
-        Mark Gross <markgross@kernel.org>,
-        Andy Shevchenko <andy@infradead.org>,
-        Wolfram Sang <wsa@the-dreams.de>,
-        Mika Westerberg <mika.westerberg@linux.intel.com>,
-        Daniel Scally <djrscally@gmail.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Mark Brown <broonie@kernel.org>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>, Len Brown <lenb@kernel.org>,
-        ACPI Devel Maling List <linux-acpi@vger.kernel.org>,
-        Platform Driver <platform-driver-x86@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-i2c <linux-i2c@vger.kernel.org>,
+References: <c7c94544-8af4-ad29-04ef-6131774e68b8@redhat.com>
+ <YXaHMd3czQy0NKJn@pendragon.ideasonboard.com> <30ad631c-6c6e-6c1a-7b0a-d50d70a169d2@xs4all.nl>
+ <CAPY8ntBveayxaJGXSXp3bDs4gxz1io2hqHBBEc=JjWTy20pnww@mail.gmail.com> <db53d337-7271-3950-1309-f97f1b468646@xs4all.nl>
+In-Reply-To: <db53d337-7271-3950-1309-f97f1b468646@xs4all.nl>
+From:   Dave Stevenson <dave.stevenson@raspberrypi.com>
+Date:   Mon, 25 Oct 2021 12:17:22 +0100
+Message-ID: <CAPY8ntBXz6+OvNabuSweQf=NKWH_xCvXwLwArEZuD9RnU73XBA@mail.gmail.com>
+Subject: Re: [libcamera-devel] Userspace API for controlling the focus of the
+ Surface Go [2] main/back-camera
+To:     Hans Verkuil <hverkuil@xs4all.nl>
+Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Hans de Goede <hdegoede@redhat.com>,
+        libcamera devel <libcamera-devel@lists.libcamera.org>,
         Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Kate Hsuan <hpa@redhat.com>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        linux-clk <linux-clk@vger.kernel.org>
+        Linux Media Mailing List <linux-media@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, Oct 25, 2021 at 12:41 PM Hans de Goede <hdegoede@redhat.com> wrote:
+Hi Hans
+
+On Mon, 25 Oct 2021 at 12:10, Hans Verkuil <hverkuil@xs4all.nl> wrote:
 >
-> The TPS68470 PMIC provides Clocks, GPIOs and Regulators. At present in
-> the kernel the Regulators and Clocks are controlled by an OpRegion
-> driver designed to work with power control methods defined in ACPI, but
-> some platforms lack those methods, meaning drivers need to be able to
-> consume the resources of these chips through the usual frameworks.
+> On 25/10/2021 13:03, Dave Stevenson wrote:
+> > Hi All.
+> >
+> > On Mon, 25 Oct 2021 at 11:47, Hans Verkuil <hverkuil@xs4all.nl> wrote:
+> >>
+> >> On 25/10/2021 12:30, Laurent Pinchart wrote:
+> >>> Hi Hans,
+> >>>
+> >>> On Mon, Oct 25, 2021 at 12:06:30PM +0200, Hans de Goede wrote:
+> >>>> Hi All,
+> >>>>
+> >>>> With my (and Dan's) kernel patch-series to enable the back camera on
+> >>>> the Surface Go shaping up (and hopefully going upstream soon),
+> >>>> the next step is to enable control of the focus lens for the back
+> >>>> camera.
+> >>>>
+> >>>> The focus is controlled through a separate i2c-client which is
+> >>>> described by a 2nd I2cSerialBusV2 resource entry in the ACPI
+> >>>> device for the ov8865 sensor. By default the kernel only instantiates
+> >>>> an i2c-client for the first I2cSerialBusV2 resource entry for an
+> >>>> ACPI device, getting an i2c-client for the 2nd one is easy and
+> >>>> out of scope for this discussion.
+> >>>>
+> >>>> The question which I have is, assuming we have the 2nd i2c-client
+> >>>> instantiated and we have a i2c-driver binding to it, how do we
+> >>>> represent the focus control to userspace.
+> >>>>
+> >>>> I see 2 possible directions we can go here:
+> >>>>
+> >>>> 1. Somehow inject an extra v4l2ctrl for this into the v4l2ctrl
+> >>>> list of the sensor. AFAIK we don't have infra for this atm, but
+> >>>> we could add some generic mechanism to do this to the v4l2-ctrls
+> >>>> core. IMHO from a userspace pov this is the cleanest, but at the
+> >>>> cost of some extra work / possible ugliness on the kernel side.
+> >>>>
+> >>>> 2. Register a separate v4l2_subdev for the focus-ctrl and in
+> >>>> some way provide information to userspace to which sensor this
+> >>>> belongs.
+> >>>
+> >>> The second approach is what V4L2 does already. We have a set of drivers
+> >>> for VCMs already (search for V4L2_CID_FOCUS_ABSOLUTE in
+> >>> drivers/media/i2c/).
+> >>>
+> >>>> I believe that both are valid approaches. So before diving into
+> >>>> this I wonder what others are thinking about this.
+> >>>>
+> >>>> Specific questions:
+> >>>>
+> >>>> 1. Hans Verkuil, what do you think about adding
+> >>>> support for another driver to inject ctrls into the ctrl
+> >>>> list of another v4l2(sub)dev ? Maybe something like this
+> >>>> already exists ? If not do you think this is feasible
+> >>>> and desirable to add ?
+> >>>>
+> >>>> 2. If we go with a separate v4l2_subdev, how do we communicate
+> >>>> to which sensor the focus-control belongs to userspace ?
+> >>>
+> >>> The information was initially envisioned to be conveyed to userspace
+> >>> through the media controller API, using the entity group ID to group the
+> >>> camera sensor, lens controller and flash controller, but the
+> >>> media_entity_desc.group_id field is now obsolete. No other mechanism
+> >>> exist to replace that as far as I know, so we'll have to create
+> >>> something. There have been some talks about using a special kind of link
+> >>> to expose the relationship between the camera sensor and other
+> >>> components.
+> >>>
+> >>
+> >> I thought this was implemented: there should be an interface link from the
+> >> sensor entity to the subdev for the flash or focus control.
+> >>
+> >> To my knowledge, this is all available.
+> >
+> > We've been looking at focus and AF over the last few weeks, although
+> > under device tree instead of ACPI.
+> >
+> > With DT we have a lens driver bound to the sensor driver by giving the
+> > sensor a lens-focus = <&vcm>; entry.
+> > Media controller then reports it all under one entity, but it may be
+> > true that we don't have a linking between the lens subdev and sensor.
+> >
+> > pi@raspberrypi:~ $ media-ctl -p -d /dev/media2
+> > Media controller API version 5.10.74
+> >
+> > Media device information
+> > ------------------------
+> > driver          unicam
+> > model           unicam
+> > serial
+> > bus info        platform:fe801000.csi
+> > hw revision     0x0
+> > driver version  5.10.74
+> >
+> > Device topology
+> > - entity 1: imx477 10-001a (2 pads, 2 links)
+> >             type V4L2 subdev subtype Sensor flags 0
+> >             device node name /dev/v4l-subdev0
+> >     pad0: Source
+> >         [fmt:SRGGB12_1X12/4056x3040 field:none colorspace:unknown
+> > xfer:none ycbcr:601 quantization:full-range
+> >          crop.bounds:(8,16)/4056x3040
+> >          crop:(8,16)/4056x3040]
+> >         -> "unicam-image":0 [ENABLED,IMMUTABLE]
+> >     pad1: Source
+> >         [fmt:unknown/16384x1 field:none
+> >          crop.bounds:(8,16)/4056x3040
+> >          crop:(8,16)/4056x3040]
+> >         -> "unicam-embedded":0 [ENABLED,IMMUTABLE]
+> >
+> > - entity 4: ad5398 focus (0 pad, 0 link)
+> >             type V4L2 subdev subtype Lens flags 0
+> >             device node name /dev/v4l-subdev1
+> >
+> > - entity 5: unicam-image (1 pad, 1 link)
+> >             type Node subtype V4L flags 1
+> >             device node name /dev/video0
+> >     pad0: Sink
+> >         <- "imx477 10-001a":0 [ENABLED,IMMUTABLE]
+> >
+> > - entity 11: unicam-embedded (1 pad, 1 link)
+> >              type Node subtype V4L flags 0
+> >              device node name /dev/video1
+> >     pad0: Sink
+> >         <- "imx477 10-001a":1 [ENABLED,IMMUTABLE]
+> >
+> > The Pi may be slightly different from other platforms in that if you
+> > enable the second CSI2 interface then it'll be a totally separate
+> > /dev/media node, so we can view it as one overall entity even if not
+> > identified as such.
+> >
+> > The above was grabbed with an IMX477 with AF module. I haven't pushed
+> > that configuration anywhere, but IMX135 with lens driver is at
+> > https://github.com/raspberrypi/linux/pull/4612/
+> >
 >
-> This commit adds a driver for the regulators provided by the tps68470,
-> and is designed to bind to the platform_device registered by the
-> intel_skl_int3472 module.
+> What is the output of:
 >
-> This is based on this out of tree driver written by Intel:
-> https://github.com/intel/linux-intel-lts/blob/4.14/base/drivers/regulator/tps68470-regulator.c
-> with various cleanups added.
+> v4l2-compliance -M /dev/media2 --verbose
+>
+> That will also report any interface links.
 
-> +struct tps68470_regulator_data {
-> +       struct clk *clk;
-> +};
+pi@raspberrypi:~/nfs/v4l-utils/utils/v4l2-compliance $
+./v4l2-compliance  -M /dev/media2 --verbose
+v4l2-compliance 1.21.0-4859, 32 bits, 32-bit time_t
+v4l2-compliance SHA: 493af03f3c57 2021-10-08 17:23:11
 
-...
+Compliance test for unicam device /dev/media2:
 
-> +/*
-> + * (1) This register must have same setting as VIOVAL if S_IO LDO is used to
-> + *     power daisy chained IOs in the receive side.
-> + * (2) If there is no I2C daisy chain it can be set freely.
+Media Driver Info:
+    Driver name      : unicam
+    Model            : unicam
+    Serial           :
+    Bus info         : platform:fe801000.csi
+    Media version    : 5.10.74
+    Hardware revision: 0x00000000 (0)
+    Driver version   : 5.10.74
 
-> + *
+Required ioctls:
+    test MEDIA_IOC_DEVICE_INFO: OK
+    test invalid ioctls: OK
 
-Redundant empty line.
+Allow for multiple opens:
+    test second /dev/media2 open: OK
+    test MEDIA_IOC_DEVICE_INFO: OK
+    test for unlimited opens: OK
 
-> + */
+Media Controller ioctls:
+        Entity: 0x00000001 (Name: 'imx477 10-001a', Function: Camera Sensor)
+        Entity: 0x00000004 (Name: 'ad5398 focus', Function: Lens Controller)
+        Entity: 0x00000005 (Name: 'unicam-image', Function: V4L2 I/O,
+Flags: default)
+        Entity: 0x0000000b (Name: 'unicam-embedded', Function: V4L2 I/O)
+        Interface: 0x03000007 (Type: V4L Video, DevPath: /dev/video0)
+        Interface: 0x0300000d (Type: V4L Video, DevPath: /dev/video1)
+        Interface: 0x03000011 (Type: V4L Sub-Device, DevPath: /dev/v4l-subdev0)
+        Interface: 0x03000013 (Type: V4L Sub-Device, DevPath: /dev/v4l-subdev1)
+        Pad: 0x01000002 (0, imx477 10-001a, Source)
+        Pad: 0x01000003 (1, imx477 10-001a, Source)
+        Pad: 0x01000006 (0, unicam-image, Sink)
+        Pad: 0x0100000c (0, unicam-embedded, Sink)
+        Link: 0x02000008 (unicam-image to interface /dev/video0)
+        Link: 0x02000009 (imx477 10-001a:0 -> unicam-image:0, Data,
+Enabled, Immutable)
+        Link: 0x0200000e (unicam-embedded to interface /dev/video1)
+        Link: 0x0200000f (imx477 10-001a:1 -> unicam-embedded:0, Data,
+Enabled, Immutable)
+        Link: 0x02000012 (imx477 10-001a to interface /dev/v4l-subdev0)
+        Link: 0x02000014 (ad5398 focus to interface /dev/v4l-subdev1)
+    test MEDIA_IOC_G_TOPOLOGY: OK
+    Entities: 4 Interfaces: 4 Pads: 4 Links: 6
+        Entity: 0x00000001 (Name: 'imx477 10-001a', Type: Camera
+Sensor, DevPath: /dev/v4l-subdev0)
+        Entity: 0x00000004 (Name: 'ad5398 focus', Type: Lens
+Controller, DevPath: /dev/v4l-subdev1)
+        Entity: 0x00000005 (Name: 'unicam-image', Type: V4L2 I/O,
+Flags: default, DevPath: /dev/video0)
+        Entity: 0x0000000b (Name: 'unicam-embedded', Type: V4L2 I/O,
+DevPath: /dev/video1)
+    test MEDIA_IOC_ENUM_ENTITIES/LINKS: OK
+    test MEDIA_IOC_SETUP_LINK: OK
 
-...
+Total for unicam device /dev/media2: 8, Succeeded: 8, Failed: 0, Warnings: 0
 
-> +       struct tps68470_regulator_platform_data *pdata = pdev->dev.platform_data;
-
-dev_get_platdata() ?
-
-...
-
-> +       data->clk = devm_clk_get(&pdev->dev, "tps68470-clk");
-> +       if (IS_ERR(data->clk)) {
-> +               dev_err(&pdev->dev, "Error getting tps68470-clk\n");
-> +               return PTR_ERR(data->clk);
-> +       }
-
-return dev_err_probe(...);
-
-...
-
-> +               rdev = devm_regulator_register(&pdev->dev, &regulators[i], &config);
-> +               if (IS_ERR(rdev)) {
-> +                       dev_err(&pdev->dev, "failed to register %s regulator\n",
-> +                               regulators[i].name);
-> +                       return PTR_ERR(rdev);
-> +               }
-
-Ditto.
-
--- 
-With Best Regards,
-Andy Shevchenko
+  Dave
