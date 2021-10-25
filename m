@@ -2,27 +2,30 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3B63B43941A
-	for <lists+linux-media@lfdr.de>; Mon, 25 Oct 2021 12:53:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C0060439448
+	for <lists+linux-media@lfdr.de>; Mon, 25 Oct 2021 12:55:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232036AbhJYKzt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 25 Oct 2021 06:55:49 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:44468 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229890AbhJYKzq (ORCPT
+        id S232410AbhJYK6E (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 25 Oct 2021 06:58:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47096 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231422AbhJYK6D (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 25 Oct 2021 06:55:46 -0400
+        Mon, 25 Oct 2021 06:58:03 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D4EC3C061767
+        for <linux-media@vger.kernel.org>; Mon, 25 Oct 2021 03:55:41 -0700 (PDT)
 Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 14D6CE0A;
-        Mon, 25 Oct 2021 12:53:23 +0200 (CEST)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 155EEE0A;
+        Mon, 25 Oct 2021 12:55:40 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1635159203;
-        bh=fBNWlbFXq2yIlHCFVWE9soygQx9CgZEkq8YPWaLdos4=;
+        s=mail; t=1635159340;
+        bh=UEq5GMgPT9eOgGtAvT5Rv+DD9SmBX91Gm41MrfhkshQ=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=j5pGmm+4OOkmngavgpUb8RT9MTUk1ttvD4H8+3fZfTvO2vxAvtvRR33jq6H8+o9Px
-         mH8jt22BkmaNC28/nthcMvcUzMTZS+fWP+OMB4X2PYyR9OS6ij+qxERs84ER6zCg1C
-         U0qvXKkISWMRz97ycX0U1xul3RyQwf+7gBFjVWSs=
-Date:   Mon, 25 Oct 2021 13:53:01 +0300
+        b=T7bfBgGwQy0VZuL81x8ApUnLMA3AuVuS8FvADuYKYkN+pjZVN/vFYutbH+31BOAp3
+         o7vfkEl/ljb9FtLgzTTGT5ZlgQ/TO7yrLDMtQ1OZeRKmiJMa9jb/7etRd2/hMCUeXf
+         kbq1B50BD8Dege6XB5IVNfYEyiq2zI0g+iEpHvVs=
+Date:   Mon, 25 Oct 2021 13:55:18 +0300
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To:     Hans Verkuil <hverkuil@xs4all.nl>
 Cc:     Hans de Goede <hdegoede@redhat.com>,
@@ -33,95 +36,90 @@ Cc:     Hans de Goede <hdegoede@redhat.com>,
         libcamera-devel@lists.libcamera.org
 Subject: Re: Userspace API for controlling the focus of the Surface Go [2]
  main/back-camera
-Message-ID: <YXaMjRhZZYmcplZP@pendragon.ideasonboard.com>
+Message-ID: <YXaNFulQvs/P0iXC@pendragon.ideasonboard.com>
 References: <c7c94544-8af4-ad29-04ef-6131774e68b8@redhat.com>
- <e6a098ad-5155-b51c-74dd-f467c574efe0@xs4all.nl>
+ <YXaHMd3czQy0NKJn@pendragon.ideasonboard.com>
+ <30ad631c-6c6e-6c1a-7b0a-d50d70a169d2@xs4all.nl>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <e6a098ad-5155-b51c-74dd-f467c574efe0@xs4all.nl>
+In-Reply-To: <30ad631c-6c6e-6c1a-7b0a-d50d70a169d2@xs4all.nl>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
 Hi Hans,
 
-On Mon, Oct 25, 2021 at 12:25:26PM +0200, Hans Verkuil wrote:
-> On 25/10/2021 12:06, Hans de Goede wrote:
-> > Hi All,
+On Mon, Oct 25, 2021 at 12:47:05PM +0200, Hans Verkuil wrote:
+> On 25/10/2021 12:30, Laurent Pinchart wrote:
+> > On Mon, Oct 25, 2021 at 12:06:30PM +0200, Hans de Goede wrote:
+> >> Hi All,
+> >>
+> >> With my (and Dan's) kernel patch-series to enable the back camera on
+> >> the Surface Go shaping up (and hopefully going upstream soon),
+> >> the next step is to enable control of the focus lens for the back
+> >> camera.
+> >>
+> >> The focus is controlled through a separate i2c-client which is
+> >> described by a 2nd I2cSerialBusV2 resource entry in the ACPI
+> >> device for the ov8865 sensor. By default the kernel only instantiates
+> >> an i2c-client for the first I2cSerialBusV2 resource entry for an
+> >> ACPI device, getting an i2c-client for the 2nd one is easy and
+> >> out of scope for this discussion.
+> >>
+> >> The question which I have is, assuming we have the 2nd i2c-client
+> >> instantiated and we have a i2c-driver binding to it, how do we
+> >> represent the focus control to userspace.
+> >>
+> >> I see 2 possible directions we can go here:
+> >>
+> >> 1. Somehow inject an extra v4l2ctrl for this into the v4l2ctrl
+> >> list of the sensor. AFAIK we don't have infra for this atm, but
+> >> we could add some generic mechanism to do this to the v4l2-ctrls
+> >> core. IMHO from a userspace pov this is the cleanest, but at the
+> >> cost of some extra work / possible ugliness on the kernel side.
+> >>
+> >> 2. Register a separate v4l2_subdev for the focus-ctrl and in
+> >> some way provide information to userspace to which sensor this
+> >> belongs.
 > > 
-> > With my (and Dan's) kernel patch-series to enable the back camera on
-> > the Surface Go shaping up (and hopefully going upstream soon),
-> > the next step is to enable control of the focus lens for the back
-> > camera.
+> > The second approach is what V4L2 does already. We have a set of drivers
+> > for VCMs already (search for V4L2_CID_FOCUS_ABSOLUTE in
+> > drivers/media/i2c/).
 > > 
-> > The focus is controlled through a separate i2c-client which is
-> > described by a 2nd I2cSerialBusV2 resource entry in the ACPI
-> > device for the ov8865 sensor. By default the kernel only instantiates
-> > an i2c-client for the first I2cSerialBusV2 resource entry for an
-> > ACPI device, getting an i2c-client for the 2nd one is easy and
-> > out of scope for this discussion.
+> >> I believe that both are valid approaches. So before diving into
+> >> this I wonder what others are thinking about this.
+> >>
+> >> Specific questions:
+> >>
+> >> 1. Hans Verkuil, what do you think about adding
+> >> support for another driver to inject ctrls into the ctrl
+> >> list of another v4l2(sub)dev ? Maybe something like this
+> >> already exists ? If not do you think this is feasible
+> >> and desirable to add ?
+> >>
+> >> 2. If we go with a separate v4l2_subdev, how do we communicate
+> >> to which sensor the focus-control belongs to userspace ?
 > > 
-> > The question which I have is, assuming we have the 2nd i2c-client
-> > instantiated and we have a i2c-driver binding to it, how do we
-> > represent the focus control to userspace.
-> > 
-> > I see 2 possible directions we can go here:
-> > 
-> > 1. Somehow inject an extra v4l2ctrl for this into the v4l2ctrl
-> > list of the sensor. AFAIK we don't have infra for this atm, but
-> > we could add some generic mechanism to do this to the v4l2-ctrls
-> > core. IMHO from a userspace pov this is the cleanest, but at the
-> > cost of some extra work / possible ugliness on the kernel side.
-> > 
-> > 2. Register a separate v4l2_subdev for the focus-ctrl and in
-> > some way provide information to userspace to which sensor this
-> > belongs.
-> > 
-> > I believe that both are valid approaches. So before diving into
-> > this I wonder what others are thinking about this.
-> > 
-> > Specific questions:
-> > 
-> > 1. Hans Verkuil, what do you think about adding
-> > support for another driver to inject ctrls into the ctrl
-> > list of another v4l2(sub)dev ? Maybe something like this
-> > already exists ? If not do you think this is feasible
-> > and desirable to add ?
-> > 
-> > 2. If we go with a separate v4l2_subdev, how do we communicate
-> > to which sensor the focus-control belongs to userspace ?
+> > The information was initially envisioned to be conveyed to userspace
+> > through the media controller API, using the entity group ID to group the
+> > camera sensor, lens controller and flash controller, but the
+> > media_entity_desc.group_id field is now obsolete. No other mechanism
+> > exist to replace that as far as I know, so we'll have to create
+> > something. There have been some talks about using a special kind of link
+> > to expose the relationship between the camera sensor and other
+> > components.
 > 
-> What is the bridge driver that controls the sensor? I would need to
-> know a bit more about the architecture.
+> I thought this was implemented: there should be an interface link from the
+> sensor entity to the subdev for the flash or focus control.
 
-Intel CIO2 (on a Windows-based machine with brain-dead ACPI design,
-unfortunately).
+Interface links are only meant to link entities to interfaces, not
+entities to entities. media_create_intf_link() is only called for that
+purpose today.
 
-> Is it MC-centric? Or is everything controlled through a video device?
+> To my knowledge, this is all available.
 
-MC-centric.
-
-> In the latter case you want the video device to inherit the controls of
-> the sensor and the focus sub-devices, that's supported by the control
-> framework.
-> 
-> In the MC-centric case you probably want to have libcamera support that
-> can tie the focus subdev and the sensor subdev together.
-
-libcamera needs to associate the subdevs for the camera sensor and the
-lens controller, so we need that information to be passed by the kernel
-to userspace (there are two camera sensors in that machine).
-
-> v4l2_async_nf_parse_fwnode_sensor() supports linking LEDs or lens-focus
-> devices together with the sensor, so that's how a focus device can be
-> associated with a sensor at the ACPI/DT level. So support for 2) is
-> already available. A separate subdev is in my view certainly the correct
-> approach.
-
-That functions add subdev async notifier entries for the lens controller
-and the flash controller, but as far as I know, we don't convey the
-information to userspace.
+To my knowledge, it isn't :-) I'd be happy to be proven wrong though.
 
 -- 
 Regards,
