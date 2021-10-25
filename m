@@ -2,260 +2,191 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2B8D543926F
-	for <lists+linux-media@lfdr.de>; Mon, 25 Oct 2021 11:34:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 02F0643929F
+	for <lists+linux-media@lfdr.de>; Mon, 25 Oct 2021 11:41:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232525AbhJYJgv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 25 Oct 2021 05:36:51 -0400
-Received: from mx3.molgen.mpg.de ([141.14.17.11]:60957 "EHLO mx1.molgen.mpg.de"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S229499AbhJYJgu (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 25 Oct 2021 05:36:50 -0400
-Received: from [141.14.220.45] (g45.guest.molgen.mpg.de [141.14.220.45])
-        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        id S232690AbhJYJn6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 25 Oct 2021 05:43:58 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:26735 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S232691AbhJYJn5 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Mon, 25 Oct 2021 05:43:57 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1635154895;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=AJjwA8KpQ+JtJtv1gkti7fBiNXqA/I5dkFBR+HHCYOg=;
+        b=BeTMTOycSLJylzRq9SgQfFG/G0ZaDfQi7EBGgTgKeRDyUGLClC7G9b7MyJtfBY1BhTWnUe
+        tuPWjb3usby6V0wnZTpNLV5I8j9bZDiY/HA6/q1O8xY4QCOm5wtWxqyuXRExqg/3ShQTp1
+        sWhZMYUetl7mhKqomdCqNOHfwlvghyM=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-380-OW6uVO-qNgm_GI2K9g3plA-1; Mon, 25 Oct 2021 05:41:31 -0400
+X-MC-Unique: OW6uVO-qNgm_GI2K9g3plA-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.12])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        (Authenticated sender: pmenzel)
-        by mx.molgen.mpg.de (Postfix) with ESMTPSA id 5B80D61EA1BD2;
-        Mon, 25 Oct 2021 11:34:26 +0200 (CEST)
-Message-ID: <d8f70dfc-e064-d34c-98a0-cfde2e2f726c@molgen.mpg.de>
-Date:   Mon, 25 Oct 2021 11:34:26 +0200
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 688511006AA4;
+        Mon, 25 Oct 2021 09:41:28 +0000 (UTC)
+Received: from x1.localdomain (unknown [10.39.195.129])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 5BC1F60BF4;
+        Mon, 25 Oct 2021 09:41:20 +0000 (UTC)
+From:   Hans de Goede <hdegoede@redhat.com>
+To:     "Rafael J . Wysocki" <rjw@rjwysocki.net>,
+        Mark Gross <markgross@kernel.org>,
+        Andy Shevchenko <andy@infradead.org>,
+        Wolfram Sang <wsa@the-dreams.de>,
+        Mika Westerberg <mika.westerberg@linux.intel.com>,
+        Daniel Scally <djrscally@gmail.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Mark Brown <broonie@kernel.org>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>
+Cc:     Hans de Goede <hdegoede@redhat.com>, Len Brown <lenb@kernel.org>,
+        linux-acpi@vger.kernel.org, platform-driver-x86@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-i2c@vger.kernel.org,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Kate Hsuan <hpa@redhat.com>, linux-media@vger.kernel.org,
+        linux-clk@vger.kernel.org
+Subject: [PATCH v4 00/11] Add support for X86/ACPI camera sensor/PMIC setup with clk and regulator platform data
+Date:   Mon, 25 Oct 2021 11:41:08 +0200
+Message-Id: <20211025094119.82967-1-hdegoede@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.1
-Subject: Re: [PATCH v2] media: aspeed: add debugfs
-Content-Language: en-US
-To:     Jammy Huang <jammy_huang@aspeedtech.com>
-Cc:     BMC-SW@aspeedtech.com, eajames@linux.ibm.com, mchehab@kernel.org,
-        joel@jms.id.au, andrew@aj.id.au, linux-media@vger.kernel.org,
-        openbmc@lists.ozlabs.org, linux-arm-kernel@lists.infradead.org,
-        linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org
-References: <20210929090024.8499-1-jammy_huang@aspeedtech.com>
-From:   Paul Menzel <pmenzel@molgen.mpg.de>
-In-Reply-To: <20210929090024.8499-1-jammy_huang@aspeedtech.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Dear Jammy,
+Hi All,
+
+Here is v4 of my patch-set adding support for camera sensor connected to a
+TPS68470 PMIC on x86/ACPI devices.
+
+Changes in v4:
+[PATCH 01/11] ACPI: delay enumeration of devices with a _DEP
+              pointing to an INT3472 device:
+- Move the acpi_dev_ready_for_enumeration() check to acpi_bus_attach()
+  (replacing the acpi_device_is_present() check there)
+
+[PATCH 04/11] regulator: Introduce tps68470-regulator driver:
+- Make the top comment block use c++ style comments
+- Drop the bogus builtin regulator_init_data
+- Make the driver enable the PMIC clk when enabling the Core buck
+  regulator, this switching regulator needs the PLL to be on
+- Kconfig: add || COMPILE_TEST, fix help text
+
+[PATCH 05/11] clk: Introduce clk-tps68470 driver
+- Kconfig: select REGMAP_I2C, add || COMPILE_TEST, fix help text
+- tps68470_clk_prepare(): Wait for the PLL to lock before returning
+- tps68470_clk_unprepare(): Remove unnecesary clearing of divider regs
+- tps68470_clk_probe(): Use devm_clk_hw_register()
+- Misc. small cleanups
+
+I'm quite happy with how this works now, so from my pov this is the final
+version of the device-instantiation deferral code / approach.
+
+###
+
+The clk and regulator frameworks expect clk/regulator consumer-devices
+to have info about the consumed clks/regulators described in the device's
+fw_node, but on ACPI this info is missing.
+
+This series worksaround this by providing platform_data with the info to
+the TPS68470 clk/regulator MFD cells.
+
+Patches 1 - 2 deal with a probe-ordering problem this introduces,
+since the lookups are only registered when the provider-driver binds,
+trying to get these clks/regulators before then results in a -ENOENT
+error for clks and a dummy regulator for regulators. See the patches
+for more details.
+
+Patch 3 adds a header file which adds tps68470_clk_platform_data and
+tps68470_regulator_platform_data structs. The futher patches depend on
+this new header file.
+
+Patch 4 + 5 add the TPS68470 clk and regulator drivers
+
+Patches 6 - 11 Modify the INT3472 driver which instantiates the MFD cells to
+provide the necessary platform-data.
+
+Assuming this series is acceptable to everyone, we need to talk about how
+to merge this.
+
+Patch 2 has already been acked by Wolfram for merging by Rafael, so patch
+1 + 2 can be merged into linux-pm, independent of the rest of the series
+(there are some runtime deps on other changes for everything to work,
+but the camera-sensors impacted by this are not fully supported yet in
+the mainline kernel anyways).
+
+For "[PATCH 03/13] platform_data: Add linux/platform_data/tps68470.h file",
+which all further patches depend on I plan to provide an immutable branch
+myself (once it has been reviewed), which the clk / regulator maintainers
+can then merge before merging the clk / regulator driver which depends on
+this.
+
+And I will merge that IM-branch + patches 6-11 into the pdx86 tree myself.
+
+Regards,
+
+Hans
 
 
-On 29.09.21 11:00, Jammy Huang wrote:
-> To show video real-time information as below:
+Daniel Scally (1):
+  platform/x86: int3472: Enable I2c daisy chain
 
-Please list the path for that file containing the information below.
+Hans de Goede (10):
+  ACPI: delay enumeration of devices with a _DEP pointing to an INT3472
+    device
+  i2c: acpi: Use acpi_dev_ready_for_enumeration() helper
+  platform_data: Add linux/platform_data/tps68470.h file
+  regulator: Introduce tps68470-regulator driver
+  clk: Introduce clk-tps68470 driver
+  platform/x86: int3472: Split into 2 drivers
+  platform/x86: int3472: Add get_sensor_adev_and_name() helper
+  platform/x86: int3472: Pass tps68470_clk_platform_data to the
+    tps68470-regulator MFD-cell
+  platform/x86: int3472: Pass tps68470_regulator_platform_data to the
+    tps68470-regulator MFD-cell
+  platform/x86: int3472: Deal with probe ordering issues
 
-> Caputre:
+ drivers/acpi/scan.c                           |  37 ++-
+ drivers/clk/Kconfig                           |   8 +
+ drivers/clk/Makefile                          |   1 +
+ drivers/clk/clk-tps68470.c                    | 253 ++++++++++++++++++
+ drivers/i2c/i2c-core-acpi.c                   |   5 +-
+ drivers/platform/x86/intel/int3472/Makefile   |   9 +-
+ ...lk_and_regulator.c => clk_and_regulator.c} |   2 +-
+ drivers/platform/x86/intel/int3472/common.c   |  82 ++++++
+ .../{intel_skl_int3472_common.h => common.h}  |   6 +-
+ ...ntel_skl_int3472_discrete.c => discrete.c} |  51 ++--
+ .../intel/int3472/intel_skl_int3472_common.c  | 106 --------
+ ...ntel_skl_int3472_tps68470.c => tps68470.c} |  98 ++++++-
+ drivers/platform/x86/intel/int3472/tps68470.h |  25 ++
+ .../x86/intel/int3472/tps68470_board_data.c   | 118 ++++++++
+ drivers/regulator/Kconfig                     |   9 +
+ drivers/regulator/Makefile                    |   1 +
+ drivers/regulator/tps68470-regulator.c        | 215 +++++++++++++++
+ include/acpi/acpi_bus.h                       |   5 +-
+ include/linux/mfd/tps68470.h                  |  11 +
+ include/linux/platform_data/tps68470.h        |  35 +++
+ 20 files changed, 925 insertions(+), 152 deletions(-)
+ create mode 100644 drivers/clk/clk-tps68470.c
+ rename drivers/platform/x86/intel/int3472/{intel_skl_int3472_clk_and_regulator.c => clk_and_regulator.c} (99%)
+ create mode 100644 drivers/platform/x86/intel/int3472/common.c
+ rename drivers/platform/x86/intel/int3472/{intel_skl_int3472_common.h => common.h} (94%)
+ rename drivers/platform/x86/intel/int3472/{intel_skl_int3472_discrete.c => discrete.c} (91%)
+ delete mode 100644 drivers/platform/x86/intel/int3472/intel_skl_int3472_common.c
+ rename drivers/platform/x86/intel/int3472/{intel_skl_int3472_tps68470.c => tps68470.c} (54%)
+ create mode 100644 drivers/platform/x86/intel/int3472/tps68470.h
+ create mode 100644 drivers/platform/x86/intel/int3472/tps68470_board_data.c
+ create mode 100644 drivers/regulator/tps68470-regulator.c
+ create mode 100644 include/linux/platform_data/tps68470.h
 
-Capture
+-- 
+2.31.1
 
->    Signal              : Unlock
->    Width               : 1920
->    Height              : 1080
->    FRC                 : 30
-> 
-> Performance:
->    Frame#              : 0
->    Frame Duration      :
->      Now               : 0
->      Min               : 0
->      Max               : 0
->    FPS(ms)             : 0
-
-
-Kind regards,
-
-Paul
-
-
-> Change-Id: I483740c4df6db07a9261c18440472a0356512bb7
-> Signed-off-by: Jammy Huang <jammy_huang@aspeedtech.com>
-> ---
->   drivers/media/platform/aspeed-video.c | 101 ++++++++++++++++++++++++++
->   1 file changed, 101 insertions(+)
-> 
-> diff --git a/drivers/media/platform/aspeed-video.c b/drivers/media/platform/aspeed-video.c
-> index 8b3939b8052d..c5c413844441 100644
-> --- a/drivers/media/platform/aspeed-video.c
-> +++ b/drivers/media/platform/aspeed-video.c
-> @@ -21,6 +21,8 @@
->   #include <linux/videodev2.h>
->   #include <linux/wait.h>
->   #include <linux/workqueue.h>
-> +#include <linux/debugfs.h>
-> +#include <linux/ktime.h>
->   #include <media/v4l2-ctrls.h>
->   #include <media/v4l2-dev.h>
->   #include <media/v4l2-device.h>
-> @@ -203,6 +205,14 @@ struct aspeed_video_buffer {
->   	struct list_head link;
->   };
->   
-> +struct aspeed_video_perf {
-> +	ktime_t last_sample;
-> +	u32 totaltime;
-> +	u32 duration;
-> +	u32 duration_min;
-> +	u32 duration_max;
-> +};
-> +
->   #define to_aspeed_video_buffer(x) \
->   	container_of((x), struct aspeed_video_buffer, vb)
->   
-> @@ -241,6 +251,8 @@ struct aspeed_video {
->   	unsigned int frame_left;
->   	unsigned int frame_right;
->   	unsigned int frame_top;
-> +
-> +	struct aspeed_video_perf perf;
->   };
->   
->   #define to_aspeed_video(x) container_of((x), struct aspeed_video, v4l2_dev)
-> @@ -444,6 +456,16 @@ static void aspeed_video_write(struct aspeed_video *video, u32 reg, u32 val)
->   		readl(video->base + reg));
->   }
->   
-> +static void update_perf(struct aspeed_video_perf *p)
-> +{
-> +	p->duration =
-> +		ktime_to_ms(ktime_sub(ktime_get(),  p->last_sample));
-> +	p->totaltime += p->duration;
-> +
-> +	p->duration_max = max(p->duration, p->duration_max);
-> +	p->duration_min = min(p->duration, p->duration_min);
-> +}
-> +
->   static int aspeed_video_start_frame(struct aspeed_video *video)
->   {
->   	dma_addr_t addr;
-> @@ -482,6 +504,8 @@ static int aspeed_video_start_frame(struct aspeed_video *video)
->   	aspeed_video_update(video, VE_INTERRUPT_CTRL, 0,
->   			    VE_INTERRUPT_COMP_COMPLETE);
->   
-> +	video->perf.last_sample = ktime_get();
-> +
->   	aspeed_video_update(video, VE_SEQ_CTRL, 0,
->   			    VE_SEQ_CTRL_TRIG_CAPTURE | VE_SEQ_CTRL_TRIG_COMP);
->   
-> @@ -600,6 +624,8 @@ static irqreturn_t aspeed_video_irq(int irq, void *arg)
->   		u32 frame_size = aspeed_video_read(video,
->   						   VE_JPEG_COMP_SIZE_READ_BACK);
->   
-> +		update_perf(&video->perf);
-> +
->   		spin_lock(&video->lock);
->   		clear_bit(VIDEO_FRAME_INPRG, &video->flags);
->   		buf = list_first_entry_or_null(&video->buffers,
-> @@ -760,6 +786,7 @@ static void aspeed_video_get_resolution(struct aspeed_video *video)
->   	det->width = MIN_WIDTH;
->   	det->height = MIN_HEIGHT;
->   	video->v4l2_input_status = V4L2_IN_ST_NO_SIGNAL;
-> +	memset(&video->perf, 0, sizeof(video->perf));
->   
->   	do {
->   		if (tries) {
-> @@ -1450,6 +1477,8 @@ static int aspeed_video_start_streaming(struct vb2_queue *q,
->   	struct aspeed_video *video = vb2_get_drv_priv(q);
->   
->   	video->sequence = 0;
-> +	video->perf.duration_max = 0;
-> +	video->perf.duration_min = 0xffffffff;
->   
->   	rc = aspeed_video_start_frame(video);
->   	if (rc) {
-> @@ -1517,6 +1546,72 @@ static const struct vb2_ops aspeed_video_vb2_ops = {
->   	.buf_queue =  aspeed_video_buf_queue,
->   };
->   
-> +#ifdef CONFIG_DEBUG_FS
-> +static int aspeed_video_debugfs_show(struct seq_file *s, void *data)
-> +{
-> +	struct aspeed_video *v = s->private;
-> +
-> +	seq_puts(s, "\n");
-> +
-> +	seq_printf(s, "  %-20s:\t%s\n", "Signal",
-> +		   v->v4l2_input_status ? "Unlock" : "Lock");
-> +	seq_printf(s, "  %-20s:\t%d\n", "Width", v->pix_fmt.width);
-> +	seq_printf(s, "  %-20s:\t%d\n", "Height", v->pix_fmt.height);
-> +	seq_printf(s, "  %-20s:\t%d\n", "FRC", v->frame_rate);
-> +
-> +	seq_puts(s, "\n");
-> +
-> +	seq_puts(s, "Performance:\n");
-> +	seq_printf(s, "  %-20s:\t%d\n", "Frame#", v->sequence);
-> +	seq_printf(s, "  %-20s:\n", "Frame Duration");
-> +	seq_printf(s, "    %-18s:\t%d\n", "Now", v->perf.duration);
-> +	seq_printf(s, "    %-18s:\t%d\n", "Min", v->perf.duration_min);
-> +	seq_printf(s, "    %-18s:\t%d\n", "Max", v->perf.duration_max);
-> +	seq_printf(s, "  %-20s:\t%d\n", "FPS(ms)", 1000/(v->perf.totaltime/v->sequence));
-> +
-> +
-> +	return 0;
-> +}
-> +
-> +int aspeed_video_proc_open(struct inode *inode, struct file *file)
-> +{
-> +	return single_open(file, aspeed_video_debugfs_show, inode->i_private);
-> +}
-> +
-> +static struct file_operations aspeed_video_debugfs_ops = {
-> +	.owner   = THIS_MODULE,
-> +	.open    = aspeed_video_proc_open,
-> +	.read    = seq_read,
-> +	.llseek  = seq_lseek,
-> +	.release = single_release,
-> +};
-> +
-> +static struct dentry *debugfs_entry;
-> +
-> +static void aspeed_video_debugfs_remove(struct aspeed_video *video)
-> +{
-> +	debugfs_remove_recursive(debugfs_entry);
-> +	debugfs_entry = NULL;
-> +}
-> +
-> +static int aspeed_video_debugfs_create(struct aspeed_video *video)
-> +{
-> +	debugfs_entry = debugfs_create_file(DEVICE_NAME, 0444, NULL,
-> +						   video,
-> +						   &aspeed_video_debugfs_ops);
-> +	if (!debugfs_entry)
-> +		aspeed_video_debugfs_remove(video);
-> +
-> +	return debugfs_entry == NULL ? -EIO : 0;
-> +}
-> +#else
-> +static void aspeed_video_debugfs_remove(struct aspeed_video *video) { }
-> +static int aspeed_video_debugfs_create(struct aspeed_video *video)
-> +{
-> +	return 0;
-> +}
-> +#endif /* CONFIG_DEBUG_FS */
-> +
->   static int aspeed_video_setup_video(struct aspeed_video *video)
->   {
->   	const u64 mask = ~(BIT(V4L2_JPEG_CHROMA_SUBSAMPLING_444) |
-> @@ -1708,6 +1803,10 @@ static int aspeed_video_probe(struct platform_device *pdev)
->   		return rc;
->   	}
->   
-> +	rc = aspeed_video_debugfs_create(video);
-> +	if (rc)
-> +		dev_err(video->dev, "debugfs create failed\n");
-> +
->   	return 0;
->   }
->   
-> @@ -1719,6 +1818,8 @@ static int aspeed_video_remove(struct platform_device *pdev)
->   
->   	aspeed_video_off(video);
->   
-> +	aspeed_video_debugfs_remove(video);
-> +
->   	clk_unprepare(video->vclk);
->   	clk_unprepare(video->eclk);
->   
-> 
