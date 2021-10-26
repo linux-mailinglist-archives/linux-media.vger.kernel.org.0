@@ -2,100 +2,118 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9155A43B1E5
-	for <lists+linux-media@lfdr.de>; Tue, 26 Oct 2021 14:07:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6F6F743B27C
+	for <lists+linux-media@lfdr.de>; Tue, 26 Oct 2021 14:32:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235174AbhJZMJi (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 26 Oct 2021 08:09:38 -0400
-Received: from mail.kernel.org ([198.145.29.99]:37244 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S233838AbhJZMJg (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Tue, 26 Oct 2021 08:09:36 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 6E88960E05;
-        Tue, 26 Oct 2021 12:07:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1635250032;
-        bh=5UPpA3J3tlAokOz6B34fDtDFsO0+mmeco3ZVTn3rKOg=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=a6mfWS66LrSGEjYVEif3tz+5FEp0/Y3oKJopxn5uS7/SH0k5SnfJSm04RJOEOk8fk
-         6KG6qPkzoRcF6JCwd0M0mrp1YSs0QAuqBR6B0X/OpeyT07njShauhD7ocDmpw55O+5
-         IErBq4AFG+C64i9xRDN9ODPUbT+vUFUMsYewbLxAqcVfyYP5PgGZ70aLXonTCxzvHd
-         KdLmjZ6I/DW2tnrtkxSWWz/jTUFybwj9xTQllfW9fgOq9t3/TKnsiO8AY8F47nc70W
-         /fht8AbY0nwFBhP1mHY00++qb5bOw22i43yAshblzPShk4vKirskrb6nac9PB0poBS
-         g4IBREQ0dIq+A==
-Received: from johan by xi.lan with local (Exim 4.94.2)
-        (envelope-from <johan@kernel.org>)
-        id 1mfLEF-0001fI-Ns; Tue, 26 Oct 2021 14:06:56 +0200
-Date:   Tue, 26 Oct 2021 14:06:55 +0200
-From:   Johan Hovold <johan@kernel.org>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        id S236010AbhJZMeY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 26 Oct 2021 08:34:24 -0400
+Received: from relay9-d.mail.gandi.net ([217.70.183.199]:38981 "EHLO
+        relay9-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S236001AbhJZMeW (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Tue, 26 Oct 2021 08:34:22 -0400
+Received: (Authenticated sender: jacopo@jmondi.org)
+        by relay9-d.mail.gandi.net (Postfix) with ESMTPSA id 76919FF804;
+        Tue, 26 Oct 2021 12:31:55 +0000 (UTC)
+Date:   Tue, 26 Oct 2021 14:32:46 +0200
+From:   Jacopo Mondi <jacopo@jmondi.org>
+To:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        linux-media@vger.kernel.org, sakari.ailus@linux.intel.com,
+        Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        niklas.soderlund+renesas@ragnatech.se,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, linux-usb@vger.kernel.org,
-        linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Subject: Re: [PATCH] media: uvcvideo: fix division by zero at stream start
-Message-ID: <YXfvXzgnvPVqwqZs@hovoldconsulting.com>
-References: <20211026095511.26673-1-johan@kernel.org>
- <163524570516.1184428.14632987312253060787@Monstersaurus>
- <YXfjSJ+fm+LV/m+M@pendragon.ideasonboard.com>
+        Pratyush Yadav <p.yadav@ti.com>
+Subject: Re: [PATCH v9 00/36] v4l: subdev internal routing and streams
+Message-ID: <20211026123246.3rv7yiavf7vycx2s@uno.localdomain>
+References: <20211005085750.138151-1-tomi.valkeinen@ideasonboard.com>
+ <6c1dfc4d-ec8a-6643-b768-5fe507da495d@xs4all.nl>
+ <60c9509b-6f39-8492-065d-72918670d49f@ideasonboard.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <YXfjSJ+fm+LV/m+M@pendragon.ideasonboard.com>
+In-Reply-To: <60c9509b-6f39-8492-065d-72918670d49f@ideasonboard.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Oct 26, 2021 at 02:15:20PM +0300, Laurent Pinchart wrote:
-> On Tue, Oct 26, 2021 at 11:55:05AM +0100, Kieran Bingham wrote:
-> > Quoting Johan Hovold (2021-10-26 10:55:11)
-> > > Add the missing bulk-endpoint max-packet sanity check to probe() to
-> > > avoid division by zero in uvc_alloc_urb_buffers() in case a malicious
-> > > device has broken descriptors (or when doing descriptor fuzz testing).
-> > > 
-> > > Note that USB core will reject URBs submitted for endpoints with zero
-> > > wMaxPacketSize but that drivers doing packet-size calculations still
-> > > need to handle this (cf. commit 2548288b4fb0 ("USB: Fix: Don't skip
-> > > endpoint descriptors with maxpacket=0")).
-> > > 
-> > > Fixes: c0efd232929c ("V4L/DVB (8145a): USB Video Class driver")
-> > > Cc: stable@vger.kernel.org      # 2.6.26
-> > > Signed-off-by: Johan Hovold <johan@kernel.org>
-> > > ---
-> > >  drivers/media/usb/uvc/uvc_video.c | 4 ++++
-> > >  1 file changed, 4 insertions(+)
-> > > 
-> > > diff --git a/drivers/media/usb/uvc/uvc_video.c b/drivers/media/usb/uvc/uvc_video.c
-> > > index e16464606b14..85ac5c1081b6 100644
-> > > --- a/drivers/media/usb/uvc/uvc_video.c
-> > > +++ b/drivers/media/usb/uvc/uvc_video.c
-> > > @@ -1958,6 +1958,10 @@ static int uvc_video_start_transfer(struct uvc_streaming *stream,
-> > >                 if (ep == NULL)
-> > >                         return -EIO;
-> > >  
-> > > +               /* Reject broken descriptors. */
-> > > +               if (usb_endpoint_maxp(&ep->desc) == 0)
-> > > +                       return -EIO;
-> > 
-> > Is there any value in identifying this with a specific return code like
-> > -ENODATA?
-> 
-> Going one step further, wouldn't it be better to fail probe() for those
-> devices ?
+Hi Tomi,
 
-This is not how the driver works today. Look at the "return -EIO" just
-above in case the expected endpoint is missing. And similarly for the
-isochronous case for which zero wMaxPacket isn't handled until
-uvc_video_start_transfer() either (a few lines further up still).
+On Tue, Oct 26, 2021 at 02:54:45PM +0300, Tomi Valkeinen wrote:
+> Hi Hans,
+>
+> On 11/10/2021 18:29, Hans Verkuil wrote:
+> > Hi Tomi,
+> >
+> > On 05/10/2021 10:57, Tomi Valkeinen wrote:
+> > > Hi,
+> > >
+> > > This is v9 of the multiplexed streams series. v8 can be found from:
+> > >
+> > > https://lore.kernel.org/all/20210830110116.488338-1-tomi.valkeinen@ideasonboard.com/
+> > >
+> > > I have pushed my work branch to:
+> > >
+> > > git://git.kernel.org/pub/scm/linux/kernel/git/tomba/linux.git multistream/work-v9
+> > >
+> > > which contains the patches in this series, along with subdev drivers
+> > > using multiplexed streams.
+> > >
+> > > As can be guessed from the work branch, I have been testing this series
+> > > with TI's FPDLink setup. I have also done a "backwards compatibility"
+> > > test by dropping all multiplexed streams patches from the CAL driver
+> > > (the CSI-2 RX on the TI SoC), and using the FPDLink drivers with
+> > > single-stream configuration.
+> >
+> > I hope to look at this series this week (fingers crossed), but I was asked to
+> > give some input w.r.t. testing of this series:
+>
+> Thanks for the reviews! I'll start updating the series accordingly.
+>
+> > I think before this can be merged we need:
+> >
+> > 1) libcamera tests. Since libcamera would probably be the most active user of this
+> > API, and you have HW for it, it makes a lot of sense that there are decent tests
+> > for the supported HW in libcamera. That takes care of the real-world tests.
+>
+> I agree, libcamera would be a good userspace test. Laurent has been working
+> on that.
+>
+> > 2) obviously the existing utils in v4l-utils need to be adapted to understand any
+> > new API elements.
+>
+> Yes. I think it's "just" two things that are needed: ability to set a
+> routing table (that might be quite messy via the cmdline for larger routing
+> tables) and ability to set format and other parameters with a (pad,stream)
+> tuple, instead of just pad.
+>
 
-Note however the copy-paste error in the commit message mentioning
-probe(), which is indeed where this would typically be handled.
+For testing my series I have sketeched out
+https://git.sr.ht/~jmondi_/v4l2-utils
 
-Do you want me to resend or can you change
+I can work to make the patches there upstreamable
 
-	s/probe()/uvc_video_start_transfer()/
+Thanks
+   j
 
-in the commit message when applying if you think this is acceptable as
-is?
 
-Johan
+> > 3) compliance tests in v4l2-compliance for the new API. After I did a review of the
+> > series we can see to what extent this is possible.
+>
+> One thing we have to fix are the problems caused by adding the 'stream'
+> field to many structs, but I think fixing that is trivial.
+>
+> Actually testing routing and streams is a bit more difficult.
+>
+> > 4) optionally (for now at least, I reserve the right to change my mind): it would
+> > be very helpful if this can be added to vimc (or something similar), allowing for
+> > testing the API without having real hardware, which is useful both for writing
+> > the tests and for running regression tests regularly on a simple VM, without needing
+> > special hardware.
+>
+> I haven't studied the vimc code, but maybe a metadata stream would be an
+> easy addition.
+>
+>  Tomi
+>
