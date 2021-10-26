@@ -2,151 +2,116 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7471743B187
-	for <lists+linux-media@lfdr.de>; Tue, 26 Oct 2021 13:52:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 775AB43B1AD
+	for <lists+linux-media@lfdr.de>; Tue, 26 Oct 2021 13:55:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235571AbhJZLzK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 26 Oct 2021 07:55:10 -0400
-Received: from mailgw01.mediatek.com ([60.244.123.138]:49868 "EHLO
-        mailgw01.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
-        with ESMTP id S235563AbhJZLzJ (ORCPT
+        id S235672AbhJZL50 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 26 Oct 2021 07:57:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48290 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S235679AbhJZL5Q (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 26 Oct 2021 07:55:09 -0400
-X-UUID: 85655ae7c4df4c47993a373fa7dca3e1-20211026
-X-UUID: 85655ae7c4df4c47993a373fa7dca3e1-20211026
-Received: from mtkexhb02.mediatek.inc [(172.21.101.103)] by mailgw01.mediatek.com
-        (envelope-from <guangming.cao@mediatek.com>)
-        (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
-        with ESMTP id 592306941; Tue, 26 Oct 2021 19:52:43 +0800
-Received: from mtkcas11.mediatek.inc (172.21.101.40) by
- mtkmbs10n1.mediatek.inc (172.21.101.34) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- 15.2.792.15; Tue, 26 Oct 2021 19:52:41 +0800
-Received: from mszswglt01.gcn.mediatek.inc (10.16.20.20) by
- mtkcas11.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
- 15.0.1497.2 via Frontend Transport; Tue, 26 Oct 2021 19:52:41 +0800
-From:   <guangming.cao@mediatek.com>
-To:     <christian.koenig@amd.com>
-CC:     <dri-devel@lists.freedesktop.org>, <guangming.cao@mediatek.com>,
-        <linaro-mm-sig@lists.linaro.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-kernel@vger.kernel.org>, <linux-media@vger.kernel.org>,
-        <linux-mediatek@lists.infradead.org>, <matthias.bgg@gmail.com>,
-        <rdunlap@infradead.org>, <sumit.semwal@linaro.org>,
-        <wsd_upstream@mediatek.com>,
-        Guangming Cao <Guangming.Cao@mediatek.com>
-Subject: Re: [PATCH v3] dma-buf: remove restriction of IOCTL:DMA_BUF_SET_NAME
-Date:   Tue, 26 Oct 2021 19:52:48 +0800
-Message-ID: <20211026115248.9564-1-guangming.cao@mediatek.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <0e062f12-7e79-5a05-1e7b-10dda8e353b7@amd.com>
-References: <0e062f12-7e79-5a05-1e7b-10dda8e353b7@amd.com>
+        Tue, 26 Oct 2021 07:57:16 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DECA8C061225
+        for <linux-media@vger.kernel.org>; Tue, 26 Oct 2021 04:54:49 -0700 (PDT)
+Received: from [192.168.1.111] (91-158-153-130.elisa-laajakaista.fi [91.158.153.130])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id B17CD3F0;
+        Tue, 26 Oct 2021 13:54:47 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1635249288;
+        bh=ggHeYahoS2RHmAuvX8GxcaHPSqZuA65tApA2UmZ/gDY=;
+        h=To:Cc:References:From:Subject:Date:In-Reply-To:From;
+        b=rg9f1Z4mTWafNjvlmiqNZR57QK194a1l/HC/GFI2Ybb/ea7QGBFL+TWx2GXiZyVG1
+         WL5vK1aUvlvRyDzbXMumSChQd2u+Uf43+oA1fOuybGIlGFfY1AuESs6K6nouac+zOM
+         Q84eG6BfHqjUbjG9n0Hzxt5OkYA1DdMpQSIgkYOU=
+To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        linux-media@vger.kernel.org, sakari.ailus@linux.intel.com,
+        Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        niklas.soderlund+renesas@ragnatech.se
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Pratyush Yadav <p.yadav@ti.com>
+References: <20211005085750.138151-1-tomi.valkeinen@ideasonboard.com>
+ <6c1dfc4d-ec8a-6643-b768-5fe507da495d@xs4all.nl>
+From:   Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Subject: Re: [PATCH v9 00/36] v4l: subdev internal routing and streams
+Message-ID: <60c9509b-6f39-8492-065d-72918670d49f@ideasonboard.com>
+Date:   Tue, 26 Oct 2021 14:54:45 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <6c1dfc4d-ec8a-6643-b768-5fe507da495d@xs4all.nl>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-X-MTK:  N
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Guangming Cao <Guangming.Cao@mediatek.com>
+Hi Hans,
 
-On Tue, 2021-10-26 at 13:18 +0200, Christian König wrote:
-> Am 14.10.21 um 12:25 schrieb guangming.cao@mediatek.com:
-> > From: Guangming Cao <Guangming.Cao@mediatek.com>
-> > 
-> > In this patch(https://patchwork.freedesktop.org/patch/310349),
-> > it add a new IOCTL to support dma-buf user to set debug name.
-> > 
-> > But it also added a limitation of this IOCTL, it needs the
-> > attachments of dmabuf should be empty, otherwise it will fail.
-> > 
-> > For the original series, the idea was that allowing name change
-> > mid-use could confuse the users about the dma-buf.
-> > However, the rest of the series also makes sure each dma-buf have a
-> > unique
-> > inode(https://patchwork.freedesktop.org/patch/310387/), and any
-> > accounting
-> > should probably use that, without relying on the name as much.
-> > 
-> > So, removing this restriction will let dma-buf userspace users to
-> > use it
-> > more comfortably and without any side effect.
-> > 
-> > Signed-off-by: Guangming Cao <Guangming.Cao@mediatek.com>
+On 11/10/2021 18:29, Hans Verkuil wrote:
+> Hi Tomi,
 > 
-> We could now cleanup the return value from dma_buf_set_name() into a 
-> void since that function can't fail any more as far as I can see.
+> On 05/10/2021 10:57, Tomi Valkeinen wrote:
+>> Hi,
+>>
+>> This is v9 of the multiplexed streams series. v8 can be found from:
+>>
+>> https://lore.kernel.org/all/20210830110116.488338-1-tomi.valkeinen@ideasonboard.com/
+>>
+>> I have pushed my work branch to:
+>>
+>> git://git.kernel.org/pub/scm/linux/kernel/git/tomba/linux.git multistream/work-v9
+>>
+>> which contains the patches in this series, along with subdev drivers
+>> using multiplexed streams.
+>>
+>> As can be guessed from the work branch, I have been testing this series
+>> with TI's FPDLink setup. I have also done a "backwards compatibility"
+>> test by dropping all multiplexed streams patches from the CAL driver
+>> (the CSI-2 RX on the TI SoC), and using the FPDLink drivers with
+>> single-stream configuration.
 > 
-> But that isn't mandatory I think, patch is Reviewed-by: Christian
-> König 
-> <christian.koenig@amd.com>
->
+> I hope to look at this series this week (fingers crossed), but I was asked to
+> give some input w.r.t. testing of this series:
 
-So, here is no need to check return value of 'strndup_user',
-just return without error code if the almost impossible error occurs?
+Thanks for the reviews! I'll start updating the series accordingly.
 
-Guangming.
+> I think before this can be merged we need:
+> 
+> 1) libcamera tests. Since libcamera would probably be the most active user of this
+> API, and you have HW for it, it makes a lot of sense that there are decent tests
+> for the supported HW in libcamera. That takes care of the real-world tests.
 
-> Regards,
-> Christian.
-> 
-> > ---
-> >   drivers/dma-buf/dma-buf.c | 17 +++--------------
-> >   1 file changed, 3 insertions(+), 14 deletions(-)
-> > 
-> > diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
-> > index 511fe0d217a0..5fbb3a2068a3 100644
-> > --- a/drivers/dma-buf/dma-buf.c
-> > +++ b/drivers/dma-buf/dma-buf.c
-> > @@ -325,10 +325,8 @@ static __poll_t dma_buf_poll(struct file
-> > *file, poll_table *poll)
-> >   
-> >   /**
-> >    * dma_buf_set_name - Set a name to a specific dma_buf to track
-> > the usage.
-> > - * The name of the dma-buf buffer can only be set when the dma-buf 
-> > is not
-> > - * attached to any devices. It could theoritically support
-> > changing the
-> > - * name of the dma-buf if the same piece of memory is used for
-> > multiple
-> > - * purpose between different devices.
-> > + * It could support changing the name of the dma-buf if the same
-> > + * piece of memory is used for multiple purpose between different
-> > devices.
-> >    *
-> >    * @dmabuf: [in]     dmabuf buffer that will be renamed.
-> >    * @buf:    [in]     A piece of userspace memory that contains
-> > the name of
-> > @@ -341,25 +339,16 @@ static __poll_t dma_buf_poll(struct file
-> > *file, poll_table *poll)
-> >   static long dma_buf_set_name(struct dma_buf *dmabuf, const char
-> > __user *buf)
-> >   {
-> >   	char *name = strndup_user(buf, DMA_BUF_NAME_LEN);
-> > -	long ret = 0;
-> >   
-> >   	if (IS_ERR(name))
-> >   		return PTR_ERR(name);
-> >   
-> > -	dma_resv_lock(dmabuf->resv, NULL);
-> > -	if (!list_empty(&dmabuf->attachments)) {
-> > -		ret = -EBUSY;
-> > -		kfree(name);
-> > -		goto out_unlock;
-> > -	}
-> >   	spin_lock(&dmabuf->name_lock);
-> >   	kfree(dmabuf->name);
-> >   	dmabuf->name = name;
-> >   	spin_unlock(&dmabuf->name_lock);
-> >   
-> > -out_unlock:
-> > -	dma_resv_unlock(dmabuf->resv);
-> > -	return ret;
-> > +	return 0;
-> >   }
-> >   
-> >   static long dma_buf_ioctl(struct file *file,
-> 
-> 
+I agree, libcamera would be a good userspace test. Laurent has been 
+working on that.
+
+> 2) obviously the existing utils in v4l-utils need to be adapted to understand any
+> new API elements.
+
+Yes. I think it's "just" two things that are needed: ability to set a 
+routing table (that might be quite messy via the cmdline for larger 
+routing tables) and ability to set format and other parameters with a 
+(pad,stream) tuple, instead of just pad.
+
+> 3) compliance tests in v4l2-compliance for the new API. After I did a review of the
+> series we can see to what extent this is possible.
+
+One thing we have to fix are the problems caused by adding the 'stream' 
+field to many structs, but I think fixing that is trivial.
+
+Actually testing routing and streams is a bit more difficult.
+
+> 4) optionally (for now at least, I reserve the right to change my mind): it would
+> be very helpful if this can be added to vimc (or something similar), allowing for
+> testing the API without having real hardware, which is useful both for writing
+> the tests and for running regression tests regularly on a simple VM, without needing
+> special hardware.
+
+I haven't studied the vimc code, but maybe a metadata stream would be an 
+easy addition.
+
+  Tomi
+
