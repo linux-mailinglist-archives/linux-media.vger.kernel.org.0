@@ -2,205 +2,293 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CFBD043AE62
-	for <lists+linux-media@lfdr.de>; Tue, 26 Oct 2021 10:52:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5ABA943AEE6
+	for <lists+linux-media@lfdr.de>; Tue, 26 Oct 2021 11:19:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234478AbhJZIzE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 26 Oct 2021 04:55:04 -0400
-Received: from mailgw01.mediatek.com ([60.244.123.138]:52210 "EHLO
-        mailgw01.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
-        with ESMTP id S231404AbhJZIzE (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Tue, 26 Oct 2021 04:55:04 -0400
-X-UUID: 948bcc1d34534473aba2297d7f7dc96a-20211026
-X-UUID: 948bcc1d34534473aba2297d7f7dc96a-20211026
-Received: from mtkcas11.mediatek.inc [(172.21.101.40)] by mailgw01.mediatek.com
-        (envelope-from <guangming.cao@mediatek.com>)
-        (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
-        with ESMTP id 1795022158; Tue, 26 Oct 2021 16:52:37 +0800
-Received: from mtkcas10.mediatek.inc (172.21.101.39) by
- mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.792.3;
- Tue, 26 Oct 2021 16:52:36 +0800
-Received: from mszswglt01.gcn.mediatek.inc (10.16.20.20) by
- mtkcas10.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
- 15.0.1497.2 via Frontend Transport; Tue, 26 Oct 2021 16:52:35 +0800
-From:   <guangming.cao@mediatek.com>
-To:     <daniel@ffwll.ch>
-CC:     <christian.koenig@amd.com>, <ckoenig.leichtzumerken@gmail.com>,
-        <dri-devel@lists.freedesktop.org>, <guangming.cao@mediatek.com>,
-        <linaro-mm-sig@lists.linaro.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-kernel@vger.kernel.org>, <linux-media@vger.kernel.org>,
-        <linux-mediatek@lists.infradead.org>, <matthias.bgg@gmail.com>,
-        <sumit.semwal@linaro.org>, <wsd_upstream@mediatek.com>,
-        Guangming Cao <Guangming.Cao@mediatek.com>
-Subject: Re: [Linaro-mm-sig] [PATCH] dma-buf: add attachments empty check for dma_buf_release
-Date:   Tue, 26 Oct 2021 16:52:41 +0800
-Message-ID: <20211026085241.5116-1-guangming.cao@mediatek.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <YW80iakRm5jWjIUp@phenom.ffwll.local>
-References: <YW80iakRm5jWjIUp@phenom.ffwll.local>
+        id S234797AbhJZJVt convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-media@lfdr.de>); Tue, 26 Oct 2021 05:21:49 -0400
+Received: from www.linuxtv.org ([130.149.80.248]:52188 "EHLO www.linuxtv.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S234733AbhJZJVo (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 26 Oct 2021 05:21:44 -0400
+Received: from builder.linuxtv.org ([140.211.167.10])
+        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1mfIc2-000hCN-NC; Tue, 26 Oct 2021 09:19:19 +0000
+Received: from [127.0.0.1] (helo=builder.linuxtv.org)
+        by builder.linuxtv.org with esmtp (Exim 4.94.2)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1mfIc1-003ybw-Fq; Tue, 26 Oct 2021 09:19:16 +0000
+Date:   Tue, 26 Oct 2021 09:19:16 +0000 (UTC)
+From:   Jenkins Builder Robot <jenkins@linuxtv.org>
+To:     mchehab@kernel.org, linux-media@vger.kernel.org
+Message-ID: <410567531.0.1635239956329@builder.linuxtv.org>
+Subject: Build failed in Jenkins: media-build #3675
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-MTK:  N
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8BIT
+X-Instance-Identity: MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEApAf928QubrKEjMQ0IZR0WWXn8zG7uTdH33F2Idx4Xmlp6Z138NdNMQYNG71OKzmvn3/E1G4rpd9JsMls16nRZ2NAPgOWX0qfFr6HyOoQklLGZt+vkOFb0BvmBFfdI+00J5B1SPupxv4pT3bDLSiwbBNCOLY4sdB0gG1ng14mzu47G8zmH6l2ZE/9urEd6OLFhzrb6ym4vlkCE8uvNJAdAWbeafd1plHSLdU/TVqHMZELuM0wt9khqhUOkfE+dHr7h6DNrkFpvm/8j/5wTuy98ZwwWimP+pfjSQMgKrhXjwHcJJa2N9v1HdwrwlUaRYuA6o8fwUHNC9vLj7cCXM3qiwIDAQAB
+X-Jenkins-Job: media-build
+X-Jenkins-Result: FAILURE
+Auto-submitted: auto-generated
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Guangming Cao <Guangming.Cao@mediatek.com>
+See <https://builder.linuxtv.org/job/media-build/3675/display/redirect>
 
-On Tue, 2021-10-19 at 23:11 +0200, Daniel Vetter wrote:
-> On Tue, Oct 19, 2021 at 05:37:27PM +0200, Christian K鰊ig wrote:
-> > 
-> > 
-> > Am 19.10.21 um 14:41 schrieb Daniel Vetter:
-> > > On Tue, Oct 19, 2021 at 08:23:45PM +0800, 
-> > > guangming.cao@mediatek.com wrote:
-> > > > From: Guangming Cao <Guangming.Cao@mediatek.com>
-> > > > 
-> > > > Since there is no mandatory inspection for attachments in
-> > > > dma_buf_release.
-> > > > There will be a case that dma_buf already released but
-> > > > attachment is still
-> > > > in use, which can points to the dmabuf, and it maybe cause
-> > > > some unexpected issues.
-> > > > 
-> > > > With IOMMU, when this cases occurs, there will have IOMMU
-> > > > address
-> > > > translation fault(s) followed by this warning,
-> > > > I think it's useful for dma devices to debug issue.
-> > > > 
-> > > > Signed-off-by: Guangming Cao <Guangming.Cao@mediatek.com>
-> > > 
-> > > This feels a lot like hand-rolling kobject debugging. If you want
-> > > to do
-> > > this then I think adding kobject debug support to
-> > > dma_buf/dma_buf_attachment would be better than hand-rolling
-> > > something
-> > > bespoke here.
-> > 
-> > Well I would call that overkill.
-> 
-> I think if done right the object debug stuff should be able to give
-> you a
-> backtrace. Which might be useful if you have a dma-buf heaps design
-> where
-> you really have no clue why a buffer was allocated/attached without
-> some
-> hints.
-Well, I think it's the finally solution, for current thinking, it maybe bring a high
-overloading. Just as this revert patch: 
-https://lore.kernel.org/lkml/CA+wgaPMHA+8+LxfGNL+q4=XrdXqfu4TXoWLX7e28z9Z7kPsf-w@mail.gmail.com/
-So, we need to find a lightweight way to do this.
+Changes:
 
-Guangming
-> 
-> > > Also on the patch itself: You don't need the trylock. For
-> > > correctly
-> > > working code non one else can get at the dma-buf, so no locking
-> > > needed to
-> > > iterate through the attachment list. For incorrect code the
-> > > kernel will be
-> > > on fire pretty soon anyway, trying to do locking won't help :-)
-> > > And
-> > > without the trylock we can catch more bugs (e.g. if you also
-> > > forgot to
-> > > unlock and not just forgot to detach).
 
-Yes, It's also a error case, I will remove to lock at next version patch. Thanks!
+------------------------------------------
+[...truncated 4.94 KB...]
+Length: 105 [application/x-bzip2]
+Saving to: ‘linux-media.tar.bz2.md5.tmp’
 
-Guangming
+     0K                                                       100% 96.7M=0s
 
-> > 
-> > You also don't need the WARN(!list_empty...) because a few line
-> > below we
-> > already have a "WARN_ON(!list_empty(&dmabuf->attachments));".
+2021-10-26 09:19:10 (96.7 MB/s) - ‘linux-media.tar.bz2.md5.tmp’ saved [105/105]
 
-Sorry, could you tell me wich function will check it?
-I didn't found it so I submit this patch.
+--2021-10-26 09:19:10--  http://linuxtv.org/downloads/drivers/linux-media-LATEST.tar.bz2
+Resolving linuxtv.org (linuxtv.org)... 130.149.80.248
+Connecting to linuxtv.org (linuxtv.org)|130.149.80.248|:80... connected.
+HTTP request sent, awaiting response... 301 Moved Permanently
+Location: https://linuxtv.org/downloads/drivers/linux-media-LATEST.tar.bz2 [following]
+--2021-10-26 09:19:10--  https://linuxtv.org/downloads/drivers/linux-media-LATEST.tar.bz2
+Connecting to linuxtv.org (linuxtv.org)|130.149.80.248|:443... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 7374571 (7.0M) [application/x-bzip2]
+Saving to: ‘linux-media.tar.bz2’
 
-Guangming
-> 
-> Yeah this patch here alone isn't really that useful I think. Maybe we
-> could add the dmabuf->exp_name or so to that warning, but otherwise
-> the
-> info printed here isn't all that useful for debugging. Grabbing a
+     0K .......... .......... .......... .......... ..........  0%  162K 44s
+    50K .......... .......... .......... .......... ..........  1%  332K 33s
+   100K .......... .......... .......... .......... ..........  2% 10.2M 22s
+   150K .......... .......... .......... .......... ..........  2% 13.2M 16s
+   200K .......... .......... .......... .......... ..........  3%  340K 17s
+   250K .......... .......... .......... .......... ..........  4% 18.0M 14s
+   300K .......... .......... .......... .......... ..........  4% 16.5M 12s
+   350K .......... .......... .......... .......... ..........  5% 15.8M 11s
+   400K .......... .......... .......... .......... ..........  6%  348K 12s
+   450K .......... .......... .......... .......... ..........  6% 18.1M 10s
+   500K .......... .......... .......... .......... ..........  7% 21.5M 9s
+   550K .......... .......... .......... .......... ..........  8% 22.8M 9s
+   600K .......... .......... .......... .......... ..........  9% 25.0M 8s
+   650K .......... .......... .......... .......... ..........  9% 20.8M 7s
+   700K .......... .......... .......... .......... .......... 10% 27.5M 7s
+   750K .......... .......... .......... .......... .......... 11% 31.1M 6s
+   800K .......... .......... .......... .......... .......... 11% 20.7M 6s
+   850K .......... .......... .......... .......... .......... 12%  368K 6s
+   900K .......... .......... .......... .......... .......... 13% 24.4M 6s
+   950K .......... .......... .......... .......... .......... 13% 26.0M 6s
+  1000K .......... .......... .......... .......... .......... 14% 27.2M 5s
+  1050K .......... .......... .......... .......... .......... 15% 25.4M 5s
+  1100K .......... .......... .......... .......... .......... 15% 30.6M 5s
+  1150K .......... .......... .......... .......... .......... 16% 28.1M 5s
+  1200K .......... .......... .......... .......... .......... 17% 22.6M 4s
+  1250K .......... .......... .......... .......... .......... 18% 28.5M 4s
+  1300K .......... .......... .......... .......... .......... 18% 27.8M 4s
+  1350K .......... .......... .......... .......... .......... 19% 29.0M 4s
+  1400K .......... .......... .......... .......... .......... 20% 29.5M 4s
+  1450K .......... .......... .......... .......... .......... 20% 29.6M 4s
+  1500K .......... .......... .......... .......... .......... 21% 6.32M 3s
+  1550K .......... .......... .......... .......... .......... 22% 33.4M 3s
+  1600K .......... .......... .......... .......... .......... 22% 23.4M 3s
+  1650K .......... .......... .......... .......... .......... 23% 5.55M 3s
+  1700K .......... .......... .......... .......... .......... 24% 32.6M 3s
+  1750K .......... .......... .......... .......... .......... 24%  453K 3s
+  1800K .......... .......... .......... .......... .......... 25% 45.2M 3s
+  1850K .......... .......... .......... .......... .......... 26% 54.5M 3s
+  1900K .......... .......... .......... .......... .......... 27% 41.4M 3s
+  1950K .......... .......... .......... .......... .......... 27% 57.4M 3s
+  2000K .......... .......... .......... .......... .......... 28% 37.4M 3s
+  2050K .......... .......... .......... .......... .......... 29% 43.0M 3s
+  2100K .......... .......... .......... .......... .......... 29% 55.3M 3s
+  2150K .......... .......... .......... .......... .......... 30% 56.3M 2s
+  2200K .......... .......... .......... .......... .......... 31% 53.7M 2s
+  2250K .......... .......... .......... .......... .......... 31% 50.8M 2s
+  2300K .......... .......... .......... .......... .......... 32% 47.3M 2s
+  2350K .......... .......... .......... .......... .......... 33% 70.2M 2s
+  2400K .......... .......... .......... .......... .......... 34% 43.8M 2s
+  2450K .......... .......... .......... .......... .......... 34% 45.4M 2s
+  2500K .......... .......... .......... .......... .......... 35% 76.3M 2s
+  2550K .......... .......... .......... .......... .......... 36% 50.0M 2s
+  2600K .......... .......... .......... .......... .......... 36% 51.4M 2s
+  2650K .......... .......... .......... .......... .......... 37% 51.9M 2s
+  2700K .......... .......... .......... .......... .......... 38% 55.1M 2s
+  2750K .......... .......... .......... .......... .......... 38% 56.2M 2s
+  2800K .......... .......... .......... .......... .......... 39% 33.7M 2s
+  2850K .......... .......... .......... .......... .......... 40% 89.3M 2s
+  2900K .......... .......... .......... .......... .......... 40% 55.5M 2s
+  2950K .......... .......... .......... .......... .......... 41% 61.1M 2s
+  3000K .......... .......... .......... .......... .......... 42% 47.8M 1s
+  3050K .......... .......... .......... .......... .......... 43% 8.79M 1s
+  3100K .......... .......... .......... .......... .......... 43% 59.5M 1s
+  3150K .......... .......... .......... .......... .......... 44% 50.9M 1s
+  3200K .......... .......... .......... .......... .......... 45% 52.1M 1s
+  3250K .......... .......... .......... .......... .......... 45% 67.6M 1s
+  3300K .......... .......... .......... .......... .......... 46% 48.1M 1s
+  3350K .......... .......... .......... .......... .......... 47% 6.36M 1s
+  3400K .......... .......... .......... .......... .......... 47% 59.7M 1s
+  3450K .......... .......... .......... .......... .......... 48% 56.8M 1s
+  3500K .......... .......... .......... .......... .......... 49% 7.27M 1s
+  3550K .......... .......... .......... .......... .......... 49%  483K 1s
+  3600K .......... .......... .......... .......... .......... 50% 66.5M 1s
+  3650K .......... .......... .......... .......... .......... 51% 68.1M 1s
+  3700K .......... .......... .......... .......... .......... 52% 56.9M 1s
+  3750K .......... .......... .......... .......... .......... 52% 25.1M 1s
+  3800K .......... .......... .......... .......... .......... 53% 28.7M 1s
+  3850K .......... .......... .......... .......... .......... 54% 29.9M 1s
+  3900K .......... .......... .......... .......... .......... 54% 29.0M 1s
+  3950K .......... .......... .......... .......... .......... 55% 29.8M 1s
+  4000K .......... .......... .......... .......... .......... 56% 22.9M 1s
+  4050K .......... .......... .......... .......... .......... 56% 27.2M 1s
+  4100K .......... .......... .......... .......... .......... 57% 30.3M 1s
+  4150K .......... .......... .......... .......... .......... 58% 29.2M 1s
+  4200K .......... .......... .......... .......... .......... 59% 29.1M 1s
+  4250K .......... .......... .......... .......... .......... 59% 29.7M 1s
+  4300K .......... .......... .......... .......... .......... 60% 30.8M 1s
+  4350K .......... .......... .......... .......... .......... 61% 30.2M 1s
+  4400K .......... .......... .......... .......... .......... 61% 23.8M 1s
+  4450K .......... .......... .......... .......... .......... 62% 32.7M 1s
+  4500K .......... .......... .......... .......... .......... 63% 27.7M 1s
+  4550K .......... .......... .......... .......... .......... 63% 25.6M 1s
+  4600K .......... .......... .......... .......... .......... 64% 22.6M 1s
+  4650K .......... .......... .......... .......... .......... 65% 26.7M 1s
+  4700K .......... .......... .......... .......... .......... 65% 26.3M 1s
+  4750K .......... .......... .......... .......... .......... 66% 25.3M 1s
+  4800K .......... .......... .......... .......... .......... 67% 19.4M 1s
+  4850K .......... .......... .......... .......... .......... 68% 27.2M 1s
+  4900K .......... .......... .......... .......... .......... 68% 33.0M 1s
+  4950K .......... .......... .......... .......... .......... 69% 27.0M 1s
+  5000K .......... .......... .......... .......... .......... 70% 25.9M 1s
+  5050K .......... .......... .......... .......... .......... 70% 28.4M 1s
+  5100K .......... .......... .......... .......... .......... 71% 27.1M 1s
+  5150K .......... .......... .......... .......... .......... 72% 28.8M 0s
+  5200K .......... .......... .......... .......... .......... 72% 20.8M 0s
+  5250K .......... .......... .......... .......... .......... 73% 27.9M 0s
+  5300K .......... .......... .......... .......... .......... 74% 28.3M 0s
+  5350K .......... .......... .......... .......... .......... 74% 26.6M 0s
+  5400K .......... .......... .......... .......... .......... 75% 25.8M 0s
+  5450K .......... .......... .......... .......... .......... 76% 26.2M 0s
+  5500K .......... .......... .......... .......... .......... 77% 22.9M 0s
+  5550K .......... .......... .......... .......... .......... 77% 21.2M 0s
+  5600K .......... .......... .......... .......... .......... 78% 35.1M 0s
+  5650K .......... .......... .......... .......... .......... 79% 29.5M 0s
+  5700K .......... .......... .......... .......... .......... 79% 28.5M 0s
+  5750K .......... .......... .......... .......... .......... 80% 25.7M 0s
+  5800K .......... .......... .......... .......... .......... 81% 24.7M 0s
+  5850K .......... .......... .......... .......... .......... 81% 28.9M 0s
+  5900K .......... .......... .......... .......... .......... 82% 28.6M 0s
+  5950K .......... .......... .......... .......... .......... 83% 27.3M 0s
+  6000K .......... .......... .......... .......... .......... 84% 21.2M 0s
+  6050K .......... .......... .......... .......... .......... 84% 26.0M 0s
+  6100K .......... .......... .......... .......... .......... 85% 27.8M 0s
+  6150K .......... .......... .......... .......... .......... 86% 26.2M 0s
+  6200K .......... .......... .......... .......... .......... 86% 26.3M 0s
+  6250K .......... .......... .......... .......... .......... 87% 28.8M 0s
+  6300K .......... .......... .......... .......... .......... 88% 28.0M 0s
+  6350K .......... .......... .......... .......... .......... 88% 27.3M 0s
+  6400K .......... .......... .......... .......... .......... 89% 18.6M 0s
+  6450K .......... .......... .......... .......... .......... 90% 30.5M 0s
+  6500K .......... .......... .......... .......... .......... 90% 24.1M 0s
+  6550K .......... .......... .......... .......... .......... 91% 21.9M 0s
+  6600K .......... .......... .......... .......... .......... 92% 1.05M 0s
+  6650K .......... .......... .......... .......... .......... 93% 44.0M 0s
+  6700K .......... .......... .......... .......... .......... 93% 66.7M 0s
+  6750K .......... .......... .......... .......... .......... 94% 37.8M 0s
+  6800K .......... .......... .......... .......... .......... 95% 26.9M 0s
+  6850K .......... .......... .......... .......... .......... 95% 25.0M 0s
+  6900K .......... .......... .......... .......... .......... 96% 51.3M 0s
+  6950K .......... .......... .......... .......... .......... 97% 32.7M 0s
+  7000K .......... .......... .......... .......... .......... 97% 20.7M 0s
+  7050K .......... .......... .......... .......... .......... 98% 27.0M 0s
+  7100K .......... .......... .......... .......... .......... 99% 64.7M 0s
+  7150K .......... .......... .......... .......... .......... 99% 21.5M 0s
+  7200K .                                                     100% 9.50M=1.4s
 
-I also printed dmabuf->exp_name in warn message.
+2021-10-26 09:19:12 (5.03 MB/s) - ‘linux-media.tar.bz2’ saved [7374571/7374571]
 
-The reason adding it here is that some users on ANDROID of dma-buf is not familiar
-with linux dma-buf or maybe write some problematic code, add this check can find
-who lost call get_dma_buf or any other api can let let the dma-buf lifecycle is
-under users' expectation.
-Add it just like check in dma-fence:
-https://github.com/torvalds/linux/blob/master/drivers/dma-buf/dma-fence.c#L519
-
-Do you have any suggestion to debug this part?
-
-Guangming
-
-> backtrace of the allocator or attacher otoh should fairly immedialy
-> point
-> at the buggy code.
-> -Daniel
-> 
-> > 
-> > Christian.
-> > 
-> > > -Daniel
-> > > 
-> > > > ---
-> > > >   drivers/dma-buf/dma-buf.c | 23 +++++++++++++++++++++++
-> > > >   1 file changed, 23 insertions(+)
-> > > > 
-> > > > diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-
-> > > > buf.c
-> > > > index 511fe0d217a0..672404857d6a 100644
-> > > > --- a/drivers/dma-buf/dma-buf.c
-> > > > +++ b/drivers/dma-buf/dma-buf.c
-> > > > @@ -74,6 +74,29 @@ static void dma_buf_release(struct dentry
-> > > > *dentry)
-> > > >   	 */
-> > > >   	BUG_ON(dmabuf->cb_shared.active || dmabuf-
-> > > > >cb_excl.active);
-> > > > +	/* attachment check */
-> > > > +	if (dma_resv_trylock(dmabuf->resv) &&
-> > > > WARN(!list_empty(&dmabuf->attachments),
-> > > > +	    "%s err, inode:%08lu size:%08zu name:%s exp_name:%s
-> > > > flags:0x%08x mode:0x%08x, %s\n",
-> > > > +	    __func__, file_inode(dmabuf->file)->i_ino, dmabuf-
-> > > > >size,
-> > > > +	    dmabuf->name, dmabuf->exp_name,
-> > > > +	    dmabuf->file->f_flags, dmabuf->file->f_mode,
-> > > > +	    "Release dmabuf before detach all attachments, dump
-> > > > attach:\n")) {
-> > > > +		int attach_cnt = 0;
-> > > > +		dma_addr_t dma_addr;
-> > > > +		struct dma_buf_attachment *attach_obj;
-> > > > +		/* dump all attachment info */
-> > > > +		list_for_each_entry(attach_obj, &dmabuf-
-> > > > >attachments, node) {
-> > > > +			dma_addr = (dma_addr_t)0;
-> > > > +			if (attach_obj->sgt)
-> > > > +				dma_addr =
-> > > > sg_dma_address(attach_obj->sgt->sgl);
-> > > > +			pr_err("attach[%d]: dev:%s
-> > > > dma_addr:0x%-12lx\n",
-> > > > +			       attach_cnt, dev_name(attach_obj-
-> > > > >dev), dma_addr);
-> > > > +			attach_cnt++;
-> > > > +		}
-> > > > +		pr_err("Total %d devices attached\n\n",
-> > > > attach_cnt);
-> > > > +		dma_resv_unlock(dmabuf->resv);
-> > > > +	}
-> > > > +
-> > > >   	dmabuf->ops->release(dmabuf);
-> > > >   	if (dmabuf->resv == (struct dma_resv *)&dmabuf[1])
-> > > > -- 
-> > > > 2.17.1
-> > > > 
-> 
-> 
+make: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
+make: Entering directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
+tar xfj linux-media.tar.bz2
+rm -f .patches_applied .linked_dir .git_log.md5
+make: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
+**********************************************************
+* Downloading firmwares from linuxtv.org.                *
+**********************************************************
+firmware/dvb-usb-vp702x-01.fw
+firmware/dvb-usb-vp7045-01.fw
+firmware/dvb-fe-bcm3510-01.fw
+firmware/as102_data2_st.hex
+firmware/dvb-usb-terratec-h7-drxk.fw
+firmware/isdbt_nova_12mhz.inp
+firmware/Boot.S
+firmware/dvb_nova_12mhz_b0.inp
+firmware/dvb-fe-xc4000-1.4.1.fw
+firmware/sms1xxx-hcw-55xxx-isdbt-02.fw
+firmware/sms1xxx-nova-a-dvbt-01.fw
+firmware/dvb-usb-avertv-a800-02.fw
+firmware/cmmb_venice_12mhz.inp
+firmware/dvb-fe-xc5000c-4.1.30.7.fw
+firmware/v4l-cx23418-cpu.fw
+firmware/v4l-cx23885-enc-broken.fw
+firmware/dvb-fe-drxj-mc-vsb-1.0.8.fw
+firmware/dvb_nova_12mhz.inp
+firmware/dvb-usb-dib0700-1.20.fw
+firmware/tdmb_nova_12mhz.inp
+firmware/as102_data1_st.hex
+firmware/dvb-fe-or51132-vsb.fw
+firmware/dvb-usb-it9135-02.fw
+firmware/v4l-cx23418-apu.fw
+firmware/dvb-ttpci-01.fw-261f
+firmware/v4l-cx23418-dig.fw
+firmware/dvb-ttpci-01.fw-261c
+firmware/dvb-usb-bluebird-01.fw
+firmware/dvb-fe-or51211.fw
+firmware/dvb-fe-or51132-qam.fw
+firmware/sms1xxx-stellar-dvbt-01.fw
+firmware/dvb-usb-dibusb-5.0.0.11.fw
+firmware/dvb-fe-drxj-mc-vsb-qam-1.0.8.fw
+firmware/dvb-usb-terratec-h5-drxk.fw
+firmware/dvb-usb-wt220u-02.fw
+firmware/v4l-cx23885-enc.fw
+firmware/dvb-ttpci-01.fw-2622
+firmware/dvb-usb-wt220u-01.fw
+firmware/v4l-cx25840.fw
+firmware/dvb-fe-drxj-mc-1.0.8.fw
+firmware/v4l-cx231xx-avcore-01.fw
+firmware/dvb-usb-dtt200u-01.fw
+firmware/dvb-usb-dibusb-6.0.0.8.fw
+firmware/sms1xxx-nova-b-dvbt-01.fw
+firmware/dvb-fe-xc5000-1.6.114.fw
+firmware/cmmb_vega_12mhz.inp
+firmware/dvb-usb-it9135-01.fw
+firmware/isdbt_nova_12mhz_b0.inp
+firmware/dvb-ttpci-01.fw-261a
+firmware/dvb-ttpci-01.fw-261b
+firmware/dvb-ttpci-01.fw-261d
+firmware/README
+firmware/isdbt_rio.inp
+firmware/dvb-usb-umt-010-02.fw
+firmware/sms1xxx-hcw-55xxx-dvbt-02.fw
+firmware/dvb-usb-terratec-h7-az6007.fw
+firmware/v4l-cx23885-avcore-01.fw
+******************
+* Start building *
+******************
+make -C <https://builder.linuxtv.org/job/media-build/ws/v4l> allyesconfig
+make[1]: Entering directory '<https://builder.linuxtv.org/job/media-build/ws/v4l'>
+No version yet, using 5.10.0-8-amd64
+make[2]: Entering directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
+Applying patches for kernel 5.10.0-8-amd64
+patch -s -f -N -p1 -i ../backports/api_version.patch
+patch -s -f -N -p1 -i ../backports/pr_fmt.patch
+1 out of 1 hunk FAILED
+make[2]: *** [Makefile:132: apply_patches] Error 1
+make[2]: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
+make[1]: *** [Makefile:366: allyesconfig] Error 2
+make[1]: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/v4l'>
+make: *** [Makefile:26: allyesconfig] Error 2
+can't select all drivers at ./build line 531
+Build step 'Execute shell' marked build as failure
