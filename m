@@ -2,41 +2,151 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6FB2943B156
-	for <lists+linux-media@lfdr.de>; Tue, 26 Oct 2021 13:37:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7471743B187
+	for <lists+linux-media@lfdr.de>; Tue, 26 Oct 2021 13:52:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234733AbhJZLj7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 26 Oct 2021 07:39:59 -0400
-Received: from www.linuxtv.org ([130.149.80.248]:43290 "EHLO www.linuxtv.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230442AbhJZLj6 (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Tue, 26 Oct 2021 07:39:58 -0400
-Received: from builder.linuxtv.org ([140.211.167.10])
-        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1mfKlq-000p8m-DT; Tue, 26 Oct 2021 11:37:34 +0000
-Received: from [127.0.0.1] (helo=builder.linuxtv.org)
-        by builder.linuxtv.org with esmtp (Exim 4.94.2)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1mfKlp-004FuL-L4; Tue, 26 Oct 2021 11:37:32 +0000
-Date:   Tue, 26 Oct 2021 11:37:32 +0000 (UTC)
-From:   Jenkins Builder Robot <jenkins@linuxtv.org>
-To:     mchehab@kernel.org, linux-media@vger.kernel.org
-Message-ID: <1519921464.1.1635248252571@builder.linuxtv.org>
-In-Reply-To: <410567531.0.1635239956329@builder.linuxtv.org>
-References: <410567531.0.1635239956329@builder.linuxtv.org>
-Subject: Jenkins build is back to normal : media-build #3676
+        id S235571AbhJZLzK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 26 Oct 2021 07:55:10 -0400
+Received: from mailgw01.mediatek.com ([60.244.123.138]:49868 "EHLO
+        mailgw01.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
+        with ESMTP id S235563AbhJZLzJ (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Tue, 26 Oct 2021 07:55:09 -0400
+X-UUID: 85655ae7c4df4c47993a373fa7dca3e1-20211026
+X-UUID: 85655ae7c4df4c47993a373fa7dca3e1-20211026
+Received: from mtkexhb02.mediatek.inc [(172.21.101.103)] by mailgw01.mediatek.com
+        (envelope-from <guangming.cao@mediatek.com>)
+        (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
+        with ESMTP id 592306941; Tue, 26 Oct 2021 19:52:43 +0800
+Received: from mtkcas11.mediatek.inc (172.21.101.40) by
+ mtkmbs10n1.mediatek.inc (172.21.101.34) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ 15.2.792.15; Tue, 26 Oct 2021 19:52:41 +0800
+Received: from mszswglt01.gcn.mediatek.inc (10.16.20.20) by
+ mtkcas11.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
+ 15.0.1497.2 via Frontend Transport; Tue, 26 Oct 2021 19:52:41 +0800
+From:   <guangming.cao@mediatek.com>
+To:     <christian.koenig@amd.com>
+CC:     <dri-devel@lists.freedesktop.org>, <guangming.cao@mediatek.com>,
+        <linaro-mm-sig@lists.linaro.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-kernel@vger.kernel.org>, <linux-media@vger.kernel.org>,
+        <linux-mediatek@lists.infradead.org>, <matthias.bgg@gmail.com>,
+        <rdunlap@infradead.org>, <sumit.semwal@linaro.org>,
+        <wsd_upstream@mediatek.com>,
+        Guangming Cao <Guangming.Cao@mediatek.com>
+Subject: Re: [PATCH v3] dma-buf: remove restriction of IOCTL:DMA_BUF_SET_NAME
+Date:   Tue, 26 Oct 2021 19:52:48 +0800
+Message-ID: <20211026115248.9564-1-guangming.cao@mediatek.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <0e062f12-7e79-5a05-1e7b-10dda8e353b7@amd.com>
+References: <0e062f12-7e79-5a05-1e7b-10dda8e353b7@amd.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Instance-Identity: MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEApAf928QubrKEjMQ0IZR0WWXn8zG7uTdH33F2Idx4Xmlp6Z138NdNMQYNG71OKzmvn3/E1G4rpd9JsMls16nRZ2NAPgOWX0qfFr6HyOoQklLGZt+vkOFb0BvmBFfdI+00J5B1SPupxv4pT3bDLSiwbBNCOLY4sdB0gG1ng14mzu47G8zmH6l2ZE/9urEd6OLFhzrb6ym4vlkCE8uvNJAdAWbeafd1plHSLdU/TVqHMZELuM0wt9khqhUOkfE+dHr7h6DNrkFpvm/8j/5wTuy98ZwwWimP+pfjSQMgKrhXjwHcJJa2N9v1HdwrwlUaRYuA6o8fwUHNC9vLj7cCXM3qiwIDAQAB
-X-Jenkins-Job: media-build
-X-Jenkins-Result: SUCCESS
-Auto-submitted: auto-generated
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-MTK:  N
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-See <https://builder.linuxtv.org/job/media-build/3676/display/redirect?page=changes>
+From: Guangming Cao <Guangming.Cao@mediatek.com>
 
+On Tue, 2021-10-26 at 13:18 +0200, Christian König wrote:
+> Am 14.10.21 um 12:25 schrieb guangming.cao@mediatek.com:
+> > From: Guangming Cao <Guangming.Cao@mediatek.com>
+> > 
+> > In this patch(https://patchwork.freedesktop.org/patch/310349),
+> > it add a new IOCTL to support dma-buf user to set debug name.
+> > 
+> > But it also added a limitation of this IOCTL, it needs the
+> > attachments of dmabuf should be empty, otherwise it will fail.
+> > 
+> > For the original series, the idea was that allowing name change
+> > mid-use could confuse the users about the dma-buf.
+> > However, the rest of the series also makes sure each dma-buf have a
+> > unique
+> > inode(https://patchwork.freedesktop.org/patch/310387/), and any
+> > accounting
+> > should probably use that, without relying on the name as much.
+> > 
+> > So, removing this restriction will let dma-buf userspace users to
+> > use it
+> > more comfortably and without any side effect.
+> > 
+> > Signed-off-by: Guangming Cao <Guangming.Cao@mediatek.com>
+> 
+> We could now cleanup the return value from dma_buf_set_name() into a 
+> void since that function can't fail any more as far as I can see.
+> 
+> But that isn't mandatory I think, patch is Reviewed-by: Christian
+> König 
+> <christian.koenig@amd.com>
+>
+
+So, here is no need to check return value of 'strndup_user',
+just return without error code if the almost impossible error occurs?
+
+Guangming.
+
+> Regards,
+> Christian.
+> 
+> > ---
+> >   drivers/dma-buf/dma-buf.c | 17 +++--------------
+> >   1 file changed, 3 insertions(+), 14 deletions(-)
+> > 
+> > diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
+> > index 511fe0d217a0..5fbb3a2068a3 100644
+> > --- a/drivers/dma-buf/dma-buf.c
+> > +++ b/drivers/dma-buf/dma-buf.c
+> > @@ -325,10 +325,8 @@ static __poll_t dma_buf_poll(struct file
+> > *file, poll_table *poll)
+> >   
+> >   /**
+> >    * dma_buf_set_name - Set a name to a specific dma_buf to track
+> > the usage.
+> > - * The name of the dma-buf buffer can only be set when the dma-buf 
+> > is not
+> > - * attached to any devices. It could theoritically support
+> > changing the
+> > - * name of the dma-buf if the same piece of memory is used for
+> > multiple
+> > - * purpose between different devices.
+> > + * It could support changing the name of the dma-buf if the same
+> > + * piece of memory is used for multiple purpose between different
+> > devices.
+> >    *
+> >    * @dmabuf: [in]     dmabuf buffer that will be renamed.
+> >    * @buf:    [in]     A piece of userspace memory that contains
+> > the name of
+> > @@ -341,25 +339,16 @@ static __poll_t dma_buf_poll(struct file
+> > *file, poll_table *poll)
+> >   static long dma_buf_set_name(struct dma_buf *dmabuf, const char
+> > __user *buf)
+> >   {
+> >   	char *name = strndup_user(buf, DMA_BUF_NAME_LEN);
+> > -	long ret = 0;
+> >   
+> >   	if (IS_ERR(name))
+> >   		return PTR_ERR(name);
+> >   
+> > -	dma_resv_lock(dmabuf->resv, NULL);
+> > -	if (!list_empty(&dmabuf->attachments)) {
+> > -		ret = -EBUSY;
+> > -		kfree(name);
+> > -		goto out_unlock;
+> > -	}
+> >   	spin_lock(&dmabuf->name_lock);
+> >   	kfree(dmabuf->name);
+> >   	dmabuf->name = name;
+> >   	spin_unlock(&dmabuf->name_lock);
+> >   
+> > -out_unlock:
+> > -	dma_resv_unlock(dmabuf->resv);
+> > -	return ret;
+> > +	return 0;
+> >   }
+> >   
+> >   static long dma_buf_ioctl(struct file *file,
+> 
+> 
