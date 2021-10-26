@@ -2,121 +2,129 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 667F543B390
-	for <lists+linux-media@lfdr.de>; Tue, 26 Oct 2021 16:04:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3EBC943B3B1
+	for <lists+linux-media@lfdr.de>; Tue, 26 Oct 2021 16:12:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236355AbhJZOG3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 26 Oct 2021 10:06:29 -0400
-Received: from mail.kernel.org ([198.145.29.99]:39290 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S234584AbhJZOG3 (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Tue, 26 Oct 2021 10:06:29 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 4C86960C41;
-        Tue, 26 Oct 2021 14:04:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1635257045;
-        bh=fYdFs1PisYcKFzN6nRtvkLmTckm/NDSJLCk+ti392Ww=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=mXG8+T/cQMFHz2x09oPHlhLJhgracMsXllil7jpAGNm37jTEggSQ0Ztv1l/lYpVOD
-         4yaJbCSkRmUoIkugi192f74I93XiT8A4H0TeeaG6H8kCYjjvDPPlFZNCRN4aP4xROs
-         rVpGprOeNASv0hwRb/TVSFctLrvbJn46AF/iVjWlurWhbbc5k7Cn+8IEkJRPlexUyR
-         muwhqoPHSIKRKQ3wZz3UFmvtgQyjeXYVbd4uVFvAQfxhkx42FKMQmeMGmcPd9KxvdL
-         H0EsnWhxRZJpCcktWb7uSPjIOubg+aBYUIRosyBBEuOE0923IODBggoWuHcwx1rGA8
-         7VLJb4DOloeOw==
-Date:   Tue, 26 Oct 2021 07:04:00 -0700
-From:   Nathan Chancellor <nathan@kernel.org>
-To:     Arnd Bergmann <arnd@kernel.org>
-Cc:     Sumit Semwal <sumit.semwal@linaro.org>,
-        Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Tvrtko Ursulin <tvrtko.ursulin@intel.com>,
-        Daniel Vetter <daniel.vetter@ffwll.ch>,
-        Arnd Bergmann <arnd@arndb.de>, linux-media@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
-        linux-kernel@vger.kernel.org, llvm@lists.linux.dev
-Subject: Re: [PATCH] dma-buf: st: fix error handling in test_get_fences()
-Message-ID: <YXgK0HAe1+dEPvL1@archlinux-ax161>
-References: <20211026083448.3471055-1-arnd@kernel.org>
+        id S236380AbhJZOOX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 26 Oct 2021 10:14:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51200 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S235305AbhJZOOW (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Tue, 26 Oct 2021 10:14:22 -0400
+Received: from mail-qt1-x82b.google.com (mail-qt1-x82b.google.com [IPv6:2607:f8b0:4864:20::82b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F19CDC061767
+        for <linux-media@vger.kernel.org>; Tue, 26 Oct 2021 07:11:58 -0700 (PDT)
+Received: by mail-qt1-x82b.google.com with SMTP id b12so13598267qtq.3
+        for <linux-media@vger.kernel.org>; Tue, 26 Oct 2021 07:11:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ndufresne-ca.20210112.gappssmtp.com; s=20210112;
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :user-agent:mime-version:content-transfer-encoding;
+        bh=QnclSDWEoLjy+T+jAuDo+8q1HVMSCwyY/22eDshYtRU=;
+        b=6GqLsYxV4oYares8v6Q86Xxa4bjF0SBL00dhhSOrLGBI9EsDx9JZIv+5RF+Ao08rJw
+         9l8OcUy5etX3I/Alwi4r3DMH8p2+WQ7c+SsIXtVsLpH4EV2QaIaOOWECJxlZhjafOzJz
+         B1qywLI3Z4rpmUui+dTItKzrZa/B+O4wlTduWNNqZTrTVkZKZS13pnMgnutIb7fThpRs
+         AXwJcKRGsW0aa2n9iSWzRX97pMql7KUommtjtUpsPtLatCLJ0RYhoqDqJHJWzS1lQ0yu
+         j2zybWXG98Ipn0SoWt4xw54KAE05p/NLnePapYQ8tDkESnWWKpF9v5m0xTPH2twgpXTt
+         TIVQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=QnclSDWEoLjy+T+jAuDo+8q1HVMSCwyY/22eDshYtRU=;
+        b=4BjD/o9wSg4t2cKQDghdOKQMec+1DIQeFHEp+ou9uVxh5MWUPyh8rV7UnswYwtJL+F
+         liXFvnuQBaC7cdo0sD2kF6oXy1cHsQOGKZpCB5oWWsC8DdkEB4hIM/pR2U/WY8UH23iU
+         r8NF8t1mucUCILhwmLmiZ0SYsnTZtPkVPdz8OIvTVzQKc7L/LI4pfqVESwVOLqUYE+g6
+         1O1V/2s9OzzfyXUM0FobrAL7YNIRUcj5TD79GPZDME+9FgXzV9iHErjjYzOOg4IPpBnb
+         NJ4XpW41ujMhd41jzWSaCUfWqZUKS2gnkWlG3QQdSNoxgFS4twMwSW3Khjod50KQfii3
+         hNZw==
+X-Gm-Message-State: AOAM532705wHMJ0ckFLnW4lfTq4+zzBZ+aRboWivl6z4B5qgo2M4uHme
+        tRqo84pALJDJgUBDQFPNGh7z7n65IcU+JA==
+X-Google-Smtp-Source: ABdhPJyk3H55mvkyZF/gT5UmtxxWbTFj4KbzNGO4VZObmertiNf6KAHBvdCoyRMlK4xhQix2poBTAw==
+X-Received: by 2002:ac8:138b:: with SMTP id h11mr24239581qtj.80.1635257518092;
+        Tue, 26 Oct 2021 07:11:58 -0700 (PDT)
+Received: from nicolas-tpx395.localdomain (173-246-12-168.qc.cable.ebox.net. [173.246.12.168])
+        by smtp.gmail.com with ESMTPSA id g12sm11206984qtb.3.2021.10.26.07.11.55
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 26 Oct 2021 07:11:56 -0700 (PDT)
+Message-ID: <9cb4f64e2ec3959df44b71dd69ef95697920dc4b.camel@ndufresne.ca>
+Subject: Re: [PATCH] media: docs: dev-decoder: add restrictions about
+ CAPTURE buffers
+From:   Nicolas Dufresne <nicolas@ndufresne.ca>
+To:     Alexandre Courbot <acourbot@chromium.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Tomasz Figa <tfiga@chromium.org>
+Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Date:   Tue, 26 Oct 2021 10:11:54 -0400
+In-Reply-To: <20211018091427.88468-1-acourbot@chromium.org>
+References: <20211018091427.88468-1-acourbot@chromium.org>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.40.4 (3.40.4-2.fc34) 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20211026083448.3471055-1-arnd@kernel.org>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Oct 26, 2021 at 10:34:37AM +0200, Arnd Bergmann wrote:
-> From: Arnd Bergmann <arnd@arndb.de>
+Le lundi 18 octobre 2021 à 18:14 +0900, Alexandre Courbot a écrit :
+> CAPTURE buffers might be read by the hardware after they are dequeued,
+> which goes against the general idea that userspace has full control over
+> dequeued buffers. Explain why and document the restrictions that this
+> implies for userspace.
 > 
-> The new driver incorrectly unwinds after errors, as clang points out:
-> 
-> drivers/dma-buf/st-dma-resv.c:295:7: error: variable 'i' is used uninitialized whenever 'if' condition is true [-Werror,-Wsometimes-uninitialized]
->                 if (r) {
->                     ^
-> drivers/dma-buf/st-dma-resv.c:336:9: note: uninitialized use occurs here
->         while (i--)
->                ^
-> drivers/dma-buf/st-dma-resv.c:295:3: note: remove the 'if' if its condition is always false
->                 if (r) {
->                 ^~~~~~~~
-> drivers/dma-buf/st-dma-resv.c:288:6: error: variable 'i' is used uninitialized whenever 'if' condition is true [-Werror,-Wsometimes-uninitialized]
->         if (r) {
->             ^
-> drivers/dma-buf/st-dma-resv.c:336:9: note: uninitialized use occurs here
->         while (i--)
->                ^
-> drivers/dma-buf/st-dma-resv.c:288:2: note: remove the 'if' if its condition is always false
->         if (r) {
->         ^~~~~~~~
-> drivers/dma-buf/st-dma-resv.c:280:10: note: initialize the variable 'i' to silence this warning
->         int r, i;
->                 ^
->                  = 0
-> 
-> Skip cleaning up the bits that have not been allocated at this point.
-> 
-> Fixes: 1d51775cd3f5 ("dma-buf: add dma_resv selftest v4")
-> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
-
-Reviewed-by: Nathan Chancellor <nathan@kernel.org>
-
+> Signed-off-by: Alexandre Courbot <acourbot@chromium.org>
 > ---
-> I'm not familiar with these interfaces, so I'm just guessing where
-> we should jump after an error, please double-check and fix if necessary.
-> ---
->  drivers/dma-buf/st-dma-resv.c | 5 +++--
->  1 file changed, 3 insertions(+), 2 deletions(-)
+>  .../userspace-api/media/v4l/dev-decoder.rst     | 17 +++++++++++++++++
+>  1 file changed, 17 insertions(+)
 > 
-> diff --git a/drivers/dma-buf/st-dma-resv.c b/drivers/dma-buf/st-dma-resv.c
-> index 6f3ba756da3e..bc32b3eedcb6 100644
-> --- a/drivers/dma-buf/st-dma-resv.c
-> +++ b/drivers/dma-buf/st-dma-resv.c
-> @@ -287,7 +287,7 @@ static int test_get_fences(void *arg, bool shared)
->  	r = dma_resv_lock(&resv, NULL);
->  	if (r) {
->  		pr_err("Resv locking failed\n");
-> -		goto err_free;
-> +		goto err_resv;
->  	}
+> diff --git a/Documentation/userspace-api/media/v4l/dev-decoder.rst b/Documentation/userspace-api/media/v4l/dev-decoder.rst
+> index 5b9b83feeceb..3cf2b496f2d0 100644
+> --- a/Documentation/userspace-api/media/v4l/dev-decoder.rst
+> +++ b/Documentation/userspace-api/media/v4l/dev-decoder.rst
+> @@ -752,6 +752,23 @@ available to dequeue. Specifically:
+>       buffers are out-of-order compared to the ``OUTPUT`` buffers): ``CAPTURE``
+>       timestamps will not retain the order of ``OUTPUT`` timestamps.
 >  
->  	if (shared) {
-> @@ -295,7 +295,7 @@ static int test_get_fences(void *arg, bool shared)
->  		if (r) {
->  			pr_err("Resv shared slot allocation failed\n");
->  			dma_resv_unlock(&resv);
-> -			goto err_free;
-> +			goto err_resv;
->  		}
->  
->  		dma_resv_add_shared_fence(&resv, f);
-> @@ -336,6 +336,7 @@ static int test_get_fences(void *arg, bool shared)
->  	while (i--)
->  		dma_fence_put(fences[i]);
->  	kfree(fences);
-> +err_resv:
->  	dma_resv_fini(&resv);
->  	dma_fence_put(f);
->  	return r;
-> -- 
-> 2.29.2
-> 
+> +.. note::
+> +
+> +   The backing memory of ``CAPTURE`` buffers that are used as reference frames
+> +   by the stream may be read by the hardware even after they are dequeued.
+> +   Consequently, the client should avoid writing into this memory while the
+> +   ``CAPTURE`` queue is streaming. Failure to observe this may result in
+> +   corruption of decoded frames.
+> +
+> +   Similarly, when using a memory type other than ``V4L2_MEMORY_MMAP``, the
+> +   client should make sure that each ``CAPTURE`` buffer is always queued with
+> +   the same backing memory for as long as the ``CAPTURE`` queue is streaming.
+> +   The reason for this is that V4L2 buffer indices can be used by drivers to
+> +   identify frames. Thus, if the backing memory of a reference frame is
+> +   submitted under a different buffer ID, the driver may misidentify it and
+> +   decode a new frame into it while it is still in use, resulting in corruption
+> +   of the following frames.
+> +
+
+I think this is nice addition, but insufficient. We should extend the API with a
+flags that let application know if the buffers are reference or secondary. For
+the context, we have a mix of CODEC that will output usable reference frames and
+needs careful manipulation and many other drivers where the buffers *maybe*
+secondary, meaning they may have been post-processed and modifying these in-
+place may have no impact.
+
+The problem is the "may", that will depends on the chosen CAPTURE format. I
+believe we should flag this, this flag should be set by the driver, on CAPTURE
+queue. The information is known after S_FMT, so Format Flag, Reqbufs
+capabilities or querybuf flags are candidates. I think the buffer flags are the
+best named flag, though we don't expect this to differ per buffer. Though,
+userspace needs to call querybuf for all buf in order to export or map them.
+
+What userspace can do with this is to export the DMABuf as read-only, and signal
+this internally in its own context. This is great to avoid any unwanted side
+effect described here.
+
+>  During the decoding, the decoder may initiate one of the special sequences, as
+>  listed below. The sequences will result in the decoder returning all the
+>  ``CAPTURE`` buffers that originated from all the ``OUTPUT`` buffers processed
+
+
