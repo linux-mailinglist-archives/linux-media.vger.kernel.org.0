@@ -2,86 +2,106 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8D28D43BB1E
-	for <lists+linux-media@lfdr.de>; Tue, 26 Oct 2021 21:40:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F278C43BBE7
+	for <lists+linux-media@lfdr.de>; Tue, 26 Oct 2021 22:56:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238908AbhJZTmu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 26 Oct 2021 15:42:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43398 "EHLO
+        id S239321AbhJZU7C (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 26 Oct 2021 16:59:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60364 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236859AbhJZTmm (ORCPT
+        with ESMTP id S239315AbhJZU7C (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 26 Oct 2021 15:42:42 -0400
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6CACBC061570
-        for <linux-media@vger.kernel.org>; Tue, 26 Oct 2021 12:40:18 -0700 (PDT)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1mfSIx-0007vf-EB; Tue, 26 Oct 2021 21:40:15 +0200
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
-        by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.92)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1mfSIv-0006FT-JL; Tue, 26 Oct 2021 21:40:13 +0200
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.92)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1mfSIv-0001g4-IN; Tue, 26 Oct 2021 21:40:13 +0200
-From:   =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= 
-        <u.kleine-koenig@pengutronix.de>
-To:     Antti Palosaari <crope@iki.fi>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     linux-media@vger.kernel.org, kernel@pengutronix.de
-Subject: [PATCH] [media] tua9001: Improve messages in .remove's error path
-Date:   Tue, 26 Oct 2021 21:40:10 +0200
-Message-Id: <20211026194010.109029-1-u.kleine-koenig@pengutronix.de>
-X-Mailer: git-send-email 2.30.2
+        Tue, 26 Oct 2021 16:59:02 -0400
+Received: from mail-ua1-x936.google.com (mail-ua1-x936.google.com [IPv6:2607:f8b0:4864:20::936])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EFC32C061745
+        for <linux-media@vger.kernel.org>; Tue, 26 Oct 2021 13:56:37 -0700 (PDT)
+Received: by mail-ua1-x936.google.com with SMTP id s4so989102uaq.0
+        for <linux-media@vger.kernel.org>; Tue, 26 Oct 2021 13:56:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:from:date:message-id:subject:to;
+        bh=W96wNKJ/oV12IDXJo3U4UDqM3lBuBAzeTt/rQoud3cs=;
+        b=FKDM4wiiLWDsPq4IOQNKyXM4hXoDuMx9u+u36fz1A2SWfg52X/ax7bslZ69ogAbaTf
+         m7uAyp/430bhJxNDzlHA6GrCsUTHh+YTySSQnwGAKZiW0+BcJQ+Q7YfQMQwPqxvapAXD
+         d5MMCTMBtFz9YgjboaGM7pkJIetbJqCcCR/WLu2fmDwdsigET4Q1H3qQT30x/0EPC12e
+         3WCiUzU23vfGDaD03LOVSpgVCBLWwvoqgUgY12BA39nPCjBP8euFnZlOHt6ZyihMwql7
+         OFS3wW9PPVxEtEafuct98vKrd2kQkZy9jY5VUDcTSxlAqNciSf7q4rTJVLyphCMrnvZL
+         MNVw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+        bh=W96wNKJ/oV12IDXJo3U4UDqM3lBuBAzeTt/rQoud3cs=;
+        b=XrSn8NbXz1tMJghveVCUXoA6Jutu4yv+61fmjwjTJO4ReYgo4b2LwHEEyK40hOLy8j
+         wTO8m1mKmY81L4MMQla18pndLd0ZNtaUsEGXhIjVoDhLkLQ+LN/Td0pswmUV9JvwYNhV
+         yB/Xlwy0zWnIE6GwQoJQhbzzBIv1OeKUePzj4j8AvHyqlte4ezot1rZ603GCRO0LV/p2
+         h8KYvxhOnONLMmnSyxVUw4Tmpkz3yWQYE8QTk1ZHubeuyLnpqv50nr8o6b26MjpT8GC7
+         sF4br3/kIeI49eIv4Cjp9mVmmM0Syl3cHVAuiG08MF0whSkhnr+koRdiddA5ySGy5QLM
+         Qjrg==
+X-Gm-Message-State: AOAM532N3diU3+cOHuu3NicGGZ4Z2lOKZg64dAjXMMILJwOtGq4Xtf8E
+        1j7xXC5SiFp0BGs5VjoH0Dm8UPN7OYQdNxUfIu0=
+X-Google-Smtp-Source: ABdhPJzJOuIxCIVHezLVLMMwIUpEfc4WvtkkEjAuM9JhOd9s5ngve0yGOUO2z+kpKeSZpTpBALIyGxt07wh93JP/434=
+X-Received: by 2002:a05:6102:50a7:: with SMTP id bl39mr8896650vsb.32.1635281796569;
+ Tue, 26 Oct 2021 13:56:36 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Patch-Hashes: v=1; h=sha256; i=zfYOg5NTTex8HkWYWxrp4SVY0XotkHQdlevTJZ6Bu/0=; m=iZUQg1RgsjhY+fB3JPOHR8TAjbuAMhlfLZtG4aWA1g4=; p=j3JjPiE8Z70C5G4gJbMunMp1YEXRD3Gaiv7yDBxcCtw=; g=76727060e6ac87b8a5f3bc203ca2a6d96158fecd
-X-Patch-Sig: m=pgp; i=u.kleine-koenig@pengutronix.de; s=0x0D2511F322BFAB1C1580266BE2DCDD9132669BD6; b=iQEzBAABCgAdFiEEfnIqFpAYrP8+dKQLwfwUeK3K7AkFAmF4WZcACgkQwfwUeK3K7Ak1OwgAnVK nfqrcmunsNMyYxkGN+9qvb/6YZrV9x+l9p3uQWZH7aIJVI3/Hf87JEq7j1zjDvn7t9A3TS+0mjK56 i/fy311OUtZRUP7Pds6HJkHrtf3ruMuxGYtvhDY44ALWD0NE0wefELYM1xRVeAyBQmavLmWFGkMt1 5XdLycMt2wy/FfiQ/0m+WelcBJvyucs55p5p+hONWo/DHLGgFXCLamkaGj3DKsd6BtqhGGWVdD5hy AceMl/ZxwABuB9XH2wkSErav0yarTAdWFpEx11godmCgocsUQ0KkGYzg9AdDbFHNi68JUhNUQYp18 f2xI/7ivp6cmh2HVfOVScXN97Lis6cA==
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-media@vger.kernel.org
+Received: by 2002:a59:a3cd:0:b0:237:9538:ce13 with HTTP; Tue, 26 Oct 2021
+ 13:56:36 -0700 (PDT)
+From:   "Mrs. Michelle Ryerson" <ununjob1@gmail.com>
+Date:   Tue, 26 Oct 2021 13:56:36 -0700
+Message-ID: <CAEHon=Jq1burqrinh2N_9W+npzUcY=PsSx4SsdDtejX79F9Dfw@mail.gmail.com>
+Subject: Is Ms. Michelle Ryerson
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-If disabling the hardware fails the driver propagates the error code to
-the i2c core. However this only results in a generic error message; the
-device still disappears.
+Hello dear,
 
-So instead emit a message that better describes the actual problem than
-the i2c core's "remove failed (ESOMETHING), will be ignored" and return
-0 to suppress the generic message.
+I hope you received this message in good health. Please, I am
+contacting you for the purpose of donating my money to you for charity
+work in your city.
 
-Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
----
- drivers/media/tuners/tua9001.c | 6 +-----
- 1 file changed, 1 insertion(+), 5 deletions(-)
+My name is Ms. Michelle Ryerson, I worked with Vedanta Resources
+Limited United Kingdom for Twenty Five years and I retired in the year
+2014. I didn't marry and I have no child of my own.
 
-diff --git a/drivers/media/tuners/tua9001.c b/drivers/media/tuners/tua9001.c
-index 5e3625e75620..af7d5ea1f77e 100644
---- a/drivers/media/tuners/tua9001.c
-+++ b/drivers/media/tuners/tua9001.c
-@@ -240,14 +240,10 @@ static int tua9001_remove(struct i2c_client *client)
- 				   DVB_FRONTEND_COMPONENT_TUNER,
- 				   TUA9001_CMD_CEN, 0);
- 		if (ret)
--			goto err_kfree;
-+			dev_err(&client->dev, "Tuner disable failed (%pe)\n", ERR_PTR(ret));
- 	}
- 	kfree(dev);
- 	return 0;
--err_kfree:
--	kfree(dev);
--	dev_dbg(&client->dev, "failed=%d\n", ret);
--	return ret;
- }
- 
- static const struct i2c_device_id tua9001_id_table[] = {
--- 
-2.30.2
+Presently I'm 72 years old and am suffering from a Cancer disease
+known as Biliary Tract Cancer which has recently spread infections in
+my gallbladder and to other parts of my body, and I am unable to
+breathe well. I have undergone three different surgeries in the past
+and I have been booked for another surgery by next week in Berlin
+Germany. From all consultations by doctors, my condition is really
+deteriorating and is quite obvious that my death is very close to me
+as I can see my life quickly ebbing away. I am an orphan, no parents,
+no brothers, and no sisters, but my city of birth is Arizona. I was
+working with Vedanta Resources Limited in Arizona before I was posted
+to the company's headquarters here in the United Kingdom, where I have
+resided for the past 41years.
 
+However, when I was working with Vedanta Resources Limited, I
+deposited an amount of US$950,000.00 in a bank in Russia for a
+business venture. The name of the bank is Bivety Bank Limited. The
+money is still with the bank but due to my poor health and based on
+the doctor's report, I am scared that my life is almost at the end, so
+I have decided to donate this money to you. Please, I grant you the
+permission to use 20 percent of this fund for your personal use which
+I believe will benefit your family, and then you donate the remaining
+80 percent to any charity organizations in your city.
+
+I know that I have never met you before, I got your email address from
+Google.com and my confidence reposed on you so I decided to contact
+you for this purpose.
+
+Please reply with your name and contact address so I will write to my
+bank to contact you and transfer the fund to you for charity purposes.
+I will cover the cost my bank will request to transfer the
+US$950,000.00 to you.
+
+Send your response to my private email at: myerjvj@yahoo.com
+
+I expect your prompt reply and wish you will put me in your prayers henceforth.
+
+Thanks and God bless you.
+
+Mrs. Michelle Ryerson.
+email: myerjvj@yahoo.com
