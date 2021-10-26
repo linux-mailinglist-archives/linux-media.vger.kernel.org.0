@@ -2,106 +2,113 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id F278C43BBE7
-	for <lists+linux-media@lfdr.de>; Tue, 26 Oct 2021 22:56:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 010C143BCB0
+	for <lists+linux-media@lfdr.de>; Tue, 26 Oct 2021 23:51:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239321AbhJZU7C (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 26 Oct 2021 16:59:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60364 "EHLO
+        id S239719AbhJZVxi (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 26 Oct 2021 17:53:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44656 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239315AbhJZU7C (ORCPT
+        with ESMTP id S239706AbhJZVxh (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 26 Oct 2021 16:59:02 -0400
-Received: from mail-ua1-x936.google.com (mail-ua1-x936.google.com [IPv6:2607:f8b0:4864:20::936])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EFC32C061745
-        for <linux-media@vger.kernel.org>; Tue, 26 Oct 2021 13:56:37 -0700 (PDT)
-Received: by mail-ua1-x936.google.com with SMTP id s4so989102uaq.0
-        for <linux-media@vger.kernel.org>; Tue, 26 Oct 2021 13:56:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:from:date:message-id:subject:to;
-        bh=W96wNKJ/oV12IDXJo3U4UDqM3lBuBAzeTt/rQoud3cs=;
-        b=FKDM4wiiLWDsPq4IOQNKyXM4hXoDuMx9u+u36fz1A2SWfg52X/ax7bslZ69ogAbaTf
-         m7uAyp/430bhJxNDzlHA6GrCsUTHh+YTySSQnwGAKZiW0+BcJQ+Q7YfQMQwPqxvapAXD
-         d5MMCTMBtFz9YgjboaGM7pkJIetbJqCcCR/WLu2fmDwdsigET4Q1H3qQT30x/0EPC12e
-         3WCiUzU23vfGDaD03LOVSpgVCBLWwvoqgUgY12BA39nPCjBP8euFnZlOHt6ZyihMwql7
-         OFS3wW9PPVxEtEafuct98vKrd2kQkZy9jY5VUDcTSxlAqNciSf7q4rTJVLyphCMrnvZL
-         MNVw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
-        bh=W96wNKJ/oV12IDXJo3U4UDqM3lBuBAzeTt/rQoud3cs=;
-        b=XrSn8NbXz1tMJghveVCUXoA6Jutu4yv+61fmjwjTJO4ReYgo4b2LwHEEyK40hOLy8j
-         wTO8m1mKmY81L4MMQla18pndLd0ZNtaUsEGXhIjVoDhLkLQ+LN/Td0pswmUV9JvwYNhV
-         yB/Xlwy0zWnIE6GwQoJQhbzzBIv1OeKUePzj4j8AvHyqlte4ezot1rZ603GCRO0LV/p2
-         h8KYvxhOnONLMmnSyxVUw4Tmpkz3yWQYE8QTk1ZHubeuyLnpqv50nr8o6b26MjpT8GC7
-         sF4br3/kIeI49eIv4Cjp9mVmmM0Syl3cHVAuiG08MF0whSkhnr+koRdiddA5ySGy5QLM
-         Qjrg==
-X-Gm-Message-State: AOAM532N3diU3+cOHuu3NicGGZ4Z2lOKZg64dAjXMMILJwOtGq4Xtf8E
-        1j7xXC5SiFp0BGs5VjoH0Dm8UPN7OYQdNxUfIu0=
-X-Google-Smtp-Source: ABdhPJzJOuIxCIVHezLVLMMwIUpEfc4WvtkkEjAuM9JhOd9s5ngve0yGOUO2z+kpKeSZpTpBALIyGxt07wh93JP/434=
-X-Received: by 2002:a05:6102:50a7:: with SMTP id bl39mr8896650vsb.32.1635281796569;
- Tue, 26 Oct 2021 13:56:36 -0700 (PDT)
+        Tue, 26 Oct 2021 17:53:37 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0CFBEC061570;
+        Tue, 26 Oct 2021 14:51:13 -0700 (PDT)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 1471D3F0;
+        Tue, 26 Oct 2021 23:51:10 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1635285070;
+        bh=nrejLrqebeFZ6uqJmuowbCLTFPqWxMstNwb5FIhCx34=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=EYZYX0JpMoyFYiT1HGuTbclLHei5CLtJvu+pPeBso7QBvg52Kki5PJS3AGSeMUM3g
+         kpWkj/vXoHupgmOJxoiLVGOab2Pi6B+UpChcmmBz7pMmdYpqyDYhaU/FbH4aAZr2Aq
+         LecS/ATO3DGeqbelKaqMNS+YPpCFdWwUo7cLmEpI=
+Date:   Wed, 27 Oct 2021 00:50:46 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Johan Hovold <johan@kernel.org>
+Cc:     Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, linux-usb@vger.kernel.org,
+        linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Subject: Re: [PATCH] media: uvcvideo: fix division by zero at stream start
+Message-ID: <YXh4NqnpzOnPiA5/@pendragon.ideasonboard.com>
+References: <20211026095511.26673-1-johan@kernel.org>
+ <163524570516.1184428.14632987312253060787@Monstersaurus>
+ <YXfjSJ+fm+LV/m+M@pendragon.ideasonboard.com>
+ <YXfvXzgnvPVqwqZs@hovoldconsulting.com>
 MIME-Version: 1.0
-Received: by 2002:a59:a3cd:0:b0:237:9538:ce13 with HTTP; Tue, 26 Oct 2021
- 13:56:36 -0700 (PDT)
-From:   "Mrs. Michelle Ryerson" <ununjob1@gmail.com>
-Date:   Tue, 26 Oct 2021 13:56:36 -0700
-Message-ID: <CAEHon=Jq1burqrinh2N_9W+npzUcY=PsSx4SsdDtejX79F9Dfw@mail.gmail.com>
-Subject: Is Ms. Michelle Ryerson
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <YXfvXzgnvPVqwqZs@hovoldconsulting.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hello dear,
+Hi Johan,
 
-I hope you received this message in good health. Please, I am
-contacting you for the purpose of donating my money to you for charity
-work in your city.
+On Tue, Oct 26, 2021 at 02:06:55PM +0200, Johan Hovold wrote:
+> On Tue, Oct 26, 2021 at 02:15:20PM +0300, Laurent Pinchart wrote:
+> > On Tue, Oct 26, 2021 at 11:55:05AM +0100, Kieran Bingham wrote:
+> > > Quoting Johan Hovold (2021-10-26 10:55:11)
+> > > > Add the missing bulk-endpoint max-packet sanity check to probe() to
+> > > > avoid division by zero in uvc_alloc_urb_buffers() in case a malicious
+> > > > device has broken descriptors (or when doing descriptor fuzz testing).
+> > > > 
+> > > > Note that USB core will reject URBs submitted for endpoints with zero
+> > > > wMaxPacketSize but that drivers doing packet-size calculations still
+> > > > need to handle this (cf. commit 2548288b4fb0 ("USB: Fix: Don't skip
+> > > > endpoint descriptors with maxpacket=0")).
+> > > > 
+> > > > Fixes: c0efd232929c ("V4L/DVB (8145a): USB Video Class driver")
+> > > > Cc: stable@vger.kernel.org      # 2.6.26
+> > > > Signed-off-by: Johan Hovold <johan@kernel.org>
+> > > > ---
+> > > >  drivers/media/usb/uvc/uvc_video.c | 4 ++++
+> > > >  1 file changed, 4 insertions(+)
+> > > > 
+> > > > diff --git a/drivers/media/usb/uvc/uvc_video.c b/drivers/media/usb/uvc/uvc_video.c
+> > > > index e16464606b14..85ac5c1081b6 100644
+> > > > --- a/drivers/media/usb/uvc/uvc_video.c
+> > > > +++ b/drivers/media/usb/uvc/uvc_video.c
+> > > > @@ -1958,6 +1958,10 @@ static int uvc_video_start_transfer(struct uvc_streaming *stream,
+> > > >                 if (ep == NULL)
+> > > >                         return -EIO;
+> > > >  
+> > > > +               /* Reject broken descriptors. */
+> > > > +               if (usb_endpoint_maxp(&ep->desc) == 0)
+> > > > +                       return -EIO;
+> > > 
+> > > Is there any value in identifying this with a specific return code like
+> > > -ENODATA?
+> > 
+> > Going one step further, wouldn't it be better to fail probe() for those
+> > devices ?
+> 
+> This is not how the driver works today. Look at the "return -EIO" just
+> above in case the expected endpoint is missing. And similarly for the
+> isochronous case for which zero wMaxPacket isn't handled until
+> uvc_video_start_transfer() either (a few lines further up still).
 
-My name is Ms. Michelle Ryerson, I worked with Vedanta Resources
-Limited United Kingdom for Twenty Five years and I retired in the year
-2014. I didn't marry and I have no child of my own.
+That's a good point, it wouldn't be reasonable to ask you to fix all
+that :-)
 
-Presently I'm 72 years old and am suffering from a Cancer disease
-known as Biliary Tract Cancer which has recently spread infections in
-my gallbladder and to other parts of my body, and I am unable to
-breathe well. I have undergone three different surgeries in the past
-and I have been booked for another surgery by next week in Berlin
-Germany. From all consultations by doctors, my condition is really
-deteriorating and is quite obvious that my death is very close to me
-as I can see my life quickly ebbing away. I am an orphan, no parents,
-no brothers, and no sisters, but my city of birth is Arizona. I was
-working with Vedanta Resources Limited in Arizona before I was posted
-to the company's headquarters here in the United Kingdom, where I have
-resided for the past 41years.
+> Note however the copy-paste error in the commit message mentioning
+> probe(), which is indeed where this would typically be handled.
+> 
+> Do you want me to resend or can you change
+> 
+> 	s/probe()/uvc_video_start_transfer()/
+> 
+> in the commit message when applying if you think this is acceptable as
+> is?
 
-However, when I was working with Vedanta Resources Limited, I
-deposited an amount of US$950,000.00 in a bank in Russia for a
-business venture. The name of the bank is Bivety Bank Limited. The
-money is still with the bank but due to my poor health and based on
-the doctor's report, I am scared that my life is almost at the end, so
-I have decided to donate this money to you. Please, I grant you the
-permission to use 20 percent of this fund for your personal use which
-I believe will benefit your family, and then you donate the remaining
-80 percent to any charity organizations in your city.
+I can fix this when applying.
 
-I know that I have never met you before, I got your email address from
-Google.com and my confidence reposed on you so I decided to contact
-you for this purpose.
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
-Please reply with your name and contact address so I will write to my
-bank to contact you and transfer the fund to you for charity purposes.
-I will cover the cost my bank will request to transfer the
-US$950,000.00 to you.
+-- 
+Regards,
 
-Send your response to my private email at: myerjvj@yahoo.com
-
-I expect your prompt reply and wish you will put me in your prayers henceforth.
-
-Thanks and God bless you.
-
-Mrs. Michelle Ryerson.
-email: myerjvj@yahoo.com
+Laurent Pinchart
