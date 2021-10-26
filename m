@@ -2,91 +2,86 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D00B143BAFC
-	for <lists+linux-media@lfdr.de>; Tue, 26 Oct 2021 21:35:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8D28D43BB1E
+	for <lists+linux-media@lfdr.de>; Tue, 26 Oct 2021 21:40:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238957AbhJZThX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 26 Oct 2021 15:37:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41954 "EHLO
+        id S238908AbhJZTmu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 26 Oct 2021 15:42:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43398 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238877AbhJZThB (ORCPT
+        with ESMTP id S236859AbhJZTmm (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 26 Oct 2021 15:37:01 -0400
-Received: from mail-wm1-x32b.google.com (mail-wm1-x32b.google.com [IPv6:2a00:1450:4864:20::32b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5566FC061236
-        for <linux-media@vger.kernel.org>; Tue, 26 Oct 2021 12:34:31 -0700 (PDT)
-Received: by mail-wm1-x32b.google.com with SMTP id g205-20020a1c20d6000000b0032cc6bbd505so3601636wmg.5
-        for <linux-media@vger.kernel.org>; Tue, 26 Oct 2021 12:34:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20210112.gappssmtp.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=l5F4vx0AkZXpsFveRw1mgakCBS1yTrfmQWwkFAyxoJk=;
-        b=h6cRGWDDMndhFqDU+VxYwQIuMq09S7Yz1BmE6h4kA3AFZcosvD174mYt5UTLrY4R6w
-         0MSzdoaPeidADEqUzPhjAJvzcXN51u9T/CUpoTnpnIYcn/vBGjMEAf9KtP5m5w2/JpJd
-         +pkhLVFYdbwkfbdeg9WAa9ur/hRxbTm/ZFxlQsu0WFoPql9thj1F2ajyXytLkrHpNei9
-         en3qKlV6A60Phj8XxaiqlmYh2pGwNcQk0RU1GIh4XJoyeXdqsnnqoLs86j6nLWtVEDN6
-         ueVuSo6V+HCwH0BNNUj9KdPm0g0wcBW23S+8D3M2fRuxLwwcZHRY5Ye2uYS7Ix8kEMAk
-         ecyA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=l5F4vx0AkZXpsFveRw1mgakCBS1yTrfmQWwkFAyxoJk=;
-        b=P+ls3SN1pUoWwEo00Pol1uYXdo7ClO+8XHjmE/gcRXlLvqM1dlxD5Ego/VNYJz3K8w
-         fkx/h4ABiuTZSJONTtLiqA4cLXDRyrHUvcNA2KnTMTofH6sonqv5+0DrW//GcjZSi2wU
-         oKjUIrGnISD14+XllNQiusCK9f8O8Z+KHRVuqHif5HbDn9fxglFQ8QQASFKS95HRlAn9
-         XguJwA85rL6KDFcwny1JCigKK+A/Ao/4iW6AfQb0wsDd475mESqhBB0WVfXS1XTp3JN+
-         84YWQcx9y/8PMOogjvJiKOICwdh7cwLyF8FeXMxEwfNvyIEG5safsj6oTYwhpBPjznff
-         LHSQ==
-X-Gm-Message-State: AOAM532QYTomAUoMyz3HMSdZXjZr2aj6/fyvkJWMAViu3oaVytHYXAfT
-        oX6ASyhQSDbsR/ffWUT5UCc2hw==
-X-Google-Smtp-Source: ABdhPJxmbWyIAsI7MI/43OP+WBu0p58TWdJOybmOiVLe296pRgKDBrvmoQB0t00t+mS+rxF1belH6w==
-X-Received: by 2002:a05:600c:ac2:: with SMTP id c2mr742197wmr.194.1635276869996;
-        Tue, 26 Oct 2021 12:34:29 -0700 (PDT)
-Received: from localhost.localdomain (laubervilliers-658-1-213-31.w90-63.abo.wanadoo.fr. [90.63.244.31])
-        by smtp.googlemail.com with ESMTPSA id s18sm17676123wrb.95.2021.10.26.12.34.29
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 26 Oct 2021 12:34:29 -0700 (PDT)
-From:   Corentin Labbe <clabbe@baylibre.com>
-To:     mchehab@kernel.org, hverkuil@xs4all.nl, gregkh@linuxfoundation.org
-Cc:     linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-staging@lists.linux.dev, mjpeg-users@lists.sourceforge.net,
-        Corentin Labbe <clabbe@baylibre.com>
-Subject: [PATCH v3 14/14] staging: media: zoran: DC30 encoder is not adv7175
-Date:   Tue, 26 Oct 2021 19:34:16 +0000
-Message-Id: <20211026193416.1176797-15-clabbe@baylibre.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20211026193416.1176797-1-clabbe@baylibre.com>
-References: <20211026193416.1176797-1-clabbe@baylibre.com>
+        Tue, 26 Oct 2021 15:42:42 -0400
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6CACBC061570
+        for <linux-media@vger.kernel.org>; Tue, 26 Oct 2021 12:40:18 -0700 (PDT)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1mfSIx-0007vf-EB; Tue, 26 Oct 2021 21:40:15 +0200
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+        by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.92)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1mfSIv-0006FT-JL; Tue, 26 Oct 2021 21:40:13 +0200
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.92)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1mfSIv-0001g4-IN; Tue, 26 Oct 2021 21:40:13 +0200
+From:   =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= 
+        <u.kleine-koenig@pengutronix.de>
+To:     Antti Palosaari <crope@iki.fi>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     linux-media@vger.kernel.org, kernel@pengutronix.de
+Subject: [PATCH] [media] tua9001: Improve messages in .remove's error path
+Date:   Tue, 26 Oct 2021 21:40:10 +0200
+Message-Id: <20211026194010.109029-1-u.kleine-koenig@pengutronix.de>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+X-Patch-Hashes: v=1; h=sha256; i=zfYOg5NTTex8HkWYWxrp4SVY0XotkHQdlevTJZ6Bu/0=; m=iZUQg1RgsjhY+fB3JPOHR8TAjbuAMhlfLZtG4aWA1g4=; p=j3JjPiE8Z70C5G4gJbMunMp1YEXRD3Gaiv7yDBxcCtw=; g=76727060e6ac87b8a5f3bc203ca2a6d96158fecd
+X-Patch-Sig: m=pgp; i=u.kleine-koenig@pengutronix.de; s=0x0D2511F322BFAB1C1580266BE2DCDD9132669BD6; b=iQEzBAABCgAdFiEEfnIqFpAYrP8+dKQLwfwUeK3K7AkFAmF4WZcACgkQwfwUeK3K7Ak1OwgAnVK nfqrcmunsNMyYxkGN+9qvb/6YZrV9x+l9p3uQWZH7aIJVI3/Hf87JEq7j1zjDvn7t9A3TS+0mjK56 i/fy311OUtZRUP7Pds6HJkHrtf3ruMuxGYtvhDY44ALWD0NE0wefELYM1xRVeAyBQmavLmWFGkMt1 5XdLycMt2wy/FfiQ/0m+WelcBJvyucs55p5p+hONWo/DHLGgFXCLamkaGj3DKsd6BtqhGGWVdD5hy AceMl/ZxwABuB9XH2wkSErav0yarTAdWFpEx11godmCgocsUQ0KkGYzg9AdDbFHNi68JUhNUQYp18 f2xI/7ivp6cmh2HVfOVScXN97Lis6cA==
 Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-media@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The DC30 uses a non-i2c ITT MSE3000 encoder and not an adv7175 as stated
-in the card list.
-So remove adv7175 from DC30.
+If disabling the hardware fails the driver propagates the error code to
+the i2c core. However this only results in a generic error message; the
+device still disappears.
 
-Signed-off-by: Corentin Labbe <clabbe@baylibre.com>
+So instead emit a message that better describes the actual problem than
+the i2c core's "remove failed (ESOMETHING), will be ignored" and return
+0 to suppress the generic message.
+
+Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
 ---
- drivers/staging/media/zoran/zoran_card.c | 2 --
- 1 file changed, 2 deletions(-)
+ drivers/media/tuners/tua9001.c | 6 +-----
+ 1 file changed, 1 insertion(+), 5 deletions(-)
 
-diff --git a/drivers/staging/media/zoran/zoran_card.c b/drivers/staging/media/zoran/zoran_card.c
-index 59df1e7691f9..a9b0316cd688 100644
---- a/drivers/staging/media/zoran/zoran_card.c
-+++ b/drivers/staging/media/zoran/zoran_card.c
-@@ -472,8 +472,6 @@ static struct card_info zoran_cards[NUM_CARDS] = {
- 		.name = "DC30",
- 		.i2c_decoder = "vpx3220a",
- 		.addrs_decoder = vpx3220_addrs,
--		.i2c_encoder = "adv7175",
--		.addrs_encoder = adv717x_addrs,
- 		.video_codec = CODEC_TYPE_ZR36050,
- 		.video_vfe = CODEC_TYPE_ZR36016,
+diff --git a/drivers/media/tuners/tua9001.c b/drivers/media/tuners/tua9001.c
+index 5e3625e75620..af7d5ea1f77e 100644
+--- a/drivers/media/tuners/tua9001.c
++++ b/drivers/media/tuners/tua9001.c
+@@ -240,14 +240,10 @@ static int tua9001_remove(struct i2c_client *client)
+ 				   DVB_FRONTEND_COMPONENT_TUNER,
+ 				   TUA9001_CMD_CEN, 0);
+ 		if (ret)
+-			goto err_kfree;
++			dev_err(&client->dev, "Tuner disable failed (%pe)\n", ERR_PTR(ret));
+ 	}
+ 	kfree(dev);
+ 	return 0;
+-err_kfree:
+-	kfree(dev);
+-	dev_dbg(&client->dev, "failed=%d\n", ret);
+-	return ret;
+ }
  
+ static const struct i2c_device_id tua9001_id_table[] = {
 -- 
-2.32.0
+2.30.2
 
