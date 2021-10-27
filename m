@@ -2,255 +2,100 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3D58243C040
-	for <lists+linux-media@lfdr.de>; Wed, 27 Oct 2021 04:50:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AF06043C0EE
+	for <lists+linux-media@lfdr.de>; Wed, 27 Oct 2021 05:44:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238650AbhJ0Cwr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 26 Oct 2021 22:52:47 -0400
-Received: from twspam01.aspeedtech.com ([211.20.114.71]:14887 "EHLO
-        twspam01.aspeedtech.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238651AbhJ0Cwq (ORCPT
+        id S239045AbhJ0DrH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 26 Oct 2021 23:47:07 -0400
+Received: from mailgw02.mediatek.com ([210.61.82.184]:55434 "EHLO
+        mailgw02.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
+        with ESMTP id S233588AbhJ0DrG (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 26 Oct 2021 22:52:46 -0400
-Received: from mail.aspeedtech.com ([192.168.0.24])
-        by twspam01.aspeedtech.com with ESMTP id 19R2RRLZ028615;
-        Wed, 27 Oct 2021 10:27:27 +0800 (GMT-8)
-        (envelope-from jammy_huang@aspeedtech.com)
-Received: from JammyHuang-PC.aspeed.com (192.168.2.115) by TWMBX02.aspeed.com
- (192.168.0.24) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Wed, 27 Oct
- 2021 10:49:52 +0800
-From:   Jammy Huang <jammy_huang@aspeedtech.com>
-To:     <eajames@linux.ibm.com>, <mchehab@kernel.org>, <joel@jms.id.au>,
-        <andrew@aj.id.au>, <linux-media@vger.kernel.org>,
-        <openbmc@lists.ozlabs.org>, <linux-arm-kernel@lists.infradead.org>,
-        <linux-aspeed@lists.ozlabs.org>, <linux-kernel@vger.kernel.org>
-Subject: [PATCH v6] media: aspeed: add debugfs
-Date:   Wed, 27 Oct 2021 10:49:57 +0800
-Message-ID: <20211027024957.21130-1-jammy_huang@aspeedtech.com>
-X-Mailer: git-send-email 2.25.1
+        Tue, 26 Oct 2021 23:47:06 -0400
+X-UUID: 5247acccdc6049f19153313314cdfbda-20211027
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
+        h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:From:Subject:Message-ID; bh=KatCz9XKGgtCBLEzEVLf0OO9NA8gS5alukduL27YpSU=;
+        b=rLJWOuTKzukOyNpV1HwETlbGN4XuakW34dVx/z20HvLwj9f7nAsUwr9HUVnRBv01CY2pTvUiG6omqe0TTzk69wbno6cRsVIva51qOkkF62MJP6xaysKxW59WTktnoG7u7v5x3AArZdfo0RYp2jaHz6o62BJWbrp10z7jvYwXOoc=;
+X-UUID: 5247acccdc6049f19153313314cdfbda-20211027
+Received: from mtkcas11.mediatek.inc [(172.21.101.40)] by mailgw02.mediatek.com
+        (envelope-from <yunfei.dong@mediatek.com>)
+        (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
+        with ESMTP id 2109564187; Wed, 27 Oct 2021 11:44:38 +0800
+Received: from mtkcas10.mediatek.inc (172.21.101.39) by
+ mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.792.3;
+ Wed, 27 Oct 2021 11:44:37 +0800
+Received: from mhfsdcap04 (10.17.3.154) by mtkcas10.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
+ Transport; Wed, 27 Oct 2021 11:44:35 +0800
+Message-ID: <629c605bc547a3d025eace87eb5f1ef724c2f080.camel@mediatek.com>
+Subject: Re: [PATCH v7, 12/15] media: mtk-vcodec: Support 34bits dma address
+ for vdec
+From:   "yunfei.dong@mediatek.com" <yunfei.dong@mediatek.com>
+To:     AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>,
+        Alexandre Courbot <acourbot@chromium.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Tzung-Bi Shih <tzungbi@chromium.org>,
+        "Tiffany Lin" <tiffany.lin@mediatek.com>,
+        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Tomasz Figa <tfiga@google.com>
+CC:     Hsin-Yi Wang <hsinyi@chromium.org>,
+        Fritz Koenig <frkoenig@chromium.org>,
+        Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
+        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        Irui Wang <irui.wang@mediatek.com>,
+        <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <srv_heupstream@mediatek.com>,
+        <linux-mediatek@lists.infradead.org>,
+        <Project_Global_Chrome_Upstream_Group@mediatek.com>
+Date:   Wed, 27 Oct 2021 11:44:35 +0800
+In-Reply-To: <5e1c165d-176c-0141-dc96-0fdbda367c03@collabora.com>
+References: <20211011070247.792-1-yunfei.dong@mediatek.com>
+         <20211011070247.792-13-yunfei.dong@mediatek.com>
+         <5e1c165d-176c-0141-dc96-0fdbda367c03@collabora.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7BIT
-Content-Type:   text/plain; charset=US-ASCII
-X-Originating-IP: [192.168.2.115]
-X-ClientProxiedBy: TWMBX02.aspeed.com (192.168.0.24) To TWMBX02.aspeed.com
- (192.168.0.24)
-X-DNSRBL: 
-X-MAIL: twspam01.aspeedtech.com 19R2RRLZ028615
+X-MTK:  N
+Content-Transfer-Encoding: base64
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-A debugfs file, /sys/kernel/debug/aspeed-video, will be created. You can
-read it to get video real-time information as below:
-
-Capture:
-  Signal              : Lock
-  Width               : 1920
-  Height              : 1080
-  FRC                 : 60
-
-Performance:
-  Frame#              : 38
-  Frame Duration(ms)  :
-    Now               : 21
-    Min               : 21
-    Max               : 21
-  FPS                 : 47
-
-Signed-off-by: Jammy Huang <jammy_huang@aspeedtech.com>
----
-v6:
-  - update commit message
-v5:
-  - correct log
-  - update commit message
-v4:
-  - use void as aspeed_video_debugfs_create()'s return type
-  - update commit message
-v3:
- - let struct, aspeed_video_debugfs_ops, be const
-v2:
- - Change the style of debugfs information
- - Use Min/Max to remove test and branch cases
----
- drivers/media/platform/aspeed-video.c | 94 +++++++++++++++++++++++++++
- 1 file changed, 94 insertions(+)
-
-diff --git a/drivers/media/platform/aspeed-video.c b/drivers/media/platform/aspeed-video.c
-index 8b3939b8052d..81876fc28f16 100644
---- a/drivers/media/platform/aspeed-video.c
-+++ b/drivers/media/platform/aspeed-video.c
-@@ -21,6 +21,8 @@
- #include <linux/videodev2.h>
- #include <linux/wait.h>
- #include <linux/workqueue.h>
-+#include <linux/debugfs.h>
-+#include <linux/ktime.h>
- #include <media/v4l2-ctrls.h>
- #include <media/v4l2-dev.h>
- #include <media/v4l2-device.h>
-@@ -203,6 +205,14 @@ struct aspeed_video_buffer {
- 	struct list_head link;
- };
- 
-+struct aspeed_video_perf {
-+	ktime_t last_sample;
-+	u32 totaltime;
-+	u32 duration;
-+	u32 duration_min;
-+	u32 duration_max;
-+};
-+
- #define to_aspeed_video_buffer(x) \
- 	container_of((x), struct aspeed_video_buffer, vb)
- 
-@@ -241,6 +251,8 @@ struct aspeed_video {
- 	unsigned int frame_left;
- 	unsigned int frame_right;
- 	unsigned int frame_top;
-+
-+	struct aspeed_video_perf perf;
- };
- 
- #define to_aspeed_video(x) container_of((x), struct aspeed_video, v4l2_dev)
-@@ -444,6 +456,16 @@ static void aspeed_video_write(struct aspeed_video *video, u32 reg, u32 val)
- 		readl(video->base + reg));
- }
- 
-+static void update_perf(struct aspeed_video_perf *p)
-+{
-+	p->duration =
-+		ktime_to_ms(ktime_sub(ktime_get(),  p->last_sample));
-+	p->totaltime += p->duration;
-+
-+	p->duration_max = max(p->duration, p->duration_max);
-+	p->duration_min = min(p->duration, p->duration_min);
-+}
-+
- static int aspeed_video_start_frame(struct aspeed_video *video)
- {
- 	dma_addr_t addr;
-@@ -482,6 +504,8 @@ static int aspeed_video_start_frame(struct aspeed_video *video)
- 	aspeed_video_update(video, VE_INTERRUPT_CTRL, 0,
- 			    VE_INTERRUPT_COMP_COMPLETE);
- 
-+	video->perf.last_sample = ktime_get();
-+
- 	aspeed_video_update(video, VE_SEQ_CTRL, 0,
- 			    VE_SEQ_CTRL_TRIG_CAPTURE | VE_SEQ_CTRL_TRIG_COMP);
- 
-@@ -600,6 +624,8 @@ static irqreturn_t aspeed_video_irq(int irq, void *arg)
- 		u32 frame_size = aspeed_video_read(video,
- 						   VE_JPEG_COMP_SIZE_READ_BACK);
- 
-+		update_perf(&video->perf);
-+
- 		spin_lock(&video->lock);
- 		clear_bit(VIDEO_FRAME_INPRG, &video->flags);
- 		buf = list_first_entry_or_null(&video->buffers,
-@@ -760,6 +786,7 @@ static void aspeed_video_get_resolution(struct aspeed_video *video)
- 	det->width = MIN_WIDTH;
- 	det->height = MIN_HEIGHT;
- 	video->v4l2_input_status = V4L2_IN_ST_NO_SIGNAL;
-+	memset(&video->perf, 0, sizeof(video->perf));
- 
- 	do {
- 		if (tries) {
-@@ -1450,6 +1477,8 @@ static int aspeed_video_start_streaming(struct vb2_queue *q,
- 	struct aspeed_video *video = vb2_get_drv_priv(q);
- 
- 	video->sequence = 0;
-+	video->perf.duration_max = 0;
-+	video->perf.duration_min = 0xffffffff;
- 
- 	rc = aspeed_video_start_frame(video);
- 	if (rc) {
-@@ -1517,6 +1546,67 @@ static const struct vb2_ops aspeed_video_vb2_ops = {
- 	.buf_queue =  aspeed_video_buf_queue,
- };
- 
-+#ifdef CONFIG_DEBUG_FS
-+static int aspeed_video_debugfs_show(struct seq_file *s, void *data)
-+{
-+	struct aspeed_video *v = s->private;
-+
-+	seq_puts(s, "\n");
-+
-+	seq_puts(s, "Capture:\n");
-+	seq_printf(s, "  %-20s:\t%s\n", "Signal",
-+		   v->v4l2_input_status ? "Unlock" : "Lock");
-+	seq_printf(s, "  %-20s:\t%d\n", "Width", v->pix_fmt.width);
-+	seq_printf(s, "  %-20s:\t%d\n", "Height", v->pix_fmt.height);
-+	seq_printf(s, "  %-20s:\t%d\n", "FRC", v->frame_rate);
-+
-+	seq_puts(s, "\n");
-+
-+	seq_puts(s, "Performance:\n");
-+	seq_printf(s, "  %-20s:\t%d\n", "Frame#", v->sequence);
-+	seq_printf(s, "  %-20s:\n", "Frame Duration(ms)");
-+	seq_printf(s, "    %-18s:\t%d\n", "Now", v->perf.duration);
-+	seq_printf(s, "    %-18s:\t%d\n", "Min", v->perf.duration_min);
-+	seq_printf(s, "    %-18s:\t%d\n", "Max", v->perf.duration_max);
-+	seq_printf(s, "  %-20s:\t%d\n", "FPS", 1000/(v->perf.totaltime/v->sequence));
-+
-+
-+	return 0;
-+}
-+
-+int aspeed_video_proc_open(struct inode *inode, struct file *file)
-+{
-+	return single_open(file, aspeed_video_debugfs_show, inode->i_private);
-+}
-+
-+static const struct file_operations aspeed_video_debugfs_ops = {
-+	.owner   = THIS_MODULE,
-+	.open    = aspeed_video_proc_open,
-+	.read    = seq_read,
-+	.llseek  = seq_lseek,
-+	.release = single_release,
-+};
-+
-+static struct dentry *debugfs_entry;
-+
-+static void aspeed_video_debugfs_remove(struct aspeed_video *video)
-+{
-+	debugfs_remove_recursive(debugfs_entry);
-+}
-+
-+static void aspeed_video_debugfs_create(struct aspeed_video *video)
-+{
-+	debugfs_entry = debugfs_create_file(DEVICE_NAME, 0444, NULL, video,
-+					    &aspeed_video_debugfs_ops);
-+}
-+#else
-+static void aspeed_video_debugfs_remove(struct aspeed_video *video) { }
-+static int aspeed_video_debugfs_create(struct aspeed_video *video)
-+{
-+	return 0;
-+}
-+#endif /* CONFIG_DEBUG_FS */
-+
- static int aspeed_video_setup_video(struct aspeed_video *video)
- {
- 	const u64 mask = ~(BIT(V4L2_JPEG_CHROMA_SUBSAMPLING_444) |
-@@ -1708,6 +1798,8 @@ static int aspeed_video_probe(struct platform_device *pdev)
- 		return rc;
- 	}
- 
-+	aspeed_video_debugfs_create(video);
-+
- 	return 0;
- }
- 
-@@ -1719,6 +1811,8 @@ static int aspeed_video_remove(struct platform_device *pdev)
- 
- 	aspeed_video_off(video);
- 
-+	aspeed_video_debugfs_remove(video);
-+
- 	clk_unprepare(video->vclk);
- 	clk_unprepare(video->eclk);
- 
--- 
-2.25.1
+SGkgQW5nZWxvR2lvYWNjaGlubywNCg0KVGhhbmtzIGZvciB5b3VyIHN1Z2dlc3Rpb24uDQpPbiBU
+aHUsIDIwMjEtMTAtMTQgYXQgMTM6MDIgKzAyMDAsIEFuZ2Vsb0dpb2FjY2hpbm8gRGVsIFJlZ25v
+IHdyb3RlOg0KPiA+IFVzZSB0aGUgZG1hX3NldF9tYXNrX2FuZF9jb2hlcmVudCBoZWxwZXIgdG8g
+c2V0IHZkZWMNCj4gPiBETUEgYml0IG1hc2sgdG8gc3VwcG9ydCAzNGJpdHMgaW92YSBzcGFjZSgx
+NkdCKSB0aGF0DQo+ID4gdGhlIG10ODE5MiBpb21tdSBIVyBzdXBwb3J0Lg0KPiA+IA0KPiA+IFdo
+b2xlIHRoZSBpb3ZhIHJhbmdlIHNlcGFyYXRlIHRvIDB+NEcvNEd+OEcvOEd+MTJHLzEyR34xNkcs
+DQo+ID4gcmVnYXJkaW5nIHdoaWNoIGlvdmEgcmFuZ2UgVkRFQyBhY3R1YWxseSBsb2NhdGUsIGl0
+DQo+ID4gZGVwZW5kcyBvbiB0aGUgZG1hLXJhbmdlcyBwcm9wZXJ0eSBvZiB2ZGVjIGR0c2kgbm9k
+ZS4NCj4gPiANCj4gPiBTaWduZWQtb2ZmLWJ5OiBZdW5mZWkgRG9uZyA8eXVuZmVpLmRvbmdAbWVk
+aWF0ZWsuY29tPg0KPiA+IC0tLQ0KPiA+ICAgZHJpdmVycy9tZWRpYS9wbGF0Zm9ybS9tdGstdmNv
+ZGVjL210a192Y29kZWNfZGVjX2Rydi5jIHwgMyArKysNCj4gPiAgIDEgZmlsZSBjaGFuZ2VkLCAz
+IGluc2VydGlvbnMoKykNCj4gPiANCj4gPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9tZWRpYS9wbGF0
+Zm9ybS9tdGstdmNvZGVjL210a192Y29kZWNfZGVjX2Rydi5jIA0KPiA+IGIvZHJpdmVycy9tZWRp
+YS9wbGF0Zm9ybS9tdGstdmNvZGVjL210a192Y29kZWNfZGVjX2Rydi5jDQo+ID4gaW5kZXggZGU4
+M2UzYjgyMWI0Li5kYTk2M2NkYWM5NmIgMTAwNjQ0DQo+ID4gLS0tIGEvZHJpdmVycy9tZWRpYS9w
+bGF0Zm9ybS9tdGstdmNvZGVjL210a192Y29kZWNfZGVjX2Rydi5jDQo+ID4gKysrIGIvZHJpdmVy
+cy9tZWRpYS9wbGF0Zm9ybS9tdGstdmNvZGVjL210a192Y29kZWNfZGVjX2Rydi5jDQo+ID4gQEAg
+LTM3Niw2ICszNzYsOSBAQCBzdGF0aWMgaW50IG10a192Y29kZWNfcHJvYmUoc3RydWN0DQo+ID4g
+cGxhdGZvcm1fZGV2aWNlICpwZGV2KQ0KPiA+ICAgCQl9DQo+ID4gICAJfQ0KPiA+ICAgDQo+ID4g
+KwlpZiAob2ZfZ2V0X3Byb3BlcnR5KHBkZXYtPmRldi5vZl9ub2RlLCAiZG1hLXJhbmdlcyIsIE5V
+TEwpKQ0KPiA+ICsJCWRtYV9zZXRfbWFza19hbmRfY29oZXJlbnQoJnBkZXYtPmRldiwNCj4gPiBE
+TUFfQklUX01BU0soMzQpKTsNCj4gPiArDQo+IA0KV2lsbCBmaXggaW4gcGF0Y2ggdjguDQo+IFRo
+aXMgZnVuY3Rpb24gcmV0dXJucyAwIGZvciBzdWNjZXNzLCBvciBuZWdhdGl2ZSBudW1iZXIgZm9y
+IGZhaWx1cmU6DQo+IHBsZWFzZSBjaGVjaw0KPiB0aGUgcmV0dXJuIHZhbHVlLCBvciB0aGlzIGRy
+aXZlciBtYXkgbm90IHdvcmsgY29ycmVjdGx5IGluIHNvbWUNCj4gY29ybmVyIGNhc2VzLg0KPiAN
+Cj4gUmVnYXJkcywNCj4gLSBBbmdlbG8NCj4gDQo+ID4gICAJZm9yIChpID0gMDsgaSA8IE1US19W
+REVDX0hXX01BWDsgaSsrKQ0KPiA+ICAgCQltdXRleF9pbml0KCZkZXYtPmRlY19tdXRleFtpXSk7
+DQo+ID4gICAJc3Bpbl9sb2NrX2luaXQoJmRldi0+aXJxbG9jayk7DQo+ID4gDQo=
 
