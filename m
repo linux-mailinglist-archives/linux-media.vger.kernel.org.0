@@ -2,74 +2,79 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CB4BE43D71E
-	for <lists+linux-media@lfdr.de>; Thu, 28 Oct 2021 01:04:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D0EA543D754
+	for <lists+linux-media@lfdr.de>; Thu, 28 Oct 2021 01:11:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229993AbhJ0XGn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 27 Oct 2021 19:06:43 -0400
-Received: from mout01.posteo.de ([185.67.36.65]:56487 "EHLO mout01.posteo.de"
+        id S230310AbhJ0XOD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 27 Oct 2021 19:14:03 -0400
+Received: from mail.kernel.org ([198.145.29.99]:33964 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229987AbhJ0XGl (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 27 Oct 2021 19:06:41 -0400
-Received: from submission (posteo.de [89.146.220.130]) 
-        by mout01.posteo.de (Postfix) with ESMTPS id E61C0240026
-        for <linux-media@vger.kernel.org>; Thu, 28 Oct 2021 01:04:13 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=posteo.de; s=2017;
-        t=1635375853; bh=dZqfb3XW82kVmugdwXoRQ54xKdzNEmKSRVsycBI55bs=;
-        h=Date:From:To:Subject:From;
-        b=EwzPGmK2oo1KiO78BNIrZkzTbg12dLDP/liOivUoFXuS/z7KK/yGgG1b/AvS84+zk
-         54dkNx0ZYMfluyh5pQLygFt7U5RqlKE+x4lO2tkhhc8D7XQriXBSaNNasvPtQxW0L7
-         nub4NVtBj99xX+VZbKEXhZZNh6YvpZRcrcRX3SKQpKSST2DuMVMw8lqLHg0Uw60/1G
-         +PV0GwMvof/NvVJtBjWMlYAJw6pqZ4u+HIpim2K4+XPKhPyU2bQA6bR6egR8hIXWaa
-         RIHpCiBv1ibU21+0thXBjxDTOstI+/i3Y4+LyBzD9RrtoNqPB7LGk85/2PmVXO9mEW
-         WrZw9MhF676/w==
-Received: from customer (localhost [127.0.0.1])
-        by submission (posteo.de) with ESMTPSA id 4Hfkld1536z9rxB
-        for <linux-media@vger.kernel.org>; Thu, 28 Oct 2021 01:04:12 +0200 (CEST)
-Date:   Wed, 27 Oct 2021 23:04:12 +0000
-From:   Patrick Boettcher <patrick.boettcher@posteo.de>
-To:     linux-media@vger.kernel.org
-Subject: Kernel 5.10 - imx-media does not create /dev/media0
-Message-ID: <20211028010412.49a3c812@yaise-pc1>
+        id S230248AbhJ0XOC (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 27 Oct 2021 19:14:02 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 39EE261039;
+        Wed, 27 Oct 2021 23:11:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1635376296;
+        bh=KupXla6YPxmj/KDqeXF6aCfkYzKjNPRj7wkgKckspAw=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:From;
+        b=JP/IXa/AtHXZjOK8OOVkusbwcJ0+wmuhjsoZdzhuQzYvfbNTLj9cMuc5hbT+99OaQ
+         CU4Tjg87Pe2GxOvGEqyS9v+df74g04Ls1UC1r+IXcaYKmn/nyqns4h0k0LUNmdSXZD
+         YZRpC2Q36KRXevnEbf1U63vhL2iPilwZNkptidUX7vh4NlKdKY4zItXRhbXtH9evhH
+         VPwzD9cTou0f5J6WhiM6ZAanZITObAc5kdTkJI/rfRPMcxO43q+tVmqvsARYU2tdbY
+         A0zTWL0WNMrMYpfDFemz8SreLax956zfOHlyWQR9NkuT6BpXhejuxXifLa+5jXoHqv
+         CTy8FoOa31rsw==
+Date:   Wed, 27 Oct 2021 18:11:34 -0500
+From:   Bjorn Helgaas <helgaas@kernel.org>
+To:     Dongdong Liu <liudongdong3@huawei.com>
+Cc:     hch@infradead.org, kw@linux.com, logang@deltatee.com,
+        leon@kernel.org, linux-pci@vger.kernel.org, rajur@chelsio.com,
+        hverkuil-cisco@xs4all.nl, linux-media@vger.kernel.org,
+        netdev@vger.kernel.org
+Subject: Re: [PATCH V10 6/8] PCI/P2PDMA: Add a 10-Bit Tag check in P2PDMA
+Message-ID: <20211027231134.GA258571@bhelgaas>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20211009104938.48225-7-liudongdong3@huawei.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi list,
+On Sat, Oct 09, 2021 at 06:49:36PM +0800, Dongdong Liu wrote:
+> Add a 10-Bit Tag check in the P2PDMA code to ensure that a device with
+> 10-Bit Tag Requester doesn't interact with a device that does not
+> support 10-Bit Tag Completer. Before that happens, the kernel should
+> emit a warning.
 
-(long time no see!)
+> Signed-off-by: Dongdong Liu <liudongdong3@huawei.com>
+> Reviewed-by: Logan Gunthorpe <logang@deltatee.com>
 
-I switched from a Freescale kernel 5.4 to a vanilla 5.10 on IMX6Solo
-board. The device is using a ADV7280 as analog-video-ADC.
+> @@ -532,6 +577,9 @@ calc_map_type_and_dist(struct pci_dev *provider, struct pci_dev *client,
+>  		map_type = PCI_P2PDMA_MAP_NOT_SUPPORTED;
+>  	}
+>  done:
+> +	if (pci_10bit_tags_unsupported(client, provider, verbose))
+> +		map_type = PCI_P2PDMA_MAP_NOT_SUPPORTED;
 
-I tried to apply the good options to my kernel-config, but I'm unable
-to get the media-controller device appear. I see  
+I need to be convinced that this check is in the right spot to catch
+all potential P2PDMA situations.  The pci_p2pmem_find() and
+pci_p2pdma_distance() interfaces eventually call
+calc_map_type_and_dist().  But those interfaces don't actually produce
+DMA bus addresses, and I'm not convinced that all P2PDMA users use
+them.
 
- [  757.594463] irq: type mismatch, failed to map hwirq-21 for gpio@20a8000!
- [  757.655328] adv7180 2-0021: chip found @ 0x21 (21a8000.i2c)
+nvme *does* use them, but infiniband (rdma_rw_map_sg()) does not, and
+it calls pci_p2pdma_map_sg().
 
-that the adv7280 is found and attached, as well as the ipu and it's
-video-devices.
+amdgpu_dma_buf_attach() calls pci_p2pdma_distance_many() but I don't
+know where it sets up P2PDMA transactions.
 
- [   11.069123] videodev: Linux video capture interface: v2.00
- [   12.553347] ipu1_csi0: Registered ipu1_csi0 capture as /dev/video0
- [   12.681897] ipu1_ic_prpenc: Registered ipu1_ic_prpenc capture as /dev/video1
- [   12.785205] ipu1_ic_prpvf: Registered ipu1_ic_prpvf capture as /dev/video2
- [   12.914702] ipu1_csi1: Registered ipu1_csi1 capture as /dev/video3
+cxgb4 and qed mention "peer2peer", but I don't know whether they are
+related; they don't seem to use any pci_p2p.* interfaces.
 
-I'm using the same device-tree as I used with fscl-5.4.
-
-Before writing an even longer email pasting everything I did I'd like
-to know which information is actually useful to debug this?
-
-I'm hoping there is something obvious which I missed?
-
-I'm wondering whether I shoud v4l-subdev to be created, which I don't
-in dmesg.
-
-Thanks in advance for any help,
---
-Patrick.
+>  	rcu_read_lock();
+>  	p2pdma = rcu_dereference(provider->p2pdma);
+>  	if (p2pdma)
+> -- 
+> 2.22.0
+> 
