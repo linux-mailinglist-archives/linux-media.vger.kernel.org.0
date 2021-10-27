@@ -2,100 +2,163 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AF06043C0EE
-	for <lists+linux-media@lfdr.de>; Wed, 27 Oct 2021 05:44:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6EB3D43C0F1
+	for <lists+linux-media@lfdr.de>; Wed, 27 Oct 2021 05:45:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239045AbhJ0DrH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 26 Oct 2021 23:47:07 -0400
-Received: from mailgw02.mediatek.com ([210.61.82.184]:55434 "EHLO
-        mailgw02.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
-        with ESMTP id S233588AbhJ0DrG (ORCPT
+        id S239197AbhJ0Dr0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 26 Oct 2021 23:47:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38660 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S239198AbhJ0Dr0 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 26 Oct 2021 23:47:06 -0400
-X-UUID: 5247acccdc6049f19153313314cdfbda-20211027
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
-        h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:From:Subject:Message-ID; bh=KatCz9XKGgtCBLEzEVLf0OO9NA8gS5alukduL27YpSU=;
-        b=rLJWOuTKzukOyNpV1HwETlbGN4XuakW34dVx/z20HvLwj9f7nAsUwr9HUVnRBv01CY2pTvUiG6omqe0TTzk69wbno6cRsVIva51qOkkF62MJP6xaysKxW59WTktnoG7u7v5x3AArZdfo0RYp2jaHz6o62BJWbrp10z7jvYwXOoc=;
-X-UUID: 5247acccdc6049f19153313314cdfbda-20211027
-Received: from mtkcas11.mediatek.inc [(172.21.101.40)] by mailgw02.mediatek.com
-        (envelope-from <yunfei.dong@mediatek.com>)
-        (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
-        with ESMTP id 2109564187; Wed, 27 Oct 2021 11:44:38 +0800
-Received: from mtkcas10.mediatek.inc (172.21.101.39) by
- mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.792.3;
- Wed, 27 Oct 2021 11:44:37 +0800
-Received: from mhfsdcap04 (10.17.3.154) by mtkcas10.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Wed, 27 Oct 2021 11:44:35 +0800
-Message-ID: <629c605bc547a3d025eace87eb5f1ef724c2f080.camel@mediatek.com>
-Subject: Re: [PATCH v7, 12/15] media: mtk-vcodec: Support 34bits dma address
- for vdec
-From:   "yunfei.dong@mediatek.com" <yunfei.dong@mediatek.com>
-To:     AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>,
-        Alexandre Courbot <acourbot@chromium.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Tzung-Bi Shih <tzungbi@chromium.org>,
-        "Tiffany Lin" <tiffany.lin@mediatek.com>,
-        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Tomasz Figa <tfiga@google.com>
-CC:     Hsin-Yi Wang <hsinyi@chromium.org>,
-        Fritz Koenig <frkoenig@chromium.org>,
-        Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
-        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        Irui Wang <irui.wang@mediatek.com>,
-        <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <srv_heupstream@mediatek.com>,
-        <linux-mediatek@lists.infradead.org>,
-        <Project_Global_Chrome_Upstream_Group@mediatek.com>
-Date:   Wed, 27 Oct 2021 11:44:35 +0800
-In-Reply-To: <5e1c165d-176c-0141-dc96-0fdbda367c03@collabora.com>
-References: <20211011070247.792-1-yunfei.dong@mediatek.com>
-         <20211011070247.792-13-yunfei.dong@mediatek.com>
-         <5e1c165d-176c-0141-dc96-0fdbda367c03@collabora.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
-MIME-Version: 1.0
-X-MTK:  N
-Content-Transfer-Encoding: base64
+        Tue, 26 Oct 2021 23:47:26 -0400
+Received: from lb2-smtp-cloud8.xs4all.net (lb2-smtp-cloud8.xs4all.net [IPv6:2001:888:0:108::2b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9DE24C061570
+        for <linux-media@vger.kernel.org>; Tue, 26 Oct 2021 20:45:01 -0700 (PDT)
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud8.xs4all.net with ESMTPA
+        id fZrxmQHe9FfMifZs2mXZdY; Wed, 27 Oct 2021 05:44:58 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
+        t=1635306298; bh=7qM9xRhMcsmYLXDhsxdxPVFav0c4/dhtmy+mvPq+tFc=;
+        h=Message-ID:Date:From:To:Subject:From:Subject;
+        b=F4G14IPToongufDMPhhSdWtZgeDfC+yi1RuN90Pf9YU96/Qgo1rElgLq+W1rRASXn
+         QcUJhQQcUFebinWHsESEYcgWyNlpY9d7y8zIAl0p41F5PcXGgjVD8SgW/kKM2MBCDR
+         lWUfCVqynupoBLgencB1o5NrFVL7HWlzEy+7+4b8KYJjtRtfe8e1vDprkRRSm8V+aE
+         frr6fyjvl/dD61DdNugQ0JPGJQDoQX19d4RUTx7cLC8D2DDQE5KqT6BUeKu6AhnaQH
+         o+xZ23iyphDBSpf+ovrpkdkV4j62zLZoGyPD2pcSflp72KU8gl3HrhnOyxOMr9f8g4
+         Vjs8jWg/wYrDw==
+Message-ID: <9c1e6306a06e926239d5b9783b230a7d@smtp-cloud8.xs4all.net>
+Date:   Wed, 27 Oct 2021 05:44:53 +0200
+From:   "Hans Verkuil" <hverkuil@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: ERRORS
+X-CMAE-Envelope: MS4xfOzjcov1gw14kUvSUbbmXdbvjuvx3qrMfOU+XHNFxdFJ3sbTQ/T9JVU0r8dADE2wDuQYl/Uz9sQ2rixGLg64gF6jzAy1sdBoo6CSolTp6H/wJjG9iwbJ
+ IBYzN8uGiyxD33VBm8ZQ+hsswyMY0CCR87h8vUPfxlSosV3Iuo0BjRq3xTB8IQYJxANXdzU9rVkATg==
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-SGkgQW5nZWxvR2lvYWNjaGlubywNCg0KVGhhbmtzIGZvciB5b3VyIHN1Z2dlc3Rpb24uDQpPbiBU
-aHUsIDIwMjEtMTAtMTQgYXQgMTM6MDIgKzAyMDAsIEFuZ2Vsb0dpb2FjY2hpbm8gRGVsIFJlZ25v
-IHdyb3RlOg0KPiA+IFVzZSB0aGUgZG1hX3NldF9tYXNrX2FuZF9jb2hlcmVudCBoZWxwZXIgdG8g
-c2V0IHZkZWMNCj4gPiBETUEgYml0IG1hc2sgdG8gc3VwcG9ydCAzNGJpdHMgaW92YSBzcGFjZSgx
-NkdCKSB0aGF0DQo+ID4gdGhlIG10ODE5MiBpb21tdSBIVyBzdXBwb3J0Lg0KPiA+IA0KPiA+IFdo
-b2xlIHRoZSBpb3ZhIHJhbmdlIHNlcGFyYXRlIHRvIDB+NEcvNEd+OEcvOEd+MTJHLzEyR34xNkcs
-DQo+ID4gcmVnYXJkaW5nIHdoaWNoIGlvdmEgcmFuZ2UgVkRFQyBhY3R1YWxseSBsb2NhdGUsIGl0
-DQo+ID4gZGVwZW5kcyBvbiB0aGUgZG1hLXJhbmdlcyBwcm9wZXJ0eSBvZiB2ZGVjIGR0c2kgbm9k
-ZS4NCj4gPiANCj4gPiBTaWduZWQtb2ZmLWJ5OiBZdW5mZWkgRG9uZyA8eXVuZmVpLmRvbmdAbWVk
-aWF0ZWsuY29tPg0KPiA+IC0tLQ0KPiA+ICAgZHJpdmVycy9tZWRpYS9wbGF0Zm9ybS9tdGstdmNv
-ZGVjL210a192Y29kZWNfZGVjX2Rydi5jIHwgMyArKysNCj4gPiAgIDEgZmlsZSBjaGFuZ2VkLCAz
-IGluc2VydGlvbnMoKykNCj4gPiANCj4gPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9tZWRpYS9wbGF0
-Zm9ybS9tdGstdmNvZGVjL210a192Y29kZWNfZGVjX2Rydi5jIA0KPiA+IGIvZHJpdmVycy9tZWRp
-YS9wbGF0Zm9ybS9tdGstdmNvZGVjL210a192Y29kZWNfZGVjX2Rydi5jDQo+ID4gaW5kZXggZGU4
-M2UzYjgyMWI0Li5kYTk2M2NkYWM5NmIgMTAwNjQ0DQo+ID4gLS0tIGEvZHJpdmVycy9tZWRpYS9w
-bGF0Zm9ybS9tdGstdmNvZGVjL210a192Y29kZWNfZGVjX2Rydi5jDQo+ID4gKysrIGIvZHJpdmVy
-cy9tZWRpYS9wbGF0Zm9ybS9tdGstdmNvZGVjL210a192Y29kZWNfZGVjX2Rydi5jDQo+ID4gQEAg
-LTM3Niw2ICszNzYsOSBAQCBzdGF0aWMgaW50IG10a192Y29kZWNfcHJvYmUoc3RydWN0DQo+ID4g
-cGxhdGZvcm1fZGV2aWNlICpwZGV2KQ0KPiA+ICAgCQl9DQo+ID4gICAJfQ0KPiA+ICAgDQo+ID4g
-KwlpZiAob2ZfZ2V0X3Byb3BlcnR5KHBkZXYtPmRldi5vZl9ub2RlLCAiZG1hLXJhbmdlcyIsIE5V
-TEwpKQ0KPiA+ICsJCWRtYV9zZXRfbWFza19hbmRfY29oZXJlbnQoJnBkZXYtPmRldiwNCj4gPiBE
-TUFfQklUX01BU0soMzQpKTsNCj4gPiArDQo+IA0KV2lsbCBmaXggaW4gcGF0Y2ggdjguDQo+IFRo
-aXMgZnVuY3Rpb24gcmV0dXJucyAwIGZvciBzdWNjZXNzLCBvciBuZWdhdGl2ZSBudW1iZXIgZm9y
-IGZhaWx1cmU6DQo+IHBsZWFzZSBjaGVjaw0KPiB0aGUgcmV0dXJuIHZhbHVlLCBvciB0aGlzIGRy
-aXZlciBtYXkgbm90IHdvcmsgY29ycmVjdGx5IGluIHNvbWUNCj4gY29ybmVyIGNhc2VzLg0KPiAN
-Cj4gUmVnYXJkcywNCj4gLSBBbmdlbG8NCj4gDQo+ID4gICAJZm9yIChpID0gMDsgaSA8IE1US19W
-REVDX0hXX01BWDsgaSsrKQ0KPiA+ICAgCQltdXRleF9pbml0KCZkZXYtPmRlY19tdXRleFtpXSk7
-DQo+ID4gICAJc3Bpbl9sb2NrX2luaXQoJmRldi0+aXJxbG9jayk7DQo+ID4gDQo=
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
 
+Results of the daily build of media_tree:
+
+date:			Wed Oct 27 05:00:12 CEST 2021
+media-tree git hash:	bdbbd511ef0cf414b3bad89dd8fd7b6a169b4a5e
+media_build git hash:	c3d4780fa10bc38eb9dc462275fac019c8d693d5
+v4l-utils git hash:	2549897336e8af49977f19aa5888d12d9269cbed
+edid-decode git hash:	67ed12e3ccafd9e125a5eec9349043b523895dc3
+gcc version:		i686-linux-gcc (GCC) 11.2.0
+sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
+sparse version:		0.6.3
+smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
+smatch version:		0.6.3
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: f1c67b200f199ca44b793327582bb643ecabd35f
+host hardware:		x86_64
+host os:		5.14.0-2-amd64
+
+linux-git-sh: OK
+linux-git-arm-davinci: OK
+linux-git-arm-at91: OK
+linux-git-arm-pxa: OK
+linux-git-arm-stm32: OK
+linux-git-mips: OK
+linux-git-arm64: OK
+linux-git-powerpc64: OK
+linux-git-arm-multi: OK
+linux-git-i686: OK
+linux-git-x86_64: OK
+Check COMPILE_TEST: OK
+Check for strcpy/strncpy/strlcpy: OK
+linux-4.4.283-i686: OK
+linux-4.4.283-x86_64: OK
+linux-4.5.7-i686: WARNINGS
+linux-4.5.7-x86_64: WARNINGS
+linux-4.6.7-i686: WARNINGS
+linux-4.6.7-x86_64: WARNINGS
+linux-4.7.10-i686: WARNINGS
+linux-4.7.10-x86_64: WARNINGS
+linux-4.8.17-i686: WARNINGS
+linux-4.8.17-x86_64: WARNINGS
+linux-4.9.246-i686: OK
+linux-4.9.246-x86_64: OK
+linux-4.10.17-i686: WARNINGS
+linux-4.10.17-x86_64: WARNINGS
+linux-4.11.12-i686: WARNINGS
+linux-4.11.12-x86_64: WARNINGS
+linux-4.12.14-i686: WARNINGS
+linux-4.12.14-x86_64: WARNINGS
+linux-4.13.16-i686: WARNINGS
+linux-4.13.16-x86_64: WARNINGS
+linux-4.14.246-i686: OK
+linux-4.14.246-x86_64: OK
+linux-4.15.18-i686: WARNINGS
+linux-4.15.18-x86_64: WARNINGS
+linux-4.16.18-i686: WARNINGS
+linux-4.16.18-x86_64: WARNINGS
+linux-4.17.19-i686: WARNINGS
+linux-4.17.19-x86_64: WARNINGS
+linux-4.18.20-i686: WARNINGS
+linux-4.18.20-x86_64: WARNINGS
+linux-4.19.206-i686: OK
+linux-4.19.206-x86_64: OK
+linux-4.20.17-i686: WARNINGS
+linux-4.20.17-x86_64: WARNINGS
+linux-5.0.21-i686: OK
+linux-5.0.21-x86_64: OK
+linux-5.1.21-i686: OK
+linux-5.1.21-x86_64: OK
+linux-5.2.21-i686: OK
+linux-5.2.21-x86_64: OK
+linux-5.3.18-i686: OK
+linux-5.3.18-x86_64: OK
+linux-5.4.144-i686: OK
+linux-5.4.144-x86_64: OK
+linux-5.5.19-i686: OK
+linux-5.5.19-x86_64: OK
+linux-5.6.19-i686: OK
+linux-5.6.19-x86_64: OK
+linux-5.7.19-i686: OK
+linux-5.7.19-x86_64: OK
+linux-5.8.18-i686: OK
+linux-5.8.18-x86_64: OK
+linux-5.9.16-i686: OK
+linux-5.9.16-x86_64: OK
+linux-5.10.62-i686: OK
+linux-5.10.62-x86_64: OK
+linux-5.11.22-i686: OK
+linux-5.11.22-x86_64: OK
+linux-5.12.19-i686: OK
+linux-5.12.19-x86_64: OK
+linux-5.13.14-i686: OK
+linux-5.13.14-x86_64: OK
+linux-5.14.1-i686: OK
+linux-5.14.1-x86_64: OK
+linux-5.15-rc1-i686: OK
+linux-5.15-rc1-x86_64: OK
+apps: OK
+spec-git: OK
+virtme: ERRORS
+virtme-32: ERRORS
+sparse: WARNINGS
+smatch: ERRORS
+kerneldoc: WARNINGS
+
+Detailed results are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Wednesday.log
+
+Detailed regression test results are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Wednesday-test-media.log
+http://www.xs4all.nl/~hverkuil/logs/Wednesday-test-media-32.log
+http://www.xs4all.nl/~hverkuil/logs/Wednesday-test-media-dmesg.log
+
+Full logs are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Wednesday.tar.bz2
+
+The Media Infrastructure API from this daily build is here:
+
+http://www.xs4all.nl/~hverkuil/spec/index.html
