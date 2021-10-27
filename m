@@ -2,178 +2,130 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CD42E43C2B0
-	for <lists+linux-media@lfdr.de>; Wed, 27 Oct 2021 08:12:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9A40343C3A3
+	for <lists+linux-media@lfdr.de>; Wed, 27 Oct 2021 09:17:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239856AbhJ0GOr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 27 Oct 2021 02:14:47 -0400
-Received: from mx08-00178001.pphosted.com ([91.207.212.93]:47286 "EHLO
-        mx07-00178001.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S231208AbhJ0GOo (ORCPT
+        id S235990AbhJ0HTp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 27 Oct 2021 03:19:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57242 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230308AbhJ0HTo (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 27 Oct 2021 02:14:44 -0400
-Received: from pps.filterd (m0046660.ppops.net [127.0.0.1])
-        by mx07-00178001.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 19R4bM68014856;
-        Wed, 27 Oct 2021 08:11:49 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=subject : to : cc :
- references : from : message-id : date : mime-version : in-reply-to :
- content-type : content-transfer-encoding; s=selector1;
- bh=nT19xZKAS1g6Wr2Uc3j1zTC0eEqLF61U2hb0csAByE8=;
- b=qpkz848/RtyF6rGQB646MxF7l3lRxh06i/JQDEq4QXdNf0bBls4oIzPKu9hJoks6f/Qu
- zZ5EPSZzQPRMBZmURzYyXHIGJHoV4pRjFM5QrtfySALfgLuclLRwFWXOohJuaq9ZdXXU
- 1A/tvhP9HqzAkj7qPpIoRWuTrxgBM2xIlkxBQmQxMEry3YegaYhl15hpEr+uFaZRHM09
- G2djmdsXb1j1BFg4VMmDFOY0NS6CiVjZ+SJVVgVnIEPs22BxO+HytLu9jDmcsJjCYtyk
- jzPyozDJ9b4xRK9AsLTKfGq8y+d1KoyRnwgOYG+KGwS3rDJRaK+8FSk1qCrfTltXZ7Qd XQ== 
-Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
-        by mx07-00178001.pphosted.com with ESMTP id 3bxm40v5fh-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Wed, 27 Oct 2021 08:11:49 +0200
-Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
-        by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 0B2CC100034;
-        Wed, 27 Oct 2021 08:11:49 +0200 (CEST)
-Received: from Webmail-eu.st.com (sfhdag2node2.st.com [10.75.127.5])
-        by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id E23C3218104;
-        Wed, 27 Oct 2021 08:11:48 +0200 (CEST)
-Received: from lmecxl0573.lme.st.com (10.75.127.51) by SFHDAG2NODE2.st.com
- (10.75.127.5) with Microsoft SMTP Server (TLS) id 15.0.1497.18; Wed, 27 Oct
- 2021 08:11:45 +0200
-Subject: Re: dt-bindings: treewide: Update @st.com email address to
- @foss.st.com
-To:     Marc Zyngier <maz@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
-CC:     Rob Herring <robh+dt@kernel.org>,
-        maxime coquelin <mcoquelin.stm32@gmail.com>,
-        alexandre torgue <alexandre.torgue@foss.st.com>,
-        michael turquette <mturquette@baylibre.com>,
-        stephen boyd <sboyd@kernel.org>,
-        herbert xu <herbert@gondor.apana.org.au>,
-        "david s . miller" <davem@davemloft.net>,
-        david airlie <airlied@linux.ie>,
-        daniel vetter <daniel@ffwll.ch>,
-        thierry reding <thierry.reding@gmail.com>,
-        sam ravnborg <sam@ravnborg.org>,
-        yannick fertre <yannick.fertre@foss.st.com>,
-        "philippe cornu" <philippe.cornu@foss.st.com>,
-        benjamin gaignard <benjamin.gaignard@linaro.org>,
-        vinod koul <vkoul@kernel.org>,
-        ohad ben-cohen <ohad@wizery.com>,
-        bjorn andersson <bjorn.andersson@linaro.org>,
-        baolin wang <baolin.wang7@gmail.com>,
-        jonathan cameron <jic23@kernel.org>,
-        "lars-peter clausen" <lars@metafoo.de>,
-        olivier moysan <olivier.moysan@foss.st.com>,
-        arnaud pouliquen <arnaud.pouliquen@foss.st.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Jassi Brar <jassisinghbrar@gmail.com>,
-        "Mauro Carvalho Chehab" <mchehab@kernel.org>,
-        Hugues Fruchet <hugues.fruchet@foss.st.com>,
-        Fabrice Gasnier <fabrice.gasnier@foss.st.com>,
-        Lee Jones <lee.jones@linaro.org>,
-        Miquel Raynal <miquel.raynal@bootlin.com>,
-        "Richard Weinberger" <richard@nod.at>,
-        Vignesh Raghavendra <vigneshr@ti.com>,
-        "Jakub Kicinski" <kuba@kernel.org>,
-        Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
-        Kishon Vijay Abraham I <kishon@ti.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Mark Brown <broonie@kernel.org>,
-        Mathieu Poirier <mathieu.poirier@linaro.org>,
-        Matt Mackall <mpm@selenic.com>,
-        "Alessandro Zummo" <a.zummo@towertech.it>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "Rafael J . Wysocki" <rafael@kernel.org>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Amit Kucheria <amitk@kernel.org>,
-        Zhang Rui <rui.zhang@intel.com>,
-        Wim Van Sebroeck <wim@linux-watchdog.org>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Viresh Kumar <viresh.kumar@linaro.org>,
-        "Ahmad Fatoum" <a.fatoum@pengutronix.de>,
-        Jagan Teki <jagan@amarulasolutions.com>,
-        dillon min <dillon.minfei@gmail.com>,
-        Marek Vasut <marex@denx.de>,
-        "Laurent Pinchart" <laurent.pinchart@ideasonboard.com>,
-        Sebastian Reichel <sre@kernel.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Paul Cercueil <paul@crapouillou.net>,
-        Fabien Dessenne <fabien.dessenne@foss.st.com>,
-        Christophe Roullier <christophe.roullier@foss.st.com>,
-        Gabriel Fernandez <gabriel.fernandez@foss.st.com>,
-        Lionel Debieve <lionel.debieve@foss.st.com>,
-        Amelie Delaunay <amelie.delaunay@foss.st.com>,
-        Pierre-Yves MORDRET <pierre-yves.mordret@foss.st.com>,
-        Ludovic Barre <ludovic.barre@foss.st.com>,
-        Christophe Kerello <christophe.kerello@foss.st.com>,
-        pascal Paillet <p.paillet@foss.st.com>,
-        Giuseppe Cavallaro <peppe.cavallaro@st.com>,
-        "Jose Abreu" <joabreu@synopsys.com>,
-        Le Ray <erwan.leray@foss.st.com>, <devicetree@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>,
-        <linux-stm32@st-md-mailman.stormreply.com>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-clk@vger.kernel.org>, <linux-crypto@vger.kernel.org>,
-        <dri-devel@lists.freedesktop.org>, <dmaengine@vger.kernel.org>,
-        <linux-remoteproc@vger.kernel.org>, <linux-i2c@vger.kernel.org>,
-        <linux-iio@vger.kernel.org>, <alsa-devel@alsa-project.org>,
-        <linux-media@vger.kernel.org>, <linux-mtd@lists.infradead.org>,
-        <netdev@vger.kernel.org>, <linux-phy@lists.infradead.org>,
-        <linux-gpio@vger.kernel.org>, <linux-rtc@vger.kernel.org>,
-        <linux-serial@vger.kernel.org>, <linux-spi@vger.kernel.org>,
-        <linux-pm@vger.kernel.org>, <linux-usb@vger.kernel.org>,
-        <linux-watchdog@vger.kernel.org>
-References: <20211020065000.21312-1-patrice.chotard@foss.st.com>
- <22fb6f19-21eb-dcb5-fa31-bb243d4a7eaf@canonical.com>
- <878ryoc4dc.wl-maz@kernel.org>
-From:   Patrice CHOTARD <patrice.chotard@foss.st.com>
-Message-ID: <82492eb2-5a5e-39a2-a058-5e2ba75323e0@foss.st.com>
-Date:   Wed, 27 Oct 2021 08:11:45 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+        Wed, 27 Oct 2021 03:19:44 -0400
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CB2B3C061570
+        for <linux-media@vger.kernel.org>; Wed, 27 Oct 2021 00:17:19 -0700 (PDT)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1mfdBM-0003Xo-4W; Wed, 27 Oct 2021 09:17:08 +0200
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+        by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.92)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1mfcE4-0007VZ-MS; Wed, 27 Oct 2021 08:15:52 +0200
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.92)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1mfcE4-0005Rs-LC; Wed, 27 Oct 2021 08:15:52 +0200
+Date:   Wed, 27 Oct 2021 08:15:52 +0200
+From:   Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To:     kernel test robot <lkp@intel.com>
+Cc:     =?utf-8?B?TWHDrXJh?= Canal <maira.canal@usp.br>, sean@mess.org,
+        mchehab@kernel.org, thierry.reding@gmail.com, lee.jones@linaro.org,
+        llvm@lists.linux.dev, kbuild-all@lists.01.org,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-pwm@vger.kernel.org
+Subject: Re: [PATCH v3] media: rc: pwm-ir-tx: Switch to atomic PWM API
+Message-ID: <20211027061552.bb4fczniqp6b7amh@pengutronix.de>
+References: <YXU2i0FtAGDRCMSu@fedora>
+ <202110271450.Z8JPybLg-lkp@intel.com>
 MIME-Version: 1.0
-In-Reply-To: <878ryoc4dc.wl-maz@kernel.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.75.127.51]
-X-ClientProxiedBy: SFHDAG2NODE3.st.com (10.75.127.6) To SFHDAG2NODE2.st.com
- (10.75.127.5)
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.182.1,Aquarius:18.0.790,Hydra:6.0.425,FMLib:17.0.607.475
- definitions=2021-10-27_01,2021-10-26_01,2020-04-07_01
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="rmb5bhrqbowkq2gg"
+Content-Disposition: inline
+In-Reply-To: <202110271450.Z8JPybLg-lkp@intel.com>
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-media@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Marc
 
-On 10/20/21 1:39 PM, Marc Zyngier wrote:
-> On Wed, 20 Oct 2021 08:45:02 +0100,
-> Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com> wrote:
->>
->> On 20/10/2021 08:50, patrice.chotard@foss.st.com wrote:
->>> From: Patrice Chotard <patrice.chotard@foss.st.com>
->>>
->>> Not all @st.com email address are concerned, only people who have
->>> a specific @foss.st.com email will see their entry updated.
->>> For some people, who left the company, remove their email.
->>>
->>
->> Please split simple address change from maintainer updates (removal,
->> addition).
->>
->> Also would be nice to see here explained *why* are you doing this.
-> 
-> And why this can't be done with a single update to .mailmap, like
-> anyone else does.
+--rmb5bhrqbowkq2gg
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Thanks for the tips, yes, it will be simpler.
+On Wed, Oct 27, 2021 at 02:07:19PM +0800, kernel test robot wrote:
+> Hi "Ma=EDra,
+>=20
+> Thank you for the patch! Yet something to improve:
+>=20
+> [auto build test ERROR on media-tree/master]
+> [also build test ERROR on v5.15-rc7 next-20211026]
+> [If your patch is applied to the wrong git tree, kindly drop us a note.
+> And when submitting patch, we suggest to use '--base' as documented in
+> https://git-scm.com/docs/git-format-patch]
+>=20
+> url:    https://github.com/0day-ci/linux/commits/Ma-ra-Canal/media-rc-pwm=
+-ir-tx-Switch-to-atomic-PWM-API/20211024-183502
+> base:   git://linuxtv.org/media_tree.git master
+> config: riscv-randconfig-r004-20211027 (attached as .config)
+> compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project 5db7=
+568a6a1fcb408eb8988abdaff2a225a8eb72)
+> reproduce (this is a W=3D1 build):
+>         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbi=
+n/make.cross -O ~/bin/make.cross
+>         chmod +x ~/bin/make.cross
+>         # install riscv cross compiling tool for clang build
+>         # apt-get install binutils-riscv64-linux-gnu
+>         # https://github.com/0day-ci/linux/commit/abea850df0b6436083fcaa0=
+97ad3029a27aa62bb
+>         git remote add linux-review https://github.com/0day-ci/linux
+>         git fetch --no-tags linux-review Ma-ra-Canal/media-rc-pwm-ir-tx-S=
+witch-to-atomic-PWM-API/20211024-183502
+>         git checkout abea850df0b6436083fcaa097ad3029a27aa62bb
+>         # save the attached .config to linux build tree
+>         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross W=
+=3D1 ARCH=3Driscv=20
+>=20
+> If you fix the issue, kindly add following tag as appropriate
+> Reported-by: kernel test robot <lkp@intel.com>
+>=20
+> All errors (new ones prefixed by >>, old ones prefixed by <<):
+>=20
+> >> ERROR: modpost: "__udivdi3" [drivers/media/rc/pwm-ir-tx.ko] undefined!
 
-Thanks
-Patrice
+This comes from the line:
 
-> 
-> 	M.
-> 
+	state.duty_cycle =3D DIV_ROUND_CLOSEST(pwm_ir->duty_cycle * state.period, =
+100);
+
+where DIV_ROUND_CLOSEST expands to a normal division but state.period is
+a u64. So this should use DIV64_U64_ROUND_CLOSEST I guess.
+
+Best regards
+Uwe
+
+--=20
+Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
+Industrial Linux Solutions                 | https://www.pengutronix.de/ |
+
+--rmb5bhrqbowkq2gg
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEfnIqFpAYrP8+dKQLwfwUeK3K7AkFAmF47pUACgkQwfwUeK3K
+7AlPOggAkyeIIAGunaqgkFp7xpgGw+6WztW81Jl+0mXPhZOotqss8CMVgqYCAECm
+QHDO7jphXkZH6LMx4rA5s62tqXBxTSJww8OzTazW5HT4KmfsPjIs3flhhn6k1zfz
+HWIbJXVDun8I0ccJawNMlipcK1dT82uYoJYOqoNmuBYnh20EvUG5L2LXBU97ALbm
+zSEAQzfn51R+cXL9D0Yo3try0rnvnQOQhOfWytvyhWyBTZmnS24GVk6BK5GZvbje
+I1a1AbqFb8nQ/OlZenQGXsc8BRGJfFf7Z3rEp9c4ZBP5lAIVghPiMg9GLZMYDdA5
+rok3UA6Chb6Vxn8Mh/KWofrY09vIlw==
+=LGgu
+-----END PGP SIGNATURE-----
+
+--rmb5bhrqbowkq2gg--
