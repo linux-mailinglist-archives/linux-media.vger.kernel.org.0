@@ -2,143 +2,72 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3FFFB43D4CD
-	for <lists+linux-media@lfdr.de>; Wed, 27 Oct 2021 23:21:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 28AE143D692
+	for <lists+linux-media@lfdr.de>; Thu, 28 Oct 2021 00:28:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241118AbhJ0VYS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 27 Oct 2021 17:24:18 -0400
-Received: from mail.kernel.org ([198.145.29.99]:35664 "EHLO mail.kernel.org"
+        id S229784AbhJ0WbI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 27 Oct 2021 18:31:08 -0400
+Received: from mail.kernel.org ([198.145.29.99]:52064 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S232208AbhJ0VXP (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 27 Oct 2021 17:23:15 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 4D111610CA;
-        Wed, 27 Oct 2021 21:20:49 +0000 (UTC)
+        id S229498AbhJ0WbH (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 27 Oct 2021 18:31:07 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 33D83610CA;
+        Wed, 27 Oct 2021 22:28:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1635369649;
-        bh=XAKQElgr6BBu1UxLggaDKytR7eU4feqnPzmw0g25Rh0=;
+        s=k20201202; t=1635373721;
+        bh=2MWgc9xFJRquKdCnmaoqSNxkbFX03ApCi5nyauPyOmc=;
         h=Date:From:To:Cc:Subject:In-Reply-To:From;
-        b=p0b4YLUwvJPjelhXK6tuNGSLxPc8W57wzTHLdwcnMUmPB94v3hsvXslXLq1TZ7GY3
-         sL93c85du1ZkOYvv6Pe8m//9lhA+RCJvKPQ3Uxy4IpiUrRzmmHS2TjXc+bDuZhbHC1
-         l+E73WotWsbVG9NLfon08np6Kd/XgVf0Jxca7lyT4yX6vB73LFYEef0IfwG2arUu8/
-         99lPcmeJ/rIFzzRSmhPjxtiZo5dpdJB8a4yC6OHadP/Fj4Qj6F80bnWXW+gPhJdbdy
-         kbLLEj07eEaOlMSzDYq1FQHtoTNtzXOYOJc/bLD1mWl8TMf9oIuR/1QaiRsDmFW7pE
-         HwI4EGZ6WMvrg==
-Date:   Wed, 27 Oct 2021 16:20:48 -0500
+        b=cBdBzfdAdAkINzIgbrXaO5y9l2A+BINrDk7mb2q4gy2VVb7IeswvNWiznzS9b16kU
+         w8QJTrNU+X7HHj8YmbAqp1bXVkdC8A9568J/e9QHNqcsPqcXxf7UZLK/jyDH3N5h/j
+         e9P+imTe94dnr2jS//Kg+ogY1e4MmZLaXlWzEbK3t8k8q5XwQb0VEimyqdyUNnSMRd
+         c4yG6gkw8MkBzpradbuwGKNe9di2GvXAVt0mIFqNfU+BeA/W1h0RPfztQeIBctzHEb
+         m4r0dtUnWjW7IKS1ofXGsTprat02WqXE1Fsi+uOeEsyHQ9WtLSwAfgdVPiyxvFjh0d
+         dNZLq6I3YAwjw==
+Date:   Wed, 27 Oct 2021 17:28:39 -0500
 From:   Bjorn Helgaas <helgaas@kernel.org>
 To:     Dongdong Liu <liudongdong3@huawei.com>
 Cc:     hch@infradead.org, kw@linux.com, logang@deltatee.com,
         leon@kernel.org, linux-pci@vger.kernel.org, rajur@chelsio.com,
         hverkuil-cisco@xs4all.nl, linux-media@vger.kernel.org,
         netdev@vger.kernel.org
-Subject: Re: [PATCH V10 6/8] PCI/P2PDMA: Add a 10-Bit Tag check in P2PDMA
-Message-ID: <20211027212048.GA252528@bhelgaas>
+Subject: Re: [PATCH V10 4/8] PCI/sysfs: Add a 10-Bit Tag sysfs file PCIe
+ Endpoint devices
+Message-ID: <20211027222839.GA252933@bhelgaas>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20211009104938.48225-7-liudongdong3@huawei.com>
+In-Reply-To: <20211009104938.48225-5-liudongdong3@huawei.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Sat, Oct 09, 2021 at 06:49:36PM +0800, Dongdong Liu wrote:
-> Add a 10-Bit Tag check in the P2PDMA code to ensure that a device with
-> 10-Bit Tag Requester doesn't interact with a device that does not
-> support 10-Bit Tag Completer. 
-
-Shouldn't this also take into account Extended Tags (8 bits)?  I think
-the only tag size guaranteed to be supported is 5 bits.
-
-> Before that happens, the kernel should emit a warning.
-
-The warning is nice, but the critical thing is that the P2PDMA mapping
-should fail so we don't attempt DMA in this situation.  I guess that's
-sort of what you're saying with "ensure that a device ... doesn't
-interact with a device ..."
-
-> "echo 0 > /sys/bus/pci/devices/.../10bit_tag" to disable 10-Bit Tag
-> Requester for PF device.
+On Sat, Oct 09, 2021 at 06:49:34PM +0800, Dongdong Liu wrote:
+> PCIe spec 5.0 r1.0 section 2.2.6.2 says:
 > 
-> "echo 0 > /sys/bus/pci/devices/.../sriov_vf_10bit_tag_ctl" to disable
-> 10-Bit Tag Requester for VF device.
+>   If an Endpoint supports sending Requests to other Endpoints (as
+>   opposed to host memory), the Endpoint must not send 10-Bit Tag
+>   Requests to another given Endpoint unless an implementation-specific
+>   mechanism determines that the Endpoint supports 10-Bit Tag Completer
+>   capability.
 > 
-> Signed-off-by: Dongdong Liu <liudongdong3@huawei.com>
-> Reviewed-by: Logan Gunthorpe <logang@deltatee.com>
-> ---
->  drivers/pci/p2pdma.c | 48 ++++++++++++++++++++++++++++++++++++++++++++
->  1 file changed, 48 insertions(+)
-> 
-> diff --git a/drivers/pci/p2pdma.c b/drivers/pci/p2pdma.c
-> index 50cdde3e9a8b..804e390f4c22 100644
-> --- a/drivers/pci/p2pdma.c
-> +++ b/drivers/pci/p2pdma.c
-> @@ -19,6 +19,7 @@
->  #include <linux/random.h>
->  #include <linux/seq_buf.h>
->  #include <linux/xarray.h>
-> +#include "pci.h"
->  
->  enum pci_p2pdma_map_type {
->  	PCI_P2PDMA_MAP_UNKNOWN = 0,
-> @@ -410,6 +411,50 @@ static unsigned long map_types_idx(struct pci_dev *client)
->  		(client->bus->number << 8) | client->devfn;
->  }
->  
-> +static bool pci_10bit_tags_unsupported(struct pci_dev *a,
-> +				       struct pci_dev *b,
-> +				       bool verbose)
-> +{
-> +	bool req;
-> +	bool comp;
-> +	u16 ctl;
-> +	const char *str = "10bit_tag";
-> +
-> +	if (a->is_virtfn) {
-> +#ifdef CONFIG_PCI_IOV
-> +		req = !!(a->physfn->sriov->ctrl &
-> +			 PCI_SRIOV_CTRL_VF_10BIT_TAG_REQ_EN);
-> +#endif
-> +	} else {
-> +		pcie_capability_read_word(a, PCI_EXP_DEVCTL2, &ctl);
-> +		req = !!(ctl & PCI_EXP_DEVCTL2_10BIT_TAG_REQ_EN);
-> +	}
-> +
-> +	comp = !!(b->devcap2 & PCI_EXP_DEVCAP2_10BIT_TAG_COMP);
-> +	/* 10-bit tags not enabled on requester */
-> +	if (!req)
-> +		return false;
-> +
-> +	 /* Completer can handle anything */
-> +	if (comp)
-> +		return false;
-> +
-> +	if (!verbose)
-> +		return true;
-> +
-> +	pci_warn(a, "cannot be used for peer-to-peer DMA as 10-Bit Tag Requester enable is set for this device, but peer device (%s) does not support the 10-Bit Tag Completer\n",
-> +		 pci_name(b));
-> +
-> +	if (a->is_virtfn)
-> +		str = "sriov_vf_10bit_tag_ctl";
-> +
-> +	pci_warn(a, "to disable 10-Bit Tag Requester for this device, echo 0 > /sys/bus/pci/devices/%s/%s\n",
-> +		 pci_name(a), str);
-> +
-> +	return true;
-> +}
-> +
->  /*
->   * Calculate the P2PDMA mapping type and distance between two PCI devices.
->   *
-> @@ -532,6 +577,9 @@ calc_map_type_and_dist(struct pci_dev *provider, struct pci_dev *client,
->  		map_type = PCI_P2PDMA_MAP_NOT_SUPPORTED;
->  	}
->  done:
-> +	if (pci_10bit_tags_unsupported(client, provider, verbose))
-> +		map_type = PCI_P2PDMA_MAP_NOT_SUPPORTED;
-> +
->  	rcu_read_lock();
->  	p2pdma = rcu_dereference(provider->p2pdma);
->  	if (p2pdma)
-> -- 
-> 2.22.0
-> 
+> Add a 10bit_tag sysfs file, write 0 to disable 10-Bit Tag Requester
+> when the driver does not bind the device. The typical use case is for
+> p2pdma when the peer device does not support 10-Bit Tag Completer.
+> Write 1 to enable 10-Bit Tag Requester when RC supports 10-Bit Tag
+> Completer capability. The typical use case is for host memory targeted
+> by DMA Requests. The 10bit_tag file content indicate current status of
+> 10-Bit Tag Requester Enable.
+
+Don't we have a hole here?  We're adding knobs to control 10-Bit Tag
+usage, but don't we have basically the same issues with Extended
+(8-bit) Tags?
+
+I wonder if we should be adding a more general "tags" file that can
+manage both 8-bit and 10-bit tag usage.
+
+> +static struct device_attribute dev_attr_10bit_tag = __ATTR(10bit_tag, 0644,
+> +							   pci_10bit_tag_show,
+> +							   pci_10bit_tag_store);
+
+I think this should use DEVICE_ATTR().  Or even better, if the name
+doesn't start with a digit, DEVICE_ATTR_RW().
