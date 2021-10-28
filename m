@@ -2,69 +2,203 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 050FD43E0B4
-	for <lists+linux-media@lfdr.de>; Thu, 28 Oct 2021 14:20:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1CBC243E0F5
+	for <lists+linux-media@lfdr.de>; Thu, 28 Oct 2021 14:26:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230312AbhJ1MWl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 28 Oct 2021 08:22:41 -0400
-Received: from mail.kernel.org ([198.145.29.99]:51262 "EHLO mail.kernel.org"
+        id S230337AbhJ1M2k (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 28 Oct 2021 08:28:40 -0400
+Received: from gofer.mess.org ([88.97.38.141]:54929 "EHLO gofer.mess.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230170AbhJ1MWj (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 28 Oct 2021 08:22:39 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPS id D9F9761139;
-        Thu, 28 Oct 2021 12:20:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1635423612;
-        bh=e+7uQO4Z514COGcNqaZ3IY2XlFDBVpCsFneCDxUupJw=;
-        h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-        b=Kjx+j+y/HyeRonoj39LE/28b4cXpv+feW6uyU9phCZoYYnsMPxrhOKzsKrZdIJexm
-         igRrssjQ9pZTgkWwO3OCX4q2xtF3F+z6UwkROdtrkHo/i4zNljT6Tuh0uvIlBZpGoe
-         AedTPullKuBHpURmJQ12yVOzWQ23V+C/L4WJ23oBfc6R5k+225HTG1fKArahTAD8hJ
-         FvA4r2ftGwOw5T3ZTNIRKz5RgV7oUatKPfXLyRFne9dmlEvnuiRRK8l26jPAiAjCL+
-         SC0qVbASjiohxwSBpFQM7sa9IlUeVgxdUffTg0Wr7Rfd9P7M1WqUi/ocJdh4Zdzy8O
-         PD+786maRGmVg==
-Received: from pdx-korg-docbuild-2.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-        by pdx-korg-docbuild-2.ci.codeaurora.org (Postfix) with ESMTP id CF57360A25;
-        Thu, 28 Oct 2021 12:20:12 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+        id S229868AbhJ1M2k (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 28 Oct 2021 08:28:40 -0400
+Received: by gofer.mess.org (Postfix, from userid 1000)
+        id 17D26C63F8; Thu, 28 Oct 2021 13:26:11 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mess.org; s=2020;
+        t=1635423971; bh=y3qxEYJL2Lulhgp7KZQDk3Hsdwnvvf4NctUVRGbbEF0=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=mAKfVr2+8Lrq5V+B3EE3AvkB8MrOTb4CtUmbzGDrhXrZHpEITWLOCk2Eb0ubtdBok
+         GMIF3E1zZcl945dli8isX1DXbSsYOFibkPUuxdpq6mJpLalTtng6+hmouQEbpPAIcC
+         tQAHNXe7tp7kvosdKDTg4YjgV99xzTdUtyhbUk4o/c+oVj0PYe2//CZuL3c/6FHKnd
+         sDFqkZDDD/2oPqsdkFsLJbHbByJSOEgtPLQCe1ERDKbdLTE4OCs8baN1WoZEre6qrs
+         HLLp6XXEyOhV9sdJlQsXoO5BDep4KIlGQisMFMZwedHQZpVHn8FKsd2RqdiIbZHxxv
+         zGXDsFmBMsrew==
+Date:   Thu, 28 Oct 2021 13:26:10 +0100
+From:   Sean Young <sean@mess.org>
+To:     Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= 
+        <u.kleine-koenig@pengutronix.de>
+Cc:     =?iso-8859-1?Q?Ma=EDra?= Canal <maira.canal@usp.br>, lkp@intel.com,
+        mchehab@kernel.org, thierry.reding@gmail.com, lee.jones@linaro.org,
+        llvm@lists.linux.dev, kbuild-all@lists.01.org,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-pwm@vger.kernel.org
+Subject: Re: [PATCH v4] media: rc: pwm-ir-tx: Switch to atomic PWM API
+Message-ID: <20211028122610.GA18767@gofer.mess.org>
+References: <YXlxhpZWf2mxJaMi@fedora>
+ <20211028064513.guziv6uaivzlk6ki@pengutronix.de>
+ <20211028091442.GA16514@gofer.mess.org>
+ <20211028111535.x7xgz7domx2lpyfh@pengutronix.de>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH net-next] media: use eth_hw_addr_set()
-From:   patchwork-bot+netdevbpf@kernel.org
-Message-Id: <163542361284.29870.3167445851416278772.git-patchwork-notify@kernel.org>
-Date:   Thu, 28 Oct 2021 12:20:12 +0000
-References: <20211026175250.3197558-1-kuba@kernel.org>
-In-Reply-To: <20211026175250.3197558-1-kuba@kernel.org>
-To:     Jakub Kicinski <kuba@kernel.org>
-Cc:     davem@davemloft.net, netdev@vger.kernel.org, mchehab@kernel.org,
-        linux-media@vger.kernel.org
+In-Reply-To: <20211028111535.x7xgz7domx2lpyfh@pengutronix.de>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hello:
+Hi Uwe,
 
-This patch was applied to netdev/net-next.git (master)
-by David S. Miller <davem@davemloft.net>:
-
-On Tue, 26 Oct 2021 10:52:50 -0700 you wrote:
-> Commit 406f42fa0d3c ("net-next: When a bond have a massive amount
-> of VLANs...") introduced a rbtree for faster Ethernet address look
-> up. To maintain netdev->dev_addr in this tree we need to make all
-> the writes to it go through appropriate helpers.
+On Thu, Oct 28, 2021 at 01:15:35PM +0200, Uwe Kleine-König wrote:
+> On Thu, Oct 28, 2021 at 10:14:42AM +0100, Sean Young wrote:
+> > On Thu, Oct 28, 2021 at 08:45:13AM +0200, Uwe Kleine-König wrote:
+> > > The conversion is right (I think),
+> > 
+> > We still have the problem that the pwm drivers calculate the period
+> > incorrectly by rounding down (except pwm-bcm2835). So the period is not
+> > as good as it could be in most cases, but this driver can't do anything
+> > about that.
 > 
-> Convert media from memcpy(... 6) and memcpy(... addr_len) to
-> eth_hw_addr_set():
+> Yeah, some time ago I started coding a round_state function
+> (wip at
+> https://git.pengutronix.de/cgit/ukl/linux/commit/?h=pwm-wip&id=ae348eb6a55d6526f30ef4a49819197d9616391e)
+> but this was pushed down on my todo-list by more important stuff.
+
+That looks great, thank you for working on that!
+
+> If you want to experiment with that ...
+
+I will have a look.
+
+> > > note this could be optimized a bit
+> > > further: state.period only depends on carrier which rarely changes, so
+> > > the calculation could be done in pwm_ir_set_carrier(). Ditto for duty
+> > > which only depends on state.period and pwm_ir->duty_cycle. (This is for
+> > > a separate commit though.)
+> > 
+> > I'm not sure what caching this is much of a win. The calculation is a few
+> > instructions, so you're not winning in the way of speed. On the flip side
+> > you use more memory since pwm_state has to be kmalloc() rather than existing
 > 
-> [...]
+> I tested a bit with this patch on top of Maíra's:
+> 
+> 	diff --git a/drivers/media/rc/pwm-ir-tx.c b/drivers/media/rc/pwm-ir-tx.c
+> 	index 105a9c24f1e3..7585c21775bc 100644
+> 	--- a/drivers/media/rc/pwm-ir-tx.c
+> 	+++ b/drivers/media/rc/pwm-ir-tx.c
+> 	@@ -17,7 +17,7 @@
+> 	 
+> 	 struct pwm_ir {
+> 		struct pwm_device *pwm;
+> 	-	unsigned int carrier;
+> 	+	struct pwm_state state;
+> 		unsigned int duty_cycle;
+> 	 };
+> 	 
+> 	@@ -32,6 +32,7 @@ static int pwm_ir_set_duty_cycle(struct rc_dev *dev, u32 duty_cycle)
+> 		struct pwm_ir *pwm_ir = dev->priv;
+> 	 
+> 		pwm_ir->duty_cycle = duty_cycle;
+> 	+	pwm_set_relative_duty_cycle(&pwm_ir->state, pwm_ir->duty_cycle, 100);
+> 	 
+> 		return 0;
+> 	 }
+> 	@@ -43,7 +44,8 @@ static int pwm_ir_set_carrier(struct rc_dev *dev, u32 carrier)
+> 		if (!carrier)
+> 			return -EINVAL;
+> 	 
+> 	-	pwm_ir->carrier = carrier;
+> 	+	pwm_ir->state.period = DIV_ROUND_CLOSEST(NSEC_PER_SEC, carrier);
+> 	+	pwm_set_relative_duty_cycle(&pwm_ir->state, pwm_ir->duty_cycle, 100);
+> 	 
+> 		return 0;
+> 	 }
+> 	@@ -53,21 +55,15 @@ static int pwm_ir_tx(struct rc_dev *dev, unsigned int *txbuf,
+> 	 {
+> 		struct pwm_ir *pwm_ir = dev->priv;
+> 		struct pwm_device *pwm = pwm_ir->pwm;
+> 	-	struct pwm_state state;
+> 		int i;
+> 		ktime_t edge;
+> 		long delta;
+> 	 
+> 	-	pwm_init_state(pwm, &state);
+> 	-
+> 	-	state.period = DIV_ROUND_CLOSEST(NSEC_PER_SEC, pwm_ir->carrier);
+> 	-	pwm_set_relative_duty_cycle(&state, pwm_ir->duty_cycle, 100);
+> 	-
+> 		edge = ktime_get();
+> 	 
+> 		for (i = 0; i < count; i++) {
+> 	-		state.enabled = !(i % 2);
+> 	-		pwm_apply_state(pwm, &state);
+> 	+		pwm_ir->state.enabled = !(i % 2);
+> 	+		pwm_apply_state(pwm, &pwm_ir->state);
+> 	 
+> 			edge = ktime_add_us(edge, txbuf[i]);
+> 			delta = ktime_us_delta(edge, ktime_get());
+> 	@@ -75,8 +71,8 @@ static int pwm_ir_tx(struct rc_dev *dev, unsigned int *txbuf,
+> 				usleep_range(delta, delta + 10);
+> 		}
+> 	 
+> 	-	state.enabled = false;
+> 	-	pwm_apply_state(pwm, &state);
+> 	+	pwm_ir->state.enabled = false;
+> 	+	pwm_apply_state(pwm, &pwm_ir->state);
+> 	 
+> 		return count;
+> 	 }
+> 	@@ -95,8 +91,9 @@ static int pwm_ir_probe(struct platform_device *pdev)
+> 		if (IS_ERR(pwm_ir->pwm))
+> 			return PTR_ERR(pwm_ir->pwm);
+> 	 
+> 	-	pwm_ir->carrier = 38000;
+> 	-	pwm_ir->duty_cycle = 50;
+> 	+	pwm_ir->state.duty_cycle = 50;
+> 	+	pwm_init_state(pwm_ir->pwm, &pwm_ir->state);
+> 	+	pwm_ir_set_carrier(rcdev, 38000);
+> 	 
+> 		rcdev = devm_rc_allocate_device(&pdev->dev, RC_DRIVER_IR_RAW_TX);
+> 		if (!rcdev)
+> 
+> bloat-o-meter reports (for an arm allmodconfig build)
+> 
+> 	add/remove: 0/0 grow/shrink: 3/1 up/down: 644/-396 (248)
+> 	Function                                     old     new   delta
+> 	pwm_ir_probe                                 372     676    +304
+> 	pwm_ir_set_carrier                           108     292    +184
+> 	pwm_ir_set_duty_cycle                         68     224    +156
+> 	pwm_ir_tx                                    908     512    -396
+> 	Total: Before=2302, After=2550, chg +10.77%
 
-Here is the summary with links:
-  - [net-next] media: use eth_hw_addr_set()
-    https://git.kernel.org/netdev/net-next/c/707182e45b81
+So 248 bytes more after your changes.
 
-You are awesome, thank you!
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
+> struct pwm_ir increases from 12 bytes to 40 bytes.
+> 
+> The stack space required by pwm_ir_tx decreases from 60 to 36
+> 
+> I don't know exactly how kmalloc works internally. Maybe allocating a
+> structure of size 40 bytes doesn't need more memory than a structure of
+> size 12?
+> 
+> I didn't check how runtimes change, but the size decrease of pwm_ir_tx()
+> is nice and might save a bit of runtime.
+
+I'm not following, how is this decreasing runtime? 
+
+> Probably it depends on your focus if this change is good for you or not.
+
+Decreasing size is of course a good thing.
+
+> > just on the stack, and both ioctl handlers and the probe function need to
+> > recalculate the period/duty cycle, so there is a slight increase in code size.
+> > 
+> > This change does not improve anything measurably and only increases code
+> > complexity.
+> 
+> You did measure?
+
+Thanks for prototyping this.
 
 
+Sean
