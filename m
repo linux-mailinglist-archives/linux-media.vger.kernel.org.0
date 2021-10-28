@@ -2,138 +2,114 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B12F743D894
-	for <lists+linux-media@lfdr.de>; Thu, 28 Oct 2021 03:31:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C6A7743D8B3
+	for <lists+linux-media@lfdr.de>; Thu, 28 Oct 2021 03:39:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229658AbhJ1BeO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 27 Oct 2021 21:34:14 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:38332 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229505AbhJ1BeN (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Wed, 27 Oct 2021 21:34:13 -0400
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id E10A6276;
-        Thu, 28 Oct 2021 03:31:45 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1635384706;
-        bh=W61TWmkoyqLkITOU7v3m79iwZxMeYw/EwHh8vkM1pK4=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=MML/9VdlSyvMjHErZJA9uwpyDCjvYZTj4cepHPFtEMOQT2fg5M4MREwyh80hIDK18
-         l1M8v41i3Dg/tVAHEbzAq9faANOPMhpz0kvhUWpJYqbsaSbcssE7/JrRJvtCEWzVaU
-         yBa88W/xVvINuFD3/7tdXLodnaCDDgHMVCKxkbVM=
-Date:   Thu, 28 Oct 2021 04:31:22 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Adam Ford <aford173@gmail.com>
-Cc:     linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
-        cstevens@beaconembedded.com, aford@beaconembedded.com,
-        Rob Herring <robh+dt@kernel.org>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [RFC V2 5/5] arm64: dts: imx8mm-evk: Enable OV5640 Camera
-Message-ID: <YXn9aibI1C/+eP5L@pendragon.ideasonboard.com>
-References: <20211023203457.1217821-1-aford173@gmail.com>
- <20211023203457.1217821-6-aford173@gmail.com>
+        id S229614AbhJ1BmD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 27 Oct 2021 21:42:03 -0400
+Received: from mail.kernel.org ([198.145.29.99]:57380 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229515AbhJ1BmD (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 27 Oct 2021 21:42:03 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 977AF610FD;
+        Thu, 28 Oct 2021 01:39:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1635385177;
+        bh=xkFahs+LkXzJAPcyet8YGPQgljBdb8edIwQPk96AQt8=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:From;
+        b=khnJGAK0vkBGjaXPHgSYpqlFadspAUz907Xz5Wode8aXYNDcTC9Lu8Ppha8szZEmr
+         KcHTBjFw2IWf+VJwejY9Ec0HHRK1LaFaP71vV+ioCfRlzQhAySSATUIC2XqjM7cetn
+         aAb3UpZpo9m5T+nY1PuHuPPtbUyzK9xJjllTEDHIs6G5mFmw/UVv7yRVqxQOVpdZqN
+         9mL3xL7rHK48eMp3Esqgc6keO6S8JgkzRkNygpXlVQh+J8tjT+oB++1BLQ0oVBy/Ay
+         OJLj4x8phftSFNitarwjp7NlFon2tNafb4xoj2Sn5uZbjw69PEr49ySYdxTb+sy3I6
+         mfclWPW3YW0zA==
+Date:   Wed, 27 Oct 2021 20:39:34 -0500
+From:   Bjorn Helgaas <helgaas@kernel.org>
+To:     Logan Gunthorpe <logang@deltatee.com>
+Cc:     Dongdong Liu <liudongdong3@huawei.com>, hch@infradead.org,
+        kw@linux.com, leon@kernel.org, linux-pci@vger.kernel.org,
+        rajur@chelsio.com, hverkuil-cisco@xs4all.nl,
+        linux-media@vger.kernel.org, netdev@vger.kernel.org
+Subject: Re: [PATCH V10 6/8] PCI/P2PDMA: Add a 10-Bit Tag check in P2PDMA
+Message-ID: <20211028013934.GA267985@bhelgaas>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20211023203457.1217821-6-aford173@gmail.com>
+In-Reply-To: <136155cc-d28c-ef36-c69b-557f7af456be@deltatee.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Adam,
-
-Thank you for the patch.
-
-On Sat, Oct 23, 2021 at 03:34:56PM -0500, Adam Ford wrote:
-> The schematic shows support for a camera interface, and the NXP
-> kernel shows it is an OV5640.
-
-The camera is an external module though. Should this be a DT overlay ?
-
-> Signed-off-by: Adam Ford <aford173@gmail.com>
-> ---
->  arch/arm64/boot/dts/freescale/imx8mm-evk.dtsi | 44 +++++++++++++++++++
->  1 file changed, 44 insertions(+)
+On Wed, Oct 27, 2021 at 05:41:07PM -0600, Logan Gunthorpe wrote:
+> On 2021-10-27 5:11 p.m., Bjorn Helgaas wrote:
+> >> @@ -532,6 +577,9 @@ calc_map_type_and_dist(struct pci_dev *provider, struct pci_dev *client,
+> >>  		map_type = PCI_P2PDMA_MAP_NOT_SUPPORTED;
+> >>  	}
+> >>  done:
+> >> +	if (pci_10bit_tags_unsupported(client, provider, verbose))
+> >> +		map_type = PCI_P2PDMA_MAP_NOT_SUPPORTED;
+> > 
+> > I need to be convinced that this check is in the right spot to catch
+> > all potential P2PDMA situations.  The pci_p2pmem_find() and
+> > pci_p2pdma_distance() interfaces eventually call
+> > calc_map_type_and_dist().  But those interfaces don't actually produce
+> > DMA bus addresses, and I'm not convinced that all P2PDMA users use
+> > them.
+> > 
+> > nvme *does* use them, but infiniband (rdma_rw_map_sg()) does not, and
+> > it calls pci_p2pdma_map_sg().
 > 
-> diff --git a/arch/arm64/boot/dts/freescale/imx8mm-evk.dtsi b/arch/arm64/boot/dts/freescale/imx8mm-evk.dtsi
-> index e033d0257b5a..27217d30b8d8 100644
-> --- a/arch/arm64/boot/dts/freescale/imx8mm-evk.dtsi
-> +++ b/arch/arm64/boot/dts/freescale/imx8mm-evk.dtsi
-> @@ -239,6 +239,10 @@ ldo6_reg: LDO6 {
->  	};
->  };
->  
-> +&csi {
-> +	status = "okay";
-> +};
-> +
->  &i2c2 {
->  	clock-frequency = <400000>;
->  	pinctrl-names = "default";
-> @@ -287,6 +291,38 @@ pca6416: gpio@20 {
->  		gpio-controller;
->  		#gpio-cells = <2>;
->  	};
-> +
-> +	camera@3c {
-> +		compatible = "ovti,ov5640";
-> +		pinctrl-names = "default";
-> +		pinctrl-0 = <&pinctrl_ov5640>;
-> +		reg = <0x3c>;
-> +		clocks = <&clk IMX8MM_CLK_CLKO1>;
-> +		clock-names = "xclk";
-> +		assigned-clocks = <&clk IMX8MM_CLK_CLKO1>;
-> +		assigned-clock-parents = <&clk IMX8MM_CLK_24M>;
-> +		assigned-clock-rates = <24000000>;
-> +		powerdown-gpios = <&gpio1 7 GPIO_ACTIVE_HIGH>;
-> +		reset-gpios = <&gpio1 6 GPIO_ACTIVE_LOW>;
-> +
-> +		port {
-> +			/* MIPI CSI-2 bus endpoint */
-> +			ov5640_to_mipi_csi2: endpoint {
-> +				remote-endpoint = <&imx8mm_mipi_csi_in>;
-> +				clock-lanes = <0>;
-> +				data-lanes = <1 2>;
-> +			};
-> +		};
-> +	};
-> +};
-> +
-> +&imx8mm_mipi_csi_in {
-> +	remote-endpoint = <&ov5640_to_mipi_csi2>;
-> +	data-lanes = <1 2>;
-> +};
-> +
-> +&mipi_csi2 {
-> +	status = "okay";
->  };
->  
->  &sai3 {
-> @@ -406,6 +442,14 @@ MX8MM_IOMUXC_I2C3_SDA_I2C3_SDA			0x400001c3
->  		>;
->  	};
->  
-> +	pinctrl_ov5640: ov5640grp {
-> +		fsl,pins = <
-> +			MX8MM_IOMUXC_GPIO1_IO07_GPIO1_IO7		0x19
-> +			MX8MM_IOMUXC_GPIO1_IO06_GPIO1_IO6		0x19
-> +			MX8MM_IOMUXC_GPIO1_IO14_CCMSRCGPCMIX_CLKO1	0x59
-> +		>;
-> +	};
-> +
->  	pinctrl_pmic: pmicirqgrp {
->  		fsl,pins = <
->  			MX8MM_IOMUXC_GPIO1_IO03_GPIO1_IO3		0x141
+> The rules of the current code is that calc_map_type_and_dist() must be
+> called before pci_p2pdma_map_sg(). The calc function caches the mapping
+> type in an xarray. If it was not called ahead of time,
+> pci_p2pdma_map_type() will return PCI_P2PDMA_MAP_NOT_SUPPORTED, and the
+> WARN_ON_ONCE will be hit in
+> pci_p2pdma_map_sg_attrs().
 
--- 
-Regards,
+Seems like it requires fairly deep analysis to prove all this.  Is
+this something we don't want to put directly in the map path because
+it's a hot path, or it just doesn't fit there in the model, or ...?
 
-Laurent Pinchart
+> Both NVMe and RDMA (only used in the nvme fabrics code) do the correct
+> thing here and we can be sure calc_map_type_and_dist() is called before
+> any pages are mapped.
+> 
+> The patch set I'm currently working on will ensure that
+> calc_map_type_and_dist() is called before anyone maps a PCI P2PDMA page
+> with dma_map_sg*().
+> 
+> > amdgpu_dma_buf_attach() calls pci_p2pdma_distance_many() but I don't
+> > know where it sets up P2PDMA transactions.
+> 
+> The amdgpu driver hacked this in before proper support was done, but at
+> least it's using pci_p2pdma_distance_many() presumably before trying any
+> transfer. Though it's likely broken as it doesn't take into account the
+> mapping type and thus I think it always assumes traffic goes through the
+> host bridge (seeing it doesn't use pci_p2pdma_map_sg()).
+
+What does it mean to go through the host bridge?  Obviously DMA to
+system memory would go through the host bridge, but this seems
+different.  Is this a "between PCI hierarchies" case like to a device
+below a different root port?  I don't know what the tag rules are for
+that.
+
+> > cxgb4 and qed mention "peer2peer", but I don't know whether they are
+> > related; they don't seem to use any pci_p2p.* interfaces.
+> 
+> I'm really not sure what these drivers are doing at all. However, I
+> think this is unrelated based on this old patch description[1]:
+> 
+>   Open MPI, Intel MPI and other applications don't support the iWARP
+>   requirement that the client side send the first RDMA message. This
+>   class of application connection setup is called peer-2-peer. Typically
+>   once the connection is setup, _both_ sides want to send data.
+> 
+>   This patch enables supporting peer-2-peer over the chelsio rnic by
+>   enforcing this iWARP requirement in the driver itself as part of RDMA
+>   connection setup.
+
+Thanks!
+
+> Logan
+> 
+> [1] http://lkml.iu.edu/hypermail/linux/kernel/0804.3/1416.html
