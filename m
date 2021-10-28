@@ -2,179 +2,144 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DD59943E301
-	for <lists+linux-media@lfdr.de>; Thu, 28 Oct 2021 16:03:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E37B443E33A
+	for <lists+linux-media@lfdr.de>; Thu, 28 Oct 2021 16:12:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230421AbhJ1OFi (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 28 Oct 2021 10:05:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53618 "EHLO
+        id S231157AbhJ1OPU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 28 Oct 2021 10:15:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55906 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229887AbhJ1OFh (ORCPT
+        with ESMTP id S230445AbhJ1OPT (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 28 Oct 2021 10:05:37 -0400
-Received: from mail-wr1-x435.google.com (mail-wr1-x435.google.com [IPv6:2a00:1450:4864:20::435])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 62C8EC061570
-        for <linux-media@vger.kernel.org>; Thu, 28 Oct 2021 07:03:10 -0700 (PDT)
-Received: by mail-wr1-x435.google.com with SMTP id s13so3240291wrb.3
-        for <linux-media@vger.kernel.org>; Thu, 28 Oct 2021 07:03:10 -0700 (PDT)
+        Thu, 28 Oct 2021 10:15:19 -0400
+Received: from mail-qv1-xf30.google.com (mail-qv1-xf30.google.com [IPv6:2607:f8b0:4864:20::f30])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 08948C061570
+        for <linux-media@vger.kernel.org>; Thu, 28 Oct 2021 07:12:53 -0700 (PDT)
+Received: by mail-qv1-xf30.google.com with SMTP id d6so4119433qvb.3
+        for <linux-media@vger.kernel.org>; Thu, 28 Oct 2021 07:12:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-transfer-encoding:content-language;
-        bh=vgg+r20XOehojRhcth+JIEaW1ADOMhaccuChVGNRQEg=;
-        b=RXL3dfyWzLNbJYiQJSz1vssbwYC2ytuIt6f4SRCQbQOB9rLcHC+KHMzRAL3wZKcfIB
-         fQXasl9ACpcsxvG1Vb4GbkiJ07Qf0TsZ5p9KIDjDlk4TXOUN8wYSKSyHGX2WlDwl2QQw
-         5XE3WgSDr/jshbRfujNUhXZ+zM+XveHEC5Lo9zyhFvOgaw4odcH5EChfXN4yKeGVyFeA
-         dTQrbr4n3eGG25aP4tHxlTldZLYksfZo/gWottd6skm7RVzqINEy8GRoacnC3Ow34yQC
-         zBIlbCqRtmmeScnIZq5DNnu+sDg6/wKMmc4jdXZ+AKj6jobjwos2rCe9+EF7PNrQUM6r
-         WmVg==
+        d=usp.br; s=usp-google;
+        h=date:from:to:cc:subject:message-id:mime-version:content-disposition
+         :content-transfer-encoding;
+        bh=uW58SAoHp5gKtMj6ifGXFk+JxLdoMkUhiHrsFeoWED0=;
+        b=zZ/ta4zcx78S1ykzXCOnSW+WYNsFe+FBlOt0zENV5et2S2CahkS7ZIOC3zheDk2nGg
+         vjdQYf+krCbAL7FueegDec3werSgU3hvjmVnPBoIcAz/RdD3qzDUkDkvKQ1WcoVfC+hh
+         FeeDOw/M5LvhvXnzIlKCL4Q3OF+/F+RmFVOXBlremDHzMl/4j175kLmyPPoPDLC7avkY
+         1sq4cOmRbJ6/K8SNUSGSTWzO7H2gcKviqz7rS7SuE675wvRYqK81cyg8fJsWmvffnuV4
+         j/p/gkdnR0lanuFtdh3jCowa0BWKwoKT//UzTIWdCN3U4fJGRIw9g3FPR4Pmcr2Vl9Ok
+         2wEA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-transfer-encoding
-         :content-language;
-        bh=vgg+r20XOehojRhcth+JIEaW1ADOMhaccuChVGNRQEg=;
-        b=lsC69Wt1du1hOpClD6d6P9jIe/tzvUCd8FdSyoUKF+eBcLebHD7IAYtPly2kD7w690
-         yVy+pi/haSR+tUnrRxoNjVYvY0keyaXqW9jTDTuAKaE/5qrGjqlR8VLjl/i48IoZPrE/
-         POr0YSQoVm0XtsKL+w2twl7l0EXPht4kU4KuVLqVN+QQelkSsrA1Nk+OTVF5ca1kvc8b
-         Y7mQIoVTV65oSF0K9rbdXUUlJztSbRuMUA/IIXVjCM6ewKCDqoU0rJj77Mm1HnR8nh9/
-         tlimrBKCXcs/ZleRJe4DAqll37bTsiQZmxlN3AEoWCC2hkzauuvo0D4kkhD3cx155Y6o
-         3cVA==
-X-Gm-Message-State: AOAM530n9uUNxCyGaZy0MTXhLk4x/tJ9kMByBKmqstX4nPHtvKf/RvXq
-        nttUrwk+iKYy8LykBs/LB70=
-X-Google-Smtp-Source: ABdhPJxPNQKeMbHisUoDd04JbNh6TxgQdClti7nVzPYVqNd2hC91Qyp0WDgy+Hy3snXvvQm8JBR/OA==
-X-Received: by 2002:a5d:538c:: with SMTP id d12mr6095409wrv.420.1635429788984;
-        Thu, 28 Oct 2021 07:03:08 -0700 (PDT)
-Received: from [192.168.0.14] (cpc141996-chfd3-2-0-cust928.12-3.cable.virginm.net. [86.13.91.161])
-        by smtp.gmail.com with ESMTPSA id g7sm4210566wrd.81.2021.10.28.07.03.08
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 28 Oct 2021 07:03:08 -0700 (PDT)
-Subject: Re: [PATCH v3 14/16] media: i2c: Use dev_err_probe() in ov8865
-To:     Hans de Goede <hdegoede@redhat.com>, linux-media@vger.kernel.org,
-        paul.kocialkowski@bootlin.com
-Cc:     Yong Zhi <yong.zhi@intel.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Bingbu Cao <bingbu.cao@intel.com>,
-        Tianshu Qiu <tian.shu.qiu@intel.com>,
-        Andy Shevchenko <andy.shevchenko@gmail.com>,
-        laurent.pinchart@ideasonboard.com, kieran.bingham@ideasonboard.com
-References: <20211021214331.1188787-1-djrscally@gmail.com>
- <20211021214331.1188787-15-djrscally@gmail.com>
- <071668ce-f990-9658-d234-c046f1816063@redhat.com>
-From:   Daniel Scally <djrscally@gmail.com>
-Message-ID: <1ccda0f4-9bc4-313a-b209-8451cc2c261a@gmail.com>
-Date:   Thu, 28 Oct 2021 15:03:07 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+         :content-disposition:content-transfer-encoding;
+        bh=uW58SAoHp5gKtMj6ifGXFk+JxLdoMkUhiHrsFeoWED0=;
+        b=lbGy8YgwPtxlGu8iZqMV5/s++QDDwiPEe0GYaPN/rP3N+N7x+SPbeSVat2jSb4PjDR
+         lGEuR9zP31Jopf7WIA8hirql3vGGzlQPCLado6XT9uvaM3rCOKkK89ctSlLsrSQZ++Z/
+         8LBsClqhPaoLuiFxlfiC26BbQxiOPE9vwjza1ZzHvtgN5vBgFYVzqbjGUqiXBT7xBsaI
+         l4upiayWu3j5gXDE/5W/sO0PHR8zpgZVx6er2GVMQF/A9GrT7XrCFXnU91H+nbRRHrmy
+         A3wb0wUuZc3x14bmpT8zXzv8VbJZu3rXwd5ylgXHnj5vlIQRojeXbs5Azb6VqxSh/FNY
+         Ylsg==
+X-Gm-Message-State: AOAM532o8QCc9Fd3m6b52TGh/wtXsw7IJxCIkO4HPnL1o/+d5ZZsP58u
+        6RHAgY35BjFfWgQ+VctsCN9tyA==
+X-Google-Smtp-Source: ABdhPJzvjeGfiBQ/MFDfr1Y2HOJ/W8Fc8X/sP1RtFracnUJlEZQuBrRJkLpeNUt51rVx5me0ZSJ+1A==
+X-Received: by 2002:a05:6214:262d:: with SMTP id gv13mr4305114qvb.40.1635430372183;
+        Thu, 28 Oct 2021 07:12:52 -0700 (PDT)
+Received: from fedora ([187.64.134.142])
+        by smtp.gmail.com with ESMTPSA id bi26sm2010360qkb.102.2021.10.28.07.12.49
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 28 Oct 2021 07:12:51 -0700 (PDT)
+Date:   Thu, 28 Oct 2021 11:12:47 -0300
+From:   =?iso-8859-1?Q?Ma=EDra?= Canal <maira.canal@usp.br>
+To:     sean@mess.org, mchehab@kernel.org, thierry.reding@gmail.com,
+        u.kleine-koenig@pengutronix.de, lee.jones@linaro.org
+Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-pwm@vger.kernel.org
+Subject: [PATCH] media: ir-rx51: Switch to atomic PWM API
+Message-ID: <YXqv339PJTHcGxJg@fedora>
 MIME-Version: 1.0
-In-Reply-To: <071668ce-f990-9658-d234-c046f1816063@redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Hans
+Remove legacy PWM interface (pwm_config, pwm_enable, pwm_disable) and
+replace it for the atomic PWM API.
 
-On 28/10/2021 15:01, Hans de Goede wrote:
-> Hi Dan,
->
-> On 10/21/21 23:43, Daniel Scally wrote:
->> There is a chance that regulator_get() returns -EPROBE_DEFER, in which
->> case printing an error message is undesirable. To avoid spurious messages
->> in dmesg in the event that -EPROBE_DEFER is returned, use dev_err_probe()
->> on error paths for regulator_get().
->>
->> Signed-off-by: Daniel Scally <djrscally@gmail.com>
->
->
->> ---
->> Changes in v3:
->>
->> 	- None
->>
->>  drivers/media/i2c/ov8865.c | 46 +++++++++++++++++---------------------
->>  1 file changed, 20 insertions(+), 26 deletions(-)
->>
->> diff --git a/drivers/media/i2c/ov8865.c b/drivers/media/i2c/ov8865.c
->> index 572b9818e950..685539744041 100644
->> --- a/drivers/media/i2c/ov8865.c
->> +++ b/drivers/media/i2c/ov8865.c
->> @@ -2955,6 +2955,26 @@ static int ov8865_probe(struct i2c_client *client)
->>  	sensor->dev = dev;
->>  	sensor->i2c_client = client;
->>  
->> +	/* Regulators */
->> +
->> +	/* DVDD: digital core */
->> +	sensor->dvdd = devm_regulator_get(dev, "dvdd");
->> +	if (IS_ERR(sensor->dvdd))
->> +		return dev_err_probe(dev, PTR_ERR(sensor->dvdd),
->> +				     "cannot get DVDD regulator\n");
->> +
->> +	/* DOVDD: digital I/O */
->> +	sensor->dovdd = devm_regulator_get(dev, "dovdd");
->> +	if (IS_ERR(sensor->dovdd))
->> +		return dev_err_probe(dev, PTR_ERR(sensor->dovdd),
->> +				     "cannot get DOVDD regulator\n");
->> +
->> +	/* AVDD: analog */
->> +	sensor->avdd = devm_regulator_get(dev, "avdd");
->> +	if (IS_ERR(sensor->avdd))
->> +		return dev_err_probe(dev, PTR_ERR(sensor->avdd),
->> +				     "cannot get AVDD (analog) regulator\n");
->> +
->>  	/* Graph Endpoint */
->>  
->>  	handle = fwnode_graph_get_next_endpoint(dev_fwnode(dev), NULL);
->> @@ -2985,32 +3005,6 @@ static int ov8865_probe(struct i2c_client *client)
->>  		goto error_endpoint;
->>  	}
->>  
->> -	/* Regulators */
->> -
->> -	/* DVDD: digital core */
->> -	sensor->dvdd = devm_regulator_get(dev, "dvdd");
->> -	if (IS_ERR(sensor->dvdd)) {
->> -		dev_err(dev, "cannot get DVDD (digital core) regulator\n");
->> -		ret = PTR_ERR(sensor->dvdd);
->> -		goto error_endpoint;
->> -	}
->> -
->> -	/* DOVDD: digital I/O */
->> -	sensor->dovdd = devm_regulator_get(dev, "dovdd");
->> -	if (IS_ERR(sensor->dovdd)) {
->> -		dev_err(dev, "cannot get DOVDD (digital I/O) regulator\n");
->> -		ret = PTR_ERR(sensor->dovdd);
->> -		goto error_endpoint;
->> -	}
->> -
->> -	/* AVDD: analog */
->> -	sensor->avdd = devm_regulator_get(dev, "avdd");
->> -	if (IS_ERR(sensor->avdd)) {
->> -		dev_err(dev, "cannot get AVDD (analog) regulator\n");
->> -		ret = PTR_ERR(sensor->avdd);
->> -		goto error_endpoint;
->> -	}
->> -
->>  	/* External Clock */
->>  
-> This line:
->
->>  	sensor->extclk = devm_clk_get(dev, "tps68470-clk");
-> Does not exist in the upstream repos, instead it is:
->
-> 	sensor->extclk = devm_clk_get(dev, NULL);
->
-> I guess you still had your hack to deal with the clk issues we've
-> been working on in place in your tree on which you based this series.
->
-> Unfortunately this means that this patch (and thus this series)
-> will not apply cleanly.
->
-> Can you send a v4 fixing this?
->
+Signed-off-by: Maíra Canal <maira.canal@usp.br>
+---
+ drivers/media/rc/ir-rx51.c | 27 +++++++++++++--------------
+ 1 file changed, 13 insertions(+), 14 deletions(-)
 
-Oops! My bad, sorry about that. I'll post a v4 later to clean that up
+diff --git a/drivers/media/rc/ir-rx51.c b/drivers/media/rc/ir-rx51.c
+index a0d9c02a7588..7a643a94e181 100644
+--- a/drivers/media/rc/ir-rx51.c
++++ b/drivers/media/rc/ir-rx51.c
+@@ -19,6 +19,7 @@
+ struct ir_rx51 {
+ 	struct rc_dev *rcdev;
+ 	struct pwm_device *pwm;
++	struct pwm_state *state;
+ 	struct hrtimer timer;
+ 	struct device	     *dev;
+ 	wait_queue_head_t     wqueue;
+@@ -32,22 +33,22 @@ struct ir_rx51 {
+ 
+ static inline void ir_rx51_on(struct ir_rx51 *ir_rx51)
+ {
+-	pwm_enable(ir_rx51->pwm);
++	ir_rx51->state->enabled = true;
++	pwm_apply_state(ir_rx51->pwm, ir_rx51->state);
+ }
+ 
+ static inline void ir_rx51_off(struct ir_rx51 *ir_rx51)
+ {
+-	pwm_disable(ir_rx51->pwm);
++	ir_rx51->state->enabled = false;
++	pwm_apply_state(ir_rx51->pwm, ir_rx51->state);
+ }
+ 
+ static int init_timing_params(struct ir_rx51 *ir_rx51)
+ {
+-	struct pwm_device *pwm = ir_rx51->pwm;
+-	int duty, period = DIV_ROUND_CLOSEST(NSEC_PER_SEC, ir_rx51->freq);
++	struct pwm_state *state = ir_rx51->state;
+ 
+-	duty = DIV_ROUND_CLOSEST(ir_rx51->duty_cycle * period, 100);
+-
+-	pwm_config(pwm, duty, period);
++	state->period = DIV_ROUND_CLOSEST(NSEC_PER_SEC, ir_rx51->freq);
++	pwm_set_relative_duty_cycle(state, ir_rx51->duty_cycle, 100);
+ 
+ 	return 0;
+ }
+@@ -154,6 +155,8 @@ static int ir_rx51_open(struct rc_dev *dev)
+ 		return res;
+ 	}
+ 
++	pwm_init_state(ir_rx51->pwm, ir_rx51->state);
++
+ 	return 0;
+ }
+ 
+@@ -232,13 +235,9 @@ static int ir_rx51_probe(struct platform_device *dev)
+ 	struct rc_dev *rcdev;
+ 
+ 	pwm = pwm_get(&dev->dev, NULL);
+-	if (IS_ERR(pwm)) {
+-		int err = PTR_ERR(pwm);
+-
+-		if (err != -EPROBE_DEFER)
+-			dev_err(&dev->dev, "pwm_get failed: %d\n", err);
+-		return err;
+-	}
++	if (IS_ERR(pwm))
++		return dev_err_probe(&dev->dev, PTR_ERR(pwm), "pwm_get failed: %ld\n",
++				PTR_ERR(pwm));
+ 
+ 	/* Use default, in case userspace does not set the carrier */
+ 	ir_rx51.freq = DIV_ROUND_CLOSEST_ULL(pwm_get_period(pwm), NSEC_PER_SEC);
+-- 
+2.31.1
 
