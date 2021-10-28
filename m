@@ -2,90 +2,130 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 17B9143DF59
-	for <lists+linux-media@lfdr.de>; Thu, 28 Oct 2021 12:52:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3D29843DF93
+	for <lists+linux-media@lfdr.de>; Thu, 28 Oct 2021 12:58:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230254AbhJ1Kyu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 28 Oct 2021 06:54:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37540 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230195AbhJ1Kyt (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Thu, 28 Oct 2021 06:54:49 -0400
-Received: from mail-ed1-x542.google.com (mail-ed1-x542.google.com [IPv6:2a00:1450:4864:20::542])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F3D62C061220
-        for <linux-media@vger.kernel.org>; Thu, 28 Oct 2021 03:52:21 -0700 (PDT)
-Received: by mail-ed1-x542.google.com with SMTP id w1so4077708edd.0
-        for <linux-media@vger.kernel.org>; Thu, 28 Oct 2021 03:52:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=vprh3gRT3Cegcj0K7Fy7tqOfLGKK384XjLMkCZvF/BY=;
-        b=MqgQiMnth4O6zLvpsYbAhVLW1BorpgoCleWwfkY0/i+i6OSDuXRZO1jIKzpTTrmehO
-         XtsLWdXiTcL+XCe4naFtf2tTUJnbwwmDpuUkpvRhLd+LEnuxY7nNr11hmTRUVX1WOHsO
-         bN0u1arCg4gm9LHdXRMZFcXOD22U5gDGuBOuhPo6qvWbt6nA2j/p/5IZ88XFHrEsiSW3
-         12hentYJMlWeUfa2lUQkLm+5/fvMSizrI7wGoF2taOa3dgGUV5HKZWb0yAAH7nAXVevJ
-         tDC/xbHNLzSn310XeD3Gkoobjl6MPBQzT5DSLzerNBdTKOdmyp3xvfvOyo80qVUTZIED
-         gaRg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=vprh3gRT3Cegcj0K7Fy7tqOfLGKK384XjLMkCZvF/BY=;
-        b=f5nh6bec8QsjYW6Fd6Qi4HFYHkua2jI+Sd5YovUu/qsCL3ORaBPGV8MoLVpBKujUas
-         wTEQYgdeAjY/n2IyzoFrxRIksTUG1FQOo1QAByONDdD97IZq2CEpmaFiQHFSgFNMlmGe
-         hWMw+bb3fV5psGSXGog4vqzzmtlfycjIHvXvd22JPCC0MnJ1UorrUJFjg2bmO+o0Y0p5
-         A/wrqa/WUgrmTg80FkTyp0nIjsdZ9UOJpuJLUUD3K84tuncaC42+C5jZu6RDTxXh3oB3
-         Uh+fc8aP72J3A7DNcZu6PYNDdArhbidyVzZKOFrc5RUyAOqX+pOSGt1JnMdVgYWYiney
-         U5Hg==
-X-Gm-Message-State: AOAM533pD/ob5ca7GBNoxuz0EfA+VpC7gObNzc0FdZcYzyNeoUxlZdEr
-        dXg8HXbpubcfkRVx81ZjzXSftoh/XDPC7bIBwxTHjfgXXax1/5g+
-X-Google-Smtp-Source: ABdhPJw39EF9dJlXS9lAFrZ3adXxB8DVzXcygVzA3uRLiZxWlggxaB9ElCxkEB0P82xisoA6G442GD5iqMe2hCgLIt8=
-X-Received: by 2002:a2e:9a83:: with SMTP id p3mr3750290lji.145.1635418330269;
- Thu, 28 Oct 2021 03:52:10 -0700 (PDT)
+        id S230119AbhJ1LAf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 28 Oct 2021 07:00:35 -0400
+Received: from mail.kernel.org ([198.145.29.99]:49220 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S230049AbhJ1LAe (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 28 Oct 2021 07:00:34 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 71D5D610F8;
+        Thu, 28 Oct 2021 10:58:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1635418687;
+        bh=Gkr2M7tmNtttpnmRIuF7dQ106RqzchtOjG7lRkrUzbw=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=sh7DFrbTAMUW7cRKsSXrUpXu05gMw4SzitY5VmvMI67cJemTsugL2zzQullaVuih/
+         aHcXeI4Sq2M0qhye/vXevYvIekb07XcyNT9xMgQc72Jf4rkCyO3pNR2kCLaktFqyQi
+         z9cyNkhoaQ/yaF3jFaQMDctOk8b1/g04ZPEePKiR2sgNV3T/mz9jjFPBKgH/MjCw4B
+         bYf5HuuOdRiZtq7LnRzSWr7Ja0YCQ/GMkkTVV7SBqS3P9pNDLS9eWhHCTpHxIElbGw
+         Ksam/z0SoiMf0Wnd56CX7Lad9jeq2iW9aM6KKtWmA94EBOi1hyho88Gnzw7KQdWvIu
+         wqDpOt+OTdabQ==
+Date:   Thu, 28 Oct 2021 11:58:02 +0100
+From:   Mauro Carvalho Chehab <mchehab@kernel.org>
+To:     Tsuchiya Yuto <kitakar@gmail.com>
+Cc:     Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+        linux-kernel@vger.kernel.org,
+        Nable <nable.maininbox@googlemail.com>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Fabio Aiuto <fabioaiuto83@gmail.com>,
+        "andrey.i.trufanov" <andrey.i.trufanov@gmail.com>,
+        Patrik Gfeller <patrik.gfeller@gmail.com>
+Subject: Re: [PATCH 00/17] various fixes for atomisp to make it work
+Message-ID: <20211028115802.49258990@sal.lan>
+In-Reply-To: <00dd9a0286e194696f6cc083a98de47d709b1d9e.camel@gmail.com>
+References: <20211017161958.44351-1-kitakar@gmail.com>
+        <00dd9a0286e194696f6cc083a98de47d709b1d9e.camel@gmail.com>
+X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Received: by 2002:ab3:6f89:0:0:0:0:0 with HTTP; Thu, 28 Oct 2021 03:52:09
- -0700 (PDT)
-Reply-To: aabdulwalialhashmi@gmail.com
-From:   Abdulwali Alhashmi <husamalsayed.hs@gmail.com>
-Date:   Thu, 28 Oct 2021 03:52:09 -0700
-Message-ID: <CAF6yYCeS=rm8=_71-kMjVo4oaVK57w9X52R_yv1HDrBe7vh-sA@mail.gmail.com>
-Subject: PLEASE GET BACK TO ME IF I CAN I TRUST YOU
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
--- 
-Greetings,
+Em Thu, 28 Oct 2021 13:32:29 +0900
+Tsuchiya Yuto <kitakar@gmail.com> escreveu:
 
-Firstly, I apologize for encroaching into your privacy in this manner
-as it may seem unethical though it is a matter of great importance.
+> <Fixed Cc list>
+> 
+> On Mon, 2021-10-18 at 01:19 +0900, Tsuchiya Yuto wrote:
+> > [...]
+> >   ## taking a picture with atomisp
+> > 
+> > Note that to try to take a picture, please also apply at least the
+> > this RFC patch ("[BUG][RFC] media: atomisp: pci: assume run_mode is
+> > PREVIEW") I'll send as almost a BUG report later.
+> > 
+> > You need to use firmware version irci_stable_candrpv_0415_20150521_0458,
+> > which is available from the intel-aero [1]  
+> 
+> Just in case, the hash (as well as version) of firmware which I
+> downloaded from intel-aero and I use to capture is the following:
+> 
+>         $ sha256sum /lib/firmware/shisp_2401a0_v21.bin
+>         e89359f4e4934c410c83d525e283f34c5fcce9cb5caa75ad8a32d66d3842d95c  /lib/firmware/shisp_2401a0_v21.bin
+> 
+>         $ strings /lib/firmware/shisp_2401a0_v21.bin | grep 2015
+>         irci_stable_candrpv_0415_20150521_0458
+> 
+> Regards,
+> Tsuchiya Yuto
+> 
+> > The atomisp (ipu2), like the ipu3, needs userspace support. The libcamera
+> > has now decent ipu3 support but does not have atomisp support yet.
+> > 
+> > I found some userspace tools for atomisp that run on Linux:
+> > 
+> >   - capturev4l2 from intel-aero/sample-apps
+> >     (https://github.com/intel-aero/sample-apps/tree/master/capturev4l2)
+> >   - hd-camera from intel-aero/sample-apps
+> >     (https://github.com/intel-aero/sample-apps/tree/master/hd-camera)
+> >   - intel/nvt
+> >     (https://github.com/intel/nvt)
+> > 
+> > It looks like the nvt is the most feature-rich, like exposure and white
+> > balance. Note that current upstreamed atomisp dropped 32-bit support.
+> > So, you need to build it with `-m64` (change it in Makefile). Here is
+> > the example of usage I use on mipad2:
+> > 
+> >         $ ./v4l2n -o testimage_@.raw \
+> >                 --device /dev/video2 \
+> >                 --input 0 \
+> >                 --exposure=30000,30000,30000,30000 \
+> >                 --parm type=1,capturemode=CI_MODE_PREVIEW \
+> >                 --fmt type=1,width=1920,height=1080,pixelformat=NV12 \
+> >                 --reqbufs count=2,memory=USERPTR \
+> >                 --parameters=wb_config.r=32768,wb_config.gr=21043,wb_config.gb=21043,wb_config.b=30863 \
+> >                 --capture=2 \
+> > 
+> >         ./raw2pnm -x1920 -y1080 -fNV12 testimage_001.raw testimage_001.pnm
+> >         feh *.pnm # open the converted image
+> >         rm testimage*
 
-I am Abdulwali Alhashmi, I work with Cayman National Bank (Cayman Islands).
+Great! that worked for me too on Asus T101HA (CHT). I had to tweak the
+resolution, as ov2680 sensor has a max of 1616x1216 30fps. I had
+to use a number smaller than that, though (1600x1200).
 
-I am contacting you because my status would not permit me to do this
-alone as it is concerning our customer and an investment placed under
-our bank's management over 5 years ago.
+I guess the next step is to make a generic app to also work on it. 
 
-I have a proposal I would love to discuss with you which will be very
-beneficial to both of us. It's regarding my late client who has a huge
-deposit with my bank.
+> > 
+> > Note that I see the following warn/err after capture:
+> > 
+> >         kern  :warn  : [72660.793335] atomisp-isp2 0000:00:03.0: stop stream timeout.
+> >         kern  :err   : [72660.973629] atomisp-isp2 0000:00:03.0: atomisp_reset
+> > 
+> > but I see the same message on the Android kernel, too. So, I think this
+> > is not a real issue (I hope).
 
-He is from your country and shares the same last name with you.
+Same here.
 
-I want to seek your consent to present you as the next of kin to my
-late client who died and left a huge deposit with my bank.
-
-I would respectfully request that you keep the contents of this mail
-confidential and respect the integrity of the information you come by
-as a result of this mail.
-
-Please kindly get back to me for more details if I can TRUST YOU.{
-aabdulwalialhashmi@gmail.com }
-
-Regards
-Abdulwali Alhashmi
-Treasury and Deposit Management,
-Cayman National Bank Cayman Islands
+> > 
+> > [1] https://github.com/intel-aero/meta-intel-aero-base/tree/master/recipes-kernel/linux/linux-yocto
+> >     filename shisp_2401a0_v21.bin  
+> 
+> 
