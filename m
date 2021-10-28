@@ -2,102 +2,137 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D122443E46A
-	for <lists+linux-media@lfdr.de>; Thu, 28 Oct 2021 16:58:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 77E9A43E512
+	for <lists+linux-media@lfdr.de>; Thu, 28 Oct 2021 17:26:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231252AbhJ1PAr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 28 Oct 2021 11:00:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38540 "EHLO
+        id S230251AbhJ1P2h (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 28 Oct 2021 11:28:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45040 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230451AbhJ1PAq (ORCPT
+        with ESMTP id S229946AbhJ1P2g (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 28 Oct 2021 11:00:46 -0400
-Received: from mail-pj1-x1031.google.com (mail-pj1-x1031.google.com [IPv6:2607:f8b0:4864:20::1031])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 28200C061767
-        for <linux-media@vger.kernel.org>; Thu, 28 Oct 2021 07:58:19 -0700 (PDT)
-Received: by mail-pj1-x1031.google.com with SMTP id na16-20020a17090b4c1000b0019f5bb661f9so4982917pjb.0
-        for <linux-media@vger.kernel.org>; Thu, 28 Oct 2021 07:58:19 -0700 (PDT)
+        Thu, 28 Oct 2021 11:28:36 -0400
+Received: from mail-wr1-x42e.google.com (mail-wr1-x42e.google.com [IPv6:2a00:1450:4864:20::42e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ADAB3C061570
+        for <linux-media@vger.kernel.org>; Thu, 28 Oct 2021 08:26:09 -0700 (PDT)
+Received: by mail-wr1-x42e.google.com with SMTP id p14so10831321wrd.10
+        for <linux-media@vger.kernel.org>; Thu, 28 Oct 2021 08:26:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
+        d=ffwll.ch; s=google;
         h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=QGXF5oWPYn5wMkU6IdsSHBlyLVAw8pj3F3Vqsyv9n4A=;
-        b=P6eCMloWeqINUEj9ranXxT68xKyKG+nZeXgfOAjzUbfehAu/rt22mvQK6Cv6/wEVhf
-         ILloehy+H3AmheBwCsJOWXj/ExWSGoUX7OnMiNGVroCNOp4k9Vgiy6/GMu5fFT6Zszgf
-         KXJW6oVWAEOgw+nZb3EgWed+o32RfN8X4ovTA7EnWrvpelJNMO8xQoTFTMttXOUzUZwb
-         0Xly/nYCzxtW3j12hxAVfUgxFKxGC5/vHAA21WJTYrU6D50yjoLIq2WotwRspD3zmaKZ
-         masg4S+YLS4wCtzhqaBIf6crO0VS8UF0feqHXJVclVA/LnZwLrGD4PHQtvtjpiCHo8A/
-         G3WQ==
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=agTgEPLmvB/7z84bA0Fq2eAXyefFfSRIxtsavGdMMRY=;
+        b=lvmK05pCCHf15pV8yJp+0uTRgIc88WGAvQ1vgdWsTfwJPbaNwflyl+/4AQl+zZYibi
+         s2STHm9nRuvKY3NNLLKNasvC1/iogK50hsgmrJKZmj3+hLW/8QOc3Bw1Shxxnd9IXuLL
+         PN7r3j0aMb57+SQQhhIQ1mvTTLNigF8rhWqH8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=QGXF5oWPYn5wMkU6IdsSHBlyLVAw8pj3F3Vqsyv9n4A=;
-        b=rnwg2vpiJl12noTfttwG2Wuv3JAEhmgq8gifD8QRfMVqS+ImBVguYU7uBPn06XNPw+
-         0I3Ub21SRRy3jDrI4DFid2hD1nhdW8uBa5ki5Xz1luvWa/J0mbW0ADwfdqSAdR1AzY8Q
-         dqS7EpgV+ytASSW+1d4nPxe7PQY4zoDWJkTnEwdDiT2ca3/qVKTyQjdjIEa5zP4hpTNK
-         T6HsOyZ0XO87M8BFV0qUW4kV7UWE/SJQ2xRDAxlRTsGrjw088ymFOFdCYtjer54unqtf
-         J+5blMHpTX8OJsG9GY/0d/Nb8bOdr/QFJw1TmYquKWJWOBgzY8mGCpWV3B7Vsh5g3pxH
-         /s6A==
-X-Gm-Message-State: AOAM530QkCUSxZu8o2CSipnMXqKRTAStkLtvcWUS0Qo4iHgso48ODzPl
-        n2G8MKLyVg+68N4xDlCRk66hcg==
-X-Google-Smtp-Source: ABdhPJzktVilKhrXQKOyuMENgwV5ET+AbhuNqDf8NyijYHCTVEjAfRDleaAvbK/MY9xZIowkHZVQMA==
-X-Received: by 2002:a17:90b:388a:: with SMTP id mu10mr5243207pjb.0.1635433098398;
-        Thu, 28 Oct 2021 07:58:18 -0700 (PDT)
-Received: from google.com (157.214.185.35.bc.googleusercontent.com. [35.185.214.157])
-        by smtp.gmail.com with ESMTPSA id m10sm8036396pjs.21.2021.10.28.07.58.17
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=agTgEPLmvB/7z84bA0Fq2eAXyefFfSRIxtsavGdMMRY=;
+        b=xvc+jpl+DMJLmgDKpUmim2eYoXqQ7suJRW1ZujLY5Znyac9URftvWTKuCmNck4n2uo
+         pEM2GxwpLup5UvkvKR/8zRzaoneUtb4QSnA9nQ67lbHiTZssrTXzVJ74DN+1dFipv4rE
+         jLA6fnRwBoATlGulyfhoN3ye+9Ts9XYT3o0edYPw70dPYUar4DNOYVrpK54m4VDOSBs0
+         1xtOn+CbZZ7K3sXofcU/4BXOb3eWttwmIFiC0nuR/87TwpF86tFten7G0/qoQwjZ52/B
+         2/EkcN3prRi8hRGKGeXSoJWA3y0AjkKEWhJfzs2ZTMHZ5SDaze+2JRygzm6xZxUxKYZi
+         6gWg==
+X-Gm-Message-State: AOAM531P6iM4ggjon/d55tb6FyN17yT2SP7HdtcXpirotcGA7jrviFT1
+        iJvkiiVStQ9rp1i4E4F1opoIaA==
+X-Google-Smtp-Source: ABdhPJwC658b6JYOWWx2PGdESXYuo9lApQkPGmjeLqc4rQ80PE9cO9n1U9xiKAB4QVeU4k7DVMHkuA==
+X-Received: by 2002:a5d:604b:: with SMTP id j11mr6503662wrt.162.1635434768303;
+        Thu, 28 Oct 2021 08:26:08 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+        by smtp.gmail.com with ESMTPSA id l124sm6962325wml.8.2021.10.28.08.26.07
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 28 Oct 2021 07:58:17 -0700 (PDT)
-Date:   Thu, 28 Oct 2021 14:58:13 +0000
-From:   Sean Christopherson <seanjc@google.com>
-To:     syzbot <syzbot+05017ad275a64a3246f8@syzkaller.appspotmail.com>
-Cc:     bcm-kernel-feedback-list@broadcom.com, bhelgaas@google.com,
-        bp@alien8.de, dave.hansen@linux.intel.com,
-        devel@driverdev.osuosl.org, f.fainelli@gmail.com,
-        gregkh@linuxfoundation.org, hpa@zytor.com,
-        info@cestasdeplastico.com, jmattson@google.com, joro@8bytes.org,
-        kvm@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-pci@vger.kernel.org,
-        linux-rpi-kernel-owner@lists.infradead.org,
-        linux-rpi-kernel@lists.infradead.org, lorenzo.pieralisi@arm.com,
-        mchehab@kernel.org, mingo@redhat.com, nsaenzjulienne@suse.de,
-        pbonzini@redhat.com, robh@kernel.org,
-        sean.j.christopherson@intel.com, sfr@canb.auug.org.au,
-        syzkaller-bugs@googlegroups.com, tcs_kernel@tencent.com,
-        tglx@linutronix.de, vkuznets@redhat.com, wanpengli@tencent.com,
-        x86@kernel.org
-Subject: Re: [syzbot] BUG: spinlock bad magic in synchronize_srcu
-Message-ID: <YXq6hTAOhOaWGsNA@google.com>
-References: <0000000000000f73a805afeb9be8@google.com>
- <000000000000792dda05cf604775@google.com>
+        Thu, 28 Oct 2021 08:26:07 -0700 (PDT)
+Date:   Thu, 28 Oct 2021 17:26:05 +0200
+From:   Daniel Vetter <daniel@ffwll.ch>
+To:     Christian =?iso-8859-1?Q?K=F6nig?= 
+        <ckoenig.leichtzumerken@gmail.com>
+Cc:     Daniel Vetter <daniel@ffwll.ch>, linaro-mm-sig@lists.linaro.org,
+        dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
+        intel-gfx@lists.freedesktop.org, tvrtko.ursulin@linux.intel.com
+Subject: Re: [PATCH 26/28] drm/nouveau: use the new interator in
+ nv50_wndw_prepare_fb
+Message-ID: <YXrBDSywbTHRoM3H@phenom.ffwll.local>
+References: <20211005113742.1101-1-christian.koenig@amd.com>
+ <20211005113742.1101-27-christian.koenig@amd.com>
+ <YWbtV2ZVHg7n1xpm@phenom.ffwll.local>
+ <cca39a70-5820-18e2-8bda-a4a0d7ad2c31@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <000000000000792dda05cf604775@google.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <cca39a70-5820-18e2-8bda-a4a0d7ad2c31@gmail.com>
+X-Operating-System: Linux phenom 5.10.0-8-amd64 
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Oct 27, 2021, syzbot wrote:
-> syzbot suspects this issue was fixed by commit:
+On Fri, Oct 22, 2021 at 03:17:17PM +0200, Christian König wrote:
+> Am 13.10.21 um 16:29 schrieb Daniel Vetter:
+> > On Tue, Oct 05, 2021 at 01:37:40PM +0200, Christian König wrote:
+> > > Makes the handling a bit more complex, but avoids the use of
+> > > dma_resv_get_excl_unlocked().
+> > > 
+> > > Signed-off-by: Christian König <christian.koenig@amd.com>
+> > > ---
+> > >   drivers/gpu/drm/nouveau/dispnv50/wndw.c | 10 +++++++++-
+> > >   1 file changed, 9 insertions(+), 1 deletion(-)
+> > > 
+> > > diff --git a/drivers/gpu/drm/nouveau/dispnv50/wndw.c b/drivers/gpu/drm/nouveau/dispnv50/wndw.c
+> > > index 8d048bacd6f0..30712a681e2a 100644
+> > > --- a/drivers/gpu/drm/nouveau/dispnv50/wndw.c
+> > > +++ b/drivers/gpu/drm/nouveau/dispnv50/wndw.c
+> > > @@ -539,6 +539,8 @@ nv50_wndw_prepare_fb(struct drm_plane *plane, struct drm_plane_state *state)
+> > >   	struct nouveau_bo *nvbo;
+> > >   	struct nv50_head_atom *asyh;
+> > >   	struct nv50_wndw_ctxdma *ctxdma;
+> > > +	struct dma_resv_iter cursor;
+> > > +	struct dma_fence *fence;
+> > >   	int ret;
+> > >   	NV_ATOMIC(drm, "%s prepare: %p\n", plane->name, fb);
+> > > @@ -561,7 +563,13 @@ nv50_wndw_prepare_fb(struct drm_plane *plane, struct drm_plane_state *state)
+> > >   			asyw->image.handle[0] = ctxdma->object.handle;
+> > >   	}
+> > > -	asyw->state.fence = dma_resv_get_excl_unlocked(nvbo->bo.base.resv);
+> > > +	dma_resv_iter_begin(&cursor, nvbo->bo.base.resv, false);
+> > > +	dma_resv_for_each_fence_unlocked(&cursor, fence) {
+> > > +		/* TODO: We only use the first writer here */
+> > Same thing as with the atomic core helper. This is actually broken,
+> > because for atomic we really do _not_ want to wait for any shared fences.
+> > Which this will do, if there's no exclusive fence attached.
+> > 
+> > So upgrading my general concern on this and the atomic helper patch to a
+> > reject, since I think it's broken.
 > 
-> commit eb7511bf9182292ef1df1082d23039e856d1ddfb
-> Author: Haimin Zhang <tcs_kernel@tencent.com>
-> Date:   Fri Sep 3 02:37:06 2021 +0000
-> 
->     KVM: x86: Handle SRCU initialization failure during page track init
-> 
-> bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=143e2b02b00000
-> start commit:   78e709522d2c Merge tag 'for_linus' of git://git.kernel.org..
-> git tree:       upstream
-> kernel config:  https://syzkaller.appspot.com/x/.config?x=2150ebd7e72fa695
-> dashboard link: https://syzkaller.appspot.com/bug?extid=05017ad275a64a3246f8
-> syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=10b72895300000
-> C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=14c42853300000
-> 
-> If the result looks correct, please mark the issue as fixed by replying with:
-> 
-> #syz fix: KVM: x86: Handle SRCU initialization failure during page track init
+> Since we simply had a misunderstanding with that could I get an rb for that
+> now?
 
-#syz fix: KVM: x86: Handle SRCU initialization failure during page track init
+Oh sorry, I thought I've supplied that. As much a you still trust my r-b
+at least :-)
+
+Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+
+> 
+> Thanks,
+> Christian.
+> 
+> > -Daniel
+> > 
+> > > +		asyw->state.fence = dma_fence_get(fence);
+> > > +		break;
+> > > +	}
+> > > +	dma_resv_iter_end(&cursor);
+> > >   	asyw->image.offset[0] = nvbo->offset;
+> > >   	if (wndw->func->prepare) {
+> > > -- 
+> > > 2.25.1
+> > > 
+> 
+
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
