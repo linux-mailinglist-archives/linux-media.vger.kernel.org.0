@@ -2,226 +2,259 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0883A43D9E7
-	for <lists+linux-media@lfdr.de>; Thu, 28 Oct 2021 05:36:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2767543D9F1
+	for <lists+linux-media@lfdr.de>; Thu, 28 Oct 2021 05:44:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229775AbhJ1Dit (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 27 Oct 2021 23:38:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53280 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229704AbhJ1Diq (ORCPT
+        id S229778AbhJ1DrJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 27 Oct 2021 23:47:09 -0400
+Received: from twspam01.aspeedtech.com ([211.20.114.71]:17378 "EHLO
+        twspam01.aspeedtech.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229704AbhJ1DrI (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 27 Oct 2021 23:38:46 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BEE32C061570;
-        Wed, 27 Oct 2021 20:36:19 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 50D93276;
-        Thu, 28 Oct 2021 05:36:16 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1635392176;
-        bh=Kk24UJbZp3UTmptindO7Y74AMuKi5/tk4XGhB8M+H4Y=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=hJZy3v+uKr3FC6Cg3jD6E1LrR515eQlcMTfczn9Lxej7U8WweU+X/qd++mxEyuCgv
-         Rrw8hG4/N5ZlUPUop9VAP4tn32UGMQvd6AibaX5mAcp/f2XbTtvl31mzGw6qcwz9jG
-         31QdDldjTVZcCkOc3X1P1jxqyFl/SKlykfygDAhE=
-Date:   Thu, 28 Oct 2021 06:35:52 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Adam Ford <aford173@gmail.com>
-Cc:     Fabio Estevam <festevam@gmail.com>,
-        "moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE" 
-        <linux-arm-kernel@lists.infradead.org>,
-        linux-media <linux-media@vger.kernel.org>,
-        cstevens@beaconembedded.com,
-        Adam Ford-BE <aford@beaconembedded.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        Schrempf Frieder <frieder.schrempf@kontron.de>
-Subject: Re: [RFC V2 0/5] arm64: dts: imx8mm: Enable CSI and OV5640 Camera
-Message-ID: <YXoamAtFH4fZ9s2E@pendragon.ideasonboard.com>
-References: <20211023203457.1217821-1-aford173@gmail.com>
- <CAOMZO5BwPTWBhqzHgbzbC_UyzOX7LMGxX83H0FaJ-05ddOpqYQ@mail.gmail.com>
- <CAHCN7x+Bj==zd8_VRquv51RYiG9t_CRrB6=3fugaHvQS8PVS+g@mail.gmail.com>
+        Wed, 27 Oct 2021 23:47:08 -0400
+Received: from mail.aspeedtech.com ([192.168.0.24])
+        by twspam01.aspeedtech.com with ESMTP id 19S3KrXU065393;
+        Thu, 28 Oct 2021 11:20:53 +0800 (GMT-8)
+        (envelope-from jammy_huang@aspeedtech.com)
+Received: from JammyHuang-PC.aspeed.com (192.168.2.115) by TWMBX02.aspeed.com
+ (192.168.0.24) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Thu, 28 Oct
+ 2021 11:43:23 +0800
+From:   Jammy Huang <jammy_huang@aspeedtech.com>
+To:     <eajames@linux.ibm.com>, <mchehab@kernel.org>, <joel@jms.id.au>,
+        <andrew@aj.id.au>, <linux-media@vger.kernel.org>,
+        <openbmc@lists.ozlabs.org>, <linux-arm-kernel@lists.infradead.org>,
+        <linux-aspeed@lists.ozlabs.org>, <linux-kernel@vger.kernel.org>
+Subject: [PATCH v7] media: aspeed: add debugfs
+Date:   Thu, 28 Oct 2021 11:43:32 +0800
+Message-ID: <20211028034332.15961-1-jammy_huang@aspeedtech.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <CAHCN7x+Bj==zd8_VRquv51RYiG9t_CRrB6=3fugaHvQS8PVS+g@mail.gmail.com>
+Content-Transfer-Encoding: 7BIT
+Content-Type:   text/plain; charset=US-ASCII
+X-Originating-IP: [192.168.2.115]
+X-ClientProxiedBy: TWMBX02.aspeed.com (192.168.0.24) To TWMBX02.aspeed.com
+ (192.168.0.24)
+X-DNSRBL: 
+X-MAIL: twspam01.aspeedtech.com 19S3KrXU065393
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Adam,
+A debugfs file, /sys/kernel/debug/aspeed-video, will be created. You can
+read it to get video real-time information as below:
 
-On Wed, Oct 27, 2021 at 07:39:40PM -0500, Adam Ford wrote:
-> On Sun, Oct 24, 2021 at 7:16 AM Fabio Estevam wrote:
-> >
-> > Hi Adam,
-> >
-> > [Adding Frieder on Cc]
-> >
-> > On Sat, Oct 23, 2021 at 5:35 PM Adam Ford <aford173@gmail.com> wrote:
-> > >
-> > > The imx8mm appears to have both a CSI bridge and mipi-csi-2 drivers.  With
-> > > those enabled, both the imx8mm-evk and imx8mm-beacon boards should be able
-> > > use an OV5640 camera.
-> > >
-> > > The mipi-csi2 driver sets the clock frequency to 333MHz, so the clock parent
-> > > of the CSI1 must be reparented to a faster clock.  On the custom NXP kernel,
-> > > they use IMX8MM_SYS_PLL2_1000M, so that is done in the device tree to match.
-> > >
-> > > With the CSI and mipi_csi2 drivers pointing to an OV5640 camera, the media
-> > > pipeline can be configured with the following:
-> > >
-> > >     media-ctl --links "'ov5640 1-003c':0->'imx7-mipi-csis.0':0[1]"
-> > >
-> > > The camera and various nodes in the pipeline can be configured for UYVY:
-> > >     media-ctl -v -V "'ov5640 1-003c':0 [fmt:UYVY8_1X16/640x480 field:none]"
-> > >     media-ctl -v -V "'csi':0 [fmt:UYVY8_1X16/640x480 field:none]"
-> > >
-> > > With that, the media pipeline looks like:
-> > >
-> > >
-> > > Media controller API version 5.15.0
-> > >
-> > > Media device information
-> > > ------------------------
-> > > driver          imx7-csi
-> > > model           imx-media
-> > > serial
-> > > bus info        platform:32e20000.csi
-> > > hw revision     0x0
-> > > driver version  5.15.0
-> > >
-> > > Device topology
-> > > - entity 1: csi (2 pads, 2 links)
-> > >             type V4L2 subdev subtype Unknown flags 0
-> > >             device node name /dev/v4l-subdev0
-> > >         pad0: Sink
-> > >                 [fmt:UYVY8_1X16/640x480 field:none colorspace:srgb xfer:srgb ycbcr:601 quantization:lim-range]
-> > >                 <- "imx7-mipi-csis.0":1 [ENABLED,IMMUTABLE]
-> > >         pad1: Source
-> > >                 [fmt:UYVY8_1X16/640x480 field:none colorspace:srgb xfer:srgb ycbcr:601 quantization:lim-range]
-> > >                 -> "csi capture":0 [ENABLED,IMMUTABLE]
-> > >
-> > > - entity 4: csi capture (1 pad, 1 link)
-> > >             type Node subtype V4L flags 0
-> > >             device node name /dev/video0
-> > >         pad0: Sink
-> > >                 <- "csi":1 [ENABLED,IMMUTABLE]
-> > >
-> > > - entity 10: imx7-mipi-csis.0 (2 pads, 2 links)
-> > >              type V4L2 subdev subtype Unknown flags 0
-> > >              device node name /dev/v4l-subdev1
-> > >         pad0: Sink
-> > >                 [fmt:UYVY8_1X16/640x480 field:none colorspace:smpte170m xfer:709 ycbcr:601 quantization:lim-range]
-> > >                 <- "ov5640 1-003c":0 [ENABLED]
-> > >         pad1: Source
-> > >                 [fmt:UYVY8_1X16/640x480 field:none colorspace:smpte170m xfer:709 ycbcr:601 quantization:lim-range]
-> > >                 -> "csi":0 [ENABLED,IMMUTABLE]
-> > >
-> > > - entity 15: ov5640 1-003c (1 pad, 1 link)
-> > >              type V4L2 subdev subtype Sensor flags 0
-> > >              device node name /dev/v4l-subdev2
-> > >         pad0: Source
-> > >                 [fmt:UYVY8_1X16/640x480@1/30 field:none colorspace:srgb xfer:srgb ycbcr:601 quantization:full-range]
-> > >                 -> "imx7-mipi-csis.0":0 [ENABLED]
-> > >
-> > > When configured, gstreamer can be used to capture 1 frame and store it to a file.
-> > >
-> > > gst-launch-1.0 -v v4l2src num-buffers=1 ! video/x-raw,format=UYVY,width=640,height=480,framerate=60/1 ! filesink location=test
-> > >
-> > > Unfortunately, the video capture never appears to happen.  No errors occur, not
-> > > interrupts are recorded and no errors are recorded.
-> > >
-> > > gst-launch-1.0 -v v4l2src num-buffers=1 ! video/x-raw,format=UYVY,width=640,height=480,framerate=60/1 ! filesink location=test
-> > > Setting pipeline to PAUSED ...
-> > > Pipeline is live and does not need PREROLL ...
-> > > Pipeline is PREROLLED ...
-> > > Setting pipeline to [  114.819632] v4l2_get_link_freq: Link frequency estimated using pixel rate: result might be inaccurate
-> > > PLAYING ...
-> > > New clock: GstSystem[  114.829203] v4l2_get_link_freq: Consider implementing support for V4L2_CID_LINK_FREQ in the transmitter driver
-> > > Clock
-> > > /GstPipeline:pipeline0/GstV4l2Src:v4l2src0.GstPad:src: caps = video/x-raw, format=(string)UYVY, width=(int)640, height=(int)480, framerate=(fraction)60/1, interlace-mode=(string)progressive, colorimetry=(string)bt709
-> > > /GstPipeline:pipeline0/GstCapsFilter:capsfilter0.GstPad:src: caps = video/x-raw, format=(string)UYVY, width=(int)640, height=(int)480, framerate=(fraction)60/1, interlace-mode=(string)progressive, colorimetry=(string)bt709
-> > > /GstPipeline:pipeline0/GstFileSink:filesink0.GstPad:sink: caps = video/x-raw, format=(string)UYVY, width=(int)640, height=(int)480, framerate=(fraction)60/1, interlace-mode=(string)progressive, colorimetry=(string)bt709
-> > > /GstPipeline:pipeline0/GstCapsFilter:capsfilter0.GstPad:sink: caps = video/x-raw, format=(string)UYVY, width=(int)640, height=(int)480, framerate=(fraction)60/1, interlace-mode=(string)progressive, colorimetry=(string)bt709
-> > >
-> > >
-> > > If anyone has any insight as to what might be wrong, I'd like feedback.
-> > > I posted a device tree that I beleive goes with the newer imx8mm-evk, but
-> > > I do not have this hardware, so I cannot test it.
-> >
-> > It seems that Frieder on Cc managed to get camera capture to work on
-> > i.MX8MM here:
-> > https://git.kontron-electronics.de/sw/misc/linux/-/commits/v5.10-mx8mm-csi
-> >
-> > Hopefully, this can help to figure out what is missing in mainline to
-> > get camera capture to work on i.MX8M.
-> >
-> > I don't have access to an OV5640 camera to connect to the imx8mm-evk
-> > board to try your series.
-> 
-> Fabio,
-> 
-> Thanks for the heads up on that repo.  I was able to use that repo and
-> get still images to capture on an OV5640, but I noticed a fair amount
-> of differences between that repo and what's found in linux-next.
-> 
-> Laurent,
-> 
-> I haven't exhausted the patch differences, but I found at least a few
-> that appear to be missiing upstream, and I am curious to know if/what
-> your opinion is on whether or not they're needed, since the patches on
-> Frieder's repo appear to come from you.
-> [1] - media: imx: imx7-media-csi: Add i.MX8MM identification
+Capture:
+  Signal              : Lock
+  Width               : 1920
+  Height              : 1080
+  FRC                 : 60
 
-This shouldn't make any difference.
+Performance:
+  Frame#              : 38
+  Frame Duration(ms)  :
+    Now               : 21
+    Min               : 21
+    Max               : 21
+  FPS                 : 47
 
-> [2] - media: imx: imx7_mipi_csis: Don't set reserved CLK_CTRL field on i.MX8MM
+Signed-off-by: Jammy Huang <jammy_huang@aspeedtech.com>
+---
+v7:
+  - avoid divide-by-zero
+v6:
+  - update commit message
+v5:
+  - correct log
+  - update commit message
+v4:
+  - use void as aspeed_video_debugfs_create()'s return type
+  - update commit message
+v3:
+ - let struct, aspeed_video_debugfs_ops, be const
+v2:
+ - Change the style of debugfs information
+ - Use Min/Max to remove test and branch cases
+---
+ drivers/media/platform/aspeed-video.c | 96 +++++++++++++++++++++++++++
+ 1 file changed, 96 insertions(+)
 
-This was based on my analysis of the reference manual, but it turned out
-to be incorrect, the i.MX8MM CSI-2 receiver didn't work at all for me
-with that patch.
-
-> [3] - media: imx: imx7_mipi_csis: Set dual pixel mode for RAW formats
-
-This one isn't clear to me yet. I'll have to retest, I think I had to
-set dual pixel mode to capture RAW8 and RAW10 with the OV5640, but
-setting it broke raw capture with a different sensor. More investigation
-is needed. In any case, with or without that patch, you should get
-interrupts from the CSIS as the dual pixel mode is related to the
-interface with the CSI bridge.
-
-> media: imx: imx7_mipi_csis: Set dual pixel mode for RAW formats
-> 
-> Maybe these don't need to be applied, but they are 'some' of the
-> differences that I see between this 5.10 branch and linux-next .  I
-> know there are more, but
-> 
-> 
-> [1] - https://git.kontron-electronics.de/sw/misc/linux/-/commit/8ac7ec6db0c260a871038721886dbdb6660ed84c
-> [2] - https://git.kontron-electronics.de/sw/misc/linux/-/commit/0b5727c8eba8c370f7db5eace0243f78992a4dbb
-> [3] - https://git.kontron-electronics.de/sw/misc/linux/-/commit/14befa6bc146b10092a6ac5d0ed4d42c87c6cf27
-> 
-> Frieder et al,
-> 
-> Have you (or anyone) tried CSI cameras on anything newer than 5.10?  I
-> am curious to see if a regression popped in somewhere, but git bisect
-> will make this difficult since there is a fair amount of variation
-> between this custom repo and the upstream.
-
-I'll try to run tests on mainline again, but it will have to wait a
-couple of weeks I'm afraid.
-
+diff --git a/drivers/media/platform/aspeed-video.c b/drivers/media/platform/aspeed-video.c
+index 8b3939b8052d..5ffbabf884eb 100644
+--- a/drivers/media/platform/aspeed-video.c
++++ b/drivers/media/platform/aspeed-video.c
+@@ -21,6 +21,8 @@
+ #include <linux/videodev2.h>
+ #include <linux/wait.h>
+ #include <linux/workqueue.h>
++#include <linux/debugfs.h>
++#include <linux/ktime.h>
+ #include <media/v4l2-ctrls.h>
+ #include <media/v4l2-dev.h>
+ #include <media/v4l2-device.h>
+@@ -203,6 +205,14 @@ struct aspeed_video_buffer {
+ 	struct list_head link;
+ };
+ 
++struct aspeed_video_perf {
++	ktime_t last_sample;
++	u32 totaltime;
++	u32 duration;
++	u32 duration_min;
++	u32 duration_max;
++};
++
+ #define to_aspeed_video_buffer(x) \
+ 	container_of((x), struct aspeed_video_buffer, vb)
+ 
+@@ -241,6 +251,8 @@ struct aspeed_video {
+ 	unsigned int frame_left;
+ 	unsigned int frame_right;
+ 	unsigned int frame_top;
++
++	struct aspeed_video_perf perf;
+ };
+ 
+ #define to_aspeed_video(x) container_of((x), struct aspeed_video, v4l2_dev)
+@@ -444,6 +456,16 @@ static void aspeed_video_write(struct aspeed_video *video, u32 reg, u32 val)
+ 		readl(video->base + reg));
+ }
+ 
++static void update_perf(struct aspeed_video_perf *p)
++{
++	p->duration =
++		ktime_to_ms(ktime_sub(ktime_get(),  p->last_sample));
++	p->totaltime += p->duration;
++
++	p->duration_max = max(p->duration, p->duration_max);
++	p->duration_min = min(p->duration, p->duration_min);
++}
++
+ static int aspeed_video_start_frame(struct aspeed_video *video)
+ {
+ 	dma_addr_t addr;
+@@ -482,6 +504,8 @@ static int aspeed_video_start_frame(struct aspeed_video *video)
+ 	aspeed_video_update(video, VE_INTERRUPT_CTRL, 0,
+ 			    VE_INTERRUPT_COMP_COMPLETE);
+ 
++	video->perf.last_sample = ktime_get();
++
+ 	aspeed_video_update(video, VE_SEQ_CTRL, 0,
+ 			    VE_SEQ_CTRL_TRIG_CAPTURE | VE_SEQ_CTRL_TRIG_COMP);
+ 
+@@ -600,6 +624,8 @@ static irqreturn_t aspeed_video_irq(int irq, void *arg)
+ 		u32 frame_size = aspeed_video_read(video,
+ 						   VE_JPEG_COMP_SIZE_READ_BACK);
+ 
++		update_perf(&video->perf);
++
+ 		spin_lock(&video->lock);
+ 		clear_bit(VIDEO_FRAME_INPRG, &video->flags);
+ 		buf = list_first_entry_or_null(&video->buffers,
+@@ -760,6 +786,7 @@ static void aspeed_video_get_resolution(struct aspeed_video *video)
+ 	det->width = MIN_WIDTH;
+ 	det->height = MIN_HEIGHT;
+ 	video->v4l2_input_status = V4L2_IN_ST_NO_SIGNAL;
++	memset(&video->perf, 0, sizeof(video->perf));
+ 
+ 	do {
+ 		if (tries) {
+@@ -1450,6 +1477,8 @@ static int aspeed_video_start_streaming(struct vb2_queue *q,
+ 	struct aspeed_video *video = vb2_get_drv_priv(q);
+ 
+ 	video->sequence = 0;
++	video->perf.duration_max = 0;
++	video->perf.duration_min = 0xffffffff;
+ 
+ 	rc = aspeed_video_start_frame(video);
+ 	if (rc) {
+@@ -1517,6 +1546,69 @@ static const struct vb2_ops aspeed_video_vb2_ops = {
+ 	.buf_queue =  aspeed_video_buf_queue,
+ };
+ 
++#ifdef CONFIG_DEBUG_FS
++static int aspeed_video_debugfs_show(struct seq_file *s, void *data)
++{
++	struct aspeed_video *v = s->private;
++
++	seq_puts(s, "\n");
++
++	seq_puts(s, "Capture:\n");
++	seq_printf(s, "  %-20s:\t%s\n", "Signal",
++		   v->v4l2_input_status ? "Unlock" : "Lock");
++	seq_printf(s, "  %-20s:\t%d\n", "Width", v->pix_fmt.width);
++	seq_printf(s, "  %-20s:\t%d\n", "Height", v->pix_fmt.height);
++	seq_printf(s, "  %-20s:\t%d\n", "FRC", v->frame_rate);
++
++	seq_puts(s, "\n");
++
++	seq_puts(s, "Performance:\n");
++	seq_printf(s, "  %-20s:\t%d\n", "Frame#", v->sequence);
++	seq_printf(s, "  %-20s:\n", "Frame Duration(ms)");
++	seq_printf(s, "    %-18s:\t%d\n", "Now", v->perf.duration);
++	seq_printf(s, "    %-18s:\t%d\n", "Min", v->perf.duration_min);
++	seq_printf(s, "    %-18s:\t%d\n", "Max", v->perf.duration_max);
++	seq_printf(s, "  %-20s:\t%d\n", "FPS",
++		   (v->perf.totaltime && v->sequence) ?
++		   1000/(v->perf.totaltime/v->sequence) : 0);
++
++
++	return 0;
++}
++
++int aspeed_video_proc_open(struct inode *inode, struct file *file)
++{
++	return single_open(file, aspeed_video_debugfs_show, inode->i_private);
++}
++
++static const struct file_operations aspeed_video_debugfs_ops = {
++	.owner   = THIS_MODULE,
++	.open    = aspeed_video_proc_open,
++	.read    = seq_read,
++	.llseek  = seq_lseek,
++	.release = single_release,
++};
++
++static struct dentry *debugfs_entry;
++
++static void aspeed_video_debugfs_remove(struct aspeed_video *video)
++{
++	debugfs_remove_recursive(debugfs_entry);
++}
++
++static void aspeed_video_debugfs_create(struct aspeed_video *video)
++{
++	debugfs_entry = debugfs_create_file(DEVICE_NAME, 0444, NULL, video,
++					    &aspeed_video_debugfs_ops);
++}
++#else
++static void aspeed_video_debugfs_remove(struct aspeed_video *video) { }
++static int aspeed_video_debugfs_create(struct aspeed_video *video)
++{
++	return 0;
++}
++#endif /* CONFIG_DEBUG_FS */
++
+ static int aspeed_video_setup_video(struct aspeed_video *video)
+ {
+ 	const u64 mask = ~(BIT(V4L2_JPEG_CHROMA_SUBSAMPLING_444) |
+@@ -1708,6 +1800,8 @@ static int aspeed_video_probe(struct platform_device *pdev)
+ 		return rc;
+ 	}
+ 
++	aspeed_video_debugfs_create(video);
++
+ 	return 0;
+ }
+ 
+@@ -1719,6 +1813,8 @@ static int aspeed_video_remove(struct platform_device *pdev)
+ 
+ 	aspeed_video_off(video);
+ 
++	aspeed_video_debugfs_remove(video);
++
+ 	clk_unprepare(video->vclk);
+ 	clk_unprepare(video->eclk);
+ 
 -- 
-Regards,
+2.25.1
 
-Laurent Pinchart
