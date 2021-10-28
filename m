@@ -2,168 +2,81 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5AEF343D91E
-	for <lists+linux-media@lfdr.de>; Thu, 28 Oct 2021 04:03:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 078E343D93E
+	for <lists+linux-media@lfdr.de>; Thu, 28 Oct 2021 04:16:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229691AbhJ1CGS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 27 Oct 2021 22:06:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32976 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229534AbhJ1CGR (ORCPT
+        id S229752AbhJ1CRd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 27 Oct 2021 22:17:33 -0400
+Received: from mail-io1-f70.google.com ([209.85.166.70]:56850 "EHLO
+        mail-io1-f70.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229603AbhJ1CRc (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 27 Oct 2021 22:06:17 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 581B8C061570;
-        Wed, 27 Oct 2021 19:03:51 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 9738C276;
-        Thu, 28 Oct 2021 04:03:46 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1635386626;
-        bh=5UFjGoxIACVBiNY+4qv4rZSdiMAoqqZWEfDV5pYwRNs=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=EdhDdkNdVAA1mlU3SiJC3b5wCrJzER3M7sXwdWK+uDkxiMKzq9Hb0UHl8VB4mCkON
-         cM5Ff1HWD4yNv/hCulSTzuO3xZ5dRxcz7eFSMcsik55NbJDQ0PrZpOA8KziwtcCaa3
-         yAXEFfoG+/beZqkU7zy0Mah2nJd2L7ezk1ZLy/4I=
-Date:   Thu, 28 Oct 2021 05:03:22 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Adam Ford <aford173@gmail.com>
-Cc:     linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
-        cstevens@beaconembedded.com, aford@beaconembedded.com,
-        Rob Herring <robh+dt@kernel.org>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [RFC V2 1/5] arm64: dts: imx8mm: Add CSI nodes
-Message-ID: <YXoE6p1xAX5zJZMg@pendragon.ideasonboard.com>
-References: <20211023203457.1217821-1-aford173@gmail.com>
- <20211023203457.1217821-2-aford173@gmail.com>
+        Wed, 27 Oct 2021 22:17:32 -0400
+Received: by mail-io1-f70.google.com with SMTP id e21-20020a056602159500b005e14c45db21so2365391iow.23
+        for <linux-media@vger.kernel.org>; Wed, 27 Oct 2021 19:15:06 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:date:in-reply-to:message-id:subject
+         :from:to;
+        bh=6yG8pcJo54/vxDX6p7Xpz0mDhkbXcuuHhQ0tF2/zx5g=;
+        b=u8jZJ9uAhf/Ey4ESEAawX4PRyS5YINhSWKjUnP1g16efMFX9iJK1j+JPgzS+Jdq9qF
+         lDP2FnC7QVSXH8gt4o7/8L0HoErdOmJZNn8M5ITH0TvdCEegEfiv/PNWahoJxheTEEFv
+         l72li+h2fSPVB1qiRTNtPC5168YObTgjR/qlA3AlSNNdVJk4JycAxX2uwvRq9PFZow5e
+         zW05ZlHjTFBuRgoTEwyv0cwt5mmQ1+FfdAak7f3BbqYcIbuYTEYpHOJ+SjwQVf0zUHss
+         3cqKXF0bADprJe+dcut8Ko26nqTgtlZQkPchRfvmdGfB+xJX/jgTz76WoHncc5nayYSe
+         PXJQ==
+X-Gm-Message-State: AOAM5338k5jTUgJwZrAQclPR2NnG1bBMVB/phBGmxjxqoGPDN0MUrW7g
+        sxG31OTHQZqX6zPN/wORh8OxIU8aE/vbJ+h463yCMk6f1ZbC
+X-Google-Smtp-Source: ABdhPJzcSorb1KARbjJuazLmAfL+5SdTTWdZypcGX+Si7N9T1NNDXJ4DOpUfV3/jg9EUyHmPOXTHGnfR0KVgoFgwpLcLEWUEbWTC
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20211023203457.1217821-2-aford173@gmail.com>
+X-Received: by 2002:a05:6e02:1c4d:: with SMTP id d13mr1095444ilg.120.1635387306485;
+ Wed, 27 Oct 2021 19:15:06 -0700 (PDT)
+Date:   Wed, 27 Oct 2021 19:15:06 -0700
+In-Reply-To: <0000000000000f73a805afeb9be8@google.com>
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <000000000000792dda05cf604775@google.com>
+Subject: Re: [syzbot] BUG: spinlock bad magic in synchronize_srcu
+From:   syzbot <syzbot+05017ad275a64a3246f8@syzkaller.appspotmail.com>
+To:     bcm-kernel-feedback-list@broadcom.com, bhelgaas@google.com,
+        bp@alien8.de, dave.hansen@linux.intel.com,
+        devel@driverdev.osuosl.org, f.fainelli@gmail.com,
+        gregkh@linuxfoundation.org, hpa@zytor.com,
+        info@cestasdeplastico.com, jmattson@google.com, joro@8bytes.org,
+        kvm@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-pci@vger.kernel.org,
+        linux-rpi-kernel-owner@lists.infradead.org,
+        linux-rpi-kernel@lists.infradead.org, lorenzo.pieralisi@arm.com,
+        mchehab@kernel.org, mingo@redhat.com, nsaenzjulienne@suse.de,
+        pbonzini@redhat.com, robh@kernel.org,
+        sean.j.christopherson@intel.com, seanjc@google.com,
+        sfr@canb.auug.org.au, syzkaller-bugs@googlegroups.com,
+        tcs_kernel@tencent.com, tglx@linutronix.de, vkuznets@redhat.com,
+        wanpengli@tencent.com, x86@kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Adam,
+syzbot suspects this issue was fixed by commit:
 
-Thank you for the patch.
+commit eb7511bf9182292ef1df1082d23039e856d1ddfb
+Author: Haimin Zhang <tcs_kernel@tencent.com>
+Date:   Fri Sep 3 02:37:06 2021 +0000
 
-On Sat, Oct 23, 2021 at 03:34:52PM -0500, Adam Ford wrote:
-> There is a csi bridge and csis interface that tie together
-> to allow csi2 capture.
-> 
-> Signed-off-by: Adam Ford <aford173@gmail.com>
-> ---
->  arch/arm64/boot/dts/freescale/imx8mm.dtsi | 55 +++++++++++++++++++++++
->  1 file changed, 55 insertions(+)
-> 
-> diff --git a/arch/arm64/boot/dts/freescale/imx8mm.dtsi b/arch/arm64/boot/dts/freescale/imx8mm.dtsi
-> index c2f3f118f82e..920f9041ef50 100644
-> --- a/arch/arm64/boot/dts/freescale/imx8mm.dtsi
-> +++ b/arch/arm64/boot/dts/freescale/imx8mm.dtsi
-> @@ -1068,6 +1068,22 @@ aips4: bus@32c00000 {
->  			#size-cells = <1>;
->  			ranges = <0x32c00000 0x32c00000 0x400000>;
->  
-> +			csi: csi@32e20000 {
-> +				compatible = "fsl,imx8mm-csi", "fsl,imx7-csi";
-> +				reg = <0x32e20000 0x1000>;
-> +				interrupts = <GIC_SPI 16 IRQ_TYPE_LEVEL_HIGH>;
-> +				clocks = <&clk IMX8MM_CLK_CSI1_ROOT>;
-> +				clock-names = "mclk";
-> +				power-domains = <&disp_blk_ctrl IMX8MM_DISPBLK_PD_CSI_BRIDGE>;
-> +				status = "disabled";
-> +
-> +				port {
-> +					csi_in: endpoint {
-> +						remote-endpoint = <&imx8mm_mipi_csi_out>;
-> +					};
-> +				};
-> +			};
-> +
->  			disp_blk_ctrl: blk-ctrl@32e28000 {
->  				compatible = "fsl,imx8mm-disp-blk-ctrl", "syscon";
->  				reg = <0x32e28000 0x100>;
-> @@ -1095,6 +1111,45 @@ disp_blk_ctrl: blk-ctrl@32e28000 {
->  				#power-domain-cells = <1>;
->  			};
->  
-> +			mipi_csi2: mipi-csi@32e30000 {
+    KVM: x86: Handle SRCU initialization failure during page track init
 
-I'd rename the label to mipi_csi to match the name in the reference
-manual.
+bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=143e2b02b00000
+start commit:   78e709522d2c Merge tag 'for_linus' of git://git.kernel.org..
+git tree:       upstream
+kernel config:  https://syzkaller.appspot.com/x/.config?x=2150ebd7e72fa695
+dashboard link: https://syzkaller.appspot.com/bug?extid=05017ad275a64a3246f8
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=10b72895300000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=14c42853300000
 
-> +				compatible = "fsl,imx8mm-mipi-csi2";
-> +				reg = <0x32e30000 0x1000>;
-> +				interrupts = <GIC_SPI 17 IRQ_TYPE_LEVEL_HIGH>;
-> +				assigned-clocks = <&clk IMX8MM_CLK_CSI1_CORE>,
-> +						  <&clk IMX8MM_CLK_CSI1_PHY_REF>;
-> +				assigned-clock-parents = <&clk IMX8MM_SYS_PLL2_1000M>,
-> +							  <&clk IMX8MM_SYS_PLL2_1000M>;
-> +				clock-frequency = <333000000>;
-> +				clocks = <&clk IMX8MM_CLK_DISP_APB_ROOT>,
-> +					 <&clk IMX8MM_CLK_CSI1_ROOT>,
-> +					 <&clk IMX8MM_CLK_CSI1_PHY_REF>,
-> +					 <&clk IMX8MM_CLK_DISP_AXI_ROOT>;
-> +				clock-names = "pclk", "wrap", "phy", "axi";
-> +				power-domains = <&disp_blk_ctrl IMX8MM_DISPBLK_PD_MIPI_CSI>;
-> +				status = "disabled";
-> +
-> +				ports {
-> +					#address-cells = <1>;
-> +					#size-cells = <0>;
-> +
-> +					port@0 {
-> +						reg = <0>;
-> +
-> +						imx8mm_mipi_csi_in: endpoint {
-> +						};
+If the result looks correct, please mark the issue as fixed by replying with:
 
-Empty ports are fine as they model the hardware, even when not
-connected, but an endpoint models a connection, so it needs a remote
-endpoint. You can drop the endpoint here, board DT files will create one
-with
+#syz fix: KVM: x86: Handle SRCU initialization failure during page track init
 
-&mipi_csi {
-	ports {
-		port@0 {
-			board_endpoint: endpoint {
-				...
-			};
-		};
-	};
-};
-
-> +					};
-> +
-> +					port@1 {
-> +						reg = <1>;
-> +
-> +						imx8mm_mipi_csi_out: endpoint {
-> +							remote-endpoint = <&csi_in>;
-> +						};
-> +					};
-> +				};
-> +			};
-> +
-> +
-
-A single blank line is enough.
-
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-
->  			usbotg1: usb@32e40000 {
->  				compatible = "fsl,imx8mm-usb", "fsl,imx7d-usb";
->  				reg = <0x32e40000 0x200>;
-
--- 
-Regards,
-
-Laurent Pinchart
+For information about bisection process see: https://goo.gl/tpsmEJ#bisection
