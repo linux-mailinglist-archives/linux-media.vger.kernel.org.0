@@ -2,28 +2,28 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DB7CE43E023
-	for <lists+linux-media@lfdr.de>; Thu, 28 Oct 2021 13:39:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 65DED43E027
+	for <lists+linux-media@lfdr.de>; Thu, 28 Oct 2021 13:42:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230122AbhJ1LmR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 28 Oct 2021 07:42:17 -0400
-Received: from mail.kernel.org ([198.145.29.99]:38626 "EHLO mail.kernel.org"
+        id S230122AbhJ1Lou (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 28 Oct 2021 07:44:50 -0400
+Received: from mail.kernel.org ([198.145.29.99]:39432 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229578AbhJ1LmQ (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 28 Oct 2021 07:42:16 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 5A9FF60FC4;
-        Thu, 28 Oct 2021 11:39:47 +0000 (UTC)
+        id S229578AbhJ1Lou (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 28 Oct 2021 07:44:50 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id ED29460724;
+        Thu, 28 Oct 2021 11:42:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1635421189;
-        bh=MXx/7zhCpp3WEeak6Z4FisOR8mujHMNue5V2O/GYGGo=;
+        s=k20201202; t=1635421343;
+        bh=pkmWIMcNmEWqPBFrT8Exd3AVUPRq8ienqiDveCIorP4=;
         h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=DxqhTqUuUWLwvqxprAKi+0qEklhXHH/tp3IPUaL1Ub86Z2zqwyxC24Cxxt/THdnI/
-         qZx+z94mLoDbkad9yQSlt8vDRLGEOOxCJw7SYe5zBBHP9hsNSyufnolgqUFIfiTUy0
-         2hBLGtodDSpetCPmqhDYCHZ8WZsBML5hnV9knXAeeuCewWAFFwgxLv2LbFZK5abWmb
-         MVox1USuCnm2rh3W6jp/o4jc0MXeAOpW/ilYEm5xTRO41JNsVUNKyP2nqiZ9oHL8GE
-         4cXvNzI34kNtTWLdd17EgaWvEoxXe06eAZXgXV9zSMP3RLCmxRwqnjgpkv94EkW+ym
-         XjnQIuAo2aeOg==
-Date:   Thu, 28 Oct 2021 12:39:44 +0100
+        b=OL+HditF+kCwCiaWOHM//XW4dC/8CUwZUF2h8vs21o3wtADOxUFWiS7Z1TwLMfQYk
+         mW1Rxf+wEJnxJ0qKvE/cC+pAfg3iqJQtLFBjoALnZFqBXaNwBB3RozyEoupB9dH8iU
+         DNcoMT8lySdX0ZG3J1ES1TinBsXsSpOAOjLvL+sI+t0dxgzbqZT8TAQEUQSp0N2Gz1
+         eKadwd2i+AqaSq9LTTEmC7z6hZXtBIR/h7kvpAkE1ClBkEEbap3tVCSY3VFOETK91D
+         CEECoG08B2MlWJcNzcRws7I30sXkGziwdbRmNdo5eB2v9gmdeZol6laC7WC7nbo4LE
+         rr+5lwYE6cSJw==
+Date:   Thu, 28 Oct 2021 12:42:17 +0100
 From:   Mauro Carvalho Chehab <mchehab@kernel.org>
 To:     Tsuchiya Yuto <kitakar@gmail.com>
 Cc:     Sakari Ailus <sakari.ailus@linux.intel.com>,
@@ -35,14 +35,14 @@ Cc:     Sakari Ailus <sakari.ailus@linux.intel.com>,
         Fabio Aiuto <fabioaiuto83@gmail.com>,
         "andrey.i.trufanov" <andrey.i.trufanov@gmail.com>,
         Patrik Gfeller <patrik.gfeller@gmail.com>
-Subject: Re: [PATCH 04/17] media: atomisp: pci: do not use err var when
- checking port validity for ISP2400
-Message-ID: <20211028123944.66c212c1@sal.lan>
-In-Reply-To: <1a295721fd1f1e512cd54a659a250aef162bfb6f.camel@gmail.com>
+Subject: Re: [PATCH 14/17] media: atomisp: pci: Remove remaining instance of
+ call to trace_printk
+Message-ID: <20211028124217.394cc49b@sal.lan>
+In-Reply-To: <c55212feff3212c27360f2c49f5c4023a95f5b7c.camel@gmail.com>
 References: <20211017161958.44351-1-kitakar@gmail.com>
-        <20211017161958.44351-5-kitakar@gmail.com>
-        <20211026092637.196447aa@sal.lan>
-        <1a295721fd1f1e512cd54a659a250aef162bfb6f.camel@gmail.com>
+        <20211017161958.44351-15-kitakar@gmail.com>
+        <20211026093224.6c7f7fbf@sal.lan>
+        <c55212feff3212c27360f2c49f5c4023a95f5b7c.camel@gmail.com>
 X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
@@ -51,173 +51,160 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Em Thu, 28 Oct 2021 13:12:45 +0900
+Em Thu, 28 Oct 2021 18:34:47 +0900
 Tsuchiya Yuto <kitakar@gmail.com> escreveu:
 
 > <Adding back people/list to Cc>
 > 
-> On Tue, 2021-10-26 at 09:26 +0100, Mauro Carvalho Chehab wrote:
-> > Em Mon, 18 Oct 2021 01:19:44 +0900
+> On Tue, 2021-10-26 at 09:32 +0100, Mauro Carvalho Chehab wrote:
+> > Em Mon, 18 Oct 2021 01:19:54 +0900
 > > Tsuchiya Yuto <kitakar@gmail.com> escreveu:
 > >   
-> > > Currently, the `port >= N_CSI_PORTS || err` checks for ISP2400 are always
-> > > evaluated as true because the err variable is set to `-EINVAL` on
-> > > declaration but the variable is never used until the evaluation.
+> > > (patch based on intel-aero kernel patch:
+> > >  https://github.com/intel-aero/meta-intel-aero-base/commit/26fc9fe5030b63bc9dcf0b5f32981948911ca272)
 > > > 
-> > > Looking at the diff of commit 3c0538fbad9f ("media: atomisp: get rid of
-> > > most checks for ISP2401 version"), the `port >= N_CSI_PORTS` check is
-> > > for ISP2400 and the err variable check is for ISP2401. Fix this issue
-> > > by adding ISP version test there accordingly.
+> > > Here is the original commit message from the aforementioned patch:
 > > > 
-> > > Yes, there are other better ways to fix this issue, like adding support
-> > > for ISP2400 to ia_css_mipi_is_source_port_valid(). In this way, we can
-> > > unify the following test:
+> > > 	From 26fc9fe5030b63bc9dcf0b5f32981948911ca272 Mon Sep 17 00:00:00 2001
+> > > 	From: Lucas De Marchi <lucas.demarchi@intel.com>
+> > > 	Date: Fri, 7 Jul 2017 14:23:53 -0700
+> > > 	Subject: [PATCH] linux-yocto: Remove remaining instance of call to
+> > > 	 trace_printk
 > > > 
-> > > 	if (!IS_ISP2401)
-> > > 		port = (unsigned int)pipe->stream->config.source.port.port;
-> > > 	else
-> > > 		err = ia_css_mipi_is_source_port_valid(pipe, &port);
+> > > 	It's not sufficient to leave trace_printk() out of "normal call chains" since
+> > > 	the way trace infrastructure works is that it will allocate the trace_printk
+> > > 	buffers if the symbol is there (by using a separate section for the function
+> > > 	and checking if __start_* and __stop_* symbols are different.
 > > > 
-> > > However, the IS_ISP2401 test here (formerly `ifdef ISP2401`) is not
-> > > a result of real hardware difference, but just a result of the following
-> > > two different versions of driver merged by tools [1]:
+> > > 	Therefore, even if the default value for the param tells the module to use
+> > > 	printk(), just the fact that it can be changed to trace_printk() means the
+> > > 	initialization code will be called.
 > > > 
-> > >   - ISP2400: irci_stable_candrpv_0415_20150521_0458
-> > >   - ISP2401: irci_ecr-master_20150911_0724  
+> > > The trace_printk() was replaced by pr_info() on commit 3d81099c75a6
+> > > ("media: atomisp: Replace trace_printk by pr_info") for the upstreamed
+> > > atomisp, too. However, as the aforementioned commit message says, there
+> > > is still a remaining instance. This causes the "trace_printk() being
+> > > used" kernel warning message to still appear on the first driver load.
+> > > 
+> > > Based on the aforementioned patch, this patch removes the call to
+> > > ftrace_vprintk(). This removes that kernel warning.
+> > > 
+> > > In addition to this, this patch also removes the following now unused
+> > > things:
+> > > 
+> > >     - now empty atomisp_css2_dbg_ftrace_print()
+> > >     - trace_printk option from dbg_func kernel parameter  
 > > 
-> > No.
-> > 
-> > While I don't have any internal information from the hardware manufacturer,
-> > I guess you misinterpreted things here. 2400 and 2401 are different
-> > hardware versions. See atomisp_pci_probe() logic.
-> > 
-> > Basically, Cherrytail and Anniedale comes with 2401. Older Atom CPUs
-> > (Merrifield and Baytrail) comes with 2400.  
+> > This patch is incomplete. I mean, if the idea is to drop support for
+> > trace, dbg_func parameter becomes obsolete, and a lot of code can be
+> > dropped/cleaned.  
 > 
-> Yes, indeed, 2400 and 2401 are different hardware. When they (I mean who
-> originally wrote atomisp driver non-upstream) needed to distinguish
-> between ISP2400 and ISP2401, they used the ifdefs like the following:
+> I left __set_css_print_env() and dbg_func module parameter intentionally
+> because there is still the option "non", which means do not use any
+> function to log. Yes, I don't know if it's really useful since the module
+> parameter dbg_level=0 (this is the default value) means no debug output.
 > 
->   - USE_INPUT_SYSTEM_VERSION_2    (for both ISP2400/ISP2401)
->   - USE_INPUT_SYSTEM_VERSION_2401 (for ISP2401)
->   ...
+> However, they (those who originally wrote atomisp) added the option "non"
+> anyway. So, I thought there is a use case for this.
 > 
-> I think this is a sign that the atomisp driver supports both
-> ISP2400/ISP2401 in a single version.
-
-Actually, supporting both on a single version is part of Alan's work.
-
-It seems he used the generation tool to produce a version for 2400, and
-then re-used it to generate for 2401. It then used some scripting tool
-to convert the differences on #ifdef ISP2401. See:
-
-	a49d25364dfb ("staging/atomisp: Add support for the Intel IPU v2")
-
-There are things there like:
-
-	+#ifdef ISP2401
-	+
-	+#endif
-
-I did a large cleanup work to get rid of those ifdefs, replacing them
-by runtime logic.
-
-The end goal is to have a single compile-time driver that works for
-both 2400 and 2401.
-
-This is not possible yet, as there are some registers that are mapped
-on different addresses, depending on the hardware version, and making
-it generic requires a lot of work and tests. So, for now, we need to 
-have a compile-time option to select between both.
-
-> Indeed, the upstreamed atomisp uses irci_stable_candrpv_0415_20150521_0458
-> for ISP2400 and IIUC it was working on Bay Trail. On the other hand,
-> intel-aero is a kernel for Cherry Trail and uses the same version
-> irci_stable_candrpv_0415_20150521_0458.
+> If everyone thinks it's useless, I can additionally remove them. In this
+> case, indeed a lot of code may be additionally removed (I haven't checked
+> yet).
 > 
-> So, both ISP version ISP2400/ISP2401 can be supported by a single
-> driver version.
+> > That's said, I don't see a good reason to drop it, at least while
+> > this driver is not 100%.  
+> 
+> This driver is not 100% yet, but at least it can capture images now
+> (at least on ISP2401). So, I thought this is the right time to remove
+> it when I wrote this patch.
+> 
+> But yes, we don't necessarily have to drop it. The other idea is hide
+> it by default using a macro, and still can be enabled by manual edit.
+> Here is the example from drivers/usb/dwc2/core.h:
+> 
+>         49-/*
+>         50- * Suggested defines for tracers:
+>         51- * - no_printk:    Disable tracing
+>         52- * - pr_info:      Print this info to the console
+>         53- * - trace_printk: Print this info to trace buffer (good for verbose logging)
+>         54- */
+>         55-
+>         56:#define DWC2_TRACE_SCHEDULER		no_printk
+>         57:#define DWC2_TRACE_SCHEDULER_VB		no_printk
+>         58-
+>         59-/* Detailed scheduler tracing, but won't overwhelm console */
+>         60-#define dwc2_sch_dbg(hsotg, fmt, ...)					\
+>         61:	DWC2_TRACE_SCHEDULER(pr_fmt("%s: SCH: " fmt),			\
+>         62-			     dev_name(hsotg->dev), ##__VA_ARGS__)
+>         63-
+>         64-/* Verbose scheduler tracing */
+>         65-#define dwc2_sch_vdbg(hsotg, fmt, ...)					\
+>         66:	DWC2_TRACE_SCHEDULER_VB(pr_fmt("%s: SCH: " fmt),		\
+>         67-				dev_name(hsotg->dev), ##__VA_ARGS__)
+> 
+> with using pr_info by default for atomisp (the parameter dbg_level is
+> 0 by default, so still no output by default). If this sounds OK, I'd
+> like to try this way.
 
-I See. OK!
-
-> > > We should eventually remove (not unify) such tests caused by just a
-> > > driver version difference and use just one version of driver. So, for
-> > > now, let's avoid further unification.
-> > > 
-> > > [1] The function ia_css_mipi_is_source_port_valid() and its usage is
-> > >     added on updating css version to irci_master_20150701_0213
-> > >     https://raw.githubusercontent.com/intel/ProductionKernelQuilts/cht-m1stable-2016_ww31/uefi/cht-m1stable/patches/cam-0439-atomisp2-css2401-and-2401_legacy-irci_master_2015070.patch
-> > >     ("atomisp2: css2401 and 2401_legacy-irci_master_20150701_0213")  
-> > 
-> > What happens is that there is a 2401 and a 2401 "legacy". It sounds
-> > that this due to some different software stacks that are reflected both
-> > at the firmware and at the driver.  
-> 
-> Yeah, I'm not sure what the "legacy" is. It might be a reference of
-> `ISP2401_NEW_INPUT_SYSTEM` (css_2401_csi2p_system) and
-> non-`ISP2401_NEW_INPUT_SYSTEM` (css_2401_system).
-> 
-> > -
-> > 
-> > On other words, this patch requires some rework, as otherwise it will break
-> > support for Baytrail.  
-> 
-> You mean "this patch"? then, I intended this patch is rather a fix for
-> ISP2400 case! The err variable for ISP2400 case is always true because
-> it is not used before the error check:
-> 
->         int
->         allocate_mipi_frames(struct ia_css_pipe *pipe,
->         		     struct ia_css_stream_info *info)
->         {
->         	int err = -EINVAL;
-> [...]
->         	if (!IS_ISP2401)
->         		port = (unsigned int)pipe->stream->config.source.port.port;
->         	else
->         		err = ia_css_mipi_is_source_port_valid(pipe, &port);
->         
->         	assert(port < N_CSI_PORTS);
->         
->         	if (port >= N_CSI_PORTS || err) {
->         		ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE_PRIVATE,
->         				    "allocate_mipi_frames(%p) exit: error: port is not correct (port=%d).\n",
->         				    pipe, port);
->         		return -EINVAL;
->         	}
-> 
-> The first usage of err variable is ia_css_mipi_is_source_port_valid()
-> for IS_ISP2401 case, but it's not used for ISP2400 case. This causes
-> the evaluation `port >= N_CSI_PORTS || err` always true for ISP2400 case,
-> meaning it will be always treated as a error.
-
-Ok. Had you test the driver with Baytrail?
-
-> 
-> > Also, patch 13 should be dropped, as the firmware versions for 2400 are
-> > different  
-> 
-> The firmware version for 2400 on the upstreamed atomisp is
-> irci_stable_candrpv_0415_20150521_0458 :-)
-> 
->         static const char *isp2400_release_version = STR(irci_stable_candrpv_0415_20150521_0458);
->         static const char *isp2401_release_version = STR(irci_ecr - master_20150911_0724);
-> 
-> The intention of that patch is rather, it clarifies ISP2401 is now using
-> the same driver (css) version as ISP2400.
-
-Ok.
-
-> > - and maybe patches 8 to 12 may need more work in order to not
-> > touch 2400.  
-> 
-> Those patches do not break ISP2400, because what they do for ISP2400
-> is that, they remove members from `struct`s which were initially inside
-> of `ifdef ISP2401`. And because these removed members were initially
-> inside of the ifdefs, the usage was also inside the ifdefs.
-
-Did you test on Baytrail (ISP2400), and with the compile-time option
-enabled/disabled?
+Let's just postpone this change. It sounds a little early to start
+cleaning up debug stuff. This can be done any time later, but let's
+first test it on our devices and ensure that it is stable enough.
 
 Regards,
 Mauro
+
+> 
+> > > 
+> > > Signed-off-by: Tsuchiya Yuto <kitakar@gmail.com>
+> > > ---
+> > >  .../staging/media/atomisp/pci/atomisp_compat_css20.c   | 10 ----------
+> > >  drivers/staging/media/atomisp/pci/atomisp_v4l2.c       |  4 ++--
+> > >  2 files changed, 2 insertions(+), 12 deletions(-)
+> > > 
+> > > diff --git a/drivers/staging/media/atomisp/pci/atomisp_compat_css20.c b/drivers/staging/media/atomisp/pci/atomisp_compat_css20.c
+> > > index 99a632f33d2d..d81d55c6f1fa 100644
+> > > --- a/drivers/staging/media/atomisp/pci/atomisp_compat_css20.c
+> > > +++ b/drivers/staging/media/atomisp/pci/atomisp_compat_css20.c
+> > > @@ -159,13 +159,6 @@ static void atomisp_css2_hw_load(hrt_address addr, void *to, uint32_t n)
+> > >  	spin_unlock_irqrestore(&mmio_lock, flags);
+> > >  }
+> > >  
+> > > -static int  __printf(1, 0) atomisp_css2_dbg_ftrace_print(const char *fmt,
+> > > -							 va_list args)
+> > > -{
+> > > -	ftrace_vprintk(fmt, args);
+> > > -	return 0;
+> > > -}
+> > > -
+> > >  static int  __printf(1, 0) atomisp_vprintk(const char *fmt, va_list args)
+> > >  {
+> > >  	vprintk(fmt, args);
+> > > @@ -860,9 +853,6 @@ static inline int __set_css_print_env(struct atomisp_device *isp, int opt)
+> > >  	if (opt == 0)
+> > >  		isp->css_env.isp_css_env.print_env.debug_print = NULL;
+> > >  	else if (opt == 1)
+> > > -		isp->css_env.isp_css_env.print_env.debug_print =
+> > > -		    atomisp_css2_dbg_ftrace_print;
+> > > -	else if (opt == 2)
+> > >  		isp->css_env.isp_css_env.print_env.debug_print = atomisp_vprintk;
+> > >  	else
+> > >  		ret = -EINVAL;
+> > > diff --git a/drivers/staging/media/atomisp/pci/atomisp_v4l2.c b/drivers/staging/media/atomisp/pci/atomisp_v4l2.c
+> > > index f5362554638e..720963156d24 100644
+> > > --- a/drivers/staging/media/atomisp/pci/atomisp_v4l2.c
+> > > +++ b/drivers/staging/media/atomisp/pci/atomisp_v4l2.c
+> > > @@ -87,10 +87,10 @@ module_param(dbg_level, int, 0644);
+> > >  MODULE_PARM_DESC(dbg_level, "debug message level (default:0)");
+> > >  
+> > >  /* log function switch */
+> > > -int dbg_func = 2;
+> > > +int dbg_func = 1;
+> > >  module_param(dbg_func, int, 0644);
+> > >  MODULE_PARM_DESC(dbg_func,
+> > > -		 "log function switch non/trace_printk/printk (default:printk)");
+> > > +		 "log function switch non/printk (default:printk)");
+> > >  
+> > >  int mipicsi_flag;
+> > >  module_param(mipicsi_flag, int, 0644);  
+> 
+> 
