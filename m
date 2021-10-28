@@ -2,26 +2,26 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 47DD243DCEC
-	for <lists+linux-media@lfdr.de>; Thu, 28 Oct 2021 10:27:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 472E643DCF9
+	for <lists+linux-media@lfdr.de>; Thu, 28 Oct 2021 10:32:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229863AbhJ1I3i (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 28 Oct 2021 04:29:38 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:41322 "EHLO
+        id S229915AbhJ1Ien (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 28 Oct 2021 04:34:43 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:41652 "EHLO
         perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229626AbhJ1I3g (ORCPT
+        with ESMTP id S229626AbhJ1Ien (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 28 Oct 2021 04:29:36 -0400
+        Thu, 28 Oct 2021 04:34:43 -0400
 Received: from [192.168.1.111] (91-158-153-130.elisa-laajakaista.fi [91.158.153.130])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id E0D0A276;
-        Thu, 28 Oct 2021 10:27:07 +0200 (CEST)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id C67D8276;
+        Thu, 28 Oct 2021 10:32:14 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1635409628;
-        bh=Mw5k7uCXCBesHKijGS3bvBqAuKgbwyTS+hcscIeV9CE=;
+        s=mail; t=1635409935;
+        bh=9UoLf1IpevSGN5J04Fg9PNGU+6MPJWbzyKkC5K07i1c=;
         h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
-        b=Z9mXLBqGvv7EmKPEDxPsrwu0NJo5Un7zg+vHCfSLtN4eG9hftKFkl/8jwBiiDfh/8
-         pDjBjY1a0NcV8rvyTJOEvmT7Lfsvp2SM4naRVdnR2kRRYzY59Lf26Wa3wsK9ilY/nm
-         YLBHf/a6epMmR/WPlg9UKsjhD3FLPFMiPidd5zoI=
+        b=sB8Dc6UsgsJlWSL3FCrKQNwLgyekKYHIVpw8TRKQ00h7iz623uEVj1E0xvP6Il0hb
+         aZXS9fz85kEIwpGwGFlXBbR+2oIfui/g9/KsW51k7vvyvPvci8HZq/Df38xwAFORAh
+         TfddonkN00k1Wo0LJDT1Bu6kTxZrn1cz2eTzIaMM=
 Subject: Re: [PATCH v2 06/13] media: subdev: Add for_each_active_route() macro
 To:     Jacopo Mondi <jacopo+renesas@jmondi.org>,
         sakari.ailus@linux.intel.com, laurent.pinchart@ideasonboard.com,
@@ -32,8 +32,8 @@ Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
 References: <20211017182449.64192-1-jacopo+renesas@jmondi.org>
  <20211017182449.64192-7-jacopo+renesas@jmondi.org>
 From:   Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Message-ID: <04b63dbf-28ee-23d4-5d75-a33729e9f332@ideasonboard.com>
-Date:   Thu, 28 Oct 2021 11:27:05 +0300
+Message-ID: <8c16cd01-48c6-ecc8-4437-e597559f492f@ideasonboard.com>
+Date:   Thu, 28 Oct 2021 11:32:12 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.13.0
 MIME-Version: 1.0
@@ -44,8 +44,6 @@ Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
-
-Hi Jacopo,
 
 On 17/10/2021 21:24, Jacopo Mondi wrote:
 > Add a for_each_active_route() macro to replace the repeated pattern
@@ -63,7 +61,29 @@ On 17/10/2021 21:24, Jacopo Mondi wrote:
 >   drivers/media/v4l2-core/v4l2-subdev.c     | 18 ++++++++++++++++++
 >   include/media/v4l2-subdev.h               | 11 +++++++++++
 >   7 files changed, 39 insertions(+), 32 deletions(-)
+> 
 
-I'll pick this one to my branch, if you don't mind.
+...
+
+> +struct v4l2_subdev_route *next_active_route(const struct v4l2_subdev_krouting *routing,
+> +					    struct v4l2_subdev_route *route)
+> +{
+> +	if (route)
+> +		++route;
+> +	else
+> +		route = &routing->routes[0];
+> +
+> +	for (; route < routing->routes + routing->num_routes; ++route) {
+> +		if (!(route->flags & V4L2_SUBDEV_ROUTE_FL_ACTIVE))
+> +			continue;
+> +
+> +		return route;
+> +	}
+> +
+> +	return NULL;
+> +}
+
+Also, this must be exported. I'll add that. And probably better to have 
+a prefix in the function name.
 
   Tomi
