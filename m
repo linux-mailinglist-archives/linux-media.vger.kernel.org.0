@@ -2,56 +2,60 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9A19943D7E7
-	for <lists+linux-media@lfdr.de>; Thu, 28 Oct 2021 02:01:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7958443D802
+	for <lists+linux-media@lfdr.de>; Thu, 28 Oct 2021 02:19:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229499AbhJ1AET (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 27 Oct 2021 20:04:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34162 "EHLO
+        id S229437AbhJ1AWH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 27 Oct 2021 20:22:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38058 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229437AbhJ1AET (ORCPT
+        with ESMTP id S229505AbhJ1AWG (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 27 Oct 2021 20:04:19 -0400
-Received: from mail-lj1-x230.google.com (mail-lj1-x230.google.com [IPv6:2a00:1450:4864:20::230])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2DEF5C061570
-        for <linux-media@vger.kernel.org>; Wed, 27 Oct 2021 17:01:53 -0700 (PDT)
-Received: by mail-lj1-x230.google.com with SMTP id q16so7566514ljg.3
-        for <linux-media@vger.kernel.org>; Wed, 27 Oct 2021 17:01:52 -0700 (PDT)
+        Wed, 27 Oct 2021 20:22:06 -0400
+Received: from mail-pl1-x630.google.com (mail-pl1-x630.google.com [IPv6:2607:f8b0:4864:20::630])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 52C30C061745
+        for <linux-media@vger.kernel.org>; Wed, 27 Oct 2021 17:19:40 -0700 (PDT)
+Received: by mail-pl1-x630.google.com with SMTP id w16so3194479plg.3
+        for <linux-media@vger.kernel.org>; Wed, 27 Oct 2021 17:19:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=uqHiZAh9153nwS+DodprExoTASZ+7YRb3/+XlZxYLIE=;
-        b=uDQ9r6kZiDALGD4eETvKi+OF+Z+JRrO7Ta/eyWLuqzAi1N5S57vey4fLz9MQ7srH01
-         AwA+AwCHxpONEVd93TX/qLMSZqLjLEw+o9DqzKxlM5S/8A6AIbGoeEiwfj96uIt+TLym
-         Y7+IUAhZP4koHDaPoCwyiPWKSLlTGf6ALXjoz4Gif4DhiWVWFBwkY1VXlz9/PohF6yoj
-         PmQlvJs0q+xoifPkDqmQwRKZvvE4bmYpw4YaHJVmEzFleF73zcNL/RWmekWsy1OgHv6M
-         isOFzGkRO3cbxql94FjuVzkUeBh5KAhq0P7OCqN9vXBpi8ZDv3n20rMnVboST+pWPaUC
-         INiA==
+        h=message-id:date:mime-version:user-agent:content-language:to:cc
+         :references:from:subject:in-reply-to:content-transfer-encoding;
+        bh=8hL4Jqifd0AqJfsoeSiVVrM/htd90YTwh+/QL+wMYOE=;
+        b=F93KwyeuhwvUblxbiN9AHnABBpT0SDhBsNATgF0SFWLYQh0yWU+DzXWq3Eh2uh1J6q
+         cDLS3PdXCm6xTEC17TeUvlICdZfwr7SIwrnt4V0pU8zxnDNhLKinTJ4f3wBHCapA3vSe
+         fceA05q1SxC9iRkyNndPWsogerSrgjHEMvm6Klz9fWnyEFnDgbZXF0bFXIwH/QlVsmlH
+         hEjcqPE23JgTkD7Bi7s6hWbT3PRJaCOtGoY5lwRf3EDIMO2lhOQ1j+j3I6ZIySd3QrTb
+         wB8VQLFuJ0LuU0mtF2CSZ2oGp9UIcbO74beajkkClPZj4cbh6ft7ysTrnwtDeM0TUgmM
+         +6mQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=uqHiZAh9153nwS+DodprExoTASZ+7YRb3/+XlZxYLIE=;
-        b=qlTNnIktaG0CpTpAXZu/zLopcHFI8SqUKwlIXkGUeSoFR26Z82g/VUULKtDf//b1xB
-         mzoa4hiKsFrQY+OASOr8v4NfudFHfV7BWsG4UqjySMy5wb0EPiRMdCyz/Krc6BBP8F/o
-         LgfNSfKcGyctNbxoFhxs62/mzSVArX87sRd5Eiq9F08wEf94cJVqJxiR5eyOtwt7dUsO
-         +Z8DOHIp8ZXL0nTJX9raoC3Ug7BCf+qXvqfQXTn9GI9TmuBUsGlHL+k+zWjPClq665+V
-         P3QjSYwtwzDsh5YsJv6mEIQdAMaR9oQLOVWN647+3cjBd4sUWIBfTt6u+4GeEbQxeOZC
-         txtA==
-X-Gm-Message-State: AOAM533rMIQ4jesH9f+NhoIkukcVngRYNCoJ9zBnR1yXkiZC/uOFA0jl
-        44dr09cO9SSk7k65vH4QzXI335EklHjaP5Xhh1JnEg==
-X-Google-Smtp-Source: ABdhPJzUb8Oe3WNE2P7KCn5W7pI7aWmRDIg72+6F/Q8l+7E0d5UFfH0toa7VlbWtqBGVBCspe0x7tehPVJHDYenJX0Q=
-X-Received: by 2002:a05:651c:389:: with SMTP id e9mr1101224ljp.61.1635379311380;
- Wed, 27 Oct 2021 17:01:51 -0700 (PDT)
+        h=x-gm-message-state:message-id:date:mime-version:user-agent
+         :content-language:to:cc:references:from:subject:in-reply-to
+         :content-transfer-encoding;
+        bh=8hL4Jqifd0AqJfsoeSiVVrM/htd90YTwh+/QL+wMYOE=;
+        b=7kIDUltP70cwuDdHFUnCUVnUNrZVkzZdLSM5z2J5oHl+gtF7ksQE7H495n0nDEeNqq
+         svaGacpcJWHZmbUW4U6pYZiykxP1C6gXMFObbinGJyCjSxX8pA0BEnml51TcF1Tfiq+5
+         vmvcLqafXZ8kVe+AfIpo9+Hu5Yo0ikk6SJnN6JPeuicIN9fr5waBsRSidgnRQSi/JkZJ
+         AVDw2n0+8XwjO4PZ3WmGfTcncj6zkac7osNfe3v7MGj4TM/HMjV1x85/NGmfsu1vI+B5
+         mPtY1AhQvtu0YCzIv7Rcg5VxzHcJ4jPH7ljLI77SqO8LHbecM8dRXgSXaDHbywin/p/U
+         xT9Q==
+X-Gm-Message-State: AOAM533KoVOzuxwngVab4OHq9cMtNe5JeuQDa3J7rEMZyErlkoPIBwLj
+        msmFcxSaz+NQ7qMseOlGJ5j4oA==
+X-Google-Smtp-Source: ABdhPJyu9MyzsDbU0tdfRTLWP9RqAQHWwh9iBmH89gLRJ6pWDjBOMKJ5/XCIGCQAbXWNd6WAZE5ouw==
+X-Received: by 2002:a17:90a:f195:: with SMTP id bv21mr917394pjb.203.1635380379858;
+        Wed, 27 Oct 2021 17:19:39 -0700 (PDT)
+Received: from [192.168.254.36] ([50.39.160.154])
+        by smtp.gmail.com with ESMTPSA id d15sm1063545pfv.22.2021.10.27.17.19.38
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 27 Oct 2021 17:19:38 -0700 (PDT)
+Message-ID: <5c3d9b0a-8c68-feec-74b6-59f2e29b1d11@linaro.org>
+Date:   Wed, 27 Oct 2021 17:19:30 -0700
 MIME-Version: 1.0
-References: <20211025144345.267107-1-tadeusz.struk@linaro.org>
-In-Reply-To: <20211025144345.267107-1-tadeusz.struk@linaro.org>
-From:   John Stultz <john.stultz@linaro.org>
-Date:   Wed, 27 Oct 2021 17:01:39 -0700
-Message-ID: <CALAqxLXjh9o925G9smW+uwWqKDarsvrBuzr+UL1CsQc4m7W+oQ@mail.gmail.com>
-Subject: Re: [PATCH] media: venus: Synchronize probe() between venus_core and enc/dec
-To:     Tadeusz Struk <tadeusz.struk@linaro.org>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.2.0
+Content-Language: en-US
+To:     John Stultz <john.stultz@linaro.org>
 Cc:     Stanimir Varbanov <stanimir.varbanov@linaro.org>,
         Andy Gross <agross@kernel.org>,
         Bjorn Andersson <bjorn.andersson@linaro.org>,
@@ -60,70 +64,39 @@ Cc:     Stanimir Varbanov <stanimir.varbanov@linaro.org>,
         Amit Pundir <amit.pundir@linaro.org>,
         linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+References: <20211025144345.267107-1-tadeusz.struk@linaro.org>
+ <CALAqxLXjh9o925G9smW+uwWqKDarsvrBuzr+UL1CsQc4m7W+oQ@mail.gmail.com>
+From:   Tadeusz Struk <tadeusz.struk@linaro.org>
+Subject: Re: [PATCH] media: venus: Synchronize probe() between venus_core and
+ enc/dec
+In-Reply-To: <CALAqxLXjh9o925G9smW+uwWqKDarsvrBuzr+UL1CsQc4m7W+oQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, Oct 25, 2021 at 7:44 AM Tadeusz Struk <tadeusz.struk@linaro.org> wrote:
->
-> Venus video encode/decode hardware driver consists of three modules.
-> The parent module venus-core, and two sub modules venus-enc and venus-dec.
-> The venus-core module allocates a common structure that is used by the
-> enc/dec modules, loads the firmware, and performs some common hardware
-> initialization. Since the three modules are loaded one after the other,
-> and their probe functions can run in parallel it is possible that
-> the venc_probe and vdec_probe functions can finish before the core
-> venus_probe function, which then can fail when, for example it
-> fails to load the firmware. In this case the subsequent call to venc_open
-> causes an Oops as it tries to dereference already uninitialized structures
-> through dev->parent and the system crashes in __pm_runtime_resume() as in
-> the trace below:
->
-> [   26.064835][  T485] Internal error: Oops: 96000006 [#1] PREEMPT SMP
-> [   26.270914][  T485] Hardware name: Thundercomm Dragonboard 845c (DT)
-> [   26.285019][  T485] pc : __pm_runtime_resume+0x34/0x178
-> [   26.286374][  T213] lt9611 10-003b: hdmi cable connected
-> [   26.290285][  T485] lr : venc_open+0xc0/0x278 [venus_enc]
-> [   26.290326][  T485] Call trace:
-> [   26.290328][  T485]  __pm_runtime_resume+0x34/0x178
-> [   26.290330][  T485]  venc_open+0xc0/0x278 [venus_enc]
-> [   26.290335][  T485]  v4l2_open+0x184/0x294
-> [   26.290340][  T485]  chrdev_open+0x468/0x5c8
-> [   26.290344][  T485]  do_dentry_open+0x260/0x54c
-> [   26.290349][  T485]  path_openat+0xbe8/0xd5c
-> [   26.290352][  T485]  do_filp_open+0xb8/0x168
-> [   26.290354][  T485]  do_sys_openat2+0xa4/0x1e8
-> [   26.290357][  T485]  __arm64_compat_sys_openat+0x70/0x9c
-> [   26.290359][  T485]  invoke_syscall+0x60/0x170
-> [   26.290363][  T485]  el0_svc_common+0xb8/0xf8
-> [   26.290365][  T485]  do_el0_svc_compat+0x20/0x30
-> [   26.290367][  T485]  el0_svc_compat+0x24/0x84
-> [   26.290372][  T485]  el0t_32_sync_handler+0x7c/0xbc
-> [   26.290374][  T485]  el0t_32_sync+0x1b8/0x1bc
-> [   26.290381][  T485] ---[ end trace 04ca7c088b4c1a9c ]---
-> [   26.290383][  T485] Kernel panic - not syncing: Oops: Fatal exception
->
-> This can be fixed by synchronizing the three probe functions and
-> only allowing the venc_probe() and vdec_probe() to pass when venus_probe()
-> returns success.
->
-> Signed-off-by: Tadeusz Struk <tadeusz.struk@linaro.org>
+Hi John,
+On 10/27/21 17:01, John Stultz wrote:
+>    Thanks so much for sending this out, I definitely would like to see
+> these crashes sorted!
+> 
+> Unfortunately this patch causes some odd behavior when I use it with a
+> modular config.  The display does not start up and trying to reboot
+> the board ends up with it hanging instead of rebooting.
+> 
+> And booting with this patch in my non-modular config, it just seems to
+> get stuck during bootup (I suspect waiting on firmware that's not yet
+> mounted?).
+> 
 
+Thanks for trying the patch. With this patch I was able to boot android13
+running 5.15.0-rc4-mainlineon on my Dragonboard 845c with the default
+config common/build.config.db845c. Without it it was crashing.
+It doesn't solve the firmware loading problem, it just makes it fail
+gracefully for the boot to continue. If you share your config I can try
+it and see what's wrong.
 
-Hey Tadeusz
-  Thanks so much for sending this out, I definitely would like to see
-these crashes sorted!
-
-Unfortunately this patch causes some odd behavior when I use it with a
-modular config.  The display does not start up and trying to reboot
-the board ends up with it hanging instead of rebooting.
-
-And booting with this patch in my non-modular config, it just seems to
-get stuck during bootup (I suspect waiting on firmware that's not yet
-mounted?).
-
-I've got to run right now, but I'll try to help debug this down further.
-
-thanks
--john
+-- 
+Thanks,
+Tadeusz
