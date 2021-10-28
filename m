@@ -2,101 +2,222 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7958443D802
-	for <lists+linux-media@lfdr.de>; Thu, 28 Oct 2021 02:19:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4FA4543D832
+	for <lists+linux-media@lfdr.de>; Thu, 28 Oct 2021 02:39:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229437AbhJ1AWH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 27 Oct 2021 20:22:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38058 "EHLO
+        id S229532AbhJ1AmV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 27 Oct 2021 20:42:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42594 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229505AbhJ1AWG (ORCPT
+        with ESMTP id S229437AbhJ1AmV (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 27 Oct 2021 20:22:06 -0400
-Received: from mail-pl1-x630.google.com (mail-pl1-x630.google.com [IPv6:2607:f8b0:4864:20::630])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 52C30C061745
-        for <linux-media@vger.kernel.org>; Wed, 27 Oct 2021 17:19:40 -0700 (PDT)
-Received: by mail-pl1-x630.google.com with SMTP id w16so3194479plg.3
-        for <linux-media@vger.kernel.org>; Wed, 27 Oct 2021 17:19:40 -0700 (PDT)
+        Wed, 27 Oct 2021 20:42:21 -0400
+Received: from mail-ed1-x534.google.com (mail-ed1-x534.google.com [IPv6:2a00:1450:4864:20::534])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B79ACC061570;
+        Wed, 27 Oct 2021 17:39:54 -0700 (PDT)
+Received: by mail-ed1-x534.google.com with SMTP id s1so17591973edd.3;
+        Wed, 27 Oct 2021 17:39:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=message-id:date:mime-version:user-agent:content-language:to:cc
-         :references:from:subject:in-reply-to:content-transfer-encoding;
-        bh=8hL4Jqifd0AqJfsoeSiVVrM/htd90YTwh+/QL+wMYOE=;
-        b=F93KwyeuhwvUblxbiN9AHnABBpT0SDhBsNATgF0SFWLYQh0yWU+DzXWq3Eh2uh1J6q
-         cDLS3PdXCm6xTEC17TeUvlICdZfwr7SIwrnt4V0pU8zxnDNhLKinTJ4f3wBHCapA3vSe
-         fceA05q1SxC9iRkyNndPWsogerSrgjHEMvm6Klz9fWnyEFnDgbZXF0bFXIwH/QlVsmlH
-         hEjcqPE23JgTkD7Bi7s6hWbT3PRJaCOtGoY5lwRf3EDIMO2lhOQ1j+j3I6ZIySd3QrTb
-         wB8VQLFuJ0LuU0mtF2CSZ2oGp9UIcbO74beajkkClPZj4cbh6ft7ysTrnwtDeM0TUgmM
-         +6mQ==
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=25jHkIsapODDQ6Lx9Rj+b3D+u+fqBMSr8fzk3vcCGkw=;
+        b=E5wKN04rEhNs8VVDiU5HdKxmqkxcoMTL08WYRxNo5O6ryc4jRAQBS4vnMqRUZOeDgM
+         qgjb+VDhcMX3dUL6qp0Z6eWOgPqs6DM9J3gkTk706GPTiKRGMvLepuCqMrRvqmaTIyKM
+         E4Z8eRT2uaXPYP3DbER8AZ+8lVnJ2DMYeEkg7qF5wwyf9oqjE+XTc/YpHeqy76EZZx8F
+         9x6Ia3WiM93QozsvHBzE0LsHHodkpLUEu9JDyjFkqxLIylwR9kH+mIPPEHXLmhSJnJLG
+         6qZyp4wM3SwVG3b3CaJ03FFWdyMVD2BSxeHY1edjpOIPO7PHHYMtmZW7fPgyuxdGYyT0
+         7xLQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent
-         :content-language:to:cc:references:from:subject:in-reply-to
-         :content-transfer-encoding;
-        bh=8hL4Jqifd0AqJfsoeSiVVrM/htd90YTwh+/QL+wMYOE=;
-        b=7kIDUltP70cwuDdHFUnCUVnUNrZVkzZdLSM5z2J5oHl+gtF7ksQE7H495n0nDEeNqq
-         svaGacpcJWHZmbUW4U6pYZiykxP1C6gXMFObbinGJyCjSxX8pA0BEnml51TcF1Tfiq+5
-         vmvcLqafXZ8kVe+AfIpo9+Hu5Yo0ikk6SJnN6JPeuicIN9fr5waBsRSidgnRQSi/JkZJ
-         AVDw2n0+8XwjO4PZ3WmGfTcncj6zkac7osNfe3v7MGj4TM/HMjV1x85/NGmfsu1vI+B5
-         mPtY1AhQvtu0YCzIv7Rcg5VxzHcJ4jPH7ljLI77SqO8LHbecM8dRXgSXaDHbywin/p/U
-         xT9Q==
-X-Gm-Message-State: AOAM533KoVOzuxwngVab4OHq9cMtNe5JeuQDa3J7rEMZyErlkoPIBwLj
-        msmFcxSaz+NQ7qMseOlGJ5j4oA==
-X-Google-Smtp-Source: ABdhPJyu9MyzsDbU0tdfRTLWP9RqAQHWwh9iBmH89gLRJ6pWDjBOMKJ5/XCIGCQAbXWNd6WAZE5ouw==
-X-Received: by 2002:a17:90a:f195:: with SMTP id bv21mr917394pjb.203.1635380379858;
-        Wed, 27 Oct 2021 17:19:39 -0700 (PDT)
-Received: from [192.168.254.36] ([50.39.160.154])
-        by smtp.gmail.com with ESMTPSA id d15sm1063545pfv.22.2021.10.27.17.19.38
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 27 Oct 2021 17:19:38 -0700 (PDT)
-Message-ID: <5c3d9b0a-8c68-feec-74b6-59f2e29b1d11@linaro.org>
-Date:   Wed, 27 Oct 2021 17:19:30 -0700
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=25jHkIsapODDQ6Lx9Rj+b3D+u+fqBMSr8fzk3vcCGkw=;
+        b=VH7Agqo95Hxh6q9+SZsc29JOA2h1XqBTx+/ocb+xzqjeb3xRD8hbIu5Zz1v1WoPrjq
+         neheOu3SO75hrGO4yLPJL4vggzTGZGsKMHttbclczyHXG5gYcTpzkDf9rkZ1mNkgXWwO
+         Kv2uGnlpiT4qauDoETZ/yDkYw1PW83+nA7Ymu75uE4k+iwfqjK8/BM52a8S7Cj/QZp0B
+         tDeyRrAMvJ4gq1PQDCo90HWUGKhew+WgUPulyJKTfwsWikhblhCg50mnpsqw/SvzymA0
+         Dh7ubSrIdXf2eqSr8pedSN17aF9nGCr04gdTMUnA6AruZFo7kFCR2IB+JYQoZ4TDXqbZ
+         HOYA==
+X-Gm-Message-State: AOAM531x9i8hE4gKIDyBzRPd3rY7lTgm8EBLF0OchEiTJFy+afAkN1ew
+        axEbKSVmI49/8GlE0mXnAjY1ZnG1YQnNA7mNEHjMrVpISo0=
+X-Google-Smtp-Source: ABdhPJzTyN/vjFagE2OetIbN0pccHIJf8bN3evrrO3l16CAHD/60CbhTxVTf+FVUyeuXaBSl/ULIVv54QF9Cu/9RdYw=
+X-Received: by 2002:a05:6402:3590:: with SMTP id y16mr1555352edc.249.1635381593021;
+ Wed, 27 Oct 2021 17:39:53 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.0
-Content-Language: en-US
-To:     John Stultz <john.stultz@linaro.org>
-Cc:     Stanimir Varbanov <stanimir.varbanov@linaro.org>,
-        Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Lee Jones <lee.jones@linaro.org>,
-        Amit Pundir <amit.pundir@linaro.org>,
-        linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <20211025144345.267107-1-tadeusz.struk@linaro.org>
- <CALAqxLXjh9o925G9smW+uwWqKDarsvrBuzr+UL1CsQc4m7W+oQ@mail.gmail.com>
-From:   Tadeusz Struk <tadeusz.struk@linaro.org>
-Subject: Re: [PATCH] media: venus: Synchronize probe() between venus_core and
- enc/dec
-In-Reply-To: <CALAqxLXjh9o925G9smW+uwWqKDarsvrBuzr+UL1CsQc4m7W+oQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <20211023203457.1217821-1-aford173@gmail.com> <CAOMZO5BwPTWBhqzHgbzbC_UyzOX7LMGxX83H0FaJ-05ddOpqYQ@mail.gmail.com>
+In-Reply-To: <CAOMZO5BwPTWBhqzHgbzbC_UyzOX7LMGxX83H0FaJ-05ddOpqYQ@mail.gmail.com>
+From:   Adam Ford <aford173@gmail.com>
+Date:   Wed, 27 Oct 2021 19:39:40 -0500
+Message-ID: <CAHCN7x+Bj==zd8_VRquv51RYiG9t_CRrB6=3fugaHvQS8PVS+g@mail.gmail.com>
+Subject: Re: [RFC V2 0/5] arm64: dts: imx8mm: Enable CSI and OV5640 Camera
+To:     Fabio Estevam <festevam@gmail.com>
+Cc:     "moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE" 
+        <linux-arm-kernel@lists.infradead.org>,
+        linux-media <linux-media@vger.kernel.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        cstevens@beaconembedded.com,
+        Adam Ford-BE <aford@beaconembedded.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        Schrempf Frieder <frieder.schrempf@kontron.de>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi John,
-On 10/27/21 17:01, John Stultz wrote:
->    Thanks so much for sending this out, I definitely would like to see
-> these crashes sorted!
-> 
-> Unfortunately this patch causes some odd behavior when I use it with a
-> modular config.  The display does not start up and trying to reboot
-> the board ends up with it hanging instead of rebooting.
-> 
-> And booting with this patch in my non-modular config, it just seems to
-> get stuck during bootup (I suspect waiting on firmware that's not yet
-> mounted?).
-> 
+On Sun, Oct 24, 2021 at 7:16 AM Fabio Estevam <festevam@gmail.com> wrote:
+>
+> Hi Adam,
+>
+> [Adding Frieder on Cc]
+>
+> On Sat, Oct 23, 2021 at 5:35 PM Adam Ford <aford173@gmail.com> wrote:
+> >
+> > The imx8mm appears to have both a CSI bridge and mipi-csi-2 drivers.  With
+> > those enabled, both the imx8mm-evk and imx8mm-beacon boards should be able
+> > use an OV5640 camera.
+> >
+> > The mipi-csi2 driver sets the clock frequency to 333MHz, so the clock parent
+> > of the CSI1 must be reparented to a faster clock.  On the custom NXP kernel,
+> > they use IMX8MM_SYS_PLL2_1000M, so that is done in the device tree to match.
+> >
+> > With the CSI and mipi_csi2 drivers pointing to an OV5640 camera, the media
+> > pipeline can be configured with the following:
+> >
+> >     media-ctl --links "'ov5640 1-003c':0->'imx7-mipi-csis.0':0[1]"
+> >
+> > The camera and various nodes in the pipeline can be configured for UYVY:
+> >     media-ctl -v -V "'ov5640 1-003c':0 [fmt:UYVY8_1X16/640x480 field:none]"
+> >     media-ctl -v -V "'csi':0 [fmt:UYVY8_1X16/640x480 field:none]"
+> >
+> > With that, the media pipeline looks like:
+> >
+> >
+> > Media controller API version 5.15.0
+> >
+> > Media device information
+> > ------------------------
+> > driver          imx7-csi
+> > model           imx-media
+> > serial
+> > bus info        platform:32e20000.csi
+> > hw revision     0x0
+> > driver version  5.15.0
+> >
+> > Device topology
+> > - entity 1: csi (2 pads, 2 links)
+> >             type V4L2 subdev subtype Unknown flags 0
+> >             device node name /dev/v4l-subdev0
+> >         pad0: Sink
+> >                 [fmt:UYVY8_1X16/640x480 field:none colorspace:srgb xfer:srgb ycbcr:601 quantization:lim-range]
+> >                 <- "imx7-mipi-csis.0":1 [ENABLED,IMMUTABLE]
+> >         pad1: Source
+> >                 [fmt:UYVY8_1X16/640x480 field:none colorspace:srgb xfer:srgb ycbcr:601 quantization:lim-range]
+> >                 -> "csi capture":0 [ENABLED,IMMUTABLE]
+> >
+> > - entity 4: csi capture (1 pad, 1 link)
+> >             type Node subtype V4L flags 0
+> >             device node name /dev/video0
+> >         pad0: Sink
+> >                 <- "csi":1 [ENABLED,IMMUTABLE]
+> >
+> > - entity 10: imx7-mipi-csis.0 (2 pads, 2 links)
+> >              type V4L2 subdev subtype Unknown flags 0
+> >              device node name /dev/v4l-subdev1
+> >         pad0: Sink
+> >                 [fmt:UYVY8_1X16/640x480 field:none colorspace:smpte170m xfer:709 ycbcr:601 quantization:lim-range]
+> >                 <- "ov5640 1-003c":0 [ENABLED]
+> >         pad1: Source
+> >                 [fmt:UYVY8_1X16/640x480 field:none colorspace:smpte170m xfer:709 ycbcr:601 quantization:lim-range]
+> >                 -> "csi":0 [ENABLED,IMMUTABLE]
+> >
+> > - entity 15: ov5640 1-003c (1 pad, 1 link)
+> >              type V4L2 subdev subtype Sensor flags 0
+> >              device node name /dev/v4l-subdev2
+> >         pad0: Source
+> >                 [fmt:UYVY8_1X16/640x480@1/30 field:none colorspace:srgb xfer:srgb ycbcr:601 quantization:full-range]
+> >                 -> "imx7-mipi-csis.0":0 [ENABLED]
+> >
+> > When configured, gstreamer can be used to capture 1 frame and store it to a file.
+> >
+> > gst-launch-1.0 -v v4l2src num-buffers=1 ! video/x-raw,format=UYVY,width=640,height=480,framerate=60/1 ! filesink location=test
+> >
+> > Unfortunately, the video capture never appears to happen.  No errors occur, not
+> > interrupts are recorded and no errors are recorded.
+> >
+> > gst-launch-1.0 -v v4l2src num-buffers=1 ! video/x-raw,format=UYVY,width=640,height=480,framerate=60/1 ! filesink location=test
+> > Setting pipeline to PAUSED ...
+> > Pipeline is live and does not need PREROLL ...
+> > Pipeline is PREROLLED ...
+> > Setting pipeline to [  114.819632] v4l2_get_link_freq: Link frequency estimated using pixel rate: result might be inaccurate
+> > PLAYING ...
+> > New clock: GstSystem[  114.829203] v4l2_get_link_freq: Consider implementing support for V4L2_CID_LINK_FREQ in the transmitter driver
+> > Clock
+> > /GstPipeline:pipeline0/GstV4l2Src:v4l2src0.GstPad:src: caps = video/x-raw, format=(string)UYVY, width=(int)640, height=(int)480, framerate=(fraction)60/1, interlace-mode=(string)progressive, colorimetry=(string)bt709
+> > /GstPipeline:pipeline0/GstCapsFilter:capsfilter0.GstPad:src: caps = video/x-raw, format=(string)UYVY, width=(int)640, height=(int)480, framerate=(fraction)60/1, interlace-mode=(string)progressive, colorimetry=(string)bt709
+> > /GstPipeline:pipeline0/GstFileSink:filesink0.GstPad:sink: caps = video/x-raw, format=(string)UYVY, width=(int)640, height=(int)480, framerate=(fraction)60/1, interlace-mode=(string)progressive, colorimetry=(string)bt709
+> > /GstPipeline:pipeline0/GstCapsFilter:capsfilter0.GstPad:sink: caps = video/x-raw, format=(string)UYVY, width=(int)640, height=(int)480, framerate=(fraction)60/1, interlace-mode=(string)progressive, colorimetry=(string)bt709
+> >
+> >
+> > If anyone has any insight as to what might be wrong, I'd like feedback.
+> > I posted a device tree that I beleive goes with the newer imx8mm-evk, but
+> > I do not have this hardware, so I cannot test it.
+>
+> It seems that Frieder on Cc managed to get camera capture to work on
+> i.MX8MM here:
+> https://git.kontron-electronics.de/sw/misc/linux/-/commits/v5.10-mx8mm-csi
+>
+> Hopefully, this can help to figure out what is missing in mainline to
+> get camera capture to work on i.MX8M.
+>
+> I don't have access to an OV5640 camera to connect to the imx8mm-evk
+> board to try your series.
 
-Thanks for trying the patch. With this patch I was able to boot android13
-running 5.15.0-rc4-mainlineon on my Dragonboard 845c with the default
-config common/build.config.db845c. Without it it was crashing.
-It doesn't solve the firmware loading problem, it just makes it fail
-gracefully for the boot to continue. If you share your config I can try
-it and see what's wrong.
+Fabio,
 
--- 
-Thanks,
-Tadeusz
+Thanks for the heads up on that repo.  I was able to use that repo and
+get still images to capture on an OV5640, but I noticed a fair amount
+of differences between that repo and what's found in linux-next.
+
+Laurent,
+
+I haven't exhausted the patch differences, but I found at least a few
+that appear to be missiing upstream, and I am curious to know if/what
+your opinion is on whether or not they're needed, since the patches on
+Frieder's repo appear to come from you.
+[1] - media: imx: imx7-media-csi: Add i.MX8MM identification
+[2] - media: imx: imx7_mipi_csis: Don't set reserved CLK_CTRL field on i.MX8MM
+[3] - media: imx: imx7_mipi_csis: Set dual pixel mode for RAW formats
+
+media: imx: imx7_mipi_csis: Set dual pixel mode for RAW formats
+
+Maybe these don't need to be applied, but they are 'some' of the
+differences that I see between this 5.10 branch and linux-next .  I
+know there are more, but
+
+
+[1] - https://git.kontron-electronics.de/sw/misc/linux/-/commit/8ac7ec6db0c260a871038721886dbdb6660ed84c
+[2] - https://git.kontron-electronics.de/sw/misc/linux/-/commit/0b5727c8eba8c370f7db5eace0243f78992a4dbb
+[3] - https://git.kontron-electronics.de/sw/misc/linux/-/commit/14befa6bc146b10092a6ac5d0ed4d42c87c6cf27
+
+Frieder et al,
+
+Have you (or anyone) tried CSI cameras on anything newer than 5.10?  I
+am curious to see if a regression popped in somewhere, but git bisect
+will make this difficult since there is a fair amount of variation
+between this custom repo and the upstream.
+
+adam
+>
+> Regards,
+>
+> Fabio Estevam
