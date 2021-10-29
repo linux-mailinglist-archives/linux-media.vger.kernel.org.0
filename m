@@ -2,87 +2,72 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 12AEF43FA29
-	for <lists+linux-media@lfdr.de>; Fri, 29 Oct 2021 11:45:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2785843FA5D
+	for <lists+linux-media@lfdr.de>; Fri, 29 Oct 2021 11:59:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231564AbhJ2Jru (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 29 Oct 2021 05:47:50 -0400
-Received: from mailgw02.mediatek.com ([210.61.82.184]:52910 "EHLO
-        mailgw02.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
-        with ESMTP id S231504AbhJ2Jrs (ORCPT
+        id S231683AbhJ2KBz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 29 Oct 2021 06:01:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40180 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231610AbhJ2KBy (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 29 Oct 2021 05:47:48 -0400
-X-UUID: 5107aa49ecb54fbdb59b0f1e543166fc-20211029
-X-UUID: 5107aa49ecb54fbdb59b0f1e543166fc-20211029
-Received: from mtkmbs10n1.mediatek.inc [(172.21.101.34)] by mailgw02.mediatek.com
-        (envelope-from <yunfei.dong@mediatek.com>)
-        (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
-        with ESMTP id 1738094414; Fri, 29 Oct 2021 17:45:14 +0800
-Received: from mtkmbs10n2.mediatek.inc (172.21.101.183) by
- mtkmbs07n2.mediatek.inc (172.21.101.141) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Fri, 29 Oct 2021 17:45:12 +0800
-Received: from localhost.localdomain (10.17.3.154) by mtkmbs10n2.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.2.792.3 via Frontend
- Transport; Fri, 29 Oct 2021 17:45:11 +0800
-From:   Yunfei Dong <yunfei.dong@mediatek.com>
-To:     Yunfei Dong <yunfei.dong@mediatek.com>,
-        Alexandre Courbot <acourbot@chromium.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Tzung-Bi Shih <tzungbi@chromium.org>,
-        Tiffany Lin <tiffany.lin@mediatek.com>,
-        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Tomasz Figa <tfiga@google.com>
-CC:     Hsin-Yi Wang <hsinyi@chromium.org>,
-        Fritz Koenig <frkoenig@chromium.org>,
-        Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
-        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        Irui Wang <irui.wang@mediatek.com>,
-        <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <srv_heupstream@mediatek.com>,
-        <linux-mediatek@lists.infradead.org>,
-        <Project_Global_Chrome_Upstream_Group@mediatek.com>
-Subject: [PATCH v1] media: mtk-vcodec: Align width and height to 64
-Date:   Fri, 29 Oct 2021 17:45:10 +0800
-Message-ID: <20211029094510.2411-1-yunfei.dong@mediatek.com>
-X-Mailer: git-send-email 2.25.1
+        Fri, 29 Oct 2021 06:01:54 -0400
+Received: from mail-lj1-x242.google.com (mail-lj1-x242.google.com [IPv6:2a00:1450:4864:20::242])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DA301C061714
+        for <linux-media@vger.kernel.org>; Fri, 29 Oct 2021 02:59:25 -0700 (PDT)
+Received: by mail-lj1-x242.google.com with SMTP id n7so16006584ljp.5
+        for <linux-media@vger.kernel.org>; Fri, 29 Oct 2021 02:59:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:reply-to:sender:from:date:message-id:subject:to;
+        bh=+MDYu2cZk5y6qEtCDaD7IWEU7wQ5JsJjonx7gGHCu64=;
+        b=at38KMsK5/RWrhrDfPZ0abFFie6aSFadaPyD6m7BkRphQjpgVzaN9BA5X/IUO0yKGC
+         SoSo6L97hY8ZGJcccl62BGvgULFK0Ixy+tpgBKGcSoyeFz1RlB5MOWhwfiID5042xyUP
+         zEH8bOvo/PaqtqLmkGQsPxfZCtdVi//EgeMPw6xw81HFTnjnA6bc505ejWI8cxz9RK14
+         yDnhZVmg/gvl0CbOiKTz9YryOCi9oSzyW3fenKmd02gGBvsDgruNQ104HMFnbmbvp4DG
+         Gi7oeI1mrLqj1HK483aY83N2UkbEI+dVaDVvjEdUUmacGnzp+xPj2IgeaQmiLGtwGSN+
+         0BdQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:reply-to:sender:from:date
+         :message-id:subject:to;
+        bh=+MDYu2cZk5y6qEtCDaD7IWEU7wQ5JsJjonx7gGHCu64=;
+        b=jKRPU12Z6ljGGtwZaphR1aq3C5D90+qI1Rk39cZA+6JZX0BDSi3gdtldiYk/bhtm7e
+         DKSvFXd25LtsO1ffgrwYO7POZTndSGeduOtfHgKJE9RWr3xO6s/Ng3nFsgOrfBZ15aXM
+         djmOZGBFp3imQmXLUU6GiKJT7idr4QIalI5kXqe5BmJM9VascXs5+OoBVFaP4X56xqEQ
+         aadOkk47JUHI/mcuh4sp7Y0sKYtfGCscv5d5qaip7PXpBuNfhXzeKy+3b6hviQd2xNFp
+         Cgr8hZNlPCMu4ldUowqUeZUPYmSawkpWnQ8Gb5ADrKnPuo29qmZXBh9T08oVY31eVyen
+         pGCA==
+X-Gm-Message-State: AOAM5323oXPkzBVk4j/0jozkKZLZZXeWY8e6FUJUKd9UI5rymwox6Zzg
+        ucx2xwf72GmKpoosTKNJTkmI/DWwpilUU+AoDGg=
+X-Google-Smtp-Source: ABdhPJx/DVZSESmXGdHiSEWzcqVOqQjQH0a8Zei3uee/5Hs3bBjaEzh4c0QCqwTsEI9/bEVCS90VDYi+2GASrwVU4Bg=
+X-Received: by 2002:a2e:5306:: with SMTP id h6mr4762924ljb.137.1635501564251;
+ Fri, 29 Oct 2021 02:59:24 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7BIT
-Content-Type:   text/plain; charset=US-ASCII
-X-MTK:  N
+Reply-To: mrakainkarim7@gmail.com
+Sender: arryod72@gmail.com
+Received: by 2002:a05:6520:4381:b0:14c:c75a:aa9a with HTTP; Fri, 29 Oct 2021
+ 02:59:23 -0700 (PDT)
+From:   Mr Akain Karim <aeyuhlmy739@gmail.com>
+Date:   Fri, 29 Oct 2021 02:59:23 -0700
+X-Google-Sender-Auth: y7wwuC1VQqcSnnJH8yr4PEphX1w
+Message-ID: <CADS+2b4HJronS_Zopy_qQMssdCx-p3321aWg90dTis-Xap-Fsw@mail.gmail.com>
+Subject: Greetings
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-User get width and height are 64 align when set format. Need to make
-sure all is 64 align when use width and height to calculate buffer size.
-
-Signed-off-by: Yunfei Dong <yunfei.dong@mediatek.com>
----
- drivers/media/platform/mtk-vcodec/vdec/vdec_h264_req_if.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/media/platform/mtk-vcodec/vdec/vdec_h264_req_if.c b/drivers/media/platform/mtk-vcodec/vdec/vdec_h264_req_if.c
-index 946c23088308..28c17204f9a1 100644
---- a/drivers/media/platform/mtk-vcodec/vdec/vdec_h264_req_if.c
-+++ b/drivers/media/platform/mtk-vcodec/vdec/vdec_h264_req_if.c
-@@ -562,8 +562,8 @@ static void get_pic_info(struct vdec_h264_slice_inst *inst,
- {
- 	struct mtk_vcodec_ctx *ctx = inst->ctx;
- 
--	ctx->picinfo.buf_w = (ctx->picinfo.pic_w + 15) & 0xFFFFFFF0;
--	ctx->picinfo.buf_h = (ctx->picinfo.pic_h + 31) & 0xFFFFFFE0;
-+	ctx->picinfo.buf_w = ALIGN(ctx->picinfo.pic_w, 64);
-+	ctx->picinfo.buf_h = ALIGN(ctx->picinfo.pic_h, 64);
- 	ctx->picinfo.fb_sz[0] = ctx->picinfo.buf_w * ctx->picinfo.buf_h;
- 	ctx->picinfo.fb_sz[1] = ctx->picinfo.fb_sz[0] >> 1;
- 	inst->vsi_ctx.dec.cap_num_planes =
 -- 
-2.25.1
-
+*Compliment of the day,I am Mr. Akain Karim,  I Have a Business Proposal of
+$10.5million for you and I  was compelled to use this medium due to the
+nature of this project, I have access to very vital information that can be
+used to transfer this huge amount of money, which may culminate into the
+investment of the said funds into your company or any lucrative venture in
+your country. If you will like to assist me as a partner then indicate your
+interest, after which we shall both discuss the modalities and the sharing
+percentage.Upon receipt of your reply on your expression of Interest.I will
+give you full details on how the business will be executed and I am open
+for negotiation.Thanks for your anticipated cooperation.Best RegardsMr. 	
+Akain Karim*  Please feel free to reach me on my e-mail:mrakainkarim7@gmail.com
