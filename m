@@ -2,248 +2,253 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3727D43E7F3
-	for <lists+linux-media@lfdr.de>; Thu, 28 Oct 2021 20:05:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5C6A143F4AF
+	for <lists+linux-media@lfdr.de>; Fri, 29 Oct 2021 03:57:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230323AbhJ1SH6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 28 Oct 2021 14:07:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53414 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230121AbhJ1SH6 (ORCPT
+        id S231392AbhJ2CAR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 28 Oct 2021 22:00:17 -0400
+Received: from mail-oi1-f175.google.com ([209.85.167.175]:36490 "EHLO
+        mail-oi1-f175.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229950AbhJ2CAQ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 28 Oct 2021 14:07:58 -0400
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 88F73C061570
-        for <linux-media@vger.kernel.org>; Thu, 28 Oct 2021 11:05:30 -0700 (PDT)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1mg9mB-0004Od-N2; Thu, 28 Oct 2021 20:05:19 +0200
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
-        by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.92)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1mg9m9-0003Gw-4c; Thu, 28 Oct 2021 20:05:17 +0200
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.92)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1mg9m9-0005bv-2m; Thu, 28 Oct 2021 20:05:17 +0200
-Date:   Thu, 28 Oct 2021 20:05:16 +0200
-From:   Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To:     Sean Young <sean@mess.org>
-Cc:     =?utf-8?B?TWHDrXJh?= Canal <maira.canal@usp.br>, lkp@intel.com,
-        mchehab@kernel.org, thierry.reding@gmail.com, lee.jones@linaro.org,
-        llvm@lists.linux.dev, kbuild-all@lists.01.org,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-pwm@vger.kernel.org
-Subject: Re: [PATCH v4] media: rc: pwm-ir-tx: Switch to atomic PWM API
-Message-ID: <20211028180516.t2tpfbzztm7s6cqm@pengutronix.de>
-References: <YXlxhpZWf2mxJaMi@fedora>
- <20211028064513.guziv6uaivzlk6ki@pengutronix.de>
- <20211028091442.GA16514@gofer.mess.org>
- <20211028111535.x7xgz7domx2lpyfh@pengutronix.de>
- <20211028122610.GA18767@gofer.mess.org>
+        Thu, 28 Oct 2021 22:00:16 -0400
+Received: by mail-oi1-f175.google.com with SMTP id q124so11142256oig.3;
+        Thu, 28 Oct 2021 18:57:49 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=P+qv4zb1078jX0S7MK3LLDw8EFq8xA9/Akm7u2r5r6Q=;
+        b=Xq1vEQ5QWd0nlDRFoJ/8D/3M7MYIcES7uDUOXjxVyEovK+ve5zKIs+jT0miGpTbTWb
+         KIQih5fU2W1rZWHx4SOZj9SvNSz7H1eURS1YQcBJbr/eliIk85Vq5tIFB8YAfijHZm/G
+         XQmN+nWIQIKk67FzcydPu49PutIgTioNio546dk5d4exds0uw7bY54esY3hWq/C7RnDM
+         cVAIwDRVyCpXAoI/G9X82neusgAycghyBn6LbpyNV65X2YwCRQ62al0f2g7wmQbEakWN
+         JZQWe/xu57MUL/ihCLYEZo89Mz3mn7tmj/Oro9vfXDWrgaU4tV+Gjme0H9KwKX/9Xsx/
+         WqgA==
+X-Gm-Message-State: AOAM533tPn5mbDmA0h0jvp8exaJTSjKq4I9gsCTqPXGkxj+qIIPIluAk
+        38hvx2a56RA38JFkKrdDmA==
+X-Google-Smtp-Source: ABdhPJzqx/kPKLBQVEl9gUQg+7uPZV/cNe0xNMsvmYNh1oEwuL1V+8+k4FOCztKS1siTmJ36bVFhsw==
+X-Received: by 2002:aca:3c8b:: with SMTP id j133mr5907259oia.159.1635472668578;
+        Thu, 28 Oct 2021 18:57:48 -0700 (PDT)
+Received: from robh.at.kernel.org (66-90-148-213.dyn.grandenetworks.net. [66.90.148.213])
+        by smtp.gmail.com with ESMTPSA id t12sm117233oiw.39.2021.10.28.18.57.47
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 28 Oct 2021 18:57:47 -0700 (PDT)
+Received: (nullmailer pid 999202 invoked by uid 1000);
+        Fri, 29 Oct 2021 01:57:46 -0000
+Date:   Thu, 28 Oct 2021 20:57:46 -0500
+From:   Rob Herring <robh@kernel.org>
+To:     Eugen Hristev <eugen.hristev@microchip.com>
+Cc:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        jacopo@jmondi.org, laurent.pinchart@ideasonboard.com,
+        sakari.ailus@iki.fi, nicolas.ferre@microchip.com
+Subject: Re: [PATCH 02/21] dt-bindings: media: atmel: csi2dc: add bindings
+ for microchip csi2dc
+Message-ID: <YXtVGrG8HcEJ/gLf@robh.at.kernel.org>
+References: <20211022075247.518880-1-eugen.hristev@microchip.com>
+ <20211022075247.518880-3-eugen.hristev@microchip.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="kktnnlgzrkdhkvw5"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20211028122610.GA18767@gofer.mess.org>
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-media@vger.kernel.org
+In-Reply-To: <20211022075247.518880-3-eugen.hristev@microchip.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+On Fri, Oct 22, 2021 at 10:52:28AM +0300, Eugen Hristev wrote:
+> Add bindings documentation for Microchip CSI2 Demultiplexer controller.
+> 
+> CSI2DC is a demultiplexer from Synopsys IDI interface specification to
+> parallel interface connection or direct memory access.
+> 
+> Signed-off-by: Eugen Hristev <eugen.hristev@microchip.com>
+> ---
+> Changes in this version :
+> - fixed 'sink' name to be actually source.
+> - added dma properties and example with dma
+> 
+> Previous change log:
+> Changes in v5:
+> - modified bindings as per Rob Herring review
+> 
+> Changes in v4:
+> - Removed property for inter-line-delay and for clock continuous/non-continuous
+> - Removed virtual channel by reg for second endpoint
+> 
+> Changes in v3:
+> - Removed some text from description, as it was explained in the schema
+> - fixed other things as per Rob's review
+> - moved some text inside the schema, like the clock description
+> 
+> Changes in v2:
+> - fixed warnings reported by dt_binding_check
+> 
+> 
+>  .../bindings/media/microchip,csi2dc.yaml      | 149 ++++++++++++++++++
+>  1 file changed, 149 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/media/microchip,csi2dc.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/media/microchip,csi2dc.yaml b/Documentation/devicetree/bindings/media/microchip,csi2dc.yaml
+> new file mode 100644
+> index 000000000000..d317478908d0
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/media/microchip,csi2dc.yaml
+> @@ -0,0 +1,149 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/media/microchip,csi2dc.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Microchip CSI2 Demux Controller (CSI2DC)
+> +
+> +maintainers:
+> +  - Eugen Hristev <eugen.hristev@microchip.com>
+> +
+> +description:
+> +  CSI2DC - Camera Serial Interface 2 Demux Controller
+> +
+> +  CSI2DC is a hardware block that receives incoming data from an IDI interface
+> +  and filters packets based on their data type and virtual channel identifier,
+> +  then converts the byte stream into a cross clock domain to a pixel stream
+> +  to a parallel interface that can be read by a sensor controller.
+> +  IDI interface is Synopsys proprietary.
+> +
+> +  CSI2DC provides two pipes, one video pipe and one data pipe. Video pipe
+> +  is connected to a sensor controller and the data pipe is accessible
+> +  as a DMA slave port to a DMA controller.
+> +
+> +  CSI2DC supports a single 'port' node as a sink port with Synopsys 32-bit
+> +  IDI interface. The connected endpoint must be a IDI interface compatible
+> +  device , that can provide 32-bit IDI interface connection as source port.
+> +  For graph video endpoints please refer to the bindings defined in
+> +  Documentation/devicetree/bindings/media/video-interfaces.txt.
+> +  This port is mandatory.
+> +
+> +  CSI2DC supports one 'port' node as source port with parallel interface.
+> +  This is called video pipe.
+> +  This port has an 'endpoint' that can be connected to a sink port of another
+> +  controller (next in pipeline).
+> +  Please refer to the bindings defined in
+> +  Documentation/devicetree/bindings/media/video-interfaces.txt.
+> +
+> +  CSI2DC also supports direct access to the data through AHB, via DMA channel,
+> +  called data pipe.
+> +  Because of this, the source 'port' child node (second) is not mandatory.
+> +  If the source 'port' child node is missing, only data pipe is available.
+> +  For data pipe to be available, a dma controller must be referenced.
+> +
+> +properties:
+> +  compatible:
+> +    const: microchip,sama7g5-csi2dc
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  clocks:
+> +    maxItems: 2
+> +
+> +  clock-names:
+> +    description:
+> +      CSI2DC must have two clocks to function correctly. One clock is the
+> +      peripheral clock for the inside functionality of the hardware block.
+> +      This is named 'pclk'. The second clock must be the cross domain clock,
+> +      in which CSI2DC will perform clock crossing. This clock must be fed
+> +      by the next controller in pipeline, which usually is a sensor controller.
+> +      Normally this clock should be given by this sensor controller who
+> +      is also a clock source. This clock is named 'scck', sensor controller clock.
+> +    items:
+> +      - const: pclk
+> +      - const: scck
+> +
+> +  dmas:
+> +    maxItems: 1
+> +
+> +  dma-names:
+> +    const: rx
+> +
+> +  ports:
+> +    type: object
+> +    description:
+> +      List of ports
+> +
+> +    properties:
+> +      port@0:
+> +        type: object
+> +        description:
+> +          Input port node, single endpoint describing the input port.
+> +      port@1:
+> +        type: object
+> +        description:
+> +          Output port node, single endpoint, describing the output port.
 
---kktnnlgzrkdhkvw5
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+These need references to graph.yaml schema. See examples in the tree 
+now.
 
-On Thu, Oct 28, 2021 at 01:26:10PM +0100, Sean Young wrote:
-> Hi Uwe,
->=20
-> On Thu, Oct 28, 2021 at 01:15:35PM +0200, Uwe Kleine-K=F6nig wrote:
-> > On Thu, Oct 28, 2021 at 10:14:42AM +0100, Sean Young wrote:
-> > > On Thu, Oct 28, 2021 at 08:45:13AM +0200, Uwe Kleine-K=F6nig wrote:
-> > > > The conversion is right (I think),
-> > >=20
-> > > We still have the problem that the pwm drivers calculate the period
-> > > incorrectly by rounding down (except pwm-bcm2835). So the period is n=
-ot
-> > > as good as it could be in most cases, but this driver can't do anythi=
-ng
-> > > about that.
-> >=20
-> > Yeah, some time ago I started coding a round_state function
-> > (wip at
-> > https://git.pengutronix.de/cgit/ukl/linux/commit/?h=3Dpwm-wip&id=3Dae34=
-8eb6a55d6526f30ef4a49819197d9616391e)
-> > but this was pushed down on my todo-list by more important stuff.
->=20
-> That looks great, thank you for working on that!
->=20
-> > If you want to experiment with that ...
->=20
-> I will have a look.
->=20
-> > > > note this could be optimized a bit
-> > > > further: state.period only depends on carrier which rarely changes,=
- so
-> > > > the calculation could be done in pwm_ir_set_carrier(). Ditto for du=
-ty
-> > > > which only depends on state.period and pwm_ir->duty_cycle. (This is=
- for
-> > > > a separate commit though.)
-> > >=20
-> > > I'm not sure what caching this is much of a win. The calculation is a=
- few
-> > > instructions, so you're not winning in the way of speed. On the flip =
-side
-> > > you use more memory since pwm_state has to be kmalloc() rather than e=
-xisting
-> >=20
-> > I tested a bit with this patch on top of Ma=EDra's:
-> >=20
-> > 	diff --git a/drivers/media/rc/pwm-ir-tx.c b/drivers/media/rc/pwm-ir-tx=
-=2Ec
-> > 	index 105a9c24f1e3..7585c21775bc 100644
-> > 	--- a/drivers/media/rc/pwm-ir-tx.c
-> > 	+++ b/drivers/media/rc/pwm-ir-tx.c
-> > 	@@ -17,7 +17,7 @@
-> > 	=20
-> > 	 struct pwm_ir {
-> > 		struct pwm_device *pwm;
-> > 	-	unsigned int carrier;
-> > 	+	struct pwm_state state;
-> > 		unsigned int duty_cycle;
-> > 	 };
-> > 	=20
-> > 	@@ -32,6 +32,7 @@ static int pwm_ir_set_duty_cycle(struct rc_dev *dev,=
- u32 duty_cycle)
-> > 		struct pwm_ir *pwm_ir =3D dev->priv;
-> > 	=20
-> > 		pwm_ir->duty_cycle =3D duty_cycle;
-> > 	+	pwm_set_relative_duty_cycle(&pwm_ir->state, pwm_ir->duty_cycle, 100);
-> > 	=20
-> > 		return 0;
-> > 	 }
-> > 	@@ -43,7 +44,8 @@ static int pwm_ir_set_carrier(struct rc_dev *dev, u3=
-2 carrier)
-> > 		if (!carrier)
-> > 			return -EINVAL;
-> > 	=20
-> > 	-	pwm_ir->carrier =3D carrier;
-> > 	+	pwm_ir->state.period =3D DIV_ROUND_CLOSEST(NSEC_PER_SEC, carrier);
-> > 	+	pwm_set_relative_duty_cycle(&pwm_ir->state, pwm_ir->duty_cycle, 100);
-> > 	=20
-> > 		return 0;
-> > 	 }
-> > 	@@ -53,21 +55,15 @@ static int pwm_ir_tx(struct rc_dev *dev, unsigned =
-int *txbuf,
-> > 	 {
-> > 		struct pwm_ir *pwm_ir =3D dev->priv;
-> > 		struct pwm_device *pwm =3D pwm_ir->pwm;
-> > 	-	struct pwm_state state;
-> > 		int i;
-> > 		ktime_t edge;
-> > 		long delta;
-> > 	=20
-> > 	-	pwm_init_state(pwm, &state);
-> > 	-
-> > 	-	state.period =3D DIV_ROUND_CLOSEST(NSEC_PER_SEC, pwm_ir->carrier);
-> > 	-	pwm_set_relative_duty_cycle(&state, pwm_ir->duty_cycle, 100);
-> > 	-
-> > 		edge =3D ktime_get();
-> > 	=20
-> > 		for (i =3D 0; i < count; i++) {
-> > 	-		state.enabled =3D !(i % 2);
-> > 	-		pwm_apply_state(pwm, &state);
-> > 	+		pwm_ir->state.enabled =3D !(i % 2);
-> > 	+		pwm_apply_state(pwm, &pwm_ir->state);
-> > 	=20
-> > 			edge =3D ktime_add_us(edge, txbuf[i]);
-> > 			delta =3D ktime_us_delta(edge, ktime_get());
-> > 	@@ -75,8 +71,8 @@ static int pwm_ir_tx(struct rc_dev *dev, unsigned in=
-t *txbuf,
-> > 				usleep_range(delta, delta + 10);
-> > 		}
-> > 	=20
-> > 	-	state.enabled =3D false;
-> > 	-	pwm_apply_state(pwm, &state);
-> > 	+	pwm_ir->state.enabled =3D false;
-> > 	+	pwm_apply_state(pwm, &pwm_ir->state);
-> > 	=20
-> > 		return count;
-> > 	 }
-> > 	@@ -95,8 +91,9 @@ static int pwm_ir_probe(struct platform_device *pdev)
-> > 		if (IS_ERR(pwm_ir->pwm))
-> > 			return PTR_ERR(pwm_ir->pwm);
-> > 	=20
-> > 	-	pwm_ir->carrier =3D 38000;
-> > 	-	pwm_ir->duty_cycle =3D 50;
-> > 	+	pwm_ir->state.duty_cycle =3D 50;
-> > 	+	pwm_init_state(pwm_ir->pwm, &pwm_ir->state);
-> > 	+	pwm_ir_set_carrier(rcdev, 38000);
-> > 	=20
-> > 		rcdev =3D devm_rc_allocate_device(&pdev->dev, RC_DRIVER_IR_RAW_TX);
-> > 		if (!rcdev)
-> >=20
-> > bloat-o-meter reports (for an arm allmodconfig build)
-> >=20
-> > 	add/remove: 0/0 grow/shrink: 3/1 up/down: 644/-396 (248)
-> > 	Function                                     old     new   delta
-> > 	pwm_ir_probe                                 372     676    +304
-> > 	pwm_ir_set_carrier                           108     292    +184
-> > 	pwm_ir_set_duty_cycle                         68     224    +156
-> > 	pwm_ir_tx                                    908     512    -396
-> > 	Total: Before=3D2302, After=3D2550, chg +10.77%
->=20
-> So 248 bytes more after your changes.
-
-ack. This is because the compiler inlines the division which accounts
-for > 100 bytes.
-
-> > struct pwm_ir increases from 12 bytes to 40 bytes.
-> >=20
-> > The stack space required by pwm_ir_tx decreases from 60 to 36
-> >=20
-> > I don't know exactly how kmalloc works internally. Maybe allocating a
-> > structure of size 40 bytes doesn't need more memory than a structure of
-> > size 12?
-> >=20
-> > I didn't check how runtimes change, but the size decrease of pwm_ir_tx()
-> > is nice and might save a bit of runtime.
->=20
-> I'm not following, how is this decreasing runtime?=20
-
-With my changes pwm_ir_tx got smaller and { pwm_ir_probe,
-pwm_ir_set_carrier, pwm_ir_set_duty_cycle } got bigger. Now if for a
-typical runtime pattern pwm_ir_probe and pwm_ir_set_carrier run once and
-pwm_ir_set_duty_cycle 100 times and pwm_ir_tx 1000 times (no idea if
-that is realistic) it might be a net win in sum.
-
-Best regards
-Uwe
-
---=20
-Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
-Industrial Linux Solutions                 | https://www.pengutronix.de/ |
-
---kktnnlgzrkdhkvw5
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEfnIqFpAYrP8+dKQLwfwUeK3K7AkFAmF65lkACgkQwfwUeK3K
-7AmVBgf/ekwfpx+8Te6xIIkZVy8YTGElDMPzOQ06kUS6W/1mpt9gr7ACSQsyrR47
-y7amS9rOIOE7Y4z+xDWHCARWy2Q3nYbLpvLgcO7MzhtsiSrkQR/SYiS0IjqW4++Y
-h41pStigTMYdr3ULy+2XV7SSYEKvWuHJYRCTe6Oxh39cgZFRY6S21Wb712F0/LV0
-uw2+OngnIpwP7mNn6JbWMIJScoFl6vKjfrKonilhcR74F4It78Yeb4ZO3b+AFXgl
-LJWXKMK1xSAUzShFZzNJVhia3pbdurhmkufBTCtdZ/O3y+g8Qa6Ul12mRPBCZ9H+
-yfWJuZEan4BGr1W3n5/vLB0ViAbzAw==
-=XFwm
------END PGP SIGNATURE-----
-
---kktnnlgzrkdhkvw5--
+> +
+> +additionalProperties: false
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - clocks
+> +  - clock-names
+> +  - ports
+> +
+> +examples:
+> +  # Example for connecting to a parallel sensor controller block
+> +  - |
+> +    csi2dc@e1404000 {
+> +        compatible = "microchip,sama7g5-csi2dc";
+> +        reg = <0xe1404000 0x500>;
+> +        clocks = <&pclk>, <&scck>;
+> +        clock-names = "pclk", "scck";
+> +
+> +        ports {
+> +               #address-cells = <1>;
+> +               #size-cells = <0>;
+> +               port@0 {
+> +                       reg = <0>; /* must be 0, first child port */
+> +                       csi2dc_in: endpoint { /* input from IDI interface */
+> +                               remote-endpoint = <&csi2host_out>;
+> +                       };
+> +               };
+> +
+> +               port@1 {
+> +                       reg = <1>; /* must be 1, second child port */
+> +                       csi2dc_out: endpoint {
+> +                               remote-endpoint = <&xisc_in>; /* output to sensor controller */
+> +                       };
+> +               };
+> +        };
+> +    };
+> +
+> +  # Example for connecting to a DMA master as an AHB slave
+> +  - |
+> +    #include <dt-bindings/dma/at91.h>
+> +    csi2dc@e1404000 {
+> +        compatible = "microchip,sama7g5-csi2dc";
+> +        reg = <0xe1404000 0x500>;
+> +        clocks = <&pclk>, <&scck>;
+> +        clock-names = "pclk", "scck";
+> +        dmas = <&dma0 AT91_XDMAC_DT_PERID(34)>;
+> +        dma-names = "rx";
+> +
+> +        ports {
+> +               #address-cells = <1>;
+> +               #size-cells = <0>;
+> +               port@0 {
+> +                       reg = <0>; /* must be 0, first child port */
+> +                       csi2dc_input: endpoint { /* input from IDI interface */
+> +                               remote-endpoint = <&csi2host_out>;
+> +                       };
+> +               };
+> +        };
+> +    };
+> +
+> +...
+> -- 
+> 2.25.1
+> 
+> 
