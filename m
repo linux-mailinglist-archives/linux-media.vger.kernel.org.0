@@ -2,63 +2,216 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CDDE943FB74
-	for <lists+linux-media@lfdr.de>; Fri, 29 Oct 2021 13:35:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 42E7B43FB76
+	for <lists+linux-media@lfdr.de>; Fri, 29 Oct 2021 13:35:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231901AbhJ2LiG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 29 Oct 2021 07:38:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33536 "EHLO
+        id S231946AbhJ2LiP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 29 Oct 2021 07:38:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33568 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231807AbhJ2LiG (ORCPT
+        with ESMTP id S231807AbhJ2LiP (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 29 Oct 2021 07:38:06 -0400
-Received: from mail-lj1-x241.google.com (mail-lj1-x241.google.com [IPv6:2a00:1450:4864:20::241])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A7024C061570
-        for <linux-media@vger.kernel.org>; Fri, 29 Oct 2021 04:35:37 -0700 (PDT)
-Received: by mail-lj1-x241.google.com with SMTP id u5so16363804ljo.8
-        for <linux-media@vger.kernel.org>; Fri, 29 Oct 2021 04:35:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=uO+zbtl6jdqY6jI4w2WR2tMe0+xIBTgXMdV8tSQXNHo=;
-        b=DPfcbAQ+4gX4hifzoZS9KNulYwhTfMnmZCkmWv5ic28vxT/R7kmO8b1yr5Rv84YvmT
-         lLc2s9lYBhqBTQ5HmDlbUz1LUmItGE4jdvZFlb0HBzrkHz7dEXV4LHKLaVhEbXYape/H
-         qJ31DSmK06wFIu+Q4YmVNNnPDD6IBirYRofhW5l8dbMo1tWdB5krExjl2ZYuNQdGjfad
-         L5iRvgRfqAckpnEVyMjt4TrR2v+4t9s7KeWdUfb83fA/ZJMiBf18PL+1LroBWo849qAJ
-         G1KoLycIwBn6U/qtzoW5CPcfrPyfoAJjXV0NkzikJiUmVG/Rn8kWDx+4DkIFsf2f95Hp
-         v2gQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=uO+zbtl6jdqY6jI4w2WR2tMe0+xIBTgXMdV8tSQXNHo=;
-        b=JC87fKvB1QxVb4iW4tZcaHrAHWo260qhxcGVfHwPxdY3X7OnFTrIWDnJnmwPC83M3G
-         8+ybs+8TQ2Kdi3jZt5lZECYyDQXArO2GmmejuTa7WBlRLF6p1owDlmL7LfwidxihwtL/
-         fdpijMdQIlkRzg00GKfTp6YXf17Be+d0y+xKs7fCkDYEWA0R9gpZwGOVEtRfUFBeXZEL
-         w7Ds5dw72caA09GR0XTweALJhWtm1hBa5Wfh6UA2ltZZye592V8gA/+QncuxUPbYnbTl
-         AxA5MSPiID1jmD65c+2iGE0UIUwQTjCPz4wciKoOFBlWIvNEg9x4aFV+mUTTbOo+6hiQ
-         b/Tg==
-X-Gm-Message-State: AOAM532gtNh9LnHjW24j1lu5EOuHlFVCQbJddN++mkHqVSXk6SD13NGy
-        DNJHIC/mmp19wAEjOKFqKrG8GB+C0qzAe1B4jzA=
-X-Google-Smtp-Source: ABdhPJzfmG3MqkTfSPjCfxQC1Bo7v9Qi8Re2+YfC/OfNtPL/EvjnWzakqH6fK/zz2mozdpTT+yRO/S/natPpVQ7nAdU=
-X-Received: by 2002:a2e:9653:: with SMTP id z19mr10985123ljh.284.1635507336081;
- Fri, 29 Oct 2021 04:35:36 -0700 (PDT)
+        Fri, 29 Oct 2021 07:38:15 -0400
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D8CC9C061570;
+        Fri, 29 Oct 2021 04:35:46 -0700 (PDT)
+Received: from [IPv6:2a02:810a:880:f54:6141:93b5:19a6:af87] (unknown [IPv6:2a02:810a:880:f54:6141:93b5:19a6:af87])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        (Authenticated sender: dafna)
+        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 137BD1F45952;
+        Fri, 29 Oct 2021 12:35:42 +0100 (BST)
+Subject: Re: [PATCH v8, 03/17] media: mtk-vcodec: Refactor vcodec pm interface
+To:     Yunfei Dong <yunfei.dong@mediatek.com>,
+        Alexandre Courbot <acourbot@chromium.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Tzung-Bi Shih <tzungbi@chromium.org>,
+        Tiffany Lin <tiffany.lin@mediatek.com>,
+        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Tomasz Figa <tfiga@google.com>
+Cc:     Hsin-Yi Wang <hsinyi@chromium.org>,
+        Fritz Koenig <frkoenig@chromium.org>,
+        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        Irui Wang <irui.wang@mediatek.com>,
+        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        srv_heupstream@mediatek.com, linux-mediatek@lists.infradead.org,
+        Project_Global_Chrome_Upstream_Group@mediatek.com,
+        Tzung-Bi Shih <tzungbi@google.com>,
+        AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>
+References: <20211029035527.454-1-yunfei.dong@mediatek.com>
+ <20211029035527.454-4-yunfei.dong@mediatek.com>
+From:   Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+Message-ID: <2a25abdc-691b-9409-15ed-980af460c6c6@collabora.com>
+Date:   Fri, 29 Oct 2021 13:35:40 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-Received: by 2002:a05:6520:174c:b0:148:565e:d817 with HTTP; Fri, 29 Oct 2021
- 04:35:35 -0700 (PDT)
-Reply-To: mcchember2@gmail.com
-From:   Michael Christopher <chrischember3@gmail.com>
-Date:   Fri, 29 Oct 2021 12:35:35 +0100
-Message-ID: <CAEn0rhDiWA4YEU+39UHoX6sRg_NDRmsXGE6SSL0o72wSWuaQUQ@mail.gmail.com>
-Subject: Hi
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20211029035527.454-4-yunfei.dong@mediatek.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hello
 
-I am Barrister.Michael Christopher attorney to your late relative, now
-am contacting you for the claim of your late relatives fund.Please
-contact me with this email.(mcchember2@gmail.com
+
+On 29.10.21 05:55, Yunfei Dong wrote:
+> Using the needed param for pm init/release function and remove unused
+> param mtkdev in 'struct mtk_vcodec_pm'.
+> 
+> Reviewed-by: Tzung-Bi Shih <tzungbi@google.com>
+> Reviewed-By: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+> Signed-off-by: Yunfei Dong <yunfei.dong@mediatek.com>
+
+Hi,
+I already commented on v7 that since the pm implementation for dec and enc is identical,
+you should better do the same refactor to enc and dec or better remove the code duplication.
+
+Thanks,
+Dafna
+
+> ---
+>   .../platform/mtk-vcodec/mtk_vcodec_dec_drv.c  |  6 ++---
+>   .../platform/mtk-vcodec/mtk_vcodec_dec_pm.c   | 22 ++++++++-----------
+>   .../platform/mtk-vcodec/mtk_vcodec_dec_pm.h   |  5 +++--
+>   .../platform/mtk-vcodec/mtk_vcodec_drv.h      |  1 -
+>   .../platform/mtk-vcodec/mtk_vcodec_enc_pm.c   |  1 -
+>   5 files changed, 15 insertions(+), 20 deletions(-)
+> 
+> diff --git a/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_drv.c b/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_drv.c
+> index 055d50e52720..3ac4c3935e4e 100644
+> --- a/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_drv.c
+> +++ b/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_drv.c
+> @@ -249,7 +249,7 @@ static int mtk_vcodec_probe(struct platform_device *pdev)
+>   	if (IS_ERR(dev->fw_handler))
+>   		return PTR_ERR(dev->fw_handler);
+>   
+> -	ret = mtk_vcodec_init_dec_pm(dev);
+> +	ret = mtk_vcodec_init_dec_pm(dev->plat_dev, &dev->pm);
+>   	if (ret < 0) {
+>   		dev_err(&pdev->dev, "Failed to get mt vcodec clock source");
+>   		goto err_dec_pm;
+> @@ -378,7 +378,7 @@ static int mtk_vcodec_probe(struct platform_device *pdev)
+>   err_dec_alloc:
+>   	v4l2_device_unregister(&dev->v4l2_dev);
+>   err_res:
+> -	mtk_vcodec_release_dec_pm(dev);
+> +	mtk_vcodec_release_dec_pm(&dev->pm);
+>   err_dec_pm:
+>   	mtk_vcodec_fw_release(dev->fw_handler);
+>   	return ret;
+> @@ -418,7 +418,7 @@ static int mtk_vcodec_dec_remove(struct platform_device *pdev)
+>   		video_unregister_device(dev->vfd_dec);
+>   
+>   	v4l2_device_unregister(&dev->v4l2_dev);
+> -	mtk_vcodec_release_dec_pm(dev);
+> +	mtk_vcodec_release_dec_pm(&dev->pm);
+>   	mtk_vcodec_fw_release(dev->fw_handler);
+>   	return 0;
+>   }
+> diff --git a/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_pm.c b/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_pm.c
+> index 6038db96f71c..20bd157a855c 100644
+> --- a/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_pm.c
+> +++ b/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_pm.c
+> @@ -13,18 +13,15 @@
+>   #include "mtk_vcodec_dec_pm.h"
+>   #include "mtk_vcodec_util.h"
+>   
+> -int mtk_vcodec_init_dec_pm(struct mtk_vcodec_dev *mtkdev)
+> +int mtk_vcodec_init_dec_pm(struct platform_device *pdev,
+> +	struct mtk_vcodec_pm *pm)
+>   {
+>   	struct device_node *node;
+> -	struct platform_device *pdev;
+> -	struct mtk_vcodec_pm *pm;
+> +	struct platform_device *larb_pdev;
+>   	struct mtk_vcodec_clk *dec_clk;
+>   	struct mtk_vcodec_clk_info *clk_info;
+>   	int i = 0, ret = 0;
+>   
+> -	pdev = mtkdev->plat_dev;
+> -	pm = &mtkdev->pm;
+> -	pm->mtkdev = mtkdev;
+>   	dec_clk = &pm->vdec_clk;
+>   	node = of_parse_phandle(pdev->dev.of_node, "mediatek,larb", 0);
+>   	if (!node) {
+> @@ -32,13 +29,12 @@ int mtk_vcodec_init_dec_pm(struct mtk_vcodec_dev *mtkdev)
+>   		return -1;
+>   	}
+>   
+> -	pdev = of_find_device_by_node(node);
+> +	larb_pdev = of_find_device_by_node(node);
+>   	of_node_put(node);
+> -	if (WARN_ON(!pdev)) {
+> +	if (WARN_ON(!larb_pdev)) {
+>   		return -1;
+>   	}
+> -	pm->larbvdec = &pdev->dev;
+> -	pdev = mtkdev->plat_dev;
+> +	pm->larbvdec = &larb_pdev->dev;
+>   	pm->dev = &pdev->dev;
+>   
+>   	dec_clk->clk_num =
+> @@ -82,10 +78,10 @@ int mtk_vcodec_init_dec_pm(struct mtk_vcodec_dev *mtkdev)
+>   	return ret;
+>   }
+>   
+> -void mtk_vcodec_release_dec_pm(struct mtk_vcodec_dev *dev)
+> +void mtk_vcodec_release_dec_pm(struct mtk_vcodec_pm *pm)
+>   {
+> -	pm_runtime_disable(dev->pm.dev);
+> -	put_device(dev->pm.larbvdec);
+> +	pm_runtime_disable(pm->dev);
+> +	put_device(pm->larbvdec);
+>   }
+>   
+>   int mtk_vcodec_dec_pw_on(struct mtk_vcodec_pm *pm)
+> diff --git a/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_pm.h b/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_pm.h
+> index 280aeaefdb65..a3df6aef6cb9 100644
+> --- a/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_pm.h
+> +++ b/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_pm.h
+> @@ -9,8 +9,9 @@
+>   
+>   #include "mtk_vcodec_drv.h"
+>   
+> -int mtk_vcodec_init_dec_pm(struct mtk_vcodec_dev *dev);
+> -void mtk_vcodec_release_dec_pm(struct mtk_vcodec_dev *dev);
+> +int mtk_vcodec_init_dec_pm(struct platform_device *pdev,
+> +	struct mtk_vcodec_pm *pm);
+> +void mtk_vcodec_release_dec_pm(struct mtk_vcodec_pm *pm);
+>   
+>   int mtk_vcodec_dec_pw_on(struct mtk_vcodec_pm *pm);
+>   void mtk_vcodec_dec_pw_off(struct mtk_vcodec_pm *pm);
+> diff --git a/drivers/media/platform/mtk-vcodec/mtk_vcodec_drv.h b/drivers/media/platform/mtk-vcodec/mtk_vcodec_drv.h
+> index 1d2370608d0d..0fa9d85114b9 100644
+> --- a/drivers/media/platform/mtk-vcodec/mtk_vcodec_drv.h
+> +++ b/drivers/media/platform/mtk-vcodec/mtk_vcodec_drv.h
+> @@ -195,7 +195,6 @@ struct mtk_vcodec_pm {
+>   	struct mtk_vcodec_clk	venc_clk;
+>   	struct device	*larbvenc;
+>   	struct device	*dev;
+> -	struct mtk_vcodec_dev	*mtkdev;
+>   };
+>   
+>   /**
+> diff --git a/drivers/media/platform/mtk-vcodec/mtk_vcodec_enc_pm.c b/drivers/media/platform/mtk-vcodec/mtk_vcodec_enc_pm.c
+> index 1b2e4930ed27..0c8c8f86788c 100644
+> --- a/drivers/media/platform/mtk-vcodec/mtk_vcodec_enc_pm.c
+> +++ b/drivers/media/platform/mtk-vcodec/mtk_vcodec_enc_pm.c
+> @@ -26,7 +26,6 @@ int mtk_vcodec_init_enc_pm(struct mtk_vcodec_dev *mtkdev)
+>   	pdev = mtkdev->plat_dev;
+>   	pm = &mtkdev->pm;
+>   	memset(pm, 0, sizeof(struct mtk_vcodec_pm));
+> -	pm->mtkdev = mtkdev;
+>   	pm->dev = &pdev->dev;
+>   	dev = &pdev->dev;
+>   	enc_clk = &pm->venc_clk;
+> 
