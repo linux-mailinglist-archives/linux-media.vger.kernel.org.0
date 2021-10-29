@@ -2,139 +2,101 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 734A443FF51
-	for <lists+linux-media@lfdr.de>; Fri, 29 Oct 2021 17:18:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EABD4440331
+	for <lists+linux-media@lfdr.de>; Fri, 29 Oct 2021 21:27:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229641AbhJ2PVB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 29 Oct 2021 11:21:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57002 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229607AbhJ2PVB (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Fri, 29 Oct 2021 11:21:01 -0400
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6F3D2C061570
-        for <linux-media@vger.kernel.org>; Fri, 29 Oct 2021 08:18:32 -0700 (PDT)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1mgTe9-0005Hf-Pj; Fri, 29 Oct 2021 17:18:21 +0200
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
-        by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.92)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1mgTe6-00063Y-Gs; Fri, 29 Oct 2021 17:18:18 +0200
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.92)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1mgTe6-0003Rp-Fd; Fri, 29 Oct 2021 17:18:18 +0200
-Date:   Fri, 29 Oct 2021 17:18:15 +0200
-From:   Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To:     =?utf-8?B?TWHDrXJh?= Canal <maira.canal@usp.br>
-Cc:     Sean Young <sean@mess.org>, kernel test robot <lkp@intel.com>,
-        mchehab@kernel.org, thierry.reding@gmail.com,
-        Lee Jones <lee.jones@linaro.org>, llvm@lists.linux.dev,
-        kbuild-all@lists.01.org, linux-media@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-pwm@vger.kernel.org
-Subject: Re: [PATCH v4] media: rc: pwm-ir-tx: Switch to atomic PWM API
-Message-ID: <20211029151815.kn4ya7sk2bsrcrwo@pengutronix.de>
-References: <YXlxhpZWf2mxJaMi@fedora>
- <20211028064513.guziv6uaivzlk6ki@pengutronix.de>
- <20211028091442.GA16514@gofer.mess.org>
- <20211028111535.x7xgz7domx2lpyfh@pengutronix.de>
- <20211028122610.GA18767@gofer.mess.org>
- <20211028180516.t2tpfbzztm7s6cqm@pengutronix.de>
- <20211029071608.GA28997@gofer.mess.org>
- <20211029110602.uugnbm5vtfpghiwh@pengutronix.de>
- <20211029115412.GA32383@gofer.mess.org>
- <CAH7FV3njgZ7sOnZZF88KZ2C4UwqxoodpUuLsnucvBxYXmaZo1Q@mail.gmail.com>
+        id S231458AbhJ2T34 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 29 Oct 2021 15:29:56 -0400
+Received: from mail.kernel.org ([198.145.29.99]:58370 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S231497AbhJ2T3o (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Fri, 29 Oct 2021 15:29:44 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 991A560D07;
+        Fri, 29 Oct 2021 19:27:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1635535635;
+        bh=wrlLeaQdneJCXxuP2usLUeHJCtlIqSI7Y3L+CH69mxU=;
+        h=Date:From:Cc:Subject:In-Reply-To:References:From;
+        b=jXJ+MEO9tauSPjIXg/9z5IS4SEDkwJbPc4i/XBxCCUOrF2VlDxvo59AETs6OfWLbN
+         03bgkgn1ZwDSwEeu5szeZGJVqIIK4Ln3yu1uJrDyxPpeli74+1iFZf3VuPTyhoNeWO
+         YBmrtEMPi15YxRW7oMQphxzMV0pSEfv9gbeH2MV2KDPGs/OqwbHpSwKowO4cVRlZrd
+         v9JYleR8pTx2wETYLVLORTVdIEfYVEEqRtI+AywcoI78zbnQGpBzy/rD7g21EfOY/V
+         is+B7IXqRFEOFLooZulKzm9TKZ5fQlFa5HxySlXHf/cIFpjc7Gkh04af0eQnDTsKvX
+         s5paGvJEmBBNw==
+Date:   Fri, 29 Oct 2021 20:27:09 +0100
+From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc:     linuxarm@huawei.com, mauro.chehab@huawei.com,
+        Alan <alan@linux.intel.com>, Arnd Bergmann <arnd@arndb.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+        Tsuchiya Yuto <kitakar@gmail.com>,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-staging@lists.linux.dev
+Subject: Re: [PATCH 2/2] media: atomisp: set default mode
+Message-ID: <20211029202709.755b9a6b@sal.lan>
+In-Reply-To: <543e61dd07c90a7d8577b3a94696edc77953b9d8.1635497370.git.mchehab+huawei@kernel.org>
+References: <750e50daa3ed65a7eb060cb0eb5cfc60dc9386be.1635497370.git.mchehab+huawei@kernel.org>
+        <543e61dd07c90a7d8577b3a94696edc77953b9d8.1635497370.git.mchehab+huawei@kernel.org>
+X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="whsgya2kubn3yddj"
-Content-Disposition: inline
-In-Reply-To: <CAH7FV3njgZ7sOnZZF88KZ2C4UwqxoodpUuLsnucvBxYXmaZo1Q@mail.gmail.com>
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-media@vger.kernel.org
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+To:     unlisted-recipients:; (no To-header on input)
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Em Fri, 29 Oct 2021 09:49:36 +0100
+Mauro Carvalho Chehab <mchehab+huawei@kernel.org> escreveu:
 
---whsgya2kubn3yddj
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+> Without setting a default mode at open(), applications that
+> don't call VIDIOC_SET_PARM with a custom atomisp parameters
+> won't work, as the pipeline won't be set:
+> 
+> 	atomisp-isp2 0000:00:03.0: can't create streams
+> 	atomisp-isp2 0000:00:03.0: __get_frame_info 1600x1200 (padded to 0) returned -22
+> 
+> So, as an step to allow generic apps to use this driver, put
+> the device's run_mode in preview after open.
+> 
+> After this patch, using v4l2grab starts to work:
+> 
+> 	$ v4l2grab -D -f 'NV12' -x 1600 -y 1200 -d /dev/video2 -u
+> 	$ nvt/raw2pnm -x1600 -y1200 -f NV12 out017.raw out017.pnm
+> 	$ feh out017.pnm
 
-Hello,
+Added support for YUYV at v4l2grab (at contrib/test, under v4l-utils). 
+The above can now be just:
 
-On Fri, Oct 29, 2021 at 09:08:29AM -0300, Ma=EDra Canal wrote:
-> I would like to thank you guys for the attention and this interesting
-> discussion. I'm looking for some work in the kernel and I would like
-> to know if you guys have any suggestions for beginner tasks in this
-> subsystem. I have solid knowledge in C programming, but I started in
-> the kernel a couple of weeks ago. Anyway, thank you for all the
-> feedback.
+	$ v4l2grab -f YUYV  -x 1600 -y 1200 -d /dev/video2 -u
+	$ feh out017.pnm
 
-If you want something mathematically demanding, you can pick up the
-patch I pointed out to Sean, I think I won't find the time in the near
-future to work on this.
+(on a side note, the colorspace conversion from YUYV seems ackward,
+but this can be adjusted later on at the toolset and/or at atomisp)
 
-The background is that PWM drivers have to round most requests and there
-is no uniformity among drivers and so if a consumer (e.g. the pwm-ir
-driver) requests say 20000 ns, it will get 18000 from some drivers and
-maybe 25000 from others. So the idea is to have a function
-pwm_round_state that has fixed rounding rules such that a consumer can
-pick the best setting for their use-case.
-
-Something more mechanic in the PWM area is to convert drivers that still
-implement .config/.enable/.disable to .apply. See
-http://patchwork.ozlabs.org/project/linux-pwm/patch/20211029105617.210178-1=
--u.kleine-koenig@pengutronix.de/
-for an example. The well-known good template is pwm_apply_legacy() after
-applying
-http://patchwork.ozlabs.org/project/linux-pwm/list/?series=3D251456 .
-
-If you want something more global: The prototype of the remove callbacks
-for platform devices returns an int:
-
-	https://elixir.bootlin.com/linux/v5.15-rc7/source/include/linux/platform_d=
-evice.h#L206
-
-However the returned value is (nearly) ignored by the driver core:
-
-	https://elixir.bootlin.com/linux/v5.15-rc7/source/drivers/base/platform.c#=
-L1433
-
-The longterm goal is to change the prototype of .remove to return void.
-As a first step making all functions return 0 is a worthwile project.
-
-The same problem exists for several other buses, one patch I sent to
-work on this goal for i2c is:
-
-	https://lore.kernel.org/r/20211021105657.72572-1-u.kleine-koenig@pengutron=
-ix.de
-
-Best regards
-Uwe
-
---=20
-Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
-Industrial Linux Solutions                 | https://www.pengutronix.de/ |
-
---whsgya2kubn3yddj
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEfnIqFpAYrP8+dKQLwfwUeK3K7AkFAmF8ELQACgkQwfwUeK3K
-7AlCMQf/RVnL1UcvsIreO+vijfPhlLHR119QMz4m3LCKpkYMdv1MxstUHqJnRFRm
-Q0dN7kOeSnKJgi2jckQQOneVYABnB4vGHMuygSUFZSTXnrizUxRc94rMfk+wvGR4
-LbTqhpdi/3Tm/EPKKEZxyAqphA0iTETnLWmeNz34KozaK0IZ3NTlJWdyZh2axb3f
-r8+f2p33sPTCrzwOl0DkWfZ+EW4JCrLlGHcxDqZg61WMkwD1ujYd0meVBxsLA8aI
-xSLXYL3iHlyY7INCMFcKMQmYDBv6zbkChV6oUO906IbsHZ8/0a1yrWCelAD3Zjmv
-KKOC1V8M7kUBtHX0Aqk87HRaFSRBKQ==
-=0Is5
------END PGP SIGNATURE-----
-
---whsgya2kubn3yddj--
+> 
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+> ---
+>  drivers/staging/media/atomisp/pci/atomisp_fops.c | 5 +++++
+>  1 file changed, 5 insertions(+)
+> 
+> diff --git a/drivers/staging/media/atomisp/pci/atomisp_fops.c b/drivers/staging/media/atomisp/pci/atomisp_fops.c
+> index 72cbdce2142a..7df982c80b1a 100644
+> --- a/drivers/staging/media/atomisp/pci/atomisp_fops.c
+> +++ b/drivers/staging/media/atomisp/pci/atomisp_fops.c
+> @@ -893,6 +893,11 @@ static int atomisp_open(struct file *file)
+>  	else
+>  		pipe->users++;
+>  	rt_mutex_unlock(&isp->mutex);
+> +
+> +	/* Ensure that a mode is set */
+> +	if (asd)
+> +		v4l2_ctrl_s_ctrl(asd->run_mode, ATOMISP_RUN_MODE_PREVIEW);
+> +
+>  	return 0;
+>  
+>  css_error:
