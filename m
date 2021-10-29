@@ -2,78 +2,201 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 76B4443FC0C
-	for <lists+linux-media@lfdr.de>; Fri, 29 Oct 2021 14:08:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BAB9243FD4C
+	for <lists+linux-media@lfdr.de>; Fri, 29 Oct 2021 15:25:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231563AbhJ2MLK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 29 Oct 2021 08:11:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41174 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231367AbhJ2MLJ (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Fri, 29 Oct 2021 08:11:09 -0400
-Received: from mail-il1-x135.google.com (mail-il1-x135.google.com [IPv6:2607:f8b0:4864:20::135])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 237F3C061570
-        for <linux-media@vger.kernel.org>; Fri, 29 Oct 2021 05:08:41 -0700 (PDT)
-Received: by mail-il1-x135.google.com with SMTP id l13so10418172ilh.3
-        for <linux-media@vger.kernel.org>; Fri, 29 Oct 2021 05:08:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=usp.br; s=usp-google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=S3e8pqbxO9kRMVq8vTunu1hvd4DX3hvFiOfDtzQfJiw=;
-        b=vDb11hdP7H142tuAwbW3fpRhtcsPF8+mDNWdkpY8XDnvO54fGT4iV2BLa1A2nTyboS
-         9YfOqV622Xaiww6i1aDyRsh1x4jvfyd8V3kOdmf7OFJ7Q9KR86zwKzVfaKSqmxxTCve8
-         FdT5PePhvMq0J/UvD+j5pvJECeiHON0NUCu+/ovOjNRAkK0Ns+GThHxybtl/xIu4PBKl
-         Bc1lXbseEXeud9gSkwXsCqIQGq/R1MkybMwALEelm4/LVOet5K53Oc+z32vZaoxfHq5S
-         H7vH1XN98l8vZFb4H/jAIAvaaUX/W579IFlqPoMAckwB0xdNZ60jtcK2Pt0EKPbntJz0
-         fjVA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=S3e8pqbxO9kRMVq8vTunu1hvd4DX3hvFiOfDtzQfJiw=;
-        b=U1rVW5HPuFzZ31z+hshczSDjztsCAPsAgL8Jz5/EDZfP0z0Rp9/O6SJTeZoWGRNsb/
-         B0jCcbl3lHq1fcbzJ/zakLITiNJP6bD+XfOYaJTLSasiIoa4X98NES38XJH3fP3jux1Z
-         kIc+cMSIKxlm3H+TEAn8JcaLMDBq7RN5j1968o3miq3NgseX7V+NvGKOd4o9e1uRLqaU
-         KGZNkqc6DWBa+eqYBA65bVITJSa9sz5IHfpUA5HK+qvirUhNP9oKygP+GgRMveSVZcrL
-         WbNiwjfQLA1K9woQSUWtyscc4jbw00qD2FcckDs74kC1bPVyAz9qQUuqSx+m1M0F/Rre
-         CsVQ==
-X-Gm-Message-State: AOAM531kuRoB6GIcp2Ry1KEl9Hpt0ywe/UNEuiCyM2nc9RzypiAAnq0t
-        5MXev3/3XRT3Ydh+a+ZrWshwQ/c9lg7mmWcZAW+sKQ==
-X-Google-Smtp-Source: ABdhPJw7l9tTUHM1yjutTmZWrPVU1tYWmwCykIMHpGpIY9tktiGxDmCCtsSRhTXKzw5/yB3eWydyUujIuks7RoqM8kM=
-X-Received: by 2002:a05:6e02:1d9d:: with SMTP id h29mr4170466ila.29.1635509320573;
- Fri, 29 Oct 2021 05:08:40 -0700 (PDT)
+        id S231481AbhJ2N2A (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 29 Oct 2021 09:28:00 -0400
+Received: from mail.kernel.org ([198.145.29.99]:41576 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229603AbhJ2N16 (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Fri, 29 Oct 2021 09:27:58 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 3E5B561167;
+        Fri, 29 Oct 2021 13:25:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1635513930;
+        bh=+RnqNEo86g+pwCtg0yvYRDENv2czIXcrxcwDKdiKWQc=;
+        h=From:To:Cc:Subject:Date:From;
+        b=ZHTmh4ANXu+8xmhlyByehrapbXIB9HbHpGKkqcVSSjt21DxYm/olgb8iVQvi7V2Xt
+         QuGqY05qQjWaAZ+ewQPqWKGbMPZ80zIvmAkZDx49zaKiWz41xt6DLICQ5rgdBv3Zt2
+         XrrulEiHtpSvrabRFuMesVf+99okZ5vT1o4cwzROLkMsOHytrtGoOQPUXS1uB51Am1
+         w/hJRlRnDDvrAFFQQCMyErEEsP2uixOqyG3/jvyxEw6Uoczaw000O5lttF/PldDwAL
+         9LqZDwWAXNTmVPS6Yv+4fSl4SrATU5HeiQH3Qm2VVOaJmoCj9hSttTne/hVTmaB4WY
+         d9nlksYhQRpJw==
+Received: by mail.kernel.org with local (Exim 4.94.2)
+        (envelope-from <mchehab@kernel.org>)
+        id 1mgRst-0032Ic-DE; Fri, 29 Oct 2021 14:25:27 +0100
+From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc:     linuxarm@huawei.com, mauro.chehab@huawei.com,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Alex Dewar <alex.dewar90@gmail.com>,
+        Aline Santana Cordeiro <alinesantanacordeiro@gmail.com>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Dan Carpenter <dan.carpenter@oracle.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Kaixu Xia <kaixuxia@tencent.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+        Tsuchiya Yuto <kitakar@gmail.com>,
+        Yang Li <abaci-bugfix@linux.alibaba.com>,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-staging@lists.linux.dev
+Subject: [PATCH] media: atomisp: properly implement g_fmt
+Date:   Fri, 29 Oct 2021 14:25:23 +0100
+Message-Id: <7be615799148168ca454df998aaa1e0b224b4328.1635513916.git.mchehab+huawei@kernel.org>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-References: <YXlxhpZWf2mxJaMi@fedora> <20211028064513.guziv6uaivzlk6ki@pengutronix.de>
- <20211028091442.GA16514@gofer.mess.org> <20211028111535.x7xgz7domx2lpyfh@pengutronix.de>
- <20211028122610.GA18767@gofer.mess.org> <20211028180516.t2tpfbzztm7s6cqm@pengutronix.de>
- <20211029071608.GA28997@gofer.mess.org> <20211029110602.uugnbm5vtfpghiwh@pengutronix.de>
- <20211029115412.GA32383@gofer.mess.org>
-In-Reply-To: <20211029115412.GA32383@gofer.mess.org>
-From:   =?UTF-8?B?TWHDrXJhIENhbmFs?= <maira.canal@usp.br>
-Date:   Fri, 29 Oct 2021 09:08:29 -0300
-Message-ID: <CAH7FV3njgZ7sOnZZF88KZ2C4UwqxoodpUuLsnucvBxYXmaZo1Q@mail.gmail.com>
-Subject: Re: [PATCH v4] media: rc: pwm-ir-tx: Switch to atomic PWM API
-To:     Sean Young <sean@mess.org>
-Cc:     =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= 
-        <u.kleine-koenig@pengutronix.de>,
-        kernel test robot <lkp@intel.com>, mchehab@kernel.org,
-        thierry.reding@gmail.com, Lee Jones <lee.jones@linaro.org>,
-        llvm@lists.linux.dev, kbuild-all@lists.01.org,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-pwm@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
+To:     unlisted-recipients:; (no To-header on input)
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-I would like to thank you guys for the attention and this interesting
-discussion. I'm looking for some work in the kernel and I would like
-to know if you guys have any suggestions for beginner tasks in this
-subsystem. I have solid knowledge in C programming, but I started in
-the kernel a couple of weeks ago. Anyway, thank you for all the
-feedback.
+The current logic only initializes pipe->pix after setting up a
+pipeline - e. g. after start streaming.
 
-Ma=C3=ADra
+While it makes sense to get the format of the pipeline, when
+it is set, this breaks support for generic applications, as they
+rely on getting the current sensor format (which is usually the
+highest resolution format).
+
+So, implement a call to the sensor's get_fmt, when this is called
+before setting up a pipeline.
+
+Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+---
+ .../staging/media/atomisp/pci/atomisp_cmd.c   | 13 +-----
+ .../staging/media/atomisp/pci/atomisp_cmd.h   |  4 +-
+ .../staging/media/atomisp/pci/atomisp_ioctl.c | 44 +++++++++++++++++--
+ 3 files changed, 45 insertions(+), 16 deletions(-)
+
+diff --git a/drivers/staging/media/atomisp/pci/atomisp_cmd.c b/drivers/staging/media/atomisp/pci/atomisp_cmd.c
+index 70c8e86c3205..6b308c81ef77 100644
+--- a/drivers/staging/media/atomisp/pci/atomisp_cmd.c
++++ b/drivers/staging/media/atomisp/pci/atomisp_cmd.c
+@@ -2034,7 +2034,7 @@ static int raw_output_format_match_input(u32 input, u32 output)
+ 	return -EINVAL;
+ }
+ 
+-static u32 get_pixel_depth(u32 pixelformat)
++u32 atomisp_get_pixel_depth(u32 pixelformat)
+ {
+ 	switch (pixelformat) {
+ 	case V4L2_PIX_FMT_YUV420:
+@@ -4816,15 +4816,6 @@ int atomisp_get_sensor_mode_data(struct atomisp_sub_device *asd,
+ 	return 0;
+ }
+ 
+-int atomisp_get_fmt(struct video_device *vdev, struct v4l2_format *f)
+-{
+-	struct atomisp_video_pipe *pipe = atomisp_to_video_pipe(vdev);
+-
+-	f->fmt.pix = pipe->pix;
+-
+-	return 0;
+-}
+-
+ static void __atomisp_update_stream_env(struct atomisp_sub_device *asd,
+ 					u16 stream_index, struct atomisp_input_stream_info *stream_info)
+ {
+@@ -4973,7 +4964,7 @@ atomisp_try_fmt_file(struct atomisp_device *isp, struct v4l2_format *f)
+ 		return -EINVAL;
+ 	}
+ 
+-	depth = get_pixel_depth(pixelformat);
++	depth = atomisp_get_pixel_depth(pixelformat);
+ 
+ 	if (field == V4L2_FIELD_ANY) {
+ 		field = V4L2_FIELD_NONE;
+diff --git a/drivers/staging/media/atomisp/pci/atomisp_cmd.h b/drivers/staging/media/atomisp/pci/atomisp_cmd.h
+index e8bdd264d31b..fb848d716947 100644
+--- a/drivers/staging/media/atomisp/pci/atomisp_cmd.h
++++ b/drivers/staging/media/atomisp/pci/atomisp_cmd.h
+@@ -266,8 +266,6 @@ int atomisp_compare_grid(struct atomisp_sub_device *asd,
+ int atomisp_get_sensor_mode_data(struct atomisp_sub_device *asd,
+ 				 struct atomisp_sensor_mode_data *config);
+ 
+-int atomisp_get_fmt(struct video_device *vdev, struct v4l2_format *f);
+-
+ /* This function looks up the closest available resolution. */
+ int atomisp_try_fmt(struct video_device *vdev, struct v4l2_pix_format *f,
+ 		    bool *res_overflow);
+@@ -341,6 +339,8 @@ enum atomisp_metadata_type
+ atomisp_get_metadata_type(struct atomisp_sub_device *asd,
+ 			  enum ia_css_pipe_id pipe_id);
+ 
++u32 atomisp_get_pixel_depth(u32 pixelformat);
++
+ /* Function for HAL to inject a fake event to wake up poll thread */
+ int atomisp_inject_a_fake_event(struct atomisp_sub_device *asd, int *event);
+ 
+diff --git a/drivers/staging/media/atomisp/pci/atomisp_ioctl.c b/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
+index 29826f8e4143..37542ea17a38 100644
+--- a/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
++++ b/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
+@@ -838,15 +838,53 @@ static int atomisp_enum_fmt_cap(struct file *file, void *fh,
+ static int atomisp_g_fmt_cap(struct file *file, void *fh,
+ 			     struct v4l2_format *f)
+ {
++	struct v4l2_subdev_format fmt = {
++		.which = V4L2_SUBDEV_FORMAT_ACTIVE
++	};
+ 	struct video_device *vdev = video_devdata(file);
+ 	struct atomisp_device *isp = video_get_drvdata(vdev);
+-
++	struct v4l2_fmtdesc fmtdesc = { 0 };
++	struct atomisp_video_pipe *pipe;
++	struct atomisp_sub_device *asd;
++	struct v4l2_subdev *camera;
++	u32 depth;
+ 	int ret;
+ 
+ 	rt_mutex_lock(&isp->mutex);
+-	ret = atomisp_get_fmt(vdev, f);
++	pipe = atomisp_to_video_pipe(vdev);
+ 	rt_mutex_unlock(&isp->mutex);
+-	return ret;
++
++	f->fmt.pix = pipe->pix;
++	if (!f->fmt.pix.width) {
++		asd = atomisp_to_video_pipe(vdev)->asd;
++		if (!asd)
++		    return -EINVAL;
++
++		camera = isp->inputs[asd->input_curr].camera;
++		if(!camera)
++			return -EINVAL;
++
++		ret = atomisp_enum_fmt_cap(file, fh, &fmtdesc);
++		if (ret)
++			return ret;
++
++		rt_mutex_lock(&isp->mutex);
++		ret = v4l2_subdev_call(isp->inputs[asd->input_curr].camera,
++				       pad, get_fmt, NULL, &fmt);
++		rt_mutex_unlock(&isp->mutex);
++		if (ret)
++			return ret;
++
++		v4l2_fill_pix_format(&f->fmt.pix, &fmt.format);
++
++		f->fmt.pix.pixelformat = fmtdesc.pixelformat;
++	}
++
++	depth = atomisp_get_pixel_depth(f->fmt.pix.pixelformat);
++	f->fmt.pix.bytesperline = (f->fmt.pix.width * depth) >> 3;
++	f->fmt.pix.sizeimage = f->fmt.pix.height * f->fmt.pix.bytesperline;
++
++	return 0;
+ }
+ 
+ static int atomisp_g_fmt_file(struct file *file, void *fh,
+-- 
+2.31.1
+
