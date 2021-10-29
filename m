@@ -2,112 +2,116 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A545D43F7B9
-	for <lists+linux-media@lfdr.de>; Fri, 29 Oct 2021 09:16:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DA81343F7BE
+	for <lists+linux-media@lfdr.de>; Fri, 29 Oct 2021 09:17:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232163AbhJ2HSl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 29 Oct 2021 03:18:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59844 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229464AbhJ2HSk (ORCPT
+        id S232187AbhJ2HT2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 29 Oct 2021 03:19:28 -0400
+Received: from szxga02-in.huawei.com ([45.249.212.188]:14877 "EHLO
+        szxga02-in.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229464AbhJ2HT1 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 29 Oct 2021 03:18:40 -0400
-Received: from gofer.mess.org (gofer.mess.org [IPv6:2a02:8011:d000:212::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 491BBC061570;
-        Fri, 29 Oct 2021 00:16:12 -0700 (PDT)
-Received: by gofer.mess.org (Postfix, from userid 1000)
-        id 22D1FC638B; Fri, 29 Oct 2021 08:16:09 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mess.org; s=2020;
-        t=1635491769; bh=0hcZKmtu7PJUxwvXsC29IbArA/3wXyA66Belfuc1NNg=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=hhFS2YllEGHiULTrWdVSZs/+edGr3zfikpVgZA78QOionCLvVbbyUH9SZ+NuUpxct
-         OHDkCIbhSuHpwPCTxNdQ62fPd7hkihjKEwNw0T24QhGvent4mQeV4H+EkYxdlP62z6
-         vuTi+h8tRa7d0Qt7kePoi1XewypPznPdBXw044YY8DiHa5rZY8cfOZcfI4HQ4lQQN5
-         RGC+S6XHEJMptEo8ae/Sl6dJAP47kP6z90+LRYluWojvtgJ4t6WqNR6nLq8mI/tGU8
-         mirHat8Iuo6rcZY8WfSPLpn1cpw388ArGpRexMBqSsdDKl9nUZ1zdXSfD8A31lETkB
-         f8ygS7HEPoIFA==
-Date:   Fri, 29 Oct 2021 08:16:08 +0100
-From:   Sean Young <sean@mess.org>
-To:     Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= 
-        <u.kleine-koenig@pengutronix.de>
-Cc:     =?iso-8859-1?Q?Ma=EDra?= Canal <maira.canal@usp.br>, lkp@intel.com,
-        mchehab@kernel.org, thierry.reding@gmail.com, lee.jones@linaro.org,
-        llvm@lists.linux.dev, kbuild-all@lists.01.org,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-pwm@vger.kernel.org
-Subject: Re: [PATCH v4] media: rc: pwm-ir-tx: Switch to atomic PWM API
-Message-ID: <20211029071608.GA28997@gofer.mess.org>
-References: <YXlxhpZWf2mxJaMi@fedora>
- <20211028064513.guziv6uaivzlk6ki@pengutronix.de>
- <20211028091442.GA16514@gofer.mess.org>
- <20211028111535.x7xgz7domx2lpyfh@pengutronix.de>
- <20211028122610.GA18767@gofer.mess.org>
- <20211028180516.t2tpfbzztm7s6cqm@pengutronix.de>
+        Fri, 29 Oct 2021 03:19:27 -0400
+Received: from dggeme758-chm.china.huawei.com (unknown [172.30.72.53])
+        by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4HgYdX1TM2z90Wg;
+        Fri, 29 Oct 2021 15:16:48 +0800 (CST)
+Received: from [10.67.103.235] (10.67.103.235) by
+ dggeme758-chm.china.huawei.com (10.3.19.104) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
+ 15.1.2308.15; Fri, 29 Oct 2021 15:16:52 +0800
+Subject: Re: [PATCH V10 4/8] PCI/sysfs: Add a 10-Bit Tag sysfs file PCIe
+ Endpoint devices
+To:     Bjorn Helgaas <helgaas@kernel.org>
+References: <20211028172423.GA279833@bhelgaas>
+CC:     <hch@infradead.org>, <kw@linux.com>, <logang@deltatee.com>,
+        <leon@kernel.org>, <linux-pci@vger.kernel.org>,
+        <rajur@chelsio.com>, <hverkuil-cisco@xs4all.nl>,
+        <linux-media@vger.kernel.org>, <netdev@vger.kernel.org>
+From:   Dongdong Liu <liudongdong3@huawei.com>
+Message-ID: <4761096c-4445-8928-5faa-2674272cd088@huawei.com>
+Date:   Fri, 29 Oct 2021 15:16:52 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:45.0) Gecko/20100101
+ Thunderbird/45.7.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20211028180516.t2tpfbzztm7s6cqm@pengutronix.de>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20211028172423.GA279833@bhelgaas>
+Content-Type: text/plain; charset="windows-1252"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.67.103.235]
+X-ClientProxiedBy: dggems704-chm.china.huawei.com (10.3.19.181) To
+ dggeme758-chm.china.huawei.com (10.3.19.104)
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, Oct 28, 2021 at 08:05:16PM +0200, Uwe Kleine-König wrote:
-> On Thu, Oct 28, 2021 at 01:26:10PM +0100, Sean Young wrote:
-> > > bloat-o-meter reports (for an arm allmodconfig build)
-> > > 
-> > > 	add/remove: 0/0 grow/shrink: 3/1 up/down: 644/-396 (248)
-> > > 	Function                                     old     new   delta
-> > > 	pwm_ir_probe                                 372     676    +304
-> > > 	pwm_ir_set_carrier                           108     292    +184
-> > > 	pwm_ir_set_duty_cycle                         68     224    +156
-> > > 	pwm_ir_tx                                    908     512    -396
-> > > 	Total: Before=2302, After=2550, chg +10.77%
-> > 
-> > So 248 bytes more after your changes.
-> 
-> ack. This is because the compiler inlines the division which accounts
-> for > 100 bytes.
-
-I'm surprised it's that large. This is on 32 bit?
-
-> > > struct pwm_ir increases from 12 bytes to 40 bytes.
-> > > 
-> > > The stack space required by pwm_ir_tx decreases from 60 to 36
-> > > 
-> > > I don't know exactly how kmalloc works internally. Maybe allocating a
-> > > structure of size 40 bytes doesn't need more memory than a structure of
-> > > size 12?
-> > > 
-> > > I didn't check how runtimes change, but the size decrease of pwm_ir_tx()
-> > > is nice and might save a bit of runtime.
-> > 
-> > I'm not following, how is this decreasing runtime? 
-> 
-> With my changes pwm_ir_tx got smaller and { pwm_ir_probe,
-> pwm_ir_set_carrier, pwm_ir_set_duty_cycle } got bigger. Now if for a
-> typical runtime pattern pwm_ir_probe and pwm_ir_set_carrier run once and
-> pwm_ir_set_duty_cycle 100 times and pwm_ir_tx 1000 times (no idea if
-> that is realistic) it might be a net win in sum.
-
-The two most common programs for sending IR are
-
-ir-ctl: https://git.linuxtv.org/v4l-utils.git/tree/utils/ir-ctl/ir-ctl.c#n1041
-lircd: https://sourceforge.net/p/lirc/git/ci/master/tree/lib/transmit.c
-
-For each transmission, the carrier is set. If the duty cyle is specified,
-then that is set too. Then the transmit itself is done. Both of them
-set the carrier and duty cycle (if required) for every transmission: setting
-the carrier and duty cycle is a cheap operation, and it is device property
-which can be overriden by another process. 
-
-This means with your changes, if the carrier and duty cycle are both set
-for each transmission, then we're doing more work. If only the carrier
-is set for each transmission, then there is no net gain/loss (I think),
-but the code size has increased.
 
 
-Thanks for prototyping this.
+On 2021/10/29 1:24, Bjorn Helgaas wrote:
+> On Thu, Oct 28, 2021 at 03:44:49PM +0800, Dongdong Liu wrote:
+>> On 2021/10/28 6:28, Bjorn Helgaas wrote:
+>>> On Sat, Oct 09, 2021 at 06:49:34PM +0800, Dongdong Liu wrote:
+>>>> PCIe spec 5.0 r1.0 section 2.2.6.2 says:
+>>>>
+>>>>   If an Endpoint supports sending Requests to other Endpoints (as
+>>>>   opposed to host memory), the Endpoint must not send 10-Bit Tag
+>>>>   Requests to another given Endpoint unless an implementation-specific
+>>>>   mechanism determines that the Endpoint supports 10-Bit Tag Completer
+>>>>   capability.
+>>>>
+>>>> Add a 10bit_tag sysfs file, write 0 to disable 10-Bit Tag Requester
+>>>> when the driver does not bind the device. The typical use case is for
+>>>> p2pdma when the peer device does not support 10-Bit Tag Completer.
+>>>> Write 1 to enable 10-Bit Tag Requester when RC supports 10-Bit Tag
+>>>> Completer capability. The typical use case is for host memory targeted
+>>>> by DMA Requests. The 10bit_tag file content indicate current status of
+>>>> 10-Bit Tag Requester Enable.
+>>>
+>>> Don't we have a hole here?  We're adding knobs to control 10-Bit Tag
+>>> usage, but don't we have basically the same issues with Extended
+>>> (8-bit) Tags?
+>>
+>> All PCIe completers are required to support 8-bit tags
+>> from the "[PATCH] PCI: enable extended tags support for PCIe endpoints"
+>> (https://patchwork.kernel.org/project/linux-arm-msm/patch/1474769434-5756-1-git-send-email-okaya@codeaurora.org/).
+>>
+>> I ask hardware colleagues, also says all PCIe devices should support
+>> 8-bit tags completer default, so seems no need to do this for 8-bit tags.
+>
+> Oh, right, I forgot that, thanks for the reminder!  Let's add a
+> comment in pci_configure_extended_tags() to that effect so I'll
+> remember next time.
+Ok, Will do.
+>
+> I think the appropriate reference is PCIe r5.0, sec 2.2.6.2, which
+> says "Receivers/Completers must handle 8-bit Tag values correctly
+> regardless of the setting of their Extended Tag Field Enable bit (see
+> Section 7.5.3.4)."
+>
+> The Tag field was 8 bits all the way from PCIe r1.0, but until r2.1 it
+> said that by default, only the lower 5 bits are used.
+>
+> The text about all Completers explicitly being required to support
+> 8-bit Tags wasn't added until PCIe r3.0, which might explain some
+> confusion and the presence of the Extended Tag Field Enable bit.
+>
+Thanks for the clarification.
+> At the same time, can you fold pci_configure_10bit_tags() directly
+> into pci_configure_extended_tags()?  It's pretty small and I think it
+> will be easier if it's all in one place.
+OK, will do.
+>
+>>> I wonder if we should be adding a more general "tags" file that can
+>>> manage both 8-bit and 10-bit tag usage.
+>
+> I'm still thinking that maybe a generic name (without "10") would be
+> better, even though we don't need it to manage 8-bit tags.  It's
+> conceivable that there could be even more tag bits in the future, and
+> it would be nice if we didn't have to add yet another file.
+Looks good, will do.
 
-Sean
+Thanks,
+Dongdong.
+>
+> Bjorn
+> .
+>
