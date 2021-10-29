@@ -2,165 +2,224 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1647343F52B
-	for <lists+linux-media@lfdr.de>; Fri, 29 Oct 2021 05:04:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C7FA743F52D
+	for <lists+linux-media@lfdr.de>; Fri, 29 Oct 2021 05:05:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231627AbhJ2DGq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 28 Oct 2021 23:06:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32930 "EHLO
+        id S231575AbhJ2DH5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 28 Oct 2021 23:07:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33194 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231622AbhJ2DGp (ORCPT
+        with ESMTP id S231565AbhJ2DH4 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 28 Oct 2021 23:06:45 -0400
-Received: from mail-ed1-x534.google.com (mail-ed1-x534.google.com [IPv6:2a00:1450:4864:20::534])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E73F9C061570
-        for <linux-media@vger.kernel.org>; Thu, 28 Oct 2021 20:04:16 -0700 (PDT)
-Received: by mail-ed1-x534.google.com with SMTP id r12so33537077edt.6
-        for <linux-media@vger.kernel.org>; Thu, 28 Oct 2021 20:04:16 -0700 (PDT)
+        Thu, 28 Oct 2021 23:07:56 -0400
+Received: from mail-ed1-x52e.google.com (mail-ed1-x52e.google.com [IPv6:2a00:1450:4864:20::52e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 64806C061570
+        for <linux-media@vger.kernel.org>; Thu, 28 Oct 2021 20:05:28 -0700 (PDT)
+Received: by mail-ed1-x52e.google.com with SMTP id j21so10451199edt.11
+        for <linux-media@vger.kernel.org>; Thu, 28 Oct 2021 20:05:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=21Qna8aedipM9a11qzYqQzHYUISEoYbsTLGZd0C/7I8=;
-        b=UqOna1k5YHr9Ry+R1XJK/tqNlivM+pTC0RiteeptFhhW+oeuMJf2oUonwyIO9ElCfb
-         pSq8R+PH47KbkA9ujxdmbllPec/Y5p3BMpLd4y/66pgbXN5zJy4wtcgvBg4UoG2et8Us
-         VWe/oGbdrWaoQpstwQmpMagEkTGyDHP7lV5jI=
+         :cc;
+        bh=k7FSNDJmPd4vyM97Mnw6dLb1KXTup6nbWgN+EwI6boI=;
+        b=SI7K/zVrVDotdsjuDSB53fcoT5kZFPf4baTHHdeKytJN3tdYuklQhuIrEn529/Wj0v
+         Mkq08S8AYKQG3QKOUt16fuiVdCYq6/n9Bso5f3TmWWY1i0j9oJSfSXoAQwhefcW/0KHB
+         SG/xqhVGuv86jwM+23Ir8lQb7qT7x8qeTe7Iw=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=21Qna8aedipM9a11qzYqQzHYUISEoYbsTLGZd0C/7I8=;
-        b=QAomZN3gyeqOX9uioF6kjlt/0n6O9uafgFVt6+N/Bb2zissqE9cKvJIsfyb4uFAnZb
-         iNtse34dXTO8SGmHzG11my5oiBS1AUFib6Uu7By7sUnb2CCiHAxnYZ7y00m29zUWb5ZQ
-         5W/+szB1M1zKcEMVPvmflpTTjsEWsw4MVxvQQ0uCyOTWbS/FZoXxaGKLm444UINCPKsd
-         dYSd/I+LfIUogNtM3t4Iq79TEbOagGnvQ3BS1TZ4TDVa/aX/NT6EJpcZg086A0Eoo4Kh
-         hfg+9sYCoRNfcrj5XMN2QCzMKBQHwtujTz1RUa7/EjplaaMr5YtFQfrKAQwhgxjjYAq7
-         pn0A==
-X-Gm-Message-State: AOAM532DzXNLlXTzc0OnSZlt0Y/qYTIy3VfYUdJi6wzHDlc43fXBrkUm
-        KjmAXRWNCVhiomLJxwqeZ4tQ+/8zNZjV/Q==
-X-Google-Smtp-Source: ABdhPJwzvUuT5b0ZKJLK7dwNMiWuDrDIeKu5CitrOf/e5HCgS8xGlKMhh9xfIm6g7Wn/3gCLql4jXw==
-X-Received: by 2002:a05:6402:34d2:: with SMTP id w18mr11401042edc.172.1635476655062;
-        Thu, 28 Oct 2021 20:04:15 -0700 (PDT)
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com. [209.85.221.48])
-        by smtp.gmail.com with ESMTPSA id f18sm2825413edd.69.2021.10.28.20.04.13
+         :message-id:subject:to:cc;
+        bh=k7FSNDJmPd4vyM97Mnw6dLb1KXTup6nbWgN+EwI6boI=;
+        b=CFnIL8J5hW/qz+EWL/iuhta7i1uBlrT2BlI2f+s3WTcLAiza7vJrx80No35Wu/2Z6K
+         i5x0FLAJEv6Hp5f9WGAZc9VEPS/VVy2o2RPDY4eP6O6IJjalswLjFAUkH3z0UPssaXE4
+         JQa5Ui6sRp6fAaUWtqLO0gn+6xkCp56SEx0tj9hLWRpsX9qMHf4zzR9XJKD5U4WPk3Mb
+         jz6xE3RMI6bIg4D0P3u1S/x6izRQu/yB865MxEqdsopq8bNzQgLVe1NBjt2RvNv8kxQR
+         YuSquFrXTi4cBaoHBm9s2rMkQsoVU4Zlmr6f6Dqe+yMW5lo75e3d6YQiVjI17ODI3hne
+         dVWA==
+X-Gm-Message-State: AOAM5317YjMsDhKaJbZXCnVLZS30zFCEPxvEwGWah/TXhvRFyCqE7GY2
+        dqKTsI+285NTbziA5mhNTRue08Gr/oFFvQ==
+X-Google-Smtp-Source: ABdhPJxHSHp1W8rb/M1Tg+Caj6FAVFKGyd9gwbrl2xq4gAhdtDBUoQAjT5PE9k77TpZV07ivCC1/oQ==
+X-Received: by 2002:a17:907:7f11:: with SMTP id qf17mr10155680ejc.437.1635476726664;
+        Thu, 28 Oct 2021 20:05:26 -0700 (PDT)
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com. [209.85.128.41])
+        by smtp.gmail.com with ESMTPSA id q2sm2600105edh.44.2021.10.28.20.05.25
         for <linux-media@vger.kernel.org>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 28 Oct 2021 20:04:14 -0700 (PDT)
-Received: by mail-wr1-f48.google.com with SMTP id u18so13814340wrg.5
-        for <linux-media@vger.kernel.org>; Thu, 28 Oct 2021 20:04:13 -0700 (PDT)
-X-Received: by 2002:adf:9bd2:: with SMTP id e18mr10749368wrc.235.1635476653413;
- Thu, 28 Oct 2021 20:04:13 -0700 (PDT)
+        Thu, 28 Oct 2021 20:05:26 -0700 (PDT)
+Received: by mail-wm1-f41.google.com with SMTP id 67-20020a1c1946000000b0030d4c90fa87so6664681wmz.2
+        for <linux-media@vger.kernel.org>; Thu, 28 Oct 2021 20:05:25 -0700 (PDT)
+X-Received: by 2002:a7b:c1c4:: with SMTP id a4mr16604049wmj.83.1635476725276;
+ Thu, 28 Oct 2021 20:05:25 -0700 (PDT)
 MIME-Version: 1.0
-References: <20211018091427.88468-1-acourbot@chromium.org> <9cb4f64e2ec3959df44b71dd69ef95697920dc4b.camel@ndufresne.ca>
-In-Reply-To: <9cb4f64e2ec3959df44b71dd69ef95697920dc4b.camel@ndufresne.ca>
+References: <1634527576-2928-1-git-send-email-bingbu.cao@intel.com>
+ <YW6/ZGI5/j4UDaBQ@paasikivi.fi.intel.com> <DM8PR11MB56532CA3BC7F2FDCD78C4E7E99BD9@DM8PR11MB5653.namprd11.prod.outlook.com>
+ <DM8PR11MB5653B7646DEFC3F481B98CEF99BD9@DM8PR11MB5653.namprd11.prod.outlook.com>
+ <YXMhJJJYZl+A6dU7@paasikivi.fi.intel.com> <CAAFQd5BJg2PMzLCJC-QkPQagKH4d+94bw_Girb=63yw-SDPv8Q@mail.gmail.com>
+ <DM8PR11MB5653F377D3FFB3F68723347C99879@DM8PR11MB5653.namprd11.prod.outlook.com>
+In-Reply-To: <DM8PR11MB5653F377D3FFB3F68723347C99879@DM8PR11MB5653.namprd11.prod.outlook.com>
 From:   Tomasz Figa <tfiga@chromium.org>
-Date:   Fri, 29 Oct 2021 12:04:02 +0900
-X-Gmail-Original-Message-ID: <CAAFQd5BzXAO9vTm1xNmZ6iLnjnckfRC4Z2yqgxvuL+NUiHXnsQ@mail.gmail.com>
-Message-ID: <CAAFQd5BzXAO9vTm1xNmZ6iLnjnckfRC4Z2yqgxvuL+NUiHXnsQ@mail.gmail.com>
-Subject: Re: [PATCH] media: docs: dev-decoder: add restrictions about CAPTURE buffers
-To:     Nicolas Dufresne <nicolas@ndufresne.ca>
-Cc:     Alexandre Courbot <acourbot@chromium.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Date:   Fri, 29 Oct 2021 12:05:14 +0900
+X-Gmail-Original-Message-ID: <CAAFQd5A9ofY4yDTxorrjGqdx9QnoWYXwssMe=6hi5qVEJPsbNA@mail.gmail.com>
+Message-ID: <CAAFQd5A9ofY4yDTxorrjGqdx9QnoWYXwssMe=6hi5qVEJPsbNA@mail.gmail.com>
+Subject: Re: [PATCH v3] media: imx258: add vblank control to support more
+ frame rate range
+To:     "Cao, Bingbu" <bingbu.cao@intel.com>
+Cc:     Sakari Ailus <sakari.ailus@linux.intel.com>,
+        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+        "kieran.bingham@ideasonboard.com" <kieran.bingham@ideasonboard.com>,
+        "bingbu.cao@linux.intel.com" <bingbu.cao@linux.intel.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Oct 26, 2021 at 11:12 PM Nicolas Dufresne <nicolas@ndufresne.ca> wr=
-ote:
+On Fri, Oct 29, 2021 at 11:18 AM Cao, Bingbu <bingbu.cao@intel.com> wrote:
 >
-> Le lundi 18 octobre 2021 =C3=A0 18:14 +0900, Alexandre Courbot a =C3=A9cr=
-it :
-> > CAPTURE buffers might be read by the hardware after they are dequeued,
-> > which goes against the general idea that userspace has full control ove=
-r
-> > dequeued buffers. Explain why and document the restrictions that this
-> > implies for userspace.
+> Sakari and Tomasz,
+>
+> Thanks for your review.
+>
+> ________________________
+> BRs,
+> Bingbu Cao
+>
+> > -----Original Message-----
+> > From: Tomasz Figa <tfiga@chromium.org>
+> > Sent: Thursday, October 28, 2021 9:52 PM
+> > To: Sakari Ailus <sakari.ailus@linux.intel.com>
+> > Cc: Cao, Bingbu <bingbu.cao@intel.com>; linux-media@vger.kernel.org;
+> > kieran.bingham@ideasonboard.com; bingbu.cao@linux.intel.com
+> > Subject: Re: [PATCH v3] media: imx258: add vblank control to support
+> > more frame rate range
 > >
-> > Signed-off-by: Alexandre Courbot <acourbot@chromium.org>
-> > ---
-> >  .../userspace-api/media/v4l/dev-decoder.rst     | 17 +++++++++++++++++
-> >  1 file changed, 17 insertions(+)
+> > On Sat, Oct 23, 2021 at 5:38 AM Sakari Ailus
+> > <sakari.ailus@linux.intel.com> wrote:
+> > >
+> > > Hi Bingbu,
+> > >
+> > > On Tue, Oct 19, 2021 at 03:58:41PM +0000, Cao, Bingbu wrote:
+> > > > > -----Original Message-----
+> > > > > From: Cao, Bingbu
+> > > > > Sent: Tuesday, October 19, 2021 11:30 PM
+> > > > > To: Sakari Ailus <sakari.ailus@linux.intel.com>
+> > > > > Cc: linux-media@vger.kernel.org; tfiga@chromium.org;
+> > > > > kieran.bingham@ideasonboard.com; bingbu.cao@linux.intel.com
+> > > > > Subject: RE: [PATCH v3] media: imx258: add vblank control to
+> > > > > support more frame rate range
+> > > > >
+> > > > > Sakari,
+> > > > >
+> > > > > ________________________
+> > > > > BRs,
+> > > > > Bingbu Cao
+> > > > >
+> > > > > > -----Original Message-----
+> > > > > > From: Sakari Ailus <sakari.ailus@linux.intel.com>
+> > > > > > Sent: Tuesday, October 19, 2021 8:52 PM
+> > > > > > To: Cao, Bingbu <bingbu.cao@intel.com>
+> > > > > > Cc: linux-media@vger.kernel.org; tfiga@chromium.org;
+> > > > > > kieran.bingham@ideasonboard.com; bingbu.cao@linux.intel.com
+> > > > > > Subject: Re: [PATCH v3] media: imx258: add vblank control to
+> > > > > > support more frame rate range
+> > > > > >
+> > > > > > Hi Bingbu,
+> > > > > >
+> > > > > > On Mon, Oct 18, 2021 at 11:26:16AM +0800, Bingbu Cao wrote:
+> > > > > > > Current imx258 driver enable the automatic frame length
+> > > > > > > tracking control by default and did not support VBLANK change,
+> > > > > > > it's always
+> > > > > > working at 30fps.
+> > > > > > > However, in reality we need a wider frame rate range from 15
+> > to 30.
+> > > > > > > This patch disable the automatic frame length tracking control
+> > > > > > > and enable the v4l2 VBLANK control to allow user changing
+> > > > > > > frame rate per
+> > > > > > requirement.
+> > > > > > >
+> > > > > > > Signed-off-by: Bingbu Cao <bingbu.cao@intel.com>
+> > > > > > > ---
+> > > > > > >  drivers/media/i2c/imx258.c | 23 +++++++++++++++++------
+> > > > > > >  1 file changed, 17 insertions(+), 6 deletions(-)
+> > > > > > >
+> > > > > > > diff --git a/drivers/media/i2c/imx258.c
+> > > > > > > b/drivers/media/i2c/imx258.c index 81cdf37216ca..2c787af7074d
+> > > > > > > 100644
+> > > > > > > --- a/drivers/media/i2c/imx258.c
+> > > > > > > +++ b/drivers/media/i2c/imx258.c
+> > > > > > > @@ -29,6 +29,7 @@
+> > > > > > >  #define IMX258_VTS_MAX                 0xffff
+> > > > > > >
+> > > > > > >  /*Frame Length Line*/
+> > > > > > > +#define IMX258_REG_FLL                 0x0340
+> > > > > > >  #define IMX258_FLL_MIN                 0x08a6
+> > > > > > >  #define IMX258_FLL_MAX                 0xffff
+> > > > > > >  #define IMX258_FLL_STEP                        1
+> > > > > > > @@ -241,7 +242,7 @@ static const struct imx258_reg
+> > > > > > > mode_4208x3118_regs[]
+> > > > > > = {
+> > > > > > >         { 0x034D, 0x70 },
+> > > > > > >         { 0x034E, 0x0C },
+> > > > > > >         { 0x034F, 0x30 },
+> > > > > > > -       { 0x0350, 0x01 },
+> > > > > > > +       { 0x0350, 0x00 }, /* no frame length automatic
+> > > > > > > + tracking control */
+> > > > > > >         { 0x0202, 0x0C },
+> > > > > > >         { 0x0203, 0x46 },
+> > > > > > >         { 0x0204, 0x00 },
+> > > > > > > @@ -360,7 +361,7 @@ static const struct imx258_reg
+> > > > > > > mode_2104_1560_regs[]
+> > > > > > = {
+> > > > > > >         { 0x034D, 0x38 },
+> > > > > > >         { 0x034E, 0x06 },
+> > > > > > >         { 0x034F, 0x18 },
+> > > > > > > -       { 0x0350, 0x01 },
+> > > > > > > +       { 0x0350, 0x00 }, /* no frame length automatic
+> > > > > > > + tracking control */
+> > > > > > >         { 0x0202, 0x06 },
+> > > > > > >         { 0x0203, 0x2E },
+> > > > > > >         { 0x0204, 0x00 },
+> > > > > > > @@ -479,7 +480,7 @@ static const struct imx258_reg
+> > > > > > > mode_1048_780_regs[]
+> > > > > > = {
+> > > > > > >         { 0x034D, 0x18 },
+> > > > > > >         { 0x034E, 0x03 },
+> > > > > > >         { 0x034F, 0x0C },
+> > > > > > > -       { 0x0350, 0x01 },
+> > > > > > > +       { 0x0350, 0x00 }, /* no frame length automatic
+> > > > > > > + tracking control */
+> > > > > >
+> > > > > > Why is automatic frame length control disabled?
+> > > > >
+> > > > > My understanding:
+> > > > > If automatic frame length control enabled, the frame length is
+> > > > > changed automatically when COARSE_INTEGRATE_TIME + 10 >
+> > > > > FRAME_LENGTH_LINES, it may not meet the requirement - less
+> > integrate time with more frame length.
+> > > > > we need control the vertical blank to do that.
+> > > > >
+> > > >
+> > > > If frame length automatic tracking control enabled, the
+> > > > CORSE_INTEGRATE_TIME could be larger than FRAME_LENGTH_LINES.
+> > >
+> > > Both are controlled by the driver. The driver is generally responsible
+> > > for ensuring the exposure time stays within the limits for a given
+> > > frame length.
+> > >
+> > > Unless this sensor does something weird, all you get by disabling this
+> > > is undefined behaviour instead of increased frame length when the
+> > > exposure time + margin exceeds frame length. This could mean broken
+> > frames.
+> > >
+> > > Of course, it takes a driver bug to arrive into this situation.
 > >
-> > diff --git a/Documentation/userspace-api/media/v4l/dev-decoder.rst b/Do=
-cumentation/userspace-api/media/v4l/dev-decoder.rst
-> > index 5b9b83feeceb..3cf2b496f2d0 100644
-> > --- a/Documentation/userspace-api/media/v4l/dev-decoder.rst
-> > +++ b/Documentation/userspace-api/media/v4l/dev-decoder.rst
-> > @@ -752,6 +752,23 @@ available to dequeue. Specifically:
-> >       buffers are out-of-order compared to the ``OUTPUT`` buffers): ``C=
-APTURE``
-> >       timestamps will not retain the order of ``OUTPUT`` timestamps.
-> >
-> > +.. note::
-> > +
-> > +   The backing memory of ``CAPTURE`` buffers that are used as referenc=
-e frames
-> > +   by the stream may be read by the hardware even after they are deque=
-ued.
-> > +   Consequently, the client should avoid writing into this memory whil=
-e the
-> > +   ``CAPTURE`` queue is streaming. Failure to observe this may result =
-in
-> > +   corruption of decoded frames.
-> > +
-> > +   Similarly, when using a memory type other than ``V4L2_MEMORY_MMAP``=
-, the
-> > +   client should make sure that each ``CAPTURE`` buffer is always queu=
-ed with
-> > +   the same backing memory for as long as the ``CAPTURE`` queue is str=
-eaming.
-> > +   The reason for this is that V4L2 buffer indices can be used by driv=
-ers to
-> > +   identify frames. Thus, if the backing memory of a reference frame i=
-s
-> > +   submitted under a different buffer ID, the driver may misidentify i=
-t and
-> > +   decode a new frame into it while it is still in use, resulting in c=
-orruption
-> > +   of the following frames.
-> > +
+> > I'd argue that enabling the automatic control would make it much more
+> > difficult to spot the driver bug in this case and so it would be more
+> > desirable to keep it disabled as in this patch.
 >
-> I think this is nice addition, but insufficient. We should extend the API=
- with a
-> flags that let application know if the buffers are reference or secondary=
-. For
-> the context, we have a mix of CODEC that will output usable reference fra=
-mes and
-> needs careful manipulation and many other drivers where the buffers *mayb=
-e*
-> secondary, meaning they may have been post-processed and modifying these =
-in-
-> place may have no impact.
->
-> The problem is the "may", that will depends on the chosen CAPTURE format.=
- I
-> believe we should flag this, this flag should be set by the driver, on CA=
-PTURE
-> queue. The information is known after S_FMT, so Format Flag, Reqbufs
-> capabilities or querybuf flags are candidates. I think the buffer flags a=
-re the
-> best named flag, though we don't expect this to differ per buffer. Though=
-,
-> userspace needs to call querybuf for all buf in order to export or map th=
-em.
->
-> What userspace can do with this is to export the DMABuf as read-only, and=
- signal
-> this internally in its own context. This is great to avoid any unwanted s=
-ide
-> effect described here.
+> You are right, I will remove the change in next version.
 
-I agree with the idea of having a way for the kernel to tell the
-userspace the exact state of the buffer, but right now the untold
-expectation of the kernel was as per what this patch adds. If one
-wants their userspace to be portable across different decoders, they
-need to keep the assumption. So the natural way to go here is to stay
-safe by default and have a flag that tells the userspace that the
-buffer can be freely reused.
+Sorry, remove what change? My comment agrees with this patch that
+keeps the function disabled.
 
 Best regards,
 Tomasz
