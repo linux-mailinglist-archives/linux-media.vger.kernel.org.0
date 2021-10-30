@@ -2,142 +2,348 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A72F54409D0
-	for <lists+linux-media@lfdr.de>; Sat, 30 Oct 2021 17:04:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 889C64409E3
+	for <lists+linux-media@lfdr.de>; Sat, 30 Oct 2021 17:16:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231932AbhJ3PHJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 30 Oct 2021 11:07:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58934 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231938AbhJ3PHH (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Sat, 30 Oct 2021 11:07:07 -0400
-Received: from mail-pg1-x52c.google.com (mail-pg1-x52c.google.com [IPv6:2607:f8b0:4864:20::52c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 69EF2C061764
-        for <linux-media@vger.kernel.org>; Sat, 30 Oct 2021 08:04:37 -0700 (PDT)
-Received: by mail-pg1-x52c.google.com with SMTP id 75so12815390pga.3
-        for <linux-media@vger.kernel.org>; Sat, 30 Oct 2021 08:04:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:reply-to:sender:from:date:message-id:subject:to
-         :content-transfer-encoding;
-        bh=jBlwCEyoSfjNLOn2KIgbDe9GTaKgXK40hawIKPZa6do=;
-        b=NUCq0Ut7JZbh/epzD4JurlnYy1w3GD3pncwh2D/05AxRowFruo4mngfG6XOm1ZkyVa
-         qx68qysdS1YkJIr59cmhX+JRd34SDDlwH+BrcJnldAvgKbsQj02wKsBqxRxn+VAlI2yG
-         6H0aOQDJb/hBkkpX2Onk+7qe+Vupu3wWZibDOvf+eCm/puhKIC09lX5zbYoGaiZLpZND
-         4OQLh08sFMZTy1CErl6nmDVIEoIXLTL0KO65phQ48dtgOGzqEMXyyfHPsXPrzZ/mJnQX
-         uHeBTr2pX9mOIQDvtbcW4OZA8ofX0wy+BI6GZ8mGXeG38AnuFLg8SimmL58Z00vsrE2M
-         v+6Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:reply-to:sender:from:date
-         :message-id:subject:to:content-transfer-encoding;
-        bh=jBlwCEyoSfjNLOn2KIgbDe9GTaKgXK40hawIKPZa6do=;
-        b=0q4WAOH0KNaUyDHFSlv8RHQv+gDNBQ50eYO6FEAXgiKblwFczEJn7H25EsYDpaUqi8
-         2X54eSzG7t/3rngv13o18j3psDHOFlP19m55MHKFCea7sRaLwBpT3pHCxdF21yEBozXH
-         BC3CfZRr8I1QIoZ+7aQHXh1AeOegAPtY2cXSyMCDwoCOOOAcTCHgSsMhqxMiS8TK6aZT
-         JcVDLRFbkqTD1dds3cKLJm88oPwNRyAv1QgMhUnOdZXtrVncGP0ep+4/PnHrhMcyBHL2
-         EOBS15ZVYXhNWgweiBhdQBhZNAXDCxcLhflHTi691N1kyDlcB52Abs2+aFQIgzZ0wa7T
-         VZ1Q==
-X-Gm-Message-State: AOAM531JFjI2bwBicuxCEIYuvWAen9pEL6myjwsgUNIsMHHg+NkgVq7U
-        S6EXoht2ieI/L/JZ0naOk7Sq9LLKmhfG7CTx0yE=
-X-Google-Smtp-Source: ABdhPJxbH0MqpLpa7NKL+Ojvo6ZJdBAmkP5E9Gs5jMbmukL+Zk8irLnqUOrfW5dQs7BTA48d/5OSqzT+PUhbrrOD/9s=
-X-Received: by 2002:a63:aa41:: with SMTP id x1mr13067531pgo.283.1635606276570;
- Sat, 30 Oct 2021 08:04:36 -0700 (PDT)
+        id S231975AbhJ3PTL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 30 Oct 2021 11:19:11 -0400
+Received: from mga09.intel.com ([134.134.136.24]:20343 "EHLO mga09.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S231974AbhJ3PTK (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Sat, 30 Oct 2021 11:19:10 -0400
+X-IronPort-AV: E=McAfee;i="6200,9189,10153"; a="230683246"
+X-IronPort-AV: E=Sophos;i="5.87,195,1631602800"; 
+   d="scan'208";a="230683246"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Oct 2021 08:16:40 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.87,195,1631602800"; 
+   d="scan'208";a="448448832"
+Received: from lkp-server02.sh.intel.com (HELO c20d8bc80006) ([10.239.97.151])
+  by orsmga006.jf.intel.com with ESMTP; 30 Oct 2021 08:16:39 -0700
+Received: from kbuild by c20d8bc80006 with local (Exim 4.92)
+        (envelope-from <lkp@intel.com>)
+        id 1mgq62-0001Vc-8j; Sat, 30 Oct 2021 15:16:38 +0000
+Date:   Sat, 30 Oct 2021 23:16:27 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     linux-media@vger.kernel.org
+Subject: [ragnatech:media-next] BUILD SUCCESS
+ 320510b91925e0ebdb5fdaa1d4843dc470067440
+Message-ID: <617d61cb.IkDD2ghdLmOBkdWC%lkp@intel.com>
+User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
-Reply-To: josannowaak225@gmail.com
-Sender: infos.solicitors@gmail.com
-Received: by 2002:a05:6a10:6786:0:0:0:0 with HTTP; Sat, 30 Oct 2021 08:04:35
- -0700 (PDT)
-From:   Josan Nowak <josannowak225@gmail.com>
-Date:   Sat, 30 Oct 2021 17:04:35 +0200
-X-Google-Sender-Auth: EOpM6IOf_3ISpMpnW38RsVuSF2c
-Message-ID: <CALCgbAeWOKQgLt5y3d6kXmcEMqXhX5q4iFZ+UrsKSE71q3gkEg@mail.gmail.com>
-Subject: Darowizna od pani Nowak
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Drodzy Umi=C5=82owani.
-Pozdrowienia w imieniu naszego Pana Jezusa Chrystusa.
+tree/branch: git://git.ragnatech.se/linux media-next
+branch HEAD: 320510b91925e0ebdb5fdaa1d4843dc470067440  media: atomisp: get rid of two unused functions
 
-Nazywam si=C4=99 Pani Josan Nowak. Pochodz=C4=99 z Londynu i jestem obywate=
-lem
-Wielkiej Brytanii, ale mieszkam na Wybrze=C5=BCu Ko=C5=9Bci S=C5=82oniowej.=
- Obecnie
-mam 68 lat, ca=C5=82e moje ma=C5=82=C5=BCe=C5=84stwo prze=C5=BCy=C5=82am na=
- Wybrze=C5=BCu Ko=C5=9Bci
-S=C5=82oniowej, poniewa=C5=BC m=C3=B3j zmar=C5=82y m=C4=85=C5=BC Pan Mogab =
-Nowak mia=C5=82 wieloletni
-kontrakt z rz=C4=85dem Wybrze=C5=BCa Ko=C5=9Bci S=C5=82oniowej przed =C5=9B=
-mierci=C4=85 w 2019 roku.
-po kr=C3=B3tkiej chorobie, kt=C3=B3ra trwa=C5=82a tylko cztery dni, Byli=C5=
-=9Bmy
-ma=C5=82=C5=BCe=C5=84stwem przez trzydzie=C5=9Bci jeden lat bez dziecka.
+elapsed time: 3181m
 
-Najdro=C5=BCszy, z ca=C5=82ym szacunkiem i cz=C5=82owiecze=C5=84stwem, kont=
-aktuj=C4=99 si=C4=99 z
-Tob=C4=85, aby poinformowa=C4=87 Ci=C4=99 o moim pragnieniu przekazania Ci =
-=C5=82=C4=85cznie $
-4,800,000,00 dolar=C3=B3w, kt=C3=B3re odziedziczy=C5=82am po moim zmar=C5=
-=82ym m=C4=99=C5=BCu przed
-jego =C5=9Bmierci=C4=85, poniewa=C5=BC obecnie cierpi=C4=99 na niebezpieczn=
-=C4=85 choroba
-nowotworowa, kt=C3=B3ra umie=C5=9Bci=C5=82a mnie w szpitalnym =C5=82=C3=B3=
-=C5=BCku od 4 tygodnia. a
-ostatnio m=C3=B3j lekarz powiedzia=C5=82 mi, =C5=BCe mog=C4=99 nie wytrzyma=
-=C4=87 przez
-nast=C4=99pne 2 miesi=C4=85ce z powodu uszkodze=C5=84, jakie gro=C5=BAny ra=
-k spowodowa=C5=82 w
-moich narz=C4=85dach.
+configs tested: 286
+configs skipped: 4
 
-Nie mam dziecka, kt=C3=B3re odziedziczy te pieni=C4=85dze po mojej =C5=9Bmi=
-erci,
-dlatego podejmuj=C4=99 decyzj=C4=99 o przekazaniu ci tego funduszu na cele
-charytatywne, poniewa=C5=BC nie chc=C4=99, aby ci=C4=99=C5=BCko zarobione p=
-ieni=C4=85dze mojego
-m=C4=99=C5=BCa zosta=C5=82y wykorzystane w bezbo=C5=BCny spos=C3=B3b.
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
-Wi=C4=99c je=C5=9Bli chcesz i jeste=C5=9B w stanie wykona=C4=87 to zadanie =
-dla dobra
-ludzko=C5=9Bci, prosz=C4=99 o przes=C5=82anie mi swoich informacji, abym m=
-=C3=B3g=C5=82
-przedstawi=C4=87 ci=C4=99 danemu bankowi jako moj=C4=85 wyznaczon=C4=85 oso=
-b=C4=99, aby
-otrzyma=C4=87 fundusz darowizny, a ja r=C3=B3wnie=C5=BC wykorzystam informa=
-cje, aby
-z=C5=82o=C5=BCy=C4=87 przysi=C4=99g=C4=99 pod przysi=C4=99g=C4=85, kt=C3=B3=
-ra oficjalnie i prawnie zatwierdzi
-Ci=C4=99 jako nowego beneficjenta tego funduszu, jak ju=C5=BC m=C3=B3wi=C5=
-=82em.
+gcc tested configs:
+arm                                 defconfig
+arm64                            allyesconfig
+arm64                               defconfig
+arm                              allmodconfig
+arm                              allyesconfig
+i386                 randconfig-c001-20211028
+powerpc              randconfig-c003-20211028
+mips                        workpad_defconfig
+mips                malta_qemu_32r6_defconfig
+mips                         tb0226_defconfig
+mips                      maltasmvp_defconfig
+s390                       zfcpdump_defconfig
+powerpc                 mpc8272_ads_defconfig
+arc                              alldefconfig
+sh                            shmin_defconfig
+powerpc                 canyonlands_defconfig
+mips                        vocore2_defconfig
+powerpc                 mpc836x_rdk_defconfig
+mips                         db1xxx_defconfig
+mips                          rm200_defconfig
+parisc                generic-32bit_defconfig
+powerpc                   microwatt_defconfig
+sh                          landisk_defconfig
+um                           x86_64_defconfig
+sh                           se7751_defconfig
+arm                          exynos_defconfig
+m68k                          multi_defconfig
+m68k                            q40_defconfig
+powerpc                          g5_defconfig
+m68k                         amcore_defconfig
+sh                            hp6xx_defconfig
+mips                 decstation_r4k_defconfig
+powerpc               mpc834x_itxgp_defconfig
+sh                        apsh4ad0a_defconfig
+arm                        magician_defconfig
+mips                   sb1250_swarm_defconfig
+arm                    vt8500_v6_v7_defconfig
+mips                           xway_defconfig
+parisc                generic-64bit_defconfig
+powerpc                     pseries_defconfig
+arm                          ixp4xx_defconfig
+arm                        trizeps4_defconfig
+arm                         vf610m4_defconfig
+powerpc                     skiroot_defconfig
+powerpc                     ksi8560_defconfig
+mips                         rt305x_defconfig
+mips                     cu1830-neo_defconfig
+powerpc                       eiger_defconfig
+arm                            lart_defconfig
+arc                 nsimosci_hs_smp_defconfig
+mips                      loongson3_defconfig
+arm                            mps2_defconfig
+arm                           sama7_defconfig
+powerpc                      ppc64e_defconfig
+arm                            hisi_defconfig
+powerpc                      ppc40x_defconfig
+xtensa                  cadence_csp_defconfig
+arc                                 defconfig
+mips                  decstation_64_defconfig
+sh                        edosk7705_defconfig
+powerpc                 mpc832x_rdb_defconfig
+mips                      malta_kvm_defconfig
+m68k                        mvme16x_defconfig
+sh                             shx3_defconfig
+sh                  sh7785lcr_32bit_defconfig
+arm                       omap2plus_defconfig
+powerpc                     redwood_defconfig
+m68k                          atari_defconfig
+mips                        jmr3927_defconfig
+mips                  maltasmvp_eva_defconfig
+powerpc                 linkstation_defconfig
+sh                     sh7710voipgw_defconfig
+powerpc                 mpc836x_mds_defconfig
+openrisc                         alldefconfig
+arm                         bcm2835_defconfig
+sh                          kfr2r09_defconfig
+sh                         apsh4a3a_defconfig
+mips                           rs90_defconfig
+powerpc                     mpc83xx_defconfig
+mips                            gpr_defconfig
+arm                          collie_defconfig
+arm                              alldefconfig
+mips                      fuloong2e_defconfig
+arm                           h3600_defconfig
+arm                         s5pv210_defconfig
+s390                             alldefconfig
+xtensa                         virt_defconfig
+ia64                          tiger_defconfig
+arc                            hsdk_defconfig
+arm                         lubbock_defconfig
+arc                     nsimosci_hs_defconfig
+sh                           se7750_defconfig
+mips                         bigsur_defconfig
+sh                          sdk7786_defconfig
+riscv             nommu_k210_sdcard_defconfig
+riscv                    nommu_k210_defconfig
+m68k                       m5475evb_defconfig
+sh                           se7724_defconfig
+powerpc                    mvme5100_defconfig
+m68k                        mvme147_defconfig
+arm                         socfpga_defconfig
+arm                            pleb_defconfig
+openrisc                    or1ksim_defconfig
+sh                 kfr2r09-romimage_defconfig
+powerpc                mpc7448_hpc2_defconfig
+h8300                            alldefconfig
+sh                          lboxre2_defconfig
+sh                          rsk7203_defconfig
+powerpc                      mgcoge_defconfig
+powerpc                      ppc44x_defconfig
+powerpc                      pasemi_defconfig
+arc                     haps_hs_smp_defconfig
+riscv                            alldefconfig
+arc                          axs101_defconfig
+powerpc                      pcm030_defconfig
+xtensa                    smp_lx200_defconfig
+m68k                            mac_defconfig
+um                               alldefconfig
+arm                             pxa_defconfig
+sh                          polaris_defconfig
+powerpc                     rainier_defconfig
+arm                             rpc_defconfig
+powerpc                      ppc6xx_defconfig
+arm                         shannon_defconfig
+nios2                         10m50_defconfig
+arm64                            alldefconfig
+powerpc                        warp_defconfig
+mips                          ath25_defconfig
+powerpc                    amigaone_defconfig
+powerpc                 xes_mpc85xx_defconfig
+mips                     decstation_defconfig
+arc                           tb10x_defconfig
+powerpc                     tqm8541_defconfig
+sh                          rsk7269_defconfig
+sh                               j2_defconfig
+arm                        multi_v5_defconfig
+mips                             allyesconfig
+arm                             mxs_defconfig
+arm                           omap1_defconfig
+arm                           h5000_defconfig
+sh                           sh2007_defconfig
+arm                     davinci_all_defconfig
+arm                       aspeed_g5_defconfig
+arm                          lpd270_defconfig
+arm                  colibri_pxa300_defconfig
+arm                       cns3420vb_defconfig
+powerpc                 mpc837x_mds_defconfig
+powerpc                     kmeter1_defconfig
+powerpc                    klondike_defconfig
+powerpc                 mpc8560_ads_defconfig
+arm                           stm32_defconfig
+microblaze                      mmu_defconfig
+sh                             sh03_defconfig
+arm                      integrator_defconfig
+arc                          axs103_defconfig
+openrisc                  or1klitex_defconfig
+powerpc                  iss476-smp_defconfig
+mips                         tb0219_defconfig
+arm                          ep93xx_defconfig
+powerpc                  mpc885_ads_defconfig
+microblaze                          defconfig
+powerpc                 mpc837x_rdb_defconfig
+mips                         tb0287_defconfig
+arm                       imx_v4_v5_defconfig
+arm                          pcm027_defconfig
+ia64                         bigsur_defconfig
+powerpc                    ge_imp3a_defconfig
+powerpc                    socrates_defconfig
+powerpc                      arches_defconfig
+powerpc                     tqm8548_defconfig
+arm                        mvebu_v5_defconfig
+arm                   milbeaut_m10v_defconfig
+m68k                          amiga_defconfig
+sh                        sh7763rdp_defconfig
+powerpc                     tqm8560_defconfig
+mips                       lemote2f_defconfig
+arm                  randconfig-c002-20211028
+arm                  randconfig-c002-20211029
+ia64                             allmodconfig
+ia64                                defconfig
+ia64                             allyesconfig
+m68k                                defconfig
+m68k                             allmodconfig
+m68k                             allyesconfig
+nios2                               defconfig
+nds32                             allnoconfig
+arc                              allyesconfig
+nds32                               defconfig
+nios2                            allyesconfig
+csky                                defconfig
+alpha                               defconfig
+alpha                            allyesconfig
+h8300                            allyesconfig
+xtensa                           allyesconfig
+sh                               allmodconfig
+parisc                              defconfig
+s390                             allyesconfig
+s390                                defconfig
+parisc                           allyesconfig
+s390                             allmodconfig
+i386                             allyesconfig
+sparc                            allyesconfig
+sparc                               defconfig
+i386                                defconfig
+i386                              debian-10.3
+mips                             allmodconfig
+powerpc                          allyesconfig
+powerpc                          allmodconfig
+powerpc                           allnoconfig
+x86_64               randconfig-a002-20211028
+x86_64               randconfig-a004-20211028
+x86_64               randconfig-a005-20211028
+x86_64               randconfig-a001-20211028
+x86_64               randconfig-a006-20211028
+x86_64               randconfig-a003-20211028
+i386                 randconfig-a004-20211028
+i386                 randconfig-a003-20211028
+i386                 randconfig-a002-20211028
+i386                 randconfig-a006-20211028
+i386                 randconfig-a001-20211028
+i386                 randconfig-a005-20211028
+x86_64               randconfig-a015-20211029
+x86_64               randconfig-a013-20211029
+x86_64               randconfig-a011-20211029
+x86_64               randconfig-a014-20211029
+x86_64               randconfig-a012-20211029
+x86_64               randconfig-a016-20211029
+i386                 randconfig-a012-20211029
+i386                 randconfig-a013-20211029
+i386                 randconfig-a011-20211029
+i386                 randconfig-a015-20211029
+i386                 randconfig-a016-20211029
+i386                 randconfig-a014-20211029
+riscv                    nommu_virt_defconfig
+riscv                             allnoconfig
+riscv                               defconfig
+riscv                          rv32_defconfig
+riscv                            allmodconfig
+riscv                            allyesconfig
+x86_64                    rhel-8.3-kselftests
+um                             i386_defconfig
+x86_64                              defconfig
+x86_64                               rhel-8.3
+x86_64                          rhel-8.3-func
+x86_64                                  kexec
+x86_64                           allyesconfig
 
-Twoje pe=C5=82ne imi=C4=99 .....
-Adres ............
-Numer telefonu........
-Wiek ................
-Zaw=C3=B3d .........
-Kraj ...........
-Twoje zdj=C4=99cia .......
+clang tested configs:
+arm                  randconfig-c002-20211028
+powerpc              randconfig-c003-20211028
+riscv                randconfig-c006-20211028
+x86_64               randconfig-c007-20211028
+mips                 randconfig-c004-20211028
+s390                 randconfig-c005-20211028
+i386                 randconfig-c001-20211028
+arm                  randconfig-c002-20211029
+powerpc              randconfig-c003-20211029
+riscv                randconfig-c006-20211029
+x86_64               randconfig-c007-20211029
+mips                 randconfig-c004-20211029
+s390                 randconfig-c005-20211029
+i386                 randconfig-c001-20211029
+x86_64               randconfig-a005-20211030
+x86_64               randconfig-a004-20211030
+x86_64               randconfig-a002-20211030
+x86_64               randconfig-a003-20211030
+x86_64               randconfig-a001-20211030
+x86_64               randconfig-a006-20211030
+i386                 randconfig-a004-20211029
+i386                 randconfig-a003-20211029
+i386                 randconfig-a002-20211029
+i386                 randconfig-a001-20211029
+i386                 randconfig-a006-20211029
+i386                 randconfig-a005-20211029
+x86_64               randconfig-a015-20211028
+x86_64               randconfig-a013-20211028
+x86_64               randconfig-a011-20211028
+x86_64               randconfig-a014-20211028
+x86_64               randconfig-a012-20211028
+x86_64               randconfig-a016-20211028
+i386                 randconfig-a012-20211028
+i386                 randconfig-a013-20211028
+i386                 randconfig-a011-20211028
+i386                 randconfig-a015-20211028
+i386                 randconfig-a016-20211028
+i386                 randconfig-a014-20211028
+hexagon              randconfig-r045-20211028
+riscv                randconfig-r042-20211028
+s390                 randconfig-r044-20211028
+hexagon              randconfig-r041-20211028
+hexagon              randconfig-r045-20211029
+hexagon              randconfig-r041-20211029
 
-Jak tylko otrzymam Twoj=C4=85 odpowied=C5=BA z podanymi tutaj informacjami,
-niezw=C5=82ocznie przedstawi=C4=99 Ci=C4=99 danemu bankowi, w kt=C3=B3rym j=
-est zdeponowany
-fundusz, i przedstawi=C4=99 Ci=C4=99 jako moj=C4=85 wyznaczon=C4=85 osob=C4=
-=99, kt=C3=B3ra otrzyma
-m=C3=B3j fundusz darowizny. Przeka=C5=BC=C4=99 Ci r=C3=B3wnie=C5=BC wszystk=
-ie istotne
-informacje, kt=C3=B3re upowa=C5=BCni=C4=85 do wydania i przekazania pieni=
-=C4=99dzy Tobie
-jako mojemu nale=C5=BCycie wyznaczonemu przedstawicielowi.
-
-Zapewni=C5=82em mnie, =C5=BCe post=C4=85pisz zgodnie z tym, co powiedzia=C5=
-=82em w tej
-wiadomo=C5=9Bci, maj=C4=85c nadziej=C4=99, =C5=BCe wkr=C3=B3tce otrzymasz o=
-dpowied=C5=BA.
-
-Twoja siostra w Chrystusie
-Z powa=C5=BCaniem
-Pani Josan Nowak
+---
+0-DAY CI Kernel Test Service, Intel Corporation
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
