@@ -2,94 +2,58 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 22801440FDD
-	for <lists+linux-media@lfdr.de>; Sun, 31 Oct 2021 18:44:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4783044105D
+	for <lists+linux-media@lfdr.de>; Sun, 31 Oct 2021 20:05:38 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230219AbhJaRqb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 31 Oct 2021 13:46:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35932 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229838AbhJaRq2 (ORCPT
+        id S231176AbhJaTIE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 31 Oct 2021 15:08:04 -0400
+Received: from mailgate.kemenperin.go.id ([202.47.80.142]:34128 "EHLO
+        mailgate.kemenperin.go.id" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229732AbhJaTIC (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 31 Oct 2021 13:46:28 -0400
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2BD47C061714
-        for <linux-media@vger.kernel.org>; Sun, 31 Oct 2021 10:43:56 -0700 (PDT)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1mhEs2-00089B-TK; Sun, 31 Oct 2021 18:43:50 +0100
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
-        by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.92)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1mhEs2-0003ZC-3I; Sun, 31 Oct 2021 18:43:50 +0100
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.92)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1mhEs2-0005Qm-1n; Sun, 31 Oct 2021 18:43:50 +0100
-Date:   Sun, 31 Oct 2021 18:43:47 +0100
-From:   Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To:     =?utf-8?B?TWHDrXJh?= Canal <maira.canal@usp.br>
-Cc:     linux-pwm@vger.kernel.org, Sean Young <sean@mess.org>,
-        linux-kernel@vger.kernel.org, thierry.reding@gmail.com,
-        kernel@pengutronix.de, mchehab@kernel.org,
-        Lee Jones <lee.jones@linaro.org>, linux-media@vger.kernel.org
-Subject: Re: [PATCH] media: ir-rx51: Switch to atomic PWM API
-Message-ID: <20211031174347.57rnaimaagj43u2q@pengutronix.de>
-References: <YXqv339PJTHcGxJg@fedora>
- <20211029111232.soknq7mu3r65laar@pengutronix.de>
- <CAH7FV3md_SBTHu9sTp-hLtLd0ERBdXx8HzM=W9hF79X5V=twQA@mail.gmail.com>
+        Sun, 31 Oct 2021 15:08:02 -0400
+X-Greylist: delayed 4345 seconds by postgrey-1.27 at vger.kernel.org; Sun, 31 Oct 2021 15:07:55 EDT
+Received: from localhost (localhost [127.0.0.1])
+        by mailgate.kemenperin.go.id (Postfix) with ESMTP id 87E63828655;
+        Mon,  1 Nov 2021 00:37:53 +0700 (WIB)
+Received: from mailgate.kemenperin.go.id ([127.0.0.1])
+        by localhost (mailgate.kemenperin.go.id [127.0.0.1]) (amavisd-new, port 10032)
+        with ESMTP id REjcidkKt7zn; Mon,  1 Nov 2021 00:37:52 +0700 (WIB)
+Received: from localhost (localhost [127.0.0.1])
+        by mailgate.kemenperin.go.id (Postfix) with ESMTP id 98F4D828656;
+        Mon,  1 Nov 2021 00:37:29 +0700 (WIB)
+DKIM-Filter: OpenDKIM Filter v2.10.3 mailgate.kemenperin.go.id 98F4D828656
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kemenperin.go.id;
+        s=3298A942-BBC6-11E3-B333-483736368EC2; t=1635701849;
+        bh=+tje3x5yIAM91gcZZJ8xoRjx6IuR+B3ePoXPCKu2mgI=;
+        h=Date:From:Message-ID:MIME-Version;
+        b=EiaiFvxticsO1hmLQXcoDQsWlmOJGwpgNgHS0QpIpNDSjurohBxm+MnK0NeIajh+Z
+         qgacgm+X2QoD9zEHezxSjMtXej1UxdHD0RlQfUhpBZdJWD94tPSLGtz/4/NX29VN44
+         kzcGdcHZifqwSCpvO4S8QogjiBeAwqeqtPLFS+qg=
+X-Virus-Scanned: amavisd-new at kemenperin.go.id
+Received: from mailgate.kemenperin.go.id ([127.0.0.1])
+        by localhost (mailgate.kemenperin.go.id [127.0.0.1]) (amavisd-new, port 10026)
+        with ESMTP id P4mjPORxq6FB; Mon,  1 Nov 2021 00:37:29 +0700 (WIB)
+Received: from mailgate.kemenperin.go.id (mailgate.kemenperin.go.id [10.1.0.89])
+        by mailgate.kemenperin.go.id (Postfix) with ESMTP id 0D197828606;
+        Mon,  1 Nov 2021 00:36:52 +0700 (WIB)
+Date:   Mon, 1 Nov 2021 00:36:51 +0700 (WIB)
+From:   Manuel Franco <silitonga@kemenperin.go.id>
+Reply-To: Manuel Franco <manuelfrancospende1@gmail.com>
+Message-ID: <2120766201.325963.1635701811898.JavaMail.zimbra@kemenperin.go.id>
+Subject: 2,000,000.00 Euro
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="krrunpn66tkvy3ou"
-Content-Disposition: inline
-In-Reply-To: <CAH7FV3md_SBTHu9sTp-hLtLd0ERBdXx8HzM=W9hF79X5V=twQA@mail.gmail.com>
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-media@vger.kernel.org
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.1.0.89]
+Thread-Index: YnLR4BNRfRdr0xmSU69kIyDBZkXDHw==
+Thread-Topic: 2,000,000.00 Euro
+To:     unlisted-recipients:; (no To-header on input)
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
 
---krrunpn66tkvy3ou
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-On Sat, Oct 30, 2021 at 08:20:50AM -0300, Ma=EDra Canal wrote:
-> Hello Uwe,
->=20
-> > Doing this here introduces a change in behaviour. Better do this after
-> > pwm_get().
->=20
-> I didn't really get this feedback. Isn't pwm_init_state after pwm_get?
-> Or should it be before the error treatment of pwm_get?
-
-It is, but it might be repeated resetting the pwm settings when the
-device is reopened.
-
-Best regards
-Uwe
-
---=20
-Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
-Industrial Linux Solutions                 | https://www.pengutronix.de/ |
-
---krrunpn66tkvy3ou
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEfnIqFpAYrP8+dKQLwfwUeK3K7AkFAmF+1c8ACgkQwfwUeK3K
-7AlXGwf/c6JRDXVbOv1soUqXtj9+sMF+3H4FEBWoAfTyAn848wn4B8OsoeP/dBqy
-GzDvq8PY22cHUSchUCgTN06oybctgiV/ilIfXRAJiJb4a0c9ZYJ3AnhcHZJYyX/x
-nA0PpR6V7YMnY0B+82FAj/Y+V6Q3gHpthTXKRt/s2AZd9XPWvwFO9zHziW46v0fb
-csMS0R/PX26EhXMsx+sEMY4fbTG+64crD48E9ZJLMhoax1TYOHahysQptZJCrumX
-Md1i284kXoeNjv7QrglumKG+zJuQjTtMRJbrO3T9oCZM+RoysECbrYT73C4Vm8ea
-EzCOu17iq8rZikeIzwLjW/c1dZBB1g==
-=aM7g
------END PGP SIGNATURE-----
-
---krrunpn66tkvy3ou--
+-- 
+You have a donation of 2,000,000.00 Euro.Get back to me now so we can proceed.
