@@ -2,98 +2,173 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1D898440E84
-	for <lists+linux-media@lfdr.de>; Sun, 31 Oct 2021 14:04:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 04F52440FD3
+	for <lists+linux-media@lfdr.de>; Sun, 31 Oct 2021 18:41:43 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229974AbhJaNGu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 31 Oct 2021 09:06:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60100 "EHLO
+        id S230222AbhJaRnq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 31 Oct 2021 13:43:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35288 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229662AbhJaNGt (ORCPT
+        with ESMTP id S230188AbhJaRnm (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 31 Oct 2021 09:06:49 -0400
-Received: from mail-lj1-x22b.google.com (mail-lj1-x22b.google.com [IPv6:2a00:1450:4864:20::22b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6FCDEC061570;
-        Sun, 31 Oct 2021 06:04:17 -0700 (PDT)
-Received: by mail-lj1-x22b.google.com with SMTP id k24so5565496ljg.3;
-        Sun, 31 Oct 2021 06:04:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=EMe2Z2587AVutQZvLwNBuhISbQ8pHURWp8p6vvRjrlc=;
-        b=a2iKCDA/nqe1HltLr9hVTTfl2+nGyDu2Z3sl5WvHKWffYUTP1PzdUqf468l1TtR5bK
-         KmOlJqV58zjINjRK+rB6IcQNIZR/GvPvBHBAxGJat4OVhs4SjudzbaHCVdf8yvrfeTKh
-         dn9SKK/iqD0p9ax7zF/mmifUJJ3Oq8mJw8pLMt00GX0O+idlBo+dcyUEFhac7YAUZlB5
-         vwQJhhZ77ixkgVrjKdlZryIabUtNaUjBfFcjb7+wgDy0beWPQSUzm+TkF2VWj42jgqSr
-         hR1Qic+nb+yJNXQKOW2qo8b0pttbT1IEJCGSNWaC/wimitqp0hmK6oE9fMoVJLbmNO/t
-         0SvA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=EMe2Z2587AVutQZvLwNBuhISbQ8pHURWp8p6vvRjrlc=;
-        b=RRNbYLjjX3Nqxh4RpqAfdfNSEwYrd8DjUcs7hHJqwDvc0SWU749CZnl3TUKmypK3O2
-         Y8a1m5D15z6c0J35HkhqVgN569LSQNI66F+nDQWDmn0tx4oPXyWNQU2aoPK9OvPXIYTx
-         geac94HnFL2W/HR3ZV7ylQRlLQtan7fP5LGTz5ptWKbtM11NusCRuDV1NcDMWFwNrZho
-         E3ItK/mQ5XaMUQtogJ/7ynuwkAVfa+3K9cbvQ4GY12X5XWJMsF/wBIUZt52wDKYdpJlD
-         NjcXIXsOxBcUYbR6wnAn0h+upUPsB5XwNFaylMpzepz9DXNHeANVEv4pnR7bNr9r2ICZ
-         5XNw==
-X-Gm-Message-State: AOAM5319r7eCjSGda/IYVDRleJnyXXBoOs2oH1DqOo5YkxB5EF5SZSiW
-        dce1sHuD5FHGGUI4G46GHLlJ9yfubILJonByxvk=
-X-Google-Smtp-Source: ABdhPJwu7xlJgXcDLfBtqzUnE3+rerLqH1wzhSdAeqWlQfbNF5Kythz68RK7/JMcva/SffISoH67p1nJGkwCfHQG3eY=
-X-Received: by 2002:a2e:81c8:: with SMTP id s8mr18128016ljg.407.1635685455484;
- Sun, 31 Oct 2021 06:04:15 -0700 (PDT)
+        Sun, 31 Oct 2021 13:43:42 -0400
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4E352C061570
+        for <linux-media@vger.kernel.org>; Sun, 31 Oct 2021 10:41:08 -0700 (PDT)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1mhEpK-0007sQ-7P; Sun, 31 Oct 2021 18:41:02 +0100
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+        by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.92)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1mhEpI-0003Yq-4G; Sun, 31 Oct 2021 18:41:00 +0100
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.92)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1mhEpI-0005Po-2b; Sun, 31 Oct 2021 18:41:00 +0100
+Date:   Sun, 31 Oct 2021 18:40:57 +0100
+From:   Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To:     Sean Young <sean@mess.org>
+Cc:     =?utf-8?B?TWHDrXJh?= Canal <maira.canal@usp.br>,
+        mchehab@kernel.org, thierry.reding@gmail.com, lee.jones@linaro.org,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-pwm@vger.kernel.org
+Subject: Re: [PATCH v4] media: rc: pwm-ir-tx: Switch to atomic PWM API
+Message-ID: <20211031174057.rizqg6rw47devq5o@pengutronix.de>
+References: <YXlxhpZWf2mxJaMi@fedora>
+ <20211028064513.guziv6uaivzlk6ki@pengutronix.de>
+ <20211028091442.GA16514@gofer.mess.org>
+ <20211028111535.x7xgz7domx2lpyfh@pengutronix.de>
+ <20211031103933.GA28316@gofer.mess.org>
 MIME-Version: 1.0
-References: <dc24ab2a6c9bb0831e1bb732d3377529fb0ead87.1635679495.git.mchehab+huawei@kernel.org>
- <b561275a4b10949ac06ff834e27243ec6ad6d546.1635679495.git.mchehab+huawei@kernel.org>
-In-Reply-To: <b561275a4b10949ac06ff834e27243ec6ad6d546.1635679495.git.mchehab+huawei@kernel.org>
-From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Sun, 31 Oct 2021 15:03:39 +0200
-Message-ID: <CAHp75VcaWqeY2=13WE+ObQzjA1q83QPU4NGJnPR0H12m68uzVQ@mail.gmail.com>
-Subject: Re: [PATCH 3/3] media: atomisp: comment-out JPEG format
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc:     Linuxarm <linuxarm@huawei.com>, mauro.chehab@huawei.com,
-        Alex Dewar <alex.dewar90@gmail.com>,
-        Aline Santana Cordeiro <alinesantanacordeiro@gmail.com>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Dan Carpenter <dan.carpenter@oracle.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Ingo Molnar <mingo@kernel.org>,
-        Kaixu Xia <kaixuxia@tencent.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-        Tsuchiya Yuto <kitakar@gmail.com>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        linux-staging@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="dz53yxaxk2uaah4j"
+Content-Disposition: inline
+In-Reply-To: <20211031103933.GA28316@gofer.mess.org>
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-media@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Sun, Oct 31, 2021 at 1:30 PM Mauro Carvalho Chehab
-<mchehab+huawei@kernel.org> wrote:
->
-> This is already disabled on some parts of the code, and trying
-> to use it with current firmware causes an error:
->
-> [   53.799946] atomisp-isp2 0000:00:03.0: can't create streams
-> [   53.799962] atomisp-isp2 0000:00:03.0: __get_frame_info 1600x900 (padded to 0) returned -22
->
-> So, completely disable reporting it.
 
+--dz53yxaxk2uaah4j
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Can't we simply remove all these pieces altogether?
-The rationale:
- - code is still kept in the index of the Git
- - avoid robots and humans of sending patches against dead code
- - leaving dead code (even in staging) is not what we want in the long term
+On Sun, Oct 31, 2021 at 10:39:34AM +0000, Sean Young wrote:
+> Hi Uwe,
+>=20
+> On Thu, Oct 28, 2021 at 01:15:35PM +0200, Uwe Kleine-K=F6nig wrote:
+> > On Thu, Oct 28, 2021 at 10:14:42AM +0100, Sean Young wrote:
+> > > We still have the problem that the pwm drivers calculate the period
+> > > incorrectly by rounding down (except pwm-bcm2835). So the period is n=
+ot
+> > > as good as it could be in most cases, but this driver can't do anythi=
+ng
+> > > about that.
+> >=20
+> > Yeah, some time ago I started coding a round_state function
+> > (wip at
+> > https://git.pengutronix.de/cgit/ukl/linux/commit/?h=3Dpwm-wip&id=3Dae34=
+8eb6a55d6526f30ef4a49819197d9616391e)
+> > but this was pushed down on my todo-list by more important stuff.
+> >=20
+> > If you want to experiment with that ...
+>=20
+> I was thinking about this problem this morning.=20
+>=20
+> - The pwm-ir-tx driver gets a carrier set in Hz, which it has to convert =
+to
+>   a period (1e9 / carrier). There is loss of accuracy there.
 
--- 
-With Best Regards,
-Andy Shevchenko
+Ack, and the loss is known.
+
+> - When it gets to the pwm driver, the period is converted into the format
+>   the pwm hardware expects. For example the pwm-bcm2835 driver converts
+>   it into clock cycles (1e9 / 8e8).
+>=20
+> Both calculations involve loss of accuracy because of integer representat=
+ion.
+>=20
+> Would it make more sense for the pwm interface to use numer/denom rational
+> numbers?
+
+This is quite a complication because then all lowlevel driver needs to
+do fractal math. I don't want to open that can of worms.
+
+> struct rational {
+> 	u64 numer;
+> 	u64 denom;
+> };
+>=20
+> If pwm-ir-tx would like to set the carrier, it could it like so:
+>=20
+> 	struct rational period =3D {
+> 		.numer =3D NUSEC_PER_SEC,
+> 		.denom =3D carrier,
+> 	};
+>=20
+> 	pwm_set_period(&period);
+>=20
+> Now pwm-bcm2835 could do it like so:
+>=20
+> 	int bcm2835_set_period(struct rational *period)
+> 	{
+> 		struct rational rate =3D {
+> 			.numer =3D NUSEC_PER_SEC,
+> 			.denum =3D clk_get_rate(clk),
+> 		};
+>=20
+> 		rational_div(&rate, period);
+>=20
+> 		int step =3D rational_to_u64(&rate);
+> 	}
+>=20
+> Alternatively, since most of the pwm hardware is doing scaling based on t=
+he
+> clock (I think), would not make more sense for the pwm driver interface to
+> take a frequency rather than a period? Then the integer calculations can =
+be
+> simpler: just divide the clock rate by the required frequency and you have
+> the period.
+
+I think the rounding approach is easier and gives you the optimal
+setting, too. With a carrier of say 455 KHz you want a period of
+1e9 / (455 kHz) =3D 2197.802197802198 ns. Now assuming a pwm clk of 10 MHz
+the pwm-bcm2835 driver can offer you 2100 ns and 2200 ns and the
+pwm-ir-tx driver can pick the one it prefers. (OK, this works so nicely
+because the pwm-bcm2835 driver has a nice clk rate, but also if it were
+say 66666000 Hz, it would offer you 2191 ns and 2206 ns and you could
+pick your favourite. (In this case there is a rounding error because the
+actual periods are 2190.021900219002 ns and 2205.022050220502 ns, but I
+would expect that this doesn't influence the choice and to improve here
+we probably would have to change the unit of clk_get_rate, too.)
+
+Best regards
+Uwe
+
+--=20
+Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
+Industrial Linux Solutions                 | https://www.pengutronix.de/ |
+
+--dz53yxaxk2uaah4j
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEfnIqFpAYrP8+dKQLwfwUeK3K7AkFAmF+1SYACgkQwfwUeK3K
+7AkS4ggAgTu6+YUzCPjg9cyzjbo1cS6UhhdPI7CxPJg6zl6JsQ4rIwzdmO2tEAO7
+S+K+LKzZYTChxSrPgPstRCvJPkzHFt9fvmRb5lfZzuigzzx54saIJeETdPJdTmuX
+nZWQpLMJF0qBh0UTy2KgVyIlQXWUmyUaiKC/qjiwxbU+UAvLpy7jqHG1vYvtfaOr
+jE9qhNUnY3LMjKN9aczA4yoSIelg/xC6jaW/gqfN53ECq81nq5uKOcTJAPz9R3nt
+UF2q/G+YMq4iZQ25Ns+Gu2rwfqvLmE8bVvzqCKXxQOF3784KyW6FlCWNbrDRkNG1
+pEjfo3j9G6IVRKNAtCnO2WzCtysjmg==
+=QDfF
+-----END PGP SIGNATURE-----
+
+--dz53yxaxk2uaah4j--
