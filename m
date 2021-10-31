@@ -2,163 +2,118 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AF490440CB7
-	for <lists+linux-media@lfdr.de>; Sun, 31 Oct 2021 05:28:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9930D440DDA
+	for <lists+linux-media@lfdr.de>; Sun, 31 Oct 2021 11:39:41 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229638AbhJaEag (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 31 Oct 2021 00:30:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33946 "EHLO
+        id S229877AbhJaKmK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 31 Oct 2021 06:42:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57048 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229620AbhJaEaf (ORCPT
+        with ESMTP id S229638AbhJaKmK (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 31 Oct 2021 00:30:35 -0400
-Received: from lb1-smtp-cloud9.xs4all.net (lb1-smtp-cloud9.xs4all.net [IPv6:2001:888:0:108::1c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 64810C061570
-        for <linux-media@vger.kernel.org>; Sat, 30 Oct 2021 21:28:03 -0700 (PDT)
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud9.xs4all.net with ESMTPA
-        id h2RomDhPM030Kh2RsmOOdF; Sun, 31 Oct 2021 05:28:00 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1635654480; bh=2QKwwnDmB04Ecs6iD7MPvI7JBzch1xUvI/P0kP81AqU=;
-        h=Message-ID:Date:From:To:Subject:From:Subject;
-        b=GKMNz9tA/opHkx79qJdssXwmfAeb5Vu/gCLOesVV9p14Utcvt+IMIED1TWxi7qi1U
-         3ZSA1Gv6TxRhWlfDYbJiIv9v/+S9hhxtdXxoLdBKCpRtMTZk1ItopqqBzqgCm7I5Y3
-         QlKqctuLbUXGWPqyI972NpgeaohqrC5dYtmz2XJVogxbSnGZSbs529bkAsRjRE8Toe
-         k5PYrRTygEV8fzc94JlxFiXu1Kj6c39HJZqByQHpUNG117T2LcV7LTgOvUX55LctHN
-         akORRYoIpAssxfjunePgJKUZaIuHaH3qc4matUALBlR6998i/ugb6gqMmZOrKzUUNB
-         ip1wAWiqNZScw==
-Message-ID: <91e71b4a87a73030f228ef949d852259@smtp-cloud9.xs4all.net>
-Date:   Sun, 31 Oct 2021 05:27:55 +0100
-From:   "Hans Verkuil" <hverkuil@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: ERRORS
-X-CMAE-Envelope: MS4xfGpNF6a6cgy3StOxhSt1RVd2DymL21PqOE7M+lxZE4Un/foyyo6NgoH3uc3Y/po3fBw1qrt6R8Oq//kY2MTKpskrhmHwIZa7gsuIoj+JVu7E5H1VRdDk
- WdnBQkcj4qbVJ/TmtY++mNWZc8+dtgi69J6JSaUchVWOaJaO1qBLoz0MMJOo0hxVvVmsAnfKkEWzbg==
+        Sun, 31 Oct 2021 06:42:10 -0400
+Received: from gofer.mess.org (gofer.mess.org [IPv6:2a02:8011:d000:212::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 573EEC061570;
+        Sun, 31 Oct 2021 03:39:38 -0700 (PDT)
+Received: by gofer.mess.org (Postfix, from userid 1000)
+        id 30383C63FB; Sun, 31 Oct 2021 10:39:34 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mess.org; s=2020;
+        t=1635676774; bh=uhJMdNnrBQp8vDJjBnlyia4UxjQNMMW0JmjLg7bCz7Y=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=e1YebnWFKr+SwciHOLCYzoOIlMGOwnzYkfNhJedo5+jvjmaKM9M4rVMkIYDL10imf
+         XAtKAt3J48dij/4ZQIVp7zAYRDG1kp8yK4RW2QyOEHk1qXwyLAOkruhSliCCRKNw7c
+         9ZkzpY7l0iFoTVqN0p9B7ZZSWflUWJTzOHjJxsFhGUHf5Yx99nUy5CrcPJLb15kgnf
+         /T/7yekoWZ56bNOF3qDJcJJ+/0dquOV9ZVxShg/uCQXPmGnsQ0UUcnW+R5wswekQVw
+         8nKUwlsbLN/UvChUOt9Hq9wP38xS9BTHKPHNcuL9VtmOfrlH9/Ic6biY2Ydtu0Kw8/
+         nbodbbyb5XsLA==
+Date:   Sun, 31 Oct 2021 10:39:34 +0000
+From:   Sean Young <sean@mess.org>
+To:     Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= 
+        <u.kleine-koenig@pengutronix.de>
+Cc:     =?iso-8859-1?Q?Ma=EDra?= Canal <maira.canal@usp.br>,
+        mchehab@kernel.org, thierry.reding@gmail.com, lee.jones@linaro.org,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-pwm@vger.kernel.org
+Subject: Re: [PATCH v4] media: rc: pwm-ir-tx: Switch to atomic PWM API
+Message-ID: <20211031103933.GA28316@gofer.mess.org>
+References: <YXlxhpZWf2mxJaMi@fedora>
+ <20211028064513.guziv6uaivzlk6ki@pengutronix.de>
+ <20211028091442.GA16514@gofer.mess.org>
+ <20211028111535.x7xgz7domx2lpyfh@pengutronix.de>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20211028111535.x7xgz7domx2lpyfh@pengutronix.de>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the kernels and architectures in the list below.
+Hi Uwe,
 
-Results of the daily build of media_tree:
+On Thu, Oct 28, 2021 at 01:15:35PM +0200, Uwe Kleine-König wrote:
+> On Thu, Oct 28, 2021 at 10:14:42AM +0100, Sean Young wrote:
+> > We still have the problem that the pwm drivers calculate the period
+> > incorrectly by rounding down (except pwm-bcm2835). So the period is not
+> > as good as it could be in most cases, but this driver can't do anything
+> > about that.
+> 
+> Yeah, some time ago I started coding a round_state function
+> (wip at
+> https://git.pengutronix.de/cgit/ukl/linux/commit/?h=pwm-wip&id=ae348eb6a55d6526f30ef4a49819197d9616391e)
+> but this was pushed down on my todo-list by more important stuff.
+> 
+> If you want to experiment with that ...
 
-date:			Sun Oct 31 05:00:12 CET 2021
-media-tree git hash:	b4018f343a8ab4b41d87938400cc01b066fe8ca7
-media_build git hash:	c3d4780fa10bc38eb9dc462275fac019c8d693d5
-v4l-utils git hash:	24fd9a970d8bc62dc06380009b9683461238a7dc
-edid-decode git hash:	67ed12e3ccafd9e125a5eec9349043b523895dc3
-gcc version:		i686-linux-gcc (GCC) 11.2.0
-sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
-sparse version:		0.6.3
-smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
-smatch version:		0.6.3
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: f1c67b200f199ca44b793327582bb643ecabd35f
-host hardware:		x86_64
-host os:		5.14.0-2-amd64
+I was thinking about this problem this morning. 
 
-linux-git-sh: OK
-linux-git-arm-at91: OK
-linux-git-arm-davinci: OK
-linux-git-arm-stm32: OK
-linux-git-mips: OK
-linux-git-arm-pxa: OK
-linux-git-powerpc64: OK
-linux-git-arm64: OK
-linux-git-arm-multi: OK
-linux-git-i686: OK
-linux-git-x86_64: OK
-Check COMPILE_TEST: OK
-Check for strcpy/strncpy/strlcpy: OK
-linux-4.4.283-i686: OK
-linux-4.4.283-x86_64: OK
-linux-4.5.7-i686: WARNINGS
-linux-4.5.7-x86_64: WARNINGS
-linux-4.6.7-i686: WARNINGS
-linux-4.6.7-x86_64: WARNINGS
-linux-4.7.10-i686: WARNINGS
-linux-4.7.10-x86_64: WARNINGS
-linux-4.8.17-i686: WARNINGS
-linux-4.8.17-x86_64: WARNINGS
-linux-4.9.246-i686: OK
-linux-4.9.246-x86_64: OK
-linux-4.10.17-i686: WARNINGS
-linux-4.10.17-x86_64: WARNINGS
-linux-4.11.12-i686: WARNINGS
-linux-4.11.12-x86_64: WARNINGS
-linux-4.12.14-i686: WARNINGS
-linux-4.12.14-x86_64: WARNINGS
-linux-4.13.16-i686: WARNINGS
-linux-4.13.16-x86_64: WARNINGS
-linux-4.14.246-i686: OK
-linux-4.14.246-x86_64: OK
-linux-4.15.18-i686: WARNINGS
-linux-4.15.18-x86_64: WARNINGS
-linux-4.16.18-i686: WARNINGS
-linux-4.16.18-x86_64: WARNINGS
-linux-4.17.19-i686: WARNINGS
-linux-4.17.19-x86_64: WARNINGS
-linux-4.18.20-i686: WARNINGS
-linux-4.18.20-x86_64: WARNINGS
-linux-4.19.206-i686: OK
-linux-4.19.206-x86_64: OK
-linux-4.20.17-i686: WARNINGS
-linux-4.20.17-x86_64: WARNINGS
-linux-5.0.21-i686: OK
-linux-5.0.21-x86_64: OK
-linux-5.1.21-i686: OK
-linux-5.1.21-x86_64: OK
-linux-5.2.21-i686: OK
-linux-5.2.21-x86_64: OK
-linux-5.3.18-i686: OK
-linux-5.3.18-x86_64: OK
-linux-5.4.144-i686: OK
-linux-5.4.144-x86_64: OK
-linux-5.5.19-i686: OK
-linux-5.5.19-x86_64: OK
-linux-5.6.19-i686: OK
-linux-5.6.19-x86_64: OK
-linux-5.7.19-i686: OK
-linux-5.7.19-x86_64: OK
-linux-5.8.18-i686: OK
-linux-5.8.18-x86_64: OK
-linux-5.9.16-i686: OK
-linux-5.9.16-x86_64: OK
-linux-5.10.62-i686: OK
-linux-5.10.62-x86_64: OK
-linux-5.11.22-i686: OK
-linux-5.11.22-x86_64: OK
-linux-5.12.19-i686: OK
-linux-5.12.19-x86_64: OK
-linux-5.13.14-i686: OK
-linux-5.13.14-x86_64: OK
-linux-5.14.1-i686: OK
-linux-5.14.1-x86_64: OK
-linux-5.15-rc1-i686: OK
-linux-5.15-rc1-x86_64: OK
-apps: OK
-spec-git: OK
-virtme: ERRORS
-virtme-32: ERRORS
-sparse: WARNINGS
-smatch: ERRORS
-kerneldoc: WARNINGS
+- The pwm-ir-tx driver gets a carrier set in Hz, which it has to convert to
+  a period (1e9 / carrier). There is loss of accuracy there.
+- When it gets to the pwm driver, the period is converted into the format
+  the pwm hardware expects. For example the pwm-bcm2835 driver converts
+  it into clock cycles (1e9 / 8e8).
 
-Detailed results are available here:
+Both calculations involve loss of accuracy because of integer representation.
 
-http://www.xs4all.nl/~hverkuil/logs/Sunday.log
+Would it make more sense for the pwm interface to use numer/denom rational
+numbers?
 
-Detailed regression test results are available here:
+struct rational {
+	u64 numer;
+	u64 denom;
+};
 
-http://www.xs4all.nl/~hverkuil/logs/Sunday-test-media.log
-http://www.xs4all.nl/~hverkuil/logs/Sunday-test-media-32.log
-http://www.xs4all.nl/~hverkuil/logs/Sunday-test-media-dmesg.log
+If pwm-ir-tx would like to set the carrier, it could it like so:
 
-Full logs are available here:
+	struct rational period = {
+		.numer = NUSEC_PER_SEC,
+		.denom = carrier,
+	};
 
-http://www.xs4all.nl/~hverkuil/logs/Sunday.tar.bz2
+	pwm_set_period(&period);
 
-The Media Infrastructure API from this daily build is here:
+Now pwm-bcm2835 could do it like so:
 
-http://www.xs4all.nl/~hverkuil/spec/index.html
+	int bcm2835_set_period(struct rational *period)
+	{
+		struct rational rate = {
+			.numer = NUSEC_PER_SEC,
+			.denum = clk_get_rate(clk),
+		};
+
+		rational_div(&rate, period);
+
+		int step = rational_to_u64(&rate);
+	}
+
+Alternatively, since most of the pwm hardware is doing scaling based on the
+clock (I think), would not make more sense for the pwm driver interface to
+take a frequency rather than a period? Then the integer calculations can be
+simpler: just divide the clock rate by the required frequency and you have
+the period.
+
+Just some thoughts.
+
+
+Sean
