@@ -2,33 +2,58 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id F24A3440DEF
-	for <lists+linux-media@lfdr.de>; Sun, 31 Oct 2021 12:25:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1D898440E84
+	for <lists+linux-media@lfdr.de>; Sun, 31 Oct 2021 14:04:21 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231352AbhJaL1j (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 31 Oct 2021 07:27:39 -0400
-Received: from mail.kernel.org ([198.145.29.99]:47128 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230209AbhJaL1i (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Sun, 31 Oct 2021 07:27:38 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 4C39660F56;
-        Sun, 31 Oct 2021 11:25:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1635679506;
-        bh=5AQ4SFcPBrRu8r+f85REA1Qo7urIQufQynh/2GrVMLY=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=PminbNS/sScjp2Kr2IYaraoupgvxMecnhIyPC/YsRKar60GF/V2Hk+6IdS+hUFe4b
-         ChDB+8uaoUzNsZfFKTpnzVjYR9hGs/G2ogqgC1tqN2tmhM5mVXJ1gT1qDstjA0JngV
-         J9ykKaJCD/rhP965hzy1ES1o1UacHIoXlOOJCFHqBwdKyGkwhfDNfZhMJ9kHgb50os
-         vdUlA7+7ldGvO9HPfoHLuAKxi9BxsOjoGXFxua9O92FJ041QCLKdzWzXdfRlChZ/2k
-         Ww6EeP/ZNeAtv6Q/+Pr1sYPmGWzBPimR/3ERl1+2z7hylb4jT7GEyYrabpGkZW/kZl
-         3AmcZ3SHo50Hg==
-Received: by mail.kernel.org with local (Exim 4.94.2)
-        (envelope-from <mchehab@kernel.org>)
-        id 1mh8xT-003wZP-Em; Sun, 31 Oct 2021 11:25:03 +0000
-From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc:     linuxarm@huawei.com, mauro.chehab@huawei.com,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        id S229974AbhJaNGu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 31 Oct 2021 09:06:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60100 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229662AbhJaNGt (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Sun, 31 Oct 2021 09:06:49 -0400
+Received: from mail-lj1-x22b.google.com (mail-lj1-x22b.google.com [IPv6:2a00:1450:4864:20::22b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6FCDEC061570;
+        Sun, 31 Oct 2021 06:04:17 -0700 (PDT)
+Received: by mail-lj1-x22b.google.com with SMTP id k24so5565496ljg.3;
+        Sun, 31 Oct 2021 06:04:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=EMe2Z2587AVutQZvLwNBuhISbQ8pHURWp8p6vvRjrlc=;
+        b=a2iKCDA/nqe1HltLr9hVTTfl2+nGyDu2Z3sl5WvHKWffYUTP1PzdUqf468l1TtR5bK
+         KmOlJqV58zjINjRK+rB6IcQNIZR/GvPvBHBAxGJat4OVhs4SjudzbaHCVdf8yvrfeTKh
+         dn9SKK/iqD0p9ax7zF/mmifUJJ3Oq8mJw8pLMt00GX0O+idlBo+dcyUEFhac7YAUZlB5
+         vwQJhhZ77ixkgVrjKdlZryIabUtNaUjBfFcjb7+wgDy0beWPQSUzm+TkF2VWj42jgqSr
+         hR1Qic+nb+yJNXQKOW2qo8b0pttbT1IEJCGSNWaC/wimitqp0hmK6oE9fMoVJLbmNO/t
+         0SvA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=EMe2Z2587AVutQZvLwNBuhISbQ8pHURWp8p6vvRjrlc=;
+        b=RRNbYLjjX3Nqxh4RpqAfdfNSEwYrd8DjUcs7hHJqwDvc0SWU749CZnl3TUKmypK3O2
+         Y8a1m5D15z6c0J35HkhqVgN569LSQNI66F+nDQWDmn0tx4oPXyWNQU2aoPK9OvPXIYTx
+         geac94HnFL2W/HR3ZV7ylQRlLQtan7fP5LGTz5ptWKbtM11NusCRuDV1NcDMWFwNrZho
+         E3ItK/mQ5XaMUQtogJ/7ynuwkAVfa+3K9cbvQ4GY12X5XWJMsF/wBIUZt52wDKYdpJlD
+         NjcXIXsOxBcUYbR6wnAn0h+upUPsB5XwNFaylMpzepz9DXNHeANVEv4pnR7bNr9r2ICZ
+         5XNw==
+X-Gm-Message-State: AOAM5319r7eCjSGda/IYVDRleJnyXXBoOs2oH1DqOo5YkxB5EF5SZSiW
+        dce1sHuD5FHGGUI4G46GHLlJ9yfubILJonByxvk=
+X-Google-Smtp-Source: ABdhPJwu7xlJgXcDLfBtqzUnE3+rerLqH1wzhSdAeqWlQfbNF5Kythz68RK7/JMcva/SffISoH67p1nJGkwCfHQG3eY=
+X-Received: by 2002:a2e:81c8:: with SMTP id s8mr18128016ljg.407.1635685455484;
+ Sun, 31 Oct 2021 06:04:15 -0700 (PDT)
+MIME-Version: 1.0
+References: <dc24ab2a6c9bb0831e1bb732d3377529fb0ead87.1635679495.git.mchehab+huawei@kernel.org>
+ <b561275a4b10949ac06ff834e27243ec6ad6d546.1635679495.git.mchehab+huawei@kernel.org>
+In-Reply-To: <b561275a4b10949ac06ff834e27243ec6ad6d546.1635679495.git.mchehab+huawei@kernel.org>
+From:   Andy Shevchenko <andy.shevchenko@gmail.com>
+Date:   Sun, 31 Oct 2021 15:03:39 +0200
+Message-ID: <CAHp75VcaWqeY2=13WE+ObQzjA1q83QPU4NGJnPR0H12m68uzVQ@mail.gmail.com>
+Subject: Re: [PATCH 3/3] media: atomisp: comment-out JPEG format
+To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc:     Linuxarm <linuxarm@huawei.com>, mauro.chehab@huawei.com,
         Alex Dewar <alex.dewar90@gmail.com>,
         Aline Santana Cordeiro <alinesantanacordeiro@gmail.com>,
         Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
@@ -43,83 +68,32 @@ Cc:     linuxarm@huawei.com, mauro.chehab@huawei.com,
         Sakari Ailus <sakari.ailus@linux.intel.com>,
         Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
         Tsuchiya Yuto <kitakar@gmail.com>,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
         linux-staging@lists.linux.dev
-Subject: [PATCH 3/3] media: atomisp: comment-out JPEG format
-Date:   Sun, 31 Oct 2021 11:25:02 +0000
-Message-Id: <b561275a4b10949ac06ff834e27243ec6ad6d546.1635679495.git.mchehab+huawei@kernel.org>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <dc24ab2a6c9bb0831e1bb732d3377529fb0ead87.1635679495.git.mchehab+huawei@kernel.org>
-References: <dc24ab2a6c9bb0831e1bb732d3377529fb0ead87.1635679495.git.mchehab+huawei@kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
-To:     unlisted-recipients:; (no To-header on input)
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This is already disabled on some parts of the code, and trying
-to use it with current firmware causes an error:
+On Sun, Oct 31, 2021 at 1:30 PM Mauro Carvalho Chehab
+<mchehab+huawei@kernel.org> wrote:
+>
+> This is already disabled on some parts of the code, and trying
+> to use it with current firmware causes an error:
+>
+> [   53.799946] atomisp-isp2 0000:00:03.0: can't create streams
+> [   53.799962] atomisp-isp2 0000:00:03.0: __get_frame_info 1600x900 (padded to 0) returned -22
+>
+> So, completely disable reporting it.
 
-[   53.799946] atomisp-isp2 0000:00:03.0: can't create streams
-[   53.799962] atomisp-isp2 0000:00:03.0: __get_frame_info 1600x900 (padded to 0) returned -22
 
-So, completely disable reporting it.
+Can't we simply remove all these pieces altogether?
+The rationale:
+ - code is still kept in the index of the Git
+ - avoid robots and humans of sending patches against dead code
+ - leaving dead code (even in staging) is not what we want in the long term
 
-Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
----
- drivers/staging/media/atomisp/pci/atomisp_cmd.c   | 2 ++
- drivers/staging/media/atomisp/pci/atomisp_ioctl.c | 7 +++----
- 2 files changed, 5 insertions(+), 4 deletions(-)
-
-diff --git a/drivers/staging/media/atomisp/pci/atomisp_cmd.c b/drivers/staging/media/atomisp/pci/atomisp_cmd.c
-index ff8640314f65..feb75491a273 100644
---- a/drivers/staging/media/atomisp/pci/atomisp_cmd.c
-+++ b/drivers/staging/media/atomisp/pci/atomisp_cmd.c
-@@ -1980,9 +1980,11 @@ v4l2_fmt_to_sh_fmt(u32 fmt)
- 		return IA_CSS_FRAME_FORMAT_RGBA888;
- 	case V4L2_PIX_FMT_RGB565:
- 		return IA_CSS_FRAME_FORMAT_RGB565;
-+#if 0
- 	case V4L2_PIX_FMT_JPEG:
- 	case V4L2_PIX_FMT_CUSTOM_M10MO_RAW:
- 		return IA_CSS_FRAME_FORMAT_BINARY_8;
-+#endif
- 	case V4L2_PIX_FMT_SBGGR16:
- 	case V4L2_PIX_FMT_SBGGR10:
- 	case V4L2_PIX_FMT_SGBRG10:
-diff --git a/drivers/staging/media/atomisp/pci/atomisp_ioctl.c b/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
-index d92d41dd0ade..936516daec7d 100644
---- a/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
-+++ b/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
-@@ -492,23 +492,22 @@ const struct atomisp_format_bridge atomisp_output_fmts[] = {
- 		.mbus_code = MEDIA_BUS_FMT_BGR565_2X8_LE,
- 		.sh_fmt = IA_CSS_FRAME_FORMAT_RGB565,
- 		.description = "16 RGB 5-6-5"
-+#if 0
- 	}, {
- 		.pixelformat = V4L2_PIX_FMT_JPEG,
- 		.depth = 8,
- 		.mbus_code = MEDIA_BUS_FMT_JPEG_1X8,
- 		.sh_fmt = IA_CSS_FRAME_FORMAT_BINARY_8,
- 		.description = "JPEG"
--	},
--#if 0
--	{
-+	}, {
- 		/* This is a custom format being used by M10MO to send the RAW data */
- 		.pixelformat = V4L2_PIX_FMT_CUSTOM_M10MO_RAW,
- 		.depth = 8,
- 		.mbus_code = V4L2_MBUS_FMT_CUSTOM_M10MO_RAW,
- 		.sh_fmt = IA_CSS_FRAME_FORMAT_BINARY_8,
- 		.description = "Custom RAW for M10MO"
--	},
- #endif
-+	},
- };
- 
- const struct atomisp_format_bridge *
 -- 
-2.31.1
-
+With Best Regards,
+Andy Shevchenko
