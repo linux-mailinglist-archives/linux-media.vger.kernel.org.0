@@ -2,97 +2,82 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7B10C441D1D
-	for <lists+linux-media@lfdr.de>; Mon,  1 Nov 2021 16:05:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 34D77441D82
+	for <lists+linux-media@lfdr.de>; Mon,  1 Nov 2021 16:41:11 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232450AbhKAPIX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 1 Nov 2021 11:08:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36782 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231304AbhKAPIW (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 1 Nov 2021 11:08:22 -0400
-Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:e::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7CD83C061714;
-        Mon,  1 Nov 2021 08:05:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-        Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
-        Subject:Sender:Reply-To:Content-ID:Content-Description;
-        bh=KEjSiPeQus1e5C5m4glvQm9hY/OA1aKif95A7YiVQtI=; b=2LGb6RpYGmcP87QrowtsGlb1CG
-        MlNNkNVp7zrosbZMXSGbqsff+zVFddtxYJ0AwM45FBd0nEfPgeMcoZerqRhfkQKcsmvSqBtVRXYTI
-        9F4kFpo3TJ1bR9YTKfIQ89iDY7ZYn9EX+qCOq8wvNergjFgNicLNKOIRjnxS3M1RU/uMtMIM5G3yi
-        wvbeBtSXV214nJSnbJ9eHPHivKJDfjo7kipr+RUoApfqqu5X9Ng5AmLIhYmKYuABk3KeXQAlIYccf
-        dufg8fg4bQWGA5deqm/TxMoiq49lywFjfdzog9V3YHefDkCBn0RHPFbCtYOi2/lAlx0VTEM3u4rPX
-        473BS/HQ==;
-Received: from [2601:1c0:6280:3f0::aa0b]
-        by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1mhYse-00GdmR-PV; Mon, 01 Nov 2021 15:05:48 +0000
-Subject: Re: Need help in debugging "memory leak in em28xx_init_dev"
-To:     Dan Carpenter <dan.carpenter@oracle.com>,
-        Dongliang Mu <mudongliangabcd@gmail.com>
-Cc:     Pavel Skripkin <paskripkin@gmail.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        Greg KH <gregkh@linuxfoundation.org>
-References: <CAD-N9QXsUcczurqq9LdaVjXFZMBSbStynwFJyu0UayDazGe=nw@mail.gmail.com>
- <55f04cb1-18ac-085b-3d35-7a01716fbcbe@gmail.com>
- <CAD-N9QVN7cepUpRu3d-xtr1L3DG90-nLS4gmkjerDZO21F_ejQ@mail.gmail.com>
- <f622f569-25d5-f38e-e9fb-7f07e12c4b7e@gmail.com>
- <CAD-N9QWeGOZdnuRuHVVNzZHWeP3eSHg=tsm+Qn3tqGqACSNbhg@mail.gmail.com>
- <ffbaeb72-0f76-fb1e-dde5-6e6bdcce1301@gmail.com>
- <CAD-N9QWQkivwR0mWwiaW_pLE6J_b03x4dP8RyxbmuKYRkcRhoQ@mail.gmail.com>
- <20211101143004.GD2914@kadam>
-From:   Randy Dunlap <rdunlap@infradead.org>
-Message-ID: <c0e25c48-84cc-6ad1-8312-1957f459148d@infradead.org>
-Date:   Mon, 1 Nov 2021 08:05:47 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+        id S231362AbhKAPnn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 1 Nov 2021 11:43:43 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:54602 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230261AbhKAPnm (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 1 Nov 2021 11:43:42 -0400
+Received: from pendragon.ideasonboard.com (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 25F5D929;
+        Mon,  1 Nov 2021 16:41:06 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1635781266;
+        bh=H2n+1TZr+31Qb2fPdoZkratHRv19ZcgBCZL1gk83Ss8=;
+        h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
+        b=Fx0+MUAJQmdmvowxaLNbWG/8vpFeC2NNvjAAT09kp0z7oGWvb/IcZqsIBVDs8BTAo
+         5ahmLZ/iVZJCDiPzDmv4TUyDRdyFjsosXRB4ufa62kHVWPH2UKj6wwTGGoDgSOSc+t
+         1tswjeFsOMoUUOEXdzWWwjjVVW4WQyxZVOdtp3Tg=
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-In-Reply-To: <20211101143004.GD2914@kadam>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20211101150209.an56wy32ttjzoquj@pengutronix.de>
+References: <20211026194010.109029-1-u.kleine-koenig@pengutronix.de> <163577655353.275423.6737046445297486684@Monstersaurus> <20211101150209.an56wy32ttjzoquj@pengutronix.de>
+Subject: Re: [PATCH] [media] tua9001: Improve messages in .remove's error path
+From:   Kieran Bingham <kieran.bingham@ideasonboard.com>
+Cc:     Antti Palosaari <crope@iki.fi>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        kernel@pengutronix.de, linux-media@vger.kernel.org
+To:     Uwe =?utf-8?q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+Date:   Mon, 01 Nov 2021 15:41:03 +0000
+Message-ID: <163578126355.275423.9266309653140708545@Monstersaurus>
+User-Agent: alot/0.9.1
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 11/1/21 7:30 AM, Dan Carpenter wrote:
-> On Mon, Nov 01, 2021 at 05:58:56PM +0800, Dongliang Mu wrote:
->> On Mon, Nov 1, 2021 at 5:43 PM Pavel Skripkin <paskripkin@gmail.com> wrote:
->>>
->>> On 11/1/21 12:41, Dongliang Mu wrote:
->>>>> Hi, Dongliang,
->>>>>
->>>>> Did patch attached to my previous email pass syzbot's reproducer test?
->>>>> Unfortunately, I am not able to test rn :(
->>>>
->>>> Yes, it works. The memory leak does not occur anymore.
->>>>
->>>> But I am crafting another patch based on yours as there is a small
->>>> issue in the retval and I would like to make the error handling code
->>>> uniform.
->>>>
->>>
->>> Cool! Thank you for confirmation.
->>
->> Hi Pavel,
->>
->> Thanks for your advice. I have sent the patch and you are on the CC
->> list. Can you please take a look at and review my patch?
->>
-> 
-> What's the Message-ID of your patch so I can b4 it.
+Quoting Uwe Kleine-K=C3=B6nig (2021-11-01 15:02:09)
+> On Mon, Nov 01, 2021 at 02:22:33PM +0000, Kieran Bingham wrote:
+> > Quoting Uwe Kleine-K=EF=BF=BDnig (2021-10-26 20:40:10)
+> > > If disabling the hardware fails the driver propagates the error code =
+to
+> > > the i2c core. However this only results in a generic error message; t=
+he
+> > > device still disappears.
+> > >=20
+> > > So instead emit a message that better describes the actual problem th=
+an
+> > > the i2c core's "remove failed (ESOMETHING), will be ignored" and retu=
+rn
+> > > 0 to suppress the generic message.
+> >=20
+> > You almost caught me out. I was going to say, this changes the
+> > behaviour of the return code. But It's intentional ;-)
+> >=20
+> > It's still a bit concerning, /not/ returning an error on an error - but
+> > as it's not going to prevent removal, and it won't add further (helpful)
+> > diagnosticts), maybe it makes sense.
+> >=20
+> > My only concern would be if it might be better to keep the return code,
+> > so that the core frameworks know about the issue at least.
+>=20
+> The long term goal is to make the remove callback return void. For that
+> change I want all implementations to remove 0 to make the change easy to
+> review.
 
-<20211101095539.423246-1-mudongliangabcd@gmail.com>
+Thanks for the update, that makes it much clearer indeed. And will make
+it clear that there's no use for a return code.
 
-> This whole thread has no patches.  I don't know why I'm CC'd when the
-> only part I'm interested in is not included...  :/  Hashtag Grumble.
-> 
-> regards,
-> dan carpenter
-> 
+--
+Kieran
 
-
--- 
-~Randy
+> Best regards and thanks for your thoughts,
+> Uwe
+>=20
+> --=20
+> Pengutronix e.K.                           | Uwe Kleine-K=EF=BF=BDnig    =
+        |
+> Industrial Linux Solutions                 | https://www.pengutronix.de/ |
