@@ -2,75 +2,69 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6D2A54422BF
-	for <lists+linux-media@lfdr.de>; Mon,  1 Nov 2021 22:36:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E34FB4422FD
+	for <lists+linux-media@lfdr.de>; Mon,  1 Nov 2021 23:02:42 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231946AbhKAViv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 1 Nov 2021 17:38:51 -0400
-Received: from mail-ot1-f42.google.com ([209.85.210.42]:39919 "EHLO
-        mail-ot1-f42.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229712AbhKAViu (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 1 Nov 2021 17:38:50 -0400
-Received: by mail-ot1-f42.google.com with SMTP id x16-20020a9d7050000000b00553d5d169f7so25513735otj.6;
-        Mon, 01 Nov 2021 14:36:17 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=90wG7Obp9B6dHPtoVog3pPpxjm6DgW7vC5lI8mfDfgw=;
-        b=EIkvxP+vQ0dTcJZwNUSTCt+ExRKhytVH+9jNzhV6O4vePsXxEopZY8wmgBpYVYgmjb
-         bt6F41QHUooqz/Jm2wqZOOvXwVqjWuyocGfLn+Gg3uB/eQtJ6tLjFH1gxMAL05b6+v6d
-         ScF7EhJq1Fsw/8u1fK2ppNnt6qpAgreNduabJ2mQyt1kJUt9S4ZzXhx6mZt1u5CCJjr0
-         m527mgiNSfcxsUKT7Scq/QXpdo0u2lYBxC0WPQeAYx8fezLWz5bIpoUPqBThP/BEMFr4
-         Q1qZBvljOUQRxESbMYwwOPlc3r4UUu39fbDdlA8ntaamhZ3+P7vDXIXT1GUWy5P9Too9
-         XLjg==
-X-Gm-Message-State: AOAM532bWbZUwWIKMyTcsFFlGQmwAuVQ8LTI95ptRk4AMyww/jv0jHLD
-        o7nHTT+F+3GkRGYJlMNMjg==
-X-Google-Smtp-Source: ABdhPJwquV8eZYTxZdXaRA68R4NjOW8NuGpiTfWm1kpe3K8ni8vHnYs09eSX4/Vl3p8SCq+h1VeKmQ==
-X-Received: by 2002:a9d:2f61:: with SMTP id h88mr23067465otb.36.1635802576755;
-        Mon, 01 Nov 2021 14:36:16 -0700 (PDT)
-Received: from robh.at.kernel.org (66-90-148-213.dyn.grandenetworks.net. [66.90.148.213])
-        by smtp.gmail.com with ESMTPSA id w5sm4528865otq.46.2021.11.01.14.36.15
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 01 Nov 2021 14:36:16 -0700 (PDT)
-Received: (nullmailer pid 1108565 invoked by uid 1000);
-        Mon, 01 Nov 2021 21:36:15 -0000
-Date:   Mon, 1 Nov 2021 16:36:15 -0500
-From:   Rob Herring <robh@kernel.org>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     Dikshita Agarwal <dikshita@codeaurora.org>,
-        Stanimir Varbanov <stanimir.varbanov@linaro.org>,
-        Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-arm-msm@vger.kernel.org, linux-media@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] bindings: media: venus: Drop bogus maxItems for
- power-domain-names
-Message-ID: <YYBdzwshhM5fmsEE@robh.at.kernel.org>
-References: <097d8602906e9db279728330c6cf2837be184704.1635338663.git.geert+renesas@glider.be>
+        id S230460AbhKAWFP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 1 Nov 2021 18:05:15 -0400
+Received: from mail.kernel.org ([198.145.29.99]:46258 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229677AbhKAWFO (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Mon, 1 Nov 2021 18:05:14 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id AFEE960F56;
+        Mon,  1 Nov 2021 22:02:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1635804161;
+        bh=ciS+ilIF7yMFwyhEs1ZpmE/q/9l0uKJKO6+kp85h2kE=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:From;
+        b=lbvF6YjOJTaYXhvJ/dEalUHJ7MdGGjg31PoZqhBc4pA4WBP2hqLRduDXVKtbXQzR/
+         GlY/7TVsVjfx8L9VHaqm5rXYQUcj7c3mT9G0hT0azedT1EdIi4tjwIiD8dw09rXT+3
+         t/JjwOd8cNHDxpn2dVxd21JIPIF7/gujvNId0bexc1+2lX65XQ7zOuXvzHxDqLy6GP
+         Ex4B0nmLK1l/+9dK4HcEJwBSNlIEFyLDrnxB0/IJh8Wre4TJgY1WW4WqiILk4saGQw
+         qMEzroPMwkAjZFYeHkl50TqbNWL+O6+zdm+r9N+fXCWL/ZvdPnniriTfJLMMK/5sKk
+         MMh0KA8dO/Ilw==
+Date:   Mon, 1 Nov 2021 17:02:39 -0500
+From:   Bjorn Helgaas <helgaas@kernel.org>
+To:     Dongdong Liu <liudongdong3@huawei.com>
+Cc:     hch@infradead.org, kw@linux.com, logang@deltatee.com,
+        leon@kernel.org, linux-pci@vger.kernel.org, rajur@chelsio.com,
+        hverkuil-cisco@xs4all.nl, linux-media@vger.kernel.org,
+        netdev@vger.kernel.org
+Subject: Re: [PATCH V11 7/8] PCI: Enable 10-Bit Tag support for PCIe Endpoint
+ device
+Message-ID: <20211101220239.GA554641@bhelgaas>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <097d8602906e9db279728330c6cf2837be184704.1635338663.git.geert+renesas@glider.be>
+In-Reply-To: <20211030135348.61364-8-liudongdong3@huawei.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Oct 27, 2021 at 02:45:30PM +0200, Geert Uytterhoeven wrote:
-> make dt_binding_check:
-
-I'd say it's redundant rather than bogus.
-
+On Sat, Oct 30, 2021 at 09:53:47PM +0800, Dongdong Liu wrote:
+> 10-Bit Tag capability, introduced in PCIe-4.0 increases the total Tag
+> field size from 8 bits to 10 bits.
 > 
->     Documentation/devicetree/bindings/media/qcom,sc7280-venus.yaml: ignoring, error in schema: properties: power-domain-names
->     warning: no schema found in file: Documentation/devicetree/bindings/media/qcom,sc7280-venus.yaml
+> PCIe spec 5.0 r1.0 section 2.2.6.2 "Considerations for Implementing
+> 10-Bit Tag Capabilities" Implementation Note:
 > 
-> Fixes: e48b839b6699c226 ("media: dt-bindings: media: venus: Add sc7280 dt schema")
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> ---
->  Documentation/devicetree/bindings/media/qcom,sc7280-venus.yaml | 1 -
->  1 file changed, 1 deletion(-)
+>   For platforms where the RC supports 10-Bit Tag Completer capability,
+>   it is highly recommended for platform firmware or operating software
+>   that configures PCIe hierarchies to Set the 10-Bit Tag Requester Enable
+>   bit automatically in Endpoints with 10-Bit Tag Requester capability.
+>   This enables the important class of 10-Bit Tag capable adapters that
+>   send Memory Read Requests only to host memory.
+> 
+> It's safe to enable 10-bit tags for all devices below a Root Port that
+> supports them. Switches that lack 10-Bit Tag Completer capability are
+> still able to forward NPRs and Completions carrying 10-Bit Tags correctly,
+> since the two new Tag bits are in TLP Header bits that were formerly
+> Reserved.
 
-Acked-by: Rob Herring <robh@kernel.org>
+Side note: the reason we want to do this to increase performance by
+allowing more outstanding requests.  Do you have any benchmarking that
+we can mention here to show that this is actually a benefit?  I don't
+doubt that it is, but I assume you've measured it and it would be nice
+to advertise it.
 
+Bjorn
