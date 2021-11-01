@@ -2,52 +2,52 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9003244119F
-	for <lists+linux-media@lfdr.de>; Mon,  1 Nov 2021 01:11:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5735B4411A0
+	for <lists+linux-media@lfdr.de>; Mon,  1 Nov 2021 01:11:40 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230487AbhKAAOK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 31 Oct 2021 20:14:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35310 "EHLO
+        id S230501AbhKAAOL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 31 Oct 2021 20:14:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35318 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230484AbhKAAOK (ORCPT
+        with ESMTP id S230484AbhKAAOL (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 31 Oct 2021 20:14:10 -0400
-Received: from mail-wm1-x32f.google.com (mail-wm1-x32f.google.com [IPv6:2a00:1450:4864:20::32f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9FBEEC061714
-        for <linux-media@vger.kernel.org>; Sun, 31 Oct 2021 17:11:37 -0700 (PDT)
-Received: by mail-wm1-x32f.google.com with SMTP id y84-20020a1c7d57000000b00330cb84834fso6757965wmc.2
-        for <linux-media@vger.kernel.org>; Sun, 31 Oct 2021 17:11:37 -0700 (PDT)
+        Sun, 31 Oct 2021 20:14:11 -0400
+Received: from mail-wm1-x32e.google.com (mail-wm1-x32e.google.com [IPv6:2a00:1450:4864:20::32e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A1724C061714
+        for <linux-media@vger.kernel.org>; Sun, 31 Oct 2021 17:11:38 -0700 (PDT)
+Received: by mail-wm1-x32e.google.com with SMTP id z200so11394631wmc.1
+        for <linux-media@vger.kernel.org>; Sun, 31 Oct 2021 17:11:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=1n8iLSsdmHQDyOZdyj1jMWnsuvmlHh+nf2NgpfdMpFQ=;
-        b=jjIjDT4bY1IJMusL1TwjDnNxj5Rt420BzP+tm3mOfSKNq5GFYrxTkRjML6/JBalitH
-         YbE59cX7zY9Yl8od9WEz5kkKTg6xXpPVSeY2p6GjaNZEqsTwS00V6ELa0S22D4lcPn24
-         Ua5AesYeiqiHxMCBY4UnCztDXtTkqL2qB2dtuUfrp9m5zjc71Og4YFK+vg+o5lvBqbBD
-         S7NGFmiuQJn+MGYf3erXJAW0FK/U8Wt8UkG3hoxhmgOlfZXOmRjpLydt9djRKIyVCEeH
-         YniOOSOQI0I/cyyE8qEAU98BmgbX1sBM2VgwicRp3rW6IYTRcdhSFxq9HnotA6FY4kRt
-         Vn+Q==
+        bh=hafVvi465P3sPwGgXMo1mcvsH6Eg9wims/dDxx08Hn0=;
+        b=pk4CuIywMvkod6jpLCMV8SOCEtiF5HTmUt2eNcH9rWDfAEJ1jfz/M0qhbW3WZFjjD9
+         EXxbpmkUu7WjjjTuij9guU8fdQie5Dd/EgA9cg6mY7Pr/wHOwuXxL3ofVmxLXqdVMRcx
+         g/+h2kBSqLUeR1SHO+bv96t77d+xLhLWVNtOp94nOYnKvVJe6F1zitBnwBxNLs41a8Ml
+         zzA2xuUHqJHWwwlork6V5NUms95RiZWZ8BoiEJZcFO3TX1ovxeK43mi3g41mgG+/J/aU
+         q5eDpqvjo186UYdSR8okJLiMOReMDByCCAyaj99xZg/AP4U/hEwF+Sdiao7P39TUmeJ4
+         gJVQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=1n8iLSsdmHQDyOZdyj1jMWnsuvmlHh+nf2NgpfdMpFQ=;
-        b=NAhyCDQ3GTeCK91vwiGlWcrAAxgQ1Qqwy07aN8Z5OQ/GBrY8eMVxJxMsLwt3+yIDQ6
-         pTCR7FCnC1wVtBIJB/z8eGGdX//eIZFUXxw25KPjiWtA7e2eRFDA/UedCgCzLymIf0Ym
-         Z1AG63Iz2hX15oMDzkYmvh7mQGGWNOy1aLElnAqYKjW/M40k4hO//sjmjsheix0WhlY3
-         uNYOmwcUtl9r4LkQoPxIlSgkJ4R8faj0fl62gxN9J1c89J/xSyKjwqhEYxpZWdHq7vWJ
-         ViPhnVj3hBwhxWoimqzvR0VAt0fK/IGlO0y9vwipjjTYExyJkviD9piOcEBhmqvkzqqT
-         oUjg==
-X-Gm-Message-State: AOAM530aOMvqpGl9VAdvZkcZyJqSBhpqcjMX7r9YDuFvnN+wECLbXlKi
-        IizMChREitbBFSzuLFryzlk=
-X-Google-Smtp-Source: ABdhPJxvW8IN3wx5HUrrAiT92UebrIdh4pKwuskJQ8Db4z8pPcA48LeuvzqwofQbZ3vJ8IzWXzbGfw==
-X-Received: by 2002:a1c:a984:: with SMTP id s126mr35913770wme.156.1635725496293;
-        Sun, 31 Oct 2021 17:11:36 -0700 (PDT)
+        bh=hafVvi465P3sPwGgXMo1mcvsH6Eg9wims/dDxx08Hn0=;
+        b=4r8QgXIf+GXiDn5Oi6KHOsu6SXjCJRN7i0iUx9wNCLkFO7gNUd22ydYW+jWEXo/FyQ
+         hFk4q2LqmMEOKFJQHAr6xms94lCRq5HALVKJAfqU74IgJfLajSk3ZcDm/B6k4BoxfUup
+         OzjXhrbq5ormpubIREK1fC/xnPEKWiKVyovfR7MJ+FFzKyEsRHCBUPMRjBveUvi2z3O0
+         qgbYH02kajxJIDis4H+Js6xv7gOHl+bLq7Y6UCsz1hHgZeqd69e7q60xop1UOU7GEA4V
+         Gw7eZIaiXVreud9hWIpKtqI7bjrBXJT8dg68QVgAeQRaywizrQFnqYSkr9P+a3XZmTRN
+         tTSQ==
+X-Gm-Message-State: AOAM532i5IfgCFNJplFu30e4eBVMogzFcTGMsjtBdhfs2lg1B7h/H4jF
+        AUWPxir9W+otoHkl2Ttubug=
+X-Google-Smtp-Source: ABdhPJytEmjYDlbVhNGAmtnVxvCjJXQvtIBkpdeBR07IbMPfC9qsNrjAYrO5A48WJn8Rg/81BD+EwA==
+X-Received: by 2002:a1c:8090:: with SMTP id b138mr13522817wmd.25.1635725497296;
+        Sun, 31 Oct 2021 17:11:37 -0700 (PDT)
 Received: from localhost.localdomain (cpc141996-chfd3-2-0-cust928.12-3.cable.virginm.net. [86.13.91.161])
-        by smtp.gmail.com with ESMTPSA id k6sm12557678wri.83.2021.10.31.17.11.35
+        by smtp.gmail.com with ESMTPSA id k6sm12557678wri.83.2021.10.31.17.11.36
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 31 Oct 2021 17:11:35 -0700 (PDT)
+        Sun, 31 Oct 2021 17:11:36 -0700 (PDT)
 From:   Daniel Scally <djrscally@gmail.com>
 To:     Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
         Daniel Scally <djrscally@gmail.com>,
@@ -60,9 +60,9 @@ Cc:     Yong Zhi <yong.zhi@intel.com>,
         Hans de Goede <hdegoede@redhat.com>,
         Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
         Kieran Bingham <kieran.bingham@ideasonboard.com>
-Subject: [PATCH v4 12/16] media: i2c: Switch exposure control unit to lines
-Date:   Mon,  1 Nov 2021 00:11:15 +0000
-Message-Id: <20211101001119.46056-13-djrscally@gmail.com>
+Subject: [PATCH v4 13/16] media: i2c: Re-order runtime pm initialisation
+Date:   Mon,  1 Nov 2021 00:11:16 +0000
+Message-Id: <20211101001119.46056-14-djrscally@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20211101001119.46056-1-djrscally@gmail.com>
 References: <20211101001119.46056-1-djrscally@gmail.com>
@@ -72,43 +72,32 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The ov8865 driver currently has the unit of the V4L2_CID_EXPOSURE control
-as 1/16th of a line. This is what the sensor expects, but isn't very
-intuitive. Switch the control to be in units of a line and simply do the
-16x multiplication before passing the value to the sensor.
+The kerneldoc for pm_runtime_set_suspended() says:
 
-The datasheet for this sensor gives minimum exposure as 2 lines, so take
-the opportunity to correct the lower bounds of the control.
+"It is not valid to call this function for devices with runtime PM
+enabled"
+
+To satisfy that requirement, re-order the calls so that
+pm_runtime_enable() is the last one.
 
 Signed-off-by: Daniel Scally <djrscally@gmail.com>
 ---
- drivers/media/i2c/ov8865.c | 7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
+ drivers/media/i2c/ov8865.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/drivers/media/i2c/ov8865.c b/drivers/media/i2c/ov8865.c
-index dfb5095ef16b..5f19d82554df 100644
+index 5f19d82554df..18b5f1e8e9a7 100644
 --- a/drivers/media/i2c/ov8865.c
 +++ b/drivers/media/i2c/ov8865.c
-@@ -2125,6 +2125,9 @@ static int ov8865_exposure_configure(struct ov8865_sensor *sensor, u32 exposure)
- {
- 	int ret;
+@@ -3085,8 +3085,8 @@ static int ov8865_probe(struct i2c_client *client)
  
-+	/* The sensor stores exposure in units of 1/16th of a line */
-+	exposure *= 16;
-+
- 	ret = ov8865_write(sensor, OV8865_EXPOSURE_CTRL_HH_REG,
- 			   OV8865_EXPOSURE_CTRL_HH(exposure));
- 	if (ret)
-@@ -2525,8 +2528,8 @@ static int ov8865_ctrls_init(struct ov8865_sensor *sensor)
+ 	/* Runtime PM */
  
- 	/* Exposure */
+-	pm_runtime_enable(sensor->dev);
+ 	pm_runtime_set_suspended(sensor->dev);
++	pm_runtime_enable(sensor->dev);
  
--	ctrls->exposure = v4l2_ctrl_new_std(handler, ops, V4L2_CID_EXPOSURE, 16,
--					    1048575, 16, 512);
-+	ctrls->exposure = v4l2_ctrl_new_std(handler, ops, V4L2_CID_EXPOSURE, 2,
-+					    65535, 1, 32);
- 
- 	/* Gain */
+ 	/* V4L2 subdev register */
  
 -- 
 2.25.1
