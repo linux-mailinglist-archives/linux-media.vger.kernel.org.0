@@ -2,96 +2,178 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 794CD4421AD
-	for <lists+linux-media@lfdr.de>; Mon,  1 Nov 2021 21:30:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6610244220D
+	for <lists+linux-media@lfdr.de>; Mon,  1 Nov 2021 21:54:48 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230329AbhKAUc6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 1 Nov 2021 16:32:58 -0400
-Received: from mail-ot1-f46.google.com ([209.85.210.46]:36588 "EHLO
-        mail-ot1-f46.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229560AbhKAUc5 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 1 Nov 2021 16:32:57 -0400
-Received: by mail-ot1-f46.google.com with SMTP id s23-20020a056830125700b00553e2ca2dccso22117152otp.3;
-        Mon, 01 Nov 2021 13:30:23 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=9oMNIEQqaxWU/IM8w/Ndcf39QnufPi4/bgw6wk3mzDM=;
-        b=FLgTNWCwLwqX12LgsgEp/g+f4Bq7cwubuexTbXmM4pjSXcS+53MxiHGzRW7U6mx4p+
-         Lfo1tASHMrzRFJ0m46yr5pn96Ig6sX/YaKmXgrwQYywME7M45fYo+ihUMxolkc7dSP6a
-         wLhF87aqq8DH5qnLWR1pkbeKkCpG/chj/mLYvCeh23yE9HSe7h6xw0c0oHjN+7DbTKIq
-         SPhuC2KGyUD+Gwv4mf/Zp1XFsNGpALCIvLwKf13rKgmZii+JwRbW3TkXe5nbEhYUEUiK
-         XxB0T9ip8+J8U4nMMr+alxtQedAhsB0+iww+Be+sca0xIIZtKuHGTFxENVY6dh5TafZA
-         y9hg==
-X-Gm-Message-State: AOAM531A9v5aT9ZGuFCA0xzFi0yLkI63LgDzDsbpL26ut6svqIGVn1As
-        CerqCSm+jiMAEEXQHj1q4LrL46GKlg==
-X-Google-Smtp-Source: ABdhPJxilCIZwx40TtnakWQ8SW39n1QYxPshJu8evRs0rwDYLiu4hNz73SRyoQkM9wZ1pDoCkZReTg==
-X-Received: by 2002:a9d:774b:: with SMTP id t11mr15106055otl.7.1635798622949;
-        Mon, 01 Nov 2021 13:30:22 -0700 (PDT)
-Received: from robh.at.kernel.org (66-90-148-213.dyn.grandenetworks.net. [66.90.148.213])
-        by smtp.gmail.com with ESMTPSA id r184sm4299132oia.38.2021.11.01.13.30.21
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 01 Nov 2021 13:30:22 -0700 (PDT)
-Received: (nullmailer pid 992011 invoked by uid 1000);
-        Mon, 01 Nov 2021 20:30:21 -0000
-Date:   Mon, 1 Nov 2021 15:30:21 -0500
-From:   Rob Herring <robh@kernel.org>
-To:     Robert Foss <robert.foss@linaro.org>
-Cc:     todor.too@gmail.com, agross@kernel.org, bjorn.andersson@linaro.org,
-        mchehab@kernel.org, angelogioacchino.delregno@somainline.org,
-        linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
-        Andrey Konovalov <andrey.konovalov@linaro.org>
-Subject: Re: [PATCH v1 2/2] media: dt-bindings: media: camss: Document
- clock-lanes property
-Message-ID: <YYBOXQOXM8USks0G@robh.at.kernel.org>
-References: <20211025103322.160913-1-robert.foss@linaro.org>
- <20211025103322.160913-2-robert.foss@linaro.org>
+        id S230484AbhKAU5T (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 1 Nov 2021 16:57:19 -0400
+Received: from mail.kernel.org ([198.145.29.99]:58710 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229501AbhKAU5S (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Mon, 1 Nov 2021 16:57:18 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 787966052B;
+        Mon,  1 Nov 2021 20:54:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1635800084;
+        bh=iJ+MBPjtmkOQFrq08Qfx6r4mlodxysE1veodnx84o+0=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:From;
+        b=deUHehsU4umCnCq0ONUcJfkuH8yLhAhFh2kGnNjSBvKQaf+Uf7E3WAijgi3akurJi
+         okqVkIqLbxQPWCjf83GklJb2urjaDq+CDmCLDJ7rxmkxhItEkvZzPd6FTZ74j2vO1R
+         oRTJJ57bNCMPUi1ghIh/6fnbeIkTSjMrfY8AYDU66phwfHCs4CeNYbWUYGPLzHVm2A
+         GXj2s4VpAR3HoszbTa2vKe5XTRsljc9vQ7G0QCSo55LU9umDO7XiRMrqYsUN6DUbr3
+         IKGSPKfJfinSRIKJIN+nZ9fI0Sg7GSw6NGyOTjCobrdIApPrvENaRmXe2tnDanmbNd
+         mjotnnw3XRQVA==
+Date:   Mon, 1 Nov 2021 15:54:42 -0500
+From:   Bjorn Helgaas <helgaas@kernel.org>
+To:     Dongdong Liu <liudongdong3@huawei.com>
+Cc:     hch@infradead.org, kw@linux.com, logang@deltatee.com,
+        leon@kernel.org, linux-pci@vger.kernel.org, rajur@chelsio.com,
+        hverkuil-cisco@xs4all.nl, linux-media@vger.kernel.org,
+        netdev@vger.kernel.org
+Subject: Re: [PATCH V11 4/8] PCI/sysfs: Add a tags sysfs file for PCIe
+ Endpoint devices
+Message-ID: <20211101205442.GA546492@bhelgaas>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20211025103322.160913-2-robert.foss@linaro.org>
+In-Reply-To: <20211030135348.61364-5-liudongdong3@huawei.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, Oct 25, 2021 at 12:33:22PM +0200, Robert Foss wrote:
-> The clock-lanes property corresponds to a hardware register field
-> that is required to be set, in order to enable the CSI clock signal.
+On Sat, Oct 30, 2021 at 09:53:44PM +0800, Dongdong Liu wrote:
+> PCIe spec 5.0 r1.0 section 2.2.6.2 says:
 > 
-> The physical lane of the clock signal is not programmable, but only
-> togglable On or Off, which what BIT(7) of the
-> CSIPHY_3PH_CMN_CSI_COMMON_CTRLn(5) register controls.
+>   If an Endpoint supports sending Requests to other Endpoints (as
+>   opposed to host memory), the Endpoint must not send 10-Bit Tag
+>   Requests to another given Endpoint unless an implementation-specific
+>   mechanism determines that the Endpoint supports 10-Bit Tag Completer
+>   capability.
 > 
-> Signed-off-by: Robert Foss <robert.foss@linaro.org>
-> ---
->  .../devicetree/bindings/media/qcom,msm8996-camss.yaml        | 5 +++++
->  .../devicetree/bindings/media/qcom,sdm660-camss.yaml         | 5 +++++
->  .../devicetree/bindings/media/qcom,sdm845-camss.yaml         | 5 +++++
->  3 files changed, 15 insertions(+)
+> Add a tags sysfs file, write 0 to disable 10-Bit Tag Requester
+> when the driver does not bind the device. The typical use case is for
+> p2pdma when the peer device does not support 10-Bit Tag Completer.
+> Write 10 to enable 10-Bit Tag Requester when RC supports 10-Bit Tag
+> Completer capability. The typical use case is for host memory targeted
+> by DMA Requests. The tags file content indicate current status of Tags
+> Enable.
 > 
-> diff --git a/Documentation/devicetree/bindings/media/qcom,msm8996-camss.yaml b/Documentation/devicetree/bindings/media/qcom,msm8996-camss.yaml
-> index 38be41e932f0..d4da1fad12cf 100644
-> --- a/Documentation/devicetree/bindings/media/qcom,msm8996-camss.yaml
-> +++ b/Documentation/devicetree/bindings/media/qcom,msm8996-camss.yaml
-> @@ -106,6 +106,11 @@ properties:
+> PCIe r5.0, sec 2.2.6.2 says:
+> 
+>   Receivers/Completers must handle 8-bit Tag values correctly regardless
+>   of the setting of their Extended Tag Field Enable bit (see Section
+>   7.5.3.4).
+> 
+> Add this comment in pci_configure_extended_tags(). As all PCIe completers
+> are required to support 8-bit tags, so we do not use tags sysfs file
+> to manage 8-bit tags.
+
+> +What:		/sys/bus/pci/devices/.../tags
+> +Date:		September 2021
+> +Contact:	Dongdong Liu <liudongdong3@huawei.com>
+> +Description:
+> +		The file will be visible when the device supports 10-Bit Tag
+> +		Requester. The file is readable, the value indicate current
+> +		status of Tags Enable(5-Bit, 8-Bit, 10-Bit).
+> +
+> +		The file is also writable, The values accepted are:
+> +		* > 0 - this number will be reported as tags bit to be
+> +			enabled. current only 10 is accepted
+> +		* < 0 - not valid
+> +		* = 0 - disable 10-Bit Tag, use Extended Tags(8-Bit or 5-Bit)
+> +
+> +		write 0 to disable 10-Bit Tag Requester when the driver does
+> +		not bind the device. The typical use case is for p2pdma when
+> +		the peer device does not support 10-Bit Tag Completer.
+> +
+> +		Write 10 to enable 10-Bit Tag Requester when RC supports 10-Bit
+> +		Tag Completer capability. The typical use case is for host
+> +		memory targeted by DMA Requests.
+
+1) I think I would rename this from "tags" to "tag_bits".  A file
+   named "tags" that contains 8 suggests that we can use 8 tags, but
+   in fact, we can use 256 tags.
+
+2) This controls tag size the requester will use.  The current knobs
+   in the hardware allow 5, 8, or 10 bits.
+
+   "0" to disable 10-bit tags without specifying whether we should use
+   5- or 8-bit tags doesn't seem right.  All completers are *supposed*
+   to support 8-bit, but we've tripped over a few that don't.
+
+   I don't think we currently have a run-time (or even a boot-time)
+   way to disable 8-bit tags; all we have is the quirk_no_ext_tags()
+   quirk.  But if we ever wanted to *add* that, maybe we would want:
+
+      5 - use 5-bit tags
+      8 - use 8-bit tags
+     10 - use 10-bit tags
+
+   Maybe we just say "0" is invalid, since there's no obvious way to
+   map this?
+
+> +static ssize_t tags_show(struct device *dev,
+> +			 struct device_attribute *attr,
+> +			 char *buf)
+> +{
+> + ...
+
+> +	if (ctl & PCI_EXP_DEVCTL2_10BIT_TAG_REQ_EN)
+> +		return sysfs_emit(buf, "%s\n", "10-Bit");
+> +
+> +	ret = pcie_capability_read_word(pdev, PCI_EXP_DEVCTL, &ctl);
+> +	if (ret)
+> +		return -EINVAL;
+> +
+> +	if (ctl & PCI_EXP_DEVCTL_EXT_TAG)
+> +		return sysfs_emit(buf, "%s\n", "8-Bit");
+> +
+> +	return sysfs_emit(buf, "%s\n", "5-Bit");
+
+Since I prefer the "tag_bits" name, my preference would be bare
+numbers here: "10", "8", "5".
+
+Both comments apply to the sriov files, too.
+
+> +static umode_t pcie_dev_tags_attrs_is_visible(struct kobject *kobj,
+> +					      struct attribute *a, int n)
+> +{
+> +	struct device *dev = kobj_to_dev(kobj);
+> +	struct pci_dev *pdev = to_pci_dev(dev);
+> +
+> +	if (pdev->is_virtfn)
+> +		return 0;
+> +
+> +	if (pci_pcie_type(pdev) != PCI_EXP_TYPE_ENDPOINT)
+> +		return 0;
+> +
+> +	if (!(pdev->devcap2 & PCI_EXP_DEVCAP2_10BIT_TAG_REQ))
+> +		return 0;
+
+Makes sense for now that the file is only visible if a requester
+supports 10-bit tags.  If we ever wanted to extend this to control 5-
+vs 8-bit tags, we could make it visible in more cases then.
+
+> +
+> +	return a->mode;
+> +}
+
+> @@ -2075,6 +2089,12 @@ int pci_configure_extended_tags(struct pci_dev *dev, void *ign)
+>  		return 0;
+>  	}
 >  
->              properties:
->                clock-lanes:
-> +                description:
-> +                  The index of the clock-lane is not programmable by
-> +                  the hardware, but is required to define a CSI port.
-> +                  Lane 7 reflects the hardware register field that enables
-> +                  the clock lane.
+> +	/*
+> +	 * PCIe r5.0, sec 2.2.6.2 says "Receivers/Completers must handle 8-bit
+> +	 * Tag values correctly regardless of the setting of their Extended Tag
+> +	 * Field Enable bit (see Section 7.5.3.4)", so it is safe to enable
+> +	 * Extented Tags.
 
-If it is fixed, then it should not be required. Fix the required part.
+s/Extented/Extended/
 
->                  items:
->                    - const: 7
-
-I don't know how we let that in, but this should be the lane number. 
-Each binding can't be making up its own interpretation.
-
-Rob
+> +	 */
+>  	if (!(ctl & PCI_EXP_DEVCTL_EXT_TAG)) {
+>  		pci_info(dev, "enabling Extended Tags\n");
+>  		pcie_capability_set_word(dev, PCI_EXP_DEVCTL,
+> -- 
+> 2.22.0
+> 
