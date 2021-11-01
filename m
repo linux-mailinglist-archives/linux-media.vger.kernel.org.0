@@ -2,178 +2,136 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6610244220D
-	for <lists+linux-media@lfdr.de>; Mon,  1 Nov 2021 21:54:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0B5DE442252
+	for <lists+linux-media@lfdr.de>; Mon,  1 Nov 2021 22:06:20 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230484AbhKAU5T (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 1 Nov 2021 16:57:19 -0400
-Received: from mail.kernel.org ([198.145.29.99]:58710 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229501AbhKAU5S (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 1 Nov 2021 16:57:18 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 787966052B;
-        Mon,  1 Nov 2021 20:54:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1635800084;
-        bh=iJ+MBPjtmkOQFrq08Qfx6r4mlodxysE1veodnx84o+0=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:From;
-        b=deUHehsU4umCnCq0ONUcJfkuH8yLhAhFh2kGnNjSBvKQaf+Uf7E3WAijgi3akurJi
-         okqVkIqLbxQPWCjf83GklJb2urjaDq+CDmCLDJ7rxmkxhItEkvZzPd6FTZ74j2vO1R
-         oRTJJ57bNCMPUi1ghIh/6fnbeIkTSjMrfY8AYDU66phwfHCs4CeNYbWUYGPLzHVm2A
-         GXj2s4VpAR3HoszbTa2vKe5XTRsljc9vQ7G0QCSo55LU9umDO7XiRMrqYsUN6DUbr3
-         IKGSPKfJfinSRIKJIN+nZ9fI0Sg7GSw6NGyOTjCobrdIApPrvENaRmXe2tnDanmbNd
-         mjotnnw3XRQVA==
-Date:   Mon, 1 Nov 2021 15:54:42 -0500
-From:   Bjorn Helgaas <helgaas@kernel.org>
-To:     Dongdong Liu <liudongdong3@huawei.com>
-Cc:     hch@infradead.org, kw@linux.com, logang@deltatee.com,
-        leon@kernel.org, linux-pci@vger.kernel.org, rajur@chelsio.com,
-        hverkuil-cisco@xs4all.nl, linux-media@vger.kernel.org,
-        netdev@vger.kernel.org
-Subject: Re: [PATCH V11 4/8] PCI/sysfs: Add a tags sysfs file for PCIe
- Endpoint devices
-Message-ID: <20211101205442.GA546492@bhelgaas>
+        id S231423AbhKAVIw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 1 Nov 2021 17:08:52 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:30357 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S230519AbhKAVIv (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Mon, 1 Nov 2021 17:08:51 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1635800776;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=TQgvJe1cepFDe4icXoTKdCQ9OFnmjUFubPLtiHuzRwE=;
+        b=Rb7OZhLqhJAmx9jyCC4UUlbkOkHKek53g9VmcM2i0lK9Zt/CDgji1DGA4IYURPi7qIQqOv
+        J5XBdScdOPWWJd9WWEqPDEUoWdF9sRyhp3r67SJStN3ZfViYOJmCNX66daZLuK1CqFKSxQ
+        ZuH9dyYmCO3uqA4A6CohnsysYd0IrlA=
+Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
+ [209.85.208.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-197-0gOV-kfQMLmfewHZs0C_Iw-1; Mon, 01 Nov 2021 17:06:15 -0400
+X-MC-Unique: 0gOV-kfQMLmfewHZs0C_Iw-1
+Received: by mail-ed1-f72.google.com with SMTP id t18-20020a056402021200b003db9e6b0e57so16752418edv.10
+        for <linux-media@vger.kernel.org>; Mon, 01 Nov 2021 14:06:15 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=TQgvJe1cepFDe4icXoTKdCQ9OFnmjUFubPLtiHuzRwE=;
+        b=kIBGWE7cudxvaKSGztDsCzOaYvJX7yGGlyS3kDruAIwsyIZvsikee31g2iPaPKwuh/
+         YLKY/2rU6ZVhofQhtxu6+vAbP18+pZAoUMT/m6tkF7V5P2dWmKJEwrpZm6vKklTJSP97
+         CvsgKsJo5/YrORnYRoi55Jd3fHy5dhffKEhS5YPjYJdlBfclZb5iv/jio/jvR+sgHQhx
+         pdlgNIuyO0ue8eKswKs6UVbNMmsUzRagkxP8MiCwuItEs4/NFzVCveStIux2PLSwJQgG
+         c01J39p6AwoCW6VyDxjf8vWvAPSHbJ9HG5vQnQvFaZms/Sz1UEIi6yPR2AwlwM0XfxCm
+         e41Q==
+X-Gm-Message-State: AOAM532Kp2yvtdPAaO7iA2fSurWyK5wQ8M/5hg/G99Uabur2teqewHKn
+        QDcj6fZcyh0oiDeFanRzJLgwUEczPPxCscJx5Qm07e52da8X8IdqtOTiNOnksTZIjMzFUo1W0fU
+        4TAQJkzstmtf3fbA7CpZgpfI=
+X-Received: by 2002:a17:907:16ac:: with SMTP id hc44mr16796026ejc.363.1635800774141;
+        Mon, 01 Nov 2021 14:06:14 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJy7B3F/WuXivDXcMsQVHWmnjOpyhs30E4Vl20y17n1wnE9ef345TKyurGX36aGs8GVxBRd/rA==
+X-Received: by 2002:a17:907:16ac:: with SMTP id hc44mr16796004ejc.363.1635800773984;
+        Mon, 01 Nov 2021 14:06:13 -0700 (PDT)
+Received: from ?IPV6:2001:1c00:c1e:bf00:1054:9d19:e0f0:8214? (2001-1c00-0c1e-bf00-1054-9d19-e0f0-8214.cable.dynamic.v6.ziggo.nl. [2001:1c00:c1e:bf00:1054:9d19:e0f0:8214])
+        by smtp.gmail.com with ESMTPSA id gn16sm3917022ejc.90.2021.11.01.14.06.13
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 01 Nov 2021 14:06:13 -0700 (PDT)
+Message-ID: <8b81025d-a35d-da91-b059-eab1108013e8@redhat.com>
+Date:   Mon, 1 Nov 2021 22:06:12 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20211030135348.61364-5-liudongdong3@huawei.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.2.0
+Subject: Re: [PATCH 04/17] media: atomisp: pci: do not use err var when
+ checking port validity for ISP2400
+Content-Language: en-US
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     Tsuchiya Yuto <kitakar@gmail.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+        linux-kernel@vger.kernel.org,
+        Nable <nable.maininbox@googlemail.com>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Fabio Aiuto <fabioaiuto83@gmail.com>,
+        "andrey.i.trufanov" <andrey.i.trufanov@gmail.com>,
+        Patrik Gfeller <patrik.gfeller@gmail.com>
+References: <20211017161958.44351-1-kitakar@gmail.com>
+ <20211017161958.44351-5-kitakar@gmail.com> <20211026092637.196447aa@sal.lan>
+ <1a295721fd1f1e512cd54a659a250aef162bfb6f.camel@gmail.com>
+ <20211028123944.66c212c1@sal.lan>
+ <af7cdf9de020171567c2e75b713deb2ed073e4e3.camel@gmail.com>
+ <20211101141058.36ea2c8e@sal.lan>
+ <2b81ca7e-fcaa-5449-5662-4eb72e746b02@redhat.com>
+ <20211101200347.2910cbc7@sal.lan>
+From:   Hans de Goede <hdegoede@redhat.com>
+In-Reply-To: <20211101200347.2910cbc7@sal.lan>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Sat, Oct 30, 2021 at 09:53:44PM +0800, Dongdong Liu wrote:
-> PCIe spec 5.0 r1.0 section 2.2.6.2 says:
+Hi,
+
+On 11/1/21 21:03, Mauro Carvalho Chehab wrote:
+> Em Mon, 1 Nov 2021 20:06:52 +0100
+> Hans de Goede <hdegoede@redhat.com> escreveu:
+
+<snip>
+
+>>    -Patch to not load atomisp_foo sensor drivers on !BYT && !CHT
 > 
->   If an Endpoint supports sending Requests to other Endpoints (as
->   opposed to host memory), the Endpoint must not send 10-Bit Tag
->   Requests to another given Endpoint unless an implementation-specific
->   mechanism determines that the Endpoint supports 10-Bit Tag Completer
->   capability.
-> 
-> Add a tags sysfs file, write 0 to disable 10-Bit Tag Requester
-> when the driver does not bind the device. The typical use case is for
-> p2pdma when the peer device does not support 10-Bit Tag Completer.
-> Write 10 to enable 10-Bit Tag Requester when RC supports 10-Bit Tag
-> Completer capability. The typical use case is for host memory targeted
-> by DMA Requests. The tags file content indicate current status of Tags
-> Enable.
-> 
-> PCIe r5.0, sec 2.2.6.2 says:
-> 
->   Receivers/Completers must handle 8-bit Tag values correctly regardless
->   of the setting of their Extended Tag Field Enable bit (see Section
->   7.5.3.4).
-> 
-> Add this comment in pci_configure_extended_tags(). As all PCIe completers
-> are required to support 8-bit tags, so we do not use tags sysfs file
-> to manage 8-bit tags.
+> Not sure if it is worth doing it, as there are a lot more to be
+> done before being able to use a generic sensor driver.
 
-> +What:		/sys/bus/pci/devices/.../tags
-> +Date:		September 2021
-> +Contact:	Dongdong Liu <liudongdong3@huawei.com>
-> +Description:
-> +		The file will be visible when the device supports 10-Bit Tag
-> +		Requester. The file is readable, the value indicate current
-> +		status of Tags Enable(5-Bit, 8-Bit, 10-Bit).
-> +
-> +		The file is also writable, The values accepted are:
-> +		* > 0 - this number will be reported as tags bit to be
-> +			enabled. current only 10 is accepted
-> +		* < 0 - not valid
-> +		* = 0 - disable 10-Bit Tag, use Extended Tags(8-Bit or 5-Bit)
-> +
-> +		write 0 to disable 10-Bit Tag Requester when the driver does
-> +		not bind the device. The typical use case is for p2pdma when
-> +		the peer device does not support 10-Bit Tag Completer.
-> +
-> +		Write 10 to enable 10-Bit Tag Requester when RC supports 10-Bit
-> +		Tag Completer capability. The typical use case is for host
-> +		memory targeted by DMA Requests.
+As you may know, I'm also working on IPU3 support for $dayjob atm
+actually :)
 
-1) I think I would rename this from "tags" to "tag_bits".  A file
-   named "tags" that contains 8 suggests that we can use 8 tags, but
-   in fact, we can use 256 tags.
+So the drivers for e.g. the ov5693 sensor conflict, by adding
+a small (one line) check to atomisp_ov5693.c to not register
+the driver at all when not on BYT/CHT we can avoid the conflict
+on most devices for now. And when actually on BYT/CHT the user
+will need to blacklist the non atomisp sensor-modules which, well
+sucks, but atomisp is in staging for a reason ...
 
-2) This controls tag size the requester will use.  The current knobs
-   in the hardware allow 5, 8, or 10 bits.
+So the idea here is that with some small added ugliness to the
+atomisp_foo.c sensor drivers we can make the 2 drivers co-exist
+a bit more, allowing e.g. generic distro kernels to (maybe) enable
+the atomisp2 stuff without regressing the IPU3 support.
 
-   "0" to disable 10-bit tags without specifying whether we should use
-   5- or 8-bit tags doesn't seem right.  All completers are *supposed*
-   to support 8-bit, but we've tripped over a few that don't.
+###
 
-   I don't think we currently have a run-time (or even a boot-time)
-   way to disable 8-bit tags; all we have is the quirk_no_ext_tags()
-   quirk.  But if we ever wanted to *add* that, maybe we would want:
+Since we are discussing this now anyways, the atomisp_foo.c
+patches would look like this:
 
-      5 - use 5-bit tags
-      8 - use 8-bit tags
-     10 - use 10-bit tags
+#include <linux/platform_data/x86/soc.h>
 
-   Maybe we just say "0" is invalid, since there's no obvious way to
-   map this?
+        if (!soc_intel_is_byt() && !soc_intel_is_cht())
+                return -ENODEV;
 
-> +static ssize_t tags_show(struct device *dev,
-> +			 struct device_attribute *attr,
-> +			 char *buf)
-> +{
-> + ...
+In the probe() function and change driver.name from
+e.g. "ov5693" to "atom_ov5693".
 
-> +	if (ctl & PCI_EXP_DEVCTL2_10BIT_TAG_REQ_EN)
-> +		return sysfs_emit(buf, "%s\n", "10-Bit");
-> +
-> +	ret = pcie_capability_read_word(pdev, PCI_EXP_DEVCTL, &ctl);
-> +	if (ret)
-> +		return -EINVAL;
-> +
-> +	if (ctl & PCI_EXP_DEVCTL_EXT_TAG)
-> +		return sysfs_emit(buf, "%s\n", "8-Bit");
-> +
-> +	return sysfs_emit(buf, "%s\n", "5-Bit");
+Before I spend time on writing patches for this, would patches doing
+this for conflicting drivers be acceptable ?
 
-Since I prefer the "tag_bits" name, my preference would be bare
-numbers here: "10", "8", "5".
+Regards,
 
-Both comments apply to the sriov files, too.
+Hans
 
-> +static umode_t pcie_dev_tags_attrs_is_visible(struct kobject *kobj,
-> +					      struct attribute *a, int n)
-> +{
-> +	struct device *dev = kobj_to_dev(kobj);
-> +	struct pci_dev *pdev = to_pci_dev(dev);
-> +
-> +	if (pdev->is_virtfn)
-> +		return 0;
-> +
-> +	if (pci_pcie_type(pdev) != PCI_EXP_TYPE_ENDPOINT)
-> +		return 0;
-> +
-> +	if (!(pdev->devcap2 & PCI_EXP_DEVCAP2_10BIT_TAG_REQ))
-> +		return 0;
-
-Makes sense for now that the file is only visible if a requester
-supports 10-bit tags.  If we ever wanted to extend this to control 5-
-vs 8-bit tags, we could make it visible in more cases then.
-
-> +
-> +	return a->mode;
-> +}
-
-> @@ -2075,6 +2089,12 @@ int pci_configure_extended_tags(struct pci_dev *dev, void *ign)
->  		return 0;
->  	}
->  
-> +	/*
-> +	 * PCIe r5.0, sec 2.2.6.2 says "Receivers/Completers must handle 8-bit
-> +	 * Tag values correctly regardless of the setting of their Extended Tag
-> +	 * Field Enable bit (see Section 7.5.3.4)", so it is safe to enable
-> +	 * Extented Tags.
-
-s/Extented/Extended/
-
-> +	 */
->  	if (!(ctl & PCI_EXP_DEVCTL_EXT_TAG)) {
->  		pci_info(dev, "enabling Extended Tags\n");
->  		pcie_capability_set_word(dev, PCI_EXP_DEVCTL,
-> -- 
-> 2.22.0
-> 
