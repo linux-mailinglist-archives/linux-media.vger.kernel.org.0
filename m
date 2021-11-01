@@ -2,194 +2,187 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CD32E442015
-	for <lists+linux-media@lfdr.de>; Mon,  1 Nov 2021 19:33:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B4386442017
+	for <lists+linux-media@lfdr.de>; Mon,  1 Nov 2021 19:33:44 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231937AbhKASfo (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 1 Nov 2021 14:35:44 -0400
-Received: from mx0a-00069f02.pphosted.com ([205.220.165.32]:32194 "EHLO
-        mx0a-00069f02.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S230317AbhKASfm (ORCPT
+        id S231861AbhKASgQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 1 Nov 2021 14:36:16 -0400
+Received: from mx0b-00069f02.pphosted.com ([205.220.177.32]:40958 "EHLO
+        mx0b-00069f02.pphosted.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S232156AbhKASgF (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 1 Nov 2021 14:35:42 -0400
-Received: from pps.filterd (m0246617.ppops.net [127.0.0.1])
-        by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 1A1HmBNd030782;
-        Mon, 1 Nov 2021 18:33:06 GMT
+        Mon, 1 Nov 2021 14:36:05 -0400
+Received: from pps.filterd (m0246630.ppops.net [127.0.0.1])
+        by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 1A1HtNhZ005969;
+        Mon, 1 Nov 2021 18:33:25 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
  : subject : message-id : references : content-type : in-reply-to :
  mime-version; s=corp-2021-07-09;
- bh=I+HrdZFUxAwvotpjKIOzrmqKjLpebhuHz8PP+G+HZIg=;
- b=HZSFolSNHBjlU6/8hSf78QDHWfCvBKboQiWv/T6uPxElHVidFeQ8QYMI2zO/E6wT+X98
- x0hZPjuVGf3r4ED+eiOJ2mk+58HM+88gaeVCFjbFmXoopEjgWICGFg9ano//lJkBA2dH
- 2FuIy3/OrF9ssD2zfq3mxE+HZSj3cmJo6pV3c2yoCNg6nkfwQRWsOsNnbzcmvpjZMCq1
- xa/Wlx/5MdpeOISRTUq4D1lmV95fcCgTxeFL7opPQnHBCQ8FaTXJuHhYaMacIfv1/fBb
- Rw0EL0JlSg4D+Xn/uFrq3yhk7N/eMen6608/C1s+xfF9rvSgSNVhUjI6qZvuND7qBizY Pg== 
-Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
-        by mx0b-00069f02.pphosted.com with ESMTP id 3c278nbhxp-1
+ bh=dJwO0KqbqUfeStKrLiVHgQOliv3ZhmBP0dKiFWFZr8g=;
+ b=ZQ2wmlFh9O3gIUfxVRxXMf69wzowq06/CrC7oCg5o1PLElXlhZEMpO+6hVqCiKnwm/I5
+ s0gPdiaWsk0RsngeZxZQO59ORk3H7hDjhkJS6YFTjafIfN0e6VBaNOwpFZ+g/C2V9Awn
+ zqjjbzxSk6ptsX3JMs6HwE23l5MEpTO//TvWRpsQIdytnNcY6OJVO9RY8NKHPy0/hY6Z
+ hGAfrfcSKlGyTeA96Tlg8Y8UWLbHE9A5Vz+OrtEQ7jCfvGeWvlq+2rMUMbvOP1RcidgH
+ TwJhuQFK+fiA+w+KWr1m8o++pFF6scJvW+U4qC92y9UhM4jdY9EPeTCSrjdsdYmIV0/j DA== 
+Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
+        by mx0b-00069f02.pphosted.com with ESMTP id 3c27r5bb4b-1
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Mon, 01 Nov 2021 18:33:05 +0000
-Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
-        by aserp3030.oracle.com (8.16.1.2/8.16.1.2) with SMTP id 1A1IJbFc040326;
-        Mon, 1 Nov 2021 18:33:04 GMT
-Received: from nam11-bn8-obe.outbound.protection.outlook.com (mail-bn8nam11lp2169.outbound.protection.outlook.com [104.47.58.169])
-        by aserp3030.oracle.com with ESMTP id 3c0v3ck2w7-1
+        Mon, 01 Nov 2021 18:33:24 +0000
+Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
+        by userp3030.oracle.com (8.16.1.2/8.16.1.2) with SMTP id 1A1IKRnH065290;
+        Mon, 1 Nov 2021 18:33:22 GMT
+Received: from nam11-bn8-obe.outbound.protection.outlook.com (mail-bn8nam11lp2175.outbound.protection.outlook.com [104.47.58.175])
+        by userp3030.oracle.com with ESMTP id 3c27k3v16v-1
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Mon, 01 Nov 2021 18:33:04 +0000
+        Mon, 01 Nov 2021 18:33:22 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=OGBY0CbIA5cFLWcil2D2GeKWCnJi/CbV93vVgfWgPyA0jdL84VCJYKqRzkMXWiPwOmg/qV3Uy3aTp2wbJkSQkxL1CZEtI3tMcw29Hti8Fv0aUdF3R4EciP0YFsNljcKVDPh2DUMHmJPd/ZAxnx+q3IXF5cJHROGeronqX/lKMKvBBySXAIUYU4uxtdgerEiYxuKN/Qr4+CCJvFh2QZYpUfMiNnMabvkug+H++Ox9WLfpKf8a/P+E0CjUvEh/333Ej/dAipwO6BOkK31eN6F8b9bXb0a05NTRfM/xr1f1+HkCFQp28b3QJ3euHTno1+7GDG3Y/ctIKBH09juCQS8XxA==
+ b=IKfkE1l1IUD05mCjH/jcuXF3HfHycJTrfqaQvYnSSTGc+TBVd/8rAQ7lwqsMBA1N6zSPFkpdkVx5nBZIN+R1X374vZdBD0gb3s7h7pbX653UsSH1hjLvMs+rd5lsMxfDP708sA29lvqcpf1TAOTSOyEi09D6CqQxizYprGgnatRK0xOUHWxqNpRSEb6A9a2lvH5XIQccdD25l3/7iFTnobTIu2kIT4um6ZafwHYXvJLa39gMbXRFG296WKsuCGMmeWwnvCtdnyyt4gdPceaDVFDb5aQvz8MJQYF+MhYCAGUvHOKE6FzgyLbE2vzNZAnzZ1GxQol6EHMTD1ttj4BK3A==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=I+HrdZFUxAwvotpjKIOzrmqKjLpebhuHz8PP+G+HZIg=;
- b=KsGU97XtFRNamB4MZ0jFoVRh1xWJ2jnA2FSkm6pjTqvv/fz2AZ+wFH+czYsjTXJWbWiO+17tON5xiY+ct4CFH3I4jyRLUGmCsnNHoGzdjNcbwlpKirzxNRfG1CKg2T0pi1N1sOOdisBB/oqKU1I+HoD9szWgXoc1YJAWFIXIy0ifUgQJ2jI/sqMT57LVh6FW7i5kZ+iDGRowdeCCn4l4xXedvD6ljXK5Zol3hYUpAThE/jLvXoL2wZeUaKynLvcpzLyawq/xiOBJ/3U0zytfo/DYr2ghQNofV6tXoIR+3sTKQW4fZ7New3yoatH9BDlv3QUWYjjjUD5uyWX9RA3NKA==
+ bh=dJwO0KqbqUfeStKrLiVHgQOliv3ZhmBP0dKiFWFZr8g=;
+ b=IDbW41OFQhqlR6+JdIb6kcCN5YeLXLJAHC4WFHuyd7zFis3qYzyxXMFc0muBBUl+DUZw34YBRgOY5lZMgDa8RN84sXZP770zQHbGVW+tO1RGoxytjqyJutvK1anLrB8WKRS5dKW1KLVU5r5zKBOzt3FfDAMjuUwgGeYQQloG058f3pDpNnzoct/QRq/gpPp8nCEL6rddg8wBzEjRSHzzCZ1LXRQUb9HG7joQrAg1RAWabXLZkfLJT6cESBkVwC8uoRAMTaKH5JH0ht0jErzdfFt6e2aFpAJvImcS4BM+9tfuZiLfRGFQXvuXqZkHIxOVN4LICgAKM0o8m5PLZi33vA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
  dkim=pass header.d=oracle.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=I+HrdZFUxAwvotpjKIOzrmqKjLpebhuHz8PP+G+HZIg=;
- b=RPnxw+oGcPk5GbJAbXupa1dW0QyKdo+cfw874JbW/zRtXyuxt09I3EAErrv5f2MIi2TZRymTOnGsHZpTnV2Tcaue7aHSzjbbz+gBqa4neLpnlsUIS5gjhWJnbgBVRQRcKpBDJLMaG0wTcURYvX/E9iidDQaJsDaRK9pDSRhoRE4=
-Authentication-Results: gmail.com; dkim=none (message not signed)
- header.d=none;gmail.com; dmarc=none action=none header.from=oracle.com;
+ bh=dJwO0KqbqUfeStKrLiVHgQOliv3ZhmBP0dKiFWFZr8g=;
+ b=kQRB+v5A/df4BQTUeey2KzKdzlxvQo7I24knvgBCwsti4+VXAtsdvUkh0ZesxQ/zfIRunw/L/8YvlUzFKbceyhu7xG3quJL9/z0EuV1Sm1HFIt1OzT4m7OxsUyvy8qJE9oYeU+4iI43xSbwbTLn2R1mE/EFXkfELu8vb1YDPu2U=
+Authentication-Results: infradead.org; dkim=none (message not signed)
+ header.d=none;infradead.org; dmarc=none action=none header.from=oracle.com;
 Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
  (2603:10b6:301:2d::28) by CO1PR10MB4513.namprd10.prod.outlook.com
  (2603:10b6:303:93::23) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4649.14; Mon, 1 Nov
- 2021 18:33:01 +0000
+ 2021 18:33:20 +0000
 Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
  ([fe80::d409:11b5:5eb2:6be9]) by MWHPR1001MB2365.namprd10.prod.outlook.com
  ([fe80::d409:11b5:5eb2:6be9%5]) with mapi id 15.20.4649.019; Mon, 1 Nov 2021
- 18:33:01 +0000
-Date:   Mon, 1 Nov 2021 21:32:50 +0300
+ 18:33:20 +0000
+Date:   Mon, 1 Nov 2021 21:33:01 +0300
 From:   Dan Carpenter <dan.carpenter@oracle.com>
-To:     Dongliang Mu <mudongliangabcd@gmail.com>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+To:     Randy Dunlap <rdunlap@infradead.org>
+Cc:     Dongliang Mu <mudongliangabcd@gmail.com>,
         Pavel Skripkin <paskripkin@gmail.com>,
-        syzbot <syzkaller@googlegroups.com>, linux-media@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] media: em28xx: fix memory leak in em28xx_init_dev
-Message-ID: <20211101183249.GA28019@kili>
-References: <20211101095539.423246-1-mudongliangabcd@gmail.com>
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        Greg KH <gregkh@linuxfoundation.org>
+Subject: Re: Need help in debugging "memory leak in em28xx_init_dev"
+Message-ID: <20211101183301.GF2914@kadam>
+References: <CAD-N9QXsUcczurqq9LdaVjXFZMBSbStynwFJyu0UayDazGe=nw@mail.gmail.com>
+ <55f04cb1-18ac-085b-3d35-7a01716fbcbe@gmail.com>
+ <CAD-N9QVN7cepUpRu3d-xtr1L3DG90-nLS4gmkjerDZO21F_ejQ@mail.gmail.com>
+ <f622f569-25d5-f38e-e9fb-7f07e12c4b7e@gmail.com>
+ <CAD-N9QWeGOZdnuRuHVVNzZHWeP3eSHg=tsm+Qn3tqGqACSNbhg@mail.gmail.com>
+ <ffbaeb72-0f76-fb1e-dde5-6e6bdcce1301@gmail.com>
+ <CAD-N9QWQkivwR0mWwiaW_pLE6J_b03x4dP8RyxbmuKYRkcRhoQ@mail.gmail.com>
+ <20211101143004.GD2914@kadam>
+ <c0e25c48-84cc-6ad1-8312-1957f459148d@infradead.org>
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20211101095539.423246-1-mudongliangabcd@gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-ClientProxiedBy: ZR0P278CA0153.CHEP278.PROD.OUTLOOK.COM
- (2603:10a6:910:41::20) To MWHPR1001MB2365.namprd10.prod.outlook.com
- (2603:10b6:301:2d::28)
+In-Reply-To: <c0e25c48-84cc-6ad1-8312-1957f459148d@infradead.org>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-ClientProxiedBy: JNAP275CA0039.ZAFP275.PROD.OUTLOOK.COM (2603:1086:0:4e::6)
+ To MWHPR1001MB2365.namprd10.prod.outlook.com (2603:10b6:301:2d::28)
 MIME-Version: 1.0
-Received: from kili (62.8.83.22) by ZR0P278CA0153.CHEP278.PROD.OUTLOOK.COM (2603:10a6:910:41::20) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4649.17 via Frontend Transport; Mon, 1 Nov 2021 18:32:58 +0000
+Received: from kadam (62.8.83.22) by JNAP275CA0039.ZAFP275.PROD.OUTLOOK.COM (2603:1086:0:4e::6) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4373.21 via Frontend Transport; Mon, 1 Nov 2021 18:33:15 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: e9547dfa-478d-4575-4de9-08d99d6608ec
+X-MS-Office365-Filtering-Correlation-Id: 419d2f46-4c44-42b1-7124-08d99d661453
 X-MS-TrafficTypeDiagnostic: CO1PR10MB4513:
-X-Microsoft-Antispam-PRVS: <CO1PR10MB451328DFC17CB67AD531B5DC8E8A9@CO1PR10MB4513.namprd10.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
+X-Microsoft-Antispam-PRVS: <CO1PR10MB4513962CEF6345E27924CAA88E8A9@CO1PR10MB4513.namprd10.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:8273;
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: esUkI20H95GfXXtlmTL4xFHC3940L5GTbfCyPXn4PzINMEdfRiqos4Ff4sYoHbT6OxC0PmIi7ME7IF9HSmgFofpG5KptARD5E3pD82JxbXSmx87fYR9STpP9ywbUo8A356fZNOURAAmJeMLPAzGxRvfQoG4NEXhu2TwRTs9QqJk21oaTXSAc0q0f6QckExBY8TLG50adr/dpaTYYM44lBCPVzHlqDbi0t5+gFRaUerWEnNn2Zr3BlH2yx0cbXKwGC1iwoLWAJf0/aMmvy6Pap2KSfx/vpWwyVr7XXj4WzxEYQkfVJPdLBnYHdYV4li9Ssg2FwGivi6+9Q8REcHsy3r+k5s/v8thdUmEmbdus5FjZ6GBbqxoHotAwUigyu48FvfT0T8rVacTlAsGJhedbS6ky1GzeGdccVV2PBOiqqSA08gwpraWXfO3SwZsp+tNHsnsXGIctqwujLeb9+1drhjHKw0pe8+7UgsmFEvXMpV0ZbA3Mvos81g2yC1RfASq/e8kXUx7Jggumyuth/dlmz9BvpWecB1dcLsiHMDQ6rSUAbFNMOT3tvDIIn0BGP5w3huaUELJxjtbn8lEjSFChA3QqJv54k5nT437FJzPx6158bgz0Dkuy7EU/ENhNq0+IS3ipqAp9rYQ5J3vmFCQWd47OOrlSIqfgy9lWAhuF1UQ3D++JMmRc4YIurjzxEhWfop0zLBJTJoTGZ8pTF+Jn1A==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MWHPR1001MB2365.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(366004)(186003)(8676002)(6916009)(26005)(8936002)(1076003)(52116002)(4326008)(316002)(9576002)(5660300002)(33716001)(6496006)(9686003)(83380400001)(55016002)(508600001)(6666004)(2906002)(38100700002)(38350700002)(66556008)(54906003)(956004)(66476007)(86362001)(44832011)(66946007)(33656002);DIR:OUT;SFP:1101;
+X-Microsoft-Antispam-Message-Info: dwq5hRwNtWheQ9Lmaj4nZL7aSewaq5tMtxgG9PBLp5J/yF3TUG6FJJuBrMoATKqo6cZW7mI1NV34CTju6ylsjDNE6fMJyiYuYFqppglGwtiiC1u1webmuQPXU/BII8VPEpsfhoYGZUscOoqhSYjGghMokWUPc1jkb7RKTIMxhmWKYRo1AxO+tsORM+EpLcpEnZU9kK/2sdLhA5fRwDhinbEPf7/Q3F35lB0k9Z1TEm1Uti2HSYczjTAwDp1V60LZ8pcwYwGZkIzwLY8flg4aUyXfg2g9n5uPKFPIGazctblbDEjtAQRto6a5VTHgrJKLUKzU0N7jGYh79xN4spN+lDk5J85JV5IIh3wfz99X7rVXTcj+1BkQTFmluKZlPiSNRFRaOcdVWiPjkMpsknCf0BQE8KNdeRiMgcMPm3+2HcGhZIo91STRqktrw4d/TAVapP20ztPX8MqUP8P0iM9foyNRrZNOYYgNe73fxxaVvDWgm5sv8tQ2GA5pmf5VIlMTM4GHYjgUNapT3kXf4kJklAwKmBOA2rwIO3PZTH/QbMFRT2s2fCn9C1sOOk8IIlikmtKJS8KHh2lI0pukm+NtcdLLvHB0A7SfwszW3hBXcnfWC7QutUptCFgwA+82S5vBza9y/M3+W0XHC9CkhNaIRKzaE8ffvsemnWTiMi5zbUi4opCxzjCb1HOCZJ2ex3etsQIegZ1P1rOlFQ1PU1+MBw==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MWHPR1001MB2365.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(366004)(186003)(8676002)(6916009)(26005)(8936002)(1076003)(52116002)(4326008)(316002)(9576002)(5660300002)(33716001)(6496006)(9686003)(83380400001)(55016002)(508600001)(6666004)(2906002)(38100700002)(38350700002)(53546011)(66556008)(54906003)(956004)(66476007)(86362001)(44832011)(66946007)(33656002);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?B+rPUY9vBUyQSPoG4TesjuqyfMTdc/hzVRew6MjYzw2cgoaxyxcNngL/To2T?=
- =?us-ascii?Q?g7RZqeztXcGImDgBkpbWz4EX0jh8PdEGfl7G1s8i53hNVwatB93Wl56/p7hW?=
- =?us-ascii?Q?UxfEmfKbRWr7CT8v67OQdDHMEDF99Bk8LOhjjOWROPeD/5d9mkkhK+pW/6A4?=
- =?us-ascii?Q?oVXuQ12ki7sFhs4a8lQbG0DG1V6rIYE9prhpGeINb2SrMUKOo3Cp5/aNUoRC?=
- =?us-ascii?Q?i7SrE/YAh2jxIC2K7SfUOCHSHOT8CGDp9fKeS+fyRcGFb0NbpDo6BH4rF3+b?=
- =?us-ascii?Q?TqudPuD+DkFQ5tH3IjIpssZ1Y4xCOp78bZ63jXFxcZq95FvPCoMiUNUn+17G?=
- =?us-ascii?Q?5hBW7eLXMvDZ5G2y2LpMRadAkJMxjwhJvSu+G6TEXtpZ5YqWKswnuJvVvmiU?=
- =?us-ascii?Q?vjJ2aNK6MsExAF6J6NrcPdlbxYsVmOglO6Bu4nvdjT1DfNzwRfpdixol03Jr?=
- =?us-ascii?Q?9ipzGDApA/awk9gC7UcNFyqrhzVxPSjj66FRhqlkwmMshiWZ64YTnqBObo2A?=
- =?us-ascii?Q?nRcfRV+vELx7QpqC7t9KP74Lwhk4JT6j6wr3oLvvPMCox7QUl8fAr+Ch6AHp?=
- =?us-ascii?Q?QAvhSwkE5ZoKWXCJPVKiSKf/W0sy8ELID0NkwqWOjGWL14M6GYYF1+AASuuY?=
- =?us-ascii?Q?i88OrgopFBMXK2/4o26Oe17NkdjMLFRReq1paWgVVAA4MXsodkBVLZQ8j1fJ?=
- =?us-ascii?Q?+HvUtNsPiixPSahwlqY0fhv+D/o8E5pSZM29vnOJ8b3N0EUlWE8632Y1ag7W?=
- =?us-ascii?Q?nj935VNYjVu+Z08QSxg4leHfS55McdLmADJOo4u55LTA8w+V3xHiLZGxvh/k?=
- =?us-ascii?Q?YgJor7MqdYxDY6txBarleQARY8DO1ZZnA0ma9xFf1zpK6ZoKxN7UWeagfacQ?=
- =?us-ascii?Q?/UGsDYt96+qY5o/53LDVA6yWb7TtvpOZ5kxaYty8AI0YZJLPaXLgA2iypRs1?=
- =?us-ascii?Q?bZiq9MrZSLut9QYZ8OjUbEJnDXM9DfHvJE35ANRWPX4NC+wEUm9xr6yJhrxy?=
- =?us-ascii?Q?IRK+mGRmuhqYyCZG7uqNOt5yNYya90hr4PKRKLfZGB0T7b4bWIGLSug4YgdS?=
- =?us-ascii?Q?ZKJNTN9WeQc7i/5IvxxoFXLUhMhdLOoMSbIkVJ1VSRK7oj4GvOxRVEfCHIx4?=
- =?us-ascii?Q?LKXhgRBWt2J+rpv2jpLNHk919rLGvPa6OMNUO3QrZwU+ciuxBDImCv2OuPaA?=
- =?us-ascii?Q?SO0M3D5gG9DmDga0TplK0uZ1kHnyxft7p/9dQULvitmms0NAoZLzyxDbVWqK?=
- =?us-ascii?Q?rlUfrsofx10RNfWh9vpXK42tXBzxS79rbuYuesUTRnecB5Ru5THclNOTZTlO?=
- =?us-ascii?Q?18amuEhySnWsXrP+Uv7ss06srBAWcUHfB8lLeycfRivJMCVICBW1B4Mpjbdr?=
- =?us-ascii?Q?g65XesHwScjerkp2NnElmeCD0yBvjqGZnND4tA5K2YjZrsJn3+yZYM51hbOx?=
- =?us-ascii?Q?24F2NwzVXdEciIfaH6UilSqIlu6ZRothubbLhDHHxSlaNLSJcz8hdz0c61oY?=
- =?us-ascii?Q?jFz0pWdWvJqqiGOLLjhLzJbtC3hSlelXsNa/16pmsj9ID6R0AiV6qCmVNEXk?=
- =?us-ascii?Q?D80SD+DDkgLlqkWAwQ62YKJALkBY7OuTQRfP8i3JGnzRoaLGHYl8azFQZwlb?=
- =?us-ascii?Q?Ql4P+jLEoowtRG5Z20dhPVKwy5P1Vmd3z/qgjiLRYvcKdjgYU865lF3LOzCD?=
- =?us-ascii?Q?1WDhbg=3D=3D?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?Ja5euTCPnSqxNAS0VD1pfpHG5yRhcIIiVxukGkkPYYzW3zb1BohwXkPxD8is?=
+ =?us-ascii?Q?9Rxb81nyWcq1fw+JM1UoGXoRh1HGw1J21irLSZX+N45jALv4eLL871Cn9YvF?=
+ =?us-ascii?Q?rlnq7t8d8/SKZB4RBq/nGAJXFPmMPJ2RKD/NS1PF0E3zguhGh8eLad7Zbm8G?=
+ =?us-ascii?Q?4mqK1JySWfmTTngAnLub75PKwcVSRJfBnI/TuVXmL6YlREOvgJAVn8mNHhhW?=
+ =?us-ascii?Q?EcZusWNXDbzTB4Ib9ClA7g9cWRa3rTwDzoMtWoomMt4WPJOMc12BWR04dDFM?=
+ =?us-ascii?Q?/2RSB/WB/N0BU2EE17nJfb1p+B6/egFj1Pg8D8q6V8Zgs3uJjjZjRbl080V4?=
+ =?us-ascii?Q?gBLBR509+Pmog+5RAaKRNfRwZ/Lko6zkpK501tAqah/AmVN9Nc+HEH+Z0a0L?=
+ =?us-ascii?Q?+8AR0/m3q7ODDnKfcQLXWAHRAoWv9EjO1v4MllltLY2hoaJ5e1hjy1IKmEzd?=
+ =?us-ascii?Q?kqGwxXweHJM4sFXPOpYSziafiVIdqZnsA9zIcIY5I3wBaTdwnGSDowO3I4Cc?=
+ =?us-ascii?Q?OgFRPCFXPI59cNoIxEMNRLRr/RzxV/WQeRaAtLrkoTh7lLpGPlU/xhVzWGGh?=
+ =?us-ascii?Q?sEBt/PGMd7ojoWK+xD4bFTbKx668jCsp+XsETDdQ1FHR+hTdwYYCimC+c4Lf?=
+ =?us-ascii?Q?jtuT8DLutoozoKYOMhsklcHQK5d8mWt4QhCcYx5GvKzaeOFiBonKjUM1xy9x?=
+ =?us-ascii?Q?O5Zt9F0WvJduc3hGTD8mrMbP9cXUXd+uf36TS56YsCdhRraPIk1YQOfe7qRP?=
+ =?us-ascii?Q?KQvWC2u4RLEW2SAIWr4mSFdRzhBdzCt0o2nLyYVCiSVIEVeB70LAIsaY+lc6?=
+ =?us-ascii?Q?7JYhcQEu4FDqa6V3QPFgwf6cbDo4lSiyMoitN+lLAWXHVO65phKavmqh6G+a?=
+ =?us-ascii?Q?y62/HVCQ6KaARmBmzdI1vKPI2bmSkjra7EzQzoeZtRNP9oAxWS3/uPuVqu49?=
+ =?us-ascii?Q?FSD61T5yp7G31qiHaqz4IowznXCSrBHOeAWZQr2J5yMhqF1UM2/0BtxWLaoy?=
+ =?us-ascii?Q?x06q+TMqU6g2qGB8S/IwBvijfx7xdJs3j4KhpyxUT2lTRKkKCohiQO5o7jBu?=
+ =?us-ascii?Q?7vPGxAzezncYtIS6CXth6Ef9+CQPZDFoxWGpvZ3l14NxgtkMl/07hUOgFs62?=
+ =?us-ascii?Q?KXDDKstTuYSObsENbppwvhRfilwlyu31GlvHntwh4y5XOjktmxyxp1W9zgpd?=
+ =?us-ascii?Q?U9hl1NRV0SMaZv9LcdXoQdNxajqF72FN3/t7jQyaCKJvsqQ1KVaiPaOci+Ig?=
+ =?us-ascii?Q?q4FINEs5pM50P48Q/1gXzduhWE5Kz9ymN0ZFREOQGr3TICewpKYs+JGhwztC?=
+ =?us-ascii?Q?q4ttZUljiOQ9T1d2GD4xGEKUOjisuJYAl5mbhEwH3k4bcoQLHOKmOSACo1Bq?=
+ =?us-ascii?Q?gk1iHYh9sjHYw1H4oV7/fDhua646uIPfGNgrbhNnXzWOO5lwK9jSQe38pG3H?=
+ =?us-ascii?Q?EFg2SqNIex7lVrNPBTevpMnK9vZcZekZ0j/5MX2y4MQkIN5vlFtX9I/nZjta?=
+ =?us-ascii?Q?30TuBAwca4+5PES3iICrkkQVbpSn2XTPtBGcmNw+psfDPGvAgo/d7wmBtqIR?=
+ =?us-ascii?Q?QeahC0PpH5IjqgbohpktNLME4zfq10lpOj8va0C0dREBp/6kbWFGH/IaZ89O?=
+ =?us-ascii?Q?V17MfhOlfW2yCwGAv4poKM+fPRAF7zJtCIDVT0yXt9858qubQlsJsafZch72?=
+ =?us-ascii?Q?0n4ysQ=3D=3D?=
 X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: e9547dfa-478d-4575-4de9-08d99d6608ec
+X-MS-Exchange-CrossTenant-Network-Message-Id: 419d2f46-4c44-42b1-7124-08d99d661453
 X-MS-Exchange-CrossTenant-AuthSource: MWHPR1001MB2365.namprd10.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Nov 2021 18:33:01.4023
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Nov 2021 18:33:20.7540
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 0JBjeLhl1Nh/E0stLgtdlNMXW+6bsz+b6OVT63N3LgtPODVM1j5zIEH/sdQpMTSjJ9Xdme9axAWmaJdON/qv0UL3+MHbWjn5iROMCEtl0uQ=
+X-MS-Exchange-CrossTenant-UserPrincipalName: W6YdYpEHD9i1Xeg2ItczlE1oP+wG2KffD5LBC8h5NNU6aJfVQO2KnXIGvuEzT3sv6e9bd/8mu0wS7BqK2jdOv5vBRUkdz2Ur5wQO7H4DfT0=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO1PR10MB4513
 X-Proofpoint-Virus-Version: vendor=nai engine=6300 definitions=10155 signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999 mlxscore=0 adultscore=0
- spamscore=0 bulkscore=0 phishscore=0 suspectscore=0 malwarescore=0
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0 mlxscore=0 spamscore=0
+ malwarescore=0 mlxlogscore=822 adultscore=0 phishscore=0 bulkscore=0
  classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2110150000
  definitions=main-2111010099
-X-Proofpoint-GUID: -6yvdZBv7j6hlC1V3Dxkc7DjFfBTb6hf
-X-Proofpoint-ORIG-GUID: -6yvdZBv7j6hlC1V3Dxkc7DjFfBTb6hf
+X-Proofpoint-ORIG-GUID: ZI6h-eY9XoabvhgUY2iI97G9ZAxYJ5Uo
+X-Proofpoint-GUID: ZI6h-eY9XoabvhgUY2iI97G9ZAxYJ5Uo
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, Nov 01, 2021 at 05:55:39PM +0800, Dongliang Mu wrote:
-> In the em28xx_init_rev, if em28xx_audio_setup fails, this function fails
-> to deallocate the media_dev allocated in the em28xx_media_device_init.
+On Mon, Nov 01, 2021 at 08:05:47AM -0700, Randy Dunlap wrote:
+> On 11/1/21 7:30 AM, Dan Carpenter wrote:
+> > On Mon, Nov 01, 2021 at 05:58:56PM +0800, Dongliang Mu wrote:
+> > > On Mon, Nov 1, 2021 at 5:43 PM Pavel Skripkin <paskripkin@gmail.com> wrote:
+> > > > 
+> > > > On 11/1/21 12:41, Dongliang Mu wrote:
+> > > > > > Hi, Dongliang,
+> > > > > > 
+> > > > > > Did patch attached to my previous email pass syzbot's reproducer test?
+> > > > > > Unfortunately, I am not able to test rn :(
+> > > > > 
+> > > > > Yes, it works. The memory leak does not occur anymore.
+> > > > > 
+> > > > > But I am crafting another patch based on yours as there is a small
+> > > > > issue in the retval and I would like to make the error handling code
+> > > > > uniform.
+> > > > > 
+> > > > 
+> > > > Cool! Thank you for confirmation.
+> > > 
+> > > Hi Pavel,
+> > > 
+> > > Thanks for your advice. I have sent the patch and you are on the CC
+> > > list. Can you please take a look at and review my patch?
+> > > 
+> > 
+> > What's the Message-ID of your patch so I can b4 it.
 > 
-> Fix this by adding em28xx_unregister_media_device to free media_dev.
+> <20211101095539.423246-1-mudongliangabcd@gmail.com>
 > 
-> BTW, this patch is tested in my local syzkaller instance, and it can
-> prevent the memory leak from occurring again.
-> 
-> CC: Pavel Skripkin <paskripkin@gmail.com>
-> Fixes: 37ecc7b1278f ("[media] em28xx: add media controller support")
-> Signed-off-by: Dongliang Mu <mudongliangabcd@gmail.com>
-> Reported-by: syzbot <syzkaller@googlegroups.com>
 
-Is this really a syzbot warning?  If so it should be in the format:
-
-Reported-by: syzbot+4c4ffd1e1094dae61035@syzkaller.appspotmail.com
-
-Syzbot is different from syzkaller.  Syzkaller is the fuzzer and syzbot
-is the program which reports syzkaller bugs.
-
-> ---
->  drivers/media/usb/em28xx/em28xx-cards.c | 19 +++++++++++++------
->  1 file changed, 13 insertions(+), 6 deletions(-)
-> 
-> diff --git a/drivers/media/usb/em28xx/em28xx-cards.c b/drivers/media/usb/em28xx/em28xx-cards.c
-> index c1e0dccb7408..fca68939ca50 100644
-> --- a/drivers/media/usb/em28xx/em28xx-cards.c
-> +++ b/drivers/media/usb/em28xx/em28xx-cards.c
-> @@ -3625,8 +3625,10 @@ static int em28xx_init_dev(struct em28xx *dev, struct usb_device *udev,
->  
-
-There is no check to see if the em28xx_media_device_init() fails.  I
-don't love that we call unregister() to undo the init() but it seems
-like it should work...
-
->  	if (dev->is_audio_only) {
->  		retval = em28xx_audio_setup(dev);
-> -		if (retval)
-> -			return -ENODEV;
-> +		if (retval) {
-> +			retval = -ENODEV;
-
-This was in the original code, but probably we should preserve the
-error code.
-
-> +			goto err_deinit_media;
-> +		}
+Thanks, Randy!
 
 regards,
 dan carpenter
