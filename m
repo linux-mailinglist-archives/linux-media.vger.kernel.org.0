@@ -2,134 +2,94 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 06E4A441983
-	for <lists+linux-media@lfdr.de>; Mon,  1 Nov 2021 11:10:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 822D6441988
+	for <lists+linux-media@lfdr.de>; Mon,  1 Nov 2021 11:11:19 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231777AbhKAKNE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 1 Nov 2021 06:13:04 -0400
+        id S232197AbhKAKNv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 1 Nov 2021 06:13:51 -0400
 Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54392 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232161AbhKAKM4 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 1 Nov 2021 06:12:56 -0400
-Received: from mail-pf1-x429.google.com (mail-pf1-x429.google.com [IPv6:2607:f8b0:4864:20::429])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BB976C061767;
-        Mon,  1 Nov 2021 02:55:52 -0700 (PDT)
-Received: by mail-pf1-x429.google.com with SMTP id m26so15873978pff.3;
-        Mon, 01 Nov 2021 02:55:52 -0700 (PDT)
+        with ESMTP id S231913AbhKAKNn (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 1 Nov 2021 06:13:43 -0400
+Received: from mail-ed1-x52e.google.com (mail-ed1-x52e.google.com [IPv6:2a00:1450:4864:20::52e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8A617C0AD95D;
+        Mon,  1 Nov 2021 02:59:23 -0700 (PDT)
+Received: by mail-ed1-x52e.google.com with SMTP id h7so63103911ede.8;
+        Mon, 01 Nov 2021 02:59:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=UVw7JpRuL3Zpasl1yKpDjtfcQv9s3AR150vJWnlV/mo=;
-        b=VF7DsrQ3BN98ddp3+F0aoZvy4BRNhLGMryo/aRHLnVAqnoSq1vrpYIbem0ev3R6De+
-         x0rEe7MPkW96oOhVrK/r23PyXE6tXqmlUuJspm63C2eEn3pFpiELfg4Dxo3UhZVx7iVK
-         4pU7zrvgQ+zNYERog0QnsoC0iu7ZTYwZxsvbaUAcyFGs1xYraZvStZAwaqX0plP0tAIU
-         5z3PS+NfJtpphVdWd3+HbFa6NPOjBTef7oB0mLT9iIFbtnxgThJtxX7+0a/HJSZg/cSv
-         ruNExtDPhFKub0Iqv7cEDcjvHq+epc4EaHE6KORCLkoJJxGa8NcDoaLZxlDFnnIjAo7j
-         55AQ==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=CgVIxgXPJqto+1GyJDRV5V4m1lHYgJ03cyDgZVbshDA=;
+        b=HZbhNpdJr/66I7R4/BovtQEpejyFJ9Upf7lK+LjwBNXB06p+v8s783QzPk5eQN3WYB
+         SFvEJ+CkaS9+3QwiebwmS98mx7s9DpLyJ7V5SlfBIto7dSuGmlatr6TIgGaeu/TZcBvT
+         xmRskFToShPXPcflvw9SLQ7g5w1hLAHbPmEBBAsEuxnLHiIikurj2F8hjx5AYMeoF9+r
+         WGI4bRORlCI4VQPpnBaYQa2vaErVUjHiKdfT9hPDSwipRSlgmmGFEz8rmlDwic4gfGyz
+         dDO4aBqo/qHDsneMIgTrNXBg2h6vjLrWyco0BeiiR8DxbC07Q3xp5nMNbbSr5jEdLrQ9
+         QcBQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=UVw7JpRuL3Zpasl1yKpDjtfcQv9s3AR150vJWnlV/mo=;
-        b=rKaICKNyI+H6MDJLGnls/NBhfWKOId6vQeVM1iW+/PWJo9fHypg2XixdDCOMTjSBOo
-         VOCfr8afDrqJiS1GBUhBwKu+nXWpUt80XT6eQLjE/D6WN3qEj7It+/7UmMUkSjx5PTr9
-         fMS+Jo2EhSN5Zxuj3U76lu+rL6EjsYas4bPZRCIx605pXUyIGFcS9Ib3x1uu4ob+FuIh
-         DVMrESqyXDwBMj/OCnEHU1rOt1kQIlzmo3NLv2qQ4F9wb92qgQnL0hUHU+ihhBb3PC42
-         CdH3WARrN/5Q4ROzpkflH0jwcuZrD+i4yuvnaGIaNY6HSxmMCOFVBqKt0urCwGFPMgSL
-         1RQw==
-X-Gm-Message-State: AOAM530i7okk5bw5wJ+dhFZECULWFcA+Uu8V6cOPnZD9GPvl7iAYjVa/
-        DL0HN7eig3g64wBFb4qphv8=
-X-Google-Smtp-Source: ABdhPJwcPzEvKL6lcLx0z54E2uefZwIWW/fS4DODk3QnRyS4ZehmSIYnNsyH6uHTZl1tTAVariYdAQ==
-X-Received: by 2002:a63:8842:: with SMTP id l63mr10247192pgd.280.1635760552289;
-        Mon, 01 Nov 2021 02:55:52 -0700 (PDT)
-Received: from localhost.localdomain ([94.177.118.117])
-        by smtp.gmail.com with ESMTPSA id u11sm14727719pfk.151.2021.11.01.02.55.49
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 01 Nov 2021 02:55:51 -0700 (PDT)
-From:   Dongliang Mu <mudongliangabcd@gmail.com>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     Dongliang Mu <mudongliangabcd@gmail.com>,
-        Pavel Skripkin <paskripkin@gmail.com>,
-        syzbot <syzkaller@googlegroups.com>, linux-media@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH] media: em28xx: fix memory leak in em28xx_init_dev
-Date:   Mon,  1 Nov 2021 17:55:39 +0800
-Message-Id: <20211101095539.423246-1-mudongliangabcd@gmail.com>
-X-Mailer: git-send-email 2.25.1
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=CgVIxgXPJqto+1GyJDRV5V4m1lHYgJ03cyDgZVbshDA=;
+        b=ZLnVh48HeEYKGvt2BaYA0b56BXWW6PKNXkz/2QG4n+dz7YBKmtDkRZ1sHdUnqsUuwJ
+         zITj/VHxZ72r5/BGOoFeybYCF+noaueKOQl7YGpzCn4cbZNyw8aRINp+l0HrGyoqRNf2
+         HneGxcreAblHwGtnrkYFVaKM7sE5Er5D/9VHXRugCz+mq5/kwSeHFlECQYrIj+j1PLkK
+         1Ir8qS/NmgAM2rRrIqmTrlipAhBTjjut2pltV7L/zrNBRGu63PzankveGoL2S/RbIxDV
+         6q+t3Fd+q4bLJQNWnnXEMKglpjvoKa8IZ2V4ZjrubcaFyCSeT32kjHTE3nqkcF5vkYyp
+         NhRw==
+X-Gm-Message-State: AOAM5320VUqM4gxPB3/BYqk5aT/cQxqwpmYg7nazHKH7avle6PamCRuT
+        22ohl0PP2DY61Ull/wALhC4gzgBreY+2RAihL+k=
+X-Google-Smtp-Source: ABdhPJzgRggZ7bqiDtGi2xeLUvn0fy66w5Qw/bS4IRmvBFVdfXhRK08STLRJY3E9lxwjMNUMNcX0Y0diRJHkdEzsVLM=
+X-Received: by 2002:a17:906:6dd2:: with SMTP id j18mr35162242ejt.468.1635760762098;
+ Mon, 01 Nov 2021 02:59:22 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <CAD-N9QXsUcczurqq9LdaVjXFZMBSbStynwFJyu0UayDazGe=nw@mail.gmail.com>
+ <55f04cb1-18ac-085b-3d35-7a01716fbcbe@gmail.com> <CAD-N9QVN7cepUpRu3d-xtr1L3DG90-nLS4gmkjerDZO21F_ejQ@mail.gmail.com>
+ <f622f569-25d5-f38e-e9fb-7f07e12c4b7e@gmail.com> <CAD-N9QWeGOZdnuRuHVVNzZHWeP3eSHg=tsm+Qn3tqGqACSNbhg@mail.gmail.com>
+ <ffbaeb72-0f76-fb1e-dde5-6e6bdcce1301@gmail.com>
+In-Reply-To: <ffbaeb72-0f76-fb1e-dde5-6e6bdcce1301@gmail.com>
+From:   Dongliang Mu <mudongliangabcd@gmail.com>
+Date:   Mon, 1 Nov 2021 17:58:56 +0800
+Message-ID: <CAD-N9QWQkivwR0mWwiaW_pLE6J_b03x4dP8RyxbmuKYRkcRhoQ@mail.gmail.com>
+Subject: Re: Need help in debugging "memory leak in em28xx_init_dev"
+To:     Pavel Skripkin <paskripkin@gmail.com>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        Greg KH <gregkh@linuxfoundation.org>,
+        Dan Carpenter <dan.carpenter@oracle.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-In the em28xx_init_rev, if em28xx_audio_setup fails, this function fails
-to deallocate the media_dev allocated in the em28xx_media_device_init.
+On Mon, Nov 1, 2021 at 5:43 PM Pavel Skripkin <paskripkin@gmail.com> wrote:
+>
+> On 11/1/21 12:41, Dongliang Mu wrote:
+> >> Hi, Dongliang,
+> >>
+> >> Did patch attached to my previous email pass syzbot's reproducer test?
+> >> Unfortunately, I am not able to test rn :(
+> >
+> > Yes, it works. The memory leak does not occur anymore.
+> >
+> > But I am crafting another patch based on yours as there is a small
+> > issue in the retval and I would like to make the error handling code
+> > uniform.
+> >
+>
+> Cool! Thank you for confirmation.
 
-Fix this by adding em28xx_unregister_media_device to free media_dev.
+Hi Pavel,
 
-BTW, this patch is tested in my local syzkaller instance, and it can
-prevent the memory leak from occurring again.
+Thanks for your advice. I have sent the patch and you are on the CC
+list. Can you please take a look at and review my patch?
 
-CC: Pavel Skripkin <paskripkin@gmail.com>
-Fixes: 37ecc7b1278f ("[media] em28xx: add media controller support")
-Signed-off-by: Dongliang Mu <mudongliangabcd@gmail.com>
-Reported-by: syzbot <syzkaller@googlegroups.com>
----
- drivers/media/usb/em28xx/em28xx-cards.c | 19 +++++++++++++------
- 1 file changed, 13 insertions(+), 6 deletions(-)
+It should cover your patch. But I am not sure if I introduce any new
+issue in the patch.
 
-diff --git a/drivers/media/usb/em28xx/em28xx-cards.c b/drivers/media/usb/em28xx/em28xx-cards.c
-index c1e0dccb7408..fca68939ca50 100644
---- a/drivers/media/usb/em28xx/em28xx-cards.c
-+++ b/drivers/media/usb/em28xx/em28xx-cards.c
-@@ -3625,8 +3625,10 @@ static int em28xx_init_dev(struct em28xx *dev, struct usb_device *udev,
- 
- 	if (dev->is_audio_only) {
- 		retval = em28xx_audio_setup(dev);
--		if (retval)
--			return -ENODEV;
-+		if (retval) {
-+			retval = -ENODEV;
-+			goto err_deinit_media;
-+		}
- 		em28xx_init_extension(dev);
- 
- 		return 0;
-@@ -3645,7 +3647,7 @@ static int em28xx_init_dev(struct em28xx *dev, struct usb_device *udev,
- 		dev_err(&dev->intf->dev,
- 			"%s: em28xx_i2c_register bus 0 - error [%d]!\n",
- 		       __func__, retval);
--		return retval;
-+		goto err_deinit_media;
- 	}
- 
- 	/* register i2c bus 1 */
-@@ -3661,9 +3663,7 @@ static int em28xx_init_dev(struct em28xx *dev, struct usb_device *udev,
- 				"%s: em28xx_i2c_register bus 1 - error [%d]!\n",
- 				__func__, retval);
- 
--			em28xx_i2c_unregister(dev, 0);
--
--			return retval;
-+			goto err_unreg_i2c;
- 		}
- 	}
- 
-@@ -3671,6 +3671,13 @@ static int em28xx_init_dev(struct em28xx *dev, struct usb_device *udev,
- 	em28xx_card_setup(dev);
- 
- 	return 0;
-+
-+
-+err_unreg_i2c:
-+	em28xx_i2c_unregister(dev, 0);
-+err_deinit_media:
-+	em28xx_unregister_media_device(dev);
-+	return retval;
- }
- 
- static int em28xx_duplicate_dev(struct em28xx *dev)
--- 
-2.25.1
-
+>
+>
+> With regards,
+> Pavel Skripkin
