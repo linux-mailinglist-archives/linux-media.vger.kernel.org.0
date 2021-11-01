@@ -2,129 +2,121 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 75249441129
-	for <lists+linux-media@lfdr.de>; Sun, 31 Oct 2021 23:15:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7AE4E441192
+	for <lists+linux-media@lfdr.de>; Mon,  1 Nov 2021 01:11:29 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230337AbhJaWSZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 31 Oct 2021 18:18:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38458 "EHLO
+        id S230289AbhKAAN7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 31 Oct 2021 20:13:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35248 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230274AbhJaWSZ (ORCPT
+        with ESMTP id S230178AbhKAAN7 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 31 Oct 2021 18:18:25 -0400
-Received: from mail-oi1-x235.google.com (mail-oi1-x235.google.com [IPv6:2607:f8b0:4864:20::235])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CA12FC061714
-        for <linux-media@vger.kernel.org>; Sun, 31 Oct 2021 15:15:52 -0700 (PDT)
-Received: by mail-oi1-x235.google.com with SMTP id q124so22335552oig.3
-        for <linux-media@vger.kernel.org>; Sun, 31 Oct 2021 15:15:52 -0700 (PDT)
+        Sun, 31 Oct 2021 20:13:59 -0400
+Received: from mail-wr1-x42a.google.com (mail-wr1-x42a.google.com [IPv6:2a00:1450:4864:20::42a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 90C53C061714
+        for <linux-media@vger.kernel.org>; Sun, 31 Oct 2021 17:11:26 -0700 (PDT)
+Received: by mail-wr1-x42a.google.com with SMTP id o14so25682306wra.12
+        for <linux-media@vger.kernel.org>; Sun, 31 Oct 2021 17:11:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=usp.br; s=usp-google;
-        h=date:from:to:cc:subject:message-id:mime-version:content-disposition
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=ahrGibv35CkHD9QWEzZtWa48R45ATn0IgOuUT3/eqfc=;
-        b=I97gDV02HD9z6GNpcuq/68Jzcnb6HUZMpT2BHnkvVS2hCs6TQ5wI/3DqovKI5s0F6c
-         qaHJ511JfWKPTjlsa86DzzY5cC7l4wVwCMS+YimfISlURspDxFXeITLRpTtNfDsadZmr
-         2/HJXF55Pk2j9q3S8FwUyZOvldfHEfLHZtMd9AZ0G+Skh074cy3aj8+aR85BwbqurUXd
-         J40XnlJFctPQ7OEGYmwoYIYRj1ari1zBmwGGuH2YgOBYaAW/CuN4wvwzQOyavsc0lhsX
-         FrSnmwpJ4zh04Uj6GYxuvyzvSue1FGS08CcTYXiNljc2UxWEI5o1epM6OP8MlcdlY7If
-         4sPA==
+        bh=b0qRVqa5zz7w+w6UNXK374+6GWiKeKtGgGRHM5b4ZOs=;
+        b=IjFRZoiSdA6ZfxuCPleYZuN/rvkHjDf2/CdfWjdJs5bLsHWstwapHyu/NXUfOncjnC
+         cqKENAlZgtlmezvm1Kv3byPtQslb1la89MRMUQmSQq2lpLQGxEak4EZzu5y5RoYCHRmA
+         f/6MtoGTNH81s/wbbzBYl8zOpOV+ELT/NUJmzHfDKt5qL6D9pJneLrWhfuD7VtDnvnzk
+         OcguDCV5j2NN46ZXLVIZJs3SbRDznbE7z2RmcevnbYvmD8E8w54beXiVUKC0S7P4YH5W
+         19qqP4xeJm8aHoBljdcKjDiZWCEz+u+QgFr7G08cUJZK/smwE9i7V5cXWwMiwxgCK6VM
+         YgCw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
-         :content-disposition:content-transfer-encoding;
-        bh=ahrGibv35CkHD9QWEzZtWa48R45ATn0IgOuUT3/eqfc=;
-        b=QU9D9b2/o46xh8wi2tk1QydIn2+aM9ycxzL1kIvVC9ZCmqdy/aptIIY9T+QA9ZVfUf
-         ukpy9Q/l3Fmy9rc1Ym0ERT9tRHbyIJpY5Z6uVL/b0xH/lMYVFJInkIaCUJCrWNmqJJoq
-         bBLSngKgZDWb6sdLAAZ6fZbTlM+QGCCE5wGjHrNw7Ef8pRxcOwomhGHzHfxhlalyilEc
-         8/0cRIwZrVSYDUVVMQwoXmvD6iOpQiZqjjJ6sFRDlQFEh7T7JHM8yNupqUp0ZV7DF4FM
-         sA/4CkP1XZW6VfdCdOubcuA4bxj/IQOsTICl1U2BdcdpIK8qCNg//SBmiohJImSIKT5A
-         7CeA==
-X-Gm-Message-State: AOAM530Xflc33rLoKjngVcTKgckRceuFXYfs7EwjG9izjCKaBCdslrf2
-        jYDK2HY2k63cwwgWX+I54i+hhw==
-X-Google-Smtp-Source: ABdhPJxVS6VRoBWILO8RW1vB7P3ZlBMpyFzv8jVuUfrkUchFBWjd2yPxep/8okvJ3Hzbsnwz4weiTw==
-X-Received: by 2002:a05:6808:1996:: with SMTP id bj22mr2448052oib.69.1635718551756;
-        Sun, 31 Oct 2021 15:15:51 -0700 (PDT)
-Received: from fedora ([187.64.134.142])
-        by smtp.gmail.com with ESMTPSA id l27sm1066967oof.18.2021.10.31.15.15.48
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=b0qRVqa5zz7w+w6UNXK374+6GWiKeKtGgGRHM5b4ZOs=;
+        b=B8UqokR9DbBePaTfiggOcslCKXvl3L7DWSSHxQDmvc4gGOHvGVEHsaf88PFmLbcaP8
+         pv4CLL1rwUj/A8IiWM0Zdj3VKWiHmUbRPk3lwqWW/ChnzQUeVVOqu4pO6DYEcyJSlALC
+         DDaWR8uorXOZeKeC/IgMz4AHpNLy0ScXKlqfwcQwJXLc6iHmXNMOZ6jX1YA+1oFSrLX7
+         2NAoqvxAQ1rc9WjilYuB9RK7t7yUoHnKzo/OHpzEBa+Wr7XnkKAI7E/obh+LSKCCVrXm
+         KkdwkuXfo7uMidx9aWoi+C1r4PpdmJoeE2FOPXtopHRtbwyvS6gbCeuSDLZkqd7jsNPz
+         88XQ==
+X-Gm-Message-State: AOAM533eyLoFb+UcoUXswlUZjeLy5daIbbyHyu4NPxtNOtW5mMbLW8Nz
+        Sb6WGrpltaDIFgmOWWcSj1g=
+X-Google-Smtp-Source: ABdhPJyieZXJIr3awpHdJ8CRT77KqvI8SaLVnMSQoOgwOTwBlEjwCF+gZluRJuY+pImmAiIDZetZGg==
+X-Received: by 2002:a5d:6c6c:: with SMTP id r12mr33833040wrz.177.1635725484692;
+        Sun, 31 Oct 2021 17:11:24 -0700 (PDT)
+Received: from localhost.localdomain (cpc141996-chfd3-2-0-cust928.12-3.cable.virginm.net. [86.13.91.161])
+        by smtp.gmail.com with ESMTPSA id k6sm12557678wri.83.2021.10.31.17.11.23
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 31 Oct 2021 15:15:51 -0700 (PDT)
-Date:   Sun, 31 Oct 2021 19:15:45 -0300
-From:   =?iso-8859-1?Q?Ma=EDra?= Canal <maira.canal@usp.br>
-To:     sean@mess.org, mchehab@kernel.org, thierry.reding@gmail.com,
-        u.kleine-koenig@pengutronix.de, lee.jones@linaro.org
-Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-pwm@vger.kernel.org
-Subject: [PATCH v2] media: ir-rx51: Switch to atomic PWM API
-Message-ID: <YX8VkdCAe6coHC4w@fedora>
+        Sun, 31 Oct 2021 17:11:24 -0700 (PDT)
+From:   Daniel Scally <djrscally@gmail.com>
+To:     Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+        Daniel Scally <djrscally@gmail.com>,
+        linux-media@vger.kernel.org
+Cc:     Yong Zhi <yong.zhi@intel.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Bingbu Cao <bingbu.cao@intel.com>,
+        Tianshu Qiu <tian.shu.qiu@intel.com>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>
+Subject: [PATCH v4 00/16] Extensions to ov8865 driver
+Date:   Mon,  1 Nov 2021 00:11:03 +0000
+Message-Id: <20211101001119.46056-1-djrscally@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Remove legacy PWM interface (pwm_config, pwm_enable, pwm_disable) and
-replace it for the atomic PWM API.
+Hello all
 
-Signed-off-by: Maíra Canal <maira.canal@usp.br>
----
-V1 -> V2: remove conceptually wrong chunk of code and correct the position
-of pwm_init_state function
----
- drivers/media/rc/ir-rx51.c | 16 +++++++++-------
- 1 file changed, 9 insertions(+), 7 deletions(-)
+This series extends the ov8865 driver with:
 
-diff --git a/drivers/media/rc/ir-rx51.c b/drivers/media/rc/ir-rx51.c
-index a0d9c02a7588..41d4a4338072 100644
---- a/drivers/media/rc/ir-rx51.c
-+++ b/drivers/media/rc/ir-rx51.c
-@@ -19,6 +19,7 @@
- struct ir_rx51 {
- 	struct rc_dev *rcdev;
- 	struct pwm_device *pwm;
-+	struct pwm_state *state;
- 	struct hrtimer timer;
- 	struct device	     *dev;
- 	wait_queue_head_t     wqueue;
-@@ -32,22 +33,22 @@ struct ir_rx51 {
- 
- static inline void ir_rx51_on(struct ir_rx51 *ir_rx51)
- {
--	pwm_enable(ir_rx51->pwm);
-+	ir_rx51->state->enabled = true;
-+	pwm_apply_state(ir_rx51->pwm, ir_rx51->state);
- }
- 
- static inline void ir_rx51_off(struct ir_rx51 *ir_rx51)
- {
--	pwm_disable(ir_rx51->pwm);
-+	ir_rx51->state->enabled = false;
-+	pwm_apply_state(ir_rx51->pwm, ir_rx51->state);
- }
- 
- static int init_timing_params(struct ir_rx51 *ir_rx51)
- {
--	struct pwm_device *pwm = ir_rx51->pwm;
--	int duty, period = DIV_ROUND_CLOSEST(NSEC_PER_SEC, ir_rx51->freq);
-+	struct pwm_state *state = ir_rx51->state;
- 
--	duty = DIV_ROUND_CLOSEST(ir_rx51->duty_cycle * period, 100);
--
--	pwm_config(pwm, duty, period);
-+	state->period = DIV_ROUND_CLOSEST(NSEC_PER_SEC, ir_rx51->freq);
-+	pwm_set_relative_duty_cycle(state, ir_rx51->duty_cycle, 100);
- 
- 	return 0;
- }
-@@ -242,6 +243,7 @@ static int ir_rx51_probe(struct platform_device *dev)
- 
- 	/* Use default, in case userspace does not set the carrier */
- 	ir_rx51.freq = DIV_ROUND_CLOSEST_ULL(pwm_get_period(pwm), NSEC_PER_SEC);
-+	pwm_init_state(pwm, ir_rx51.state);
- 	pwm_put(pwm);
- 
- 	hrtimer_init(&ir_rx51.timer, CLOCK_MONOTONIC, HRTIMER_MODE_REL);
+* Support for binding to ACPI enumerated devices.
+* Support for a 19.2MHz clock in addition to existing 24MHz clock support
+* Another v4l2_subdev_pad_ops callback
+* 4 more V4L2 controls
+* makes the driver supported by the cio2-bridge
+
+There's also a little bit of tidying that I did along the way.
+
+The series is tested on an MS Surface Go 2.
+
+Thanks
+Dan
+
+Series changes since V3:
+
+	- Fixed a problem that prevented v3 applying properly due to the series
+	being based on my WIP tree rather than a clean media tree. No code
+	changes to the individual patches.
+
+Daniel Scally (15):
+  media: i2c: Add ACPI support to ov8865
+  media: i2c: Fix incorrect value in comment
+  media: i2c: Defer probe if not endpoint found
+  media: i2c: Support 19.2MHz input clock in ov8865
+  media: i2c: Add .get_selection() support to ov8865
+  media: i2c: Switch control to V4L2_CID_ANALOGUE_GAIN
+  media: i2c: Add vblank control to ov8865
+  media: i2c: Add hblank control to ov8865
+  media: i2c: Update HTS values in ov8865
+  media: i2c: cap exposure at height + vblank in ov8865
+  media: i2c: Add controls from fwnode to ov8865
+  media: i2c: Switch exposure control unit to lines
+  media: i2c: Re-order runtime pm initialisation
+  media: i2c: Use dev_err_probe() in ov8865
+  media: ipu3-cio2: Add INT347A to cio2-bridge
+
+Hans de Goede (1):
+  media: i2c: ov8865: Fix lockdep error
+
+ drivers/media/i2c/ov8865.c                 | 459 +++++++++++++++------
+ drivers/media/pci/intel/ipu3/cio2-bridge.c |   2 +
+ 2 files changed, 327 insertions(+), 134 deletions(-)
+
 -- 
-2.31.1
+2.25.1
 
