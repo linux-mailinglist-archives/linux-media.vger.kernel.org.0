@@ -2,114 +2,75 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BA3F2441EFD
-	for <lists+linux-media@lfdr.de>; Mon,  1 Nov 2021 18:08:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E0466441F1B
+	for <lists+linux-media@lfdr.de>; Mon,  1 Nov 2021 18:20:01 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232304AbhKARLD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 1 Nov 2021 13:11:03 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:55378 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231405AbhKARLC (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 1 Nov 2021 13:11:02 -0400
-Received: from pendragon.ideasonboard.com (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 01F0D929;
-        Mon,  1 Nov 2021 18:08:27 +0100 (CET)
+        id S231383AbhKARWd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 1 Nov 2021 13:22:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38858 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229930AbhKARWc (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 1 Nov 2021 13:22:32 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E22EDC061714;
+        Mon,  1 Nov 2021 10:19:58 -0700 (PDT)
+Received: from Monstersaurus.local (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 38EEA929;
+        Mon,  1 Nov 2021 18:19:56 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1635786508;
-        bh=HCPNat1y4QBy3bzxnPYkvnxbfKV9zb7AsBUZfjhDfqk=;
-        h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
-        b=buUMOx/eojXAkxjeplDTq5x52L4FDh3hDaV1ZzLLDIIw7EIOwIfOrgDYV7Dewkr1k
-         hE3wtgtj3uE0ydWF3H8G2GXxKShI4xwc97HMfGO1bHWND/6J1JXRdlmOjQmR6GPGm8
-         I+BLHhUbNpvVSse2jPo3VU0QAhQoi2OCTQVtuieM=
-Content-Type: text/plain; charset="utf-8"
+        s=mail; t=1635787196;
+        bh=YNBXOydcEAyHVg6KTwGrfS5JR6aziicEOl7EllAfkUA=;
+        h=From:To:Cc:Subject:Date:From;
+        b=t9n1I0/PQVAvZrbCFJR9A/tq7VrU8N7WuQYm0YxrThL3j5FoNdv4VkWijlGB7wDZt
+         E9U7AU6c6pFNM6bJqIF0Y12dA0C0TZQ/mpZoiqPLV/sH/1wsUf8HX1xRjakom3Gh49
+         KF4wuSipnyAEDmZy1sBsA0TIgeQ57tM5onzlYyFA=
+From:   Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+To:     sakari.ailus@iki.fi,
+        =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
+        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Cc:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Subject: [PATCH] media: i2c: max9286: Depend on VIDEO_V4L2
+Date:   Mon,  1 Nov 2021 17:19:49 +0000
+Message-Id: <20211101171949.1059566-1-kieran.bingham+renesas@ideasonboard.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <YYAb5oYrsZMWNB+o@oden.dyn.berto.se>
-References: <20211101132502.700505-1-sakari.ailus@linux.intel.com> <163578420928.926484.5058272719714961844@Monstersaurus> <YYAb5oYrsZMWNB+o@oden.dyn.berto.se>
-Subject: Re: [PATCH 1/1] max96712: Select VIDEO_V4L2
-From:   Kieran Bingham <kieran.bingham@ideasonboard.com>
-Cc:     Sakari Ailus <sakari.ailus@linux.intel.com>,
-        linux-media@vger.kernel.org
-To:     Niklas =?utf-8?q?S=C3=B6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>
-Date:   Mon, 01 Nov 2021 17:08:25 +0000
-Message-ID: <163578650541.926484.13834590528432884952@Monstersaurus>
-User-Agent: alot/0.9.1
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Quoting Niklas S=C3=B6derlund (2021-11-01 16:55:02)
-> Hi Kieran,
->=20
-> On 2021-11-01 16:30:09 +0000, Kieran Bingham wrote:
-> > Hi Sakari,
-> >=20
-> > Quoting Sakari Ailus (2021-11-01 13:25:02)
-> > > Select VIDEO_V4L2 for the driver actually depends on it, failing to
-> > > compile otherwise.
-> > >=20
-> > > Fixes: 51758f8b32134bacbf30bd217f7c2074e9b4b51e ("media: staging: max=
-96712: Add basic support for MAX96712 GMSL2 deserializer")
-> >=20
-> > I guess this is a local commit in your tree so far, I can't identify it.
-> >=20
-> > > Reported-by: kernel test robot <lkp@intel.com>
-> > > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> > > ---
-> > >  drivers/staging/media/max96712/Kconfig | 1 +
-> > >  1 file changed, 1 insertion(+)
-> > >=20
-> > > diff --git a/drivers/staging/media/max96712/Kconfig b/drivers/staging=
-/media/max96712/Kconfig
-> > > index 258d47644cbd..492a7ff70dd8 100644
-> > > --- a/drivers/staging/media/max96712/Kconfig
-> > > +++ b/drivers/staging/media/max96712/Kconfig
-> > > @@ -6,6 +6,7 @@ config VIDEO_MAX96712
-> > >         select V4L2_FWNODE
-> > >         select VIDEO_V4L2_SUBDEV_API
-> > >         select MEDIA_CONTROLLER
-> > > +       select VIDEO_V4L2
-> >=20
-> > I don't see any other driver 'select' VIDEO_V4L2...
-> > Most 'depend' on VIDEO_V4L2 instead.
-> >=20
-> > And curiously, I already see
-> >  - Add 'depends on VIDEO_V4L2'
-> >=20
-> > in Niklas' v4.
->=20
-> I noticed too late that v3 was already in the media staging tree so I=20
-> submitted a v4 with this fix. I should probably have submitted a Fixes=20
-> patch like this one instead of a v4 if I knew it was already picked-up.
->=20
-> >=20
-> > Is this one a special case that 'needs' to select it?
->=20
-> Both 'select' and 'depends on' solves the problem reported by the bot,=20
-> which one is more correct I do not know.
+The MAX9286 has not explicitly declared a dependency upon VIDEO_V4L2.
+While this dependency has likely always been met by configurations
+including it, the device does use V4L2 core, and should depend upon it.
 
-Aha, I see. Well - consistency would tell me that 'depends on' would
-match almost every other driver.
+Add VIDEO_V4L2 as a dependency to match other drivers and prevent
+failures when compile testing.
 
-I notice that the MAX9286 suffers the same problem. I'll send a patch.
---
-Kieran
+Signed-off-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
 
+---
+A bit of an RFC almost, as I haven't seen any failure on this, however
+this does stand out as different to other drivers, and the recent
+"max96712: Select VIDEO_V4L2" posting has shown that these deserialiser
+drivers could find themselves being compile tested in a manner which
+would other wise break.
+---
+ drivers/media/i2c/Kconfig | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-> > --
-> > Kieran
-> >=20
-> >=20
-> >=20
-> > >         help
-> > >           This driver supports the Maxim MAX96712 Quad GMSL2 Deserial=
-izer.
-> > > =20
-> > > --=20
-> > > 2.30.2
-> > >
->=20
-> --=20
-> Regards,
-> Niklas S=C3=B6derlund
+diff --git a/drivers/media/i2c/Kconfig b/drivers/media/i2c/Kconfig
+index d6a5d4ca439a..9eac5e96c6aa 100644
+--- a/drivers/media/i2c/Kconfig
++++ b/drivers/media/i2c/Kconfig
+@@ -468,7 +468,7 @@ config VIDEO_VPX3220
+ 
+ config VIDEO_MAX9286
+ 	tristate "Maxim MAX9286 GMSL deserializer support"
+-	depends on I2C && I2C_MUX
++	depends on VIDEO_V4L2 && I2C && I2C_MUX
+ 	depends on OF_GPIO
+ 	select V4L2_FWNODE
+ 	select VIDEO_V4L2_SUBDEV_API
+-- 
+2.30.2
+
