@@ -2,115 +2,162 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 01C914411A3
-	for <lists+linux-media@lfdr.de>; Mon,  1 Nov 2021 01:11:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 735954412BA
+	for <lists+linux-media@lfdr.de>; Mon,  1 Nov 2021 05:27:51 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230520AbhKAAOP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 31 Oct 2021 20:14:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35338 "EHLO
+        id S229468AbhKAEaU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 1 Nov 2021 00:30:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34200 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230484AbhKAAOO (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Sun, 31 Oct 2021 20:14:14 -0400
-Received: from mail-wm1-x329.google.com (mail-wm1-x329.google.com [IPv6:2a00:1450:4864:20::329])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EDFACC061714
-        for <linux-media@vger.kernel.org>; Sun, 31 Oct 2021 17:11:41 -0700 (PDT)
-Received: by mail-wm1-x329.google.com with SMTP id 71so9960797wma.4
-        for <linux-media@vger.kernel.org>; Sun, 31 Oct 2021 17:11:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=Lf87r12qxO68BXDuIGNnYQNQjUznr0ZaTkZGfQbHXlU=;
-        b=mfLpg74+eMXxduYla1KtSEkzFEikqA54TmCXSa41wai691vz+UvwPQZXR3z1yGhuHf
-         qec1samOPyiTBl9IOW6wNzPL5U5bkvpJXwUSYdmWOAJoKPkQ5ta1ogE/xaPRduExX+b/
-         jkfP4cKT3JFaV24KPKGH6rrh4Z8fSkTd65YVyZg+PTp5D28zl0vCSo6AUl9fM8bc9iru
-         yZdgnVui+y7L/lQHkUgkfBUMoeqNMISBI8j7uNrexviy/EacDpWdJ453MpH+CKXwmIrT
-         iaqhlmvcMpA86IinzBpBA/K0Y3+gL4FIewHBVVqFvp/DgsoCSui+dMg50UvQ2h+zcYeE
-         /4dg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=Lf87r12qxO68BXDuIGNnYQNQjUznr0ZaTkZGfQbHXlU=;
-        b=iwzd6vgp+pYUo08uAJkbL/WmlHDeizfRkxhrvuNDmGZd21uPSVQKEnFIFK0NBU46QK
-         kcWAA1AE7eDJ7eUWb+iTIcm8R5N1C1jQnDeKOPTGTb917p5eqQxmVogL4GHy5ey1JxX3
-         9HbsEbChpox1ksHCrSvYrxzC54vSfmziLt+IvB9q+w07pp8XDz04ZigULRP/B7nVefht
-         4hbt6yBZdk2s0xxtYAbN13z9Q3dY4o/8tVy1F9M1JZC+tdm9n6Cqh/cSBkCftK9nTWnt
-         uFMyXTRwOZmp8aX3Z63bDL6RCfpPFskRBxPIU4AW0G8+agPoVLu0mwfBsEh75wRLPhCI
-         MpHg==
-X-Gm-Message-State: AOAM530xbgHiu/JSdz64VARFYKO0+I4qRrB9qflp0FXUwk1vVnDdfBRb
-        X7CujNXlejgJH2O6VV59ioI=
-X-Google-Smtp-Source: ABdhPJwV/+hk3locqVIrD468sTimUc23Ac/+kcTvcX3WJGTipz8S8OrlZY3H0NTKZyBdSWcNERHPIQ==
-X-Received: by 2002:a1c:1fcf:: with SMTP id f198mr24363146wmf.66.1635725500605;
-        Sun, 31 Oct 2021 17:11:40 -0700 (PDT)
-Received: from localhost.localdomain (cpc141996-chfd3-2-0-cust928.12-3.cable.virginm.net. [86.13.91.161])
-        by smtp.gmail.com with ESMTPSA id k6sm12557678wri.83.2021.10.31.17.11.39
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 31 Oct 2021 17:11:40 -0700 (PDT)
-From:   Daniel Scally <djrscally@gmail.com>
-To:     Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
-        Daniel Scally <djrscally@gmail.com>,
-        linux-media@vger.kernel.org
-Cc:     Yong Zhi <yong.zhi@intel.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Bingbu Cao <bingbu.cao@intel.com>,
-        Tianshu Qiu <tian.shu.qiu@intel.com>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>
-Subject: [PATCH v4 16/16] media: i2c: ov8865: Fix lockdep error
-Date:   Mon,  1 Nov 2021 00:11:19 +0000
-Message-Id: <20211101001119.46056-17-djrscally@gmail.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20211101001119.46056-1-djrscally@gmail.com>
-References: <20211101001119.46056-1-djrscally@gmail.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+        with ESMTP id S229457AbhKAEaU (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 1 Nov 2021 00:30:20 -0400
+Received: from lb2-smtp-cloud8.xs4all.net (lb2-smtp-cloud8.xs4all.net [IPv6:2001:888:0:108::2b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3CA7CC061714
+        for <linux-media@vger.kernel.org>; Sun, 31 Oct 2021 21:27:47 -0700 (PDT)
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud8.xs4all.net with ESMTPA
+        id hOv6mAAwYDjkdhOv9mAy2I; Mon, 01 Nov 2021 05:27:43 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
+        t=1635740863; bh=oI3poBtBNJvqJIE5jc5QpLOydbd170kje2jWsj7OQ00=;
+        h=Message-ID:Date:From:To:Subject:From:Subject;
+        b=jdUNCrsKekHg5VLqG7HUuPPoI9wFV7pbNnxF5+B7sI1sQk6lN2XNHBb55P09NGTT8
+         V6yvJ9tOE+E3gpOTq6YewPySG7DXGnwrkre+87DKrRmm9drmgmesIvDXL3Vz6yd9kw
+         h/pZUcF6jxuSZDUvTNLHzqEC9IGTPRaH/mcNfgN+xOIdnx20UZqhEaJXDQgNkuFIu4
+         vaO0sFJ4+BmpyNxQH6uWJlBu1WywLwaXA4eODiSvqFlSj6V7o2bUsOzcyd9EzJkFx8
+         25c3m4ExWhI1uKScVF4LfRYRrcIi/qzRI5K1WkLEFBqfnhqDivw3abOWqcD3UotGfu
+         h6B1USRpedmWQ==
+Message-ID: <1d603db487e2fcf8da19d764a9c8e239@smtp-cloud8.xs4all.net>
+Date:   Mon, 01 Nov 2021 05:27:40 +0100
+From:   "Hans Verkuil" <hverkuil@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: ERRORS
+X-CMAE-Envelope: MS4xfBTGZHPtsB3ijlEjjQGU7e9h09TXoxvOIKcQX0DFGPTp0VKEBB1VJxsBuszs17c7yVJi1PGO/AqIOw10nk0cuW6h5QLRRZPFi2eMWve0+CFrMcfXNDHy
+ libNVxOBeH3JjuDW6nTbjealsBsYCf/dKkjago625cyluNe3//oVCL3zy0SUCtS1GZk3psNrbvKGrw==
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Hans de Goede <hdegoede@redhat.com>
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
 
-ov8865_state_init() calls ov8865_state_mipi_configure() which uses
-__v4l2_ctrl_s_ctrl[_int64](). This means that sensor->mutex (which
-is also sensor->ctrls.handler.lock) must be locked before calling
-ov8865_state_init().
+Results of the daily build of media_tree:
 
-Note ov8865_state_mipi_configure() is also used in other places where
-the lock is already held so it cannot be changed itself.
+date:			Mon Nov  1 05:00:12 CET 2021
+media-tree git hash:	51758f8b32134bacbf30bd217f7c2074e9b4b51e
+media_build git hash:	c3d4780fa10bc38eb9dc462275fac019c8d693d5
+v4l-utils git hash:	365915aa694d9c1a66b59bb718456fdd6fefa67c
+edid-decode git hash:	67ed12e3ccafd9e125a5eec9349043b523895dc3
+gcc version:		i686-linux-gcc (GCC) 11.2.0
+sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
+sparse version:		0.6.3
+smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
+smatch version:		0.6.3
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: f1c67b200f199ca44b793327582bb643ecabd35f
+host hardware:		x86_64
+host os:		5.14.0-2-amd64
 
-This fixes the following lockdep kernel WARN:
+linux-git-sh: OK
+linux-git-arm-at91: OK
+linux-git-arm-davinci: OK
+linux-git-arm-stm32: OK
+linux-git-mips: OK
+linux-git-arm-pxa: OK
+linux-git-arm64: OK
+linux-git-powerpc64: OK
+linux-git-arm-multi: OK
+linux-git-i686: OK
+linux-git-x86_64: OK
+Check COMPILE_TEST: OK
+Check for strcpy/strncpy/strlcpy: OK
+linux-4.4.283-i686: OK
+linux-4.4.283-x86_64: OK
+linux-4.5.7-i686: WARNINGS
+linux-4.5.7-x86_64: WARNINGS
+linux-4.6.7-i686: WARNINGS
+linux-4.6.7-x86_64: WARNINGS
+linux-4.7.10-i686: WARNINGS
+linux-4.7.10-x86_64: WARNINGS
+linux-4.8.17-i686: WARNINGS
+linux-4.8.17-x86_64: WARNINGS
+linux-4.9.246-i686: OK
+linux-4.9.246-x86_64: OK
+linux-4.10.17-i686: WARNINGS
+linux-4.10.17-x86_64: WARNINGS
+linux-4.11.12-i686: WARNINGS
+linux-4.11.12-x86_64: WARNINGS
+linux-4.12.14-i686: WARNINGS
+linux-4.12.14-x86_64: WARNINGS
+linux-4.13.16-i686: WARNINGS
+linux-4.13.16-x86_64: WARNINGS
+linux-4.14.246-i686: OK
+linux-4.14.246-x86_64: OK
+linux-4.15.18-i686: WARNINGS
+linux-4.15.18-x86_64: WARNINGS
+linux-4.16.18-i686: WARNINGS
+linux-4.16.18-x86_64: WARNINGS
+linux-4.17.19-i686: WARNINGS
+linux-4.17.19-x86_64: WARNINGS
+linux-4.18.20-i686: WARNINGS
+linux-4.18.20-x86_64: WARNINGS
+linux-4.19.206-i686: OK
+linux-4.19.206-x86_64: OK
+linux-4.20.17-i686: WARNINGS
+linux-4.20.17-x86_64: WARNINGS
+linux-5.0.21-i686: OK
+linux-5.0.21-x86_64: OK
+linux-5.1.21-i686: OK
+linux-5.1.21-x86_64: OK
+linux-5.2.21-i686: OK
+linux-5.2.21-x86_64: OK
+linux-5.3.18-i686: OK
+linux-5.3.18-x86_64: OK
+linux-5.4.144-i686: OK
+linux-5.4.144-x86_64: OK
+linux-5.5.19-i686: OK
+linux-5.5.19-x86_64: OK
+linux-5.6.19-i686: OK
+linux-5.6.19-x86_64: OK
+linux-5.7.19-i686: OK
+linux-5.7.19-x86_64: OK
+linux-5.8.18-i686: OK
+linux-5.8.18-x86_64: OK
+linux-5.9.16-i686: OK
+linux-5.9.16-x86_64: OK
+linux-5.10.62-i686: OK
+linux-5.10.62-x86_64: OK
+linux-5.11.22-i686: OK
+linux-5.11.22-x86_64: OK
+linux-5.12.19-i686: OK
+linux-5.12.19-x86_64: OK
+linux-5.13.14-i686: OK
+linux-5.13.14-x86_64: OK
+linux-5.14.1-i686: OK
+linux-5.14.1-x86_64: OK
+linux-5.15-rc1-i686: OK
+linux-5.15-rc1-x86_64: OK
+apps: OK
+spec-git: OK
+virtme: ERRORS
+virtme-32: ERRORS
+sparse: WARNINGS
+smatch: ERRORS
+kerneldoc: WARNINGS
 
-[   13.233413] ------------[ cut here ]------------
-[   13.233421] WARNING: CPU: 0 PID: 8 at drivers/media/v4l2-core/v4l2-ctrls-api.c:833 __v4l2_ctrl_s_ctrl+0x4d/0x60 [videodev]
-...
-[   13.234063] Call Trace:
-[   13.234074]  ov8865_state_configure+0x98b/0xc00 [ov8865]
-[   13.234095]  ov8865_probe+0x4b1/0x54c [ov8865]
-[   13.234117]  i2c_device_probe+0x13c/0x2d0
+Detailed results are available here:
 
-Signed-off-by: Hans de Goede <hdegoede@redhat.com>
----
- drivers/media/i2c/ov8865.c | 2 ++
- 1 file changed, 2 insertions(+)
+http://www.xs4all.nl/~hverkuil/logs/Monday.log
 
-diff --git a/drivers/media/i2c/ov8865.c b/drivers/media/i2c/ov8865.c
-index ab225fb616b9..c5fe290317e8 100644
---- a/drivers/media/i2c/ov8865.c
-+++ b/drivers/media/i2c/ov8865.c
-@@ -3073,7 +3073,9 @@ static int ov8865_probe(struct i2c_client *client)
- 	if (ret)
- 		goto error_mutex;
- 
-+	mutex_lock(&sensor->mutex);
- 	ret = ov8865_state_init(sensor);
-+	mutex_unlock(&sensor->mutex);
- 	if (ret)
- 		goto error_ctrls;
- 
--- 
-2.25.1
+Detailed regression test results are available here:
 
+http://www.xs4all.nl/~hverkuil/logs/Monday-test-media.log
+http://www.xs4all.nl/~hverkuil/logs/Monday-test-media-32.log
+http://www.xs4all.nl/~hverkuil/logs/Monday-test-media-dmesg.log
+
+Full logs are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Monday.tar.bz2
+
+The Media Infrastructure API from this daily build is here:
+
+http://www.xs4all.nl/~hverkuil/spec/index.html
