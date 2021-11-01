@@ -2,159 +2,103 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id F05ED441CE9
-	for <lists+linux-media@lfdr.de>; Mon,  1 Nov 2021 15:54:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5A63E441D0D
+	for <lists+linux-media@lfdr.de>; Mon,  1 Nov 2021 16:02:15 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232295AbhKAO4v (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 1 Nov 2021 10:56:51 -0400
-Received: from mga09.intel.com ([134.134.136.24]:61489 "EHLO mga09.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S232066AbhKAO4v (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 1 Nov 2021 10:56:51 -0400
-X-IronPort-AV: E=McAfee;i="6200,9189,10154"; a="230883041"
-X-IronPort-AV: E=Sophos;i="5.87,199,1631602800"; 
-   d="scan'208";a="230883041"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Nov 2021 07:54:17 -0700
-X-IronPort-AV: E=Sophos;i="5.87,199,1631602800"; 
-   d="scan'208";a="488679982"
-Received: from paasikivi.fi.intel.com ([10.237.72.42])
-  by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Nov 2021 07:54:14 -0700
-Received: from paasikivi.fi.intel.com (localhost [127.0.0.1])
-        by paasikivi.fi.intel.com (Postfix) with SMTP id DCF872015E;
-        Mon,  1 Nov 2021 16:54:12 +0200 (EET)
-Date:   Mon, 1 Nov 2021 16:54:12 +0200
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Daniel Scally <djrscally@gmail.com>
-Cc:     Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
-        linux-media@vger.kernel.org, Yong Zhi <yong.zhi@intel.com>,
-        Bingbu Cao <bingbu.cao@intel.com>,
-        Tianshu Qiu <tian.shu.qiu@intel.com>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>
-Subject: Re: [PATCH v4 07/16] media: i2c: Add vblank control to ov8865
-Message-ID: <YX//lBBlskOv+37i@paasikivi.fi.intel.com>
-References: <20211101001119.46056-1-djrscally@gmail.com>
- <20211101001119.46056-8-djrscally@gmail.com>
+        id S231893AbhKAPEr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 1 Nov 2021 11:04:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35922 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229826AbhKAPEq (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 1 Nov 2021 11:04:46 -0400
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 43F40C061714
+        for <linux-media@vger.kernel.org>; Mon,  1 Nov 2021 08:02:13 -0700 (PDT)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1mhYp8-0005oy-TM; Mon, 01 Nov 2021 16:02:10 +0100
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+        by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.92)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1mhYp7-0006P0-VO; Mon, 01 Nov 2021 16:02:09 +0100
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.92)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1mhYp7-0001RP-UO; Mon, 01 Nov 2021 16:02:09 +0100
+Date:   Mon, 1 Nov 2021 16:02:09 +0100
+From:   Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To:     Kieran Bingham <kieran.bingham@ideasonboard.com>
+Cc:     Antti Palosaari <crope@iki.fi>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        kernel@pengutronix.de, linux-media@vger.kernel.org
+Subject: Re: [PATCH] [media] tua9001: Improve messages in .remove's error path
+Message-ID: <20211101150209.an56wy32ttjzoquj@pengutronix.de>
+References: <20211026194010.109029-1-u.kleine-koenig@pengutronix.de>
+ <163577655353.275423.6737046445297486684@Monstersaurus>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="g2oryxtnumy4by3n"
 Content-Disposition: inline
-In-Reply-To: <20211101001119.46056-8-djrscally@gmail.com>
+In-Reply-To: <163577655353.275423.6737046445297486684@Monstersaurus>
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-media@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Daniel,
 
-On Mon, Nov 01, 2021 at 12:11:10AM +0000, Daniel Scally wrote:
-> Add a V4L2_CID_VBLANK control to the ov8865 driver.
-> 
-> Signed-off-by: Daniel Scally <djrscally@gmail.com>
-> ---
->  drivers/media/i2c/ov8865.c | 34 ++++++++++++++++++++++++++++++++++
->  1 file changed, 34 insertions(+)
-> 
-> diff --git a/drivers/media/i2c/ov8865.c b/drivers/media/i2c/ov8865.c
-> index a832938c33b6..f741c0713ca4 100644
-> --- a/drivers/media/i2c/ov8865.c
-> +++ b/drivers/media/i2c/ov8865.c
-> @@ -183,6 +183,8 @@
->  #define OV8865_VTS_H(v)				(((v) & GENMASK(11, 8)) >> 8)
->  #define OV8865_VTS_L_REG			0x380f
->  #define OV8865_VTS_L(v)				((v) & GENMASK(7, 0))
-> +#define OV8865_TIMING_MAX_VTS			0xffff
-> +#define OV8865_TIMING_MIN_VTS			0x04
->  #define OV8865_OFFSET_X_H_REG			0x3810
->  #define OV8865_OFFSET_X_H(v)			(((v) & GENMASK(15, 8)) >> 8)
->  #define OV8865_OFFSET_X_L_REG			0x3811
-> @@ -675,6 +677,7 @@ struct ov8865_state {
->  struct ov8865_ctrls {
->  	struct v4l2_ctrl *link_freq;
->  	struct v4l2_ctrl *pixel_rate;
-> +	struct v4l2_ctrl *vblank;
->  
->  	struct v4l2_ctrl_handler handler;
->  };
-> @@ -2225,6 +2228,20 @@ static int ov8865_test_pattern_configure(struct ov8865_sensor *sensor,
->  			    ov8865_test_pattern_bits[index]);
->  }
->  
-> +/* Blanking */
-> +
-> +static int ov8865_vts_configure(struct ov8865_sensor *sensor, u32 vblank)
-> +{
-> +	u16 vts = sensor->state.mode->output_size_y + vblank;
-> +	int ret;
-> +
-> +	ret = ov8865_write(sensor, OV8865_VTS_H_REG, OV8865_VTS_H(vts));
-> +	if (ret)
-> +		return ret;
-> +
-> +	return ov8865_write(sensor, OV8865_VTS_L_REG, OV8865_VTS_L(vts));
-> +}
-> +
->  /* State */
->  
->  static int ov8865_state_mipi_configure(struct ov8865_sensor *sensor,
-> @@ -2476,6 +2493,8 @@ static int ov8865_s_ctrl(struct v4l2_ctrl *ctrl)
->  	case V4L2_CID_TEST_PATTERN:
->  		index = (unsigned int)ctrl->val;
->  		return ov8865_test_pattern_configure(sensor, index);
-> +	case V4L2_CID_VBLANK:
-> +		return ov8865_vts_configure(sensor, ctrl->val);
->  	default:
->  		return -EINVAL;
->  	}
-> @@ -2492,6 +2511,8 @@ static int ov8865_ctrls_init(struct ov8865_sensor *sensor)
->  	struct ov8865_ctrls *ctrls = &sensor->ctrls;
->  	struct v4l2_ctrl_handler *handler = &ctrls->handler;
->  	const struct v4l2_ctrl_ops *ops = &ov8865_ctrl_ops;
-> +	const struct ov8865_mode *mode = sensor->state.mode;
-> +	unsigned int vblank_max, vblank_def;
->  	int ret;
->  
->  	v4l2_ctrl_handler_init(handler, 32);
-> @@ -2528,6 +2549,13 @@ static int ov8865_ctrls_init(struct ov8865_sensor *sensor)
->  				     ARRAY_SIZE(ov8865_test_pattern_menu) - 1,
->  				     0, 0, ov8865_test_pattern_menu);
->  
-> +	/* Blanking */
-> +	vblank_max = OV8865_TIMING_MAX_VTS - mode->output_size_y;
-> +	vblank_def = mode->vts - mode->output_size_y;
-> +	ctrls->vblank = v4l2_ctrl_new_std(handler, ops, V4L2_CID_VBLANK,
-> +					  OV8865_TIMING_MIN_VTS, vblank_max, 1,
-> +					  vblank_def);
-> +
->  	/* MIPI CSI-2 */
->  
->  	ctrls->link_freq =
-> @@ -2708,6 +2736,10 @@ static int ov8865_set_fmt(struct v4l2_subdev *subdev,
->  		 sensor->state.mbus_code != mbus_code)
->  		ret = ov8865_state_configure(sensor, mode, mbus_code);
->  
-> +	__v4l2_ctrl_modify_range(sensor->ctrls.vblank, OV8865_TIMING_MIN_VTS,
-> +				 OV8865_TIMING_MAX_VTS - mode->output_size_y,
-> +				 1, mode->vts - mode->output_size_y);
-> +
->  complete:
->  	mutex_unlock(&sensor->mutex);
->  
-> @@ -3035,6 +3067,8 @@ static int ov8865_probe(struct i2c_client *client)
->  
->  	/* Sensor */
->  
-> +	sensor->state.mode =  &ov8865_modes[0];
+--g2oryxtnumy4by3n
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-This seems to be an unrelated change. Does it belong here?
+On Mon, Nov 01, 2021 at 02:22:33PM +0000, Kieran Bingham wrote:
+> Quoting Uwe Kleine-K=F6nig (2021-10-26 20:40:10)
+> > If disabling the hardware fails the driver propagates the error code to
+> > the i2c core. However this only results in a generic error message; the
+> > device still disappears.
+> >=20
+> > So instead emit a message that better describes the actual problem than
+> > the i2c core's "remove failed (ESOMETHING), will be ignored" and return
+> > 0 to suppress the generic message.
+>=20
+> You almost caught me out. I was going to say, this changes the
+> behaviour of the return code. But It's intentional ;-)
+>=20
+> It's still a bit concerning, /not/ returning an error on an error - but
+> as it's not going to prevent removal, and it won't add further (helpful)
+> diagnosticts), maybe it makes sense.
+>=20
+> My only concern would be if it might be better to keep the return code,
+> so that the core frameworks know about the issue at least.
 
-> +
->  	ret = ov8865_ctrls_init(sensor);
->  	if (ret)
->  		goto error_mutex;
+The long term goal is to make the remove callback return void. For that
+change I want all implementations to remove 0 to make the change easy to
+review.
 
--- 
-Regards,
+Best regards and thanks for your thoughts,
+Uwe
 
-Sakari Ailus
+--=20
+Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
+Industrial Linux Solutions                 | https://www.pengutronix.de/ |
+
+--g2oryxtnumy4by3n
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEfnIqFpAYrP8+dKQLwfwUeK3K7AkFAmGAAW4ACgkQwfwUeK3K
+7AlYLwf9Ffg7FrOZ3gmptZQ0YTT9xKILULGVPeGfqhMXLnbN6pRRFXQJfhHbPJK0
+O9USznxJX7E6CNKrXx2ukYWqsyBvA9JLf1tKct3tDBWBNXt3vzU4mm8Rv4a7RVU1
+zPiSVfCv+SH5lwP8tDm+lVPeUaeLh3U4+zrKe8u0gQdNA6CCBGv4Bk1Hs5dYf29+
+WpiQqe70sUt1p95SBYKCkHWbD86yHPUOsilZlm7EVBl3Eb/+OvhhtkmWHha0/wTF
+YE3eJWGdJpOdY6XEMchiM2la+C1mtUR7l5jWi65Rk/8+LJKT3X/IfxYL+sRWkUyQ
+oaTTR/ZFscarBQH9Gycn5rtMW+O2RA==
+=vctD
+-----END PGP SIGNATURE-----
+
+--g2oryxtnumy4by3n--
