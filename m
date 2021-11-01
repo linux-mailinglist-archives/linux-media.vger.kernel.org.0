@@ -2,218 +2,118 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AE4114419D6
-	for <lists+linux-media@lfdr.de>; Mon,  1 Nov 2021 11:27:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id AD2484419E6
+	for <lists+linux-media@lfdr.de>; Mon,  1 Nov 2021 11:29:56 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232033AbhKAKaH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 1 Nov 2021 06:30:07 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:26007 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S231844AbhKAKaF (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Mon, 1 Nov 2021 06:30:05 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1635762451;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=sbRv0LbOwweVcKPem1CDYmre/eBu7RPmgKjL80bCTNo=;
-        b=L0vEIW8YoAmHcoztbqAS04R1wc0VrAoOZH7LBK+6Ps0HOvLcbrlKwBjUti4JsTGwzPAW1V
-        I2YuPt16xjO5OD5ufdRpKt7ECJCT4+6vnEXlWgRj12mqp6AOaJbBCYgKfD724kWT+UvFt1
-        wbEe/CPGO6sl7ZNk8ydah2Yn32zTAas=
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
- [209.85.208.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-598-VSYL4jXEMd2rowLGMHx_Sg-1; Mon, 01 Nov 2021 06:27:30 -0400
-X-MC-Unique: VSYL4jXEMd2rowLGMHx_Sg-1
-Received: by mail-ed1-f72.google.com with SMTP id h16-20020a05640250d000b003dd8167857aso15170966edb.0
-        for <linux-media@vger.kernel.org>; Mon, 01 Nov 2021 03:27:30 -0700 (PDT)
+        id S231936AbhKAKc1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 1 Nov 2021 06:32:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58890 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231673AbhKAKc0 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 1 Nov 2021 06:32:26 -0400
+Received: from mail-lf1-x12b.google.com (mail-lf1-x12b.google.com [IPv6:2a00:1450:4864:20::12b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3615AC061714
+        for <linux-media@vger.kernel.org>; Mon,  1 Nov 2021 03:29:53 -0700 (PDT)
+Received: by mail-lf1-x12b.google.com with SMTP id c28so35332378lfv.13
+        for <linux-media@vger.kernel.org>; Mon, 01 Nov 2021 03:29:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=Nr+uoSbqMlzaD10waKHpGV/0b7+Bom5T7XVpT2ZiGyU=;
+        b=fJqrwmkzzdU1PNYvQlX9da7iUVJpiPO8ho1dL7fhLvnhRtqo+RLYTEVApOYmKF0n3+
+         OiVajpvOKypn4Hnx/qZ+DuJLiw31GxuyxwgFo8I0TjOmFKS8FUrym3XBkLcf0FGqx24Q
+         Ng1x40YPiRw6wcliWm/R6amLzjDCn0lAudUJlIEVslo4gO7ApIWbLjXPXn/1gnAhmSQ8
+         KDUrT93FGNcTYoti0Wwd2kP68K2loqHLM8cVraWeNo7vR8nzNhoPgcpOEijiSRawyQC5
+         xJCn0W4jOmEtlvoU9HtpMYUExO/ImEQ45J5UkUDT2lWODrQzEm5T0/9RDzUgxvYRma9s
+         vj8Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=sbRv0LbOwweVcKPem1CDYmre/eBu7RPmgKjL80bCTNo=;
-        b=gHbtQlRv7Rcw1l6v868saicfdcHSQyJMfz8hP8+78f3vEE5NHy0tND8VOpZRc0npb/
-         skB/2HPKGjJfj4NogkzWZNAgMl6VfQ8pS6WDNdliVNZEkNsMk9IrnAXTYDvJtz7s3Ens
-         aTuTzuPTwt73FNmHgqTGOcflidOERx1ERxC1k0gHWwKPaQVWE6RysnjrgowXW0tO7UJy
-         qlh3rWDQI17HgzAl3gU5JpJlbk9VTyB9nyTTgpPvqEjvtF4hPiHuCKoLP8XnuH67rhmb
-         Nf5UU2V2+rQI87kfkeJ2GyBPs28dUymIGRlZupKyCF0x5DWtQ3iKIANsZwX70B11H5qB
-         BH5Q==
-X-Gm-Message-State: AOAM530VXk61bUe5wVK4DWv1FLqMTvKE9UJsfQz0O6C8C+QUvBMssRvM
-        /U/tFpgm3Ohzs2H8vegUFZ9lXeH83Lcwfbp+iNCYQuBdoay1/4p6A8IZvB/toyVGQt48sqcBl5Q
-        GoLGaL0+qADo0lObhgrHq0n4=
-X-Received: by 2002:a17:907:96a4:: with SMTP id hd36mr723491ejc.407.1635762449550;
-        Mon, 01 Nov 2021 03:27:29 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJze8NyVmpBw7YgYiWD+CZnyOJgLe1lkQHSyHpWXs1dtzDSwFrSGxpNbxzdwHMmlXFZDjJJAyA==
-X-Received: by 2002:a17:907:96a4:: with SMTP id hd36mr723456ejc.407.1635762449305;
-        Mon, 01 Nov 2021 03:27:29 -0700 (PDT)
-Received: from [10.40.1.223] ([81.30.35.201])
-        by smtp.gmail.com with ESMTPSA id d3sm6726825ejb.35.2021.11.01.03.27.28
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 01 Nov 2021 03:27:29 -0700 (PDT)
-Message-ID: <ff8c8418-8e73-f949-3734-c0e2e109f554@redhat.com>
-Date:   Mon, 1 Nov 2021 11:27:28 +0100
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=Nr+uoSbqMlzaD10waKHpGV/0b7+Bom5T7XVpT2ZiGyU=;
+        b=UouuOvBOf3T+BqjAdt++ZupBOqjt9cIytYqmQ+IQ1NzwYUqeI3LWRNKfiOhXTl5tvW
+         04EaInvktahqNl3eyX4mCLKV4bHKiFN2/tlUGk4iGX+83DTBInphBj07QKYewQm3dmoL
+         BZKAJgLpVFJ8UzDTXJXZ7XUbwrfTTU64uRcusHSmlB87yme6i1rRxH+6Fm4WOQHIelwx
+         0tS/Zh9tecu4jaHpFuINL26jPvz9mEJbaPdVsWBIF0qQa71PftETlPcQPHOCLV6VDlLJ
+         DodfyFyJT5b0sqQ/0wE1JJ4HuwH8/ArHeSLfKm/W7ebtZFvWbcgZoMFYtWkOhbrDZA34
+         KDog==
+X-Gm-Message-State: AOAM533sdu9dssHVh22k2M2eK7MO3q/deVRusojqohXbrk8yPDS9qya/
+        X3aQ0qhPDa5SidCBq2+L6QhEWSwXSS2Gpoal2cY=
+X-Google-Smtp-Source: ABdhPJywl9HGaIfLT/DPWZ61Q+SoOSYkgcCQnmBjTU/7IE1WIKq1dd0D3gg3EcYbwhvS5ZUu+V+5befS/cQfgJwHEzg=
+X-Received: by 2002:a05:6512:3f6:: with SMTP id n22mr13046376lfq.94.1635762591581;
+ Mon, 01 Nov 2021 03:29:51 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.0
-Subject: Re: [PATCH v4 05/11] clk: Introduce clk-tps68470 driver
-Content-Language: en-US
-To:     Andy Shevchenko <andy.shevchenko@gmail.com>
-Cc:     "Rafael J . Wysocki" <rjw@rjwysocki.net>,
-        Mark Gross <markgross@kernel.org>,
-        Andy Shevchenko <andy@infradead.org>,
-        Wolfram Sang <wsa@the-dreams.de>,
-        Mika Westerberg <mika.westerberg@linux.intel.com>,
-        Daniel Scally <djrscally@gmail.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Mark Brown <broonie@kernel.org>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>, Len Brown <lenb@kernel.org>,
-        ACPI Devel Maling List <linux-acpi@vger.kernel.org>,
-        Platform Driver <platform-driver-x86@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-i2c <linux-i2c@vger.kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Kate Hsuan <hpa@redhat.com>,
+References: <20211101001119.46056-1-djrscally@gmail.com> <20211101001119.46056-5-djrscally@gmail.com>
+In-Reply-To: <20211101001119.46056-5-djrscally@gmail.com>
+From:   Andy Shevchenko <andy.shevchenko@gmail.com>
+Date:   Mon, 1 Nov 2021 12:29:01 +0200
+Message-ID: <CAHp75VfuMtdMrXnFABW8CELNuZEjQUiV9LhzAtTWRr4+aOkLYA@mail.gmail.com>
+Subject: Re: [PATCH v4 04/16] media: i2c: Support 19.2MHz input clock in ov8865
+To:     Daniel Scally <djrscally@gmail.com>
+Cc:     Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
         Linux Media Mailing List <linux-media@vger.kernel.org>,
-        linux-clk <linux-clk@vger.kernel.org>
-References: <20211025094119.82967-1-hdegoede@redhat.com>
- <20211025094119.82967-6-hdegoede@redhat.com>
- <CAHp75VdfwA_3QK2Fo1S34rRZWHCMNzzHug4AKsRfOrKu4CU_YA@mail.gmail.com>
-From:   Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <CAHp75VdfwA_3QK2Fo1S34rRZWHCMNzzHug4AKsRfOrKu4CU_YA@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+        Yong Zhi <yong.zhi@intel.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Bingbu Cao <bingbu.cao@intel.com>,
+        Tianshu Qiu <tian.shu.qiu@intel.com>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi,
+On Mon, Nov 1, 2021 at 2:12 AM Daniel Scally <djrscally@gmail.com> wrote:
+>
+> The ov8865 driver as written expects a 24MHz input clock, but the sensor
+> is sometimes found on x86 platforms with a 19.2MHz input clock supplied.
+> Add a set of PLL configurations to the driver to support that rate too.
+> As ACPI doesn't auto-configure the clock rate, check for a clock-frequency
+> during probe and set that rate if one is found.
 
-On 10/25/21 13:24, Andy Shevchenko wrote:
-> On Mon, Oct 25, 2021 at 12:42 PM Hans de Goede <hdegoede@redhat.com> wrote:
->>
->> The TPS68470 PMIC provides Clocks, GPIOs and Regulators. At present in
->> the kernel the Regulators and Clocks are controlled by an OpRegion
->> driver designed to work with power control methods defined in ACPI, but
->> some platforms lack those methods, meaning drivers need to be able to
->> consume the resources of these chips through the usual frameworks.
->>
->> This commit adds a driver for the clocks provided by the tps68470,
->> and is designed to bind to the platform_device registered by the
->> intel_skl_int3472 module.
-> 
-> ...
-> 
->> +/*
->> + *  The PLL is used to multiply the crystal oscillator
->> + *  frequency range of 3 MHz to 27 MHz by a programmable
->> + *  factor of F = (M/N)*(1/P) such that the output
->> + *  available at the HCLK_A or HCLK_B pins are in the range
->> + *  of 4 MHz to 64 MHz in increments of 0.1 MHz
-> 
-> Missed (grammatical) period.
+...
 
-Thx, fixed for v5.
+> +       /*
+> +        * We could have either a 24MHz or 19.2MHz clock rate. Check for a
+> +        * clock-frequency property and if found, set that rate. This should
+> +        * cover the ACPI case. If the system uses devicetree then the
+> +        * configured rate should already be set, so we'll have to check it.
+> +        */
+> +       ret = fwnode_property_read_u32(dev_fwnode(dev), "clock-frequency",
+> +                                      &rate);
+> +       if (!ret) {
+> +               ret = clk_set_rate(sensor->extclk, rate);
 
-> 
->> + *
->> + * hclk_# = osc_in * (((plldiv*2)+320) / (xtaldiv+30)) * (1 / 2^postdiv)
->> + *
->> + * PLL_REF_CLK should be as close as possible to 100kHz
->> + * PLL_REF_CLK = input clk / XTALDIV[7:0] + 30)
->> + *
->> + * PLL_VCO_CLK = (PLL_REF_CLK * (plldiv*2 + 320))
->> + *
->> + * BOOST should be as close as possible to 2Mhz
->> + * BOOST = PLL_VCO_CLK / (BOOSTDIV[4:0] + 16) *
->> + *
->> + * BUCK should be as close as possible to 5.2Mhz
->> + * BUCK = PLL_VCO_CLK / (BUCKDIV[3:0] + 5)
->> + *
->> + * osc_in   xtaldiv  plldiv   postdiv   hclk_#
->> + * 20Mhz    170      32       1         19.2Mhz
->> + * 20Mhz    170      40       1         20Mhz
->> + * 20Mhz    170      80       1         24Mhz
-> 
->> + *
-> 
-> Redundant empty line.
+> +               if (ret) {
+> +                       dev_err(dev, "failed to set clock rate\n");
+> +                       return ret;
+> +               }
 
-Removed for v5.
+dev_err_probe()
+7065f92255bb ("driver core: Clarify that dev_err_probe() is OK even
+w/out -EPROBE_DEFER")
 
->> + */
-> 
-> ...
-> 
->> +       /* disable clock first */
-> 
-> Disable
-> first...
-> 
->> +       /* and then tri-state the clock outputs */
-> 
-> ...and
+> +       }
 
-Fixed for v5.
-> ...
-> 
->> +       for (i = 0; i < ARRAY_SIZE(clk_freqs); i++) {
->> +               diff = clk_freqs[i].freq - rate;
->> +               if (diff == 0)
->> +                       return i;
-> 
->> +               diff = abs(diff);
-> 
-> This needs a comment why higher (lower) frequency is okay.
+...
 
-This function is called in 2 places:
+> +       for (i = 0; i < ARRAY_SIZE(supported_extclk_rates); i++) {
+> +               if (sensor->extclk_rate == supported_extclk_rates[i])
+> +                       break;
+> +       }
+> +
+> +       if (i == ARRAY_SIZE(supported_extclk_rates)) {
+> +               dev_err(dev, "clock rate %lu Hz is unsupported\n",
+> +                       sensor->extclk_rate);
+>                 ret = -EINVAL;
+>                 goto error_endpoint;
+>         }
 
-1. From tps68470_clk_round_rate(), where higher/lower clearly is ok,
-(see the function name) so no comment needed.
+find_closest() ?
 
-2. From tps68470_clk_set_rate() where it is NOT ok and this is
-enforced in the caller:
-
-        unsigned int idx = tps68470_clk_cfg_lookup(rate);
-
-        if (rate != clk_freqs[idx].freq)
-                return -EINVAL;
-
-This is not easy to describe in a comment, while being obvious
-if someone looking at this actually looks at the callers.
-
-> 
->> +               if (diff < best_diff) {
->> +                       best_diff = diff;
->> +                       best_idx = i;
->> +               }
->> +       }
-> 
-> ...
-> 
->> +       if (pdata) {
->> +               ret = devm_clk_hw_register_clkdev(&pdev->dev,
->> +                                                 &tps68470_clkdata->clkout_hw,
->> +                                                 pdata->consumer_con_id,
->> +                                                 pdata->consumer_dev_name);
-> 
-> if (ret)
->   return ret;
-> 
->> +       }
->> +
->> +       return ret;
-> 
-> return 0;
-
-That was the code in v2, but Stephen (the clk maintainer) asked to
-simplify it to its current form, so I'm not going to change this back.
-
-Regards,
-
-Hans
-
+-- 
+With Best Regards,
+Andy Shevchenko
