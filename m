@@ -2,117 +2,134 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 231F1443094
-	for <lists+linux-media@lfdr.de>; Tue,  2 Nov 2021 15:38:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4268A44308F
+	for <lists+linux-media@lfdr.de>; Tue,  2 Nov 2021 15:36:55 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230447AbhKBOkn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 2 Nov 2021 10:40:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43872 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229557AbhKBOkl (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 2 Nov 2021 10:40:41 -0400
-Received: from mail-ed1-x536.google.com (mail-ed1-x536.google.com [IPv6:2a00:1450:4864:20::536])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 63BB3C061714;
-        Tue,  2 Nov 2021 07:38:06 -0700 (PDT)
-Received: by mail-ed1-x536.google.com with SMTP id g10so76466997edj.1;
-        Tue, 02 Nov 2021 07:38:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=0I7ubj1Ldo3Nk5KDl6c4JTG3GlivIn7ejVsprdJKiXY=;
-        b=JlJTn17qKYIhLmMbFUjqYTIi9H4FR8PTJE4FBsZLnl//slB0e20M00TFsPqunDzHxF
-         PbVznl4+bNrhhrtQwo3TbA+AFWCj8dxNsVeARjRpvwrlPO/qNVg9XntE2Tu72oEVqqlA
-         sI8ekdXZEX/jKSwoYaUCE52G+M8UskIwpShUEhDHge3BU1vfPfmEbTteuy2S9VGbAcz8
-         wNpgwpdWvlRmGYogKzxaHPHsNJsB0OKzJoCOClqei2uOF26HK0U4vETsulOx8uc+tbHn
-         /qgXz45mYp7zYmffuPj5cj5poU8tkZIB8CYsEsClP67R0h32k7QURMbdUHQ+C9YWiutM
-         pjbg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=0I7ubj1Ldo3Nk5KDl6c4JTG3GlivIn7ejVsprdJKiXY=;
-        b=g6FUfqFS/A5kily7HeyTA/8QhqwxASxlWI8r1/3Q4f+LPOOXzif7wFVEeuJWKEroKC
-         wVFnByCBSOwaud1+c9eSTEUBMbTZbHWz7SiT1sAGZtwe5OVzgycic9ONfG10l/rCxbLc
-         uTyhTJpD+pd7j2ttBl3mOLU4Ba/gcjlTiDZbkKIaNO0/DoSIqUGxuUhYdmF4S7NS/LUW
-         6Z300phn0vr+ypmG+boon0noPJglX1Vq/JGKOPh5p3bwYdgeHJ2CwlnuZEQCixs7BgIo
-         ymb+qiegzLDmVEMMyiMiYWxzE6a3pGnLuH0P7QaMdvNlYkpiMiUDGqpVuWbRQJbHIt95
-         F35Q==
-X-Gm-Message-State: AOAM532QFuaQ3pXTtFQGdb0pxVzZOHFi6fwh/iMu+CLgvmbjnds+5R+0
-        vDEzto0HFY2Da/Vg6M5ObNs58O1ov3pKdrLKJwI=
-X-Google-Smtp-Source: ABdhPJz78G9S+IwBiHwzwtrFf9Ws1srJp3v1MBNrdOcNp2jvAQsLpSlPPk6MqY0r4sswsy4EnwvJEpp19zeqpea2M7Q=
-X-Received: by 2002:a17:906:6a0a:: with SMTP id qw10mr18550055ejc.141.1635863882143;
- Tue, 02 Nov 2021 07:38:02 -0700 (PDT)
-MIME-Version: 1.0
-References: <20211102094907.31271-1-hdegoede@redhat.com>
-In-Reply-To: <20211102094907.31271-1-hdegoede@redhat.com>
-From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Tue, 2 Nov 2021 16:37:13 +0200
-Message-ID: <CAHp75VfHo1XRo8SPy2PtW8JyJ4K6AtZhwGotuCu3Fw5-FFpK0g@mail.gmail.com>
-Subject: Re: [PATCH v5 00/11] Add support for X86/ACPI camera sensor/PMIC
- setup with clk and regulator platform data
-To:     Hans de Goede <hdegoede@redhat.com>
-Cc:     "Rafael J . Wysocki" <rjw@rjwysocki.net>,
-        Mark Gross <markgross@kernel.org>,
-        Andy Shevchenko <andy@infradead.org>,
-        Wolfram Sang <wsa@the-dreams.de>,
-        Mika Westerberg <mika.westerberg@linux.intel.com>,
-        Daniel Scally <djrscally@gmail.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        id S230336AbhKBOj3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 2 Nov 2021 10:39:29 -0400
+Received: from relay5-d.mail.gandi.net ([217.70.183.197]:53977 "EHLO
+        relay5-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229530AbhKBOj2 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 2 Nov 2021 10:39:28 -0400
+Received: (Authenticated sender: jacopo@jmondi.org)
+        by relay5-d.mail.gandi.net (Postfix) with ESMTPSA id 206041C000A;
+        Tue,  2 Nov 2021 14:36:48 +0000 (UTC)
+Date:   Tue, 2 Nov 2021 15:37:40 +0100
+From:   Jacopo Mondi <jacopo@jmondi.org>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+        Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        sakari.ailus@linux.intel.com, niklas.soderlund@ragnatech.se,
+        kieran.bingham@ideasonboard.com,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Mark Brown <broonie@kernel.org>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>, Len Brown <lenb@kernel.org>,
-        ACPI Devel Maling List <linux-acpi@vger.kernel.org>,
-        Platform Driver <platform-driver-x86@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-i2c <linux-i2c@vger.kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Kate Hsuan <hpa@redhat.com>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        linux-clk <linux-clk@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH v2 06/13] media: subdev: Add for_each_active_route() macro
+Message-ID: <20211102143740.bu5kfmcyj5opkuxg@uno.localdomain>
+References: <20211017182449.64192-1-jacopo+renesas@jmondi.org>
+ <20211017182449.64192-7-jacopo+renesas@jmondi.org>
+ <8c16cd01-48c6-ecc8-4437-e597559f492f@ideasonboard.com>
+ <20211028090331.sccuthk5h3tw22f3@uno.localdomain>
+ <b029f3ad-1790-d316-dfb0-0e64e161fc2c@ideasonboard.com>
+ <YXp5BKABg0lb7EZk@pendragon.ideasonboard.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <YXp5BKABg0lb7EZk@pendragon.ideasonboard.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Nov 2, 2021 at 11:49 AM Hans de Goede <hdegoede@redhat.com> wrote:
->
-> Here is v5 of my patch-set adding support for camera sensor connected to a
-> TPS68470 PMIC on x86/ACPI devices.
+Hello,
 
-No showstoppers observed, FWIW,
-Reviewed-by: Andy Shevchenko <andy.shevchenko@gmail.com>
+On Thu, Oct 28, 2021 at 01:18:44PM +0300, Laurent Pinchart wrote:
+> On Thu, Oct 28, 2021 at 01:17:10PM +0300, Tomi Valkeinen wrote:
+> > On 28/10/2021 12:03, Jacopo Mondi wrote:
+> > > On Thu, Oct 28, 2021 at 11:32:12AM +0300, Tomi Valkeinen wrote:
+> > >> On 17/10/2021 21:24, Jacopo Mondi wrote:
+> > >>> Add a for_each_active_route() macro to replace the repeated pattern
+> > >>> of iterating on the active routes of a routing table.
+> > >>>
+> > >>> Replace the existing occurrences of such pattern in the codebase.
+> > >>>
+> > >>> Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
+> > >>> ---
+> > >>>    drivers/media/i2c/ds90ub913.c             |  8 ++------
+> > >>>    drivers/media/i2c/ds90ub953.c             |  7 ++-----
+> > >>>    drivers/media/i2c/ds90ub960.c             |  8 ++------
+> > >>>    drivers/media/i2c/max9286.c               | 10 ++--------
+> > >>>    drivers/media/platform/ti-vpe/cal-video.c |  9 ++-------
+> > >>>    drivers/media/v4l2-core/v4l2-subdev.c     | 18 ++++++++++++++++++
+> > >>>    include/media/v4l2-subdev.h               | 11 +++++++++++
+> > >>>    7 files changed, 39 insertions(+), 32 deletions(-)
+> > >>>
+> > >>
+> > >> ...
+> > >>
+> > >>> +struct v4l2_subdev_route *next_active_route(const struct v4l2_subdev_krouting *routing,
+> > >>> +					    struct v4l2_subdev_route *route)
+> > >>> +{
+> > >>> +	if (route)
+> > >>> +		++route;
+> > >>> +	else
+> > >>> +		route = &routing->routes[0];
+> > >>> +
+> > >>> +	for (; route < routing->routes + routing->num_routes; ++route) {
+> > >>> +		if (!(route->flags & V4L2_SUBDEV_ROUTE_FL_ACTIVE))
+> > >>> +			continue;
+> > >>> +
+> > >>> +		return route;
+> > >>> +	}
+> > >>> +
+> > >>> +	return NULL;
+> > >>> +}
+> > >>
+> > >> Also, this must be exported. I'll add that. And probably better to have a
+> > >
+> > > Does it ? I would rather have it in the header, as this is only
+> > > meant to be called by the for_each_active_route() macro, and not by
+> > > other users. However it seemed to be rather long to be defined as a
+> > > static inline function in the header, so I opted to move it to the c
+> > > file.
+> >
+> > Yes, static inline is an option. The function is a bit long-ish, though,
+> > as you mention.
+> >
+> > > To be honest, it's not clear to me what happens if a module calls the
+> > > for_each_active_route() macro that calls this non-exported function,
+> > > so you're probably correct.
+> >
+> > The module cannot be loaded if it refers to a non-exported symbol.
+> >
 
-> I'm quite happy with how this works now, so from my pov this is the final
-> version of the device-instantiation deferral code / approach.
->
-> ###
->
-> The clk and regulator frameworks expect clk/regulator consumer-devices
-> to have info about the consumed clks/regulators described in the device's
-> fw_node, but on ACPI this info is missing.
->
-> This series worksaround this by providing platform_data with the info to
-> the TPS68470 clk/regulator MFD cells.
->
-> Patches 1 - 2 deal with a probe-ordering problem this introduces,
-> since the lookups are only registered when the provider-driver binds,
-> trying to get these clks/regulators before then results in a -ENOENT
-> error for clks and a dummy regulator for regulators. See the patches
-> for more details.
->
-> Patch 3 adds a header file which adds tps68470_clk_platform_data and
-> tps68470_regulator_platform_data structs. The futher patches depend on
-> this new header file.
->
-> Patch 4 + 5 add the TPS68470 clk and regulator drivers
->
-> Patches 6 - 11 Modify the INT3472 driver which instantiates the MFD cells to
-> provide the necessary platform-data.
+Yeah, dumb me, the macro will just expand and the symbol won't be
+available.
 
+> > > However exporting the symbol makes it available globally, but I guess
+> >
+> > Yes, thus the prefix is a good thing =).
+> >
+> > > that's not a big deal if it's clearly documented that drivers shall
+> > > not call this directly (or maybe we want it to be available globally,
+> > > why not...)
+> >
+> > I'll see how long helper functions similar macros have as inline in
+> > other parts of the kernel. Maybe static inline is fine.
+> >
+> > But if not, we'll just need to document the helper function. I don't see
+> > why we should say it shouldn't be called directly, though. But if that
+> > is the case, we can prefix it with __.
+>
+> The __ prefix is exactly what I was going to propose.
+>
 
--- 
-With Best Regards,
-Andy Shevchenko
+Ack to the __ prefix and export the symbol from the .c file if it's
+deemed too long to live in the header!
+
+Thanks
+   j
+
+> --
+> Regards,
+>
+> Laurent Pinchart
