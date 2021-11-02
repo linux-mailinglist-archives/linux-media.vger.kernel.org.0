@@ -2,111 +2,92 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DDB0644296E
-	for <lists+linux-media@lfdr.de>; Tue,  2 Nov 2021 09:30:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B339B4429B5
+	for <lists+linux-media@lfdr.de>; Tue,  2 Nov 2021 09:42:56 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229778AbhKBIdQ convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-media@lfdr.de>); Tue, 2 Nov 2021 04:33:16 -0400
-Received: from mail-ua1-f46.google.com ([209.85.222.46]:42876 "EHLO
-        mail-ua1-f46.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229577AbhKBIdP (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 2 Nov 2021 04:33:15 -0400
-Received: by mail-ua1-f46.google.com with SMTP id v20so36480633uaj.9;
-        Tue, 02 Nov 2021 01:30:41 -0700 (PDT)
+        id S230476AbhKBIp3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 2 Nov 2021 04:45:29 -0400
+Received: from mail-vk1-f169.google.com ([209.85.221.169]:46794 "EHLO
+        mail-vk1-f169.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229770AbhKBIp3 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 2 Nov 2021 04:45:29 -0400
+Received: by mail-vk1-f169.google.com with SMTP id t127so9210207vke.13;
+        Tue, 02 Nov 2021 01:42:54 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=xjyrUZBfnnMN1jrgawzUgDxAU+IxlfxhbvWTMJPKn0o=;
-        b=cFmtITW2B1no7o3qqbHN7Pml2nxQ7VFryj2/gjpbrP6i7RJaRH6R3+q9RZ+sFzF80a
-         qrqYqiBDoFUu6Ip5cqSIsZEIO8YAg2Cp4gb6MYoX9HXBJ1iXFoAKzdSty6Qz+DHrxWAj
-         VYu1Fo/FoLI/vmRAopirlAP6mkpaqBbeeJS5Zw8t+xqAdGhuZ/j6FIe6RU+DCYhFicwd
-         D/YpNkwgEWj+ol4rrq9yCFYvxh7nLa7TL3kgb3H/PbZRiCiWi59OUX6rhVXk4AKU0P3L
-         jr7Z4vOT4fFo+WM3aJ2cT41pNRcLEXPCzW6761C1M8voF7ncs6mlQtUksIJzLv67P9HW
-         LkRA==
-X-Gm-Message-State: AOAM533DNwUE+b5fCUM61RozmmlsD7WHfYeAxwahdVKDGNCEoplQfjbR
-        aOeQRmQshxCM0SYmoshI783SwHi5dBGEow==
-X-Google-Smtp-Source: ABdhPJzAeMSRnF5bbSKBwd9uBCs1JLTqU8yAyq18qof8mkPpY+jR9m8csobxQMlWgLJkh09hxDs5bQ==
-X-Received: by 2002:a67:314a:: with SMTP id x71mr13675641vsx.17.1635841840772;
-        Tue, 02 Nov 2021 01:30:40 -0700 (PDT)
-Received: from mail-ua1-f49.google.com (mail-ua1-f49.google.com. [209.85.222.49])
-        by smtp.gmail.com with ESMTPSA id a22sm2547478uaq.17.2021.11.02.01.30.40
+         :message-id:subject:to:cc;
+        bh=7D60swm9PvWLJeNxTF4fmKkedNp+6Pn6fPP3l3+EUaE=;
+        b=C9dzS3VdKeXr+EFpVfNk7H74rE6dCIajMzST9bzxJ3DbYbsF+8J7NeUjP8iSSqvbyN
+         mHJjNiZPMngkbYW2ywyI50JQjEVT3VgHD7XPRVhSO6ZlGrgZk60z2EaDG84pWPLBUHjt
+         uXVu1MYNd22luly0ROXVLwOaFZqwHBBPfmL/LguT2aRSfWJl8Rt/ekPcrcMoLx5gtpJk
+         3LzzRBdnB9sFb42uQmcujTXTjqbd7L9NMi5tS8m0WeI9tLJbhdmsiAbHb3k+cDOhWoei
+         1XmJmqJd7rt95xofTjKkLxCGAXwn9FuUZy0dUJzcJqrj0meN05LsmSjrO5DSHBpJyWp2
+         lrig==
+X-Gm-Message-State: AOAM531r51jNnJriBJuhMA/sQQAOn6i06gTGnHOhZjsRYf1+y8Q3RrPj
+        WF7lkbS70OhV5Rl8fwfnoH9QYyLB0FFBZQ==
+X-Google-Smtp-Source: ABdhPJz9qwVqWg0g5s+2DGo1Kv7Zo4JA/zTNuE2Qha+TA1QclRrGrh9o/b9tVBIYaAECPmFYom2enA==
+X-Received: by 2002:a05:6122:550:: with SMTP id y16mr1430516vko.0.1635842573766;
+        Tue, 02 Nov 2021 01:42:53 -0700 (PDT)
+Received: from mail-vk1-f176.google.com (mail-vk1-f176.google.com. [209.85.221.176])
+        by smtp.gmail.com with ESMTPSA id t5sm2837956vsk.24.2021.11.02.01.42.52
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 02 Nov 2021 01:30:40 -0700 (PDT)
-Received: by mail-ua1-f49.google.com with SMTP id u9so36476495uac.8;
-        Tue, 02 Nov 2021 01:30:40 -0700 (PDT)
-X-Received: by 2002:a9f:2c98:: with SMTP id w24mr34917210uaj.89.1635841840143;
- Tue, 02 Nov 2021 01:30:40 -0700 (PDT)
+        Tue, 02 Nov 2021 01:42:53 -0700 (PDT)
+Received: by mail-vk1-f176.google.com with SMTP id h133so9210426vke.10;
+        Tue, 02 Nov 2021 01:42:52 -0700 (PDT)
+X-Received: by 2002:a05:6122:a05:: with SMTP id 5mr5132731vkn.15.1635842572695;
+ Tue, 02 Nov 2021 01:42:52 -0700 (PDT)
 MIME-Version: 1.0
-References: <20211101171949.1059566-1-kieran.bingham+renesas@ideasonboard.com>
- <YYAiihIejUuF+uu0@oden.dyn.berto.se> <163578888022.1097798.14100032684481849335@Monstersaurus>
-In-Reply-To: <163578888022.1097798.14100032684481849335@Monstersaurus>
+References: <097d8602906e9db279728330c6cf2837be184704.1635338663.git.geert+renesas@glider.be>
+ <YYBdzwshhM5fmsEE@robh.at.kernel.org>
+In-Reply-To: <YYBdzwshhM5fmsEE@robh.at.kernel.org>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Tue, 2 Nov 2021 09:30:28 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdUhtGmL2iiGFbRY8CGC_xB5Mqboyt73WL2_h2feMYzziw@mail.gmail.com>
-Message-ID: <CAMuHMdUhtGmL2iiGFbRY8CGC_xB5Mqboyt73WL2_h2feMYzziw@mail.gmail.com>
-Subject: Re: [PATCH] media: i2c: max9286: Depend on VIDEO_V4L2
-To:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-Cc:     =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
-        Sakari Ailus <sakari.ailus@iki.fi>,
+Date:   Tue, 2 Nov 2021 09:42:41 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdUvy9oVCv+3HJ_dZr6Rm4iP8FPwTETxq+j2ja_BR1=c5A@mail.gmail.com>
+Message-ID: <CAMuHMdUvy9oVCv+3HJ_dZr6Rm4iP8FPwTETxq+j2ja_BR1=c5A@mail.gmail.com>
+Subject: Re: [PATCH] bindings: media: venus: Drop bogus maxItems for power-domain-names
+To:     Rob Herring <robh@kernel.org>
+Cc:     Dikshita Agarwal <dikshita@codeaurora.org>,
+        Stanimir Varbanov <stanimir.varbanov@linaro.org>,
+        Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-arm-msm <linux-arm-msm@vger.kernel.org>,
         Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Kieran,
+Hi Rob,
 
-On Mon, Nov 1, 2021 at 6:48 PM Kieran Bingham
-<kieran.bingham+renesas@ideasonboard.com> wrote:
-> Quoting Niklas Söderlund (2021-11-01 17:23:22)
-> > On 2021-11-01 17:19:49 +0000, Kieran Bingham wrote:
-> > > The MAX9286 has not explicitly declared a dependency upon VIDEO_V4L2.
-> > > While this dependency has likely always been met by configurations
-> > > including it, the device does use V4L2 core, and should depend upon it.
-> > >
-> > > Add VIDEO_V4L2 as a dependency to match other drivers and prevent
-> > > failures when compile testing.
-> > >
-> > > Signed-off-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+On Mon, Nov 1, 2021 at 10:36 PM Rob Herring <robh@kernel.org> wrote:
+> On Wed, Oct 27, 2021 at 02:45:30PM +0200, Geert Uytterhoeven wrote:
+> > make dt_binding_check:
+>
+> I'd say it's redundant rather than bogus.
 
-> > > @@ -468,7 +468,7 @@ config VIDEO_VPX3220
-> > >
-> > >  config VIDEO_MAX9286
-> > >       tristate "Maxim MAX9286 GMSL deserializer support"
-> > > -     depends on I2C && I2C_MUX
-> > > +     depends on VIDEO_V4L2 && I2C && I2C_MUX
+I wrote "bogus", as the "redundant" ones typically give:
+
+                hint: "maxItems" is not needed with an "items" list
+
+And I didn't get that here?
+
+> >     Documentation/devicetree/bindings/media/qcom,sc7280-venus.yaml: ignoring, error in schema: properties: power-domain-names
+> >     warning: no schema found in file: Documentation/devicetree/bindings/media/qcom,sc7280-venus.yaml
 > >
-> > I think the new 'depends on' shall be on a separate line. Reading this
-> > is confusing as now the V4L2 is mixed with I2C while GPIO is still on a
-> > separate line.
+> > Fixes: e48b839b6699c226 ("media: dt-bindings: media: venus: Add sc7280 dt schema")
+> > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> > ---
+> >  Documentation/devicetree/bindings/media/qcom,sc7280-venus.yaml | 1 -
+> >  1 file changed, 1 deletion(-)
 >
-> Indeed, I'm happy to put it on a new line too, but so very many of the
-> other users of VIDEO_V4L2 and I2C here in media/i2c/Kconfig use
->   depends on VIDEO_V4L2 && I2C
->
-> So the difference is having the I2C_MUX ...
+> Acked-by: Rob Herring <robh@kernel.org>
 
-I2C_MUX already depends on I2C, so you can drop the latter dependency.
-
-> There are only two other 'patterns' that have also added directly to the
-> end of that:
->
->
-> drivers/media/i2c/Kconfig:      depends on VIDEO_V4L2 && I2C && I2C_MUX
-> drivers/media/i2c/Kconfig:      depends on VIDEO_V4L2 && I2C && GPIOLIB
-> drivers/media/platform/Kconfig: depends on VIDEO_V4L2 && I2C && PM
->
-> (Where the I2C_MUX is MAX9286) but it's not a very strong pattern, so
-> splitting is still fine with me.
-
-I would put it on a single line.
-
-Unless you start adding COMPILE_TEST support, and the dependencies
-can be split in hard (needed to build) and soft (needed to run)
-dependencies.
+Thanks!
 
 Gr{oetje,eeting}s,
 
