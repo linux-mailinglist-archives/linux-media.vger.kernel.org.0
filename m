@@ -2,81 +2,80 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 106624427FB
-	for <lists+linux-media@lfdr.de>; Tue,  2 Nov 2021 08:14:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1BBDA4428BF
+	for <lists+linux-media@lfdr.de>; Tue,  2 Nov 2021 08:43:38 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231538AbhKBHQd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 2 Nov 2021 03:16:33 -0400
-Received: from twspam01.aspeedtech.com ([211.20.114.71]:29097 "EHLO
-        twspam01.aspeedtech.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231303AbhKBHQY (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 2 Nov 2021 03:16:24 -0400
-Received: from mail.aspeedtech.com ([192.168.0.24])
-        by twspam01.aspeedtech.com with ESMTP id 1A26oHrr050484;
-        Tue, 2 Nov 2021 14:50:17 +0800 (GMT-8)
-        (envelope-from jammy_huang@aspeedtech.com)
-Received: from JammyHuang-PC.aspeed.com (192.168.2.115) by TWMBX02.aspeed.com
- (192.168.0.24) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Tue, 2 Nov
- 2021 15:13:04 +0800
-From:   Jammy Huang <jammy_huang@aspeedtech.com>
-To:     <eajames@linux.ibm.com>, <mchehab@kernel.org>, <joel@jms.id.au>,
-        <andrew@aj.id.au>, <linux-media@vger.kernel.org>,
-        <openbmc@lists.ozlabs.org>, <linux-arm-kernel@lists.infradead.org>,
-        <linux-aspeed@lists.ozlabs.org>, <linux-kernel@vger.kernel.org>
-Subject: [PATCH] media: aspeed: fix mode-detect always timeout at 2nd run
-Date:   Tue, 2 Nov 2021 15:13:37 +0800
-Message-ID: <20211102071337.5983-1-jammy_huang@aspeedtech.com>
-X-Mailer: git-send-email 2.25.1
+        id S229931AbhKBHqK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 2 Nov 2021 03:46:10 -0400
+Received: from mail.kernel.org ([198.145.29.99]:36414 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229526AbhKBHqK (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 2 Nov 2021 03:46:10 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 82BB4604AC;
+        Tue,  2 Nov 2021 07:43:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1635839015;
+        bh=XMiM7tUILn/CdFEk3cemcDSZQDQhzya53qvDkGv3u6o=;
+        h=From:To:Cc:Subject:Date:From;
+        b=JYclfm0lVXHBLetU46MAWvUcbPBBl7lXgkoGwISBPdHyRJQg8pVNvb7WyJJB/nzvl
+         TNwYT1hYi02L0fdIBX0YbQo7Ok0Xz83g5XLIMf79FYMAjCthEHTww2oJHltJSaPS0k
+         W/BWs2/rjjYUnQ7c5rhN0Ai9RwYdOaeTNkiO7b78uDuIVOcylT16dwcuL2Z5U5+Klp
+         /iMGXXZFq0RrQb5oaQ3ygFoeacvzK17tlk9x2P27PCrMTXKzTLoorIj0RShOvmCYtK
+         Xe3bsTBsDG6tsvDDhEPeQ2SEInQ3/NsDydI9IX8362TqWRA4jlkrY7oVvMRJJjTkWA
+         tdDRkhXAeRf6w==
+Received: by mail.kernel.org with local (Exim 4.94.2)
+        (envelope-from <mchehab@kernel.org>)
+        id 1mhoSC-004WRy-LT; Tue, 02 Nov 2021 07:43:32 +0000
+From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc:     linuxarm@huawei.com, mauro.chehab@huawei.com,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Dan Carpenter <dan.carpenter@oracle.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Ingo Molnar <mingo@kernel.org>,
+        Kaixu Xia <kaixuxia@tencent.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Tsuchiya Yuto <kitakar@gmail.com>,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-staging@lists.linux.dev
+Subject: [PATCH] media: atomisp: align sizes returned by g_fmt
+Date:   Tue,  2 Nov 2021 07:43:31 +0000
+Message-Id: <5682e37ff93ec19c0fbc5dd6614d6f57281ea663.1635839008.git.mchehab+huawei@kernel.org>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7BIT
-Content-Type:   text/plain; charset=US-ASCII
-X-Originating-IP: [192.168.2.115]
-X-ClientProxiedBy: TWMBX02.aspeed.com (192.168.0.24) To TWMBX02.aspeed.com
- (192.168.0.24)
-X-DNSRBL: 
-X-MAIL: twspam01.aspeedtech.com 1A26oHrr050484
+Content-Transfer-Encoding: 8bit
+Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
+To:     unlisted-recipients:; (no To-header on input)
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-aspeed_video_get_resolution() will try to do res-detect again if the
-timing got in last try is invalid. But it will always timeout because
-VE_SEQ_CTRL_TRIG_MODE_DET only cleared after 1st mode-detect.
+Repeat the same round logic used inside s_fmt here, for the sake
+of sanity.
 
-To fix the problem, just clear VE_SEQ_CTRL_TRIG_MODE_DET before set in
-aspeed_video_enable_mode_detect().
-
-Signed-off-by: Jammy Huang <jammy_huang@aspeedtech.com>
+Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- drivers/media/platform/aspeed-video.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ drivers/staging/media/atomisp/pci/atomisp_ioctl.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/media/platform/aspeed-video.c b/drivers/media/platform/aspeed-video.c
-index cd2b71c81e31..b470f4b68aa0 100644
---- a/drivers/media/platform/aspeed-video.c
-+++ b/drivers/media/platform/aspeed-video.c
-@@ -611,6 +611,10 @@ static void aspeed_video_enable_mode_detect(struct aspeed_video *video)
- 	aspeed_video_update(video, VE_INTERRUPT_CTRL, 0,
- 			    VE_INTERRUPT_MODE_DETECT);
+diff --git a/drivers/staging/media/atomisp/pci/atomisp_ioctl.c b/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
+index 936516daec7d..8df052f6190d 100644
+--- a/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
++++ b/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
+@@ -892,8 +892,8 @@ static int atomisp_g_fmt_cap(struct file *file, void *fh,
+ 	}
  
-+	/* Disable mode detect in order to re-trigger */
-+	aspeed_video_update(video, VE_SEQ_CTRL,
-+			    VE_SEQ_CTRL_TRIG_MODE_DET, 0);
-+
- 	/* Trigger mode detect */
- 	aspeed_video_update(video, VE_SEQ_CTRL, 0, VE_SEQ_CTRL_TRIG_MODE_DET);
- }
-@@ -930,10 +934,6 @@ static void aspeed_video_get_resolution(struct aspeed_video *video)
- 			return;
- 		}
+ 	depth = atomisp_get_pixel_depth(f->fmt.pix.pixelformat);
+-	f->fmt.pix.bytesperline = (f->fmt.pix.width * depth) >> 3;
+-	f->fmt.pix.sizeimage = f->fmt.pix.height * f->fmt.pix.bytesperline;
++	f->fmt.pix.bytesperline = DIV_ROUND_UP(f->fmt.pix.width * depth, 8);
++	f->fmt.pix.sizeimage = PAGE_ALIGN(f->fmt.pix.height * f->fmt.pix.bytesperline);
  
--		/* Disable mode detect in order to re-trigger */
--		aspeed_video_update(video, VE_SEQ_CTRL,
--				    VE_SEQ_CTRL_TRIG_MODE_DET, 0);
--
- 		aspeed_video_check_and_set_polarity(video);
- 
- 		aspeed_video_enable_mode_detect(video);
+ 	/*
+ 	 * FIXME: do we need to setup this differently, depending on the
 -- 
-2.25.1
+2.31.1
 
