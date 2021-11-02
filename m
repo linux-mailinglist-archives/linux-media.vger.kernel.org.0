@@ -2,133 +2,106 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A747D443022
-	for <lists+linux-media@lfdr.de>; Tue,  2 Nov 2021 15:17:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 83CC644302A
+	for <lists+linux-media@lfdr.de>; Tue,  2 Nov 2021 15:18:33 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230415AbhKBOUA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 2 Nov 2021 10:20:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38996 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229712AbhKBOT7 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 2 Nov 2021 10:19:59 -0400
-Received: from mail-ed1-x529.google.com (mail-ed1-x529.google.com [IPv6:2a00:1450:4864:20::529])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B5DB4C061714;
-        Tue,  2 Nov 2021 07:17:23 -0700 (PDT)
-Received: by mail-ed1-x529.google.com with SMTP id g14so14362068edz.2;
-        Tue, 02 Nov 2021 07:17:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=T8+WyOM8FuIvYF68qhKwIM74Y8tYUe6j13mhT+Zvc5U=;
-        b=X4VEXPrppNXjUsTVE0BGKzoth4gTvq2SLUBZ4Xt8Fy97Hnb75KR/CVdyb+A0Z/mYXg
-         4WgF9NghBbT0EbKvgmlQspSFqUPZJu1Qy48nXhLfA6oR5zIFN3WWymGarNvVckUQ3g3t
-         jEyZxWqPYx1oOTXvWcdwjNbPCXMM3hv0ftk4NS7XacZ01rIEvPLnhcyE85kFSngPZz5A
-         QyaoWPiaRQ03zz8T36nMvcNGLSIhm0AYwM6Jz28rXmUkKBLXpxx7sJhgAq3j2MsbIJdn
-         FdiCO0U0SI139gRReiCHoglAyBcDtItj6Jf3xpElXcDr4+Fk+2od4ojhF1FUpAS1hNkw
-         K6CQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=T8+WyOM8FuIvYF68qhKwIM74Y8tYUe6j13mhT+Zvc5U=;
-        b=i2sQ/C1Ff0uqgPIebg1c0KHMEuGczftg/9tilz18H6pMirvLfElGVFQDCSys8g0FHH
-         GvRVm91GNp2hQ2g5+Mk7Ix548JNGXHcSO746kjzBVTS/x1ngNUbHzMxAuErkVpZhXwH2
-         WOPNvR8OnFxseM4kRy+yBzQPqoa14rEIYc/mChjep1jxdE2pM6ZXhJU3Ag3b6qoTNUjg
-         9FCDWpZMrrUQvud440tZM5nkLT021+ey3gkw8IsQLqoijaO+oopJ2CJ7XirYiVB+b+vL
-         AznmAWs84I7yAwH6DWfFgbwl92svy5Jd6H24VGkbSIziS/aMpsPH5s7Ck0kGaSYfADzm
-         8eNg==
-X-Gm-Message-State: AOAM531mydLEa12dtFzkF7ejHry3WhjRW42pdFXV48gbQxx9PJv+Lyli
-        HdMqMG6GRW6cmxpO9ZMMkI3gHEMSvL3H2qAX2HSg8bJu17c=
-X-Google-Smtp-Source: ABdhPJw99guFYRrhnUbbHcV2PzcXvkxqZ16jyF+3YDoMLfXSZmSv4HOcjNXybfZBQ5mHxzv1r7y9Tj9EUGxC3ZxC3XQ=
-X-Received: by 2002:a50:9ee3:: with SMTP id a90mr45859284edf.224.1635862638354;
- Tue, 02 Nov 2021 07:17:18 -0700 (PDT)
+        id S230336AbhKBOVG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 2 Nov 2021 10:21:06 -0400
+Received: from mail.kernel.org ([198.145.29.99]:51710 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229530AbhKBOVD (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 2 Nov 2021 10:21:03 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 2F0FB60EBB;
+        Tue,  2 Nov 2021 14:18:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1635862708;
+        bh=qOB5WMuYpIlALms7I++ESh95onbe/bA+rU+eBx4I4Fk=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=XoaOYISZbEeWyK9tRWTR37Jsk9jurujng5wyY52op4eXUfcCf+18ChbrFncdxOMtn
+         /X4LT6uiwNEODGWOWAguSLiN77hLLxuilaAkLyQS5cGL2d4LeR7kC7CUldM/mHxlDo
+         Ablk9FJDhtacoW855I3V+EoIjNXFyuor2oo+2oiNMNdWzzawxKwoNe8wlz9M3tUrVY
+         ywWhGSrHC8QLPqXO7KMLuzpvbRugzAL/UscJiOdsSNo8tj6bja4yLcZzLMzLzZ03rD
+         Y7i30c5f0zdvjVFl3dmr/ph9FrHvrYQi2GnqUrd7VAmX14cGTgwKP2OpvF15BldLRn
+         x6etj9G186fPA==
+Received: by mail-ed1-f48.google.com with SMTP id ee33so5580536edb.8;
+        Tue, 02 Nov 2021 07:18:28 -0700 (PDT)
+X-Gm-Message-State: AOAM533n6jj3u4hxWRG81Sp1VmfRguO4xT5J29KfrM5rgUVp0Dq4TqKP
+        YnyZFtxWMBjJH7WoctjT0PuWyuBUvHf5qiUiog==
+X-Google-Smtp-Source: ABdhPJyEJB9X6BsjiuknIZKb6IX4uzR9u7dyWMAP44n4tWQU5OoekyF3SHDoYpgBBnNTB8O+nTrZ+jKoTTonAuttmlE=
+X-Received: by 2002:a50:da06:: with SMTP id z6mr51404191edj.355.1635862706659;
+ Tue, 02 Nov 2021 07:18:26 -0700 (PDT)
 MIME-Version: 1.0
-References: <20211102094907.31271-1-hdegoede@redhat.com> <20211102094907.31271-8-hdegoede@redhat.com>
-In-Reply-To: <20211102094907.31271-8-hdegoede@redhat.com>
-From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Tue, 2 Nov 2021 16:16:28 +0200
-Message-ID: <CAHp75VePSv8b=oTJXJCL_go9Lody+8JQJyMC6exO-Zw8cPk9og@mail.gmail.com>
-Subject: Re: [PATCH v5 07/11] platform/x86: int3472: Split into 2 drivers
-To:     Hans de Goede <hdegoede@redhat.com>
-Cc:     "Rafael J . Wysocki" <rjw@rjwysocki.net>,
-        Mark Gross <markgross@kernel.org>,
-        Andy Shevchenko <andy@infradead.org>,
-        Wolfram Sang <wsa@the-dreams.de>,
-        Mika Westerberg <mika.westerberg@linux.intel.com>,
-        Daniel Scally <djrscally@gmail.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+References: <20211025103322.160913-1-robert.foss@linaro.org>
+ <20211025103322.160913-2-robert.foss@linaro.org> <YYBOXQOXM8USks0G@robh.at.kernel.org>
+ <CAG3jFytkHi06uaP8RFaS9cma68S9oz_AcAtkMxCrPKGXBTtfsA@mail.gmail.com>
+In-Reply-To: <CAG3jFytkHi06uaP8RFaS9cma68S9oz_AcAtkMxCrPKGXBTtfsA@mail.gmail.com>
+From:   Rob Herring <robh@kernel.org>
+Date:   Tue, 2 Nov 2021 09:18:14 -0500
+X-Gmail-Original-Message-ID: <CAL_Jsq+u6hwj+hzj54KCWNG4u=oOkysK9y_rTwJozmRiWBLNKA@mail.gmail.com>
+Message-ID: <CAL_Jsq+u6hwj+hzj54KCWNG4u=oOkysK9y_rTwJozmRiWBLNKA@mail.gmail.com>
+Subject: Re: [PATCH v1 2/2] media: dt-bindings: media: camss: Document
+ clock-lanes property
+To:     Robert Foss <robert.foss@linaro.org>
+Cc:     Todor Tomov <todor.too@gmail.com>,
+        "Gross, Andy" <agross@kernel.org>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Mark Brown <broonie@kernel.org>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>, Len Brown <lenb@kernel.org>,
-        ACPI Devel Maling List <linux-acpi@vger.kernel.org>,
-        Platform Driver <platform-driver-x86@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-i2c <linux-i2c@vger.kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Kate Hsuan <hpa@redhat.com>,
+        AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@somainline.org>,
         Linux Media Mailing List <linux-media@vger.kernel.org>,
-        linux-clk <linux-clk@vger.kernel.org>
+        linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+        devicetree@vger.kernel.org,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "Bryan O'Donoghue" <bryan.odonoghue@linaro.org>,
+        Andrey Konovalov <andrey.konovalov@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Nov 2, 2021 at 11:49 AM Hans de Goede <hdegoede@redhat.com> wrote:
+On Tue, Nov 2, 2021 at 6:49 AM Robert Foss <robert.foss@linaro.org> wrote:
 >
-> The intel_skl_int3472.ko module contains 2 separate drivers,
-> the int3472_discrete platform driver and the int3472_tps68470
-> I2C-driver.
+> On Mon, 1 Nov 2021 at 21:30, Rob Herring <robh@kernel.org> wrote:
+> >
+> > On Mon, Oct 25, 2021 at 12:33:22PM +0200, Robert Foss wrote:
+> > > The clock-lanes property corresponds to a hardware register field
+> > > that is required to be set, in order to enable the CSI clock signal.
+> > >
+> > > The physical lane of the clock signal is not programmable, but only
+> > > togglable On or Off, which what BIT(7) of the
+> > > CSIPHY_3PH_CMN_CSI_COMMON_CTRLn(5) register controls.
+> > >
+> > > Signed-off-by: Robert Foss <robert.foss@linaro.org>
+> > > ---
+> > >  .../devicetree/bindings/media/qcom,msm8996-camss.yaml        | 5 +++++
+> > >  .../devicetree/bindings/media/qcom,sdm660-camss.yaml         | 5 +++++
+> > >  .../devicetree/bindings/media/qcom,sdm845-camss.yaml         | 5 +++++
+> > >  3 files changed, 15 insertions(+)
+> > >
+> > > diff --git a/Documentation/devicetree/bindings/media/qcom,msm8996-camss.yaml b/Documentation/devicetree/bindings/media/qcom,msm8996-camss.yaml
+> > > index 38be41e932f0..d4da1fad12cf 100644
+> > > --- a/Documentation/devicetree/bindings/media/qcom,msm8996-camss.yaml
+> > > +++ b/Documentation/devicetree/bindings/media/qcom,msm8996-camss.yaml
+> > > @@ -106,6 +106,11 @@ properties:
+> > >
+> > >              properties:
+> > >                clock-lanes:
+> > > +                description:
+> > > +                  The index of the clock-lane is not programmable by
+> > > +                  the hardware, but is required to define a CSI port.
+> > > +                  Lane 7 reflects the hardware register field that enables
+> > > +                  the clock lane.
+> >
+> > If it is fixed, then it should not be required. Fix the required part.
+> >
+> > >                  items:
+> > >                    - const: 7
+> >
+> > I don't know how we let that in, but this should be the lane number.
+> > Each binding can't be making up its own interpretation.
 >
-> These 2 drivers contain very little shared code, only
-> skl_int3472_get_acpi_buffer() and skl_int3472_fill_cldb() are
-> shared.
->
-> Split the module into 2 drivers, linking the little shared code
-> directly into both.
->
-> This will allow us to add soft-module dependencies for the
-> tps68470 clk, gpio and regulator drivers to the new
-> intel_skl_int3472_tps68470.ko to help with probe ordering issues
-> without causing these modules to get loaded on boards which only
-> use the int3472_discrete platform driver.
->
-> While at it also rename the .c and .h files to remove the
-> cumbersome intel_skl_int3472_ prefix.
+> If the clock lane number isn't programmable, can clock-lanes be omitted?
 
-...
+Yes, that would be the correct thing to do.
 
-> +union acpi_object *skl_int3472_get_acpi_buffer(struct acpi_device *adev, char *id)
-> +{
-> +       struct acpi_buffer buffer = { ACPI_ALLOCATE_BUFFER, NULL };
-> +       acpi_handle handle = adev->handle;
-> +       union acpi_object *obj;
-> +       acpi_status status;
-> +
-> +       status = acpi_evaluate_object(handle, id, NULL, &buffer);
-> +       if (ACPI_FAILURE(status))
-> +               return ERR_PTR(-ENODEV);
-> +
-> +       obj = buffer.pointer;
-> +       if (!obj)
-> +               return ERR_PTR(-ENODEV);
-> +
-> +       if (obj->type != ACPI_TYPE_BUFFER) {
-> +               acpi_handle_err(handle, "%s object is not an ACPI buffer\n", id);
-
-> +               kfree(obj);
-
-I'm wondering if we should use more of the ACPI_FREE() calls as
-opposed to ACPI_ALLOCATE_BUFFER. Ditto for all such cases.
-
-> +               return ERR_PTR(-EINVAL);
-> +       }
-> +
-> +       return obj;
-> +}
-
--- 
-With Best Regards,
-Andy Shevchenko
+Rob
