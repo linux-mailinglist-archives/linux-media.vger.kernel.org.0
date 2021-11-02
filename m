@@ -2,80 +2,81 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 191CF442753
-	for <lists+linux-media@lfdr.de>; Tue,  2 Nov 2021 07:54:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 106624427FB
+	for <lists+linux-media@lfdr.de>; Tue,  2 Nov 2021 08:14:00 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229799AbhKBG5T (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 2 Nov 2021 02:57:19 -0400
-Received: from mail.kernel.org ([198.145.29.99]:53642 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229505AbhKBG5S (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Tue, 2 Nov 2021 02:57:18 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 7266560F58;
-        Tue,  2 Nov 2021 06:54:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1635836084;
-        bh=4Hivgiy714oTIsz9VsX8ACzEnLl+2pVgbQlZi2tljEM=;
-        h=From:To:Cc:Subject:Date:From;
-        b=YpzQGVlwJA2B2PgR7pBCo+JLvRS3+zUHmpxiWGFQo5bTkvHjetAzfkHylO8mTVmS1
-         DKHgFdTs20uZ7Q3u4PnqRARRMuFBpKIlazeEuI05kgiQ//u6rEGvPPjiv0mX5B12Pl
-         u5j/2uwRuo2Uz0EKwC3HI71OgaywOC8XpuprojLxdEaFmW0pGHHujeRZKddQBW6fcx
-         xzl8lFuW7BKv2u2Fyx5+mdStr44l2w+mAnjsUTY0V6qj1tolpUC+BsBZRtos3mN5X4
-         JHZrygrOUDzwKwavlZb5NY6au6I6A6nUfyPB80r/wW/XiC5vcnTgFyVdJUTVlu/f/v
-         NYfqpY8eg3weg==
-Received: by mail.kernel.org with local (Exim 4.94.2)
-        (envelope-from <mchehab@kernel.org>)
-        id 1mhngw-004TUF-8Z; Tue, 02 Nov 2021 06:54:42 +0000
-From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc:     linuxarm@huawei.com, mauro.chehab@huawei.com,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Aditya Srivastava <yashsri421@gmail.com>,
-        Aline Santana Cordeiro <alinesantanacordeiro@gmail.com>,
-        Baokun Li <libaokun1@huawei.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Kaixu Xia <kaixuxia@tencent.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-staging@lists.linux.dev,
-        Andy Shevchenko <andy.shevchenko@gmail.com>
-Subject: [PATCH] media: atomisp: add a default case at __get_frame_info()
-Date:   Tue,  2 Nov 2021 06:54:41 +0000
-Message-Id: <175426fbef213fe76e3bdd60a64ee03f2a0dd3af.1635836077.git.mchehab+huawei@kernel.org>
-X-Mailer: git-send-email 2.31.1
+        id S231538AbhKBHQd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 2 Nov 2021 03:16:33 -0400
+Received: from twspam01.aspeedtech.com ([211.20.114.71]:29097 "EHLO
+        twspam01.aspeedtech.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231303AbhKBHQY (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 2 Nov 2021 03:16:24 -0400
+Received: from mail.aspeedtech.com ([192.168.0.24])
+        by twspam01.aspeedtech.com with ESMTP id 1A26oHrr050484;
+        Tue, 2 Nov 2021 14:50:17 +0800 (GMT-8)
+        (envelope-from jammy_huang@aspeedtech.com)
+Received: from JammyHuang-PC.aspeed.com (192.168.2.115) by TWMBX02.aspeed.com
+ (192.168.0.24) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Tue, 2 Nov
+ 2021 15:13:04 +0800
+From:   Jammy Huang <jammy_huang@aspeedtech.com>
+To:     <eajames@linux.ibm.com>, <mchehab@kernel.org>, <joel@jms.id.au>,
+        <andrew@aj.id.au>, <linux-media@vger.kernel.org>,
+        <openbmc@lists.ozlabs.org>, <linux-arm-kernel@lists.infradead.org>,
+        <linux-aspeed@lists.ozlabs.org>, <linux-kernel@vger.kernel.org>
+Subject: [PATCH] media: aspeed: fix mode-detect always timeout at 2nd run
+Date:   Tue, 2 Nov 2021 15:13:37 +0800
+Message-ID: <20211102071337.5983-1-jammy_huang@aspeedtech.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
-To:     unlisted-recipients:; (no To-header on input)
+Content-Transfer-Encoding: 7BIT
+Content-Type:   text/plain; charset=US-ASCII
+X-Originating-IP: [192.168.2.115]
+X-ClientProxiedBy: TWMBX02.aspeed.com (192.168.0.24) To TWMBX02.aspeed.com
+ (192.168.0.24)
+X-DNSRBL: 
+X-MAIL: twspam01.aspeedtech.com 1A26oHrr050484
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The switch() logic there misses a break and a default case.
-That makes it more prone to problems as the code change.
+aspeed_video_get_resolution() will try to do res-detect again if the
+timing got in last try is invalid. But it will always timeout because
+VE_SEQ_CTRL_TRIG_MODE_DET only cleared after 1st mode-detect.
 
-Suggested-by: Andy Shevchenko <andy.shevchenko@gmail.com>
-Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To fix the problem, just clear VE_SEQ_CTRL_TRIG_MODE_DET before set in
+aspeed_video_enable_mode_detect().
+
+Signed-off-by: Jammy Huang <jammy_huang@aspeedtech.com>
 ---
- drivers/staging/media/atomisp/pci/atomisp_compat_css20.c | 2 ++
- 1 file changed, 2 insertions(+)
+ drivers/media/platform/aspeed-video.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/staging/media/atomisp/pci/atomisp_compat_css20.c b/drivers/staging/media/atomisp/pci/atomisp_compat_css20.c
-index 1309855bb6c8..a8972b231e06 100644
---- a/drivers/staging/media/atomisp/pci/atomisp_compat_css20.c
-+++ b/drivers/staging/media/atomisp/pci/atomisp_compat_css20.c
-@@ -2691,9 +2691,11 @@ static int __get_frame_info(struct atomisp_sub_device *asd,
- 		*info = p_info.output_info[1];
- 		dev_dbg(isp->dev, "getting second main frame info.\n");
- 		break;
-+	default:
- 	case ATOMISP_CSS_RAW_FRAME:
- 		*info = p_info.raw_output_info;
- 		dev_dbg(isp->dev, "getting raw frame info.\n");
-+		break;
- 	}
- 	dev_dbg(isp->dev, "get frame info: w=%d, h=%d, num_invalid_frames %d.\n",
- 		info->res.width, info->res.height, p_info.num_invalid_frames);
+diff --git a/drivers/media/platform/aspeed-video.c b/drivers/media/platform/aspeed-video.c
+index cd2b71c81e31..b470f4b68aa0 100644
+--- a/drivers/media/platform/aspeed-video.c
++++ b/drivers/media/platform/aspeed-video.c
+@@ -611,6 +611,10 @@ static void aspeed_video_enable_mode_detect(struct aspeed_video *video)
+ 	aspeed_video_update(video, VE_INTERRUPT_CTRL, 0,
+ 			    VE_INTERRUPT_MODE_DETECT);
+ 
++	/* Disable mode detect in order to re-trigger */
++	aspeed_video_update(video, VE_SEQ_CTRL,
++			    VE_SEQ_CTRL_TRIG_MODE_DET, 0);
++
+ 	/* Trigger mode detect */
+ 	aspeed_video_update(video, VE_SEQ_CTRL, 0, VE_SEQ_CTRL_TRIG_MODE_DET);
+ }
+@@ -930,10 +934,6 @@ static void aspeed_video_get_resolution(struct aspeed_video *video)
+ 			return;
+ 		}
+ 
+-		/* Disable mode detect in order to re-trigger */
+-		aspeed_video_update(video, VE_SEQ_CTRL,
+-				    VE_SEQ_CTRL_TRIG_MODE_DET, 0);
+-
+ 		aspeed_video_check_and_set_polarity(video);
+ 
+ 		aspeed_video_enable_mode_detect(video);
 -- 
-2.31.1
+2.25.1
 
