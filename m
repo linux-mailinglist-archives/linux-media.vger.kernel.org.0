@@ -2,89 +2,80 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A7E29442751
-	for <lists+linux-media@lfdr.de>; Tue,  2 Nov 2021 07:54:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 191CF442753
+	for <lists+linux-media@lfdr.de>; Tue,  2 Nov 2021 07:54:47 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229720AbhKBG45 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 2 Nov 2021 02:56:57 -0400
-Received: from mail.kernel.org ([198.145.29.99]:53226 "EHLO mail.kernel.org"
+        id S229799AbhKBG5T (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 2 Nov 2021 02:57:19 -0400
+Received: from mail.kernel.org ([198.145.29.99]:53642 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229505AbhKBG45 (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Tue, 2 Nov 2021 02:56:57 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 57B1060F02;
-        Tue,  2 Nov 2021 06:54:18 +0000 (UTC)
+        id S229505AbhKBG5S (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 2 Nov 2021 02:57:18 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 7266560F58;
+        Tue,  2 Nov 2021 06:54:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1635836062;
-        bh=MXDbfFaaDJHpu2fQW7mE38hxDHiU6lviz6OHVDynVVg=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=Rgc9UY96yt4SchEXJwDqNCsWe6HAlJLeXc7oLAxhK2XnjbxQKKWz6KlAoiShLudn5
-         nZXRXhksi1KlWR40yp3/hTtd/CA9cxCNq983fYoGOemnDMttMYvta/PGPVMZv6bGny
-         WdAqbSRHmPStwOnOQagHvCML/jVn0UDT2TjdyrOX+CkeSpgdYEFQ7hq2jdTTeMKn7A
-         SCP8FWA/m8mKDP9YGoS/4KiMb/A4vZ739q4+E7xjONKw5RVm8ItwTtpA1rT7rlgDFX
-         66dRbXrjW7ASvM3aSZFOBjIIA/1d0kSAdq7Bq5OIbZbfxzj146KXpIu3jXA4xH+KqZ
-         Y0bg6rBcuUWRg==
-Date:   Tue, 2 Nov 2021 06:54:15 +0000
+        s=k20201202; t=1635836084;
+        bh=4Hivgiy714oTIsz9VsX8ACzEnLl+2pVgbQlZi2tljEM=;
+        h=From:To:Cc:Subject:Date:From;
+        b=YpzQGVlwJA2B2PgR7pBCo+JLvRS3+zUHmpxiWGFQo5bTkvHjetAzfkHylO8mTVmS1
+         DKHgFdTs20uZ7Q3u4PnqRARRMuFBpKIlazeEuI05kgiQ//u6rEGvPPjiv0mX5B12Pl
+         u5j/2uwRuo2Uz0EKwC3HI71OgaywOC8XpuprojLxdEaFmW0pGHHujeRZKddQBW6fcx
+         xzl8lFuW7BKv2u2Fyx5+mdStr44l2w+mAnjsUTY0V6qj1tolpUC+BsBZRtos3mN5X4
+         JHZrygrOUDzwKwavlZb5NY6au6I6A6nUfyPB80r/wW/XiC5vcnTgFyVdJUTVlu/f/v
+         NYfqpY8eg3weg==
+Received: by mail.kernel.org with local (Exim 4.94.2)
+        (envelope-from <mchehab@kernel.org>)
+        id 1mhngw-004TUF-8Z; Tue, 02 Nov 2021 06:54:42 +0000
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To:     Andy Shevchenko <andy.shevchenko@gmail.com>
-Cc:     Linuxarm <linuxarm@huawei.com>, mauro.chehab@huawei.com,
+Cc:     linuxarm@huawei.com, mauro.chehab@huawei.com,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         Aditya Srivastava <yashsri421@gmail.com>,
-        Alex Dewar <alex.dewar90@gmail.com>,
         Aline Santana Cordeiro <alinesantanacordeiro@gmail.com>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Arnd Bergmann <arnd@arndb.de>,
         Baokun Li <libaokun1@huawei.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
         Kaixu Xia <kaixuxia@tencent.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-        Tsuchiya Yuto <kitakar@gmail.com>,
-        Yang Li <abaci-bugfix@linux.alibaba.com>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        linux-staging@lists.linux.dev
-Subject: Re: [PATCH 1/2] media: atomisp: better describe get_frame_info
- issues
-Message-ID: <20211102065415.4850a80b@sal.lan>
-In-Reply-To: <CAHp75VdaTEOaGhA43O1==Deg_0Ej_ZzOp8AX5NKZB5zegN42Pg@mail.gmail.com>
-References: <750e50daa3ed65a7eb060cb0eb5cfc60dc9386be.1635497370.git.mchehab+huawei@kernel.org>
-        <CAHp75VdaTEOaGhA43O1==Deg_0Ej_ZzOp8AX5NKZB5zegN42Pg@mail.gmail.com>
-X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-staging@lists.linux.dev,
+        Andy Shevchenko <andy.shevchenko@gmail.com>
+Subject: [PATCH] media: atomisp: add a default case at __get_frame_info()
+Date:   Tue,  2 Nov 2021 06:54:41 +0000
+Message-Id: <175426fbef213fe76e3bdd60a64ee03f2a0dd3af.1635836077.git.mchehab+huawei@kernel.org>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
+To:     unlisted-recipients:; (no To-header on input)
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Em Fri, 29 Oct 2021 12:01:57 +0300
-Andy Shevchenko <andy.shevchenko@gmail.com> escreveu:
+The switch() logic there misses a break and a default case.
+That makes it more prone to problems as the code change.
 
-> > +       switch (type) {
-> > +       case ATOMISP_CSS_VF_FRAME:
-> > +               *info = p_info.vf_output_info[0];
-> > +               dev_dbg(isp->dev, "getting vf frame info.\n");
-> > +               break;
-> > +       case ATOMISP_CSS_SECOND_VF_FRAME:
-> > +               *info = p_info.vf_output_info[1];
-> > +               dev_dbg(isp->dev, "getting second vf frame info.\n");
-> > +               break;
-> > +       case ATOMISP_CSS_OUTPUT_FRAME:
-> > +               *info = p_info.output_info[0];
-> > +               dev_dbg(isp->dev, "getting main frame info.\n");
-> > +               break;
-> > +       case ATOMISP_CSS_SECOND_OUTPUT_FRAME:
-> > +               *info = p_info.output_info[1];
-> > +               dev_dbg(isp->dev, "getting second main frame info.\n");
-> > +               break;
-> > +       case ATOMISP_CSS_RAW_FRAME:
-> > +               *info = p_info.raw_output_info;
-> > +               dev_dbg(isp->dev, "getting raw frame info.\n");  
-> 
-> Can we get break; here followed by default case?
+Suggested-by: Andy Shevchenko <andy.shevchenko@gmail.com>
+Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+---
+ drivers/staging/media/atomisp/pci/atomisp_compat_css20.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-Surely. I'll do such change on a separate patch.
+diff --git a/drivers/staging/media/atomisp/pci/atomisp_compat_css20.c b/drivers/staging/media/atomisp/pci/atomisp_compat_css20.c
+index 1309855bb6c8..a8972b231e06 100644
+--- a/drivers/staging/media/atomisp/pci/atomisp_compat_css20.c
++++ b/drivers/staging/media/atomisp/pci/atomisp_compat_css20.c
+@@ -2691,9 +2691,11 @@ static int __get_frame_info(struct atomisp_sub_device *asd,
+ 		*info = p_info.output_info[1];
+ 		dev_dbg(isp->dev, "getting second main frame info.\n");
+ 		break;
++	default:
+ 	case ATOMISP_CSS_RAW_FRAME:
+ 		*info = p_info.raw_output_info;
+ 		dev_dbg(isp->dev, "getting raw frame info.\n");
++		break;
+ 	}
+ 	dev_dbg(isp->dev, "get frame info: w=%d, h=%d, num_invalid_frames %d.\n",
+ 		info->res.width, info->res.height, p_info.num_invalid_frames);
+-- 
+2.31.1
 
-Regards,
-Mauro
