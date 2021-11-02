@@ -2,109 +2,111 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 46EFF4438B1
-	for <lists+linux-media@lfdr.de>; Tue,  2 Nov 2021 23:44:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 411044438C4
+	for <lists+linux-media@lfdr.de>; Tue,  2 Nov 2021 23:52:56 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231240AbhKBWqu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 2 Nov 2021 18:46:50 -0400
-Received: from mail.kernel.org ([198.145.29.99]:54012 "EHLO mail.kernel.org"
+        id S230258AbhKBWz3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 2 Nov 2021 18:55:29 -0400
+Received: from mail.kernel.org ([198.145.29.99]:59538 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230248AbhKBWqu (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Tue, 2 Nov 2021 18:46:50 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 85B5161058;
-        Tue,  2 Nov 2021 22:44:14 +0000 (UTC)
+        id S229685AbhKBWz3 (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 2 Nov 2021 18:55:29 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 40DBB6044F;
+        Tue,  2 Nov 2021 22:52:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1635893054;
-        bh=xlJTg+g45NA5Jmaqfo0H1zJ7M0aSNbSpGn8R3qo/alA=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=J3E8y0mMMimFVMbrPwTI/vuLIbS5uGyGpj0wTtaionlsJrkEZvjuqdEcZYJCbGoqC
-         VnR72U8fFhgoSs3c6iwvcNl7Q6Lk24uo1cQLeJHNL2VqBjUlIbUSTuzokk+3KdooQG
-         9AdOmz6ri1V1FKeE93/vitgRtGKkBdyI3un1SXq/UYn46bTcCEOg00dUZAkq/6ONZB
-         VcgtqN/485DnHb4EfdiB3y4FMFkK1RZ0Z/XMYcffQv/QzhM6Fh67KOU7rgTHpmf4Fc
-         y41ieGpHxDUZM2ti0JC3T0sCeTeK6TUdOYr5ZbzOI6vGPnnQYi+jJCaMKEFro/AUI/
-         1HVR4qyzYonKg==
-Received: by mail-ed1-f44.google.com with SMTP id o8so2701547edc.3;
-        Tue, 02 Nov 2021 15:44:14 -0700 (PDT)
-X-Gm-Message-State: AOAM530htOJ4PyPsvP7U6nbz9frq7QZ0HDWigrLJ1gq/cwnx4Gn/mBXR
-        ukjiSjNI5NGU59EW6V0e1poN3CGnHv1krANOJw==
-X-Google-Smtp-Source: ABdhPJwWkcHLupHM+eSOeq+xd9impIHRTT3qkTjxiKN/kL5YOlS59jRuQo/tHhUYUb2vMifYDtwGGYH3OoSmTPh7gC0=
-X-Received: by 2002:a17:907:16ac:: with SMTP id hc44mr26056561ejc.363.1635893052996;
- Tue, 02 Nov 2021 15:44:12 -0700 (PDT)
-MIME-Version: 1.0
-References: <097d8602906e9db279728330c6cf2837be184704.1635338663.git.geert+renesas@glider.be>
- <YYBdzwshhM5fmsEE@robh.at.kernel.org> <CAMuHMdUvy9oVCv+3HJ_dZr6Rm4iP8FPwTETxq+j2ja_BR1=c5A@mail.gmail.com>
-In-Reply-To: <CAMuHMdUvy9oVCv+3HJ_dZr6Rm4iP8FPwTETxq+j2ja_BR1=c5A@mail.gmail.com>
-From:   Rob Herring <robh@kernel.org>
-Date:   Tue, 2 Nov 2021 17:44:00 -0500
-X-Gmail-Original-Message-ID: <CAL_JsqJTMORDCAb=9nuSaKiHgVgw6wb4jQw7ppMmuru-MZ1uuQ@mail.gmail.com>
-Message-ID: <CAL_JsqJTMORDCAb=9nuSaKiHgVgw6wb4jQw7ppMmuru-MZ1uuQ@mail.gmail.com>
-Subject: Re: [PATCH] bindings: media: venus: Drop bogus maxItems for power-domain-names
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Dikshita Agarwal <dikshita@codeaurora.org>,
-        Stanimir Varbanov <stanimir.varbanov@linaro.org>,
-        Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+        s=k20201202; t=1635893573;
+        bh=cTstKgx9m0Sh1q6mCiNjCpoALRcGk8ifU4/m88M8cv0=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=kMLW3mbMG6pyMU10wApwwn7boni9kbp57SJkk9BNGgTbRqONhOKuWKXvCx5koC2zb
+         9HvNwjmFE0DLzx5f7UarSFvBTm8OxvU9IPmxYPSaJIGR+uHszclrrmq9p4mQfuGPFO
+         Q5a1S1Y8RRYTU9iVi/0kp6VmYNEdAQTfErCBAvQrjkYgnaXnCE52GFhjWv5ypQrxrT
+         sVGcQFGvn/kZ8CO2Pc4DCA2nBMxGB/atSRNcGa5ilTScBjJRlbTtJkSK7fzrSrNR3t
+         gP/o1PPUKkRJJpJtFCj8Y7TxxQouYiTxaX4uj7CF6aSUDgaZCz/01C8O3tIOpcRQ93
+         6bgJ8ebt8Ae9A==
+Date:   Tue, 2 Nov 2021 22:52:45 +0000
+From:   Mauro Carvalho Chehab <mchehab@kernel.org>
+To:     Andy Shevchenko <andy.shevchenko@gmail.com>
+Cc:     Dan Carpenter <dan.carpenter@oracle.com>,
+        Tsuchiya Yuto <kitakar@gmail.com>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Patrik Gfeller <patrik.gfeller@gmail.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Kaixu Xia <kaixuxia@tencent.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Yang Li <abaci-bugfix@linux.alibaba.com>,
+        Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+        Alex Dewar <alex.dewar90@gmail.com>,
+        Aline Santana Cordeiro <alinesantanacordeiro@gmail.com>,
+        Arnd Bergmann <arnd@arndb.de>, Alan <alan@linux.intel.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Ingo Molnar <mingo@kernel.org>,
         Linux Media Mailing List <linux-media@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
+        linux-staging@lists.linux.dev,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Subject: Re: [BUG/RFC PATCH 3/5] [BUG][RFC] media: atomisp: pci: add NULL
+ check for asd obtained from atomisp_video_pipe
+Message-ID: <20211102225245.0cd3bd20@sal.lan>
+In-Reply-To: <YYFd/Zb4aT3Qfjpi@smile.fi.intel.com>
+References: <20211017162337.44860-1-kitakar@gmail.com>
+        <20211017162337.44860-4-kitakar@gmail.com>
+        <20211102130245.GE2794@kadam>
+        <CAHp75VeThcCywYZsrUNYSA3Yc3MjJwfiCBCGep1DpWFFUg71cw@mail.gmail.com>
+        <CAHp75VdnvxCWYrdrBqtSDP0A2PCT6dYvHAhszY9iH9ooWKT49g@mail.gmail.com>
+        <20211102150523.GJ2794@kadam>
+        <YYFd/Zb4aT3Qfjpi@smile.fi.intel.com>
+X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Nov 2, 2021 at 3:42 AM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
->
-> Hi Rob,
->
-> On Mon, Nov 1, 2021 at 10:36 PM Rob Herring <robh@kernel.org> wrote:
-> > On Wed, Oct 27, 2021 at 02:45:30PM +0200, Geert Uytterhoeven wrote:
-> > > make dt_binding_check:
-> >
-> > I'd say it's redundant rather than bogus.
->
-> I wrote "bogus", as the "redundant" ones typically give:
->
->                 hint: "maxItems" is not needed with an "items" list
->
-> And I didn't get that here?
+Em Tue, 2 Nov 2021 17:49:17 +0200
+Andy Shevchenko <andy.shevchenko@gmail.com> escreveu:
 
-Any schema file with an error shows up twice. First there's all the
-specific errors with details. Then there's what you reference which is
-all the schemas that we're skipping. If you set DT_SCHEMA_FILES now,
-you should only see the second case for other schema files.
+> On Tue, Nov 02, 2021 at 06:05:23PM +0300, Dan Carpenter wrote:
+> > On Tue, Nov 02, 2021 at 04:45:20PM +0200, Andy Shevchenko wrote:  
+> > > On Tue, Nov 2, 2021 at 4:44 PM Andy Shevchenko
+> > > <andy.shevchenko@gmail.com> wrote:  
+> > > > On Tue, Nov 2, 2021 at 3:10 PM Dan Carpenter <dan.carpenter@oracle.com> wrote:  
+> > > > > On Mon, Oct 18, 2021 at 01:23:34AM +0900, Tsuchiya Yuto wrote:  
+> 
+> ...
+> 
+> > > > > Run your patches through scripts/checkpatch.pl.  
+> > > >
+> > > > While it's good advice, we are dealing with quite a bad code under
+> > > > staging, so the requirements may be relaxed.  
 
-So it's probably better to reference the actual error:
+FYI, I fixed the checkpatch issue when I applied at media_stage:
 
-Documentation/devicetree/bindings/media/qcom,sc7280-venus.yaml:
-properties:power-domain-names: {'minItems': 2, 'maxItems': 3, 'items':
-[{'const': 'venus'}, {'const': 'vcodec0'}, {'const': 'cx'}]} should
-not be valid under {'required': ['maxItems']}
- hint: "maxItems" is not needed with an "items" list
- from schema $id: http://devicetree.org/meta-schemas/items.yaml#
+	https://git.linuxtv.org/media_stage.git/commit/?id=8a5457b7c7c3b6aa1789b18bbaff9b6a99d74caa
 
-> > >     Documentation/devicetree/bindings/media/qcom,sc7280-venus.yaml: ignoring, error in schema: properties: power-domain-names
-> > >     warning: no schema found in file: Documentation/devicetree/bindings/media/qcom,sc7280-venus.yaml
-> > >
-> > > Fixes: e48b839b6699c226 ("media: dt-bindings: media: venus: Add sc7280 dt schema")
-> > > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> > > ---
-> > >  Documentation/devicetree/bindings/media/qcom,sc7280-venus.yaml | 1 -
-> > >  1 file changed, 1 deletion(-)
-> >
-> > Acked-by: Rob Herring <robh@kernel.org>
->
-> Thanks!
->
-> Gr{oetje,eeting}s,
->
->                         Geert
->
-> --
-> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
->
-> In personal conversations with technical people, I call myself a hacker. But
-> when I'm talking to journalists I just say "programmer" or something like that.
->                                 -- Linus Torvalds
+Ok, I could have instead replied to Tsuchiya instead, but, as Andy
+pointed, those patches solved longstanding issues at the atomisp
+driver. So, I just went ahead and cleaned up the issue ;-)
+
+> > > 
+> > > To be more clear: the goal now is getting it _working_. That's why
+> > > this kind of noise is not important _for now_.  
+> > 
+> > If it's a new driver, then we accept all sorts of garbage, that's true.  
+> 
+> It was in kernel for a while, but never worked (hence anyhow tested)
+> up to the recent effort made by Tsuchiya.
+> 
+> In any case, as I said, we shall run checkpatch in the future when
+> we have something working.
+
+Yeah, agreed. The best is to run checkpatch and save some time from
+the maintainers.
+
+In any case, as Andy pointed out, this driver still requires major
+cleanups everywhere. Yet, our current focus is to make it work with
+standard V4L2 apps.
+
+Regards,
+Mauro
