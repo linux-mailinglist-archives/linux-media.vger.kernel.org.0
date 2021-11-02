@@ -2,157 +2,116 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D6453443109
-	for <lists+linux-media@lfdr.de>; Tue,  2 Nov 2021 15:59:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0C44444311A
+	for <lists+linux-media@lfdr.de>; Tue,  2 Nov 2021 16:00:12 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233664AbhKBPCW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 2 Nov 2021 11:02:22 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:25285 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S233660AbhKBPCU (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Tue, 2 Nov 2021 11:02:20 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1635865185;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=s2qlvsp2B/ajzGnaxNanhBYqk1Fo8lMuMvQWyew1YE4=;
-        b=R5MDtdtCnUXB4MhBXt08sdLBchpzq9Jqrl98/HHZ0PkgCpUWJ9HkK5q98I96+Z39SpzWER
-        VGlAETlFqnqWx2ao+NYjTQrVUXzlaVxXSscdMvDFhr+YMrlhvq9mLZ7wJFPTLgBPdUap/i
-        1ktqiv5Wmvbr6hgXrhuzeqeNskUDPK0=
-Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
- [209.85.208.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-172-KA5umxX7M-Git46trd26Vg-1; Tue, 02 Nov 2021 10:59:44 -0400
-X-MC-Unique: KA5umxX7M-Git46trd26Vg-1
-Received: by mail-ed1-f70.google.com with SMTP id y12-20020a056402270c00b003e28de6e995so5624831edd.11
-        for <linux-media@vger.kernel.org>; Tue, 02 Nov 2021 07:59:44 -0700 (PDT)
+        id S232986AbhKBPCn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 2 Nov 2021 11:02:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48986 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S234448AbhKBPCh (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 2 Nov 2021 11:02:37 -0400
+Received: from mail-lj1-x231.google.com (mail-lj1-x231.google.com [IPv6:2a00:1450:4864:20::231])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 63C6EC0613B9
+        for <linux-media@vger.kernel.org>; Tue,  2 Nov 2021 08:00:02 -0700 (PDT)
+Received: by mail-lj1-x231.google.com with SMTP id g3so4285334ljm.8
+        for <linux-media@vger.kernel.org>; Tue, 02 Nov 2021 08:00:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ragnatech-se.20210112.gappssmtp.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=GL9y3QxOGALzOsukPP8rl92QF0DvSrOPcH1BSiTiCGM=;
+        b=jovuFuSlZoKnJzt4a74kci9wdiYWHBk+RIjP8RjPFQR0rNyrT8DVBk7wfk0DGYc/zA
+         VliTRYHtqbFFBEsCffeM1ZACt75I3o4ERsLTb/UlyJBZ7i20exAQiWEuWabeNVhzka6+
+         BRVevyZhoUmkW7wxbrLLrOoUNxTmih7sEUj1+88WW+0BNbxMItZkIgBjxItBoUJaeTU9
+         SS/CueEMxO3NrnLwxzaeIg2lCNSP1+w5J3G5HN+ClcZ7+ACBu4YNB0xSfad8LKIZANvs
+         RIa69Rgy02ocdoVXSMP9Q+3I+vAf4HTGhZlavUrfPl5liBmOETpwoHwJt3vXEa7YEdMQ
+         8lJA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=s2qlvsp2B/ajzGnaxNanhBYqk1Fo8lMuMvQWyew1YE4=;
-        b=jsyqrAoFYsA9RQwChQHP2lcswEFWEYserHsVU5OBn4IwEKedgVkUdTO7LCaHIFU98z
-         Cx+1fs84y6yphzABrmjSTyK7TAHEnVABG0uU7ujVPGBg7XpkCRwnA6n72ngIWdedC36c
-         HG2Mhhp91//fpL+vkZSPJPL2TsEEuyvVFgO6PGGqYWvV0NLXYOUl86YIfOvFrdo+jbBi
-         lWn1zobjHRzFFR4lGK7TwpQ4cWwz8ssQi5rUsxaqMjtoAjqnCb9/LDPeTU/G5rwXUENv
-         TAjgmi8xmNQuwgpRdTBjhBNOMf5Bm4pljHjrVTnD+xZC/W+Fgcu0zw+zKljDp2cUQW9s
-         IKlg==
-X-Gm-Message-State: AOAM5313AbgEO/c81360/r/DP5qmmTL3RugQJs5YnJVQr83FYv2KtNuj
-        40dg9zs8OlXB/7xF9fZiXxP62kmr4JFIWbLHIUo224rqX00lRqf5sUtwkl+Cd7J/zevmla1xtX/
-        gdC38HlFTXxyR389+tFASTDY=
-X-Received: by 2002:a17:906:c283:: with SMTP id r3mr25294513ejz.138.1635865183353;
-        Tue, 02 Nov 2021 07:59:43 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxKFQbu2utF1Nmvh8J5nGyiXWxLqQwUpuqFEbRaoqq44byXxZI0wBMOszsSdo8mNls2SFQ1cw==
-X-Received: by 2002:a17:906:c283:: with SMTP id r3mr25294449ejz.138.1635865183026;
-        Tue, 02 Nov 2021 07:59:43 -0700 (PDT)
-Received: from ?IPV6:2001:1c00:c1e:bf00:1054:9d19:e0f0:8214? (2001-1c00-0c1e-bf00-1054-9d19-e0f0-8214.cable.dynamic.v6.ziggo.nl. [2001:1c00:c1e:bf00:1054:9d19:e0f0:8214])
-        by smtp.gmail.com with ESMTPSA id bm2sm9241694edb.39.2021.11.02.07.59.42
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 02 Nov 2021 07:59:42 -0700 (PDT)
-Message-ID: <1f4377bb-2902-05e9-95c7-ad924477b543@redhat.com>
-Date:   Tue, 2 Nov 2021 15:59:41 +0100
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=GL9y3QxOGALzOsukPP8rl92QF0DvSrOPcH1BSiTiCGM=;
+        b=YQDQ99YdKdi40X4mRRi0AMdpafIw5+twAB76yV314N9kbB+iXS6P0z0OBdGXIPAuYX
+         JTx2QzJz3a/j+9CqBlBfjjHTg9SLA8cZrCm4MlPA4YB9tjcJTS44BvsM0qa8GhUFO6Hw
+         XshbWDU40JKuxj+CUx5rXqwqvehEYIWOg0SWWIoi5OV+NfvvgslONvxuf0WDASiqqDyE
+         tD/dq2ku/WqbSSthYFtg79TazkVDDMiDr2YnTGai9HJy6FDq8duXihnp63kTUUMQJaqs
+         4j2nebndxnBiFZHs/ybx4o2wZLwhgZxg3RPmNRTG6Lm3QBIoz7BVWSFFSoU4dlkfrDZW
+         D2CQ==
+X-Gm-Message-State: AOAM5310SslWcyWOTXbmbQN0BSc7KyU363T0lp6VqmLpSk9wnxk1gf1G
+        tzSBOOnvnr6XMq8tBSbCYHrzfw==
+X-Google-Smtp-Source: ABdhPJx6r9H0NVbaSmeaYLRybp1iZt9Sv0vlRdUQDWAsowPW2u4/JtWPLS7fuflBJ4xp6jR/ASSFwQ==
+X-Received: by 2002:a2e:9b11:: with SMTP id u17mr24312455lji.237.1635865200410;
+        Tue, 02 Nov 2021 08:00:00 -0700 (PDT)
+Received: from localhost (h-46-59-88-219.A463.priv.bahnhof.se. [46.59.88.219])
+        by smtp.gmail.com with ESMTPSA id q17sm377420lfr.246.2021.11.02.07.59.59
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 02 Nov 2021 08:00:00 -0700 (PDT)
+Date:   Tue, 2 Nov 2021 15:59:59 +0100
+From:   Niklas =?iso-8859-1?Q?S=F6derlund?= 
+        <niklas.soderlund@ragnatech.se>
+To:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Cc:     sakari.ailus@iki.fi, linux-media@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH v2] media: i2c: max9286: Depend on VIDEO_V4L2
+Message-ID: <YYFSb/rkrgbwUR3U@oden.dyn.berto.se>
+References: <20211102110243.1510895-1-kieran.bingham+renesas@ideasonboard.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.0
-Subject: Re: [PATCH v5 10/11] platform/x86: int3472: Pass
- tps68470_regulator_platform_data to the tps68470-regulator MFD-cell
-Content-Language: en-US
-To:     Andy Shevchenko <andy.shevchenko@gmail.com>
-Cc:     "Rafael J . Wysocki" <rjw@rjwysocki.net>,
-        Mark Gross <markgross@kernel.org>,
-        Andy Shevchenko <andy@infradead.org>,
-        Wolfram Sang <wsa@the-dreams.de>,
-        Mika Westerberg <mika.westerberg@linux.intel.com>,
-        Daniel Scally <djrscally@gmail.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Mark Brown <broonie@kernel.org>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>, Len Brown <lenb@kernel.org>,
-        ACPI Devel Maling List <linux-acpi@vger.kernel.org>,
-        Platform Driver <platform-driver-x86@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-i2c <linux-i2c@vger.kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Kate Hsuan <hpa@redhat.com>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        linux-clk <linux-clk@vger.kernel.org>
-References: <20211102094907.31271-1-hdegoede@redhat.com>
- <20211102094907.31271-11-hdegoede@redhat.com>
- <CAHp75Vd-xY43H8jPOUqJp55Rq3Wuhsdzctfhqq300S0vAKTzpw@mail.gmail.com>
-From:   Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <CAHp75Vd-xY43H8jPOUqJp55Rq3Wuhsdzctfhqq300S0vAKTzpw@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20211102110243.1510895-1-kieran.bingham+renesas@ideasonboard.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi,
+Hi Kieran,
 
-On 11/2/21 15:34, Andy Shevchenko wrote:
-> On Tue, Nov 2, 2021 at 11:50 AM Hans de Goede <hdegoede@redhat.com> wrote:
->>
->> Pass tps68470_regulator_platform_data to the tps68470-regulator
->> MFD-cell, specifying the voltages of the various regulators and
->> tying the regulators to the sensor supplies so that sensors which use
->> the TPS68470 can find their regulators.
->>
->> Since the voltages and supply connections are board-specific, this
->> introduces a DMI matches int3472_tps68470_board_data struct which
->> contains the necessary per-board info.
->>
->> This per-board info also includes GPIO lookup information for the
->> sensor IO lines which may be connected to the tps68470 GPIOs.
-> 
-> ...
-> 
->> +               board_data = int3472_tps68470_get_board_data(dev_name(&client->dev));
->> +               if (!board_data) {
->> +                       dev_err(&client->dev, "No board-data found for this laptop/tablet model\n");
->> +                       return -ENODEV;
-> 
-> It's fine to use dev_err_probe() for known error codes.
-> 
->> +               }
-> 
-> ...
-> 
->> +               cells[1].platform_data = (void *)board_data->tps68470_regulator_pdata;
-> 
-> Do we need casting?
+Thanks for your work.
 
-Yes, the cast casts away a "const", the const is correct
-since the data only ever gets read by the regulator driver,
-but platform_data pointers are normally not const, so it
-is either the cast, or loose the const on the definition
-of the struct to which board_data->tps68470_regulator_pdata
-points...
-
-So not good choice here really, only chosing between bad
-options and I picked the lets do the cast "least worse"
-option (at least to me). I'm open to changing this.
-
-
-
-> ...
+On 2021-11-02 11:02:43 +0000, Kieran Bingham wrote:
+> The MAX9286 has not explicitly declared a dependency upon VIDEO_V4L2.
+> While this dependency has likely always been met by configurations
+> including it, the device does use V4L2 core, and should depend upon it.
 > 
->> +#include <linux/dmi.h>
->> +#include <linux/gpio/machine.h>
->> +#include <linux/platform_data/tps68470.h>
->> +#include <linux/regulator/machine.h>
+> Add VIDEO_V4L2 as a dependency to match other drivers and prevent
+> failures when compile testing.
 > 
-> string.h  for strcmp() ?
-> kernel.h for ARRAY_SIZE() ?
+> Signed-off-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
 
-Ack.
+Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
 
+> 
+> ---
+> v2:
+>  - Split VIDEO_V4L2 to it's own line
+> 
+> A bit of an RFC almost, as I haven't seen any failure on this, however
+> this does stand out as different to other drivers, and the recent
+> "max96712: Select VIDEO_V4L2" posting has shown that these deserialiser
+> drivers could find themselves being compile tested in a manner which
+> would other wise break.
+> 
+>  drivers/media/i2c/Kconfig | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/drivers/media/i2c/Kconfig b/drivers/media/i2c/Kconfig
+> index d6a5d4ca439a..e9cfedf561d3 100644
+> --- a/drivers/media/i2c/Kconfig
+> +++ b/drivers/media/i2c/Kconfig
+> @@ -469,6 +469,7 @@ config VIDEO_VPX3220
+>  config VIDEO_MAX9286
+>  	tristate "Maxim MAX9286 GMSL deserializer support"
+>  	depends on I2C && I2C_MUX
+> +	depends on VIDEO_V4L2
+>  	depends on OF_GPIO
+>  	select V4L2_FWNODE
+>  	select VIDEO_V4L2_SUBDEV_API
+> -- 
+> 2.30.2
+> 
+
+-- 
 Regards,
-
-Hans
-
-
+Niklas Söderlund
