@@ -2,181 +2,195 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A89B6442A60
-	for <lists+linux-media@lfdr.de>; Tue,  2 Nov 2021 10:26:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 37FE3442AB7
+	for <lists+linux-media@lfdr.de>; Tue,  2 Nov 2021 10:49:25 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231136AbhKBJ3V (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 2 Nov 2021 05:29:21 -0400
-Received: from mga03.intel.com ([134.134.136.65]:1670 "EHLO mga03.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230468AbhKBJ3U (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Tue, 2 Nov 2021 05:29:20 -0400
-X-IronPort-AV: E=McAfee;i="6200,9189,10155"; a="231173844"
-X-IronPort-AV: E=Sophos;i="5.87,202,1631602800"; 
-   d="scan'208";a="231173844"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Nov 2021 02:26:44 -0700
-X-IronPort-AV: E=Sophos;i="5.87,202,1631602800"; 
-   d="scan'208";a="638126437"
-Received: from paasikivi.fi.intel.com ([10.237.72.42])
-  by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Nov 2021 02:26:40 -0700
-Received: from paasikivi.fi.intel.com (localhost [127.0.0.1])
-        by paasikivi.fi.intel.com (Postfix) with SMTP id 3A87720180;
-        Tue,  2 Nov 2021 11:26:38 +0200 (EET)
-Date:   Tue, 2 Nov 2021 11:26:38 +0200
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Daniel Scally <djrscally@gmail.com>
-Cc:     Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
-        linux-media@vger.kernel.org, Yong Zhi <yong.zhi@intel.com>,
-        Bingbu Cao <bingbu.cao@intel.com>,
-        Tianshu Qiu <tian.shu.qiu@intel.com>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Hans de Goede <hdegoede@redhat.com>,
+        id S230484AbhKBJv5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 2 Nov 2021 05:51:57 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:36081 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S229783AbhKBJvy (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Tue, 2 Nov 2021 05:51:54 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1635846559;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=KVkhA/eHg41ZCf31Loe6OEIjMqSDbcOXOhrvxn4pOJQ=;
+        b=P4mowVIhfcX2HD/PFmo3m5FtwA/TU2idJNhrWcDrxw6ERRfIIxKWH6m5bhvg54oZKbKQDH
+        E95tTOxJCr9nw2L7XEjWhySGtEh+rXrwczu+PbVK6qaxi1kH0gCj9TQro3t/sLOl1BcN6L
+        M3GhnIxRq+zXqB31ARmaeXfpUGvMQvE=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-477-VBVYC6UNMxezgjdLgwsVbw-1; Tue, 02 Nov 2021 05:49:16 -0400
+X-MC-Unique: VBVYC6UNMxezgjdLgwsVbw-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com [10.5.11.14])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C47989F93E;
+        Tue,  2 Nov 2021 09:49:12 +0000 (UTC)
+Received: from x1.localdomain (unknown [10.39.195.91])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 6DBC45D9DC;
+        Tue,  2 Nov 2021 09:49:08 +0000 (UTC)
+From:   Hans de Goede <hdegoede@redhat.com>
+To:     "Rafael J . Wysocki" <rjw@rjwysocki.net>,
+        Mark Gross <markgross@kernel.org>,
+        Andy Shevchenko <andy@infradead.org>,
+        Wolfram Sang <wsa@the-dreams.de>,
+        Mika Westerberg <mika.westerberg@linux.intel.com>,
+        Daniel Scally <djrscally@gmail.com>,
         Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>
-Subject: Re: [PATCH v4 07/16] media: i2c: Add vblank control to ov8865
-Message-ID: <YYEETiG7kvRAT4Pc@paasikivi.fi.intel.com>
-References: <20211101001119.46056-1-djrscally@gmail.com>
- <20211101001119.46056-8-djrscally@gmail.com>
- <YX//lBBlskOv+37i@paasikivi.fi.intel.com>
- <fbf8f587-9532-d657-a030-0a84b14eaa49@gmail.com>
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Mark Brown <broonie@kernel.org>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>
+Cc:     Hans de Goede <hdegoede@redhat.com>, Len Brown <lenb@kernel.org>,
+        linux-acpi@vger.kernel.org, platform-driver-x86@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-i2c@vger.kernel.org,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Kate Hsuan <hpa@redhat.com>, linux-media@vger.kernel.org,
+        linux-clk@vger.kernel.org
+Subject: [PATCH v5 00/11] Add support for X86/ACPI camera sensor/PMIC setup with clk and regulator platform data
+Date:   Tue,  2 Nov 2021 10:48:56 +0100
+Message-Id: <20211102094907.31271-1-hdegoede@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <fbf8f587-9532-d657-a030-0a84b14eaa49@gmail.com>
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Daniel,
+Here is v5 of my patch-set adding support for camera sensor connected to a
+TPS68470 PMIC on x86/ACPI devices.
 
-On Mon, Nov 01, 2021 at 11:45:45PM +0000, Daniel Scally wrote:
-> Hi Sakari
-> 
-> On 01/11/2021 14:54, Sakari Ailus wrote:
-> > Hi Daniel,
-> >
-> > On Mon, Nov 01, 2021 at 12:11:10AM +0000, Daniel Scally wrote:
-> >> Add a V4L2_CID_VBLANK control to the ov8865 driver.
-> >>
-> >> Signed-off-by: Daniel Scally <djrscally@gmail.com>
-> >> ---
-> >>  drivers/media/i2c/ov8865.c | 34 ++++++++++++++++++++++++++++++++++
-> >>  1 file changed, 34 insertions(+)
-> >>
-> >> diff --git a/drivers/media/i2c/ov8865.c b/drivers/media/i2c/ov8865.c
-> >> index a832938c33b6..f741c0713ca4 100644
-> >> --- a/drivers/media/i2c/ov8865.c
-> >> +++ b/drivers/media/i2c/ov8865.c
-> >> @@ -183,6 +183,8 @@
-> >>  #define OV8865_VTS_H(v)				(((v) & GENMASK(11, 8)) >> 8)
-> >>  #define OV8865_VTS_L_REG			0x380f
-> >>  #define OV8865_VTS_L(v)				((v) & GENMASK(7, 0))
-> >> +#define OV8865_TIMING_MAX_VTS			0xffff
-> >> +#define OV8865_TIMING_MIN_VTS			0x04
-> >>  #define OV8865_OFFSET_X_H_REG			0x3810
-> >>  #define OV8865_OFFSET_X_H(v)			(((v) & GENMASK(15, 8)) >> 8)
-> >>  #define OV8865_OFFSET_X_L_REG			0x3811
-> >> @@ -675,6 +677,7 @@ struct ov8865_state {
-> >>  struct ov8865_ctrls {
-> >>  	struct v4l2_ctrl *link_freq;
-> >>  	struct v4l2_ctrl *pixel_rate;
-> >> +	struct v4l2_ctrl *vblank;
-> >>  
-> >>  	struct v4l2_ctrl_handler handler;
-> >>  };
-> >> @@ -2225,6 +2228,20 @@ static int ov8865_test_pattern_configure(struct ov8865_sensor *sensor,
-> >>  			    ov8865_test_pattern_bits[index]);
-> >>  }
-> >>  
-> >> +/* Blanking */
-> >> +
-> >> +static int ov8865_vts_configure(struct ov8865_sensor *sensor, u32 vblank)
-> >> +{
-> >> +	u16 vts = sensor->state.mode->output_size_y + vblank;
-> >> +	int ret;
-> >> +
-> >> +	ret = ov8865_write(sensor, OV8865_VTS_H_REG, OV8865_VTS_H(vts));
-> >> +	if (ret)
-> >> +		return ret;
-> >> +
-> >> +	return ov8865_write(sensor, OV8865_VTS_L_REG, OV8865_VTS_L(vts));
-> >> +}
-> >> +
-> >>  /* State */
-> >>  
-> >>  static int ov8865_state_mipi_configure(struct ov8865_sensor *sensor,
-> >> @@ -2476,6 +2493,8 @@ static int ov8865_s_ctrl(struct v4l2_ctrl *ctrl)
-> >>  	case V4L2_CID_TEST_PATTERN:
-> >>  		index = (unsigned int)ctrl->val;
-> >>  		return ov8865_test_pattern_configure(sensor, index);
-> >> +	case V4L2_CID_VBLANK:
-> >> +		return ov8865_vts_configure(sensor, ctrl->val);
-> >>  	default:
-> >>  		return -EINVAL;
-> >>  	}
-> >> @@ -2492,6 +2511,8 @@ static int ov8865_ctrls_init(struct ov8865_sensor *sensor)
-> >>  	struct ov8865_ctrls *ctrls = &sensor->ctrls;
-> >>  	struct v4l2_ctrl_handler *handler = &ctrls->handler;
-> >>  	const struct v4l2_ctrl_ops *ops = &ov8865_ctrl_ops;
-> >> +	const struct ov8865_mode *mode = sensor->state.mode;
-> >> +	unsigned int vblank_max, vblank_def;
-> >>  	int ret;
-> >>  
-> >>  	v4l2_ctrl_handler_init(handler, 32);
-> >> @@ -2528,6 +2549,13 @@ static int ov8865_ctrls_init(struct ov8865_sensor *sensor)
-> >>  				     ARRAY_SIZE(ov8865_test_pattern_menu) - 1,
-> >>  				     0, 0, ov8865_test_pattern_menu);
-> >>  
-> >> +	/* Blanking */
-> >> +	vblank_max = OV8865_TIMING_MAX_VTS - mode->output_size_y;
-> >> +	vblank_def = mode->vts - mode->output_size_y;
-> >> +	ctrls->vblank = v4l2_ctrl_new_std(handler, ops, V4L2_CID_VBLANK,
-> >> +					  OV8865_TIMING_MIN_VTS, vblank_max, 1,
-> >> +					  vblank_def);
-> >> +
-> >>  	/* MIPI CSI-2 */
-> >>  
-> >>  	ctrls->link_freq =
-> >> @@ -2708,6 +2736,10 @@ static int ov8865_set_fmt(struct v4l2_subdev *subdev,
-> >>  		 sensor->state.mbus_code != mbus_code)
-> >>  		ret = ov8865_state_configure(sensor, mode, mbus_code);
-> >>  
-> >> +	__v4l2_ctrl_modify_range(sensor->ctrls.vblank, OV8865_TIMING_MIN_VTS,
-> >> +				 OV8865_TIMING_MAX_VTS - mode->output_size_y,
-> >> +				 1, mode->vts - mode->output_size_y);
-> >> +
-> >>  complete:
-> >>  	mutex_unlock(&sensor->mutex);
-> >>  
-> >> @@ -3035,6 +3067,8 @@ static int ov8865_probe(struct i2c_client *client)
-> >>  
-> >>  	/* Sensor */
-> >>  
-> >> +	sensor->state.mode =  &ov8865_modes[0];
-> > This seems to be an unrelated change. Does it belong here?
-> 
-> 
-> In ov8865_ctrls_init() I'm using sensor->state.mode to initialise the
-> new vblank control. I guess instead of
-> 
-> 
-> +	const struct ov8865_mode *mode = sensor->state.mode;
-> 
-> I could have
-> 
-> +	const struct ov8865_mode *mode = &ov8865_modes[0];
-> 
-> 
-> in that function though
+Changes in v5:
+- Update regulator_init_data in patch 10/11 to include the VCM regulator
+- Address various small review remarks from Andy
+- Make a couple of functions / vars static in the clk + regulator drivers
+  Reported-by: kernel test robot <lkp@intel.com>
 
-You're right indeed.
+Changes in v4:
+[PATCH 01/11] ACPI: delay enumeration of devices with a _DEP
+              pointing to an INT3472 device:
+- Move the acpi_dev_ready_for_enumeration() check to acpi_bus_attach()
+  (replacing the acpi_device_is_present() check there)
 
-ov8865_state_init() refers to the same mode. I think it'd be cleaner if
-you'd e.g. call ov8865_state_configure() with sensor->state.mode instead,
-so that you don't initialise the same variable in two places.
+[PATCH 04/11] regulator: Introduce tps68470-regulator driver:
+- Make the top comment block use c++ style comments
+- Drop the bogus builtin regulator_init_data
+- Make the driver enable the PMIC clk when enabling the Core buck
+  regulator, this switching regulator needs the PLL to be on
+- Kconfig: add || COMPILE_TEST, fix help text
+
+[PATCH 05/11] clk: Introduce clk-tps68470 driver
+- Kconfig: select REGMAP_I2C, add || COMPILE_TEST, fix help text
+- tps68470_clk_prepare(): Wait for the PLL to lock before returning
+- tps68470_clk_unprepare(): Remove unnecesary clearing of divider regs
+- tps68470_clk_probe(): Use devm_clk_hw_register()
+- Misc. small cleanups
+
+I'm quite happy with how this works now, so from my pov this is the final
+version of the device-instantiation deferral code / approach.
+
+###
+
+The clk and regulator frameworks expect clk/regulator consumer-devices
+to have info about the consumed clks/regulators described in the device's
+fw_node, but on ACPI this info is missing.
+
+This series worksaround this by providing platform_data with the info to
+the TPS68470 clk/regulator MFD cells.
+
+Patches 1 - 2 deal with a probe-ordering problem this introduces,
+since the lookups are only registered when the provider-driver binds,
+trying to get these clks/regulators before then results in a -ENOENT
+error for clks and a dummy regulator for regulators. See the patches
+for more details.
+
+Patch 3 adds a header file which adds tps68470_clk_platform_data and
+tps68470_regulator_platform_data structs. The futher patches depend on
+this new header file.
+
+Patch 4 + 5 add the TPS68470 clk and regulator drivers
+
+Patches 6 - 11 Modify the INT3472 driver which instantiates the MFD cells to
+provide the necessary platform-data.
+
+Assuming this series is acceptable to everyone, we need to talk about how
+to merge this.
+
+Patch 2 has already been acked by Wolfram for merging by Rafael, so patch
+1 + 2 can be merged into linux-pm, independent of the rest of the series
+(there are some runtime deps on other changes for everything to work,
+but the camera-sensors impacted by this are not fully supported yet in
+the mainline kernel anyways).
+
+For "[PATCH 03/13] platform_data: Add linux/platform_data/tps68470.h file",
+which all further patches depend on I plan to provide an immutable branch
+myself (once it has been reviewed), which the clk / regulator maintainers
+can then merge before merging the clk / regulator driver which depends on
+this.
+
+And I will merge that IM-branch + patches 6-11 into the pdx86 tree myself.
+
+Regards,
+
+Hans
+
+
+Daniel Scally (1):
+  platform/x86: int3472: Enable I2c daisy chain
+
+Hans de Goede (10):
+  ACPI: delay enumeration of devices with a _DEP pointing to an INT3472
+    device
+  i2c: acpi: Use acpi_dev_ready_for_enumeration() helper
+  platform_data: Add linux/platform_data/tps68470.h file
+  regulator: Introduce tps68470-regulator driver
+  clk: Introduce clk-tps68470 driver
+  platform/x86: int3472: Split into 2 drivers
+  platform/x86: int3472: Add get_sensor_adev_and_name() helper
+  platform/x86: int3472: Pass tps68470_clk_platform_data to the
+    tps68470-regulator MFD-cell
+  platform/x86: int3472: Pass tps68470_regulator_platform_data to the
+    tps68470-regulator MFD-cell
+  platform/x86: int3472: Deal with probe ordering issues
+
+ drivers/acpi/scan.c                           |  37 ++-
+ drivers/clk/Kconfig                           |   8 +
+ drivers/clk/Makefile                          |   1 +
+ drivers/clk/clk-tps68470.c                    | 257 ++++++++++++++++++
+ drivers/i2c/i2c-core-acpi.c                   |   5 +-
+ drivers/platform/x86/intel/int3472/Makefile   |   9 +-
+ ...lk_and_regulator.c => clk_and_regulator.c} |   2 +-
+ drivers/platform/x86/intel/int3472/common.c   |  82 ++++++
+ .../{intel_skl_int3472_common.h => common.h}  |   6 +-
+ ...ntel_skl_int3472_discrete.c => discrete.c} |  51 ++--
+ .../intel/int3472/intel_skl_int3472_common.c  | 106 --------
+ ...ntel_skl_int3472_tps68470.c => tps68470.c} |  99 ++++++-
+ drivers/platform/x86/intel/int3472/tps68470.h |  25 ++
+ .../x86/intel/int3472/tps68470_board_data.c   | 134 +++++++++
+ drivers/regulator/Kconfig                     |   9 +
+ drivers/regulator/Makefile                    |   1 +
+ drivers/regulator/tps68470-regulator.c        | 212 +++++++++++++++
+ include/acpi/acpi_bus.h                       |   5 +-
+ include/linux/mfd/tps68470.h                  |  11 +
+ include/linux/platform_data/tps68470.h        |  35 +++
+ 20 files changed, 944 insertions(+), 151 deletions(-)
+ create mode 100644 drivers/clk/clk-tps68470.c
+ rename drivers/platform/x86/intel/int3472/{intel_skl_int3472_clk_and_regulator.c => clk_and_regulator.c} (99%)
+ create mode 100644 drivers/platform/x86/intel/int3472/common.c
+ rename drivers/platform/x86/intel/int3472/{intel_skl_int3472_common.h => common.h} (94%)
+ rename drivers/platform/x86/intel/int3472/{intel_skl_int3472_discrete.c => discrete.c} (91%)
+ delete mode 100644 drivers/platform/x86/intel/int3472/intel_skl_int3472_common.c
+ rename drivers/platform/x86/intel/int3472/{intel_skl_int3472_tps68470.c => tps68470.c} (54%)
+ create mode 100644 drivers/platform/x86/intel/int3472/tps68470.h
+ create mode 100644 drivers/platform/x86/intel/int3472/tps68470_board_data.c
+ create mode 100644 drivers/regulator/tps68470-regulator.c
+ create mode 100644 include/linux/platform_data/tps68470.h
 
 -- 
-Kind regards,
+2.31.1
 
-Sakari Ailus
