@@ -2,280 +2,123 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B30E84443BF
-	for <lists+linux-media@lfdr.de>; Wed,  3 Nov 2021 15:41:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3231E44440A
+	for <lists+linux-media@lfdr.de>; Wed,  3 Nov 2021 15:58:27 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231572AbhKCOny (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 3 Nov 2021 10:43:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32842 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231510AbhKCOny (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 3 Nov 2021 10:43:54 -0400
-Received: from lb1-smtp-cloud9.xs4all.net (lb1-smtp-cloud9.xs4all.net [IPv6:2001:888:0:108::1c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5D021C061714;
-        Wed,  3 Nov 2021 07:41:17 -0700 (PDT)
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud9.xs4all.net with ESMTPA
-        id iHRpmXJkf030KiHRqmUq6J; Wed, 03 Nov 2021 15:41:14 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1635950474; bh=mTi5xjveIrNzJpzGo7W+EniN/yKcDn5XZYVjrsVnD5Y=;
-        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=W9pKuFCFrRGoY2QghPvwQ9w8qV4xsc0ZQ0splH1OsjWc6tBqi3ZSQWfAKARQeZx0f
-         ZyoyXehjJHhp2gVhxa0PiSwX+EcG0GXBeABivSb+ZdFfULgW/3A1BrBEF6mxfv7D8Z
-         eLa6A7Yc1MfY+R+2a3J6E3ByY3bpZRBld7RwMeEbT9AkTKUnlv23RqmG8EPX6SQ5h3
-         yOAxSJO/NUaj9ffdP+8hcfUTw012gxgZK8aN+Jwx3mzNf3C6qGArxEHD2UuRtuNMar
-         wbwZjBxkqhx4k4K3tVCdfoLULIw4kguzSpZgY5JiM11eJbCS9XtldjNd9lVTwBjJKG
-         jSpiToV9tBO7w==
-Subject: Re: atomisp current issues
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>
-Cc:     Tsuchiya Yuto <kitakar@gmail.com>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Patrik Gfeller <patrik.gfeller@gmail.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Kaixu Xia <kaixuxia@tencent.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Yang Li <abaci-bugfix@linux.alibaba.com>,
-        Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-        Alex Dewar <alex.dewar90@gmail.com>,
-        Aline Santana Cordeiro <alinesantanacordeiro@gmail.com>,
-        Arnd Bergmann <arnd@arndb.de>, Alan <alan@linux.intel.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Ingo Molnar <mingo@kernel.org>, linux-staging@lists.linux.dev,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Andy Shevchenko <andy.shevchenko@gmail.com>
-References: <20211103135418.496f75d5@sal.lan>
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Message-ID: <c39cac68-73ab-4ab0-a701-e92f01c92774@xs4all.nl>
-Date:   Wed, 3 Nov 2021 15:41:05 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+        id S231219AbhKCPBB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 3 Nov 2021 11:01:01 -0400
+Received: from mail.netline.ch ([148.251.143.180]:53224 "EHLO
+        netline-mail3.netline.ch" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229946AbhKCPA7 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 3 Nov 2021 11:00:59 -0400
+X-Greylist: delayed 446 seconds by postgrey-1.27 at vger.kernel.org; Wed, 03 Nov 2021 11:00:58 EDT
+Received: from localhost (localhost [127.0.0.1])
+        by netline-mail3.netline.ch (Postfix) with ESMTP id EA636202037;
+        Wed,  3 Nov 2021 15:50:54 +0100 (CET)
+X-Virus-Scanned: Debian amavisd-new at netline-mail3.netline.ch
+Received: from netline-mail3.netline.ch ([127.0.0.1])
+        by localhost (netline-mail3.netline.ch [127.0.0.1]) (amavisd-new, port 10024)
+        with LMTP id n_YKq6VrpC2F; Wed,  3 Nov 2021 15:50:54 +0100 (CET)
+Received: from thor (24.99.2.85.dynamic.wline.res.cust.swisscom.ch [85.2.99.24])
+        by netline-mail3.netline.ch (Postfix) with ESMTPA id 4F7D9202033;
+        Wed,  3 Nov 2021 15:50:54 +0100 (CET)
+Received: from [127.0.0.1]
+        by thor with esmtp (Exim 4.95)
+        (envelope-from <michel@daenzer.net>)
+        id 1miHbJ-000sW6-DO;
+        Wed, 03 Nov 2021 15:50:53 +0100
+Message-ID: <20cfea36-a8cc-7bd1-9604-57efdf4710e2@daenzer.net>
+Date:   Wed, 3 Nov 2021 15:50:53 +0100
 MIME-Version: 1.0
-In-Reply-To: <20211103135418.496f75d5@sal.lan>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4xfFNhMDZeI7N4foSXsMu9uUUt//3oWRGwV84zMApTzO8seWl0tZMnhG4Srvk/1q3sN8MI2WojOH6RArXo4DQ7f0BZnEr9rgGA1tLdMV8r+/IqitmuXoxq
- AK3exAZmum5Zm58BSQqiXhCz88kIo8TDVcv8mkSvV3g8BcV94FfxKAn6p6p+1J30w23Lh6GDSc0+fA+/Goetzbyo4V1xTYmPVLFKUR7XqprrMhoFCvkBSsm5
- IY8wJ5jB2Zidx1GiOtvrn57DjGOXsXT9Cjk2qGNn3U7kevRWBPpGVp7LuYe6thm3xyDGIrXmww/e50BQl2VXPqQ3G4ajiL6pjcp1HSl7p7rnIWT9kGAdzDua
- NQetlRehS/xk97rmihk5p/ACwIZ1TIFYznqcCDCTdwDTzdd6zGtDcwnP+KVPDOjpYilGqLRMZWxBO4MXDfoEryRtC58zTKV3yBZssl7nFbuXoIp4HSoX1kEG
- NlkoYdYQj44OO1FraWuoIhJSTvbsrPKu0cmK0g9iJvZhcR58uLNGo9MS8E1qkTpCVXyb1fw0RU3zmWg4Ywoi9/BZ1LMWBbGcuavPmgDNaRb2U8oMmmt56Ag6
- 4Kwz3Fkt3Flt1RX5k3X+QJVlkkJzsdOkYhLf/G/PQzWYyWeWFXKM/7eFQ/EgMu9SPe4ABecI+H4IUSAlTUCijXBXsFfOUdy1uXkFBJCkllIYTHJmz1dvXCKZ
- EkZ4e6RrdaiHdV33oQnZhYVLxB42lWhDnypVA7U7QTE5JULViilUiGFI+2vjfCT66q7tqDwn2F8Nr4QnP+zMhul3HMj9FOj6beAY5jcsuFXTjnoGTgd1eE7d
- 47GY2rRcgnw55XPSTFxecdnjbgoef4SsRj2ZjbuOOTcy0qjzTG/8jBz8QpRniBwbsT+AWhfJOHggoLSvYcZ7GBGlthaTe7WgSvLqMzUaOSnO16ZYrYY/WYHC
- P8yywAp8TUz7pVfxR5RtR8ZuPM8TaIj665hA/VgRRrJyOtPp4NXAJV8W8tRbGCPU8qVI+D3dajyOzSw8gKfbsx9b0Rk=
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.2.1
+Content-Language: en-CA
+To:     =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>,
+        =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+Cc:     linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org
+References: <20210723075857.4065-1-michel@daenzer.net>
+ <f5f37693-bfe2-e52f-172b-00f4aa94dbd9@amd.com>
+ <4cf94f59-f953-f5d7-9901-cfe5fd63bfbc@daenzer.net>
+ <884050b3-5e7d-c00b-5467-290cfc57e0ea@gmail.com>
+From:   =?UTF-8?Q?Michel_D=c3=a4nzer?= <michel@daenzer.net>
+Subject: Re: [Linaro-mm-sig] [PATCH] dma-buf/poll: Get a file reference for
+ outstanding fence callbacks
+In-Reply-To: <884050b3-5e7d-c00b-5467-290cfc57e0ea@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 03/11/2021 14:54, Mauro Carvalho Chehab wrote:
-> Hi,
+On 2021-07-23 10:22, Christian König wrote:
+> Am 23.07.21 um 10:19 schrieb Michel Dänzer:
+>> On 2021-07-23 10:04 a.m., Christian König wrote:
+>>> Am 23.07.21 um 09:58 schrieb Michel Dänzer:
+>>>> From: Michel Dänzer <mdaenzer@redhat.com>
+>>>>
+>>>> This makes sure we don't hit the
+>>>>
+>>>>      BUG_ON(dmabuf->cb_in.active || dmabuf->cb_out.active);
+>>>>
+>>>> in dma_buf_release, which could be triggered by user space closing the
+>>>> dma-buf file description while there are outstanding fence callbacks
+>>>> from dma_buf_poll.
+>>> I was also wondering the same thing while working on this, but then thought that the poll interface would take care of this.
+>> I was able to hit the BUG_ON with https://gitlab.gnome.org/GNOME/mutter/-/merge_requests/1880 .
+>>
+>>
+>>>> Cc: stable@vger.kernel.org
+>>>> Signed-off-by: Michel Dänzer <mdaenzer@redhat.com>
+>>>> ---
+>>>>    drivers/dma-buf/dma-buf.c | 18 ++++++++++++------
+>>>>    1 file changed, 12 insertions(+), 6 deletions(-)
+>>>>
+>>>> diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
+>>>> index 6c520c9bd93c..ec25498a971f 100644
+>>>> --- a/drivers/dma-buf/dma-buf.c
+>>>> +++ b/drivers/dma-buf/dma-buf.c
+>>>> @@ -65,12 +65,9 @@ static void dma_buf_release(struct dentry *dentry)
+>>>>        BUG_ON(dmabuf->vmapping_counter);
+>>>>          /*
+>>>> -     * Any fences that a dma-buf poll can wait on should be signaled
+>>>> -     * before releasing dma-buf. This is the responsibility of each
+>>>> -     * driver that uses the reservation objects.
+>>>> -     *
+>>>> -     * If you hit this BUG() it means someone dropped their ref to the
+>>>> -     * dma-buf while still having pending operation to the buffer.
+>>>> +     * If you hit this BUG() it could mean:
+>>>> +     * * There's a file reference imbalance in dma_buf_poll / dma_buf_poll_cb or somewhere else
+>>>> +     * * dmabuf->cb_in/out.active are non-0 despite no pending fence callback
+>>>>         */
+>>>>        BUG_ON(dmabuf->cb_in.active || dmabuf->cb_out.active);
+>>>>    @@ -196,6 +193,7 @@ static loff_t dma_buf_llseek(struct file *file, loff_t offset, int whence)
+>>>>    static void dma_buf_poll_cb(struct dma_fence *fence, struct dma_fence_cb *cb)
+>>>>    {
+>>>>        struct dma_buf_poll_cb_t *dcb = (struct dma_buf_poll_cb_t *)cb;
+>>>> +    struct dma_buf *dmabuf = container_of(dcb->poll, struct dma_buf, poll);
+>>>>        unsigned long flags;
+>>>>          spin_lock_irqsave(&dcb->poll->lock, flags);
+>>>> @@ -203,6 +201,8 @@ static void dma_buf_poll_cb(struct dma_fence *fence, struct dma_fence_cb *cb)
+>>>>        dcb->active = 0;
+>>>>        spin_unlock_irqrestore(&dcb->poll->lock, flags);
+>>>>        dma_fence_put(fence);
+>>>> +    /* Paired with get_file in dma_buf_poll */
+>>>> +    fput(dmabuf->file);
+>>> Is calling fput() in interrupt context ok? IIRC that could potentially sleep.
+>> Looks fine AFAICT: It has
+>>
+>>         if (likely(!in_interrupt() && !(task->flags & PF_KTHREAD))) {
+>>
+>> and as a fallback for that, it adds the file to a lock-less delayed_fput_list which is processed by a workqueue.
 > 
-> From what I've seen so far, those are the main issues with regards to V4L2 API,
-> in order to allow a generic V4L2 application to work with it.
+> Ah, yes that makes sense.
 > 
-> MMAP support
-> ============
-> 
-> Despite having some MMAP code on it, the current implementation is broken. 
-> Fixing it is not trivial, as it would require fixing the HMM support on it, 
-> which does several tricks.
-> 
-> The best would be to replace it by something simpler. If this is similar
-> enough to IPU3, perhaps one idea would be to replace the HMM code on it by 
-> videodev2 + IPU3 HMM code.
-> 
-> As this is not trivial, I'm postponing such task. If someone has enough
-> time, it would be great to have this fixed.
-> 
-> From my side, I opted to add support for USERPTR on camorama:
-> 
-> 	https://github.com/alessio/camorama
-> 
-> As this is something I wanted to do anyway, and it allowed me to cleanup
-> several things in camorama's code.
-> 
-> Support for USERPTR is not autodetected. So, this should be selected
+> Fell free to add Reviewed-by: Christian König <christian.koenig@amd.com>
 
-You can autodetect this: the capabilities field returned by VIDIOC_REQBUFS
-or VIDIOC_CREATE_BUFS will indicate support for this. This works with any
-vb2-based driver.
+Thanks! AFAICT this fix can be merged now for 5.16?
 
-Just thought I should mention this...
 
-Regards,
-
-	Hans
-
-> via a command line parameter. Here (Fedora), I installed the build
-> dependencies on my test device with:
-> 
-> 	$ sudo dnf builddep camorama
-> 	$ sudo dnf install gnome-common  # for gnome-autogen.sh
-> 
-> Testing it with atomisp would be:
-> 
-> 	$ git clone https://github.com/alessio/camorama
-> 	$ cd camorama && ./autogen.sh
-> 	$ make && ./src/camorama -d /dev/video2  --debug -U -D
-> 
-> In time:
-> --------
-> 
->  Camorama currently doesn't work due to some other API bugs. See below.
-> 
-> 
-> VIDIOC_G_FMT/VIDIOC_S_FMT/VIDIOC_TRY_FMT issues
-> ===============================================
-> 
-> The implementation for VIDIOC_G_FMT/VIDIOC_S_FMT/VIDIOC_TRY_FMT are not
-> properly implemented. It has several issues.
-> 
-> The main one is related to padding. Based on the comments inside the code,
-> the ISP 2 seems to require padding to work, both vertically an horizontally.
-> 
-> Those are controlled by two modprobe parameters: pad_h and pad_w.
-> The default for both is 16.
-> 
-> There are some other padding logic inside the function which sets the
-> video formats at atomisp_cmd: atomisp_set_fmt(). This function is quite
-> complex, being big and it calls several other atomisp kAPIs.
-> 
-> It basically queries the sensor, and then it mounts a pipeline that
-> will have the sensor + ISP blocks. Those ISP blocks convert the format
-> from Bayer into YUYV or RGB and scale down the resolution in order to
-> match the request.
-> 
-> It also adjusts the padding. The padding code there is very complex,
-> as it not only uses pad_h/pad_w, having things like:
-> 
-> 	if (!atomisp_subdev_format_conversion(asd, source_pad)) {
-> 		padding_w = 0;
-> 		padding_h = 0;
-> 	} else if (IS_BYT) {
-> 		padding_w = 12;
-> 		padding_h = 12;
-> 	}
-> 	...
-> 	atomisp_get_dis_envelop(asd, f->fmt.pix.width, f->fmt.pix.height,
-> 				&dvs_env_w, &dvs_env_h);
-> 	...
-> 	/*
-> 	 * set format info to sensor
-> 	 * In continuous mode, resolution is set only if it is higher than
-> 	 * existing value. This because preview pipe will be configured after
-> 	 * capture pipe and usually has lower resolution than capture pipe.
-> 	 */
-> 	if (!asd->continuous_mode->val ||
-> 	    isp_sink_fmt->width < (f->fmt.pix.width + padding_w + dvs_env_w) ||
-> 	    isp_sink_fmt->height < (f->fmt.pix.height + padding_h +
-> 				    dvs_env_h)) {
-> 
-> Due to that, the sensors are set to have those extra 16 columns/lines.
-> Those extra data are consumed internally at the driver, so the output
-> buffer won't contain those.
-> 
-> Yet, the buffer size to be allocated by userspace on USERPTR mode is not just
-> width x height x bpp, but it may need extra space for such pads and/or other 
-> things.
-> 
-> In practice, when VIDIOC_S_FMT asks for a 1600x1200 resolution, it
-> actually sets 1616x1216 at the sensor (at the pad source), but the
-> pad sink provides the requested resolution: 1600x1200.
-> 
-> However, the resolution returned by VIDIOC_G_FMT/VIDIOC_S_FMT/VIDIOC_TRY_FMT
-> is not always the sink resolution. Sometimes, it returns the sensor format.
-> 
-> Fixing it has been challenging.
-> 
-> -
-> 
-> Another related issue is that, when a resolution bigger than the maximum
-> resolution is requested, the driver doesn't return 1600x1200, but, instead,
-> a smaller one.
-> 
-> On other words, setting to YUYV 1600x1200 gives:
-> 
-> 	$ v4l2-ctl --set-fmt-video pixelformat=YUYV,width=1600,height=1200 -d /dev/video2 --verbose
-> 	VIDIOC_QUERYCAP: ok
-> 	VIDIOC_G_FMT: ok
-> 	VIDIOC_S_FMT: ok
-> 	Format Video Capture:
-> 		Width/Height      : 1600/1200
-> 		Pixel Format      : 'YUYV' (YUYV 4:2:2)
-> 		Field             : None
-> 		Bytes per Line    : 3200
-> 		Size Image        : 3842048
-> 		Colorspace        : Rec. 709
-> 		Transfer Function : Rec. 709
-> 		YCbCr/HSV Encoding: Rec. 709
-> 		Quantization      : Default (maps to Limited Range)
-> 		Flags             : 
-> 
-> Setting to a higher resolution (which is a method that some apps use to test
-> for the max resolution, when VIDIOC_ENUM_FRAMESIZES is not available or
-> broken) produces:
-> 
-> 	$ v4l2-ctl --set-fmt-video pixelformat=YUYV,width=10000,height=10000 -d /dev/video2 --verbose
-> 	VIDIOC_QUERYCAP: ok
-> 	VIDIOC_G_FMT: ok
-> 	VIDIOC_S_FMT: ok
-> 	Format Video Capture:
-> 		Width/Height      : 1600/900
-> 		Pixel Format      : 'YUYV' (YUYV 4:2:2)
-> 		Field             : None
-> 		Bytes per Line    : 3200
-> 		Size Image        : 2883584
-> 		Colorspace        : Rec. 709
-> 		Transfer Function : Rec. 709
-> 		YCbCr/HSV Encoding: Rec. 709
-> 		Quantization      : Default (maps to Limited Range)
-> 		Flags             : 
-> 
-> Trying to set to the sensor resolution is even worse, as it returns EINVAL:
-> 
-> 	$ v4l2-ctl --set-fmt-video pixelformat=YUYV,width=1616,height=1216 -d /dev/video2 --verbose
-> 	VIDIOC_QUERYCAP: ok
-> 	VIDIOC_G_FMT: ok
-> 	VIDIOC_S_FMT: failed: Invalid argument
-> 
-> The logs for such case are:
-> 
-> 	[ 4799.594724] atomisp-isp2 0000:00:03.0: can't create streams
-> 	[ 4799.594757] atomisp-isp2 0000:00:03.0: __get_frame_info 1616x1216 (padded to 0) returned -22
-> 	[ 4799.594781] atomisp-isp2 0000:00:03.0: Can't set format on ISP. Error -22
-> 
-> Video devices
-> =============
-> 
-> Currently, 10 video? devices are created:
-> 
-> 	$ for i in $(ls /dev/video*|sort -k2 -to -n); do echo -n $i:; v4l2-ctl -D -d $i|grep Name; done
-> 	/dev/video0:	Name             : ATOMISP ISP CAPTURE output
-> 	/dev/video1:	Name             : ATOMISP ISP VIEWFINDER output
-> 	/dev/video2:	Name             : ATOMISP ISP PREVIEW output
-> 	/dev/video3:	Name             : ATOMISP ISP VIDEO output
-> 	/dev/video4:	Name             : ATOMISP ISP ACC
-> 	/dev/video5:	Name             : ATOMISP ISP MEMORY input
-> 	/dev/video6:	Name             : ATOMISP ISP CAPTURE output
-> 	/dev/video7:	Name             : ATOMISP ISP VIEWFINDER output
-> 	/dev/video8:	Name             : ATOMISP ISP PREVIEW output
-> 	/dev/video9:	Name             : ATOMISP ISP VIDEO output
-> 	/dev/video10:	Name             : ATOMISP ISP ACC
-> 
-> That seems to be written to satisfy some Android-based app, but we don't
-> really need all of those.
-> 
-> I'm thinking to comment out the part of the code which creates all of those,
-> keeping just "ATOMISP ISP PREVIEW output", as I don't think we need all
-> of those.
-> 
-> Comments?
-> 
-> Regards,
-> Mauro
-> 
-
+-- 
+Earthling Michel Dänzer            |                  https://redhat.com
+Libre software enthusiast          |         Mesa and Xwayland developer
