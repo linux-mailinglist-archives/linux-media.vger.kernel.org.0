@@ -2,133 +2,165 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9075C4445E5
-	for <lists+linux-media@lfdr.de>; Wed,  3 Nov 2021 17:29:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2EC18444603
+	for <lists+linux-media@lfdr.de>; Wed,  3 Nov 2021 17:36:28 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232804AbhKCQc1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 3 Nov 2021 12:32:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58032 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232762AbhKCQc0 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 3 Nov 2021 12:32:26 -0400
-Received: from lb1-smtp-cloud7.xs4all.net (lb1-smtp-cloud7.xs4all.net [IPv6:2001:888:0:108::1a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E85BDC061714;
-        Wed,  3 Nov 2021 09:29:49 -0700 (PDT)
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud7.xs4all.net with ESMTPA
-        id iJ90mznJMFZvciJ91maBfP; Wed, 03 Nov 2021 17:29:47 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1635956987; bh=q06/a6NhPPbSu2bM9BmCNRxXQvZOuI61JEGUeXJUBmk=;
-        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=j/kIIE5G6Foqc83nOSk9Sh0Lg1YlXEsAlPBK9A0zJ1ZADDVtyGLzOLvxnYOwZL7Ny
-         zq4JC8OhYKbtfvfjSOfTN/jqD3QbAUQF57ueUlwGuCPMw3ZmdTA/1PhGBDNkyVEBNS
-         OThhJVaPRbeL4Q2Sbvcxdw+V6i+t5iMF6J/qoJfL84WKC5ZyAysxcjWuIwn76+Efct
-         zPpVf/+rBrsUQcKir0t7KVz2Q4Pt8q9NI40foLj0uOeVjCyStIQ5PgKX1jzUVuCRl9
-         4615UuzmEnSPwYeHvMI8hszR+tqI29K6/EX7BhLgTKyhLpBfxdCQesPOk3bmSXz7IY
-         AsrVrzgutv06Q==
-Subject: Re: [PATCH v3 00/14] staging: media: zoran: fusion in one module
-To:     LABBE Corentin <clabbe@baylibre.com>
-Cc:     mchehab@kernel.org, gregkh@linuxfoundation.org,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-staging@lists.linux.dev, mjpeg-users@lists.sourceforge.net
-References: <20211026193416.1176797-1-clabbe@baylibre.com>
- <a85c93db-e118-274f-d86a-d127c7399926@xs4all.nl> <YYKxTrWI299pvqo7@Red>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <2bbce7ef-acf8-3c0f-2705-09d34b2d92be@xs4all.nl>
-Date:   Wed, 3 Nov 2021 17:29:46 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
-MIME-Version: 1.0
-In-Reply-To: <YYKxTrWI299pvqo7@Red>
-Content-Type: text/plain; charset=utf-8
+        id S232862AbhKCQjD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 3 Nov 2021 12:39:03 -0400
+Received: from mail-bn8nam12on2055.outbound.protection.outlook.com ([40.107.237.55]:54886
+        "EHLO NAM12-BN8-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S232860AbhKCQjD (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 3 Nov 2021 12:39:03 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=ftRpVFrK2Wnf4rmmfmtou87881D20aCu4/yHCvxL9+76W5b180AHTA3giY077o66vK5lhqd+rks/m7Y3PJP+W34ypSXT+nL3NePbHfLK6YB+nBo+p/m6E509L3x1ADPUIoXBVTVkDoVMW0RBin6EqhSE+LRnkE0b2ARmeKq03kvKnvFkQnWAQ/FbVndqLG8UKyK5nI2f/tFe21xbUiioF9G2jOM9yut3TU2DX/AIGcs22tXP5eGag7SSSjF6vTUZDFMbA0bjiyu3H9GAegis9SyyDXuaOFKuue53aZAcFUuJjKMg1GfCIXD8sI7GhFw4Tn+ijMBNml60LOq3hPWZBQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=VT00V9UaHmTr2BX4r2hDLU8zqzuxiRXU6n2zyTptOEg=;
+ b=LOW+VZes+W1fJLZbYtXNfkI3AbiyvH3my4gY0Bm4uxrF1zmsG31PwXwAtb39bNgs4bxE1GqI5iYWWz2tTuUbg3pMcJxZVyKNcqdV1eKLagrSgKJz+M6eczdFOJyuuWpQFd6j5jqbky4BMQ72csQlSK8BN+cCp6g0ZmjOJU2oqHh96KdpzaMDOSKZTjel54yZGrmL60TKz6wwLs1kHonA6G8SV7Xz2C+g7mLQA31AZIdp9OlqA5bc0SiXe5vGVoxP4kY5JYll4qJM0A96E/wfL/3mkA6Y2gMpuO7T+3MfglEeFvkh95e2z8ZG5Td8lhqh8+2071qzZY1Nwc6iSfho/w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=VT00V9UaHmTr2BX4r2hDLU8zqzuxiRXU6n2zyTptOEg=;
+ b=Dd02n/mWnU6YF6vkrU3p+E6GDRni48bfL/icKAz9slymUa8ei7KENKyWlN89vNXYyV19wbFCJxqOLUXl4GfJObAdPxirU+TkCG++ZQYLJgoloiuHa+Vm2NS5HkOdYxozCaDOp8NhF+PD/wWnlWTLahaZSe+lqr48esAqf7yijxA=
+Authentication-Results: gmail.com; dkim=none (message not signed)
+ header.d=none;gmail.com; dmarc=none action=none header.from=amd.com;
+Received: from DM4PR12MB5136.namprd12.prod.outlook.com (2603:10b6:5:393::23)
+ by DM4PR12MB5295.namprd12.prod.outlook.com (2603:10b6:5:39f::23) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4649.15; Wed, 3 Nov
+ 2021 16:36:24 +0000
+Received: from DM4PR12MB5136.namprd12.prod.outlook.com
+ ([fe80::e95d:8a23:c590:e07a]) by DM4PR12MB5136.namprd12.prod.outlook.com
+ ([fe80::e95d:8a23:c590:e07a%7]) with mapi id 15.20.4649.017; Wed, 3 Nov 2021
+ 16:36:24 +0000
+Message-ID: <eb312f24-76bb-96dd-3bcf-848f83869a16@amd.com>
+Date:   Wed, 3 Nov 2021 17:36:12 +0100
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.2.1
+Subject: Re: [PATCH 6/6] drm/radeon: use dma_resv_wait_timeout() instead of
+ manually waiting
 Content-Language: en-US
+To:     =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>,
+        dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
+        etnaviv@lists.freedesktop.org, amd-gfx@lists.freedesktop.org
+References: <20211028132630.2330-1-christian.koenig@amd.com>
+ <20211028132630.2330-6-christian.koenig@amd.com>
+From:   "Das, Nirmoy" <nirmoy.das@amd.com>
+In-Reply-To: <20211028132630.2330-6-christian.koenig@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-CMAE-Envelope: MS4xfKrptr7PwToxoeIwYq/ugkCAdgOjfHO4zoLTeUBEDSS/u2innE/hGUZ66Te3fyxbTkVjBMlRxerT3S8vy6mKT8e5hyfuOIm4ZhZb193v1+PhlqRDShU5
- 3Fcd+ERqqWANpALMP3bJvxke6askZfGEdVCJMJ3pD0WhsQmOv+8Q64aT5c9T0lEfqLMS7N1/CHKi4F4cZpDgkwUqss9R+h1x0Fs+NCj62m8+Dfhb5BJHRLP4
- Lc3MtciN5t3KEQtzwIyw88PWxgHhX40mT35qSDwx27L5WyH0khNv+cRr0eQgle18szH8IUKMhPfSPowK1oIQU/dS8okPCv1kKwgLl/b63zc5/TXicx3TUV5Z
- LTAUfEqIbmwQJItBhdL5029ynzl6tOQgtBctN/CqTyMYRRpABwMNxiBG5wHf7bmCIapWuWKmUWh7PRtToTcgR7RftBSPpV4MU5C1hhazh7zhHYKFV7HylSJ6
- GRGcRDChddSg4Wqs/llAZJr6dCbxmis9FmknTZSBI7wN1Xo0m8wQO+4QnAg=
+X-ClientProxiedBy: AM6PR01CA0062.eurprd01.prod.exchangelabs.com
+ (2603:10a6:20b:e0::39) To DM4PR12MB5136.namprd12.prod.outlook.com
+ (2603:10b6:5:393::23)
+MIME-Version: 1.0
+Received: from [192.168.178.88] (93.229.39.242) by AM6PR01CA0062.eurprd01.prod.exchangelabs.com (2603:10a6:20b:e0::39) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4669.11 via Frontend Transport; Wed, 3 Nov 2021 16:36:22 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: d295c2f6-0141-4132-ed30-08d99ee812dc
+X-MS-TrafficTypeDiagnostic: DM4PR12MB5295:
+X-Microsoft-Antispam-PRVS: <DM4PR12MB5295B5E9A992EC8616D87BEE8B8C9@DM4PR12MB5295.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:3513;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: dOtfJA1Ad9ZJcvz4933FeRpdS5d0fvlfSTvhOxTAe0qIR9Mt6UrQ80UXEfTYTAfe9SM9CjlcQ1TCBsnvlgmbPSYu28zV+W/eW6szdBaiBpcrp+cxayIpTT1qQAYBTZHNVtCTb7B1SDoKkEN2Lc+srbEU3zzKGcojNVRStDysp1ZCH6Z7JccmYzKhiQyp4qdUe8h2311lnW5JkPFgdiO9LqAXpFqZZOSETKrX4ffBIspF2x0DpC9Lsuc+xwEQMvsyVVJQ1V0SuQ25pcCOA5Rzn1rJ5+htUjj4mYLyri/SRVw/TObj14eHZOwA6yipv8i9mobmiivDZvJnPVHH1TMv9yd/KReVeiuKHHURDAC/28n2n6vSf3qG1AbWcOxrxwIUgJdDPSeuHc9u4bWHUS1r2tgKtzjd430cqaVMI+5xro2rE9gg1IUHATWY1mD80YHOEUDmxpuMC7JwhcUvrmjpNCFIyzm3HhW/RXLlV8+nXX5UTiRURSmrDDh0E9C5xJwW0nsPCD10q4btHoTCjuGWWFF2XsS5NfYndkiNvY5oad3yXJqITwjbAD1HZ8+bfe3Eam0u2/yEPE7k+XUs6RBqZOslcTuSS48wORb2a2VE/w1DL0obwfsLvkImoOj3EuCvuEkLCKL2d7OO5Wj+kZ05J9nyfK6LG5FPgMrkEQBj4I8P3FlE2BRMThgGfVwnSt8D
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM4PR12MB5136.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(366004)(316002)(8676002)(66476007)(2906002)(66946007)(6486002)(31696002)(36756003)(38100700002)(26005)(66556008)(16576012)(956004)(186003)(2616005)(83380400001)(5660300002)(53546011)(86362001)(8936002)(6666004)(508600001)(31686004)(43740500002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?RjFERUM4bFVFMmRGbWRuMFFVWitXUU5jWnhKUkhRMmxBaGY4TTlNVFBBMGth?=
+ =?utf-8?B?amh2VHJDOFZHejlvY3ZhWnlQU3NVL1lFRkFmbDdSbGl0OTV2VlI2a3lIT2hO?=
+ =?utf-8?B?aS9VVFNqUDZ5VG5QUGxaVDdBQTFZQzlYN0g3NDIxU05DbE44T080WVluc2Fo?=
+ =?utf-8?B?S1N2Nm5ESi8xV0R0ZDJFMDhma043NkY1VUUvMjBtSFd0ajFXWXV0WG1TL0Yz?=
+ =?utf-8?B?MVlad3RxNHZ6KzBGTUxyNG45OVVmQi9tRFd1R1ZvZjJBVG9aZDRuWW1ra1c0?=
+ =?utf-8?B?ZU00UXZ5STZxYWVpa3ViVzUzTzlwZkFaaWxHWFRCL1dOaW1TakZTc2NCWDcv?=
+ =?utf-8?B?KzJ0L0YvTkI5eXQxMkZjMmZzeEtzVmRDYlFlV1JRUVI4UjVFaHEvWC9ibWhz?=
+ =?utf-8?B?bnJvVG51ckZ2VHZ5amgvUUVKTXJaaFFtS3lTRGRFaGxUVmdqM0Q3UjB2K3Fm?=
+ =?utf-8?B?K2Jyb3BvMnFnK0VhTVpjMitHUVNDaEpYSEVUdWpld0gyK3U5ME5XajRtRHpp?=
+ =?utf-8?B?TmQ0RDk0NkZJZE52bmZ6RFZ2ZkFQNy9FS1FLRlJSczJuTmNkc3FJa2NxSWMw?=
+ =?utf-8?B?aHBmTm10UlhqdXBRZThKOVBPMDU2QUZvcnNja1VFbGwzZXNjS0JYem9VcERB?=
+ =?utf-8?B?bG5FVngzWklWWjN1SDlFTHpCcXZ6ZHI4OUtEb3haU0ovNVlvN1BvalFiL2dw?=
+ =?utf-8?B?RFVhTE5hN3BEQTFZekZKMkJPNnhGNDBHVWN3eHRJQWpteGFQdVRRV05sMWxN?=
+ =?utf-8?B?bXNoZG1FYXlsb3ZHTTRiRkNKRDdvZEZOVEI5b1kyYlFLTVlmaVROaDhIbW5y?=
+ =?utf-8?B?RjMrWkNNbXZSQUpWczJ5eHZwK0wrTU1VVU02OGZJZG94b1R2eG1XQTZjalVS?=
+ =?utf-8?B?MVduZm9VaHp5RVNqYjNJT1JjRDBtTE1jVXFMMXFmbWVQMWcrdGo0bWR2d09H?=
+ =?utf-8?B?LzA5d3YwSjZPbTFNRytJS0hJSlA3UlBVci8wN1dDMDljNEVHaGEvSTlKVW0r?=
+ =?utf-8?B?c08raUl1M0tKU296Y0J6MnArOUxSNlpITXVwQU5QUnBUdlRyVUFHWjZaL0oy?=
+ =?utf-8?B?RUgxdXloU2pTNGVkL2RsbTBwaUhBMGRzT3RKckk5UmNlalhXblpjUjRVV1Vh?=
+ =?utf-8?B?UnVLWXp4QkQrcTlYcDI4a1liOFJqQ29yU0hjUktyc2dEKys0MUtBV25OOUFj?=
+ =?utf-8?B?eUgyVVBMcE44RFQzQTFhNVdqZVJtdWR1YXhmUFhHWXFTZitVYk1XQ0JmWDlD?=
+ =?utf-8?B?R3IvMi9IRnlpNFlUWkFHa3g5MFVvdWthY0ZCWkhTZ3RVSFZSWlU5NWJmSGlJ?=
+ =?utf-8?B?ckhiQnVtL2RXRGEzVDc1WWNpRXc3TURWMmowWlNJblFHcTlpaDN4dXRvWURX?=
+ =?utf-8?B?U1lxN253c3NDOHJBaWo4VllmRUZXMmhldWx5eWlaNFlTazBLdEZvZ3BScEx5?=
+ =?utf-8?B?bnl3aVJKR1MvRXBYaWg4ZHZTSWFTOU9tdktwY1JHbDlrWXJyZGJnc1R5R2pk?=
+ =?utf-8?B?VzU5elpqeDhMRnExU1ZISS9ZeHdLYi96OHJZWW5IaW0xOWIvc21PM1hKR0M2?=
+ =?utf-8?B?ZSswV0YxR1pNcHFCdEN5bHVwaCt1KzVwbDdrbVR0NUwzTGw4SkZ2c05EU0pa?=
+ =?utf-8?B?TkZqSDArVk45M2p5bnhqdVF4REZVSEpmRktiZUw2SnA3RkZVRm5DR0JLZkhy?=
+ =?utf-8?B?bDZUdWZUY2FaQk1Sa0FzTTdNOVdGeGhNN05MZVhuak5qL2k5c254NlJId1Rq?=
+ =?utf-8?B?N2hQUjlBV0VkMmo1SVlaVlB5NXN4dWhZcVE1VHF0V1lZZEVjczBrY2FhTmJN?=
+ =?utf-8?B?K2JZQUo2QUd1QnpZVjhJVGpzZ0xTL0ZwQkdVajRadlpqRElseXNPdkNEWjBR?=
+ =?utf-8?B?NktCUFhqZ3lxWlBDTmFWYWd2Uk9HUFhIVUp4cC9xTDhQVTlmazd5Nm1rWHB1?=
+ =?utf-8?B?bXl2ZjdiSngydGlpbDZNWXo2ZmZkdkR6VDVmREYzRXYvM0lRMzFUa2psREVR?=
+ =?utf-8?B?U0grRDdlYVgwaFhHd0RYaTVhZ2lLajZCeEE1NzU3Vkxzc3ZERnQranY5bXY5?=
+ =?utf-8?B?UU85d2J2UktPS0lPTHRFcmQ1L05HZHRTT1JFZmxGdHFvODZjaDd4QUg1MjRQ?=
+ =?utf-8?B?N3REVFFjR3dHajY2QWNtOStPQUVqSUVjSlVQNVdWcCsrWkl0Snh4Y1hWcmJh?=
+ =?utf-8?Q?WcTMWKkxp0t4oM6LBefSmjA=3D?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: d295c2f6-0141-4132-ed30-08d99ee812dc
+X-MS-Exchange-CrossTenant-AuthSource: DM4PR12MB5136.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Nov 2021 16:36:24.1609
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: Bsd7HFU1BexpCy591oEi+StSBr9VMj2HBQ88LL1xpiR/Kb1wkq5asAN7xW69BSPWCPYWybPgN3awU92hCIqcDw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB5295
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 03/11/2021 16:57, LABBE Corentin wrote:
-> Le Wed, Nov 03, 2021 at 04:21:02PM +0100, Hans Verkuil a écrit :
->> Hi Corentin,
->>
->> On 26/10/2021 21:34, Corentin Labbe wrote:
->>> Hello
->>>
->>> The main change of this serie is to fusion all zoran related modules in
->>> one.
->>> This fixes the load order problem when everything is built-in.
->>
->> I've been testing this series, and while the module load/unload is now working,
->> I'm running into a lot of other v4l2 compliance issues.
->>
->> I've fixed various issues in some follow-up patches available in my tree:
->>
->> https://git.linuxtv.org/hverkuil/media_tree.git/log/?h=zoran
->>
->> At least some of the worst offenders are now resolved. Note that the patch
->> dropping read/write support relies on this patch:
->>
->> https://patchwork.linuxtv.org/project/linux-media/patch/4f89b139-13b7-eee6-9662-996626b778b0@xs4all.nl/
-> 
-> Hello
-> 
-> My test branch already included your "zoran: fix various V4L2 compliance errors"
-> I have quickly checked other patch and I am ok with them.
-> I will add and test with them.
-> 
->>
->> But there is one really major bug that makes me hesitant to merge this:
->>
->> This works:
->>
->> v4l2-ctl -v pixelformat=MJPG,width=768,height=576
->> v4l2-ctl --stream-mmap
->>
->> This fails:
->>
->> v4l2-ctl -v pixelformat=MJPG,width=768,height=288
->> v4l2-ctl --stream-mmap
->>
->> It's an immediate lock up with nothing to indicate what is wrong.
->> As soon as the height is 288 or less, this happens.
->>
->> Both with my DC30 and DC30D.
-> 
-> Just for curiosity, what is the difference between thoses two ?
+Acked-by: Nirmoy Das <nirmoy.das@amd.com>
 
-It's the DC30 variant without an adv7175.
-
-> 
->>
->> Do you see the same? Any idea what is going on? I would feel much happier
->> if this is fixed.
->>
->> Note that the same problem is present without this patch series, so it's
->> been there for some time.
->>
-> 
-> I will start on digging this problem and add thoses commands to my CI.
-> And I know there are a huge quantity of problem since origins.
-> A simple example is that just setting MJPEG as default input format does not work.
-> 
-> But since it is not related to my serie, can you please merge it.
-
-Before I do that, I would really like to know a bit more about this issue:
-can you reproduce it? Is it DC30 specific or a general problem with zoran?
-
-The problem with this hard hang is that it is hard to do regression testing
-with v4l2-compliance, since it will hang as soon as MJPG pixelformat is
-tested.
-
-I would feel much happier if the hang can be avoided, even if it is just
-with a temporary hack. It will make it much easier going forward.
-
-Regards,
-
-	Hans
+On 10/28/2021 3:26 PM, Christian König wrote:
+> Don't touch the exclusive fence manually here, but rather use the
+> general dma_resv function. We did that for better hw reset handling but
+> this doesn't necessary work correctly.
+>
+> Signed-off-by: Christian König <christian.koenig@amd.com>
+> ---
+>   drivers/gpu/drm/radeon/radeon_uvd.c | 13 +++++--------
+>   1 file changed, 5 insertions(+), 8 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/radeon/radeon_uvd.c b/drivers/gpu/drm/radeon/radeon_uvd.c
+> index 2ea86919d953..377f9cdb5b53 100644
+> --- a/drivers/gpu/drm/radeon/radeon_uvd.c
+> +++ b/drivers/gpu/drm/radeon/radeon_uvd.c
+> @@ -469,7 +469,6 @@ static int radeon_uvd_cs_msg(struct radeon_cs_parser *p, struct radeon_bo *bo,
+>   {
+>   	int32_t *msg, msg_type, handle;
+>   	unsigned img_size = 0;
+> -	struct dma_fence *f;
+>   	void *ptr;
+>   
+>   	int i, r;
+> @@ -479,13 +478,11 @@ static int radeon_uvd_cs_msg(struct radeon_cs_parser *p, struct radeon_bo *bo,
+>   		return -EINVAL;
+>   	}
+>   
+> -	f = dma_resv_excl_fence(bo->tbo.base.resv);
+> -	if (f) {
+> -		r = radeon_fence_wait((struct radeon_fence *)f, false);
+> -		if (r) {
+> -			DRM_ERROR("Failed waiting for UVD message (%d)!\n", r);
+> -			return r;
+> -		}
+> +	r = dma_resv_wait_timeout(bo->tbo.base.resv, false, false,
+> +				  MAX_SCHEDULE_TIMEOUT);
+> +	if (r <= 0) {
+> +		DRM_ERROR("Failed waiting for UVD message (%d)!\n", r);
+> +		return r ? r : -ETIME;
+>   	}
+>   
+>   	r = radeon_bo_kmap(bo, &ptr);
