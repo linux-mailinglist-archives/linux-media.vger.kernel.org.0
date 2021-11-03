@@ -2,100 +2,77 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2D076443E07
-	for <lists+linux-media@lfdr.de>; Wed,  3 Nov 2021 09:08:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7B2F9443E17
+	for <lists+linux-media@lfdr.de>; Wed,  3 Nov 2021 09:12:40 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231724AbhKCIK7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 3 Nov 2021 04:10:59 -0400
-Received: from mga05.intel.com ([192.55.52.43]:4718 "EHLO mga05.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231512AbhKCIK6 (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 3 Nov 2021 04:10:58 -0400
-X-IronPort-AV: E=McAfee;i="6200,9189,10156"; a="317654897"
-X-IronPort-AV: E=Sophos;i="5.87,205,1631602800"; 
-   d="scan'208";a="317654897"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Nov 2021 01:08:22 -0700
-X-IronPort-AV: E=Sophos;i="5.87,205,1631602800"; 
-   d="scan'208";a="599802531"
-Received: from paasikivi.fi.intel.com ([10.237.72.42])
-  by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Nov 2021 01:08:18 -0700
-Received: from paasikivi.fi.intel.com (localhost [127.0.0.1])
-        by paasikivi.fi.intel.com (Postfix) with SMTP id 09D522036B;
-        Wed,  3 Nov 2021 10:08:16 +0200 (EET)
-Date:   Wed, 3 Nov 2021 10:08:16 +0200
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Eugen Hristev <eugen.hristev@microchip.com>
-Cc:     akinobu.mita@gmail.com, linux-media@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] media: i2c: ov7740: implement get_mbus_config
-Message-ID: <YYJDcIiBXo/XlKCX@paasikivi.fi.intel.com>
-References: <20211102153008.1349895-1-eugen.hristev@microchip.com>
+        id S231250AbhKCIPO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 3 Nov 2021 04:15:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56468 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230352AbhKCIPM (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 3 Nov 2021 04:15:12 -0400
+Received: from mail-wr1-x42f.google.com (mail-wr1-x42f.google.com [IPv6:2a00:1450:4864:20::42f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 01ECDC061714;
+        Wed,  3 Nov 2021 01:12:36 -0700 (PDT)
+Received: by mail-wr1-x42f.google.com with SMTP id r8so2222059wra.7;
+        Wed, 03 Nov 2021 01:12:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=Uh0NRCclsAKfVxkerpNkq71adkos81CcdIhWKjRw+6Y=;
+        b=mr5PnPgRO8OzuCvJMvW5hnrKT6fvInL0UAalZ989hyaB3jvVYItDW8ou3liJfIJoNr
+         hvWaf54dIpbnxdcc373Xcvqh9M6HM18knXjMfLH8s9y9SqdcLaOWvj2x7DpcCaGzVFbZ
+         lRKQhbmITsNkhjsS4nGlQr7p3Lx9KbhcIkcbZuEMqIiRnZFQq9nQAgmb7jI6kyyIYGVr
+         8DuN2xfiamK0PB5ZXxLNCXVJmkxa0CufWXYNL8NcvGDnhKDuJsd3OrctTS27BMaV18TM
+         rng6LYJfdT4RIcJrOUvee5IGHT8G8Pg1qV1oMpUStS5iXhzHspZdxG0dOEiTdyYrycJK
+         yKSw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=Uh0NRCclsAKfVxkerpNkq71adkos81CcdIhWKjRw+6Y=;
+        b=WdEJp8HqoEMxLa+XLcCfbKT5e6SWBuyfTWI0CBoWvlIwstag3C52DZolONecqf7lJh
+         /UMFmq4OSg9O9lCnXv3M/QKzBHT8sypLwOdi7UZEQf6spf9mZWYibYk8eoyKoOXukByb
+         kQ5FFaLwD9Qg37zI3MrIvjvPaGPpx/71YHE2DldhU+lxj6jbTrYEQwlcR2t5funp/1Tn
+         a01S8DPG9axSKcsr9PFamE79ea7B2oWj3aC00pSnfPNK3VKzTrAh21Z+21YU5DzC1YcM
+         LMDGQ/ZsqfoJ0tAJaaMleqtIZALeRVeMuZ2vNuxdj+yecfnuBRpcKj/p0OCCqsh5TxIC
+         YrYw==
+X-Gm-Message-State: AOAM531TkLc2xjiT+ULFl3xbF5A+Rysj070Il7heZKAOxnYX7tGfeBCM
+        icJp/L1DR1iSqB+mDzX4srRnMvdt61g=
+X-Google-Smtp-Source: ABdhPJw1BshvZSVxZm2e89H/8z2XLrQccFGIz7m0oW1jDggouT+C66c3Yi239msG+Ek/pKeY2cfj0A==
+X-Received: by 2002:adf:fe88:: with SMTP id l8mr33010703wrr.208.1635927154697;
+        Wed, 03 Nov 2021 01:12:34 -0700 (PDT)
+Received: from abel.fritz.box (p5b0ea1b5.dip0.t-ipconnect.de. [91.14.161.181])
+        by smtp.gmail.com with ESMTPSA id l7sm1450088wry.86.2021.11.03.01.12.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 03 Nov 2021 01:12:34 -0700 (PDT)
+From:   "=?UTF-8?q?Christian=20K=C3=B6nig?=" 
+        <ckoenig.leichtzumerken@gmail.com>
+X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
+To:     linux-media@vger.kernel.org, etnaviv@lists.freedesktop.org,
+        linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
+        virtualization@lists.linux-foundation.org,
+        spice-devel@lists.freedesktop.org
+Cc:     sumit.semwal@linaro.org, l.stach@pengutronix.de, daniel@ffwll.ch
+Subject: DMA-buf debugfs cleanups
+Date:   Wed,  3 Nov 2021 09:12:27 +0100
+Message-Id: <20211103081231.18578-1-christian.koenig@amd.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20211102153008.1349895-1-eugen.hristev@microchip.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Eugen,
+Hi guys,
 
-Thanks for the patch.
+second round for those four patches adding some simple yet useful DMA-buf helper functions for debugfs prints.
 
-On Tue, Nov 02, 2021 at 05:30:08PM +0200, Eugen Hristev wrote:
-> Implement the get_mbus_config callback.
-> ov7740 is a parallel sensor, and according to datasheet, the register
-> REG12 controls the CCIR656 mode. This register is written to 0 in yuyv mode.
-> According to REG12[5] , CCIR656 mode, the behavior is:
-> CCIR656: disabled
-> REG28 controls the polarity of the signals. This register is unused.
-> The default behavior is then:
-> HSYNC polarity : positive
-> VSYNC polarity : positive
-> HREF polarity: positive
-> 
+Fixed some missing includes and typos in commit messages.
 
-Doesn't the receiver driver get this information from DT?
+Please review and/or comment,
+Christian.
 
-> Signed-off-by: Eugen Hristev <eugen.hristev@microchip.com>
-> ---
->  drivers/media/i2c/ov7740.c | 14 ++++++++++++++
->  1 file changed, 14 insertions(+)
-> 
-> diff --git a/drivers/media/i2c/ov7740.c b/drivers/media/i2c/ov7740.c
-> index 2539cfee85c8..f8a717aecb6f 100644
-> --- a/drivers/media/i2c/ov7740.c
-> +++ b/drivers/media/i2c/ov7740.c
-> @@ -873,12 +873,26 @@ static int ov7740_get_fmt(struct v4l2_subdev *sd,
->  	return ret;
->  }
->  
-> +static int ov7740_get_mbus_config(struct v4l2_subdev *sd,
-> +				  unsigned int pad,
-> +				  struct v4l2_mbus_config *cfg)
-> +{
-> +	cfg->type = V4L2_MBUS_PARALLEL;
-> +	cfg->flags = V4L2_MBUS_MASTER | V4L2_MBUS_HSYNC_ACTIVE_HIGH |
-> +		     V4L2_MBUS_VSYNC_ACTIVE_HIGH |
-> +		     V4L2_MBUS_PCLK_SAMPLE_RISING |
-> +		     V4L2_MBUS_FIELD_EVEN_LOW | V4L2_MBUS_DATA_ACTIVE_HIGH;
-> +
-> +	return 0;
-> +}
-> +
->  static const struct v4l2_subdev_pad_ops ov7740_subdev_pad_ops = {
->  	.enum_frame_interval = ov7740_enum_frame_interval,
->  	.enum_frame_size = ov7740_enum_frame_size,
->  	.enum_mbus_code = ov7740_enum_mbus_code,
->  	.get_fmt = ov7740_get_fmt,
->  	.set_fmt = ov7740_set_fmt,
-> +	.get_mbus_config = ov7740_get_mbus_config,
->  };
->  
->  static const struct v4l2_subdev_ops ov7740_subdev_ops = {
 
--- 
-Regards,
-
-Sakari Ailus
