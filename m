@@ -2,112 +2,90 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 891E9443E24
-	for <lists+linux-media@lfdr.de>; Wed,  3 Nov 2021 09:12:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DE9C7443E5A
+	for <lists+linux-media@lfdr.de>; Wed,  3 Nov 2021 09:24:47 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231393AbhKCIPR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 3 Nov 2021 04:15:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56490 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231322AbhKCIPP (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 3 Nov 2021 04:15:15 -0400
-Received: from mail-wr1-x434.google.com (mail-wr1-x434.google.com [IPv6:2a00:1450:4864:20::434])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B7A5AC061714;
-        Wed,  3 Nov 2021 01:12:39 -0700 (PDT)
-Received: by mail-wr1-x434.google.com with SMTP id d5so2269341wrc.1;
-        Wed, 03 Nov 2021 01:12:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=4CDt1ISjRTMYLH7FxvvLqp3He8TQZQtgj+2GfXtaN90=;
-        b=g9U1aSa+6bfag8lo3nJKStn7BnOsmwJb6j1n4QC0Lkp1bDff6m9nVVeAoToH3yAudW
-         4jTbxb8/cz27CKva48/O/RblrmnLlJa141hwjr/7zvWE1IjnsP9KKu7Zbc4G7kGQ+bjy
-         TRMIQFhu0WKSRP/jVfYGghycdSFltphYSAwVFMpZt91dTudt5/B1Bw7LABU4HXO3tbv8
-         q9Q62IJ8avbKVgS4KTNxIMKbWGcXUxKEB+i3t+0ZCrlwNWFLXmBmD/GZCpKLiZFgIp3z
-         8zW847hVRQ1jOayX9XCwct3J+rN0aZqVN6CWHmMOhJF6kywpn1Xl6nxJGDznecM+bw+q
-         2k2w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=4CDt1ISjRTMYLH7FxvvLqp3He8TQZQtgj+2GfXtaN90=;
-        b=Nt1r0SdMZ/hOD5nOIftdZQ0/6Q4702jHt/GqDXEpOAs1/+SI4QTIzefXMksUPbflub
-         FtlBqvTGBIQntUvxNtY1pNmxNWPZcAcTjXY53eCul9i9lFg2Y/kwiQR4HoSjuj6L4BEO
-         sjviNlux380Lzv58LU2gd74ma4ZerHlKRp2ORSZ12nDvI09MzaMV4DRGyuk/UrwHDvCs
-         ewCkBb5S7vXLioQJZAJrz4JuWCZkKqeD+rXT+7C9v7pnSdxsDhRZu8Ypczh6avNSDyxU
-         u0PfLe9H8FetiS/LEbXcmsRFcgU9N/g6R/WPuFJC5jvoLnx15Q7HHPsOCY2K+R/QYC7u
-         Ivbw==
-X-Gm-Message-State: AOAM530VkUBtqYOvHkSIgJzM5AX0lFPQoVvA4GeZWG5MV8V0BqGxCS+M
-        C847hGGei3tRsCpT6+pb0D0z6DdT4fo=
-X-Google-Smtp-Source: ABdhPJxlY/OJLgc774nRzsIwvqJo4XvP/pZEzGcq0XIZGbOcmmVvVYVPx0RKwrS16P8UJv2gUPvNvA==
-X-Received: by 2002:a5d:6dae:: with SMTP id u14mr53757436wrs.46.1635927158385;
-        Wed, 03 Nov 2021 01:12:38 -0700 (PDT)
-Received: from abel.fritz.box (p5b0ea1b5.dip0.t-ipconnect.de. [91.14.161.181])
-        by smtp.gmail.com with ESMTPSA id l7sm1450088wry.86.2021.11.03.01.12.37
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 03 Nov 2021 01:12:38 -0700 (PDT)
-From:   "=?UTF-8?q?Christian=20K=C3=B6nig?=" 
-        <ckoenig.leichtzumerken@gmail.com>
-X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
-To:     linux-media@vger.kernel.org, etnaviv@lists.freedesktop.org,
-        linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
-        virtualization@lists.linux-foundation.org,
-        spice-devel@lists.freedesktop.org
-Cc:     sumit.semwal@linaro.org, l.stach@pengutronix.de, daniel@ffwll.ch
-Subject: [PATCH 4/4] drm/qxl: use iterator instead of dma_resv_shared_list
-Date:   Wed,  3 Nov 2021 09:12:31 +0100
-Message-Id: <20211103081231.18578-5-christian.koenig@amd.com>
+        id S231491AbhKCI1W (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 3 Nov 2021 04:27:22 -0400
+Received: from twspam01.aspeedtech.com ([211.20.114.71]:51325 "EHLO
+        twspam01.aspeedtech.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230352AbhKCI1V (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 3 Nov 2021 04:27:21 -0400
+Received: from mail.aspeedtech.com ([192.168.0.24])
+        by twspam01.aspeedtech.com with ESMTP id 1A3815ve088944;
+        Wed, 3 Nov 2021 16:01:05 +0800 (GMT-8)
+        (envelope-from jammy_huang@aspeedtech.com)
+Received: from JammyHuang-PC.aspeed.com (192.168.2.115) by TWMBX02.aspeed.com
+ (192.168.0.24) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Wed, 3 Nov
+ 2021 16:23:57 +0800
+From:   Jammy Huang <jammy_huang@aspeedtech.com>
+To:     <eajames@linux.ibm.com>, <mchehab@kernel.org>, <joel@jms.id.au>,
+        <andrew@aj.id.au>, <linux-media@vger.kernel.org>,
+        <openbmc@lists.ozlabs.org>, <linux-arm-kernel@lists.infradead.org>,
+        <linux-aspeed@lists.ozlabs.org>, <linux-kernel@vger.kernel.org>
+CC:     Paul Menzel <pmenzel@molgen.mpg.de>
+Subject: [Resend PATCH v3] media: aspeed: fix mode-detect always time out at 2nd run
+Date:   Wed, 3 Nov 2021 16:23:54 +0800
+Message-ID: <20211103082354.408-1-jammy_huang@aspeedtech.com>
 X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20211103081231.18578-1-christian.koenig@amd.com>
-References: <20211103081231.18578-1-christian.koenig@amd.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7BIT
+Content-Type:   text/plain; charset=US-ASCII
+X-Originating-IP: [192.168.2.115]
+X-ClientProxiedBy: TWMBX02.aspeed.com (192.168.0.24) To TWMBX02.aspeed.com
+ (192.168.0.24)
+X-DNSRBL: 
+X-MAIL: twspam01.aspeedtech.com 1A3815ve088944
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-I'm not sure why it is useful to know the number of fences
-in the reservation object, but we try to avoid exposing the
-dma_resv_shared_list() function.
+aspeed_video_get_resolution() will try to do res-detect again if the
+timing got in last try is invalid. But it will always time out because
+VE_SEQ_CTRL_TRIG_MODE_DET is only cleared after 1st mode-detect.
 
-So use the iterator instead. If more information is desired
-we could use dma_resv_describe() as well.
+To fix the problem, just clear VE_SEQ_CTRL_TRIG_MODE_DET before setting
+it in aspeed_video_enable_mode_detect().
 
-Signed-off-by: Christian König <christian.koenig@amd.com>
+Fixes: d2b4387f3bdf ("media: platform: Add Aspeed Video Engine driver")
+Signed-off-by: Jammy Huang <jammy_huang@aspeedtech.com>
+Acked-by: Paul Menzel <pmenzel@molgen.mpg.de>
+Reviewed-by: Joel Stanley <joel@jms.id.au>
 ---
- drivers/gpu/drm/qxl/qxl_debugfs.c | 17 ++++++++++-------
- 1 file changed, 10 insertions(+), 7 deletions(-)
+v3:
+  - add tag
+v2:
+  - update commit message
+---
+ drivers/media/platform/aspeed-video.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/gpu/drm/qxl/qxl_debugfs.c b/drivers/gpu/drm/qxl/qxl_debugfs.c
-index 1f9a59601bb1..6a36b0fd845c 100644
---- a/drivers/gpu/drm/qxl/qxl_debugfs.c
-+++ b/drivers/gpu/drm/qxl/qxl_debugfs.c
-@@ -57,13 +57,16 @@ qxl_debugfs_buffers_info(struct seq_file *m, void *data)
- 	struct qxl_bo *bo;
+diff --git a/drivers/media/platform/aspeed-video.c b/drivers/media/platform/aspeed-video.c
+index 5ffbabf884eb..fea5e4d0927e 100644
+--- a/drivers/media/platform/aspeed-video.c
++++ b/drivers/media/platform/aspeed-video.c
+@@ -518,6 +518,10 @@ static void aspeed_video_enable_mode_detect(struct aspeed_video *video)
+ 	aspeed_video_update(video, VE_INTERRUPT_CTRL, 0,
+ 			    VE_INTERRUPT_MODE_DETECT);
  
- 	list_for_each_entry(bo, &qdev->gem.objects, list) {
--		struct dma_resv_list *fobj;
--		int rel;
--
--		rcu_read_lock();
--		fobj = dma_resv_shared_list(bo->tbo.base.resv);
--		rel = fobj ? fobj->shared_count : 0;
--		rcu_read_unlock();
-+		struct dma_resv_iter cursor;
-+		struct dma_fence *fence;
-+		int rel = 0;
++	/* Disable mode detect in order to re-trigger */
++	aspeed_video_update(video, VE_SEQ_CTRL,
++			    VE_SEQ_CTRL_TRIG_MODE_DET, 0);
 +
-+		dma_resv_iter_begin(&cursor, bo->tbo.base.resv, true);
-+		dma_resv_for_each_fence_unlocked(&cursor, fence) {
-+			if (dma_resv_iter_is_restarted(&cursor))
-+				rel = 0;
-+			++rel;
-+		}
+ 	/* Trigger mode detect */
+ 	aspeed_video_update(video, VE_SEQ_CTRL, 0, VE_SEQ_CTRL_TRIG_MODE_DET);
+ }
+@@ -809,10 +813,6 @@ static void aspeed_video_get_resolution(struct aspeed_video *video)
+ 			return;
+ 		}
  
- 		seq_printf(m, "size %ld, pc %d, num releases %d\n",
- 			   (unsigned long)bo->tbo.base.size,
+-		/* Disable mode detect in order to re-trigger */
+-		aspeed_video_update(video, VE_SEQ_CTRL,
+-				    VE_SEQ_CTRL_TRIG_MODE_DET, 0);
+-
+ 		aspeed_video_check_and_set_polarity(video);
+ 
+ 		aspeed_video_enable_mode_detect(video);
 -- 
 2.25.1
 
