@@ -2,132 +2,154 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 61F5C44450E
-	for <lists+linux-media@lfdr.de>; Wed,  3 Nov 2021 16:57:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 874BD444531
+	for <lists+linux-media@lfdr.de>; Wed,  3 Nov 2021 17:03:09 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232489AbhKCP7q (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 3 Nov 2021 11:59:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50188 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231876AbhKCP7n (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 3 Nov 2021 11:59:43 -0400
-Received: from mail-wr1-x42d.google.com (mail-wr1-x42d.google.com [IPv6:2a00:1450:4864:20::42d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5477BC061203
-        for <linux-media@vger.kernel.org>; Wed,  3 Nov 2021 08:57:06 -0700 (PDT)
-Received: by mail-wr1-x42d.google.com with SMTP id d5so4329710wrc.1
-        for <linux-media@vger.kernel.org>; Wed, 03 Nov 2021 08:57:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20210112.gappssmtp.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=eRvj9qYI+2l7/7aUCZ50U+44Z6UG0IqeflVK/0bEcvo=;
-        b=BZz+zyywefqfNDI4gN4GDIM0uwo+FGSPcLNoq8DH2EXoe56E32R0v4glZZpSqHvkR/
-         sbLHeTm4jmFtLgyiP5il6cidyVwnm/QcUw+cpD1tSl0vT7dMlJnK2qrC2bJvlJVSeLBz
-         mItrt4gUdMoh7jQfhyR0fMzPZnw+Slkatr5pyLYowy4Vqf9MZWbXhjXvWJHn1o7tFSBl
-         3kw7mG28mKixAVjUtYZzWipsWohjqyBC8vluMVwO+QhPb3QAcNJlAqREIe+O56MgF+Rj
-         6lSVMNXjMG0DB5I3FHvra0nW8vhSCHdLX85k5eUkA6+Fq4mpthVNJGWj1iaLSihcnUmM
-         QD/g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=eRvj9qYI+2l7/7aUCZ50U+44Z6UG0IqeflVK/0bEcvo=;
-        b=k9MSPvrfz/kjlxl8FQB2I8Kwn/4fs7BeLREF1WyofQBC7ibvTgfdGNWqOv54CDi14B
-         PkG776DECb5tFHBSRIMmPMwiT9XTABQOxWaRB6NHLHnNLc83X8OlFGZr96NHQ0GsDKhE
-         d0bVmce4/rSXuXE0gyDEp3q4v4EYMdZ4P4pfBaySqes/6jFgMLDwrM4/FgXmfcprGTxX
-         u6jr50mxZcfeKBYNWIo/6OWWmY7pjOhh56lVV9clq03sU8WvKslIQ64w8EIGm1fbOF12
-         Iuyj4jMSzP7vL0vn8yNOGx1Rnil/t01M3/RtzG3kOX5S01NQFJX1RzDa5Ktk9nPx1Hf0
-         mbPQ==
-X-Gm-Message-State: AOAM531eAWZubhmyKsNSj6Bnr5u/2WHrYwVrkUbpe+1Xad7slxgd8+ZN
-        6mIy11vMlRau1w0y8+nKmToIHQ==
-X-Google-Smtp-Source: ABdhPJxvQ4B9y40EuhwiBKOvJ12HuXF5RU2mRbTh9lwg4xo6yOedTE2cuS4DHK3f5Fl5qo4ZYIHTSg==
-X-Received: by 2002:a5d:4890:: with SMTP id g16mr58678884wrq.10.1635955024911;
-        Wed, 03 Nov 2021 08:57:04 -0700 (PDT)
-Received: from Red ([2a01:cb1d:3d5:a100:264b:feff:fe03:2806])
-        by smtp.googlemail.com with ESMTPSA id p13sm6470355wmi.0.2021.11.03.08.57.04
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 03 Nov 2021 08:57:04 -0700 (PDT)
-Date:   Wed, 3 Nov 2021 16:57:02 +0100
-From:   LABBE Corentin <clabbe@baylibre.com>
-To:     Hans Verkuil <hverkuil@xs4all.nl>
-Cc:     mchehab@kernel.org, gregkh@linuxfoundation.org,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-staging@lists.linux.dev, mjpeg-users@lists.sourceforge.net
-Subject: Re: [PATCH v3 00/14] staging: media: zoran: fusion in one module
-Message-ID: <YYKxTrWI299pvqo7@Red>
-References: <20211026193416.1176797-1-clabbe@baylibre.com>
- <a85c93db-e118-274f-d86a-d127c7399926@xs4all.nl>
+        id S232700AbhKCQFe (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 3 Nov 2021 12:05:34 -0400
+Received: from mail.kernel.org ([198.145.29.99]:44072 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S232680AbhKCQFd (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 3 Nov 2021 12:05:33 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 8DFE960E05;
+        Wed,  3 Nov 2021 16:02:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1635955376;
+        bh=tEGgvNz6cxzVUhJzFow/0yapB19/ypbw7LaC/6uVyE4=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:From;
+        b=bjW9qM9wEiLtJMPpjhsbwkH7p4lpeKeQ8HOOTkXvw8KTOOheJs+rm1re5qkg8FPig
+         7yP9KlATTOHI8OZhr5KVq0il9NeBNBAcMRsRQRNliqn4Ag/zVahaEDh9Y1HBZo9gfm
+         ydZHuPb1z62piFnzRwL95OhWc5/Ww7YYSPrIl/3qPJ7YdIrUttQljcEC2V0fCkR8e7
+         TTPy+kdFRiHAhlGjPN36IpZTHajpgnutKSMUtd+pqk2NPBKDXRShih7JHMRhxRpNGI
+         aLX5pz1DWeNyKvRh44JZu4Ykw91YgDgbwHytwzVFAMSq7QgfgX/tgrT64A3iokwdn6
+         P4s8dKZykRW4w==
+Date:   Wed, 3 Nov 2021 11:02:55 -0500
+From:   Bjorn Helgaas <helgaas@kernel.org>
+To:     Dongdong Liu <liudongdong3@huawei.com>
+Cc:     hch@infradead.org, logang@deltatee.com, leon@kernel.org,
+        linux-pci@vger.kernel.org, rajur@chelsio.com,
+        hverkuil-cisco@xs4all.nl, linux-media@vger.kernel.org,
+        netdev@vger.kernel.org
+Subject: Re: [PATCH V11 7/8] PCI: Enable 10-Bit Tag support for PCIe Endpoint
+ device
+Message-ID: <20211103160255.GA687132@bhelgaas>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <a85c93db-e118-274f-d86a-d127c7399926@xs4all.nl>
+In-Reply-To: <26f8758e-c85d-291b-1c34-5184aa6862aa@huawei.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Le Wed, Nov 03, 2021 at 04:21:02PM +0100, Hans Verkuil a écrit :
-> Hi Corentin,
-> 
-> On 26/10/2021 21:34, Corentin Labbe wrote:
-> > Hello
+On Wed, Nov 03, 2021 at 06:05:34PM +0800, Dongdong Liu wrote:
+> On 2021/11/2 6:33, Bjorn Helgaas wrote:
+> > On Mon, Nov 01, 2021 at 05:02:41PM -0500, Bjorn Helgaas wrote:
+> > > On Sat, Oct 30, 2021 at 09:53:47PM +0800, Dongdong Liu wrote:
+> > > > 10-Bit Tag capability, introduced in PCIe-4.0 increases the total Tag
+> > > > field size from 8 bits to 10 bits.
+> > > > 
+> > > > PCIe spec 5.0 r1.0 section 2.2.6.2 "Considerations for Implementing
+> > > > 10-Bit Tag Capabilities" Implementation Note:
+> > > > 
+> > > >   For platforms where the RC supports 10-Bit Tag Completer capability,
+> > > >   it is highly recommended for platform firmware or operating software
+> > > >   that configures PCIe hierarchies to Set the 10-Bit Tag Requester Enable
+> > > >   bit automatically in Endpoints with 10-Bit Tag Requester capability.
+> > > >   This enables the important class of 10-Bit Tag capable adapters that
+> > > >   send Memory Read Requests only to host memory.
+> > > > 
+> > > > It's safe to enable 10-bit tags for all devices below a Root Port that
+> > > > supports them. Switches that lack 10-Bit Tag Completer capability are
+> > > > still able to forward NPRs and Completions carrying 10-Bit Tags correctly,
+> > > > since the two new Tag bits are in TLP Header bits that were formerly
+> > > > Reserved.
+> > > 
+> > > Side note: the reason we want to do this to increase performance by
+> > > allowing more outstanding requests.  Do you have any benchmarking that
+> > > we can mention here to show that this is actually a benefit?  I don't
+> > > doubt that it is, but I assume you've measured it and it would be nice
+> > > to advertise it.
 > > 
-> > The main change of this serie is to fusion all zoran related modules in
-> > one.
-> > This fixes the load order problem when everything is built-in.
-> 
-> I've been testing this series, and while the module load/unload is now working,
-> I'm running into a lot of other v4l2 compliance issues.
-> 
-> I've fixed various issues in some follow-up patches available in my tree:
-> 
-> https://git.linuxtv.org/hverkuil/media_tree.git/log/?h=zoran
-> 
-> At least some of the worst offenders are now resolved. Note that the patch
-> dropping read/write support relies on this patch:
-> 
-> https://patchwork.linuxtv.org/project/linux-media/patch/4f89b139-13b7-eee6-9662-996626b778b0@xs4all.nl/
+> > Hmmm.  I did a quick Google search looking for "nvme pcie 10-bit tags"
+> > hoping to find some performance info, but what I *actually* found was
+> > several reports of 10-bit tags causing breakage:
+> > 
+> >   https://www.reddit.com/r/MSI_Gaming/comments/exjvzg/x570_apro_7c37vh72beta_version_has_anyone_tryed_it/
+> >   https://rog.asus.com/forum/showthread.php?115064-Beware-of-agesa-1-0-0-4B-bios-not-good!/page2
+> >   https://forum-en.msi.com/index.php?threads/sound-blaster-z-has-weird-behaviour-after-updating-bios-x570-gaming-edge-wifi.325223/page-2
+> >   https://gearspace.com/board/electronic-music-instruments-and-electronic-music-production/1317189-h8000fw-firewire-facts-2020-must-read.html
+> >   https://www.soundonsound.com/forum/viewtopic.php?t=69651&start=12
+> >   https://forum.rme-audio.de/viewtopic.php?id=30307
+> > 
+> > This is a big problem for me.
+> > 
+> > Some of these might be a broken BIOS that turns on 10-bit tags
+> > when the completer doesn't support them.  I didn't try to debug
+> > them to that level.  But the last thing I want is to enable 10-bit
+> > by default and cause boot issues or sound card issues or whatever.
+>
+> It seems a BIOS software bug, as it turned on (as default) a 10-Bit
+> Tag Field for RP, but the card (non-Gen4 card) does not support
+> 10-Bit Completer.
 
-Hello
+It doesn't matter *where* the problem is.  If we change Linux to
+*expose* a BIOS bug, that's just as much of a problem as if the bug
+were in Linux.  Users are not equipped to diagnose or fix problems
+like that.
 
-My test branch already included your "zoran: fix various V4L2 compliance errors"
-I have quickly checked other patch and I am ok with them.
-I will add and test with them.
+> This patch we enable 10-Bit Tag Requester for EP when RC supports
+> 10-Bit Tag Completer capability. So it shuld be worked ok.
 
-> 
-> But there is one really major bug that makes me hesitant to merge this:
-> 
-> This works:
-> 
-> v4l2-ctl -v pixelformat=MJPG,width=768,height=576
-> v4l2-ctl --stream-mmap
-> 
-> This fails:
-> 
-> v4l2-ctl -v pixelformat=MJPG,width=768,height=288
-> v4l2-ctl --stream-mmap
-> 
-> It's an immediate lock up with nothing to indicate what is wrong.
-> As soon as the height is 288 or less, this happens.
-> 
-> Both with my DC30 and DC30D.
+That's true as long as the RC supports 10-bit tags correctly when it
+advertises support for them.  It "should" work :)
 
-Just for curiosity, what is the difference between thoses two ?
+But it does remind me that if the RC doesn't support 10-bit tags, but
+we use sysfs to enable 10-bit tags for a reqester that intends to use
+P2PDMA to a peer that *does* support them, I don't think there's
+any check in the DMA API that prevents the driver from setting up DMA
+to the RC in addition to the peer.
 
-> 
-> Do you see the same? Any idea what is going on? I would feel much happier
-> if this is fixed.
-> 
-> Note that the same problem is present without this patch series, so it's
-> been there for some time.
-> 
+> But I still think default to "on" will be better,
+> Current we enable 10-Bit Tag, in the future PCIe 6.0 maybe need to use
+> 14-Bit tags to get good performance.
 
-I will start on digging this problem and add thoses commands to my CI.
-And I know there are a huge quantity of problem since origins.
-A simple example is that just setting MJPEG as default input format does not work.
+Maybe we can default to "on" based on BIOS date or something.  Older
+systems that want the benefit can use the param to enable it, and if
+there's a problem, the cause will be obvious ("we booted with
+'pci=tag-bits=10' and things broke").
 
-But since it is not related to my serie, can you please merge it.
+If we enable 10-bit tags by default on systems from 2022 or newer, we
+shouldn't break any existing systems, and we have a chance to discover
+any problems and add quirk if necessary.
 
-Thanks
-Regards
+> > In any case, we (by which I'm afraid I mean "you" :)) need to
+> > investigate the problem reports, figure out whether we will see
+> > similar problems, and fix them before merging if we can.
+>
+> We have tested a PCIe 5.0 network card on FPGA with 10-Bit tag worked
+> ok. I have not got the performance data as FPGA is slow.
+
+10-bit tag support appeared in the spec four years ago (PCIe r4.0, in
+September, 2017).  Surely there is production hardware that supports
+this and could demonstrate a benefit from this.
+
+We need a commit log that says "enabling 10-bit tags allows more
+outstanding transactions, which improves performance of adapters like
+X by Y% on these workloads," not a log that says "we think enabling
+10-bit tags is safe, but users with non-compliant hardware may see new
+PCIe errors or even non-bootable systems, and they should use boot
+param X to work around this."
+
+> Current we enable 10-Bit Tag Requester for EP when RC supports
+> 10-Bit Tag Completer capability. It should be worked ok except
+> hardware bugs, we also provide boot param to disable 10-Bit Tag if
+> the hardware really have a bug or can do some quirks as 8-bit tag
+> has done if we have known the hardware.
+
+The problem is that turning it on by default means systems with
+hardware defects *used* to work but now they mysteriously *stop*
+working.  Yes, a boot param can work around that, but it's just
+not an acceptable user experience.  Maybe there are no such defects.
+I dunno.
+
+Bjorn
