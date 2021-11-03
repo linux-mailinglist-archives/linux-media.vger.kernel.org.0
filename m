@@ -2,80 +2,74 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 510A1444184
-	for <lists+linux-media@lfdr.de>; Wed,  3 Nov 2021 13:28:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 00E57444195
+	for <lists+linux-media@lfdr.de>; Wed,  3 Nov 2021 13:32:43 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232064AbhKCMbM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 3 Nov 2021 08:31:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58774 "EHLO
+        id S231986AbhKCMfR convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-media@lfdr.de>); Wed, 3 Nov 2021 08:35:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59714 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231968AbhKCMbL (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 3 Nov 2021 08:31:11 -0400
-Received: from lb2-smtp-cloud9.xs4all.net (lb2-smtp-cloud9.xs4all.net [IPv6:2001:888:0:108::2c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DF601C061714
-        for <linux-media@vger.kernel.org>; Wed,  3 Nov 2021 05:28:34 -0700 (PDT)
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud9.xs4all.net with ESMTPA
-        id iFNXmWlFt030KiFNYmUbfG; Wed, 03 Nov 2021 13:28:32 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1635942512; bh=qkwueg2i/aRf+Gme8VO6MU2H73SYOkJv13HBSDoSbFA=;
-        h=From:Subject:To:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=BFFs8Qe+Rr7VoRWdWcGYXbyqpioxfW/DJrC5YVgf3W+tiIc1Jow33Ja1XX2CfIHUO
-         SxZMMTnU3Wf9xX9GVnwd1Of6uezrcWcCxdAxpAHMeLDjaOq++pe3wF6EohVdwat8jm
-         sSbgkJ8Xe9V/ZPqrGUgyjtJwWyCxvxPua/6CNvdIHqYBuzndqTgnMjB1e/Pmmbo9cB
-         nJf4R1YMDUSF4s1Eaode0qqxf+sjf+xricbo3nJR7HP3bG0y29fHUHuk3GHWJeWUye
-         43oqjmhKSO6dGUcgEtCBAZPkr2xR02XXfYcYfsdB9TkrHyRG/frzHyIxpagIZrmhk7
-         xkHUs0xDB8x5Q==
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Subject: [PATCH] v4l2-ioctl.c: readbuffers depends on V4L2_CAP_READWRITE
-To:     Linux Media Mailing List <linux-media@vger.kernel.org>
-Message-ID: <4f89b139-13b7-eee6-9662-996626b778b0@xs4all.nl>
-Date:   Wed, 3 Nov 2021 13:28:31 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+        with ESMTP id S231975AbhKCMfR (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 3 Nov 2021 08:35:17 -0400
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CE7F3C061714
+        for <linux-media@vger.kernel.org>; Wed,  3 Nov 2021 05:32:40 -0700 (PDT)
+Received: from lupine.hi.pengutronix.de ([2001:67c:670:100:3ad5:47ff:feaf:1a17] helo=lupine)
+        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <p.zabel@pengutronix.de>)
+        id 1miFRK-0004xc-Ei; Wed, 03 Nov 2021 13:32:26 +0100
+Received: from pza by lupine with local (Exim 4.94.2)
+        (envelope-from <p.zabel@pengutronix.de>)
+        id 1miFRH-000BSG-Oo; Wed, 03 Nov 2021 13:32:23 +0100
+Message-ID: <092d8c2ba808a25efab579a6d7cc32846c482206.camel@pengutronix.de>
+Subject: Re: [PATCHv3 4/4] media: imx: Use dedicated format handler for
+ i.MX7/8
+From:   Philipp Zabel <p.zabel@pengutronix.de>
+To:     Dorota Czaplejewicz <dorota.czaplejewicz@puri.sm>,
+        Steve Longerbeam <slongerbeam@gmail.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        kernel@puri.sm, phone-devel@vger.kernel.org
+Cc:     Rui Miguel Silva <rmfrfs@gmail.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Date:   Wed, 03 Nov 2021 13:32:23 +0100
+In-Reply-To: <20211019120047.827915-4-dorota.czaplejewicz@puri.sm>
+References: <20211019120047.827915-1-dorota.czaplejewicz@puri.sm>
+         <20211019120047.827915-4-dorota.czaplejewicz@puri.sm>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8BIT
+User-Agent: Evolution 3.38.3-1 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4xfC+b2JayTR/fX0sidOPZ/nQMrqrd6lZBot5HXGmuLDdjJq59P5U/TTJRuy31ddR5L07+pwk7xLkv3y+waxfhHuE9aUD+6YUFu8SsT0XmGd+5JebDv3pE
- nUpLCCOnnsHulMR+Q8I9OQ+v1+jcuP/IrgU3q4Sb1EKel6rQyW8qn2AphJyJmu/Mlx8nKJs2Kel3I+hGI7XNh1yY19o0WrdFbiOiYwu5jQWKW3M1KNBeJofK
- EUyuILa3o5yvZImUWmt4zFRKdKL4fuxulnp18Qls1nUgvnuod0GE5MoHqoSe2gLp
+X-SA-Exim-Connect-IP: 2001:67c:670:100:3ad5:47ff:feaf:1a17
+X-SA-Exim-Mail-From: p.zabel@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-media@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-If V4L2_CAP_READWRITE is not set, then readbuffers must be set to 0,
-otherwise v4l2-compliance will complain.
+On Tue, 2021-10-19 at 14:14 +0200, Dorota Czaplejewicz wrote:
+> This splits out a format handler which takes into account
+> the capabilities of the i.MX7/8 video device,
+> as opposed to the default handler compatible with both i.MX5/6 and i.MX7/8.
+> 
+> Signed-off-by: Dorota Czaplejewicz <dorota.czaplejewicz@puri.sm>
 
-A note on the Fixes tag below: this patch does not really fix that commit,
-but it can be applied from that commit onwards. For older code there is no
-guarantee that device_caps is set, so even though this patch would apply,
-it will not work reliably.
+Cc: Rui & Laurent
 
-Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Fixes: 049e684f2de9 (media: v4l2-dev: fix WARN_ON(!vdev->device_caps))
-Cc: <stable@vger.kernel.org>
----
-diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-core/v4l2-ioctl.c
-index 31d0109ce5a8..69b74d0e8a90 100644
---- a/drivers/media/v4l2-core/v4l2-ioctl.c
-+++ b/drivers/media/v4l2-core/v4l2-ioctl.c
-@@ -2090,6 +2090,7 @@ static int v4l_prepare_buf(const struct v4l2_ioctl_ops *ops,
- static int v4l_g_parm(const struct v4l2_ioctl_ops *ops,
- 				struct file *file, void *fh, void *arg)
- {
-+	struct video_device *vfd = video_devdata(file);
- 	struct v4l2_streamparm *p = arg;
- 	v4l2_std_id std;
- 	int ret = check_fmt(file, p->type);
-@@ -2101,7 +2102,8 @@ static int v4l_g_parm(const struct v4l2_ioctl_ops *ops,
- 	if (p->type != V4L2_BUF_TYPE_VIDEO_CAPTURE &&
- 	    p->type != V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE)
- 		return -EINVAL;
--	p->parm.capture.readbuffers = 2;
-+	if (vfd->device_caps & V4L2_CAP_READWRITE)
-+		p->parm.capture.readbuffers = 2;
- 	ret = ops->vidioc_g_std(file, fh, &std);
- 	if (ret == 0)
- 		v4l2_video_std_frame_period(std, &p->parm.capture.timeperframe);
+Looks sane to me, but I'd like someone with i.MX7/8 media experience to
+have a look at this.
+
+Thread at
+https://lore.kernel.org/linux-media/20211019120047.827915-1-dorota.czaplejewicz@puri.sm/
+
+regards
+Philipp
