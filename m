@@ -2,31 +2,30 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6AF02443CB3
-	for <lists+linux-media@lfdr.de>; Wed,  3 Nov 2021 06:29:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id CD236443CD1
+	for <lists+linux-media@lfdr.de>; Wed,  3 Nov 2021 06:43:26 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230291AbhKCFbu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 3 Nov 2021 01:31:50 -0400
-Received: from twspam01.aspeedtech.com ([211.20.114.71]:43230 "EHLO
+        id S230435AbhKCFqB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 3 Nov 2021 01:46:01 -0400
+Received: from twspam01.aspeedtech.com ([211.20.114.71]:64203 "EHLO
         twspam01.aspeedtech.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229650AbhKCFbt (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 3 Nov 2021 01:31:49 -0400
+        with ESMTP id S229650AbhKCFqB (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 3 Nov 2021 01:46:01 -0400
 Received: from mail.aspeedtech.com ([192.168.0.24])
-        by twspam01.aspeedtech.com with ESMTP id 1A355hk5074274;
-        Wed, 3 Nov 2021 13:05:43 +0800 (GMT-8)
+        by twspam01.aspeedtech.com with ESMTP id 1A35Jl9W075146;
+        Wed, 3 Nov 2021 13:19:47 +0800 (GMT-8)
         (envelope-from jammy_huang@aspeedtech.com)
 Received: from JammyHuang-PC.aspeed.com (192.168.2.115) by TWMBX02.aspeed.com
  (192.168.0.24) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Wed, 3 Nov
- 2021 13:28:34 +0800
+ 2021 13:42:38 +0800
 From:   Jammy Huang <jammy_huang@aspeedtech.com>
 To:     <eajames@linux.ibm.com>, <mchehab@kernel.org>, <joel@jms.id.au>,
         <andrew@aj.id.au>, <linux-media@vger.kernel.org>,
         <openbmc@lists.ozlabs.org>, <linux-arm-kernel@lists.infradead.org>,
         <linux-aspeed@lists.ozlabs.org>, <linux-kernel@vger.kernel.org>
-CC:     Paul Menzel <pmenzel@molgen.mpg.de>
-Subject: [PATCH v3] media: aspeed: fix mode-detect always time out at 2nd run
-Date:   Wed, 3 Nov 2021 13:29:11 +0800
-Message-ID: <20211103052911.23646-1-jammy_huang@aspeedtech.com>
+Subject: [PATCH] media: aspeed: use reset to replace clk off/on
+Date:   Wed, 3 Nov 2021 13:43:16 +0800
+Message-ID: <20211103054316.25272-1-jammy_huang@aspeedtech.com>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7BIT
@@ -35,56 +34,87 @@ X-Originating-IP: [192.168.2.115]
 X-ClientProxiedBy: TWMBX02.aspeed.com (192.168.0.24) To TWMBX02.aspeed.com
  (192.168.0.24)
 X-DNSRBL: 
-X-MAIL: twspam01.aspeedtech.com 1A355hk5074274
+X-MAIL: twspam01.aspeedtech.com 1A35Jl9W075146
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-aspeed_video_get_resolution() will try to do res-detect again if the
-timing got in last try is invalid. But it will always time out because
-VE_SEQ_CTRL_TRIG_MODE_DET is only cleared after 1st mode-detect.
-
-To fix the problem, just clear VE_SEQ_CTRL_TRIG_MODE_DET before setting
-it in aspeed_video_enable_mode_detect().
+reset should be more proper than clk off/on to bring HW back to good
+state.
 
 Signed-off-by: Jammy Huang <jammy_huang@aspeedtech.com>
-Acked-by: Paul Menzel <pmenzel@molgen.mpg.de>
-Reviewed-by: Joel Stanley <joel@jms.id.au>
 ---
-v3:
-  - add tag
-v2:
-  - update commit message
----
- drivers/media/platform/aspeed-video.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ drivers/media/platform/aspeed-video.c | 22 +++++++++++++++++++---
+ 1 file changed, 19 insertions(+), 3 deletions(-)
 
 diff --git a/drivers/media/platform/aspeed-video.c b/drivers/media/platform/aspeed-video.c
-index 5ffbabf884eb..fea5e4d0927e 100644
+index fea5e4d0927e..10d182139809 100644
 --- a/drivers/media/platform/aspeed-video.c
 +++ b/drivers/media/platform/aspeed-video.c
-@@ -518,6 +518,10 @@ static void aspeed_video_enable_mode_detect(struct aspeed_video *video)
- 	aspeed_video_update(video, VE_INTERRUPT_CTRL, 0,
- 			    VE_INTERRUPT_MODE_DETECT);
+@@ -23,6 +23,7 @@
+ #include <linux/workqueue.h>
+ #include <linux/debugfs.h>
+ #include <linux/ktime.h>
++#include <linux/reset.h>
+ #include <media/v4l2-ctrls.h>
+ #include <media/v4l2-dev.h>
+ #include <media/v4l2-device.h>
+@@ -220,6 +221,7 @@ struct aspeed_video {
+ 	void __iomem *base;
+ 	struct clk *eclk;
+ 	struct clk *vclk;
++	struct reset_control *reset;
  
-+	/* Disable mode detect in order to re-trigger */
-+	aspeed_video_update(video, VE_SEQ_CTRL,
-+			    VE_SEQ_CTRL_TRIG_MODE_DET, 0);
-+
- 	/* Trigger mode detect */
- 	aspeed_video_update(video, VE_SEQ_CTRL, 0, VE_SEQ_CTRL_TRIG_MODE_DET);
+ 	struct device *dev;
+ 	struct v4l2_ctrl_handler ctrl_handler;
+@@ -554,6 +556,13 @@ static void aspeed_video_on(struct aspeed_video *video)
+ 	set_bit(VIDEO_CLOCKS_ON, &video->flags);
  }
-@@ -809,10 +813,6 @@ static void aspeed_video_get_resolution(struct aspeed_video *video)
- 			return;
- 		}
  
--		/* Disable mode detect in order to re-trigger */
--		aspeed_video_update(video, VE_SEQ_CTRL,
--				    VE_SEQ_CTRL_TRIG_MODE_DET, 0);
--
- 		aspeed_video_check_and_set_polarity(video);
++static void aspeed_video_reset(struct aspeed_video *v)
++{
++	reset_control_assert(v->reset);
++	udelay(100);
++	reset_control_deassert(v->reset);
++}
++
+ static void aspeed_video_bufs_done(struct aspeed_video *video,
+ 				   enum vb2_buffer_state state)
+ {
+@@ -574,7 +583,9 @@ static void aspeed_video_irq_res_change(struct aspeed_video *video, ulong delay)
+ 	set_bit(VIDEO_RES_CHANGE, &video->flags);
+ 	clear_bit(VIDEO_FRAME_INPRG, &video->flags);
  
- 		aspeed_video_enable_mode_detect(video);
+-	aspeed_video_off(video);
++	aspeed_video_write(video, VE_INTERRUPT_CTRL, 0);
++	aspeed_video_write(video, VE_INTERRUPT_STATUS, 0xffffffff);
++	aspeed_video_reset(video);
+ 	aspeed_video_bufs_done(video, VB2_BUF_STATE_ERROR);
+ 
+ 	schedule_delayed_work(&video->res_work, delay);
+@@ -1507,8 +1518,7 @@ static void aspeed_video_stop_streaming(struct vb2_queue *q)
+ 		 * Need to force stop any DMA and try and get HW into a good
+ 		 * state for future calls to start streaming again.
+ 		 */
+-		aspeed_video_off(video);
+-		aspeed_video_on(video);
++		aspeed_video_reset(video);
+ 
+ 		aspeed_video_init_regs(video);
+ 
+@@ -1715,6 +1725,12 @@ static int aspeed_video_init(struct aspeed_video *video)
+ 		return rc;
+ 	}
+ 
++	video->reset = devm_reset_control_get(dev, NULL);
++	if (IS_ERR(video->reset)) {
++		dev_err(dev, "Unable to get reset\n");
++		return PTR_ERR(video->reset);
++	}
++
+ 	video->eclk = devm_clk_get(dev, "eclk");
+ 	if (IS_ERR(video->eclk)) {
+ 		dev_err(dev, "Unable to get ECLK\n");
 -- 
 2.25.1
 
