@@ -2,335 +2,199 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A64B9444F58
-	for <lists+linux-media@lfdr.de>; Thu,  4 Nov 2021 07:50:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5D31E445013
+	for <lists+linux-media@lfdr.de>; Thu,  4 Nov 2021 09:20:57 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230119AbhKDGxe (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 4 Nov 2021 02:53:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52854 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229994AbhKDGxd (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 4 Nov 2021 02:53:33 -0400
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D21A6C061714
-        for <linux-media@vger.kernel.org>; Wed,  3 Nov 2021 23:50:55 -0700 (PDT)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: dafna)
-        with ESMTPSA id 666D81F45D8E
-Subject: =?UTF-8?B?UmU6IOetlOWkjTog562U5aSNOiBbUEFUQ0ggNC81XSBtZWRpYTogbXRr?=
- =?UTF-8?Q?-vcodec=3a_Add_two_error_cases_upon_vpu_irq_handling?=
-To:     Irui Wang <irui.wang@mediatek.com>
-Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
-        "moderated list:ARM/Mediatek SoC support" 
-        <linux-mediatek@lists.infradead.org>,
-        Collabora Kernel ML <kernel@collabora.com>
-References: <20210804142729.7231-1-dafna.hirschfeld@collabora.com>
- <20210804142729.7231-5-dafna.hirschfeld@collabora.com>
- <81524c608e9ef640e71d969aa83d1a383e687b0a.camel@mediatek.com>
- <f343f406-111b-326f-3671-094e699a3aa6@collabora.com>
- <HK0PR03MB302713CFF1F1E79AD99737679DF69@HK0PR03MB3027.apcprd03.prod.outlook.com>
- <18e477a2-60c7-3e18-730d-ab0cb5e5821a@collabora.com>
- <HK0PR03MB30274F4B532D52E775687E069DF69@HK0PR03MB3027.apcprd03.prod.outlook.com>
- <a282c849-3542-4881-7a56-b8a2bccdbcbe@collabora.com>
- <0c9a80957eaf5e5b99436fb3b478838538340da8.camel@mediatek.com>
-From:   Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
-Message-ID: <2d251d3f-fe9b-9d09-dfd3-e229d335cf88@collabora.com>
-Date:   Thu, 4 Nov 2021 08:50:34 +0200
+        id S230445AbhKDIXd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 4 Nov 2021 04:23:33 -0400
+Received: from mail-dm6nam12on2069.outbound.protection.outlook.com ([40.107.243.69]:12138
+        "EHLO NAM12-DM6-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S230084AbhKDIXb (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 4 Nov 2021 04:23:31 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=lgCPJIXVZmk6LpGA4iYO2mE18ZPhnuW2iICBF6UyJY5W2CiK4QbZUoP7+dmdZUco6BLr7ql2y0VSwM7QLlFRdMaFOcBYVbtOngaesNMcAUfncufwOyuKOhac/nRK+faRj9NnLmUtjoKKyKlGVp9NDSV96cK5H3W8evcySK9rREm82ODuEWcrlWq1QR6JNZvch+A7bgnLAUFVNkXJ8UloQ0j807s7iRsGfJlHRMJOk3F/0UNiRcjjhBs4IOkifPu6uB+iv7mVZjHDRfs4u/npQeXZSGrNSfEvSoqWMmhUrjDfVO0kq1+daM+qUYZddzq2RVW+TEcf0UHdG4x77ruVQQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=O+3i3o7LynXrCaVGmQnK0Kg/tQoYi4azm67c2lysRPY=;
+ b=bjjKVOgVFOIjr7i5kxMEF/myiCCK8s+85kWLlxxRtM4adS20ZdSiWVaeZY88tWhNL2ibQ/gOlPJWYZhUNN4Nc2+4sPsMKgz4iwKjIOO2b2wtqLnWtXyp+xo827B8oOG8i1ihR6HqGXaS1+0UbcDUFBRBbO+UiYmSdnyf605vV1RMZ8v3YLBbFwDeUDiqLdCSS4PpNtDvBWReYEXpskaLRkR794KWTuUpaUBC5Y0diEqdVIzNQdsKQhTFNFNGDe1caZqAUVoIl9ATSJn9/tFApd2XWiZNlQ33fhJSy64f/ToAWZbptPDo7hlCLwumnBY+avV+dP7L9TaAQGqGjmPRiw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=O+3i3o7LynXrCaVGmQnK0Kg/tQoYi4azm67c2lysRPY=;
+ b=HcwkMabfIwtjO35JOc2gUVNVE346Qvrev0KwFbXWerQFS0sN5+4I97eGf89aRQghFcyOcFKDyrC5J/+Fcfj0WjdlgYE7PTI1Zufnierx/gcExTfDJOpJytAjCcqN48UqyZaGncpyVTBrSF0KjCATkir3OunKBtpfspRQiTASyMk=
+Authentication-Results: vger.kernel.org; dkim=none (message not signed)
+ header.d=none;vger.kernel.org; dmarc=none action=none header.from=amd.com;
+Received: from MWHPR1201MB0192.namprd12.prod.outlook.com
+ (2603:10b6:301:5a::14) by MWHPR1201MB0112.namprd12.prod.outlook.com
+ (2603:10b6:301:5a::20) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4669.10; Thu, 4 Nov
+ 2021 08:20:50 +0000
+Received: from MWHPR1201MB0192.namprd12.prod.outlook.com
+ ([fe80::2d02:26e7:a2d0:3769]) by MWHPR1201MB0192.namprd12.prod.outlook.com
+ ([fe80::2d02:26e7:a2d0:3769%5]) with mapi id 15.20.4649.020; Thu, 4 Nov 2021
+ 08:20:50 +0000
+Subject: Re: [Linaro-mm-sig] [PATCH] dma-buf/poll: Get a file reference for
+ outstanding fence callbacks
+To:     =?UTF-8?Q?Michel_D=c3=a4nzer?= <michel@daenzer.net>,
+        =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
+Cc:     linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org
+References: <20210723075857.4065-1-michel@daenzer.net>
+ <f5f37693-bfe2-e52f-172b-00f4aa94dbd9@amd.com>
+ <4cf94f59-f953-f5d7-9901-cfe5fd63bfbc@daenzer.net>
+ <884050b3-5e7d-c00b-5467-290cfc57e0ea@gmail.com>
+ <20cfea36-a8cc-7bd1-9604-57efdf4710e2@daenzer.net>
+From:   =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+Message-ID: <c0265dc9-15c4-e838-f183-3e9b82a6ff50@amd.com>
+Date:   Thu, 4 Nov 2021 09:20:40 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.13.0
-MIME-Version: 1.0
-In-Reply-To: <0c9a80957eaf5e5b99436fb3b478838538340da8.camel@mediatek.com>
+In-Reply-To: <20cfea36-a8cc-7bd1-9604-57efdf4710e2@daenzer.net>
 Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
 Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+X-ClientProxiedBy: AS9PR06CA0286.eurprd06.prod.outlook.com
+ (2603:10a6:20b:45a::32) To MWHPR1201MB0192.namprd12.prod.outlook.com
+ (2603:10b6:301:5a::14)
+MIME-Version: 1.0
+Received: from [192.168.178.21] (91.14.161.181) by AS9PR06CA0286.eurprd06.prod.outlook.com (2603:10a6:20b:45a::32) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4669.11 via Frontend Transport; Thu, 4 Nov 2021 08:20:46 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: de6ddc43-be41-40e0-b920-08d99f6c01ed
+X-MS-TrafficTypeDiagnostic: MWHPR1201MB0112:
+X-Microsoft-Antispam-PRVS: <MWHPR1201MB0112A3AFA79F378E05A36FEB838D9@MWHPR1201MB0112.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 9hkZZIujAOmhusP8USiWM9hI1ALSDo4eDYLmtjjhsSCtgeCfAI8szlbhqm9hFkaNLYNcdjK9s6OZUEiSmJRKptUT4QoW5PkTrEukWMQFPQby0kd7yXRYFTiEOiC9BxDapgg/WyXTkGP1OM26GZJrPQPxWaEupRpPIyASPs9yLzviAEKHN437aPABsPyxAHn1rCIsk0+7SvCAUUioHWdy9RMBhQe0Fdl3T/6YhjAIiCOEw2qHVH6j8paHLCaAOws48rVPFzhSQ2fp63AAIHHh8onAEZJEICVLx6SygySFjJBcG69Aewf+PDyHyvbtPZ6YGMX4bKXuMEDdvV+dE8ydIUl5QcTOu0Sgy+FCavsiE7sWsCuSM9lb7vhJsV8Y0hteK1MSkfa4rKL2qyPIPVAr3K3zLcDBDOYvCC/6vIZy7Pqh66nqSh+qufioHxQhMbcqDXoRvSuGyZqGSIlSGO2d+DxU8j0pqNfqD9g05o8iL1k8HrXOM91mUN5MKbDdxnu0lIoFa1fLeDNqy8lVbyetGymuWewxJLcLVcrCH9uYwdVLRUrO7DhKf+JR7xpayamZ/xT1+IRMS1EWKp1ff9fM+mbeOU+736+c7SGqaYBpBy05KuTMcsTEw4A8/VIXEbMXmDz+1w5S+n8FEhC+4zqtcLgweumvg4cdPKRK8lwSqA5DFZfz+hShQMe5JdWjqvRmFM1vzS2E3+lO7VKZn4b3SgNo9iAtgfZPLmwrFHbUgXQ4RYb8iyOk4rnzPJdkhAGL+wCPH6x94xIQB90BbqJcFag1Zgr4IjNUUFPh2Dp0ExnWN1ajc2Vl+gRbRULUbthv
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MWHPR1201MB0192.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(366004)(5660300002)(38100700002)(8936002)(8676002)(31696002)(83380400001)(66476007)(186003)(66946007)(66556008)(53546011)(966005)(26005)(86362001)(16576012)(2906002)(6486002)(36756003)(508600001)(110136005)(6666004)(956004)(4326008)(45080400002)(316002)(2616005)(31686004)(66574015)(43740500002)(45980500001);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?MVBPVFFXaHNNUXhtczlHcllBcHRkMGFFODVadlYrOWFqRkQ1cTNoN3FMcklS?=
+ =?utf-8?B?YitGU1ZJbVVJM0hXNzAwL2hYOHZXSDFzWnRlM1Q0VHA2TkUrRFV4Y0JnUDlH?=
+ =?utf-8?B?U1hUL2JodmNmUGZralY2cWxnR3pyTHpSd0hqa2RMM0hQV0M0dnF5RE5BV0d1?=
+ =?utf-8?B?ZktmcjN5QjR2UEE4RldoWXlBQzFtMVpJZU9zdGI3SlRBeTZIOWhTTUFWc09n?=
+ =?utf-8?B?ZHNFSW16MFBZQjdnMEY4Y2w4QmJyL051MHlnaFhKV3FvbFRNb2ZVb0J1K2w2?=
+ =?utf-8?B?dC9SdmV3Y2d6ZWJzMVlIaW5SbDEvUy9rVDNOWDJuNThMdTdZd0tsOC9xSDhR?=
+ =?utf-8?B?NVNvYmIycS9vVTlVb2crWmFQNEI3dmF2bzFTSHNDSEZ5MWJhOWR6aUNRekFi?=
+ =?utf-8?B?OWxDNlA4ajZ4cmxwczNNRERlVWhrWUxHYVc0UHByRUc0WWJ2MEUvNXV1NTlt?=
+ =?utf-8?B?a3ZsQW03aDhMamZjYVlHUnUzVjlnNkxMcTY1OUVFS09NRVBVU1NheDhWOHFL?=
+ =?utf-8?B?dGZZa2xua3I0SGlDbzVWOFQxa0xtd05ydUxXY1A0ZmpLd1A4dWlnWUlVTDF2?=
+ =?utf-8?B?aWozK3lPTDVZcUgxNE8rVC83SzhWSjBIeUtPZWtqU3c1aWZuL2JqeDBvd0tP?=
+ =?utf-8?B?ZmcyaDBDQkd2WEx0aEg5SVJXZERlM3hUYUNQOXJ5OWVVUEx1b2Y1eVZGZWpj?=
+ =?utf-8?B?d3FqaC9TV3FQYUlyVjBUWWw2UGoyNjhHaVhaelpJU2Q2WkYyYUtKWnNRdWtJ?=
+ =?utf-8?B?bFdDNjRYVEwwVnBZQUl6R3lFYUZYdFlJNCtOQXRGY21IZmthNE9uUDJ0TFBV?=
+ =?utf-8?B?aXYxdFVqcE5EelhCVTJaTXlndnI1ZGZ0MnpidGhwMkY4K2ZsaFRpNzQwSlc5?=
+ =?utf-8?B?LzBPWU5ydWthZSttd1hQYXhmcXFQdDdKK1g1d0M0Z2xkVTJsWmJ5NzlzZEhW?=
+ =?utf-8?B?OXN2NkZSSTVIdXl4TVhGYUZieEpzY094SGFtQUV4dFR3dU9uSVVMTGNKU1JB?=
+ =?utf-8?B?ZUdWaGFCOU1idzhENzNKdHZncy9rL3dKVENCNWFMVFh4QUxCR2ZHbzhRV2E5?=
+ =?utf-8?B?dXlTZHYyeGttellEa25KZ24xeGdQRVFCR3ljRitPcTE2eDhmek1kNW9wdmhU?=
+ =?utf-8?B?bndvNmdkUGlOakkwNDZldDZMNUNScm93RFY2akpUb3phbEN0Tk9Yb2JHZkhI?=
+ =?utf-8?B?ckduZk42LzdhdjMzWW5IQWk0SHhJdkd6SDhoVzJoNlVEUjNxVktPOG1XV2NX?=
+ =?utf-8?B?Rks4Sk9DWXVBQlovZmJ1ZGRvenplYXV4Tm1USjJYa3NsbFg2NVNsQzNEUjds?=
+ =?utf-8?B?cHI3Vi9vbEtoc2Y0STE2eEU1NHRqVjZTWlpFSUJ3OER3anA4cHliRHZML2Yr?=
+ =?utf-8?B?aUlzZGVCSzVURS9xMzZka1hhLzkyNUZRbzZld2VhbUE2N1FGa2RSaUdUQTBQ?=
+ =?utf-8?B?MmY1cHArYWg1VVU0eW1wQ0dIa2NPSzBRNlNFWXNZTkwyeDZra3lzbjUwQVh6?=
+ =?utf-8?B?WXJjbXlXNnBXVitDMVpkMTArcktkQklqTTF5S05rbVc2QnR0QW5CQzdkVm51?=
+ =?utf-8?B?Y0JzSGRpd3lrMW1GYmhuR2d5Qk1XWDM0QU9jSDRYa1FjZ3pjMU5OWlJnS1Bu?=
+ =?utf-8?B?ZjllUmtGRlN0R2ZSbHp4TkxXdWpzaFA2R0hMMHliUHYrMEVTU214VDQ0REJV?=
+ =?utf-8?B?c1VtanllZzFHeVN2cmlQU09KcVdJdll6U2Z5eWNGbjlLM3oxd3dUQlg4TXZp?=
+ =?utf-8?B?cmFzZFlaaU9hUm5ZVjdTQUxJN2ROSktwbXk3MG5xanpLVUhGd1FYU0pEaE1D?=
+ =?utf-8?B?NlBRSmQ0Yk5EbDRBN09TZTJvcHJNeSt1aXJ4eWdhY1U5bUtPRGtSMjBKd3NE?=
+ =?utf-8?B?ZnZnU2JqV3VHY0JDSklhelRydUZWTjhtODZnOWtGOUVBRzlxTDgrZ3ozZjRJ?=
+ =?utf-8?B?QW4zS0thNW9lT0gzT1I5WkVabFg4elJ6KzNmTWN5ZldLcWxpRndiWVVjMkY2?=
+ =?utf-8?B?VTFUSjRhRWpWNnBLV2ptRFg1b0lIbWtRbmN4Sjk4eHk5dnhmaS82NE5uWVFn?=
+ =?utf-8?B?R2s1M21iZE9sejNMQ3R6YUVDbzhSS25UcENLN0JnblVEamUzdUZvL2dDeHhj?=
+ =?utf-8?Q?MTnQ=3D?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: de6ddc43-be41-40e0-b920-08d99f6c01ed
+X-MS-Exchange-CrossTenant-AuthSource: MWHPR1201MB0192.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Nov 2021 08:20:49.9771
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: OwniUC0qDFfGAlk7ixSn1imwDWiQ536aj5K2UXD68svcWEsGf8GL9+nZgZgUyTNe
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR1201MB0112
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-
-
-On 04.11.21 03:38, Irui Wang wrote:
-> Hi,
-> 
-> On Wed, 2021-11-03 at 22:50 +0200, Dafna Hirschfeld wrote:
->>
->> On 09.08.21 12:12, Irui Wang (王瑞) wrote:
->>> Hi Dafna,
->>>
->>>>> 2. Always happened  issue ?  timeout at the beginning or  in
->>>>> processing ?
->>>> The commands that I run is:
->>>>> sudo --user=#1000 /usr/local/libexec/chrome-binary-
->>>>> tests/video_encode_accelerator_tests --gtest_filter=-
->>>>> *NV12Dmabuf*  -->>codec=vp8
->>>>>> /usr/local/share/tast/data/chromiumos/tast/local/bundles/cros/
->>>>> video/data/tulip2-320x180.yuv --disable_validator
->>>>> The command sometime succeed but when I run it sequentially
->>>>> then at some point after few attempts I start to get those
->>>>> timeout errors.
->>>
->>> It seems mean VP8 encoding function OK, but failed sometimes, did
->>> you have check VENC clock info during encoding:
->>>
->>> cat /sys/kernel/debug/clk/clk_summary | grep venc:
->>>
->>> venc_sel   > it's H.264 clock
->>> venclt_sel  > it's VP8 clock
->>>
->>> the enable&prepare count is not 0 during encoding process.
->>>
->>> Thanks
->>> Best Regards
->>>
->>> -----邮件原件-----
->>> 发件人: Dafna Hirschfeld [mailto:dafna.hirschfeld@collabora.com]
->>> 发送时间: 2021年8月9日 16:27
->>> 收件人: Irui Wang (王瑞)
->>> 抄送: Linux Media Mailing List; moderated list:ARM/Mediatek SoC
->>> support; Enric Balletbo i Serra
->>> 主题: Re: 答复: [PATCH 4/5] media: mtk-vcodec: Add two error cases upon
->>> vpu irq handling
->>>
->>>
->>>
->>> On 09.08.21 09:37, Irui Wang (王瑞) wrote:
->>>> Hi Dafna,
->>>>
->>>>>> I am testing the vp8 encoder on chromeos and at some point
->>>>>> the encoder interrupts stop arriving so I try to figure out
->>>>>> why and report any possible error.
->>>>
->>>> 1. Log shows wait IRQ timeout ?
->>>
->>> Hi, yes, I get timeout when waiting to the encoder interrupt. The
->>> timeout is on vp8_enc_wait_venc_done
->>>
->>>
->>>> 2. Always happened  issue ?  timeout at the beginning or  in
->>>> processing ?
->>>
->>> The commands that I run is:
->>>
->>> sudo --user=#1000 /usr/local/libexec/chrome-binary-
->>> tests/video_encode_accelerator_tests --gtest_filter=-
->>> *NV12Dmabuf*  --codec=vp8
->>> /usr/local/share/tast/data/chromiumos/tast/local/bundles/cros/video
->>> /data/tulip2-320x180.yuv --disable_validator
->>>
->>> The command sometime succeed but when I run it sequentially then at
->>> some point after few attempts I start to get those timeout errors.
->>>
->>>> 3. how about IRQ infos?
->>>> cat /proc/interrupts | grep vcodec
->>>> 18002000.vcodec   >> it's H.264 encoder
->>>> 19002000.vcodec  >> it's  VP8 encoder
->>>>
->>>> I was told you have  met another H.264 encoding failed before,
->>>> did you find reasons about that ?
->>>
->>> No,
->>> But since I see that the google meetup uses the vp8 encoder I
->>> decided to test the vp8 first.
->>>
->>>>> [   81.918747] [MTK_V4L2][ERROR]
->>>>> mtk_vcodec_wait_for_done_ctx:32: [3] ctx->type=1, cmd=1,
->>>>> wait_event_interruptible_timeout time=1000ms out 0 0!
->>>>> [   81.931392] [MTK_VCODEC][ERROR][3]: h264_encode_frame()
->>>>> irq_status=0 failed
->>>>> [   81.938470] [MTK_V4L2][ERROR] mtk_venc_worker:1219:
->>>>> venc_if_encode failed=-5
->>
->> Hi,
->> I test the driver on debian now, I stream several instances of vp8
->> and h264 in parallel.
->> I see that those errors always occur after an iommu page fault:
->>
->> [gst-master] root@debian:~/gst-build# [ 5743.206014] mtk-iommu
->> 10205000.iommu: fault type=0x5 iova=0xac2ff003 pa=0x0 larb=3 port=0
->> layer=1 write
->> [ 5744.204964] [MTK_V4L2][ERROR] mtk_vcodec_wait_for_done_ctx:32:
->> [2706] ctx->type=1, cmd=1, wait_event_interruptible_timeout
->> time=1000ms out 0 0!
->> [ 5744.217849] [MTK_VCODEC][ERROR][2706]: vp8_enc_encode_frame()
->> irq_status=0 failed
->> [ 5744.225359] [MTK_V4L2][ERROR] mtk_venc_worker:1243: venc_if_encode
->> failed=-5
->>
->> I suspect that maybe this is because the iova of the working_buffers
->> is handed to the vpu in the function vp8_enc_alloc_work_buf:
->> wb[i].iova = inst->work_bufs[i].dma_addr;
->>
->> Maybe the vpu keep writing to those addresses after they are already
->> unmapped?
->>
->> Thanks,
->> Dafna
-> 
-> failed larb=3, it's for h264 encoder,  vp8 encoder is larb5, is there
-> any h264 encoding failed at that time? I have no ideas why these errors
-> happened on your platform, but when we got the "iommu: fault", the
-> possible reason is related to power or clock.
-
-Once the iommu fault fires, both encoders constantly fail and never recover
-(also not when starting new instance).
-
-With the falut:
-mtk_iommu_isr: fault type=0x5 iova=0xebede003 pa=0x0 larb=3 port=0 layer=1 write
-
-I looked at the iommu tracing log:
-
-   gst-launch-1.0-606     [000] .....   714.634398: unmap: IOMMU: iova=0x00000000ebede000 - 0x00000000ebedf000 size=4096 unmapped_size=4096
-   gst-launch-1.0-606     [000] .....   714.634417: unmap: IOMMU: iova=0x00000000ebed0000 - 0x00000000ebed5000 size=20480 unmapped_size=20480
-   gst-launch-1.0-606     [000] .....   714.634435: unmap: IOMMU: iova=0x00000000eb800000 - 0x00000000ebb0a000 size=3186688 unmapped_size=3186688
-   gst-launch-1.0-606     [000] .N...   714.634891: unmap: IOMMU: iova=0x00000000eb700000 - 0x00000000eb7ff000 size=1044480 unmapped_size=1044480
-   gst-launch-1.0-606     [000] .N...   714.635481: unmap: IOMMU: iova=0x00000000eb000000 - 0x00000000eb30a000 size=3186688 unmapped_size=3186688
-   gst-launch-1.0-606     [000] .....   714.635934: unmap: IOMMU: iova=0x00000000eaf00000 - 0x00000000eafff000 size=1044480 unmapped_size=1044480
-   gst-launch-1.0-606     [000] .....   714.636041: unmap: IOMMU: iova=0x00000000eaef0000 - 0x00000000eaf00000 size=65536 unmapped_size=65536
-   gst-launch-1.0-606     [000] .....   714.636056: unmap: IOMMU: iova=0x00000000eaee0000 - 0x00000000eaef0000 size=65536 unmapped_size=65536
-   gst-launch-1.0-606     [000] .....   714.636069: unmap: IOMMU: iova=0x00000000eaedf000 - 0x00000000eaee0000 size=4096 unmapped_size=4096
-      kworker/0:0-537     [000] d.h..   714.636191: io_page_fault: IOMMU:mtk-iommu 10205000.iommu iova=0x00000000ebede003 flags=0x0001
-
-(I changed the iommu map/unmap trace events to print the iova range)
-you can see the first line unmapping 00000000ebede000 which is the faulting iova.
-So it seems that the problem is due to a device trying to access an address that is already unmapped.
-This might be either the encoder or the vpu.
-Since the wb[i].iova is not reset when freeing the working buffers I suspect it might be the vpu device, what do you think?
-
-Thanks,
-Dafna
-
-> 
->>
->>
->>>
->>>
->>>>
->>>> MT8173 latest VPUD firmware:
->>>>
-> https://git.kernel.org/pub/scm/linux/kernel/git/firmware/linux-firmwar
->>>> e.git/commit/?id=aaed4a8bf9a77ec68376e8d92fb218d5fdd88b59
->>>>
->>>
->>> I uses the latest firmware.
->>>
->>> Thanks,
->>> Dafna
->>>
->>>> Thanks
->>>> Best Regards
->>>>
->>>> -----邮件原件-----
->>>> 发件人: Dafna Hirschfeld [mailto:dafna.hirschfeld@collabora.com]
->>>> 发送时间: 2021年8月6日 15:49
->>>> 收件人: Irui Wang (王瑞); linux-kernel@vger.kernel.org;
->>>> linux-media@vger.kernel.org; linux-mediatek@lists.infradead.org
->>>> 抄送: dafna3@gmail.com; tfiga@chromium.org; Tiffany Lin (林慧珊);
->>>> eizan@chromium.org; Maoguang Meng (孟毛广); kernel@collabora.com;
->>>> mchehab@kernel.org; hverkuil@xs4all.nl; Yunfei Dong (董云飞); Yong
->>>> Wu
->>>> (吴勇); hsinyi@chromium.org; matthias.bgg@gmail.com; Andrew-CT Chen
->>>> (陳智迪); acourbot@chromium.org
->>>> 主题: Re: [PATCH 4/5] media: mtk-vcodec: Add two error cases upon
->>>> vpu
->>>> irq handling
->>>>
->>>>
->>>>
->>>> On 06.08.21 08:58, Irui Wang (王瑞) wrote:
->>>>> On Wed, 2021-08-04 at 16:27 +0200, Dafna Hirschfeld wrote:
->>>>>> 1. Fail if the function mtk_vcodec_fw_map_dm_addr returns ERR
->>>>>> pointer.
->>>>>> 2. Fail if the state from the vpu msg is either
->>>>>> VEN_IPI_MSG_ENC_STATE_ERROR or VEN_IPI_MSG_ENC_STATE_PART
->>>>>>
->>>>>> Signed-off-by: Dafna Hirschfeld <
->>>>>> dafna.hirschfeld@collabora.com>
->>>>>> ---
->>>>>>     drivers/media/platform/mtk-vcodec/venc_vpu_if.c | 8
->>>>>> ++++++++
->>>>>>     1 file changed, 8 insertions(+)
->>>>>>
->>>>>> diff --git a/drivers/media/platform/mtk-vcodec/venc_vpu_if.c
->>>>>> b/drivers/media/platform/mtk-vcodec/venc_vpu_if.c
->>>>>> index 32dc844d16f9..234705ba7cd6 100644
->>>>>> --- a/drivers/media/platform/mtk-vcodec/venc_vpu_if.c
->>>>>> +++ b/drivers/media/platform/mtk-vcodec/venc_vpu_if.c
->>>>>> @@ -17,6 +17,8 @@ static int handle_enc_init_msg(struct
->>>>>> venc_vpu_inst *vpu, const void *data)
->>>>>>     vpu->vsi = mtk_vcodec_fw_map_dm_addr(vpu->ctx->dev-
->>>>>>> fw_handler,
->>>>>>          msg->vpu_inst_addr);
->>>>>>     
->>>>>> +if (IS_ERR(vpu->vsi))
->>>>>> +return PTR_ERR(vpu->vsi);
->>>>>>     /* Firmware version field value is unspecified on MT8173.
->>>>>> */
->>>>>>     if (vpu->ctx->dev->venc_pdata->chip == MTK_MT8173)
->>>>>>     return 0;
->>>>>> @@ -42,6 +44,12 @@ static int handle_enc_encode_msg(struct
->>>>>> venc_vpu_inst *vpu, const void *data)
->>>>>>     vpu->state = msg->state;
->>>>>>     vpu->bs_size = msg->bs_size;
->>>>>>     vpu->is_key_frm = msg->is_key_frm;
->>>>>> +if (vpu->state == VEN_IPI_MSG_ENC_STATE_ERROR ||
->>>>>> +    vpu->state == VEN_IPI_MSG_ENC_STATE_PART) {
->>>>>> mtk_vcodec_err(vpu,
->>>>>> +"bad ipi-enc-state: %s",
->>>>>> +       vpu->state ==
->>>>>> VEN_IPI_MSG_ENC_STATE_ERROR ? "ERR" : "PART");
->>>>>> +return -EINVAL;
->>>>>> +}
+Am 03.11.21 um 15:50 schrieb Michel Dänzer:
+> On 2021-07-23 10:22, Christian König wrote:
+>> Am 23.07.21 um 10:19 schrieb Michel Dänzer:
+>>> On 2021-07-23 10:04 a.m., Christian König wrote:
+>>>> Am 23.07.21 um 09:58 schrieb Michel Dänzer:
+>>>>> From: Michel Dänzer <mdaenzer@redhat.com>
 >>>>>
->>>>> Hi Dafna,
+>>>>> This makes sure we don't hit the
 >>>>>
->>>>> This state check is useless, the enc result will check in
->>>>> "vpu_enc_ipi_handler".
+>>>>>       BUG_ON(dmabuf->cb_in.active || dmabuf->cb_out.active);
 >>>>>
->>>>
->>>> Hi, thanks for reviewing. I see that the vpu_enc_ipi_handler only
->>>> test the msg->status and I see that the states are not tested
->>>> anywhere except of "skip" state in the h264 enc.
->>>>
->>>> Can't there be a scenario where msg->status is ok but the state
->>>> is error?
->>>> I am testing the vp8 encoder on chromeos and at some point the
->>>> encoder interrupts stop arriving so I try to figure out why and
->>>> report any possible error.
->>>>
->>>> Thanks,
->>>> Dafna
->>>>
->>>>> Thanks
+>>>>> in dma_buf_release, which could be triggered by user space closing the
+>>>>> dma-buf file description while there are outstanding fence callbacks
+>>>>> from dma_buf_poll.
+>>>> I was also wondering the same thing while working on this, but then thought that the poll interface would take care of this.
+>>> I was able to hit the BUG_ON with https://nam11.safelinks.protection.outlook.com/?url=https%3A%2F%2Fgitlab.gnome.org%2FGNOME%2Fmutter%2F-%2Fmerge_requests%2F1880&amp;data=04%7C01%7Cchristian.koenig%40amd.com%7C8d930ab39011481a839c08d99ed95755%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C637715479787056688%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000&amp;sdata=SjxSZIsWkP7ru1iHyL0IY9hN9882ENv7Cy38vzOtqyc%3D&amp;reserved=0 .
+>>>
+>>>
+>>>>> Cc: stable@vger.kernel.org
+>>>>> Signed-off-by: Michel Dänzer <mdaenzer@redhat.com>
+>>>>> ---
+>>>>>     drivers/dma-buf/dma-buf.c | 18 ++++++++++++------
+>>>>>     1 file changed, 12 insertions(+), 6 deletions(-)
 >>>>>
->>>>>>     return 0;
->>>>>>     }
->>>>>>     
->>>>
->>>> ************* MEDIATEK Confidentiality Notice
->>>> ******************** The
->>>> information contained in this e-mail message (including any
->>>> attachments) may be confidential, proprietary, privileged, or
->>>> otherwise exempt from disclosure under applicable laws. It is
->>>> intended
->>>> to be conveyed only to the designated recipient(s). Any use,
->>>> dissemination, distribution, printing, retaining or copying of
->>>> this
->>>> e-mail (including its
->>>> attachments) by unintended recipient(s) is strictly prohibited
->>>> and may
->>>> be unlawful. If you are not an intended recipient of this e-mail,
->>>> or
->>>> believe that you have received this e-mail in error, please
->>>> notify the
->>>> sender immediately (by replying to this e-mail), delete any and
->>>> all
->>>> copies of this e-mail (including any attachments) from your
->>>> system,
->>>> and do not disclose the content of this e-mail to any other
->>>> person. Thank you!
->>>>
-> _______________________________________________
-> Linux-mediatek mailing list
-> Linux-mediatek@lists.infradead.org
-> http://lists.infradead.org/mailman/listinfo/linux-mediatek
-> 
+>>>>> diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
+>>>>> index 6c520c9bd93c..ec25498a971f 100644
+>>>>> --- a/drivers/dma-buf/dma-buf.c
+>>>>> +++ b/drivers/dma-buf/dma-buf.c
+>>>>> @@ -65,12 +65,9 @@ static void dma_buf_release(struct dentry *dentry)
+>>>>>         BUG_ON(dmabuf->vmapping_counter);
+>>>>>           /*
+>>>>> -     * Any fences that a dma-buf poll can wait on should be signaled
+>>>>> -     * before releasing dma-buf. This is the responsibility of each
+>>>>> -     * driver that uses the reservation objects.
+>>>>> -     *
+>>>>> -     * If you hit this BUG() it means someone dropped their ref to the
+>>>>> -     * dma-buf while still having pending operation to the buffer.
+>>>>> +     * If you hit this BUG() it could mean:
+>>>>> +     * * There's a file reference imbalance in dma_buf_poll / dma_buf_poll_cb or somewhere else
+>>>>> +     * * dmabuf->cb_in/out.active are non-0 despite no pending fence callback
+>>>>>          */
+>>>>>         BUG_ON(dmabuf->cb_in.active || dmabuf->cb_out.active);
+>>>>>     @@ -196,6 +193,7 @@ static loff_t dma_buf_llseek(struct file *file, loff_t offset, int whence)
+>>>>>     static void dma_buf_poll_cb(struct dma_fence *fence, struct dma_fence_cb *cb)
+>>>>>     {
+>>>>>         struct dma_buf_poll_cb_t *dcb = (struct dma_buf_poll_cb_t *)cb;
+>>>>> +    struct dma_buf *dmabuf = container_of(dcb->poll, struct dma_buf, poll);
+>>>>>         unsigned long flags;
+>>>>>           spin_lock_irqsave(&dcb->poll->lock, flags);
+>>>>> @@ -203,6 +201,8 @@ static void dma_buf_poll_cb(struct dma_fence *fence, struct dma_fence_cb *cb)
+>>>>>         dcb->active = 0;
+>>>>>         spin_unlock_irqrestore(&dcb->poll->lock, flags);
+>>>>>         dma_fence_put(fence);
+>>>>> +    /* Paired with get_file in dma_buf_poll */
+>>>>> +    fput(dmabuf->file);
+>>>> Is calling fput() in interrupt context ok? IIRC that could potentially sleep.
+>>> Looks fine AFAICT: It has
+>>>
+>>>          if (likely(!in_interrupt() && !(task->flags & PF_KTHREAD))) {
+>>>
+>>> and as a fallback for that, it adds the file to a lock-less delayed_fput_list which is processed by a workqueue.
+>> Ah, yes that makes sense.
+>>
+>> Fell free to add Reviewed-by: Christian König <christian.koenig@amd.com>
+> Thanks! AFAICT this fix can be merged now for 5.16?
+
+I've just pushed it to drm-misc-next-fixes since it won't even apply to 
+drm-misc-fixes.
+
+Could be that we get requests to backport this because of the CC stable.
+
+Christian.
+
+
