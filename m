@@ -2,100 +2,104 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 949794452B0
-	for <lists+linux-media@lfdr.de>; Thu,  4 Nov 2021 13:06:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C031E4452B1
+	for <lists+linux-media@lfdr.de>; Thu,  4 Nov 2021 13:07:42 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231643AbhKDMJY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 4 Nov 2021 08:09:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39214 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231626AbhKDMJN (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 4 Nov 2021 08:09:13 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D1EC7C06120D
-        for <linux-media@vger.kernel.org>; Thu,  4 Nov 2021 05:06:35 -0700 (PDT)
-Received: from [192.168.1.111] (91-158-153-130.elisa-laajakaista.fi [91.158.153.130])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 473B8D8B;
-        Thu,  4 Nov 2021 13:06:32 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1636027593;
-        bh=btuS+2dQolQjMmzNCi3BS3UDKB2HvM3ZQFDGoNSJeGI=;
-        h=To:Cc:References:From:Subject:Date:In-Reply-To:From;
-        b=pVHMbVS2ORkUeB7a/idynQRXwlgK1PKCGGgEnovmdMi6Z49r3rM13zuR1f1V1jQMG
-         b9Z4wBoEKednVgD4ZWO4u91w7IcWHZo7leE83GOQFJWtNtlAJMWK2wsMLqr4iGH8uC
-         vY3zzvsRKW5jppW6k5iXSiPw94yHMr1pv0aqvzNs=
-To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        linux-media@vger.kernel.org, sakari.ailus@linux.intel.com,
-        Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        niklas.soderlund+renesas@ragnatech.se
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Pratyush Yadav <p.yadav@ti.com>
-References: <20211005085750.138151-1-tomi.valkeinen@ideasonboard.com>
- <20211005085750.138151-26-tomi.valkeinen@ideasonboard.com>
- <c3f939a1-81ac-d2a1-d669-9ae59143c07f@xs4all.nl>
-From:   Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Subject: Re: [PATCH v9 25/36] media: add V4L2_SUBDEV_FL_MULTIPLEXED
-Message-ID: <ed32f24a-da36-3218-7887-0aed23fe87ec@ideasonboard.com>
-Date:   Thu, 4 Nov 2021 14:06:29 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+        id S231252AbhKDMKT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 4 Nov 2021 08:10:19 -0400
+Received: from comms.puri.sm ([159.203.221.185]:38310 "EHLO comms.puri.sm"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229809AbhKDMKS (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 4 Nov 2021 08:10:18 -0400
+Received: from localhost (localhost [127.0.0.1])
+        by comms.puri.sm (Postfix) with ESMTP id C67B4DF574;
+        Thu,  4 Nov 2021 05:07:40 -0700 (PDT)
+Received: from comms.puri.sm ([127.0.0.1])
+        by localhost (comms.puri.sm [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id 0IrDUh3k8UZK; Thu,  4 Nov 2021 05:07:39 -0700 (PDT)
+Date:   Thu, 4 Nov 2021 13:07:27 +0100
+From:   Dorota Czaplejewicz <dorota.czaplejewicz@puri.sm>
+To:     Steve Longerbeam <slongerbeam@gmail.com>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        kernel@puri.sm, phone-devel@vger.kernel.org
+Subject: Re: [PATCH v4 1/5] media: imx: Remove unused functions
+Message-ID: <20211104130727.36c3813f.dorota.czaplejewicz@puri.sm>
+In-Reply-To: <20211104113631.206899-1-dorota.czaplejewicz@puri.sm>
+References: <20211104113631.206899-1-dorota.czaplejewicz@puri.sm>
+Organization: Purism
 MIME-Version: 1.0
-In-Reply-To: <c3f939a1-81ac-d2a1-d669-9ae59143c07f@xs4all.nl>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; boundary="Sig_/Q5PI3rGK1fl9l5ev1Vw220r";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 12/10/2021 17:48, Hans Verkuil wrote:
-> On 05/10/2021 10:57, Tomi Valkeinen wrote:
->> Add subdev flag V4L2_SUBDEV_FL_MULTIPLEXED. It is used to indicate that
->> the subdev supports the new API with multiplexed streams (routing,
->> stream configs).
->>
->> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
->> ---
->>   include/media/v4l2-subdev.h | 11 +++++++++++
->>   1 file changed, 11 insertions(+)
->>
->> diff --git a/include/media/v4l2-subdev.h b/include/media/v4l2-subdev.h
->> index b3a72c98a2d3..7f9c83fac020 100644
->> --- a/include/media/v4l2-subdev.h
->> +++ b/include/media/v4l2-subdev.h
->> @@ -888,6 +888,17 @@ struct v4l2_subdev_internal_ops {
->>    * should set this flag.
->>    */
->>   #define V4L2_SUBDEV_FL_HAS_EVENTS		(1U << 3)
->> +/*
->> + * Set this flag if this subdev supports multiplexed streams. This means
->> + * that the driver supports routing and handles the stream parameter in its
->> + * v4l2_subdev_pad_ops handlers. More specifically, this means:
->> + *
->> + * - Centrally managed active state is enabled
->> + * - Legacy pad config is _not_ supported (state->pads)
-> 
-> I'm not sure what is meant with this. Can you elaborate?
+--Sig_/Q5PI3rGK1fl9l5ev1Vw220r
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-It means that a subdev with V4L2_SUBDEV_FL_MULTIPLEXED cannot use the 
-legacy pads array in the state (state->pads is NULL), as multiplexed 
-streams requires streams support. For streams you need the routing & 
-stream configs, added in the following patches.
+On Thu, 4 Nov 2021 12:41:53 +0100
+Dorota Czaplejewicz <dorota.czaplejewicz@puri.sm> wrote:
 
-  Tomi
+> Neither imx_media_mbus_fmt_to_ipu_image nor imx_media_ipu_image_to_mbus_f=
+mt
+> were used anywhere.
+>=20
+> Signed-off-by: Dorota Czaplejewicz <dorota.czaplejewicz@puri.sm>
+> ---
+>=20
+> Hi,
+>=20
+> Compared to v3, this patch series introduces the checks of imx_media_find=
+_mbus_format return values in patch 4 and 5.
+>=20
+> Cheers,
+> Dorota
+>=20
 
-> Regards,
-> 
-> 	Hans
-> 
->> + * - Routing ioctls are available
->> + * - Multiple streams per pad are supported
->> + */
->> +#define V4L2_SUBDEV_FL_MULTIPLEXED		(1U << 4)
->>   
->>   struct regulator_bulk_data;
->>   
->>
-> 
+I should mention that this part from v3 still applies:
 
+> The use of `v4l2_fill_pixfmt` comes with the downside of breaking 10-bit =
+Bayer formats, or at least until my other series gets accepted
+
+The other series is:
+
+Message-id: 20211019114718.827400-1-dorota.czaplejewicz@puri.sm
+
+https://lore.kernel.org/linux-media/20211019114718.827400-1-dorota.czapleje=
+wicz@puri.sm/
+
+Regards,
+Dorota Czaplejewicz
+
+--Sig_/Q5PI3rGK1fl9l5ev1Vw220r
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEExKRqtqfFqmh+lu1oADBpX4S8ZncFAmGDzP8ACgkQADBpX4S8
+ZndeGA//eby98r7C2ZuWtSUGEfYITeItVE2TPkuNSLv9JPYAv8kSLepsXi5hd0uR
+kxavcUBlnPgpUDFW4JlfU0YKiXgA9Y3uESBPrGH9DVg7WbQbFsRU6E89CLnwqlM8
+g0Q3ssCKHnj/pa0aQLB8V0v0ObD+qq3ymWCiwuEmsGqSBkFo3vigCiOYMSkLpBVJ
+W+1G4sUTOLjhaCPUpG7BuRzUusWrB8zwY9wdR+TV/hCxDKtn202WRn/XllaJ/dKq
+4Utk+UUYY1qTpe7iv/QEa8t6KX5Di80PqE5/DzMbD/tvHwqPpXJlcqLn8jJ2NF1c
+soPTN+/tVw3GLWwzke0CXNt/1vkAxPHZTxyliI8tROfS9qQqGH7hZVW5uPweQVkc
+3KzyTBbJ9BUGAtVBMmaax0Y8mjD4VasQsGVR2eTgeLyPYggQZQEd+f73QKXgbwnb
+My/Duyc6JFwxfG80sAHpwgLk2wdpgfKpbSnFvk0zq1yQKvF2IQ6mQ2ZodqLERKYc
+VWvkkv0u3pxho8GhIFN/xM7nR/btWEO070BX1PSD1Hk40IRG5/ESLgr7zkcEoQ7J
+c9gdSjeBGumi4S0C+eeC7noSDR+YalBvNF5dVrRL06mkGxkHqcCUd9MrQz57xNZh
+WffLh43mQEpJnWYu3lhQuSEkNPPkoRrV7lg/ClQEAbBneJsWMMU=
+=mfUS
+-----END PGP SIGNATURE-----
+
+--Sig_/Q5PI3rGK1fl9l5ev1Vw220r--
