@@ -2,46 +2,48 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 45826445A2A
-	for <lists+linux-media@lfdr.de>; Thu,  4 Nov 2021 20:02:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 762CB445A24
+	for <lists+linux-media@lfdr.de>; Thu,  4 Nov 2021 20:02:11 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234177AbhKDTEz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 4 Nov 2021 15:04:55 -0400
-Received: from mail.kernel.org ([198.145.29.99]:45640 "EHLO mail.kernel.org"
+        id S234060AbhKDTEs (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 4 Nov 2021 15:04:48 -0400
+Received: from mail.kernel.org ([198.145.29.99]:45516 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S234113AbhKDTEu (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 4 Nov 2021 15:04:50 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id E074161241;
-        Thu,  4 Nov 2021 19:02:11 +0000 (UTC)
+        id S231732AbhKDTEr (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 4 Nov 2021 15:04:47 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 350DC61051;
+        Thu,  4 Nov 2021 19:02:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1636052531;
-        bh=1EZx2skIv3gidB+okmu2aSt5UCRLWsBkMqEWZ/9Pu8Q=;
-        h=From:To:Cc:Subject:Date:From;
-        b=cpArnTU3+eEIP9kQwQgEmnLBzcLgOcL4NrFIQvI9itG9DZT9st/yQzaEFSS+aDusn
-         VMqI2MI1bB15r9d1UntF2Q8KwElLNa3I+LmjuMWXCe14w9+Vna1MQ6m06joLk21ehB
-         NwTyskkU7273ZbxxpuMcNSsVVrfqDrsYpvy6ozme9xLKsVBZbrhruWbEh0/yoRlJHR
-         +B+rHp1xeeE+EfjquQy82xtlSZPc/FvRKogLk1t/4kIG3siqGTysAXoDDJ6uTrtmSe
-         Z82Mzwu86meYjKwo0i6xZHpUOM+ZT4NUJenJ8SdNH4hMZaxNPR5YNdKw6p/xofHts6
-         xOO/+5Fu+RguA==
+        s=k20201202; t=1636052529;
+        bh=4j4HtgJYLeoXx4wc8k7GJKoZhBpleOSnZLSVCMvidWA=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=tTXg713n7Hw0GbrT3W/w3wdutWSxOHc3rjpr6R2zhBSAaEqVboD3Yvd0VJuZCO4qx
+         bHkIiUowdwym1MF2kHYz6KktV9sQQR1/o1trWe+BEh1bVjW0AvhfOvZrYQJJetACXD
+         VdcQ4gNW6L1DXTjCx92rO+X8asRoMPks9LEHm61tSy32dCqtgIkFhdOiX4dmVrWAgx
+         BgeIimJGuK+ApImyGMh2hVVqBm2rvt2NxschvHSJOVC6nyJtiD7Ev+6W64h8lWjV3K
+         C5scDrHxMO0uwz8dRn2OShOx+ZEYagSicLIBzE0ay22m3kHdIKp6NVWEpEW75y3boU
+         nImFXrqbvMnzA==
 Received: by mail.kernel.org with local (Exim 4.94.2)
         (envelope-from <mchehab@kernel.org>)
-        id 1mihzw-006bKE-DH; Thu, 04 Nov 2021 19:02:04 +0000
+        id 1mihzw-006bKH-Dq; Thu, 04 Nov 2021 19:02:04 +0000
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 Cc:     linuxarm@huawei.com, mauro.chehab@huawei.com,
         Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Filip Kolev <fil.kolev@gmail.com>,
+        Deepak R Varma <drv@mailo.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Martiros Shakhzadyan <vrzh@vrzh.net>,
+        Leonid Kushnir <leonf008@gmail.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         Sakari Ailus <sakari.ailus@linux.intel.com>,
         Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
         linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
         linux-staging@lists.linux.dev
-Subject: [PATCH 1/4] media: atomisp-ov2722: use v4l2_find_nearest_size()
-Date:   Thu,  4 Nov 2021 19:02:00 +0000
-Message-Id: <e7aebe347f3878d54bceeb48d8d0574e944c5608.1636052511.git.mchehab+huawei@kernel.org>
+Subject: [PATCH 2/4] media: atomisp-gc0310: use v4l2_find_nearest_size()
+Date:   Thu,  4 Nov 2021 19:02:01 +0000
+Message-Id: <96baf0373e727971cf25e922c122384b3acd4ef6.1636052511.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.31.1
+In-Reply-To: <e7aebe347f3878d54bceeb48d8d0574e944c5608.1636052511.git.mchehab+huawei@kernel.org>
+References: <e7aebe347f3878d54bceeb48d8d0574e944c5608.1636052511.git.mchehab+huawei@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
@@ -58,25 +60,34 @@ selected.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- .../media/atomisp/i2c/atomisp-ov2722.c        | 118 ++++--------------
- drivers/staging/media/atomisp/i2c/ov2722.h    |   3 +-
- 2 files changed, 22 insertions(+), 99 deletions(-)
+ .../media/atomisp/i2c/atomisp-gc0310.c        | 119 ++++--------------
+ drivers/staging/media/atomisp/i2c/gc0310.h    |   3 +-
+ 2 files changed, 22 insertions(+), 100 deletions(-)
 
-diff --git a/drivers/staging/media/atomisp/i2c/atomisp-ov2722.c b/drivers/staging/media/atomisp/i2c/atomisp-ov2722.c
-index 90d0871a78a3..da98094d7094 100644
---- a/drivers/staging/media/atomisp/i2c/atomisp-ov2722.c
-+++ b/drivers/staging/media/atomisp/i2c/atomisp-ov2722.c
-@@ -557,7 +557,7 @@ static int ov2722_g_volatile_ctrl(struct v4l2_ctrl *ctrl)
- 		ret = ov2722_g_fnumber_range(&dev->sd, &ctrl->val);
- 		break;
- 	case V4L2_CID_LINK_FREQ:
--		val = ov2722_res[dev->fmt_idx].mipi_freq;
-+		val = dev->res->mipi_freq;
- 		if (val == 0)
- 			return -EINVAL;
+diff --git a/drivers/staging/media/atomisp/i2c/atomisp-gc0310.c b/drivers/staging/media/atomisp/i2c/atomisp-gc0310.c
+index 687888d643df..cbc8b1d91995 100644
+--- a/drivers/staging/media/atomisp/i2c/atomisp-gc0310.c
++++ b/drivers/staging/media/atomisp/i2c/atomisp-gc0310.c
+@@ -266,7 +266,7 @@ static int gc0310_g_bin_factor_x(struct v4l2_subdev *sd, s32 *val)
+ {
+ 	struct gc0310_device *dev = to_gc0310_sensor(sd);
  
-@@ -782,76 +782,6 @@ static int ov2722_s_power(struct v4l2_subdev *sd, int on)
- 	return ret;
+-	*val = gc0310_res[dev->fmt_idx].bin_factor_x;
++	*val = dev->res->bin_factor_x;
+ 
+ 	return 0;
+ }
+@@ -275,7 +275,7 @@ static int gc0310_g_bin_factor_y(struct v4l2_subdev *sd, s32 *val)
+ {
+ 	struct gc0310_device *dev = to_gc0310_sensor(sd);
+ 
+-	*val = gc0310_res[dev->fmt_idx].bin_factor_y;
++	*val = dev->res->bin_factor_y;
+ 
+ 	return 0;
+ }
+@@ -878,76 +878,6 @@ static int gc0310_s_power(struct v4l2_subdev *sd, int on)
+ 	return gc0310_init(sd);
  }
  
 -/*
@@ -90,7 +101,7 @@ index 90d0871a78a3..da98094d7094 100644
 - * Returns the value of gap or -1 if fail.
 - */
 -#define LARGEST_ALLOWED_RATIO_MISMATCH 800
--static int distance(struct ov2722_resolution *res, u32 w, u32 h)
+-static int distance(struct gc0310_resolution *res, u32 w, u32 h)
 -{
 -	unsigned int w_ratio = (res->width << 13) / w;
 -	unsigned int h_ratio;
@@ -103,7 +114,7 @@ index 90d0871a78a3..da98094d7094 100644
 -		return -1;
 -	match   = abs(((w_ratio << 13) / h_ratio) - 8192);
 -
--	if ((w_ratio < 8192) || (h_ratio < 8192) ||
+-	if ((w_ratio < 8192) || (h_ratio < 8192)  ||
 -	    (match > LARGEST_ALLOWED_RATIO_MISMATCH))
 -		return -1;
 -
@@ -117,10 +128,10 @@ index 90d0871a78a3..da98094d7094 100644
 -	int idx = -1;
 -	int dist;
 -	int min_dist = INT_MAX;
--	struct ov2722_resolution *tmp_res = NULL;
+-	struct gc0310_resolution *tmp_res = NULL;
 -
 -	for (i = 0; i < N_RES; i++) {
--		tmp_res = &ov2722_res[i];
+-		tmp_res = &gc0310_res[i];
 -		dist = distance(tmp_res, w, h);
 -		if (dist == -1)
 -			continue;
@@ -138,9 +149,9 @@ index 90d0871a78a3..da98094d7094 100644
 -	int i;
 -
 -	for (i = 0; i < N_RES; i++) {
--		if (w != ov2722_res[i].width)
+-		if (w != gc0310_res[i].width)
 -			continue;
--		if (h != ov2722_res[i].height)
+-		if (h != gc0310_res[i].height)
 -			continue;
 -
 -		return i;
@@ -152,53 +163,52 @@ index 90d0871a78a3..da98094d7094 100644
  /* TODO: remove it. */
  static int startup(struct v4l2_subdev *sd)
  {
-@@ -866,7 +796,7 @@ static int startup(struct v4l2_subdev *sd)
- 		return ret;
- 	}
- 
--	ret = ov2722_write_reg_array(client, ov2722_res[dev->fmt_idx].regs);
-+	ret = ov2722_write_reg_array(client, dev->res->regs);
- 	if (ret) {
- 		dev_err(&client->dev, "ov2722 write register err.\n");
- 		return ret;
-@@ -882,9 +812,9 @@ static int ov2722_set_fmt(struct v4l2_subdev *sd,
- 	struct v4l2_mbus_framefmt *fmt = &format->format;
- 	struct ov2722_device *dev = to_ov2722_sensor(sd);
+@@ -955,7 +885,7 @@ static int startup(struct v4l2_subdev *sd)
  	struct i2c_client *client = v4l2_get_subdevdata(sd);
-+	struct ov2722_resolution *res;
- 	struct camera_mipi_info *ov2722_info = NULL;
  	int ret = 0;
--	int idx;
+ 
+-	ret = gc0310_write_reg_array(client, gc0310_res[dev->fmt_idx].regs);
++	ret = gc0310_write_reg_array(client, dev->res->regs);
+ 	if (ret) {
+ 		dev_err(&client->dev, "gc0310 write register err.\n");
+ 		return ret;
+@@ -972,8 +902,8 @@ static int gc0310_set_fmt(struct v4l2_subdev *sd,
+ 	struct gc0310_device *dev = to_gc0310_sensor(sd);
+ 	struct i2c_client *client = v4l2_get_subdevdata(sd);
+ 	struct camera_mipi_info *gc0310_info = NULL;
++	struct gc0310_resolution *res;
+ 	int ret = 0;
+-	int idx = 0;
  
  	if (format->pad)
  		return -EINVAL;
-@@ -895,15 +825,16 @@ static int ov2722_set_fmt(struct v4l2_subdev *sd,
- 		return -EINVAL;
+@@ -987,15 +917,16 @@ static int gc0310_set_fmt(struct v4l2_subdev *sd,
  
  	mutex_lock(&dev->input_lock);
+ 
 -	idx = nearest_resolution_index(fmt->width, fmt->height);
 -	if (idx == -1) {
 -		/* return the largest resolution */
--		fmt->width = ov2722_res[N_RES - 1].width;
--		fmt->height = ov2722_res[N_RES - 1].height;
+-		fmt->width = gc0310_res[N_RES - 1].width;
+-		fmt->height = gc0310_res[N_RES - 1].height;
 -	} else {
--		fmt->width = ov2722_res[idx].width;
--		fmt->height = ov2722_res[idx].height;
+-		fmt->width = gc0310_res[idx].width;
+-		fmt->height = gc0310_res[idx].height;
 -	}
-+	res = v4l2_find_nearest_size(ov2722_res_preview,
-+				     ARRAY_SIZE(ov2722_res_preview), width,
++	res = v4l2_find_nearest_size(gc0310_res_preview,
++				     ARRAY_SIZE(gc0310_res_preview), width,
 +				     height, fmt->width, fmt->height);
 +	if (!res)
-+		res = &ov2722_res_preview[N_RES - 1];
++		res = &gc0310_res_preview[N_RES - 1];
 +
 +	fmt->width = res->width;
 +	fmt->height = res->height;
 +	dev->res = res;
 +
- 	fmt->code = MEDIA_BUS_FMT_SGRBG10_1X10;
+ 	fmt->code = MEDIA_BUS_FMT_SGRBG8_1X8;
+ 
  	if (format->which == V4L2_SUBDEV_FORMAT_TRY) {
- 		sd_state->pads->try_fmt = *fmt;
-@@ -911,15 +842,9 @@ static int ov2722_set_fmt(struct v4l2_subdev *sd,
+@@ -1004,23 +935,15 @@ static int gc0310_set_fmt(struct v4l2_subdev *sd,
  		return 0;
  	}
  
@@ -208,82 +218,74 @@ index 90d0871a78a3..da98094d7094 100644
 -		mutex_unlock(&dev->input_lock);
 -		return -EINVAL;
 -	}
- 
--	dev->pixels_per_line = ov2722_res[dev->fmt_idx].pixels_per_line;
--	dev->lines_per_frame = ov2722_res[dev->fmt_idx].lines_per_frame;
-+	dev->pixels_per_line = dev->res->pixels_per_line;
-+	dev->lines_per_frame = dev->res->lines_per_frame;
- 
+-
+ 	dev_dbg(&client->dev, "%s: before gc0310_write_reg_array %s\n",
+-		__func__, gc0310_res[dev->fmt_idx].desc);
++		__func__, dev->res->desc);
  	ret = startup(sd);
  	if (ret) {
-@@ -950,8 +875,7 @@ static int ov2722_set_fmt(struct v4l2_subdev *sd,
- 		}
+ 		dev_err(&client->dev, "gc0310 startup err\n");
+ 		goto err;
  	}
  
--	ret = ov2722_get_intg_factor(client, ov2722_info,
--				     &ov2722_res[dev->fmt_idx]);
-+	ret = ov2722_get_intg_factor(client, ov2722_info, dev->res);
- 	if (ret)
+-	ret = gc0310_get_intg_factor(client, gc0310_info,
+-				     &gc0310_res[dev->fmt_idx]);
++	ret = gc0310_get_intg_factor(client, gc0310_info, dev->res);
+ 	if (ret) {
  		dev_err(&client->dev, "failed to get integration_factor\n");
- 
-@@ -972,8 +896,8 @@ static int ov2722_get_fmt(struct v4l2_subdev *sd,
+ 		goto err;
+@@ -1044,8 +967,8 @@ static int gc0310_get_fmt(struct v4l2_subdev *sd,
  	if (!fmt)
  		return -EINVAL;
  
--	fmt->width = ov2722_res[dev->fmt_idx].width;
--	fmt->height = ov2722_res[dev->fmt_idx].height;
+-	fmt->width = gc0310_res[dev->fmt_idx].width;
+-	fmt->height = gc0310_res[dev->fmt_idx].height;
 +	fmt->width = dev->res->width;
 +	fmt->height = dev->res->height;
- 	fmt->code = MEDIA_BUS_FMT_SBGGR10_1X10;
+ 	fmt->code = MEDIA_BUS_FMT_SGRBG8_1X8;
  
  	return 0;
-@@ -1098,7 +1022,7 @@ static int ov2722_g_frame_interval(struct v4l2_subdev *sd,
- 	struct ov2722_device *dev = to_ov2722_sensor(sd);
+@@ -1199,7 +1122,7 @@ static int gc0310_g_frame_interval(struct v4l2_subdev *sd,
+ 	struct gc0310_device *dev = to_gc0310_sensor(sd);
  
  	interval->interval.numerator = 1;
--	interval->interval.denominator = ov2722_res[dev->fmt_idx].fps;
+-	interval->interval.denominator = gc0310_res[dev->fmt_idx].fps;
 +	interval->interval.denominator = dev->res->fps;
  
  	return 0;
  }
-@@ -1136,7 +1060,7 @@ static int ov2722_g_skip_frames(struct v4l2_subdev *sd, u32 *frames)
- 	struct ov2722_device *dev = to_ov2722_sensor(sd);
+@@ -1237,7 +1160,7 @@ static int gc0310_g_skip_frames(struct v4l2_subdev *sd, u32 *frames)
+ 	struct gc0310_device *dev = to_gc0310_sensor(sd);
  
  	mutex_lock(&dev->input_lock);
--	*frames = ov2722_res[dev->fmt_idx].skip_frames;
+-	*frames = gc0310_res[dev->fmt_idx].skip_frames;
 +	*frames = dev->res->skip_frames;
  	mutex_unlock(&dev->input_lock);
  
  	return 0;
-@@ -1220,7 +1144,7 @@ static int ov2722_probe(struct i2c_client *client)
+@@ -1301,7 +1224,7 @@ static int gc0310_probe(struct i2c_client *client)
  
  	mutex_init(&dev->input_lock);
  
 -	dev->fmt_idx = 0;
-+	dev->res = &ov2722_res_preview[0];
- 	v4l2_i2c_subdev_init(&dev->sd, client, &ov2722_ops);
++	dev->res = &gc0310_res_preview[0];
+ 	v4l2_i2c_subdev_init(&dev->sd, client, &gc0310_ops);
  
- 	ovpdev = gmin_camera_platform_data(&dev->sd,
-diff --git a/drivers/staging/media/atomisp/i2c/ov2722.h b/drivers/staging/media/atomisp/i2c/ov2722.h
-index 7b0debb6c53d..d6e2510bc01c 100644
---- a/drivers/staging/media/atomisp/i2c/ov2722.h
-+++ b/drivers/staging/media/atomisp/i2c/ov2722.h
-@@ -201,14 +201,13 @@ struct ov2722_device {
- 	struct media_pad pad;
- 	struct v4l2_mbus_framefmt format;
- 	struct mutex input_lock;
-+	struct ov2722_resolution *res;
+ 	pdata = gmin_camera_platform_data(&dev->sd,
+diff --git a/drivers/staging/media/atomisp/i2c/gc0310.h b/drivers/staging/media/atomisp/i2c/gc0310.h
+index 2fe3de115083..db643ebc3909 100644
+--- a/drivers/staging/media/atomisp/i2c/gc0310.h
++++ b/drivers/staging/media/atomisp/i2c/gc0310.h
+@@ -150,8 +150,7 @@ struct gc0310_device {
  
  	struct camera_sensor_platform_data *platform_data;
  	int vt_pix_clk_freq_mhz;
 -	int fmt_idx;
- 	int run_mode;
- 	u16 pixels_per_line;
- 	u16 lines_per_frame;
 -	u8 res;
++	struct gc0310_resolution *res;
  	u8 type;
+ };
  
- 	struct v4l2_ctrl_handler ctrl_handler;
 -- 
 2.31.1
 
