@@ -2,22 +2,22 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A3E16445262
-	for <lists+linux-media@lfdr.de>; Thu,  4 Nov 2021 12:44:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 815F744526A
+	for <lists+linux-media@lfdr.de>; Thu,  4 Nov 2021 12:44:50 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231230AbhKDLqq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 4 Nov 2021 07:46:46 -0400
-Received: from comms.puri.sm ([159.203.221.185]:37028 "EHLO comms.puri.sm"
+        id S231487AbhKDLrZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 4 Nov 2021 07:47:25 -0400
+Received: from comms.puri.sm ([159.203.221.185]:37190 "EHLO comms.puri.sm"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229505AbhKDLqq (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 4 Nov 2021 07:46:46 -0400
+        id S231500AbhKDLrY (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 4 Nov 2021 07:47:24 -0400
 Received: from localhost (localhost [127.0.0.1])
-        by comms.puri.sm (Postfix) with ESMTP id 8EEF6DFE31;
-        Thu,  4 Nov 2021 04:44:08 -0700 (PDT)
+        by comms.puri.sm (Postfix) with ESMTP id A868ADFE44;
+        Thu,  4 Nov 2021 04:44:16 -0700 (PDT)
 Received: from comms.puri.sm ([127.0.0.1])
         by localhost (comms.puri.sm [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id K-Bxxti0XGVE; Thu,  4 Nov 2021 04:44:07 -0700 (PDT)
-Date:   Thu, 4 Nov 2021 12:43:53 +0100
+        with ESMTP id LAqdrt1XkV3F; Thu,  4 Nov 2021 04:44:16 -0700 (PDT)
+Date:   Thu, 4 Nov 2021 12:43:58 +0100
 From:   Dorota Czaplejewicz <dorota.czaplejewicz@puri.sm>
 To:     Steve Longerbeam <slongerbeam@gmail.com>,
         Philipp Zabel <p.zabel@pengutronix.de>,
@@ -31,133 +31,70 @@ To:     Steve Longerbeam <slongerbeam@gmail.com>,
         linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
         linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
         kernel@puri.sm, phone-devel@vger.kernel.org
-Subject: [PATCH v4 4/5] media: imx: Use dedicated format handler for i.MX7/8
-Message-ID: <20211104113631.206899-4-dorota.czaplejewicz@puri.sm>
+Subject: [PATCH v4 5/5] media: imx: Fail conversion if pixel format not
+ supported
+Message-ID: <20211104113631.206899-5-dorota.czaplejewicz@puri.sm>
 In-Reply-To: <20211104113631.206899-1-dorota.czaplejewicz@puri.sm>
 References: <20211104113631.206899-1-dorota.czaplejewicz@puri.sm>
 Organization: Purism
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/pS5pEzxMVfzfuB+hLohE1qn";
+Content-Type: multipart/signed; boundary="Sig_/Hpyw1oqwQbxb4c7G67PFRHO";
  protocol="application/pgp-signature"; micalg=pgp-sha256
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
---Sig_/pS5pEzxMVfzfuB+hLohE1qn
+--Sig_/Hpyw1oqwQbxb4c7G67PFRHO
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 
-This splits out a format handler which takes into account
-the capabilities of the i.MX7/8 video device,
-as opposed to the default handler compatible with both i.MX5/6 and i.MX7/8.
+imx_media_find_mbus_format has NULL as a valid return value,
+therefore the caller should take it into account.
 
 Signed-off-by: Dorota Czaplejewicz <dorota.czaplejewicz@puri.sm>
 ---
- drivers/staging/media/imx/imx-media-utils.c | 58 +++++++++++++++++++--
- 1 file changed, 54 insertions(+), 4 deletions(-)
+ drivers/staging/media/imx/imx-media-utils.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
 diff --git a/drivers/staging/media/imx/imx-media-utils.c b/drivers/staging/=
 media/imx/imx-media-utils.c
-index 8b5c6bcfd4fa..c0a84c79947e 100644
+index c0a84c79947e..8646f6ba1108 100644
 --- a/drivers/staging/media/imx/imx-media-utils.c
 +++ b/drivers/staging/media/imx/imx-media-utils.c
-@@ -516,10 +516,9 @@ void imx_media_try_colorimetry(struct v4l2_mbus_framef=
-mt *tryfmt,
- }
- EXPORT_SYMBOL_GPL(imx_media_try_colorimetry);
+@@ -544,6 +544,9 @@ static int imx56_media_mbus_fmt_to_pix_fmt(struct v4l2_=
+pix_format *pix,
+ 		cc =3D imx_media_find_mbus_format(code, PIXFMT_SEL_YUV);
+ 	}
 =20
--int imx_media_mbus_fmt_to_pix_fmt(struct v4l2_pix_format *pix,
--				  const struct v4l2_mbus_framefmt *mbus,
--				  const struct imx_media_pixfmt *cc,
--				  enum imx_media_device_type type)
-+static int imx56_media_mbus_fmt_to_pix_fmt(struct v4l2_pix_format *pix,
-+					   const struct v4l2_mbus_framefmt *mbus,
-+					   const struct imx_media_pixfmt *cc)
- {
- 	u32 width;
- 	u32 stride;
-@@ -568,6 +567,57 @@ int imx_media_mbus_fmt_to_pix_fmt(struct v4l2_pix_form=
-at *pix,
-=20
- 	return 0;
- }
-+
-+static int imx78_media_mbus_fmt_to_pix_fmt(struct v4l2_pix_format *pix,
-+					   const struct v4l2_mbus_framefmt *mbus,
-+					   const struct imx_media_pixfmt *cc)
-+{
-+	int ret;
-+
-+	if (!cc)
-+		cc =3D imx_media_find_mbus_format(mbus->code, PIXFMT_SEL_ANY);
-+
 +	if (!cc)
 +		return -EINVAL;
-+	/*
-+	 * The hardware can handle line lengths divisible by 4 pixels
-+	 * as long as the whole buffer size ends up divisible by 8 bytes.
-+	 * If not, use the value of 8 pixels recommended in the datasheet.
-+	 */
-+	ret =3D v4l2_fill_pixfmt(pix, cc->fourcc,
-+			       round_up(mbus->width, 4), mbus->height);
-+	if (ret)
-+		return ret;
 +
-+	/* Only 8bits-per-pixel formats may need to get aligned to 8 pixels,
-+	 * because both 10-bit and 16-bit pixels occupy 2 bytes.
-+	 * In those, 4-pixel aligmnent is equal to 8-byte alignment.
-+	 */
-+	if (pix->sizeimage % 8 !=3D 0)
-+		ret =3D v4l2_fill_pixfmt(pix, cc->fourcc,
-+				       round_up(mbus->width, 8), mbus->height);
-+
-+	pix->colorspace =3D mbus->colorspace;
-+	pix->xfer_func =3D mbus->xfer_func;
-+	pix->ycbcr_enc =3D mbus->ycbcr_enc;
-+	pix->quantization =3D mbus->quantization;
-+	pix->field =3D mbus->field;
-+
-+	return ret;
-+}
-+
-+int imx_media_mbus_fmt_to_pix_fmt(struct v4l2_pix_format *pix,
-+				  const struct v4l2_mbus_framefmt *mbus,
-+				  const struct imx_media_pixfmt *cc,
-+				  enum imx_media_device_type type) {
-+	switch (type) {
-+	case DEVICE_TYPE_IMX56:
-+		return imx56_media_mbus_fmt_to_pix_fmt(pix, mbus, cc);
-+	case DEVICE_TYPE_IMX78:
-+		return imx78_media_mbus_fmt_to_pix_fmt(pix, mbus, cc);
-+	}
-+	return -EINVAL;
-+}
- EXPORT_SYMBOL_GPL(imx_media_mbus_fmt_to_pix_fmt);
+ 	/* Round up width for minimum burst size */
+ 	width =3D round_up(mbus->width, 8);
 =20
- void imx_media_free_dma_buf(struct device *dev,
 --=20
 2.31.1
 
 
---Sig_/pS5pEzxMVfzfuB+hLohE1qn
+--Sig_/Hpyw1oqwQbxb4c7G67PFRHO
 Content-Type: application/pgp-signature
 Content-Description: OpenPGP digital signature
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEExKRqtqfFqmh+lu1oADBpX4S8ZncFAmGDx3kACgkQADBpX4S8
-Znd3GhAAmuWw0NyRJHKAKl/r3CNVBq+XmQpSeY/6/4vQpU+DMOQLvZiUQ3HEklBb
-QM9Bon9o316LFNOfPR8uERyiYHu7e9OfOuDiQHNBeqiuu5sbMfr1nDCO5QR8pZB5
-Nduo7e+ZAJLbcNG44K0oub4xPDFuXX5HRCHkjbwJUZGUMWGFQBaWAtHnqYnkc9cS
-ESeW1L/tyJIgtB+L3emK0NRwFb1lEGPdD3AuBPvxKXOTAYi7YMc/134VTHguu3s2
-Zx35eZEcEYcdYVa5GIwddMBI1BmYEC+2rYD8pDZIfJH3dD5scaxz7tCkxmq72UUo
-ozh0aj/hIxR/c87JFt0QGi+zbZjN3hG6g5PUOBkfL5u3abkp4LYx0cm3bFwBCXrd
-sr044vo18IqqX/QiUYIvK8QXlBq8hw5PlRCXIw7SZWiJ0SQTNz3u36uZUOgkWA7t
-MU2xWP0ZjSP9toTGlqOjcRzrzverpWDz5L5NlcpJhWv7oDmx/sf1liP4y3QJW90m
-RBYRWWHOQQrYVcPoRoLkvUUQmUIW3cWkKE80Cgc2hjfvrfouC595pNp+rxkQHvgk
-YysUNd07zeUtIEg68VP64gxaOepu4eDQN0/ro9hmE9Uh73tP4N3duiN1fF5HxBsf
-jSZ/aYciqPZDY5eBrkfpH4Y4J/0ENsZWXX0aGsoaSRZD9buJCZI=
-=2zgq
+iQIzBAEBCAAdFiEExKRqtqfFqmh+lu1oADBpX4S8ZncFAmGDx34ACgkQADBpX4S8
+ZndhaRAApw5LegIVY6suup1BvDOkatUqDIQtQRA/VeGHNvwUjUZ0pJuvlIHGCaDy
+Eo9HPSUk9N+EaDsG/b/aLLgwxYBoKLC7yqN8LEupWny+y2aVsHHirNEzV9UUnHbP
+mm3vqx8CBXPQ1MAsOfZyV3b3z/wGFaJoFnqltCqh5rvWZHNk+Kx29Sd8rQBmdv3J
+95WUu3ab0j+JdRBRNq+lflyoBew2VbwNG4c5lwujiXNaZ57ZJUfHRwceaNdhZT67
+iL0NVyG/AOkznFCYN2gi5SPzdUOrAG1z6aGrDik1zCwDaNkgkDlN5ohHFOs6/JgH
+vz9s/SY1JKz7QjIBGt523vqXhTBQ3iowZmGqFGCPQOQMoRFUDBNZMUFKh6EdFmqC
+DVwpy0dshpAQqcBtqGWZ13OaXPFdnG/1C+gNsiH0hm5ydQWrHcC2DIAaaOg9Yg/L
+KvC4Uiu7nZ4j3TRzRWniCohycYjiTwYli8aKiWxwlY3rTfvMYt5XJ6oVkKh88ydW
+okAlCG+a9dTm7I0kIiGUJN6gmxNmCcrLzn3ZVQHTGW9PxrrtB4x/83ytReb0jawW
+D/6VqtpYRCZwOTgbvTRW7RDaJFlk3dtB10pWHSMzNGaO5KsUmSVpVxHTO8L6u3gC
+C8WLQn6GqRymU7mwgRL+He/8wRe1FbIn9Ddfnhroud42is6sC00=
+=eu3n
 -----END PGP SIGNATURE-----
 
---Sig_/pS5pEzxMVfzfuB+hLohE1qn--
+--Sig_/Hpyw1oqwQbxb4c7G67PFRHO--
