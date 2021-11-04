@@ -2,366 +2,178 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 617F1445C96
-	for <lists+linux-media@lfdr.de>; Fri,  5 Nov 2021 00:12:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 733B4445C9A
+	for <lists+linux-media@lfdr.de>; Fri,  5 Nov 2021 00:20:23 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230357AbhKDXPC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 4 Nov 2021 19:15:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49378 "EHLO
+        id S230379AbhKDXXA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 4 Nov 2021 19:23:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51064 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229596AbhKDXPB (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 4 Nov 2021 19:15:01 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0DF6EC061714;
-        Thu,  4 Nov 2021 16:12:23 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 990273E7;
-        Fri,  5 Nov 2021 00:12:21 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1636067541;
-        bh=qHm5VbOQRAHwdqDq9/3Q4h7/7+sc/b7bk511KxLC5UU=;
-        h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
-        b=MCC5hp7CYVbeuWU92ynGZrps0W2F1e5rufCXEIlgg+auA/ruSir4EUESP0DzlGd3k
-         NRuPJFsWncD8+V6mWCqUvdylLbyKdTRX70Jftgv26z5lQtgk4vpwl4aRS1+CyoE72y
-         MPJq8WsmhLWIeTLTpnWZXZCeoczd06UEseAK9i0k=
-Content-Type: text/plain; charset="utf-8"
+        with ESMTP id S229596AbhKDXW5 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 4 Nov 2021 19:22:57 -0400
+Received: from mail-wr1-x430.google.com (mail-wr1-x430.google.com [IPv6:2a00:1450:4864:20::430])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BC50EC061714
+        for <linux-media@vger.kernel.org>; Thu,  4 Nov 2021 16:20:18 -0700 (PDT)
+Received: by mail-wr1-x430.google.com with SMTP id d3so10982768wrh.8
+        for <linux-media@vger.kernel.org>; Thu, 04 Nov 2021 16:20:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-transfer-encoding:content-language;
+        bh=XOQaUgD4zkMFxDHKIDUhxCamHk/vx1cLGyBMvSH2pYU=;
+        b=gRhwjpCHOgTvlzzMhUHjcKsCF89AfHgGeA72bYqlWatM9QT4mjsbwtQ1Hphoxhj1/h
+         0j4xUJkpZpJR2/icSOdAxJZZY67Daw8TNlXjvZzVLUeVmjlZ6UpX9jkToT5QLCh9PkaF
+         sfsCbIeNhq4ph98cqs6iV5zPVC7SdXxDfBkLoA9gi3GxlTWEbS4hRDqdv543F343t3sh
+         QEozAWWkG61e6g2btYeOKGqo9vk2+M8G+y5+7vVRvc3n0TvZyeUShevLUnaBQ++aXIqk
+         igz8QzBjZLtrwn6O6SUD84vF1bdVKikw4UxgCRUffdKeAPOJ+c3EDdozINwTVXG0vV3U
+         ZPDw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-transfer-encoding
+         :content-language;
+        bh=XOQaUgD4zkMFxDHKIDUhxCamHk/vx1cLGyBMvSH2pYU=;
+        b=79nvK1hc8GZq9LWsVu7m03IQABD2EJEViZ5dZgIil2NyNGT8YAyWBCIjoErfqvC1Ho
+         zHjpiTtT5d7OBhn1n7Og4ufVr+IbB5Ceqoyu2wJ+Wu1FHAxszu9WIUNjJkhYE1e58pla
+         AiBCmBYVQMzb+QlmLUAlvLSn+e/YR9RmtigaEyrTbQdWhTbY6kKRGaOleOHqQG0kiT91
+         nX85LldAAPIsRPflnKw+pa8hxB+Gu4iIGy87DsmZxZEBLIbyg4A0BRBtCCy5rt33ub3k
+         /ffJi1kkDNwxx9hS9smWqS0DbhX4ZLHnoZ2m7qyO4E+gFP9PZGRNwTDP3pUuzebT6U1c
+         8VvQ==
+X-Gm-Message-State: AOAM533l3F2ioITsxEeg8kG42q5AtH7vjmDFZYs9bXBDVpPnM/yZ7AKi
+        OXgU/ovwR3nptqY9sTIWnHo=
+X-Google-Smtp-Source: ABdhPJxYjjk7ksNM6DZY0QBFw3XrRRXqQDI+uOs5vl/sOyRTzB9b6WFc7OTrb1J0Ji2QuljUwOf5cw==
+X-Received: by 2002:a05:6000:1010:: with SMTP id a16mr57017298wrx.155.1636068017335;
+        Thu, 04 Nov 2021 16:20:17 -0700 (PDT)
+Received: from [192.168.0.14] (cpc141996-chfd3-2-0-cust928.12-3.cable.virginm.net. [86.13.91.161])
+        by smtp.gmail.com with ESMTPSA id y10sm8036538wrd.84.2021.11.04.16.20.16
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 04 Nov 2021 16:20:16 -0700 (PDT)
+Subject: Re: Fwd: Surface Go VCM type (was: Need to pass
+ acpi_enforce_resources=lax on the Surface Go (version1))
+To:     Hans de Goede <hdegoede@redhat.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Kate Hsuan <hpa@redhat.com>
+Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
+        libcamera-devel@lists.libcamera.org,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+References: <e2312277-f967-7d3f-5ce9-fbb197d35fd6@gmail.com>
+ <3b61bb2d-1136-cf35-ba7a-724da9642855@gmail.com>
+ <418dc16a-2a03-7604-a8e2-31c5ddfcf436@redhat.com>
+ <58dabc46-211c-844d-3ed3-fd2411936d6d@gmail.com>
+ <8d0470d3-7356-b476-6807-5c8606ee3545@redhat.com>
+From:   Daniel Scally <djrscally@gmail.com>
+Message-ID: <8f2b784d-7b3f-cb66-7186-66454a221188@gmail.com>
+Date:   Thu, 4 Nov 2021 23:20:15 +0000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <20211104110924.248444-3-jacopo+renesas@jmondi.org>
-References: <20211104110924.248444-1-jacopo+renesas@jmondi.org> <20211104110924.248444-3-jacopo+renesas@jmondi.org>
-Subject: Re: [PATCH v2 2/2] media: max9271: Fail loud on bus errors in call sites
-From:   Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-Cc:     Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-To:     Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-        Niklas =?utf-8?q?S=C3=B6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>
-Date:   Thu, 04 Nov 2021 23:12:19 +0000
-Message-ID: <163606753931.3601475.14148653571463183259@Monstersaurus>
-User-Agent: alot/0.9.1
+In-Reply-To: <8d0470d3-7356-b476-6807-5c8606ee3545@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Quoting Jacopo Mondi (2021-11-04 11:09:24)
-> As not all bus access errors are fatal, as in example reads performed
-> in a busy loop, it's responsibility of the bus access function caller
-> to fail louder on fatal errors.
->=20
-> Instrument all functions in the max9271 library driver to fail on fatal
-> read/write errors and demote the max9271_write() error level to debug
-> to align it to the one in max9271_read().
->=20
-> While at it, align the style of the existing error messages by removing
-> "MAX9271" from the output string, as the device log helpers already
-> identify the driver emitting the message.
->=20
-> Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
+Hi Hans
 
-Seems good to me overall.
-
-Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-
-> ---
->  drivers/media/i2c/max9271.c | 105 ++++++++++++++++++++++--------------
->  1 file changed, 64 insertions(+), 41 deletions(-)
->=20
-> diff --git a/drivers/media/i2c/max9271.c b/drivers/media/i2c/max9271.c
-> index aa4add473716..f5f354b8a43c 100644
-> --- a/drivers/media/i2c/max9271.c
-> +++ b/drivers/media/i2c/max9271.c
-> @@ -45,7 +45,7 @@ static int max9271_write(struct max9271_device *dev, u8=
- reg, u8 val)
-> =20
->         ret =3D i2c_smbus_write_byte_data(dev->client, reg, val);
->         if (ret < 0)
-> -               dev_err(&dev->client->dev,
-> +               dev_dbg(&dev->client->dev,
->                         "%s: register 0x%02x write failed (%d)\n",
->                         __func__, reg, ret);
-> =20
-> @@ -120,8 +120,11 @@ int max9271_set_serial_link(struct max9271_device *d=
-ev, bool enable)
->          * Therefore a conservative delay seems best here.
->          */
->         ret =3D max9271_write(dev, 0x04, val);
-> -       if (ret < 0)
-> +       if (ret < 0) {
-> +               dev_err(&dev->client->dev, "Failed to set serial link (%d=
-)\n",
-> +                       ret);
->                 return ret;
-> +       }
-> =20
->         usleep_range(5000, 8000);
-> =20
-> @@ -134,8 +137,11 @@ int max9271_configure_i2c(struct max9271_device *dev=
-, u8 i2c_config)
->         int ret;
-> =20
->         ret =3D max9271_write(dev, 0x0d, i2c_config);
-> -       if (ret < 0)
-> +       if (ret < 0) {
-> +               dev_err(&dev->client->dev, "Failed to configure I2C (%d)\=
-n",
-> +                       ret);
->                 return ret;
-> +       }
-> =20
->         /* The delay required after an I2C bus configuration change is not
->          * characterized in the serializer manual. Sleep up to 5msec to
-> @@ -153,7 +159,7 @@ int max9271_set_high_threshold(struct max9271_device =
-*dev, bool enable)
-> =20
->         ret =3D max9271_read(dev, 0x08);
->         if (ret < 0)
-> -               return ret;
-> +               goto out;
-> =20
->         /*
->          * Enable or disable reverse channel high threshold to increase
-> @@ -161,11 +167,15 @@ int max9271_set_high_threshold(struct max9271_devic=
-e *dev, bool enable)
->          */
->         ret =3D max9271_write(dev, 0x08, enable ? ret | BIT(0) : ret & ~B=
-IT(0));
->         if (ret < 0)
-> -               return ret;
-> +               goto out;
-> =20
->         usleep_range(2000, 2500);
-> =20
->         return 0;
-> +
-> +out:
-> +       dev_err(&dev->client->dev, "Failed to set high threshold (%d)\n",=
- ret);
-> +       return ret;
->  }
->  EXPORT_SYMBOL_GPL(max9271_set_high_threshold);
-> =20
-> @@ -186,7 +196,7 @@ int max9271_configure_gmsl_link(struct max9271_device=
- *dev)
->         ret =3D max9271_write(dev, 0x07, MAX9271_DBL | MAX9271_HVEN |
->                             MAX9271_EDC_1BIT_PARITY);
->         if (ret < 0)
-> -               return ret;
-> +               goto out;
-> =20
->         usleep_range(5000, 8000);
-> =20
-> @@ -199,11 +209,15 @@ int max9271_configure_gmsl_link(struct max9271_devi=
-ce *dev)
->                             MAX9271_PCLK_AUTODETECT |
->                             MAX9271_SERIAL_AUTODETECT);
->         if (ret < 0)
-> -               return ret;
-> +               goto out;
-> =20
->         usleep_range(5000, 8000);
-> =20
->         return 0;
-> +
-> +out:
-> +       dev_err(&dev->client->dev, "Failed to configure GMSL link (%d)\n"=
-, ret);
-> +       return ret;
->  }
->  EXPORT_SYMBOL_GPL(max9271_configure_gmsl_link);
-> =20
-> @@ -213,18 +227,20 @@ int max9271_set_gpios(struct max9271_device *dev, u=
-8 gpio_mask)
-> =20
->         ret =3D max9271_read(dev, 0x0f);
->         if (ret < 0)
-> -               return 0;
-> +               goto out;
-> =20
->         ret |=3D gpio_mask;
->         ret =3D max9271_write(dev, 0x0f, ret);
-> -       if (ret < 0) {
-> -               dev_err(&dev->client->dev, "Failed to set gpio (%d)\n", r=
-et);
-> -               return ret;
-> -       }
-> +       if (ret < 0)
-> +               goto out;
-> =20
->         usleep_range(3500, 5000);
-> =20
->         return 0;
-> +
-> +out:
-> +       dev_err(&dev->client->dev, "Failed to set gpio (%d)\n", ret);
-> +       return ret;
->  }
->  EXPORT_SYMBOL_GPL(max9271_set_gpios);
-> =20
-> @@ -234,18 +250,20 @@ int max9271_clear_gpios(struct max9271_device *dev,=
- u8 gpio_mask)
-> =20
->         ret =3D max9271_read(dev, 0x0f);
->         if (ret < 0)
-> -               return 0;
-> +               goto out;
-> =20
->         ret &=3D ~gpio_mask;
->         ret =3D max9271_write(dev, 0x0f, ret);
-> -       if (ret < 0) {
-> -               dev_err(&dev->client->dev, "Failed to clear gpio (%d)\n",=
- ret);
-> -               return ret;
-> -       }
-> +       if (ret < 0)
-> +               goto out;
-> =20
->         usleep_range(3500, 5000);
-> =20
->         return 0;
-> +
-> +out:
-> +       dev_err(&dev->client->dev, "Failed to clear gpio (%d)\n", ret);
-> +       return ret;
->  }
->  EXPORT_SYMBOL_GPL(max9271_clear_gpios);
-> =20
-> @@ -255,19 +273,21 @@ int max9271_enable_gpios(struct max9271_device *dev=
-, u8 gpio_mask)
-> =20
->         ret =3D max9271_read(dev, 0x0e);
->         if (ret < 0)
-> -               return 0;
-> +               goto out;
-> =20
->         /* BIT(0) reserved: GPO is always enabled. */
->         ret |=3D (gpio_mask & ~BIT(0));
->         ret =3D max9271_write(dev, 0x0e, ret);
-> -       if (ret < 0) {
-> -               dev_err(&dev->client->dev, "Failed to enable gpio (%d)\n"=
-, ret);
-> -               return ret;
-> -       }
-> +       if (ret < 0)
-> +               goto out;
-> =20
->         usleep_range(3500, 5000);
-> =20
->         return 0;
-> +
-> +out:
-> +       dev_err(&dev->client->dev, "Failed to enable gpio (%d)\n", ret);
-> +       return ret;
->  }
->  EXPORT_SYMBOL_GPL(max9271_enable_gpios);
-> =20
-> @@ -277,19 +297,21 @@ int max9271_disable_gpios(struct max9271_device *de=
-v, u8 gpio_mask)
-> =20
->         ret =3D max9271_read(dev, 0x0e);
->         if (ret < 0)
-> -               return 0;
-> +               goto out;
-> =20
->         /* BIT(0) reserved: GPO cannot be disabled */
->         ret &=3D ~(gpio_mask | BIT(0));
->         ret =3D max9271_write(dev, 0x0e, ret);
-> -       if (ret < 0) {
-> -               dev_err(&dev->client->dev, "Failed to disable gpio (%d)\n=
-", ret);
-> -               return ret;
-> -       }
-> +       if (ret < 0)
-> +               goto out;
-> =20
->         usleep_range(3500, 5000);
-> =20
->         return 0;
-> +
-> +out:
-> +       dev_err(&dev->client->dev, "Failed to disable gpio (%d)\n", ret);
-> +       return ret;
->  }
->  EXPORT_SYMBOL_GPL(max9271_disable_gpios);
-> =20
-> @@ -299,13 +321,13 @@ int max9271_verify_id(struct max9271_device *dev)
-> =20
->         ret =3D max9271_read(dev, 0x1e);
->         if (ret < 0) {
-> -               dev_err(&dev->client->dev, "MAX9271 ID read failed (%d)\n=
-",
-> +               dev_err(&dev->client->dev, "Failed to read the chip ID (%=
-d)\n",
->                         ret);
->                 return ret;
->         }
-> =20
->         if (ret !=3D MAX9271_ID) {
-> -               dev_err(&dev->client->dev, "MAX9271 ID mismatch (0x%02x)\=
-n",
-> +               dev_err(&dev->client->dev, "Chip ID mismatch (0x%02x)\n",
->                         ret);
->                 return -ENXIO;
->         }
-> @@ -321,7 +343,7 @@ int max9271_set_address(struct max9271_device *dev, u=
-8 addr)
->         ret =3D max9271_write(dev, 0x00, addr << 1);
->         if (ret < 0) {
->                 dev_err(&dev->client->dev,
-> -                       "MAX9271 I2C address change failed (%d)\n", ret);
-> +                       "Failed to change I2C address (%d)\n", ret);
->                 return ret;
->         }
->         usleep_range(3500, 5000);
-> @@ -337,7 +359,7 @@ int max9271_set_deserializer_address(struct max9271_d=
-evice *dev, u8 addr)
->         ret =3D max9271_write(dev, 0x01, addr << 1);
->         if (ret < 0) {
->                 dev_err(&dev->client->dev,
-> -                       "MAX9271 deserializer address set failed (%d)\n",=
- ret);
-> +                       "Failed to set deser address (%d)\n", ret);
->                 return ret;
->         }
->         usleep_range(3500, 5000);
-> @@ -351,22 +373,23 @@ int max9271_set_translation(struct max9271_device *=
-dev, u8 source, u8 dest)
->         int ret;
-> =20
->         ret =3D max9271_write(dev, 0x09, source << 1);
-> -       if (ret < 0) {
-> -               dev_err(&dev->client->dev,
-> -                       "MAX9271 I2C translation setup failed (%d)\n", re=
-t);
-> -               return ret;
-> -       }
-> +       if (ret < 0)
-> +               goto out;
-> +
->         usleep_range(3500, 5000);
-> =20
->         ret =3D max9271_write(dev, 0x0a, dest << 1);
-> -       if (ret < 0) {
-> -               dev_err(&dev->client->dev,
-> -                       "MAX9271 I2C translation setup failed (%d)\n", re=
-t);
-> -               return ret;
-> -       }
-> +       if (ret < 0)
-> +               goto out;
-> +
->         usleep_range(3500, 5000);
-> =20
->         return 0;
-> +
-> +out:
-> +       dev_err(&dev->client->dev,
-> +               "Failed to set I2C addresses translation (%d)\n", ret);
-> +       return ret;
->  }
->  EXPORT_SYMBOL_GPL(max9271_set_translation);
-> =20
-> --=20
-> 2.33.1
+On 04/11/2021 14:49, Hans de Goede wrote:
+> Hi Daniel,
 >
+> On 11/2/21 00:43, Daniel Scally wrote:
+>> Hi Hans
+>>
+>> On 01/11/2021 16:02, Hans de Goede wrote:
+> <snip>
+>
+>>>> Having looked at this yesterday evening I'm more and more convinced it's
+>>>> necessary. I hacked it into the ov8865 driver in the interim (just by
+>>>> calling i2c_acpi_new_device() in probe) and then worked on that dw9719
+>>>> code you found [1] to turn it into an i2c driver (attached, though still
+>>>> needs a bit of work), which will successfully bind to the i2c client
+>>>> enumerated by that i2c_acpi_new_device() call. From there though it
+>>>> needs a way for the v4l2 subdev to be matched to the sensor's subdev.
+>>>> This can happen automatically by way of the lens-focus firmware property
+>>>> against the sensor - we currently build those in the cio2-bridge, so
+>>>> adding another software node for the VCM and creating a lens-focus
+>>>> property for the sensor's software_node with a pointer to the VCM's node
+>>>> seems like the best way to do that.
+>>> So besides prepping a v5 of my previous series, with update regulator
+>>> init-data for the VCM I've also been looking into this, attached are
+>>> the results.
+>>>
+>>> Some notes from initial testing:
+>>>
+>>> 1. The driver you attached will only successful probe if I insmod
+>>> it while streaming video from the sensor. So I think we need another
+>>> regulator or the clk for just the VCM too, I will investigate this
+>>> later this week.
+>> Oh really, I'll test that too; thanks for the patches. There's a couple
+>> of tweaks to the driver anyway, so hopefully be able to get it ironed out.
+> Ok, I've figured this out now, with the attached patch (which also
+> explains what is going on) as well as an updated tps68470_board_data.c
+> with updated regulator_init_data for the VCM (also attached), the driver
+> can now successfully talk to the VCM in probe() while we are NOT
+> streaming from the ov8865.
+>
+> Daniel, please feel free to squash this into your original dw9719 patch.
+>
+
+Nice thanks - I'll do that.
+
+>
+>>> 2. I need some help with all the fwnode link stuff (I'm not very familiar
+>>> with this). There seems to be a chicken and egg problem here though,
+>>> because the v4l2subdev for the VCM does not register because of async stuff
+>>> and if we add it to the "graph" then my idea to enumerate the VCMs
+>>> from the SSDB on the complete() callback won't work. But we can do this
+>>> on a per sensor basis instead from the cio2_notifier_bound() callback
+>>> instead I guess ?
+>>
+>> I think on top of your work in the cio2-bridge for patch 3 you can do this:
+>>
+>>
+>> 1. Create another software node against the cio2_sensor struct, with the
+>> name coming from the vcm_types array
+>>
+>> 2. Assign that software node to board_info.swnode in
+>> cio2_bridge_instantiate_vcm_i2c_client()
+>>
+>> 3. Add another entry to dev_properties for the sensor, that is named
+>> "lens-focus" and contains a reference to the software_node created in #2
+>> just like the references to the sensor/cio2 nodes.
+>>
+>>
+>> This way when the sensor driver calls
+>> v4l2_async_register_subdev_sensor() it should create a notifier that
+>> looks for that VCM client to bind. I think then rather than putting
+>> anything in the .bound() / .complete() callbacks, we should modify core
+>> to do _something_ when async matching some subdevs. The something would
+>> depend on the kind of devices that match, for example with the sensor
+>> driver and the ipu3-cio2 driver, there's an entity whos function is
+>> MEDIA_ENT_F_VID_IF_BRIDGE matching to an entity whos function is
+>> MEDIA_ENT_F_CAM_SENSOR, and it seems to me that every scenario like that
+>> is going to result in media pad links being created. Similarly for our
+>> sensor that's a device with entity function MEDIA_ENT_F_LENS matching to
+>> MEDIA_ENT_F_CAM_SENSOR, and I think that in those cases we can create
+>> either an interface link or a new kind of link (maybe
+>> "MEDIA_LNK_FL_ANCILLARY_LINK" or something...) between the two to show
+>> that they form a single logical unit, which we can then report to libcamera.
+>>
+>>
+>> Hope that makes sense...
+> Maybe? I have not looked into this closely yet. I'll continue working on
+> this coming Tuesday.
+>
+> If you feel like tinkering I would not mind if you beat me to it this
+> weekend :)   OTOH please enjoy your weekend doing whatever, I can continue
+> working on this during office-hours next week.
+
+
+I'll probably have some time to look at it over the next few days; I'll
+let you know how I get on.
+
+>
+> Regards,
+>
+> Hans
