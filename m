@@ -2,49 +2,45 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2524B445A25
-	for <lists+linux-media@lfdr.de>; Thu,  4 Nov 2021 20:02:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 38B86445A27
+	for <lists+linux-media@lfdr.de>; Thu,  4 Nov 2021 20:02:22 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234085AbhKDTEt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 4 Nov 2021 15:04:49 -0400
-Received: from mail.kernel.org ([198.145.29.99]:45538 "EHLO mail.kernel.org"
+        id S234122AbhKDTEv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 4 Nov 2021 15:04:51 -0400
+Received: from mail.kernel.org ([198.145.29.99]:45604 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S234052AbhKDTEs (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 4 Nov 2021 15:04:48 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id E508761215;
-        Thu,  4 Nov 2021 19:02:09 +0000 (UTC)
+        id S231732AbhKDTEt (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 4 Nov 2021 15:04:49 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 60B0F61221;
+        Thu,  4 Nov 2021 19:02:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1636052529;
-        bh=jeGb7KDr9H9aYgpc5GqB5nCNFONEG93gCA4GSQUlK5k=;
+        s=k20201202; t=1636052531;
+        bh=IduDkzBJsIVclmwQ6Q4Bi2nRgfJSw41FlZNeqKWHBs4=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=Ws9Uj9wQKIns5SfykPCfhIlXn68DXNrRRkK3mKF1j0TPf3ytRXyhVUsdxmV3XIq5f
-         QLwZrBwyT8W4Euv9ldLaZsHNRCx/4NsnGpTCV4Gny8E+2Pka4f6qKyU/d9mMNdmBbx
-         1J6lHHrnXGnSPUfkrnsFYzexHCy74biAAzRWxkkqVDYK9z83pf+10w3Qj7cJli1VCq
-         dheBlkj0V8ScigE7M1ZKBTL+gxWIMRPV799+UhXII7GX/j9Q0CtyTJWI9g4/ZrN2rS
-         WYn8r5rHF0f9wz6ZptLWtCNcW6GlyhB9rMMDvdojvKejcb4amcoBcWYnv5dMLJIUrv
-         qMl0SKRcUWlPA==
+        b=PcEBKJojsu9Un3e4vwYWTjROSoWckJnkdW7MiKcCPMbVLLZKBv7fiFumAMHXXklBn
+         SK5bjSg7SXPvTep+0XHyuT1nGjSMYvO+P3rsjDinlkzhyCE0owNptisdD8pUnmvJUM
+         hKcKuWi+fmy6i6MlOO15hk/CaACQgJKRVkr8AboziTAJ1LK1GgnToveErlvHrtQPix
+         Dve2NretERsaTy6CondD/f55gDEaU4bigpmSYZyu2GWJEjvEe5Rw6KLW3XuynSe0df
+         b+xKevqeSPtWsR9B8OEoOmF6/ng7v+aSZZnVuFV9zHybTPh3qZImnMATNTr378tOGk
+         1AWhM8TcMY2VA==
 Received: by mail.kernel.org with local (Exim 4.94.2)
         (envelope-from <mchehab@kernel.org>)
-        id 1mihzw-006bKK-EO; Thu, 04 Nov 2021 19:02:04 +0000
+        id 1mihzw-006bKN-F1; Thu, 04 Nov 2021 19:02:04 +0000
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 Cc:     linuxarm@huawei.com, mauro.chehab@huawei.com,
         Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Beatriz Martins de Carvalho 
-        <martinsdecarvalhobeatriz@gmail.com>,
-        Bhaskar Chowdhury <unixbhaskar@gmail.com>,
         Deepak R Varma <drv@mailo.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Martiros Shakhzadyan <vrzh@vrzh.net>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
         Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Tom Rix <trix@redhat.com>,
         Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-staging@lists.linux.dev
-Subject: [PATCH 3/4] media: atomisp-gc2235: use v4l2_find_nearest_size()
-Date:   Thu,  4 Nov 2021 19:02:02 +0000
-Message-Id: <e03bec823dcb31cb08f43e331f41acda0c63b071.1636052511.git.mchehab+huawei@kernel.org>
+        Yizhuo <yzhai003@ucr.edu>, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-staging@lists.linux.dev
+Subject: [PATCH 4/4] media: atomisp-mt9m114: use v4l2_find_nearest_size()
+Date:   Thu,  4 Nov 2021 19:02:03 +0000
+Message-Id: <f37d58fb71c32437bbfe26cb993cb9fa27b00323.1636052511.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <e7aebe347f3878d54bceeb48d8d0574e944c5608.1636052511.git.mchehab+huawei@kernel.org>
 References: <e7aebe347f3878d54bceeb48d8d0574e944c5608.1636052511.git.mchehab+huawei@kernel.org>
@@ -64,16 +60,15 @@ selected.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- .../media/atomisp/i2c/atomisp-gc2235.c        | 113 +++---------------
- drivers/staging/media/atomisp/i2c/gc2235.h    |   3 +-
- 2 files changed, 20 insertions(+), 96 deletions(-)
+ .../media/atomisp/i2c/atomisp-mt9m114.c       | 130 ++----------------
+ 1 file changed, 15 insertions(+), 115 deletions(-)
 
-diff --git a/drivers/staging/media/atomisp/i2c/atomisp-gc2235.c b/drivers/staging/media/atomisp/i2c/atomisp-gc2235.c
-index 4d769590f2d3..5e7085264189 100644
---- a/drivers/staging/media/atomisp/i2c/atomisp-gc2235.c
-+++ b/drivers/staging/media/atomisp/i2c/atomisp-gc2235.c
-@@ -670,76 +670,6 @@ static int gc2235_s_power(struct v4l2_subdev *sd, int on)
- 	return ret;
+diff --git a/drivers/staging/media/atomisp/i2c/atomisp-mt9m114.c b/drivers/staging/media/atomisp/i2c/atomisp-mt9m114.c
+index 49f4090856d3..00d6842c07d6 100644
+--- a/drivers/staging/media/atomisp/i2c/atomisp-mt9m114.c
++++ b/drivers/staging/media/atomisp/i2c/atomisp-mt9m114.c
+@@ -579,107 +579,6 @@ static int mt9m114_s_power(struct v4l2_subdev *sd, int power)
+ 	return mt9m114_init_common(sd);
  }
  
 -/*
@@ -86,13 +81,16 @@ index 4d769590f2d3..5e7085264189 100644
 - * res->width/height smaller than w/h wouldn't be considered.
 - * Returns the value of gap or -1 if fail.
 - */
--#define LARGEST_ALLOWED_RATIO_MISMATCH 800
--static int distance(struct gc2235_resolution *res, u32 w, u32 h)
+-#define LARGEST_ALLOWED_RATIO_MISMATCH 600
+-static int distance(struct mt9m114_res_struct const *res, u32 w, u32 h)
 -{
--	unsigned int w_ratio = (res->width << 13) / w;
+-	unsigned int w_ratio;
 -	unsigned int h_ratio;
 -	int match;
 -
+-	if (w == 0)
+-		return -1;
+-	w_ratio = (res->width << 13) / w;
 -	if (h == 0)
 -		return -1;
 -	h_ratio = (res->height << 13) / h;
@@ -114,10 +112,10 @@ index 4d769590f2d3..5e7085264189 100644
 -	int idx = -1;
 -	int dist;
 -	int min_dist = INT_MAX;
--	struct gc2235_resolution *tmp_res = NULL;
+-	const struct mt9m114_res_struct *tmp_res = NULL;
 -
--	for (i = 0; i < N_RES; i++) {
--		tmp_res = &gc2235_res[i];
+-	for (i = 0; i < ARRAY_SIZE(mt9m114_res); i++) {
+-		tmp_res = &mt9m114_res[i];
 -		dist = distance(tmp_res, w, h);
 -		if (dist == -1)
 -			continue;
@@ -130,150 +128,129 @@ index 4d769590f2d3..5e7085264189 100644
 -	return idx;
 -}
 -
--static int get_resolution_index(int w, int h)
+-static int mt9m114_try_res(u32 *w, u32 *h)
 -{
--	int i;
+-	int idx = 0;
 -
--	for (i = 0; i < N_RES; i++) {
--		if (w != gc2235_res[i].width)
--			continue;
--		if (h != gc2235_res[i].height)
--			continue;
+-	if ((*w > MT9M114_RES_960P_SIZE_H)
+-	    || (*h > MT9M114_RES_960P_SIZE_V)) {
+-		*w = MT9M114_RES_960P_SIZE_H;
+-		*h = MT9M114_RES_960P_SIZE_V;
+-	} else {
+-		idx = nearest_resolution_index(*w, *h);
 -
--		return i;
+-		/*
+-		 * nearest_resolution_index() doesn't return smaller
+-		 *  resolutions. If it fails, it means the requested
+-		 *  resolution is higher than wecan support. Fallback
+-		 *  to highest possible resolution in this case.
+-		 */
+-		if (idx == -1)
+-			idx = ARRAY_SIZE(mt9m114_res) - 1;
+-
+-		*w = mt9m114_res[idx].width;
+-		*h = mt9m114_res[idx].height;
 -	}
 -
--	return -1;
+-	return 0;
 -}
 -
- static int startup(struct v4l2_subdev *sd)
- {
- 	struct gc2235_device *dev = to_gc2235_sensor(sd);
-@@ -758,7 +688,7 @@ static int startup(struct v4l2_subdev *sd)
- 		gc2235_write_reg_array(client, gc2235_init_settings);
- 	}
- 
--	ret = gc2235_write_reg_array(client, gc2235_res[dev->fmt_idx].regs);
-+	ret = gc2235_write_reg_array(client, dev->res->regs);
- 	if (ret) {
- 		dev_err(&client->dev, "gc2235 write register err.\n");
- 		return ret;
-@@ -776,8 +706,8 @@ static int gc2235_set_fmt(struct v4l2_subdev *sd,
- 	struct gc2235_device *dev = to_gc2235_sensor(sd);
- 	struct i2c_client *client = v4l2_get_subdevdata(sd);
- 	struct camera_mipi_info *gc2235_info = NULL;
-+	struct gc2235_resolution *res;
- 	int ret = 0;
--	int idx;
- 
- 	gc2235_info = v4l2_get_subdev_hostdata(sd);
- 	if (!gc2235_info)
-@@ -786,16 +716,18 @@ static int gc2235_set_fmt(struct v4l2_subdev *sd,
- 		return -EINVAL;
- 	if (!fmt)
- 		return -EINVAL;
-+
- 	mutex_lock(&dev->input_lock);
--	idx = nearest_resolution_index(fmt->width, fmt->height);
--	if (idx == -1) {
--		/* return the largest resolution */
--		fmt->width = gc2235_res[N_RES - 1].width;
--		fmt->height = gc2235_res[N_RES - 1].height;
--	} else {
--		fmt->width = gc2235_res[idx].width;
--		fmt->height = gc2235_res[idx].height;
+-static struct mt9m114_res_struct *mt9m114_to_res(u32 w, u32 h)
+-{
+-	int  index;
+-
+-	for (index = 0; index < N_RES; index++) {
+-		if ((mt9m114_res[index].width == w) &&
+-		    (mt9m114_res[index].height == h))
+-			break;
 -	}
-+	res = v4l2_find_nearest_size(gc2235_res_preview,
-+				     ARRAY_SIZE(gc2235_res_preview), width,
+-
+-	/* No mode found */
+-	if (index >= N_RES)
+-		return NULL;
+-
+-	return &mt9m114_res[index];
+-}
+-
+ static int mt9m114_res2size(struct v4l2_subdev *sd, int *h_size, int *v_size)
+ {
+ 	struct mt9m114_device *dev = to_mt9m114_sensor(sd);
+@@ -829,7 +728,7 @@ static int mt9m114_set_fmt(struct v4l2_subdev *sd,
+ 	struct v4l2_mbus_framefmt *fmt = &format->format;
+ 	struct i2c_client *c = v4l2_get_subdevdata(sd);
+ 	struct mt9m114_device *dev = to_mt9m114_sensor(sd);
+-	struct mt9m114_res_struct *res_index;
++	struct mt9m114_res_struct *res;
+ 	u32 width = fmt->width;
+ 	u32 height = fmt->height;
+ 	struct camera_mipi_info *mt9m114_info = NULL;
+@@ -845,20 +744,21 @@ static int mt9m114_set_fmt(struct v4l2_subdev *sd,
+ 	if (!mt9m114_info)
+ 		return -EINVAL;
+ 
+-	mt9m114_try_res(&width, &height);
++	res = v4l2_find_nearest_size(mt9m114_res,
++				     ARRAY_SIZE(mt9m114_res), width,
 +				     height, fmt->width, fmt->height);
 +	if (!res)
-+		res = &gc2235_res_preview[N_RES - 1];
++		res = &mt9m114_res[N_RES - 1];
 +
 +	fmt->width = res->width;
 +	fmt->height = res->height;
-+	dev->res = res;
 +
- 	fmt->code = MEDIA_BUS_FMT_SGRBG10_1X10;
  	if (format->which == V4L2_SUBDEV_FORMAT_TRY) {
  		sd_state->pads->try_fmt = *fmt;
-@@ -803,13 +735,6 @@ static int gc2235_set_fmt(struct v4l2_subdev *sd,
  		return 0;
  	}
+-	res_index = mt9m114_to_res(width, height);
  
--	dev->fmt_idx = get_resolution_index(fmt->width, fmt->height);
--	if (dev->fmt_idx == -1) {
--		dev_err(&client->dev, "get resolution fail\n");
--		mutex_unlock(&dev->input_lock);
+-	/* Sanity check */
+-	if (unlikely(!res_index)) {
+-		WARN_ON(1);
 -		return -EINVAL;
 -	}
 -
- 	ret = startup(sd);
- 	if (ret) {
- 		dev_err(&client->dev, "gc2235 startup err\n");
-@@ -817,7 +742,7 @@ static int gc2235_set_fmt(struct v4l2_subdev *sd,
+-	switch (res_index->res) {
++	switch (res->res) {
+ 	case MT9M114_RES_736P:
+ 		ret = mt9m114_write_reg_array(c, mt9m114_736P_init, NO_POLLING);
+ 		ret += misensor_rmw_reg(c, MISENSOR_16BIT, MISENSOR_READ_MODE,
+@@ -876,7 +776,7 @@ static int mt9m114_set_fmt(struct v4l2_subdev *sd,
+ 					MISENSOR_R_MODE_MASK, MISENSOR_NORMAL_SET);
+ 		break;
+ 	default:
+-		v4l2_err(sd, "set resolution: %d failed!\n", res_index->res);
++		v4l2_err(sd, "set resolution: %d failed!\n", res->res);
+ 		return -EINVAL;
  	}
  
- 	ret = gc2235_get_intg_factor(client, gc2235_info,
--				     &gc2235_res[dev->fmt_idx]);
-+				     dev->res);
- 	if (ret)
- 		dev_err(&client->dev, "failed to get integration_factor\n");
- 
-@@ -839,8 +764,8 @@ static int gc2235_get_fmt(struct v4l2_subdev *sd,
- 	if (!fmt)
+@@ -890,7 +790,7 @@ static int mt9m114_set_fmt(struct v4l2_subdev *sd,
+ 	if (mt9m114_set_suspend(sd))
  		return -EINVAL;
  
--	fmt->width = gc2235_res[dev->fmt_idx].width;
--	fmt->height = gc2235_res[dev->fmt_idx].height;
-+	fmt->width = dev->res->width;
-+	fmt->height = dev->res->height;
- 	fmt->code = MEDIA_BUS_FMT_SGRBG10_1X10;
+-	if (dev->res != res_index->res) {
++	if (dev->res != res->res) {
+ 		int index;
  
- 	return 0;
-@@ -953,7 +878,7 @@ static int gc2235_g_frame_interval(struct v4l2_subdev *sd,
- 	struct gc2235_device *dev = to_gc2235_sensor(sd);
+ 		/* Switch to different size */
+@@ -922,7 +822,7 @@ static int mt9m114_set_fmt(struct v4l2_subdev *sd,
+ 		}
+ 	}
+ 	ret = mt9m114_get_intg_factor(c, mt9m114_info,
+-				      &mt9m114_res[res_index->res]);
++				      &mt9m114_res[res->res]);
+ 	if (ret) {
+ 		dev_err(&c->dev, "failed to get integration_factor\n");
+ 		return -EINVAL;
+@@ -931,7 +831,7 @@ static int mt9m114_set_fmt(struct v4l2_subdev *sd,
+ 	 * mt9m114 - we don't poll for context switch
+ 	 * because it does not happen with streaming disabled.
+ 	 */
+-	dev->res = res_index->res;
++	dev->res = res->res;
  
- 	interval->interval.numerator = 1;
--	interval->interval.denominator = gc2235_res[dev->fmt_idx].fps;
-+	interval->interval.denominator = dev->res->fps;
- 
- 	return 0;
- }
-@@ -991,7 +916,7 @@ static int gc2235_g_skip_frames(struct v4l2_subdev *sd, u32 *frames)
- 	struct gc2235_device *dev = to_gc2235_sensor(sd);
- 
- 	mutex_lock(&dev->input_lock);
--	*frames = gc2235_res[dev->fmt_idx].skip_frames;
-+	*frames = dev->res->skip_frames;
- 	mutex_unlock(&dev->input_lock);
- 
- 	return 0;
-@@ -1055,7 +980,7 @@ static int gc2235_probe(struct i2c_client *client)
- 
- 	mutex_init(&dev->input_lock);
- 
--	dev->fmt_idx = 0;
-+	dev->res = &gc2235_res_preview[0];
- 	v4l2_i2c_subdev_init(&dev->sd, client, &gc2235_ops);
- 
- 	gcpdev = gmin_camera_platform_data(&dev->sd,
-diff --git a/drivers/staging/media/atomisp/i2c/gc2235.h b/drivers/staging/media/atomisp/i2c/gc2235.h
-index ba5db1230033..806be5dff7a5 100644
---- a/drivers/staging/media/atomisp/i2c/gc2235.h
-+++ b/drivers/staging/media/atomisp/i2c/gc2235.h
-@@ -158,11 +158,10 @@ struct gc2235_device {
- 	struct v4l2_mbus_framefmt format;
- 	struct mutex input_lock;
- 	struct v4l2_ctrl_handler ctrl_handler;
-+	struct gc2235_resolution *res;
- 
- 	struct camera_sensor_platform_data *platform_data;
- 	int vt_pix_clk_freq_mhz;
--	int fmt_idx;
--	u8 res;
- 	u8 type;
- };
- 
+ 	fmt->width = width;
+ 	fmt->height = height;
 -- 
 2.31.1
 
