@@ -2,155 +2,122 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9F3DF4458D6
-	for <lists+linux-media@lfdr.de>; Thu,  4 Nov 2021 18:43:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DA929445943
+	for <lists+linux-media@lfdr.de>; Thu,  4 Nov 2021 19:04:32 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232283AbhKDRqQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 4 Nov 2021 13:46:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60280 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231526AbhKDRqQ (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 4 Nov 2021 13:46:16 -0400
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D6761C061714
-        for <linux-media@vger.kernel.org>; Thu,  4 Nov 2021 10:43:37 -0700 (PDT)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1miglx-00078L-TN; Thu, 04 Nov 2021 18:43:33 +0100
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
-        by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.92)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1miglw-0005cC-3C; Thu, 04 Nov 2021 18:43:32 +0100
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.92)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1miglw-0008JO-1y; Thu, 04 Nov 2021 18:43:32 +0100
-Date:   Thu, 4 Nov 2021 18:43:25 +0100
-From:   Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To:     =?utf-8?B?TWHDrXJh?= Canal <maira.canal@usp.br>
-Cc:     sean@mess.org, mchehab@kernel.org, thierry.reding@gmail.com,
-        lee.jones@linaro.org, linux-media@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-pwm@vger.kernel.org
-Subject: Re: [PATCH v2] media: ir-rx51: Switch to atomic PWM API
-Message-ID: <20211104174325.babrgtoowddzlwtj@pengutronix.de>
-References: <YX8VkdCAe6coHC4w@fedora>
- <20211104152913.uqmmk6z7vppu5pxk@pengutronix.de>
+        id S232095AbhKDSHK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 4 Nov 2021 14:07:10 -0400
+Received: from relay12.mail.gandi.net ([217.70.178.232]:46901 "EHLO
+        relay12.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231593AbhKDSHH (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 4 Nov 2021 14:07:07 -0400
+Received: (Authenticated sender: jacopo@jmondi.org)
+        by relay12.mail.gandi.net (Postfix) with ESMTPSA id F1AD8200009;
+        Thu,  4 Nov 2021 18:04:25 +0000 (UTC)
+Date:   Thu, 4 Nov 2021 19:05:17 +0100
+From:   Jacopo Mondi <jacopo@jmondi.org>
+To:     Niklas =?utf-8?Q?S=C3=B6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>
+Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH 0/3] media: rcar-{csi2,vin}: Move to full Virtual Channel
+ routing per CSI-2 IP
+Message-ID: <20211104180517.e3o4wnifys4p6cv2@uno.localdomain>
+References: <20211020200225.1956048-1-niklas.soderlund+renesas@ragnatech.se>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="lgsivpieqjcjq3ja"
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20211104152913.uqmmk6z7vppu5pxk@pengutronix.de>
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-media@vger.kernel.org
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20211020200225.1956048-1-niklas.soderlund+renesas@ragnatech.se>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Hi Niklas,
 
---lgsivpieqjcjq3ja
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Wed, Oct 20, 2021 at 10:02:22PM +0200, Niklas Söderlund wrote:
+> Hello,
+>
+> This series attempts to increase the flexibility of the R-Car VIN
+> capture pipeline by allowing for free form Virtual Channel routing
+> within the same CSI-2 IP block.
+>
+> When Gen3 support was first added to this R-Car VIN and CSI-2 driver the
+> routing was centred around the CHSEL register which multiplex the
+> different parallel buses that sits between the CSI-2 receivers source
+> side and the VIN dma engines. This was a bad design as the multiplexing
+> do allow for only a few combinations and do not play nice with many
+> video streams in the system.
+>
+> For example it's only possible for CSI-2 Virtual Channels 0 and 1 of any
+> given CSI-2 receiver to be used together with the scaler.
+>
+> Later datasheets have expanded the documentation and it is now possible
+> to improve on this design by allowing any Virtual Channel to be routed
+> to any R-Car VIN instance, provided that there exists a parallel bus
+> between them. This increases the flexibility as all Virtual Channels can
+> now be used together with the scaler for example.
+>
+> The redesign is not however perfect. While the new design allows for
+> many more routes, two constrains limit a small portion of routes that
+> was possible in the old design but are no more.
+>
+> - It is no longer possible to route the same CSI-2 and VC to more then
+> one VIN at a time. This was theoretically possible before if the
+> specific SoC allowed for the same CSI-2 and VC to be routed to two
+> different VIN capture groups.
+>
+> - It is no longer possible to simultaneously mix links from two CSI-2 IP
+> blocks to the same VIN capture group.
+>
+> For example if VIN2 is capturing from CSI40 then VIN{0,1,3} must also
+> capture from CSI40. While VIN{4,5,6,7} is still free to capture from
+> any other CSI-2 IP in the system. Once all VIN{0,1,2,3} links to CSI40
+> are disabled that VIN capture group is free again to capture from any
+> other CSI-2 IP it is connected to.
+>
+> At the core of the redesign is greater cooperator of the R-Car VIN and
+> CSI-2 drivers in configuring the routing. The VIN driver is after this
+> change only responsible to configure the full VIN capture groups
+> parallel buses to be to a particular CSI-2 IP. While the configuration
+> of which CSI-2 Virtual Channel is outputted on which of the R-Car CSI-2
+> IP output ports is handled by the CSI-2 driver.
+>
+> Before this change the CSI-2 Virtual Channel to output port was static
+> in the CSI-2 driver and the different links only manipulated the VIN
+> capture groups CHSEL register. With this change both the CHSEl register
+> and the CSI-2 routing VCDT registers are modified for greater
+> flexibility.
+>
+> Patch 1/3 and 2/3 are cleanup patches moving code around preparing for
+> the real work in 3/3. The work is based on the latest media-tree.
 
-On Thu, Nov 04, 2021 at 04:29:13PM +0100, Uwe Kleine-K=F6nig wrote:
-> On Sun, Oct 31, 2021 at 07:15:45PM -0300, Ma=EDra Canal wrote:
-> > Remove legacy PWM interface (pwm_config, pwm_enable, pwm_disable) and
-> > replace it for the atomic PWM API.
-> >=20
-> > Signed-off-by: Ma=EDra Canal <maira.canal@usp.br>
-> > ---
-> > V1 -> V2: remove conceptually wrong chunk of code and correct the posit=
-ion
-> > of pwm_init_state function
-> > ---
-> >  drivers/media/rc/ir-rx51.c | 16 +++++++++-------
-> >  1 file changed, 9 insertions(+), 7 deletions(-)
-> >=20
-> > diff --git a/drivers/media/rc/ir-rx51.c b/drivers/media/rc/ir-rx51.c
-> > index a0d9c02a7588..41d4a4338072 100644
-> > --- a/drivers/media/rc/ir-rx51.c
-> > +++ b/drivers/media/rc/ir-rx51.c
-> > @@ -19,6 +19,7 @@
-> >  struct ir_rx51 {
-> >  	struct rc_dev *rcdev;
-> >  	struct pwm_device *pwm;
-> > +	struct pwm_state *state;
-> >  	struct hrtimer timer;
-> >  	struct device	     *dev;
-> >  	wait_queue_head_t     wqueue;
-> > @@ -32,22 +33,22 @@ struct ir_rx51 {
-> > =20
-> >  static inline void ir_rx51_on(struct ir_rx51 *ir_rx51)
-> >  {
-> > -	pwm_enable(ir_rx51->pwm);
-> > +	ir_rx51->state->enabled =3D true;
-> > +	pwm_apply_state(ir_rx51->pwm, ir_rx51->state);
-> >  }
-> > =20
-> >  static inline void ir_rx51_off(struct ir_rx51 *ir_rx51)
-> >  {
-> > -	pwm_disable(ir_rx51->pwm);
-> > +	ir_rx51->state->enabled =3D false;
-> > +	pwm_apply_state(ir_rx51->pwm, ir_rx51->state);
-> >  }
-> > =20
-> >  static int init_timing_params(struct ir_rx51 *ir_rx51)
-> >  {
-> > -	struct pwm_device *pwm =3D ir_rx51->pwm;
-> > -	int duty, period =3D DIV_ROUND_CLOSEST(NSEC_PER_SEC, ir_rx51->freq);
-> > +	struct pwm_state *state =3D ir_rx51->state;
-> > =20
-> > -	duty =3D DIV_ROUND_CLOSEST(ir_rx51->duty_cycle * period, 100);
-> > -
-> > -	pwm_config(pwm, duty, period);
-> > +	state->period =3D DIV_ROUND_CLOSEST(NSEC_PER_SEC, ir_rx51->freq);
-> > +	pwm_set_relative_duty_cycle(state, ir_rx51->duty_cycle, 100);
-> > =20
-> >  	return 0;
-> >  }
-> > @@ -242,6 +243,7 @@ static int ir_rx51_probe(struct platform_device *de=
-v)
-> > =20
-> >  	/* Use default, in case userspace does not set the carrier */
-> >  	ir_rx51.freq =3D DIV_ROUND_CLOSEST_ULL(pwm_get_period(pwm), NSEC_PER_=
-SEC);
-> > +	pwm_init_state(pwm, ir_rx51.state);
-> >  	pwm_put(pwm);
-> > =20
->=20
-> Orthogonal to this patch I wonder why probe calls pwm_get() and
-> pwm_put(), just to have another call to pwm_get() in the open callback.
->=20
-> Reviewed-by: Uwe Kleine-K=F6nig <u.kleine-koenig@pengutronix.de>
+I have tested this series with the GMSL multiplexed support.
+Test branch is available at
+https://git.sr.ht/~jmondi_/linux/log/multistream/media-master/tomba-v9/niklas/gmsl-dev
 
-Oh, I missed something: the member added to struct ir_rx51 must be a
-plain struct pwm_state, not a pointer to it. As suggested here the
-driver runs into a NULL pointer exception.
+Tested-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
 
-Best regards
-Uwe
+Thanks
+   j
 
-
---=20
-Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
-Industrial Linux Solutions                 | https://www.pengutronix.de/ |
-
---lgsivpieqjcjq3ja
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEfnIqFpAYrP8+dKQLwfwUeK3K7AkFAmGEG7UACgkQwfwUeK3K
-7AlcgQf/bxCZICjRu36Hjj9cWcps6tWIvZuB3ts1H0nC3STTjPgR/C3GkIuVTA2h
-ICSO7IC91CE969WztomoGUw8PljoJi5xAXmkKa6ciWqsloGGfJAkCnHh1sdE+lq5
-LdBed/h/F00LXHz4mo1tACga31mSmZ7yUsLRu9107QHDhZxrpD+GFTeIr9gih41Q
-AAEy+T5G/m4Scbicpkj/R4wjfedMMCfFCsr3t0ldmsPiXGVibbad4tj+MM2SCBRp
-6d+HXLqfpCvUMZwY4c9x5URpp7jstuZNLRi4GtsaY1hyBIluiSGMcJwhNu2eLLu3
-xCcL2ThTR3C+mmYyjCHn4ByaCVsTJA==
-=uV7a
------END PGP SIGNATURE-----
-
---lgsivpieqjcjq3ja--
+>
+> Kind Regards,
+> Niklas Söderlund
+>
+> Niklas Söderlund (3):
+>   media: rcar-vin: Refactor link notify
+>   media: rcar-vin: Breakout media link creation
+>   media: rcar-{csi2,vin}: Move to full Virtual Channel routing per CSI-2
+>     IP
+>
+>  drivers/media/platform/rcar-vin/rcar-core.c | 379 ++++++--------------
+>  drivers/media/platform/rcar-vin/rcar-csi2.c |  58 ++-
+>  drivers/media/platform/rcar-vin/rcar-dma.c  |   2 +-
+>  drivers/media/platform/rcar-vin/rcar-vin.h  |  18 +-
+>  4 files changed, 167 insertions(+), 290 deletions(-)
+>
+> --
+> 2.33.1
+>
