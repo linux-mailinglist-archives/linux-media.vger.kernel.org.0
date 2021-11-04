@@ -2,222 +2,335 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A0774444D05
-	for <lists+linux-media@lfdr.de>; Thu,  4 Nov 2021 02:38:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A64B9444F58
+	for <lists+linux-media@lfdr.de>; Thu,  4 Nov 2021 07:50:58 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232870AbhKDBle (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 3 Nov 2021 21:41:34 -0400
-Received: from mailgw01.mediatek.com ([60.244.123.138]:36132 "EHLO
-        mailgw01.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
-        with ESMTP id S232865AbhKDBla (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 3 Nov 2021 21:41:30 -0400
-X-UUID: eb3ca50539c544d9ac74b77854a51398-20211104
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
-        h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:From:Subject:Message-ID; bh=WYUi9IaF4xE7toLYcal2yk2zZFGyvVTY+9fdGfh6gpY=;
-        b=ToMof/ah7Qg71+pJ/1WyzfCDnvHn0V0XkQDt2d/qWvvwRgMkKmYWiDzQzYcQT4rlcRoNlmX9ygTzWYygkQlOPOYSWNoE8OsDvukz28d4l0ayyBdvC3gv9RqfBDi4b0q7FTkmzUnn5Nz+q4FfMsP+M1zx2lSaE/JlBymkULkx5gA=;
-X-UUID: eb3ca50539c544d9ac74b77854a51398-20211104
-Received: from mtkcas10.mediatek.inc [(172.21.101.39)] by mailgw01.mediatek.com
-        (envelope-from <irui.wang@mediatek.com>)
-        (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
-        with ESMTP id 828670323; Thu, 04 Nov 2021 09:38:50 +0800
-Received: from mtkmbs10n2.mediatek.inc (172.21.101.183) by
- mtkmbs07n2.mediatek.inc (172.21.101.141) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Thu, 4 Nov 2021 09:38:48 +0800
-Received: from mhfsdcap04 (10.17.3.154) by mtkmbs10n2.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.2.792.3 via Frontend
- Transport; Thu, 4 Nov 2021 09:38:48 +0800
-Message-ID: <0c9a80957eaf5e5b99436fb3b478838538340da8.camel@mediatek.com>
-Subject: Re: =?UTF-8?Q?=E7=AD=94=E5=A4=8D=3A?=
- =?UTF-8?Q?_=E7=AD=94=E5=A4=8D=3A?= [PATCH 4/5] media: mtk-vcodec: Add two
- error cases upon vpu irq handling
-From:   Irui Wang <irui.wang@mediatek.com>
-To:     Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
-CC:     Linux Media Mailing List <linux-media@vger.kernel.org>,
+        id S230119AbhKDGxe (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 4 Nov 2021 02:53:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52854 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229994AbhKDGxd (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 4 Nov 2021 02:53:33 -0400
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D21A6C061714
+        for <linux-media@vger.kernel.org>; Wed,  3 Nov 2021 23:50:55 -0700 (PDT)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: dafna)
+        with ESMTPSA id 666D81F45D8E
+Subject: =?UTF-8?B?UmU6IOetlOWkjTog562U5aSNOiBbUEFUQ0ggNC81XSBtZWRpYTogbXRr?=
+ =?UTF-8?Q?-vcodec=3a_Add_two_error_cases_upon_vpu_irq_handling?=
+To:     Irui Wang <irui.wang@mediatek.com>
+Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
         "moderated list:ARM/Mediatek SoC support" 
         <linux-mediatek@lists.infradead.org>,
         Collabora Kernel ML <kernel@collabora.com>
-Date:   Thu, 4 Nov 2021 09:38:48 +0800
-In-Reply-To: <a282c849-3542-4881-7a56-b8a2bccdbcbe@collabora.com>
 References: <20210804142729.7231-1-dafna.hirschfeld@collabora.com>
-         <20210804142729.7231-5-dafna.hirschfeld@collabora.com>
-         <81524c608e9ef640e71d969aa83d1a383e687b0a.camel@mediatek.com>
-         <f343f406-111b-326f-3671-094e699a3aa6@collabora.com>
-         <HK0PR03MB302713CFF1F1E79AD99737679DF69@HK0PR03MB3027.apcprd03.prod.outlook.com>
-         <18e477a2-60c7-3e18-730d-ab0cb5e5821a@collabora.com>
-         <HK0PR03MB30274F4B532D52E775687E069DF69@HK0PR03MB3027.apcprd03.prod.outlook.com>
-         <a282c849-3542-4881-7a56-b8a2bccdbcbe@collabora.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
+ <20210804142729.7231-5-dafna.hirschfeld@collabora.com>
+ <81524c608e9ef640e71d969aa83d1a383e687b0a.camel@mediatek.com>
+ <f343f406-111b-326f-3671-094e699a3aa6@collabora.com>
+ <HK0PR03MB302713CFF1F1E79AD99737679DF69@HK0PR03MB3027.apcprd03.prod.outlook.com>
+ <18e477a2-60c7-3e18-730d-ab0cb5e5821a@collabora.com>
+ <HK0PR03MB30274F4B532D52E775687E069DF69@HK0PR03MB3027.apcprd03.prod.outlook.com>
+ <a282c849-3542-4881-7a56-b8a2bccdbcbe@collabora.com>
+ <0c9a80957eaf5e5b99436fb3b478838538340da8.camel@mediatek.com>
+From:   Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+Message-ID: <2d251d3f-fe9b-9d09-dfd3-e229d335cf88@collabora.com>
+Date:   Thu, 4 Nov 2021 08:50:34 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-X-MTK:  N
-Content-Transfer-Encoding: base64
+In-Reply-To: <0c9a80957eaf5e5b99436fb3b478838538340da8.camel@mediatek.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-SGksIA0KDQpPbiBXZWQsIDIwMjEtMTEtMDMgYXQgMjI6NTAgKzAyMDAsIERhZm5hIEhpcnNjaGZl
-bGQgd3JvdGU6DQo+IA0KPiBPbiAwOS4wOC4yMSAxMjoxMiwgSXJ1aSBXYW5nICjnjovnkZ4pIHdy
-b3RlOg0KPiA+IEhpIERhZm5hLA0KPiA+IA0KPiA+ID4gPiAyLiBBbHdheXMgaGFwcGVuZWQgIGlz
-c3VlID8gIHRpbWVvdXQgYXQgdGhlIGJlZ2lubmluZyBvciAgaW4NCj4gPiA+ID4gcHJvY2Vzc2lu
-ZyA/DQo+ID4gPiBUaGUgY29tbWFuZHMgdGhhdCBJIHJ1biBpczoNCj4gPiA+ID4gc3VkbyAtLXVz
-ZXI9IzEwMDAgL3Vzci9sb2NhbC9saWJleGVjL2Nocm9tZS1iaW5hcnktDQo+ID4gPiA+IHRlc3Rz
-L3ZpZGVvX2VuY29kZV9hY2NlbGVyYXRvcl90ZXN0cyAtLWd0ZXN0X2ZpbHRlcj0tDQo+ID4gPiA+
-ICpOVjEyRG1hYnVmKiAgLS0+PmNvZGVjPXZwOA0KPiA+ID4gPiA+L3Vzci9sb2NhbC9zaGFyZS90
-YXN0L2RhdGEvY2hyb21pdW1vcy90YXN0L2xvY2FsL2J1bmRsZXMvY3Jvcy8NCj4gPiA+ID4gdmlk
-ZW8vZGF0YS90dWxpcDItMzIweDE4MC55dXYgLS1kaXNhYmxlX3ZhbGlkYXRvcg0KPiA+ID4gPiBU
-aGUgY29tbWFuZCBzb21ldGltZSBzdWNjZWVkIGJ1dCB3aGVuIEkgcnVuIGl0IHNlcXVlbnRpYWxs
-eQ0KPiA+ID4gPiB0aGVuIGF0IHNvbWUgcG9pbnQgYWZ0ZXIgZmV3IGF0dGVtcHRzIEkgc3RhcnQg
-dG8gZ2V0IHRob3NlDQo+ID4gPiA+IHRpbWVvdXQgZXJyb3JzLg0KPiA+IA0KPiA+IEl0IHNlZW1z
-IG1lYW4gVlA4IGVuY29kaW5nIGZ1bmN0aW9uIE9LLCBidXQgZmFpbGVkIHNvbWV0aW1lcywgZGlk
-DQo+ID4geW91IGhhdmUgY2hlY2sgVkVOQyBjbG9jayBpbmZvIGR1cmluZyBlbmNvZGluZzoNCj4g
-PiANCj4gPiBjYXQgL3N5cy9rZXJuZWwvZGVidWcvY2xrL2Nsa19zdW1tYXJ5IHwgZ3JlcCB2ZW5j
-Og0KPiA+IA0KPiA+IHZlbmNfc2VsICAgPiBpdCdzIEguMjY0IGNsb2NrDQo+ID4gdmVuY2x0X3Nl
-bCAgPiBpdCdzIFZQOCBjbG9jaw0KPiA+IA0KPiA+IHRoZSBlbmFibGUmcHJlcGFyZSBjb3VudCBp
-cyBub3QgMCBkdXJpbmcgZW5jb2RpbmcgcHJvY2Vzcy4NCj4gPiANCj4gPiBUaGFua3MNCj4gPiBC
-ZXN0IFJlZ2FyZHMNCj4gPiANCj4gPiAtLS0tLemCruS7tuWOn+S7ti0tLS0tDQo+ID4g5Y+R5Lu2
-5Lq6OiBEYWZuYSBIaXJzY2hmZWxkIFttYWlsdG86ZGFmbmEuaGlyc2NoZmVsZEBjb2xsYWJvcmEu
-Y29tXQ0KPiA+IOWPkemAgeaXtumXtDogMjAyMeW5tDjmnIg55pelIDE2OjI3DQo+ID4g5pS25Lu2
-5Lq6OiBJcnVpIFdhbmcgKOeOi+eRnikNCj4gPiDmioTpgIE6IExpbnV4IE1lZGlhIE1haWxpbmcg
-TGlzdDsgbW9kZXJhdGVkIGxpc3Q6QVJNL01lZGlhdGVrIFNvQw0KPiA+IHN1cHBvcnQ7IEVucmlj
-IEJhbGxldGJvIGkgU2VycmENCj4gPiDkuLvpopg6IFJlOiDnrZTlpI06IFtQQVRDSCA0LzVdIG1l
-ZGlhOiBtdGstdmNvZGVjOiBBZGQgdHdvIGVycm9yIGNhc2VzIHVwb24NCj4gPiB2cHUgaXJxIGhh
-bmRsaW5nDQo+ID4gDQo+ID4gDQo+ID4gDQo+ID4gT24gMDkuMDguMjEgMDk6MzcsIElydWkgV2Fu
-ZyAo546L55GeKSB3cm90ZToNCj4gPiA+IEhpIERhZm5hLA0KPiA+ID4gDQo+ID4gPiA+ID4gSSBh
-bSB0ZXN0aW5nIHRoZSB2cDggZW5jb2RlciBvbiBjaHJvbWVvcyBhbmQgYXQgc29tZSBwb2ludA0K
-PiA+ID4gPiA+IHRoZSBlbmNvZGVyIGludGVycnVwdHMgc3RvcCBhcnJpdmluZyBzbyBJIHRyeSB0
-byBmaWd1cmUgb3V0DQo+ID4gPiA+ID4gd2h5IGFuZCByZXBvcnQgYW55IHBvc3NpYmxlIGVycm9y
-Lg0KPiA+ID4gDQo+ID4gPiAxLiBMb2cgc2hvd3Mgd2FpdCBJUlEgdGltZW91dCA/DQo+ID4gDQo+
-ID4gSGksIHllcywgSSBnZXQgdGltZW91dCB3aGVuIHdhaXRpbmcgdG8gdGhlIGVuY29kZXIgaW50
-ZXJydXB0LiBUaGUNCj4gPiB0aW1lb3V0IGlzIG9uIHZwOF9lbmNfd2FpdF92ZW5jX2RvbmUNCj4g
-PiANCj4gPiANCj4gPiA+IDIuIEFsd2F5cyBoYXBwZW5lZCAgaXNzdWUgPyAgdGltZW91dCBhdCB0
-aGUgYmVnaW5uaW5nIG9yICBpbg0KPiA+ID4gcHJvY2Vzc2luZyA/DQo+ID4gDQo+ID4gVGhlIGNv
-bW1hbmRzIHRoYXQgSSBydW4gaXM6DQo+ID4gDQo+ID4gc3VkbyAtLXVzZXI9IzEwMDAgL3Vzci9s
-b2NhbC9saWJleGVjL2Nocm9tZS1iaW5hcnktDQo+ID4gdGVzdHMvdmlkZW9fZW5jb2RlX2FjY2Vs
-ZXJhdG9yX3Rlc3RzIC0tZ3Rlc3RfZmlsdGVyPS0NCj4gPiAqTlYxMkRtYWJ1ZiogIC0tY29kZWM9
-dnA4DQo+ID4gL3Vzci9sb2NhbC9zaGFyZS90YXN0L2RhdGEvY2hyb21pdW1vcy90YXN0L2xvY2Fs
-L2J1bmRsZXMvY3Jvcy92aWRlbw0KPiA+IC9kYXRhL3R1bGlwMi0zMjB4MTgwLnl1diAtLWRpc2Fi
-bGVfdmFsaWRhdG9yDQo+ID4gDQo+ID4gVGhlIGNvbW1hbmQgc29tZXRpbWUgc3VjY2VlZCBidXQg
-d2hlbiBJIHJ1biBpdCBzZXF1ZW50aWFsbHkgdGhlbiBhdA0KPiA+IHNvbWUgcG9pbnQgYWZ0ZXIg
-ZmV3IGF0dGVtcHRzIEkgc3RhcnQgdG8gZ2V0IHRob3NlIHRpbWVvdXQgZXJyb3JzLg0KPiA+IA0K
-PiA+ID4gMy4gaG93IGFib3V0IElSUSBpbmZvcz8NCj4gPiA+IGNhdCAvcHJvYy9pbnRlcnJ1cHRz
-IHwgZ3JlcCB2Y29kZWMNCj4gPiA+IDE4MDAyMDAwLnZjb2RlYyAgID4+IGl0J3MgSC4yNjQgZW5j
-b2Rlcg0KPiA+ID4gMTkwMDIwMDAudmNvZGVjICA+PiBpdCdzICBWUDggZW5jb2Rlcg0KPiA+ID4g
-DQo+ID4gPiBJIHdhcyB0b2xkIHlvdSBoYXZlICBtZXQgYW5vdGhlciBILjI2NCBlbmNvZGluZyBm
-YWlsZWQgYmVmb3JlLA0KPiA+ID4gZGlkIHlvdSBmaW5kIHJlYXNvbnMgYWJvdXQgdGhhdCA/DQo+
-ID4gDQo+ID4gTm8sDQo+ID4gQnV0IHNpbmNlIEkgc2VlIHRoYXQgdGhlIGdvb2dsZSBtZWV0dXAg
-dXNlcyB0aGUgdnA4IGVuY29kZXIgSQ0KPiA+IGRlY2lkZWQgdG8gdGVzdCB0aGUgdnA4IGZpcnN0
-Lg0KPiA+IA0KPiA+ID4gPiBbICAgODEuOTE4NzQ3XSBbTVRLX1Y0TDJdW0VSUk9SXQ0KPiA+ID4g
-PiBtdGtfdmNvZGVjX3dhaXRfZm9yX2RvbmVfY3R4OjMyOiBbM10gY3R4LT50eXBlPTEsIGNtZD0x
-LA0KPiA+ID4gPiB3YWl0X2V2ZW50X2ludGVycnVwdGlibGVfdGltZW91dCB0aW1lPTEwMDBtcyBv
-dXQgMCAwIQ0KPiA+ID4gPiBbICAgODEuOTMxMzkyXSBbTVRLX1ZDT0RFQ11bRVJST1JdWzNdOiBo
-MjY0X2VuY29kZV9mcmFtZSgpDQo+ID4gPiA+IGlycV9zdGF0dXM9MCBmYWlsZWQNCj4gPiA+ID4g
-WyAgIDgxLjkzODQ3MF0gW01US19WNEwyXVtFUlJPUl0gbXRrX3ZlbmNfd29ya2VyOjEyMTk6DQo+
-ID4gPiA+IHZlbmNfaWZfZW5jb2RlIGZhaWxlZD0tNQ0KPiANCj4gSGksDQo+IEkgdGVzdCB0aGUg
-ZHJpdmVyIG9uIGRlYmlhbiBub3csIEkgc3RyZWFtIHNldmVyYWwgaW5zdGFuY2VzIG9mIHZwOA0K
-PiBhbmQgaDI2NCBpbiBwYXJhbGxlbC4NCj4gSSBzZWUgdGhhdCB0aG9zZSBlcnJvcnMgYWx3YXlz
-IG9jY3VyIGFmdGVyIGFuIGlvbW11IHBhZ2UgZmF1bHQ6DQo+IA0KPiBbZ3N0LW1hc3Rlcl0gcm9v
-dEBkZWJpYW46fi9nc3QtYnVpbGQjIFsgNTc0My4yMDYwMTRdIG10ay1pb21tdQ0KPiAxMDIwNTAw
-MC5pb21tdTogZmF1bHQgdHlwZT0weDUgaW92YT0weGFjMmZmMDAzIHBhPTB4MCBsYXJiPTMgcG9y
-dD0wDQo+IGxheWVyPTEgd3JpdGUNCj4gWyA1NzQ0LjIwNDk2NF0gW01US19WNEwyXVtFUlJPUl0g
-bXRrX3Zjb2RlY193YWl0X2Zvcl9kb25lX2N0eDozMjoNCj4gWzI3MDZdIGN0eC0+dHlwZT0xLCBj
-bWQ9MSwgd2FpdF9ldmVudF9pbnRlcnJ1cHRpYmxlX3RpbWVvdXQNCj4gdGltZT0xMDAwbXMgb3V0
-IDAgMCENCj4gWyA1NzQ0LjIxNzg0OV0gW01US19WQ09ERUNdW0VSUk9SXVsyNzA2XTogdnA4X2Vu
-Y19lbmNvZGVfZnJhbWUoKQ0KPiBpcnFfc3RhdHVzPTAgZmFpbGVkDQo+IFsgNTc0NC4yMjUzNTld
-IFtNVEtfVjRMMl1bRVJST1JdIG10a192ZW5jX3dvcmtlcjoxMjQzOiB2ZW5jX2lmX2VuY29kZQ0K
-PiBmYWlsZWQ9LTUNCj4gDQo+IEkgc3VzcGVjdCB0aGF0IG1heWJlIHRoaXMgaXMgYmVjYXVzZSB0
-aGUgaW92YSBvZiB0aGUgd29ya2luZ19idWZmZXJzDQo+IGlzIGhhbmRlZCB0byB0aGUgdnB1IGlu
-IHRoZSBmdW5jdGlvbiB2cDhfZW5jX2FsbG9jX3dvcmtfYnVmOg0KPiB3YltpXS5pb3ZhID0gaW5z
-dC0+d29ya19idWZzW2ldLmRtYV9hZGRyOw0KPiANCj4gTWF5YmUgdGhlIHZwdSBrZWVwIHdyaXRp
-bmcgdG8gdGhvc2UgYWRkcmVzc2VzIGFmdGVyIHRoZXkgYXJlIGFscmVhZHkNCj4gdW5tYXBwZWQ/
-DQo+IA0KPiBUaGFua3MsDQo+IERhZm5hDQoNCmZhaWxlZCBsYXJiPTMsIGl0J3MgZm9yIGgyNjQg
-ZW5jb2RlciwgIHZwOCBlbmNvZGVyIGlzIGxhcmI1LCBpcyB0aGVyZQ0KYW55IGgyNjQgZW5jb2Rp
-bmcgZmFpbGVkIGF0IHRoYXQgdGltZT8gSSBoYXZlIG5vIGlkZWFzIHdoeSB0aGVzZSBlcnJvcnMN
-CmhhcHBlbmVkIG9uIHlvdXIgcGxhdGZvcm0sIGJ1dCB3aGVuIHdlIGdvdCB0aGUgImlvbW11OiBm
-YXVsdCIsIHRoZQ0KcG9zc2libGUgcmVhc29uIGlzIHJlbGF0ZWQgdG8gcG93ZXIgb3IgY2xvY2su
-DQoNCj4gDQo+IA0KPiA+IA0KPiA+IA0KPiA+ID4gDQo+ID4gPiBNVDgxNzMgbGF0ZXN0IFZQVUQg
-ZmlybXdhcmU6DQo+ID4gPiANCmh0dHBzOi8vZ2l0Lmtlcm5lbC5vcmcvcHViL3NjbS9saW51eC9r
-ZXJuZWwvZ2l0L2Zpcm13YXJlL2xpbnV4LWZpcm13YXINCj4gPiA+IGUuZ2l0L2NvbW1pdC8/aWQ9
-YWFlZDRhOGJmOWE3N2VjNjgzNzZlOGQ5MmZiMjE4ZDVmZGQ4OGI1OQ0KPiA+ID4gDQo+ID4gDQo+
-ID4gSSB1c2VzIHRoZSBsYXRlc3QgZmlybXdhcmUuDQo+ID4gDQo+ID4gVGhhbmtzLA0KPiA+IERh
-Zm5hDQo+ID4gDQo+ID4gPiBUaGFua3MNCj4gPiA+IEJlc3QgUmVnYXJkcw0KPiA+ID4gDQo+ID4g
-PiAtLS0tLemCruS7tuWOn+S7ti0tLS0tDQo+ID4gPiDlj5Hku7bkuro6IERhZm5hIEhpcnNjaGZl
-bGQgW21haWx0bzpkYWZuYS5oaXJzY2hmZWxkQGNvbGxhYm9yYS5jb21dDQo+ID4gPiDlj5HpgIHm
-l7bpl7Q6IDIwMjHlubQ45pyINuaXpSAxNTo0OQ0KPiA+ID4g5pS25Lu25Lq6OiBJcnVpIFdhbmcg
-KOeOi+eRnik7IGxpbnV4LWtlcm5lbEB2Z2VyLmtlcm5lbC5vcmc7DQo+ID4gPiBsaW51eC1tZWRp
-YUB2Z2VyLmtlcm5lbC5vcmc7IGxpbnV4LW1lZGlhdGVrQGxpc3RzLmluZnJhZGVhZC5vcmcNCj4g
-PiA+IOaKhOmAgTogZGFmbmEzQGdtYWlsLmNvbTsgdGZpZ2FAY2hyb21pdW0ub3JnOyBUaWZmYW55
-IExpbiAo5p6X5oWn54+KKTsNCj4gPiA+IGVpemFuQGNocm9taXVtLm9yZzsgTWFvZ3VhbmcgTWVu
-ZyAo5a2f5q+b5bm/KTsga2VybmVsQGNvbGxhYm9yYS5jb207DQo+ID4gPiBtY2hlaGFiQGtlcm5l
-bC5vcmc7IGh2ZXJrdWlsQHhzNGFsbC5ubDsgWXVuZmVpIERvbmcgKOiRo+S6kemjnik7IFlvbmcN
-Cj4gPiA+IFd1DQo+ID4gPiAo5ZC05YuHKTsgaHNpbnlpQGNocm9taXVtLm9yZzsgbWF0dGhpYXMu
-YmdnQGdtYWlsLmNvbTsgQW5kcmV3LUNUIENoZW4NCj4gPiA+ICjpmbPmmbrov6opOyBhY291cmJv
-dEBjaHJvbWl1bS5vcmcNCj4gPiA+IOS4u+mimDogUmU6IFtQQVRDSCA0LzVdIG1lZGlhOiBtdGst
-dmNvZGVjOiBBZGQgdHdvIGVycm9yIGNhc2VzIHVwb24NCj4gPiA+IHZwdQ0KPiA+ID4gaXJxIGhh
-bmRsaW5nDQo+ID4gPiANCj4gPiA+IA0KPiA+ID4gDQo+ID4gPiBPbiAwNi4wOC4yMSAwODo1OCwg
-SXJ1aSBXYW5nICjnjovnkZ4pIHdyb3RlOg0KPiA+ID4gPiBPbiBXZWQsIDIwMjEtMDgtMDQgYXQg
-MTY6MjcgKzAyMDAsIERhZm5hIEhpcnNjaGZlbGQgd3JvdGU6DQo+ID4gPiA+ID4gMS4gRmFpbCBp
-ZiB0aGUgZnVuY3Rpb24gbXRrX3Zjb2RlY19md19tYXBfZG1fYWRkciByZXR1cm5zIEVSUg0KPiA+
-ID4gPiA+IHBvaW50ZXIuDQo+ID4gPiA+ID4gMi4gRmFpbCBpZiB0aGUgc3RhdGUgZnJvbSB0aGUg
-dnB1IG1zZyBpcyBlaXRoZXINCj4gPiA+ID4gPiBWRU5fSVBJX01TR19FTkNfU1RBVEVfRVJST1Ig
-b3IgVkVOX0lQSV9NU0dfRU5DX1NUQVRFX1BBUlQNCj4gPiA+ID4gPiANCj4gPiA+ID4gPiBTaWdu
-ZWQtb2ZmLWJ5OiBEYWZuYSBIaXJzY2hmZWxkIDwNCj4gPiA+ID4gPiBkYWZuYS5oaXJzY2hmZWxk
-QGNvbGxhYm9yYS5jb20+DQo+ID4gPiA+ID4gLS0tDQo+ID4gPiA+ID4gICAgZHJpdmVycy9tZWRp
-YS9wbGF0Zm9ybS9tdGstdmNvZGVjL3ZlbmNfdnB1X2lmLmMgfCA4DQo+ID4gPiA+ID4gKysrKysr
-KysNCj4gPiA+ID4gPiAgICAxIGZpbGUgY2hhbmdlZCwgOCBpbnNlcnRpb25zKCspDQo+ID4gPiA+
-ID4gDQo+ID4gPiA+ID4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvbWVkaWEvcGxhdGZvcm0vbXRrLXZj
-b2RlYy92ZW5jX3ZwdV9pZi5jDQo+ID4gPiA+ID4gYi9kcml2ZXJzL21lZGlhL3BsYXRmb3JtL210
-ay12Y29kZWMvdmVuY192cHVfaWYuYw0KPiA+ID4gPiA+IGluZGV4IDMyZGM4NDRkMTZmOS4uMjM0
-NzA1YmE3Y2Q2IDEwMDY0NA0KPiA+ID4gPiA+IC0tLSBhL2RyaXZlcnMvbWVkaWEvcGxhdGZvcm0v
-bXRrLXZjb2RlYy92ZW5jX3ZwdV9pZi5jDQo+ID4gPiA+ID4gKysrIGIvZHJpdmVycy9tZWRpYS9w
-bGF0Zm9ybS9tdGstdmNvZGVjL3ZlbmNfdnB1X2lmLmMNCj4gPiA+ID4gPiBAQCAtMTcsNiArMTcs
-OCBAQCBzdGF0aWMgaW50IGhhbmRsZV9lbmNfaW5pdF9tc2coc3RydWN0DQo+ID4gPiA+ID4gdmVu
-Y192cHVfaW5zdCAqdnB1LCBjb25zdCB2b2lkICpkYXRhKQ0KPiA+ID4gPiA+ICAgIHZwdS0+dnNp
-ID0gbXRrX3Zjb2RlY19md19tYXBfZG1fYWRkcih2cHUtPmN0eC0+ZGV2LQ0KPiA+ID4gPiA+ID5m
-d19oYW5kbGVyLA0KPiA+ID4gPiA+ICAgICAgICAgbXNnLT52cHVfaW5zdF9hZGRyKTsNCj4gPiA+
-ID4gPiAgICANCj4gPiA+ID4gPiAraWYgKElTX0VSUih2cHUtPnZzaSkpDQo+ID4gPiA+ID4gK3Jl
-dHVybiBQVFJfRVJSKHZwdS0+dnNpKTsNCj4gPiA+ID4gPiAgICAvKiBGaXJtd2FyZSB2ZXJzaW9u
-IGZpZWxkIHZhbHVlIGlzIHVuc3BlY2lmaWVkIG9uIE1UODE3My4NCj4gPiA+ID4gPiAqLw0KPiA+
-ID4gPiA+ICAgIGlmICh2cHUtPmN0eC0+ZGV2LT52ZW5jX3BkYXRhLT5jaGlwID09IE1US19NVDgx
-NzMpDQo+ID4gPiA+ID4gICAgcmV0dXJuIDA7DQo+ID4gPiA+ID4gQEAgLTQyLDYgKzQ0LDEyIEBA
-IHN0YXRpYyBpbnQgaGFuZGxlX2VuY19lbmNvZGVfbXNnKHN0cnVjdA0KPiA+ID4gPiA+IHZlbmNf
-dnB1X2luc3QgKnZwdSwgY29uc3Qgdm9pZCAqZGF0YSkNCj4gPiA+ID4gPiAgICB2cHUtPnN0YXRl
-ID0gbXNnLT5zdGF0ZTsNCj4gPiA+ID4gPiAgICB2cHUtPmJzX3NpemUgPSBtc2ctPmJzX3NpemU7
-DQo+ID4gPiA+ID4gICAgdnB1LT5pc19rZXlfZnJtID0gbXNnLT5pc19rZXlfZnJtOw0KPiA+ID4g
-PiA+ICtpZiAodnB1LT5zdGF0ZSA9PSBWRU5fSVBJX01TR19FTkNfU1RBVEVfRVJST1IgfHwNCj4g
-PiA+ID4gPiArICAgIHZwdS0+c3RhdGUgPT0gVkVOX0lQSV9NU0dfRU5DX1NUQVRFX1BBUlQpIHsN
-Cj4gPiA+ID4gPiBtdGtfdmNvZGVjX2Vycih2cHUsDQo+ID4gPiA+ID4gKyJiYWQgaXBpLWVuYy1z
-dGF0ZTogJXMiLA0KPiA+ID4gPiA+ICsgICAgICAgdnB1LT5zdGF0ZSA9PQ0KPiA+ID4gPiA+IFZF
-Tl9JUElfTVNHX0VOQ19TVEFURV9FUlJPUiA/ICJFUlIiIDogIlBBUlQiKTsNCj4gPiA+ID4gPiAr
-cmV0dXJuIC1FSU5WQUw7DQo+ID4gPiA+ID4gK30NCj4gPiA+ID4gDQo+ID4gPiA+IEhpIERhZm5h
-LA0KPiA+ID4gPiANCj4gPiA+ID4gVGhpcyBzdGF0ZSBjaGVjayBpcyB1c2VsZXNzLCB0aGUgZW5j
-IHJlc3VsdCB3aWxsIGNoZWNrIGluDQo+ID4gPiA+ICJ2cHVfZW5jX2lwaV9oYW5kbGVyIi4NCj4g
-PiA+ID4gDQo+ID4gPiANCj4gPiA+IEhpLCB0aGFua3MgZm9yIHJldmlld2luZy4gSSBzZWUgdGhh
-dCB0aGUgdnB1X2VuY19pcGlfaGFuZGxlciBvbmx5DQo+ID4gPiB0ZXN0IHRoZSBtc2ctPnN0YXR1
-cyBhbmQgSSBzZWUgdGhhdCB0aGUgc3RhdGVzIGFyZSBub3QgdGVzdGVkDQo+ID4gPiBhbnl3aGVy
-ZSBleGNlcHQgb2YgInNraXAiIHN0YXRlIGluIHRoZSBoMjY0IGVuYy4NCj4gPiA+IA0KPiA+ID4g
-Q2FuJ3QgdGhlcmUgYmUgYSBzY2VuYXJpbyB3aGVyZSBtc2ctPnN0YXR1cyBpcyBvayBidXQgdGhl
-IHN0YXRlDQo+ID4gPiBpcyBlcnJvcj8NCj4gPiA+IEkgYW0gdGVzdGluZyB0aGUgdnA4IGVuY29k
-ZXIgb24gY2hyb21lb3MgYW5kIGF0IHNvbWUgcG9pbnQgdGhlDQo+ID4gPiBlbmNvZGVyIGludGVy
-cnVwdHMgc3RvcCBhcnJpdmluZyBzbyBJIHRyeSB0byBmaWd1cmUgb3V0IHdoeSBhbmQNCj4gPiA+
-IHJlcG9ydCBhbnkgcG9zc2libGUgZXJyb3IuDQo+ID4gPiANCj4gPiA+IFRoYW5rcywNCj4gPiA+
-IERhZm5hDQo+ID4gPiANCj4gPiA+ID4gVGhhbmtzDQo+ID4gPiA+IA0KPiA+ID4gPiA+ICAgIHJl
-dHVybiAwOw0KPiA+ID4gPiA+ICAgIH0NCj4gPiA+ID4gPiAgICANCj4gPiA+IA0KPiA+ID4gKioq
-KioqKioqKioqKiBNRURJQVRFSyBDb25maWRlbnRpYWxpdHkgTm90aWNlDQo+ID4gPiAqKioqKioq
-KioqKioqKioqKioqKiBUaGUNCj4gPiA+IGluZm9ybWF0aW9uIGNvbnRhaW5lZCBpbiB0aGlzIGUt
-bWFpbCBtZXNzYWdlIChpbmNsdWRpbmcgYW55DQo+ID4gPiBhdHRhY2htZW50cykgbWF5IGJlIGNv
-bmZpZGVudGlhbCwgcHJvcHJpZXRhcnksIHByaXZpbGVnZWQsIG9yDQo+ID4gPiBvdGhlcndpc2Ug
-ZXhlbXB0IGZyb20gZGlzY2xvc3VyZSB1bmRlciBhcHBsaWNhYmxlIGxhd3MuIEl0IGlzDQo+ID4g
-PiBpbnRlbmRlZA0KPiA+ID4gdG8gYmUgY29udmV5ZWQgb25seSB0byB0aGUgZGVzaWduYXRlZCBy
-ZWNpcGllbnQocykuIEFueSB1c2UsDQo+ID4gPiBkaXNzZW1pbmF0aW9uLCBkaXN0cmlidXRpb24s
-IHByaW50aW5nLCByZXRhaW5pbmcgb3IgY29weWluZyBvZg0KPiA+ID4gdGhpcw0KPiA+ID4gZS1t
-YWlsIChpbmNsdWRpbmcgaXRzDQo+ID4gPiBhdHRhY2htZW50cykgYnkgdW5pbnRlbmRlZCByZWNp
-cGllbnQocykgaXMgc3RyaWN0bHkgcHJvaGliaXRlZA0KPiA+ID4gYW5kIG1heQ0KPiA+ID4gYmUg
-dW5sYXdmdWwuIElmIHlvdSBhcmUgbm90IGFuIGludGVuZGVkIHJlY2lwaWVudCBvZiB0aGlzIGUt
-bWFpbCwgDQo+ID4gPiBvcg0KPiA+ID4gYmVsaWV2ZSB0aGF0IHlvdSBoYXZlIHJlY2VpdmVkIHRo
-aXMgZS1tYWlsIGluIGVycm9yLCBwbGVhc2UNCj4gPiA+IG5vdGlmeSB0aGUNCj4gPiA+IHNlbmRl
-ciBpbW1lZGlhdGVseSAoYnkgcmVwbHlpbmcgdG8gdGhpcyBlLW1haWwpLCBkZWxldGUgYW55IGFu
-ZA0KPiA+ID4gYWxsDQo+ID4gPiBjb3BpZXMgb2YgdGhpcyBlLW1haWwgKGluY2x1ZGluZyBhbnkg
-YXR0YWNobWVudHMpIGZyb20geW91cg0KPiA+ID4gc3lzdGVtLA0KPiA+ID4gYW5kIGRvIG5vdCBk
-aXNjbG9zZSB0aGUgY29udGVudCBvZiB0aGlzIGUtbWFpbCB0byBhbnkgb3RoZXINCj4gPiA+IHBl
-cnNvbi4gVGhhbmsgeW91IQ0KPiA+ID4gDQo=
 
+
+On 04.11.21 03:38, Irui Wang wrote:
+> Hi,
+> 
+> On Wed, 2021-11-03 at 22:50 +0200, Dafna Hirschfeld wrote:
+>>
+>> On 09.08.21 12:12, Irui Wang (王瑞) wrote:
+>>> Hi Dafna,
+>>>
+>>>>> 2. Always happened  issue ?  timeout at the beginning or  in
+>>>>> processing ?
+>>>> The commands that I run is:
+>>>>> sudo --user=#1000 /usr/local/libexec/chrome-binary-
+>>>>> tests/video_encode_accelerator_tests --gtest_filter=-
+>>>>> *NV12Dmabuf*  -->>codec=vp8
+>>>>>> /usr/local/share/tast/data/chromiumos/tast/local/bundles/cros/
+>>>>> video/data/tulip2-320x180.yuv --disable_validator
+>>>>> The command sometime succeed but when I run it sequentially
+>>>>> then at some point after few attempts I start to get those
+>>>>> timeout errors.
+>>>
+>>> It seems mean VP8 encoding function OK, but failed sometimes, did
+>>> you have check VENC clock info during encoding:
+>>>
+>>> cat /sys/kernel/debug/clk/clk_summary | grep venc:
+>>>
+>>> venc_sel   > it's H.264 clock
+>>> venclt_sel  > it's VP8 clock
+>>>
+>>> the enable&prepare count is not 0 during encoding process.
+>>>
+>>> Thanks
+>>> Best Regards
+>>>
+>>> -----邮件原件-----
+>>> 发件人: Dafna Hirschfeld [mailto:dafna.hirschfeld@collabora.com]
+>>> 发送时间: 2021年8月9日 16:27
+>>> 收件人: Irui Wang (王瑞)
+>>> 抄送: Linux Media Mailing List; moderated list:ARM/Mediatek SoC
+>>> support; Enric Balletbo i Serra
+>>> 主题: Re: 答复: [PATCH 4/5] media: mtk-vcodec: Add two error cases upon
+>>> vpu irq handling
+>>>
+>>>
+>>>
+>>> On 09.08.21 09:37, Irui Wang (王瑞) wrote:
+>>>> Hi Dafna,
+>>>>
+>>>>>> I am testing the vp8 encoder on chromeos and at some point
+>>>>>> the encoder interrupts stop arriving so I try to figure out
+>>>>>> why and report any possible error.
+>>>>
+>>>> 1. Log shows wait IRQ timeout ?
+>>>
+>>> Hi, yes, I get timeout when waiting to the encoder interrupt. The
+>>> timeout is on vp8_enc_wait_venc_done
+>>>
+>>>
+>>>> 2. Always happened  issue ?  timeout at the beginning or  in
+>>>> processing ?
+>>>
+>>> The commands that I run is:
+>>>
+>>> sudo --user=#1000 /usr/local/libexec/chrome-binary-
+>>> tests/video_encode_accelerator_tests --gtest_filter=-
+>>> *NV12Dmabuf*  --codec=vp8
+>>> /usr/local/share/tast/data/chromiumos/tast/local/bundles/cros/video
+>>> /data/tulip2-320x180.yuv --disable_validator
+>>>
+>>> The command sometime succeed but when I run it sequentially then at
+>>> some point after few attempts I start to get those timeout errors.
+>>>
+>>>> 3. how about IRQ infos?
+>>>> cat /proc/interrupts | grep vcodec
+>>>> 18002000.vcodec   >> it's H.264 encoder
+>>>> 19002000.vcodec  >> it's  VP8 encoder
+>>>>
+>>>> I was told you have  met another H.264 encoding failed before,
+>>>> did you find reasons about that ?
+>>>
+>>> No,
+>>> But since I see that the google meetup uses the vp8 encoder I
+>>> decided to test the vp8 first.
+>>>
+>>>>> [   81.918747] [MTK_V4L2][ERROR]
+>>>>> mtk_vcodec_wait_for_done_ctx:32: [3] ctx->type=1, cmd=1,
+>>>>> wait_event_interruptible_timeout time=1000ms out 0 0!
+>>>>> [   81.931392] [MTK_VCODEC][ERROR][3]: h264_encode_frame()
+>>>>> irq_status=0 failed
+>>>>> [   81.938470] [MTK_V4L2][ERROR] mtk_venc_worker:1219:
+>>>>> venc_if_encode failed=-5
+>>
+>> Hi,
+>> I test the driver on debian now, I stream several instances of vp8
+>> and h264 in parallel.
+>> I see that those errors always occur after an iommu page fault:
+>>
+>> [gst-master] root@debian:~/gst-build# [ 5743.206014] mtk-iommu
+>> 10205000.iommu: fault type=0x5 iova=0xac2ff003 pa=0x0 larb=3 port=0
+>> layer=1 write
+>> [ 5744.204964] [MTK_V4L2][ERROR] mtk_vcodec_wait_for_done_ctx:32:
+>> [2706] ctx->type=1, cmd=1, wait_event_interruptible_timeout
+>> time=1000ms out 0 0!
+>> [ 5744.217849] [MTK_VCODEC][ERROR][2706]: vp8_enc_encode_frame()
+>> irq_status=0 failed
+>> [ 5744.225359] [MTK_V4L2][ERROR] mtk_venc_worker:1243: venc_if_encode
+>> failed=-5
+>>
+>> I suspect that maybe this is because the iova of the working_buffers
+>> is handed to the vpu in the function vp8_enc_alloc_work_buf:
+>> wb[i].iova = inst->work_bufs[i].dma_addr;
+>>
+>> Maybe the vpu keep writing to those addresses after they are already
+>> unmapped?
+>>
+>> Thanks,
+>> Dafna
+> 
+> failed larb=3, it's for h264 encoder,  vp8 encoder is larb5, is there
+> any h264 encoding failed at that time? I have no ideas why these errors
+> happened on your platform, but when we got the "iommu: fault", the
+> possible reason is related to power or clock.
+
+Once the iommu fault fires, both encoders constantly fail and never recover
+(also not when starting new instance).
+
+With the falut:
+mtk_iommu_isr: fault type=0x5 iova=0xebede003 pa=0x0 larb=3 port=0 layer=1 write
+
+I looked at the iommu tracing log:
+
+   gst-launch-1.0-606     [000] .....   714.634398: unmap: IOMMU: iova=0x00000000ebede000 - 0x00000000ebedf000 size=4096 unmapped_size=4096
+   gst-launch-1.0-606     [000] .....   714.634417: unmap: IOMMU: iova=0x00000000ebed0000 - 0x00000000ebed5000 size=20480 unmapped_size=20480
+   gst-launch-1.0-606     [000] .....   714.634435: unmap: IOMMU: iova=0x00000000eb800000 - 0x00000000ebb0a000 size=3186688 unmapped_size=3186688
+   gst-launch-1.0-606     [000] .N...   714.634891: unmap: IOMMU: iova=0x00000000eb700000 - 0x00000000eb7ff000 size=1044480 unmapped_size=1044480
+   gst-launch-1.0-606     [000] .N...   714.635481: unmap: IOMMU: iova=0x00000000eb000000 - 0x00000000eb30a000 size=3186688 unmapped_size=3186688
+   gst-launch-1.0-606     [000] .....   714.635934: unmap: IOMMU: iova=0x00000000eaf00000 - 0x00000000eafff000 size=1044480 unmapped_size=1044480
+   gst-launch-1.0-606     [000] .....   714.636041: unmap: IOMMU: iova=0x00000000eaef0000 - 0x00000000eaf00000 size=65536 unmapped_size=65536
+   gst-launch-1.0-606     [000] .....   714.636056: unmap: IOMMU: iova=0x00000000eaee0000 - 0x00000000eaef0000 size=65536 unmapped_size=65536
+   gst-launch-1.0-606     [000] .....   714.636069: unmap: IOMMU: iova=0x00000000eaedf000 - 0x00000000eaee0000 size=4096 unmapped_size=4096
+      kworker/0:0-537     [000] d.h..   714.636191: io_page_fault: IOMMU:mtk-iommu 10205000.iommu iova=0x00000000ebede003 flags=0x0001
+
+(I changed the iommu map/unmap trace events to print the iova range)
+you can see the first line unmapping 00000000ebede000 which is the faulting iova.
+So it seems that the problem is due to a device trying to access an address that is already unmapped.
+This might be either the encoder or the vpu.
+Since the wb[i].iova is not reset when freeing the working buffers I suspect it might be the vpu device, what do you think?
+
+Thanks,
+Dafna
+
+> 
+>>
+>>
+>>>
+>>>
+>>>>
+>>>> MT8173 latest VPUD firmware:
+>>>>
+> https://git.kernel.org/pub/scm/linux/kernel/git/firmware/linux-firmwar
+>>>> e.git/commit/?id=aaed4a8bf9a77ec68376e8d92fb218d5fdd88b59
+>>>>
+>>>
+>>> I uses the latest firmware.
+>>>
+>>> Thanks,
+>>> Dafna
+>>>
+>>>> Thanks
+>>>> Best Regards
+>>>>
+>>>> -----邮件原件-----
+>>>> 发件人: Dafna Hirschfeld [mailto:dafna.hirschfeld@collabora.com]
+>>>> 发送时间: 2021年8月6日 15:49
+>>>> 收件人: Irui Wang (王瑞); linux-kernel@vger.kernel.org;
+>>>> linux-media@vger.kernel.org; linux-mediatek@lists.infradead.org
+>>>> 抄送: dafna3@gmail.com; tfiga@chromium.org; Tiffany Lin (林慧珊);
+>>>> eizan@chromium.org; Maoguang Meng (孟毛广); kernel@collabora.com;
+>>>> mchehab@kernel.org; hverkuil@xs4all.nl; Yunfei Dong (董云飞); Yong
+>>>> Wu
+>>>> (吴勇); hsinyi@chromium.org; matthias.bgg@gmail.com; Andrew-CT Chen
+>>>> (陳智迪); acourbot@chromium.org
+>>>> 主题: Re: [PATCH 4/5] media: mtk-vcodec: Add two error cases upon
+>>>> vpu
+>>>> irq handling
+>>>>
+>>>>
+>>>>
+>>>> On 06.08.21 08:58, Irui Wang (王瑞) wrote:
+>>>>> On Wed, 2021-08-04 at 16:27 +0200, Dafna Hirschfeld wrote:
+>>>>>> 1. Fail if the function mtk_vcodec_fw_map_dm_addr returns ERR
+>>>>>> pointer.
+>>>>>> 2. Fail if the state from the vpu msg is either
+>>>>>> VEN_IPI_MSG_ENC_STATE_ERROR or VEN_IPI_MSG_ENC_STATE_PART
+>>>>>>
+>>>>>> Signed-off-by: Dafna Hirschfeld <
+>>>>>> dafna.hirschfeld@collabora.com>
+>>>>>> ---
+>>>>>>     drivers/media/platform/mtk-vcodec/venc_vpu_if.c | 8
+>>>>>> ++++++++
+>>>>>>     1 file changed, 8 insertions(+)
+>>>>>>
+>>>>>> diff --git a/drivers/media/platform/mtk-vcodec/venc_vpu_if.c
+>>>>>> b/drivers/media/platform/mtk-vcodec/venc_vpu_if.c
+>>>>>> index 32dc844d16f9..234705ba7cd6 100644
+>>>>>> --- a/drivers/media/platform/mtk-vcodec/venc_vpu_if.c
+>>>>>> +++ b/drivers/media/platform/mtk-vcodec/venc_vpu_if.c
+>>>>>> @@ -17,6 +17,8 @@ static int handle_enc_init_msg(struct
+>>>>>> venc_vpu_inst *vpu, const void *data)
+>>>>>>     vpu->vsi = mtk_vcodec_fw_map_dm_addr(vpu->ctx->dev-
+>>>>>>> fw_handler,
+>>>>>>          msg->vpu_inst_addr);
+>>>>>>     
+>>>>>> +if (IS_ERR(vpu->vsi))
+>>>>>> +return PTR_ERR(vpu->vsi);
+>>>>>>     /* Firmware version field value is unspecified on MT8173.
+>>>>>> */
+>>>>>>     if (vpu->ctx->dev->venc_pdata->chip == MTK_MT8173)
+>>>>>>     return 0;
+>>>>>> @@ -42,6 +44,12 @@ static int handle_enc_encode_msg(struct
+>>>>>> venc_vpu_inst *vpu, const void *data)
+>>>>>>     vpu->state = msg->state;
+>>>>>>     vpu->bs_size = msg->bs_size;
+>>>>>>     vpu->is_key_frm = msg->is_key_frm;
+>>>>>> +if (vpu->state == VEN_IPI_MSG_ENC_STATE_ERROR ||
+>>>>>> +    vpu->state == VEN_IPI_MSG_ENC_STATE_PART) {
+>>>>>> mtk_vcodec_err(vpu,
+>>>>>> +"bad ipi-enc-state: %s",
+>>>>>> +       vpu->state ==
+>>>>>> VEN_IPI_MSG_ENC_STATE_ERROR ? "ERR" : "PART");
+>>>>>> +return -EINVAL;
+>>>>>> +}
+>>>>>
+>>>>> Hi Dafna,
+>>>>>
+>>>>> This state check is useless, the enc result will check in
+>>>>> "vpu_enc_ipi_handler".
+>>>>>
+>>>>
+>>>> Hi, thanks for reviewing. I see that the vpu_enc_ipi_handler only
+>>>> test the msg->status and I see that the states are not tested
+>>>> anywhere except of "skip" state in the h264 enc.
+>>>>
+>>>> Can't there be a scenario where msg->status is ok but the state
+>>>> is error?
+>>>> I am testing the vp8 encoder on chromeos and at some point the
+>>>> encoder interrupts stop arriving so I try to figure out why and
+>>>> report any possible error.
+>>>>
+>>>> Thanks,
+>>>> Dafna
+>>>>
+>>>>> Thanks
+>>>>>
+>>>>>>     return 0;
+>>>>>>     }
+>>>>>>     
+>>>>
+>>>> ************* MEDIATEK Confidentiality Notice
+>>>> ******************** The
+>>>> information contained in this e-mail message (including any
+>>>> attachments) may be confidential, proprietary, privileged, or
+>>>> otherwise exempt from disclosure under applicable laws. It is
+>>>> intended
+>>>> to be conveyed only to the designated recipient(s). Any use,
+>>>> dissemination, distribution, printing, retaining or copying of
+>>>> this
+>>>> e-mail (including its
+>>>> attachments) by unintended recipient(s) is strictly prohibited
+>>>> and may
+>>>> be unlawful. If you are not an intended recipient of this e-mail,
+>>>> or
+>>>> believe that you have received this e-mail in error, please
+>>>> notify the
+>>>> sender immediately (by replying to this e-mail), delete any and
+>>>> all
+>>>> copies of this e-mail (including any attachments) from your
+>>>> system,
+>>>> and do not disclose the content of this e-mail to any other
+>>>> person. Thank you!
+>>>>
+> _______________________________________________
+> Linux-mediatek mailing list
+> Linux-mediatek@lists.infradead.org
+> http://lists.infradead.org/mailman/listinfo/linux-mediatek
+> 
