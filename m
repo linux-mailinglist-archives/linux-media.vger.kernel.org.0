@@ -2,47 +2,46 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2BD464452A2
+	by mail.lfdr.de (Postfix) with ESMTP id 994054452A3
 	for <lists+linux-media@lfdr.de>; Thu,  4 Nov 2021 13:06:06 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231476AbhKDMIk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 4 Nov 2021 08:08:40 -0400
-Received: from mail.kernel.org ([198.145.29.99]:37104 "EHLO mail.kernel.org"
+        id S231486AbhKDMIl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 4 Nov 2021 08:08:41 -0400
+Received: from mail.kernel.org ([198.145.29.99]:37090 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230148AbhKDMIi (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        id S229960AbhKDMIi (ORCPT <rfc822;linux-media@vger.kernel.org>);
         Thu, 4 Nov 2021 08:08:38 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 92F8661205;
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 8ACEE6120E;
         Thu,  4 Nov 2021 12:06:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=k20201202; t=1636027560;
-        bh=zKYFDeJdHKeabqGOf8jmwAC943X5J5YwD8rVjIfscQg=;
+        bh=HybiI7UdlSZcnbdy55jEnHO7M01Yy9wdGqRy2VCwnT4=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=F7PgpKEy+UMz4cDYjY3KLLDHSpq8r7AXvriKwsZt3evbRMGkw0J9tGJnGbgBJ+DJk
-         V2x1evx6jrl6V3undp8zzaU0RLH83sW642RJ0jSFhw0wMnBr/LFV8Sn59qqpH3TqwO
-         uge3yikL3/g6vStULK+rM/k29cdN/wuDCNDJ+C4MFO/krtOyKgZD0a15Qzzkqg2M31
-         Pc7xdmp2Ptpu7I8EZDRm3S7BVbtwKky51M0zmPdvDRu5crVyqZso0tWwhgMRAYAK28
-         ZHfdoU0mu8X+dRhXwVcIg+sM/E+fCPbWCKF0Qz3fCWIl4h4wvGi7ra0yaip9LH56np
-         +3wLkj6GEw6AA==
+        b=iJCEOOTcX38JqGf3XOeX1UrAV/yixYarKvHsFQRafL9F0l0ywYhJUDmUSIcw/0joR
+         9cAvEhx3nyP0QTNMwgFp8R+lsaKSG5XQymBIWQxXb9QXapAisJShYnrLBXpzSa2k40
+         zP41OnC13PK9quZORoX1ceOYm0hOAREeUDMPY1v4WMwsh0Is8mmg3LHbKEnp9QbvtU
+         csevUGneEVOG50CWZYVSwPxwgEFM9rSMaNuPgOqeEbq0T7Kt1ZJWZegL51CUOJh/91
+         66ITVEbhiFat5Qs7Fnybayd2QJBSDUhbgibt7p1hfBREYcNVuuxx93uTbL2KNGzhvr
+         6a9P8gGBPo78w==
 Received: by mail.kernel.org with local (Exim 4.94.2)
         (envelope-from <mchehab@kernel.org>)
-        id 1mibVG-005nHn-6o; Thu, 04 Nov 2021 12:05:58 +0000
+        id 1mibVG-005nHq-7G; Thu, 04 Nov 2021 12:05:58 +0000
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 Cc:     linuxarm@huawei.com, mauro.chehab@huawei.com,
         Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Arnd Bergmann <arnd@arndb.de>,
         Dan Carpenter <dan.carpenter@oracle.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Kaixu Xia <kaixuxia@tencent.com>,
+        Ingo Molnar <mingo@kernel.org>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         Peter Zijlstra <peterz@infradead.org>,
         Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
         Tsuchiya Yuto <kitakar@gmail.com>,
         linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
         linux-staging@lists.linux.dev
-Subject: [PATCH 4/7] media: atomisp: fix enum_fmt logic
-Date:   Thu,  4 Nov 2021 12:05:53 +0000
-Message-Id: <9f379a26b8651b7ed22be1da1ab9885fb1d1cfa1.1636026959.git.mchehab+huawei@kernel.org>
+Subject: [PATCH 5/7] media: atomisp: move atomisp_g_fmt_cap()
+Date:   Thu,  4 Nov 2021 12:05:54 +0000
+Message-Id: <75e35d0ea4b6ee7f47bbed61f2eb258a07bcd01f.1636026959.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <cover.1636026959.git.mchehab+huawei@kernel.org>
 References: <cover.1636026959.git.mchehab+huawei@kernel.org>
@@ -54,11 +53,10 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Currently, the enum lists the sensor's native format as a
-supported format. However, trying to setup a pipeline using
-it doesn't work.
+move atomisp_g_fmt_cap() for it to be after try_fmt, as we'll
+re-use try_fmt there.
 
-So, exclude such formats from the enum.
+No functional changes.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
@@ -66,41 +64,83 @@ Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To mailbombing on a large number of people, only mailing lists were C/C on the cover.
 See [PATCH 0/7] at: https://lore.kernel.org/all/cover.1636026959.git.mchehab+huawei@kernel.org/
 
- drivers/staging/media/atomisp/pci/atomisp_ioctl.c | 9 +++++----
- 1 file changed, 5 insertions(+), 4 deletions(-)
+ .../staging/media/atomisp/pci/atomisp_ioctl.c | 56 +++++++++----------
+ 1 file changed, 28 insertions(+), 28 deletions(-)
 
 diff --git a/drivers/staging/media/atomisp/pci/atomisp_ioctl.c b/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
-index 8df052f6190d..30483a84ed80 100644
+index 30483a84ed80..84ff97dabbed 100644
 --- a/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
 +++ b/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
-@@ -775,6 +775,7 @@ static int atomisp_enum_fmt_cap(struct file *file, void *fh,
- 	struct v4l2_subdev_mbus_code_enum code = {
- 		.which = V4L2_SUBDEV_FORMAT_ACTIVE,
- 	};
-+	const struct atomisp_format_bridge *format;
- 	struct v4l2_subdev *camera;
- 	unsigned int i, fi = 0;
- 	int rval;
-@@ -806,15 +807,15 @@ static int atomisp_enum_fmt_cap(struct file *file, void *fh,
- 		return rval;
+@@ -833,6 +833,34 @@ static int atomisp_enum_fmt_cap(struct file *file, void *fh,
+ 	return -EINVAL;
+ }
  
- 	for (i = 0; i < ARRAY_SIZE(atomisp_output_fmts); i++) {
--		const struct atomisp_format_bridge *format =
--			    &atomisp_output_fmts[i];
-+		format = &atomisp_output_fmts[i];
++static int atomisp_g_fmt_file(struct file *file, void *fh,
++			      struct v4l2_format *f)
++{
++	struct video_device *vdev = video_devdata(file);
++	struct atomisp_device *isp = video_get_drvdata(vdev);
++	struct atomisp_video_pipe *pipe = atomisp_to_video_pipe(vdev);
++
++	rt_mutex_lock(&isp->mutex);
++	f->fmt.pix = pipe->pix;
++	rt_mutex_unlock(&isp->mutex);
++
++	return 0;
++}
++
++/* This function looks up the closest available resolution. */
++static int atomisp_try_fmt_cap(struct file *file, void *fh,
++			       struct v4l2_format *f)
++{
++	struct video_device *vdev = video_devdata(file);
++	struct atomisp_device *isp = video_get_drvdata(vdev);
++	int ret;
++
++	rt_mutex_lock(&isp->mutex);
++	ret = atomisp_try_fmt(vdev, &f->fmt.pix, NULL);
++	rt_mutex_unlock(&isp->mutex);
++	return ret;
++}
++
+ static int atomisp_g_fmt_cap(struct file *file, void *fh,
+ 			     struct v4l2_format *f)
+ {
+@@ -907,34 +935,6 @@ static int atomisp_g_fmt_cap(struct file *file, void *fh,
+ 	return 0;
+ }
  
- 		/*
- 		 * Is the atomisp-supported format is valid for the
- 		 * sensor (configuration)? If not, skip it.
-+		 *
-+		 * FIXME: fix the pipeline to allow sensor format too.
- 		 */
--		if (format->sh_fmt == IA_CSS_FRAME_FORMAT_RAW
--		    && format->mbus_code != code.code)
-+		if (format->sh_fmt == IA_CSS_FRAME_FORMAT_RAW)
- 			continue;
- 
- 		/* Found a match. Now let's pick f->index'th one. */
+-static int atomisp_g_fmt_file(struct file *file, void *fh,
+-			      struct v4l2_format *f)
+-{
+-	struct video_device *vdev = video_devdata(file);
+-	struct atomisp_device *isp = video_get_drvdata(vdev);
+-	struct atomisp_video_pipe *pipe = atomisp_to_video_pipe(vdev);
+-
+-	rt_mutex_lock(&isp->mutex);
+-	f->fmt.pix = pipe->pix;
+-	rt_mutex_unlock(&isp->mutex);
+-
+-	return 0;
+-}
+-
+-/* This function looks up the closest available resolution. */
+-static int atomisp_try_fmt_cap(struct file *file, void *fh,
+-			       struct v4l2_format *f)
+-{
+-	struct video_device *vdev = video_devdata(file);
+-	struct atomisp_device *isp = video_get_drvdata(vdev);
+-	int ret;
+-
+-	rt_mutex_lock(&isp->mutex);
+-	ret = atomisp_try_fmt(vdev, &f->fmt.pix, NULL);
+-	rt_mutex_unlock(&isp->mutex);
+-	return ret;
+-}
+-
+ static int atomisp_s_fmt_cap(struct file *file, void *fh,
+ 			     struct v4l2_format *f)
+ {
 -- 
 2.31.1
 
