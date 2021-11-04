@@ -2,29 +2,27 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 958A3445204
-	for <lists+linux-media@lfdr.de>; Thu,  4 Nov 2021 12:11:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A8E2644520C
+	for <lists+linux-media@lfdr.de>; Thu,  4 Nov 2021 12:15:26 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231402AbhKDLOC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 4 Nov 2021 07:14:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54506 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231266AbhKDLOB (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 4 Nov 2021 07:14:01 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C7A97C061714
-        for <linux-media@vger.kernel.org>; Thu,  4 Nov 2021 04:11:23 -0700 (PDT)
+        id S230365AbhKDLSD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 4 Nov 2021 07:18:03 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:39402 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229809AbhKDLSC (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 4 Nov 2021 07:18:02 -0400
 Received: from [192.168.1.111] (91-158-153-130.elisa-laajakaista.fi [91.158.153.130])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id E3E02E52;
-        Thu,  4 Nov 2021 12:11:21 +0100 (CET)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 55019E52;
+        Thu,  4 Nov 2021 12:15:23 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1636024282;
-        bh=Vp2CN20V0VTxdbnTkiJCB8UR68LP9bMwZM4flXY2pk4=;
+        s=mail; t=1636024523;
+        bh=nph+u4URquIEYSjUS19NZVPUXcG8EpkTz0UGuQia/NU=;
         h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
-        b=ZDVIk6Qvw0Dw+fOi96R4B28oY5xIy6P/nhapABNUs8XmPquM4zGnJeR371t4locvO
-         VxUl0ODPXmQYH0BD1Wb5UA9bE7timcQBcbmDqi9+rfsc/emnZ3Tkp26/y9DK3PTjJ1
-         ddZwmD8KXFYgYPHy+oML7Fkd5rP99kaOfQnjvaPw=
-Subject: Re: [PATCH v9 04/36] media: subdev: add subdev state locking
+        b=T5FSlLBJkQJSKT/49BkmqvUZ9x0I/SAWTfrj6PBBkQJ2eUi+iLRy+9Zr5S8K/hk75
+         ZiAglFjHwzZ1TyJXaWk+4Ff1gqA9wGikCcBg20RITCZORoxENSg7W9md5MA0KikVXt
+         6Ph0JElWEDPImzlv5U2+qv1hJpxqXLOk/cO270W0=
+Subject: Re: [PATCH v9 05/36] media: subdev: Add
+ v4l2_subdev_validate_and_lock_state()
 To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
         linux-media@vger.kernel.org, sakari.ailus@linux.intel.com,
         Jacopo Mondi <jacopo+renesas@jmondi.org>,
@@ -33,15 +31,15 @@ To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
 Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
         Pratyush Yadav <p.yadav@ti.com>
 References: <20211005085750.138151-1-tomi.valkeinen@ideasonboard.com>
- <20211005085750.138151-5-tomi.valkeinen@ideasonboard.com>
- <5d5bb6b3-cb89-5d20-59cf-e5ce9cfec6b1@xs4all.nl>
+ <20211005085750.138151-6-tomi.valkeinen@ideasonboard.com>
+ <c09d0bef-ad85-64aa-2165-beee40097e51@xs4all.nl>
 From:   Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Message-ID: <49077a07-1188-0ef3-d131-acbe04d7a2c6@ideasonboard.com>
-Date:   Thu, 4 Nov 2021 13:11:19 +0200
+Message-ID: <b1ef0360-9a4b-67ec-6b8f-8d6661cc34d0@ideasonboard.com>
+Date:   Thu, 4 Nov 2021 13:15:20 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.13.0
 MIME-Version: 1.0
-In-Reply-To: <5d5bb6b3-cb89-5d20-59cf-e5ce9cfec6b1@xs4all.nl>
+In-Reply-To: <c09d0bef-ad85-64aa-2165-beee40097e51@xs4all.nl>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -49,172 +47,50 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 12/10/2021 17:36, Hans Verkuil wrote:
+On 12/10/2021 17:16, Hans Verkuil wrote:
 > On 05/10/2021 10:57, Tomi Valkeinen wrote:
->> The V4L2 subdevs have managed without centralized locking for the state
->> (previously pad_config), as the TRY state is supposedly safe (although I
->> believe two TRY ioctls for the same fd would race), and the ACTIVE
->> state, and its locking, is managed by the drivers internally.
+>> All suitable subdev ops are now passed either the TRY or the ACTIVE
+>> state by the v4l2 core. However, other subdev drivers can still call the
+>> ops passing NULL as the state, implying the active case.
 >>
->> We now have ACTIVE state in a centralized position, and need locking.
->> Strictly speaking the locking is only needed for new drivers that use
->> the new state, as the current drivers continue behaving as they used to.
+>> For all current upstream drivers this doesn't matter, as they do not
+>> expect to get a valid state for ACTIVE case. But future drivers which
+>> support multiplexed streaming and routing will depend on getting a state
+>> for both active and try cases.
 >>
->> Add a mutex to the struct v4l2_subdev_state, along with a few helper
->> functions for locking/unlocking.
+>> For new drivers we can mandate that the pipelines where the drivers are
+>> used need to pass the state properly, or preferably, not call such
+>> subdev ops at all.
+>>
+>> However, if an existing subdev driver is changed to support multiplexed
+>> streams, the driver has to consider cases where its ops will be called
+>> with NULL state. The problem can easily be solved by using the
+>> v4l2_subdev_validate_and_lock_state() helper, introduced here.
 >>
 >> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 >> ---
->>   drivers/media/platform/rcar-vin/rcar-v4l2.c |  3 +-
->>   drivers/media/platform/vsp1/vsp1_entity.c   |  4 +-
->>   drivers/media/v4l2-core/v4l2-subdev.c       | 38 +++++++++++++---
->>   drivers/staging/media/tegra-video/vi.c      |  4 +-
->>   include/media/v4l2-subdev.h                 | 49 ++++++++++++++++++++-
->>   5 files changed, 88 insertions(+), 10 deletions(-)
+>>   include/media/v4l2-subdev.h | 33 +++++++++++++++++++++++++++++++++
+>>   1 file changed, 33 insertions(+)
 >>
->> diff --git a/drivers/media/platform/rcar-vin/rcar-v4l2.c b/drivers/media/platform/rcar-vin/rcar-v4l2.c
->> index ba1d16ab1651..e6bd94d63e4f 100644
->> --- a/drivers/media/platform/rcar-vin/rcar-v4l2.c
->> +++ b/drivers/media/platform/rcar-vin/rcar-v4l2.c
->> @@ -244,6 +244,7 @@ static int rvin_try_format(struct rvin_dev *vin, u32 which,
->>   {
->>   	struct v4l2_subdev *sd = vin_to_source(vin);
->>   	struct v4l2_subdev_state *sd_state;
->> +	static struct lock_class_key key;
->>   	struct v4l2_subdev_format format = {
->>   		.which = which,
->>   		.pad = vin->parallel.source_pad,
->> @@ -252,7 +253,7 @@ static int rvin_try_format(struct rvin_dev *vin, u32 which,
->>   	u32 width, height;
->>   	int ret;
+>> diff --git a/include/media/v4l2-subdev.h b/include/media/v4l2-subdev.h
+>> index a6e8f531a396..b75eeaee492b 100644
+>> --- a/include/media/v4l2-subdev.h
+>> +++ b/include/media/v4l2-subdev.h
+>> @@ -1313,4 +1313,37 @@ void v4l2_subdev_lock_state(struct v4l2_subdev_state *state);
+>>    */
+>>   void v4l2_subdev_unlock_state(struct v4l2_subdev_state *state);
 >>   
->> -	sd_state = __v4l2_subdev_state_alloc(sd);
->> +	sd_state = __v4l2_subdev_state_alloc(sd, "rvin:state->lock", &key);
->>   	if (IS_ERR(sd_state))
->>   		return PTR_ERR(sd_state);
->>   
->> diff --git a/drivers/media/platform/vsp1/vsp1_entity.c b/drivers/media/platform/vsp1/vsp1_entity.c
->> index 869cadc1468d..e607c3ae2520 100644
->> --- a/drivers/media/platform/vsp1/vsp1_entity.c
->> +++ b/drivers/media/platform/vsp1/vsp1_entity.c
->> @@ -613,6 +613,7 @@ int vsp1_entity_init(struct vsp1_device *vsp1, struct vsp1_entity *entity,
->>   		     const char *name, unsigned int num_pads,
->>   		     const struct v4l2_subdev_ops *ops, u32 function)
->>   {
->> +	static struct lock_class_key key;
->>   	struct v4l2_subdev *subdev;
->>   	unsigned int i;
->>   	int ret;
->> @@ -675,7 +676,8 @@ int vsp1_entity_init(struct vsp1_device *vsp1, struct vsp1_entity *entity,
->>   	 * Allocate the pad configuration to store formats and selection
->>   	 * rectangles.
->>   	 */
->> -	entity->config = __v4l2_subdev_state_alloc(&entity->subdev);
->> +	entity->config = __v4l2_subdev_state_alloc(&entity->subdev,
->> +						   "vsp1:config->lock", &key);
->>   	if (IS_ERR(entity->config)) {
->>   		media_entity_cleanup(&entity->subdev.entity);
->>   		return PTR_ERR(entity->config);
->> diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
->> index aa757cc28879..52309a299b03 100644
->> --- a/drivers/media/v4l2-core/v4l2-subdev.c
->> +++ b/drivers/media/v4l2-core/v4l2-subdev.c
->> @@ -27,8 +27,9 @@
->>   static int subdev_fh_init(struct v4l2_subdev_fh *fh, struct v4l2_subdev *sd)
->>   {
->>   	struct v4l2_subdev_state *state;
->> +	static struct lock_class_key key;
->>   
->> -	state = __v4l2_subdev_state_alloc(sd);
->> +	state = __v4l2_subdev_state_alloc(sd, "fh->state->lock", &key);
->>   	if (IS_ERR(state))
->>   		return PTR_ERR(state);
->>   
->> @@ -923,7 +924,9 @@ int v4l2_subdev_link_validate(struct media_link *link)
->>   }
->>   EXPORT_SYMBOL_GPL(v4l2_subdev_link_validate);
->>   
->> -struct v4l2_subdev_state *__v4l2_subdev_state_alloc(struct v4l2_subdev *sd)
->> +struct v4l2_subdev_state *
->> +__v4l2_subdev_state_alloc(struct v4l2_subdev *sd, const char *lock_name,
->> +			  struct lock_class_key *lock_key)
->>   {
->>   	struct v4l2_subdev_state *state;
->>   	int ret;
->> @@ -932,6 +935,8 @@ struct v4l2_subdev_state *__v4l2_subdev_state_alloc(struct v4l2_subdev *sd)
->>   	if (!state)
->>   		return ERR_PTR(-ENOMEM);
->>   
->> +	__mutex_init(&state->lock, lock_name, lock_key);
->> +
->>   	if (sd->entity.num_pads) {
->>   		state->pads = kvmalloc_array(sd->entity.num_pads,
->>   					     sizeof(*state->pads),
->> @@ -963,6 +968,8 @@ void __v4l2_subdev_state_free(struct v4l2_subdev_state *state)
->>   	if (!state)
->>   		return;
->>   
->> +	mutex_destroy(&state->lock);
->> +
->>   	kvfree(state->pads);
->>   	kfree(state);
->>   }
->> @@ -997,11 +1004,12 @@ void v4l2_subdev_notify_event(struct v4l2_subdev *sd,
->>   }
->>   EXPORT_SYMBOL_GPL(v4l2_subdev_notify_event);
->>   
->> -int v4l2_subdev_init_finalize(struct v4l2_subdev *sd)
->> +int __v4l2_subdev_init_finalize(struct v4l2_subdev *sd, const char *name,
->> +				struct lock_class_key *key)
->>   {
->>   	struct v4l2_subdev_state *state;
->>   
->> -	state = __v4l2_subdev_state_alloc(sd);
->> +	state = __v4l2_subdev_state_alloc(sd, name, key);
->>   	if (IS_ERR(state))
->>   		return PTR_ERR(state);
->>   
->> @@ -1009,7 +1017,7 @@ int v4l2_subdev_init_finalize(struct v4l2_subdev *sd)
->>   
->>   	return 0;
->>   }
->> -EXPORT_SYMBOL_GPL(v4l2_subdev_init_finalize);
->> +EXPORT_SYMBOL_GPL(__v4l2_subdev_init_finalize);
->>   
->>   void v4l2_subdev_cleanup(struct v4l2_subdev *sd)
->>   {
->> @@ -1017,3 +1025,23 @@ void v4l2_subdev_cleanup(struct v4l2_subdev *sd)
->>   	sd->state = NULL;
->>   }
->>   EXPORT_SYMBOL_GPL(v4l2_subdev_cleanup);
->> +
->> +struct v4l2_subdev_state *v4l2_subdev_lock_active_state(struct v4l2_subdev *sd)
->> +{
->> +	mutex_lock(&sd->state->lock);
->> +
->> +	return sd->state;
->> +}
->> +EXPORT_SYMBOL_GPL(v4l2_subdev_lock_active_state);
+>> +/**
+>> + * v4l2_subdev_validate_and_lock_state() - Gets locked TRY or ACTIVE subdev
 > 
-> Why would this function just lock the active state, but...
+> I think this name is confusing since it isn't validating anything.
 > 
->> +
->> +void v4l2_subdev_lock_state(struct v4l2_subdev_state *state)
->> +{
->> +	mutex_lock(&state->lock);
-> 
-> ...this function makes no mention of 'active'.
-> 
-> The naming is just weird.
+> I'd call it v4l2_subdev_lock_and_return_state().
 
-The first function locks the active state of the subdev, the second is 
-used to lock a state, whether it's active or try.
+Yes, I really didn't like the name either.
 
-> Part of the problem is that sd->state doesn't mention in the field name
-> that this is the active state. I think the field name and the function
-> name should match. So it is either lock_state and state->lock, or it
-> is lock_active_state and act_state->lock.
-
-I can rename the field to active_state.
+v4l2_subdev_lock_and_return_state() isn't quite perfect either, as it 
+sounds like it just locks and returns the given state. But I think it's 
+better than the current name, so I'll change.
 
   Tomi
