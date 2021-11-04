@@ -2,87 +2,120 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5B2AC445B9C
-	for <lists+linux-media@lfdr.de>; Thu,  4 Nov 2021 22:24:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9F167445C87
+	for <lists+linux-media@lfdr.de>; Fri,  5 Nov 2021 00:05:03 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232119AbhKDV0v (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 4 Nov 2021 17:26:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53464 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232051AbhKDV0u (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 4 Nov 2021 17:26:50 -0400
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C89D0C061714
-        for <linux-media@vger.kernel.org>; Thu,  4 Nov 2021 14:24:11 -0700 (PDT)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1mikDO-0002ig-IR; Thu, 04 Nov 2021 22:24:06 +0100
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
-        by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.92)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1mikDL-0005n2-VU; Thu, 04 Nov 2021 22:24:03 +0100
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.92)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1mikDL-0000Zg-TO; Thu, 04 Nov 2021 22:24:03 +0100
-Date:   Thu, 4 Nov 2021 22:23:40 +0100
-From:   Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To:     =?utf-8?B?TWHDrXJh?= Canal <maira.canal@usp.br>
-Cc:     sean@mess.org, mchehab@kernel.org, thierry.reding@gmail.com,
-        lee.jones@linaro.org, linux-media@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-pwm@vger.kernel.org
-Subject: Re: [PATCH v3] media: ir-rx51: Switch to atomic PWM API
-Message-ID: <20211104212340.4he7jo65ebh7tkg3@pengutronix.de>
-References: <YYQrano1G7cBDf+v@fedora>
+        id S229945AbhKDXHk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 4 Nov 2021 19:07:40 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:49372 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229596AbhKDXHj (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 4 Nov 2021 19:07:39 -0400
+Received: from pendragon.ideasonboard.com (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 63A4529B;
+        Fri,  5 Nov 2021 00:04:59 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1636067099;
+        bh=S80KdrCdKqvN+/0iGSWnmjjESPN/GpWoz11Fy7q16Vs=;
+        h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
+        b=iXUGcL7DSzy1oxQE/mXqOtuSettT+NSq4yR6wwnM123cAHWNBY1eaUfRJws6AAEnv
+         bKZsfRmVQWoeIFPW53B8azjR2cFXvJOPIxWUJi5GyYPJ3asKnEIoF7PNcsfwITtf9M
+         pHM++LYEfuLatEyHwUJFHJkmr/L3SbQGUu9iOL8k=
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="putn6n2s35znedxu"
-Content-Disposition: inline
-In-Reply-To: <YYQrano1G7cBDf+v@fedora>
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-media@vger.kernel.org
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20211104110924.248444-2-jacopo+renesas@jmondi.org>
+References: <20211104110924.248444-1-jacopo+renesas@jmondi.org> <20211104110924.248444-2-jacopo+renesas@jmondi.org>
+Subject: Re: [PATCH v2 1/2] media: max9271: Ignore busy loop read errors
+From:   Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Cc:     Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+To:     Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+        Niklas =?utf-8?q?S=C3=B6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>
+Date:   Thu, 04 Nov 2021 23:04:57 +0000
+Message-ID: <163606709702.3601475.5348110236576814282@Monstersaurus>
+User-Agent: alot/0.9.1
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-
---putn6n2s35znedxu
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-Hello,
-
-On Thu, Nov 04, 2021 at 03:50:18PM -0300, Ma=EDra Canal wrote:
-> Remove legacy PWM interface (pwm_config, pwm_enable, pwm_disable) and
-> replace it for the atomic PWM API.
+Quoting Jacopo Mondi (2021-11-04 11:09:23)
+> Valid pixel clock detection is performed by spinning on a register read
+> which if repeated too frequently might fail. As the error is not fatal
+> ignore it instead of bailing out to continue spinning until the timeout
+> completion.
 >=20
-> Signed-off-by: Ma=EDra Canal <maira.canal@usp.br>
-Reviewed-by: Uwe Kleine-K=F6nig <u.kleine-koenig@pengutronix.de>
+> Also relax the time between bus transactions and slightly increase the
+> wait interval to mitigate the failure risk.
+>=20
+> Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
+> Reviewed-by: Niklas S=C3=B6derlund <niklas.soderlund+renesas@ragnatech.se>
 
-Thanks for the quick update,
-Uwe
+This seems good to me. In your testing did you identify how many
+spins/how long it usually takes before it first detects the pixel clock?
 
---=20
-Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
-Industrial Linux Solutions                 | https://www.pengutronix.de/ |
+I.e. - was it cutting it close at 10ms, and we should even still extend
+this further? (as the usleep_range means we could still loop this 10 ms)
 
---putn6n2s35znedxu
-Content-Type: application/pgp-signature; name="signature.asc"
+Anyway, this looks like a strong improvement.
 
------BEGIN PGP SIGNATURE-----
 
-iQEzBAABCgAdFiEEfnIqFpAYrP8+dKQLwfwUeK3K7AkFAmGET1gACgkQwfwUeK3K
-7AkjNggAlTz0V2xr6wEX+jM1OgNyVO5kf6ErPj2qohxzps2qG4o+VWGJaOG9CVCB
-eG0SkNwULvsYMX2nTqGiVmjl7Imb0IWWoBWwjLKMhQiwOVxVYj/wYm1UmIWnlrlN
-S6TDerXstA0PwFf+yPWpa961ofDj7A9GO4XkvqkD99N6YVxF/7pi9SUhSYcBKOAu
-HTmfgI4yxIApqRE0LLNPZB9tsMY+Tzn71AjjHlS1Fs3wfg7ESSyzG9ttwkS/BQS1
-S9eiRHID7wl0G0pu/hEHEk/EUzvPCB6PnPDYyO8OZMj9E5CMXR0zYWhu808tUtrA
-/3Z9C8eeGExTebbv3cX6qPS9OU1oNg==
-=bTd9
------END PGP SIGNATURE-----
+Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
 
---putn6n2s35znedxu--
+> ---
+>=20
+> v1->v2:
+> - Do not continue but jump to a label to respect the sleep timout after a
+>   failed read
+>=20
+> Niklas I kept your tag anyway, hope it's ok.
+>=20
+> Thanks
+>    j
+>=20
+> ---
+>  drivers/media/i2c/max9271.c | 9 +++++----
+>  1 file changed, 5 insertions(+), 4 deletions(-)
+>=20
+> diff --git a/drivers/media/i2c/max9271.c b/drivers/media/i2c/max9271.c
+> index ff86c8c4ea61..aa4add473716 100644
+> --- a/drivers/media/i2c/max9271.c
+> +++ b/drivers/media/i2c/max9271.c
+> @@ -55,7 +55,7 @@ static int max9271_write(struct max9271_device *dev, u8=
+ reg, u8 val)
+>  /*
+>   * max9271_pclk_detect() - Detect valid pixel clock from image sensor
+>   *
+> - * Wait up to 10ms for a valid pixel clock.
+> + * Wait up to 15ms for a valid pixel clock.
+>   *
+>   * Returns 0 for success, < 0 for pixel clock not properly detected
+>   */
+> @@ -64,15 +64,16 @@ static int max9271_pclk_detect(struct max9271_device =
+*dev)
+>         unsigned int i;
+>         int ret;
+>=20
+> -       for (i =3D 0; i < 100; i++) {
+> +       for (i =3D 0; i < 10; i++) {
+>                 ret =3D max9271_read(dev, 0x15);
+>                 if (ret < 0)
+> -                       return ret;
+> +                       goto skip;
+>=20
+>                 if (ret & MAX9271_PCLKDET)
+>                         return 0;
+>=20
+> -               usleep_range(50, 100);
+> +skip:
+> +               usleep_range(1000, 1500);
+>         }
+>=20
+>         dev_err(&dev->client->dev, "Unable to detect valid pixel clock\n"=
+);
+> --
+> 2.33.1
+>
