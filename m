@@ -2,150 +2,133 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 29C44445652
-	for <lists+linux-media@lfdr.de>; Thu,  4 Nov 2021 16:29:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6605244569C
+	for <lists+linux-media@lfdr.de>; Thu,  4 Nov 2021 16:54:17 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229970AbhKDPb6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 4 Nov 2021 11:31:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57414 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229770AbhKDPb5 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 4 Nov 2021 11:31:57 -0400
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A549CC061714
-        for <linux-media@vger.kernel.org>; Thu,  4 Nov 2021 08:29:19 -0700 (PDT)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1mieg0-0008S0-B4; Thu, 04 Nov 2021 16:29:16 +0100
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
-        by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.92)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1miefy-0005Su-19; Thu, 04 Nov 2021 16:29:14 +0100
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.92)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1miefy-0007jS-07; Thu, 04 Nov 2021 16:29:14 +0100
-Date:   Thu, 4 Nov 2021 16:29:13 +0100
-From:   Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To:     =?utf-8?B?TWHDrXJh?= Canal <maira.canal@usp.br>
-Cc:     sean@mess.org, mchehab@kernel.org, thierry.reding@gmail.com,
-        lee.jones@linaro.org, linux-media@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-pwm@vger.kernel.org
-Subject: Re: [PATCH v2] media: ir-rx51: Switch to atomic PWM API
-Message-ID: <20211104152913.uqmmk6z7vppu5pxk@pengutronix.de>
-References: <YX8VkdCAe6coHC4w@fedora>
+        id S231558AbhKDP4y (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 4 Nov 2021 11:56:54 -0400
+Received: from mga05.intel.com ([192.55.52.43]:12424 "EHLO mga05.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S231396AbhKDP4x (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 4 Nov 2021 11:56:53 -0400
+X-IronPort-AV: E=McAfee;i="6200,9189,10157"; a="317933610"
+X-IronPort-AV: E=Sophos;i="5.87,209,1631602800"; 
+   d="scan'208";a="317933610"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Nov 2021 08:54:14 -0700
+X-IronPort-AV: E=Sophos;i="5.87,209,1631602800"; 
+   d="scan'208";a="468512031"
+Received: from yoojae-mobl.amr.corp.intel.com (HELO [10.209.121.122]) ([10.209.121.122])
+  by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Nov 2021 08:54:14 -0700
+Message-ID: <883dd517-7996-8c44-8cea-1c8838b367b6@linux.intel.com>
+Date:   Thu, 4 Nov 2021 08:54:13 -0700
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="anrsmkijiyfufaxw"
-Content-Disposition: inline
-In-Reply-To: <YX8VkdCAe6coHC4w@fedora>
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-media@vger.kernel.org
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.2.1
+From:   Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
+Subject: Re: [PATCH] media: aspeed: use reset to replace clk off/on
+To:     Jammy Huang <jammy_huang@aspeedtech.com>, eajames@linux.ibm.com,
+        mchehab@kernel.org, joel@jms.id.au, andrew@aj.id.au,
+        linux-media@vger.kernel.org, openbmc@lists.ozlabs.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org
+References: <20211103054316.25272-1-jammy_huang@aspeedtech.com>
+Content-Language: en-US
+In-Reply-To: <20211103054316.25272-1-jammy_huang@aspeedtech.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Hi Jammy,
 
---anrsmkijiyfufaxw
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Sun, Oct 31, 2021 at 07:15:45PM -0300, Ma=EDra Canal wrote:
-> Remove legacy PWM interface (pwm_config, pwm_enable, pwm_disable) and
-> replace it for the atomic PWM API.
->=20
-> Signed-off-by: Ma=EDra Canal <maira.canal@usp.br>
+On 11/2/2021 10:43 PM, Jammy Huang wrote:
+> reset should be more proper than clk off/on to bring HW back to good
+> state.
+> 
+> Signed-off-by: Jammy Huang <jammy_huang@aspeedtech.com>
 > ---
-> V1 -> V2: remove conceptually wrong chunk of code and correct the position
-> of pwm_init_state function
-> ---
->  drivers/media/rc/ir-rx51.c | 16 +++++++++-------
->  1 file changed, 9 insertions(+), 7 deletions(-)
->=20
-> diff --git a/drivers/media/rc/ir-rx51.c b/drivers/media/rc/ir-rx51.c
-> index a0d9c02a7588..41d4a4338072 100644
-> --- a/drivers/media/rc/ir-rx51.c
-> +++ b/drivers/media/rc/ir-rx51.c
-> @@ -19,6 +19,7 @@
->  struct ir_rx51 {
->  	struct rc_dev *rcdev;
->  	struct pwm_device *pwm;
-> +	struct pwm_state *state;
->  	struct hrtimer timer;
->  	struct device	     *dev;
->  	wait_queue_head_t     wqueue;
-> @@ -32,22 +33,22 @@ struct ir_rx51 {
-> =20
->  static inline void ir_rx51_on(struct ir_rx51 *ir_rx51)
->  {
-> -	pwm_enable(ir_rx51->pwm);
-> +	ir_rx51->state->enabled =3D true;
-> +	pwm_apply_state(ir_rx51->pwm, ir_rx51->state);
->  }
-> =20
->  static inline void ir_rx51_off(struct ir_rx51 *ir_rx51)
->  {
-> -	pwm_disable(ir_rx51->pwm);
-> +	ir_rx51->state->enabled =3D false;
-> +	pwm_apply_state(ir_rx51->pwm, ir_rx51->state);
->  }
-> =20
->  static int init_timing_params(struct ir_rx51 *ir_rx51)
->  {
-> -	struct pwm_device *pwm =3D ir_rx51->pwm;
-> -	int duty, period =3D DIV_ROUND_CLOSEST(NSEC_PER_SEC, ir_rx51->freq);
-> +	struct pwm_state *state =3D ir_rx51->state;
-> =20
-> -	duty =3D DIV_ROUND_CLOSEST(ir_rx51->duty_cycle * period, 100);
-> -
-> -	pwm_config(pwm, duty, period);
-> +	state->period =3D DIV_ROUND_CLOSEST(NSEC_PER_SEC, ir_rx51->freq);
-> +	pwm_set_relative_duty_cycle(state, ir_rx51->duty_cycle, 100);
-> =20
->  	return 0;
->  }
-> @@ -242,6 +243,7 @@ static int ir_rx51_probe(struct platform_device *dev)
-> =20
->  	/* Use default, in case userspace does not set the carrier */
->  	ir_rx51.freq =3D DIV_ROUND_CLOSEST_ULL(pwm_get_period(pwm), NSEC_PER_SE=
-C);
-> +	pwm_init_state(pwm, ir_rx51.state);
->  	pwm_put(pwm);
-> =20
+>   drivers/media/platform/aspeed-video.c | 22 +++++++++++++++++++---
+>   1 file changed, 19 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/media/platform/aspeed-video.c b/drivers/media/platform/aspeed-video.c
+> index fea5e4d0927e..10d182139809 100644
+> --- a/drivers/media/platform/aspeed-video.c
+> +++ b/drivers/media/platform/aspeed-video.c
+> @@ -23,6 +23,7 @@
+>   #include <linux/workqueue.h>
+>   #include <linux/debugfs.h>
+>   #include <linux/ktime.h>
+> +#include <linux/reset.h>
+>   #include <media/v4l2-ctrls.h>
+>   #include <media/v4l2-dev.h>
+>   #include <media/v4l2-device.h>
+> @@ -220,6 +221,7 @@ struct aspeed_video {
+>   	void __iomem *base;
+>   	struct clk *eclk;
+>   	struct clk *vclk;
+> +	struct reset_control *reset;
+>   
+>   	struct device *dev;
+>   	struct v4l2_ctrl_handler ctrl_handler;
+> @@ -554,6 +556,13 @@ static void aspeed_video_on(struct aspeed_video *video)
+>   	set_bit(VIDEO_CLOCKS_ON, &video->flags);
+>   }
+>   
+> +static void aspeed_video_reset(struct aspeed_video *v)
+> +{
+> +	reset_control_assert(v->reset);
+> +	udelay(100);
+> +	reset_control_deassert(v->reset);
+> +}
+> +
+>   static void aspeed_video_bufs_done(struct aspeed_video *video,
+>   				   enum vb2_buffer_state state)
+>   {
+> @@ -574,7 +583,9 @@ static void aspeed_video_irq_res_change(struct aspeed_video *video, ulong delay)
+>   	set_bit(VIDEO_RES_CHANGE, &video->flags);
+>   	clear_bit(VIDEO_FRAME_INPRG, &video->flags);
+>   
+> -	aspeed_video_off(video);
+> +	aspeed_video_write(video, VE_INTERRUPT_CTRL, 0);
+> +	aspeed_video_write(video, VE_INTERRUPT_STATUS, 0xffffffff);
+> +	aspeed_video_reset(video);
+>   	aspeed_video_bufs_done(video, VB2_BUF_STATE_ERROR);
+>   
+>   	schedule_delayed_work(&video->res_work, delay);
+> @@ -1507,8 +1518,7 @@ static void aspeed_video_stop_streaming(struct vb2_queue *q)
+>   		 * Need to force stop any DMA and try and get HW into a good
+>   		 * state for future calls to start streaming again.
+>   		 */
+> -		aspeed_video_off(video);
+> -		aspeed_video_on(video);
+> +		aspeed_video_reset(video);
 
-Orthogonal to this patch I wonder why probe calls pwm_get() and
-pwm_put(), just to have another call to pwm_get() in the open callback.
+You can find the ECLK configuration in 'clk-aspeed.c' or in
+'clk-ast2600.c' that it's coupled with the video engine reset (SCU04[6]
+for AST2500 / SCU040[6] for AST2600). It means that if we call 
+clk_disable() and clk_enable() through aspeed_video_off() and
+aspeed_video_on(), the video engine reset will be implicitly asserted
+and de-asserted by the clock driver so the reset mechanism is already in
+the existing code.
 
-Reviewed-by: Uwe Kleine-K=F6nig <u.kleine-koenig@pengutronix.de>
+Thanks,
+Jae
 
-
->  	hrtimer_init(&ir_rx51.timer, CLOCK_MONOTONIC, HRTIMER_MODE_REL);
-> --=20
-> 2.31.1
->=20
->=20
-
---=20
-Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
-Industrial Linux Solutions                 | https://www.pengutronix.de/ |
-
---anrsmkijiyfufaxw
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEfnIqFpAYrP8+dKQLwfwUeK3K7AkFAmGD/EYACgkQwfwUeK3K
-7Ak1UQf+NfOJSUtl3mRA28YnYB6CjGMtAy59xFUzIY6X9xrzP1nNy36NCJUalITO
-T7ZL+y9ZfgGsZ4gmbb8kG2EPvD+pd9KiwU1HCY0esAq8M/Ap5ZwRXu1SeaH1LQYb
-9BN41gXZ0aphBKU+jwWIXU2TXehrdGHRKmZImVRfDnfGw6UTwJMdsGeUnDkK0Mvm
-FCeVadBfc7TYX5Y0sISQcanMaB1Gmg9gKzK+nnqoqgJKQc4Yuar4e5XkF3KN91Hu
-Np1abLWz1MNDbhZTVtTUcy0qblq81YoroMYjb0K+GmK4Ug9AVtDB0QPgcNQsburu
-850DdXYxowxH+F2oZFTRS5AmFYlHZw==
-=4w8D
------END PGP SIGNATURE-----
-
---anrsmkijiyfufaxw--
+>   		aspeed_video_init_regs(video);
+>   
+> @@ -1715,6 +1725,12 @@ static int aspeed_video_init(struct aspeed_video *video)
+>   		return rc;
+>   	}
+>   
+> +	video->reset = devm_reset_control_get(dev, NULL);
+> +	if (IS_ERR(video->reset)) {
+> +		dev_err(dev, "Unable to get reset\n");
+> +		return PTR_ERR(video->reset);
+> +	}
+> +
+>   	video->eclk = devm_clk_get(dev, "eclk");
+>   	if (IS_ERR(video->eclk)) {
+>   		dev_err(dev, "Unable to get ECLK\n");
+> 
