@@ -2,42 +2,41 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3625E44681B
-	for <lists+linux-media@lfdr.de>; Fri,  5 Nov 2021 18:48:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1E15844681E
+	for <lists+linux-media@lfdr.de>; Fri,  5 Nov 2021 18:48:51 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234489AbhKERvB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 5 Nov 2021 13:51:01 -0400
-Received: from mail.kernel.org ([198.145.29.99]:35116 "EHLO mail.kernel.org"
+        id S234531AbhKERvL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 5 Nov 2021 13:51:11 -0400
+Received: from mail.kernel.org ([198.145.29.99]:35318 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S234467AbhKERu7 (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Fri, 5 Nov 2021 13:50:59 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 359AB6124A;
-        Fri,  5 Nov 2021 17:48:19 +0000 (UTC)
+        id S234503AbhKERvE (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Fri, 5 Nov 2021 13:51:04 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 1B1696128E;
+        Fri,  5 Nov 2021 17:48:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1636134499;
-        bh=SHhpvu4jTwzSfKioJUfhiQLZTgT9d9hEefQ7oPFCchQ=;
+        s=k20201202; t=1636134504;
+        bh=dcazLDKRDSiWzrwuVtwxaP0taJfvimBxbeMgphlnqVE=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=fddlfTRmQkVBBmpNNlPYeqT2gI3IbC+dFhXFYrN3dQ+RttwxDlpqJZi6ILtwBYZdG
-         GZbSDRa7xcVbBGB9fMxwR3oKlE0h24m/Asks4ojgFvenAf4VgKbxxbat7Iq411vONj
-         3wzYx2ss8ZxcjciTLY7NbzVE4tymO9g7d2zQ2Vl3AFLTvYB5V3bNwHZAJa1T65K1Zr
-         Tdwa0heCQecWSQc3X+clhmiMSS5bCxPzg82B6RovR/mNqYx1NfR9NXh9Xvu5CJ2t+5
-         NGF1rtbZBW/PlAR0VksCcBFRz3FfDjDmf6rtEZWLvJw2agXu4Y8Sz81sx+YxsuU45X
-         3KzTO/m5jy8GQ==
+        b=JUzYGkAwV76fJw/uZ80kKwsWTbkp2NU2P7on177mPWPdZ4R1h3tt8ppDbTuu3pMsC
+         glTTIYcYYOxGdbJI7nPcoijBautBMod4+iEVphlSyOlQsEPmWgFIHRC23WuyYpbjM9
+         GwCg1SQi8p8On8MeAEEwreYpYK5+jeYzAmPl0JF/oyCPiP7PEtpzolWtqmdSbLMAfh
+         xKJghar9flwl6y6iOuPXCewu96Ms38J7MW1dVZfM+NxgS7CpH2cGVRXCCBTY5uEV0y
+         /k/S+MgUL2nylaFa3i2ZsBJGPPwbZ9qDuL12bp+HPmywkgpnMjdnqURrJhtcFXkV2C
+         464etyR3eZRUQ==
 Received: by mail.kernel.org with local (Exim 4.94.2)
         (envelope-from <mchehab@kernel.org>)
-        id 1mj3K4-007eNi-DC; Fri, 05 Nov 2021 17:48:16 +0000
+        id 1mj3K4-007eNl-E3; Fri, 05 Nov 2021 17:48:16 +0000
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 Cc:     linuxarm@huawei.com, mauro.chehab@huawei.com,
         Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Tsuchiya Yuto <kitakar@gmail.com>,
         linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
         linux-staging@lists.linux.dev
-Subject: [PATCH 4/8] media: atomisp: cleanup ia_css_isp_configs() code
-Date:   Fri,  5 Nov 2021 17:48:11 +0000
-Message-Id: <79161c2eb9298ce3f5d9cd00fa6e1fe8f1315dd2.1636134411.git.mchehab+huawei@kernel.org>
+Subject: [PATCH 5/8] media: atomisp: propagate errors at ia_css_*_configure()
+Date:   Fri,  5 Nov 2021 17:48:12 +0000
+Message-Id: <a1a8626163f13cf74a932e0cc2f4b2dd130933ab.1636134411.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <286ba3e4f25e9ba2ab78de4cbf010f18167b2604.1636134411.git.mchehab+huawei@kernel.org>
 References: <286ba3e4f25e9ba2ab78de4cbf010f18167b2604.1636134411.git.mchehab+huawei@kernel.org>
@@ -49,802 +48,536 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The auto-generated code inside ia_css_isp_configs() is more
-complex than it should be. Also, it doesn't return any errors.
-
-However, the functions called by it can mis-configure the pipelines,
-but, as there's no way to return errors, it internally calls the
-assert() macro.
-
-So, add a return parameter to each routine there, in order to
-prepare the code to be more robust.
+Propagate the lower lever ia_css config errors to the next
+level.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- .../media/atomisp/pci/ia_css_isp_configs.c    | 579 ++++++++----------
- .../media/atomisp/pci/ia_css_isp_configs.h    | 111 +---
- 2 files changed, 284 insertions(+), 406 deletions(-)
+ .../copy_output_1.0/ia_css_copy_output.host.c |  8 +++---
+ .../copy_output_1.0/ia_css_copy_output.host.h |  6 ++---
+ .../kernels/crop/crop_1.0/ia_css_crop.host.c  |  8 +++---
+ .../kernels/crop/crop_1.0/ia_css_crop.host.h  |  6 ++---
+ .../isp/kernels/dvs/dvs_1.0/ia_css_dvs.host.c |  8 +++---
+ .../isp/kernels/dvs/dvs_1.0/ia_css_dvs.host.h |  6 ++---
+ .../isp/kernels/fpn/fpn_1.0/ia_css_fpn.host.c |  8 +++---
+ .../isp/kernels/fpn/fpn_1.0/ia_css_fpn.host.h |  6 ++---
+ .../iterator_1.0/ia_css_iterator.host.c       | 11 +++-----
+ .../output/output_1.0/ia_css_output.host.c    | 27 +++++++++----------
+ .../output/output_1.0/ia_css_output.host.h    | 18 +++++--------
+ .../qplane/qplane_2/ia_css_qplane.host.c      | 10 +++----
+ .../qplane/qplane_2/ia_css_qplane.host.h      |  8 +++---
+ .../isp/kernels/raw/raw_1.0/ia_css_raw.host.c | 16 +++++------
+ .../isp/kernels/raw/raw_1.0/ia_css_raw.host.h | 14 +++++-----
+ .../isp/kernels/ref/ref_1.0/ia_css_ref.host.c | 12 ++++-----
+ .../isp/kernels/ref/ref_1.0/ia_css_ref.host.h |  8 +++---
+ .../isp/kernels/tnr/tnr_1.0/ia_css_tnr.host.c |  8 +++---
+ .../isp/kernels/tnr/tnr_1.0/ia_css_tnr.host.h |  6 ++---
+ .../isp/kernels/vf/vf_1.0/ia_css_vf.host.c    | 14 +++++-----
+ 20 files changed, 82 insertions(+), 126 deletions(-)
 
-diff --git a/drivers/staging/media/atomisp/pci/ia_css_isp_configs.c b/drivers/staging/media/atomisp/pci/ia_css_isp_configs.c
-index 1a021ae841fe..d28a76a68e43 100644
---- a/drivers/staging/media/atomisp/pci/ia_css_isp_configs.c
-+++ b/drivers/staging/media/atomisp/pci/ia_css_isp_configs.c
-@@ -21,366 +21,301 @@
- #include "ia_css_debug.h"
- #include "assert_support.h"
- 
--/* Code generated by genparam/genconfig.c:gen_configure_function() */
--
--void
--ia_css_configure_iterator(
--    const struct ia_css_binary *binary,
--    const struct ia_css_iterator_configuration *config_dmem)
-+int ia_css_configure_iterator(const struct ia_css_binary *binary,
-+			      const struct ia_css_iterator_configuration *config_dmem)
- {
--	ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE_PRIVATE,
--			    "ia_css_configure_iterator() enter:\n");
--
--	{
--		unsigned int offset = 0;
--		unsigned int size   = 0;
--
--		if (binary->info->mem_offsets.offsets.config) {
--			size   = binary->info->mem_offsets.offsets.config->dmem.iterator.size;
--			offset = binary->info->mem_offsets.offsets.config->dmem.iterator.offset;
--		}
--		if (size) {
--			ia_css_iterator_config((struct sh_css_isp_iterator_isp_config *)
--					       &binary->mem_params.params[IA_CSS_PARAM_CLASS_CONFIG][IA_CSS_ISP_DMEM].address[offset],
--					       config_dmem, size);
--		}
--	}
--	ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE_PRIVATE,
--			    "ia_css_configure_iterator() leave:\n");
--}
-+	unsigned int offset = 0;
-+	unsigned int size   = 0;
- 
--/* Code generated by genparam/genconfig.c:gen_configure_function() */
-+	ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE_PRIVATE, "%s:\n", __func__);
- 
--void
--ia_css_configure_copy_output(
--    const struct ia_css_binary *binary,
--    const struct ia_css_copy_output_configuration *config_dmem)
--{
--	ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE_PRIVATE,
--			    "ia_css_configure_copy_output() enter:\n");
--
--	{
--		unsigned int offset = 0;
--		unsigned int size   = 0;
--
--		if (binary->info->mem_offsets.offsets.config) {
--			size   = binary->info->mem_offsets.offsets.config->dmem.copy_output.size;
--			offset = binary->info->mem_offsets.offsets.config->dmem.copy_output.offset;
--		}
--		if (size) {
--			ia_css_copy_output_config((struct sh_css_isp_copy_output_isp_config *)
--						  &binary->mem_params.params[IA_CSS_PARAM_CLASS_CONFIG][IA_CSS_ISP_DMEM].address[offset],
--						  config_dmem, size);
--		}
--	}
--	ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE_PRIVATE,
--			    "ia_css_configure_copy_output() leave:\n");
--}
-+	if (!binary->info->mem_offsets.offsets.config)
-+		return 0;
- 
--/* Code generated by genparam/genconfig.c:gen_configure_function() */
-+	size = binary->info->mem_offsets.offsets.config->dmem.iterator.size;
-+	if (!size)
-+		return 0;
- 
--void
--ia_css_configure_crop(
--    const struct ia_css_binary *binary,
--    const struct ia_css_crop_configuration *config_dmem)
--{
--	ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE_PRIVATE,
--			    "ia_css_configure_crop() enter:\n");
--
--	{
--		unsigned int offset = 0;
--		unsigned int size   = 0;
--
--		if (binary->info->mem_offsets.offsets.config) {
--			size   = binary->info->mem_offsets.offsets.config->dmem.crop.size;
--			offset = binary->info->mem_offsets.offsets.config->dmem.crop.offset;
--		}
--		if (size) {
--			ia_css_crop_config((struct sh_css_isp_crop_isp_config *)
--					   &binary->mem_params.params[IA_CSS_PARAM_CLASS_CONFIG][IA_CSS_ISP_DMEM].address[offset],
--					   config_dmem, size);
--		}
--	}
--	ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE_PRIVATE,
--			    "ia_css_configure_crop() leave:\n");
--}
-+	offset = binary->info->mem_offsets.offsets.config->dmem.iterator.offset;
- 
--/* Code generated by genparam/genconfig.c:gen_configure_function() */
-+	ia_css_iterator_config((struct sh_css_isp_iterator_isp_config *)
-+			       &binary->mem_params.params[IA_CSS_PARAM_CLASS_CONFIG][IA_CSS_ISP_DMEM].address[offset],
-+			       config_dmem, size);
-+	return 0;
-+}
- 
--void
--ia_css_configure_fpn(
--    const struct ia_css_binary *binary,
--    const struct ia_css_fpn_configuration *config_dmem)
-+int ia_css_configure_copy_output(const struct ia_css_binary *binary,
-+				 const struct ia_css_copy_output_configuration *config_dmem)
- {
--	ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE_PRIVATE,
--			    "ia_css_configure_fpn() enter:\n");
--
--	{
--		unsigned int offset = 0;
--		unsigned int size   = 0;
--
--		if (binary->info->mem_offsets.offsets.config) {
--			size   = binary->info->mem_offsets.offsets.config->dmem.fpn.size;
--			offset = binary->info->mem_offsets.offsets.config->dmem.fpn.offset;
--		}
--		if (size) {
--			ia_css_fpn_config((struct sh_css_isp_fpn_isp_config *)
--					  &binary->mem_params.params[IA_CSS_PARAM_CLASS_CONFIG][IA_CSS_ISP_DMEM].address[offset],
--					  config_dmem, size);
--		}
--	}
--	ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE_PRIVATE,
--			    "ia_css_configure_fpn() leave:\n");
--}
-+	unsigned int offset = 0;
-+	unsigned int size   = 0;
- 
--/* Code generated by genparam/genconfig.c:gen_configure_function() */
-+	ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE_PRIVATE, "%s:\n", __func__);
- 
--void
--ia_css_configure_dvs(
--    const struct ia_css_binary *binary,
--    const struct ia_css_dvs_configuration *config_dmem)
--{
--	ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE_PRIVATE,
--			    "ia_css_configure_dvs() enter:\n");
--
--	{
--		unsigned int offset = 0;
--		unsigned int size   = 0;
--
--		if (binary->info->mem_offsets.offsets.config) {
--			size   = binary->info->mem_offsets.offsets.config->dmem.dvs.size;
--			offset = binary->info->mem_offsets.offsets.config->dmem.dvs.offset;
--		}
--		if (size) {
--			ia_css_dvs_config((struct sh_css_isp_dvs_isp_config *)
--					  &binary->mem_params.params[IA_CSS_PARAM_CLASS_CONFIG][IA_CSS_ISP_DMEM].address[offset],
--					  config_dmem, size);
--		}
--	}
--	ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE_PRIVATE,
--			    "ia_css_configure_dvs() leave:\n");
-+	if (!binary->info->mem_offsets.offsets.config)
-+		return 0;
-+
-+	size = binary->info->mem_offsets.offsets.config->dmem.copy_output.size;
-+	if (!size)
-+		return 0;
-+
-+	offset = binary->info->mem_offsets.offsets.config->dmem.copy_output.offset;
-+
-+	ia_css_copy_output_config((struct sh_css_isp_copy_output_isp_config *)
-+				  &binary->mem_params.params[IA_CSS_PARAM_CLASS_CONFIG][IA_CSS_ISP_DMEM].address[offset],
-+				  config_dmem, size);
-+	return 0;
+diff --git a/drivers/staging/media/atomisp/pci/isp/kernels/copy_output/copy_output_1.0/ia_css_copy_output.host.c b/drivers/staging/media/atomisp/pci/isp/kernels/copy_output/copy_output_1.0/ia_css_copy_output.host.c
+index 5d34f3256a43..cc415c72ad8f 100644
+--- a/drivers/staging/media/atomisp/pci/isp/kernels/copy_output/copy_output_1.0/ia_css_copy_output.host.c
++++ b/drivers/staging/media/atomisp/pci/isp/kernels/copy_output/copy_output_1.0/ia_css_copy_output.host.c
+@@ -34,14 +34,12 @@ ia_css_copy_output_config(
+ 	to->enable = from->enable;
  }
  
- /* Code generated by genparam/genconfig.c:gen_configure_function() */
+-void
+-ia_css_copy_output_configure(
+-    const struct ia_css_binary     *binary,
+-    bool enable)
++int ia_css_copy_output_configure(const struct ia_css_binary *binary,
++				 bool enable)
+ {
+ 	struct ia_css_copy_output_configuration config = default_config;
+ 
+ 	config.enable = enable;
+ 
+-	ia_css_configure_copy_output(binary, &config);
++	return ia_css_configure_copy_output(binary, &config);
+ }
+diff --git a/drivers/staging/media/atomisp/pci/isp/kernels/copy_output/copy_output_1.0/ia_css_copy_output.host.h b/drivers/staging/media/atomisp/pci/isp/kernels/copy_output/copy_output_1.0/ia_css_copy_output.host.h
+index 615cb6771884..44e3e45b0ec3 100644
+--- a/drivers/staging/media/atomisp/pci/isp/kernels/copy_output/copy_output_1.0/ia_css_copy_output.host.h
++++ b/drivers/staging/media/atomisp/pci/isp/kernels/copy_output/copy_output_1.0/ia_css_copy_output.host.h
+@@ -27,9 +27,7 @@ ia_css_copy_output_config(
+     const struct ia_css_copy_output_configuration *from,
+     unsigned int size);
  
 -void
--ia_css_configure_qplane(
--    const struct ia_css_binary *binary,
--    const struct ia_css_qplane_configuration *config_dmem)
-+int ia_css_configure_crop(const struct ia_css_binary *binary,
-+			  const struct ia_css_crop_configuration *config_dmem)
- {
--	ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE_PRIVATE,
--			    "ia_css_configure_qplane() enter:\n");
--
--	{
--		unsigned int offset = 0;
--		unsigned int size   = 0;
--
--		if (binary->info->mem_offsets.offsets.config) {
--			size   = binary->info->mem_offsets.offsets.config->dmem.qplane.size;
--			offset = binary->info->mem_offsets.offsets.config->dmem.qplane.offset;
--		}
--		if (size) {
--			ia_css_qplane_config((struct sh_css_isp_qplane_isp_config *)
--					     &binary->mem_params.params[IA_CSS_PARAM_CLASS_CONFIG][IA_CSS_ISP_DMEM].address[offset],
--					     config_dmem, size);
--		}
--	}
--	ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE_PRIVATE,
--			    "ia_css_configure_qplane() leave:\n");
-+	unsigned int offset = 0;
-+	unsigned int size   = 0;
-+
-+	ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE_PRIVATE, "%s:\n", __func__);
-+
-+	if (!binary->info->mem_offsets.offsets.config)
-+		return 0;
-+
-+	size = binary->info->mem_offsets.offsets.config->dmem.crop.size;
-+	if (!size)
-+		return 0;
-+
-+	offset = binary->info->mem_offsets.offsets.config->dmem.crop.offset;
-+
-+	ia_css_crop_config((struct sh_css_isp_crop_isp_config *)
-+			   &binary->mem_params.params[IA_CSS_PARAM_CLASS_CONFIG][IA_CSS_ISP_DMEM].address[offset],
-+			   config_dmem, size);
-+	return 0;
+-ia_css_copy_output_configure(
+-    const struct ia_css_binary     *binary,
+-    bool enable);
++int ia_css_copy_output_configure(const struct ia_css_binary     *binary,
++				 bool enable);
+ 
+ #endif /* __IA_CSS_COPY_OUTPUT_HOST_H */
+diff --git a/drivers/staging/media/atomisp/pci/isp/kernels/crop/crop_1.0/ia_css_crop.host.c b/drivers/staging/media/atomisp/pci/isp/kernels/crop/crop_1.0/ia_css_crop.host.c
+index 38912062edd4..8ab0604b364a 100644
+--- a/drivers/staging/media/atomisp/pci/isp/kernels/crop/crop_1.0/ia_css_crop.host.c
++++ b/drivers/staging/media/atomisp/pci/isp/kernels/crop/crop_1.0/ia_css_crop.host.c
+@@ -52,14 +52,12 @@ ia_css_crop_config(
+ 	assert(elems_a % to->port_b.elems == 0);
  }
  
--/* Code generated by genparam/genconfig.c:gen_configure_function() */
-+int ia_css_configure_fpn(const struct ia_css_binary *binary,
-+			 const struct ia_css_fpn_configuration *config_dmem)
+-void
+-ia_css_crop_configure(
+-    const struct ia_css_binary     *binary,
+-    const struct ia_css_frame_info *info)
++int ia_css_crop_configure(const struct ia_css_binary     *binary,
++			  const struct ia_css_frame_info *info)
+ {
+ 	struct ia_css_crop_configuration config = default_config;
+ 
+ 	config.info = info;
+ 
+-	ia_css_configure_crop(binary, &config);
++	return ia_css_configure_crop(binary, &config);
+ }
+diff --git a/drivers/staging/media/atomisp/pci/isp/kernels/crop/crop_1.0/ia_css_crop.host.h b/drivers/staging/media/atomisp/pci/isp/kernels/crop/crop_1.0/ia_css_crop.host.h
+index 21a259d33256..877601bfa7c0 100644
+--- a/drivers/staging/media/atomisp/pci/isp/kernels/crop/crop_1.0/ia_css_crop.host.h
++++ b/drivers/staging/media/atomisp/pci/isp/kernels/crop/crop_1.0/ia_css_crop.host.h
+@@ -34,9 +34,7 @@ ia_css_crop_config(
+     const struct ia_css_crop_configuration *from,
+     unsigned int size);
+ 
+-void
+-ia_css_crop_configure(
+-    const struct ia_css_binary     *binary,
+-    const struct ia_css_frame_info *from);
++int ia_css_crop_configure(const struct ia_css_binary     *binary,
++			  const struct ia_css_frame_info *from);
+ 
+ #endif /* __IA_CSS_CROP_HOST_H */
+diff --git a/drivers/staging/media/atomisp/pci/isp/kernels/dvs/dvs_1.0/ia_css_dvs.host.c b/drivers/staging/media/atomisp/pci/isp/kernels/dvs/dvs_1.0/ia_css_dvs.host.c
+index 67f5540b48b5..07ce5b4f0816 100644
+--- a/drivers/staging/media/atomisp/pci/isp/kernels/dvs/dvs_1.0/ia_css_dvs.host.c
++++ b/drivers/staging/media/atomisp/pci/isp/kernels/dvs/dvs_1.0/ia_css_dvs.host.c
+@@ -46,16 +46,14 @@ ia_css_dvs_config(
+ 	    DVS_NUM_BLOCKS_Y(from->info->res.height);
+ }
+ 
+-void
+-ia_css_dvs_configure(
+-    const struct ia_css_binary     *binary,
+-    const struct ia_css_frame_info *info)
++int ia_css_dvs_configure(const struct ia_css_binary     *binary,
++			 const struct ia_css_frame_info *info)
+ {
+ 	struct ia_css_dvs_configuration config = default_config;
+ 
+ 	config.info = info;
+ 
+-	ia_css_configure_dvs(binary, &config);
++	return ia_css_configure_dvs(binary, &config);
+ }
+ 
+ static void
+diff --git a/drivers/staging/media/atomisp/pci/isp/kernels/dvs/dvs_1.0/ia_css_dvs.host.h b/drivers/staging/media/atomisp/pci/isp/kernels/dvs/dvs_1.0/ia_css_dvs.host.h
+index f9bc17ee0f86..332aa5496c04 100644
+--- a/drivers/staging/media/atomisp/pci/isp/kernels/dvs/dvs_1.0/ia_css_dvs.host.h
++++ b/drivers/staging/media/atomisp/pci/isp/kernels/dvs/dvs_1.0/ia_css_dvs.host.h
+@@ -35,10 +35,8 @@ ia_css_dvs_config(
+     const struct ia_css_dvs_configuration *from,
+     unsigned int size);
+ 
+-void
+-ia_css_dvs_configure(
+-    const struct ia_css_binary     *binary,
+-    const struct ia_css_frame_info *from);
++int ia_css_dvs_configure(const struct ia_css_binary     *binary,
++			 const struct ia_css_frame_info *from);
+ 
+ void
+ convert_dvs_6axis_config(
+diff --git a/drivers/staging/media/atomisp/pci/isp/kernels/fpn/fpn_1.0/ia_css_fpn.host.c b/drivers/staging/media/atomisp/pci/isp/kernels/fpn/fpn_1.0/ia_css_fpn.host.c
+index 47b5c7956fbd..9933113adf46 100644
+--- a/drivers/staging/media/atomisp/pci/isp/kernels/fpn/fpn_1.0/ia_css_fpn.host.c
++++ b/drivers/staging/media/atomisp/pci/isp/kernels/fpn/fpn_1.0/ia_css_fpn.host.c
+@@ -67,10 +67,8 @@ ia_css_fpn_config(
+ 	assert(elems_a % to->port_b.elems == 0);
+ }
+ 
+-void
+-ia_css_fpn_configure(
+-    const struct ia_css_binary     *binary,
+-    const struct ia_css_frame_info *info)
++int ia_css_fpn_configure(const struct ia_css_binary     *binary,
++			 const struct ia_css_frame_info *info)
+ {
+ 	struct ia_css_frame_info my_info = IA_CSS_BINARY_DEFAULT_FRAME_INFO;
+ 	const struct ia_css_fpn_configuration config = {
+@@ -85,5 +83,5 @@ ia_css_fpn_configure(
+ 	my_info.raw_bayer_order = info->raw_bayer_order;
+ 	my_info.crop_info       = info->crop_info;
+ 
+-	ia_css_configure_fpn(binary, &config);
++	return ia_css_configure_fpn(binary, &config);
+ }
+diff --git a/drivers/staging/media/atomisp/pci/isp/kernels/fpn/fpn_1.0/ia_css_fpn.host.h b/drivers/staging/media/atomisp/pci/isp/kernels/fpn/fpn_1.0/ia_css_fpn.host.h
+index 12187d213d90..1c644c0decfe 100644
+--- a/drivers/staging/media/atomisp/pci/isp/kernels/fpn/fpn_1.0/ia_css_fpn.host.h
++++ b/drivers/staging/media/atomisp/pci/isp/kernels/fpn/fpn_1.0/ia_css_fpn.host.h
+@@ -37,9 +37,7 @@ ia_css_fpn_config(
+     const struct ia_css_fpn_configuration *from,
+     unsigned int size);
+ 
+-void
+-ia_css_fpn_configure(
+-    const struct ia_css_binary     *binary,
+-    const struct ia_css_frame_info *from);
++int ia_css_fpn_configure(const struct ia_css_binary     *binary,
++			 const struct ia_css_frame_info *from);
+ 
+ #endif /* __IA_CSS_FPN_HOST_H */
+diff --git a/drivers/staging/media/atomisp/pci/isp/kernels/iterator/iterator_1.0/ia_css_iterator.host.c b/drivers/staging/media/atomisp/pci/isp/kernels/iterator/iterator_1.0/ia_css_iterator.host.c
+index 6d8a35a73750..5f186fb03642 100644
+--- a/drivers/staging/media/atomisp/pci/isp/kernels/iterator/iterator_1.0/ia_css_iterator.host.c
++++ b/drivers/staging/media/atomisp/pci/isp/kernels/iterator/iterator_1.0/ia_css_iterator.host.c
+@@ -38,10 +38,9 @@ ia_css_iterator_config(
+ 	ia_css_resolution_to_sp_resolution(&to->dvs_envelope,  from->dvs_envelope);
+ }
+ 
+-int
+-ia_css_iterator_configure(
+-    const struct ia_css_binary *binary,
+-    const struct ia_css_frame_info *in_info) {
++int ia_css_iterator_configure(const struct ia_css_binary *binary,
++			      const struct ia_css_frame_info *in_info)
 +{
-+	unsigned int offset = 0;
-+	unsigned int size   = 0;
-+
-+	ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE_PRIVATE, "%s:\n", __func__);
-+
-+	if (!binary->info->mem_offsets.offsets.config)
-+		return 0;
-+
-+	size   = binary->info->mem_offsets.offsets.config->dmem.fpn.size;
-+	if (!size)
-+		return 0;
+ 	struct ia_css_frame_info my_info = IA_CSS_BINARY_DEFAULT_FRAME_INFO;
+ 	struct ia_css_iterator_configuration config = default_config;
+ 
+@@ -75,7 +74,5 @@ ia_css_iterator_configure(
+ 		my_info.res.height   <<= binary->vf_downscale_log2;
+ 	}
+ 
+-	ia_css_configure_iterator(binary, &config);
+-
+-	return 0;
++	return ia_css_configure_iterator(binary, &config);
+ }
+diff --git a/drivers/staging/media/atomisp/pci/isp/kernels/output/output_1.0/ia_css_output.host.c b/drivers/staging/media/atomisp/pci/isp/kernels/output/output_1.0/ia_css_output.host.c
+index c8e074f42353..cf6311ebbeab 100644
+--- a/drivers/staging/media/atomisp/pci/isp/kernels/output/output_1.0/ia_css_output.host.c
++++ b/drivers/staging/media/atomisp/pci/isp/kernels/output/output_1.0/ia_css_output.host.c
+@@ -91,10 +91,8 @@ ia_css_output1_config(
+ 	    to, (const struct ia_css_output_configuration *)from, size);
+ }
  
 -void
--ia_css_configure_output0(
--    const struct ia_css_binary *binary,
--    const struct ia_css_output0_configuration *config_dmem)
-+	offset = binary->info->mem_offsets.offsets.config->dmem.fpn.offset;
-+	ia_css_fpn_config((struct sh_css_isp_fpn_isp_config *)
-+			  &binary->mem_params.params[IA_CSS_PARAM_CLASS_CONFIG][IA_CSS_ISP_DMEM].address[offset],
-+			  config_dmem, size);
-+	return 0;
-+}
-+
-+int ia_css_configure_dvs(const struct ia_css_binary *binary,
-+			 const struct ia_css_dvs_configuration *config_dmem)
+-ia_css_output_configure(
+-    const struct ia_css_binary     *binary,
+-    const struct ia_css_frame_info *info)
++int ia_css_output_configure(const struct ia_css_binary     *binary,
++			    const struct ia_css_frame_info *info)
  {
--	ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE_PRIVATE,
--			    "ia_css_configure_output0() enter:\n");
--
--	{
--		unsigned int offset = 0;
--		unsigned int size   = 0;
--
--		if (binary->info->mem_offsets.offsets.config) {
--			size   = binary->info->mem_offsets.offsets.config->dmem.output0.size;
--			offset = binary->info->mem_offsets.offsets.config->dmem.output0.offset;
--		}
--		if (size) {
--			ia_css_output0_config((struct sh_css_isp_output_isp_config *)
--					      &binary->mem_params.params[IA_CSS_PARAM_CLASS_CONFIG][IA_CSS_ISP_DMEM].address[offset],
--					      config_dmem, size);
--		}
--	}
--	ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE_PRIVATE,
--			    "ia_css_configure_output0() leave:\n");
-+	unsigned int offset = 0;
-+	unsigned int size   = 0;
-+
-+	ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE_PRIVATE, "%s:\n", __func__);
-+
-+	if (!binary->info->mem_offsets.offsets.config)
-+		return 0;
-+
-+	size = binary->info->mem_offsets.offsets.config->dmem.dvs.size;
-+	if (!size)
-+		return 0;
-+
-+	offset = binary->info->mem_offsets.offsets.config->dmem.dvs.offset;
-+	ia_css_dvs_config((struct sh_css_isp_dvs_isp_config *)
-+			  &binary->mem_params.params[IA_CSS_PARAM_CLASS_CONFIG][IA_CSS_ISP_DMEM].address[offset],
-+			  config_dmem, size);
+ 	if (info) {
+ 		struct ia_css_output_configuration config =
+@@ -102,14 +100,13 @@ ia_css_output_configure(
+ 
+ 		config.info = info;
+ 
+-		ia_css_configure_output(binary, &config);
++		return ia_css_configure_output(binary, &config);
+ 	}
 +	return 0;
  }
  
--/* Code generated by genparam/genconfig.c:gen_configure_function() */
-+int ia_css_configure_qplane(const struct ia_css_binary *binary,
-+			    const struct ia_css_qplane_configuration *config_dmem)
+-void
+-ia_css_output0_configure(
+-    const struct ia_css_binary     *binary,
+-    const struct ia_css_frame_info *info)
++int ia_css_output0_configure(const struct ia_css_binary    *binary,
++			    const struct ia_css_frame_info *info)
+ {
+ 	if (info) {
+ 		struct ia_css_output0_configuration config =
+@@ -117,14 +114,13 @@ ia_css_output0_configure(
+ 
+ 		config.info = info;
+ 
+-		ia_css_configure_output0(binary, &config);
++		return ia_css_configure_output0(binary, &config);
+ 	}
++	return 0;
+ }
+ 
+-void
+-ia_css_output1_configure(
+-    const struct ia_css_binary     *binary,
+-    const struct ia_css_frame_info *info)
++int ia_css_output1_configure(const struct ia_css_binary     *binary,
++			     const struct ia_css_frame_info *info)
+ {
+ 	if (info) {
+ 		struct ia_css_output1_configuration config =
+@@ -132,8 +128,9 @@ ia_css_output1_configure(
+ 
+ 		config.info = info;
+ 
+-		ia_css_configure_output1(binary, &config);
++		return ia_css_configure_output1(binary, &config);
+ 	}
++	return 0;
+ }
+ 
+ void
+diff --git a/drivers/staging/media/atomisp/pci/isp/kernels/output/output_1.0/ia_css_output.host.h b/drivers/staging/media/atomisp/pci/isp/kernels/output/output_1.0/ia_css_output.host.h
+index 1f5a2242640e..04c0023794cc 100644
+--- a/drivers/staging/media/atomisp/pci/isp/kernels/output/output_1.0/ia_css_output.host.h
++++ b/drivers/staging/media/atomisp/pci/isp/kernels/output/output_1.0/ia_css_output.host.h
+@@ -48,20 +48,14 @@ ia_css_output1_config(
+     const struct ia_css_output1_configuration *from,
+     unsigned int size);
+ 
+-void
+-ia_css_output_configure(
+-    const struct ia_css_binary     *binary,
+-    const struct ia_css_frame_info *from);
++int ia_css_output_configure(const struct ia_css_binary     *binary,
++			    const struct ia_css_frame_info *from);
+ 
+-void
+-ia_css_output0_configure(
+-    const struct ia_css_binary     *binary,
+-    const struct ia_css_frame_info *from);
++int ia_css_output0_configure(const struct ia_css_binary     *binary,
++			     const struct ia_css_frame_info *from);
+ 
+-void
+-ia_css_output1_configure(
+-    const struct ia_css_binary     *binary,
+-    const struct ia_css_frame_info *from);
++int ia_css_output1_configure(const struct ia_css_binary     *binary,
++			     const struct ia_css_frame_info *from);
+ 
+ void
+ ia_css_output_dump(
+diff --git a/drivers/staging/media/atomisp/pci/isp/kernels/qplane/qplane_2/ia_css_qplane.host.c b/drivers/staging/media/atomisp/pci/isp/kernels/qplane/qplane_2/ia_css_qplane.host.c
+index 1603fd44ece3..7858dc573980 100644
+--- a/drivers/staging/media/atomisp/pci/isp/kernels/qplane/qplane_2/ia_css_qplane.host.c
++++ b/drivers/staging/media/atomisp/pci/isp/kernels/qplane/qplane_2/ia_css_qplane.host.c
+@@ -47,16 +47,14 @@ ia_css_qplane_config(
+ 	to->format = from->info->format;
+ }
+ 
+-void
+-ia_css_qplane_configure(
+-    const struct sh_css_sp_pipeline *pipe,
+-    const struct ia_css_binary      *binary,
+-    const struct ia_css_frame_info  *info)
++int ia_css_qplane_configure(const struct sh_css_sp_pipeline *pipe,
++			    const struct ia_css_binary      *binary,
++			    const struct ia_css_frame_info  *info)
+ {
+ 	struct ia_css_qplane_configuration config = default_config;
+ 
+ 	config.pipe = pipe;
+ 	config.info = info;
+ 
+-	ia_css_configure_qplane(binary, &config);
++	return ia_css_configure_qplane(binary, &config);
+ }
+diff --git a/drivers/staging/media/atomisp/pci/isp/kernels/qplane/qplane_2/ia_css_qplane.host.h b/drivers/staging/media/atomisp/pci/isp/kernels/qplane/qplane_2/ia_css_qplane.host.h
+index 8d940959f40a..c4b863dc1498 100644
+--- a/drivers/staging/media/atomisp/pci/isp/kernels/qplane/qplane_2/ia_css_qplane.host.h
++++ b/drivers/staging/media/atomisp/pci/isp/kernels/qplane/qplane_2/ia_css_qplane.host.h
+@@ -35,10 +35,8 @@ ia_css_qplane_config(
+     const struct ia_css_qplane_configuration *from,
+     unsigned int size);
+ 
+-void
+-ia_css_qplane_configure(
+-    const struct sh_css_sp_pipeline *pipe,
+-    const struct ia_css_binary     *binary,
+-    const struct ia_css_frame_info *from);
++int ia_css_qplane_configure(const struct sh_css_sp_pipeline *pipe,
++			    const struct ia_css_binary      *binary,
++			    const struct ia_css_frame_info  *from);
+ 
+ #endif /* __IA_CSS_QPLANE_HOST_H */
+diff --git a/drivers/staging/media/atomisp/pci/isp/kernels/raw/raw_1.0/ia_css_raw.host.c b/drivers/staging/media/atomisp/pci/isp/kernels/raw/raw_1.0/ia_css_raw.host.c
+index f741beb9ed8a..b35d81ad1a38 100644
+--- a/drivers/staging/media/atomisp/pci/isp/kernels/raw/raw_1.0/ia_css_raw.host.c
++++ b/drivers/staging/media/atomisp/pci/isp/kernels/raw/raw_1.0/ia_css_raw.host.c
+@@ -106,14 +106,12 @@ ia_css_raw_config(
+ #endif
+ }
+ 
+-void
+-ia_css_raw_configure(
+-    const struct sh_css_sp_pipeline *pipe,
+-    const struct ia_css_binary      *binary,
+-    const struct ia_css_frame_info  *in_info,
+-    const struct ia_css_frame_info  *internal_info,
+-    bool two_ppc,
+-    bool deinterleaved)
++int ia_css_raw_configure(const struct sh_css_sp_pipeline *pipe,
++			 const struct ia_css_binary      *binary,
++			 const struct ia_css_frame_info  *in_info,
++			 const struct ia_css_frame_info  *internal_info,
++			 bool two_ppc,
++			 bool deinterleaved)
+ {
+ 	u8 enable_left_padding = (uint8_t)((binary->left_padding) ? 1 : 0);
+ 	struct ia_css_raw_configuration config = default_config;
+@@ -126,5 +124,5 @@ ia_css_raw_configure(
+ 	config.deinterleaved       = deinterleaved;
+ 	config.enable_left_padding = enable_left_padding;
+ 
+-	ia_css_configure_raw(binary, &config);
++	return ia_css_configure_raw(binary, &config);
+ }
+diff --git a/drivers/staging/media/atomisp/pci/isp/kernels/raw/raw_1.0/ia_css_raw.host.h b/drivers/staging/media/atomisp/pci/isp/kernels/raw/raw_1.0/ia_css_raw.host.h
+index 346928435a8b..33374ac9db99 100644
+--- a/drivers/staging/media/atomisp/pci/isp/kernels/raw/raw_1.0/ia_css_raw.host.h
++++ b/drivers/staging/media/atomisp/pci/isp/kernels/raw/raw_1.0/ia_css_raw.host.h
+@@ -27,13 +27,11 @@ ia_css_raw_config(
+     const struct ia_css_raw_configuration *from,
+     unsigned int size);
+ 
+-void
+-ia_css_raw_configure(
+-    const struct sh_css_sp_pipeline *pipe,
+-    const struct ia_css_binary     *binary,
+-    const struct ia_css_frame_info *in_info,
+-    const struct ia_css_frame_info *internal_info,
+-    bool two_ppc,
+-    bool deinterleaved);
++int ia_css_raw_configure(const struct sh_css_sp_pipeline *pipe,
++			 const struct ia_css_binary     *binary,
++			 const struct ia_css_frame_info *in_info,
++			 const struct ia_css_frame_info *internal_info,
++			 bool two_ppc,
++			 bool deinterleaved);
+ 
+ #endif /* __IA_CSS_RAW_HOST_H */
+diff --git a/drivers/staging/media/atomisp/pci/isp/kernels/ref/ref_1.0/ia_css_ref.host.c b/drivers/staging/media/atomisp/pci/isp/kernels/ref/ref_1.0/ia_css_ref.host.c
+index 061558fbe329..f5b0e333d554 100644
+--- a/drivers/staging/media/atomisp/pci/isp/kernels/ref/ref_1.0/ia_css_ref.host.c
++++ b/drivers/staging/media/atomisp/pci/isp/kernels/ref/ref_1.0/ia_css_ref.host.c
+@@ -55,19 +55,19 @@ ia_css_ref_config(
+ 	assert(elems_a % to->port_b.elems == 0);
+ }
+ 
+-void
+-ia_css_ref_configure(
+-    const struct ia_css_binary     *binary,
+-    const struct ia_css_frame * const *ref_frames,
+-    const uint32_t dvs_frame_delay)
++int ia_css_ref_configure(const struct ia_css_binary        *binary,
++			 const struct ia_css_frame * const *ref_frames,
++			 const uint32_t dvs_frame_delay)
+ {
+ 	struct ia_css_ref_configuration config;
+ 	unsigned int i;
+ 
+ 	for (i = 0; i < MAX_NUM_VIDEO_DELAY_FRAMES; i++)
+ 		config.ref_frames[i] = ref_frames[i];
++
+ 	config.dvs_frame_delay = dvs_frame_delay;
+-	ia_css_configure_ref(binary, &config);
++
++	return ia_css_configure_ref(binary, &config);
+ }
+ 
+ void
+diff --git a/drivers/staging/media/atomisp/pci/isp/kernels/ref/ref_1.0/ia_css_ref.host.h b/drivers/staging/media/atomisp/pci/isp/kernels/ref/ref_1.0/ia_css_ref.host.h
+index 3ce590b436a1..c407d471c7a0 100644
+--- a/drivers/staging/media/atomisp/pci/isp/kernels/ref/ref_1.0/ia_css_ref.host.h
++++ b/drivers/staging/media/atomisp/pci/isp/kernels/ref/ref_1.0/ia_css_ref.host.h
+@@ -29,11 +29,9 @@ ia_css_ref_config(
+     const struct ia_css_ref_configuration *from,
+     unsigned int size);
+ 
+-void
+-ia_css_ref_configure(
+-    const struct ia_css_binary     *binary,
+-    const struct ia_css_frame * const *ref_frames,
+-    const uint32_t dvs_frame_delay);
++int ia_css_ref_configure(const struct ia_css_binary        *binary,
++			 const struct ia_css_frame * const *ref_frames,
++			 const uint32_t                    dvs_frame_delay);
+ 
+ void
+ ia_css_init_ref_state(
+diff --git a/drivers/staging/media/atomisp/pci/isp/kernels/tnr/tnr_1.0/ia_css_tnr.host.c b/drivers/staging/media/atomisp/pci/isp/kernels/tnr/tnr_1.0/ia_css_tnr.host.c
+index ac80e6c6e67e..170bd70b6e24 100644
+--- a/drivers/staging/media/atomisp/pci/isp/kernels/tnr/tnr_1.0/ia_css_tnr.host.c
++++ b/drivers/staging/media/atomisp/pci/isp/kernels/tnr/tnr_1.0/ia_css_tnr.host.c
+@@ -93,10 +93,8 @@ ia_css_tnr_config(
+ 	assert(elems_a % to->port_b.elems == 0);
+ }
+ 
+-void
+-ia_css_tnr_configure(
+-    const struct ia_css_binary     *binary,
+-    const struct ia_css_frame * const *frames)
++int ia_css_tnr_configure(const struct ia_css_binary     *binary,
++			 const struct ia_css_frame * const *frames)
+ {
+ 	struct ia_css_tnr_configuration config;
+ 	unsigned int i;
+@@ -104,7 +102,7 @@ ia_css_tnr_configure(
+ 	for (i = 0; i < NUM_TNR_FRAMES; i++)
+ 		config.tnr_frames[i] = frames[i];
+ 
+-	ia_css_configure_tnr(binary, &config);
++	return ia_css_configure_tnr(binary, &config);
+ }
+ 
+ void
+diff --git a/drivers/staging/media/atomisp/pci/isp/kernels/tnr/tnr_1.0/ia_css_tnr.host.h b/drivers/staging/media/atomisp/pci/isp/kernels/tnr/tnr_1.0/ia_css_tnr.host.h
+index 90d6e6b44a8d..1c421c6a8512 100644
+--- a/drivers/staging/media/atomisp/pci/isp/kernels/tnr/tnr_1.0/ia_css_tnr.host.h
++++ b/drivers/staging/media/atomisp/pci/isp/kernels/tnr/tnr_1.0/ia_css_tnr.host.h
+@@ -45,10 +45,8 @@ ia_css_tnr_config(
+     const struct ia_css_tnr_configuration *from,
+     unsigned int size);
+ 
+-void
+-ia_css_tnr_configure(
+-    const struct ia_css_binary     *binary,
+-    const struct ia_css_frame * const *frames);
++int ia_css_tnr_configure(const struct ia_css_binary        *binary,
++			 const struct ia_css_frame * const *frames);
+ 
+ void
+ ia_css_init_tnr_state(
+diff --git a/drivers/staging/media/atomisp/pci/isp/kernels/vf/vf_1.0/ia_css_vf.host.c b/drivers/staging/media/atomisp/pci/isp/kernels/vf/vf_1.0/ia_css_vf.host.c
+index dd3670972936..a0926d05f1e1 100644
+--- a/drivers/staging/media/atomisp/pci/isp/kernels/vf/vf_1.0/ia_css_vf.host.c
++++ b/drivers/staging/media/atomisp/pci/isp/kernels/vf/vf_1.0/ia_css_vf.host.c
+@@ -120,12 +120,11 @@ configure_dma(
+ 	config->info = vf_info;
+ }
+ 
+-int
+-ia_css_vf_configure(
+-    const struct ia_css_binary *binary,
+-    const struct ia_css_frame_info *out_info,
+-    struct ia_css_frame_info *vf_info,
+-    unsigned int *downscale_log2) {
++int ia_css_vf_configure(const struct ia_css_binary *binary,
++		        const struct ia_css_frame_info *out_info,
++			struct ia_css_frame_info *vf_info,
++			unsigned int *downscale_log2)
 +{
-+	unsigned int offset = 0;
-+	unsigned int size   = 0;
-+
-+	ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE_PRIVATE, "%s:\n", __func__);
-+
-+	if (!binary->info->mem_offsets.offsets.config)
-+		return 0;
-+
-+	size = binary->info->mem_offsets.offsets.config->dmem.qplane.size;
-+	if (!size)
-+		return 0;
+ 	int err;
+ 	struct ia_css_vf_configuration config;
+ 	const struct ia_css_binary_info *info = &binary->info->sp;
+@@ -138,7 +137,6 @@ ia_css_vf_configure(
  
--void
--ia_css_configure_output1(
--    const struct ia_css_binary *binary,
--    const struct ia_css_output1_configuration *config_dmem)
-+	offset = binary->info->mem_offsets.offsets.config->dmem.qplane.offset;
-+	ia_css_qplane_config((struct sh_css_isp_qplane_isp_config *)
-+			     &binary->mem_params.params[IA_CSS_PARAM_CLASS_CONFIG][IA_CSS_ISP_DMEM].address[offset],
-+			     config_dmem, size);
-+
-+	return 0;
-+}
-+
-+int ia_css_configure_output0(const struct ia_css_binary *binary,
-+			     const struct ia_css_output0_configuration *config_dmem)
- {
--	ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE_PRIVATE,
--			    "ia_css_configure_output1() enter:\n");
--
--	{
--		unsigned int offset = 0;
--		unsigned int size   = 0;
--
--		if (binary->info->mem_offsets.offsets.config) {
--			size   = binary->info->mem_offsets.offsets.config->dmem.output1.size;
--			offset = binary->info->mem_offsets.offsets.config->dmem.output1.offset;
--		}
--		if (size) {
--			ia_css_output1_config((struct sh_css_isp_output_isp_config *)
--					      &binary->mem_params.params[IA_CSS_PARAM_CLASS_CONFIG][IA_CSS_ISP_DMEM].address[offset],
--					      config_dmem, size);
--		}
--	}
--	ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE_PRIVATE,
--			    "ia_css_configure_output1() leave:\n");
-+	unsigned int offset = 0;
-+	unsigned int size   = 0;
-+
-+	ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE_PRIVATE, "%s:\n", __func__);
-+
-+	if (!binary->info->mem_offsets.offsets.config)
-+		return 0;
-+
-+	size = binary->info->mem_offsets.offsets.config->dmem.output0.size;
-+	if (!size)
-+		return 0;
-+
-+	offset = binary->info->mem_offsets.offsets.config->dmem.output0.offset;
-+
-+	ia_css_output0_config((struct sh_css_isp_output_isp_config *)
-+			      &binary->mem_params.params[IA_CSS_PARAM_CLASS_CONFIG][IA_CSS_ISP_DMEM].address[offset],
-+			      config_dmem, size);
-+	return 0;
+ 	if (vf_info)
+ 		vf_info->raw_bit_depth = info->dma.vfdec_bits_per_pixel;
+-	ia_css_configure_vf(binary, &config);
+ 
+-	return 0;
++	return ia_css_configure_vf(binary, &config);
  }
- 
--/* Code generated by genparam/genconfig.c:gen_configure_function() */
-+int ia_css_configure_output1(const struct ia_css_binary *binary,
-+			     const struct ia_css_output1_configuration *config_dmem)
-+{
-+	unsigned int offset = 0;
-+	unsigned int size   = 0;
-+
-+	ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE_PRIVATE, "%s:\n", __func__);
-+
-+	if (!binary->info->mem_offsets.offsets.config)
-+		return 0;
-+
-+	size = binary->info->mem_offsets.offsets.config->dmem.output1.size;
-+	if (!size)
-+		return 0;
-+
-+	offset = binary->info->mem_offsets.offsets.config->dmem.output1.offset;
-+
-+	ia_css_output1_config((struct sh_css_isp_output_isp_config *)
-+			      &binary->mem_params.params[IA_CSS_PARAM_CLASS_CONFIG][IA_CSS_ISP_DMEM].address[offset],
-+			      config_dmem, size);
-+	return 0;
-+}
- 
--void
--ia_css_configure_output(
--    const struct ia_css_binary *binary,
--    const struct ia_css_output_configuration *config_dmem)
-+int ia_css_configure_output(const struct ia_css_binary *binary,
-+			    const struct ia_css_output_configuration *config_dmem)
- {
--	ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE_PRIVATE,
--			    "ia_css_configure_output() enter:\n");
--
--	{
--		unsigned int offset = 0;
--		unsigned int size   = 0;
--
--		if (binary->info->mem_offsets.offsets.config) {
--			size   = binary->info->mem_offsets.offsets.config->dmem.output.size;
--			offset = binary->info->mem_offsets.offsets.config->dmem.output.offset;
--		}
--		if (size) {
--			ia_css_output_config((struct sh_css_isp_output_isp_config *)
--					     &binary->mem_params.params[IA_CSS_PARAM_CLASS_CONFIG][IA_CSS_ISP_DMEM].address[offset],
-+	unsigned int offset = 0;
-+	unsigned int size   = 0;
-+
-+	ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE_PRIVATE, "%s:\n", __func__);
-+
-+	if (!binary->info->mem_offsets.offsets.config)
-+		return 0;
-+
-+	size = binary->info->mem_offsets.offsets.config->dmem.output.size;
-+	if (!size)
-+		return 0;
-+
-+	offset = binary->info->mem_offsets.offsets.config->dmem.output.offset;
-+
-+	ia_css_output_config((struct sh_css_isp_output_isp_config *)
-+			     &binary->mem_params.params[IA_CSS_PARAM_CLASS_CONFIG][IA_CSS_ISP_DMEM].address[offset],
- 					     config_dmem, size);
--		}
--	}
--	ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE_PRIVATE,
--			    "ia_css_configure_output() leave:\n");
-+	return 0;
- }
- 
--/* Code generated by genparam/genconfig.c:gen_configure_function() */
--
--void
--ia_css_configure_raw(
--    const struct ia_css_binary *binary,
--    const struct ia_css_raw_configuration *config_dmem)
-+int ia_css_configure_raw(const struct ia_css_binary *binary,
-+			 const struct ia_css_raw_configuration *config_dmem)
- {
--	ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE_PRIVATE,
--			    "ia_css_configure_raw() enter:\n");
--
--	{
--		unsigned int offset = 0;
--		unsigned int size   = 0;
--
--		if (binary->info->mem_offsets.offsets.config) {
--			size   = binary->info->mem_offsets.offsets.config->dmem.raw.size;
--			offset = binary->info->mem_offsets.offsets.config->dmem.raw.offset;
--		}
--		if (size) {
--			ia_css_raw_config((struct sh_css_isp_raw_isp_config *)
--					  &binary->mem_params.params[IA_CSS_PARAM_CLASS_CONFIG][IA_CSS_ISP_DMEM].address[offset],
--					  config_dmem, size);
--		}
--	}
--	ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE_PRIVATE,
--			    "ia_css_configure_raw() leave:\n");
--}
-+	unsigned int offset = 0;
-+	unsigned int size   = 0;
- 
--/* Code generated by genparam/genconfig.c:gen_configure_function() */
-+	ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE_PRIVATE, "%s:\n", __func__);
- 
--void
--ia_css_configure_tnr(
--    const struct ia_css_binary *binary,
--    const struct ia_css_tnr_configuration *config_dmem)
--{
--	ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE_PRIVATE,
--			    "ia_css_configure_tnr() enter:\n");
--
--	{
--		unsigned int offset = 0;
--		unsigned int size   = 0;
--
--		if (binary->info->mem_offsets.offsets.config) {
--			size   = binary->info->mem_offsets.offsets.config->dmem.tnr.size;
--			offset = binary->info->mem_offsets.offsets.config->dmem.tnr.offset;
--		}
--		if (size) {
--			ia_css_tnr_config((struct sh_css_isp_tnr_isp_config *)
--					  &binary->mem_params.params[IA_CSS_PARAM_CLASS_CONFIG][IA_CSS_ISP_DMEM].address[offset],
--					  config_dmem, size);
--		}
--	}
--	ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE_PRIVATE,
--			    "ia_css_configure_tnr() leave:\n");
--}
-+	if (!binary->info->mem_offsets.offsets.config)
-+		return 0;
- 
--/* Code generated by genparam/genconfig.c:gen_configure_function() */
-+	size = binary->info->mem_offsets.offsets.config->dmem.raw.size;
-+	if (!size)
-+		return 0;
-+
-+	offset = binary->info->mem_offsets.offsets.config->dmem.raw.offset;
-+
-+	ia_css_raw_config((struct sh_css_isp_raw_isp_config *)
-+			  &binary->mem_params.params[IA_CSS_PARAM_CLASS_CONFIG][IA_CSS_ISP_DMEM].address[offset],
-+			  config_dmem, size);
-+	return 0;
-+}
- 
--void
--ia_css_configure_ref(
--    const struct ia_css_binary *binary,
--    const struct ia_css_ref_configuration *config_dmem)
-+int ia_css_configure_tnr(const struct ia_css_binary *binary,
-+			 const struct ia_css_tnr_configuration *config_dmem)
- {
--	ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE_PRIVATE,
--			    "ia_css_configure_ref() enter:\n");
--
--	{
--		unsigned int offset = 0;
--		unsigned int size   = 0;
--
--		if (binary->info->mem_offsets.offsets.config) {
--			size   = binary->info->mem_offsets.offsets.config->dmem.ref.size;
--			offset = binary->info->mem_offsets.offsets.config->dmem.ref.offset;
--		}
--		if (size) {
--			ia_css_ref_config((struct sh_css_isp_ref_isp_config *)
--					  &binary->mem_params.params[IA_CSS_PARAM_CLASS_CONFIG][IA_CSS_ISP_DMEM].address[offset],
--					  config_dmem, size);
--		}
--	}
--	ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE_PRIVATE,
--			    "ia_css_configure_ref() leave:\n");
-+	unsigned int offset = 0;
-+	unsigned int size   = 0;
-+
-+	ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE_PRIVATE, "%s:\n", __func__);
-+
-+	if (!binary->info->mem_offsets.offsets.config)
-+		return 0;
-+
-+	size = binary->info->mem_offsets.offsets.config->dmem.tnr.size;
-+	if (!size)
-+		return 0;
-+
-+	offset = binary->info->mem_offsets.offsets.config->dmem.tnr.offset;
-+
-+	ia_css_tnr_config((struct sh_css_isp_tnr_isp_config *)
-+			  &binary->mem_params.params[IA_CSS_PARAM_CLASS_CONFIG][IA_CSS_ISP_DMEM].address[offset],
-+			  config_dmem, size);
-+	return 0;
- }
- 
--/* Code generated by genparam/genconfig.c:gen_configure_function() */
-+int ia_css_configure_ref(const struct ia_css_binary *binary,
-+			 const struct ia_css_ref_configuration *config_dmem)
-+{
-+	unsigned int offset = 0;
-+	unsigned int size   = 0;
- 
--void
--ia_css_configure_vf(
--    const struct ia_css_binary *binary,
--    const struct ia_css_vf_configuration *config_dmem)
-+	ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE_PRIVATE, "%s:\n", __func__);
-+
-+	if (!binary->info->mem_offsets.offsets.config)
-+		return 0;
-+
-+	size = binary->info->mem_offsets.offsets.config->dmem.ref.size;
-+	if (!size)
-+		return 0;
-+
-+	offset = binary->info->mem_offsets.offsets.config->dmem.ref.offset;
-+
-+	ia_css_ref_config((struct sh_css_isp_ref_isp_config *)
-+			  &binary->mem_params.params[IA_CSS_PARAM_CLASS_CONFIG][IA_CSS_ISP_DMEM].address[offset],
-+			  config_dmem, size);
-+	return 0;
-+}
-+
-+int ia_css_configure_vf(const struct ia_css_binary *binary,
-+			const struct ia_css_vf_configuration *config_dmem)
- {
--	ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE_PRIVATE,
--			    "ia_css_configure_vf() enter:\n");
--
--	{
--		unsigned int offset = 0;
--		unsigned int size   = 0;
--
--		if (binary->info->mem_offsets.offsets.config) {
--			size   = binary->info->mem_offsets.offsets.config->dmem.vf.size;
--			offset = binary->info->mem_offsets.offsets.config->dmem.vf.offset;
--		}
--		if (size) {
--			ia_css_vf_config((struct sh_css_isp_vf_isp_config *)
--					 &binary->mem_params.params[IA_CSS_PARAM_CLASS_CONFIG][IA_CSS_ISP_DMEM].address[offset],
--					 config_dmem, size);
--		}
--	}
--	ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE_PRIVATE,
--			    "ia_css_configure_vf() leave:\n");
-+	unsigned int offset = 0;
-+	unsigned int size   = 0;
-+
-+	ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE_PRIVATE, "%s:\n", __func__);
-+
-+	if (!binary->info->mem_offsets.offsets.config)
-+		return 0;
-+
-+	size = binary->info->mem_offsets.offsets.config->dmem.vf.size;
-+	if (!size)
-+		return 0;
-+
-+	offset = binary->info->mem_offsets.offsets.config->dmem.vf.offset;
-+
-+	ia_css_vf_config((struct sh_css_isp_vf_isp_config *)
-+			 &binary->mem_params.params[IA_CSS_PARAM_CLASS_CONFIG][IA_CSS_ISP_DMEM].address[offset],
-+			 config_dmem, size);
-+	return 0;
- }
-diff --git a/drivers/staging/media/atomisp/pci/ia_css_isp_configs.h b/drivers/staging/media/atomisp/pci/ia_css_isp_configs.h
-index 0364b932e79b..fffcfc871bd2 100644
---- a/drivers/staging/media/atomisp/pci/ia_css_isp_configs.h
-+++ b/drivers/staging/media/atomisp/pci/ia_css_isp_configs.h
-@@ -27,14 +27,11 @@
- #include "isp/kernels/vf/vf_1.0/ia_css_vf.host.h"
- #include "isp/kernels/iterator/iterator_1.0/ia_css_iterator.host.h"
- #include "isp/kernels/copy_output/copy_output_1.0/ia_css_copy_output.host.h"
--#endif /* IA_CSS_INCLUDE_CONFIGURATIONS */
--/* Generated code: do not edit or commmit. */
-+#endif
- 
- #ifndef _IA_CSS_ISP_CONFIG_H
- #define _IA_CSS_ISP_CONFIG_H
- 
--/* Code generated by genparam/gencode.c:gen_param_enum() */
--
- enum ia_css_configuration_ids {
- 	IA_CSS_ITERATOR_CONFIG_ID,
- 	IA_CSS_COPY_OUTPUT_CONFIG_ID,
-@@ -56,8 +53,6 @@ enum ia_css_configuration_ids {
- 	IA_CSS_NUM_CONFIGURATION_IDS
- };
- 
--/* Code generated by genparam/gencode.c:gen_param_offsets() */
--
- struct ia_css_config_memory_offsets {
- 	struct {
- 		struct ia_css_isp_parameter iterator;
-@@ -80,96 +75,44 @@ struct ia_css_config_memory_offsets {
- 
- #include "ia_css_stream.h"   /* struct ia_css_stream */
- #include "ia_css_binary.h"   /* struct ia_css_binary */
--/* Code generated by genparam/genconfig.c:gen_configure_function() */
- 
--void
--ia_css_configure_iterator(
--    const struct ia_css_binary *binary,
--    const struct ia_css_iterator_configuration *config_dmem);
-+int ia_css_configure_iterator(const struct ia_css_binary *binary,
-+			      const struct ia_css_iterator_configuration *config_dmem);
- 
--/* Code generated by genparam/genconfig.c:gen_configure_function() */
-+int ia_css_configure_copy_output(const struct ia_css_binary *binary,
-+				 const struct ia_css_copy_output_configuration *config_dmem);
- 
--void
--ia_css_configure_copy_output(
--    const struct ia_css_binary *binary,
--    const struct ia_css_copy_output_configuration *config_dmem);
-+int ia_css_configure_crop(const struct ia_css_binary *binary,
-+			  const struct ia_css_crop_configuration *config_dmem);
- 
--/* Code generated by genparam/genconfig.c:gen_configure_function() */
-+int ia_css_configure_fpn(const struct ia_css_binary *binary,
-+			 const struct ia_css_fpn_configuration *config_dmem);
- 
--void
--ia_css_configure_crop(
--    const struct ia_css_binary *binary,
--    const struct ia_css_crop_configuration *config_dmem);
-+int ia_css_configure_dvs(const struct ia_css_binary *binary,
-+			 const struct ia_css_dvs_configuration *config_dmem);
- 
--/* Code generated by genparam/genconfig.c:gen_configure_function() */
-+int ia_css_configure_qplane(const struct ia_css_binary *binary,
-+			    const struct ia_css_qplane_configuration *config_dmem);
-+int ia_css_configure_output0(const struct ia_css_binary *binary,
-+			     const struct ia_css_output0_configuration *config_dmem);
- 
--void
--ia_css_configure_fpn(
--    const struct ia_css_binary *binary,
--    const struct ia_css_fpn_configuration *config_dmem);
-+int ia_css_configure_output1(const struct ia_css_binary *binary,
-+			     const struct ia_css_output1_configuration *config_dmem);
- 
--/* Code generated by genparam/genconfig.c:gen_configure_function() */
-+int ia_css_configure_output(const struct ia_css_binary *binary,
-+			    const struct ia_css_output_configuration *config_dmem);
- 
--void
--ia_css_configure_dvs(
--    const struct ia_css_binary *binary,
--    const struct ia_css_dvs_configuration *config_dmem);
-+int ia_css_configure_raw(const struct ia_css_binary *binary,
-+			 const struct ia_css_raw_configuration *config_dmem);
- 
--/* Code generated by genparam/genconfig.c:gen_configure_function() */
-+int ia_css_configure_tnr(const struct ia_css_binary *binary,
-+			 const struct ia_css_tnr_configuration *config_dmem);
- 
--void
--ia_css_configure_qplane(
--    const struct ia_css_binary *binary,
--    const struct ia_css_qplane_configuration *config_dmem);
-+int ia_css_configure_ref(const struct ia_css_binary *binary,
-+			 const struct ia_css_ref_configuration *config_dmem);
- 
--/* Code generated by genparam/genconfig.c:gen_configure_function() */
--
--void
--ia_css_configure_output0(
--    const struct ia_css_binary *binary,
--    const struct ia_css_output0_configuration *config_dmem);
--
--/* Code generated by genparam/genconfig.c:gen_configure_function() */
--
--void
--ia_css_configure_output1(
--    const struct ia_css_binary *binary,
--    const struct ia_css_output1_configuration *config_dmem);
--
--/* Code generated by genparam/genconfig.c:gen_configure_function() */
--
--void
--ia_css_configure_output(
--    const struct ia_css_binary *binary,
--    const struct ia_css_output_configuration *config_dmem);
--
--/* Code generated by genparam/genconfig.c:gen_configure_function() */
--
--void
--ia_css_configure_raw(
--    const struct ia_css_binary *binary,
--    const struct ia_css_raw_configuration *config_dmem);
--
--/* Code generated by genparam/genconfig.c:gen_configure_function() */
--
--void
--ia_css_configure_tnr(
--    const struct ia_css_binary *binary,
--    const struct ia_css_tnr_configuration *config_dmem);
--
--/* Code generated by genparam/genconfig.c:gen_configure_function() */
--
--void
--ia_css_configure_ref(
--    const struct ia_css_binary *binary,
--    const struct ia_css_ref_configuration *config_dmem);
--
--/* Code generated by genparam/genconfig.c:gen_configure_function() */
--
--void
--ia_css_configure_vf(
--    const struct ia_css_binary *binary,
--    const struct ia_css_vf_configuration *config_dmem);
-+int ia_css_configure_vf(const struct ia_css_binary *binary,
-+			const struct ia_css_vf_configuration *config_dmem);
- 
- #endif /* IA_CSS_INCLUDE_CONFIGURATION */
- 
 -- 
 2.31.1
 
