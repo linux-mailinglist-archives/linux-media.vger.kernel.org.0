@@ -2,101 +2,88 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D72D444669E
-	for <lists+linux-media@lfdr.de>; Fri,  5 Nov 2021 17:00:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DA16C446802
+	for <lists+linux-media@lfdr.de>; Fri,  5 Nov 2021 18:39:53 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233768AbhKEQC4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 5 Nov 2021 12:02:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48120 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233750AbhKEQCz (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 5 Nov 2021 12:02:55 -0400
-Received: from mail-pl1-x635.google.com (mail-pl1-x635.google.com [IPv6:2607:f8b0:4864:20::635])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 31400C061205
-        for <linux-media@vger.kernel.org>; Fri,  5 Nov 2021 09:00:16 -0700 (PDT)
-Received: by mail-pl1-x635.google.com with SMTP id u11so11371229plf.3
-        for <linux-media@vger.kernel.org>; Fri, 05 Nov 2021 09:00:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gateworks-com.20210112.gappssmtp.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=0q0PbXxyGkpQf/H/RJhsu5iylKKlnhe5mKg7WkVvJy4=;
-        b=o8eYMhHyMXOnUZYR0jwoCSnpbLURTgwXxB3rv9b8bREEUZJYXWDNMk9Bre+wtobT4N
-         CdVJa6I0XhKPhrWfCaBk9oq9IZ1ClU2ztH4B19hUwR3i4tGB8BLfLGe5qhATNbzP+Z+l
-         h7rbCsrCem7VmT2dNJ4k+7TUetDUSRtQxZa7svb9MirdDtKKxRArim0NRPY4DS/QR2BS
-         NRLDyIaHJrZDbLi/pbQ/VJc4jypfjor+FwWAaUwqI/4XThMioUW0AT+iUaNbyPqrg67x
-         hIqIly2v3WuZcWtvs5LkUgtpmavliZB8aUxCjadmHRB2quNcpSzKVoDLJIPDvXhf/gXG
-         fsNA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=0q0PbXxyGkpQf/H/RJhsu5iylKKlnhe5mKg7WkVvJy4=;
-        b=kmZXUgUO/vEb1xX6+i6As7Hr5uFBsMSg2z9lQ8DiVh7qNtuMy4fekV2f1Wv+h8fYhF
-         0j4/KwGX9fukBN3+X0uLjmpjeoXipmLStz9tNyleKCVBRLVTsoXJCFHYl5VauFXhcZmR
-         Al0YPsgOomRumQy+fyf/STPr2NALChD2UhCbJ3vrbEkIOlWbv5AG/BaoGWNSEsp6MsrH
-         icz8CSy4itrVwn6dn19QYaOY0TpI8EVm98/NwQhDH6las+sqPpvP+O+LLyCZDmAVzWH0
-         AikPZINb7LOd1joj8B7cdL/BM7nNQJHwWuntGDmdobunnMI8Jxy/CryBXI8prUyNAuyE
-         F1WQ==
-X-Gm-Message-State: AOAM531+yJNf8VectpYzaR1mTOGjE4aqWDmWUUs5MsMnLmRt7azkLF4h
-        sSn3xPRIJtEdjyoKR83T/mhskgKUMz2YQxB/V5Mxdw==
-X-Google-Smtp-Source: ABdhPJyVclGSPb40QIO1EB6ouONHYkOT6RnFDfjRKow9PAxjGmlGyIQZu71kdQrtQD6uU0RjmH7xH6oDOSoyo2Y0A3o=
-X-Received: by 2002:a17:90b:17cc:: with SMTP id me12mr11318480pjb.179.1636128015108;
- Fri, 05 Nov 2021 09:00:15 -0700 (PDT)
+        id S234168AbhKERmc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 5 Nov 2021 13:42:32 -0400
+Received: from mail.kernel.org ([198.145.29.99]:58270 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S232041AbhKERmb (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Fri, 5 Nov 2021 13:42:31 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 1EA0360F5A;
+        Fri,  5 Nov 2021 17:39:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1636133991;
+        bh=XrZbDCF6z0xo/uXRiBkJPgik1oScJ4FKVTH+l+tPXLI=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:From;
+        b=bg+IHkl6iuE2prqaM6ZoanveKoblpySeInH3DGASZ0ZSmsPae4/4XhL1LivF9QXza
+         2DBfsjbTTGr6wFM1/zXj7huhOt731bRE8z7/62hVW8LEVKTkfKrRxtbi5lNF/q5Mcr
+         le0rXNLJgd7s2CBfKm/OOi1ogNaEYeAYkBlZjN5s7VZ/kFz1X9MHY3anFGTqkuVqFX
+         Xk7IIr91QRqL4+mJ/hal9vpCIbx8ba3mjjMLkMXr7kETV2ouuhkknH806ZUc1CydMH
+         ZIF9zEDIpNVkQ3ed16V9Cs77VDu5mr1IfGorw055cO5oZWIcJyomNA81LF3A9C/DB7
+         eJ/6nxqRzrIFQ==
+Date:   Fri, 5 Nov 2021 12:39:49 -0500
+From:   Bjorn Helgaas <helgaas@kernel.org>
+To:     Dongdong Liu <liudongdong3@huawei.com>
+Cc:     hch@infradead.org, logang@deltatee.com, leon@kernel.org,
+        linux-pci@vger.kernel.org, rajur@chelsio.com,
+        hverkuil-cisco@xs4all.nl, linux-media@vger.kernel.org,
+        netdev@vger.kernel.org
+Subject: Re: [PATCH V11 7/8] PCI: Enable 10-Bit Tag support for PCIe Endpoint
+ device
+Message-ID: <20211105173949.GA932723@bhelgaas>
 MIME-Version: 1.0
-References: <20211023203457.1217821-1-aford173@gmail.com> <20211023203457.1217821-6-aford173@gmail.com>
- <YXn9aibI1C/+eP5L@pendragon.ideasonboard.com>
-In-Reply-To: <YXn9aibI1C/+eP5L@pendragon.ideasonboard.com>
-From:   Tim Harvey <tharvey@gateworks.com>
-Date:   Fri, 5 Nov 2021 09:00:03 -0700
-Message-ID: <CAJ+vNU3-81Jr_uWcpyCzMECD4ZS7TbDP6ugi02mEf3JMNvRp5Q@mail.gmail.com>
-Subject: Re: [RFC V2 5/5] arm64: dts: imx8mm-evk: Enable OV5640 Camera
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Adam Ford <aford173@gmail.com>,
-        Linux ARM Mailing List <linux-arm-kernel@lists.infradead.org>,
-        linux-media <linux-media@vger.kernel.org>,
-        cstevens@beaconembedded.com,
-        Adam Ford-BE <aford@beaconembedded.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>,
-        Device Tree Mailing List <devicetree@vger.kernel.org>,
-        open list <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <894a1e8f-cc08-2710-9f56-9dda14e2e617@huawei.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Oct 27, 2021 at 6:34 PM Laurent Pinchart
-<laurent.pinchart@ideasonboard.com> wrote:
->
-> Hi Adam,
->
-> Thank you for the patch.
->
-> On Sat, Oct 23, 2021 at 03:34:56PM -0500, Adam Ford wrote:
-> > The schematic shows support for a camera interface, and the NXP
-> > kernel shows it is an OV5640.
->
-> The camera is an external module though. Should this be a DT overlay ?
->
+On Fri, Nov 05, 2021 at 04:24:24PM +0800, Dongdong Liu wrote:
+> On 2021/11/4 0:02, Bjorn Helgaas wrote:
 
-Laurent,
+> > But it does remind me that if the RC doesn't support 10-bit tags, but
+> > we use sysfs to enable 10-bit tags for a reqester that intends to use
+> > P2PDMA to a peer that *does* support them, I don't think there's
+> > any check in the DMA API that prevents the driver from setting up DMA
+> > to the RC in addition to the peer.
+>
+> Current we use sysfs to enable/disable 10-bit tags for a requester also
+> depend on the RP support 10-bit tag completer, so it will be ok.
 
-I wanted to ask you about your comment here. I would agree that for
-something like the OV5640 on the imx8mm-evk which is an add-in board
-via a connector should be a dt overlay. I'm investigating using
-overlays for features like this on my boards vs creating hierarchical
-dts files and I see that the kernel allows building fragments with
-'/plugin/' but I don't see any such overlays in the kernel tree
-currently. Would overlay/fragments be accepted? Are there any examples
-in the kernel tree already that I'm missing?
+Ah, OK.  So we can never *enable* 10-bit tags unless the Root Port
+supports them.
 
-Best regards,
+I misunderstood the purpose of this file.  When the Root Port doesn't
+support 10-bit tags, we won't enable them during enumeration.  I
+though the point was that if we want to do P2PDMA to a peer that
+*does* support them, we could use this file to enable them.
 
-Tim
+But my understanding was wrong -- the real purpose of the file is to
+*disable* 10-bit tags for the case when a P2PDMA peer doesn't support
+them.
+
+It does support enabling 10-bit tags as well, but that's only because
+we need a way to get back to the default "enabled during enumeration"
+state without having to reboot.
+
+We might be able to highlight this a little more in the commit log.
+
+> > 10-bit tag support appeared in the spec four years ago (PCIe r4.0, in
+> > September, 2017).  Surely there is production hardware that supports
+> > this and could demonstrate a benefit from this.
+>
+> I found the below introduction about "Number of tags needed to achieve
+> maximum throughput for PCIe 4.0 and PCIe 5.0 links"
+> https://www.synopsys.com/designware-ip/technical-bulletin/accelerating-32gtps-pcie5-designs.html
+> 
+> It seems pretty clear.
+
+Yes, that's a start.  But we don't really need a white paper to tell
+us that more outstanding transactions is better.  That's obvious.  But
+this adds risk, and if we can't demonstrate a tangible, measurable
+benefit, there's no point in doing it.
+
+Bjorn
