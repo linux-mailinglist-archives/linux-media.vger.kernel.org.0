@@ -2,43 +2,41 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4CD67446817
-	for <lists+linux-media@lfdr.de>; Fri,  5 Nov 2021 18:48:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B0594446820
+	for <lists+linux-media@lfdr.de>; Fri,  5 Nov 2021 18:48:51 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234475AbhKERvA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 5 Nov 2021 13:51:00 -0400
-Received: from mail.kernel.org ([198.145.29.99]:35108 "EHLO mail.kernel.org"
+        id S234535AbhKERvM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 5 Nov 2021 13:51:12 -0400
+Received: from mail.kernel.org ([198.145.29.99]:35296 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S234178AbhKERu7 (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Fri, 5 Nov 2021 13:50:59 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 3052460F38;
-        Fri,  5 Nov 2021 17:48:19 +0000 (UTC)
+        id S234502AbhKERvE (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Fri, 5 Nov 2021 13:51:04 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id A839F6135A;
+        Fri,  5 Nov 2021 17:48:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1636134499;
-        bh=L6S2cQGzClE8BmoEqH/O6wQdEc/E3J7xkTpyT5f7WaE=;
+        s=k20201202; t=1636134504;
+        bh=MBSyznzJxYlCzNuzpArBH+PHGzgD6dYu4NqeRsxiHN0=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=rB/72AxScy0VYEM4BeT386rMtYmY0ZbLPNfCDCovTVIjtOt2s1PuJSWtQp3UZe9IN
-         w9/7X2BDlrB+dg7eU0Bf8xBft9vX1kJMg4j04GT/cufyI4BFiO8SI7JSW29jwYiWFa
-         zW0TR4xpowbsiJ53fPqeI8gkJtlmrqzTU4hUCzsUlTIcJMEJPUXEZi68YrUD3hxHeZ
-         VY16BknpWqr8tRD75X26TqQ3sXJJr9sqELVAijTLK28VLII+zYLclsfK88uF1LT6Dv
-         FZQZw4zdIKFzy3QtqG3wy0nR7VPOUWnur2CsO02qHlT6hCdViqy6JV2EZalWpxGbx8
-         N117JGo064fMw==
+        b=qNmN2vBw6r7h63ft7We1Q+WeLlTfqTPeaOo/9Yqq17S60w3uxvjUUP0kBjE+CR7CC
+         AMPuTWMzEfAIYfjqZo27yii/zewX9BRjXWeXLsrg3m++ooqA84UEzTZQVt2LZVyL8C
+         onmDW5aJ56SdeAG64JmkzJW4tzYQiXyBA2Y/7N3BRVcr0ZlGosaPaRYbvURbkLSP1w
+         khKlMGPsJcw1bC9cQ6RBNwDdfCXls2NSxSM8Rtx9IBH9Y7yKZSIaUdL0yRCSe+2t3i
+         ZLQKRG0lTqAmeijI/YNarcizO6qYdXs0npeZvr6XMKEZ/aA8bfzXLLvIPw6CLblQoG
+         9XPfB7ooG6I1g==
 Received: by mail.kernel.org with local (Exim 4.94.2)
         (envelope-from <mchehab@kernel.org>)
-        id 1mj3K4-007eNr-FR; Fri, 05 Nov 2021 17:48:16 +0000
+        id 1mj3K4-007eNu-GH; Fri, 05 Nov 2021 17:48:16 +0000
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 Cc:     linuxarm@huawei.com, mauro.chehab@huawei.com,
         Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Deepak R Varma <drv@mailo.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Tsuchiya Yuto <kitakar@gmail.com>,
         linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
         linux-staging@lists.linux.dev
-Subject: [PATCH 7/8] media: atomisp: add return codes for pipeline config functions
-Date:   Fri,  5 Nov 2021 17:48:14 +0000
-Message-Id: <4c53ca49a2787065e42c322865a9f0417b944b99.1636134411.git.mchehab+huawei@kernel.org>
+Subject: [PATCH 8/8] media: atomisp: return errors from ia_css_dma_configure_from_info()
+Date:   Fri,  5 Nov 2021 17:48:15 +0000
+Message-Id: <372257287956fa3f211580d0487058b5210ea189.1636134411.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <286ba3e4f25e9ba2ab78de4cbf010f18167b2604.1636134411.git.mchehab+huawei@kernel.org>
 References: <286ba3e4f25e9ba2ab78de4cbf010f18167b2604.1636134411.git.mchehab+huawei@kernel.org>
@@ -50,588 +48,335 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Those functions can internally break, but, as they don't return
-errors, internally there are some assert() calls, which is bad,
-as it hangs the driver.
-
-So, add return codes there, in preparation for removing such
-assert() calls.
+Now that the pipeline config functions can return errors, change
+ia_css_dma_configure_from_info() and callers in order for them
+to return errors at pipelines instead of using assert().
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- .../kernels/crop/crop_1.0/ia_css_crop.host.c  |  9 +++---
- .../kernels/crop/crop_1.0/ia_css_crop.host.h  |  8 ++---
- .../isp/kernels/fpn/fpn_1.0/ia_css_fpn.host.c |  9 +++---
- .../isp/kernels/fpn/fpn_1.0/ia_css_fpn.host.h |  8 ++---
- .../bayer_io_ls/ia_css_bayer_io.host.c        |  7 ++---
- .../bayer_io_ls/ia_css_bayer_io.host.h        |  6 ++--
- .../yuv444_io_ls/ia_css_yuv444_io.host.c      |  7 ++---
- .../yuv444_io_ls/ia_css_yuv444_io.host.h      |  6 ++--
- .../output/output_1.0/ia_css_output.host.c    | 31 +++++++------------
- .../output/output_1.0/ia_css_output.host.h    | 24 ++++++--------
- .../qplane/qplane_2/ia_css_qplane.host.c      |  9 +++---
- .../qplane/qplane_2/ia_css_qplane.host.h      |  8 ++---
- .../isp/kernels/raw/raw_1.0/ia_css_raw.host.c | 10 +++---
- .../isp/kernels/raw/raw_1.0/ia_css_raw.host.h |  8 ++---
- .../isp/kernels/ref/ref_1.0/ia_css_ref.host.c |  9 +++---
- .../isp/kernels/ref/ref_1.0/ia_css_ref.host.h |  8 ++---
- .../isp/kernels/tnr/tnr_1.0/ia_css_tnr.host.c |  9 +++---
- .../isp/kernels/tnr/tnr_1.0/ia_css_tnr.host.h |  8 ++---
- .../isp/kernels/vf/vf_1.0/ia_css_vf.host.c    |  9 +++---
- .../isp/kernels/vf/vf_1.0/ia_css_vf.host.h    |  8 ++---
- .../runtime/frame/interface/ia_css_frame.h    |  5 ++-
- .../atomisp/pci/runtime/frame/src/frame.c     |  7 ++---
- drivers/staging/media/atomisp/pci/sh_css_sp.c |  3 +-
- 23 files changed, 87 insertions(+), 129 deletions(-)
+ .../pci/isp/kernels/crop/crop_1.0/ia_css_crop.host.c  | 11 ++++++++---
+ .../pci/isp/kernels/fpn/fpn_1.0/ia_css_fpn.host.c     | 11 ++++++++---
+ .../ipu2_io_ls/bayer_io_ls/ia_css_bayer_io.host.c     |  9 +++++++--
+ .../ipu2_io_ls/yuv444_io_ls/ia_css_yuv444_io.host.c   | 11 +++++++++--
+ .../kernels/output/output_1.0/ia_css_output.host.c    | 11 ++++++++---
+ .../isp/kernels/qplane/qplane_2/ia_css_qplane.host.c  | 11 ++++++++---
+ .../pci/isp/kernels/raw/raw_1.0/ia_css_raw.host.c     |  6 ++++--
+ .../pci/isp/kernels/ref/ref_1.0/ia_css_ref.host.c     |  9 +++++++--
+ .../pci/isp/kernels/tnr/tnr_1.0/ia_css_tnr.host.c     | 10 +++++++---
+ .../pci/isp/kernels/vf/vf_1.0/ia_css_vf.host.c        |  9 ++++++---
+ .../media/atomisp/pci/runtime/frame/src/frame.c       |  7 ++++++-
+ 11 files changed, 78 insertions(+), 27 deletions(-)
 
 diff --git a/drivers/staging/media/atomisp/pci/isp/kernels/crop/crop_1.0/ia_css_crop.host.c b/drivers/staging/media/atomisp/pci/isp/kernels/crop/crop_1.0/ia_css_crop.host.c
-index 8ab0604b364a..69b1c493e020 100644
+index 69b1c493e020..8c1d50f7aae4 100644
 --- a/drivers/staging/media/atomisp/pci/isp/kernels/crop/crop_1.0/ia_css_crop.host.c
 +++ b/drivers/staging/media/atomisp/pci/isp/kernels/crop/crop_1.0/ia_css_crop.host.c
-@@ -36,11 +36,9 @@ ia_css_crop_encode(
- 	to->crop_pos = from->crop_pos;
- }
- 
--void
--ia_css_crop_config(
--    struct sh_css_isp_crop_isp_config *to,
--    const struct ia_css_crop_configuration  *from,
--    unsigned int size)
-+int ia_css_crop_config(struct sh_css_isp_crop_isp_config *to,
-+		       const struct ia_css_crop_configuration *from,
-+		       unsigned int size)
+@@ -41,13 +41,18 @@ int ia_css_crop_config(struct sh_css_isp_crop_isp_config *to,
+ 		       unsigned int size)
  {
  	unsigned int elems_a = ISP_VEC_NELEMS;
++	int ret;
++
++	ret = ia_css_dma_configure_from_info(&to->port_b, from->info);
++	if (ret)
++		return ret;
  
-@@ -50,6 +48,7 @@ ia_css_crop_config(
+-	(void)size;
+-	ia_css_dma_configure_from_info(&to->port_b, from->info);
+ 	to->width_a_over_b = elems_a / to->port_b.elems;
  
  	/* Assume divisiblity here, may need to generalize to fixed point. */
- 	assert(elems_a % to->port_b.elems == 0);
-+	return 0;
+-	assert(elems_a % to->port_b.elems == 0);
++	if (elems_a % to->port_b.elems != 0)
++		return -EINVAL;
++
+ 	return 0;
  }
  
- int ia_css_crop_configure(const struct ia_css_binary     *binary,
-diff --git a/drivers/staging/media/atomisp/pci/isp/kernels/crop/crop_1.0/ia_css_crop.host.h b/drivers/staging/media/atomisp/pci/isp/kernels/crop/crop_1.0/ia_css_crop.host.h
-index 877601bfa7c0..e700149c1e95 100644
---- a/drivers/staging/media/atomisp/pci/isp/kernels/crop/crop_1.0/ia_css_crop.host.h
-+++ b/drivers/staging/media/atomisp/pci/isp/kernels/crop/crop_1.0/ia_css_crop.host.h
-@@ -28,11 +28,9 @@ ia_css_crop_encode(
-     const struct ia_css_crop_config *from,
-     unsigned int size);
- 
--void
--ia_css_crop_config(
--    struct sh_css_isp_crop_isp_config      *to,
--    const struct ia_css_crop_configuration *from,
--    unsigned int size);
-+int ia_css_crop_config(struct sh_css_isp_crop_isp_config      *to,
-+		       const struct ia_css_crop_configuration *from,
-+		       unsigned int size);
- 
- int ia_css_crop_configure(const struct ia_css_binary     *binary,
- 			  const struct ia_css_frame_info *from);
 diff --git a/drivers/staging/media/atomisp/pci/isp/kernels/fpn/fpn_1.0/ia_css_fpn.host.c b/drivers/staging/media/atomisp/pci/isp/kernels/fpn/fpn_1.0/ia_css_fpn.host.c
-index 9933113adf46..be68192c2437 100644
+index be68192c2437..57b5e11e1cfe 100644
 --- a/drivers/staging/media/atomisp/pci/isp/kernels/fpn/fpn_1.0/ia_css_fpn.host.c
 +++ b/drivers/staging/media/atomisp/pci/isp/kernels/fpn/fpn_1.0/ia_css_fpn.host.c
-@@ -51,11 +51,9 @@ ia_css_fpn_dump(
- 			    "fpn_enabled", fpn->enabled);
- }
- 
--void
--ia_css_fpn_config(
--    struct sh_css_isp_fpn_isp_config *to,
--    const struct ia_css_fpn_configuration *from,
--    unsigned int size)
-+int ia_css_fpn_config(struct sh_css_isp_fpn_isp_config *to,
-+		      const struct ia_css_fpn_configuration *from,
-+		      unsigned int size)
+@@ -56,13 +56,18 @@ int ia_css_fpn_config(struct sh_css_isp_fpn_isp_config *to,
+ 		      unsigned int size)
  {
  	unsigned int elems_a = ISP_VEC_NELEMS;
++	int ret;
++
++	ret = ia_css_dma_configure_from_info(&to->port_b, from->info);
++	if (ret)
++		return ret;
  
-@@ -65,6 +63,7 @@ ia_css_fpn_config(
+-	(void)size;
+-	ia_css_dma_configure_from_info(&to->port_b, from->info);
+ 	to->width_a_over_b = elems_a / to->port_b.elems;
  
  	/* Assume divisiblity here, may need to generalize to fixed point. */
- 	assert(elems_a % to->port_b.elems == 0);
-+	return 0;
+-	assert(elems_a % to->port_b.elems == 0);
++	if (elems_a % to->port_b.elems != 0)
++		return -EINVAL;
++
+ 	return 0;
  }
  
- int ia_css_fpn_configure(const struct ia_css_binary     *binary,
-diff --git a/drivers/staging/media/atomisp/pci/isp/kernels/fpn/fpn_1.0/ia_css_fpn.host.h b/drivers/staging/media/atomisp/pci/isp/kernels/fpn/fpn_1.0/ia_css_fpn.host.h
-index 1c644c0decfe..bd341fa287fe 100644
---- a/drivers/staging/media/atomisp/pci/isp/kernels/fpn/fpn_1.0/ia_css_fpn.host.h
-+++ b/drivers/staging/media/atomisp/pci/isp/kernels/fpn/fpn_1.0/ia_css_fpn.host.h
-@@ -31,11 +31,9 @@ ia_css_fpn_dump(
-     const struct sh_css_isp_fpn_params *fpn,
-     unsigned int level);
- 
--void
--ia_css_fpn_config(
--    struct sh_css_isp_fpn_isp_config      *to,
--    const struct ia_css_fpn_configuration *from,
--    unsigned int size);
-+int ia_css_fpn_config(struct sh_css_isp_fpn_isp_config      *to,
-+		      const struct ia_css_fpn_configuration *from,
-+		      unsigned int size);
- 
- int ia_css_fpn_configure(const struct ia_css_binary     *binary,
- 			 const struct ia_css_frame_info *from);
 diff --git a/drivers/staging/media/atomisp/pci/isp/kernels/ipu2_io_ls/bayer_io_ls/ia_css_bayer_io.host.c b/drivers/staging/media/atomisp/pci/isp/kernels/ipu2_io_ls/bayer_io_ls/ia_css_bayer_io.host.c
-index ea8055148fb3..5e2755b45586 100644
+index 5e2755b45586..c7d88552dfde 100644
 --- a/drivers/staging/media/atomisp/pci/isp/kernels/ipu2_io_ls/bayer_io_ls/ia_css_bayer_io.host.c
 +++ b/drivers/staging/media/atomisp/pci/isp/kernels/ipu2_io_ls/bayer_io_ls/ia_css_bayer_io.host.c
-@@ -22,10 +22,8 @@
- #include "ia_css_isp_params.h"
- #include "ia_css_frame.h"
+@@ -36,6 +36,7 @@ int ia_css_bayer_io_config(const struct ia_css_binary      *binary,
+ 						ddr_bits_per_element);
+ 	unsigned int size_get = 0, size_put = 0;
+ 	unsigned int offset = 0;
++	int ret;
  
--void
--ia_css_bayer_io_config(
--    const struct ia_css_binary      *binary,
--    const struct sh_css_binary_args *args)
-+int ia_css_bayer_io_config(const struct ia_css_binary      *binary,
-+			   const struct sh_css_binary_args *args)
- {
- 	const struct ia_css_frame *in_frame = args->in_frame;
- 	const struct ia_css_frame **out_frames = (const struct ia_css_frame **)
-@@ -91,4 +89,5 @@ ia_css_bayer_io_config(
- 				    "ia_css_bayer_io_config() put part leave:\n");
+ 	if (binary->info->mem_offsets.offsets.param) {
+ 		size_get = binary->info->mem_offsets.offsets.param->dmem.get.size;
+@@ -51,7 +52,9 @@ int ia_css_bayer_io_config(const struct ia_css_binary      *binary,
+ 				    "ia_css_bayer_io_config() get part enter:\n");
  #endif
- 	}
-+	return 0;
- }
-diff --git a/drivers/staging/media/atomisp/pci/isp/kernels/ipu2_io_ls/bayer_io_ls/ia_css_bayer_io.host.h b/drivers/staging/media/atomisp/pci/isp/kernels/ipu2_io_ls/bayer_io_ls/ia_css_bayer_io.host.h
-index 635ccb1b27d0..9c7e5a1ad57b 100644
---- a/drivers/staging/media/atomisp/pci/isp/kernels/ipu2_io_ls/bayer_io_ls/ia_css_bayer_io.host.h
-+++ b/drivers/staging/media/atomisp/pci/isp/kernels/ipu2_io_ls/bayer_io_ls/ia_css_bayer_io.host.h
-@@ -21,9 +21,7 @@
- #include "ia_css_binary.h"
- #include "sh_css_internal.h"
  
--void
--ia_css_bayer_io_config(
--    const struct ia_css_binary     *binary,
--    const struct sh_css_binary_args *args);
-+int ia_css_bayer_io_config(const struct ia_css_binary     *binary,
-+			   const struct sh_css_binary_args *args);
+-		ia_css_dma_configure_from_info(&config, in_frame_info);
++		ret = ia_css_dma_configure_from_info(&config, in_frame_info);
++		if (ret)
++			return ret;
+ 		// The base_address of the input frame will be set in the ISP
+ 		to->width = in_frame_info->res.width;
+ 		to->height = in_frame_info->res.height;
+@@ -77,7 +80,9 @@ int ia_css_bayer_io_config(const struct ia_css_binary      *binary,
+ 				    "ia_css_bayer_io_config() put part enter:\n");
+ #endif
  
- #endif /*__BAYER_IO_HOST_H */
+-		ia_css_dma_configure_from_info(&config, &out_frames[0]->info);
++		ret = ia_css_dma_configure_from_info(&config, &out_frames[0]->info);
++		if (ret)
++			return ret;
+ 		to->base_address = out_frames[0]->data;
+ 		to->width = out_frames[0]->info.res.width;
+ 		to->height = out_frames[0]->info.res.height;
 diff --git a/drivers/staging/media/atomisp/pci/isp/kernels/ipu2_io_ls/yuv444_io_ls/ia_css_yuv444_io.host.c b/drivers/staging/media/atomisp/pci/isp/kernels/ipu2_io_ls/yuv444_io_ls/ia_css_yuv444_io.host.c
-index f8bd207b28e1..46fa1f708571 100644
+index 46fa1f708571..7d2ef6e26ee6 100644
 --- a/drivers/staging/media/atomisp/pci/isp/kernels/ipu2_io_ls/yuv444_io_ls/ia_css_yuv444_io.host.c
 +++ b/drivers/staging/media/atomisp/pci/isp/kernels/ipu2_io_ls/yuv444_io_ls/ia_css_yuv444_io.host.c
-@@ -22,10 +22,8 @@ more details.
- #include "ia_css_isp_params.h"
- #include "ia_css_frame.h"
+@@ -36,6 +36,7 @@ int ia_css_yuv444_io_config(const struct ia_css_binary      *binary,
+ 						ddr_bits_per_element);
+ 	unsigned int size_get = 0, size_put = 0;
+ 	unsigned int offset = 0;
++	int ret;
  
--void
--ia_css_yuv444_io_config(
--    const struct ia_css_binary      *binary,
--    const struct sh_css_binary_args *args)
-+int ia_css_yuv444_io_config(const struct ia_css_binary      *binary,
-+			    const struct sh_css_binary_args *args)
- {
- 	const struct ia_css_frame *in_frame = args->in_frame;
- 	const struct ia_css_frame **out_frames = (const struct ia_css_frame **)
-@@ -91,4 +89,5 @@ ia_css_yuv444_io_config(
- 				    "ia_css_yuv444_io_config() put part leave:\n");
+ 	if (binary->info->mem_offsets.offsets.param) {
+ 		size_get = binary->info->mem_offsets.offsets.param->dmem.get.size;
+@@ -51,7 +52,10 @@ int ia_css_yuv444_io_config(const struct ia_css_binary      *binary,
+ 				    "ia_css_yuv444_io_config() get part enter:\n");
  #endif
- 	}
-+	return 0;
- }
-diff --git a/drivers/staging/media/atomisp/pci/isp/kernels/ipu2_io_ls/yuv444_io_ls/ia_css_yuv444_io.host.h b/drivers/staging/media/atomisp/pci/isp/kernels/ipu2_io_ls/yuv444_io_ls/ia_css_yuv444_io.host.h
-index e7cfd380e108..13e50590f91e 100644
---- a/drivers/staging/media/atomisp/pci/isp/kernels/ipu2_io_ls/yuv444_io_ls/ia_css_yuv444_io.host.h
-+++ b/drivers/staging/media/atomisp/pci/isp/kernels/ipu2_io_ls/yuv444_io_ls/ia_css_yuv444_io.host.h
-@@ -21,9 +21,7 @@ more details.
- #include "ia_css_binary.h"
- #include "sh_css_internal.h"
  
--void
--ia_css_yuv444_io_config(
--    const struct ia_css_binary     *binary,
--    const struct sh_css_binary_args *args);
-+int ia_css_yuv444_io_config(const struct ia_css_binary     *binary,
-+			    const struct sh_css_binary_args *args);
+-		ia_css_dma_configure_from_info(&config, in_frame_info);
++		ret = ia_css_dma_configure_from_info(&config, in_frame_info);
++		if (ret)
++			return ret;
++
+ 		// The base_address of the input frame will be set in the ISP
+ 		to->width = in_frame_info->res.width;
+ 		to->height = in_frame_info->res.height;
+@@ -77,7 +81,10 @@ int ia_css_yuv444_io_config(const struct ia_css_binary      *binary,
+ 				    "ia_css_yuv444_io_config() put part enter:\n");
+ #endif
  
- #endif /*__YUV44_IO_HOST_H */
+-		ia_css_dma_configure_from_info(&config, &out_frames[0]->info);
++		ret = ia_css_dma_configure_from_info(&config, &out_frames[0]->info);
++		if (ret)
++			return ret;
++
+ 		to->base_address = out_frames[0]->data;
+ 		to->width = out_frames[0]->info.res.width;
+ 		to->height = out_frames[0]->info.res.height;
 diff --git a/drivers/staging/media/atomisp/pci/isp/kernels/output/output_1.0/ia_css_output.host.c b/drivers/staging/media/atomisp/pci/isp/kernels/output/output_1.0/ia_css_output.host.c
-index cf6311ebbeab..137e5b286ecf 100644
+index 137e5b286ecf..be9e4ef29fce 100644
 --- a/drivers/staging/media/atomisp/pci/isp/kernels/output/output_1.0/ia_css_output.host.c
 +++ b/drivers/staging/media/atomisp/pci/isp/kernels/output/output_1.0/ia_css_output.host.c
-@@ -52,11 +52,9 @@ ia_css_output_encode(
- 	to->enable_vflip = from->enable_vflip;
- }
- 
--void
--ia_css_output_config(
--    struct sh_css_isp_output_isp_config *to,
--    const struct ia_css_output_configuration  *from,
--    unsigned int size)
-+int ia_css_output_config(struct sh_css_isp_output_isp_config *to,
-+			 const struct ia_css_output_configuration  *from,
-+			 unsigned int size)
+@@ -57,16 +57,21 @@ int ia_css_output_config(struct sh_css_isp_output_isp_config *to,
+ 			 unsigned int size)
  {
  	unsigned int elems_a = ISP_VEC_NELEMS;
++	int ret;
++
++	ret = ia_css_dma_configure_from_info(&to->port_b, from->info);
++	if (ret)
++		return ret;
  
-@@ -69,26 +67,21 @@ ia_css_output_config(
+-	(void)size;
+-	ia_css_dma_configure_from_info(&to->port_b, from->info);
+ 	to->width_a_over_b = elems_a / to->port_b.elems;
+ 	to->height = from->info ? from->info->res.height : 0;
+ 	to->enable = from->info != NULL;
+ 	ia_css_frame_info_to_frame_sp_info(&to->info, from->info);
  
  	/* Assume divisiblity here, may need to generalize to fixed point. */
- 	assert(elems_a % to->port_b.elems == 0);
-+	return 0;
+-	assert(elems_a % to->port_b.elems == 0);
++	if (elems_a % to->port_b.elems != 0)
++		return -EINVAL;
++
+ 	return 0;
  }
  
--void
--ia_css_output0_config(
--    struct sh_css_isp_output_isp_config       *to,
--    const struct ia_css_output0_configuration *from,
--    unsigned int size)
-+int ia_css_output0_config(struct sh_css_isp_output_isp_config       *to,
-+			  const struct ia_css_output0_configuration *from,
-+			  unsigned int size)
- {
--	ia_css_output_config(
--	    to, (const struct ia_css_output_configuration *)from, size);
-+	return ia_css_output_config(to, (const struct ia_css_output_configuration *)from, size);
- }
- 
--void
--ia_css_output1_config(
--    struct sh_css_isp_output_isp_config       *to,
--    const struct ia_css_output1_configuration *from,
--    unsigned int size)
-+int ia_css_output1_config(struct sh_css_isp_output_isp_config       *to,
-+		          const struct ia_css_output1_configuration *from,
-+			  unsigned int size)
- {
--	ia_css_output_config(
--	    to, (const struct ia_css_output_configuration *)from, size);
-+	return ia_css_output_config(to, (const struct ia_css_output_configuration *)from, size);
- }
- 
- int ia_css_output_configure(const struct ia_css_binary     *binary,
-diff --git a/drivers/staging/media/atomisp/pci/isp/kernels/output/output_1.0/ia_css_output.host.h b/drivers/staging/media/atomisp/pci/isp/kernels/output/output_1.0/ia_css_output.host.h
-index 04c0023794cc..c8523e95a394 100644
---- a/drivers/staging/media/atomisp/pci/isp/kernels/output/output_1.0/ia_css_output.host.h
-+++ b/drivers/staging/media/atomisp/pci/isp/kernels/output/output_1.0/ia_css_output.host.h
-@@ -30,23 +30,17 @@ ia_css_output_encode(
-     const struct ia_css_output_config *from,
-     unsigned int size);
- 
--void
--ia_css_output_config(
--    struct sh_css_isp_output_isp_config      *to,
--    const struct ia_css_output_configuration *from,
--    unsigned int size);
-+int ia_css_output_config(struct sh_css_isp_output_isp_config      *to,
-+			 const struct ia_css_output_configuration *from,
-+			 unsigned int size);
- 
--void
--ia_css_output0_config(
--    struct sh_css_isp_output_isp_config       *to,
--    const struct ia_css_output0_configuration *from,
--    unsigned int size);
-+int ia_css_output0_config(struct sh_css_isp_output_isp_config       *to,
-+			  const struct ia_css_output0_configuration *from,
-+			  unsigned int size);
- 
--void
--ia_css_output1_config(
--    struct sh_css_isp_output_isp_config       *to,
--    const struct ia_css_output1_configuration *from,
--    unsigned int size);
-+int ia_css_output1_config(struct sh_css_isp_output_isp_config       *to,
-+			  const struct ia_css_output1_configuration *from,
-+			  unsigned int size);
- 
- int ia_css_output_configure(const struct ia_css_binary     *binary,
- 			    const struct ia_css_frame_info *from);
 diff --git a/drivers/staging/media/atomisp/pci/isp/kernels/qplane/qplane_2/ia_css_qplane.host.c b/drivers/staging/media/atomisp/pci/isp/kernels/qplane/qplane_2/ia_css_qplane.host.c
-index 7858dc573980..38ad6e52a848 100644
+index 38ad6e52a848..9fd4435e96b0 100644
 --- a/drivers/staging/media/atomisp/pci/isp/kernels/qplane/qplane_2/ia_css_qplane.host.c
 +++ b/drivers/staging/media/atomisp/pci/isp/kernels/qplane/qplane_2/ia_css_qplane.host.c
-@@ -28,11 +28,9 @@ static const struct ia_css_qplane_configuration default_config = {
- 	.pipe = (struct sh_css_sp_pipeline *)NULL,
- };
- 
--void
--ia_css_qplane_config(
--    struct sh_css_isp_qplane_isp_config *to,
--    const struct ia_css_qplane_configuration  *from,
--    unsigned int size)
-+int ia_css_qplane_config(struct sh_css_isp_qplane_isp_config *to,
-+			 const struct ia_css_qplane_configuration  *from,
-+			 unsigned int size)
+@@ -33,16 +33,21 @@ int ia_css_qplane_config(struct sh_css_isp_qplane_isp_config *to,
+ 			 unsigned int size)
  {
  	unsigned int elems_a = ISP_VEC_NELEMS;
++	int ret;
++
++	ret = ia_css_dma_configure_from_info(&to->port_b, from->info);
++	if (ret)
++		return ret;
  
-@@ -45,6 +43,7 @@ ia_css_qplane_config(
+-	(void)size;
+-	ia_css_dma_configure_from_info(&to->port_b, from->info);
+ 	to->width_a_over_b = elems_a / to->port_b.elems;
+ 
+ 	/* Assume divisiblity here, may need to generalize to fixed point. */
+-	assert(elems_a % to->port_b.elems == 0);
++	if (elems_a % to->port_b.elems != 0)
++		return -EINVAL;
  
  	to->inout_port_config = from->pipe->inout_port_config;
  	to->format = from->info->format;
-+	return 0;
++
+ 	return 0;
  }
  
- int ia_css_qplane_configure(const struct sh_css_sp_pipeline *pipe,
-diff --git a/drivers/staging/media/atomisp/pci/isp/kernels/qplane/qplane_2/ia_css_qplane.host.h b/drivers/staging/media/atomisp/pci/isp/kernels/qplane/qplane_2/ia_css_qplane.host.h
-index c4b863dc1498..b3f8fa30c8ce 100644
---- a/drivers/staging/media/atomisp/pci/isp/kernels/qplane/qplane_2/ia_css_qplane.host.h
-+++ b/drivers/staging/media/atomisp/pci/isp/kernels/qplane/qplane_2/ia_css_qplane.host.h
-@@ -29,11 +29,9 @@
- #include "ia_css_qplane_types.h"
- #include "ia_css_qplane_param.h"
- 
--void
--ia_css_qplane_config(
--    struct sh_css_isp_qplane_isp_config      *to,
--    const struct ia_css_qplane_configuration *from,
--    unsigned int size);
-+int ia_css_qplane_config(struct sh_css_isp_qplane_isp_config      *to,
-+			 const struct ia_css_qplane_configuration *from,
-+			 unsigned int size);
- 
- int ia_css_qplane_configure(const struct sh_css_sp_pipeline *pipe,
- 			    const struct ia_css_binary      *binary,
 diff --git a/drivers/staging/media/atomisp/pci/isp/kernels/raw/raw_1.0/ia_css_raw.host.c b/drivers/staging/media/atomisp/pci/isp/kernels/raw/raw_1.0/ia_css_raw.host.c
-index b35d81ad1a38..aba0409a4a0d 100644
+index aba0409a4a0d..646d6e39c1e5 100644
 --- a/drivers/staging/media/atomisp/pci/isp/kernels/raw/raw_1.0/ia_css_raw.host.c
 +++ b/drivers/staging/media/atomisp/pci/isp/kernels/raw/raw_1.0/ia_css_raw.host.c
-@@ -64,11 +64,9 @@ css2isp_stream_format(enum atomisp_input_format from) {
- 	}
- }
- 
--void
--ia_css_raw_config(
--    struct sh_css_isp_raw_isp_config *to,
--    const struct ia_css_raw_configuration  *from,
--    unsigned int size)
-+int ia_css_raw_config(struct sh_css_isp_raw_isp_config *to,
-+		      const struct ia_css_raw_configuration  *from,
-+		      unsigned int size)
- {
+@@ -71,8 +71,8 @@ int ia_css_raw_config(struct sh_css_isp_raw_isp_config *to,
  	unsigned int elems_a = ISP_VEC_NELEMS;
  	const struct ia_css_frame_info *in_info = from->in_info;
-@@ -104,6 +102,8 @@ ia_css_raw_config(
- 	to->start_line          = in_info->crop_info.start_line;
- 	to->enable_left_padding = from->enable_left_padding;
+ 	const struct ia_css_frame_info *internal_info = from->internal_info;
++	int ret;
+ 
+-	(void)size;
+ #if !defined(ISP2401)
+ 	/* 2401 input system uses input width width */
+ 	in_info = internal_info;
+@@ -84,7 +84,9 @@ int ia_css_raw_config(struct sh_css_isp_raw_isp_config *to,
+ 		in_info = internal_info;
+ 
  #endif
-+
-+	return 0;
- }
- 
- int ia_css_raw_configure(const struct sh_css_sp_pipeline *pipe,
-diff --git a/drivers/staging/media/atomisp/pci/isp/kernels/raw/raw_1.0/ia_css_raw.host.h b/drivers/staging/media/atomisp/pci/isp/kernels/raw/raw_1.0/ia_css_raw.host.h
-index 33374ac9db99..23da51aabc8d 100644
---- a/drivers/staging/media/atomisp/pci/isp/kernels/raw/raw_1.0/ia_css_raw.host.h
-+++ b/drivers/staging/media/atomisp/pci/isp/kernels/raw/raw_1.0/ia_css_raw.host.h
-@@ -21,11 +21,9 @@
- #include "ia_css_raw_types.h"
- #include "ia_css_raw_param.h"
- 
--void
--ia_css_raw_config(
--    struct sh_css_isp_raw_isp_config      *to,
--    const struct ia_css_raw_configuration *from,
--    unsigned int size);
-+int ia_css_raw_config(struct sh_css_isp_raw_isp_config      *to,
-+		      const struct ia_css_raw_configuration *from,
-+		      unsigned int size);
- 
- int ia_css_raw_configure(const struct sh_css_sp_pipeline *pipe,
- 			 const struct ia_css_binary     *binary,
-diff --git a/drivers/staging/media/atomisp/pci/isp/kernels/ref/ref_1.0/ia_css_ref.host.c b/drivers/staging/media/atomisp/pci/isp/kernels/ref/ref_1.0/ia_css_ref.host.c
-index f5b0e333d554..663dbb7c39eb 100644
---- a/drivers/staging/media/atomisp/pci/isp/kernels/ref/ref_1.0/ia_css_ref.host.c
-+++ b/drivers/staging/media/atomisp/pci/isp/kernels/ref/ref_1.0/ia_css_ref.host.c
-@@ -22,11 +22,9 @@
- #include "isp.h"
- #include "ia_css_ref.host.h"
- 
--void
--ia_css_ref_config(
--    struct sh_css_isp_ref_isp_config *to,
--    const struct ia_css_ref_configuration  *from,
--    unsigned int size)
-+int ia_css_ref_config(struct sh_css_isp_ref_isp_config *to,
-+		      const struct ia_css_ref_configuration  *from,
-+		      unsigned int size)
- {
- 	unsigned int elems_a = ISP_VEC_NELEMS, i;
- 
-@@ -53,6 +51,7 @@ ia_css_ref_config(
+-	ia_css_dma_configure_from_info(&to->port_b, in_info);
++	ret = ia_css_dma_configure_from_info(&to->port_b, in_info);
++	if (ret)
++		return ret;
  
  	/* Assume divisiblity here, may need to generalize to fixed point. */
- 	assert(elems_a % to->port_b.elems == 0);
-+	return 0;
+ 	assert((in_info->format == IA_CSS_FRAME_FORMAT_RAW_PACKED) ||
+diff --git a/drivers/staging/media/atomisp/pci/isp/kernels/ref/ref_1.0/ia_css_ref.host.c b/drivers/staging/media/atomisp/pci/isp/kernels/ref/ref_1.0/ia_css_ref.host.c
+index 663dbb7c39eb..08ed916a7eb8 100644
+--- a/drivers/staging/media/atomisp/pci/isp/kernels/ref/ref_1.0/ia_css_ref.host.c
++++ b/drivers/staging/media/atomisp/pci/isp/kernels/ref/ref_1.0/ia_css_ref.host.c
+@@ -27,9 +27,12 @@ int ia_css_ref_config(struct sh_css_isp_ref_isp_config *to,
+ 		      unsigned int size)
+ {
+ 	unsigned int elems_a = ISP_VEC_NELEMS, i;
++	int ret;
+ 
+ 	if (from->ref_frames[0]) {
+-		ia_css_dma_configure_from_info(&to->port_b, &from->ref_frames[0]->info);
++		ret = ia_css_dma_configure_from_info(&to->port_b, &from->ref_frames[0]->info);
++		if (ret)
++			return ret;
+ 		to->width_a_over_b = elems_a / to->port_b.elems;
+ 		to->dvs_frame_delay = from->dvs_frame_delay;
+ 	} else {
+@@ -50,7 +53,9 @@ int ia_css_ref_config(struct sh_css_isp_ref_isp_config *to,
+ 	}
+ 
+ 	/* Assume divisiblity here, may need to generalize to fixed point. */
+-	assert(elems_a % to->port_b.elems == 0);
++	if (elems_a % to->port_b.elems != 0)
++		return -EINVAL;
++
+ 	return 0;
  }
  
- int ia_css_ref_configure(const struct ia_css_binary        *binary,
-diff --git a/drivers/staging/media/atomisp/pci/isp/kernels/ref/ref_1.0/ia_css_ref.host.h b/drivers/staging/media/atomisp/pci/isp/kernels/ref/ref_1.0/ia_css_ref.host.h
-index c407d471c7a0..388cd4c367ba 100644
---- a/drivers/staging/media/atomisp/pci/isp/kernels/ref/ref_1.0/ia_css_ref.host.h
-+++ b/drivers/staging/media/atomisp/pci/isp/kernels/ref/ref_1.0/ia_css_ref.host.h
-@@ -23,11 +23,9 @@
- #include "ia_css_ref_param.h"
- #include "ia_css_ref_state.h"
- 
--void
--ia_css_ref_config(
--    struct sh_css_isp_ref_isp_config      *to,
--    const struct ia_css_ref_configuration *from,
--    unsigned int size);
-+int ia_css_ref_config(struct sh_css_isp_ref_isp_config      *to,
-+		      const struct ia_css_ref_configuration *from,
-+		      unsigned int size);
- 
- int ia_css_ref_configure(const struct ia_css_binary        *binary,
- 			 const struct ia_css_frame * const *ref_frames,
 diff --git a/drivers/staging/media/atomisp/pci/isp/kernels/tnr/tnr_1.0/ia_css_tnr.host.c b/drivers/staging/media/atomisp/pci/isp/kernels/tnr/tnr_1.0/ia_css_tnr.host.c
-index 170bd70b6e24..3a5bea219c48 100644
+index 3a5bea219c48..7177cf292fb0 100644
 --- a/drivers/staging/media/atomisp/pci/isp/kernels/tnr/tnr_1.0/ia_css_tnr.host.c
 +++ b/drivers/staging/media/atomisp/pci/isp/kernels/tnr/tnr_1.0/ia_css_tnr.host.c
-@@ -71,11 +71,9 @@ ia_css_tnr_debug_dtrace(
- 			    config->threshold_y, config->threshold_uv);
- }
- 
--void
--ia_css_tnr_config(
--    struct sh_css_isp_tnr_isp_config *to,
--    const struct ia_css_tnr_configuration *from,
--    unsigned int size)
-+int ia_css_tnr_config(struct sh_css_isp_tnr_isp_config *to,
-+		      const struct ia_css_tnr_configuration *from,
-+		      unsigned int size)
+@@ -77,9 +77,11 @@ int ia_css_tnr_config(struct sh_css_isp_tnr_isp_config *to,
  {
  	unsigned int elems_a = ISP_VEC_NELEMS;
  	unsigned int i;
-@@ -91,6 +89,7 @@ ia_css_tnr_config(
++	int ret;
+ 
+-	(void)size;
+-	ia_css_dma_configure_from_info(&to->port_b, &from->tnr_frames[0]->info);
++	ret = ia_css_dma_configure_from_info(&to->port_b, &from->tnr_frames[0]->info);
++	if (ret)
++		return ret;
+ 	to->width_a_over_b = elems_a / to->port_b.elems;
+ 	to->frame_height = from->tnr_frames[0]->info.res.height;
+ 	for (i = 0; i < NUM_TNR_FRAMES; i++) {
+@@ -88,7 +90,9 @@ int ia_css_tnr_config(struct sh_css_isp_tnr_isp_config *to,
+ 	}
  
  	/* Assume divisiblity here, may need to generalize to fixed point. */
- 	assert(elems_a % to->port_b.elems == 0);
-+	return 0;
+-	assert(elems_a % to->port_b.elems == 0);
++	if (elems_a % to->port_b.elems != 0)
++		return -EINVAL;
++
+ 	return 0;
  }
  
- int ia_css_tnr_configure(const struct ia_css_binary     *binary,
-diff --git a/drivers/staging/media/atomisp/pci/isp/kernels/tnr/tnr_1.0/ia_css_tnr.host.h b/drivers/staging/media/atomisp/pci/isp/kernels/tnr/tnr_1.0/ia_css_tnr.host.h
-index 1c421c6a8512..acf92052b442 100644
---- a/drivers/staging/media/atomisp/pci/isp/kernels/tnr/tnr_1.0/ia_css_tnr.host.h
-+++ b/drivers/staging/media/atomisp/pci/isp/kernels/tnr/tnr_1.0/ia_css_tnr.host.h
-@@ -39,11 +39,9 @@ ia_css_tnr_debug_dtrace(
-     const struct ia_css_tnr_config *config,
-     unsigned int level);
- 
--void
--ia_css_tnr_config(
--    struct sh_css_isp_tnr_isp_config      *to,
--    const struct ia_css_tnr_configuration *from,
--    unsigned int size);
-+int ia_css_tnr_config(struct sh_css_isp_tnr_isp_config      *to,
-+		      const struct ia_css_tnr_configuration *from,
-+		      unsigned int size);
- 
- int ia_css_tnr_configure(const struct ia_css_binary        *binary,
- 			 const struct ia_css_frame * const *frames);
 diff --git a/drivers/staging/media/atomisp/pci/isp/kernels/vf/vf_1.0/ia_css_vf.host.c b/drivers/staging/media/atomisp/pci/isp/kernels/vf/vf_1.0/ia_css_vf.host.c
-index a0926d05f1e1..1ace34f59f8d 100644
+index 1ace34f59f8d..aecdcbe04ce1 100644
 --- a/drivers/staging/media/atomisp/pci/isp/kernels/vf/vf_1.0/ia_css_vf.host.c
 +++ b/drivers/staging/media/atomisp/pci/isp/kernels/vf/vf_1.0/ia_css_vf.host.c
-@@ -26,11 +26,9 @@
- 
- #include "isp.h"
- 
--void
--ia_css_vf_config(
--    struct sh_css_isp_vf_isp_config      *to,
--    const struct ia_css_vf_configuration *from,
--    unsigned int size)
-+int ia_css_vf_config(struct sh_css_isp_vf_isp_config      *to,
-+		    const struct ia_css_vf_configuration *from,
-+		    unsigned int size)
+@@ -31,18 +31,21 @@ int ia_css_vf_config(struct sh_css_isp_vf_isp_config      *to,
+ 		    unsigned int size)
  {
  	unsigned int elems_a = ISP_VEC_NELEMS;
++	int ret;
  
-@@ -46,6 +44,7 @@ ia_css_vf_config(
+-	(void)size;
+ 	to->vf_downscale_bits = from->vf_downscale_bits;
+ 	to->enable = from->info != NULL;
+ 
+ 	if (from->info) {
+ 		ia_css_frame_info_to_frame_sp_info(&to->info, from->info);
+-		ia_css_dma_configure_from_info(&to->dma.port_b, from->info);
++		ret = ia_css_dma_configure_from_info(&to->dma.port_b, from->info);
++		if (ret)
++			return ret;
+ 		to->dma.width_a_over_b = elems_a / to->dma.port_b.elems;
+ 
  		/* Assume divisiblity here, may need to generalize to fixed point. */
- 		assert(elems_a % to->dma.port_b.elems == 0);
+-		assert(elems_a % to->dma.port_b.elems == 0);
++		if (elems_a % to->dma.port_b.elems != 0)
++			return -EINVAL;
  	}
-+	return 0;
+ 	return 0;
  }
- 
- /* compute the log2 of the downscale factor needed to get closest
-diff --git a/drivers/staging/media/atomisp/pci/isp/kernels/vf/vf_1.0/ia_css_vf.host.h b/drivers/staging/media/atomisp/pci/isp/kernels/vf/vf_1.0/ia_css_vf.host.h
-index 0e8de034a00e..d6b45d3754b0 100644
---- a/drivers/staging/media/atomisp/pci/isp/kernels/vf/vf_1.0/ia_css_vf.host.h
-+++ b/drivers/staging/media/atomisp/pci/isp/kernels/vf/vf_1.0/ia_css_vf.host.h
-@@ -32,11 +32,9 @@ sh_css_vf_downscale_log2(
-     const struct ia_css_frame_info *vf_info,
-     unsigned int *downscale_log2);
- 
--void
--ia_css_vf_config(
--    struct sh_css_isp_vf_isp_config *to,
--    const struct ia_css_vf_configuration *from,
--    unsigned int size);
-+int ia_css_vf_config(struct sh_css_isp_vf_isp_config *to,
-+		     const struct ia_css_vf_configuration *from,
-+		     unsigned int size);
- 
- int
- ia_css_vf_configure(
-diff --git a/drivers/staging/media/atomisp/pci/runtime/frame/interface/ia_css_frame.h b/drivers/staging/media/atomisp/pci/runtime/frame/interface/ia_css_frame.h
-index 31f01e0f58aa..51ec7073d860 100644
---- a/drivers/staging/media/atomisp/pci/runtime/frame/interface/ia_css_frame.h
-+++ b/drivers/staging/media/atomisp/pci/runtime/frame/interface/ia_css_frame.h
-@@ -138,9 +138,8 @@ bool ia_css_frame_is_same_type(
-  * @param[in]	info           The frame info
-  * @return
-  */
--void ia_css_dma_configure_from_info(
--    struct dma_port_config *config,
--    const struct ia_css_frame_info *info);
-+int ia_css_dma_configure_from_info(struct dma_port_config *config,
-+				   const struct ia_css_frame_info *info);
- 
- /* ISP2401 */
- /* @brief Finds the cropping resolution
 diff --git a/drivers/staging/media/atomisp/pci/runtime/frame/src/frame.c b/drivers/staging/media/atomisp/pci/runtime/frame/src/frame.c
-index 10c4907187d9..647383e10f5e 100644
+index 647383e10f5e..3c9dd5c03850 100644
 --- a/drivers/staging/media/atomisp/pci/runtime/frame/src/frame.c
 +++ b/drivers/staging/media/atomisp/pci/runtime/frame/src/frame.c
-@@ -594,10 +594,8 @@ bool ia_css_frame_is_same_type(const struct ia_css_frame *frame_a,
- 	return is_equal;
- }
- 
--void
--ia_css_dma_configure_from_info(
--    struct dma_port_config *config,
--    const struct ia_css_frame_info *info)
-+int ia_css_dma_configure_from_info(struct dma_port_config *config,
-+				   const struct ia_css_frame_info *info)
- {
- 	unsigned int is_raw_packed = info->format == IA_CSS_FRAME_FORMAT_RAW_PACKED;
- 	unsigned int bits_per_pixel = is_raw_packed ? info->raw_bit_depth :
-@@ -611,6 +609,7 @@ ia_css_dma_configure_from_info(
+@@ -608,7 +608,12 @@ int ia_css_dma_configure_from_info(struct dma_port_config *config,
+ 	config->elems  = (uint8_t)elems_b;
  	config->width  = (uint16_t)info->res.width;
  	config->crop   = 0;
- 	assert(config->width <= info->padded_width);
-+	return 0;
+-	assert(config->width <= info->padded_width);
++
++	if (config->width > info->padded_width) {
++		dev_err(atomisp_dev, "internal error: padded_width is too small!\n");
++		return -EINVAL;
++	}
++
+ 	return 0;
  }
  
- /**************************************************************************
-diff --git a/drivers/staging/media/atomisp/pci/sh_css_sp.c b/drivers/staging/media/atomisp/pci/sh_css_sp.c
-index f36f44b5e5b2..77ac720017a2 100644
---- a/drivers/staging/media/atomisp/pci/sh_css_sp.c
-+++ b/drivers/staging/media/atomisp/pci/sh_css_sp.c
-@@ -870,8 +870,7 @@ static int configure_isp_from_args(const struct sh_css_sp_pipeline *pipeline,
- 	ret = ia_css_tnr_configure(binary, args->tnr_frames);
- 	if (ret)
- 		return ret;
--	ia_css_bayer_io_config(binary, args);
--	return 0;
-+	return ia_css_bayer_io_config(binary, args);
- }
- 
- static void
 -- 
 2.31.1
 
