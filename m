@@ -2,88 +2,487 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DA16C446802
-	for <lists+linux-media@lfdr.de>; Fri,  5 Nov 2021 18:39:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C627E446825
+	for <lists+linux-media@lfdr.de>; Fri,  5 Nov 2021 18:48:53 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234168AbhKERmc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 5 Nov 2021 13:42:32 -0400
-Received: from mail.kernel.org ([198.145.29.99]:58270 "EHLO mail.kernel.org"
+        id S234573AbhKERvS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 5 Nov 2021 13:51:18 -0400
+Received: from mail.kernel.org ([198.145.29.99]:35396 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S232041AbhKERmb (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Fri, 5 Nov 2021 13:42:31 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 1EA0360F5A;
-        Fri,  5 Nov 2021 17:39:51 +0000 (UTC)
+        id S234518AbhKERvI (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Fri, 5 Nov 2021 13:51:08 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 782F661263;
+        Fri,  5 Nov 2021 17:48:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1636133991;
-        bh=XrZbDCF6z0xo/uXRiBkJPgik1oScJ4FKVTH+l+tPXLI=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:From;
-        b=bg+IHkl6iuE2prqaM6ZoanveKoblpySeInH3DGASZ0ZSmsPae4/4XhL1LivF9QXza
-         2DBfsjbTTGr6wFM1/zXj7huhOt731bRE8z7/62hVW8LEVKTkfKrRxtbi5lNF/q5Mcr
-         le0rXNLJgd7s2CBfKm/OOi1ogNaEYeAYkBlZjN5s7VZ/kFz1X9MHY3anFGTqkuVqFX
-         Xk7IIr91QRqL4+mJ/hal9vpCIbx8ba3mjjMLkMXr7kETV2ouuhkknH806ZUc1CydMH
-         ZIF9zEDIpNVkQ3ed16V9Cs77VDu5mr1IfGorw055cO5oZWIcJyomNA81LF3A9C/DB7
-         eJ/6nxqRzrIFQ==
-Date:   Fri, 5 Nov 2021 12:39:49 -0500
-From:   Bjorn Helgaas <helgaas@kernel.org>
-To:     Dongdong Liu <liudongdong3@huawei.com>
-Cc:     hch@infradead.org, logang@deltatee.com, leon@kernel.org,
-        linux-pci@vger.kernel.org, rajur@chelsio.com,
-        hverkuil-cisco@xs4all.nl, linux-media@vger.kernel.org,
-        netdev@vger.kernel.org
-Subject: Re: [PATCH V11 7/8] PCI: Enable 10-Bit Tag support for PCIe Endpoint
- device
-Message-ID: <20211105173949.GA932723@bhelgaas>
+        s=k20201202; t=1636134508;
+        bh=vP/JpDGb+Cvga7YPKCWXofdlkKeZJx+gI72wmHjEpAE=;
+        h=From:To:Cc:Subject:Date:From;
+        b=rnAmA0EWWThLfDwTYhC4RWpAGPB884QLGxI77QfxGwXhPnS2XKoyy/aoRaezAuLdn
+         12YHb1LOs5WLGTNoDl4exiSraJAUpAacuk38uo1mQECAVWJO/ShxJ2W0G06etaL0Z2
+         3qsHTe+Ei15cpH43TL4NmXkF9IPZ5NBZlRdmaYgPUxnk2IUVcb3jsIv3VRioCWFaB3
+         SNTAcVDeaQfb6PT4d1F7Racjv22Kr4MGTYDgTpRJwtsp9gkpcrWmX6f0kQJAvH73ML
+         80VvNI1Ev8pDtN8ViFuj5ta1kupTgc6EmAOnB/FJnh6kvbTdrKASkCgKWDPYfjBEAd
+         t37Wz3wVuGcQQ==
+Received: by mail.kernel.org with local (Exim 4.94.2)
+        (envelope-from <mchehab@kernel.org>)
+        id 1mj3K4-007eNZ-8S; Fri, 05 Nov 2021 17:48:16 +0000
+From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc:     linuxarm@huawei.com, mauro.chehab@huawei.com,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-staging@lists.linux.dev
+Subject: [PATCH 1/8] media: atomisp: drop duplicated ia_css_isp_configs.c
+Date:   Fri,  5 Nov 2021 17:48:08 +0000
+Message-Id: <286ba3e4f25e9ba2ab78de4cbf010f18167b2604.1636134411.git.mchehab+huawei@kernel.org>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <894a1e8f-cc08-2710-9f56-9dda14e2e617@huawei.com>
+Content-Transfer-Encoding: 8bit
+Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
+To:     unlisted-recipients:; (no To-header on input)
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, Nov 05, 2021 at 04:24:24PM +0800, Dongdong Liu wrote:
-> On 2021/11/4 0:02, Bjorn Helgaas wrote:
+Both 2400 and 2401 have this file, but they're identical.
 
-> > But it does remind me that if the RC doesn't support 10-bit tags, but
-> > we use sysfs to enable 10-bit tags for a reqester that intends to use
-> > P2PDMA to a peer that *does* support them, I don't think there's
-> > any check in the DMA API that prevents the driver from setting up DMA
-> > to the RC in addition to the peer.
->
-> Current we use sysfs to enable/disable 10-bit tags for a requester also
-> depend on the RP support 10-bit tag completer, so it will be ok.
+So, drop one of them.
 
-Ah, OK.  So we can never *enable* 10-bit tags unless the Root Port
-supports them.
+Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+---
+ drivers/staging/media/atomisp/Makefile        |   3 +-
+ .../css_2401_system/hive/ia_css_isp_configs.c | 386 ------------------
+ .../hive => }/ia_css_isp_configs.c            |   0
+ 3 files changed, 1 insertion(+), 388 deletions(-)
+ delete mode 100644 drivers/staging/media/atomisp/pci/css_2401_system/hive/ia_css_isp_configs.c
+ rename drivers/staging/media/atomisp/pci/{css_2400_system/hive => }/ia_css_isp_configs.c (100%)
 
-I misunderstood the purpose of this file.  When the Root Port doesn't
-support 10-bit tags, we won't enable them during enumeration.  I
-though the point was that if we want to do P2PDMA to a peer that
-*does* support them, we could use this file to enable them.
+diff --git a/drivers/staging/media/atomisp/Makefile b/drivers/staging/media/atomisp/Makefile
+index 606b7754fdfd..320c14f4afa6 100644
+--- a/drivers/staging/media/atomisp/Makefile
++++ b/drivers/staging/media/atomisp/Makefile
+@@ -53,6 +53,7 @@ atomisp-objs += \
+ 	pci/hmm/hmm.o \
+ 	pci/hmm/hmm_reserved_pool.o \
+ 	pci/ia_css_device_access.o \
++	pci/ia_css_isp_configs.o \
+ 	pci/isp/kernels/aa/aa_2/ia_css_aa2.host.o \
+ 	pci/isp/kernels/anr/anr_1.0/ia_css_anr.host.o \
+ 	pci/isp/kernels/anr/anr_2/ia_css_anr2.host.o \
+@@ -157,7 +158,6 @@ atomisp-objs += \
+ 	pci/system_local.o \
+ 
+ obj-byt = \
+-	pci/css_2400_system/hive/ia_css_isp_configs.o \
+ 	pci/css_2400_system/hive/ia_css_isp_params.o \
+ 	pci/css_2400_system/hive/ia_css_isp_states.o \
+ 
+@@ -166,7 +166,6 @@ obj-byt = \
+ #
+ 
+ obj-cht = \
+-	pci/css_2401_system/hive/ia_css_isp_configs.o \
+ 	pci/css_2401_system/hive/ia_css_isp_params.o \
+ 	pci/css_2401_system/hive/ia_css_isp_states.o \
+ 	pci/css_2401_system/host/csi_rx.o \
+diff --git a/drivers/staging/media/atomisp/pci/css_2401_system/hive/ia_css_isp_configs.c b/drivers/staging/media/atomisp/pci/css_2401_system/hive/ia_css_isp_configs.c
+deleted file mode 100644
+index 1a021ae841fe..000000000000
+--- a/drivers/staging/media/atomisp/pci/css_2401_system/hive/ia_css_isp_configs.c
++++ /dev/null
+@@ -1,386 +0,0 @@
+-// SPDX-License-Identifier: GPL-2.0
+-/*
+- * Support for Intel Camera Imaging ISP subsystem.
+- * Copyright (c) 2015, Intel Corporation.
+- *
+- * This program is free software; you can redistribute it and/or modify it
+- * under the terms and conditions of the GNU General Public License,
+- * version 2, as published by the Free Software Foundation.
+- *
+- * This program is distributed in the hope it will be useful, but WITHOUT
+- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
+- * more details.
+- */
+-
+-/* Generated code: do not edit or commmit. */
+-
+-#define IA_CSS_INCLUDE_CONFIGURATIONS
+-#include "ia_css_pipeline.h"
+-#include "ia_css_isp_configs.h"
+-#include "ia_css_debug.h"
+-#include "assert_support.h"
+-
+-/* Code generated by genparam/genconfig.c:gen_configure_function() */
+-
+-void
+-ia_css_configure_iterator(
+-    const struct ia_css_binary *binary,
+-    const struct ia_css_iterator_configuration *config_dmem)
+-{
+-	ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE_PRIVATE,
+-			    "ia_css_configure_iterator() enter:\n");
+-
+-	{
+-		unsigned int offset = 0;
+-		unsigned int size   = 0;
+-
+-		if (binary->info->mem_offsets.offsets.config) {
+-			size   = binary->info->mem_offsets.offsets.config->dmem.iterator.size;
+-			offset = binary->info->mem_offsets.offsets.config->dmem.iterator.offset;
+-		}
+-		if (size) {
+-			ia_css_iterator_config((struct sh_css_isp_iterator_isp_config *)
+-					       &binary->mem_params.params[IA_CSS_PARAM_CLASS_CONFIG][IA_CSS_ISP_DMEM].address[offset],
+-					       config_dmem, size);
+-		}
+-	}
+-	ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE_PRIVATE,
+-			    "ia_css_configure_iterator() leave:\n");
+-}
+-
+-/* Code generated by genparam/genconfig.c:gen_configure_function() */
+-
+-void
+-ia_css_configure_copy_output(
+-    const struct ia_css_binary *binary,
+-    const struct ia_css_copy_output_configuration *config_dmem)
+-{
+-	ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE_PRIVATE,
+-			    "ia_css_configure_copy_output() enter:\n");
+-
+-	{
+-		unsigned int offset = 0;
+-		unsigned int size   = 0;
+-
+-		if (binary->info->mem_offsets.offsets.config) {
+-			size   = binary->info->mem_offsets.offsets.config->dmem.copy_output.size;
+-			offset = binary->info->mem_offsets.offsets.config->dmem.copy_output.offset;
+-		}
+-		if (size) {
+-			ia_css_copy_output_config((struct sh_css_isp_copy_output_isp_config *)
+-						  &binary->mem_params.params[IA_CSS_PARAM_CLASS_CONFIG][IA_CSS_ISP_DMEM].address[offset],
+-						  config_dmem, size);
+-		}
+-	}
+-	ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE_PRIVATE,
+-			    "ia_css_configure_copy_output() leave:\n");
+-}
+-
+-/* Code generated by genparam/genconfig.c:gen_configure_function() */
+-
+-void
+-ia_css_configure_crop(
+-    const struct ia_css_binary *binary,
+-    const struct ia_css_crop_configuration *config_dmem)
+-{
+-	ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE_PRIVATE,
+-			    "ia_css_configure_crop() enter:\n");
+-
+-	{
+-		unsigned int offset = 0;
+-		unsigned int size   = 0;
+-
+-		if (binary->info->mem_offsets.offsets.config) {
+-			size   = binary->info->mem_offsets.offsets.config->dmem.crop.size;
+-			offset = binary->info->mem_offsets.offsets.config->dmem.crop.offset;
+-		}
+-		if (size) {
+-			ia_css_crop_config((struct sh_css_isp_crop_isp_config *)
+-					   &binary->mem_params.params[IA_CSS_PARAM_CLASS_CONFIG][IA_CSS_ISP_DMEM].address[offset],
+-					   config_dmem, size);
+-		}
+-	}
+-	ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE_PRIVATE,
+-			    "ia_css_configure_crop() leave:\n");
+-}
+-
+-/* Code generated by genparam/genconfig.c:gen_configure_function() */
+-
+-void
+-ia_css_configure_fpn(
+-    const struct ia_css_binary *binary,
+-    const struct ia_css_fpn_configuration *config_dmem)
+-{
+-	ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE_PRIVATE,
+-			    "ia_css_configure_fpn() enter:\n");
+-
+-	{
+-		unsigned int offset = 0;
+-		unsigned int size   = 0;
+-
+-		if (binary->info->mem_offsets.offsets.config) {
+-			size   = binary->info->mem_offsets.offsets.config->dmem.fpn.size;
+-			offset = binary->info->mem_offsets.offsets.config->dmem.fpn.offset;
+-		}
+-		if (size) {
+-			ia_css_fpn_config((struct sh_css_isp_fpn_isp_config *)
+-					  &binary->mem_params.params[IA_CSS_PARAM_CLASS_CONFIG][IA_CSS_ISP_DMEM].address[offset],
+-					  config_dmem, size);
+-		}
+-	}
+-	ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE_PRIVATE,
+-			    "ia_css_configure_fpn() leave:\n");
+-}
+-
+-/* Code generated by genparam/genconfig.c:gen_configure_function() */
+-
+-void
+-ia_css_configure_dvs(
+-    const struct ia_css_binary *binary,
+-    const struct ia_css_dvs_configuration *config_dmem)
+-{
+-	ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE_PRIVATE,
+-			    "ia_css_configure_dvs() enter:\n");
+-
+-	{
+-		unsigned int offset = 0;
+-		unsigned int size   = 0;
+-
+-		if (binary->info->mem_offsets.offsets.config) {
+-			size   = binary->info->mem_offsets.offsets.config->dmem.dvs.size;
+-			offset = binary->info->mem_offsets.offsets.config->dmem.dvs.offset;
+-		}
+-		if (size) {
+-			ia_css_dvs_config((struct sh_css_isp_dvs_isp_config *)
+-					  &binary->mem_params.params[IA_CSS_PARAM_CLASS_CONFIG][IA_CSS_ISP_DMEM].address[offset],
+-					  config_dmem, size);
+-		}
+-	}
+-	ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE_PRIVATE,
+-			    "ia_css_configure_dvs() leave:\n");
+-}
+-
+-/* Code generated by genparam/genconfig.c:gen_configure_function() */
+-
+-void
+-ia_css_configure_qplane(
+-    const struct ia_css_binary *binary,
+-    const struct ia_css_qplane_configuration *config_dmem)
+-{
+-	ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE_PRIVATE,
+-			    "ia_css_configure_qplane() enter:\n");
+-
+-	{
+-		unsigned int offset = 0;
+-		unsigned int size   = 0;
+-
+-		if (binary->info->mem_offsets.offsets.config) {
+-			size   = binary->info->mem_offsets.offsets.config->dmem.qplane.size;
+-			offset = binary->info->mem_offsets.offsets.config->dmem.qplane.offset;
+-		}
+-		if (size) {
+-			ia_css_qplane_config((struct sh_css_isp_qplane_isp_config *)
+-					     &binary->mem_params.params[IA_CSS_PARAM_CLASS_CONFIG][IA_CSS_ISP_DMEM].address[offset],
+-					     config_dmem, size);
+-		}
+-	}
+-	ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE_PRIVATE,
+-			    "ia_css_configure_qplane() leave:\n");
+-}
+-
+-/* Code generated by genparam/genconfig.c:gen_configure_function() */
+-
+-void
+-ia_css_configure_output0(
+-    const struct ia_css_binary *binary,
+-    const struct ia_css_output0_configuration *config_dmem)
+-{
+-	ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE_PRIVATE,
+-			    "ia_css_configure_output0() enter:\n");
+-
+-	{
+-		unsigned int offset = 0;
+-		unsigned int size   = 0;
+-
+-		if (binary->info->mem_offsets.offsets.config) {
+-			size   = binary->info->mem_offsets.offsets.config->dmem.output0.size;
+-			offset = binary->info->mem_offsets.offsets.config->dmem.output0.offset;
+-		}
+-		if (size) {
+-			ia_css_output0_config((struct sh_css_isp_output_isp_config *)
+-					      &binary->mem_params.params[IA_CSS_PARAM_CLASS_CONFIG][IA_CSS_ISP_DMEM].address[offset],
+-					      config_dmem, size);
+-		}
+-	}
+-	ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE_PRIVATE,
+-			    "ia_css_configure_output0() leave:\n");
+-}
+-
+-/* Code generated by genparam/genconfig.c:gen_configure_function() */
+-
+-void
+-ia_css_configure_output1(
+-    const struct ia_css_binary *binary,
+-    const struct ia_css_output1_configuration *config_dmem)
+-{
+-	ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE_PRIVATE,
+-			    "ia_css_configure_output1() enter:\n");
+-
+-	{
+-		unsigned int offset = 0;
+-		unsigned int size   = 0;
+-
+-		if (binary->info->mem_offsets.offsets.config) {
+-			size   = binary->info->mem_offsets.offsets.config->dmem.output1.size;
+-			offset = binary->info->mem_offsets.offsets.config->dmem.output1.offset;
+-		}
+-		if (size) {
+-			ia_css_output1_config((struct sh_css_isp_output_isp_config *)
+-					      &binary->mem_params.params[IA_CSS_PARAM_CLASS_CONFIG][IA_CSS_ISP_DMEM].address[offset],
+-					      config_dmem, size);
+-		}
+-	}
+-	ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE_PRIVATE,
+-			    "ia_css_configure_output1() leave:\n");
+-}
+-
+-/* Code generated by genparam/genconfig.c:gen_configure_function() */
+-
+-void
+-ia_css_configure_output(
+-    const struct ia_css_binary *binary,
+-    const struct ia_css_output_configuration *config_dmem)
+-{
+-	ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE_PRIVATE,
+-			    "ia_css_configure_output() enter:\n");
+-
+-	{
+-		unsigned int offset = 0;
+-		unsigned int size   = 0;
+-
+-		if (binary->info->mem_offsets.offsets.config) {
+-			size   = binary->info->mem_offsets.offsets.config->dmem.output.size;
+-			offset = binary->info->mem_offsets.offsets.config->dmem.output.offset;
+-		}
+-		if (size) {
+-			ia_css_output_config((struct sh_css_isp_output_isp_config *)
+-					     &binary->mem_params.params[IA_CSS_PARAM_CLASS_CONFIG][IA_CSS_ISP_DMEM].address[offset],
+-					     config_dmem, size);
+-		}
+-	}
+-	ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE_PRIVATE,
+-			    "ia_css_configure_output() leave:\n");
+-}
+-
+-/* Code generated by genparam/genconfig.c:gen_configure_function() */
+-
+-void
+-ia_css_configure_raw(
+-    const struct ia_css_binary *binary,
+-    const struct ia_css_raw_configuration *config_dmem)
+-{
+-	ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE_PRIVATE,
+-			    "ia_css_configure_raw() enter:\n");
+-
+-	{
+-		unsigned int offset = 0;
+-		unsigned int size   = 0;
+-
+-		if (binary->info->mem_offsets.offsets.config) {
+-			size   = binary->info->mem_offsets.offsets.config->dmem.raw.size;
+-			offset = binary->info->mem_offsets.offsets.config->dmem.raw.offset;
+-		}
+-		if (size) {
+-			ia_css_raw_config((struct sh_css_isp_raw_isp_config *)
+-					  &binary->mem_params.params[IA_CSS_PARAM_CLASS_CONFIG][IA_CSS_ISP_DMEM].address[offset],
+-					  config_dmem, size);
+-		}
+-	}
+-	ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE_PRIVATE,
+-			    "ia_css_configure_raw() leave:\n");
+-}
+-
+-/* Code generated by genparam/genconfig.c:gen_configure_function() */
+-
+-void
+-ia_css_configure_tnr(
+-    const struct ia_css_binary *binary,
+-    const struct ia_css_tnr_configuration *config_dmem)
+-{
+-	ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE_PRIVATE,
+-			    "ia_css_configure_tnr() enter:\n");
+-
+-	{
+-		unsigned int offset = 0;
+-		unsigned int size   = 0;
+-
+-		if (binary->info->mem_offsets.offsets.config) {
+-			size   = binary->info->mem_offsets.offsets.config->dmem.tnr.size;
+-			offset = binary->info->mem_offsets.offsets.config->dmem.tnr.offset;
+-		}
+-		if (size) {
+-			ia_css_tnr_config((struct sh_css_isp_tnr_isp_config *)
+-					  &binary->mem_params.params[IA_CSS_PARAM_CLASS_CONFIG][IA_CSS_ISP_DMEM].address[offset],
+-					  config_dmem, size);
+-		}
+-	}
+-	ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE_PRIVATE,
+-			    "ia_css_configure_tnr() leave:\n");
+-}
+-
+-/* Code generated by genparam/genconfig.c:gen_configure_function() */
+-
+-void
+-ia_css_configure_ref(
+-    const struct ia_css_binary *binary,
+-    const struct ia_css_ref_configuration *config_dmem)
+-{
+-	ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE_PRIVATE,
+-			    "ia_css_configure_ref() enter:\n");
+-
+-	{
+-		unsigned int offset = 0;
+-		unsigned int size   = 0;
+-
+-		if (binary->info->mem_offsets.offsets.config) {
+-			size   = binary->info->mem_offsets.offsets.config->dmem.ref.size;
+-			offset = binary->info->mem_offsets.offsets.config->dmem.ref.offset;
+-		}
+-		if (size) {
+-			ia_css_ref_config((struct sh_css_isp_ref_isp_config *)
+-					  &binary->mem_params.params[IA_CSS_PARAM_CLASS_CONFIG][IA_CSS_ISP_DMEM].address[offset],
+-					  config_dmem, size);
+-		}
+-	}
+-	ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE_PRIVATE,
+-			    "ia_css_configure_ref() leave:\n");
+-}
+-
+-/* Code generated by genparam/genconfig.c:gen_configure_function() */
+-
+-void
+-ia_css_configure_vf(
+-    const struct ia_css_binary *binary,
+-    const struct ia_css_vf_configuration *config_dmem)
+-{
+-	ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE_PRIVATE,
+-			    "ia_css_configure_vf() enter:\n");
+-
+-	{
+-		unsigned int offset = 0;
+-		unsigned int size   = 0;
+-
+-		if (binary->info->mem_offsets.offsets.config) {
+-			size   = binary->info->mem_offsets.offsets.config->dmem.vf.size;
+-			offset = binary->info->mem_offsets.offsets.config->dmem.vf.offset;
+-		}
+-		if (size) {
+-			ia_css_vf_config((struct sh_css_isp_vf_isp_config *)
+-					 &binary->mem_params.params[IA_CSS_PARAM_CLASS_CONFIG][IA_CSS_ISP_DMEM].address[offset],
+-					 config_dmem, size);
+-		}
+-	}
+-	ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE_PRIVATE,
+-			    "ia_css_configure_vf() leave:\n");
+-}
+diff --git a/drivers/staging/media/atomisp/pci/css_2400_system/hive/ia_css_isp_configs.c b/drivers/staging/media/atomisp/pci/ia_css_isp_configs.c
+similarity index 100%
+rename from drivers/staging/media/atomisp/pci/css_2400_system/hive/ia_css_isp_configs.c
+rename to drivers/staging/media/atomisp/pci/ia_css_isp_configs.c
+-- 
+2.31.1
 
-But my understanding was wrong -- the real purpose of the file is to
-*disable* 10-bit tags for the case when a P2PDMA peer doesn't support
-them.
-
-It does support enabling 10-bit tags as well, but that's only because
-we need a way to get back to the default "enabled during enumeration"
-state without having to reboot.
-
-We might be able to highlight this a little more in the commit log.
-
-> > 10-bit tag support appeared in the spec four years ago (PCIe r4.0, in
-> > September, 2017).  Surely there is production hardware that supports
-> > this and could demonstrate a benefit from this.
->
-> I found the below introduction about "Number of tags needed to achieve
-> maximum throughput for PCIe 4.0 and PCIe 5.0 links"
-> https://www.synopsys.com/designware-ip/technical-bulletin/accelerating-32gtps-pcie5-designs.html
-> 
-> It seems pretty clear.
-
-Yes, that's a start.  But we don't really need a white paper to tell
-us that more outstanding transactions is better.  That's obvious.  But
-this adds risk, and if we can't demonstrate a tangible, measurable
-benefit, there's no point in doing it.
-
-Bjorn
