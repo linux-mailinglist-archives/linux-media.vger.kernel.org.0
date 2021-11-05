@@ -2,44 +2,55 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B0594446820
-	for <lists+linux-media@lfdr.de>; Fri,  5 Nov 2021 18:48:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A7A2F44685D
+	for <lists+linux-media@lfdr.de>; Fri,  5 Nov 2021 19:27:12 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234535AbhKERvM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 5 Nov 2021 13:51:12 -0400
-Received: from mail.kernel.org ([198.145.29.99]:35296 "EHLO mail.kernel.org"
+        id S231425AbhKES3s (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 5 Nov 2021 14:29:48 -0400
+Received: from mail.kernel.org ([198.145.29.99]:44538 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S234502AbhKERvE (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Fri, 5 Nov 2021 13:51:04 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id A839F6135A;
-        Fri,  5 Nov 2021 17:48:23 +0000 (UTC)
+        id S229504AbhKES3r (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Fri, 5 Nov 2021 14:29:47 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id CFAC1603E7;
+        Fri,  5 Nov 2021 18:27:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1636134504;
-        bh=MBSyznzJxYlCzNuzpArBH+PHGzgD6dYu4NqeRsxiHN0=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=qNmN2vBw6r7h63ft7We1Q+WeLlTfqTPeaOo/9Yqq17S60w3uxvjUUP0kBjE+CR7CC
-         AMPuTWMzEfAIYfjqZo27yii/zewX9BRjXWeXLsrg3m++ooqA84UEzTZQVt2LZVyL8C
-         onmDW5aJ56SdeAG64JmkzJW4tzYQiXyBA2Y/7N3BRVcr0ZlGosaPaRYbvURbkLSP1w
-         khKlMGPsJcw1bC9cQ6RBNwDdfCXls2NSxSM8Rtx9IBH9Y7yKZSIaUdL0yRCSe+2t3i
-         ZLQKRG0lTqAmeijI/YNarcizO6qYdXs0npeZvr6XMKEZ/aA8bfzXLLvIPw6CLblQoG
-         9XPfB7ooG6I1g==
+        s=k20201202; t=1636136827;
+        bh=sku8KBV+7rn2Fkqwj1+0oav+5cIgu42GkuB4CnIPzoA=;
+        h=From:To:Cc:Subject:Date:From;
+        b=VQCoX1WOFrrMqex3/EWO0DwsSewCfCKfWrIzxNxedD4jG2A3e1fTYvXwd4PFu5RiY
+         7oHKN2o4X7+eD6NwLJzMzwKQGfsOXg1UgktsE/y6DkuwoMgy7kEoa7ME2e1jvkh3qH
+         D05BpH9RLlnIEBxXjo/Lc2maNF4fZIFSc9HKfOYv+HeGPjA5FjtHyM8tIV4HI/e/kx
+         xiVIOWSAoFq4lYzgYZ0J8p7OWHk9mkXJAU9vTH2bV00H37/pZUCcLL1R8nLVX7druy
+         b2TubBUtyb8DmA2pZ9n68V9hkd2M1oDGgdIqoe3C/1wd1WI+/1/gKCHMgEmCaT2cr4
+         OtI/vBJjd+jTA==
 Received: by mail.kernel.org with local (Exim 4.94.2)
         (envelope-from <mchehab@kernel.org>)
-        id 1mj3K4-007eNu-GH; Fri, 05 Nov 2021 17:48:16 +0000
+        id 1mj3vQ-008k4H-Jq; Fri, 05 Nov 2021 18:26:52 +0000
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 Cc:     linuxarm@huawei.com, mauro.chehab@huawei.com,
         Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Aditya Srivastava <yashsri421@gmail.com>,
+        Alan <alan@linux.intel.com>, Alex Dewar <alex.dewar90@gmail.com>,
+        Aline Santana Cordeiro <alinesantanacordeiro@gmail.com>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Baokun Li <libaokun1@huawei.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Kaixu Xia <kaixuxia@tencent.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+        Tsuchiya Yuto <kitakar@gmail.com>,
+        Yang Li <abaci-bugfix@linux.alibaba.com>,
+        Yang Yingliang <yangyingliang@huawei.com>,
         linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
         linux-staging@lists.linux.dev
-Subject: [PATCH 8/8] media: atomisp: return errors from ia_css_dma_configure_from_info()
-Date:   Fri,  5 Nov 2021 17:48:15 +0000
-Message-Id: <372257287956fa3f211580d0487058b5210ea189.1636134411.git.mchehab+huawei@kernel.org>
+Subject: [PATCH] media: atomisp: get rid of ISP2401_NEW_INPUT_SYSTEM
+Date:   Fri,  5 Nov 2021 18:26:51 +0000
+Message-Id: <eab8c36ae221f459278c1ed3e21815029a845ebc.1636136804.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.31.1
-In-Reply-To: <286ba3e4f25e9ba2ab78de4cbf010f18167b2604.1636134411.git.mchehab+huawei@kernel.org>
-References: <286ba3e4f25e9ba2ab78de4cbf010f18167b2604.1636134411.git.mchehab+huawei@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
@@ -48,335 +59,151 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Now that the pipeline config functions can return errors, change
-ia_css_dma_configure_from_info() and callers in order for them
-to return errors at pipelines instead of using assert().
+All ISP2401 devices use the new input system. So, get rid
+of the remaining definitions, replacing them by runtime
+checks for BYT/CHT when applicable.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- .../pci/isp/kernels/crop/crop_1.0/ia_css_crop.host.c  | 11 ++++++++---
- .../pci/isp/kernels/fpn/fpn_1.0/ia_css_fpn.host.c     | 11 ++++++++---
- .../ipu2_io_ls/bayer_io_ls/ia_css_bayer_io.host.c     |  9 +++++++--
- .../ipu2_io_ls/yuv444_io_ls/ia_css_yuv444_io.host.c   | 11 +++++++++--
- .../kernels/output/output_1.0/ia_css_output.host.c    | 11 ++++++++---
- .../isp/kernels/qplane/qplane_2/ia_css_qplane.host.c  | 11 ++++++++---
- .../pci/isp/kernels/raw/raw_1.0/ia_css_raw.host.c     |  6 ++++--
- .../pci/isp/kernels/ref/ref_1.0/ia_css_ref.host.c     |  9 +++++++--
- .../pci/isp/kernels/tnr/tnr_1.0/ia_css_tnr.host.c     | 10 +++++++---
- .../pci/isp/kernels/vf/vf_1.0/ia_css_vf.host.c        |  9 ++++++---
- .../media/atomisp/pci/runtime/frame/src/frame.c       |  7 ++++++-
- 11 files changed, 78 insertions(+), 27 deletions(-)
+ drivers/staging/media/atomisp/Makefile        |  2 +-
+ .../staging/media/atomisp/pci/atomisp_cmd.c   | 19 +++++++++++--------
+ .../media/atomisp/pci/atomisp_compat_css20.c  |  4 ++--
+ .../staging/media/atomisp/pci/atomisp_fops.c  |  4 +---
+ .../staging/media/atomisp/pci/atomisp_v4l2.c  | 14 ++------------
+ 5 files changed, 17 insertions(+), 26 deletions(-)
 
-diff --git a/drivers/staging/media/atomisp/pci/isp/kernels/crop/crop_1.0/ia_css_crop.host.c b/drivers/staging/media/atomisp/pci/isp/kernels/crop/crop_1.0/ia_css_crop.host.c
-index 69b1c493e020..8c1d50f7aae4 100644
---- a/drivers/staging/media/atomisp/pci/isp/kernels/crop/crop_1.0/ia_css_crop.host.c
-+++ b/drivers/staging/media/atomisp/pci/isp/kernels/crop/crop_1.0/ia_css_crop.host.c
-@@ -41,13 +41,18 @@ int ia_css_crop_config(struct sh_css_isp_crop_isp_config *to,
- 		       unsigned int size)
+diff --git a/drivers/staging/media/atomisp/Makefile b/drivers/staging/media/atomisp/Makefile
+index a23c04cf7f34..a98204e9b20f 100644
+--- a/drivers/staging/media/atomisp/Makefile
++++ b/drivers/staging/media/atomisp/Makefile
+@@ -319,7 +319,7 @@ ifeq ($(CONFIG_VIDEO_ATOMISP_ISP2401),y)
+ atomisp-objs += \
+ 	$(obj-cht) \
+ 	pci/runtime/isys/src/ibuf_ctrl_rmgr.o
+-DEFINES += -DISP2401 -DISP2401_NEW_INPUT_SYSTEM
++DEFINES += -DISP2401
+ endif
+ 
+ ccflags-y += $(INCLUDES) $(DEFINES) -fno-common
+diff --git a/drivers/staging/media/atomisp/pci/atomisp_cmd.c b/drivers/staging/media/atomisp/pci/atomisp_cmd.c
+index 0ddee36cdcd7..4ef5d728cd2f 100644
+--- a/drivers/staging/media/atomisp/pci/atomisp_cmd.c
++++ b/drivers/staging/media/atomisp/pci/atomisp_cmd.c
+@@ -5156,11 +5156,11 @@ static int css_input_resolution_changed(struct atomisp_sub_device *asd,
+ 	dev_dbg(asd->isp->dev, "css_input_resolution_changed to %ux%u\n",
+ 		ffmt->width, ffmt->height);
+ 
+-#if defined(ISP2401_NEW_INPUT_SYSTEM)
+-	atomisp_css_input_set_two_pixels_per_clock(asd, false);
+-#else
+-	atomisp_css_input_set_two_pixels_per_clock(asd, true);
+-#endif
++	if (IS_ISP2401)
++		atomisp_css_input_set_two_pixels_per_clock(asd, false);
++	else
++		atomisp_css_input_set_two_pixels_per_clock(asd, true);
++
+ 	if (asd->continuous_mode->val) {
+ 		/* Note for all checks: ffmt includes pad_w+pad_h */
+ 		if (asd->run_mode->val == ATOMISP_RUN_MODE_VIDEO ||
+@@ -5494,9 +5494,14 @@ static void atomisp_get_dis_envelop(struct atomisp_sub_device *asd,
+ static void atomisp_check_copy_mode(struct atomisp_sub_device *asd,
+ 				    int source_pad, struct v4l2_pix_format *f)
  {
- 	unsigned int elems_a = ISP_VEC_NELEMS;
-+	int ret;
-+
-+	ret = ia_css_dma_configure_from_info(&to->port_b, from->info);
-+	if (ret)
-+		return ret;
+-#if defined(ISP2401_NEW_INPUT_SYSTEM)
+ 	struct v4l2_mbus_framefmt *sink, *src;
  
--	(void)size;
--	ia_css_dma_configure_from_info(&to->port_b, from->info);
- 	to->width_a_over_b = elems_a / to->port_b.elems;
- 
- 	/* Assume divisiblity here, may need to generalize to fixed point. */
--	assert(elems_a % to->port_b.elems == 0);
-+	if (elems_a % to->port_b.elems != 0)
-+		return -EINVAL;
-+
- 	return 0;
- }
- 
-diff --git a/drivers/staging/media/atomisp/pci/isp/kernels/fpn/fpn_1.0/ia_css_fpn.host.c b/drivers/staging/media/atomisp/pci/isp/kernels/fpn/fpn_1.0/ia_css_fpn.host.c
-index be68192c2437..57b5e11e1cfe 100644
---- a/drivers/staging/media/atomisp/pci/isp/kernels/fpn/fpn_1.0/ia_css_fpn.host.c
-+++ b/drivers/staging/media/atomisp/pci/isp/kernels/fpn/fpn_1.0/ia_css_fpn.host.c
-@@ -56,13 +56,18 @@ int ia_css_fpn_config(struct sh_css_isp_fpn_isp_config *to,
- 		      unsigned int size)
- {
- 	unsigned int elems_a = ISP_VEC_NELEMS;
-+	int ret;
-+
-+	ret = ia_css_dma_configure_from_info(&to->port_b, from->info);
-+	if (ret)
-+		return ret;
- 
--	(void)size;
--	ia_css_dma_configure_from_info(&to->port_b, from->info);
- 	to->width_a_over_b = elems_a / to->port_b.elems;
- 
- 	/* Assume divisiblity here, may need to generalize to fixed point. */
--	assert(elems_a % to->port_b.elems == 0);
-+	if (elems_a % to->port_b.elems != 0)
-+		return -EINVAL;
-+
- 	return 0;
- }
- 
-diff --git a/drivers/staging/media/atomisp/pci/isp/kernels/ipu2_io_ls/bayer_io_ls/ia_css_bayer_io.host.c b/drivers/staging/media/atomisp/pci/isp/kernels/ipu2_io_ls/bayer_io_ls/ia_css_bayer_io.host.c
-index 5e2755b45586..c7d88552dfde 100644
---- a/drivers/staging/media/atomisp/pci/isp/kernels/ipu2_io_ls/bayer_io_ls/ia_css_bayer_io.host.c
-+++ b/drivers/staging/media/atomisp/pci/isp/kernels/ipu2_io_ls/bayer_io_ls/ia_css_bayer_io.host.c
-@@ -36,6 +36,7 @@ int ia_css_bayer_io_config(const struct ia_css_binary      *binary,
- 						ddr_bits_per_element);
- 	unsigned int size_get = 0, size_put = 0;
- 	unsigned int offset = 0;
-+	int ret;
- 
- 	if (binary->info->mem_offsets.offsets.param) {
- 		size_get = binary->info->mem_offsets.offsets.param->dmem.get.size;
-@@ -51,7 +52,9 @@ int ia_css_bayer_io_config(const struct ia_css_binary      *binary,
- 				    "ia_css_bayer_io_config() get part enter:\n");
- #endif
- 
--		ia_css_dma_configure_from_info(&config, in_frame_info);
-+		ret = ia_css_dma_configure_from_info(&config, in_frame_info);
-+		if (ret)
-+			return ret;
- 		// The base_address of the input frame will be set in the ISP
- 		to->width = in_frame_info->res.width;
- 		to->height = in_frame_info->res.height;
-@@ -77,7 +80,9 @@ int ia_css_bayer_io_config(const struct ia_css_binary      *binary,
- 				    "ia_css_bayer_io_config() put part enter:\n");
- #endif
- 
--		ia_css_dma_configure_from_info(&config, &out_frames[0]->info);
-+		ret = ia_css_dma_configure_from_info(&config, &out_frames[0]->info);
-+		if (ret)
-+			return ret;
- 		to->base_address = out_frames[0]->data;
- 		to->width = out_frames[0]->info.res.width;
- 		to->height = out_frames[0]->info.res.height;
-diff --git a/drivers/staging/media/atomisp/pci/isp/kernels/ipu2_io_ls/yuv444_io_ls/ia_css_yuv444_io.host.c b/drivers/staging/media/atomisp/pci/isp/kernels/ipu2_io_ls/yuv444_io_ls/ia_css_yuv444_io.host.c
-index 46fa1f708571..7d2ef6e26ee6 100644
---- a/drivers/staging/media/atomisp/pci/isp/kernels/ipu2_io_ls/yuv444_io_ls/ia_css_yuv444_io.host.c
-+++ b/drivers/staging/media/atomisp/pci/isp/kernels/ipu2_io_ls/yuv444_io_ls/ia_css_yuv444_io.host.c
-@@ -36,6 +36,7 @@ int ia_css_yuv444_io_config(const struct ia_css_binary      *binary,
- 						ddr_bits_per_element);
- 	unsigned int size_get = 0, size_put = 0;
- 	unsigned int offset = 0;
-+	int ret;
- 
- 	if (binary->info->mem_offsets.offsets.param) {
- 		size_get = binary->info->mem_offsets.offsets.param->dmem.get.size;
-@@ -51,7 +52,10 @@ int ia_css_yuv444_io_config(const struct ia_css_binary      *binary,
- 				    "ia_css_yuv444_io_config() get part enter:\n");
- #endif
- 
--		ia_css_dma_configure_from_info(&config, in_frame_info);
-+		ret = ia_css_dma_configure_from_info(&config, in_frame_info);
-+		if (ret)
-+			return ret;
-+
- 		// The base_address of the input frame will be set in the ISP
- 		to->width = in_frame_info->res.width;
- 		to->height = in_frame_info->res.height;
-@@ -77,7 +81,10 @@ int ia_css_yuv444_io_config(const struct ia_css_binary      *binary,
- 				    "ia_css_yuv444_io_config() put part enter:\n");
- #endif
- 
--		ia_css_dma_configure_from_info(&config, &out_frames[0]->info);
-+		ret = ia_css_dma_configure_from_info(&config, &out_frames[0]->info);
-+		if (ret)
-+			return ret;
-+
- 		to->base_address = out_frames[0]->data;
- 		to->width = out_frames[0]->info.res.width;
- 		to->height = out_frames[0]->info.res.height;
-diff --git a/drivers/staging/media/atomisp/pci/isp/kernels/output/output_1.0/ia_css_output.host.c b/drivers/staging/media/atomisp/pci/isp/kernels/output/output_1.0/ia_css_output.host.c
-index 137e5b286ecf..be9e4ef29fce 100644
---- a/drivers/staging/media/atomisp/pci/isp/kernels/output/output_1.0/ia_css_output.host.c
-+++ b/drivers/staging/media/atomisp/pci/isp/kernels/output/output_1.0/ia_css_output.host.c
-@@ -57,16 +57,21 @@ int ia_css_output_config(struct sh_css_isp_output_isp_config *to,
- 			 unsigned int size)
- {
- 	unsigned int elems_a = ISP_VEC_NELEMS;
-+	int ret;
-+
-+	ret = ia_css_dma_configure_from_info(&to->port_b, from->info);
-+	if (ret)
-+		return ret;
- 
--	(void)size;
--	ia_css_dma_configure_from_info(&to->port_b, from->info);
- 	to->width_a_over_b = elems_a / to->port_b.elems;
- 	to->height = from->info ? from->info->res.height : 0;
- 	to->enable = from->info != NULL;
- 	ia_css_frame_info_to_frame_sp_info(&to->info, from->info);
- 
- 	/* Assume divisiblity here, may need to generalize to fixed point. */
--	assert(elems_a % to->port_b.elems == 0);
-+	if (elems_a % to->port_b.elems != 0)
-+		return -EINVAL;
-+
- 	return 0;
- }
- 
-diff --git a/drivers/staging/media/atomisp/pci/isp/kernels/qplane/qplane_2/ia_css_qplane.host.c b/drivers/staging/media/atomisp/pci/isp/kernels/qplane/qplane_2/ia_css_qplane.host.c
-index 38ad6e52a848..9fd4435e96b0 100644
---- a/drivers/staging/media/atomisp/pci/isp/kernels/qplane/qplane_2/ia_css_qplane.host.c
-+++ b/drivers/staging/media/atomisp/pci/isp/kernels/qplane/qplane_2/ia_css_qplane.host.c
-@@ -33,16 +33,21 @@ int ia_css_qplane_config(struct sh_css_isp_qplane_isp_config *to,
- 			 unsigned int size)
- {
- 	unsigned int elems_a = ISP_VEC_NELEMS;
-+	int ret;
-+
-+	ret = ia_css_dma_configure_from_info(&to->port_b, from->info);
-+	if (ret)
-+		return ret;
- 
--	(void)size;
--	ia_css_dma_configure_from_info(&to->port_b, from->info);
- 	to->width_a_over_b = elems_a / to->port_b.elems;
- 
- 	/* Assume divisiblity here, may need to generalize to fixed point. */
--	assert(elems_a % to->port_b.elems == 0);
-+	if (elems_a % to->port_b.elems != 0)
-+		return -EINVAL;
- 
- 	to->inout_port_config = from->pipe->inout_port_config;
- 	to->format = from->info->format;
-+
- 	return 0;
- }
- 
-diff --git a/drivers/staging/media/atomisp/pci/isp/kernels/raw/raw_1.0/ia_css_raw.host.c b/drivers/staging/media/atomisp/pci/isp/kernels/raw/raw_1.0/ia_css_raw.host.c
-index aba0409a4a0d..646d6e39c1e5 100644
---- a/drivers/staging/media/atomisp/pci/isp/kernels/raw/raw_1.0/ia_css_raw.host.c
-+++ b/drivers/staging/media/atomisp/pci/isp/kernels/raw/raw_1.0/ia_css_raw.host.c
-@@ -71,8 +71,8 @@ int ia_css_raw_config(struct sh_css_isp_raw_isp_config *to,
- 	unsigned int elems_a = ISP_VEC_NELEMS;
- 	const struct ia_css_frame_info *in_info = from->in_info;
- 	const struct ia_css_frame_info *internal_info = from->internal_info;
-+	int ret;
- 
--	(void)size;
- #if !defined(ISP2401)
- 	/* 2401 input system uses input width width */
- 	in_info = internal_info;
-@@ -84,7 +84,9 @@ int ia_css_raw_config(struct sh_css_isp_raw_isp_config *to,
- 		in_info = internal_info;
- 
- #endif
--	ia_css_dma_configure_from_info(&to->port_b, in_info);
-+	ret = ia_css_dma_configure_from_info(&to->port_b, in_info);
-+	if (ret)
-+		return ret;
- 
- 	/* Assume divisiblity here, may need to generalize to fixed point. */
- 	assert((in_info->format == IA_CSS_FRAME_FORMAT_RAW_PACKED) ||
-diff --git a/drivers/staging/media/atomisp/pci/isp/kernels/ref/ref_1.0/ia_css_ref.host.c b/drivers/staging/media/atomisp/pci/isp/kernels/ref/ref_1.0/ia_css_ref.host.c
-index 663dbb7c39eb..08ed916a7eb8 100644
---- a/drivers/staging/media/atomisp/pci/isp/kernels/ref/ref_1.0/ia_css_ref.host.c
-+++ b/drivers/staging/media/atomisp/pci/isp/kernels/ref/ref_1.0/ia_css_ref.host.c
-@@ -27,9 +27,12 @@ int ia_css_ref_config(struct sh_css_isp_ref_isp_config *to,
- 		      unsigned int size)
- {
- 	unsigned int elems_a = ISP_VEC_NELEMS, i;
-+	int ret;
- 
- 	if (from->ref_frames[0]) {
--		ia_css_dma_configure_from_info(&to->port_b, &from->ref_frames[0]->info);
-+		ret = ia_css_dma_configure_from_info(&to->port_b, &from->ref_frames[0]->info);
-+		if (ret)
-+			return ret;
- 		to->width_a_over_b = elems_a / to->port_b.elems;
- 		to->dvs_frame_delay = from->dvs_frame_delay;
- 	} else {
-@@ -50,7 +53,9 @@ int ia_css_ref_config(struct sh_css_isp_ref_isp_config *to,
- 	}
- 
- 	/* Assume divisiblity here, may need to generalize to fixed point. */
--	assert(elems_a % to->port_b.elems == 0);
-+	if (elems_a % to->port_b.elems != 0)
-+		return -EINVAL;
-+
- 	return 0;
- }
- 
-diff --git a/drivers/staging/media/atomisp/pci/isp/kernels/tnr/tnr_1.0/ia_css_tnr.host.c b/drivers/staging/media/atomisp/pci/isp/kernels/tnr/tnr_1.0/ia_css_tnr.host.c
-index 3a5bea219c48..7177cf292fb0 100644
---- a/drivers/staging/media/atomisp/pci/isp/kernels/tnr/tnr_1.0/ia_css_tnr.host.c
-+++ b/drivers/staging/media/atomisp/pci/isp/kernels/tnr/tnr_1.0/ia_css_tnr.host.c
-@@ -77,9 +77,11 @@ int ia_css_tnr_config(struct sh_css_isp_tnr_isp_config *to,
- {
- 	unsigned int elems_a = ISP_VEC_NELEMS;
- 	unsigned int i;
-+	int ret;
- 
--	(void)size;
--	ia_css_dma_configure_from_info(&to->port_b, &from->tnr_frames[0]->info);
-+	ret = ia_css_dma_configure_from_info(&to->port_b, &from->tnr_frames[0]->info);
-+	if (ret)
-+		return ret;
- 	to->width_a_over_b = elems_a / to->port_b.elems;
- 	to->frame_height = from->tnr_frames[0]->info.res.height;
- 	for (i = 0; i < NUM_TNR_FRAMES; i++) {
-@@ -88,7 +90,9 @@ int ia_css_tnr_config(struct sh_css_isp_tnr_isp_config *to,
- 	}
- 
- 	/* Assume divisiblity here, may need to generalize to fixed point. */
--	assert(elems_a % to->port_b.elems == 0);
-+	if (elems_a % to->port_b.elems != 0)
-+		return -EINVAL;
-+
- 	return 0;
- }
- 
-diff --git a/drivers/staging/media/atomisp/pci/isp/kernels/vf/vf_1.0/ia_css_vf.host.c b/drivers/staging/media/atomisp/pci/isp/kernels/vf/vf_1.0/ia_css_vf.host.c
-index 1ace34f59f8d..aecdcbe04ce1 100644
---- a/drivers/staging/media/atomisp/pci/isp/kernels/vf/vf_1.0/ia_css_vf.host.c
-+++ b/drivers/staging/media/atomisp/pci/isp/kernels/vf/vf_1.0/ia_css_vf.host.c
-@@ -31,18 +31,21 @@ int ia_css_vf_config(struct sh_css_isp_vf_isp_config      *to,
- 		    unsigned int size)
- {
- 	unsigned int elems_a = ISP_VEC_NELEMS;
-+	int ret;
- 
--	(void)size;
- 	to->vf_downscale_bits = from->vf_downscale_bits;
- 	to->enable = from->info != NULL;
- 
- 	if (from->info) {
- 		ia_css_frame_info_to_frame_sp_info(&to->info, from->info);
--		ia_css_dma_configure_from_info(&to->dma.port_b, from->info);
-+		ret = ia_css_dma_configure_from_info(&to->dma.port_b, from->info);
-+		if (ret)
-+			return ret;
- 		to->dma.width_a_over_b = elems_a / to->dma.port_b.elems;
- 
- 		/* Assume divisiblity here, may need to generalize to fixed point. */
--		assert(elems_a % to->dma.port_b.elems == 0);
-+		if (elems_a % to->dma.port_b.elems != 0)
-+			return -EINVAL;
- 	}
- 	return 0;
- }
-diff --git a/drivers/staging/media/atomisp/pci/runtime/frame/src/frame.c b/drivers/staging/media/atomisp/pci/runtime/frame/src/frame.c
-index 647383e10f5e..3c9dd5c03850 100644
---- a/drivers/staging/media/atomisp/pci/runtime/frame/src/frame.c
-+++ b/drivers/staging/media/atomisp/pci/runtime/frame/src/frame.c
-@@ -608,7 +608,12 @@ int ia_css_dma_configure_from_info(struct dma_port_config *config,
- 	config->elems  = (uint8_t)elems_b;
- 	config->width  = (uint16_t)info->res.width;
- 	config->crop   = 0;
--	assert(config->width <= info->padded_width);
-+
-+	if (config->width > info->padded_width) {
-+		dev_err(atomisp_dev, "internal error: padded_width is too small!\n");
-+		return -EINVAL;
++	if (!IS_ISP2401) {
++		/* Only used for the new input system */
++		asd->copy_mode = false;
++		return;
 +	}
 +
- 	return 0;
- }
+ 	sink = atomisp_subdev_get_ffmt(&asd->subdev, NULL,
+ 				       V4L2_SUBDEV_FORMAT_ACTIVE, ATOMISP_SUBDEV_PAD_SINK);
+ 	src = atomisp_subdev_get_ffmt(&asd->subdev, NULL,
+@@ -5510,8 +5515,6 @@ static void atomisp_check_copy_mode(struct atomisp_sub_device *asd,
+ 	      sensor[asd->sensor_curr].stream_num > 1)))
+ 		asd->copy_mode = true;
+ 	else
+-#endif
+-		/* Only used for the new input system */
+ 		asd->copy_mode = false;
  
+ 	dev_dbg(asd->isp->dev, "copy_mode: %d\n", asd->copy_mode);
+diff --git a/drivers/staging/media/atomisp/pci/atomisp_compat_css20.c b/drivers/staging/media/atomisp/pci/atomisp_compat_css20.c
+index a8972b231e06..da177a8e78e3 100644
+--- a/drivers/staging/media/atomisp/pci/atomisp_compat_css20.c
++++ b/drivers/staging/media/atomisp/pci/atomisp_compat_css20.c
+@@ -972,7 +972,7 @@ int atomisp_css_irq_translate(struct atomisp_device *isp,
+ void atomisp_css_rx_get_irq_info(enum mipi_port_id port,
+ 				 unsigned int *infos)
+ {
+-#ifndef ISP2401_NEW_INPUT_SYSTEM
++#ifndef IS_ISP2401
+ 	ia_css_isys_rx_get_irq_info(port, infos);
+ #else
+ 	*infos = 0;
+@@ -982,7 +982,7 @@ void atomisp_css_rx_get_irq_info(enum mipi_port_id port,
+ void atomisp_css_rx_clear_irq_info(enum mipi_port_id port,
+ 				   unsigned int infos)
+ {
+-#ifndef ISP2401_NEW_INPUT_SYSTEM
++#ifndef IS_ISP2401
+ 	ia_css_isys_rx_clear_irq_info(port, infos);
+ #endif
+ }
+diff --git a/drivers/staging/media/atomisp/pci/atomisp_fops.c b/drivers/staging/media/atomisp/pci/atomisp_fops.c
+index ac4e45b350de..b247d1582cff 100644
+--- a/drivers/staging/media/atomisp/pci/atomisp_fops.c
++++ b/drivers/staging/media/atomisp/pci/atomisp_fops.c
+@@ -464,13 +464,11 @@ int atomisp_qbuffers_to_css(struct atomisp_sub_device *asd)
+ 		css_capture_pipe_id = IA_CSS_PIPE_ID_CAPTURE;
+ 	}
+ 
+-#ifdef ISP2401_NEW_INPUT_SYSTEM
+-	if (asd->copy_mode) {
++	if (IS_ISP2401 && asd->copy_mode) {
+ 		css_capture_pipe_id = IA_CSS_PIPE_ID_COPY;
+ 		css_preview_pipe_id = IA_CSS_PIPE_ID_COPY;
+ 		css_video_pipe_id = IA_CSS_PIPE_ID_COPY;
+ 	}
+-#endif
+ 
+ 	if (asd->yuvpp_mode) {
+ 		capture_pipe = &asd->video_out_capture;
+diff --git a/drivers/staging/media/atomisp/pci/atomisp_v4l2.c b/drivers/staging/media/atomisp/pci/atomisp_v4l2.c
+index bbef485ee15c..0223e3dd95a6 100644
+--- a/drivers/staging/media/atomisp/pci/atomisp_v4l2.c
++++ b/drivers/staging/media/atomisp/pci/atomisp_v4l2.c
+@@ -1635,12 +1635,7 @@ static int atomisp_pci_probe(struct pci_dev *pdev, const struct pci_device_id *i
+ 		pdev->d3cold_delay = 0;
+ 		break;
+ 	case ATOMISP_PCI_DEVICE_SOC_ANN:
+-		isp->media_dev.hw_revision = (
+-#ifdef ISP2401_NEW_INPUT_SYSTEM
+-						 ATOMISP_HW_REVISION_ISP2401
+-#else
+-						 ATOMISP_HW_REVISION_ISP2401_LEGACY
+-#endif
++		isp->media_dev.hw_revision = (	 ATOMISP_HW_REVISION_ISP2401
+ 						 << ATOMISP_HW_REVISION_SHIFT);
+ 		isp->media_dev.hw_revision |= pdev->revision < 2 ?
+ 					      ATOMISP_HW_STEPPING_A0 : ATOMISP_HW_STEPPING_B0;
+@@ -1648,12 +1643,7 @@ static int atomisp_pci_probe(struct pci_dev *pdev, const struct pci_device_id *i
+ 		isp->hpll_freq = HPLL_FREQ_1600MHZ;
+ 		break;
+ 	case ATOMISP_PCI_DEVICE_SOC_CHT:
+-		isp->media_dev.hw_revision = (
+-#ifdef ISP2401_NEW_INPUT_SYSTEM
+-						 ATOMISP_HW_REVISION_ISP2401
+-#else
+-						 ATOMISP_HW_REVISION_ISP2401_LEGACY
+-#endif
++		isp->media_dev.hw_revision = (	 ATOMISP_HW_REVISION_ISP2401
+ 						 << ATOMISP_HW_REVISION_SHIFT);
+ 		isp->media_dev.hw_revision |= pdev->revision < 2 ?
+ 					      ATOMISP_HW_STEPPING_A0 : ATOMISP_HW_STEPPING_B0;
 -- 
 2.31.1
 
