@@ -2,57 +2,31 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C3BC144645E
-	for <lists+linux-media@lfdr.de>; Fri,  5 Nov 2021 14:43:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id AF076446490
+	for <lists+linux-media@lfdr.de>; Fri,  5 Nov 2021 15:01:57 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233179AbhKENpt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 5 Nov 2021 09:45:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44816 "EHLO
+        id S232930AbhKEOEf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 5 Nov 2021 10:04:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49014 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233062AbhKENpn (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 5 Nov 2021 09:45:43 -0400
-Received: from mail-io1-xd34.google.com (mail-io1-xd34.google.com [IPv6:2607:f8b0:4864:20::d34])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B61C7C06120C;
-        Fri,  5 Nov 2021 06:43:01 -0700 (PDT)
-Received: by mail-io1-xd34.google.com with SMTP id r3so9259083iod.6;
-        Fri, 05 Nov 2021 06:43:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=GVr9UbvBqKhMKqrCL+QAuy1UOuRrPQt/vqzzfEWHG9U=;
-        b=QdkMVgCl4s70IFXnwLkwMw7vnMfI5woUZFGqI38zfO4AGEO9ZzBNg1O4jtQTqjIcaD
-         OU/udSKAPnulFYLQpNaURYUgFf6/A3fN9CvzzK+oE5+V+C2NcisjY1X1R5xG5vpyvqPi
-         w6eTpGNdzgTSUJL34d9i2LdB6uPcs6jAmf8no9j0amLCNOe/dY+hm5lDYEamQsNLUVnj
-         f7VcailRea2wt3yZFL5zTQbZ3PqdF9XScx5kN0cnxvYG7PAksEbCoEi38e804/0KZhIt
-         wSXoosIsxypT5uIgbCFA2uK0KNY68h1GPb8HkYlYEb5FfL9plN3FLgpSr4aXlZ+AP3lA
-         5mww==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=GVr9UbvBqKhMKqrCL+QAuy1UOuRrPQt/vqzzfEWHG9U=;
-        b=zS3m+aToIfGImjl7s/69I290bVJsA/AYGMho+z+pCI+iROL8HDgsQaUZwHDZSi8JbB
-         dyUOM/gSzlojwP1bjjkViA2Ded9+ZpgTkVh1JJ37MpyJ0IJdEWqsaqJ7tb72gkW6WMLy
-         CKwRcahkBB9xx2V0ugLichCHahz6AMc+39jysvGCXKtHFU290vXHrFl4ngATR+dEt++8
-         jLapbXMyRzf0UivW1sSJR6NValoNVpDLm2nkdhwtFwyPIpmlCsDMvh6jfbRakoAkQrK8
-         MjZlOfKW9yvsozau2RD/0KhOVQsIS2OEq9mCVMnzZufV+mEtB2mvPlpbyLlf9yzvG9HX
-         61QQ==
-X-Gm-Message-State: AOAM532VLknJW98LByV0/pFDGzInhNhvlxV+y6Wd5mZceyIDeuWAcmVf
-        S2SsNYsGqse4XU++/3H0lSw=
-X-Google-Smtp-Source: ABdhPJyaCp0y/ZZ7VWLi4RArSfHIskr9dm2tjm8AgcgrqcqwpOgP3hG0AEAXLuOyOaJIGWnhJda75g==
-X-Received: by 2002:a5d:9b86:: with SMTP id r6mr42742226iom.50.1636119781060;
-        Fri, 05 Nov 2021 06:43:01 -0700 (PDT)
-Received: from aford-OptiPlex-7050.logicpd.com ([174.46.170.158])
-        by smtp.gmail.com with ESMTPSA id j15sm4537909ile.65.2021.11.05.06.42.59
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 05 Nov 2021 06:43:00 -0700 (PDT)
-From:   Adam Ford <aford173@gmail.com>
-To:     linux-arm-kernel@lists.infradead.org
+        with ESMTP id S232837AbhKEOEe (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 5 Nov 2021 10:04:34 -0400
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 31320C061714
+        for <linux-media@vger.kernel.org>; Fri,  5 Nov 2021 07:01:55 -0700 (PDT)
+Received: from gallifrey.ext.pengutronix.de ([2001:67c:670:201:5054:ff:fe8d:eefb] helo=[IPv6:::1])
+        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <l.stach@pengutronix.de>)
+        id 1mizmw-00037w-FE; Fri, 05 Nov 2021 15:01:50 +0100
+Message-ID: <4e2feba40ea3f93560e63a9b6af21c78188f02fe.camel@pengutronix.de>
+Subject: Re: [PATCH 1/5] soc: imx: imx8m-blk-ctrl: Fix imx8mm mipi reset
+From:   Lucas Stach <l.stach@pengutronix.de>
+To:     Adam Ford <aford173@gmail.com>,
+        linux-arm-kernel@lists.infradead.org
 Cc:     tharvey@gateworks.com, frieder.schrempf@kontron.de,
         linux-media@vger.kernel.org, laurent.pinchart@ideasonboard.com,
         aford@beaconembedded.com, cstevens@beaconembedded.com,
-        Adam Ford <aford173@gmail.com>,
         Rob Herring <robh+dt@kernel.org>,
         Shawn Guo <shawnguo@kernel.org>,
         Sascha Hauer <s.hauer@pengutronix.de>,
@@ -60,42 +34,108 @@ Cc:     tharvey@gateworks.com, frieder.schrempf@kontron.de,
         Fabio Estevam <festevam@gmail.com>,
         NXP Linux Team <linux-imx@nxp.com>,
         Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>,
-        Lucas Stach <l.stach@pengutronix.de>,
-        Peng Fan <peng.fan@nxp.com>, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH 5/5] arm64: defconfig: Enable OV5640
-Date:   Fri,  5 Nov 2021 08:42:28 -0500
-Message-Id: <20211105134228.731331-5-aford173@gmail.com>
-X-Mailer: git-send-email 2.32.0
+        Will Deacon <will@kernel.org>, Peng Fan <peng.fan@nxp.com>,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Date:   Fri, 05 Nov 2021 15:01:47 +0100
 In-Reply-To: <20211105134228.731331-1-aford173@gmail.com>
 References: <20211105134228.731331-1-aford173@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.40.4 (3.40.4-1.fc34) 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
+X-SA-Exim-Connect-IP: 2001:67c:670:201:5054:ff:fe8d:eefb
+X-SA-Exim-Mail-From: l.stach@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-media@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The Beacon EmbeddedWorks imx8mm development kit has a TD Next 5640
-Camera.  Enable the OV5640 driver to use the camera.
+Hi Adam,
 
-Signed-off-by: Adam Ford <aford173@gmail.com>
----
- arch/arm64/configs/defconfig | 1 +
- 1 file changed, 1 insertion(+)
+Am Freitag, dem 05.11.2021 um 08:42 -0500 schrieb Adam Ford:
+> Most of the blk-ctrl reset bits are found in one register, however
+> there are two bits in offset 8 for pulling the MIPI DPHY out of reset
+> and these need to be set when IMX8MM_DISPBLK_PD_MIPI_CSI is brought
+> out of reset or the MIPI_CSI hangs.
+> 
+I'm undecided yet if I like this solution, as register 0x8 has
+different content on different instances of the blk-ctrl, so naming it
+mipi_rst_mask is confusing for others.
 
-diff --git a/arch/arm64/configs/defconfig b/arch/arm64/configs/defconfig
-index bc261cf2ef5a..4c1eb9aae5e5 100644
---- a/arch/arm64/configs/defconfig
-+++ b/arch/arm64/configs/defconfig
-@@ -668,6 +668,7 @@ CONFIG_VIDEO_QCOM_VENUS=m
- CONFIG_SDR_PLATFORM_DRIVERS=y
- CONFIG_VIDEO_RCAR_DRIF=m
- CONFIG_VIDEO_IMX219=m
-+CONFIG_VIDEO_OV5640=m
- CONFIG_VIDEO_OV5645=m
- CONFIG_VIDEO_QCOM_CAMSS=m
- CONFIG_DRM=m
--- 
-2.32.0
+My initial thought was that we should habe a MIPI PHY driver
+controlling all the registers in the disp-blk-ctrl, other than SFT_RSTN
+and CLK_EN, however I see how the reset handling for the PHY would then
+be inconsistent with how we handle all the other devices in the disp-
+blk domain. But then the HW guys seemed to think along the same lines,
+as they placed the PHY resets into the PHY registers, instead of the
+SFT_RSTN, which had more than enough spare bits to carry those
+resets...
+
+> Fixes: 926e57c065df ("soc: imx: imx8m-blk-ctrl: add DISP blk-ctrl")
+> Signed-off-by: Adam Ford <aford173@gmail.com>
+> ---
+>  drivers/soc/imx/imx8m-blk-ctrl.c | 6 ++++++
+>  1 file changed, 6 insertions(+)
+> 
+> diff --git a/drivers/soc/imx/imx8m-blk-ctrl.c b/drivers/soc/imx/imx8m-blk-ctrl.c
+> index 519b3651d1d9..5506bd075c35 100644
+> --- a/drivers/soc/imx/imx8m-blk-ctrl.c
+> +++ b/drivers/soc/imx/imx8m-blk-ctrl.c
+> @@ -17,6 +17,7 @@
+>  
+>  #define BLK_SFT_RSTN	0x0
+>  #define BLK_CLK_EN	0x4
+> +#define BLK_MIPI_RESET_DIV	0x8
+>  
+>  struct imx8m_blk_ctrl_domain;
+>  
+> @@ -36,6 +37,7 @@ struct imx8m_blk_ctrl_domain_data {
+>  	const char *gpc_name;
+>  	u32 rst_mask;
+>  	u32 clk_mask;
+> +	u32 mipi_rst_mask;
+>  };
+>  
+>  #define DOMAIN_MAX_CLKS 3
+> @@ -78,6 +80,7 @@ static int imx8m_blk_ctrl_power_on(struct generic_pm_domain *genpd)
+>  
+>  	/* put devices into reset */
+>  	regmap_clear_bits(bc->regmap, BLK_SFT_RSTN, data->rst_mask);
+> +	regmap_clear_bits(bc->regmap, BLK_MIPI_RESET_DIV, data->mipi_rst_mask);
+>  
+>  	/* enable upstream and blk-ctrl clocks to allow reset to propagate */
+>  	ret = clk_bulk_prepare_enable(data->num_clks, domain->clks);
+> @@ -99,6 +102,7 @@ static int imx8m_blk_ctrl_power_on(struct generic_pm_domain *genpd)
+>  
+>  	/* release reset */
+>  	regmap_set_bits(bc->regmap, BLK_SFT_RSTN, data->rst_mask);
+> +	regmap_set_bits(bc->regmap, BLK_MIPI_RESET_DIV, data->mipi_rst_mask);
+>  
+>  	/* disable upstream clocks */
+>  	clk_bulk_disable_unprepare(data->num_clks, domain->clks);
+> @@ -122,6 +126,7 @@ static int imx8m_blk_ctrl_power_off(struct generic_pm_domain *genpd)
+>  	/* put devices into reset and disable clocks */
+>  	regmap_clear_bits(bc->regmap, BLK_SFT_RSTN, data->rst_mask);
+>  	regmap_clear_bits(bc->regmap, BLK_CLK_EN, data->clk_mask);
+> +	regmap_clear_bits(bc->regmap, BLK_MIPI_RESET_DIV, data->mipi_rst_mask);
+
+For consistency the reset assertion should be put before the clock
+disable.
+
+Regards,
+Lucas
+
+>  
+>  	/* power down upstream GPC domain */
+>  	pm_runtime_put(domain->power_dev);
+> @@ -488,6 +493,7 @@ static const struct imx8m_blk_ctrl_domain_data imx8mm_disp_blk_ctl_domain_data[]
+>  		.gpc_name = "mipi-csi",
+>  		.rst_mask = BIT(3) | BIT(4),
+>  		.clk_mask = BIT(10) | BIT(11),
+> +		.mipi_rst_mask = BIT(16) | BIT(17),
+>  	},
+>  };
+>  
+
 
