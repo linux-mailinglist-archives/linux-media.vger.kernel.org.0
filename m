@@ -2,74 +2,78 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 05DE8446DEB
-	for <lists+linux-media@lfdr.de>; Sat,  6 Nov 2021 13:39:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3F7B7446E40
+	for <lists+linux-media@lfdr.de>; Sat,  6 Nov 2021 15:12:15 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232984AbhKFMlj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 6 Nov 2021 08:41:39 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:41718 "EHLO
+        id S233614AbhKFOOy (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 6 Nov 2021 10:14:54 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:46114 "EHLO
         us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S229669AbhKFMlj (ORCPT
+        by vger.kernel.org with ESMTP id S229932AbhKFOOx (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 6 Nov 2021 08:41:39 -0400
+        Sat, 6 Nov 2021 10:14:53 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1636202337;
+        s=mimecast20190719; t=1636207931;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=EG9nttygUp8iT/S+pFBMUQdNV7m/LTMOi7o8pXce84k=;
-        b=QEGp/INpj6Y7hZO2EfmCv4ewR3lUqh0XMaUTG4buMO7DnUgKSfvwV5XSDvh8SfXF2s76DJ
-        kcim+ldN2Js2TKumW+D1VAXl+vLLOdcEaWdx2bh91omwHyJ5OQkFVQcIHPiScvSzgeBdPg
-        e7K1hTtJwku1P3mqDfTabY2JKcKywbA=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-249-FlrrqKegN5exUW8k5FniOw-1; Sat, 06 Nov 2021 08:38:54 -0400
-X-MC-Unique: FlrrqKegN5exUW8k5FniOw-1
-Received: by mail-ed1-f69.google.com with SMTP id f20-20020a0564021e9400b003e2ad3eae74so11163239edf.5
-        for <linux-media@vger.kernel.org>; Sat, 06 Nov 2021 05:38:54 -0700 (PDT)
+        bh=NvL28t+9mmNIhKid1W8YhAFvBVkKSYd5UykSql3UdJ8=;
+        b=DSL/CjF1Mv6scTJaU+PJR0JTpOOL56zOjxyTtYSS1hoY5jGOD5J4j1jwHuYIzWUDmX1PeE
+        lyAyyX0r6g+CkRRErnUfehrl5H5+ZvWN1lOKTiFpF4fkHFLKGR03w/+UJpMIUFkJ1P/TTC
+        lnAb/EmAhrlNjoWb3o8CXeYPZNxQXLQ=
+Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
+ [209.85.208.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-125-uljQJUAqOF6Mbytv8_6-Rw-1; Sat, 06 Nov 2021 10:12:10 -0400
+X-MC-Unique: uljQJUAqOF6Mbytv8_6-Rw-1
+Received: by mail-ed1-f70.google.com with SMTP id s6-20020a056402520600b003e2dea4f9b4so8250037edd.12
+        for <linux-media@vger.kernel.org>; Sat, 06 Nov 2021 07:12:09 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
          :content-language:to:cc:references:from:in-reply-to
          :content-transfer-encoding;
-        bh=EG9nttygUp8iT/S+pFBMUQdNV7m/LTMOi7o8pXce84k=;
-        b=5Sv/w4+hyoEaffzwhgXkPTw2BGOqxNZhj0IWqrdaGOLi1mIfDYwjsmvhlmbCuoIBmc
-         p/1OpA6/13npdwPHBC1oiTHQDkmFK84yucAJWZY/8Jwamwd+TpN+3KnLK2ZKKBPJg2L3
-         oRhqM5w0AJE7O2YsB6BnXRTG879ytbr+BaTYp2D8PS1gnSxV0eVRWOxLsSDcIQKBNbOD
-         jrzjT4BCFDn8JcGBXVNOO/AEq63vBAq3oW8WX7fkU7fU/2bOGr5GUA5AFr/LpP2n+B8o
-         VLjmYPuU4iWjKYvI6BkB5b67f0eqPICmorpWkzsJMZd5EatnfcJalDUNGRFFcfTXMmI0
-         xKcg==
-X-Gm-Message-State: AOAM532HMlHjzMOMT+slN7x9Yxxbsd0oQezUwi1hoLc988BSb1F59T5Y
-        mMKDAw0g9CmR0WM2vHD9EGWCQ1xcC2EP4NaDm8t5pF6WeuLo8j06Se9l0ci1aKHm3DxmuS1/RO6
-        kYYfhOoqC9EvtjQvMNJP2Swo=
-X-Received: by 2002:aa7:c34c:: with SMTP id j12mr71058680edr.31.1636202333459;
-        Sat, 06 Nov 2021 05:38:53 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJx+330raMVTbfw7psS1HzmdrXQ5Qs5ZFWSJIKPGzPjh7mjMVO+gM+JFNF/OBKRsVgxTXEkq/Q==
-X-Received: by 2002:aa7:c34c:: with SMTP id j12mr71058658edr.31.1636202333312;
-        Sat, 06 Nov 2021 05:38:53 -0700 (PDT)
+        bh=NvL28t+9mmNIhKid1W8YhAFvBVkKSYd5UykSql3UdJ8=;
+        b=d9vpLm/Y60OtxHbuws8Y8C7NGZd9WV4nlvmhy+YSFMybHyoGZDFWGXmU3o6A91CTVi
+         wIuue2z6Hw4XJCCKSVLelYRouVYJzigZyt6fb1YtHt/Z3MkrimNSSYmkEJRUBtuiXiON
+         ZCGP36OHN1XFgla13GVLvgv/ct3fm0c2TlzbflqW4Bv4dBUt4W6LSHEyYDNGtXuX3L/R
+         AqPd7CFcnGpDCY04FxAqf7pfJnxIW020yKqSiIx3uCdPPLWagjfwRBO5nUDionKT5U2N
+         Gpq/vWYfNp3mZmLqFLldAnqQpKhZpMvZDJgiCKlkpmrUibxlt/cjfOgFWtegslNcuuT+
+         A01A==
+X-Gm-Message-State: AOAM533+3EasVTT0nDp9DdiKx9iJRYV9AExVTFAws3asvQVnaQuiQ0Iu
+        4Ud0TQpHuU2gwxLAuF+fwRwlH+maNPz++Ja0JfRuCAiR9ZEXq/8zKlzA/CJIykyRLX+8+V37KkU
+        ft30FaiHQ5yGd0jgjxG7Fgvk=
+X-Received: by 2002:a17:906:6b1a:: with SMTP id q26mr77714810ejr.185.1636207928567;
+        Sat, 06 Nov 2021 07:12:08 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyZAKFHxsHAxT8AQIMcGt+HZHLg18xc7Trn1BTg6tRegrsxDmthab5sZ61MbsKL0W4N18i7JA==
+X-Received: by 2002:a17:906:6b1a:: with SMTP id q26mr77714790ejr.185.1636207928410;
+        Sat, 06 Nov 2021 07:12:08 -0700 (PDT)
 Received: from ?IPV6:2001:1c00:c1e:bf00:1054:9d19:e0f0:8214? (2001-1c00-0c1e-bf00-1054-9d19-e0f0-8214.cable.dynamic.v6.ziggo.nl. [2001:1c00:c1e:bf00:1054:9d19:e0f0:8214])
-        by smtp.gmail.com with ESMTPSA id i22sm6048032edu.93.2021.11.06.05.38.52
+        by smtp.gmail.com with ESMTPSA id sg17sm5793569ejc.72.2021.11.06.07.12.07
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 06 Nov 2021 05:38:52 -0700 (PDT)
-Message-ID: <28823616-9622-29d4-75d6-cfef0d4f7323@redhat.com>
-Date:   Sat, 6 Nov 2021 13:38:52 +0100
+        Sat, 06 Nov 2021 07:12:07 -0700 (PDT)
+Message-ID: <3e2a32c3-1e42-a510-6010-6be07bdd101d@redhat.com>
+Date:   Sat, 6 Nov 2021 15:12:07 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.2.0
-Subject: Re: [PATCH media-staging regression fix] media: videobuf2-dma-sg: Fix
- buf->vb NULL pointer dereference
+Subject: Re: Fwd: Surface Go VCM type (was: Need to pass
+ acpi_enforce_resources=lax on the Surface Go (version1))
 Content-Language: en-US
-To:     Tomasz Figa <tfiga@chromium.org>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     Sumit Semwal <sumit.semwal@linaro.org>,
-        =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
-        linux-media@vger.kernel.org,
-        Sergey Senozhatsky <senozhatsky@chromium.org>
-References: <20211101145355.533704-1-hdegoede@redhat.com>
+To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc:     Daniel Scally <djrscally@gmail.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Kate Hsuan <hpa@redhat.com>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        libcamera-devel@lists.libcamera.org
+References: <e2312277-f967-7d3f-5ce9-fbb197d35fd6@gmail.com>
+ <3b61bb2d-1136-cf35-ba7a-724da9642855@gmail.com>
+ <418dc16a-2a03-7604-a8e2-31c5ddfcf436@redhat.com>
+ <58dabc46-211c-844d-3ed3-fd2411936d6d@gmail.com>
+ <8d0470d3-7356-b476-6807-5c8606ee3545@redhat.com>
+ <YYQi+zpAxPDvdCHx@smile.fi.intel.com>
 From:   Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <20211101145355.533704-1-hdegoede@redhat.com>
+In-Reply-To: <YYQi+zpAxPDvdCHx@smile.fi.intel.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 Precedence: bulk
@@ -78,54 +82,48 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 Hi,
 
-On 11/1/21 15:53, Hans de Goede wrote:
-> Commit a4b83deb3e76 ("media: videobuf2: rework vb2_mem_ops API")
-> added a new vb member to struct vb2_dma_sg_buf, but it only added
-> code setting this to the vb2_dma_sg_alloc() function and not to the
-> vb2_dma_sg_get_userptr() and vb2_dma_sg_attach_dmabuf() which also
-> create vb2_dma_sg_buf objects.
+On 11/4/21 19:14, Andy Shevchenko wrote:
+> On Thu, Nov 04, 2021 at 03:49:48PM +0100, Hans de Goede wrote:
+>> On 11/2/21 00:43, Daniel Scally wrote:
 > 
-> This is causing a crash due to a NULL pointer deref when using
-> libcamera on devices with an Intel IPU3 (qcam app).
+> ...
 > 
-> Fix these crashes by assigning buf->vb in the other 2 functions too,
-> note libcamera tests the vb2_dma_sg_get_userptr() path, the change
-> to the vb2_dma_sg_attach_dmabuf() path is untested.
+>> Ok, I've figured this out now, with the attached patch (which also
+>> explains what is going on) as well as an updated tps68470_board_data.c
+>> with updated regulator_init_data for the VCM (also attached), the driver
+>> can now successfully talk to the VCM in probe() while we are NOT
+>> streaming from the ov8865.
 > 
-> Fixes: a4b83deb3e76 ("media: videobuf2: rework vb2_mem_ops API")
-> Cc: Sergey Senozhatsky <senozhatsky@chromium.org>
-> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+> Thanks, Hans.
+> 
+> ...
+> 
+>> const struct int3472_tps68470_board_data *int3472_tps68470_get_board_data(const char *dev_name)
+>> {
+>> 	const struct int3472_tps68470_board_data *board_data;
+>> 	const struct dmi_system_id *match;
+>>
+>> 	match = dmi_first_match(int3472_tps68470_board_data_table);
+>> 	while (match) {
+>> 		board_data = match->driver_data;
+>> 		if (strcmp(board_data->dev_name, dev_name) == 0)
+>> 			return board_data;
+> 
+>> 		dmi_first_match(++match);
+> 
+> Not sure I understood the purpose of the call.
 
-Ping ? This is still an issue in the current media-staging tree.
+You are right , that should have a "match = " in front of it, but
+I actually like this form found else where better:
+
+        for (match = dmi_first_match(int3472_tps68470_board_data_table);
+             match;
+             match = dmi_first_match(match + 1)) {
+
+That IMHO makes the whole code a lot clearer, so I'll switch to that for
+the next version, thank you for catching this.
 
 Regards,
 
 Hans
-
-
-> ---
->  drivers/media/common/videobuf2/videobuf2-dma-sg.c | 2 ++
->  1 file changed, 2 insertions(+)
-> 
-> diff --git a/drivers/media/common/videobuf2/videobuf2-dma-sg.c b/drivers/media/common/videobuf2/videobuf2-dma-sg.c
-> index 33ee63a99139..0452ed9fac95 100644
-> --- a/drivers/media/common/videobuf2/videobuf2-dma-sg.c
-> +++ b/drivers/media/common/videobuf2/videobuf2-dma-sg.c
-> @@ -241,6 +241,7 @@ static void *vb2_dma_sg_get_userptr(struct vb2_buffer *vb, struct device *dev,
->  	buf->offset = vaddr & ~PAGE_MASK;
->  	buf->size = size;
->  	buf->dma_sgt = &buf->sg_table;
-> +	buf->vb = vb;
->  	vec = vb2_create_framevec(vaddr, size);
->  	if (IS_ERR(vec))
->  		goto userptr_fail_pfnvec;
-> @@ -642,6 +643,7 @@ static void *vb2_dma_sg_attach_dmabuf(struct vb2_buffer *vb, struct device *dev,
->  	buf->dma_dir = vb->vb2_queue->dma_dir;
->  	buf->size = size;
->  	buf->db_attach = dba;
-> +	buf->vb = vb;
->  
->  	return buf;
->  }
-> 
 
