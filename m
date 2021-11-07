@@ -2,92 +2,161 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8C6564473A1
-	for <lists+linux-media@lfdr.de>; Sun,  7 Nov 2021 17:08:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9CD8D4473DA
+	for <lists+linux-media@lfdr.de>; Sun,  7 Nov 2021 17:36:05 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235693AbhKGQLj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 7 Nov 2021 11:11:39 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54358 "EHLO
+        id S235210AbhKGQiq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 7 Nov 2021 11:38:46 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60622 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230371AbhKGQLj (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Sun, 7 Nov 2021 11:11:39 -0500
-Received: from mail-ua1-x92c.google.com (mail-ua1-x92c.google.com [IPv6:2607:f8b0:4864:20::92c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3C20FC061570
-        for <linux-media@vger.kernel.org>; Sun,  7 Nov 2021 08:08:56 -0800 (PST)
-Received: by mail-ua1-x92c.google.com with SMTP id az37so26904914uab.13
-        for <linux-media@vger.kernel.org>; Sun, 07 Nov 2021 08:08:56 -0800 (PST)
+        with ESMTP id S229966AbhKGQiq (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Sun, 7 Nov 2021 11:38:46 -0500
+Received: from mail-wm1-x330.google.com (mail-wm1-x330.google.com [IPv6:2a00:1450:4864:20::330])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 04A6AC061570
+        for <linux-media@vger.kernel.org>; Sun,  7 Nov 2021 08:36:03 -0800 (PST)
+Received: by mail-wm1-x330.google.com with SMTP id v127so11114463wme.5
+        for <linux-media@vger.kernel.org>; Sun, 07 Nov 2021 08:36:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:reply-to:from:date:message-id:subject:to
-         :content-transfer-encoding;
-        bh=wFNEomSRNYT8SZj+Meku9TKegfl7zqDfhTqEQuNR2u4=;
-        b=Wbyn7AMNMsCaH03rEZV3HhIJyjPK3AXVBQdWEfzIncGU4mIBmNHb+3tiHAcNFA/SLO
-         q7ErVdzHSHc4lo9Gb7vinCkrYpPMXpN9kZhikB8JDv8VxT5pXHHIUMNB5rjHQp78nult
-         +/fUsuadSkECj1VIYYgGLS4/QoHVcIiH+Gx1ZeVoCsyUNwFcFDSLKZHivbn0WTK3yICM
-         8XF04TWUY9/m0WmuZlK4Z27+6dl8t2FR5+8e+oYFq2XL1B0RzVDcX0pJ8NwntnzFUWwo
-         uMy9+i6rRD2clBRTKlXrCm1Pe6BdGEdtNcPmpxauPxhjvWtK9qo+pTHAnrmm0NhQ7Gcz
-         2IHw==
+        d=baylibre-com.20210112.gappssmtp.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=4hGkCLxhZnpNqcqLmATMrD9cvIKaW/chFtDdi+mbfSw=;
+        b=hv8NDkkf/BoZNySfSrye1dDjE3EbpF4GnWvmAFKWyHwMsTO7Sq1Y+10oQxm4RAgv9B
+         5nQ5gW/qXeGOdkEqhcWa649hD9AfBikGH0nULObfIuE2+4BhHCpU8Litwr0Xpm353gFk
+         5loZeEyiKwfr7JJ6k2TReEAPu8AmzkTqF2L6qV8j+CixhTr8EcAJ9dG/UIY0bnfPerOZ
+         X93THQNykU0JbErZr4kX8LkZYxrdzlSjweqkaUw0VvmrKNvVeNFa1Eivbf7wgX7BqmFt
+         LE3hy02ln6T/TaGLk0a/aXRD+NANID85TEt8tSC3rXhpll91iY7YW1mVFbWCYFGvAmCz
+         cqLw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to:content-transfer-encoding;
-        bh=wFNEomSRNYT8SZj+Meku9TKegfl7zqDfhTqEQuNR2u4=;
-        b=ud5Oey3fd0yGXxWctnTKOlisjffZYCbW7iu3LWdo7LrU2QiOBowZlgOmPWbxyWyvHy
-         +GdEBhT9EqpnEr3x7/UgnAmFivQOrs5g968W9aYx9JB2bfqQtwZ8bu79EO07NjOOlWnB
-         W+Qjn2ROul1BQG5pbn5Z5jK8VGANB4X7imqg/bkmJr/qbutcet9k2THCdoKBuUNEQH1H
-         yXs6SlOIwbNhYeftjWL/Da2EO9xPtNtTpD0NDzWqbMz38f0oSHULgT8s8ekI7JD0K37x
-         Uek0rxMWHDLOJUqMKefOnee/EhSR5yh4qBqzAw2TEtEMkCfNxnahrQLTKTP7HDyV5bGD
-         sDpg==
-X-Gm-Message-State: AOAM531c4y9Ue3zyKxZjYrNPyts4RYdiyLdVgOH8xxd7hT/eX7tD/Loa
-        zUlVd5PE3DWX/qqjbRJZxgMc3bqzijOLMpdUMLk=
-X-Google-Smtp-Source: ABdhPJzayzXnuQqNk/wMbcmEUee/N3GMc4yWnTCjuM+KU0fWyDLOehjON2lQRGUuaYH5cxDjruHY2KOP2We26QLdIlg=
-X-Received: by 2002:ab0:3e3:: with SMTP id 90mr83347765uau.102.1636301335031;
- Sun, 07 Nov 2021 08:08:55 -0800 (PST)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=4hGkCLxhZnpNqcqLmATMrD9cvIKaW/chFtDdi+mbfSw=;
+        b=1sZqpJhGTUp3JuGWj6gYKv7hz+AuZxLOmL8mhHEdZZ0BWYjVZvV5nMLlL776TpdM21
+         Kov7DkvKubdNev6npb1a9lLTX7rgX3bGrWq1Tpiow6itHuzNX1mfGHLi5aw3MrMbxwWh
+         nLcnH8qxAEDT49+/N7ASBAMfopRszJ5mO5d1kWWOlc+erWBpD72aC+9a2oNu3nj9BBkU
+         9Z/BgblPhnmKYl0pQOaieJBufXp80Hn8aupdMfywIhGFV/j6fmvPzbns2slZgcZJSc5N
+         dQSeh/N6iwfi/Fd9X/XxnUBrKRZHWe0H5CfI0d8yMgfINWs3e7pdQy55XPpLYA5aIjFh
+         Wyfg==
+X-Gm-Message-State: AOAM533w1iEHdsBHN9Y3ZUgsTIcb/2SBt610LWipiCWfCUFq0EF/XnCB
+        PnT/ymIF12oN455oShsGUlowpH5fJ7DD4g==
+X-Google-Smtp-Source: ABdhPJyye92fqnf6uoFZErPVsPnRnuPe12kbbNUM+TzpZQv1fjLeglt8aIYLErII3t4don1klOQE1g==
+X-Received: by 2002:a7b:c1cb:: with SMTP id a11mr47550829wmj.30.1636302961570;
+        Sun, 07 Nov 2021 08:36:01 -0800 (PST)
+Received: from Red ([2a01:cb1d:3d5:a100:264b:feff:fe03:2806])
+        by smtp.googlemail.com with ESMTPSA id g13sm12780500wmk.37.2021.11.07.08.36.00
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 07 Nov 2021 08:36:01 -0800 (PST)
+Date:   Sun, 7 Nov 2021 17:35:59 +0100
+From:   LABBE Corentin <clabbe@baylibre.com>
+To:     Hans Verkuil <hverkuil@xs4all.nl>
+Cc:     mchehab@kernel.org, gregkh@linuxfoundation.org,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-staging@lists.linux.dev, mjpeg-users@lists.sourceforge.net
+Subject: Re: [PATCH v3 00/14] staging: media: zoran: fusion in one module
+Message-ID: <YYgAb76mrMb1ERMW@Red>
+References: <20211026193416.1176797-1-clabbe@baylibre.com>
+ <a85c93db-e118-274f-d86a-d127c7399926@xs4all.nl>
+ <YYKxTrWI299pvqo7@Red>
+ <2bbce7ef-acf8-3c0f-2705-09d34b2d92be@xs4all.nl>
 MIME-Version: 1.0
-Received: by 2002:a59:c526:0:b0:237:217f:8a49 with HTTP; Sun, 7 Nov 2021
- 08:08:54 -0800 (PST)
-Reply-To: mr.luisfernando5050@gmail.com
-From:   "Mr. Luis Fernando" <kasimmohamed405@gmail.com>
-Date:   Sun, 7 Nov 2021 08:08:54 -0800
-Message-ID: <CANiFnWAqOP6ZMtCQ0Q9mCm5JiO0AO1tmiMPPcK5RXR+tNPxdWg@mail.gmail.com>
-Subject: GOOD DAY
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <2bbce7ef-acf8-3c0f-2705-09d34b2d92be@xs4all.nl>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-LS0gDQoNCuy5nOq1rOyXkOqyjCwNCg0K7J247IKs66eQLg0KDQrsmKTripgg7J6YIOyngOuCtOqz
-oCDsnojrgpjsmpQ/DQoNCuuPhOybgOydtCDtlYTsmpTtlZwg64+Z7JWIIOqwnOyduCDqsoDsg4ns
-nYQg7ZWY6riwIOyghOyXkCDqt4DtlZjsnZgg7J2066mU7J28IOyXsOudveyymOulvCDrsJzqsqzt
-lojsirXri4jri6QuDQrri7nsi6DsnZgg64+E7JuALiDrgrQg7J2066aE7J2AIE1yLmx1aXMgZmVy
-bmFuZG8gJ+yZgCDtlajqu5gg7J287ZWp64uI64ukLg0KVUJBIEJhbmsgb2YgQWZyaWNh7J2YIOqw
-kOyCrCDrsI8g7ZqM6rOEIOq0gOumrOyekCwNCuuqhyDrhYQg7KCE7JeQIOygnOqwgCDrs7TqtIDt
-lZjqs6Ag7J6I642YIOydtCDquLDquIjsnbQg7J6I7Iq164uI64ukLg0K7J20IOyekOq4iOydhCDq
-t4DtlZjsnZgg7J2A7ZaJIOqzhOyijOuhnCDsnbTssrTtlZjquLAg7JyE7ZWcIOq3gO2VmOydmCDs
-p4Dsm5ANCuyasOumrCDrqqjrkZDsl5Dqsowg7Y+J7IOdIO2IrOyekOyXkCDrjIDtlZwg7Zic7YOd
-7J20IOyeiOycvOupsCDquIjslaHsnYAgKOuvuOq1rQ0KMjcsNTAw64us65+sLiDrsLHrp4wg64us
-65+sKS4NCg0K64KY64qUIOydgO2WieydtCDri7nsi6DsnYQg66+/6rOgIOumtOumrOyKpO2VmOuP
-hOuhnSDrqqjrk6Ag66y47J2YIOyEuOu2gCDsgqztla3snYQg6rCA7KeA6rOgIOyeiOyKteuLiOuL
-pC4NCuydgO2WiSDsl4XrrLTsnbwg6riw7KSAIDfsnbwg7J2064K07JeQIOq3gO2VmOydmCDsnYDt
-lokg6rOE7KKM66GcIOyekOq4iOydhA0K7ISx6rO1IO2bhCDrgpjsmYDsnZgg7JmE7KCE7ZWcIO2Y
-keugpSDrj5nslYggNTAlIOywuOqzoA0K7J2A7ZaJ7Jy866GcIOyekOq4iCDsnbTssrQg7ISx6rO1
-IO2bhCA1MCUNCuqzhOyglSDqtJzssK7slYQuDQoNCuq3gO2VmOydmCDsnZjqsqzsnYQg6riw64uk
-66as6rOgIOyeiOyKteuLiOuLpC4NCuqwkOyCrCDtlbTsmpQuDQoNCuujqOydtOyKpCDtjpjrpbTr
-gpzrj4Qg7JSoDQoNCg0KDQoNCg0KDQoNCkRlYXIgRnJpZW5kLA0KDQpHcmVldGluZ3MuDQoNCkhv
-dyBhcmUgeW91IGRvaW5nIHRvZGF5IGkgaG9wZSBmaW5lPw0KDQpJIGNhbWUgYWNyb3NzIHlvdXIg
-ZS1tYWlsIGNvbnRhY3QgcHJpb3IgYSBwcml2YXRlIHNlYXJjaCB3aGlsZSBpbiBuZWVkDQpvZiB5
-b3VyIGFzc2lzdGFuY2UuIE15IG5hbWUgTXIubHVpcyBmZXJuYW5kb+KAmSBJIHdvcmsgd2l0aCB0
-aGUNCmRlcGFydG1lbnQgb2YgQXVkaXQgYW5kIGFjY291bnRpbmcgbWFuYWdlciBoZXJlIGluIFVC
-QSBCYW5rIG9mIEFmcmljYSwNClRoZXJlIGlzIHRoaXMgZnVuZCB0aGF0IHdhcyBrZWVwIGluIG15
-IGN1c3RvZHkgeWVhcnMgYWdvIGFuZCBJIG5lZWQNCnlvdXIgYXNzaXN0YW5jZSBmb3IgdGhlIHRy
-YW5zZmVycmluZyBvZiB0aGlzIGZ1bmQgdG8geW91ciBiYW5rIGFjY291bnQNCmZvciBib3RoIG9m
-IHVzIGJlbmVmaXQgZm9yIGxpZmUgdGltZSBpbnZlc3RtZW50IGFuZCB0aGUgYW1vdW50IGlzIChV
-Uw0KJDI3LDUwMC4gTWlsbGlvbiBEb2xsYXJzKS4NCg0KSSBoYXZlIGV2ZXJ5IGlucXVpcnkgZGV0
-YWlscyB0byBtYWtlIHRoZSBiYW5rIGJlbGlldmUgeW91IGFuZCByZWxlYXNlDQp0aGUgZnVuZCB0
-byB5b3VyIGJhbmsgYWNjb3VudCBpbiB3aXRoaW4gNyBiYW5raW5nIHdvcmtpbmcgZGF5cyB3aXRo
-DQp5b3VyIGZ1bGwgY28tb3BlcmF0aW9uIHdpdGggbWUgYWZ0ZXIgc3VjY2VzcyBOb3RlIDUwJSBm
-b3IgeW91IHdoaWxlDQo1MCUgZm9yIG1lIGFmdGVyIHN1Y2Nlc3Mgb2YgdGhlIHRyYW5zZmVyIG9m
-IHRoZSBmdW5kcyB0byB5b3VyIGJhbmsNCmFjY291bnQgb2theS4NCg0KV0FJVElORyBUTyBIRUFS
-IEZST00gWU9VLg0KVEhBTktTLg0KDQpNci5sdWlzIGZlcm5hbmRvDQo=
+Le Wed, Nov 03, 2021 at 05:29:46PM +0100, Hans Verkuil a écrit :
+> On 03/11/2021 16:57, LABBE Corentin wrote:
+> > Le Wed, Nov 03, 2021 at 04:21:02PM +0100, Hans Verkuil a écrit :
+> >> Hi Corentin,
+> >>
+> >> On 26/10/2021 21:34, Corentin Labbe wrote:
+> >>> Hello
+> >>>
+> >>> The main change of this serie is to fusion all zoran related modules in
+> >>> one.
+> >>> This fixes the load order problem when everything is built-in.
+> >>
+> >> I've been testing this series, and while the module load/unload is now working,
+> >> I'm running into a lot of other v4l2 compliance issues.
+> >>
+> >> I've fixed various issues in some follow-up patches available in my tree:
+> >>
+> >> https://git.linuxtv.org/hverkuil/media_tree.git/log/?h=zoran
+> >>
+> >> At least some of the worst offenders are now resolved. Note that the patch
+> >> dropping read/write support relies on this patch:
+> >>
+> >> https://patchwork.linuxtv.org/project/linux-media/patch/4f89b139-13b7-eee6-9662-996626b778b0@xs4all.nl/
+> > 
+> > Hello
+> > 
+> > My test branch already included your "zoran: fix various V4L2 compliance errors"
+> > I have quickly checked other patch and I am ok with them.
+> > I will add and test with them.
+> > 
+> >>
+> >> But there is one really major bug that makes me hesitant to merge this:
+> >>
+> >> This works:
+> >>
+> >> v4l2-ctl -v pixelformat=MJPG,width=768,height=576
+> >> v4l2-ctl --stream-mmap
+> >>
+> >> This fails:
+> >>
+> >> v4l2-ctl -v pixelformat=MJPG,width=768,height=288
+> >> v4l2-ctl --stream-mmap
+> >>
+> >> It's an immediate lock up with nothing to indicate what is wrong.
+> >> As soon as the height is 288 or less, this happens.
+> >>
+> >> Both with my DC30 and DC30D.
+> > 
+> > Just for curiosity, what is the difference between thoses two ?
+> 
+> It's the DC30 variant without an adv7175.
+> 
+> > 
+> >>
+> >> Do you see the same? Any idea what is going on? I would feel much happier
+> >> if this is fixed.
+> >>
+> >> Note that the same problem is present without this patch series, so it's
+> >> been there for some time.
+> >>
+> > 
+> > I will start on digging this problem and add thoses commands to my CI.
+> > And I know there are a huge quantity of problem since origins.
+> > A simple example is that just setting MJPEG as default input format does not work.
+> > 
+> > But since it is not related to my serie, can you please merge it.
+> 
+> Before I do that, I would really like to know a bit more about this issue:
+> can you reproduce it? Is it DC30 specific or a general problem with zoran?
+> 
+> The problem with this hard hang is that it is hard to do regression testing
+> with v4l2-compliance, since it will hang as soon as MJPG pixelformat is
+> tested.
+> 
+> I would feel much happier if the hang can be avoided, even if it is just
+> with a temporary hack. It will make it much easier going forward.
+> 
+
+I found the bug
+
+The null pointer deref was in zoran_reap_stat_com() due to 
+buf = zr->inuse[i];
+...
+buf->vbuf.vb2_buf.timestamp = ktime_get_ns();
+with buf = NULL;
+
+It is due to miscalculation of "i".
+
+I will resend my serie with the fix for that.
+
+Regards
