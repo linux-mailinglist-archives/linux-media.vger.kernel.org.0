@@ -2,161 +2,109 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9CD8D4473DA
-	for <lists+linux-media@lfdr.de>; Sun,  7 Nov 2021 17:36:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8994144745C
+	for <lists+linux-media@lfdr.de>; Sun,  7 Nov 2021 18:16:01 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235210AbhKGQiq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 7 Nov 2021 11:38:46 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60622 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229966AbhKGQiq (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Sun, 7 Nov 2021 11:38:46 -0500
-Received: from mail-wm1-x330.google.com (mail-wm1-x330.google.com [IPv6:2a00:1450:4864:20::330])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 04A6AC061570
-        for <linux-media@vger.kernel.org>; Sun,  7 Nov 2021 08:36:03 -0800 (PST)
-Received: by mail-wm1-x330.google.com with SMTP id v127so11114463wme.5
-        for <linux-media@vger.kernel.org>; Sun, 07 Nov 2021 08:36:02 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20210112.gappssmtp.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=4hGkCLxhZnpNqcqLmATMrD9cvIKaW/chFtDdi+mbfSw=;
-        b=hv8NDkkf/BoZNySfSrye1dDjE3EbpF4GnWvmAFKWyHwMsTO7Sq1Y+10oQxm4RAgv9B
-         5nQ5gW/qXeGOdkEqhcWa649hD9AfBikGH0nULObfIuE2+4BhHCpU8Litwr0Xpm353gFk
-         5loZeEyiKwfr7JJ6k2TReEAPu8AmzkTqF2L6qV8j+CixhTr8EcAJ9dG/UIY0bnfPerOZ
-         X93THQNykU0JbErZr4kX8LkZYxrdzlSjweqkaUw0VvmrKNvVeNFa1Eivbf7wgX7BqmFt
-         LE3hy02ln6T/TaGLk0a/aXRD+NANID85TEt8tSC3rXhpll91iY7YW1mVFbWCYFGvAmCz
-         cqLw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=4hGkCLxhZnpNqcqLmATMrD9cvIKaW/chFtDdi+mbfSw=;
-        b=1sZqpJhGTUp3JuGWj6gYKv7hz+AuZxLOmL8mhHEdZZ0BWYjVZvV5nMLlL776TpdM21
-         Kov7DkvKubdNev6npb1a9lLTX7rgX3bGrWq1Tpiow6itHuzNX1mfGHLi5aw3MrMbxwWh
-         nLcnH8qxAEDT49+/N7ASBAMfopRszJ5mO5d1kWWOlc+erWBpD72aC+9a2oNu3nj9BBkU
-         9Z/BgblPhnmKYl0pQOaieJBufXp80Hn8aupdMfywIhGFV/j6fmvPzbns2slZgcZJSc5N
-         dQSeh/N6iwfi/Fd9X/XxnUBrKRZHWe0H5CfI0d8yMgfINWs3e7pdQy55XPpLYA5aIjFh
-         Wyfg==
-X-Gm-Message-State: AOAM533w1iEHdsBHN9Y3ZUgsTIcb/2SBt610LWipiCWfCUFq0EF/XnCB
-        PnT/ymIF12oN455oShsGUlowpH5fJ7DD4g==
-X-Google-Smtp-Source: ABdhPJyye92fqnf6uoFZErPVsPnRnuPe12kbbNUM+TzpZQv1fjLeglt8aIYLErII3t4don1klOQE1g==
-X-Received: by 2002:a7b:c1cb:: with SMTP id a11mr47550829wmj.30.1636302961570;
-        Sun, 07 Nov 2021 08:36:01 -0800 (PST)
-Received: from Red ([2a01:cb1d:3d5:a100:264b:feff:fe03:2806])
-        by smtp.googlemail.com with ESMTPSA id g13sm12780500wmk.37.2021.11.07.08.36.00
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 07 Nov 2021 08:36:01 -0800 (PST)
-Date:   Sun, 7 Nov 2021 17:35:59 +0100
-From:   LABBE Corentin <clabbe@baylibre.com>
-To:     Hans Verkuil <hverkuil@xs4all.nl>
-Cc:     mchehab@kernel.org, gregkh@linuxfoundation.org,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-staging@lists.linux.dev, mjpeg-users@lists.sourceforge.net
-Subject: Re: [PATCH v3 00/14] staging: media: zoran: fusion in one module
-Message-ID: <YYgAb76mrMb1ERMW@Red>
-References: <20211026193416.1176797-1-clabbe@baylibre.com>
- <a85c93db-e118-274f-d86a-d127c7399926@xs4all.nl>
- <YYKxTrWI299pvqo7@Red>
- <2bbce7ef-acf8-3c0f-2705-09d34b2d92be@xs4all.nl>
+        id S235919AbhKGRSn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 7 Nov 2021 12:18:43 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:51055 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S231284AbhKGRSm (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Sun, 7 Nov 2021 12:18:42 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1636305359;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=Acd9jEvalxM/pfSj9gWojnRbfdFmXqF5ylFUMapoJ5Q=;
+        b=UaXV9GR+oniZNqPDPRjLvhCthf6zoDemwJja0b8feJQVB6iasn+0o1Ki0t240+rQzLxG5w
+        ftw+Ff/BeJoEXhhiusV5GHf3ww0V2gGkg9rRoloDdR4Kh6wFIm2pelz1NxO6LzRZ6yIBBk
+        nYsbEMoXNozHBNE7FKt/fyHoiVRfoKA=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-404-c2tM518iMmSSo8xZUvoP4Q-1; Sun, 07 Nov 2021 12:15:54 -0500
+X-MC-Unique: c2tM518iMmSSo8xZUvoP4Q-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.11])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5ABEE15721;
+        Sun,  7 Nov 2021 17:15:52 +0000 (UTC)
+Received: from x1.localdomain (unknown [10.39.192.28])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 372CE57CD3;
+        Sun,  7 Nov 2021 17:15:50 +0000 (UTC)
+From:   Hans de Goede <hdegoede@redhat.com>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc:     Hans de Goede <hdegoede@redhat.com>,
+        Tsuchiya Yuto <kitakar@gmail.com>,
+        Andy Shevchenko <andy@infradead.org>,
+        Yury Luneff <yury.lunev@gmail.com>,
+        Nable <nable.maininbox@googlemail.com>,
+        andrey.i.trufanov@gmail.com, Fabio Aiuto <fabioaiuto83@gmail.com>,
+        linux-media@vger.kernel.org, linux-staging@lists.linux.dev
+Subject: [PATCH 00/11] media: atomisp-ov2680: Cleanups and exposure + gain fixes
+Date:   Sun,  7 Nov 2021 18:15:38 +0100
+Message-Id: <20211107171549.267583-1-hdegoede@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <2bbce7ef-acf8-3c0f-2705-09d34b2d92be@xs4all.nl>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Le Wed, Nov 03, 2021 at 05:29:46PM +0100, Hans Verkuil a écrit :
-> On 03/11/2021 16:57, LABBE Corentin wrote:
-> > Le Wed, Nov 03, 2021 at 04:21:02PM +0100, Hans Verkuil a écrit :
-> >> Hi Corentin,
-> >>
-> >> On 26/10/2021 21:34, Corentin Labbe wrote:
-> >>> Hello
-> >>>
-> >>> The main change of this serie is to fusion all zoran related modules in
-> >>> one.
-> >>> This fixes the load order problem when everything is built-in.
-> >>
-> >> I've been testing this series, and while the module load/unload is now working,
-> >> I'm running into a lot of other v4l2 compliance issues.
-> >>
-> >> I've fixed various issues in some follow-up patches available in my tree:
-> >>
-> >> https://git.linuxtv.org/hverkuil/media_tree.git/log/?h=zoran
-> >>
-> >> At least some of the worst offenders are now resolved. Note that the patch
-> >> dropping read/write support relies on this patch:
-> >>
-> >> https://patchwork.linuxtv.org/project/linux-media/patch/4f89b139-13b7-eee6-9662-996626b778b0@xs4all.nl/
-> > 
-> > Hello
-> > 
-> > My test branch already included your "zoran: fix various V4L2 compliance errors"
-> > I have quickly checked other patch and I am ok with them.
-> > I will add and test with them.
-> > 
-> >>
-> >> But there is one really major bug that makes me hesitant to merge this:
-> >>
-> >> This works:
-> >>
-> >> v4l2-ctl -v pixelformat=MJPG,width=768,height=576
-> >> v4l2-ctl --stream-mmap
-> >>
-> >> This fails:
-> >>
-> >> v4l2-ctl -v pixelformat=MJPG,width=768,height=288
-> >> v4l2-ctl --stream-mmap
-> >>
-> >> It's an immediate lock up with nothing to indicate what is wrong.
-> >> As soon as the height is 288 or less, this happens.
-> >>
-> >> Both with my DC30 and DC30D.
-> > 
-> > Just for curiosity, what is the difference between thoses two ?
-> 
-> It's the DC30 variant without an adv7175.
-> 
-> > 
-> >>
-> >> Do you see the same? Any idea what is going on? I would feel much happier
-> >> if this is fixed.
-> >>
-> >> Note that the same problem is present without this patch series, so it's
-> >> been there for some time.
-> >>
-> > 
-> > I will start on digging this problem and add thoses commands to my CI.
-> > And I know there are a huge quantity of problem since origins.
-> > A simple example is that just setting MJPEG as default input format does not work.
-> > 
-> > But since it is not related to my serie, can you please merge it.
-> 
-> Before I do that, I would really like to know a bit more about this issue:
-> can you reproduce it? Is it DC30 specific or a general problem with zoran?
-> 
-> The problem with this hard hang is that it is hard to do regression testing
-> with v4l2-compliance, since it will hang as soon as MJPG pixelformat is
-> tested.
-> 
-> I would feel much happier if the hang can be avoided, even if it is just
-> with a temporary hack. It will make it much easier going forward.
-> 
+Hi All,
 
-I found the bug
+I've finally made some time to look into running the atomisp2 driver
+from staging on an Asus T101HA. Thanks to the great work from
+Tsuchiya and Mauro I actually got a working picture in camorama
+now, which is awesome!
 
-The null pointer deref was in zoran_reap_stat_com() due to 
-buf = zr->inuse[i];
-...
-buf->vbuf.vb2_buf.timestamp = ktime_get_ns();
-with buf = NULL;
+But I noticed that exposure / gain setting was not working, not
+even if I first set it using the --exposure option to v4l2n before
+running camorama.
 
-It is due to miscalculation of "i".
+There were a number of issues, which this series all fixes,
+after this series you can set an exposure + gain with v4l2n
+and the run camorama and actually see the difference.
 
-I will resend my serie with the fix for that.
+Note despite the cleanups in here the atomisp-ov2680 code still
+is far from great, but it works :)
 
-Regards
+Regards,
+
+Hans
+
+p.s.
+
+I've also given the current media-staging code a real quick
+test on a T100HA, fwiw it does not work there atm. I did
+not investigate this further (not yet anyways).
+
+
+Hans de Goede (11):
+  media: atomisp-ov2680: Remove a bunch of unused vars from
+    ov2680_device
+  media: atomisp-ov2680: Turn on power only once
+  media: atomisp-ov2680: Push the input_lock taking up into
+    ov2680_s_power()
+  media: atomisp-ov2680: Remove the ov2680_res and N_RES global
+    variables
+  media: atomisp-ov2680: Move ov2680_init_registers() call to power_up()
+  media: atomisp-ov2680: Save/restore exposure and gain over sensor
+    power-down
+  media: atomisp-ov2680: Make ov2680_read_reg() support 24 bit registers
+  media: atomisp-ov2680: Fix and simplify ov2680_q_exposure()
+  media: atomisp-ov2680: Fix ov2680_write_reg() always writing 0 to 16
+    bit registers
+  media: atomisp-ov2680: Fix ov2680_set_fmt() clobbering the exposure
+  media: atomisp-ov2680: Fix ov2680_set_fmt() messing up high exposure
+    settings
+
+ .../media/atomisp/i2c/atomisp-ov2680.c        | 167 +++++++-----------
+ drivers/staging/media/atomisp/i2c/ov2680.h    |  59 +------
+ 2 files changed, 71 insertions(+), 155 deletions(-)
+
+-- 
+2.31.1
+
