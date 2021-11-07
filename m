@@ -2,228 +2,127 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1FA95447469
-	for <lists+linux-media@lfdr.de>; Sun,  7 Nov 2021 18:16:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 781334474B3
+	for <lists+linux-media@lfdr.de>; Sun,  7 Nov 2021 18:50:37 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235951AbhKGRTO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 7 Nov 2021 12:19:14 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:49572 "EHLO
+        id S235013AbhKGRxK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 7 Nov 2021 12:53:10 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:38466 "EHLO
         us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S235939AbhKGRTN (ORCPT
+        by vger.kernel.org with ESMTP id S234980AbhKGRxI (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 7 Nov 2021 12:19:13 -0500
+        Sun, 7 Nov 2021 12:53:08 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1636305390;
+        s=mimecast20190719; t=1636307424;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=MXF6tbV0Bo36Zm4e8SD6y0RRWBH+qoROmu/xiP3S664=;
-        b=Aq457okuILFtdVCLpYs8aztiEHPLLGPf+FGaQffvHGkfCXhDv1NPzSFQlUH/41de1VpB/u
-        VbWZjkIkVINaHUwJk2EqKs7C64zjO3mzLeAMOkHw6Jv/tgvQrzqdiz4teewNZLSpqqJhUr
-        LE1vWgCvBfKhdNfBrkR91mEumI6GYLQ=
+         content-transfer-encoding:content-transfer-encoding;
+        bh=VI9/oTkMv73lXfxkfvV9yRrXnTPAd4jUWgjMM+1DFzc=;
+        b=iQCzE5lx3FRgSo9dRKc5dJ4+ki1/CJftaDiXIY8qEXVP1oapdoP5RHc0M/12AxgdFMyKyC
+        yMdHvlpb3xU4qGP2bxSI8QOmYUsNvJy+43CooPASmCViICC5ze+aq53FPctLYatXXMZV/Q
+        0g3SFI0jL8wDqeT7n3ytXW0+axrhoNA=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-33-Fyr0zfBUMTyXwVEp98zf5g-1; Sun, 07 Nov 2021 12:16:27 -0500
-X-MC-Unique: Fyr0zfBUMTyXwVEp98zf5g-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.11])
+ us-mta-325-iyjgleweNyaCyb-fmeh8gQ-1; Sun, 07 Nov 2021 12:50:21 -0500
+X-MC-Unique: iyjgleweNyaCyb-fmeh8gQ-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com [10.5.11.23])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 70F251006AA0;
-        Sun,  7 Nov 2021 17:16:25 +0000 (UTC)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B6C6F100C662;
+        Sun,  7 Nov 2021 17:50:18 +0000 (UTC)
 Received: from x1.localdomain (unknown [10.39.192.28])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 6C36757CD3;
-        Sun,  7 Nov 2021 17:16:23 +0000 (UTC)
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 65EB619730;
+        Sun,  7 Nov 2021 17:50:14 +0000 (UTC)
 From:   Hans de Goede <hdegoede@redhat.com>
 To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
         Sakari Ailus <sakari.ailus@linux.intel.com>
 Cc:     Hans de Goede <hdegoede@redhat.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
         Tsuchiya Yuto <kitakar@gmail.com>,
         Andy Shevchenko <andy@infradead.org>,
         Yury Luneff <yury.lunev@gmail.com>,
         Nable <nable.maininbox@googlemail.com>,
         andrey.i.trufanov@gmail.com, Fabio Aiuto <fabioaiuto83@gmail.com>,
-        linux-media@vger.kernel.org, linux-staging@lists.linux.dev
-Subject: [PATCH 11/11] media: atomisp-ov2680: Fix ov2680_set_fmt() messing up high exposure settings
-Date:   Sun,  7 Nov 2021 18:15:49 +0100
-Message-Id: <20211107171549.267583-12-hdegoede@redhat.com>
-In-Reply-To: <20211107171549.267583-1-hdegoede@redhat.com>
-References: <20211107171549.267583-1-hdegoede@redhat.com>
+        linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+        libcamera-devel@lists.libcamera.org
+Subject: [RFC] media: Auto exposure/gain support for atomisp / libcamera integration ?
+Date:   Sun,  7 Nov 2021 18:50:13 +0100
+Message-Id: <20211107175013.355188-1-hdegoede@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-For exposure settings > (lines_per_frame - vts_margin) the VTS register
-needs to be programmed to (exposure + vts_margin) rather then being
-set to lines_per_frame.
+Hi All,
 
-The res->regs register array was clobbering this higher setting causing
-high exposure settings to not work. Fix this by letting ov2680_set_fmt()
-calculate the vts value, instead of hardcoding it.
+Now that we have the atomisp2 driver running on some devices like
+the Asus T101HA; and with the exposure + gain controls for the ov2680
+sensor found on that laptop fixed:
 
-This is the last in a series of fixes which fixes exposure and gain
-settings not working, with this everything works, so drop the comment
-that it does not work.
+https://lore.kernel.org/linux-media/20211107171549.267583-1-hdegoede@redhat.com/
 
-Signed-off-by: Hans de Goede <hdegoede@redhat.com>
----
- .../media/atomisp/i2c/atomisp-ov2680.c        | 13 ++++++++--
- drivers/staging/media/atomisp/i2c/ov2680.h    | 24 -------------------
- 2 files changed, 11 insertions(+), 26 deletions(-)
+I believe we need to start thinking about various userspace API
+concerns. Thanks to Mauro's great work on various V4L2 API things
+are starting to work (somewhat) with regular V4L2 apps, but we really
+also need some processing / 3A stuff to make the cameras really
+usable.
 
-diff --git a/drivers/staging/media/atomisp/i2c/atomisp-ov2680.c b/drivers/staging/media/atomisp/i2c/atomisp-ov2680.c
-index 1092d1c2993f..34d008236bd9 100644
---- a/drivers/staging/media/atomisp/i2c/atomisp-ov2680.c
-+++ b/drivers/staging/media/atomisp/i2c/atomisp-ov2680.c
-@@ -387,7 +387,6 @@ static long ov2680_s_exposure(struct v4l2_subdev *sd,
- 		return -EINVAL;
- 	}
- 
--	// EXPOSURE CONTROL DISABLED FOR INITIAL CHECKIN, TUNING DOESN'T WORK
- 	return ov2680_set_exposure(sd, coarse_itg, analog_gain, digital_gain);
- }
- 
-@@ -825,7 +824,7 @@ static int ov2680_set_fmt(struct v4l2_subdev *sd,
- 	struct i2c_client *client = v4l2_get_subdevdata(sd);
- 	struct camera_mipi_info *ov2680_info = NULL;
- 	struct ov2680_resolution *res;
--	int ret = 0;
-+	int vts, ret = 0;
- 
- 	dev_dbg(&client->dev, "%s: %s: pad: %d, fmt: %p\n",
- 		__func__,
-@@ -870,6 +869,16 @@ static int ov2680_set_fmt(struct v4l2_subdev *sd,
- 		dev_err(&client->dev,
- 			"ov2680 write resolution register err: %d\n", ret);
- 
-+	/* If necessary increase the VTS to match exposure + MARGIN */
-+	if (dev->exposure > vts - OV2680_INTEGRATION_TIME_MARGIN)
-+		vts = dev->exposure + OV2680_INTEGRATION_TIME_MARGIN;
-+	else
-+		vts = dev->res->lines_per_frame;
-+
-+	ret = ov2680_write_reg(client, 2, OV2680_TIMING_VTS_H, vts);
-+	if (ret)
-+		dev_err(&client->dev, "ov2680 write vts err: %d\n", ret);
-+
- 	ret = ov2680_get_intg_factor(client, ov2680_info, res);
- 	if (ret) {
- 		dev_err(&client->dev, "failed to get integration factor\n");
-diff --git a/drivers/staging/media/atomisp/i2c/ov2680.h b/drivers/staging/media/atomisp/i2c/ov2680.h
-index d52b7fbe3c06..e53be612a1e4 100644
---- a/drivers/staging/media/atomisp/i2c/ov2680.h
-+++ b/drivers/staging/media/atomisp/i2c/ov2680.h
-@@ -302,8 +302,6 @@ static struct ov2680_reg const ov2680_QCIF_30fps[] = {
- 	{0x380b, 0xa0},
- 	{0x380c, 0x06},
- 	{0x380d, 0xb0},
--	{0x380e, 0x02},
--	{0x380f, 0x84},
- 	{0x3810, 0x00},
- 	{0x3811, 0x04},
- 	{0x3812, 0x00},
-@@ -345,8 +343,6 @@ static struct ov2680_reg const ov2680_CIF_30fps[] = {
- 	{0x380b, 0x30},
- 	{0x380c, 0x06},
- 	{0x380d, 0xb0},
--	{0x380e, 0x02},
--	{0x380f, 0x84},
- 	{0x3810, 0x00},
- 	{0x3811, 0x04},
- 	{0x3812, 0x00},
-@@ -386,8 +382,6 @@ static struct ov2680_reg const ov2680_QVGA_30fps[] = {
- 	{0x380b, 0x00},
- 	{0x380c, 0x06},
- 	{0x380d, 0xb0},
--	{0x380e, 0x02},
--	{0x380f, 0x84},
- 	{0x3810, 0x00},
- 	{0x3811, 0x04},
- 	{0x3812, 0x00},
-@@ -427,8 +421,6 @@ static struct ov2680_reg const ov2680_656x496_30fps[] = {
- 	{0x380b, 0xf0},
- 	{0x380c, 0x06},
- 	{0x380d, 0xb0},
--	{0x380e, 0x02},
--	{0x380f, 0x84},
- 	{0x3810, 0x00},
- 	{0x3811, 0x04},
- 	{0x3812, 0x00},
-@@ -468,8 +460,6 @@ static struct ov2680_reg const ov2680_720x592_30fps[] = {
- 	{0x380b, 0x50}, // Y_OUTPUT_SIZE;
- 	{0x380c, 0x06},
- 	{0x380d, 0xac}, // HTS;
--	{0x380e, 0x02},
--	{0x380f, 0x84}, // VTS;
- 	{0x3810, 0x00},
- 	{0x3811, 0x00},
- 	{0x3812, 0x00},
-@@ -511,8 +501,6 @@ static struct ov2680_reg const ov2680_800x600_30fps[] = {
- 	{0x380b, 0x58},
- 	{0x380c, 0x06},
- 	{0x380d, 0xac},
--	{0x380e, 0x02},
--	{0x380f, 0x84},
- 	{0x3810, 0x00},
- 	{0x3811, 0x00},
- 	{0x3812, 0x00},
-@@ -552,8 +540,6 @@ static struct ov2680_reg const ov2680_720p_30fps[] = {
- 	{0x380b, 0xe0},
- 	{0x380c, 0x06},
- 	{0x380d, 0xa8},
--	{0x380e, 0x05},
--	{0x380f, 0x0e},
- 	{0x3810, 0x00},
- 	{0x3811, 0x08},
- 	{0x3812, 0x00},
-@@ -593,8 +579,6 @@ static struct ov2680_reg const ov2680_1296x976_30fps[] = {
- 	{0x380b, 0xd0},
- 	{0x380c, 0x06},
- 	{0x380d, 0xa8},
--	{0x380e, 0x05},
--	{0x380f, 0x0e},
- 	{0x3810, 0x00},
- 	{0x3811, 0x08},
- 	{0x3812, 0x00},
-@@ -634,8 +618,6 @@ static struct ov2680_reg const ov2680_1456x1096_30fps[] = {
- 	{0x380b, 0x48},
- 	{0x380c, 0x06},
- 	{0x380d, 0xa8},
--	{0x380e, 0x05},
--	{0x380f, 0x0e},
- 	{0x3810, 0x00},
- 	{0x3811, 0x08},
- 	{0x3812, 0x00},
-@@ -677,8 +659,6 @@ static struct ov2680_reg const ov2680_1616x916_30fps[] = {
- 	{0x380b, 0x94},
- 	{0x380c, 0x06},
- 	{0x380d, 0xa8},
--	{0x380e, 0x05},
--	{0x380f, 0x0e},
- 	{0x3810, 0x00},
- 	{0x3811, 0x00},
- 	{0x3812, 0x00},
-@@ -719,8 +699,6 @@ static struct ov2680_reg const ov2680_1616x1082_30fps[] = {
- 	{0x380b, 0x3a},
- 	{0x380c, 0x06},
- 	{0x380d, 0xa8},
--	{0x380e, 0x05},
--	{0x380f, 0x0e},
- 	{0x3810, 0x00},
- 	{0x3811, 0x00},
- 	{0x3812, 0x00},
-@@ -760,8 +738,6 @@ static struct ov2680_reg const ov2680_1616x1216_30fps[] = {
- 	{0x380b, 0xc0},//c0},
- 	{0x380c, 0x06},
- 	{0x380d, 0xa8},
--	{0x380e, 0x05},
--	{0x380f, 0x0e},
- 	{0x3810, 0x00},
- 	{0x3811, 0x00},
- 	{0x3812, 0x00},
--- 
-2.31.1
+The most important thing needed is automatic exposure + gain control,
+ATM this relies on a custom ATOMISP ioctl, but I believe that we can
+just export the controls as regular v4l2 controls on the sensor subdev,
+at least for the ov2680 the exposure is already exported this way
+but it is read-only. Does anyone see any problems with just making
+these normal v4l2 controls on the sensor subdev ?
+
+We can then simulate the custom ATOMISP ioctl through the subdevs,
+or we can just remove it alltogether.
+
+Once we have the controls available this way I think we should write
+a libcamera plugin, which like the older versions of the Rasberry Pi
+plugin (if I've understood things correctly) won't use the MC framework
+for now. I believe we first need to understand the atomisp code better
+before we add MC support (*). But I still believe that an (experimental)
+plugin would be good, both to get something usable so that we can get
+more testers / more people interested in contributing.
+Another reason is to have another use-case where apps need to support
+libcamera to work properly (like on IPU3 devices) which will hopefully
+motivate people working on apps to put more effort in supporting libcamera
+(preferably through the new pipewire libcamera plugin so that things
+will also work in a flatpack sandbox).
+
+###
+
+On other thing which I'm wondering about is the need to call S_INPUT to
+select front / back in this list from Mauro:
+
+	$ for i in $(ls /dev/video*|sort -k2 -to -n); do echo -n $i:; v4l2-ctl -D -d $i|grep Name; done
+	/dev/video0:	Name             : ATOMISP ISP CAPTURE output
+	/dev/video1:	Name             : ATOMISP ISP VIEWFINDER output
+	/dev/video2:	Name             : ATOMISP ISP PREVIEW output
+	/dev/video3:	Name             : ATOMISP ISP VIDEO output
+	/dev/video4:	Name             : ATOMISP ISP ACC
+	/dev/video5:	Name             : ATOMISP ISP MEMORY input
+	/dev/video6:	Name             : ATOMISP ISP CAPTURE output
+	/dev/video7:	Name             : ATOMISP ISP VIEWFINDER output
+	/dev/video8:	Name             : ATOMISP ISP PREVIEW output
+	/dev/video9:	Name             : ATOMISP ISP VIDEO output
+	/dev/video10:	Name             : ATOMISP ISP ACC
+
+I notice that everything is listed twice, I wonder if we can use /dev/video2
+with input 0 together with /dev/video8 for input 1, if that is possible then
+we might set a different default input on each.
+
+And maybe also make them /dev/video0 (already done I see) and /dev/video1,
+possibly combined with a module-option to hide the others for now. This
+should make things better for regular apps. OTOH if we go the libcamera
+route then this is not really necessary I guess?
+
+Regards,
+
+Hans
+
+*) I do believe that in the end MC support makes sense at least
+to tie together the 
 
