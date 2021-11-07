@@ -2,87 +2,394 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D41C44472F7
-	for <lists+linux-media@lfdr.de>; Sun,  7 Nov 2021 14:03:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B8D7944734D
+	for <lists+linux-media@lfdr.de>; Sun,  7 Nov 2021 15:29:39 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235382AbhKGNGG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 7 Nov 2021 08:06:06 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42238 "EHLO
+        id S234645AbhKGOcD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 7 Nov 2021 09:32:03 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60878 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235343AbhKGNGF (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Sun, 7 Nov 2021 08:06:05 -0500
-Received: from mail-ua1-x934.google.com (mail-ua1-x934.google.com [IPv6:2607:f8b0:4864:20::934])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1F6C6C061570;
-        Sun,  7 Nov 2021 05:03:23 -0800 (PST)
-Received: by mail-ua1-x934.google.com with SMTP id l43so26296360uad.4;
-        Sun, 07 Nov 2021 05:03:23 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=VSjDGs9178HW7/He6MTHqePG+3ZLhttJu6XCzVLRUA8=;
-        b=JMZVXMd6v9IVS8zFQTFeg1o5BVeEsewh3OnhGY7lBJlWXy2iBwjEyzHO0Iko+dVlsJ
-         s06vSg3jxUdyrEn/1Q79PT18RyBXusrxnfDB8EvH7b0/hXj8d4sgCDF11gzKMHB5Wmmq
-         xkkljAxMZFkq9xYaZiCCAdetEczjau3V9C/DtLa5TtA96wM2QQlAWLIohtMnHiVFFIIk
-         RRXHHuJ2Xj7O84mro7HKJR8PxFRVH+5HNSIJYQbd426eEtUPXUChE4yomnSyxG8C2vWD
-         oi5/wgspI/hpZ7xyohSYqiNoW1LJFHLIp2/0KIsZmZHsB4KiZ94p71Jynqvk9AjJFQoy
-         B0xw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=VSjDGs9178HW7/He6MTHqePG+3ZLhttJu6XCzVLRUA8=;
-        b=qrbsD2djzG8yA9ZirAKnw3sZBVpq+6WpHakBUnBYTNgR22/Ap2Oe11TRsHYIxtNx4W
-         oaRPKfgmGXXJalLtadcVPXoRiqw+peUI1JwLjCHuk1CDWuGSvFeXBeKwVzmASKpodnn8
-         FaYiynlonK3MJEJkOh6eFnEquZOdctiiwta6f1t+nETjg8XhMuUDDhBoCj3BQ5+AtzrT
-         4iBYIfQ0l+q/vCNbU+3E1sdRu+EWA3pTgbDwWCBQx19GznBDVPSmttBvGDJNSS+t6BBn
-         tyYFMEOBJiTmFRHR1CQLZqL73mo5fn6ef7A+f4YE+EaMEJG4RFkzrVApdWva39WQjp1j
-         ISWQ==
-X-Gm-Message-State: AOAM533/h/WTjE7K+D3Svlf0obkypc6x31timY8nZG70uWhYTePU8fn3
-        skwUoCmdGmL9rgU72klkHo/BQj2PplJV8QLILfQ=
-X-Google-Smtp-Source: ABdhPJwhDnkTVAGaINE5999hfgR7W987xT6LOzeED8k4xFjm5dmo6vvQuTK6rmUOJOEGl18ClVMrrAPrlXtE2nKRaUc=
-X-Received: by 2002:ab0:6f47:: with SMTP id r7mr78305487uat.85.1636290202269;
- Sun, 07 Nov 2021 05:03:22 -0800 (PST)
-MIME-Version: 1.0
-References: <20211106155427.753197-1-aford173@gmail.com> <20211106155427.753197-5-aford173@gmail.com>
-In-Reply-To: <20211106155427.753197-5-aford173@gmail.com>
-From:   Fabio Estevam <festevam@gmail.com>
-Date:   Sun, 7 Nov 2021 10:03:11 -0300
-Message-ID: <CAOMZO5D6gmCXw+xaXUUjYBU-YNNiuev3Oys1TJzB6+bEeWzeVA@mail.gmail.com>
-Subject: Re: [PATCH V2 5/5] arm64: defconfig: Enable OV5640
-To:     Adam Ford <aford173@gmail.com>
-Cc:     "moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE" 
-        <linux-arm-kernel@lists.infradead.org>,
-        Tim Harvey <tharvey@gateworks.com>,
-        Schrempf Frieder <frieder.schrempf@kontron.de>,
-        linux-media <linux-media@vger.kernel.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Adam Ford-BE <aford@beaconembedded.com>,
-        cstevens@beaconembedded.com,
-        Jagan Teki <jagan@amarulasolutions.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>, Peng Fan <peng.fan@nxp.com>,
-        Lucas Stach <l.stach@pengutronix.de>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        with ESMTP id S229889AbhKGOcC (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Sun, 7 Nov 2021 09:32:02 -0500
+Received: from mxd2.seznam.cz (mxd2.seznam.cz [IPv6:2a02:598:2::210])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 89BCAC061570
+        for <linux-media@vger.kernel.org>; Sun,  7 Nov 2021 06:29:19 -0800 (PST)
+Received: from email.seznam.cz
+        by email-smtpc15b.ng.seznam.cz (email-smtpc15b.ng.seznam.cz [10.23.14.195])
+        id 3a84db86d0d418433a84caea;
+        Sun, 07 Nov 2021 15:29:07 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=seznam.cz; s=beta;
+        t=1636295347; bh=wrN9Vf111Al6JWCt7uziI3Lxy+ROht4B8vrwOdNwYZU=;
+        h=Received:From:To:Subject:Date:Message-Id:Mime-Version:X-Mailer:
+         Content-Type;
+        b=eiQcwK7LFXqzoco2A7sL3EAHLgBfWFKSXMLRvovxtcORGXgwuZPRJVDLL/ecydNax
+         SyhIu8TtPI8Vy4DtjTe8uY0iSYVjfcP384ALYUpt6Qg0/jWgT3r4DqfiHS8RKXrWHF
+         /7o7xasV5qEfUR5J+VAYN5E5pCR54FH8PwsC/4PQ=
+Received: from unknown ([::ffff:212.27.205.131])
+        by email.seznam.cz (szn-ebox-5.0.80) with HTTP;
+        Sun, 07 Nov 2021 15:29:02 +0100 (CET)
+From:   "Michal Svec" <svec@seznam.cz>
+To:     <linux-media@vger.kernel.org>
+Subject: dtv-scan-tables: updated dvb-t2 cz list
+Date:   Sun, 07 Nov 2021 15:29:02 +0100 (CET)
+Message-Id: <tb5.NwS.5JfQCTU}tJf.1XX{Ak@seznam.cz>
+Mime-Version: 1.0 (szn-mime-2.1.14)
+X-Mailer: szn-ebox-5.0.80
+Content-Type: multipart/mixed;
+        boundary="=_139a691e51c477b94f940000=878ba6a5-0730-5fd3-be8b-f2deac6d4c9a_="
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Sat, Nov 6, 2021 at 12:54 PM Adam Ford <aford173@gmail.com> wrote:
->
-> The Beacon EmbeddedWorks imx8mm development kit has a TD Next 5640
-> Camera.  Enable the OV5640 driver to use the camera.
->
-> Signed-off-by: Adam Ford <aford173@gmail.com>
+--=_139a691e51c477b94f940000=878ba6a5-0730-5fd3-be8b-f2deac6d4c9a_=
+Content-Type: text/plain;
+	charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-Maybe this one could be squashed with the other defconfig patch. Either way:
 
-Reviewed-by: Fabio Estevam <festevam@gmail.com>
+Hi, here's an updated cz-All list for the Czech DVB-T2 network to reflect =
+the current status.
+See attached.
+
+Thanks
+Michal
+
+--=_139a691e51c477b94f940000=878ba6a5-0730-5fd3-be8b-f2deac6d4c9a_=
+Content-Type: text/plain;
+	name=cz-All
+Content-Transfer-Encoding: quoted-printable
+Content-Disposition: attachment;
+	size=8325;
+	filename=cz-All
+
+# Czech Republic, whole country (updated on Nov/2021)=0A=
+# Source: https://www.ctu.cz/vyhledavaci-databaze/prehled-televiznich-vysi=
+lacu/opravneni=0A=
+=0A=
+[CHANNEL]=0A=
+        DELIVERY_SYSTEM =3D DVBT2=0A=
+        FREQUENCY =3D 474000000=0A=
+        BANDWIDTH_HZ =3D 8000000=0A=
+        CODE_RATE_HP =3D AUTO=0A=
+        CODE_RATE_LP =3D AUTO=0A=
+        MODULATION =3D QAM/AUTO=0A=
+        TRANSMISSION_MODE =3D AUTO=0A=
+        GUARD_INTERVAL =3D AUTO=0A=
+        HIERARCHY =3D AUTO=0A=
+        INVERSION =3D AUTO=0A=
+=0A=
+[CHANNEL]=0A=
+        DELIVERY_SYSTEM =3D DVBT2=0A=
+        FREQUENCY =3D 482000000=0A=
+        BANDWIDTH_HZ =3D 8000000=0A=
+        CODE_RATE_HP =3D AUTO=0A=
+        CODE_RATE_LP =3D AUTO=0A=
+        MODULATION =3D QAM/AUTO=0A=
+        TRANSMISSION_MODE =3D AUTO=0A=
+        GUARD_INTERVAL =3D AUTO=0A=
+        HIERARCHY =3D AUTO=0A=
+        INVERSION =3D AUTO=0A=
+=0A=
+[CHANNEL]=0A=
+        DELIVERY_SYSTEM =3D DVBT2=0A=
+        FREQUENCY =3D 490000000=0A=
+        BANDWIDTH_HZ =3D 8000000=0A=
+        CODE_RATE_HP =3D AUTO=0A=
+        CODE_RATE_LP =3D AUTO=0A=
+        MODULATION =3D QAM/AUTO=0A=
+        TRANSMISSION_MODE =3D AUTO=0A=
+        GUARD_INTERVAL =3D AUTO=0A=
+        HIERARCHY =3D AUTO=0A=
+        INVERSION =3D AUTO=0A=
+=0A=
+[CHANNEL]=0A=
+        DELIVERY_SYSTEM =3D DVBT2=0A=
+        FREQUENCY =3D 498000000=0A=
+        BANDWIDTH_HZ =3D 8000000=0A=
+        CODE_RATE_HP =3D AUTO=0A=
+        CODE_RATE_LP =3D AUTO=0A=
+        MODULATION =3D QAM/AUTO=0A=
+        TRANSMISSION_MODE =3D AUTO=0A=
+        GUARD_INTERVAL =3D AUTO=0A=
+        HIERARCHY =3D AUTO=0A=
+        INVERSION =3D AUTO=0A=
+=0A=
+[CHANNEL]=0A=
+        DELIVERY_SYSTEM =3D DVBT2=0A=
+        FREQUENCY =3D 506000000=0A=
+        BANDWIDTH_HZ =3D 8000000=0A=
+        CODE_RATE_HP =3D AUTO=0A=
+        CODE_RATE_LP =3D AUTO=0A=
+        MODULATION =3D QAM/AUTO=0A=
+        TRANSMISSION_MODE =3D AUTO=0A=
+        GUARD_INTERVAL =3D AUTO=0A=
+        HIERARCHY =3D AUTO=0A=
+        INVERSION =3D AUTO=0A=
+=0A=
+[CHANNEL]=0A=
+        DELIVERY_SYSTEM =3D DVBT2=0A=
+        FREQUENCY =3D 514000000=0A=
+        BANDWIDTH_HZ =3D 8000000=0A=
+        CODE_RATE_HP =3D AUTO=0A=
+        CODE_RATE_LP =3D AUTO=0A=
+        MODULATION =3D QAM/AUTO=0A=
+        TRANSMISSION_MODE =3D AUTO=0A=
+        GUARD_INTERVAL =3D AUTO=0A=
+        HIERARCHY =3D AUTO=0A=
+        INVERSION =3D AUTO=0A=
+=0A=
+[CHANNEL]=0A=
+        DELIVERY_SYSTEM =3D DVBT2=0A=
+        FREQUENCY =3D 522000000=0A=
+        BANDWIDTH_HZ =3D 8000000=0A=
+        CODE_RATE_HP =3D AUTO=0A=
+        CODE_RATE_LP =3D AUTO=0A=
+        MODULATION =3D QAM/AUTO=0A=
+        TRANSMISSION_MODE =3D AUTO=0A=
+        GUARD_INTERVAL =3D AUTO=0A=
+        HIERARCHY =3D AUTO=0A=
+        INVERSION =3D AUTO=0A=
+=0A=
+[CHANNEL]=0A=
+        DELIVERY_SYSTEM =3D DVBT2=0A=
+        FREQUENCY =3D 530000000=0A=
+        BANDWIDTH_HZ =3D 8000000=0A=
+        CODE_RATE_HP =3D AUTO=0A=
+        CODE_RATE_LP =3D AUTO=0A=
+        MODULATION =3D QAM/AUTO=0A=
+        TRANSMISSION_MODE =3D AUTO=0A=
+        GUARD_INTERVAL =3D AUTO=0A=
+        HIERARCHY =3D AUTO=0A=
+        INVERSION =3D AUTO=0A=
+=0A=
+[CHANNEL]=0A=
+        DELIVERY_SYSTEM =3D DVBT2=0A=
+        FREQUENCY =3D 538000000=0A=
+        BANDWIDTH_HZ =3D 8000000=0A=
+        CODE_RATE_HP =3D AUTO=0A=
+        CODE_RATE_LP =3D AUTO=0A=
+        MODULATION =3D QAM/AUTO=0A=
+        TRANSMISSION_MODE =3D AUTO=0A=
+        GUARD_INTERVAL =3D AUTO=0A=
+        HIERARCHY =3D AUTO=0A=
+        INVERSION =3D AUTO=0A=
+=0A=
+[CHANNEL]=0A=
+        DELIVERY_SYSTEM =3D DVBT2=0A=
+        FREQUENCY =3D 546000000=0A=
+        BANDWIDTH_HZ =3D 8000000=0A=
+        CODE_RATE_HP =3D AUTO=0A=
+        CODE_RATE_LP =3D AUTO=0A=
+        MODULATION =3D QAM/AUTO=0A=
+        TRANSMISSION_MODE =3D AUTO=0A=
+        GUARD_INTERVAL =3D AUTO=0A=
+        HIERARCHY =3D AUTO=0A=
+        INVERSION =3D AUTO=0A=
+=0A=
+[CHANNEL]=0A=
+        DELIVERY_SYSTEM =3D DVBT2=0A=
+        FREQUENCY =3D 554000000=0A=
+        BANDWIDTH_HZ =3D 8000000=0A=
+        CODE_RATE_HP =3D AUTO=0A=
+        CODE_RATE_LP =3D AUTO=0A=
+        MODULATION =3D QAM/AUTO=0A=
+        TRANSMISSION_MODE =3D AUTO=0A=
+        GUARD_INTERVAL =3D AUTO=0A=
+        HIERARCHY =3D AUTO=0A=
+        INVERSION =3D AUTO=0A=
+=0A=
+[CHANNEL]=0A=
+        DELIVERY_SYSTEM =3D DVBT2=0A=
+        FREQUENCY =3D 562000000=0A=
+        BANDWIDTH_HZ =3D 8000000=0A=
+        CODE_RATE_HP =3D AUTO=0A=
+        CODE_RATE_LP =3D AUTO=0A=
+        MODULATION =3D QAM/AUTO=0A=
+        TRANSMISSION_MODE =3D AUTO=0A=
+        GUARD_INTERVAL =3D AUTO=0A=
+        HIERARCHY =3D AUTO=0A=
+        INVERSION =3D AUTO=0A=
+=0A=
+[CHANNEL]=0A=
+        DELIVERY_SYSTEM =3D DVBT2=0A=
+        FREQUENCY =3D 570000000=0A=
+        BANDWIDTH_HZ =3D 8000000=0A=
+        CODE_RATE_HP =3D AUTO=0A=
+        CODE_RATE_LP =3D AUTO=0A=
+        MODULATION =3D QAM/AUTO=0A=
+        TRANSMISSION_MODE =3D AUTO=0A=
+        GUARD_INTERVAL =3D AUTO=0A=
+        HIERARCHY =3D AUTO=0A=
+        INVERSION =3D AUTO=0A=
+=0A=
+[CHANNEL]=0A=
+        DELIVERY_SYSTEM =3D DVBT2=0A=
+        FREQUENCY =3D 578000000=0A=
+        BANDWIDTH_HZ =3D 8000000=0A=
+        CODE_RATE_HP =3D AUTO=0A=
+        CODE_RATE_LP =3D AUTO=0A=
+        MODULATION =3D QAM/AUTO=0A=
+        TRANSMISSION_MODE =3D AUTO=0A=
+        GUARD_INTERVAL =3D AUTO=0A=
+        HIERARCHY =3D AUTO=0A=
+        INVERSION =3D AUTO=0A=
+=0A=
+[CHANNEL]=0A=
+        DELIVERY_SYSTEM =3D DVBT2=0A=
+        FREQUENCY =3D 586000000=0A=
+        BANDWIDTH_HZ =3D 8000000=0A=
+        CODE_RATE_HP =3D AUTO=0A=
+        CODE_RATE_LP =3D AUTO=0A=
+        MODULATION =3D QAM/AUTO=0A=
+        TRANSMISSION_MODE =3D AUTO=0A=
+        GUARD_INTERVAL =3D AUTO=0A=
+        HIERARCHY =3D AUTO=0A=
+        INVERSION =3D AUTO=0A=
+=0A=
+[CHANNEL]=0A=
+        DELIVERY_SYSTEM =3D DVBT2=0A=
+        FREQUENCY =3D 594000000=0A=
+        BANDWIDTH_HZ =3D 8000000=0A=
+        CODE_RATE_HP =3D AUTO=0A=
+        CODE_RATE_LP =3D AUTO=0A=
+        MODULATION =3D QAM/AUTO=0A=
+        TRANSMISSION_MODE =3D AUTO=0A=
+        GUARD_INTERVAL =3D AUTO=0A=
+        HIERARCHY =3D AUTO=0A=
+        INVERSION =3D AUTO=0A=
+=0A=
+[CHANNEL]=0A=
+        DELIVERY_SYSTEM =3D DVBT2=0A=
+        FREQUENCY =3D 602000000=0A=
+        BANDWIDTH_HZ =3D 8000000=0A=
+        CODE_RATE_HP =3D AUTO=0A=
+        CODE_RATE_LP =3D AUTO=0A=
+        MODULATION =3D QAM/AUTO=0A=
+        TRANSMISSION_MODE =3D AUTO=0A=
+        GUARD_INTERVAL =3D AUTO=0A=
+        HIERARCHY =3D AUTO=0A=
+        INVERSION =3D AUTO=0A=
+=0A=
+[CHANNEL]=0A=
+        DELIVERY_SYSTEM =3D DVBT2=0A=
+        FREQUENCY =3D 610000000=0A=
+        BANDWIDTH_HZ =3D 8000000=0A=
+        CODE_RATE_HP =3D AUTO=0A=
+        CODE_RATE_LP =3D AUTO=0A=
+        MODULATION =3D QAM/AUTO=0A=
+        TRANSMISSION_MODE =3D AUTO=0A=
+        GUARD_INTERVAL =3D AUTO=0A=
+        HIERARCHY =3D AUTO=0A=
+        INVERSION =3D AUTO=0A=
+=0A=
+[CHANNEL]=0A=
+        DELIVERY_SYSTEM =3D DVBT2=0A=
+        FREQUENCY =3D 618000000=0A=
+        BANDWIDTH_HZ =3D 8000000=0A=
+        CODE_RATE_HP =3D AUTO=0A=
+        CODE_RATE_LP =3D AUTO=0A=
+        MODULATION =3D QAM/AUTO=0A=
+        TRANSMISSION_MODE =3D AUTO=0A=
+        GUARD_INTERVAL =3D AUTO=0A=
+        HIERARCHY =3D AUTO=0A=
+        INVERSION =3D AUTO=0A=
+=0A=
+[CHANNEL]=0A=
+        DELIVERY_SYSTEM =3D DVBT2=0A=
+        FREQUENCY =3D 626000000=0A=
+        BANDWIDTH_HZ =3D 8000000=0A=
+        CODE_RATE_HP =3D AUTO=0A=
+        CODE_RATE_LP =3D AUTO=0A=
+        MODULATION =3D QAM/AUTO=0A=
+        TRANSMISSION_MODE =3D AUTO=0A=
+        GUARD_INTERVAL =3D AUTO=0A=
+        HIERARCHY =3D AUTO=0A=
+        INVERSION =3D AUTO=0A=
+=0A=
+[CHANNEL]=0A=
+        DELIVERY_SYSTEM =3D DVBT2=0A=
+        FREQUENCY =3D 634000000=0A=
+        BANDWIDTH_HZ =3D 8000000=0A=
+        CODE_RATE_HP =3D AUTO=0A=
+        CODE_RATE_LP =3D AUTO=0A=
+        MODULATION =3D QAM/AUTO=0A=
+        TRANSMISSION_MODE =3D AUTO=0A=
+        GUARD_INTERVAL =3D AUTO=0A=
+        HIERARCHY =3D AUTO=0A=
+        INVERSION =3D AUTO=0A=
+=0A=
+[CHANNEL]=0A=
+        DELIVERY_SYSTEM =3D DVBT2=0A=
+        FREQUENCY =3D 642000000=0A=
+        BANDWIDTH_HZ =3D 8000000=0A=
+        CODE_RATE_HP =3D AUTO=0A=
+        CODE_RATE_LP =3D AUTO=0A=
+        MODULATION =3D QAM/AUTO=0A=
+        TRANSMISSION_MODE =3D AUTO=0A=
+        GUARD_INTERVAL =3D AUTO=0A=
+        HIERARCHY =3D AUTO=0A=
+        INVERSION =3D AUTO=0A=
+=0A=
+[CHANNEL]=0A=
+        DELIVERY_SYSTEM =3D DVBT2=0A=
+        FREQUENCY =3D 650000000=0A=
+        BANDWIDTH_HZ =3D 8000000=0A=
+        CODE_RATE_HP =3D AUTO=0A=
+        CODE_RATE_LP =3D AUTO=0A=
+        MODULATION =3D QAM/AUTO=0A=
+        TRANSMISSION_MODE =3D AUTO=0A=
+        GUARD_INTERVAL =3D AUTO=0A=
+        HIERARCHY =3D AUTO=0A=
+        INVERSION =3D AUTO=0A=
+=0A=
+[CHANNEL]=0A=
+        DELIVERY_SYSTEM =3D DVBT2=0A=
+        FREQUENCY =3D 658000000=0A=
+        BANDWIDTH_HZ =3D 8000000=0A=
+        CODE_RATE_HP =3D AUTO=0A=
+        CODE_RATE_LP =3D AUTO=0A=
+        MODULATION =3D QAM/AUTO=0A=
+        TRANSMISSION_MODE =3D AUTO=0A=
+        GUARD_INTERVAL =3D AUTO=0A=
+        HIERARCHY =3D AUTO=0A=
+        INVERSION =3D AUTO=0A=
+=0A=
+[CHANNEL]=0A=
+        DELIVERY_SYSTEM =3D DVBT2=0A=
+        FREQUENCY =3D 666000000=0A=
+        BANDWIDTH_HZ =3D 8000000=0A=
+        CODE_RATE_HP =3D AUTO=0A=
+        CODE_RATE_LP =3D AUTO=0A=
+        MODULATION =3D QAM/AUTO=0A=
+        TRANSMISSION_MODE =3D AUTO=0A=
+        GUARD_INTERVAL =3D AUTO=0A=
+        HIERARCHY =3D AUTO=0A=
+        INVERSION =3D AUTO=0A=
+=0A=
+[CHANNEL]=0A=
+        DELIVERY_SYSTEM =3D DVBT2=0A=
+        FREQUENCY =3D 674000000=0A=
+        BANDWIDTH_HZ =3D 8000000=0A=
+        CODE_RATE_HP =3D AUTO=0A=
+        CODE_RATE_LP =3D AUTO=0A=
+        MODULATION =3D QAM/AUTO=0A=
+        TRANSMISSION_MODE =3D AUTO=0A=
+        GUARD_INTERVAL =3D AUTO=0A=
+        HIERARCHY =3D AUTO=0A=
+        INVERSION =3D AUTO=0A=
+=0A=
+[CHANNEL]=0A=
+        DELIVERY_SYSTEM =3D DVBT2=0A=
+        FREQUENCY =3D 682000000=0A=
+        BANDWIDTH_HZ =3D 8000000=0A=
+        CODE_RATE_HP =3D AUTO=0A=
+        CODE_RATE_LP =3D AUTO=0A=
+        MODULATION =3D QAM/AUTO=0A=
+        TRANSMISSION_MODE =3D AUTO=0A=
+        GUARD_INTERVAL =3D AUTO=0A=
+        HIERARCHY =3D AUTO=0A=
+        INVERSION =3D AUTO=0A=
+=0A=
+
+--=_139a691e51c477b94f940000=878ba6a5-0730-5fd3-be8b-f2deac6d4c9a_=--
+
