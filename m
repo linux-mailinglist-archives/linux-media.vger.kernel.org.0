@@ -2,180 +2,138 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A77CC447C50
-	for <lists+linux-media@lfdr.de>; Mon,  8 Nov 2021 09:53:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 11691447C5F
+	for <lists+linux-media@lfdr.de>; Mon,  8 Nov 2021 09:56:51 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238188AbhKHI4R (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 8 Nov 2021 03:56:17 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48842 "EHLO
+        id S238224AbhKHI7d (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 8 Nov 2021 03:59:33 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49570 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236594AbhKHI4R (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 8 Nov 2021 03:56:17 -0500
-Received: from lb1-smtp-cloud7.xs4all.net (lb1-smtp-cloud7.xs4all.net [IPv6:2001:888:0:108::1a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3AE9EC061570;
-        Mon,  8 Nov 2021 00:53:33 -0800 (PST)
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud7.xs4all.net with ESMTPA
-        id k0P5meVbwFZvck0P8muGwC; Mon, 08 Nov 2021 09:53:31 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1636361611; bh=N5WnZDwk03ecG+KFBZDfNUaUy6ujNUFngbnpFjjX2b4=;
-        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=Z3Ti1AOvyr7eR+h5UazH/dgbYgPioWEp7h55Ur8T/xnOKFHVKiWcHOC0nRsOzagIL
-         WHVdvfzz9Wa8KXwJGU6siHN9zDJW1x5Lvd8eY5Ok/DpgwDLdoJLa0324Lvs/wmkKtb
-         OjELReeICe5grkZxspXCJs//pqDyNz+BhBoRzqViqGfYEgad+ieD2WKs7VbaVHPOb1
-         jtpyllSb0HKF8EjRQ02Oc2F7N+u4xfC0D/V1+gk48TVkIfSvF1I2sEdbDKbyJUP+9J
-         lsDVXw6CF3aHPOVlm/d+6ftTUC5D/2lRHDBwLjSM0T1Xc2lWBFUN7/hVTNYt4pQjNC
-         N3qbi9C+OemnQ==
-Subject: Re: [PATCH] media: aspeed: use reset to replace clk off/on
-To:     Jammy Huang <jammy_huang@aspeedtech.com>,
-        Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>,
-        "eajames@linux.ibm.com" <eajames@linux.ibm.com>,
-        "mchehab@kernel.org" <mchehab@kernel.org>,
-        "joel@jms.id.au" <joel@jms.id.au>,
-        "andrew@aj.id.au" <andrew@aj.id.au>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        "openbmc@lists.ozlabs.org" <openbmc@lists.ozlabs.org>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>,
-        "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-References: <20211103054316.25272-1-jammy_huang@aspeedtech.com>
- <883dd517-7996-8c44-8cea-1c8838b367b6@linux.intel.com>
- <HK0PR06MB272258A4BA760E70CF609888F18E9@HK0PR06MB2722.apcprd06.prod.outlook.com>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <398d37a5-509f-b78b-360b-990d256bde63@xs4all.nl>
-Date:   Mon, 8 Nov 2021 09:53:23 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Firefox/78.0 Thunderbird/78.14.0
+        with ESMTP id S238200AbhKHI7c (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 8 Nov 2021 03:59:32 -0500
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D7DCFC061570
+        for <linux-media@vger.kernel.org>; Mon,  8 Nov 2021 00:56:48 -0800 (PST)
+Received: from gallifrey.ext.pengutronix.de ([2001:67c:670:201:5054:ff:fe8d:eefb] helo=[IPv6:::1])
+        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <l.stach@pengutronix.de>)
+        id 1mk0SK-0003eP-Uo; Mon, 08 Nov 2021 09:56:45 +0100
+Message-ID: <a77d867eb42649d63356a62309e93ca78394f82f.camel@pengutronix.de>
+Subject: Re: [PATCH V2 1/5] soc: imx: imx8m-blk-ctrl: Fix imx8mm mipi reset
+From:   Lucas Stach <l.stach@pengutronix.de>
+To:     Adam Ford <aford173@gmail.com>,
+        linux-arm-kernel@lists.infradead.org
+Cc:     tharvey@gateworks.com, frieder.schrempf@kontron.de,
+        linux-media@vger.kernel.org, laurent.pinchart@ideasonboard.com,
+        aford@beaconembedded.com, cstevens@beaconembedded.com,
+        jagan@amarulasolutions.com, Rob Herring <robh+dt@kernel.org>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>, Peng Fan <peng.fan@nxp.com>,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Date:   Mon, 08 Nov 2021 09:56:40 +0100
+In-Reply-To: <20211106155427.753197-1-aford173@gmail.com>
+References: <20211106155427.753197-1-aford173@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.40.4 (3.40.4-1.fc34) 
 MIME-Version: 1.0
-In-Reply-To: <HK0PR06MB272258A4BA760E70CF609888F18E9@HK0PR06MB2722.apcprd06.prod.outlook.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-CMAE-Envelope: MS4xfLgVZbzFUJQsFyvjN31c9nEsxsiILzODdS83Qkkx/mx+TyVnfKOOOxaUgiuQHgdsX9wdvFuPCS7ycc+NXp83vEzkC3WOxLNaWaUC4OKjqYekv4zHO4MB
- qQQzdnvHulF54s9YtL8NdADr6vuekXN1BGAo5DNTlsnPHbt+5GEi8tOatPbXaROoVOQcq3wy4BpAwtN2yMT6nnMBm1GIPB9O8wbQf+pYhfY/+ce9L7pBU3qY
- 56d+24AzKLlnGPEIiB4QjsSpQKPMzFSNTb1+b/Ro5uOob+JrJM1OknYGj7sKAd13GvB8PIKWqd7ROUTHkgeYdUmszohAJgngXDmlhp+pM5ohTlRCd+P8wMFV
- VSnhxDeTiIr0mQflZxcj3eQ176i8td6oObDvqAsMnpljRlD4QC9OGfO+TDoAZbvyhj1mJHZK0DNfeHLZeeWYgypHxVmqPxfh/h/RDtC2RoJf1wUL2rYqvx1l
- hrH4wCXeUmV1kjjWPc6aq4zPx7bQuXIo2VcXPMcDUzT2OT16JzGscjPJiHkpXeizRdw38Er1gS8pAjXhwH79pphTObHLwhhouBNbTQ==
+Content-Transfer-Encoding: 7bit
+X-SA-Exim-Connect-IP: 2001:67c:670:201:5054:ff:fe8d:eefb
+X-SA-Exim-Mail-From: l.stach@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-media@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Jammy,
+Am Samstag, dem 06.11.2021 um 10:54 -0500 schrieb Adam Ford:
+> Most of the blk-ctrl reset bits are found in one register, however
+> there are two bits in offset 8 for pulling the MIPI DPHY out of reset
+> and these need to be set when IMX8MM_DISPBLK_PD_MIPI_CSI is brought
+> out of reset or the MIPI_CSI hangs.
+> 
+> Fixes: 926e57c065df ("soc: imx: imx8m-blk-ctrl: add DISP blk-ctrl")
+> Signed-off-by: Adam Ford <aford173@gmail.com>
 
-On 05/11/2021 02:27, Jammy Huang wrote:
-> Hi Jae,
-> 
-> OK, I found it.
-> Thanks for your help.
+Reviewed-by: Lucas Stach <l.stach@pengutronix.de>
 
-So just so I understand this correctly: this patch can be dropped, right?
+> ---
+> 
+> V2:  Make a note that the extra register is only for Mini/Nano DISPLAY_BLK_CTRL
+>      Rename the new register to mipi_phy_rst_mask
+>      Encapsulate the edits to this register with an if-statement
+> 
+>  drivers/soc/imx/imx8m-blk-ctrl.c | 18 ++++++++++++++++++
+>  1 file changed, 18 insertions(+)
+> 
+> diff --git a/drivers/soc/imx/imx8m-blk-ctrl.c b/drivers/soc/imx/imx8m-blk-ctrl.c
+> index 519b3651d1d9..581eb4bc7f7d 100644
+> --- a/drivers/soc/imx/imx8m-blk-ctrl.c
+> +++ b/drivers/soc/imx/imx8m-blk-ctrl.c
+> @@ -17,6 +17,7 @@
+>  
+>  #define BLK_SFT_RSTN	0x0
+>  #define BLK_CLK_EN	0x4
+> +#define BLK_MIPI_RESET_DIV	0x8 /* Mini/Nano DISPLAY_BLK_CTRL only */
+>  
+>  struct imx8m_blk_ctrl_domain;
+>  
+> @@ -36,6 +37,15 @@ struct imx8m_blk_ctrl_domain_data {
+>  	const char *gpc_name;
+>  	u32 rst_mask;
+>  	u32 clk_mask;
+> +
+> +	/*
+> +	 * i.MX8M Mini and Nano have a third DISPLAY_BLK_CTRL register
+> +	 * which is used to control the reset for the MIPI Phy.
+> +	 * Since it's only present in certain circumstances,
+> +	 * an if-statement should be used before setting and clearing this
+> +	 * register.
+> +	 */
+> +	u32 mipi_phy_rst_mask;
+>  };
+>  
+>  #define DOMAIN_MAX_CLKS 3
+> @@ -78,6 +88,8 @@ static int imx8m_blk_ctrl_power_on(struct generic_pm_domain *genpd)
+>  
+>  	/* put devices into reset */
+>  	regmap_clear_bits(bc->regmap, BLK_SFT_RSTN, data->rst_mask);
+> +	if (data->mipi_phy_rst_mask)
+> +		regmap_clear_bits(bc->regmap, BLK_MIPI_RESET_DIV, data->mipi_phy_rst_mask);
+>  
+>  	/* enable upstream and blk-ctrl clocks to allow reset to propagate */
+>  	ret = clk_bulk_prepare_enable(data->num_clks, domain->clks);
+> @@ -99,6 +111,8 @@ static int imx8m_blk_ctrl_power_on(struct generic_pm_domain *genpd)
+>  
+>  	/* release reset */
+>  	regmap_set_bits(bc->regmap, BLK_SFT_RSTN, data->rst_mask);
+> +	if (data->mipi_phy_rst_mask)
+> +		regmap_set_bits(bc->regmap, BLK_MIPI_RESET_DIV, data->mipi_phy_rst_mask);
+>  
+>  	/* disable upstream clocks */
+>  	clk_bulk_disable_unprepare(data->num_clks, domain->clks);
+> @@ -120,6 +134,9 @@ static int imx8m_blk_ctrl_power_off(struct generic_pm_domain *genpd)
+>  	struct imx8m_blk_ctrl *bc = domain->bc;
+>  
+>  	/* put devices into reset and disable clocks */
+> +	if (data->mipi_phy_rst_mask)
+> +		regmap_clear_bits(bc->regmap, BLK_MIPI_RESET_DIV, data->mipi_phy_rst_mask);
+> +
+>  	regmap_clear_bits(bc->regmap, BLK_SFT_RSTN, data->rst_mask);
+>  	regmap_clear_bits(bc->regmap, BLK_CLK_EN, data->clk_mask);
+>  
+> @@ -488,6 +505,7 @@ static const struct imx8m_blk_ctrl_domain_data imx8mm_disp_blk_ctl_domain_data[]
+>  		.gpc_name = "mipi-csi",
+>  		.rst_mask = BIT(3) | BIT(4),
+>  		.clk_mask = BIT(10) | BIT(11),
+> +		.mipi_phy_rst_mask = BIT(16) | BIT(17),
+>  	},
+>  };
+>  
 
-Regards,
-
-	Hans
-
-> 
-> Regards,
-> Jammy Huang
-> 
-> Tel: 886-3-575-1185  ext.8630
-> 
-> ************* Email Confidentiality Notice ********************
-> DISCLAIMER:
-> This message (and any attachments) may contain legally privileged and/or other confidential information. If you have received it in error, please notify the sender by reply e-mail and immediately delete the e-mail and any attachments without copying or disclosing the contents. Thank you.
-> 
-> -----Original Message-----
-> From: Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com> 
-> Sent: Thursday, November 4, 2021 11:54 PM
-> To: Jammy Huang <jammy_huang@aspeedtech.com>; eajames@linux.ibm.com; mchehab@kernel.org; joel@jms.id.au; andrew@aj.id.au; linux-media@vger.kernel.org; openbmc@lists.ozlabs.org; linux-arm-kernel@lists.infradead.org; linux-aspeed@lists.ozlabs.org; linux-kernel@vger.kernel.org
-> Subject: Re: [PATCH] media: aspeed: use reset to replace clk off/on
-> 
-> Hi Jammy,
-> 
-> On 11/2/2021 10:43 PM, Jammy Huang wrote:
->> reset should be more proper than clk off/on to bring HW back to good 
->> state.
->>
->> Signed-off-by: Jammy Huang <jammy_huang@aspeedtech.com>
->> ---
->>   drivers/media/platform/aspeed-video.c | 22 +++++++++++++++++++---
->>   1 file changed, 19 insertions(+), 3 deletions(-)
->>
->> diff --git a/drivers/media/platform/aspeed-video.c 
->> b/drivers/media/platform/aspeed-video.c
->> index fea5e4d0927e..10d182139809 100644
->> --- a/drivers/media/platform/aspeed-video.c
->> +++ b/drivers/media/platform/aspeed-video.c
->> @@ -23,6 +23,7 @@
->>   #include <linux/workqueue.h>
->>   #include <linux/debugfs.h>
->>   #include <linux/ktime.h>
->> +#include <linux/reset.h>
->>   #include <media/v4l2-ctrls.h>
->>   #include <media/v4l2-dev.h>
->>   #include <media/v4l2-device.h>
->> @@ -220,6 +221,7 @@ struct aspeed_video {
->>   	void __iomem *base;
->>   	struct clk *eclk;
->>   	struct clk *vclk;
->> +	struct reset_control *reset;
->>   
->>   	struct device *dev;
->>   	struct v4l2_ctrl_handler ctrl_handler; @@ -554,6 +556,13 @@ static 
->> void aspeed_video_on(struct aspeed_video *video)
->>   	set_bit(VIDEO_CLOCKS_ON, &video->flags);
->>   }
->>   
->> +static void aspeed_video_reset(struct aspeed_video *v) {
->> +	reset_control_assert(v->reset);
->> +	udelay(100);
->> +	reset_control_deassert(v->reset);
->> +}
->> +
->>   static void aspeed_video_bufs_done(struct aspeed_video *video,
->>   				   enum vb2_buffer_state state)
->>   {
->> @@ -574,7 +583,9 @@ static void aspeed_video_irq_res_change(struct aspeed_video *video, ulong delay)
->>   	set_bit(VIDEO_RES_CHANGE, &video->flags);
->>   	clear_bit(VIDEO_FRAME_INPRG, &video->flags);
->>   
->> -	aspeed_video_off(video);
->> +	aspeed_video_write(video, VE_INTERRUPT_CTRL, 0);
->> +	aspeed_video_write(video, VE_INTERRUPT_STATUS, 0xffffffff);
->> +	aspeed_video_reset(video);
->>   	aspeed_video_bufs_done(video, VB2_BUF_STATE_ERROR);
->>   
->>   	schedule_delayed_work(&video->res_work, delay); @@ -1507,8 +1518,7 
->> @@ static void aspeed_video_stop_streaming(struct vb2_queue *q)
->>   		 * Need to force stop any DMA and try and get HW into a good
->>   		 * state for future calls to start streaming again.
->>   		 */
->> -		aspeed_video_off(video);
->> -		aspeed_video_on(video);
->> +		aspeed_video_reset(video);
-> 
-> You can find the ECLK configuration in 'clk-aspeed.c' or in 'clk-ast2600.c' that it's coupled with the video engine reset (SCU04[6] for AST2500 / SCU040[6] for AST2600). It means that if we call
-> clk_disable() and clk_enable() through aspeed_video_off() and aspeed_video_on(), the video engine reset will be implicitly asserted and de-asserted by the clock driver so the reset mechanism is already in the existing code.
-> 
-> Thanks,
-> Jae
-> 
->>   		aspeed_video_init_regs(video);
->>   
->> @@ -1715,6 +1725,12 @@ static int aspeed_video_init(struct aspeed_video *video)
->>   		return rc;
->>   	}
->>   
->> +	video->reset = devm_reset_control_get(dev, NULL);
->> +	if (IS_ERR(video->reset)) {
->> +		dev_err(dev, "Unable to get reset\n");
->> +		return PTR_ERR(video->reset);
->> +	}
->> +
->>   	video->eclk = devm_clk_get(dev, "eclk");
->>   	if (IS_ERR(video->eclk)) {
->>   		dev_err(dev, "Unable to get ECLK\n");
->>
 
