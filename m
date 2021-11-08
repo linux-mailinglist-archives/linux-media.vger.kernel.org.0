@@ -2,85 +2,79 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 46816447C9C
-	for <lists+linux-media@lfdr.de>; Mon,  8 Nov 2021 10:16:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B6261447CF9
+	for <lists+linux-media@lfdr.de>; Mon,  8 Nov 2021 10:40:32 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235059AbhKHJTP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 8 Nov 2021 04:19:15 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54054 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229570AbhKHJTP (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 8 Nov 2021 04:19:15 -0500
-Received: from lb1-smtp-cloud7.xs4all.net (lb1-smtp-cloud7.xs4all.net [IPv6:2001:888:0:108::1a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E00F7C061570;
-        Mon,  8 Nov 2021 01:16:30 -0800 (PST)
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud7.xs4all.net with ESMTPA
-        id k0lNmeg9KFZvck0lQmuMHy; Mon, 08 Nov 2021 10:16:29 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1636362989; bh=kUolfHZmV7/0vz8TfY+i/uV1QQ2ndW6GKWY0t/hohRo=;
-        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=UXwI/U7Ys6CRnLSvPTzSjnFVBavHK1F/kBB3ScYI/uUK0BQhbd/Y5AJjZ4+tlD9kc
-         HKMTO6SF9CJRrer5CPu7+kmz0OFkHCy0vsVsMG13du4Qj3/9O0HhOcjJ0LNM4D5PRC
-         wvPu+q/fkW2zYxauyYkpkohAPZubfNEjHfs6QXrl/NIw5/zvQ5eUjWPzly4cQIcbks
-         FMDBvxC5eygI39i4VtKsRamyp2ZG1PLvj8pL2W+69lpXZOBmGQe266I15C7ogqIS/y
-         FeQtPhHqsbLlA13quHZKVvbUA9jfcRjuQgmEW/Yqm/6Mj2v6G6Mfo54E4C6XMZTigy
-         3Y23bK6NWRy2w==
-Subject: Re: [PATCH] media: use swap() to make code cleaner
-To:     Andy Shevchenko <andy.shevchenko@gmail.com>,
-        davidcomponentone@gmail.com
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>,
+        id S236518AbhKHJnP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 8 Nov 2021 04:43:15 -0500
+Received: from mail.kernel.org ([198.145.29.99]:33596 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S238473AbhKHJnO (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Mon, 8 Nov 2021 04:43:14 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 05DEF61242;
+        Mon,  8 Nov 2021 09:40:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1636364430;
+        bh=3kdsbDiloldfUsyYCakxpoQVBFAHbfEI/J3qiZ1fOrg=;
+        h=From:To:Cc:Subject:Date:From;
+        b=o8BTlm/F88B66GDeVFjWEcYDaB3Y7up4uV396tzow/YxPVLZLmQXMT0Vyrwo20qJn
+         YjDf/7Zs38d99UpOdZ4Ga2I0Mlz+p8nqi1wW9/Sz8SBqr1pNp3XbjjBBKpf0fwNRj4
+         1EbG3vqcIJoAuBu1zBVR1bMJXCWSF0KRwebOsbs5dOQGIMm6olykmD/qMQA7KwjlHC
+         jlHzmYKQXwxfc91F7Uvk2U39RPXAo9addLB+7fD+W5/l0kBd1xq2R6jLPJ/eqTNOqh
+         k9FxnCFXYjmbw6rQSPwxj78IWCpdV1M6bFinXUyKzXqIIgL3sQ+vlE1UjWyiDOC1/R
+         oCdNJyj20IyfA==
+Received: by mail.kernel.org with local (Exim 4.94.2)
+        (envelope-from <mchehab@kernel.org>)
+        id 1mk18c-00118a-Jw; Mon, 08 Nov 2021 09:40:26 +0000
+From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc:     linuxarm@huawei.com, mauro.chehab@huawei.com,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Alan <alan@linux.intel.com>, Arnd Bergmann <arnd@arndb.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
         Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Julia Lawall <Julia.Lawall@inria.fr>,
-        Yang Guang <yang.guang5@zte.com.cn>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-References: <20211103083337.387083-1-yang.guang5@zte.com.cn>
- <CAHp75VdZLdJS2SLijO+Ff-8OM+fBvS-R1er5ByYuw38qrRXRwA@mail.gmail.com>
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Message-ID: <1fb9ff6d-e129-5109-7431-c9da67d04d1f@xs4all.nl>
-Date:   Mon, 8 Nov 2021 10:16:25 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Firefox/78.0 Thunderbird/78.14.0
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+        Tsuchiya Yuto <kitakar@gmail.com>,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-staging@lists.linux.dev
+Subject: [PATCH] media: atomisp: only initialize mode if pipe is not null
+Date:   Mon,  8 Nov 2021 09:40:25 +0000
+Message-Id: <6406265f2d5f3791d5c7cbd1364186217f19524c.1636364423.git.mchehab+huawei@kernel.org>
+X-Mailer: git-send-email 2.33.1
 MIME-Version: 1.0
-In-Reply-To: <CAHp75VdZLdJS2SLijO+Ff-8OM+fBvS-R1er5ByYuw38qrRXRwA@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4xfLYF73KZX0vKTAc2gzI1+XCo3tLuD0TctFHFjeeSdrQP3lo5M3rhX0rCQw29ldbQ0046dB9gHo68714rXRpMtpTsdxqRFtouWWNCxwMHjEG2m8oU/f4k
- QUnDsSY1/Wg0wBdQORXDHv5FW7lyBEamTGv5bXdODDhDuLIB+TwwP1LzKmHNxssZgDdGI2+N8zn03wO1lkuTUVuVLizgGLkHDdEeKVvdiLUEnuRLCrvwTNhw
- L6BB1/kS6iMH383cYoybxSXOSt5M1htUJLYk97L4/0pd4adTWtKV/PYK+zb/X+SSzvjGPRKZtW6Na7z0Koe4lCOsfIUXkVKySPORcMKOSDM1ZrhGCZg2+L20
- /54izvY529epH+1GGfW4jvAwC6ympmLFAtziBY2UOjfB+r6W5gAHJR3NdLBsGWjtbM5Z9IJkXheq0cu4NlHM1DtXGhYa5c1Bj4whYW4bGNM7doXnTUyleGlU
- mGlOBzvZVRZDa5n0SwiFD0KALdPiE8UunLY7vA==
+Content-Transfer-Encoding: 8bit
+Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
+To:     unlisted-recipients:; (no To-header on input)
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 04/11/2021 11:43, Andy Shevchenko wrote:
-> On Wed, Nov 3, 2021 at 10:34 AM <davidcomponentone@gmail.com> wrote:
->> Use the macro 'swap()' defined in 'include/linux/minmax.h' to avoid
->> opencoding it.
-> 
-> Same comments as per all your valuable contributions: just think more
-> about the code that you are dealing with!
-> 
->>                 if (dev->fmt->uvswap) {
->> -                       tmp = base2;
->> -                       base2 = base3;
->> -                       base3 = tmp;
->> +                       swap(base2, base3);
->>                 }
-> 
-> Have you run checkpatch? What did it say?
-> 
+During atomisp register, udev tries to open all devices. For
+some, pipe is NULL, at least during register time, causing the
+driver to try to access a NULL pointer.
 
-checkpatch says all is fine :-)
+So, add an extra check to avoid such condition.
 
-But yes, the {} can now be dropped. If I apply the patch, then run checkpatch,
-it will indeed complain about the {}.
+Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+---
+ drivers/staging/media/atomisp/pci/atomisp_fops.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Regards,
+diff --git a/drivers/staging/media/atomisp/pci/atomisp_fops.c b/drivers/staging/media/atomisp/pci/atomisp_fops.c
+index a57d480820bd..c7ac313a2edf 100644
+--- a/drivers/staging/media/atomisp/pci/atomisp_fops.c
++++ b/drivers/staging/media/atomisp/pci/atomisp_fops.c
+@@ -901,7 +901,7 @@ static int atomisp_open(struct file *file)
+ 	rt_mutex_unlock(&isp->mutex);
+ 
+ 	/* Ensure that a mode is set */
+-	if (asd)
++	if (asd && pipe)
+ 		v4l2_ctrl_s_ctrl(asd->run_mode, pipe->default_run_mode);
+ 
+ 	return 0;
+-- 
+2.33.1
 
-	Hans
