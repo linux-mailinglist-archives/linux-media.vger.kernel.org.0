@@ -2,93 +2,129 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 13DE0447E2D
-	for <lists+linux-media@lfdr.de>; Mon,  8 Nov 2021 11:41:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 70FD0447E3A
+	for <lists+linux-media@lfdr.de>; Mon,  8 Nov 2021 11:46:13 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237660AbhKHKoa (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 8 Nov 2021 05:44:30 -0500
-Received: from mail.kernel.org ([198.145.29.99]:58588 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S233956AbhKHKoa (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 8 Nov 2021 05:44:30 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 92BD161360;
-        Mon,  8 Nov 2021 10:41:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1636368105;
-        bh=HmX7Iu230vaqFLoWNOfpIDZEQ/e7d6sGmYSkqSPi38A=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=Ta8iXpjgABI78bfr7rCNWvbrUeM8XvPZ3VtSlngMXNlLva6sZAgSHODXcDtuoCWTg
-         F37RrZ42cpAJWSJPR9OIFuwugHDWdFDy5MUgDXpRsiaX/7al2tgJlO+Zr+du2u4tV3
-         42T9a4g+S69bvsWaUh8kDOMkF3tb5/2nS1pBCBxJLg7IEkvnvPc5/i9SyNwlRPKyPx
-         uBOEKZKNzFv8RYd5FYSyzvyY+86luQJBJ6cDPndtFdj14b79TrTYNRvliI4lqczUYW
-         RblkNki2L53Q1WOj09QXJ7+NkPu0ExCDMDThvs/wbGnBX8h1Ajl4QEeNemBHudfqqL
-         eMbCHp5ZRj9qw==
-Date:   Mon, 8 Nov 2021 10:41:39 +0000
-From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To:     Dan Carpenter <dan.carpenter@oracle.com>
-Cc:     linuxarm@huawei.com, mauro.chehab@huawei.com,
-        Alan <alan@linux.intel.com>, Arnd Bergmann <arnd@arndb.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-        Tsuchiya Yuto <kitakar@gmail.com>,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-staging@lists.linux.dev
-Subject: Re: [PATCH] media: atomisp: allocate a v4l2_fh at open time
-Message-ID: <20211108104139.18ee4023@sal.lan>
-In-Reply-To: <20211108100902.GE2001@kadam>
-References: <7a59d8613331d242624e887d9089ded399015a97.1636105894.git.mchehab+huawei@kernel.org>
-        <20211108100902.GE2001@kadam>
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.30; x86_64-redhat-linux-gnu)
+        id S238650AbhKHKs4 convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-media@lfdr.de>); Mon, 8 Nov 2021 05:48:56 -0500
+Received: from mail-vk1-f182.google.com ([209.85.221.182]:42589 "EHLO
+        mail-vk1-f182.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S238640AbhKHKsz (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 8 Nov 2021 05:48:55 -0500
+Received: by mail-vk1-f182.google.com with SMTP id b125so7960271vkb.9;
+        Mon, 08 Nov 2021 02:46:11 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=LFz9q9vf1rJJTJnPH2rWFkKI5M8ykBsvOOUc6VCwHFI=;
+        b=HvOJxdQuRhi6pJI4cekalYUUbAH+ZUeBlpVAu67b2gErmMfyFERH8vZh1U8MGwlNlC
+         /1q7S0ivmo3nFMgZMvm7ibDjQ0zPRzFDQjPt85Kdr46g2u5oUYm1l/Bze7MLG1HqOino
+         zXxDK3ky9glJ2HuHH2+iAz6NGg/PotNqJzstpBUDC39rP3ICdne1W+la/qzxOyN76MgU
+         Upz9cJPDB+1QQz3qtp6Idrlo/gd1qZBJUJVNSasUXNt2ZQc2YNPOdu7cWEey4lbUDs8c
+         5npbIu20suwhsisVw5jpvGThSj/2i2XYHZjpJQ1ZnYenf+v78uTolxR+tjaTePRjeS02
+         zU6Q==
+X-Gm-Message-State: AOAM530HmcgyiLtedogtpXovdXuP1szHOAaLhgfE8oNKWkBSJrfz8DEZ
+        AGBmhBzhBM2b+rj3XQtaTqDbi+3EQpjhkg==
+X-Google-Smtp-Source: ABdhPJwtgoKr6t8DwYwEAxVuYiKLyD8nw1oXGQEPNAwZ6B8lSqKplvLqEN3h2wXldjml/Df7vB/BWQ==
+X-Received: by 2002:a05:6122:997:: with SMTP id g23mr6008894vkd.15.1636368370335;
+        Mon, 08 Nov 2021 02:46:10 -0800 (PST)
+Received: from mail-ua1-f50.google.com (mail-ua1-f50.google.com. [209.85.222.50])
+        by smtp.gmail.com with ESMTPSA id l6sm2552482vkd.16.2021.11.08.02.46.09
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 08 Nov 2021 02:46:10 -0800 (PST)
+Received: by mail-ua1-f50.google.com with SMTP id l43so30529162uad.4;
+        Mon, 08 Nov 2021 02:46:09 -0800 (PST)
+X-Received: by 2002:a05:6102:e82:: with SMTP id l2mr19082120vst.37.1636368369654;
+ Mon, 08 Nov 2021 02:46:09 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+References: <20211104110924.248444-1-jacopo+renesas@jmondi.org> <20211104110924.248444-2-jacopo+renesas@jmondi.org>
+In-Reply-To: <20211104110924.248444-2-jacopo+renesas@jmondi.org>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Mon, 8 Nov 2021 11:45:58 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdVF2fU4UTZTe_xjJUg7khUwhT_1kHQq49rbzZJygbpbow@mail.gmail.com>
+Message-ID: <CAMuHMdVF2fU4UTZTe_xjJUg7khUwhT_1kHQq49rbzZJygbpbow@mail.gmail.com>
+Subject: Re: [PATCH v2 1/2] media: max9271: Ignore busy loop read errors
+To:     Jacopo Mondi <jacopo+renesas@jmondi.org>
+Cc:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+        =?UTF-8?Q?Niklas_S=C3=B6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8BIT
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Em Mon, 8 Nov 2021 13:09:02 +0300
-Dan Carpenter <dan.carpenter@oracle.com> escreveu:
+Hi Jacopo,
 
-> On Fri, Nov 05, 2021 at 09:51:38AM +0000, Mauro Carvalho Chehab wrote:
-> > ---
-> >  drivers/staging/media/atomisp/pci/atomisp_fops.c | 11 ++++++++++-
-> >  1 file changed, 10 insertions(+), 1 deletion(-)
-> > 
-> > diff --git a/drivers/staging/media/atomisp/pci/atomisp_fops.c b/drivers/staging/media/atomisp/pci/atomisp_fops.c
-> > index 7df982c80b1a..41fa0ca2d8d4 100644
-> > --- a/drivers/staging/media/atomisp/pci/atomisp_fops.c
-> > +++ b/drivers/staging/media/atomisp/pci/atomisp_fops.c
-> > @@ -782,6 +782,15 @@ static int atomisp_open(struct file *file)
-> >  	 * FIXME: revisit this with a better check once the code structure
-> >  	 * is cleaned up a bit more
-> >  	 */
-> > +dev_info(isp->dev, "opening v4l2 fh\n");  
-> 
-> This line looks like debugging code that was committed accidentally?
-> Not indented.
+On Thu, Nov 4, 2021 at 12:10 PM Jacopo Mondi <jacopo+renesas@jmondi.org> wrote:
+> Valid pixel clock detection is performed by spinning on a register read
+> which if repeated too frequently might fail. As the error is not fatal
+> ignore it instead of bailing out to continue spinning until the timeout
+> completion.
+>
+> Also relax the time between bus transactions and slightly increase the
+> wait interval to mitigate the failure risk.
+>
+> Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
+> Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+> ---
+>
+> v1->v2:
+> - Do not continue but jump to a label to respect the sleep timout after a
+>   failed read
 
-Yep.
+Thanks for the update!
 
-> Doesn't apply for on latest linux-next.  Not sure why.
+> --- a/drivers/media/i2c/max9271.c
+> +++ b/drivers/media/i2c/max9271.c
+> @@ -55,7 +55,7 @@ static int max9271_write(struct max9271_device *dev, u8 reg, u8 val)
+>  /*
+>   * max9271_pclk_detect() - Detect valid pixel clock from image sensor
+>   *
+> - * Wait up to 10ms for a valid pixel clock.
+> + * Wait up to 15ms for a valid pixel clock.
+>   *
+>   * Returns 0 for success, < 0 for pixel clock not properly detected
+>   */
+> @@ -64,15 +64,16 @@ static int max9271_pclk_detect(struct max9271_device *dev)
+>         unsigned int i;
+>         int ret;
+>
+> -       for (i = 0; i < 100; i++) {
+> +       for (i = 0; i < 10; i++) {
+>                 ret = max9271_read(dev, 0x15);
+>                 if (ret < 0)
+> -                       return ret;
+> +                       goto skip;
 
-Yeah, I dropped it when I applied the patch on media_stage.
+Edgar Dijkstra: Go To Statement Considered Harmful?
 
-I should have sent v2 without that line.
+>
+>                 if (ret & MAX9271_PCLKDET)
 
-> 
-> regards,
-> dan carpenter
-> 
-> > +	ret = v4l2_fh_open(file);
-> > +	if (ret) {
-> > +		dev_err(isp->dev,
-> > +			"%s: v4l2_fh_open() returned error %d\n",
-> > +		       __func__, ret);
-> > +		rt_mutex_unlock(&isp->loading);
-> > +		return ret;
-> > +	}  
-> 
+"if (ret > 0 && (ret & MAX9271_PCLKDET))"?
+
+>                         return 0;
+>
+> -               usleep_range(50, 100);
+> +skip:
+> +               usleep_range(1000, 1500);
+>         }
+>
+>         dev_err(&dev->client->dev, "Unable to detect valid pixel clock\n");
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
