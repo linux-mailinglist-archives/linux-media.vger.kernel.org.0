@@ -2,104 +2,62 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A736B449A05
-	for <lists+linux-media@lfdr.de>; Mon,  8 Nov 2021 17:39:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2B4C1449A89
+	for <lists+linux-media@lfdr.de>; Mon,  8 Nov 2021 18:12:25 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240078AbhKHQly (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 8 Nov 2021 11:41:54 -0500
-Received: from mail.kernel.org ([198.145.29.99]:34632 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S236528AbhKHQlx (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 8 Nov 2021 11:41:53 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 9167961054;
-        Mon,  8 Nov 2021 16:39:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1636389549;
-        bh=a6NTFs2KSKUTtge7RtoR+4/5YHytkD4pKor5SU+QaZ8=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=b9f28QHm13W2ui+DJ8Nkic0yst26y3MyI7Pzg/n7nIRUcowjjAJi0CQKekeCT2pFj
-         0Cp4WTK8PjDbIo+QSE3yvQrLl+aNdF78zZjBLE8dUHuiGs1MNA2oy/UYRu2boEBAkF
-         4pgLf/LY9jQaOrbRM7xKuOl4FBik963q+DWdxGLk5ouAkrJJRQ4oinP840ehWBdb60
-         DqrEgfB14zp/d55Ji+aUntKaNy/ltYhHdWCw/2JA5vY87CcONwWpao9UA2VweuQUIx
-         8OyNLiYAgMsAg6eG4hSIu06Md/MEKANEV39W6TGHIi1WfUemFdaEnP2xP6Ums9ajTF
-         lwBgfNLNSBn8w==
-Date:   Mon, 8 Nov 2021 16:39:02 +0000
-From:   Mauro Carvalho Chehab <mchehab@kernel.org>
-To:     Tsuchiya Yuto <kitakar@gmail.com>
-Cc:     Dan Carpenter <dan.carpenter@oracle.com>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Patrik Gfeller <patrik.gfeller@gmail.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Yang Yingliang <yangyingliang@huawei.com>,
-        Aline Santana Cordeiro <alinesantanacordeiro@gmail.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Dinghao Liu <dinghao.liu@zju.edu.cn>,
-        Deepak R Varma <drv@mailo.com>,
-        Alex Dewar <alex.dewar90@gmail.com>,
-        linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 06/17] media: atomisp: pci: use IA_CSS_ERROR() for error
- messages in sh_css_mipi.c
-Message-ID: <20211108163902.58e12e76@sal.lan>
-In-Reply-To: <ff2ac6cb74e98a5e9b0f537ea468322e6379620e.camel@gmail.com>
-References: <20211017161958.44351-1-kitakar@gmail.com>
-        <20211017161958.44351-7-kitakar@gmail.com>
-        <20211102113540.GD2794@kadam>
-        <ff2ac6cb74e98a5e9b0f537ea468322e6379620e.camel@gmail.com>
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.30; x86_64-redhat-linux-gnu)
+        id S238057AbhKHRPH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 8 Nov 2021 12:15:07 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50212 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S233057AbhKHRPG (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 8 Nov 2021 12:15:06 -0500
+Received: from mail-lf1-x135.google.com (mail-lf1-x135.google.com [IPv6:2a00:1450:4864:20::135])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 48902C061570
+        for <linux-media@vger.kernel.org>; Mon,  8 Nov 2021 09:12:22 -0800 (PST)
+Received: by mail-lf1-x135.google.com with SMTP id l22so10999968lfg.7
+        for <linux-media@vger.kernel.org>; Mon, 08 Nov 2021 09:12:22 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=uO+zbtl6jdqY6jI4w2WR2tMe0+xIBTgXMdV8tSQXNHo=;
+        b=KDREuYkzTbCRgVPcyLuWfoho18l7dgyhod+Aoq4hV/czK4V/EatSXgbgMlyM+lT/HR
+         JN76ju4dxZuuZlKW7F8W5zk6jaL/OzROfn941e9mo/U/+d/4HBbMdVjUfkU+6oB3h/6P
+         oPk4KlZPTsnrvMXCF4LOPgSMBduzsZjJMcvu3ExONwcej8yvGcW4NVYFwXFmlqIbSAy3
+         xawAKGwT5PJwG0imdrOE8xRyrK3bW/Odila9IVpEoggmhfpAvCbJI+5xIYZMJgF2bhDI
+         M+/E+jbVuM6XjbPciOiFn0mVx+1JZ7uL7GhUMTPVAAsrEJ9rOhwgONn+g3lxMYgysVuz
+         aiJw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to;
+        bh=uO+zbtl6jdqY6jI4w2WR2tMe0+xIBTgXMdV8tSQXNHo=;
+        b=WbAxqlXydPZkfOkb/EzpPF3JXQ4rlTGYMjI5hA41dieHGGXQHxMxn15WHpk1zP127f
+         UXQECMw1xNpWfsSYAWavZfWU+LpTdQvlhWnkzJoXAse5GeYa7DvEMK16qTEDcRZ2vv5Y
+         +mi+cLDvcBc0woId3vtkecCLW/UHKCi8NoxA4Ks890eJhKbN10r0u5+/rh3oupeXrqa2
+         SDUrA+B20yMt2kLBH+UKypnn691fBeK5Hp4BB9YKOUTOHcLE7/9bt6/E6rkOQDEZq40W
+         Wd9eVgmmOFgFMcfK0XWfWvqrBZLpKO550NWEDe3Wbfs6svkZZFsO291c8ZgohOoUnLrF
+         G8tA==
+X-Gm-Message-State: AOAM530lj+tlHknupoYqYluX2HDG1/9TDl5mOVRgXUcPu2FCOSa1pGjU
+        7sTUkoISQ0tI8+/z1s5VxNyB9zbD0O12QYAfkWw=
+X-Google-Smtp-Source: ABdhPJxbrv/Fpvjic5JoMrUcgtVD6i3PFClJymeQ4YJRvISKXAEK1ZsSeYKAPIgYay+RDHW6ZfWdDtmV9FIj9hq38xA=
+X-Received: by 2002:ac2:4f03:: with SMTP id k3mr714940lfr.231.1636391540698;
+ Mon, 08 Nov 2021 09:12:20 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Received: by 2002:a05:6520:2b87:b0:14c:e8ca:113a with HTTP; Mon, 8 Nov 2021
+ 09:12:20 -0800 (PST)
+Reply-To: mcchember2@gmail.com
+From:   Michael Christopher <morrishennry247@gmail.com>
+Date:   Mon, 8 Nov 2021 18:12:20 +0100
+Message-ID: <CAPHT6cHU0M_dvP26BXM+cWszcNT3o9Aw6V+CxTTMFx0TSaW3aQ@mail.gmail.com>
+Subject: Hi
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Em Tue, 09 Nov 2021 00:39:16 +0900
-Tsuchiya Yuto <kitakar@gmail.com> escreveu:
+Hello
 
-> <removed Alan from Cc as the mail address not reachable>
-> 
-> On Tue, 2021-11-02 at 14:35 +0300, Dan Carpenter wrote:
-> > On Mon, Oct 18, 2021 at 01:19:46AM +0900, Tsuchiya Yuto wrote:  
-> > >  .../staging/media/atomisp/pci/sh_css_mipi.c   | 32 ++++++++-----------
-> > >  1 file changed, 13 insertions(+), 19 deletions(-)
-> > > 
-> > > diff --git a/drivers/staging/media/atomisp/pci/sh_css_mipi.c b/drivers/staging/media/atomisp/pci/sh_css_mipi.c
-> > > index c1f2f6151c5f..de56a1da754d 100644
-> > > --- a/drivers/staging/media/atomisp/pci/sh_css_mipi.c
-> > > +++ b/drivers/staging/media/atomisp/pci/sh_css_mipi.c
-> > > @@ -434,9 +434,8 @@ allocate_mipi_frames(struct ia_css_pipe *pipe,
-> > >  
-> > >  	if ((!IS_ISP2401 && port >= N_CSI_PORTS) ||
-> > >  	    (IS_ISP2401 && err)) {
-> > > -		ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE_PRIVATE,
-> > > -				    "allocate_mipi_frames(%p) exit: error: port is not correct (port=%d).\n",
-> > > -				    pipe, port);
-> > > +		IA_CSS_ERROR("allocate_mipi_frames(%p) exit: port is not correct (port=%d).",
-> > > +			     pipe, port);  
-> > 
-> > Not related to this patch but these printks should be using __func__
-> > instead of hard coding it.  
-> 
-> OK, considering that I'll add a separate space issue fix patch in v2 as
-> discussed in another mail, I'll also add the separate fix for minor
-> issue fixes here, including the usage of `__func__` and dropping
-> the unneeded newline `\n` I'm currently doing while here.
-
-Better to keep the \n. The right fix - not only here but everywhere - would
-be to convert all those into dev_info/dev_dbg/..., but this is a huge
-change.
-
-I would prefer to do such changes on a separate patch series that
-will do only this kind of changes. After the conversion, the string
-should finish with a \n. So, dropping it will just make the conversion
-more error-prone.
-
-Regards,
-Mauro
-
-> 
-> Regards,
-> Tsuchiya Yuto
-> 
+I am Barrister.Michael Christopher attorney to your late relative, now
+am contacting you for the claim of your late relatives fund.Please
+contact me with this email.(mcchember2@gmail.com
