@@ -2,182 +2,235 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1E7B3447A34
-	for <lists+linux-media@lfdr.de>; Mon,  8 Nov 2021 06:41:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A3924447A3C
+	for <lists+linux-media@lfdr.de>; Mon,  8 Nov 2021 06:49:11 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236961AbhKHFo3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 8 Nov 2021 00:44:29 -0500
-Received: from so254-9.mailgun.net ([198.61.254.9]:54541 "EHLO
-        so254-9.mailgun.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236942AbhKHFo3 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 8 Nov 2021 00:44:29 -0500
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
- s=smtp; t=1636350105; h=Message-ID: References: In-Reply-To: Subject:
- Cc: To: From: Date: Content-Transfer-Encoding: Content-Type:
- MIME-Version: Sender; bh=qRv2nHtDcrWu8ahlJnSE1F3twABo8IxBQNapATzVhWM=;
- b=tTD2RH2rGn1fA5mBRNSSa2xPM3vb+2VhUVm5I+vUDN189wDD9LPHBl0pYdDsdo/FkR0agUMk
- jYeYJ3br7YZxVovqSFSBQzn8u460l2slc7s1hPnpHlJGKI0QGSU09zA0/AkIolWXYOzkmF5u
- 0UzLgzKXlJoRjPhdoJPG1bUpgyM=
-X-Mailgun-Sending-Ip: 198.61.254.9
-X-Mailgun-Sid: WyI3ZjU0NiIsICJsaW51eC1tZWRpYUB2Z2VyLmtlcm5lbC5vcmciLCAiYmU5ZTRhIl0=
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n06.prod.us-west-2.postgun.com with SMTP id
- 6188b8984596a04707f2c968 (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Mon, 08 Nov 2021 05:41:44
- GMT
-Sender: dikshita=codeaurora.org@mg.codeaurora.org
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
-        id 25B8CC4360D; Mon,  8 Nov 2021 05:41:44 +0000 (UTC)
-X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
-        aws-us-west-2-caf-mail-1.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED,BAYES_00
-        autolearn=unavailable autolearn_force=no version=3.4.0
-Received: from mail.codeaurora.org (localhost.localdomain [127.0.0.1])
-        (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        (Authenticated sender: dikshita)
-        by smtp.codeaurora.org (Postfix) with ESMTPSA id 4CF08C4338F;
-        Mon,  8 Nov 2021 05:41:43 +0000 (UTC)
-MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII;
- format=flowed
-Content-Transfer-Encoding: 7bit
-Date:   Mon, 08 Nov 2021 11:11:43 +0530
-From:   dikshita@codeaurora.org
-To:     Dikshita Agarwal <quic_dikshita@quicinc.com>
-Cc:     agross@kernel.org, bjorn.andersson@linaro.org, robh+dt@kernel.org,
-        mchehab@kernel.org, devicetree@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, vgarodia@codeaurora.org,
-        stanimir.varbanov@linaro.org,
+        id S236826AbhKHFvx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 8 Nov 2021 00:51:53 -0500
+Received: from alexa-out.qualcomm.com ([129.46.98.28]:40507 "EHLO
+        alexa-out.qualcomm.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S235399AbhKHFvw (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 8 Nov 2021 00:51:52 -0500
+Received: from ironmsg09-lv.qualcomm.com ([10.47.202.153])
+  by alexa-out.qualcomm.com with ESMTP; 07 Nov 2021 21:49:09 -0800
+X-QCInternal: smtphost
+Received: from ironmsg01-blr.qualcomm.com ([10.86.208.130])
+  by ironmsg09-lv.qualcomm.com with ESMTP/TLS/AES256-SHA; 07 Nov 2021 21:49:07 -0800
+X-QCInternal: smtphost
+Received: from c-mansur-linux.qualcomm.com ([10.204.83.180])
+  by ironmsg01-blr.qualcomm.com with ESMTP; 08 Nov 2021 11:18:57 +0530
+Received: by c-mansur-linux.qualcomm.com (Postfix, from userid 461723)
+        id 35B8220E7B; Mon,  8 Nov 2021 11:18:56 +0530 (IST)
+From:   Mansur Alisha Shaik <mansur@codeaurora.org>
+To:     linux-media@vger.kernel.org, stanimir.varbanov@linaro.org
+Cc:     linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        vgarodia@codeaurora.org, dikshita@codeaurora.org,
         Mansur Alisha Shaik <mansur@codeaurora.org>
-Subject: Re: [PATCH v7] arm64: dts: qcom: sc7280: Add venus DT node
-In-Reply-To: <1635259922-25378-1-git-send-email-quic_dikshita@quicinc.com>
-References: <1635259922-25378-1-git-send-email-quic_dikshita@quicinc.com>
-Message-ID: <8584fd56711395d1933ae8448e5af77e@codeaurora.org>
-X-Sender: dikshita@codeaurora.org
-User-Agent: Roundcube Webmail/1.3.9
+Subject: [PATCH] venus: avoid calling core_clk_setrate() concurrently during concurrent video sessions
+Date:   Mon,  8 Nov 2021 11:18:51 +0530
+Message-Id: <20211108054851.15523-1-mansur@codeaurora.org>
+X-Mailer: git-send-email 2.29.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hello,
+In existing implementation, core_clk_setrate() is getting called
+concurrently in concurrent video sessions. Before the previous call to
+core_clk_setrate returns, new call to core_clk_setrate is invoked from
+another video session running concurrently. This results in latest
+calculated frequency being set (higher/lower) instead of actual frequency
+required for that video session. It also results in stability crashes
+mention below. These resources are specific to video core, hence keeping
+under core lock would ensure that they are estimated for all running video
+sessions and called once for the video core.
 
-Gentle Reminder to review/merge this change.
+Crash logs:
 
-Thanks,
-Dikshita
+[    1.900089] WARNING: CPU: 4 PID: 1 at drivers/opp/debugfs.c:33 opp_debug_remove_one+0x2c/0x48
+[    1.908493] Modules linked in:
+[    1.911524] CPU: 4 PID: 1 Comm: swapper/0 Not tainted 5.10.67 #35 f8edb8c30cf2dd6838495dd9ef9be47af7f5f60c
+[    1.921036] Hardware name: Qualcomm Technologies, Inc. sc7280 IDP SKU2 platform (DT)
+[    1.928673] pstate: 60800009 (nZCv daif -PAN +UAO -TCO BTYPE=--)
+[    1.934608] pc : opp_debug_remove_one+0x2c/0x48
+[    1.939080] lr : opp_debug_remove_one+0x2c/0x48
+[    1.943560] sp : ffffffc011d7b7f0
+[    1.946836] pmr_save: 000000e0
+[    1.949854] x29: ffffffc011d7b7f0 x28: ffffffc010733bbc
+[    1.955104] x27: ffffffc010733ba8 x26: ffffff8083cedd00
+[    1.960355] x25: 0000000000000001 x24: 0000000000000000
+[    1.965603] x23: ffffff8083cc2878 x22: ffffff8083ceb900
+[    1.970852] x21: ffffff8083ceb910 x20: ffffff8083cc2800
+[    1.976101] x19: ffffff8083ceb900 x18: 00000000ffff0a10
+[    1.981352] x17: ffffff80837a5620 x16: 00000000000000ec
+[    1.986601] x15: ffffffc010519ad4 x14: 0000000000000003
+[    1.991849] x13: 0000000000000004 x12: 0000000000000001
+[    1.997100] x11: c0000000ffffdfff x10: 00000000ffffffff
+[    2.002348] x9 : d2627c580300dc00 x8 : d2627c580300dc00
+[    2.007596] x7 : 0720072007200720 x6 : ffffff80802ecf00
+[    2.012845] x5 : 0000000000190004 x4 : 0000000000000000
+[    2.018094] x3 : ffffffc011d7b478 x2 : ffffffc011d7b480
+[    2.023343] x1 : 00000000ffffdfff x0 : 0000000000000017
+[    2.028594] Call trace:
+[    2.031022]  opp_debug_remove_one+0x2c/0x48
+[    2.035160]  dev_pm_opp_put+0x94/0xb0
+[    2.038780]  _opp_remove_all+0x7c/0xc8
+[    2.042486]  _opp_remove_all_static+0x54/0x7c
+[    2.046796]  dev_pm_opp_remove_table+0x74/0x98
+[    2.051183]  devm_pm_opp_of_table_release+0x18/0x24
+[    2.056001]  devm_action_release+0x1c/0x28
+[    2.060053]  release_nodes+0x23c/0x2b8
+[    2.063760]  devres_release_group+0xcc/0xd0
+[    2.067900]  component_bind+0xac/0x168
+[    2.071608]  component_bind_all+0x98/0x124
+[    2.075664]  msm_drm_bind+0x1e8/0x678
+[    2.079287]  try_to_bring_up_master+0x60/0x134
+[    2.083674]  component_master_add_with_match+0xd8/0x120
+[    2.088834]  msm_pdev_probe+0x20c/0x2a0
+[    2.092629]  platform_drv_probe+0x9c/0xbc
+[    2.096598]  really_probe+0x11c/0x46c
+[    2.100217]  driver_probe_device+0x8c/0xf0
+[    2.104270]  device_driver_attach+0x54/0x78
+[    2.108407]  __driver_attach+0x48/0x148
+[    2.112201]  bus_for_each_dev+0x88/0xd4
+[    2.115998]  driver_attach+0x2c/0x38
+[    2.119534]  bus_add_driver+0x10c/0x200
+[    2.123330]  driver_register+0x6c/0x104
+[    2.127122]  __platform_driver_register+0x4c/0x58
+[    2.131767]  msm_drm_register+0x6c/0x70
+[    2.135560]  do_one_initcall+0x64/0x23c
+[    2.139357]  do_initcall_level+0xac/0x15c
+[    2.143321]  do_initcalls+0x5c/0x9c
+[    2.146778]  do_basic_setup+0x2c/0x38
+[    2.150401]  kernel_init_freeable+0xf8/0x15c
+[    2.154622]  kernel_init+0x1c/0x11c
+[    2.158079]  ret_from_fork+0x10/0x30
+[    2.161615] ---[ end trace a2cc45a0f784b212 ]---
 
-On 2021-10-26 20:22, Dikshita Agarwal wrote:
-> From: Dikshita Agarwal <dikshita@codeaurora.org>
-> 
-> Add DT entries for the sc7280 venus encoder/decoder.
-> 
-> Co-developed-by: Mansur Alisha Shaik <mansur@codeaurora.org>
-> Signed-off-by: Mansur Alisha Shaik <mansur@codeaurora.org>
-> Signed-off-by: Dikshita Agarwal <dikshita@codeaurora.org>
-> ---
-> changes since v6:
->     fixed checkpatch errors.
-> 
->  arch/arm64/boot/dts/qcom/sc7280.dtsi | 75 
-> ++++++++++++++++++++++++++++++++++++
->  1 file changed, 75 insertions(+)
-> 
-> diff --git a/arch/arm64/boot/dts/qcom/sc7280.dtsi
-> b/arch/arm64/boot/dts/qcom/sc7280.dtsi
-> index 365a2e0..e4988ea 100644
-> --- a/arch/arm64/boot/dts/qcom/sc7280.dtsi
-> +++ b/arch/arm64/boot/dts/qcom/sc7280.dtsi
-> @@ -129,6 +129,11 @@
->  			no-map;
->  		};
-> 
-> +		video_mem: memory@8b200000 {
-> +			reg = <0x0 0x8b200000 0x0 0x500000>;
-> +			no-map;
-> +		};
-> +
->  		ipa_fw_mem: memory@8b700000 {
->  			reg = <0 0x8b700000 0 0x10000>;
->  			no-map;
-> @@ -2675,6 +2680,76 @@
->  			};
->  		};
-> 
-> +		venus: video-codec@aa00000 {
-> +			compatible = "qcom,sc7280-venus";
-> +			reg = <0 0x0aa00000 0 0xd0600>;
-> +			interrupts = <GIC_SPI 174 IRQ_TYPE_LEVEL_HIGH>;
-> +
-> +			clocks = <&videocc VIDEO_CC_MVSC_CORE_CLK>,
-> +				 <&videocc VIDEO_CC_MVSC_CTL_AXI_CLK>,
-> +				 <&videocc VIDEO_CC_VENUS_AHB_CLK>,
-> +				 <&videocc VIDEO_CC_MVS0_CORE_CLK>,
-> +				 <&videocc VIDEO_CC_MVS0_AXI_CLK>;
-> +			clock-names = "core", "bus", "iface",
-> +				      "vcodec_core", "vcodec_bus";
-> +
-> +			power-domains = <&videocc MVSC_GDSC>,
-> +					<&videocc MVS0_GDSC>,
-> +					<&rpmhpd SC7280_CX>;
-> +			power-domain-names = "venus", "vcodec0", "cx";
-> +			operating-points-v2 = <&venus_opp_table>;
-> +
-> +			interconnects = <&gem_noc MASTER_APPSS_PROC 0 &cnoc2 
-> SLAVE_VENUS_CFG 0>,
-> +					<&mmss_noc MASTER_VIDEO_P0 0 &mc_virt SLAVE_EBI1 0>;
-> +			interconnect-names = "cpu-cfg", "video-mem";
-> +
-> +			iommus = <&apps_smmu 0x2180 0x20>,
-> +				 <&apps_smmu 0x2184 0x20>;
-> +			memory-region = <&video_mem>;
-> +
-> +			video-decoder {
-> +				compatible = "venus-decoder";
-> +			};
-> +
-> +			video-encoder {
-> +				compatible = "venus-encoder";
-> +			};
-> +
-> +			video-firmware {
-> +				iommus = <&apps_smmu 0x21a2 0x0>;
-> +			};
-> +
-> +			venus_opp_table: venus-opp-table {
-> +				compatible = "operating-points-v2";
-> +
-> +				opp-133330000 {
-> +					opp-hz = /bits/ 64 <133330000>;
-> +					required-opps = <&rpmhpd_opp_low_svs>;
-> +				};
-> +
-> +				opp-240000000 {
-> +					opp-hz = /bits/ 64 <240000000>;
-> +					required-opps = <&rpmhpd_opp_svs>;
-> +				};
-> +
-> +				opp-335000000 {
-> +					opp-hz = /bits/ 64 <335000000>;
-> +					required-opps = <&rpmhpd_opp_svs_l1>;
-> +				};
-> +
-> +				opp-424000000 {
-> +					opp-hz = /bits/ 64 <424000000>;
-> +					required-opps = <&rpmhpd_opp_nom>;
-> +				};
-> +
-> +				opp-460000048 {
-> +					opp-hz = /bits/ 64 <460000048>;
-> +					required-opps = <&rpmhpd_opp_turbo>;
-> +				};
-> +			};
-> +
-> +		};
-> +
->  		videocc: clock-controller@aaf0000 {
->  			compatible = "qcom,sc7280-videocc";
->  			reg = <0 0xaaf0000 0 0x10000>;
+[    2.166272] Removing OPP: 300000000
+
+Signed-off-by: Mansur Alisha Shaik <mansur@codeaurora.org>
+---
+ .../media/platform/qcom/venus/pm_helpers.c    | 28 +++++++++----------
+ 1 file changed, 14 insertions(+), 14 deletions(-)
+
+diff --git a/drivers/media/platform/qcom/venus/pm_helpers.c b/drivers/media/platform/qcom/venus/pm_helpers.c
+index cedc664ba755..d78347fdaf7e 100644
+--- a/drivers/media/platform/qcom/venus/pm_helpers.c
++++ b/drivers/media/platform/qcom/venus/pm_helpers.c
+@@ -163,14 +163,12 @@ static u32 load_per_type(struct venus_core *core, u32 session_type)
+ 	struct venus_inst *inst = NULL;
+ 	u32 mbs_per_sec = 0;
+ 
+-	mutex_lock(&core->lock);
+ 	list_for_each_entry(inst, &core->instances, list) {
+ 		if (inst->session_type != session_type)
+ 			continue;
+ 
+ 		mbs_per_sec += load_per_instance(inst);
+ 	}
+-	mutex_unlock(&core->lock);
+ 
+ 	return mbs_per_sec;
+ }
+@@ -219,14 +217,12 @@ static int load_scale_bw(struct venus_core *core)
+ 	struct venus_inst *inst = NULL;
+ 	u32 mbs_per_sec, avg, peak, total_avg = 0, total_peak = 0;
+ 
+-	mutex_lock(&core->lock);
+ 	list_for_each_entry(inst, &core->instances, list) {
+ 		mbs_per_sec = load_per_instance(inst);
+ 		mbs_to_bw(inst, mbs_per_sec, &avg, &peak);
+ 		total_avg += avg;
+ 		total_peak += peak;
+ 	}
+-	mutex_unlock(&core->lock);
+ 
+ 	/*
+ 	 * keep minimum bandwidth vote for "video-mem" path,
+@@ -253,8 +249,9 @@ static int load_scale_v1(struct venus_inst *inst)
+ 	struct device *dev = core->dev;
+ 	u32 mbs_per_sec;
+ 	unsigned int i;
+-	int ret;
++	int ret = 0;
+ 
++	mutex_lock(&core->lock);
+ 	mbs_per_sec = load_per_type(core, VIDC_SESSION_TYPE_ENC) +
+ 		      load_per_type(core, VIDC_SESSION_TYPE_DEC);
+ 
+@@ -279,17 +276,19 @@ static int load_scale_v1(struct venus_inst *inst)
+ 	if (ret) {
+ 		dev_err(dev, "failed to set clock rate %lu (%d)\n",
+ 			freq, ret);
+-		return ret;
++		goto exit;
+ 	}
+ 
+ 	ret = load_scale_bw(core);
+ 	if (ret) {
+ 		dev_err(dev, "failed to set bandwidth (%d)\n",
+ 			ret);
+-		return ret;
++		goto exit;
+ 	}
+ 
+-	return 0;
++exit:
++	mutex_unlock(&core->lock);
++	return ret;
+ }
+ 
+ static int core_get_v1(struct venus_core *core)
+@@ -1116,13 +1115,13 @@ static int load_scale_v4(struct venus_inst *inst)
+ 	struct device *dev = core->dev;
+ 	unsigned long freq = 0, freq_core1 = 0, freq_core2 = 0;
+ 	unsigned long filled_len = 0;
+-	int i, ret;
++	int i, ret = 0;
+ 
+ 	for (i = 0; i < inst->num_input_bufs; i++)
+ 		filled_len = max(filled_len, inst->payloads[i]);
+ 
+ 	if (inst->session_type == VIDC_SESSION_TYPE_DEC && !filled_len)
+-		return 0;
++		return ret;
+ 
+ 	freq = calculate_inst_freq(inst, filled_len);
+ 	inst->clk_data.freq = freq;
+@@ -1138,7 +1137,6 @@ static int load_scale_v4(struct venus_inst *inst)
+ 			freq_core2 += inst->clk_data.freq;
+ 		}
+ 	}
+-	mutex_unlock(&core->lock);
+ 
+ 	freq = max(freq_core1, freq_core2);
+ 
+@@ -1163,17 +1161,19 @@ static int load_scale_v4(struct venus_inst *inst)
+ 	if (ret) {
+ 		dev_err(dev, "failed to set clock rate %lu (%d)\n",
+ 			freq, ret);
+-		return ret;
++		goto exit;
+ 	}
+ 
+ 	ret = load_scale_bw(core);
+ 	if (ret) {
+ 		dev_err(dev, "failed to set bandwidth (%d)\n",
+ 			ret);
+-		return ret;
++		goto exit;
+ 	}
+ 
+-	return 0;
++exit:
++	mutex_unlock(&core->lock);
++	return ret;
+ }
+ 
+ static const struct venus_pm_ops pm_ops_v4 = {
+-- 
+QUALCOMM INDIA, on behalf of Qualcomm Innovation Center, Inc. is a member 
+of Code Aurora Forum, hosted by The Linux Foundation
+
