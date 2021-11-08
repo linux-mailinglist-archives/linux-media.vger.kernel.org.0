@@ -2,70 +2,82 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 88778449C9D
-	for <lists+linux-media@lfdr.de>; Mon,  8 Nov 2021 20:41:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C118D449CDE
+	for <lists+linux-media@lfdr.de>; Mon,  8 Nov 2021 21:07:19 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237743AbhKHTmd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 8 Nov 2021 14:42:33 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55558 "EHLO
+        id S238343AbhKHUKD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 8 Nov 2021 15:10:03 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33504 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237727AbhKHTmd (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 8 Nov 2021 14:42:33 -0500
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 84E4DC061570
-        for <linux-media@vger.kernel.org>; Mon,  8 Nov 2021 11:39:48 -0800 (PST)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: dafna)
-        with ESMTPSA id E11AB1F4470D
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=collabora.com; s=mail;
-        t=1636400386; bh=zIvAnhC7j9snbB3t2KDvPfgYWGMQ0Ua69j/4q12L82k=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=Nwb+f/ebSQOkF57W452ISckQY8IQ/4v9u6n53ACVJmnUftzraxjP8bCkyMHuJ5H9X
-         Dl2fSaA0UhgldJb5kxE6MgaanRyhxzykcS0rupSqZtOm15C6mBkX+gMIZX8+QwYR4L
-         vZwVmuWHohmmXmqYpyURQMFzTvtLmRj545k/hU4UrXgYAx0rXZ+Gi2MkAOCt9XW4+x
-         TrFn+aA0zRxRhCfEJeNR1wekXTQmn8lnwfLx9q9PIl4gp1uvQjivJ8o6eUhk8siJDM
-         vs0X2PDJKLPyq6dMh8a9e9Zo6RsSKjVfHvhsFpQpBNkeDaY96moXTREH7t+/2jRaVE
-         R1kiPXTyJTh9A==
-From:   Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
-To:     linux-media@vger.kernel.org
-Cc:     Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
-        kernel@collabora.com, laurent.pinchart@ideasonboard.com,
-        hverkuil@xs4all.nl, dafna3@gmail.com, sakari.ailus@linux.intel.com,
-        mchehab@kernel.org
-Subject: [PATCH 2/2] media: videobuf2: add WARN_ON if bytesused is bigger than buffer length
-Date:   Mon,  8 Nov 2021 21:39:33 +0200
-Message-Id: <20211108193933.20369-3-dafna.hirschfeld@collabora.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20211108193933.20369-1-dafna.hirschfeld@collabora.com>
-References: <20211108193933.20369-1-dafna.hirschfeld@collabora.com>
+        with ESMTP id S234723AbhKHUKC (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 8 Nov 2021 15:10:02 -0500
+Received: from mail-oi1-x244.google.com (mail-oi1-x244.google.com [IPv6:2607:f8b0:4864:20::244])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DD52EC061570
+        for <linux-media@vger.kernel.org>; Mon,  8 Nov 2021 12:07:17 -0800 (PST)
+Received: by mail-oi1-x244.google.com with SMTP id m6so3567845oim.2
+        for <linux-media@vger.kernel.org>; Mon, 08 Nov 2021 12:07:17 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=LZ2TFlKR341EEM19yfj6Dcxm06HlJ5sr9Dy4fv5e/Gg=;
+        b=Wa38gOND0DpKWAGLL72QOPjTbE+LkBo9ksZHlqu8b97YPE4GBimSXG42PR7xUsjEIy
+         0GQMVyB4L165a+D+XrHX0l3MvvrOCRo6dIF/ZJYQHI5TwLnkQ5QMBQPf97tTbXVdb+Yh
+         XVacedlF7RIE59ltPqL6q0b6MmQ87mxVhdYfZmBMtwij/rr8q60RgJjk4qAKnuXS9n3p
+         E46RzLxVhqltbsQ29i2n+SVE8yc99j9+T/gopNGXWQUuXxCAicQRv7cKecGerjp8HL3e
+         Fm+gHrYFh4Nt2nZwFNsNxtXSBo4upLgC+bBKxAKFE2abv21bn/qDSRmOHJACAUIRr2BZ
+         EJ2g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to;
+        bh=LZ2TFlKR341EEM19yfj6Dcxm06HlJ5sr9Dy4fv5e/Gg=;
+        b=RJhAoJWAoeXGVRtJLdkDocQdRGz7J9bcLhsZHctwS1uppQNe7EhXGeG8M6zA4fDXWY
+         1VlVTUcYSo5fg0iR23Uez2bQ+SaH8WL0CH1SZFcF5EpNSNMYGRRnXUxoy0aJjrzUSwBi
+         bOnTYWWRC7JSe9Wd9DfqWmXmH57PaOsUjEnwM7VdvesdNBTXsC6rOgEmXUXyHJbx3Sex
+         G8rtMJUlIpHAQUAcJ2PYh/PSDnPuWU8fJyf0vvGstaTngKMJNx3pwLIW8MS5TX8Qyhei
+         assbZiSdbKDmOKtdT/BMrrPei5+ChUoWRBlKMupKPE4lSJHXtOwEwjIwQiquWaoBhUOS
+         WN5A==
+X-Gm-Message-State: AOAM532ZFexAhQ3zcPoZJPn8W2cmVRkHxmYjajDsj6pSUj74p0BJOSHO
+        R6He8A6mrZ3DCtHlA1VSyNrgWq5zJ9pGd1zmRSU=
+X-Google-Smtp-Source: ABdhPJzA4GLOQzCwY9Tt4lL27CaX7IXu1ZKTjRAzaZJTgLXywkKDlWwKDDK/YDVq+neTJ3BERFjn1VkN11YN7TvtkLY=
+X-Received: by 2002:a54:4506:: with SMTP id l6mr876353oil.32.1636402037308;
+ Mon, 08 Nov 2021 12:07:17 -0800 (PST)
+MIME-Version: 1.0
+Received: by 2002:a9d:6a83:0:0:0:0:0 with HTTP; Mon, 8 Nov 2021 12:07:17 -0800 (PST)
+Reply-To: post.mailing@post.com
+From:   Post Offices <bala.johnson2015@gmail.com>
+Date:   Mon, 8 Nov 2021 21:07:17 +0100
+Message-ID: <CADy2=MZC5+2Lt949MhYnzfandryRYvyroB2LgL14ZQ-2SamWhw@mail.gmail.com>
+Subject: Payment Update !
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-In function vb2_set_plane_payload, report if the
-given bytesused is bigger than the buffer size.
+Attn :Fund Beneficiary
 
-Signed-off-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
----
- include/media/videobuf2-core.h | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+This is to officially inform you that the United United Nation.
+Branch has concluded in the meeting today over your long overdue
+contract payment compensation and agreed that your payment worth
+US$4.500, 000.00 will be released to you through an ATM Visa Card
+which will be delivered to you directly to your home address.
 
-diff --git a/include/media/videobuf2-core.h b/include/media/videobuf2-core.h
-index 2467284e5f26..ffaa1f3361c3 100644
---- a/include/media/videobuf2-core.h
-+++ b/include/media/videobuf2-core.h
-@@ -1155,8 +1155,10 @@ static inline void *vb2_get_drv_priv(struct vb2_queue *q)
- static inline void vb2_set_plane_payload(struct vb2_buffer *vb,
- 				 unsigned int plane_no, unsigned long size)
- {
--	if (plane_no < vb->num_planes)
-+	if (plane_no < vb->num_planes) {
-+		WARN_ON(size > vb->planes[plane_no].length);
- 		vb->planes[plane_no].bytesused = size;
-+	}
- }
- 
- /**
--- 
-2.17.1
+You have to reply back to us as soon as possible with your delivery
+info as stated below to enable the Post Office Delivery department
+proceed with the immediate dispatch tomorrow morning on your behalf.
 
+Full Name_______
+Home Address________
+Current Phone Number_______
+Nearest Airport _______
+A copy of your identification/Occupation_______________
+Group M.D: Post Office:Mr Ousmane Luqmani,
+06 ru Cotonou Benin Republic
+E-mail: (post.mailing@post.com)
+
+Get back to us with the above info as soon as you receive this email
+to enable us to proceed with your delivery.
+
+Yours in Service,
+Mrs Shumi Salatt
