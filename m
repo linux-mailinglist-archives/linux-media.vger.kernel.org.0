@@ -2,160 +2,182 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B194644794E
-	for <lists+linux-media@lfdr.de>; Mon,  8 Nov 2021 05:23:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1E7B3447A34
+	for <lists+linux-media@lfdr.de>; Mon,  8 Nov 2021 06:41:48 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237414AbhKHEZ5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 7 Nov 2021 23:25:57 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45462 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234867AbhKHEZ5 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Sun, 7 Nov 2021 23:25:57 -0500
-Received: from lb1-smtp-cloud7.xs4all.net (lb1-smtp-cloud7.xs4all.net [IPv6:2001:888:0:108::1a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 15103C061570
-        for <linux-media@vger.kernel.org>; Sun,  7 Nov 2021 20:23:12 -0800 (PST)
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud7.xs4all.net with ESMTPA
-        id jwBUmcyryFZvcjwBZmtVWg; Mon, 08 Nov 2021 05:23:09 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1636345389; bh=vVXRf9Z5SNKnA6lA6HxYT1ojxQveBHlyQGu5C1adl7c=;
-        h=Message-ID:Date:From:To:Subject:From:Subject;
-        b=hVXebrazlf3P5JyGYfDfi9HfQ3uVAps4MxUo2zDdzJLPZPpXha4eUc7+E1w9/9jAW
-         Yp/woDZdcWbhgXUCpH/byeQoQPrRJPEe9Z2rbh8dbNkBhFUrtSNk9lyS8pESPXRUDz
-         Kqd4Lw87levWQtuk8D8E8IkDdH+rtaTwDM3UYiLIwJkque0J9qXqmM53vmrf9G857T
-         pGPF2UGRylZ8tDfMxYbEgh/XvICPCtKInPVejAdHjQ+HLFUh/n1t7R833nKjmzXqI7
-         Rzkmhw+SZJ6pCTdmKqK79S/gmean3xFdY4bbPDQIU+ZM7AzEm0hp2G7fJ+AB5kWUP0
-         m3cTJxTT3WA8g==
-Message-ID: <f354bbdd5f068549d9e2ce2d9f9ea3ae@smtp-cloud7.xs4all.net>
-Date:   Mon, 08 Nov 2021 05:23:04 +0100
-From:   "Hans Verkuil" <hverkuil@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: ERRORS
-X-CMAE-Envelope: MS4xfBjUvvTRtKQhR9GpWn6w6NqzBmzu7eJuvtARp5tzpcatv/7qnj1Cg/N2sjH2KgCCdR0dAl/ix3/P64fat7ARH2zJHVpFTOtioCcPsxHrl5LPix053RCF
- bF1nUYaYOF8mU8FfiLPa3+SIce0VjpBz4pNfh7rNLTBdaq9Cc+X/JhTMyjszYBR28sqczyccHSOEJA==
+        id S236961AbhKHFo3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 8 Nov 2021 00:44:29 -0500
+Received: from so254-9.mailgun.net ([198.61.254.9]:54541 "EHLO
+        so254-9.mailgun.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S236942AbhKHFo3 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 8 Nov 2021 00:44:29 -0500
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
+ s=smtp; t=1636350105; h=Message-ID: References: In-Reply-To: Subject:
+ Cc: To: From: Date: Content-Transfer-Encoding: Content-Type:
+ MIME-Version: Sender; bh=qRv2nHtDcrWu8ahlJnSE1F3twABo8IxBQNapATzVhWM=;
+ b=tTD2RH2rGn1fA5mBRNSSa2xPM3vb+2VhUVm5I+vUDN189wDD9LPHBl0pYdDsdo/FkR0agUMk
+ jYeYJ3br7YZxVovqSFSBQzn8u460l2slc7s1hPnpHlJGKI0QGSU09zA0/AkIolWXYOzkmF5u
+ 0UzLgzKXlJoRjPhdoJPG1bUpgyM=
+X-Mailgun-Sending-Ip: 198.61.254.9
+X-Mailgun-Sid: WyI3ZjU0NiIsICJsaW51eC1tZWRpYUB2Z2VyLmtlcm5lbC5vcmciLCAiYmU5ZTRhIl0=
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n06.prod.us-west-2.postgun.com with SMTP id
+ 6188b8984596a04707f2c968 (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Mon, 08 Nov 2021 05:41:44
+ GMT
+Sender: dikshita=codeaurora.org@mg.codeaurora.org
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+        id 25B8CC4360D; Mon,  8 Nov 2021 05:41:44 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+        aws-us-west-2-caf-mail-1.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED,BAYES_00
+        autolearn=unavailable autolearn_force=no version=3.4.0
+Received: from mail.codeaurora.org (localhost.localdomain [127.0.0.1])
+        (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        (Authenticated sender: dikshita)
+        by smtp.codeaurora.org (Postfix) with ESMTPSA id 4CF08C4338F;
+        Mon,  8 Nov 2021 05:41:43 +0000 (UTC)
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
+Content-Transfer-Encoding: 7bit
+Date:   Mon, 08 Nov 2021 11:11:43 +0530
+From:   dikshita@codeaurora.org
+To:     Dikshita Agarwal <quic_dikshita@quicinc.com>
+Cc:     agross@kernel.org, bjorn.andersson@linaro.org, robh+dt@kernel.org,
+        mchehab@kernel.org, devicetree@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org, vgarodia@codeaurora.org,
+        stanimir.varbanov@linaro.org,
+        Mansur Alisha Shaik <mansur@codeaurora.org>
+Subject: Re: [PATCH v7] arm64: dts: qcom: sc7280: Add venus DT node
+In-Reply-To: <1635259922-25378-1-git-send-email-quic_dikshita@quicinc.com>
+References: <1635259922-25378-1-git-send-email-quic_dikshita@quicinc.com>
+Message-ID: <8584fd56711395d1933ae8448e5af77e@codeaurora.org>
+X-Sender: dikshita@codeaurora.org
+User-Agent: Roundcube Webmail/1.3.9
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the kernels and architectures in the list below.
+Hello,
 
-Results of the daily build of media_tree:
+Gentle Reminder to review/merge this change.
 
-date:			Mon Nov  8 05:00:13 CET 2021
-media-tree git hash:	3c7a2a27549c97f36d698791dcfa4f349b499f95
-media_build git hash:	c3d4780fa10bc38eb9dc462275fac019c8d693d5
-v4l-utils git hash:	2d8584dad450f4904f968e5bcbfd6351dd0b55ef
-edid-decode git hash:	b00755e34eb12aa92416aaf1bb7b02603131afe0
-gcc version:		i686-linux-gcc (GCC) 11.2.0
-sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
-sparse version:		0.6.3
-smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
-smatch version:		0.6.3
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: f1c67b200f199ca44b793327582bb643ecabd35f
-host hardware:		x86_64
-host os:		5.14.0-2-amd64
+Thanks,
+Dikshita
 
-linux-git-sh: OK
-linux-git-arm-at91: OK
-linux-git-arm-davinci: OK
-linux-git-mips: OK
-linux-git-arm-stm32: OK
-linux-git-arm-pxa: OK
-linux-git-arm64: OK
-linux-git-powerpc64: OK
-linux-git-arm-multi: OK
-linux-git-i686: OK
-linux-git-x86_64: OK
-Check COMPILE_TEST: OK
-Check for strcpy/strncpy/strlcpy: OK
-linux-4.4.283-i686: OK
-linux-4.4.283-x86_64: OK
-linux-4.5.7-i686: WARNINGS
-linux-4.5.7-x86_64: WARNINGS
-linux-4.6.7-i686: WARNINGS
-linux-4.6.7-x86_64: WARNINGS
-linux-4.7.10-i686: WARNINGS
-linux-4.7.10-x86_64: WARNINGS
-linux-4.8.17-i686: WARNINGS
-linux-4.8.17-x86_64: WARNINGS
-linux-4.9.246-i686: OK
-linux-4.9.246-x86_64: OK
-linux-4.10.17-i686: WARNINGS
-linux-4.10.17-x86_64: WARNINGS
-linux-4.11.12-i686: WARNINGS
-linux-4.11.12-x86_64: WARNINGS
-linux-4.12.14-i686: WARNINGS
-linux-4.12.14-x86_64: WARNINGS
-linux-4.13.16-i686: WARNINGS
-linux-4.13.16-x86_64: WARNINGS
-linux-4.14.246-i686: OK
-linux-4.14.246-x86_64: OK
-linux-4.15.18-i686: WARNINGS
-linux-4.15.18-x86_64: WARNINGS
-linux-4.16.18-i686: WARNINGS
-linux-4.16.18-x86_64: WARNINGS
-linux-4.17.19-i686: WARNINGS
-linux-4.17.19-x86_64: WARNINGS
-linux-4.18.20-i686: WARNINGS
-linux-4.18.20-x86_64: WARNINGS
-linux-4.19.206-i686: OK
-linux-4.19.206-x86_64: OK
-linux-4.20.17-i686: WARNINGS
-linux-4.20.17-x86_64: WARNINGS
-linux-5.0.21-i686: OK
-linux-5.0.21-x86_64: OK
-linux-5.1.21-i686: OK
-linux-5.1.21-x86_64: OK
-linux-5.2.21-i686: OK
-linux-5.2.21-x86_64: OK
-linux-5.3.18-i686: OK
-linux-5.3.18-x86_64: OK
-linux-5.4.144-i686: OK
-linux-5.4.144-x86_64: OK
-linux-5.5.19-i686: OK
-linux-5.5.19-x86_64: OK
-linux-5.6.19-i686: OK
-linux-5.6.19-x86_64: OK
-linux-5.7.19-i686: OK
-linux-5.7.19-x86_64: OK
-linux-5.8.18-i686: OK
-linux-5.8.18-x86_64: OK
-linux-5.9.16-i686: OK
-linux-5.9.16-x86_64: OK
-linux-5.10.62-i686: OK
-linux-5.10.62-x86_64: OK
-linux-5.11.22-i686: OK
-linux-5.11.22-x86_64: OK
-linux-5.12.19-i686: OK
-linux-5.12.19-x86_64: OK
-linux-5.13.14-i686: OK
-linux-5.13.14-x86_64: OK
-linux-5.14.1-i686: OK
-linux-5.14.1-x86_64: OK
-linux-5.15.1-i686: OK
-linux-5.15.1-x86_64: OK
-apps: WARNINGS
-spec-git: OK
-sparse: WARNINGS
-smatch: ERRORS
-kerneldoc: WARNINGS
-
-Detailed results are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Monday.log
-
-Detailed regression test results are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Monday-test-media.log
-http://www.xs4all.nl/~hverkuil/logs/Monday-test-media-32.log
-http://www.xs4all.nl/~hverkuil/logs/Monday-test-media-dmesg.log
-
-Full logs are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Monday.tar.bz2
-
-The Media Infrastructure API from this daily build is here:
-
-http://www.xs4all.nl/~hverkuil/spec/index.html
+On 2021-10-26 20:22, Dikshita Agarwal wrote:
+> From: Dikshita Agarwal <dikshita@codeaurora.org>
+> 
+> Add DT entries for the sc7280 venus encoder/decoder.
+> 
+> Co-developed-by: Mansur Alisha Shaik <mansur@codeaurora.org>
+> Signed-off-by: Mansur Alisha Shaik <mansur@codeaurora.org>
+> Signed-off-by: Dikshita Agarwal <dikshita@codeaurora.org>
+> ---
+> changes since v6:
+>     fixed checkpatch errors.
+> 
+>  arch/arm64/boot/dts/qcom/sc7280.dtsi | 75 
+> ++++++++++++++++++++++++++++++++++++
+>  1 file changed, 75 insertions(+)
+> 
+> diff --git a/arch/arm64/boot/dts/qcom/sc7280.dtsi
+> b/arch/arm64/boot/dts/qcom/sc7280.dtsi
+> index 365a2e0..e4988ea 100644
+> --- a/arch/arm64/boot/dts/qcom/sc7280.dtsi
+> +++ b/arch/arm64/boot/dts/qcom/sc7280.dtsi
+> @@ -129,6 +129,11 @@
+>  			no-map;
+>  		};
+> 
+> +		video_mem: memory@8b200000 {
+> +			reg = <0x0 0x8b200000 0x0 0x500000>;
+> +			no-map;
+> +		};
+> +
+>  		ipa_fw_mem: memory@8b700000 {
+>  			reg = <0 0x8b700000 0 0x10000>;
+>  			no-map;
+> @@ -2675,6 +2680,76 @@
+>  			};
+>  		};
+> 
+> +		venus: video-codec@aa00000 {
+> +			compatible = "qcom,sc7280-venus";
+> +			reg = <0 0x0aa00000 0 0xd0600>;
+> +			interrupts = <GIC_SPI 174 IRQ_TYPE_LEVEL_HIGH>;
+> +
+> +			clocks = <&videocc VIDEO_CC_MVSC_CORE_CLK>,
+> +				 <&videocc VIDEO_CC_MVSC_CTL_AXI_CLK>,
+> +				 <&videocc VIDEO_CC_VENUS_AHB_CLK>,
+> +				 <&videocc VIDEO_CC_MVS0_CORE_CLK>,
+> +				 <&videocc VIDEO_CC_MVS0_AXI_CLK>;
+> +			clock-names = "core", "bus", "iface",
+> +				      "vcodec_core", "vcodec_bus";
+> +
+> +			power-domains = <&videocc MVSC_GDSC>,
+> +					<&videocc MVS0_GDSC>,
+> +					<&rpmhpd SC7280_CX>;
+> +			power-domain-names = "venus", "vcodec0", "cx";
+> +			operating-points-v2 = <&venus_opp_table>;
+> +
+> +			interconnects = <&gem_noc MASTER_APPSS_PROC 0 &cnoc2 
+> SLAVE_VENUS_CFG 0>,
+> +					<&mmss_noc MASTER_VIDEO_P0 0 &mc_virt SLAVE_EBI1 0>;
+> +			interconnect-names = "cpu-cfg", "video-mem";
+> +
+> +			iommus = <&apps_smmu 0x2180 0x20>,
+> +				 <&apps_smmu 0x2184 0x20>;
+> +			memory-region = <&video_mem>;
+> +
+> +			video-decoder {
+> +				compatible = "venus-decoder";
+> +			};
+> +
+> +			video-encoder {
+> +				compatible = "venus-encoder";
+> +			};
+> +
+> +			video-firmware {
+> +				iommus = <&apps_smmu 0x21a2 0x0>;
+> +			};
+> +
+> +			venus_opp_table: venus-opp-table {
+> +				compatible = "operating-points-v2";
+> +
+> +				opp-133330000 {
+> +					opp-hz = /bits/ 64 <133330000>;
+> +					required-opps = <&rpmhpd_opp_low_svs>;
+> +				};
+> +
+> +				opp-240000000 {
+> +					opp-hz = /bits/ 64 <240000000>;
+> +					required-opps = <&rpmhpd_opp_svs>;
+> +				};
+> +
+> +				opp-335000000 {
+> +					opp-hz = /bits/ 64 <335000000>;
+> +					required-opps = <&rpmhpd_opp_svs_l1>;
+> +				};
+> +
+> +				opp-424000000 {
+> +					opp-hz = /bits/ 64 <424000000>;
+> +					required-opps = <&rpmhpd_opp_nom>;
+> +				};
+> +
+> +				opp-460000048 {
+> +					opp-hz = /bits/ 64 <460000048>;
+> +					required-opps = <&rpmhpd_opp_turbo>;
+> +				};
+> +			};
+> +
+> +		};
+> +
+>  		videocc: clock-controller@aaf0000 {
+>  			compatible = "qcom,sc7280-videocc";
+>  			reg = <0 0xaaf0000 0 0x10000>;
