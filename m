@@ -2,305 +2,357 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8522C44AD2F
-	for <lists+linux-media@lfdr.de>; Tue,  9 Nov 2021 13:09:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9800C44AD41
+	for <lists+linux-media@lfdr.de>; Tue,  9 Nov 2021 13:14:50 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237354AbhKIMMU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 9 Nov 2021 07:12:20 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53500 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240205AbhKIMMM (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 9 Nov 2021 07:12:12 -0500
-Received: from mail-wr1-x434.google.com (mail-wr1-x434.google.com [IPv6:2a00:1450:4864:20::434])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 92D10C061767
-        for <linux-media@vger.kernel.org>; Tue,  9 Nov 2021 04:09:26 -0800 (PST)
-Received: by mail-wr1-x434.google.com with SMTP id r8so32485305wra.7
-        for <linux-media@vger.kernel.org>; Tue, 09 Nov 2021 04:09:26 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=subject:from:to:cc:references:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language;
-        bh=qI2NcGAePU0B0rW4aThWEvdBvfzm1F9Y1ZUvzLzW3vo=;
-        b=jsNvb8EWBFERmUlleteMCicR9fEnSJb6xOohRH7AJgCNUeNsniy/2FrkRHsfGs3PXP
-         ljIy0xPtrEWNVOQx/EgGew/a/4zPre1FZsMxehQA7LClMBGJNby2h2BxGo2LJXJXFcm6
-         KaOOjvY5D/8E6Fd1FqTDvwQhE317jb6Dqf+sIUACeh6uvoyYoSW05MVeRnYFlOgrPyEf
-         RudZPPCFtUzbwANGbQkVWiFfA4wp1J/7ePyQZSrC8Ja/6PM4G4eHqiwmAWI3fU8LAgQJ
-         ZJ0eyrJS0AKMn8ATSw7onxVd+jTd/GlNeFoQMZD2ZqwgLV41H/AmsrQNGQ4TUH8OF3o8
-         ihjg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:subject:from:to:cc:references:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language;
-        bh=qI2NcGAePU0B0rW4aThWEvdBvfzm1F9Y1ZUvzLzW3vo=;
-        b=lk4YBTlvuStlWHiX+SLmWjV6t8xq8q8Yi3Pt+OpNripS9+oLDtlfGgiY6qRhe5QC7X
-         SwQDEVoqWV3fsqkG8eumLBfBHAdUIJ/2a7NZPmrpiFE/i4V4LvNaphvVw37jqNbhMCiD
-         mLYES1/S48ljz86BtKrcHqZXu7Vp/nMQRYZ+8D1xccQadSl2eB1eT2LqR8gVYeHVtcYa
-         B8oMFIyrmTgHmAh/YZH9U954MQUXutRIICTueQX86urjm8iYiAuMGCXycIFtPTmE3Zsb
-         1U/+WzpwgoLWzvsyOybRa1eyL2Gac7F86GNKy4SpehqSK0LkZJTDfe1rZfKVjw2qnbQ0
-         5ZdQ==
-X-Gm-Message-State: AOAM533H4g/Fglf9G0nijyrB8LgfniuYUvoRfanpNgeavIWFslFb6prt
-        0IMqsEJj+eVTgvLjN7zyc/bm9AO8xB8=
-X-Google-Smtp-Source: ABdhPJxYqbTtsnVMHGXZbMgsCMBh1UUKtFPriRY4BlsipYhOyrH2HRS+Qmvk1UxwaznTcbG1gLkcsA==
-X-Received: by 2002:adf:df0c:: with SMTP id y12mr9119139wrl.168.1636459765176;
-        Tue, 09 Nov 2021 04:09:25 -0800 (PST)
-Received: from [192.168.0.14] (cpc141996-chfd3-2-0-cust928.12-3.cable.virginm.net. [86.13.91.161])
-        by smtp.gmail.com with ESMTPSA id p12sm23586548wrr.10.2021.11.09.04.09.24
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 09 Nov 2021 04:09:24 -0800 (PST)
-Subject: Re: Fwd: Surface Go VCM type (was: Need to pass
- acpi_enforce_resources=lax on the Surface Go (version1))
-From:   Daniel Scally <djrscally@gmail.com>
-To:     Hans de Goede <hdegoede@redhat.com>,
+        id S240864AbhKIMRe (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 9 Nov 2021 07:17:34 -0500
+Received: from mga03.intel.com ([134.134.136.65]:10073 "EHLO mga03.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S236245AbhKIMRd (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 9 Nov 2021 07:17:33 -0500
+X-IronPort-AV: E=McAfee;i="6200,9189,10162"; a="232379887"
+X-IronPort-AV: E=Sophos;i="5.87,220,1631602800"; 
+   d="scan'208";a="232379887"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Nov 2021 04:14:47 -0800
+X-IronPort-AV: E=Sophos;i="5.87,220,1631602800"; 
+   d="scan'208";a="451873163"
+Received: from paasikivi.fi.intel.com ([10.237.72.42])
+  by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Nov 2021 04:14:42 -0800
+Received: from paasikivi.fi.intel.com (localhost [127.0.0.1])
+        by paasikivi.fi.intel.com (Postfix) with SMTP id 24B83200FF;
+        Tue,  9 Nov 2021 14:14:40 +0200 (EET)
+Date:   Tue, 9 Nov 2021 14:14:40 +0200
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     Hans de Goede <hdegoede@redhat.com>
+Cc:     "Rafael J . Wysocki" <rjw@rjwysocki.net>,
+        Mark Gross <markgross@kernel.org>,
+        Andy Shevchenko <andy@infradead.org>,
+        Wolfram Sang <wsa@the-dreams.de>,
+        Mika Westerberg <mika.westerberg@linux.intel.com>,
+        Daniel Scally <djrscally@gmail.com>,
         Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Kate Hsuan <hpa@redhat.com>
-Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
-        libcamera-devel@lists.libcamera.org,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-References: <e2312277-f967-7d3f-5ce9-fbb197d35fd6@gmail.com>
- <3b61bb2d-1136-cf35-ba7a-724da9642855@gmail.com>
- <418dc16a-2a03-7604-a8e2-31c5ddfcf436@redhat.com>
- <58dabc46-211c-844d-3ed3-fd2411936d6d@gmail.com>
- <b0a6a762-3445-7c61-3510-6bd493f8e0fa@redhat.com>
- <d0f969f6-e029-7c28-17ce-79b8228ddaee@gmail.com>
-Message-ID: <b77cf78f-ea5e-adcc-a1b8-8cff77ebf847@gmail.com>
-Date:   Tue, 9 Nov 2021 12:09:23 +0000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Mark Brown <broonie@kernel.org>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>, Len Brown <lenb@kernel.org>,
+        linux-acpi@vger.kernel.org, platform-driver-x86@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-i2c@vger.kernel.org,
+        Kate Hsuan <hpa@redhat.com>, linux-media@vger.kernel.org,
+        linux-clk@vger.kernel.org
+Subject: Re: [PATCH v4 04/11] regulator: Introduce tps68470-regulator driver
+Message-ID: <YYpmMNefsGUhqJ9W@paasikivi.fi.intel.com>
+References: <20211025094119.82967-1-hdegoede@redhat.com>
+ <20211025094119.82967-5-hdegoede@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <d0f969f6-e029-7c28-17ce-79b8228ddaee@gmail.com>
-Content-Type: multipart/mixed;
- boundary="------------FE25CACB98F1C2A5B8B0BD71"
-Content-Language: en-US
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20211025094119.82967-5-hdegoede@redhat.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This is a multi-part message in MIME format.
---------------FE25CACB98F1C2A5B8B0BD71
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
+Hi Hans,
 
-Hi Hans
+Thanks for the set.
 
-On 09/11/2021 00:43, Daniel Scally wrote:
-> Hi Hans
->
-> On 08/11/2021 13:12, Hans de Goede wrote:
->> Hi,
->>
->> On 11/2/21 00:43, Daniel Scally wrote:
->>> Hi Hans
->> <snip>
->>  
->>
->>>> 2. I need some help with all the fwnode link stuff (I'm not very familiar
->>>> with this). There seems to be a chicken and egg problem here though,
->>>> because the v4l2subdev for the VCM does not register because of async stuff
->>>> and if we add it to the "graph" then my idea to enumerate the VCMs
->>>> from the SSDB on the complete() callback won't work. But we can do this
->>>> on a per sensor basis instead from the cio2_notifier_bound() callback
->>>> instead I guess ?
->>> I think on top of your work in the cio2-bridge for patch 3 you can do this:
->>>
->>>
->>> 1. Create another software node against the cio2_sensor struct, with the
->>> name coming from the vcm_types array
->>>
->>> 2. Assign that software node to board_info.swnode in
->>> cio2_bridge_instantiate_vcm_i2c_client()
->>>
->>> 3. Add another entry to dev_properties for the sensor, that is named
->>> "lens-focus" and contains a reference to the software_node created in #2
->>> just like the references to the sensor/cio2 nodes.
->>>
->>>
->>> This way when the sensor driver calls
->>> v4l2_async_register_subdev_sensor() it should create a notifier that
->>> looks for that VCM client to bind. I think then rather than putting
->>> anything in the .bound() / .complete() callbacks, we should modify core
->>> to do _something_ when async matching some subdevs. The something would
->>> depend on the kind of devices that match, for example with the sensor
->>> driver and the ipu3-cio2 driver, there's an entity whos function is
->>> MEDIA_ENT_F_VID_IF_BRIDGE matching to an entity whos function is
->>> MEDIA_ENT_F_CAM_SENSOR, and it seems to me that every scenario like that
->>> is going to result in media pad links being created. Similarly for our
->>> sensor that's a device with entity function MEDIA_ENT_F_LENS matching to
->>> MEDIA_ENT_F_CAM_SENSOR, and I think that in those cases we can create
->>> either an interface link or a new kind of link (maybe
->>> "MEDIA_LNK_FL_ANCILLARY_LINK" or something...) between the two to show
->>> that they form a single logical unit, which we can then report to libcamera.
->>>
->>>
->>> Hope that makes sense...
->> Ok, so I gave this a try, see the attached patches, but the v4l2-subdev for
->> the VCM still does not show up.
->
-> This is exactly where I got to over the weekend too
->
->> I think that instead I need to build a full link between the sensor
->> and the VCM similar to the cio2 <-> sensor link. Both ends of that link
->> have:
->>
->> <base-swnode attached to the device>
->> |
->> --<port-swnode named (SWNODE_GRAPH_PORT_NAME_FMT, X), where X is 0 on the
->>   |                           sensor side and the link nr on the cio2 side
->>   |
->>   --<end-point-swnode named (SWNODE_GRAPH_ENDPOINT_NAME_FMT, 0)
->>
->> And then the 2 endpoints contain a swref property pointing to the
->> other endpoint swnode.
->>
->> I think we need a similar setup adding a swnode child named
->> (SWNODE_GRAPH_PORT_NAME_FMT, 1), to the nodes[SWNODE_SENSOR_HID] node.
->>
->> Note 1, since 0 is the "port" to the cio2, this new port child then
->> gets an endpoint "0" child itself, likewise we add a "port 0" child
->> to the vcm swnode, with a "endpoint 0" child below that and then have
->> the 2 endpoints contain swref properties pointing to each other.
->>
->> I think that this will properly make the VCm part of the graph and
->> will make its v4l2-subdev get instantiated when the graph is
->> complete.  Before I spend a bunch of time on implementing this,
->> let me ask this:
->>
->> Does this sound reasonable / like I'm heading in the right direction?
-> I don't think that we need to add the software nodes as
-> ports/endpoints...as far as I can tell it ought to work like this:
->
->
-> 1. The sensor calls v4l2_async_register_subdev_sensor() which...
->
->     a) creates a notifier
->
->     b) looks for reference properties of the device's fwnode called
-> "lens-focus" and calls v4l2_async_notifier_add_fwnode_subdev() against
-> the reference, which tells the notifier it's connected to this other
-> fwnode and to expect it to bind.
->
-> 2. When new subdevs are registered they get tested for a match against
-> the notifier registered in 1a that matches to their fwnode using
-> match_fwnode() [1]. This should work, on the grounds that we registered
-> the device using the board_info.swnode and registered a lens-focus
-> property that points to that software_node
->
-> 3. When a match is found, the notifier's .bound() function is called.
-> When all the asds that the notifier expects are bound the notifier's
-> .complete() callback is called.
->
->
-> That's not working correctly for me at the moment, but I think this is a
-> surmountable problem rather than the wrong approach, so I'm just working
-> through the differences to try and get the matching working.
+On Mon, Oct 25, 2021 at 11:41:12AM +0200, Hans de Goede wrote:
+> The TPS68470 PMIC provides Clocks, GPIOs and Regulators. At present in
+> the kernel the Regulators and Clocks are controlled by an OpRegion
+> driver designed to work with power control methods defined in ACPI, but
+> some platforms lack those methods, meaning drivers need to be able to
+> consume the resources of these chips through the usual frameworks.
+> 
+> This commit adds a driver for the regulators provided by the tps68470,
+> and is designed to bind to the platform_device registered by the
+> intel_skl_int3472 module.
+> 
+> This is based on this out of tree driver written by Intel:
+> https://github.com/intel/linux-intel-lts/blob/4.14/base/drivers/regulator/tps68470-regulator.c
+> with various cleanups added.
+> 
+> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+> ---
+> Changes in v4:
+> - Make the top comment block use c++ style comments
 
+Why?
 
-OK, I eventually got this working - the dw9719 registers as
-/dev/v4l-subdev7 for me now ... long story short is the attached patch
-was needed to make the references work, as the internals of v4l2 aren't
-checking for fwnode->secondary. Prior to your latest series as well, an
-additional problem was that once the VCMs fwnode was linked to the
-sensor's the .complete() callback for ipu3-cio2 would never call
-(because it needs ALL the devices for the linked fwnodes to be bound to
-do that)...which meant the VCMs never got instantiated, because that was
-where that function was called. With your new set separating those
-processes it works well, so yes I like that new approach very much :D
+> - Drop the bogus builtin regulator_init_data
+> - Add || COMPILE_TEST to Kconfig snippet
+> - Make the driver enable the PMIC clk when enabling the Core buck
+>   regulator, this switching regulator needs the PLL to be on
+> 
+> Changes in v2:
+> - Update the comment on why a subsys_initcall is used to register the drv
+> - Make struct regulator_ops const
+> ---
+>  drivers/regulator/Kconfig              |   9 ++
+>  drivers/regulator/Makefile             |   1 +
+>  drivers/regulator/tps68470-regulator.c | 215 +++++++++++++++++++++++++
+>  3 files changed, 225 insertions(+)
+>  create mode 100644 drivers/regulator/tps68470-regulator.c
+> 
+> diff --git a/drivers/regulator/Kconfig b/drivers/regulator/Kconfig
+> index 4fd13b06231f..1f6a6adc4ab0 100644
+> --- a/drivers/regulator/Kconfig
+> +++ b/drivers/regulator/Kconfig
+> @@ -1339,6 +1339,15 @@ config REGULATOR_TPS65912
+>  	help
+>  	    This driver supports TPS65912 voltage regulator chip.
+>  
+> +config REGULATOR_TPS68470
+> +	tristate "TI TPS68370 PMIC Regulators Driver"
 
+s/3/4/
 
-In the end we don't have to add a call creating the subdev's - it turns
-out that v4l2 knows it's part of ipu3-cio2's v4l2-device so it registers
-the nodes for the vcm when .complete() is called for that driver. I
-still think we should add a bit creating the link to expose to userspace
-in match_notify() though.
+> +	depends on INTEL_SKL_INT3472 || COMPILE_TEST
+> +	help
+> +	  This driver adds support for the TPS68470 PMIC to register
+> +	  regulators against the usual framework.
+> +
+> +	  The module will be called "tps68470-regulator".
+> +
+>  config REGULATOR_TPS80031
+>  	tristate "TI TPS80031/TPS80032 power regulator driver"
+>  	depends on MFD_TPS80031
+> diff --git a/drivers/regulator/Makefile b/drivers/regulator/Makefile
+> index 9e382b50a5ef..03c318110986 100644
+> --- a/drivers/regulator/Makefile
+> +++ b/drivers/regulator/Makefile
+> @@ -158,6 +158,7 @@ obj-$(CONFIG_REGULATOR_TPS6524X) += tps6524x-regulator.o
+>  obj-$(CONFIG_REGULATOR_TPS6586X) += tps6586x-regulator.o
+>  obj-$(CONFIG_REGULATOR_TPS65910) += tps65910-regulator.o
+>  obj-$(CONFIG_REGULATOR_TPS65912) += tps65912-regulator.o
+> +obj-$(CONFIG_REGULATOR_TPS68470) += tps68470-regulator.o
+>  obj-$(CONFIG_REGULATOR_TPS80031) += tps80031-regulator.o
+>  obj-$(CONFIG_REGULATOR_TPS65132) += tps65132-regulator.o
+>  obj-$(CONFIG_REGULATOR_TWL4030) += twl-regulator.o twl6030-regulator.o
+> diff --git a/drivers/regulator/tps68470-regulator.c b/drivers/regulator/tps68470-regulator.c
+> new file mode 100644
+> index 000000000000..7bce45df1596
+> --- /dev/null
+> +++ b/drivers/regulator/tps68470-regulator.c
+> @@ -0,0 +1,215 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +//
+> +// Regulator driver for TPS68470 PMIC
+> +//
+> +// Copyright (c) 2021 Red Hat Inc.
+> +// Copyright (C) 2018 Intel Corporation
+> +//
+> +// Authors:
+> +//	Hans de Goede <hdegoede@redhat.com>
+> +//	Zaikuo Wang <zaikuo.wang@intel.com>
+> +//	Tianshu Qiu <tian.shu.qiu@intel.com>
+> +//	Jian Xu Zheng <jian.xu.zheng@intel.com>
+> +//	Yuning Pu <yuning.pu@intel.com>
+> +//	Rajmohan Mani <rajmohan.mani@intel.com>
+> +
+> +#include <linux/clk.h>
+> +#include <linux/device.h>
+> +#include <linux/err.h>
+> +#include <linux/init.h>
+> +#include <linux/kernel.h>
+> +#include <linux/mfd/tps68470.h>
+> +#include <linux/module.h>
+> +#include <linux/platform_data/tps68470.h>
+> +#include <linux/platform_device.h>
+> +#include <linux/regulator/driver.h>
+> +#include <linux/regulator/machine.h>
+> +
+> +struct tps68470_regulator_data {
+> +	struct clk *clk;
+> +};
+> +
+> +#define TPS68470_REGULATOR(_name, _id, _ops, _n, _vr,			\
+> +			   _vm, _er, _em, _t, _lr, _nlr)		\
+> +	[TPS68470_ ## _name] = {					\
+> +		.name			= # _name,			\
+> +		.id			= _id,				\
+> +		.ops			= &_ops,			\
+> +		.n_voltages		= _n,				\
+> +		.type			= REGULATOR_VOLTAGE,		\
+> +		.owner			= THIS_MODULE,			\
+> +		.vsel_reg		= _vr,				\
+> +		.vsel_mask		= _vm,				\
+> +		.enable_reg		= _er,				\
+> +		.enable_mask		= _em,				\
+> +		.volt_table		= _t,				\
+> +		.linear_ranges		= _lr,				\
+> +		.n_linear_ranges	= _nlr,				\
+> +	}
+> +
+> +static const struct linear_range tps68470_ldo_ranges[] = {
+> +	REGULATOR_LINEAR_RANGE(875000, 0, 125, 17800),
+> +};
+> +
+> +static const struct linear_range tps68470_core_ranges[] = {
+> +	REGULATOR_LINEAR_RANGE(900000, 0, 42, 25000),
+> +};
+> +
+> +int tps68470_regulator_enable(struct regulator_dev *rdev)
+> +{
+> +	struct tps68470_regulator_data *data = rdev->reg_data;
+> +	int ret;
+> +
+> +	/* The Core buck regulator needs the PMIC's PLL to be enabled */
+> +	if (rdev->desc->id == TPS68470_CORE) {
+> +		ret = clk_prepare_enable(data->clk);
+> +		if (ret) {
+> +			dev_err(&rdev->dev, "Error enabling TPS68470 clock\n");
+> +			return ret;
+> +		}
+> +	}
+> +
+> +	return regulator_enable_regmap(rdev);
+> +}
+> +
+> +int tps68470_regulator_disable(struct regulator_dev *rdev)
+> +{
+> +	struct tps68470_regulator_data *data = rdev->reg_data;
+> +
+> +	if (rdev->desc->id == TPS68470_CORE)
+> +		clk_disable_unprepare(data->clk);
+> +
+> +	return regulator_disable_regmap(rdev);
+> +}
+> +
+> +/* Operations permitted on DCDCx, LDO2, LDO3 and LDO4 */
+> +static const struct regulator_ops tps68470_regulator_ops = {
+> +	.is_enabled		= regulator_is_enabled_regmap,
+> +	.enable			= tps68470_regulator_enable,
+> +	.disable		= tps68470_regulator_disable,
+> +	.get_voltage_sel	= regulator_get_voltage_sel_regmap,
+> +	.set_voltage_sel	= regulator_set_voltage_sel_regmap,
+> +	.list_voltage		= regulator_list_voltage_linear_range,
+> +	.map_voltage		= regulator_map_voltage_linear_range,
+> +};
+> +
+> +static const struct regulator_desc regulators[] = {
+> +	TPS68470_REGULATOR(CORE, TPS68470_CORE,
+> +			   tps68470_regulator_ops, 43, TPS68470_REG_VDVAL,
+> +			   TPS68470_VDVAL_DVOLT_MASK, TPS68470_REG_VDCTL,
+> +			   TPS68470_VDCTL_EN_MASK,
+> +			   NULL, tps68470_core_ranges,
+> +			   ARRAY_SIZE(tps68470_core_ranges)),
+> +	TPS68470_REGULATOR(ANA, TPS68470_ANA,
+> +			   tps68470_regulator_ops, 126, TPS68470_REG_VAVAL,
+> +			   TPS68470_VAVAL_AVOLT_MASK, TPS68470_REG_VACTL,
+> +			   TPS68470_VACTL_EN_MASK,
+> +			   NULL, tps68470_ldo_ranges,
+> +			   ARRAY_SIZE(tps68470_ldo_ranges)),
+> +	TPS68470_REGULATOR(VCM, TPS68470_VCM,
+> +			   tps68470_regulator_ops, 126, TPS68470_REG_VCMVAL,
+> +			   TPS68470_VCMVAL_VCVOLT_MASK, TPS68470_REG_VCMCTL,
+> +			   TPS68470_VCMCTL_EN_MASK,
+> +			   NULL, tps68470_ldo_ranges,
+> +			   ARRAY_SIZE(tps68470_ldo_ranges)),
+> +	TPS68470_REGULATOR(VIO, TPS68470_VIO,
+> +			   tps68470_regulator_ops, 126, TPS68470_REG_VIOVAL,
+> +			   TPS68470_VIOVAL_IOVOLT_MASK, TPS68470_REG_S_I2C_CTL,
+> +			   TPS68470_S_I2C_CTL_EN_MASK,
+> +			   NULL, tps68470_ldo_ranges,
+> +			   ARRAY_SIZE(tps68470_ldo_ranges)),
+> +
+> +/*
+> + * (1) This register must have same setting as VIOVAL if S_IO LDO is used to
+> + *     power daisy chained IOs in the receive side.
+> + * (2) If there is no I2C daisy chain it can be set freely.
+> + *
+> + */
+> +	TPS68470_REGULATOR(VSIO, TPS68470_VSIO,
+> +			   tps68470_regulator_ops, 126, TPS68470_REG_VSIOVAL,
+> +			   TPS68470_VSIOVAL_IOVOLT_MASK, TPS68470_REG_S_I2C_CTL,
+> +			   TPS68470_S_I2C_CTL_EN_MASK,
+> +			   NULL, tps68470_ldo_ranges,
+> +			   ARRAY_SIZE(tps68470_ldo_ranges)),
+> +	TPS68470_REGULATOR(AUX1, TPS68470_AUX1,
+> +			   tps68470_regulator_ops, 126, TPS68470_REG_VAUX1VAL,
+> +			   TPS68470_VAUX1VAL_AUX1VOLT_MASK,
+> +			   TPS68470_REG_VAUX1CTL,
+> +			   TPS68470_VAUX1CTL_EN_MASK,
+> +			   NULL, tps68470_ldo_ranges,
+> +			   ARRAY_SIZE(tps68470_ldo_ranges)),
+> +	TPS68470_REGULATOR(AUX2, TPS68470_AUX2,
+> +			   tps68470_regulator_ops, 126, TPS68470_REG_VAUX2VAL,
+> +			   TPS68470_VAUX2VAL_AUX2VOLT_MASK,
+> +			   TPS68470_REG_VAUX2CTL,
+> +			   TPS68470_VAUX2CTL_EN_MASK,
+> +			   NULL, tps68470_ldo_ranges,
+> +			   ARRAY_SIZE(tps68470_ldo_ranges)),
+> +};
+> +
+> +static int tps68470_regulator_probe(struct platform_device *pdev)
+> +{
+> +	struct tps68470_regulator_platform_data *pdata = pdev->dev.platform_data;
+> +	struct tps68470_regulator_data *data;
+> +	struct regulator_config config = { };
+> +	struct regulator_dev *rdev;
+> +	int i;
+> +
+> +	data = devm_kzalloc(&pdev->dev, sizeof(*data), GFP_KERNEL);
+> +	if (!data)
+> +		return -ENOMEM;
+> +
+> +	data->clk = devm_clk_get(&pdev->dev, "tps68470-clk");
+> +	if (IS_ERR(data->clk)) {
+> +		dev_err(&pdev->dev, "Error getting tps68470-clk\n");
+> +		return PTR_ERR(data->clk);
+> +	}
+> +
+> +	config.dev = pdev->dev.parent;
+> +	config.regmap = dev_get_drvdata(pdev->dev.parent);
+> +	config.driver_data = data;
+> +
+> +	for (i = 0; i < TPS68470_NUM_REGULATORS; i++) {
+> +		if (pdata)
+> +			config.init_data = pdata->reg_init_data[i];
+> +		else
+> +			config.init_data = NULL;
+> +
+> +		rdev = devm_regulator_register(&pdev->dev, &regulators[i], &config);
+> +		if (IS_ERR(rdev)) {
+> +			dev_err(&pdev->dev, "failed to register %s regulator\n",
+> +				regulators[i].name);
+> +			return PTR_ERR(rdev);
+> +		}
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +static struct platform_driver tps68470_regulator_driver = {
+> +	.driver = {
+> +		.name = "tps68470-regulator",
+> +	},
+> +	.probe = tps68470_regulator_probe,
+> +};
+> +
+> +/*
+> + * The ACPI tps68470 probe-ordering depends on the clk/gpio/regulator drivers
+> + * registering before the drivers for the camera-sensors which use them bind.
+> + * subsys_initcall() ensures this when the drivers are builtin.
+> + */
+> +static int __init tps68470_regulator_init(void)
+> +{
+> +	return platform_driver_register(&tps68470_regulator_driver);
+> +}
+> +subsys_initcall(tps68470_regulator_init);
+> +
+> +static void __exit tps68470_regulator_exit(void)
+> +{
+> +	platform_driver_unregister(&tps68470_regulator_driver);
+> +}
+> +module_exit(tps68470_regulator_exit);
+> +
+> +MODULE_ALIAS("platform:tps68470-regulator");
+> +MODULE_DESCRIPTION("TPS68470 voltage regulator driver");
+> +MODULE_LICENSE("GPL v2");
 
-
-Trying to list controls for the dw9719 with v4l2-ctl -d /dev/v4l-subdev7
--L fails with an IOCTL error, so I have some remedial work on the driver
-which I'll do tonight; I'd expect to be able to control focus with
-v4l2-ctl -d /dev/v4l-subdev7 -c absolute_focus=n once this is sorted.
-
->
->
-> For the devnodes, the ipu3-cio2 driver itself creates the devnodes for
-> the subdevices that bind to it (like the sensor) as part of its
-> .complete() callback [2] by calling v4l2_device_register_subdev_nodes(),
-> as far as I can tell there's nothing in v4l2 core that handles that
-> automatically so I think that that lack is what's preventing the
-> devnodes from showing up. I think we should tackle the problem of the
-> missing devnodes by mimicking the effects of that function somewhere
-> within core, probably v4l2_async_match_notify() (which calls the
-> notifier's .bound() callback). I think the creation of the links to
-> expose to userspace that this is a logical unit should probably happen
-> in the same place, using the entity.function field of the subdev and the
-> asd to decide exactly what kind of link to create.
->
->
-> [1]
-> https://elixir.bootlin.com/linux/latest/source/drivers/media/v4l2-core/v4l2-async.c#L69
->
-> [2]
-> https://elixir.bootlin.com/linux/latest/source/drivers/media/pci/intel/ipu3/ipu3-cio2-main.c#L1449
->
->> Regards,
->>
->> Hans
->>
->>
->>
->> p.s.
->>
->> I have found a new solution for the probe-ordering problem which
->> is patch 2 of the attached patches, I personally I'm happy with
->> this solution. I hope you like it too.
-
---------------FE25CACB98F1C2A5B8B0BD71
-Content-Type: text/x-patch; charset=UTF-8;
- name="0001-device-property-Check-fwnode-secondary-when-finding-.patch"
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment;
- filename*0="0001-device-property-Check-fwnode-secondary-when-finding-.pa";
- filename*1="tch"
-
-From b3c4aeeabd6ac6a40606c7790068a29c2b85f6ff Mon Sep 17 00:00:00 2001
-From: Daniel Scally <djrscally@gmail.com>
-Date: Tue, 9 Nov 2021 01:13:47 +0000
-Subject: [PATCH] device property: Check fwnode->secondary when finding
- properties
-
-fwnode_property_get_reference_args() searches for named properties
-against a fwnode_handle, but these could instead be against the fwnode's
-secondary. If the property isn't found against the primary, check the
-secondary to see if it's there instead.
-
-Signed-off-by: Daniel Scally <djrscally@gmail.com>
----
- drivers/base/property.c | 12 ++++++++++--
- 1 file changed, 10 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/base/property.c b/drivers/base/property.c
-index 453918eb7390..054e62a4e710 100644
---- a/drivers/base/property.c
-+++ b/drivers/base/property.c
-@@ -479,8 +479,16 @@ int fwnode_property_get_reference_args(const struct fwnode_handle *fwnode,
- 				       unsigned int nargs, unsigned int index,
- 				       struct fwnode_reference_args *args)
- {
--	return fwnode_call_int_op(fwnode, get_reference_args, prop, nargs_prop,
--				  nargs, index, args);
-+	int ret;
-+
-+	ret = fwnode_call_int_op(fwnode, get_reference_args, prop, nargs_prop,
-+				 nargs, index, args);
-+
-+	if (ret < 0 && !IS_ERR_OR_NULL(fwnode->secondary))
-+		ret = fwnode_call_int_op(fwnode->secondary, get_reference_args,
-+					 prop, nargs_prop, nargs, index, args);
-+
-+	return ret;
- }
- EXPORT_SYMBOL_GPL(fwnode_property_get_reference_args);
- 
 -- 
-2.25.1
+Kind regards,
 
-
---------------FE25CACB98F1C2A5B8B0BD71--
+Sakari Ailus
