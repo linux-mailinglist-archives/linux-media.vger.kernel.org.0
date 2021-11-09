@@ -2,32 +2,33 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A0FEA44ADCF
+	by mail.lfdr.de (Postfix) with ESMTP id EC84B44ADD0
 	for <lists+linux-media@lfdr.de>; Tue,  9 Nov 2021 13:50:57 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1343671AbhKIMxf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 9 Nov 2021 07:53:35 -0500
-Received: from mailgw02.mediatek.com ([210.61.82.184]:57058 "EHLO
+        id S1343707AbhKIMxg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 9 Nov 2021 07:53:36 -0500
+Received: from mailgw02.mediatek.com ([210.61.82.184]:57010 "EHLO
         mailgw02.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1343669AbhKIMxb (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 9 Nov 2021 07:53:31 -0500
-X-UUID: d25d7ae2879942889404f3e83e5f8c07-20211109
-X-UUID: d25d7ae2879942889404f3e83e5f8c07-20211109
-Received: from mtkmbs10n2.mediatek.inc [(172.21.101.183)] by mailgw02.mediatek.com
+        with ESMTP id S1343666AbhKIMxa (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 9 Nov 2021 07:53:30 -0500
+X-UUID: d5879ae4d86d41ed81790c08bf8c97be-20211109
+X-UUID: d5879ae4d86d41ed81790c08bf8c97be-20211109
+Received: from mtkcas10.mediatek.inc [(172.21.101.39)] by mailgw02.mediatek.com
         (envelope-from <yunfei.dong@mediatek.com>)
-        (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
-        with ESMTP id 943246583; Tue, 09 Nov 2021 20:50:39 +0800
+        (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
+        with ESMTP id 918150063; Tue, 09 Nov 2021 20:50:40 +0800
 Received: from mtkmbs10n2.mediatek.inc (172.21.101.183) by
- mtkmbs07n1.mediatek.inc (172.21.101.16) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Tue, 9 Nov 2021 20:50:37 +0800
+ mtkmbs10n1.mediatek.inc (172.21.101.34) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.792.15; Tue, 9 Nov 2021 20:50:39 +0800
 Received: from localhost.localdomain (10.17.3.154) by mtkmbs10n2.mediatek.inc
  (172.21.101.73) with Microsoft SMTP Server id 15.2.792.3 via Frontend
- Transport; Tue, 9 Nov 2021 20:50:36 +0800
+ Transport; Tue, 9 Nov 2021 20:50:37 +0800
 From:   Yunfei Dong <yunfei.dong@mediatek.com>
 To:     Yunfei Dong <yunfei.dong@mediatek.com>,
         Alexandre Courbot <acourbot@chromium.org>,
         Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Tzung-Bi Shih <tzungbi@chromium.org>,
+        "Tzung-Bi Shih" <tzungbi@chromium.org>,
         Tiffany Lin <tiffany.lin@mediatek.com>,
         Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
@@ -47,9 +48,9 @@ CC:     Hsin-Yi Wang <hsinyi@chromium.org>,
         <srv_heupstream@mediatek.com>,
         <linux-mediatek@lists.infradead.org>,
         <Project_Global_Chrome_Upstream_Group@mediatek.com>
-Subject: [PATCH v9, 04/19] media: mtk-vcodec: Build decoder pm file as module
-Date:   Tue, 9 Nov 2021 20:50:15 +0800
-Message-ID: <20211109125030.26299-5-yunfei.dong@mediatek.com>
+Subject: [PATCH v9, 05/19] media: mtk-vcodec: Support MT8192
+Date:   Tue, 9 Nov 2021 20:50:16 +0800
+Message-ID: <20211109125030.26299-6-yunfei.dong@mediatek.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20211109125030.26299-1-yunfei.dong@mediatek.com>
 References: <20211109125030.26299-1-yunfei.dong@mediatek.com>
@@ -61,90 +62,69 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Need to build decoder pm file as module for main device
-and subdev use the same pm interface.
+From: Yunfei Dong <yunfei.dong@mediatek.corp-partner.google.com>
+
+Adds MT8192's compatible "mediatek,mt8192-vcodec-dec".
+Adds MT8192's device private data mtk_lat_sig_core_pdata.
 
 Signed-off-by: Yunfei Dong <yunfei.dong@mediatek.com>
 ---
- drivers/media/platform/mtk-vcodec/Makefile            | 6 ++++--
- drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_pm.c | 9 +++++++++
- 2 files changed, 13 insertions(+), 2 deletions(-)
+ .../media/platform/mtk-vcodec/mtk_vcodec_dec.h   |  1 +
+ .../platform/mtk-vcodec/mtk_vcodec_dec_drv.c     |  4 ++++
+ .../mtk-vcodec/mtk_vcodec_dec_stateless.c        | 16 ++++++++++++++++
+ 3 files changed, 21 insertions(+)
 
-diff --git a/drivers/media/platform/mtk-vcodec/Makefile b/drivers/media/platform/mtk-vcodec/Makefile
-index ca8e9e7a9c4e..5d36e05535d7 100644
---- a/drivers/media/platform/mtk-vcodec/Makefile
-+++ b/drivers/media/platform/mtk-vcodec/Makefile
-@@ -2,7 +2,8 @@
+diff --git a/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec.h b/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec.h
+index 46783516b84a..e30806c1faea 100644
+--- a/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec.h
++++ b/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec.h
+@@ -67,6 +67,7 @@ extern const struct v4l2_m2m_ops mtk_vdec_m2m_ops;
+ extern const struct media_device_ops mtk_vcodec_media_ops;
+ extern const struct mtk_vcodec_dec_pdata mtk_vdec_8173_pdata;
+ extern const struct mtk_vcodec_dec_pdata mtk_vdec_8183_pdata;
++extern const struct mtk_vcodec_dec_pdata mtk_lat_sig_core_pdata;
  
- obj-$(CONFIG_VIDEO_MEDIATEK_VCODEC) += mtk-vcodec-dec.o \
- 				       mtk-vcodec-enc.o \
--				       mtk-vcodec-common.o
-+				       mtk-vcodec-common.o \
-+				       mtk-vcodec-dec-common.o
  
- mtk-vcodec-dec-y := vdec/vdec_h264_if.o \
- 		vdec/vdec_vp8_if.o \
-@@ -14,7 +15,8 @@ mtk-vcodec-dec-y := vdec/vdec_h264_if.o \
- 		mtk_vcodec_dec.o \
- 		mtk_vcodec_dec_stateful.o \
- 		mtk_vcodec_dec_stateless.o \
--		mtk_vcodec_dec_pm.o \
+ /*
+diff --git a/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_drv.c b/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_drv.c
+index 3ac4c3935e4e..b7a51e96d4ba 100644
+--- a/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_drv.c
++++ b/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_drv.c
+@@ -393,6 +393,10 @@ static const struct of_device_id mtk_vcodec_match[] = {
+ 		.compatible = "mediatek,mt8183-vcodec-dec",
+ 		.data = &mtk_vdec_8183_pdata,
+ 	},
++	{
++		.compatible = "mediatek,mt8192-vcodec-dec",
++		.data = &mtk_lat_sig_core_pdata,
++	},
+ 	{},
+ };
+ 
+diff --git a/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_stateless.c b/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_stateless.c
+index 8f4a1f0a0769..26e4d6f4ec04 100644
+--- a/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_stateless.c
++++ b/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_stateless.c
+@@ -358,3 +358,19 @@ const struct mtk_vcodec_dec_pdata mtk_vdec_8183_pdata = {
+ 	.worker = mtk_vdec_worker,
+ 	.flush_decoder = mtk_vdec_flush_decoder,
+ };
 +
-+mtk-vcodec-dec-common-y := mtk_vcodec_dec_pm.o
- 
- mtk-vcodec-enc-y := venc/venc_vp8_if.o \
- 		venc/venc_h264_if.o \
-diff --git a/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_pm.c b/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_pm.c
-index 20bd157a855c..09a281e3065a 100644
---- a/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_pm.c
-+++ b/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_pm.c
-@@ -77,12 +77,14 @@ int mtk_vcodec_init_dec_pm(struct platform_device *pdev,
- 	put_device(pm->larbvdec);
- 	return ret;
- }
-+EXPORT_SYMBOL_GPL(mtk_vcodec_init_dec_pm);
- 
- void mtk_vcodec_release_dec_pm(struct mtk_vcodec_pm *pm)
- {
- 	pm_runtime_disable(pm->dev);
- 	put_device(pm->larbvdec);
- }
-+EXPORT_SYMBOL_GPL(mtk_vcodec_release_dec_pm);
- 
- int mtk_vcodec_dec_pw_on(struct mtk_vcodec_pm *pm)
- {
-@@ -94,6 +96,7 @@ int mtk_vcodec_dec_pw_on(struct mtk_vcodec_pm *pm)
- 
- 	return ret;
- }
-+EXPORT_SYMBOL_GPL(mtk_vcodec_dec_pw_on);
- 
- void mtk_vcodec_dec_pw_off(struct mtk_vcodec_pm *pm)
- {
-@@ -103,6 +106,7 @@ void mtk_vcodec_dec_pw_off(struct mtk_vcodec_pm *pm)
- 	if (ret)
- 		mtk_v4l2_err("pm_runtime_put_sync fail %d", ret);
- }
-+EXPORT_SYMBOL_GPL(mtk_vcodec_dec_pw_off);
- 
- void mtk_vcodec_dec_clock_on(struct mtk_vcodec_pm *pm)
- {
-@@ -129,6 +133,7 @@ void mtk_vcodec_dec_clock_on(struct mtk_vcodec_pm *pm)
- 	for (i -= 1; i >= 0; i--)
- 		clk_disable_unprepare(dec_clk->clk_info[i].vcodec_clk);
- }
-+EXPORT_SYMBOL_GPL(mtk_vcodec_dec_clock_on);
- 
- void mtk_vcodec_dec_clock_off(struct mtk_vcodec_pm *pm)
- {
-@@ -139,3 +144,7 @@ void mtk_vcodec_dec_clock_off(struct mtk_vcodec_pm *pm)
- 	for (i = dec_clk->clk_num - 1; i >= 0; i--)
- 		clk_disable_unprepare(dec_clk->clk_info[i].vcodec_clk);
- }
-+EXPORT_SYMBOL_GPL(mtk_vcodec_dec_clock_off);
-+
-+MODULE_LICENSE("GPL v2");
-+MODULE_DESCRIPTION("Mediatek video decoder driver");
++const struct mtk_vcodec_dec_pdata mtk_lat_sig_core_pdata = {
++	.chip = MTK_MT8192,
++	.init_vdec_params = mtk_init_vdec_params,
++	.ctrls_setup = mtk_vcodec_dec_ctrls_setup,
++	.vdec_vb2_ops = &mtk_vdec_request_vb2_ops,
++	.vdec_formats = mtk_video_formats,
++	.num_formats = NUM_FORMATS,
++	.default_out_fmt = &mtk_video_formats[DEFAULT_OUT_FMT_IDX],
++	.default_cap_fmt = &mtk_video_formats[DEFAULT_CAP_FMT_IDX],
++	.vdec_framesizes = mtk_vdec_framesizes,
++	.num_framesizes = NUM_SUPPORTED_FRAMESIZE,
++	.uses_stateless_api = true,
++	.worker = mtk_vdec_worker,
++	.flush_decoder = mtk_vdec_flush_decoder,
++};
 -- 
 2.25.1
 
