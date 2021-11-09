@@ -2,81 +2,179 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CB89444A265
-	for <lists+linux-media@lfdr.de>; Tue,  9 Nov 2021 02:16:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2C0E444A1B8
+	for <lists+linux-media@lfdr.de>; Tue,  9 Nov 2021 02:09:50 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242413AbhKIBSB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 8 Nov 2021 20:18:01 -0500
-Received: from mail.kernel.org ([198.145.29.99]:40980 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S242925AbhKIBOi (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 8 Nov 2021 20:14:38 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 9F9C961353;
-        Tue,  9 Nov 2021 01:05:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1636419959;
-        bh=4OooTmRztQJKUj11q08dZdpILcJXu/3V0osD63y2+JQ=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=F64/yCvsY8O1eG93PpshnGMWICbtxgioLxFIZifOEd/el0aSVi1rHZwUpkRmoq9i3
-         toC1MXf29K38+k0065lVaUk8Hv/5bQWOXrFkyvmvrlA5EFF8s8To5S895bqJz6g4Zh
-         QuRC/DhQpjE0jk7f1v81AOS++wR4UmWryntOqaBKfZW/jDNeHYmb+buwB1XoBw/rru
-         hnCG548CzSklpfxYKUinAk2ICRnb6pGa3ZpgfThKu+mXHYVU/vnsuBaCU1zPcGAYWL
-         mF6mP8SMLz0l7mtUM6gHLpRTYr5ZOqIvOPdtnZlwPYFBnoNKg+xwsop9SKx4aQ4WaK
-         zt5urliOeIXFg==
-From:   Sasha Levin <sashal@kernel.org>
-To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Anant Thazhemadam <anant.thazhemadam@gmail.com>,
-        syzbot+e27b4fd589762b0b9329@syzkaller.appspotmail.com,
-        Sean Young <sean@mess.org>,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Sasha Levin <sashal@kernel.org>, mchehab@kernel.org,
-        linux-media@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.19 24/47] media: usb: dvd-usb: fix uninit-value bug in dibusb_read_eeprom_byte()
-Date:   Mon,  8 Nov 2021 12:50:08 -0500
-Message-Id: <20211108175031.1190422-24-sashal@kernel.org>
-X-Mailer: git-send-email 2.33.0
-In-Reply-To: <20211108175031.1190422-1-sashal@kernel.org>
-References: <20211108175031.1190422-1-sashal@kernel.org>
+        id S241925AbhKIBLl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 8 Nov 2021 20:11:41 -0500
+Received: from twspam01.aspeedtech.com ([211.20.114.71]:42080 "EHLO
+        twspam01.aspeedtech.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S242136AbhKIBJm (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 8 Nov 2021 20:09:42 -0500
+Received: from mail.aspeedtech.com ([192.168.0.24])
+        by twspam01.aspeedtech.com with ESMTP id 1A90gj1h050854;
+        Tue, 9 Nov 2021 08:42:45 +0800 (GMT-8)
+        (envelope-from jammy_huang@aspeedtech.com)
+Received: from [192.168.2.115] (192.168.2.115) by TWMBX02.aspeed.com
+ (192.168.0.24) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Tue, 9 Nov
+ 2021 09:05:59 +0800
+Message-ID: <acff05a4-38a5-4765-c6ff-011a58caf260@aspeedtech.com>
+Date:   Tue, 9 Nov 2021 09:05:59 +0800
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.3.0
+Subject: Re: [PATCH] media: aspeed: use reset to replace clk off/on
+Content-Language: en-US
+To:     Hans Verkuil <hverkuil@xs4all.nl>,
+        Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>,
+        "eajames@linux.ibm.com" <eajames@linux.ibm.com>,
+        "mchehab@kernel.org" <mchehab@kernel.org>,
+        "joel@jms.id.au" <joel@jms.id.au>,
+        "andrew@aj.id.au" <andrew@aj.id.au>,
+        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+        "openbmc@lists.ozlabs.org" <openbmc@lists.ozlabs.org>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>,
+        "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+References: <20211103054316.25272-1-jammy_huang@aspeedtech.com>
+ <883dd517-7996-8c44-8cea-1c8838b367b6@linux.intel.com>
+ <HK0PR06MB272258A4BA760E70CF609888F18E9@HK0PR06MB2722.apcprd06.prod.outlook.com>
+ <398d37a5-509f-b78b-360b-990d256bde63@xs4all.nl>
+From:   Jammy Huang <jammy_huang@aspeedtech.com>
+In-Reply-To: <398d37a5-509f-b78b-360b-990d256bde63@xs4all.nl>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
+X-Originating-IP: [192.168.2.115]
+X-ClientProxiedBy: TWMBX02.aspeed.com (192.168.0.24) To TWMBX02.aspeed.com
+ (192.168.0.24)
+X-DNSRBL: 
+X-MAIL: twspam01.aspeedtech.com 1A90gj1h050854
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Anant Thazhemadam <anant.thazhemadam@gmail.com>
+Dear Hans,
 
-[ Upstream commit 899a61a3305d49e8a712e9ab20d0db94bde5929f ]
+On 2021/11/8 下午 04:53, Hans Verkuil wrote:
+> Hi Jammy,
+>
+> On 05/11/2021 02:27, Jammy Huang wrote:
+>> Hi Jae,
+>>
+>> OK, I found it.
+>> Thanks for your help.
+> So just so I understand this correctly: this patch can be dropped, right?
+>
+> Regards,
+>
+> 	Hans
 
-In dibusb_read_eeprom_byte(), if dibusb_i2c_msg() fails, val gets
-assigned an value that's not properly initialized.
-Using kzalloc() in place of kmalloc() for the buffer fixes this issue,
-as the val can now be set to 0 in the event dibusb_i2c_msg() fails.
+Yes, aspeed clk driver will reset the related engine at clk-enabled.
 
-Reported-by: syzbot+e27b4fd589762b0b9329@syzkaller.appspotmail.com
-Tested-by: syzbot+e27b4fd589762b0b9329@syzkaller.appspotmail.com
-Signed-off-by: Anant Thazhemadam <anant.thazhemadam@gmail.com>
-Signed-off-by: Sean Young <sean@mess.org>
-Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- drivers/media/usb/dvb-usb/dibusb-common.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Thus, this modification isn't necessary.
 
-diff --git a/drivers/media/usb/dvb-usb/dibusb-common.c b/drivers/media/usb/dvb-usb/dibusb-common.c
-index fb1b4f2d5f9de..85b7838b3ede3 100644
---- a/drivers/media/usb/dvb-usb/dibusb-common.c
-+++ b/drivers/media/usb/dvb-usb/dibusb-common.c
-@@ -226,7 +226,7 @@ int dibusb_read_eeprom_byte(struct dvb_usb_device *d, u8 offs, u8 *val)
- 	u8 *buf;
- 	int rc;
- 
--	buf = kmalloc(2, GFP_KERNEL);
-+	buf = kzalloc(2, GFP_KERNEL);
- 	if (!buf)
- 		return -ENOMEM;
- 
+>> Regards,
+>> Jammy Huang
+>>
+>> Tel: 886-3-575-1185  ext.8630
+>>
+>> ************* Email Confidentiality Notice ********************
+>> DISCLAIMER:
+>> This message (and any attachments) may contain legally privileged and/or other confidential information. If you have received it in error, please notify the sender by reply e-mail and immediately delete the e-mail and any attachments without copying or disclosing the contents. Thank you.
+>>
+>> -----Original Message-----
+>> From: Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
+>> Sent: Thursday, November 4, 2021 11:54 PM
+>> To: Jammy Huang <jammy_huang@aspeedtech.com>; eajames@linux.ibm.com; mchehab@kernel.org; joel@jms.id.au; andrew@aj.id.au; linux-media@vger.kernel.org; openbmc@lists.ozlabs.org; linux-arm-kernel@lists.infradead.org; linux-aspeed@lists.ozlabs.org; linux-kernel@vger.kernel.org
+>> Subject: Re: [PATCH] media: aspeed: use reset to replace clk off/on
+>>
+>> Hi Jammy,
+>>
+>> On 11/2/2021 10:43 PM, Jammy Huang wrote:
+>>> reset should be more proper than clk off/on to bring HW back to good
+>>> state.
+>>>
+>>> Signed-off-by: Jammy Huang <jammy_huang@aspeedtech.com>
+>>> ---
+>>>    drivers/media/platform/aspeed-video.c | 22 +++++++++++++++++++---
+>>>    1 file changed, 19 insertions(+), 3 deletions(-)
+>>>
+>>> diff --git a/drivers/media/platform/aspeed-video.c
+>>> b/drivers/media/platform/aspeed-video.c
+>>> index fea5e4d0927e..10d182139809 100644
+>>> --- a/drivers/media/platform/aspeed-video.c
+>>> +++ b/drivers/media/platform/aspeed-video.c
+>>> @@ -23,6 +23,7 @@
+>>>    #include <linux/workqueue.h>
+>>>    #include <linux/debugfs.h>
+>>>    #include <linux/ktime.h>
+>>> +#include <linux/reset.h>
+>>>    #include <media/v4l2-ctrls.h>
+>>>    #include <media/v4l2-dev.h>
+>>>    #include <media/v4l2-device.h>
+>>> @@ -220,6 +221,7 @@ struct aspeed_video {
+>>>    	void __iomem *base;
+>>>    	struct clk *eclk;
+>>>    	struct clk *vclk;
+>>> +	struct reset_control *reset;
+>>>    
+>>>    	struct device *dev;
+>>>    	struct v4l2_ctrl_handler ctrl_handler; @@ -554,6 +556,13 @@ static
+>>> void aspeed_video_on(struct aspeed_video *video)
+>>>    	set_bit(VIDEO_CLOCKS_ON, &video->flags);
+>>>    }
+>>>    
+>>> +static void aspeed_video_reset(struct aspeed_video *v) {
+>>> +	reset_control_assert(v->reset);
+>>> +	udelay(100);
+>>> +	reset_control_deassert(v->reset);
+>>> +}
+>>> +
+>>>    static void aspeed_video_bufs_done(struct aspeed_video *video,
+>>>    				   enum vb2_buffer_state state)
+>>>    {
+>>> @@ -574,7 +583,9 @@ static void aspeed_video_irq_res_change(struct aspeed_video *video, ulong delay)
+>>>    	set_bit(VIDEO_RES_CHANGE, &video->flags);
+>>>    	clear_bit(VIDEO_FRAME_INPRG, &video->flags);
+>>>    
+>>> -	aspeed_video_off(video);
+>>> +	aspeed_video_write(video, VE_INTERRUPT_CTRL, 0);
+>>> +	aspeed_video_write(video, VE_INTERRUPT_STATUS, 0xffffffff);
+>>> +	aspeed_video_reset(video);
+>>>    	aspeed_video_bufs_done(video, VB2_BUF_STATE_ERROR);
+>>>    
+>>>    	schedule_delayed_work(&video->res_work, delay); @@ -1507,8 +1518,7
+>>> @@ static void aspeed_video_stop_streaming(struct vb2_queue *q)
+>>>    		 * Need to force stop any DMA and try and get HW into a good
+>>>    		 * state for future calls to start streaming again.
+>>>    		 */
+>>> -		aspeed_video_off(video);
+>>> -		aspeed_video_on(video);
+>>> +		aspeed_video_reset(video);
+>> You can find the ECLK configuration in 'clk-aspeed.c' or in 'clk-ast2600.c' that it's coupled with the video engine reset (SCU04[6] for AST2500 / SCU040[6] for AST2600). It means that if we call
+>> clk_disable() and clk_enable() through aspeed_video_off() and aspeed_video_on(), the video engine reset will be implicitly asserted and de-asserted by the clock driver so the reset mechanism is already in the existing code.
+>>
+>> Thanks,
+>> Jae
+>>
+>>>    		aspeed_video_init_regs(video);
+>>>    
+>>> @@ -1715,6 +1725,12 @@ static int aspeed_video_init(struct aspeed_video *video)
+>>>    		return rc;
+>>>    	}
+>>>    
+>>> +	video->reset = devm_reset_control_get(dev, NULL);
+>>> +	if (IS_ERR(video->reset)) {
+>>> +		dev_err(dev, "Unable to get reset\n");
+>>> +		return PTR_ERR(video->reset);
+>>> +	}
+>>> +
+>>>    	video->eclk = devm_clk_get(dev, "eclk");
+>>>    	if (IS_ERR(video->eclk)) {
+>>>    		dev_err(dev, "Unable to get ECLK\n");
+>>>
 -- 
-2.33.0
+Best Regards
+Jammy
 
