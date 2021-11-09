@@ -2,92 +2,134 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 110C744A01F
-	for <lists+linux-media@lfdr.de>; Tue,  9 Nov 2021 01:59:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 28307449FBE
+	for <lists+linux-media@lfdr.de>; Tue,  9 Nov 2021 01:40:45 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236689AbhKIBCZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 8 Nov 2021 20:02:25 -0500
-Received: from mail.kernel.org ([198.145.29.99]:58052 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S236525AbhKIBCZ (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 8 Nov 2021 20:02:25 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id EE649611BD;
-        Tue,  9 Nov 2021 00:59:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1636419579;
-        bh=qmHOld4pvSzd7AF+W6wQ4Nj6bQyCu6INWj0h1+yktDw=;
-        h=From:To:Cc:Subject:Date:From;
-        b=hYPmH3UYjMsL2pTdfIZmE+jerAc18ju/8lYAOtJ+oKbjmiKjszLfe3Hny6AxspflR
-         NmzZgfbe/YOasgDuZX+loVZLub2Z8caH54Woj7ztEXOD5kJU5IkPZ6iV6H1LKtGprM
-         974wRO2NeS7t0UX9SzenjcRBcaD/6DuvxRMANFNH00FOs3WbB45DKLtlsNa5SraXvq
-         egwygga6Lp6eBwYWXtJlbypcCd4ijuzy9WztiZjtN7craHP1rQu6YjyEv42Y/QgP9+
-         eCzsN43PcLpmiyJ9qGs1oiOdMooSFmmEjtzpofeBVzY7eEd5kua9NQ3rjQVjbLzvj5
-         FWLALIqtMjHbw==
-From:   Sasha Levin <sashal@kernel.org>
-To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Charan Teja Reddy <charante@codeaurora.org>,
-        =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
-        Sasha Levin <sashal@kernel.org>, sumit.semwal@linaro.org,
-        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        linaro-mm-sig@lists.linaro.org
-Subject: [PATCH AUTOSEL 5.15 001/146] dma-buf: WARN on dmabuf release with pending attachments
-Date:   Mon,  8 Nov 2021 12:42:28 -0500
-Message-Id: <20211108174453.1187052-1-sashal@kernel.org>
-X-Mailer: git-send-email 2.33.0
+        id S234922AbhKIAn2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 8 Nov 2021 19:43:28 -0500
+Received: from twspam01.aspeedtech.com ([211.20.114.71]:55107 "EHLO
+        twspam01.aspeedtech.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S241384AbhKIAnJ (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 8 Nov 2021 19:43:09 -0500
+Received: from mail.aspeedtech.com ([192.168.0.24])
+        by twspam01.aspeedtech.com with ESMTP id 1A90H9Vf049014;
+        Tue, 9 Nov 2021 08:17:09 +0800 (GMT-8)
+        (envelope-from jammy_huang@aspeedtech.com)
+Received: from [192.168.2.115] (192.168.2.115) by TWMBX02.aspeed.com
+ (192.168.0.24) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Tue, 9 Nov
+ 2021 08:40:23 +0800
+Message-ID: <326116c0-acd2-ccc2-d803-486df9c1fa3a@aspeedtech.com>
+Date:   Tue, 9 Nov 2021 08:40:23 +0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-stable: review
-X-Patchwork-Hint: Ignore
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.3.0
+Subject: Re: [PATCH] media: aspeed: Fix signal status not updated immediately
+Content-Language: en-US
+To:     Paul Menzel <pmenzel@molgen.mpg.de>
+CC:     "eajames@linux.ibm.com" <eajames@linux.ibm.com>,
+        "mchehab@kernel.org" <mchehab@kernel.org>,
+        "joel@jms.id.au" <joel@jms.id.au>,
+        "andrew@aj.id.au" <andrew@aj.id.au>,
+        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+        "openbmc@lists.ozlabs.org" <openbmc@lists.ozlabs.org>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>,
+        "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+References: <20211108061155.14479-1-jammy_huang@aspeedtech.com>
+ <cd62eba4-2553-6837-6069-52a209e48b8c@molgen.mpg.de>
+From:   Jammy Huang <jammy_huang@aspeedtech.com>
+In-Reply-To: <cd62eba4-2553-6837-6069-52a209e48b8c@molgen.mpg.de>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
+X-Originating-IP: [192.168.2.115]
+X-ClientProxiedBy: TWMBX02.aspeed.com (192.168.0.24) To TWMBX02.aspeed.com
+ (192.168.0.24)
+X-DNSRBL: 
+X-MAIL: twspam01.aspeedtech.com 1A90H9Vf049014
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Charan Teja Reddy <charante@codeaurora.org>
+Dear Paul,
 
-[ Upstream commit f492283b157053e9555787262f058ae33096f568 ]
+Thanks for your help. I will update in the next patch.
 
-It is expected from the clients to follow the below steps on an imported
-dmabuf fd:
-a) dmabuf = dma_buf_get(fd) // Get the dmabuf from fd
-b) dma_buf_attach(dmabuf); // Clients attach to the dmabuf
-   o Here the kernel does some slab allocations, say for
-dma_buf_attachment and may be some other slab allocation in the
-dmabuf->ops->attach().
-c) Client may need to do dma_buf_map_attachment().
-d) Accordingly dma_buf_unmap_attachment() should be called.
-e) dma_buf_detach () // Clients detach to the dmabuf.
-   o Here the slab allocations made in b) are freed.
-f) dma_buf_put(dmabuf) // Can free the dmabuf if it is the last
-reference.
+On 2021/11/8 下午 03:57, Paul Menzel wrote:
+> Dear Jammy,
+>
+>
+> Am 08.11.21 um 07:11 schrieb Jammy Huang:
+>
+> Maybe for the commit message summary:
+>
+> media: aspeed: Update signal status immediately to ensure sane hw state
+>
+>
+>> If res-chg, VE_INTERRUPT_MODE_DETECT_WD irq will be raised. But
+>> v4l2_input_status wont't be updated to no-signal immediately until
+> won’t
+>
+>> aspeed_video_get_resolution() in aspeed_video_resolution_work().
+>>
+>> During the period of time, aspeed_video_start_frame() could be called
+>> because it doesn't know signal is unstable now. If it goes with
+>> aspeed_video_init_regs() of aspeed_video_irq_res_change() simultaneously
+>> , it will mess up hw state.
+> Please do not start a line with a comma, for example, put the comma on
+> the line above.
+>
+>> To fix this problem, v4l2_input_status will be updated to no-signal
+> … status is updated _ (Present tense in commit messages.)
+>
+>> immediately for VE_INTERRUPT_MODE_DETECT_WD irq.
+>>
+>> Fixes: d2b4387f3bdf ("media: platform: Add Aspeed Video Engine driver")
+>> Signed-off-by: Jammy Huang <jammy_huang@aspeedtech.com>
+>> ---
+>>    drivers/media/platform/aspeed-video.c | 6 +++---
+>>    1 file changed, 3 insertions(+), 3 deletions(-)
+>>
+>> diff --git a/drivers/media/platform/aspeed-video.c b/drivers/media/platform/aspeed-video.c
+>> index 1ade264a8b69..3facd7ecc1a1 100644
+>> --- a/drivers/media/platform/aspeed-video.c
+>> +++ b/drivers/media/platform/aspeed-video.c
+>> @@ -762,6 +762,8 @@ static void aspeed_video_irq_res_change(struct aspeed_video *video, ulong delay)
+>>    	set_bit(VIDEO_RES_CHANGE, &video->flags);
+>>    	clear_bit(VIDEO_FRAME_INPRG, &video->flags);
+>>    
+>> +	video->v4l2_input_status = V4L2_IN_ST_NO_SIGNAL;
+>> +
+>>    	aspeed_video_off(video);
+>>    	aspeed_video_on(video);
+>>    	aspeed_video_bufs_done(video, VB2_BUF_STATE_ERROR);
+>> @@ -1889,7 +1891,6 @@ static void aspeed_video_resolution_work(struct work_struct *work)
+>>    	struct delayed_work *dwork = to_delayed_work(work);
+>>    	struct aspeed_video *video = container_of(dwork, struct aspeed_video,
+>>    						  res_work);
+>> -	u32 input_status = video->v4l2_input_status;
+>>    
+>>    	/* Exit early in case no clients remain */
+>>    	if (test_bit(VIDEO_STOPPED, &video->flags))
+>> @@ -1902,8 +1903,7 @@ static void aspeed_video_resolution_work(struct work_struct *work)
+>>    	aspeed_video_get_resolution(video);
+>>    
+>>    	if (video->detected_timings.width != video->active_timings.width ||
+>> -	    video->detected_timings.height != video->active_timings.height ||
+>> -	    input_status != video->v4l2_input_status) {
+>> +	    video->detected_timings.height != video->active_timings.height) {
+>>    		static const struct v4l2_event ev = {
+>>    			.type = V4L2_EVENT_SOURCE_CHANGE,
+>>    			.u.src_change.changes = V4L2_EVENT_SRC_CH_RESOLUTION,
+>>
+> Acked-by: Paul Menzel <pmenzel@molgen.mpg.de>
+>
+>
+> Kind regards,
+>
+> Paul
 
-Now say an erroneous client failed at step c) above thus it directly
-called dma_buf_put(), step f) above. Considering that it may be the last
-reference to the dmabuf, buffer will be freed with pending attachments
-left to the dmabuf which can show up as the 'memory leak'. This should
-at least be reported as the WARN().
-
-Signed-off-by: Charan Teja Reddy <charante@codeaurora.org>
-Reviewed-by: Christian König <christian.koenig@amd.com>
-Link: https://patchwork.freedesktop.org/patch/msgid/1627043468-16381-1-git-send-email-charante@codeaurora.org
-Signed-off-by: Christian König <christian.koenig@amd.com>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- drivers/dma-buf/dma-buf.c | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
-index 63d32261b63ff..474de2d988ca7 100644
---- a/drivers/dma-buf/dma-buf.c
-+++ b/drivers/dma-buf/dma-buf.c
-@@ -82,6 +82,7 @@ static void dma_buf_release(struct dentry *dentry)
- 	if (dmabuf->resv == (struct dma_resv *)&dmabuf[1])
- 		dma_resv_fini(dmabuf->resv);
- 
-+	WARN_ON(!list_empty(&dmabuf->attachments));
- 	module_put(dmabuf->owner);
- 	kfree(dmabuf->name);
- 	kfree(dmabuf);
 -- 
-2.33.0
+Best Regards
+Jammy
 
