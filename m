@@ -2,179 +2,131 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2C0E444A1B8
-	for <lists+linux-media@lfdr.de>; Tue,  9 Nov 2021 02:09:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 395BD44A345
+	for <lists+linux-media@lfdr.de>; Tue,  9 Nov 2021 02:24:42 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241925AbhKIBLl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 8 Nov 2021 20:11:41 -0500
-Received: from twspam01.aspeedtech.com ([211.20.114.71]:42080 "EHLO
-        twspam01.aspeedtech.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242136AbhKIBJm (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 8 Nov 2021 20:09:42 -0500
-Received: from mail.aspeedtech.com ([192.168.0.24])
-        by twspam01.aspeedtech.com with ESMTP id 1A90gj1h050854;
-        Tue, 9 Nov 2021 08:42:45 +0800 (GMT-8)
-        (envelope-from jammy_huang@aspeedtech.com)
-Received: from [192.168.2.115] (192.168.2.115) by TWMBX02.aspeed.com
- (192.168.0.24) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Tue, 9 Nov
- 2021 09:05:59 +0800
-Message-ID: <acff05a4-38a5-4765-c6ff-011a58caf260@aspeedtech.com>
-Date:   Tue, 9 Nov 2021 09:05:59 +0800
+        id S242929AbhKIB0b (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 8 Nov 2021 20:26:31 -0500
+Received: from mail.kernel.org ([198.145.29.99]:46194 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S242200AbhKIBRb (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Mon, 8 Nov 2021 20:17:31 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id EE9F9610A0;
+        Tue,  9 Nov 2021 01:07:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1636420032;
+        bh=x8znMbaNFwLAFSwKlod6IXPp3KHL4qybQ2KedJqD8/w=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=JhA87ryp4oW2Yll4aywwDYRrkeJqxRS1TAJ4uruKijrqYGCZyhhOxxbrNBzjTYD3H
+         2xOp7iz1QOWI2FakpxjSoklEX17auGD/NUERoo4IcHNP2F/iW1e6xpgrf+hI3t14OD
+         hAKuRmH3VJ6TlAfCR24qSmK+dnlV2UG+gKMp61lS/j4b4zuEkxB5hPzPcjKX8DT0xT
+         KCn0WALkkkqcDfx8baJspnzX5li/uZI9aNs6iJD3x5TBl59me+WorJIuw39hBeWJOG
+         b2rvOQtajxP2yQoJzmAK1d4aHBSYCktH6yYw0A4FQrf6MggKUqUTm4IzK0GrcknOAI
+         IErnkHpIT558w==
+From:   Sasha Levin <sashal@kernel.org>
+To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Cc:     Dirk Bender <d.bender@phytec.de>,
+        Stefan Riedmueller <s.riedmueller@phytec.de>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Sasha Levin <sashal@kernel.org>,
+        laurent.pinchart@ideasonboard.com, mchehab@kernel.org,
+        linux-media@vger.kernel.org
+Subject: [PATCH AUTOSEL 4.14 12/39] media: mt9p031: Fix corrupted frame after restarting stream
+Date:   Mon,  8 Nov 2021 20:06:22 -0500
+Message-Id: <20211109010649.1191041-12-sashal@kernel.org>
+X-Mailer: git-send-email 2.33.0
+In-Reply-To: <20211109010649.1191041-1-sashal@kernel.org>
+References: <20211109010649.1191041-1-sashal@kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.0
-Subject: Re: [PATCH] media: aspeed: use reset to replace clk off/on
-Content-Language: en-US
-To:     Hans Verkuil <hverkuil@xs4all.nl>,
-        Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>,
-        "eajames@linux.ibm.com" <eajames@linux.ibm.com>,
-        "mchehab@kernel.org" <mchehab@kernel.org>,
-        "joel@jms.id.au" <joel@jms.id.au>,
-        "andrew@aj.id.au" <andrew@aj.id.au>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        "openbmc@lists.ozlabs.org" <openbmc@lists.ozlabs.org>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>,
-        "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-References: <20211103054316.25272-1-jammy_huang@aspeedtech.com>
- <883dd517-7996-8c44-8cea-1c8838b367b6@linux.intel.com>
- <HK0PR06MB272258A4BA760E70CF609888F18E9@HK0PR06MB2722.apcprd06.prod.outlook.com>
- <398d37a5-509f-b78b-360b-990d256bde63@xs4all.nl>
-From:   Jammy Huang <jammy_huang@aspeedtech.com>
-In-Reply-To: <398d37a5-509f-b78b-360b-990d256bde63@xs4all.nl>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+X-stable: review
+X-Patchwork-Hint: Ignore
 Content-Transfer-Encoding: 8bit
-X-Originating-IP: [192.168.2.115]
-X-ClientProxiedBy: TWMBX02.aspeed.com (192.168.0.24) To TWMBX02.aspeed.com
- (192.168.0.24)
-X-DNSRBL: 
-X-MAIL: twspam01.aspeedtech.com 1A90gj1h050854
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Dear Hans,
+From: Dirk Bender <d.bender@phytec.de>
 
-On 2021/11/8 下午 04:53, Hans Verkuil wrote:
-> Hi Jammy,
->
-> On 05/11/2021 02:27, Jammy Huang wrote:
->> Hi Jae,
->>
->> OK, I found it.
->> Thanks for your help.
-> So just so I understand this correctly: this patch can be dropped, right?
->
-> Regards,
->
-> 	Hans
+[ Upstream commit 0961ba6dd211a4a52d1dd4c2d59be60ac2dc08c7 ]
 
-Yes, aspeed clk driver will reset the related engine at clk-enabled.
+To prevent corrupted frames after starting and stopping the sensor its
+datasheet specifies a specific pause sequence to follow:
 
-Thus, this modification isn't necessary.
+Stopping:
+	Set Pause_Restart Bit -> Set Restart Bit -> Set Chip_Enable Off
 
->> Regards,
->> Jammy Huang
->>
->> Tel: 886-3-575-1185  ext.8630
->>
->> ************* Email Confidentiality Notice ********************
->> DISCLAIMER:
->> This message (and any attachments) may contain legally privileged and/or other confidential information. If you have received it in error, please notify the sender by reply e-mail and immediately delete the e-mail and any attachments without copying or disclosing the contents. Thank you.
->>
->> -----Original Message-----
->> From: Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
->> Sent: Thursday, November 4, 2021 11:54 PM
->> To: Jammy Huang <jammy_huang@aspeedtech.com>; eajames@linux.ibm.com; mchehab@kernel.org; joel@jms.id.au; andrew@aj.id.au; linux-media@vger.kernel.org; openbmc@lists.ozlabs.org; linux-arm-kernel@lists.infradead.org; linux-aspeed@lists.ozlabs.org; linux-kernel@vger.kernel.org
->> Subject: Re: [PATCH] media: aspeed: use reset to replace clk off/on
->>
->> Hi Jammy,
->>
->> On 11/2/2021 10:43 PM, Jammy Huang wrote:
->>> reset should be more proper than clk off/on to bring HW back to good
->>> state.
->>>
->>> Signed-off-by: Jammy Huang <jammy_huang@aspeedtech.com>
->>> ---
->>>    drivers/media/platform/aspeed-video.c | 22 +++++++++++++++++++---
->>>    1 file changed, 19 insertions(+), 3 deletions(-)
->>>
->>> diff --git a/drivers/media/platform/aspeed-video.c
->>> b/drivers/media/platform/aspeed-video.c
->>> index fea5e4d0927e..10d182139809 100644
->>> --- a/drivers/media/platform/aspeed-video.c
->>> +++ b/drivers/media/platform/aspeed-video.c
->>> @@ -23,6 +23,7 @@
->>>    #include <linux/workqueue.h>
->>>    #include <linux/debugfs.h>
->>>    #include <linux/ktime.h>
->>> +#include <linux/reset.h>
->>>    #include <media/v4l2-ctrls.h>
->>>    #include <media/v4l2-dev.h>
->>>    #include <media/v4l2-device.h>
->>> @@ -220,6 +221,7 @@ struct aspeed_video {
->>>    	void __iomem *base;
->>>    	struct clk *eclk;
->>>    	struct clk *vclk;
->>> +	struct reset_control *reset;
->>>    
->>>    	struct device *dev;
->>>    	struct v4l2_ctrl_handler ctrl_handler; @@ -554,6 +556,13 @@ static
->>> void aspeed_video_on(struct aspeed_video *video)
->>>    	set_bit(VIDEO_CLOCKS_ON, &video->flags);
->>>    }
->>>    
->>> +static void aspeed_video_reset(struct aspeed_video *v) {
->>> +	reset_control_assert(v->reset);
->>> +	udelay(100);
->>> +	reset_control_deassert(v->reset);
->>> +}
->>> +
->>>    static void aspeed_video_bufs_done(struct aspeed_video *video,
->>>    				   enum vb2_buffer_state state)
->>>    {
->>> @@ -574,7 +583,9 @@ static void aspeed_video_irq_res_change(struct aspeed_video *video, ulong delay)
->>>    	set_bit(VIDEO_RES_CHANGE, &video->flags);
->>>    	clear_bit(VIDEO_FRAME_INPRG, &video->flags);
->>>    
->>> -	aspeed_video_off(video);
->>> +	aspeed_video_write(video, VE_INTERRUPT_CTRL, 0);
->>> +	aspeed_video_write(video, VE_INTERRUPT_STATUS, 0xffffffff);
->>> +	aspeed_video_reset(video);
->>>    	aspeed_video_bufs_done(video, VB2_BUF_STATE_ERROR);
->>>    
->>>    	schedule_delayed_work(&video->res_work, delay); @@ -1507,8 +1518,7
->>> @@ static void aspeed_video_stop_streaming(struct vb2_queue *q)
->>>    		 * Need to force stop any DMA and try and get HW into a good
->>>    		 * state for future calls to start streaming again.
->>>    		 */
->>> -		aspeed_video_off(video);
->>> -		aspeed_video_on(video);
->>> +		aspeed_video_reset(video);
->> You can find the ECLK configuration in 'clk-aspeed.c' or in 'clk-ast2600.c' that it's coupled with the video engine reset (SCU04[6] for AST2500 / SCU040[6] for AST2600). It means that if we call
->> clk_disable() and clk_enable() through aspeed_video_off() and aspeed_video_on(), the video engine reset will be implicitly asserted and de-asserted by the clock driver so the reset mechanism is already in the existing code.
->>
->> Thanks,
->> Jae
->>
->>>    		aspeed_video_init_regs(video);
->>>    
->>> @@ -1715,6 +1725,12 @@ static int aspeed_video_init(struct aspeed_video *video)
->>>    		return rc;
->>>    	}
->>>    
->>> +	video->reset = devm_reset_control_get(dev, NULL);
->>> +	if (IS_ERR(video->reset)) {
->>> +		dev_err(dev, "Unable to get reset\n");
->>> +		return PTR_ERR(video->reset);
->>> +	}
->>> +
->>>    	video->eclk = devm_clk_get(dev, "eclk");
->>>    	if (IS_ERR(video->eclk)) {
->>>    		dev_err(dev, "Unable to get ECLK\n");
->>>
+Restarting:
+	Set Chip_Enable On -> Clear Pause_Restart Bit
+
+The Restart Bit is cleared automatically and must not be cleared
+manually as this would cause undefined behavior.
+
+Signed-off-by: Dirk Bender <d.bender@phytec.de>
+Signed-off-by: Stefan Riedmueller <s.riedmueller@phytec.de>
+Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ drivers/media/i2c/mt9p031.c | 28 +++++++++++++++++++++++++++-
+ 1 file changed, 27 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/media/i2c/mt9p031.c b/drivers/media/i2c/mt9p031.c
+index 91d822fc4443a..8e6ad6a6e68cb 100644
+--- a/drivers/media/i2c/mt9p031.c
++++ b/drivers/media/i2c/mt9p031.c
+@@ -81,7 +81,9 @@
+ #define		MT9P031_PIXEL_CLOCK_INVERT		(1 << 15)
+ #define		MT9P031_PIXEL_CLOCK_SHIFT(n)		((n) << 8)
+ #define		MT9P031_PIXEL_CLOCK_DIVIDE(n)		((n) << 0)
+-#define MT9P031_FRAME_RESTART				0x0b
++#define MT9P031_RESTART					0x0b
++#define		MT9P031_FRAME_PAUSE_RESTART		(1 << 1)
++#define		MT9P031_FRAME_RESTART			(1 << 0)
+ #define MT9P031_SHUTTER_DELAY				0x0c
+ #define MT9P031_RST					0x0d
+ #define		MT9P031_RST_ENABLE			1
+@@ -448,9 +450,23 @@ static int mt9p031_set_params(struct mt9p031 *mt9p031)
+ static int mt9p031_s_stream(struct v4l2_subdev *subdev, int enable)
+ {
+ 	struct mt9p031 *mt9p031 = to_mt9p031(subdev);
++	struct i2c_client *client = v4l2_get_subdevdata(subdev);
++	int val;
+ 	int ret;
+ 
+ 	if (!enable) {
++		/* enable pause restart */
++		val = MT9P031_FRAME_PAUSE_RESTART;
++		ret = mt9p031_write(client, MT9P031_RESTART, val);
++		if (ret < 0)
++			return ret;
++
++		/* enable restart + keep pause restart set */
++		val |= MT9P031_FRAME_RESTART;
++		ret = mt9p031_write(client, MT9P031_RESTART, val);
++		if (ret < 0)
++			return ret;
++
+ 		/* Stop sensor readout */
+ 		ret = mt9p031_set_output_control(mt9p031,
+ 						 MT9P031_OUTPUT_CONTROL_CEN, 0);
+@@ -470,6 +486,16 @@ static int mt9p031_s_stream(struct v4l2_subdev *subdev, int enable)
+ 	if (ret < 0)
+ 		return ret;
+ 
++	/*
++	 * - clear pause restart
++	 * - don't clear restart as clearing restart manually can cause
++	 *   undefined behavior
++	 */
++	val = MT9P031_FRAME_RESTART;
++	ret = mt9p031_write(client, MT9P031_RESTART, val);
++	if (ret < 0)
++		return ret;
++
+ 	return mt9p031_pll_enable(mt9p031);
+ }
+ 
 -- 
-Best Regards
-Jammy
+2.33.0
 
