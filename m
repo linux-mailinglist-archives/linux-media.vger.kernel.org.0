@@ -2,157 +2,305 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5324B44ACCB
-	for <lists+linux-media@lfdr.de>; Tue,  9 Nov 2021 12:43:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8522C44AD2F
+	for <lists+linux-media@lfdr.de>; Tue,  9 Nov 2021 13:09:37 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1343562AbhKILp7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 9 Nov 2021 06:45:59 -0500
-Received: from mail-eopbgr80059.outbound.protection.outlook.com ([40.107.8.59]:65478
-        "EHLO EUR04-VI1-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1343558AbhKILp5 (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Tue, 9 Nov 2021 06:45:57 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=J41v3Ckr3jdACV2XkjkthQOimCqV8ICwonuXejkmLFrtbjq5/LuirU9nZS/wmRkaycUwazC4MM64GWtmVQ2q1TByRsgCMY3Haij7MQyqLBSaamstYNxZ+0hHqOzzusVqWh+INIK3rlbUJKKBMCbezRKb7w8752SWPLiWryzINIyOLH+Y7G/SgkIIfcCcbedC3iRZBeJTI2miMS9OXfFg9kmUDkEfxmy0+ZF45FVAEWyN9cW0gQiQdzRSOnZVwXFvp4ywTtZCNcjpYdwxCf7JZuhaygGhwDTWYYVVwCl2hzZzIPvZp0WkY/TqlWV3wuC6tGrSSDu/Bu+PuG+ZxfWPdQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=7YjwA3NWZnGUw2Q6LZ7fdJs9SRfr3dzPNWhu25qyJTw=;
- b=Z60SYAgIAR67JF4tyXVpoGv7iW+oTXg4bmYbqd2+X8rna1s0UgYJFzGoZ7dIJFRZCB6hWkhICI1uDtwOXfV7j2t2xZRFsXa4MA1cLoUdcG1cMKJcN2lz3IIdRC0LosJ5yNuTGnrZ0bmEbQsGgzfOPTY5e8vcejxNKHP1HF3i1NSCvN15xBIlIUzmwrIW3iUARK8EKnSONdklImpwV6tEM1MCnWZXmrXSrZH8jJv9Xr9yn3mp48oB7hcI5NEZsLjHLkfO5tJww8sOsKh3JO5ugMtFcJs2QABMMPDSGuWoSCv9/kgCR66yzZMI2lBYjUhKX5kHiXXYN4p/0qIm44I9ww==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=br-automation.com; dmarc=pass action=none
- header.from=br-automation.com; dkim=pass header.d=br-automation.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=br-automation.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=7YjwA3NWZnGUw2Q6LZ7fdJs9SRfr3dzPNWhu25qyJTw=;
- b=TtmQMsJwGt7zqGPayblaWECiPjqUnWVGSYGDzsYBgzWj4bOPzV9iPwvmF0aTOuAGUAdAFLT1VQTUvTyqT12CGaf0TicP4bzMiPWPKqtXyLvyeC45A5ssMMgR0x3PKEHvaI3aTMSshynSySQtVsk+m62vDqTEJC8ilrPmzOCyBPg3RNcPfwCdGIKWN4wuiFFIxBDTSqjv/NBqdAoJ+25ZjUfG+DVj/AVXaagTsG2bvfG+S+cl1V45E2yyVsiGSwMiFdEUL7Dpf9+is5SxQi2Z/bX4eI6FBqMm2rE+SsVmUMHH4FErgQhIq6CjSRf1/A1N0fA/LyuCM3mSg7rUlWbjjQ==
-Received: from VI1PR0602MB3549.eurprd06.prod.outlook.com
- (2603:10a6:803:10::24) by VI1PR06MB4014.eurprd06.prod.outlook.com
- (2603:10a6:802:62::31) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4649.19; Tue, 9 Nov
- 2021 11:43:09 +0000
-Received: from VI1PR0602MB3549.eurprd06.prod.outlook.com
- ([fe80::e1d5:b95d:49b5:b873]) by VI1PR0602MB3549.eurprd06.prod.outlook.com
- ([fe80::e1d5:b95d:49b5:b873%5]) with mapi id 15.20.4669.016; Tue, 9 Nov 2021
- 11:43:09 +0000
-From:   Martin Weber <martin.weber@br-automation.com>
-To:     "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>
-CC:     "p.zabel@pengutronix.de" <p.zabel@pengutronix.de>
-Subject: [PATCH] V4L2_PIX_FMT_GREYSCALE for coda960 JPEG Encoder
-Thread-Topic: [PATCH] V4L2_PIX_FMT_GREYSCALE for coda960 JPEG Encoder
-Thread-Index: AdfVXr9WsI+RiXqKS66LkEC81oVXYQ==
-Date:   Tue, 9 Nov 2021 11:43:09 +0000
-Message-ID: <VI1PR0602MB35495D33CD3DD897F0A41D5ED3929@VI1PR0602MB3549.eurprd06.prod.outlook.com>
-Accept-Language: de-DE, en-US
-Content-Language: de-DE
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=br-automation.com;
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 9b389fba-f82c-4984-7d33-08d9a3761a9e
-x-ms-traffictypediagnostic: VI1PR06MB4014:
-x-microsoft-antispam-prvs: <VI1PR06MB4014A1B7CC661DECF920CFC3D3929@VI1PR06MB4014.eurprd06.prod.outlook.com>
-x-abb-o365-outbound: ABBOUTBOUND1
-x-ms-oob-tlc-oobclassifiers: OLM:2958;
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: zGFf6szRkjOAqGwN0DECe4S8sM570IRLjHGA856/pzp/kzSg1plEhtmxpAtv9A8h+RWw07Fof/nJpTI8+Vi5zOYnBh9phE0BqShYx3UbMaOiNDEzYV/6f+B60rW2S3RvOXPYFHLB8sTpi0aJFjJspGvxs6x5VwjynNcY9rFFpWphSfpbtoAws1HFQgJ8FmYChQite7jE99mVK5W1Vs82g9PiGUrz7lwnuW8nXJPrAlfzaq6i6c8aaua8YyPwSWIwpSp42JirdZdNcNSByw4fGAwdxNdQj3U4sf+EQCN5dWthujbwMw508WRePLdeG0e5ZnKctuEhehOXGbbBmwoCA9AN8puVSfKU+yX15RuIod6V4gcOjGvPCpF3doJifcMECTrKSaw9+g/540wG0FSnY+igXvwoW5oflGiIjWVmVzhzsaxnzZ9xzwfyiR460F/VokGvSIuWwqAqDDb5m/Dlqz+bvb5u/1y5i2EVLzUYQWi9Z0j/izJc3dEroTwzlLUMdLuCKrlKFdYunajQclG/EolQu3PhjYK9bS4QtUZ7aZoTsRG7pkFB+ZWHbdontS0zR3/cFWLVHSsqMRkwaA9gu3LHdBecPoCSX3vC7VOTXm7Au1i06casCoxc/ew4jg5wbLS94AAD6OWPMUxTQqTIxkQlVi7tTGbHKqtCcn9n8hbTuRLfzq6MyVssW2fXmPqfqd28nGREUx1+dY0NuUmDhQ==
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:VI1PR0602MB3549.eurprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(366004)(8676002)(64756008)(9686003)(76116006)(83380400001)(66556008)(66446008)(66476007)(5660300002)(7696005)(26005)(38100700002)(82960400001)(6916009)(38070700005)(8936002)(122000001)(52536014)(66946007)(316002)(4326008)(55016002)(33656002)(86362001)(508600001)(186003)(2906002)(44832011)(71200400001)(6506007);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?ErNbzrrv71H8cRuaw979PyVdBNYVIlFg1ANKs4RXUX1TOiRI6lU1WIFlT38X?=
- =?us-ascii?Q?UzF7tGqKofVzy+6VmE7roRyWYvRjYgOLGQoWcb/cUuERSiIjraldJg/LdqOA?=
- =?us-ascii?Q?UgT8MxvRFnKujRJy2iIsQ+CwnDQUFzCP2Mrds9F3Pby3RdmRoR/LjTdKAoWW?=
- =?us-ascii?Q?dILrASmG1eKRI2DYy82wZrGL65/9YQ4coGpJJQrsf6MobLjAi2ga5wMtfBJC?=
- =?us-ascii?Q?w3k++B0bkv0SkFj9VtTC3V4shOf/POV17I0Xt5N47wQRL4oYSOVYty2QUrdw?=
- =?us-ascii?Q?t4oU8/nVGv4lMRNEKvqg6jYuZavzQUlL3wB0UcpwiE+cTnf+ztH6qy7dMYt2?=
- =?us-ascii?Q?NYk7OgVokxaGHQCe7MzTMSr7VkK7FPs7DyUZ/GAQ/i3DmlU/K8lv6pl3uPCQ?=
- =?us-ascii?Q?u+TNC2GslWahCCPVAZ0bHea4I7iuwFzOFOEe2L5m/0DHFZvAsMfh0G7fs25+?=
- =?us-ascii?Q?Xmw/as3wdHB5mi032rgxt8FjWLKnvsqUQi15E1NqP8+sxEK11TsPIyKzKtOb?=
- =?us-ascii?Q?/gBGynTvUZCGCgDxKDqP7GUUupwem0lN03/DuaZHL2AQkzKJAT2hwVI52eGp?=
- =?us-ascii?Q?uo3+QCl0CENbVjb5L6kX+cnpYb+kmjVD4L3gqlNdjGBfYmGr+/FNNpqS/Rdp?=
- =?us-ascii?Q?xp3KcljRJ9w5yT8aN6750GR5orM2Pr/xtdDMYgTNVh7MTUDFakaHO0zcmxID?=
- =?us-ascii?Q?9G4RbEoWlolx41ub2BzCHpoOeaZsFKG1JrEtl2qbj7j+y76AEcwoFIYa3lE7?=
- =?us-ascii?Q?FsVmaOTo6EeDNRQTBop0ju7qj9Xb6aPrdveyGvbntPZcaL6aSDTlgd6mRHRc?=
- =?us-ascii?Q?Ax/Q0XwaI8+ufEX2QcyBkZGsd127irdJhxXnjY5yuwC+fm8PNg8rK4XLz3tw?=
- =?us-ascii?Q?yov+h2FOrTU7z76qsHfVVAy6wqrYy39i8fck0D71Aiq1uhMYCigf6HqCODZX?=
- =?us-ascii?Q?h90co3lpg+Svih20B8J2aWxLz+q1KnceC9EEXTRAtHbQBxfuq8ux6wPImZCW?=
- =?us-ascii?Q?G9kMFbrw5bN/xAu0TDiy3JL2OxFw7CzgSzDHWVdaOpbND7bBlwXBxldWmM9w?=
- =?us-ascii?Q?fYiFDjC8+R0iUpb6Aeg3gYz97FFAHV8Cd/aV/kx2mIJfGmSB6Wr0wdu4z7ca?=
- =?us-ascii?Q?8musHox2sYhDsH3B806gjdLK9f6imgf9flTjZmWtz1KUSNK6+J+C4+kJCPCR?=
- =?us-ascii?Q?yYOfwyX1U/XV5++SfSrm5UWomUUqyrfm1MORO5p6HHtNDUPfmkwc3mTNj65r?=
- =?us-ascii?Q?RSS+qsX3YXnCBqIm2qBK9ZNLc7bakMuFcLlFiUG7rBkWW23hSydDDbvYU/Cv?=
- =?us-ascii?Q?trK3JFxk8JW0RrU8ipedXUV0mF4daL8ZenSA2RldKQ2cIgOB0jRmNv7DvGYp?=
- =?us-ascii?Q?mJxoa8uFVrw11NAdg35B9s8m0XjaXIKSht3WZx6xFm6QbmJ4EuC0F25tjcRi?=
- =?us-ascii?Q?zQgqyLE/EkDE/FSkm9HS5S7v9gAZCbQq3FfqTFH+M+gCO9f1u8SSzq+JN51r?=
- =?us-ascii?Q?H8XY4KnugNz3J8IVftCD5gl2lJW1rUobTbL5LJiSDvGPBpMoXWsMP7ywEGsj?=
- =?us-ascii?Q?QbLvzCNgEMJiOekXLX88otsBMiVL1vMR7e+2rJzeHU1aTIu7vL55Vlo0DFqj?=
- =?us-ascii?Q?CYlKTJovhLAWOzkkf/pGl9NVKb+ss6HSxEIcBaXyxrfSHWCIzUqRyS1o2nD5?=
- =?us-ascii?Q?3w8iqA=3D=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+        id S237354AbhKIMMU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 9 Nov 2021 07:12:20 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53500 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S240205AbhKIMMM (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 9 Nov 2021 07:12:12 -0500
+Received: from mail-wr1-x434.google.com (mail-wr1-x434.google.com [IPv6:2a00:1450:4864:20::434])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 92D10C061767
+        for <linux-media@vger.kernel.org>; Tue,  9 Nov 2021 04:09:26 -0800 (PST)
+Received: by mail-wr1-x434.google.com with SMTP id r8so32485305wra.7
+        for <linux-media@vger.kernel.org>; Tue, 09 Nov 2021 04:09:26 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=subject:from:to:cc:references:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language;
+        bh=qI2NcGAePU0B0rW4aThWEvdBvfzm1F9Y1ZUvzLzW3vo=;
+        b=jsNvb8EWBFERmUlleteMCicR9fEnSJb6xOohRH7AJgCNUeNsniy/2FrkRHsfGs3PXP
+         ljIy0xPtrEWNVOQx/EgGew/a/4zPre1FZsMxehQA7LClMBGJNby2h2BxGo2LJXJXFcm6
+         KaOOjvY5D/8E6Fd1FqTDvwQhE317jb6Dqf+sIUACeh6uvoyYoSW05MVeRnYFlOgrPyEf
+         RudZPPCFtUzbwANGbQkVWiFfA4wp1J/7ePyQZSrC8Ja/6PM4G4eHqiwmAWI3fU8LAgQJ
+         ZJ0eyrJS0AKMn8ATSw7onxVd+jTd/GlNeFoQMZD2ZqwgLV41H/AmsrQNGQ4TUH8OF3o8
+         ihjg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:subject:from:to:cc:references:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language;
+        bh=qI2NcGAePU0B0rW4aThWEvdBvfzm1F9Y1ZUvzLzW3vo=;
+        b=lk4YBTlvuStlWHiX+SLmWjV6t8xq8q8Yi3Pt+OpNripS9+oLDtlfGgiY6qRhe5QC7X
+         SwQDEVoqWV3fsqkG8eumLBfBHAdUIJ/2a7NZPmrpiFE/i4V4LvNaphvVw37jqNbhMCiD
+         mLYES1/S48ljz86BtKrcHqZXu7Vp/nMQRYZ+8D1xccQadSl2eB1eT2LqR8gVYeHVtcYa
+         B8oMFIyrmTgHmAh/YZH9U954MQUXutRIICTueQX86urjm8iYiAuMGCXycIFtPTmE3Zsb
+         1U/+WzpwgoLWzvsyOybRa1eyL2Gac7F86GNKy4SpehqSK0LkZJTDfe1rZfKVjw2qnbQ0
+         5ZdQ==
+X-Gm-Message-State: AOAM533H4g/Fglf9G0nijyrB8LgfniuYUvoRfanpNgeavIWFslFb6prt
+        0IMqsEJj+eVTgvLjN7zyc/bm9AO8xB8=
+X-Google-Smtp-Source: ABdhPJxYqbTtsnVMHGXZbMgsCMBh1UUKtFPriRY4BlsipYhOyrH2HRS+Qmvk1UxwaznTcbG1gLkcsA==
+X-Received: by 2002:adf:df0c:: with SMTP id y12mr9119139wrl.168.1636459765176;
+        Tue, 09 Nov 2021 04:09:25 -0800 (PST)
+Received: from [192.168.0.14] (cpc141996-chfd3-2-0-cust928.12-3.cable.virginm.net. [86.13.91.161])
+        by smtp.gmail.com with ESMTPSA id p12sm23586548wrr.10.2021.11.09.04.09.24
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 09 Nov 2021 04:09:24 -0800 (PST)
+Subject: Re: Fwd: Surface Go VCM type (was: Need to pass
+ acpi_enforce_resources=lax on the Surface Go (version1))
+From:   Daniel Scally <djrscally@gmail.com>
+To:     Hans de Goede <hdegoede@redhat.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Kate Hsuan <hpa@redhat.com>
+Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
+        libcamera-devel@lists.libcamera.org,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+References: <e2312277-f967-7d3f-5ce9-fbb197d35fd6@gmail.com>
+ <3b61bb2d-1136-cf35-ba7a-724da9642855@gmail.com>
+ <418dc16a-2a03-7604-a8e2-31c5ddfcf436@redhat.com>
+ <58dabc46-211c-844d-3ed3-fd2411936d6d@gmail.com>
+ <b0a6a762-3445-7c61-3510-6bd493f8e0fa@redhat.com>
+ <d0f969f6-e029-7c28-17ce-79b8228ddaee@gmail.com>
+Message-ID: <b77cf78f-ea5e-adcc-a1b8-8cff77ebf847@gmail.com>
+Date:   Tue, 9 Nov 2021 12:09:23 +0000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-X-OriginatorOrg: br-automation.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: VI1PR0602MB3549.eurprd06.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9b389fba-f82c-4984-7d33-08d9a3761a9e
-X-MS-Exchange-CrossTenant-originalarrivaltime: 09 Nov 2021 11:43:09.6759
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 372ee9e0-9ce0-4033-a64a-c07073a91ecd
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: bgm4gVC6mfYo3KzS8/1W/VxMDlXU99V/YSgKdGZj//wlL1GCMv4/BB8pI+oxKcDaj5pNNthhG/e8IVmb/w1sNXpp67ngX86Ktt2Z9ilZ9EA=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR06MB4014
+In-Reply-To: <d0f969f6-e029-7c28-17ce-79b8228ddaee@gmail.com>
+Content-Type: multipart/mixed;
+ boundary="------------FE25CACB98F1C2A5B8B0BD71"
+Content-Language: en-US
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-support greyscale pix fmt input for coda9_jpeg_encoder. The hardware
-supports it, so allow V4L2 Mem2Mem JPEG Encoder use it as well. Tested
-on an i.MX6QP.
+This is a multi-part message in MIME format.
+--------------FE25CACB98F1C2A5B8B0BD71
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
 
-Signed-off-by: Martin S. Weber <martin.weber@br-automation.com>
+Hi Hans
+
+On 09/11/2021 00:43, Daniel Scally wrote:
+> Hi Hans
+>
+> On 08/11/2021 13:12, Hans de Goede wrote:
+>> Hi,
+>>
+>> On 11/2/21 00:43, Daniel Scally wrote:
+>>> Hi Hans
+>> <snip>
+>>  
+>>
+>>>> 2. I need some help with all the fwnode link stuff (I'm not very familiar
+>>>> with this). There seems to be a chicken and egg problem here though,
+>>>> because the v4l2subdev for the VCM does not register because of async stuff
+>>>> and if we add it to the "graph" then my idea to enumerate the VCMs
+>>>> from the SSDB on the complete() callback won't work. But we can do this
+>>>> on a per sensor basis instead from the cio2_notifier_bound() callback
+>>>> instead I guess ?
+>>> I think on top of your work in the cio2-bridge for patch 3 you can do this:
+>>>
+>>>
+>>> 1. Create another software node against the cio2_sensor struct, with the
+>>> name coming from the vcm_types array
+>>>
+>>> 2. Assign that software node to board_info.swnode in
+>>> cio2_bridge_instantiate_vcm_i2c_client()
+>>>
+>>> 3. Add another entry to dev_properties for the sensor, that is named
+>>> "lens-focus" and contains a reference to the software_node created in #2
+>>> just like the references to the sensor/cio2 nodes.
+>>>
+>>>
+>>> This way when the sensor driver calls
+>>> v4l2_async_register_subdev_sensor() it should create a notifier that
+>>> looks for that VCM client to bind. I think then rather than putting
+>>> anything in the .bound() / .complete() callbacks, we should modify core
+>>> to do _something_ when async matching some subdevs. The something would
+>>> depend on the kind of devices that match, for example with the sensor
+>>> driver and the ipu3-cio2 driver, there's an entity whos function is
+>>> MEDIA_ENT_F_VID_IF_BRIDGE matching to an entity whos function is
+>>> MEDIA_ENT_F_CAM_SENSOR, and it seems to me that every scenario like that
+>>> is going to result in media pad links being created. Similarly for our
+>>> sensor that's a device with entity function MEDIA_ENT_F_LENS matching to
+>>> MEDIA_ENT_F_CAM_SENSOR, and I think that in those cases we can create
+>>> either an interface link or a new kind of link (maybe
+>>> "MEDIA_LNK_FL_ANCILLARY_LINK" or something...) between the two to show
+>>> that they form a single logical unit, which we can then report to libcamera.
+>>>
+>>>
+>>> Hope that makes sense...
+>> Ok, so I gave this a try, see the attached patches, but the v4l2-subdev for
+>> the VCM still does not show up.
+>
+> This is exactly where I got to over the weekend too
+>
+>> I think that instead I need to build a full link between the sensor
+>> and the VCM similar to the cio2 <-> sensor link. Both ends of that link
+>> have:
+>>
+>> <base-swnode attached to the device>
+>> |
+>> --<port-swnode named (SWNODE_GRAPH_PORT_NAME_FMT, X), where X is 0 on the
+>>   |                           sensor side and the link nr on the cio2 side
+>>   |
+>>   --<end-point-swnode named (SWNODE_GRAPH_ENDPOINT_NAME_FMT, 0)
+>>
+>> And then the 2 endpoints contain a swref property pointing to the
+>> other endpoint swnode.
+>>
+>> I think we need a similar setup adding a swnode child named
+>> (SWNODE_GRAPH_PORT_NAME_FMT, 1), to the nodes[SWNODE_SENSOR_HID] node.
+>>
+>> Note 1, since 0 is the "port" to the cio2, this new port child then
+>> gets an endpoint "0" child itself, likewise we add a "port 0" child
+>> to the vcm swnode, with a "endpoint 0" child below that and then have
+>> the 2 endpoints contain swref properties pointing to each other.
+>>
+>> I think that this will properly make the VCm part of the graph and
+>> will make its v4l2-subdev get instantiated when the graph is
+>> complete.  Before I spend a bunch of time on implementing this,
+>> let me ask this:
+>>
+>> Does this sound reasonable / like I'm heading in the right direction?
+> I don't think that we need to add the software nodes as
+> ports/endpoints...as far as I can tell it ought to work like this:
+>
+>
+> 1. The sensor calls v4l2_async_register_subdev_sensor() which...
+>
+>     a) creates a notifier
+>
+>     b) looks for reference properties of the device's fwnode called
+> "lens-focus" and calls v4l2_async_notifier_add_fwnode_subdev() against
+> the reference, which tells the notifier it's connected to this other
+> fwnode and to expect it to bind.
+>
+> 2. When new subdevs are registered they get tested for a match against
+> the notifier registered in 1a that matches to their fwnode using
+> match_fwnode() [1]. This should work, on the grounds that we registered
+> the device using the board_info.swnode and registered a lens-focus
+> property that points to that software_node
+>
+> 3. When a match is found, the notifier's .bound() function is called.
+> When all the asds that the notifier expects are bound the notifier's
+> .complete() callback is called.
+>
+>
+> That's not working correctly for me at the moment, but I think this is a
+> surmountable problem rather than the wrong approach, so I'm just working
+> through the differences to try and get the matching working.
+
+
+OK, I eventually got this working - the dw9719 registers as
+/dev/v4l-subdev7 for me now ... long story short is the attached patch
+was needed to make the references work, as the internals of v4l2 aren't
+checking for fwnode->secondary. Prior to your latest series as well, an
+additional problem was that once the VCMs fwnode was linked to the
+sensor's the .complete() callback for ipu3-cio2 would never call
+(because it needs ALL the devices for the linked fwnodes to be bound to
+do that)...which meant the VCMs never got instantiated, because that was
+where that function was called. With your new set separating those
+processes it works well, so yes I like that new approach very much :D
+
+
+In the end we don't have to add a call creating the subdev's - it turns
+out that v4l2 knows it's part of ipu3-cio2's v4l2-device so it registers
+the nodes for the vcm when .complete() is called for that driver. I
+still think we should add a bit creating the link to expose to userspace
+in match_notify() though.
+
+
+Trying to list controls for the dw9719 with v4l2-ctl -d /dev/v4l-subdev7
+-L fails with an IOCTL error, so I have some remedial work on the driver
+which I'll do tonight; I'd expect to be able to control focus with
+v4l2-ctl -d /dev/v4l-subdev7 -c absolute_focus=n once this is sorted.
+
+>
+>
+> For the devnodes, the ipu3-cio2 driver itself creates the devnodes for
+> the subdevices that bind to it (like the sensor) as part of its
+> .complete() callback [2] by calling v4l2_device_register_subdev_nodes(),
+> as far as I can tell there's nothing in v4l2 core that handles that
+> automatically so I think that that lack is what's preventing the
+> devnodes from showing up. I think we should tackle the problem of the
+> missing devnodes by mimicking the effects of that function somewhere
+> within core, probably v4l2_async_match_notify() (which calls the
+> notifier's .bound() callback). I think the creation of the links to
+> expose to userspace that this is a logical unit should probably happen
+> in the same place, using the entity.function field of the subdev and the
+> asd to decide exactly what kind of link to create.
+>
+>
+> [1]
+> https://elixir.bootlin.com/linux/latest/source/drivers/media/v4l2-core/v4l2-async.c#L69
+>
+> [2]
+> https://elixir.bootlin.com/linux/latest/source/drivers/media/pci/intel/ipu3/ipu3-cio2-main.c#L1449
+>
+>> Regards,
+>>
+>> Hans
+>>
+>>
+>>
+>> p.s.
+>>
+>> I have found a new solution for the probe-ordering problem which
+>> is patch 2 of the attached patches, I personally I'm happy with
+>> this solution. I hope you like it too.
+
+--------------FE25CACB98F1C2A5B8B0BD71
+Content-Type: text/x-patch; charset=UTF-8;
+ name="0001-device-property-Check-fwnode-secondary-when-finding-.patch"
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment;
+ filename*0="0001-device-property-Check-fwnode-secondary-when-finding-.pa";
+ filename*1="tch"
+
+From b3c4aeeabd6ac6a40606c7790068a29c2b85f6ff Mon Sep 17 00:00:00 2001
+From: Daniel Scally <djrscally@gmail.com>
+Date: Tue, 9 Nov 2021 01:13:47 +0000
+Subject: [PATCH] device property: Check fwnode->secondary when finding
+ properties
+
+fwnode_property_get_reference_args() searches for named properties
+against a fwnode_handle, but these could instead be against the fwnode's
+secondary. If the property isn't found against the primary, check the
+secondary to see if it's there instead.
+
+Signed-off-by: Daniel Scally <djrscally@gmail.com>
 ---
- drivers/media/platform/coda/coda-common.c | 8 +++++++-
- 1 file changed, 7 insertions(+), 1 deletion(-)
+ drivers/base/property.c | 12 ++++++++++--
+ 1 file changed, 10 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/media/platform/coda/coda-common.c b/drivers/media/plat=
-form/coda/coda-common.c
-index 87a2c706f747..51b833a55690 100644
---- a/drivers/media/platform/coda/coda-common.c
-+++ b/drivers/media/platform/coda/coda-common.c
-@@ -43,7 +43,7 @@
- #define CODA_NAME		"coda"
-=20
- #define CODADX6_MAX_INSTANCES	4
--#define CODA_MAX_FORMATS	4
-+#define CODA_MAX_FORMATS	5
-=20
- #define CODA_ISRAM_SIZE	(2048 * 2)
-=20
-@@ -247,6 +247,7 @@ static const struct coda_video_device coda9_jpeg_encode=
-r =3D {
- 		V4L2_PIX_FMT_YUV420,
- 		V4L2_PIX_FMT_YVU420,
- 		V4L2_PIX_FMT_YUV422P,
-+		V4L2_PIX_FMT_GREY,
- 	},
- 	.dst_formats =3D {
- 		V4L2_PIX_FMT_JPEG,
-@@ -626,6 +627,11 @@ static int coda_try_fmt(struct coda_ctx *ctx, const st=
-ruct coda_codec *codec,
- 		f->fmt.pix.sizeimage =3D f->fmt.pix.bytesperline *
- 					f->fmt.pix.height * 2;
- 		break;
-+	case V4L2_PIX_FMT_GREY:
-+		/* keep 16 pixel alignment of 8-bit pixel data */
-+		f->fmt.pix.bytesperline =3D round_up(f->fmt.pix.width, 16);
-+		f->fmt.pix.sizeimage =3D f->fmt.pix.bytesperline * f->fmt.pix.height;
-+		break;
- 	case V4L2_PIX_FMT_JPEG:
- 	case V4L2_PIX_FMT_H264:
- 	case V4L2_PIX_FMT_MPEG4:
---=20
-2.30.2
+diff --git a/drivers/base/property.c b/drivers/base/property.c
+index 453918eb7390..054e62a4e710 100644
+--- a/drivers/base/property.c
++++ b/drivers/base/property.c
+@@ -479,8 +479,16 @@ int fwnode_property_get_reference_args(const struct fwnode_handle *fwnode,
+ 				       unsigned int nargs, unsigned int index,
+ 				       struct fwnode_reference_args *args)
+ {
+-	return fwnode_call_int_op(fwnode, get_reference_args, prop, nargs_prop,
+-				  nargs, index, args);
++	int ret;
++
++	ret = fwnode_call_int_op(fwnode, get_reference_args, prop, nargs_prop,
++				 nargs, index, args);
++
++	if (ret < 0 && !IS_ERR_OR_NULL(fwnode->secondary))
++		ret = fwnode_call_int_op(fwnode->secondary, get_reference_args,
++					 prop, nargs_prop, nargs, index, args);
++
++	return ret;
+ }
+ EXPORT_SYMBOL_GPL(fwnode_property_get_reference_args);
+ 
+-- 
+2.25.1
+
+
+--------------FE25CACB98F1C2A5B8B0BD71--
