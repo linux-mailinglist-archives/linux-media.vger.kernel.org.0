@@ -2,41 +2,42 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C137344A365
-	for <lists+linux-media@lfdr.de>; Tue,  9 Nov 2021 02:25:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A83A744A389
+	for <lists+linux-media@lfdr.de>; Tue,  9 Nov 2021 02:25:35 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241934AbhKIB0u (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 8 Nov 2021 20:26:50 -0500
-Received: from mail.kernel.org ([198.145.29.99]:46484 "EHLO mail.kernel.org"
+        id S243434AbhKIB1e (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 8 Nov 2021 20:27:34 -0500
+Received: from mail.kernel.org ([198.145.29.99]:50112 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S243689AbhKIBVy (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 8 Nov 2021 20:21:54 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 4A41761359;
-        Tue,  9 Nov 2021 01:08:39 +0000 (UTC)
+        id S244220AbhKIBZA (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Mon, 8 Nov 2021 20:25:00 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 4602661B43;
+        Tue,  9 Nov 2021 01:09:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1636420120;
-        bh=4QXA8Sz8+uy2QwtIoTw8eT2RxQ41eRuIz/FE6ziP7eI=;
+        s=k20201202; t=1636420176;
+        bh=6q7xx1nxJjIt/5Z8wfWInI+bhoQRRwMKuFLZOJkW9jE=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=jxj4OWR3EsrUZLYH5DBrfUA7UVCg1WNKoGFlDRWBwFW5nN9C6iDBsXtoK1tsIJ17l
-         gHn3ypguqZDwTt+QD/ZXpmCAb1CatH4aMFxIuXRrqZpgpEoOK0BHrroInRSA2OmFMh
-         9cJqZgWXLy2fGnvarGNEHXJjDJJ6O59zY7P6eqeu6w0bmxNTUeEAxIUOZyTqa8RYcg
-         LIPF9CHUcjx1hjlvKSGiS1VHTccaxqL3Xub+rTdn4w+4777B6Lw0TtkBr/TIofFY1S
-         00k4S+BIKqhuyhPnXG3wwOaQGagUkbF8etDmzF1p32WpWi/EbSOB7dXveBAyBJJC7n
-         VX2l9T/0UGVQg==
+        b=t9FGIf3E5qVjPDlalVcV1Ziq/z/n/MJHo/d3hQTlhkVg+15sjpv+fFeGVw3g373/a
+         7+e7aVyVYzVbQn9y5nkV/k6s5AVRLmnaBt/2tD0Ut7Nd0URWgcxP7tYVWzN9FRcpca
+         L1YMXACUv/MN/CApoC/lKGGW1pUWu1KhoWqnr6JjQuePqOjjymLCEcN0Y0/dYJM4jB
+         aB/JOgGi4uXGcuqSCxvge+EkFVwHrJidPvqeLs6LPdDSG2SgDNr4Bvdj/7DSA+Wisx
+         zCSuZWi/YQls6CYiN0+4G84r430o1D/a07ODvxd2dURRTOt2Q95SVcRgGxQsTPP/gY
+         rwlRSsOw4eH7g==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Anant Thazhemadam <anant.thazhemadam@gmail.com>,
-        syzbot+e27b4fd589762b0b9329@syzkaller.appspotmail.com,
-        Sean Young <sean@mess.org>,
+Cc:     Dirk Bender <d.bender@phytec.de>,
+        Stefan Riedmueller <s.riedmueller@phytec.de>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
         Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Sasha Levin <sashal@kernel.org>, mchehab@kernel.org,
+        Sasha Levin <sashal@kernel.org>,
+        laurent.pinchart@ideasonboard.com, mchehab@kernel.org,
         linux-media@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.9 17/33] media: usb: dvd-usb: fix uninit-value bug in dibusb_read_eeprom_byte()
-Date:   Mon,  8 Nov 2021 20:07:51 -0500
-Message-Id: <20211109010807.1191567-17-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.4 09/30] media: mt9p031: Fix corrupted frame after restarting stream
+Date:   Mon,  8 Nov 2021 20:08:57 -0500
+Message-Id: <20211109010918.1192063-9-sashal@kernel.org>
 X-Mailer: git-send-email 2.33.0
-In-Reply-To: <20211109010807.1191567-1-sashal@kernel.org>
-References: <20211109010807.1191567-1-sashal@kernel.org>
+In-Reply-To: <20211109010918.1192063-1-sashal@kernel.org>
+References: <20211109010918.1192063-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -45,37 +46,86 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Anant Thazhemadam <anant.thazhemadam@gmail.com>
+From: Dirk Bender <d.bender@phytec.de>
 
-[ Upstream commit 899a61a3305d49e8a712e9ab20d0db94bde5929f ]
+[ Upstream commit 0961ba6dd211a4a52d1dd4c2d59be60ac2dc08c7 ]
 
-In dibusb_read_eeprom_byte(), if dibusb_i2c_msg() fails, val gets
-assigned an value that's not properly initialized.
-Using kzalloc() in place of kmalloc() for the buffer fixes this issue,
-as the val can now be set to 0 in the event dibusb_i2c_msg() fails.
+To prevent corrupted frames after starting and stopping the sensor its
+datasheet specifies a specific pause sequence to follow:
 
-Reported-by: syzbot+e27b4fd589762b0b9329@syzkaller.appspotmail.com
-Tested-by: syzbot+e27b4fd589762b0b9329@syzkaller.appspotmail.com
-Signed-off-by: Anant Thazhemadam <anant.thazhemadam@gmail.com>
-Signed-off-by: Sean Young <sean@mess.org>
+Stopping:
+	Set Pause_Restart Bit -> Set Restart Bit -> Set Chip_Enable Off
+
+Restarting:
+	Set Chip_Enable On -> Clear Pause_Restart Bit
+
+The Restart Bit is cleared automatically and must not be cleared
+manually as this would cause undefined behavior.
+
+Signed-off-by: Dirk Bender <d.bender@phytec.de>
+Signed-off-by: Stefan Riedmueller <s.riedmueller@phytec.de>
+Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/media/usb/dvb-usb/dibusb-common.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/media/i2c/mt9p031.c | 28 +++++++++++++++++++++++++++-
+ 1 file changed, 27 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/media/usb/dvb-usb/dibusb-common.c b/drivers/media/usb/dvb-usb/dibusb-common.c
-index bcacb0f220282..3e45642ae186b 100644
---- a/drivers/media/usb/dvb-usb/dibusb-common.c
-+++ b/drivers/media/usb/dvb-usb/dibusb-common.c
-@@ -226,7 +226,7 @@ int dibusb_read_eeprom_byte(struct dvb_usb_device *d, u8 offs, u8 *val)
- 	u8 *buf;
- 	int rc;
+diff --git a/drivers/media/i2c/mt9p031.c b/drivers/media/i2c/mt9p031.c
+index 0db15f528ac1c..fb60c9f42cb60 100644
+--- a/drivers/media/i2c/mt9p031.c
++++ b/drivers/media/i2c/mt9p031.c
+@@ -81,7 +81,9 @@
+ #define		MT9P031_PIXEL_CLOCK_INVERT		(1 << 15)
+ #define		MT9P031_PIXEL_CLOCK_SHIFT(n)		((n) << 8)
+ #define		MT9P031_PIXEL_CLOCK_DIVIDE(n)		((n) << 0)
+-#define MT9P031_FRAME_RESTART				0x0b
++#define MT9P031_RESTART					0x0b
++#define		MT9P031_FRAME_PAUSE_RESTART		(1 << 1)
++#define		MT9P031_FRAME_RESTART			(1 << 0)
+ #define MT9P031_SHUTTER_DELAY				0x0c
+ #define MT9P031_RST					0x0d
+ #define		MT9P031_RST_ENABLE			1
+@@ -448,9 +450,23 @@ static int mt9p031_set_params(struct mt9p031 *mt9p031)
+ static int mt9p031_s_stream(struct v4l2_subdev *subdev, int enable)
+ {
+ 	struct mt9p031 *mt9p031 = to_mt9p031(subdev);
++	struct i2c_client *client = v4l2_get_subdevdata(subdev);
++	int val;
+ 	int ret;
  
--	buf = kmalloc(2, GFP_KERNEL);
-+	buf = kzalloc(2, GFP_KERNEL);
- 	if (!buf)
- 		return -ENOMEM;
+ 	if (!enable) {
++		/* enable pause restart */
++		val = MT9P031_FRAME_PAUSE_RESTART;
++		ret = mt9p031_write(client, MT9P031_RESTART, val);
++		if (ret < 0)
++			return ret;
++
++		/* enable restart + keep pause restart set */
++		val |= MT9P031_FRAME_RESTART;
++		ret = mt9p031_write(client, MT9P031_RESTART, val);
++		if (ret < 0)
++			return ret;
++
+ 		/* Stop sensor readout */
+ 		ret = mt9p031_set_output_control(mt9p031,
+ 						 MT9P031_OUTPUT_CONTROL_CEN, 0);
+@@ -470,6 +486,16 @@ static int mt9p031_s_stream(struct v4l2_subdev *subdev, int enable)
+ 	if (ret < 0)
+ 		return ret;
+ 
++	/*
++	 * - clear pause restart
++	 * - don't clear restart as clearing restart manually can cause
++	 *   undefined behavior
++	 */
++	val = MT9P031_FRAME_RESTART;
++	ret = mt9p031_write(client, MT9P031_RESTART, val);
++	if (ret < 0)
++		return ret;
++
+ 	return mt9p031_pll_enable(mt9p031);
+ }
  
 -- 
 2.33.0
