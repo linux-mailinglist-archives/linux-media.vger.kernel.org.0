@@ -2,123 +2,140 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B19F544C042
-	for <lists+linux-media@lfdr.de>; Wed, 10 Nov 2021 12:43:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8D5CB44C0EE
+	for <lists+linux-media@lfdr.de>; Wed, 10 Nov 2021 13:09:25 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231186AbhKJLqj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 10 Nov 2021 06:46:39 -0500
-Received: from mail.kernel.org ([198.145.29.99]:47584 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230440AbhKJLqj (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 10 Nov 2021 06:46:39 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id A4D9461107;
-        Wed, 10 Nov 2021 11:43:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1636544631;
-        bh=cij5tqc7NOVk9YF9EKFeRZ9Z4y/NvBQ97G0hC0bPCb4=;
+        id S231547AbhKJMML (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 10 Nov 2021 07:12:11 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38270 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231254AbhKJMMK (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Wed, 10 Nov 2021 07:12:10 -0500
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3BDFAC061764;
+        Wed, 10 Nov 2021 04:09:23 -0800 (PST)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: dafna)
+        with ESMTPSA id D75561F4554C
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=collabora.com; s=mail;
+        t=1636546161; bh=0U+TmSROJ4hS4Sex6dQGUnmVPmx/vc+pp23EUYRD1wI=;
         h=From:To:Cc:Subject:Date:From;
-        b=D+oBXRGLIV6VqhXgjoD4Lr4QE6xCyDuyrwh8MVVRskshhGB1zVw7Easzt5DZHu4Fg
-         Z89hwoOgILPovQh+kkPxtmteAqmmk8PWt+oAXjv0M18oygcASixtY+u0MQtCxQ2fPo
-         MT1zbS1wFASXzasD2oKTy92GZnTy2DHwKJFGdLzIZBxPtdnh55X291aIsc1ehct8kK
-         NrYU6STLBZrft5Hc98ysYImU4RC5AFgdZkDnjQOgCV3j4V5ya0K68LqosIY+a7ozBq
-         wbp1/9t51j51bvH9QNtvEIA7nJWSKIr35hrYqeRNxnhLAtzk80GMFLqndEQaDFQ6+x
-         CVSuhtU3oLLig==
-Received: by mail.kernel.org with local (Exim 4.94.2)
-        (envelope-from <mchehab@kernel.org>)
-        id 1mkm16-003Lvd-3p; Wed, 10 Nov 2021 11:43:48 +0000
-From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc:     linuxarm@huawei.com, mauro.chehab@huawei.com,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Alan <alan@linux.intel.com>, Alex Dewar <alex.dewar90@gmail.com>,
-        Aline Santana Cordeiro <alinesantanacordeiro@gmail.com>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Kaixu Xia <kaixuxia@tencent.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        b=fyyJFGhqUnp1/lnnXvE4zt1B+/pVD6r7JJOtvjvj8lEiBwkqy/eDEETfOO9YZCWqA
+         v46FX6E5FOqNY9bn4Zbbllvx1MtbcfYrvAAm4plZWKfEV1/dERCZlIWQV45PQ2i8v/
+         Urkm/v6GldTSlzl2okDTidpcomGRDNqDdt58z4UPL+TGvmy+kp2o3PtHrtawvPBhTo
+         NjYgc+GFLX9qvIilBA5XNHwt37evwF9GdMKKU1g7efwQpwuF/4h+vqoLf3apeR3km1
+         whlPeaJroo7qe2+CtGwJ3Nh0GqyP1253whzEYXmVyDZ9WB3bmubxZdXdOj7O7093xJ
+         zVGVTcm/otmEg==
+From:   Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+To:     linux-media@vger.kernel.org
+Cc:     Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-        Tsuchiya Yuto <kitakar@gmail.com>,
-        Yang Li <abaci-bugfix@linux.alibaba.com>,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-staging@lists.linux.dev
-Subject: [PATCH] media: atomisp: get rid of atomisp_get_frame_pgnr() abstraction
-Date:   Wed, 10 Nov 2021 11:43:46 +0000
-Message-Id: <80ea920d14379124ba92aab2e6a6d12a92d79b2b.1636544620.git.mchehab+huawei@kernel.org>
-X-Mailer: git-send-email 2.33.1
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
-To:     unlisted-recipients:; (no To-header on input)
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-staging@lists.linux.dev (open list:STAGING SUBSYSTEM),
+        linux-kernel@vger.kernel.org (open list),
+        laurent.pinchart@ideasonboard.com, hverkuil@xs4all.nl,
+        kernel@collabora.com, dafna3@gmail.com, bob.beckett@collabora.com,
+        kiril.bicevski@collabora.com,
+        Nas Chung <nas.chung@chipsnmedia.com>,
+        lafley.kim@chipsnmedia.com, scott.woo@chipsnmedia.com,
+        olivier.crete@collabora.com, dan.carpenter@oracle.com,
+        rdunlap@infradead.org
+Subject: [PATCH v3 0/6] staging: media: wave5: add wave5 codec driver
+Date:   Wed, 10 Nov 2021 14:09:04 +0200
+Message-Id: <20211110120910.12411-1-dafna.hirschfeld@collabora.com>
+X-Mailer: git-send-email 2.17.1
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Simplify the code by getting rid of this function, as it ends
-being just a single line of code.
+The wave5 codec is a stateful encoder/decoder.
+It is found on the JH7100 SoC.
 
-Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
----
- drivers/staging/media/atomisp/pci/atomisp_cmd.c  | 16 ----------------
- drivers/staging/media/atomisp/pci/atomisp_cmd.h  |  2 --
- drivers/staging/media/atomisp/pci/atomisp_fops.c |  2 +-
- 3 files changed, 1 insertion(+), 19 deletions(-)
+The driver currently supports V4L2_PIX_FMT_HEVC, V4L2_PIX_FMT_H264.
 
-diff --git a/drivers/staging/media/atomisp/pci/atomisp_cmd.c b/drivers/staging/media/atomisp/pci/atomisp_cmd.c
-index 4ef5d728cd2f..4bd5ab3a7863 100644
---- a/drivers/staging/media/atomisp/pci/atomisp_cmd.c
-+++ b/drivers/staging/media/atomisp/pci/atomisp_cmd.c
-@@ -1931,22 +1931,6 @@ irqreturn_t atomisp_isr_thread(int irq, void *isp_ptr)
- 	return IRQ_HANDLED;
- }
- 
--/*
-- * utils for buffer allocation/free
-- */
--
--int atomisp_get_frame_pgnr(struct atomisp_device *isp,
--			   const struct ia_css_frame *frame, u32 *p_pgnr)
--{
--	if (!frame) {
--		dev_err(isp->dev, "%s: NULL frame pointer ERROR.\n", __func__);
--		return -EINVAL;
--	}
--
--	*p_pgnr = DIV_ROUND_UP(frame->data_bytes, PAGE_SIZE);
--	return 0;
--}
--
- /*
-  * Get internal fmt according to V4L2 fmt
-  */
-diff --git a/drivers/staging/media/atomisp/pci/atomisp_cmd.h b/drivers/staging/media/atomisp/pci/atomisp_cmd.h
-index fb848d716947..ebc729468f87 100644
---- a/drivers/staging/media/atomisp/pci/atomisp_cmd.h
-+++ b/drivers/staging/media/atomisp/pci/atomisp_cmd.h
-@@ -74,8 +74,6 @@ irqreturn_t atomisp_isr_thread(int irq, void *isp_ptr);
- const struct atomisp_format_bridge *get_atomisp_format_bridge_from_mbus(
-     u32 mbus_code);
- bool atomisp_is_mbuscode_raw(uint32_t code);
--int atomisp_get_frame_pgnr(struct atomisp_device *isp,
--			   const struct ia_css_frame *frame, u32 *p_pgnr);
- void atomisp_delayed_init_work(struct work_struct *work);
- 
- /* Get internal fmt according to V4L2 fmt */
-diff --git a/drivers/staging/media/atomisp/pci/atomisp_fops.c b/drivers/staging/media/atomisp/pci/atomisp_fops.c
-index c7ac313a2edf..0a8023aaf73d 100644
---- a/drivers/staging/media/atomisp/pci/atomisp_fops.c
-+++ b/drivers/staging/media/atomisp/pci/atomisp_fops.c
-@@ -1094,7 +1094,7 @@ static int frame_mmap(struct atomisp_device *isp,
- 
- 	host_virt = vma->vm_start;
- 	isp_virt = frame->data;
--	atomisp_get_frame_pgnr(isp, frame, &pgnr);
-+	pgnr = DIV_ROUND_UP(frame->data_bytes, PAGE_SIZE);
- 
- 	if (do_isp_mm_remap(isp, vma, isp_virt, host_virt, pgnr))
- 		return -EAGAIN;
+This driver has so far been tested on pre-silicon FPGA and on the beta BeagleV
+board which uses the StarFive JH7100 beta SoC.
+
+Testing on FPGA shows it working fine, though the FPGA uses polled interrupts
+and copied buffers between the host and it's on board RAM.
+
+Testing on BeagleV shows buffer corruption that is currently attributed to a
+known silicon issue in the SoC that makes the cache coherent interconnect not
+so coherent.
+This can likely be solved when the riscv non-coherent dma support lands and
+provide optional v4l2 non-contiguous allocator, though it remains to be seen
+whether support non-coherent use cases will be useful in real world hw.
+
+Until we can test and resolve any issues on final silicon (due 2H 2021)
+this driver should remain in staging.
+
+We currently tested only the decoder.
+Testing the encoder is currently impossible because of the BeagleV buffer problems,
+That will need to be tested once we have fixed beaglev buffer problems.
+
+v4l2-compliance all pass for v2 as well.
+
+changes since v1:
+
+Main fixes includes:
+* change the yaml and dirver code to support up to 4 clks (instead of one)
+* fix Kconfig format
+* remove unneeded cast,
+* change var types
+* change var names, func names
+* checkpatch fixes
+
+
+Dafna Hirschfeld (4):
+  staging: media: wave5: Add vpuapi layer
+  staging: media: wave5: Add the vdi layer
+  staging: media: wave5: Add the v4l2 layer
+  staging: media: wave5: Add TODO file
+
+Robert Beckett (2):
+  dt-bindings: media: staging: wave5: add yaml devicetree bindings
+  media: wave5: Add wave5 driver to maintainers file
+
+ .../bindings/staging/media/cnm,wave.yaml      |   73 +
+ MAINTAINERS                                   |    9 +
+ drivers/staging/media/Kconfig                 |    2 +
+ drivers/staging/media/Makefile                |    1 +
+ drivers/staging/media/wave5/Kconfig           |   12 +
+ drivers/staging/media/wave5/Makefile          |   10 +
+ drivers/staging/media/wave5/TODO              |   59 +
+ drivers/staging/media/wave5/vdi.c             |  260 ++
+ drivers/staging/media/wave5/vdi.h             |   76 +
+ drivers/staging/media/wave5/vpu.c             |  367 ++
+ drivers/staging/media/wave5/vpu.h             |   64 +
+ drivers/staging/media/wave5/vpu_dec.c         | 1397 +++++++
+ drivers/staging/media/wave5/vpu_enc.c         | 1585 ++++++++
+ drivers/staging/media/wave5/vpuapi.c          | 1066 +++++
+ drivers/staging/media/wave5/vpuapi.h          | 1140 ++++++
+ drivers/staging/media/wave5/vpuconfig.h       |   85 +
+ drivers/staging/media/wave5/vpuerror.h        |  455 +++
+ drivers/staging/media/wave5/wave5-hw.c        | 3476 +++++++++++++++++
+ drivers/staging/media/wave5/wave5.h           |   81 +
+ drivers/staging/media/wave5/wave5_regdefine.h |  638 +++
+ 20 files changed, 10856 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/staging/media/cnm,wave.yaml
+ create mode 100644 drivers/staging/media/wave5/Kconfig
+ create mode 100644 drivers/staging/media/wave5/Makefile
+ create mode 100644 drivers/staging/media/wave5/TODO
+ create mode 100644 drivers/staging/media/wave5/vdi.c
+ create mode 100644 drivers/staging/media/wave5/vdi.h
+ create mode 100644 drivers/staging/media/wave5/vpu.c
+ create mode 100644 drivers/staging/media/wave5/vpu.h
+ create mode 100644 drivers/staging/media/wave5/vpu_dec.c
+ create mode 100644 drivers/staging/media/wave5/vpu_enc.c
+ create mode 100644 drivers/staging/media/wave5/vpuapi.c
+ create mode 100644 drivers/staging/media/wave5/vpuapi.h
+ create mode 100644 drivers/staging/media/wave5/vpuconfig.h
+ create mode 100644 drivers/staging/media/wave5/vpuerror.h
+ create mode 100644 drivers/staging/media/wave5/wave5-hw.c
+ create mode 100644 drivers/staging/media/wave5/wave5.h
+ create mode 100644 drivers/staging/media/wave5/wave5_regdefine.h
+
 -- 
-2.33.1
+2.17.1
 
