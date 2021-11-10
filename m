@@ -2,96 +2,187 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 242FB44BD78
-	for <lists+linux-media@lfdr.de>; Wed, 10 Nov 2021 09:58:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D735A44BD93
+	for <lists+linux-media@lfdr.de>; Wed, 10 Nov 2021 10:05:39 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230356AbhKJJBC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 10 Nov 2021 04:01:02 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50652 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230338AbhKJJAz (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Wed, 10 Nov 2021 04:00:55 -0500
-Received: from lb1-smtp-cloud9.xs4all.net (lb1-smtp-cloud9.xs4all.net [IPv6:2001:888:0:108::1c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 17438C061764
-        for <linux-media@vger.kernel.org>; Wed, 10 Nov 2021 00:58:07 -0800 (PST)
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud9.xs4all.net with ESMTPA
-        id kjQgmljixfwDFkjQjmFMMr; Wed, 10 Nov 2021 09:58:06 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1636534686; bh=PKQXvNvbbaVBkRk7DfB1GPKuWmkG/6IrMzr54x/D+T8=;
-        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=Qv9gsPq+p8K49IxxBig9+a4rOg9EdO45UMydYY8bmgm/lTQwcA8pO+bksdJGhPtIX
-         4FY8RJdVkH9ObIoyXFIWLcD8J5DuaFLM61wWJ5qpVEFzqKe6HbuN+zs3ZhF/aMDwnp
-         a658EioKtSBETHMYP4tWPWKq1XuXuro8Wq1+4DutJsQ0BoxIhRNyJn5017i0rXAVU2
-         Pl89VYEIB/al5HPa2lvBedn1rBQoqMFg316YUCtTrqbsqFVdWGYmZKx9mOwffwUdOB
-         M7+54IKBFN2AdN1t/r8VzZA7vOrXf0IiO1w30gJoNGdvZEmx/1rkLC8BmfZ1aPSAij
-         fxjsOMC4Vd6Ww==
-Subject: Re: [PATCH 2/2] media: videobuf2: add WARN_ON if bytesused is bigger
- than buffer length
-To:     Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
-        linux-media@vger.kernel.org
-Cc:     kernel@collabora.com, laurent.pinchart@ideasonboard.com,
-        dafna3@gmail.com, sakari.ailus@linux.intel.com, mchehab@kernel.org
-References: <20211108193933.20369-1-dafna.hirschfeld@collabora.com>
- <20211108193933.20369-3-dafna.hirschfeld@collabora.com>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <5efc3d13-9d25-d0ce-98c8-fe1563dd91e9@xs4all.nl>
-Date:   Wed, 10 Nov 2021 09:58:02 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Firefox/78.0 Thunderbird/78.14.0
+        id S230256AbhKJJIZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 10 Nov 2021 04:08:25 -0500
+Received: from www.linuxtv.org ([130.149.80.248]:53358 "EHLO www.linuxtv.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S230141AbhKJJIY (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 10 Nov 2021 04:08:24 -0500
+Received: from builder.linuxtv.org ([140.211.167.10] helo=slave0)
+        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1mkjY0-0073ll-Kg; Wed, 10 Nov 2021 09:05:36 +0000
+Received: from ip6-localhost ([::1] helo=localhost.localdomain)
+        by slave0 with esmtp (Exim 4.94.2)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1mkjXy-002L3a-6s; Wed, 10 Nov 2021 09:05:34 +0000
+From:   Jenkins <jenkins@linuxtv.org>
+To:     mchehab+samsung@kernel.org, linux-media@vger.kernel.org
+Cc:     builder@linuxtv.org
+Subject: Re: [GIT FIXES FOR v5.16] Three fixes for v5.16 (#78320)
+Date:   Wed, 10 Nov 2021 09:05:34 +0000
+Message-Id: <20211110090534.557552-1-jenkins@linuxtv.org>
+X-Mailer: git-send-email 2.30.2
+In-Reply-To: <a5b6d1ca-a38c-924d-fbf2-ee38274f0ef3@xs4all.nl>
+References: 
 MIME-Version: 1.0
-In-Reply-To: <20211108193933.20369-3-dafna.hirschfeld@collabora.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4xfGmv+V8qz23lPe5LT1SbTxvQ3Q7StkJAbnmMUMQPOlKLWOxlUk1l6zAcmYziKx8CL564HS7POhBO1KmCypG/HHiID8LsxVlFnLLR2oDEmhecI2Aj5y8/
- ScjC0xQL0zudqnFi3q/NrgVuzJWl06DOiAwGMmoN8hI6xQMY7OKjKTviJET+jFHkO2r/V3Ef2ETVn7SS+ciIFW7Ls3cstne0l/Zao+fh3iJSn1QOM9vjBqqo
- DECMDAJWHQDKnhBoR0JplAZejV+q1YEvc+PohEoVSvGfQy1dj1OQKyZ6BGP0QI0DQt9MqgPKCUGES0zoFLxovKggbUJBYK+62GSSROdJH5NVS+2xFnm/ReFd
- uiu5285piyOCtzp296j57SP2WLCQIUMMOVMG0n9VtpZzoZGU9A3rIHy1PdNKSfbgIKHIfcNI
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 08/11/2021 20:39, Dafna Hirschfeld wrote:
-> In function vb2_set_plane_payload, report if the
-> given bytesused is bigger than the buffer size.
-> 
-> Signed-off-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
-> ---
->  include/media/videobuf2-core.h | 4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
-> 
-> diff --git a/include/media/videobuf2-core.h b/include/media/videobuf2-core.h
-> index 2467284e5f26..ffaa1f3361c3 100644
-> --- a/include/media/videobuf2-core.h
-> +++ b/include/media/videobuf2-core.h
-> @@ -1155,8 +1155,10 @@ static inline void *vb2_get_drv_priv(struct vb2_queue *q)
->  static inline void vb2_set_plane_payload(struct vb2_buffer *vb,
->  				 unsigned int plane_no, unsigned long size)
->  {
-> -	if (plane_no < vb->num_planes)
-> +	if (plane_no < vb->num_planes) {
-> +		WARN_ON(size > vb->planes[plane_no].length);
+From: builder@linuxtv.org
 
-I would change this to:
+Pull request: https://patchwork.linuxtv.org/project/linux-media/patch/a5b6d1ca-a38c-924d-fbf2-ee38274f0ef3@xs4all.nl/
+Build log: https://builder.linuxtv.org/job/patchwork/155598/
+Build time: 00:03:17
+Link: https://lore.kernel.org/linux-media/a5b6d1ca-a38c-924d-fbf2-ee38274f0ef3@xs4all.nl
 
-		/*
-		 * size must never be larger than the buffer length, so
-		 * warn and clamp to the buffer length if that's the case.
-		 */
-		if (WARN_ON(size > vb->planes[plane_no].length))
-			size = vb->planes[plane_no].length;
+gpg: Signature made Wed 10 Nov 2021 08:44:13 AM UTC
+gpg:                using RSA key AAA7FFBA4D2D77EF4CAEA1421326E0CD23ABDCE5
+gpg: Good signature from "Hans Verkuil <hverkuil-cisco@xs4all.nl>" [unknown]
+gpg:                 aka "Hans Verkuil <hverkuil@xs4all.nl>" [unknown]
+gpg: Note: This key has expired!
+Primary key fingerprint: 052C DE7B C215 053B 689F  1BCA BD2D 6148 6614 3B4C
+     Subkey fingerprint: AAA7 FFBA 4D2D 77EF 4CAE  A142 1326 E0CD 23AB DCE5
 
-Regards,
+Summary: got 3/3 patches with issues, being 3 at build time, plus one error when buinding PDF document
 
-	Hans
+Error/warnings:
 
->  		vb->planes[plane_no].bytesused = size;
-> +	}
->  }
->  
->  /**
-> 
+patches/0001-media-v4l2-core-fix-VIDIOC_DQEVENT-handling-on-non-x.patch:
+
+    allyesconfig: return code #512:
+	../arch/x86/Makefile:142: CONFIG_X86_X32 enabled but no binutils support
+	gcc: error: unrecognized command-line option ‘-Wcounterexamples’
+	gcc -Wcounterexamples -fno-diagnostics-show-caret: unknown compiler
+	scripts/Kconfig.include:44: Sorry, this compiler is not supported.
+	make[3]: *** [../scripts/kconfig/Makefile:77: syncconfig] Error 1
+	make[2]: *** [../Makefile:616: syncconfig] Error 2
+	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:729: include/config/auto.conf.cmd] Error 2
+	make[1]: *** [include/config/auto.conf.cmd] Deleting file 'include/generated/autoconf.h'
+	make: *** [Makefile:219: __sub-make] Error 2
+
+    allyesconfig: return code #512:
+	../arch/x86/Makefile:142: CONFIG_X86_X32 enabled but no binutils support
+	gcc: error: unrecognized command-line option ‘-Wcounterexamples’
+	gcc -Wcounterexamples -fno-diagnostics-show-caret: unknown compiler
+	scripts/Kconfig.include:44: Sorry, this compiler is not supported.
+	make[3]: *** [../scripts/kconfig/Makefile:77: syncconfig] Error 1
+	make[2]: *** [../Makefile:616: syncconfig] Error 2
+	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:729: include/config/auto.conf.cmd] Error 2
+	make: *** [Makefile:219: __sub-make] Error 2
+
+    allmodconfig: return code #512:
+	../arch/x86/Makefile:142: CONFIG_X86_X32 enabled but no binutils support
+	gcc: error: unrecognized command-line option ‘-Wcounterexamples’
+	gcc -Wcounterexamples -fno-diagnostics-show-caret: unknown compiler
+	scripts/Kconfig.include:44: Sorry, this compiler is not supported.
+	make[3]: *** [../scripts/kconfig/Makefile:77: syncconfig] Error 1
+	make[2]: *** [../Makefile:616: syncconfig] Error 2
+	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:729: include/config/auto.conf.cmd] Error 2
+	make[1]: *** [include/config/auto.conf.cmd] Deleting file 'include/generated/autoconf.h'
+	make: *** [Makefile:219: __sub-make] Error 2
+
+    allmodconfig: return code #512:
+	../arch/x86/Makefile:142: CONFIG_X86_X32 enabled but no binutils support
+	gcc: error: unrecognized command-line option ‘-Wcounterexamples’
+	gcc -Wcounterexamples -fno-diagnostics-show-caret: unknown compiler
+	scripts/Kconfig.include:44: Sorry, this compiler is not supported.
+	make[3]: *** [../scripts/kconfig/Makefile:77: syncconfig] Error 1
+	make[2]: *** [../Makefile:616: syncconfig] Error 2
+	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:729: include/config/auto.conf.cmd] Error 2
+	make: *** [Makefile:219: __sub-make] Error 2
+
+patches/0002-media-videobuf2-dma-sg-Fix-buf-vb-NULL-pointer-deref.patch:
+
+    allyesconfig: return code #512:
+	../arch/x86/Makefile:142: CONFIG_X86_X32 enabled but no binutils support
+	gcc: error: unrecognized command-line option ‘-Wcounterexamples’
+	gcc -Wcounterexamples -fno-diagnostics-show-caret: unknown compiler
+	scripts/Kconfig.include:44: Sorry, this compiler is not supported.
+	make[3]: *** [../scripts/kconfig/Makefile:77: syncconfig] Error 1
+	make[2]: *** [../Makefile:616: syncconfig] Error 2
+	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:729: include/config/auto.conf.cmd] Error 2
+	make: *** [Makefile:219: __sub-make] Error 2
+
+    allyesconfig: return code #512:
+	../arch/x86/Makefile:142: CONFIG_X86_X32 enabled but no binutils support
+	gcc: error: unrecognized command-line option ‘-Wcounterexamples’
+	gcc -Wcounterexamples -fno-diagnostics-show-caret: unknown compiler
+	scripts/Kconfig.include:44: Sorry, this compiler is not supported.
+	make[3]: *** [../scripts/kconfig/Makefile:77: syncconfig] Error 1
+	make[2]: *** [../Makefile:616: syncconfig] Error 2
+	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:729: include/config/auto.conf.cmd] Error 2
+	make: *** [Makefile:219: __sub-make] Error 2
+
+    allmodconfig: return code #512:
+	../arch/x86/Makefile:142: CONFIG_X86_X32 enabled but no binutils support
+	gcc: error: unrecognized command-line option ‘-Wcounterexamples’
+	gcc -Wcounterexamples -fno-diagnostics-show-caret: unknown compiler
+	scripts/Kconfig.include:44: Sorry, this compiler is not supported.
+	make[3]: *** [../scripts/kconfig/Makefile:77: syncconfig] Error 1
+	make[2]: *** [../Makefile:616: syncconfig] Error 2
+	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:729: include/config/auto.conf.cmd] Error 2
+	make: *** [Makefile:219: __sub-make] Error 2
+
+    allmodconfig: return code #512:
+	../arch/x86/Makefile:142: CONFIG_X86_X32 enabled but no binutils support
+	gcc: error: unrecognized command-line option ‘-Wcounterexamples’
+	gcc -Wcounterexamples -fno-diagnostics-show-caret: unknown compiler
+	scripts/Kconfig.include:44: Sorry, this compiler is not supported.
+	make[3]: *** [../scripts/kconfig/Makefile:77: syncconfig] Error 1
+	make[2]: *** [../Makefile:616: syncconfig] Error 2
+	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:729: include/config/auto.conf.cmd] Error 2
+	make: *** [Makefile:219: __sub-make] Error 2
+
+patches/0003-cec-copy-sequence-field-for-the-reply.patch:
+
+    allyesconfig: return code #512:
+	../arch/x86/Makefile:142: CONFIG_X86_X32 enabled but no binutils support
+	gcc: error: unrecognized command-line option ‘-Wcounterexamples’
+	gcc -Wcounterexamples -fno-diagnostics-show-caret: unknown compiler
+	scripts/Kconfig.include:44: Sorry, this compiler is not supported.
+	make[3]: *** [../scripts/kconfig/Makefile:77: syncconfig] Error 1
+	make[2]: *** [../Makefile:616: syncconfig] Error 2
+	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:729: include/config/auto.conf.cmd] Error 2
+	make: *** [Makefile:219: __sub-make] Error 2
+
+    allyesconfig: return code #512:
+	../arch/x86/Makefile:142: CONFIG_X86_X32 enabled but no binutils support
+	gcc: error: unrecognized command-line option ‘-Wcounterexamples’
+	gcc -Wcounterexamples -fno-diagnostics-show-caret: unknown compiler
+	scripts/Kconfig.include:44: Sorry, this compiler is not supported.
+	make[3]: *** [../scripts/kconfig/Makefile:77: syncconfig] Error 1
+	make[2]: *** [../Makefile:616: syncconfig] Error 2
+	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:729: include/config/auto.conf.cmd] Error 2
+	make: *** [Makefile:219: __sub-make] Error 2
+
+    allmodconfig: return code #512:
+	../arch/x86/Makefile:142: CONFIG_X86_X32 enabled but no binutils support
+	gcc: error: unrecognized command-line option ‘-Wcounterexamples’
+	gcc -Wcounterexamples -fno-diagnostics-show-caret: unknown compiler
+	scripts/Kconfig.include:44: Sorry, this compiler is not supported.
+	make[3]: *** [../scripts/kconfig/Makefile:77: syncconfig] Error 1
+	make[2]: *** [../Makefile:616: syncconfig] Error 2
+	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:729: include/config/auto.conf.cmd] Error 2
+	make: *** [Makefile:219: __sub-make] Error 2
+
+    allmodconfig: return code #512:
+	../arch/x86/Makefile:142: CONFIG_X86_X32 enabled but no binutils support
+	gcc: error: unrecognized command-line option ‘-Wcounterexamples’
+	gcc -Wcounterexamples -fno-diagnostics-show-caret: unknown compiler
+	scripts/Kconfig.include:44: Sorry, this compiler is not supported.
+	make[3]: *** [../scripts/kconfig/Makefile:77: syncconfig] Error 1
+	make[2]: *** [../Makefile:616: syncconfig] Error 2
+	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:729: include/config/auto.conf.cmd] Error 2
+	make: *** [Makefile:219: __sub-make] Error 2
+
+
+Error #512 when building PDF docs
 
