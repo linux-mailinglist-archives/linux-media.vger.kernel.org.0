@@ -2,120 +2,130 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2D19044BE12
-	for <lists+linux-media@lfdr.de>; Wed, 10 Nov 2021 10:50:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9DE9944BE3E
+	for <lists+linux-media@lfdr.de>; Wed, 10 Nov 2021 11:04:59 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231138AbhKJJxg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 10 Nov 2021 04:53:36 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34358 "EHLO
+        id S230493AbhKJKHp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 10 Nov 2021 05:07:45 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37534 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230489AbhKJJxf (ORCPT
+        with ESMTP id S229653AbhKJKHo (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 10 Nov 2021 04:53:35 -0500
-Received: from mail-ot1-x32e.google.com (mail-ot1-x32e.google.com [IPv6:2607:f8b0:4864:20::32e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 64490C061764
-        for <linux-media@vger.kernel.org>; Wed, 10 Nov 2021 01:50:48 -0800 (PST)
-Received: by mail-ot1-x32e.google.com with SMTP id h16-20020a9d7990000000b0055c7ae44dd2so3020629otm.10
-        for <linux-media@vger.kernel.org>; Wed, 10 Nov 2021 01:50:48 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:reply-to:from:date:message-id:subject:to
-         :content-transfer-encoding;
-        bh=d0e41emZeIPakScDeu0qSrKM3QMw3NVHM9gUL25XcMQ=;
-        b=IMiMwoN9e5keXYJ8Vr7xsPOLJtS4rkZo+NrS6a88IHFoGXuW6kJMmFRyQRQbX3T2OB
-         yY0ouO6+fQb6sMFVwnSf0T20PaUrqnAApM55+6aNViscWRsbt4JBlPB4LR+M0zdyQmV+
-         rc7RmcOys9wwrbKQ+1Wh9fKP+3YvbYHSs466UffRj3kKpFHz0Hwsaw6M863AsyFcphW4
-         an25oJJpdY2f+xs8kesRQkf3IneLGJJguT+Et/rQ3XzbT5z/yZbpxmOIxTxmNmuORLTp
-         t3gM6o9/zUkIGxlndssVqNDfUDZCWZoY3VpGLjWqgOU7iLJa/yzNecc79knB60QsimIS
-         I2hg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to:content-transfer-encoding;
-        bh=d0e41emZeIPakScDeu0qSrKM3QMw3NVHM9gUL25XcMQ=;
-        b=63Qizl+nEzR2XwWsvS66Zse2ayp+hjWASECrz3djyEUwY/HYCyCY2WnEx6abXhp6uK
-         Z8MZwG4Qz/kxZe1BIpOg2foOY0Y+/QhKADveEmHm6jKUItBySbuZD4fSh4t9NoZBOQPG
-         moJhR1B4N0Njck9zuw76fbx4ONJ9wOkWfxRQ6bIukgzcVgupOt+npNpzppMQELxApW1/
-         yi1vCmvKlEdFOqIH+9yDlifjkqzV8co77HXeEIrCF/7ENsI+CvugKVcBg5ue2y+9IbRB
-         NQVp6R4n5pTI2/ktbPRPyevf39IZx7KRLDRktS2yavO+2Oydtzm6O03iCZfD3GgSD2M5
-         niQQ==
-X-Gm-Message-State: AOAM530tKNcehbrNpwx/02Y5qOlHc9iclTTTQ71X8me0mo0o25f4xVfC
-        JOnRpPn+GeLjdD54YkS4poJ13i/H7lz3+07M15E=
-X-Google-Smtp-Source: ABdhPJzKL96oMTJDKxuUkcc/ExA7XOuBsR6U2LgGSMvLH/IH2EWPi91KWbUqVzGWnowdp3EVeQvgyPvAnJLreKKMXFY=
-X-Received: by 2002:a9d:2646:: with SMTP id a64mr12189620otb.249.1636537847800;
- Wed, 10 Nov 2021 01:50:47 -0800 (PST)
+        Wed, 10 Nov 2021 05:07:44 -0500
+Received: from lb1-smtp-cloud7.xs4all.net (lb1-smtp-cloud7.xs4all.net [IPv6:2001:888:0:108::1a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C54B6C061764
+        for <linux-media@vger.kernel.org>; Wed, 10 Nov 2021 02:04:56 -0800 (PST)
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud7.xs4all.net with ESMTPA
+        id kkTKm8sDwnkS9kkTOmsxyZ; Wed, 10 Nov 2021 11:04:54 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
+        t=1636538694; bh=la2Gwel//Z2unp1HtlU2gFK4lWWhOo/UgF/Ley4fPzE=;
+        h=To:From:Subject:Message-ID:Date:MIME-Version:Content-Type:From:
+         Subject;
+        b=uzsD3wkJL4fOq/Lq254zY5b1ja2p8KmQ4ZmwfrE1XQRsMkA/gVsTuSczFb/kC97zv
+         K+fGKlKuA0P0EdszFf+PX0dxbjw3ahp8nQsWMKp1EgmpDBmMGw2DLzk2iUVh2mxbEX
+         w4fjgft4EQ6WPpe0WdoeyDHBPRpS+MCi+yWGqXDU4riWjyM9Wzg+E/TNoIomTh5F/8
+         KVElqTX4Gk72ZTgml+1HpfcILo+TjsGF8Dmm1nFHrP65SeU1Sg2OWnMtjl1u+g46l2
+         wZHXy8ZCRNmTFqxG16/DW45+jROCjb0pFrpM4TbFiP3tNfgWMH2bzog6hJEWMeqR8i
+         rDVLOKyWcyleA==
+To:     Linux Media Mailing List <linux-media@vger.kernel.org>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Subject: [GIT PULL FOR v5.17] Various fixes/enhancements
+Message-ID: <734bd659-3f59-63a1-dbf8-28e50ff733e4@xs4all.nl>
+Date:   Wed, 10 Nov 2021 11:04:50 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Firefox/78.0 Thunderbird/78.14.0
 MIME-Version: 1.0
-Received: by 2002:a9d:2a88:0:0:0:0:0 with HTTP; Wed, 10 Nov 2021 01:50:47
- -0800 (PST)
-Reply-To: cristinacampeell@outlook.com
-From:   "Mrs. Cristina Campbell" <cristiinacampbell@gmail.com>
-Date:   Wed, 10 Nov 2021 09:50:47 +0000
-Message-ID: <CAKd_V8buhJRrTzcYwLi=sRYC7_fgKrgD4aB3Hscd5cMx0CFYBg@mail.gmail.com>
-Subject: Kannst du mir helfen?
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-CMAE-Envelope: MS4xfLMfOHiLuVlIIJgtXk0alyMMLurwPL04vJ3XRnWB47/rtJN32Khf0sbSVOkGI/xcJpsLpQj9Wm3RL+zbQOJDzoyneLulA3OQjEFzvlUklUK4slxDefOH
+ 1N5Lw5ydSTq/Dni+0sx9bPI/AvQbZhrYegHb1ogbjqEhyiqCftLfc3P2phZf5+Ti3ddsN1y+0CJ8bvcOQRub2jfEDoq1D76C98E=
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Lieber geliebter,
+The following changes since commit 3951ae98f0ba1003464e60adf41100e70dddbcde:
 
-Bitte lesen Sie diese langsam und sorgf=C3=A4ltig durch, da es sich
-m=C3=B6glicherweise um eine der wichtigsten E-Mails handelt, die Sie jemals
-erhalten. Cristina Campbell, ich war mit dem verstorbenen Edward
-Campbell verheiratet. Er arbeitete f=C3=BCr die Shell Petroleum Development
-Company London und war auch ein erfahrener Auftragnehmer in der Region
-Ostasien. Er starb am Montag, den 31. Juli 2003 in Paris. Wir waren
-sieben Jahre ohne Kind verheiratet.
+  media: atomisp: only initialize mode if pipe is not null (2021-11-08 09:52:55 +0000)
 
-W=C3=A4hrend Sie dies lesen, m=C3=B6chte ich nicht, dass Sie Mitleid mit mi=
-r
-haben, denn ich glaube, dass jeder eines Tages sterben wird. Bei mir
-wurde Speiser=C3=B6hrenkrebs diagnostiziert und mein Arzt sagte mir, dass
-ich aufgrund meiner komplizierten Gesundheitsprobleme nicht lange
-durchhalten w=C3=BCrde.
+are available in the Git repository at:
 
-Ich m=C3=B6chte, dass Gott mir barmherzig ist und meine Seele akzeptiert,
-deshalb habe ich beschlossen, Almosen an Wohlt=C3=A4tigkeitsorganisationen
-/ Kirchen / buddhistische Tempel / Moscheen / mutterlose Babys /
-weniger Privilegierte und Witwen zu geben, da dies eine der letzten
-guten Taten sein soll Ich tue es auf der Erde, bevor ich sterbe.
-Bisher habe ich Geld an einige Wohlt=C3=A4tigkeitsorganisationen in
-Schottland, Wales, Luxemburg, Finnland und Brasilien verteilt. Jetzt,
-wo sich mein Gesundheitszustand so stark verschlechtert hat, kann ich
-das nicht mehr selbst machen.
+  git://linuxtv.org/hverkuil/media_tree.git tags/br-v5.17a
 
-Ich habe einmal Mitglieder meiner Familie gebeten, eines meiner Konten
-zu schlie=C3=9Fen und das Geld, das ich dort habe, an
-Wohlt=C3=A4tigkeitsorganisationen in der Ukraine, Russland, Deutschland,
-Italien und der Schweiz zu verteilen, sie weigerten sich und behielten
-das Geld f=C3=BCr sich nicht mit dem zufrieden zu sein, was ich ihnen
-hinterlassen habe. Das letzte von meinem Geld, von dem niemand wei=C3=9F,
-ist die riesige Bareinzahlung von sechs Millionen US-Dollar $
-6.000.000,00, die ich bei einer Bank in Thailand habe, bei der ich den
-Fonds hinterlegt habe. Ich m=C3=B6chte, dass Sie diesen Fonds f=C3=BCr
-Wohlt=C3=A4tigkeitsprogramme verwenden und die Menschheit in Ihrem Land
-unterst=C3=BCtzen, wenn Sie nur aufrichtig sind.
+for you to fetch changes up to 9c3ef010e02034f6d9a975c3b63413ff2bda9b29:
 
-Ich habe diese Entscheidung getroffen, weil ich kein Kind habe, das
-dieses Geld erben wird, ich habe keine Angst vor dem Tod, daher wei=C3=9F
-ich, wohin ich gehe. Ich wei=C3=9F, dass ich im Scho=C3=9F des Herrn sein w=
-erde.
-Sobald ich Ihre Antwort erhalten habe, werde ich Ihnen den Kontakt der
-Bank mitteilen und Ihnen eine Vollmacht ausstellen, die Sie als
-urspr=C3=BCnglichen Beg=C3=BCnstigten dieses Fonds erm=C3=A4chtigt, dieses
-Wohlt=C3=A4tigkeitsprogramm sofort in Ihrem Land zu beginnen.
+  media: mtk-vcodec: Remove redundant 'flush_workqueue()' calls (2021-11-10 10:15:54 +0100)
 
-Nur ein Leben, das f=C3=BCr andere gelebt wird, ist ein lebenswertes Leben.
-Ich m=C3=B6chte, dass Sie immer f=C3=BCr mich beten. Jede Verz=C3=B6gerung =
-Ihrer
-Antwort wird mir Raum geben, eine andere Person zu diesem Zweck zu
-finden. Wenn Sie kein Interesse haben, bitte ich um Entschuldigung f=C3=BCr
-die Kontaktaufnahme. Sie erreichen mich mit oder antworten Sie mir
-unter meiner privaten E-Mail: (cristinacampeell@outlook.com).
+----------------------------------------------------------------
+Tag branch
 
-Vielen Dank,
-Dein,
-Frau. Cristina Campbell
-Email; cristinacampeell@outlook.com
+----------------------------------------------------------------
+Cai Huoqing (1):
+      media: gspca: Make use of the helper macro kthread_run()
+
+Christophe JAILLET (4):
+      media: tw5864: Simplify 'tw5864_finidev()'
+      media: s5p-mfc: Use 'bitmap_zalloc()' when applicable
+      media: mtk-vpu: Remove redundant 'flush_workqueue()' calls
+      media: mtk-vcodec: Remove redundant 'flush_workqueue()' calls
+
+Dillon Min (2):
+      media: stm32-dma2d: fix compile errors when W=1
+      media: stm32-dma2d: fix compile-testing failed
+
+Dongliang Mu (1):
+      media: em28xx: fix memory leak in em28xx_init_dev
+
+Hans Verkuil (3):
+      cec-ioc-receive.rst: clarify sequence and status fields
+      v4l2-ioctl.c: readbuffers depends on V4L2_CAP_READWRITE
+      media: drivers/index.rst: add missing rkisp1 entry
+
+Jammy Huang (2):
+      media: aspeed: fix mode-detect always time out at 2nd run
+      media: aspeed: Update signal status immediately to ensure sane hw state
+
+Kieran Bingham (1):
+      media: tw5864: Disable PCI device when finished
+
+Kwang Son (1):
+      media: docs: Fix newline typo
+
+Niklas Söderlund (1):
+      dt-bindings: adv748x: Convert bindings to json-schema
+
+Randy Dunlap (1):
+      media: correct MEDIA_TEST_SUPPORT help text
+
+Tzung-Bi Shih (1):
+      media: mtk-vcodec: vdec: remove redundant 'pfb' assignment
+
+Yunfei Dong (1):
+      media: mtk-vcodec: Align width and height to 64 bytes
+
+ Documentation/devicetree/bindings/media/i2c/adv748x.txt      | 116 ---------------------
+ Documentation/devicetree/bindings/media/i2c/adv748x.yaml     | 212 ++++++++++++++++++++++++++++++++++++++
+ Documentation/driver-api/media/drivers/index.rst             |   1 +
+ Documentation/userspace-api/media/cec/cec-ioc-receive.rst    |  49 ++++-----
+ Documentation/userspace-api/media/v4l/capture.c.rst          |  52 +++++-----
+ Documentation/userspace-api/media/v4l/v4l2grab.c.rst         |   8 +-
+ MAINTAINERS                                                  |   1 +
+ drivers/media/Kconfig                                        |   8 +-
+ drivers/media/pci/tw5864/tw5864-core.c                       |   5 +-
+ drivers/media/platform/Kconfig                               |   3 +-
+ drivers/media/platform/aspeed-video.c                        |  14 +--
+ drivers/media/platform/mtk-vcodec/mtk_vcodec_dec.h           |   1 +
+ drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_drv.c       |   1 -
+ drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_stateless.c |   1 -
+ drivers/media/platform/mtk-vcodec/mtk_vcodec_enc_drv.c       |   1 -
+ drivers/media/platform/mtk-vcodec/vdec/vdec_h264_req_if.c    |   4 +-
+ drivers/media/platform/mtk-vpu/mtk_vpu.c                     |   4 +-
+ drivers/media/platform/s5p-mfc/s5p_mfc.c                     |   9 +-
+ drivers/media/platform/stm32/dma2d/dma2d-hw.c                |  10 --
+ drivers/media/usb/em28xx/em28xx-cards.c                      |  18 ++--
+ drivers/media/usb/gspca/m5602/m5602_s5k83a.c                 |   5 +-
+ drivers/media/v4l2-core/v4l2-ioctl.c                         |   4 +-
+ 22 files changed, 309 insertions(+), 218 deletions(-)
+ delete mode 100644 Documentation/devicetree/bindings/media/i2c/adv748x.txt
+ create mode 100644 Documentation/devicetree/bindings/media/i2c/adv748x.yaml
