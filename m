@@ -2,130 +2,864 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9DE9944BE3E
-	for <lists+linux-media@lfdr.de>; Wed, 10 Nov 2021 11:04:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4C8F144BE4D
+	for <lists+linux-media@lfdr.de>; Wed, 10 Nov 2021 11:12:23 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230493AbhKJKHp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 10 Nov 2021 05:07:45 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37534 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229653AbhKJKHo (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Wed, 10 Nov 2021 05:07:44 -0500
-Received: from lb1-smtp-cloud7.xs4all.net (lb1-smtp-cloud7.xs4all.net [IPv6:2001:888:0:108::1a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C54B6C061764
-        for <linux-media@vger.kernel.org>; Wed, 10 Nov 2021 02:04:56 -0800 (PST)
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud7.xs4all.net with ESMTPA
-        id kkTKm8sDwnkS9kkTOmsxyZ; Wed, 10 Nov 2021 11:04:54 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1636538694; bh=la2Gwel//Z2unp1HtlU2gFK4lWWhOo/UgF/Ley4fPzE=;
-        h=To:From:Subject:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=uzsD3wkJL4fOq/Lq254zY5b1ja2p8KmQ4ZmwfrE1XQRsMkA/gVsTuSczFb/kC97zv
-         K+fGKlKuA0P0EdszFf+PX0dxbjw3ahp8nQsWMKp1EgmpDBmMGw2DLzk2iUVh2mxbEX
-         w4fjgft4EQ6WPpe0WdoeyDHBPRpS+MCi+yWGqXDU4riWjyM9Wzg+E/TNoIomTh5F/8
-         KVElqTX4Gk72ZTgml+1HpfcILo+TjsGF8Dmm1nFHrP65SeU1Sg2OWnMtjl1u+g46l2
-         wZHXy8ZCRNmTFqxG16/DW45+jROCjb0pFrpM4TbFiP3tNfgWMH2bzog6hJEWMeqR8i
-         rDVLOKyWcyleA==
-To:     Linux Media Mailing List <linux-media@vger.kernel.org>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Subject: [GIT PULL FOR v5.17] Various fixes/enhancements
-Message-ID: <734bd659-3f59-63a1-dbf8-28e50ff733e4@xs4all.nl>
-Date:   Wed, 10 Nov 2021 11:04:50 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Firefox/78.0 Thunderbird/78.14.0
+        id S230525AbhKJKPJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 10 Nov 2021 05:15:09 -0500
+Received: from www.linuxtv.org ([130.149.80.248]:37018 "EHLO www.linuxtv.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229653AbhKJKPI (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 10 Nov 2021 05:15:08 -0500
+Received: from builder.linuxtv.org ([140.211.167.10] helo=slave0)
+        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1mkkaZ-00789f-OB; Wed, 10 Nov 2021 10:12:20 +0000
+Received: from ip6-localhost ([::1] helo=localhost.localdomain)
+        by slave0 with esmtp (Exim 4.94.2)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1mkkaX-002wbB-OP; Wed, 10 Nov 2021 10:12:17 +0000
+From:   Jenkins <jenkins@linuxtv.org>
+To:     mchehab+samsung@kernel.org, linux-media@vger.kernel.org
+Cc:     builder@linuxtv.org
+Subject: Re: [GIT PULL FOR v5.17] Various fixes/enhancements (#78322)
+Date:   Wed, 10 Nov 2021 10:12:17 +0000
+Message-Id: <20211110101217.701863-1-jenkins@linuxtv.org>
+X-Mailer: git-send-email 2.30.2
+In-Reply-To: <734bd659-3f59-63a1-dbf8-28e50ff733e4@xs4all.nl>
+References: 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-CMAE-Envelope: MS4xfLMfOHiLuVlIIJgtXk0alyMMLurwPL04vJ3XRnWB47/rtJN32Khf0sbSVOkGI/xcJpsLpQj9Wm3RL+zbQOJDzoyneLulA3OQjEFzvlUklUK4slxDefOH
- 1N5Lw5ydSTq/Dni+0sx9bPI/AvQbZhrYegHb1ogbjqEhyiqCftLfc3P2phZf5+Ti3ddsN1y+0CJ8bvcOQRub2jfEDoq1D76C98E=
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The following changes since commit 3951ae98f0ba1003464e60adf41100e70dddbcde:
+From: builder@linuxtv.org
 
-  media: atomisp: only initialize mode if pipe is not null (2021-11-08 09:52:55 +0000)
+Pull request: https://patchwork.linuxtv.org/project/linux-media/patch/734bd659-3f59-63a1-dbf8-28e50ff733e4@xs4all.nl/
+Build log: https://builder.linuxtv.org/job/patchwork/155611/
+Build time: 00:05:02
+Link: https://lore.kernel.org/linux-media/734bd659-3f59-63a1-dbf8-28e50ff733e4@xs4all.nl
 
-are available in the Git repository at:
+gpg: Signature made Wed 10 Nov 2021 10:02:56 AM UTC
+gpg:                using RSA key AAA7FFBA4D2D77EF4CAEA1421326E0CD23ABDCE5
+gpg: Good signature from "Hans Verkuil <hverkuil-cisco@xs4all.nl>" [unknown]
+gpg:                 aka "Hans Verkuil <hverkuil@xs4all.nl>" [unknown]
+gpg: Note: This key has expired!
+Primary key fingerprint: 052C DE7B C215 053B 689F  1BCA BD2D 6148 6614 3B4C
+     Subkey fingerprint: AAA7 FFBA 4D2D 77EF 4CAE  A142 1326 E0CD 23AB DCE5
 
-  git://linuxtv.org/hverkuil/media_tree.git tags/br-v5.17a
+Summary: got 19/19 patches with issues, being 19 at build time, plus one error when buinding PDF document
 
-for you to fetch changes up to 9c3ef010e02034f6d9a975c3b63413ff2bda9b29:
+Error/warnings:
 
-  media: mtk-vcodec: Remove redundant 'flush_workqueue()' calls (2021-11-10 10:15:54 +0100)
+patches/0001-media-aspeed-fix-mode-detect-always-time-out-at-2nd-.patch:
 
-----------------------------------------------------------------
-Tag branch
+    allyesconfig: return code #512:
+	../arch/x86/Makefile:142: CONFIG_X86_X32 enabled but no binutils support
+	gcc: error: unrecognized command-line option ‘-Wcounterexamples’
+	gcc -Wcounterexamples -fno-diagnostics-show-caret: unknown compiler
+	scripts/Kconfig.include:44: Sorry, this compiler is not supported.
+	make[3]: *** [../scripts/kconfig/Makefile:77: syncconfig] Error 1
+	make[2]: *** [../Makefile:616: syncconfig] Error 2
+	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:729: include/config/auto.conf.cmd] Error 2
+	make[1]: *** [include/config/auto.conf.cmd] Deleting file 'include/generated/autoconf.h'
+	make: *** [Makefile:219: __sub-make] Error 2
 
-----------------------------------------------------------------
-Cai Huoqing (1):
-      media: gspca: Make use of the helper macro kthread_run()
+    allyesconfig: return code #512:
+	../arch/x86/Makefile:142: CONFIG_X86_X32 enabled but no binutils support
+	gcc: error: unrecognized command-line option ‘-Wcounterexamples’
+	gcc -Wcounterexamples -fno-diagnostics-show-caret: unknown compiler
+	scripts/Kconfig.include:44: Sorry, this compiler is not supported.
+	make[3]: *** [../scripts/kconfig/Makefile:77: syncconfig] Error 1
+	make[2]: *** [../Makefile:616: syncconfig] Error 2
+	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:729: include/config/auto.conf.cmd] Error 2
+	make: *** [Makefile:219: __sub-make] Error 2
 
-Christophe JAILLET (4):
-      media: tw5864: Simplify 'tw5864_finidev()'
-      media: s5p-mfc: Use 'bitmap_zalloc()' when applicable
-      media: mtk-vpu: Remove redundant 'flush_workqueue()' calls
-      media: mtk-vcodec: Remove redundant 'flush_workqueue()' calls
+    allmodconfig: return code #512:
+	../arch/x86/Makefile:142: CONFIG_X86_X32 enabled but no binutils support
+	gcc: error: unrecognized command-line option ‘-Wcounterexamples’
+	gcc -Wcounterexamples -fno-diagnostics-show-caret: unknown compiler
+	scripts/Kconfig.include:44: Sorry, this compiler is not supported.
+	make[3]: *** [../scripts/kconfig/Makefile:77: syncconfig] Error 1
+	make[2]: *** [../Makefile:616: syncconfig] Error 2
+	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:729: include/config/auto.conf.cmd] Error 2
+	make[1]: *** [include/config/auto.conf.cmd] Deleting file 'include/generated/autoconf.h'
+	make: *** [Makefile:219: __sub-make] Error 2
 
-Dillon Min (2):
-      media: stm32-dma2d: fix compile errors when W=1
-      media: stm32-dma2d: fix compile-testing failed
+    allmodconfig: return code #512:
+	../arch/x86/Makefile:142: CONFIG_X86_X32 enabled but no binutils support
+	gcc: error: unrecognized command-line option ‘-Wcounterexamples’
+	gcc -Wcounterexamples -fno-diagnostics-show-caret: unknown compiler
+	scripts/Kconfig.include:44: Sorry, this compiler is not supported.
+	make[3]: *** [../scripts/kconfig/Makefile:77: syncconfig] Error 1
+	make[2]: *** [../Makefile:616: syncconfig] Error 2
+	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:729: include/config/auto.conf.cmd] Error 2
+	make: *** [Makefile:219: __sub-make] Error 2
 
-Dongliang Mu (1):
-      media: em28xx: fix memory leak in em28xx_init_dev
+patches/0002-media-gspca-Make-use-of-the-helper-macro-kthread_run.patch:
 
-Hans Verkuil (3):
-      cec-ioc-receive.rst: clarify sequence and status fields
-      v4l2-ioctl.c: readbuffers depends on V4L2_CAP_READWRITE
-      media: drivers/index.rst: add missing rkisp1 entry
+    allyesconfig: return code #512:
+	../arch/x86/Makefile:142: CONFIG_X86_X32 enabled but no binutils support
+	gcc: error: unrecognized command-line option ‘-Wcounterexamples’
+	gcc -Wcounterexamples -fno-diagnostics-show-caret: unknown compiler
+	scripts/Kconfig.include:44: Sorry, this compiler is not supported.
+	make[3]: *** [../scripts/kconfig/Makefile:77: syncconfig] Error 1
+	make[2]: *** [../Makefile:616: syncconfig] Error 2
+	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:729: include/config/auto.conf.cmd] Error 2
+	make: *** [Makefile:219: __sub-make] Error 2
 
-Jammy Huang (2):
-      media: aspeed: fix mode-detect always time out at 2nd run
-      media: aspeed: Update signal status immediately to ensure sane hw state
+    allyesconfig: return code #512:
+	../arch/x86/Makefile:142: CONFIG_X86_X32 enabled but no binutils support
+	gcc: error: unrecognized command-line option ‘-Wcounterexamples’
+	gcc -Wcounterexamples -fno-diagnostics-show-caret: unknown compiler
+	scripts/Kconfig.include:44: Sorry, this compiler is not supported.
+	make[3]: *** [../scripts/kconfig/Makefile:77: syncconfig] Error 1
+	make[2]: *** [../Makefile:616: syncconfig] Error 2
+	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:729: include/config/auto.conf.cmd] Error 2
+	make: *** [Makefile:219: __sub-make] Error 2
 
-Kieran Bingham (1):
-      media: tw5864: Disable PCI device when finished
+    allmodconfig: return code #512:
+	../arch/x86/Makefile:142: CONFIG_X86_X32 enabled but no binutils support
+	gcc: error: unrecognized command-line option ‘-Wcounterexamples’
+	gcc -Wcounterexamples -fno-diagnostics-show-caret: unknown compiler
+	scripts/Kconfig.include:44: Sorry, this compiler is not supported.
+	make[3]: *** [../scripts/kconfig/Makefile:77: syncconfig] Error 1
+	make[2]: *** [../Makefile:616: syncconfig] Error 2
+	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:729: include/config/auto.conf.cmd] Error 2
+	make: *** [Makefile:219: __sub-make] Error 2
 
-Kwang Son (1):
-      media: docs: Fix newline typo
+    allmodconfig: return code #512:
+	../arch/x86/Makefile:142: CONFIG_X86_X32 enabled but no binutils support
+	gcc: error: unrecognized command-line option ‘-Wcounterexamples’
+	gcc -Wcounterexamples -fno-diagnostics-show-caret: unknown compiler
+	scripts/Kconfig.include:44: Sorry, this compiler is not supported.
+	make[3]: *** [../scripts/kconfig/Makefile:77: syncconfig] Error 1
+	make[2]: *** [../Makefile:616: syncconfig] Error 2
+	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:729: include/config/auto.conf.cmd] Error 2
+	make: *** [Makefile:219: __sub-make] Error 2
 
-Niklas Söderlund (1):
-      dt-bindings: adv748x: Convert bindings to json-schema
+patches/0003-media-tw5864-Simplify-tw5864_finidev.patch:
 
-Randy Dunlap (1):
-      media: correct MEDIA_TEST_SUPPORT help text
+    allyesconfig: return code #512:
+	../arch/x86/Makefile:142: CONFIG_X86_X32 enabled but no binutils support
+	gcc: error: unrecognized command-line option ‘-Wcounterexamples’
+	gcc -Wcounterexamples -fno-diagnostics-show-caret: unknown compiler
+	scripts/Kconfig.include:44: Sorry, this compiler is not supported.
+	make[3]: *** [../scripts/kconfig/Makefile:77: syncconfig] Error 1
+	make[2]: *** [../Makefile:616: syncconfig] Error 2
+	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:729: include/config/auto.conf.cmd] Error 2
+	make: *** [Makefile:219: __sub-make] Error 2
 
-Tzung-Bi Shih (1):
-      media: mtk-vcodec: vdec: remove redundant 'pfb' assignment
+    allyesconfig: return code #512:
+	../arch/x86/Makefile:142: CONFIG_X86_X32 enabled but no binutils support
+	gcc: error: unrecognized command-line option ‘-Wcounterexamples’
+	gcc -Wcounterexamples -fno-diagnostics-show-caret: unknown compiler
+	scripts/Kconfig.include:44: Sorry, this compiler is not supported.
+	make[3]: *** [../scripts/kconfig/Makefile:77: syncconfig] Error 1
+	make[2]: *** [../Makefile:616: syncconfig] Error 2
+	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:729: include/config/auto.conf.cmd] Error 2
+	make: *** [Makefile:219: __sub-make] Error 2
 
-Yunfei Dong (1):
-      media: mtk-vcodec: Align width and height to 64 bytes
+    allmodconfig: return code #512:
+	../arch/x86/Makefile:142: CONFIG_X86_X32 enabled but no binutils support
+	gcc: error: unrecognized command-line option ‘-Wcounterexamples’
+	gcc -Wcounterexamples -fno-diagnostics-show-caret: unknown compiler
+	scripts/Kconfig.include:44: Sorry, this compiler is not supported.
+	make[3]: *** [../scripts/kconfig/Makefile:77: syncconfig] Error 1
+	make[2]: *** [../Makefile:616: syncconfig] Error 2
+	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:729: include/config/auto.conf.cmd] Error 2
+	make: *** [Makefile:219: __sub-make] Error 2
 
- Documentation/devicetree/bindings/media/i2c/adv748x.txt      | 116 ---------------------
- Documentation/devicetree/bindings/media/i2c/adv748x.yaml     | 212 ++++++++++++++++++++++++++++++++++++++
- Documentation/driver-api/media/drivers/index.rst             |   1 +
- Documentation/userspace-api/media/cec/cec-ioc-receive.rst    |  49 ++++-----
- Documentation/userspace-api/media/v4l/capture.c.rst          |  52 +++++-----
- Documentation/userspace-api/media/v4l/v4l2grab.c.rst         |   8 +-
- MAINTAINERS                                                  |   1 +
- drivers/media/Kconfig                                        |   8 +-
- drivers/media/pci/tw5864/tw5864-core.c                       |   5 +-
- drivers/media/platform/Kconfig                               |   3 +-
- drivers/media/platform/aspeed-video.c                        |  14 +--
- drivers/media/platform/mtk-vcodec/mtk_vcodec_dec.h           |   1 +
- drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_drv.c       |   1 -
- drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_stateless.c |   1 -
- drivers/media/platform/mtk-vcodec/mtk_vcodec_enc_drv.c       |   1 -
- drivers/media/platform/mtk-vcodec/vdec/vdec_h264_req_if.c    |   4 +-
- drivers/media/platform/mtk-vpu/mtk_vpu.c                     |   4 +-
- drivers/media/platform/s5p-mfc/s5p_mfc.c                     |   9 +-
- drivers/media/platform/stm32/dma2d/dma2d-hw.c                |  10 --
- drivers/media/usb/em28xx/em28xx-cards.c                      |  18 ++--
- drivers/media/usb/gspca/m5602/m5602_s5k83a.c                 |   5 +-
- drivers/media/v4l2-core/v4l2-ioctl.c                         |   4 +-
- 22 files changed, 309 insertions(+), 218 deletions(-)
- delete mode 100644 Documentation/devicetree/bindings/media/i2c/adv748x.txt
- create mode 100644 Documentation/devicetree/bindings/media/i2c/adv748x.yaml
+    allmodconfig: return code #512:
+	../arch/x86/Makefile:142: CONFIG_X86_X32 enabled but no binutils support
+	gcc: error: unrecognized command-line option ‘-Wcounterexamples’
+	gcc -Wcounterexamples -fno-diagnostics-show-caret: unknown compiler
+	scripts/Kconfig.include:44: Sorry, this compiler is not supported.
+	make[3]: *** [../scripts/kconfig/Makefile:77: syncconfig] Error 1
+	make[2]: *** [../Makefile:616: syncconfig] Error 2
+	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:729: include/config/auto.conf.cmd] Error 2
+	make: *** [Makefile:219: __sub-make] Error 2
+
+patches/0004-media-tw5864-Disable-PCI-device-when-finished.patch:
+
+    allyesconfig: return code #512:
+	../arch/x86/Makefile:142: CONFIG_X86_X32 enabled but no binutils support
+	gcc: error: unrecognized command-line option ‘-Wcounterexamples’
+	gcc -Wcounterexamples -fno-diagnostics-show-caret: unknown compiler
+	scripts/Kconfig.include:44: Sorry, this compiler is not supported.
+	make[3]: *** [../scripts/kconfig/Makefile:77: syncconfig] Error 1
+	make[2]: *** [../Makefile:616: syncconfig] Error 2
+	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:729: include/config/auto.conf.cmd] Error 2
+	make: *** [Makefile:219: __sub-make] Error 2
+
+    allyesconfig: return code #512:
+	../arch/x86/Makefile:142: CONFIG_X86_X32 enabled but no binutils support
+	gcc: error: unrecognized command-line option ‘-Wcounterexamples’
+	gcc -Wcounterexamples -fno-diagnostics-show-caret: unknown compiler
+	scripts/Kconfig.include:44: Sorry, this compiler is not supported.
+	make[3]: *** [../scripts/kconfig/Makefile:77: syncconfig] Error 1
+	make[2]: *** [../Makefile:616: syncconfig] Error 2
+	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:729: include/config/auto.conf.cmd] Error 2
+	make: *** [Makefile:219: __sub-make] Error 2
+
+    allmodconfig: return code #512:
+	../arch/x86/Makefile:142: CONFIG_X86_X32 enabled but no binutils support
+	gcc: error: unrecognized command-line option ‘-Wcounterexamples’
+	gcc -Wcounterexamples -fno-diagnostics-show-caret: unknown compiler
+	scripts/Kconfig.include:44: Sorry, this compiler is not supported.
+	make[3]: *** [../scripts/kconfig/Makefile:77: syncconfig] Error 1
+	make[2]: *** [../Makefile:616: syncconfig] Error 2
+	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:729: include/config/auto.conf.cmd] Error 2
+	make: *** [Makefile:219: __sub-make] Error 2
+
+    allmodconfig: return code #512:
+	../arch/x86/Makefile:142: CONFIG_X86_X32 enabled but no binutils support
+	gcc: error: unrecognized command-line option ‘-Wcounterexamples’
+	gcc -Wcounterexamples -fno-diagnostics-show-caret: unknown compiler
+	scripts/Kconfig.include:44: Sorry, this compiler is not supported.
+	make[3]: *** [../scripts/kconfig/Makefile:77: syncconfig] Error 1
+	make[2]: *** [../Makefile:616: syncconfig] Error 2
+	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:729: include/config/auto.conf.cmd] Error 2
+	make: *** [Makefile:219: __sub-make] Error 2
+
+patches/0005-media-s5p-mfc-Use-bitmap_zalloc-when-applicable.patch:
+
+    allyesconfig: return code #512:
+	../arch/x86/Makefile:142: CONFIG_X86_X32 enabled but no binutils support
+	gcc: error: unrecognized command-line option ‘-Wcounterexamples’
+	gcc -Wcounterexamples -fno-diagnostics-show-caret: unknown compiler
+	scripts/Kconfig.include:44: Sorry, this compiler is not supported.
+	make[3]: *** [../scripts/kconfig/Makefile:77: syncconfig] Error 1
+	make[2]: *** [../Makefile:616: syncconfig] Error 2
+	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:729: include/config/auto.conf.cmd] Error 2
+	make: *** [Makefile:219: __sub-make] Error 2
+
+    allyesconfig: return code #512:
+	../arch/x86/Makefile:142: CONFIG_X86_X32 enabled but no binutils support
+	gcc: error: unrecognized command-line option ‘-Wcounterexamples’
+	gcc -Wcounterexamples -fno-diagnostics-show-caret: unknown compiler
+	scripts/Kconfig.include:44: Sorry, this compiler is not supported.
+	make[3]: *** [../scripts/kconfig/Makefile:77: syncconfig] Error 1
+	make[2]: *** [../Makefile:616: syncconfig] Error 2
+	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:729: include/config/auto.conf.cmd] Error 2
+	make: *** [Makefile:219: __sub-make] Error 2
+
+    allmodconfig: return code #512:
+	../arch/x86/Makefile:142: CONFIG_X86_X32 enabled but no binutils support
+	gcc: error: unrecognized command-line option ‘-Wcounterexamples’
+	gcc -Wcounterexamples -fno-diagnostics-show-caret: unknown compiler
+	scripts/Kconfig.include:44: Sorry, this compiler is not supported.
+	make[3]: *** [../scripts/kconfig/Makefile:77: syncconfig] Error 1
+	make[2]: *** [../Makefile:616: syncconfig] Error 2
+	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:729: include/config/auto.conf.cmd] Error 2
+	make: *** [Makefile:219: __sub-make] Error 2
+
+    allmodconfig: return code #512:
+	../arch/x86/Makefile:142: CONFIG_X86_X32 enabled but no binutils support
+	gcc: error: unrecognized command-line option ‘-Wcounterexamples’
+	gcc -Wcounterexamples -fno-diagnostics-show-caret: unknown compiler
+	scripts/Kconfig.include:44: Sorry, this compiler is not supported.
+	make[3]: *** [../scripts/kconfig/Makefile:77: syncconfig] Error 1
+	make[2]: *** [../Makefile:616: syncconfig] Error 2
+	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:729: include/config/auto.conf.cmd] Error 2
+	make: *** [Makefile:219: __sub-make] Error 2
+
+patches/0006-dt-bindings-adv748x-Convert-bindings-to-json-schema.patch:
+
+    allyesconfig: return code #512:
+	../arch/x86/Makefile:142: CONFIG_X86_X32 enabled but no binutils support
+	gcc: error: unrecognized command-line option ‘-Wcounterexamples’
+	gcc -Wcounterexamples -fno-diagnostics-show-caret: unknown compiler
+	scripts/Kconfig.include:44: Sorry, this compiler is not supported.
+	make[3]: *** [../scripts/kconfig/Makefile:77: syncconfig] Error 1
+	make[2]: *** [../Makefile:616: syncconfig] Error 2
+	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:729: include/config/auto.conf.cmd] Error 2
+	make: *** [Makefile:219: __sub-make] Error 2
+
+    allyesconfig: return code #512:
+	../arch/x86/Makefile:142: CONFIG_X86_X32 enabled but no binutils support
+	gcc: error: unrecognized command-line option ‘-Wcounterexamples’
+	gcc -Wcounterexamples -fno-diagnostics-show-caret: unknown compiler
+	scripts/Kconfig.include:44: Sorry, this compiler is not supported.
+	make[3]: *** [../scripts/kconfig/Makefile:77: syncconfig] Error 1
+	make[2]: *** [../Makefile:616: syncconfig] Error 2
+	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:729: include/config/auto.conf.cmd] Error 2
+	make: *** [Makefile:219: __sub-make] Error 2
+
+    allmodconfig: return code #512:
+	../arch/x86/Makefile:142: CONFIG_X86_X32 enabled but no binutils support
+	gcc: error: unrecognized command-line option ‘-Wcounterexamples’
+	gcc -Wcounterexamples -fno-diagnostics-show-caret: unknown compiler
+	scripts/Kconfig.include:44: Sorry, this compiler is not supported.
+	make[3]: *** [../scripts/kconfig/Makefile:77: syncconfig] Error 1
+	make[2]: *** [../Makefile:616: syncconfig] Error 2
+	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:729: include/config/auto.conf.cmd] Error 2
+	make: *** [Makefile:219: __sub-make] Error 2
+
+    allmodconfig: return code #512:
+	../arch/x86/Makefile:142: CONFIG_X86_X32 enabled but no binutils support
+	gcc: error: unrecognized command-line option ‘-Wcounterexamples’
+	gcc -Wcounterexamples -fno-diagnostics-show-caret: unknown compiler
+	scripts/Kconfig.include:44: Sorry, this compiler is not supported.
+	make[3]: *** [../scripts/kconfig/Makefile:77: syncconfig] Error 1
+	make[2]: *** [../Makefile:616: syncconfig] Error 2
+	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:729: include/config/auto.conf.cmd] Error 2
+	make: *** [Makefile:219: __sub-make] Error 2
+
+   checkpatch.pl:
+	$ cat patches/0006-dt-bindings-adv748x-Convert-bindings-to-json-schema.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
+	-:32: WARNING: DT binding docs and includes should be a separate patch. See: Documentation/devicetree/bindings/submitting-patches.rst
+	-:150: WARNING: DT binding docs and includes should be a separate patch. See: Documentation/devicetree/bindings/submitting-patches.rst
+
+patches/0007-media-em28xx-fix-memory-leak-in-em28xx_init_dev.patch:
+
+    allyesconfig: return code #512:
+	../arch/x86/Makefile:142: CONFIG_X86_X32 enabled but no binutils support
+	gcc: error: unrecognized command-line option ‘-Wcounterexamples’
+	gcc -Wcounterexamples -fno-diagnostics-show-caret: unknown compiler
+	scripts/Kconfig.include:44: Sorry, this compiler is not supported.
+	make[3]: *** [../scripts/kconfig/Makefile:77: syncconfig] Error 1
+	make[2]: *** [../Makefile:616: syncconfig] Error 2
+	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:729: include/config/auto.conf.cmd] Error 2
+	make: *** [Makefile:219: __sub-make] Error 2
+
+    allyesconfig: return code #512:
+	../arch/x86/Makefile:142: CONFIG_X86_X32 enabled but no binutils support
+	gcc: error: unrecognized command-line option ‘-Wcounterexamples’
+	gcc -Wcounterexamples -fno-diagnostics-show-caret: unknown compiler
+	scripts/Kconfig.include:44: Sorry, this compiler is not supported.
+	make[3]: *** [../scripts/kconfig/Makefile:77: syncconfig] Error 1
+	make[2]: *** [../Makefile:616: syncconfig] Error 2
+	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:729: include/config/auto.conf.cmd] Error 2
+	make: *** [Makefile:219: __sub-make] Error 2
+
+    allmodconfig: return code #512:
+	../arch/x86/Makefile:142: CONFIG_X86_X32 enabled but no binutils support
+	gcc: error: unrecognized command-line option ‘-Wcounterexamples’
+	gcc -Wcounterexamples -fno-diagnostics-show-caret: unknown compiler
+	scripts/Kconfig.include:44: Sorry, this compiler is not supported.
+	make[3]: *** [../scripts/kconfig/Makefile:77: syncconfig] Error 1
+	make[2]: *** [../Makefile:616: syncconfig] Error 2
+	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:729: include/config/auto.conf.cmd] Error 2
+	make: *** [Makefile:219: __sub-make] Error 2
+
+    allmodconfig: return code #512:
+	../arch/x86/Makefile:142: CONFIG_X86_X32 enabled but no binutils support
+	gcc: error: unrecognized command-line option ‘-Wcounterexamples’
+	gcc -Wcounterexamples -fno-diagnostics-show-caret: unknown compiler
+	scripts/Kconfig.include:44: Sorry, this compiler is not supported.
+	make[3]: *** [../scripts/kconfig/Makefile:77: syncconfig] Error 1
+	make[2]: *** [../Makefile:616: syncconfig] Error 2
+	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:729: include/config/auto.conf.cmd] Error 2
+	make: *** [Makefile:219: __sub-make] Error 2
+
+patches/0008-media-docs-Fix-newline-typo.patch:
+
+    allyesconfig: return code #512:
+	../arch/x86/Makefile:142: CONFIG_X86_X32 enabled but no binutils support
+	gcc: error: unrecognized command-line option ‘-Wcounterexamples’
+	gcc -Wcounterexamples -fno-diagnostics-show-caret: unknown compiler
+	scripts/Kconfig.include:44: Sorry, this compiler is not supported.
+	make[3]: *** [../scripts/kconfig/Makefile:77: syncconfig] Error 1
+	make[2]: *** [../Makefile:616: syncconfig] Error 2
+	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:729: include/config/auto.conf.cmd] Error 2
+	make: *** [Makefile:219: __sub-make] Error 2
+
+    allyesconfig: return code #512:
+	../arch/x86/Makefile:142: CONFIG_X86_X32 enabled but no binutils support
+	gcc: error: unrecognized command-line option ‘-Wcounterexamples’
+	gcc -Wcounterexamples -fno-diagnostics-show-caret: unknown compiler
+	scripts/Kconfig.include:44: Sorry, this compiler is not supported.
+	make[3]: *** [../scripts/kconfig/Makefile:77: syncconfig] Error 1
+	make[2]: *** [../Makefile:616: syncconfig] Error 2
+	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:729: include/config/auto.conf.cmd] Error 2
+	make: *** [Makefile:219: __sub-make] Error 2
+
+    allmodconfig: return code #512:
+	../arch/x86/Makefile:142: CONFIG_X86_X32 enabled but no binutils support
+	gcc: error: unrecognized command-line option ‘-Wcounterexamples’
+	gcc -Wcounterexamples -fno-diagnostics-show-caret: unknown compiler
+	scripts/Kconfig.include:44: Sorry, this compiler is not supported.
+	make[3]: *** [../scripts/kconfig/Makefile:77: syncconfig] Error 1
+	make[2]: *** [../Makefile:616: syncconfig] Error 2
+	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:729: include/config/auto.conf.cmd] Error 2
+	make: *** [Makefile:219: __sub-make] Error 2
+
+    allmodconfig: return code #512:
+	../arch/x86/Makefile:142: CONFIG_X86_X32 enabled but no binutils support
+	gcc: error: unrecognized command-line option ‘-Wcounterexamples’
+	gcc -Wcounterexamples -fno-diagnostics-show-caret: unknown compiler
+	scripts/Kconfig.include:44: Sorry, this compiler is not supported.
+	make[3]: *** [../scripts/kconfig/Makefile:77: syncconfig] Error 1
+	make[2]: *** [../Makefile:616: syncconfig] Error 2
+	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:729: include/config/auto.conf.cmd] Error 2
+	make: *** [Makefile:219: __sub-make] Error 2
+
+patches/0009-cec-ioc-receive.rst-clarify-sequence-and-status-fiel.patch:
+
+    allyesconfig: return code #512:
+	../arch/x86/Makefile:142: CONFIG_X86_X32 enabled but no binutils support
+	gcc: error: unrecognized command-line option ‘-Wcounterexamples’
+	gcc -Wcounterexamples -fno-diagnostics-show-caret: unknown compiler
+	scripts/Kconfig.include:44: Sorry, this compiler is not supported.
+	make[3]: *** [../scripts/kconfig/Makefile:77: syncconfig] Error 1
+	make[2]: *** [../Makefile:616: syncconfig] Error 2
+	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:729: include/config/auto.conf.cmd] Error 2
+	make: *** [Makefile:219: __sub-make] Error 2
+
+    allyesconfig: return code #512:
+	../arch/x86/Makefile:142: CONFIG_X86_X32 enabled but no binutils support
+	gcc: error: unrecognized command-line option ‘-Wcounterexamples’
+	gcc -Wcounterexamples -fno-diagnostics-show-caret: unknown compiler
+	scripts/Kconfig.include:44: Sorry, this compiler is not supported.
+	make[3]: *** [../scripts/kconfig/Makefile:77: syncconfig] Error 1
+	make[2]: *** [../Makefile:616: syncconfig] Error 2
+	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:729: include/config/auto.conf.cmd] Error 2
+	make: *** [Makefile:219: __sub-make] Error 2
+
+    allmodconfig: return code #512:
+	../arch/x86/Makefile:142: CONFIG_X86_X32 enabled but no binutils support
+	gcc: error: unrecognized command-line option ‘-Wcounterexamples’
+	gcc -Wcounterexamples -fno-diagnostics-show-caret: unknown compiler
+	scripts/Kconfig.include:44: Sorry, this compiler is not supported.
+	make[3]: *** [../scripts/kconfig/Makefile:77: syncconfig] Error 1
+	make[2]: *** [../Makefile:616: syncconfig] Error 2
+	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:729: include/config/auto.conf.cmd] Error 2
+	make: *** [Makefile:219: __sub-make] Error 2
+
+    allmodconfig: return code #512:
+	../arch/x86/Makefile:142: CONFIG_X86_X32 enabled but no binutils support
+	gcc: error: unrecognized command-line option ‘-Wcounterexamples’
+	gcc -Wcounterexamples -fno-diagnostics-show-caret: unknown compiler
+	scripts/Kconfig.include:44: Sorry, this compiler is not supported.
+	make[3]: *** [../scripts/kconfig/Makefile:77: syncconfig] Error 1
+	make[2]: *** [../Makefile:616: syncconfig] Error 2
+	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:729: include/config/auto.conf.cmd] Error 2
+	make: *** [Makefile:219: __sub-make] Error 2
+
+patches/0010-v4l2-ioctl.c-readbuffers-depends-on-V4L2_CAP_READWRI.patch:
+
+    allyesconfig: return code #512:
+	../arch/x86/Makefile:142: CONFIG_X86_X32 enabled but no binutils support
+	gcc: error: unrecognized command-line option ‘-Wcounterexamples’
+	gcc -Wcounterexamples -fno-diagnostics-show-caret: unknown compiler
+	scripts/Kconfig.include:44: Sorry, this compiler is not supported.
+	make[3]: *** [../scripts/kconfig/Makefile:77: syncconfig] Error 1
+	make[2]: *** [../Makefile:616: syncconfig] Error 2
+	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:729: include/config/auto.conf.cmd] Error 2
+	make: *** [Makefile:219: __sub-make] Error 2
+
+    allyesconfig: return code #512:
+	../arch/x86/Makefile:142: CONFIG_X86_X32 enabled but no binutils support
+	gcc: error: unrecognized command-line option ‘-Wcounterexamples’
+	gcc -Wcounterexamples -fno-diagnostics-show-caret: unknown compiler
+	scripts/Kconfig.include:44: Sorry, this compiler is not supported.
+	make[3]: *** [../scripts/kconfig/Makefile:77: syncconfig] Error 1
+	make[2]: *** [../Makefile:616: syncconfig] Error 2
+	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:729: include/config/auto.conf.cmd] Error 2
+	make: *** [Makefile:219: __sub-make] Error 2
+
+    allmodconfig: return code #512:
+	../arch/x86/Makefile:142: CONFIG_X86_X32 enabled but no binutils support
+	gcc: error: unrecognized command-line option ‘-Wcounterexamples’
+	gcc -Wcounterexamples -fno-diagnostics-show-caret: unknown compiler
+	scripts/Kconfig.include:44: Sorry, this compiler is not supported.
+	make[3]: *** [../scripts/kconfig/Makefile:77: syncconfig] Error 1
+	make[2]: *** [../Makefile:616: syncconfig] Error 2
+	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:729: include/config/auto.conf.cmd] Error 2
+	make: *** [Makefile:219: __sub-make] Error 2
+
+    allmodconfig: return code #512:
+	../arch/x86/Makefile:142: CONFIG_X86_X32 enabled but no binutils support
+	gcc: error: unrecognized command-line option ‘-Wcounterexamples’
+	gcc -Wcounterexamples -fno-diagnostics-show-caret: unknown compiler
+	scripts/Kconfig.include:44: Sorry, this compiler is not supported.
+	make[3]: *** [../scripts/kconfig/Makefile:77: syncconfig] Error 1
+	make[2]: *** [../Makefile:616: syncconfig] Error 2
+	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:729: include/config/auto.conf.cmd] Error 2
+	make: *** [Makefile:219: __sub-make] Error 2
+
+patches/0011-media-mtk-vcodec-Align-width-and-height-to-64-bytes.patch:
+
+    allyesconfig: return code #512:
+	../arch/x86/Makefile:142: CONFIG_X86_X32 enabled but no binutils support
+	gcc: error: unrecognized command-line option ‘-Wcounterexamples’
+	gcc -Wcounterexamples -fno-diagnostics-show-caret: unknown compiler
+	scripts/Kconfig.include:44: Sorry, this compiler is not supported.
+	make[3]: *** [../scripts/kconfig/Makefile:77: syncconfig] Error 1
+	make[2]: *** [../Makefile:616: syncconfig] Error 2
+	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:729: include/config/auto.conf.cmd] Error 2
+	make: *** [Makefile:219: __sub-make] Error 2
+
+    allyesconfig: return code #512:
+	../arch/x86/Makefile:142: CONFIG_X86_X32 enabled but no binutils support
+	gcc: error: unrecognized command-line option ‘-Wcounterexamples’
+	gcc -Wcounterexamples -fno-diagnostics-show-caret: unknown compiler
+	scripts/Kconfig.include:44: Sorry, this compiler is not supported.
+	make[3]: *** [../scripts/kconfig/Makefile:77: syncconfig] Error 1
+	make[2]: *** [../Makefile:616: syncconfig] Error 2
+	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:729: include/config/auto.conf.cmd] Error 2
+	make: *** [Makefile:219: __sub-make] Error 2
+
+    allmodconfig: return code #512:
+	../arch/x86/Makefile:142: CONFIG_X86_X32 enabled but no binutils support
+	gcc: error: unrecognized command-line option ‘-Wcounterexamples’
+	gcc -Wcounterexamples -fno-diagnostics-show-caret: unknown compiler
+	scripts/Kconfig.include:44: Sorry, this compiler is not supported.
+	make[3]: *** [../scripts/kconfig/Makefile:77: syncconfig] Error 1
+	make[2]: *** [../Makefile:616: syncconfig] Error 2
+	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:729: include/config/auto.conf.cmd] Error 2
+	make: *** [Makefile:219: __sub-make] Error 2
+
+    allmodconfig: return code #512:
+	../arch/x86/Makefile:142: CONFIG_X86_X32 enabled but no binutils support
+	gcc: error: unrecognized command-line option ‘-Wcounterexamples’
+	gcc -Wcounterexamples -fno-diagnostics-show-caret: unknown compiler
+	scripts/Kconfig.include:44: Sorry, this compiler is not supported.
+	make[3]: *** [../scripts/kconfig/Makefile:77: syncconfig] Error 1
+	make[2]: *** [../Makefile:616: syncconfig] Error 2
+	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:729: include/config/auto.conf.cmd] Error 2
+	make: *** [Makefile:219: __sub-make] Error 2
+
+patches/0012-media-drivers-index.rst-add-missing-rkisp1-entry.patch:
+
+    allyesconfig: return code #512:
+	../arch/x86/Makefile:142: CONFIG_X86_X32 enabled but no binutils support
+	gcc: error: unrecognized command-line option ‘-Wcounterexamples’
+	gcc -Wcounterexamples -fno-diagnostics-show-caret: unknown compiler
+	scripts/Kconfig.include:44: Sorry, this compiler is not supported.
+	make[3]: *** [../scripts/kconfig/Makefile:77: syncconfig] Error 1
+	make[2]: *** [../Makefile:616: syncconfig] Error 2
+	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:729: include/config/auto.conf.cmd] Error 2
+	make: *** [Makefile:219: __sub-make] Error 2
+
+    allyesconfig: return code #512:
+	../arch/x86/Makefile:142: CONFIG_X86_X32 enabled but no binutils support
+	gcc: error: unrecognized command-line option ‘-Wcounterexamples’
+	gcc -Wcounterexamples -fno-diagnostics-show-caret: unknown compiler
+	scripts/Kconfig.include:44: Sorry, this compiler is not supported.
+	make[3]: *** [../scripts/kconfig/Makefile:77: syncconfig] Error 1
+	make[2]: *** [../Makefile:616: syncconfig] Error 2
+	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:729: include/config/auto.conf.cmd] Error 2
+	make: *** [Makefile:219: __sub-make] Error 2
+
+    allmodconfig: return code #512:
+	../arch/x86/Makefile:142: CONFIG_X86_X32 enabled but no binutils support
+	gcc: error: unrecognized command-line option ‘-Wcounterexamples’
+	gcc -Wcounterexamples -fno-diagnostics-show-caret: unknown compiler
+	scripts/Kconfig.include:44: Sorry, this compiler is not supported.
+	make[3]: *** [../scripts/kconfig/Makefile:77: syncconfig] Error 1
+	make[2]: *** [../Makefile:616: syncconfig] Error 2
+	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:729: include/config/auto.conf.cmd] Error 2
+	make: *** [Makefile:219: __sub-make] Error 2
+
+    allmodconfig: return code #512:
+	../arch/x86/Makefile:142: CONFIG_X86_X32 enabled but no binutils support
+	gcc: error: unrecognized command-line option ‘-Wcounterexamples’
+	gcc -Wcounterexamples -fno-diagnostics-show-caret: unknown compiler
+	scripts/Kconfig.include:44: Sorry, this compiler is not supported.
+	make[3]: *** [../scripts/kconfig/Makefile:77: syncconfig] Error 1
+	make[2]: *** [../Makefile:616: syncconfig] Error 2
+	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:729: include/config/auto.conf.cmd] Error 2
+	make: *** [Makefile:219: __sub-make] Error 2
+
+patches/0013-media-aspeed-Update-signal-status-immediately-to-ens.patch:
+
+    allyesconfig: return code #512:
+	../arch/x86/Makefile:142: CONFIG_X86_X32 enabled but no binutils support
+	gcc: error: unrecognized command-line option ‘-Wcounterexamples’
+	gcc -Wcounterexamples -fno-diagnostics-show-caret: unknown compiler
+	scripts/Kconfig.include:44: Sorry, this compiler is not supported.
+	make[3]: *** [../scripts/kconfig/Makefile:77: syncconfig] Error 1
+	make[2]: *** [../Makefile:616: syncconfig] Error 2
+	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:729: include/config/auto.conf.cmd] Error 2
+	make: *** [Makefile:219: __sub-make] Error 2
+
+    allyesconfig: return code #512:
+	../arch/x86/Makefile:142: CONFIG_X86_X32 enabled but no binutils support
+	gcc: error: unrecognized command-line option ‘-Wcounterexamples’
+	gcc -Wcounterexamples -fno-diagnostics-show-caret: unknown compiler
+	scripts/Kconfig.include:44: Sorry, this compiler is not supported.
+	make[3]: *** [../scripts/kconfig/Makefile:77: syncconfig] Error 1
+	make[2]: *** [../Makefile:616: syncconfig] Error 2
+	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:729: include/config/auto.conf.cmd] Error 2
+	make: *** [Makefile:219: __sub-make] Error 2
+
+    allmodconfig: return code #512:
+	../arch/x86/Makefile:142: CONFIG_X86_X32 enabled but no binutils support
+	gcc: error: unrecognized command-line option ‘-Wcounterexamples’
+	gcc -Wcounterexamples -fno-diagnostics-show-caret: unknown compiler
+	scripts/Kconfig.include:44: Sorry, this compiler is not supported.
+	make[3]: *** [../scripts/kconfig/Makefile:77: syncconfig] Error 1
+	make[2]: *** [../Makefile:616: syncconfig] Error 2
+	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:729: include/config/auto.conf.cmd] Error 2
+	make: *** [Makefile:219: __sub-make] Error 2
+
+    allmodconfig: return code #512:
+	../arch/x86/Makefile:142: CONFIG_X86_X32 enabled but no binutils support
+	gcc: error: unrecognized command-line option ‘-Wcounterexamples’
+	gcc -Wcounterexamples -fno-diagnostics-show-caret: unknown compiler
+	scripts/Kconfig.include:44: Sorry, this compiler is not supported.
+	make[3]: *** [../scripts/kconfig/Makefile:77: syncconfig] Error 1
+	make[2]: *** [../Makefile:616: syncconfig] Error 2
+	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:729: include/config/auto.conf.cmd] Error 2
+	make: *** [Makefile:219: __sub-make] Error 2
+
+patches/0014-media-stm32-dma2d-fix-compile-errors-when-W-1.patch:
+
+    allyesconfig: return code #512:
+	../arch/x86/Makefile:142: CONFIG_X86_X32 enabled but no binutils support
+	gcc: error: unrecognized command-line option ‘-Wcounterexamples’
+	gcc -Wcounterexamples -fno-diagnostics-show-caret: unknown compiler
+	scripts/Kconfig.include:44: Sorry, this compiler is not supported.
+	make[3]: *** [../scripts/kconfig/Makefile:77: syncconfig] Error 1
+	make[2]: *** [../Makefile:616: syncconfig] Error 2
+	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:729: include/config/auto.conf.cmd] Error 2
+	make: *** [Makefile:219: __sub-make] Error 2
+
+    allyesconfig: return code #512:
+	../arch/x86/Makefile:142: CONFIG_X86_X32 enabled but no binutils support
+	gcc: error: unrecognized command-line option ‘-Wcounterexamples’
+	gcc -Wcounterexamples -fno-diagnostics-show-caret: unknown compiler
+	scripts/Kconfig.include:44: Sorry, this compiler is not supported.
+	make[3]: *** [../scripts/kconfig/Makefile:77: syncconfig] Error 1
+	make[2]: *** [../Makefile:616: syncconfig] Error 2
+	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:729: include/config/auto.conf.cmd] Error 2
+	make: *** [Makefile:219: __sub-make] Error 2
+
+    allmodconfig: return code #512:
+	../arch/x86/Makefile:142: CONFIG_X86_X32 enabled but no binutils support
+	gcc: error: unrecognized command-line option ‘-Wcounterexamples’
+	gcc -Wcounterexamples -fno-diagnostics-show-caret: unknown compiler
+	scripts/Kconfig.include:44: Sorry, this compiler is not supported.
+	make[3]: *** [../scripts/kconfig/Makefile:77: syncconfig] Error 1
+	make[2]: *** [../Makefile:616: syncconfig] Error 2
+	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:729: include/config/auto.conf.cmd] Error 2
+	make: *** [Makefile:219: __sub-make] Error 2
+
+    allmodconfig: return code #512:
+	../arch/x86/Makefile:142: CONFIG_X86_X32 enabled but no binutils support
+	gcc: error: unrecognized command-line option ‘-Wcounterexamples’
+	gcc -Wcounterexamples -fno-diagnostics-show-caret: unknown compiler
+	scripts/Kconfig.include:44: Sorry, this compiler is not supported.
+	make[3]: *** [../scripts/kconfig/Makefile:77: syncconfig] Error 1
+	make[2]: *** [../Makefile:616: syncconfig] Error 2
+	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:729: include/config/auto.conf.cmd] Error 2
+	make: *** [Makefile:219: __sub-make] Error 2
+
+patches/0015-media-stm32-dma2d-fix-compile-testing-failed.patch:
+
+    allyesconfig: return code #512:
+	../arch/x86/Makefile:142: CONFIG_X86_X32 enabled but no binutils support
+	gcc: error: unrecognized command-line option ‘-Wcounterexamples’
+	gcc -Wcounterexamples -fno-diagnostics-show-caret: unknown compiler
+	scripts/Kconfig.include:44: Sorry, this compiler is not supported.
+	make[3]: *** [../scripts/kconfig/Makefile:77: syncconfig] Error 1
+	make[2]: *** [../Makefile:616: syncconfig] Error 2
+	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:729: include/config/auto.conf.cmd] Error 2
+	make: *** [Makefile:219: __sub-make] Error 2
+
+    allyesconfig: return code #512:
+	../arch/x86/Makefile:142: CONFIG_X86_X32 enabled but no binutils support
+	gcc: error: unrecognized command-line option ‘-Wcounterexamples’
+	gcc -Wcounterexamples -fno-diagnostics-show-caret: unknown compiler
+	scripts/Kconfig.include:44: Sorry, this compiler is not supported.
+	make[3]: *** [../scripts/kconfig/Makefile:77: syncconfig] Error 1
+	make[2]: *** [../Makefile:616: syncconfig] Error 2
+	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:729: include/config/auto.conf.cmd] Error 2
+	make: *** [Makefile:219: __sub-make] Error 2
+
+    allmodconfig: return code #512:
+	../arch/x86/Makefile:142: CONFIG_X86_X32 enabled but no binutils support
+	gcc: error: unrecognized command-line option ‘-Wcounterexamples’
+	gcc -Wcounterexamples -fno-diagnostics-show-caret: unknown compiler
+	scripts/Kconfig.include:44: Sorry, this compiler is not supported.
+	make[3]: *** [../scripts/kconfig/Makefile:77: syncconfig] Error 1
+	make[2]: *** [../Makefile:616: syncconfig] Error 2
+	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:729: include/config/auto.conf.cmd] Error 2
+	make: *** [Makefile:219: __sub-make] Error 2
+
+    allmodconfig: return code #512:
+	../arch/x86/Makefile:142: CONFIG_X86_X32 enabled but no binutils support
+	gcc: error: unrecognized command-line option ‘-Wcounterexamples’
+	gcc -Wcounterexamples -fno-diagnostics-show-caret: unknown compiler
+	scripts/Kconfig.include:44: Sorry, this compiler is not supported.
+	make[3]: *** [../scripts/kconfig/Makefile:77: syncconfig] Error 1
+	make[2]: *** [../Makefile:616: syncconfig] Error 2
+	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:729: include/config/auto.conf.cmd] Error 2
+	make: *** [Makefile:219: __sub-make] Error 2
+
+patches/0016-media-mtk-vcodec-vdec-remove-redundant-pfb-assignmen.patch:
+
+    allyesconfig: return code #512:
+	../arch/x86/Makefile:142: CONFIG_X86_X32 enabled but no binutils support
+	gcc: error: unrecognized command-line option ‘-Wcounterexamples’
+	gcc -Wcounterexamples -fno-diagnostics-show-caret: unknown compiler
+	scripts/Kconfig.include:44: Sorry, this compiler is not supported.
+	make[3]: *** [../scripts/kconfig/Makefile:77: syncconfig] Error 1
+	make[2]: *** [../Makefile:616: syncconfig] Error 2
+	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:729: include/config/auto.conf.cmd] Error 2
+	make: *** [Makefile:219: __sub-make] Error 2
+
+    allyesconfig: return code #512:
+	../arch/x86/Makefile:142: CONFIG_X86_X32 enabled but no binutils support
+	gcc: error: unrecognized command-line option ‘-Wcounterexamples’
+	gcc -Wcounterexamples -fno-diagnostics-show-caret: unknown compiler
+	scripts/Kconfig.include:44: Sorry, this compiler is not supported.
+	make[3]: *** [../scripts/kconfig/Makefile:77: syncconfig] Error 1
+	make[2]: *** [../Makefile:616: syncconfig] Error 2
+	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:729: include/config/auto.conf.cmd] Error 2
+	make: *** [Makefile:219: __sub-make] Error 2
+
+    allmodconfig: return code #512:
+	../arch/x86/Makefile:142: CONFIG_X86_X32 enabled but no binutils support
+	gcc: error: unrecognized command-line option ‘-Wcounterexamples’
+	gcc -Wcounterexamples -fno-diagnostics-show-caret: unknown compiler
+	scripts/Kconfig.include:44: Sorry, this compiler is not supported.
+	make[3]: *** [../scripts/kconfig/Makefile:77: syncconfig] Error 1
+	make[2]: *** [../Makefile:616: syncconfig] Error 2
+	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:729: include/config/auto.conf.cmd] Error 2
+	make: *** [Makefile:219: __sub-make] Error 2
+
+    allmodconfig: return code #512:
+	../arch/x86/Makefile:142: CONFIG_X86_X32 enabled but no binutils support
+	gcc: error: unrecognized command-line option ‘-Wcounterexamples’
+	gcc -Wcounterexamples -fno-diagnostics-show-caret: unknown compiler
+	scripts/Kconfig.include:44: Sorry, this compiler is not supported.
+	make[3]: *** [../scripts/kconfig/Makefile:77: syncconfig] Error 1
+	make[2]: *** [../Makefile:616: syncconfig] Error 2
+	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:729: include/config/auto.conf.cmd] Error 2
+	make: *** [Makefile:219: __sub-make] Error 2
+
+patches/0017-media-correct-MEDIA_TEST_SUPPORT-help-text.patch:
+
+    allyesconfig: return code #512:
+	../arch/x86/Makefile:142: CONFIG_X86_X32 enabled but no binutils support
+	gcc: error: unrecognized command-line option ‘-Wcounterexamples’
+	gcc -Wcounterexamples -fno-diagnostics-show-caret: unknown compiler
+	scripts/Kconfig.include:44: Sorry, this compiler is not supported.
+	make[3]: *** [../scripts/kconfig/Makefile:77: syncconfig] Error 1
+	make[2]: *** [../Makefile:616: syncconfig] Error 2
+	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:729: include/config/auto.conf.cmd] Error 2
+	make: *** [Makefile:219: __sub-make] Error 2
+
+    allyesconfig: return code #512:
+	../arch/x86/Makefile:142: CONFIG_X86_X32 enabled but no binutils support
+	gcc: error: unrecognized command-line option ‘-Wcounterexamples’
+	gcc -Wcounterexamples -fno-diagnostics-show-caret: unknown compiler
+	scripts/Kconfig.include:44: Sorry, this compiler is not supported.
+	make[3]: *** [../scripts/kconfig/Makefile:77: syncconfig] Error 1
+	make[2]: *** [../Makefile:616: syncconfig] Error 2
+	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:729: include/config/auto.conf.cmd] Error 2
+	make: *** [Makefile:219: __sub-make] Error 2
+
+    allmodconfig: return code #512:
+	../arch/x86/Makefile:142: CONFIG_X86_X32 enabled but no binutils support
+	gcc: error: unrecognized command-line option ‘-Wcounterexamples’
+	gcc -Wcounterexamples -fno-diagnostics-show-caret: unknown compiler
+	scripts/Kconfig.include:44: Sorry, this compiler is not supported.
+	make[3]: *** [../scripts/kconfig/Makefile:77: syncconfig] Error 1
+	make[2]: *** [../Makefile:616: syncconfig] Error 2
+	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:729: include/config/auto.conf.cmd] Error 2
+	make: *** [Makefile:219: __sub-make] Error 2
+
+    allmodconfig: return code #512:
+	../arch/x86/Makefile:142: CONFIG_X86_X32 enabled but no binutils support
+	gcc: error: unrecognized command-line option ‘-Wcounterexamples’
+	gcc -Wcounterexamples -fno-diagnostics-show-caret: unknown compiler
+	scripts/Kconfig.include:44: Sorry, this compiler is not supported.
+	make[3]: *** [../scripts/kconfig/Makefile:77: syncconfig] Error 1
+	make[2]: *** [../Makefile:616: syncconfig] Error 2
+	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:729: include/config/auto.conf.cmd] Error 2
+	make: *** [Makefile:219: __sub-make] Error 2
+
+patches/0018-media-mtk-vpu-Remove-redundant-flush_workqueue-calls.patch:
+
+    allyesconfig: return code #512:
+	../arch/x86/Makefile:142: CONFIG_X86_X32 enabled but no binutils support
+	gcc: error: unrecognized command-line option ‘-Wcounterexamples’
+	gcc -Wcounterexamples -fno-diagnostics-show-caret: unknown compiler
+	scripts/Kconfig.include:44: Sorry, this compiler is not supported.
+	make[3]: *** [../scripts/kconfig/Makefile:77: syncconfig] Error 1
+	make[2]: *** [../Makefile:616: syncconfig] Error 2
+	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:729: include/config/auto.conf.cmd] Error 2
+	make: *** [Makefile:219: __sub-make] Error 2
+
+    allyesconfig: return code #512:
+	../arch/x86/Makefile:142: CONFIG_X86_X32 enabled but no binutils support
+	gcc: error: unrecognized command-line option ‘-Wcounterexamples’
+	gcc -Wcounterexamples -fno-diagnostics-show-caret: unknown compiler
+	scripts/Kconfig.include:44: Sorry, this compiler is not supported.
+	make[3]: *** [../scripts/kconfig/Makefile:77: syncconfig] Error 1
+	make[2]: *** [../Makefile:616: syncconfig] Error 2
+	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:729: include/config/auto.conf.cmd] Error 2
+	make: *** [Makefile:219: __sub-make] Error 2
+
+    allmodconfig: return code #512:
+	../arch/x86/Makefile:142: CONFIG_X86_X32 enabled but no binutils support
+	gcc: error: unrecognized command-line option ‘-Wcounterexamples’
+	gcc -Wcounterexamples -fno-diagnostics-show-caret: unknown compiler
+	scripts/Kconfig.include:44: Sorry, this compiler is not supported.
+	make[3]: *** [../scripts/kconfig/Makefile:77: syncconfig] Error 1
+	make[2]: *** [../Makefile:616: syncconfig] Error 2
+	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:729: include/config/auto.conf.cmd] Error 2
+	make: *** [Makefile:219: __sub-make] Error 2
+
+    allmodconfig: return code #512:
+	../arch/x86/Makefile:142: CONFIG_X86_X32 enabled but no binutils support
+	gcc: error: unrecognized command-line option ‘-Wcounterexamples’
+	gcc -Wcounterexamples -fno-diagnostics-show-caret: unknown compiler
+	scripts/Kconfig.include:44: Sorry, this compiler is not supported.
+	make[3]: *** [../scripts/kconfig/Makefile:77: syncconfig] Error 1
+	make[2]: *** [../Makefile:616: syncconfig] Error 2
+	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:729: include/config/auto.conf.cmd] Error 2
+	make: *** [Makefile:219: __sub-make] Error 2
+
+patches/0019-media-mtk-vcodec-Remove-redundant-flush_workqueue-ca.patch:
+
+    allyesconfig: return code #512:
+	../arch/x86/Makefile:142: CONFIG_X86_X32 enabled but no binutils support
+	gcc: error: unrecognized command-line option ‘-Wcounterexamples’
+	gcc -Wcounterexamples -fno-diagnostics-show-caret: unknown compiler
+	scripts/Kconfig.include:44: Sorry, this compiler is not supported.
+	make[3]: *** [../scripts/kconfig/Makefile:77: syncconfig] Error 1
+	make[2]: *** [../Makefile:616: syncconfig] Error 2
+	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:729: include/config/auto.conf.cmd] Error 2
+	make: *** [Makefile:219: __sub-make] Error 2
+
+    allyesconfig: return code #512:
+	../arch/x86/Makefile:142: CONFIG_X86_X32 enabled but no binutils support
+	gcc: error: unrecognized command-line option ‘-Wcounterexamples’
+	gcc -Wcounterexamples -fno-diagnostics-show-caret: unknown compiler
+	scripts/Kconfig.include:44: Sorry, this compiler is not supported.
+	make[3]: *** [../scripts/kconfig/Makefile:77: syncconfig] Error 1
+	make[2]: *** [../Makefile:616: syncconfig] Error 2
+	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:729: include/config/auto.conf.cmd] Error 2
+	make: *** [Makefile:219: __sub-make] Error 2
+
+    allmodconfig: return code #512:
+	../arch/x86/Makefile:142: CONFIG_X86_X32 enabled but no binutils support
+	gcc: error: unrecognized command-line option ‘-Wcounterexamples’
+	gcc -Wcounterexamples -fno-diagnostics-show-caret: unknown compiler
+	scripts/Kconfig.include:44: Sorry, this compiler is not supported.
+	make[3]: *** [../scripts/kconfig/Makefile:77: syncconfig] Error 1
+	make[2]: *** [../Makefile:616: syncconfig] Error 2
+	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:729: include/config/auto.conf.cmd] Error 2
+	make: *** [Makefile:219: __sub-make] Error 2
+
+    allmodconfig: return code #512:
+	../arch/x86/Makefile:142: CONFIG_X86_X32 enabled but no binutils support
+	gcc: error: unrecognized command-line option ‘-Wcounterexamples’
+	gcc -Wcounterexamples -fno-diagnostics-show-caret: unknown compiler
+	scripts/Kconfig.include:44: Sorry, this compiler is not supported.
+	make[3]: *** [../scripts/kconfig/Makefile:77: syncconfig] Error 1
+	make[2]: *** [../Makefile:616: syncconfig] Error 2
+	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:729: include/config/auto.conf.cmd] Error 2
+	make: *** [Makefile:219: __sub-make] Error 2
+
+
+Error #512 when building PDF docs
+
