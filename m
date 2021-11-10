@@ -2,700 +2,568 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6D0CC44B981
-	for <lists+linux-media@lfdr.de>; Wed, 10 Nov 2021 01:01:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id F208044BA6C
+	for <lists+linux-media@lfdr.de>; Wed, 10 Nov 2021 03:41:55 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230167AbhKJAEL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 9 Nov 2021 19:04:11 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45638 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229550AbhKJAEL (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 9 Nov 2021 19:04:11 -0500
-Received: from mail-wm1-x32e.google.com (mail-wm1-x32e.google.com [IPv6:2a00:1450:4864:20::32e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 33101C061764
-        for <linux-media@vger.kernel.org>; Tue,  9 Nov 2021 16:01:23 -0800 (PST)
-Received: by mail-wm1-x32e.google.com with SMTP id z200so622908wmc.1
-        for <linux-media@vger.kernel.org>; Tue, 09 Nov 2021 16:01:23 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=subject:from:to:cc:references:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language;
-        bh=75ySCRDyvjzi8ujH1E+qJNgup4xQ25gICqNWYdHvk/s=;
-        b=Vy1+fn6mE2j0ZsY3psFTEE9jiwq4CnyiyYGbffH9vKb5X4KtEv5xz8fOWbW+BYKR/1
-         hGbUJ8Z1k0rjlXnWUbuflqhDFHe8891mDETZviI4n1Ui2ub7jO11xaXhSyXTGl+11Xut
-         6f0rnGcuGyzJW4l57WFkr5LaE873mQFUzbU2nYSbUwDCpUhsYkAY6Vz6wrnDK+hCL9aE
-         PQU0fiycxtexD9sUE5HhrqDRxOBG6Lcy4RqaqC4KO9caPU1Kj2ipiWV1u6DzU/Gc7cM+
-         dt88EKYOyP0Q1cSsU8DhaIf0Sfy74Gw2+Y+Fl6LA+w4699/p8VjOymB3BKz7yT/caWuu
-         9DGw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:subject:from:to:cc:references:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language;
-        bh=75ySCRDyvjzi8ujH1E+qJNgup4xQ25gICqNWYdHvk/s=;
-        b=30+AWXx/WvFbpQSA2lviGCozY0VFquawECzo2YF8vjcxE7526umA3VhCRpithenY2b
-         WlVAGEKN2VMoo+8sER/9Bf4EdzfhaQMTWdt1pFmEElyT3LS65eEhg7Doxr6dNejqgvbR
-         vBzzerLFMzj/wgvdwubh9CtCTiWg7Gj+wZAVQvlwPg10fQqBrBbTMFBupdQn9lAAjxGs
-         yfayedqOW01Ge1EwLh5Q53FG6iAj85lSGv0BS5Lgc6A/pjs6BJWLMxHsC0Ssrx3HMnVU
-         LC3SuuCA/dcL9f9v3pi9mF/Ph0nk//3tW2MvoGRyl4a0YA4hL7D/0C/3q2U02EcQg6rI
-         z9iQ==
-X-Gm-Message-State: AOAM532CCQ2chq/uvHgAQFRRVanTkPRw5xwjingmosDXZhbZOxeiOK+u
-        zVfdLqDYyjVCypBjTL+Q90u1osBm5As=
-X-Google-Smtp-Source: ABdhPJy5D63IiwoDRki1MBWJ/T486XvwFzFwkDseiPn75fq6uEB0Q/fEAKsU3/juf+ZW8B3VfP6soA==
-X-Received: by 2002:a05:600c:2107:: with SMTP id u7mr11848642wml.82.1636502481303;
-        Tue, 09 Nov 2021 16:01:21 -0800 (PST)
-Received: from [192.168.0.14] (cpc141996-chfd3-2-0-cust928.12-3.cable.virginm.net. [86.13.91.161])
-        by smtp.gmail.com with ESMTPSA id o25sm4004261wms.17.2021.11.09.16.01.20
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 09 Nov 2021 16:01:20 -0800 (PST)
-Subject: Re: Fwd: Surface Go VCM type (was: Need to pass
- acpi_enforce_resources=lax on the Surface Go (version1))
-From:   Daniel Scally <djrscally@gmail.com>
-To:     Hans de Goede <hdegoede@redhat.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Kate Hsuan <hpa@redhat.com>
-Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
-        libcamera-devel@lists.libcamera.org,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-References: <e2312277-f967-7d3f-5ce9-fbb197d35fd6@gmail.com>
- <3b61bb2d-1136-cf35-ba7a-724da9642855@gmail.com>
- <418dc16a-2a03-7604-a8e2-31c5ddfcf436@redhat.com>
- <58dabc46-211c-844d-3ed3-fd2411936d6d@gmail.com>
- <b0a6a762-3445-7c61-3510-6bd493f8e0fa@redhat.com>
- <d0f969f6-e029-7c28-17ce-79b8228ddaee@gmail.com>
- <b77cf78f-ea5e-adcc-a1b8-8cff77ebf847@gmail.com>
- <bbfb4bd6-871a-eb14-653c-64c05c22e165@redhat.com>
- <29bf3454-2f82-7791-2aa2-c5e1cb5610a5@gmail.com>
-Message-ID: <6ee7c491-4636-8819-c954-dfc6abcfd1a5@gmail.com>
-Date:   Wed, 10 Nov 2021 00:01:19 +0000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+        id S230023AbhKJCok (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 9 Nov 2021 21:44:40 -0500
+Received: from twspam01.aspeedtech.com ([211.20.114.71]:44724 "EHLO
+        twspam01.aspeedtech.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229717AbhKJCok (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 9 Nov 2021 21:44:40 -0500
+Received: from mail.aspeedtech.com ([192.168.0.24])
+        by twspam01.aspeedtech.com with ESMTP id 1AA2HWxr091330;
+        Wed, 10 Nov 2021 10:17:32 +0800 (GMT-8)
+        (envelope-from jammy_huang@aspeedtech.com)
+Received: from [192.168.2.115] (192.168.2.115) by TWMBX02.aspeed.com
+ (192.168.0.24) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Wed, 10 Nov
+ 2021 10:40:50 +0800
+Message-ID: <fb546475-8e61-b847-67c4-466dee57b318@aspeedtech.com>
+Date:   Wed, 10 Nov 2021 10:40:50 +0800
 MIME-Version: 1.0
-In-Reply-To: <29bf3454-2f82-7791-2aa2-c5e1cb5610a5@gmail.com>
-Content-Type: multipart/mixed;
- boundary="------------B01EC9D8B71A46848004E290"
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.3.0
+Subject: Re: [PATCH v3 5/7] media: aspeed: Support aspeed mode to reduce
+ compressed data
 Content-Language: en-US
+To:     Hans Verkuil <hverkuil@xs4all.nl>,
+        "eajames@linux.ibm.com" <eajames@linux.ibm.com>,
+        "mchehab@kernel.org" <mchehab@kernel.org>,
+        "joel@jms.id.au" <joel@jms.id.au>,
+        "andrew@aj.id.au" <andrew@aj.id.au>,
+        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+        "openbmc@lists.ozlabs.org" <openbmc@lists.ozlabs.org>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>,
+        "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+References: <20211022065539.12392-1-jammy_huang@aspeedtech.com>
+ <20211022065539.12392-6-jammy_huang@aspeedtech.com>
+ <75ea5824-e241-6548-bdc2-7ac9ec6346b6@xs4all.nl>
+ <7d6ced4a-fea1-1163-40cb-65b4ea929a51@aspeedtech.com>
+ <34ce1814-349b-d7a9-6118-341eea9ecf5f@xs4all.nl>
+From:   Jammy Huang <jammy_huang@aspeedtech.com>
+In-Reply-To: <34ce1814-349b-d7a9-6118-341eea9ecf5f@xs4all.nl>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [192.168.2.115]
+X-ClientProxiedBy: TWMBX02.aspeed.com (192.168.0.24) To TWMBX02.aspeed.com
+ (192.168.0.24)
+X-DNSRBL: 
+X-MAIL: twspam01.aspeedtech.com 1AA2HWxr091330
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This is a multi-part message in MIME format.
---------------B01EC9D8B71A46848004E290
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
+Dear Hans,
 
-Hi Hans
-
-On 09/11/2021 16:35, Daniel Scally wrote:
->>>> That's not working correctly for me at the moment, but I think this is a
->>>> surmountable problem rather than the wrong approach, so I'm just working
->>>> through the differences to try and get the matching working.
->>> OK, I eventually got this working - the dw9719 registers as
->>> /dev/v4l-subdev7 for me now ... long story short is the attached patch
->>> was needed to make the references work, as the internals of v4l2 aren't
->>> checking for fwnode->secondary. Prior to your latest series as well, an
->>> additional problem was that once the VCMs fwnode was linked to the
->>> sensor's the .complete() callback for ipu3-cio2 would never call
->>> (because it needs ALL the devices for the linked fwnodes to be bound to
->>> do that)...which meant the VCMs never got instantiated, because that was
->>> where that function was called. With your new set separating those
->>> processes it works well, so yes I like that new approach very much :D
->>>
->>>
->>> In the end we don't have to add a call creating the subdev's - it turns
->>> out that v4l2 knows it's part of ipu3-cio2's v4l2-device so it registers
->>> the nodes for the vcm when .complete() is called for that driver. I
->>> still think we should add a bit creating the link to expose to userspace
->>> in match_notify() though.
->>>
->>>
->>> Trying to list controls for the dw9719 with v4l2-ctl -d /dev/v4l-subdev7
->>> -L fails with an IOCTL error, so I have some remedial work on the driver
->>> which I'll do tonight; I'd expect to be able to control focus with
->>> v4l2-ctl -d /dev/v4l-subdev7 -c absolute_focus=n once this is sorted.
->> That is great, thank you so much. I wanted to look into this myself
->> today but I got distracted by other stuff.
+On 2021/11/9 下午 06:17, Hans Verkuil wrote:
+> On 11/9/21 2:56 AM, Jammy Huang wrote:
+>> Dear Hans,
+>>
+>> Thanks for your review.
+>>
+>> On 2021/11/8 下午 05:09, Hans Verkuil wrote:
+>>> On 22/10/2021 08:55, Jammy Huang wrote:
+>>>> aspeed supports differential jpeg format which only compress the parts
+>>>> which are changed. In this way, it reduces both the amount of data to be
+>>>> transferred by network and those to be decoded on the client side.
+>>>>
+>>>> 4 new ctrls are added:
+>>>> * Aspeed JPEG Format: to control aspeed's partial jpeg on/off
+>>>>     0: standard jpeg, 1: aspeed jpeg
+>>> What exactly is 'aspeed jpeg'?
+>> 'aspeed jpeg' is aspeed proprietary compression format. It will compare
+>> the new frame
+>> with previous one to decide which macroblock's data is changed, and only
+>> the changed
+>> macroblock will be compressed. In this way, the amount of compressed data is
+>> significantly reduced. This is similar to the concept of I/P-frames of
+>> video compression.
+> Right, but that makes this a new vendor-specific pixelformat, not a control.
+OK, I will add a new vendor-specific pixelformat for this.
 >
-> No problem; I'll link you the patches for the updated versions of
-> everything once I've sorted the IOCTL error tonight.
+>> For example, the video is static in first 3 frames and then a object in
+>> the video moved in
+>> 4th frame.
+>>
+>>           Frame Content      |    Standard    |    Aspeed
+>> -----------------------------------------------------------------------
+>> 1th                                 |    Full             | Full
+>> 2th    identical with 1st   |    Full             |   none (only about
+>> 12 Bytes for header data)
+>> 3th    identical with 1st   |    Full             |   none
+>> 4th    a object moved     |    Full             |   Only the Macroblocks
+>> that have data changed are compressed
+>>
+>> I have implemented a javascript aspeed decoder in novnc to support this
+>> format, but
+>> the performance isn't good enough. I am working on a web-assembly to
+>> improve it.
+> Is this format documented in a datasheet or something similar, ideally freely
+> available?
+This format is documented in ast2400/2500/2600's datasheet, but it's not 
+freely available.
+>
+>>>> * Aspeed Compression Mode: to control aspeed's compression mode
+>>>>     0: DCT Only, 1: DCT VQ mix 2-color, 2: DCT VQ mix 4-color
+>>>>     This is AST2400 only. It will adapt JPEG or VQ encoding method according
+>>>>     to the context automatically.
+>>> What exactly does this do?
+>>>
+>>> Is this very aspeed-specific, or could this be a standard JPEG control?
+>> Yes, this is aspeed-specific. Its compression algorithm is a modified
+>> JPEG algorithm.
+> Is this specific to the aspeed jpeg format, or also to the 'regular' jpeg format?
 
+It's specific to the aspeed jpeg format. Regular jpeg is based on DCT 
+and doesn't support VQ
+compression
 
-OK, this is running now. With the attached patches on top of your v5
-series and the 4-patch series from earlier today, the dw9719 registers
-as a v4l2 subdev and I can control it with v4l2-ctl -d /dev/v4l-subdev7
--c focus_absolute=1200 (or whatever value). One problem I'm experiencing
-is that the focus position I set isn't maintained; it holds for a couple
-of seconds and then resets to the "normal" focus...this happens when the
-.close() callback for the driver is called, which happens right after
-the control value is applied. All the other VCM drivers in the kernel
-power down on .close() so I did the same, but the behaviour is not
-particularly useful - since removing the power seems to reset it, it
-needs to be on whilst the linked sensor is streaming I suppose. Given
-that ascertaining the state of the sensor probably will require some
-link established between them anyway I guess I will look at that next,
-unless you'd rather do it?
-
-
---------------B01EC9D8B71A46848004E290
-Content-Type: text/x-patch; charset=UTF-8;
- name="0003-media-i2c-Add-driver-for-DW9719-VCM.patch"
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment;
- filename="0003-media-i2c-Add-driver-for-DW9719-VCM.patch"
-
-From 94c27c5e7db05792e45cce1d8f283279d205eed2 Mon Sep 17 00:00:00 2001
-From: Daniel Scally <djrscally@gmail.com>
-Date: Thu, 28 Oct 2021 21:55:16 +0100
-Subject: [PATCH 3/3] media: i2c: Add driver for DW9719 VCM
-
-Add a driver for the DW9719 VCM. The driver creates a v4l2 subdevice
-and registers a control to set the desired focus.
-
-Signed-off-by: Daniel Scally <djrscally@gmail.com>
----
- MAINTAINERS                |   7 +
- drivers/media/i2c/Kconfig  |  11 ++
- drivers/media/i2c/Makefile |   1 +
- drivers/media/i2c/dw9719.c | 386 +++++++++++++++++++++++++++++++++++++
- 4 files changed, 405 insertions(+)
- create mode 100644 drivers/media/i2c/dw9719.c
-
-diff --git a/MAINTAINERS b/MAINTAINERS
-index df69dfe482e7..b7fcfc20d68f 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -5688,6 +5688,13 @@ T:	git git://linuxtv.org/media_tree.git
- F:	Documentation/devicetree/bindings/media/i2c/dongwoon,dw9714.txt
- F:	drivers/media/i2c/dw9714.c
- 
-+DONGWOON DW9714 LENS VOICE COIL DRIVER
-+M:	Daniel Scally <djrscally@gmail.com>
-+L:	linux-media@vger.kernel.org
-+S:	Maintained
-+T:	git git://linuxtv.org/media_tree.git
-+F:	drivers/media/i2c/dw9719.c
-+
- DONGWOON DW9768 LENS VOICE COIL DRIVER
- M:	Dongchun Zhu <dongchun.zhu@mediatek.com>
- L:	linux-media@vger.kernel.org
-diff --git a/drivers/media/i2c/Kconfig b/drivers/media/i2c/Kconfig
-index d6a5d4ca439a..89a3cc74e352 100644
---- a/drivers/media/i2c/Kconfig
-+++ b/drivers/media/i2c/Kconfig
-@@ -1454,6 +1454,17 @@ config VIDEO_DW9714
- 	  capability. This is designed for linear control of
- 	  voice coil motors, controlled via I2C serial interface.
- 
-+config VIDEO_DW9719
-+	tristate "DW9719 lens voice coil support"
-+	depends on I2C && VIDEO_V4L2
-+	select MEDIA_CONTROLLER
-+	select VIDEO_V4L2_SUBDEV_API
-+	select V4L2_ASYNC
-+	help
-+	  This is a driver for the DW9719 camera lens voice coil.
-+	  This is designed for linear control of  voice coil motors,
-+	  controlled via I2C serial interface.
-+
- config VIDEO_DW9768
- 	tristate "DW9768 lens voice coil support"
- 	depends on I2C && VIDEO_V4L2
-diff --git a/drivers/media/i2c/Makefile b/drivers/media/i2c/Makefile
-index 4d4fe08d7a6a..2bbad5804711 100644
---- a/drivers/media/i2c/Makefile
-+++ b/drivers/media/i2c/Makefile
-@@ -24,6 +24,7 @@ obj-$(CONFIG_VIDEO_SAA6752HS) += saa6752hs.o
- obj-$(CONFIG_VIDEO_AD5820)  += ad5820.o
- obj-$(CONFIG_VIDEO_AK7375)  += ak7375.o
- obj-$(CONFIG_VIDEO_DW9714)  += dw9714.o
-+obj-$(CONFIG_VIDEO_DW9719)  += dw9719.o
- obj-$(CONFIG_VIDEO_DW9768)  += dw9768.o
- obj-$(CONFIG_VIDEO_DW9807_VCM)  += dw9807-vcm.o
- obj-$(CONFIG_VIDEO_ADV7170) += adv7170.o
-diff --git a/drivers/media/i2c/dw9719.c b/drivers/media/i2c/dw9719.c
-new file mode 100644
-index 000000000000..047f7636efde
---- /dev/null
-+++ b/drivers/media/i2c/dw9719.c
-@@ -0,0 +1,386 @@
-+// SPDX-License-Identifier: GPL-2.0
-+// Copyright (c) 2012 Intel Corporation
-+
-+#include <linux/delay.h>
-+#include <linux/i2c.h>
-+#include <linux/pm_runtime.h>
-+#include <linux/regulator/consumer.h>
-+#include <linux/types.h>
-+
-+#include <media/v4l2-common.h>
-+#include <media/v4l2-ctrls.h>
-+#include <media/v4l2-subdev.h>
-+
-+#define DW9719_MAX_FOCUS_POS	1023
-+#define DELAY_PER_STEP_NS	1000000
-+#define DELAY_MAX_PER_STEP_NS	(1000000 * 1023)
-+
-+#define DW9719_INFO			0
-+#define DW9719_ID			0xF1
-+#define DW9719_CONTROL			2
-+#define DW9719_VCM_CURRENT		3
-+
-+#define DW9719_MODE			6
-+#define DW9719_VCM_FREQ			7
-+
-+#define DW9719_MODE_SAC3		0x40
-+#define DW9719_DEFAULT_VCM_FREQ		0x60
-+#define DW9719_ENABLE_RINGING		0x02
-+
-+#define NUM_REGULATORS			2
-+
-+#define to_dw9719_device(x) container_of(x, struct dw9719_device, sd)
-+
-+struct dw9719_device {
-+	struct device *dev;
-+	struct i2c_client *client;
-+	struct regulator_bulk_data regulators[NUM_REGULATORS];
-+	struct v4l2_subdev sd;
-+
-+	struct dw9719_v4l2_ctrls {
-+		struct v4l2_ctrl_handler handler;
-+		struct v4l2_ctrl *focus;
-+	} ctrls;
-+};
-+
-+static int dw9719_i2c_rd8(struct i2c_client *client, u8 reg, u8 *val)
-+{
-+	struct i2c_msg msg[2];
-+	u8 buf[2] = { reg };
-+	int ret;
-+
-+	msg[0].addr = client->addr;
-+	msg[0].flags = 0;
-+	msg[0].len = 1;
-+	msg[0].buf = buf;
-+
-+	msg[1].addr = client->addr;
-+	msg[1].flags = I2C_M_RD;
-+	msg[1].len = 1;
-+	msg[1].buf = &buf[1];
-+	*val = 0;
-+
-+	ret = i2c_transfer(client->adapter, msg, 2);
-+	if (ret < 0)
-+		goto err;
-+
-+	*val = buf[1];
-+
-+	return 0;
-+
-+err:
-+	return ret;
-+}
-+
-+static int dw9719_i2c_wr8(struct i2c_client *client, u8 reg, u8 val)
-+{
-+	struct i2c_msg msg;
-+	int ret;
-+
-+	u8 buf[2] = { reg, val };
-+
-+	msg.addr = client->addr;
-+	msg.flags = 0;
-+	msg.len = sizeof(buf);
-+	msg.buf = buf;
-+
-+	ret = i2c_transfer(client->adapter, &msg, 1);
-+
-+	return ret < 0 ? ret : 0;
-+}
-+
-+static int dw9719_i2c_wr16(struct i2c_client *client, u8 reg, u16 val)
-+{
-+	struct i2c_msg msg;
-+	u8 buf[3] = { reg, (u8)(val >> 8), (u8)(val & 0xff)};
-+	int ret;
-+
-+	msg.addr = client->addr;
-+	msg.flags = 0;
-+	msg.len = sizeof(buf);
-+	msg.buf = buf;
-+
-+	ret = i2c_transfer(client->adapter, &msg, 1);
-+
-+	return ret < 0 ? ret : 0;
-+}
-+
-+static int dw9719_detect(struct dw9719_device *dw9719)
-+{
-+	int ret;
-+	u8 val;
-+
-+	ret = dw9719_i2c_rd8(dw9719->client, DW9719_INFO, &val);
-+	if (ret < 0)
-+		return ret;
-+
-+	if (val != DW9719_ID) {
-+		dev_err(dw9719->dev, "Failed to detect correct id\n");
-+		ret = -ENXIO;
-+	}
-+
-+	return 0;
-+}
-+
-+static int dw9719_power_down(struct dw9719_device *dw9719)
-+{
-+	return regulator_bulk_disable(NUM_REGULATORS, dw9719->regulators);
-+}
-+
-+static int dw9719_power_up(struct dw9719_device *dw9719)
-+{
-+	int ret;
-+
-+	ret = regulator_bulk_enable(NUM_REGULATORS, dw9719->regulators);
-+	if (ret)
-+		return ret;
-+
-+	/* Jiggle SCL pin to wake up device */
-+	ret = dw9719_i2c_wr8(dw9719->client, DW9719_CONTROL, 1);
-+
-+	/* Need 100us to transit from SHUTDOWN to STANDBY*/
-+	usleep_range(100, 1000);
-+
-+	ret = dw9719_i2c_wr8(dw9719->client, DW9719_CONTROL,
-+			     DW9719_ENABLE_RINGING);
-+	if (ret < 0)
-+		goto fail_powerdown;
-+
-+	ret = dw9719_i2c_wr8(dw9719->client, DW9719_MODE, DW9719_MODE_SAC3);
-+	if (ret < 0)
-+		goto fail_powerdown;
-+
-+	ret = dw9719_i2c_wr8(dw9719->client, DW9719_VCM_FREQ,
-+			     DW9719_DEFAULT_VCM_FREQ);
-+	if (ret < 0)
-+		goto fail_powerdown;
-+
-+	return 0;
-+
-+fail_powerdown:
-+	dw9719_power_down(dw9719);
-+	return ret;
-+}
-+
-+static int __maybe_unused dw9719_suspend(struct device *dev)
-+{
-+	struct v4l2_subdev *sd = dev_get_drvdata(dev);
-+	struct dw9719_device *dw9719 = to_dw9719_device(sd);
-+
-+	return dw9719_power_down(dw9719);
-+}
-+
-+static int __maybe_unused dw9719_resume(struct device *dev)
-+{
-+	struct v4l2_subdev *sd = dev_get_drvdata(dev);
-+	struct dw9719_device *dw9719 = to_dw9719_device(sd);
-+
-+	return dw9719_power_up(dw9719);
-+}
-+
-+static int dw9719_t_focus_abs(struct dw9719_device *dw9719, s32 value)
-+{
-+	int ret;
-+
-+	value = clamp(value, 0, DW9719_MAX_FOCUS_POS);
-+	ret = dw9719_i2c_wr16(dw9719->client, DW9719_VCM_CURRENT, value);
-+	if (ret < 0)
-+		return ret;
-+
-+	return 0;
-+}
-+
-+static int dw9719_set_ctrl(struct v4l2_ctrl *ctrl)
-+{
-+	struct dw9719_device *dw9719 = container_of(ctrl->handler,
-+						    struct dw9719_device,
-+						    ctrls.handler);
-+	int ret;
-+
-+	/* Only apply changes to the controls if the device is powered up */
-+	if (!pm_runtime_get_if_in_use(dw9719->dev))
-+		return 0;
-+
-+	switch (ctrl->id) {
-+	case V4L2_CID_FOCUS_ABSOLUTE:
-+		ret = dw9719_t_focus_abs(dw9719, ctrl->val);
-+		break;
-+	default:
-+		ret = -EINVAL;
-+	}
-+
-+	pm_runtime_put(dw9719->dev);
-+
-+	return ret;
-+}
-+
-+static const struct v4l2_ctrl_ops dw9719_ctrl_ops = {
-+	.s_ctrl = dw9719_set_ctrl,
-+};
-+
-+static int dw9719_open(struct v4l2_subdev *sd, struct v4l2_subdev_fh *fh)
-+{
-+	return pm_runtime_resume_and_get(sd->dev);
-+}
-+
-+static int dw9719_close(struct v4l2_subdev *sd, struct v4l2_subdev_fh *fh)
-+{
-+	pm_runtime_put(sd->dev);
-+
-+	return 0;
-+}
-+
-+static const struct v4l2_subdev_internal_ops dw9719_internal_ops = {
-+	.open = dw9719_open,
-+	.close = dw9719_close,
-+};
-+
-+static int dw9719_init_controls(struct dw9719_device *dw9719)
-+{
-+	const struct v4l2_ctrl_ops *ops = &dw9719_ctrl_ops;
-+	int ret;
-+
-+	ret = v4l2_ctrl_handler_init(&dw9719->ctrls.handler, 1);
-+	if (ret)
-+		return ret;
-+
-+	dw9719->ctrls.focus = v4l2_ctrl_new_std(&dw9719->ctrls.handler, ops,
-+						V4L2_CID_FOCUS_ABSOLUTE, 0,
-+						DW9719_MAX_FOCUS_POS, 1, 0);
-+
-+	if (dw9719->ctrls.handler.error) {
-+		dev_err(dw9719->dev, "Error initialising v4l2 ctrls\n");
-+		ret = dw9719->ctrls.handler.error;
-+		goto err_free_handler;
-+	}
-+
-+	dw9719->sd.ctrl_handler = &dw9719->ctrls.handler;
-+
-+	return ret;
-+
-+err_free_handler:
-+	v4l2_ctrl_handler_free(&dw9719->ctrls.handler);
-+	return ret;
-+}
-+
-+static const struct v4l2_subdev_ops dw9719_ops = { };
-+
-+static int dw9719_probe(struct i2c_client *client)
-+{
-+	struct dw9719_device *dw9719;
-+	int ret;
-+
-+	dw9719 = devm_kzalloc(&client->dev, sizeof(*dw9719), GFP_KERNEL);
-+	if (!dw9719)
-+		return -ENOMEM;
-+
-+	dw9719->client = client;
-+	dw9719->dev = &client->dev;
-+
-+	dw9719->regulators[0].supply = "vdd";
-+	/*
-+	 * The DW9719 has only the 1 VDD voltage input, but some PMICs such as
-+	 * the TPS68470 PMIC have I2C passthrough capability, to disconnect the
-+	 * sensor's I2C pins from the I2C bus when the sensors VSIO (Sensor-IO)
-+	 * is off, because some sensors then short these pins to ground;
-+	 * and the DW9719 might sit behind this passthrough, this it needs to
-+	 * enable VSIO as that will also enable the I2C passthrough.
-+	 */
-+	dw9719->regulators[1].supply = "vsio";
-+
-+	ret = devm_regulator_bulk_get(&client->dev, NUM_REGULATORS, dw9719->regulators);
-+	if (ret)
-+		return dev_err_probe(&client->dev, ret, "getting regulators\n");
-+
-+	v4l2_i2c_subdev_init(&dw9719->sd, client, &dw9719_ops);
-+	dw9719->sd.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE;
-+	dw9719->sd.internal_ops = &dw9719_internal_ops;
-+
-+	ret = dw9719_init_controls(dw9719);
-+	if (ret)
-+		return ret;
-+
-+	ret = media_entity_pads_init(&dw9719->sd.entity, 0, NULL);
-+	if (ret < 0)
-+		goto err_free_ctrl_handler;
-+
-+	dw9719->sd.entity.function = MEDIA_ENT_F_LENS;
-+
-+	/*
-+	 * We need the driver to work in the event that pm runtime is disable in
-+	 * the kernel, so power up and verify the chip now. In the event that
-+	 * runtime pm is disabled this will leave the chip on, so that the lens
-+	 * will work.
-+	 */
-+
-+	ret = dw9719_power_up(dw9719);
-+	if (ret)
-+		goto err_cleanup_media;
-+
-+	ret = dw9719_detect(dw9719);
-+	if (ret)
-+		goto err_powerdown;
-+
-+	pm_runtime_set_active(&client->dev);
-+	pm_runtime_get_noresume(&client->dev);
-+	pm_runtime_enable(&client->dev);
-+
-+	ret = v4l2_async_register_subdev(&dw9719->sd);
-+	if (ret < 0)
-+		goto err_pm_runtime;
-+
-+	pm_runtime_set_autosuspend_delay(&client->dev, 1000);
-+	pm_runtime_use_autosuspend(&client->dev);
-+	pm_runtime_put_autosuspend(&client->dev);
-+
-+	return ret;
-+
-+err_pm_runtime:
-+	pm_runtime_disable(&client->dev);
-+	pm_runtime_put_noidle(&client->dev);
-+err_powerdown:
-+	dw9719_power_down(dw9719);
-+err_cleanup_media:
-+	media_entity_cleanup(&dw9719->sd.entity);
-+err_free_ctrl_handler:
-+	v4l2_ctrl_handler_free(&dw9719->ctrls.handler);
-+
-+	return ret;
-+}
-+
-+static int dw9719_remove(struct i2c_client *client)
-+{
-+	struct v4l2_subdev *sd = i2c_get_clientdata(client);
-+	struct dw9719_device *dw9719 = container_of(sd, struct dw9719_device,
-+						    sd);
-+
-+	v4l2_async_unregister_subdev(sd);
-+	v4l2_ctrl_handler_free(&dw9719->ctrls.handler);
-+	media_entity_cleanup(&dw9719->sd.entity);
-+
-+	return 0;
-+}
-+
-+static const struct i2c_device_id dw9719_id_table[] = {
-+	{ "dw9719" },
-+	{ }
-+};
-+MODULE_DEVICE_TABLE(i2c, dw9719_id_table);
-+
-+static const struct dev_pm_ops dw9719_pm_ops = {
-+	SET_RUNTIME_PM_OPS(dw9719_suspend, dw9719_resume, NULL)
-+};
-+
-+static struct i2c_driver dw9719_i2c_driver = {
-+	.driver = {
-+		.name = "dw9719",
-+		.pm = &dw9719_pm_ops,
-+	},
-+	.probe_new = dw9719_probe,
-+	.remove = dw9719_remove,
-+	.id_table = dw9719_id_table,
-+};
-+module_i2c_driver(dw9719_i2c_driver);
-+
-+MODULE_DESCRIPTION("DW9719 VCM Driver");
-+MODULE_LICENSE("GPL");
+>
+> Regards,
+>
+> 	Hans
+>
+>>>> * Aspeed HQ Mode: to control aspeed's HQ mode on/off
+>>>>     0: disabled, 1: enabled
+>>>> * Aspeed HQ Quality: to control the quality of aspeed's HQ mode
+>>>>     only useful if Aspeed HQ mode is enabled
+>>> Can these two controls be replaced by the existing V4L2_CID_JPEG_COMPRESSION_QUALITY
+>>> control? I.e.: range 1..12 is non-HQ, 13-24 is HQ. Note that the spec recommends
+>>> that value 0 is not used in the V4L2_CID_JPEG_COMPRESSION_QUALITY range:
+>>>
+>>> https://hverkuil.home.xs4all.nl/spec/userspace-api/v4l/ext-ctrls-jpeg.html
+>> HQ mode is aspeed-specific and not related to stanard jpeg's compression
+>> quality. These two
+>> quality attribute can be controlled independently. So, I think it is not
+>> proper to integrate them
+>> together.
+>>
+>> Noted, I will modified the min value of these 2 quality control.
+>>
+>>>> Aspeed JPEG Format requires an additional buffer, called bcd, to store
+>>>> the information about which macro block in the new frame is different
+>>>> from the previous one.
+>>>>
+>>>> To have bcd correctly working, we need to swap the buffers for src0/1 to
+>>>> make src1 refer to previous frame and src0 to the coming new frame.
+>>>>
+>>>> Signed-off-by: Jammy Huang <jammy_huang@aspeedtech.com>
+>>>> ---
+>>>>    drivers/media/platform/aspeed-video.c | 222 +++++++++++++++++++++++---
+>>>>    1 file changed, 203 insertions(+), 19 deletions(-)
+>>>>
+>>>> diff --git a/drivers/media/platform/aspeed-video.c b/drivers/media/platform/aspeed-video.c
+>>>> index cafbffe1ef69..94d17dee6f3d 100644
+>>>> --- a/drivers/media/platform/aspeed-video.c
+>>>> +++ b/drivers/media/platform/aspeed-video.c
+>>>> @@ -32,6 +32,12 @@
+>>>>    #include <media/videobuf2-dma-contig.h>
+>>>>    #include <linux/videodev2.h>
+>>>>    
+>>>> +#define ASPEED_CID_CUSTOM_BASE			(V4L2_CID_USER_BASE | 0xf000)
+>>> Driver-specific control ID ranges must be reserved in include/uapi/linux/v4l2-controls.h.
+>>> See e.g. V4L2_CID_USER_ALLEGRO_BASE.
+>> OKay, I will update in the next patch.
+>>> Regards,
+>>>
+>>> 	Hans
+>>>
+>>>> +#define V4L2_CID_ASPEED_FORMAT			(ASPEED_CID_CUSTOM_BASE  + 1)
+>>>> +#define V4L2_CID_ASPEED_COMPRESSION_MODE	(ASPEED_CID_CUSTOM_BASE  + 2)
+>>>> +#define V4L2_CID_ASPEED_HQ_MODE			(ASPEED_CID_CUSTOM_BASE  + 3)
+>>>> +#define V4L2_CID_ASPEED_HQ_JPEG_QUALITY		(ASPEED_CID_CUSTOM_BASE  + 4)
+>>>> +
+>>>>    #define DEVICE_NAME			"aspeed-video"
+>>>>    
+>>>>    #define ASPEED_VIDEO_JPEG_NUM_QUALITIES	12
+>>>> @@ -55,6 +61,7 @@
+>>>>    
+>>>>    #define VE_MAX_SRC_BUFFER_SIZE		0x8ca000 /* 1920 * 1200, 32bpp */
+>>>>    #define VE_JPEG_HEADER_SIZE		0x006000 /* 512 * 12 * 4 */
+>>>> +#define VE_BCD_BUFF_SIZE		0x100000
+>>>>    
+>>>>    #define VE_PROTECTION_KEY		0x000
+>>>>    #define  VE_PROTECTION_KEY_UNLOCK	0x1a038aa8
+>>>> @@ -108,6 +115,13 @@
+>>>>    #define VE_SCALING_FILTER2		0x020
+>>>>    #define VE_SCALING_FILTER3		0x024
+>>>>    
+>>>> +#define VE_BCD_CTRL			0x02C
+>>>> +#define  VE_BCD_CTRL_EN_BCD		BIT(0)
+>>>> +#define  VE_BCD_CTRL_EN_ABCD		BIT(1)
+>>>> +#define  VE_BCD_CTRL_EN_CB		BIT(2)
+>>>> +#define  VE_BCD_CTRL_THR		GENMASK(23, 16)
+>>>> +#define  VE_BCD_CTRL_ABCD_THR		GENMASK(31, 24)
+>>>> +
+>>>>    #define VE_CAP_WINDOW			0x030
+>>>>    #define VE_COMP_WINDOW			0x034
+>>>>    #define VE_COMP_PROC_OFFSET		0x038
+>>>> @@ -116,6 +130,7 @@
+>>>>    #define VE_SRC0_ADDR			0x044
+>>>>    #define VE_SRC_SCANLINE_OFFSET		0x048
+>>>>    #define VE_SRC1_ADDR			0x04c
+>>>> +#define VE_BCD_ADDR			0x050
+>>>>    #define VE_COMP_ADDR			0x054
+>>>>    
+>>>>    #define VE_STREAM_BUF_SIZE		0x058
+>>>> @@ -136,6 +151,8 @@
+>>>>    #define  VE_COMP_CTRL_HQ_DCT_CHR	GENMASK(26, 22)
+>>>>    #define  VE_COMP_CTRL_HQ_DCT_LUM	GENMASK(31, 27)
+>>>>    
+>>>> +#define VE_CB_ADDR			0x06C
+>>>> +
+>>>>    #define VE_OFFSET_COMP_STREAM		0x078
+>>>>    
+>>>>    #define VE_JPEG_COMP_SIZE_READ_BACK	0x084
+>>>> @@ -243,10 +260,15 @@ struct aspeed_video {
+>>>>    	unsigned int max_compressed_size;
+>>>>    	struct aspeed_video_addr srcs[2];
+>>>>    	struct aspeed_video_addr jpeg;
+>>>> +	struct aspeed_video_addr bcd;
+>>>>    
+>>>>    	bool yuv420;
+>>>> +	bool partial_jpeg;
+>>>> +	bool hq_mode;
+>>>>    	unsigned int frame_rate;
+>>>>    	unsigned int jpeg_quality;
+>>>> +	unsigned int jpeg_hq_quality;
+>>>> +	unsigned int compression_mode;
+>>>>    
+>>>>    	unsigned int frame_bottom;
+>>>>    	unsigned int frame_left;
+>>>> @@ -258,6 +280,13 @@ struct aspeed_video {
+>>>>    
+>>>>    #define to_aspeed_video(x) container_of((x), struct aspeed_video, v4l2_dev)
+>>>>    
+>>>> +static bool aspeed_video_alloc_buf(struct aspeed_video *video,
+>>>> +				   struct aspeed_video_addr *addr,
+>>>> +				   unsigned int size);
+>>>> +
+>>>> +static void aspeed_video_free_buf(struct aspeed_video *video,
+>>>> +				  struct aspeed_video_addr *addr);
+>>>> +
+>>>>    static const u32 aspeed_video_jpeg_header[ASPEED_VIDEO_JPEG_HEADER_SIZE] = {
+>>>>    	0xe0ffd8ff, 0x464a1000, 0x01004649, 0x60000101, 0x00006000, 0x0f00feff,
+>>>>    	0x00002d05, 0x00000000, 0x00000000, 0x00dbff00
+>>>> @@ -492,6 +521,20 @@ static int aspeed_video_start_frame(struct aspeed_video *video)
+>>>>    		return -EBUSY;
+>>>>    	}
+>>>>    
+>>>> +	if (video->partial_jpeg && !video->bcd.size) {
+>>>> +		if (!aspeed_video_alloc_buf(video, &video->bcd,
+>>>> +					    VE_BCD_BUFF_SIZE)) {
+>>>> +			dev_err(video->dev, "Failed to allocate BCD buffer\n");
+>>>> +			dev_err(video->dev, "don't start frame\n");
+>>>> +			return -ENOMEM;
+>>>> +		}
+>>>> +		aspeed_video_write(video, VE_BCD_ADDR, video->bcd.dma);
+>>>> +		v4l2_dbg(1, debug, &video->v4l2_dev, "bcd addr(%#x) size(%d)\n",
+>>>> +			video->bcd.dma, video->bcd.size);
+>>>> +	} else if (!video->partial_jpeg && video->bcd.size) {
+>>>> +		aspeed_video_free_buf(video, &video->bcd);
+>>>> +	}
+>>>> +
+>>>>    	spin_lock_irqsave(&video->lock, flags);
+>>>>    	buf = list_first_entry_or_null(&video->buffers,
+>>>>    				       struct aspeed_video_buffer, link);
+>>>> @@ -635,6 +678,7 @@ static irqreturn_t aspeed_video_irq(int irq, void *arg)
+>>>>    
+>>>>    	if (sts & VE_INTERRUPT_COMP_COMPLETE) {
+>>>>    		struct aspeed_video_buffer *buf;
+>>>> +		bool empty = true;
+>>>>    		u32 frame_size = aspeed_video_read(video,
+>>>>    						   VE_JPEG_COMP_SIZE_READ_BACK);
+>>>>    
+>>>> @@ -648,13 +692,23 @@ static irqreturn_t aspeed_video_irq(int irq, void *arg)
+>>>>    		if (buf) {
+>>>>    			vb2_set_plane_payload(&buf->vb.vb2_buf, 0, frame_size);
+>>>>    
+>>>> -			if (!list_is_last(&buf->link, &video->buffers)) {
+>>>> +			/*
+>>>> +			 * partial_jpeg requires continuous update.
+>>>> +			 * On the contrary, standard jpeg can keep last buffer
+>>>> +			 * to always have the latest result.
+>>>> +			 */
+>>>> +			if (!video->partial_jpeg &&
+>>>> +			    list_is_last(&buf->link, &video->buffers)) {
+>>>> +				empty = false;
+>>>> +				v4l2_warn(&video->v4l2_dev, "skip to keep last frame updated\n");
+>>>> +			} else {
+>>>>    				buf->vb.vb2_buf.timestamp = ktime_get_ns();
+>>>>    				buf->vb.sequence = video->sequence++;
+>>>>    				buf->vb.field = V4L2_FIELD_NONE;
+>>>>    				vb2_buffer_done(&buf->vb.vb2_buf,
+>>>>    						VB2_BUF_STATE_DONE);
+>>>>    				list_del(&buf->link);
+>>>> +				empty = list_empty(&video->buffers);
+>>>>    			}
+>>>>    		}
+>>>>    		spin_unlock(&video->lock);
+>>>> @@ -668,7 +722,18 @@ static irqreturn_t aspeed_video_irq(int irq, void *arg)
+>>>>    		aspeed_video_write(video, VE_INTERRUPT_STATUS,
+>>>>    				   VE_INTERRUPT_COMP_COMPLETE);
+>>>>    		sts &= ~VE_INTERRUPT_COMP_COMPLETE;
+>>>> -		if (test_bit(VIDEO_STREAMING, &video->flags) && buf)
+>>>> +
+>>>> +		// swap src buffer if partial_jpeg
+>>>> +		if (video->partial_jpeg) {
+>>>> +			u32 src0, src1;
+>>>> +
+>>>> +			src0 = aspeed_video_read(video, VE_SRC0_ADDR);
+>>>> +			src1 = aspeed_video_read(video, VE_SRC1_ADDR);
+>>>> +			aspeed_video_write(video, VE_SRC0_ADDR, src1);
+>>>> +			aspeed_video_write(video, VE_SRC1_ADDR, src0);
+>>>> +		}
+>>>> +
+>>>> +		if (test_bit(VIDEO_STREAMING, &video->flags) && !empty)
+>>>>    			aspeed_video_start_frame(video);
+>>>>    	}
+>>>>    
+>>>> @@ -931,10 +996,14 @@ static void aspeed_video_set_resolution(struct aspeed_video *video)
+>>>>    				   FIELD_PREP(VE_TGS_FIRST, video->frame_top) |
+>>>>    				   FIELD_PREP(VE_TGS_LAST,
+>>>>    					      video->frame_bottom + 1));
+>>>> -		aspeed_video_update(video, VE_CTRL, 0, VE_CTRL_INT_DE);
+>>>> +		aspeed_video_update(video, VE_CTRL,
+>>>> +				    VE_CTRL_INT_DE | VE_CTRL_DIRECT_FETCH,
+>>>> +				    VE_CTRL_INT_DE);
+>>>>    	} else {
+>>>>    		v4l2_dbg(1, debug, &video->v4l2_dev, "Capture: Direct Mode\n");
+>>>> -		aspeed_video_update(video, VE_CTRL, 0, VE_CTRL_DIRECT_FETCH);
+>>>> +		aspeed_video_update(video, VE_CTRL,
+>>>> +				    VE_CTRL_INT_DE | VE_CTRL_DIRECT_FETCH,
+>>>> +				    VE_CTRL_DIRECT_FETCH);
+>>>>    	}
+>>>>    
+>>>>    	size *= 4;
+>>>> @@ -969,35 +1038,70 @@ static void aspeed_video_set_resolution(struct aspeed_video *video)
+>>>>    
+>>>>    static void aspeed_video_update_regs(struct aspeed_video *video)
+>>>>    {
+>>>> -	u32 comp_ctrl = VE_COMP_CTRL_RSVD |
+>>>> -		FIELD_PREP(VE_COMP_CTRL_DCT_LUM, video->jpeg_quality) |
+>>>> -		FIELD_PREP(VE_COMP_CTRL_DCT_CHR, video->jpeg_quality | 0x10);
+>>>> +	static const char * const compress_mode_str[] = {"DCT Only",
+>>>> +		"DCT VQ mix 2-color", "DCT VQ mix 4-color"};
+>>>> +	u32 comp_ctrl =	FIELD_PREP(VE_COMP_CTRL_DCT_LUM, video->jpeg_quality) |
+>>>> +		FIELD_PREP(VE_COMP_CTRL_DCT_CHR, video->jpeg_quality | 0x10) |
+>>>> +		FIELD_PREP(VE_COMP_CTRL_EN_HQ, video->hq_mode) |
+>>>> +		FIELD_PREP(VE_COMP_CTRL_HQ_DCT_LUM, video->jpeg_hq_quality) |
+>>>> +		FIELD_PREP(VE_COMP_CTRL_HQ_DCT_CHR, video->jpeg_hq_quality |
+>>>> +			   0x10);
+>>>>    	u32 ctrl = 0;
+>>>> -	u32 seq_ctrl = VE_SEQ_CTRL_JPEG_MODE;
+>>>> +	u32 seq_ctrl = 0;
+>>>>    
+>>>> -	v4l2_dbg(1, debug, &video->v4l2_dev, "framerate(%d)\n",
+>>>> -		 video->frame_rate);
+>>>> -	v4l2_dbg(1, debug, &video->v4l2_dev, "subsample(%s)\n",
+>>>> +	v4l2_dbg(1, debug, &video->v4l2_dev, "framerate(%d)\n", video->frame_rate);
+>>>> +	v4l2_dbg(1, debug, &video->v4l2_dev, "jpeg format(%s) subsample(%s)\n",
+>>>> +		 video->partial_jpeg ? "partial" : "standard",
+>>>>    		 video->yuv420 ? "420" : "444");
+>>>> -	v4l2_dbg(1, debug, &video->v4l2_dev, "compression quality(%d)\n",
+>>>> -		 video->jpeg_quality);
+>>>> +	v4l2_dbg(1, debug, &video->v4l2_dev, "compression quality(%d) hq(%s) hq_quality(%d)\n",
+>>>> +		 video->jpeg_quality, video->hq_mode ? "on" : "off",
+>>>> +		 video->jpeg_hq_quality);
+>>>> +	v4l2_dbg(1, debug, &video->v4l2_dev, "compression mode(%s)\n",
+>>>> +		 compress_mode_str[video->compression_mode]);
+>>>> +
+>>>> +	if (video->partial_jpeg)
+>>>> +		aspeed_video_update(video, VE_BCD_CTRL, 0, VE_BCD_CTRL_EN_BCD);
+>>>> +	else
+>>>> +		aspeed_video_update(video, VE_BCD_CTRL, VE_BCD_CTRL_EN_BCD, 0);
+>>>>    
+>>>>    	if (video->frame_rate)
+>>>>    		ctrl |= FIELD_PREP(VE_CTRL_FRC, video->frame_rate);
+>>>>    
+>>>> +	if (!video->partial_jpeg) {
+>>>> +		comp_ctrl &= ~FIELD_PREP(VE_COMP_CTRL_EN_HQ, video->hq_mode);
+>>>> +		seq_ctrl |= VE_SEQ_CTRL_JPEG_MODE;
+>>>> +	}
+>>>> +
+>>>>    	if (video->yuv420)
+>>>>    		seq_ctrl |= VE_SEQ_CTRL_YUV420;
+>>>>    
+>>>>    	if (video->jpeg.virt)
+>>>>    		aspeed_video_update_jpeg_table(video->jpeg.virt, video->yuv420);
+>>>>    
+>>>> +#ifdef CONFIG_MACH_ASPEED_G4
+>>>> +	switch (video->compression_mode) {
+>>>> +	case 0:	//DCT only
+>>>> +		comp_ctrl |= VE_COMP_CTRL_VQ_DCT_ONLY;
+>>>> +		break;
+>>>> +	case 1:	//DCT VQ mix 2-color
+>>>> +		comp_ctrl &= ~(VE_COMP_CTRL_VQ_4COLOR | VE_COMP_CTRL_VQ_DCT_ONLY);
+>>>> +		break;
+>>>> +	case 2:	//DCT VQ mix 4-color
+>>>> +		comp_ctrl |= VE_COMP_CTRL_VQ_4COLOR;
+>>>> +		break;
+>>>> +	}
+>>>> +#endif
+>>>> +
+>>>>    	/* Set control registers */
+>>>>    	aspeed_video_update(video, VE_SEQ_CTRL,
+>>>>    			    VE_SEQ_CTRL_JPEG_MODE | VE_SEQ_CTRL_YUV420,
+>>>>    			    seq_ctrl);
+>>>>    	aspeed_video_update(video, VE_CTRL, VE_CTRL_FRC, ctrl);
+>>>>    	aspeed_video_update(video, VE_COMP_CTRL,
+>>>> -			    VE_COMP_CTRL_DCT_LUM | VE_COMP_CTRL_DCT_CHR,
+>>>> +			    VE_COMP_CTRL_DCT_LUM | VE_COMP_CTRL_DCT_CHR |
+>>>> +			    VE_COMP_CTRL_EN_HQ | VE_COMP_CTRL_HQ_DCT_LUM |
+>>>> +			    VE_COMP_CTRL_HQ_DCT_CHR | VE_COMP_CTRL_VQ_4COLOR |
+>>>> +			    VE_COMP_CTRL_VQ_DCT_ONLY,
+>>>>    			    comp_ctrl);
+>>>>    }
+>>>>    
+>>>> @@ -1029,6 +1133,8 @@ static void aspeed_video_init_regs(struct aspeed_video *video)
+>>>>    
+>>>>    	/* Set mode detection defaults */
+>>>>    	aspeed_video_write(video, VE_MODE_DETECT, 0x22666500);
+>>>> +
+>>>> +	aspeed_video_write(video, VE_BCD_CTRL, 0);
+>>>>    }
+>>>>    
+>>>>    static void aspeed_video_start(struct aspeed_video *video)
+>>>> @@ -1062,6 +1168,9 @@ static void aspeed_video_stop(struct aspeed_video *video)
+>>>>    	if (video->srcs[1].size)
+>>>>    		aspeed_video_free_buf(video, &video->srcs[1]);
+>>>>    
+>>>> +	if (video->bcd.size)
+>>>> +		aspeed_video_free_buf(video, &video->bcd);
+>>>> +
+>>>>    	video->v4l2_input_status = V4L2_IN_ST_NO_SIGNAL;
+>>>>    	video->flags = 0;
+>>>>    }
+>>>> @@ -1364,6 +1473,28 @@ static int aspeed_video_set_ctrl(struct v4l2_ctrl *ctrl)
+>>>>    		if (test_bit(VIDEO_STREAMING, &video->flags))
+>>>>    			aspeed_video_update_regs(video);
+>>>>    		break;
+>>>> +	case V4L2_CID_ASPEED_FORMAT:
+>>>> +		video->partial_jpeg = ctrl->val;
+>>>> +		if (test_bit(VIDEO_STREAMING, &video->flags))
+>>>> +			aspeed_video_update_regs(video);
+>>>> +		break;
+>>>> +#ifdef CONFIG_MACH_ASPEED_G4
+>>>> +	case V4L2_CID_ASPEED_COMPRESSION_MODE:
+>>>> +		video->compression_mode = ctrl->val;
+>>>> +		if (test_bit(VIDEO_STREAMING, &video->flags))
+>>>> +			aspeed_video_update_regs(video);
+>>>> +		break;
+>>>> +#endif
+>>>> +	case V4L2_CID_ASPEED_HQ_MODE:
+>>>> +		video->hq_mode = ctrl->val;
+>>>> +		if (test_bit(VIDEO_STREAMING, &video->flags))
+>>>> +			aspeed_video_update_regs(video);
+>>>> +		break;
+>>>> +	case V4L2_CID_ASPEED_HQ_JPEG_QUALITY:
+>>>> +		video->jpeg_hq_quality = ctrl->val;
+>>>> +		if (test_bit(VIDEO_STREAMING, &video->flags))
+>>>> +			aspeed_video_update_regs(video);
+>>>> +		break;
+>>>>    	default:
+>>>>    		return -EINVAL;
+>>>>    	}
+>>>> @@ -1375,6 +1506,52 @@ static const struct v4l2_ctrl_ops aspeed_video_ctrl_ops = {
+>>>>    	.s_ctrl = aspeed_video_set_ctrl,
+>>>>    };
+>>>>    
+>>>> +static const struct v4l2_ctrl_config aspeed_ctrl_format = {
+>>>> +	.ops = &aspeed_video_ctrl_ops,
+>>>> +	.id = V4L2_CID_ASPEED_FORMAT,
+>>>> +	.name = "Aspeed JPEG Format",
+>>>> +	.type = V4L2_CTRL_TYPE_BOOLEAN,
+>>>> +	.min = false,
+>>>> +	.max = true,
+>>>> +	.step = 1,
+>>>> +	.def = false,
+>>>> +};
+>>>> +
+>>>> +#ifdef CONFIG_MACH_ASPEED_G4
+>>>> +static const struct v4l2_ctrl_config aspeed_ctrl_compression_mode = {
+>>>> +	.ops = &aspeed_video_ctrl_ops,
+>>>> +	.id = V4L2_CID_ASPEED_COMPRESSION_MODE,
+>>>> +	.name = "Aspeed Compression Mode",
+>>>> +	.type = V4L2_CTRL_TYPE_INTEGER,
+>>>> +	.min = 0,
+>>>> +	.max = 2,
+>>>> +	.step = 1,
+>>>> +	.def = 0,
+>>>> +};
+>>>> +#endif
+>>>> +
+>>>> +static const struct v4l2_ctrl_config aspeed_ctrl_HQ_mode = {
+>>>> +	.ops = &aspeed_video_ctrl_ops,
+>>>> +	.id = V4L2_CID_ASPEED_HQ_MODE,
+>>>> +	.name = "Aspeed HQ Mode",
+>>>> +	.type = V4L2_CTRL_TYPE_BOOLEAN,
+>>>> +	.min = false,
+>>>> +	.max = true,
+>>>> +	.step = 1,
+>>>> +	.def = false,
+>>>> +};
+>>>> +
+>>>> +static const struct v4l2_ctrl_config aspeed_ctrl_HQ_jpeg_quality = {
+>>>> +	.ops = &aspeed_video_ctrl_ops,
+>>>> +	.id = V4L2_CID_ASPEED_HQ_JPEG_QUALITY,
+>>>> +	.name = "Aspeed HQ Quality",
+>>>> +	.type = V4L2_CTRL_TYPE_INTEGER,
+>>>> +	.min = 0,
+>>>> +	.max = ASPEED_VIDEO_JPEG_NUM_QUALITIES - 1,
+>>>> +	.step = 1,
+>>>> +	.def = 0,
+>>>> +};
+>>>> +
+>>>>    static void aspeed_video_resolution_work(struct work_struct *work)
+>>>>    {
+>>>>    	struct delayed_work *dwork = to_delayed_work(work);
+>>>> @@ -1644,6 +1821,7 @@ static int aspeed_video_setup_video(struct aspeed_video *video)
+>>>>    	struct v4l2_device *v4l2_dev = &video->v4l2_dev;
+>>>>    	struct vb2_queue *vbq = &video->queue;
+>>>>    	struct video_device *vdev = &video->vdev;
+>>>> +	struct v4l2_ctrl_handler *hdl = &video->ctrl_handler;
+>>>>    	int rc;
+>>>>    
+>>>>    	video->pix_fmt.pixelformat = V4L2_PIX_FMT_JPEG;
+>>>> @@ -1658,22 +1836,28 @@ static int aspeed_video_setup_video(struct aspeed_video *video)
+>>>>    		return rc;
+>>>>    	}
+>>>>    
+>>>> -	v4l2_ctrl_handler_init(&video->ctrl_handler, 2);
+>>>> -	v4l2_ctrl_new_std(&video->ctrl_handler, &aspeed_video_ctrl_ops,
+>>>> +	v4l2_ctrl_handler_init(hdl, 6);
+>>>> +	v4l2_ctrl_new_std(hdl, &aspeed_video_ctrl_ops,
+>>>>    			  V4L2_CID_JPEG_COMPRESSION_QUALITY, 0,
+>>>>    			  ASPEED_VIDEO_JPEG_NUM_QUALITIES - 1, 1, 0);
+>>>> -	v4l2_ctrl_new_std_menu(&video->ctrl_handler, &aspeed_video_ctrl_ops,
+>>>> +	v4l2_ctrl_new_std_menu(hdl, &aspeed_video_ctrl_ops,
+>>>>    			       V4L2_CID_JPEG_CHROMA_SUBSAMPLING,
+>>>>    			       V4L2_JPEG_CHROMA_SUBSAMPLING_420, mask,
+>>>>    			       V4L2_JPEG_CHROMA_SUBSAMPLING_444);
+>>>> +	v4l2_ctrl_new_custom(hdl, &aspeed_ctrl_format, NULL);
+>>>> +#ifdef CONFIG_MACH_ASPEED_G4
+>>>> +	v4l2_ctrl_new_custom(hdl, &aspeed_ctrl_compression_mode, NULL);
+>>>> +#endif
+>>>> +	v4l2_ctrl_new_custom(hdl, &aspeed_ctrl_HQ_mode, NULL);
+>>>> +	v4l2_ctrl_new_custom(hdl, &aspeed_ctrl_HQ_jpeg_quality, NULL);
+>>>>    
+>>>> -	rc = video->ctrl_handler.error;
+>>>> +	rc = hdl->error;
+>>>>    	if (rc) {
+>>>>    		dev_err(video->dev, "Failed to init controls: %d\n", rc);
+>>>>    		goto err_ctrl_init;
+>>>>    	}
+>>>>    
+>>>> -	v4l2_dev->ctrl_handler = &video->ctrl_handler;
+>>>> +	v4l2_dev->ctrl_handler = hdl;
+>>>>    
+>>>>    	vbq->type = V4L2_BUF_TYPE_VIDEO_CAPTURE;
+>>>>    	vbq->io_modes = VB2_MMAP | VB2_READ | VB2_DMABUF;
+>>>>
 -- 
-2.25.1
+Best Regards
+Jammy
 
-
---------------B01EC9D8B71A46848004E290
-Content-Type: text/x-patch; charset=UTF-8;
- name="0002-device-property-Check-fwnode-secondary-when-finding-.patch"
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment;
- filename*0="0002-device-property-Check-fwnode-secondary-when-finding-.pa";
- filename*1="tch"
-
-From 5a109d3adab4147df7932454ed8c097885e640f3 Mon Sep 17 00:00:00 2001
-From: Daniel Scally <djrscally@gmail.com>
-Date: Tue, 9 Nov 2021 01:13:47 +0000
-Subject: [PATCH 2/3] device property: Check fwnode->secondary when finding
- properties
-
-fwnode_property_get_reference_args() searches for named properties
-against a fwnode_handle, but these could instead be against the fwnode's
-secondary. If the property isn't found against the primary, check the
-secondary to see if it's there instead.
-
-Signed-off-by: Daniel Scally <djrscally@gmail.com>
----
- drivers/base/property.c | 12 ++++++++++--
- 1 file changed, 10 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/base/property.c b/drivers/base/property.c
-index 453918eb7390..054e62a4e710 100644
---- a/drivers/base/property.c
-+++ b/drivers/base/property.c
-@@ -479,8 +479,16 @@ int fwnode_property_get_reference_args(const struct fwnode_handle *fwnode,
- 				       unsigned int nargs, unsigned int index,
- 				       struct fwnode_reference_args *args)
- {
--	return fwnode_call_int_op(fwnode, get_reference_args, prop, nargs_prop,
--				  nargs, index, args);
-+	int ret;
-+
-+	ret = fwnode_call_int_op(fwnode, get_reference_args, prop, nargs_prop,
-+				 nargs, index, args);
-+
-+	if (ret < 0 && !IS_ERR_OR_NULL(fwnode->secondary))
-+		ret = fwnode_call_int_op(fwnode->secondary, get_reference_args,
-+					 prop, nargs_prop, nargs, index, args);
-+
-+	return ret;
- }
- EXPORT_SYMBOL_GPL(fwnode_property_get_reference_args);
- 
--- 
-2.25.1
-
-
---------------B01EC9D8B71A46848004E290
-Content-Type: text/x-patch; charset=UTF-8;
- name="0001-platform-x86-int3472-Add-vsio-regulator-supply-to-bo.patch"
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment;
- filename*0="0001-platform-x86-int3472-Add-vsio-regulator-supply-to-bo.pa";
- filename*1="tch"
-
-From dd7532ddea71482502394b6b36c9fd3e5f2a0a37 Mon Sep 17 00:00:00 2001
-From: Daniel Scally <djrscally@gmail.com>
-Date: Tue, 9 Nov 2021 23:12:06 +0000
-Subject: [PATCH 1/3] platform/x86: int3472: Add vsio regulator supply to board
- file
-
-The Surface Go2 board file needs to additionally specify a supply name
-mapping the VSIO regulator to the world facing camera's VCM device, as
-it can sit behind an I2C daisy chain which requires this regulator be
-enabled to function.
-
-Signed-off-by: Daniel Scally <djrscally@gmail.com>
----
- drivers/platform/x86/intel/int3472/tps68470_board_data.c | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/drivers/platform/x86/intel/int3472/tps68470_board_data.c b/drivers/platform/x86/intel/int3472/tps68470_board_data.c
-index 20615c342875..556a615afaa9 100644
---- a/drivers/platform/x86/intel/int3472/tps68470_board_data.c
-+++ b/drivers/platform/x86/intel/int3472/tps68470_board_data.c
-@@ -29,6 +29,7 @@ static struct regulator_consumer_supply int347a_vcm_consumer_supplies[] = {
- 
- static struct regulator_consumer_supply int347a_vsio_consumer_supplies[] = {
- 	REGULATOR_SUPPLY("dovdd", "i2c-INT347A:00"),
-+	REGULATOR_SUPPLY("vsio", "i2c-INT347A:00-VCM"),
- };
- 
- static const struct regulator_init_data surface_go_tps68470_core_reg_init_data = {
--- 
-2.25.1
-
-
---------------B01EC9D8B71A46848004E290--
