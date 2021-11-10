@@ -2,174 +2,85 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 854BE44C34E
-	for <lists+linux-media@lfdr.de>; Wed, 10 Nov 2021 15:46:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5CA0544C360
+	for <lists+linux-media@lfdr.de>; Wed, 10 Nov 2021 15:50:29 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232001AbhKJOsx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 10 Nov 2021 09:48:53 -0500
-Received: from perceval.ideasonboard.com ([213.167.242.64]:53786 "EHLO
+        id S231683AbhKJOxN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 10 Nov 2021 09:53:13 -0500
+Received: from perceval.ideasonboard.com ([213.167.242.64]:53852 "EHLO
         perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231731AbhKJOsx (ORCPT
+        with ESMTP id S232308AbhKJOxE (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 10 Nov 2021 09:48:53 -0500
+        Wed, 10 Nov 2021 09:53:04 -0500
 Received: from pendragon.ideasonboard.com (117.145-247-81.adsl-dyn.isp.belgacom.be [81.247.145.117])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 67F553F6;
-        Wed, 10 Nov 2021 15:46:04 +0100 (CET)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 914378BB;
+        Wed, 10 Nov 2021 15:50:15 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1636555564;
-        bh=9rd+smdfP0lTi1pX33UnXja99WdOKHn9pwb8GOgT/OM=;
+        s=mail; t=1636555815;
+        bh=ga32JeB30n3eoOye+UpCrBUOXqpdY+HETVu89eSCvHY=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=LxAnRGh0/3E/BpgKn+BOH0ei7gec68wJDqR5pdWa3A/8d3YtAyq3x7wBGNpfVTvQ2
-         7jwYY1NM66eFxRPJ8q99cMoDTSFVm7nHvMr5SN4GaRh/tYNgCiOKJjS7xpr+pFHRoE
-         H2ofdqy9kOb8IfNQ+sQAM+Y1faFJtJ8G+c3/566Y=
-Date:   Wed, 10 Nov 2021 16:45:44 +0200
+        b=hO5x5xxllHJu51Ax+43iZ9IUNopiaZTSyHg2LloVM9sqxF3juFaHOFfSJ2n5Qp70i
+         +BZVFHxKbYJ2r212SxDuBJQPyxAunABK+U6ZUx07NP5ljO/v2xyyCf8/GXxJjw9/vP
+         9JQMOtdTBtWC4s/EuCepKNs67z2xqC6t7EbJqFiI=
+Date:   Wed, 10 Nov 2021 16:49:55 +0200
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
-Cc:     linux-media@vger.kernel.org, kernel@collabora.com,
-        hverkuil@xs4all.nl, dafna3@gmail.com, sakari.ailus@linux.intel.com,
-        mchehab@kernel.org
-Subject: Re: [PATCH 1/2] media: replace setting of bytesused with
- vb2_set_plane_payload
-Message-ID: <YYvbGL3b9celkMId@pendragon.ideasonboard.com>
+To:     Hans Verkuil <hverkuil@xs4all.nl>
+Cc:     Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
+        linux-media@vger.kernel.org, kernel@collabora.com,
+        dafna3@gmail.com, sakari.ailus@linux.intel.com, mchehab@kernel.org
+Subject: Re: [PATCH 2/2] media: videobuf2: add WARN_ON if bytesused is bigger
+ than buffer length
+Message-ID: <YYvcE24qkaImq5xK@pendragon.ideasonboard.com>
 References: <20211108193933.20369-1-dafna.hirschfeld@collabora.com>
- <20211108193933.20369-2-dafna.hirschfeld@collabora.com>
+ <20211108193933.20369-3-dafna.hirschfeld@collabora.com>
+ <5efc3d13-9d25-d0ce-98c8-fe1563dd91e9@xs4all.nl>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20211108193933.20369-2-dafna.hirschfeld@collabora.com>
+In-Reply-To: <5efc3d13-9d25-d0ce-98c8-fe1563dd91e9@xs4all.nl>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Dafna,
-
-Thank you for the patch.
-
-On Mon, Nov 08, 2021 at 09:39:32PM +0200, Dafna Hirschfeld wrote:
-> In many places the bytesused field of struct vb2_buffer is set
-> directly. Replace that with the function call
-> vb2_set_plane_payload
+On Wed, Nov 10, 2021 at 09:58:02AM +0100, Hans Verkuil wrote:
+> On 08/11/2021 20:39, Dafna Hirschfeld wrote:
+> > In function vb2_set_plane_payload, report if the
+> > given bytesused is bigger than the buffer size.
+> > 
+> > Signed-off-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+> > ---
+> >  include/media/videobuf2-core.h | 4 +++-
+> >  1 file changed, 3 insertions(+), 1 deletion(-)
+> > 
+> > diff --git a/include/media/videobuf2-core.h b/include/media/videobuf2-core.h
+> > index 2467284e5f26..ffaa1f3361c3 100644
+> > --- a/include/media/videobuf2-core.h
+> > +++ b/include/media/videobuf2-core.h
+> > @@ -1155,8 +1155,10 @@ static inline void *vb2_get_drv_priv(struct vb2_queue *q)
+> >  static inline void vb2_set_plane_payload(struct vb2_buffer *vb,
+> >  				 unsigned int plane_no, unsigned long size)
+> >  {
+> > -	if (plane_no < vb->num_planes)
+> > +	if (plane_no < vb->num_planes) {
+> > +		WARN_ON(size > vb->planes[plane_no].length);
 > 
-> Signed-off-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
-
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-
-> ---
->  drivers/media/platform/allegro-dvt/allegro-core.c  |  2 +-
->  drivers/media/platform/mtk-vcodec/mtk_vcodec_enc.c | 10 +++++-----
->  drivers/media/test-drivers/vicodec/vicodec-core.c  |  2 +-
->  drivers/media/usb/go7007/go7007-driver.c           |  2 +-
->  drivers/staging/media/meson/vdec/vdec_helpers.c    | 10 +++++-----
->  5 files changed, 13 insertions(+), 13 deletions(-)
+> I would change this to:
 > 
-> diff --git a/drivers/media/platform/allegro-dvt/allegro-core.c b/drivers/media/platform/allegro-dvt/allegro-core.c
-> index c8156da33043..4a3d06c70e34 100644
-> --- a/drivers/media/platform/allegro-dvt/allegro-core.c
-> +++ b/drivers/media/platform/allegro-dvt/allegro-core.c
-> @@ -2815,7 +2815,7 @@ static void allegro_buf_queue(struct vb2_buffer *vb)
->  		unsigned int i;
->  
->  		for (i = 0; i < vb->num_planes; i++)
-> -			vb->planes[i].bytesused = 0;
-> +			vb2_set_plane_payload(vb, i, 0);
->  
->  		vbuf->field = V4L2_FIELD_NONE;
->  		vbuf->sequence = channel->csequence++;
-> diff --git a/drivers/media/platform/mtk-vcodec/mtk_vcodec_enc.c b/drivers/media/platform/mtk-vcodec/mtk_vcodec_enc.c
-> index 7457451ebff0..3a8d19243d41 100644
-> --- a/drivers/media/platform/mtk-vcodec/mtk_vcodec_enc.c
-> +++ b/drivers/media/platform/mtk-vcodec/mtk_vcodec_enc.c
-> @@ -959,7 +959,7 @@ static void vb2ops_venc_stop_streaming(struct vb2_queue *q)
->  
->  	if (q->type == V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE) {
->  		while ((dst_buf = v4l2_m2m_dst_buf_remove(ctx->m2m_ctx))) {
-> -			dst_buf->vb2_buf.planes[0].bytesused = 0;
-> +			vb2_set_plane_payload(&dst_buf->vb2_buf, 0, 0);
->  			v4l2_m2m_buf_done(dst_buf, VB2_BUF_STATE_ERROR);
->  		}
->  		/* STREAMOFF on the CAPTURE queue completes any ongoing flush */
-> @@ -1068,7 +1068,7 @@ static int mtk_venc_encode_header(void *priv)
->  			NULL, &bs_buf, &enc_result);
->  
->  	if (ret) {
-> -		dst_buf->vb2_buf.planes[0].bytesused = 0;
-> +		vb2_set_plane_payload(&dst_buf->vb2_buf, 0, 0);
->  		ctx->state = MTK_STATE_ABORT;
->  		v4l2_m2m_buf_done(dst_buf, VB2_BUF_STATE_ERROR);
->  		mtk_v4l2_err("venc_if_encode failed=%d", ret);
-> @@ -1083,7 +1083,7 @@ static int mtk_venc_encode_header(void *priv)
->  	}
->  
->  	ctx->state = MTK_STATE_HEADER;
-> -	dst_buf->vb2_buf.planes[0].bytesused = enc_result.bs_size;
-> +	vb2_set_plane_payload(&dst_buf->vb2_buf, 0, enc_result.bs_size);
->  	v4l2_m2m_buf_done(dst_buf, VB2_BUF_STATE_DONE);
->  
->  	return 0;
-> @@ -1232,12 +1232,12 @@ static void mtk_venc_worker(struct work_struct *work)
->  
->  	if (ret) {
->  		v4l2_m2m_buf_done(src_buf, VB2_BUF_STATE_ERROR);
-> -		dst_buf->vb2_buf.planes[0].bytesused = 0;
-> +		vb2_set_plane_payload(&dst_buf->vb2_buf, 0, 0);
->  		v4l2_m2m_buf_done(dst_buf, VB2_BUF_STATE_ERROR);
->  		mtk_v4l2_err("venc_if_encode failed=%d", ret);
->  	} else {
->  		v4l2_m2m_buf_done(src_buf, VB2_BUF_STATE_DONE);
-> -		dst_buf->vb2_buf.planes[0].bytesused = enc_result.bs_size;
-> +		vb2_set_plane_payload(&dst_buf->vb2_buf, 0, enc_result.bs_size);
->  		v4l2_m2m_buf_done(dst_buf, VB2_BUF_STATE_DONE);
->  		mtk_v4l2_debug(2, "venc_if_encode bs size=%d",
->  				 enc_result.bs_size);
-> diff --git a/drivers/media/test-drivers/vicodec/vicodec-core.c b/drivers/media/test-drivers/vicodec/vicodec-core.c
-> index 33f1c893c1b6..be43f7d32df9 100644
-> --- a/drivers/media/test-drivers/vicodec/vicodec-core.c
-> +++ b/drivers/media/test-drivers/vicodec/vicodec-core.c
-> @@ -1443,7 +1443,7 @@ static void vicodec_buf_queue(struct vb2_buffer *vb)
->  		unsigned int i;
->  
->  		for (i = 0; i < vb->num_planes; i++)
-> -			vb->planes[i].bytesused = 0;
-> +			vb2_set_plane_payload(vb, i, 0);
->  
->  		vbuf->field = V4L2_FIELD_NONE;
->  		vbuf->sequence =
-> diff --git a/drivers/media/usb/go7007/go7007-driver.c b/drivers/media/usb/go7007/go7007-driver.c
-> index 6650eab913d8..0c24e2984304 100644
-> --- a/drivers/media/usb/go7007/go7007-driver.c
-> +++ b/drivers/media/usb/go7007/go7007-driver.c
-> @@ -516,7 +516,7 @@ void go7007_parse_video_stream(struct go7007 *go, u8 *buf, int length)
->  		if (vb && vb->vb.vb2_buf.planes[0].bytesused >=
->  				GO7007_BUF_SIZE - 3) {
->  			v4l2_info(&go->v4l2_dev, "dropping oversized frame\n");
-> -			vb->vb.vb2_buf.planes[0].bytesused = 0;
-> +			vb2_set_plane_payload(&vb->vb.vb2_buf, 0, 0);
->  			vb->frame_offset = 0;
->  			vb->modet_active = 0;
->  			vb = go->active_buf = NULL;
-> diff --git a/drivers/staging/media/meson/vdec/vdec_helpers.c b/drivers/staging/media/meson/vdec/vdec_helpers.c
-> index b9125c295d1d..1ade7485d5a6 100644
-> --- a/drivers/staging/media/meson/vdec/vdec_helpers.c
-> +++ b/drivers/staging/media/meson/vdec/vdec_helpers.c
-> @@ -276,13 +276,13 @@ static void dst_buf_done(struct amvdec_session *sess,
->  
->  	switch (sess->pixfmt_cap) {
->  	case V4L2_PIX_FMT_NV12M:
-> -		vbuf->vb2_buf.planes[0].bytesused = output_size;
-> -		vbuf->vb2_buf.planes[1].bytesused = output_size / 2;
-> +		vb2_set_plane_payload(vbuf->vb2_buf, 0, output_size);
-> +		vb2_set_plane_payload(vbuf->vb2_buf, 1, output_size / 2);
->  		break;
->  	case V4L2_PIX_FMT_YUV420M:
-> -		vbuf->vb2_buf.planes[0].bytesused = output_size;
-> -		vbuf->vb2_buf.planes[1].bytesused = output_size / 4;
-> -		vbuf->vb2_buf.planes[2].bytesused = output_size / 4;
-> +		vb2_set_plane_payload(vbuf->vb2_buf, 0, output_size);
-> +		vb2_set_plane_payload(vbuf->vb2_buf, 1, output_size / 4);
-> +		vb2_set_plane_payload(vbuf->vb2_buf, 2, output_size / 4);
->  		break;
->  	}
->  
+> 		/*
+> 		 * size must never be larger than the buffer length, so
+> 		 * warn and clamp to the buffer length if that's the case.
+> 		 */
+> 		if (WARN_ON(size > vb->planes[plane_no].length))
+> 			size = vb->planes[plane_no].length;
+
+Should this also be a WARN_ON_ONCE() ? If it occurs once there's a large
+risk it will occur very frequently, and flood the kernel log.
+
+> >  		vb->planes[plane_no].bytesused = size;
+> > +	}
+> >  }
+> >  
+> >  /**
 
 -- 
 Regards,
