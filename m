@@ -2,174 +2,417 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2232544C4C4
-	for <lists+linux-media@lfdr.de>; Wed, 10 Nov 2021 17:01:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2B79744C562
+	for <lists+linux-media@lfdr.de>; Wed, 10 Nov 2021 17:50:15 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232002AbhKJQEZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 10 Nov 2021 11:04:25 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35228 "EHLO
+        id S232071AbhKJQw4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 10 Nov 2021 11:52:56 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46192 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231795AbhKJQEY (ORCPT
+        with ESMTP id S232022AbhKJQwz (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 10 Nov 2021 11:04:24 -0500
-Received: from mail-lf1-x135.google.com (mail-lf1-x135.google.com [IPv6:2a00:1450:4864:20::135])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A4F75C061766
-        for <linux-media@vger.kernel.org>; Wed, 10 Nov 2021 08:01:36 -0800 (PST)
-Received: by mail-lf1-x135.google.com with SMTP id p16so7164139lfa.2
-        for <linux-media@vger.kernel.org>; Wed, 10 Nov 2021 08:01:36 -0800 (PST)
+        Wed, 10 Nov 2021 11:52:55 -0500
+Received: from mail-wr1-x430.google.com (mail-wr1-x430.google.com [IPv6:2a00:1450:4864:20::430])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 95898C061766;
+        Wed, 10 Nov 2021 08:50:07 -0800 (PST)
+Received: by mail-wr1-x430.google.com with SMTP id u18so5138379wrg.5;
+        Wed, 10 Nov 2021 08:50:07 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ragnatech-se.20210112.gappssmtp.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=wibWDxYwBQXD/Fufok7R2wldSeiCyjELusSq7rGOsxA=;
-        b=CFof9sA6KDx3j0wtmViLOrnQyYP3IXa/NqswqzdYWzHLnEOY+xhLjkKwP3ab4mmDDr
-         YAtVNFTSvMOVTfFvtyyL65W/iteJcTyhYsQhrF5ktFmKY6dFhYbXfO37RV+gjx72/8Lt
-         81+Cxs5i3/mebtWl//wQJmVkN2M5ozuG4L3MR+AUX6zZyTiQzjXhpm52lUK8YQsttjN8
-         sK877rFzb37q3oSvP7KIde8ii7msn1pJtdIc0n1YCAg6x9fs3RwqLpFHU2x5/Uk3GVEt
-         OSLJDhOtMuIfA5OoPyk/ebaGZDFaInoT05uoAAvh60l5BroeKdiIb3glgcI1SUcLZYvK
-         cyLg==
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=eR4jNFzMGlAgEWXem5yydSyKU3CgC5+uZrpi0np/BnQ=;
+        b=ZYQUsMDqqIb3S5lvoSokg+PHpbVHP3e01n/9MbjlRUiyS4zKcZwHcA0eLG5qD6ryCa
+         FVLFqSu6dd8q1IGyziMgbaPbzd92M0F2vx/NwLglYpSSDfHh2fn622kvhYwfCShAMPuz
+         ePdlD2tkxP5pqIDC95YiN9VhtcOJ3DZ2vG5t0lCuqjV4U2U+wIk8/AczlFYpOv+jaT4v
+         8Y4/Js2QUntPaBQtJyipYtDIuvw2T1mO3B9jDUissSaq6xFLu2Uwn4uYMPggVZm0/3Fe
+         DLYocrbLBAT0aPvu+MxbIYzW+eP8/d4WHtJxxmaXxoTavg6VpaAHoz3cjMBAST9+vyNm
+         9A9w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=wibWDxYwBQXD/Fufok7R2wldSeiCyjELusSq7rGOsxA=;
-        b=51Q9e/lYMefYLUvHl0xOyw6mJXv2lojWC07cDGE2DJG5tbqO933hZAkcHFHZJQFpWU
-         tsvWom+oUn/2+jqBRaxoL8ieEmz3c9JcCjbk4n5e1WA8qxrQLev1HFKE5wcQ4D4QpdUK
-         11r7t/1xFx9zkz8+CY94kKxzz1AEfQPvc9TE6s2VhYRTG08R1PVn3BjOySBg8EoE6/xj
-         WjbdfKVxjssEraAv7AYI2OJy6w0uHxbz7HGxqRTI3SsnVGRBUIW+rNrcdC2BHz533IGn
-         mrxxCyZePnBELhrmeEwTWA9DW64CzqZgU4ac1t2feFI9REmHruCroXkY/jPjLmO2cqFB
-         Tnxw==
-X-Gm-Message-State: AOAM532y/3aTE64LJvjvACVZEFLwMHJHIX7Oh1dJUBo2BlUBgKnb81KO
-        8eG8qai2IBamclNZ+rA2d/D78g==
-X-Google-Smtp-Source: ABdhPJxDICcrPkR8UwlImZ6/H3cpzalTYQMvB9sdGWASjS1vU8HSbjlequsHqIv3mg82jWZc0TzQ5w==
-X-Received: by 2002:a05:6512:449:: with SMTP id y9mr108875lfk.609.1636560093237;
-        Wed, 10 Nov 2021 08:01:33 -0800 (PST)
-Received: from localhost (h-46-59-88-219.A463.priv.bahnhof.se. [46.59.88.219])
-        by smtp.gmail.com with ESMTPSA id v19sm29431lfg.160.2021.11.10.08.01.32
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 10 Nov 2021 08:01:32 -0800 (PST)
-Date:   Wed, 10 Nov 2021 17:01:31 +0100
-From:   Niklas =?iso-8859-1?Q?S=F6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH 0/3] media: rcar-{csi2,vin}: Move to full Virtual Channel
- routing per CSI-2 IP
-Message-ID: <YYvs20DbCoz5qY2S@oden.dyn.berto.se>
-References: <20211020200225.1956048-1-niklas.soderlund+renesas@ragnatech.se>
- <YYvkglOfUwlsobAV@pendragon.ideasonboard.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=eR4jNFzMGlAgEWXem5yydSyKU3CgC5+uZrpi0np/BnQ=;
+        b=W2AFdvOxwCG0rcfVazj0326N2JSI4otFzyy4RTY2GG/eMPQPTLyA5pxgFSHPZigDJz
+         WKN4eXqFCe48tscOzKqgyGC7R0zw6I5XT3B6eM+DiaiLVt4IS4ek0+r6PGwCjTsaAM8g
+         6lYPw11+J+NSQPsUVCNO8BY908WEhMc8BMuq+bUxyXQRwJ+FozvwoAlqlOpSXejx5xPS
+         B3s5zkme2JfdPHRytDb4t7sPcyKG0Rmjeom2Lw5Djsn61stYNfyLcV/eW+tA6pGIMQlv
+         rnMj8nYcsnfpXE1mC3RA8RsaJ6uf6PnrmJy69+eWpJ/pc7AKrTxhvazbBkGTbn0jIU+k
+         BZoA==
+X-Gm-Message-State: AOAM533Ge0ARetGs+oUydC841toQdm4vuYd8Yra5HVbMDbRaFNOJynUO
+        lv3xXHL1EiyF8y4NfRs82suBqc7oHvTFBpitAuA=
+X-Google-Smtp-Source: ABdhPJwVuDS+zysjF5ok8TtxlNYkrrfY22PLS/0jF/6GPm4eWx86xHtk/lOCfL8BHHHpd+cCwwcxLN0nfz6rsacY3LM=
+X-Received: by 2002:a05:6000:1acd:: with SMTP id i13mr512528wry.398.1636563005724;
+ Wed, 10 Nov 2021 08:50:05 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <YYvkglOfUwlsobAV@pendragon.ideasonboard.com>
+References: <20210728010632.2633470-1-robdclark@gmail.com> <20210728010632.2633470-8-robdclark@gmail.com>
+ <e9e50cad-2341-cb25-ef84-0d61a2cb7469@codeaurora.org>
+In-Reply-To: <e9e50cad-2341-cb25-ef84-0d61a2cb7469@codeaurora.org>
+From:   Rob Clark <robdclark@gmail.com>
+Date:   Wed, 10 Nov 2021 08:55:04 -0800
+Message-ID: <CAF6AEGvTyy-MCv6wdkpPyohLwUg4U_2ACT0gsXRG2z6iOYQ+Tg@mail.gmail.com>
+Subject: Re: [PATCH v4 07/13] drm/msm: Track "seqno" fences by idr
+To:     Akhil P Oommen <akhilpo@codeaurora.org>
+Cc:     dri-devel <dri-devel@lists.freedesktop.org>,
+        Rob Clark <robdclark@chromium.org>,
+        David Airlie <airlied@linux.ie>,
+        freedreno <freedreno@lists.freedesktop.org>,
+        open list <linux-kernel@vger.kernel.org>,
+        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
+        <linaro-mm-sig@lists.linaro.org>,
+        "open list:DRM DRIVER FOR MSM ADRENO GPU" 
+        <linux-arm-msm@vger.kernel.org>, Sean Paul <sean@poorly.run>,
+        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+        "open list:DMA BUFFER SHARING FRAMEWORK" 
+        <linux-media@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Laurent,
+On Wed, Nov 10, 2021 at 7:28 AM Akhil P Oommen <akhilpo@codeaurora.org> wro=
+te:
+>
+> On 7/28/2021 6:36 AM, Rob Clark wrote:
+> > From: Rob Clark <robdclark@chromium.org>
+> >
+> > Previously the (non-fd) fence returned from submit ioctl was a raw
+> > seqno, which is scoped to the ring.  But from UABI standpoint, the
+> > ioctls related to seqno fences all specify a submitqueue.  We can
+> > take advantage of that to replace the seqno fences with a cyclic idr
+> > handle.
+> >
+> > This is in preperation for moving to drm scheduler, at which point
+> > the submit ioctl will return after queuing the submit job to the
+> > scheduler, but before the submit is written into the ring (and
+> > therefore before a ring seqno has been assigned).  Which means we
+> > need to replace the dma_fence that userspace may need to wait on
+> > with a scheduler fence.
+> >
+> > Signed-off-by: Rob Clark <robdclark@chromium.org>
+> > Acked-by: Christian K=C3=B6nig <christian.koenig@amd.com>
+> > ---
+> >   drivers/gpu/drm/msm/msm_drv.c         | 30 +++++++++++++++++--
+> >   drivers/gpu/drm/msm/msm_fence.c       | 42 --------------------------=
+-
+> >   drivers/gpu/drm/msm/msm_fence.h       |  3 --
+> >   drivers/gpu/drm/msm/msm_gem.h         |  1 +
+> >   drivers/gpu/drm/msm/msm_gem_submit.c  | 23 ++++++++++++++-
+> >   drivers/gpu/drm/msm/msm_gpu.h         |  5 ++++
+> >   drivers/gpu/drm/msm/msm_submitqueue.c |  5 ++++
+> >   7 files changed, 61 insertions(+), 48 deletions(-)
+> >
+> > diff --git a/drivers/gpu/drm/msm/msm_drv.c b/drivers/gpu/drm/msm/msm_dr=
+v.c
+> > index 9b8fa2ad0d84..1594ae39d54f 100644
+> > --- a/drivers/gpu/drm/msm/msm_drv.c
+> > +++ b/drivers/gpu/drm/msm/msm_drv.c
+> > @@ -911,6 +911,7 @@ static int msm_ioctl_wait_fence(struct drm_device *=
+dev, void *data,
+> >       ktime_t timeout =3D to_ktime(args->timeout);
+> >       struct msm_gpu_submitqueue *queue;
+> >       struct msm_gpu *gpu =3D priv->gpu;
+> > +     struct dma_fence *fence;
+> >       int ret;
+> >
+> >       if (args->pad) {
+> > @@ -925,10 +926,35 @@ static int msm_ioctl_wait_fence(struct drm_device=
+ *dev, void *data,
+> >       if (!queue)
+> >               return -ENOENT;
+> >
+> > -     ret =3D msm_wait_fence(gpu->rb[queue->prio]->fctx, args->fence, &=
+timeout,
+> > -             true);
+> > +     /*
+> > +      * Map submitqueue scoped "seqno" (which is actually an idr key)
+> > +      * back to underlying dma-fence
+> > +      *
+> > +      * The fence is removed from the fence_idr when the submit is
+> > +      * retired, so if the fence is not found it means there is nothin=
+g
+> > +      * to wait for
+> > +      */
+> > +     ret =3D mutex_lock_interruptible(&queue->lock);
+> > +     if (ret)
+> > +             return ret;
+> > +     fence =3D idr_find(&queue->fence_idr, args->fence);
+> > +     if (fence)
+> > +             fence =3D dma_fence_get_rcu(fence);
+> > +     mutex_unlock(&queue->lock);
+> > +
+> > +     if (!fence)
+> > +             return 0;
+> >
+> > +     ret =3D dma_fence_wait_timeout(fence, true, timeout_to_jiffies(&t=
+imeout));
+> > +     if (ret =3D=3D 0) {
+> > +             ret =3D -ETIMEDOUT;
+> > +     } else if (ret !=3D -ERESTARTSYS) {
+> > +             ret =3D 0;
+> > +     }
+> > +
+> > +     dma_fence_put(fence);
+> >       msm_submitqueue_put(queue);
+> > +
+> >       return ret;
+> >   }
+> >
+> > diff --git a/drivers/gpu/drm/msm/msm_fence.c b/drivers/gpu/drm/msm/msm_=
+fence.c
+> > index b92a9091a1e2..f2cece542c3f 100644
+> > --- a/drivers/gpu/drm/msm/msm_fence.c
+> > +++ b/drivers/gpu/drm/msm/msm_fence.c
+> > @@ -24,7 +24,6 @@ msm_fence_context_alloc(struct drm_device *dev, volat=
+ile uint32_t *fenceptr,
+> >       strncpy(fctx->name, name, sizeof(fctx->name));
+> >       fctx->context =3D dma_fence_context_alloc(1);
+> >       fctx->fenceptr =3D fenceptr;
+> > -     init_waitqueue_head(&fctx->event);
+> >       spin_lock_init(&fctx->spinlock);
+> >
+> >       return fctx;
+> > @@ -45,53 +44,12 @@ static inline bool fence_completed(struct msm_fence=
+_context *fctx, uint32_t fenc
+> >               (int32_t)(*fctx->fenceptr - fence) >=3D 0;
+> >   }
+> >
+> > -/* legacy path for WAIT_FENCE ioctl: */
+> > -int msm_wait_fence(struct msm_fence_context *fctx, uint32_t fence,
+> > -             ktime_t *timeout, bool interruptible)
+> > -{
+> > -     int ret;
+> > -
+> > -     if (fence > fctx->last_fence) {
+> > -             DRM_ERROR_RATELIMITED("%s: waiting on invalid fence: %u (=
+of %u)\n",
+> > -                             fctx->name, fence, fctx->last_fence);
+> > -             return -EINVAL;
+>
+> Rob, we changed this pre-existing behaviour in this patch. Now, when
+> userspace tries to wait on a future fence, we don't return an error.
+>
+> I just want to check if this was accidental or not?
 
-On 2021-11-10 17:25:54 +0200, Laurent Pinchart wrote:
-> Hi Niklas,
-> 
-> On Wed, Oct 20, 2021 at 10:02:22PM +0200, Niklas Söderlund wrote:
-> > Hello,
-> > 
-> > This series attempts to increase the flexibility of the R-Car VIN 
-> > capture pipeline by allowing for free form Virtual Channel routing 
-> > within the same CSI-2 IP block.
-> > 
-> > When Gen3 support was first added to this R-Car VIN and CSI-2 driver the
-> > routing was centred around the CHSEL register which multiplex the
-> > different parallel buses that sits between the CSI-2 receivers source
-> > side and the VIN dma engines. This was a bad design as the multiplexing
-> > do allow for only a few combinations and do not play nice with many
-> > video streams in the system.
-> > 
-> > For example it's only possible for CSI-2 Virtual Channels 0 and 1 of any
-> > given CSI-2 receiver to be used together with the scaler.
-> > 
-> > Later datasheets have expanded the documentation and it is now possible
-> > to improve on this design by allowing any Virtual Channel to be routed
-> > to any R-Car VIN instance, provided that there exists a parallel bus
-> > between them. This increases the flexibility as all Virtual Channels can
-> > now be used together with the scaler for example.
-> > 
-> > The redesign is not however perfect. While the new design allows for
-> > many more routes, two constrains limit a small portion of routes that
-> > was possible in the old design but are no more.
-> > 
-> > - It is no longer possible to route the same CSI-2 and VC to more then
-> > one VIN at a time. This was theoretically possible before if the
-> > specific SoC allowed for the same CSI-2 and VC to be routed to two
-> > different VIN capture groups.
-> 
-> Does it mean we can't capture image data and embedded data from the same
-> camera sensor in separate buffers ?
+Hmm, perhaps we should do this to restore the previous behavior:
 
-On the contrary. Without this change we can't capture any embedded data.  
-With this patch we still can't capture it, unless the R-Car CSI-2 
-receiver lies. But with this applied we are closer to enable meta data 
-to reach user space.
+-------------
+diff --git a/drivers/gpu/drm/msm/msm_drv.c b/drivers/gpu/drm/msm/msm_drv.c
+index 73e827641024..3dd6da56eae6 100644
+--- a/drivers/gpu/drm/msm/msm_drv.c
++++ b/drivers/gpu/drm/msm/msm_drv.c
+@@ -1000,8 +1000,12 @@ static int msm_ioctl_wait_fence(struct
+drm_device *dev, void *data,
+                fence =3D dma_fence_get_rcu(fence);
+        mutex_unlock(&queue->lock);
 
-> 
-> > - It is no longer possible to simultaneously mix links from two CSI-2 IP
-> > blocks to the same VIN capture group.
-> > 
-> > For example if VIN2 is capturing from CSI40 then VIN{0,1,3} must also
-> > capture from CSI40. While VIN{4,5,6,7} is still free to capture from
-> > any other CSI-2 IP in the system. Once all VIN{0,1,2,3} links to CSI40
-> > are disabled that VIN capture group is free again to capture from any
-> > other CSI-2 IP it is connected to.
-> 
-> What practical limitation does this bring, does it forbid any useful use
-> case ?
+-       if (!fence)
+-               return 0;
++       if (!fence) {
++               struct msm_fence_context *fctx =3D gpu->rb[queue->ring_nr]-=
+>fctx;
++               DRM_ERROR_RATELIMITED("%s: waiting on invalid fence:
+%u (of %u)\n",
++                                     fctx->name, fence, fctx->last_fence);
++               return -EINVAL;
++       }
 
-Yes and no ;-). It limits a small set of use-cases, while enabling a 
-great many more. In the old setup you are allowed to route a mix of Rx 
-to Tx intermixing a few of the modules 1:1 as an exception. With this 
-change you get routing n:to:n with a few exceptions.
+        ret =3D dma_fence_wait_timeout(fence, true, timeout_to_jiffies(&tim=
+eout));
+        if (ret =3D=3D 0) {
+-------------
 
-> 
-> > At the core of the redesign is greater cooperator of the R-Car VIN and
-> > CSI-2 drivers in configuring the routing. The VIN driver is after this
-> > change only responsible to configure the full VIN capture groups
-> > parallel buses to be to a particular CSI-2 IP. While the configuration
-> > of which CSI-2 Virtual Channel is outputted on which of the R-Car CSI-2
-> > IP output ports is handled by the CSI-2 driver.
-> > 
-> > Before this change the CSI-2 Virtual Channel to output port was static
-> > in the CSI-2 driver and the different links only manipulated the VIN
-> > capture groups CHSEL register. With this change both the CHSEl register
-> > and the CSI-2 routing VCDT registers are modified for greater
-> > flexibility.
-> > 
-> > Patch 1/3 and 2/3 are cleanup patches moving code around preparing for 
-> > the real work in 3/3. The work is based on the latest media-tree.
-> > 
-> > Kind Regards,
-> > Niklas Söderlund
-> > 
-> > Niklas Söderlund (3):
-> >   media: rcar-vin: Refactor link notify
-> >   media: rcar-vin: Breakout media link creation
-> >   media: rcar-{csi2,vin}: Move to full Virtual Channel routing per CSI-2
-> >     IP
-> > 
-> >  drivers/media/platform/rcar-vin/rcar-core.c | 379 ++++++--------------
-> >  drivers/media/platform/rcar-vin/rcar-csi2.c |  58 ++-
-> >  drivers/media/platform/rcar-vin/rcar-dma.c  |   2 +-
-> >  drivers/media/platform/rcar-vin/rcar-vin.h  |  18 +-
-> >  4 files changed, 167 insertions(+), 290 deletions(-)
-> 
-> -- 
-> Regards,
-> 
-> Laurent Pinchart
+BR,
+-R
 
--- 
-Kind Regards,
-Niklas Söderlund
+> -Akhil.
+>
+> > -     }
+> > -
+> > -     if (!timeout) {
+> > -             /* no-wait: */
+> > -             ret =3D fence_completed(fctx, fence) ? 0 : -EBUSY;
+> > -     } else {
+> > -             unsigned long remaining_jiffies =3D timeout_to_jiffies(ti=
+meout);
+> > -
+> > -             if (interruptible)
+> > -                     ret =3D wait_event_interruptible_timeout(fctx->ev=
+ent,
+> > -                             fence_completed(fctx, fence),
+> > -                             remaining_jiffies);
+> > -             else
+> > -                     ret =3D wait_event_timeout(fctx->event,
+> > -                             fence_completed(fctx, fence),
+> > -                             remaining_jiffies);
+> > -
+> > -             if (ret =3D=3D 0) {
+> > -                     DBG("timeout waiting for fence: %u (completed: %u=
+)",
+> > -                                     fence, fctx->completed_fence);
+> > -                     ret =3D -ETIMEDOUT;
+> > -             } else if (ret !=3D -ERESTARTSYS) {
+> > -                     ret =3D 0;
+> > -             }
+> > -     }
+> > -
+> > -     return ret;
+> > -}
+> > -
+> >   /* called from workqueue */
+> >   void msm_update_fence(struct msm_fence_context *fctx, uint32_t fence)
+> >   {
+> >       spin_lock(&fctx->spinlock);
+> >       fctx->completed_fence =3D max(fence, fctx->completed_fence);
+> >       spin_unlock(&fctx->spinlock);
+> > -
+> > -     wake_up_all(&fctx->event);
+> >   }
+> >
+> >   struct msm_fence {
+> > diff --git a/drivers/gpu/drm/msm/msm_fence.h b/drivers/gpu/drm/msm/msm_=
+fence.h
+> > index 6ab97062ff1a..4783db528bcc 100644
+> > --- a/drivers/gpu/drm/msm/msm_fence.h
+> > +++ b/drivers/gpu/drm/msm/msm_fence.h
+> > @@ -49,7 +49,6 @@ struct msm_fence_context {
+> >        */
+> >       volatile uint32_t *fenceptr;
+> >
+> > -     wait_queue_head_t event;
+> >       spinlock_t spinlock;
+> >   };
+> >
+> > @@ -57,8 +56,6 @@ struct msm_fence_context * msm_fence_context_alloc(st=
+ruct drm_device *dev,
+> >               volatile uint32_t *fenceptr, const char *name);
+> >   void msm_fence_context_free(struct msm_fence_context *fctx);
+> >
+> > -int msm_wait_fence(struct msm_fence_context *fctx, uint32_t fence,
+> > -             ktime_t *timeout, bool interruptible);
+> >   void msm_update_fence(struct msm_fence_context *fctx, uint32_t fence)=
+;
+> >
+> >   struct dma_fence * msm_fence_alloc(struct msm_fence_context *fctx);
+> > diff --git a/drivers/gpu/drm/msm/msm_gem.h b/drivers/gpu/drm/msm/msm_ge=
+m.h
+> > index da3af702a6c8..e0579abda5b9 100644
+> > --- a/drivers/gpu/drm/msm/msm_gem.h
+> > +++ b/drivers/gpu/drm/msm/msm_gem.h
+> > @@ -320,6 +320,7 @@ struct msm_gem_submit {
+> >       struct ww_acquire_ctx ticket;
+> >       uint32_t seqno;         /* Sequence number of the submit on the r=
+ing */
+> >       struct dma_fence *fence;
+> > +     int fence_id;       /* key into queue->fence_idr */
+> >       struct msm_gpu_submitqueue *queue;
+> >       struct pid *pid;    /* submitting process */
+> >       bool fault_dumped;  /* Limit devcoredump dumping to one per submi=
+t */
+> > diff --git a/drivers/gpu/drm/msm/msm_gem_submit.c b/drivers/gpu/drm/msm=
+/msm_gem_submit.c
+> > index 4f02fa3c78f9..f6f595aae2c5 100644
+> > --- a/drivers/gpu/drm/msm/msm_gem_submit.c
+> > +++ b/drivers/gpu/drm/msm/msm_gem_submit.c
+> > @@ -68,7 +68,14 @@ void __msm_gem_submit_destroy(struct kref *kref)
+> >                       container_of(kref, struct msm_gem_submit, ref);
+> >       unsigned i;
+> >
+> > +     if (submit->fence_id) {
+> > +             mutex_lock(&submit->queue->lock);
+> > +             idr_remove(&submit->queue->fence_idr, submit->fence_id);
+> > +             mutex_unlock(&submit->queue->lock);
+> > +     }
+> > +
+> >       dma_fence_put(submit->fence);
+> > +
+> >       put_pid(submit->pid);
+> >       msm_submitqueue_put(submit->queue);
+> >
+> > @@ -872,6 +879,20 @@ int msm_ioctl_gem_submit(struct drm_device *dev, v=
+oid *data,
+> >               goto out;
+> >       }
+> >
+> > +     /*
+> > +      * Allocate an id which can be used by WAIT_FENCE ioctl to map ba=
+ck
+> > +      * to the underlying fence.
+> > +      */
+> > +     mutex_lock(&queue->lock);
+> > +     submit->fence_id =3D idr_alloc_cyclic(&queue->fence_idr,
+> > +                     submit->fence, 0, INT_MAX, GFP_KERNEL);
+> > +     mutex_unlock(&queue->lock);
+> > +     if (submit->fence_id < 0) {
+> > +             ret =3D submit->fence_id =3D 0;
+> > +             submit->fence_id =3D 0;
+> > +             goto out;
+> > +     }
+> > +
+> >       if (args->flags & MSM_SUBMIT_FENCE_FD_OUT) {
+> >               struct sync_file *sync_file =3D sync_file_create(submit->=
+fence);
+> >               if (!sync_file) {
+> > @@ -886,7 +907,7 @@ int msm_ioctl_gem_submit(struct drm_device *dev, vo=
+id *data,
+> >
+> >       msm_gpu_submit(gpu, submit);
+> >
+> > -     args->fence =3D submit->fence->seqno;
+> > +     args->fence =3D submit->fence_id;
+> >
+> >       msm_reset_syncobjs(syncobjs_to_reset, args->nr_in_syncobjs);
+> >       msm_process_post_deps(post_deps, args->nr_out_syncobjs,
+> > diff --git a/drivers/gpu/drm/msm/msm_gpu.h b/drivers/gpu/drm/msm/msm_gp=
+u.h
+> > index 96efcb31e502..579627252540 100644
+> > --- a/drivers/gpu/drm/msm/msm_gpu.h
+> > +++ b/drivers/gpu/drm/msm/msm_gpu.h
+> > @@ -263,6 +263,9 @@ struct msm_gpu_perfcntr {
+> >    *             which set of pgtables do submits jobs associated with =
+the
+> >    *             submitqueue use)
+> >    * @node:      node in the context's list of submitqueues
+> > + * @fence_idr: maps fence-id to dma_fence for userspace visible fence
+> > + *             seqno, protected by submitqueue lock
+> > + * @lock:      submitqueue lock
+> >    * @ref:       reference count
+> >    */
+> >   struct msm_gpu_submitqueue {
+> > @@ -272,6 +275,8 @@ struct msm_gpu_submitqueue {
+> >       int faults;
+> >       struct msm_file_private *ctx;
+> >       struct list_head node;
+> > +     struct idr fence_idr;
+> > +     struct mutex lock;
+> >       struct kref ref;
+> >   };
+> >
+> > diff --git a/drivers/gpu/drm/msm/msm_submitqueue.c b/drivers/gpu/drm/ms=
+m/msm_submitqueue.c
+> > index 9e9fec61d629..66f8d0fb38b0 100644
+> > --- a/drivers/gpu/drm/msm/msm_submitqueue.c
+> > +++ b/drivers/gpu/drm/msm/msm_submitqueue.c
+> > @@ -12,6 +12,8 @@ void msm_submitqueue_destroy(struct kref *kref)
+> >       struct msm_gpu_submitqueue *queue =3D container_of(kref,
+> >               struct msm_gpu_submitqueue, ref);
+> >
+> > +     idr_destroy(&queue->fence_idr);
+> > +
+> >       msm_file_private_put(queue->ctx);
+> >
+> >       kfree(queue);
+> > @@ -89,6 +91,9 @@ int msm_submitqueue_create(struct drm_device *drm, st=
+ruct msm_file_private *ctx,
+> >       if (id)
+> >               *id =3D queue->id;
+> >
+> > +     idr_init(&queue->fence_idr);
+> > +     mutex_init(&queue->lock);
+> > +
+> >       list_add_tail(&queue->node, &ctx->submitqueues);
+> >
+> >       write_unlock(&ctx->queuelock);
+> >
+>
