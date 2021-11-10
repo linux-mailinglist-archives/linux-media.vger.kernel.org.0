@@ -2,77 +2,96 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0330744BD42
-	for <lists+linux-media@lfdr.de>; Wed, 10 Nov 2021 09:46:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 242FB44BD78
+	for <lists+linux-media@lfdr.de>; Wed, 10 Nov 2021 09:58:25 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230307AbhKJItL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 10 Nov 2021 03:49:11 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47974 "EHLO
+        id S230356AbhKJJBC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 10 Nov 2021 04:01:02 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50652 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230141AbhKJItL (ORCPT
+        with ESMTP id S230338AbhKJJAz (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 10 Nov 2021 03:49:11 -0500
+        Wed, 10 Nov 2021 04:00:55 -0500
 Received: from lb1-smtp-cloud9.xs4all.net (lb1-smtp-cloud9.xs4all.net [IPv6:2001:888:0:108::1c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 167C0C061764
-        for <linux-media@vger.kernel.org>; Wed, 10 Nov 2021 00:46:23 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 17438C061764
+        for <linux-media@vger.kernel.org>; Wed, 10 Nov 2021 00:58:07 -0800 (PST)
 Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
         by smtp-cloud9.xs4all.net with ESMTPA
-        id kjFLmlg5SfwDFkjFOmFKOl; Wed, 10 Nov 2021 09:46:22 +0100
+        id kjQgmljixfwDFkjQjmFMMr; Wed, 10 Nov 2021 09:58:06 +0100
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1636533982; bh=wLaIbes0VHB9PXGjKvKFEyE9UK3Ko8iW8K8UWQg0BOA=;
-        h=To:From:Subject:Message-ID:Date:MIME-Version:Content-Type:From:
+        t=1636534686; bh=PKQXvNvbbaVBkRk7DfB1GPKuWmkG/6IrMzr54x/D+T8=;
+        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
          Subject;
-        b=fkVp4xeNKKc41vukF5b0BVCc0o25bVUFbkkOoOqKuQ3zbrQMozaZzQZQrEUwr3F3r
-         EbyY6qEoeCH0HLaJtsNmQ2xGKFq3tGd+EQX9tFXgaE2CUV8lJeET4wzx6XlJppryMO
-         ixKW5ukpQzmgAx7Y1dzrVK79VdiehJvPaI/2me8hR4UgwmV4NKF7RFHh2zZBasCWgt
-         BaE4a57vJea7QMhyiFRrmWdo2OvmZjxqSMzFuEzGQrVMaQqWcAjXx61oXq/l7Glbvl
-         z0O9KAGR2aQ3spQFmMzZxOdrawJ0LfnfbP1z9C62ttivY+FC06mvO5icUzKHI1vQnO
-         SzEBH7tLD9XQw==
-To:     Linux Media Mailing List <linux-media@vger.kernel.org>
-Cc:     Arnd Bergmann <arnd@arndb.de>, Hans de Goede <hdegoede@redhat.com>
+        b=Qv9gsPq+p8K49IxxBig9+a4rOg9EdO45UMydYY8bmgm/lTQwcA8pO+bksdJGhPtIX
+         4FY8RJdVkH9ObIoyXFIWLcD8J5DuaFLM61wWJ5qpVEFzqKe6HbuN+zs3ZhF/aMDwnp
+         a658EioKtSBETHMYP4tWPWKq1XuXuro8Wq1+4DutJsQ0BoxIhRNyJn5017i0rXAVU2
+         Pl89VYEIB/al5HPa2lvBedn1rBQoqMFg316YUCtTrqbsqFVdWGYmZKx9mOwffwUdOB
+         M7+54IKBFN2AdN1t/r8VzZA7vOrXf0IiO1w30gJoNGdvZEmx/1rkLC8BmfZ1aPSAij
+         fxjsOMC4Vd6Ww==
+Subject: Re: [PATCH 2/2] media: videobuf2: add WARN_ON if bytesused is bigger
+ than buffer length
+To:     Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
+        linux-media@vger.kernel.org
+Cc:     kernel@collabora.com, laurent.pinchart@ideasonboard.com,
+        dafna3@gmail.com, sakari.ailus@linux.intel.com, mchehab@kernel.org
+References: <20211108193933.20369-1-dafna.hirschfeld@collabora.com>
+ <20211108193933.20369-3-dafna.hirschfeld@collabora.com>
 From:   Hans Verkuil <hverkuil@xs4all.nl>
-Subject: [GIT FIXES FOR v5.16] Three fixes for v5.16
-Message-ID: <a5b6d1ca-a38c-924d-fbf2-ee38274f0ef3@xs4all.nl>
-Date:   Wed, 10 Nov 2021 09:46:19 +0100
+Message-ID: <5efc3d13-9d25-d0ce-98c8-fe1563dd91e9@xs4all.nl>
+Date:   Wed, 10 Nov 2021 09:58:02 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Firefox/78.0 Thunderbird/78.14.0
 MIME-Version: 1.0
+In-Reply-To: <20211108193933.20369-3-dafna.hirschfeld@collabora.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4xfEWIrhqLbod8EYTNHpIf72q7qeIp8tcNdb74wgYSwJ8PPltpccHnkZHlOVt2x9QuWS0CF+Y9riUT4AXV957V7qDXyI8sg8oV41QIxEDToCXjWM5FL7iS
- sEQaX2RgzDK94hZ8S2feMlVH6YNaeHnP8rD985MSUzTranXI70SkDShmhp+Tqj9TkWlqmG3KNZX9lM2YyJzCjk98UNNq6+NQ1ITraRU8hL+UxLcsdaiDn/KJ
- U396VrjFwWxJYYh7wyCstA==
+X-CMAE-Envelope: MS4xfGmv+V8qz23lPe5LT1SbTxvQ3Q7StkJAbnmMUMQPOlKLWOxlUk1l6zAcmYziKx8CL564HS7POhBO1KmCypG/HHiID8LsxVlFnLLR2oDEmhecI2Aj5y8/
+ ScjC0xQL0zudqnFi3q/NrgVuzJWl06DOiAwGMmoN8hI6xQMY7OKjKTviJET+jFHkO2r/V3Ef2ETVn7SS+ciIFW7Ls3cstne0l/Zao+fh3iJSn1QOM9vjBqqo
+ DECMDAJWHQDKnhBoR0JplAZejV+q1YEvc+PohEoVSvGfQy1dj1OQKyZ6BGP0QI0DQt9MqgPKCUGES0zoFLxovKggbUJBYK+62GSSROdJH5NVS+2xFnm/ReFd
+ uiu5285piyOCtzp296j57SP2WLCQIUMMOVMG0n9VtpZzoZGU9A3rIHy1PdNKSfbgIKHIfcNI
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The following changes since commit 3c7a2a27549c97f36d698791dcfa4f349b499f95:
+On 08/11/2021 20:39, Dafna Hirschfeld wrote:
+> In function vb2_set_plane_payload, report if the
+> given bytesused is bigger than the buffer size.
+> 
+> Signed-off-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+> ---
+>  include/media/videobuf2-core.h | 4 +++-
+>  1 file changed, 3 insertions(+), 1 deletion(-)
+> 
+> diff --git a/include/media/videobuf2-core.h b/include/media/videobuf2-core.h
+> index 2467284e5f26..ffaa1f3361c3 100644
+> --- a/include/media/videobuf2-core.h
+> +++ b/include/media/videobuf2-core.h
+> @@ -1155,8 +1155,10 @@ static inline void *vb2_get_drv_priv(struct vb2_queue *q)
+>  static inline void vb2_set_plane_payload(struct vb2_buffer *vb,
+>  				 unsigned int plane_no, unsigned long size)
+>  {
+> -	if (plane_no < vb->num_planes)
+> +	if (plane_no < vb->num_planes) {
+> +		WARN_ON(size > vb->planes[plane_no].length);
 
-  media: atomisp: register first the preview devnode (2021-11-06 12:10:49 +0000)
+I would change this to:
 
-are available in the Git repository at:
+		/*
+		 * size must never be larger than the buffer length, so
+		 * warn and clamp to the buffer length if that's the case.
+		 */
+		if (WARN_ON(size > vb->planes[plane_no].length))
+			size = vb->planes[plane_no].length;
 
-  git://linuxtv.org/hverkuil/media_tree.git tags/br-v5.16a
+Regards,
 
-for you to fetch changes up to dc99c6733ae8e3caa91e09fcc9e2431451afbf2d:
+	Hans
 
-  cec: copy sequence field for the reply (2021-11-10 09:42:41 +0100)
+>  		vb->planes[plane_no].bytesused = size;
+> +	}
+>  }
+>  
+>  /**
+> 
 
-----------------------------------------------------------------
-Tag branch
-
-----------------------------------------------------------------
-Arnd Bergmann (1):
-      media: v4l2-core: fix VIDIOC_DQEVENT handling on non-x86
-
-Hans Verkuil (1):
-      cec: copy sequence field for the reply
-
-Hans de Goede (1):
-      media: videobuf2-dma-sg: Fix buf->vb NULL pointer dereference
-
- drivers/media/cec/core/cec-adap.c                 |  1 +
- drivers/media/common/videobuf2/videobuf2-dma-sg.c |  2 ++
- drivers/media/v4l2-core/v4l2-compat-ioctl32.c     | 41 +++++++++++++++++------------------------
- 3 files changed, 20 insertions(+), 24 deletions(-)
