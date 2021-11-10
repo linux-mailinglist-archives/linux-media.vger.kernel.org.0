@@ -2,568 +2,193 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id F208044BA6C
-	for <lists+linux-media@lfdr.de>; Wed, 10 Nov 2021 03:41:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C489F44BA8E
+	for <lists+linux-media@lfdr.de>; Wed, 10 Nov 2021 04:11:47 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230023AbhKJCok (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 9 Nov 2021 21:44:40 -0500
-Received: from twspam01.aspeedtech.com ([211.20.114.71]:44724 "EHLO
-        twspam01.aspeedtech.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229717AbhKJCok (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 9 Nov 2021 21:44:40 -0500
-Received: from mail.aspeedtech.com ([192.168.0.24])
-        by twspam01.aspeedtech.com with ESMTP id 1AA2HWxr091330;
-        Wed, 10 Nov 2021 10:17:32 +0800 (GMT-8)
-        (envelope-from jammy_huang@aspeedtech.com)
-Received: from [192.168.2.115] (192.168.2.115) by TWMBX02.aspeed.com
- (192.168.0.24) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Wed, 10 Nov
- 2021 10:40:50 +0800
-Message-ID: <fb546475-8e61-b847-67c4-466dee57b318@aspeedtech.com>
-Date:   Wed, 10 Nov 2021 10:40:50 +0800
+        id S230081AbhKJDOb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 9 Nov 2021 22:14:31 -0500
+Received: from mailgw02.mediatek.com ([210.61.82.184]:54052 "EHLO
+        mailgw02.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
+        with ESMTP id S229445AbhKJDOa (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 9 Nov 2021 22:14:30 -0500
+X-UUID: 9a8cd1a9d9264a3b941f29590b6feedd-20211110
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
+        h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:From:Subject:Message-ID; bh=FW4lI1nxmNtd/IT/tY+A90HGfKmb4Gx1XGsdWrcaA6c=;
+        b=R0acouXnqanx4lKCd/5tPLPqmFPnxQB14944XAlVsSYbjs9A4eLEgPZH6qOEQNnS0UccZ8zAZA/SL4Ndg4e+gkRz8bF/H+9uzdL9LKp+nBgbYx/qg218yQN0d3k4D7FiDInCLaZumslNQPlgt2+9kSSYIfAMOYkjv+VpG7qcICU=;
+X-UUID: 9a8cd1a9d9264a3b941f29590b6feedd-20211110
+Received: from mtkexhb01.mediatek.inc [(172.21.101.102)] by mailgw02.mediatek.com
+        (envelope-from <irui.wang@mediatek.com>)
+        (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
+        with ESMTP id 1232866730; Wed, 10 Nov 2021 11:11:41 +0800
+Received: from mtkmbs10n1.mediatek.inc (172.21.101.34) by
+ mtkmbs10n1.mediatek.inc (172.21.101.34) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.792.15; Wed, 10 Nov 2021 11:11:31 +0800
+Received: from mhfsdcap04 (10.17.3.154) by mtkmbs10n1.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.2.792.15 via Frontend
+ Transport; Wed, 10 Nov 2021 11:11:31 +0800
+Message-ID: <054260428d9d7718f630ecc1b2bdec34ecf1f799.camel@mediatek.com>
+Subject: Re: [PATCH v4] media: mtk-vpu: Ensure alignment of 8 for DTCM buffer
+From:   Irui Wang <irui.wang@mediatek.com>
+To:     Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
+        houlong wei <houlong.wei@mediatek.com>,
+        Alexandre Courbot <acourbot@chromium.org>,
+        "Hans Verkuil" <hverkuil@xs4all.nl>
+CC:     Linux Media Mailing List <linux-media@vger.kernel.org>,
+        "moderated list:ARM/Mediatek SoC support" 
+        <linux-mediatek@lists.infradead.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        "kernel@collabora.com" <kernel@collabora.com>,
+        Dafna Hirschfeld <dafna3@gmail.com>,
+        Tiffany Lin =?UTF-8?Q?=28=E6=9E=97=E6=85=A7=E7=8F=8A=29?= 
+        <tiffany.lin@mediatek.com>,
+        Andrew-CT Chen =?UTF-8?Q?=28=E9=99=B3=E6=99=BA=E8=BF=AA=29?= 
+        <Andrew-CT.Chen@mediatek.com>,
+        Minghsiu Tsai =?UTF-8?Q?=28=E8=94=A1=E6=98=8E=E4=BF=AE=29?= 
+        <Minghsiu.Tsai@mediatek.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>
+Date:   Wed, 10 Nov 2021 11:11:30 +0800
+In-Reply-To: <428f216d-cdff-e22d-b96e-f9dd9cc158e3@collabora.com>
+References: <20210920170408.1561-1-dafna.hirschfeld@collabora.com>
+         <c59b7f40-d99e-370a-b797-5dc72979df46@xs4all.nl>
+         <CAPBb6MW_i1_Lh2ZaF8jGjcV-4XBhjswtyKkZCk3HxKO7LX79Og@mail.gmail.com>
+         <9475ac5b-79fe-da0e-ed1c-a91275cad46e@collabora.com>
+         <c01c2c6e2351c915fb6e55b025bf2ab5c449f045.camel@mediatek.com>
+         <8dfc07306b853126e8109fc953fd6388b63c65d2.camel@mediatek.com>
+         <4e7ff420-f67d-5d4a-8733-f4b83d80af13@collabora.com>
+         <428f216d-cdff-e22d-b96e-f9dd9cc158e3@collabora.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.0
-Subject: Re: [PATCH v3 5/7] media: aspeed: Support aspeed mode to reduce
- compressed data
-Content-Language: en-US
-To:     Hans Verkuil <hverkuil@xs4all.nl>,
-        "eajames@linux.ibm.com" <eajames@linux.ibm.com>,
-        "mchehab@kernel.org" <mchehab@kernel.org>,
-        "joel@jms.id.au" <joel@jms.id.au>,
-        "andrew@aj.id.au" <andrew@aj.id.au>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        "openbmc@lists.ozlabs.org" <openbmc@lists.ozlabs.org>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>,
-        "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-References: <20211022065539.12392-1-jammy_huang@aspeedtech.com>
- <20211022065539.12392-6-jammy_huang@aspeedtech.com>
- <75ea5824-e241-6548-bdc2-7ac9ec6346b6@xs4all.nl>
- <7d6ced4a-fea1-1163-40cb-65b4ea929a51@aspeedtech.com>
- <34ce1814-349b-d7a9-6118-341eea9ecf5f@xs4all.nl>
-From:   Jammy Huang <jammy_huang@aspeedtech.com>
-In-Reply-To: <34ce1814-349b-d7a9-6118-341eea9ecf5f@xs4all.nl>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [192.168.2.115]
-X-ClientProxiedBy: TWMBX02.aspeed.com (192.168.0.24) To TWMBX02.aspeed.com
- (192.168.0.24)
-X-DNSRBL: 
-X-MAIL: twspam01.aspeedtech.com 1AA2HWxr091330
+X-MTK:  N
+Content-Transfer-Encoding: base64
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Dear Hans,
-
-On 2021/11/9 下午 06:17, Hans Verkuil wrote:
-> On 11/9/21 2:56 AM, Jammy Huang wrote:
->> Dear Hans,
->>
->> Thanks for your review.
->>
->> On 2021/11/8 下午 05:09, Hans Verkuil wrote:
->>> On 22/10/2021 08:55, Jammy Huang wrote:
->>>> aspeed supports differential jpeg format which only compress the parts
->>>> which are changed. In this way, it reduces both the amount of data to be
->>>> transferred by network and those to be decoded on the client side.
->>>>
->>>> 4 new ctrls are added:
->>>> * Aspeed JPEG Format: to control aspeed's partial jpeg on/off
->>>>     0: standard jpeg, 1: aspeed jpeg
->>> What exactly is 'aspeed jpeg'?
->> 'aspeed jpeg' is aspeed proprietary compression format. It will compare
->> the new frame
->> with previous one to decide which macroblock's data is changed, and only
->> the changed
->> macroblock will be compressed. In this way, the amount of compressed data is
->> significantly reduced. This is similar to the concept of I/P-frames of
->> video compression.
-> Right, but that makes this a new vendor-specific pixelformat, not a control.
-OK, I will add a new vendor-specific pixelformat for this.
->
->> For example, the video is static in first 3 frames and then a object in
->> the video moved in
->> 4th frame.
->>
->>           Frame Content      |    Standard    |    Aspeed
->> -----------------------------------------------------------------------
->> 1th                                 |    Full             | Full
->> 2th    identical with 1st   |    Full             |   none (only about
->> 12 Bytes for header data)
->> 3th    identical with 1st   |    Full             |   none
->> 4th    a object moved     |    Full             |   Only the Macroblocks
->> that have data changed are compressed
->>
->> I have implemented a javascript aspeed decoder in novnc to support this
->> format, but
->> the performance isn't good enough. I am working on a web-assembly to
->> improve it.
-> Is this format documented in a datasheet or something similar, ideally freely
-> available?
-This format is documented in ast2400/2500/2600's datasheet, but it's not 
-freely available.
->
->>>> * Aspeed Compression Mode: to control aspeed's compression mode
->>>>     0: DCT Only, 1: DCT VQ mix 2-color, 2: DCT VQ mix 4-color
->>>>     This is AST2400 only. It will adapt JPEG or VQ encoding method according
->>>>     to the context automatically.
->>> What exactly does this do?
->>>
->>> Is this very aspeed-specific, or could this be a standard JPEG control?
->> Yes, this is aspeed-specific. Its compression algorithm is a modified
->> JPEG algorithm.
-> Is this specific to the aspeed jpeg format, or also to the 'regular' jpeg format?
-
-It's specific to the aspeed jpeg format. Regular jpeg is based on DCT 
-and doesn't support VQ
-compression
-
->
-> Regards,
->
-> 	Hans
->
->>>> * Aspeed HQ Mode: to control aspeed's HQ mode on/off
->>>>     0: disabled, 1: enabled
->>>> * Aspeed HQ Quality: to control the quality of aspeed's HQ mode
->>>>     only useful if Aspeed HQ mode is enabled
->>> Can these two controls be replaced by the existing V4L2_CID_JPEG_COMPRESSION_QUALITY
->>> control? I.e.: range 1..12 is non-HQ, 13-24 is HQ. Note that the spec recommends
->>> that value 0 is not used in the V4L2_CID_JPEG_COMPRESSION_QUALITY range:
->>>
->>> https://hverkuil.home.xs4all.nl/spec/userspace-api/v4l/ext-ctrls-jpeg.html
->> HQ mode is aspeed-specific and not related to stanard jpeg's compression
->> quality. These two
->> quality attribute can be controlled independently. So, I think it is not
->> proper to integrate them
->> together.
->>
->> Noted, I will modified the min value of these 2 quality control.
->>
->>>> Aspeed JPEG Format requires an additional buffer, called bcd, to store
->>>> the information about which macro block in the new frame is different
->>>> from the previous one.
->>>>
->>>> To have bcd correctly working, we need to swap the buffers for src0/1 to
->>>> make src1 refer to previous frame and src0 to the coming new frame.
->>>>
->>>> Signed-off-by: Jammy Huang <jammy_huang@aspeedtech.com>
->>>> ---
->>>>    drivers/media/platform/aspeed-video.c | 222 +++++++++++++++++++++++---
->>>>    1 file changed, 203 insertions(+), 19 deletions(-)
->>>>
->>>> diff --git a/drivers/media/platform/aspeed-video.c b/drivers/media/platform/aspeed-video.c
->>>> index cafbffe1ef69..94d17dee6f3d 100644
->>>> --- a/drivers/media/platform/aspeed-video.c
->>>> +++ b/drivers/media/platform/aspeed-video.c
->>>> @@ -32,6 +32,12 @@
->>>>    #include <media/videobuf2-dma-contig.h>
->>>>    #include <linux/videodev2.h>
->>>>    
->>>> +#define ASPEED_CID_CUSTOM_BASE			(V4L2_CID_USER_BASE | 0xf000)
->>> Driver-specific control ID ranges must be reserved in include/uapi/linux/v4l2-controls.h.
->>> See e.g. V4L2_CID_USER_ALLEGRO_BASE.
->> OKay, I will update in the next patch.
->>> Regards,
->>>
->>> 	Hans
->>>
->>>> +#define V4L2_CID_ASPEED_FORMAT			(ASPEED_CID_CUSTOM_BASE  + 1)
->>>> +#define V4L2_CID_ASPEED_COMPRESSION_MODE	(ASPEED_CID_CUSTOM_BASE  + 2)
->>>> +#define V4L2_CID_ASPEED_HQ_MODE			(ASPEED_CID_CUSTOM_BASE  + 3)
->>>> +#define V4L2_CID_ASPEED_HQ_JPEG_QUALITY		(ASPEED_CID_CUSTOM_BASE  + 4)
->>>> +
->>>>    #define DEVICE_NAME			"aspeed-video"
->>>>    
->>>>    #define ASPEED_VIDEO_JPEG_NUM_QUALITIES	12
->>>> @@ -55,6 +61,7 @@
->>>>    
->>>>    #define VE_MAX_SRC_BUFFER_SIZE		0x8ca000 /* 1920 * 1200, 32bpp */
->>>>    #define VE_JPEG_HEADER_SIZE		0x006000 /* 512 * 12 * 4 */
->>>> +#define VE_BCD_BUFF_SIZE		0x100000
->>>>    
->>>>    #define VE_PROTECTION_KEY		0x000
->>>>    #define  VE_PROTECTION_KEY_UNLOCK	0x1a038aa8
->>>> @@ -108,6 +115,13 @@
->>>>    #define VE_SCALING_FILTER2		0x020
->>>>    #define VE_SCALING_FILTER3		0x024
->>>>    
->>>> +#define VE_BCD_CTRL			0x02C
->>>> +#define  VE_BCD_CTRL_EN_BCD		BIT(0)
->>>> +#define  VE_BCD_CTRL_EN_ABCD		BIT(1)
->>>> +#define  VE_BCD_CTRL_EN_CB		BIT(2)
->>>> +#define  VE_BCD_CTRL_THR		GENMASK(23, 16)
->>>> +#define  VE_BCD_CTRL_ABCD_THR		GENMASK(31, 24)
->>>> +
->>>>    #define VE_CAP_WINDOW			0x030
->>>>    #define VE_COMP_WINDOW			0x034
->>>>    #define VE_COMP_PROC_OFFSET		0x038
->>>> @@ -116,6 +130,7 @@
->>>>    #define VE_SRC0_ADDR			0x044
->>>>    #define VE_SRC_SCANLINE_OFFSET		0x048
->>>>    #define VE_SRC1_ADDR			0x04c
->>>> +#define VE_BCD_ADDR			0x050
->>>>    #define VE_COMP_ADDR			0x054
->>>>    
->>>>    #define VE_STREAM_BUF_SIZE		0x058
->>>> @@ -136,6 +151,8 @@
->>>>    #define  VE_COMP_CTRL_HQ_DCT_CHR	GENMASK(26, 22)
->>>>    #define  VE_COMP_CTRL_HQ_DCT_LUM	GENMASK(31, 27)
->>>>    
->>>> +#define VE_CB_ADDR			0x06C
->>>> +
->>>>    #define VE_OFFSET_COMP_STREAM		0x078
->>>>    
->>>>    #define VE_JPEG_COMP_SIZE_READ_BACK	0x084
->>>> @@ -243,10 +260,15 @@ struct aspeed_video {
->>>>    	unsigned int max_compressed_size;
->>>>    	struct aspeed_video_addr srcs[2];
->>>>    	struct aspeed_video_addr jpeg;
->>>> +	struct aspeed_video_addr bcd;
->>>>    
->>>>    	bool yuv420;
->>>> +	bool partial_jpeg;
->>>> +	bool hq_mode;
->>>>    	unsigned int frame_rate;
->>>>    	unsigned int jpeg_quality;
->>>> +	unsigned int jpeg_hq_quality;
->>>> +	unsigned int compression_mode;
->>>>    
->>>>    	unsigned int frame_bottom;
->>>>    	unsigned int frame_left;
->>>> @@ -258,6 +280,13 @@ struct aspeed_video {
->>>>    
->>>>    #define to_aspeed_video(x) container_of((x), struct aspeed_video, v4l2_dev)
->>>>    
->>>> +static bool aspeed_video_alloc_buf(struct aspeed_video *video,
->>>> +				   struct aspeed_video_addr *addr,
->>>> +				   unsigned int size);
->>>> +
->>>> +static void aspeed_video_free_buf(struct aspeed_video *video,
->>>> +				  struct aspeed_video_addr *addr);
->>>> +
->>>>    static const u32 aspeed_video_jpeg_header[ASPEED_VIDEO_JPEG_HEADER_SIZE] = {
->>>>    	0xe0ffd8ff, 0x464a1000, 0x01004649, 0x60000101, 0x00006000, 0x0f00feff,
->>>>    	0x00002d05, 0x00000000, 0x00000000, 0x00dbff00
->>>> @@ -492,6 +521,20 @@ static int aspeed_video_start_frame(struct aspeed_video *video)
->>>>    		return -EBUSY;
->>>>    	}
->>>>    
->>>> +	if (video->partial_jpeg && !video->bcd.size) {
->>>> +		if (!aspeed_video_alloc_buf(video, &video->bcd,
->>>> +					    VE_BCD_BUFF_SIZE)) {
->>>> +			dev_err(video->dev, "Failed to allocate BCD buffer\n");
->>>> +			dev_err(video->dev, "don't start frame\n");
->>>> +			return -ENOMEM;
->>>> +		}
->>>> +		aspeed_video_write(video, VE_BCD_ADDR, video->bcd.dma);
->>>> +		v4l2_dbg(1, debug, &video->v4l2_dev, "bcd addr(%#x) size(%d)\n",
->>>> +			video->bcd.dma, video->bcd.size);
->>>> +	} else if (!video->partial_jpeg && video->bcd.size) {
->>>> +		aspeed_video_free_buf(video, &video->bcd);
->>>> +	}
->>>> +
->>>>    	spin_lock_irqsave(&video->lock, flags);
->>>>    	buf = list_first_entry_or_null(&video->buffers,
->>>>    				       struct aspeed_video_buffer, link);
->>>> @@ -635,6 +678,7 @@ static irqreturn_t aspeed_video_irq(int irq, void *arg)
->>>>    
->>>>    	if (sts & VE_INTERRUPT_COMP_COMPLETE) {
->>>>    		struct aspeed_video_buffer *buf;
->>>> +		bool empty = true;
->>>>    		u32 frame_size = aspeed_video_read(video,
->>>>    						   VE_JPEG_COMP_SIZE_READ_BACK);
->>>>    
->>>> @@ -648,13 +692,23 @@ static irqreturn_t aspeed_video_irq(int irq, void *arg)
->>>>    		if (buf) {
->>>>    			vb2_set_plane_payload(&buf->vb.vb2_buf, 0, frame_size);
->>>>    
->>>> -			if (!list_is_last(&buf->link, &video->buffers)) {
->>>> +			/*
->>>> +			 * partial_jpeg requires continuous update.
->>>> +			 * On the contrary, standard jpeg can keep last buffer
->>>> +			 * to always have the latest result.
->>>> +			 */
->>>> +			if (!video->partial_jpeg &&
->>>> +			    list_is_last(&buf->link, &video->buffers)) {
->>>> +				empty = false;
->>>> +				v4l2_warn(&video->v4l2_dev, "skip to keep last frame updated\n");
->>>> +			} else {
->>>>    				buf->vb.vb2_buf.timestamp = ktime_get_ns();
->>>>    				buf->vb.sequence = video->sequence++;
->>>>    				buf->vb.field = V4L2_FIELD_NONE;
->>>>    				vb2_buffer_done(&buf->vb.vb2_buf,
->>>>    						VB2_BUF_STATE_DONE);
->>>>    				list_del(&buf->link);
->>>> +				empty = list_empty(&video->buffers);
->>>>    			}
->>>>    		}
->>>>    		spin_unlock(&video->lock);
->>>> @@ -668,7 +722,18 @@ static irqreturn_t aspeed_video_irq(int irq, void *arg)
->>>>    		aspeed_video_write(video, VE_INTERRUPT_STATUS,
->>>>    				   VE_INTERRUPT_COMP_COMPLETE);
->>>>    		sts &= ~VE_INTERRUPT_COMP_COMPLETE;
->>>> -		if (test_bit(VIDEO_STREAMING, &video->flags) && buf)
->>>> +
->>>> +		// swap src buffer if partial_jpeg
->>>> +		if (video->partial_jpeg) {
->>>> +			u32 src0, src1;
->>>> +
->>>> +			src0 = aspeed_video_read(video, VE_SRC0_ADDR);
->>>> +			src1 = aspeed_video_read(video, VE_SRC1_ADDR);
->>>> +			aspeed_video_write(video, VE_SRC0_ADDR, src1);
->>>> +			aspeed_video_write(video, VE_SRC1_ADDR, src0);
->>>> +		}
->>>> +
->>>> +		if (test_bit(VIDEO_STREAMING, &video->flags) && !empty)
->>>>    			aspeed_video_start_frame(video);
->>>>    	}
->>>>    
->>>> @@ -931,10 +996,14 @@ static void aspeed_video_set_resolution(struct aspeed_video *video)
->>>>    				   FIELD_PREP(VE_TGS_FIRST, video->frame_top) |
->>>>    				   FIELD_PREP(VE_TGS_LAST,
->>>>    					      video->frame_bottom + 1));
->>>> -		aspeed_video_update(video, VE_CTRL, 0, VE_CTRL_INT_DE);
->>>> +		aspeed_video_update(video, VE_CTRL,
->>>> +				    VE_CTRL_INT_DE | VE_CTRL_DIRECT_FETCH,
->>>> +				    VE_CTRL_INT_DE);
->>>>    	} else {
->>>>    		v4l2_dbg(1, debug, &video->v4l2_dev, "Capture: Direct Mode\n");
->>>> -		aspeed_video_update(video, VE_CTRL, 0, VE_CTRL_DIRECT_FETCH);
->>>> +		aspeed_video_update(video, VE_CTRL,
->>>> +				    VE_CTRL_INT_DE | VE_CTRL_DIRECT_FETCH,
->>>> +				    VE_CTRL_DIRECT_FETCH);
->>>>    	}
->>>>    
->>>>    	size *= 4;
->>>> @@ -969,35 +1038,70 @@ static void aspeed_video_set_resolution(struct aspeed_video *video)
->>>>    
->>>>    static void aspeed_video_update_regs(struct aspeed_video *video)
->>>>    {
->>>> -	u32 comp_ctrl = VE_COMP_CTRL_RSVD |
->>>> -		FIELD_PREP(VE_COMP_CTRL_DCT_LUM, video->jpeg_quality) |
->>>> -		FIELD_PREP(VE_COMP_CTRL_DCT_CHR, video->jpeg_quality | 0x10);
->>>> +	static const char * const compress_mode_str[] = {"DCT Only",
->>>> +		"DCT VQ mix 2-color", "DCT VQ mix 4-color"};
->>>> +	u32 comp_ctrl =	FIELD_PREP(VE_COMP_CTRL_DCT_LUM, video->jpeg_quality) |
->>>> +		FIELD_PREP(VE_COMP_CTRL_DCT_CHR, video->jpeg_quality | 0x10) |
->>>> +		FIELD_PREP(VE_COMP_CTRL_EN_HQ, video->hq_mode) |
->>>> +		FIELD_PREP(VE_COMP_CTRL_HQ_DCT_LUM, video->jpeg_hq_quality) |
->>>> +		FIELD_PREP(VE_COMP_CTRL_HQ_DCT_CHR, video->jpeg_hq_quality |
->>>> +			   0x10);
->>>>    	u32 ctrl = 0;
->>>> -	u32 seq_ctrl = VE_SEQ_CTRL_JPEG_MODE;
->>>> +	u32 seq_ctrl = 0;
->>>>    
->>>> -	v4l2_dbg(1, debug, &video->v4l2_dev, "framerate(%d)\n",
->>>> -		 video->frame_rate);
->>>> -	v4l2_dbg(1, debug, &video->v4l2_dev, "subsample(%s)\n",
->>>> +	v4l2_dbg(1, debug, &video->v4l2_dev, "framerate(%d)\n", video->frame_rate);
->>>> +	v4l2_dbg(1, debug, &video->v4l2_dev, "jpeg format(%s) subsample(%s)\n",
->>>> +		 video->partial_jpeg ? "partial" : "standard",
->>>>    		 video->yuv420 ? "420" : "444");
->>>> -	v4l2_dbg(1, debug, &video->v4l2_dev, "compression quality(%d)\n",
->>>> -		 video->jpeg_quality);
->>>> +	v4l2_dbg(1, debug, &video->v4l2_dev, "compression quality(%d) hq(%s) hq_quality(%d)\n",
->>>> +		 video->jpeg_quality, video->hq_mode ? "on" : "off",
->>>> +		 video->jpeg_hq_quality);
->>>> +	v4l2_dbg(1, debug, &video->v4l2_dev, "compression mode(%s)\n",
->>>> +		 compress_mode_str[video->compression_mode]);
->>>> +
->>>> +	if (video->partial_jpeg)
->>>> +		aspeed_video_update(video, VE_BCD_CTRL, 0, VE_BCD_CTRL_EN_BCD);
->>>> +	else
->>>> +		aspeed_video_update(video, VE_BCD_CTRL, VE_BCD_CTRL_EN_BCD, 0);
->>>>    
->>>>    	if (video->frame_rate)
->>>>    		ctrl |= FIELD_PREP(VE_CTRL_FRC, video->frame_rate);
->>>>    
->>>> +	if (!video->partial_jpeg) {
->>>> +		comp_ctrl &= ~FIELD_PREP(VE_COMP_CTRL_EN_HQ, video->hq_mode);
->>>> +		seq_ctrl |= VE_SEQ_CTRL_JPEG_MODE;
->>>> +	}
->>>> +
->>>>    	if (video->yuv420)
->>>>    		seq_ctrl |= VE_SEQ_CTRL_YUV420;
->>>>    
->>>>    	if (video->jpeg.virt)
->>>>    		aspeed_video_update_jpeg_table(video->jpeg.virt, video->yuv420);
->>>>    
->>>> +#ifdef CONFIG_MACH_ASPEED_G4
->>>> +	switch (video->compression_mode) {
->>>> +	case 0:	//DCT only
->>>> +		comp_ctrl |= VE_COMP_CTRL_VQ_DCT_ONLY;
->>>> +		break;
->>>> +	case 1:	//DCT VQ mix 2-color
->>>> +		comp_ctrl &= ~(VE_COMP_CTRL_VQ_4COLOR | VE_COMP_CTRL_VQ_DCT_ONLY);
->>>> +		break;
->>>> +	case 2:	//DCT VQ mix 4-color
->>>> +		comp_ctrl |= VE_COMP_CTRL_VQ_4COLOR;
->>>> +		break;
->>>> +	}
->>>> +#endif
->>>> +
->>>>    	/* Set control registers */
->>>>    	aspeed_video_update(video, VE_SEQ_CTRL,
->>>>    			    VE_SEQ_CTRL_JPEG_MODE | VE_SEQ_CTRL_YUV420,
->>>>    			    seq_ctrl);
->>>>    	aspeed_video_update(video, VE_CTRL, VE_CTRL_FRC, ctrl);
->>>>    	aspeed_video_update(video, VE_COMP_CTRL,
->>>> -			    VE_COMP_CTRL_DCT_LUM | VE_COMP_CTRL_DCT_CHR,
->>>> +			    VE_COMP_CTRL_DCT_LUM | VE_COMP_CTRL_DCT_CHR |
->>>> +			    VE_COMP_CTRL_EN_HQ | VE_COMP_CTRL_HQ_DCT_LUM |
->>>> +			    VE_COMP_CTRL_HQ_DCT_CHR | VE_COMP_CTRL_VQ_4COLOR |
->>>> +			    VE_COMP_CTRL_VQ_DCT_ONLY,
->>>>    			    comp_ctrl);
->>>>    }
->>>>    
->>>> @@ -1029,6 +1133,8 @@ static void aspeed_video_init_regs(struct aspeed_video *video)
->>>>    
->>>>    	/* Set mode detection defaults */
->>>>    	aspeed_video_write(video, VE_MODE_DETECT, 0x22666500);
->>>> +
->>>> +	aspeed_video_write(video, VE_BCD_CTRL, 0);
->>>>    }
->>>>    
->>>>    static void aspeed_video_start(struct aspeed_video *video)
->>>> @@ -1062,6 +1168,9 @@ static void aspeed_video_stop(struct aspeed_video *video)
->>>>    	if (video->srcs[1].size)
->>>>    		aspeed_video_free_buf(video, &video->srcs[1]);
->>>>    
->>>> +	if (video->bcd.size)
->>>> +		aspeed_video_free_buf(video, &video->bcd);
->>>> +
->>>>    	video->v4l2_input_status = V4L2_IN_ST_NO_SIGNAL;
->>>>    	video->flags = 0;
->>>>    }
->>>> @@ -1364,6 +1473,28 @@ static int aspeed_video_set_ctrl(struct v4l2_ctrl *ctrl)
->>>>    		if (test_bit(VIDEO_STREAMING, &video->flags))
->>>>    			aspeed_video_update_regs(video);
->>>>    		break;
->>>> +	case V4L2_CID_ASPEED_FORMAT:
->>>> +		video->partial_jpeg = ctrl->val;
->>>> +		if (test_bit(VIDEO_STREAMING, &video->flags))
->>>> +			aspeed_video_update_regs(video);
->>>> +		break;
->>>> +#ifdef CONFIG_MACH_ASPEED_G4
->>>> +	case V4L2_CID_ASPEED_COMPRESSION_MODE:
->>>> +		video->compression_mode = ctrl->val;
->>>> +		if (test_bit(VIDEO_STREAMING, &video->flags))
->>>> +			aspeed_video_update_regs(video);
->>>> +		break;
->>>> +#endif
->>>> +	case V4L2_CID_ASPEED_HQ_MODE:
->>>> +		video->hq_mode = ctrl->val;
->>>> +		if (test_bit(VIDEO_STREAMING, &video->flags))
->>>> +			aspeed_video_update_regs(video);
->>>> +		break;
->>>> +	case V4L2_CID_ASPEED_HQ_JPEG_QUALITY:
->>>> +		video->jpeg_hq_quality = ctrl->val;
->>>> +		if (test_bit(VIDEO_STREAMING, &video->flags))
->>>> +			aspeed_video_update_regs(video);
->>>> +		break;
->>>>    	default:
->>>>    		return -EINVAL;
->>>>    	}
->>>> @@ -1375,6 +1506,52 @@ static const struct v4l2_ctrl_ops aspeed_video_ctrl_ops = {
->>>>    	.s_ctrl = aspeed_video_set_ctrl,
->>>>    };
->>>>    
->>>> +static const struct v4l2_ctrl_config aspeed_ctrl_format = {
->>>> +	.ops = &aspeed_video_ctrl_ops,
->>>> +	.id = V4L2_CID_ASPEED_FORMAT,
->>>> +	.name = "Aspeed JPEG Format",
->>>> +	.type = V4L2_CTRL_TYPE_BOOLEAN,
->>>> +	.min = false,
->>>> +	.max = true,
->>>> +	.step = 1,
->>>> +	.def = false,
->>>> +};
->>>> +
->>>> +#ifdef CONFIG_MACH_ASPEED_G4
->>>> +static const struct v4l2_ctrl_config aspeed_ctrl_compression_mode = {
->>>> +	.ops = &aspeed_video_ctrl_ops,
->>>> +	.id = V4L2_CID_ASPEED_COMPRESSION_MODE,
->>>> +	.name = "Aspeed Compression Mode",
->>>> +	.type = V4L2_CTRL_TYPE_INTEGER,
->>>> +	.min = 0,
->>>> +	.max = 2,
->>>> +	.step = 1,
->>>> +	.def = 0,
->>>> +};
->>>> +#endif
->>>> +
->>>> +static const struct v4l2_ctrl_config aspeed_ctrl_HQ_mode = {
->>>> +	.ops = &aspeed_video_ctrl_ops,
->>>> +	.id = V4L2_CID_ASPEED_HQ_MODE,
->>>> +	.name = "Aspeed HQ Mode",
->>>> +	.type = V4L2_CTRL_TYPE_BOOLEAN,
->>>> +	.min = false,
->>>> +	.max = true,
->>>> +	.step = 1,
->>>> +	.def = false,
->>>> +};
->>>> +
->>>> +static const struct v4l2_ctrl_config aspeed_ctrl_HQ_jpeg_quality = {
->>>> +	.ops = &aspeed_video_ctrl_ops,
->>>> +	.id = V4L2_CID_ASPEED_HQ_JPEG_QUALITY,
->>>> +	.name = "Aspeed HQ Quality",
->>>> +	.type = V4L2_CTRL_TYPE_INTEGER,
->>>> +	.min = 0,
->>>> +	.max = ASPEED_VIDEO_JPEG_NUM_QUALITIES - 1,
->>>> +	.step = 1,
->>>> +	.def = 0,
->>>> +};
->>>> +
->>>>    static void aspeed_video_resolution_work(struct work_struct *work)
->>>>    {
->>>>    	struct delayed_work *dwork = to_delayed_work(work);
->>>> @@ -1644,6 +1821,7 @@ static int aspeed_video_setup_video(struct aspeed_video *video)
->>>>    	struct v4l2_device *v4l2_dev = &video->v4l2_dev;
->>>>    	struct vb2_queue *vbq = &video->queue;
->>>>    	struct video_device *vdev = &video->vdev;
->>>> +	struct v4l2_ctrl_handler *hdl = &video->ctrl_handler;
->>>>    	int rc;
->>>>    
->>>>    	video->pix_fmt.pixelformat = V4L2_PIX_FMT_JPEG;
->>>> @@ -1658,22 +1836,28 @@ static int aspeed_video_setup_video(struct aspeed_video *video)
->>>>    		return rc;
->>>>    	}
->>>>    
->>>> -	v4l2_ctrl_handler_init(&video->ctrl_handler, 2);
->>>> -	v4l2_ctrl_new_std(&video->ctrl_handler, &aspeed_video_ctrl_ops,
->>>> +	v4l2_ctrl_handler_init(hdl, 6);
->>>> +	v4l2_ctrl_new_std(hdl, &aspeed_video_ctrl_ops,
->>>>    			  V4L2_CID_JPEG_COMPRESSION_QUALITY, 0,
->>>>    			  ASPEED_VIDEO_JPEG_NUM_QUALITIES - 1, 1, 0);
->>>> -	v4l2_ctrl_new_std_menu(&video->ctrl_handler, &aspeed_video_ctrl_ops,
->>>> +	v4l2_ctrl_new_std_menu(hdl, &aspeed_video_ctrl_ops,
->>>>    			       V4L2_CID_JPEG_CHROMA_SUBSAMPLING,
->>>>    			       V4L2_JPEG_CHROMA_SUBSAMPLING_420, mask,
->>>>    			       V4L2_JPEG_CHROMA_SUBSAMPLING_444);
->>>> +	v4l2_ctrl_new_custom(hdl, &aspeed_ctrl_format, NULL);
->>>> +#ifdef CONFIG_MACH_ASPEED_G4
->>>> +	v4l2_ctrl_new_custom(hdl, &aspeed_ctrl_compression_mode, NULL);
->>>> +#endif
->>>> +	v4l2_ctrl_new_custom(hdl, &aspeed_ctrl_HQ_mode, NULL);
->>>> +	v4l2_ctrl_new_custom(hdl, &aspeed_ctrl_HQ_jpeg_quality, NULL);
->>>>    
->>>> -	rc = video->ctrl_handler.error;
->>>> +	rc = hdl->error;
->>>>    	if (rc) {
->>>>    		dev_err(video->dev, "Failed to init controls: %d\n", rc);
->>>>    		goto err_ctrl_init;
->>>>    	}
->>>>    
->>>> -	v4l2_dev->ctrl_handler = &video->ctrl_handler;
->>>> +	v4l2_dev->ctrl_handler = hdl;
->>>>    
->>>>    	vbq->type = V4L2_BUF_TYPE_VIDEO_CAPTURE;
->>>>    	vbq->io_modes = VB2_MMAP | VB2_READ | VB2_DMABUF;
->>>>
--- 
-Best Regards
-Jammy
+SGksIERhZm5hLA0KDQpUaGFua3MgZm9yIHRoZSBwYXRjaC4NCk9uIFR1ZSwgMjAyMS0xMS0wOSBh
+dCAxMDo0NiArMDIwMCwgRGFmbmEgSGlyc2NoZmVsZCB3cm90ZToNCj4gDQo+IE9uIDAzLjExLjIx
+IDEzOjA0LCBEYWZuYSBIaXJzY2hmZWxkIHdyb3RlOg0KPiA+IA0KPiA+IA0KPiA+IE9uIDAzLjEx
+LjIxIDEwOjE5LCBJcnVpIFdhbmcgd3JvdGU6DQo+ID4gPiBIaSwNCj4gPiA+IA0KPiA+ID4gVGhl
+ICJsZW4iIG9mIHNoYXJlX2J1ZiBjb3BpZWQgc2hvdWxkIGJlIGFsd2F5cyA4IGFsaWdubWVudDsN
+Cj4gPiA+IGRvIHlvdSBoYXZlIG90aGVyIGxvZ3MgdG8gcHJvdmUgdGhlIGxlbiBpcyBub3QgOCBh
+bGlnbm1lbnQgd2hlbg0KPiA+ID4gZXJyb3JzDQo+ID4gPiBhcHBlYXI/DQo+ID4gDQo+ID4gSGks
+IEkgZm91bmQgb3V0IHRoYXQgInNpemVvZihtZHBfaXBpX2NvbW0pID0gMjAiDQo+ID4gdGhpcyBp
+cyBkdWUgdG8gdGhlIG1hY3JvICNwcmFnbWEgcGFjayhwdXNoLCA0KSBpbiBtdGtfbWRwX2lwaS5o
+DQo+ID4gDQo+ID4gc2VlIFsxXQ0KPiA+IA0KPiA+IFsxXSBodHRwOi8vbGttbC5pdS5lZHUvaHlw
+ZXJtYWlsL2xpbnV4L2tlcm5lbC8yMTA5LjIvMDQ5NzguaHRtbA0KPiA+IA0KPiANCj4gSGkgSXJ1
+aSBXYW5nLA0KPiBBbnkgdXBkYXRlIHJlZ2FyZGluZyB0aGF0IHBhdGNoPw0KPiBDYW4geW91IGdp
+dmUgbW9yZSBleHBsYW5hdGlvbiBmb3IgdGhhdCBlcnJvcnMgdGhhdCB3ZSBzZWUNCj4gd2hlbiB0
+aGUgYnVmZmVyIHNpemUgaXMgbm90IGEgbXVsdGlwbGUgb2YgOD8NCj4gDQo+IFRoYW5rcywNCj4g
+RGFmbmENCg0Kc2hhcmVfYnVmIGlzIGEgbWFwcGVkIG1lbW9yeSBieSBpb3JlbWFwLCBpdCBzaG91
+bGQgYmUgYmV0dGVyIHVzZQ0KbWVtY3B5X3RvL2Zyb21pbyBpbnN0ZWFkIG9mIG1lbWNweSBiZWNh
+dXNlIG9mIGFsaWdubWVudC4NCg0KQXMgZm9yIG1lbWNweV90b2lvLCBpdCBtYXkgYWxzbyBoYXZl
+IHJlcXVpcmVtZW50cyBmb3IgYWxpZ25tZW50LCB3ZSBjYW4NCmFsc28gZ2V0IHN1Y2ggaW5mb3Jt
+YXRpb24gZnJvbToNCg0KaHR0cHM6Ly9lbGl4aXIuYm9vdGxpbi5jb20vbGludXgvdjUuMTUvc291
+cmNlL2RyaXZlcnMvbXRkL3NwaS1ub3IvY29udHJvbGxlcnMvYXNwZWVkLXNtYy5jI0wyMDcNCi4N
+Cg0KU28sIGl0J3Mgbm90IFZQVSBIVyBidWcgb3IgbGltaXRhdGlvbiwgaXQncyBtZW1jcHlfdG9p
+byByZXF1aXJlbWVudHMsDQptYXliZSB3ZSBjYW4gbW9kaWZ5IElQSSBtZXNzYWdlIHRvIGRvIGFs
+aWdubWVudCwgYnV0IGl0IG5lZWQgbW9kaWZ5DQpib3RoIGtlcm5lbCBhbmQgdnB1IGZpcm13YXJl
+LCB3aGljaCB3aWxsIGJyZWFrIHVwc3RyZWFtIGJhY2t3YXJkDQpjb21wYXRpYmxlLCB3ZSB0aGlu
+ayBpdCdzIHVuYWNjZXB0YWxlLg0KDQpJZiB0aGlzIHBhdGNoIGNhbiBzb2x2ZSB0aGUgaXNzdWUs
+IHdlIHRoaW5rIGl0J3MgT0suDQoNClRoYW5rcw0KPiANCj4gPiBUaGFua3MsDQo+ID4gRGFmbmEN
+Cj4gPiANCj4gPiA+ID4gPiBbNTguMzUwODQxXSBtdGstbWRwIDE0MDAxMDAwLnJkbWE6IHByb2Nl
+c3NpbmcgZmFpbGVkOiAtMjINCj4gPiA+IA0KPiA+ID4gT24gV2VkLCAyMDIxLTExLTAzIGF0IDE2
+OjAzICswODAwLCBob3Vsb25nIHdlaSB3cm90ZToNCj4gPiA+ID4gQWRkIG10ay12cHUgZHJpdmVy
+IGV4cGVydCBpcnVpLndhbmcgaW4gdGhlIGxvb3AuDQo+ID4gPiA+IA0KPiA+ID4gPiBPbiBNb24s
+IDIwMjEtMTAtMTggYXQgMTU6MDcgKzA4MDAsIERhZm5hIEhpcnNjaGZlbGQgd3JvdGU6DQo+ID4g
+PiA+ID4gDQo+ID4gPiA+ID4gT24gMTguMTAuMjEgMDM6MTYsIEFsZXhhbmRyZSBDb3VyYm90IHdy
+b3RlOg0KPiA+ID4gPiA+ID4gSGkgSGFucyENCj4gPiA+ID4gPiA+IA0KPiA+ID4gPiA+ID4gT24g
+TW9uLCBPY3QgNCwgMjAyMSBhdCA2OjM3IFBNIEhhbnMgVmVya3VpbCA8DQo+ID4gPiA+ID4gPiBo
+dmVya3VpbEB4czRhbGwubmw+DQo+ID4gPiA+ID4gPiB3cm90ZToNCj4gPiA+ID4gPiA+ID4gDQo+
+ID4gPiA+ID4gPiA+IE9uIDIwLzA5LzIwMjEgMTk6MDQsIERhZm5hIEhpcnNjaGZlbGQgd3JvdGU6
+DQo+ID4gPiA+ID4gPiA+ID4gRnJvbTogQWxleGFuZHJlIENvdXJib3QgPGFjb3VyYm90QGNocm9t
+aXVtLm9yZz4NCj4gPiA+ID4gPiA+ID4gPiANCj4gPiA+ID4gPiA+ID4gPiBXaGVuIHJ1bm5pbmcg
+bWVtY3B5X3RvaW86DQo+ID4gPiA+ID4gPiA+ID4gbWVtY3B5X3RvaW8oc2VuZF9vYmotPnNoYXJl
+X2J1ZiwgYnVmLCBsZW4pOw0KPiA+ID4gPiA+ID4gPiA+IGl0IHdhcyBmb3VuZCB0aGF0IGVycm9y
+cyBhcHBlYXIgaWYgbGVuIGlzIG5vdCBhDQo+ID4gPiA+ID4gPiA+ID4gbXVsdGlwbGUgb2YNCj4g
+PiA+ID4gPiA+ID4gPiA4Og0KPiA+ID4gPiA+ID4gPiA+IA0KPiA+ID4gPiA+ID4gPiA+IFs1OC4z
+NTA4NDFdIG10ay1tZHAgMTQwMDEwMDAucmRtYTogcHJvY2Vzc2luZyBmYWlsZWQ6DQo+ID4gPiA+
+ID4gPiA+ID4gLTIyDQo+ID4gPiA+ID4gPiA+IA0KPiA+ID4gPiA+ID4gPiBXaHkgZG8gZXJyb3Jz
+IGFwcGVhcj8gSXMgdGhhdCBkdWUgdG8gYSBIVyBidWc/IFNvbWUgb3RoZXINCj4gPiA+ID4gPiA+
+ID4gcmVhc29uPw0KPiA+ID4gPiA+ID4gDQo+ID4gPiA+ID4gPiBNVEsgZm9sa3Mgd291bGQgYmUg
+dGhlIGJlc3QgcGxhY2VkIHRvIGFuc3dlciB0aGlzLCBidXQNCj4gPiA+ID4gPiA+IHNpbmNlIHRo
+ZQ0KPiA+ID4gPiA+ID4gZmFpbHVyZSBpcyByZXBvcnRlZCBieSB0aGUgZmlybXdhcmUgSSdkIHN1
+c3BlY3QgZWl0aGVyIGENCj4gPiA+ID4gPiA+IGZpcm13YXJlDQo+ID4gPiA+ID4gPiBvcg0KPiA+
+ID4gPiA+ID4gaGFyZHdhcmUgbGltaXRhdGlvbi4NCj4gPiA+ID4gPiA+IA0KPiA+ID4gPiA+ID4g
+PiANCj4gPiA+ID4gPiA+ID4gPiANCj4gPiA+ID4gPiA+ID4gPiBUaGlzIHBhdGNoIGVuc3VyZXMg
+dGhlIGNvcHkgb2YgYSBtdWx0aXBsZSBvZiA4IHNpemUgYnkNCj4gPiA+ID4gPiA+ID4gPiBjYWxs
+aW5nDQo+ID4gPiA+ID4gPiA+ID4gcm91bmRfdXAobGVuLCA4KSB3aGVuIGNvcHlpbmcNCj4gPiA+
+ID4gPiA+ID4gPiANCj4gPiA+ID4gPiA+ID4gPiBGaXhlczogZTY1OTlhZGZhZDMwICgibWVkaWE6
+IG10ay12cHU6IGF2b2lkIHVuYWxpZ25lZA0KPiA+ID4gPiA+ID4gPiA+IGFjY2Vzcw0KPiA+ID4g
+PiA+ID4gPiA+IHRvDQo+ID4gPiA+ID4gPiA+ID4gRFRDTSBidWZmZXIuIikNCj4gPiA+ID4gPiA+
+ID4gPiBTaWduZWQtb2ZmLWJ5OiBBbGV4YW5kcmUgQ291cmJvdCA8YWNvdXJib3RAY2hyb21pdW0u
+b3JnDQo+ID4gPiA+ID4gPiA+ID4gPg0KPiA+ID4gPiA+ID4gPiA+IFNpZ25lZC1vZmYtYnk6IEVu
+cmljIEJhbGxldGJvIGkgU2VycmEgPA0KPiA+ID4gPiA+ID4gPiA+IGVucmljLmJhbGxldGJvQGNv
+bGxhYm9yYS5jb20+DQo+ID4gPiA+ID4gPiA+ID4gU2lnbmVkLW9mZi1ieTogRGFmbmEgSGlyc2No
+ZmVsZCA8DQo+ID4gPiA+ID4gPiA+ID4gZGFmbmEuaGlyc2NoZmVsZEBjb2xsYWJvcmEuY29tDQo+
+ID4gPiA+ID4gPiA+ID4gPiANCj4gPiA+ID4gPiA+ID4gPiANCj4gPiA+ID4gPiA+ID4gPiBSZXZp
+ZXdlZC1ieTogSG91bG9uZyBXZWkgPGhvdWxvbmcud2VpQG1lZGlhdGVrLmNvbT4NCj4gPiA+ID4g
+PiA+ID4gPiAtLS0NCj4gPiA+ID4gPiA+ID4gPiBjaGFuZ2VzIHNpbmNlIHYzOg0KPiA+ID4gPiA+
+ID4gPiA+IDEuIG11bHRpbGUgLT4gbXVsdGlwbGUNCj4gPiA+ID4gPiA+ID4gPiAyLiBhZGQgaW5s
+aW5lIGRvYw0KPiA+ID4gPiA+ID4gPiA+IA0KPiA+ID4gPiA+ID4gPiA+IGNoYW5nZXMgc2luY2Ug
+djI6DQo+ID4gPiA+ID4gPiA+ID4gMS4gZG8gdGhlIGV4dHJhIGNvcHkgb25seSBpZiBsZW4gaXMg
+bm90IG11bHRpcGxlIG9mIDgNCj4gPiA+ID4gPiA+ID4gPiANCj4gPiA+ID4gPiA+ID4gPiBjaGFu
+Z2VzIHNpbmNlIHYxOg0KPiA+ID4gPiA+ID4gPiA+IDEuIGNoYW5nZSBzaWduLW9mZi1ieSB0YWdz
+DQo+ID4gPiA+ID4gPiA+ID4gMi4gY2hhbmdlIHZhbHVlcyB0byBtZW1zZXQNCj4gPiA+ID4gPiA+
+ID4gPiANCj4gPiA+ID4gPiA+ID4gPiAgICBkcml2ZXJzL21lZGlhL3BsYXRmb3JtL210ay12cHUv
+bXRrX3ZwdS5jIHwgMTUNCj4gPiA+ID4gPiA+ID4gPiArKysrKysrKysrKysrKy0NCj4gPiA+ID4g
+PiA+ID4gPiAgICAxIGZpbGUgY2hhbmdlZCwgMTQgaW5zZXJ0aW9ucygrKSwgMSBkZWxldGlvbigt
+KQ0KPiA+ID4gPiA+ID4gPiA+IA0KPiA+ID4gPiA+ID4gPiA+IGRpZmYgLS1naXQgYS9kcml2ZXJz
+L21lZGlhL3BsYXRmb3JtL210ay12cHUvbXRrX3ZwdS5jDQo+ID4gPiA+ID4gPiA+ID4gYi9kcml2
+ZXJzL21lZGlhL3BsYXRmb3JtL210ay12cHUvbXRrX3ZwdS5jDQo+ID4gPiA+ID4gPiA+ID4gaW5k
+ZXggZWMyOTBkZGU1OWNmLi4xZGYwMzE3MTZjOGYgMTAwNjQ0DQo+ID4gPiA+ID4gPiA+ID4gLS0t
+IGEvZHJpdmVycy9tZWRpYS9wbGF0Zm9ybS9tdGstdnB1L210a192cHUuYw0KPiA+ID4gPiA+ID4g
+PiA+ICsrKyBiL2RyaXZlcnMvbWVkaWEvcGxhdGZvcm0vbXRrLXZwdS9tdGtfdnB1LmMNCj4gPiA+
+ID4gPiA+ID4gPiBAQCAtMzQ5LDcgKzM0OSwyMCBAQCBpbnQgdnB1X2lwaV9zZW5kKHN0cnVjdA0K
+PiA+ID4gPiA+ID4gPiA+IHBsYXRmb3JtX2RldmljZQ0KPiA+ID4gPiA+ID4gPiA+ICpwZGV2LA0K
+PiA+ID4gPiA+ID4gPiA+ICAgICAgICAgICAgICAgICB9DQo+ID4gPiA+ID4gPiA+ID4gICAgICAg
+ICB9IHdoaWxlICh2cHVfY2ZnX3JlYWRsKHZwdSwgSE9TVF9UT19WUFUpKTsNCj4gPiA+ID4gPiA+
+ID4gPiANCj4gPiA+ID4gPiA+ID4gPiAtICAgICBtZW1jcHlfdG9pbyhzZW5kX29iai0+c2hhcmVf
+YnVmLCBidWYsIGxlbik7DQo+ID4gPiA+ID4gPiA+ID4gKyAgICAgLyoNCj4gPiA+ID4gPiA+ID4g
+PiArICAgICAgKiB3aGVuIGNvcHlpbmcgZGF0YSB0byB0aGUgdnB1IGhhcmR3YXJlLCB0aGUNCj4g
+PiA+ID4gPiA+ID4gPiBtZW1jcHlfdG9pbw0KPiA+ID4gPiA+ID4gPiA+IG9wZXJhdGlvbiBtdXN0
+IGNvcHkNCj4gPiA+ID4gPiA+ID4gPiArICAgICAgKiBhIG11bHRpcGxlIG9mIDguIE90aGVyd2lz
+ZSB0aGUgcHJvY2Vzc2luZw0KPiA+ID4gPiA+ID4gPiA+IGZhaWxzDQo+ID4gPiA+ID4gPiA+IA0K
+PiA+ID4gPiA+ID4gPiBTYW1lIGhlcmU6IGl0IG5lZWRzIHRvIGV4cGxhaW4gd2h5IHRoZSBwcm9j
+ZXNzaW5nIGZhaWxzLg0KPiA+ID4gPiA+IA0KPiA+ID4gPiA+IElzIHdyaXRpbmcgJ2R1ZSB0byBo
+YXJkd2FyZSBvciBmaXJtd2FyZSBsaW1pdGF0aW9uJyBlbm91Z2g/DQo+ID4gPiA+ID4gSWYgbm90
+LCB0aGVuIHdlIHNob3VsZCB3YWl0IGZvciBtZWRpYXRlayBwZW9wbGUncyByZXNwb25zZSB0bw0K
+PiA+ID4gPiA+IGV4cGxhaW4NCj4gPiA+ID4gPiBpZiB0aGV5IGtub3cgbW9yZQ0KPiA+ID4gPiA+
+IA0KPiA+ID4gPiA+ID4gPiANCj4gPiA+ID4gPiA+ID4gPiArICAgICAgKi8NCj4gPiA+ID4gPiA+
+ID4gPiArICAgICBpZiAobGVuICUgOCAhPSAwKSB7DQo+ID4gPiA+ID4gPiA+ID4gKyAgICAgICAg
+ICAgICB1bnNpZ25lZCBjaGFyIGRhdGFbU0hBUkVfQlVGX1NJWkVdOw0KPiA+ID4gPiA+ID4gPiAN
+Cj4gPiA+ID4gPiA+ID4gV291bGRuJ3QgaXQgYmUgbW9yZSByb2J1c3QgaWYgeW91IHNheToNCj4g
+PiA+ID4gPiA+ID4gDQo+ID4gPiA+ID4gPiA+ICAgICAgICAgICAgICAgICAgIHVuc2lnbmVkIGNo
+YXIgZGF0YVtzaXplb2Yoc2VuZF9vYmotDQo+ID4gPiA+ID4gPiA+ID4gc2hhcmVfYnVmKV07DQo+
+ID4gPiA+ID4gPiANCj4gPiA+ID4gPiA+IERlZmluaXRlbHkgeWVzLg0KPiA+ID4gPiA+IA0KPiA+
+ID4gPiA+IEknbGwgc2VuZCB2NSBmaXhpbmcgdGhpcw0KPiA+ID4gPiA+IA0KPiA+ID4gPiA+ID4g
+DQo+ID4gPiA+ID4gPiA+IA0KPiA+ID4gPiA+ID4gPiBJIGFsc28gdGhpbmsgdGhhdCB0aGUgU0hB
+UkVfQlVGX1NJWkUgZGVmaW5lIG5lZWRzIGENCj4gPiA+ID4gPiA+ID4gY29tbWVudA0KPiA+ID4g
+PiA+ID4gPiBzdGF0aW5nIHRoYXQgaXQgbXVzdCBiZSBhDQo+ID4gPiA+ID4gPiA+IG11bHRpcGxl
+IG9mIDgsIG90aGVyd2lzZSB1bmV4cGVjdGVkIHRoaW5ncyBjYW4gaGFwcGVuLg0KPiA+ID4gPiA+
+ID4gPiANCj4gPiA+ID4gPiA+ID4gWW91IGFsc28gbm90aWNlZCB0aGF0IHRoZSBjdXJyZW50IFNI
+QVJFX0JVRl9TSVpFIGRlZmluZQ0KPiA+ID4gPiA+ID4gPiBpcyB0b28NCj4gPiA+ID4gPiA+ID4g
+bG93LCBidXQgSSBzYXcNCj4gPiA+ID4gPiA+ID4gbm8gcGF0Y2ggY29ycmVjdGluZyB0aGlzLiBT
+aG91bGRuJ3QgdGhhdCBiZSBmaXhlZCBhcw0KPiA+ID4gPiA+ID4gPiB3ZWxsPw0KPiA+ID4gPiA+
+ID4gDQo+ID4gPiA+ID4gPiBBRkFJQ1QgdGhlIGZpcm13YXJlIGV4cGVjdHMgdGhpcyBleGFjdCBz
+aXplIG9uIGl0cyBlbmQsIHNvDQo+ID4gPiA+ID4gPiBJDQo+ID4gPiA+ID4gPiBkb24ndA0KPiA+
+ID4gPiA+ID4gYmVsaWV2ZSBpdCBjYW4gYmUgY2hhbmdlZCB0aGF0IGVhc2lseS4gQnV0IG1heWJl
+IHNvbWVvbmUNCj4gPiA+ID4gPiA+IGZyb20gTVRLDQo+ID4gPiA+ID4gPiBjYW4NCj4gPiA+ID4g
+PiA+IHByb3ZlIG1lIHdyb25nLg0KPiA+ID4gPiA+ID4gDQo+ID4gPiA+ID4gDQo+ID4gPiA+ID4g
+SSBsb29rZWQgZnVydGhlciBhbmQgbm90ZWQgdGhhdCB0aGUgc3RydWN0cyB0aGF0IGFyZSBsYXJn
+ZXINCj4gPiA+ID4gPiB0aGFuDQo+ID4gPiA+ID4gJ1NIQVJFX0JVRl9TSVpFJw0KPiA+ID4gPiA+
+ICh2ZW5jX2FwX2lwaV9tc2dfZW5jX2V4dCB2ZW5jX2FwX2lwaV9tc2dfc2V0X3BhcmFtX2V4dCkN
+Cj4gPiA+ID4gPiBhcmUgdXNlZCBieSBkcml2ZXJzIHRoYXQgZG9uJ3QgdXNlIHRoaXMgdnB1IGFw
+aSwgc28gYWN0dWFsbHkNCj4gPiA+ID4gPiBTSEFSRV9CVUZfU0laRSBpcw0KPiA+ID4gPiA+IG5v
+dCB0b28gbG93IGFuZCBhcyBDb3J1cmJvdCB3b3J0ZSBwcm9iYWJseSBub3QgY2hhbmdlYWJsZS4N
+Cj4gPiA+ID4gPiANCj4gPiA+ID4gPiANCj4gPiA+ID4gPiBUaGFua3MsDQo+ID4gPiA+ID4gRGFm
+bmENCj4gPiA+ID4gPiANCj4gPiA+ID4gPiA+IENoZWVycywNCj4gPiA+ID4gPiA+IEFsZXguDQo+
+ID4gPiA+ID4gPiANCj4gPiA+ID4gDQo+ID4gPiA+IA0K
 
