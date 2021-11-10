@@ -2,48 +2,52 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7D1A844BF59
-	for <lists+linux-media@lfdr.de>; Wed, 10 Nov 2021 11:59:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B19F544C042
+	for <lists+linux-media@lfdr.de>; Wed, 10 Nov 2021 12:43:53 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231373AbhKJLCA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 10 Nov 2021 06:02:00 -0500
-Received: from mail.kernel.org ([198.145.29.99]:38760 "EHLO mail.kernel.org"
+        id S231186AbhKJLqj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 10 Nov 2021 06:46:39 -0500
+Received: from mail.kernel.org ([198.145.29.99]:47584 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231344AbhKJLB7 (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 10 Nov 2021 06:01:59 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 59A4061205;
-        Wed, 10 Nov 2021 10:59:12 +0000 (UTC)
+        id S230440AbhKJLqj (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 10 Nov 2021 06:46:39 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id A4D9461107;
+        Wed, 10 Nov 2021 11:43:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1636541952;
-        bh=lrO+JY2QDNzmXXL3NwoO4JWc7UMB3ftP9XCOGAxG6Qo=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=ggSMzIbB/yz1AWLoILW3lJ7p+JCvoN2xJmnfaX7rvGHp43H0DszcoOr0lIb6EZTtx
-         ndi/nHK25x5lyoBwCEjd2DgdRKYSme3901q3CYujZcq9K/E0byynw8iFiA0DnI7wHD
-         5xzOLKGDy5ClimLt8ivFanE0mOuGOk/HzyzFvxuNVC96o0UIuvdC4X/5xll0gbLe65
-         IDrSb3JVhhxltMlcibNkgQ7sOgpCEpY3X3UQ8PA8vlcv0s8z2ELAFy3jK68whppOJ5
-         KUqTvUYsTgb/WAGGIQofK826pe2nSQaZbIpGUy03suxFbQQUj2Q4nxvZkxuJi2FKZj
-         qvYMAyqND0zFw==
+        s=k20201202; t=1636544631;
+        bh=cij5tqc7NOVk9YF9EKFeRZ9Z4y/NvBQ97G0hC0bPCb4=;
+        h=From:To:Cc:Subject:Date:From;
+        b=D+oBXRGLIV6VqhXgjoD4Lr4QE6xCyDuyrwh8MVVRskshhGB1zVw7Easzt5DZHu4Fg
+         Z89hwoOgILPovQh+kkPxtmteAqmmk8PWt+oAXjv0M18oygcASixtY+u0MQtCxQ2fPo
+         MT1zbS1wFASXzasD2oKTy92GZnTy2DHwKJFGdLzIZBxPtdnh55X291aIsc1ehct8kK
+         NrYU6STLBZrft5Hc98ysYImU4RC5AFgdZkDnjQOgCV3j4V5ya0K68LqosIY+a7ozBq
+         wbp1/9t51j51bvH9QNtvEIA7nJWSKIr35hrYqeRNxnhLAtzk80GMFLqndEQaDFQ6+x
+         CVSuhtU3oLLig==
 Received: by mail.kernel.org with local (Exim 4.94.2)
         (envelope-from <mchehab@kernel.org>)
-        id 1mklJt-002rxG-8u; Wed, 10 Nov 2021 10:59:09 +0000
+        id 1mkm16-003Lvd-3p; Wed, 10 Nov 2021 11:43:48 +0000
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 Cc:     linuxarm@huawei.com, mauro.chehab@huawei.com,
         Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Deepak R Varma <drv@mailo.com>,
+        Alan <alan@linux.intel.com>, Alex Dewar <alex.dewar90@gmail.com>,
+        Aline Santana Cordeiro <alinesantanacordeiro@gmail.com>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Arnd Bergmann <arnd@arndb.de>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Hans de Goede <hdegoede@redhat.com>,
+        Kaixu Xia <kaixuxia@tencent.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         Sakari Ailus <sakari.ailus@linux.intel.com>,
         Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+        Tsuchiya Yuto <kitakar@gmail.com>,
+        Yang Li <abaci-bugfix@linux.alibaba.com>,
         linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-staging@lists.linux.dev, Hans Verkuil <hverkuil@xs4all.nl>
-Subject: [PATCH 2/2] media: atomisp-ov2680: properly set the vts value
-Date:   Wed, 10 Nov 2021 10:59:08 +0000
-Message-Id: <4bada6cb5cb0d70d736ecb93f9c6dc2719d4241c.1636541941.git.mchehab+huawei@kernel.org>
+        linux-staging@lists.linux.dev
+Subject: [PATCH] media: atomisp: get rid of atomisp_get_frame_pgnr() abstraction
+Date:   Wed, 10 Nov 2021 11:43:46 +0000
+Message-Id: <80ea920d14379124ba92aab2e6a6d12a92d79b2b.1636544620.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.33.1
-In-Reply-To: <46ec939d911fc94b8a5e217874655e60512ad773.1636541941.git.mchehab+huawei@kernel.org>
-References: <46ec939d911fc94b8a5e217874655e60512ad773.1636541941.git.mchehab+huawei@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
@@ -52,40 +56,69 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The vts value should be set before being checked, as otherwise a
-warning will arise:
+Simplify the code by getting rid of this function, as it ends
+being just a single line of code.
 
-	drivers/staging/media/atomisp/i2c/atomisp-ov2680.c: In function 'ov2680_set_fmt':
-	drivers/staging/media/atomisp/i2c/atomisp-ov2680.c:873:33: warning: 'vts' may be used uninitialized
-	[-Wmaybe-uninitialized]
-	  873 |         if (dev->exposure > vts - OV2680_INTEGRATION_TIME_MARGIN)
-
-Reported-by: Hans Verkuil <hverkuil@xs4all.nl>
-Cc: Hans de Goede <hdegoede@redhat.com>
-Fixes: 62b984359b6f ("media: atomisp-ov2680: Fix ov2680_set_fmt() messing up high exposure settings")
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- drivers/staging/media/atomisp/i2c/atomisp-ov2680.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/staging/media/atomisp/pci/atomisp_cmd.c  | 16 ----------------
+ drivers/staging/media/atomisp/pci/atomisp_cmd.h  |  2 --
+ drivers/staging/media/atomisp/pci/atomisp_fops.c |  2 +-
+ 3 files changed, 1 insertion(+), 19 deletions(-)
 
-diff --git a/drivers/staging/media/atomisp/i2c/atomisp-ov2680.c b/drivers/staging/media/atomisp/i2c/atomisp-ov2680.c
-index 497884d332e1..d24f8830fd94 100644
---- a/drivers/staging/media/atomisp/i2c/atomisp-ov2680.c
-+++ b/drivers/staging/media/atomisp/i2c/atomisp-ov2680.c
-@@ -869,11 +869,11 @@ static int ov2680_set_fmt(struct v4l2_subdev *sd,
- 		dev_err(&client->dev,
- 			"ov2680 write resolution register err: %d\n", ret);
+diff --git a/drivers/staging/media/atomisp/pci/atomisp_cmd.c b/drivers/staging/media/atomisp/pci/atomisp_cmd.c
+index 4ef5d728cd2f..4bd5ab3a7863 100644
+--- a/drivers/staging/media/atomisp/pci/atomisp_cmd.c
++++ b/drivers/staging/media/atomisp/pci/atomisp_cmd.c
+@@ -1931,22 +1931,6 @@ irqreturn_t atomisp_isr_thread(int irq, void *isp_ptr)
+ 	return IRQ_HANDLED;
+ }
  
-+	vts = dev->res->lines_per_frame;
-+
- 	/* If necessary increase the VTS to match exposure + MARGIN */
- 	if (dev->exposure > vts - OV2680_INTEGRATION_TIME_MARGIN)
- 		vts = dev->exposure + OV2680_INTEGRATION_TIME_MARGIN;
--	else
--		vts = dev->res->lines_per_frame;
+-/*
+- * utils for buffer allocation/free
+- */
+-
+-int atomisp_get_frame_pgnr(struct atomisp_device *isp,
+-			   const struct ia_css_frame *frame, u32 *p_pgnr)
+-{
+-	if (!frame) {
+-		dev_err(isp->dev, "%s: NULL frame pointer ERROR.\n", __func__);
+-		return -EINVAL;
+-	}
+-
+-	*p_pgnr = DIV_ROUND_UP(frame->data_bytes, PAGE_SIZE);
+-	return 0;
+-}
+-
+ /*
+  * Get internal fmt according to V4L2 fmt
+  */
+diff --git a/drivers/staging/media/atomisp/pci/atomisp_cmd.h b/drivers/staging/media/atomisp/pci/atomisp_cmd.h
+index fb848d716947..ebc729468f87 100644
+--- a/drivers/staging/media/atomisp/pci/atomisp_cmd.h
++++ b/drivers/staging/media/atomisp/pci/atomisp_cmd.h
+@@ -74,8 +74,6 @@ irqreturn_t atomisp_isr_thread(int irq, void *isp_ptr);
+ const struct atomisp_format_bridge *get_atomisp_format_bridge_from_mbus(
+     u32 mbus_code);
+ bool atomisp_is_mbuscode_raw(uint32_t code);
+-int atomisp_get_frame_pgnr(struct atomisp_device *isp,
+-			   const struct ia_css_frame *frame, u32 *p_pgnr);
+ void atomisp_delayed_init_work(struct work_struct *work);
  
- 	ret = ov2680_write_reg(client, 2, OV2680_TIMING_VTS_H, vts);
- 	if (ret)
+ /* Get internal fmt according to V4L2 fmt */
+diff --git a/drivers/staging/media/atomisp/pci/atomisp_fops.c b/drivers/staging/media/atomisp/pci/atomisp_fops.c
+index c7ac313a2edf..0a8023aaf73d 100644
+--- a/drivers/staging/media/atomisp/pci/atomisp_fops.c
++++ b/drivers/staging/media/atomisp/pci/atomisp_fops.c
+@@ -1094,7 +1094,7 @@ static int frame_mmap(struct atomisp_device *isp,
+ 
+ 	host_virt = vma->vm_start;
+ 	isp_virt = frame->data;
+-	atomisp_get_frame_pgnr(isp, frame, &pgnr);
++	pgnr = DIV_ROUND_UP(frame->data_bytes, PAGE_SIZE);
+ 
+ 	if (do_isp_mm_remap(isp, vma, isp_virt, host_virt, pgnr))
+ 		return -EAGAIN;
 -- 
 2.33.1
 
