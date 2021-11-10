@@ -2,84 +2,54 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A40BC44C0F8
-	for <lists+linux-media@lfdr.de>; Wed, 10 Nov 2021 13:10:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9890C44C1C6
+	for <lists+linux-media@lfdr.de>; Wed, 10 Nov 2021 14:01:20 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231851AbhKJMMc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 10 Nov 2021 07:12:32 -0500
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:60746 "EHLO
-        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231816AbhKJMMW (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Wed, 10 Nov 2021 07:12:22 -0500
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: dafna)
-        with ESMTPSA id 32D711F4555C
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=collabora.com; s=mail;
-        t=1636546173; bh=drd7pjo9KNm9SXbJqSjRnoiOHd+JUDMpVHIVQiFuY6Q=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=OeNIpSg8PJEnbZjgzuqJEgRp4jXR+JmcSZQ3n392dgINfZfdwsyX9b1e1V00pP7bk
-         AcTRnCTfnJ+kNcwWkaIHW6NOXngwxQBDIfPyB36tHKVLiR4fBcwsrTeanJZ/BlkDOg
-         horCmUfrNTN7nDdcUXehZR5CPS65hpgX4e4Ph4EIUINJkMoaWYvbsjvZ4Ir8nYrdtM
-         C4li4J7L0mbi+xjGo33ZPxnxaotw98a04/tvRsIjc9qNKiQ5NTkTLd5E0XVDUqbTCL
-         nHcCRfBxFyWJEpBzRAczZbDQr8oZa8x3jXqb03D3f5QKgJ4PA0Wd6PGi/85aReeB3u
-         sWnwX+scWAzng==
-From:   Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
-To:     linux-media@vger.kernel.org
-Cc:     Robert Beckett <bob.beckett@collabora.com>,
-        Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-staging@lists.linux.dev (open list:STAGING SUBSYSTEM),
-        linux-kernel@vger.kernel.org (open list),
-        laurent.pinchart@ideasonboard.com, hverkuil@xs4all.nl,
-        kernel@collabora.com, dafna3@gmail.com,
-        kiril.bicevski@collabora.com,
-        Nas Chung <nas.chung@chipsnmedia.com>,
-        lafley.kim@chipsnmedia.com, scott.woo@chipsnmedia.com,
-        olivier.crete@collabora.com, dan.carpenter@oracle.com,
-        rdunlap@infradead.org
-Subject: [PATCH v3 6/6] media: wave5: Add wave5 driver to maintainers file
-Date:   Wed, 10 Nov 2021 14:09:10 +0200
-Message-Id: <20211110120910.12411-7-dafna.hirschfeld@collabora.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20211110120910.12411-1-dafna.hirschfeld@collabora.com>
-References: <20211110120910.12411-1-dafna.hirschfeld@collabora.com>
+        id S231928AbhKJNEG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 10 Nov 2021 08:04:06 -0500
+Received: from www.linuxtv.org ([130.149.80.248]:36604 "EHLO www.linuxtv.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S231904AbhKJNEF (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 10 Nov 2021 08:04:05 -0500
+Received: from builder.linuxtv.org ([140.211.167.10] helo=slave0)
+        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1mknE4-007KSx-2z; Wed, 10 Nov 2021 13:01:16 +0000
+Received: from ip6-localhost ([::1] helo=localhost.localdomain)
+        by slave0 with esmtp (Exim 4.94.2)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1mknE2-004G0m-2P; Wed, 10 Nov 2021 13:01:14 +0000
+From:   Jenkins <jenkins@linuxtv.org>
+To:     mchehab+samsung@kernel.org, linux-media@vger.kernel.org
+Cc:     builder@linuxtv.org
+Subject: Re: [GIT PULL FOR v5.17] Various fixes/enhancements (#78322)
+Date:   Wed, 10 Nov 2021 13:01:13 +0000
+Message-Id: <20211110130113.1014812-1-jenkins@linuxtv.org>
+X-Mailer: git-send-email 2.30.2
+In-Reply-To: <734bd659-3f59-63a1-dbf8-28e50ff733e4@xs4all.nl>
+References: 
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Robert Beckett <bob.beckett@collabora.com>
+From: builder@linuxtv.org
 
-Add the Chips&Media wave5 encoder/decoder driver
-to the maintainers file
+Pull request: https://patchwork.linuxtv.org/project/linux-media/patch/734bd659-3f59-63a1-dbf8-28e50ff733e4@xs4all.nl/
+Build time: 00:00:00
+Link: https://lore.kernel.org/linux-media/734bd659-3f59-63a1-dbf8-28e50ff733e4@xs4all.nl
 
-Signed-off-by: Robert Beckett <bob.beckett@collabora.com>
-Signed-off-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
----
- MAINTAINERS | 9 +++++++++
- 1 file changed, 9 insertions(+)
+gpg: Signature made Wed 10 Nov 2021 10:02:56 AM UTC
+gpg:                using RSA key AAA7FFBA4D2D77EF4CAEA1421326E0CD23ABDCE5
+gpg: Good signature from "Hans Verkuil <hverkuil-cisco@xs4all.nl>" [unknown]
+gpg:                 aka "Hans Verkuil <hverkuil@xs4all.nl>" [unknown]
+gpg: Note: This key has expired!
+Primary key fingerprint: 052C DE7B C215 053B 689F  1BCA BD2D 6148 6614 3B4C
+     Subkey fingerprint: AAA7 FFBA 4D2D 77EF 4CAE  A142 1326 E0CD 23AB DCE5
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 0e6594a4ad8f..5704b8c17f72 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -19962,6 +19962,15 @@ F:	drivers/watchdog/
- F:	include/linux/watchdog.h
- F:	include/uapi/linux/watchdog.h
- 
-+WAVE5 VPU CODEC DRIVER
-+M:	Nas Chung <nas.chung@chipsnmedia.com>
-+M:	Robert Beckett <bob.beckett@collabora.com>
-+M:	Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
-+L:	linux-media@vger.kernel.org
-+S:	Maintained
-+F:	Documentation/devicetree/bindings/staging/media/cnm,wave.yaml
-+F:	drivers/staging/media/wave5/
-+
- WHISKEYCOVE PMIC GPIO DRIVER
- M:	Kuppuswamy Sathyanarayanan <sathyanarayanan.kuppuswamy@linux.intel.com>
- L:	linux-gpio@vger.kernel.org
--- 
-2.17.1
+
+Build aborted due to a fatal error:
+FAILED: patch patch patches/0002-media-gspca-Make-use-of-the-helper-macro-kthread_run.patch doesn't apply:
 
