@@ -2,136 +2,163 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 32D0744BAA1
-	for <lists+linux-media@lfdr.de>; Wed, 10 Nov 2021 04:33:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A268E44BB7F
+	for <lists+linux-media@lfdr.de>; Wed, 10 Nov 2021 06:57:29 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230221AbhKJDfv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 9 Nov 2021 22:35:51 -0500
-Received: from twspam01.aspeedtech.com ([211.20.114.71]:35885 "EHLO
-        twspam01.aspeedtech.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229963AbhKJDfv (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 9 Nov 2021 22:35:51 -0500
-Received: from mail.aspeedtech.com ([192.168.0.24])
-        by twspam01.aspeedtech.com with ESMTP id 1AA39hMY095864;
-        Wed, 10 Nov 2021 11:09:43 +0800 (GMT-8)
-        (envelope-from jammy_huang@aspeedtech.com)
-Received: from [192.168.2.115] (192.168.2.115) by TWMBX02.aspeed.com
- (192.168.0.24) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Wed, 10 Nov
- 2021 11:33:01 +0800
-Message-ID: <e8b51641-7b5f-376c-92e1-3d52d0f98f46@aspeedtech.com>
-Date:   Wed, 10 Nov 2021 11:33:02 +0800
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.0
-Subject: Re: [PATCH] media: aspeed: Fix incorrect resolution detected
-Content-Language: en-US
-To:     Paul Menzel <pmenzel@molgen.mpg.de>
-CC:     "eajames@linux.ibm.com" <eajames@linux.ibm.com>,
-        "mchehab@kernel.org" <mchehab@kernel.org>,
-        "joel@jms.id.au" <joel@jms.id.au>,
-        "andrew@aj.id.au" <andrew@aj.id.au>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        "openbmc@lists.ozlabs.org" <openbmc@lists.ozlabs.org>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>,
-        "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-References: <20211109095453.12363-1-jammy_huang@aspeedtech.com>
- <ac30786b-dbeb-db77-4fd8-6fe1efbdb929@molgen.mpg.de>
-From:   Jammy Huang <jammy_huang@aspeedtech.com>
-In-Reply-To: <ac30786b-dbeb-db77-4fd8-6fe1efbdb929@molgen.mpg.de>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [192.168.2.115]
-X-ClientProxiedBy: TWMBX02.aspeed.com (192.168.0.24) To TWMBX02.aspeed.com
- (192.168.0.24)
-X-DNSRBL: 
-X-MAIL: twspam01.aspeedtech.com 1AA39hMY095864
+        id S229811AbhKJGAP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 10 Nov 2021 01:00:15 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38500 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229493AbhKJGAO (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Wed, 10 Nov 2021 01:00:14 -0500
+Received: from lb2-smtp-cloud7.xs4all.net (lb2-smtp-cloud7.xs4all.net [IPv6:2001:888:0:108::2a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5D4F5C061767
+        for <linux-media@vger.kernel.org>; Tue,  9 Nov 2021 21:57:27 -0800 (PST)
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud7.xs4all.net with ESMTPA
+        id kgbZm6s5SnkS9kgbrms2ZX; Wed, 10 Nov 2021 06:57:23 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
+        t=1636523843; bh=4YjvDcbZoOOgdDHqpDqeFOxiaRR4L4E22b0Cx6XGpIE=;
+        h=Message-ID:Date:From:To:Subject:From:Subject;
+        b=qOZCuwGrHMGOeeHbGwSGk+p/nfwlWSvWl9R6JErUUJBtknvFklgk8pNwd2+tqCyT9
+         CIvNlIajIF9LWEcqpq0acotk2VNK8apASilUyq5ZH5Lhnm9Hu6KQhknWABowc7SxHj
+         /4oJZwZOPLFGiBHaFVuwPIJzP4uYkmOmHtIULl8euw63O5Fa6K8RzP11QeZI2M+heW
+         6JC/KUv1Ce92h8jORpC8u7hbigSXcPq8EgsJutTtCPYLWpSCYgABTak0eFJriTjOlA
+         1jWbE/gbfLQXQrbVDosHwHkGB8JadzI84fVbD54UPoNEL4d2GeBY47n+T860x9eofR
+         fmJYk99PU6v9A==
+Message-ID: <3bf9ad5e89ce769326ee189135154913@smtp-cloud7.xs4all.net>
+Date:   Wed, 10 Nov 2021 06:57:05 +0100
+From:   "Hans Verkuil" <hverkuil@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: ERRORS
+X-CMAE-Envelope: MS4xfH7c0sIe8MU9WSqNAfi4cFP5JNtO0pjylovh/Gni9im4NTcRR1VMKblOqiOyuiWK6zuy1MLcoLiAJduLjvnpOCbgF5dZUSKbj1UhDhy+UdwqGGdbnvnD
+ s5Ndd+fmLWSys/G370ncH7PneYPPmH4ljXavt+YZii2uz31a3V53fw73Uo2hA3CBvdHLQSoCgjo4rg==
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Dear Paul,
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
 
-On 2021/11/9 下午 07:22, Paul Menzel wrote:
-> Dear Jammy,
->
->
-> Am 09.11.21 um 10:54 schrieb Jammy Huang:
->> During the process of os-installation, detected resolution's height
->> could be less than the correct one.
-> Can you please elaborate? What OS? What resolution was and what
-> resolution should have been detected?
-My bad. This is the scenario our QA used to find this problem, but it 
-could happen in
-any scenario with successive timing-change condition. I will update to 
-have a more
-elaborate message
->
->> Increase min-required-count of stable signal to fix the problem.
-> So you do two changes in the patch? First use the bitfield access
-> macros, and then change VE_MODE_DT_HOR_STABLE and VE_MODE_DT_VER_STABLE
-> from 6 to 10? Is that the amount of iterations? Why 10 and not 20?
-> How much time do four iterations add?
-VE_MODE_DT_HOR_STABLE means the min required count in detecting stable
-HSYNC signal to set mode detection horizontal signal stable.
-VE_MODE_DT_VER_STABLE means the min required count in detecting stable
-VSYNC signal to set mode detection vertical signal stable.
+Results of the daily build of media_tree:
 
-How much time these iterations take varies by the input timing.
-If VE_MODE_DT_VER_STABLE is 10, it means 10 successive stable vsync required
-to make vertical signal stable flag raised. If the current timing is 60 
-fps, it will takes
-at least 10/60 second.
-The suggested min acceptable value for these two are 3 and max is 15.
-> Sorry for my ignorance, but if you could make it two patches, that’d be
-> great.
-Sure, I will make it two patches in next update.
->
->> Fixes: d2b4387f3bdf ("media: platform: Add Aspeed Video Engine driver")
->> Signed-off-by: Jammy Huang <jammy_huang@aspeedtech.com>
->> ---
->>    drivers/media/platform/aspeed-video.c | 13 ++++++++++++-
->>    1 file changed, 12 insertions(+), 1 deletion(-)
->>
->> diff --git a/drivers/media/platform/aspeed-video.c b/drivers/media/platform/aspeed-video.c
->> index 5da52646b298..625a77ddb479 100644
->> --- a/drivers/media/platform/aspeed-video.c
->> +++ b/drivers/media/platform/aspeed-video.c
->> @@ -196,6 +196,12 @@
->>    #define  VE_INTERRUPT_VSYNC_DESC	BIT(11)
->>    
->>    #define VE_MODE_DETECT			0x30c
->> +#define  VE_MODE_DT_HOR_TOLER		GENMASK(31, 28)
->> +#define  VE_MODE_DT_VER_TOLER		GENMASK(27, 24)
->> +#define  VE_MODE_DT_HOR_STABLE		GENMASK(23, 20)
->> +#define  VE_MODE_DT_VER_STABLE		GENMASK(19, 16)
->> +#define  VE_MODE_DT_EDG_THROD		GENMASK(15, 8)
->> +
->>    #define VE_MEM_RESTRICT_START		0x310
->>    #define VE_MEM_RESTRICT_END		0x314
->>    
->> @@ -1199,7 +1205,12 @@ static void aspeed_video_init_regs(struct aspeed_video *video)
->>    	aspeed_video_write(video, VE_SCALING_FILTER3, 0x00200000);
->>    
->>    	/* Set mode detection defaults */
->> -	aspeed_video_write(video, VE_MODE_DETECT, 0x22666500);
->> +	aspeed_video_write(video, VE_MODE_DETECT,
->> +			   FIELD_PREP(VE_MODE_DT_HOR_TOLER, 2) |
->> +			   FIELD_PREP(VE_MODE_DT_VER_TOLER, 2) |
->> +			   FIELD_PREP(VE_MODE_DT_HOR_STABLE, 10) |
->> +			   FIELD_PREP(VE_MODE_DT_VER_STABLE, 10) |
->> +			   FIELD_PREP(VE_MODE_DT_EDG_THROD, 0x65));
->>    
->>    	aspeed_video_write(video, VE_BCD_CTRL, 0);
->>    }
->>
->
-> Kind regards,
->
-> Paul
+date:			Wed Nov 10 05:00:14 CET 2021
+media-tree git hash:	3951ae98f0ba1003464e60adf41100e70dddbcde
+media_build git hash:	2b23b3dfc87e992739203b263fbb9c7365831fcb
+v4l-utils git hash:	c960b297161b05facdb80a9016d79beae32283eb
+edid-decode git hash:	b00755e34eb12aa92416aaf1bb7b02603131afe0
+gcc version:		i686-linux-gcc (GCC) 11.2.0
+sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
+sparse version:		0.6.3
+smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
+smatch version:		0.6.3
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: 2fb1e81a6c56593cc77a2e7a5757a1a2d2f01769
+host hardware:		x86_64
+host os:		5.14.0-2-amd64
 
--- 
-Best Regards
-Jammy
+linux-git-sh: OK
+linux-git-arm-davinci: OK
+linux-git-arm-at91: OK
+linux-git-mips: OK
+linux-git-arm-stm32: OK
+linux-git-arm-pxa: OK
+linux-git-arm64: OK
+linux-git-powerpc64: OK
+linux-git-arm-multi: OK
+linux-git-i686: WARNINGS
+linux-git-x86_64: WARNINGS
+Check COMPILE_TEST: OK
+Check for strcpy/strncpy/strlcpy: OK
+linux-4.4.283-i686: OK
+linux-4.4.283-x86_64: OK
+linux-4.5.7-i686: OK
+linux-4.5.7-x86_64: OK
+linux-4.6.7-i686: OK
+linux-4.6.7-x86_64: OK
+linux-4.7.10-i686: OK
+linux-4.7.10-x86_64: OK
+linux-4.8.17-i686: OK
+linux-4.8.17-x86_64: OK
+linux-4.9.246-i686: OK
+linux-4.9.246-x86_64: OK
+linux-4.10.17-i686: OK
+linux-4.10.17-x86_64: OK
+linux-4.11.12-i686: OK
+linux-4.11.12-x86_64: OK
+linux-4.12.14-i686: OK
+linux-4.12.14-x86_64: OK
+linux-4.13.16-i686: OK
+linux-4.13.16-x86_64: OK
+linux-4.14.246-i686: OK
+linux-4.14.246-x86_64: OK
+linux-4.15.18-i686: OK
+linux-4.15.18-x86_64: OK
+linux-4.16.18-i686: OK
+linux-4.16.18-x86_64: OK
+linux-4.17.19-i686: OK
+linux-4.17.19-x86_64: OK
+linux-4.18.20-i686: OK
+linux-4.18.20-x86_64: OK
+linux-4.19.206-i686: OK
+linux-4.19.206-x86_64: OK
+linux-4.20.17-i686: OK
+linux-4.20.17-x86_64: OK
+linux-5.0.21-i686: OK
+linux-5.0.21-x86_64: OK
+linux-5.1.21-i686: OK
+linux-5.1.21-x86_64: OK
+linux-5.2.21-i686: OK
+linux-5.2.21-x86_64: OK
+linux-5.3.18-i686: OK
+linux-5.3.18-x86_64: OK
+linux-5.4.144-i686: OK
+linux-5.4.144-x86_64: OK
+linux-5.5.19-i686: OK
+linux-5.5.19-x86_64: OK
+linux-5.6.19-i686: OK
+linux-5.6.19-x86_64: OK
+linux-5.7.19-i686: OK
+linux-5.7.19-x86_64: OK
+linux-5.8.18-i686: OK
+linux-5.8.18-x86_64: OK
+linux-5.9.16-i686: OK
+linux-5.9.16-x86_64: OK
+linux-5.10.62-i686: OK
+linux-5.10.62-x86_64: OK
+linux-5.11.22-i686: OK
+linux-5.11.22-x86_64: OK
+linux-5.12.19-i686: OK
+linux-5.12.19-x86_64: OK
+linux-5.13.14-i686: OK
+linux-5.13.14-x86_64: OK
+linux-5.14.1-i686: OK
+linux-5.14.1-x86_64: OK
+linux-5.15.1-i686: OK
+linux-5.15.1-x86_64: OK
+apps: OK
+spec-git: OK
+virtme: OK: Final Summary: 2989, Succeeded: 2989, Failed: 0, Warnings: 0
+virtme-32: ERRORS: Final Summary: 3100, Succeeded: 3099, Failed: 1, Warnings: 0
+sparse: WARNINGS
+smatch: ERRORS
+kerneldoc: WARNINGS
 
+Detailed results are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Wednesday.log
+
+Detailed regression test results are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Wednesday-test-media.log
+http://www.xs4all.nl/~hverkuil/logs/Wednesday-test-media-32.log
+http://www.xs4all.nl/~hverkuil/logs/Wednesday-test-media-dmesg.log
+
+Full logs are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Wednesday.tar.bz2
+
+The Media Infrastructure API from this daily build is here:
+
+http://www.xs4all.nl/~hverkuil/spec/index.html
