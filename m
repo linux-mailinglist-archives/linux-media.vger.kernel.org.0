@@ -2,314 +2,237 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1409E44D860
-	for <lists+linux-media@lfdr.de>; Thu, 11 Nov 2021 15:34:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E566444D87F
+	for <lists+linux-media@lfdr.de>; Thu, 11 Nov 2021 15:44:38 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233466AbhKKOhS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 11 Nov 2021 09:37:18 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57520 "EHLO
+        id S233062AbhKKOr0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 11 Nov 2021 09:47:26 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59818 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231614AbhKKOhR (ORCPT
+        with ESMTP id S230177AbhKKOrZ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 11 Nov 2021 09:37:17 -0500
-Received: from mail-pj1-x1030.google.com (mail-pj1-x1030.google.com [IPv6:2607:f8b0:4864:20::1030])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 456B4C061766;
-        Thu, 11 Nov 2021 06:34:28 -0800 (PST)
-Received: by mail-pj1-x1030.google.com with SMTP id j5-20020a17090a318500b001a6c749e697so4141939pjb.1;
-        Thu, 11 Nov 2021 06:34:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :user-agent:mime-version:content-transfer-encoding;
-        bh=Q300qEsM5f6zDoM0ltlDUPdgW2hRYOC3hLnRdyiz/1w=;
-        b=BoHodSnY86Id7/OU+FVCjMxq4bsog41V/uPbfejW1AMD2VZltSZAtNnsf2M9VyVSS0
-         HV3/VYxxtKN1hQqjApJfoAKOmoGEu+nESP4S5A5nnTLcPcGh7e29LCT7VeZThD6peJ6W
-         GRT/8k5Wwh+d2aVpsZJxtXEtDtuckUZ6xiOuIJiKm21jS+Fs2xmwZxJVq3+KeHkVENMr
-         vW8YS0o0kNb9nIH4uY2oMNiOfJl2zbdz/eGNaUIFIoywsbtLRR2o/rCK28uIhbZn8kVZ
-         UnVH6bvVa9Do9NN6h/NXKn8v7IHreG0fMkFLu/dKOc4+tI9Y3izCEL1ybx8y+X3KuFk4
-         YXbg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=Q300qEsM5f6zDoM0ltlDUPdgW2hRYOC3hLnRdyiz/1w=;
-        b=HkcsrTeZeH41fONeyuVjVHdWlD5hC7YfKFktT0lVtF56V50ezCAi35l0sfj50N+8iZ
-         3bETCy4RZtvrH0VvsDuI4vZeLdIjD/0VrNRZjRppyg+z6qsLckNjdfj3IOxaByDoIgbK
-         Eh7BgYkrM6x50M7s+cyxzwjY6TbuPKn5rnGQMM97tmJjjVduELVcD7lV/Zq3gHLZikPE
-         lI1VQnw/CSPJnTa2c9npQcgWQhXSyVRbExa6DHYp+tItYFPBf7J0mmpbjZJu1GJqIuKg
-         DShKBSyePWw4/nLThEyNWpIreUPqOQMyIHeQkMwpntPTfYGHAIuQfpR4+SVOTz7avgIl
-         t3OQ==
-X-Gm-Message-State: AOAM530VLQayxP5REidyZDNZmpd56Mrk8s9SZDhbgvMcFM5gruJd2V0L
-        6J5q3++30nde+hw1H/HbJB+lpk644XulSA==
-X-Google-Smtp-Source: ABdhPJwA9h3WIRCExL9j78sVfgeUoqYEO0W11Qx367uTg90zrWjClULtFZ7uJYNEZuNdB2uUIBfsQg==
-X-Received: by 2002:a17:90a:bb14:: with SMTP id u20mr8825452pjr.139.1636641267463;
-        Thu, 11 Nov 2021 06:34:27 -0800 (PST)
-Received: from ?IPv6:2400:4052:6980:3800:dba7:2b1f:3f26:a5ec? ([2400:4052:6980:3800:dba7:2b1f:3f26:a5ec])
-        by smtp.gmail.com with ESMTPSA id k3sm3470094pff.211.2021.11.11.06.34.24
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 11 Nov 2021 06:34:26 -0800 (PST)
-Message-ID: <ab48bd8c69273e8b18ff652f3615b2698a777092.camel@gmail.com>
-Subject: Re: [PATCH 04/17] media: atomisp: pci: do not use err var when
- checking port validity for ISP2400
-From:   Tsuchiya Yuto <kitakar@gmail.com>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Thu, 11 Nov 2021 09:47:25 -0500
+Received: from lb1-smtp-cloud7.xs4all.net (lb1-smtp-cloud7.xs4all.net [IPv6:2001:888:0:108::1a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 10404C061766;
+        Thu, 11 Nov 2021 06:44:35 -0800 (PST)
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud7.xs4all.net with ESMTPA
+        id lBJUmN1tjnkS9lBJXmz1AS; Thu, 11 Nov 2021 15:44:33 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
+        t=1636641873; bh=hNEijK1h2ht5AxdpQPHWzjJNy4V/UiiEaK6au3OlIqo=;
+        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
+         Subject;
+        b=te/DE2Br0tjtu4JbmMlGWXjMDyf7LfBCOBCP21EZxa3oozR+TCOiNQ2LatWZqWKqp
+         t/JrEbqUUA4ZZvkiAG0JIPckEw8RlWFm+YymUBK4uuR8csGkHuMev2xFxs+r7aUBeL
+         2WEiQ3b3C1BCjOpB14cc9TyuMYjX1BtR7s0ePETvhPO4i4v7k4qXRGi6MbgC8YGwoQ
+         AbQNTJyiG8MbhDgTAh75Bqn8UgdyckaVE6UyGJ2f8jLxRdaAf2Eelf8gnSh3jKakzq
+         kJEWzV4lq9RUxndO32t/5H8Oi1HZAI7aPIZN8PEBEh+2gposk9WqPupLmJ2GyiVlTi
+         qgMpfdIKHcOdQ==
+Subject: Re: [PATCH v7 00/11] VP9 codec V4L2 control interface
+To:     Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
+        linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-kernel@vger.kernel.org, linux-rockchip@lists.infradead.org,
+        linux-staging@lists.linux.dev
+Cc:     Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+        Boris Brezillon <boris.brezillon@collabora.com>,
+        Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+        Fabio Estevam <festevam@gmail.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
-        linux-kernel@vger.kernel.org,
-        Nable <nable.maininbox@googlemail.com>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Fabio Aiuto <fabioaiuto83@gmail.com>,
-        "andrey.i.trufanov" <andrey.i.trufanov@gmail.com>,
-        Patrik Gfeller <patrik.gfeller@gmail.com>,
-        Hans de Goede <hdegoede@redhat.com>
-Date:   Thu, 11 Nov 2021 23:34:23 +0900
-In-Reply-To: <20211101141058.36ea2c8e@sal.lan>
-References: <20211017161958.44351-1-kitakar@gmail.com>
-         <20211017161958.44351-5-kitakar@gmail.com>
-         <20211026092637.196447aa@sal.lan>
-         <1a295721fd1f1e512cd54a659a250aef162bfb6f.camel@gmail.com>
-         <20211028123944.66c212c1@sal.lan>
-         <af7cdf9de020171567c2e75b713deb2ed073e4e3.camel@gmail.com>
-         <20211101141058.36ea2c8e@sal.lan>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.42.1 
+        Heiko Stuebner <heiko@sntech.de>,
+        Jernej Skrabec <jernej.skrabec@gmail.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Shawn Guo <shawnguo@kernel.org>, kernel@collabora.com
+References: <20210929160439.6601-1-andrzej.p@collabora.com>
+From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Message-ID: <b86785db-4f93-5804-d848-125d9077a8c7@xs4all.nl>
+Date:   Thu, 11 Nov 2021 15:44:28 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Firefox/78.0 Thunderbird/78.14.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20210929160439.6601-1-andrzej.p@collabora.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4xfEwmYd/4JQ1de0tfHyTy7XH+DC5YCyOShmHu1Y+d/dgKEO4X1Pp25SFo75oi8h3xPe5EV3fQdhVJkWzeMUYywuyFok6PURc31bmgHOJVdNS1Auh0zO3r
+ pLfw323u9hB2aTn2eFKkbPabVt8dKsquJATG+JKG79thKz1qmQ0h5XTDqA5KVvO0aAr01f1xRawOb3dgtqnhOgQvJkkhHNcPUX82ewlCW8vmKmm2gMG41MNN
+ ULHKrYbsYVu+h0MK0t0GoFCFt831oo4PqH65KOkztCTmxXdCTgqGCKkXie+LuOQaHNEi+QktHfhQ/wCfu7OOVV0BBinrs8ZMTuuONFxRzawD/JG1bN1ic9rv
+ CRh4ueaIEkaC2I6jqnKz9WqwKli08j5G4+2YekzL8IvU/JK2BO3MHG1l4MVLvFW7oE92t0o3esyqA4+o3Zb4HflYLItSHmHHJEAVrvYbwX20ueBrswLx64Ds
+ rKOMefO3R3bPir1PSHt5kz8BZc2MnIWzuBGI+qz3NxnecnOs+Phhx3FjJYk8CpY9PwHpvx5NNLd6BLdPjaSwgRPgWfuN9I15LFexLPrVlhM6n0Q2IN9pA0mV
+ ZT9s3tuG3vQVCLxYvTSWXHvguflfXtksYt1lJ6bHWWFaW6gMxK2/aa57Y3QJIZk9eJqTD96zx4Nkx2gFxWHwNpclu2E0q0t8nHn1lwIqBbhgrZp89cgSLejd
+ huKyH+L92a/qyps7Xhq1NzX08yrx8Sq57pqcm5UdPX0wVSeKup1uMnspwa6NEEmeqqHOZTsrc0D4o0dYM0fbeAUI6H5TFfg2WUgWio2MrEy8yCM+QYMGxQgU
+ yvI0op1m98tsdlJVkPNr654gBv6VGYBm3EiMqlvn+efsB4rVCIQwThnH708bHMf2Z8iGQiSleyLi7wrZMxRFsspBTE4sLzq/osg8YjYC0SGSwvAPasSwg/wn
+ p5xRhWf4y9yHs+K3SnbOMtQukMk=
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Sorry for a little late reply. This is hard to explain...
+Hi all,
 
-On Mon, 2021-11-01 at 14:10 +0000, Mauro Carvalho Chehab wrote:
-> Em Mon, 01 Nov 2021 22:38:55 +0900
-> Tsuchiya Yuto <kitakar@gmail.com> escreveu:
-
-[...]
-> 
-
-> > This is not directly related to this series, but how we should reduce
-> > the ifdef usage in the future? Here are my two ideas:
-> > 
-> >   1. (my initial idea) remove `#ifdef ISP2401` part and make ISP2401
-> >      part completely irci_stable_candrpv_0415_20150521_0458
-> > 
-> > this way does not require (relatively) much human work I think.
-> > 
-> > But as Mauro says, the `#ifdef ISP2401` part (irci_ecr-master_20150911_0724)
-> > is basically an improved version.
-> 
-> No. What I said is that the if (ISP2401) and the remaining ifdefs are because
-> of BYT x CHT.
-
-I need to elaborate on this. Indeed some of them are really because of
-BYT x CHT, but others are stuff from irci_ecr-master_20150911_0724.
-
-What I meant when I mentioned "remove `#ifdef ISP2401` part" is that,
-removing things which was _initially_ inside the `#ifdef ISP2401` on the
-initial commit of atomisp.
-
-Also I believe we can remove more `if (IS_ISP2401)` and `/* ISP2401 */`
-things as well as the some remaining `#ifdef ISP2401` things.
-
-I added about this below and hope it clarifies things...
-
-> The worse part of them are related to those files
-> (See Makefile):
-> 
-> obj-byt = \
-> 	pci/css_2400_system/hive/ia_css_isp_configs.o \
-> 	pci/css_2400_system/hive/ia_css_isp_params.o \
-> 	pci/css_2400_system/hive/ia_css_isp_states.o \
-> 
-> obj-cht = \
-> 	pci/css_2401_system/hive/ia_css_isp_configs.o \
-> 	pci/css_2401_system/hive/ia_css_isp_params.o \
-> 	pci/css_2401_system/hive/ia_css_isp_states.o \
-> 	pci/css_2401_system/host/csi_rx.o \
-> 	pci/css_2401_system/host/ibuf_ctrl.o \
-> 	pci/css_2401_system/host/isys_dma.o \
-> 	pci/css_2401_system/host/isys_irq.o \
-> 	pci/css_2401_system/host/isys_stream2mmio.o
-> 
-> Those define regmaps for 2400 and 2401. I was able to remove a lot
-> of things from the old css_2400/css_2401 directories, but the ones
-> there at pci/*/css*/ia_css_isp_*.c are a lot more complex, and would
-> require some mapping functions to allow the same driver to work with
-> both BYT and CHT.
-> 
-> The better would be to test the driver first at BYT, fix issues (if any) and 
-> then write the mapping code.
-> 
-> > So, we may also:
-> > 
-> >   2. continue unifying `#ifdef ISP2401` and `#ifndef ISP2401` parts
-> > 
-> > but this way needs more human work I think though. And if we go this
-> > way, I also need to rewrite this patch as mentioned in the commit
-> > message.
-
-What the idea #1 want to say is, let's remove things _initially_ within
-`ifdef ISP2401` (so, except things which were added inside it later
-upstream) including formerly within `ifdef ISP2401` things, i.e.,
-`if (IS_ISP2401)` and things commented with `/* ISP2401 */`.
-
-However, I don't say we can remove all the ifdefs like things formerly
-within USE_INPUT_SYSTEM_VERSION_2, USE_INPUT_SYSTEM_VERSION_2401, etc.,
-which later removed/integrated into `ifdef ISP2401` on some commits [1].
-We may temporarily revert those commits when we want to distinguish
-between what were formerly within there and what were not.
-
-Such ifdefs were added by them as a real hardware difference. Thus, I
-agree that we still need the CONFIG_VIDEO_ATOMISP_ISP2401 stuff to support
-both ISP2400/ISP2401 at the same time.
-
-This is what I meant "reduce the ifdef usage" in a previous mail. So,
-I'm not talking about if dropping CONFIG_VIDEO_ATOMISP_ISP2401 is doable,
-but talking about just how to reduce the code.
-
-[1] 641c2292bf19 ("media: atomisp: get rid of version-dependent globals")
-    bd674b5a413c ("media: atomisp: cleanup ifdefs from ia_css_debug.c")
-
-Anyway, if you agree or not on what I'm saying, can I send this patch
-without code changes in v2, i.e., looks OK for you regarding the code?
-I'll remove the commit message about
-irci_stable_candrpv_0415_20150521_0458 vs irci_ecr-master_20150911_0724
-in v2 anyway, which needs to be discussed further later.
-
-
-
-The following notes are about what I have done until now for removing
-such tests. (More elaborated version than cover letter). You don't have
-to see them, but I hope it might clarify things...
-
-  ## `ifdef ISP2401` added in the initial commit of atomisp
-
-The `ifdef ISP2401` was the result of merging two different version of
-driver, added on the initial commit of upstreamed atomisp. And for the
-`ifdef ISP2401`, I confirmed I can remove (almost [1]) all of them against
-the initial commit of atomisp [2][3]
-
-[1] here are the three exceptions:
-    ("NOTE: ifdef ISP2400/ISP2401 usage in aero-atomisp")
-    https://github.com/kitakar5525/linux-kernel/commit/1a8488cdd31ad38a3805824700b29d1e5213d3f2
-
-[2] ("atomisp: pci: css2400: remove ISP2401 ifdefs")
-    https://github.com/kitakar5525/linux-kernel/commit/dd6723fc5b9fe040e33b227b509a7e004243edce
-[3] ("atomisp: pci: remove ISP2401 ifdefs for main pci driver")
-    https://github.com/kitakar5525/linux-kernel/commit/1734341f84a96945af7635f6fff061db910f746f
-
-Here is the kernel tree if someone is interested:
-
-        https://github.com/kitakar5525/linux-kernel/tree/mainline+upst_atomisp@a49d25364dfb_first
-
-Especially, here is one of the part where this patch is touching
-for example:
-
-        --- a/drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css_mipi.c
-        +++ b/drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css_mipi.c
-        @@ -416,26 +362,16 @@ allocate_mipi_frames(struct ia_css_pipe *pipe, struct ia_css_stream_info *info)
-[...]
-        -#ifndef ISP2401
-         	port = (unsigned int) pipe->stream->config.source.port.port;
-         	assert(port < N_CSI_PORTS);
-         	if (port >= N_CSI_PORTS) {
-        -#else
-        -	if (!ia_css_mipi_is_source_port_valid(pipe, &port)) {
-        -#endif
-         		ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE_PRIVATE,
-         			"allocate_mipi_frames(%p) exit: error: port is not correct (port=%d).\n",
-         			pipe, port);
-
-By removing (almost) all of the `#ifdef ISP2401` things, (although we
-still can't remove like former USE_INPUT_SYSTEM_VERSION_2,
-USE_INPUT_SYSTEM_VERSION_2401) we can reduce the number of ifdefs.
-
-
-
-  ## `ifdef ISP2401`, `if (IS_ISP2401)` and `/* ISP2401 */` in the recent
-      atomisp
-
-That is for the initial commit of atomisp. For the recent version of
-atomisp, we can still remove `ifdef ISP2401` things (again, except things
-which were added inside it later upstream) as well as the former
-`ifdef ISP2401` things, i.e., `if (IS_ISP2401)` [1] and things commented
-with [2] `/* ISP2401 */`.
-
-[1] ("atomisp: pci: remove IS_ISP2401 test")
-    https://github.com/kitakar5525/linux-kernel/commit/397e543e493dfd60d91e2b5cc164da342b26906c
-[2] ("atomisp: pci: remove `/* ISP2401 */` comments and its contents")
-    https://github.com/kitakar5525/linux-kernel/commit/b3928e3c1a709853971715ce35459b9b79e708f2
-    These commits were made against
-    bd674b5a413c ("media: atomisp: cleanup ifdefs from ia_css_debug.c")
-    where I randomely picked.
-
-Here is the kernel tree if someone is interested:
-
-    https://github.com/kitakar5525/linux-kernel/tree/mainline+upst_atomisp@bd674b5a413c_before_get_rid_ver_globals
-
-I confirmed capture is still working here on surface3 (ISP2401). Compile
-tested for ISP2400. As you can see, there are some WIP and FIXME commits
-on top of removing such tests though. (The others are backports).
-
-Especially, here is one of the part where this patch is touching
-for example:
-
-        --- a/drivers/staging/media/atomisp/pci/sh_css_mipi.c
-        +++ b/drivers/staging/media/atomisp/pci/sh_css_mipi.c
-        @@ -553,10 +548,7 @@ free_mipi_frames(struct ia_css_pipe *pipe) {
-         			return err;
-         		}
-        
-        -		if (!IS_ISP2401)
-        -			port = (unsigned int)pipe->stream->config.source.port.port;
-        -		else
-        -			err = ia_css_mipi_is_source_port_valid(pipe, &port);
-        +		port = (unsigned int)pipe->stream->config.source.port.port;
-        
-         		assert(port < N_CSI_PORTS);
-        
-
-So, we can also remove a lot of `if (IS_ISP2401)` and `/* ISP2401 */`
-things as well as the remaining `ifdef ISP2401`.
-
-
-
-  ## WIP: removing `ifdef ISP2401`, `if (IS_ISP2401)` and `/* ISP2401 */`
-     against the latest atomisp
-
-And here is the branch where I'm working on removing such tests against
-the latest atomisp:
-
-        https://github.com/kitakar5525/linux-kernel/commits/mainline+upst_atomisp+remove_unneeded_tests
-
-It'd be the best if I can show you working one, but it currently has
-seemingly include issues on ISP2400 vs ISP2401 (as well as many WIP
-commits I added):
-
-	drivers/staging/media/atomisp/pci/runtime/isys/src/isys_init.c: In function ‘ia_css_isys_init’:
-	drivers/staging/media/atomisp/pci/runtime/isys/src/isys_init.c:29:9: error: unknown type name ‘backend_channel_cfg_t’
-	   29 |         backend_channel_cfg_t backend_ch0;
-	      |         ^~~~~~~~~~~~~~~~~~~~~
-	drivers/staging/media/atomisp/pci/runtime/isys/src/isys_init.c:30:9: error: unknown type name ‘backend_channel_cfg_t’
-	   30 |         backend_channel_cfg_t backend_ch1;
-	      |         ^~~~~~~~~~~~~~~~~~~~~
-	drivers/staging/media/atomisp/pci/runtime/isys/src/isys_init.c:31:9: error: unknown type name ‘target_cfg2400_t’
-	   31 |         target_cfg2400_t targetB;
-	      |         ^~~~~~~~~~~~~~~~
-	drivers/staging/media/atomisp/pci/runtime/isys/src/isys_init.c:32:9: error: unknown type name ‘target_cfg2400_t’
-	   32 |         target_cfg2400_t targetC;
-	      |         ^~~~~~~~~~~~~~~~
-	[...]
-
-The full output of the make error is here:
-
-        ("NOTE: issue: some undeclared errors")
-        https://github.com/kitakar5525/linux-kernel/commit/a932d16681f941161385659b9d0316a3a4975e86
-
-
+Andrzej, Jernej, Nicolas, if none of you (or anyone else for that matter)
+objects, then I'll make a PR for this early next week.
 
 Regards,
-Tsuchiya Yuto
-> > > 
+
+	Hans
+
+On 29/09/2021 18:04, Andrzej Pietrasiewicz wrote:
+> Dear all,
+> 
+> This patch series adds VP9 codec V4L2 control interface and two drivers
+> using the new controls. It is a follow-up of previous v6 series [1].
+> 
+> In this iteration, we've implemented VP9 hardware decoding on two devices:
+> Rockchip VDEC and Hantro G2, and tested on RK3399, i.MX8MQ and i.MX8MP.
+> The i.MX8M driver needs proper power domains support, though, which is a
+> subject of a different effort, but in all 3 cases we were able to run the
+> drivers.
+> 
+> GStreamer support is also available, the needed changes have been submitted
+> by Daniel Almeida [2]. This MR is ready to be merged, and just needs the
+> VP9 V4L2 controls to be merged and released.
+> 
+> Both rkvdec and hantro drivers are passing a significant number of VP9 tests
+> using Fluster[3]. There are still a few tests that are not passing, due to
+> dynamic frame resize (not yet supported by V4L2) and small size videos
+> (due to IP block limitations).
+> 
+> The series adds the VP9 codec V4L2 control API as uAPI, so it aims at being
+> merged without passing through staging, as agreed[4]. The ABI has been checked
+> for padding and verified to contain no holes.
+> 
+> [1] https://patchwork.linuxtv.org/project/linux-media/list/?series=6377
+> [2] https://gitlab.freedesktop.org/gstreamer/gst-plugins-bad/-/merge_requests/2144
+> [3] https://github.com/fluendo/fluster
+> [4] https://lore.kernel.org/linux-media/b8f83c93-67fd-09f5-9314-15746cbfdc61@xs4all.nl/
+> 
+> The series depends on the YUV tiled format support prepared by Ezequiel:
+> https://www.spinics.net/lists/linux-media/msg197047.html
+> 
+> Rebased onto latest media_tree.
+> 
+> Changes related to v6:
+> - moved setting tile filter and tile bsd auxiliary buffer addresses so
+> that they are always set, even if no tiles are used (thanks, Jernej)
+> - added a comment near the place where the 32-bit DMA mask is applied
+>   (thanks, Nicolas)
+> - improved consistency in register names (thanks, Nicolas)
+> 
+> Changes related to v5:
+> - improved the doc comments as per Ezequiel's review (thanks, Ezequiel)
+> - improved pdf output of documentation
+> - added Benjamin's Reviewed-by (thanks, Benjamin)
+> 
+> Changes related to v4:
+> - removed unused enum v4l2_vp9_intra_prediction_mode
+> - converted remaining enums to defines to follow the convention
+> - improved the documentation, in particular better documented how to use segmentation 
+> features
+> 
+> Changes related to v3:
+> 
+> Apply suggestions from Jernej's review (thanks, Jernej):
+> - renamed a control and two structs:
+> 	V4L2_CTRL_TYPE_VP9_COMPRESSED_HDR_PROBS =>
+> 		V4L2_CTRL_TYPE_VP9_COMPRESSED_HDR
+> 	v4l2_ctrl_vp9_compressed_hdr_probs =>
+> 		v4l2_ctrl_vp9_compressed_hdr
+> 	v4l2_vp9_mv_compressed_hdr_probs => v4l2_vp9_mv_probs
+> - moved tx_mode to v4l2_ctrl_vp9_compressed_hdr
+> - fixed enum v4l2_vp9_ref_frame_sign_bias values (which are used to test a bitfield)
+> - explicitly assigned values to all other vp9 enums
+> 
+> Apply suggestion from Nicolas's review (thanks, Nicolas):
+> - explicitly stated that the v4l2_ctrl_vp9_compressed_hdr control is optional
+> and implemented only by drivers which need it
+> 
+> Changes related to the RFC v2:
+> 
+> - added another driver including a postprocessor to de-tile
+>         codec-specific tiling
+> - reworked uAPI structs layout to follow VP8 style
+> - changed validation of loop filter params
+> - changed validation of segmentation params
+> - changed validation of VP9 frame params
+> - removed level lookup array from loop filter struct
+>         (can be computed by drivers)
+> - renamed some enum values to match the spec more closely
+> - V4L2 VP9 library changed the 'eob' member of
+>         'struct v4l2_vp9_frame_symbol_counts' so that it is an array
+>         of pointers instead of an array of pointers to arrays
+>         (IPs such as g2 creatively pass parts of the 'eob' counts in
+>         the 'coeff' counts)
+> - factored out several repeated portions of code
+> - minor nitpicks and cleanups
+> 
+> Andrzej Pietrasiewicz (6):
+>   media: uapi: Add VP9 stateless decoder controls
+>   media: Add VP9 v4l2 library
+>   media: hantro: Rename registers
+>   media: hantro: Prepare for other G2 codecs
+>   media: hantro: Support VP9 on the G2 core
+>   media: hantro: Support NV12 on the G2 core
+> 
+> Boris Brezillon (1):
+>   media: rkvdec: Add the VP9 backend
+> 
+> Ezequiel Garcia (4):
+>   hantro: postproc: Fix motion vector space size
+>   hantro: postproc: Introduce struct hantro_postproc_ops
+>   hantro: Simplify postprocessor
+>   hantro: Add quirk for NV12/NV12_4L4 capture format
+> 
+>  .../userspace-api/media/v4l/biblio.rst        |   10 +
+>  .../media/v4l/ext-ctrls-codec-stateless.rst   |  573 +++++
+>  .../media/v4l/pixfmt-compressed.rst           |   15 +
+>  .../media/v4l/vidioc-g-ext-ctrls.rst          |    8 +
+>  .../media/v4l/vidioc-queryctrl.rst            |   12 +
+>  .../media/videodev2.h.rst.exceptions          |    2 +
+>  drivers/media/v4l2-core/Kconfig               |    4 +
+>  drivers/media/v4l2-core/Makefile              |    1 +
+>  drivers/media/v4l2-core/v4l2-ctrls-core.c     |  180 ++
+>  drivers/media/v4l2-core/v4l2-ctrls-defs.c     |    8 +
+>  drivers/media/v4l2-core/v4l2-ioctl.c          |    1 +
+>  drivers/media/v4l2-core/v4l2-vp9.c            | 1850 +++++++++++++++++
+>  drivers/staging/media/hantro/Kconfig          |    1 +
+>  drivers/staging/media/hantro/Makefile         |    7 +-
+>  drivers/staging/media/hantro/hantro.h         |   40 +-
+>  drivers/staging/media/hantro/hantro_drv.c     |   23 +-
+>  drivers/staging/media/hantro/hantro_g2.c      |   27 +
+>  .../staging/media/hantro/hantro_g2_hevc_dec.c |   69 +-
+>  drivers/staging/media/hantro/hantro_g2_regs.h |  132 +-
+>  .../staging/media/hantro/hantro_g2_vp9_dec.c  |  980 +++++++++
+>  drivers/staging/media/hantro/hantro_hw.h      |   83 +-
+>  .../staging/media/hantro/hantro_postproc.c    |   79 +-
+>  drivers/staging/media/hantro/hantro_v4l2.c    |   20 +
+>  drivers/staging/media/hantro/hantro_vp9.c     |  240 +++
+>  drivers/staging/media/hantro/hantro_vp9.h     |  103 +
+>  drivers/staging/media/hantro/imx8m_vpu_hw.c   |   38 +-
+>  .../staging/media/hantro/rockchip_vpu_hw.c    |    7 +-
+>  .../staging/media/hantro/sama5d4_vdec_hw.c    |    3 +-
+>  drivers/staging/media/rkvdec/Kconfig          |    1 +
+>  drivers/staging/media/rkvdec/Makefile         |    2 +-
+>  drivers/staging/media/rkvdec/rkvdec-vp9.c     | 1078 ++++++++++
+>  drivers/staging/media/rkvdec/rkvdec.c         |   52 +-
+>  drivers/staging/media/rkvdec/rkvdec.h         |   12 +-
+>  include/media/v4l2-ctrls.h                    |    4 +
+>  include/media/v4l2-vp9.h                      |  182 ++
+>  include/uapi/linux/v4l2-controls.h            |  284 +++
+>  include/uapi/linux/videodev2.h                |    6 +
+>  37 files changed, 6033 insertions(+), 104 deletions(-)
+>  create mode 100644 drivers/media/v4l2-core/v4l2-vp9.c
+>  create mode 100644 drivers/staging/media/hantro/hantro_g2.c
+>  create mode 100644 drivers/staging/media/hantro/hantro_g2_vp9_dec.c
+>  create mode 100644 drivers/staging/media/hantro/hantro_vp9.c
+>  create mode 100644 drivers/staging/media/hantro/hantro_vp9.h
+>  create mode 100644 drivers/staging/media/rkvdec/rkvdec-vp9.c
+>  create mode 100644 include/media/v4l2-vp9.h
+> 
+> 
+> base-commit: e4e737bb5c170df6135a127739a9e6148ee3da82
+> 
+
