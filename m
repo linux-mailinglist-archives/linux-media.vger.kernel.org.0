@@ -2,445 +2,340 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 23C4A44DB11
-	for <lists+linux-media@lfdr.de>; Thu, 11 Nov 2021 18:25:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4633244DBA8
+	for <lists+linux-media@lfdr.de>; Thu, 11 Nov 2021 19:38:22 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234350AbhKKR14 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 11 Nov 2021 12:27:56 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40454 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230034AbhKKR1y (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Thu, 11 Nov 2021 12:27:54 -0500
-Received: from mail-wm1-x32a.google.com (mail-wm1-x32a.google.com [IPv6:2a00:1450:4864:20::32a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 50D2DC061766;
-        Thu, 11 Nov 2021 09:25:05 -0800 (PST)
-Received: by mail-wm1-x32a.google.com with SMTP id i8-20020a7bc948000000b0030db7b70b6bso7839889wml.1;
-        Thu, 11 Nov 2021 09:25:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=zgBKXggqPVetU68KGBm4584kojRj0gkhJsc4ekHLtyY=;
-        b=mSBO6jKvUDUrDujMOOsE9+haj1UlgrHhJjBMLp+MUUODGjC0fETAzOH2omwVOTMM4c
-         M0AvPQ59w185Qvd6y44tcaOHtbzl3TdnObRC/1j8BAKewAbPIJpX7T5O/F0I2hbD0UTV
-         NzKVONgAzE5ckF/sAsXUliYy9lTXPqQMcnpSGesk+O58aakGbkRFKV5H+Yoxi5rEzO29
-         wfXt02m1sy6ANbsLtnGwZFfRxKQ2tWA67JnQdKNSV5IkqXjQ5RsOFaOka/j6jJzVo3Ea
-         8jRZMxIE0z2uOVfoCMg4tLoCXaL8LstYPp77OR4MmbKC147Zf2GcpKk7LwqL8aFMbMGR
-         6OkQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=zgBKXggqPVetU68KGBm4584kojRj0gkhJsc4ekHLtyY=;
-        b=aeSJXjUJHtWhGteT4DoYivZ6DeYbV0JxsU0wFEoL1nQycTq4x84IYgJUIieo3+R7j0
-         a54JzJYPuLfosfhJI6mNvGfWg7gatBORU4Z7bkEX0dRuUl5+BjsdU2PVkQwtKCUdGEot
-         rTNHi8QEgD6kIRexwVyO86BETJ/uZr+Opf9e5kkDU0TCiPJp6MbXReK4TOFg2h1NWPX3
-         gcT3VF6XXQxySfpMAii1rXmTm1+2am+801+4WhL5DxtM6OH3myz5/gNS83mhg1QBFF1y
-         tuZ+Vx1Vr1HIuuCruc5U+ESALJfqAreFe5h5cDZkh72RWNpn3yrOCsgUFkHzGEelVXRj
-         1PhA==
-X-Gm-Message-State: AOAM532oAwIY8O80i8ZCMlzJXKu7PkCsUzmQjwUV5yaBy+6nb/XPjtYU
-        o7KtnhWCA2y0s+4k/6R7/lfj8f8OC4q+eEmcWe4=
-X-Google-Smtp-Source: ABdhPJy5WFdLyHrsPjo1iNYVbiP4ZiianEc/xZ5/y9q1/GLbYdL1vltvRakXuSPeGRQRAuR4T50SmoPrDwWNXwHlEOQ=
-X-Received: by 2002:a05:600c:4f4b:: with SMTP id m11mr9661150wmq.151.1636651503677;
- Thu, 11 Nov 2021 09:25:03 -0800 (PST)
+        id S234165AbhKKSlK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 11 Nov 2021 13:41:10 -0500
+Received: from mail.kernel.org ([198.145.29.99]:33138 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S233062AbhKKSlH (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 11 Nov 2021 13:41:07 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 90D386103A;
+        Thu, 11 Nov 2021 18:38:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1636655898;
+        bh=hetZbE77HSI+PGb8R1q4OktyDHnguTD1LEsgKycsX+M=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=N+cG8Gt+GH1LTVHu3ixGuVC73R2cTQDCyL74DQ0XLuOwFaxHBPBD3yYXuq/MCm3Kh
+         NIBmoRSHVqyxm8luiHXKvvcup+gyrjRyalrmKyHjDFT3FHJmKbw0UIKvOGPtg8tHqw
+         AxzwUP0Q1PeXIb+kuivZ/mhn/czrHJP+qCHRm2vxlpCa9NoQpAiiFYG+6/1I1hW4Zx
+         /Fk5JFCpfcB+Z3oZabeXGU1YB24lOBcKKMw/IjssvmoNG4UF0PrL+PmBLspXk4U12V
+         vc5Lr4bGyWzurfNhFC+UBzhX7mrO0CywxTWTcDr5tNu91LwAoPxNofXh+rgCJygL99
+         ic8kNKQXpghLg==
+Date:   Thu, 11 Nov 2021 18:38:12 +0000
+From:   Mauro Carvalho Chehab <mchehab@kernel.org>
+To:     Tsuchiya Yuto <kitakar@gmail.com>
+Cc:     Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+        linux-kernel@vger.kernel.org,
+        Nable <nable.maininbox@googlemail.com>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Fabio Aiuto <fabioaiuto83@gmail.com>,
+        "andrey.i.trufanov" <andrey.i.trufanov@gmail.com>,
+        Patrik Gfeller <patrik.gfeller@gmail.com>,
+        Hans de Goede <hdegoede@redhat.com>
+Subject: Re: [PATCH 04/17] media: atomisp: pci: do not use err var when
+ checking port validity for ISP2400
+Message-ID: <20211111183812.0f33fdaa@sal.lan>
+In-Reply-To: <ab48bd8c69273e8b18ff652f3615b2698a777092.camel@gmail.com>
+References: <20211017161958.44351-1-kitakar@gmail.com>
+        <20211017161958.44351-5-kitakar@gmail.com>
+        <20211026092637.196447aa@sal.lan>
+        <1a295721fd1f1e512cd54a659a250aef162bfb6f.camel@gmail.com>
+        <20211028123944.66c212c1@sal.lan>
+        <af7cdf9de020171567c2e75b713deb2ed073e4e3.camel@gmail.com>
+        <20211101141058.36ea2c8e@sal.lan>
+        <ab48bd8c69273e8b18ff652f3615b2698a777092.camel@gmail.com>
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.30; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-References: <20210728010632.2633470-1-robdclark@gmail.com> <20210728010632.2633470-8-robdclark@gmail.com>
- <e9e50cad-2341-cb25-ef84-0d61a2cb7469@codeaurora.org> <CAF6AEGvTyy-MCv6wdkpPyohLwUg4U_2ACT0gsXRG2z6iOYQ+Tg@mail.gmail.com>
- <7bc57359-0cf1-d657-f23e-e89404da6e91@codeaurora.org>
-In-Reply-To: <7bc57359-0cf1-d657-f23e-e89404da6e91@codeaurora.org>
-From:   Rob Clark <robdclark@gmail.com>
-Date:   Thu, 11 Nov 2021 09:30:02 -0800
-Message-ID: <CAF6AEGsy1WZHOnuOgviFxW8y7yzmfGE4pWYzoAFXfxbS09m5pg@mail.gmail.com>
-Subject: Re: [Freedreno] [PATCH v4 07/13] drm/msm: Track "seqno" fences by idr
-To:     Akhil P Oommen <akhilpo@codeaurora.org>
-Cc:     Rob Clark <robdclark@chromium.org>,
-        David Airlie <airlied@linux.ie>,
-        "open list:DRM DRIVER FOR MSM ADRENO GPU" 
-        <linux-arm-msm@vger.kernel.org>,
-        open list <linux-kernel@vger.kernel.org>,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
-        <linaro-mm-sig@lists.linaro.org>, Sean Paul <sean@poorly.run>,
-        freedreno <freedreno@lists.freedesktop.org>,
-        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
-        "open list:DMA BUFFER SHARING FRAMEWORK" 
-        <linux-media@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, Nov 11, 2021 at 7:54 AM Akhil P Oommen <akhilpo@codeaurora.org> wro=
-te:
->
-> On 11/10/2021 10:25 PM, Rob Clark wrote:
-> > On Wed, Nov 10, 2021 at 7:28 AM Akhil P Oommen <akhilpo@codeaurora.org>=
- wrote:
-> >>
-> >> On 7/28/2021 6:36 AM, Rob Clark wrote:
-> >>> From: Rob Clark <robdclark@chromium.org>
-> >>>
-> >>> Previously the (non-fd) fence returned from submit ioctl was a raw
-> >>> seqno, which is scoped to the ring.  But from UABI standpoint, the
-> >>> ioctls related to seqno fences all specify a submitqueue.  We can
-> >>> take advantage of that to replace the seqno fences with a cyclic idr
-> >>> handle.
-> >>>
-> >>> This is in preperation for moving to drm scheduler, at which point
-> >>> the submit ioctl will return after queuing the submit job to the
-> >>> scheduler, but before the submit is written into the ring (and
-> >>> therefore before a ring seqno has been assigned).  Which means we
-> >>> need to replace the dma_fence that userspace may need to wait on
-> >>> with a scheduler fence.
-> >>>
-> >>> Signed-off-by: Rob Clark <robdclark@chromium.org>
-> >>> Acked-by: Christian K=C3=B6nig <christian.koenig@amd.com>
-> >>> ---
-> >>>    drivers/gpu/drm/msm/msm_drv.c         | 30 +++++++++++++++++--
-> >>>    drivers/gpu/drm/msm/msm_fence.c       | 42 -----------------------=
-----
-> >>>    drivers/gpu/drm/msm/msm_fence.h       |  3 --
-> >>>    drivers/gpu/drm/msm/msm_gem.h         |  1 +
-> >>>    drivers/gpu/drm/msm/msm_gem_submit.c  | 23 ++++++++++++++-
-> >>>    drivers/gpu/drm/msm/msm_gpu.h         |  5 ++++
-> >>>    drivers/gpu/drm/msm/msm_submitqueue.c |  5 ++++
-> >>>    7 files changed, 61 insertions(+), 48 deletions(-)
-> >>>
-> >>> diff --git a/drivers/gpu/drm/msm/msm_drv.c b/drivers/gpu/drm/msm/msm_=
-drv.c
-> >>> index 9b8fa2ad0d84..1594ae39d54f 100644
-> >>> --- a/drivers/gpu/drm/msm/msm_drv.c
-> >>> +++ b/drivers/gpu/drm/msm/msm_drv.c
-> >>> @@ -911,6 +911,7 @@ static int msm_ioctl_wait_fence(struct drm_device=
- *dev, void *data,
-> >>>        ktime_t timeout =3D to_ktime(args->timeout);
-> >>>        struct msm_gpu_submitqueue *queue;
-> >>>        struct msm_gpu *gpu =3D priv->gpu;
-> >>> +     struct dma_fence *fence;
-> >>>        int ret;
-> >>>
-> >>>        if (args->pad) {
-> >>> @@ -925,10 +926,35 @@ static int msm_ioctl_wait_fence(struct drm_devi=
-ce *dev, void *data,
-> >>>        if (!queue)
-> >>>                return -ENOENT;
-> >>>
-> >>> -     ret =3D msm_wait_fence(gpu->rb[queue->prio]->fctx, args->fence,=
- &timeout,
-> >>> -             true);
-> >>> +     /*
-> >>> +      * Map submitqueue scoped "seqno" (which is actually an idr key=
-)
-> >>> +      * back to underlying dma-fence
-> >>> +      *
-> >>> +      * The fence is removed from the fence_idr when the submit is
-> >>> +      * retired, so if the fence is not found it means there is noth=
-ing
-> >>> +      * to wait for
-> >>> +      */
-> >>> +     ret =3D mutex_lock_interruptible(&queue->lock);
-> >>> +     if (ret)
-> >>> +             return ret;
-> >>> +     fence =3D idr_find(&queue->fence_idr, args->fence);
-> >>> +     if (fence)
-> >>> +             fence =3D dma_fence_get_rcu(fence);
-> >>> +     mutex_unlock(&queue->lock);
-> >>> +
-> >>> +     if (!fence)
-> >>> +             return 0;
-> >>>
-> >>> +     ret =3D dma_fence_wait_timeout(fence, true, timeout_to_jiffies(=
-&timeout));
-> >>> +     if (ret =3D=3D 0) {
-> >>> +             ret =3D -ETIMEDOUT;
-> >>> +     } else if (ret !=3D -ERESTARTSYS) {
-> >>> +             ret =3D 0;
-> >>> +     }
-> >>> +
-> >>> +     dma_fence_put(fence);
-> >>>        msm_submitqueue_put(queue);
-> >>> +
-> >>>        return ret;
-> >>>    }
-> >>>
-> >>> diff --git a/drivers/gpu/drm/msm/msm_fence.c b/drivers/gpu/drm/msm/ms=
-m_fence.c
-> >>> index b92a9091a1e2..f2cece542c3f 100644
-> >>> --- a/drivers/gpu/drm/msm/msm_fence.c
-> >>> +++ b/drivers/gpu/drm/msm/msm_fence.c
-> >>> @@ -24,7 +24,6 @@ msm_fence_context_alloc(struct drm_device *dev, vol=
-atile uint32_t *fenceptr,
-> >>>        strncpy(fctx->name, name, sizeof(fctx->name));
-> >>>        fctx->context =3D dma_fence_context_alloc(1);
-> >>>        fctx->fenceptr =3D fenceptr;
-> >>> -     init_waitqueue_head(&fctx->event);
-> >>>        spin_lock_init(&fctx->spinlock);
-> >>>
-> >>>        return fctx;
-> >>> @@ -45,53 +44,12 @@ static inline bool fence_completed(struct msm_fen=
-ce_context *fctx, uint32_t fenc
-> >>>                (int32_t)(*fctx->fenceptr - fence) >=3D 0;
-> >>>    }
-> >>>
-> >>> -/* legacy path for WAIT_FENCE ioctl: */
-> >>> -int msm_wait_fence(struct msm_fence_context *fctx, uint32_t fence,
-> >>> -             ktime_t *timeout, bool interruptible)
-> >>> -{
-> >>> -     int ret;
-> >>> -
-> >>> -     if (fence > fctx->last_fence) {
-> >>> -             DRM_ERROR_RATELIMITED("%s: waiting on invalid fence: %u=
- (of %u)\n",
-> >>> -                             fctx->name, fence, fctx->last_fence);
-> >>> -             return -EINVAL;
-> >>
-> >> Rob, we changed this pre-existing behaviour in this patch. Now, when
-> >> userspace tries to wait on a future fence, we don't return an error.
-> >>
-> >> I just want to check if this was accidental or not?
-> >
-> > Hmm, perhaps we should do this to restore the previous behavior:
-> >
-> > -------------
-> > diff --git a/drivers/gpu/drm/msm/msm_drv.c b/drivers/gpu/drm/msm/msm_dr=
-v.c
-> > index 73e827641024..3dd6da56eae6 100644
-> > --- a/drivers/gpu/drm/msm/msm_drv.c
-> > +++ b/drivers/gpu/drm/msm/msm_drv.c
-> > @@ -1000,8 +1000,12 @@ static int msm_ioctl_wait_fence(struct
-> > drm_device *dev, void *data,
-> >                  fence =3D dma_fence_get_rcu(fence);
-> >          mutex_unlock(&queue->lock);
-> >
-> > -       if (!fence)
-> > -               return 0;
-> > +       if (!fence) {
-> > +               struct msm_fence_context *fctx =3D gpu->rb[queue->ring_=
-nr]->fctx;
-> > +               DRM_ERROR_RATELIMITED("%s: waiting on invalid fence:
-> > %u (of %u)\n",
-> > +                                     fctx->name, fence, fctx->last_fen=
-ce);
-> > +               return -EINVAL;
-> > +       }
->
-> With this, when userspace tries to wait on a fence which is already
-> retired, it gets -EINVAL instead of success. Will this break userspace?
+Em Thu, 11 Nov 2021 23:34:23 +0900
+Tsuchiya Yuto <kitakar@gmail.com> escreveu:
 
-Oh, right, we definitely don't want that.. I guess that was the reason
-for the original logic.
+> Sorry for a little late reply. This is hard to explain...
+>=20
+> On Mon, 2021-11-01 at 14:10 +0000, Mauro Carvalho Chehab wrote:
+> > Em Mon, 01 Nov 2021 22:38:55 +0900
+> > Tsuchiya Yuto <kitakar@gmail.com> escreveu: =20
+>=20
+> [...]
+> >  =20
+>=20
+> > > This is not directly related to this series, but how we should reduce
+> > > the ifdef usage in the future? Here are my two ideas:
+> > >=20
+> > >   1. (my initial idea) remove `#ifdef ISP2401` part and make ISP2401
+> > >      part completely irci_stable_candrpv_0415_20150521_0458
+> > >=20
+> > > this way does not require (relatively) much human work I think.
+> > >=20
+> > > But as Mauro says, the `#ifdef ISP2401` part (irci_ecr-master_2015091=
+1_0724)
+> > > is basically an improved version. =20
+> >=20
+> > No. What I said is that the if (ISP2401) and the remaining ifdefs are b=
+ecause
+> > of BYT x CHT. =20
+>=20
+> I need to elaborate on this. Indeed some of them are really because of
+> BYT x CHT, but others are stuff from irci_ecr-master_20150911_0724.
+>=20
+> What I meant when I mentioned "remove `#ifdef ISP2401` part" is that,
+> removing things which was _initially_ inside the `#ifdef ISP2401` on the
+> initial commit of atomisp.
+>=20
+> Also I believe we can remove more `if (IS_ISP2401)` and `/* ISP2401 */`
+> things as well as the some remaining `#ifdef ISP2401` things.
+>=20
+> I added about this below and hope it clarifies things...
 
-I have a different idea.. will send a patch in a bit.
+It is clearer now. Yeah, we can touch on whatever is inside the
+ISP2401 ifs, as we can now test them. Touching things for ISP2400
+is harder, as we depend on a test platform.
 
-BR,
--R
+> > The worse part of them are related to those files
+> > (See Makefile):
+> >=20
+> > obj-byt =3D \
+> > 	pci/css_2400_system/hive/ia_css_isp_configs.o \
+> > 	pci/css_2400_system/hive/ia_css_isp_params.o \
+> > 	pci/css_2400_system/hive/ia_css_isp_states.o \
+> >=20
+> > obj-cht =3D \
+> > 	pci/css_2401_system/hive/ia_css_isp_configs.o \
+> > 	pci/css_2401_system/hive/ia_css_isp_params.o \
+> > 	pci/css_2401_system/hive/ia_css_isp_states.o \
+> > 	pci/css_2401_system/host/csi_rx.o \
+> > 	pci/css_2401_system/host/ibuf_ctrl.o \
+> > 	pci/css_2401_system/host/isys_dma.o \
+> > 	pci/css_2401_system/host/isys_irq.o \
+> > 	pci/css_2401_system/host/isys_stream2mmio.o
+> >=20
+> > Those define regmaps for 2400 and 2401. I was able to remove a lot
+> > of things from the old css_2400/css_2401 directories, but the ones
+> > there at pci/*/css*/ia_css_isp_*.c are a lot more complex, and would
+> > require some mapping functions to allow the same driver to work with
+> > both BYT and CHT.
+> >=20
+> > The better would be to test the driver first at BYT, fix issues (if any=
+) and=20
+> > then write the mapping code.
+> >  =20
+> > > So, we may also:
+> > >=20
+> > >   2. continue unifying `#ifdef ISP2401` and `#ifndef ISP2401` parts
+> > >=20
+> > > but this way needs more human work I think though. And if we go this
+> > > way, I also need to rewrite this patch as mentioned in the commit
+> > > message. =20
+>=20
+> What the idea #1 want to say is, let's remove things _initially_ within
+> `ifdef ISP2401` (so, except things which were added inside it later
+> upstream) including formerly within `ifdef ISP2401` things, i.e.,
+> `if (IS_ISP2401)` and things commented with `/* ISP2401 */`.
+>=20
+> However, I don't say we can remove all the ifdefs like things formerly
+> within USE_INPUT_SYSTEM_VERSION_2, USE_INPUT_SYSTEM_VERSION_2401, etc.,
+> which later removed/integrated into `ifdef ISP2401` on some commits [1].
+> We may temporarily revert those commits when we want to distinguish
+> between what were formerly within there and what were not.
+>=20
+> Such ifdefs were added by them as a real hardware difference. Thus, I
+> agree that we still need the CONFIG_VIDEO_ATOMISP_ISP2401 stuff to support
+> both ISP2400/ISP2401 at the same time.
+>=20
+> This is what I meant "reduce the ifdef usage" in a previous mail. So,
+> I'm not talking about if dropping CONFIG_VIDEO_ATOMISP_ISP2401 is doable,
+> but talking about just how to reduce the code.
+>=20
+> [1] 641c2292bf19 ("media: atomisp: get rid of version-dependent globals")
+>     bd674b5a413c ("media: atomisp: cleanup ifdefs from ia_css_debug.c")
+>=20
+> Anyway, if you agree or not on what I'm saying, can I send this patch
+> without code changes in v2, i.e., looks OK for you regarding the code?
+> I'll remove the commit message about
+> irci_stable_candrpv_0415_20150521_0458 vs irci_ecr-master_20150911_0724
+> in v2 anyway, which needs to be discussed further later.
 
-> -Akhil.
->
-> >
-> >          ret =3D dma_fence_wait_timeout(fence, true, timeout_to_jiffies=
-(&timeout));
-> >          if (ret =3D=3D 0) {
-> > -------------
-> >
-> > BR,
-> > -R
-> >
-> >> -Akhil.
-> >>
-> >>> -     }
-> >>> -
-> >>> -     if (!timeout) {
-> >>> -             /* no-wait: */
-> >>> -             ret =3D fence_completed(fctx, fence) ? 0 : -EBUSY;
-> >>> -     } else {
-> >>> -             unsigned long remaining_jiffies =3D timeout_to_jiffies(=
-timeout);
-> >>> -
-> >>> -             if (interruptible)
-> >>> -                     ret =3D wait_event_interruptible_timeout(fctx->=
-event,
-> >>> -                             fence_completed(fctx, fence),
-> >>> -                             remaining_jiffies);
-> >>> -             else
-> >>> -                     ret =3D wait_event_timeout(fctx->event,
-> >>> -                             fence_completed(fctx, fence),
-> >>> -                             remaining_jiffies);
-> >>> -
-> >>> -             if (ret =3D=3D 0) {
-> >>> -                     DBG("timeout waiting for fence: %u (completed: =
-%u)",
-> >>> -                                     fence, fctx->completed_fence);
-> >>> -                     ret =3D -ETIMEDOUT;
-> >>> -             } else if (ret !=3D -ERESTARTSYS) {
-> >>> -                     ret =3D 0;
-> >>> -             }
-> >>> -     }
-> >>> -
-> >>> -     return ret;
-> >>> -}
-> >>> -
-> >>>    /* called from workqueue */
-> >>>    void msm_update_fence(struct msm_fence_context *fctx, uint32_t fen=
-ce)
-> >>>    {
-> >>>        spin_lock(&fctx->spinlock);
-> >>>        fctx->completed_fence =3D max(fence, fctx->completed_fence);
-> >>>        spin_unlock(&fctx->spinlock);
-> >>> -
-> >>> -     wake_up_all(&fctx->event);
-> >>>    }
-> >>>
-> >>>    struct msm_fence {
-> >>> diff --git a/drivers/gpu/drm/msm/msm_fence.h b/drivers/gpu/drm/msm/ms=
-m_fence.h
-> >>> index 6ab97062ff1a..4783db528bcc 100644
-> >>> --- a/drivers/gpu/drm/msm/msm_fence.h
-> >>> +++ b/drivers/gpu/drm/msm/msm_fence.h
-> >>> @@ -49,7 +49,6 @@ struct msm_fence_context {
-> >>>         */
-> >>>        volatile uint32_t *fenceptr;
-> >>>
-> >>> -     wait_queue_head_t event;
-> >>>        spinlock_t spinlock;
-> >>>    };
-> >>>
-> >>> @@ -57,8 +56,6 @@ struct msm_fence_context * msm_fence_context_alloc(=
-struct drm_device *dev,
-> >>>                volatile uint32_t *fenceptr, const char *name);
-> >>>    void msm_fence_context_free(struct msm_fence_context *fctx);
-> >>>
-> >>> -int msm_wait_fence(struct msm_fence_context *fctx, uint32_t fence,
-> >>> -             ktime_t *timeout, bool interruptible);
-> >>>    void msm_update_fence(struct msm_fence_context *fctx, uint32_t fen=
-ce);
-> >>>
-> >>>    struct dma_fence * msm_fence_alloc(struct msm_fence_context *fctx)=
-;
-> >>> diff --git a/drivers/gpu/drm/msm/msm_gem.h b/drivers/gpu/drm/msm/msm_=
-gem.h
-> >>> index da3af702a6c8..e0579abda5b9 100644
-> >>> --- a/drivers/gpu/drm/msm/msm_gem.h
-> >>> +++ b/drivers/gpu/drm/msm/msm_gem.h
-> >>> @@ -320,6 +320,7 @@ struct msm_gem_submit {
-> >>>        struct ww_acquire_ctx ticket;
-> >>>        uint32_t seqno;         /* Sequence number of the submit on th=
-e ring */
-> >>>        struct dma_fence *fence;
-> >>> +     int fence_id;       /* key into queue->fence_idr */
-> >>>        struct msm_gpu_submitqueue *queue;
-> >>>        struct pid *pid;    /* submitting process */
-> >>>        bool fault_dumped;  /* Limit devcoredump dumping to one per su=
-bmit */
-> >>> diff --git a/drivers/gpu/drm/msm/msm_gem_submit.c b/drivers/gpu/drm/m=
-sm/msm_gem_submit.c
-> >>> index 4f02fa3c78f9..f6f595aae2c5 100644
-> >>> --- a/drivers/gpu/drm/msm/msm_gem_submit.c
-> >>> +++ b/drivers/gpu/drm/msm/msm_gem_submit.c
-> >>> @@ -68,7 +68,14 @@ void __msm_gem_submit_destroy(struct kref *kref)
-> >>>                        container_of(kref, struct msm_gem_submit, ref)=
-;
-> >>>        unsigned i;
-> >>>
-> >>> +     if (submit->fence_id) {
-> >>> +             mutex_lock(&submit->queue->lock);
-> >>> +             idr_remove(&submit->queue->fence_idr, submit->fence_id)=
-;
-> >>> +             mutex_unlock(&submit->queue->lock);
-> >>> +     }
-> >>> +
-> >>>        dma_fence_put(submit->fence);
-> >>> +
-> >>>        put_pid(submit->pid);
-> >>>        msm_submitqueue_put(submit->queue);
-> >>>
-> >>> @@ -872,6 +879,20 @@ int msm_ioctl_gem_submit(struct drm_device *dev,=
- void *data,
-> >>>                goto out;
-> >>>        }
-> >>>
-> >>> +     /*
-> >>> +      * Allocate an id which can be used by WAIT_FENCE ioctl to map =
-back
-> >>> +      * to the underlying fence.
-> >>> +      */
-> >>> +     mutex_lock(&queue->lock);
-> >>> +     submit->fence_id =3D idr_alloc_cyclic(&queue->fence_idr,
-> >>> +                     submit->fence, 0, INT_MAX, GFP_KERNEL);
-> >>> +     mutex_unlock(&queue->lock);
-> >>> +     if (submit->fence_id < 0) {
-> >>> +             ret =3D submit->fence_id =3D 0;
-> >>> +             submit->fence_id =3D 0;
-> >>> +             goto out;
-> >>> +     }
-> >>> +
-> >>>        if (args->flags & MSM_SUBMIT_FENCE_FD_OUT) {
-> >>>                struct sync_file *sync_file =3D sync_file_create(submi=
-t->fence);
-> >>>                if (!sync_file) {
-> >>> @@ -886,7 +907,7 @@ int msm_ioctl_gem_submit(struct drm_device *dev, =
-void *data,
-> >>>
-> >>>        msm_gpu_submit(gpu, submit);
-> >>>
-> >>> -     args->fence =3D submit->fence->seqno;
-> >>> +     args->fence =3D submit->fence_id;
-> >>>
-> >>>        msm_reset_syncobjs(syncobjs_to_reset, args->nr_in_syncobjs);
-> >>>        msm_process_post_deps(post_deps, args->nr_out_syncobjs,
-> >>> diff --git a/drivers/gpu/drm/msm/msm_gpu.h b/drivers/gpu/drm/msm/msm_=
-gpu.h
-> >>> index 96efcb31e502..579627252540 100644
-> >>> --- a/drivers/gpu/drm/msm/msm_gpu.h
-> >>> +++ b/drivers/gpu/drm/msm/msm_gpu.h
-> >>> @@ -263,6 +263,9 @@ struct msm_gpu_perfcntr {
-> >>>     *             which set of pgtables do submits jobs associated wi=
-th the
-> >>>     *             submitqueue use)
-> >>>     * @node:      node in the context's list of submitqueues
-> >>> + * @fence_idr: maps fence-id to dma_fence for userspace visible fenc=
-e
-> >>> + *             seqno, protected by submitqueue lock
-> >>> + * @lock:      submitqueue lock
-> >>>     * @ref:       reference count
-> >>>     */
-> >>>    struct msm_gpu_submitqueue {
-> >>> @@ -272,6 +275,8 @@ struct msm_gpu_submitqueue {
-> >>>        int faults;
-> >>>        struct msm_file_private *ctx;
-> >>>        struct list_head node;
-> >>> +     struct idr fence_idr;
-> >>> +     struct mutex lock;
-> >>>        struct kref ref;
-> >>>    };
-> >>>
-> >>> diff --git a/drivers/gpu/drm/msm/msm_submitqueue.c b/drivers/gpu/drm/=
-msm/msm_submitqueue.c
-> >>> index 9e9fec61d629..66f8d0fb38b0 100644
-> >>> --- a/drivers/gpu/drm/msm/msm_submitqueue.c
-> >>> +++ b/drivers/gpu/drm/msm/msm_submitqueue.c
-> >>> @@ -12,6 +12,8 @@ void msm_submitqueue_destroy(struct kref *kref)
-> >>>        struct msm_gpu_submitqueue *queue =3D container_of(kref,
-> >>>                struct msm_gpu_submitqueue, ref);
-> >>>
-> >>> +     idr_destroy(&queue->fence_idr);
-> >>> +
-> >>>        msm_file_private_put(queue->ctx);
-> >>>
-> >>>        kfree(queue);
-> >>> @@ -89,6 +91,9 @@ int msm_submitqueue_create(struct drm_device *drm, =
-struct msm_file_private *ctx,
-> >>>        if (id)
-> >>>                *id =3D queue->id;
-> >>>
-> >>> +     idr_init(&queue->fence_idr);
-> >>> +     mutex_init(&queue->lock);
-> >>> +
-> >>>        list_add_tail(&queue->node, &ctx->submitqueues);
-> >>>
-> >>>        write_unlock(&ctx->queuelock);
-> >>>
-> >>
->
+No need for a v2. The /17 patch series was merged already, plus some
+patches from the /5 that made sense to apply.
+
+Ok, there are some followup patches that could be added, but please
+send those in separate.
+
+> The following notes are about what I have done until now for removing
+> such tests. (More elaborated version than cover letter). You don't have
+> to see them, but I hope it might clarify things...
+>=20
+>   ## `ifdef ISP2401` added in the initial commit of atomisp
+>=20
+> The `ifdef ISP2401` was the result of merging two different version of
+> driver, added on the initial commit of upstreamed atomisp. And for the
+> `ifdef ISP2401`, I confirmed I can remove (almost [1]) all of them against
+> the initial commit of atomisp [2][3]
+>=20
+> [1] here are the three exceptions:
+>     ("NOTE: ifdef ISP2400/ISP2401 usage in aero-atomisp")
+>     https://github.com/kitakar5525/linux-kernel/commit/1a8488cdd31ad38a38=
+05824700b29d1e5213d3f2
+>=20
+> [2] ("atomisp: pci: css2400: remove ISP2401 ifdefs")
+>     https://github.com/kitakar5525/linux-kernel/commit/dd6723fc5b9fe040e3=
+3b227b509a7e004243edce
+> [3] ("atomisp: pci: remove ISP2401 ifdefs for main pci driver")
+>     https://github.com/kitakar5525/linux-kernel/commit/1734341f84a96945af=
+7635f6fff061db910f746f
+
+Ok, if there are more if/ifdef ISP2401 that, if reverted will keep the
+driver running with the firmware we're using, I'm all for it. Just send
+the patches ;-)
+
+>=20
+> Here is the kernel tree if someone is interested:
+>=20
+>         https://github.com/kitakar5525/linux-kernel/tree/mainline+upst_at=
+omisp@a49d25364dfb_first
+>=20
+> Especially, here is one of the part where this patch is touching
+> for example:
+>=20
+>         --- a/drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css_m=
+ipi.c
+>         +++ b/drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css_m=
+ipi.c
+>         @@ -416,26 +362,16 @@ allocate_mipi_frames(struct ia_css_pipe *pi=
+pe, struct ia_css_stream_info *info)
+> [...]
+>         -#ifndef ISP2401
+>          	port =3D (unsigned int) pipe->stream->config.source.port.port;
+>          	assert(port < N_CSI_PORTS);
+>          	if (port >=3D N_CSI_PORTS) {
+>         -#else
+>         -	if (!ia_css_mipi_is_source_port_valid(pipe, &port)) {
+>         -#endif
+>          		ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE_PRIVATE,
+>          			"allocate_mipi_frames(%p) exit: error: port is not correct (p=
+ort=3D%d).\n",
+>          			pipe, port);
+>=20
+> By removing (almost) all of the `#ifdef ISP2401` things, (although we
+> still can't remove like former USE_INPUT_SYSTEM_VERSION_2,
+> USE_INPUT_SYSTEM_VERSION_2401) we can reduce the number of ifdefs.
+
+Sounds good to me.
+
+>=20
+>=20
+>   ## `ifdef ISP2401`, `if (IS_ISP2401)` and `/* ISP2401 */` in the recent
+>       atomisp
+>=20
+> That is for the initial commit of atomisp. For the recent version of
+> atomisp, we can still remove `ifdef ISP2401` things (again, except things
+> which were added inside it later upstream) as well as the former
+> `ifdef ISP2401` things, i.e., `if (IS_ISP2401)` [1] and things commented
+> with [2] `/* ISP2401 */`.
+>=20
+> [1] ("atomisp: pci: remove IS_ISP2401 test")
+>     https://github.com/kitakar5525/linux-kernel/commit/397e543e493dfd60d9=
+1e2b5cc164da342b26906c
+> [2] ("atomisp: pci: remove `/* ISP2401 */` comments and its contents")
+>     https://github.com/kitakar5525/linux-kernel/commit/b3928e3c1a70985397=
+1715ce35459b9b79e708f2
+>     These commits were made against
+>     bd674b5a413c ("media: atomisp: cleanup ifdefs from ia_css_debug.c")
+>     where I randomely picked.
+>=20
+> Here is the kernel tree if someone is interested:
+>=20
+>     https://github.com/kitakar5525/linux-kernel/tree/mainline+upst_atomis=
+p@bd674b5a413c_before_get_rid_ver_globals
+>=20
+> I confirmed capture is still working here on surface3 (ISP2401). Compile
+> tested for ISP2400. As you can see, there are some WIP and FIXME commits
+> on top of removing such tests though. (The others are backports).
+>=20
+> Especially, here is one of the part where this patch is touching
+> for example:
+>=20
+>         --- a/drivers/staging/media/atomisp/pci/sh_css_mipi.c
+>         +++ b/drivers/staging/media/atomisp/pci/sh_css_mipi.c
+>         @@ -553,10 +548,7 @@ free_mipi_frames(struct ia_css_pipe *pipe) {
+>          			return err;
+>          		}
+>        =20
+>         -		if (!IS_ISP2401)
+>         -			port =3D (unsigned int)pipe->stream->config.source.port.port;
+>         -		else
+>         -			err =3D ia_css_mipi_is_source_port_valid(pipe, &port);
+>         +		port =3D (unsigned int)pipe->stream->config.source.port.port;
+>        =20
+>          		assert(port < N_CSI_PORTS);
+>        =20
+>=20
+> So, we can also remove a lot of `if (IS_ISP2401)` and `/* ISP2401 */`
+> things as well as the remaining `ifdef ISP2401`.
+>=20
+>=20
+>=20
+>   ## WIP: removing `ifdef ISP2401`, `if (IS_ISP2401)` and `/* ISP2401 */`
+>      against the latest atomisp
+>=20
+> And here is the branch where I'm working on removing such tests against
+> the latest atomisp:
+>=20
+>         https://github.com/kitakar5525/linux-kernel/commits/mainline+upst=
+_atomisp+remove_unneeded_tests
+>=20
+> It'd be the best if I can show you working one,=20
+
+Well, send the ones that were already tested, and won't cause
+regressions to v4l2grab and camorama (e. g. it shouldn't cause
+generic V4L2 generic apps to break).
+
+It would be nice to also not break nvt and other original apps for
+this device, as it could be useful later, in order to be able to=20
+test the other pipelines, as currently only the preview one seems
+to be working properly, at least with generic apps.
+
+> but it currently has
+> seemingly include issues on ISP2400 vs ISP2401 (as well as many WIP
+> commits I added):
+>=20
+> 	drivers/staging/media/atomisp/pci/runtime/isys/src/isys_init.c: In funct=
+ion =E2=80=98ia_css_isys_init=E2=80=99:
+> 	drivers/staging/media/atomisp/pci/runtime/isys/src/isys_init.c:29:9: err=
+or: unknown type name =E2=80=98backend_channel_cfg_t=E2=80=99
+> 	   29 |         backend_channel_cfg_t backend_ch0;
+> 	      |         ^~~~~~~~~~~~~~~~~~~~~
+> 	drivers/staging/media/atomisp/pci/runtime/isys/src/isys_init.c:30:9: err=
+or: unknown type name =E2=80=98backend_channel_cfg_t=E2=80=99
+> 	   30 |         backend_channel_cfg_t backend_ch1;
+> 	      |         ^~~~~~~~~~~~~~~~~~~~~
+> 	drivers/staging/media/atomisp/pci/runtime/isys/src/isys_init.c:31:9: err=
+or: unknown type name =E2=80=98target_cfg2400_t=E2=80=99
+> 	   31 |         target_cfg2400_t targetB;
+> 	      |         ^~~~~~~~~~~~~~~~
+> 	drivers/staging/media/atomisp/pci/runtime/isys/src/isys_init.c:32:9: err=
+or: unknown type name =E2=80=98target_cfg2400_t=E2=80=99
+> 	   32 |         target_cfg2400_t targetC;
+> 	      |         ^~~~~~~~~~~~~~~~
+> 	[...]
+>=20
+> The full output of the make error is here:
+>=20
+>         ("NOTE: issue: some undeclared errors")
+>         https://github.com/kitakar5525/linux-kernel/commit/a932d16681f941=
+161385659b9d0316a3a4975e86
+>=20
+>=20
+>=20
+> Regards,
+> Tsuchiya Yuto
+> > > >  =20
