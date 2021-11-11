@@ -2,90 +2,66 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CCA6344D5FF
-	for <lists+linux-media@lfdr.de>; Thu, 11 Nov 2021 12:41:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5886E44D711
+	for <lists+linux-media@lfdr.de>; Thu, 11 Nov 2021 14:17:58 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233137AbhKKLnx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 11 Nov 2021 06:43:53 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46036 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232987AbhKKLnw (ORCPT
+        id S232778AbhKKNUp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 11 Nov 2021 08:20:45 -0500
+Received: from smtp02.smtpout.orange.fr ([80.12.242.124]:52147 "EHLO
+        smtp.smtpout.orange.fr" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231739AbhKKNUp (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 11 Nov 2021 06:43:52 -0500
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 570DDC061766;
-        Thu, 11 Nov 2021 03:41:03 -0800 (PST)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: kholk11)
-        with ESMTPSA id 542691F45B1A
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=collabora.com; s=mail;
-        t=1636630861; bh=yaYinyVYYl0N0+dtMK6+ku0bg03EnhdN+DOz/1sMwr8=;
-        h=Subject:From:To:Cc:References:Date:In-Reply-To:From;
-        b=no3Uds5F4F508vhMrZab+HejB/C3NhT5KZUDZRYsQXmxZ/JLYlFoKTLKUpb2hzBxE
-         BgJAwDrXf1Ado/c/hLd3dPF00AjE3S4yMfKNiC+boOLn7hAgCnr9oE1Sz4b7XXuLKE
-         Bkj9qW4XxFaKRDdVC1kR+C8XyTtz7OI6LGezuDYkoHHwHsb+RKyyYpZ/pjZjJ9wr4b
-         G/qwQ/2SsBlzcPSB/6g3bbBCdqJfZc1zSbcQiS0PtjKl1CsjXt1DlVoS2iu92npFrY
-         LzZU/xW98Bokw+uovBd6WuIlpdjRfRGCJElGWWU5qREaviFcx5jVJWy6UiAyqzOaOJ
-         8eKvxTizo/RiQ==
-Subject: Re: [PATCH v8 1/7] soc: mediatek: mmsys: add support for MDP
-From:   AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>
-To:     Moudy Ho <moudy.ho@mediatek.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Jernej Skrabec <jernej.skrabec@siol.net>
-Cc:     Maoguang Meng <maoguang.meng@mediatek.com>,
-        daoyuan huang <daoyuan.huang@mediatek.com>,
-        Ping-Hsun Wu <ping-hsun.wu@mediatek.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Rob Landley <rob@landley.net>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
+        Thu, 11 Nov 2021 08:20:45 -0500
+Received: from pop-os.home ([86.243.171.122])
+        by smtp.orange.fr with ESMTPA
+        id l9xhmV6vzBazol9xhmbNf6; Thu, 11 Nov 2021 14:17:55 +0100
+X-ME-Helo: pop-os.home
+X-ME-Auth: YWZlNiIxYWMyZDliZWIzOTcwYTEyYzlhMmU3ZiQ1M2U2MzfzZDfyZTMxZTBkMTYyNDBjNDJlZmQ3ZQ==
+X-ME-Date: Thu, 11 Nov 2021 14:17:55 +0100
+X-ME-IP: 86.243.171.122
+From:   Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+To:     tiffany.lin@mediatek.com, andrew-ct.chen@mediatek.com,
+        mchehab@kernel.org, matthias.bgg@gmail.com, acourbot@chromium.org,
+        yunfei.dong@mediatek.com, hverkuil-cisco@xs4all.nl,
+        tzungbi@google.com
+Cc:     linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
         linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
-        tfiga@chromium.org, drinkcat@chromium.org, acourbot@chromium.org,
-        pihsun@chromium.org, menghui.lin@mediatek.com,
-        sj.huang@mediatek.com, allen-kh.cheng@mediatek.com,
-        randy.wu@mediatek.com, srv_heupstream@mediatek.com,
-        hsinyi@google.com
-References: <20211015123832.17914-1-moudy.ho@mediatek.com>
- <20211015123832.17914-2-moudy.ho@mediatek.com>
- <31577e05-34b8-2e5e-14f0-db9949ffdd3d@collabora.com>
-Message-ID: <6876d923-bd71-8f10-e5fb-1c228642a163@collabora.com>
-Date:   Thu, 11 Nov 2021 12:40:57 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+        kernel-janitors@vger.kernel.org,
+        Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+Subject: [PATCH] media: mtk-vcodec: Fix an error handling path in 'asid_allocator_init()'
+Date:   Thu, 11 Nov 2021 14:17:51 +0100
+Message-Id: <86d3e2db237bc35eb55bd46ef07fa13a39bcdff8.1636636541.git.christophe.jaillet@wanadoo.fr>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-In-Reply-To: <31577e05-34b8-2e5e-14f0-db9949ffdd3d@collabora.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Il 18/10/21 15:50, AngeloGioacchino Del Regno ha scritto:
-> Il 15/10/21 14:38, Moudy Ho ha scritto:
->> For the purpose of module independence, related settings should be moved
->> from MDP to the corresponding driver.
->> This patch adds more 8183 MDP settings and interface. and MDP
->> related settings must be set via CMDQ to avoid frame unsynchronized.
->>
->> Signed-off-by: Moudy Ho <moudy.ho@mediatek.com>
->> ---
->>   drivers/soc/mediatek/Kconfig           |   1 +
->>   drivers/soc/mediatek/mt8183-mmsys.h    | 219 +++++++++++++++++++++++++
->>   drivers/soc/mediatek/mtk-mmsys.c       |  52 ++++++
->>   drivers/soc/mediatek/mtk-mmsys.h       |   2 +
->>   include/linux/soc/mediatek/mtk-mmsys.h |  56 +++++++
->>   5 files changed, 330 insertions(+)
->>
-> 
+In case of error the 'media_device_init()' call is not balanced by a
+corresponding 'media_device_cleanup()' call.
 
-This patch does not apply cleanly anymore, as of next-20211111.
-Can you please send a v9 asap?
+Add it, when needed, as already done in the remove function.
 
-Thanks,
-Angelo
+Fixes: 118add98f80e ("media: mtk-vcodec: vdec: add media device if using stateless api")
+Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+---
+ drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_drv.c | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_drv.c b/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_drv.c
+index e6e6a8203eeb..8277c44209b5 100644
+--- a/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_drv.c
++++ b/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_drv.c
+@@ -358,6 +358,8 @@ static int mtk_vcodec_probe(struct platform_device *pdev)
+ 	if (dev->vdec_pdata->uses_stateless_api)
+ 		v4l2_m2m_unregister_media_controller(dev->m2m_dev_dec);
+ err_reg_cont:
++	if (dev->vdec_pdata->uses_stateless_api)
++		media_device_cleanup(&dev->mdev_dec);
+ 	destroy_workqueue(dev->decode_workqueue);
+ err_event_workq:
+ 	v4l2_m2m_release(dev->m2m_dev_dec);
+-- 
+2.30.2
+
