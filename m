@@ -2,61 +2,61 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 88BBF44D9F1
+	by mail.lfdr.de (Postfix) with ESMTP id D1FA944D9F2
 	for <lists+linux-media@lfdr.de>; Thu, 11 Nov 2021 17:09:09 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234193AbhKKQLz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        id S234188AbhKKQLz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
         Thu, 11 Nov 2021 11:11:55 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51348 "EHLO
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51366 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234187AbhKKQLu (ORCPT
+        with ESMTP id S234197AbhKKQLw (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 11 Nov 2021 11:11:50 -0500
-Received: from mail-wm1-x32e.google.com (mail-wm1-x32e.google.com [IPv6:2a00:1450:4864:20::32e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 95C31C061203
-        for <linux-media@vger.kernel.org>; Thu, 11 Nov 2021 08:09:00 -0800 (PST)
-Received: by mail-wm1-x32e.google.com with SMTP id p3-20020a05600c1d8300b003334fab53afso4759231wms.3
-        for <linux-media@vger.kernel.org>; Thu, 11 Nov 2021 08:09:00 -0800 (PST)
+        Thu, 11 Nov 2021 11:11:52 -0500
+Received: from mail-wm1-x32f.google.com (mail-wm1-x32f.google.com [IPv6:2a00:1450:4864:20::32f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A9012C061205
+        for <linux-media@vger.kernel.org>; Thu, 11 Nov 2021 08:09:02 -0800 (PST)
+Received: by mail-wm1-x32f.google.com with SMTP id d72-20020a1c1d4b000000b00331140f3dc8so4779736wmd.1
+        for <linux-media@vger.kernel.org>; Thu, 11 Nov 2021 08:09:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=9Mptnk9MVk0QUjxEAwOKF9BuPtMKqeICE0KNgFES2GM=;
-        b=Rm8zzKOLbT1cIfCA+S1hXzyJLFjy591tyDuRh/d0oD4OQTI+e+XILuwbAGcIFRTzVA
-         OeoqiSp1aMf7c/XgrMg4A6EkxNt8qUwVno39TLZZaU4Yq6OOvmGWNDgSqGoy3m6uAA3F
-         y0W5osPjFMAv2ZsbsJAzbBwXRikSdq1/kd7H13P5eBs9beUB3wuz2ltls1GBpbOJZWCn
-         jvAvUkWFpdkjkPR+sGZbhyvgiTrw7gCfCDdp8OOf7UFI/TjPlcRtZRyyL5v+nK73+k+8
-         QKEtVaQ3lvNMQN0T82XttFNpdvYRnfuJSfa7BTyL9qmV/55hU8lWwNd3AQ2BlJZ2JOAh
-         PGOw==
+        bh=ORLw2txICCosz/rzxeyrC+n3WA+dm3OUgpraV7Iiag0=;
+        b=CzFvGTsI+IYerfEc0GpUA05HCLX3pHGYxv+30NQRgYGrJZuHiP6TobQXqeAvq4qEQx
+         lNdjSDI4Yeo5q/WgnRISIeyFlFjUtcPVhj6FmTyUTzcYGa4hmoxZixnGnbsIWuo63lFB
+         p5gik1qK12mx6EjR2az5OnUNP443RaUXdaD1QL0U6gfUZFPcwBHWEUCZmElvvJh8PH+o
+         Nzi6u5/IALlmoR4tZuMSp3L8d45XcB9OjBwXTh0OCag6r80SEhxDZ9cRsegD0VjlsJn6
+         7735c+txl2XOKdxCP4+VZSBfYYCDOVrpVwkvX29msowSOM6+lxkSyRq7Q4UO21krhf5j
+         VknA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=9Mptnk9MVk0QUjxEAwOKF9BuPtMKqeICE0KNgFES2GM=;
-        b=sIWRx8eXZLkJd3mX5IhTA/a3ZM9UpjlESziNsG4j9wMii2G/Q3Atu4czCxFfm24oN1
-         zI4fx2kNvEru/NSoC9IaiShQEpc42q/f/XKpmpgpVNcyLfvlTLfggPBRHeRQSBDINM04
-         +8k1zx7pJbLPc3WNK5YF8LeqdFxksfL7u/septDr2f67PMa/S4QEd0K8jCobrkBeRqU7
-         WusE9yePARPNdZav9r4COhoQTI5eYZovXq+iJ1DU+sA2kNU2cXxhH799NDaDpPjS4IQf
-         w9Nu+8qb7YNPI1T/p/pTVLDtuMBwaqeZS/XkB67PCNaf9VUlCtEdC7LdkDdsSk0oTnP4
-         hFAQ==
-X-Gm-Message-State: AOAM530YPOEKYN9kZkv4YlPzIQnstfFzxGysJe+heHGPydTUsDn76/CP
-        8KZkU6jriVbOSlnFXVFMTVE/Tg==
-X-Google-Smtp-Source: ABdhPJz7ibZnubfJd0d9UCRDFftPJTlmf0Gjks6vYK3GqXl4pyfrB66fCXocLiGvrwxv/oliLh1qJw==
-X-Received: by 2002:a1c:23d2:: with SMTP id j201mr5007767wmj.76.1636646939080;
-        Thu, 11 Nov 2021 08:08:59 -0800 (PST)
+        bh=ORLw2txICCosz/rzxeyrC+n3WA+dm3OUgpraV7Iiag0=;
+        b=taWlGEXnH4k921fL+Drt2Ab7sEYHXPcag5fOT6xDHL7qkyphpnjF2vOmTmkLFLbBvc
+         l3e+J78MdZD8ubW7FHLCfnWws8bX0dvZpuzsBZG8eyRnuNhP3VYIOBSgChczj1A/d0Ks
+         Ydd2NRi0H6ko7PuW42l2ezzFIs/xcwQQhGpWlspfArp1URzTqoT/Fg3xprwH3zIwjcpU
+         5SvEbC08rjz6ArWJ84rc25Li8MvrBMMxKHdJ6tt7LCHbMhuoe4kdk31W1MGAF6lBmY9N
+         K9Nt28TUY4rTJ4/Ae4B90qh4drYoROe8ANU7/1ShyhGjKX22W3FojzwgmQIW8Z8LALcj
+         x53w==
+X-Gm-Message-State: AOAM531Qbk3BtRMBUe2xk/36xMXCOWv+/ai5TWxj05/4hzd1jGEXOBDC
+        AzZfWKTNn6dYWJsVdS3J+N4pEw==
+X-Google-Smtp-Source: ABdhPJxPIMyl7kjaAsVUzQ8fKW0NV56ssbNTPmKyj8gaHX9PY5Qdb318oqRmZKD350aQFhpM3S1Pqg==
+X-Received: by 2002:a05:600c:3227:: with SMTP id r39mr28383138wmp.120.1636646940697;
+        Thu, 11 Nov 2021 08:09:00 -0800 (PST)
 Received: from sagittarius-a.chello.ie (188-141-3-169.dynamic.upc.ie. [188.141.3.169])
-        by smtp.gmail.com with ESMTPSA id x8sm3245558wrw.6.2021.11.11.08.08.57
+        by smtp.gmail.com with ESMTPSA id x8sm3245558wrw.6.2021.11.11.08.08.59
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 11 Nov 2021 08:08:58 -0800 (PST)
+        Thu, 11 Nov 2021 08:08:59 -0800 (PST)
 From:   Bryan O'Donoghue <bryan.odonoghue@linaro.org>
 To:     inux-arm-msm@vger.kernel.org, linux-media@vger.kernel.org,
         robert.foss@linaro.org, jonathan@marek.ca
 Cc:     andrey.konovalov@linaro.org, todor.too@gmail.com,
         agross@kernel.org, bjorn.andersson@linaro.org, mchehab@kernel.org,
         jgrahsl@snap.com, hfink@snap.com, bryan.odonoghue@linaro.org
-Subject: [PATCH 16/18] media: camss: add support for SM8250 camss
-Date:   Thu, 11 Nov 2021 16:10:36 +0000
-Message-Id: <20211111161038.3936217-17-bryan.odonoghue@linaro.org>
+Subject: [PATCH 17/18] media: camss: Add SM8250 bandwdith configuration support
+Date:   Thu, 11 Nov 2021 16:10:37 +0000
+Message-Id: <20211111161038.3936217-18-bryan.odonoghue@linaro.org>
 X-Mailer: git-send-email 2.33.0
 In-Reply-To: <20211111161038.3936217-1-bryan.odonoghue@linaro.org>
 References: <20211111161038.3936217-1-bryan.odonoghue@linaro.org>
@@ -66,473 +66,189 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Jonathan Marek <jonathan@marek.ca>
+Downstream makes some pretty explicit comments about voting for bus
+bandwidth prior to camcc_camnoc_axi_clk_src. Working with camx downstream
+also shows that the bandwidth vote is required to get that root clock
+working.
 
-The Titan 480 camss found on SM8250 has 6 CSIPHY and 4 VFE/CSID.
+Add a simple mechanism to declare set and unset named NOCs. Whereas the
+objective is to enable the sm8250 specifically the code has been
+implemented to allow setting of whatever NOCs different SoCs using this
+driver may require.
 
-CSID is compatible with the Titan 170 CSID, but the Titan 480 CSID are
-inside the VFE region (between the "top" and "bus" registers), so a
-workaround is added to avoid ioremap failure.
-
-[bod] Fixed setting camnoc_axi_clk_src instead of camcc_camnoc_axi_clk
-[jgrahsl, bod] Add slow_ahb_src clock values
-[jgrahsl, bod] Add cpa_ahb clock values
-
-Signed-off-by: Jonathan Marek <jonathan@marek.ca>
-Co-developed-by: Julian Grahsl <jgrahsl@snap.com>
-Signed-off-by: Julian Grahsl <jgrahsl@snap.com>
-Co-developed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
 Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
 ---
- drivers/media/platform/qcom/camss/Makefile    |   2 +-
- .../{camss-csid-170.c => camss-csid-gen2.c}   |   2 +-
- .../media/platform/qcom/camss/camss-csid.c    |  26 ++-
- .../media/platform/qcom/camss/camss-csid.h    |   2 +-
- .../media/platform/qcom/camss/camss-csiphy.c  |   8 +-
- drivers/media/platform/qcom/camss/camss-vfe.c |   9 +-
- .../media/platform/qcom/camss/camss-video.c   |   3 +-
- drivers/media/platform/qcom/camss/camss.c     | 211 +++++++++++++++++-
- 8 files changed, 238 insertions(+), 25 deletions(-)
- rename drivers/media/platform/qcom/camss/{camss-csid-170.c => camss-csid-gen2.c} (99%)
+ drivers/media/platform/qcom/camss/camss.c | 81 +++++++++++++++++++++++
+ drivers/media/platform/qcom/camss/camss.h | 17 +++++
+ 2 files changed, 98 insertions(+)
 
-diff --git a/drivers/media/platform/qcom/camss/Makefile b/drivers/media/platform/qcom/camss/Makefile
-index 81dd56aff0f2..4e2222358973 100644
---- a/drivers/media/platform/qcom/camss/Makefile
-+++ b/drivers/media/platform/qcom/camss/Makefile
-@@ -6,7 +6,7 @@ qcom-camss-objs += \
- 		camss-csid.o \
- 		camss-csid-4-1.o \
- 		camss-csid-4-7.o \
--		camss-csid-170.o \
-+		camss-csid-gen2.o \
- 		camss-csiphy-2ph-1-0.o \
- 		camss-csiphy-3ph-1-0.o \
- 		camss-csiphy.o \
-diff --git a/drivers/media/platform/qcom/camss/camss-csid-170.c b/drivers/media/platform/qcom/camss/camss-csid-gen2.c
-similarity index 99%
-rename from drivers/media/platform/qcom/camss/camss-csid-170.c
-rename to drivers/media/platform/qcom/camss/camss-csid-gen2.c
-index 9e54d251793f..abbfbf448893 100644
---- a/drivers/media/platform/qcom/camss/camss-csid-170.c
-+++ b/drivers/media/platform/qcom/camss/camss-csid-gen2.c
-@@ -594,7 +594,7 @@ static void csid_subdev_init(struct csid_device *csid)
- 	csid->testgen.nmodes = CSID_PAYLOAD_MODE_NUM_SUPPORTED_GEN2;
- }
- 
--const struct csid_hw_ops csid_ops_170 = {
-+const struct csid_hw_ops csid_ops_gen2 = {
- 	.configure_stream = csid_configure_stream,
- 	.configure_testgen_pattern = csid_configure_testgen_pattern,
- 	.hw_version = csid_hw_version,
-diff --git a/drivers/media/platform/qcom/camss/camss-csid.c b/drivers/media/platform/qcom/camss/camss-csid.c
-index 1226913c623b..9ef6fbbeeddf 100644
---- a/drivers/media/platform/qcom/camss/camss-csid.c
-+++ b/drivers/media/platform/qcom/camss/camss-csid.c
-@@ -25,6 +25,10 @@
- #include "camss-csid-gen1.h"
- #include "camss.h"
- 
-+/* offset of CSID registers in VFE region for VFE 480 */
-+#define VFE_480_CSID_OFFSET 0x1200
-+#define VFE_480_LITE_CSID_OFFSET 0x200
-+
- #define MSM_CSID_NAME "msm_csid"
- 
- const char * const csid_testgen_modes[] = {
-@@ -559,8 +563,9 @@ int msm_csid_subdev_init(struct camss *camss, struct csid_device *csid,
- 	} else if (camss->version == CAMSS_8x96 ||
- 		   camss->version == CAMSS_660) {
- 		csid->ops = &csid_ops_4_7;
--	} else if (camss->version == CAMSS_845) {
--		csid->ops = &csid_ops_170;
-+	} else if (camss->version == CAMSS_845 ||
-+		   camss->version == CAMSS_8250) {
-+		csid->ops = &csid_ops_gen2;
- 	} else {
- 		return -EINVAL;
- 	}
-@@ -568,9 +573,20 @@ int msm_csid_subdev_init(struct camss *camss, struct csid_device *csid,
- 
- 	/* Memory */
- 
--	csid->base = devm_platform_ioremap_resource_byname(pdev, res->reg[0]);
--	if (IS_ERR(csid->base))
--		return PTR_ERR(csid->base);
-+	if (camss->version == CAMSS_8250) {
-+		/* for titan 480, CSID registers are inside the VFE region,
-+		 * between the VFE "top" and "bus" registers. this requires
-+		 * VFE to be initialized before CSID
-+		 */
-+		if (id >= 2) /* VFE/CSID lite */
-+			csid->base = camss->vfe[id].base + VFE_480_LITE_CSID_OFFSET;
-+		else
-+			csid->base = camss->vfe[id].base + VFE_480_CSID_OFFSET;
-+	} else {
-+		csid->base = devm_platform_ioremap_resource_byname(pdev, res->reg[0]);
-+		if (IS_ERR(csid->base))
-+			return PTR_ERR(csid->base);
-+	}
- 
- 	/* Interrupt */
- 
-diff --git a/drivers/media/platform/qcom/camss/camss-csid.h b/drivers/media/platform/qcom/camss/camss-csid.h
-index 814ebc7c29d6..17a50fa426be 100644
---- a/drivers/media/platform/qcom/camss/camss-csid.h
-+++ b/drivers/media/platform/qcom/camss/camss-csid.h
-@@ -205,7 +205,7 @@ extern const char * const csid_testgen_modes[];
- 
- extern const struct csid_hw_ops csid_ops_4_1;
- extern const struct csid_hw_ops csid_ops_4_7;
--extern const struct csid_hw_ops csid_ops_170;
-+extern const struct csid_hw_ops csid_ops_gen2;
- 
- 
- #endif /* QC_MSM_CAMSS_CSID_H */
-diff --git a/drivers/media/platform/qcom/camss/camss-csiphy.c b/drivers/media/platform/qcom/camss/camss-csiphy.c
-index de1e81bb97c9..f1d8d883af8e 100644
---- a/drivers/media/platform/qcom/camss/camss-csiphy.c
-+++ b/drivers/media/platform/qcom/camss/camss-csiphy.c
-@@ -586,7 +586,8 @@ int msm_csiphy_subdev_init(struct camss *camss,
- 		csiphy->ops = &csiphy_ops_3ph_1_0;
- 		csiphy->formats = csiphy_formats_8x96;
- 		csiphy->nformats = ARRAY_SIZE(csiphy_formats_8x96);
--	} else if (camss->version == CAMSS_845) {
-+	} else if (camss->version == CAMSS_845 ||
-+		   camss->version == CAMSS_8250) {
- 		csiphy->ops = &csiphy_ops_3ph_1_0;
- 		csiphy->formats = csiphy_formats_sdm845;
- 		csiphy->nformats = ARRAY_SIZE(csiphy_formats_sdm845);
-@@ -680,7 +681,10 @@ int msm_csiphy_subdev_init(struct camss *camss,
- 
- 		if (!strcmp(clock->name, "csiphy0_timer") ||
- 		    !strcmp(clock->name, "csiphy1_timer") ||
--		    !strcmp(clock->name, "csiphy2_timer"))
-+		    !strcmp(clock->name, "csiphy2_timer") ||
-+		    !strcmp(clock->name, "csiphy3_timer") ||
-+		    !strcmp(clock->name, "csiphy4_timer") ||
-+		    !strcmp(clock->name, "csiphy5_timer"))
- 			csiphy->rate_set[i] = true;
- 
- 		if (camss->version == CAMSS_660 &&
-diff --git a/drivers/media/platform/qcom/camss/camss-vfe.c b/drivers/media/platform/qcom/camss/camss-vfe.c
-index 3d2f554a4ef7..5b5fe620914d 100644
---- a/drivers/media/platform/qcom/camss/camss-vfe.c
-+++ b/drivers/media/platform/qcom/camss/camss-vfe.c
-@@ -220,7 +220,8 @@ static u32 vfe_src_pad_code(struct vfe_line *line, u32 sink_code,
- 		}
- 	else if (vfe->camss->version == CAMSS_8x96 ||
- 		 vfe->camss->version == CAMSS_660 ||
--		 vfe->camss->version == CAMSS_845)
-+		 vfe->camss->version == CAMSS_845 ||
-+		 vfe->camss->version == CAMSS_8250)
- 		switch (sink_code) {
- 		case MEDIA_BUS_FMT_YUYV8_2X8:
- 		{
-@@ -1297,6 +1298,9 @@ int msm_vfe_subdev_init(struct camss *camss, struct vfe_device *vfe,
- 	case CAMSS_845:
- 		vfe->ops = &vfe_ops_170;
- 		break;
-+	case CAMSS_8250:
-+		vfe->ops = &vfe_ops_480;
-+		break;
- 	default:
- 		return -EINVAL;
- 	}
-@@ -1407,7 +1411,8 @@ int msm_vfe_subdev_init(struct camss *camss, struct vfe_device *vfe,
- 				l->formats = formats_rdi_8x96;
- 				l->nformats = ARRAY_SIZE(formats_rdi_8x96);
- 			}
--		} else if (camss->version == CAMSS_845) {
-+		} else if (camss->version == CAMSS_845 ||
-+			   camss->version == CAMSS_8250) {
- 			l->formats = formats_rdi_845;
- 			l->nformats = ARRAY_SIZE(formats_rdi_845);
- 		} else {
-diff --git a/drivers/media/platform/qcom/camss/camss-video.c b/drivers/media/platform/qcom/camss/camss-video.c
-index 54e77d30d452..5dc1ddbe6d65 100644
---- a/drivers/media/platform/qcom/camss/camss-video.c
-+++ b/drivers/media/platform/qcom/camss/camss-video.c
-@@ -1011,7 +1011,8 @@ int msm_video_register(struct camss_video *video, struct v4l2_device *v4l2_dev,
- 			video->formats = formats_rdi_8x96;
- 			video->nformats = ARRAY_SIZE(formats_rdi_8x96);
- 		}
--	}  else if (video->camss->version == CAMSS_845) {
-+	}  else if (video->camss->version == CAMSS_845 ||
-+		    video->camss->version == CAMSS_8250) {
- 		video->formats = formats_rdi_845;
- 		video->nformats = ARRAY_SIZE(formats_rdi_845);
- 	} else {
 diff --git a/drivers/media/platform/qcom/camss/camss.c b/drivers/media/platform/qcom/camss/camss.c
-index 71c6109b0526..06fb38ff95f7 100644
+index 06fb38ff95f7..25bc3bb01dc1 100644
 --- a/drivers/media/platform/qcom/camss/camss.c
 +++ b/drivers/media/platform/qcom/camss/camss.c
-@@ -662,6 +662,177 @@ static const struct resources vfe_res_845[] = {
- 	}
+@@ -8,6 +8,7 @@
+  * Copyright (C) 2015-2018 Linaro Ltd.
+  */
+ #include <linux/clk.h>
++#include <linux/interconnect.h>
+ #include <linux/media-bus-format.h>
+ #include <linux/media.h>
+ #include <linux/module.h>
+@@ -833,6 +834,29 @@ static const struct resources vfe_res_8250[] = {
+ 	},
  };
  
-+static const struct resources csiphy_res_8250[] = {
-+	/* CSIPHY0 */
++static const struct resources_icc icc_res_sm8250[] = {
 +	{
-+		.regulator = { NULL },
-+		.clock = { "csiphy0", "csiphy0_timer" },
-+		.clock_rate = { { 400000000 },
-+				{ 300000000 } },
-+		.reg = { "csiphy0" },
-+		.interrupt = { "csiphy0" }
++		.name = "cam_ahb",
++		.icc_bw_tbl.avg = 38400,
++		.icc_bw_tbl.peak = 76800,
 +	},
-+	/* CSIPHY1 */
 +	{
-+		.regulator = { NULL },
-+		.clock = { "csiphy1", "csiphy1_timer" },
-+		.clock_rate = { { 400000000 },
-+				{ 300000000 } },
-+		.reg = { "csiphy1" },
-+		.interrupt = { "csiphy1" }
++		.name = "cam_hf_0_mnoc",
++		.icc_bw_tbl.avg = 2097152,
++		.icc_bw_tbl.peak = 2097152,
 +	},
-+	/* CSIPHY2 */
 +	{
-+		.regulator = { NULL },
-+		.clock = { "csiphy2", "csiphy2_timer" },
-+		.clock_rate = { { 400000000 },
-+				{ 300000000 } },
-+		.reg = { "csiphy2" },
-+		.interrupt = { "csiphy2" }
++		.name = "cam_sf_0_mnoc",
++		.icc_bw_tbl.avg = 0,
++		.icc_bw_tbl.peak = 2097152,
 +	},
-+	/* CSIPHY3 */
 +	{
-+		.regulator = { NULL },
-+		.clock = { "csiphy3", "csiphy3_timer" },
-+		.clock_rate = { { 400000000 },
-+				{ 300000000 } },
-+		.reg = { "csiphy3" },
-+		.interrupt = { "csiphy3" }
-+	},
-+	/* CSIPHY4 */
-+	{
-+		.regulator = { NULL },
-+		.clock = { "csiphy4", "csiphy4_timer" },
-+		.clock_rate = { { 400000000 },
-+				{ 300000000 } },
-+		.reg = { "csiphy4" },
-+		.interrupt = { "csiphy4" }
-+	},
-+	/* CSIPHY5 */
-+	{
-+		.regulator = { NULL },
-+		.clock = { "csiphy5", "csiphy5_timer" },
-+		.clock_rate = { { 400000000 },
-+				{ 300000000 } },
-+		.reg = { "csiphy5" },
-+		.interrupt = { "csiphy5" }
-+	}
-+};
-+
-+static const struct resources csid_res_8250[] = {
-+	/* CSID0 */
-+	{
-+		.regulator = { NULL },
-+		.clock = { "vfe0_csid", "vfe0_cphy_rx", "vfe0", "vfe0_areg", "vfe0_ahb" },
-+		.clock_rate = { { 400000000 },
-+				{ 400000000 },
-+				{ 350000000, 475000000, 576000000, 720000000 },
-+				{ 100000000, 200000000, 300000000, 400000000 },
-+				{ 0 } },
-+		.reg = { "csid0" },
-+		.interrupt = { "csid0" }
-+	},
-+	/* CSID1 */
-+	{
-+		.regulator = { NULL },
-+		.clock = { "vfe1_csid", "vfe1_cphy_rx", "vfe1", "vfe1_areg", "vfe1_ahb" },
-+		.clock_rate = { { 400000000 },
-+				{ 400000000 },
-+				{ 350000000, 475000000, 576000000, 720000000 },
-+				{ 100000000, 200000000, 300000000, 400000000 },
-+				{ 0 } },
-+		.reg = { "csid1" },
-+		.interrupt = { "csid1" }
-+	},
-+	/* CSID2 */
-+	{
-+		.regulator = { NULL },
-+		.clock = { "vfe_lite_csid", "vfe_lite_cphy_rx", "vfe_lite",  "vfe_lite_ahb" },
-+		.clock_rate = { { 400000000 },
-+				{ 400000000 },
-+				{ 400000000, 480000000 },
-+				{ 0 } },
-+		.reg = { "csid2" },
-+		.interrupt = { "csid2" }
-+	},
-+	/* CSID3 */
-+	{
-+		.regulator = { NULL },
-+		.clock = { "vfe_lite_csid", "vfe_lite_cphy_rx", "vfe_lite",  "vfe_lite_ahb" },
-+		.clock_rate = { { 400000000 },
-+				{ 400000000 },
-+				{ 400000000, 480000000 },
-+				{ 0 } },
-+		.reg = { "csid3" },
-+		.interrupt = { "csid3" }
-+	}
-+};
-+
-+static const struct resources vfe_res_8250[] = {
-+	/* VFE0 */
-+	{
-+		.regulator = { NULL },
-+		.clock = { "camnoc_axi_src", "slow_ahb_src", "cpas_ahb", "camnoc_axi", "vfe0_ahb", "vfe0_areg", "vfe0", "vfe0_axi", "cam_hf_axi" },
-+		.clock_rate = { { 19200000, 300000000, 400000000, 480000000 },
-+				{ 19200000, 80000000 },
-+				{ 19200000 },
-+				{ 0 },
-+				{ 0 },
-+				{ 100000000, 200000000, 300000000, 400000000 },
-+				{ 350000000, 475000000, 576000000, 720000000 },
-+				{ 0 },
-+				{ 0 } },
-+		.reg = { "vfe0" },
-+		.interrupt = { "vfe0" }
-+	},
-+	/* VFE1 */
-+	{
-+		.regulator = { NULL },
-+		.clock = { "camnoc_axi_src", "slow_ahb_src", "cpas_ahb", "camnoc_axi", "vfe1_ahb", "vfe1_areg", "vfe1", "vfe1_axi", "cam_hf_axi" },
-+		.clock_rate = { { 19200000, 300000000, 400000000, 480000000 },
-+				{ 19200000, 80000000 },
-+				{ 19200000 },
-+				{ 0 },
-+				{ 0 },
-+				{ 100000000, 200000000, 300000000, 400000000 },
-+				{ 350000000, 475000000, 576000000, 720000000 },
-+				{ 0 },
-+				{ 0 } },
-+		.reg = { "vfe1" },
-+		.interrupt = { "vfe1" }
-+	},
-+	/* VFE2 (lite) */
-+	{
-+		.regulator = { NULL },
-+		.clock = { "camnoc_axi_src", "slow_ahb_src", "cpas_ahb", "camnoc_axi", "vfe_lite_ahb", "vfe_lite_axi", "vfe_lite", "cam_hf_axi" },
-+		.clock_rate = { { 19200000, 300000000, 400000000, 480000000 },
-+				{ 19200000, 80000000 },
-+				{ 19200000 },
-+				{ 0 },
-+				{ 0 },
-+				{ 0 },
-+				{ 400000000, 480000000 },
-+				{ 0 } },
-+		.reg = { "vfe_lite0" },
-+		.interrupt = { "vfe_lite0" }
-+	},
-+	/* VFE3 (lite) */
-+	{
-+		.regulator = { NULL },
-+		.clock = { "camnoc_axi_src", "slow_ahb_src", "cpas_ahb", "camnoc_axi", "vfe_lite_ahb", "vfe_lite_axi", "vfe_lite", "cam_hf_axi" },
-+		.clock_rate = { { 19200000, 300000000, 400000000, 480000000 },
-+				{ 19200000, 80000000 },
-+				{ 19200000 },
-+				{ 0 },
-+				{ 0 },
-+				{ 0 },
-+				{ 400000000, 480000000 },
-+				{ 0 } },
-+		.reg = { "vfe_lite1" },
-+		.interrupt = { "vfe_lite1" }
++		.name = "cam_sf_icp_mnoc",
++		.icc_bw_tbl.avg = 2097152,
++		.icc_bw_tbl.peak = 2097152,
 +	},
 +};
 +
  /*
   * camss_add_clock_margin - Add margin to clock frequency rate
   * @rate: Clock frequency rate
-@@ -945,6 +1116,12 @@ static int camss_init_subdevices(struct camss *camss)
- 		/* Titan VFEs don't have an ISPIF  */
- 		ispif_res = NULL;
- 		vfe_res = vfe_res_845;
-+	} else if (camss->version == CAMSS_8250) {
-+		csiphy_res = csiphy_res_8250;
-+		csid_res = csid_res_8250;
-+		/* Titan VFEs don't have an ISPIF  */
-+		ispif_res = NULL;
-+		vfe_res = vfe_res_8250;
- 	} else {
- 		return -EINVAL;
- 	}
-@@ -960,6 +1137,17 @@ static int camss_init_subdevices(struct camss *camss)
- 		}
- 	}
+@@ -1462,6 +1486,29 @@ static int camss_configure_pd(struct camss *camss)
+ 	return ret;
+ }
  
-+	/* note: SM8250 requires VFE to be initialized before CSID */
-+	for (i = 0; i < camss->vfe_num; i++) {
-+		ret = msm_vfe_subdev_init(camss, &camss->vfe[i],
-+					  &vfe_res[i], i);
-+		if (ret < 0) {
-+			dev_err(camss->dev,
-+				"Fail to init vfe%d sub-device: %d\n", i, ret);
-+			return ret;
-+		}
++static int camss_icc_get(struct camss *camss)
++{
++	const struct resources_icc *icc_res;
++	int nbr_icc_paths = 0;
++	int i;
++
++	if (camss->version == CAMSS_8250) {
++		icc_res = &icc_res_sm8250[0];
++		nbr_icc_paths =	ICC_SM8250_COUNT;
 +	}
 +
- 	for (i = 0; i < camss->csid_num; i++) {
- 		ret = msm_csid_subdev_init(camss, &camss->csid[i],
- 					   &csid_res[i], i);
-@@ -978,16 +1166,6 @@ static int camss_init_subdevices(struct camss *camss)
- 		return ret;
++	for (i = 0; i < nbr_icc_paths; i++) {
++		camss->icc_path[i] = devm_of_icc_get(camss->dev,
++						     icc_res[i].name);
++		if (IS_ERR(camss->icc_path[i]))
++			return PTR_ERR(camss->icc_path[i]);
++
++		camss->icc_bw_tbl[i] = icc_res[i].icc_bw_tbl;
++	}
++
++	return 0;
++}
++
+ /*
+  * camss_probe - Probe CAMSS platform device
+  * @pdev: Pointer to CAMSS platform device
+@@ -1554,6 +1601,10 @@ static int camss_probe(struct platform_device *pdev)
+ 		goto err_cleanup;
  	}
  
--	for (i = 0; i < camss->vfe_num; i++) {
--		ret = msm_vfe_subdev_init(camss, &camss->vfe[i],
--					  &vfe_res[i], i);
--		if (ret < 0) {
--			dev_err(camss->dev,
--				"Fail to init vfe%d sub-device: %d\n", i, ret);
--			return ret;
--		}
--	}
--
++	ret = camss_icc_get(camss);
++	if (ret < 0)
++		goto err_cleanup;
++
+ 	ret = camss_init_subdevices(camss);
+ 	if (ret < 0)
+ 		goto err_cleanup;
+@@ -1687,11 +1738,41 @@ MODULE_DEVICE_TABLE(of, camss_dt_match);
+ 
+ static int __maybe_unused camss_runtime_suspend(struct device *dev)
+ {
++	struct camss *camss = dev_get_drvdata(dev);
++	int nbr_icc_paths = 0;
++	int i;
++	int ret;
++
++	if (camss->version == CAMSS_8250)
++		nbr_icc_paths =	ICC_SM8250_COUNT;
++
++	for (i = 0; i < nbr_icc_paths; i++) {
++		ret = icc_set_bw(camss->icc_path[i], 0, 0);
++		if (ret)
++			return ret;
++	}
++
  	return 0;
  }
  
-@@ -1250,7 +1428,8 @@ static int camss_configure_pd(struct camss *camss)
- 	if (camss->version == CAMSS_8x96 ||
- 	    camss->version == CAMSS_660)
- 		nbr_pm_domains = PM_DOMAIN_GEN1_COUNT;
--	else if (camss->version == CAMSS_845)
-+	else if (camss->version == CAMSS_845 ||
-+		 camss->version == CAMSS_8250)
- 		nbr_pm_domains = PM_DOMAIN_GEN2_COUNT;
+ static int __maybe_unused camss_runtime_resume(struct device *dev)
+ {
++	struct camss *camss = dev_get_drvdata(dev);
++	int nbr_icc_paths = 0;
++	int i;
++	int ret;
++
++	if (camss->version == CAMSS_8250)
++		nbr_icc_paths =	ICC_SM8250_COUNT;
++
++	for (i = 0; i < nbr_icc_paths; i++) {
++		ret = icc_set_bw(camss->icc_path[i],
++				 camss->icc_bw_tbl[i].avg,
++				 camss->icc_bw_tbl[i].peak);
++		if (ret)
++			return ret;
++	}
++
+ 	return 0;
+ }
  
- 	for (i = 0; i < nbr_pm_domains; i++) {
-@@ -1326,6 +1505,12 @@ static int camss_probe(struct platform_device *pdev)
- 		camss->csiphy_num = 4;
- 		camss->csid_num = 3;
- 		camss->vfe_num = 3;
-+	} else if (of_device_is_compatible(dev->of_node,
-+					   "qcom,sm8250-camss")) {
-+		camss->version = CAMSS_8250;
-+		camss->csiphy_num = 6;
-+		camss->csid_num = 4;
-+		camss->vfe_num = 4;
- 	} else {
- 		ret = -EINVAL;
- 		goto err_free;
-@@ -1457,7 +1642,8 @@ void camss_delete(struct camss *camss)
- 	if (camss->version == CAMSS_8x96 ||
- 	    camss->version == CAMSS_660)
- 		nbr_pm_domains = PM_DOMAIN_GEN1_COUNT;
--	else if (camss->version == CAMSS_845)
-+	else if (camss->version == CAMSS_845 ||
-+		 camss->version == CAMSS_8250)
- 		nbr_pm_domains = PM_DOMAIN_GEN2_COUNT;
- 
- 	for (i = 0; i < nbr_pm_domains; i++) {
-@@ -1493,6 +1679,7 @@ static const struct of_device_id camss_dt_match[] = {
- 	{ .compatible = "qcom,msm8996-camss" },
- 	{ .compatible = "qcom,sdm660-camss" },
- 	{ .compatible = "qcom,sdm845-camss" },
-+	{ .compatible = "qcom,sm8250-camss" },
- 	{ }
+diff --git a/drivers/media/platform/qcom/camss/camss.h b/drivers/media/platform/qcom/camss/camss.h
+index 377e2474a485..9c644e638a94 100644
+--- a/drivers/media/platform/qcom/camss/camss.h
++++ b/drivers/media/platform/qcom/camss/camss.h
+@@ -56,6 +56,16 @@ struct resources_ispif {
+ 	char *interrupt;
  };
  
++struct icc_bw_tbl {
++	u32 avg;
++	u32 peak;
++};
++
++struct resources_icc {
++	char *name;
++	struct icc_bw_tbl icc_bw_tbl;
++};
++
+ enum pm_domain {
+ 	PM_DOMAIN_VFE0 = 0,
+ 	PM_DOMAIN_VFE1 = 1,
+@@ -72,6 +82,11 @@ enum camss_version {
+ 	CAMSS_8250,
+ };
+ 
++enum icc_count {
++	ICC_DEFAULT_COUNT = 0,
++	ICC_SM8250_COUNT = 4,
++};
++
+ struct camss {
+ 	enum camss_version version;
+ 	struct v4l2_device v4l2_dev;
+@@ -88,6 +103,8 @@ struct camss {
+ 	atomic_t ref_count;
+ 	struct device *genpd[PM_DOMAIN_GEN2_COUNT];
+ 	struct device_link *genpd_link[PM_DOMAIN_GEN2_COUNT];
++	struct icc_path *icc_path[ICC_SM8250_COUNT];
++	struct icc_bw_tbl icc_bw_tbl[ICC_SM8250_COUNT];
+ };
+ 
+ struct camss_camera_interface {
 -- 
 2.33.0
 
