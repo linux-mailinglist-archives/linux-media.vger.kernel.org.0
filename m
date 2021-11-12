@@ -2,235 +2,107 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7EE5E44EA02
-	for <lists+linux-media@lfdr.de>; Fri, 12 Nov 2021 16:27:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D9D4244EC3D
+	for <lists+linux-media@lfdr.de>; Fri, 12 Nov 2021 18:52:04 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233303AbhKLPaJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 12 Nov 2021 10:30:09 -0500
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:58502 "EHLO
-        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232458AbhKLPaJ (ORCPT
+        id S235548AbhKLRyy (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 12 Nov 2021 12:54:54 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59874 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S235544AbhKLRyx (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 12 Nov 2021 10:30:09 -0500
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: nicolas)
-        with ESMTPSA id 792291F468FA
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=collabora.com; s=mail;
-        t=1636730837; bh=UXwhMqo4N1Gr7wTS4OacurKlvf/9JDhk5sRSjPG6EFg=;
-        h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-        b=G8EDI1w6VKBVFq54/QJoLhkIjiSLsi2wLlqHBPm/5dC+j/7eg+JdX0qmNqqoI0flB
-         B+PpH6ixZIN6NmZAvNjC4hvcvKZLMzMqbJx4WlqAA9V8xb+2QQJjq0n2F/i7Rbc5u2
-         yo/Wn6JiUJcLsirjtabfZ4MjctSSU1p2JljV0Op8L8pd6i9fnlf88Z1MvcErpiv2a0
-         LVvOK3MhYBtGisqGSRm7agXJofNS/Iayu3mAUp9H9RBGQvYp2Z7A5MShjA5a9/gfkV
-         GNy6v1PlYuocQstkJvM1ShHlPB9/Gj+sWRlV+lz5FazWA0DBTXoZkZTWMog6v20B7d
-         v9wBlBlX4YaLA==
-Message-ID: <2e57a3ae9d76ae4484b84ba358cd3bae0931c875.camel@collabora.com>
-Subject: Re: [PATCH v7 00/11] VP9 codec V4L2 control interface
-From:   Nicolas Dufresne <nicolas.dufresne@collabora.com>
-To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
-        linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-kernel@vger.kernel.org, linux-rockchip@lists.infradead.org,
-        linux-staging@lists.linux.dev
-Cc:     Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-        Boris Brezillon <boris.brezillon@collabora.com>,
-        Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
-        Fabio Estevam <festevam@gmail.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Heiko Stuebner <heiko@sntech.de>,
-        Jernej Skrabec <jernej.skrabec@gmail.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Shawn Guo <shawnguo@kernel.org>, kernel@collabora.com
-Date:   Fri, 12 Nov 2021 10:27:02 -0500
-In-Reply-To: <b86785db-4f93-5804-d848-125d9077a8c7@xs4all.nl>
-References: <20210929160439.6601-1-andrzej.p@collabora.com>
-         <b86785db-4f93-5804-d848-125d9077a8c7@xs4all.nl>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.42.1 (3.42.1-1.fc35) 
+        Fri, 12 Nov 2021 12:54:53 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 19FD7C061766
+        for <linux-media@vger.kernel.org>; Fri, 12 Nov 2021 09:52:03 -0800 (PST)
+Received: from pendragon.ideasonboard.com (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 253F774C;
+        Fri, 12 Nov 2021 18:52:00 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1636739520;
+        bh=mZfYXteQzLvPmekmaeNB4+p8x2Onc6mImrB/fRM6P54=;
+        h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
+        b=UcWEthsRC2iwJUxWM3SoKkGXKMvPRDJKZm/zOGF0aqikxR0Za52WGT1RvbRGS1YpT
+         n+OmDwznUpGNtsAA++2xqOTWR8yvpa7spR50/2u9NLf3hZ6NZ8MJxRpGwEW0gKwpL+
+         ntv8Cdnn7Fa6SdwryJlj31gwJh49hKq+0v3iIN8M=
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <YY5GIFudxS81q/Qp@pendragon.ideasonboard.com>
+References: <29bf3454-2f82-7791-2aa2-c5e1cb5610a5@gmail.com> <495cbb6b-656d-6c3b-669a-f4b588e970cc@redhat.com> <a26f70ae-203e-99fd-8e4d-484af6f207f7@gmail.com> <4c7b9d72-4634-ea1d-5fff-bf17c3834b72@redhat.com> <CAPY8ntBZpZjecHNCMf-eMefcp2EgmbqkXMt4p=UeOe0n-o8WrA@mail.gmail.com> <6e832988-4810-fe59-7357-886b286697a0@redhat.com> <CAPY8ntB3pT4EqornywTtqcn4_iD-QUHPkApq=nb3XCc+6CuepA@mail.gmail.com> <YY2Ta34aTqFKPYnS@pendragon.ideasonboard.com> <CAPY8ntABHNcgO4iVOryYZsdePVvjTiddZJCBah60LuzSXkL3PA@mail.gmail.com> <YY5GIFudxS81q/Qp@pendragon.ideasonboard.com>
+Subject: Re: [libcamera-devel] Fwd: Surface Go VCM type (was: Need to pass acpi_enforce_resources=lax on the Surface Go (version1))
+From:   Kieran Bingham <kieran.bingham@ideasonboard.com>
+Cc:     libcamera devel <libcamera-devel@lists.libcamera.org>,
+        Sakari Ailus <sakari.ailus@iki.fi>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>
+To:     Dave Stevenson <dave.stevenson@raspberrypi.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Date:   Fri, 12 Nov 2021 17:51:57 +0000
+Message-ID: <163673951781.2655227.7332330114458584174@Monstersaurus>
+User-Agent: alot/0.10
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Hans,
+Quoting Laurent Pinchart (2021-11-12 10:46:56)
+> Hi Dave,
+>=20
+> CC'ing Sakari.
+>=20
+> On Fri, Nov 12, 2021 at 10:32:31AM +0000, Dave Stevenson wrote:
+> > On Thu, 11 Nov 2021 at 22:04, Laurent Pinchart wrote:
+> > > On Thu, Nov 11, 2021 at 07:30:39PM +0000, Dave Stevenson wrote:
 
-Le jeudi 11 novembre 2021 à 15:44 +0100, Hans Verkuil a écrit :
-> Hi all,
-> 
-> Andrzej, Jernej, Nicolas, if none of you (or anyone else for that matter)
-> objects, then I'll make a PR for this early next week.
+<big snip>
 
-I have no objection. I've myself delayed replying as we have been digging a lot
-into our compliance failures, but I believe we have explained most of them by
-now and nothing seems to be related to the API.
+> > Refcount the users. Opening the subdev counts as one, and streaming
+> > counts as one. You can now hold the power on if you wish to do so.
+> >=20
+> > It's the "let userspace worry about it" that worries me. The same
+> > approach was taken with MC, and it was a pain in the neck for users
+> > until libcamera comes along a decade later.
+> > IMHO V4L2 as an API should be fit for purpose and usable with or
+> > without libcamera.
+>=20
+> It really depends on the type of device I'm afraid :-) If you want to
+> capture processed image with a raw bayer sensor on RPi, you need to
+> control the ISP, and the 3A algorithms need to run in userspace. For
+> other types of devices, going straight to the kernel API is easier (and
+> can sometimes be preferred).
+>=20
+> At the end of the day, I don't think it makes much of a difference
+> though. Once the libcamera API stabilizes, the library gets packaged by
+> distributions and applications start using it (or possibly even through
+> pipewire), nobody will complain about MC anymore :-) The important part,
 
-regards,
-Nicolas
+I don't really want to pull this thread further away from $SUBJECT .. but:
 
-> 
+Unfortunately, I don't think that's true.
+
+We've still got a long way to go!
+
+libcamera isn't enough to cover all MC use cases. The RPi for instance
+has the ability to capture HDMI in through the CSI2 receiver with a
+TC358743 or such. This won't need an IPA or 3a, but might want to go
+through the ISP for scaling or format conversions...
+
+Some time ago, I started to explore how we could handle 'easily'
+capturing non-camera devices. But it was not in scope for libcamera.
+
+> in my opinion, is to handle the complexity somewhere in a framework so
+> that applications don't have to do so manually.
+
+Yes, the complexity needs to be handled somewhere. Applications
+should be able to work with a generic interface and get their video
+frames. But right now - I don't think applications have this, and key
+areas needed for supporting that are not under development or even
+consideration yet as far as I can tell.
+
+--
+Kieran
+
+> --=20
 > Regards,
-> 
-> 	Hans
-> 
-> On 29/09/2021 18:04, Andrzej Pietrasiewicz wrote:
-> > Dear all,
-> > 
-> > This patch series adds VP9 codec V4L2 control interface and two drivers
-> > using the new controls. It is a follow-up of previous v6 series [1].
-> > 
-> > In this iteration, we've implemented VP9 hardware decoding on two devices:
-> > Rockchip VDEC and Hantro G2, and tested on RK3399, i.MX8MQ and i.MX8MP.
-> > The i.MX8M driver needs proper power domains support, though, which is a
-> > subject of a different effort, but in all 3 cases we were able to run the
-> > drivers.
-> > 
-> > GStreamer support is also available, the needed changes have been submitted
-> > by Daniel Almeida [2]. This MR is ready to be merged, and just needs the
-> > VP9 V4L2 controls to be merged and released.
-> > 
-> > Both rkvdec and hantro drivers are passing a significant number of VP9 tests
-> > using Fluster[3]. There are still a few tests that are not passing, due to
-> > dynamic frame resize (not yet supported by V4L2) and small size videos
-> > (due to IP block limitations).
-> > 
-> > The series adds the VP9 codec V4L2 control API as uAPI, so it aims at being
-> > merged without passing through staging, as agreed[4]. The ABI has been checked
-> > for padding and verified to contain no holes.
-> > 
-> > [1] https://patchwork.linuxtv.org/project/linux-media/list/?series=6377
-> > [2] https://gitlab.freedesktop.org/gstreamer/gst-plugins-bad/-/merge_requests/2144
-> > [3] https://github.com/fluendo/fluster
-> > [4] https://lore.kernel.org/linux-media/b8f83c93-67fd-09f5-9314-15746cbfdc61@xs4all.nl/
-> > 
-> > The series depends on the YUV tiled format support prepared by Ezequiel:
-> > https://www.spinics.net/lists/linux-media/msg197047.html
-> > 
-> > Rebased onto latest media_tree.
-> > 
-> > Changes related to v6:
-> > - moved setting tile filter and tile bsd auxiliary buffer addresses so
-> > that they are always set, even if no tiles are used (thanks, Jernej)
-> > - added a comment near the place where the 32-bit DMA mask is applied
-> >   (thanks, Nicolas)
-> > - improved consistency in register names (thanks, Nicolas)
-> > 
-> > Changes related to v5:
-> > - improved the doc comments as per Ezequiel's review (thanks, Ezequiel)
-> > - improved pdf output of documentation
-> > - added Benjamin's Reviewed-by (thanks, Benjamin)
-> > 
-> > Changes related to v4:
-> > - removed unused enum v4l2_vp9_intra_prediction_mode
-> > - converted remaining enums to defines to follow the convention
-> > - improved the documentation, in particular better documented how to use segmentation 
-> > features
-> > 
-> > Changes related to v3:
-> > 
-> > Apply suggestions from Jernej's review (thanks, Jernej):
-> > - renamed a control and two structs:
-> > 	V4L2_CTRL_TYPE_VP9_COMPRESSED_HDR_PROBS =>
-> > 		V4L2_CTRL_TYPE_VP9_COMPRESSED_HDR
-> > 	v4l2_ctrl_vp9_compressed_hdr_probs =>
-> > 		v4l2_ctrl_vp9_compressed_hdr
-> > 	v4l2_vp9_mv_compressed_hdr_probs => v4l2_vp9_mv_probs
-> > - moved tx_mode to v4l2_ctrl_vp9_compressed_hdr
-> > - fixed enum v4l2_vp9_ref_frame_sign_bias values (which are used to test a bitfield)
-> > - explicitly assigned values to all other vp9 enums
-> > 
-> > Apply suggestion from Nicolas's review (thanks, Nicolas):
-> > - explicitly stated that the v4l2_ctrl_vp9_compressed_hdr control is optional
-> > and implemented only by drivers which need it
-> > 
-> > Changes related to the RFC v2:
-> > 
-> > - added another driver including a postprocessor to de-tile
-> >         codec-specific tiling
-> > - reworked uAPI structs layout to follow VP8 style
-> > - changed validation of loop filter params
-> > - changed validation of segmentation params
-> > - changed validation of VP9 frame params
-> > - removed level lookup array from loop filter struct
-> >         (can be computed by drivers)
-> > - renamed some enum values to match the spec more closely
-> > - V4L2 VP9 library changed the 'eob' member of
-> >         'struct v4l2_vp9_frame_symbol_counts' so that it is an array
-> >         of pointers instead of an array of pointers to arrays
-> >         (IPs such as g2 creatively pass parts of the 'eob' counts in
-> >         the 'coeff' counts)
-> > - factored out several repeated portions of code
-> > - minor nitpicks and cleanups
-> > 
-> > Andrzej Pietrasiewicz (6):
-> >   media: uapi: Add VP9 stateless decoder controls
-> >   media: Add VP9 v4l2 library
-> >   media: hantro: Rename registers
-> >   media: hantro: Prepare for other G2 codecs
-> >   media: hantro: Support VP9 on the G2 core
-> >   media: hantro: Support NV12 on the G2 core
-> > 
-> > Boris Brezillon (1):
-> >   media: rkvdec: Add the VP9 backend
-> > 
-> > Ezequiel Garcia (4):
-> >   hantro: postproc: Fix motion vector space size
-> >   hantro: postproc: Introduce struct hantro_postproc_ops
-> >   hantro: Simplify postprocessor
-> >   hantro: Add quirk for NV12/NV12_4L4 capture format
-> > 
-> >  .../userspace-api/media/v4l/biblio.rst        |   10 +
-> >  .../media/v4l/ext-ctrls-codec-stateless.rst   |  573 +++++
-> >  .../media/v4l/pixfmt-compressed.rst           |   15 +
-> >  .../media/v4l/vidioc-g-ext-ctrls.rst          |    8 +
-> >  .../media/v4l/vidioc-queryctrl.rst            |   12 +
-> >  .../media/videodev2.h.rst.exceptions          |    2 +
-> >  drivers/media/v4l2-core/Kconfig               |    4 +
-> >  drivers/media/v4l2-core/Makefile              |    1 +
-> >  drivers/media/v4l2-core/v4l2-ctrls-core.c     |  180 ++
-> >  drivers/media/v4l2-core/v4l2-ctrls-defs.c     |    8 +
-> >  drivers/media/v4l2-core/v4l2-ioctl.c          |    1 +
-> >  drivers/media/v4l2-core/v4l2-vp9.c            | 1850 +++++++++++++++++
-> >  drivers/staging/media/hantro/Kconfig          |    1 +
-> >  drivers/staging/media/hantro/Makefile         |    7 +-
-> >  drivers/staging/media/hantro/hantro.h         |   40 +-
-> >  drivers/staging/media/hantro/hantro_drv.c     |   23 +-
-> >  drivers/staging/media/hantro/hantro_g2.c      |   27 +
-> >  .../staging/media/hantro/hantro_g2_hevc_dec.c |   69 +-
-> >  drivers/staging/media/hantro/hantro_g2_regs.h |  132 +-
-> >  .../staging/media/hantro/hantro_g2_vp9_dec.c  |  980 +++++++++
-> >  drivers/staging/media/hantro/hantro_hw.h      |   83 +-
-> >  .../staging/media/hantro/hantro_postproc.c    |   79 +-
-> >  drivers/staging/media/hantro/hantro_v4l2.c    |   20 +
-> >  drivers/staging/media/hantro/hantro_vp9.c     |  240 +++
-> >  drivers/staging/media/hantro/hantro_vp9.h     |  103 +
-> >  drivers/staging/media/hantro/imx8m_vpu_hw.c   |   38 +-
-> >  .../staging/media/hantro/rockchip_vpu_hw.c    |    7 +-
-> >  .../staging/media/hantro/sama5d4_vdec_hw.c    |    3 +-
-> >  drivers/staging/media/rkvdec/Kconfig          |    1 +
-> >  drivers/staging/media/rkvdec/Makefile         |    2 +-
-> >  drivers/staging/media/rkvdec/rkvdec-vp9.c     | 1078 ++++++++++
-> >  drivers/staging/media/rkvdec/rkvdec.c         |   52 +-
-> >  drivers/staging/media/rkvdec/rkvdec.h         |   12 +-
-> >  include/media/v4l2-ctrls.h                    |    4 +
-> >  include/media/v4l2-vp9.h                      |  182 ++
-> >  include/uapi/linux/v4l2-controls.h            |  284 +++
-> >  include/uapi/linux/videodev2.h                |    6 +
-> >  37 files changed, 6033 insertions(+), 104 deletions(-)
-> >  create mode 100644 drivers/media/v4l2-core/v4l2-vp9.c
-> >  create mode 100644 drivers/staging/media/hantro/hantro_g2.c
-> >  create mode 100644 drivers/staging/media/hantro/hantro_g2_vp9_dec.c
-> >  create mode 100644 drivers/staging/media/hantro/hantro_vp9.c
-> >  create mode 100644 drivers/staging/media/hantro/hantro_vp9.h
-> >  create mode 100644 drivers/staging/media/rkvdec/rkvdec-vp9.c
-> >  create mode 100644 include/media/v4l2-vp9.h
-> > 
-> > 
-> > base-commit: e4e737bb5c170df6135a127739a9e6148ee3da82
-> > 
-> 
-
+>=20
+> Laurent Pinchart
