@@ -2,166 +2,177 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2769C44E20F
-	for <lists+linux-media@lfdr.de>; Fri, 12 Nov 2021 07:55:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4FB7E44E286
+	for <lists+linux-media@lfdr.de>; Fri, 12 Nov 2021 08:42:51 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230259AbhKLG54 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 12 Nov 2021 01:57:56 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50992 "EHLO
+        id S234415AbhKLHpi (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 12 Nov 2021 02:45:38 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33164 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231713AbhKLG5z (ORCPT
+        with ESMTP id S233920AbhKLHpd (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 12 Nov 2021 01:57:55 -0500
-Received: from mail-ed1-x52e.google.com (mail-ed1-x52e.google.com [IPv6:2a00:1450:4864:20::52e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 092FFC061766
-        for <linux-media@vger.kernel.org>; Thu, 11 Nov 2021 22:55:04 -0800 (PST)
-Received: by mail-ed1-x52e.google.com with SMTP id r12so33822491edt.6
-        for <linux-media@vger.kernel.org>; Thu, 11 Nov 2021 22:55:03 -0800 (PST)
+        Fri, 12 Nov 2021 02:45:33 -0500
+Received: from mail-wm1-x329.google.com (mail-wm1-x329.google.com [IPv6:2a00:1450:4864:20::329])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 690A6C061210
+        for <linux-media@vger.kernel.org>; Thu, 11 Nov 2021 23:42:43 -0800 (PST)
+Received: by mail-wm1-x329.google.com with SMTP id 77-20020a1c0450000000b0033123de3425so9197535wme.0
+        for <linux-media@vger.kernel.org>; Thu, 11 Nov 2021 23:42:43 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=amarulasolutions.com; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=To+Hrt/YJtzMS8Ax7Q4RYEa2brHHp6skSFCVWG9Je5Y=;
-        b=RqrRoXnN1GSAvBKjU1L/2WILu4krk8kArFFAx9wej/qkCuZJI8t7xhp5ecuBqdsBl/
-         1y94HtlpGP4Wy+vcVo8lhpBOfhraclDkwrVe+24ZUZ5dzcF+wFgwDWv/zmfCTiWaCcvi
-         1D2/bJoLnCOS14uoQx915z9vcr1LaoJsLRPX0=
+        d=linaro.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=d4YpBbYWP9wG3LFBKWknnju7IW21BdQrAXLAFoUfJjk=;
+        b=L0G7vqzIu4OmVtWPcfcfA5NzLtPk2i0H7s2BzObNlHQTFEkm03sqk/2QHQ4kjpk9BH
+         XMXouE5QpmwrxFfo6B5ZLvuccwWWhT/w9Ko9Yi7L+7BfDDnicqyRLnT+TM8ck5H5bQEY
+         cyD6P6qfh9iWldNqTQR7o5UJ+sXkSMXyDzLNU6kkBq7ka/+ZuUqEk/qcSbQ3GxXC7kiU
+         cm9dyledHK9n0gr3crraQGaAfhd3vfTQwfXVu/kwmwojjE1dRCSgNEVgeiJJB70r7ke9
+         OYePQHHEPa/usZJXytv516/nCeAGVXFsmZBOHnIcNaOTOhsULeXowN7ikvsxKqOo/gxw
+         3O2A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=To+Hrt/YJtzMS8Ax7Q4RYEa2brHHp6skSFCVWG9Je5Y=;
-        b=HsUBtmSmDzkY6xabZupg3QJxsQhIlgjSX5SGOb3K+3KBpkh2yhkKlA0nfuazuJIqtm
-         oz6w2SZcL3ZjsgE2qxxfqXijUqzvo++ZhZPnchAkfJBFMjgVHkFrO8PI+3bSNmkc/gSR
-         uSPjiK5NGeJGcjY3jAgQp72N6MGf0fG68rH4poAhnzamaFRNav09EEo00T5z0OG/vjb6
-         1pbwwb+A/R9oTp3GI3nngI7wiGhFiCVwZUO7IIZ8m5+cYNLP5pu4wfxApTO4QYY2RNXn
-         bMx2cD1W++ck6foBa6tJvG6BhQCTOSJjnsPq4CNBML7cY2XQN7FPXvVWt98WcWc8M1hC
-         qvYw==
-X-Gm-Message-State: AOAM531uCMyy58/xmkXjkLl1gOEqFTt1FWuyrziXd1ons4O5SmGKpiM2
-        RIvqWw4c1Xxlu1YDfNsJGlI6nn43mfKHWAHW2KvVfg==
-X-Google-Smtp-Source: ABdhPJwOEpGKQBzUUa60Ozn0KGjXRmmDQYViyaSrxV7MX+UL5Qisz1sqfBDKiQWOmmy2d7iBt5UJqG1CoGHWBd3kqOc=
-X-Received: by 2002:aa7:d748:: with SMTP id a8mr4764040eds.21.1636700102636;
- Thu, 11 Nov 2021 22:55:02 -0800 (PST)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=d4YpBbYWP9wG3LFBKWknnju7IW21BdQrAXLAFoUfJjk=;
+        b=kuQ+ii7b9TLRcsHPwt3FkR0WjIrcMVH7Ekdu0iY5mZeja7G8PjCAaEXzZ2rkRHY2V3
+         CaGdcQAZFHKWiDv8N4UYgYKBBriwwZjdCsyUUhWSgdJAIpkLw1crlUCedCqKzpzR/1Kd
+         pADQAXxFP9WO4uTpu0yVONsEzvSTPtE8obefXVfHFEXD9c4sS4s/Yh++6vMT7k2I8ila
+         RCm3V+XESMkLsvZsrsm4JGWRaDBJ39rp2yff/j0cVWGWGUpaKOSlNt0i0pDOirKoA68x
+         bIBYzoj5LFT2l2IHDemDXPtqMMKYpv6B5ryyWoZOoZ0DYHs2M0knLncNpgVbFA8GFeeP
+         kpNg==
+X-Gm-Message-State: AOAM533o4ojNtFNB+a7oPDDhZ6Pt6ZuFN9J7QhfzQXQsq5TpzaYaQ59t
+        9lPtJkA6s9yQ9J80NJ7HxJIgMg==
+X-Google-Smtp-Source: ABdhPJyYtg+MHn61GMl0MRFqSO/sm1wnHgrm7yORmq7WT7ihtvN7d0mp317CBhRDaom5mAlXGDszmg==
+X-Received: by 2002:a05:600c:2107:: with SMTP id u7mr32377342wml.82.1636702961238;
+        Thu, 11 Nov 2021 23:42:41 -0800 (PST)
+Received: from google.com ([95.148.6.174])
+        by smtp.gmail.com with ESMTPSA id q8sm4978469wrx.71.2021.11.11.23.42.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 11 Nov 2021 23:42:40 -0800 (PST)
+Date:   Fri, 12 Nov 2021 07:42:37 +0000
+From:   Lee Jones <lee.jones@linaro.org>
+To:     Rob Herring <robh@kernel.org>
+Cc:     patrice.chotard@foss.st.com, Mark Brown <broonie@kernel.org>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        alexandre torgue <alexandre.torgue@foss.st.com>,
+        jonathan cameron <jic23@kernel.org>,
+        Ahmad Fatoum <a.fatoum@pengutronix.de>,
+        olivier moysan <olivier.moysan@foss.st.com>,
+        Amelie Delaunay <amelie.delaunay@foss.st.com>,
+        linux-mtd@lists.infradead.org, linux-watchdog@vger.kernel.org,
+        Jassi Brar <jassisinghbrar@gmail.com>,
+        Mathieu Poirier <mathieu.poirier@linaro.org>,
+        maxime coquelin <mcoquelin.stm32@gmail.com>,
+        Matt Mackall <mpm@selenic.com>, vinod koul <vkoul@kernel.org>,
+        Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+        baolin wang <baolin.wang7@gmail.com>,
+        linux-spi@vger.kernel.org, david airlie <airlied@linux.ie>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        netdev@vger.kernel.org,
+        Fabrice Gasnier <fabrice.gasnier@foss.st.com>,
+        ohad ben-cohen <ohad@wizery.com>, linux-gpio@vger.kernel.org,
+        Jose Abreu <joabreu@synopsys.com>,
+        Le Ray <erwan.leray@foss.st.com>,
+        herbert xu <herbert@gondor.apana.org.au>,
+        michael turquette <mturquette@baylibre.com>,
+        Christophe Kerello <christophe.kerello@foss.st.com>,
+        Gabriel Fernandez <gabriel.fernandez@foss.st.com>,
+        Vignesh Raghavendra <vigneshr@ti.com>,
+        Christophe Roullier <christophe.roullier@foss.st.com>,
+        linux-serial@vger.kernel.org, Amit Kucheria <amitk@kernel.org>,
+        "Rafael J . Wysocki" <rafael@kernel.org>,
+        Ludovic Barre <ludovic.barre@foss.st.com>,
+        "david s . miller" <davem@davemloft.net>,
+        Lionel Debieve <lionel.debieve@foss.st.com>,
+        linux-i2c@vger.kernel.org, linux-remoteproc@vger.kernel.org,
+        Guenter Roeck <linux@roeck-us.net>,
+        thierry reding <thierry.reding@gmail.com>,
+        Miquel Raynal <miquel.raynal@bootlin.com>,
+        Sebastian Reichel <sre@kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        philippe cornu <philippe.cornu@foss.st.com>,
+        linux-rtc@vger.kernel.org,
+        Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
+        Kishon Vijay Abraham I <kishon@ti.com>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Hugues Fruchet <hugues.fruchet@foss.st.com>,
+        alsa-devel@alsa-project.org, Zhang Rui <rui.zhang@intel.com>,
+        linux-crypto@vger.kernel.org,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        linux-iio@vger.kernel.org, pascal Paillet <p.paillet@foss.st.com>,
+        Pierre-Yves MORDRET <pierre-yves.mordret@foss.st.com>,
+        Fabien Dessenne <fabien.dessenne@foss.st.com>,
+        linux-pm@vger.kernel.org, Paul Cercueil <paul@crapouillou.net>,
+        stephen boyd <sboyd@kernel.org>,
+        dillon min <dillon.minfei@gmail.com>,
+        devicetree@vger.kernel.org,
+        yannick fertre <yannick.fertre@foss.st.com>,
+        linux-kernel@vger.kernel.org,
+        Wim Van Sebroeck <wim@linux-watchdog.org>,
+        Giuseppe Cavallaro <peppe.cavallaro@st.com>,
+        linux-phy@lists.infradead.org,
+        benjamin gaignard <benjamin.gaignard@linaro.org>,
+        sam ravnborg <sam@ravnborg.org>,
+        Jakub Kicinski <kuba@kernel.org>,
+        linux-arm-kernel@lists.infradead.org,
+        Viresh Kumar <viresh.kumar@linaro.org>,
+        Alessandro Zummo <a.zummo@towertech.it>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        linux-clk@vger.kernel.org,
+        linux-stm32@st-md-mailman.stormreply.com,
+        Richard Weinberger <richard@nod.at>,
+        Rob Herring <robh+dt@kernel.org>, Marek Vasut <marex@denx.de>,
+        arnaud pouliquen <arnaud.pouliquen@foss.st.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-usb@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        Jagan Teki <jagan@amarulasolutions.com>,
+        dmaengine@vger.kernel.org, linux-media@vger.kernel.org,
+        daniel vetter <daniel@ffwll.ch>, Marc Zyngier <maz@kernel.org>,
+        bjorn andersson <bjorn.andersson@linaro.org>,
+        lars-peter clausen <lars@metafoo.de>
+Subject: Re: [PATCH v3 2/5] dt-bindings: mfd: timers: Update maintainers for
+ st,stm32-timers
+Message-ID: <YY4a7ZxzhNq6Or+t@google.com>
+References: <20211110150144.18272-1-patrice.chotard@foss.st.com>
+ <20211110150144.18272-3-patrice.chotard@foss.st.com>
+ <YYwjPAoCtuM6iycz@robh.at.kernel.org>
 MIME-Version: 1.0
-References: <20211106155427.753197-1-aford173@gmail.com>
-In-Reply-To: <20211106155427.753197-1-aford173@gmail.com>
-From:   Jagan Teki <jagan@amarulasolutions.com>
-Date:   Fri, 12 Nov 2021 12:24:51 +0530
-Message-ID: <CAMty3ZDi+FMLBooi2jt=dPKVC8PhaBWLgtjoe3m=GHCNiqDqQw@mail.gmail.com>
-Subject: Re: [PATCH V2 1/5] soc: imx: imx8m-blk-ctrl: Fix imx8mm mipi reset
-To:     Adam Ford <aford173@gmail.com>
-Cc:     linux-arm-kernel@lists.infradead.org, tharvey@gateworks.com,
-        frieder.schrempf@kontron.de, linux-media@vger.kernel.org,
-        laurent.pinchart@ideasonboard.com, aford@beaconembedded.com,
-        cstevens@beaconembedded.com, Rob Herring <robh+dt@kernel.org>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>, Peng Fan <peng.fan@nxp.com>,
-        Lucas Stach <l.stach@pengutronix.de>,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Marek Vasut <marex@denx.de>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <YYwjPAoCtuM6iycz@robh.at.kernel.org>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Sat, Nov 6, 2021 at 9:24 PM Adam Ford <aford173@gmail.com> wrote:
->
-> Most of the blk-ctrl reset bits are found in one register, however
-> there are two bits in offset 8 for pulling the MIPI DPHY out of reset
-> and these need to be set when IMX8MM_DISPBLK_PD_MIPI_CSI is brought
-> out of reset or the MIPI_CSI hangs.
->
-> Fixes: 926e57c065df ("soc: imx: imx8m-blk-ctrl: add DISP blk-ctrl")
-> Signed-off-by: Adam Ford <aford173@gmail.com>
-> ---
->
-> V2:  Make a note that the extra register is only for Mini/Nano DISPLAY_BLK_CTRL
->      Rename the new register to mipi_phy_rst_mask
->      Encapsulate the edits to this register with an if-statement
+On Wed, 10 Nov 2021, Rob Herring wrote:
 
-This is DPHY reset mask, not sure we can handle this via blk-ctrl.
-Marek has similar patch to support this [1]. we need to phandle the
-phy in host node in order to work this.
+> On Wed, 10 Nov 2021 16:01:41 +0100, patrice.chotard@foss.st.com wrote:
+> > From: Patrice Chotard <patrice.chotard@foss.st.com>
+> > 
+> > Benjamin has left the company, remove his name from maintainers.
+> > 
+> > Signed-off-by: Patrice Chotard <patrice.chotard@foss.st.com>
+> > ---
+> >  Documentation/devicetree/bindings/mfd/st,stm32-timers.yaml | 1 -
+> >  1 file changed, 1 deletion(-)
+> > 
+> 
+> Lee indicated he was going to pick this one up, so:
+> 
+> Acked-by: Rob Herring <robh@kernel.org>
 
-However this current patch change seems directly handling dphy reset
-which indeed fine me as well.
+Since you already merged the treewide patch, you may as well take
+this too.  We'll work through any conflicts that may occur as a
+result.
 
->
->  drivers/soc/imx/imx8m-blk-ctrl.c | 18 ++++++++++++++++++
->  1 file changed, 18 insertions(+)
->
-> diff --git a/drivers/soc/imx/imx8m-blk-ctrl.c b/drivers/soc/imx/imx8m-blk-ctrl.c
-> index 519b3651d1d9..581eb4bc7f7d 100644
-> --- a/drivers/soc/imx/imx8m-blk-ctrl.c
-> +++ b/drivers/soc/imx/imx8m-blk-ctrl.c
-> @@ -17,6 +17,7 @@
->
->  #define BLK_SFT_RSTN   0x0
->  #define BLK_CLK_EN     0x4
-> +#define BLK_MIPI_RESET_DIV     0x8 /* Mini/Nano DISPLAY_BLK_CTRL only */
->
->  struct imx8m_blk_ctrl_domain;
->
-> @@ -36,6 +37,15 @@ struct imx8m_blk_ctrl_domain_data {
->         const char *gpc_name;
->         u32 rst_mask;
->         u32 clk_mask;
-> +
-> +       /*
-> +        * i.MX8M Mini and Nano have a third DISPLAY_BLK_CTRL register
-> +        * which is used to control the reset for the MIPI Phy.
-> +        * Since it's only present in certain circumstances,
-> +        * an if-statement should be used before setting and clearing this
-> +        * register.
-> +        */
-> +       u32 mipi_phy_rst_mask;
+Acked-by: Lee Jones <lee.jones@linaro.org>
 
-May be dphy_rst_mask (above comment may not be required, as it
-understand directly with commit message).
-
->  };
->
->  #define DOMAIN_MAX_CLKS 3
-> @@ -78,6 +88,8 @@ static int imx8m_blk_ctrl_power_on(struct generic_pm_domain *genpd)
->
->         /* put devices into reset */
->         regmap_clear_bits(bc->regmap, BLK_SFT_RSTN, data->rst_mask);
-> +       if (data->mipi_phy_rst_mask)
-> +               regmap_clear_bits(bc->regmap, BLK_MIPI_RESET_DIV, data->mipi_phy_rst_mask);
->
->         /* enable upstream and blk-ctrl clocks to allow reset to propagate */
->         ret = clk_bulk_prepare_enable(data->num_clks, domain->clks);
-> @@ -99,6 +111,8 @@ static int imx8m_blk_ctrl_power_on(struct generic_pm_domain *genpd)
->
->         /* release reset */
->         regmap_set_bits(bc->regmap, BLK_SFT_RSTN, data->rst_mask);
-> +       if (data->mipi_phy_rst_mask)
-> +               regmap_set_bits(bc->regmap, BLK_MIPI_RESET_DIV, data->mipi_phy_rst_mask);
->
->         /* disable upstream clocks */
->         clk_bulk_disable_unprepare(data->num_clks, domain->clks);
-> @@ -120,6 +134,9 @@ static int imx8m_blk_ctrl_power_off(struct generic_pm_domain *genpd)
->         struct imx8m_blk_ctrl *bc = domain->bc;
->
->         /* put devices into reset and disable clocks */
-> +       if (data->mipi_phy_rst_mask)
-> +               regmap_clear_bits(bc->regmap, BLK_MIPI_RESET_DIV, data->mipi_phy_rst_mask);
-> +
->         regmap_clear_bits(bc->regmap, BLK_SFT_RSTN, data->rst_mask);
->         regmap_clear_bits(bc->regmap, BLK_CLK_EN, data->clk_mask);
->
-> @@ -488,6 +505,7 @@ static const struct imx8m_blk_ctrl_domain_data imx8mm_disp_blk_ctl_domain_data[]
->                 .gpc_name = "mipi-csi",
->                 .rst_mask = BIT(3) | BIT(4),
->                 .clk_mask = BIT(10) | BIT(11),
-> +               .mipi_phy_rst_mask = BIT(16) | BIT(17),
-
-DPHY has BIT(17) for Master reset and BIT(16) for Slave reset. I think
-we just need master reset to enable. I've tested only BIT(17) on
-mipi-dsi gpc and it is working.
-
-Jagan.
+-- 
+Lee Jones [李琼斯]
+Senior Technical Lead - Developer Services
+Linaro.org │ Open source software for Arm SoCs
+Follow Linaro: Facebook | Twitter | Blog
