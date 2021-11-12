@@ -2,91 +2,92 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2F5BD44E5A4
-	for <lists+linux-media@lfdr.de>; Fri, 12 Nov 2021 12:36:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 83B4E44E5A5
+	for <lists+linux-media@lfdr.de>; Fri, 12 Nov 2021 12:37:57 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234766AbhKLLj3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 12 Nov 2021 06:39:29 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57986 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233883AbhKLLj2 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Fri, 12 Nov 2021 06:39:28 -0500
-Received: from mail-ot1-x330.google.com (mail-ot1-x330.google.com [IPv6:2607:f8b0:4864:20::330])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5FA55C061766
-        for <linux-media@vger.kernel.org>; Fri, 12 Nov 2021 03:36:38 -0800 (PST)
-Received: by mail-ot1-x330.google.com with SMTP id x19-20020a9d7053000000b0055c8b39420bso13431017otj.1
-        for <linux-media@vger.kernel.org>; Fri, 12 Nov 2021 03:36:38 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:reply-to:from:date:message-id:subject:to
-         :content-transfer-encoding;
-        bh=Em+XoeKxyQcmBMh/wAXP808pR9r0TQJ+v8YkhhpgpyA=;
-        b=SGegkDXW1ElmQmrXJX3JMHHtfessFRC7GrzDpglZ6kgknjhbkcBr8l7Cnl671IhxGm
-         6bTpsC+gC0WsaWwxWydzbvB1enzyPvOB7unhI9+TNMISDmQWGzjP/7MyvslMBQQWgRmx
-         Bc5D3weUURc7ee1I9uBZayEBS6vydvg9d25Pfp98mD23zcbfopqKbIoWstgkOLM0cjHU
-         0wHZmlOxpccYN12YSSeeKgUhw1CJks6gQT/tPgvnZlHdjF8RHDCL35nnuenrIlCKMYCl
-         hzmLI5I2pqKr4Zg3MGbcVc54aPc1n+SPriiKDC1osbdu7IPSrTshj7WtizCWWhddEQHA
-         tIyQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to:content-transfer-encoding;
-        bh=Em+XoeKxyQcmBMh/wAXP808pR9r0TQJ+v8YkhhpgpyA=;
-        b=I4JsqI7J+HwV6d7x+ZELfZtr6k1CZKdaiyZ+Ie9wK8xVirfM3zPN9i3UwPPE41Vvs/
-         t6DRWMn/lZ2FwiWZVm5pVxb4tPPbqByZZ60CtuHiYFLbSSJFNmvzNC8/eplH3twSL3OV
-         GwirOWf92slct6b+ddnXyu3lx8e/+w2+SkPsvo9Wr1h5b/Fa/ApTOmhVEnGBpxeSzhAP
-         R2pkt112v2487h+iKK/E9tfJgVeZJC/YJWjorzuuq2X56Z9fzcwLJIjJ2NpeiHAXqzCg
-         ZlbthdKStzyZ4opSennJiKIG1p4/s44AXfnFGIoGhjg8QViC/N7WsA+HQbCHMDMHisF+
-         INUA==
-X-Gm-Message-State: AOAM530zfebZObRVXWaWBvaUyP+jFJYq51N9oTdS2nbYQv6FlrhYLwC4
-        iEVIf2Cs8b9FVjfKJJ/f4zTtXyejU8X/8dkimrc=
-X-Google-Smtp-Source: ABdhPJxzGgTcLc28gv2rkPJXAAzLKgs62ExOxLvq4h4vecfuATEhNIxKTUn65e+I3iTnNR+Vcx0RfpydlecaltvP1JA=
-X-Received: by 2002:a9d:6315:: with SMTP id q21mr12013888otk.169.1636716997359;
- Fri, 12 Nov 2021 03:36:37 -0800 (PST)
+        id S234728AbhKLLkp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 12 Nov 2021 06:40:45 -0500
+Received: from mga04.intel.com ([192.55.52.120]:6016 "EHLO mga04.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S233883AbhKLLkn (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Fri, 12 Nov 2021 06:40:43 -0500
+X-IronPort-AV: E=McAfee;i="6200,9189,10165"; a="231844604"
+X-IronPort-AV: E=Sophos;i="5.87,229,1631602800"; 
+   d="scan'208";a="231844604"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Nov 2021 03:37:41 -0800
+X-IronPort-AV: E=Sophos;i="5.87,229,1631602800"; 
+   d="scan'208";a="670626269"
+Received: from smile.fi.intel.com ([10.237.72.184])
+  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Nov 2021 03:37:38 -0800
+Received: from andy by smile.fi.intel.com with local (Exim 4.95)
+        (envelope-from <andriy.shevchenko@linux.intel.com>)
+        id 1mlUs4-0065Aa-69;
+        Fri, 12 Nov 2021 13:37:28 +0200
+Date:   Fri, 12 Nov 2021 13:37:27 +0200
+From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Dave Stevenson <dave.stevenson@raspberrypi.com>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Daniel Scally <djrscally@gmail.com>,
+        Kate Hsuan <hpa@redhat.com>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        libcamera devel <libcamera-devel@lists.libcamera.org>,
+        Sakari Ailus <sakari.ailus@iki.fi>
+Subject: Re: Fwd: Surface Go VCM type (was: Need to pass
+ acpi_enforce_resources=lax on the Surface Go (version1))
+Message-ID: <YY5R99cHfxZe5M0M@smile.fi.intel.com>
+References: <6ee7c491-4636-8819-c954-dfc6abcfd1a5@gmail.com>
+ <495cbb6b-656d-6c3b-669a-f4b588e970cc@redhat.com>
+ <a26f70ae-203e-99fd-8e4d-484af6f207f7@gmail.com>
+ <4c7b9d72-4634-ea1d-5fff-bf17c3834b72@redhat.com>
+ <CAPY8ntBZpZjecHNCMf-eMefcp2EgmbqkXMt4p=UeOe0n-o8WrA@mail.gmail.com>
+ <6e832988-4810-fe59-7357-886b286697a0@redhat.com>
+ <CAPY8ntB3pT4EqornywTtqcn4_iD-QUHPkApq=nb3XCc+6CuepA@mail.gmail.com>
+ <YY2Ta34aTqFKPYnS@pendragon.ideasonboard.com>
+ <CAPY8ntABHNcgO4iVOryYZsdePVvjTiddZJCBah60LuzSXkL3PA@mail.gmail.com>
+ <YY5GIFudxS81q/Qp@pendragon.ideasonboard.com>
 MIME-Version: 1.0
-Received: by 2002:a05:6808:1645:0:0:0:0 with HTTP; Fri, 12 Nov 2021 03:36:36
- -0800 (PST)
-Reply-To: nistelvaraj@gmail.com
-From:   Anitha Selvaraj <sandyaanila@gmail.com>
-Date:   Fri, 12 Nov 2021 12:36:36 +0100
-Message-ID: <CA+PAN9Bc=vW+6TVj1W9PmteQgxGMB8ikquZYe4cPPSoKOHDu9g@mail.gmail.com>
-Subject: =?UTF-8?Q?Umi=C5=82owani_w_Chrystusie=2E?=
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YY5GIFudxS81q/Qp@pendragon.ideasonboard.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
---=20
-Najdro=C5=BCsza w Chrystusie,
+On Fri, Nov 12, 2021 at 12:46:56PM +0200, Laurent Pinchart wrote:
+> On Fri, Nov 12, 2021 at 10:32:31AM +0000, Dave Stevenson wrote:
+> > On Thu, 11 Nov 2021 at 22:04, Laurent Pinchart wrote:
 
-Jestem pani Anitha Selvaraj, wysz=C5=82am za m=C4=85=C5=BC za pana Francisz=
-ka Selvaraja,
-przez 19 lat bez dziecka, a m=C3=B3j m=C4=85=C5=BC zmar=C5=82 w 2007 roku. =
-Kontaktuj=C4=99 si=C4=99 z
-tob=C4=85, aby=C5=9Bcie poznali moje pragnienie przekazania sumy (6,500,000=
- dolar=C3=B3w),
-kt=C3=B3r=C4=85 odziedziczy=C5=82am od mojego zmar=C5=82ego m=C4=99=C5=BCa =
-do organizacji charytatywnej,
-obecnie fundusz jest nadal w banku. Niedawno m=C3=B3j lekarz powiedzia=C5=
-=82 mi, =C5=BCe
-mam powa=C5=BCn=C4=85 chorob=C4=99, jak=C4=85 jest rak i nie wytrzymam prze=
-z najbli=C5=BCsze 2
-miesi=C4=85ce.
+> > Sorry, just my two-penneth as someone who has to support general
+> > users, rather than just develop platforms or address specific use
+> > cases.
+> 
+> As mentioned above, I certainly don't oppose improving power management
+> for VCMs, as well as the VCM control API in general, as long as we can
+> cover all use cases. I'm not familiar enough with the use cases to tell
+> whether making the kernel side more "clever" would be just fine or could
+> cause issues.
 
-Chc=C4=99 osoby, kt=C3=B3ra przeznaczy ten fundusz na sieroci=C5=84ce, szko=
-=C5=82y, ko=C5=9Bcio=C5=82y,
-wdowy, g=C5=82osz=C4=85ce s=C5=82owo Bo=C5=BCe w swoim kraju.
-Odpowiedz mi, aby uzyska=C4=87 wi=C4=99cej informacji, a tak=C5=BCe wy=C5=
-=9Blij mi nast=C4=99puj=C4=85ce
-informacje, jak poni=C5=BCej.
+Personally I found the
 
-Twoje pe=C5=82ne imi=C4=99 ..........
-Adres ...........
-Zdj=C4=99cie ...............
+  kernel <--> library in userspace <--> another library or app
 
-Pozosta=C5=84 b=C5=82ogos=C5=82awiony
-Twoja siostra w Chrystusie
-Pani Anitha Selvaraj
+schema is more flexible in many ways:
+ - we unburden kernel from the heavy code that has nothing to
+   do directly with HW
+ - we allow nevertheless to use kernel ABIs if needed
+ - we decrease burden of the ABI evolution by doing it in only
+   two places
+
+After all this kind of schema might lead us at some point to the
+shifting of 'we don't break user space' paradigm to the 'we hardly
+try not to break user space and do not break library ABIs / APIs
+in user space'.
+
+-- 
+With Best Regards,
+Andy Shevchenko
+
+
