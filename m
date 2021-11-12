@@ -2,29 +2,29 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8F2D244E507
-	for <lists+linux-media@lfdr.de>; Fri, 12 Nov 2021 11:56:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6BB1D44E50F
+	for <lists+linux-media@lfdr.de>; Fri, 12 Nov 2021 11:56:39 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234832AbhKLK7J (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 12 Nov 2021 05:59:09 -0500
-Received: from mailgw02.mediatek.com ([210.61.82.184]:41038 "EHLO
-        mailgw02.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
-        with ESMTP id S233619AbhKLK7I (ORCPT
+        id S234878AbhKLK7U (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 12 Nov 2021 05:59:20 -0500
+Received: from mailgw01.mediatek.com ([60.244.123.138]:57874 "EHLO
+        mailgw01.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
+        with ESMTP id S234853AbhKLK7T (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 12 Nov 2021 05:59:08 -0500
-X-UUID: 60ded804906d4400bf9ac0af5d1c1ced-20211112
-X-UUID: 60ded804906d4400bf9ac0af5d1c1ced-20211112
-Received: from mtkexhb02.mediatek.inc [(172.21.101.103)] by mailgw02.mediatek.com
+        Fri, 12 Nov 2021 05:59:19 -0500
+X-UUID: a52f80a27a7d4a529f46799d7f944407-20211112
+X-UUID: a52f80a27a7d4a529f46799d7f944407-20211112
+Received: from mtkmbs10n2.mediatek.inc [(172.21.101.183)] by mailgw01.mediatek.com
         (envelope-from <yong.wu@mediatek.com>)
-        (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
-        with ESMTP id 663950336; Fri, 12 Nov 2021 18:56:15 +0800
+        (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+        with ESMTP id 4873376; Fri, 12 Nov 2021 18:56:27 +0800
 Received: from mtkcas10.mediatek.inc (172.21.101.39) by
- mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.792.3;
- Fri, 12 Nov 2021 18:56:13 +0800
+ mtkmbs10n1.mediatek.inc (172.21.101.34) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ 15.2.792.15; Fri, 12 Nov 2021 18:56:25 +0800
 Received: from localhost.localdomain (10.17.3.154) by mtkcas10.mediatek.inc
  (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Fri, 12 Nov 2021 18:56:11 +0800
+ Transport; Fri, 12 Nov 2021 18:56:23 +0800
 From:   Yong Wu <yong.wu@mediatek.com>
 To:     Matthias Brugger <matthias.bgg@gmail.com>,
         Joerg Roedel <joro@8bytes.org>,
@@ -55,9 +55,9 @@ CC:     Evan Green <evgreen@chromium.org>,
         Frank Wunderlich <frank-w@public-files.de>,
         <mingyuan.ma@mediatek.com>, <yf.wang@mediatek.com>,
         <libo.kang@mediatek.com>
-Subject: [PATCH v9 04/15] iommu/mediatek: Add probe_defer for smi-larb
-Date:   Fri, 12 Nov 2021 18:54:58 +0800
-Message-ID: <20211112105509.12010-5-yong.wu@mediatek.com>
+Subject: [PATCH v9 05/15] iommu/mediatek: Add device_link between the consumer and the larb devices
+Date:   Fri, 12 Nov 2021 18:54:59 +0800
+Message-ID: <20211112105509.12010-6-yong.wu@mediatek.com>
 X-Mailer: git-send-email 2.18.0
 In-Reply-To: <20211112105509.12010-1-yong.wu@mediatek.com>
 References: <20211112105509.12010-1-yong.wu@mediatek.com>
@@ -68,58 +68,173 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Prepare for adding device_link.
+MediaTek IOMMU-SMI diagram is like below. all the consumer connect with
+smi-larb, then connect with smi-common.
 
-The iommu consumer should use device_link to connect with the
-smi-larb(supplier). then the smi-larb should run before the iommu
-consumer. Here we delay the iommu driver until the smi driver is ready,
-then all the iommu consumers always are after the smi driver.
+        M4U
+         |
+    smi-common
+         |
+  -------------
+  |         |    ...
+  |         |
+larb1     larb2
+  |         |
+vdec       venc
 
-When there is no this patch, if some consumer drivers run before
-smi-larb, the supplier link_status is DL_DEV_NO_DRIVER(0) in the
-device_link_add, then device_links_driver_bound will use WARN_ON
-to complain that the link_status of supplier is not right.
+When the consumer works, it should enable the smi-larb's power which
+also need enable the smi-common's power firstly.
 
-device_is_bound may be more elegant here. but it is not allowed to
-EXPORT from https://lore.kernel.org/patchwork/patch/1334670/.
+Thus, First of all, use the device link connect the consumer and the
+smi-larbs. then add device link between the smi-larb and smi-common.
 
+This patch adds device_link between the consumer and the larbs.
+
+When device_link_add, I add the flag DL_FLAG_STATELESS to avoid calling
+pm_runtime_xx to keep the original status of clocks. It can avoid two
+issues:
+1) Display HW show fastlogo abnormally reported in [1]. At the beggining,
+all the clocks are enabled before entering kernel, but the clocks for
+display HW(always in larb0) will be gated after clk_enable and clk_disable
+called from device_link_add(->pm_runtime_resume) and rpm_idle. The clock
+operation happened before display driver probe. At that time, the display
+HW will be abnormal.
+
+2) A deadlock issue reported in [2]. Use DL_FLAG_STATELESS to skip
+pm_runtime_xx to avoid the deadlock.
+
+Corresponding, DL_FLAG_AUTOREMOVE_CONSUMER can't be added, then
+device_link_removed should be added explicitly.
+
+Meanwhile, Currently we don't have a device connect with 2 larbs at the
+same time. Disallow this case, print the error log.
+
+[1] https://lore.kernel.org/linux-mediatek/1564213888.22908.4.camel@mhfsdcap03/
+[2] https://lore.kernel.org/patchwork/patch/1086569/
+
+Suggested-by: Tomasz Figa <tfiga@chromium.org>
 Signed-off-by: Yong Wu <yong.wu@mediatek.com>
 Tested-by: Frank Wunderlich <frank-w@public-files.de> # BPI-R2/MT7623
 ---
- drivers/iommu/mtk_iommu.c    | 4 ++++
- drivers/iommu/mtk_iommu_v1.c | 4 ++++
- 2 files changed, 8 insertions(+)
+ drivers/iommu/mtk_iommu.c    | 30 ++++++++++++++++++++++++++++++
+ drivers/iommu/mtk_iommu_v1.c | 29 ++++++++++++++++++++++++++++-
+ 2 files changed, 58 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/iommu/mtk_iommu.c b/drivers/iommu/mtk_iommu.c
-index 8f566d2e72e5..0033c0634e5e 100644
+index 0033c0634e5e..5fed0b64ddd0 100644
 --- a/drivers/iommu/mtk_iommu.c
 +++ b/drivers/iommu/mtk_iommu.c
-@@ -848,6 +848,10 @@ static int mtk_iommu_probe(struct platform_device *pdev)
- 			of_node_put(larbnode);
- 			return -ENODEV;
- 		}
-+		if (!plarbdev->dev.driver) {
-+			of_node_put(larbnode);
-+			return -EPROBE_DEFER;
-+		}
- 		data->larb_imu[id].dev = &plarbdev->dev;
+@@ -560,22 +560,52 @@ static struct iommu_device *mtk_iommu_probe_device(struct device *dev)
+ {
+ 	struct iommu_fwspec *fwspec = dev_iommu_fwspec_get(dev);
+ 	struct mtk_iommu_data *data;
++	struct device_link *link;
++	struct device *larbdev;
++	unsigned int larbid, larbidx, i;
  
- 		component_match_add_release(dev, &match, release_of,
+ 	if (!fwspec || fwspec->ops != &mtk_iommu_ops)
+ 		return ERR_PTR(-ENODEV); /* Not a iommu client device */
+ 
+ 	data = dev_iommu_priv_get(dev);
+ 
++	/*
++	 * Link the consumer device with the smi-larb device(supplier).
++	 * The device that connects with each a larb is a independent HW.
++	 * All the ports in each a device should be in the same larbs.
++	 */
++	larbid = MTK_M4U_TO_LARB(fwspec->ids[0]);
++	for (i = 1; i < fwspec->num_ids; i++) {
++		larbidx = MTK_M4U_TO_LARB(fwspec->ids[i]);
++		if (larbid != larbidx) {
++			dev_err(dev, "Can only use one larb. Fail@larb%d-%d.\n",
++				larbid, larbidx);
++			return ERR_PTR(-EINVAL);
++		}
++	}
++	larbdev = data->larb_imu[larbid].dev;
++	link = device_link_add(dev, larbdev,
++			       DL_FLAG_PM_RUNTIME | DL_FLAG_STATELESS);
++	if (!link)
++		dev_err(dev, "Unable to link %s\n", dev_name(larbdev));
+ 	return &data->iommu;
+ }
+ 
+ static void mtk_iommu_release_device(struct device *dev)
+ {
+ 	struct iommu_fwspec *fwspec = dev_iommu_fwspec_get(dev);
++	struct mtk_iommu_data *data;
++	struct device *larbdev;
++	unsigned int larbid;
+ 
+ 	if (!fwspec || fwspec->ops != &mtk_iommu_ops)
+ 		return;
+ 
++	data = dev_iommu_priv_get(dev);
++	larbid = MTK_M4U_TO_LARB(fwspec->ids[0]);
++	larbdev = data->larb_imu[larbid].dev;
++	device_link_remove(dev, larbdev);
++
+ 	iommu_fwspec_free(dev);
+ }
+ 
 diff --git a/drivers/iommu/mtk_iommu_v1.c b/drivers/iommu/mtk_iommu_v1.c
-index 68bf02f87cfd..4089077256f4 100644
+index 4089077256f4..4052aad75a81 100644
 --- a/drivers/iommu/mtk_iommu_v1.c
 +++ b/drivers/iommu/mtk_iommu_v1.c
-@@ -606,6 +606,10 @@ static int mtk_iommu_probe(struct platform_device *pdev)
- 			of_node_put(larbnode);
- 			return -ENODEV;
- 		}
-+		if (!plarbdev->dev.driver) {
-+			of_node_put(larbnode);
-+			return -EPROBE_DEFER;
-+		}
- 		data->larb_imu[i].dev = &plarbdev->dev;
+@@ -423,7 +423,9 @@ static struct iommu_device *mtk_iommu_probe_device(struct device *dev)
+ 	struct iommu_fwspec *fwspec = dev_iommu_fwspec_get(dev);
+ 	struct of_phandle_args iommu_spec;
+ 	struct mtk_iommu_data *data;
+-	int err, idx = 0;
++	int err, idx = 0, larbid, larbidx;
++	struct device_link *link;
++	struct device *larbdev;
  
- 		component_match_add_release(dev, &match, release_of,
+ 	/*
+ 	 * In the deferred case, free the existed fwspec.
+@@ -453,6 +455,23 @@ static struct iommu_device *mtk_iommu_probe_device(struct device *dev)
+ 
+ 	data = dev_iommu_priv_get(dev);
+ 
++	/* Link the consumer device with the smi-larb device(supplier) */
++	larbid = mt2701_m4u_to_larb(fwspec->ids[0]);
++	for (idx = 1; idx < fwspec->num_ids; idx++) {
++		larbidx = mt2701_m4u_to_larb(fwspec->ids[idx]);
++		if (larbid != larbidx) {
++			dev_err(dev, "Can only use one larb. Fail@larb%d-%d.\n",
++				larbid, larbidx);
++			return ERR_PTR(-EINVAL);
++		}
++	}
++
++	larbdev = data->larb_imu[larbid].dev;
++	link = device_link_add(dev, larbdev,
++			       DL_FLAG_PM_RUNTIME | DL_FLAG_STATELESS);
++	if (!link)
++		dev_err(dev, "Unable to link %s\n", dev_name(larbdev));
++
+ 	return &data->iommu;
+ }
+ 
+@@ -473,10 +492,18 @@ static void mtk_iommu_probe_finalize(struct device *dev)
+ static void mtk_iommu_release_device(struct device *dev)
+ {
+ 	struct iommu_fwspec *fwspec = dev_iommu_fwspec_get(dev);
++	struct mtk_iommu_data *data;
++	struct device *larbdev;
++	unsigned int larbid;
+ 
+ 	if (!fwspec || fwspec->ops != &mtk_iommu_ops)
+ 		return;
+ 
++	data = dev_iommu_priv_get(dev);
++	larbid = mt2701_m4u_to_larb(fwspec->ids[0]);
++	larbdev = data->larb_imu[larbid].dev;
++	device_link_remove(dev, larbdev);
++
+ 	iommu_fwspec_free(dev);
+ }
+ 
 -- 
 2.18.0
 
