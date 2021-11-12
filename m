@@ -2,108 +2,108 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7A0DF44E68E
-	for <lists+linux-media@lfdr.de>; Fri, 12 Nov 2021 13:40:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7587544E814
+	for <lists+linux-media@lfdr.de>; Fri, 12 Nov 2021 15:03:11 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234957AbhKLMni (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 12 Nov 2021 07:43:38 -0500
-Received: from mx1.tq-group.com ([93.104.207.81]:33341 "EHLO mx1.tq-group.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231433AbhKLMni (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Fri, 12 Nov 2021 07:43:38 -0500
+        id S235003AbhKLOF6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 12 Nov 2021 09:05:58 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35034 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231617AbhKLOF5 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Fri, 12 Nov 2021 09:05:57 -0500
+Received: from mail-ed1-x533.google.com (mail-ed1-x533.google.com [IPv6:2a00:1450:4864:20::533])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CB356C061766
+        for <linux-media@vger.kernel.org>; Fri, 12 Nov 2021 06:03:06 -0800 (PST)
+Received: by mail-ed1-x533.google.com with SMTP id z10so11694345edc.11
+        for <linux-media@vger.kernel.org>; Fri, 12 Nov 2021 06:03:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
-  t=1636720847; x=1668256847;
-  h=message-id:subject:from:to:cc:date:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=6b3Ahxznat5ujnRBMDh/a85SJI/8DYg1lG8FShPSmHM=;
-  b=Y1j5noe4/Fw7f4AiFdbcLxWtwZQak52MVlaQhB//zAp0RMlWbyk2IGAw
-   cLf8g+uww7/fabOanYIbyPnmBJPnf3K7cGAa0OEPiU1JgCChSuy2rc/uw
-   B3oVksEWQXGIDzF4OLGMrjQpNNnRIkoODPJuK8mGAhKeqYB+FUp31oXNj
-   btMltFKBnUDEQaLL70lyvlINwPi9+b830FXXN1oPO96SlBbPHX82EwPSV
-   w8fy6m6dvUl4qKJk+j0Gkdh9mF7XBu6ZoxupUJi/6KNxH2QUrKu4cAVZJ
-   535V2FBINiXr/IJPzu3BVSkq/TZTUqP+HhEJkZV+0hm2O/z5USeILkG3Z
-   Q==;
-X-IronPort-AV: E=Sophos;i="5.87,229,1631570400"; 
-   d="scan'208";a="20444716"
-Received: from unknown (HELO tq-pgp-pr1.tq-net.de) ([192.168.6.15])
-  by mx1-pgp.tq-group.com with ESMTP; 12 Nov 2021 13:40:46 +0100
-Received: from mx1.tq-group.com ([192.168.6.7])
-  by tq-pgp-pr1.tq-net.de (PGP Universal service);
-  Fri, 12 Nov 2021 13:40:46 +0100
-X-PGP-Universal: processed;
-        by tq-pgp-pr1.tq-net.de on Fri, 12 Nov 2021 13:40:46 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
-  t=1636720846; x=1668256846;
-  h=message-id:subject:from:to:cc:date:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=6b3Ahxznat5ujnRBMDh/a85SJI/8DYg1lG8FShPSmHM=;
-  b=XRV05SVfOykSncq34ympLg86+qas7D1Gm93f8t4Lpgs1WNL2VrBtWpj6
-   6gFyRrgQWuxWjKevXlYO/u+QCiuhGrs4jq5P2Vw2K0p/rNhfFErCIttru
-   b8zxNEKVRioMRtoxJZsduQFhtWtEgwHTPKRwkuSkyNfMclcU2zsT1qpsK
-   P6HzLU26Sk88P9pImSfnjJJHPqxrxFjTZS3AufcuIrfYGZl1LrBo8SGp9
-   Egz+bXcbC/4APeQn03SfdpWsheqPBhsDyM1PJZuRYQYq1vDCgjszJFJZP
-   2XfHDalkiXTRqRfzHYsHJ2ED3HY8i9r2JRK2Ui0KJytxvHrm4IZEM3N1K
-   A==;
-X-IronPort-AV: E=Sophos;i="5.87,229,1631570400"; 
-   d="scan'208";a="20444714"
-Received: from vtuxmail01.tq-net.de ([10.115.0.20])
-  by mx1.tq-group.com with ESMTP; 12 Nov 2021 13:40:46 +0100
-Received: from steina-w (unknown [10.123.49.12])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
-        (No client certificate requested)
-        by vtuxmail01.tq-net.de (Postfix) with ESMTPSA id 2327D280065;
-        Fri, 12 Nov 2021 13:40:46 +0100 (CET)
-Message-ID: <44e674de003a8b8ebce908cebf5ea35f32ddd6ab.camel@ew.tq-group.com>
-Subject: Re: (EXT) [BUG] media: imx: imx7-media-csi issue with vb2 is
- hanging / freezing the system
-From:   Alexander Stein <alexander.stein@ew.tq-group.com>
-To:     Martin Kepplinger <martin.kepplinger@puri.sm>,
-        laurent.pinchart@ideasonboard.com, rmfrfs@gmail.com,
-        slongerbeam@gmail.com, p.zabel@pengutronix.de, mchehab@kernel.org
-Cc:     linux-imx@nxp.com, kernel@puri.sm, linux-media@vger.kernel.org,
-        linux-staging@lists.linux.dev, linux-arm-kernel@lists.infradead.org
-Date:   Fri, 12 Nov 2021 13:40:43 +0100
-In-Reply-To: <ab8929d22461300f0f167ab44e1b5c902dde5fcd.camel@puri.sm>
-References: <ab8929d22461300f0f167ab44e1b5c902dde5fcd.camel@puri.sm>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.36.5-0ubuntu1 
+        d=chromium.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=iTbUD2AVKKJY6TgT6F4OVEoQxuQJkFr5hOUNbosV2I4=;
+        b=DPUIC/h2/v62MhG90Cj+Xrki1FbAhYIVshNp07kEXibojOHLMb3KiTm+LRBpE/JQnt
+         Nvc8WFEDf2LeyYncZthQnj1GAU+EnGarKVdR2BZoFCPYW5JPeEjwuh9p4vIsedC6HDjd
+         gEWXj6QuiwFhPB83+AfjUJ5IRv0Vdimoureck=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=iTbUD2AVKKJY6TgT6F4OVEoQxuQJkFr5hOUNbosV2I4=;
+        b=x0wTAHOX9qYw5HBEbHgd7JCugCce5VPh0YIcVVYkTWrGIFlQnZGgwPNBbYnKaTl7ph
+         9R6enLA81Sj6HqhUrm7Mwbd/ToJ63UrOJ9mQ/dRr57L9upxdQfnkKZm/mtlNlpZh+TIa
+         IpmhT3uidi6K/FhevYXEyefSzczQYvEMFNU8X3q8eY1fHmRCbvAqcVYbk+vqfs8BsYk1
+         DhgtdnuuWu2FHa8ea+2UfvgQQvJx2isrptbn712WlMAeeEzvtuywa7vSomICO5otk8S7
+         ZVCEnHd671jA4Pr2m27Wa/N5zPg5k2H7mS4Af/CuTMAsyF7NJ4hha7LrEwUwLc1Hr252
+         G23w==
+X-Gm-Message-State: AOAM532qJBaMrZAbVfKLlRQX502eYlSSebCUKOHhQZd2xllqd2OfDGuK
+        WPaX3AyYOlJDuhnaL6WhWY2eVdSA8UY3WuLu
+X-Google-Smtp-Source: ABdhPJx9To/QJshMy/HMiBou60L1jx84NZZkaJy4v+asM4fckA6I32UJaY5tw3YQ0g5JCLdIqXYj5g==
+X-Received: by 2002:a50:fd16:: with SMTP id i22mr14237249eds.224.1636725785357;
+        Fri, 12 Nov 2021 06:03:05 -0800 (PST)
+Received: from alco.corp.google.com ([2620:0:1059:10:53d2:107a:3e39:380f])
+        by smtp.gmail.com with ESMTPSA id gb2sm2642238ejc.52.2021.11.12.06.03.04
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 12 Nov 2021 06:03:04 -0800 (PST)
+From:   Ricardo Ribalda <ribalda@chromium.org>
+To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        James Hilliard <james.hilliard1@gmail.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        linux-media@vger.kernel.org
+Cc:     Ricardo Ribalda <ribalda@chromium.org>
+Subject: [PATCH] media: uvcvideo: Set the colorspace as sRGB if undefined
+Date:   Fri, 12 Nov 2021 15:03:02 +0100
+Message-Id: <20211112140302.240134-1-ribalda@chromium.org>
+X-Mailer: git-send-email 2.34.0.rc1.387.gb447b232ab-goog
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hello Martin,
+Never return V4L2_COLORSPACE_DEFAULT. From the standard:
 
-Am Freitag, dem 12.11.2021 um 12:23 +0100 schrieb Martin Kepplinger:
-> hi Laurent and all who it may concern,
-> 
-> Ever since I switches to using imx7-media-csi on imx8mq I have seen a
-> bug that hangs /freezes the system so that I can't really save a trace
-> or get logs for it. It happens not every time when starting streaming,
-> but sometimes - when starting to stream frames.
-> 
-> It kind of looks like a lock not released or something similar, but
-> some race condition might happen since it's happening every 2 to 10
-> times.
-> 
-> For me, when it fails, it fails the first time when starting to stream
-> after rebooting. If it succeeds that first time, it continues to
-> succeed, until I reboot.
+"""
+In the absence of this descriptor, or in the case of
+“Unspecified” values within the descriptor, color matching
+defaults will be assumed. The color matching defaults are
+compliant with sRGB since the BT.709 transfer function and
+the sRGB transfer function are very similar.
+"""
 
-When I read your description I was immediately reminded to this post on
-NXP forums [1].
-I do not know if this is what is happening to you, but it sounds
-somewhat similar. There is also an errata in post [2] describing some
-backgrounds. Later posts also describe that apparently only CSI port 1
-is affected, but CSI port 2 is not.
-Do you have the possibility to test CSI port 2?
+Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+Cc: James Hilliard <james.hilliard1@gmail.com>
+---
 
-Best regards,
-Alexander
+James, could you test it on your device to figure out if it solves
+your compliance issues. Thanks!
 
-[1] https://community.nxp.com/t5/i-MX-Processors/IMX8MQ-MIPI-CSI2-Base-address-switching-change-error/m-p/1218063
-[2] https://community.nxp.com/t5/i-MX-Processors/IMX8MQ-MIPI-CSI2-Base-address-switching-change-error/m-p/1216509/highlight/true#M167970
+ drivers/media/usb/uvc/uvc_driver.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc_driver.c
+index 29befcb229b2..4bbbdfa26459 100644
+--- a/drivers/media/usb/uvc/uvc_driver.c
++++ b/drivers/media/usb/uvc/uvc_driver.c
+@@ -256,7 +256,7 @@ static struct uvc_format_desc *uvc_format_by_guid(const u8 guid[16])
+ static enum v4l2_colorspace uvc_colorspace(const u8 primaries)
+ {
+ 	static const enum v4l2_colorspace colorprimaries[] = {
+-		V4L2_COLORSPACE_DEFAULT,  /* Unspecified */
++		V4L2_COLORSPACE_SRGB,  /* Unspecified */
+ 		V4L2_COLORSPACE_SRGB,
+ 		V4L2_COLORSPACE_470_SYSTEM_M,
+ 		V4L2_COLORSPACE_470_SYSTEM_BG,
+@@ -267,7 +267,7 @@ static enum v4l2_colorspace uvc_colorspace(const u8 primaries)
+ 	if (primaries < ARRAY_SIZE(colorprimaries))
+ 		return colorprimaries[primaries];
+ 
+-	return V4L2_COLORSPACE_DEFAULT;  /* Reserved */
++	return V4L2_COLORSPACE_SRGB;  /* Reserved */
+ }
+ 
+ static enum v4l2_xfer_func uvc_xfer_func(const u8 transfer_characteristics)
+-- 
+2.34.0.rc1.387.gb447b232ab-goog
 
