@@ -2,83 +2,149 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7AF3044DFCE
-	for <lists+linux-media@lfdr.de>; Fri, 12 Nov 2021 02:34:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0DA1F44E068
+	for <lists+linux-media@lfdr.de>; Fri, 12 Nov 2021 03:40:48 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234213AbhKLBhH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 11 Nov 2021 20:37:07 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37274 "EHLO
+        id S234525AbhKLCng (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 11 Nov 2021 21:43:36 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51854 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231470AbhKLBhH (ORCPT
+        with ESMTP id S233752AbhKLCnf (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 11 Nov 2021 20:37:07 -0500
-Received: from mail-pj1-x102c.google.com (mail-pj1-x102c.google.com [IPv6:2607:f8b0:4864:20::102c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6D2E9C061766
-        for <linux-media@vger.kernel.org>; Thu, 11 Nov 2021 17:34:17 -0800 (PST)
-Received: by mail-pj1-x102c.google.com with SMTP id nh10-20020a17090b364a00b001a69adad5ebso6280536pjb.2
-        for <linux-media@vger.kernel.org>; Thu, 11 Nov 2021 17:34:17 -0800 (PST)
+        Thu, 11 Nov 2021 21:43:35 -0500
+Received: from mail-il1-x131.google.com (mail-il1-x131.google.com [IPv6:2607:f8b0:4864:20::131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 12873C061766;
+        Thu, 11 Nov 2021 18:40:46 -0800 (PST)
+Received: by mail-il1-x131.google.com with SMTP id i9so7666183ilu.8;
+        Thu, 11 Nov 2021 18:40:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=0YHU5BFJe1UeJmMP6VYLEudXKn26+NeOxTqKcy9fme8=;
-        b=LrFnSWp7l4vvRFWqk06cZtwB/ugRwVOpRXHG+uL+eIa85OD3cC5UgUaQ/gbX+IQUgd
-         N5j7X456rIqpp28T9y0cSOfeC5OOs1vsm4r9GxHHABLjSIlcZkBpqAEKnOO0fD2iRfU3
-         Zi7bZij5unADfaSDgQct4cGhDgHCNsqiDS2Jnh6WDjYPDBrGOBSbCyYVcFc6PhQ/JFZ4
-         RoD5uK51PLaQOhc0Udq2fvkh+ZrSztIibqX3r8mcDuuHX0s0A9BR2TySEAW1QbHRSZVy
-         WZMSLHskRaYFOr1+ijUTRrVxc80eRJlnLanayATyJyudWGMIa1gLqjepUMCjqT1kxXiZ
-         c1og==
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=JYtrXD23shdyMcsFVgaL3Kb0G11os2lduL5hO5DAisc=;
+        b=jRE5rg1/zaGSX+gVN/bOD8YjB3IaKxvdDoCmy5NcoFuoswXqvRBlIst8meObLmBAxs
+         u/iuQQm9Sdbq38gLkav2/5wyrj5hRbZLNC2yZYHXZndX64i53+t1v/b3YSrFbbT6PMy0
+         537NSp+aaWYstCxLd0AGLdcUiCzol4Thn5IZvGZNcczz1qFiNFgtEXqQDmTiZ6ewZihF
+         JlwJg4FTlauqHGaSdvvOS3CSQLPQaY1aRnSxbCOS4lZ9eppD74hTQpz/MhS5OdftxJ8e
+         Q3rKYFyRn8u70EYZ2hxZGjsCB4hQ3VKG44uS59rBEngDVa7kK51VuXWejwMAMg+P2co4
+         en0w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=0YHU5BFJe1UeJmMP6VYLEudXKn26+NeOxTqKcy9fme8=;
-        b=FNlUk59vDA7m0V96hkZFhVIx/w1o7j2eF+VIp2dw1mPPlJ+j3Ph5rXqW8CCXUEK4f9
-         fe217iGj4Z6pf/guzK3PWfl7KOjaGoswfKIicz6C4iThswPY9R/oO+vNt8uUo5W4ugFf
-         vXR2N+MBjPn7GNEOkdVAE4mohSkmjCpAhkpwq4czv13I+a/p2I5KzjpNWf9XF1JiYTRS
-         oI6HGd0NRv1ZRvYTKkj7XRoqufqSM/SVBuU1JZmvNtGFQaC9EdKL9PE+Bf02wSYEQlpy
-         04wBMCRjqM6On+DyswpWVXqQ4P0WTK59ZCiIVxXSez2EV9llMeJT9cEbp3JYrhTKIbws
-         t8DA==
-X-Gm-Message-State: AOAM531CdYVpR2eRkcgcEWp8dDKkDZ/fCvKWfC9URZqxazz5jprnwl2K
-        EFo8Ehw4pzJy4oyjEg2f0953pQ==
-X-Google-Smtp-Source: ABdhPJwCqDn0a2JCQcf42AQVYBrgJG7/UP8bVjVF7dmyhdh/1aO7xtYDLnN93T7YEfSgDiy+x3pAbQ==
-X-Received: by 2002:a17:90a:670e:: with SMTP id n14mr13311383pjj.144.1636680856755;
-        Thu, 11 Nov 2021 17:34:16 -0800 (PST)
-Received: from google.com ([2401:fa00:1:10:3f91:373b:ba9b:471e])
-        by smtp.gmail.com with ESMTPSA id nn4sm3367102pjb.38.2021.11.11.17.34.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 11 Nov 2021 17:34:16 -0800 (PST)
-Date:   Fri, 12 Nov 2021 09:34:13 +0800
-From:   Tzung-Bi Shih <tzungbi@google.com>
-To:     Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-Cc:     tiffany.lin@mediatek.com, andrew-ct.chen@mediatek.com,
-        mchehab@kernel.org, matthias.bgg@gmail.com, acourbot@chromium.org,
-        yunfei.dong@mediatek.com, hverkuil-cisco@xs4all.nl,
-        linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
-        kernel-janitors@vger.kernel.org
-Subject: Re: [PATCH] media: mtk-vcodec: Fix an error handling path in
- 'asid_allocator_init()'
-Message-ID: <YY3ElQfeZr4DpObV@google.com>
-References: <86d3e2db237bc35eb55bd46ef07fa13a39bcdff8.1636636541.git.christophe.jaillet@wanadoo.fr>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=JYtrXD23shdyMcsFVgaL3Kb0G11os2lduL5hO5DAisc=;
+        b=iGd5tHJ1d9vmGbDb02yaRMIzGUhnzdYN2eovIUTOt0pN5+uQCY/ggqK3C5xzDWo1mo
+         6kb6wVwS0i1w6Ix2eAuhz1N2GsI/pNYB7YzEjBnOWYlBdzqXlMDyfXR7ffyxBnJAJASz
+         u4aN3V3JTN+5RAwf0WgsyjYvaOoQyOiawneJIrLvu2ocUZm84iGrxutwDo1Pw8akQ5F7
+         8reYkzquq4kfjefWAyqewGdB2HHso92Dcd1KSL/qOLulyEz8z++gV3zxfRBFFFzjAFx5
+         Yk6CUlEpTkIS9ujkmxkb7vZfknSU/NGdUuzKA4mr5tpB15fWcU9MXX07a4qbl3HYXf7L
+         ZTRw==
+X-Gm-Message-State: AOAM532rZqJ+ShhQoVuZ+42q0X0RNGCoDf6JmkHz2aQ87XbOTmCj0ZTF
+        zSYnQ01VkgEVRAOaIQZDJPTFlEE4ey02g9ZRQwk=
+X-Google-Smtp-Source: ABdhPJx2ylAuHoOxN4N4gLfnyGTlEMXkoeCsHghAswy/PPJwkBYT64Wngb8jz94z0xFcQDtSgx6XsgDViC6DmJSuuiY=
+X-Received: by 2002:a05:6e02:1d1a:: with SMTP id i26mr7591972ila.303.1636684845448;
+ Thu, 11 Nov 2021 18:40:45 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <86d3e2db237bc35eb55bd46ef07fa13a39bcdff8.1636636541.git.christophe.jaillet@wanadoo.fr>
+References: <1635232282-3992-1-git-send-email-dillon.minfei@gmail.com> <1635232282-3992-10-git-send-email-dillon.minfei@gmail.com>
+In-Reply-To: <1635232282-3992-10-git-send-email-dillon.minfei@gmail.com>
+From:   Dillon Min <dillon.minfei@gmail.com>
+Date:   Fri, 12 Nov 2021 10:40:09 +0800
+Message-ID: <CAL9mu0LVBSorMK9KbZ3kXYcnubi44yPDxzMroKYVYB2c=o+xjQ@mail.gmail.com>
+Subject: Re: [PATCH v7 09/10] clk: stm32: Fix ltdc's clock turn off by
+ clk_disable_unused() after system enter shell
+To:     Stephen Boyd <sboyd@kernel.org>
+Cc:     Patrice CHOTARD <patrice.chotard@foss.st.com>,
+        Pi-Hsun Shih <pihsun@chromium.org>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>, gnurou@gmail.com,
+        ezequiel@collabora.com, Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        mchehab+huawei@kernel.org,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        hugues.fruchet@foss.st.com,
+        linux-media <linux-media@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-stm32@st-md-mailman.stormreply.com,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        linux-clk <linux-clk@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>, kernel test robot <lkp@intel.com>,
+        kbuild-all@lists.01.org, llvm@lists.linux.dev,
+        Alexandre TORGUE <alexandre.torgue@foss.st.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, Nov 11, 2021 at 02:17:51PM +0100, Christophe JAILLET wrote:
-> In case of error the 'media_device_init()' call is not balanced by a
-> corresponding 'media_device_cleanup()' call.
-> 
-> Add it, when needed, as already done in the remove function.
-> 
-> Fixes: 118add98f80e ("media: mtk-vcodec: vdec: add media device if using stateless api")
-> Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+Hi Stephen
 
-The commit title looks incorrect: "asid_allocator_init".
+Would you pick up this patch? Thanks.
 
-Except that,
-Acked-by: Tzung-Bi Shih <tzungbi@google.com>
+Best Regards.
+Dillon
+
+On Tue, 26 Oct 2021 at 15:12, Dillon Min <dillon.minfei@gmail.com> wrote:
+>
+> stm32's clk driver register two ltdc gate clk to clk core by
+> clk_hw_register_gate() and clk_hw_register_composite()
+>
+> first: 'stm32f429_gates[]', clk name is 'ltdc', which no user to use.
+> second: 'stm32f429_aux_clk[]', clk name is 'lcd-tft', used by ltdc driver
+>
+> both of them point to the same offset of stm32's RCC register. after
+> kernel enter console, clk core turn off ltdc's clk as 'stm32f429_gates[]'
+> is no one to use. but, actually 'stm32f429_aux_clk[]' is in use.
+>
+> stm32f469/746/769 have the same issue, fix it.
+>
+> Fixes: daf2d117cbca ("clk: stm32f4: Add lcd-tft clock")
+> Link: https://lore.kernel.org/linux-arm-kernel/1590564453-24499-7-git-send-email-dillon.minfei@gmail.com/
+> Link: https://lore.kernel.org/lkml/CAPTRvHkf0cK_4ZidM17rPo99gWDmxgqFt4CDUjqFFwkOeQeFDg@mail.gmail.com/
+> Signed-off-by: Dillon Min <dillon.minfei@gmail.com>
+> Reviewed-by: Patrice Chotard <patrice.chotard@foss.st.com>
+> Acked-by: Gabriel Fernandez <gabriel.fernandez@foss.st.com>
+> Acked-by: Stephen Boyd <sboyd@kernel.org>
+> ---
+> v7:
+> - collect acked-by, reviewed-by from Gabriel, Patrice.
+>
+>  drivers/clk/clk-stm32f4.c | 4 ----
+>  1 file changed, 4 deletions(-)
+>
+> diff --git a/drivers/clk/clk-stm32f4.c b/drivers/clk/clk-stm32f4.c
+> index af46176ad053..473dfe632cc5 100644
+> --- a/drivers/clk/clk-stm32f4.c
+> +++ b/drivers/clk/clk-stm32f4.c
+> @@ -129,7 +129,6 @@ static const struct stm32f4_gate_data stm32f429_gates[] __initconst = {
+>         { STM32F4_RCC_APB2ENR, 20,      "spi5",         "apb2_div" },
+>         { STM32F4_RCC_APB2ENR, 21,      "spi6",         "apb2_div" },
+>         { STM32F4_RCC_APB2ENR, 22,      "sai1",         "apb2_div" },
+> -       { STM32F4_RCC_APB2ENR, 26,      "ltdc",         "apb2_div" },
+>  };
+>
+>  static const struct stm32f4_gate_data stm32f469_gates[] __initconst = {
+> @@ -211,7 +210,6 @@ static const struct stm32f4_gate_data stm32f469_gates[] __initconst = {
+>         { STM32F4_RCC_APB2ENR, 20,      "spi5",         "apb2_div" },
+>         { STM32F4_RCC_APB2ENR, 21,      "spi6",         "apb2_div" },
+>         { STM32F4_RCC_APB2ENR, 22,      "sai1",         "apb2_div" },
+> -       { STM32F4_RCC_APB2ENR, 26,      "ltdc",         "apb2_div" },
+>  };
+>
+>  static const struct stm32f4_gate_data stm32f746_gates[] __initconst = {
+> @@ -286,7 +284,6 @@ static const struct stm32f4_gate_data stm32f746_gates[] __initconst = {
+>         { STM32F4_RCC_APB2ENR, 21,      "spi6",         "apb2_div" },
+>         { STM32F4_RCC_APB2ENR, 22,      "sai1",         "apb2_div" },
+>         { STM32F4_RCC_APB2ENR, 23,      "sai2",         "apb2_div" },
+> -       { STM32F4_RCC_APB2ENR, 26,      "ltdc",         "apb2_div" },
+>  };
+>
+>  static const struct stm32f4_gate_data stm32f769_gates[] __initconst = {
+> @@ -364,7 +361,6 @@ static const struct stm32f4_gate_data stm32f769_gates[] __initconst = {
+>         { STM32F4_RCC_APB2ENR, 21,      "spi6",         "apb2_div" },
+>         { STM32F4_RCC_APB2ENR, 22,      "sai1",         "apb2_div" },
+>         { STM32F4_RCC_APB2ENR, 23,      "sai2",         "apb2_div" },
+> -       { STM32F4_RCC_APB2ENR, 26,      "ltdc",         "apb2_div" },
+>         { STM32F4_RCC_APB2ENR, 30,      "mdio",         "apb2_div" },
+>  };
+>
+> --
+> 2.7.4
+>
