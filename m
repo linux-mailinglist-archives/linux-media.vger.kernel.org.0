@@ -2,114 +2,92 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6DFC944ED9F
-	for <lists+linux-media@lfdr.de>; Fri, 12 Nov 2021 20:57:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2436644EE0F
+	for <lists+linux-media@lfdr.de>; Fri, 12 Nov 2021 21:44:03 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235256AbhKLUAG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 12 Nov 2021 15:00:06 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59584 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232474AbhKLUAF (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Fri, 12 Nov 2021 15:00:05 -0500
-Received: from mail-ed1-x52a.google.com (mail-ed1-x52a.google.com [IPv6:2a00:1450:4864:20::52a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3EB0BC061766
-        for <linux-media@vger.kernel.org>; Fri, 12 Nov 2021 11:57:14 -0800 (PST)
-Received: by mail-ed1-x52a.google.com with SMTP id z21so42069712edb.5
-        for <linux-media@vger.kernel.org>; Fri, 12 Nov 2021 11:57:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=X3f6TTWGzFiveRQwVVf2YyRGKNPkeJCZPsk1rJVAxKQ=;
-        b=eOspbq1AeeiPkdK9BsMT9et9k7GWakZinEA1307VOrKd1KKg8NASXKWz6Nznvkjjbf
-         x9D/xBfPeKy6Ldxr/gmBwcK4ggw6hq7zF5WaAV9QBo8Hc4LOjtybhHm8AV+xqvTh+YMC
-         y9NRxPAEgAguXj2opG8GcxPimvsCXz/la3C3g=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=X3f6TTWGzFiveRQwVVf2YyRGKNPkeJCZPsk1rJVAxKQ=;
-        b=Y8FoY+5JqHgSDEDGQEHgQRVR1Cs+u7gxN7qL7F3bmgL9PJlX9LzYdfR+hnSRRCS9Sr
-         yunNjJh+l9McCXUT4R50WKRhZtd1RzbdQ9k107wmSTD3f06DhMQXANRPGMqi7pgOqhyz
-         RJWsxMTMG9uVm04QnALv9JHvDWiwU3B8PenwtmuB2e7gJMhtFEbTFFbLappshK0L6NeL
-         DZi0x0DIjymJhgcNzXP5Wvjdt9lo74FVmgqxzEQknOtOUwOf5+LyUkdcRCkY8gZlJ+lY
-         uYLDPnNC5iRNSx5LjBvXnkUIKnBn80bHManiR6rJmOkxFrRq88bIDrDLCo7xCLZjpoP4
-         Ycog==
-X-Gm-Message-State: AOAM532ie7t0mXnST0ThPJKS8jEQoSNJUw2Ar4N5dxwVHYLbC02d7hdq
-        E540ExH5X/RO5qZTGvaWsbUI7Q==
-X-Google-Smtp-Source: ABdhPJwGf2MUOsqcYzWmLXjpVX3lIkMc6TkQbW0ZHCXMSMP6u5ENQOjwA3PFfRNNjH0ZQriwMpPbNw==
-X-Received: by 2002:a17:906:b00c:: with SMTP id v12mr21841845ejy.523.1636747032707;
-        Fri, 12 Nov 2021 11:57:12 -0800 (PST)
-Received: from alco.lan (80.71.134.83.ipv4.parknet.dk. [80.71.134.83])
-        by smtp.gmail.com with ESMTPSA id m14sm3730919edc.36.2021.11.12.11.57.12
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 12 Nov 2021 11:57:12 -0800 (PST)
-From:   Ricardo Ribalda <ribalda@chromium.org>
-To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        James Hilliard <james.hilliard1@gmail.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        linux-media@vger.kernel.org
-Cc:     Ricardo Ribalda <ribalda@chromium.org>
-Subject: [PATCH v2] media: uvcvideo: Set the colorspace as sRGB if undefined
-Date:   Fri, 12 Nov 2021 20:57:10 +0100
-Message-Id: <20211112195710.286151-1-ribalda@chromium.org>
-X-Mailer: git-send-email 2.34.0.rc1.387.gb447b232ab-goog
+        id S235789AbhKLUqw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 12 Nov 2021 15:46:52 -0500
+Received: from mail.kernel.org ([198.145.29.99]:53586 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S235790AbhKLUqt (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Fri, 12 Nov 2021 15:46:49 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 7D7F960E98;
+        Fri, 12 Nov 2021 20:43:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1636749838;
+        bh=44Grebjtn08PPJK53+7UCVpYeLQZNqJn0FxDmRp79Uw=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=P0anhKlJK4yFjNGc3nDLR600JzbqH3mRSg/M7qQspD4r1KQQpQ8/0VI6fnk4CZ0xA
+         G7Ap62puS0BBr5VE2xqL5wZPWYBxiXTuWhT2rNjDF0s3kab8wWngTw1k8jTn4cFB6O
+         GrCUc6CuisQO0JHvn/79ujd72TCavoJEY6ald8UEjkLXuuLqA91BAFiFZyCDjODezv
+         3i/58hp/WVdH1qNqJ0GILJ62GzCHLOfZEWct4DB9GB30xEI8cDPmC/a8clHM08XZHn
+         k8F1Yi7sqc2um3rm4gFeTJ0p7KLycIVNciZHrmooeWjcZSVv/j0b+TI9+MVUihSA/x
+         NXlS0pUFPCkAg==
+Date:   Fri, 12 Nov 2021 13:43:53 -0700
+From:   Nathan Chancellor <nathan@kernel.org>
+To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc:     linuxarm@huawei.com, mauro.chehab@huawei.com,
+        Bingbu Cao <bingbu.cao@intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Tianshu Qiu <tian.shu.qiu@intel.com>,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-staging@lists.linux.dev, llvm@lists.linux.dev
+Subject: Re: [PATCH 1/3] media: ipu3: drop an unused variable
+Message-ID: <YY7SCZ7jAu2RVYvN@archlinux-ax161>
+References: <cover.1636672052.git.mchehab+huawei@kernel.org>
+ <990224a5610af19f790d0ec2ebe0610e3b38cf00.1636672052.git.mchehab+huawei@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <990224a5610af19f790d0ec2ebe0610e3b38cf00.1636672052.git.mchehab+huawei@kernel.org>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Never return V4L2_COLORSPACE_DEFAULT. From the standard:
+On Thu, Nov 11, 2021 at 11:08:51PM +0000, Mauro Carvalho Chehab wrote:
+> Fix this clang Werror with W=1:
+> 
+> 	drivers/staging/media/ipu3/ipu3-css-params.c:774:8: error: variable 'pin_scale' set but not used [-Werror,-Wunused-but-set-variable]
+> 	                        int pin_scale = 0;
+> 	                            ^
+> 
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-"""
-In the absence of this descriptor, or in the case of
-“Unspecified” values within the descriptor, color matching
-defaults will be assumed. The color matching defaults are
-compliant with sRGB since the BT.709 transfer function and
-the sRGB transfer function are very similar.
-"""
+Reviewed-by: Nathan Chancellor <nathan@kernel.org>
 
-Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
----
-@James: Can you try this version? Thanks!
-
- drivers/media/usb/uvc/uvc_driver.c | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc_driver.c
-index 29befcb229b2..27234fe60a48 100644
---- a/drivers/media/usb/uvc/uvc_driver.c
-+++ b/drivers/media/usb/uvc/uvc_driver.c
-@@ -256,7 +256,7 @@ static struct uvc_format_desc *uvc_format_by_guid(const u8 guid[16])
- static enum v4l2_colorspace uvc_colorspace(const u8 primaries)
- {
- 	static const enum v4l2_colorspace colorprimaries[] = {
--		V4L2_COLORSPACE_DEFAULT,  /* Unspecified */
-+		V4L2_COLORSPACE_SRGB,  /* Unspecified */
- 		V4L2_COLORSPACE_SRGB,
- 		V4L2_COLORSPACE_470_SYSTEM_M,
- 		V4L2_COLORSPACE_470_SYSTEM_BG,
-@@ -267,7 +267,7 @@ static enum v4l2_colorspace uvc_colorspace(const u8 primaries)
- 	if (primaries < ARRAY_SIZE(colorprimaries))
- 		return colorprimaries[primaries];
- 
--	return V4L2_COLORSPACE_DEFAULT;  /* Reserved */
-+	return V4L2_COLORSPACE_SRGB;  /* Reserved */
- }
- 
- static enum v4l2_xfer_func uvc_xfer_func(const u8 transfer_characteristics)
-@@ -769,6 +769,8 @@ static int uvc_parse_format(struct uvc_device *dev,
- 
- 		buflen -= buffer[0];
- 		buffer += buffer[0];
-+	} else {
-+		format->colorspace = V4L2_COLORSPACE_SRGB;
- 	}
- 
- 	return buffer - start;
--- 
-2.34.0.rc1.387.gb447b232ab-goog
-
+> ---
+> 
+> To mailbombing on a large number of people, only mailing lists were C/C on the cover.
+> See [PATCH 0/3] at: https://lore.kernel.org/all/cover.1636672052.git.mchehab+huawei@kernel.org/
+> 
+>  drivers/staging/media/ipu3/ipu3-css-params.c | 3 ---
+>  1 file changed, 3 deletions(-)
+> 
+> diff --git a/drivers/staging/media/ipu3/ipu3-css-params.c b/drivers/staging/media/ipu3/ipu3-css-params.c
+> index e9d6bd9e9332..d9e3c3785075 100644
+> --- a/drivers/staging/media/ipu3/ipu3-css-params.c
+> +++ b/drivers/staging/media/ipu3/ipu3-css-params.c
+> @@ -771,7 +771,6 @@ static int imgu_css_osys_calc_frame_and_stripe_params(
+>  		 */
+>  		{
+>  			unsigned int i;
+> -			int pin_scale = 0;
+>  			/*Input resolution */
+>  
+>  			stripe_params[s].input_width = stripe_input_width_y;
+> @@ -791,8 +790,6 @@ static int imgu_css_osys_calc_frame_and_stripe_params(
+>  						reso.pin_height[i];
+>  					stripe_params[s].output_offset[i] =
+>  						stripe_offset_out_y;
+> -
+> -					pin_scale += frame_params[i].scaled;
+>  				} else {
+>  					/* Unscaled pin */
+>  					stripe_params[s].output_width[i] =
+> -- 
+> 2.33.1
+> 
+> 
