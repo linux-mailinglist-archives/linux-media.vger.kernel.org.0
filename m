@@ -2,83 +2,163 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2CA6A44E0FF
-	for <lists+linux-media@lfdr.de>; Fri, 12 Nov 2021 05:23:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 38F1544E1C3
+	for <lists+linux-media@lfdr.de>; Fri, 12 Nov 2021 07:00:39 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232588AbhKLE0G (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 11 Nov 2021 23:26:06 -0500
-Received: from mail-oi1-f178.google.com ([209.85.167.178]:35429 "EHLO
-        mail-oi1-f178.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229632AbhKLE0C (ORCPT
+        id S230439AbhKLGD2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 12 Nov 2021 01:03:28 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39012 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229910AbhKLGD1 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 11 Nov 2021 23:26:02 -0500
-Received: by mail-oi1-f178.google.com with SMTP id m6so15715882oim.2;
-        Thu, 11 Nov 2021 20:23:12 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=3dQq4I227MVmj/mJuu+x0SuENW4zynmTgvI5Gd45HxM=;
-        b=sS6Xfq7c7Es2WQVooq/kt8OYlDov7W5D2LeBKgb3EVTQw+iUsizCL4pFv3audF3JV6
-         HdgvZZD1EobnxJvDvGXfsZa9o36+yvGLNSO552FlDURJ4MFNCQtSVvQ5IyrGR7nn3iXK
-         CP/6y8fOQvurITMfDhHLpsnXEAp7SFGyCThifmt1msgkczlTXxhYxkbnKKghrM8ETLn/
-         10XDjtD/xXhT1CRW7XIGIZB9vcXWzN4f+WdStLWfVIpA0wpLVZDFPbJtnvGkSQjUyp6e
-         C2n1l1D7tqfZN+eV2SgHnpG1EX65fBVkb+eCB5Ksz/73PbnzNvbE424Np4cnnsET45Ca
-         k3pQ==
-X-Gm-Message-State: AOAM531saJ5vZ0A2vmSACowscANXm6hTmqLTqcS6ZWyPDpjfTtUkmqc1
-        AVAqUrODcmSifub49qc37pV89bdY9Q==
-X-Google-Smtp-Source: ABdhPJz047OAXv4R/Qs0MJ3SGiM6kjGIUNixhPWX42NYZTZDp+UDQEOZ/D6LcVgz05Pk6hIlKsaB2g==
-X-Received: by 2002:aca:2b0f:: with SMTP id i15mr24664974oik.114.1636690991895;
-        Thu, 11 Nov 2021 20:23:11 -0800 (PST)
-Received: from robh.at.kernel.org (66-90-148-213.dyn.grandenetworks.net. [66.90.148.213])
-        by smtp.gmail.com with ESMTPSA id x16sm1013240ott.8.2021.11.11.20.23.10
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 11 Nov 2021 20:23:11 -0800 (PST)
-Received: (nullmailer pid 761481 invoked by uid 1000);
-        Fri, 12 Nov 2021 04:23:10 -0000
-Date:   Thu, 11 Nov 2021 22:23:10 -0600
-From:   Rob Herring <robh@kernel.org>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     Stanimir Varbanov <stanimir.varbanov@linaro.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        linux-arm-msm@vger.kernel.org,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Andy Gross <agross@kernel.org>, linux-media@vger.kernel.org,
-        Dikshita Agarwal <dikshita@codeaurora.org>
-Subject: Re: [PATCH v2] bindings: media: venus: Drop redundant maxItems for
- power-domain-names
-Message-ID: <YY3sLvysqWlB4f9Q@robh.at.kernel.org>
-References: <d94924e1bd00f396f2106f04d4a2bb839cf5f071.1636453406.git.geert+renesas@glider.be>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <d94924e1bd00f396f2106f04d4a2bb839cf5f071.1636453406.git.geert+renesas@glider.be>
+        Fri, 12 Nov 2021 01:03:27 -0500
+Received: from lb1-smtp-cloud9.xs4all.net (lb1-smtp-cloud9.xs4all.net [IPv6:2001:888:0:108::1c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0C32EC061766
+        for <linux-media@vger.kernel.org>; Thu, 11 Nov 2021 22:00:36 -0800 (PST)
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud9.xs4all.net with ESMTPA
+        id lPbymvuUWfwDFlPc1mJIyI; Fri, 12 Nov 2021 07:00:33 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
+        t=1636696833; bh=iN75CSHGFEWhpgxIVmtgEhrIhN1zvEI4yzhEr62OZ9M=;
+        h=Message-ID:Date:From:To:Subject:From:Subject;
+        b=grP8EEuxL4qHXwDgJhZsnV3WKtuXzNUsx5Cnwh596TQW2LWsPYcdoGYeH6c4tlpMH
+         Z+Ab2hULr992/bZnOdOVS4bnI1dk+aqLEstBkycqaf9WuTAGwnHTXODNSdne27k221
+         N8eKmANIWspUyH3wTACafzag7ejvSnN0wz1G7lcUwshnDXaEXOBU8Qn/jVSV931aIO
+         Yays9y35A1BlaVvbMLMK34b4aGuJtXaXFwsg5CDz59BQv2rkzlvJA2ImoSSeqPH20H
+         2OwlD8eHWUmR6r5tAHNJwU1w4neErTtqNBHoUuhTBFpZ/gK5CIgFvpuO+SKxf/buTt
+         WCXATai0ibqww==
+Message-ID: <69fec15165eab1afad6c4b2ecc3333ff@smtp-cloud9.xs4all.net>
+Date:   Fri, 12 Nov 2021 07:00:29 +0100
+From:   "Hans Verkuil" <hverkuil@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: ERRORS
+X-CMAE-Envelope: MS4xfL7Sk+uxbWiNxFy4x67wsrWMbrJ4itxKon+K91PkZAyUn53bR3DRCva33NmrCTx/FTTzVImIQluARmk4ly9jncLfoBJDOmHdhM+tm6IhjUKyYSVgfdL6
+ XEjDEPmD8RIVzygUwLodhnz2dZDg6TR2dZq0vKZJh+hZS+iZpuQEjcuAnvEtK0K4bImWBvsTAEusRA==
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, 09 Nov 2021 11:29:41 +0100, Geert Uytterhoeven wrote:
-> make dt_binding_check:
-> 
->     Documentation/devicetree/bindings/media/qcom,sc7280-venus.yaml: ignoring, error in schema: properties: power-domain-names
->     warning: no schema found in file: Documentation/devicetree/bindings/media/qcom,sc7280-venus.yaml
->     Documentation/devicetree/bindings/media/qcom,sc7280-venus.yaml: properties:power-domain-names: {'required': ['maxItems']} is not allowed for {'minItems': 2, 'maxItems': 3, 'items': [{'const': 'venus'}, {'const': 'vcodec0'}, {'const': 'cx'}]}
-> 	   hint: "maxItems" is not needed with an "items" list
-> 	   from schema $id: http://devicetree.org/meta-schemas/items.yaml#
-> 
-> Fixes: e48b839b6699c226 ("media: dt-bindings: media: venus: Add sc7280 dt schema")
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> Acked-by: Rob Herring <robh@kernel.org>
-> ---
-> v2:
->   - Add Acked-by,
->   - s/bogus/redundant/,
->   - Include full error message.
-> ---
->  Documentation/devicetree/bindings/media/qcom,sc7280-venus.yaml | 1 -
->  1 file changed, 1 deletion(-)
-> 
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
 
-Applied, thanks!
+Results of the daily build of media_tree:
+
+date:			Fri Nov 12 05:00:17 CET 2021
+media-tree git hash:	80ffa82f80bf89b19de5dc5d556ffecc0a2a54be
+media_build git hash:	2b23b3dfc87e992739203b263fbb9c7365831fcb
+v4l-utils git hash:	79b4354f1c470527ace542fa0e0e9f551aed6c62
+edid-decode git hash:	b00755e34eb12aa92416aaf1bb7b02603131afe0
+gcc version:		i686-linux-gcc (GCC) 11.2.0
+sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
+sparse version:		0.6.3
+smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
+smatch version:		0.6.3
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: 5e723ffd4a51b66192db1b1919d84b0925398188
+host hardware:		x86_64
+host os:		5.14.0-2-amd64
+
+linux-git-sh: OK
+linux-git-arm-at91: OK
+linux-git-arm-davinci: OK
+linux-git-arm-stm32: OK
+linux-git-mips: OK
+linux-git-arm-pxa: OK
+linux-git-powerpc64: OK
+linux-git-arm64: OK
+linux-git-arm-multi: OK
+linux-git-i686: OK
+linux-git-x86_64: OK
+Check COMPILE_TEST: OK
+Check for strcpy/strncpy/strlcpy: OK
+linux-4.4.283-i686: OK
+linux-4.4.283-x86_64: OK
+linux-4.5.7-i686: OK
+linux-4.5.7-x86_64: OK
+linux-4.6.7-i686: OK
+linux-4.6.7-x86_64: OK
+linux-4.7.10-i686: OK
+linux-4.7.10-x86_64: OK
+linux-4.8.17-i686: OK
+linux-4.8.17-x86_64: OK
+linux-4.9.246-i686: OK
+linux-4.9.246-x86_64: OK
+linux-4.10.17-i686: OK
+linux-4.10.17-x86_64: OK
+linux-4.11.12-i686: OK
+linux-4.11.12-x86_64: OK
+linux-4.12.14-i686: OK
+linux-4.12.14-x86_64: OK
+linux-4.13.16-i686: OK
+linux-4.13.16-x86_64: OK
+linux-4.14.246-i686: OK
+linux-4.14.246-x86_64: OK
+linux-4.15.18-i686: OK
+linux-4.15.18-x86_64: OK
+linux-4.16.18-i686: OK
+linux-4.16.18-x86_64: OK
+linux-4.17.19-i686: OK
+linux-4.17.19-x86_64: OK
+linux-4.18.20-i686: OK
+linux-4.18.20-x86_64: OK
+linux-4.19.206-i686: OK
+linux-4.19.206-x86_64: OK
+linux-4.20.17-i686: OK
+linux-4.20.17-x86_64: OK
+linux-5.0.21-i686: OK
+linux-5.0.21-x86_64: OK
+linux-5.1.21-i686: OK
+linux-5.1.21-x86_64: OK
+linux-5.2.21-i686: OK
+linux-5.2.21-x86_64: OK
+linux-5.3.18-i686: OK
+linux-5.3.18-x86_64: OK
+linux-5.4.144-i686: OK
+linux-5.4.144-x86_64: OK
+linux-5.5.19-i686: OK
+linux-5.5.19-x86_64: OK
+linux-5.6.19-i686: OK
+linux-5.6.19-x86_64: OK
+linux-5.7.19-i686: OK
+linux-5.7.19-x86_64: OK
+linux-5.8.18-i686: OK
+linux-5.8.18-x86_64: OK
+linux-5.9.16-i686: OK
+linux-5.9.16-x86_64: OK
+linux-5.10.62-i686: OK
+linux-5.10.62-x86_64: OK
+linux-5.11.22-i686: OK
+linux-5.11.22-x86_64: OK
+linux-5.12.19-i686: OK
+linux-5.12.19-x86_64: OK
+linux-5.13.14-i686: OK
+linux-5.13.14-x86_64: OK
+linux-5.14.1-i686: OK
+linux-5.14.1-x86_64: OK
+linux-5.15.1-i686: OK
+linux-5.15.1-x86_64: OK
+apps: OK
+spec-git: OK
+virtme: ERRORS: Final Summary: 2989, Succeeded: 2988, Failed: 1, Warnings: 4
+virtme-32: ERRORS: Final Summary: 3100, Succeeded: 3089, Failed: 11, Warnings: 0
+sparse: WARNINGS
+smatch: WARNINGS
+kerneldoc: WARNINGS
+
+Detailed results are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Friday.log
+
+Detailed regression test results are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Friday-test-media.log
+http://www.xs4all.nl/~hverkuil/logs/Friday-test-media-32.log
+http://www.xs4all.nl/~hverkuil/logs/Friday-test-media-dmesg.log
+
+Full logs are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Friday.tar.bz2
+
+The Media Infrastructure API from this daily build is here:
+
+http://www.xs4all.nl/~hverkuil/spec/index.html
