@@ -2,83 +2,114 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D5CD244ED95
-	for <lists+linux-media@lfdr.de>; Fri, 12 Nov 2021 20:52:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6DFC944ED9F
+	for <lists+linux-media@lfdr.de>; Fri, 12 Nov 2021 20:57:17 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235475AbhKLTyu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 12 Nov 2021 14:54:50 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58436 "EHLO
+        id S235256AbhKLUAG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 12 Nov 2021 15:00:06 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59584 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230101AbhKLTyt (ORCPT
+        with ESMTP id S232474AbhKLUAF (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 12 Nov 2021 14:54:49 -0500
-Received: from mail-qt1-x834.google.com (mail-qt1-x834.google.com [IPv6:2607:f8b0:4864:20::834])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 53C8CC061767
-        for <linux-media@vger.kernel.org>; Fri, 12 Nov 2021 11:51:58 -0800 (PST)
-Received: by mail-qt1-x834.google.com with SMTP id n15so9601937qta.0
-        for <linux-media@vger.kernel.org>; Fri, 12 Nov 2021 11:51:58 -0800 (PST)
+        Fri, 12 Nov 2021 15:00:05 -0500
+Received: from mail-ed1-x52a.google.com (mail-ed1-x52a.google.com [IPv6:2a00:1450:4864:20::52a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3EB0BC061766
+        for <linux-media@vger.kernel.org>; Fri, 12 Nov 2021 11:57:14 -0800 (PST)
+Received: by mail-ed1-x52a.google.com with SMTP id z21so42069712edb.5
+        for <linux-media@vger.kernel.org>; Fri, 12 Nov 2021 11:57:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:reply-to:from:date:message-id:subject:to
+        d=chromium.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=sbMEA9n9Pj/HfzsuX4iVianfftPXl0x7Eo0HpPDJsqs=;
-        b=Yw+p9Uo+5KQGoccvBks5Ci8+ZDlSvu7l93VGRCY8ZYQsu1lz4knSEy8/eb+Lm1NrTH
-         GzipEoLboD7DWs9KzyvxslfEQnOs47b4R+Mj3XTWdKpp9XbQbKGtQ5YEG4ijUfu4jtFE
-         /W10fgxlqEe+6aRVIUBq8hjn0WDG4ehNda55kNT8iGXmOlSHaRwW1cWqtcqPo7/8IsYv
-         ++i9VPM2+sDvzFA/3oGv0pgZ14q/FD3/XGYca2kZucVBmfHmPufcVhCxgT6+p0hlokNp
-         mczuTft5lmdIQk+wmMyhToWgPsUVVogCgYAJYJiCefNKNr/IESGhoapdVJe5hEI4CWJ5
-         GL1w==
+        bh=X3f6TTWGzFiveRQwVVf2YyRGKNPkeJCZPsk1rJVAxKQ=;
+        b=eOspbq1AeeiPkdK9BsMT9et9k7GWakZinEA1307VOrKd1KKg8NASXKWz6Nznvkjjbf
+         x9D/xBfPeKy6Ldxr/gmBwcK4ggw6hq7zF5WaAV9QBo8Hc4LOjtybhHm8AV+xqvTh+YMC
+         y9NRxPAEgAguXj2opG8GcxPimvsCXz/la3C3g=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to:content-transfer-encoding;
-        bh=sbMEA9n9Pj/HfzsuX4iVianfftPXl0x7Eo0HpPDJsqs=;
-        b=S1rh1U+cqIH6UW/uFas2Oz5MOdpQrKS2OWa0k/y0mhNHL652gwy+sKHqRCDzPmmPBI
-         1wlSKtjWWUGyYWc0FIlC4aO+WqSqEgmiOUPV2dqGL1p+KHd8mV2OjoJQE47ufXxfMfGh
-         AgS7g9vJkmVP1iczUkOKNT9rRpsXVc6FS/avuG5NIxxU2T55xGEjOXwKUa958T90v5dS
-         zEP7t8cYjgkmkQcKvoeYyIYBcGWwtOmJvZhCPiXnkosXmydjgylN7zSMyqSxlZH1uWiG
-         ZEqKqSiBg1HBWLi3lVlwGOD/BxqP9AsSOaQSB12Le+LWFZFIw8ftnvsnhr24T0JrAE8H
-         s7iQ==
-X-Gm-Message-State: AOAM5320vaFBJqxTKCjZQ45Stpelprb78cNml1A9afht0mIHNx6H/7iV
-        EogZPZBUEV1hXcgsdGgYa4gfiIWn6empRRWXLsA=
-X-Google-Smtp-Source: ABdhPJzgXRGarOjDsfXSyoLLQhf4PuMveqEb8UybTzsWaDF3my0/TZkv9ycoscWO5tfBf/dcGT3T28QHSdbjOxuqecM=
-X-Received: by 2002:ac8:74c7:: with SMTP id j7mr18777867qtr.118.1636746717505;
- Fri, 12 Nov 2021 11:51:57 -0800 (PST)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=X3f6TTWGzFiveRQwVVf2YyRGKNPkeJCZPsk1rJVAxKQ=;
+        b=Y8FoY+5JqHgSDEDGQEHgQRVR1Cs+u7gxN7qL7F3bmgL9PJlX9LzYdfR+hnSRRCS9Sr
+         yunNjJh+l9McCXUT4R50WKRhZtd1RzbdQ9k107wmSTD3f06DhMQXANRPGMqi7pgOqhyz
+         RJWsxMTMG9uVm04QnALv9JHvDWiwU3B8PenwtmuB2e7gJMhtFEbTFFbLappshK0L6NeL
+         DZi0x0DIjymJhgcNzXP5Wvjdt9lo74FVmgqxzEQknOtOUwOf5+LyUkdcRCkY8gZlJ+lY
+         uYLDPnNC5iRNSx5LjBvXnkUIKnBn80bHManiR6rJmOkxFrRq88bIDrDLCo7xCLZjpoP4
+         Ycog==
+X-Gm-Message-State: AOAM532ie7t0mXnST0ThPJKS8jEQoSNJUw2Ar4N5dxwVHYLbC02d7hdq
+        E540ExH5X/RO5qZTGvaWsbUI7Q==
+X-Google-Smtp-Source: ABdhPJwGf2MUOsqcYzWmLXjpVX3lIkMc6TkQbW0ZHCXMSMP6u5ENQOjwA3PFfRNNjH0ZQriwMpPbNw==
+X-Received: by 2002:a17:906:b00c:: with SMTP id v12mr21841845ejy.523.1636747032707;
+        Fri, 12 Nov 2021 11:57:12 -0800 (PST)
+Received: from alco.lan (80.71.134.83.ipv4.parknet.dk. [80.71.134.83])
+        by smtp.gmail.com with ESMTPSA id m14sm3730919edc.36.2021.11.12.11.57.12
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 12 Nov 2021 11:57:12 -0800 (PST)
+From:   Ricardo Ribalda <ribalda@chromium.org>
+To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        James Hilliard <james.hilliard1@gmail.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        linux-media@vger.kernel.org
+Cc:     Ricardo Ribalda <ribalda@chromium.org>
+Subject: [PATCH v2] media: uvcvideo: Set the colorspace as sRGB if undefined
+Date:   Fri, 12 Nov 2021 20:57:10 +0100
+Message-Id: <20211112195710.286151-1-ribalda@chromium.org>
+X-Mailer: git-send-email 2.34.0.rc1.387.gb447b232ab-goog
 MIME-Version: 1.0
-Received: by 2002:ac8:5a03:0:0:0:0:0 with HTTP; Fri, 12 Nov 2021 11:51:56
- -0800 (PST)
-Reply-To: wmchfa@gmail.com
-From:   William Chalmers <pv.wcha@gmail.com>
-Date:   Fri, 12 Nov 2021 20:51:56 +0100
-Message-ID: <CAO9cJj-OSU5qoJZ85Ow=KAGpF82M3g_cF3aScOinyZwY3Tj3mw@mail.gmail.com>
-Subject: URGENT
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-ATTENTION,
-        Sir/Madam.
+Never return V4L2_COLORSPACE_DEFAULT. From the standard:
 
-Greetings to you, I am contacting you after going through your
-interesting profile. I am Mr.William Chalmers. I am from London, United
-Kingdom, If this message successfully gets to you, I will like to
-discuss business with you, which you will have an immense benefit from
-if we can work together with, The Group Finance Director of Lloyds
-Banking Group United Kingdom.
+"""
+In the absence of this descriptor, or in the case of
+“Unspecified” values within the descriptor, color matching
+defaults will be assumed. The color matching defaults are
+compliant with sRGB since the BT.709 transfer function and
+the sRGB transfer function are very similar.
+"""
 
-I am contacting you for a legitimate business transaction strictly for
-you and me alone. I personally discovered a dormant account with a
-total sum of =C2=A3 1,35,000.000.00 - [One-hundred Thirty-Five Million GBP
-Only] here in our bank. The owner of this dormant account died on 4th
-Jan 2012. Since his death, nobody has operated in his account because
-the account has NO BENEFICIARY attached to it. I wish to present you
-as the next of kin to the bank.
+Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+---
+@James: Can you try this version? Thanks!
 
-Kindly get back to me as soon as possible for more details on how to
-proceed further. I look forward to hearing from you soon.
+ drivers/media/usb/uvc/uvc_driver.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-Regards,
-Mr.William Chalmers.
+diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc_driver.c
+index 29befcb229b2..27234fe60a48 100644
+--- a/drivers/media/usb/uvc/uvc_driver.c
++++ b/drivers/media/usb/uvc/uvc_driver.c
+@@ -256,7 +256,7 @@ static struct uvc_format_desc *uvc_format_by_guid(const u8 guid[16])
+ static enum v4l2_colorspace uvc_colorspace(const u8 primaries)
+ {
+ 	static const enum v4l2_colorspace colorprimaries[] = {
+-		V4L2_COLORSPACE_DEFAULT,  /* Unspecified */
++		V4L2_COLORSPACE_SRGB,  /* Unspecified */
+ 		V4L2_COLORSPACE_SRGB,
+ 		V4L2_COLORSPACE_470_SYSTEM_M,
+ 		V4L2_COLORSPACE_470_SYSTEM_BG,
+@@ -267,7 +267,7 @@ static enum v4l2_colorspace uvc_colorspace(const u8 primaries)
+ 	if (primaries < ARRAY_SIZE(colorprimaries))
+ 		return colorprimaries[primaries];
+ 
+-	return V4L2_COLORSPACE_DEFAULT;  /* Reserved */
++	return V4L2_COLORSPACE_SRGB;  /* Reserved */
+ }
+ 
+ static enum v4l2_xfer_func uvc_xfer_func(const u8 transfer_characteristics)
+@@ -769,6 +769,8 @@ static int uvc_parse_format(struct uvc_device *dev,
+ 
+ 		buflen -= buffer[0];
+ 		buffer += buffer[0];
++	} else {
++		format->colorspace = V4L2_COLORSPACE_SRGB;
+ 	}
+ 
+ 	return buffer - start;
+-- 
+2.34.0.rc1.387.gb447b232ab-goog
+
