@@ -2,57 +2,61 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2436644EE0F
-	for <lists+linux-media@lfdr.de>; Fri, 12 Nov 2021 21:44:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 80CA444EE1B
+	for <lists+linux-media@lfdr.de>; Fri, 12 Nov 2021 21:46:34 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235789AbhKLUqw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 12 Nov 2021 15:46:52 -0500
-Received: from mail.kernel.org ([198.145.29.99]:53586 "EHLO mail.kernel.org"
+        id S235830AbhKLUtY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 12 Nov 2021 15:49:24 -0500
+Received: from mail.kernel.org ([198.145.29.99]:54720 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S235790AbhKLUqt (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Fri, 12 Nov 2021 15:46:49 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 7D7F960E98;
-        Fri, 12 Nov 2021 20:43:56 +0000 (UTC)
+        id S235716AbhKLUtU (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Fri, 12 Nov 2021 15:49:20 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id DDC3360E8D;
+        Fri, 12 Nov 2021 20:46:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1636749838;
-        bh=44Grebjtn08PPJK53+7UCVpYeLQZNqJn0FxDmRp79Uw=;
+        s=k20201202; t=1636749989;
+        bh=m5K02cTVPRzI5GNSUzaxA5GJcxhlRvjYoYYq9bPD2Fg=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=P0anhKlJK4yFjNGc3nDLR600JzbqH3mRSg/M7qQspD4r1KQQpQ8/0VI6fnk4CZ0xA
-         G7Ap62puS0BBr5VE2xqL5wZPWYBxiXTuWhT2rNjDF0s3kab8wWngTw1k8jTn4cFB6O
-         GrCUc6CuisQO0JHvn/79ujd72TCavoJEY6ald8UEjkLXuuLqA91BAFiFZyCDjODezv
-         3i/58hp/WVdH1qNqJ0GILJ62GzCHLOfZEWct4DB9GB30xEI8cDPmC/a8clHM08XZHn
-         k8F1Yi7sqc2um3rm4gFeTJ0p7KLycIVNciZHrmooeWjcZSVv/j0b+TI9+MVUihSA/x
-         NXlS0pUFPCkAg==
-Date:   Fri, 12 Nov 2021 13:43:53 -0700
+        b=s2JQJO3BwKHk6LI6jzCIFGp5Q32WWX4pdO8OB/KOq0iLbF3HMcHVKhpTeLqOc7my2
+         S3QhDF70CjMxqTeR/5zc4q1nMSosgLStfhFwdUbKId/8lB1o+/rjWVPCEUSUBtmiue
+         D12VMjyPw41JoN2pOWWZTjfgxJ+ktRzPYX0EIL3C+Id3vW5tD4OuwLARIiQMLc25fb
+         x+0lVZJ16G+kUbGiBbNFjv5cBQID7yvQbd/rMn54pJyn1cYpTYKf6EzXQ01LtuVqoj
+         UyZxsxEQlEO300BIpY9l4e73BySy0FZ7C7TE8KvrJ2Qf1HEG7Cta2phyS2hb5Aq/Gc
+         z7nynO74LigRA==
+Date:   Fri, 12 Nov 2021 13:46:23 -0700
 From:   Nathan Chancellor <nathan@kernel.org>
 To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 Cc:     linuxarm@huawei.com, mauro.chehab@huawei.com,
-        Bingbu Cao <bingbu.cao@intel.com>,
+        Beatriz Martins de Carvalho 
+        <martinsdecarvalhobeatriz@gmail.com>,
+        Deepak R Varma <drv@mailo.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         Nick Desaulniers <ndesaulniers@google.com>,
         Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Tianshu Qiu <tian.shu.qiu@intel.com>,
+        Tom Rix <trix@redhat.com>,
+        Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
         linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
         linux-staging@lists.linux.dev, llvm@lists.linux.dev
-Subject: Re: [PATCH 1/3] media: ipu3: drop an unused variable
-Message-ID: <YY7SCZ7jAu2RVYvN@archlinux-ax161>
+Subject: Re: [PATCH 2/3] media: atomisp-gc2235: drop an unused var
+Message-ID: <YY7Sn6yW9jRKHkWl@archlinux-ax161>
 References: <cover.1636672052.git.mchehab+huawei@kernel.org>
- <990224a5610af19f790d0ec2ebe0610e3b38cf00.1636672052.git.mchehab+huawei@kernel.org>
+ <81245e1273f2e0e96a520b9d00cd415f65d37b48.1636672052.git.mchehab+huawei@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <990224a5610af19f790d0ec2ebe0610e3b38cf00.1636672052.git.mchehab+huawei@kernel.org>
+In-Reply-To: <81245e1273f2e0e96a520b9d00cd415f65d37b48.1636672052.git.mchehab+huawei@kernel.org>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, Nov 11, 2021 at 11:08:51PM +0000, Mauro Carvalho Chehab wrote:
+On Thu, Nov 11, 2021 at 11:08:52PM +0000, Mauro Carvalho Chehab wrote:
 > Fix this clang Werror with W=1:
 > 
-> 	drivers/staging/media/ipu3/ipu3-css-params.c:774:8: error: variable 'pin_scale' set but not used [-Werror,-Wunused-but-set-variable]
-> 	                        int pin_scale = 0;
-> 	                            ^
+> drivers/staging/media/atomisp/i2c/atomisp-gc2235.c:573:6: error: variable 'ret' set but not used [-Werror,-Wunused-but-set-variable]
+>         int ret = -1;
+>             ^
 > 
 > Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
@@ -63,30 +67,33 @@ Reviewed-by: Nathan Chancellor <nathan@kernel.org>
 > To mailbombing on a large number of people, only mailing lists were C/C on the cover.
 > See [PATCH 0/3] at: https://lore.kernel.org/all/cover.1636672052.git.mchehab+huawei@kernel.org/
 > 
->  drivers/staging/media/ipu3/ipu3-css-params.c | 3 ---
->  1 file changed, 3 deletions(-)
+>  drivers/staging/media/atomisp/i2c/atomisp-gc2235.c | 8 +++++---
+>  1 file changed, 5 insertions(+), 3 deletions(-)
 > 
-> diff --git a/drivers/staging/media/ipu3/ipu3-css-params.c b/drivers/staging/media/ipu3/ipu3-css-params.c
-> index e9d6bd9e9332..d9e3c3785075 100644
-> --- a/drivers/staging/media/ipu3/ipu3-css-params.c
-> +++ b/drivers/staging/media/ipu3/ipu3-css-params.c
-> @@ -771,7 +771,6 @@ static int imgu_css_osys_calc_frame_and_stripe_params(
->  		 */
->  		{
->  			unsigned int i;
-> -			int pin_scale = 0;
->  			/*Input resolution */
+> diff --git a/drivers/staging/media/atomisp/i2c/atomisp-gc2235.c b/drivers/staging/media/atomisp/i2c/atomisp-gc2235.c
+> index 5e7085264189..0e6b2e6100d1 100644
+> --- a/drivers/staging/media/atomisp/i2c/atomisp-gc2235.c
+> +++ b/drivers/staging/media/atomisp/i2c/atomisp-gc2235.c
+> @@ -570,14 +570,16 @@ static int power_ctrl(struct v4l2_subdev *sd, bool flag)
+>  static int gpio_ctrl(struct v4l2_subdev *sd, bool flag)
+>  {
+>  	struct gc2235_device *dev = to_gc2235_sensor(sd);
+> -	int ret = -1;
+> +	int ret;
 >  
->  			stripe_params[s].input_width = stripe_input_width_y;
-> @@ -791,8 +790,6 @@ static int imgu_css_osys_calc_frame_and_stripe_params(
->  						reso.pin_height[i];
->  					stripe_params[s].output_offset[i] =
->  						stripe_offset_out_y;
-> -
-> -					pin_scale += frame_params[i].scaled;
->  				} else {
->  					/* Unscaled pin */
->  					stripe_params[s].output_width[i] =
+>  	if (!dev || !dev->platform_data)
+>  		return -ENODEV;
+>  
+> -	ret |= dev->platform_data->gpio1_ctrl(sd, !flag);
+> +	ret = dev->platform_data->gpio1_ctrl(sd, !flag);
+>  	usleep_range(60, 90);
+> -	return dev->platform_data->gpio0_ctrl(sd, flag);
+> +	ret |= dev->platform_data->gpio0_ctrl(sd, flag);
+> +
+> +	return ret;
+>  }
+>  
+>  static int power_up(struct v4l2_subdev *sd)
 > -- 
 > 2.33.1
 > 
