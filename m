@@ -2,87 +2,83 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E4F9944DED3
-	for <lists+linux-media@lfdr.de>; Fri, 12 Nov 2021 01:10:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7AF3044DFCE
+	for <lists+linux-media@lfdr.de>; Fri, 12 Nov 2021 02:34:20 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229908AbhKLANn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 11 Nov 2021 19:13:43 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46894 "EHLO
+        id S234213AbhKLBhH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 11 Nov 2021 20:37:07 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37274 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229862AbhKLANm (ORCPT
+        with ESMTP id S231470AbhKLBhH (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 11 Nov 2021 19:13:42 -0500
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D6CBCC061766
-        for <linux-media@vger.kernel.org>; Thu, 11 Nov 2021 16:10:52 -0800 (PST)
-Received: from pendragon.ideasonboard.com (117.145-247-81.adsl-dyn.isp.belgacom.be [81.247.145.117])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 9FF253E7;
-        Fri, 12 Nov 2021 01:10:49 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1636675849;
-        bh=jOC16qgy1PAYZPUG1lPn68l6ngw3zxhYkPxvw4gmjIc=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=SEQjD25pu2lPVbNcd6+fKs1EJIiHL9ikUMsclEzw+VdgKk22i4DBFWxVCCFjTbi9l
-         cOTJdgwr0l5jJt+sGMzFxHottjcX4gFGhqeMgq84sgnldhwbMhaYsWRTmQjTYhg1b9
-         5r6YNuZDd4qtg1IQbfTLPn5M7wfLfvrzRVP7bYwQ=
-Date:   Fri, 12 Nov 2021 02:10:27 +0200
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
-Cc:     linux-media@vger.kernel.org, kernel@collabora.com,
-        hverkuil@xs4all.nl, dafna3@gmail.com, sakari.ailus@linux.intel.com,
-        mchehab@kernel.org
-Subject: Re: [PATCH v2 2/2] media: videobuf2: add WARN_ON if bytesused is
- bigger than buffer length
-Message-ID: <YY2w8+ljCzHS9VPT@pendragon.ideasonboard.com>
-References: <20211111152640.1537-1-dafna.hirschfeld@collabora.com>
- <20211111152640.1537-3-dafna.hirschfeld@collabora.com>
+        Thu, 11 Nov 2021 20:37:07 -0500
+Received: from mail-pj1-x102c.google.com (mail-pj1-x102c.google.com [IPv6:2607:f8b0:4864:20::102c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6D2E9C061766
+        for <linux-media@vger.kernel.org>; Thu, 11 Nov 2021 17:34:17 -0800 (PST)
+Received: by mail-pj1-x102c.google.com with SMTP id nh10-20020a17090b364a00b001a69adad5ebso6280536pjb.2
+        for <linux-media@vger.kernel.org>; Thu, 11 Nov 2021 17:34:17 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=0YHU5BFJe1UeJmMP6VYLEudXKn26+NeOxTqKcy9fme8=;
+        b=LrFnSWp7l4vvRFWqk06cZtwB/ugRwVOpRXHG+uL+eIa85OD3cC5UgUaQ/gbX+IQUgd
+         N5j7X456rIqpp28T9y0cSOfeC5OOs1vsm4r9GxHHABLjSIlcZkBpqAEKnOO0fD2iRfU3
+         Zi7bZij5unADfaSDgQct4cGhDgHCNsqiDS2Jnh6WDjYPDBrGOBSbCyYVcFc6PhQ/JFZ4
+         RoD5uK51PLaQOhc0Udq2fvkh+ZrSztIibqX3r8mcDuuHX0s0A9BR2TySEAW1QbHRSZVy
+         WZMSLHskRaYFOr1+ijUTRrVxc80eRJlnLanayATyJyudWGMIa1gLqjepUMCjqT1kxXiZ
+         c1og==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=0YHU5BFJe1UeJmMP6VYLEudXKn26+NeOxTqKcy9fme8=;
+        b=FNlUk59vDA7m0V96hkZFhVIx/w1o7j2eF+VIp2dw1mPPlJ+j3Ph5rXqW8CCXUEK4f9
+         fe217iGj4Z6pf/guzK3PWfl7KOjaGoswfKIicz6C4iThswPY9R/oO+vNt8uUo5W4ugFf
+         vXR2N+MBjPn7GNEOkdVAE4mohSkmjCpAhkpwq4czv13I+a/p2I5KzjpNWf9XF1JiYTRS
+         oI6HGd0NRv1ZRvYTKkj7XRoqufqSM/SVBuU1JZmvNtGFQaC9EdKL9PE+Bf02wSYEQlpy
+         04wBMCRjqM6On+DyswpWVXqQ4P0WTK59ZCiIVxXSez2EV9llMeJT9cEbp3JYrhTKIbws
+         t8DA==
+X-Gm-Message-State: AOAM531CdYVpR2eRkcgcEWp8dDKkDZ/fCvKWfC9URZqxazz5jprnwl2K
+        EFo8Ehw4pzJy4oyjEg2f0953pQ==
+X-Google-Smtp-Source: ABdhPJwCqDn0a2JCQcf42AQVYBrgJG7/UP8bVjVF7dmyhdh/1aO7xtYDLnN93T7YEfSgDiy+x3pAbQ==
+X-Received: by 2002:a17:90a:670e:: with SMTP id n14mr13311383pjj.144.1636680856755;
+        Thu, 11 Nov 2021 17:34:16 -0800 (PST)
+Received: from google.com ([2401:fa00:1:10:3f91:373b:ba9b:471e])
+        by smtp.gmail.com with ESMTPSA id nn4sm3367102pjb.38.2021.11.11.17.34.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 11 Nov 2021 17:34:16 -0800 (PST)
+Date:   Fri, 12 Nov 2021 09:34:13 +0800
+From:   Tzung-Bi Shih <tzungbi@google.com>
+To:     Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+Cc:     tiffany.lin@mediatek.com, andrew-ct.chen@mediatek.com,
+        mchehab@kernel.org, matthias.bgg@gmail.com, acourbot@chromium.org,
+        yunfei.dong@mediatek.com, hverkuil-cisco@xs4all.nl,
+        linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
+        kernel-janitors@vger.kernel.org
+Subject: Re: [PATCH] media: mtk-vcodec: Fix an error handling path in
+ 'asid_allocator_init()'
+Message-ID: <YY3ElQfeZr4DpObV@google.com>
+References: <86d3e2db237bc35eb55bd46ef07fa13a39bcdff8.1636636541.git.christophe.jaillet@wanadoo.fr>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20211111152640.1537-3-dafna.hirschfeld@collabora.com>
+In-Reply-To: <86d3e2db237bc35eb55bd46ef07fa13a39bcdff8.1636636541.git.christophe.jaillet@wanadoo.fr>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Dafna,
-
-Thank you for the patch.
-
-On Thu, Nov 11, 2021 at 05:26:40PM +0200, Dafna Hirschfeld wrote:
-> In function vb2_set_plane_payload, report if the
-> given bytesused is bigger than the buffer size,
-> and clamp it to the buffer size.
+On Thu, Nov 11, 2021 at 02:17:51PM +0100, Christophe JAILLET wrote:
+> In case of error the 'media_device_init()' call is not balanced by a
+> corresponding 'media_device_cleanup()' call.
 > 
-> Signed-off-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
-
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-
-> ---
->  include/media/videobuf2-core.h | 8 +++++++-
->  1 file changed, 7 insertions(+), 1 deletion(-)
+> Add it, when needed, as already done in the remove function.
 > 
-> diff --git a/include/media/videobuf2-core.h b/include/media/videobuf2-core.h
-> index 2467284e5f26..e06c190265f0 100644
-> --- a/include/media/videobuf2-core.h
-> +++ b/include/media/videobuf2-core.h
-> @@ -1155,8 +1155,14 @@ static inline void *vb2_get_drv_priv(struct vb2_queue *q)
->  static inline void vb2_set_plane_payload(struct vb2_buffer *vb,
->  				 unsigned int plane_no, unsigned long size)
->  {
-> -	if (plane_no < vb->num_planes)
-> +	/*
-> +	 * size must never be larger than the buffer length, so
-> +	 * warn and clamp to the buffer length if that's the case.
-> +	 */
-> +	if (plane_no < vb->num_planes) {
-> +		WARN_ON_ONCE(size > vb->planes[plane_no].length);
->  		vb->planes[plane_no].bytesused = size;
-> +	}
->  }
->  
->  /**
+> Fixes: 118add98f80e ("media: mtk-vcodec: vdec: add media device if using stateless api")
+> Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
 
--- 
-Regards,
+The commit title looks incorrect: "asid_allocator_init".
 
-Laurent Pinchart
+Except that,
+Acked-by: Tzung-Bi Shih <tzungbi@google.com>
