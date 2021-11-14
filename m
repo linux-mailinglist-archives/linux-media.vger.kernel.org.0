@@ -2,98 +2,116 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9E24144F746
-	for <lists+linux-media@lfdr.de>; Sun, 14 Nov 2021 09:54:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 62E4244F74C
+	for <lists+linux-media@lfdr.de>; Sun, 14 Nov 2021 10:00:02 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231158AbhKNI4x (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 14 Nov 2021 03:56:53 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59746 "EHLO
+        id S232994AbhKNJCv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 14 Nov 2021 04:02:51 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32830 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229537AbhKNI4p (ORCPT
+        with ESMTP id S233170AbhKNJCr (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 14 Nov 2021 03:56:45 -0500
-Received: from mail-oi1-x22c.google.com (mail-oi1-x22c.google.com [IPv6:2607:f8b0:4864:20::22c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C0A6EC061746;
-        Sun, 14 Nov 2021 00:53:51 -0800 (PST)
-Received: by mail-oi1-x22c.google.com with SMTP id bf8so27773644oib.6;
-        Sun, 14 Nov 2021 00:53:51 -0800 (PST)
+        Sun, 14 Nov 2021 04:02:47 -0500
+Received: from mail-oi1-x232.google.com (mail-oi1-x232.google.com [IPv6:2607:f8b0:4864:20::232])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0F606C061746
+        for <linux-media@vger.kernel.org>; Sun, 14 Nov 2021 00:59:53 -0800 (PST)
+Received: by mail-oi1-x232.google.com with SMTP id be32so27736505oib.11
+        for <linux-media@vger.kernel.org>; Sun, 14 Nov 2021 00:59:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=NB/5ezdcbSJ56kEx6pqPsfQ053xj0Tci+WTj1U5J9ZM=;
-        b=NeKNkLtbCsZ+1Q2uV9/IQHLVxWbZZ4HhdHl6GQkMQbOhh6b5Bv+yW7hjfsLm8eeIlf
-         w5bVPRHCSLE2fN9T+1uLTyst8b2rc+x4foOc+xvKSdkfqjXI0x6Obbip70iGVOtHo5ck
-         UhQ3dfuWvF7wgAN2x3kRkVkjklX/YYxN6DgeU6XmDXHKuqcNh0ygq5uqKY+DNC/NduAb
-         Hfzg/TIQKILVHQ14SU7uM0n1xtczz+phrtZCUpznyPAdsoq8Jx8QJ46FY4speGJ1QXS1
-         4HyncvXE8W5lzrV267aOyyGqBp22Y98fEJn2jzYn27zm+XeZkSHaugDsCaioB6BXoKR9
-         WwIw==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=AoeqEAVnnK83ehKMBe5v6vPNYntrrYdTUbX410ctPWc=;
+        b=HyOkSRj6vTP++itD12HP/RHMWjtd80Wn88gSLjYIl/qo74saubUJ3nO0J1VW9uSIbD
+         ywIkpgmT7zI1ABbTA1ZudyicSUFQZh/EuEztUY6vddyDj2ZRs04RPH8i9iDxlKCE7zlF
+         iOqnQnymu/F0olKKEHopEbU1W0KSTs0IXzEgxzA1HIK0c8DribIFj6NzGmAi3LVwkPRH
+         0EuN5F4sXZU4qYFxLJp4m/gZjRTpQYCJvAVjO4xipuArWkNny3v/s0O/iB/8DeItFWaX
+         nNxiohRwV9sWqyMvzYAhXNO8xQ89f13hBEVNAIe47t7Lar3n7GFTpd4F7wazXNvYUdRj
+         WoTQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=NB/5ezdcbSJ56kEx6pqPsfQ053xj0Tci+WTj1U5J9ZM=;
-        b=zjA8hUxIg1l4zrYJFWoe108ZABrVeTHESZ7xoBOZnu5C4qLeSvvULVXg2JtSmDt83q
-         dsDx5Xvn4d3n19rkuOElHK7+wzr7HUYV2uaZy4RqmzOBHXlXJvHc0WSH47p7PEe/vpn4
-         V2bOfC1CSA6sgtHrz5N+TclPyUZY1i2s5dJFRp3xrQVgwopUUxAHSbO/sLsb3IaNB2o1
-         t6XXD2vduSeOt5izUFTbo9guJ5xjLMZdDYZecqA3RM3PQSdqCCi5VwltEXAzoedbTnJK
-         E4sqlGdd68T2Ess5oc0MOZoesAcBVOM5NcjANmqcXzfSyMfI1B1FVLFEOC7u+h9E0HSZ
-         CVBw==
-X-Gm-Message-State: AOAM5316vKONPff6Vd9wHNuLwc6LLA0YA+KZ8AmlsctE470Hvg6Z1ZI7
-        BdmRyjMAReoY9WilVM9HeHM=
-X-Google-Smtp-Source: ABdhPJwWm6O7uecWqYUnsbK4yQWOJRoGS23BJsLPwvltk1eFdbGcOfhWsjdws8jURkzwtwA2oYY67Q==
-X-Received: by 2002:a54:439a:: with SMTP id u26mr24226001oiv.49.1636880031136;
-        Sun, 14 Nov 2021 00:53:51 -0800 (PST)
-Received: from james-x399.localdomain (71-218-244-53.hlrn.qwest.net. [71.218.244.53])
-        by smtp.gmail.com with ESMTPSA id bn41sm1864739oib.18.2021.11.14.00.53.50
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 14 Nov 2021 00:53:50 -0800 (PST)
-From:   James Hilliard <james.hilliard1@gmail.com>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc:     Ricardo Ribalda <ribalda@chromium.org>,
-        James Hilliard <james.hilliard1@gmail.com>
-Subject: [PATCH 1/1] media: uvcvideo: Increase UVC_CTRL_CONTROL_TIMEOUT to 5 seconds.
-Date:   Sun, 14 Nov 2021 01:52:36 -0700
-Message-Id: <20211114085236.2345589-1-james.hilliard1@gmail.com>
-X-Mailer: git-send-email 2.25.1
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=AoeqEAVnnK83ehKMBe5v6vPNYntrrYdTUbX410ctPWc=;
+        b=wg04DGJPXB5rAlFbUv7BUZ9j0uX5ORwwjPSYO3RgWxnB4s2FXgO3eZ5jcYK+eDQvIr
+         vZ/yRMA7Y/SU6WuQ9gdfUpRUW2cnD+ZGNdubTFvBN/dtjeUN+spcTP8f2mpydu3BlBxm
+         kkQhpG5kKg+PXfkoPG4ri8ehYCqJvU+u7wE8hThKB3dDBXobaGCoVLGl5Uh2ZMlj76Wv
+         od/ZNByXqdN34db8nsU7zPX8iAIN6D+MVwIfME+wnvfGxOsqOg4foylp+ohFYIiydDF2
+         WnpgAT1WlVTnc+0UU6vK0gCOyaw1ozVdfp5+dui6Zl+aYlDnitIPCSz2Kg2x4bJDZOtP
+         7Utw==
+X-Gm-Message-State: AOAM5339iiYpcEVc+vmQGI0BL2f6FCeHaHkadXNtUyf9Nz2DoQba+wlr
+        6LoXykAdtMhX1nvZOjXgJs9WR2TQUZIC+Rt1bmCN5b+HPFQ=
+X-Google-Smtp-Source: ABdhPJxFNrfQMOXd6y6D2a0Cv6G3knosanGtCNahOFWy9U5SNOTvN4IMU6s/ZjEW/6olIjUBS7hGkyueMhSjBBKAxVo=
+X-Received: by 2002:a05:6808:118c:: with SMTP id j12mr23846506oil.65.1636880392246;
+ Sun, 14 Nov 2021 00:59:52 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20211112195710.286151-1-ribalda@chromium.org> <CADvTj4o9zzVJaiWOp=B24zv63jhaW+c45QawGOPc4VsNR2=hZA@mail.gmail.com>
+ <CANiDSCsQRUPA1u=vC+7-+KxeUkOTqnpdu3OEMfpmzd8KN7OfSg@mail.gmail.com>
+ <CADvTj4oSwupbndes-DMQdAhraWnAJvjkME+DZPh4Sr2TAFO8uQ@mail.gmail.com>
+ <CANiDSCs20iMsh3O2T+jTrRAr4TMajPXeBDVH8Q1HfVBj53y8dQ@mail.gmail.com>
+ <CADvTj4rd5KrOT8UHLmhTQ_KR-bgpQEONfJdaQcugdN_tXKfNrw@mail.gmail.com>
+ <CANiDSCsw47OVS2L1cbA_HhnYMzLgJRfUVJBVu6vYc58USX=Auw@mail.gmail.com>
+ <CADvTj4rnc0eJ8a=E-z+O=MQZFDa7XtKoeDkm4LDmVsYXjSVCxw@mail.gmail.com>
+ <CANiDSCtKz90fu5RF8aC=6fB3X_g_68B86=w0L+C_YK0Go6K9nw@mail.gmail.com> <CADvTj4pKngXK0ihOEMVjs1jA8YJz=1bFJiNdx81zMqS=T7AzNg@mail.gmail.com>
+In-Reply-To: <CADvTj4pKngXK0ihOEMVjs1jA8YJz=1bFJiNdx81zMqS=T7AzNg@mail.gmail.com>
+From:   James Hilliard <james.hilliard1@gmail.com>
+Date:   Sun, 14 Nov 2021 01:59:41 -0700
+Message-ID: <CADvTj4rmxHti2YdkUFJ9KkRK5RFgP-kb+DSstJPVSiDsKLN6Cw@mail.gmail.com>
+Subject: Re: [PATCH v2] media: uvcvideo: Set the colorspace as sRGB if undefined
+To:     Ricardo Ribalda <ribalda@chromium.org>
+Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        linux-media@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Some uvc devices appear to require the maximum allowed USB timeout
-for GET_CUR/SET_CUR requests.
+On Fri, Nov 12, 2021 at 5:07 PM James Hilliard
+<james.hilliard1@gmail.com> wrote:
+>
+> On Fri, Nov 12, 2021 at 5:02 PM Ricardo Ribalda <ribalda@chromium.org> wrote:
+> >
+> > Hi
+> >
+> > On Sat, 13 Nov 2021 at 00:59, James Hilliard <james.hilliard1@gmail.com> wrote:
+> > >
+> > > On Fri, Nov 12, 2021 at 4:50 PM Ricardo Ribalda <ribalda@chromium.org> wrote:
+> > > >
+> > > > HI James
+> > > >
+> > > > You are getting -EPROTO while trying to get the current value of a
+> > > > control. I believe this is a hardware/firmware error.
+> > >
+> > > Hmm, any idea why v4l2-compliance passes some of the time but not
+> > > always?
+> >
+> > Race condition in the firmware?
+> > Not enough current to complete a request and end up in some kind of brown-out?
+>
+> Hmm, think that might be the way the camera might be indicating commands
+> are being sent too fast? Maybe a retry on the first -EPROTO seen would be
+> enough to fix it?
 
-So lets just bump the UVC control timeout to 5 seconds which is the
-same as the usb ctrl get/set defaults:
-USB_CTRL_GET_TIMEOUT 5000
-USB_CTRL_SET_TIMEOUT 5000
+Seems it was just due to the timeout being too short, this seems to
+fix the issue:
+https://lore.kernel.org/linux-media/20211114085236.2345589-1-james.hilliard1@gmail.com/
 
-Fixes:
-Failed to query (GET_CUR) UVC control 11 on unit 2: -110 (exp. 1).
-Failed to query (SET_CUR) UVC control 3 on unit 2: -110 (exp. 2).
+The camera now passes all v4l2-compliance tests with this change applied.
 
-Signed-off-by: James Hilliard <james.hilliard1@gmail.com>
----
- drivers/media/usb/uvc/uvcvideo.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/uvcvideo.h
-index fd4f5ef47dfb..583c51ac3eec 100644
---- a/drivers/media/usb/uvc/uvcvideo.h
-+++ b/drivers/media/usb/uvc/uvcvideo.h
-@@ -189,7 +189,7 @@
- /* Maximum status buffer size in bytes of interrupt URB. */
- #define UVC_MAX_STATUS_SIZE	16
- 
--#define UVC_CTRL_CONTROL_TIMEOUT	500
-+#define UVC_CTRL_CONTROL_TIMEOUT	5000
- #define UVC_CTRL_STREAMING_TIMEOUT	5000
- 
- /* Maximum allowed number of control mappings per device */
--- 
-2.25.1
-
+>
+> >
+> > It is difficult to know without access to the hardware :)
+> >
+> > Maybe you can replicate what causes the error with just v4l-ctl calls
+> > and then ping the manufacturer with a simple repro.
+> >
+> > >
+> > > >
+> > > >
+> > > > Best regards!
+> >
+> >
+> >
+> > --
+> > Ricardo Ribalda
