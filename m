@@ -2,116 +2,69 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 62E4244F74C
-	for <lists+linux-media@lfdr.de>; Sun, 14 Nov 2021 10:00:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 211CA44F87D
+	for <lists+linux-media@lfdr.de>; Sun, 14 Nov 2021 15:26:04 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232994AbhKNJCv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 14 Nov 2021 04:02:51 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32830 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233170AbhKNJCr (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Sun, 14 Nov 2021 04:02:47 -0500
-Received: from mail-oi1-x232.google.com (mail-oi1-x232.google.com [IPv6:2607:f8b0:4864:20::232])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0F606C061746
-        for <linux-media@vger.kernel.org>; Sun, 14 Nov 2021 00:59:53 -0800 (PST)
-Received: by mail-oi1-x232.google.com with SMTP id be32so27736505oib.11
-        for <linux-media@vger.kernel.org>; Sun, 14 Nov 2021 00:59:53 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=AoeqEAVnnK83ehKMBe5v6vPNYntrrYdTUbX410ctPWc=;
-        b=HyOkSRj6vTP++itD12HP/RHMWjtd80Wn88gSLjYIl/qo74saubUJ3nO0J1VW9uSIbD
-         ywIkpgmT7zI1ABbTA1ZudyicSUFQZh/EuEztUY6vddyDj2ZRs04RPH8i9iDxlKCE7zlF
-         iOqnQnymu/F0olKKEHopEbU1W0KSTs0IXzEgxzA1HIK0c8DribIFj6NzGmAi3LVwkPRH
-         0EuN5F4sXZU4qYFxLJp4m/gZjRTpQYCJvAVjO4xipuArWkNny3v/s0O/iB/8DeItFWaX
-         nNxiohRwV9sWqyMvzYAhXNO8xQ89f13hBEVNAIe47t7Lar3n7GFTpd4F7wazXNvYUdRj
-         WoTQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=AoeqEAVnnK83ehKMBe5v6vPNYntrrYdTUbX410ctPWc=;
-        b=wg04DGJPXB5rAlFbUv7BUZ9j0uX5ORwwjPSYO3RgWxnB4s2FXgO3eZ5jcYK+eDQvIr
-         vZ/yRMA7Y/SU6WuQ9gdfUpRUW2cnD+ZGNdubTFvBN/dtjeUN+spcTP8f2mpydu3BlBxm
-         kkQhpG5kKg+PXfkoPG4ri8ehYCqJvU+u7wE8hThKB3dDBXobaGCoVLGl5Uh2ZMlj76Wv
-         od/ZNByXqdN34db8nsU7zPX8iAIN6D+MVwIfME+wnvfGxOsqOg4foylp+ohFYIiydDF2
-         WnpgAT1WlVTnc+0UU6vK0gCOyaw1ozVdfp5+dui6Zl+aYlDnitIPCSz2Kg2x4bJDZOtP
-         7Utw==
-X-Gm-Message-State: AOAM5339iiYpcEVc+vmQGI0BL2f6FCeHaHkadXNtUyf9Nz2DoQba+wlr
-        6LoXykAdtMhX1nvZOjXgJs9WR2TQUZIC+Rt1bmCN5b+HPFQ=
-X-Google-Smtp-Source: ABdhPJxFNrfQMOXd6y6D2a0Cv6G3knosanGtCNahOFWy9U5SNOTvN4IMU6s/ZjEW/6olIjUBS7hGkyueMhSjBBKAxVo=
-X-Received: by 2002:a05:6808:118c:: with SMTP id j12mr23846506oil.65.1636880392246;
- Sun, 14 Nov 2021 00:59:52 -0800 (PST)
+        id S230490AbhKNO2r (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 14 Nov 2021 09:28:47 -0500
+Received: from mail.kernel.org ([198.145.29.99]:60136 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229563AbhKNO2n (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Sun, 14 Nov 2021 09:28:43 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id A7C5461027;
+        Sun, 14 Nov 2021 14:25:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1636899949;
+        bh=ZV2Hx3+pIL6mKU8se/mh5FSio88H9eOPjUCiqqBfNMY=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=WEXnx6VbLq/G2BMMPxLRQ7erP972PFzRoh0VTTIJKNZMRst2e9JgagN4H/KGNaG1F
+         O9mxp+qs7h8l1cvr6dgs2wVo2R+uDexa4twqzLBQyg9lDdAIZZNmhyg2JOcy7NqIm2
+         +/TAd42dHuaga7bCxwMnOVWjZBTRpDQIGtW4Wh6OI/wNUg3dYxKmDe7BwPbTJxjUzN
+         PE84zJNVgFZpigvIy4Qvu7Gd7yUSaYfpWX5aPunG3QkGxYRp668Um3fDSycfg0YFFA
+         CHDy81cKJLPRZeg4CrXOBH+IIEaTljLV3Y5vd7sZ5eUj8ysfIs0L3bekdoe1yQ4xkp
+         TcoWd7YsZL+Dg==
+Date:   Sun, 14 Nov 2021 09:25:48 -0500
+From:   Sasha Levin <sashal@kernel.org>
+To:     Randy Dunlap <rdunlap@infradead.org>
+Cc:     Pavel Machek <pavel@ucw.cz>, linux-kernel@vger.kernel.org,
+        stable@vger.kernel.org,
+        Charan Teja Reddy <charante@codeaurora.org>,
+        Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+        sumit.semwal@linaro.org, linux-media@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org
+Subject: Re: AUTOSEL series truncated was -- Re: [PATCH AUTOSEL 5.15 001/146]
+ dma-buf: WARN on dmabuf release with pending attachments
+Message-ID: <YZEcbEY4HkvZYdOh@sashalap>
+References: <20211108174453.1187052-1-sashal@kernel.org>
+ <20211109075423.GA16766@amd>
+ <3957633e-9596-e329-c79b-b45e9993d139@infradead.org>
 MIME-Version: 1.0
-References: <20211112195710.286151-1-ribalda@chromium.org> <CADvTj4o9zzVJaiWOp=B24zv63jhaW+c45QawGOPc4VsNR2=hZA@mail.gmail.com>
- <CANiDSCsQRUPA1u=vC+7-+KxeUkOTqnpdu3OEMfpmzd8KN7OfSg@mail.gmail.com>
- <CADvTj4oSwupbndes-DMQdAhraWnAJvjkME+DZPh4Sr2TAFO8uQ@mail.gmail.com>
- <CANiDSCs20iMsh3O2T+jTrRAr4TMajPXeBDVH8Q1HfVBj53y8dQ@mail.gmail.com>
- <CADvTj4rd5KrOT8UHLmhTQ_KR-bgpQEONfJdaQcugdN_tXKfNrw@mail.gmail.com>
- <CANiDSCsw47OVS2L1cbA_HhnYMzLgJRfUVJBVu6vYc58USX=Auw@mail.gmail.com>
- <CADvTj4rnc0eJ8a=E-z+O=MQZFDa7XtKoeDkm4LDmVsYXjSVCxw@mail.gmail.com>
- <CANiDSCtKz90fu5RF8aC=6fB3X_g_68B86=w0L+C_YK0Go6K9nw@mail.gmail.com> <CADvTj4pKngXK0ihOEMVjs1jA8YJz=1bFJiNdx81zMqS=T7AzNg@mail.gmail.com>
-In-Reply-To: <CADvTj4pKngXK0ihOEMVjs1jA8YJz=1bFJiNdx81zMqS=T7AzNg@mail.gmail.com>
-From:   James Hilliard <james.hilliard1@gmail.com>
-Date:   Sun, 14 Nov 2021 01:59:41 -0700
-Message-ID: <CADvTj4rmxHti2YdkUFJ9KkRK5RFgP-kb+DSstJPVSiDsKLN6Cw@mail.gmail.com>
-Subject: Re: [PATCH v2] media: uvcvideo: Set the colorspace as sRGB if undefined
-To:     Ricardo Ribalda <ribalda@chromium.org>
-Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        linux-media@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Disposition: inline
+In-Reply-To: <3957633e-9596-e329-c79b-b45e9993d139@infradead.org>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, Nov 12, 2021 at 5:07 PM James Hilliard
-<james.hilliard1@gmail.com> wrote:
+On Tue, Nov 09, 2021 at 08:05:23AM -0800, Randy Dunlap wrote:
+>On 11/8/21 11:54 PM, Pavel Machek wrote:
+>>Hi!
+>>
+>>This series is truncated .. I only got first patches. Similary, 5.10
+>>series is truncated, [PATCH AUTOSEL 5.10 035/101] media: s5p-mfc: Add
+>>checking to s5p_mfc_probe... is last one I got.
+>>
+>>I got all the patches before that, so I believe it is not problem on
+>>my side, but I'd not mind someone confirming they are seeing the same
+>>problem...
 >
-> On Fri, Nov 12, 2021 at 5:02 PM Ricardo Ribalda <ribalda@chromium.org> wrote:
-> >
-> > Hi
-> >
-> > On Sat, 13 Nov 2021 at 00:59, James Hilliard <james.hilliard1@gmail.com> wrote:
-> > >
-> > > On Fri, Nov 12, 2021 at 4:50 PM Ricardo Ribalda <ribalda@chromium.org> wrote:
-> > > >
-> > > > HI James
-> > > >
-> > > > You are getting -EPROTO while trying to get the current value of a
-> > > > control. I believe this is a hardware/firmware error.
-> > >
-> > > Hmm, any idea why v4l2-compliance passes some of the time but not
-> > > always?
-> >
-> > Race condition in the firmware?
-> > Not enough current to complete a request and end up in some kind of brown-out?
->
-> Hmm, think that might be the way the camera might be indicating commands
-> are being sent too fast? Maybe a retry on the first -EPROTO seen would be
-> enough to fix it?
+>Yes, several of the patch series were incomplete for me also...
 
-Seems it was just due to the timeout being too short, this seems to
-fix the issue:
-https://lore.kernel.org/linux-media/20211114085236.2345589-1-james.hilliard1@gmail.com/
+Odd. I'll keep a closer look next time I send a series out to figure out
+what's going on.
 
-The camera now passes all v4l2-compliance tests with this change applied.
+Thanks for the heads-up!
 
->
-> >
-> > It is difficult to know without access to the hardware :)
-> >
-> > Maybe you can replicate what causes the error with just v4l-ctl calls
-> > and then ping the manufacturer with a simple repro.
-> >
-> > >
-> > > >
-> > > >
-> > > > Best regards!
-> >
-> >
-> >
-> > --
-> > Ricardo Ribalda
+-- 
+Thanks,
+Sasha
