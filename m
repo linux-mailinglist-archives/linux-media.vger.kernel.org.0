@@ -2,163 +2,98 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C833544F6F8
-	for <lists+linux-media@lfdr.de>; Sun, 14 Nov 2021 06:56:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9E24144F746
+	for <lists+linux-media@lfdr.de>; Sun, 14 Nov 2021 09:54:04 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233139AbhKNF7l (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 14 Nov 2021 00:59:41 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49970 "EHLO
+        id S231158AbhKNI4x (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 14 Nov 2021 03:56:53 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59746 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229469AbhKNF7j (ORCPT
+        with ESMTP id S229537AbhKNI4p (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 14 Nov 2021 00:59:39 -0500
-Received: from lb1-smtp-cloud9.xs4all.net (lb1-smtp-cloud9.xs4all.net [IPv6:2001:888:0:108::1c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BDF95C061570
-        for <linux-media@vger.kernel.org>; Sat, 13 Nov 2021 21:56:45 -0800 (PST)
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud9.xs4all.net with ESMTPA
-        id m8VKm73UEfwDFm8VOmMND3; Sun, 14 Nov 2021 06:56:43 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1636869403; bh=4tN8VO5tu0ifH1ywWHkjF3hxaHyW6DvLawiGC1Pdh+Y=;
-        h=Message-ID:Date:From:To:Subject:From:Subject;
-        b=iHgsTmjo//rv0yQxQKQwXGIkxtr/wkz7MDME0aCprwFKkVjzdT3RZN3Xo0aWyBoix
-         uq5YUxxByjaYWPzOxy2ulbhopX1HALNdz1Zk8bAUaakQ/oL3SXtmqOpwNTQO/Rx/wF
-         XCNQmUn/kadW5/dFZW8MjDyswKjTcgbe4YRAQw9XXfgHpEjW9c8xSiPM2Ge/2nILCT
-         +NX7biZCznj2/SwaghopA9jvnzRM9Bna8Vyt7Vs1svia+/Jc7apNjwvzvWJ40plQYS
-         VQQMquCT5sTj11Yyz3y6TQTTRkc6hEnSO00bo2QtniUswFDMTQ5aUJtLYQ5oN/+wCu
-         b2U+FFks6iBog==
-Message-ID: <43b80b4cf8d0c90fc4dc101f9d706962@smtp-cloud9.xs4all.net>
-Date:   Sun, 14 Nov 2021 06:56:38 +0100
-From:   "Hans Verkuil" <hverkuil@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: ERRORS
-X-CMAE-Envelope: MS4xfKVKsQ9YRCapFfrRJHDVk25ACr3Vu0sYFFvIl3oH2buTBtOJpRJDmdKj/CRc+aQkXMZswsGE1Tisubsd3vhGha1jVM40sh+1wwLtgbWrgcvSeyMRLCdr
- TfMOrDfSABl0bhe5WQrgaVYMPpV2kX+iOrouFxH9cLs+/uBJ9eshU2euEOeltglWbAd477ymTUyTsQ==
+        Sun, 14 Nov 2021 03:56:45 -0500
+Received: from mail-oi1-x22c.google.com (mail-oi1-x22c.google.com [IPv6:2607:f8b0:4864:20::22c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C0A6EC061746;
+        Sun, 14 Nov 2021 00:53:51 -0800 (PST)
+Received: by mail-oi1-x22c.google.com with SMTP id bf8so27773644oib.6;
+        Sun, 14 Nov 2021 00:53:51 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=NB/5ezdcbSJ56kEx6pqPsfQ053xj0Tci+WTj1U5J9ZM=;
+        b=NeKNkLtbCsZ+1Q2uV9/IQHLVxWbZZ4HhdHl6GQkMQbOhh6b5Bv+yW7hjfsLm8eeIlf
+         w5bVPRHCSLE2fN9T+1uLTyst8b2rc+x4foOc+xvKSdkfqjXI0x6Obbip70iGVOtHo5ck
+         UhQ3dfuWvF7wgAN2x3kRkVkjklX/YYxN6DgeU6XmDXHKuqcNh0ygq5uqKY+DNC/NduAb
+         Hfzg/TIQKILVHQ14SU7uM0n1xtczz+phrtZCUpznyPAdsoq8Jx8QJ46FY4speGJ1QXS1
+         4HyncvXE8W5lzrV267aOyyGqBp22Y98fEJn2jzYn27zm+XeZkSHaugDsCaioB6BXoKR9
+         WwIw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=NB/5ezdcbSJ56kEx6pqPsfQ053xj0Tci+WTj1U5J9ZM=;
+        b=zjA8hUxIg1l4zrYJFWoe108ZABrVeTHESZ7xoBOZnu5C4qLeSvvULVXg2JtSmDt83q
+         dsDx5Xvn4d3n19rkuOElHK7+wzr7HUYV2uaZy4RqmzOBHXlXJvHc0WSH47p7PEe/vpn4
+         V2bOfC1CSA6sgtHrz5N+TclPyUZY1i2s5dJFRp3xrQVgwopUUxAHSbO/sLsb3IaNB2o1
+         t6XXD2vduSeOt5izUFTbo9guJ5xjLMZdDYZecqA3RM3PQSdqCCi5VwltEXAzoedbTnJK
+         E4sqlGdd68T2Ess5oc0MOZoesAcBVOM5NcjANmqcXzfSyMfI1B1FVLFEOC7u+h9E0HSZ
+         CVBw==
+X-Gm-Message-State: AOAM5316vKONPff6Vd9wHNuLwc6LLA0YA+KZ8AmlsctE470Hvg6Z1ZI7
+        BdmRyjMAReoY9WilVM9HeHM=
+X-Google-Smtp-Source: ABdhPJwWm6O7uecWqYUnsbK4yQWOJRoGS23BJsLPwvltk1eFdbGcOfhWsjdws8jURkzwtwA2oYY67Q==
+X-Received: by 2002:a54:439a:: with SMTP id u26mr24226001oiv.49.1636880031136;
+        Sun, 14 Nov 2021 00:53:51 -0800 (PST)
+Received: from james-x399.localdomain (71-218-244-53.hlrn.qwest.net. [71.218.244.53])
+        by smtp.gmail.com with ESMTPSA id bn41sm1864739oib.18.2021.11.14.00.53.50
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 14 Nov 2021 00:53:50 -0800 (PST)
+From:   James Hilliard <james.hilliard1@gmail.com>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc:     Ricardo Ribalda <ribalda@chromium.org>,
+        James Hilliard <james.hilliard1@gmail.com>
+Subject: [PATCH 1/1] media: uvcvideo: Increase UVC_CTRL_CONTROL_TIMEOUT to 5 seconds.
+Date:   Sun, 14 Nov 2021 01:52:36 -0700
+Message-Id: <20211114085236.2345589-1-james.hilliard1@gmail.com>
+X-Mailer: git-send-email 2.25.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the kernels and architectures in the list below.
+Some uvc devices appear to require the maximum allowed USB timeout
+for GET_CUR/SET_CUR requests.
 
-Results of the daily build of media_tree:
+So lets just bump the UVC control timeout to 5 seconds which is the
+same as the usb ctrl get/set defaults:
+USB_CTRL_GET_TIMEOUT 5000
+USB_CTRL_SET_TIMEOUT 5000
 
-date:			Sun Nov 14 05:00:14 CET 2021
-media-tree git hash:	80ffa82f80bf89b19de5dc5d556ffecc0a2a54be
-media_build git hash:	2b23b3dfc87e992739203b263fbb9c7365831fcb
-v4l-utils git hash:	79b4354f1c470527ace542fa0e0e9f551aed6c62
-edid-decode git hash:	b00755e34eb12aa92416aaf1bb7b02603131afe0
-gcc version:		i686-linux-gcc (GCC) 11.2.0
-sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
-sparse version:		0.6.3
-smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
-smatch version:		0.6.3
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: 5e723ffd4a51b66192db1b1919d84b0925398188
-host hardware:		x86_64
-host os:		5.14.0-2-amd64
+Fixes:
+Failed to query (GET_CUR) UVC control 11 on unit 2: -110 (exp. 1).
+Failed to query (SET_CUR) UVC control 3 on unit 2: -110 (exp. 2).
 
-linux-git-sh: OK
-linux-git-arm-at91: OK
-linux-git-arm-davinci: OK
-linux-git-mips: OK
-linux-git-arm-stm32: OK
-linux-git-arm-pxa: OK
-linux-git-arm64: OK
-linux-git-powerpc64: OK
-linux-git-arm-multi: OK
-linux-git-i686: OK
-linux-git-x86_64: OK
-Check COMPILE_TEST: OK
-Check for strcpy/strncpy/strlcpy: OK
-linux-4.4.283-i686: OK
-linux-4.4.283-x86_64: OK
-linux-4.5.7-i686: OK
-linux-4.5.7-x86_64: OK
-linux-4.6.7-i686: OK
-linux-4.6.7-x86_64: OK
-linux-4.7.10-i686: OK
-linux-4.7.10-x86_64: OK
-linux-4.8.17-i686: OK
-linux-4.8.17-x86_64: OK
-linux-4.9.246-i686: OK
-linux-4.9.246-x86_64: OK
-linux-4.10.17-i686: OK
-linux-4.10.17-x86_64: OK
-linux-4.11.12-i686: OK
-linux-4.11.12-x86_64: OK
-linux-4.12.14-i686: OK
-linux-4.12.14-x86_64: OK
-linux-4.13.16-i686: OK
-linux-4.13.16-x86_64: OK
-linux-4.14.246-i686: OK
-linux-4.14.246-x86_64: OK
-linux-4.15.18-i686: OK
-linux-4.15.18-x86_64: OK
-linux-4.16.18-i686: OK
-linux-4.16.18-x86_64: OK
-linux-4.17.19-i686: OK
-linux-4.17.19-x86_64: OK
-linux-4.18.20-i686: OK
-linux-4.18.20-x86_64: OK
-linux-4.19.206-i686: OK
-linux-4.19.206-x86_64: OK
-linux-4.20.17-i686: OK
-linux-4.20.17-x86_64: OK
-linux-5.0.21-i686: OK
-linux-5.0.21-x86_64: OK
-linux-5.1.21-i686: OK
-linux-5.1.21-x86_64: OK
-linux-5.2.21-i686: OK
-linux-5.2.21-x86_64: OK
-linux-5.3.18-i686: OK
-linux-5.3.18-x86_64: OK
-linux-5.4.144-i686: OK
-linux-5.4.144-x86_64: OK
-linux-5.5.19-i686: OK
-linux-5.5.19-x86_64: OK
-linux-5.6.19-i686: OK
-linux-5.6.19-x86_64: OK
-linux-5.7.19-i686: OK
-linux-5.7.19-x86_64: OK
-linux-5.8.18-i686: OK
-linux-5.8.18-x86_64: OK
-linux-5.9.16-i686: OK
-linux-5.9.16-x86_64: OK
-linux-5.10.62-i686: OK
-linux-5.10.62-x86_64: OK
-linux-5.11.22-i686: OK
-linux-5.11.22-x86_64: OK
-linux-5.12.19-i686: OK
-linux-5.12.19-x86_64: OK
-linux-5.13.14-i686: OK
-linux-5.13.14-x86_64: OK
-linux-5.14.1-i686: OK
-linux-5.14.1-x86_64: OK
-linux-5.15.1-i686: OK
-linux-5.15.1-x86_64: OK
-apps: OK
-spec-git: OK
-virtme: ERRORS: Final Summary: 2989, Succeeded: 2988, Failed: 1, Warnings: 1
-virtme-32: OK: Final Summary: 3100, Succeeded: 3100, Failed: 0, Warnings: 0
-sparse: WARNINGS
-smatch: WARNINGS
-kerneldoc: WARNINGS
+Signed-off-by: James Hilliard <james.hilliard1@gmail.com>
+---
+ drivers/media/usb/uvc/uvcvideo.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Detailed results are available here:
+diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/uvcvideo.h
+index fd4f5ef47dfb..583c51ac3eec 100644
+--- a/drivers/media/usb/uvc/uvcvideo.h
++++ b/drivers/media/usb/uvc/uvcvideo.h
+@@ -189,7 +189,7 @@
+ /* Maximum status buffer size in bytes of interrupt URB. */
+ #define UVC_MAX_STATUS_SIZE	16
+ 
+-#define UVC_CTRL_CONTROL_TIMEOUT	500
++#define UVC_CTRL_CONTROL_TIMEOUT	5000
+ #define UVC_CTRL_STREAMING_TIMEOUT	5000
+ 
+ /* Maximum allowed number of control mappings per device */
+-- 
+2.25.1
 
-http://www.xs4all.nl/~hverkuil/logs/Sunday.log
-
-Detailed regression test results are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Sunday-test-media.log
-http://www.xs4all.nl/~hverkuil/logs/Sunday-test-media-32.log
-http://www.xs4all.nl/~hverkuil/logs/Sunday-test-media-dmesg.log
-
-Full logs are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Sunday.tar.bz2
-
-The Media Infrastructure API from this daily build is here:
-
-http://www.xs4all.nl/~hverkuil/spec/index.html
