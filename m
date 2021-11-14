@@ -2,78 +2,263 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E0F3844F932
-	for <lists+linux-media@lfdr.de>; Sun, 14 Nov 2021 18:02:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BC57444FBE7
+	for <lists+linux-media@lfdr.de>; Sun, 14 Nov 2021 22:57:00 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233073AbhKNRFB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 14 Nov 2021 12:05:01 -0500
-Received: from www.linuxtv.org ([130.149.80.248]:38404 "EHLO www.linuxtv.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229725AbhKNRFA (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Sun, 14 Nov 2021 12:05:00 -0500
-Received: from builder.linuxtv.org ([140.211.167.10] helo=slave0)
-        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1mmItJ-00D1Hv-MQ; Sun, 14 Nov 2021 17:02:05 +0000
-Received: from ip6-localhost ([::1] helo=localhost.localdomain)
-        by slave0 with esmtp (Exim 4.94.2)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1mmItH-000EiR-Fk; Sun, 14 Nov 2021 17:02:03 +0000
-From:   Jenkins <jenkins@linuxtv.org>
-To:     mchehab+samsung@kernel.org, linux-media@vger.kernel.org
-Cc:     builder@linuxtv.org
-Subject: Re: [GIT PULL FOR v5.17] Small fixes (#78464)
-Date:   Sun, 14 Nov 2021 17:02:03 +0000
-Message-Id: <20211114170203.56521-1-jenkins@linuxtv.org>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20211114163821.GA28752@gofer.mess.org>
-References: 
+        id S234751AbhKNV7u (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 14 Nov 2021 16:59:50 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60138 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S233998AbhKNV7t (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Sun, 14 Nov 2021 16:59:49 -0500
+Received: from mail-ed1-x52b.google.com (mail-ed1-x52b.google.com [IPv6:2a00:1450:4864:20::52b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 48AEFC061767
+        for <linux-media@vger.kernel.org>; Sun, 14 Nov 2021 13:56:51 -0800 (PST)
+Received: by mail-ed1-x52b.google.com with SMTP id z10so36530459edc.11
+        for <linux-media@vger.kernel.org>; Sun, 14 Nov 2021 13:56:51 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=vanguardiasur-com-ar.20210112.gappssmtp.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=z+a45scJUghbWle9ZBsDg+s+2wzuH5GEQRWeFAD8t7E=;
+        b=AKBJYmPfyiaYmwd7oyncnL6zw9NtPWAJSbT7wJ9CoM5XRX4y7lYR4azZmAWJhnkbx3
+         wApEFEVRRFjCRlk8LcnF6jhjQwm5wv7r4B6Skyc7KmZmOOftQeLeqyS9W4PEM5aCIXOK
+         3C2t8LKXJCZlA74FYaRzy+O2yuqZGrD9mvi+IO33lc7L6Yucfzu+gveGnyIDEh2HehQo
+         GXFDuQDrEVz3+SlIQXV7z/Scjb381zZkmaPcGnIu7xzfs3l25xVRGofL7jjsWciVrfFx
+         LQ7c+cenNltzXc/rnPZhVahuvpT8J2ioVmkhvGdpu+lB9nG1RnYh946IZT2OyC/m7P+O
+         T77w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=z+a45scJUghbWle9ZBsDg+s+2wzuH5GEQRWeFAD8t7E=;
+        b=6Fc7gJoFPG2gDuqV9D2FSBiC8V46vF/9lPwuBvq3A44RwO9hxZVLTjQhqR4OPP5LHN
+         bykg8Ir+KkYu60XZRM+Y9coNdlYsotFrQaPh4bL+znpNgOYkK4mam5ObfEdSWdgCFCqF
+         RNRnxpC1lPOrrRv0jWCsoTBETL1dTgc9mIAIgvDszXWoshS89qw6dnAcn7m9214WA+h9
+         jbtxNj2ZXO6R2PDje0nq3fpONE8UPN78mXh8+UIxUEF3odPOZJ2I4Jz+GSNfqfb58tYi
+         AT3/3xRzlqM5iSPjePJn0IMPG1WfDVxN3ggtAW4KK6OIURhatkJN5CUQPAiMIsfMGRZl
+         Z67g==
+X-Gm-Message-State: AOAM530RKimq0o01NzHvh8cEFyxOZToTV0EuR2W7PXZPQ6Vzhl9OVXZS
+        jgMiO9N7/z4n6XWQV2eaGw/jUXwN1ssh61HW+pQzjA==
+X-Google-Smtp-Source: ABdhPJyomQczgvwHG7w6id4jh3N0ebh0Ihr1LveJ55TvN/g341+OWtesIcRAQSmVB1tvezeAr3cMSOUbMM62omekLG0=
+X-Received: by 2002:a05:6402:190d:: with SMTP id e13mr47552746edz.339.1636927009693;
+ Sun, 14 Nov 2021 13:56:49 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20211111041500.17363-1-yunfei.dong@mediatek.com> <20211111041500.17363-16-yunfei.dong@mediatek.com>
+In-Reply-To: <20211111041500.17363-16-yunfei.dong@mediatek.com>
+From:   Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
+Date:   Sun, 14 Nov 2021 18:56:37 -0300
+Message-ID: <CAAEAJfBWgP1fMsEQQEa=2Rk810oHzDo609TzicYgwPbU8AMunQ@mail.gmail.com>
+Subject: Re: [PATCH v10, 15/19] dt-bindings: media: mtk-vcodec: Adds decoder
+ dt-bindings for mt8192
+To:     Yunfei Dong <yunfei.dong@mediatek.com>
+Cc:     Alexandre Courbot <acourbot@chromium.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Tzung-Bi Shih <tzungbi@chromium.org>,
+        Tiffany Lin <tiffany.lin@mediatek.com>,
+        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Tomasz Figa <tfiga@google.com>,
+        Irui Wang <irui.wang@mediatek.com>,
+        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+        srv_heupstream <srv_heupstream@mediatek.com>,
+        devicetree <devicetree@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        Project_Global_Chrome_Upstream_Group 
+        <Project_Global_Chrome_Upstream_Group@mediatek.com>,
+        "moderated list:ARM/Mediatek SoC support" 
+        <linux-mediatek@lists.infradead.org>,
+        Hsin-Yi Wang <hsinyi@chromium.org>,
+        Fritz Koenig <frkoenig@chromium.org>,
+        Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
+        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
+        linux-media <linux-media@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: builder@linuxtv.org
+Yunfei,
 
-Pull request: https://patchwork.linuxtv.org/project/linux-media/patch/20211114163821.GA28752@gofer.mess.org/
-Build log: https://builder.linuxtv.org/job/patchwork/156825/
-Build time: 00:18:32
-Link: https://lore.kernel.org/linux-media/20211114163821.GA28752@gofer.mess.org
+On Thu, 11 Nov 2021 at 01:15, Yunfei Dong <yunfei.dong@mediatek.com> wrote:
+>
+> Adds decoder dt-bindings for mt8192.
+>
+> Signed-off-by: Yunfei Dong <yunfei.dong@mediatek.com>
+> ---
+>  .../media/mediatek,vcodec-subdev-decoder.yaml | 261 ++++++++++++++++++
+>  1 file changed, 261 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/media/mediatek,vcodec-subdev-decoder.yaml
+>
+> diff --git a/Documentation/devicetree/bindings/media/mediatek,vcodec-subdev-decoder.yaml b/Documentation/devicetree/bindings/media/mediatek,vcodec-subdev-decoder.yaml
+> new file mode 100644
+> index 000000000000..1886fae6e39d
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/media/mediatek,vcodec-subdev-decoder.yaml
+> @@ -0,0 +1,261 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +
+> +%YAML 1.2
+> +---
+> +$id: "http://devicetree.org/schemas/media/mediatek,vcodec-subdev-decoder.yaml#"
+> +$schema: "http://devicetree.org/meta-schemas/core.yaml#"
+> +
+> +title: Mediatek Video Decode Accelerator With Multi Hardware
+> +
+> +maintainers:
+> +  - Yunfei Dong <yunfei.dong@mediatek.com>
+> +
+> +description: |
+> +  Mediatek Video Decode is the video decode hardware present in Mediatek
+> +  SoCs which supports high resolution decoding functionalities. Required
+> +  main and subdev device node.
+> +
+> +  About the Decoder Hardware Block Diagram, please check below:
+> +
+> +    +---------------------------------+------------------------------------+
+> +    |                                 |                                    |
+> +    | input -> lat HW -> lat buffer --|--> lat buffer -> core HW -> output
+ |
 
-gpg: Signature made Sun 14 Nov 2021 03:56:33 PM UTC
-gpg:                using RSA key A624251A26084A9ED9E4C8B6425F639D3960FA9E
-gpg:                issuer "sean@mess.org"
-gpg: Good signature from "Sean Young <sean@mess.org>" [unknown]
-gpg: WARNING: This key is not certified with a trusted signature!
-gpg:          There is no indication that the signature belongs to the owner.
-Primary key fingerprint: A624 251A 2608 4A9E D9E4  C8B6 425F 639D 3960 FA9E
+To be completely honest, I can't really understand what is the meaning
+of the blocks
+with input -> lat hw -> lat buffer, and how this means lat- and core-
+are children of some parent.
 
-Summary: got 1/4 patches with issues, being 1 at build time, plus one error when buinding PDF document
+> +    |            ||                   |                     ||             |
+> +    +------------||-------------------+---------------------||-------------+
+> +                 ||       lat thread  |  core thread        ||     <parent>
+> +    -------------||-----------------------------------------||----------------
+> +                 ||                                         ||     <child>
+> +                 \/ <----------------HW index-------------->\/
+> +           +------------------------------------------------------+
+> +           |                    enable/disable                    |
+> +           |           clk     power    irq    iommu port         |
+> +           |                 (lat/lat soc/core0/core1)            |
+> +           +------------------------------------------------------+
+> +
+> +  As above, <parent> mean in main device, <child> mean in subdev device. The information
+> +  of each hardware will be stored in subdev device. There are two workqueues in main device:
+> +  lat and core. Enable/disable the lat clk/power/irq when lat need to work through hardware
+> +  index, core is the same.
+> +
+> +  Normally the smi common may not the same for each hardware, can't combine all hardware in
+> +  one node, or leading to iommu fault when access dram data.
+> +
 
-Error/warnings:
+To what extent the lat- and core- devices are really "children"
+or "subdevices" of the  video-codec@16000000 device?
 
-patches/0001-media-rc-ir-spi-Drop-empty-spi_driver-remove-callbac.patch:
+I.e. what resources do they share? What are the details of
+their bus topology?
 
-    allyesconfig: return code #0:
-	../scripts/genksyms/parse.y: warning: 9 shift/reduce conflicts [-Wconflicts-sr]
-	../scripts/genksyms/parse.y: warning: 5 reduce/reduce conflicts [-Wconflicts-rr]
-	../scripts/genksyms/parse.y: note: rerun with option '-Wcounterexamples' to generate conflict counterexamples
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
+> +    #include <dt-bindings/memory/mt8192-larb-port.h>
+> +    #include <dt-bindings/interrupt-controller/irq.h>
+> +    #include <dt-bindings/clock/mt8192-clk.h>
+> +    #include <dt-bindings/power/mt8192-power.h>
+> +
+> +    video-codec@16000000 {
+> +        compatible = "mediatek,mt8192-vcodec-dec";
+> +        reg = <0x16000000 0x1000>;             /* VDEC_SYS */
+> +        mediatek,scp = <&scp>;
+> +        iommus = <&iommu0 M4U_PORT_L4_VDEC_MC_EXT>;
+> +        dma-ranges = <0x1 0x0 0x0 0x40000000 0x0 0xfff00000>;
+> +        #address-cells = <1>;
+> +        #size-cells = <1>;
+> +        ranges;
+> +        vcodec-lat@16010000 {
+> +            compatible = "mediatek,mtk-vcodec-lat";
+> +            reg = <0x16010000 0x800>;
+> +            interrupts = <GIC_SPI 426 IRQ_TYPE_LEVEL_HIGH 0>;
+> +            iommus = <&iommu0 M4U_PORT_L5_VDEC_LAT0_VLD_EXT>,
+> +                <&iommu0 M4U_PORT_L5_VDEC_LAT0_VLD2_EXT>,
+> +                <&iommu0 M4U_PORT_L5_VDEC_LAT0_AVC_MV_EXT>,
+> +                <&iommu0 M4U_PORT_L5_VDEC_LAT0_PRED_RD_EXT>,
+> +                <&iommu0 M4U_PORT_L5_VDEC_LAT0_TILE_EXT>,
+> +                <&iommu0 M4U_PORT_L5_VDEC_LAT0_WDMA_EXT>,
+> +                <&iommu0 M4U_PORT_L5_VDEC_LAT0_RG_CTRL_DMA_EXT>,
+> +                <&iommu0 M4U_PORT_L5_VDEC_UFO_ENC_EXT>;
+> +            clocks = <&topckgen CLK_TOP_VDEC_SEL>,
+> +                <&vdecsys_soc CLK_VDEC_SOC_VDEC>,
+> +                <&vdecsys_soc CLK_VDEC_SOC_LAT>,
+> +                <&vdecsys_soc CLK_VDEC_SOC_LARB1>,
+> +                <&topckgen CLK_TOP_MAINPLL_D4>;
+> +            clock-names = "sel", "soc-vdec", "soc-lat", "vdec", "top";
+> +            assigned-clocks = <&topckgen CLK_TOP_VDEC_SEL>;
+> +            assigned-clock-parents = <&topckgen CLK_TOP_MAINPLL_D4>;
+> +            power-domains = <&spm MT8192_POWER_DOMAIN_VDEC>;
+> +        };
+> +
+> +        vcodec-core@16025000 {
+> +            compatible = "mediatek,mtk-vcodec-core";
+> +            reg = <0x16025000 0x1000>;
 
-    allyesconfig: return code #0:
-	../drivers/media/cec/core/cec-adap.c: ../drivers/media/cec/core/cec-adap.c:926 cec_transmit_msg_fh() warn: '&data->list' not removed from list
-	../drivers/media/rc/meson-ir-tx.c:22: warning: expecting prototype for meson(). Prototype was for DEVICE_NAME() instead
-	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2625 dvb_register() parse error: turning off implications after 60 seconds
-	SMATCH:../drivers/media/usb/siano/smsusb.c ../drivers/media/usb/siano/smsusb.c:53:38: :warning: array of flexible structures
-	SPARSE:../drivers/media/usb/siano/smsusb.c ../drivers/media/usb/siano/smsusb.c:53:38: warning: array of flexible structures
-	../drivers/media/platform/qcom/venus/helpers.c: ../drivers/media/platform/qcom/venus/helpers.c:658 venus_helper_get_bufreq() error: we previously assumed 'req' could be null (see line 654)
-	../drivers/media/usb/pvrusb2/pvrusb2-encoder.c: ../drivers/media/usb/pvrusb2/pvrusb2-encoder.c:288 pvr2_encoder_cmd() warn: inconsistent indenting
-	../drivers/media/usb/pvrusb2/pvrusb2-hdw.c: ../drivers/media/usb/pvrusb2/pvrusb2-hdw.c:1730 pvr2_hdw_set_streaming() warn: inconsistent indenting
-	../drivers/media/usb/pvrusb2/pvrusb2-hdw.c: ../drivers/media/usb/pvrusb2/pvrusb2-hdw.c:3461 pvr2_hdw_cpufw_set_enabled() warn: inconsistent indenting
-	../drivers/media/usb/pvrusb2/pvrusb2-hdw.c: ../drivers/media/usb/pvrusb2/pvrusb2-hdw.c:3501 pvr2_hdw_cpufw_get() warn: inconsistent indenting
-	../drivers/media/usb/em28xx/em28xx-video.c: ../drivers/media/usb/em28xx/em28xx-video.c:2900 em28xx_v4l2_init() parse error: turning off implications after 60 seconds
+The children address space might need some thinking.
+In other words,
+
+video-codec@16000000 {
+
+  vcodec-lat@16010000 {
+  }
+
+  vcodec-core@16025000 {
+  }
+}
+
+Your proposal has vcodec-lat as children of video-codec, but its address space
+are really on the same level, instead of children being contained in
+the parent address space:
+
+video-codec@16000000 {
+
+  vcodec-lat@10000 {
+  }
+
+  vcodec-core@25000 {
+  }
+}
+
+I think this last tree makes more sense from a device-tree point of view.
+The ranges property allows you to put the right translation information,
+so the device driver itself will get the correct address 0x16000000 + 0x25000.
+
+You might find that the ranges property is tricky to understand at first.
+
+Thanks,
+Ezequiel
 
 
-Error #512 when building PDF docs
-
+> +            interrupts = <GIC_SPI 425 IRQ_TYPE_LEVEL_HIGH 0>;
+> +            iommus = <&iommu0 M4U_PORT_L4_VDEC_MC_EXT>,
+> +                <&iommu0 M4U_PORT_L4_VDEC_UFO_EXT>,
+> +                <&iommu0 M4U_PORT_L4_VDEC_PP_EXT>,
+> +                <&iommu0 M4U_PORT_L4_VDEC_PRED_RD_EXT>,
+> +                <&iommu0 M4U_PORT_L4_VDEC_PRED_WR_EXT>,
+> +                <&iommu0 M4U_PORT_L4_VDEC_PPWRAP_EXT>,
+> +                <&iommu0 M4U_PORT_L4_VDEC_TILE_EXT>,
+> +                <&iommu0 M4U_PORT_L4_VDEC_VLD_EXT>,
+> +                <&iommu0 M4U_PORT_L4_VDEC_VLD2_EXT>,
+> +                <&iommu0 M4U_PORT_L4_VDEC_AVC_MV_EXT>,
+> +                <&iommu0 M4U_PORT_L4_VDEC_RG_CTRL_DMA_EXT>;
+> +            clocks = <&topckgen CLK_TOP_VDEC_SEL>,
+> +                <&vdecsys CLK_VDEC_VDEC>,
+> +                <&vdecsys CLK_VDEC_LAT>,
+> +                <&vdecsys CLK_VDEC_LARB1>,
+> +                <&topckgen CLK_TOP_MAINPLL_D4>;
+> +            clock-names = "sel", "soc-vdec", "soc-lat", "vdec", "top";
+> +            assigned-clocks = <&topckgen CLK_TOP_VDEC_SEL>;
+> +            assigned-clock-parents = <&topckgen CLK_TOP_MAINPLL_D4>;
+> +            power-domains = <&spm MT8192_POWER_DOMAIN_VDEC2>;
+> +        };
+> +    };
+> --
+> 2.25.1
+>
