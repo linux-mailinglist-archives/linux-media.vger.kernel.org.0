@@ -2,55 +2,52 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6417D44FC48
-	for <lists+linux-media@lfdr.de>; Sun, 14 Nov 2021 23:34:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2BC0F44FC4F
+	for <lists+linux-media@lfdr.de>; Sun, 14 Nov 2021 23:48:51 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232607AbhKNWhb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 14 Nov 2021 17:37:31 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40350 "EHLO
+        id S233998AbhKNWvg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 14 Nov 2021 17:51:36 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43374 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231496AbhKNWhZ (ORCPT
+        with ESMTP id S231469AbhKNWvX (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 14 Nov 2021 17:37:25 -0500
-Received: from mail-lf1-x130.google.com (mail-lf1-x130.google.com [IPv6:2a00:1450:4864:20::130])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 123B3C061746;
-        Sun, 14 Nov 2021 14:34:21 -0800 (PST)
-Received: by mail-lf1-x130.google.com with SMTP id b40so38298725lfv.10;
-        Sun, 14 Nov 2021 14:34:20 -0800 (PST)
+        Sun, 14 Nov 2021 17:51:23 -0500
+Received: from mail-lf1-x129.google.com (mail-lf1-x129.google.com [IPv6:2a00:1450:4864:20::129])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5F09FC061746;
+        Sun, 14 Nov 2021 14:48:28 -0800 (PST)
+Received: by mail-lf1-x129.google.com with SMTP id b1so32505540lfs.13;
+        Sun, 14 Nov 2021 14:48:28 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=subject:from:to:cc:references:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=p+aN2Fw/pl9sOfjBfLZbMXZ2NVqQ0RZKH9knWs/miVs=;
-        b=l55D4wFasj6Crr+0ib/nhlP3nTxm0LEBZCljqCdzXY6kmqhI0yBTEwP+7/EoEHA6KB
-         Avm0kmrzMJce7c2z6BCuO07OTjE/mA6eN0YbjbTsu+6QKh3sRhGt0Vc0eNs3bKsJiAUt
-         Pu5rs7226aJjzC2ZNo7ZaYrelcY6659c7wt15xMIwbolyMAop3oXLLr3XAuZZGiqdNfu
-         LDoLMRUuOCKfcnTg5f+tz2wMQhnMkVhtuAGZmXMy3o3vv3Sfj9X+LKLRkFn4M1DuHg0a
-         6GYL3WMlFY9Elnq8TiBBUT8d4069/LFBRiv/atT+atrFsaEdY22JPFZnOH5jdQ53Vyqk
-         zbTQ==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=kq8l3SK94Kza+Lx51oJZ5qCJhBwYc4lAosdZK3UHqnQ=;
+        b=qtRkpBbFoFU56CCdNTDVCSNE7ZBrmPXjL0VdA9CknRqF1Ki/b/UPICEJGr0uH7Vr8u
+         hHT+0VoFBiOtPYxX+xSbBstOS7O5bHwFu6VifA7FwcLl5Ki1pGPwLxVKWzHS5k8fTgDE
+         N+d1D8Ul7rwhBfxIqI+8Vm4c8p/DgSleVoKfKgUm+VKw0BshWBZDS/bhWWhjBvWYWYZS
+         6+AvKMujMvJOIlxHyS4NFaOQq6/a+hO/XRu10ChcZzCoTlHiIwE82og6+V2F1YnIXqYl
+         WQ1NyAE7c7VrmjzZhDdWXOBV8Tpi7/ntAuVLnwPLhh1HUHTJFVgevhcPAeiMo+IZm5zm
+         n6PA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:subject:from:to:cc:references:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=p+aN2Fw/pl9sOfjBfLZbMXZ2NVqQ0RZKH9knWs/miVs=;
-        b=EdlfiaNKTgsiZGNhXiojK04/1uFnkHsCeC95eKFOKov6BkZpen5CKhI85IFiL94VbI
-         KoSt+5xjJm01pkzi3z5OCGeYYSvQHNGZpy59yfucbduYxiWS8TuOZl9W1AYprbak+7XN
-         bUx4WB/5b8HM7EdfvDneTiJ7DMIwWPvNW60FiSF4k7VQOFNeaiWnsXCIpt4F6dTBResr
-         azFtpiATotxFl5E+/1kXioN1dV3QZ4AJE47DyTIED1kGuNlI+aBMWCeVkDAFQsA1yCc7
-         7KHTM1pDihAaBvyc7Fens9S1m48/vyAGHwuHlSrZ3ysvKcR3xvW+2NZf5FHXUDhhyw86
-         k99Q==
-X-Gm-Message-State: AOAM532z4n4f9AREwmiqeAwZ2ParYmOZffnOBF/hwk4qwwZuZihb3oPB
-        Z8tHpdWcz6SEnF2FUJe+/JkympTK0eg=
-X-Google-Smtp-Source: ABdhPJx0Fia6fhfP5IM0wKyq+kUl/IAPLqCO8a5Ry8I/ZbsJ6BeZhkgM6kr70/4ASveBq0YiT9LQUw==
-X-Received: by 2002:a05:6512:74e:: with SMTP id c14mr29984746lfs.162.1636929259383;
-        Sun, 14 Nov 2021 14:34:19 -0800 (PST)
-Received: from [192.168.2.145] (46-138-46-211.dynamic.spd-mgts.ru. [46.138.46.211])
-        by smtp.googlemail.com with ESMTPSA id f17sm1203461lfk.145.2021.11.14.14.34.18
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 14 Nov 2021 14:34:19 -0800 (PST)
-Subject: Re: [PATCH v1 1/3] media: staging: tegra-vde: Support reference
- picture marking
+        bh=kq8l3SK94Kza+Lx51oJZ5qCJhBwYc4lAosdZK3UHqnQ=;
+        b=OC0qrYE8+oPpEwPYG38eop118sQDhS5gf3T7QcZ15BrbOzmmn2lDrP7Ufe7wz6nhIF
+         jbWbGI+H4DLsmtYgExHjMy4tBeYvE+eX+xZ1Ihhzf7tXrmDnEL9d/+rzDZO9TFk2x/D1
+         RLmmvjhCj8SGAIPXNqa92zqBWEGJ2VHeL0JN0898caJW6Yx/YfyMMBxPdsidS+BulM0c
+         NE8PBU0BGCRQheel8ET1s/5iL97FrHsOE/TGlJywjlRosOACPS4213hKoNdB0kApaZHx
+         d6Gbn3VmHB5QDgXYCnzzW0bguaS5dSzGma2zQ1BZuWiofujf9MIHVtpSn4oUYZ4FjEz5
+         gnaw==
+X-Gm-Message-State: AOAM533zjRW+M2RBUeGnbCtlkx+jRu6OM7jvn4Feq/tS4F9cRTa4lIPw
+        jmO9myx6zznWpyfVCHW+ggD09xqIRRE=
+X-Google-Smtp-Source: ABdhPJzvOBq1gK6yT7oQyDY5RONej39BkP3mhL2dgUyGTkVI1OBLFz7i1UXqizTMVMVM9WccB1HLDg==
+X-Received: by 2002:a05:6512:ac9:: with SMTP id n9mr24802279lfu.59.1636930106612;
+        Sun, 14 Nov 2021 14:48:26 -0800 (PST)
+Received: from localhost.localdomain (46-138-46-211.dynamic.spd-mgts.ru. [46.138.46.211])
+        by smtp.gmail.com with ESMTPSA id h1sm1228591lfu.277.2021.11.14.14.48.25
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 14 Nov 2021 14:48:26 -0800 (PST)
 From:   Dmitry Osipenko <digetx@gmail.com>
 To:     Thierry Reding <thierry.reding@gmail.com>,
         Jonathan Hunter <jonathanh@nvidia.com>,
@@ -60,27 +57,39 @@ To:     Thierry Reding <thierry.reding@gmail.com>,
         Hans Verkuil <hverkuil@xs4all.nl>
 Cc:     linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
         linux-clk@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20211114222353.22435-1-digetx@gmail.com>
- <20211114222353.22435-2-digetx@gmail.com>
-Message-ID: <42b24cd0-ac37-3cfe-1fb2-d6292015318a@gmail.com>
-Date:   Mon, 15 Nov 2021 01:34:18 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+Subject: [PATCH v2 0/3] Add NVIDIA Tegra114 support to video decoder driver
+Date:   Mon, 15 Nov 2021 01:47:29 +0300
+Message-Id: <20211114224732.11550-1-digetx@gmail.com>
+X-Mailer: git-send-email 2.33.1
 MIME-Version: 1.0
-In-Reply-To: <20211114222353.22435-2-digetx@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-15.11.2021 01:23, Dmitry Osipenko пишет:
-> +	vde->secure_bo = tegra_vde_alloc_bo(vde, DMA_FROM_DEVICE, 4096);
-> +	if (!vde->secure_bo) {
-> +		dev_err(dev, "Failed to allocate secure BO\n");
-> +		goto err_pm_runtime;
-> +	}
+Video decoder of Tegra114/124 SoCs uses additional memory buffer required
+for decoding of protected content. We won't support that content, but it
+is impossible to disable access to the buffer, hence a stub buffer needs
+to be provided. This series enables decoder driver only for Tegra114
+because Tegra124 support requires more non-trivial changes on both kernel
+and userspace sides.
 
-My eye just caught that by accident err variable isn't assigned to
--ENOMEM here. I'll make v2 shortly.
+Changelog:
+
+v2: - Changed tegra_vde_alloc_bo() to return errno and fix unassigned
+      error code in tegra_vde_probe().
+
+Dmitry Osipenko (1):
+  media: staging: tegra-vde: Reorder misc device registration
+
+Thierry Reding (2):
+  media: staging: tegra-vde: Support reference picture marking
+  media: staging: tegra-vde: Properly mark invalid entries
+
+ drivers/staging/media/tegra-vde/vde.c | 147 +++++++++++++++++++++++---
+ drivers/staging/media/tegra-vde/vde.h |  18 ++++
+ 2 files changed, 152 insertions(+), 13 deletions(-)
+
+-- 
+2.33.1
+
