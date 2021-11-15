@@ -2,117 +2,172 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 944C4450782
-	for <lists+linux-media@lfdr.de>; Mon, 15 Nov 2021 15:49:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 55F814507B5
+	for <lists+linux-media@lfdr.de>; Mon, 15 Nov 2021 15:58:17 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229661AbhKOOwN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 15 Nov 2021 09:52:13 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60424 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232109AbhKOOwJ (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Mon, 15 Nov 2021 09:52:09 -0500
-Received: from lb1-smtp-cloud9.xs4all.net (lb1-smtp-cloud9.xs4all.net [IPv6:2001:888:0:108::1c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B8C3AC061570;
-        Mon, 15 Nov 2021 06:49:11 -0800 (PST)
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud9.xs4all.net with ESMTPA
-        id mdIAmFgeCfwDFmdIDmOpbl; Mon, 15 Nov 2021 15:49:10 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1636987750; bh=qBF5gvocBu52H3ffjtTIchTajfvHLJyvUqLFSj2dXhs=;
-        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=f3XzGkYUa1glkcPIKiyx7TVGQlMrrPu9kn5LPPWOB74rP5SUu1f8i1RUt9p8OSmFf
-         W1kD9ZnJhf/FRnVoGEELGNJbLDNACFmU+CxtXhCiJ+tEFm8a/fRyxD3orhAL+4POKw
-         uNbaZ7xEzB4bGxE/LLJ3KLgA0+UxbNWvDdZFSBbaA6is2nx0Ti3tMTtBAPfNkcQHi6
-         gfWGnWfuyXd+3+TInC0I7XEhwINeC/2NYyXB3j/G/RM/Cp7W4m5R4wVYCOjBhf9SGV
-         fv1Od6dA7OXrFkApueipBAHnCcjlFGwSu01p0NiQycJNfiQJHScOQVC3RV2XKi/XZV
-         oWUHwlJ7aKTsA==
-Subject: Re: [PATCH v2 0/3] Add NVIDIA Tegra114 support to video decoder
- driver
-To:     Nicolas Dufresne <nicolas@ndufresne.ca>,
-        Dmitry Osipenko <digetx@gmail.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Anton Bambura <jenneron@protonmail.com>
-Cc:     linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
-        linux-clk@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20211114224732.11550-1-digetx@gmail.com>
- <1411d7a3913677fee58e103f7610e122686e87bf.camel@ndufresne.ca>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <55f445d8-8207-35a3-6c6f-dcb9ea70a90f@xs4all.nl>
-Date:   Mon, 15 Nov 2021 15:49:05 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Firefox/78.0 Thunderbird/78.14.0
+        id S235137AbhKOPBH convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-media@lfdr.de>); Mon, 15 Nov 2021 10:01:07 -0500
+Received: from aposti.net ([89.234.176.197]:52846 "EHLO aposti.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S232149AbhKOPAo (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Mon, 15 Nov 2021 10:00:44 -0500
+Date:   Mon, 15 Nov 2021 14:57:37 +0000
+From:   Paul Cercueil <paul@crapouillou.net>
+Subject: Re: [PATCH 00/15] iio: buffer-dma: write() and new DMABUF based API
+To:     Daniel Vetter <daniel@ffwll.ch>
+Cc:     Jonathan Cameron <jic23@kernel.org>,
+        Michael Hennerich <Michael.Hennerich@analog.com>,
+        linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org,
+        dri-devel@lists.freedesktop.org,
+        Christian =?iso-8859-1?b?S/ZuaWc=?= <christian.koenig@amd.com>,
+        linaro-mm-sig@lists.linaro.org,
+        Alexandru Ardelean <ardeleanalex@gmail.com>,
+        linux-media@vger.kernel.org
+Message-Id: <18CM2R.6UYFWJDX5UQD@crapouillou.net>
+In-Reply-To: <YZJwnPbgCOdeKq6S@phenom.ffwll.local>
+References: <20211115141925.60164-1-paul@crapouillou.net>
+        <YZJwnPbgCOdeKq6S@phenom.ffwll.local>
 MIME-Version: 1.0
-In-Reply-To: <1411d7a3913677fee58e103f7610e122686e87bf.camel@ndufresne.ca>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-CMAE-Envelope: MS4xfMLDAGeBvTAWdd2xE0ooGtnAHZ4VFlE+FhevaxS+GpR56u9YwV4SxwyEFYocI9Bc322FaBG05O3L21bn3fQc+MXOjd8CcXX/s5f2QgW3KWl90QJL5aUf
- qNulR0gP2dyyAGhzUSglp6I6SBKxgtXoL6QcufE0oc1OqmxbICaPu4fNo9q9VFtgnV0OYrchg7w4iO0ERNMMuqiSDrBs0locCvdGERR8w/I3tyyU3pJKC/jq
- 3pX3iifuuw9jvXAVKAvswR24oJDsEnv82UJ9+u4jkbXsJAHYAgqBEdKx7ovY6zb0E9KJp4VApZ6zf3fGynJezL5tbF0UHXLlUULE+cdeD+DbhBRsLl2nOr45
- 8FKtQrTD6SWQDgmUvfgtYJZfg0neCRTYAoOTqNzge3zqg2RwLTMbtErfwP0Qhys/X6cnK/c8h4gWPNvyFwTkbaVZNzKyagHT6+SdcwJEaQh5CqnSjr30F/AL
- lnBRpXDEo5/I52TODbhjVB3qetLJmrg0oJAkWtdM6T5ipjh/sEAge3HyrlCIcSaWXpgICEO/zaoF+rFLbckWstTJHEpiTWrFglyi/Q==
+Content-Type: text/plain; charset=iso-8859-1; format=flowed
+Content-Transfer-Encoding: 8BIT
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 15/11/2021 15:43, Nicolas Dufresne wrote:
-> Hi Dmitry,
-> 
-> Le lundi 15 novembre 2021 à 01:47 +0300, Dmitry Osipenko a écrit :
->> Video decoder of Tegra114/124 SoCs uses additional memory buffer required
->> for decoding of protected content. We won't support that content, but it
->> is impossible to disable access to the buffer, hence a stub buffer needs
->> to be provided. This series enables decoder driver only for Tegra114
->> because Tegra124 support requires more non-trivial changes on both kernel
->> and userspace sides.
-> 
-> I believe the stateless API is quite in place now, but I only see maintenance on
-> this staging driver. I don't believe it really make sense to keep maintaining a
-> staging driver without any step forward de-staging it. I believe it gives the
-> wrong message on the Kernel staging purpose.
-> 
-> I'm not criticizing your effort, I believe you are doing nice work for you
-> community, but would prefer to see this driver be ported to the official kernel
-> APIs rather then being maintain as staging till the end of time.
+Hi Daniel,
 
-I agree with Nicolas here. This driver only support H264 and the stateless API
-for that is now in mainline. So there is no reason not to convert to the
-stateless codec API and move this driver to mainline.
-
-It would be really nice to see that happen.
-
-Without any progress on that I am inclined to remove this driver some time
-next year.
-
-Regards,
-
-	Hans
-
+Le lun., nov. 15 2021 at 15:37:16 +0100, Daniel Vetter 
+<daniel@ffwll.ch> a �crit :
+> On Mon, Nov 15, 2021 at 02:19:10PM +0000, Paul Cercueil wrote:
+>>  Hi Jonathan,
+>> 
+>>  This patchset introduces a new userspace interface based on DMABUF
+>>  objects, to complement the existing fileio based API.
+>> 
+>>  The advantage of this DMABUF based interface vs. the fileio
+>>  interface, is that it avoids an extra copy of the data between the
+>>  kernel and userspace. This is particularly userful for high-speed
+>>  devices which produce several megabytes or even gigabytes of data 
+>> per
+>>  second.
+>> 
+>>  The first few patches [01/15] to [03/15] are not really related, but
+>>  allow to reduce the size of the patches that introduce the new API.
+>> 
+>>  Patch [04/15] to [06/15] enables write() support to the buffer-dma
+>>  implementation of the buffer API, to continue the work done by
+>>  Mihail Chindris.
+>> 
+>>  Patches [07/15] to [12/15] introduce the new DMABUF based API.
+>> 
+>>  Patches [13/15] and [14/15] add support for cyclic buffers, only 
+>> through
+>>  the new API. A cyclic buffer will be repeated on the output until 
+>> the
+>>  buffer is disabled.
+>> 
+>>  Patch [15/15] adds documentation about the new API.
+>> 
+>>  For now, the API allows you to alloc DMABUF objects and mmap() them 
+>> to
+>>  read or write the samples. It does not yet allow to import DMABUFs
+>>  parented to other subsystems, but that should eventually be possible
+>>  once it's wired.
+>> 
+>>  This patchset is inspired by the "mmap interface" that was 
+>> previously
+>>  submitted by Alexandru Ardelean and Lars-Peter Clausen, so it would 
+>> be
+>>  great if I could get a review from you guys. Alexandru's commit was
+>>  signed with his @analog.com address but he doesn't work at ADI 
+>> anymore,
+>>  so I believe I'll need him to sign with a new email.
 > 
-> regards,
-> Nicolas
+> Why dma-buf? dma-buf looks like something super generic and useful, 
+> until
+> you realize that there's a metric ton of gpu/accelerator bagage piled 
+> in.
+> So unless buffer sharing with a gpu/video/accel/whatever device is the
+> goal here, and it's just for a convenient way to get at buffer 
+> handles,
+> this doesn't sound like a good idea.
+
+Good question. The first reason is that a somewhat similar API was 
+intented before[1], but refused upstream as it was kind of re-inventing 
+the wheel.
+
+The second reason, is that we want to be able to share buffers too, not 
+with gpu/video but with the network (zctap) and in the future with USB 
+(functionFS) too.
+
+[1]: 
+https://lore.kernel.org/linux-iio/20210217073638.21681-1-alexandru.ardelean@analog.com/T/
+
+> Also if the idea is to this with gpus/accelerators then I'd really 
+> like to
+> see the full thing, since most likely at that point you also want
+> dma_fence. And once we talk dma_fence things get truly horrible from a
+> locking pov :-( Or well, just highly constrained and I get to review 
+> what
+> iio is doing with these buffers to make sure it all fits.
+
+There is some dma_fence action in patch #10, which is enough for the 
+userspace apps to use the API.
+
+What "horribleness" are we talking about here? It doesn't look that 
+scary to me, but I certainly don't have the complete picture.
+
+Cheers,
+-Paul
+
+> Cheers, Daniel
 > 
->>
->> Changelog:
->>
->> v2: - Changed tegra_vde_alloc_bo() to return errno and fix unassigned
->>       error code in tegra_vde_probe().
->>
->> Dmitry Osipenko (1):
->>   media: staging: tegra-vde: Reorder misc device registration
->>
->> Thierry Reding (2):
->>   media: staging: tegra-vde: Support reference picture marking
->>   media: staging: tegra-vde: Properly mark invalid entries
->>
->>  drivers/staging/media/tegra-vde/vde.c | 147 +++++++++++++++++++++++---
->>  drivers/staging/media/tegra-vde/vde.h |  18 ++++
->>  2 files changed, 152 insertions(+), 13 deletions(-)
->>
+>> 
+>>  Cheers,
+>>  -Paul
+>> 
+>>  Alexandru Ardelean (1):
+>>    iio: buffer-dma: split iio_dma_buffer_fileio_free() function
+>> 
+>>  Paul Cercueil (14):
+>>    iio: buffer-dma: Get rid of incoming/outgoing queues
+>>    iio: buffer-dma: Remove unused iio_buffer_block struct
+>>    iio: buffer-dma: Use round_down() instead of rounddown()
+>>    iio: buffer-dma: Enable buffer write support
+>>    iio: buffer-dmaengine: Support specifying buffer direction
+>>    iio: buffer-dmaengine: Enable write support
+>>    iio: core: Add new DMABUF interface infrastructure
+>>    iio: buffer-dma: Use DMABUFs instead of custom solution
+>>    iio: buffer-dma: Implement new DMABUF based userspace API
+>>    iio: buffer-dma: Boost performance using write-combine cache 
+>> setting
+>>    iio: buffer-dmaengine: Support new DMABUF based userspace API
+>>    iio: core: Add support for cyclic buffers
+>>    iio: buffer-dmaengine: Add support for cyclic buffers
+>>    Documentation: iio: Document high-speed DMABUF based API
+>> 
+>>   Documentation/driver-api/dma-buf.rst          |   2 +
+>>   Documentation/iio/dmabuf_api.rst              |  94 +++
+>>   Documentation/iio/index.rst                   |   2 +
+>>   drivers/iio/adc/adi-axi-adc.c                 |   3 +-
+>>   drivers/iio/buffer/industrialio-buffer-dma.c  | 670 
+>> ++++++++++++++----
+>>   .../buffer/industrialio-buffer-dmaengine.c    |  42 +-
+>>   drivers/iio/industrialio-buffer.c             |  49 ++
+>>   include/linux/iio/buffer-dma.h                |  43 +-
+>>   include/linux/iio/buffer-dmaengine.h          |   5 +-
+>>   include/linux/iio/buffer_impl.h               |   8 +
+>>   include/uapi/linux/iio/buffer.h               |  30 +
+>>   11 files changed, 783 insertions(+), 165 deletions(-)
+>>   create mode 100644 Documentation/iio/dmabuf_api.rst
+>> 
+>>  --
+>>  2.33.0
+>> 
 > 
+> --
+> Daniel Vetter
+> Software Engineer, Intel Corporation
+> http://blog.ffwll.ch
+
 
