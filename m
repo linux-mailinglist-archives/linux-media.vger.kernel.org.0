@@ -2,19 +2,19 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E78D744FF59
+	by mail.lfdr.de (Postfix) with ESMTP id 6DFD144FF58
 	for <lists+linux-media@lfdr.de>; Mon, 15 Nov 2021 08:45:57 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230056AbhKOHsu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 15 Nov 2021 02:48:50 -0500
-Received: from twspam01.aspeedtech.com ([211.20.114.71]:16837 "EHLO
+        id S230360AbhKOHst (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 15 Nov 2021 02:48:49 -0500
+Received: from twspam01.aspeedtech.com ([211.20.114.71]:55113 "EHLO
         twspam01.aspeedtech.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229917AbhKOHsr (ORCPT
+        with ESMTP id S229846AbhKOHsr (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
         Mon, 15 Nov 2021 02:48:47 -0500
 Received: from mail.aspeedtech.com ([192.168.0.24])
-        by twspam01.aspeedtech.com with ESMTP id 1AF7Kprr080859;
-        Mon, 15 Nov 2021 15:20:51 +0800 (GMT-8)
+        by twspam01.aspeedtech.com with ESMTP id 1AF7Kqj7080860;
+        Mon, 15 Nov 2021 15:20:52 +0800 (GMT-8)
         (envelope-from jammy_huang@aspeedtech.com)
 Received: from JammyHuang-PC.aspeed.com (192.168.2.115) by TWMBX02.aspeed.com
  (192.168.0.24) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Mon, 15 Nov
@@ -26,10 +26,12 @@ To:     <eajames@linux.ibm.com>, <mchehab@kernel.org>, <joel@jms.id.au>,
         <laurent.pinchart@ideasonboard.com>, <linux-media@vger.kernel.org>,
         <openbmc@lists.ozlabs.org>, <linux-arm-kernel@lists.infradead.org>,
         <linux-aspeed@lists.ozlabs.org>, <linux-kernel@vger.kernel.org>
-Subject: [PATCH v4 0/9] add aspeed-jpeg support for aspeed-video
-Date:   Mon, 15 Nov 2021 15:44:28 +0800
-Message-ID: <20211115074437.28079-1-jammy_huang@aspeedtech.com>
+Subject: [PATCH v4 1/9] media: aspeed: move err-handling together to the bottom
+Date:   Mon, 15 Nov 2021 15:44:29 +0800
+Message-ID: <20211115074437.28079-2-jammy_huang@aspeedtech.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20211115074437.28079-1-jammy_huang@aspeedtech.com>
+References: <20211115074437.28079-1-jammy_huang@aspeedtech.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7BIT
 Content-Type:   text/plain; charset=US-ASCII
@@ -37,45 +39,80 @@ X-Originating-IP: [192.168.2.115]
 X-ClientProxiedBy: TWMBX02.aspeed.com (192.168.0.24) To TWMBX02.aspeed.com
  (192.168.0.24)
 X-DNSRBL: 
-X-MAIL: twspam01.aspeedtech.com 1AF7Kprr080859
+X-MAIL: twspam01.aspeedtech.com 1AF7Kqj7080860
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The aim of this series is to add aspeed-jpeg support for aspeed-video
-driver.
+refine aspeed_video_setup_video() flow.
 
-To achieve this major goal some refactors are included.
+Signed-off-by: Jammy Huang <jammy_huang@aspeedtech.com>
+---
+v4:
+  - no update
+v3:
+  - no update
+v2:
+  - no update
+---
+ drivers/media/platform/aspeed-video.c | 24 +++++++++++-------------
+ 1 file changed, 11 insertions(+), 13 deletions(-)
 
-In the last, debugfs information is also updated per this change.
-
-Changes in v4:
- - Add definition for the Aspeed JPEG format
- - Reserve controls for ASPEED
- - Use s_fmt to update format rather than new control
- - Update aspeed hq quality range, 1 ~ 12
-
-
-Jammy Huang (9):
-  media: aspeed: move err-handling together to the bottom
-  media: aspeed: use v4l2_info/v4l2_warn/v4l2_dbg for log
-  media: aspeed: add more debug log messages
-  media: aspeed: refactor to gather format/compress settings
-  media: v4l: Add definition for the Aspeed JPEG format
-  media: v4l2-ctrls: Reserve controls for ASPEED
-  media: aspeed: Support aspeed mode to reduce compressed data
-  media: aspeed: add comments and macro
-  media: aspeed: Extend debug message
-
- .../media/uapi/v4l/pixfmt-reserved.rst        |  12 +
- drivers/media/platform/aspeed-video.c         | 464 ++++++++++++++----
- drivers/media/v4l2-core/v4l2-ioctl.c          |   1 +
- include/uapi/linux/aspeed-video.h             |  15 +
- include/uapi/linux/v4l2-controls.h            |   5 +
- include/uapi/linux/videodev2.h                |   1 +
- 6 files changed, 413 insertions(+), 85 deletions(-)
- create mode 100644 include/uapi/linux/aspeed-video.h
-
+diff --git a/drivers/media/platform/aspeed-video.c b/drivers/media/platform/aspeed-video.c
+index fea5e4d0927e..f5c40d6b4ece 100644
+--- a/drivers/media/platform/aspeed-video.c
++++ b/drivers/media/platform/aspeed-video.c
+@@ -1641,11 +1641,8 @@ static int aspeed_video_setup_video(struct aspeed_video *video)
+ 
+ 	rc = video->ctrl_handler.error;
+ 	if (rc) {
+-		v4l2_ctrl_handler_free(&video->ctrl_handler);
+-		v4l2_device_unregister(v4l2_dev);
+-
+ 		dev_err(video->dev, "Failed to init controls: %d\n", rc);
+-		return rc;
++		goto err_ctrl_init;
+ 	}
+ 
+ 	v4l2_dev->ctrl_handler = &video->ctrl_handler;
+@@ -1663,11 +1660,8 @@ static int aspeed_video_setup_video(struct aspeed_video *video)
+ 
+ 	rc = vb2_queue_init(vbq);
+ 	if (rc) {
+-		v4l2_ctrl_handler_free(&video->ctrl_handler);
+-		v4l2_device_unregister(v4l2_dev);
+-
+ 		dev_err(video->dev, "Failed to init vb2 queue\n");
+-		return rc;
++		goto err_vb2_init;
+ 	}
+ 
+ 	vdev->queue = vbq;
+@@ -1685,15 +1679,19 @@ static int aspeed_video_setup_video(struct aspeed_video *video)
+ 	video_set_drvdata(vdev, video);
+ 	rc = video_register_device(vdev, VFL_TYPE_GRABBER, 0);
+ 	if (rc) {
+-		vb2_queue_release(vbq);
+-		v4l2_ctrl_handler_free(&video->ctrl_handler);
+-		v4l2_device_unregister(v4l2_dev);
+-
+ 		dev_err(video->dev, "Failed to register video device\n");
+-		return rc;
++		goto err_video_reg;
+ 	}
+ 
+ 	return 0;
++
++err_video_reg:
++	vb2_queue_release(vbq);
++err_vb2_init:
++err_ctrl_init:
++	v4l2_ctrl_handler_free(&video->ctrl_handler);
++	v4l2_device_unregister(v4l2_dev);
++	return rc;
+ }
+ 
+ static int aspeed_video_init(struct aspeed_video *video)
 -- 
 2.25.1
 
