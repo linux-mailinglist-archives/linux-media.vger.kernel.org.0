@@ -2,106 +2,79 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 484704501E3
-	for <lists+linux-media@lfdr.de>; Mon, 15 Nov 2021 10:59:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 787D64501F1
+	for <lists+linux-media@lfdr.de>; Mon, 15 Nov 2021 11:04:16 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230472AbhKOKCb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 15 Nov 2021 05:02:31 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50100 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230466AbhKOKC3 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Mon, 15 Nov 2021 05:02:29 -0500
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 46EC1C061746
-        for <linux-media@vger.kernel.org>; Mon, 15 Nov 2021 01:59:30 -0800 (PST)
-Received: from pendragon.ideasonboard.com (117.145-247-81.adsl-dyn.isp.belgacom.be [81.247.145.117])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id BC3A09CA;
-        Mon, 15 Nov 2021 10:59:28 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1636970368;
-        bh=nvKNz/edAkzr+aJRKtlgcEc84i/xWrVZOaqpaCrwtTA=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=Q4Vs6/iP24528wDKgxAK/EIruQxkSwd8MLUt8VrGnjTDY2VkXJnqgMTZnS9PN4chN
-         1HGW2UXr4KUXtoD/FMN92GfQDN0/i1W4L0ax7K5VPA1wWQAXVoLtKLRYsa/IzycKCe
-         BqBHtvqlMrNoF1FCFigp9KMmA1n2a9rIMeIKAo9c=
-Date:   Mon, 15 Nov 2021 11:59:06 +0200
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Ricardo Ribalda <ribalda@chromium.org>
-Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        James Hilliard <james.hilliard1@gmail.com>,
-        linux-media@vger.kernel.org
-Subject: Re: [PATCH v2] media: uvcvideo: Set the colorspace as sRGB if
- undefined
-Message-ID: <YZIvatXoeJclJiHN@pendragon.ideasonboard.com>
-References: <20211112195710.286151-1-ribalda@chromium.org>
+        id S230472AbhKOKHK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 15 Nov 2021 05:07:10 -0500
+Received: from www.linuxtv.org ([130.149.80.248]:44840 "EHLO www.linuxtv.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S230419AbhKOKHJ (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Mon, 15 Nov 2021 05:07:09 -0500
+Received: from builder.linuxtv.org ([140.211.167.10] helo=slave0)
+        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1mmYqT-00E8N9-LX; Mon, 15 Nov 2021 10:04:13 +0000
+Received: from ip6-localhost ([::1] helo=localhost.localdomain)
+        by slave0 with esmtp (Exim 4.94.2)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1mmYqR-004gH8-7D; Mon, 15 Nov 2021 10:04:11 +0000
+From:   Jenkins <jenkins@linuxtv.org>
+To:     mchehab+samsung@kernel.org, linux-media@vger.kernel.org
+Cc:     builder@linuxtv.org
+Subject: Re: [GIT FIXES FOR 5.16] hi846 fixes (#78484)
+Date:   Mon, 15 Nov 2021 10:04:10 +0000
+Message-Id: <20211115100410.1115772-1-jenkins@linuxtv.org>
+X-Mailer: git-send-email 2.30.2
+In-Reply-To: <YZImi4YM3gNqe9ZR@valkosipuli.retiisi.eu>
+References: 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20211112195710.286151-1-ribalda@chromium.org>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Ricardo,
+From: builder@linuxtv.org
 
-Thank you for the patch.
+Pull request: https://patchwork.linuxtv.org/project/linux-media/patch/YZImi4YM3gNqe9ZR@valkosipuli.retiisi.eu/
+Build log: https://builder.linuxtv.org/job/patchwork/157023/
+Build time: 00:27:19
+Link: https://lore.kernel.org/linux-media/YZImi4YM3gNqe9ZR@valkosipuli.retiisi.eu
 
-On Fri, Nov 12, 2021 at 08:57:10PM +0100, Ricardo Ribalda wrote:
-> Never return V4L2_COLORSPACE_DEFAULT. From the standard:
-> 
-> """
-> In the absence of this descriptor, or in the case of
-> “Unspecified” values within the descriptor, color matching
-> defaults will be assumed. The color matching defaults are
-> compliant with sRGB since the BT.709 transfer function and
-> the sRGB transfer function are very similar.
-> """
-> 
-> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+gpg: Signature made Mon 15 Nov 2021 09:00:51 AM UTC
+gpg:                using DSA key 53AC58A5F5948636C04A1BF8141DFA54A1EC8DEA
+gpg:                issuer "sakari.ailus@linux.intel.com"
+gpg: Good signature from "Sakari Ailus <sakari.ailus@linux.intel.com>" [unknown]
+gpg: WARNING: This key is not certified with a trusted signature!
+gpg:          There is no indication that the signature belongs to the owner.
+Primary key fingerprint: F0D0 377A 0D4F 25A7 9238  EFE5 6D40 361B 6E28 C193
+     Subkey fingerprint: 53AC 58A5 F594 8636 C04A  1BF8 141D FA54 A1EC 8DEA
 
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Summary: got 1/2 patches with issues, being 1 at build time, plus one error when buinding PDF document
 
-> ---
-> @James: Can you try this version? Thanks!
-> 
->  drivers/media/usb/uvc/uvc_driver.c | 6 ++++--
->  1 file changed, 4 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc_driver.c
-> index 29befcb229b2..27234fe60a48 100644
-> --- a/drivers/media/usb/uvc/uvc_driver.c
-> +++ b/drivers/media/usb/uvc/uvc_driver.c
-> @@ -256,7 +256,7 @@ static struct uvc_format_desc *uvc_format_by_guid(const u8 guid[16])
->  static enum v4l2_colorspace uvc_colorspace(const u8 primaries)
->  {
->  	static const enum v4l2_colorspace colorprimaries[] = {
-> -		V4L2_COLORSPACE_DEFAULT,  /* Unspecified */
-> +		V4L2_COLORSPACE_SRGB,  /* Unspecified */
->  		V4L2_COLORSPACE_SRGB,
->  		V4L2_COLORSPACE_470_SYSTEM_M,
->  		V4L2_COLORSPACE_470_SYSTEM_BG,
-> @@ -267,7 +267,7 @@ static enum v4l2_colorspace uvc_colorspace(const u8 primaries)
->  	if (primaries < ARRAY_SIZE(colorprimaries))
->  		return colorprimaries[primaries];
->  
-> -	return V4L2_COLORSPACE_DEFAULT;  /* Reserved */
-> +	return V4L2_COLORSPACE_SRGB;  /* Reserved */
->  }
->  
->  static enum v4l2_xfer_func uvc_xfer_func(const u8 transfer_characteristics)
-> @@ -769,6 +769,8 @@ static int uvc_parse_format(struct uvc_device *dev,
->  
->  		buflen -= buffer[0];
->  		buffer += buffer[0];
-> +	} else {
-> +		format->colorspace = V4L2_COLORSPACE_SRGB;
->  	}
->  
->  	return buffer - start;
+Error/warnings:
 
--- 
-Regards,
+patches/0001-media-hi846-include-property.h-instead-of-of_graph.h.patch:
 
-Laurent Pinchart
+    allyesconfig: return code #0:
+	../scripts/genksyms/parse.y: warning: 9 shift/reduce conflicts [-Wconflicts-sr]
+	../scripts/genksyms/parse.y: warning: 5 reduce/reduce conflicts [-Wconflicts-rr]
+	../scripts/genksyms/parse.y: note: rerun with option '-Wcounterexamples' to generate conflict counterexamples
+
+    allyesconfig: return code #0:
+	../drivers/media/cec/core/cec-adap.c: ../drivers/media/cec/core/cec-adap.c:926 cec_transmit_msg_fh() warn: '&data->list' not removed from list
+	../drivers/media/rc/meson-ir-tx.c:22: warning: expecting prototype for meson(). Prototype was for DEVICE_NAME() instead
+	SMATCH:../drivers/media/usb/siano/smsusb.c ../drivers/media/usb/siano/smsusb.c:53:38: :warning: array of flexible structures
+	SPARSE:../drivers/media/usb/siano/smsusb.c ../drivers/media/usb/siano/smsusb.c:53:38: warning: array of flexible structures
+	../drivers/media/usb/pvrusb2/pvrusb2-encoder.c: ../drivers/media/usb/pvrusb2/pvrusb2-encoder.c:288 pvr2_encoder_cmd() warn: inconsistent indenting
+	../drivers/media/usb/pvrusb2/pvrusb2-hdw.c: ../drivers/media/usb/pvrusb2/pvrusb2-hdw.c:1730 pvr2_hdw_set_streaming() warn: inconsistent indenting
+	../drivers/media/usb/pvrusb2/pvrusb2-hdw.c: ../drivers/media/usb/pvrusb2/pvrusb2-hdw.c:3461 pvr2_hdw_cpufw_set_enabled() warn: inconsistent indenting
+	../drivers/media/usb/pvrusb2/pvrusb2-hdw.c: ../drivers/media/usb/pvrusb2/pvrusb2-hdw.c:3501 pvr2_hdw_cpufw_get() warn: inconsistent indenting
+	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2625 dvb_register() parse error: turning off implications after 60 seconds
+	../drivers/media/platform/qcom/venus/helpers.c: ../drivers/media/platform/qcom/venus/helpers.c:658 venus_helper_get_bufreq() error: we previously assumed 'req' could be null (see line 654)
+	../drivers/media/usb/em28xx/em28xx-video.c: ../drivers/media/usb/em28xx/em28xx-video.c:2868 em28xx_v4l2_init() parse error: turning off implications after 60 seconds
+
+
+Error #512 when building PDF docs
+
