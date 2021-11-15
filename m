@@ -2,97 +2,96 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D6EA2450728
-	for <lists+linux-media@lfdr.de>; Mon, 15 Nov 2021 15:36:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E6B0245072E
+	for <lists+linux-media@lfdr.de>; Mon, 15 Nov 2021 15:37:15 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231962AbhKOOjX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 15 Nov 2021 09:39:23 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56346 "EHLO
+        id S236554AbhKOOkH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 15 Nov 2021 09:40:07 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57494 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236449AbhKOOiU (ORCPT
+        with ESMTP id S236409AbhKOOjl (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 15 Nov 2021 09:38:20 -0500
-Received: from mail-lj1-x232.google.com (mail-lj1-x232.google.com [IPv6:2a00:1450:4864:20::232])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 22296C061200;
-        Mon, 15 Nov 2021 06:34:50 -0800 (PST)
-Received: by mail-lj1-x232.google.com with SMTP id d11so35997278ljg.8;
-        Mon, 15 Nov 2021 06:34:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=ZpPEZqJd2To6lUjg28UQdB87eU7/8VpSq5XWX7MIjkY=;
-        b=BD3EH+/6iAoMU0as28T1uFfMyoto9HdkPjPVtXTSSOCtUL+d4iY+gPJsCICkkkMJZ3
-         Fj6nU18j0yMLl2YB25uSEETy5BxlRZfRyQ6eV7+hNQOp/c4bgrPQzoIPzrN8OYywH76N
-         o+Ai8larHnuIv1b9VPGnTqfBa/ODrJmdaxv3pXrRf6t8mqCS12sAQQiI04KYT00fTAqX
-         EHWGksaiLDzQsPf6brKsQj8w08sh3fSUflP33LTYPvx8hvGb5lFaSokQP39cnQdbQY6x
-         0zyL0yWt0ZpR6XQwGhcoCxfACD9Vj0Y93oOlf8JU7GtBFzvgDWQjsmvOpbAXnfE2jbTa
-         wxKg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=ZpPEZqJd2To6lUjg28UQdB87eU7/8VpSq5XWX7MIjkY=;
-        b=MxfGCr15HUFb2eu5BZkBmOTSnCOjai2zzNR9Cup1LVhJHl4NGxgMcUld7Rc++JmUZa
-         MzUCWDcl4k+Kbe+IMaSLqOKr/vA/WAVd+T4TX3a7YK5F0RoIjZeMCvd1mQWMNZ/tn5dr
-         6y0E05TWS2PwduiWzelf+UqUHmPh8FjW2ZCDSkhN9uI6ntIa4e7PRZ2ubATaq6YL+RK1
-         S5H2R3B43v6uFlRtvvRZS2HQHAC6ilQ0mQwC43I3pj88wW5Po6TBALwH1e0vPYlSQqJz
-         j7Ep8lmP0/l4FAHIkYOWB6gMShg0gfqALlhkbtAJLrzr+2BOqEN+NyoFP9TACQ1cXPA2
-         jEpg==
-X-Gm-Message-State: AOAM533pOIYSAqkTf5GfwjarIJxLqxMx1px7caPdLrzDz8JY0mg1uHKv
-        ViGeVlOJxjyzLNVuctVi8HgyNdXrdvI=
-X-Google-Smtp-Source: ABdhPJwEKuBXdYXq5DhlVGPueFviqpJQ5pSvxJjMJzOh/ZO6vd5sjZJeTbmqyxx5SlyE0ArDXI+1ew==
-X-Received: by 2002:a05:651c:98e:: with SMTP id b14mr10702207ljq.180.1636986888356;
-        Mon, 15 Nov 2021 06:34:48 -0800 (PST)
-Received: from [192.168.2.145] (46-138-46-211.dynamic.spd-mgts.ru. [46.138.46.211])
-        by smtp.googlemail.com with ESMTPSA id r13sm453347ljn.99.2021.11.15.06.34.47
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 15 Nov 2021 06:34:47 -0800 (PST)
-Subject: Re: [PATCH v1 1/3] media: staging: tegra-vde: Support reference
- picture marking
-To:     Dan Carpenter <dan.carpenter@oracle.com>
-Cc:     Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Anton Bambura <jenneron@protonmail.com>,
-        Hans Verkuil <hverkuil@xs4all.nl>, linux-media@vger.kernel.org,
-        linux-staging@lists.linux.dev, linux-clk@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <20211114222353.22435-1-digetx@gmail.com>
- <20211114222353.22435-2-digetx@gmail.com>
- <42b24cd0-ac37-3cfe-1fb2-d6292015318a@gmail.com>
- <20211115124402.GE26989@kadam>
-From:   Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <e4b9d596-d206-71d1-6ec5-1a41af579836@gmail.com>
-Date:   Mon, 15 Nov 2021 17:34:47 +0300
+        Mon, 15 Nov 2021 09:39:41 -0500
+Received: from lb2-smtp-cloud9.xs4all.net (lb2-smtp-cloud9.xs4all.net [IPv6:2001:888:0:108::2c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 81595C061746;
+        Mon, 15 Nov 2021 06:36:44 -0800 (PST)
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud9.xs4all.net with ESMTPA
+        id md67mFcqefwDFmd6AmOnt4; Mon, 15 Nov 2021 15:36:42 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
+        t=1636987002; bh=Eq8jPtVL/oHYIw4ntcjM8qwwXXZSyrJg4HfNEOGCtGY=;
+        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
+         Subject;
+        b=cLUOUeUp6+F8NNd028CZ2CSjVhGR2TxuUXlFX7BogUFRUdj4jVOmEHu/SwUjpkIRM
+         e7uON3evraTJYhc+M8kavKvRy2yd3c7CW/P+ajSwpphXMCPKXTt/0axjs7VYCadlXn
+         yqdRIgqG5iELvu4M3lsm6leHDg+6bdB5e1YVAQp0mbGUMt4oYRnKWAv3ZsbdDFn5kf
+         aqykpPMDKkA0R1UBHcWCc9WgB0WcXGDgUbq8CDoGuwFo9fUG8OBYkfxy5oqh2BK5jG
+         xEnzfzPtZVK51b27+DxEvV8HbgG4KpfHPGv2MvV6m7C1eyIqzIuxKkr1+9rVcj00ZN
+         +Hw+m6XoA/J2Q==
+Subject: Re: [PATCH 1/4] media: rcar-vin: Free buffers with error if hardware
+ stop fails
+To:     =?UTF-8?Q?Niklas_S=c3=b6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>,
+        linux-media@vger.kernel.org
+Cc:     linux-renesas-soc@vger.kernel.org
+References: <20211108160220.767586-1-niklas.soderlund+renesas@ragnatech.se>
+ <20211108160220.767586-2-niklas.soderlund+renesas@ragnatech.se>
+From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Message-ID: <f6a00224-82b1-c506-2c1b-4ebb75657268@xs4all.nl>
+Date:   Mon, 15 Nov 2021 15:36:39 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+ Firefox/78.0 Thunderbird/78.14.0
 MIME-Version: 1.0
-In-Reply-To: <20211115124402.GE26989@kadam>
+In-Reply-To: <20211108160220.767586-2-niklas.soderlund+renesas@ragnatech.se>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
+X-CMAE-Envelope: MS4xfBet5P8/Mr0cDaia8dBXLIl2AhlAPapHVtHoeN+q0zLtdHNaRhj8lzv4akkLd41L++PMWZISK0WlY0+jJImgmso38adL1562FHo2+rmV5p/pS/HeLaie
+ enIAYoKStXBG+dFUXE9rfN6rrCbXQzpoS/sODqGEd6HgGU7UndRwpZDw+JdwgM2d7kdaNrSmQwGtE25OGx+wbDAA/3kq7XEm+0kYUkIV+rW/DWaj7YNDSlIv
+ JjHvrYw44zKdo+AsrZBNsJKrthGcv7ECi6xeQlJGz+ZqFrGAEIJQh2vQw+j1JI9b7+wbjnxEg55acaEubfbcsw==
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-15.11.2021 15:44, Dan Carpenter пишет:
-> On Mon, Nov 15, 2021 at 01:34:18AM +0300, Dmitry Osipenko wrote:
->> 15.11.2021 01:23, Dmitry Osipenko пишет:
->>> +	vde->secure_bo = tegra_vde_alloc_bo(vde, DMA_FROM_DEVICE, 4096);
->>> +	if (!vde->secure_bo) {
->>> +		dev_err(dev, "Failed to allocate secure BO\n");
->>> +		goto err_pm_runtime;
->>> +	}
->>
->> My eye just caught that by accident err variable isn't assigned to
->> -ENOMEM here. I'll make v2 shortly.
+On 08/11/2021 17:02, Niklas Söderlund wrote:
+> The driver already have logic to detect if it fails to stop properly and
+> report this error to the user. The driver however did not report the
+> unused buffers or buffers given to the hardware (if any) with an error,
+> the buffers where instead returned to user-space in the active state.
 > 
-> Smatch has a check for this so we would have caught it.  :)
+> Build on the existing detection of the error condition and correctly
+> return the buffers with an error if it triggers.
+> 
+> Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+> ---
+>  drivers/media/platform/rcar-vin/rcar-dma.c | 10 ++++++++++
+>  1 file changed, 10 insertions(+)
+> 
+> diff --git a/drivers/media/platform/rcar-vin/rcar-dma.c b/drivers/media/platform/rcar-vin/rcar-dma.c
+> index 25ead9333d0046e7..79bb9081853f8781 100644
+> --- a/drivers/media/platform/rcar-vin/rcar-dma.c
+> +++ b/drivers/media/platform/rcar-vin/rcar-dma.c
+> @@ -1371,6 +1371,16 @@ void rvin_stop_streaming(struct rvin_dev *vin)
+>  
+>  	spin_unlock_irqrestore(&vin->qlock, flags);
+>  
+> +	/* If something went wrong, free buffers with an error. */
+> +	if (!buffersFreed) {
+> +		return_unused_buffers(vin, VB2_BUF_STATE_ERROR);
+> +		for (i = 0; i < HW_BUFFER_NUM; i++) {
+> +			if (vin->buf_hw[i].buffer)
+> +				vb2_buffer_done(&vin->buf_hw[i].buffer->vb2_buf,
+> +						VB2_BUF_STATE_ERROR);
+> +		}
+> +	}
+> +
+>  	rvin_set_stream(vin, 0);
+>  
+>  	/* disable interrupts */
+> 
 
-Whish smatch was built-in into kernel and I could simply run "make
-smatch". On the other hand, I know that you're periodically checking
-upstream with smatch and patching the found bugs, so maybe it's fine
-as-is. Thank you for yours work on smatch, it's a very valuable tool.
+I'll take this patch, but mark the other three as 'Changes Requested'.
+
+Regards,
+
+	Hans
