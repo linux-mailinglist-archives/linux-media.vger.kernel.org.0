@@ -2,128 +2,143 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B790744FFF4
-	for <lists+linux-media@lfdr.de>; Mon, 15 Nov 2021 09:20:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3D408450053
+	for <lists+linux-media@lfdr.de>; Mon, 15 Nov 2021 09:54:37 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229776AbhKOIWz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 15 Nov 2021 03:22:55 -0500
-Received: from mga18.intel.com ([134.134.136.126]:38080 "EHLO mga18.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229654AbhKOIWw (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 15 Nov 2021 03:22:52 -0500
-X-IronPort-AV: E=McAfee;i="6200,9189,10168"; a="220288278"
-X-IronPort-AV: E=Sophos;i="5.87,235,1631602800"; 
-   d="scan'208";a="220288278"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Nov 2021 00:19:54 -0800
-X-IronPort-AV: E=Sophos;i="5.87,235,1631602800"; 
-   d="scan'208";a="603763025"
-Received: from paasikivi.fi.intel.com ([10.237.72.42])
-  by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Nov 2021 00:19:49 -0800
-Received: from paasikivi.fi.intel.com (localhost [127.0.0.1])
-        by paasikivi.fi.intel.com (Postfix) with SMTP id F2AD020287;
-        Mon, 15 Nov 2021 10:19:46 +0200 (EET)
-Date:   Mon, 15 Nov 2021 10:19:46 +0200
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Jammy Huang <jammy_huang@aspeedtech.com>
-Cc:     eajames@linux.ibm.com, mchehab@kernel.org, joel@jms.id.au,
-        andrew@aj.id.au, hverkuil-cisco@xs4all.nl,
-        gregkh@linuxfoundation.org, laurent.pinchart@ideasonboard.com,
-        linux-media@vger.kernel.org, openbmc@lists.ozlabs.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4 7/9] media: aspeed: Support aspeed mode to reduce
- compressed data
-Message-ID: <YZIYIsURV0Gv1bc6@paasikivi.fi.intel.com>
-References: <20211115074437.28079-1-jammy_huang@aspeedtech.com>
- <20211115074437.28079-8-jammy_huang@aspeedtech.com>
+        id S229864AbhKOI5a (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 15 Nov 2021 03:57:30 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35060 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230007AbhKOI5Z (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Mon, 15 Nov 2021 03:57:25 -0500
+Received: from mail-qk1-x72d.google.com (mail-qk1-x72d.google.com [IPv6:2607:f8b0:4864:20::72d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C4E60C061746
+        for <linux-media@vger.kernel.org>; Mon, 15 Nov 2021 00:54:28 -0800 (PST)
+Received: by mail-qk1-x72d.google.com with SMTP id de30so15994530qkb.0
+        for <linux-media@vger.kernel.org>; Mon, 15 Nov 2021 00:54:28 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=O8v1HYmp53Pf23FMJDjlVTNW0npXn9r8mJ7FcbIc5E0=;
+        b=MqpF0gbmJACjslApRNAym0kk361y2naqaGiB4kfpdTdP+41bMqpSujQxu0MF61WM66
+         bdewI9X50H9kFBsmFoCc92rpeRCu2Nl705ffZN7SvHdylhAOBEAquRDb/GMUciNxx+Pk
+         ioCA162cuFgqvcCspw/V/akBBcknhIteqapKs=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=O8v1HYmp53Pf23FMJDjlVTNW0npXn9r8mJ7FcbIc5E0=;
+        b=tr/vqfrlst6IO8/Zg3wJiT0zPBcQYg26c/yOFAr4vhPl9euvQ3NIr7WhsBQ5lCu3Y2
+         ceCQpvjbl4r1/EfaZkgGNMgDn0xLSM0MS31jlvO7X8VGTDyyLpnplS0lKSfkrGclnUaq
+         I2wJ4kQ8QJfhX6HVNS0JLLsTtaY7DyyRGoj9jP2GCxrYP+1lae/v58TUd6UJ2U4kmJq+
+         /idHBixIP5NDr66r9TU60cmKjPOSbMMyzlHP0g8fPZlECDny3I74RA0NfTEyfU3HfLRF
+         QdtH+js51mJ1hCGqqt2e9+AESzjPzuBDvNoIVuzDcRmt7Oj4ncMeTzqGRrJhWkPeFIDi
+         Hi4g==
+X-Gm-Message-State: AOAM530Pq1QMArijlqcejn1Yh2SV4Bs++6OQl+tE7NSRj5Ad1DCDAqSu
+        XGYCIdyzwbq9m+flC9W1HOxI9Oqh3dUUMBLr
+X-Google-Smtp-Source: ABdhPJwHT1ckHtcUOR3Ld37ahyVKn62D7Orji4/e7epZX37ZVuvPy0kDn4sqAYOTdEKti8QWFpDwfQ==
+X-Received: by 2002:a05:620a:f0d:: with SMTP id v13mr28988949qkl.4.1636966467641;
+        Mon, 15 Nov 2021 00:54:27 -0800 (PST)
+Received: from mail-yb1-f171.google.com (mail-yb1-f171.google.com. [209.85.219.171])
+        by smtp.gmail.com with ESMTPSA id o17sm6652244qkp.89.2021.11.15.00.54.25
+        for <linux-media@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 15 Nov 2021 00:54:26 -0800 (PST)
+Received: by mail-yb1-f171.google.com with SMTP id e136so44851567ybc.4
+        for <linux-media@vger.kernel.org>; Mon, 15 Nov 2021 00:54:25 -0800 (PST)
+X-Received: by 2002:a25:a0c8:: with SMTP id i8mr38458123ybm.322.1636966465333;
+ Mon, 15 Nov 2021 00:54:25 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20211115074437.28079-8-jammy_huang@aspeedtech.com>
+References: <20211101145355.533704-1-hdegoede@redhat.com> <28823616-9622-29d4-75d6-cfef0d4f7323@redhat.com>
+In-Reply-To: <28823616-9622-29d4-75d6-cfef0d4f7323@redhat.com>
+From:   Tomasz Figa <tfiga@chromium.org>
+Date:   Mon, 15 Nov 2021 17:54:14 +0900
+X-Gmail-Original-Message-ID: <CAAFQd5Ax6LUKMWMuvutCo7ng995rF5YBDw+WBRRDJE7dY-c0Cg@mail.gmail.com>
+Message-ID: <CAAFQd5Ax6LUKMWMuvutCo7ng995rF5YBDw+WBRRDJE7dY-c0Cg@mail.gmail.com>
+Subject: Re: [PATCH media-staging regression fix] media: videobuf2-dma-sg: Fix
+ buf->vb NULL pointer dereference
+To:     Hans de Goede <hdegoede@redhat.com>,
+        Hans Verkuil <hverkuil@xs4all.nl>
+Cc:     Marek Szyprowski <m.szyprowski@samsung.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+        linux-media@vger.kernel.org,
+        Sergey Senozhatsky <senozhatsky@chromium.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Jammy,
+Hi Hans,
 
-Thanks for the patch. A few comments below...
+On Sat, Nov 6, 2021 at 9:39 PM Hans de Goede <hdegoede@redhat.com> wrote:
+>
+> Hi,
+>
+> On 11/1/21 15:53, Hans de Goede wrote:
+> > Commit a4b83deb3e76 ("media: videobuf2: rework vb2_mem_ops API")
+> > added a new vb member to struct vb2_dma_sg_buf, but it only added
+> > code setting this to the vb2_dma_sg_alloc() function and not to the
+> > vb2_dma_sg_get_userptr() and vb2_dma_sg_attach_dmabuf() which also
+> > create vb2_dma_sg_buf objects.
+> >
+> > This is causing a crash due to a NULL pointer deref when using
+> > libcamera on devices with an Intel IPU3 (qcam app).
+> >
+> > Fix these crashes by assigning buf->vb in the other 2 functions too,
+> > note libcamera tests the vb2_dma_sg_get_userptr() path, the change
+> > to the vb2_dma_sg_attach_dmabuf() path is untested.
+> >
+> > Fixes: a4b83deb3e76 ("media: videobuf2: rework vb2_mem_ops API")
+> > Cc: Sergey Senozhatsky <senozhatsky@chromium.org>
+> > Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+>
+> Ping ? This is still an issue in the current media-staging tree.
 
-On Mon, Nov 15, 2021 at 03:44:35PM +0800, Jammy Huang wrote:
-> @@ -969,35 +1045,70 @@ static void aspeed_video_set_resolution(struct aspeed_video *video)
->  
->  static void aspeed_video_update_regs(struct aspeed_video *video)
->  {
-> -	u32 comp_ctrl = VE_COMP_CTRL_RSVD |
-> -		FIELD_PREP(VE_COMP_CTRL_DCT_LUM, video->jpeg_quality) |
-> -		FIELD_PREP(VE_COMP_CTRL_DCT_CHR, video->jpeg_quality | 0x10);
-> +	u8 jpeg_hq_quality = clamp((int)video->jpeg_hq_quality - 1, 0,
-> +				   ASPEED_VIDEO_JPEG_NUM_QUALITIES - 1);
-> +	u32 comp_ctrl =	FIELD_PREP(VE_COMP_CTRL_DCT_LUM, video->jpeg_quality) |
-> +		FIELD_PREP(VE_COMP_CTRL_DCT_CHR, video->jpeg_quality | 0x10) |
-> +		FIELD_PREP(VE_COMP_CTRL_EN_HQ, video->hq_mode) |
-> +		FIELD_PREP(VE_COMP_CTRL_HQ_DCT_LUM, jpeg_hq_quality) |
-> +		FIELD_PREP(VE_COMP_CTRL_HQ_DCT_CHR, jpeg_hq_quality |
-> +			   0x10);
->  	u32 ctrl = 0;
-> -	u32 seq_ctrl = VE_SEQ_CTRL_JPEG_MODE;
-> +	u32 seq_ctrl = 0;
->  
-> -	v4l2_dbg(1, debug, &video->v4l2_dev, "framerate(%d)\n",
-> -		 video->frame_rate);
-> -	v4l2_dbg(1, debug, &video->v4l2_dev, "subsample(%s)\n",
-> +	v4l2_dbg(1, debug, &video->v4l2_dev, "framerate(%d)\n", video->frame_rate);
-> +	v4l2_dbg(1, debug, &video->v4l2_dev, "jpeg format(%s) subsample(%s)\n",
-> +		 format_str[video->format],
->  		 video->yuv420 ? "420" : "444");
-> -	v4l2_dbg(1, debug, &video->v4l2_dev, "compression quality(%d)\n",
-> -		 video->jpeg_quality);
-> +	v4l2_dbg(1, debug, &video->v4l2_dev, "compression quality(%d) hq(%s) hq_quality(%d)\n",
-> +		 video->jpeg_quality, video->hq_mode ? "on" : "off",
-> +		 video->jpeg_hq_quality);
-> +	v4l2_dbg(1, debug, &video->v4l2_dev, "compression mode(%s)\n",
-> +		 compress_mode_str[video->compression_mode]);
-> +
-> +	if (video->format == VIDEO_FMT_ASPEED)
-> +		aspeed_video_update(video, VE_BCD_CTRL, 0, VE_BCD_CTRL_EN_BCD);
-> +	else
-> +		aspeed_video_update(video, VE_BCD_CTRL, VE_BCD_CTRL_EN_BCD, 0);
->  
->  	if (video->frame_rate)
->  		ctrl |= FIELD_PREP(VE_CTRL_FRC, video->frame_rate);
->  
-> +	if (video->format == VIDEO_FMT_STANDARD) {
-> +		comp_ctrl &= ~FIELD_PREP(VE_COMP_CTRL_EN_HQ, video->hq_mode);
-> +		seq_ctrl |= VE_SEQ_CTRL_JPEG_MODE;
-> +	}
-> +
->  	if (video->yuv420)
->  		seq_ctrl |= VE_SEQ_CTRL_YUV420;
->  
->  	if (video->jpeg.virt)
->  		aspeed_video_update_jpeg_table(video->jpeg.virt, video->yuv420);
->  
-> +#ifdef CONFIG_MACH_ASPEED_G4
+Uh, sorry, I thought this was already fixed by [1], but that was only
+for the dma-contig allocator. Thanks for the patch.
 
-This would be better done based on the device recognised, not the selected
-compile target. The same goes for the rest of the conditional pre-processor
-bits.
+Acked-by: Tomasz Figa <tfiga@chromium.org>
 
-> +	switch (video->compression_mode) {
-> +	case 0:	//DCT only
-> +		comp_ctrl |= VE_COMP_CTRL_VQ_DCT_ONLY;
-> +		break;
-> +	case 1:	//DCT VQ mix 2-color
-> +		comp_ctrl &= ~(VE_COMP_CTRL_VQ_4COLOR | VE_COMP_CTRL_VQ_DCT_ONLY);
-> +		break;
-> +	case 2:	//DCT VQ mix 4-color
-> +		comp_ctrl |= VE_COMP_CTRL_VQ_4COLOR;
-> +		break;
-> +	}
-> +#endif
-> +
+[1] https://patchwork.kernel.org/project/linux-media/patch/20210928034634.333785-1-senozhatsky@chromium.org/
 
--- 
-Kind regards,
+Hans (V.), would you pick this fix, please?
 
-Sakari Ailus
+Best regards,
+Tomasz
+
+>
+> Regards,
+>
+> Hans
+>
+>
+> > ---
+> >  drivers/media/common/videobuf2/videobuf2-dma-sg.c | 2 ++
+> >  1 file changed, 2 insertions(+)
+> >
+> > diff --git a/drivers/media/common/videobuf2/videobuf2-dma-sg.c b/drivers/media/common/videobuf2/videobuf2-dma-sg.c
+> > index 33ee63a99139..0452ed9fac95 100644
+> > --- a/drivers/media/common/videobuf2/videobuf2-dma-sg.c
+> > +++ b/drivers/media/common/videobuf2/videobuf2-dma-sg.c
+> > @@ -241,6 +241,7 @@ static void *vb2_dma_sg_get_userptr(struct vb2_buffer *vb, struct device *dev,
+> >       buf->offset = vaddr & ~PAGE_MASK;
+> >       buf->size = size;
+> >       buf->dma_sgt = &buf->sg_table;
+> > +     buf->vb = vb;
+> >       vec = vb2_create_framevec(vaddr, size);
+> >       if (IS_ERR(vec))
+> >               goto userptr_fail_pfnvec;
+> > @@ -642,6 +643,7 @@ static void *vb2_dma_sg_attach_dmabuf(struct vb2_buffer *vb, struct device *dev,
+> >       buf->dma_dir = vb->vb2_queue->dma_dir;
+> >       buf->size = size;
+> >       buf->db_attach = dba;
+> > +     buf->vb = vb;
+> >
+> >       return buf;
+> >  }
+> >
+>
