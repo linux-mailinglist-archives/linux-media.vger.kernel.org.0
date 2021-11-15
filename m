@@ -2,293 +2,221 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id F0EED450354
-	for <lists+linux-media@lfdr.de>; Mon, 15 Nov 2021 12:22:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C714C4503B1
+	for <lists+linux-media@lfdr.de>; Mon, 15 Nov 2021 12:42:25 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231328AbhKOLZO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 15 Nov 2021 06:25:14 -0500
-Received: from www.linuxtv.org ([130.149.80.248]:52022 "EHLO www.linuxtv.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231236AbhKOLZF (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 15 Nov 2021 06:25:05 -0500
-Received: from builder.linuxtv.org ([140.211.167.10])
-        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1mma3p-00ED3x-Qb; Mon, 15 Nov 2021 11:22:05 +0000
-Received: from [127.0.0.1] (helo=builder.linuxtv.org)
-        by builder.linuxtv.org with esmtp (Exim 4.94.2)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1mma3n-006z3r-Uv; Mon, 15 Nov 2021 11:22:03 +0000
-Date:   Mon, 15 Nov 2021 11:22:02 +0000 (UTC)
-From:   Jenkins Builder Robot <jenkins@linuxtv.org>
-To:     mchehab@kernel.org, linux-media@vger.kernel.org
-Message-ID: <119059566.1.1636975323398@builder.linuxtv.org>
-Subject: Build failed in Jenkins: linux-media #255
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+        id S229962AbhKOLpS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 15 Nov 2021 06:45:18 -0500
+Received: from mail-mw2nam10on2084.outbound.protection.outlook.com ([40.107.94.84]:52769
+        "EHLO NAM10-MW2-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S229613AbhKOLpR (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Mon, 15 Nov 2021 06:45:17 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=ZYSFfhU+N5Fq39gpw5NCsolRnyvMmfKTA5cWgJx3l903N5tP6BK6x7pUqmtcQZvyCwwzQwonnQGCZqIx/M4qourfwzBBS0SVUSHvvU6Vn4nZRrd/wffjMaX24XwtUxIdQAQntPFWRi0SjIWpG+72E2TIxwcuyY3/5+qkQiF8s3iNnNXmY4zdZ9fx48I5MHFePTx+VAyZvxzedsyfjjAxGaaaPl2uZagHTH9TDFFaAg/rHvH6O2vq0RwQIaMOGxhA8DgCmsj9dMlSloko0iLt+p2s/WUQShbSQrZq13R3POIyU6aCBx32Zz+biTbwpcXQyXxwfQIi+2nIruJQvuvwSw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=JkRdepoBhhvZgBl9zd4oG1PeOv+kPWSxKw1ORztFSv4=;
+ b=hYGlnailNdl4CzgRcFMK/ZTAFR1Ipev9djYIyqc4j32m6sMsqyx1YxjcAPDo6Rnk3qtB+9sMag1rldkddxzJCBGDOLkgX7hQFl7AFRIQhpXLQsUek5IrCfbd0rGW4HpdbUxyGyRz70XnjFPSTGQFhlz7glYKDPeyHN/X3RtVBfrUG1ywFsVzjD6+I8Uc0O9jbG6Rw5S1/dydWeyovBOPcbUVYt1ZF0z7JDt4Tj90hAElD4cTmc/rfAt3eY3pB6pydnGu+nXJ5bKZIY/U7Wec+TwdXPNGU+ia5E4MN6xuL+kVLPNPa1G6h8qetsVTw5UYOkGtPZCxcR6pUKs0ocJTZg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=JkRdepoBhhvZgBl9zd4oG1PeOv+kPWSxKw1ORztFSv4=;
+ b=4zNaX2CfJHDxjaHlT7C84/jyXuQUhJVYoDhuLfWp/MO0v73QSPzoDc9EiD6G3taNwfNkwRBOMm5VIiF2wOMmVeJmV2JabQp0VPjTYkXDZL9xbtuoXkdCtQFx1+Fz1GJhOnpgaIMZrSQ+DugqAkbmKW5Jp6o8P3GT/ZDzIFBk4xk=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from MWHPR1201MB0192.namprd12.prod.outlook.com
+ (2603:10b6:301:5a::14) by MWHPR12MB1837.namprd12.prod.outlook.com
+ (2603:10b6:300:113::20) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4690.27; Mon, 15 Nov
+ 2021 11:42:20 +0000
+Received: from MWHPR1201MB0192.namprd12.prod.outlook.com
+ ([fe80::2d02:26e7:a2d0:3769]) by MWHPR1201MB0192.namprd12.prod.outlook.com
+ ([fe80::2d02:26e7:a2d0:3769%5]) with mapi id 15.20.4690.027; Mon, 15 Nov 2021
+ 11:42:20 +0000
+Subject: Re: [PATCH] dma-buf: add DMA_BUF_IOCTL_SYNC_PARTIAL support
+To:     Jianqun Xu <jay.xu@rock-chips.com>, sumit.semwal@linaro.org
+Cc:     pekka.paalanen@collabora.com, daniel.vetter@ffwll.ch,
+        jason@jlekstrand.net, linux-media@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+        linux-kernel@vger.kernel.org, linux-rockchip@lists.infradead.org
+References: <20211113062222.3743909-1-jay.xu@rock-chips.com>
+From:   =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+Message-ID: <1da5cdf0-ccb8-3740-cf96-794c4d5b2eb4@amd.com>
+Date:   Mon, 15 Nov 2021 12:42:13 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
+In-Reply-To: <20211113062222.3743909-1-jay.xu@rock-chips.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Instance-Identity: MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEApAf928QubrKEjMQ0IZR0WWXn8zG7uTdH33F2Idx4Xmlp6Z138NdNMQYNG71OKzmvn3/E1G4rpd9JsMls16nRZ2NAPgOWX0qfFr6HyOoQklLGZt+vkOFb0BvmBFfdI+00J5B1SPupxv4pT3bDLSiwbBNCOLY4sdB0gG1ng14mzu47G8zmH6l2ZE/9urEd6OLFhzrb6ym4vlkCE8uvNJAdAWbeafd1plHSLdU/TVqHMZELuM0wt9khqhUOkfE+dHr7h6DNrkFpvm/8j/5wTuy98ZwwWimP+pfjSQMgKrhXjwHcJJa2N9v1HdwrwlUaRYuA6o8fwUHNC9vLj7cCXM3qiwIDAQAB
-X-Jenkins-Job: linux-media
-X-Jenkins-Result: FAILURE
-Auto-submitted: auto-generated
+Content-Language: en-US
+X-ClientProxiedBy: AS9PR0301CA0041.eurprd03.prod.outlook.com
+ (2603:10a6:20b:469::32) To MWHPR1201MB0192.namprd12.prod.outlook.com
+ (2603:10b6:301:5a::14)
+MIME-Version: 1.0
+Received: from [IPv6:2a02:908:1252:fb60:bf0c:d52c:6ba0:cfc6] (2a02:908:1252:fb60:bf0c:d52c:6ba0:cfc6) by AS9PR0301CA0041.eurprd03.prod.outlook.com (2603:10a6:20b:469::32) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4690.26 via Frontend Transport; Mon, 15 Nov 2021 11:42:17 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 00ebe1d3-562c-44d3-ab7c-08d9a82cfb38
+X-MS-TrafficTypeDiagnostic: MWHPR12MB1837:
+X-Microsoft-Antispam-PRVS: <MWHPR12MB18370021933B2E90497B3E8C83989@MWHPR12MB1837.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:8273;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: qnNpT+UDEdrvmTrphgUzQsrIExW/nJQjCEAt6/leQnM/+F75uQ4P/gIEmE2mfi+FLGZoBp+qpesYv6TE414JsgHBjmPsq9wqAxODHs5+tKntVesYVzi2T3a+bor5SPTdHrjOyz4Lv5il0Z00hyIMOsC898lxdXNK3DY8ClRa/X+z05ZLWWI9kbXDjVdrVqmD31Ciy9En6YG1TKIV+epuDLGRKEvYe8NhgoFs6tUkQ/bWmTBdRJgllNrqms9k2nXdSN5hRpvEjPb3R0jF3kat4c9/g+R9ZfNDU0z3Qo2VAfydWQzqA1BIV1A7EDnRTXmW5vnAV79Migw7l8P0CqzM1nBlO5bCjKtHXPj4OXseQUwQWFO5216Sj4yR6FeIQFVrAO7lW3pd3S4bncIRU17nSaQPkQnnNSdXm0OBFoDdrVzhxYO5g7CoHdrAh0S0Y4Q8vQFqy36ujVGByHPPFfX+aaKXQ/BWnlM6tghXuVYUcoYtqlV4AJpRnByfYBQrumA1ouTLedvwpUsQlCItufU36509QJHuQ9oa3NDqXos2SPnUS/F/6HsBJHw63Rq1Jcd0WGmqDrp9wFQaK959C6zotCP8LC+p2pB0gQYgRieAeifspuQuKmSFk46/7OZfmlwmv8i1rhIK65/inlDat2eDtJBEpqk15UW3bMvw1g5dv5Kr9RmOvFfjfRv5uYDkmxM4OcYG/KHnhd59tAKjoVDXcLgv4Z/rf5i8pgCG0D7SWcZI1XNcdbglDuWiigm3ihyx
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MWHPR1201MB0192.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(366004)(316002)(7416002)(2616005)(6486002)(8936002)(8676002)(186003)(31686004)(66556008)(66476007)(86362001)(66946007)(83380400001)(31696002)(6666004)(508600001)(38100700002)(5660300002)(2906002)(4326008)(36756003)(43740500002)(45980500001);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?VmtQa3NIa1NhVm40N2lmZnBueGVQS3ZuTWpaWm4waU1IQ3kvYlFHSGI1ZllH?=
+ =?utf-8?B?ek13MElkY3lWUlVuVWxJUkZPR0tlQ01FV0lCUnJrUWRSejg0WjZJWW5CTFdS?=
+ =?utf-8?B?TDVMZTVHNitXaW9taUpweTFaL2pJS1NZbGJacnlDWVNyMFl3MjlkdGd3YTEr?=
+ =?utf-8?B?MmRodnF3dnlzd0NKZEtZN1JaVFA2OTBJRGQ1WjZBUHROK0dhMlhMWWZkaUd3?=
+ =?utf-8?B?RFlQd3NmNGRWZFZydFhXSVJyRmxQMEZDWlhxU3hMcDYzNUtJRGtHVzZtMmIx?=
+ =?utf-8?B?NU5zT0VvNmI1MUE1WTRmQWRUZkM4aXFtYVBzK3ovM2E3dGFEQ2ZJZ1B5U2Vv?=
+ =?utf-8?B?eWVQN0tEZUhFQi93ZG8zdFJaTjcwT2dUc3VzdTgzNzZsaVNuUHFOQjRFN2Nq?=
+ =?utf-8?B?eGZJamhBMDhBbmhsRjhWUDY3dmFhODJKR0UwVWlFcW42TXR6Q2lRV0ZhQnJW?=
+ =?utf-8?B?SVAvalMxUVpmSVNzWmxpR3Z1cWtYSTlXTHZOMUY4dExKMFJZcXl2UGZ5S2pZ?=
+ =?utf-8?B?NVI2K0xOaFQ3QlMyYitGMDRxa2JCVHQrQW40VnpPUkJ4SDN2UjRnU29TeHFU?=
+ =?utf-8?B?cUVVSjEzLzV1ZFFxcndBbkw0T2Q0MHo3YUtoOThVTlgxcm5odjlqVzBYUkV3?=
+ =?utf-8?B?RzM1dmllc3pTSFIvS0xaNWVoVDNWVXQ3Q1NJc0NpcjAwWUY1VkR0eEFhZnRX?=
+ =?utf-8?B?R3gyeEIyMjR3SGVDdDhUaGtmZWRJTnkyeWhuWkpIVVg2RHoxQWtrUEJtNjdv?=
+ =?utf-8?B?YlNmbzI2ME1hQkcrVVBNQ1pFT1FWZFRZZFhyZE9OWWJzRUlDM29pQUJ0V24y?=
+ =?utf-8?B?NjRQM2g0a0J4NzJVVGw1MDRqMXFndVBJellQazRvUnFVMHFLRlR2Q3lJMlpq?=
+ =?utf-8?B?V1F3b1BwZFpUM2xyYUpvR0RTcDJEZ1dGZWdMdDVHYzd2eW5ZYnlwTXlrckpD?=
+ =?utf-8?B?OTdGU0w1My9SUVRkdmk3L1VaWDJseUc3S2tjdFhEZ3dUeDZ1RVIrK2ZNUDkv?=
+ =?utf-8?B?aU9NbkZqRFpPQzFvVFpOWHYzd2QxS256OTRKaVQrVlR3c29nNHdwcjVjVklD?=
+ =?utf-8?B?cVp6dFN0TUpNMDd1SlFzRUx2SjlraVczakM3VmFJdExzVGJ5cXdmSGlKTTVx?=
+ =?utf-8?B?dHNCaUFjVmRPZkRuVFp1RVhWTFB0L1FtNHI1TEZEcTFsQUFMNjdUMnIxaVZr?=
+ =?utf-8?B?d09MaXhiSFlrMjhPOGxrcGFLVElSR1pOQkdMdG4wa1k1VktnVVRFTXU0QlJk?=
+ =?utf-8?B?Z09uemlVVHJxUHNoY3d1UXIrOUxCMU85bHM1TlpYRzZGcHRRcndtbERtdU9s?=
+ =?utf-8?B?VUZRaVY2Z3N2RnlFbk14L1lER2Jib0JSSVNyZkw3Wk1sVExYaDhnMXRDUkhv?=
+ =?utf-8?B?Z0FyK0NmMDlEKzcxUTdUY3A5SFJBYUhCOEpIbFNTK3Vic2hxcXR5MWZUcFND?=
+ =?utf-8?B?bDZlRnl0VkxWajFyeDF4SFpoQzJTbTNPU1U2c1c4TlhscWNQNXhRaWMxTG5G?=
+ =?utf-8?B?emJtUURBZVlqT3cxR2hRdGFVZUh1akxuRHIwYlRPOWZZSnVKeXFvMCtlNTFT?=
+ =?utf-8?B?Q3BvMGROdlZ2ZFJUNzYya3hvUVlHYmYzaGlSMHMyK1U0Nis1YksrWFZWc1JH?=
+ =?utf-8?B?VHFoY0phcnNVdHNJN2Y4Z0lxRzhHRng0SWQ2NmJuZENWUE5uMktmZktpeTY2?=
+ =?utf-8?B?dU15L0FOWDNobkJkN0x6RkdlY1BQalhSK3p0S2ZsTVpwUnFSN0l6S1RMcXJh?=
+ =?utf-8?B?bnptcHlHc2VDVm50NW52MkRVK0FpbGpNb3JPektpc1pVM3BibGRhNklaMjVN?=
+ =?utf-8?B?MTZxNFNOd2lTbDBhSk5XcFk0UTdZbXdsaW5BYm1kRzlGeThJOU4rMWNyL09l?=
+ =?utf-8?B?N3ZTM1NSeUFraVMvVnJYcWhNRjFPOVZYNUhTRFUyWHo5QVpKZlhia05HQy9S?=
+ =?utf-8?B?Uit6VG51RCtqWGJsNU4vRGlFVXhJdjh4Y1RhdWhEVVpVTUNpcGdMQUY2L005?=
+ =?utf-8?B?WG9wejVLbEZjampPYVcxNDMySXNQelVEZEFGQWROZ2h4ZjFNOWR3c084SjFN?=
+ =?utf-8?B?b2lMbThOZmdXQW84YWg4ekJyQW9mWStyZnMvV1JWd3lMajVEM2hTbFVUczNv?=
+ =?utf-8?B?QmhyeVpQVVUrOUtyRWNjUXp2a1JhQUpsSnk0ZVlrSDdnaFFYaFVTdHpjM01O?=
+ =?utf-8?Q?BO9RKUEVN4uMTDc9B3JQWSk=3D?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 00ebe1d3-562c-44d3-ab7c-08d9a82cfb38
+X-MS-Exchange-CrossTenant-AuthSource: MWHPR1201MB0192.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Nov 2021 11:42:19.8907
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: cPSQhRvD4Dau5vTrINquy4Yo1A5DbJm3yOORz6qQDOx+umrhjPgdp0FqKASMDEeu
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR12MB1837
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-See <https://builder.linuxtv.org/job/linux-media/255/display/redirect>
+Am 13.11.21 um 07:22 schrieb Jianqun Xu:
+> Add DMA_BUF_IOCTL_SYNC_PARTIAL support for user to sync dma-buf with
+> offset and len.
 
-Changes:
+You have not given an use case for this so it is a bit hard to review. 
+And from the existing use cases I don't see why this should be necessary.
 
+Even worse from the existing backend implementation I don't even see how 
+drivers should be able to fulfill this semantics.
 
-------------------------------------------
-[...truncated 113056 lines...]
-  CC [M]  drivers/staging/rtl8192u/r8192U_core.o
-  CC      drivers/staging/fieldbus/anybuss/hms-profinet.o
-  CC      drivers/staging/wfx/hwio.o
-  CC [M]  drivers/staging/rtl8192e/rtllib_module.o
-  AR      drivers/staging/fieldbus/anybuss/built-in.a
-  AR      drivers/staging/fieldbus/built-in.a
-  CC [M]  drivers/staging/r8188eu/hal/HalHWImg8188E_MAC.o
-  CC [M]  drivers/staging/rtl8723bs/core/rtw_ap.o
-  CC [M]  drivers/staging/vt6656/main_usb.o
-  CC [M]  drivers/staging/gdm724x/gdm_lte.o
-  CC [M]  drivers/staging/vt6655/card.o
-  CC      drivers/staging/qlge/qlge_mpi.o
-  CC [M]  drivers/staging/r8188eu/hal/HalHWImg8188E_BB.o
-  CC [M]  drivers/staging/rtl8192e/rtllib_rx.o
-  CC      drivers/staging/wfx/fwio.o
-  CC [M]  drivers/staging/rtl8192u/r8180_93cx6.o
-  CC [M]  drivers/staging/rtl8723bs/core/rtw_btcoex.o
-  CC [M]  drivers/staging/vt6655/channel.o
-  CC [M]  drivers/staging/vt6656/card.o
-  CC [M]  drivers/staging/r8188eu/hal/HalHWImg8188E_RF.o
-  CC [M]  drivers/staging/gdm724x/netlink_k.o
-  CC      drivers/staging/qlge/qlge_ethtool.o
-  CC      drivers/staging/wfx/hif_tx_mib.o
-  CC [M]  drivers/staging/r8188eu/hal/HalPhyRf_8188e.o
-  CC [M]  drivers/staging/rtl8192u/r8192U_wx.o
-  CC [M]  drivers/staging/vt6655/mac.o
-  CC [M]  drivers/staging/vt6656/mac.o
-  CC [M]  drivers/staging/rtl8723bs/core/rtw_cmd.o
-  CC      drivers/staging/qlge/qlge_devlink.o
-  CC [M]  drivers/staging/gdm724x/gdm_usb.o
-  CC      drivers/staging/wfx/hif_tx.o
-  CC [M]  drivers/staging/rtl8192e/rtllib_tx.o
-  CC [M]  drivers/staging/r8188eu/hal/HalPwrSeqCmd.o
-  AR      drivers/staging/qlge/built-in.a
-  CC [M]  drivers/staging/rtl8192e/rtllib_wx.o
-  CC [M]  drivers/staging/rtl8192u/r8190_rtl8256.o
-  CC [M]  drivers/staging/vt6656/baseband.o
-  CC [M]  drivers/staging/vt6655/baseband.o
-  CC [M]  drivers/staging/rtl8723bs/core/rtw_debug.o
-  CC [M]  drivers/staging/r8188eu/hal/Hal8188EPwrSeq.o
-  CC [M]  drivers/staging/gdm724x/gdm_endian.o
-  CC [M]  drivers/staging/rtl8192u/r819xU_phy.o
-  CC [M]  drivers/staging/gdm724x/gdm_tty.o
-  CC      drivers/staging/wfx/hif_rx.o
-  CC [M]  drivers/staging/gdm724x/gdm_mux.o
-  CC [M]  drivers/staging/rtl8192e/rtllib_softmac.o
-  CC [M]  drivers/staging/rtl8192e/rtllib_softmac_wx.o
-  LD [M]  drivers/staging/gdm724x/gdmulte.o
-  LD [M]  drivers/staging/gdm724x/gdmtty.o
-  CC [M]  drivers/staging/r8188eu/hal/Hal8188ERateAdaptive.o
-  CC [M]  drivers/staging/rtl8723bs/core/rtw_efuse.o
-  CC [M]  drivers/staging/vt6656/wcmd.o
-  CC [M]  drivers/staging/vt6655/rxtx.o
-  CC [M]  drivers/staging/vt6655/dpc.o
-  CC [M]  drivers/staging/rtl8192u/r819xU_firmware.o
-  CC      drivers/staging/wfx/queue.o
-  CC [M]  drivers/staging/vt6655/power.o
-  CC [M]  drivers/staging/vt6656/rxtx.o
-  CC [M]  drivers/staging/rtl8192e/rtl819x_BAProc.o
-  CC [M]  drivers/staging/rtl8723bs/core/rtw_io.o
-  CC [M]  drivers/staging/r8188eu/hal/hal_intf.o
-  CC [M]  drivers/staging/rtl8192e/rtl819x_HTProc.o
-  CC [M]  drivers/staging/rtl8192u/r819xU_cmdpkt.o
-  CC [M]  drivers/staging/rtl8192u/r8192U_dm.o
-  CC [M]  drivers/staging/r8188eu/hal/hal_com.o
-  CC      drivers/staging/wfx/data_tx.o
-  CC [M]  drivers/staging/rtl8723bs/core/rtw_ioctl_set.o
-  CC [M]  drivers/staging/vt6656/power.o
-  CC [M]  drivers/staging/vt6656/key.o
-  CC [M]  drivers/staging/vt6655/srom.o
-  CC [M]  drivers/staging/rtl8192e/rtl819x_TSProc.o
-  CC [M]  drivers/staging/vt6656/rf.o
-  CC [M]  drivers/staging/r8188eu/hal/odm.o
-  CC [M]  drivers/staging/rtl8723bs/core/rtw_ieee80211.o
-  CC [M]  drivers/staging/rtl8723bs/core/rtw_mlme.o
-  CC [M]  drivers/staging/rtl8192u/r819xU_firmware_img.o
-  CC [M]  drivers/staging/rtl8192u/ieee80211/ieee80211_crypt.o
-  CC [M]  drivers/staging/rtl8192u/ieee80211/ieee80211_crypt_tkip.o
-  CC [M]  drivers/staging/vt6655/key.o
-  CC [M]  drivers/staging/rtl8192e/rtllib_crypt_ccmp.o
-  CC [M]  drivers/staging/vt6656/usbpipe.o
-  CC      drivers/staging/wfx/data_rx.o
-  CC [M]  drivers/staging/vt6655/rf.o
-  CC [M]  drivers/staging/rtl8192u/ieee80211/ieee80211_crypt_ccmp.o
-  CC [M]  drivers/staging/r8188eu/hal/odm_debug.o
-  CC [M]  drivers/staging/rtl8192u/ieee80211/ieee80211_crypt_wep.o
-  CC [M]  drivers/staging/rtl8192e/rtllib_crypt_tkip.o
-  CC [M]  drivers/staging/rtl8723bs/core/rtw_mlme_ext.o
-  CC [M]  drivers/staging/vt6656/channel.o
-  CC [M]  drivers/staging/rtl8192e/rtllib_crypt_wep.o
-  CC      drivers/staging/wfx/scan.o
-  CC [M]  drivers/staging/rtl8723bs/core/rtw_odm.o
-  CC [M]  drivers/staging/rtl8192u/ieee80211/ieee80211_rx.o
-  LD [M]  drivers/staging/vt6655/vt6655_stage.o
-  CC [M]  drivers/staging/rtl8192u/ieee80211/ieee80211_softmac.o
-  CC [M]  drivers/staging/r8188eu/hal/odm_interface.o
-  CC [M]  drivers/staging/rtl8192u/ieee80211/ieee80211_tx.o
-  LD [M]  drivers/staging/vt6656/vt6656_stage.o
-  CC [M]  drivers/staging/rtl8192u/ieee80211/ieee80211_wx.o
-  CC [M]  drivers/staging/r8188eu/hal/odm_HWConfig.o
-  CC      drivers/staging/wfx/sta.o
-  CC      drivers/staging/wfx/key.o
-  CC [M]  drivers/staging/rtl8192e/rtl8192e/r8192E_dev.o
-  CC      drivers/staging/wfx/main.o
-  CC [M]  drivers/staging/rtl8723bs/core/rtw_pwrctrl.o
-  CC [M]  drivers/staging/rtl8192u/ieee80211/ieee80211_module.o
-  CC [M]  drivers/staging/r8188eu/hal/odm_RegConfig8188E.o
-  CC [M]  drivers/staging/rtl8192u/ieee80211/ieee80211_softmac_wx.o
-  CC [M]  drivers/staging/rtl8192u/ieee80211/rtl819x_HTProc.o
-  CC [M]  drivers/staging/rtl8192u/ieee80211/rtl819x_TSProc.o
-  CC [M]  drivers/staging/rtl8192u/ieee80211/rtl819x_BAProc.o
-  CC      drivers/staging/wfx/debug.o
-  CC [M]  drivers/staging/rtl8723bs/core/rtw_recv.o
-  CC [M]  drivers/staging/r8188eu/hal/odm_RTL8188E.o
-  CC [M]  drivers/staging/rtl8192e/rtl8192e/r8192E_phy.o
-  CC [M]  drivers/staging/rtl8192u/ieee80211/dot11d.o
-  CC [M]  drivers/staging/rtl8723bs/core/rtw_rf.o
-  CC [M]  drivers/staging/rtl8723bs/core/rtw_security.o
-  CC      drivers/staging/wfx/bus_spi.o
-  CC [M]  drivers/staging/r8188eu/hal/rtl8188e_cmd.o
-  CC      drivers/staging/wfx/bus_sdio.o
-  CC [M]  drivers/staging/rtl8723bs/core/rtw_sta_mgt.o
-  CC [M]  drivers/staging/rtl8723bs/core/rtw_wlan_util.o
-  LD [M]  drivers/staging/rtl8192u/r8192u_usb.o
-  CC [M]  drivers/staging/rtl8723bs/core/rtw_xmit.o
-  CC [M]  drivers/staging/rtl8192e/rtl8192e/r8192E_firmware.o
-  CC [M]  drivers/staging/rtl8723bs/hal/hal_intf.o
-  CC [M]  drivers/staging/rtl8723bs/hal/hal_com.o
-  CC [M]  drivers/staging/rtl8723bs/hal/hal_com_phycfg.o
-  CC [M]  drivers/staging/r8188eu/hal/rtl8188e_dm.o
-  AR      drivers/staging/wfx/built-in.a
-  CC [M]  drivers/staging/rtl8723bs/hal/hal_btcoex.o
-  CC [M]  drivers/staging/r8188eu/hal/rtl8188e_hal_init.o
-  CC [M]  drivers/staging/rtl8192e/rtl8192e/r8192E_cmdpkt.o
-  CC [M]  drivers/staging/rtl8192e/rtl8192e/r8192E_hwimg.o
-  CC [M]  drivers/staging/rtl8192e/rtl8192e/r8190P_rtl8256.o
-  CC [M]  drivers/staging/rtl8192e/rtl8192e/rtl_cam.o
-  CC [M]  drivers/staging/rtl8192e/rtl8192e/rtl_core.o
-  CC [M]  drivers/staging/rtl8192e/rtl8192e/rtl_dm.o
-  CC [M]  drivers/staging/rtl8192e/rtl8192e/rtl_eeprom.o
-  CC [M]  drivers/staging/rtl8192e/rtl8192e/rtl_ethtool.o
-  CC [M]  drivers/staging/rtl8192e/rtl8192e/rtl_pci.o
-  CC [M]  drivers/staging/rtl8192e/rtl8192e/rtl_pm.o
-  CC [M]  drivers/staging/r8188eu/hal/rtl8188e_phycfg.o
-  CC [M]  drivers/staging/rtl8723bs/hal/hal_sdio.o
-  CC [M]  drivers/staging/rtl8192e/rtl8192e/rtl_ps.o
-  CC [M]  drivers/staging/rtl8723bs/hal/hal_pwr_seq.o
-  CC [M]  drivers/staging/rtl8192e/rtl8192e/rtl_wx.o
-  CC [M]  drivers/staging/rtl8723bs/hal/HalPhyRf.o
-  CC [M]  drivers/staging/rtl8723bs/hal/HalPwrSeqCmd.o
-  CC [M]  drivers/staging/r8188eu/hal/rtl8188e_rf6052.o
-  CC [M]  drivers/staging/r8188eu/hal/rtl8188e_rxdesc.o
-  CC [M]  drivers/staging/r8188eu/hal/rtl8188e_sreset.o
-  CC [M]  drivers/staging/r8188eu/hal/rtl8188e_xmit.o
-  CC [M]  drivers/staging/r8188eu/hal/rtl8188eu_led.o
-  CC [M]  drivers/staging/r8188eu/hal/rtl8188eu_recv.o
-  LD [M]  drivers/staging/rtl8192e/rtl8192e/r8192e_pci.o
-  CC [M]  drivers/staging/r8188eu/hal/rtl8188eu_xmit.o
-  LD [M]  drivers/staging/rtl8192e/rtllib.o
-  AR      drivers/staging/built-in.a
-  CC [M]  drivers/staging/r8188eu/hal/usb_halinit.o
-  CC [M]  drivers/staging/rtl8723bs/hal/odm.o
-  CC [M]  drivers/staging/r8188eu/hal/usb_ops_linux.o
-  CC [M]  drivers/staging/r8188eu/os_dep/ioctl_linux.o
-  CC [M]  drivers/staging/r8188eu/os_dep/mlme_linux.o
-  CC [M]  drivers/staging/rtl8723bs/hal/odm_CfoTracking.o
-  CC [M]  drivers/staging/r8188eu/os_dep/os_intfs.o
-  CC [M]  drivers/staging/rtl8723bs/hal/odm_DIG.o
-  CC [M]  drivers/staging/rtl8723bs/hal/odm_DynamicBBPowerSaving.o
-  CC [M]  drivers/staging/rtl8723bs/hal/odm_DynamicTxPower.o
-  CC [M]  drivers/staging/rtl8723bs/hal/odm_EdcaTurboCheck.o
-  CC [M]  drivers/staging/r8188eu/os_dep/osdep_service.o
-  CC [M]  drivers/staging/r8188eu/os_dep/recv_linux.o
-  CC [M]  drivers/staging/r8188eu/os_dep/usb_intf.o
-  CC [M]  drivers/staging/r8188eu/os_dep/usb_ops_linux.o
-  CC [M]  drivers/staging/rtl8723bs/hal/odm_HWConfig.o
-  CC [M]  drivers/staging/rtl8723bs/hal/odm_NoiseMonitor.o
-  CC [M]  drivers/staging/rtl8723bs/hal/odm_RegConfig8723B.o
-  CC [M]  drivers/staging/rtl8723bs/hal/rtl8723b_cmd.o
-  CC [M]  drivers/staging/r8188eu/os_dep/xmit_linux.o
-  CC [M]  drivers/staging/r8188eu/core/rtw_ap.o
-  CC [M]  drivers/staging/r8188eu/core/rtw_br_ext.o
-  CC [M]  drivers/staging/r8188eu/core/rtw_cmd.o
-  CC [M]  drivers/staging/rtl8723bs/hal/rtl8723b_dm.o
-  CC [M]  drivers/staging/r8188eu/core/rtw_efuse.o
-  CC [M]  drivers/staging/r8188eu/core/rtw_ieee80211.o
-  CC [M]  drivers/staging/r8188eu/core/rtw_ioctl_set.o
-  CC [M]  drivers/staging/r8188eu/core/rtw_iol.o
-  CC [M]  drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.o
-  CC [M]  drivers/staging/rtl8723bs/hal/rtl8723b_phycfg.o
-  CC [M]  drivers/staging/r8188eu/core/rtw_led.o
-  CC [M]  drivers/staging/r8188eu/core/rtw_mlme.o
-  CC [M]  drivers/staging/r8188eu/core/rtw_mlme_ext.o
-  CC [M]  drivers/staging/r8188eu/core/rtw_pwrctrl.o
-  CC [M]  drivers/staging/r8188eu/core/rtw_p2p.o
-  CC [M]  drivers/staging/r8188eu/core/rtw_recv.o
-  CC [M]  drivers/staging/r8188eu/core/rtw_rf.o
-  CC [M]  drivers/staging/r8188eu/core/rtw_security.o
-  CC [M]  drivers/staging/rtl8723bs/hal/rtl8723b_rf6052.o
-  CC [M]  drivers/staging/r8188eu/core/rtw_sta_mgt.o
-  CC [M]  drivers/staging/r8188eu/core/rtw_wlan_util.o
-  CC [M]  drivers/staging/r8188eu/core/rtw_xmit.o
-  CC [M]  drivers/staging/rtl8723bs/hal/rtl8723b_rxdesc.o
-  CC [M]  drivers/staging/rtl8723bs/hal/rtl8723bs_recv.o
-  CC [M]  drivers/staging/rtl8723bs/hal/rtl8723bs_xmit.o
-  CC [M]  drivers/staging/rtl8723bs/hal/sdio_halinit.o
-  CC [M]  drivers/staging/rtl8723bs/hal/sdio_ops.o
-  CC [M]  drivers/staging/rtl8723bs/hal/HalBtc8723b1Ant.o
-  CC [M]  drivers/staging/rtl8723bs/hal/HalBtc8723b2Ant.o
-  CC [M]  drivers/staging/rtl8723bs/hal/HalHWImg8723B_BB.o
-  CC [M]  drivers/staging/rtl8723bs/hal/HalHWImg8723B_MAC.o
-  LD [M]  drivers/staging/r8188eu/r8188eu.o
-  CC [M]  drivers/staging/rtl8723bs/hal/HalHWImg8723B_RF.o
-  CC [M]  drivers/staging/rtl8723bs/hal/HalPhyRf_8723B.o
-  CC [M]  drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.o
-  CC [M]  drivers/staging/rtl8723bs/os_dep/ioctl_linux.o
-  CC [M]  drivers/staging/rtl8723bs/os_dep/mlme_linux.o
-  CC [M]  drivers/staging/rtl8723bs/os_dep/osdep_service.o
-  CC [M]  drivers/staging/rtl8723bs/os_dep/os_intfs.o
-  CC [M]  drivers/staging/rtl8723bs/os_dep/recv_linux.o
-  CC [M]  drivers/staging/rtl8723bs/os_dep/sdio_intf.o
-  CC [M]  drivers/staging/rtl8723bs/os_dep/sdio_ops_linux.o
-  CC [M]  drivers/staging/rtl8723bs/os_dep/wifi_regd.o
-  CC [M]  drivers/staging/rtl8723bs/os_dep/xmit_linux.o
-  LD [M]  drivers/staging/rtl8723bs/r8723bs.o
-  AR      drivers/built-in.a
-  GEN     .version
-  CHK     include/generated/compile.h
-  UPD     include/generated/compile.h
-  CC      init/version.o
-  AR      init/built-in.a
-  LD      vmlinux.o
-  OBJTOOL vmlinux.o
-Killed
-make[1]: *** [/var/lib/jenkins/workspace/linux-media/Makefile:1161: vmlinux] Error 137
-make[1]: Leaving directory '/var/lib/jenkins/workspace/linux-media/x86_64_yes'
-make: *** [Makefile:219: __sub-make] Error 2
-[Pipeline] }
-[Pipeline] // node
-[Pipeline] }
-[Pipeline] // stage
-[Pipeline] }
-Failed in branch x86_64 (builtin/mod)
-[Pipeline] // parallel
-[Pipeline] }
-[Pipeline] // stage
-[Pipeline] stage
-[Pipeline] { (Declarative: Post Actions)
-[Pipeline] step
+Please explain further,
+Christian.
+
+>
+> Change-Id: I03d2d2e10e48d32aa83c31abade57e0931e1be49
+> Signed-off-by: Jianqun Xu <jay.xu@rock-chips.com>
+> ---
+>   drivers/dma-buf/dma-buf.c    | 42 ++++++++++++++++++++++++++++++++++++
+>   include/uapi/linux/dma-buf.h |  8 +++++++
+>   2 files changed, 50 insertions(+)
+>
+> diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
+> index d9948d58b3f4..78f37f7c3462 100644
+> --- a/drivers/dma-buf/dma-buf.c
+> +++ b/drivers/dma-buf/dma-buf.c
+> @@ -392,6 +392,7 @@ static long dma_buf_ioctl(struct file *file,
+>   {
+>   	struct dma_buf *dmabuf;
+>   	struct dma_buf_sync sync;
+> +	struct dma_buf_sync_partial sync_p;
+>   	enum dma_data_direction direction;
+>   	int ret;
+>   
+> @@ -430,6 +431,47 @@ static long dma_buf_ioctl(struct file *file,
+>   	case DMA_BUF_SET_NAME_B:
+>   		return dma_buf_set_name(dmabuf, (const char __user *)arg);
+>   
+> +	case DMA_BUF_IOCTL_SYNC_PARTIAL:
+> +		if (copy_from_user(&sync_p, (void __user *) arg, sizeof(sync_p)))
+> +			return -EFAULT;
+> +
+> +		if (sync_p.len == 0)
+> +			return 0;
+> +
+> +		if ((sync_p.offset % cache_line_size()) || (sync_p.len % cache_line_size()))
+> +			return -EINVAL;
+> +
+> +		if (sync_p.len > dmabuf->size || sync_p.offset > dmabuf->size - sync_p.len)
+> +			return -EINVAL;
+> +
+> +		if (sync_p.flags & ~DMA_BUF_SYNC_VALID_FLAGS_MASK)
+> +			return -EINVAL;
+> +
+> +		switch (sync_p.flags & DMA_BUF_SYNC_RW) {
+> +		case DMA_BUF_SYNC_READ:
+> +			direction = DMA_FROM_DEVICE;
+> +			break;
+> +		case DMA_BUF_SYNC_WRITE:
+> +			direction = DMA_TO_DEVICE;
+> +			break;
+> +		case DMA_BUF_SYNC_RW:
+> +			direction = DMA_BIDIRECTIONAL;
+> +			break;
+> +		default:
+> +			return -EINVAL;
+> +		}
+> +
+> +		if (sync_p.flags & DMA_BUF_SYNC_END)
+> +			ret = dma_buf_end_cpu_access_partial(dmabuf, direction,
+> +							     sync_p.offset,
+> +							     sync_p.len);
+> +		else
+> +			ret = dma_buf_begin_cpu_access_partial(dmabuf, direction,
+> +							       sync_p.offset,
+> +							       sync_p.len);
+> +
+> +		return ret;
+> +
+>   	default:
+>   		return -ENOTTY;
+>   	}
+> diff --git a/include/uapi/linux/dma-buf.h b/include/uapi/linux/dma-buf.h
+> index 7f30393b92c3..6236c644624d 100644
+> --- a/include/uapi/linux/dma-buf.h
+> +++ b/include/uapi/linux/dma-buf.h
+> @@ -47,4 +47,12 @@ struct dma_buf_sync {
+>   #define DMA_BUF_SET_NAME_A	_IOW(DMA_BUF_BASE, 1, u32)
+>   #define DMA_BUF_SET_NAME_B	_IOW(DMA_BUF_BASE, 1, u64)
+>   
+> +struct dma_buf_sync_partial {
+> +	__u64 flags;
+> +	__u32 offset;
+> +	__u32 len;
+> +};
+> +
+> +#define DMA_BUF_IOCTL_SYNC_PARTIAL	_IOW(DMA_BUF_BASE, 2, struct dma_buf_sync_partial)
+> +
+>   #endif
+
