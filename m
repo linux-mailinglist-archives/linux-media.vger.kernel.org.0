@@ -2,221 +2,273 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C714C4503B1
-	for <lists+linux-media@lfdr.de>; Mon, 15 Nov 2021 12:42:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 064DD4503E9
+	for <lists+linux-media@lfdr.de>; Mon, 15 Nov 2021 13:01:16 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229962AbhKOLpS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 15 Nov 2021 06:45:18 -0500
-Received: from mail-mw2nam10on2084.outbound.protection.outlook.com ([40.107.94.84]:52769
-        "EHLO NAM10-MW2-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S229613AbhKOLpR (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 15 Nov 2021 06:45:17 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ZYSFfhU+N5Fq39gpw5NCsolRnyvMmfKTA5cWgJx3l903N5tP6BK6x7pUqmtcQZvyCwwzQwonnQGCZqIx/M4qourfwzBBS0SVUSHvvU6Vn4nZRrd/wffjMaX24XwtUxIdQAQntPFWRi0SjIWpG+72E2TIxwcuyY3/5+qkQiF8s3iNnNXmY4zdZ9fx48I5MHFePTx+VAyZvxzedsyfjjAxGaaaPl2uZagHTH9TDFFaAg/rHvH6O2vq0RwQIaMOGxhA8DgCmsj9dMlSloko0iLt+p2s/WUQShbSQrZq13R3POIyU6aCBx32Zz+biTbwpcXQyXxwfQIi+2nIruJQvuvwSw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=JkRdepoBhhvZgBl9zd4oG1PeOv+kPWSxKw1ORztFSv4=;
- b=hYGlnailNdl4CzgRcFMK/ZTAFR1Ipev9djYIyqc4j32m6sMsqyx1YxjcAPDo6Rnk3qtB+9sMag1rldkddxzJCBGDOLkgX7hQFl7AFRIQhpXLQsUek5IrCfbd0rGW4HpdbUxyGyRz70XnjFPSTGQFhlz7glYKDPeyHN/X3RtVBfrUG1ywFsVzjD6+I8Uc0O9jbG6Rw5S1/dydWeyovBOPcbUVYt1ZF0z7JDt4Tj90hAElD4cTmc/rfAt3eY3pB6pydnGu+nXJ5bKZIY/U7Wec+TwdXPNGU+ia5E4MN6xuL+kVLPNPa1G6h8qetsVTw5UYOkGtPZCxcR6pUKs0ocJTZg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=JkRdepoBhhvZgBl9zd4oG1PeOv+kPWSxKw1ORztFSv4=;
- b=4zNaX2CfJHDxjaHlT7C84/jyXuQUhJVYoDhuLfWp/MO0v73QSPzoDc9EiD6G3taNwfNkwRBOMm5VIiF2wOMmVeJmV2JabQp0VPjTYkXDZL9xbtuoXkdCtQFx1+Fz1GJhOnpgaIMZrSQ+DugqAkbmKW5Jp6o8P3GT/ZDzIFBk4xk=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from MWHPR1201MB0192.namprd12.prod.outlook.com
- (2603:10b6:301:5a::14) by MWHPR12MB1837.namprd12.prod.outlook.com
- (2603:10b6:300:113::20) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4690.27; Mon, 15 Nov
- 2021 11:42:20 +0000
-Received: from MWHPR1201MB0192.namprd12.prod.outlook.com
- ([fe80::2d02:26e7:a2d0:3769]) by MWHPR1201MB0192.namprd12.prod.outlook.com
- ([fe80::2d02:26e7:a2d0:3769%5]) with mapi id 15.20.4690.027; Mon, 15 Nov 2021
- 11:42:20 +0000
-Subject: Re: [PATCH] dma-buf: add DMA_BUF_IOCTL_SYNC_PARTIAL support
-To:     Jianqun Xu <jay.xu@rock-chips.com>, sumit.semwal@linaro.org
-Cc:     pekka.paalanen@collabora.com, daniel.vetter@ffwll.ch,
-        jason@jlekstrand.net, linux-media@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
-        linux-kernel@vger.kernel.org, linux-rockchip@lists.infradead.org
-References: <20211113062222.3743909-1-jay.xu@rock-chips.com>
-From:   =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-Message-ID: <1da5cdf0-ccb8-3740-cf96-794c4d5b2eb4@amd.com>
-Date:   Mon, 15 Nov 2021 12:42:13 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
-In-Reply-To: <20211113062222.3743909-1-jay.xu@rock-chips.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-X-ClientProxiedBy: AS9PR0301CA0041.eurprd03.prod.outlook.com
- (2603:10a6:20b:469::32) To MWHPR1201MB0192.namprd12.prod.outlook.com
- (2603:10b6:301:5a::14)
+        id S230254AbhKOMEI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 15 Nov 2021 07:04:08 -0500
+Received: from perceval.ideasonboard.com ([213.167.242.64]:42066 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229613AbhKOMEC (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Mon, 15 Nov 2021 07:04:02 -0500
+Received: from pendragon.ideasonboard.com (117.145-247-81.adsl-dyn.isp.belgacom.be [81.247.145.117])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 2B4979CA;
+        Mon, 15 Nov 2021 13:01:06 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1636977666;
+        bh=T33cDT6EVWG8/gzw9LkWDFWOWHDDC8WIZW2qp1Zdd4E=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=IwEoUAqPxJxfLcbFnkR7enJspeksKW28/phRO+fcNfcq6wQcXnMVtCtkkf+gIka1A
+         Y0AoXd2fgx7Vud98kKe2GYgFWBHwaol86gpXDQc5Su8mS/Yn0SueX65Bc8WqrLeJ+H
+         FqW7W7pL1zCCiyXN8sD1vyq148/FdHscnBVkcU2A=
+Date:   Mon, 15 Nov 2021 14:00:44 +0200
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Sakari Ailus <sakari.ailus@iki.fi>
+Cc:     Dave Stevenson <dave.stevenson@raspberrypi.com>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Daniel Scally <djrscally@gmail.com>,
+        Kate Hsuan <hpa@redhat.com>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        libcamera devel <libcamera-devel@lists.libcamera.org>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Subject: Re: Fwd: Surface Go VCM type (was: Need to pass
+ acpi_enforce_resources=lax on the Surface Go (version1))
+Message-ID: <YZJL7KrLeN/anPMg@pendragon.ideasonboard.com>
+References: <495cbb6b-656d-6c3b-669a-f4b588e970cc@redhat.com>
+ <a26f70ae-203e-99fd-8e4d-484af6f207f7@gmail.com>
+ <4c7b9d72-4634-ea1d-5fff-bf17c3834b72@redhat.com>
+ <CAPY8ntBZpZjecHNCMf-eMefcp2EgmbqkXMt4p=UeOe0n-o8WrA@mail.gmail.com>
+ <6e832988-4810-fe59-7357-886b286697a0@redhat.com>
+ <CAPY8ntB3pT4EqornywTtqcn4_iD-QUHPkApq=nb3XCc+6CuepA@mail.gmail.com>
+ <YY2Ta34aTqFKPYnS@pendragon.ideasonboard.com>
+ <CAPY8ntABHNcgO4iVOryYZsdePVvjTiddZJCBah60LuzSXkL3PA@mail.gmail.com>
+ <YY5GIFudxS81q/Qp@pendragon.ideasonboard.com>
+ <YY5csHGaqsW8KTui@valkosipuli.retiisi.eu>
 MIME-Version: 1.0
-Received: from [IPv6:2a02:908:1252:fb60:bf0c:d52c:6ba0:cfc6] (2a02:908:1252:fb60:bf0c:d52c:6ba0:cfc6) by AS9PR0301CA0041.eurprd03.prod.outlook.com (2603:10a6:20b:469::32) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4690.26 via Frontend Transport; Mon, 15 Nov 2021 11:42:17 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 00ebe1d3-562c-44d3-ab7c-08d9a82cfb38
-X-MS-TrafficTypeDiagnostic: MWHPR12MB1837:
-X-Microsoft-Antispam-PRVS: <MWHPR12MB18370021933B2E90497B3E8C83989@MWHPR12MB1837.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:8273;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: qnNpT+UDEdrvmTrphgUzQsrIExW/nJQjCEAt6/leQnM/+F75uQ4P/gIEmE2mfi+FLGZoBp+qpesYv6TE414JsgHBjmPsq9wqAxODHs5+tKntVesYVzi2T3a+bor5SPTdHrjOyz4Lv5il0Z00hyIMOsC898lxdXNK3DY8ClRa/X+z05ZLWWI9kbXDjVdrVqmD31Ciy9En6YG1TKIV+epuDLGRKEvYe8NhgoFs6tUkQ/bWmTBdRJgllNrqms9k2nXdSN5hRpvEjPb3R0jF3kat4c9/g+R9ZfNDU0z3Qo2VAfydWQzqA1BIV1A7EDnRTXmW5vnAV79Migw7l8P0CqzM1nBlO5bCjKtHXPj4OXseQUwQWFO5216Sj4yR6FeIQFVrAO7lW3pd3S4bncIRU17nSaQPkQnnNSdXm0OBFoDdrVzhxYO5g7CoHdrAh0S0Y4Q8vQFqy36ujVGByHPPFfX+aaKXQ/BWnlM6tghXuVYUcoYtqlV4AJpRnByfYBQrumA1ouTLedvwpUsQlCItufU36509QJHuQ9oa3NDqXos2SPnUS/F/6HsBJHw63Rq1Jcd0WGmqDrp9wFQaK959C6zotCP8LC+p2pB0gQYgRieAeifspuQuKmSFk46/7OZfmlwmv8i1rhIK65/inlDat2eDtJBEpqk15UW3bMvw1g5dv5Kr9RmOvFfjfRv5uYDkmxM4OcYG/KHnhd59tAKjoVDXcLgv4Z/rf5i8pgCG0D7SWcZI1XNcdbglDuWiigm3ihyx
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MWHPR1201MB0192.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(366004)(316002)(7416002)(2616005)(6486002)(8936002)(8676002)(186003)(31686004)(66556008)(66476007)(86362001)(66946007)(83380400001)(31696002)(6666004)(508600001)(38100700002)(5660300002)(2906002)(4326008)(36756003)(43740500002)(45980500001);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?VmtQa3NIa1NhVm40N2lmZnBueGVQS3ZuTWpaWm4waU1IQ3kvYlFHSGI1ZllH?=
- =?utf-8?B?ek13MElkY3lWUlVuVWxJUkZPR0tlQ01FV0lCUnJrUWRSejg0WjZJWW5CTFdS?=
- =?utf-8?B?TDVMZTVHNitXaW9taUpweTFaL2pJS1NZbGJacnlDWVNyMFl3MjlkdGd3YTEr?=
- =?utf-8?B?MmRodnF3dnlzd0NKZEtZN1JaVFA2OTBJRGQ1WjZBUHROK0dhMlhMWWZkaUd3?=
- =?utf-8?B?RFlQd3NmNGRWZFZydFhXSVJyRmxQMEZDWlhxU3hMcDYzNUtJRGtHVzZtMmIx?=
- =?utf-8?B?NU5zT0VvNmI1MUE1WTRmQWRUZkM4aXFtYVBzK3ovM2E3dGFEQ2ZJZ1B5U2Vv?=
- =?utf-8?B?eWVQN0tEZUhFQi93ZG8zdFJaTjcwT2dUc3VzdTgzNzZsaVNuUHFOQjRFN2Nq?=
- =?utf-8?B?eGZJamhBMDhBbmhsRjhWUDY3dmFhODJKR0UwVWlFcW42TXR6Q2lRV0ZhQnJW?=
- =?utf-8?B?SVAvalMxUVpmSVNzWmxpR3Z1cWtYSTlXTHZOMUY4dExKMFJZcXl2UGZ5S2pZ?=
- =?utf-8?B?NVI2K0xOaFQ3QlMyYitGMDRxa2JCVHQrQW40VnpPUkJ4SDN2UjRnU29TeHFU?=
- =?utf-8?B?cUVVSjEzLzV1ZFFxcndBbkw0T2Q0MHo3YUtoOThVTlgxcm5odjlqVzBYUkV3?=
- =?utf-8?B?RzM1dmllc3pTSFIvS0xaNWVoVDNWVXQ3Q1NJc0NpcjAwWUY1VkR0eEFhZnRX?=
- =?utf-8?B?R3gyeEIyMjR3SGVDdDhUaGtmZWRJTnkyeWhuWkpIVVg2RHoxQWtrUEJtNjdv?=
- =?utf-8?B?YlNmbzI2ME1hQkcrVVBNQ1pFT1FWZFRZZFhyZE9OWWJzRUlDM29pQUJ0V24y?=
- =?utf-8?B?NjRQM2g0a0J4NzJVVGw1MDRqMXFndVBJellQazRvUnFVMHFLRlR2Q3lJMlpq?=
- =?utf-8?B?V1F3b1BwZFpUM2xyYUpvR0RTcDJEZ1dGZWdMdDVHYzd2eW5ZYnlwTXlrckpD?=
- =?utf-8?B?OTdGU0w1My9SUVRkdmk3L1VaWDJseUc3S2tjdFhEZ3dUeDZ1RVIrK2ZNUDkv?=
- =?utf-8?B?aU9NbkZqRFpPQzFvVFpOWHYzd2QxS256OTRKaVQrVlR3c29nNHdwcjVjVklD?=
- =?utf-8?B?cVp6dFN0TUpNMDd1SlFzRUx2SjlraVczakM3VmFJdExzVGJ5cXdmSGlKTTVx?=
- =?utf-8?B?dHNCaUFjVmRPZkRuVFp1RVhWTFB0L1FtNHI1TEZEcTFsQUFMNjdUMnIxaVZr?=
- =?utf-8?B?d09MaXhiSFlrMjhPOGxrcGFLVElSR1pOQkdMdG4wa1k1VktnVVRFTXU0QlJk?=
- =?utf-8?B?Z09uemlVVHJxUHNoY3d1UXIrOUxCMU85bHM1TlpYRzZGcHRRcndtbERtdU9s?=
- =?utf-8?B?VUZRaVY2Z3N2RnlFbk14L1lER2Jib0JSSVNyZkw3Wk1sVExYaDhnMXRDUkhv?=
- =?utf-8?B?Z0FyK0NmMDlEKzcxUTdUY3A5SFJBYUhCOEpIbFNTK3Vic2hxcXR5MWZUcFND?=
- =?utf-8?B?bDZlRnl0VkxWajFyeDF4SFpoQzJTbTNPU1U2c1c4TlhscWNQNXhRaWMxTG5G?=
- =?utf-8?B?emJtUURBZVlqT3cxR2hRdGFVZUh1akxuRHIwYlRPOWZZSnVKeXFvMCtlNTFT?=
- =?utf-8?B?Q3BvMGROdlZ2ZFJUNzYya3hvUVlHYmYzaGlSMHMyK1U0Nis1YksrWFZWc1JH?=
- =?utf-8?B?VHFoY0phcnNVdHNJN2Y4Z0lxRzhHRng0SWQ2NmJuZENWUE5uMktmZktpeTY2?=
- =?utf-8?B?dU15L0FOWDNobkJkN0x6RkdlY1BQalhSK3p0S2ZsTVpwUnFSN0l6S1RMcXJh?=
- =?utf-8?B?bnptcHlHc2VDVm50NW52MkRVK0FpbGpNb3JPektpc1pVM3BibGRhNklaMjVN?=
- =?utf-8?B?MTZxNFNOd2lTbDBhSk5XcFk0UTdZbXdsaW5BYm1kRzlGeThJOU4rMWNyL09l?=
- =?utf-8?B?N3ZTM1NSeUFraVMvVnJYcWhNRjFPOVZYNUhTRFUyWHo5QVpKZlhia05HQy9S?=
- =?utf-8?B?Uit6VG51RCtqWGJsNU4vRGlFVXhJdjh4Y1RhdWhEVVpVTUNpcGdMQUY2L005?=
- =?utf-8?B?WG9wejVLbEZjampPYVcxNDMySXNQelVEZEFGQWROZ2h4ZjFNOWR3c084SjFN?=
- =?utf-8?B?b2lMbThOZmdXQW84YWg4ekJyQW9mWStyZnMvV1JWd3lMajVEM2hTbFVUczNv?=
- =?utf-8?B?QmhyeVpQVVUrOUtyRWNjUXp2a1JhQUpsSnk0ZVlrSDdnaFFYaFVTdHpjM01O?=
- =?utf-8?Q?BO9RKUEVN4uMTDc9B3JQWSk=3D?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 00ebe1d3-562c-44d3-ab7c-08d9a82cfb38
-X-MS-Exchange-CrossTenant-AuthSource: MWHPR1201MB0192.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Nov 2021 11:42:19.8907
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: cPSQhRvD4Dau5vTrINquy4Yo1A5DbJm3yOORz6qQDOx+umrhjPgdp0FqKASMDEeu
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR12MB1837
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <YY5csHGaqsW8KTui@valkosipuli.retiisi.eu>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Am 13.11.21 um 07:22 schrieb Jianqun Xu:
-> Add DMA_BUF_IOCTL_SYNC_PARTIAL support for user to sync dma-buf with
-> offset and len.
+Hi Sakari,
 
-You have not given an use case for this so it is a bit hard to review. 
-And from the existing use cases I don't see why this should be necessary.
+On Fri, Nov 12, 2021 at 02:23:12PM +0200, Sakari Ailus wrote:
+> On Fri, Nov 12, 2021 at 12:46:56PM +0200, Laurent Pinchart wrote:
+> > On Fri, Nov 12, 2021 at 10:32:31AM +0000, Dave Stevenson wrote:
+> > > On Thu, 11 Nov 2021 at 22:04, Laurent Pinchart wrote:
+> > > > On Thu, Nov 11, 2021 at 07:30:39PM +0000, Dave Stevenson wrote:
+> > > > > On Thu, 11 Nov 2021 at 16:50, Hans de Goede wrote:
+> > > > > > On 11/11/21 16:51, Dave Stevenson wrote:
+> > > > > > > On Thu, 11 Nov 2021 at 15:23, Hans de Goede wrote:
+> > > > > > >> On 11/11/21 12:18, Daniel Scally wrote:
+> > > > > > >>
+> > > > > > >> <snip>
+> > > > > > >>
+> > > > > > >>>>> One problem I'm experiencing
+> > > > > > >>>>> is that the focus position I set isn't maintained; it holds for a couple
+> > > > > > >>>>> of seconds and then resets to the "normal" focus...this happens when the
+> > > > > > >>>>> .close() callback for the driver is called, which happens right after
+> > > > > > >>>>> the control value is applied. All the other VCM drivers in the kernel
+> > > > > > >>>>> power down on .close() so I did the same>
+> > > > > > >>>> Right, I believe that this is fine though, we expect people to use
+> > > > > > >>>> libcamera with this and once libcamera gets autofocus support, then
+> > > > > > >>>> I would expect libcamera to keep the fd open the entire time while
+> > > > > > >>>> streaming.
+> > > > > > >>>
+> > > > > > >>>
+> > > > > > >>> OK - as long as that's how it works then I agree that this is fine as is
+> > > > > > >>> yes.
+> > > > > > >>
+> > > > > > >> So I've just picked up an old project of mine, called gtk-v4l which
+> > > > > > >> is a nice simply v4l2 controls applet and patches it up to also
+> > > > > > >> work on v4l-subdevs:
+> > > > > > >>
+> > > > > > >> https://github.com/jwrdegoede/gtk-v4l/
+> > > > > > >>
+> > > > > > >> So now you can run:
+> > > > > > >>
+> > > > > > >> sudo gtk-v4l -d /dev/v4l-subdev8
+> > > > > > >>
+> > > > > > >> And it will give you a slider to control the focus; and as
+> > > > > > >> a bonus it keeps the v4l-subdev open, so no more runtime-pm
+> > > > > > >> issue :)
+> > > > > > >
+> > > > > > > Do the lens and sensor share a regulator / enable GPIO?
+> > > > > >
+> > > > > > No, if they did then there would be no runtime-pm issue,
+> > > > > > because then the VCM would not get turned off after
+> > > > > > a v4l2-set command (for a quick test) since then the
+> > > > > > streaming from the sensor would keep the sensor and
+> > > > > > thus the regulator on.
+> > > > >
+> > > > > Registering with the regulator was more so that it restored the
+> > > > > position on sensor power up, independent of whether the lens driver
+> > > > > was opened or not.
+> > > > >
+> > > > > > > I was looking at the same issue for a Sony IMX135 module with AD5398
+> > > > > > > VCM driver [1].
+> > > > > > > In my case they do share an enable GPIO, so using regulator-gpio we
+> > > > > > > can register via regulator_register_notifier for information on when
+> > > > > > > the regulator is powered up. It can then also reset to the last
+> > > > > > > position should the sensor subdev enable the regulator without the
+> > > > > > > lens driver being opened at all.
+> > > > > >
+> > > > > > That sounds like it is relying on board-depedent behavior
+> > > > > > (the enable GPIO and/or regulator being shared) which we don't
+> > > > > > want in the VCM drivers as those are supposed to be board
+> > > > > > agnostic.
+> > > > >
+> > > > > All platforms I've encountered so far have used the same GPIO to
+> > > > > control both VCM and sensor, hence why I asked. The number of use
+> > > > > cases where you want one without the other is incredibly low, and
+> > > > > hardware guys generally don't like wasting GPIOs or having to route
+> > > > > them around the PCB. It's interesting that your platform has separated
+> > > > > them.
+> > > > >
+> > > > > > This really is something which should be fixed in userspace
+> > > > > > where the userspace consumer of the sensor should also always
+> > > > > > open the vcm v4l-subdev.
+> > > > >
+> > > > > Not all use cases involve libcamera, and what you're proposing is
+> > > > > making life very difficult for the simple use cases.
+> > > > > There may be GStreamer folk on board with libcamera, but I've heard no
+> > > > > noises from FFmpeg about libcamera support. V4L2 is still the default
+> > > > > API that users generally care about. Particularly with mono sensors
+> > > > > the output is often directly usable without worrying about the
+> > > > > complexities of ISPs, but you're effectively saying "jump through lots
+> > > > > of hoops or you can't use a VCM with these sensors".
+> > > >
+> > > > Usage of libcamera is certainly not mandatory, but let's not forget that
+> > > > we're dealing with complex devices. In most cases applications will want
+> > > > auto-focus, which will require a userspace camera stack. Even when using
+> > > > manual focus, apart from moving the lens to the infinity position, there
+> > > > isn't much that an application could do without some sort of calibration
+> > > > data. Having to keep the VCM subdev open is the easy part. As long as
+> > > > this is documented properly in the V4L2 API, I don't think it's a big
+> > > > issue.
+> > > 
+> > > You know I've never been a huge fan of Media Controller, but at least
+> > > there you can preconfigure your pipeline via media-ctl and then stream
+> > > with v4l2-ctl. If the VCM isn't powered, then v4l2-ctl becomes largely
+> > > useless as a test tool without now having a second program to hold the
+> > > subdev open (as Hans has found out). The same goes for anything else
+> > > that streams a pre-configured pipeline (eg GStreamer v4l2src or FFmpeg
+> > > v4l2 plugin).
+> > > 
+> > > Preconfigure your lens position via "v4l2-ctl
+> > > --set-ctrl=focus_absolute=X", or have a sensible default in the VCM
+> > > driver config (it describes the hardware, so it could be in DT), have
+> > > the pipeline handle power, and you still have a usable capture device
+> > > through just V4L2. Otherwise you're saying that the powered down
+> > > position of the VCM (wherever that might be) is the best you get.
+> 
+> Note that on some camera modules, the sensor and the VCM power-up and
+> power-down sequences are intertwined. So if you power up one without the
+> other, powering up the other later on may no longer be possible.
+> 
+> I have to say I don't know how common such camera modules are nowadays. My
+> guess is that they're rare.
 
-Even worse from the existing backend implementation I don't even see how 
-drivers should be able to fulfill this semantics.
+If I recall correctly, this was the case on the N900 or N9. Hopefully we
+won't have to face similar devices in the future, but... It's a problem
+that needs to be handled in kernel space anyway.
 
-Please explain further,
-Christian.
+> > > > > If userspace has called VIDIOC_STREAMON doesn't that mean they want
+> > > > > the whole entity (as configured) to be powered on and start streaming?
+> > > > > Are you saying that the lens isn't part of that entity? In which case
+> > > > > why does Media Controller include it (and eventually link it to the
+> > > > > sensor) in the media entity?
+> > > > >
+> > > > > Would you advocate making backlight control in DRM a function that
+> > > > > userspace is responsible for independently of the panel pipeline?
+> > > > > There are significant similarities to this situation as the panel
+> > > > > isn't usable without the backlight being powered, same as the sensor
+> > > > > isn't usable without the VCM being powered.
+> > > >
+> > > > Isn't the backlight actually controlled through sysfs separately from
+> > > > the display pipeline ?
+> > > 
+> > > Brightness is controlled via sysfs, same as lens position is set via
+> > > the VCM subdev.
+> > > It allows for an override of the state via sysfs, same as you can have
+> > > userspace open the VCM subdev.
+> > > However drm_panel_enable [1] calls backlight_enable, and
+> > > drm_panel_disable [2] calls backlight_disable for automatic control by
+> > > the framework.
+> > > 
+> > > [1] https://elixir.bootlin.com/linux/latest/source/drivers/gpu/drm/drm_panel.c#L151
+> > > [2] https://elixir.bootlin.com/linux/latest/source/drivers/gpu/drm/drm_panel.c#L183
+> > > 
+> > > > > Sorry, but I just see isolating power control for the VCM from the
+> > > > > sensor in this way to be a very odd design decision. It'd be
+> > > > > interesting to hear other views.
+> > > >
+> > > > Despite the above, I wouldn't oppose powering the VCM automatically when
+> > > > the sensor is streaming, but I'm concerned about corner cases. For
+> > > > instance, one may want to keep the VCM powered when toggling streaming
+> > > > off and then back on. I wouldn't be surprised if there were other need
+> > > > to have control of VCM power from userspace. I haven't studied the
+> > > > question in details though.
+> > > 
+> > > Refcount the users. Opening the subdev counts as one, and streaming
+> > > counts as one. You can now hold the power on if you wish to do so.
+> > > 
+> > > It's the "let userspace worry about it" that worries me. The same
+> > > approach was taken with MC, and it was a pain in the neck for users
+> > > until libcamera comes along a decade later.
+> > > IMHO V4L2 as an API should be fit for purpose and usable with or
+> > > without libcamera.
+> > 
+> > It really depends on the type of device I'm afraid :-) If you want to
+> > capture processed image with a raw bayer sensor on RPi, you need to
+> > control the ISP, and the 3A algorithms need to run in userspace. For
+> > other types of devices, going straight to the kernel API is easier (and
+> > can sometimes be preferred).
+> > 
+> > At the end of the day, I don't think it makes much of a difference
+> > though. Once the libcamera API stabilizes, the library gets packaged by
+> > distributions and applications start using it (or possibly even through
+> > pipewire), nobody will complain about MC anymore :-) The important part,
+> > in my opinion, is to handle the complexity somewhere in a framework so
+> > that applications don't have to do so manually.
+> 
+> Agreed.
+> 
+> The user space would need to open the device node of the lens, and a
+> non-test user space would in any case keep the device node open in order to
+> change lens drive current.
+> 
+> In the kernel I think we'd need probably a new (subdev) API for just that.
+> Poking other devices with runtime PM calls isn't the right way to do it.
 
->
-> Change-Id: I03d2d2e10e48d32aa83c31abade57e0931e1be49
-> Signed-off-by: Jianqun Xu <jay.xu@rock-chips.com>
-> ---
->   drivers/dma-buf/dma-buf.c    | 42 ++++++++++++++++++++++++++++++++++++
->   include/uapi/linux/dma-buf.h |  8 +++++++
->   2 files changed, 50 insertions(+)
->
-> diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
-> index d9948d58b3f4..78f37f7c3462 100644
-> --- a/drivers/dma-buf/dma-buf.c
-> +++ b/drivers/dma-buf/dma-buf.c
-> @@ -392,6 +392,7 @@ static long dma_buf_ioctl(struct file *file,
->   {
->   	struct dma_buf *dmabuf;
->   	struct dma_buf_sync sync;
-> +	struct dma_buf_sync_partial sync_p;
->   	enum dma_data_direction direction;
->   	int ret;
->   
-> @@ -430,6 +431,47 @@ static long dma_buf_ioctl(struct file *file,
->   	case DMA_BUF_SET_NAME_B:
->   		return dma_buf_set_name(dmabuf, (const char __user *)arg);
->   
-> +	case DMA_BUF_IOCTL_SYNC_PARTIAL:
-> +		if (copy_from_user(&sync_p, (void __user *) arg, sizeof(sync_p)))
-> +			return -EFAULT;
-> +
-> +		if (sync_p.len == 0)
-> +			return 0;
-> +
-> +		if ((sync_p.offset % cache_line_size()) || (sync_p.len % cache_line_size()))
-> +			return -EINVAL;
-> +
-> +		if (sync_p.len > dmabuf->size || sync_p.offset > dmabuf->size - sync_p.len)
-> +			return -EINVAL;
-> +
-> +		if (sync_p.flags & ~DMA_BUF_SYNC_VALID_FLAGS_MASK)
-> +			return -EINVAL;
-> +
-> +		switch (sync_p.flags & DMA_BUF_SYNC_RW) {
-> +		case DMA_BUF_SYNC_READ:
-> +			direction = DMA_FROM_DEVICE;
-> +			break;
-> +		case DMA_BUF_SYNC_WRITE:
-> +			direction = DMA_TO_DEVICE;
-> +			break;
-> +		case DMA_BUF_SYNC_RW:
-> +			direction = DMA_BIDIRECTIONAL;
-> +			break;
-> +		default:
-> +			return -EINVAL;
-> +		}
-> +
-> +		if (sync_p.flags & DMA_BUF_SYNC_END)
-> +			ret = dma_buf_end_cpu_access_partial(dmabuf, direction,
-> +							     sync_p.offset,
-> +							     sync_p.len);
-> +		else
-> +			ret = dma_buf_begin_cpu_access_partial(dmabuf, direction,
-> +							       sync_p.offset,
-> +							       sync_p.len);
-> +
-> +		return ret;
-> +
->   	default:
->   		return -ENOTTY;
->   	}
-> diff --git a/include/uapi/linux/dma-buf.h b/include/uapi/linux/dma-buf.h
-> index 7f30393b92c3..6236c644624d 100644
-> --- a/include/uapi/linux/dma-buf.h
-> +++ b/include/uapi/linux/dma-buf.h
-> @@ -47,4 +47,12 @@ struct dma_buf_sync {
->   #define DMA_BUF_SET_NAME_A	_IOW(DMA_BUF_BASE, 1, u32)
->   #define DMA_BUF_SET_NAME_B	_IOW(DMA_BUF_BASE, 1, u64)
->   
-> +struct dma_buf_sync_partial {
-> +	__u64 flags;
-> +	__u32 offset;
-> +	__u32 len;
-> +};
-> +
-> +#define DMA_BUF_IOCTL_SYNC_PARTIAL	_IOW(DMA_BUF_BASE, 2, struct dma_buf_sync_partial)
-> +
->   #endif
+Do you mean a kernel API to instruct the lens driver to power the device
+up/down when streaming starts/stops ? Maybe that's a good use case for
+.s_power() ?
 
+> This is a trivial matter compared to video node centric vs. MC centric
+> case.
+> 
+> > As mentioned above, I certainly don't oppose improving power management
+> > for VCMs, as well as the VCM control API in general, as long as we can
+> > cover all use cases. I'm not familiar enough with the use cases to tell
+> > whether making the kernel side more "clever" would be just fine or could
+> > cause issues.
+> 
+> Usually if you're using a VCM then you need a way to focus the image. I
+> guess VCMs have been getting better so you might be able to get decent
+> images without focussing in VCM resting position if the target is distant
+> enough, too. But that's just a guess. So theoretically there's possibility
+> of saving a little bit of power.
+
+I was thinking about that too, but it seems to be quite a corner case.
+It could also be better handled in the kernel by powering the device off
+when the lens position is set to infinity (although we'd likely need
+some uAPI extension, to set a power vs. latency hint).
+
+-- 
+Regards,
+
+Laurent Pinchart
