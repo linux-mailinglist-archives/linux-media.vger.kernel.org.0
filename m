@@ -2,113 +2,148 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0EEA9450765
-	for <lists+linux-media@lfdr.de>; Mon, 15 Nov 2021 15:44:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1DE71450766
+	for <lists+linux-media@lfdr.de>; Mon, 15 Nov 2021 15:44:37 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232079AbhKOOrG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 15 Nov 2021 09:47:06 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59206 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232143AbhKOOqy (ORCPT
+        id S232116AbhKOOrL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 15 Nov 2021 09:47:11 -0500
+Received: from so254-9.mailgun.net ([198.61.254.9]:27221 "EHLO
+        so254-9.mailgun.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232051AbhKOOqy (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
         Mon, 15 Nov 2021 09:46:54 -0500
-Received: from mail-il1-x131.google.com (mail-il1-x131.google.com [IPv6:2607:f8b0:4864:20::131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C2C7AC06120C
-        for <linux-media@vger.kernel.org>; Mon, 15 Nov 2021 06:43:43 -0800 (PST)
-Received: by mail-il1-x131.google.com with SMTP id m11so16946694ilh.5
-        for <linux-media@vger.kernel.org>; Mon, 15 Nov 2021 06:43:43 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ndufresne-ca.20210112.gappssmtp.com; s=20210112;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :user-agent:mime-version:content-transfer-encoding;
-        bh=JfI3JoXz0Ca1OgsWEHyo6RS3UZraM1AMQfqSQejQjIo=;
-        b=EBIcyDEqfb8Y3brMg/s64Zs7YM6DOuNsOA0EX1xqAl6dxUcFFBBLbUpWS/d8vjHk+a
-         z1svOa2SM8nlola2pw6iU6vEkk8oi16VJAZ2GZX6KodNhW5XkLYx9cAQRipwuVoG4HLI
-         OPDlJkfElrYm1BJo0jadYYXreXomivz2vs0ZvICu+FrXYcQ8dRQoczdnS9/ozcdNQ14D
-         e2ooYa2baQbWot0HL/bZh/MqYuZeYgjGRoECYsZDMwgDORUZC5zPNdyJztt2su9dZvMP
-         dyb1zu427uumWkeW4COKrCQEtrwsvREwSnY0U48YQwC9d2M/I9CTvs1fg1QPdDBw5fcp
-         31zg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=JfI3JoXz0Ca1OgsWEHyo6RS3UZraM1AMQfqSQejQjIo=;
-        b=QFgv5IOJ/qJN5U1R+kB1OB8wEUfBzF3yx1TRcOT+HduU4va5rE5nMDgdYy3VAofqSj
-         zlQjXewFpQBUmHGcQO+7+uXy+yHSQhgiIMLe8v18SEOnrQg0EHYIOVidg/Dc2QhHFan6
-         G6Vkek4gQoCK0VPtebWTx8T4gcqKeSOu61qrbUwfEekCww5RCrpvd3ZIpuIalTpNZvR1
-         6hF+MQN4tijJLfSZLUnSTrXW7AM7C3US+QIn8S+UDB7bySS8jZeglGO8QxwmbWGm1gBk
-         tNpYdm0ih3orAMgmExvLbsKXN6IihWiagD4wRUxQiT8IloUH//SsRJiZRpbivDxMGp0/
-         q0DA==
-X-Gm-Message-State: AOAM5334y+BxXR5EG4gU4IAwJE7NZQ1ykoo0B+OibcRRyOn+5edDkFAA
-        8PMm2gQUQNjR2z812//GEGwcWw==
-X-Google-Smtp-Source: ABdhPJz2yCZ0EINqTWjSs3tzPzMvPN86GdXRv8KNX4/5f+hxt1DRdnl/BVl1YvBWMPNlUjsZEE/hQw==
-X-Received: by 2002:a05:6e02:178a:: with SMTP id y10mr21823246ilu.257.1636987422853;
-        Mon, 15 Nov 2021 06:43:42 -0800 (PST)
-Received: from nicolas-tpx395.localdomain (mtl.collabora.ca. [66.171.169.34])
-        by smtp.gmail.com with ESMTPSA id o10sm8997947ilc.56.2021.11.15.06.43.41
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 15 Nov 2021 06:43:42 -0800 (PST)
-Message-ID: <1411d7a3913677fee58e103f7610e122686e87bf.camel@ndufresne.ca>
-Subject: Re: [PATCH v2 0/3] Add NVIDIA Tegra114 support to video decoder
- driver
-From:   Nicolas Dufresne <nicolas@ndufresne.ca>
-To:     Dmitry Osipenko <digetx@gmail.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Anton Bambura <jenneron@protonmail.com>,
-        Hans Verkuil <hverkuil@xs4all.nl>
-Cc:     linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
-        linux-clk@vger.kernel.org, linux-kernel@vger.kernel.org
-Date:   Mon, 15 Nov 2021 09:43:40 -0500
-In-Reply-To: <20211114224732.11550-1-digetx@gmail.com>
-References: <20211114224732.11550-1-digetx@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.42.1 (3.42.1-1.fc35) 
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
+ s=smtp; t=1636987438; h=Content-Transfer-Encoding: Content-Type:
+ In-Reply-To: From: References: Cc: To: Subject: MIME-Version: Date:
+ Message-ID: Sender; bh=7XCMV7JuJ0TbWXeHCYx30uBSDutsKDC797uPkQLu/NE=; b=F4s793f+9ZSn18YXPoSp+yghXwG7/xY49GP1DzwXPHUj7P09/dsQL44YQZG5MHb/VYN4Q3AW
+ 3k8JZ30ybdz2fCIUFhil16WZiD/oR/BJr8pQOIH6Ultk2Na3jx3bGpRQnFh4BLrbWdiC9v+d
+ dcK4ZPGvIOn4vGj86aoeLgUgptk=
+X-Mailgun-Sending-Ip: 198.61.254.9
+X-Mailgun-Sid: WyI3ZjU0NiIsICJsaW51eC1tZWRpYUB2Z2VyLmtlcm5lbC5vcmciLCAiYmU5ZTRhIl0=
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n07.prod.us-east-1.postgun.com with SMTP id
+ 6192722ee0b76a7314cafae7 (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Mon, 15 Nov 2021 14:43:58
+ GMT
+Sender: akhilpo=codeaurora.org@mg.codeaurora.org
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+        id 5A2B1C43616; Mon, 15 Nov 2021 14:43:57 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+        aws-us-west-2-caf-mail-1.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-5.2 required=2.0 tests=ALL_TRUSTED,BAYES_00,
+        NICE_REPLY_A,SPF_FAIL,URIBL_BLOCKED autolearn=unavailable autolearn_force=no
+        version=3.4.0
+Received: from [192.168.1.5] (unknown [59.89.226.177])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        (Authenticated sender: akhilpo)
+        by smtp.codeaurora.org (Postfix) with ESMTPSA id 795E8C43460;
+        Mon, 15 Nov 2021 14:43:50 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.codeaurora.org 795E8C43460
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; spf=fail smtp.mailfrom=codeaurora.org
+Message-ID: <36c9f669-c2d2-8a63-db96-31165caeeffb@codeaurora.org>
+Date:   Mon, 15 Nov 2021 20:13:47 +0530
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.1.1
+Subject: Re: [PATCH 2/2] drm/msm: Restore error return on invalid fence
+Content-Language: en-US
+To:     Rob Clark <robdclark@gmail.com>, dri-devel@lists.freedesktop.org
+Cc:     Rob Clark <robdclark@chromium.org>,
+        David Airlie <airlied@linux.ie>, linux-arm-msm@vger.kernel.org,
+        =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
+        <linaro-mm-sig@lists.linaro.org>, Sean Paul <sean@poorly.run>,
+        freedreno@lists.freedesktop.org,
+        open list <linux-kernel@vger.kernel.org>,
+        "open list:DMA BUFFER SHARING FRAMEWORK" 
+        <linux-media@vger.kernel.org>
+References: <20211111192457.747899-1-robdclark@gmail.com>
+ <20211111192457.747899-3-robdclark@gmail.com>
+From:   Akhil P Oommen <akhilpo@codeaurora.org>
+In-Reply-To: <20211111192457.747899-3-robdclark@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Dmitry,
-
-Le lundi 15 novembre 2021 à 01:47 +0300, Dmitry Osipenko a écrit :
-> Video decoder of Tegra114/124 SoCs uses additional memory buffer required
-> for decoding of protected content. We won't support that content, but it
-> is impossible to disable access to the buffer, hence a stub buffer needs
-> to be provided. This series enables decoder driver only for Tegra114
-> because Tegra124 support requires more non-trivial changes on both kernel
-> and userspace sides.
-
-I believe the stateless API is quite in place now, but I only see maintenance on
-this staging driver. I don't believe it really make sense to keep maintaining a
-staging driver without any step forward de-staging it. I believe it gives the
-wrong message on the Kernel staging purpose.
-
-I'm not criticizing your effort, I believe you are doing nice work for you
-community, but would prefer to see this driver be ported to the official kernel
-APIs rather then being maintain as staging till the end of time.
-
-regards,
-Nicolas
-
+On 11/12/2021 12:54 AM, Rob Clark wrote:
+> From: Rob Clark <robdclark@chromium.org>
 > 
-> Changelog:
+> When converting to use an idr to map userspace fence seqno values back
+> to a dma_fence, we lost the error return when userspace passes seqno
+> that is larger than the last submitted fence.  Restore this check.
 > 
-> v2: - Changed tegra_vde_alloc_bo() to return errno and fix unassigned
->       error code in tegra_vde_probe().
+> Reported-by: Akhil P Oommen <akhilpo@codeaurora.org>
+> Fixes: a61acbbe9cf8 ("drm/msm: Track "seqno" fences by idr")
+> Signed-off-by: Rob Clark <robdclark@chromium.org>
+> ---
+> Note: I will rebase "drm/msm: Handle fence rollover" on top of this,
+> to simplify backporting this patch to stable kernels
 > 
-> Dmitry Osipenko (1):
->   media: staging: tegra-vde: Reorder misc device registration
+>   drivers/gpu/drm/msm/msm_drv.c        | 6 ++++++
+>   drivers/gpu/drm/msm/msm_gem_submit.c | 1 +
+>   drivers/gpu/drm/msm/msm_gpu.h        | 3 +++
+>   3 files changed, 10 insertions(+)
 > 
-> Thierry Reding (2):
->   media: staging: tegra-vde: Support reference picture marking
->   media: staging: tegra-vde: Properly mark invalid entries
-> 
->  drivers/staging/media/tegra-vde/vde.c | 147 +++++++++++++++++++++++---
->  drivers/staging/media/tegra-vde/vde.h |  18 ++++
->  2 files changed, 152 insertions(+), 13 deletions(-)
+> diff --git a/drivers/gpu/drm/msm/msm_drv.c b/drivers/gpu/drm/msm/msm_drv.c
+> index cb14d997c174..56500eb5219e 100644
+> --- a/drivers/gpu/drm/msm/msm_drv.c
+> +++ b/drivers/gpu/drm/msm/msm_drv.c
+> @@ -967,6 +967,12 @@ static int wait_fence(struct msm_gpu_submitqueue *queue, uint32_t fence_id,
+>   	struct dma_fence *fence;
+>   	int ret;
+>   
+> +	if (fence_id > queue->last_fence) {
+
+But fence_id can wrap around and then this check won't be valid.
+
+-Akhil.
+
+> +		DRM_ERROR_RATELIMITED("waiting on invalid fence: %u (of %u)\n",
+> +				      fence_id, queue->last_fence);
+> +		return -EINVAL;
+> +	}
+> +
+>   	/*
+>   	 * Map submitqueue scoped "seqno" (which is actually an idr key)
+>   	 * back to underlying dma-fence
+> diff --git a/drivers/gpu/drm/msm/msm_gem_submit.c b/drivers/gpu/drm/msm/msm_gem_submit.c
+> index 151d19e4453c..a38f23be497d 100644
+> --- a/drivers/gpu/drm/msm/msm_gem_submit.c
+> +++ b/drivers/gpu/drm/msm/msm_gem_submit.c
+> @@ -911,6 +911,7 @@ int msm_ioctl_gem_submit(struct drm_device *dev, void *data,
+>   	drm_sched_entity_push_job(&submit->base, queue->entity);
+>   
+>   	args->fence = submit->fence_id;
+> +	queue->last_fence = submit->fence_id;
+>   
+>   	msm_reset_syncobjs(syncobjs_to_reset, args->nr_in_syncobjs);
+>   	msm_process_post_deps(post_deps, args->nr_out_syncobjs,
+> diff --git a/drivers/gpu/drm/msm/msm_gpu.h b/drivers/gpu/drm/msm/msm_gpu.h
+> index bd4e0024033e..e73a5bb03544 100644
+> --- a/drivers/gpu/drm/msm/msm_gpu.h
+> +++ b/drivers/gpu/drm/msm/msm_gpu.h
+> @@ -376,6 +376,8 @@ static inline int msm_gpu_convert_priority(struct msm_gpu *gpu, int prio,
+>    * @ring_nr:   the ringbuffer used by this submitqueue, which is determined
+>    *             by the submitqueue's priority
+>    * @faults:    the number of GPU hangs associated with this submitqueue
+> + * @last_fence: the sequence number of the last allocated fence (for error
+> + *             checking)
+>    * @ctx:       the per-drm_file context associated with the submitqueue (ie.
+>    *             which set of pgtables do submits jobs associated with the
+>    *             submitqueue use)
+> @@ -391,6 +393,7 @@ struct msm_gpu_submitqueue {
+>   	u32 flags;
+>   	u32 ring_nr;
+>   	int faults;
+> +	uint32_t last_fence;
+>   	struct msm_file_private *ctx;
+>   	struct list_head node;
+>   	struct idr fence_idr;
 > 
 
