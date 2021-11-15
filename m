@@ -2,147 +2,97 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6F9C64506DD
-	for <lists+linux-media@lfdr.de>; Mon, 15 Nov 2021 15:28:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D6EA2450728
+	for <lists+linux-media@lfdr.de>; Mon, 15 Nov 2021 15:36:34 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229864AbhKOObI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 15 Nov 2021 09:31:08 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55242 "EHLO
+        id S231962AbhKOOjX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 15 Nov 2021 09:39:23 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56346 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236544AbhKOOaB (ORCPT
+        with ESMTP id S236449AbhKOOiU (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 15 Nov 2021 09:30:01 -0500
-Received: from lb1-smtp-cloud9.xs4all.net (lb1-smtp-cloud9.xs4all.net [IPv6:2001:888:0:108::1c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 207EDC061204;
-        Mon, 15 Nov 2021 06:27:00 -0800 (PST)
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud9.xs4all.net with ESMTPA
-        id mcwfmFZqdfwDFmcwjmOmT7; Mon, 15 Nov 2021 15:26:57 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1636986417; bh=yt66QPdhR4bWjw3Jg75p2YF2TSn5XOreYDy+26vO64Q=;
-        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=dQ4kbmg81D23hzdX1s6E7CdYkRfr4c0wz01LErCyzAErUgijpsq4lYxlgAukAOG2t
-         V7tf1yF4t2zygdse+Z5qRfbuWS4uzq1c5VrAddmjhxNgQWeX1jF1PdN0vIlRU8TsMQ
-         YY52ZZc0oQhoxDACok5wZGCFu8gMQpF9q/ZEYe2uBaT3R5ia1fWMx/gPnimks/JBs+
-         yQBXMbLIcZIAmefeFWr1DgMdkzoofNSqdW5jpS6Gv7XbCutn2H/S4CGh2WKRqmys3h
-         FAAQgSZNSS5caUVWUR018q+PpPwSK1oSdwFcE/La/NJOtXIhECMfksgD9yyjgKjCMf
-         RMjs0CYC6ihcw==
-Subject: Re: [PATCH 3/4] rcar-vin: Stop stream when subdevice signal transfer
- error
-To:     =?UTF-8?Q?Niklas_S=c3=b6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>
-Cc:     linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        Jacopo Mondi <jacopo+renesas@jmondi.org>
-References: <20211108160220.767586-1-niklas.soderlund+renesas@ragnatech.se>
- <20211108160220.767586-4-niklas.soderlund+renesas@ragnatech.se>
- <1fddc966-5a23-63b4-185e-c17aa6d65b54@xs4all.nl>
- <YYlvqY21JvTtKysK@oden.dyn.berto.se>
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Message-ID: <9e405ed3-fb65-c16d-f84f-2530adbdc9b7@xs4all.nl>
-Date:   Mon, 15 Nov 2021 15:26:53 +0100
+        Mon, 15 Nov 2021 09:38:20 -0500
+Received: from mail-lj1-x232.google.com (mail-lj1-x232.google.com [IPv6:2a00:1450:4864:20::232])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 22296C061200;
+        Mon, 15 Nov 2021 06:34:50 -0800 (PST)
+Received: by mail-lj1-x232.google.com with SMTP id d11so35997278ljg.8;
+        Mon, 15 Nov 2021 06:34:50 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=ZpPEZqJd2To6lUjg28UQdB87eU7/8VpSq5XWX7MIjkY=;
+        b=BD3EH+/6iAoMU0as28T1uFfMyoto9HdkPjPVtXTSSOCtUL+d4iY+gPJsCICkkkMJZ3
+         Fj6nU18j0yMLl2YB25uSEETy5BxlRZfRyQ6eV7+hNQOp/c4bgrPQzoIPzrN8OYywH76N
+         o+Ai8larHnuIv1b9VPGnTqfBa/ODrJmdaxv3pXrRf6t8mqCS12sAQQiI04KYT00fTAqX
+         EHWGksaiLDzQsPf6brKsQj8w08sh3fSUflP33LTYPvx8hvGb5lFaSokQP39cnQdbQY6x
+         0zyL0yWt0ZpR6XQwGhcoCxfACD9Vj0Y93oOlf8JU7GtBFzvgDWQjsmvOpbAXnfE2jbTa
+         wxKg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=ZpPEZqJd2To6lUjg28UQdB87eU7/8VpSq5XWX7MIjkY=;
+        b=MxfGCr15HUFb2eu5BZkBmOTSnCOjai2zzNR9Cup1LVhJHl4NGxgMcUld7Rc++JmUZa
+         MzUCWDcl4k+Kbe+IMaSLqOKr/vA/WAVd+T4TX3a7YK5F0RoIjZeMCvd1mQWMNZ/tn5dr
+         6y0E05TWS2PwduiWzelf+UqUHmPh8FjW2ZCDSkhN9uI6ntIa4e7PRZ2ubATaq6YL+RK1
+         S5H2R3B43v6uFlRtvvRZS2HQHAC6ilQ0mQwC43I3pj88wW5Po6TBALwH1e0vPYlSQqJz
+         j7Ep8lmP0/l4FAHIkYOWB6gMShg0gfqALlhkbtAJLrzr+2BOqEN+NyoFP9TACQ1cXPA2
+         jEpg==
+X-Gm-Message-State: AOAM533pOIYSAqkTf5GfwjarIJxLqxMx1px7caPdLrzDz8JY0mg1uHKv
+        ViGeVlOJxjyzLNVuctVi8HgyNdXrdvI=
+X-Google-Smtp-Source: ABdhPJwEKuBXdYXq5DhlVGPueFviqpJQ5pSvxJjMJzOh/ZO6vd5sjZJeTbmqyxx5SlyE0ArDXI+1ew==
+X-Received: by 2002:a05:651c:98e:: with SMTP id b14mr10702207ljq.180.1636986888356;
+        Mon, 15 Nov 2021 06:34:48 -0800 (PST)
+Received: from [192.168.2.145] (46-138-46-211.dynamic.spd-mgts.ru. [46.138.46.211])
+        by smtp.googlemail.com with ESMTPSA id r13sm453347ljn.99.2021.11.15.06.34.47
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 15 Nov 2021 06:34:47 -0800 (PST)
+Subject: Re: [PATCH v1 1/3] media: staging: tegra-vde: Support reference
+ picture marking
+To:     Dan Carpenter <dan.carpenter@oracle.com>
+Cc:     Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Anton Bambura <jenneron@protonmail.com>,
+        Hans Verkuil <hverkuil@xs4all.nl>, linux-media@vger.kernel.org,
+        linux-staging@lists.linux.dev, linux-clk@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+References: <20211114222353.22435-1-digetx@gmail.com>
+ <20211114222353.22435-2-digetx@gmail.com>
+ <42b24cd0-ac37-3cfe-1fb2-d6292015318a@gmail.com>
+ <20211115124402.GE26989@kadam>
+From:   Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <e4b9d596-d206-71d1-6ec5-1a41af579836@gmail.com>
+Date:   Mon, 15 Nov 2021 17:34:47 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Firefox/78.0 Thunderbird/78.14.0
+ Thunderbird/78.14.0
 MIME-Version: 1.0
-In-Reply-To: <YYlvqY21JvTtKysK@oden.dyn.berto.se>
+In-Reply-To: <20211115124402.GE26989@kadam>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-X-CMAE-Envelope: MS4xfLzrv5RgFYBTjHm5M0TRnO/589PSagQFSYYoNQ2fFSnMtLUv5zD2sg0IFGXN/fQU5+LQ13DjXIrTIIc8Y3iCW+F5p1kFrwuBhT3GjfthXy8ibw7rjMF4
- yep4WC65yi7HLzfGI95cQuz7hqLqib1ehFmqh0IQiG3k7l3cuZ6HIdDiv2fPJCEo+/SlU4eWDGxpHmPrEQ/37YUf1Ct3zl4r+Ww1I4O9g7qnA/JPRn3FVfXj
- CmVp4loe0aLceYplDiTINfAw5A2v1wuyHTrCJdlhxwnqxmontfB4GADlzadHaI81aEYATLwM3jNPApbqu+BkQT36l8WAhCdSwUJsx9rzEW+K8BABqL7xzcrh
- +0F9mg1f
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 08/11/2021 19:42, Niklas Söderlund wrote:
-> Hi Hans,
+15.11.2021 15:44, Dan Carpenter пишет:
+> On Mon, Nov 15, 2021 at 01:34:18AM +0300, Dmitry Osipenko wrote:
+>> 15.11.2021 01:23, Dmitry Osipenko пишет:
+>>> +	vde->secure_bo = tegra_vde_alloc_bo(vde, DMA_FROM_DEVICE, 4096);
+>>> +	if (!vde->secure_bo) {
+>>> +		dev_err(dev, "Failed to allocate secure BO\n");
+>>> +		goto err_pm_runtime;
+>>> +	}
+>>
+>> My eye just caught that by accident err variable isn't assigned to
+>> -ENOMEM here. I'll make v2 shortly.
 > 
-> On 2021-11-08 18:36:25 +0100, Hans Verkuil wrote:
->> On 08/11/2021 17:02, Niklas Söderlund wrote:
->>> When a subdevice signals a transfer error stop the VIN in addition to
->>> informing user-space of the event.
->>>
->>> Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
->>> Reviewed-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
->>> ---
->>> * Changes since v3
->>> - Switch to new V4L2_EVENT_XFER_ERROR from V4L2_EVENT_EOS.
->>> - Call vb2_queue_error() when encountering the event.
->>>
->>> * Changes since v2
->>> - Log using vin_dbg() instead of v4l2_info().
->>> ---
->>>  drivers/media/platform/rcar-vin/rcar-v4l2.c | 17 ++++++++++++++++-
->>>  1 file changed, 16 insertions(+), 1 deletion(-)
->>>
->>> diff --git a/drivers/media/platform/rcar-vin/rcar-v4l2.c b/drivers/media/platform/rcar-vin/rcar-v4l2.c
->>> index a5bfa76fdac6e55a..bf17fdefe90aabf5 100644
->>> --- a/drivers/media/platform/rcar-vin/rcar-v4l2.c
->>> +++ b/drivers/media/platform/rcar-vin/rcar-v4l2.c
->>> @@ -992,9 +992,24 @@ void rvin_v4l2_unregister(struct rvin_dev *vin)
->>>  static void rvin_notify_video_device(struct rvin_dev *vin,
->>>  				     unsigned int notification, void *arg)
->>>  {
->>> +	const struct v4l2_event *event;
->>> +
->>>  	switch (notification) {
->>>  	case V4L2_DEVICE_NOTIFY_EVENT:
->>> -		v4l2_event_queue(&vin->vdev, arg);
->>> +		event = arg;
->>> +
->>> +		switch (event->type) {
->>> +		case V4L2_EVENT_XFER_ERROR:
->>> +			vin_dbg(vin,
->>> +				"Subdevice signaled transfer error, stopping.\n");
->>> +			rvin_stop_streaming(vin);
->>> +			vb2_queue_error(&vin->queue);
->>
->> Hmm, wouldn't it be the case that every driver that calls vb2_queue_error()
->> would also have to send this new event? Would it be possible to modify
->> vb2_queue_error() to raise this event? I haven't analyzed all the drivers
->> that call this function to see if that makes sense.
->>
->> Perhaps a separate new function vb2_queue_error_with_event() would also be
->> an option.
-> 
-> I think that maybe a good idea, but I think that would be needed on-top 
-> of this work as I can't really test it. Here the rcar-csi2.ko is a 
-> subdevice which detects the error condition and generates the event. And 
-> this code is in rcar-vin.ko, the video device driver which reacts to the 
-> event and then forwards it to user-space.
-> 
-> Or am I misunderstanding you? And you think I should remove the 
-> v4l2_event_queue() below in favor of a new vb2_queue_error_with_event() 
-> call?
+> Smatch has a check for this so we would have caught it.  :)
 
-Yes. And use vb2_queue_error_with_event in other drivers as well where
-applicable. Hmm, it can't be called vb2_ since it is v4l2_ specific, so
-perhaps v4l2_queue_error which takes a video_device and a vb2_queue as
-arguments. I don't want this just in rcar since it makes perfect sense
-as a generic event for such situations.
-
-Regards,
-
-	Hans
-
-> 
->>
->> Regards,
->>
->> 	Hans
->>
->>> +			break;
->>> +		default:
->>> +			break;
->>> +		}
->>> +
->>> +		v4l2_event_queue(&vin->vdev, event);
->>>  		break;
->>>  	default:
->>>  		break;
->>>
->>
-> 
-
+Whish smatch was built-in into kernel and I could simply run "make
+smatch". On the other hand, I know that you're periodically checking
+upstream with smatch and patching the found bugs, so maybe it's fine
+as-is. Thank you for yours work on smatch, it's a very valuable tool.
