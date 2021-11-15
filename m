@@ -2,172 +2,104 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 55F814507B5
-	for <lists+linux-media@lfdr.de>; Mon, 15 Nov 2021 15:58:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0FD904507CF
+	for <lists+linux-media@lfdr.de>; Mon, 15 Nov 2021 16:03:50 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235137AbhKOPBH convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-media@lfdr.de>); Mon, 15 Nov 2021 10:01:07 -0500
-Received: from aposti.net ([89.234.176.197]:52846 "EHLO aposti.net"
+        id S232172AbhKOPGk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 15 Nov 2021 10:06:40 -0500
+Received: from mga17.intel.com ([192.55.52.151]:1767 "EHLO mga17.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S232149AbhKOPAo (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 15 Nov 2021 10:00:44 -0500
-Date:   Mon, 15 Nov 2021 14:57:37 +0000
-From:   Paul Cercueil <paul@crapouillou.net>
-Subject: Re: [PATCH 00/15] iio: buffer-dma: write() and new DMABUF based API
-To:     Daniel Vetter <daniel@ffwll.ch>
-Cc:     Jonathan Cameron <jic23@kernel.org>,
-        Michael Hennerich <Michael.Hennerich@analog.com>,
-        linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org,
-        dri-devel@lists.freedesktop.org,
-        Christian =?iso-8859-1?b?S/ZuaWc=?= <christian.koenig@amd.com>,
-        linaro-mm-sig@lists.linaro.org,
-        Alexandru Ardelean <ardeleanalex@gmail.com>,
-        linux-media@vger.kernel.org
-Message-Id: <18CM2R.6UYFWJDX5UQD@crapouillou.net>
-In-Reply-To: <YZJwnPbgCOdeKq6S@phenom.ffwll.local>
-References: <20211115141925.60164-1-paul@crapouillou.net>
-        <YZJwnPbgCOdeKq6S@phenom.ffwll.local>
+        id S232090AbhKOPGh (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Mon, 15 Nov 2021 10:06:37 -0500
+X-IronPort-AV: E=McAfee;i="6200,9189,10168"; a="214176650"
+X-IronPort-AV: E=Sophos;i="5.87,236,1631602800"; 
+   d="scan'208";a="214176650"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Nov 2021 07:03:42 -0800
+X-IronPort-AV: E=Sophos;i="5.87,236,1631602800"; 
+   d="scan'208";a="454049874"
+Received: from smile.fi.intel.com ([10.237.72.184])
+  by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Nov 2021 07:03:40 -0800
+Received: from andy by smile.fi.intel.com with local (Exim 4.95)
+        (envelope-from <andriy.shevchenko@linux.intel.com>)
+        id 1mmdW7-0077mt-BS;
+        Mon, 15 Nov 2021 17:03:31 +0200
+Date:   Mon, 15 Nov 2021 17:03:31 +0200
+From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Dave Stevenson <dave.stevenson@raspberrypi.com>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Daniel Scally <djrscally@gmail.com>,
+        Kate Hsuan <hpa@redhat.com>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        libcamera devel <libcamera-devel@lists.libcamera.org>,
+        Sakari Ailus <sakari.ailus@iki.fi>
+Subject: Re: Fwd: Surface Go VCM type (was: Need to pass
+ acpi_enforce_resources=lax on the Surface Go (version1))
+Message-ID: <YZJ2wzYTQnZBe9ev@smile.fi.intel.com>
+References: <a26f70ae-203e-99fd-8e4d-484af6f207f7@gmail.com>
+ <4c7b9d72-4634-ea1d-5fff-bf17c3834b72@redhat.com>
+ <CAPY8ntBZpZjecHNCMf-eMefcp2EgmbqkXMt4p=UeOe0n-o8WrA@mail.gmail.com>
+ <6e832988-4810-fe59-7357-886b286697a0@redhat.com>
+ <CAPY8ntB3pT4EqornywTtqcn4_iD-QUHPkApq=nb3XCc+6CuepA@mail.gmail.com>
+ <YY2Ta34aTqFKPYnS@pendragon.ideasonboard.com>
+ <CAPY8ntABHNcgO4iVOryYZsdePVvjTiddZJCBah60LuzSXkL3PA@mail.gmail.com>
+ <YY5GIFudxS81q/Qp@pendragon.ideasonboard.com>
+ <YY5R99cHfxZe5M0M@smile.fi.intel.com>
+ <YZJhxJ+z4Zvg8ewP@pendragon.ideasonboard.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1; format=flowed
-Content-Transfer-Encoding: 8BIT
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YZJhxJ+z4Zvg8ewP@pendragon.ideasonboard.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Daniel,
-
-Le lun., nov. 15 2021 at 15:37:16 +0100, Daniel Vetter 
-<daniel@ffwll.ch> a écrit :
-> On Mon, Nov 15, 2021 at 02:19:10PM +0000, Paul Cercueil wrote:
->>  Hi Jonathan,
->> 
->>  This patchset introduces a new userspace interface based on DMABUF
->>  objects, to complement the existing fileio based API.
->> 
->>  The advantage of this DMABUF based interface vs. the fileio
->>  interface, is that it avoids an extra copy of the data between the
->>  kernel and userspace. This is particularly userful for high-speed
->>  devices which produce several megabytes or even gigabytes of data 
->> per
->>  second.
->> 
->>  The first few patches [01/15] to [03/15] are not really related, but
->>  allow to reduce the size of the patches that introduce the new API.
->> 
->>  Patch [04/15] to [06/15] enables write() support to the buffer-dma
->>  implementation of the buffer API, to continue the work done by
->>  Mihail Chindris.
->> 
->>  Patches [07/15] to [12/15] introduce the new DMABUF based API.
->> 
->>  Patches [13/15] and [14/15] add support for cyclic buffers, only 
->> through
->>  the new API. A cyclic buffer will be repeated on the output until 
->> the
->>  buffer is disabled.
->> 
->>  Patch [15/15] adds documentation about the new API.
->> 
->>  For now, the API allows you to alloc DMABUF objects and mmap() them 
->> to
->>  read or write the samples. It does not yet allow to import DMABUFs
->>  parented to other subsystems, but that should eventually be possible
->>  once it's wired.
->> 
->>  This patchset is inspired by the "mmap interface" that was 
->> previously
->>  submitted by Alexandru Ardelean and Lars-Peter Clausen, so it would 
->> be
->>  great if I could get a review from you guys. Alexandru's commit was
->>  signed with his @analog.com address but he doesn't work at ADI 
->> anymore,
->>  so I believe I'll need him to sign with a new email.
+On Mon, Nov 15, 2021 at 03:33:56PM +0200, Laurent Pinchart wrote:
+> On Fri, Nov 12, 2021 at 01:37:27PM +0200, Andy Shevchenko wrote:
+> > On Fri, Nov 12, 2021 at 12:46:56PM +0200, Laurent Pinchart wrote:
+> > > On Fri, Nov 12, 2021 at 10:32:31AM +0000, Dave Stevenson wrote:
+> > > > On Thu, 11 Nov 2021 at 22:04, Laurent Pinchart wrote:
+> > 
+> > > > Sorry, just my two-penneth as someone who has to support general
+> > > > users, rather than just develop platforms or address specific use
+> > > > cases.
+> > > 
+> > > As mentioned above, I certainly don't oppose improving power management
+> > > for VCMs, as well as the VCM control API in general, as long as we can
+> > > cover all use cases. I'm not familiar enough with the use cases to tell
+> > > whether making the kernel side more "clever" would be just fine or could
+> > > cause issues.
+> > 
+> > Personally I found the
+> > 
+> >   kernel <--> library in userspace <--> another library or app
+> > 
+> > schema is more flexible in many ways:
+> >  - we unburden kernel from the heavy code that has nothing to
+> >    do directly with HW
+> >  - we allow nevertheless to use kernel ABIs if needed
+> >  - we decrease burden of the ABI evolution by doing it in only
+> >    two places
 > 
-> Why dma-buf? dma-buf looks like something super generic and useful, 
-> until
-> you realize that there's a metric ton of gpu/accelerator bagage piled 
-> in.
-> So unless buffer sharing with a gpu/video/accel/whatever device is the
-> goal here, and it's just for a convenient way to get at buffer 
-> handles,
-> this doesn't sound like a good idea.
-
-Good question. The first reason is that a somewhat similar API was 
-intented before[1], but refused upstream as it was kind of re-inventing 
-the wheel.
-
-The second reason, is that we want to be able to share buffers too, not 
-with gpu/video but with the network (zctap) and in the future with USB 
-(functionFS) too.
-
-[1]: 
-https://lore.kernel.org/linux-iio/20210217073638.21681-1-alexandru.ardelean@analog.com/T/
-
-> Also if the idea is to this with gpus/accelerators then I'd really 
-> like to
-> see the full thing, since most likely at that point you also want
-> dma_fence. And once we talk dma_fence things get truly horrible from a
-> locking pov :-( Or well, just highly constrained and I get to review 
-> what
-> iio is doing with these buffers to make sure it all fits.
-
-There is some dma_fence action in patch #10, which is enough for the 
-userspace apps to use the API.
-
-What "horribleness" are we talking about here? It doesn't look that 
-scary to me, but I certainly don't have the complete picture.
-
-Cheers,
--Paul
-
-> Cheers, Daniel
+> I think that's generally true (provided the low-level userspace library
+> is well designed). In this specific case, we're moving towards that
+> model, and even if it ends up being better, I agree with Dave that the
+> transition can be painful.
 > 
->> 
->>  Cheers,
->>  -Paul
->> 
->>  Alexandru Ardelean (1):
->>    iio: buffer-dma: split iio_dma_buffer_fileio_free() function
->> 
->>  Paul Cercueil (14):
->>    iio: buffer-dma: Get rid of incoming/outgoing queues
->>    iio: buffer-dma: Remove unused iio_buffer_block struct
->>    iio: buffer-dma: Use round_down() instead of rounddown()
->>    iio: buffer-dma: Enable buffer write support
->>    iio: buffer-dmaengine: Support specifying buffer direction
->>    iio: buffer-dmaengine: Enable write support
->>    iio: core: Add new DMABUF interface infrastructure
->>    iio: buffer-dma: Use DMABUFs instead of custom solution
->>    iio: buffer-dma: Implement new DMABUF based userspace API
->>    iio: buffer-dma: Boost performance using write-combine cache 
->> setting
->>    iio: buffer-dmaengine: Support new DMABUF based userspace API
->>    iio: core: Add support for cyclic buffers
->>    iio: buffer-dmaengine: Add support for cyclic buffers
->>    Documentation: iio: Document high-speed DMABUF based API
->> 
->>   Documentation/driver-api/dma-buf.rst          |   2 +
->>   Documentation/iio/dmabuf_api.rst              |  94 +++
->>   Documentation/iio/index.rst                   |   2 +
->>   drivers/iio/adc/adi-axi-adc.c                 |   3 +-
->>   drivers/iio/buffer/industrialio-buffer-dma.c  | 670 
->> ++++++++++++++----
->>   .../buffer/industrialio-buffer-dmaengine.c    |  42 +-
->>   drivers/iio/industrialio-buffer.c             |  49 ++
->>   include/linux/iio/buffer-dma.h                |  43 +-
->>   include/linux/iio/buffer-dmaengine.h          |   5 +-
->>   include/linux/iio/buffer_impl.h               |   8 +
->>   include/uapi/linux/iio/buffer.h               |  30 +
->>   11 files changed, 783 insertions(+), 165 deletions(-)
->>   create mode 100644 Documentation/iio/dmabuf_api.rst
->> 
->>  --
->>  2.33.0
->> 
+> > After all this kind of schema might lead us at some point to the
+> > shifting of 'we don't break user space' paradigm to the 'we hardly
+> > try not to break user space and do not break library ABIs / APIs
+> > in user space'.
 > 
-> --
-> Daniel Vetter
-> Software Engineer, Intel Corporation
-> http://blog.ffwll.ch
+> Is that an officially allowed policy for kernel subsystems ?
+
+Keyword is "might". And no, it's not allowed right now, but that's I recognize
+as a trend.
+
+-- 
+With Best Regards,
+Andy Shevchenko
 
 
