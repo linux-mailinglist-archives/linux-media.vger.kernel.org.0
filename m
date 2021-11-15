@@ -2,79 +2,139 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 787D64501F1
-	for <lists+linux-media@lfdr.de>; Mon, 15 Nov 2021 11:04:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2397845034C
+	for <lists+linux-media@lfdr.de>; Mon, 15 Nov 2021 12:20:39 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230472AbhKOKHK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 15 Nov 2021 05:07:10 -0500
-Received: from www.linuxtv.org ([130.149.80.248]:44840 "EHLO www.linuxtv.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230419AbhKOKHJ (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 15 Nov 2021 05:07:09 -0500
-Received: from builder.linuxtv.org ([140.211.167.10] helo=slave0)
-        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1mmYqT-00E8N9-LX; Mon, 15 Nov 2021 10:04:13 +0000
-Received: from ip6-localhost ([::1] helo=localhost.localdomain)
-        by slave0 with esmtp (Exim 4.94.2)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1mmYqR-004gH8-7D; Mon, 15 Nov 2021 10:04:11 +0000
-From:   Jenkins <jenkins@linuxtv.org>
-To:     mchehab+samsung@kernel.org, linux-media@vger.kernel.org
-Cc:     builder@linuxtv.org
-Subject: Re: [GIT FIXES FOR 5.16] hi846 fixes (#78484)
-Date:   Mon, 15 Nov 2021 10:04:10 +0000
-Message-Id: <20211115100410.1115772-1-jenkins@linuxtv.org>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <YZImi4YM3gNqe9ZR@valkosipuli.retiisi.eu>
-References: 
+        id S231214AbhKOLX0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 15 Nov 2021 06:23:26 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40472 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231599AbhKOLXV (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Mon, 15 Nov 2021 06:23:21 -0500
+Received: from lb1-smtp-cloud9.xs4all.net (lb1-smtp-cloud9.xs4all.net [IPv6:2001:888:0:108::1c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 33071C061746
+        for <linux-media@vger.kernel.org>; Mon, 15 Nov 2021 03:20:23 -0800 (PST)
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud9.xs4all.net with ESMTPA
+        id ma24mEfxOfwDFma28mONAD; Mon, 15 Nov 2021 12:20:20 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
+        t=1636975221; bh=W/GrJUWE1PifpwbKrJKvtakyGJkFvCs+rg8GjVxtaUM=;
+        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
+         Subject;
+        b=vIAo2qvrJhX3UPOwRPNy5gqjW3X/mifZHWFpys4jn9NyztJ2WZ4MTXIPEdTTMnlZt
+         RJV3kQnIQJpE8P/kNqtY9iiDMxTp2XcuyiQIVjIMCI6RzSyHoMb9b0DPhR2nyZh4UR
+         CnOn5Z5e0In5N5bgcKMVsvJTuN9EjUwOLgvto/WTlkktBPEfvS5y4orIjDjz2ckDVe
+         KrMaLzd1sRKm5cpH+DtTC/UL2w99P9AhyKDvsMDXAy9VXqXkwPsZ3Y3zTc6ayTxaBP
+         mLjbAJ/YQzWZGrv/9Mjro4AO0jvs1TbJvqhoSnBvGc0lsTcunfzVcdFk3AWSSMy2xd
+         ibllDwoEk1i4w==
+Subject: Re: [PATCH media-staging regression fix] media: videobuf2-dma-sg: Fix
+ buf->vb NULL pointer dereference
+To:     Tomasz Figa <tfiga@chromium.org>,
+        Hans de Goede <hdegoede@redhat.com>
+Cc:     Marek Szyprowski <m.szyprowski@samsung.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+        linux-media@vger.kernel.org,
+        Sergey Senozhatsky <senozhatsky@chromium.org>
+References: <20211101145355.533704-1-hdegoede@redhat.com>
+ <28823616-9622-29d4-75d6-cfef0d4f7323@redhat.com>
+ <CAAFQd5Ax6LUKMWMuvutCo7ng995rF5YBDw+WBRRDJE7dY-c0Cg@mail.gmail.com>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Message-ID: <d45dd8ce-56bf-521f-cda2-15f63f13cddd@xs4all.nl>
+Date:   Mon, 15 Nov 2021 12:20:16 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Firefox/78.0 Thunderbird/78.14.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAAFQd5Ax6LUKMWMuvutCo7ng995rF5YBDw+WBRRDJE7dY-c0Cg@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4xfNkODPKAFOuGswUmggDVHWLblKHUVmmBsg8LSBukqlrB7orLl8sOj6vDNVPdomyWRSCSe9TSpD0IMf2zvAdDzGsH6YFEZQ7zymD4BYhBIZ0MDcSq4jpF
+ Xn8r81LIU4n+W3VaTMPrxJXn+FWM1Pwofr6opdl+Jj8rEZuryFiw5+68ma6u2wkFEYO54/dZcB+0STqFpKmLr/SXw6B9cTcAjW6qf/bwGdxIHg+w/YxPRf3O
+ wVZqxJYOswKRpDneQYHLbnN9ksuuAcvmiuybfQ7rTAj0R/x+rX9+gXYcQPD8GtYkywDkRxw8wYQgcWx4n6RKKFMJUuqdc8nINk7Fm7VpW/eQPdDOQ/RDNbO7
+ kwnEKtT5MZh5gVmhazYKrb3HVkGo+eP3/M0t3pyt9clQe4xu06+IzA18zb6vGA/wtdql1Sj35VTX88v6tQqwwYj68OhTRg==
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: builder@linuxtv.org
+On 15/11/2021 09:54, Tomasz Figa wrote:
+> Hi Hans,
+> 
+> On Sat, Nov 6, 2021 at 9:39 PM Hans de Goede <hdegoede@redhat.com> wrote:
+>>
+>> Hi,
+>>
+>> On 11/1/21 15:53, Hans de Goede wrote:
+>>> Commit a4b83deb3e76 ("media: videobuf2: rework vb2_mem_ops API")
+>>> added a new vb member to struct vb2_dma_sg_buf, but it only added
+>>> code setting this to the vb2_dma_sg_alloc() function and not to the
+>>> vb2_dma_sg_get_userptr() and vb2_dma_sg_attach_dmabuf() which also
+>>> create vb2_dma_sg_buf objects.
+>>>
+>>> This is causing a crash due to a NULL pointer deref when using
+>>> libcamera on devices with an Intel IPU3 (qcam app).
+>>>
+>>> Fix these crashes by assigning buf->vb in the other 2 functions too,
+>>> note libcamera tests the vb2_dma_sg_get_userptr() path, the change
+>>> to the vb2_dma_sg_attach_dmabuf() path is untested.
+>>>
+>>> Fixes: a4b83deb3e76 ("media: videobuf2: rework vb2_mem_ops API")
+>>> Cc: Sergey Senozhatsky <senozhatsky@chromium.org>
+>>> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+>>
+>> Ping ? This is still an issue in the current media-staging tree.
+> 
+> Uh, sorry, I thought this was already fixed by [1], but that was only
+> for the dma-contig allocator. Thanks for the patch.
+> 
+> Acked-by: Tomasz Figa <tfiga@chromium.org>
+> 
+> [1] https://patchwork.kernel.org/project/linux-media/patch/20210928034634.333785-1-senozhatsky@chromium.org/
+> 
+> Hans (V.), would you pick this fix, please?
 
-Pull request: https://patchwork.linuxtv.org/project/linux-media/patch/YZImi4YM3gNqe9ZR@valkosipuli.retiisi.eu/
-Build log: https://builder.linuxtv.org/job/patchwork/157023/
-Build time: 00:27:19
-Link: https://lore.kernel.org/linux-media/YZImi4YM3gNqe9ZR@valkosipuli.retiisi.eu
+Yes, it's in a PR I posted for 5.16.
 
-gpg: Signature made Mon 15 Nov 2021 09:00:51 AM UTC
-gpg:                using DSA key 53AC58A5F5948636C04A1BF8141DFA54A1EC8DEA
-gpg:                issuer "sakari.ailus@linux.intel.com"
-gpg: Good signature from "Sakari Ailus <sakari.ailus@linux.intel.com>" [unknown]
-gpg: WARNING: This key is not certified with a trusted signature!
-gpg:          There is no indication that the signature belongs to the owner.
-Primary key fingerprint: F0D0 377A 0D4F 25A7 9238  EFE5 6D40 361B 6E28 C193
-     Subkey fingerprint: 53AC 58A5 F594 8636 C04A  1BF8 141D FA54 A1EC 8DEA
+Regards,
 
-Summary: got 1/2 patches with issues, being 1 at build time, plus one error when buinding PDF document
+	Hans
 
-Error/warnings:
-
-patches/0001-media-hi846-include-property.h-instead-of-of_graph.h.patch:
-
-    allyesconfig: return code #0:
-	../scripts/genksyms/parse.y: warning: 9 shift/reduce conflicts [-Wconflicts-sr]
-	../scripts/genksyms/parse.y: warning: 5 reduce/reduce conflicts [-Wconflicts-rr]
-	../scripts/genksyms/parse.y: note: rerun with option '-Wcounterexamples' to generate conflict counterexamples
-
-    allyesconfig: return code #0:
-	../drivers/media/cec/core/cec-adap.c: ../drivers/media/cec/core/cec-adap.c:926 cec_transmit_msg_fh() warn: '&data->list' not removed from list
-	../drivers/media/rc/meson-ir-tx.c:22: warning: expecting prototype for meson(). Prototype was for DEVICE_NAME() instead
-	SMATCH:../drivers/media/usb/siano/smsusb.c ../drivers/media/usb/siano/smsusb.c:53:38: :warning: array of flexible structures
-	SPARSE:../drivers/media/usb/siano/smsusb.c ../drivers/media/usb/siano/smsusb.c:53:38: warning: array of flexible structures
-	../drivers/media/usb/pvrusb2/pvrusb2-encoder.c: ../drivers/media/usb/pvrusb2/pvrusb2-encoder.c:288 pvr2_encoder_cmd() warn: inconsistent indenting
-	../drivers/media/usb/pvrusb2/pvrusb2-hdw.c: ../drivers/media/usb/pvrusb2/pvrusb2-hdw.c:1730 pvr2_hdw_set_streaming() warn: inconsistent indenting
-	../drivers/media/usb/pvrusb2/pvrusb2-hdw.c: ../drivers/media/usb/pvrusb2/pvrusb2-hdw.c:3461 pvr2_hdw_cpufw_set_enabled() warn: inconsistent indenting
-	../drivers/media/usb/pvrusb2/pvrusb2-hdw.c: ../drivers/media/usb/pvrusb2/pvrusb2-hdw.c:3501 pvr2_hdw_cpufw_get() warn: inconsistent indenting
-	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2625 dvb_register() parse error: turning off implications after 60 seconds
-	../drivers/media/platform/qcom/venus/helpers.c: ../drivers/media/platform/qcom/venus/helpers.c:658 venus_helper_get_bufreq() error: we previously assumed 'req' could be null (see line 654)
-	../drivers/media/usb/em28xx/em28xx-video.c: ../drivers/media/usb/em28xx/em28xx-video.c:2868 em28xx_v4l2_init() parse error: turning off implications after 60 seconds
-
-
-Error #512 when building PDF docs
+> 
+> Best regards,
+> Tomasz
+> 
+>>
+>> Regards,
+>>
+>> Hans
+>>
+>>
+>>> ---
+>>>  drivers/media/common/videobuf2/videobuf2-dma-sg.c | 2 ++
+>>>  1 file changed, 2 insertions(+)
+>>>
+>>> diff --git a/drivers/media/common/videobuf2/videobuf2-dma-sg.c b/drivers/media/common/videobuf2/videobuf2-dma-sg.c
+>>> index 33ee63a99139..0452ed9fac95 100644
+>>> --- a/drivers/media/common/videobuf2/videobuf2-dma-sg.c
+>>> +++ b/drivers/media/common/videobuf2/videobuf2-dma-sg.c
+>>> @@ -241,6 +241,7 @@ static void *vb2_dma_sg_get_userptr(struct vb2_buffer *vb, struct device *dev,
+>>>       buf->offset = vaddr & ~PAGE_MASK;
+>>>       buf->size = size;
+>>>       buf->dma_sgt = &buf->sg_table;
+>>> +     buf->vb = vb;
+>>>       vec = vb2_create_framevec(vaddr, size);
+>>>       if (IS_ERR(vec))
+>>>               goto userptr_fail_pfnvec;
+>>> @@ -642,6 +643,7 @@ static void *vb2_dma_sg_attach_dmabuf(struct vb2_buffer *vb, struct device *dev,
+>>>       buf->dma_dir = vb->vb2_queue->dma_dir;
+>>>       buf->size = size;
+>>>       buf->db_attach = dba;
+>>> +     buf->vb = vb;
+>>>
+>>>       return buf;
+>>>  }
+>>>
+>>
 
