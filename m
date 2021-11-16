@@ -2,107 +2,244 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8959E45349E
-	for <lists+linux-media@lfdr.de>; Tue, 16 Nov 2021 15:50:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7E44F4536AD
+	for <lists+linux-media@lfdr.de>; Tue, 16 Nov 2021 17:03:21 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237594AbhKPOwF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 16 Nov 2021 09:52:05 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44390 "EHLO
+        id S238718AbhKPQFa (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 16 Nov 2021 11:05:30 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33502 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237582AbhKPOv3 (ORCPT
+        with ESMTP id S238715AbhKPQF3 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 16 Nov 2021 09:51:29 -0500
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 08511C061570;
-        Tue, 16 Nov 2021 06:48:32 -0800 (PST)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: andrzej.p)
-        with ESMTPSA id 22B711F458BF
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=collabora.com; s=mail;
-        t=1637074110; bh=tVtgLQiEOpDHHHaJ5ct0SkMzxnFgc5BlaoIWWXimpko=;
-        h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
-        b=OggLjPtoRSPWS8ZLs8I799gkB90MsL/xFtgIKC8O+wdh/kgYzKP9odHJHnEbj1wPm
-         GluregzK0LTcIzo2QE0TnM741ec+itkKBPSrloS2yGoZ/sw58LUk9uo29xnIcfiLf5
-         CSfqHVVJfkq9sd0/Y69anMp33iJ1bVE10yloPxKjZF8BYWm377pN9QAemPR652FkJE
-         fzMyYpzmN07MKwh0PhiC9XXC90rlpSXfI9dKJ9dSRkajkpd69HgZnh0M+3f1Hm0UlS
-         IdvFNvu0tjB/wx3Q9j1InsK6ynl+f95QgVe3HutSuIVr2lDIp+1d3Xpd4s+7ZpbAbV
-         4rouW9E311MIQ==
-Subject: Re: [PATCH v8 00/12] VP9 codec V4L2 control interface
-To:     Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
-Cc:     linux-media <linux-media@vger.kernel.org>,
-        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        "open list:ARM/Rockchip SoC..." <linux-rockchip@lists.infradead.org>,
-        "open list:STAGING SUBSYSTEM" <linux-staging@lists.linux.dev>,
-        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-        Boris Brezillon <boris.brezillon@collabora.com>,
-        Fabio Estevam <festevam@gmail.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Heiko Stuebner <heiko@sntech.de>,
-        Jernej Skrabec <jernej.skrabec@gmail.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Nicolas Dufresne <nicolas.dufresne@collabora.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Collabora Kernel ML <kernel@collabora.com>
-References: <20211116143842.75896-1-andrzej.p@collabora.com>
- <CAAEAJfANEficRLg2JCvOmv_pv9j9tEVPPsph4n4TYkeBjeUWiQ@mail.gmail.com>
-From:   Andrzej Pietrasiewicz <andrzej.p@collabora.com>
-Message-ID: <7496c1ab-4ee1-c13b-e7d4-3c3d47022f26@collabora.com>
-Date:   Tue, 16 Nov 2021 15:48:28 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+        Tue, 16 Nov 2021 11:05:29 -0500
+Received: from mail-wm1-x32c.google.com (mail-wm1-x32c.google.com [IPv6:2a00:1450:4864:20::32c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2D474C061746
+        for <linux-media@vger.kernel.org>; Tue, 16 Nov 2021 08:02:32 -0800 (PST)
+Received: by mail-wm1-x32c.google.com with SMTP id p18so8095960wmq.5
+        for <linux-media@vger.kernel.org>; Tue, 16 Nov 2021 08:02:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ffwll.ch; s=google;
+        h=date:from:to:cc:subject:message-id:mail-followup-to:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=wR86pjAKDcIIUjt4g0ysng9Tddgdb2GO7C//iSJkn0k=;
+        b=FftBZOyVFz0PYRsL59Z0G8+qAi7RSjGedwAPQPPtbfF5SsCowVTzSBy3p0mssJB21z
+         Cadco0sNSqDTxiKuvu8X3O5kJSAu1Ihr2jIxiQJnP3rroZAp6sXuoluwDXsq2xPShhsj
+         D1QoP4+qDRLuNWU8JoSwUas/UnXTDhsXeVDJQ=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id
+         :mail-followup-to:references:mime-version:content-disposition
+         :content-transfer-encoding:in-reply-to;
+        bh=wR86pjAKDcIIUjt4g0ysng9Tddgdb2GO7C//iSJkn0k=;
+        b=4eXhveJ3HaStcX5r+cqGjLLW2sSAeHLHiI4GA+SzEtVZW1X5WuJyXqOriXCFFOqlJN
+         qdnJWTEnwHIAiEvVyDLo4ftt/MziH8xH6bitx1Swfti2FdWqNKvHRuobA2FpBS4e02An
+         I+qFbYJiJfpss6YhOu0Cb5Gbhc8AovIgsdnfipjT6xHp/4k/GJ0JnV/jankbc6Mbll6x
+         kd5dqR4NB8rpCf3oAIPQ563XsXqcgBXVlz8F+dcCiQxoEGYGAQeGK59wx2CT+jofNoDl
+         lZpKnQuKsslbp21A287r/sfW8B+HKsMRRb06CjPVFOWgEsRhHG9PLAZ/z6NSdOrTWgXB
+         rDAA==
+X-Gm-Message-State: AOAM530wU3O2jKj+OU0RKbePCkfkeZ2yG0r1GXO9MTGnGM1k88q1z0Ja
+        uDZBP3YA4J9Uy2X7LlUtKGTqeg==
+X-Google-Smtp-Source: ABdhPJxVC3Ayf3ujyTs1tnzW1O0d4iFKas9hSskyyJx1LFP+DqbDyiOzSuzf3vWlKhxoGmALSZFsHQ==
+X-Received: by 2002:a1c:20cc:: with SMTP id g195mr70520481wmg.42.1637078548445;
+        Tue, 16 Nov 2021 08:02:28 -0800 (PST)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+        by smtp.gmail.com with ESMTPSA id u2sm20799672wrs.17.2021.11.16.08.02.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 16 Nov 2021 08:02:27 -0800 (PST)
+Date:   Tue, 16 Nov 2021 17:02:25 +0100
+From:   Daniel Vetter <daniel@ffwll.ch>
+To:     Paul Cercueil <paul@crapouillou.net>
+Cc:     Daniel Vetter <daniel@ffwll.ch>,
+        Jonathan Cameron <jic23@kernel.org>,
+        Michael Hennerich <Michael.Hennerich@analog.com>,
+        linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org,
+        dri-devel@lists.freedesktop.org,
+        Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+        linaro-mm-sig@lists.linaro.org,
+        Alexandru Ardelean <ardeleanalex@gmail.com>,
+        linux-media@vger.kernel.org
+Subject: Re: [PATCH 00/15] iio: buffer-dma: write() and new DMABUF based API
+Message-ID: <YZPWEU2zRCY0En4l@phenom.ffwll.local>
+Mail-Followup-To: Paul Cercueil <paul@crapouillou.net>,
+        Jonathan Cameron <jic23@kernel.org>,
+        Michael Hennerich <Michael.Hennerich@analog.com>,
+        linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org,
+        dri-devel@lists.freedesktop.org,
+        Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+        linaro-mm-sig@lists.linaro.org,
+        Alexandru Ardelean <ardeleanalex@gmail.com>,
+        linux-media@vger.kernel.org
+References: <20211115141925.60164-1-paul@crapouillou.net>
+ <YZJwnPbgCOdeKq6S@phenom.ffwll.local>
+ <18CM2R.6UYFWJDX5UQD@crapouillou.net>
 MIME-Version: 1.0
-In-Reply-To: <CAAEAJfANEficRLg2JCvOmv_pv9j9tEVPPsph4n4TYkeBjeUWiQ@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <18CM2R.6UYFWJDX5UQD@crapouillou.net>
+X-Operating-System: Linux phenom 5.10.0-8-amd64 
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Ezequiel,
-
-W dniu 16.11.2021 oÂ 15:47, Ezequiel Garcia pisze:
-> On Tue, 16 Nov 2021 at 11:38, Andrzej Pietrasiewicz
-> <andrzej.p@collabora.com> wrote:
->>
->> Dear all,
->>
->> This patch series adds VP9 codec V4L2 control interface and two drivers
->> using the new controls. It is a follow-up of previous v7 series [1].
->>
->> In this iteration, we've implemented VP9 hardware decoding on two devices:
->> Rockchip VDEC and Hantro G2, and tested on RK3399, i.MX8MQ and i.MX8MP.
->> The i.MX8M driver needs proper power domains support, though, which is a
->> subject of a different effort, but in all 3 cases we were able to run the
->> drivers.
->>
->> GStreamer support is also available, the needed changes have been submitted
->> by Daniel Almeida [2]. This MR is ready to be merged, and just needs the
->> VP9 V4L2 controls to be merged and released.
->>
->> Both rkvdec and hantro drivers are passing a significant number of VP9 tests
->> using Fluster[3]. There are still a few tests that are not passing, due to
->> dynamic frame resize (not yet supported by V4L2) and small size videos
->> (due to IP block limitations).
->>
->> The series adds the VP9 codec V4L2 control API as uAPI, so it aims at being
->> merged without passing through staging, as agreed[4]. The ABI has been checked
->> for padding and verified to contain no holes.
->>
->> [1] https://patchwork.linuxtv.org/project/linux-media/list/?series=6393
->> [2] https://gitlab.freedesktop.org/gstreamer/gst-plugins-bad/-/merge_requests/2144
+On Mon, Nov 15, 2021 at 02:57:37PM +0000, Paul Cercueil wrote:
+> Hi Daniel,
 > 
-> Due to GStreamer monorepo, the MR has been moved to
+> Le lun., nov. 15 2021 at 15:37:16 +0100, Daniel Vetter <daniel@ffwll.ch> a
+> écrit :
+> > On Mon, Nov 15, 2021 at 02:19:10PM +0000, Paul Cercueil wrote:
+> > >  Hi Jonathan,
+> > > 
+> > >  This patchset introduces a new userspace interface based on DMABUF
+> > >  objects, to complement the existing fileio based API.
+> > > 
+> > >  The advantage of this DMABUF based interface vs. the fileio
+> > >  interface, is that it avoids an extra copy of the data between the
+> > >  kernel and userspace. This is particularly userful for high-speed
+> > >  devices which produce several megabytes or even gigabytes of data
+> > > per
+> > >  second.
+> > > 
+> > >  The first few patches [01/15] to [03/15] are not really related, but
+> > >  allow to reduce the size of the patches that introduce the new API.
+> > > 
+> > >  Patch [04/15] to [06/15] enables write() support to the buffer-dma
+> > >  implementation of the buffer API, to continue the work done by
+> > >  Mihail Chindris.
+> > > 
+> > >  Patches [07/15] to [12/15] introduce the new DMABUF based API.
+> > > 
+> > >  Patches [13/15] and [14/15] add support for cyclic buffers, only
+> > > through
+> > >  the new API. A cyclic buffer will be repeated on the output until
+> > > the
+> > >  buffer is disabled.
+> > > 
+> > >  Patch [15/15] adds documentation about the new API.
+> > > 
+> > >  For now, the API allows you to alloc DMABUF objects and mmap() them
+> > > to
+> > >  read or write the samples. It does not yet allow to import DMABUFs
+> > >  parented to other subsystems, but that should eventually be possible
+> > >  once it's wired.
+> > > 
+> > >  This patchset is inspired by the "mmap interface" that was
+> > > previously
+> > >  submitted by Alexandru Ardelean and Lars-Peter Clausen, so it would
+> > > be
+> > >  great if I could get a review from you guys. Alexandru's commit was
+> > >  signed with his @analog.com address but he doesn't work at ADI
+> > > anymore,
+> > >  so I believe I'll need him to sign with a new email.
+> > 
+> > Why dma-buf? dma-buf looks like something super generic and useful,
+> > until
+> > you realize that there's a metric ton of gpu/accelerator bagage piled
+> > in.
+> > So unless buffer sharing with a gpu/video/accel/whatever device is the
+> > goal here, and it's just for a convenient way to get at buffer handles,
+> > this doesn't sound like a good idea.
 > 
-> https://gitlab.freedesktop.org//gstreamer/gstreamer/-/merge_requests/1012
+> Good question. The first reason is that a somewhat similar API was intented
+> before[1], but refused upstream as it was kind of re-inventing the wheel.
+> 
+> The second reason, is that we want to be able to share buffers too, not with
+> gpu/video but with the network (zctap) and in the future with USB
+> (functionFS) too.
+> 
+> [1]: https://lore.kernel.org/linux-iio/20210217073638.21681-1-alexandru.ardelean@analog.com/T/
+
+Hm is that code merged already in upstream already?
+
+I know that dma-buf looks really generic, but like I said if there's no
+need ever to interface with any of the gpu buffer sharing it might be
+better to use something else (like get_user_pages maybe, would that work?).
+
+> > Also if the idea is to this with gpus/accelerators then I'd really like
+> > to
+> > see the full thing, since most likely at that point you also want
+> > dma_fence. And once we talk dma_fence things get truly horrible from a
+> > locking pov :-( Or well, just highly constrained and I get to review
+> > what
+> > iio is doing with these buffers to make sure it all fits.
+> 
+> There is some dma_fence action in patch #10, which is enough for the
+> userspace apps to use the API.
+> 
+> What "horribleness" are we talking about here? It doesn't look that scary to
+> me, but I certainly don't have the complete picture.
+
+You need to annotate all the code involved in signalling that dma_fence
+using dma_fence_begin/end_signalling, and then enable full lockdep and
+everything.
+
+You can safely assume you'll find bugs, because we even have bugs about
+this in gpu drivers (where that annotation isn't fully rolled out yet).
+
+The tldr is that you can allocate memory in there. And a pile of other
+restrictions, but not being able to allocate memory (well GFP_ATOMIC is
+ok, but that can fail) is a very serious restriction.
+-Daniel
+
+
+> 
+> Cheers,
+> -Paul
+> 
+> > Cheers, Daniel
+> > 
+> > > 
+> > >  Cheers,
+> > >  -Paul
+> > > 
+> > >  Alexandru Ardelean (1):
+> > >    iio: buffer-dma: split iio_dma_buffer_fileio_free() function
+> > > 
+> > >  Paul Cercueil (14):
+> > >    iio: buffer-dma: Get rid of incoming/outgoing queues
+> > >    iio: buffer-dma: Remove unused iio_buffer_block struct
+> > >    iio: buffer-dma: Use round_down() instead of rounddown()
+> > >    iio: buffer-dma: Enable buffer write support
+> > >    iio: buffer-dmaengine: Support specifying buffer direction
+> > >    iio: buffer-dmaengine: Enable write support
+> > >    iio: core: Add new DMABUF interface infrastructure
+> > >    iio: buffer-dma: Use DMABUFs instead of custom solution
+> > >    iio: buffer-dma: Implement new DMABUF based userspace API
+> > >    iio: buffer-dma: Boost performance using write-combine cache
+> > > setting
+> > >    iio: buffer-dmaengine: Support new DMABUF based userspace API
+> > >    iio: core: Add support for cyclic buffers
+> > >    iio: buffer-dmaengine: Add support for cyclic buffers
+> > >    Documentation: iio: Document high-speed DMABUF based API
+> > > 
+> > >   Documentation/driver-api/dma-buf.rst          |   2 +
+> > >   Documentation/iio/dmabuf_api.rst              |  94 +++
+> > >   Documentation/iio/index.rst                   |   2 +
+> > >   drivers/iio/adc/adi-axi-adc.c                 |   3 +-
+> > >   drivers/iio/buffer/industrialio-buffer-dma.c  | 670
+> > > ++++++++++++++----
+> > >   .../buffer/industrialio-buffer-dmaengine.c    |  42 +-
+> > >   drivers/iio/industrialio-buffer.c             |  49 ++
+> > >   include/linux/iio/buffer-dma.h                |  43 +-
+> > >   include/linux/iio/buffer-dmaengine.h          |   5 +-
+> > >   include/linux/iio/buffer_impl.h               |   8 +
+> > >   include/uapi/linux/iio/buffer.h               |  30 +
+> > >   11 files changed, 783 insertions(+), 165 deletions(-)
+> > >   create mode 100644 Documentation/iio/dmabuf_api.rst
+> > > 
+> > >  --
+> > >  2.33.0
+> > > 
+> > 
+> > --
+> > Daniel Vetter
+> > Software Engineer, Intel Corporation
+> > http://blog.ffwll.ch
+> 
 > 
 
-Thank you for catching this :)
-
-Andrzej
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
