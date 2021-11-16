@@ -2,95 +2,54 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2FC4F452CB3
-	for <lists+linux-media@lfdr.de>; Tue, 16 Nov 2021 09:26:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2973C452D74
+	for <lists+linux-media@lfdr.de>; Tue, 16 Nov 2021 10:01:37 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232004AbhKPI33 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 16 Nov 2021 03:29:29 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40800 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231924AbhKPI31 (ORCPT
+        id S232748AbhKPJE1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 16 Nov 2021 04:04:27 -0500
+Received: from mail.bizjoindeal.pl ([80.211.97.164]:57716 "EHLO
+        mail.bizjoindeal.pl" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232671AbhKPJEY (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 16 Nov 2021 03:29:27 -0500
-Received: from mail-pg1-x535.google.com (mail-pg1-x535.google.com [IPv6:2607:f8b0:4864:20::535])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 875C0C061570;
-        Tue, 16 Nov 2021 00:26:30 -0800 (PST)
-Received: by mail-pg1-x535.google.com with SMTP id 188so16940932pgb.7;
-        Tue, 16 Nov 2021 00:26:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=rUkyXCVCQcML8mU+bt8DD4FB+5QBSOVSc/yYB2EHpFc=;
-        b=Vv3cuUmrlkKpggK0A4S5Fw/fpL1GdDa4UJDK9d/JH7khq5ddZBUjqjkf8N5ZohL3Bd
-         sAeX5g08DfWLVDHOZN1gI0lAl5hlJmyNHOnCdrtKGqpD3rPmJvMDIA2fc9Nprx7ZL4fo
-         M+fTefDtyvEPGq5XrnzrqEdg2bfwTvRxEEoXCBEZyspVzL/DanuBVDQxpUjoRQMIMenv
-         IZTf1yqUPxj5XYcVeqcHWToOgHOWTR/D5iSLSk/8+qufzQ+s3ljX+q6084X9q9POjYFR
-         XwBjJE4Mchaxh7QcPq1ZTvd5IhqqT9GRJwLqaN/FT5RNMSmsE/75A5Xg7W0F9D5lUb+O
-         eBkg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=rUkyXCVCQcML8mU+bt8DD4FB+5QBSOVSc/yYB2EHpFc=;
-        b=65faLpNjrtKkIzk0+hug3lkPB0a5InX/5qIbWbrt+HQF4/pFhqPq0qkGk2dAm3SDCS
-         vfloOnilkSg/D0vjgffcUhueOyNbFLIf0l0c+3B8GJ6MjvUGUVw3czuQD12BA5gDW6Z5
-         vReo2XIKb01BHrb84r7gGOaoZR+46LQXwSAEOU7tEiCjYh8JDzjiWR2ioc5htwxQZxLz
-         0YthcReztEOVTDe3AmTfKGHpq53V3zKiJN1YZx9gDl3DZkIsTE6ufXIsIPCxXACz0Oko
-         h4GC2sYKeoxSxi1jji+WeqEmMuCVq4fYBKAPvZbG3iKAyT0d64vmpYhcsv4mnw0MLFMe
-         pxCQ==
-X-Gm-Message-State: AOAM533fFK70Bv15y17AHmvlWITp54GQdnQT2n4H77lH8soUEnHM/Dc5
-        HqmgjP7wNjWZiV6kfDo/1PYeKjpr6bilcBAd36I=
-X-Google-Smtp-Source: ABdhPJxgfh6Xgrp/tq7DgShkG7qFpZU22bNGSqLPVGAEnulBw2EuhE/eTEwyZUerfoJCNVCNPaICArCt8bkbPVRtYK4=
-X-Received: by 2002:a63:4a63:: with SMTP id j35mr221510pgl.409.1637051190106;
- Tue, 16 Nov 2021 00:26:30 -0800 (PST)
+        Tue, 16 Nov 2021 04:04:24 -0500
+Received: by mail.bizjoindeal.pl (Postfix, from userid 1001)
+        id A3D72A282D; Tue, 16 Nov 2021 08:51:23 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=bizjoindeal.pl;
+        s=mail; t=1637052688;
+        bh=JZuQ1fK7zFtz2oeUB7Xfid9vb7kUywdmDd2OluR8ywA=;
+        h=Date:From:To:Subject:From;
+        b=FNJHKjramCBdvgB3B7qzDnSjeLR/IZwRyuuHaSqC+Gdxyp5RgHu423jETa34EZNlB
+         mBJUhzOH4z5V3ML0q5BYO88EiRmCfC+jfT+uX8MXvF9T2G3x0qpb7kX6hJmvYkl9/9
+         O8AFz5zzpl7saGzAwMLgt42NXAh6sqtnEu2HENGRBnnxnoHbWDswDP2dd90QQhDxEB
+         fZmTbMyoLvP4Nutfyf2VllIk33UEI/PY2PK0IF4ForU6NUEhsFcnRONHUhxFtmfl9m
+         +DVa9zS1e9P3+4NjGaU5A9zanyvZVUiCFC1MLiiBcZgSUV6qPSKCwaROyEWGDVa26d
+         rOepx87aaqB1w==
+Received: by mail.bizjoindeal.pl for <linux-media@vger.kernel.org>; Tue, 16 Nov 2021 08:51:12 GMT
+Message-ID: <20211116074500-0.1.60.f0st.0.oio3vx0crc@bizjoindeal.pl>
+Date:   Tue, 16 Nov 2021 08:51:12 GMT
+From:   "Dorian Kwiatkowski" <dorian.kwiatkowski@bizjoindeal.pl>
+To:     <linux-media@vger.kernel.org>
+Subject: Fotowoltaika dla firm
+X-Mailer: mail.bizjoindeal.pl
 MIME-Version: 1.0
-References: <20211115141925.60164-1-paul@crapouillou.net> <20211115141925.60164-4-paul@crapouillou.net>
-In-Reply-To: <20211115141925.60164-4-paul@crapouillou.net>
-From:   Alexandru Ardelean <ardeleanalex@gmail.com>
-Date:   Tue, 16 Nov 2021 10:26:18 +0200
-Message-ID: <CA+U=DsrCPQhe4pqC4RReDFno1pazJYq9D89wuMnsLubUz-ytTw@mail.gmail.com>
-Subject: Re: [PATCH 03/15] iio: buffer-dma: Use round_down() instead of rounddown()
-To:     Paul Cercueil <paul@crapouillou.net>
-Cc:     Jonathan Cameron <jic23@kernel.org>,
-        Lars-Peter Clausen <lars@metafoo.de>,
-        Michael Hennerich <Michael.Hennerich@analog.com>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
-        linux-iio <linux-iio@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>, linux-media@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, Nov 15, 2021 at 4:19 PM Paul Cercueil <paul@crapouillou.net> wrote:
->
-> We know that the buffer's alignment will always be a power of two;
-> therefore, we can use the faster round_down() macro.
->
+Dzie=C5=84 dobry,
 
-Reviewed-by: Alexandru Ardelean <ardeleanalex@gmail.com>
+kontaktuj=C4=99 si=C4=99 z Pa=C5=84stwem, poniewa=C5=BC dostrzegam mo=C5=BC=
+liwo=C5=9B=C4=87 redukcji op=C5=82at za pr=C4=85d.
 
-> Signed-off-by: Paul Cercueil <paul@crapouillou.net>
-> ---
->  drivers/iio/buffer/industrialio-buffer-dmaengine.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/drivers/iio/buffer/industrialio-buffer-dmaengine.c b/drivers/iio/buffer/industrialio-buffer-dmaengine.c
-> index 1ac94c4e9792..f8ce26a24c57 100644
-> --- a/drivers/iio/buffer/industrialio-buffer-dmaengine.c
-> +++ b/drivers/iio/buffer/industrialio-buffer-dmaengine.c
-> @@ -67,7 +67,7 @@ static int iio_dmaengine_buffer_submit_block(struct iio_dma_buffer_queue *queue,
->         dma_cookie_t cookie;
->
->         block->bytes_used = min(block->size, dmaengine_buffer->max_size);
-> -       block->bytes_used = rounddown(block->bytes_used,
-> +       block->bytes_used = round_down(block->bytes_used,
->                         dmaengine_buffer->align);
->
->         desc = dmaengine_prep_slave_single(dmaengine_buffer->chan,
-> --
-> 2.33.0
->
+Odpowiednio dobrana instalacja fotowoltaiczna to rozwi=C4=85zanie, kt=C3=B3=
+re pozwala wygenerowa=C4=87 spore oszcz=C4=99dno=C5=9Bci w skali roku.
+
+Chcia=C5=82bym porozmawia=C4=87 z Pa=C5=84stwem o tego typu rozwi=C4=85za=
+niu, a tak=C5=BCe przedstawi=C4=87 wst=C4=99pne kalkulacje.
+
+Czy s=C4=85 Pa=C5=84stwo zainteresowani?
+
+Pozdrawiam,
+Dorian Kwiatkowski
