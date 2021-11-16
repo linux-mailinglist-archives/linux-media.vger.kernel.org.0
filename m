@@ -2,30 +2,30 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B060F4530BD
-	for <lists+linux-media@lfdr.de>; Tue, 16 Nov 2021 12:32:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B2D214530D2
+	for <lists+linux-media@lfdr.de>; Tue, 16 Nov 2021 12:32:25 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235378AbhKPLdC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 16 Nov 2021 06:33:02 -0500
-Received: from mail.kernel.org ([198.145.29.99]:35186 "EHLO mail.kernel.org"
+        id S235360AbhKPLfN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 16 Nov 2021 06:35:13 -0500
+Received: from mail.kernel.org ([198.145.29.99]:35444 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S234997AbhKPLcZ (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Tue, 16 Nov 2021 06:32:25 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 905D061B64;
+        id S235195AbhKPLco (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 16 Nov 2021 06:32:44 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id B922B6322D;
         Tue, 16 Nov 2021 11:29:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=k20201202; t=1637062148;
-        bh=3ihkMj4VM+MYVYnPn/P4IMFMw1DhL0cYHWdvWlG+yDQ=;
+        bh=U3MxoBvsoXIfguUXs6arCKLGL8bv2YFAy4MwNhpa9R4=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=scqufeID1VDjXIpeQ0fhTPVHIK2lfzevjWNigySf/q4nBoL9RZUIEC5KNv3R67PLL
-         06YgzJkvyxpdZwqh9SE9TjBnZwLh/yyROHpPOPL8EJoGSfCxzfslsP1KAZ91W6tL7W
-         gugE/Q3WudgZbMDUklGN+WFZMxLdSzblFP8nZzxqqMSspEOeIWMx95u8X1w4xHmVnH
-         7jF4aBA9Wm0UjLBtiEg26Mz57W/xYiN0CNWcPZCKYush/bUIIJWPhJiaDsJOT8nAC9
-         nvkgP1DwiEeY+f2QR1Tv7ghG2WUMf1FfGfGsu7khTTTT7lXN90HHJdfz9yah1OvUfB
-         6YyPie+p45g7A==
+        b=cf9gbY739oVGoT+0h7MmItQMeiy0mnEztOoCQV7iXAac8j2JWkrnw/9Erjq15ublV
+         3Eaa6Dyp2PaNEF7PtmIKWxbcdd+Al8WPgdIr/nzbS3dDWK1jAPzp9QqXA4MUGhS5U1
+         dIXfACfdVi1zuxmZerrYdwyhn8mgaAUZKCWXzZCIKjziw5BwPeE9HnCltSY9+Ir+P3
+         Dq/DJa7uH2V1GQZeVMdl96YOqvWGdQHmJazhZQCUw1BiTbqDcmn2gOEG3KQ7yFoqP9
+         PQ0oWOs9TOc4zAVsjAtc16cxZScobGPYCs88jm86JH10Hc1+ZlynTFnUPJOemcqsJm
+         jKcNjWkvJP6hA==
 Received: by mail.kernel.org with local (Exim 4.94.2)
         (envelope-from <mchehab@kernel.org>)
-        id 1mmwe9-008Qfp-Jx; Tue, 16 Nov 2021 11:29:05 +0000
+        id 1mmwe9-008Qfs-KZ; Tue, 16 Nov 2021 11:29:05 +0000
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 Cc:     linuxarm@huawei.com, mauro.chehab@huawei.com,
         Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
@@ -36,9 +36,9 @@ Cc:     linuxarm@huawei.com, mauro.chehab@huawei.com,
         Sakari Ailus <sakari.ailus@linux.intel.com>,
         linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
         linux-staging@lists.linux.dev
-Subject: [PATCH 15/23] media: atomisp: get rid of ia_css_stream_load()
-Date:   Tue, 16 Nov 2021 11:28:56 +0000
-Message-Id: <795397c297d392dc54b8ef9e1a7d2c4eaf145d02.1637061474.git.mchehab+huawei@kernel.org>
+Subject: [PATCH 16/23] media: atomisp: unify ia_css_stream stop logic
+Date:   Tue, 16 Nov 2021 11:28:57 +0000
+Message-Id: <9927884a147027f6103805db5e1a63244f2f2dbe.1637061474.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.33.1
 In-Reply-To: <cover.1637061474.git.mchehab+huawei@kernel.org>
 References: <cover.1637061474.git.mchehab+huawei@kernel.org>
@@ -50,7 +50,9 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This function is marked as obsolete and nobody calls it.
+There are two versions of those functions. It turns that the
+choosen firmware use the old version. So, drop the unused
+ones and ensure that all devices will use the right functions.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
@@ -58,93 +60,262 @@ Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To mailbombing on a large number of people, only mailing lists were C/C on the cover.
 See [PATCH 00/23] at: https://lore.kernel.org/all/cover.1637061474.git.mchehab+huawei@kernel.org/
 
- .../media/atomisp/pci/ia_css_stream_public.h  |  9 ----
- drivers/staging/media/atomisp/pci/sh_css.c    | 52 -------------------
- 2 files changed, 61 deletions(-)
+ drivers/staging/media/atomisp/pci/sh_css.c | 214 +--------------------
+ 1 file changed, 2 insertions(+), 212 deletions(-)
 
-diff --git a/drivers/staging/media/atomisp/pci/ia_css_stream_public.h b/drivers/staging/media/atomisp/pci/ia_css_stream_public.h
-index 83846e417ae5..649f22b03de8 100644
---- a/drivers/staging/media/atomisp/pci/ia_css_stream_public.h
-+++ b/drivers/staging/media/atomisp/pci/ia_css_stream_public.h
-@@ -202,15 +202,6 @@ int
- ia_css_stream_get_info(const struct ia_css_stream *stream,
- 		       struct ia_css_stream_info *stream_info);
- 
--/* @brief load (rebuild) a stream that was unloaded.
-- * @param[in]	stream The stream
-- * @return		0 or the error code
-- *
-- * Rebuild a stream, including allocating structs, setting configuration and
-- * building the required pipes.
-- */
--int
--ia_css_stream_load(struct ia_css_stream *stream);
- 
- /* @brief Starts the stream.
-  * @param[in]	stream The stream.
 diff --git a/drivers/staging/media/atomisp/pci/sh_css.c b/drivers/staging/media/atomisp/pci/sh_css.c
-index 6f1dca0788b4..c73ef67959c9 100644
+index c73ef67959c9..adec184c8536 100644
 --- a/drivers/staging/media/atomisp/pci/sh_css.c
 +++ b/drivers/staging/media/atomisp/pci/sh_css.c
-@@ -9546,58 +9546,6 @@ ia_css_stream_get_info(const struct ia_css_stream *stream,
+@@ -189,27 +189,6 @@ allocate_delay_frames(struct ia_css_pipe *pipe);
+ static int
+ sh_css_pipe_start(struct ia_css_stream *stream);
+ 
+-/* ISP 2401 */
+-/*
+- * @brief Stop all "ia_css_pipe" instances in the target
+- * "ia_css_stream" instance.
+- *
+- * @param[in] stream	Point to the target "ia_css_stream" instance.
+- *
+- * @return
+- * - 0, if the "stop" requests have been successfully sent out.
+- * - CSS error code, otherwise.
+- *
+- *
+- * NOTE
+- * This API sends the "stop" requests to the "ia_css_pipe"
+- * instances in the same "ia_css_stream" instance. It will
+- * return without waiting for all "ia_css_pipe" instatnces
+- * being stopped.
+- */
+-static int
+-sh_css_pipes_stop(struct ia_css_stream *stream);
+-
+ /*
+  * @brief Check if all "ia_css_pipe" instances in the target
+  * "ia_css_stream" instance have stopped.
+@@ -221,9 +200,6 @@ sh_css_pipes_stop(struct ia_css_stream *stream);
+  *   instance have ben stopped.
+  * - false, otherwise.
+  */
+-/* ISP 2401 */
+-static bool
+-sh_css_pipes_have_stopped(struct ia_css_stream *stream);
+ 
+ /* ISP 2401 */
+ static int
+@@ -4786,185 +4762,6 @@ ia_css_stream_get_buffer_depth(struct ia_css_stream *stream,
  	return 0;
  }
  
 -/*
-- * Rebuild a stream, including allocating structs, setting configuration and
-- * building the required pipes.
-- * The data is taken from the css_save struct updated upon stream creation.
-- * The stream handle is used to identify the correct entry in the css_save struct
+- * @brief Stop all "ia_css_pipe" instances in the target
+- * "ia_css_stream" instance.
+- *
+- * Refer to "Local prototypes" for more info.
 - */
--int
--ia_css_stream_load(struct ia_css_stream *stream)
+-/* ISP2401 */
+-static int
+-sh_css_pipes_stop(struct ia_css_stream *stream)
 -{
--	int i, j, err;
+-	int err = 0;
+-	struct ia_css_pipe *main_pipe;
+-	enum ia_css_pipe_id main_pipe_id;
+-	int i;
 -
--	if (IS_ISP2401) {
--		/* TODO remove function - DEPRECATED */
--		(void)stream;
--		return -ENOTSUPP;
+-	if (!stream) {
+-		IA_CSS_LOG("stream does NOT exist!");
+-		err = -EINVAL;
+-		goto ERR;
 -	}
 -
--	assert(stream);
--	ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE,	"ia_css_stream_load() enter,\n");
--	for (i = 0; i < MAX_ACTIVE_STREAMS; i++) {
--		if (my_css_save.stream_seeds[i].stream != stream)
--			continue;
+-	main_pipe = stream->last_pipe;
+-	if (!main_pipe) {
+-		IA_CSS_LOG("main_pipe does NOT exist!");
+-		err = -EINVAL;
+-		goto ERR;
+-	}
 -
--		for (j = 0; j < my_css_save.stream_seeds[i].num_pipes; j++) {
--			int k;
+-	main_pipe_id = main_pipe->mode;
+-	IA_CSS_ENTER_PRIVATE("main_pipe_id=%d", main_pipe_id);
 -
--			err = ia_css_pipe_create(&my_css_save.stream_seeds[i].pipe_config[j],
--						 &my_css_save.stream_seeds[i].pipes[j]);
--			if (!err)
--				continue;
+-	/*
+-	 * Stop all "ia_css_pipe" instances in this target
+-	 * "ia_css_stream" instance.
+-	 */
+-	for (i = 0; i < stream->num_pipes; i++) {
+-		/* send the "stop" request to the "ia_css_pipe" instance */
+-		IA_CSS_LOG("Send the stop-request to the pipe: pipe_id=%d",
+-			   stream->pipes[i]->pipeline.pipe_id);
+-		err = ia_css_pipeline_request_stop(&stream->pipes[i]->pipeline);
 -
--			for (k = 0; k < j; k++)
--				ia_css_pipe_destroy(my_css_save.stream_seeds[i].pipes[k]);
--			return err;
+-		/*
+-		* Exit this loop if "ia_css_pipeline_request_stop()"
+-		* returns the error code.
+-		*
+-		* The error code would be generated in the following
+-		* two cases:
+-		* (1) The Scalar Processor has already been stopped.
+-		* (2) The "Host->SP" event queue is full.
+-		*
+-		* As the convention of using CSS API 2.0/2.1, such CSS
+-		* error code would be propogated from the CSS-internal
+-		* API returned value to the CSS API returned value. Then
+-		* the CSS driver should capture these error code and
+-		* handle it in the driver exception handling mechanism.
+-		*/
+-		if (err)
+-			goto ERR;
+-	}
+-
+-	/*
+-	 * In the CSS firmware use scenario "Continuous Preview"
+-	 * as well as "Continuous Video", the "ia_css_pipe" instance
+-	 * "Copy Pipe" is activated. This "Copy Pipe" is private to
+-	 * the CSS firmware so that it is not listed in the target
+-	 * "ia_css_stream" instance.
+-	 *
+-	 * We need to stop this "Copy Pipe", as well.
+-	 */
+-	if (main_pipe->stream->config.continuous) {
+-		struct ia_css_pipe *copy_pipe = NULL;
+-
+-		/* get the reference to "Copy Pipe" */
+-		if (main_pipe_id == IA_CSS_PIPE_ID_PREVIEW)
+-			copy_pipe = main_pipe->pipe_settings.preview.copy_pipe;
+-		else if (main_pipe_id == IA_CSS_PIPE_ID_VIDEO)
+-			copy_pipe = main_pipe->pipe_settings.video.copy_pipe;
+-
+-		/* return the error code if "Copy Pipe" does NOT exist */
+-		if (!copy_pipe) {
+-			IA_CSS_LOG("Copy Pipe does NOT exist!");
+-			err = -EINVAL;
+-			goto ERR;
 -		}
--		err = ia_css_stream_create(&my_css_save.stream_seeds[i].stream_config,
--					   my_css_save.stream_seeds[i].num_pipes,
--					   my_css_save.stream_seeds[i].pipes,
--					   &my_css_save.stream_seeds[i].stream);
--		if (!err)
--			break;
 -
--		ia_css_stream_destroy(stream);
--		for (j = 0; j < my_css_save.stream_seeds[i].num_pipes; j++)
--			ia_css_pipe_destroy(my_css_save.stream_seeds[i].pipes[j]);
--		return err;
+-		/* send the "stop" request to "Copy Pipe" */
+-		IA_CSS_LOG("Send the stop-request to the pipe: pipe_id=%d",
+-			   copy_pipe->pipeline.pipe_id);
+-		err = ia_css_pipeline_request_stop(&copy_pipe->pipeline);
 -	}
 -
--	ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE,	"ia_css_stream_load() exit,\n");
--	return 0;
+-ERR:
+-	IA_CSS_LEAVE_ERR_PRIVATE(err);
+-	return err;
 -}
 -
- int
- ia_css_stream_start(struct ia_css_stream *stream)
- {
+-/*
+- * @brief Check if all "ia_css_pipe" instances in the target
+- * "ia_css_stream" instance have stopped.
+- *
+- * Refer to "Local prototypes" for more info.
+- */
+-/* ISP2401 */
+-static bool
+-sh_css_pipes_have_stopped(struct ia_css_stream *stream)
+-{
+-	bool rval = true;
+-
+-	struct ia_css_pipe *main_pipe;
+-	enum ia_css_pipe_id main_pipe_id;
+-
+-	int i;
+-
+-	if (!stream) {
+-		IA_CSS_LOG("stream does NOT exist!");
+-		rval = false;
+-		goto RET;
+-	}
+-
+-	main_pipe = stream->last_pipe;
+-
+-	if (!main_pipe) {
+-		IA_CSS_LOG("main_pipe does NOT exist!");
+-		rval = false;
+-		goto RET;
+-	}
+-
+-	main_pipe_id = main_pipe->mode;
+-	IA_CSS_ENTER_PRIVATE("main_pipe_id=%d", main_pipe_id);
+-
+-	/*
+-	 * Check if every "ia_css_pipe" instance in this target
+-	 * "ia_css_stream" instance has stopped.
+-	 */
+-	for (i = 0; i < stream->num_pipes; i++) {
+-		rval = rval && ia_css_pipeline_has_stopped(&stream->pipes[i]->pipeline);
+-		IA_CSS_LOG("Pipe has stopped: pipe_id=%d, stopped=%d",
+-			   stream->pipes[i]->pipeline.pipe_id,
+-			   rval);
+-	}
+-
+-	/*
+-	 * In the CSS firmware use scenario "Continuous Preview"
+-	 * as well as "Continuous Video", the "ia_css_pipe" instance
+-	 * "Copy Pipe" is activated. This "Copy Pipe" is private to
+-	 * the CSS firmware so that it is not listed in the target
+-	 * "ia_css_stream" instance.
+-	 *
+-	 * We need to check if this "Copy Pipe" has stopped, as well.
+-	 */
+-	if (main_pipe->stream->config.continuous) {
+-		struct ia_css_pipe *copy_pipe = NULL;
+-
+-		/* get the reference to "Copy Pipe" */
+-		if (main_pipe_id == IA_CSS_PIPE_ID_PREVIEW)
+-			copy_pipe = main_pipe->pipe_settings.preview.copy_pipe;
+-		else if (main_pipe_id == IA_CSS_PIPE_ID_VIDEO)
+-			copy_pipe = main_pipe->pipe_settings.video.copy_pipe;
+-
+-		/* return if "Copy Pipe" does NOT exist */
+-		if (!copy_pipe) {
+-			IA_CSS_LOG("Copy Pipe does NOT exist!");
+-
+-			rval = false;
+-			goto RET;
+-		}
+-
+-		/* check if "Copy Pipe" has stopped or not */
+-		rval = rval && ia_css_pipeline_has_stopped(&copy_pipe->pipeline);
+-		IA_CSS_LOG("Pipe has stopped: pipe_id=%d, stopped=%d",
+-			   copy_pipe->pipeline.pipe_id,
+-			   rval);
+-	}
+-
+-RET:
+-	IA_CSS_LEAVE_PRIVATE("rval=%d", rval);
+-	return rval;
+-}
+-
+ #if !defined(ISP2401)
+ unsigned int
+ sh_css_get_mipi_sizes_for_check(const unsigned int port, const unsigned int idx)
+@@ -9619,11 +9416,7 @@ ia_css_stream_stop(struct ia_css_stream *stream)
+ 	}
+ #endif
+ 
+-	if (!IS_ISP2401)
+-		err = ia_css_pipeline_request_stop(&stream->last_pipe->pipeline);
+-	else
+-		err = sh_css_pipes_stop(stream);
+-
++	err = ia_css_pipeline_request_stop(&stream->last_pipe->pipeline);
+ 	if (err)
+ 		return err;
+ 
+@@ -9643,10 +9436,7 @@ ia_css_stream_has_stopped(struct ia_css_stream *stream)
+ 
+ 	assert(stream);
+ 
+-	if (!IS_ISP2401)
+-		stopped = ia_css_pipeline_has_stopped(&stream->last_pipe->pipeline);
+-	else
+-		stopped = sh_css_pipes_have_stopped(stream);
++	stopped = ia_css_pipeline_has_stopped(&stream->last_pipe->pipeline);
+ 
+ 	return stopped;
+ }
 -- 
 2.33.1
 
