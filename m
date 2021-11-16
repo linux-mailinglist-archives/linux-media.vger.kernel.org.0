@@ -2,143 +2,200 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AB972452E70
-	for <lists+linux-media@lfdr.de>; Tue, 16 Nov 2021 10:52:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 89393452E7C
+	for <lists+linux-media@lfdr.de>; Tue, 16 Nov 2021 10:54:55 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233672AbhKPJzc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 16 Nov 2021 04:55:32 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60238 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233658AbhKPJzT (ORCPT
+        id S233491AbhKPJ5n (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 16 Nov 2021 04:57:43 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:47574 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S233509AbhKPJ5l (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 16 Nov 2021 04:55:19 -0500
-Received: from mail-pj1-x1029.google.com (mail-pj1-x1029.google.com [IPv6:2607:f8b0:4864:20::1029])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 87CD0C0432DF;
-        Tue, 16 Nov 2021 01:50:50 -0800 (PST)
-Received: by mail-pj1-x1029.google.com with SMTP id y14-20020a17090a2b4e00b001a5824f4918so1744225pjc.4;
-        Tue, 16 Nov 2021 01:50:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=Jbl1bKB28ZQInN+16uM3WF1uI4nnrdBSKaIDe4FDIn4=;
-        b=NczuZoG9lJzIkj+khBgbYgrCnlf/dviLGHYxxjBvLZqdX3qYA8iMv51JgOHt0AbHSJ
-         i8vVjtkhFLiVROY5Cq3hxHvFZWODNrlxIUPm2/Ux4G4h2oTOGtPy6xmP/leu9oyI5yhW
-         YJDsKLi1482S1NFJaNCVtV0NaKmHYhV0vzw2SAHlaTmPQ3lBjcc+4BCnOCgLTvH15G9T
-         8Qh+vFs+AM70fyR+tS52pq3WG/LyD6v5e06PK6rjmgek5L+dR4IuhntQIYVpbvyBXUFP
-         Y2jR1djZSSTrGPex0XjKwTrPtyC1/BOvUeMh7p+OtUDfJPAUGGRrQHW+VGdIUxfDTh3k
-         5tTg==
+        Tue, 16 Nov 2021 04:57:41 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1637056481;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=Wk+MOWgjozoLhZm7pPaaV2e3KZg+3AnVshNINsqu9jc=;
+        b=g2YBTct1foS3mtpk42ESpa2NMvZqhUZSjO1XHe4Hd+yOdgFy28bExlWUMU3QcLfWEfjHN3
+        Lr8fX5WrjXcjXB0/BJT2Nz1y+8+0ON9bvg//rxtaziqGWCDhIIwmHzMNMrDxMBrMf3C50h
+        d8bfvUo2iNPA3peO1HNXVLJ9Li4xfT0=
+Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
+ [209.85.208.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-484-xgQQGLJPOBiTXSdUgKYbRA-1; Tue, 16 Nov 2021 04:54:39 -0500
+X-MC-Unique: xgQQGLJPOBiTXSdUgKYbRA-1
+Received: by mail-ed1-f69.google.com with SMTP id n11-20020aa7c68b000000b003e7d68e9874so3434682edq.8
+        for <linux-media@vger.kernel.org>; Tue, 16 Nov 2021 01:54:39 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=Jbl1bKB28ZQInN+16uM3WF1uI4nnrdBSKaIDe4FDIn4=;
-        b=wgpOdm0v2lBRlwXxneHfJa0Dgyi+8Qvxm+asNuI7fKoGWxUyc3YB/jwDBvkvk2EZ5s
-         bGCjmR0BIXizxzyn9UOX/6XKmHz7kypg0zEDszO0gohFynG8mqUfp9IlbJrpPIP5S0Oh
-         5FLjNcJBbC7AYoY28ZcS4l+Zd6i7M3EBtQ5RQb6imNVdhFD+cwA/GYChpaeVuA7kXKmV
-         8hO+aOTtwSMEsr+j9nJKNCP4FvDI4IYhBPgZgYeGe/ruNpwiguihLDaUn97d9O3Qd0vH
-         SSvSvTauH7McIbuC24brHBVJqHb5/Ft9nvUnu8tZQVVyiFEJ8nUrvSC0QxJHJnEzOtTA
-         CA9w==
-X-Gm-Message-State: AOAM530yy/cY2ecNVM6SluK/szgapU2H23N1GyaScdJazakXOCEj+lAv
-        XPIGgNDoAP8H5ZZMk8l33UrKAxq1SDeYdkGLaOc=
-X-Google-Smtp-Source: ABdhPJx0v8IzfnU05ejmdXMqJmDMXeb3PF++qh8Md5OR3XMUslrUChQ77cv06uovViNWiQhcy4Q3KXk00wiWecHoznA=
-X-Received: by 2002:a17:90a:e54c:: with SMTP id ei12mr73525634pjb.81.1637056250074;
- Tue, 16 Nov 2021 01:50:50 -0800 (PST)
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=Wk+MOWgjozoLhZm7pPaaV2e3KZg+3AnVshNINsqu9jc=;
+        b=wyZjtHghqJjEOgD33tetFAyE5vrPNtdxgYj3EbUaNM+74+74vzmCCwWenkyBKlMhgi
+         C49OzUmXz+uBlS/YWNAsnO2XNZqDvk4mdQ4PRY7ALodne2Vc9/xZIlB3JyQRFaXnfxM7
+         TspDsR4tPVQZ0xG+Ys0tAOaRv9TC5vsIUfRRCRe5+oY1Sy1IZp1qSVVLiPSER3neRDhS
+         7tesXSsHXDN1pjU4DZuwWPeWt4+1aQ93+sepqO1ZdZTXKkixZg+RMrG1pFU4GbgS9dDW
+         GnNW52pNT5AIZUP6EKHRtpYcu8/FdScklJ0BuuvEtf+c4EI0ShYe57CH/QDSEVDPBqb/
+         8fdw==
+X-Gm-Message-State: AOAM5336BnCwRcGb9d0B4ndtd66hpUJIVOX+CRJVaiNjVcgOIb1asI2O
+        eTi5/WnBXBY5ngUOXU2vTqPdsbRPdfQ9J9u7TvxUAzYBuA+WCoRyfo9q/gyWY53up9rnct4FjqA
+        rkP30Fqv+3Vwtvu+AtVoSsSk=
+X-Received: by 2002:a17:906:c155:: with SMTP id dp21mr7766555ejc.236.1637056478488;
+        Tue, 16 Nov 2021 01:54:38 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwrgd+6wNu2txMVf0jG+364BXVBAR0lgoGkW0y3m4+69AzYa8hOK7MwZTT3M27HEe9PmIyC5A==
+X-Received: by 2002:a17:906:c155:: with SMTP id dp21mr7766533ejc.236.1637056478308;
+        Tue, 16 Nov 2021 01:54:38 -0800 (PST)
+Received: from ?IPV6:2001:1c00:c1e:bf00:1054:9d19:e0f0:8214? (2001-1c00-0c1e-bf00-1054-9d19-e0f0-8214.cable.dynamic.v6.ziggo.nl. [2001:1c00:c1e:bf00:1054:9d19:e0f0:8214])
+        by smtp.gmail.com with ESMTPSA id w7sm4125548ede.66.2021.11.16.01.54.37
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 16 Nov 2021 01:54:37 -0800 (PST)
+Message-ID: <66f4b901-830c-aab7-23c2-21158ce1d158@redhat.com>
+Date:   Tue, 16 Nov 2021 10:54:36 +0100
 MIME-Version: 1.0
-References: <20211115141925.60164-1-paul@crapouillou.net> <20211115142243.60605-1-paul@crapouillou.net>
- <20211115142243.60605-3-paul@crapouillou.net>
-In-Reply-To: <20211115142243.60605-3-paul@crapouillou.net>
-From:   Alexandru Ardelean <ardeleanalex@gmail.com>
-Date:   Tue, 16 Nov 2021 11:50:38 +0200
-Message-ID: <CA+U=Dsp4P_q6gS9-iS1BujGfhia=uEjBZFy_VEZqFwT-rCOXQQ@mail.gmail.com>
-Subject: Re: [PATCH 14/15] iio: buffer-dmaengine: Add support for cyclic buffers
-To:     Paul Cercueil <paul@crapouillou.net>
-Cc:     Jonathan Cameron <jic23@kernel.org>,
-        Lars-Peter Clausen <lars@metafoo.de>,
-        Michael Hennerich <Michael.Hennerich@analog.com>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
-        linux-iio <linux-iio@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>, linux-media@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.2.0
+Subject: Re: Fwd: Surface Go VCM type (was: Need to pass
+ acpi_enforce_resources=lax on the Surface Go (version1))
+Content-Language: en-US
+To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc:     Daniel Scally <djrscally@gmail.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Kate Hsuan <hpa@redhat.com>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        libcamera-devel@lists.libcamera.org
+References: <e2312277-f967-7d3f-5ce9-fbb197d35fd6@gmail.com>
+ <3b61bb2d-1136-cf35-ba7a-724da9642855@gmail.com>
+ <418dc16a-2a03-7604-a8e2-31c5ddfcf436@redhat.com>
+ <58dabc46-211c-844d-3ed3-fd2411936d6d@gmail.com>
+ <b0a6a762-3445-7c61-3510-6bd493f8e0fa@redhat.com>
+ <YYkwaY1C77BRmJat@smile.fi.intel.com>
+From:   Hans de Goede <hdegoede@redhat.com>
+In-Reply-To: <YYkwaY1C77BRmJat@smile.fi.intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, Nov 15, 2021 at 4:23 PM Paul Cercueil <paul@crapouillou.net> wrote:
->
-> Handle the IIO_BUFFER_DMABUF_CYCLIC flag to support cyclic buffers.
->
+Hi,
 
-Reviewed-by: Alexandru Ardelean <ardeleanalex@gmail.com>
+On 11/8/21 15:12, Andy Shevchenko wrote:
+> On Mon, Nov 08, 2021 at 02:12:38PM +0100, Hans de Goede wrote:
+>> On 11/2/21 00:43, Daniel Scally wrote:
+> 
+>> Does this sound reasonable / like I'm heading in the right direction?
+> 
+> It is up to you folks, since I have no time to participate in this with
+> a full dive right now. Below just some comments on the patches in case
+> they will go.
+> 
+> ...
+> 
+>> -	struct acpi_device *adev = ACPI_COMPANION(dev);
+>> +	struct acpi_device *adev = to_acpi_device_node(fwnode);
+>>  	struct i2c_acpi_lookup lookup;
+>>  	struct i2c_adapter *adapter;
+>>  	LIST_HEAD(resource_list);
+>>  	int ret;
+> 
+> Make sense to move assignment here.
 
-> Signed-off-by: Paul Cercueil <paul@crapouillou.net>
-> ---
->  drivers/iio/buffer/industrialio-buffer-dma.c      |  1 +
->  .../iio/buffer/industrialio-buffer-dmaengine.c    | 15 ++++++++++++---
->  include/linux/iio/buffer-dma.h                    |  3 +++
->  3 files changed, 16 insertions(+), 3 deletions(-)
->
-> diff --git a/drivers/iio/buffer/industrialio-buffer-dma.c b/drivers/iio/buffer/industrialio-buffer-dma.c
-> index fb39054d8c15..6658f103ee17 100644
-> --- a/drivers/iio/buffer/industrialio-buffer-dma.c
-> +++ b/drivers/iio/buffer/industrialio-buffer-dma.c
-> @@ -933,6 +933,7 @@ int iio_dma_buffer_enqueue_dmabuf(struct iio_buffer *buffer,
->         }
->
->         dma_block->bytes_used = iio_dmabuf->bytes_used ?: dma_block->size;
-> +       dma_block->cyclic = iio_dmabuf->flags & IIO_BUFFER_DMABUF_CYCLIC;
->
->         switch (dma_block->state) {
->         case IIO_BLOCK_STATE_QUEUED:
-> diff --git a/drivers/iio/buffer/industrialio-buffer-dmaengine.c b/drivers/iio/buffer/industrialio-buffer-dmaengine.c
-> index 57a8b2e4ba3c..952e2160a11e 100644
-> --- a/drivers/iio/buffer/industrialio-buffer-dmaengine.c
-> +++ b/drivers/iio/buffer/industrialio-buffer-dmaengine.c
-> @@ -81,9 +81,18 @@ static int iio_dmaengine_buffer_submit_block(struct iio_dma_buffer_queue *queue,
->         if (!block->bytes_used || block->bytes_used > max_size)
->                 return -EINVAL;
->
-> -       desc = dmaengine_prep_slave_single(dmaengine_buffer->chan,
-> -               block->phys_addr, block->bytes_used, dma_dir,
-> -               DMA_PREP_INTERRUPT);
-> +       if (block->cyclic) {
-> +               desc = dmaengine_prep_dma_cyclic(dmaengine_buffer->chan,
-> +                                                block->phys_addr,
-> +                                                block->size,
-> +                                                block->bytes_used,
-> +                                                dma_dir, 0);
-> +       } else {
-> +               desc = dmaengine_prep_slave_single(dmaengine_buffer->chan,
-> +                                                  block->phys_addr,
-> +                                                  block->bytes_used, dma_dir,
-> +                                                  DMA_PREP_INTERRUPT);
-> +       }
->         if (!desc)
->                 return -ENOMEM;
->
-> diff --git a/include/linux/iio/buffer-dma.h b/include/linux/iio/buffer-dma.h
-> index 85e55fe35282..27639fdf7b54 100644
-> --- a/include/linux/iio/buffer-dma.h
-> +++ b/include/linux/iio/buffer-dma.h
-> @@ -42,6 +42,7 @@ enum iio_block_state {
->   * @phys_addr: Physical address of the blocks memory
->   * @queue: Parent DMA buffer queue
->   * @state: Current state of the block
-> + * @cyclic: True if this is a cyclic buffer
->   * @fileio: True if this buffer is used for fileio mode
->   * @dmabuf: Underlying DMABUF object
->   */
-> @@ -65,6 +66,8 @@ struct iio_dma_buffer_block {
->          */
->         enum iio_block_state state;
->
-> +       bool cyclic;
-> +
->         bool fileio;
->         struct dma_buf *dmabuf;
->  };
-> --
-> 2.33.0
->
+Ack, will fix.
+
+> 
+> 	adev = to_acpi_device_node(fwnode);
+> 
+>> +	if (!adev)
+>> +		return ERR_PTR(-ENODEV);
+> 
+> ...
+> 
+>> +static inline struct i2c_client *i2c_acpi_new_device(struct device *dev,
+>> +						     int index,
+>> +						     struct i2c_board_info *info)
+>> +{
+>> +	return i2c_acpi_new_device_by_fwnode(dev->fwnode, index, info);
+> 
+> dev_fwnode(dev)
+
+Ack, will fix.
+
+> 
+>> +}
+> 
+> ...
+> 
+>> +int cio2_bridge_sensors_are_ready(void)
+>> +{
+>> +	struct acpi_device *adev;
+> 
+>> +	bool ready = true;
+> 
+> Redundant. See below.
+> 
+>> +	unsigned int i;
+>> +
+>> +	for (i = 0; i < ARRAY_SIZE(cio2_supported_sensors); i++) {
+>> +		const struct cio2_sensor_config *cfg =
+>> +			&cio2_supported_sensors[i];
+>> +
+>> +		for_each_acpi_dev_match(adev, cfg->hid, NULL, -1) {
+>> +			if (!adev->status.enabled)
+>> +				continue;
+> 
+>> +			if (!acpi_dev_ready_for_enumeration(adev))
+>> +				ready = false;
+> 
+> You may put the adev here and return false.
+> 
+>> +		}
+>> +	}
+> 
+>> +	return ready;
+> 
+> So return true.
+
+I actually did it this way deliberately making use of
+for_each_acpi_dev_match() not "leaking" a ref when you let
+it run to the end.
+
+I find this clearer because this way all the ref handling
+is abstracted away in for_each_acpi_dev_match(), where as with
+a put in the middle of the loop a causal reader of the code
+is going to wonder there the put ref is coming from.
+
+
+> 
+>> +}
+> 
+> ...
+> 
+>> +	if (sensor->ssdb.vcmtype)
+>> +		nodes[SWNODE_VCM] = NODE_VCM(
+>> +					cio2_vcm_types[sensor->ssdb.vcmtype - 1]);
+> 
+> Wouldn't be better
+> 
+> 		nodes[SWNODE_VCM] =
+> 			NODE_VCM(cio2_vcm_types[sensor->ssdb.vcmtype - 1]);
+> 
+> ?
+> 
+> ...
+> 
+>> +	sensor->vcm_i2c_client = i2c_acpi_new_device_by_fwnode(
+>> +					acpi_fwnode_handle(sensor->adev),
+>> +					1, &board_info);
+> 
+> Ditto.
+
+Ack, will fix both for the next version.
+
+Regards,
+
+Hans
+
+
