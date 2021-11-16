@@ -2,43 +2,46 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7BE274530B1
-	for <lists+linux-media@lfdr.de>; Tue, 16 Nov 2021 12:31:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 687254530D1
+	for <lists+linux-media@lfdr.de>; Tue, 16 Nov 2021 12:32:25 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235234AbhKPLcr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 16 Nov 2021 06:32:47 -0500
-Received: from mail.kernel.org ([198.145.29.99]:35214 "EHLO mail.kernel.org"
+        id S235392AbhKPLfJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 16 Nov 2021 06:35:09 -0500
+Received: from mail.kernel.org ([198.145.29.99]:35168 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S235046AbhKPLca (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Tue, 16 Nov 2021 06:32:30 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id A93A463214;
+        id S235133AbhKPLcl (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 16 Nov 2021 06:32:41 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id AA42C63220;
         Tue, 16 Nov 2021 11:29:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=k20201202; t=1637062148;
-        bh=w1Oh57VTXacjdF95neV/28695ca59OqlfX1MdvU6ZwE=;
+        bh=NPm8N4ShvwZEb63+8x3Mv3yvsEQXpPLe5iTnhSZmgA4=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=DT7hfPOrvgV/CHu/82PDkIwUY+9NUdhjFUMBkZBN1B0DeOpmPyB191YNV7VDknnhu
-         n4VYXFTKVF1EY067JSgRjIFWCtt5HGphxzP1gUQHcB9n/jbQyfaMbt5H2DQ6LhzGjQ
-         K4e+yZpk9ci13JtgS4GZkOM+0Y7Y8JzE7XZCnqvDIhKB5lsOujkipiLMMrluoJC/OY
-         CX69I9aZoDURzxPadbxpxE+efOnMEWA/L3avtzJHRYYJZ39co6O+wrqUfcfsoH83Dt
-         OvQFdHw+R84+bANhv8frU1XLvV7KgpSomqvbiPuKv0J1W5sdXvh9iT6DJuQx2JqMBi
-         QjDCG6okN0mgg==
+        b=SAZUpXgWzraGgfICJE+EUV4QP4Y6+xxNyzjrlJYxz7TQ+iZXygp3VOody0y/ROylY
+         ClX8u3tOCSBDEqzQztLS6aqmlILni2bBn7I4oJ5s/+So9hpZ+O88NSazYU6ovKuk2V
+         XKGZNVc+oGYo9cgN+4Z+28DFkSYw9aJHsxSVtgpj0sOiyOi8CmgvjEe5RhEeo7W2YV
+         BYuiQkc8UlEphLEIUdO1AeqN6tACNbMX9csuWq80r4NWXt5ZLyFDSAw0uuHWKxMwxi
+         R1wyIS4C1NAKzoFAGcaaWJ9ASkEykYg0eG6Crc7NWZEcd+Kyj0JpNLFGxvfV72TvjL
+         TLGQFU7mux5gA==
 Received: by mail.kernel.org with local (Exim 4.94.2)
         (envelope-from <mchehab@kernel.org>)
-        id 1mmwe9-008Qg4-Md; Tue, 16 Nov 2021 11:29:05 +0000
+        id 1mmwe9-008Qg7-N8; Tue, 16 Nov 2021 11:29:05 +0000
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 Cc:     linuxarm@huawei.com, mauro.chehab@huawei.com,
         Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Alex Dewar <alex.dewar90@gmail.com>,
+        Deepak R Varma <drv@mailo.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Hans Verkuil <hverkuil-cisco@xs4all.nl>,
         Martiros Shakhzadyan <vrzh@vrzh.net>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Tsuchiya Yuto <kitakar@gmail.com>,
         linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
         linux-staging@lists.linux.dev
-Subject: [PATCH 20/23] media: atomisp: drop check_pipe_resolutions() logic
-Date:   Tue, 16 Nov 2021 11:29:01 +0000
-Message-Id: <e5b368d3a565fb3abcf12ebf834bf2c9944eab90.1637061474.git.mchehab+huawei@kernel.org>
+Subject: [PATCH 21/23] media: atomisp: warn if mipi de-allocation failed
+Date:   Tue, 16 Nov 2021 11:29:02 +0000
+Message-Id: <ed5523284722c3d8a3b8fe5913ff51ee21d52af8.1637061474.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.33.1
 In-Reply-To: <cover.1637061474.git.mchehab+huawei@kernel.org>
 References: <cover.1637061474.git.mchehab+huawei@kernel.org>
@@ -50,9 +53,9 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Such function doesn't exist on Intel Aero driver. As we're using
-its firmware, it may mean that this is not compatible with the
-current file. So, drop it.
+There's a note at the uninit function that warns about issues
+with mipi frames de-allocation. print a warning if the problem
+ever happens.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
@@ -60,90 +63,70 @@ Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To mailbombing on a large number of people, only mailing lists were C/C on the cover.
 See [PATCH 00/23] at: https://lore.kernel.org/all/cover.1637061474.git.mchehab+huawei@kernel.org/
 
- drivers/staging/media/atomisp/pci/sh_css.c | 56 ----------------------
- 1 file changed, 56 deletions(-)
+ drivers/staging/media/atomisp/pci/sh_css.c      |  6 +++++-
+ drivers/staging/media/atomisp/pci/sh_css_mipi.c | 11 +++++++++++
+ drivers/staging/media/atomisp/pci/sh_css_mipi.h |  2 ++
+ 3 files changed, 18 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/staging/media/atomisp/pci/sh_css.c b/drivers/staging/media/atomisp/pci/sh_css.c
-index 6970cf8a5dfe..12dfecbb6145 100644
+index 12dfecbb6145..8bcf610ccae3 100644
 --- a/drivers/staging/media/atomisp/pci/sh_css.c
 +++ b/drivers/staging/media/atomisp/pci/sh_css.c
-@@ -208,8 +208,6 @@ ia_css_pipe_check_format(struct ia_css_pipe *pipe,
+@@ -20,6 +20,8 @@
  
- /* ISP 2401 */
- static int
--check_pipe_resolutions(const struct ia_css_pipe *pipe);
--
- static int
- ia_css_pipe_load_extension(struct ia_css_pipe *pipe,
- 			   struct ia_css_fw_info *firmware);
-@@ -8689,49 +8687,6 @@ metadata_info_init(const struct ia_css_metadata_config *mdc,
- 	return 0;
+ #include "hmm.h"
+ 
++#include "atomisp_internal.h"
++
+ #include "ia_css.h"
+ #include "sh_css_hrt.h"		/* only for file 2 MIPI */
+ #include "ia_css_buffer.h"
+@@ -2286,7 +2288,9 @@ ia_css_uninit(void)
+ 	sh_css_params_free_default_gdc_lut();
+ 
+ 	/* TODO: JB: implement decent check and handling of freeing mipi frames */
+-	//assert(ref_count_mipi_allocation == 0); //mipi frames are not freed
++	if (!mipi_is_free())
++		dev_warn(atomisp_dev, "mipi frames are not freed.\n");
++
+ 	/* cleanup generic data */
+ 	sh_css_params_uninit();
+ 	ia_css_refcount_uninit();
+diff --git a/drivers/staging/media/atomisp/pci/sh_css_mipi.c b/drivers/staging/media/atomisp/pci/sh_css_mipi.c
+index 87f1df575d9f..cfaa4719177c 100644
+--- a/drivers/staging/media/atomisp/pci/sh_css_mipi.c
++++ b/drivers/staging/media/atomisp/pci/sh_css_mipi.c
+@@ -261,6 +261,17 @@ mipi_init(void)
+ 		ref_count_mipi_allocation[i] = 0;
  }
  
--/* ISP2401 */
--static int check_pipe_resolutions(const struct ia_css_pipe *pipe)
--{
--	int err = 0;
--
--	IA_CSS_ENTER_PRIVATE("");
--
--	if (!pipe || !pipe->stream) {
--		IA_CSS_ERROR("null arguments");
--		err = -EINVAL;
--		goto EXIT;
--	}
--
--	if (ia_css_util_check_res(pipe->config.input_effective_res.width,
--				  pipe->config.input_effective_res.height) != 0) {
--		IA_CSS_ERROR("effective resolution not supported");
--		err = -EINVAL;
--		goto EXIT;
--	}
--	if (!ia_css_util_resolution_is_zero(
--		pipe->stream->config.input_config.input_res)) {
--		if (!ia_css_util_res_leq(pipe->config.input_effective_res,
--					 pipe->stream->config.input_config.input_res)) {
--			IA_CSS_ERROR("effective resolution is larger than input resolution");
--			err = -EINVAL;
--			goto EXIT;
--		}
--	}
--	if (!ia_css_util_resolution_is_even(pipe->config.output_info[0].res)) {
--		IA_CSS_ERROR("output resolution must be even");
--		err = -EINVAL;
--		goto EXIT;
--	}
--	if (!ia_css_util_resolution_is_even(pipe->config.vf_output_info[0].res)) {
--		IA_CSS_ERROR("VF resolution must be even");
--		err = -EINVAL;
--		goto EXIT;
--	}
--EXIT:
--	IA_CSS_LEAVE_ERR_PRIVATE(err);
--	return err;
--}
--
++bool mipi_is_free(void)
++{
++	unsigned int i;
++
++	for (i = 0; i < N_CSI_PORTS; i++)
++		if (ref_count_mipi_allocation[i])
++			return false;
++
++	return true;
++}
++
  int
- ia_css_stream_create(const struct ia_css_stream_config *stream_config,
- 		     int num_pipes,
-@@ -8941,17 +8896,6 @@ ia_css_stream_create(const struct ia_css_stream_config *stream_config,
- 			   effective_res.height);
- 	}
+ calculate_mipi_buff_size(
+     struct ia_css_stream_config *stream_cfg,
+diff --git a/drivers/staging/media/atomisp/pci/sh_css_mipi.h b/drivers/staging/media/atomisp/pci/sh_css_mipi.h
+index 52f08a103883..dffec2205620 100644
+--- a/drivers/staging/media/atomisp/pci/sh_css_mipi.h
++++ b/drivers/staging/media/atomisp/pci/sh_css_mipi.h
+@@ -23,6 +23,8 @@
+ void
+ mipi_init(void);
  
--	if (IS_ISP2401) {
--		for (i = 0; i < num_pipes; i++) {
--			if (pipes[i]->config.mode != IA_CSS_PIPE_MODE_ACC &&
--			    pipes[i]->config.mode != IA_CSS_PIPE_MODE_COPY) {
--				err = check_pipe_resolutions(pipes[i]);
--				if (err)
--					goto ERR;
--			}
--		}
--	}
--
- 	err = ia_css_stream_isp_parameters_init(curr_stream);
- 	if (err)
- 		goto ERR;
++bool mipi_is_free(void);
++
+ int
+ allocate_mipi_frames(struct ia_css_pipe *pipe, struct ia_css_stream_info *info);
+ 
 -- 
 2.33.1
 
