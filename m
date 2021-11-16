@@ -2,147 +2,152 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3236E452912
-	for <lists+linux-media@lfdr.de>; Tue, 16 Nov 2021 05:18:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DFE47452A0E
+	for <lists+linux-media@lfdr.de>; Tue, 16 Nov 2021 06:51:43 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242939AbhKPEUv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 15 Nov 2021 23:20:51 -0500
-Received: from twspam01.aspeedtech.com ([211.20.114.71]:42338 "EHLO
-        twspam01.aspeedtech.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243649AbhKPETi (ORCPT
+        id S237856AbhKPFyT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 16 Nov 2021 00:54:19 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33376 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S237771AbhKPFyG (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 15 Nov 2021 23:19:38 -0500
-Received: from mail.aspeedtech.com ([192.168.0.24])
-        by twspam01.aspeedtech.com with ESMTP id 1AG3pk6Z094719;
-        Tue, 16 Nov 2021 11:51:46 +0800 (GMT-8)
-        (envelope-from jammy_huang@aspeedtech.com)
-Received: from [192.168.2.115] (192.168.2.115) by TWMBX02.aspeed.com
- (192.168.0.24) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Tue, 16 Nov
- 2021 12:15:24 +0800
-Message-ID: <67e3be3a-7e18-115b-18b7-b3d5419e0992@aspeedtech.com>
-Date:   Tue, 16 Nov 2021 12:15:25 +0800
+        Tue, 16 Nov 2021 00:54:06 -0500
+Received: from mail-qk1-x72e.google.com (mail-qk1-x72e.google.com [IPv6:2607:f8b0:4864:20::72e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BE77CC03AA3B
+        for <linux-media@vger.kernel.org>; Mon, 15 Nov 2021 20:57:34 -0800 (PST)
+Received: by mail-qk1-x72e.google.com with SMTP id o63so6099849qkb.4
+        for <linux-media@vger.kernel.org>; Mon, 15 Nov 2021 20:57:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=os0JwGe7rvhRh4kQyvXTjTpexJheuxEvve8m3JY/9e0=;
+        b=TAhxEm+Se5n4fx+yx8AWhGAe3GyIS0BrZjsWl6jXGJoUYTNjOJ0vBdVU05fs7ntKfK
+         o0K2c/+yfeEpiXy3AG0rpCq7r+Ppc+xD4crc/KeX+ZLe5xp72cBxuRyw2uNB/8gelKDU
+         so/y+8HWu23xHKqLEfZx+2G9GvKd4rWX0JMDw=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=os0JwGe7rvhRh4kQyvXTjTpexJheuxEvve8m3JY/9e0=;
+        b=jP/3v0Vr7ro4IlY+r1IwLE4V+L3WEcA3XLbE3OTmB8faY8VOQ1sLlJarkuRC/oxscX
+         8pBRfaOK/ZbsuFBHBALcnHtI4/wr6UxHbb+jMS771lZ9fCtJYeSqXloOFsAvsoNFBIBU
+         +qxaC1AbDdYQD3s17OL3HIOzeHMDJqsaXSAqjaHn5FY/yJY3Jj2OvhpLUz5J/41S6Z0g
+         xBrwkuBBLgLAvanu58TNOaNkLFEX9nL3BhX9ydMJnjdHeG7t1hZg9RMawB4efYM7LZM8
+         vV5I3Gf9IW0NabmSXRlfHd+w31aOps7PlYa6fehH+EBbuLqyu6II7fpxPDM0opTQGP0+
+         YTPg==
+X-Gm-Message-State: AOAM532oyhVcdgAp9bcfX+IGuOiMIx1jeSKPsJn2OxOv45/ga6dwRUu0
+        bxb8RW9CMh+bA8qhGsXMSOh/91jkmZAA3A==
+X-Google-Smtp-Source: ABdhPJz94BjstmM0NQva3IZDN8D2M6hdcXIH4LfkLlIjL8tjjh7GRSMXiHV5RdR2U6mYuhAgjv+lyQ==
+X-Received: by 2002:a05:620a:20d8:: with SMTP id f24mr3948917qka.256.1637038653432;
+        Mon, 15 Nov 2021 20:57:33 -0800 (PST)
+Received: from mail-yb1-f176.google.com (mail-yb1-f176.google.com. [209.85.219.176])
+        by smtp.gmail.com with ESMTPSA id i6sm2069926qti.40.2021.11.15.20.57.32
+        for <linux-media@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 15 Nov 2021 20:57:32 -0800 (PST)
+Received: by mail-yb1-f176.google.com with SMTP id i194so20417823yba.6
+        for <linux-media@vger.kernel.org>; Mon, 15 Nov 2021 20:57:32 -0800 (PST)
+X-Received: by 2002:a25:ae12:: with SMTP id a18mr4883708ybj.412.1637038651779;
+ Mon, 15 Nov 2021 20:57:31 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.1
-Subject: Re: [PATCH v4 7/9] media: aspeed: Support aspeed mode to reduce
- compressed data
-Content-Language: en-US
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>
-CC:     "eajames@linux.ibm.com" <eajames@linux.ibm.com>,
-        "mchehab@kernel.org" <mchehab@kernel.org>,
-        "joel@jms.id.au" <joel@jms.id.au>,
-        "andrew@aj.id.au" <andrew@aj.id.au>,
-        "hverkuil-cisco@xs4all.nl" <hverkuil-cisco@xs4all.nl>,
-        "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
-        "laurent.pinchart@ideasonboard.com" 
-        <laurent.pinchart@ideasonboard.com>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        "openbmc@lists.ozlabs.org" <openbmc@lists.ozlabs.org>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>,
-        "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-References: <20211115074437.28079-1-jammy_huang@aspeedtech.com>
- <20211115074437.28079-8-jammy_huang@aspeedtech.com>
- <YZIYIsURV0Gv1bc6@paasikivi.fi.intel.com>
-From:   Jammy Huang <jammy_huang@aspeedtech.com>
-In-Reply-To: <YZIYIsURV0Gv1bc6@paasikivi.fi.intel.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [192.168.2.115]
-X-ClientProxiedBy: TWMBX02.aspeed.com (192.168.0.24) To TWMBX02.aspeed.com
- (192.168.0.24)
-X-DNSRBL: 
-X-MAIL: twspam01.aspeedtech.com 1AG3pk6Z094719
+References: <1634278119-32158-1-git-send-email-bingbu.cao@intel.com>
+ <CAAFQd5Aykfdj-HPzsQOyQpbGBRhtTsoRm78XgpuGkFUx1joTMA@mail.gmail.com> <DM8PR11MB565395F554C6D1C4978EBC2A998E9@DM8PR11MB5653.namprd11.prod.outlook.com>
+In-Reply-To: <DM8PR11MB565395F554C6D1C4978EBC2A998E9@DM8PR11MB5653.namprd11.prod.outlook.com>
+From:   Tomasz Figa <tfiga@chromium.org>
+Date:   Tue, 16 Nov 2021 13:57:20 +0900
+X-Gmail-Original-Message-ID: <CAAFQd5B9hZNn4UuB8h0RLUwSxwTFGC219LFe8jGE1jDd+EfosA@mail.gmail.com>
+Message-ID: <CAAFQd5B9hZNn4UuB8h0RLUwSxwTFGC219LFe8jGE1jDd+EfosA@mail.gmail.com>
+Subject: Re: [PATCH] media: dw9768: activate runtime PM and turn off device
+To:     "Cao, Bingbu" <bingbu.cao@intel.com>
+Cc:     "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+        "sakari.ailus@linux.intel.com" <sakari.ailus@linux.intel.com>,
+        "dongchun.zhu@mediatek.com" <dongchun.zhu@mediatek.com>,
+        "Qiu, Tian Shu" <tian.shu.qiu@intel.com>,
+        "bingbu.cao@linux.intel.com" <bingbu.cao@linux.intel.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Sakari,
-
-OK, I will add a patch which uses data in device table to tell the 
-differences between
-SoC to the series. Thanks for your advice.
-
-On 2021/11/15 下午 04:19, Sakari Ailus wrote:
-> Hi Jammy,
+On Fri, Nov 5, 2021 at 9:52 PM Cao, Bingbu <bingbu.cao@intel.com> wrote:
 >
-> Thanks for the patch. A few comments below...
+> > -----Original Message-----
+> > From: Tomasz Figa <tfiga@chromium.org>
+> > Sent: Friday, November 5, 2021 2:55 PM
+> > To: Cao, Bingbu <bingbu.cao@intel.com>
+> > Cc: linux-media@vger.kernel.org; sakari.ailus@linux.intel.com;
+> > dongchun.zhu@mediatek.com; Qiu, Tian Shu <tian.shu.qiu@intel.com>;
+> > bingbu.cao@linux.intel.com
+> > Subject: Re: [PATCH] media: dw9768: activate runtime PM and turn off
+> > device
+> >
+> > On Fri, Oct 15, 2021 at 3:12 PM Bingbu Cao <bingbu.cao@intel.com> wrote:
+> > >
+> > > When dw9768 working with ACPI systems, the dw9768 was turned by
+> > > i2c-core during probe, driver need activate the PM runtime and ask
+> > > runtime PM to turn off the device.
+> > >
+> > > Signed-off-by: Bingbu Cao <bingbu.cao@intel.com>
+> > > ---
+> > >  drivers/media/i2c/dw9768.c | 6 ++++++
+> > >  1 file changed, 6 insertions(+)
+> > >
+> > > diff --git a/drivers/media/i2c/dw9768.c b/drivers/media/i2c/dw9768.c
+> > > index c086580efac7..65c6acf3ced9 100644
+> > > --- a/drivers/media/i2c/dw9768.c
+> > > +++ b/drivers/media/i2c/dw9768.c
+> > > @@ -469,6 +469,11 @@ static int dw9768_probe(struct i2c_client
+> > > *client)
+> > >
+> > >         dw9768->sd.entity.function = MEDIA_ENT_F_LENS;
+> > >
+> > > +       /*
+> > > +        * Device is already turned on by i2c-core with ACPI domain PM.
+> > > +        * Attempt to turn off the device to satisfy the privacy LED
+> > concerns.
+> > > +        */
+> > > +       pm_runtime_set_active(dev);
+> >
+> > This driver is used by non-ACPI systems as well. This change will make
+> > the PM core not call the runtime_resume() callback provided by the
+> > driver and the power would never be turned on on such systems.
+> >
 >
-> On Mon, Nov 15, 2021 at 03:44:35PM +0800, Jammy Huang wrote:
->> @@ -969,35 +1045,70 @@ static void aspeed_video_set_resolution(struct aspeed_video *video)
->>   
->>   static void aspeed_video_update_regs(struct aspeed_video *video)
->>   {
->> -	u32 comp_ctrl = VE_COMP_CTRL_RSVD |
->> -		FIELD_PREP(VE_COMP_CTRL_DCT_LUM, video->jpeg_quality) |
->> -		FIELD_PREP(VE_COMP_CTRL_DCT_CHR, video->jpeg_quality | 0x10);
->> +	u8 jpeg_hq_quality = clamp((int)video->jpeg_hq_quality - 1, 0,
->> +				   ASPEED_VIDEO_JPEG_NUM_QUALITIES - 1);
->> +	u32 comp_ctrl =	FIELD_PREP(VE_COMP_CTRL_DCT_LUM, video->jpeg_quality) |
->> +		FIELD_PREP(VE_COMP_CTRL_DCT_CHR, video->jpeg_quality | 0x10) |
->> +		FIELD_PREP(VE_COMP_CTRL_EN_HQ, video->hq_mode) |
->> +		FIELD_PREP(VE_COMP_CTRL_HQ_DCT_LUM, jpeg_hq_quality) |
->> +		FIELD_PREP(VE_COMP_CTRL_HQ_DCT_CHR, jpeg_hq_quality |
->> +			   0x10);
->>   	u32 ctrl = 0;
->> -	u32 seq_ctrl = VE_SEQ_CTRL_JPEG_MODE;
->> +	u32 seq_ctrl = 0;
->>   
->> -	v4l2_dbg(1, debug, &video->v4l2_dev, "framerate(%d)\n",
->> -		 video->frame_rate);
->> -	v4l2_dbg(1, debug, &video->v4l2_dev, "subsample(%s)\n",
->> +	v4l2_dbg(1, debug, &video->v4l2_dev, "framerate(%d)\n", video->frame_rate);
->> +	v4l2_dbg(1, debug, &video->v4l2_dev, "jpeg format(%s) subsample(%s)\n",
->> +		 format_str[video->format],
->>   		 video->yuv420 ? "420" : "444");
->> -	v4l2_dbg(1, debug, &video->v4l2_dev, "compression quality(%d)\n",
->> -		 video->jpeg_quality);
->> +	v4l2_dbg(1, debug, &video->v4l2_dev, "compression quality(%d) hq(%s) hq_quality(%d)\n",
->> +		 video->jpeg_quality, video->hq_mode ? "on" : "off",
->> +		 video->jpeg_hq_quality);
->> +	v4l2_dbg(1, debug, &video->v4l2_dev, "compression mode(%s)\n",
->> +		 compress_mode_str[video->compression_mode]);
->> +
->> +	if (video->format == VIDEO_FMT_ASPEED)
->> +		aspeed_video_update(video, VE_BCD_CTRL, 0, VE_BCD_CTRL_EN_BCD);
->> +	else
->> +		aspeed_video_update(video, VE_BCD_CTRL, VE_BCD_CTRL_EN_BCD, 0);
->>   
->>   	if (video->frame_rate)
->>   		ctrl |= FIELD_PREP(VE_CTRL_FRC, video->frame_rate);
->>   
->> +	if (video->format == VIDEO_FMT_STANDARD) {
->> +		comp_ctrl &= ~FIELD_PREP(VE_COMP_CTRL_EN_HQ, video->hq_mode);
->> +		seq_ctrl |= VE_SEQ_CTRL_JPEG_MODE;
->> +	}
->> +
->>   	if (video->yuv420)
->>   		seq_ctrl |= VE_SEQ_CTRL_YUV420;
->>   
->>   	if (video->jpeg.virt)
->>   		aspeed_video_update_jpeg_table(video->jpeg.virt, video->yuv420);
->>   
->> +#ifdef CONFIG_MACH_ASPEED_G4
-> This would be better done based on the device recognised, not the selected
-> compile target. The same goes for the rest of the conditional pre-processor
-> bits.
+> > Wasn't the intention of Sakari's ACPI patches to allow bypassing the
+> > ACPI domain power on at boot up and eliminate the need for this change?
 >
->> +	switch (video->compression_mode) {
->> +	case 0:	//DCT only
->> +		comp_ctrl |= VE_COMP_CTRL_VQ_DCT_ONLY;
->> +		break;
->> +	case 1:	//DCT VQ mix 2-color
->> +		comp_ctrl &= ~(VE_COMP_CTRL_VQ_4COLOR | VE_COMP_CTRL_VQ_DCT_ONLY);
->> +		break;
->> +	case 2:	//DCT VQ mix 4-color
->> +		comp_ctrl |= VE_COMP_CTRL_VQ_4COLOR;
->> +		break;
->> +	}
->> +#endif
->> +
+> Tomasz, thanks for your review.
+>
+> The comment here is invalid, it should not be strongly related to the privacy
+> LED concern. Anyway, the device should be turned off on ACPI and non-ACPI
+> systems even without Sakari's changes.
+>
+> I am wondering how the driver work with PM core on non-ACPI system.
+>
 
--- 
-Best Regards
-Jammy
+On non-ACPI systems it's the driver which handles the power sequencing
+of the chip so the regulators wouldn't be implicitly enabled by the
+subsystem before (unless they're shared with some other device and the
+corresponding driver enabled them).
 
+> >
+> > Best regards,
+> > Tomasz
+> >
+> > >
+> > >         pm_runtime_enable(dev);
+> > >         if (!pm_runtime_enabled(dev)) {
+> > >                 ret = dw9768_runtime_resume(dev); @@ -483,6 +488,7 @@
+> > > static int dw9768_probe(struct i2c_client *client)
+> > >                 dev_err(dev, "failed to register V4L2 subdev: %d",
+> > ret);
+> > >                 goto err_power_off;
+> > >         }
+> > > +       pm_runtime_idle(dev);
+> > >
+> > >         return 0;
+> > >
+> > > --
+> > > 2.7.4
+> > >
