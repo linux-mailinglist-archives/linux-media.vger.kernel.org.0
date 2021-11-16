@@ -2,107 +2,297 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 14D67452DED
+	by mail.lfdr.de (Postfix) with ESMTP id A7202452DEF
 	for <lists+linux-media@lfdr.de>; Tue, 16 Nov 2021 10:25:00 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233178AbhKPJ1h (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 16 Nov 2021 04:27:37 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54080 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233179AbhKPJ1L (ORCPT
+        id S233252AbhKPJ1o (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 16 Nov 2021 04:27:44 -0500
+Received: from mail-io1-f71.google.com ([209.85.166.71]:47069 "EHLO
+        mail-io1-f71.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232997AbhKPJ1Q (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 16 Nov 2021 04:27:11 -0500
-Received: from mail-pl1-x632.google.com (mail-pl1-x632.google.com [IPv6:2607:f8b0:4864:20::632])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 754B5C061746
-        for <linux-media@vger.kernel.org>; Tue, 16 Nov 2021 01:24:07 -0800 (PST)
-Received: by mail-pl1-x632.google.com with SMTP id u11so16907689plf.3
-        for <linux-media@vger.kernel.org>; Tue, 16 Nov 2021 01:24:07 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=owaydA/9dfzXygkoQ9b5wC+OlGrAMOC9LEkh/lAzv5I=;
-        b=QMKycX4ZEQaoqQ026VxDUHwe+VqargI4Q56Ls7vof5Ssrt3G/nOSh2dyyoY6Cw02WF
-         iFzhEy4rRt7z1+q0UupwntE3f0SNtv/+2FFKLmpIe9QX6rPKknymUxkADWNvKQ7UfQoc
-         1I+c/UYXvuoyS+f9aI27LrnNpGTn7VKPJ8jKnYU2ns2Bw6y6Flc8J9w3nG/EkE/0nBxQ
-         1+dMPFwBSyZHN3e+ZgOKTxa/qv2dqzO5wdeh7W8mVlHoAVUajMA1qeQ5HmOsWq9+NqOU
-         iYO/LWu6lF15XzeRug5Q37kFz1sFMP942j6nzvnuqZqElH7Gy8dqO6Rusxak5WLORwOX
-         nZ9Q==
+        Tue, 16 Nov 2021 04:27:16 -0500
+Received: by mail-io1-f71.google.com with SMTP id z21-20020a5e8615000000b005e22e531c8aso12373336ioj.13
+        for <linux-media@vger.kernel.org>; Tue, 16 Nov 2021 01:24:19 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=owaydA/9dfzXygkoQ9b5wC+OlGrAMOC9LEkh/lAzv5I=;
-        b=UXLL+hNlsi5ZlECb+omiSd4+BlGBEh0wpngC9dOSUzvfMThluZRJnzVDdTA07JJBrc
-         PNYOTZO3VHmJBHwylkQZLoYUT45rCoCOuwix4BQ+TJnyj8n9aM7ZrhG2s+TN8gPo2Nt8
-         I3QNQ/WSGZ1hrdYkHEvjFLxAjCyn8H6RzunXdbUih+cXF7dw5wXozjshhRjtiUCpvbNg
-         VTwBlG3kP3DBbc248t5cfrLHlRW1q2bJ5KigUmpGi3C3QtQLH81KFW6xjFPoU6qf+Rel
-         e8J1pfz48d8GhSubF3LmGfRiDKt1VKyPYONnHETKkyelgazFz2qSPXMQ8CAbVcK4aN5+
-         u/iA==
-X-Gm-Message-State: AOAM530NnZAaJvpsH9fyiJLm6tLwgNIlEoMuYY4GjpGrrhOEFrL6IfxA
-        QA+8NYk+r2JaZz/ncoKG6y+ZWw==
-X-Google-Smtp-Source: ABdhPJw4Q0VPOvcNLCMaHO78tfO9Z0o0vrEmI1ogL6v9qranzZOGcmxPrHs+6HbKgj/geyrRdmBzNA==
-X-Received: by 2002:a17:90a:9907:: with SMTP id b7mr71543402pjp.137.1637054646807;
-        Tue, 16 Nov 2021 01:24:06 -0800 (PST)
-Received: from google.com ([2401:fa00:1:10:f590:685a:7893:90be])
-        by smtp.gmail.com with ESMTPSA id d2sm12436413pfu.203.2021.11.16.01.24.03
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 16 Nov 2021 01:24:06 -0800 (PST)
-Date:   Tue, 16 Nov 2021 17:24:01 +0800
-From:   Tzung-Bi Shih <tzungbi@google.com>
-To:     Yunfei Dong <yunfei.dong@mediatek.com>
-Cc:     Alexandre Courbot <acourbot@chromium.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Tzung-Bi Shih <tzungbi@chromium.org>,
-        Tiffany Lin <tiffany.lin@mediatek.com>,
-        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Tomasz Figa <tfiga@google.com>,
-        Hsin-Yi Wang <hsinyi@chromium.org>,
-        Fritz Koenig <frkoenig@chromium.org>,
-        Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
-        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        Irui Wang <irui.wang@mediatek.com>,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        srv_heupstream@mediatek.com, linux-mediatek@lists.infradead.org,
-        Project_Global_Chrome_Upstream_Group@mediatek.com
-Subject: Re: [PATCH v10, 11/19] media: mtk-vcodec: Generalize power and clock
- on/off interfaces
-Message-ID: <YZN4se+Ihm2H20GG@google.com>
-References: <20211111041500.17363-1-yunfei.dong@mediatek.com>
- <20211111041500.17363-12-yunfei.dong@mediatek.com>
+        h=x-gm-message-state:mime-version:date:message-id:subject:from:to;
+        bh=DiSi5ETUNz1KCyEdWv9m3Z+qD7X4jgaMGtAKR3v6BsY=;
+        b=SUmerZrXiT39N3ETKdI+inYXPQYFuYu+QHi6mARp6bEe4WYugQ0h8hZoK/W9T9niou
+         zZKnatELioI6FJIDpfcckP0xgdM15HWkRZwOmnC1RLpdTWfYg4N8o/2FtYscz39za0sk
+         JqyRtc8jjwEI0Phl/m0VN7TcFHg0e/lSkj/Rnvq/nKkcZGSjB5y0/5Ryyy6bjfjCY9Rn
+         IlisXkLejX12g7X5HNDMLiXx079u8Tr5tDVHMY+I/TG6OFZNol1cYxe1xHqMHephFHbs
+         Pg3qLXla2hdCKPjbDl9SvvHRuMbR91PVtANnRrc9IKmh9s73Ah5mUBVeakeJTSDHzIMm
+         YjPg==
+X-Gm-Message-State: AOAM530Vd7103KlQ3vL2eVm8H1Vr4YCqmxM6W9jkaVN/O2zGu00QsDcf
+        +Pc10RcgVcBZ3kE93W2YDA+jyJCYUcYfeUiA5BaDeWDZYjMN
+X-Google-Smtp-Source: ABdhPJxG2kNwDLNsJ0nIW91JMRKx4gKYZqGtZkvTe4pKSkuHAi48xgpNgKuCn/KmJ0OzR9n0wgm7CCxOL5D7315UcL12u4sjZE3/
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20211111041500.17363-12-yunfei.dong@mediatek.com>
+X-Received: by 2002:a6b:7c46:: with SMTP id b6mr3867928ioq.129.1637054658662;
+ Tue, 16 Nov 2021 01:24:18 -0800 (PST)
+Date:   Tue, 16 Nov 2021 01:24:18 -0800
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <000000000000685c4605d0e47dad@google.com>
+Subject: [syzbot] KASAN: use-after-free Read in drm_gem_object_release_handle
+From:   syzbot <syzbot+c8ae65286134dd1b800d@syzkaller.appspotmail.com>
+To:     airlied@linux.ie, christian.koenig@amd.com, daniel@ffwll.ch,
+        dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+        sumit.semwal@linaro.org, syzkaller-bugs@googlegroups.com,
+        tzimmermann@suse.de
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, Nov 11, 2021 at 12:14:52PM +0800, Yunfei Dong wrote:
-> diff --git a/drivers/media/platform/mtk-vcodec/mtk_vcodec_util.c b/drivers/media/platform/mtk-vcodec/mtk_vcodec_util.c
-[...]
-> +void *mtk_vcodec_get_hw_dev(struct mtk_vcodec_dev *dev, int hw_idx)
->  {
-[...]
-> +
-> +	if (dev->subdev_dev[hw_idx])
-> +		return dev->subdev_dev[hw_idx];
-> +
-> +	node = dev->subdev_node[hw_idx];
-> +	if (!node) {
-> +		mtk_v4l2_err("Get lat node fail:%d", hw_idx);
-> +		return NULL;
-> +	}
-> +
-> +	hw_pdev = of_find_device_by_node(node);
-> +	of_node_put(node);
+Hello,
 
-Raised the question in [v10,06/19] media: mtk-vcodec: Manage multi hardware information[1], is the reference count borrowed from mtk_vcodec_subdev_device_check?  If so, it needs comments for documentation.
+syzbot found the following issue on:
 
-[1]: https://patchwork.linuxtv.org/project/linux-media/patch/20211111041500.17363-7-yunfei.dong@mediatek.com/
+HEAD commit:    8ab774587903 Merge tag 'trace-v5.16-5' of git://git.kernel..
+git tree:       upstream
+console output: https://syzkaller.appspot.com/x/log.txt?x=1174ace6b00000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=6d3b8fd1977c1e73
+dashboard link: https://syzkaller.appspot.com/bug?extid=c8ae65286134dd1b800d
+compiler:       gcc (Debian 10.2.1-6) 10.2.1 20210110, GNU ld (GNU Binutils for Debian) 2.35.2
+userspace arch: i386
+
+Unfortunately, I don't have any reproducer for this issue yet.
+
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+c8ae65286134dd1b800d@syzkaller.appspotmail.com
+
+==================================================================
+BUG: KASAN: use-after-free in drm_gem_object_release_handle+0xf2/0x110 drivers/gpu/drm/drm_gem.c:252
+Read of size 8 at addr ffff888028419a28 by task syz-executor.2/10905
+
+CPU: 0 PID: 10905 Comm: syz-executor.2 Not tainted 5.16.0-rc1-syzkaller #0
+Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.14.0-2 04/01/2014
+Call Trace:
+ <TASK>
+ __dump_stack lib/dump_stack.c:88 [inline]
+ dump_stack_lvl+0xcd/0x134 lib/dump_stack.c:106
+ print_address_description.constprop.0.cold+0x8d/0x320 mm/kasan/report.c:247
+ __kasan_report mm/kasan/report.c:433 [inline]
+ kasan_report.cold+0x83/0xdf mm/kasan/report.c:450
+ drm_gem_object_release_handle+0xf2/0x110 drivers/gpu/drm/drm_gem.c:252
+ idr_for_each+0x113/0x220 lib/idr.c:208
+ drm_gem_release+0x22/0x30 drivers/gpu/drm/drm_gem.c:930
+ drm_file_free.part.0+0x805/0xb80 drivers/gpu/drm/drm_file.c:281
+ drm_file_free drivers/gpu/drm/drm_file.c:248 [inline]
+ drm_close_helper.isra.0+0x17d/0x1f0 drivers/gpu/drm/drm_file.c:308
+ drm_release+0x1e6/0x530 drivers/gpu/drm/drm_file.c:495
+ __fput+0x286/0x9f0 fs/file_table.c:280
+ task_work_run+0xdd/0x1a0 kernel/task_work.c:164
+ tracehook_notify_resume include/linux/tracehook.h:189 [inline]
+ exit_to_user_mode_loop kernel/entry/common.c:175 [inline]
+ exit_to_user_mode_prepare+0x27e/0x290 kernel/entry/common.c:207
+ __syscall_exit_to_user_mode_work kernel/entry/common.c:289 [inline]
+ syscall_exit_to_user_mode+0x19/0x60 kernel/entry/common.c:300
+ __do_fast_syscall_32+0x72/0xf0 arch/x86/entry/common.c:181
+ do_fast_syscall_32+0x2f/0x70 arch/x86/entry/common.c:203
+ entry_SYSENTER_compat_after_hwframe+0x4d/0x5c
+RIP: 0023:0xf6f4e549
+Code: 03 74 c0 01 10 05 03 74 b8 01 10 06 03 74 b4 01 10 07 03 74 b0 01 10 08 03 74 d8 01 00 00 00 00 00 51 52 55 89 e5 0f 34 cd 80 <5d> 5a 59 c3 90 90 90 90 8d b4 26 00 00 00 00 8d b4 26 00 00 00 00
+RSP: 002b:00000000ff954ef0 EFLAGS: 00000282 ORIG_RAX: 0000000000000006
+RAX: 0000000000000000 RBX: 0000000000000003 RCX: 0000000000000002
+RDX: 0000000000000000 RSI: 00000000f7084000 RDI: 00000000f70aafac
+RBP: 00000000f7084000 R08: 0000000000000000 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000000 R12: 0000000000000000
+R13: 0000000000000000 R14: 0000000000000000 R15: 0000000000000000
+ </TASK>
+
+Allocated by task 10906:
+ kasan_save_stack+0x1e/0x50 mm/kasan/common.c:38
+ kasan_set_track mm/kasan/common.c:46 [inline]
+ set_alloc_info mm/kasan/common.c:434 [inline]
+ ____kasan_kmalloc mm/kasan/common.c:513 [inline]
+ ____kasan_kmalloc mm/kasan/common.c:472 [inline]
+ __kasan_kmalloc+0xa9/0xd0 mm/kasan/common.c:522
+ kmalloc include/linux/slab.h:590 [inline]
+ kzalloc include/linux/slab.h:724 [inline]
+ __drm_gem_shmem_create+0x3d8/0x470 drivers/gpu/drm/drm_gem_shmem_helper.c:56
+ drm_gem_shmem_create drivers/gpu/drm/drm_gem_shmem_helper.c:116 [inline]
+ drm_gem_shmem_create_with_handle+0x26/0x100 drivers/gpu/drm/drm_gem_shmem_helper.c:422
+ drm_gem_shmem_dumb_create+0x13f/0x290 drivers/gpu/drm/drm_gem_shmem_helper.c:538
+ drm_mode_create_dumb+0x26c/0x2f0 drivers/gpu/drm/drm_dumb_buffers.c:96
+ drm_ioctl_kernel+0x27d/0x4e0 drivers/gpu/drm/drm_ioctl.c:782
+ drm_ioctl+0x51e/0x9d0 drivers/gpu/drm/drm_ioctl.c:885
+ drm_compat_ioctl+0x270/0x330 drivers/gpu/drm/drm_ioc32.c:987
+ __do_compat_sys_ioctl+0x1c7/0x290 fs/ioctl.c:972
+ do_syscall_32_irqs_on arch/x86/entry/common.c:112 [inline]
+ __do_fast_syscall_32+0x65/0xf0 arch/x86/entry/common.c:178
+ do_fast_syscall_32+0x2f/0x70 arch/x86/entry/common.c:203
+ entry_SYSENTER_compat_after_hwframe+0x4d/0x5c
+
+Freed by task 10906:
+ kasan_save_stack+0x1e/0x50 mm/kasan/common.c:38
+ kasan_set_track+0x21/0x30 mm/kasan/common.c:46
+ kasan_set_free_info+0x20/0x30 mm/kasan/generic.c:370
+ ____kasan_slab_free mm/kasan/common.c:366 [inline]
+ ____kasan_slab_free mm/kasan/common.c:328 [inline]
+ __kasan_slab_free+0xff/0x130 mm/kasan/common.c:374
+ kasan_slab_free include/linux/kasan.h:235 [inline]
+ slab_free_hook mm/slub.c:1723 [inline]
+ slab_free_freelist_hook+0x8b/0x1c0 mm/slub.c:1749
+ slab_free mm/slub.c:3513 [inline]
+ kfree+0xf6/0x560 mm/slub.c:4561
+ drm_gem_object_free+0x58/0x80 drivers/gpu/drm/drm_gem.c:972
+ kref_put include/linux/kref.h:65 [inline]
+ __drm_gem_object_put include/drm/drm_gem.h:371 [inline]
+ drm_gem_object_put include/drm/drm_gem.h:384 [inline]
+ drm_gem_mmap+0x4aa/0x680 drivers/gpu/drm/drm_gem.c:1132
+ call_mmap include/linux/fs.h:2167 [inline]
+ mmap_region+0xd8c/0x1650 mm/mmap.c:1786
+ do_mmap+0x869/0xfb0 mm/mmap.c:1575
+ vm_mmap_pgoff+0x1b7/0x290 mm/util.c:519
+ ksys_mmap_pgoff+0x40d/0x5a0 mm/mmap.c:1623
+ do_syscall_32_irqs_on arch/x86/entry/common.c:112 [inline]
+ __do_fast_syscall_32+0x65/0xf0 arch/x86/entry/common.c:178
+ do_fast_syscall_32+0x2f/0x70 arch/x86/entry/common.c:203
+ entry_SYSENTER_compat_after_hwframe+0x4d/0x5c
+
+Last potentially related work creation:
+ kasan_save_stack+0x1e/0x50 mm/kasan/common.c:38
+ __kasan_record_aux_stack+0xf5/0x120 mm/kasan/generic.c:348
+ kvfree_call_rcu+0x74/0x990 kernel/rcu/tree.c:3550
+ drop_sysctl_table+0x3c0/0x4e0 fs/proc/proc_sysctl.c:1647
+ unregister_sysctl_table fs/proc/proc_sysctl.c:1685 [inline]
+ unregister_sysctl_table+0xc0/0x190 fs/proc/proc_sysctl.c:1660
+ neigh_sysctl_unregister+0x5b/0x80 net/core/neighbour.c:3810
+ addrconf_ifdown.isra.0+0xfc2/0x1630 net/ipv6/addrconf.c:3870
+ addrconf_notify+0xeb/0x1bb0 net/ipv6/addrconf.c:3651
+ notifier_call_chain+0xb5/0x200 kernel/notifier.c:83
+ call_netdevice_notifiers_info+0xb5/0x130 net/core/dev.c:2002
+ call_netdevice_notifiers_extack net/core/dev.c:2014 [inline]
+ call_netdevice_notifiers net/core/dev.c:2028 [inline]
+ unregister_netdevice_many+0x94f/0x1790 net/core/dev.c:11077
+ ip6_tnl_exit_batch_net+0x5f5/0x890 net/ipv6/ip6_tunnel.c:2311
+ ops_exit_list+0x10d/0x160 net/core/net_namespace.c:171
+ cleanup_net+0x4ea/0xb00 net/core/net_namespace.c:593
+ process_one_work+0x9b2/0x1690 kernel/workqueue.c:2298
+ worker_thread+0x658/0x11f0 kernel/workqueue.c:2445
+ kthread+0x405/0x4f0 kernel/kthread.c:327
+ ret_from_fork+0x1f/0x30 arch/x86/entry/entry_64.S:295
+
+Second to last potentially related work creation:
+ kasan_save_stack+0x1e/0x50 mm/kasan/common.c:38
+ __kasan_record_aux_stack+0xf5/0x120 mm/kasan/generic.c:348
+ __call_rcu kernel/rcu/tree.c:2985 [inline]
+ call_rcu+0xb1/0x740 kernel/rcu/tree.c:3065
+ pwq_unbound_release_workfn+0x248/0x340 kernel/workqueue.c:3738
+ process_one_work+0x9b2/0x1690 kernel/workqueue.c:2298
+ worker_thread+0x658/0x11f0 kernel/workqueue.c:2445
+ kthread+0x405/0x4f0 kernel/kthread.c:327
+ ret_from_fork+0x1f/0x30 arch/x86/entry/entry_64.S:295
+
+The buggy address belongs to the object at ffff888028419800
+ which belongs to the cache kmalloc-1k of size 1024
+The buggy address is located 552 bytes inside of
+ 1024-byte region [ffff888028419800, ffff888028419c00)
+The buggy address belongs to the page:
+page:ffffea0000a10600 refcount:1 mapcount:0 mapping:0000000000000000 index:0x0 pfn:0x28418
+head:ffffea0000a10600 order:3 compound_mapcount:0 compound_pincount:0
+flags: 0xfff00000010200(slab|head|node=0|zone=1|lastcpupid=0x7ff)
+raw: 00fff00000010200 0000000000000000 dead000000000001 ffff888010c42dc0
+raw: 0000000000000000 0000000000100010 00000001ffffffff 0000000000000000
+page dumped because: kasan: bad access detected
+page_owner tracks the page as allocated
+page last allocated via order 3, migratetype Unmovable, gfp_mask 0xd20c0(__GFP_IO|__GFP_FS|__GFP_NOWARN|__GFP_NORETRY|__GFP_COMP|__GFP_NOMEMALLOC), pid 3675, ts 98683278438, free_ts 98683124629
+ prep_new_page mm/page_alloc.c:2418 [inline]
+ get_page_from_freelist+0xa72/0x2f50 mm/page_alloc.c:4149
+ __alloc_pages+0x1b2/0x500 mm/page_alloc.c:5369
+ alloc_pages+0x1a7/0x300 mm/mempolicy.c:2191
+ alloc_slab_page mm/slub.c:1793 [inline]
+ allocate_slab mm/slub.c:1930 [inline]
+ new_slab+0x32d/0x4a0 mm/slub.c:1993
+ ___slab_alloc+0x918/0xfe0 mm/slub.c:3022
+ __slab_alloc.constprop.0+0x4d/0xa0 mm/slub.c:3109
+ slab_alloc_node mm/slub.c:3200 [inline]
+ __kmalloc_node_track_caller+0x2cb/0x360 mm/slub.c:4956
+ kmalloc_reserve net/core/skbuff.c:354 [inline]
+ __alloc_skb+0xde/0x340 net/core/skbuff.c:426
+ alloc_skb_fclone include/linux/skbuff.h:1176 [inline]
+ tcp_stream_alloc_skb+0x66/0x910 net/ipv4/tcp.c:861
+ tcp_sendmsg_locked+0xaba/0x3040 net/ipv4/tcp.c:1281
+ tcp_sendmsg+0x2b/0x40 net/ipv4/tcp.c:1440
+ inet_sendmsg+0x99/0xe0 net/ipv4/af_inet.c:819
+ sock_sendmsg_nosec net/socket.c:704 [inline]
+ sock_sendmsg+0xcf/0x120 net/socket.c:724
+ sock_write_iter+0x289/0x3c0 net/socket.c:1057
+ call_write_iter include/linux/fs.h:2162 [inline]
+ new_sync_write+0x429/0x660 fs/read_write.c:503
+ vfs_write+0x7cd/0xae0 fs/read_write.c:590
+page last free stack trace:
+ reset_page_owner include/linux/page_owner.h:24 [inline]
+ free_pages_prepare mm/page_alloc.c:1338 [inline]
+ free_pcp_prepare+0x374/0x870 mm/page_alloc.c:1389
+ free_unref_page_prepare mm/page_alloc.c:3309 [inline]
+ free_unref_page+0x19/0x690 mm/page_alloc.c:3388
+ skb_free_frag include/linux/skbuff.h:2949 [inline]
+ skb_free_head net/core/skbuff.c:653 [inline]
+ skb_release_data+0x61f/0x790 net/core/skbuff.c:677
+ skb_release_all net/core/skbuff.c:742 [inline]
+ __kfree_skb+0x46/0x60 net/core/skbuff.c:756
+ sk_eat_skb include/net/sock.h:2652 [inline]
+ tcp_recvmsg_locked+0x12e8/0x20d0 net/ipv4/tcp.c:2485
+ tcp_recvmsg+0x12b/0x550 net/ipv4/tcp.c:2531
+ inet_recvmsg+0x11b/0x5e0 net/ipv4/af_inet.c:850
+ sock_recvmsg_nosec net/socket.c:944 [inline]
+ sock_recvmsg net/socket.c:962 [inline]
+ sock_recvmsg net/socket.c:958 [inline]
+ sock_read_iter+0x33c/0x470 net/socket.c:1035
+ call_read_iter include/linux/fs.h:2156 [inline]
+ new_sync_read+0x5ba/0x6e0 fs/read_write.c:400
+ vfs_read+0x35c/0x600 fs/read_write.c:481
+ ksys_read+0x1ee/0x250 fs/read_write.c:619
+ do_syscall_x64 arch/x86/entry/common.c:50 [inline]
+ do_syscall_64+0x35/0xb0 arch/x86/entry/common.c:80
+ entry_SYSCALL_64_after_hwframe+0x44/0xae
+
+Memory state around the buggy address:
+ ffff888028419900: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+ ffff888028419980: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+>ffff888028419a00: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+                                  ^
+ ffff888028419a80: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+ ffff888028419b00: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+==================================================================
+----------------
+Code disassembly (best guess):
+   0:	03 74 c0 01          	add    0x1(%rax,%rax,8),%esi
+   4:	10 05 03 74 b8 01    	adc    %al,0x1b87403(%rip)        # 0x1b8740d
+   a:	10 06                	adc    %al,(%rsi)
+   c:	03 74 b4 01          	add    0x1(%rsp,%rsi,4),%esi
+  10:	10 07                	adc    %al,(%rdi)
+  12:	03 74 b0 01          	add    0x1(%rax,%rsi,4),%esi
+  16:	10 08                	adc    %cl,(%rax)
+  18:	03 74 d8 01          	add    0x1(%rax,%rbx,8),%esi
+  1c:	00 00                	add    %al,(%rax)
+  1e:	00 00                	add    %al,(%rax)
+  20:	00 51 52             	add    %dl,0x52(%rcx)
+  23:	55                   	push   %rbp
+  24:	89 e5                	mov    %esp,%ebp
+  26:	0f 34                	sysenter
+  28:	cd 80                	int    $0x80
+* 2a:	5d                   	pop    %rbp <-- trapping instruction
+  2b:	5a                   	pop    %rdx
+  2c:	59                   	pop    %rcx
+  2d:	c3                   	retq
+  2e:	90                   	nop
+  2f:	90                   	nop
+  30:	90                   	nop
+  31:	90                   	nop
+  32:	8d b4 26 00 00 00 00 	lea    0x0(%rsi,%riz,1),%esi
+  39:	8d b4 26 00 00 00 00 	lea    0x0(%rsi,%riz,1),%esi
+
+
+---
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
+
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
