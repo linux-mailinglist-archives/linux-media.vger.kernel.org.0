@@ -2,185 +2,84 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DACA6454536
-	for <lists+linux-media@lfdr.de>; Wed, 17 Nov 2021 11:51:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id F222B454541
+	for <lists+linux-media@lfdr.de>; Wed, 17 Nov 2021 11:58:36 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234605AbhKQKyM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 17 Nov 2021 05:54:12 -0500
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:47338 "EHLO
-        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231777AbhKQKyM (ORCPT
+        id S236026AbhKQLBd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 17 Nov 2021 06:01:33 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36776 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231591AbhKQLBb (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 17 Nov 2021 05:54:12 -0500
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: andrzej.p)
-        with ESMTPSA id 28B251F45D5B
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=collabora.com; s=mail;
-        t=1637146272; bh=F8kJsKyO3eNjl+hyFQQSyGJyEnjC26LZMm295j7R78w=;
-        h=Subject:From:To:Cc:References:Date:In-Reply-To:From;
-        b=Tvn80Aby5gCkhmtEN9nfr7LcgoNlBfw1cLIvGsVAkalU/ruW9O41li8Qbc4IBJIRe
-         QRaq9lp1xkF5bkNWQIqUKBI5xUHfQqyT0o4ZG960Hbvo0dT/egkpgx8f05aeTiYpr7
-         zSukR28HiY6i2x7FnM1MFTFUJflU/6WOwgXkH8UtTNu/VPtk/CWfjEIlBdsqzpL5tQ
-         iO58QPhMYl+pJBqD9um9knZKKfbDgDsJvBI1KE0ZZh03TJnsmux0mknnwxPCFvn1GZ
-         sHxWBVFKgRLALmGnabagIjem07uoLpsfG3M7e9PpJmsGG9akSU7mC/mESDNtIXiWKU
-         ldAjx0VMlCiIg==
-Subject: Re: [PATCH v7 00/11] VP9 codec V4L2 control interface
-From:   Andrzej Pietrasiewicz <andrzej.p@collabora.com>
-To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-kernel@vger.kernel.org, linux-rockchip@lists.infradead.org,
-        linux-staging@lists.linux.dev
-Cc:     Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-        Boris Brezillon <boris.brezillon@collabora.com>,
-        Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
-        Fabio Estevam <festevam@gmail.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Heiko Stuebner <heiko@sntech.de>,
-        Jernej Skrabec <jernej.skrabec@gmail.com>,
+        Wed, 17 Nov 2021 06:01:31 -0500
+Received: from mail-ua1-x930.google.com (mail-ua1-x930.google.com [IPv6:2607:f8b0:4864:20::930])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 38141C061746
+        for <linux-media@vger.kernel.org>; Wed, 17 Nov 2021 02:58:33 -0800 (PST)
+Received: by mail-ua1-x930.google.com with SMTP id t13so4886063uad.9
+        for <linux-media@vger.kernel.org>; Wed, 17 Nov 2021 02:58:33 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=vanguardiasur-com-ar.20210112.gappssmtp.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=GL2vVTwkDGaxnJKnzTpSFsHa3YcDS/lACsSvbC/mwqI=;
+        b=7yAOmEZtKssLDy+Mi1v2A8a/1edO5rzt+1q7QWK/blFKaXK8ebDMcY7nc+YOTG8Kjd
+         ZiCyRY3v5vfuTHYoj5MVj6n6cTVNYKXbwF3zZW3xHkWSl5sOjIwMkBKLHjm+rXuKokps
+         buf1CnkCaSMhGEjqACdor1ActX5fzLq7ADgXGorAAqqAK9yUJ0rWjiF7t7Ze5CY9Zs1M
+         BW/fHP84yKPphZ8yQPiQhDQPHK3ITuznYGa/j2WKeH/BZX95BJI/1/4IVHS6tvl5/dc/
+         7f0LvQNZKCxT9FZSexm3uxQ8dn8ZkCks7bJKZRDetCQdaQR+Y2hEmQ5tc9QQyxD7+CgA
+         AX3g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=GL2vVTwkDGaxnJKnzTpSFsHa3YcDS/lACsSvbC/mwqI=;
+        b=ZYNRJPQfOtZ1JK8U+8eScOcfGE3oowOSRuUPURH1q5Yj3AkXe3iB7vml1m97zy+IYj
+         96isDeO2PmO1TnJRaOaXW33ODIMJStFBIIM4jHaDZQa+WF0vxr1WebBlzM4KHWtYdGcG
+         XcLmFlg6MknC3Ddwq/qS2O5ro4RWWTO65Da92XEGrt65DVJphJrB3tYXdnVHGX2w+Bbf
+         /2TRkccaWC+e7w6XvlGKjXmDTAaAEEXeffhTzR8r3lPmzsCi4RTD12FdpGRry/o62c32
+         oze3fXiLbS0QeNEFGR9yKxMuuOa0tCIwtmqup+VKFAbzF8LRhklTJejfIChN/+fo4V7a
+         jb2g==
+X-Gm-Message-State: AOAM5321x5F3IqoBYlstcQ2cepKazlM4Q4stK0h5+0imRePQb4pZ98/I
+        m5J6L5vL+Jgod3ZeRWOBaxr/4u18PFOmYA==
+X-Google-Smtp-Source: ABdhPJx0rFYEn6Y1Kc0Vuh2EfsmgisCwK03nysfYsSX7F1YoD/nOk5rKQZ75zS/TNfM4/Zj8NiZlHw==
+X-Received: by 2002:a05:6102:dc7:: with SMTP id e7mr66274552vst.21.1637146712303;
+        Wed, 17 Nov 2021 02:58:32 -0800 (PST)
+Received: from eze-laptop ([186.122.18.126])
+        by smtp.gmail.com with ESMTPSA id r20sm11672009vkq.15.2021.11.17.02.58.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 17 Nov 2021 02:58:31 -0800 (PST)
+Date:   Wed, 17 Nov 2021 07:58:23 -0300
+From:   Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
+To:     James Cowgill <james.cowgill@blaize.com>
+Cc:     Philipp Zabel <p.zabel@pengutronix.de>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Nicolas Dufresne <nicolas.dufresne@collabora.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Shawn Guo <shawnguo@kernel.org>, kernel@collabora.com
-References: <20210929160439.6601-1-andrzej.p@collabora.com>
- <9db47ebc-cb95-872d-feb4-d6432a74f2cb@xs4all.nl>
- <29f27bad-28ae-12ff-eed6-79902bd5b722@collabora.com>
- <b8f8ee2e-ea98-4700-f4ca-f0af68c9de5c@xs4all.nl>
- <cdbbe5e6-0811-1276-1f62-fc7ad2628a30@collabora.com>
- <4da113ef-7b12-3729-0186-f746901c892a@xs4all.nl>
- <69f16bb0-4b5a-18b3-e244-60deb029d239@collabora.com>
- <2cd7a7f0-72d6-1a0e-b5d2-87ff809c2acd@xs4all.nl>
- <63429780-9e39-f8ab-40c2-0f1b57553850@collabora.com>
-Message-ID: <ccc29c1f-e2a1-f7c9-77ad-6e9fc1a57c95@collabora.com>
-Date:   Wed, 17 Nov 2021 11:51:09 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Heiko Stuebner <heiko@sntech.de>, linux-media@vger.kernel.org,
+        linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH] media: hantro: Avoid global variable for jpeg
+ quantization tables
+Message-ID: <YZTgT3Gt8GVQqJtm@eze-laptop>
+References: <20211111220108.1873947-1-james.cowgill@blaize.com>
 MIME-Version: 1.0
-In-Reply-To: <63429780-9e39-f8ab-40c2-0f1b57553850@collabora.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20211111220108.1873947-1-james.cowgill@blaize.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi again,
+Hi James,
 
-W dniu 17.11.2021 o 11:49, Andrzej Pietrasiewicz pisze:
-> Hi,
-> 
-> W dniu 17.11.2021 o 10:59, Hans Verkuil pisze:
->> On 16/11/2021 14:14, Andrzej Pietrasiewicz wrote:
->>> Hi,
->>>
->>> W dniu 16.11.2021 o 09:21, Hans Verkuil pisze:
->>>> On 16/11/2021 09:09, Andrzej Pietrasiewicz wrote:
->>>>> Hi Hans,
->>>>>
->>>>> W dniu 15.11.2021 o 22:16, Hans Verkuil pisze:
->>>>>> On 15/11/2021 18:14, Andrzej Pietrasiewicz wrote:
->>>>>>> Hi Hans,
->>>>>>>
->>>>>>> W dniu 15.11.2021 o 16:07, Hans Verkuil pisze:
->>>>>>>> Andrzej,
->>>>>>>>
->>>>>>>> Can you rebase this series on top of the master branch of
->>>>>>>> https://git.linuxtv.org/media_stage.git/ ? Unfortunately this v7 no longer
->>>>>>>> applies. Specifically "rkvdec: Add the VP9 backend" failed in a non-trivial
->>>>>>>> manner.
->>>>>>>
->>>>>>> This is a branch for you:
->>>>>>>
->>>>>>> https://gitlab.collabora.com/linux/for-upstream/-/tree/vp9-uapi
->>>>>>
->>>>>> I'm getting a bunch of sparse/smatch warnings:
->>>>>>
->>>>>
->>>>> Thanks for finding this, I will re-create the branch and let you know on irc.
->>>>> Some of the below are "false positives, namely:
->>>>>
->>>>> drivers/media/platform/omap3isp/omap3isp.h
->>>>> drivers/media/platform/qcom/venus/core.h
->>>>
->>>> Ah, sorry, I though I had filtered those out. Obviously you can ignore those.
->>>>
->>>> Please post a v8. That way the series is archived on lore. And it works better
->>>> with patchwork.
->>>
->>> Sure, no problem. Also please see below.
->>>
->>>>
->>>> Regards,
->>>>
->>>>     Hans
->>>>
->>>>>
->>>>> which are not touched by the series.
->>>>>
->>>>> Regards,
->>>>>
->>>>> Andrzej
->>>>>
->>>>>> sparse:
->>>>>> rkvdec/rkvdec-vp9.c:190:43: warning: variable 'dec_params' set but not 
->>>>>> used [-Wunused-but-set-variable]
->>>>>> rkvdec/rkvdec-vp9.c:245:43: warning: variable 'dec_params' set but not 
->>>>>> used [-Wunused-but-set-variable]
->>>>>> SPARSE:hantro/hantro_postproc.c hantro/hantro_postproc.c:37:35: warning: 
->>>>>> symbol 'hantro_g1_postproc_regs' was not declared. Should it be static?
->>>>>>
->>>>>> smatch:
->>>>>> rkvdec/rkvdec-vp9.c:190:43: warning: variable 'dec_params' set but not 
->>>>>> used [-Wunused-but-set-variable]
->>>>>> rkvdec/rkvdec-vp9.c:245:43: warning: variable 'dec_params' set but not 
->>>>>> used [-Wunused-but-set-variable]
->>>>>> rkvdec/rkvdec-vp9.c: rkvdec/rkvdec-vp9.c:236 init_intra_only_probs() 
->>>>>> error: buffer overflow 'ptr' 90 <= 91
->>>
->>> this looks a false positive.
->>>
->>> A portion of memory pointed to by ptr is indexed with i * 23 + m,
->>> where i ranges from 0 to 3, inclusive, and m ranges from 0 to 22,
->>> inclusive if i < 3, otherwise m ranges from 0 to 20, inclusive.
->>> So the largest index value we compute equals 89 (3 * 23 + 20).
->>> Because ptr points to something that is at least 90 bytes large,
->>> 89 is a valid index and no greater index will be ever computed.
->>
->> But we do need to get rid of this smatch warning, otherwise it will pollute the
->> list of smatch warnings.
->>
->> I was looking at the code and wonder if it wouldn't make more sense to
->> move writing to rkprobs->intra_mode[i].uv_mode[] into a separate for loop:
->>
->>          for (i = 0; i < ARRAY_SIZE(v4l2_vp9_kf_uv_mode_prob); i++)
->>                  rkprobs->intra_mode[i / 23].uv_mode[i % 23] = 
->> v4l2_vp9_kf_uv_mode_prob[i];
->>
->> Wouldn't that do the same as the current code? It looks simpler as well.
->>
-> 
-> I think it would, but I would slightly change the loop:
->
->      for (i = 0; i < ARRAY_SIZE(v4l2_vp9_kf_uv_mode_prob); i++) {
+Thanks for the patch.
 
-actually, sizeof(v4l2_vp9_kf_uv_mode_prob)
+On Thu, Nov 11, 2021 at 10:01:08PM +0000, James Cowgill wrote:
+> On a system with multiple encoders present, it's possible for two
+> encoders to write to the global luma and chroma quantization tables at
+> the same time if they both submit a JPEG frame to be encoded. Avoid
+> this race by moving the tables into the `jpeg_ctx` structure which is
+> stored on the stack.
+> 
+> Signed-off-by: James Cowgill <james.cowgill@blaize.com>
 
-
-
->          const u8 *ptr = (const u8 *)v4l2_vp9_kf_uv_mode_prob;
-> 
->          rkprobs->intra_mode[i / 23].uv_mode[i % 23] = ptr[i];
->      }
-> 
-> because v4l2_vp9_kf_uv_mode_prob is actually a u8[10][9].
-> 
-> I will make such a change locally and test whether it causes regressions.
-> 
-> Once I confirm it works (and I expect I will) would you like me to post a v9,
-> only reply to the changed patch with its updated version or do you want to make 
-> this change yourself?
-> 
-> Andrzej
-
+Reviewed-by: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
