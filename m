@@ -2,102 +2,144 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E5D1945439B
-	for <lists+linux-media@lfdr.de>; Wed, 17 Nov 2021 10:27:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6EDE04543B4
+	for <lists+linux-media@lfdr.de>; Wed, 17 Nov 2021 10:27:59 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235071AbhKQJ2r (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 17 Nov 2021 04:28:47 -0500
-Received: from mail.kernel.org ([198.145.29.99]:58818 "EHLO mail.kernel.org"
+        id S234503AbhKQJaj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 17 Nov 2021 04:30:39 -0500
+Received: from comms.puri.sm ([159.203.221.185]:51378 "EHLO comms.puri.sm"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S235004AbhKQJ2k (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 17 Nov 2021 04:28:40 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id ED5086323F;
-        Wed, 17 Nov 2021 09:25:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1637141142;
-        bh=BNv/RXf2LPs/ZsQ3yHCR8w+D7SMDn51B2wu47lXDf0M=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=lTVIXqitVBgsKQyy+zuTuY/303GUsLAnzEFMnUXSTb8uxL486sslEXILw+upe5ilE
-         HWioAUxQ8fQkOkBcIA4/aQW+Z1uNfmjLdzpVaJBTZiD6yukouAYTMhyup0OAaK4RFF
-         /pgR6hYLeX8+9MKbXAvIxBaMUCwNYIlQOzCwrF4VLJyO9piv1AUiH3C57pNxk+qUkO
-         wy7CMIXIeozu6bTyllAPoaKo3Bdz/4w/vOMBntSJnC0Hob4RMf+A0wZn3e/Gyg6XvR
-         Iokgobt/WlJRHPzTwUm0oNetwJptjAPCs/JSR8RMP5Xd3ebhYYRxxr+xvG8ROL/k5a
-         CaO8DgUsBz+3A==
-Received: by mail.kernel.org with local (Exim 4.94.2)
-        (envelope-from <mchehab@kernel.org>)
-        id 1mnHCF-00Cb6D-Cc; Wed, 17 Nov 2021 09:25:39 +0000
-From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc:     linuxarm@huawei.com, mauro.chehab@huawei.com,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Deepak R Varma <drv@mailo.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Tsuchiya Yuto <kitakar@gmail.com>,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-staging@lists.linux.dev
-Subject: [PATCH 13/13] media: atomisp: sh_css_sp: better support the current firmware
-Date:   Wed, 17 Nov 2021 09:25:38 +0000
-Message-Id: <f0c9b8ec25fedbfccac6d14ff1add2d40beaa088.1637140900.git.mchehab+huawei@kernel.org>
-X-Mailer: git-send-email 2.33.1
-In-Reply-To: <cover.1637140900.git.mchehab+huawei@kernel.org>
-References: <cover.1637140900.git.mchehab+huawei@kernel.org>
+        id S233303AbhKQJaa (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 17 Nov 2021 04:30:30 -0500
+Received: from localhost (localhost [127.0.0.1])
+        by comms.puri.sm (Postfix) with ESMTP id 979DFDF722;
+        Wed, 17 Nov 2021 01:27:31 -0800 (PST)
+Received: from comms.puri.sm ([127.0.0.1])
+        by localhost (comms.puri.sm [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id 4qV44hPShOAV; Wed, 17 Nov 2021 01:27:30 -0800 (PST)
+From:   Martin Kepplinger <martin.kepplinger@puri.sm>
+To:     rmfrfs@gmail.com, laurent.pinchart@ideasonboard.com,
+        mchehab@kernel.org, robh@kernel.org, shawnguo@kernel.org
+Cc:     kernel@pengutronix.de, kernel@puri.sm, linux-imx@nxp.com,
+        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        Martin Kepplinger <martin.kepplinger@puri.sm>
+Subject: [PATCH 1/2] media: imx: imx7-media-csi: add support for imx8mq
+Date:   Wed, 17 Nov 2021 10:27:09 +0100
+Message-Id: <20211117092710.3084034-1-martin.kepplinger@puri.sm>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
-To:     unlisted-recipients:; (no To-header on input)
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-As we're using Intel Aero firmware, make the code closer to the
-driver for such device.
+Modeled after the NXP driver mx6s_capture.c that this driver is based on,
+imx8mq needs different settings for the baseaddr_switch mechanism. Define
+the needed bits and set that for imx8mq.
 
-Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Without these settings, the system will "sometimes" hang completely when
+starting to stream (the interrupt will never be called).
+
+Signed-off-by: Martin Kepplinger <martin.kepplinger@puri.sm>
 ---
+ drivers/staging/media/imx/imx7-media-csi.c | 34 ++++++++++++++++++++--
+ 1 file changed, 32 insertions(+), 2 deletions(-)
 
-To avoid mailbombing on a large number of people, only mailing lists were C/C on the cover.
-See [PATCH 00/13] at: https://lore.kernel.org/all/cover.1637140900.git.mchehab+huawei@kernel.org/
-
- drivers/staging/media/atomisp/pci/sh_css_sp.c | 17 ++++++++---------
- 1 file changed, 8 insertions(+), 9 deletions(-)
-
-diff --git a/drivers/staging/media/atomisp/pci/sh_css_sp.c b/drivers/staging/media/atomisp/pci/sh_css_sp.c
-index f6db1f4a0e1d..a11078acb072 100644
---- a/drivers/staging/media/atomisp/pci/sh_css_sp.c
-+++ b/drivers/staging/media/atomisp/pci/sh_css_sp.c
-@@ -982,6 +982,7 @@ sh_css_sp_init_stage(struct ia_css_binary *binary,
- 	/* Make sure binary name is smaller than allowed string size */
- 	assert(strlen(binary_name) < SH_CSS_MAX_BINARY_NAME - 1);
- 	strscpy(sh_css_isp_stage.binary_name, binary_name, SH_CSS_MAX_BINARY_NAME);
-+	sh_css_isp_stage.binary_name[SH_CSS_MAX_BINARY_NAME - 1] = 0;
- 	sh_css_isp_stage.mem_initializers = *isp_mem_if;
+diff --git a/drivers/staging/media/imx/imx7-media-csi.c b/drivers/staging/media/imx/imx7-media-csi.c
+index 2288dadb2683..8619cf2fc694 100644
+--- a/drivers/staging/media/imx/imx7-media-csi.c
++++ b/drivers/staging/media/imx/imx7-media-csi.c
+@@ -12,6 +12,7 @@
+ #include <linux/interrupt.h>
+ #include <linux/mfd/syscon.h>
+ #include <linux/module.h>
++#include <linux/of_device.h>
+ #include <linux/of_graph.h>
+ #include <linux/pinctrl/consumer.h>
+ #include <linux/platform_device.h>
+@@ -122,6 +123,10 @@
+ #define BIT_DATA_FROM_MIPI		BIT(22)
+ #define BIT_MIPI_YU_SWAP		BIT(21)
+ #define BIT_MIPI_DOUBLE_CMPNT		BIT(20)
++#define BIT_MASK_OPTION_FIRST_FRAME	(0 << 18)
++#define BIT_MASK_OPTION_CSI_EN		(1 << 18)
++#define BIT_MASK_OPTION_SECOND_FRAME	(2 << 18)
++#define BIT_MASK_OPTION_ON_DATA		(3 << 18)
+ #define BIT_BASEADDR_CHG_ERR_EN		BIT(9)
+ #define BIT_BASEADDR_SWITCH_SEL		BIT(5)
+ #define BIT_BASEADDR_SWITCH_EN		BIT(4)
+@@ -154,6 +159,12 @@
+ #define CSI_CSICR18			0x48
+ #define CSI_CSICR19			0x4c
  
- 	/*
-@@ -1013,16 +1014,14 @@ sh_css_sp_init_stage(struct ia_css_binary *binary,
- 		return err;
++enum imx_soc {
++	IMX6UL = 0,
++	IMX7,
++	IMX8MQ,
++};
++
+ struct imx7_csi {
+ 	struct device *dev;
+ 	struct v4l2_subdev sd;
+@@ -189,6 +200,8 @@ struct imx7_csi {
+ 	bool is_csi2;
  
- #ifdef ISP2401
--	if (stage == 0) {
--		pipe = find_pipe_by_num(sh_css_sp_group.pipe[thread_id].pipe_num);
--		if (!pipe)
--			return -EINVAL;
-+	pipe = find_pipe_by_num(sh_css_sp_group.pipe[thread_id].pipe_num);
-+	if (!pipe)
-+		return -EINVAL;
+ 	struct completion last_eof_completion;
++
++	enum imx_soc type;
+ };
  
--		if (args->in_frame)
--			ia_css_get_crop_offsets(pipe, &args->in_frame->info);
--		else
--			ia_css_get_crop_offsets(pipe, &binary->in_frame_info);
--	}
-+	if (args->in_frame)
-+		ia_css_get_crop_offsets(pipe, &args->in_frame->info);
-+	else if (&binary->in_frame_info)
-+		ia_css_get_crop_offsets(pipe, &binary->in_frame_info);
- #else
- 	(void)pipe; /*avoid build warning*/
- #endif
+ static struct imx7_csi *
+@@ -537,6 +550,16 @@ static void imx7_csi_deinit(struct imx7_csi *csi,
+ 	clk_disable_unprepare(csi->mclk);
+ }
+ 
++static void imx8mq_baseaddr_switch(struct imx7_csi *csi)
++{
++	u32 cr18 = imx7_csi_reg_read(csi, CSI_CSICR18);
++
++	cr18 |= BIT_BASEADDR_SWITCH_EN | BIT_BASEADDR_SWITCH_SEL |
++		BIT_BASEADDR_CHG_ERR_EN;
++	cr18 |= BIT_MASK_OPTION_SECOND_FRAME;
++	imx7_csi_reg_write(csi, cr18, CSI_CSICR18);
++}
++
+ static void imx7_csi_enable(struct imx7_csi *csi)
+ {
+ 	/* Clear the Rx FIFO and reflash the DMA controller. */
+@@ -551,7 +574,11 @@ static void imx7_csi_enable(struct imx7_csi *csi)
+ 
+ 	/* Enable the RxFIFO DMA and the CSI. */
+ 	imx7_csi_dmareq_rff_enable(csi);
++
+ 	imx7_csi_hw_enable(csi);
++
++	if (csi->type == IMX8MQ)
++		imx8mq_baseaddr_switch(csi);
+ }
+ 
+ static void imx7_csi_disable(struct imx7_csi *csi)
+@@ -1155,6 +1182,8 @@ static int imx7_csi_probe(struct platform_device *pdev)
+ 	if (IS_ERR(csi->regbase))
+ 		return PTR_ERR(csi->regbase);
+ 
++	csi->type = (enum imx_soc)of_device_get_match_data(&pdev->dev);
++
+ 	spin_lock_init(&csi->irqlock);
+ 	mutex_init(&csi->lock);
+ 
+@@ -1249,8 +1278,9 @@ static int imx7_csi_remove(struct platform_device *pdev)
+ }
+ 
+ static const struct of_device_id imx7_csi_of_match[] = {
+-	{ .compatible = "fsl,imx7-csi" },
+-	{ .compatible = "fsl,imx6ul-csi" },
++	{ .compatible = "fsl,imx8mq-csi", .data = (void *)IMX8MQ },
++	{ .compatible = "fsl,imx7-csi", .data = (void *)IMX7 },
++	{ .compatible = "fsl,imx6ul-csi", .data = (void *)IMX6UL },
+ 	{ },
+ };
+ MODULE_DEVICE_TABLE(of, imx7_csi_of_match);
 -- 
-2.33.1
+2.30.2
 
