@@ -2,89 +2,78 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B11D04547D2
-	for <lists+linux-media@lfdr.de>; Wed, 17 Nov 2021 14:53:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 84A9C454906
+	for <lists+linux-media@lfdr.de>; Wed, 17 Nov 2021 15:40:56 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236377AbhKQN42 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 17 Nov 2021 08:56:28 -0500
-Received: from mail.kernel.org ([198.145.29.99]:57266 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230266AbhKQN41 (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 17 Nov 2021 08:56:27 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id ACD2A61B64;
-        Wed, 17 Nov 2021 13:53:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1637157208;
-        bh=/WHQ1Ps5XYsLA7IaGT1brD7EntvRlSrCZToN1LoCfUE=;
-        h=From:To:Cc:Subject:Date:From;
-        b=FiOoYQfUgWcmql6ljTYeQBKfiwuBOX1VY+l7c8M3N1NwSLqdHATKY6oe5hRD+2qX3
-         n62N8kJSSXapbJ7MbUBijPkMn5q/3JHuY7LGrQgbutAeHg+vb9Zn5pfZ33Tqfz45KG
-         aNmnDqBRoZiyDAl8rk1WugNRRotQ7bSh67KJYirYG+bFmYt271qoaZFS7UTNUUYrts
-         UHh/Hvlo3nmooadoml03szgTKKaYKoM49oHuWObVoZH90JHeZZFrEngsnwbuzOUtAj
-         Ta3SfLwKERa5VImvA0gsJebc1xyQyxc5wd2sT0hYnA4nALQyTBsTDEkVXJPFt/4FM3
-         +2AOBfwU7lI1g==
-Received: by mail.kernel.org with local (Exim 4.94.2)
-        (envelope-from <mchehab@kernel.org>)
-        id 1mnLNN-00DLYp-P6; Wed, 17 Nov 2021 13:53:25 +0000
-From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc:     linuxarm@huawei.com, mauro.chehab@huawei.com,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        "Dan Carpenter" <dan.carpenter@oracle.com>,
-        Deepak R Varma <drv@mailo.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Tsuchiya Yuto <kitakar@gmail.com>,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-staging@lists.linux.dev
-Subject: [PATCH v2] media: atomisp: sh_css_sp: better support the current firmware
-Date:   Wed, 17 Nov 2021 13:53:24 +0000
-Message-Id: <072927d1cebf47eb3020c26d2d2db3f51936c928.1637157198.git.mchehab+huawei@kernel.org>
-X-Mailer: git-send-email 2.33.1
+        id S238677AbhKQOnw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 17 Nov 2021 09:43:52 -0500
+Received: from perceval.ideasonboard.com ([213.167.242.64]:37132 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S236521AbhKQOnw (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Wed, 17 Nov 2021 09:43:52 -0500
+Received: from pendragon.ideasonboard.com (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 6D9B22CF;
+        Wed, 17 Nov 2021 15:40:52 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1637160052;
+        bh=GlVxoafIkyTWNV9NuopOo/VpJXkPbHQdWMm1exK22FQ=;
+        h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
+        b=i29wD4YPyenTFWFe0R+ff88SAocCBgEfjd11jsGsKFXmHEc3os+2ecmLe47AhNJ41
+         JWhnVcnJTktP8HnHr58dUAEVBlPPvy9ma8wPS/tVtx2AcFBI2CCG3MYd/zX4adX0G0
+         MOUiIomPBFyWnQkm8UQxWEMNBw6Nfk68sSM9A+HU=
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
-To:     unlisted-recipients:; (no To-header on input)
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20211116014726.1452-1-vulab@iscas.ac.cn>
+References: <20211116014726.1452-1-vulab@iscas.ac.cn>
+Subject: Re: [PATCH] media: mtk-jpeg: Remove unnecessary print function dev_err()
+From:   Kieran Bingham <kieran.bingham@ideasonboard.com>
+Cc:     linux-media@vger.kernel.org, linux-mediatek@lists.infradead.org,
+        linux-kernel@vger.kernel.org
+To:     Xu Wang <vulab@iscas.ac.cn>, bin.liu@mediatek.com,
+        matthias.bgg@gmail.com, mchehab@kernel.org, rick.chang@mediatek.com
+Date:   Wed, 17 Nov 2021 14:40:49 +0000
+Message-ID: <163716004951.420308.9398665375877390415@Monstersaurus>
+User-Agent: alot/0.10
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-As we're using Intel Aero firmware, make the code closer to the
-driver for such device.
+Quoting Xu Wang (2021-11-16 01:47:26)
+> The print function dev_err() is redundant because
+> platform_get_irq() already prints an error.
 
-Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
----
- drivers/staging/media/atomisp/pci/sh_css_sp.c | 16 +++++++---------
- 1 file changed, 7 insertions(+), 9 deletions(-)
+This one was also reporting errors in the case of -EPROBE_DEFER, which
+will now go away, so this looks like a valid change to me.
 
-diff --git a/drivers/staging/media/atomisp/pci/sh_css_sp.c b/drivers/staging/media/atomisp/pci/sh_css_sp.c
-index 778639f391cb..615500a7d3c4 100644
---- a/drivers/staging/media/atomisp/pci/sh_css_sp.c
-+++ b/drivers/staging/media/atomisp/pci/sh_css_sp.c
-@@ -1032,16 +1032,14 @@ sh_css_sp_init_stage(struct ia_css_binary *binary,
- 		return err;
- 
- #ifdef ISP2401
--	if (stage == 0) {
--		pipe = find_pipe_by_num(sh_css_sp_group.pipe[thread_id].pipe_num);
--		if (!pipe)
--			return -EINVAL;
-+	pipe = find_pipe_by_num(sh_css_sp_group.pipe[thread_id].pipe_num);
-+	if (!pipe)
-+		return -EINVAL;
- 
--		if (args->in_frame)
--			ia_css_get_crop_offsets(pipe, &args->in_frame->info);
--		else
--			ia_css_get_crop_offsets(pipe, &binary->in_frame_info);
--	}
-+	if (args->in_frame)
-+		ia_css_get_crop_offsets(pipe, &args->in_frame->info);
-+	else
-+		ia_css_get_crop_offsets(pipe, &binary->in_frame_info);
- #else
- 	(void)pipe; /*avoid build warning*/
- #endif
--- 
-2.33.1
+Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
 
+> Signed-off-by: Xu Wang <vulab@iscas.ac.cn>
+> ---
+>  drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c | 4 +---
+>  1 file changed, 1 insertion(+), 3 deletions(-)
+>=20
+> diff --git a/drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c b/drivers/me=
+dia/platform/mtk-jpeg/mtk_jpeg_core.c
+> index af994b9913a6..f332beb06d51 100644
+> --- a/drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c
+> +++ b/drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c
+> @@ -1361,10 +1361,8 @@ static int mtk_jpeg_probe(struct platform_device *=
+pdev)
+>         }
+> =20
+>         jpeg_irq =3D platform_get_irq(pdev, 0);
+> -       if (jpeg_irq < 0) {
+> -               dev_err(&pdev->dev, "Failed to get jpeg_irq %d.\n", jpeg_=
+irq);
+> +       if (jpeg_irq < 0)
+>                 return jpeg_irq;
+> -       }
+> =20
+>         ret =3D devm_request_irq(&pdev->dev, jpeg_irq,
+>                                jpeg->variant->irq_handler, 0, pdev->name,=
+ jpeg);
+> --=20
+> 2.25.1
+>
