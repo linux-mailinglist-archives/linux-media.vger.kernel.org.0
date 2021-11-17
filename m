@@ -2,119 +2,92 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 27F98454F61
-	for <lists+linux-media@lfdr.de>; Wed, 17 Nov 2021 22:33:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9A418455061
+	for <lists+linux-media@lfdr.de>; Wed, 17 Nov 2021 23:24:50 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239664AbhKQVgf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 17 Nov 2021 16:36:35 -0500
-Received: from mail-io1-f72.google.com ([209.85.166.72]:36858 "EHLO
-        mail-io1-f72.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235649AbhKQVgb (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Wed, 17 Nov 2021 16:36:31 -0500
-Received: by mail-io1-f72.google.com with SMTP id w16-20020a5d8a10000000b005e241c13c7bso2325760iod.3
-        for <linux-media@vger.kernel.org>; Wed, 17 Nov 2021 13:33:32 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:date:message-id:subject:from:to;
-        bh=HtOEfgBkkhSqyK1qfuHXImnaPFywsRWVYEdA+Wk8yiE=;
-        b=6dNuS5hVcvg4y4qp5F461lD+IfCMo/GR5YsP4KaER9zZhsOenD7tyhVr+f2jENYcTp
-         a2RJVCXrL/mGl2YhdoSyhE5lusuafF7UuWT9xqD5kjdvjKVzBPPdg2p9ukcDY9WAhkhJ
-         WMNVA4Ahdkna5OXJa0grIAR7/3KqhHoS0muoQT033PkROtGgfFkIaRHzwTgl6eF2daFs
-         mdlY1o+oKfm/UDeE9oNX73CU9ccjT+Om89uYD30HruDFvExpLfTp9WVjEZKq3C3NpWaA
-         SmWsVSs+Bis1d+gnyAOr6B3e/gJfV4IYkmh7r7AlcxRdpuGuHbkadjHh8fZZSFKkwBau
-         HZXg==
-X-Gm-Message-State: AOAM532nsWS7VriC1pj1PZps1pm9fP7beUqiq+kM18m6guc6bVDkuAnN
-        mcG9cJ6cUH2nyq1lI0efsAN0ARzZ6o/ZdtHHfy0FdfV2cu+o
-X-Google-Smtp-Source: ABdhPJw6z0vhpa6F+0lDRaMkRXVMJW1Rh0CiCZcWKmx7jDvqh7g88SSQIGmrzt5lsu6CrAoY47mkZsViSZPKVcEazFiugPmAceHG
+        id S241134AbhKQW1s (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 17 Nov 2021 17:27:48 -0500
+Received: from mail.kernel.org ([198.145.29.99]:39504 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S231985AbhKQW1r (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 17 Nov 2021 17:27:47 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 4636E613AC;
+        Wed, 17 Nov 2021 22:24:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1637187888;
+        bh=Q+KEmuQT8gFLMsVZlcLv0RXAotQG9DNePeryWAiTisI=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=AroQHy2p8b1E9ZMSk3/OElw90PYM9oZSn12o0lA8/awN+ISe+0qcck4ex1mHerkIn
+         GYmQ7SXSa70M2CTKqk88Yiq54dKaUX8v2FJlOFU8hlezF/eQ2oaPO1dvED4NgGpmP4
+         nACYKNqZXiPTxe4J4QkU1BlwwmsXu+Y4xgrbHRRzYFVrlexyCoyQCTyJHFbBLoQ70h
+         w1ACzNKuzp9v6f2DuHMwwlqDK8TtYcm+teMPO3UdcUxSb9IyWBJf2r6tr+tvJnTeIV
+         G1cLo1fpyGBh+8i54/efOLMZyMx2GFkEC2QzJBTMxQmMZ9KyqwaerPr5FeLy9RxWE5
+         fPv6iYxSR6fjQ==
+Date:   Wed, 17 Nov 2021 22:24:43 +0000
+From:   Mauro Carvalho Chehab <mchehab@kernel.org>
+To:     Tsuchiya Yuto <kitakar@gmail.com>
+Cc:     Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+        linux-kernel@vger.kernel.org,
+        Nable <nable.maininbox@googlemail.com>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Fabio Aiuto <fabioaiuto83@gmail.com>,
+        "andrey.i.trufanov" <andrey.i.trufanov@gmail.com>,
+        Patrik Gfeller <patrik.gfeller@gmail.com>,
+        Hans de Goede <hdegoede@redhat.com>
+Subject: Re: [PATCH 04/17] media: atomisp: pci: do not use err var when
+ checking port validity for ISP2400
+Message-ID: <20211117222443.3d050caa@sal.lan>
+In-Reply-To: <20211111183812.0f33fdaa@sal.lan>
+References: <20211017161958.44351-1-kitakar@gmail.com>
+        <20211017161958.44351-5-kitakar@gmail.com>
+        <20211026092637.196447aa@sal.lan>
+        <1a295721fd1f1e512cd54a659a250aef162bfb6f.camel@gmail.com>
+        <20211028123944.66c212c1@sal.lan>
+        <af7cdf9de020171567c2e75b713deb2ed073e4e3.camel@gmail.com>
+        <20211101141058.36ea2c8e@sal.lan>
+        <ab48bd8c69273e8b18ff652f3615b2698a777092.camel@gmail.com>
+        <20211111183812.0f33fdaa@sal.lan>
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.30; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-X-Received: by 2002:a05:6602:2e90:: with SMTP id m16mr13715000iow.92.1637184812636;
- Wed, 17 Nov 2021 13:33:32 -0800 (PST)
-Date:   Wed, 17 Nov 2021 13:33:32 -0800
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <000000000000305e3b05d102cbc4@google.com>
-Subject: [syzbot] WARNING in vivid_cap_update_frame_period
-From:   syzbot <syzbot+8e740e8a74e295b37726@syzkaller.appspotmail.com>
-To:     hverkuil@xs4all.nl, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, mchehab@kernel.org,
-        syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hello,
+Hi 
+Em Thu, 11 Nov 2021 18:38:12 +0000
+Mauro Carvalho Chehab <mchehab@kernel.org> escreveu:
 
-syzbot found the following issue on:
+> > The `ifdef ISP2401` was the result of merging two different version of
+> > driver, added on the initial commit of upstreamed atomisp. And for the
+> > `ifdef ISP2401`, I confirmed I can remove (almost [1]) all of them against
+> > the initial commit of atomisp [2][3]
+> > 
+> > [1] here are the three exceptions:
+> >     ("NOTE: ifdef ISP2400/ISP2401 usage in aero-atomisp")
+> >     https://github.com/kitakar5525/linux-kernel/commit/1a8488cdd31ad38a3805824700b29d1e5213d3f2
+> > 
+> > [2] ("atomisp: pci: css2400: remove ISP2401 ifdefs")
+> >     https://github.com/kitakar5525/linux-kernel/commit/dd6723fc5b9fe040e33b227b509a7e004243edce
+> > [3] ("atomisp: pci: remove ISP2401 ifdefs for main pci driver")
+> >     https://github.com/kitakar5525/linux-kernel/commit/1734341f84a96945af7635f6fff061db910f746f  
+> 
+> Ok, if there are more if/ifdef ISP2401 that, if reverted will keep the
+> driver running with the firmware we're using, I'm all for it. Just send
+> the patches ;-)
 
-HEAD commit:    66f4beaa6c1d Merge branch 'linus' of git://git.kernel.org/..
-git tree:       upstream
-console output: https://syzkaller.appspot.com/x/log.txt?x=14f43b9eb00000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=a262045c4c15a9e0
-dashboard link: https://syzkaller.appspot.com/bug?extid=8e740e8a74e295b37726
-compiler:       gcc (Debian 10.2.1-6) 10.2.1 20210110, GNU ld (GNU Binutils for Debian) 2.35.2
+I went ahead and solved several INPUT_SYSTEM related ifdefs on a way
+that it is compatible with Intel Aero firmware for the sh_css* files.
+Except if I made any mistake, the ifdefs that are related to the
+input system were already addressed.
 
-Unfortunately, I don't have any reproducer for this issue yet.
+I didn't notice any changes when running camorama on the PREVIEW
+node. 
 
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+8e740e8a74e295b37726@syzkaller.appspotmail.com
+Please test. Feel free to submit fixup patches if needed.
 
-------------[ cut here ]------------
-WARNING: CPU: 1 PID: 29933 at drivers/media/test-drivers/vivid/vivid-kthread-cap.c:664 vivid_cap_update_frame_period+0x16d/0x1f0 drivers/media/test-drivers/vivid/vivid-kthread-cap.c:664
-Modules linked in:
-CPU: 1 PID: 29933 Comm: vivid-001-vid-c Not tainted 5.15.0-syzkaller #0
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 01/01/2011
-RIP: 0010:vivid_cap_update_frame_period+0x16d/0x1f0 drivers/media/test-drivers/vivid/vivid-kthread-cap.c:664
-Code: 00 00 00 fc ff df 48 89 fa 48 c1 ea 03 80 3c 02 00 75 79 48 89 ab d8 a0 00 00 48 83 c4 08 5b 5d 41 5c 41 5d c3 e8 e3 bf 4d fb <0f> 0b 48 b8 00 00 00 00 00 fc ff df 4c 89 ea 48 c1 ea 03 0f b6 14
-RSP: 0018:ffffc90017c37e48 EFLAGS: 00010293
-RAX: 0000000000000000 RBX: ffff8881489b0000 RCX: 0000000000000000
-RDX: ffff88807d831d00 RSI: ffffffff862a068d RDI: 0000000000000003
-RBP: 000000a336db2200 R08: 0000000000000000 R09: 0000000000000001
-R10: ffffffff862a05a9 R11: 0000000000000000 R12: 0000000000000000
-R13: ffff8881489b9344 R14: ffff8881489b0000 R15: ffff8881489b0000
-FS:  0000000000000000(0000) GS:ffff8880b9d00000(0000) knlGS:0000000000000000
-CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: 0000555556fb1708 CR3: 000000006ff99000 CR4: 00000000003526e0
-Call Trace:
- <TASK>
- vivid_thread_vid_cap+0x1ab/0xaf0 drivers/media/test-drivers/vivid/vivid-kthread-cap.c:816
- kthread+0x405/0x4f0 kernel/kthread.c:327
- ret_from_fork+0x1f/0x30 arch/x86/entry/entry_64.S:295
- </TASK>
-Kernel panic - not syncing: panic_on_warn set ...
-CPU: 1 PID: 29933 Comm: vivid-001-vid-c Not tainted 5.15.0-syzkaller #0
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 01/01/2011
-Call Trace:
- <TASK>
- __dump_stack lib/dump_stack.c:88 [inline]
- dump_stack_lvl+0xcd/0x134 lib/dump_stack.c:106
- panic+0x2b0/0x6dd kernel/panic.c:232
- __warn.cold+0x35/0x44 kernel/panic.c:603
- report_bug+0x1bd/0x210 lib/bug.c:199
- handle_bug+0x3c/0x60 arch/x86/kernel/traps.c:239
- exc_invalid_op+0x14/0x40 arch/x86/kernel/traps.c:259
- asm_exc_invalid_op+0x12/0x20 arch/x86/include/asm/idtentry.h:566
-RIP: 0010:vivid_cap_update_frame_period+0x16d/0x1f0 drivers/media/test-drivers/vivid/vivid-kthread-cap.c:664
-Code: 00 00 00 fc ff df 48 89 fa 48 c1 ea 03 80 3c 02 00 75 79 48 89 ab d8 a0 00 00 48 83 c4 08 5b 5d 41 5c 41 5d c3 e8 e3 bf 4d fb <0f> 0b 48 b8 00 00 00 00 00 fc ff df 4c 89 ea 48 c1 ea 03 0f b6 14
-RSP: 0018:ffffc90017c37e48 EFLAGS: 00010293
-RAX: 0000000000000000 RBX: ffff8881489b0000 RCX: 0000000000000000
-RDX: ffff88807d831d00 RSI: ffffffff862a068d RDI: 0000000000000003
-RBP: 000000a336db2200 R08: 0000000000000000 R09: 0000000000000001
-R10: ffffffff862a05a9 R11: 0000000000000000 R12: 0000000000000000
-R13: ffff8881489b9344 R14: ffff8881489b0000 R15: ffff8881489b0000
- vivid_thread_vid_cap+0x1ab/0xaf0 drivers/media/test-drivers/vivid/vivid-kthread-cap.c:816
- kthread+0x405/0x4f0 kernel/kthread.c:327
- ret_from_fork+0x1f/0x30 arch/x86/entry/entry_64.S:295
- </TASK>
-Kernel Offset: disabled
-Rebooting in 86400 seconds..
-
-
----
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
-
-syzbot will keep track of this issue. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+Regards,
+Mauro
