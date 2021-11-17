@@ -2,110 +2,153 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A7C0C454DEF
-	for <lists+linux-media@lfdr.de>; Wed, 17 Nov 2021 20:34:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C9ABC454EE2
+	for <lists+linux-media@lfdr.de>; Wed, 17 Nov 2021 22:03:28 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240516AbhKQThO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 17 Nov 2021 14:37:14 -0500
-Received: from mail.kernel.org ([198.145.29.99]:45406 "EHLO mail.kernel.org"
+        id S240161AbhKQVGZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 17 Nov 2021 16:06:25 -0500
+Received: from mga14.intel.com ([192.55.52.115]:52739 "EHLO mga14.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S236117AbhKQThJ (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 17 Nov 2021 14:37:09 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id A317461B30;
-        Wed, 17 Nov 2021 19:34:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1637177650;
-        bh=sj2B2huQwh59FpOjf6V0Y3pZFT+H8BQMKj48jrEM3yQ=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=BIBDz4SFD1hSPtPnvBlFQw/7rDY7MQUud0V7eBYcF4Pm1t3rNmLcjLT5cALd9gJUS
-         f+K89NZ+LVk4E5ssd2vkDPeFIsBYJTy8cmcwuDnI/vqtt4OJl+EdQfXbWtB4BJmKcd
-         ZeZiwblZandJAyDS8ssAUs5NF45zQjYcrZznQUa3j+5qe2rixG7CwSILzb0DokIWBh
-         /DkvR4WtYFDx3va+FYmTowfb3YRV0g1rqW8xWgHI61Gtgn6zphFIHvvXCWTJTG0Cw4
-         Q5zrhSpvFMoDFNhP7G0eExpWNIiFXDdUU5fixVifCXS0LOrAY/Zn6vrJH2SG/V0U87
-         70dKHXPQQ1SJg==
-Received: by mail.kernel.org with local (Exim 4.94.2)
-        (envelope-from <mchehab@kernel.org>)
-        id 1mnQh6-00DXHx-5R; Wed, 17 Nov 2021 19:34:08 +0000
-From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc:     linuxarm@huawei.com, mauro.chehab@huawei.com,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Dan Carpenter <dan.carpenter@oracle.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Kaixu Xia <kaixuxia@tencent.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Tsuchiya Yuto <kitakar@gmail.com>,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-staging@lists.linux.dev
-Subject: [PATCH 8/8] media: atomisp: cleanup qbuf logic
-Date:   Wed, 17 Nov 2021 19:34:06 +0000
-Message-Id: <198e1aae6e4e5d9970f0e5c885cb627ea144d515.1637177402.git.mchehab+huawei@kernel.org>
-X-Mailer: git-send-email 2.33.1
-In-Reply-To: <cover.1637177402.git.mchehab+huawei@kernel.org>
-References: <cover.1637177402.git.mchehab+huawei@kernel.org>
+        id S230433AbhKQVGZ (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 17 Nov 2021 16:06:25 -0500
+X-IronPort-AV: E=McAfee;i="6200,9189,10171"; a="234294690"
+X-IronPort-AV: E=Sophos;i="5.87,241,1631602800"; 
+   d="scan'208";a="234294690"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Nov 2021 13:03:26 -0800
+X-IronPort-AV: E=Sophos;i="5.87,241,1631602800"; 
+   d="scan'208";a="536439178"
+Received: from paasikivi.fi.intel.com ([10.237.72.42])
+  by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Nov 2021 13:03:24 -0800
+Received: from paasikivi.fi.intel.com (localhost [127.0.0.1])
+        by paasikivi.fi.intel.com (Postfix) with SMTP id 2EF7C2030F;
+        Wed, 17 Nov 2021 23:03:22 +0200 (EET)
+Date:   Wed, 17 Nov 2021 23:03:22 +0200
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     Eugen.Hristev@microchip.com
+Cc:     leonl@leopardimaging.com, linux-media@vger.kernel.org,
+        skomatineni@nvidia.com, luca@lucaceresoli.net,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] media: i2c: imx274: fix s_frame_interval runtime resume
+ not requested
+Message-ID: <YZVuGrkKTrvQC/Qm@paasikivi.fi.intel.com>
+References: <20211117154009.261787-1-eugen.hristev@microchip.com>
+ <YZUptcn1isWQuCdq@paasikivi.fi.intel.com>
+ <97fbf01c-6cfb-7ab9-f045-383a1e4053c2@microchip.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
-To:     unlisted-recipients:; (no To-header on input)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <97fbf01c-6cfb-7ab9-f045-383a1e4053c2@microchip.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The logic there is meant to be used by newer firmwares.
-clean it up, in order to make compatible with the chosen
-firmware version.
+Hi Eugen,
 
-Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
----
+On Wed, Nov 17, 2021 at 04:52:40PM +0000, Eugen.Hristev@microchip.com wrote:
+> On 11/17/21 6:11 PM, Sakari Ailus wrote:
+> > EXTERNAL EMAIL: Do not click links or open attachments unless you know the content is safe
+> > 
+> > Hi Eugen,
+> > 
+> > On Wed, Nov 17, 2021 at 05:40:09PM +0200, Eugen Hristev wrote:
+> >> pm_runtime_resume_and_get should be called when the s_frame_interval
+> >> is called.
+> >>
+> >> The driver will try to access device registers to configure VMAX, coarse
+> >> time and exposure.
+> >>
+> >> Currently if the runtime is not resumed, this fails:
+> >>   # media-ctl -d /dev/media0 --set-v4l2 '"IMX274 1-001a":0[fmt:SRGGB10_1X10/3840x2
+> >> 160@1/10]'
+> >>
+> >> IMX274 1-001a: imx274_binning_goodness: ask 3840x2160, size 3840x2160, goodness 0
+> >> IMX274 1-001a: imx274_binning_goodness: ask 3840x2160, size 1920x1080, goodness -3000
+> >> IMX274 1-001a: imx274_binning_goodness: ask 3840x2160, size 1280x720, goodness -4000
+> >> IMX274 1-001a: imx274_binning_goodness: ask 3840x2160, size 1280x540, goodness -4180
+> >> IMX274 1-001a: __imx274_change_compose: selected 1x1 binning
+> >> IMX274 1-001a: imx274_set_frame_interval: input frame interval = 1 / 10
+> >> IMX274 1-001a: imx274_read_mbreg : addr 0x300e, val=0x1 (2 bytes)
+> >> IMX274 1-001a: imx274_set_frame_interval : register SVR = 1
+> >> IMX274 1-001a: imx274_read_mbreg : addr 0x30f6, val=0x6a8 (2 bytes)
+> >> IMX274 1-001a: imx274_set_frame_interval : register HMAX = 1704
+> >> IMX274 1-001a: imx274_set_frame_length : input length = 2112
+> >> IMX274 1-001a: imx274_write_mbreg : i2c bulk write failed, 30f8 = 884 (3 bytes)
+> >> IMX274 1-001a: imx274_set_frame_length error = -121
+> >> IMX274 1-001a: imx274_set_frame_interval error = -121
+> >> Unable to setup formats: Remote I/O error (121)
+> >>
+> >> The device is not resumed thus the remote I/O error.
+> >>
+> >> Setting the frame interval works at streaming time, because
+> >> pm_runtime_resume_and_get is called at s_stream time before sensor setup.
+> >> The failure happens when only the s_frame_interval is called separately
+> >> independently on streaming time.
+> >>
+> >> Fixes: ad97bc37426c ("media: i2c: imx274: Add IMX274 power on and off sequence"
+> >> Signed-off-by: Eugen Hristev <eugen.hristev@microchip.com>
+> >> ---
+> >>   drivers/media/i2c/imx274.c | 5 +++++
+> >>   1 file changed, 5 insertions(+)
+> >>
+> >> diff --git a/drivers/media/i2c/imx274.c b/drivers/media/i2c/imx274.c
+> >> index e89ef35a71c5..6e63fdcc5e46 100644
+> >> --- a/drivers/media/i2c/imx274.c
+> >> +++ b/drivers/media/i2c/imx274.c
+> >> @@ -1420,6 +1420,10 @@ static int imx274_s_frame_interval(struct v4l2_subdev *sd,
+> >>        int min, max, def;
+> >>        int ret;
+> >>
+> >> +     ret = pm_runtime_resume_and_get(&imx274->client->dev);
+> >> +     if (ret < 0)
+> >> +             return ret;
+> >> +
+> >>        mutex_lock(&imx274->lock);
+> >>        ret = imx274_set_frame_interval(imx274, fi->interval);
+> >>
+> >> @@ -1451,6 +1455,7 @@ static int imx274_s_frame_interval(struct v4l2_subdev *sd,
+> >>
+> >>   unlock:
+> >>        mutex_unlock(&imx274->lock);
+> >> +     pm_runtime_put(&imx274->client->dev);
+> >>
+> >>        return ret;
+> >>   }
+> > 
+> > If the device is powered off in the end, could you instead not power it on
+> > in the first place? I.e. see how this works for the s_ctrl() callback.
+> 
+> 
+> Hi Sakari,
+> 
+> I tried this initially, as in s_ctrl,
+> 
+>          if (!pm_runtime_get_if_in_use(&imx274->client->dev)) 
+> 
+>                  return 0;
+> 
+> 
+> However, if the device is powered off, the s_frame_interval does not do 
+> anything (return 0), and the frame interval is not changed. Not even the 
+> internal structure frame_interval is updated (as this is updated after 
+> configuring the actual device).
+> And in consequence media-ctl -p will still print the old frame interval.
+> 
+> So either we power on the device to set everything, or, things have to 
+> be set in the software struct and written once streaming starts.
+> I am in favor of the first option (hence the patch), to avoid having 
+> configuration that was requested but not written to the device itself.
+> The second option would require some rework to move the software part 
+> before the hardware part, and to assume that the hardware part never 
+> fails in bounds or by other reason (or the software part would be no 
+> longer consistent)
+> 
+> What do you think ?
 
-To avoid mailbombing on a large number of people, only mailing lists were C/C on the cover.
-See [PATCH 0/8] at: https://lore.kernel.org/all/cover.1637177402.git.mchehab+huawei@kernel.org/
+Seems reasonable, but the driver is hardly doing this in an exemplary way.
+Still the rework might not worth the small gain. I'll take this one then.
 
- .../staging/media/atomisp/pci/atomisp_ioctl.c | 19 -------------------
- 1 file changed, 19 deletions(-)
-
-diff --git a/drivers/staging/media/atomisp/pci/atomisp_ioctl.c b/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
-index b2d3b8349234..562789c75299 100644
---- a/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
-+++ b/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
-@@ -1457,25 +1457,8 @@ static int atomisp_qbuf(struct file *file, void *fh, struct v4l2_buffer *buf)
- 	    pipe->capq.streaming &&
- 	    !asd->enable_raw_buffer_lock->val &&
- 	    asd->params.offline_parm.num_captures == 1) {
--		if (!IS_ISP2401) {
- 			asd->pending_capture_request++;
- 			dev_dbg(isp->dev, "Add one pending capture request.\n");
--		} else {
--			if (asd->re_trigger_capture) {
--				ret = atomisp_css_offline_capture_configure(asd,
--					asd->params.offline_parm.num_captures,
--					asd->params.offline_parm.skip_frames,
--					asd->params.offline_parm.offset);
--				asd->re_trigger_capture = false;
--				dev_dbg(isp->dev, "%s Trigger capture again ret=%d\n",
--					__func__, ret);
--
--			} else {
--				asd->pending_capture_request++;
--				asd->re_trigger_capture = false;
--				dev_dbg(isp->dev, "Add one pending capture request.\n");
--			}
--		}
- 	}
- 	rt_mutex_unlock(&isp->mutex);
- 
-@@ -1868,8 +1851,6 @@ static int atomisp_streamon(struct file *file, void *fh,
- 
- 	/* Reset pending capture request count. */
- 	asd->pending_capture_request = 0;
--	if (IS_ISP2401)
--		asd->re_trigger_capture = false;
- 
- 	if ((atomisp_subdev_streaming_count(asd) > sensor_start_stream) &&
- 	    (!isp->inputs[asd->input_curr].camera_caps->multi_stream_ctrl)) {
 -- 
-2.33.1
+Kind regards,
 
+Sakari Ailus
