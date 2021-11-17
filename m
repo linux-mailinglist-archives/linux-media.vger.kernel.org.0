@@ -2,238 +2,306 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DDA68454C4A
-	for <lists+linux-media@lfdr.de>; Wed, 17 Nov 2021 18:42:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 355E1454D92
+	for <lists+linux-media@lfdr.de>; Wed, 17 Nov 2021 20:02:13 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239506AbhKQRp0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 17 Nov 2021 12:45:26 -0500
-Received: from comms.puri.sm ([159.203.221.185]:50464 "EHLO comms.puri.sm"
+        id S234389AbhKQTFK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 17 Nov 2021 14:05:10 -0500
+Received: from mga09.intel.com ([134.134.136.24]:3301 "EHLO mga09.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S238079AbhKQRpX (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 17 Nov 2021 12:45:23 -0500
-Received: from localhost (localhost [127.0.0.1])
-        by comms.puri.sm (Postfix) with ESMTP id AF9BEE00C2;
-        Wed, 17 Nov 2021 09:42:23 -0800 (PST)
-Received: from comms.puri.sm ([127.0.0.1])
-        by localhost (comms.puri.sm [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id KDr3y4KgU4uJ; Wed, 17 Nov 2021 09:42:22 -0800 (PST)
-Message-ID: <77aa25f26ad9bfcf5d87dc23c8f9b82e1fc549b9.camel@puri.sm>
-Subject: Re: [PATCH 1/2] media: imx: imx7-media-csi: add support for imx8mq
-From:   Martin Kepplinger <martin.kepplinger@puri.sm>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Rui Miguel Silva <rmfrfs@gmail.com>
-Cc:     mchehab@kernel.org, robh@kernel.org, shawnguo@kernel.org,
-        kernel@pengutronix.de, kernel@puri.sm, linux-imx@nxp.com,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Date:   Wed, 17 Nov 2021 18:41:55 +0100
-In-Reply-To: <YZU5C0E3WBd7VLS2@pendragon.ideasonboard.com>
-References: <20211117092710.3084034-1-martin.kepplinger@puri.sm>
-         <CFS51AQQ7SCD.7FK8RLAWLXRH@arch-thunder>
-         <YZU5C0E3WBd7VLS2@pendragon.ideasonboard.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.38.3-1 
+        id S229580AbhKQTFI (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 17 Nov 2021 14:05:08 -0500
+X-IronPort-AV: E=McAfee;i="6200,9189,10171"; a="233867182"
+X-IronPort-AV: E=Sophos;i="5.87,241,1631602800"; 
+   d="scan'208";a="233867182"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Nov 2021 11:02:09 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.87,241,1631602800"; 
+   d="scan'208";a="549477174"
+Received: from lkp-server02.sh.intel.com (HELO c20d8bc80006) ([10.239.97.151])
+  by fmsmga008.fm.intel.com with ESMTP; 17 Nov 2021 11:02:07 -0800
+Received: from kbuild by c20d8bc80006 with local (Exim 4.92)
+        (envelope-from <lkp@intel.com>)
+        id 1mnQC6-00025W-Ra; Wed, 17 Nov 2021 19:02:06 +0000
+Date:   Thu, 18 Nov 2021 03:01:25 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     linux-media@vger.kernel.org
+Subject: [ragnatech:media-next] BUILD SUCCESS
+ 96977c97e2c76f48d5e1f28ff5c6cd6f83a91ced
+Message-ID: <61955185.yk7GnV86A/sNeaa0%lkp@intel.com>
+User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Am Mittwoch, dem 17.11.2021 um 19:16 +0200 schrieb Laurent Pinchart:
-> On Wed, Nov 17, 2021 at 02:51:48PM +0000, Rui Miguel Silva wrote:
-> > Hi Martin,
-> > Thanks for the patch.
-> > 
-> > On Wed Nov 17, 2021 at 9:27 AM WET, Martin Kepplinger wrote:
-> > 
-> > > Modeled after the NXP driver mx6s_capture.c that this driver is
-> > > based on,
-> > > imx8mq needs different settings for the baseaddr_switch
-> > > mechanism. Define
-> > > the needed bits and set that for imx8mq.
-> > > 
-> > > Without these settings, the system will "sometimes" hang
-> > > completely when
-> > > starting to stream (the interrupt will never be called).
-> 
-> Do we know why ? Are all the bits that you set required ?
+tree/branch: git://git.ragnatech.se/linux media-next
+branch HEAD: 96977c97e2c76f48d5e1f28ff5c6cd6f83a91ced  media: atomisp: get rid of #ifdef ISP_VEC_NELEMS
 
-tbh I don't know much more details about why. I debugged this quite a
-while and yes, from what I saw I need all these bits set.
+elapsed time: 1811m
 
-rx fifo overflow should be taken care of by the underrun buffer, but
-since imx8mq has an erratum that hangs the system in such case, see
-below, can it in any way be one reason for this to be needed?
+configs tested: 242
+configs skipped: 3
 
-https://community.nxp.com/t5/i-MX-Processors/IMX8MQ-MIPI-CSI2-Base-address-switching-change-error/m-p/1216509/highlight/true#M167970
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
-intuitively I'd say it's unrelated though.
+gcc tested configs:
+arm                                 defconfig
+arm64                            allyesconfig
+arm64                               defconfig
+arm                              allyesconfig
+arm                              allmodconfig
+i386                 randconfig-c001-20211117
+i386                 randconfig-c001-20211116
+powerpc              randconfig-c003-20211117
+mips                 randconfig-c004-20211116
+powerpc                 mpc836x_rdk_defconfig
+arm                             pxa_defconfig
+powerpc                 mpc8313_rdb_defconfig
+sh                          r7785rp_defconfig
+s390                             allmodconfig
+microblaze                      mmu_defconfig
+mips                         tb0287_defconfig
+sh                   sh7724_generic_defconfig
+m68k                       m5249evb_defconfig
+arm                        cerfcube_defconfig
+powerpc                       eiger_defconfig
+mips                     loongson2k_defconfig
+powerpc                    socrates_defconfig
+xtensa                       common_defconfig
+mips                  decstation_64_defconfig
+arm                         lpc18xx_defconfig
+nios2                         10m50_defconfig
+powerpc                   currituck_defconfig
+arm                          collie_defconfig
+powerpc                     kilauea_defconfig
+sh                          rsk7269_defconfig
+riscv                            alldefconfig
+powerpc                     stx_gp3_defconfig
+arc                     nsimosci_hs_defconfig
+powerpc                         ps3_defconfig
+sh                      rts7751r2d1_defconfig
+sh                            titan_defconfig
+um                             i386_defconfig
+ia64                             allyesconfig
+m68k                        mvme16x_defconfig
+sh                               j2_defconfig
+powerpc                     asp8347_defconfig
+arm                           viper_defconfig
+mips                           ci20_defconfig
+x86_64                           allyesconfig
+powerpc               mpc834x_itxgp_defconfig
+x86_64                              defconfig
+mips                         cobalt_defconfig
+s390                       zfcpdump_defconfig
+arm                        mini2440_defconfig
+microblaze                          defconfig
+powerpc                     pq2fads_defconfig
+powerpc                      walnut_defconfig
+arm                             mxs_defconfig
+mips                          ath79_defconfig
+powerpc                      makalu_defconfig
+mips                   sb1250_swarm_defconfig
+powerpc                  mpc885_ads_defconfig
+powerpc                    ge_imp3a_defconfig
+sh                   secureedge5410_defconfig
+mips                      loongson3_defconfig
+arm                         axm55xx_defconfig
+arm                           sama5_defconfig
+mips                          rm200_defconfig
+arm                           stm32_defconfig
+arm                       spear13xx_defconfig
+ia64                             alldefconfig
+arm                            xcep_defconfig
+arm                       netwinder_defconfig
+powerpc                     skiroot_defconfig
+mips                      maltasmvp_defconfig
+ia64                        generic_defconfig
+powerpc                 mpc834x_itx_defconfig
+powerpc                        fsp2_defconfig
+arm                      pxa255-idp_defconfig
+arm                       aspeed_g4_defconfig
+arm                       imx_v6_v7_defconfig
+powerpc                 mpc832x_mds_defconfig
+s390                             alldefconfig
+arm                          exynos_defconfig
+m68k                          hp300_defconfig
+arm                            qcom_defconfig
+arm                      tct_hammer_defconfig
+arm                        oxnas_v6_defconfig
+powerpc                      cm5200_defconfig
+arm                        mvebu_v7_defconfig
+arm                            lart_defconfig
+powerpc                     pseries_defconfig
+sh                            hp6xx_defconfig
+mips                      maltaaprp_defconfig
+powerpc                   motionpro_defconfig
+arm                       omap2plus_defconfig
+powerpc                 xes_mpc85xx_defconfig
+sparc                       sparc32_defconfig
+riscv                          rv32_defconfig
+m68k                        stmark2_defconfig
+powerpc                     mpc5200_defconfig
+arm                       aspeed_g5_defconfig
+sh                           se7619_defconfig
+arm                              alldefconfig
+nios2                         3c120_defconfig
+arm                       mainstone_defconfig
+powerpc                         wii_defconfig
+powerpc                     mpc512x_defconfig
+powerpc                 mpc85xx_cds_defconfig
+sh                 kfr2r09-romimage_defconfig
+sh                          rsk7264_defconfig
+m68k                         apollo_defconfig
+sh                            shmin_defconfig
+h8300                            alldefconfig
+mips                         rt305x_defconfig
+arm                            mps2_defconfig
+xtensa                  cadence_csp_defconfig
+riscv                             allnoconfig
+arm                           tegra_defconfig
+powerpc                 mpc837x_mds_defconfig
+arc                        nsimosci_defconfig
+sh                         ap325rxa_defconfig
+m68k                         amcore_defconfig
+sh                        dreamcast_defconfig
+arc                         haps_hs_defconfig
+sh                        apsh4ad0a_defconfig
+arm                         s3c2410_defconfig
+alpha                            allyesconfig
+sh                          urquell_defconfig
+sh                           se7751_defconfig
+arm                       cns3420vb_defconfig
+arm                    vt8500_v6_v7_defconfig
+arc                        nsim_700_defconfig
+arm                   milbeaut_m10v_defconfig
+sh                   sh7770_generic_defconfig
+arm                          ep93xx_defconfig
+arm                          simpad_defconfig
+mips                           ip22_defconfig
+xtensa                         virt_defconfig
+ia64                          tiger_defconfig
+arm                  randconfig-c002-20211117
+arm                  randconfig-c002-20211116
+ia64                             allmodconfig
+ia64                                defconfig
+m68k                             allmodconfig
+m68k                                defconfig
+m68k                             allyesconfig
+nios2                               defconfig
+arc                              allyesconfig
+nds32                             allnoconfig
+nds32                               defconfig
+nios2                            allyesconfig
+csky                                defconfig
+alpha                               defconfig
+xtensa                           allyesconfig
+h8300                            allyesconfig
+arc                                 defconfig
+sh                               allmodconfig
+parisc                              defconfig
+s390                             allyesconfig
+parisc                           allyesconfig
+s390                                defconfig
+i386                             allyesconfig
+sparc                            allyesconfig
+sparc                               defconfig
+i386                                defconfig
+i386                              debian-10.3
+mips                             allyesconfig
+mips                             allmodconfig
+powerpc                          allyesconfig
+powerpc                          allmodconfig
+powerpc                           allnoconfig
+x86_64               randconfig-a005-20211117
+x86_64               randconfig-a003-20211117
+x86_64               randconfig-a002-20211117
+x86_64               randconfig-a001-20211117
+x86_64               randconfig-a006-20211117
+x86_64               randconfig-a004-20211117
+i386                 randconfig-a006-20211117
+i386                 randconfig-a003-20211117
+i386                 randconfig-a005-20211117
+i386                 randconfig-a001-20211117
+i386                 randconfig-a004-20211117
+i386                 randconfig-a002-20211117
+x86_64               randconfig-a015-20211116
+x86_64               randconfig-a013-20211116
+x86_64               randconfig-a012-20211116
+x86_64               randconfig-a011-20211116
+x86_64               randconfig-a016-20211116
+x86_64               randconfig-a014-20211116
+i386                 randconfig-a014-20211116
+i386                 randconfig-a016-20211116
+i386                 randconfig-a012-20211116
+i386                 randconfig-a013-20211116
+i386                 randconfig-a011-20211116
+i386                 randconfig-a015-20211116
+arc                  randconfig-r043-20211116
+s390                 randconfig-r044-20211116
+riscv                randconfig-r042-20211116
+riscv                    nommu_k210_defconfig
+riscv                            allyesconfig
+riscv                    nommu_virt_defconfig
+riscv                               defconfig
+riscv                            allmodconfig
+x86_64                    rhel-8.3-kselftests
+um                           x86_64_defconfig
+x86_64                               rhel-8.3
+x86_64                          rhel-8.3-func
+x86_64                                  kexec
 
-> 
-> > > Signed-off-by: Martin Kepplinger <martin.kepplinger@puri.sm>
-> > > ---
-> > >  drivers/staging/media/imx/imx7-media-csi.c | 34
-> > > ++++++++++++++++++++--
-> > >  1 file changed, 32 insertions(+), 2 deletions(-)
-> > > 
-> > > diff --git a/drivers/staging/media/imx/imx7-media-csi.c
-> > > b/drivers/staging/media/imx/imx7-media-csi.c
-> > > index 2288dadb2683..8619cf2fc694 100644
-> > > --- a/drivers/staging/media/imx/imx7-media-csi.c
-> > > +++ b/drivers/staging/media/imx/imx7-media-csi.c
-> > > @@ -12,6 +12,7 @@
-> > >  #include <linux/interrupt.h>
-> > >  #include <linux/mfd/syscon.h>
-> > >  #include <linux/module.h>
-> > > +#include <linux/of_device.h>
-> > >  #include <linux/of_graph.h>
-> > >  #include <linux/pinctrl/consumer.h>
-> > >  #include <linux/platform_device.h>
-> > > @@ -122,6 +123,10 @@
-> > >  #define BIT_DATA_FROM_MIPI             BIT(22)
-> > >  #define BIT_MIPI_YU_SWAP               BIT(21)
-> > >  #define BIT_MIPI_DOUBLE_CMPNT          BIT(20)
-> > > +#define BIT_MASK_OPTION_FIRST_FRAME    (0 << 18)
-> > > +#define BIT_MASK_OPTION_CSI_EN         (1 << 18)
-> > > +#define BIT_MASK_OPTION_SECOND_FRAME   (2 << 18)
-> > > +#define BIT_MASK_OPTION_ON_DATA                (3 << 18)
-> > >  #define BIT_BASEADDR_CHG_ERR_EN                BIT(9)
-> > >  #define BIT_BASEADDR_SWITCH_SEL                BIT(5)
-> > >  #define BIT_BASEADDR_SWITCH_EN         BIT(4)
-> > > @@ -154,6 +159,12 @@
-> > >  #define CSI_CSICR18                    0x48
-> > >  #define CSI_CSICR19                    0x4c
-> > >  
-> > > +enum imx_soc {
-> > > +       IMX6UL = 0,
-> > > +       IMX7,
-> > > +       IMX8MQ,
-> > 
-> > maybe instead of this enum we could use a bool in structure...
-> 
-> An enum would be more extensible, but we shouldn't define different
-> values for IMX6UL and IMX7 if they're compatible. Maybe an enum
-> imx_csi_model with two values (IMX_CSI_IMX7 and IMX_CSI_IMX8MQ ?).
-> 
-> Are there other SoCs in the i.MX8 family that require this ? The BSP
-> driver sets the baseaddr switch mechanism for i.MX8MM too, but it
-> seems
-> to work fine without it.
+clang tested configs:
+x86_64               randconfig-c007-20211116
+i386                 randconfig-c001-20211116
+arm                  randconfig-c002-20211116
+riscv                randconfig-c006-20211116
+powerpc              randconfig-c003-20211116
+s390                 randconfig-c005-20211116
+mips                 randconfig-c004-20211116
+x86_64               randconfig-c007-20211117
+i386                 randconfig-c001-20211117
+arm                  randconfig-c002-20211117
+riscv                randconfig-c006-20211117
+powerpc              randconfig-c003-20211117
+s390                 randconfig-c005-20211117
+mips                 randconfig-c004-20211117
+x86_64               randconfig-a005-20211116
+x86_64               randconfig-a003-20211116
+x86_64               randconfig-a001-20211116
+x86_64               randconfig-a002-20211116
+x86_64               randconfig-a006-20211116
+x86_64               randconfig-a004-20211116
+i386                 randconfig-a006-20211116
+i386                 randconfig-a003-20211116
+i386                 randconfig-a005-20211116
+i386                 randconfig-a001-20211116
+i386                 randconfig-a004-20211116
+i386                 randconfig-a002-20211116
+x86_64               randconfig-a015-20211117
+x86_64               randconfig-a013-20211117
+x86_64               randconfig-a011-20211117
+x86_64               randconfig-a012-20211117
+x86_64               randconfig-a016-20211117
+x86_64               randconfig-a014-20211117
+i386                 randconfig-a014-20211117
+i386                 randconfig-a016-20211117
+i386                 randconfig-a012-20211117
+i386                 randconfig-a013-20211117
+i386                 randconfig-a011-20211117
+i386                 randconfig-a015-20211117
+hexagon              randconfig-r045-20211117
+hexagon              randconfig-r041-20211117
+s390                 randconfig-r044-20211117
+riscv                randconfig-r042-20211117
+hexagon              randconfig-r045-20211116
+hexagon              randconfig-r041-20211116
 
-I'm looking at
-https://source.codeaurora.org/external/imx/linux-imx/tree/drivers/media/platform/mxc/capture/mx6s_capture.c?h=imx_5.4.70_2.3.0
-for the comparison that is not explicitly targeting imx8mm, right?
-
-Anyway it looks like we need these bits on imx8mq only. Sorry, but
-maybe somebody from NXP could tell us more about the reasons?
-
-thanks a lot for reviewing, I'll queue a v2.
-
-> 
-> > > +};
-> > > +
-> > >  struct imx7_csi {
-> > >         struct device *dev;
-> > >         struct v4l2_subdev sd;
-> > > @@ -189,6 +200,8 @@ struct imx7_csi {
-> > >         bool is_csi2;
-> > >  
-> > >         struct completion last_eof_completion;
-> > > +
-> > > +       enum imx_soc type;
-> > 
-> > here, bool is_imx8mq?
-> > 
-> > >  };
-> > >  
-> > >  static struct imx7_csi *
-> > > @@ -537,6 +550,16 @@ static void imx7_csi_deinit(struct imx7_csi
-> > > *csi,
-> > >         clk_disable_unprepare(csi->mclk);
-> > >  }
-> > >  
-> > > +static void imx8mq_baseaddr_switch(struct imx7_csi *csi)
-> > 
-> > I think this function needs a better name. First add the imx7_csi
-> > prefix that all functions have, and also you are setting it
-> > specific
-> > to second frame and the function should not be specific to imx8.
-> > 
-> > maybe something:
-> > 
-> > imx7_csi_write_on_second_frame_enable, maybe?
-> > 
-> > > +{
-> > > +       u32 cr18 = imx7_csi_reg_read(csi, CSI_CSICR18);
-> > > +
-> > > +       cr18 |= BIT_BASEADDR_SWITCH_EN | BIT_BASEADDR_SWITCH_SEL
-> > > |
-> > > +               BIT_BASEADDR_CHG_ERR_EN;
-> > > +       cr18 |= BIT_MASK_OPTION_SECOND_FRAME;
-> > > +       imx7_csi_reg_write(csi, cr18, CSI_CSICR18);
-> > > +}
-> > > +
-> > >  static void imx7_csi_enable(struct imx7_csi *csi)
-> > >  {
-> > >         /* Clear the Rx FIFO and reflash the DMA controller. */
-> > > @@ -551,7 +574,11 @@ static void imx7_csi_enable(struct imx7_csi
-> > > *csi)
-> > >  
-> > >         /* Enable the RxFIFO DMA and the CSI. */
-> > >         imx7_csi_dmareq_rff_enable(csi);
-> > > +
-> > 
-> > unrelated new line.
-> > 
-> > >         imx7_csi_hw_enable(csi);
-> > > +
-> > > +       if (csi->type == IMX8MQ)
-> > > +               imx8mq_baseaddr_switch(csi);
-> > 
-> > change this to new types and names?
-> > 
-> > >  }
-> > >  
-> > >  static void imx7_csi_disable(struct imx7_csi *csi)
-> > > @@ -1155,6 +1182,8 @@ static int imx7_csi_probe(struct
-> > > platform_device *pdev)
-> > >         if (IS_ERR(csi->regbase))
-> > >                 return PTR_ERR(csi->regbase);
-> > >  
-> > > +       csi->type = (enum imx_soc)of_device_get_match_data(&pdev-
-> > > >dev);
-> > 
-> > here something:
-> >         csi->is_imx8mq = of_device_is_compatible(np, "fsl,imx8mq-
-> > csi");
-> > 
-> > > +
-> > >         spin_lock_init(&csi->irqlock);
-> > >         mutex_init(&csi->lock);
-> > >  
-> > > @@ -1249,8 +1278,9 @@ static int imx7_csi_remove(struct
-> > > platform_device *pdev)
-> > >  }
-> > >  
-> > >  static const struct of_device_id imx7_csi_of_match[] = {
-> > > -       { .compatible = "fsl,imx7-csi" },
-> > > -       { .compatible = "fsl,imx6ul-csi" },
-> > > +       { .compatible = "fsl,imx8mq-csi", .data = (void *)IMX8MQ
-> > > },
-> > 
-> > and with the above you should not need to add the data field here.
-> 
-> I like match data personally (especially if we keep a device model
-> enum). This is exactly what match data has been designed for, to
-> avoid
-> is_compatible() checks.
-> 
-> > > +       { .compatible = "fsl,imx7-csi", .data = (void *)IMX7 },
-> > > +       { .compatible = "fsl,imx6ul-csi", .data = (void *)IMX6UL
-> > > },
-> > >         { },
-> > >  };
-> > >  MODULE_DEVICE_TABLE(of, imx7_csi_of_match);
-> 
-
-
+---
+0-DAY CI Kernel Test Service, Intel Corporation
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
