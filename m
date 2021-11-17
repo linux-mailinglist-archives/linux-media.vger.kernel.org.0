@@ -2,97 +2,101 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3D9EE45441A
-	for <lists+linux-media@lfdr.de>; Wed, 17 Nov 2021 10:45:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7C3C7454442
+	for <lists+linux-media@lfdr.de>; Wed, 17 Nov 2021 10:54:16 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235442AbhKQJsy (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 17 Nov 2021 04:48:54 -0500
-Received: from www.linuxtv.org ([130.149.80.248]:45352 "EHLO www.linuxtv.org"
+        id S235651AbhKQJ5G (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 17 Nov 2021 04:57:06 -0500
+Received: from mail.kernel.org ([198.145.29.99]:57902 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S235381AbhKQJsy (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 17 Nov 2021 04:48:54 -0500
-Received: from builder.linuxtv.org ([140.211.167.10] helo=slave0)
-        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1mnHVq-00GxbT-UU; Wed, 17 Nov 2021 09:45:54 +0000
-Received: from ip6-localhost ([::1] helo=localhost.localdomain)
-        by slave0 with esmtp (Exim 4.94.2)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1mnHVo-00BSRr-2J; Wed, 17 Nov 2021 09:45:52 +0000
-From:   Jenkins <jenkins@linuxtv.org>
-To:     mchehab+samsung@kernel.org, linux-media@vger.kernel.org
-Cc:     builder@linuxtv.org
-Subject: Re: [GIT PULL FOR v5.17] Various fixes/enhancements (#78541)
-Date:   Wed, 17 Nov 2021 09:45:51 +0000
-Message-Id: <20211117094551.2730917-1-jenkins@linuxtv.org>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <21f4ea07-24ea-7b8c-18a3-e69c0dbb095d@xs4all.nl>
-References: 
+        id S235406AbhKQJ5F (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 17 Nov 2021 04:57:05 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 4514661504;
+        Wed, 17 Nov 2021 09:54:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1637142847;
+        bh=+zxN20/5znRjh88KZaCtOQPVCBZVkwSroT6dfnYe1i0=;
+        h=Date:From:Cc:Subject:In-Reply-To:References:From;
+        b=WJmvs5m3diIYeiS80EbsAN/hYPtl79aihs2COBEUw2F1RnDerxz2i/FPdayv3SMNL
+         Sr5OZ1Dff5CUk110BjWreZdI2v94K7Tg5D4GdTmrZWWb2d8Y5nL/e71fCDphYMKuVp
+         wYtTy3xvQAJQqlr8B9Q2eyQf96d1kl5274pKJBiOcrFCP9P5DBhDeOWxtrWJWFWmyH
+         sB55A/odaIUTfYpA/4kCwJtG/niIBm60JPfEZnXR9/itlZqu20pNHxnaQs5xiBNYDH
+         57/xG9oASpEcEWKDjMpUFYFZ7woIAyF7oAUFCBEKvH68atkRYYuyGF+1J9H0tLyIov
+         Omx31+yG257pA==
+Date:   Wed, 17 Nov 2021 09:54:02 +0000
+From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc:     linuxarm@huawei.com, mauro.chehab@huawei.com,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-staging@lists.linux.dev
+Subject: Re: [PATCH 12/13] media: atomisp: fix a bug when applying the
+ binning factor
+Message-ID: <20211117095402.2b6cd0df@sal.lan>
+In-Reply-To: <8d41e31e14941b8a0352bd1e2a8c6c5e11c273ca.1637140900.git.mchehab+huawei@kernel.org>
+References: <cover.1637140900.git.mchehab+huawei@kernel.org>
+        <8d41e31e14941b8a0352bd1e2a8c6c5e11c273ca.1637140900.git.mchehab+huawei@kernel.org>
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.30; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+To:     unlisted-recipients:; (no To-header on input)
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: builder@linuxtv.org
+Em Wed, 17 Nov 2021 09:25:37 +0000
+Mauro Carvalho Chehab <mchehab+huawei@kernel.org> escreveu:
 
-Pull request: https://patchwork.linuxtv.org/project/linux-media/patch/21f4ea07-24ea-7b8c-18a3-e69c0dbb095d@xs4all.nl/
-Build log: https://builder.linuxtv.org/job/patchwork/157592/
-Build time: 00:21:57
-Link: https://lore.kernel.org/linux-media/21f4ea07-24ea-7b8c-18a3-e69c0dbb095d@xs4all.nl
+> The binning factor is actually a shift value, where 0 means
+> to not touch the value. This is propagated from the sensors'
+> properties:
+> 
+> 	.bin_factor_x
+> 	.bin_factor_y
+> 
+> At their resolution setting tables.
+> 
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-gpg: Signature made Wed 17 Nov 2021 09:15:33 AM UTC
-gpg:                using RSA key AAA7FFBA4D2D77EF4CAEA1421326E0CD23ABDCE5
-gpg: Good signature from "Hans Verkuil <hverkuil-cisco@xs4all.nl>" [unknown]
-gpg:                 aka "Hans Verkuil <hverkuil@xs4all.nl>" [unknown]
-gpg: Note: This key has expired!
-Primary key fingerprint: 052C DE7B C215 053B 689F  1BCA BD2D 6148 6614 3B4C
-     Subkey fingerprint: AAA7 FFBA 4D2D 77EF 4CAE  A142 1326 E0CD 23AB DCE5
+It turns that this actually not a bug. It is just that I reverted
+the logic on patch 08/13.
 
-Summary: got 2/13 patches with issues, being 2 at build time, plus one error when buinding PDF document
-
-Error/warnings:
-
-patches/0001-media-mtk-vcodec-enc-add-vp8-profile-ctrl.patch:
-
-    allyesconfig: return code #0:
-	../scripts/genksyms/parse.y: warning: 9 shift/reduce conflicts [-Wconflicts-sr]
-	../scripts/genksyms/parse.y: warning: 5 reduce/reduce conflicts [-Wconflicts-rr]
-	../scripts/genksyms/parse.y: note: rerun with option '-Wcounterexamples' to generate conflict counterexamples
-
-    allyesconfig: return code #0:
-	../drivers/media/cec/core/cec-adap.c: ../drivers/media/cec/core/cec-adap.c:926 cec_transmit_msg_fh() warn: '&data->list' not removed from list
-	../drivers/media/rc/meson-ir-tx.c:22: warning: expecting prototype for meson(). Prototype was for DEVICE_NAME() instead
-	SMATCH:../drivers/media/usb/siano/smsusb.c ../drivers/media/usb/siano/smsusb.c:53:38: :warning: array of flexible structures
-	SPARSE:../drivers/media/usb/siano/smsusb.c ../drivers/media/usb/siano/smsusb.c:53:38: warning: array of flexible structures
-	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2625 dvb_register() parse error: turning off implications after 60 seconds
-	../drivers/media/usb/pvrusb2/pvrusb2-encoder.c: ../drivers/media/usb/pvrusb2/pvrusb2-encoder.c:288 pvr2_encoder_cmd() warn: inconsistent indenting
-	../drivers/media/usb/pvrusb2/pvrusb2-hdw.c: ../drivers/media/usb/pvrusb2/pvrusb2-hdw.c:1730 pvr2_hdw_set_streaming() warn: inconsistent indenting
-	../drivers/media/usb/pvrusb2/pvrusb2-hdw.c: ../drivers/media/usb/pvrusb2/pvrusb2-hdw.c:3461 pvr2_hdw_cpufw_set_enabled() warn: inconsistent indenting
-	../drivers/media/usb/pvrusb2/pvrusb2-hdw.c: ../drivers/media/usb/pvrusb2/pvrusb2-hdw.c:3501 pvr2_hdw_cpufw_get() warn: inconsistent indenting
-	../drivers/media/platform/qcom/venus/helpers.c: ../drivers/media/platform/qcom/venus/helpers.c:658 venus_helper_get_bufreq() error: we previously assumed 'req' could be null (see line 654)
-	../drivers/media/usb/em28xx/em28xx-video.c: ../drivers/media/usb/em28xx/em28xx-video.c:2874 em28xx_v4l2_init() parse error: turning off implications after 60 seconds
-
-patches/0008-media-pvrusb2-fix-control-message-timeouts.patch:
-
-    allyesconfig: return code #0:
-	../drivers/media/usb/pvrusb2/pvrusb2-hdw.c: ../drivers/media/usb/pvrusb2/pvrusb2-hdw.c:1730 pvr2_hdw_set_streaming() warn: inconsistent indenting
-	../drivers/media/usb/pvrusb2/pvrusb2-hdw.c: ../drivers/media/usb/pvrusb2/pvrusb2-hdw.c:3461 pvr2_hdw_cpufw_set_enabled() warn: inconsistent indenting
-	../drivers/media/usb/pvrusb2/pvrusb2-hdw.c: ../drivers/media/usb/pvrusb2/pvrusb2-hdw.c:3501 pvr2_hdw_cpufw_get() warn: inconsistent indenting
-
-   checkpatch.pl:
-	$ cat patches/0008-media-pvrusb2-fix-control-message-timeouts.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
-	-:44: ERROR: space required after that ',' (ctx:VxV)
-	-:53: ERROR: space required after that ',' (ctx:VxV)
-	-:53: ERROR: space required after that ',' (ctx:VxV)
-	-:53: ERROR: space required after that ',' (ctx:VxV)
-	-:53: ERROR: space required after that ',' (ctx:VxV)
-	-:53: ERROR: space required after that ',' (ctx:VxV)
-	-:53: ERROR: space required after that ',' (ctx:VxV)
-	-:53: ERROR: space required after that ',' (ctx:VxV)
-	-:53: ERROR: space required after that ',' (ctx:VxV)
+So, I'll merge this one there and re-send this series.
 
 
-Error #512 when building PDF docs
-
+> ---
+> 
+> To avoid mailbombing on a large number of people, only mailing lists were C/C on the cover.
+> See [PATCH 00/13] at: https://lore.kernel.org/all/cover.1637140900.git.mchehab+huawei@kernel.org/
+> 
+>  .../staging/media/atomisp/pci/sh_css_param_shading.c   | 10 +++++-----
+>  1 file changed, 5 insertions(+), 5 deletions(-)
+> 
+> diff --git a/drivers/staging/media/atomisp/pci/sh_css_param_shading.c b/drivers/staging/media/atomisp/pci/sh_css_param_shading.c
+> index 90b5f9014c5e..005b0ab41588 100644
+> --- a/drivers/staging/media/atomisp/pci/sh_css_param_shading.c
+> +++ b/drivers/staging/media/atomisp/pci/sh_css_param_shading.c
+> @@ -283,16 +283,16 @@ prepare_shading_table(const struct ia_css_shading_table *in_table,
+>  	 * by cropping the non-binned part of the shading table and then
+>  	 * increasing the size of a grid cell with this same binning factor.
+>  	 */
+> -	input_width   *= sensor_binning;
+> -	input_height  *= sensor_binning;
+> +	input_width   <<= sensor_binning;
+> +	input_height  <<= sensor_binning;
+>  	/*
+>  	 * We also scale the padding by the same binning factor. This will
+>  	 * make it much easier later on to calculate the padding of the
+>  	 * shading table.
+>  	 */
+> -	left_padding  *= sensor_binning;
+> -	right_padding *= sensor_binning;
+> -	top_padding   *= sensor_binning;
+> +	left_padding  <<= sensor_binning;
+> +	right_padding <<= sensor_binning;
+> +	top_padding   <<= sensor_binning;
+>  
+>  	/*
+>  	 * during simulation, the used resolution can exceed the sensor
