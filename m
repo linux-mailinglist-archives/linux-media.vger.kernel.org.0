@@ -2,220 +2,466 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BD4D045493D
-	for <lists+linux-media@lfdr.de>; Wed, 17 Nov 2021 15:51:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3B8634549D9
+	for <lists+linux-media@lfdr.de>; Wed, 17 Nov 2021 16:25:14 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233936AbhKQOyv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 17 Nov 2021 09:54:51 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34026 "EHLO
+        id S232307AbhKQP2L (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 17 Nov 2021 10:28:11 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41756 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231788AbhKQOyv (ORCPT
+        with ESMTP id S230243AbhKQP2L (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 17 Nov 2021 09:54:51 -0500
-Received: from mail-wm1-x335.google.com (mail-wm1-x335.google.com [IPv6:2a00:1450:4864:20::335])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 80B7FC061570;
-        Wed, 17 Nov 2021 06:51:52 -0800 (PST)
-Received: by mail-wm1-x335.google.com with SMTP id y196so2472111wmc.3;
-        Wed, 17 Nov 2021 06:51:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:content-transfer-encoding:date:message-id:cc:subject
-         :from:to:references:in-reply-to;
-        bh=jJ51ZlH+2lE8rLSSFCiYjXjBtLDKQFWHhyS+Y+x5rso=;
-        b=EJFSm/6QhkB5EwLlV7ulH4Kv0lZPoeIvlf0+dl+5Jp+1HqbXIpUP5HhYNmgBJTDzO1
-         Ru88IiQiRV4eAqbzcsN0QPoiohfoPuCd+Pn567jxPVnPEzOtHeiyILKzTlbP01ReR2Uc
-         bp/vHtQd5g7rNOpIDNE9T5x+2qx4sfmOOzndY6n9YRO0tU0PNAbS5F1DegSTiz9aoB1r
-         m2hgskZZ6+ErJq7hzDY7vX20m5q5Fhh90CVb6Elal0oGxqSLQkkgUWQ+9RQki3zdt7E/
-         lzh4nddM7Ai4INJscIUq1q58SIDV4qIm3cEqTJ4aSzavScQ68dDinTTimRTZQPhmVLw/
-         uvtA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:content-transfer-encoding:date
-         :message-id:cc:subject:from:to:references:in-reply-to;
-        bh=jJ51ZlH+2lE8rLSSFCiYjXjBtLDKQFWHhyS+Y+x5rso=;
-        b=LK1az/klk8Kbu0PcbA5v0yHTaAk2g/2FenEWy64dQDJXiLQTGyIFhOUzuFiGL2cPYU
-         jI8e4QdhOrig79JPvBCQKUK8aF55vkhAY2DEVXxPf7wjhkzlLanZiIE9+Q+9W8k3gF1j
-         1bp0PxN0nmtwkeAp/rPfih6lUQuVCkA/02jTwTpNGnqQ3nKoGYssOp1R6ZX4qRUzAxHR
-         6L40be+iTFc+DSjCnLSlG+MRq16Yj+C03rr39m/Ly0AfVwcqPAhrvLiFclUtKyEydZTg
-         OHG3nahoogptS1/fyzUtFC7ruS4arPqbb0kj4es2McAmfKxmXz4ug0AgPx1Ik0WuMz5J
-         osJQ==
-X-Gm-Message-State: AOAM532THfOMvpNpkvNL8Mu3Kg3fo7/Tn7e9cC44Mma3Jzw9npm/sf2t
-        EZUlL/DZ6BagnRLxeMslp4c=
-X-Google-Smtp-Source: ABdhPJzHtEsTAdKaqa4gQxikWsbXFcywF/SZtl1a+gJCxhuR5b8+1mx7mQYYZoC5FJl1qFAIBeS3iQ==
-X-Received: by 2002:a05:600c:21d6:: with SMTP id x22mr265604wmj.194.1637160711086;
-        Wed, 17 Nov 2021 06:51:51 -0800 (PST)
-Received: from localhost (a109-49-33-111.cpe.netcabo.pt. [109.49.33.111])
-        by smtp.gmail.com with ESMTPSA id m34sm6599446wms.25.2021.11.17.06.51.49
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 17 Nov 2021 06:51:50 -0800 (PST)
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date:   Wed, 17 Nov 2021 14:51:48 +0000
-Message-Id: <CFS51AQQ7SCD.7FK8RLAWLXRH@arch-thunder>
-Cc:     <kernel@pengutronix.de>, <kernel@puri.sm>, <linux-imx@nxp.com>,
-        <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH 1/2] media: imx: imx7-media-csi: add support for imx8mq
-From:   "Rui Miguel Silva" <rmfrfs@gmail.com>
-To:     "Martin Kepplinger" <martin.kepplinger@puri.sm>,
-        <laurent.pinchart@ideasonboard.com>, <mchehab@kernel.org>,
-        <robh@kernel.org>, <shawnguo@kernel.org>
-References: <20211117092710.3084034-1-martin.kepplinger@puri.sm>
-In-Reply-To: <20211117092710.3084034-1-martin.kepplinger@puri.sm>
+        Wed, 17 Nov 2021 10:28:11 -0500
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1FD84C061570
+        for <linux-media@vger.kernel.org>; Wed, 17 Nov 2021 07:25:12 -0800 (PST)
+Received: from dude02.hi.pengutronix.de ([2001:67c:670:100:1d::28] helo=dude02.pengutronix.de.)
+        by metis.ext.pengutronix.de with esmtp (Exim 4.92)
+        (envelope-from <p.zabel@pengutronix.de>)
+        id 1mnMoA-0005JZ-HX
+        for linux-media@vger.kernel.org; Wed, 17 Nov 2021 16:25:10 +0100
+From:   Philipp Zabel <p.zabel@pengutronix.de>
+To:     linux-media@vger.kernel.org
+Subject: [PATCH v4l-utils] media-ctl: add DV timing parser to --set-dv option
+Date:   Wed, 17 Nov 2021 16:24:52 +0100
+Message-Id: <20211117152452.530828-1-p.zabel@pengutronix.de>
+X-Mailer: git-send-email 2.30.2
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::28
+X-SA-Exim-Mail-From: p.zabel@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-media@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Martin,
-Thanks for the patch.
+Currently --set-dv only allows to query DV timings and set those.
+Add a DV timing parser to allow setting DV timings manually.
+The format is the same as the dv.current line from --get-dv.
 
-On Wed Nov 17, 2021 at 9:27 AM WET, Martin Kepplinger wrote:
+Signed-off-by: Philipp Zabel <p.zabel@pengutronix.de>
+---
+ utils/media-ctl/libv4l2subdev.c | 315 ++++++++++++++++++++++++++++++++
+ utils/media-ctl/media-ctl.c     |  14 +-
+ utils/media-ctl/v4l2subdev.h    |  32 ++++
+ 3 files changed, 359 insertions(+), 2 deletions(-)
 
-> Modeled after the NXP driver mx6s_capture.c that this driver is based on,
-> imx8mq needs different settings for the baseaddr_switch mechanism. Define
-> the needed bits and set that for imx8mq.
->
-> Without these settings, the system will "sometimes" hang completely when
-> starting to stream (the interrupt will never be called).
->
-> Signed-off-by: Martin Kepplinger <martin.kepplinger@puri.sm>
-> ---
->  drivers/staging/media/imx/imx7-media-csi.c | 34 ++++++++++++++++++++--
->  1 file changed, 32 insertions(+), 2 deletions(-)
->
-> diff --git a/drivers/staging/media/imx/imx7-media-csi.c b/drivers/staging=
-/media/imx/imx7-media-csi.c
-> index 2288dadb2683..8619cf2fc694 100644
-> --- a/drivers/staging/media/imx/imx7-media-csi.c
-> +++ b/drivers/staging/media/imx/imx7-media-csi.c
-> @@ -12,6 +12,7 @@
->  #include <linux/interrupt.h>
->  #include <linux/mfd/syscon.h>
->  #include <linux/module.h>
-> +#include <linux/of_device.h>
->  #include <linux/of_graph.h>
->  #include <linux/pinctrl/consumer.h>
->  #include <linux/platform_device.h>
-> @@ -122,6 +123,10 @@
->  #define BIT_DATA_FROM_MIPI		BIT(22)
->  #define BIT_MIPI_YU_SWAP		BIT(21)
->  #define BIT_MIPI_DOUBLE_CMPNT		BIT(20)
-> +#define BIT_MASK_OPTION_FIRST_FRAME	(0 << 18)
-> +#define BIT_MASK_OPTION_CSI_EN		(1 << 18)
-> +#define BIT_MASK_OPTION_SECOND_FRAME	(2 << 18)
-> +#define BIT_MASK_OPTION_ON_DATA		(3 << 18)
->  #define BIT_BASEADDR_CHG_ERR_EN		BIT(9)
->  #define BIT_BASEADDR_SWITCH_SEL		BIT(5)
->  #define BIT_BASEADDR_SWITCH_EN		BIT(4)
-> @@ -154,6 +159,12 @@
->  #define CSI_CSICR18			0x48
->  #define CSI_CSICR19			0x4c
-> =20
-> +enum imx_soc {
-> +	IMX6UL =3D 0,
-> +	IMX7,
-> +	IMX8MQ,
-
-maybe instead of this enum we could use a bool in structure...
->
->+};
-> +
->  struct imx7_csi {
->  	struct device *dev;
->  	struct v4l2_subdev sd;
-> @@ -189,6 +200,8 @@ struct imx7_csi {
->  	bool is_csi2;
-> =20
->  	struct completion last_eof_completion;
-> +
-> +	enum imx_soc type;
-
-here, bool is_imx8mq?
-
->  };
-> =20
->  static struct imx7_csi *
-> @@ -537,6 +550,16 @@ static void imx7_csi_deinit(struct imx7_csi *csi,
->  	clk_disable_unprepare(csi->mclk);
->  }
-> =20
-> +static void imx8mq_baseaddr_switch(struct imx7_csi *csi)
-
-I think this function needs a better name. First add the imx7_csi
-prefix that all functions have, and also you are setting it specific
-to second frame and the function should not be specific to imx8.
-
-maybe something:
-
-imx7_csi_write_on_second_frame_enable, maybe?
-
-> +{
-> +	u32 cr18 =3D imx7_csi_reg_read(csi, CSI_CSICR18);
-> +
-> +	cr18 |=3D BIT_BASEADDR_SWITCH_EN | BIT_BASEADDR_SWITCH_SEL |
-> +		BIT_BASEADDR_CHG_ERR_EN;
-> +	cr18 |=3D BIT_MASK_OPTION_SECOND_FRAME;
-> +	imx7_csi_reg_write(csi, cr18, CSI_CSICR18);
-> +}
-> +
->  static void imx7_csi_enable(struct imx7_csi *csi)
->  {
->  	/* Clear the Rx FIFO and reflash the DMA controller. */
-> @@ -551,7 +574,11 @@ static void imx7_csi_enable(struct imx7_csi *csi)
-> =20
->  	/* Enable the RxFIFO DMA and the CSI. */
->  	imx7_csi_dmareq_rff_enable(csi);
-> +
-
-unrelated new line.
-
->  	imx7_csi_hw_enable(csi);
-> +
-> +	if (csi->type =3D=3D IMX8MQ)
-> +		imx8mq_baseaddr_switch(csi);
-
-change this to new types and names?
-
->  }
-> =20
->  static void imx7_csi_disable(struct imx7_csi *csi)
-> @@ -1155,6 +1182,8 @@ static int imx7_csi_probe(struct platform_device *p=
-dev)
->  	if (IS_ERR(csi->regbase))
->  		return PTR_ERR(csi->regbase);
-> =20
-> +	csi->type =3D (enum imx_soc)of_device_get_match_data(&pdev->dev);
-
-here something:
-        csi->is_imx8mq =3D of_device_is_compatible(np, "fsl,imx8mq-csi");
-> +
->  	spin_lock_init(&csi->irqlock);
->  	mutex_init(&csi->lock);
-> =20
-> @@ -1249,8 +1278,9 @@ static int imx7_csi_remove(struct platform_device *=
-pdev)
->  }
-> =20
->  static const struct of_device_id imx7_csi_of_match[] =3D {
-> -	{ .compatible =3D "fsl,imx7-csi" },
-> -	{ .compatible =3D "fsl,imx6ul-csi" },
-> +	{ .compatible =3D "fsl,imx8mq-csi", .data =3D (void *)IMX8MQ },
-
-and with the above you should not need to add the data field here.
-
-------
-Cheers,
-     Rui
-
-> +	{ .compatible =3D "fsl,imx7-csi", .data =3D (void *)IMX7 },
-> +	{ .compatible =3D "fsl,imx6ul-csi", .data =3D (void *)IMX6UL },
->  	{ },
->  };
->  MODULE_DEVICE_TABLE(of, imx7_csi_of_match);
-> --=20
-> 2.30.2
-
-
+diff --git a/utils/media-ctl/libv4l2subdev.c b/utils/media-ctl/libv4l2subdev.c
+index 0d0afbe702d9..cee4d8af7cfa 100644
+--- a/utils/media-ctl/libv4l2subdev.c
++++ b/utils/media-ctl/libv4l2subdev.c
+@@ -28,6 +28,7 @@
+ #include <fcntl.h>
+ #include <stdbool.h>
+ #include <stdio.h>
++#include <stdint.h>
+ #include <stdlib.h>
+ #include <string.h>
+ #include <unistd.h>
+@@ -850,6 +851,270 @@ int v4l2_subdev_parse_setup_formats(struct media_device *media, const char *p)
+ 	return *end ? -EINVAL : 0;
+ }
+ 
++static int v4l2_subdev_parse_timing_type(struct media_device *media,
++					 struct v4l2_dv_timings *timings,
++					 const char *p, char **endp)
++{
++	char *end;
++
++	for (end = (char *)p; *end != ' ' && *end != '\0'; ++end);
++
++	if (strncmp(p, "BT.656/1120", end - p) != 0) {
++		media_dbg(media, "Invalid timing type '%.*s'\n", end - p, p);
++		return -EINVAL;
++	}
++
++	*endp = end;
++
++	return V4L2_DV_BT_656_1120;
++}
++
++static int v4l2_subdev_parse_timing_stds(struct media_device *media,
++					 struct v4l2_dv_timings *timings,
++					 const char *p, char **endp)
++{
++	int timing_standard;
++	uint32_t standards = 0;
++	char *std;
++	char *end;
++
++	do {
++		for (end = (char *)p;
++		     *end != ',' && *end != ' ' && *end != ']' && *end != '\0'; ++end);
++
++		/* Backward compatibility: allow empty stds: ... */
++		if (end == p)
++			break;
++
++		/* ... followed by empty flags: */
++		if (strncmp(p, "flags:", end - p) == 0) {
++			end = (char *)p;
++			break;
++		}
++
++		std = strndup(p, end - p);
++		if (!std)
++			return -ENOMEM;
++
++		timing_standard = v4l2_subdev_string_to_timing_standard(std);
++		free(std);
++
++		if (timing_standard == -1) {
++			media_dbg(media, "Invalid DV timing standard '%.*s'\n", end - p, p);
++			return -EINVAL;
++		}
++
++		standards |= (uint32_t)timing_standard;
++
++		p = end + 1;
++	} while (*end == ',');
++
++	timings->bt.standards = standards;
++
++	*endp = end;
++
++	return 0;
++}
++
++static int v4l2_subdev_parse_timing_flags(struct media_device *media,
++					  struct v4l2_dv_timings *timings,
++					  const char *p, char **endp)
++{
++	int timing_flag;
++	uint32_t flags = 0;
++	char *flag;
++	char *end;
++
++	do {
++		for (end = (char *)p;
++		     *end != ',' && *end != ' ' && *end != ']' && *end != '\0'; ++end);
++
++		/* For backwards compatibility, allow empty flags: */
++		if (end == p)
++			break;
++
++		flag = strndup(p, end - p);
++		if (!flag)
++			return -ENOMEM;
++
++		timing_flag = v4l2_subdev_string_to_timing_flag(flag);
++		free(flag);
++
++		if (timing_flag == -1) {
++			media_dbg(media, "Invalid DV timing flag '%.*s'\n", end - p, p);
++			return -EINVAL;
++		}
++
++		flags |= (uint32_t)timing_flag;
++
++		p = end + 1;
++	} while (*end == ',');
++
++	timings->bt.flags = flags;
++
++	*endp = end;
++
++	return 0;
++}
++
++static struct media_pad *v4l2_subdev_parse_dv_timings(
++	struct media_device *media, struct v4l2_dv_timings *timings,
++	const char *p, char **endp)
++{
++	struct media_pad *pad;
++	char *end;
++	int ret;
++
++	for (; isspace(*p); ++p);
++
++	pad = media_parse_pad(media, p, &end);
++	if (pad == NULL) {
++		*endp = end;
++		return NULL;
++	}
++
++	for (p = end; isspace(*p); ++p);
++	if (*p++ != '[') {
++		media_dbg(media, "Expected '['\n");
++		*endp = (char *)p - 1;
++		return NULL;
++	}
++
++	for (;;) {
++		for (; isspace(*p); p++);
++
++		if (strhazit("dv.current:", &p)) {
++			unsigned long fps, total_width, total_height;
++
++			ret = v4l2_subdev_parse_timing_type(media, timings, p, &end);
++			if (ret < 0) {
++				*endp = end;
++				return NULL;
++			}
++
++			if (*end != ' ') {
++				media_dbg(media, "Expected ' '\n");
++				*endp = end;
++				return NULL;
++			}
++
++			p = end + 1;
++
++			timings->bt.width = strtoul(p, &end, 10);
++			if (*end != 'x') {
++				media_dbg(media, "Expected 'x'\n");
++				*endp = end;
++				return NULL;
++			}
++
++			p = end + 1;
++
++			timings->bt.height = strtoul(p, &end, 10);
++			if (*end != 'p') {
++				media_dbg(media, "Expected 'p'\n");
++				*endp = end;
++				return NULL;
++			}
++
++			p = end + 1;
++
++			fps = strtoul(p, &end, 10);
++			if (*end != ' ') {
++				media_dbg(media, "Expected ' '\n");
++				*endp = end;
++				return NULL;
++			}
++
++			if (*(end + 1) != '(') {
++				media_dbg(media, "Expected '('\n");
++				*endp = end;
++				return NULL;
++			}
++
++			p = end + 2;
++
++			total_width = strtoul(p, &end, 10);
++			if (*end != 'x') {
++				media_dbg(media, "Expected 'x'\n");
++				*endp = end;
++				return NULL;
++			}
++
++			p = end + 1;
++
++			total_height = strtoul(p, &end, 10);
++			if (*end != ')') {
++				media_dbg(media, "Expected ')'\n");
++				*endp = end;
++				return NULL;
++			}
++
++			timings->bt.pixelclock = (uint64_t)fps * total_width * total_height;
++
++			timings->bt.hsync = total_width - timings->bt.width;
++			timings->bt.vsync = total_height - timings->bt.height;
++
++			p = end + 1;
++			continue;
++		}
++
++		if (strhazit("stds:", &p)) {
++			ret = v4l2_subdev_parse_timing_stds(media, timings, p, &end);
++			if (ret < 0) {
++				*endp = end;
++				return NULL;
++			}
++
++			p = end;
++			continue;
++		}
++
++		if (strhazit("flags:", &p)) {
++			ret = v4l2_subdev_parse_timing_flags(media, timings, p, &end);
++			if (ret < 0) {
++				*endp = end;
++				return NULL;
++			}
++
++			p = end;
++			continue;
++		}
++
++		break;
++	}
++
++	if (*p != ']') {
++		media_dbg(media, "Expected ']'\n");
++		*endp = (char *)p;
++		return NULL;
++	}
++
++	*endp = (char *)p + 1;
++	return pad;
++}
++
++int v4l2_subdev_parse_setup_dv_timings(struct media_device *media,
++				       const char *p)
++{
++	struct v4l2_dv_timings timings = { 0 };
++	struct media_pad *pad;
++	char *end;
++	int ret;
++
++	pad = v4l2_subdev_parse_dv_timings(media, &timings, p, &end);
++	if (pad == NULL) {
++		media_print_streampos(media, p, end);
++		media_dbg(media, "Unable to parse DV timings\n");
++		return -EINVAL;
++	}
++
++	ret = v4l2_subdev_set_dv_timings(pad->entity, &timings);
++	if (ret < 0)
++		return ret;
++
++	return 0;
++}
++
+ static const struct {
+ 	const char *name;
+ 	enum v4l2_mbus_pixelcode code;
+@@ -952,6 +1217,56 @@ enum v4l2_field v4l2_subdev_string_to_field(const char *string)
+ 	return (enum v4l2_field)-1;
+ }
+ 
++static const struct {
++	const char *name;
++	uint32_t standard;
++} bt_standards[] = {
++	{ "CEA-861", V4L2_DV_BT_STD_CEA861 },
++	{ "DMT", V4L2_DV_BT_STD_DMT },
++	{ "CVT", V4L2_DV_BT_STD_CVT },
++	{ "GTF", V4L2_DV_BT_STD_GTF },
++	{ "SDI", V4L2_DV_BT_STD_SDI },
++};
++
++int v4l2_subdev_string_to_timing_standard(const char *string)
++{
++	unsigned int i;
++
++	for (i = 0; i < ARRAY_SIZE(bt_standards); ++i) {
++		if (strcasecmp(bt_standards[i].name, string) == 0)
++			return bt_standards[i].standard;
++	}
++
++	return (uint32_t)-1;
++}
++
++static const struct {
++	uint32_t flag;
++	const char *name;
++} bt_flags[] = {
++	{ V4L2_DV_FL_REDUCED_BLANKING, "reduced-blanking" },
++	{ V4L2_DV_FL_CAN_REDUCE_FPS, "can-reduce-fps" },
++	{ V4L2_DV_FL_REDUCED_FPS, "reduced-fps" },
++	{ V4L2_DV_FL_HALF_LINE, "half-line" },
++	{ V4L2_DV_FL_IS_CE_VIDEO, "CE-video" },
++	{ V4L2_DV_FL_FIRST_FIELD_EXTRA_LINE, "first-field-extra-line" },
++	{ V4L2_DV_FL_HAS_PICTURE_ASPECT, "has-picture-aspect" },
++	{ V4L2_DV_FL_HAS_CEA861_VIC, "has-cea861-vic" },
++	{ V4L2_DV_FL_HAS_HDMI_VIC, "has-hdmi-vic" },
++};
++
++int v4l2_subdev_string_to_timing_flag(const char *string)
++{
++	unsigned int i;
++
++	for (i = 0; i < ARRAY_SIZE(bt_flags); ++i) {
++		if (strcasecmp(bt_flags[i].name, string) == 0)
++			return bt_flags[i].flag;
++	}
++
++	return (uint32_t)-1;
++}
++
+ static struct {
+ 	const char *name;
+ 	enum v4l2_colorspace colorspace;
+diff --git a/utils/media-ctl/media-ctl.c b/utils/media-ctl/media-ctl.c
+index 84ee7a83c7d6..d48dec5a9f11 100644
+--- a/utils/media-ctl/media-ctl.c
++++ b/utils/media-ctl/media-ctl.c
+@@ -620,10 +620,20 @@ int main(int argc, char **argv)
+ 	if (media_opts.dv_pad) {
+ 		struct v4l2_dv_timings timings;
+ 		struct media_pad *pad;
++		char *endp;
+ 
+-		pad = media_parse_pad(media, media_opts.dv_pad, NULL);
++		pad = media_parse_pad(media, media_opts.dv_pad, &endp);
+ 		if (pad == NULL) {
+-			printf("Pad '%s' not found\n", media_opts.dv_pad);
++			printf("Pad '%.*s' not found\n",
++			       (int)(endp - media_opts.dv_pad), media_opts.dv_pad);
++			goto out;
++		}
++
++		if (*endp == '[') {
++			ret = v4l2_subdev_parse_setup_dv_timings(media,
++								 media_opts.dv_pad);
++			if (ret < 0)
++				printf("Unable to setup DV timings: %s\n", strerror(-ret));
+ 			goto out;
+ 		}
+ 
+diff --git a/utils/media-ctl/v4l2subdev.h b/utils/media-ctl/v4l2subdev.h
+index a18139118494..026bde2fcd68 100644
+--- a/utils/media-ctl/v4l2subdev.h
++++ b/utils/media-ctl/v4l2subdev.h
+@@ -235,6 +235,18 @@ int v4l2_subdev_set_frame_interval(struct media_entity *entity,
+  */
+ int v4l2_subdev_parse_setup_formats(struct media_device *media, const char *p);
+ 
++/**
++ * @brief Parse a string and apply DV timing settings.
++ * @param media - media device.
++ * @param p - input string
++ *
++ * Parse string @a p and apply DV timing settings to a subdev pad specified in
++ * @a p.
++ *
++ * @return 0 on success, or a negative error code on failure.
++ */
++int v4l2_subdev_parse_setup_dv_timings(struct media_device *media, const char *p);
++
+ /**
+  * @brief Convert media bus pixel code to string.
+  * @param code - input string
+@@ -366,4 +378,24 @@ enum v4l2_quantization v4l2_subdev_string_to_quantization(const char *string);
+ const enum v4l2_mbus_pixelcode *v4l2_subdev_pixelcode_list(
+ 	unsigned int *length);
+ 
++/**
++ * @brief Parse string to DV timing standard.
++ * @param string - nul terminated string, textual DV timing standard
++ *
++ * Parse human readable string @a string to DV timing standard.
++ *
++ * @return DV timing standard on success, -1 on failure.
++ */
++int v4l2_subdev_string_to_timing_standard(const char *string);
++
++/**
++ * @brief Parse string to DV timing flag.
++ * @param string - nul terminated string, textual DV timing flag
++ *
++ * Parse human readable string @a string to DV timing flag.
++ *
++ * @return DV timing flag on success, -1 on failure.
++ */
++int v4l2_subdev_string_to_timing_flag(const char *string);
++
+ #endif
+-- 
+2.30.2
 
