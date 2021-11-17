@@ -2,219 +2,181 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B596C454554
-	for <lists+linux-media@lfdr.de>; Wed, 17 Nov 2021 12:03:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1E9A7454580
+	for <lists+linux-media@lfdr.de>; Wed, 17 Nov 2021 12:20:05 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236631AbhKQLFu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 17 Nov 2021 06:05:50 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37776 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236638AbhKQLFr (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Wed, 17 Nov 2021 06:05:47 -0500
-Received: from mail-ua1-x935.google.com (mail-ua1-x935.google.com [IPv6:2607:f8b0:4864:20::935])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 72059C061570
-        for <linux-media@vger.kernel.org>; Wed, 17 Nov 2021 03:02:49 -0800 (PST)
-Received: by mail-ua1-x935.google.com with SMTP id n6so5019946uak.1
-        for <linux-media@vger.kernel.org>; Wed, 17 Nov 2021 03:02:49 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=vanguardiasur-com-ar.20210112.gappssmtp.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=xD4jSD9o0m9VWMMQNYtIoSApMPXuTCerJ7ps5HrGPyg=;
-        b=blT1eGbVnvRYqzUNVw9bSeQHG/9OJnZ9O/3Pb9sESMd3ykf6x7RgtWV2oHzX3ci/wi
-         Q8chAmyd7ur9C/Sci0vhOxY2CbLt2EVwRtul1YiHoekJYTUeu7vZms1lDINpBYa+RaT8
-         HDnUw4+Dn0BfjrL5jBtNUgPvIZ577D57l2KF8X79TlkiQIkGt19EwdH4KCjxleqd04x5
-         6CKxkke8qVvg4G1j/kKGTfybN0rw2Ob4ulqXJKyKv0caV5UPCudi1rNMOuUa4u5V6Zpt
-         Kwdd2qrVcHIkq/N0+sM16QjRbvHgSM2hMxSIsIIz+L6gJdyDRAQG7UxAX74in9t8EZ3V
-         1yTw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=xD4jSD9o0m9VWMMQNYtIoSApMPXuTCerJ7ps5HrGPyg=;
-        b=Fhzfd2Eg339Hed2JPgNhqGa4Hcw+UFAKiZkP/Uv61bk2+/gqFkI6kUzRaWzVEyaWQW
-         FjwexkYpUsY9U1t23NG5I4PdOGkJwUZZpz1GDS/Wo2+I9yNJk34tVTudkKA+bIn0UGwF
-         mhBgfI49lAbKC0F4WYyoAyLXOwty3gt/BtVMUbwBqRxyd7pJicFjrkBHS/zg1r2+17CT
-         x4IFPINGFfwN1aUySr8Z8gFnZxdWu+qx+PLFnpYyVor1qKPu9MCoqKo8bkHAsibLRZjB
-         vcGZwiGRM+ehAJN2jg6zIH6NqyB5BRoKIF/Kyl0t9+j/6g1fQ4sF/+C5qBf38yUlxrqv
-         e46A==
-X-Gm-Message-State: AOAM531OiOp8uMfMd/ff2HiGKMIWZEyWxT9i6qzIwVAIDIZR4wtET2kY
-        bNRABhPE30oh+wHlVFGJZWeREQ==
-X-Google-Smtp-Source: ABdhPJw1GsVPwwYHkvpb1r006heaI+l5ljDUmAz1MjejjViCZ+UI6X+4Ovr/EM2O2Dx8y9RTxJjODg==
-X-Received: by 2002:ab0:3359:: with SMTP id h25mr22083214uap.59.1637146968530;
-        Wed, 17 Nov 2021 03:02:48 -0800 (PST)
-Received: from eze-laptop ([186.122.18.126])
-        by smtp.gmail.com with ESMTPSA id s2sm12502206uap.7.2021.11.17.03.02.43
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 17 Nov 2021 03:02:47 -0800 (PST)
-Date:   Wed, 17 Nov 2021 08:02:39 -0300
-From:   Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
-To:     Andrzej Pietrasiewicz <andrzej.p@collabora.com>
-Cc:     linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-kernel@vger.kernel.org, linux-rockchip@lists.infradead.org,
-        linux-staging@lists.linux.dev,
-        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-        Boris Brezillon <boris.brezillon@collabora.com>,
-        Fabio Estevam <festevam@gmail.com>,
+        id S234540AbhKQLXB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 17 Nov 2021 06:23:01 -0500
+Received: from mail.kernel.org ([198.145.29.99]:40760 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S232294AbhKQLXA (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 17 Nov 2021 06:23:00 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id E26D661B42;
+        Wed, 17 Nov 2021 11:19:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1637148002;
+        bh=IgMs7/k9yx8yNUsIOyVlGRw/z1zRAAIFchQlLfQk8o8=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=BKy/CHry4bS3pZ7WLSBWDVzQTXQtmvWV5SHuoPb4c54c/bIWPsujDpynq7ECl0szh
+         sbYogBNdQSus4dIhEuo55UUKZb/6bEQ6oDsB4om3vOcSB0kLtKundTB12bX3MR5fT9
+         LvyTn3S8cOvn2UKwMGdotNCFWrc34ZxjdrBdbyR+DH344bSvxAwteS7uAZlIgo7kIC
+         +bGw35Aedmzx+LaJ32h6SJhHCrGCP6wSlHfBNeCUf2A+ebCY8Wue80kwWXa4xgXxYB
+         rn37SB1wWHtzJ91s3deqm45X2NjG/JvfxMOZAJi3O0qu1ELQZjfdmfb37E2RNTFqw9
+         w4t12fzb8AzEw==
+Date:   Wed, 17 Nov 2021 11:19:56 +0000
+From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To:     Dan Carpenter <dan.carpenter@oracle.com>
+Cc:     linuxarm@huawei.com, mauro.chehab@huawei.com,
+        Deepak R Varma <drv@mailo.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Heiko Stuebner <heiko@sntech.de>,
-        Jernej Skrabec <jernej.skrabec@gmail.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Nicolas Dufresne <nicolas.dufresne@collabora.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Shawn Guo <shawnguo@kernel.org>, kernel@collabora.com
-Subject: Re: [PATCH v8 08/12] media: hantro: Rename registers
-Message-ID: <YZThT9kRyoGu2IkU@eze-laptop>
-References: <20211116143842.75896-1-andrzej.p@collabora.com>
- <20211116143842.75896-9-andrzej.p@collabora.com>
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Tsuchiya Yuto <kitakar@gmail.com>,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-staging@lists.linux.dev
+Subject: Re: [PATCH 13/13] media: atomisp: sh_css_sp: better support the
+ current firmware
+Message-ID: <20211117111956.215743f8@sal.lan>
+In-Reply-To: <20211117100238.GL26989@kadam>
+References: <cover.1637140900.git.mchehab+huawei@kernel.org>
+        <f0c9b8ec25fedbfccac6d14ff1add2d40beaa088.1637140900.git.mchehab+huawei@kernel.org>
+        <20211117100238.GL26989@kadam>
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.30; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20211116143842.75896-9-andrzej.p@collabora.com>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Nov 16, 2021 at 03:38:38PM +0100, Andrzej Pietrasiewicz wrote:
-> Add more consistency in the way registers are named.
-> 
-> Signed-off-by: Andrzej Pietrasiewicz <andrzej.p@collabora.com>
+Em Wed, 17 Nov 2021 13:02:38 +0300
+Dan Carpenter <dan.carpenter@oracle.com> escreveu:
 
-Reviewed-by: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
+> On Wed, Nov 17, 2021 at 09:25:38AM +0000, Mauro Carvalho Chehab wrote:
+> > As we're using Intel Aero firmware, make the code closer to the
+> > driver for such device.  
+> 
+> I don't really understand this commit message.  Is there a out of tree
+> Intel driver?
 
-> ---
->  .../staging/media/hantro/hantro_g2_hevc_dec.c | 40 +++++++++----------
->  drivers/staging/media/hantro/hantro_g2_regs.h | 28 ++++++-------
->  2 files changed, 34 insertions(+), 34 deletions(-)
+Yes. It is at:
+
+	https://github.com/intel-aero/meta-intel-aero-base/tree/master/recipes-kernel/linux/linux-yocto
+
+I guess I was too lazy to place the above on almost all patches in this 
+series. There are some past patches for atomisp that already contains
+such info.
+
+The atomisp's TODO mentions it:
+
+
+	- for CHT: /lib/firmware/shisp_2401a0_v21.bin
+
+	  https://github.com/intel-aero/meta-intel-aero-base/blob/master/recipes-kernel/linux/linux-yocto/shisp_2401a0_v21.bin
+
+-
+
+Long answer:
+
+Basically, as far as I'm aware, the original atomisp driver is produced by
+some code generator, which not only dynamically add code to the driver's
+source code output, but also sets several #ifdefs and dynamically change the
+firmware API depending on the Atom CPU, features and on other options.
+
+If you take a look at the original commit which added this driver:
+
+	a49d25364dfb ("staging/atomisp: Add support for the Intel IPU v2")
+
+It basically had some efforts from Alan to support both ISP2400 (BYT) and
+ISP2401 (CHT) versions at the same code.
+
+If you look on its TODO, it says:
+
+	"The ISP code depends on the exact FW version. The version defined in
+	   BYT: 
+	   drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css_firmware.c
+	   static const char *release_version = STR(irci_stable_candrpv_0415_20150521_0458);
+	   CHT:
+	   drivers/staging/media/atomisp/pci/atomisp2/css/sh_css_firmware.c
+	   static const char *release_version = STR(irci_ecr-master_20150911_0724);"
+
+So, the versions for BYT and CHT at the original patch were different, and
+there are lots of #ifdefs to test between such differences.
+
+There's another problem, through. The irci_ecr-master_20150911_0724 firmware
+was never placed at linux-firmware, and got lost in time. I don't know
+anyone whose has such exact version. It seems it got lost in time, no idea
+why.
+
+The only non-android Linux driver we know is for the Intel Aero hardware,
+which is Cherrytail (CHT). For such hardware, the firmware is also provided
+at the Intel Aero Yocto repositories, at:
+
+	https://github.com/intel-aero/meta-intel-aero-base/blob/master/recipes-kernel/linux/linux-yocto/shisp_2401a0_v21.bin
+
+The version of this firmware is:
+
+	$ strings /lib/firmware/shisp_2401a0_v21.bin |grep irci_stable_
+	irci_stable_candrpv_0415_20150521_0458
+
+As we have both drivers and firmware for such version, we're actually
+adjusting the upstream code to match this version for ISP2401 (CHT).
+
+There's a side effect with this change: the code for ISP2400 and ISP2401
+will be both based on the same version, which helps to reduce the
+differences at the driver level - that's assuming that we can:
+
+	- find a publicly-available ISP2400 
+	  irci_stable_candrpv_0415_20150521_0458 binary;
+	- have some BYT hardware for testing with upstream drivers[1];
+	- have an Android driver for the same fix, in order to help
+	  double-checking if the code is compatible with the firmware.
+
+[1] On some BYT BIOS, the normal ACPI method of detecting the hardware
+doesn't work, as the ISP is visible though the GPU. That's the case
+of a commonly found hardware (Asus T100 with the production BIOS).
+
 > 
-> diff --git a/drivers/staging/media/hantro/hantro_g2_hevc_dec.c b/drivers/staging/media/hantro/hantro_g2_hevc_dec.c
-> index 76a921163b9a..abae36f9b418 100644
-> --- a/drivers/staging/media/hantro/hantro_g2_hevc_dec.c
-> +++ b/drivers/staging/media/hantro/hantro_g2_hevc_dec.c
-> @@ -448,9 +448,9 @@ static int set_ref(struct hantro_ctx *ctx)
->  		if (dpb[i].rps == V4L2_HEVC_DPB_ENTRY_RPS_LT_CURR)
->  			dpb_longterm_e |= BIT(V4L2_HEVC_DPB_ENTRIES_NUM_MAX - 1 - i);
->  
-> -		hantro_write_addr(vpu, G2_REG_ADDR_REF(i), luma_addr);
-> -		hantro_write_addr(vpu, G2_REG_CHR_REF(i), chroma_addr);
-> -		hantro_write_addr(vpu, G2_REG_DMV_REF(i), mv_addr);
-> +		hantro_write_addr(vpu, G2_REF_LUMA_ADDR(i), luma_addr);
-> +		hantro_write_addr(vpu, G2_REF_CHROMA_ADDR(i), chroma_addr);
-> +		hantro_write_addr(vpu, G2_REF_MV_ADDR(i), mv_addr);
->  	}
->  
->  	luma_addr = hantro_hevc_get_ref_buf(ctx, decode_params->pic_order_cnt_val);
-> @@ -460,20 +460,20 @@ static int set_ref(struct hantro_ctx *ctx)
->  	chroma_addr = luma_addr + cr_offset;
->  	mv_addr = luma_addr + mv_offset;
->  
-> -	hantro_write_addr(vpu, G2_REG_ADDR_REF(i), luma_addr);
-> -	hantro_write_addr(vpu, G2_REG_CHR_REF(i), chroma_addr);
-> -	hantro_write_addr(vpu, G2_REG_DMV_REF(i++), mv_addr);
-> +	hantro_write_addr(vpu, G2_REF_LUMA_ADDR(i), luma_addr);
-> +	hantro_write_addr(vpu, G2_REF_CHROMA_ADDR(i), chroma_addr);
-> +	hantro_write_addr(vpu, G2_REF_MV_ADDR(i++), mv_addr);
->  
-> -	hantro_write_addr(vpu, G2_ADDR_DST, luma_addr);
-> -	hantro_write_addr(vpu, G2_ADDR_DST_CHR, chroma_addr);
-> -	hantro_write_addr(vpu, G2_ADDR_DST_MV, mv_addr);
-> +	hantro_write_addr(vpu, G2_OUT_LUMA_ADDR, luma_addr);
-> +	hantro_write_addr(vpu, G2_OUT_CHROMA_ADDR, chroma_addr);
-> +	hantro_write_addr(vpu, G2_OUT_MV_ADDR, mv_addr);
->  
->  	hantro_hevc_ref_remove_unused(ctx);
->  
->  	for (; i < V4L2_HEVC_DPB_ENTRIES_NUM_MAX; i++) {
-> -		hantro_write_addr(vpu, G2_REG_ADDR_REF(i), 0);
-> -		hantro_write_addr(vpu, G2_REG_CHR_REF(i), 0);
-> -		hantro_write_addr(vpu, G2_REG_DMV_REF(i), 0);
-> +		hantro_write_addr(vpu, G2_REF_LUMA_ADDR(i), 0);
-> +		hantro_write_addr(vpu, G2_REF_CHROMA_ADDR(i), 0);
-> +		hantro_write_addr(vpu, G2_REF_MV_ADDR(i), 0);
->  	}
->  
->  	hantro_reg_write(vpu, &g2_refer_lterm_e, dpb_longterm_e);
-> @@ -499,7 +499,7 @@ static void set_buffers(struct hantro_ctx *ctx)
->  	src_len = vb2_get_plane_payload(&src_buf->vb2_buf, 0);
->  	src_buf_len = vb2_plane_size(&src_buf->vb2_buf, 0);
->  
-> -	hantro_write_addr(vpu, G2_ADDR_STR, src_dma);
-> +	hantro_write_addr(vpu, G2_STREAM_ADDR, src_dma);
->  	hantro_reg_write(vpu, &g2_stream_len, src_len);
->  	hantro_reg_write(vpu, &g2_strm_buffer_len, src_buf_len);
->  	hantro_reg_write(vpu, &g2_strm_start_offset, 0);
-> @@ -508,12 +508,12 @@ static void set_buffers(struct hantro_ctx *ctx)
->  	/* Destination (decoded frame) buffer. */
->  	dst_dma = hantro_get_dec_buf_addr(ctx, &dst_buf->vb2_buf);
->  
-> -	hantro_write_addr(vpu, G2_RASTER_SCAN, dst_dma);
-> -	hantro_write_addr(vpu, G2_RASTER_SCAN_CHR, dst_dma + cr_offset);
-> -	hantro_write_addr(vpu, G2_ADDR_TILE_SIZE, ctx->hevc_dec.tile_sizes.dma);
-> -	hantro_write_addr(vpu, G2_TILE_FILTER, ctx->hevc_dec.tile_filter.dma);
-> -	hantro_write_addr(vpu, G2_TILE_SAO, ctx->hevc_dec.tile_sao.dma);
-> -	hantro_write_addr(vpu, G2_TILE_BSD, ctx->hevc_dec.tile_bsd.dma);
-> +	hantro_write_addr(vpu, G2_RS_OUT_LUMA_ADDR, dst_dma);
-> +	hantro_write_addr(vpu, G2_RS_OUT_CHROMA_ADDR, dst_dma + cr_offset);
-> +	hantro_write_addr(vpu, G2_TILE_SIZES_ADDR, ctx->hevc_dec.tile_sizes.dma);
-> +	hantro_write_addr(vpu, G2_TILE_FILTER_ADDR, ctx->hevc_dec.tile_filter.dma);
-> +	hantro_write_addr(vpu, G2_TILE_SAO_ADDR, ctx->hevc_dec.tile_sao.dma);
-> +	hantro_write_addr(vpu, G2_TILE_BSD_ADDR, ctx->hevc_dec.tile_bsd.dma);
->  }
->  
->  static void prepare_scaling_list_buffer(struct hantro_ctx *ctx)
-> @@ -563,7 +563,7 @@ static void prepare_scaling_list_buffer(struct hantro_ctx *ctx)
->  			for (k = 0; k < 8; k++)
->  				*p++ = sc->scaling_list_32x32[i][8 * k + j];
->  
-> -	hantro_write_addr(vpu, HEVC_SCALING_LIST, ctx->hevc_dec.scaling_lists.dma);
-> +	hantro_write_addr(vpu, G2_HEVC_SCALING_LIST_ADDR, ctx->hevc_dec.scaling_lists.dma);
->  }
->  
->  static void hantro_g2_check_idle(struct hantro_dev *vpu)
-> diff --git a/drivers/staging/media/hantro/hantro_g2_regs.h b/drivers/staging/media/hantro/hantro_g2_regs.h
-> index bb22fa921914..24b18f839ff8 100644
-> --- a/drivers/staging/media/hantro/hantro_g2_regs.h
-> +++ b/drivers/staging/media/hantro/hantro_g2_regs.h
-> @@ -177,20 +177,20 @@
->  #define G2_REG_CONFIG_DEC_CLK_GATE_E		BIT(16)
->  #define G2_REG_CONFIG_DEC_CLK_GATE_IDLE_E	BIT(17)
->  
-> -#define G2_ADDR_DST		(G2_SWREG(65))
-> -#define G2_REG_ADDR_REF(i)	(G2_SWREG(67)  + ((i) * 0x8))
-> -#define G2_ADDR_DST_CHR		(G2_SWREG(99))
-> -#define G2_REG_CHR_REF(i)	(G2_SWREG(101) + ((i) * 0x8))
-> -#define G2_ADDR_DST_MV		(G2_SWREG(133))
-> -#define G2_REG_DMV_REF(i)	(G2_SWREG(135) + ((i) * 0x8))
-> -#define G2_ADDR_TILE_SIZE	(G2_SWREG(167))
-> -#define G2_ADDR_STR		(G2_SWREG(169))
-> -#define HEVC_SCALING_LIST	(G2_SWREG(171))
-> -#define G2_RASTER_SCAN		(G2_SWREG(175))
-> -#define G2_RASTER_SCAN_CHR	(G2_SWREG(177))
-> -#define G2_TILE_FILTER		(G2_SWREG(179))
-> -#define G2_TILE_SAO		(G2_SWREG(181))
-> -#define G2_TILE_BSD		(G2_SWREG(183))
-> +#define G2_OUT_LUMA_ADDR		(G2_SWREG(65))
-> +#define G2_REF_LUMA_ADDR(i)		(G2_SWREG(67)  + ((i) * 0x8))
-> +#define G2_OUT_CHROMA_ADDR		(G2_SWREG(99))
-> +#define G2_REF_CHROMA_ADDR(i)		(G2_SWREG(101) + ((i) * 0x8))
-> +#define G2_OUT_MV_ADDR			(G2_SWREG(133))
-> +#define G2_REF_MV_ADDR(i)		(G2_SWREG(135) + ((i) * 0x8))
-> +#define G2_TILE_SIZES_ADDR		(G2_SWREG(167))
-> +#define G2_STREAM_ADDR			(G2_SWREG(169))
-> +#define G2_HEVC_SCALING_LIST_ADDR	(G2_SWREG(171))
-> +#define G2_RS_OUT_LUMA_ADDR		(G2_SWREG(175))
-> +#define G2_RS_OUT_CHROMA_ADDR		(G2_SWREG(177))
-> +#define G2_TILE_FILTER_ADDR		(G2_SWREG(179))
-> +#define G2_TILE_SAO_ADDR		(G2_SWREG(181))
-> +#define G2_TILE_BSD_ADDR		(G2_SWREG(183))
->  
->  #define g2_strm_buffer_len	G2_DEC_REG(258, 0, 0xffffffff)
->  #define g2_strm_start_offset	G2_DEC_REG(259, 0, 0xffffffff)
-> -- 
-> 2.25.1
+> > diff --git a/drivers/staging/media/atomisp/pci/sh_css_sp.c b/drivers/staging/media/atomisp/pci/sh_css_sp.c
+> > index f6db1f4a0e1d..a11078acb072 100644
+> > --- a/drivers/staging/media/atomisp/pci/sh_css_sp.c
+> > +++ b/drivers/staging/media/atomisp/pci/sh_css_sp.c
+> > @@ -982,6 +982,7 @@ sh_css_sp_init_stage(struct ia_css_binary *binary,
+> >  	/* Make sure binary name is smaller than allowed string size */
+> >  	assert(strlen(binary_name) < SH_CSS_MAX_BINARY_NAME - 1);
+> >  	strscpy(sh_css_isp_stage.binary_name, binary_name, SH_CSS_MAX_BINARY_NAME);
+> > +	sh_css_isp_stage.binary_name[SH_CSS_MAX_BINARY_NAME - 1] = 0;  
 > 
+> No, need for this.  strscpy() already guarantees that the result is NULL
+> terminated.  That's one of the main reasons Linus invented it instead of
+> using strncpy().
+> 
+> >  #ifdef ISP2401
+> > -	if (stage == 0) {
+> > -		pipe = find_pipe_by_num(sh_css_sp_group.pipe[thread_id].pipe_num);
+> > -		if (!pipe)
+> > -			return -EINVAL;
+> > +	pipe = find_pipe_by_num(sh_css_sp_group.pipe[thread_id].pipe_num);
+> > +	if (!pipe)
+> > +		return -EINVAL;
+> >  
+> > -		if (args->in_frame)
+> > -			ia_css_get_crop_offsets(pipe, &args->in_frame->info);
+> > -		else
+> > -			ia_css_get_crop_offsets(pipe, &binary->in_frame_info);
+> > -	}
+> > +	if (args->in_frame)
+> > +		ia_css_get_crop_offsets(pipe, &args->in_frame->info);
+> > +	else if (&binary->in_frame_info)  
+>                   ^^^^^^^^^^^^^^^^^^^^^
+> 
+> This condition is wrong.  This is the address of something in the middle
+> of "binary" so it can't be NULL.
+> 
+> > +		ia_css_get_crop_offsets(pipe, &binary->in_frame_info);
+> >  #else
+> >  	(void)pipe; /*avoid build warning*/
+> >  #endif  
+> 
+> regards,
+> dan carpenter
