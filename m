@@ -2,44 +2,47 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D8E2845439D
-	for <lists+linux-media@lfdr.de>; Wed, 17 Nov 2021 10:27:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C1BBE4543A0
+	for <lists+linux-media@lfdr.de>; Wed, 17 Nov 2021 10:27:16 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235089AbhKQJ2s (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 17 Nov 2021 04:28:48 -0500
-Received: from mail.kernel.org ([198.145.29.99]:58812 "EHLO mail.kernel.org"
+        id S235117AbhKQJ2v (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 17 Nov 2021 04:28:51 -0500
+Received: from mail.kernel.org ([198.145.29.99]:58816 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S234622AbhKQJ2k (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        id S234606AbhKQJ2k (ORCPT <rfc822;linux-media@vger.kernel.org>);
         Wed, 17 Nov 2021 04:28:40 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id D288A613A2;
+Received: by mail.kernel.org (Postfix) with ESMTPSA id CFC1063214;
         Wed, 17 Nov 2021 09:25:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=k20201202; t=1637141142;
-        bh=TmI5smJW7BBcnDb91N1SI3C/Ux8ypdlebUo9S3DBjfw=;
+        bh=V73MI/BChgm8hYCvohrJL80G5P1g7QeONIsqxwwzSQ0=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=OoNK5lVgIUR97g1mHnmGzwYZGMcg6Eh7Ct/hJd7bkvgv0MuPAZbKX9NbVAe19dgWW
-         CA9uqSXsYZ45C/aTYr3vOaStT6sTkRQ/KjQFchWSB9dFA8AQwmpoYzqr+9/uG8c/lS
-         8hbQFYK8P+ugAAMPOGzS+Qrjo5/1N7yD1IQ+kWJLrhxklSIRa/eEekkcjMPOS7czM7
-         SE+B2azWP9vhEw4OrUCshiUHZnJUAIAf5zMtvXiXgVUIXIHUp4aXPPQOK2LHenmKWV
-         FgMIIsQfCb+tum/LMClxu61tVupw1DXsDbWyPnhD4xeN9XfyMv8A/YfdMteD20HhGs
-         WuB9I0gUtL9vQ==
+        b=uOVxiymnjnaBM+sBbkSqR0qjMO+X7ak0/6hQIcLcBup5YngLQ5ogRzXfFJIqQkUgZ
+         MMqXTyIfKslvWyADOY4cxDHO0fKWagWtoJ1tas0TvHGFD/ItTu2ETJPKPrXOGrV0m7
+         fGtxfHstqQ573oO+LMzzSCvDahsFcFd35U+4MMV+vCVylv8DPIyndny3iCtQUeQpaX
+         ori7c7svplY+4n1T2zuUzQ/qaEZANPqDYvuv642uSkJf5Tj+SDDqsiHIE2gLoDCmsP
+         7Jat5BbGVo5/oo4qd6nPaee7rFyaWbdfgLnGlEtZmBKFKf/yCDPmhhjC9JjWjX8XxY
+         ZvqMmdEYdxJTQ==
 Received: by mail.kernel.org with local (Exim 4.94.2)
         (envelope-from <mchehab@kernel.org>)
-        id 1mnHCF-00Cb5m-7p; Wed, 17 Nov 2021 09:25:39 +0000
+        id 1mnHCF-00Cb5p-8Q; Wed, 17 Nov 2021 09:25:39 +0000
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 Cc:     linuxarm@huawei.com, mauro.chehab@huawei.com,
         Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Alex Dewar <alex.dewar90@gmail.com>,
         Deepak R Varma <drv@mailo.com>,
+        Ding Xiang <dingxiang@cmss.chinamobile.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Nathan Chancellor <nathan@kernel.org>,
         Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Tsuchiya Yuto <kitakar@gmail.com>,
+        Yang Li <abaci-bugfix@linux.alibaba.com>,
+        Zheng Yongjun <zhengyongjun3@huawei.com>,
         linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
         linux-staging@lists.linux.dev
-Subject: [PATCH 04/13] media: atomisp: sh_css_mipi: cleanup the code
-Date:   Wed, 17 Nov 2021 09:25:29 +0000
-Message-Id: <a152c9fdfa9362068fee1e2c70c7087fd30d6c53.1637140900.git.mchehab+huawei@kernel.org>
+Subject: [PATCH 05/13] media: atomisp: sh_css_params: remove tests for ISP2401
+Date:   Wed, 17 Nov 2021 09:25:30 +0000
+Message-Id: <ca86b465c7230ce6e476840818ecb2be189faf02.1637140900.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.33.1
 In-Reply-To: <cover.1637140900.git.mchehab+huawei@kernel.org>
 References: <cover.1637140900.git.mchehab+huawei@kernel.org>
@@ -51,9 +54,9 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-With the ISP2401 firmware we're using, the code differences
-are not that much from ISP2400. Cleanup the code in order
-to make it closer to Intel Aero driver.
+Those tests are related to the input system, which is the same
+for the chosen firmware, so both ISP2400 and ISP2401 will be
+identical with that regards.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
@@ -61,288 +64,217 @@ Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To avoid mailbombing on a large number of people, only mailing lists were C/C on the cover.
 See [PATCH 00/13] at: https://lore.kernel.org/all/cover.1637140900.git.mchehab+huawei@kernel.org/
 
- .../staging/media/atomisp/pci/sh_css_mipi.c   | 159 +++++-------------
- .../staging/media/atomisp/pci/sh_css_mipi.h   |  15 --
- 2 files changed, 38 insertions(+), 136 deletions(-)
+ .../staging/media/atomisp/pci/sh_css_params.c | 117 ++----------------
+ 1 file changed, 8 insertions(+), 109 deletions(-)
 
-diff --git a/drivers/staging/media/atomisp/pci/sh_css_mipi.c b/drivers/staging/media/atomisp/pci/sh_css_mipi.c
-index cfaa4719177c..0acf75497ae7 100644
---- a/drivers/staging/media/atomisp/pci/sh_css_mipi.c
-+++ b/drivers/staging/media/atomisp/pci/sh_css_mipi.c
-@@ -33,47 +33,6 @@
- static u32
- ref_count_mipi_allocation[N_CSI_PORTS]; /* Initialized in mipi_init */
+diff --git a/drivers/staging/media/atomisp/pci/sh_css_params.c b/drivers/staging/media/atomisp/pci/sh_css_params.c
+index 448b07162382..68d8f54473ea 100644
+--- a/drivers/staging/media/atomisp/pci/sh_css_params.c
++++ b/drivers/staging/media/atomisp/pci/sh_css_params.c
+@@ -104,15 +104,10 @@
+ 	(sizeof(char) * (binary)->in_frame_info.res.height * \
+ 	 (binary)->in_frame_info.padded_width)
  
--/*
-- * Check if a source port or TPG/PRBS ID is valid
-- */
--static bool ia_css_mipi_is_source_port_valid(struct ia_css_pipe *pipe,
--	unsigned int *pport)
--{
--	bool ret = true;
--	unsigned int port = 0;
--	unsigned int max_ports = 0;
+-#define ISP2400_SCTBL_BYTES(binary) \
++#define SCTBL_BYTES(binary) \
+ 	(sizeof(unsigned short) * (binary)->sctbl_height * \
+ 	 (binary)->sctbl_aligned_width_per_color * IA_CSS_SC_NUM_COLORS)
+ 
+-#define ISP2401_SCTBL_BYTES(binary) \
+-	(sizeof(unsigned short) * max((binary)->sctbl_height, (binary)->sctbl_legacy_height) * \
+-			/* height should be the larger height between new api and legacy api */ \
+-	 (binary)->sctbl_aligned_width_per_color * IA_CSS_SC_NUM_COLORS)
 -
--	switch (pipe->stream->config.mode) {
--	case IA_CSS_INPUT_MODE_BUFFERED_SENSOR:
--		port = (unsigned int)pipe->stream->config.source.port.port;
--		max_ports = N_CSI_PORTS;
--		break;
--	case IA_CSS_INPUT_MODE_TPG:
--		port = (unsigned int)pipe->stream->config.source.tpg.id;
--		max_ports = N_CSS_TPG_IDS;
--		break;
--	case IA_CSS_INPUT_MODE_PRBS:
--		port = (unsigned int)pipe->stream->config.source.prbs.id;
--		max_ports = N_CSS_PRBS_IDS;
--		break;
--	default:
--		assert(false);
--		ret = false;
--		break;
+ #define MORPH_PLANE_BYTES(binary) \
+ 	(SH_CSS_MORPH_TABLE_ELEM_BYTES * (binary)->morph_tbl_aligned_width * \
+ 	 (binary)->morph_tbl_height)
+@@ -1611,18 +1606,6 @@ ia_css_set_param_exceptions(const struct ia_css_pipe *pipe,
+ 	params->dp_config.r  = params->wb_config.r;
+ 	params->dp_config.b  = params->wb_config.b;
+ 	params->dp_config.gb = params->wb_config.gb;
+-
+-	if (IS_ISP2401) {
+-		assert(pipe);
+-		assert(pipe->mode < IA_CSS_PIPE_ID_NUM);
+-
+-		if (pipe->mode < IA_CSS_PIPE_ID_NUM) {
+-			params->pipe_dp_config[pipe->mode].gr = params->wb_config.gr;
+-			params->pipe_dp_config[pipe->mode].r  = params->wb_config.r;
+-			params->pipe_dp_config[pipe->mode].b  = params->wb_config.b;
+-			params->pipe_dp_config[pipe->mode].gb = params->wb_config.gb;
+-		}
 -	}
--
--	if (ret) {
--		assert(port < max_ports);
--
--		if (port >= max_ports)
--			ret = false;
--	}
--
--	*pport = port;
--
--	return ret;
--}
--
- /* Assumptions:
-  *	- A line is multiple of 4 bytes = 1 word.
-  *	- Each frame has SOF and EOF (each 1 word).
-@@ -227,6 +186,10 @@ ia_css_mipi_frame_calculate_size(const unsigned int width,
- 	return err;
  }
  
-+/*
-+ * Check if a source port or TPG/PRBS ID is valid
-+ */
-+
- #if !defined(ISP2401)
- int
- ia_css_mipi_frame_enable_check_on_size(const enum mipi_port_id port,
-@@ -272,16 +235,20 @@ bool mipi_is_free(void)
- 	return true;
- }
+ /* ISP2401 */
+@@ -2072,16 +2055,6 @@ sh_css_init_isp_params_from_config(struct ia_css_pipe *pipe,
+ 	params->output_frame = config->output_frame;
+ 	params->isp_parameters_id = config->isp_config_id;
  
--int
--calculate_mipi_buff_size(
--    struct ia_css_stream_config *stream_cfg,
--    unsigned int *size_mem_words)
-+#if defined(ISP2401)
-+/*
-+ * @brief Calculate the required MIPI buffer sizes.
-+ * Based on the stream configuration, calculate the
-+ * required MIPI buffer sizes (in DDR words).
-+ *
-+ * @param[in]   stream_cfg              Point to the target stream configuration
-+ * @param[out]  size_mem_words  MIPI buffer size in DDR words.
-+ *
-+ * @return
-+ */
-+static int calculate_mipi_buff_size(struct ia_css_stream_config *stream_cfg,
-+				    unsigned int *size_mem_words)
- {
--#if !defined(ISP2401)
--	int err = -EINVAL;
--	(void)stream_cfg;
--	(void)size_mem_words;
--#else
- 	unsigned int width;
- 	unsigned int height;
- 	enum atomisp_input_format format;
-@@ -373,26 +340,9 @@ calculate_mipi_buff_size(
- 	*size_mem_words = mem_words_per_buff;
- 
- 	IA_CSS_LEAVE_ERR(err);
--#endif
- 	return err;
- }
--
--static bool buffers_needed(struct ia_css_pipe *pipe)
--{
--	if (!IS_ISP2401) {
--		if (pipe->stream->config.mode == IA_CSS_INPUT_MODE_BUFFERED_SENSOR)
--			return true;
--		else
--			return false;
+-	/* Currently we do not offer CSS interface to set different
+-	 * configurations for DPC, i.e. depending on DPC being enabled
+-	 * before (NORM+OBC) or after. The folllowing code to set the
+-	 * DPC configuration should be updated when this interface is made
+-	 * available */
+-	if (IS_ISP2401) {
+-		sh_css_set_dp_config(pipe, params, config->dp_config);
+-		ia_css_set_param_exceptions(pipe, params);
 -	}
 -
--	if (pipe->stream->config.mode == IA_CSS_INPUT_MODE_BUFFERED_SENSOR ||
--	    pipe->stream->config.mode == IA_CSS_INPUT_MODE_TPG ||
--	    pipe->stream->config.mode == IA_CSS_INPUT_MODE_PRBS)
--		return true;
--
--	return false;
--}
-+#endif
- 
- int
- allocate_mipi_frames(struct ia_css_pipe *pipe,
-@@ -422,45 +372,25 @@ allocate_mipi_frames(struct ia_css_pipe *pipe,
+ 	if (0 ==
+ 	    sh_css_select_dp_10bpp_config(pipe, &is_dp_10bpp)) {
+ 		/* return an error when both DPC and BDS is enabled by the
+@@ -2096,8 +2069,7 @@ sh_css_init_isp_params_from_config(struct ia_css_pipe *pipe,
+ 		goto exit;
  	}
  
- #endif
--
--	if (!buffers_needed(pipe)) {
-+	if (pipe->stream->config.mode != IA_CSS_INPUT_MODE_BUFFERED_SENSOR) {
- 		ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE_PRIVATE,
- 				    "allocate_mipi_frames(%p) exit: no buffers needed for pipe mode.\n",
- 				    pipe);
- 		return 0; /* AM TODO: Check  */
- 	}
+-	if (!IS_ISP2401)
+-		ia_css_set_param_exceptions(pipe, params);
++	ia_css_set_param_exceptions(pipe, params);
  
--	if (!IS_ISP2401) {
--		port = (unsigned int)pipe->stream->config.source.port.port;
--	} else {
--		/* Returns true if port is valid. So, invert it */
--		err = !ia_css_mipi_is_source_port_valid(pipe, &port);
--	}
--
--	assert(port < N_CSI_PORTS);
--
--	if ((!IS_ISP2401 && port >= N_CSI_PORTS) ||
--	    (IS_ISP2401 && err)) {
-+	port = (unsigned int)pipe->stream->config.source.port.port;
-+	if (port >= N_CSI_PORTS) {
- 		IA_CSS_ERROR("allocate_mipi_frames(%p) exit: port is not correct (port=%d).",
- 			     pipe, port);
- 		return -EINVAL;
- 	}
- 
- #ifdef ISP2401
--	err = calculate_mipi_buff_size(
--	    &pipe->stream->config,
--	    &my_css.mipi_frame_size[port]);
--#endif
--
--#if !defined(ISP2401)
--	if (ref_count_mipi_allocation[port] != 0) {
--		ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE_PRIVATE,
--				    "allocate_mipi_frames(%p) exit: already allocated for this port (port=%d).\n",
--				    pipe, port);
--		return 0;
--	}
--#else
--	/* 2401 system allows multiple streams to use same physical port. This is not
-+	err = calculate_mipi_buff_size(&pipe->stream->config,
-+				       &my_css.mipi_frame_size[port]);
-+	/*
-+	 * 2401 system allows multiple streams to use same physical port. This is not
- 	 * true for 2400 system. Currently 2401 uses MIPI buffers as a temporary solution.
- 	 * TODO AM: Once that is changed (removed) this code should be removed as well.
- 	 * In that case only 2400 related code should remain.
-@@ -472,6 +402,13 @@ allocate_mipi_frames(struct ia_css_pipe *pipe,
- 				    pipe, port);
- 		return 0;
- 	}
-+#else
-+	if (ref_count_mipi_allocation[port] != 0) {
-+		ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE_PRIVATE,
-+				    "allocate_mipi_frames(%p) exit: already allocated for this port (port=%d).\n",
-+				    pipe, port);
-+		return 0;
-+	}
- #endif
- 
- 	ref_count_mipi_allocation[port]++;
-@@ -552,23 +489,15 @@ free_mipi_frames(struct ia_css_pipe *pipe)
- 			return -EINVAL;
- 		}
- 
--		if (!buffers_needed(pipe)) {
-+		if (pipe->stream->config.mode != IA_CSS_INPUT_MODE_BUFFERED_SENSOR) {
- 			IA_CSS_ERROR("free_mipi_frames(%p) exit: wrong mode.",
- 				     pipe);
- 			return err;
- 		}
+ exit:
+ 	IA_CSS_LEAVE_ERR_PRIVATE(err);
+@@ -2514,29 +2486,7 @@ sh_css_init_isp_params_from_global(struct ia_css_stream *stream,
+ 		ia_css_set_ob_config(params, &default_ob_config);
+ 		ia_css_set_dp_config(params, &default_dp_config);
  
 -		if (!IS_ISP2401) {
--			port = (unsigned int)pipe->stream->config.source.port.port;
+-			ia_css_set_param_exceptions(pipe_in, params);
 -		} else {
--			/* Returns true if port is valid. So, invert it */
--			err = !ia_css_mipi_is_source_port_valid(pipe, &port);
--		}
-+		port = (unsigned int)pipe->stream->config.source.port.port;
- 
--		assert(port < N_CSI_PORTS);
+-			for (i = 0; i < stream->num_pipes; i++) {
+-				if (sh_css_select_dp_10bpp_config(stream->pipes[i],
+-								&is_dp_10bpp) == 0) {
+-					/* set the return value as false if both DPC and
+-					* BDS is enabled by the user. But we do not return
+-					* the value immediately to enable internal firmware
+-					* feature testing. */
+-					if (is_dp_10bpp) {
+-						sh_css_set_dp_config(stream->pipes[i], params, &default_dp_10bpp_config);
+-					} else {
+-						sh_css_set_dp_config(stream->pipes[i], params, &default_dp_config);
+-					}
+-				} else {
+-					retval = false;
+-					goto exit;
+-				}
 -
--		if ((!IS_ISP2401 && port >= N_CSI_PORTS) ||
--		    (IS_ISP2401 && err)) {
-+		if (port >= N_CSI_PORTS) {
- 			IA_CSS_ERROR("free_mipi_frames(%p, %d) exit: pipe port is not correct.",
- 				     pipe, port);
- 			return err;
-@@ -647,11 +576,7 @@ send_mipi_frames(struct ia_css_pipe *pipe)
- {
- 	int err = -EINVAL;
- 	unsigned int i;
--#ifndef ISP2401
- 	unsigned int port;
--#else
--	unsigned int port = 0;
--#endif
+-				ia_css_set_param_exceptions(stream->pipes[i], params);
+-			}
+-		}
++		ia_css_set_param_exceptions(pipe_in, params);
  
- 	IA_CSS_ENTER_PRIVATE("pipe=%p", pipe);
+ 		ia_css_set_de_config(params, &default_de_config);
+ 		ia_css_set_gc_config(params, &default_gc_config);
+@@ -2641,20 +2591,9 @@ sh_css_init_isp_params_from_global(struct ia_css_stream *stream,
+ 				retval = false;
+ 				goto exit;
+ 			}
+-			if (IS_ISP2401) {
+-				if (stream->pipes[i]->mode < IA_CSS_PIPE_ID_NUM) {
+-					sh_css_set_dp_config(stream->pipes[i], params,
+-							    &stream_params->pipe_dp_config[stream->pipes[i]->mode]);
+-					ia_css_set_param_exceptions(stream->pipes[i], params);
+-				} else {
+-					retval = false;
+-					goto exit;
+-				}
+-			}
+ 		}
  
-@@ -664,23 +589,15 @@ send_mipi_frames(struct ia_css_pipe *pipe)
+-		if (!IS_ISP2401)
+-			ia_css_set_param_exceptions(pipe_in, params);
++		ia_css_set_param_exceptions(pipe_in, params);
  
- 	/* multi stream video needs mipi buffers */
- 	/* nothing to be done in other cases. */
--	if (!buffers_needed(pipe)) {
-+	if (pipe->stream->config.mode != IA_CSS_INPUT_MODE_BUFFERED_SENSOR) {
- 		IA_CSS_LOG("nothing to be done for this mode");
- 		return 0;
- 		/* TODO: AM: maybe this should be returning an error. */
+ 		params->fpn_config.data = stream_params->fpn_config.data;
+ 		params->config_changed[IA_CSS_FPN_ID] =
+@@ -2806,10 +2745,7 @@ int ia_css_pipe_set_bci_scaler_lut(struct ia_css_pipe *pipe,
+ 	pipe->scaler_pp_lut = mmgr_NULL;
+ 
+ 	if (!stream_started) {
+-		if (!IS_ISP2401)
+-			pipe->scaler_pp_lut = hmm_alloc(sizeof(zoom_table), HMM_BO_PRIVATE, 0, NULL, 0);
+-		else
+-			pipe->scaler_pp_lut = sh_css_params_alloc_gdc_lut();
++		pipe->scaler_pp_lut = hmm_alloc(sizeof(zoom_table), HMM_BO_PRIVATE, 0, NULL, 0);
+ 
+ 		if (pipe->scaler_pp_lut == mmgr_NULL) {
+ 			ia_css_debug_dtrace(IA_CSS_DEBUG_ERROR,
+@@ -2851,10 +2787,7 @@ int sh_css_params_map_and_store_default_gdc_lut(void)
+ 
+ 	host_lut_store((void *)zoom_table);
+ 
+-	if (!IS_ISP2401)
+-		default_gdc_lut = hmm_alloc(sizeof(zoom_table), HMM_BO_PRIVATE, 0, NULL, 0);
+-	else
+-		default_gdc_lut = sh_css_params_alloc_gdc_lut();
++	default_gdc_lut = hmm_alloc(sizeof(zoom_table), HMM_BO_PRIVATE, 0, NULL, 0);
+ 
+ 	if (default_gdc_lut == mmgr_NULL)
+ 		return -ENOMEM;
+@@ -3450,18 +3383,12 @@ sh_css_params_write_to_ddr_internal(
+ 
+ 	if (binary->info->sp.enable.sc) {
+ 		u32 enable_conv;
+-		size_t bytes;
+-
+-		if (!IS_ISP2401)
+-			bytes = ISP2400_SCTBL_BYTES(binary);
+-		else
+-			bytes = ISP2401_SCTBL_BYTES(binary);
+ 
+ 		enable_conv = params->shading_settings.enable_shading_table_conversion;
+ 
+ 		buff_realloced = reallocate_buffer(&ddr_map->sc_tbl,
+ 						   &ddr_map_size->sc_tbl,
+-						   bytes,
++						   SCTBL_BYTES(binary),
+ 						   params->sc_table_changed,
+ 						   &err);
+ 		if (err) {
+@@ -3546,28 +3473,6 @@ sh_css_params_write_to_ddr_internal(
+ 		}
  	}
  
--	if (!IS_ISP2401) {
--		port = (unsigned int)pipe->stream->config.source.port.port;
--	} else {
--		/* Returns true if port is valid. So, invert it */
--		err = !ia_css_mipi_is_source_port_valid(pipe, &port);
+-	/* DPC configuration is made pipe specific to allow flexibility in positioning of the
+-	 * DPC kernel. The code below sets the pipe specific configuration to
+-	 * individual binaries. */
+-	if (IS_ISP2401 &&
+-	    params->pipe_dpc_config_changed[pipe_id] && binary->info->sp.enable.dpc) {
+-		unsigned int size   =
+-		    stage->binary->info->mem_offsets.offsets.param->dmem.dp.size;
+-
+-		unsigned int offset =
+-		    stage->binary->info->mem_offsets.offsets.param->dmem.dp.offset;
+-
+-		if (size) {
+-			ia_css_dp_encode((struct sh_css_isp_dp_params *)
+-					 &binary->mem_params.params[IA_CSS_PARAM_CLASS_PARAM][IA_CSS_ISP_DMEM].address[offset],
+-					 &params->pipe_dp_config[pipe_id], size);
+-
+-			params->isp_params_changed = true;
+-			params->isp_mem_params_changed[pipe_id][stage->stage_num][IA_CSS_ISP_DMEM] =
+-			    true;
+-		}
 -	}
-+	port = (unsigned int)pipe->stream->config.source.port.port;
- 
--	assert(port < N_CSI_PORTS);
 -
--	if ((!IS_ISP2401 && port >= N_CSI_PORTS) ||
--	    (IS_ISP2401 && err)) {
-+	if (port >= N_CSI_PORTS) {
- 		IA_CSS_ERROR("send_mipi_frames(%p) exit: invalid port specified (port=%d).",
- 			     pipe, port);
- 		return err;
-diff --git a/drivers/staging/media/atomisp/pci/sh_css_mipi.h b/drivers/staging/media/atomisp/pci/sh_css_mipi.h
-index dffec2205620..e6c86d0ac483 100644
---- a/drivers/staging/media/atomisp/pci/sh_css_mipi.h
-+++ b/drivers/staging/media/atomisp/pci/sh_css_mipi.h
-@@ -34,19 +34,4 @@ free_mipi_frames(struct ia_css_pipe *pipe);
- int
- send_mipi_frames(struct ia_css_pipe *pipe);
+ 	if (params->config_changed[IA_CSS_MACC_ID] && binary->info->sp.enable.macc) {
+ 		unsigned int i, j, idx;
+ 		unsigned int idx_map[] = {
+@@ -3649,13 +3554,7 @@ sh_css_params_write_to_ddr_internal(
+ 			if (!params->pipe_dvs_6axis_config[pipe_id]) {
+ 				struct ia_css_resolution dvs_offset = {0};
  
--/**
-- * @brief Calculate the required MIPI buffer sizes.
-- * Based on the stream configuration, calculate the
-- * required MIPI buffer sizes (in DDR words).
-- *
-- * @param[in]	stream_cfg		Point to the target stream configuration
-- * @param[out]	size_mem_words	MIPI buffer size in DDR words.
-- *
-- * @return
-- */
--int
--calculate_mipi_buff_size(
--    struct ia_css_stream_config *stream_cfg,
--    unsigned int *size_mem_words);
--
- #endif /* __SH_CSS_MIPI_H */
+-				if (!IS_ISP2401) {
+-					dvs_offset.width = (PIX_SHIFT_FILTER_RUN_IN_X + binary->dvs_envelope.width) / 2;
+-				} else {
+-					if (binary->dvs_envelope.width || binary->dvs_envelope.height) {
+-						dvs_offset.width  = (PIX_SHIFT_FILTER_RUN_IN_X + binary->dvs_envelope.width) / 2;
+-					}
+-				}
++				dvs_offset.width = (PIX_SHIFT_FILTER_RUN_IN_X + binary->dvs_envelope.width) / 2;
+ 				dvs_offset.height = (PIX_SHIFT_FILTER_RUN_IN_Y + binary->dvs_envelope.height) / 2;
+ 
+ 				params->pipe_dvs_6axis_config[pipe_id] =
 -- 
 2.33.1
 
