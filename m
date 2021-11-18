@@ -2,82 +2,84 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E0418455564
-	for <lists+linux-media@lfdr.de>; Thu, 18 Nov 2021 08:17:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 573494555EF
+	for <lists+linux-media@lfdr.de>; Thu, 18 Nov 2021 08:43:29 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243710AbhKRHU3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 18 Nov 2021 02:20:29 -0500
-Received: from esa.microchip.iphmx.com ([68.232.154.123]:36503 "EHLO
-        esa.microchip.iphmx.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243690AbhKRHUX (ORCPT
+        id S243933AbhKRHqV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 18 Nov 2021 02:46:21 -0500
+Received: from twspam01.aspeedtech.com ([211.20.114.71]:18517 "EHLO
+        twspam01.aspeedtech.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S243928AbhKRHpp (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 18 Nov 2021 02:20:23 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
-  t=1637219844; x=1668755844;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=zRAeZCYa4NAS9qCMxMUo8oi7QA94Zfv6TYf1xH0Ja3U=;
-  b=g/7BRzHZyFmU8Fdq9t8oFtzFpHlREWTQ4hRnw5cGeuO9qBC/QE9bN+4j
-   Rd38LqL3RZERUAeITekEPFkn/jas49cEZ8eGFnw8KKmmCTdswdG6XF/tG
-   81/98ePE02Jez566IWAXL8ZGOXC1P9VeRmDCwn/uiw3hlKjrnKGa1XA+4
-   Y9DbTjmu+gUPJ2bAPfcgnBlQQ0j3UGIlLaEklW04KiMX065wfuNC78ysw
-   v5BDf8ts+WHD6zE+NYkVbWleWVURoj1b8W0xRtpCalff4awBLYy74PECx
-   Kt4qRC0rmci6aWjIj97C4nT0fI6oguA7D632l6s7dMZ1PFGDn/i9cdJDT
-   g==;
-IronPort-SDR: +bz2zeS6C0DvXqQFYzZvTXE/jpSCZN7TusASMM0A5wIJi+AjpugurLAsjLnPGu1VJtS0Lxf5j3
- FwsioPLat75VPWVMMareCWjkzPBiyeCm783ZA00YwjCvnQo0/fecukgdCJzT0OoVOnjiIXbf9a
- vS90lp9mZeniImff5yiqIanhTegSNto5wX8vB5ehYgE6HminU+78lCv1JVwjydO0bSx1ae5aBZ
- 1PfxRybhwue2SGEm3/HhDpcRHbFHF1S97vjAcdH/K6Qfx2fLnYlrIMC6RzhzI9ohmHB5IbMknG
- S0VAept0HtUxWRA6xfn0Kh23
-X-IronPort-AV: E=Sophos;i="5.87,243,1631602800"; 
-   d="scan'208";a="76837084"
-Received: from smtpout.microchip.com (HELO email.microchip.com) ([198.175.253.82])
-  by esa6.microchip.iphmx.com with ESMTP/TLS/AES256-SHA256; 18 Nov 2021 00:17:23 -0700
-Received: from chn-vm-ex03.mchp-main.com (10.10.85.151) by
- chn-vm-ex04.mchp-main.com (10.10.85.152) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2176.14; Thu, 18 Nov 2021 00:17:23 -0700
-Received: from ROB-ULT-M18282.microchip.com (10.10.115.15) by
- chn-vm-ex03.mchp-main.com (10.10.85.151) with Microsoft SMTP Server id
- 15.1.2176.14 via Frontend Transport; Thu, 18 Nov 2021 00:17:20 -0700
-From:   Eugen Hristev <eugen.hristev@microchip.com>
-To:     <leonl@leopardimaging.com>, <linux-media@vger.kernel.org>
-CC:     <skomatineni@nvidia.com>, <sakari.ailus@linux.intel.com>,
-        <luca@lucaceresoli.net>, <linux-kernel@vger.kernel.org>,
-        Eugen Hristev <eugen.hristev@microchip.com>
-Subject: [PATCH] media: i2c: imx274: fix trivial typo expsoure/exposure
-Date:   Thu, 18 Nov 2021 09:17:15 +0200
-Message-ID: <20211118071715.280548-1-eugen.hristev@microchip.com>
+        Thu, 18 Nov 2021 02:45:45 -0500
+Received: from mail.aspeedtech.com ([192.168.0.24])
+        by twspam01.aspeedtech.com with ESMTP id 1AI7GOq4076133;
+        Thu, 18 Nov 2021 15:16:24 +0800 (GMT-8)
+        (envelope-from jammy_huang@aspeedtech.com)
+Received: from JammyHuang-PC.aspeed.com (192.168.2.115) by TWMBX02.aspeed.com
+ (192.168.0.24) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Thu, 18 Nov
+ 2021 15:40:10 +0800
+From:   Jammy Huang <jammy_huang@aspeedtech.com>
+To:     <eajames@linux.ibm.com>, <mchehab@kernel.org>, <joel@jms.id.au>,
+        <andrew@aj.id.au>, <hverkuil-cisco@xs4all.nl>,
+        <sakari.ailus@linux.intel.com>, <gregkh@linuxfoundation.org>,
+        <laurent.pinchart@ideasonboard.com>, <linux-media@vger.kernel.org>,
+        <openbmc@lists.ozlabs.org>, <linux-arm-kernel@lists.infradead.org>,
+        <linux-aspeed@lists.ozlabs.org>, <linux-kernel@vger.kernel.org>
+Subject: [PATCH v5 00/10] add aspeed-jpeg support for aspeed-video
+Date:   Thu, 18 Nov 2021 15:40:21 +0800
+Message-ID: <20211118074030.685-1-jammy_huang@aspeedtech.com>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
+Content-Transfer-Encoding: 7BIT
+Content-Type:   text/plain; charset=US-ASCII
+X-Originating-IP: [192.168.2.115]
+X-ClientProxiedBy: TWMBX02.aspeed.com (192.168.0.24) To TWMBX02.aspeed.com
+ (192.168.0.24)
+X-DNSRBL: 
+X-MAIL: twspam01.aspeedtech.com 1AI7GOq4076133
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Fix typo expsoure/exposure
+The aim of this series is to add aspeed-jpeg support for aspeed-video
+driver.
 
-Fixes: 0985dd306f72 ("media: imx274: V4l2 driver for Sony imx274 CMOS sensor")
-Signed-off-by: Eugen Hristev <eugen.hristev@microchip.com>
----
- drivers/media/i2c/imx274.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+To achieve this major goal some refactors are included.
 
-diff --git a/drivers/media/i2c/imx274.c b/drivers/media/i2c/imx274.c
-index 6e63fdcc5e46..106706abc72a 100644
---- a/drivers/media/i2c/imx274.c
-+++ b/drivers/media/i2c/imx274.c
-@@ -1515,7 +1515,7 @@ static int imx274_s_stream(struct v4l2_subdev *sd, int on)
- 			goto fail;
- 
- 		/*
--		 * update frame rate & expsoure. if the last mode is different,
-+		 * update frame rate & exposure. if the last mode is different,
- 		 * HMAX could be changed. As the result, frame rate & exposure
- 		 * are changed.
- 		 * gain is not affected.
+In the last, debugfs information is also updated per this change.
+
+Changes in v5:
+ - Use model data to tell different soc
+
+Changes in v4:
+ - Add definition for the Aspeed JPEG format
+ - Reserve controls for ASPEED
+ - Use s_fmt to update format rather than new control
+ - Update aspeed hq quality range, 1 ~ 12
+
+
+Jammy Huang (10):
+  media: aspeed: move err-handling together to the bottom
+  media: aspeed: use v4l2_info/v4l2_warn/v4l2_dbg for log
+  media: aspeed: add more debug log messages
+  media: aspeed: refactor to gather format/compress settings
+  media: v4l: Add definition for the Aspeed JPEG format
+  media: v4l2-ctrls: Reserve controls for ASPEED
+  media: aspeed: use model-data
+  media: aspeed: Support aspeed mode to reduce compressed data
+  media: aspeed: add comments and macro
+  media: aspeed: Extend debug message
+
+ .../media/uapi/v4l/pixfmt-reserved.rst        |  12 +
+ drivers/media/platform/aspeed-video.c         | 534 ++++++++++++++----
+ drivers/media/v4l2-core/v4l2-ioctl.c          |   1 +
+ include/uapi/linux/aspeed-video.h             |  15 +
+ include/uapi/linux/v4l2-controls.h            |   5 +
+ include/uapi/linux/videodev2.h                |   1 +
+ 6 files changed, 467 insertions(+), 101 deletions(-)
+ create mode 100644 include/uapi/linux/aspeed-video.h
+
 -- 
 2.25.1
 
