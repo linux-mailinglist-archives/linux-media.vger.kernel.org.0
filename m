@@ -2,98 +2,105 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 233DC45608B
-	for <lists+linux-media@lfdr.de>; Thu, 18 Nov 2021 17:33:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 256E8456132
+	for <lists+linux-media@lfdr.de>; Thu, 18 Nov 2021 18:11:39 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233450AbhKRQgJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 18 Nov 2021 11:36:09 -0500
-Received: from comms.puri.sm ([159.203.221.185]:39730 "EHLO comms.puri.sm"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S233095AbhKRQgJ (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 18 Nov 2021 11:36:09 -0500
-Received: from localhost (localhost [127.0.0.1])
-        by comms.puri.sm (Postfix) with ESMTP id CBBDCDFAF7;
-        Thu, 18 Nov 2021 08:33:08 -0800 (PST)
-Received: from comms.puri.sm ([127.0.0.1])
-        by localhost (comms.puri.sm [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id 6MVWenE3JsnY; Thu, 18 Nov 2021 08:33:08 -0800 (PST)
-Message-ID: <c9e7799c4b02210c5be29d1c18c4eabd2fe0194b.camel@puri.sm>
-Subject: Re: [PATCH] media: i2c: dw9714: use pm_runtime_force_suspend/resume
- for system suspend
-From:   Martin Kepplinger <martin.kepplinger@puri.sm>
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc:     mchehab@kernel.org, linux-media@vger.kernel.org,
-        linux-kernel@vger.kernel.org, kernel@puri.sm,
-        linux-pm@vger.kernel.org
-Date:   Thu, 18 Nov 2021 17:33:04 +0100
-In-Reply-To: <YZPqEu4W+JnY6LMY@paasikivi.fi.intel.com>
-References: <20211109125505.2682553-1-martin.kepplinger@puri.sm>
-         <YZPqEu4W+JnY6LMY@paasikivi.fi.intel.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.38.3-1 
+        id S229725AbhKRROh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 18 Nov 2021 12:14:37 -0500
+Received: from hostingweb31-40.netsons.net ([89.40.174.40]:39778 "EHLO
+        hostingweb31-40.netsons.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S229678AbhKRROh (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Thu, 18 Nov 2021 12:14:37 -0500
+Received: from [77.244.183.192] (port=63900 helo=[192.168.178.41])
+        by hostingweb31.netsons.net with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
+        (Exim 4.94.2)
+        (envelope-from <luca@lucaceresoli.net>)
+        id 1mnkwh-000DiM-MS; Thu, 18 Nov 2021 18:11:35 +0100
+Subject: Re: [PATCH] media: i2c: imx274: implement enum_mbus_code
+To:     Eugen Hristev <eugen.hristev@microchip.com>,
+        leonl@leopardimaging.com, linux-media@vger.kernel.org
+Cc:     skomatineni@nvidia.com, sakari.ailus@linux.intel.com,
+        linux-kernel@vger.kernel.org
+References: <20211118154009.307430-1-eugen.hristev@microchip.com>
+From:   Luca Ceresoli <luca@lucaceresoli.net>
+Message-ID: <fa26e991-9228-7ed7-833a-b296e6b32afc@lucaceresoli.net>
+Date:   Thu, 18 Nov 2021 18:11:35 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20211118154009.307430-1-eugen.hristev@microchip.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
+X-AntiAbuse: Primary Hostname - hostingweb31.netsons.net
+X-AntiAbuse: Original Domain - vger.kernel.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - lucaceresoli.net
+X-Get-Message-Sender-Via: hostingweb31.netsons.net: authenticated_id: luca@lucaceresoli.net
+X-Authenticated-Sender: hostingweb31.netsons.net: luca@lucaceresoli.net
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Am Dienstag, dem 16.11.2021 um 19:27 +0200 schrieb Sakari Ailus:
-> Hi Martin,
+Hi Eugen,
+
+On 18/11/21 16:40, Eugen Hristev wrote:
+> Current driver supports only SRGGB 10 bit RAW bayer format.
+> Add the enum_mbus_code implementation to report this format supported.
 > 
-> On Tue, Nov 09, 2021 at 01:55:05PM +0100, Martin Kepplinger wrote:
-> > Using the same suspend function for runtime and system suspend
-> > doesn't
-> > work in this case (when controlling regulators and clocks).
-> > suspend() and
-> > resume() are clearly meant to stay balanced.
-> > 
-> > Use the pm_runtime_force_* helpers for system suspend and fix error
-> > like the
-> > following when transitioning to system suspend:
-> > 
-> > [  559.685921] dw9714 3-000c: I2C write fail
-> > [  559.685941] dw9714 3-000c: dw9714_vcm_suspend I2C failure: -5
-> > 
-> > Signed-off-by: Martin Kepplinger <martin.kepplinger@puri.sm>
-> > ---
-> >  drivers/media/i2c/dw9714.c | 3 ++-
-> >  1 file changed, 2 insertions(+), 1 deletion(-)
-> > 
-> > diff --git a/drivers/media/i2c/dw9714.c
-> > b/drivers/media/i2c/dw9714.c
-> > index fcbebb3558b5..f6ddd7c4a1ff 100644
-> > --- a/drivers/media/i2c/dw9714.c
-> > +++ b/drivers/media/i2c/dw9714.c
-> > @@ -267,7 +267,8 @@ static const struct of_device_id
-> > dw9714_of_table[] = {
-> >  MODULE_DEVICE_TABLE(of, dw9714_of_table);
-> >  
-> >  static const struct dev_pm_ops dw9714_pm_ops = {
-> > -       SET_SYSTEM_SLEEP_PM_OPS(dw9714_vcm_suspend,
-> > dw9714_vcm_resume)
-> > +       SET_SYSTEM_SLEEP_PM_OPS(pm_runtime_force_suspend,
-> > +                               pm_runtime_force_resume)
-> >         SET_RUNTIME_PM_OPS(dw9714_vcm_suspend, dw9714_vcm_resume,
-> > NULL)
-> >  };
+>  # v4l2-ctl -d /dev/v4l-subdev3 --list-subdev-mbus-codes
+> ioctl: VIDIOC_SUBDEV_ENUM_MBUS_CODE (pad=0)
+>         0x300f: MEDIA_BUS_FMT_SRGGB10_1X10
+>  #
 > 
-> The purpose of the vcm suspend / resume callbacks is to gently move
-> the
-> lens to the resting position without hitting the stopper.
+> Signed-off-by: Eugen Hristev <eugen.hristev@microchip.com>
+
+Generally OK, but I have a few minor comments.
+
+> ---
+>  drivers/media/i2c/imx274.c | 14 ++++++++++++++
+>  1 file changed, 14 insertions(+)
 > 
-> The problem currently appears to be that during system suspend, the
-> VCM may
-> well be powered off and the driver isn't checking for that. How about
-> adding that check?
-> 
+> diff --git a/drivers/media/i2c/imx274.c b/drivers/media/i2c/imx274.c
+> index 2e804e3b70c4..25a4ef8f6187 100644
+> --- a/drivers/media/i2c/imx274.c
+> +++ b/drivers/media/i2c/imx274.c
+> @@ -1909,7 +1909,21 @@ static int imx274_set_frame_interval(struct stimx274 *priv,
+>  	return err;
+>  }
+>  
+> +static int imx274_enum_mbus_code(struct v4l2_subdev *sd,
+> +				 struct v4l2_subdev_state *sd_state,
+> +				 struct v4l2_subdev_mbus_code_enum *code)
+> +{
+> +	if (code->index > 0)
+> +		return -EINVAL;
 
-thanks for having a look. Actually, I forgot to add support for a power
-supply regulator, so this patch (description) is wrong and I'll send a
-different one that adds optional vcc regulator support and splits up
-system/runtime suspend functions to handle the regulator correctly.
+Many driver do check code->pad too, so you might want to do
 
-thank you!
+	if (code->pad > 0 || code->index > 0)
+		return -EINVAL;
 
-                              martin
+However I don't think it is strictly necessary, thus
 
+> +
+> +	/* only supported format in the driver is Raw 10 bits SRGGB */
+> +	code->code = MEDIA_BUS_FMT_SRGGB10_1X10;
 
+Maybe better:
+
+  code->code =  to_imx274(sd)->format.code
+
+just as a little guard for future format changes.
+
+With or without these I'm OK anyway with the patch, so:
+
+Reviewed-by: Luca Ceresoli <luca@lucaceresoli.net>
+
+-- 
+Luca
