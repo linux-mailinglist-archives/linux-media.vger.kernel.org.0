@@ -2,109 +2,82 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 63256455BD5
-	for <lists+linux-media@lfdr.de>; Thu, 18 Nov 2021 13:49:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1C02E455BFA
+	for <lists+linux-media@lfdr.de>; Thu, 18 Nov 2021 13:53:27 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1344902AbhKRMwU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 18 Nov 2021 07:52:20 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48400 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1344803AbhKRMvp (ORCPT
+        id S1344955AbhKRM4N (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 18 Nov 2021 07:56:13 -0500
+Received: from esa.microchip.iphmx.com ([68.232.154.123]:59499 "EHLO
+        esa.microchip.iphmx.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1344986AbhKRMzB (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 18 Nov 2021 07:51:45 -0500
-Received: from mail-wm1-x332.google.com (mail-wm1-x332.google.com [IPv6:2a00:1450:4864:20::332])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 46E20C06121E
-        for <linux-media@vger.kernel.org>; Thu, 18 Nov 2021 04:48:29 -0800 (PST)
-Received: by mail-wm1-x332.google.com with SMTP id f7-20020a1c1f07000000b0032ee11917ceso4757969wmf.0
-        for <linux-media@vger.kernel.org>; Thu, 18 Nov 2021 04:48:29 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=from:to:subject:date:message-id:in-reply-to:references:mime-version
-         :content-transfer-encoding;
-        bh=MnCziYMj92L8PMiePOBU3Unu2LBDv1Q/PbZAPnFHko0=;
-        b=F0USZ6Tl+2HpQj4nFvS1NM24jLmsFJBIqx1DNPQq22AysKlkPgmRyQYBYZr3s/Wmmn
-         HDrFTYJxRY0H4WX4hi0ZM95peaDBCiWjJsCM3spz1RcCUhEd39W0ey3lUk1I8+9jHO7m
-         eGcyt95zIPruDOh7v2maaWfbcERhubatsUybJ6BOjrms5tQiB2CfzO2WNtKtH9BgNzV8
-         7TlRSaPrjGJAWLvxsdN/jeYIpadUE997eXYN/aKsGWLEBjwERrAlHiLKdPwq/aAtXIKU
-         ukmifPhUayIT/I0FpvvLGDEFgeww3u9sWl/S133Z/3yOAD0IVoo92tWpxlqXH35E1AbJ
-         6qvg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=MnCziYMj92L8PMiePOBU3Unu2LBDv1Q/PbZAPnFHko0=;
-        b=JQr08PcpHIINMT/VKK288QiMn1RN/D9yTvNXN0pJ7kys+WBkF/puFpXO4NPppnepH9
-         4I8Fd0pYjmz0golXUZ0qZwvOaQw9lwYJ2Yw6jUb/wj0GNgVuqL7PmYpFT8jo3m+BGf1N
-         tXNPnjyrV20Iq7Rb8M+tFbjpFTXH03ptiwMJcZojm9bAWQ7DTXFisWtBsHKznsyijlbP
-         5ZJJ427wYL2Q+5ePv3tsy5ekiuKnou5q1Ewww/w5+pSOwMiMRgaGDyLGBO3oAMmJGOzS
-         S7WP1GT6W+hXIMd75tG29H3o+b+PfWjNJkwrsERU7IAfgsZR1lvSY8986qLdaCJemDDH
-         h2fA==
-X-Gm-Message-State: AOAM5324OZyNF1Z7lM1wkutl8yfNbKll5nj10WTyGbjLIc2b2XRWMCHK
-        GOQYuVAE5ek9shIUh95D5fi3EQ==
-X-Google-Smtp-Source: ABdhPJz86pB1ZOf/GAJsoDuXUDt85ZQ4Xkk7ydzEi1eUjqPD67j4xio8bPelFi5CAZusG4KwWU0vHQ==
-X-Received: by 2002:a7b:c94e:: with SMTP id i14mr9476992wml.85.1637239707883;
-        Thu, 18 Nov 2021 04:48:27 -0800 (PST)
-Received: from xps7590.. (freifunk-gw.bsa1-cpe1.syseleven.net. [176.74.57.43])
-        by smtp.gmail.com with ESMTPSA id h2sm2955635wrz.23.2021.11.18.04.48.26
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 18 Nov 2021 04:48:27 -0800 (PST)
-From:   Robert Foss <robert.foss@linaro.org>
-To:     agross@kernel.org, bjorn.andersson@linaro.org,
-        robert.foss@linaro.org, todor.too@gmail.com, mchehab@kernel.org,
-        robh+dt@kernel.org, angelogioacchino.delregno@somainline.org,
-        linux-arm-msm@vger.kernel.org, linux-media@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
-        Andrey Konovalov <andrey.konovalov@linaro.org>,
-        Stephan Gerhold <stephan@gerhold.net>
-Subject: [PATCH v3 4/4] arm64: dts: qcom: sdm845-db845c: Remove clock-lanes property from &camss node
-Date:   Thu, 18 Nov 2021 13:48:19 +0100
-Message-Id: <20211118124819.1902427-5-robert.foss@linaro.org>
-X-Mailer: git-send-email 2.32.0
-In-Reply-To: <20211118124819.1902427-1-robert.foss@linaro.org>
-References: <20211118124819.1902427-1-robert.foss@linaro.org>
+        Thu, 18 Nov 2021 07:55:01 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
+  t=1637239921; x=1668775921;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=EOyHM8o1vLknnH/Jm6VZx0iPxkh1Fvpl/xnTHtx5hwk=;
+  b=XgcGr/FnDW7KycoW4WzQ9H+fin9wigozCPzVB4sAktS9fhtR3LFAc+Zw
+   RAKSII00HnlIGVfGjDUonH6Ihlrhi++dpqEsa2PRQDKevI+xlWkh6J0oz
+   uP3K1nAoNPANAM1Pzk7c2J5buX2iU5qJgNkHHxcb3zfwiUfxCsgIxEBqR
+   5v6YsUR+w3tgqs1S7o/qZ4R4UsJsXk3RfvzMTCMLHtLVUBT57PWtsgosD
+   puSU6mus3RIllMLLZB76xwwp2j0+Sbm3IAciliymuxvKiUryxHJlnV9Li
+   mlD3K+Ldqz0qlTv8YvIjFuCkeKDuohX8B/COozvi0OQHnPbTbvRRa4AdP
+   Q==;
+IronPort-SDR: +2ZDFT8Kc+s9St7RhTTfwOTbgY8zsXjhfUMYMfI3Q7yWqA0Q2AtOdomBe1x/lgHPeQ7HRGRJ4g
+ 3mqJADvTAVYqY9NGpAX8HVOc3KkxlPndLpYgnHHmmJNe4bb0S3TqOm3vstVObbsBeVgfjYClxc
+ hcB6ykezTOdZgsFrtKJ7AefrvU/cdTrADlJW2pG48JgDVaurV8iqz3uQxTKd6D2XYgzp4AcIjE
+ NtHCorxUgas5mK0V9B7E5hVDR88Rp2SqKxCG4HWCJm3tHEZmYUYIjnfmHkevgyvsCjq6FmgL1F
+ qM0GOaNI5wEZ/syO0BVrzagi
+X-IronPort-AV: E=Sophos;i="5.87,244,1631602800"; 
+   d="scan'208";a="139572308"
+Received: from smtpout.microchip.com (HELO email.microchip.com) ([198.175.253.82])
+  by esa2.microchip.iphmx.com with ESMTP/TLS/AES256-SHA256; 18 Nov 2021 05:52:01 -0700
+Received: from chn-vm-ex03.mchp-main.com (10.10.85.151) by
+ chn-vm-ex01.mchp-main.com (10.10.85.143) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2176.14; Thu, 18 Nov 2021 05:52:00 -0700
+Received: from ROB-ULT-M18282.microchip.com (10.10.115.15) by
+ chn-vm-ex03.mchp-main.com (10.10.85.151) with Microsoft SMTP Server id
+ 15.1.2176.14 via Frontend Transport; Thu, 18 Nov 2021 05:51:57 -0700
+From:   Eugen Hristev <eugen.hristev@microchip.com>
+To:     <leonl@leopardimaging.com>, <linux-media@vger.kernel.org>
+CC:     <skomatineni@nvidia.com>, <sakari.ailus@linux.intel.com>,
+        <luca@lucaceresoli.net>, <linux-kernel@vger.kernel.org>,
+        Eugen Hristev <eugen.hristev@microchip.com>
+Subject: [PATCH] media: i2c: imx274: fix trivial typo obainted/obtained
+Date:   Thu, 18 Nov 2021 14:51:51 +0200
+Message-ID: <20211118125151.290144-1-eugen.hristev@microchip.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The clock-lanes property is no longer used as it is not programmable by
-the CSIPHY hardware block of Qcom ISPs and should be removed.
+Fix typo obainted/obtained.
 
-Signed-off-by: Robert Foss <robert.foss@linaro.org>
+Fixes: 0985dd306f72 ("media: imx274: V4l2 driver for Sony imx274 CMOS sensor")
+Signed-off-by: Eugen Hristev <eugen.hristev@microchip.com>
 ---
- arch/arm64/boot/dts/qcom/sdm845-db845c.dts | 3 ---
- 1 file changed, 3 deletions(-)
+ drivers/media/i2c/imx274.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/arch/arm64/boot/dts/qcom/sdm845-db845c.dts b/arch/arm64/boot/dts/qcom/sdm845-db845c.dts
-index 13f80a0b6faa..2cf4b932aee2 100644
---- a/arch/arm64/boot/dts/qcom/sdm845-db845c.dts
-+++ b/arch/arm64/boot/dts/qcom/sdm845-db845c.dts
-@@ -1125,7 +1125,6 @@ ports {
- 		port@0 {
- 			reg = <0>;
- 			csiphy0_ep: endpoint {
--				clock-lanes = <7>;
- 				data-lanes = <0 1 2 3>;
- 				remote-endpoint = <&ov8856_ep>;
- 			};
-@@ -1166,7 +1165,6 @@ camera@10 {
- 
- 		port {
- 			ov8856_ep: endpoint {
--				clock-lanes = <1>;
- 				link-frequencies = /bits/ 64
- 					<360000000 180000000>;
- 				data-lanes = <1 2 3 4>;
-@@ -1211,7 +1209,6 @@ camera@60 {
- 
- 		port {
- 			ov7251_ep: endpoint {
--				clock-lanes = <1>;
- 				data-lanes = <0 1>;
- //				remote-endpoint = <&csiphy3_ep>;
- 			};
+diff --git a/drivers/media/i2c/imx274.c b/drivers/media/i2c/imx274.c
+index 5312cf3e855d..2e804e3b70c4 100644
+--- a/drivers/media/i2c/imx274.c
++++ b/drivers/media/i2c/imx274.c
+@@ -1499,7 +1499,7 @@ static int imx274_s_stream(struct v4l2_subdev *sd, int on)
+ /*
+  * imx274_get_frame_length - Function for obtaining current frame length
+  * @priv: Pointer to device structure
+- * @val: Pointer to obainted value
++ * @val: Pointer to obtained value
+  *
+  * frame_length = vmax x (svr + 1), in unit of hmax.
+  *
 -- 
-2.32.0
+2.25.1
 
