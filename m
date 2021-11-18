@@ -2,183 +2,219 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9A27E4562BF
-	for <lists+linux-media@lfdr.de>; Thu, 18 Nov 2021 19:44:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D096245643F
+	for <lists+linux-media@lfdr.de>; Thu, 18 Nov 2021 21:32:35 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233609AbhKRSrB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 18 Nov 2021 13:47:01 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46960 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229714AbhKRSrA (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Thu, 18 Nov 2021 13:47:00 -0500
-Received: from mail-pl1-x62d.google.com (mail-pl1-x62d.google.com [IPv6:2607:f8b0:4864:20::62d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F040AC061574
-        for <linux-media@vger.kernel.org>; Thu, 18 Nov 2021 10:43:59 -0800 (PST)
-Received: by mail-pl1-x62d.google.com with SMTP id v19so6026660plo.7
-        for <linux-media@vger.kernel.org>; Thu, 18 Nov 2021 10:43:59 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=jQ7Q3jdQqye6b63JEwuz0UrVtVAQHNs/hH6Rmr9vUg0=;
-        b=I1sIuz6yICjv30SpY++42NwDbq6Mp+Itq0b1L5QbT/QZ6KhUTpVUeR1e/S9LIfilBu
-         jDcHScfysDs8Lf6SQ2lBmCRcRaCtjtaz0HH6QMMueAl9e4l/dn7BpZH6Mg+QkIWQBaYU
-         T8USZP6ZHqdnKdZxIbMTMrPxXuucBrsNldIlQ=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=jQ7Q3jdQqye6b63JEwuz0UrVtVAQHNs/hH6Rmr9vUg0=;
-        b=I06PZT0K6lPNadlsP5FyPkoBIwo2jnuVCFkgddj8fHoByiROSX//eHIWNfCgXFXm9P
-         wYTZAwe+OH2+glb5BTNjuPiUppZouAZkj2IAug/zrxBL4Q4pF4AIe2BbNwRsbCuzmrwi
-         tl9OeXWl1VX/z/ERvfKyW6PdHH5zpR5wm8vv1QRjZcBXNvdi1yGKpOCQzpyro1xXOodf
-         xcuvTWFAVlajBB2rV/30LVlA3CvZeuk/ZDzAhK4ycQBDa9GfZCFk6FEOuitZL1aHWzYt
-         wq67bpOaNc8tWvosLcfGSexV13MRcGSXO8aB2BbMdRFHo0UR1l+ScIubpWgthWCw3REI
-         vKgg==
-X-Gm-Message-State: AOAM532xhZlv+er6KO5nS+X15c2K2VK+0vWiCdij2K4ZOyICiHp7Mnwd
-        rdANTzPmqe4ZqOB86kNwINuo9Q==
-X-Google-Smtp-Source: ABdhPJyuwtnp7HiOnoa5XciTrb7GBk22YzrDwRh1QfSzDx+VksGMYG4VQZ850rDIHTSuSpHwB6hVvg==
-X-Received: by 2002:a17:90b:4a43:: with SMTP id lb3mr13139803pjb.222.1637261039481;
-        Thu, 18 Nov 2021 10:43:59 -0800 (PST)
-Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id e18sm274374pgl.50.2021.11.18.10.43.59
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 18 Nov 2021 10:43:59 -0800 (PST)
-From:   Kees Cook <keescook@chromium.org>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Kees Cook <keescook@chromium.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-hardening@vger.kernel.org
-Subject: [PATCH] media: omap3isp: Use struct_group() for memcpy() region
-Date:   Thu, 18 Nov 2021 10:43:52 -0800
-Message-Id: <20211118184352.1284792-1-keescook@chromium.org>
-X-Mailer: git-send-email 2.30.2
+        id S230330AbhKRUff (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 18 Nov 2021 15:35:35 -0500
+Received: from mga01.intel.com ([192.55.52.88]:27383 "EHLO mga01.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S232523AbhKRUfe (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 18 Nov 2021 15:35:34 -0500
+X-IronPort-AV: E=McAfee;i="6200,9189,10172"; a="258072316"
+X-IronPort-AV: E=Sophos;i="5.87,245,1631602800"; 
+   d="scan'208";a="258072316"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Nov 2021 12:32:26 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.87,245,1631602800"; 
+   d="scan'208";a="672952417"
+Received: from lkp-server02.sh.intel.com (HELO c20d8bc80006) ([10.239.97.151])
+  by orsmga005.jf.intel.com with ESMTP; 18 Nov 2021 12:32:24 -0800
+Received: from kbuild by c20d8bc80006 with local (Exim 4.92)
+        (envelope-from <lkp@intel.com>)
+        id 1mno51-0003bH-Rt; Thu, 18 Nov 2021 20:32:23 +0000
+Date:   Fri, 19 Nov 2021 04:31:20 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     linux-media@vger.kernel.org
+Subject: [ragnatech:media-next] BUILD SUCCESS WITH WARNING
+ 999ed03518cb01aa9ef55c025db79567eec6268c
+Message-ID: <6196b818.jtPo8JX/AlI9dKX2%lkp@intel.com>
+User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=4161; h=from:subject; bh=6HM1xQAwdUhYlxd827odkUtGQFwknJXIWVVzXi/7nLw=; b=owEBbQKS/ZANAwAKAYly9N/cbcAmAcsmYgBhlp7fIy4m5wHWpoRTBmOzDmU3UD7/uFHIYWL3ROtF R72c0SGJAjMEAAEKAB0WIQSlw/aPIp3WD3I+bhOJcvTf3G3AJgUCYZae3wAKCRCJcvTf3G3AJieeEA Cz4NE52KfM3bLL/HppQJ+cM/f/j0SaJd9BmzANcOaX30GEFNG/i8N32N2ISlm/HcAPUFsJEiE1Zei5 xKHA57glXiE0xSX/9m7zvXcBc1/ScmhQMCqBQ5LOYgaY1PR+Lw2VY6oVoRtk7pJZPz9OSgBYgi973G pGYV59QNeNrdumxWv46xdlY8IAxhmmbY18cHA04PpAWNwJa8i7WSmS/ayOURCXbFN6hEX+vF5FpI16 KIwdJ2/L8K7vlkqpfLxivB6tHZ+t2p2ITDqlitYsrK6PsIGqH/2YkW0txU+f0fQqyAyogz7TJRJiA0 uyvt45KhgT2EiDQfcG700urMI3eEeht3r8xEf7DY9z4vTuxWzyQX+AGap5PvoY8c1NvrjPOzsFmTRy OobbQIDA57RvlfaePshSsNvJ8Bc3rxz3+GKJSowUiiQUT3G0LquG+vFF6ow+0i1nc4+MqRmcyFvVah /FDNSoAFRNfHZ66cPhOsEtxCA1cwHbyo3F/JOuYnBJWipy/TxPQlFXR0M7QBWeKsK4Mhsq0hptavFt NEl2pcCMtUbqYT5e13J5WB5MGvQ2+MmaBlNP47XKSUlyBJmVCTzWgHUrN87t8Y/jw2sn0WASeFsk9B vOV3VtAaNS+av255HKWgOFg7nuyZNyOkiDJcQ2gXDdYt6WVd09cOOKjgNKbw==
-X-Developer-Key: i=keescook@chromium.org; a=openpgp; fpr=A5C3F68F229DD60F723E6E138972F4DFDC6DC026
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-In preparation for FORTIFY_SOURCE performing compile-time and run-time
-field bounds checking for memcpy(), memmove(), and memset(), avoid
-intentionally writing across neighboring fields. Wrap the target region
-in struct_group(). This additionally fixes a theoretical misalignment
-of the copy (since the size of "buf" changes between 64-bit and 32-bit,
-but this is likely never built for 64-bit).
+tree/branch: git://git.ragnatech.se/linux media-next
+branch HEAD: 999ed03518cb01aa9ef55c025db79567eec6268c  media: atomisp: cleanup qbuf logic
 
-FWIW, I think this code is totally broken on 64-bit (which appears to
-not be a "real" build configuration): it would either always fail (with
-an uninitialized data->buf_size) or would cause corruption in userspace
-due to the copy_to_user() in the call path against an uninitialized
-data->buf value:
+Warning reports:
 
-omap3isp_stat_request_statistics_time32(...)
-    struct omap3isp_stat_data data64;
-    ...
-    omap3isp_stat_request_statistics(stat, &data64);
+https://lore.kernel.org/linux-media/202111182229.beNw3l9E-lkp@intel.com
 
-int omap3isp_stat_request_statistics(struct ispstat *stat,
-                                     struct omap3isp_stat_data *data)
-    ...
-    buf = isp_stat_buf_get(stat, data);
+Warning in current branch:
 
-static struct ispstat_buffer *isp_stat_buf_get(struct ispstat *stat,
-                                               struct omap3isp_stat_data *data)
-...
-    if (buf->buf_size > data->buf_size) {
-            ...
-            return ERR_PTR(-EINVAL);
-    }
-    ...
-    rval = copy_to_user(data->buf,
-                        buf->virt_addr,
-                        buf->buf_size);
+drivers/staging/media/atomisp//pci/isp2400_input_system_local.h:32:40: warning: redefinition of typedef 'input_system_cfg2400_t' is a C11 feature [-Wtypedef-redefinition]
 
-Regardless, additionally initialize data64 to be zero-filled to avoid
-undefined behavior.
+Warning ids grouped by kconfigs:
 
-Fixes: 378e3f81cb56 ("media: omap3isp: support 64-bit version of omap3isp_stat_data")
-Signed-off-by: Kees Cook <keescook@chromium.org>
+clang_recent_errors
+`-- x86_64-buildonly-randconfig-r001-20211118
+    `-- drivers-staging-media-atomisp-pci-isp2400_input_system_local.h:warning:redefinition-of-typedef-input_system_cfg2400_t-is-a-C11-feature
+
+elapsed time: 1411m
+
+configs tested: 150
+configs skipped: 3
+
+gcc tested configs:
+arm                                 defconfig
+arm64                            allyesconfig
+arm64                               defconfig
+arm                              allyesconfig
+arm                              allmodconfig
+i386                 randconfig-c001-20211118
+mips                 randconfig-c004-20211118
+powerpc                   motionpro_defconfig
+powerpc                 xes_mpc85xx_defconfig
+arm                        mvebu_v7_defconfig
+arm                        neponset_defconfig
+sh                 kfr2r09-romimage_defconfig
+mips                           jazz_defconfig
+mips                       capcella_defconfig
+arm                         vf610m4_defconfig
+powerpc                 mpc836x_mds_defconfig
+s390                       zfcpdump_defconfig
+powerpc                     akebono_defconfig
+arm                  colibri_pxa300_defconfig
+xtensa                    xip_kc705_defconfig
+xtensa                              defconfig
+powerpc                 mpc8272_ads_defconfig
+powerpc                     rainier_defconfig
+mips                          ath25_defconfig
+sh                             shx3_defconfig
+sh                     sh7710voipgw_defconfig
+powerpc                     tqm8541_defconfig
+powerpc                    gamecube_defconfig
+mips                            e55_defconfig
+powerpc                 mpc836x_rdk_defconfig
+mips                      bmips_stb_defconfig
+arm                           corgi_defconfig
+m68k                       m5208evb_defconfig
+mips                     cu1000-neo_defconfig
+arm                           tegra_defconfig
+sh                            migor_defconfig
+powerpc                     mpc5200_defconfig
+arc                              allyesconfig
+m68k                            q40_defconfig
+arm                          ixp4xx_defconfig
+openrisc                    or1ksim_defconfig
+arc                          axs103_defconfig
+arm                     eseries_pxa_defconfig
+sh                             espt_defconfig
+arc                           tb10x_defconfig
+powerpc                     kilauea_defconfig
+powerpc                  mpc866_ads_defconfig
+mips                           gcw0_defconfig
+arm                   milbeaut_m10v_defconfig
+arm                       spear13xx_defconfig
+arm                  randconfig-c002-20211117
+arm                  randconfig-c002-20211118
+ia64                             allmodconfig
+ia64                                defconfig
+ia64                             allyesconfig
+m68k                             allmodconfig
+m68k                                defconfig
+m68k                             allyesconfig
+nios2                               defconfig
+nds32                             allnoconfig
+nds32                               defconfig
+nios2                            allyesconfig
+csky                                defconfig
+alpha                               defconfig
+alpha                            allyesconfig
+xtensa                           allyesconfig
+h8300                            allyesconfig
+arc                                 defconfig
+sh                               allmodconfig
+parisc                              defconfig
+s390                             allyesconfig
+s390                             allmodconfig
+parisc                           allyesconfig
+s390                                defconfig
+i386                             allyesconfig
+sparc                            allyesconfig
+sparc                               defconfig
+i386                                defconfig
+i386                              debian-10.3
+mips                             allyesconfig
+mips                             allmodconfig
+powerpc                          allyesconfig
+powerpc                          allmodconfig
+powerpc                           allnoconfig
+x86_64               randconfig-a015-20211118
+x86_64               randconfig-a012-20211118
+x86_64               randconfig-a011-20211118
+x86_64               randconfig-a013-20211118
+x86_64               randconfig-a016-20211118
+x86_64               randconfig-a014-20211118
+i386                 randconfig-a016-20211118
+i386                 randconfig-a014-20211118
+i386                 randconfig-a012-20211118
+i386                 randconfig-a011-20211118
+i386                 randconfig-a013-20211118
+i386                 randconfig-a015-20211118
+x86_64               randconfig-a005-20211117
+x86_64               randconfig-a003-20211117
+x86_64               randconfig-a002-20211117
+x86_64               randconfig-a001-20211117
+x86_64               randconfig-a006-20211117
+x86_64               randconfig-a004-20211117
+arc                  randconfig-r043-20211118
+riscv                randconfig-r042-20211118
+s390                 randconfig-r044-20211118
+riscv                    nommu_k210_defconfig
+riscv                            allyesconfig
+riscv                    nommu_virt_defconfig
+riscv                             allnoconfig
+riscv                               defconfig
+riscv                          rv32_defconfig
+riscv                            allmodconfig
+um                           x86_64_defconfig
+um                             i386_defconfig
+x86_64                           allyesconfig
+x86_64                    rhel-8.3-kselftests
+x86_64                              defconfig
+x86_64                               rhel-8.3
+x86_64                          rhel-8.3-func
+x86_64                                  kexec
+
+clang tested configs:
+i386                 randconfig-a006-20211118
+i386                 randconfig-a003-20211118
+i386                 randconfig-a001-20211118
+i386                 randconfig-a005-20211118
+i386                 randconfig-a004-20211118
+i386                 randconfig-a002-20211118
+x86_64               randconfig-a005-20211118
+x86_64               randconfig-a003-20211118
+x86_64               randconfig-a001-20211118
+x86_64               randconfig-a002-20211118
+x86_64               randconfig-a006-20211118
+x86_64               randconfig-a004-20211118
+x86_64               randconfig-a015-20211117
+x86_64               randconfig-a013-20211117
+x86_64               randconfig-a011-20211117
+x86_64               randconfig-a012-20211117
+x86_64               randconfig-a016-20211117
+x86_64               randconfig-a014-20211117
+i386                 randconfig-a014-20211117
+i386                 randconfig-a016-20211117
+i386                 randconfig-a012-20211117
+i386                 randconfig-a013-20211117
+i386                 randconfig-a011-20211117
+i386                 randconfig-a015-20211117
+hexagon              randconfig-r045-20211117
+hexagon              randconfig-r041-20211117
+s390                 randconfig-r044-20211117
+riscv                randconfig-r042-20211117
+hexagon              randconfig-r045-20211118
+hexagon              randconfig-r041-20211118
+
 ---
- drivers/media/platform/omap3isp/ispstat.c |  5 +++--
- include/uapi/linux/omap3isp.h             | 21 +++++++++++++--------
- 2 files changed, 16 insertions(+), 10 deletions(-)
-
-diff --git a/drivers/media/platform/omap3isp/ispstat.c b/drivers/media/platform/omap3isp/ispstat.c
-index 5b9b57f4d9bf..68cf68dbcace 100644
---- a/drivers/media/platform/omap3isp/ispstat.c
-+++ b/drivers/media/platform/omap3isp/ispstat.c
-@@ -512,7 +512,7 @@ int omap3isp_stat_request_statistics(struct ispstat *stat,
- int omap3isp_stat_request_statistics_time32(struct ispstat *stat,
- 					struct omap3isp_stat_data_time32 *data)
- {
--	struct omap3isp_stat_data data64;
-+	struct omap3isp_stat_data data64 = { };
- 	int ret;
- 
- 	ret = omap3isp_stat_request_statistics(stat, &data64);
-@@ -521,7 +521,8 @@ int omap3isp_stat_request_statistics_time32(struct ispstat *stat,
- 
- 	data->ts.tv_sec = data64.ts.tv_sec;
- 	data->ts.tv_usec = data64.ts.tv_usec;
--	memcpy(&data->buf, &data64.buf, sizeof(*data) - sizeof(data->ts));
-+	data->buf = (uintptr_t)data64.buf;
-+	memcpy(&data->frame, &data64.frame, sizeof(data->frame));
- 
- 	return 0;
- }
-diff --git a/include/uapi/linux/omap3isp.h b/include/uapi/linux/omap3isp.h
-index 87b55755f4ff..9a6b3ed11455 100644
---- a/include/uapi/linux/omap3isp.h
-+++ b/include/uapi/linux/omap3isp.h
-@@ -162,6 +162,7 @@ struct omap3isp_h3a_aewb_config {
-  * struct omap3isp_stat_data - Statistic data sent to or received from user
-  * @ts: Timestamp of returned framestats.
-  * @buf: Pointer to pass to user.
-+ * @buf_size: Size of buffer.
-  * @frame_number: Frame number of requested stats.
-  * @cur_frame: Current frame number being processed.
-  * @config_counter: Number of the configuration associated with the data.
-@@ -176,10 +177,12 @@ struct omap3isp_stat_data {
- 	struct timeval ts;
- #endif
- 	void __user *buf;
--	__u32 buf_size;
--	__u16 frame_number;
--	__u16 cur_frame;
--	__u16 config_counter;
-+	__struct_group(/* no type */, frame, /* no attrs */,
-+		__u32 buf_size;
-+		__u16 frame_number;
-+		__u16 cur_frame;
-+		__u16 config_counter;
-+	);
- };
- 
- #ifdef __KERNEL__
-@@ -189,10 +192,12 @@ struct omap3isp_stat_data_time32 {
- 		__s32	tv_usec;
- 	} ts;
- 	__u32 buf;
--	__u32 buf_size;
--	__u16 frame_number;
--	__u16 cur_frame;
--	__u16 config_counter;
-+	__struct_group(/* no type */, frame, /* no attrs */,
-+		__u32 buf_size;
-+		__u16 frame_number;
-+		__u16 cur_frame;
-+		__u16 config_counter;
-+	);
- };
- #endif
- 
--- 
-2.30.2
-
+0-DAY CI Kernel Test Service, Intel Corporation
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
