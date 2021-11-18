@@ -2,157 +2,118 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DD3CF45596C
-	for <lists+linux-media@lfdr.de>; Thu, 18 Nov 2021 11:51:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 96D4E455977
+	for <lists+linux-media@lfdr.de>; Thu, 18 Nov 2021 11:54:48 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1343514AbhKRKyD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 18 Nov 2021 05:54:03 -0500
-Received: from perceval.ideasonboard.com ([213.167.242.64]:56668 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1343556AbhKRKx6 (ORCPT
+        id S244918AbhKRK5r (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 18 Nov 2021 05:57:47 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51196 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S243529AbhKRK5q (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 18 Nov 2021 05:53:58 -0500
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id DD7FE3E5;
-        Thu, 18 Nov 2021 11:50:56 +0100 (CET)
+        Thu, 18 Nov 2021 05:57:46 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CD1AAC061570
+        for <linux-media@vger.kernel.org>; Thu, 18 Nov 2021 02:54:46 -0800 (PST)
+Received: from [192.168.1.111] (91-158-153-130.elisa-laajakaista.fi [91.158.153.130])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 1E36B3E5;
+        Thu, 18 Nov 2021 11:54:43 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1637232657;
-        bh=KoiJLeigquaEguR7NAdplKzGc4pmb6yhRotmxZIQkw0=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=dL6XfuhWX76Nv7iJuu2OF1uMB9HR5K241MJd1KJW76UC8To4ocFWG79LQjeh85gIo
-         ZLQC2cYjA8rO9tWQ+GtznwKnHN3AYVaR+L47egWpb6parVCzydmvgBhYPH5GKLM1xd
-         em6dxmzvPhNFlFjETWfFRl8QVA5sqLKXt9EhWkUw=
-Date:   Thu, 18 Nov 2021 12:50:34 +0200
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Umang Jain <umang.jain@ideasonboard.com>
-Cc:     Hans de Goede <hdegoede@redhat.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        andrey.i.trufanov@gmail.com, linux-staging@lists.linux.dev,
-        Fabio Aiuto <fabioaiuto83@gmail.com>,
-        libcamera-devel@lists.libcamera.org,
-        Nable <nable.maininbox@googlemail.com>,
-        Yury Luneff <yury.lunev@gmail.com>,
-        Andy Shevchenko <andy@infradead.org>,
-        linux-media@vger.kernel.org
-Subject: Re: [libcamera-devel] [RFC] media: Auto exposure/gain support for
- atomisp / libcamera integration ?
-Message-ID: <YZYv+owv3agp/lOD@pendragon.ideasonboard.com>
-References: <20211107175013.355188-1-hdegoede@redhat.com>
- <a13e1ed6-3050-3adf-fa6d-8506da66d9fa@ideasonboard.com>
+        s=mail; t=1637232883;
+        bh=YXogZondwmjBcuvAVKBHiKjoDMlbhMgQphw/tDyJuws=;
+        h=To:Cc:References:From:Subject:Date:In-Reply-To:From;
+        b=EJhLL3v0UbeowZ29miC09oPhuxii1+DBO6sOeQZuuxKefgbA3byU0cmyK5HmBDVQk
+         cCKUtEgG+ruxU6Vgh4yz737j+WT7mV3+fjYNQYze04IMCyZItrl8TXIjozTMwO/hDI
+         UToq91jNbnVa1M/q9+EZMnaIwvPv4tbk8CsKvFzY=
+To:     linux-media@vger.kernel.org, sakari.ailus@linux.intel.com,
+        Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        niklas.soderlund+renesas@ragnatech.se
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Pratyush Yadav <p.yadav@ti.com>,
+        Michal Simek <michal.simek@xilinx.com>
+References: <20211005085750.138151-1-tomi.valkeinen@ideasonboard.com>
+ <20211005085750.138151-28-tomi.valkeinen@ideasonboard.com>
+From:   Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Subject: Re: [PATCH v9 27/36] media: subdev: Add [GS]_ROUTING subdev ioctls
+ and operations
+Message-ID: <4e17aa13-b1fb-b07d-1e1d-6209bdc8745b@ideasonboard.com>
+Date:   Thu, 18 Nov 2021 12:54:40 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+In-Reply-To: <20211005085750.138151-28-tomi.valkeinen@ideasonboard.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <a13e1ed6-3050-3adf-fa6d-8506da66d9fa@ideasonboard.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Umang,
+On 05/10/2021 11:57, Tomi Valkeinen wrote:
+> From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> 
+> Add support for subdev internal routing. A route is defined as a single
+> stream from a sink pad to a source pad.
+> 
+> The userspace can configure the routing via two new ioctls,
+> VIDIOC_SUBDEV_G_ROUTING and VIDIOC_SUBDEV_S_ROUTING, and subdevs can
+> implement the functionality with v4l2_subdev_pad_ops.set_routing().
+> 
+> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> Signed-off-by: Michal Simek <michal.simek@xilinx.com>
 
-On Thu, Nov 18, 2021 at 03:43:53PM +0530, Umang Jain wrote:
-> On 11/7/21 11:20 PM, Hans de Goede wrote:
-> > Hi All,
-> >
-> > Now that we have the atomisp2 driver running on some devices like
-> > the Asus T101HA; and with the exposure + gain controls for the ov2680
-> > sensor found on that laptop fixed:
-> >
-> > https://lore.kernel.org/linux-media/20211107171549.267583-1-hdegoede@redhat.com/
-> >
-> > I believe we need to start thinking about various userspace API
-> > concerns. Thanks to Mauro's great work on various V4L2 API things
-> > are starting to work (somewhat) with regular V4L2 apps, but we really
-> > also need some processing / 3A stuff to make the cameras really
-> > usable.
-> >
-> > The most important thing needed is automatic exposure + gain control,
-> > ATM this relies on a custom ATOMISP ioctl, but I believe that we can
-> > just export the controls as regular v4l2 controls on the sensor subdev,
-> > at least for the ov2680 the exposure is already exported this way
-> > but it is read-only. Does anyone see any problems with just making
-> > these normal v4l2 controls on the sensor subdev ?
-> >
-> > We can then simulate the custom ATOMISP ioctl through the subdevs,
-> > or we can just remove it alltogether.
-> >
-> > Once we have the controls available this way I think we should write
-> > a libcamera plugin, which like the older versions of the Rasberry Pi
-> > plugin (if I've understood things correctly) won't use the MC framework
-> > for now. I believe we first need to understand the atomisp code better
-> > before we add MC support (*). But I still believe that an (experimental)
-> > plugin would be good, both to get something usable so that we can get
-> > more testers / more people interested in contributing.
-> 
-> I am trying to understand what 'plugin' here means? Is it a wrapper 
-> pertaining to use libcamera (fined tuned for atomisp) that apps can use?
+<snip>
 
-I think it means pipeline handler (and IPA module).
+> diff --git a/include/uapi/linux/v4l2-subdev.h b/include/uapi/linux/v4l2-subdev.h
+> index 658106f5b5dc..5ba409db47ff 100644
+> --- a/include/uapi/linux/v4l2-subdev.h
+> +++ b/include/uapi/linux/v4l2-subdev.h
+> @@ -188,6 +188,61 @@ struct v4l2_subdev_capability {
+>   /* The v4l2 sub-device video device node is registered in read-only mode. */
+>   #define V4L2_SUBDEV_CAP_RO_SUBDEV		0x00000001
+>   
+> +/*
+> + * Is the route active? An active route will start when streaming is enabled
+> + * on a video node.
+> + */
+> +#define V4L2_SUBDEV_ROUTE_FL_ACTIVE		(1 << 0)
+> +
+> +/*
+> + * Is the route immutable, i.e. can it be activated and inactivated?
+> + * Set by the driver.
+> + */
+> +#define V4L2_SUBDEV_ROUTE_FL_IMMUTABLE		(1 << 1)
+> +
+> +/*
+> + * Is the route a source endpoint? A source endpoint route refers to a stream
+> + * generated internally by the subdevice (usually a sensor), and thus there
+> + * is no sink-side endpoint for the route. The sink_pad and sink_stream
+> + * fields are unused.
+> + * Set by the driver.
+> + */
+> +#define V4L2_SUBDEV_ROUTE_FL_SOURCE		(1 << 2)
 
-> > Another reason is to have another use-case where apps need to support
-> > libcamera to work properly (like on IPU3 devices) which will hopefully
-> > motivate people working on apps to put more effort in supporting libcamera
-> 
-> A valid and solid use case yes!
-> 
-> > (preferably through the new pipewire libcamera plugin so that things
-> > will also work in a flatpack sandbox).
-> 
-> In the longer term plan, I see this happening. I see there SPA support 
-> for libcamera in pipewire (not sure how much usable it is as of today). 
-> Once pipewire has a translating layer of ' request-controls' that can be 
-> mapped to libcamera controls, it would then make good base for 
-> applications for capturing video feeds by sending in requests with 
-> appropriate controls.
-> 
-> On the flatpak side, I think there will be more? plumbing work since  
-> you need to use flatpak-portals, rather than just bundling the library 
-> in the manifest (the sandbox cannot determine system's h/w capabilites). 
-> The current org.freedesktop.portal.Camera [1] seems to be geared to use 
-> pipewire so that's a starting point. CV applications are yet another 
-> use-case libcamera will be interested in, I think. Getting the 
-> flatpak-portal support there might get tricky as of 'quirky' requests? 
-> for the camera and pipewire API seems to be limiting to support that 
-> use-case? Not sure how would this work out (and also a distant future),
-> 
-> [1] https://flatpak.github.io/xdg-desktop-portal/portal-docs.html#gdbus-org.freedesktop.portal.Camera
-> 
-> > ###
-> >
-> > On other thing which I'm wondering about is the need to call S_INPUT to
-> > select front / back in this list from Mauro:
-> >
-> > 	$ for i in $(ls /dev/video*|sort -k2 -to -n); do echo -n $i:; v4l2-ctl -D -d $i|grep Name; done
-> > 	/dev/video0:	Name             : ATOMISP ISP CAPTURE output
-> > 	/dev/video1:	Name             : ATOMISP ISP VIEWFINDER output
-> > 	/dev/video2:	Name             : ATOMISP ISP PREVIEW output
-> > 	/dev/video3:	Name             : ATOMISP ISP VIDEO output
-> > 	/dev/video4:	Name             : ATOMISP ISP ACC
-> > 	/dev/video5:	Name             : ATOMISP ISP MEMORY input
-> > 	/dev/video6:	Name             : ATOMISP ISP CAPTURE output
-> > 	/dev/video7:	Name             : ATOMISP ISP VIEWFINDER output
-> > 	/dev/video8:	Name             : ATOMISP ISP PREVIEW output
-> > 	/dev/video9:	Name             : ATOMISP ISP VIDEO output
-> > 	/dev/video10:	Name             : ATOMISP ISP ACC
-> >
-> > I notice that everything is listed twice, I wonder if we can use /dev/video2
-> > with input 0 together with /dev/video8 for input 1, if that is possible then
-> > we might set a different default input on each.
-> >
-> > And maybe also make them /dev/video0 (already done I see) and /dev/video1,
-> > possibly combined with a module-option to hide the others for now. This
-> > should make things better for regular apps. OTOH if we go the libcamera
-> > route then this is not really necessary I guess?
-> >
-> > Regards,
-> >
-> > Hans
-> >
-> > *) I do believe that in the end MC support makes sense at least
-> > to tie together the
+I think we should have one more flag.
 
--- 
-Regards,
+IMMUTABLE means that the route cannot be inactivated (or activated, but 
+a route that's always inactive doesn't make sense), and even if it's not 
+mentioned above, I think IMMUTABLE also means the route cannot be 
+removed from the routing table, or changed in any way.
 
-Laurent Pinchart
+We should have a new flag that indicates that the route must exist, but 
+it can be activated/inactivated. V4L2_SUBDEV_ROUTE_FL_STATIC? 
+V4L2_SUBDEV_ROUTE_FL_IMMUTABLE would be a "superset" of 
+V4L2_SUBDEV_ROUTE_FL_STATIC.
+
+Or maybe we should have neither... Both are a bit challenging, as the 
+routing system depends on user defined stream identifiers, which in 
+practice means that only sensors might have IMMUTABLE or STATIC source 
+routes. For every other subdev in the pipeline the userspace must be 
+able to change the stream identifiers.
+
+Perhaps just V4L2_SUBDEV_ROUTE_FL_SOURCE would be enough, which would 
+also imply STATIC.
+
+  Tomi
