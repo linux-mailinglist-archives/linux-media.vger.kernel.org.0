@@ -2,173 +2,162 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C695E455B0F
-	for <lists+linux-media@lfdr.de>; Thu, 18 Nov 2021 12:57:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id F347C455B22
+	for <lists+linux-media@lfdr.de>; Thu, 18 Nov 2021 13:02:22 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1344360AbhKRMAu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 18 Nov 2021 07:00:50 -0500
-Received: from mga17.intel.com ([192.55.52.151]:6390 "EHLO mga17.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1344390AbhKRMAn (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 18 Nov 2021 07:00:43 -0500
-X-IronPort-AV: E=McAfee;i="6200,9189,10171"; a="214887273"
-X-IronPort-AV: E=Sophos;i="5.87,244,1631602800"; 
-   d="scan'208";a="214887273"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Nov 2021 03:57:42 -0800
-X-IronPort-AV: E=Sophos;i="5.87,244,1631602800"; 
-   d="scan'208";a="507410031"
-Received: from paasikivi.fi.intel.com ([10.237.72.42])
-  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Nov 2021 03:57:39 -0800
-Received: from paasikivi.fi.intel.com (localhost [127.0.0.1])
-        by paasikivi.fi.intel.com (Postfix) with SMTP id 074CB20138;
-        Thu, 18 Nov 2021 13:57:37 +0200 (EET)
-Date:   Thu, 18 Nov 2021 13:57:37 +0200
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Jammy Huang <jammy_huang@aspeedtech.com>
-Cc:     eajames@linux.ibm.com, mchehab@kernel.org, joel@jms.id.au,
-        andrew@aj.id.au, hverkuil-cisco@xs4all.nl,
-        gregkh@linuxfoundation.org, laurent.pinchart@ideasonboard.com,
-        linux-media@vger.kernel.org, openbmc@lists.ozlabs.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v5 03/10] media: aspeed: add more debug log messages
-Message-ID: <YZY/sfRs+/bH3Was@paasikivi.fi.intel.com>
-References: <20211118074030.685-1-jammy_huang@aspeedtech.com>
- <20211118074030.685-4-jammy_huang@aspeedtech.com>
+        id S1344456AbhKRMFU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 18 Nov 2021 07:05:20 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37964 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1344447AbhKRMFR (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Thu, 18 Nov 2021 07:05:17 -0500
+Received: from mail-pf1-x434.google.com (mail-pf1-x434.google.com [IPv6:2607:f8b0:4864:20::434])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BA242C061570
+        for <linux-media@vger.kernel.org>; Thu, 18 Nov 2021 04:02:17 -0800 (PST)
+Received: by mail-pf1-x434.google.com with SMTP id b68so5721149pfg.11
+        for <linux-media@vger.kernel.org>; Thu, 18 Nov 2021 04:02:17 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=S6zyLf4rBaZQHFYnVQfrG1Mvv/HRfSpfyvWGKM/XzYg=;
+        b=P2nN368L6rLcbt9PTv3AyuLdtHYgJVGGz9hqPXtXjedDpNbhA9YgeOXz0PW6AjvWli
+         HoyNmBbQIWGB6UHGFvJ5CJ05RTuGGwPlospE/BP4nnDE1izWq/jJdTglX1yhMWpxb3Ww
+         pVMNUJemr7OJnneQ89WIDMHdYHaBCCsIBxTELF+1IqGUZLyqy3LFPb9nBh+S0p/bj/3E
+         Wb2a8XcdE7fE6jTsTTuqgpF1oj9EKzIx9VUHAAXkL+kxq4a4kdE5Wc0g5oRbhOyER47p
+         DDsUDcHwtBIKkpNWnrPCH0sNioMwVHP5jhQ7Vqmr+HFeUbnwON6e3+e5VauFRbOY9aqJ
+         jQ8w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=S6zyLf4rBaZQHFYnVQfrG1Mvv/HRfSpfyvWGKM/XzYg=;
+        b=PEDTJQ8E6lZA8Iee7MS/8cgyTt2kGPsUkgL4FBCu6zcKHsb1OpoP2jilZ8ZkdmBxdf
+         C7xkM8IFFiBhIWBJ4JW5wFfQCPmpAx1+lrtsN4pKG9QZXw76YA+xerP0vz466sIqaWOY
+         AspL/L1cYOfWRUICHeztLzyJx7RQY8oYpO4ewIdozA/YQbzhXSPgXKcW3eHySZ86X7wk
+         5R2kDT3xpiVkBeAszr+DGuQZfLcC7RafgJN7umsZxFHw+RiKIa04ooEqVtIU6GSrAvVw
+         x9u8+Foxh+A/gAwtMUd7h0QtNph0+8NFGkXBOaytYEsuaEuNMUJb1DSkXX7h1SrMVr/G
+         EVhA==
+X-Gm-Message-State: AOAM532zJ+dy/78VNklp4hBv7q9KjqhLPIUThdZ+2oVIZBfFaFTuxjbO
+        x9J6YetjrcfokLsJ764Oy66VDrrsE1u+8pA/PFEMjw==
+X-Google-Smtp-Source: ABdhPJzIk5ARWMCyxIM7UA8/c8E4fXz2CCO9geupDGEnPu7eWFyHCGAnsQtT4n3uGz3Ae+L3QmPGJk/7TNuPntJUhqo=
+X-Received: by 2002:aa7:9903:0:b0:49f:e368:4fc3 with SMTP id
+ z3-20020aa79903000000b0049fe3684fc3mr14719769pff.1.1637236935054; Thu, 18 Nov
+ 2021 04:02:15 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20211118074030.685-4-jammy_huang@aspeedtech.com>
+References: <20211111161542.3936425-1-bryan.odonoghue@linaro.org> <20211111161542.3936425-19-bryan.odonoghue@linaro.org>
+In-Reply-To: <20211111161542.3936425-19-bryan.odonoghue@linaro.org>
+From:   Robert Foss <robert.foss@linaro.org>
+Date:   Thu, 18 Nov 2021 13:02:04 +0100
+Message-ID: <CAG3jFyuW4dKutvxB8vt=5keaGtJmNUO3tAViE+0Kve-HUoM8YQ@mail.gmail.com>
+Subject: Re: [RESEND PATCH 18/18] media: camss: Do vfe_get/vfe_put for csid on sm8250
+To:     "Bryan O'Donoghue" <bryan.odonoghue@linaro.org>
+Cc:     linux-arm-msm@vger.kernel.org, linux-media@vger.kernel.org,
+        jonathan@marek.ca, andrey.konovalov@linaro.org,
+        todor.too@gmail.com, agross@kernel.org, bjorn.andersson@linaro.org,
+        mchehab@kernel.org, jgrahsl@snap.com, hfink@snap.com
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Jammy,
+Hey Bryan,
 
-On Thu, Nov 18, 2021 at 03:40:24PM +0800, Jammy Huang wrote:
-> The new messages are listed as below:
-> 1. jpeg header and capture buffer information
-> 2. information for each irq
-> 3. current capture mode, sync or direct-fetch
-> 4. time consumed for each frame
-> 5. input timing changed information
-> 
-> Signed-off-by: Jammy Huang <jammy_huang@aspeedtech.com>
+On Thu, 11 Nov 2021 at 17:14, Bryan O'Donoghue
+<bryan.odonoghue@linaro.org> wrote:
+>
+> The sm8250 CAMSS CSID depends on the VFE it is attached to being powered on
+> and clocked prior to taking the CSID out of reset.
+>
+> It is possible to open just the CSID subdev from libcamera and attempt to
+> bring the CSID block up.
+>
+> If we do not first bring up the VFE the CSID will fail to come out of
+> reset.
+
+I think the same thing is possible for all Gen2/Titan based camss
+architectures, and this fix should  be enabled for CAMSS_845 too.
+
+With that fixed, please add my r-b.
+
+Reviewed-by: Robert Foss <robert.foss@linaro.org>
+
+>
+> Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
 > ---
-> v5:
->   - no update
-> v4:
->   - modify log level
-> v3:
->   - update commit message
-> v2:
->   - new
-> ---
->  drivers/media/platform/aspeed-video.c | 24 ++++++++++++++++++++++++
->  1 file changed, 24 insertions(+)
-> 
-> diff --git a/drivers/media/platform/aspeed-video.c b/drivers/media/platform/aspeed-video.c
-> index 6af57467b6d4..e8dd0a7ebfc7 100644
-> --- a/drivers/media/platform/aspeed-video.c
-> +++ b/drivers/media/platform/aspeed-video.c
-> @@ -461,12 +461,17 @@ static void aspeed_video_write(struct aspeed_video *video, u32 reg, u32 val)
->  
->  static void update_perf(struct aspeed_video_perf *p)
+>  drivers/media/platform/qcom/camss/camss-csid.c | 12 +++++++++++-
+>  drivers/media/platform/qcom/camss/camss-vfe.c  |  4 ++--
+>  drivers/media/platform/qcom/camss/camss-vfe.h  |  3 +++
+>  3 files changed, 16 insertions(+), 3 deletions(-)
+>
+> diff --git a/drivers/media/platform/qcom/camss/camss-csid.c b/drivers/media/platform/qcom/camss/camss-csid.c
+> index 9ef6fbbeeddf..e6835b92695b 100644
+> --- a/drivers/media/platform/qcom/camss/camss-csid.c
+> +++ b/drivers/media/platform/qcom/camss/camss-csid.c
+> @@ -156,10 +156,18 @@ static int csid_set_clock_rates(struct csid_device *csid)
+>  static int csid_set_power(struct v4l2_subdev *sd, int on)
 >  {
-> +	struct aspeed_video *v = container_of(p, struct aspeed_video,
-> +					      perf);
+>         struct csid_device *csid = v4l2_get_subdevdata(sd);
+> -       struct device *dev = csid->camss->dev;
+> +       struct camss *camss = csid->camss;
+> +       struct device *dev = camss->dev;
+> +       struct vfe_device *vfe = &camss->vfe[csid->id];
+>         int ret;
+>
+>         if (on) {
+> +               if (camss->version == CAMSS_8250) {
+> +                       ret = vfe_get(vfe);
+> +                       if (ret < 0)
+> +                               return ret;
+> +               }
 > +
->  	p->duration =
->  		ktime_to_ms(ktime_sub(ktime_get(),  p->last_sample));
->  	p->totaltime += p->duration;
->  
->  	p->duration_max = max(p->duration, p->duration_max);
->  	p->duration_min = min(p->duration, p->duration_min);
-> +	v4l2_dbg(2, debug, &v->v4l2_dev, "time consumed: %d ms\n",
-> +		 p->duration);
->  }
->  
->  static int aspeed_video_start_frame(struct aspeed_video *video)
-> @@ -597,6 +602,12 @@ static irqreturn_t aspeed_video_irq(int irq, void *arg)
->  	struct aspeed_video *video = arg;
->  	u32 sts = aspeed_video_read(video, VE_INTERRUPT_STATUS);
->  
-> +	v4l2_dbg(2, debug, &video->v4l2_dev, "irq sts=%#x %s%s%s%s\n", sts,
-> +		 sts & VE_INTERRUPT_MODE_DETECT_WD ? ", unlock" : "",
-> +		 sts & VE_INTERRUPT_MODE_DETECT ? ", lock" : "",
-> +		 sts & VE_INTERRUPT_CAPTURE_COMPLETE ? ", capture-done" : "",
-> +		 sts & VE_INTERRUPT_COMP_COMPLETE ? ", comp-done" : "");
+>                 ret = pm_runtime_resume_and_get(dev);
+>                 if (ret < 0)
+>                         return ret;
+> @@ -204,6 +212,8 @@ static int csid_set_power(struct v4l2_subdev *sd, int on)
+>                 camss_disable_clocks(csid->nclocks, csid->clock);
+>                 ret = csid->vdda ? regulator_disable(csid->vdda) : 0;
+>                 pm_runtime_put_sync(dev);
+> +               if (camss->version == CAMSS_8250)
+> +                       vfe_put(vfe);
+>         }
+>
+>         return ret;
+> diff --git a/drivers/media/platform/qcom/camss/camss-vfe.c b/drivers/media/platform/qcom/camss/camss-vfe.c
+> index 5b5fe620914d..703ea39f1262 100644
+> --- a/drivers/media/platform/qcom/camss/camss-vfe.c
+> +++ b/drivers/media/platform/qcom/camss/camss-vfe.c
+> @@ -575,7 +575,7 @@ static int vfe_check_clock_rates(struct vfe_device *vfe)
+>   *
+>   * Return 0 on success or a negative error code otherwise
+>   */
+> -static int vfe_get(struct vfe_device *vfe)
+> +int vfe_get(struct vfe_device *vfe)
+>  {
+>         int ret;
+>
+> @@ -637,7 +637,7 @@ static int vfe_get(struct vfe_device *vfe)
+>   * vfe_put - Power down VFE module
+>   * @vfe: VFE Device
+>   */
+> -static void vfe_put(struct vfe_device *vfe)
+> +void vfe_put(struct vfe_device *vfe)
+>  {
+>         mutex_lock(&vfe->power_lock);
+>
+> diff --git a/drivers/media/platform/qcom/camss/camss-vfe.h b/drivers/media/platform/qcom/camss/camss-vfe.h
+> index 6500474a749e..0eba04eb9b77 100644
+> --- a/drivers/media/platform/qcom/camss/camss-vfe.h
+> +++ b/drivers/media/platform/qcom/camss/camss-vfe.h
+> @@ -203,4 +203,7 @@ extern const struct vfe_hw_ops vfe_ops_4_8;
+>  extern const struct vfe_hw_ops vfe_ops_170;
+>  extern const struct vfe_hw_ops vfe_ops_480;
+>
+> +int vfe_get(struct vfe_device *vfe);
+> +void vfe_put(struct vfe_device *vfe);
 > +
->  	/*
->  	 * Resolution changed or signal was lost; reset the engine and
->  	 * re-initialize
-> @@ -910,6 +921,7 @@ static void aspeed_video_set_resolution(struct aspeed_video *video)
->  
->  	/* Don't use direct mode below 1024 x 768 (irqs don't fire) */
->  	if (size < DIRECT_FETCH_THRESHOLD) {
-> +		v4l2_dbg(1, debug, &video->v4l2_dev, "Capture: Sync Mode\n");
->  		aspeed_video_write(video, VE_TGS_0,
->  				   FIELD_PREP(VE_TGS_FIRST,
->  					      video->frame_left - 1) |
-> @@ -921,6 +933,7 @@ static void aspeed_video_set_resolution(struct aspeed_video *video)
->  					      video->frame_bottom + 1));
->  		aspeed_video_update(video, VE_CTRL, 0, VE_CTRL_INT_DE);
->  	} else {
-> +		v4l2_dbg(1, debug, &video->v4l2_dev, "Capture: Direct Mode\n");
->  		aspeed_video_update(video, VE_CTRL, 0, VE_CTRL_DIRECT_FETCH);
->  	}
->  
-> @@ -937,6 +950,10 @@ static void aspeed_video_set_resolution(struct aspeed_video *video)
->  		if (!aspeed_video_alloc_buf(video, &video->srcs[1], size))
->  			goto err_mem;
->  
-> +		v4l2_dbg(1, debug, &video->v4l2_dev, "src buf0 addr(%#x) size(%d)\n",
-> +			 video->srcs[0].dma, video->srcs[0].size);
-> +		v4l2_dbg(1, debug, &video->v4l2_dev, "src buf1 addr(%#x) size(%d)\n",
-> +			 video->srcs[1].dma, video->srcs[1].size);
->  		aspeed_video_write(video, VE_SRC0_ADDR, video->srcs[0].dma);
->  		aspeed_video_write(video, VE_SRC1_ADDR, video->srcs[1].dma);
->  	}
-> @@ -1201,6 +1218,9 @@ static int aspeed_video_set_dv_timings(struct file *file, void *fh,
->  
->  	timings->type = V4L2_DV_BT_656_1120;
->  
-> +	v4l2_dbg(1, debug, &video->v4l2_dev, "set new timings(%dx%d)\n",
-> +		 timings->bt.width, timings->bt.height);
-> +
->  	return 0;
->  }
->  
-> @@ -1383,6 +1403,7 @@ static void aspeed_video_resolution_work(struct work_struct *work)
->  			.u.src_change.changes = V4L2_EVENT_SRC_CH_RESOLUTION,
->  		};
->  
-> +		v4l2_dbg(1, debug, &video->v4l2_dev, "fire source change event\n");
->  		v4l2_event_queue(&video->vdev, &ev);
->  	} else if (test_bit(VIDEO_STREAMING, &video->flags)) {
->  		/* No resolution change so just restart streaming */
-> @@ -1715,6 +1736,7 @@ static int aspeed_video_init(struct aspeed_video *video)
->  		dev_err(dev, "Unable to request IRQ %d\n", irq);
->  		return rc;
->  	}
-> +	dev_info(video->dev, "irq %d\n", irq);
->  
->  	video->eclk = devm_clk_get(dev, "eclk");
->  	if (IS_ERR(video->eclk)) {
-> @@ -1751,6 +1773,8 @@ static int aspeed_video_init(struct aspeed_video *video)
->  		rc = -ENOMEM;
->  		goto err_release_reserved_mem;
->  	}
-> +	dev_info(video->dev, "alloc mem size(%d) at %#x for jpeg header\n",
-> +		 VE_JPEG_HEADER_SIZE, video->jpeg.dma);
->  
->  	aspeed_video_init_jpeg_table(video->jpeg.virt, video->yuv420);
->  
-
-You're using both v4l2_*() and dev_*() functions for printing messages.
-They come with different prefixes, and it'd be better to stick with either,
-not both.
-
--- 
-Sakari Ailus
+>  #endif /* QC_MSM_CAMSS_VFE_H */
+> --
+> 2.33.0
+>
