@@ -2,56 +2,57 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 260CF455AD7
-	for <lists+linux-media@lfdr.de>; Thu, 18 Nov 2021 12:44:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 231B9455AD9
+	for <lists+linux-media@lfdr.de>; Thu, 18 Nov 2021 12:44:53 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1344188AbhKRLrl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 18 Nov 2021 06:47:41 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33238 "EHLO
+        id S1344058AbhKRLrs (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 18 Nov 2021 06:47:48 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32992 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1344390AbhKRLpj (ORCPT
+        with ESMTP id S1344196AbhKRLpq (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 18 Nov 2021 06:45:39 -0500
-Received: from mail-pj1-x1032.google.com (mail-pj1-x1032.google.com [IPv6:2607:f8b0:4864:20::1032])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 44580C06120C
-        for <linux-media@vger.kernel.org>; Thu, 18 Nov 2021 03:39:48 -0800 (PST)
-Received: by mail-pj1-x1032.google.com with SMTP id h24so4903516pjq.2
-        for <linux-media@vger.kernel.org>; Thu, 18 Nov 2021 03:39:48 -0800 (PST)
+        Thu, 18 Nov 2021 06:45:46 -0500
+Received: from mail-pl1-x630.google.com (mail-pl1-x630.google.com [IPv6:2607:f8b0:4864:20::630])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C924AC06120F
+        for <linux-media@vger.kernel.org>; Thu, 18 Nov 2021 03:40:26 -0800 (PST)
+Received: by mail-pl1-x630.google.com with SMTP id p18so4958160plf.13
+        for <linux-media@vger.kernel.org>; Thu, 18 Nov 2021 03:40:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=kTomjJZeYhLkb6tePOhP8txTddxx/JZqZwqslqtfw6g=;
-        b=NvEka3M5cG48V8fhM6dDygN3lZbdY6sAa7lPBj4JzPjRr7+16XOOIk0jcEflefg0FV
-         yjbhN2kEFlES7uam+5uhm2/ALPsF/TgCR8GY+beTDVPo8zdY6WBkyiF+fi9GTG/SBim7
-         UVmbAxMj7RJZ/AebxHMMoUvBuzLIjBnZFv/A2YRU5sghaYexKCx3KW2QszXtU9KMKb6y
-         WQHLF6iE94skNhDts/G9C7VrozEDOZOEb1idSi1ZCshU+7f8m0oa+i4LdU99HCSRF1Jf
-         LJlbuX5NB3VD1Uf4iPn7jG2wiZBYheKn+odp70rH2tNvaZUStlW69+JZ2DtZSRqmpsD0
-         ACrw==
+        bh=CB0qMAh4uWc+7OjM0cC7IXxLfG2xBuFlilY9PfwVt6E=;
+        b=RKWdpmVGC0pmnDy5aS/4enc8KQ/VwRiuhtrU69W2WaCaMrFaDLaVlksVpxNRYY6OJ5
+         NgZCNM14kJQFLdqF8Ig7bFF7qRh+YQv/1a4JPVCrTdwTY002dT9vgwWAv3OQcaiPkdQJ
+         ejc2IVL+O8ItjLUMzFRzW3wZQ4dAt6NYnVfM244TBQzpWiOeSzHSOQHqkuJZc8gDfBoc
+         PdIrZdraU6bCXLU2ZzF1aNYV7TsuB92aYWCQ0IHUzgTwBwEUn+Hm4OauM0/3Cs9AG3TF
+         XvjcdHMDyjv1CzZU8G1EC2ICF7jyzTCrGudMwQMdJu9514RbnmpYeYiZmAcfBsTrKYzX
+         6wRA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=kTomjJZeYhLkb6tePOhP8txTddxx/JZqZwqslqtfw6g=;
-        b=hjYskTUKRdnObWvrElMhoxNr+v9JWXtXGyeN16MjHeAnIvL1CrXkyTOh29Hi19G4vq
-         FGryFYV+ce5D2a8Bs5SPXGRCffn789lP/6h5LUT6BA1ENl8MXzwiP+Mx6t9RRpj8DL5+
-         wt1i8niiXHctjsgbVX/uqscTAKIZRLznRmPS9MCoErPjKSq4XtVgKeKDoJ3gPFs1yIkn
-         7zQb+TiFtDuAgkjR8objYrM0zjM9DgimOZkvZi/UsBMpkDnsiE+nsUDRaOs8kYitjByw
-         gz9L31qYDwQWur9oL9/AQqrFUhF3iS3p9B/YNC+5SsLqy6YdE3tmi/C3stciiryfsosT
-         +m5w==
-X-Gm-Message-State: AOAM5301J7VioYDqOQiQvhuA1mdc/KzP5dHFRVGS+2weCSgy5cQJypNL
-        tjbj/LqTdm8H7aTiN8DFCfQBAosImV3UYXvCIws/Hg==
-X-Google-Smtp-Source: ABdhPJy5gj8LNivdTphBIvliibFKjYO6zJGF26yJeWKKk/shIf/lzRwIDDP2dwq2H5AKYEHiOZeBpZk08L4IX6MmdTE=
-X-Received: by 2002:a17:903:2443:b0:142:1e92:1d19 with SMTP id
- l3-20020a170903244300b001421e921d19mr65281067pls.24.1637235587588; Thu, 18
- Nov 2021 03:39:47 -0800 (PST)
+        bh=CB0qMAh4uWc+7OjM0cC7IXxLfG2xBuFlilY9PfwVt6E=;
+        b=NEX/pMVZeHVF/XDD0qsoW6XdL97wrcP38RNi23VKOvID9Dn0E5fUPqkRYJwd//rWbZ
+         2f9DACIQRdduolz5CyS0rVn7Kr7sxgQfYkb6zeOnkAoHTocgtWQezUB2x+lMUvD485ak
+         X7QbVaGjqlvzFrLY5ehxd/ldpTy20vUp2XDJ9x7qR0PLKUerxSePgZaVE6UHV5//DZYQ
+         O0Sqcktij0z4tUNkQXrdrhDcUu6lvzhY2/rxUfxvOJfSSHJyAWDO5FXf2Ggcw802gR3F
+         VEotqga96LI+YinzxrUHkmIpGNZ0MU8MLiz+YDzjyO/VtBeq69E6Agnq64kwWkX1o2Jg
+         TYFQ==
+X-Gm-Message-State: AOAM532FUS+IVtKSPiRbPG4iWXweySFmMree/1EB6vcFK7LTGGUQYX2n
+        2tB/rc0txlgHmGDRXskd375/cM1jnnSbmRcKpNRyaA==
+X-Google-Smtp-Source: ABdhPJw9pAjYAHkby8mqiYO8uLl5jDYwUparKierCfnZPAteGn0qtoveAhx9MHeNE2q9AZ6b6nlR3oRogjhwF1rZlpg=
+X-Received: by 2002:a17:902:d505:b0:141:f5f7:848e with SMTP id
+ b5-20020a170902d50500b00141f5f7848emr65257905plg.72.1637235626137; Thu, 18
+ Nov 2021 03:40:26 -0800 (PST)
 MIME-Version: 1.0
-References: <20211111161542.3936425-1-bryan.odonoghue@linaro.org> <20211111161542.3936425-17-bryan.odonoghue@linaro.org>
-In-Reply-To: <20211111161542.3936425-17-bryan.odonoghue@linaro.org>
+References: <20211111161542.3936425-1-bryan.odonoghue@linaro.org> <20211111161542.3936425-15-bryan.odonoghue@linaro.org>
+In-Reply-To: <20211111161542.3936425-15-bryan.odonoghue@linaro.org>
 From:   Robert Foss <robert.foss@linaro.org>
-Date:   Thu, 18 Nov 2021 12:39:36 +0100
-Message-ID: <CAG3jFytg2D=BDGiH-Rw_NiJGDWagCmoELbTJ91oCanVhdaidqw@mail.gmail.com>
-Subject: Re: [RESEND PATCH 16/18] media: camss: add support for SM8250 camss
+Date:   Thu, 18 Nov 2021 12:40:15 +0100
+Message-ID: <CAG3jFysQaTTTFO5udF8VtDEvnyct8OgUQh8o3N5PtBtiLRtKYQ@mail.gmail.com>
+Subject: Re: [RESEND PATCH 14/18] media: camss: Add initial support for VFE
+ hardware version Titan 480
 To:     "Bryan O'Donoghue" <bryan.odonoghue@linaro.org>
 Cc:     linux-arm-msm@vger.kernel.org, linux-media@vger.kernel.org,
         jonathan@marek.ca, andrey.konovalov@linaro.org,
@@ -64,10 +65,8 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 Hey Bryan,
 
-checkpatch --strict is giving some warnings for this patch, with this
-and the below nit fixed feel free to add my r-b.
-
-Reviewed-by: Robert Foss <robert.foss@linaro.org>
+checkpatch --strict has some low tier warnings about this patch, do
+you mind having a look at it?
 
 
 On Thu, 11 Nov 2021 at 17:14, Bryan O'Donoghue
@@ -75,474 +74,600 @@ On Thu, 11 Nov 2021 at 17:14, Bryan O'Donoghue
 >
 > From: Jonathan Marek <jonathan@marek.ca>
 >
-> The Titan 480 camss found on SM8250 has 6 CSIPHY and 4 VFE/CSID.
+> Add support for VFE found on SM8250 (Titan 480). This implementation is
+> based on the titan 170 implementation. It supports the normal and lite VFE,
+> and only supports the RDI0 capture path.
 >
-> CSID is compatible with the Titan 170 CSID, but the Titan 480 CSID are
-> inside the VFE region (between the "top" and "bus" registers), so a
-> workaround is added to avoid ioremap failure.
->
-> [bod] Fixed setting camnoc_axi_clk_src instead of camcc_camnoc_axi_clk
-> [jgrahsl, bod] Add slow_ahb_src clock values
-> [jgrahsl, bod] Add cpa_ahb clock values
+> [bod: Updates hw_version callback]
 >
 > Signed-off-by: Jonathan Marek <jonathan@marek.ca>
-> Co-developed-by: Julian Grahsl <jgrahsl@snap.com>
-> Signed-off-by: Julian Grahsl <jgrahsl@snap.com>
-> Co-developed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+> Reviewed-by: Robert Foss <robert.foss@linaro.org>
+> Tested-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
 > Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
 > ---
->  drivers/media/platform/qcom/camss/Makefile    |   2 +-
->  .../{camss-csid-170.c => camss-csid-gen2.c}   |   2 +-
->  .../media/platform/qcom/camss/camss-csid.c    |  26 ++-
->  .../media/platform/qcom/camss/camss-csid.h    |   2 +-
->  .../media/platform/qcom/camss/camss-csiphy.c  |   8 +-
->  drivers/media/platform/qcom/camss/camss-vfe.c |   9 +-
->  .../media/platform/qcom/camss/camss-video.c   |   3 +-
->  drivers/media/platform/qcom/camss/camss.c     | 211 +++++++++++++++++-
->  8 files changed, 238 insertions(+), 25 deletions(-)
->  rename drivers/media/platform/qcom/camss/{camss-csid-170.c => camss-csid-gen2.c} (99%)
+>  drivers/media/platform/qcom/camss/Makefile    |   1 +
+>  .../media/platform/qcom/camss/camss-vfe-480.c | 548 ++++++++++++++++++
+>  drivers/media/platform/qcom/camss/camss-vfe.h |   1 +
+>  3 files changed, 550 insertions(+)
+>  create mode 100644 drivers/media/platform/qcom/camss/camss-vfe-480.c
 >
 > diff --git a/drivers/media/platform/qcom/camss/Makefile b/drivers/media/platform/qcom/camss/Makefile
-> index 81dd56aff0f2..4e2222358973 100644
+> index 0752c46ea37b..81dd56aff0f2 100644
 > --- a/drivers/media/platform/qcom/camss/Makefile
 > +++ b/drivers/media/platform/qcom/camss/Makefile
-> @@ -6,7 +6,7 @@ qcom-camss-objs += \
->                 camss-csid.o \
->                 camss-csid-4-1.o \
->                 camss-csid-4-7.o \
-> -               camss-csid-170.o \
-> +               camss-csid-gen2.o \
->                 camss-csiphy-2ph-1-0.o \
->                 camss-csiphy-3ph-1-0.o \
->                 camss-csiphy.o \
-> diff --git a/drivers/media/platform/qcom/camss/camss-csid-170.c b/drivers/media/platform/qcom/camss/camss-csid-gen2.c
-> similarity index 99%
-> rename from drivers/media/platform/qcom/camss/camss-csid-170.c
-> rename to drivers/media/platform/qcom/camss/camss-csid-gen2.c
-> index 9e54d251793f..abbfbf448893 100644
-> --- a/drivers/media/platform/qcom/camss/camss-csid-170.c
-> +++ b/drivers/media/platform/qcom/camss/camss-csid-gen2.c
-> @@ -594,7 +594,7 @@ static void csid_subdev_init(struct csid_device *csid)
->         csid->testgen.nmodes = CSID_PAYLOAD_MODE_NUM_SUPPORTED_GEN2;
->  }
->
-> -const struct csid_hw_ops csid_ops_170 = {
-> +const struct csid_hw_ops csid_ops_gen2 = {
->         .configure_stream = csid_configure_stream,
->         .configure_testgen_pattern = csid_configure_testgen_pattern,
->         .hw_version = csid_hw_version,
-> diff --git a/drivers/media/platform/qcom/camss/camss-csid.c b/drivers/media/platform/qcom/camss/camss-csid.c
-> index 1226913c623b..9ef6fbbeeddf 100644
-> --- a/drivers/media/platform/qcom/camss/camss-csid.c
-> +++ b/drivers/media/platform/qcom/camss/camss-csid.c
-> @@ -25,6 +25,10 @@
->  #include "camss-csid-gen1.h"
->  #include "camss.h"
->
-> +/* offset of CSID registers in VFE region for VFE 480 */
-> +#define VFE_480_CSID_OFFSET 0x1200
-> +#define VFE_480_LITE_CSID_OFFSET 0x200
+> @@ -15,6 +15,7 @@ qcom-camss-objs += \
+>                 camss-vfe-4-7.o \
+>                 camss-vfe-4-8.o \
+>                 camss-vfe-170.o \
+> +               camss-vfe-480.o \
+>                 camss-vfe-gen1.o \
+>                 camss-vfe.o \
+>                 camss-video.o \
+> diff --git a/drivers/media/platform/qcom/camss/camss-vfe-480.c b/drivers/media/platform/qcom/camss/camss-vfe-480.c
+> new file mode 100644
+> index 000000000000..b6d03fb39b63
+> --- /dev/null
+> +++ b/drivers/media/platform/qcom/camss/camss-vfe-480.c
+> @@ -0,0 +1,548 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +/*
+> + * camss-vfe-480.c
+> + *
+> + * Qualcomm MSM Camera Subsystem - VFE (Video Front End) Module v480 (SM8250)
+> + *
+> + * Copyright (C) 2020-2021 Linaro Ltd.
+> + * Copyright (C) 2021 Jonathan Marek
+> + */
 > +
->  #define MSM_CSID_NAME "msm_csid"
->
->  const char * const csid_testgen_modes[] = {
-> @@ -559,8 +563,9 @@ int msm_csid_subdev_init(struct camss *camss, struct csid_device *csid,
->         } else if (camss->version == CAMSS_8x96 ||
->                    camss->version == CAMSS_660) {
->                 csid->ops = &csid_ops_4_7;
-> -       } else if (camss->version == CAMSS_845) {
-> -               csid->ops = &csid_ops_170;
-> +       } else if (camss->version == CAMSS_845 ||
-> +                  camss->version == CAMSS_8250) {
-> +               csid->ops = &csid_ops_gen2;
->         } else {
->                 return -EINVAL;
->         }
-> @@ -568,9 +573,20 @@ int msm_csid_subdev_init(struct camss *camss, struct csid_device *csid,
->
->         /* Memory */
->
-> -       csid->base = devm_platform_ioremap_resource_byname(pdev, res->reg[0]);
-> -       if (IS_ERR(csid->base))
-> -               return PTR_ERR(csid->base);
-> +       if (camss->version == CAMSS_8250) {
-> +               /* for titan 480, CSID registers are inside the VFE region,
-> +                * between the VFE "top" and "bus" registers. this requires
-> +                * VFE to be initialized before CSID
-> +                */
-> +               if (id >= 2) /* VFE/CSID lite */
-
-Could this hardcoded 2 be replaced by an enum or define?
-
-> +                       csid->base = camss->vfe[id].base + VFE_480_LITE_CSID_OFFSET;
-> +               else
-> +                       csid->base = camss->vfe[id].base + VFE_480_CSID_OFFSET;
-> +       } else {
-> +               csid->base = devm_platform_ioremap_resource_byname(pdev, res->reg[0]);
-> +               if (IS_ERR(csid->base))
-> +                       return PTR_ERR(csid->base);
+> +#include <linux/delay.h>
+> +#include <linux/interrupt.h>
+> +#include <linux/io.h>
+> +#include <linux/iopoll.h>
+> +
+> +#include "camss.h"
+> +#include "camss-vfe.h"
+> +
+> +/* VFE 2/3 are lite and have a different register layout */
+> +#define IS_LITE                (vfe->id >= 2 ? 1 : 0)
+> +
+> +#define VFE_HW_VERSION                 (0x00)
+> +
+> +#define VFE_GLOBAL_RESET_CMD           (IS_LITE ? 0x0c : 0x1c)
+> +#define            GLOBAL_RESET_HW_AND_REG     (IS_LITE ? BIT(1) : BIT(0))
+> +
+> +#define VFE_REG_UPDATE_CMD             (IS_LITE ? 0x20 : 0x34)
+> +#define            REG_UPDATE_RDI(n)           (IS_LITE ? BIT(n) : BIT(1 + (n)))
+> +#define VFE_IRQ_CMD                    (IS_LITE ? 0x24 : 0x38)
+> +#define     IRQ_CMD_GLOBAL_CLEAR       BIT(0)
+> +
+> +#define VFE_IRQ_MASK(n)                        ((IS_LITE ? 0x28 : 0x3c) + (n) * 4)
+> +#define            IRQ_MASK_0_RESET_ACK        (IS_LITE ? BIT(17) : BIT(0))
+> +#define            IRQ_MASK_0_BUS_TOP_IRQ      (IS_LITE ? BIT(4) : BIT(7))
+> +#define VFE_IRQ_CLEAR(n)               ((IS_LITE ? 0x34 : 0x48) + (n) * 4)
+> +#define VFE_IRQ_STATUS(n)              ((IS_LITE ? 0x40 : 0x54) + (n) * 4)
+> +
+> +#define BUS_REG_BASE                   (IS_LITE ? 0x1a00 : 0xaa00)
+> +
+> +#define VFE_BUS_WM_CGC_OVERRIDE                (BUS_REG_BASE + 0x08)
+> +#define                WM_CGC_OVERRIDE_ALL     (0x3FFFFFF)
+> +
+> +#define VFE_BUS_WM_TEST_BUS_CTRL       (BUS_REG_BASE + 0xdc)
+> +
+> +#define VFE_BUS_IRQ_MASK(n)            (BUS_REG_BASE + 0x18 + (n) * 4)
+> +#define     BUS_IRQ_MASK_0_RDI_RUP(n)  (IS_LITE ? BIT(n) : BIT(3 + (n)))
+> +#define     BUS_IRQ_MASK_0_COMP_DONE(n)        (IS_LITE ? BIT(4 + (n)) : BIT(6 + (n)))
+> +#define VFE_BUS_IRQ_CLEAR(n)           (BUS_REG_BASE + 0x20 + (n) * 4)
+> +#define VFE_BUS_IRQ_STATUS(n)          (BUS_REG_BASE + 0x28 + (n) * 4)
+> +#define VFE_BUS_IRQ_CLEAR_GLOBAL       (BUS_REG_BASE + 0x30)
+> +
+> +#define VFE_BUS_WM_CFG(n)              (BUS_REG_BASE + 0x200 + (n) * 0x100)
+> +#define                WM_CFG_EN                       (0)
+> +#define                WM_CFG_MODE                     (16)
+> +#define                        MODE_QCOM_PLAIN (0)
+> +#define                        MODE_MIPI_RAW   (1)
+> +#define VFE_BUS_WM_IMAGE_ADDR(n)       (BUS_REG_BASE + 0x204 + (n) * 0x100)
+> +#define VFE_BUS_WM_FRAME_INCR(n)       (BUS_REG_BASE + 0x208 + (n) * 0x100)
+> +#define VFE_BUS_WM_IMAGE_CFG_0(n)      (BUS_REG_BASE + 0x20c + (n) * 0x100)
+> +#define                WM_IMAGE_CFG_0_DEFAULT_WIDTH    (0xFFFF)
+> +#define VFE_BUS_WM_IMAGE_CFG_1(n)      (BUS_REG_BASE + 0x210 + (n) * 0x100)
+> +#define VFE_BUS_WM_IMAGE_CFG_2(n)      (BUS_REG_BASE + 0x214 + (n) * 0x100)
+> +#define VFE_BUS_WM_PACKER_CFG(n)       (BUS_REG_BASE + 0x218 + (n) * 0x100)
+> +#define VFE_BUS_WM_HEADER_ADDR(n)      (BUS_REG_BASE + 0x220 + (n) * 0x100)
+> +#define VFE_BUS_WM_HEADER_INCR(n)      (BUS_REG_BASE + 0x224 + (n) * 0x100)
+> +#define VFE_BUS_WM_HEADER_CFG(n)       (BUS_REG_BASE + 0x228 + (n) * 0x100)
+> +
+> +#define VFE_BUS_WM_IRQ_SUBSAMPLE_PERIOD(n)     (BUS_REG_BASE + 0x230 + (n) * 0x100)
+> +#define VFE_BUS_WM_IRQ_SUBSAMPLE_PATTERN(n)    (BUS_REG_BASE + 0x234 + (n) * 0x100)
+> +#define VFE_BUS_WM_FRAMEDROP_PERIOD(n)         (BUS_REG_BASE + 0x238 + (n) * 0x100)
+> +#define VFE_BUS_WM_FRAMEDROP_PATTERN(n)                (BUS_REG_BASE + 0x23c + (n) * 0x100)
+> +
+> +#define VFE_BUS_WM_SYSTEM_CACHE_CFG(n) (BUS_REG_BASE + 0x260 + (n) * 0x100)
+> +#define VFE_BUS_WM_BURST_LIMIT(n)      (BUS_REG_BASE + 0x264 + (n) * 0x100)
+> +
+> +/* for titan 480, each bus client is hardcoded to a specific path
+> + * and each bus client is part of a hardcoded "comp group"
+> + */
+> +#define RDI_WM(n)                      ((IS_LITE ? 0 : 23) + (n))
+> +#define RDI_COMP_GROUP(n)              ((IS_LITE ? 0 : 11) + (n))
+> +
+> +static u32 vfe_hw_version(struct vfe_device *vfe)
+> +{
+> +       u32 hw_version = readl_relaxed(vfe->base + VFE_HW_VERSION);
+> +
+> +       u32 gen = (hw_version >> 28) & 0xF;
+> +       u32 rev = (hw_version >> 16) & 0xFFF;
+> +       u32 step = hw_version & 0xFFFF;
+> +
+> +       dev_dbg(vfe->camss->dev, "VFE HW Version = %u.%u.%u\n", gen, rev, step);
+> +
+> +       return hw_version;
+> +}
+> +
+> +static void vfe_global_reset(struct vfe_device *vfe)
+> +{
+> +       writel_relaxed(IRQ_MASK_0_RESET_ACK, vfe->base + VFE_IRQ_MASK(0));
+> +       writel_relaxed(GLOBAL_RESET_HW_AND_REG, vfe->base + VFE_GLOBAL_RESET_CMD);
+> +}
+> +
+> +static void vfe_wm_start(struct vfe_device *vfe, u8 wm, struct vfe_line *line)
+> +{
+> +       struct v4l2_pix_format_mplane *pix =
+> +               &line->video_out.active_fmt.fmt.pix_mp;
+> +
+> +       wm = RDI_WM(wm); /* map to actual WM used (from wm=RDI index) */
+> +
+> +       /* no clock gating at bus input */
+> +       writel_relaxed(WM_CGC_OVERRIDE_ALL, vfe->base + VFE_BUS_WM_CGC_OVERRIDE);
+> +
+> +       writel_relaxed(0x0, vfe->base + VFE_BUS_WM_TEST_BUS_CTRL);
+> +
+> +       writel_relaxed(pix->plane_fmt[0].bytesperline * pix->height,
+> +                      vfe->base + VFE_BUS_WM_FRAME_INCR(wm));
+> +       writel_relaxed(0xf, vfe->base + VFE_BUS_WM_BURST_LIMIT(wm));
+> +       writel_relaxed(WM_IMAGE_CFG_0_DEFAULT_WIDTH,
+> +                      vfe->base + VFE_BUS_WM_IMAGE_CFG_0(wm));
+> +       writel_relaxed(pix->plane_fmt[0].bytesperline,
+> +                      vfe->base + VFE_BUS_WM_IMAGE_CFG_2(wm));
+> +       writel_relaxed(0, vfe->base + VFE_BUS_WM_PACKER_CFG(wm));
+> +
+> +       /* no dropped frames, one irq per frame */
+> +       writel_relaxed(0, vfe->base + VFE_BUS_WM_FRAMEDROP_PERIOD(wm));
+> +       writel_relaxed(1, vfe->base + VFE_BUS_WM_FRAMEDROP_PATTERN(wm));
+> +       writel_relaxed(0, vfe->base + VFE_BUS_WM_IRQ_SUBSAMPLE_PERIOD(wm));
+> +       writel_relaxed(1, vfe->base + VFE_BUS_WM_IRQ_SUBSAMPLE_PATTERN(wm));
+> +
+> +       writel_relaxed(1 << WM_CFG_EN | MODE_MIPI_RAW << WM_CFG_MODE,
+> +                      vfe->base + VFE_BUS_WM_CFG(wm));
+> +}
+> +
+> +static void vfe_wm_stop(struct vfe_device *vfe, u8 wm)
+> +{
+> +       wm = RDI_WM(wm); /* map to actual WM used (from wm=RDI index) */
+> +       writel_relaxed(0, vfe->base + VFE_BUS_WM_CFG(wm));
+> +}
+> +
+> +static void vfe_wm_update(struct vfe_device *vfe, u8 wm, u32 addr,
+> +                         struct vfe_line *line)
+> +{
+> +       wm = RDI_WM(wm); /* map to actual WM used (from wm=RDI index) */
+> +       writel_relaxed(addr, vfe->base + VFE_BUS_WM_IMAGE_ADDR(wm));
+> +}
+> +
+> +static void vfe_reg_update(struct vfe_device *vfe, enum vfe_line_id line_id)
+> +{
+> +       vfe->reg_update |= REG_UPDATE_RDI(line_id);
+> +       writel_relaxed(vfe->reg_update, vfe->base + VFE_REG_UPDATE_CMD);
+> +}
+> +
+> +static inline void vfe_reg_update_clear(struct vfe_device *vfe,
+> +                                       enum vfe_line_id line_id)
+> +{
+> +       vfe->reg_update &= ~REG_UPDATE_RDI(line_id);
+> +}
+> +
+> +static void vfe_enable_irq_common(struct vfe_device *vfe)
+> +{
+> +       /* enable only the IRQs used: rup and comp_done irqs for RDI0 */
+> +       writel_relaxed(IRQ_MASK_0_RESET_ACK | IRQ_MASK_0_BUS_TOP_IRQ,
+> +                      vfe->base + VFE_IRQ_MASK(0));
+> +       writel_relaxed(BUS_IRQ_MASK_0_RDI_RUP(0) | BUS_IRQ_MASK_0_COMP_DONE(RDI_COMP_GROUP(0)),
+> +                      vfe->base + VFE_BUS_IRQ_MASK(0));
+> +}
+> +
+> +static void vfe_isr_reg_update(struct vfe_device *vfe, enum vfe_line_id line_id);
+> +static void vfe_isr_wm_done(struct vfe_device *vfe, u8 wm);
+> +
+> +/*
+> + * vfe_isr - VFE module interrupt handler
+> + * @irq: Interrupt line
+> + * @dev: VFE device
+> + *
+> + * Return IRQ_HANDLED on success
+> + */
+> +static irqreturn_t vfe_isr(int irq, void *dev)
+> +{
+> +       struct vfe_device *vfe = dev;
+> +       u32 status;
+> +
+> +       status = readl_relaxed(vfe->base + VFE_IRQ_STATUS(0));
+> +       writel_relaxed(status, vfe->base + VFE_IRQ_CLEAR(0));
+> +       writel_relaxed(IRQ_CMD_GLOBAL_CLEAR, vfe->base + VFE_IRQ_CMD);
+> +
+> +       if (status & IRQ_MASK_0_RESET_ACK)
+> +               vfe_isr_reset_ack(vfe);
+> +
+> +       if (status & IRQ_MASK_0_BUS_TOP_IRQ) {
+> +               u32 status = readl_relaxed(vfe->base + VFE_BUS_IRQ_STATUS(0));
+> +
+> +               writel_relaxed(status, vfe->base + VFE_BUS_IRQ_CLEAR(0));
+> +               writel_relaxed(1, vfe->base + VFE_BUS_IRQ_CLEAR_GLOBAL);
+> +
+> +               if (status & BUS_IRQ_MASK_0_RDI_RUP(0))
+> +                       vfe_isr_reg_update(vfe, 0);
+> +
+> +               if (status & BUS_IRQ_MASK_0_COMP_DONE(RDI_COMP_GROUP(0)))
+> +                       vfe_isr_wm_done(vfe, 0);
 > +       }
->
->         /* Interrupt */
->
-> diff --git a/drivers/media/platform/qcom/camss/camss-csid.h b/drivers/media/platform/qcom/camss/camss-csid.h
-> index 814ebc7c29d6..17a50fa426be 100644
-> --- a/drivers/media/platform/qcom/camss/camss-csid.h
-> +++ b/drivers/media/platform/qcom/camss/camss-csid.h
-> @@ -205,7 +205,7 @@ extern const char * const csid_testgen_modes[];
->
->  extern const struct csid_hw_ops csid_ops_4_1;
->  extern const struct csid_hw_ops csid_ops_4_7;
-> -extern const struct csid_hw_ops csid_ops_170;
-> +extern const struct csid_hw_ops csid_ops_gen2;
->
->
->  #endif /* QC_MSM_CAMSS_CSID_H */
-> diff --git a/drivers/media/platform/qcom/camss/camss-csiphy.c b/drivers/media/platform/qcom/camss/camss-csiphy.c
-> index de1e81bb97c9..f1d8d883af8e 100644
-> --- a/drivers/media/platform/qcom/camss/camss-csiphy.c
-> +++ b/drivers/media/platform/qcom/camss/camss-csiphy.c
-> @@ -586,7 +586,8 @@ int msm_csiphy_subdev_init(struct camss *camss,
->                 csiphy->ops = &csiphy_ops_3ph_1_0;
->                 csiphy->formats = csiphy_formats_8x96;
->                 csiphy->nformats = ARRAY_SIZE(csiphy_formats_8x96);
-> -       } else if (camss->version == CAMSS_845) {
-> +       } else if (camss->version == CAMSS_845 ||
-> +                  camss->version == CAMSS_8250) {
->                 csiphy->ops = &csiphy_ops_3ph_1_0;
->                 csiphy->formats = csiphy_formats_sdm845;
->                 csiphy->nformats = ARRAY_SIZE(csiphy_formats_sdm845);
-> @@ -680,7 +681,10 @@ int msm_csiphy_subdev_init(struct camss *camss,
->
->                 if (!strcmp(clock->name, "csiphy0_timer") ||
->                     !strcmp(clock->name, "csiphy1_timer") ||
-> -                   !strcmp(clock->name, "csiphy2_timer"))
-> +                   !strcmp(clock->name, "csiphy2_timer") ||
-> +                   !strcmp(clock->name, "csiphy3_timer") ||
-> +                   !strcmp(clock->name, "csiphy4_timer") ||
-> +                   !strcmp(clock->name, "csiphy5_timer"))
->                         csiphy->rate_set[i] = true;
->
->                 if (camss->version == CAMSS_660 &&
-> diff --git a/drivers/media/platform/qcom/camss/camss-vfe.c b/drivers/media/platform/qcom/camss/camss-vfe.c
-> index 3d2f554a4ef7..5b5fe620914d 100644
-> --- a/drivers/media/platform/qcom/camss/camss-vfe.c
-> +++ b/drivers/media/platform/qcom/camss/camss-vfe.c
-> @@ -220,7 +220,8 @@ static u32 vfe_src_pad_code(struct vfe_line *line, u32 sink_code,
->                 }
->         else if (vfe->camss->version == CAMSS_8x96 ||
->                  vfe->camss->version == CAMSS_660 ||
-> -                vfe->camss->version == CAMSS_845)
-> +                vfe->camss->version == CAMSS_845 ||
-> +                vfe->camss->version == CAMSS_8250)
->                 switch (sink_code) {
->                 case MEDIA_BUS_FMT_YUYV8_2X8:
->                 {
-> @@ -1297,6 +1298,9 @@ int msm_vfe_subdev_init(struct camss *camss, struct vfe_device *vfe,
->         case CAMSS_845:
->                 vfe->ops = &vfe_ops_170;
->                 break;
-> +       case CAMSS_8250:
-> +               vfe->ops = &vfe_ops_480;
-> +               break;
->         default:
->                 return -EINVAL;
->         }
-> @@ -1407,7 +1411,8 @@ int msm_vfe_subdev_init(struct camss *camss, struct vfe_device *vfe,
->                                 l->formats = formats_rdi_8x96;
->                                 l->nformats = ARRAY_SIZE(formats_rdi_8x96);
->                         }
-> -               } else if (camss->version == CAMSS_845) {
-> +               } else if (camss->version == CAMSS_845 ||
-> +                          camss->version == CAMSS_8250) {
->                         l->formats = formats_rdi_845;
->                         l->nformats = ARRAY_SIZE(formats_rdi_845);
->                 } else {
-> diff --git a/drivers/media/platform/qcom/camss/camss-video.c b/drivers/media/platform/qcom/camss/camss-video.c
-> index 54e77d30d452..5dc1ddbe6d65 100644
-> --- a/drivers/media/platform/qcom/camss/camss-video.c
-> +++ b/drivers/media/platform/qcom/camss/camss-video.c
-> @@ -1011,7 +1011,8 @@ int msm_video_register(struct camss_video *video, struct v4l2_device *v4l2_dev,
->                         video->formats = formats_rdi_8x96;
->                         video->nformats = ARRAY_SIZE(formats_rdi_8x96);
->                 }
-> -       }  else if (video->camss->version == CAMSS_845) {
-> +       }  else if (video->camss->version == CAMSS_845 ||
-> +                   video->camss->version == CAMSS_8250) {
->                 video->formats = formats_rdi_845;
->                 video->nformats = ARRAY_SIZE(formats_rdi_845);
->         } else {
-> diff --git a/drivers/media/platform/qcom/camss/camss.c b/drivers/media/platform/qcom/camss/camss.c
-> index 71c6109b0526..06fb38ff95f7 100644
-> --- a/drivers/media/platform/qcom/camss/camss.c
-> +++ b/drivers/media/platform/qcom/camss/camss.c
-> @@ -662,6 +662,177 @@ static const struct resources vfe_res_845[] = {
->         }
->  };
->
-> +static const struct resources csiphy_res_8250[] = {
-> +       /* CSIPHY0 */
-> +       {
-> +               .regulator = { NULL },
-> +               .clock = { "csiphy0", "csiphy0_timer" },
-> +               .clock_rate = { { 400000000 },
-> +                               { 300000000 } },
-> +               .reg = { "csiphy0" },
-> +               .interrupt = { "csiphy0" }
-> +       },
-> +       /* CSIPHY1 */
-> +       {
-> +               .regulator = { NULL },
-> +               .clock = { "csiphy1", "csiphy1_timer" },
-> +               .clock_rate = { { 400000000 },
-> +                               { 300000000 } },
-> +               .reg = { "csiphy1" },
-> +               .interrupt = { "csiphy1" }
-> +       },
-> +       /* CSIPHY2 */
-> +       {
-> +               .regulator = { NULL },
-> +               .clock = { "csiphy2", "csiphy2_timer" },
-> +               .clock_rate = { { 400000000 },
-> +                               { 300000000 } },
-> +               .reg = { "csiphy2" },
-> +               .interrupt = { "csiphy2" }
-> +       },
-> +       /* CSIPHY3 */
-> +       {
-> +               .regulator = { NULL },
-> +               .clock = { "csiphy3", "csiphy3_timer" },
-> +               .clock_rate = { { 400000000 },
-> +                               { 300000000 } },
-> +               .reg = { "csiphy3" },
-> +               .interrupt = { "csiphy3" }
-> +       },
-> +       /* CSIPHY4 */
-> +       {
-> +               .regulator = { NULL },
-> +               .clock = { "csiphy4", "csiphy4_timer" },
-> +               .clock_rate = { { 400000000 },
-> +                               { 300000000 } },
-> +               .reg = { "csiphy4" },
-> +               .interrupt = { "csiphy4" }
-> +       },
-> +       /* CSIPHY5 */
-> +       {
-> +               .regulator = { NULL },
-> +               .clock = { "csiphy5", "csiphy5_timer" },
-> +               .clock_rate = { { 400000000 },
-> +                               { 300000000 } },
-> +               .reg = { "csiphy5" },
-> +               .interrupt = { "csiphy5" }
+> +
+> +       return IRQ_HANDLED;
+> +}
+> +
+> +/*
+> + * vfe_halt - Trigger halt on VFE module and wait to complete
+> + * @vfe: VFE device
+> + *
+> + * Return 0 on success or a negative error code otherwise
+> + */
+> +static int vfe_halt(struct vfe_device *vfe)
+> +{
+> +       /* rely on vfe_disable_output() to stop the VFE */
+> +       return 0;
+> +}
+> +
+> +static int vfe_get_output(struct vfe_line *line)
+> +{
+> +       struct vfe_device *vfe = to_vfe(line);
+> +       struct vfe_output *output;
+> +       unsigned long flags;
+> +       int wm_idx;
+> +
+> +       spin_lock_irqsave(&vfe->output_lock, flags);
+> +
+> +       output = &line->output;
+> +       if (output->state != VFE_OUTPUT_OFF) {
+> +               dev_err(vfe->camss->dev, "Output is running\n");
+> +               goto error;
 > +       }
-> +};
 > +
-> +static const struct resources csid_res_8250[] = {
-> +       /* CSID0 */
-> +       {
-> +               .regulator = { NULL },
-> +               .clock = { "vfe0_csid", "vfe0_cphy_rx", "vfe0", "vfe0_areg", "vfe0_ahb" },
-> +               .clock_rate = { { 400000000 },
-> +                               { 400000000 },
-> +                               { 350000000, 475000000, 576000000, 720000000 },
-> +                               { 100000000, 200000000, 300000000, 400000000 },
-> +                               { 0 } },
-> +               .reg = { "csid0" },
-> +               .interrupt = { "csid0" }
-> +       },
-> +       /* CSID1 */
-> +       {
-> +               .regulator = { NULL },
-> +               .clock = { "vfe1_csid", "vfe1_cphy_rx", "vfe1", "vfe1_areg", "vfe1_ahb" },
-> +               .clock_rate = { { 400000000 },
-> +                               { 400000000 },
-> +                               { 350000000, 475000000, 576000000, 720000000 },
-> +                               { 100000000, 200000000, 300000000, 400000000 },
-> +                               { 0 } },
-> +               .reg = { "csid1" },
-> +               .interrupt = { "csid1" }
-> +       },
-> +       /* CSID2 */
-> +       {
-> +               .regulator = { NULL },
-> +               .clock = { "vfe_lite_csid", "vfe_lite_cphy_rx", "vfe_lite",  "vfe_lite_ahb" },
-> +               .clock_rate = { { 400000000 },
-> +                               { 400000000 },
-> +                               { 400000000, 480000000 },
-> +                               { 0 } },
-> +               .reg = { "csid2" },
-> +               .interrupt = { "csid2" }
-> +       },
-> +       /* CSID3 */
-> +       {
-> +               .regulator = { NULL },
-> +               .clock = { "vfe_lite_csid", "vfe_lite_cphy_rx", "vfe_lite",  "vfe_lite_ahb" },
-> +               .clock_rate = { { 400000000 },
-> +                               { 400000000 },
-> +                               { 400000000, 480000000 },
-> +                               { 0 } },
-> +               .reg = { "csid3" },
-> +               .interrupt = { "csid3" }
+> +       output->wm_num = 1;
+> +
+> +       wm_idx = vfe_reserve_wm(vfe, line->id);
+> +       if (wm_idx < 0) {
+> +               dev_err(vfe->camss->dev, "Can not reserve wm\n");
+> +               goto error_get_wm;
 > +       }
-> +};
+> +       output->wm_idx[0] = wm_idx;
 > +
-> +static const struct resources vfe_res_8250[] = {
-> +       /* VFE0 */
-> +       {
-> +               .regulator = { NULL },
-> +               .clock = { "camnoc_axi_src", "slow_ahb_src", "cpas_ahb", "camnoc_axi", "vfe0_ahb", "vfe0_areg", "vfe0", "vfe0_axi", "cam_hf_axi" },
-> +               .clock_rate = { { 19200000, 300000000, 400000000, 480000000 },
-> +                               { 19200000, 80000000 },
-> +                               { 19200000 },
-> +                               { 0 },
-> +                               { 0 },
-> +                               { 100000000, 200000000, 300000000, 400000000 },
-> +                               { 350000000, 475000000, 576000000, 720000000 },
-> +                               { 0 },
-> +                               { 0 } },
-> +               .reg = { "vfe0" },
-> +               .interrupt = { "vfe0" }
-> +       },
-> +       /* VFE1 */
-> +       {
-> +               .regulator = { NULL },
-> +               .clock = { "camnoc_axi_src", "slow_ahb_src", "cpas_ahb", "camnoc_axi", "vfe1_ahb", "vfe1_areg", "vfe1", "vfe1_axi", "cam_hf_axi" },
-> +               .clock_rate = { { 19200000, 300000000, 400000000, 480000000 },
-> +                               { 19200000, 80000000 },
-> +                               { 19200000 },
-> +                               { 0 },
-> +                               { 0 },
-> +                               { 100000000, 200000000, 300000000, 400000000 },
-> +                               { 350000000, 475000000, 576000000, 720000000 },
-> +                               { 0 },
-> +                               { 0 } },
-> +               .reg = { "vfe1" },
-> +               .interrupt = { "vfe1" }
-> +       },
-> +       /* VFE2 (lite) */
-> +       {
-> +               .regulator = { NULL },
-> +               .clock = { "camnoc_axi_src", "slow_ahb_src", "cpas_ahb", "camnoc_axi", "vfe_lite_ahb", "vfe_lite_axi", "vfe_lite", "cam_hf_axi" },
-> +               .clock_rate = { { 19200000, 300000000, 400000000, 480000000 },
-> +                               { 19200000, 80000000 },
-> +                               { 19200000 },
-> +                               { 0 },
-> +                               { 0 },
-> +                               { 0 },
-> +                               { 400000000, 480000000 },
-> +                               { 0 } },
-> +               .reg = { "vfe_lite0" },
-> +               .interrupt = { "vfe_lite0" }
-> +       },
-> +       /* VFE3 (lite) */
-> +       {
-> +               .regulator = { NULL },
-> +               .clock = { "camnoc_axi_src", "slow_ahb_src", "cpas_ahb", "camnoc_axi", "vfe_lite_ahb", "vfe_lite_axi", "vfe_lite", "cam_hf_axi" },
-> +               .clock_rate = { { 19200000, 300000000, 400000000, 480000000 },
-> +                               { 19200000, 80000000 },
-> +                               { 19200000 },
-> +                               { 0 },
-> +                               { 0 },
-> +                               { 0 },
-> +                               { 400000000, 480000000 },
-> +                               { 0 } },
-> +               .reg = { "vfe_lite1" },
-> +               .interrupt = { "vfe_lite1" }
-> +       },
-> +};
+> +       output->drop_update_idx = 0;
 > +
->  /*
->   * camss_add_clock_margin - Add margin to clock frequency rate
->   * @rate: Clock frequency rate
-> @@ -945,6 +1116,12 @@ static int camss_init_subdevices(struct camss *camss)
->                 /* Titan VFEs don't have an ISPIF  */
->                 ispif_res = NULL;
->                 vfe_res = vfe_res_845;
-> +       } else if (camss->version == CAMSS_8250) {
-> +               csiphy_res = csiphy_res_8250;
-> +               csid_res = csid_res_8250;
-> +               /* Titan VFEs don't have an ISPIF  */
-> +               ispif_res = NULL;
-> +               vfe_res = vfe_res_8250;
->         } else {
->                 return -EINVAL;
->         }
-> @@ -960,6 +1137,17 @@ static int camss_init_subdevices(struct camss *camss)
->                 }
->         }
->
-> +       /* note: SM8250 requires VFE to be initialized before CSID */
-> +       for (i = 0; i < camss->vfe_num; i++) {
-> +               ret = msm_vfe_subdev_init(camss, &camss->vfe[i],
-> +                                         &vfe_res[i], i);
-> +               if (ret < 0) {
-> +                       dev_err(camss->dev,
-> +                               "Fail to init vfe%d sub-device: %d\n", i, ret);
-> +                       return ret;
+> +       spin_unlock_irqrestore(&vfe->output_lock, flags);
+> +
+> +       return 0;
+> +
+> +error_get_wm:
+> +       vfe_release_wm(vfe, output->wm_idx[0]);
+> +       output->state = VFE_OUTPUT_OFF;
+> +error:
+> +       spin_unlock_irqrestore(&vfe->output_lock, flags);
+> +
+> +       return -EINVAL;
+> +}
+> +
+> +static int vfe_enable_output(struct vfe_line *line)
+> +{
+> +       struct vfe_device *vfe = to_vfe(line);
+> +       struct vfe_output *output = &line->output;
+> +       unsigned long flags;
+> +       unsigned int i;
+> +
+> +       spin_lock_irqsave(&vfe->output_lock, flags);
+> +
+> +       vfe_reg_update_clear(vfe, line->id);
+> +
+> +       if (output->state != VFE_OUTPUT_OFF) {
+> +               dev_err(vfe->camss->dev, "Output is not in reserved state %d\n",
+> +                       output->state);
+> +               spin_unlock_irqrestore(&vfe->output_lock, flags);
+> +               return -EINVAL;
+> +       }
+> +
+> +       WARN_ON(output->gen2.active_num);
+> +
+> +       output->state = VFE_OUTPUT_ON;
+> +
+> +       output->sequence = 0;
+> +       output->wait_reg_update = 0;
+> +       reinit_completion(&output->reg_update);
+> +
+> +       vfe_wm_start(vfe, output->wm_idx[0], line);
+> +
+> +       for (i = 0; i < 2; i++) {
+> +               output->buf[i] = vfe_buf_get_pending(output);
+> +               if (!output->buf[i])
+> +                       break;
+> +               output->gen2.active_num++;
+> +               vfe_wm_update(vfe, output->wm_idx[0], output->buf[i]->addr[0], line);
+> +       }
+> +
+> +       vfe_reg_update(vfe, line->id);
+> +
+> +       spin_unlock_irqrestore(&vfe->output_lock, flags);
+> +
+> +       return 0;
+> +}
+> +
+> +static int vfe_disable_output(struct vfe_line *line)
+> +{
+> +       struct vfe_device *vfe = to_vfe(line);
+> +       struct vfe_output *output = &line->output;
+> +       unsigned long flags;
+> +       unsigned int i;
+> +       bool done;
+> +       int timeout = 0;
+> +
+> +       do {
+> +               spin_lock_irqsave(&vfe->output_lock, flags);
+> +               done = !output->gen2.active_num;
+> +               spin_unlock_irqrestore(&vfe->output_lock, flags);
+> +               usleep_range(10000, 20000);
+> +
+> +               if (timeout++ == 100) {
+> +                       dev_err(vfe->camss->dev, "VFE idle timeout - resetting\n");
+> +                       vfe_reset(vfe);
+> +                       output->gen2.active_num = 0;
+> +                       return 0;
 > +               }
+> +       } while (!done);
+> +
+> +       spin_lock_irqsave(&vfe->output_lock, flags);
+> +       for (i = 0; i < output->wm_num; i++)
+> +               vfe_wm_stop(vfe, output->wm_idx[i]);
+> +       spin_unlock_irqrestore(&vfe->output_lock, flags);
+> +
+> +       return 0;
+> +}
+> +
+> +/*
+> + * vfe_enable - Enable streaming on VFE line
+> + * @line: VFE line
+> + *
+> + * Return 0 on success or a negative error code otherwise
+> + */
+> +static int vfe_enable(struct vfe_line *line)
+> +{
+> +       struct vfe_device *vfe = to_vfe(line);
+> +       int ret;
+> +
+> +       mutex_lock(&vfe->stream_lock);
+> +
+> +       if (!vfe->stream_count)
+> +               vfe_enable_irq_common(vfe);
+> +
+> +       vfe->stream_count++;
+> +
+> +       mutex_unlock(&vfe->stream_lock);
+> +
+> +       ret = vfe_get_output(line);
+> +       if (ret < 0)
+> +               goto error_get_output;
+> +
+> +       ret = vfe_enable_output(line);
+> +       if (ret < 0)
+> +               goto error_enable_output;
+> +
+> +       vfe->was_streaming = 1;
+> +
+> +       return 0;
+> +
+> +error_enable_output:
+> +       vfe_put_output(line);
+> +
+> +error_get_output:
+> +       mutex_lock(&vfe->stream_lock);
+> +
+> +       vfe->stream_count--;
+> +
+> +       mutex_unlock(&vfe->stream_lock);
+> +
+> +       return ret;
+> +}
+> +
+> +/*
+> + * vfe_disable - Disable streaming on VFE line
+> + * @line: VFE line
+> + *
+> + * Return 0 on success or a negative error code otherwise
+> + */
+> +static int vfe_disable(struct vfe_line *line)
+> +{
+> +       struct vfe_device *vfe = to_vfe(line);
+> +
+> +       vfe_disable_output(line);
+> +
+> +       vfe_put_output(line);
+> +
+> +       mutex_lock(&vfe->stream_lock);
+> +
+> +       vfe->stream_count--;
+> +
+> +       mutex_unlock(&vfe->stream_lock);
+> +
+> +       return 0;
+> +}
+> +
+> +/*
+> + * vfe_isr_reg_update - Process reg update interrupt
+> + * @vfe: VFE Device
+> + * @line_id: VFE line
+> + */
+> +static void vfe_isr_reg_update(struct vfe_device *vfe, enum vfe_line_id line_id)
+> +{
+> +       struct vfe_output *output;
+> +       unsigned long flags;
+> +
+> +       spin_lock_irqsave(&vfe->output_lock, flags);
+> +       vfe_reg_update_clear(vfe, line_id);
+> +
+> +       output = &vfe->line[line_id].output;
+> +
+> +       if (output->wait_reg_update) {
+> +               output->wait_reg_update = 0;
+> +               complete(&output->reg_update);
 > +       }
 > +
->         for (i = 0; i < camss->csid_num; i++) {
->                 ret = msm_csid_subdev_init(camss, &camss->csid[i],
->                                            &csid_res[i], i);
-> @@ -978,16 +1166,6 @@ static int camss_init_subdevices(struct camss *camss)
->                 return ret;
->         }
+> +       spin_unlock_irqrestore(&vfe->output_lock, flags);
+> +}
+> +
+> +/*
+> + * vfe_isr_wm_done - Process write master done interrupt
+> + * @vfe: VFE Device
+> + * @wm: Write master id
+> + */
+> +static void vfe_isr_wm_done(struct vfe_device *vfe, u8 wm)
+> +{
+> +       struct vfe_line *line = &vfe->line[vfe->wm_output_map[wm]];
+> +       struct camss_buffer *ready_buf;
+> +       struct vfe_output *output;
+> +       unsigned long flags;
+> +       u32 index;
+> +       u64 ts = ktime_get_ns();
+> +
+> +       spin_lock_irqsave(&vfe->output_lock, flags);
+> +
+> +       if (vfe->wm_output_map[wm] == VFE_LINE_NONE) {
+> +               dev_err_ratelimited(vfe->camss->dev,
+> +                                   "Received wm done for unmapped index\n");
+> +               goto out_unlock;
+> +       }
+> +       output = &vfe->line[vfe->wm_output_map[wm]].output;
+> +
+> +       ready_buf = output->buf[0];
+> +       if (!ready_buf) {
+> +               dev_err_ratelimited(vfe->camss->dev,
+> +                                   "Missing ready buf %d!\n", output->state);
+> +               goto out_unlock;
+> +       }
+> +
+> +       ready_buf->vb.vb2_buf.timestamp = ts;
+> +       ready_buf->vb.sequence = output->sequence++;
+> +
+> +       index = 0;
+> +       output->buf[0] = output->buf[1];
+> +       if (output->buf[0])
+> +               index = 1;
+> +
+> +       output->buf[index] = vfe_buf_get_pending(output);
+> +
+> +       if (output->buf[index])
+> +               vfe_wm_update(vfe, output->wm_idx[0], output->buf[index]->addr[0], line);
+> +       else
+> +               output->gen2.active_num--;
+> +
+> +       spin_unlock_irqrestore(&vfe->output_lock, flags);
+> +
+> +       vb2_buffer_done(&ready_buf->vb.vb2_buf, VB2_BUF_STATE_DONE);
+> +
+> +       return;
+> +
+> +out_unlock:
+> +       spin_unlock_irqrestore(&vfe->output_lock, flags);
+> +}
+> +
+> +/*
+> + * vfe_pm_domain_off - Disable power domains specific to this VFE.
+> + * @vfe: VFE Device
+> + */
+> +static void vfe_pm_domain_off(struct vfe_device *vfe)
+> +{
+> +       /* nop */
+> +}
+> +
+> +/*
+> + * vfe_pm_domain_on - Enable power domains specific to this VFE.
+> + * @vfe: VFE Device
+> + */
+> +static int vfe_pm_domain_on(struct vfe_device *vfe)
+> +{
+> +       return 0;
+> +}
+> +
+> +/*
+> + * vfe_queue_buffer - Add empty buffer
+> + * @vid: Video device structure
+> + * @buf: Buffer to be enqueued
+> + *
+> + * Add an empty buffer - depending on the current number of buffers it will be
+> + * put in pending buffer queue or directly given to the hardware to be filled.
+> + *
+> + * Return 0 on success or a negative error code otherwise
+> + */
+> +static int vfe_queue_buffer(struct camss_video *vid,
+> +                           struct camss_buffer *buf)
+> +{
+> +       struct vfe_line *line = container_of(vid, struct vfe_line, video_out);
+> +       struct vfe_device *vfe = to_vfe(line);
+> +       struct vfe_output *output;
+> +       unsigned long flags;
+> +
+> +       output = &line->output;
+> +
+> +       spin_lock_irqsave(&vfe->output_lock, flags);
+> +
+> +       if (output->state == VFE_OUTPUT_ON && output->gen2.active_num < 2) {
+> +               output->buf[output->gen2.active_num++] = buf;
+> +               vfe_wm_update(vfe, output->wm_idx[0], buf->addr[0], line);
+> +       } else {
+> +               vfe_buf_add_pending(output, buf);
+> +       }
+> +
+> +       spin_unlock_irqrestore(&vfe->output_lock, flags);
+> +
+> +       return 0;
+> +}
+> +
+> +static const struct camss_video_ops vfe_video_ops_480 = {
+> +       .queue_buffer = vfe_queue_buffer,
+> +       .flush_buffers = vfe_flush_buffers,
+> +};
+> +
+> +static void vfe_subdev_init(struct device *dev, struct vfe_device *vfe)
+> +{
+> +       vfe->video_ops = vfe_video_ops_480;
+> +       vfe->line_num = 1;
+> +}
+> +
+> +const struct vfe_hw_ops vfe_ops_480 = {
+> +       .global_reset = vfe_global_reset,
+> +       .hw_version = vfe_hw_version,
+> +       .isr = vfe_isr,
+> +       .pm_domain_off = vfe_pm_domain_off,
+> +       .pm_domain_on = vfe_pm_domain_on,
+> +       .subdev_init = vfe_subdev_init,
+> +       .vfe_disable = vfe_disable,
+> +       .vfe_enable = vfe_enable,
+> +       .vfe_halt = vfe_halt,
+> +};
+> diff --git a/drivers/media/platform/qcom/camss/camss-vfe.h b/drivers/media/platform/qcom/camss/camss-vfe.h
+> index f166d176cb77..6500474a749e 100644
+> --- a/drivers/media/platform/qcom/camss/camss-vfe.h
+> +++ b/drivers/media/platform/qcom/camss/camss-vfe.h
+> @@ -201,5 +201,6 @@ extern const struct vfe_hw_ops vfe_ops_4_1;
+>  extern const struct vfe_hw_ops vfe_ops_4_7;
+>  extern const struct vfe_hw_ops vfe_ops_4_8;
+>  extern const struct vfe_hw_ops vfe_ops_170;
+> +extern const struct vfe_hw_ops vfe_ops_480;
 >
-> -       for (i = 0; i < camss->vfe_num; i++) {
-> -               ret = msm_vfe_subdev_init(camss, &camss->vfe[i],
-> -                                         &vfe_res[i], i);
-> -               if (ret < 0) {
-> -                       dev_err(camss->dev,
-> -                               "Fail to init vfe%d sub-device: %d\n", i, ret);
-> -                       return ret;
-> -               }
-> -       }
-> -
->         return 0;
->  }
->
-> @@ -1250,7 +1428,8 @@ static int camss_configure_pd(struct camss *camss)
->         if (camss->version == CAMSS_8x96 ||
->             camss->version == CAMSS_660)
->                 nbr_pm_domains = PM_DOMAIN_GEN1_COUNT;
-> -       else if (camss->version == CAMSS_845)
-> +       else if (camss->version == CAMSS_845 ||
-> +                camss->version == CAMSS_8250)
->                 nbr_pm_domains = PM_DOMAIN_GEN2_COUNT;
->
->         for (i = 0; i < nbr_pm_domains; i++) {
-> @@ -1326,6 +1505,12 @@ static int camss_probe(struct platform_device *pdev)
->                 camss->csiphy_num = 4;
->                 camss->csid_num = 3;
->                 camss->vfe_num = 3;
-> +       } else if (of_device_is_compatible(dev->of_node,
-> +                                          "qcom,sm8250-camss")) {
-> +               camss->version = CAMSS_8250;
-> +               camss->csiphy_num = 6;
-> +               camss->csid_num = 4;
-> +               camss->vfe_num = 4;
->         } else {
->                 ret = -EINVAL;
->                 goto err_free;
-> @@ -1457,7 +1642,8 @@ void camss_delete(struct camss *camss)
->         if (camss->version == CAMSS_8x96 ||
->             camss->version == CAMSS_660)
->                 nbr_pm_domains = PM_DOMAIN_GEN1_COUNT;
-> -       else if (camss->version == CAMSS_845)
-> +       else if (camss->version == CAMSS_845 ||
-> +                camss->version == CAMSS_8250)
->                 nbr_pm_domains = PM_DOMAIN_GEN2_COUNT;
->
->         for (i = 0; i < nbr_pm_domains; i++) {
-> @@ -1493,6 +1679,7 @@ static const struct of_device_id camss_dt_match[] = {
->         { .compatible = "qcom,msm8996-camss" },
->         { .compatible = "qcom,sdm660-camss" },
->         { .compatible = "qcom,sdm845-camss" },
-> +       { .compatible = "qcom,sm8250-camss" },
->         { }
->  };
->
+>  #endif /* QC_MSM_CAMSS_VFE_H */
 > --
 > 2.33.0
 >
