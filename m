@@ -2,106 +2,155 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 58972455941
-	for <lists+linux-media@lfdr.de>; Thu, 18 Nov 2021 11:41:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DD3CF45596C
+	for <lists+linux-media@lfdr.de>; Thu, 18 Nov 2021 11:51:06 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S245729AbhKRKnN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 18 Nov 2021 05:43:13 -0500
-Received: from perceval.ideasonboard.com ([213.167.242.64]:56552 "EHLO
+        id S1343514AbhKRKyD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 18 Nov 2021 05:54:03 -0500
+Received: from perceval.ideasonboard.com ([213.167.242.64]:56668 "EHLO
         perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S245694AbhKRKnF (ORCPT
+        with ESMTP id S1343556AbhKRKx6 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 18 Nov 2021 05:43:05 -0500
+        Thu, 18 Nov 2021 05:53:58 -0500
 Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 952293E5;
-        Thu, 18 Nov 2021 11:40:04 +0100 (CET)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id DD7FE3E5;
+        Thu, 18 Nov 2021 11:50:56 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1637232004;
-        bh=beuf7evVlZEBWZL3cG5iClzBNn3N85f+T4rTx949R7c=;
+        s=mail; t=1637232657;
+        bh=KoiJLeigquaEguR7NAdplKzGc4pmb6yhRotmxZIQkw0=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=YsBM/0NPdTavFjbsHZR8vy74ioOS/5H9AW9xbk3jSea0C9kQFOXHn70+c0WGjC8Y7
-         nDvznqixSOs3IqWkI9RFpXhjd00Wud+Jo67DbbgtzLH8qW8pWToL1ufuZh/+EUCqpi
-         /ZXk3DwGtOgPzeUlj2zA4ZoyAEWzx5nNltS+014s=
-Date:   Thu, 18 Nov 2021 12:39:42 +0200
+        b=dL6XfuhWX76Nv7iJuu2OF1uMB9HR5K241MJd1KJW76UC8To4ocFWG79LQjeh85gIo
+         ZLQC2cYjA8rO9tWQ+GtznwKnHN3AYVaR+L47egWpb6parVCzydmvgBhYPH5GKLM1xd
+         em6dxmzvPhNFlFjETWfFRl8QVA5sqLKXt9EhWkUw=
+Date:   Thu, 18 Nov 2021 12:50:34 +0200
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Cc:     Ariel D'Alessandro <ariel.dalessandro@collabora.com>,
-        linux-media@vger.kernel.org, hverkuil@xs4all.nl, sean@mess.org,
-        p.zabel@pengutronix.de, ezequiel@collabora.com,
-        nicolas@ndufresne.ca, kieran.bingham@ideasonboard.com,
-        gjasny@googlemail.com, xavier.claessens@collabora.com,
-        nicolas.dufresne@collabora.com, user.vdr@gmail.com,
-        sakari.ailus@iki.fi, mchehab+huawei@kernel.org, rosenp@gmail.com
-Subject: Re: [v4l-utils v5 0/5] Add support for meson building
-Message-ID: <YZYtbu5QjW8l4lQ0@pendragon.ideasonboard.com>
-References: <20210512184946.102863-1-ariel.dalessandro@collabora.com>
- <db868d34-aaa5-7e89-59a5-a61e024b2ec9@ideasonboard.com>
+To:     Umang Jain <umang.jain@ideasonboard.com>
+Cc:     Hans de Goede <hdegoede@redhat.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        andrey.i.trufanov@gmail.com, linux-staging@lists.linux.dev,
+        Fabio Aiuto <fabioaiuto83@gmail.com>,
+        libcamera-devel@lists.libcamera.org,
+        Nable <nable.maininbox@googlemail.com>,
+        Yury Luneff <yury.lunev@gmail.com>,
+        Andy Shevchenko <andy@infradead.org>,
+        linux-media@vger.kernel.org
+Subject: Re: [libcamera-devel] [RFC] media: Auto exposure/gain support for
+ atomisp / libcamera integration ?
+Message-ID: <YZYv+owv3agp/lOD@pendragon.ideasonboard.com>
+References: <20211107175013.355188-1-hdegoede@redhat.com>
+ <a13e1ed6-3050-3adf-fa6d-8506da66d9fa@ideasonboard.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <db868d34-aaa5-7e89-59a5-a61e024b2ec9@ideasonboard.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <a13e1ed6-3050-3adf-fa6d-8506da66d9fa@ideasonboard.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, Nov 18, 2021 at 11:03:59AM +0200, Tomi Valkeinen wrote:
-> Hi,
-> 
-> On 12/05/2021 21:49, Ariel D'Alessandro wrote:
-> > Hi all,
-> > 
-> > Another attempt to support meson build, addressing comments/fixes from
-> > reviewers.
-> > 
-> > This patchset was developed on top of v4l-utils current master branch:
-> > 
-> >      commit f0c7e3d71eaf4182bae7eb3ee0e43b4eeb047ea9
-> >      Author: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-> > 
-> >          v4l2-ctl: add '--set-edid type=list' support
-> > 
-> > You can find the patchset pushed to the following branch:
-> > 
-> >      https://gitlab.collabora.com/adalessandro/v4l-utils/-/tree/v4l-utils-meson-v5
-> > 
-> > Feedback appreciated as always :-)
-> 
-> I was testing this (well, I'm using it, as I can't get the autoconf work with
-> cross-compilation..), and I see this problem if gconv is enabled when
-> cross-compiling for arm (buildroot system):
-> 
-> [1/2] Linking target contrib/gconv/EN300-468-TAB00.so
-> FAILED: contrib/gconv/EN300-468-TAB00.so
-> /home/tomba/work/buildroot/output32/host/bin/arm-buildroot-linux-gnueabihf-gcc  -o contrib/gconv/EN300-468-TAB00.so contrib/gconv/EN300-468-TAB00.so.p/en300-468-tab00.c.o -Wl,--as-needed -Wl,--allow-shlib-undefined -shared -fPIC -Wl,-rpath,/usr/lib/x86_64-linux-gnu/gconv -Wl,-rpath-link,/usr/lib/x86_64-linux-gnu/gconv -Wl,--start-group /usr/lib/x86_64-linux-gnu/gconv/libJIS.so /usr/lib/x86_64-linux-gnu/gconv/libJISX0213.so -Wl,--end-group
-> /usr/lib/x86_64-linux-gnu/gconv/libJIS.so: file not recognized: file format not recognized
-> collect2: error: ld returned 1 exit status
-> [2/2] Linking target contrib/gconv/ARIB-STD-B24.so
-> FAILED: contrib/gconv/ARIB-STD-B24.so
-> /home/tomba/work/buildroot/output32/host/bin/arm-buildroot-linux-gnueabihf-gcc  -o contrib/gconv/ARIB-STD-B24.so contrib/gconv/ARIB-STD-B24.so.p/arib-std-b24.c.o -Wl,--as-needed -Wl,--allow-shlib-undefined -shared -fPIC -Wl,-rpath,/usr/lib/x86_64-linux-gnu/gconv -Wl,-rpath-link,/usr/lib/x86_64-linux-gnu/gconv -Wl,--start-group /usr/lib/x86_64-linux-gnu/gconv/libJIS.so /usr/lib/x86_64-linux-gnu/gconv/libJISX0213.so -Wl,--end-group
-> /usr/lib/x86_64-linux-gnu/gconv/libJIS.so: file not recognized: file format not recognized
-> 
-> Also, would this be better, to be a bit more explicit:
-> 
-> -    '-I.', # Needed for config.h
-> +    '-I' + meson.global_build_root(), # Needed for config.h
-> 
-> I would do the same to other ".." paths too, but maybe that's just a personal
-> preference:
-> 
-> -Icontrib/test/v4l2gl.p -Icontrib/test -I../contrib/test -I../lib/include -I../include -I.
-> 
-> I also wonder what the "-Icontrib/test" is for.
-> 
-> I also see a problem when cross-compiling where a wrong config.h is included. When
-> compiling with buildroot env, valgrind include dir is in the include paths. And valgrind
-> has a "config.h" there...
-> 
-> It would be safer to have the "-I." common flag before all the rest of the parameters,
-> instead of being after all the others, but I didn't immediately find out how to do
-> that with meson.
+Hi Umang,
 
-I think '-include config.h' would be safer, but it requires dropping the
-manual include in all source files.
+On Thu, Nov 18, 2021 at 03:43:53PM +0530, Umang Jain wrote:
+> On 11/7/21 11:20 PM, Hans de Goede wrote:
+> > Hi All,
+> >
+> > Now that we have the atomisp2 driver running on some devices like
+> > the Asus T101HA; and with the exposure + gain controls for the ov2680
+> > sensor found on that laptop fixed:
+> >
+> > https://lore.kernel.org/linux-media/20211107171549.267583-1-hdegoede@redhat.com/
+> >
+> > I believe we need to start thinking about various userspace API
+> > concerns. Thanks to Mauro's great work on various V4L2 API things
+> > are starting to work (somewhat) with regular V4L2 apps, but we really
+> > also need some processing / 3A stuff to make the cameras really
+> > usable.
+> >
+> > The most important thing needed is automatic exposure + gain control,
+> > ATM this relies on a custom ATOMISP ioctl, but I believe that we can
+> > just export the controls as regular v4l2 controls on the sensor subdev,
+> > at least for the ov2680 the exposure is already exported this way
+> > but it is read-only. Does anyone see any problems with just making
+> > these normal v4l2 controls on the sensor subdev ?
+> >
+> > We can then simulate the custom ATOMISP ioctl through the subdevs,
+> > or we can just remove it alltogether.
+> >
+> > Once we have the controls available this way I think we should write
+> > a libcamera plugin, which like the older versions of the Rasberry Pi
+> > plugin (if I've understood things correctly) won't use the MC framework
+> > for now. I believe we first need to understand the atomisp code better
+> > before we add MC support (*). But I still believe that an (experimental)
+> > plugin would be good, both to get something usable so that we can get
+> > more testers / more people interested in contributing.
+> 
+> I am trying to understand what 'plugin' here means? Is it a wrapper 
+> pertaining to use libcamera (fined tuned for atomisp) that apps can use?
+
+I think it means pipeline handler (and IPA module).
+
+> > Another reason is to have another use-case where apps need to support
+> > libcamera to work properly (like on IPU3 devices) which will hopefully
+> > motivate people working on apps to put more effort in supporting libcamera
+> 
+> A valid and solid use case yes!
+> 
+> > (preferably through the new pipewire libcamera plugin so that things
+> > will also work in a flatpack sandbox).
+> 
+> In the longer term plan, I see this happening. I see there SPA support 
+> for libcamera in pipewire (not sure how much usable it is as of today). 
+> Once pipewire has a translating layer of ' request-controls' that can be 
+> mapped to libcamera controls, it would then make good base for 
+> applications for capturing video feeds by sending in requests with 
+> appropriate controls.
+> 
+> On the flatpak side, I think there will be more? plumbing work since  
+> you need to use flatpak-portals, rather than just bundling the library 
+> in the manifest (the sandbox cannot determine system's h/w capabilites). 
+> The current org.freedesktop.portal.Camera [1] seems to be geared to use 
+> pipewire so that's a starting point. CV applications are yet another 
+> use-case libcamera will be interested in, I think. Getting the 
+> flatpak-portal support there might get tricky as of 'quirky' requests? 
+> for the camera and pipewire API seems to be limiting to support that 
+> use-case? Not sure how would this work out (and also a distant future),
+> 
+> [1] https://flatpak.github.io/xdg-desktop-portal/portal-docs.html#gdbus-org.freedesktop.portal.Camera
+> 
+> > ###
+> >
+> > On other thing which I'm wondering about is the need to call S_INPUT to
+> > select front / back in this list from Mauro:
+> >
+> > 	$ for i in $(ls /dev/video*|sort -k2 -to -n); do echo -n $i:; v4l2-ctl -D -d $i|grep Name; done
+> > 	/dev/video0:	Name             : ATOMISP ISP CAPTURE output
+> > 	/dev/video1:	Name             : ATOMISP ISP VIEWFINDER output
+> > 	/dev/video2:	Name             : ATOMISP ISP PREVIEW output
+> > 	/dev/video3:	Name             : ATOMISP ISP VIDEO output
+> > 	/dev/video4:	Name             : ATOMISP ISP ACC
+> > 	/dev/video5:	Name             : ATOMISP ISP MEMORY input
+> > 	/dev/video6:	Name             : ATOMISP ISP CAPTURE output
+> > 	/dev/video7:	Name             : ATOMISP ISP VIEWFINDER output
+> > 	/dev/video8:	Name             : ATOMISP ISP PREVIEW output
+> > 	/dev/video9:	Name             : ATOMISP ISP VIDEO output
+> > 	/dev/video10:	Name             : ATOMISP ISP ACC
+> >
+> > I notice that everything is listed twice, I wonder if we can use /dev/video2
+> > with input 0 together with /dev/video8 for input 1, if that is possible then
+> > we might set a different default input on each.
+> >
+> > And maybe also make them /dev/video0 (already done I see) and /dev/video1,
+> > possibly combined with a module-option to hide the others for now. This
+> > should make things better for regular apps. OTOH if we go the libcamera
+> > route then this is not really necessary I guess?
+> >
+> > Regards,
+> >
+> > Hans
+> >
+> > *) I do believe that in the end MC support makes sense at least
+> > to tie together the
 
 -- 
 Regards,
