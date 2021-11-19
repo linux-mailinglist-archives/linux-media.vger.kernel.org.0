@@ -2,106 +2,123 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2DF1A456BA1
-	for <lists+linux-media@lfdr.de>; Fri, 19 Nov 2021 09:26:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5124A456BC3
+	for <lists+linux-media@lfdr.de>; Fri, 19 Nov 2021 09:40:16 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234173AbhKSI3w (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 19 Nov 2021 03:29:52 -0500
-Received: from mga03.intel.com ([134.134.136.65]:56273 "EHLO mga03.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231570AbhKSI3v (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Fri, 19 Nov 2021 03:29:51 -0500
-X-IronPort-AV: E=McAfee;i="6200,9189,10172"; a="234328256"
-X-IronPort-AV: E=Sophos;i="5.87,246,1631602800"; 
-   d="scan'208";a="234328256"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Nov 2021 00:26:50 -0800
-X-IronPort-AV: E=Sophos;i="5.87,246,1631602800"; 
-   d="scan'208";a="473471484"
-Received: from paasikivi.fi.intel.com ([10.237.72.42])
-  by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Nov 2021 00:26:48 -0800
-Received: from paasikivi.fi.intel.com (localhost [127.0.0.1])
-        by paasikivi.fi.intel.com (Postfix) with SMTP id 6C1E520556;
-        Fri, 19 Nov 2021 10:26:46 +0200 (EET)
-Date:   Fri, 19 Nov 2021 10:26:46 +0200
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Luca Ceresoli <luca@lucaceresoli.net>
-Cc:     Eugen Hristev <eugen.hristev@microchip.com>,
-        leonl@leopardimaging.com, linux-media@vger.kernel.org,
-        skomatineni@nvidia.com, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] media: i2c: imx274: implement enum_mbus_code
-Message-ID: <YZdfxvIWCovVrpAu@paasikivi.fi.intel.com>
-References: <20211118154009.307430-1-eugen.hristev@microchip.com>
- <fa26e991-9228-7ed7-833a-b296e6b32afc@lucaceresoli.net>
- <YZaMtGhqaXIOLhox@paasikivi.fi.intel.com>
- <f7a04ae1-de4f-2e76-1baa-7bafb970dc10@lucaceresoli.net>
+        id S232265AbhKSImW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 19 Nov 2021 03:42:22 -0500
+Received: from mx3.molgen.mpg.de ([141.14.17.11]:52771 "EHLO mx1.molgen.mpg.de"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S229830AbhKSImW (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Fri, 19 Nov 2021 03:42:22 -0500
+Received: from [192.168.0.2] (ip5f5aeced.dynamic.kabel-deutschland.de [95.90.236.237])
+        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        (Authenticated sender: pmenzel)
+        by mx.molgen.mpg.de (Postfix) with ESMTPSA id 154ED61E5FE02;
+        Fri, 19 Nov 2021 09:39:19 +0100 (CET)
+Message-ID: <1cc9afa7-397e-64a0-9f1b-b4d3bd85a8f0@molgen.mpg.de>
+Date:   Fri, 19 Nov 2021 09:39:18 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <f7a04ae1-de4f-2e76-1baa-7bafb970dc10@lucaceresoli.net>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.3.0
+Subject: Re: [PATCH v5 05/10] media: v4l: Add definition for the Aspeed JPEG
+ format
+Content-Language: en-US
+To:     Jammy Huang <jammy_huang@aspeedtech.com>
+Cc:     "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>,
+        "andrew@aj.id.au" <andrew@aj.id.au>,
+        "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
+        "openbmc@lists.ozlabs.org" <openbmc@lists.ozlabs.org>,
+        "eajames@linux.ibm.com" <eajames@linux.ibm.com>,
+        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "hverkuil-cisco@xs4all.nl" <hverkuil-cisco@xs4all.nl>,
+        "mchehab@kernel.org" <mchehab@kernel.org>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>,
+        "laurent.pinchart@ideasonboard.com" 
+        <laurent.pinchart@ideasonboard.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>
+References: <20211118074030.685-1-jammy_huang@aspeedtech.com>
+ <20211118074030.685-6-jammy_huang@aspeedtech.com>
+ <YZZIDNCLJXwrqY4W@paasikivi.fi.intel.com>
+ <0bed6093-0af6-4fc4-716f-6cf8b1302320@aspeedtech.com>
+From:   Paul Menzel <pmenzel@molgen.mpg.de>
+In-Reply-To: <0bed6093-0af6-4fc4-716f-6cf8b1302320@aspeedtech.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Luca,
 
-On Thu, Nov 18, 2021 at 06:39:09PM +0100, Luca Ceresoli wrote:
-> Hi,
-> 
-> On 18/11/21 18:26, Sakari Ailus wrote:
-> > Hi Luca,
-> > 
-> > On Thu, Nov 18, 2021 at 06:11:35PM +0100, Luca Ceresoli wrote:
-> >> Hi Eugen,
-> >>
-> >> On 18/11/21 16:40, Eugen Hristev wrote:
-> >>> Current driver supports only SRGGB 10 bit RAW bayer format.
-> >>> Add the enum_mbus_code implementation to report this format supported.
-> >>>
-> >>>  # v4l2-ctl -d /dev/v4l-subdev3 --list-subdev-mbus-codes
-> >>> ioctl: VIDIOC_SUBDEV_ENUM_MBUS_CODE (pad=0)
-> >>>         0x300f: MEDIA_BUS_FMT_SRGGB10_1X10
-> >>>  #
-> >>>
-> >>> Signed-off-by: Eugen Hristev <eugen.hristev@microchip.com>
-> >>
-> >> Generally OK, but I have a few minor comments.
-> >>
-> >>> ---
-> >>>  drivers/media/i2c/imx274.c | 14 ++++++++++++++
-> >>>  1 file changed, 14 insertions(+)
-> >>>
-> >>> diff --git a/drivers/media/i2c/imx274.c b/drivers/media/i2c/imx274.c
-> >>> index 2e804e3b70c4..25a4ef8f6187 100644
-> >>> --- a/drivers/media/i2c/imx274.c
-> >>> +++ b/drivers/media/i2c/imx274.c
-> >>> @@ -1909,7 +1909,21 @@ static int imx274_set_frame_interval(struct stimx274 *priv,
-> >>>  	return err;
-> >>>  }
-> >>>  
-> >>> +static int imx274_enum_mbus_code(struct v4l2_subdev *sd,
-> >>> +				 struct v4l2_subdev_state *sd_state,
-> >>> +				 struct v4l2_subdev_mbus_code_enum *code)
-> >>> +{
-> >>> +	if (code->index > 0)
-> >>> +		return -EINVAL;
-> >>
-> >> Many driver do check code->pad too, so you might want to do
-> >>
-> >> 	if (code->pad > 0 || code->index > 0)
-> >> 		return -EINVAL;
-> > 
-> > The caller will have checked the pad exists, and there's a single one on
-> > the subdev I suppose.
-> 
-> Thanks for your explanation. That's very reasonable indeed.
-> 
-> Now, why do many drivers do that? Old checks that later turned useless
-> and nobody ever removed?
+Dear Jammy,
 
-Some of those exists, that's for sure. The check was added to the callers a
-few years ago I think. Many drivers also have more pads but then they
-typically return something else than -EINVAL for the other pads.
 
--- 
-Sakari Ailus
+Am 19.11.21 um 03:02 schrieb Jammy Huang:
+
+> On 2021/11/18 下午 08:33, Sakari Ailus wrote:
+
+>> On Thu, Nov 18, 2021 at 03:40:26PM +0800, Jammy Huang wrote:
+>>> This introduces support for the Aspeed JPEG format, where the new frame
+>>> can refer to previous frame to reduce the amount of compressed data. The
+>>> concept is similar to I/P frame of video compression. I will compare the
+>>> new frame with previous one to decide which macroblock's data is
+>>> changed, and only the changed macroblocks will be compressed.
+>>>
+>>> This Aspeed JPEG format is used by the video engine on Aspeed platforms,
+>>> which is generally adapted for remote KVM.
+>>>
+>>> Signed-off-by: Jammy Huang <jammy_huang@aspeedtech.com>
+>>> ---
+>>> v5:
+>>>    - no update
+>>> v4:
+>>>    - new
+>>> ---
+>>>   Documentation/media/uapi/v4l/pixfmt-reserved.rst | 12 ++++++++++++
+>>>   drivers/media/v4l2-core/v4l2-ioctl.c             |  1 +
+>>>   include/uapi/linux/videodev2.h                   |  1 +
+>>>   3 files changed, 14 insertions(+)
+>>>
+>>> diff --git a/Documentation/media/uapi/v4l/pixfmt-reserved.rst 
+>>> b/Documentation/media/uapi/v4l/pixfmt-reserved.rst
+>>> index b2cd155e691b..23c05063133d 100644
+>>> --- a/Documentation/media/uapi/v4l/pixfmt-reserved.rst
+>>> +++ b/Documentation/media/uapi/v4l/pixfmt-reserved.rst
+>>> @@ -264,6 +264,18 @@ please make a proposal on the linux-media 
+>>> mailing list.
+>>>       of tiles, resulting in 32-aligned resolutions for the luminance 
+>>> plane
+>>>       and 16-aligned resolutions for the chrominance plane (with 2x2
+>>>       subsampling).
+>>> +    * .. _V4L2-PIX-FMT-AJPG:
+>>> +
+>>> +      - ``V4L2_PIX_FMT_AJPG``
+>>> +      - 'AJPG'
+>>> +      - ASPEED JPEG format used by the aspeed-video driver on Aspeed platforms,
+>>> +        which is generally adapted for remote KVM.
+>>> +        On each frame compression, I will compare the new frame with previous
+>>> +        one to decide which macroblock's data is changed, and only the changed
+>>> +        macroblocks will be compressed.
+>>> +
+>>> +        You could reference to chapter 36, Video Engine, of AST2600's datasheet
+>>> +        for more information.
+>> Is this datasheet publicly available? Do you have a URL?
+> 
+> Sorry, this datasheet is not publicly available.
+> Hans mentioned this as well in the discussion below:
+> 
+> https://lkml.org/lkml/2021/11/10/101
+
+If questions come up during review, please also add the answers to the 
+commit message of the next iteration. ;-) Maybe:
+
+> The implementation is based on datasheet *Name goes here*, revision
+> X, which is not publicly available.
+
+Kind regards,
+
+Paul
