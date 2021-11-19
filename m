@@ -2,135 +2,123 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D78ED456C7A
-	for <lists+linux-media@lfdr.de>; Fri, 19 Nov 2021 10:39:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6B6C3456DB2
+	for <lists+linux-media@lfdr.de>; Fri, 19 Nov 2021 11:41:50 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232894AbhKSJmQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 19 Nov 2021 04:42:16 -0500
-Received: from twspam01.aspeedtech.com ([211.20.114.71]:57493 "EHLO
-        twspam01.aspeedtech.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232695AbhKSJmP (ORCPT
+        id S234792AbhKSKol (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 19 Nov 2021 05:44:41 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35866 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S233406AbhKSKol (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 19 Nov 2021 04:42:15 -0500
-Received: from mail.aspeedtech.com ([192.168.0.24])
-        by twspam01.aspeedtech.com with ESMTP id 1AJ9Dv16017475;
-        Fri, 19 Nov 2021 17:13:57 +0800 (GMT-8)
-        (envelope-from jammy_huang@aspeedtech.com)
-Received: from [192.168.2.115] (192.168.2.115) by TWMBX02.aspeed.com
- (192.168.0.24) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Fri, 19 Nov
- 2021 17:37:46 +0800
-Message-ID: <b38e52d3-2800-ea59-1008-d5327c1c3e40@aspeedtech.com>
-Date:   Fri, 19 Nov 2021 17:37:47 +0800
+        Fri, 19 Nov 2021 05:44:41 -0500
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7CED5C061574
+        for <linux-media@vger.kernel.org>; Fri, 19 Nov 2021 02:41:39 -0800 (PST)
+Received: from dude02.hi.pengutronix.de ([2001:67c:670:100:1d::28] helo=dude02.pengutronix.de.)
+        by metis.ext.pengutronix.de with esmtp (Exim 4.92)
+        (envelope-from <p.zabel@pengutronix.de>)
+        id 1mo1Kr-0003ZB-6O; Fri, 19 Nov 2021 11:41:37 +0100
+From:   Philipp Zabel <p.zabel@pengutronix.de>
+To:     linux-media@vger.kernel.org
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Martin Weber <martin.weber@br-automation.com>,
+        kernel@pengutronix.de
+Subject: [PATCH] media: coda: fix CODA960 JPEG encoder buffer overflow
+Date:   Fri, 19 Nov 2021 11:41:20 +0100
+Message-Id: <20211119104120.827482-1-p.zabel@pengutronix.de>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.1
-Subject: Re: [PATCH v5 05/10] media: v4l: Add definition for the Aspeed JPEG
- format
-Content-Language: en-US
-To:     Paul Menzel <pmenzel@molgen.mpg.de>
-CC:     "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>,
-        "andrew@aj.id.au" <andrew@aj.id.au>,
-        "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
-        "openbmc@lists.ozlabs.org" <openbmc@lists.ozlabs.org>,
-        "eajames@linux.ibm.com" <eajames@linux.ibm.com>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "hverkuil-cisco@xs4all.nl" <hverkuil-cisco@xs4all.nl>,
-        "mchehab@kernel.org" <mchehab@kernel.org>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>,
-        "laurent.pinchart@ideasonboard.com" 
-        <laurent.pinchart@ideasonboard.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>
-References: <20211118074030.685-1-jammy_huang@aspeedtech.com>
- <20211118074030.685-6-jammy_huang@aspeedtech.com>
- <YZZIDNCLJXwrqY4W@paasikivi.fi.intel.com>
- <0bed6093-0af6-4fc4-716f-6cf8b1302320@aspeedtech.com>
- <1cc9afa7-397e-64a0-9f1b-b4d3bd85a8f0@molgen.mpg.de>
-From:   Jammy Huang <jammy_huang@aspeedtech.com>
-In-Reply-To: <1cc9afa7-397e-64a0-9f1b-b4d3bd85a8f0@molgen.mpg.de>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Originating-IP: [192.168.2.115]
-X-ClientProxiedBy: TWMBX02.aspeed.com (192.168.0.24) To TWMBX02.aspeed.com
- (192.168.0.24)
-X-DNSRBL: 
-X-MAIL: twspam01.aspeedtech.com 1AJ9Dv16017475
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::28
+X-SA-Exim-Mail-From: p.zabel@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-media@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Dear Paul,
+Stop the CODA960 JPEG encoder from overflowing capture buffers.
+The bitstream buffer overflow interrupt doesn't seem to be connected,
+so this has to be handled via timeout instead.
 
-OK, thanks for your suggestion.
+Reported-by: Martin Weber <martin.weber@br-automation.com>
+Fixes: 96f6f62c4656 ("media: coda: jpeg: add CODA960 JPEG encoder support")
+Tested-by: Martin Weber <martin.weber@br-automation.com>
+Signed-off-by: Philipp Zabel <p.zabel@pengutronix.de>
+---
+ drivers/media/platform/coda/coda-common.c |  8 +++++---
+ drivers/media/platform/coda/coda-jpeg.c   | 21 ++++++++++++++++++++-
+ 2 files changed, 25 insertions(+), 4 deletions(-)
 
-On 2021/11/19 下午 04:39, Paul Menzel wrote:
-> Dear Jammy,
->
->
-> Am 19.11.21 um 03:02 schrieb Jammy Huang:
->
->> On 2021/11/18 下午 08:33, Sakari Ailus wrote:
->>> On Thu, Nov 18, 2021 at 03:40:26PM +0800, Jammy Huang wrote:
->>>> This introduces support for the Aspeed JPEG format, where the new frame
->>>> can refer to previous frame to reduce the amount of compressed data. The
->>>> concept is similar to I/P frame of video compression. I will compare the
->>>> new frame with previous one to decide which macroblock's data is
->>>> changed, and only the changed macroblocks will be compressed.
->>>>
->>>> This Aspeed JPEG format is used by the video engine on Aspeed platforms,
->>>> which is generally adapted for remote KVM.
->>>>
->>>> Signed-off-by: Jammy Huang <jammy_huang@aspeedtech.com>
->>>> ---
->>>> v5:
->>>>     - no update
->>>> v4:
->>>>     - new
->>>> ---
->>>>    Documentation/media/uapi/v4l/pixfmt-reserved.rst | 12 ++++++++++++
->>>>    drivers/media/v4l2-core/v4l2-ioctl.c             |  1 +
->>>>    include/uapi/linux/videodev2.h                   |  1 +
->>>>    3 files changed, 14 insertions(+)
->>>>
->>>> diff --git a/Documentation/media/uapi/v4l/pixfmt-reserved.rst
->>>> b/Documentation/media/uapi/v4l/pixfmt-reserved.rst
->>>> index b2cd155e691b..23c05063133d 100644
->>>> --- a/Documentation/media/uapi/v4l/pixfmt-reserved.rst
->>>> +++ b/Documentation/media/uapi/v4l/pixfmt-reserved.rst
->>>> @@ -264,6 +264,18 @@ please make a proposal on the linux-media
->>>> mailing list.
->>>>        of tiles, resulting in 32-aligned resolutions for the luminance
->>>> plane
->>>>        and 16-aligned resolutions for the chrominance plane (with 2x2
->>>>        subsampling).
->>>> +    * .. _V4L2-PIX-FMT-AJPG:
->>>> +
->>>> +      - ``V4L2_PIX_FMT_AJPG``
->>>> +      - 'AJPG'
->>>> +      - ASPEED JPEG format used by the aspeed-video driver on Aspeed platforms,
->>>> +        which is generally adapted for remote KVM.
->>>> +        On each frame compression, I will compare the new frame with previous
->>>> +        one to decide which macroblock's data is changed, and only the changed
->>>> +        macroblocks will be compressed.
->>>> +
->>>> +        You could reference to chapter 36, Video Engine, of AST2600's datasheet
->>>> +        for more information.
->>> Is this datasheet publicly available? Do you have a URL?
->> Sorry, this datasheet is not publicly available.
->> Hans mentioned this as well in the discussion below:
->>
->> https://lkml.org/lkml/2021/11/10/101
-> If questions come up during review, please also add the answers to the
-> commit message of the next iteration. ;-) Maybe:
->
->> The implementation is based on datasheet *Name goes here*, revision
->> X, which is not publicly available.
-> Kind regards,
->
-> Paul
-
+diff --git a/drivers/media/platform/coda/coda-common.c b/drivers/media/platform/coda/coda-common.c
+index 0e312b0842d7..9a2640a9c75c 100644
+--- a/drivers/media/platform/coda/coda-common.c
++++ b/drivers/media/platform/coda/coda-common.c
+@@ -1537,11 +1537,13 @@ static void coda_pic_run_work(struct work_struct *work)
+ 
+ 	if (!wait_for_completion_timeout(&ctx->completion,
+ 					 msecs_to_jiffies(1000))) {
+-		dev_err(dev->dev, "CODA PIC_RUN timeout\n");
++		if (ctx->use_bit) {
++			dev_err(dev->dev, "CODA PIC_RUN timeout\n");
+ 
+-		ctx->hold = true;
++			ctx->hold = true;
+ 
+-		coda_hw_reset(ctx);
++			coda_hw_reset(ctx);
++		}
+ 
+ 		if (ctx->ops->run_timeout)
+ 			ctx->ops->run_timeout(ctx);
+diff --git a/drivers/media/platform/coda/coda-jpeg.c b/drivers/media/platform/coda/coda-jpeg.c
+index b11cfbe166dd..a72f4655e5ad 100644
+--- a/drivers/media/platform/coda/coda-jpeg.c
++++ b/drivers/media/platform/coda/coda-jpeg.c
+@@ -1127,7 +1127,8 @@ static int coda9_jpeg_prepare_encode(struct coda_ctx *ctx)
+ 	coda_write(dev, 0, CODA9_REG_JPEG_GBU_BT_PTR);
+ 	coda_write(dev, 0, CODA9_REG_JPEG_GBU_WD_PTR);
+ 	coda_write(dev, 0, CODA9_REG_JPEG_GBU_BBSR);
+-	coda_write(dev, 0, CODA9_REG_JPEG_BBC_STRM_CTRL);
++	coda_write(dev, BIT(31) | ((end_addr - start_addr - header_len) / 256),
++		   CODA9_REG_JPEG_BBC_STRM_CTRL);
+ 	coda_write(dev, 0, CODA9_REG_JPEG_GBU_CTRL);
+ 	coda_write(dev, 0, CODA9_REG_JPEG_GBU_FF_RPTR);
+ 	coda_write(dev, 127, CODA9_REG_JPEG_GBU_BBER);
+@@ -1257,6 +1258,23 @@ static void coda9_jpeg_finish_encode(struct coda_ctx *ctx)
+ 	coda_hw_reset(ctx);
+ }
+ 
++static void coda9_jpeg_encode_timeout(struct coda_ctx *ctx)
++{
++	struct coda_dev *dev = ctx->dev;
++	u32 end_addr, wr_ptr;
++
++	/* Handle missing BBC overflow interrupt via timeout */
++	end_addr = coda_read(dev, CODA9_REG_JPEG_BBC_END_ADDR);
++	wr_ptr = coda_read(dev, CODA9_REG_JPEG_BBC_WR_PTR);
++	if (wr_ptr >= end_addr - 256) {
++		v4l2_err(&dev->v4l2_dev, "JPEG too large for capture buffer\n");
++		coda9_jpeg_finish_encode(ctx);
++		return;
++	}
++
++	coda_hw_reset(ctx);
++}
++
+ static void coda9_jpeg_release(struct coda_ctx *ctx)
+ {
+ 	int i;
+@@ -1276,6 +1294,7 @@ const struct coda_context_ops coda9_jpeg_encode_ops = {
+ 	.start_streaming = coda9_jpeg_start_encoding,
+ 	.prepare_run = coda9_jpeg_prepare_encode,
+ 	.finish_run = coda9_jpeg_finish_encode,
++	.run_timeout = coda9_jpeg_encode_timeout,
+ 	.release = coda9_jpeg_release,
+ };
+ 
 -- 
-Best Regards
-Jammy
+2.30.2
 
