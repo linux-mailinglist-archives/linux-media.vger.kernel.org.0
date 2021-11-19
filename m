@@ -2,165 +2,184 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1564A4569E9
-	for <lists+linux-media@lfdr.de>; Fri, 19 Nov 2021 07:07:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4E3E9456B15
+	for <lists+linux-media@lfdr.de>; Fri, 19 Nov 2021 08:47:06 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232992AbhKSGKV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 19 Nov 2021 01:10:21 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58490 "EHLO
+        id S231939AbhKSHuA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 19 Nov 2021 02:50:00 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52550 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232853AbhKSGKU (ORCPT
+        with ESMTP id S229922AbhKSHuA (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 19 Nov 2021 01:10:20 -0500
-Received: from lb1-smtp-cloud8.xs4all.net (lb1-smtp-cloud8.xs4all.net [IPv6:2001:888:0:108::1b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D9123C061574
-        for <linux-media@vger.kernel.org>; Thu, 18 Nov 2021 22:07:18 -0800 (PST)
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud8.xs4all.net with ESMTPA
-        id nx3Gm5kgmBB1Qnx3KmdliK; Fri, 19 Nov 2021 07:07:14 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1637302034; bh=TUHfAVcPSiSAvG5h8M+KK0TREC8USOX/6OG80mE8HJY=;
-        h=Message-ID:Date:From:To:Subject:From:Subject;
-        b=cOc/MK2/p3dAxc5CVGvfeikg3w/+0VOmWmGBemMNjy4tOvWSBhMpyshIJ0DJIMMfy
-         sC3E0MLNAplyGjZGGsaFVUwI/wOgbTsqZl/SRjdTZO2dXVgkUSLT8oLYvasBS4ikI0
-         oVZC6DIsxRvb1Mlko91qY+Yin6gaSUhNtug1OulpOOWjNh+icCIxQaR/zAh1miNXY4
-         M7e11zjN6yJ4b6pLnP8F0pMT6iyJ4oJoYHyNCJVHcD/JABGyiciU7Go9988afq+4sK
-         15n/xihsSGEbUrO7zrfi4ljUXwTujL4Ad/G3j2PLu2WbaknpRraHH8DrRQHtnVw9sF
-         S0tvjrgvQgH/A==
-Message-ID: <1eccd32fdc4777f24c870c69bf38b843@smtp-cloud8.xs4all.net>
-Date:   Fri, 19 Nov 2021 07:07:10 +0100
-From:   "Hans Verkuil" <hverkuil@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: ERRORS
-X-CMAE-Envelope: MS4xfPKrkyi+ALcyv3Ip7ce2d1mml34DefIZr2dWgCWzoEcDAx7L36/KlNSSheTwAdfmh0ObPw0NUheHgkvaASFVmSxy9yjjaLkjT+1r1d7EHH9y/0+8R5am
- bKSg3O53PCrzPvYirSXvbZ7NR3Lf5cVUKe0pikqbGG0K4fhtdw1JLWlxrQy+yIGhG9eNDg+U8K4Wkw==
+        Fri, 19 Nov 2021 02:50:00 -0500
+Received: from mail-pl1-x632.google.com (mail-pl1-x632.google.com [IPv6:2607:f8b0:4864:20::632])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 38454C06173E
+        for <linux-media@vger.kernel.org>; Thu, 18 Nov 2021 23:46:59 -0800 (PST)
+Received: by mail-pl1-x632.google.com with SMTP id b13so7528543plg.2
+        for <linux-media@vger.kernel.org>; Thu, 18 Nov 2021 23:46:59 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=NBNCtCfqZurLfKPQYW4MDFzz8IQkjaKhoSv1g1++xxc=;
+        b=jqpginvm/vLrNZxTGFU4ndyCA+Jy+2RIfESFUWEQqcEBVweBM32Ekf8kfLeNOV5u0p
+         7pOkviWwOlxUELyU5MJJo0iLXUffbfWtEkqGQgU+8vXF5KHBqnIQxjdgYeEbPihIRYCs
+         6Wce0sbJzAdfCCX4i+JujESBrn6/W1Mvfvcf0=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=NBNCtCfqZurLfKPQYW4MDFzz8IQkjaKhoSv1g1++xxc=;
+        b=sgLIdyNQdU/mXl1bJhU5/b1ZD6dsVAAswDSyXyhjVRs1dKnfKFZcwIoTjsqNyafb0L
+         azFnnCy15/LnwOkeZTalHmEkdeUDrwbd5OEefYiqjpMqUTmrC8EW+OuNBTlAOqgAapQr
+         ZOj7LqqoO+qi71aOLJavN/pKmJFePwkoU/VnmE+aqRdMjn6F2uumtGBXeNtV+tZP5hv2
+         SM5DklcnLA6OU9qw4GUg3uFkMveW51LJt6Zh4+c7PUp92t42zBFU0gsV59V41v4Xm81O
+         C4NnLOdQTn89wlaE0FJO6zNilIieYDZDRszDoAIZGetS5UgxiSq7fW8g5TGKhiS8Wtvx
+         JXgQ==
+X-Gm-Message-State: AOAM533qIu6OBgClk5wiCd3chYRSckyHzY/w5990VIHSyIO8LOPOLvQe
+        pdy95fjJ/qwPDybYyuWk4ojjxkg6/V+DQg==
+X-Google-Smtp-Source: ABdhPJyFmPMYwHPxr+FyJ3stDNWysKqief+fvUPuIW24yLnrFAjmZiZUA23UfnYdhPzXTT1lpcoTXw==
+X-Received: by 2002:a17:90a:e012:: with SMTP id u18mr2272529pjy.103.1637308018800;
+        Thu, 18 Nov 2021 23:46:58 -0800 (PST)
+Received: from wenstp920.tpe.corp.google.com ([2401:fa00:1:10:1e9e:88c0:7cad:9b21])
+        by smtp.gmail.com with ESMTPSA id t4sm1919051pfg.155.2021.11.18.23.46.56
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 18 Nov 2021 23:46:58 -0800 (PST)
+From:   Chen-Yu Tsai <wenst@chromium.org>
+To:     Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     Chen-Yu Tsai <wenst@chromium.org>, linux-media@vger.kernel.org,
+        linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH] media: hantro: Hook up RK3399 JPEG encoder output
+Date:   Fri, 19 Nov 2021 15:46:54 +0800
+Message-Id: <20211119074654.470729-1-wenst@chromium.org>
+X-Mailer: git-send-email 2.34.0.rc2.393.gf8c9666880-goog
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the kernels and architectures in the list below.
+The JPEG encoder found in the Hantro H1 encoder block only produces a
+raw entropy-encoded scan. The driver is responsible for building a JPEG
+compliant bitstream and placing the entropy-encoded scan in it. Right
+now the driver uses a bounce buffer for the hardware to output the raw
+scan to.
 
-Results of the daily build of media_tree:
+In commit e765dba11ec2 ("hantro: Move hantro_enc_buf_finish to JPEG
+codec_ops.done"), the code that copies the raw scan from the bounce
+buffer to the capture buffer was moved, but was only hooked up for the
+Hantro H1 (then RK3288) variant. The RK3399 variant was broken,
+producing a JPEG bitstream without the scan, and the capture buffer's
+.bytesused field unset.
 
-date:			Fri Nov 19 05:00:13 CET 2021
-media-tree git hash:	999ed03518cb01aa9ef55c025db79567eec6268c
-media_build git hash:	0995f9ae9c8eadc208b33e39e6dd33e0e7c49eb4
-v4l-utils git hash:	b949cffb419ce76e8a66f83d62f2011c682f94d9
-edid-decode git hash:	b00755e34eb12aa92416aaf1bb7b02603131afe0
-gcc version:		i686-linux-gcc (GCC) 11.2.0
-sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
-sparse version:		0.6.3
-smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
-smatch version:		0.6.3
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: 8316772c4add75a82a86054e3f1c63b664b6542f
-host hardware:		x86_64
-host os:		5.14.0-2-amd64
+Fix this by duplicating the code that is executed when the JPEG encoder
+finishes encoding a frame. As the encoded length is read back from
+hardware, and the variants having different register layouts, the
+code is duplicated rather than shared.
 
-linux-git-sh: OK
-linux-git-arm-at91: OK
-linux-git-arm-davinci: OK
-linux-git-arm-stm32: 
-linux-git-mips: OK
-linux-git-arm-pxa: OK
-linux-git-arm-multi: OK
-linux-git-arm64: OK
-linux-git-powerpc64: OK
-linux-git-i686: OK
-linux-git-x86_64: OK
-Check COMPILE_TEST: OK
-Check for strcpy/strncpy/strlcpy: OK
-linux-4.4.283-i686: OK
-linux-4.4.283-x86_64: OK
-linux-4.5.7-i686: OK
-linux-4.5.7-x86_64: OK
-linux-4.6.7-i686: OK
-linux-4.6.7-x86_64: OK
-linux-4.7.10-i686: OK
-linux-4.7.10-x86_64: OK
-linux-4.8.17-i686: OK
-linux-4.8.17-x86_64: OK
-linux-4.9.246-i686: OK
-linux-4.9.246-x86_64: OK
-linux-4.10.17-i686: OK
-linux-4.10.17-x86_64: OK
-linux-4.11.12-i686: OK
-linux-4.11.12-x86_64: OK
-linux-4.12.14-i686: OK
-linux-4.12.14-x86_64: OK
-linux-4.13.16-i686: OK
-linux-4.13.16-x86_64: OK
-linux-4.14.246-i686: OK
-linux-4.14.246-x86_64: OK
-linux-4.15.18-i686: OK
-linux-4.15.18-x86_64: OK
-linux-4.16.18-i686: OK
-linux-4.16.18-x86_64: OK
-linux-4.17.19-i686: OK
-linux-4.17.19-x86_64: OK
-linux-4.18.20-i686: OK
-linux-4.18.20-x86_64: OK
-linux-4.19.206-i686: OK
-linux-4.19.206-x86_64: OK
-linux-4.20.17-i686: OK
-linux-4.20.17-x86_64: OK
-linux-5.0.21-i686: OK
-linux-5.0.21-x86_64: OK
-linux-5.1.21-i686: OK
-linux-5.1.21-x86_64: OK
-linux-5.2.21-i686: OK
-linux-5.2.21-x86_64: OK
-linux-5.3.18-i686: OK
-linux-5.3.18-x86_64: OK
-linux-5.4.144-i686: OK
-linux-5.4.144-x86_64: OK
-linux-5.5.19-i686: OK
-linux-5.5.19-x86_64: OK
-linux-5.6.19-i686: OK
-linux-5.6.19-x86_64: OK
-linux-5.7.19-i686: OK
-linux-5.7.19-x86_64: OK
-linux-5.8.18-i686: OK
-linux-5.8.18-x86_64: OK
-linux-5.9.16-i686: OK
-linux-5.9.16-x86_64: OK
-linux-5.10.62-i686: OK
-linux-5.10.62-x86_64: OK
-linux-5.11.22-i686: OK
-linux-5.11.22-x86_64: OK
-linux-5.12.19-i686: OK
-linux-5.12.19-x86_64: OK
-linux-5.13.14-i686: OK
-linux-5.13.14-x86_64: OK
-linux-5.14.1-i686: OK
-linux-5.14.1-x86_64: OK
-linux-5.15.1-i686: OK
-linux-5.15.1-x86_64: OK
-linux-5.16-rc1-i686: OK
-linux-5.16-rc1-x86_64: OK
-apps: OK
-spec-git: OK
-virtme: OK: Final Summary: 2989, Succeeded: 2989, Failed: 0, Warnings: 0
-virtme-32: ERRORS: Final Summary: 3100, Succeeded: 3095, Failed: 5, Warnings: 5
-sparse: WARNINGS
-smatch: WARNINGS
-kerneldoc: WARNINGS
+Fixes: e765dba11ec2 ("hantro: Move hantro_enc_buf_finish to JPEG codec_ops.done")
+Signed-off-by: Chen-Yu Tsai <wenst@chromium.org>
+---
+This was developed on the downstream ChromeOS 5.10 kernel (with a hack
+for .data_offset) and tested with ChromeOS's jpeg_encode_accelerator_unittest
+patched to accept non-JFIF JPEG streams (https://crrev.com/c/3291480).
 
-Detailed results are available here:
+This was then forward-ported to mainline (name and filename changes) and
+compile tested only.
 
-http://www.xs4all.nl/~hverkuil/logs/Friday.log
+---
+ .../staging/media/hantro/hantro_h1_jpeg_enc.c   |  2 +-
+ drivers/staging/media/hantro/hantro_hw.h        |  3 ++-
+ .../media/hantro/rockchip_vpu2_hw_jpeg_enc.c    | 17 +++++++++++++++++
+ drivers/staging/media/hantro/rockchip_vpu_hw.c  |  5 +++--
+ 4 files changed, 23 insertions(+), 4 deletions(-)
 
-Detailed regression test results are available here:
+diff --git a/drivers/staging/media/hantro/hantro_h1_jpeg_enc.c b/drivers/staging/media/hantro/hantro_h1_jpeg_enc.c
+index 56cf261a8e95..9cd713c02a45 100644
+--- a/drivers/staging/media/hantro/hantro_h1_jpeg_enc.c
++++ b/drivers/staging/media/hantro/hantro_h1_jpeg_enc.c
+@@ -140,7 +140,7 @@ int hantro_h1_jpeg_enc_run(struct hantro_ctx *ctx)
+ 	return 0;
+ }
+ 
+-void hantro_jpeg_enc_done(struct hantro_ctx *ctx)
++void hantro_h1_jpeg_enc_done(struct hantro_ctx *ctx)
+ {
+ 	struct hantro_dev *vpu = ctx->dev;
+ 	u32 bytesused = vepu_read(vpu, H1_REG_STR_BUF_LIMIT) / 8;
+diff --git a/drivers/staging/media/hantro/hantro_hw.h b/drivers/staging/media/hantro/hantro_hw.h
+index 267a6d33a47b..60d4602d33ed 100644
+--- a/drivers/staging/media/hantro/hantro_hw.h
++++ b/drivers/staging/media/hantro/hantro_hw.h
+@@ -239,7 +239,8 @@ int hantro_h1_jpeg_enc_run(struct hantro_ctx *ctx);
+ int rockchip_vpu2_jpeg_enc_run(struct hantro_ctx *ctx);
+ int hantro_jpeg_enc_init(struct hantro_ctx *ctx);
+ void hantro_jpeg_enc_exit(struct hantro_ctx *ctx);
+-void hantro_jpeg_enc_done(struct hantro_ctx *ctx);
++void hantro_h1_jpeg_enc_done(struct hantro_ctx *ctx);
++void rockchip_vpu2_jpeg_enc_done(struct hantro_ctx *ctx);
+ 
+ dma_addr_t hantro_h264_get_ref_buf(struct hantro_ctx *ctx,
+ 				   unsigned int dpb_idx);
+diff --git a/drivers/staging/media/hantro/rockchip_vpu2_hw_jpeg_enc.c b/drivers/staging/media/hantro/rockchip_vpu2_hw_jpeg_enc.c
+index 991213ce1610..5d9ff420f0b5 100644
+--- a/drivers/staging/media/hantro/rockchip_vpu2_hw_jpeg_enc.c
++++ b/drivers/staging/media/hantro/rockchip_vpu2_hw_jpeg_enc.c
+@@ -171,3 +171,20 @@ int rockchip_vpu2_jpeg_enc_run(struct hantro_ctx *ctx)
+ 
+ 	return 0;
+ }
++
++void rockchip_vpu2_jpeg_enc_done(struct hantro_ctx *ctx)
++{
++	struct hantro_dev *vpu = ctx->dev;
++	u32 bytesused = vepu_read(vpu, VEPU_REG_STR_BUF_LIMIT) / 8;
++	struct vb2_v4l2_buffer *dst_buf = hantro_get_dst_buf(ctx);
++
++	/*
++	 * TODO: Rework the JPEG encoder to eliminate the need
++	 * for a bounce buffer.
++	 */
++	memcpy(vb2_plane_vaddr(&dst_buf->vb2_buf, 0) +
++	       ctx->vpu_dst_fmt->header_size,
++	       ctx->jpeg_enc.bounce_buffer.cpu, bytesused);
++	vb2_set_plane_payload(&dst_buf->vb2_buf, 0,
++			      ctx->vpu_dst_fmt->header_size + bytesused);
++}
+diff --git a/drivers/staging/media/hantro/rockchip_vpu_hw.c b/drivers/staging/media/hantro/rockchip_vpu_hw.c
+index d4f52957cc53..0c22039162a0 100644
+--- a/drivers/staging/media/hantro/rockchip_vpu_hw.c
++++ b/drivers/staging/media/hantro/rockchip_vpu_hw.c
+@@ -343,7 +343,7 @@ static const struct hantro_codec_ops rk3066_vpu_codec_ops[] = {
+ 		.run = hantro_h1_jpeg_enc_run,
+ 		.reset = rockchip_vpu1_enc_reset,
+ 		.init = hantro_jpeg_enc_init,
+-		.done = hantro_jpeg_enc_done,
++		.done = hantro_h1_jpeg_enc_done,
+ 		.exit = hantro_jpeg_enc_exit,
+ 	},
+ 	[HANTRO_MODE_H264_DEC] = {
+@@ -371,7 +371,7 @@ static const struct hantro_codec_ops rk3288_vpu_codec_ops[] = {
+ 		.run = hantro_h1_jpeg_enc_run,
+ 		.reset = rockchip_vpu1_enc_reset,
+ 		.init = hantro_jpeg_enc_init,
+-		.done = hantro_jpeg_enc_done,
++		.done = hantro_h1_jpeg_enc_done,
+ 		.exit = hantro_jpeg_enc_exit,
+ 	},
+ 	[HANTRO_MODE_H264_DEC] = {
+@@ -399,6 +399,7 @@ static const struct hantro_codec_ops rk3399_vpu_codec_ops[] = {
+ 		.run = rockchip_vpu2_jpeg_enc_run,
+ 		.reset = rockchip_vpu2_enc_reset,
+ 		.init = hantro_jpeg_enc_init,
++		.done = rockchip_vpu2_jpeg_enc_done,
+ 		.exit = hantro_jpeg_enc_exit,
+ 	},
+ 	[HANTRO_MODE_H264_DEC] = {
+-- 
+2.34.0.rc2.393.gf8c9666880-goog
 
-http://www.xs4all.nl/~hverkuil/logs/Friday-test-media.log
-http://www.xs4all.nl/~hverkuil/logs/Friday-test-media-32.log
-http://www.xs4all.nl/~hverkuil/logs/Friday-test-media-dmesg.log
-
-Full logs are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Friday.tar.bz2
-
-The Media Infrastructure API from this daily build is here:
-
-http://www.xs4all.nl/~hverkuil/spec/index.html
