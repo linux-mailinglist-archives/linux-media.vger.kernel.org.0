@@ -2,331 +2,152 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4310C45800E
-	for <lists+linux-media@lfdr.de>; Sat, 20 Nov 2021 19:53:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E87254580D5
+	for <lists+linux-media@lfdr.de>; Sat, 20 Nov 2021 23:47:05 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237302AbhKTS4U (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 20 Nov 2021 13:56:20 -0500
-Received: from mga18.intel.com ([134.134.136.126]:44869 "EHLO mga18.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229590AbhKTS4U (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Sat, 20 Nov 2021 13:56:20 -0500
-X-IronPort-AV: E=McAfee;i="6200,9189,10174"; a="221477626"
-X-IronPort-AV: E=Sophos;i="5.87,251,1631602800"; 
-   d="scan'208";a="221477626"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Nov 2021 10:53:16 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.87,251,1631602800"; 
-   d="scan'208";a="673598653"
-Received: from lkp-server02.sh.intel.com (HELO c20d8bc80006) ([10.239.97.151])
-  by orsmga005.jf.intel.com with ESMTP; 20 Nov 2021 10:53:14 -0800
-Received: from kbuild by c20d8bc80006 with local (Exim 4.92)
-        (envelope-from <lkp@intel.com>)
-        id 1moVUA-00069O-7l; Sat, 20 Nov 2021 18:53:14 +0000
-Date:   Sun, 21 Nov 2021 02:52:56 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     linux-media@vger.kernel.org
-Subject: [ragnatech:media-next] BUILD SUCCESS
- e594cda5f8c8e34ac6444166418690c65bbda47f
-Message-ID: <61994408./Xe9lSxck46RhxPD%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
+        id S232156AbhKTWuH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 20 Nov 2021 17:50:07 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34300 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229535AbhKTWuG (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Sat, 20 Nov 2021 17:50:06 -0500
+Received: from mail-wr1-x42b.google.com (mail-wr1-x42b.google.com [IPv6:2a00:1450:4864:20::42b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B1BCEC061574
+        for <linux-media@vger.kernel.org>; Sat, 20 Nov 2021 14:47:02 -0800 (PST)
+Received: by mail-wr1-x42b.google.com with SMTP id t30so24912822wra.10
+        for <linux-media@vger.kernel.org>; Sat, 20 Nov 2021 14:47:02 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=PAb6FhgzdtrREYeSGE8YyaTFjwU1FQX7OCBeNtL00z0=;
+        b=qE3Wr482QVCCww2lgyGpA0Twb/ZENV0wbeMtPchlNGc9bTLhZjcmedFza5DhyuMNKf
+         jH48TbpdjYsZHh8mYGZwQvI19HDWNI+cv9dY9WYIlVU3g4QN27gmSe3KbDzjgWd4hQa6
+         9dNZs4qOWG/VzV1sYUipv+2w4yKM3i/OCKF8o/Gd2vXCN4f3Dz+gBasUVFR3lHil4dwh
+         QfvsjWAqxPgT66na4noIgCRaYd/fKaZt5yIecuKMzZcID7SQj//wsfM5Mk0oPggofJoI
+         SBfzcnFD98Lct6QdH4wxslqhWvWghWDm3pfZi2Je6gO87n2Ue17R/XIqyaXn0d9lyyvk
+         gE3Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=PAb6FhgzdtrREYeSGE8YyaTFjwU1FQX7OCBeNtL00z0=;
+        b=WfUZLn0W9CTe3DNtpvPkvYGZohbUZ7tUfd9U3Jfm8kCj2Dc+vbbJHkj5j1XNchfO0F
+         DgMXjMJGV4aVx7Bv1c27/Z17PS6HXIhcqX5cMvGGEwK1BPwNCZ/EyutjkOGbkBQRh9FP
+         0XX4gMs/X5qw28BH96aZ8OuwVX1ICVPRptx4dwX7FuYiy09DHmxGERuVt/za8bxwZV3l
+         w678Q2MhKh6S9DpTvabukcT40an5m3+37nq1o1Alj60PueVyJA1n9FY+CX+xqraM3q2r
+         9+VFAsboQROy8xtg/8GRp+7O0UYAKORXqVoQd9rj3z17dlSChRuEOgSlCi6jtUnVY2H0
+         dcKQ==
+X-Gm-Message-State: AOAM531/zobYXHPnwLeG+BdfSOGfo8ZVsKvuWApPcyKArxVMgXo9K9NP
+        CC5Kg7rqWaOP3hbZMusVWZ8=
+X-Google-Smtp-Source: ABdhPJwMevUDC5xXDdA2wrlwaMcnojGFvffiWzvNZxqvqJDPhxoKWVk1n9lX3wHuL/dPZhz+GDi0Sg==
+X-Received: by 2002:adf:e882:: with SMTP id d2mr22343911wrm.389.1637448421369;
+        Sat, 20 Nov 2021 14:47:01 -0800 (PST)
+Received: from [192.168.0.16] (cpc141996-chfd3-2-0-cust928.12-3.cable.virginm.net. [86.13.91.161])
+        by smtp.gmail.com with ESMTPSA id n32sm21792267wms.1.2021.11.20.14.47.00
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 20 Nov 2021 14:47:00 -0800 (PST)
+Subject: Re: [PATCH v4 04/16] media: i2c: Support 19.2MHz input clock in
+ ov8865
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc:     Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+        linux-media@vger.kernel.org, Yong Zhi <yong.zhi@intel.com>,
+        Bingbu Cao <bingbu.cao@intel.com>,
+        Tianshu Qiu <tian.shu.qiu@intel.com>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>
+References: <20211101001119.46056-1-djrscally@gmail.com>
+ <20211101001119.46056-5-djrscally@gmail.com>
+ <YX//JqaiubPXeNey@paasikivi.fi.intel.com>
+From:   Daniel Scally <djrscally@gmail.com>
+Message-ID: <4e87d0d0-3eed-e464-ce16-e64cf6d89ab9@gmail.com>
+Date:   Sat, 20 Nov 2021 22:46:59 +0000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+In-Reply-To: <YX//JqaiubPXeNey@paasikivi.fi.intel.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-tree/branch: git://git.ragnatech.se/linux media-next
-branch HEAD: e594cda5f8c8e34ac6444166418690c65bbda47f  media: sp887x: drop unneeded assignment
+Hi Sakari - sorry, only just coming back to this series.
 
-elapsed time: 1522m
+On 01/11/2021 14:52, Sakari Ailus wrote:
+>> +static struct ov8865_pll_configs ov8865_pll_configs_19_2mhz = {
+>> +	.pll1_config = &ov8865_pll1_config_native_19_2mhz,
+>> +	.pll2_config_native = &ov8865_pll2_config_native_19_2mhz,
+>> +	.pll2_config_binning = &ov8865_pll2_config_binning_19_2mhz,
+>> +};
+>> +
+>> +static struct ov8865_pll_configs ov8865_pll_configs_24mhz = {
+>> +	.pll1_config = &ov8865_pll1_config_native_24mhz,
+>> +	.pll2_config_native = &ov8865_pll2_config_native_24mhz,
+>> +	.pll2_config_binning = &ov8865_pll2_config_binning_24mhz,
+>> +};
+> 
+> These should be const.
 
-configs tested: 268
-configs skipped: 3
+Done, thank you.
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
 
-gcc tested configs:
-arm                                 defconfig
-arm64                            allyesconfig
-arm64                               defconfig
-arm                              allyesconfig
-arm                              allmodconfig
-i386                 randconfig-c001-20211118
-i386                 randconfig-c001-20211119
-mips                 randconfig-c004-20211118
-i386                 randconfig-c001-20211120
-arm                        spear6xx_defconfig
-powerpc                     tqm8555_defconfig
-xtensa                       common_defconfig
-sh                        dreamcast_defconfig
-powerpc                        cell_defconfig
-arm                            pleb_defconfig
-xtensa                              defconfig
-xtensa                           alldefconfig
-mips                       lemote2f_defconfig
-powerpc                      walnut_defconfig
-mips                             allyesconfig
-arm                        mvebu_v5_defconfig
-mips                         mpc30x_defconfig
-powerpc                      acadia_defconfig
-arm                         at91_dt_defconfig
-mips                        omega2p_defconfig
-powerpc                   microwatt_defconfig
-arm                              alldefconfig
-s390                          debug_defconfig
-powerpc                 mpc8540_ads_defconfig
-mips                malta_qemu_32r6_defconfig
-arm                           omap1_defconfig
-arm                         palmz72_defconfig
-arc                     nsimosci_hs_defconfig
-arm                       omap2plus_defconfig
-sh                 kfr2r09-romimage_defconfig
-m68k                         apollo_defconfig
-mips                           mtx1_defconfig
-powerpc                        icon_defconfig
-sh                           se7750_defconfig
-powerpc                   bluestone_defconfig
-mips                     loongson2k_defconfig
-arc                         haps_hs_defconfig
-m68k                       m5475evb_defconfig
-mips                         bigsur_defconfig
-powerpc                 mpc837x_mds_defconfig
-m68k                        m5272c3_defconfig
-alpha                            allyesconfig
-sh                          rsk7264_defconfig
-sh                          rsk7269_defconfig
-arc                        nsim_700_defconfig
-mips                 decstation_r4k_defconfig
-arc                 nsimosci_hs_smp_defconfig
-mips                           jazz_defconfig
-sh                          r7785rp_defconfig
-parisc                generic-64bit_defconfig
-sparc                       sparc32_defconfig
-xtensa                  cadence_csp_defconfig
-mips                  cavium_octeon_defconfig
-arm                         socfpga_defconfig
-arm                          ep93xx_defconfig
-h8300                    h8300h-sim_defconfig
-powerpc                     ppa8548_defconfig
-sh                        edosk7705_defconfig
-riscv                            alldefconfig
-powerpc                   lite5200b_defconfig
-mips                         tb0226_defconfig
-arm                       spear13xx_defconfig
-powerpc                 mpc834x_mds_defconfig
-powerpc                      chrp32_defconfig
-powerpc                     tqm8541_defconfig
-powerpc                 mpc834x_itx_defconfig
-arm                         s5pv210_defconfig
-m68k                        stmark2_defconfig
-arm64                            alldefconfig
-powerpc                     tqm8560_defconfig
-mips                   sb1250_swarm_defconfig
-arm                          pxa3xx_defconfig
-m68k                             alldefconfig
-powerpc                     skiroot_defconfig
-sh                        sh7785lcr_defconfig
-sh                          lboxre2_defconfig
-powerpc                     pseries_defconfig
-arm                         s3c2410_defconfig
-sh                                  defconfig
-m68k                         amcore_defconfig
-mips                    maltaup_xpa_defconfig
-arm                     am200epdkit_defconfig
-sh                           se7343_defconfig
-powerpc                  mpc885_ads_defconfig
-powerpc                      pasemi_defconfig
-powerpc                     rainier_defconfig
-sparc64                             defconfig
-riscv             nommu_k210_sdcard_defconfig
-arm                          collie_defconfig
-arc                     haps_hs_smp_defconfig
-sh                   sh7770_generic_defconfig
-mips                       bmips_be_defconfig
-m68k                            mac_defconfig
-h8300                     edosk2674_defconfig
-arm                             mxs_defconfig
-sh                               allmodconfig
-arm                           stm32_defconfig
-arm                            hisi_defconfig
-sh                          urquell_defconfig
-sh                        apsh4ad0a_defconfig
-arm                          simpad_defconfig
-parisc                              defconfig
-m68k                        m5407c3_defconfig
-arm                        vexpress_defconfig
-powerpc                    sam440ep_defconfig
-mips                     loongson1c_defconfig
-m68k                           sun3_defconfig
-arm                         cm_x300_defconfig
-powerpc                     ep8248e_defconfig
-csky                                defconfig
-powerpc                      ppc40x_defconfig
-powerpc                         ps3_defconfig
-arc                        vdk_hs38_defconfig
-arm                            dove_defconfig
-xtensa                          iss_defconfig
-microblaze                          defconfig
-parisc                           allyesconfig
-arm                           sunxi_defconfig
-m68k                          multi_defconfig
-s390                       zfcpdump_defconfig
-um                           x86_64_defconfig
-powerpc                   motionpro_defconfig
-powerpc                     kmeter1_defconfig
-arm                           tegra_defconfig
-ia64                            zx1_defconfig
-arm                         hackkit_defconfig
-arm                     eseries_pxa_defconfig
-sh                        sh7763rdp_defconfig
-i386                             alldefconfig
-arm                      tct_hammer_defconfig
-powerpc                      bamboo_defconfig
-arm                         lubbock_defconfig
-mips                           rs90_defconfig
-arm                         mv78xx0_defconfig
-ia64                             alldefconfig
-h8300                            allyesconfig
-mips                           gcw0_defconfig
-powerpc                 xes_mpc85xx_defconfig
-arm                  randconfig-c002-20211118
-arm                  randconfig-c002-20211119
-arm                  randconfig-c002-20211120
-arm                  randconfig-c002-20211121
-ia64                             allmodconfig
-ia64                                defconfig
-ia64                             allyesconfig
-m68k                             allmodconfig
-m68k                                defconfig
-m68k                             allyesconfig
-nios2                               defconfig
-arc                              allyesconfig
-nds32                             allnoconfig
-nds32                               defconfig
-nios2                            allyesconfig
-alpha                               defconfig
-xtensa                           allyesconfig
-arc                                 defconfig
-s390                             allyesconfig
-s390                             allmodconfig
-s390                                defconfig
-i386                             allyesconfig
-sparc                            allyesconfig
-sparc                               defconfig
-i386                                defconfig
-i386                              debian-10.3
-mips                             allmodconfig
-powerpc                          allyesconfig
-powerpc                          allmodconfig
-powerpc                           allnoconfig
-x86_64               randconfig-a005-20211119
-x86_64               randconfig-a003-20211119
-x86_64               randconfig-a002-20211119
-x86_64               randconfig-a001-20211119
-x86_64               randconfig-a006-20211119
-x86_64               randconfig-a004-20211119
-i386                 randconfig-a006-20211119
-i386                 randconfig-a003-20211119
-i386                 randconfig-a001-20211119
-i386                 randconfig-a005-20211119
-i386                 randconfig-a004-20211119
-i386                 randconfig-a002-20211119
-x86_64               randconfig-a001-20211121
-x86_64               randconfig-a006-20211121
-x86_64               randconfig-a003-20211121
-x86_64               randconfig-a004-20211121
-x86_64               randconfig-a005-20211121
-x86_64               randconfig-a002-20211121
-x86_64               randconfig-a015-20211118
-x86_64               randconfig-a012-20211118
-x86_64               randconfig-a011-20211118
-x86_64               randconfig-a013-20211118
-x86_64               randconfig-a016-20211118
-x86_64               randconfig-a014-20211118
-x86_64               randconfig-a011-20211120
-x86_64               randconfig-a014-20211120
-x86_64               randconfig-a012-20211120
-x86_64               randconfig-a016-20211120
-x86_64               randconfig-a013-20211120
-x86_64               randconfig-a015-20211120
-i386                 randconfig-a016-20211118
-i386                 randconfig-a014-20211118
-i386                 randconfig-a012-20211118
-i386                 randconfig-a011-20211118
-i386                 randconfig-a013-20211118
-i386                 randconfig-a015-20211118
-i386                 randconfig-a016-20211120
-i386                 randconfig-a015-20211120
-i386                 randconfig-a012-20211120
-i386                 randconfig-a013-20211120
-i386                 randconfig-a014-20211120
-i386                 randconfig-a011-20211120
-arc                  randconfig-r043-20211120
-s390                 randconfig-r044-20211120
-riscv                randconfig-r042-20211120
-riscv                    nommu_k210_defconfig
-riscv                    nommu_virt_defconfig
-riscv                             allnoconfig
-riscv                               defconfig
-riscv                          rv32_defconfig
-riscv                            allmodconfig
-riscv                            allyesconfig
-x86_64                    rhel-8.3-kselftests
-um                             i386_defconfig
-x86_64                           allyesconfig
-x86_64                              defconfig
-x86_64                               rhel-8.3
-x86_64                          rhel-8.3-func
-x86_64                                  kexec
+>> @@ -2858,13 +2917,38 @@ static int ov8865_probe(struct i2c_client *client)
+>>  		goto error_endpoint;
+>>  	}
+>>  
+>> -	rate = clk_get_rate(sensor->extclk);
+>> -	if (rate != OV8865_EXTCLK_RATE) {
+>> -		dev_err(dev, "clock rate %lu Hz is unsupported\n", rate);
+>> +	/*
+>> +	 * We could have either a 24MHz or 19.2MHz clock rate. Check for a
+>> +	 * clock-frequency property and if found, set that rate. This should
+>> +	 * cover the ACPI case. If the system uses devicetree then the
+>> +	 * configured rate should already be set, so we'll have to check it.
+>> +	 */
+>> +	ret = fwnode_property_read_u32(dev_fwnode(dev), "clock-frequency",
+>> +				       &rate);
+>> +	if (!ret) {
+>> +		ret = clk_set_rate(sensor->extclk, rate);
+>> +		if (ret) {
+>> +			dev_err(dev, "failed to set clock rate\n");
+>> +			return ret;
+>> +		}
+>> +	}
+>> +
+>> +	sensor->extclk_rate = clk_get_rate(sensor->extclk);
+> 
+> clk_get_rate() returns 0 if you don't have a clock. But you can still have
+> clock-frequency property that tells the frequency. This is generally the
+> case on ACPI based systems apart from some exceptions (which I understand
+> you're well aware of).
+> 
+> See e.g. drivers/media/i2c/ccs/ccs-core.c .
 
-clang tested configs:
-i386                 randconfig-c001-20211119
-x86_64               randconfig-c007-20211119
-arm                  randconfig-c002-20211119
-s390                 randconfig-c005-20211119
-powerpc              randconfig-c003-20211119
-riscv                randconfig-c006-20211119
-i386                 randconfig-c001-20211118
-x86_64               randconfig-c007-20211118
-arm                  randconfig-c002-20211118
-s390                 randconfig-c005-20211118
-powerpc              randconfig-c003-20211118
-riscv                randconfig-c006-20211118
-mips                 randconfig-c004-20211118
-x86_64               randconfig-a005-20211118
-x86_64               randconfig-a003-20211118
-x86_64               randconfig-a001-20211118
-x86_64               randconfig-a002-20211118
-x86_64               randconfig-a006-20211118
-x86_64               randconfig-a004-20211118
-i386                 randconfig-a006-20211118
-i386                 randconfig-a003-20211118
-i386                 randconfig-a001-20211118
-i386                 randconfig-a005-20211118
-i386                 randconfig-a004-20211118
-i386                 randconfig-a002-20211118
-x86_64               randconfig-a015-20211119
-x86_64               randconfig-a011-20211119
-x86_64               randconfig-a012-20211119
-x86_64               randconfig-a013-20211119
-x86_64               randconfig-a016-20211119
-x86_64               randconfig-a014-20211119
-hexagon              randconfig-r045-20211119
-hexagon              randconfig-r041-20211119
-riscv                randconfig-r042-20211119
-s390                 randconfig-r044-20211119
-hexagon              randconfig-r045-20211118
-hexagon              randconfig-r041-20211118
-hexagon              randconfig-r045-20211121
-s390                 randconfig-r044-20211121
-hexagon              randconfig-r041-20211121
-riscv                randconfig-r042-20211121
+I'm checking the clock-frequency property above...that should be
+sufficient here I think right?
 
----
-0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+>> +
+>> +	for (i = 0; i < ARRAY_SIZE(supported_extclk_rates); i++) {
+>> +		if (sensor->extclk_rate == supported_extclk_rates[i])
+>> +			break;
+>> +	}
+>> +
+>> +	if (i == ARRAY_SIZE(supported_extclk_rates)) {
+>> +		dev_err(dev, "clock rate %lu Hz is unsupported\n",
+>> +			sensor->extclk_rate);
+>>  		ret = -EINVAL;
+>>  		goto error_endpoint;
+>>  	}
+>>  
+>> +	sensor->pll_configs = ov8865_pll_configs[i];
+>> +
+>>  	/* Subdev, entity and pad */
+>>  
+>>  	subdev = &sensor->subdev;
+> 
