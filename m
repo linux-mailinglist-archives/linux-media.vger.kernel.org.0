@@ -2,85 +2,165 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BF40F45812A
-	for <lists+linux-media@lfdr.de>; Sun, 21 Nov 2021 00:56:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 80B3D45824F
+	for <lists+linux-media@lfdr.de>; Sun, 21 Nov 2021 06:57:33 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237973AbhKTX7S (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 20 Nov 2021 18:59:18 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49090 "EHLO
+        id S230237AbhKUGAd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 21 Nov 2021 01:00:33 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41736 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237581AbhKTX6z (ORCPT
+        with ESMTP id S230093AbhKUGAd (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 20 Nov 2021 18:58:55 -0500
-Received: from mail-oi1-x22d.google.com (mail-oi1-x22d.google.com [IPv6:2607:f8b0:4864:20::22d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8F97AC061759
-        for <linux-media@vger.kernel.org>; Sat, 20 Nov 2021 15:55:51 -0800 (PST)
-Received: by mail-oi1-x22d.google.com with SMTP id r26so29564634oiw.5
-        for <linux-media@vger.kernel.org>; Sat, 20 Nov 2021 15:55:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=QT/9LakYvmo4oV8kwdCxJLgdKPL3jqMBknkwoE9YCYE=;
-        b=O2RjbCqc8QPrXAyKcorBw9sG7E40QkQmzPh5kWvJW5LyTGziUR76ey2lXlXiEpLBOx
-         5YKgp+8KRpaq3TfAzwu7qlQdH43+7hvw/9/YXp5JsgzhaY3ZjATKZObgtRnqtsTu6vuJ
-         FDAU58VpbT5Yn/9vXzL5DyeZrDmY8eVGJ7trH2W7gtSgu/LNwTinFq7DyaYTYk/Upx2e
-         irrFsDc5i/oMFiIQwdOrJKlSDbQh3Igm3/ENBVGN8QVinlP/ZKmDp6+4HKDa93qXHLXo
-         q3PnTN6t8+AnPJ7Day5EuynSVcxT9zl1cew2ysucbyejXoD2LiWUrD0jllw0lEKjAk8p
-         bqxQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=QT/9LakYvmo4oV8kwdCxJLgdKPL3jqMBknkwoE9YCYE=;
-        b=J55+E5fOlmvtJOX6yhKBJt1B5OTaAonff2OQ28kfobrUC8WaNtvgsm4Wtd2bfW8NgS
-         CAYRbpiwvXBnViRdSSbWU8+0VQf2ygwNM/5dOt0WZK/ghNfs+LP0qRVAk8gk1I0CNfE+
-         iuUCzYjnkvrMALnep4sWnIHpCtc0qzpXu09piAy0DgXVTMf8YJ+Szd6uHaf6cEidIS20
-         KQDN9Gev7gnNAA0cb8h+Snbfkq1h1hZlZ9UsFsTUkGJHYH8kHEY/oN4IoZalNdX3qrtB
-         t6LVeiPpgrCrKQhj83tkHtKGVVaf0qtIbBzMioPCTjreRk5ZS3P6OMERn+1YTufX2dfl
-         /jiw==
-X-Gm-Message-State: AOAM530MEgYezako+tFh7rgBaMjVKipbHG3lTepGYyNplFsSumIyHi5z
-        DFVSxmDNKgjG/4frUlzb7BQvYA==
-X-Google-Smtp-Source: ABdhPJwCLy/Cl846Jg9EVSgQcb4RkktPIuKRCnx26gUQVcLOmrVyYLO5J6txySDtVJQzBcljv4RrOg==
-X-Received: by 2002:a05:6808:228c:: with SMTP id bo12mr10183181oib.93.1637452550977;
-        Sat, 20 Nov 2021 15:55:50 -0800 (PST)
-Received: from builder.lan (104-57-184-186.lightspeed.austtx.sbcglobal.net. [104.57.184.186])
-        by smtp.gmail.com with ESMTPSA id o26sm828474otj.14.2021.11.20.15.55.50
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 20 Nov 2021 15:55:50 -0800 (PST)
-From:   Bjorn Andersson <bjorn.andersson@linaro.org>
-To:     linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
-        Dikshita Agarwal <quic_dikshita@quicinc.com>,
-        robh+dt@kernel.org, agross@kernel.org, mchehab@kernel.org
-Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        stanimir.varbanov@linaro.org, vgarodia@codeaurora.org,
-        Dikshita Agarwal <dikshita@codeaurora.org>,
-        Mansur Alisha Shaik <mansur@codeaurora.org>
-Subject: Re: (subset) [PATCH v7] arm64: dts: qcom: sc7280: Add venus DT node
-Date:   Sat, 20 Nov 2021 17:55:27 -0600
-Message-Id: <163745250541.1078332.8582779710145477282.b4-ty@linaro.org>
-X-Mailer: git-send-email 2.32.0
-In-Reply-To: <1635259922-25378-1-git-send-email-quic_dikshita@quicinc.com>
-References: <1635259922-25378-1-git-send-email-quic_dikshita@quicinc.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+        Sun, 21 Nov 2021 01:00:33 -0500
+Received: from lb1-smtp-cloud9.xs4all.net (lb1-smtp-cloud9.xs4all.net [IPv6:2001:888:0:108::1c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B2180C061574
+        for <linux-media@vger.kernel.org>; Sat, 20 Nov 2021 21:57:28 -0800 (PST)
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud9.xs4all.net with ESMTPA
+        id ofqnmjhrn1HGJofqumvlHJ; Sun, 21 Nov 2021 06:57:25 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
+        t=1637474245; bh=cwkPFV1PDtC9cx+TzPIDU7wRlw/UqW7wGrgwRlKUt7Y=;
+        h=Message-ID:Date:From:To:Subject:From:Subject;
+        b=plR/2o2VjoB0g/wXFTsCGj/36d2xJmwNpULHp65hqf1odPj5y+6x6GnfH6P8vcYFu
+         tgFzAq7vx7ixtrEGmBVtghM7NCl4TNJprI/7FU5q4AIxJf8SpTZAOt8TWRWM3LHus3
+         6OLrhvtrElCEwReiUuIFkCFhPuMBk1qoXjauw4SSXdSKoO3oBC+PSa3V/YMgr59cOQ
+         T9DPprJ6xp4uf90gYFi+swIkLT+kJ+XscXCV4sQSiDA/i6FDslQn2um/c8/b7ewJpk
+         yR2JmmVyhdRgvqwzBe44vvRJT9dTbB5cMK2Jq0WATuXgEyaTmvRShC1BvHNORUIEkR
+         SSbcA+iw6LPiw==
+Message-ID: <3c6873235e577a99509f1943bbc0a4f1@smtp-cloud9.xs4all.net>
+Date:   Sun, 21 Nov 2021 06:57:17 +0100
+From:   "Hans Verkuil" <hverkuil@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: WARNINGS
+X-CMAE-Envelope: MS4xfN5vhCCg+PNCULDSmOzPw5J3km2rluTLnmDar+YEG0Sso75NigFquz2/A0yM1UreCpbgGM0HcsRG6eDD9qPpi2P1BXCJh1yYjWs99S+y4ivrew5Shqhs
+ ml3vGCc7cTA4ZdS6ga9XgnkSasRqp3nZWWSSMFn7Tl11FdfZpyYTTg4JVud7XrjeMpiNhStAtwm1pA==
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, 26 Oct 2021 20:22:02 +0530, Dikshita Agarwal wrote:
-> From: Dikshita Agarwal <dikshita@codeaurora.org>
-> 
-> Add DT entries for the sc7280 venus encoder/decoder.
-> 
-> 
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
 
-Applied, thanks!
+Results of the daily build of media_tree:
 
-[1/1] arm64: dts: qcom: sc7280: Add venus DT node
-      commit: 37613aee217928dddf62d91d3db831827f860833
+date:			Sun Nov 21 05:00:13 CET 2021
+media-tree git hash:	e594cda5f8c8e34ac6444166418690c65bbda47f
+media_build git hash:	90bf75007a9f73a3bfd144cae29e05229e702035
+v4l-utils git hash:	b949cffb419ce76e8a66f83d62f2011c682f94d9
+edid-decode git hash:	b00755e34eb12aa92416aaf1bb7b02603131afe0
+gcc version:		i686-linux-gcc (GCC) 11.2.0
+sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
+sparse version:		0.6.3
+smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
+smatch version:		0.6.3
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: 8316772c4add75a82a86054e3f1c63b664b6542f
+host hardware:		x86_64
+host os:		5.14.0-2-amd64
 
-Best regards,
--- 
-Bjorn Andersson <bjorn.andersson@linaro.org>
+linux-git-sh: OK
+linux-git-arm-at91: OK
+linux-git-arm-davinci: OK
+linux-git-mips: OK
+linux-git-arm-stm32: OK
+linux-git-arm-pxa: OK
+linux-git-arm-multi: OK
+linux-git-arm64: OK
+linux-git-powerpc64: OK
+linux-git-i686: OK
+linux-git-x86_64: OK
+Check COMPILE_TEST: OK
+Check for strcpy/strncpy/strlcpy: OK
+linux-4.4.283-i686: OK
+linux-4.4.283-x86_64: OK
+linux-4.5.7-i686: OK
+linux-4.5.7-x86_64: OK
+linux-4.6.7-i686: OK
+linux-4.6.7-x86_64: OK
+linux-4.7.10-i686: OK
+linux-4.7.10-x86_64: OK
+linux-4.8.17-i686: OK
+linux-4.8.17-x86_64: OK
+linux-4.9.246-i686: OK
+linux-4.9.246-x86_64: OK
+linux-4.10.17-i686: OK
+linux-4.10.17-x86_64: OK
+linux-4.11.12-i686: OK
+linux-4.11.12-x86_64: OK
+linux-4.12.14-i686: OK
+linux-4.12.14-x86_64: OK
+linux-4.13.16-i686: OK
+linux-4.13.16-x86_64: OK
+linux-4.14.246-i686: OK
+linux-4.14.246-x86_64: OK
+linux-4.15.18-i686: OK
+linux-4.15.18-x86_64: OK
+linux-4.16.18-i686: OK
+linux-4.16.18-x86_64: OK
+linux-4.17.19-i686: OK
+linux-4.17.19-x86_64: OK
+linux-4.18.20-i686: OK
+linux-4.18.20-x86_64: OK
+linux-4.19.206-i686: OK
+linux-4.19.206-x86_64: OK
+linux-4.20.17-i686: OK
+linux-4.20.17-x86_64: OK
+linux-5.0.21-i686: OK
+linux-5.0.21-x86_64: OK
+linux-5.1.21-i686: OK
+linux-5.1.21-x86_64: OK
+linux-5.2.21-i686: OK
+linux-5.2.21-x86_64: OK
+linux-5.3.18-i686: OK
+linux-5.3.18-x86_64: OK
+linux-5.4.144-i686: OK
+linux-5.4.144-x86_64: OK
+linux-5.5.19-i686: OK
+linux-5.5.19-x86_64: OK
+linux-5.6.19-i686: OK
+linux-5.6.19-x86_64: OK
+linux-5.7.19-i686: OK
+linux-5.7.19-x86_64: OK
+linux-5.8.18-i686: OK
+linux-5.8.18-x86_64: OK
+linux-5.9.16-i686: OK
+linux-5.9.16-x86_64: OK
+linux-5.10.62-i686: OK
+linux-5.10.62-x86_64: OK
+linux-5.11.22-i686: OK
+linux-5.11.22-x86_64: OK
+linux-5.12.19-i686: OK
+linux-5.12.19-x86_64: OK
+linux-5.13.14-i686: OK
+linux-5.13.14-x86_64: OK
+linux-5.14.1-i686: OK
+linux-5.14.1-x86_64: OK
+linux-5.15.1-i686: OK
+linux-5.15.1-x86_64: OK
+linux-5.16-rc1-i686: OK
+linux-5.16-rc1-x86_64: OK
+apps: OK
+spec-git: OK
+virtme: OK: Final Summary: 2989, Succeeded: 2989, Failed: 0, Warnings: 0
+virtme-32: OK: Final Summary: 3100, Succeeded: 3100, Failed: 0, Warnings: 0
+sparse: WARNINGS
+smatch: WARNINGS
+kerneldoc: WARNINGS
+
+Detailed results are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Sunday.log
+
+Detailed regression test results are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Sunday-test-media.log
+http://www.xs4all.nl/~hverkuil/logs/Sunday-test-media-32.log
+http://www.xs4all.nl/~hverkuil/logs/Sunday-test-media-dmesg.log
+
+Full logs are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Sunday.tar.bz2
+
+The Media Infrastructure API from this daily build is here:
+
+http://www.xs4all.nl/~hverkuil/spec/index.html
