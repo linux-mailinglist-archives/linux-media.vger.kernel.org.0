@@ -2,183 +2,133 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id EEF5B4586EE
-	for <lists+linux-media@lfdr.de>; Mon, 22 Nov 2021 00:13:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E531E4586F0
+	for <lists+linux-media@lfdr.de>; Mon, 22 Nov 2021 00:14:20 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229920AbhKUXRA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 21 Nov 2021 18:17:00 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40264 "EHLO
+        id S231168AbhKUXRZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 21 Nov 2021 18:17:25 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40368 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229586AbhKUXQ7 (ORCPT
+        with ESMTP id S230350AbhKUXRY (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 21 Nov 2021 18:16:59 -0500
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 704CBC061574;
-        Sun, 21 Nov 2021 15:13:54 -0800 (PST)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 74DADA1B;
-        Mon, 22 Nov 2021 00:13:51 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1637536431;
-        bh=Tu+RjwacW2BJKA36e6xcjc2MGwUQqcz0mqJfhJupGNQ=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=v8fA8I8HCchrMhuJyQquZ27s13KMTuzXBVF79WrtvLGkZvWf2w78R0JDssLabiroN
-         ExtgwcaY7aMsn2GHHPaUFwHGq2xvDasKRo+nQRDO3L4v2f5ehf8DFif4aBvkpxWoUJ
-         cp8rl0NGxcgJsceJXq/5L6eZBwU2BzNOzqJr9Agk=
-Date:   Mon, 22 Nov 2021 01:13:28 +0200
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Adam Ford <aford173@gmail.com>
-Cc:     Tim Harvey <tharvey@gateworks.com>,
-        Jagan Teki <jagan@amarulasolutions.com>,
-        Linux ARM Mailing List <linux-arm-kernel@lists.infradead.org>,
-        Schrempf Frieder <frieder.schrempf@kontron.de>,
-        linux-media <linux-media@vger.kernel.org>,
-        Adam Ford-BE <aford@beaconembedded.com>,
-        cstevens@beaconembedded.com, Rob Herring <robh+dt@kernel.org>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>, Peng Fan <peng.fan@nxp.com>,
-        Lucas Stach <l.stach@pengutronix.de>,
-        Device Tree Mailing List <devicetree@vger.kernel.org>,
-        open list <linux-kernel@vger.kernel.org>,
-        Marek Vasut <marex@denx.de>
-Subject: Re: [PATCH V2 1/5] soc: imx: imx8m-blk-ctrl: Fix imx8mm mipi reset
-Message-ID: <YZrSmESJnVuzRxDa@pendragon.ideasonboard.com>
-References: <20211106155427.753197-1-aford173@gmail.com>
- <CAMty3ZDi+FMLBooi2jt=dPKVC8PhaBWLgtjoe3m=GHCNiqDqQw@mail.gmail.com>
- <CAJ+vNU3sCk2r2TX0=-N76wWxWNna7qnYnruxVxPTGD8L6yVtug@mail.gmail.com>
- <CAHCN7xLKDgPNT2pwW6r9nRN_L4k0zUhwN9FZw6t=Sf_yOKDo=w@mail.gmail.com>
+        Sun, 21 Nov 2021 18:17:24 -0500
+Received: from mail-wm1-x32a.google.com (mail-wm1-x32a.google.com [IPv6:2a00:1450:4864:20::32a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 32C5EC061574
+        for <linux-media@vger.kernel.org>; Sun, 21 Nov 2021 15:14:19 -0800 (PST)
+Received: by mail-wm1-x32a.google.com with SMTP id 77-20020a1c0450000000b0033123de3425so15233806wme.0
+        for <linux-media@vger.kernel.org>; Sun, 21 Nov 2021 15:14:19 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-transfer-encoding:content-language;
+        bh=96SulmJB2RY5rftfgBxMRdIYoOvE7FSQHVfbvmHQAEE=;
+        b=XtPQYXkg5sfQPsJt5orQ8QjLr3PTALEdZmO7A1IcKdZlRuzE8u8J/+xvQW70bRx2QO
+         +Yy8jnNK1BG1aVun+/X4zJNZvE/CfuzbQuLy5AyXPJ4YlU8JGPUB5ETLsrxYHuZJG2zE
+         2kUxGvBKXpBjT/9ByJyGMxA0onB7EIckVRxtEWXOJYm7bV/uK2Aw9n+oUwYC9sHtBKRV
+         po1o+kjq395Co1YulOZ0+Uj0CMBGKMLz0Fy/gi21FkREQ3iHHhxSFGyK18bvffqerMPA
+         g/Zrz4Qk1Kfs8BKf9cHLYu/iCy5V21D3eiQktUHJqpdve4Kg0eNChJWJO3Xyi9uBbyzo
+         M+EQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-transfer-encoding
+         :content-language;
+        bh=96SulmJB2RY5rftfgBxMRdIYoOvE7FSQHVfbvmHQAEE=;
+        b=19ILUv+OPxGESU+h4CyKOvx3oLtJ7bAnOaFu7k4bvstXslNOmr20hwCR7BdGXORgaQ
+         cmVI05MKeft7/v2oH0wngK47vYl4a+fMq/y2yf8Dnkp90GmjtDlct136mgW7lWE9BF5t
+         aIUXLP/41bg7AHQU7lZqvo99+foNr6wP1ZOTCBrOVA3Xi6h77YUKmuOuWcyxJnauY7Lq
+         DnzMQso++4x1WkcYuUtollyeZ+J7U8FoNg02LJOOmEMuWuL3FSe8FxG76PUXirNOc2kJ
+         JC6Fops+MAtKfJXd83dV+RyYTbkFvOXQVwY1PfHy4EOI7dWMYgCu+5RVHSHDLQMwEF7j
+         O5Aw==
+X-Gm-Message-State: AOAM532VH4wgFKJzuFD7n5vTPvkooGTpDwtVWJVzhW55i4lQXMVNRc/I
+        Fel+cq0AK7W10/fA9y0UTPo=
+X-Google-Smtp-Source: ABdhPJwz/GoBJcexMpbELUI2kY4y9og8G+7ziDKUXlXlzBmAaTEW0mBblRNaiV+L/47+HVie6RLmVw==
+X-Received: by 2002:a05:600c:1d97:: with SMTP id p23mr23922591wms.186.1637536457768;
+        Sun, 21 Nov 2021 15:14:17 -0800 (PST)
+Received: from [192.168.0.14] (cpc141996-chfd3-2-0-cust928.12-3.cable.virginm.net. [86.13.91.161])
+        by smtp.gmail.com with ESMTPSA id i17sm8530254wmq.48.2021.11.21.15.14.16
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 21 Nov 2021 15:14:17 -0800 (PST)
+Subject: Re: [PATCH v4 04/16] media: i2c: Support 19.2MHz input clock in
+ ov8865
+To:     Andy Shevchenko <andy.shevchenko@gmail.com>
+Cc:     Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Yong Zhi <yong.zhi@intel.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Bingbu Cao <bingbu.cao@intel.com>,
+        Tianshu Qiu <tian.shu.qiu@intel.com>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>
+References: <20211101001119.46056-1-djrscally@gmail.com>
+ <20211101001119.46056-5-djrscally@gmail.com>
+ <CAHp75VfuMtdMrXnFABW8CELNuZEjQUiV9LhzAtTWRr4+aOkLYA@mail.gmail.com>
+From:   Daniel Scally <djrscally@gmail.com>
+Message-ID: <a19a866e-a904-f822-1746-54136d050c14@gmail.com>
+Date:   Sun, 21 Nov 2021 23:14:16 +0000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 MIME-Version: 1.0
+In-Reply-To: <CAHp75VfuMtdMrXnFABW8CELNuZEjQUiV9LhzAtTWRr4+aOkLYA@mail.gmail.com>
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <CAHCN7xLKDgPNT2pwW6r9nRN_L4k0zUhwN9FZw6t=Sf_yOKDo=w@mail.gmail.com>
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Adam,
+Hi Andy
 
-On Sat, Nov 20, 2021 at 12:33:25PM -0600, Adam Ford wrote:
-> On Fri, Nov 19, 2021 at 5:51 PM Tim Harvey wrote:
-> > On Thu, Nov 11, 2021 at 10:55 PM Jagan Teki wrote:
-> > > On Sat, Nov 6, 2021 at 9:24 PM Adam Ford wrote:
-> > > >
-> > > > Most of the blk-ctrl reset bits are found in one register, however
-> > > > there are two bits in offset 8 for pulling the MIPI DPHY out of reset
-> > > > and these need to be set when IMX8MM_DISPBLK_PD_MIPI_CSI is brought
-> > > > out of reset or the MIPI_CSI hangs.
-> > > >
-> > > > Fixes: 926e57c065df ("soc: imx: imx8m-blk-ctrl: add DISP blk-ctrl")
-> > > > Signed-off-by: Adam Ford <aford173@gmail.com>
-> > > > ---
-> > > >
-> > > > V2:  Make a note that the extra register is only for Mini/Nano DISPLAY_BLK_CTRL
-> > > >      Rename the new register to mipi_phy_rst_mask
-> > > >      Encapsulate the edits to this register with an if-statement
-> > >
-> > > This is DPHY reset mask, not sure we can handle this via blk-ctrl.
-> > > Marek has similar patch to support this [1]. we need to phandle the
-> > > phy in host node in order to work this.
-> > >
-> > > However this current patch change seems directly handling dphy reset
-> > > which indeed fine me as well.
-> > >
-> > > >
-> > > >  drivers/soc/imx/imx8m-blk-ctrl.c | 18 ++++++++++++++++++
-> > > >  1 file changed, 18 insertions(+)
-> > > >
-> > > > diff --git a/drivers/soc/imx/imx8m-blk-ctrl.c b/drivers/soc/imx/imx8m-blk-ctrl.c
-> > > > index 519b3651d1d9..581eb4bc7f7d 100644
-> > > > --- a/drivers/soc/imx/imx8m-blk-ctrl.c
-> > > > +++ b/drivers/soc/imx/imx8m-blk-ctrl.c
-> > > > @@ -17,6 +17,7 @@
-> > > >
-> > > >  #define BLK_SFT_RSTN   0x0
-> > > >  #define BLK_CLK_EN     0x4
-> > > > +#define BLK_MIPI_RESET_DIV     0x8 /* Mini/Nano DISPLAY_BLK_CTRL only */
-> > > >
-> > > >  struct imx8m_blk_ctrl_domain;
-> > > >
-> > > > @@ -36,6 +37,15 @@ struct imx8m_blk_ctrl_domain_data {
-> > > >         const char *gpc_name;
-> > > >         u32 rst_mask;
-> > > >         u32 clk_mask;
-> > > > +
-> > > > +       /*
-> > > > +        * i.MX8M Mini and Nano have a third DISPLAY_BLK_CTRL register
-> > > > +        * which is used to control the reset for the MIPI Phy.
-> > > > +        * Since it's only present in certain circumstances,
-> > > > +        * an if-statement should be used before setting and clearing this
-> > > > +        * register.
-> > > > +        */
-> > > > +       u32 mipi_phy_rst_mask;
-> > >
-> > > May be dphy_rst_mask (above comment may not be required, as it
-> > > understand directly with commit message).
-> > >
-> > > >  };
-> > > >
-> > > >  #define DOMAIN_MAX_CLKS 3
-> > > > @@ -78,6 +88,8 @@ static int imx8m_blk_ctrl_power_on(struct generic_pm_domain *genpd)
-> > > >
-> > > >         /* put devices into reset */
-> > > >         regmap_clear_bits(bc->regmap, BLK_SFT_RSTN, data->rst_mask);
-> > > > +       if (data->mipi_phy_rst_mask)
-> > > > +               regmap_clear_bits(bc->regmap, BLK_MIPI_RESET_DIV, data->mipi_phy_rst_mask);
-> > > >
-> > > >         /* enable upstream and blk-ctrl clocks to allow reset to propagate */
-> > > >         ret = clk_bulk_prepare_enable(data->num_clks, domain->clks);
-> > > > @@ -99,6 +111,8 @@ static int imx8m_blk_ctrl_power_on(struct generic_pm_domain *genpd)
-> > > >
-> > > >         /* release reset */
-> > > >         regmap_set_bits(bc->regmap, BLK_SFT_RSTN, data->rst_mask);
-> > > > +       if (data->mipi_phy_rst_mask)
-> > > > +               regmap_set_bits(bc->regmap, BLK_MIPI_RESET_DIV, data->mipi_phy_rst_mask);
-> > > >
-> > > >         /* disable upstream clocks */
-> > > >         clk_bulk_disable_unprepare(data->num_clks, domain->clks);
-> > > > @@ -120,6 +134,9 @@ static int imx8m_blk_ctrl_power_off(struct generic_pm_domain *genpd)
-> > > >         struct imx8m_blk_ctrl *bc = domain->bc;
-> > > >
-> > > >         /* put devices into reset and disable clocks */
-> > > > +       if (data->mipi_phy_rst_mask)
-> > > > +               regmap_clear_bits(bc->regmap, BLK_MIPI_RESET_DIV, data->mipi_phy_rst_mask);
-> > > > +
-> > > >         regmap_clear_bits(bc->regmap, BLK_SFT_RSTN, data->rst_mask);
-> > > >         regmap_clear_bits(bc->regmap, BLK_CLK_EN, data->clk_mask);
-> > > >
-> > > > @@ -488,6 +505,7 @@ static const struct imx8m_blk_ctrl_domain_data imx8mm_disp_blk_ctl_domain_data[]
-> > > >                 .gpc_name = "mipi-csi",
-> > > >                 .rst_mask = BIT(3) | BIT(4),
-> > > >                 .clk_mask = BIT(10) | BIT(11),
-> > > > +               .mipi_phy_rst_mask = BIT(16) | BIT(17),
-> > >
-> > > DPHY has BIT(17) for Master reset and BIT(16) for Slave reset. I think
-> > > we just need master reset to enable. I've tested only BIT(17) on
-> > > mipi-dsi gpc and it is working.
-> > >
-> >
-> > Jagan,
-> >
-> > In my testing I had to use BIT(16) | BIT(17) in order to capture via CSI.
-> 
-> Lucas,
-> 
-> Based on this, should I redo the patch but without clearing bits 16
-> and 17?  It seems like both DSI and CSI need at least bit 17, and CSI
-> appears to need both.  If we clear them, we risk stomping on one
-> peripheral or another.  If we need both, in theory, we could drop the
-> need for a DPHY driver on the DSI side.
+On 01/11/2021 10:29, Andy Shevchenko wrote:
+> On Mon, Nov 1, 2021 at 2:12 AM Daniel Scally <djrscally@gmail.com> wrote:
+>> The ov8865 driver as written expects a 24MHz input clock, but the sensor
+>> is sometimes found on x86 platforms with a 19.2MHz input clock supplied.
+>> Add a set of PLL configurations to the driver to support that rate too.
+>> As ACPI doesn't auto-configure the clock rate, check for a clock-frequency
+>> during probe and set that rate if one is found.
+> ...
+>
+>> +       /*
+>> +        * We could have either a 24MHz or 19.2MHz clock rate. Check for a
+>> +        * clock-frequency property and if found, set that rate. This should
+>> +        * cover the ACPI case. If the system uses devicetree then the
+>> +        * configured rate should already be set, so we'll have to check it.
+>> +        */
+>> +       ret = fwnode_property_read_u32(dev_fwnode(dev), "clock-frequency",
+>> +                                      &rate);
+>> +       if (!ret) {
+>> +               ret = clk_set_rate(sensor->extclk, rate);
+>> +               if (ret) {
+>> +                       dev_err(dev, "failed to set clock rate\n");
+>> +                       return ret;
+>> +               }
+> dev_err_probe()
+> 7065f92255bb ("driver core: Clarify that dev_err_probe() is OK even
+> w/out -EPROBE_DEFER")
 
-I've tested camera on the i.MX8MM with an NXP BSP v5.4-based kernel.
-Register BLK_MIPI_RESET_DIV is set to 0x00030000 by default. The camera
-still works if I clear bit 17, and doesn't if I clear bit 16.
 
--- 
-Regards,
+That cuts down on boilerplate usefully, thank you!
 
-Laurent Pinchart
+>
+>> +       }
+> ...
+>
+>> +       for (i = 0; i < ARRAY_SIZE(supported_extclk_rates); i++) {
+>> +               if (sensor->extclk_rate == supported_extclk_rates[i])
+>> +                       break;
+>> +       }
+>> +
+>> +       if (i == ARRAY_SIZE(supported_extclk_rates)) {
+>> +               dev_err(dev, "clock rate %lu Hz is unsupported\n",
+>> +                       sensor->extclk_rate);
+>>                 ret = -EINVAL;
+>>                 goto error_endpoint;
+>>         }
+> find_closest() ?
+>
+Not sure about this one though; the values might not match exactly, but
+if someone makes a device with this sensor supplying a totally different
+clock than 19.2MHz or 24MHz, it ought to fail here rather than attempt
+to continue I think
