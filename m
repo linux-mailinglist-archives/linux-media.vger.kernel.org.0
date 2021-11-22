@@ -2,224 +2,122 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AFB1A4594CC
-	for <lists+linux-media@lfdr.de>; Mon, 22 Nov 2021 19:38:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B805C459500
+	for <lists+linux-media@lfdr.de>; Mon, 22 Nov 2021 19:47:35 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239968AbhKVSl6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 22 Nov 2021 13:41:58 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46936 "EHLO
+        id S240443AbhKVSu3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 22 Nov 2021 13:50:29 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48868 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235182AbhKVSl4 (ORCPT
+        with ESMTP id S240412AbhKVSuU (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 22 Nov 2021 13:41:56 -0500
-Received: from mail-ot1-x333.google.com (mail-ot1-x333.google.com [IPv6:2607:f8b0:4864:20::333])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D8F65C061574;
-        Mon, 22 Nov 2021 10:38:49 -0800 (PST)
-Received: by mail-ot1-x333.google.com with SMTP id h16-20020a9d7990000000b0055c7ae44dd2so30098740otm.10;
-        Mon, 22 Nov 2021 10:38:49 -0800 (PST)
+        Mon, 22 Nov 2021 13:50:20 -0500
+Received: from mail-ed1-x52b.google.com (mail-ed1-x52b.google.com [IPv6:2a00:1450:4864:20::52b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4FB69C061714;
+        Mon, 22 Nov 2021 10:47:13 -0800 (PST)
+Received: by mail-ed1-x52b.google.com with SMTP id x6so69111395edr.5;
+        Mon, 22 Nov 2021 10:47:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=sender:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
+        h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=UHFB4okDolhXrN2KtXNKGXY4xx9A6ENlJZJpcpYJSa4=;
-        b=iF32sjGrzSvaDDiDrzm4Jn8+gNbGxPrbBxZFxi4uCknK7CkuUHGcqoOD65h4RyWxyF
-         y+wOmbGDPKkCG8jIqPGxKaFK0D3GvGCi7E7vj/rSSTElZKQ4I+sO6sAsXlhvWm4LJdnp
-         2KvDVCusXICAOU/8p8E70quXduhRoLziMS5wtCLJdF0xE54KuxD1Hx/LXZJoPAM3DNL1
-         BkvRF4pmS6od3lYRUbwlZMx97PcjFnI9HdmkEczPsl3ta8bzsAye+LybTN6gfUn7gNW8
-         MLS92ARh+GguAjdL9uq+LetI8B96GaD9Vc3Ip4BN7Uy3BSXQIu3jgX7O1p5U0Obaav48
-         V51g==
+        bh=Dss9UiKF+k7Po25DwSiusMM9IdCzuECfyUd1tTdrRbg=;
+        b=Bhz5XvT0o10O8LdIN/VUhQiHJnLca2FPbI8x7F6PqhoK3FZcFJPU/UYdTpzylMMRg+
+         6z0CYvdyYJZlEuRD5SbYMZ9PnFBhr9dY35NCq1Kle7ytd23z+8cMqeCungXc3aWTpMz0
+         tb/czpATqWjnJdXSqa3lC4acLd1TwR8YAE9NFCSJwVh6IamtDXMmdvRaLe46ALA2iPte
+         hh5UB0gbkaQW2zds/Y7XTpR7YGJe687hrvfuLO1dbcALrHS3HAwf0r7phkTVz0Nbdnbh
+         Px1PyTlCdNoFDo0FZH6V0UU9F2llZKSKuBSBkF4HYP2Lk5fjiETmJ3KibLlgEawJZdLA
+         Uv9g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
-         :subject:content-language:to:cc:references:from:in-reply-to
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=UHFB4okDolhXrN2KtXNKGXY4xx9A6ENlJZJpcpYJSa4=;
-        b=wI6BKtLTjV71b36AuQa7eqeNpGoXyn1KTwsO+7skapVw+pmDbPKZmEh5H0sXecgQnt
-         yzJKt3KdhxBEAKbKcI8rSlhhEm/A4oZHuvvRZaObwtKQzlgvzMPHfGguy9imT/JcpjPs
-         I6XIlPCY8ETNjuOdWot9trq43v/2ZY4ki8uYzXC+qzEIgRO0AFRzV9hHjtkPA78ksFXK
-         futpmcQkacgTtsGbQt1gOephKyFO0eOGBW2j8cC8cild9soZ8YMcmBNn4Zk3rn1SOaxP
-         uPb25fsRYJ9hB3FsWqlRBxnxq6tUXiZRFaIAozbkbuoe0thxa6DODfQT+PD3xGAzWfQp
-         V3fw==
-X-Gm-Message-State: AOAM532lDdsUO3aNW37ss9kreDysmNYReVetgXnabQmUDkyYTfjx1cCb
-        yq2KAvvSNAzYtPgE/p1uNDk=
-X-Google-Smtp-Source: ABdhPJwfr5gWpFAYZtUOP0l+WeTUOCLuMHjoxvBl19lgRYsYRNjGQbRkBWj0P0bUDebnG/bzTCmu0Q==
-X-Received: by 2002:a9d:5190:: with SMTP id y16mr27309322otg.364.1637606329228;
-        Mon, 22 Nov 2021 10:38:49 -0800 (PST)
-Received: from [10.62.118.101] (cpe-24-31-246-181.kc.res.rr.com. [24.31.246.181])
-        by smtp.gmail.com with ESMTPSA id f18sm1729016otl.28.2021.11.22.10.38.43
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 22 Nov 2021 10:38:48 -0800 (PST)
-Sender: Larry Finger <larry.finger@gmail.com>
-Message-ID: <a18f44bf-e590-0ebe-00c0-5658f3a51d86@lwfinger.net>
-Date:   Mon, 22 Nov 2021 12:38:41 -0600
+        bh=Dss9UiKF+k7Po25DwSiusMM9IdCzuECfyUd1tTdrRbg=;
+        b=Bm2TKYbSceeJosx8jFmMHm96+QwvBLAzGrZrzoWp8OrVZgPvK0zENw+uiKGQanlK2+
+         V2V379/TNujuv5B88DBFEUHxZrnWB/xsgq+w7tQnx2DM1vAMus32fXdvNgOlBT4pLaf3
+         hc85IjdPByAad6qNnuHRWqtgyUctCHQzmN/z/HQYddRIiIHJaH/+Q1Sga7fgVNMNLpuu
+         b0qwDO5h5RZoc3wuBFJ4F75Y/pprZuHRmuAhKvaI/Z7usDAmv8UpPgaKYiSmNRL5VagZ
+         Z/outrvco1voODZlJb+vnESuv0xFDYq+n+ABu03CyM/0fci0SN+LQI5Kk+lYGkMg7B9k
+         4L3A==
+X-Gm-Message-State: AOAM531KYxqRKdiC//iTmhkz1gE/VsUpbnHDHyz7kkt0BG2jZOdp2C4W
+        jSgTmOpFLAwwzKCL/DCUGU1KWBg2x4DIfg==
+X-Google-Smtp-Source: ABdhPJzgdosbksPZCqL8fKg3cjtQpo/DXX2+PosZpuL8FSxSDz2AVuG1NfXCsxT1xLP2AzUNixo0fA==
+X-Received: by 2002:a17:906:a215:: with SMTP id r21mr27612192ejy.21.1637606831875;
+        Mon, 22 Nov 2021 10:47:11 -0800 (PST)
+Received: from kista.localdomain (cpe-86-58-29-253.static.triera.net. [86.58.29.253])
+        by smtp.gmail.com with ESMTPSA id h10sm4512312edr.95.2021.11.22.10.47.10
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 22 Nov 2021 10:47:11 -0800 (PST)
+From:   Jernej Skrabec <jernej.skrabec@gmail.com>
+To:     linux-media@vger.kernel.org
+Cc:     ezequiel@vanguardiasur.com.ar, nicolas.dufresne@collabora.com,
+        mchehab@kernel.org, robh+dt@kernel.org, mripard@kernel.org,
+        wens@csie.org, p.zabel@pengutronix.de, andrzej.p@collabora.com,
+        gregkh@linuxfoundation.org, devicetree@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+        linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev,
+        Jernej Skrabec <jernej.skrabec@gmail.com>
+Subject: [PATCH 0/7] media: hantro: add Allwinner H6 support
+Date:   Mon, 22 Nov 2021 19:46:55 +0100
+Message-Id: <20211122184702.768341-1-jernej.skrabec@gmail.com>
+X-Mailer: git-send-email 2.34.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.0
-Subject: Re: [PATCH/RFC 17/17] rtw89: Use bitfield helpers
-Content-Language: en-US
-To:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Tony Lindgren <tony@atomide.com>,
-        Russell King <linux@armlinux.org.uk>,
-        Rajendra Nayak <rnayak@codeaurora.org>,
-        Paul Walmsley <paul@pwsan.com>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Nicolas Ferre <nicolas.ferre@microchip.com>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Ludovic Desroches <ludovic.desroches@microchip.com>,
-        Tero Kristo <kristo@kernel.org>,
-        Jonathan Cameron <jic23@kernel.org>,
-        Lars-Peter Clausen <lars@metafoo.de>,
-        Lorenzo Bianconi <lorenzo.bianconi83@gmail.com>,
-        Benoit Parrot <bparrot@ti.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Adrian Hunter <adrian.hunter@intel.com>,
-        Andrew Jeffery <andrew@aj.id.au>,
-        Ulf Hansson <ulf.hansson@linaro.org>,
-        Joel Stanley <joel@jms.id.au>,
-        Ping-Ke Shih <pkshih@realtek.com>,
-        Kalle Valo <kvalo@codeaurora.org>,
-        "David S . Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Mark Brown <broonie@kernel.org>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Eduardo Valentin <edubezval@gmail.com>,
-        Keerthy <j-keerthy@ti.com>,
-        "Rafael J . Wysocki" <rafael@kernel.org>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Amit Kucheria <amitk@kernel.org>,
-        Zhang Rui <rui.zhang@intel.com>,
-        Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
-Cc:     linux-arm-kernel@lists.infradead.org, linux-omap@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-clk@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org, linux-iio@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-mmc@vger.kernel.org,
-        linux-aspeed@lists.ozlabs.org, openbmc@lists.ozlabs.org,
-        linux-wireless@vger.kernel.org, netdev@vger.kernel.org,
-        linux-gpio@vger.kernel.org, linux-pm@vger.kernel.org,
-        alsa-devel@alsa-project.org
-References: <cover.1637592133.git.geert+renesas@glider.be>
- <f7b81122f7596fa004188bfae68f25a68c2d2392.1637592133.git.geert+renesas@glider.be>
-From:   Larry Finger <Larry.Finger@lwfinger.net>
-In-Reply-To: <f7b81122f7596fa004188bfae68f25a68c2d2392.1637592133.git.geert+renesas@glider.be>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 11/22/21 09:54, Geert Uytterhoeven wrote:
-> Use the field_{get,prep}() helpers, instead of open-coding the same
-> operations.
-> 
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> ---
-> Compile-tested only.
-> Marked RFC, as this depends on [PATCH 01/17], but follows a different
-> path to upstream.
-> ---
->   drivers/net/wireless/realtek/rtw89/core.h | 38 ++++-------------------
->   1 file changed, 6 insertions(+), 32 deletions(-)
+Hi everyone!
 
-Tested-by: Larry Finger <Larry,Finger@lwfinger.net>
+Here is patchset which adds support for Hantro G2 core found in Allwinner
+H6 SoC. It is slightly older core, so it needs few quirks to be
+implemented:
+1. It uses slightly different register layout in some cases. However, those
+   differences are small, so it makes sense only to add quirks.
+2. It doesn't use ring buffer for bitstream as newer variants.
+3. It needs double buffering to be enabled in order to work correctly.
+4. postproc must be enabled at the end of the job. It seems that core has
+   some issues with latching register values if postproc registers are set
+   at the beginning of the job
 
-Larry
+legacy_regs quirk could be split into 3, like legacy_regs, ring_buffer and
+late_postproc, but I didn't see the need for that. I examined vendor
+sources at [1] and it suggests that legacy_regs implies no ring buffer.
 
-> 
-> diff --git a/drivers/net/wireless/realtek/rtw89/core.h b/drivers/net/wireless/realtek/rtw89/core.h
-> index c2885e4dd882f045..f9c0300ec373aaf2 100644
-> --- a/drivers/net/wireless/realtek/rtw89/core.h
-> +++ b/drivers/net/wireless/realtek/rtw89/core.h
-> @@ -2994,81 +2994,55 @@ rtw89_write32_clr(struct rtw89_dev *rtwdev, u32 addr, u32 bit)
->   static inline u32
->   rtw89_read32_mask(struct rtw89_dev *rtwdev, u32 addr, u32 mask)
->   {
-> -	u32 shift = __ffs(mask);
-> -	u32 orig;
-> -	u32 ret;
-> -
-> -	orig = rtw89_read32(rtwdev, addr);
-> -	ret = (orig & mask) >> shift;
-> -
-> -	return ret;
-> +	return field_get(mask, rtw89_read32(rtwdev, addr));
->   }
->   
->   static inline u16
->   rtw89_read16_mask(struct rtw89_dev *rtwdev, u32 addr, u32 mask)
->   {
-> -	u32 shift = __ffs(mask);
-> -	u32 orig;
-> -	u32 ret;
-> -
-> -	orig = rtw89_read16(rtwdev, addr);
-> -	ret = (orig & mask) >> shift;
-> -
-> -	return ret;
-> +	return field_get(mask, rtw89_read16(rtwdev, addr));
->   }
->   
->   static inline u8
->   rtw89_read8_mask(struct rtw89_dev *rtwdev, u32 addr, u32 mask)
->   {
-> -	u32 shift = __ffs(mask);
-> -	u32 orig;
-> -	u32 ret;
-> -
-> -	orig = rtw89_read8(rtwdev, addr);
-> -	ret = (orig & mask) >> shift;
-> -
-> -	return ret;
-> +	return field_get(mask, rtw89_read8(rtwdev, addr));
->   }
->   
->   static inline void
->   rtw89_write32_mask(struct rtw89_dev *rtwdev, u32 addr, u32 mask, u32 data)
->   {
-> -	u32 shift = __ffs(mask);
->   	u32 orig;
->   	u32 set;
->   
->   	WARN(addr & 0x3, "should be 4-byte aligned, addr = 0x%08x\n", addr);
->   
->   	orig = rtw89_read32(rtwdev, addr);
-> -	set = (orig & ~mask) | ((data << shift) & mask);
-> +	set = (orig & ~mask) | field_prep(mask, data);
->   	rtw89_write32(rtwdev, addr, set);
->   }
->   
->   static inline void
->   rtw89_write16_mask(struct rtw89_dev *rtwdev, u32 addr, u32 mask, u16 data)
->   {
-> -	u32 shift;
->   	u16 orig, set;
->   
->   	mask &= 0xffff;
-> -	shift = __ffs(mask);
->   
->   	orig = rtw89_read16(rtwdev, addr);
-> -	set = (orig & ~mask) | ((data << shift) & mask);
-> +	set = (orig & ~mask) | field_prep(mask, data);
->   	rtw89_write16(rtwdev, addr, set);
->   }
->   
->   static inline void
->   rtw89_write8_mask(struct rtw89_dev *rtwdev, u32 addr, u32 mask, u8 data)
->   {
-> -	u32 shift;
->   	u8 orig, set;
->   
->   	mask &= 0xff;
-> -	shift = __ffs(mask);
->   
->   	orig = rtw89_read8(rtwdev, addr);
-> -	set = (orig & ~mask) | ((data << shift) & mask);
-> +	set = (orig & ~mask) | field_prep(mask, data);
->   	rtw89_write8(rtwdev, addr, set);
->   }
->   
-> 
+It's also unclear if core supports HEVC decoding or not. This can be
+implemented later. VP9 10-bit decoding support is mentioned in manual, but
+it doesn't work at the moment. This will be addressed later.
+
+Please take a look.
+
+Best regards,
+Jernej
+
+[1] https://github.com/CliveLau1990/imx-vpu-hantro
+
+Jernej Skrabec (7):
+  media: hantro: add support for reset lines
+  media: hantro: vp9: use double buffering if needed
+  media: hantro: vp9: add support for legacy register set
+  media: hantro: move postproc enablement for old cores
+  media: dt-bindings: allwinner: document H6 Hantro G2 binding
+  media: hantro: Add support for Allwinner H6
+  arm64: dts: allwinner: h6: Add Hantro G2 node
+
+ .../media/allwinner,sun50i-h6-vpu-g2.yaml     |  64 +++++++++++
+ arch/arm64/boot/dts/allwinner/sun50i-h6.dtsi  |   9 ++
+ drivers/staging/media/hantro/Kconfig          |  10 +-
+ drivers/staging/media/hantro/Makefile         |   3 +
+ drivers/staging/media/hantro/hantro.h         |   7 ++
+ drivers/staging/media/hantro/hantro_drv.c     |  27 ++++-
+ drivers/staging/media/hantro/hantro_g2_regs.h |  20 ++++
+ .../staging/media/hantro/hantro_g2_vp9_dec.c  |  76 ++++++++++---
+ drivers/staging/media/hantro/hantro_hw.h      |   1 +
+ drivers/staging/media/hantro/sunxi_vpu_hw.c   | 104 ++++++++++++++++++
+ 10 files changed, 301 insertions(+), 20 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/media/allwinner,sun50i-h6-vpu-g2.yaml
+ create mode 100644 drivers/staging/media/hantro/sunxi_vpu_hw.c
+
+-- 
+2.34.0
 
