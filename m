@@ -2,114 +2,160 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9EC7B4589AC
-	for <lists+linux-media@lfdr.de>; Mon, 22 Nov 2021 08:11:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2D38B4589CB
+	for <lists+linux-media@lfdr.de>; Mon, 22 Nov 2021 08:27:25 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238073AbhKVHOX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 22 Nov 2021 02:14:23 -0500
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:59648 "EHLO
-        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229806AbhKVHOU (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Mon, 22 Nov 2021 02:14:20 -0500
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: dafna)
-        with ESMTPSA id 7DE871F445DF
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=collabora.com; s=mail;
-        t=1637565072; bh=fj0upe47ki7p3rwgkuOlhq1xjjDXM7SwrTixcO7uR2w=;
-        h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
-        b=WkQAX4s6nppi755Nf6cRc2IByLZPXwFyt2J4LDfjvrUOQAiycE2SN1/jcomCn5IE4
-         bJJyyCDANK2Z5WwcrLkjNzmqLhZ4VytLYKOVC2qU/5mzXD33/3KLp7R7jnld5ONolt
-         TF7QUSKxaWIyeqhdnn5ltfVWqYpLpJS995g3o0sUqNEi3GZsafEomP70gG4C0IrA+4
-         GAj4701tvXvG2e+H/UbcTwT3hSK9qLM6OpU9h02ECXeidmJi5GrBm2Wikrb8srqmLH
-         5IQD6AwTXVnhY9p5iBWdTIIfJGcBCHrX9JqBfXoV7Cxe6ZhSvMQM0XV6S1IgJ6md3i
-         TrrpXH0r1TI4A==
-Subject: Re: [PATCH v3] media: mtk-vcodec: Align width and height to 64 bytes
-To:     Yunfei Dong <yunfei.dong@mediatek.com>,
-        Steve Cho <stevecho@google.com>,
-        Alexandre Courbot <acourbot@chromium.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Tzung-Bi Shih <tzungbi@chromium.org>,
-        Tiffany Lin <tiffany.lin@mediatek.com>,
-        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Tomasz Figa <tfiga@google.com>
-Cc:     Hsin-Yi Wang <hsinyi@chromium.org>,
-        Fritz Koenig <frkoenig@chromium.org>,
-        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        Irui Wang <irui.wang@mediatek.com>,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        srv_heupstream@mediatek.com, linux-mediatek@lists.infradead.org,
-        Project_Global_Chrome_Upstream_Group@mediatek.com,
-        Nicolas Dufresne <nicolas.dufresne@collabora.com>,
-        Steve Cho <stevecho@chromium.org>
-References: <20211104122426.9597-1-yunfei.dong@mediatek.com>
-From:   Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
-Message-ID: <725024c7-b605-2de6-0a9e-e3e044ae5b3f@collabora.com>
-Date:   Mon, 22 Nov 2021 09:11:06 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+        id S232801AbhKVHa3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 22 Nov 2021 02:30:29 -0500
+Received: from comms.puri.sm ([159.203.221.185]:58866 "EHLO comms.puri.sm"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S233435AbhKVHa2 (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Mon, 22 Nov 2021 02:30:28 -0500
+Received: from localhost (localhost [127.0.0.1])
+        by comms.puri.sm (Postfix) with ESMTP id C06B7E139C;
+        Sun, 21 Nov 2021 23:27:21 -0800 (PST)
+Received: from comms.puri.sm ([127.0.0.1])
+        by localhost (comms.puri.sm [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id 436LXCLEsQLl; Sun, 21 Nov 2021 23:27:20 -0800 (PST)
+From:   Martin Kepplinger <martin.kepplinger@puri.sm>
+To:     martin.kepplinger@puri.sm, laurent.pinchart@ideasonboard.com,
+        mchehab@kernel.org, rmfrfs@gmail.com
+Cc:     devicetree@vger.kernel.org, kernel@pengutronix.de, kernel@puri.sm,
+        linux-arm-kernel@lists.infradead.org, linux-imx@nxp.com,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        robh@kernel.org, shawnguo@kernel.org
+Subject: [PATCH v3 1/2] media: imx: imx7-media-csi: add support for imx8mq
+Date:   Mon, 22 Nov 2021 08:27:07 +0100
+Message-Id: <20211122072708.95269-1-martin.kepplinger@puri.sm>
 MIME-Version: 1.0
-In-Reply-To: <20211104122426.9597-1-yunfei.dong@mediatek.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Modeled after the NXP driver mx6s_capture.c that this driver is based on,
+imx8mq needs different settings for the baseaddr_switch mechanism. Define
+the needed bits and set that for imx8mq.
+
+Without these settings, the system will "sometimes" hang completely when
+starting to stream (the interrupt will never be called).
+
+Signed-off-by: Martin Kepplinger <martin.kepplinger@puri.sm>
+Acked-by: Rui Miguel Silva <rmfrfs@gmail.com>
+---
+
+revision history
+----------------
+v3:
+ * fix compiler warning when assigning a 64 bit (void *) to an int
+ * add Ruis' Acked-by tag
+
+v2: (thank you Rui and Laurent)
+ * rename function and enum
+ * remove unrealted newline
+ * add Laurents reviewed tag to the bindings patch
+ https://lore.kernel.org/linux-media/20211118063347.3370678-1-martin.kepplinger@puri.sm/
+
+v1:
+https://lore.kernel.org/linux-media/20211117092710.3084034-1-martin.kepplinger@puri.sm/T/#t
 
 
-On 04.11.21 14:24, Yunfei Dong wrote:
-> Width and height need to 64 bytes aligned when setting the format.
-> Need to make sure all is 64 bytes align when use width and height to
-> calculate buffer size.
-> 
-> Signed-off-by: Yunfei Dong <yunfei.dong@mediatek.com>
-> Acked-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
-> Tested-by: Steve Cho <stevecho@chromium.org>
-> ---
->   drivers/media/platform/mtk-vcodec/mtk_vcodec_dec.h        | 1 +
->   drivers/media/platform/mtk-vcodec/vdec/vdec_h264_req_if.c | 4 ++--
->   2 files changed, 3 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec.h b/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec.h
-> index e30806c1faea..66cd6d2242c3 100644
-> --- a/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec.h
-> +++ b/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec.h
-> @@ -11,6 +11,7 @@
->   #include <media/videobuf2-core.h>
->   #include <media/v4l2-mem2mem.h>
->   
-> +#define VCODEC_DEC_ALIGNED_64 64
 
-This define is a bit useless, it doesn't improve readability,
-if you do ALIGN(x, 64) it is already clear enough.
+ drivers/staging/media/imx/imx7-media-csi.c | 32 ++++++++++++++++++++--
+ 1 file changed, 30 insertions(+), 2 deletions(-)
 
-Thank,
-Dafna
+diff --git a/drivers/staging/media/imx/imx7-media-csi.c b/drivers/staging/media/imx/imx7-media-csi.c
+index 2288dadb2683..32311fc0e2a4 100644
+--- a/drivers/staging/media/imx/imx7-media-csi.c
++++ b/drivers/staging/media/imx/imx7-media-csi.c
+@@ -12,6 +12,7 @@
+ #include <linux/interrupt.h>
+ #include <linux/mfd/syscon.h>
+ #include <linux/module.h>
++#include <linux/of_device.h>
+ #include <linux/of_graph.h>
+ #include <linux/pinctrl/consumer.h>
+ #include <linux/platform_device.h>
+@@ -122,6 +123,10 @@
+ #define BIT_DATA_FROM_MIPI		BIT(22)
+ #define BIT_MIPI_YU_SWAP		BIT(21)
+ #define BIT_MIPI_DOUBLE_CMPNT		BIT(20)
++#define BIT_MASK_OPTION_FIRST_FRAME	(0 << 18)
++#define BIT_MASK_OPTION_CSI_EN		(1 << 18)
++#define BIT_MASK_OPTION_SECOND_FRAME	(2 << 18)
++#define BIT_MASK_OPTION_ON_DATA		(3 << 18)
+ #define BIT_BASEADDR_CHG_ERR_EN		BIT(9)
+ #define BIT_BASEADDR_SWITCH_SEL		BIT(5)
+ #define BIT_BASEADDR_SWITCH_EN		BIT(4)
+@@ -154,6 +159,11 @@
+ #define CSI_CSICR18			0x48
+ #define CSI_CSICR19			0x4c
+ 
++enum imx_csi_model {
++	IMX7_CSI_IMX7 = 0,
++	IMX7_CSI_IMX8MQ,
++};
++
+ struct imx7_csi {
+ 	struct device *dev;
+ 	struct v4l2_subdev sd;
+@@ -189,6 +199,8 @@ struct imx7_csi {
+ 	bool is_csi2;
+ 
+ 	struct completion last_eof_completion;
++
++	enum imx_csi_model model;
+ };
+ 
+ static struct imx7_csi *
+@@ -537,6 +549,16 @@ static void imx7_csi_deinit(struct imx7_csi *csi,
+ 	clk_disable_unprepare(csi->mclk);
+ }
+ 
++static void imx7_csi_baseaddr_switch_on_second_frame(struct imx7_csi *csi)
++{
++	u32 cr18 = imx7_csi_reg_read(csi, CSI_CSICR18);
++
++	cr18 |= BIT_BASEADDR_SWITCH_EN | BIT_BASEADDR_SWITCH_SEL |
++		BIT_BASEADDR_CHG_ERR_EN;
++	cr18 |= BIT_MASK_OPTION_SECOND_FRAME;
++	imx7_csi_reg_write(csi, cr18, CSI_CSICR18);
++}
++
+ static void imx7_csi_enable(struct imx7_csi *csi)
+ {
+ 	/* Clear the Rx FIFO and reflash the DMA controller. */
+@@ -552,6 +574,9 @@ static void imx7_csi_enable(struct imx7_csi *csi)
+ 	/* Enable the RxFIFO DMA and the CSI. */
+ 	imx7_csi_dmareq_rff_enable(csi);
+ 	imx7_csi_hw_enable(csi);
++
++	if (csi->model == IMX7_CSI_IMX8MQ)
++		imx7_csi_baseaddr_switch_on_second_frame(csi);
+ }
+ 
+ static void imx7_csi_disable(struct imx7_csi *csi)
+@@ -1155,6 +1180,8 @@ static int imx7_csi_probe(struct platform_device *pdev)
+ 	if (IS_ERR(csi->regbase))
+ 		return PTR_ERR(csi->regbase);
+ 
++	csi->model = (enum imx_csi_model)(uintptr_t)of_device_get_match_data(&pdev->dev);
++
+ 	spin_lock_init(&csi->irqlock);
+ 	mutex_init(&csi->lock);
+ 
+@@ -1249,8 +1276,9 @@ static int imx7_csi_remove(struct platform_device *pdev)
+ }
+ 
+ static const struct of_device_id imx7_csi_of_match[] = {
+-	{ .compatible = "fsl,imx7-csi" },
+-	{ .compatible = "fsl,imx6ul-csi" },
++	{ .compatible = "fsl,imx8mq-csi", .data = (void *)IMX7_CSI_IMX8MQ },
++	{ .compatible = "fsl,imx7-csi", .data = (void *)IMX7_CSI_IMX7 },
++	{ .compatible = "fsl,imx6ul-csi", .data = (void *)IMX7_CSI_IMX7 },
+ 	{ },
+ };
+ MODULE_DEVICE_TABLE(of, imx7_csi_of_match);
+-- 
+2.30.2
 
->   #define VCODEC_CAPABILITY_4K_DISABLED	0x10
->   #define VCODEC_DEC_4K_CODED_WIDTH	4096U
->   #define VCODEC_DEC_4K_CODED_HEIGHT	2304U
-> diff --git a/drivers/media/platform/mtk-vcodec/vdec/vdec_h264_req_if.c b/drivers/media/platform/mtk-vcodec/vdec/vdec_h264_req_if.c
-> index d402fc4bda69..e1a3011772a9 100644
-> --- a/drivers/media/platform/mtk-vcodec/vdec/vdec_h264_req_if.c
-> +++ b/drivers/media/platform/mtk-vcodec/vdec/vdec_h264_req_if.c
-> @@ -562,8 +562,8 @@ static void get_pic_info(struct vdec_h264_slice_inst *inst,
->   {
->   	struct mtk_vcodec_ctx *ctx = inst->ctx;
->   
-> -	ctx->picinfo.buf_w = (ctx->picinfo.pic_w + 15) & 0xFFFFFFF0;
-> -	ctx->picinfo.buf_h = (ctx->picinfo.pic_h + 31) & 0xFFFFFFE0;
-> +	ctx->picinfo.buf_w = ALIGN(ctx->picinfo.pic_w, VCODEC_DEC_ALIGNED_64);
-> +	ctx->picinfo.buf_h = ALIGN(ctx->picinfo.pic_h, VCODEC_DEC_ALIGNED_64);
->   	ctx->picinfo.fb_sz[0] = ctx->picinfo.buf_w * ctx->picinfo.buf_h;
->   	ctx->picinfo.fb_sz[1] = ctx->picinfo.fb_sz[0] >> 1;
->   	inst->vsi_ctx.dec.cap_num_planes =
-> 
