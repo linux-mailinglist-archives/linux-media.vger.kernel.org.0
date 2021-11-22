@@ -2,102 +2,127 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 90347458C92
-	for <lists+linux-media@lfdr.de>; Mon, 22 Nov 2021 11:44:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 62B86458CFD
+	for <lists+linux-media@lfdr.de>; Mon, 22 Nov 2021 12:08:30 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238864AbhKVKrb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 22 Nov 2021 05:47:31 -0500
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:32924 "EHLO
-        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239112AbhKVKr3 (ORCPT
+        id S230322AbhKVLLf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 22 Nov 2021 06:11:35 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56448 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S234822AbhKVLLe (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 22 Nov 2021 05:47:29 -0500
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: dafna)
-        with ESMTPSA id 9ACCA1F44822
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=collabora.com; s=mail;
-        t=1637577862; bh=BZwKyzVx4ruuAqlnDN1dIueQvzsa4RZzFJANK5WOaYE=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=eZEc8ECeOmsw4ezw2hpNmvicqyp8cDuBNRLXFHOI2d19wIHaibjoEtA5Yv2PqKAjV
-         YKZ/CbZsVsqJ6w/5VeW06fsPymIpCst9vxkAARiQpPKdjiabtO4oR9PYSM6HoCKvJB
-         GjYyAoKdv3XDQ+B9SvA4/4JCVZfRRLgMGoJBpGB8sp0PQ1/TPM22EFIz8Qd6Cl2Icx
-         S0LxEdhn4hV2jBYPlXnYC4/Ues5/XExzqaCx8liG7pUQIvC//aonPhpuhlLwC21iaM
-         8lZjy+3kwbNn45qUk+Rk1NJmNSWkJB5WjZjlPjNNycq/4lpHA24O65A6UBKmj5padv
-         Q9CDSLcHfaLZg==
-From:   Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
-To:     iommu@lists.linux-foundation.org
-Cc:     Sebastian Reichel <sebastian.reichel@collabora.com>,
-        dafna.hirschfeld@collabora.com, kernel@collabora.com,
-        Yong Wu <yong.wu@mediatek.com>, Joerg Roedel <joro@8bytes.org>,
-        Will Deacon <will@kernel.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        linux-mediatek@lists.infradead.org (moderated list:MEDIATEK IOMMU
-        DRIVER),
-        linux-arm-kernel@lists.infradead.org (moderated list:ARM/Mediatek SoC
-        support), linux-kernel@vger.kernel.org (open list),
-        linux-media@vger.kernel.org
-Subject: [PATCH 2/2] iommu/mediatek: always check runtime PM status in tlb flush range callback
-Date:   Mon, 22 Nov 2021 12:44:00 +0200
-Message-Id: <20211122104400.4160-3-dafna.hirschfeld@collabora.com>
+        Mon, 22 Nov 2021 06:11:34 -0500
+Received: from mail-pg1-x534.google.com (mail-pg1-x534.google.com [IPv6:2607:f8b0:4864:20::534])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C1CAEC061574
+        for <linux-media@vger.kernel.org>; Mon, 22 Nov 2021 03:08:27 -0800 (PST)
+Received: by mail-pg1-x534.google.com with SMTP id 28so14962253pgq.8
+        for <linux-media@vger.kernel.org>; Mon, 22 Nov 2021 03:08:27 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=igel-co-jp.20210112.gappssmtp.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=8j9GfMJUTSuyNlX0JtYEUNzVRbO89IElhevludBeDeE=;
+        b=2BUgIZ4SylDSAEO3Yl2LRpi29Cil8ozANeYZz+NqBNkpJpIT70W3l0VMWSjAQnMUDm
+         W9Oo/hEfSpBTRCgmDCOiCcnRvEQ+akoIRTo4pMrYJBGwlunqQEHuH0taC7Q5eniJeYs9
+         xfuZQlqmfdagZPee5GJMfkeGAPMC8yjQL9nnCU0D4wBrI8+4nqPT1IL3NI36XDK7kaQn
+         tqYdNc0oTHU+ETytp4UQqD2jIkmfo0fRV4EJON7wQD/8aj84cI6zbhnf6fYb6mHBkMms
+         +hu7xnWLLQxuApX+jjRpY7Ny1FbQhix3CnEGdHHrZb1z6gbgSU8lsG/U1IVF0d1F/odN
+         Cyyw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=8j9GfMJUTSuyNlX0JtYEUNzVRbO89IElhevludBeDeE=;
+        b=rOTN3+YmAHZRfrhSsdQRULm3igzSuRe+yydm7fuudjbWziVz0n9zW+wQ9eVykYeLFN
+         2KvN4AzHEsbvO1x+AF/7Zpqd9BEgyOaoL5jix0dkTwDJ7v0DSnib1LRCGWE2XbR46h1Z
+         1K49CrDo3aNIiQ+XXdh1f0FRD7F7cBQ1sRqdkgQVt1gfd94z7lZ9W6XhSb601pW4u8qd
+         xXTqDDqan/hr+l86zTkBPrQVK34RfZ7zoO2JNBl/a9OCoEENXS5QUsMPiI5NDWRnZo6B
+         aNONNcKiNIeTeHE0T5P68X6WBPkdrrtWDWCLkj+azuXCq3St9bwSY/hIn3wNwiQTzkfd
+         ikmg==
+X-Gm-Message-State: AOAM5325VAdy5Kyug1qgUQFW6eLNHltz+HyAiLYM4NHTvRPcDSx14ttG
+        KCruD1SyGqygrQIox7CuaVMFfQ==
+X-Google-Smtp-Source: ABdhPJxuy6lp75A9lhhuf/bGm760C8DD2KjY595wMNcaig7hBpaExK18IXGA4veJWh6ofv4Q4OFXDA==
+X-Received: by 2002:a62:e908:0:b0:49f:c633:51ec with SMTP id j8-20020a62e908000000b0049fc63351ecmr43319945pfh.1.1637579307242;
+        Mon, 22 Nov 2021 03:08:27 -0800 (PST)
+Received: from tyrell.hq.igel.co.jp (napt.igel.co.jp. [219.106.231.132])
+        by smtp.gmail.com with ESMTPSA id h6sm9572816pfh.82.2021.11.22.03.08.22
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 22 Nov 2021 03:08:26 -0800 (PST)
+From:   Shunsuke Mie <mie@igel.co.jp>
+To:     Zhu Yanjun <zyjzyj2000@gmail.com>
+Cc:     Shunsuke Mie <mie@igel.co.jp>,
+        =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+        Alex Deucher <alexander.deucher@amd.com>,
+        Daniel Vetter <daniel.vetter@ffwll.ch>,
+        Doug Ledford <dledford@redhat.com>,
+        Jason Gunthorpe <jgg@ziepe.ca>,
+        Jianxin Xiong <jianxin.xiong@intel.com>,
+        Leon Romanovsky <leon@kernel.org>,
+        Maor Gottlieb <maorg@nvidia.com>,
+        Sean Hefty <sean.hefty@intel.com>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-rdma@vger.kernel.org, dhobsong@igel.co.jp, taki@igel.co.jp,
+        etom@igel.co.jp
+Subject: [RFC PATCH v4 0/2] RDMA/rxe: Add dma-buf support
+Date:   Mon, 22 Nov 2021 20:08:15 +0900
+Message-Id: <20211122110817.33319-1-mie@igel.co.jp>
 X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20211122104400.4160-1-dafna.hirschfeld@collabora.com>
-References: <20211122104400.4160-1-dafna.hirschfeld@collabora.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Sebastian Reichel <sebastian.reichel@collabora.com>
+This patch series add a dma-buf support for rxe driver.
 
-In case of v4l2_reqbufs() it is possible, that a TLB flush is done
-without runtime PM being enabled. In that case the "Partial TLB flush
-timed out, falling back to full flush" warning is printed.
+A dma-buf based memory registering has beed introduced to use the memory
+region that lack of associated page structures (e.g. device memory and CMA
+managed memory) [1]. However, to use the dma-buf based memory, each rdma
+device drivers require add some implementation. The rxe driver has not
+support yet.
 
-Commit c0b57581b73b ("iommu/mediatek: Add power-domain operation")
-introduced has_pm as optimization to avoid checking runtime PM
-when there is no power domain attached. But without the PM domain
-there is still the device driver's runtime PM suspend handler, which
-disables the clock. Thus flushing should also be avoided when there
-is no PM domain involved.
+[1] https://www.spinics.net/lists/linux-rdma/msg98592.html
 
-Signed-off-by: Sebastian Reichel <sebastian.reichel@collabora.com>
-Reviewed-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
----
- drivers/iommu/mtk_iommu.c | 10 +++-------
- 1 file changed, 3 insertions(+), 7 deletions(-)
+To enable to use the dma-buf memory in rxe rdma device, add some changes
+and implementation in this patch series.
 
-diff --git a/drivers/iommu/mtk_iommu.c b/drivers/iommu/mtk_iommu.c
-index 28dc4b95b6d9..b0535fcfd1d7 100644
---- a/drivers/iommu/mtk_iommu.c
-+++ b/drivers/iommu/mtk_iommu.c
-@@ -227,16 +227,13 @@ static void mtk_iommu_tlb_flush_range_sync(unsigned long iova, size_t size,
- 					   size_t granule,
- 					   struct mtk_iommu_data *data)
- {
--	bool has_pm = !!data->dev->pm_domain;
- 	unsigned long flags;
- 	int ret;
- 	u32 tmp;
- 
- 	for_each_m4u(data) {
--		if (has_pm) {
--			if (pm_runtime_get_if_in_use(data->dev) <= 0)
--				continue;
--		}
-+		if (pm_runtime_get_if_in_use(data->dev) <= 0)
-+			continue;
- 
- 		spin_lock_irqsave(&data->tlb_lock, flags);
- 		writel_relaxed(F_INVLD_EN1 | F_INVLD_EN0,
-@@ -261,8 +258,7 @@ static void mtk_iommu_tlb_flush_range_sync(unsigned long iova, size_t size,
- 		writel_relaxed(0, data->base + REG_MMU_CPE_DONE);
- 		spin_unlock_irqrestore(&data->tlb_lock, flags);
- 
--		if (has_pm)
--			pm_runtime_put(data->dev);
-+		pm_runtime_put(data->dev);
- 	}
- }
- 
+This series consists of two patches. The first patch changes the IB core
+to support for rdma drivers that has not dma device. The secound patch adds
+the dma-buf support to rxe driver.
+
+Related user space RDMA library changes are provided as a separate patch.
+
+v4:
+* Fix warnings, unused variable and casting
+v3: https://www.spinics.net/lists/linux-rdma/msg106776.html
+* Rebase to the latest linux-rdma 'for-next' branch (5.15.0-rc6+)
+* Fix to use dma-buf-map helpers
+v2: https://www.spinics.net/lists/linux-rdma/msg105928.html
+* Rebase to the latest linux-rdma 'for-next' branch (5.15.0-rc1+)
+* Instead of using a dummy dma_device to attach dma-buf, just store
+  dma-buf to use software RDMA driver
+* Use dma-buf vmap() interface
+* Check to pass tests of rdma-core
+v1: https://www.spinics.net/lists/linux-rdma/msg105376.html
+* The initial patch set
+* Use ib_device as dma_device.
+* Use dma-buf dynamic attach interface
+* Add dma-buf support to rxe device
+
+Shunsuke Mie (2):
+  RDMA/umem: Change for rdma devices has not dma device
+  RDMA/rxe: Add dma-buf support
+
+ drivers/infiniband/core/umem_dmabuf.c |  20 ++++-
+ drivers/infiniband/sw/rxe/rxe_loc.h   |   2 +
+ drivers/infiniband/sw/rxe/rxe_mr.c    | 113 ++++++++++++++++++++++++++
+ drivers/infiniband/sw/rxe/rxe_verbs.c |  34 ++++++++
+ include/rdma/ib_umem.h                |   1 +
+ 5 files changed, 166 insertions(+), 4 deletions(-)
+
 -- 
 2.17.1
 
