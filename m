@@ -2,61 +2,69 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 46255458D74
-	for <lists+linux-media@lfdr.de>; Mon, 22 Nov 2021 12:30:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 06AD2458DA1
+	for <lists+linux-media@lfdr.de>; Mon, 22 Nov 2021 12:42:22 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236514AbhKVLdP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 22 Nov 2021 06:33:15 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33212 "EHLO
+        id S238242AbhKVLp0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 22 Nov 2021 06:45:26 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35920 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237365AbhKVLdO (ORCPT
+        with ESMTP id S236718AbhKVLpZ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 22 Nov 2021 06:33:14 -0500
-Received: from gofer.mess.org (gofer.mess.org [IPv6:2a02:8011:d000:212::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C7E22C061574
-        for <linux-media@vger.kernel.org>; Mon, 22 Nov 2021 03:30:06 -0800 (PST)
-Received: by gofer.mess.org (Postfix, from userid 1000)
-        id 8730FC63A5; Mon, 22 Nov 2021 11:30:02 +0000 (GMT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mess.org; s=2020;
-        t=1637580602; bh=/1da65a+UD+VfrEsLyVjKXP4RM9QyzJ5GHb/G7pbub8=;
-        h=Date:From:To:Subject:From;
-        b=ha6n44EOHd4fPsyV2PRp8jUD/OH8c19hyZAn6e2/sp2sKuG0GhoJAdVvO2Sp8F5/X
-         SkCzcGP2uC7fegcAaX6zHeF8xszhHEEONeYQ7Z02jad7Yafu6G5TwKlhn23SLyxHj4
-         uAsqved7MPv3wSDsJmjZ3bAlCaw/GdWr/o3bPSivtrHd5GgKG/ehiTSZwpNQGHZwWO
-         GMKpb7n9K/DtkDIklSG4nDR4lw5q1rcGPUAByezYYId91GHueyI8Duw+On4ZSutLi0
-         ghq2e3CR+/2g2Q7LNZhVFI8zBDbaifmxIupBnn7vc3mLWKjQj1fed6f3bJZPzo8Q1b
-         ZsmdzxAwm50EA==
-Date:   Mon, 22 Nov 2021 11:30:02 +0000
-From:   Sean Young <sean@mess.org>
-To:     linux-media@vger.kernel.org
-Subject: [GIT PULL FOR v5.16] sparse fix
-Message-ID: <20211122113002.GA5912@gofer.mess.org>
+        Mon, 22 Nov 2021 06:45:25 -0500
+Received: from mail-il1-x144.google.com (mail-il1-x144.google.com [IPv6:2607:f8b0:4864:20::144])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5588AC061574
+        for <linux-media@vger.kernel.org>; Mon, 22 Nov 2021 03:42:19 -0800 (PST)
+Received: by mail-il1-x144.google.com with SMTP id x9so17681362ilu.6
+        for <linux-media@vger.kernel.org>; Mon, 22 Nov 2021 03:42:19 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=Sw5sXMAC9IeBMeUt8/3lQb1uasIw729SIpXYRz+nt0k=;
+        b=BnXUZoOLnoX1DHEbIvpr//2GbV792PGPsCBb6a5WC/f+B0ydjvznP0alcGbazPNq0a
+         bmRDQ5E9ogwJzqHatRgvWqOBAFJna++M9lwqQINUMDJvZBd19qroI4jH3cPO6uXVyvTP
+         hZZcdAjoI++4XDOHd/z8b8MdRgABGC6qJUeIjd2xEeMBbaQsEphoU6lqVVZ12Tur7Ip7
+         BjXDelB0snje+ihWBsEddmjL+NywrEILm0nXEQyALdtczI1dA3NL6/25VcMK+B/22r+H
+         naHnAjjNZIxCRux/EP1LPr28fwiP3opHUaC3eEbjpMgKViAaDsoV3nRWfbtmFXK0DiD7
+         bz6Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to;
+        bh=Sw5sXMAC9IeBMeUt8/3lQb1uasIw729SIpXYRz+nt0k=;
+        b=A1Omqt8Dn43dMzp4tSkKFHlhQnr75gHgvYx4qiOQkUDMQ+j+h4biekrES5TqSlZXKN
+         tMZ3xwvkXCIxejRnT++TS4G6EBrgz9X0d1WzK7OUkf4AVhC6o3Rrsb/04eIhZ0pjrDR0
+         LZzQ7uXiN8anlFJksfSG4t9WtHR3Uyu6f5vofzuTtWuA+QuFvuB3Q49VALK5xCUc8izD
+         klcbD6lGSeoH2JbJOPO4QusdoJhLAkP7kGLExDtYXdcF0Jc4Camd1eV/UEwgpXngRKef
+         P/Yl0W7ZriZMKFayTIYTv+H177xPaB8LN3Dir2JsSRZ4EKhYW/OzBy5BlVTh+BEGYWZL
+         9tPA==
+X-Gm-Message-State: AOAM5308ie191VmmQAxg10A5zATqGo76yQj+jLYWginezNTBVfBQMTA4
+        fH5GhT64jknNP5nnpJmVp6I4hELwrRVhibjTfDA=
+X-Google-Smtp-Source: ABdhPJxdLsP0p7MQ2vaUeG9Gf02VmzFcmIKz8SJn+gR5mWn2oc9e0M5ifNh7UjzEWFudXQIYGSwfn01Avzy1LAZq7q4=
+X-Received: by 2002:a05:6e02:1c2e:: with SMTP id m14mr10820796ilh.172.1637581338760;
+ Mon, 22 Nov 2021 03:42:18 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Received: by 2002:a05:6622:b34:0:0:0:0 with HTTP; Mon, 22 Nov 2021 03:42:18
+ -0800 (PST)
+Reply-To: wongleshiu@gmail.com
+From:   Wong Shiu <tinsleymeekinsjrn@gmail.com>
+Date:   Mon, 22 Nov 2021 13:42:18 +0200
+Message-ID: <CAEbty7B+fYBR5RO3FLhbDXpER_cmO8NmbKtzbqb-9cK3+1nNTQ@mail.gmail.com>
+Subject: Good Day
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The following changes since commit 0d2517b3765aa331aee0a95f9b8072062d6bb7e5:
+-- 
+Good day
 
-  media: hantro: Support NV12 on the G2 core (2021-11-22 07:53:37 +0000)
+I found your email in the Google database,
 
-are available in the Git repository at:
+Is your email address still valid? I have a good business proposal for you,
 
-  git://linuxtv.org/syoung/media_tree.git tags/v5.17b
+If you are interested, please contact me for further information at:
+wongleshiu@gmail.com
 
-for you to fetch changes up to 572799dfa023b2902223d5696031eebd13ee2d11:
-
-  media: meson-ir-tx: remove incorrect doc comment (2021-11-22 11:23:32 +0000)
-
-----------------------------------------------------------------
-v5.17b
-
-----------------------------------------------------------------
-Sean Young (1):
-      media: meson-ir-tx: remove incorrect doc comment
-
- drivers/media/rc/meson-ir-tx.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Wong  Shiu
