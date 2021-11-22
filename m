@@ -2,52 +2,52 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B805C459500
-	for <lists+linux-media@lfdr.de>; Mon, 22 Nov 2021 19:47:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1701F4594FC
+	for <lists+linux-media@lfdr.de>; Mon, 22 Nov 2021 19:47:34 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240443AbhKVSu3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 22 Nov 2021 13:50:29 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48868 "EHLO
+        id S240416AbhKVSuc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 22 Nov 2021 13:50:32 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48878 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240412AbhKVSuU (ORCPT
+        with ESMTP id S240421AbhKVSuV (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 22 Nov 2021 13:50:20 -0500
-Received: from mail-ed1-x52b.google.com (mail-ed1-x52b.google.com [IPv6:2a00:1450:4864:20::52b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4FB69C061714;
-        Mon, 22 Nov 2021 10:47:13 -0800 (PST)
-Received: by mail-ed1-x52b.google.com with SMTP id x6so69111395edr.5;
-        Mon, 22 Nov 2021 10:47:13 -0800 (PST)
+        Mon, 22 Nov 2021 13:50:21 -0500
+Received: from mail-ed1-x52f.google.com (mail-ed1-x52f.google.com [IPv6:2a00:1450:4864:20::52f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8C2F3C061746;
+        Mon, 22 Nov 2021 10:47:14 -0800 (PST)
+Received: by mail-ed1-x52f.google.com with SMTP id g14so81320184edb.8;
+        Mon, 22 Nov 2021 10:47:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=Dss9UiKF+k7Po25DwSiusMM9IdCzuECfyUd1tTdrRbg=;
-        b=Bhz5XvT0o10O8LdIN/VUhQiHJnLca2FPbI8x7F6PqhoK3FZcFJPU/UYdTpzylMMRg+
-         6z0CYvdyYJZlEuRD5SbYMZ9PnFBhr9dY35NCq1Kle7ytd23z+8cMqeCungXc3aWTpMz0
-         tb/czpATqWjnJdXSqa3lC4acLd1TwR8YAE9NFCSJwVh6IamtDXMmdvRaLe46ALA2iPte
-         hh5UB0gbkaQW2zds/Y7XTpR7YGJe687hrvfuLO1dbcALrHS3HAwf0r7phkTVz0Nbdnbh
-         Px1PyTlCdNoFDo0FZH6V0UU9F2llZKSKuBSBkF4HYP2Lk5fjiETmJ3KibLlgEawJZdLA
-         Uv9g==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=+w4xKSGr2Zu6+OjnOBXAenD8YjQlbwAZQEVVxErum9c=;
+        b=bd3XcFjOlYJkoNuauwnOZ4WoOKrVjvPD2tfLabA4dd5EVxBgcs1EfqKYQlCK1GCJyA
+         dNOaBCKc8sCGwwdzfG5Sbv0lb3xcUO2yfsmqBmbjA15QC4YlXCxLzhumhpCPU2oMJglI
+         BHFfd4aPH+uuABtD5uVxldU8d4cQxW0o19LYkzoUSDVfXGfr6fDnK86IHzqesQ3M0eqA
+         5MWwrf6zfAGc/CsFtDenZLcKD4gFLKTZIVVKcNZb3w4XaOUT6XXPVy9lq5MTYFSisZtu
+         B8qL/KR97y2prd2Cyowkn9Ia1pcHruDyfJpbZYJ/ZTOaHlSWyr5pyOStpLsYzyYTt61T
+         B8QA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=Dss9UiKF+k7Po25DwSiusMM9IdCzuECfyUd1tTdrRbg=;
-        b=Bm2TKYbSceeJosx8jFmMHm96+QwvBLAzGrZrzoWp8OrVZgPvK0zENw+uiKGQanlK2+
-         V2V379/TNujuv5B88DBFEUHxZrnWB/xsgq+w7tQnx2DM1vAMus32fXdvNgOlBT4pLaf3
-         hc85IjdPByAad6qNnuHRWqtgyUctCHQzmN/z/HQYddRIiIHJaH/+Q1Sga7fgVNMNLpuu
-         b0qwDO5h5RZoc3wuBFJ4F75Y/pprZuHRmuAhKvaI/Z7usDAmv8UpPgaKYiSmNRL5VagZ
-         Z/outrvco1voODZlJb+vnESuv0xFDYq+n+ABu03CyM/0fci0SN+LQI5Kk+lYGkMg7B9k
-         4L3A==
-X-Gm-Message-State: AOAM531KYxqRKdiC//iTmhkz1gE/VsUpbnHDHyz7kkt0BG2jZOdp2C4W
-        jSgTmOpFLAwwzKCL/DCUGU1KWBg2x4DIfg==
-X-Google-Smtp-Source: ABdhPJzgdosbksPZCqL8fKg3cjtQpo/DXX2+PosZpuL8FSxSDz2AVuG1NfXCsxT1xLP2AzUNixo0fA==
-X-Received: by 2002:a17:906:a215:: with SMTP id r21mr27612192ejy.21.1637606831875;
-        Mon, 22 Nov 2021 10:47:11 -0800 (PST)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=+w4xKSGr2Zu6+OjnOBXAenD8YjQlbwAZQEVVxErum9c=;
+        b=qQ8AATn4pqg4/XTriOqr1ULNFuKHsLgef6Hlx9evtTFMFOYi3o+9gOKk2/XtjXUrOE
+         X/Cart2NX/WyVniwP2UupNb4CmaorRNYkbZ7QK3PuqsatsR4XNjVuYdr9PSbseO0puzg
+         ltWsFnxW91/iZvsF/IRpgbN2pEAWtq8ljxoyt4idFkwugXaIDBohFln5EZpWp0teXV0i
+         bukWHGo2PECpQawqBIAPosnAEbYPvzMONPzCcv3HPUH+jSAGnPdDEmj9xMrLEK3CnCXr
+         lL0rixv0csMFJSruG00d5DE7GcJ+nNNGH+pSyN4R4j2aetW8d+977Doh6zXdcrVWSWyw
+         iDBw==
+X-Gm-Message-State: AOAM530vXnnEO6ks4hAA62w4KxhJJUNuIqskOajykjO0n9b5YzO2Pq1a
+        vdksmU/XEETvybtt6ZpqapCcCJ3/BJg1MA==
+X-Google-Smtp-Source: ABdhPJysbwUlkyvCH+XVf6KqRQevoHWgxCWlT5DPGHxL30ztAHwZotkpi7zotZeGy3uRYsgbv4HRxQ==
+X-Received: by 2002:a17:907:7215:: with SMTP id dr21mr43579240ejc.505.1637606833124;
+        Mon, 22 Nov 2021 10:47:13 -0800 (PST)
 Received: from kista.localdomain (cpe-86-58-29-253.static.triera.net. [86.58.29.253])
-        by smtp.gmail.com with ESMTPSA id h10sm4512312edr.95.2021.11.22.10.47.10
+        by smtp.gmail.com with ESMTPSA id h10sm4512312edr.95.2021.11.22.10.47.12
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 22 Nov 2021 10:47:11 -0800 (PST)
+        Mon, 22 Nov 2021 10:47:12 -0800 (PST)
 From:   Jernej Skrabec <jernej.skrabec@gmail.com>
 To:     linux-media@vger.kernel.org
 Cc:     ezequiel@vanguardiasur.com.ar, nicolas.dufresne@collabora.com,
@@ -57,67 +57,105 @@ Cc:     ezequiel@vanguardiasur.com.ar, nicolas.dufresne@collabora.com,
         linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
         linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev,
         Jernej Skrabec <jernej.skrabec@gmail.com>
-Subject: [PATCH 0/7] media: hantro: add Allwinner H6 support
-Date:   Mon, 22 Nov 2021 19:46:55 +0100
-Message-Id: <20211122184702.768341-1-jernej.skrabec@gmail.com>
+Subject: [PATCH 1/7] media: hantro: add support for reset lines
+Date:   Mon, 22 Nov 2021 19:46:56 +0100
+Message-Id: <20211122184702.768341-2-jernej.skrabec@gmail.com>
 X-Mailer: git-send-email 2.34.0
+In-Reply-To: <20211122184702.768341-1-jernej.skrabec@gmail.com>
+References: <20211122184702.768341-1-jernej.skrabec@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi everyone!
+Some SoCs like Allwinner H6 use reset lines for resetting Hantro G2. Add
+support for them.
 
-Here is patchset which adds support for Hantro G2 core found in Allwinner
-H6 SoC. It is slightly older core, so it needs few quirks to be
-implemented:
-1. It uses slightly different register layout in some cases. However, those
-   differences are small, so it makes sense only to add quirks.
-2. It doesn't use ring buffer for bitstream as newer variants.
-3. It needs double buffering to be enabled in order to work correctly.
-4. postproc must be enabled at the end of the job. It seems that core has
-   some issues with latching register values if postproc registers are set
-   at the beginning of the job
+Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+---
+ drivers/staging/media/hantro/hantro.h     |  3 +++
+ drivers/staging/media/hantro/hantro_drv.c | 15 ++++++++++++++-
+ 2 files changed, 17 insertions(+), 1 deletion(-)
 
-legacy_regs quirk could be split into 3, like legacy_regs, ring_buffer and
-late_postproc, but I didn't see the need for that. I examined vendor
-sources at [1] and it suggests that legacy_regs implies no ring buffer.
-
-It's also unclear if core supports HEVC decoding or not. This can be
-implemented later. VP9 10-bit decoding support is mentioned in manual, but
-it doesn't work at the moment. This will be addressed later.
-
-Please take a look.
-
-Best regards,
-Jernej
-
-[1] https://github.com/CliveLau1990/imx-vpu-hantro
-
-Jernej Skrabec (7):
-  media: hantro: add support for reset lines
-  media: hantro: vp9: use double buffering if needed
-  media: hantro: vp9: add support for legacy register set
-  media: hantro: move postproc enablement for old cores
-  media: dt-bindings: allwinner: document H6 Hantro G2 binding
-  media: hantro: Add support for Allwinner H6
-  arm64: dts: allwinner: h6: Add Hantro G2 node
-
- .../media/allwinner,sun50i-h6-vpu-g2.yaml     |  64 +++++++++++
- arch/arm64/boot/dts/allwinner/sun50i-h6.dtsi  |   9 ++
- drivers/staging/media/hantro/Kconfig          |  10 +-
- drivers/staging/media/hantro/Makefile         |   3 +
- drivers/staging/media/hantro/hantro.h         |   7 ++
- drivers/staging/media/hantro/hantro_drv.c     |  27 ++++-
- drivers/staging/media/hantro/hantro_g2_regs.h |  20 ++++
- .../staging/media/hantro/hantro_g2_vp9_dec.c  |  76 ++++++++++---
- drivers/staging/media/hantro/hantro_hw.h      |   1 +
- drivers/staging/media/hantro/sunxi_vpu_hw.c   | 104 ++++++++++++++++++
- 10 files changed, 301 insertions(+), 20 deletions(-)
- create mode 100644 Documentation/devicetree/bindings/media/allwinner,sun50i-h6-vpu-g2.yaml
- create mode 100644 drivers/staging/media/hantro/sunxi_vpu_hw.c
-
+diff --git a/drivers/staging/media/hantro/hantro.h b/drivers/staging/media/hantro/hantro.h
+index 7da23f7f207a..33eb3e092cc1 100644
+--- a/drivers/staging/media/hantro/hantro.h
++++ b/drivers/staging/media/hantro/hantro.h
+@@ -16,6 +16,7 @@
+ #include <linux/videodev2.h>
+ #include <linux/wait.h>
+ #include <linux/clk.h>
++#include <linux/reset.h>
+ 
+ #include <media/v4l2-ctrls.h>
+ #include <media/v4l2-device.h>
+@@ -171,6 +172,7 @@ hantro_vdev_to_func(struct video_device *vdev)
+  * @dev:		Pointer to device for convenient logging using
+  *			dev_ macros.
+  * @clocks:		Array of clock handles.
++ * @resets:		Array of reset handles.
+  * @reg_bases:		Mapped addresses of VPU registers.
+  * @enc_base:		Mapped address of VPU encoder register for convenience.
+  * @dec_base:		Mapped address of VPU decoder register for convenience.
+@@ -190,6 +192,7 @@ struct hantro_dev {
+ 	struct platform_device *pdev;
+ 	struct device *dev;
+ 	struct clk_bulk_data *clocks;
++	struct reset_control *resets;
+ 	void __iomem **reg_bases;
+ 	void __iomem *enc_base;
+ 	void __iomem *dec_base;
+diff --git a/drivers/staging/media/hantro/hantro_drv.c b/drivers/staging/media/hantro/hantro_drv.c
+index ab2467998d29..8c3de31f51b3 100644
+--- a/drivers/staging/media/hantro/hantro_drv.c
++++ b/drivers/staging/media/hantro/hantro_drv.c
+@@ -905,6 +905,10 @@ static int hantro_probe(struct platform_device *pdev)
+ 			return PTR_ERR(vpu->clocks[0].clk);
+ 	}
+ 
++	vpu->resets = devm_reset_control_array_get(&pdev->dev, false, true);
++	if (IS_ERR(vpu->resets))
++		return PTR_ERR(vpu->resets);
++
+ 	num_bases = vpu->variant->num_regs ?: 1;
+ 	vpu->reg_bases = devm_kcalloc(&pdev->dev, num_bases,
+ 				      sizeof(*vpu->reg_bases), GFP_KERNEL);
+@@ -978,10 +982,16 @@ static int hantro_probe(struct platform_device *pdev)
+ 	pm_runtime_use_autosuspend(vpu->dev);
+ 	pm_runtime_enable(vpu->dev);
+ 
++	ret = reset_control_deassert(vpu->resets);
++	if (ret) {
++		dev_err(&pdev->dev, "Failed to deassert resets\n");
++		return ret;
++	}
++
+ 	ret = clk_bulk_prepare(vpu->variant->num_clocks, vpu->clocks);
+ 	if (ret) {
+ 		dev_err(&pdev->dev, "Failed to prepare clocks\n");
+-		return ret;
++		goto err_rst_assert;
+ 	}
+ 
+ 	ret = v4l2_device_register(&pdev->dev, &vpu->v4l2_dev);
+@@ -1037,6 +1047,8 @@ static int hantro_probe(struct platform_device *pdev)
+ 	v4l2_device_unregister(&vpu->v4l2_dev);
+ err_clk_unprepare:
+ 	clk_bulk_unprepare(vpu->variant->num_clocks, vpu->clocks);
++err_rst_assert:
++	reset_control_assert(vpu->resets);
+ 	pm_runtime_dont_use_autosuspend(vpu->dev);
+ 	pm_runtime_disable(vpu->dev);
+ 	return ret;
+@@ -1055,6 +1067,7 @@ static int hantro_remove(struct platform_device *pdev)
+ 	v4l2_m2m_release(vpu->m2m_dev);
+ 	v4l2_device_unregister(&vpu->v4l2_dev);
+ 	clk_bulk_unprepare(vpu->variant->num_clocks, vpu->clocks);
++	reset_control_assert(vpu->resets);
+ 	pm_runtime_dont_use_autosuspend(vpu->dev);
+ 	pm_runtime_disable(vpu->dev);
+ 	return 0;
 -- 
 2.34.0
 
