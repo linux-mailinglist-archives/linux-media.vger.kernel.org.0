@@ -2,114 +2,61 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A0A76458D44
-	for <lists+linux-media@lfdr.de>; Mon, 22 Nov 2021 12:20:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 46255458D74
+	for <lists+linux-media@lfdr.de>; Mon, 22 Nov 2021 12:30:11 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238297AbhKVLYC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 22 Nov 2021 06:24:02 -0500
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:33192 "EHLO
-        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231383AbhKVLX6 (ORCPT
+        id S236514AbhKVLdP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 22 Nov 2021 06:33:15 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33212 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S237365AbhKVLdO (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 22 Nov 2021 06:23:58 -0500
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: dafna)
-        with ESMTPSA id D01931F4417B
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=collabora.com; s=mail;
-        t=1637580051; bh=pPrEN/YF4sotbuUfmPn39l8y4o1ImZY5UTUEmz++QNo=;
-        h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
-        b=SDziSTY9dNAhuzTBXfL3rkLd0ucwrWgVVCvwYO/SrVl8OEsUeOcrKGsvNb7ZzZdZT
-         yolCIL/ftz192Nvq5laHdZBlpwyAaCmXxx0s+tLkfa/M76NSQLwHHa/evkgiy8PmAZ
-         U+179zUVQxPlcHuCVJm3imhRrpWi1G/zPyMe6YUuVIgND82HSNYPSBhQ8cajiCIssS
-         0CbfE34YRZYDRBTYWxW6A1O79PxTJU0hzLmd53pA8ug4OHLGIK5L3NgY3U2nRC5arM
-         gXhZMarwG0pZxsiWhgZ35aN5Bq0+yBEFoDtX/NfPjQxdEd/oUvDym5iOlqBVk4k1j5
-         6J6MRvg63J/xA==
-Subject: Re: [PATCH] media: rkisp1: remove support for V4L2_PIX_FMT_GREY
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     linux-media@vger.kernel.org, hverkuil@xs4all.nl,
-        kernel@collabora.com, dafna3@gmail.com,
-        sakari.ailus@linux.intel.com, mchehab@kernel.org
-References: <20211120110257.22775-1-dafna.hirschfeld@collabora.com>
- <YZjrWdrZzyEE8G7g@pendragon.ideasonboard.com>
-From:   Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
-Message-ID: <abc40fe3-6529-17f3-a6d3-4ab741afe849@collabora.com>
-Date:   Mon, 22 Nov 2021 13:20:47 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+        Mon, 22 Nov 2021 06:33:14 -0500
+Received: from gofer.mess.org (gofer.mess.org [IPv6:2a02:8011:d000:212::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C7E22C061574
+        for <linux-media@vger.kernel.org>; Mon, 22 Nov 2021 03:30:06 -0800 (PST)
+Received: by gofer.mess.org (Postfix, from userid 1000)
+        id 8730FC63A5; Mon, 22 Nov 2021 11:30:02 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mess.org; s=2020;
+        t=1637580602; bh=/1da65a+UD+VfrEsLyVjKXP4RM9QyzJ5GHb/G7pbub8=;
+        h=Date:From:To:Subject:From;
+        b=ha6n44EOHd4fPsyV2PRp8jUD/OH8c19hyZAn6e2/sp2sKuG0GhoJAdVvO2Sp8F5/X
+         SkCzcGP2uC7fegcAaX6zHeF8xszhHEEONeYQ7Z02jad7Yafu6G5TwKlhn23SLyxHj4
+         uAsqved7MPv3wSDsJmjZ3bAlCaw/GdWr/o3bPSivtrHd5GgKG/ehiTSZwpNQGHZwWO
+         GMKpb7n9K/DtkDIklSG4nDR4lw5q1rcGPUAByezYYId91GHueyI8Duw+On4ZSutLi0
+         ghq2e3CR+/2g2Q7LNZhVFI8zBDbaifmxIupBnn7vc3mLWKjQj1fed6f3bJZPzo8Q1b
+         ZsmdzxAwm50EA==
+Date:   Mon, 22 Nov 2021 11:30:02 +0000
+From:   Sean Young <sean@mess.org>
+To:     linux-media@vger.kernel.org
+Subject: [GIT PULL FOR v5.16] sparse fix
+Message-ID: <20211122113002.GA5912@gofer.mess.org>
 MIME-Version: 1.0
-In-Reply-To: <YZjrWdrZzyEE8G7g@pendragon.ideasonboard.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+The following changes since commit 0d2517b3765aa331aee0a95f9b8072062d6bb7e5:
 
+  media: hantro: Support NV12 on the G2 core (2021-11-22 07:53:37 +0000)
 
-On 20.11.21 14:34, Laurent Pinchart wrote:
-> Hi Dafna,
-> 
-> Thank you for the patch.
-> 
-> On Sat, Nov 20, 2021 at 01:02:57PM +0200, Dafna Hirschfeld wrote:
->> When trying to stream on both mainpatch and selfpatch
->> with grey format, I get an iommu page fault.
->> The fault is on the address at the end of the buffer,
->> so it seems that the device is somehow wrongly
->> configured and thinks there is another plane.
-> 
-> Could we try to fix that instead ? There are IR sensors for which the
-> GREY format is useful.
+are available in the Git repository at:
 
-Hi, the doc is not very useful so I can try doing a bit trial and error.
-I see that there are several greyscale formats: [1]
-which make me think that maybe the device support one of the other greyscale formats.
-Do you know if some formats are more likely than other?
+  git://linuxtv.org/syoung/media_tree.git tags/v5.17b
 
-thanks,
-Dafna
+for you to fetch changes up to 572799dfa023b2902223d5696031eebd13ee2d11:
 
-[1] https://www.kernel.org/doc/html/latest/userspace-api/media/v4l/pixfmt-yuv-luma.html
+  media: meson-ir-tx: remove incorrect doc comment (2021-11-22 11:23:32 +0000)
 
+----------------------------------------------------------------
+v5.17b
 
-> 
->> Signed-off-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
->> ---
->>   .../platform/rockchip/rkisp1/rkisp1-capture.c     | 15 ---------------
->>   1 file changed, 15 deletions(-)
->>
->> diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-capture.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-capture.c
->> index 768987d5f2dd..7f78f361dd5e 100644
->> --- a/drivers/media/platform/rockchip/rkisp1/rkisp1-capture.c
->> +++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-capture.c
->> @@ -116,13 +116,6 @@ static const struct rkisp1_capture_fmt_cfg rkisp1_mp_fmts[] = {
->>   		.write_format = RKISP1_MI_CTRL_MP_WRITE_YUV_PLA_OR_RAW8,
->>   		.mbus = MEDIA_BUS_FMT_YUYV8_2X8,
->>   	},
->> -	/* yuv400 */
->> -	{
->> -		.fourcc = V4L2_PIX_FMT_GREY,
->> -		.uv_swap = 0,
->> -		.write_format = RKISP1_MI_CTRL_MP_WRITE_YUV_PLA_OR_RAW8,
->> -		.mbus = MEDIA_BUS_FMT_YUYV8_2X8,
->> -	},
->>   	/* yuv420 */
->>   	{
->>   		.fourcc = V4L2_PIX_FMT_NV21,
->> @@ -244,14 +237,6 @@ static const struct rkisp1_capture_fmt_cfg rkisp1_sp_fmts[] = {
->>   		.output_format = RKISP1_MI_CTRL_SP_OUTPUT_YUV422,
->>   		.mbus = MEDIA_BUS_FMT_YUYV8_2X8,
->>   	},
->> -	/* yuv400 */
->> -	{
->> -		.fourcc = V4L2_PIX_FMT_GREY,
->> -		.uv_swap = 0,
->> -		.write_format = RKISP1_MI_CTRL_SP_WRITE_PLA,
->> -		.output_format = RKISP1_MI_CTRL_SP_OUTPUT_YUV400,
->> -		.mbus = MEDIA_BUS_FMT_YUYV8_2X8,
->> -	},
->>   	/* rgb */
->>   	{
->>   		.fourcc = V4L2_PIX_FMT_XBGR32,
-> 
+----------------------------------------------------------------
+Sean Young (1):
+      media: meson-ir-tx: remove incorrect doc comment
+
+ drivers/media/rc/meson-ir-tx.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
