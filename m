@@ -2,89 +2,80 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5C3D8458A43
-	for <lists+linux-media@lfdr.de>; Mon, 22 Nov 2021 09:00:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A3707458B45
+	for <lists+linux-media@lfdr.de>; Mon, 22 Nov 2021 10:26:18 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232786AbhKVIDp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 22 Nov 2021 03:03:45 -0500
-Received: from www.linuxtv.org ([130.149.80.248]:41662 "EHLO www.linuxtv.org"
+        id S239037AbhKVJ3W (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 22 Nov 2021 04:29:22 -0500
+Received: from mail.kernel.org ([198.145.29.99]:59064 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S232258AbhKVIDo (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 22 Nov 2021 03:03:44 -0500
-Received: from builder.linuxtv.org ([140.211.167.10] helo=slave0)
-        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1mp4Fh-006HKL-NX; Mon, 22 Nov 2021 08:00:37 +0000
-Received: from ip6-localhost ([::1] helo=localhost.localdomain)
-        by slave0 with esmtp (Exim 4.94.2)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1mp4Ff-00ALo3-0b; Mon, 22 Nov 2021 08:00:35 +0000
-From:   Jenkins <jenkins@linuxtv.org>
-To:     mchehab+samsung@kernel.org, linux-media@vger.kernel.org
-Cc:     builder@linuxtv.org
-Subject: Re: [GIT PULL for v5.16-rc3] media fixes (#78641)
-Date:   Mon, 22 Nov 2021 08:00:34 +0000
-Message-Id: <20211122080034.2467057-1-jenkins@linuxtv.org>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20211122072743.4caac49f@sal.lan>
-References: 
+        id S229906AbhKVJ3W (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Mon, 22 Nov 2021 04:29:22 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id E8C6760F22;
+        Mon, 22 Nov 2021 09:26:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1637573176;
+        bh=SIQ0D8zMU4kb7RRNdo9eoFMTBqAbpXxk4Wy3vA4efh0=;
+        h=From:To:Cc:Subject:Date:From;
+        b=I49ddTH4x+xPjVzthYILfPB/ThZ97LQKT8RLeeRWG8vNJkfziyXITMFUKtzKMADWw
+         nRk/qvhEruFWLo+FJfZhsMP8Nlic+rKmYa/rmT1+rd0EXKUKGFlCqZAacTAyRXKprK
+         dNvBYy06LsTt2d/xudtYRP3HZRM3R/t3HLet9BEh9kMqMT4LUxNPBqNvJnV25rec6K
+         hv+3/WM8bkAbm+DTaLzE04JEKgsErwcoyV4LQ3u7ovYxe6BPuwCdtjyS/rx92F0/j5
+         Vm23Wy4AybjaMkEW94xDj8i0/hrHMW7cwxLlHmhnGAaAi6S+gCZwoSOFmkTTVmtVl5
+         8zHsmb9eVHH1A==
+Received: by mail.kernel.org with local (Exim 4.94.2)
+        (envelope-from <mchehab@kernel.org>)
+        id 1mp5aX-003hiA-1T; Mon, 22 Nov 2021 09:26:13 +0000
+From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc:     linuxarm@huawei.com, mauro.chehab@huawei.com,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Andy Walls <awalls@md.metrocast.net>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        llvm@lists.linux.dev
+Subject: [PATCH 00/10] Address some clang W=1 warnings
+Date:   Mon, 22 Nov 2021 09:26:02 +0000
+Message-Id: <cover.1637573097.git.mchehab+huawei@kernel.org>
+X-Mailer: git-send-email 2.33.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
+To:     unlisted-recipients:; (no To-header on input)
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: builder@linuxtv.org
+Clang is more pedantic than gcc with W=1. This is currently causing
+builder.linuxtv.org errors due to CONFIG_WERROR.
 
-Pull request: https://patchwork.linuxtv.org/project/linux-media/patch/20211122072743.4caac49f@sal.lan/
-Build log: https://builder.linuxtv.org/job/patchwork/159000/
-Build time: 00:23:37
-Link: https://lore.kernel.org/linux-media/20211122072743.4caac49f@sal.lan
+Address some of those.
 
-gpg: Signature made Mon 22 Nov 2021 07:21:58 AM UTC
-gpg:                using RSA key F909AE68FC11DF09C1755C00085F3EBD8EE4E115
-gpg: Good signature from "Mauro Carvalho Chehab <mchehab+huawei@kernel.org>" [unknown]
-gpg:                 aka "Mauro Carvalho Chehab <mchehab@kernel.org>" [unknown]
-gpg:                 aka "Mauro Carvalho Chehab <m.chehab@samsung.com>" [unknown]
-gpg:                 aka "Mauro Carvalho Chehab <mchehab@osg.samsung.com>" [unknown]
-gpg:                 aka "Mauro Carvalho Chehab <mchehab@s-opensource.com>" [unknown]
-gpg:                 aka "[jpeg image of size 3594]" [unknown]
-gpg:                 aka "Mauro Carvalho Chehab <mchehab+samsung@kernel.org>" [unknown]
-gpg: WARNING: This key is not certified with a trusted signature!
-gpg:          There is no indication that the signature belongs to the owner.
-Primary key fingerprint: F909 AE68 FC11 DF09 C175  5C00 085F 3EBD 8EE4 E115
+Mauro Carvalho Chehab (10):
+  media: cx25821: drop duplicated i2c_slave_did_ack()
+  media: ivtv: drop an unused macro
+  media: cx18: drop an unused macro
+  media: stb6100: mark a currently unused function as such
+  media: mc: mark a debug function with __maybe_unused
+  media: dvb-core: dvb_frontend: address some clang warnings
+  media: cx25840: drop some unused inline functions
+  media: marvell-ccic: drop to_cam() unused function
+  media: omap3isp: mark isp_isr_dbg as __maybe_unused
+  media: omap3isp: avoid warnings at IS_OUT_OF_BOUNDS()
 
-Summary: got 2/5 patches with issues, being 2 at build time, plus one error when buinding PDF document
+ drivers/media/dvb-core/dvb_frontend.c         | 13 +++++-------
+ drivers/media/dvb-frontends/stb6100.c         |  2 +-
+ drivers/media/i2c/cx25840/cx25840-ir.c        | 20 -------------------
+ drivers/media/mc/mc-entity.c                  |  2 +-
+ drivers/media/pci/cx18/cx18-alsa-main.c       |  6 ------
+ drivers/media/pci/cx25821/cx25821-core.c      |  7 -------
+ drivers/media/pci/ivtv/ivtv-alsa-main.c       |  6 ------
+ .../media/platform/marvell-ccic/cafe-driver.c |  7 -------
+ drivers/media/platform/omap3isp/isp.c         |  3 ++-
+ drivers/media/platform/omap3isp/isph3a_af.c   |  2 +-
+ 10 files changed, 10 insertions(+), 58 deletions(-)
 
-Error/warnings:
+-- 
+2.33.1
 
-patches/0001-media-v4l2-core-fix-VIDIOC_DQEVENT-handling-on-non-x.patch:
-
-    allyesconfig: return code #0:
-	../scripts/genksyms/parse.y: warning: 9 shift/reduce conflicts [-Wconflicts-sr]
-	../scripts/genksyms/parse.y: warning: 5 reduce/reduce conflicts [-Wconflicts-rr]
-	../scripts/genksyms/parse.y: note: rerun with option '-Wcounterexamples' to generate conflict counterexamples
-
-    allyesconfig: return code #0:
-	../drivers/media/cec/core/cec-adap.c: ../drivers/media/cec/core/cec-adap.c:926 cec_transmit_msg_fh() warn: '&data->list' not removed from list
-	../drivers/media/rc/meson-ir-tx.c:22: warning: expecting prototype for meson(). Prototype was for DEVICE_NAME() instead
-	SMATCH:../drivers/media/usb/siano/smsusb.c ../drivers/media/usb/siano/smsusb.c:53:38: :warning: array of flexible structures
-	SPARSE:../drivers/media/usb/siano/smsusb.c ../drivers/media/usb/siano/smsusb.c:53:38: warning: array of flexible structures
-	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2625 dvb_register() parse error: turning off implications after 60 seconds
-	../drivers/media/platform/qcom/venus/helpers.c: ../drivers/media/platform/qcom/venus/helpers.c:658 venus_helper_get_bufreq() error: we previously assumed 'req' could be null (see line 654)
-	../drivers/media/usb/pvrusb2/pvrusb2-encoder.c: ../drivers/media/usb/pvrusb2/pvrusb2-encoder.c:288 pvr2_encoder_cmd() warn: inconsistent indenting
-	../drivers/media/usb/pvrusb2/pvrusb2-hdw.c: ../drivers/media/usb/pvrusb2/pvrusb2-hdw.c:1730 pvr2_hdw_set_streaming() warn: inconsistent indenting
-	../drivers/media/usb/pvrusb2/pvrusb2-hdw.c: ../drivers/media/usb/pvrusb2/pvrusb2-hdw.c:3461 pvr2_hdw_cpufw_set_enabled() warn: inconsistent indenting
-	../drivers/media/usb/pvrusb2/pvrusb2-hdw.c: ../drivers/media/usb/pvrusb2/pvrusb2-hdw.c:3501 pvr2_hdw_cpufw_get() warn: inconsistent indenting
-	../drivers/media/test-drivers/vivid/vivid-core.c: ../drivers/media/test-drivers/vivid/vivid-core.c:1981 vivid_create_instance() parse error: turning off implications after 60 seconds
-	../drivers/media/usb/em28xx/em28xx-video.c: ../drivers/media/usb/em28xx/em28xx-video.c:2864 em28xx_v4l2_init() parse error: turning off implications after 60 seconds
-
-patches/0003-media-cec-copy-sequence-field-for-the-reply.patch:
-
-    allyesconfig: return code #0:
-	../drivers/media/cec/core/cec-adap.c: ../drivers/media/cec/core/cec-adap.c:926 cec_transmit_msg_fh() warn: '&data->list' not removed from list
-
-
-Error #512 when building PDF docs
 
