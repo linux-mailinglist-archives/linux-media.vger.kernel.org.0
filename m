@@ -2,149 +2,165 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A83B14599DB
-	for <lists+linux-media@lfdr.de>; Tue, 23 Nov 2021 02:52:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3A24F459C22
+	for <lists+linux-media@lfdr.de>; Tue, 23 Nov 2021 06:58:28 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232400AbhKWBz4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 22 Nov 2021 20:55:56 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60712 "EHLO
+        id S233400AbhKWGBe (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 23 Nov 2021 01:01:34 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58340 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232059AbhKWBzz (ORCPT
+        with ESMTP id S233414AbhKWGBe (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 22 Nov 2021 20:55:55 -0500
-Received: from mail-io1-xd32.google.com (mail-io1-xd32.google.com [IPv6:2607:f8b0:4864:20::d32])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 615B2C061746
-        for <linux-media@vger.kernel.org>; Mon, 22 Nov 2021 17:52:48 -0800 (PST)
-Received: by mail-io1-xd32.google.com with SMTP id x6so4155696iol.13
-        for <linux-media@vger.kernel.org>; Mon, 22 Nov 2021 17:52:48 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ieee.org; s=google;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=7Oi7YYe6mXZ9qFhiItC3cT+zBCj+1FGQIOXFSu9z5Og=;
-        b=EMJHfp61byAPVM0d+YSPglX9cQhq+7ayPyr9zRTzuSPcvvgnxyLMG1ltK8vjfaD0FU
-         tlPYxbO7NtBZeDgMPNcJJoHVx+Je8+bWQnN+DVWW1NrLrqmC5gQjAph9/LWH4uiuxcYY
-         wd41pmLNfefVdVvVpoPO9twaon39sVO4IspOU=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=7Oi7YYe6mXZ9qFhiItC3cT+zBCj+1FGQIOXFSu9z5Og=;
-        b=fM2n43UdpkBNfRNJYpepnM0Gu50596OsonXxTt6GRcl7W4G6AYDGSJArHxCUgNcy4Z
-         G6Gd8t0bQo2uOEGeEPBSfRnqvKgqS/ahwXdo821ezj73d20JR1icyqH3umBvtKeHn/Zk
-         7sTFnATPtqGwYSujhr0BQBmVV2XTMBHUKc1QhcaDYLHYM4Crq5V70zJX21nu9EFL2EW9
-         ZTx/blcNVr0gPFt8IBoeQxHMBzmD1cQDHH9CZFPMqI0+bdbIuwwtBFnOtFY11Tmxi+8N
-         rBlx6IuSY37l6wM8DOScRcA+ZG+N9+h/ONnYa5nkXqwLQp355ou3LjN9V0ULd0FOddgU
-         ASHg==
-X-Gm-Message-State: AOAM532tyLzzjW+fVVra6EuCLEYkg90klfCYGtBFpJtDRf1I/sJQudWf
-        bfNXSN/Y4dQLf54pyCMK3i1ZbA==
-X-Google-Smtp-Source: ABdhPJwFYEXqq9O3YpMuHp49czIlbhiXDJHljcLoM+vErOaDm/O2cJ+JlOI+DmxoJkJ4K5f7Ve5+nA==
-X-Received: by 2002:a05:6638:14ca:: with SMTP id l10mr1120728jak.107.1637632367373;
-        Mon, 22 Nov 2021 17:52:47 -0800 (PST)
-Received: from [172.22.22.4] (c-73-185-129-58.hsd1.mn.comcast.net. [73.185.129.58])
-        by smtp.googlemail.com with ESMTPSA id d137sm6102931iof.16.2021.11.22.17.52.44
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 22 Nov 2021 17:52:47 -0800 (PST)
-Message-ID: <5936f811-fa48-33e9-2a1a-66c68f74aa5e@ieee.org>
-Date:   Mon, 22 Nov 2021 19:52:43 -0600
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.1
-Subject: Re: [PATCH 01/17] bitfield: Add non-constant field_{prep,get}()
- helpers
-Content-Language: en-US
-To:     Johannes Berg <johannes@sipsolutions.net>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Tony Lindgren <tony@atomide.com>,
-        Russell King <linux@armlinux.org.uk>,
-        Rajendra Nayak <rnayak@codeaurora.org>,
-        Paul Walmsley <paul@pwsan.com>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Nicolas Ferre <nicolas.ferre@microchip.com>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Ludovic Desroches <ludovic.desroches@microchip.com>,
-        Tero Kristo <kristo@kernel.org>,
-        Jonathan Cameron <jic23@kernel.org>,
-        Lars-Peter Clausen <lars@metafoo.de>,
-        Lorenzo Bianconi <lorenzo.bianconi83@gmail.com>,
-        Benoit Parrot <bparrot@ti.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Adrian Hunter <adrian.hunter@intel.com>,
-        Andrew Jeffery <andrew@aj.id.au>,
-        Ulf Hansson <ulf.hansson@linaro.org>,
-        Joel Stanley <joel@jms.id.au>,
-        Ping-Ke Shih <pkshih@realtek.com>,
-        Kalle Valo <kvalo@codeaurora.org>,
-        "David S . Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Mark Brown <broonie@kernel.org>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Eduardo Valentin <edubezval@gmail.com>,
-        Keerthy <j-keerthy@ti.com>,
-        "Rafael J . Wysocki" <rafael@kernel.org>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Amit Kucheria <amitk@kernel.org>,
-        Zhang Rui <rui.zhang@intel.com>,
-        Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
-Cc:     linux-arm-kernel@lists.infradead.org, linux-omap@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-clk@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org, linux-iio@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-mmc@vger.kernel.org,
-        linux-aspeed@lists.ozlabs.org, openbmc@lists.ozlabs.org,
-        linux-wireless@vger.kernel.org, netdev@vger.kernel.org,
-        linux-gpio@vger.kernel.org, linux-pm@vger.kernel.org,
-        alsa-devel@alsa-project.org
-References: <cover.1637592133.git.geert+renesas@glider.be>
- <3a54a6703879d10f08cf0275a2a69297ebd2b1d4.1637592133.git.geert+renesas@glider.be>
- <01b44b38c087c151171f8d45a2090474c2559306.camel@sipsolutions.net>
-From:   Alex Elder <elder@ieee.org>
-In-Reply-To: <01b44b38c087c151171f8d45a2090474c2559306.camel@sipsolutions.net>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+        Tue, 23 Nov 2021 01:01:34 -0500
+Received: from lb1-smtp-cloud7.xs4all.net (lb1-smtp-cloud7.xs4all.net [IPv6:2001:888:0:108::1a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 55F42C061574
+        for <linux-media@vger.kernel.org>; Mon, 22 Nov 2021 21:58:26 -0800 (PST)
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud7.xs4all.net with ESMTPA
+        id pOosmTSjwCMnApOowmplt4; Tue, 23 Nov 2021 06:58:22 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
+        t=1637647102; bh=yQwOdx3PWTbkDv7peoxninIlp6jJd7uUpG0XUmtlLas=;
+        h=Message-ID:Date:From:To:Subject:From:Subject;
+        b=TlFWjOlBt0aJsXudF1+8AInzWwGEir5gCE3jUhnOjet5JjZPt7boykqyASqsC5Qbh
+         8L0y7qPmuycpsPEZfD/zfBf4KAIUyIQ4jhevZ1RIt72q4XMw2o1li1pXvVmVns0o1j
+         YNZ6oKOoOB7pkAgletlR2BXLpy9A7QXHrS7YOyM5jSjZDcpPXObIhfS3KjvlWGO1p3
+         gpGS1ySV0cdHxdCKqL1AD+2zNbLRCxf53q53QfYl7FNH/zLt/gJcq8MUFtYJ6iWfwx
+         zhySn0qax+iQHxeD+sP8eWqm3A/LZD/QzqvODMSuZ2ArPjb0TJyZrt2HfW3fOfAC54
+         1td0e69dTokJQ==
+Message-ID: <08a97af1669fd4f034fd20df20230560@smtp-cloud7.xs4all.net>
+Date:   Tue, 23 Nov 2021 06:58:18 +0100
+From:   "Hans Verkuil" <hverkuil@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: WARNINGS
+X-CMAE-Envelope: MS4xfJldY72F0JfaQ96AYwrHnmOzGmVapLvILuqieUCFTV+QBjQnM404dfd/OlpI3ZVXUDxot5Ud07DnwJSrqwAcazgzdVJUq1z5nkFyc4vyKzG6WaaJK0u4
+ R/4WQkC/neCNwDu8SjH5lTlp1e4lESrMFcosJp1LzXuyk5VQfn124nDu7KWdKTJsFKejpGhsNditmQ==
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 11/22/21 10:32 AM, Johannes Berg wrote:
-> On Mon, 2021-11-22 at 16:53 +0100, Geert Uytterhoeven wrote:
->> The existing FIELD_{GET,PREP}() macros are limited to compile-time
->> constants.  However, it is very common to prepare or extract bitfield
->> elements where the bitfield mask is not a compile-time constant.
->>
-> 
-> I'm not sure it's really a good idea to add a third API here?
-> 
-> We have the upper-case (constant) versions, and already
-> {u32,...}_get_bits()/etc.
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
 
-I've used these a lot (and personally prefer the lower-case ones).
+Results of the daily build of media_tree:
 
-Your new macros don't do anything to ensure the field mask is
-of the right form, which is basically:  (2 ^ width - 1) << shift
+date:			Tue Nov 23 05:00:11 CET 2021
+media-tree git hash:	0d2517b3765aa331aee0a95f9b8072062d6bb7e5
+media_build git hash:	90bf75007a9f73a3bfd144cae29e05229e702035
+v4l-utils git hash:	b949cffb419ce76e8a66f83d62f2011c682f94d9
+edid-decode git hash:	b00755e34eb12aa92416aaf1bb7b02603131afe0
+gcc version:		i686-linux-gcc (GCC) 11.2.0
+sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
+sparse version:		0.6.3
+smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
+smatch version:		0.6.3
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: 8316772c4add75a82a86054e3f1c63b664b6542f
+host hardware:		x86_64
+host os:		5.14.0-2-amd64
 
-I really like the property that the field mask must be constant.
+linux-git-sh: OK
+linux-git-arm-at91: OK
+linux-git-arm-davinci: OK
+linux-git-mips: OK
+linux-git-arm-stm32: OK
+linux-git-arm-pxa: OK
+linux-git-arm-multi: OK
+linux-git-powerpc64: OK
+linux-git-arm64: OK
+linux-git-i686: OK
+linux-git-x86_64: OK
+Check COMPILE_TEST: OK
+Check for strcpy/strncpy/strlcpy: OK
+linux-4.4.283-i686: OK
+linux-4.4.283-x86_64: OK
+linux-4.5.7-i686: OK
+linux-4.5.7-x86_64: OK
+linux-4.6.7-i686: OK
+linux-4.6.7-x86_64: OK
+linux-4.7.10-i686: OK
+linux-4.7.10-x86_64: OK
+linux-4.8.17-i686: OK
+linux-4.8.17-x86_64: OK
+linux-4.9.246-i686: OK
+linux-4.9.246-x86_64: OK
+linux-4.10.17-i686: OK
+linux-4.10.17-x86_64: OK
+linux-4.11.12-i686: OK
+linux-4.11.12-x86_64: OK
+linux-4.12.14-i686: OK
+linux-4.12.14-x86_64: OK
+linux-4.13.16-i686: OK
+linux-4.13.16-x86_64: OK
+linux-4.14.246-i686: OK
+linux-4.14.246-x86_64: OK
+linux-4.15.18-i686: OK
+linux-4.15.18-x86_64: OK
+linux-4.16.18-i686: OK
+linux-4.16.18-x86_64: OK
+linux-4.17.19-i686: OK
+linux-4.17.19-x86_64: OK
+linux-4.18.20-i686: OK
+linux-4.18.20-x86_64: OK
+linux-4.19.206-i686: OK
+linux-4.19.206-x86_64: OK
+linux-4.20.17-i686: OK
+linux-4.20.17-x86_64: OK
+linux-5.0.21-i686: OK
+linux-5.0.21-x86_64: OK
+linux-5.1.21-i686: OK
+linux-5.1.21-x86_64: OK
+linux-5.2.21-i686: OK
+linux-5.2.21-x86_64: OK
+linux-5.3.18-i686: OK
+linux-5.3.18-x86_64: OK
+linux-5.4.144-i686: OK
+linux-5.4.144-x86_64: OK
+linux-5.5.19-i686: OK
+linux-5.5.19-x86_64: OK
+linux-5.6.19-i686: OK
+linux-5.6.19-x86_64: OK
+linux-5.7.19-i686: OK
+linux-5.7.19-x86_64: OK
+linux-5.8.18-i686: OK
+linux-5.8.18-x86_64: OK
+linux-5.9.16-i686: OK
+linux-5.9.16-x86_64: OK
+linux-5.10.62-i686: OK
+linux-5.10.62-x86_64: OK
+linux-5.11.22-i686: OK
+linux-5.11.22-x86_64: OK
+linux-5.12.19-i686: OK
+linux-5.12.19-x86_64: OK
+linux-5.13.14-i686: OK
+linux-5.13.14-x86_64: OK
+linux-5.14.1-i686: OK
+linux-5.14.1-x86_64: OK
+linux-5.15.1-i686: OK
+linux-5.15.1-x86_64: OK
+linux-5.16-rc1-i686: OK
+linux-5.16-rc1-x86_64: OK
+apps: OK
+spec-git: OK
+virtme: OK: Final Summary: 2989, Succeeded: 2989, Failed: 0, Warnings: 0
+virtme-32: WARNINGS: Final Summary: 3100, Succeeded: 3100, Failed: 0, Warnings: 2
+sparse: WARNINGS
+smatch: WARNINGS
+kerneldoc: WARNINGS
 
-That being said, I've had to use some strange coding patterns
-in order to adhere to the "const only" rule in a few cases.
-So if you can come up with a satisfactory naming scheme I'm
-all for it.
+Detailed results are available here:
 
-					-Alex
+http://www.xs4all.nl/~hverkuil/logs/Tuesday.log
 
+Detailed regression test results are available here:
 
+http://www.xs4all.nl/~hverkuil/logs/Tuesday-test-media.log
+http://www.xs4all.nl/~hverkuil/logs/Tuesday-test-media-32.log
+http://www.xs4all.nl/~hverkuil/logs/Tuesday-test-media-dmesg.log
 
-> Also, you're using __ffs(), which doesn't work for 64-bit on 32-bit
-> architectures (afaict), so that seems a bit awkward.
-> 
-> Maybe we can make {u32,...}_get_bits() be doing compile-time only checks
-> if it is indeed a constant? The __field_overflow() usage is already only
-> done if __builtin_constant_p(v), so I guess we can do the same with
-> __bad_mask()?
-> 
-> johannes
-> 
+Full logs are available here:
 
+http://www.xs4all.nl/~hverkuil/logs/Tuesday.tar.bz2
+
+The Media Infrastructure API from this daily build is here:
+
+http://www.xs4all.nl/~hverkuil/spec/index.html
