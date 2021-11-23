@@ -2,61 +2,62 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 29EAD4598DC
-	for <lists+linux-media@lfdr.de>; Tue, 23 Nov 2021 01:01:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8D2214598DA
+	for <lists+linux-media@lfdr.de>; Tue, 23 Nov 2021 01:01:20 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232923AbhKWAEQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 22 Nov 2021 19:04:16 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35548 "EHLO
+        id S232615AbhKWAEL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 22 Nov 2021 19:04:11 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35470 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232879AbhKWADt (ORCPT
+        with ESMTP id S232579AbhKWADu (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 22 Nov 2021 19:03:49 -0500
-Received: from mail-wr1-x42e.google.com (mail-wr1-x42e.google.com [IPv6:2a00:1450:4864:20::42e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0F3CEC0613F1
+        Mon, 22 Nov 2021 19:03:50 -0500
+Received: from mail-wr1-x430.google.com (mail-wr1-x430.google.com [IPv6:2a00:1450:4864:20::430])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EE337C06173E
         for <linux-media@vger.kernel.org>; Mon, 22 Nov 2021 16:00:41 -0800 (PST)
-Received: by mail-wr1-x42e.google.com with SMTP id c4so35662792wrd.9
-        for <linux-media@vger.kernel.org>; Mon, 22 Nov 2021 16:00:40 -0800 (PST)
+Received: by mail-wr1-x430.google.com with SMTP id d27so35752074wrb.6
+        for <linux-media@vger.kernel.org>; Mon, 22 Nov 2021 16:00:41 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=KIGNvcARpMlW7oz6VNmdq8EGxgVuFaq/E3tv969Js34=;
-        b=oC4YQ7tcCT1MQe8Q0JEwMd8RWPnyrlayXdlMgX3Ozyn37o1fUcrxwrd5hhg7Eumxrn
-         z6hzO2yssQGa+WEpvumtanMZiBKVOzJ6NITUG1xZxOcLkjayCeGEfKDAK1XAlgRsCIhG
-         GK604iJ1iALgqNiGAgoTfbSQNrCesgeV49CGsH78gjRrzzrKTPihG9CrLb+IG2AGDEh5
-         eWJbNy3dAXq1R434i3qpKMoCS2DUpBAujI30t8aaUTsQ/MEKMUYu5BUz5g1DvY/QR4kl
-         8D4o2NTmqjqzBvlsL4EWEkE2PuHueZdQfkIen3JWeF2hPEwHirl3v+5oQoOitSvTGFQn
-         8GbA==
+        bh=eBgM5YIUKdVJWZmB9Bdu+nzzi7aCarsQ2Djtv4VPP7w=;
+        b=jmgNmeljKZxDQ8ypUvfQj1hXYQ7NX2p9+2EgzAvsHjxCE1qyPLpTiouc4HVVHG8qt+
+         rECNUUyfucevmbny9f0u4ePsImSzTega970upIWXSQlSsm/XPUdaR7UjH3KGGk9xEAIU
+         eD4Ndwu/COxxBj497eCKoOcpmUDr+HTBIMqtKs16xnVga/QoNtMHko7cVI9gst4vBF7R
+         oLkw3KN1JCgZKr/LE0FVUd55J+OM76o/dz11X/GdES1Ww1jh/+S/Xr5Ksb3/gAgde2wg
+         yEqcXNkSL8cV2/LklQPfQnjH3MGeUWz4wXLNoSTyWCl0Ve8VC6KDIBi/tOLr+Xv120MW
+         LQXw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=KIGNvcARpMlW7oz6VNmdq8EGxgVuFaq/E3tv969Js34=;
-        b=xpa2PhlpjU6n+pF9yTdqo5D9UPWULUoTpaO9AY4XqGy/WFSRcaHOSOqFtTX9+LHNh3
-         0ON2cGfnc0TN/jbeQxmeNaGTRLVulFlbRlKfiQuuFVgkhggs2Dz7PQw6oBlbxgXsXJR/
-         ZFfXu3KydH9pKwAV8G5ZK29HQW414g3TbP+9uR8Pf7kwDLrOKZFWEiH5PTJzBR+8gh/V
-         dUOvW72poaj//vCvwbSmF8UjZgFmrG2P8AY6AM3SkhbqIiFi/Yvj5WeG0UU24H1wQ/gk
-         694EZvE4FgFd/N/R3APCQlHebL0yI0s/HzAD3Kbcj3TUMW7YDT+51ftwQgGHsivYo00R
-         +6kQ==
-X-Gm-Message-State: AOAM531O8/xR/0UOv/M879NS5AX79iiD2qq5er4QhKxqt9tMzdrC8Uoq
-        Ksy+CfS/t0csjou/K1vPGftfWOLO5JM=
-X-Google-Smtp-Source: ABdhPJyNcMFh13MFcuoPmyRQDjpVW25hKnVlPQA1cSBLrG4zm8P2/iQV9pu8FVtikQSYRtciD2ozAg==
-X-Received: by 2002:a5d:4846:: with SMTP id n6mr1565192wrs.249.1637625639729;
-        Mon, 22 Nov 2021 16:00:39 -0800 (PST)
+        bh=eBgM5YIUKdVJWZmB9Bdu+nzzi7aCarsQ2Djtv4VPP7w=;
+        b=VGkIT3qhLEUTkN5UDMg+twg2vVR2CgxMP8A/kRqemZ751iyYBbo3Amw8ATXHotbB/8
+         4DRIWbDHan4QB7GhwTW7QEBoa0sZW2Y0kY6Ph7gIKStEVB0cQN/e96DsVBpIbNtJ+b3c
+         uFTJqKmTF79qDRIJaO3YGzZiaTNFluu++eqxz8+7csq9B0ApFdfPdrIX/Z6U90quhBoE
+         LflGMyA7jPX+FIJwBqpIbxNp1+GMKvFm9nie95ATxoM3wUyoau0+lBkOvl86btdQ/y2a
+         hjoIdi14OMnaDsrBY+91TSDOk0IyX6pxi04BcMi9oysfYqAPexeuSopGbLLKPr8xO53c
+         52fw==
+X-Gm-Message-State: AOAM530SOCz3Wb6JarttkkiOmtKZMw1lmeCIjZ+AJf/0fm89Irta81+s
+        p27d0iyRXvGRMmUXhirTTeEwo6xJv58=
+X-Google-Smtp-Source: ABdhPJx1AsUGxU8WbEHjG7ez5adJ+QVHAlCDaHp282cWptVQupr1GRfr9g9hpfa97r/zTfu86AjNvg==
+X-Received: by 2002:a5d:4b0e:: with SMTP id v14mr1750227wrq.196.1637625640651;
+        Mon, 22 Nov 2021 16:00:40 -0800 (PST)
 Received: from localhost.localdomain (cpc141996-chfd3-2-0-cust928.12-3.cable.virginm.net. [86.13.91.161])
-        by smtp.gmail.com with ESMTPSA id s13sm23650782wmc.47.2021.11.22.16.00.38
+        by smtp.gmail.com with ESMTPSA id s13sm23650782wmc.47.2021.11.22.16.00.39
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 22 Nov 2021 16:00:39 -0800 (PST)
+        Mon, 22 Nov 2021 16:00:40 -0800 (PST)
 From:   Daniel Scally <djrscally@gmail.com>
 To:     linux-media@vger.kernel.org, paul.kocialkowski@bootlin.com
 Cc:     sakari.ailus@linux.intel.com, andriy.shevchenko@linux.intel.com,
         laurent.pinchart@ideasonboard.com, yong.zhi@intel.com,
         bingbu.cao@intel.com, jeanmichel.hautbois@ideasonboard.com,
-        kieran.bingham@ideasonboard.com, hdegoede@redhat.com
-Subject: [PATCH v5 16/17] media: i2c: Fix max gain in ov8865
-Date:   Tue, 23 Nov 2021 00:00:16 +0000
-Message-Id: <20211123000017.43187-17-djrscally@gmail.com>
+        kieran.bingham@ideasonboard.com, hdegoede@redhat.com,
+        Andy Shevchenko <andy.shevchenko@gmail.com>
+Subject: [PATCH v5 17/17] media: ipu3-cio2: Add INT347A to cio2-bridge
+Date:   Tue, 23 Nov 2021 00:00:17 +0000
+Message-Id: <20211123000017.43187-18-djrscally@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20211123000017.43187-1-djrscally@gmail.com>
 References: <20211123000017.43187-1-djrscally@gmail.com>
@@ -66,33 +67,34 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The maximum gain figure in the v4l2 ctrl is wrong. The field is 12 bits
-wide, which is where the 8191 figure comes from, but the datasheet is
-specific that maximum gain is 16x (the low seven bits are fractional, so
-16x gain is 2048)
+ACPI _HID INT347A represents the OV8865 sensor, the driver for which can
+support the platforms that the cio2-bridge serves. Add it to the array
+of supported sensors so the bridge will connect the sensor to the CIO2
+device.
 
+Reviewed-by: Andy Shevchenko <andy.shevchenko@gmail.com>
 Signed-off-by: Daniel Scally <djrscally@gmail.com>
 ---
 Changes in v5: 
 
-	- Patch added
+	- None
 
- drivers/media/i2c/ov8865.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/media/pci/intel/ipu3/cio2-bridge.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/drivers/media/i2c/ov8865.c b/drivers/media/i2c/ov8865.c
-index 1aa577dba0a3..ebdb20d3fe9d 100644
---- a/drivers/media/i2c/ov8865.c
-+++ b/drivers/media/i2c/ov8865.c
-@@ -2535,7 +2535,7 @@ static int ov8865_ctrls_init(struct ov8865_sensor *sensor)
- 
- 	/* Gain */
- 
--	v4l2_ctrl_new_std(handler, ops, V4L2_CID_ANALOGUE_GAIN, 128, 8191, 128,
-+	v4l2_ctrl_new_std(handler, ops, V4L2_CID_ANALOGUE_GAIN, 128, 2048, 128,
- 			  128);
- 
- 	/* White Balance */
+diff --git a/drivers/media/pci/intel/ipu3/cio2-bridge.c b/drivers/media/pci/intel/ipu3/cio2-bridge.c
+index 0b586b4e537e..4550be801311 100644
+--- a/drivers/media/pci/intel/ipu3/cio2-bridge.c
++++ b/drivers/media/pci/intel/ipu3/cio2-bridge.c
+@@ -22,6 +22,8 @@
+ static const struct cio2_sensor_config cio2_supported_sensors[] = {
+ 	/* Omnivision OV5693 */
+ 	CIO2_SENSOR_CONFIG("INT33BE", 0),
++	/* Omnivision OV8865 */
++	CIO2_SENSOR_CONFIG("INT347A", 1, 360000000),
+ 	/* Omnivision OV2680 */
+ 	CIO2_SENSOR_CONFIG("OVTI2680", 0),
+ };
 -- 
 2.25.1
 
