@@ -2,316 +2,163 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A69D145A230
-	for <lists+linux-media@lfdr.de>; Tue, 23 Nov 2021 13:06:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id F3B6845A239
+	for <lists+linux-media@lfdr.de>; Tue, 23 Nov 2021 13:10:22 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235720AbhKWMJk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 23 Nov 2021 07:09:40 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57880 "EHLO
+        id S234548AbhKWMN3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 23 Nov 2021 07:13:29 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58780 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232545AbhKWMJj (ORCPT
+        with ESMTP id S230428AbhKWMN2 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 23 Nov 2021 07:09:39 -0500
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 954E2C061574;
-        Tue, 23 Nov 2021 04:06:31 -0800 (PST)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: andrzej.p)
-        with ESMTPSA id 9A7541F4551B
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=collabora.com; s=mail;
-        t=1637669190; bh=C30QZT7g6mF+exH+nnrqVrKIrIfAkNwM1ChWv8NwI1k=;
-        h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
-        b=d37nIEMLGLQok8oMKwNGvYeDaDUB+v3jeg7cQYYkaT6QsTfK06HFU0z4zcepG0p6j
-         Zy1soHJBAIETQ2ouRVXGO63kniTsJDn42Dq/3hFhpz0hE6/vLGEe5dgOL61WEl0BDL
-         Jy6lwe7ASh32PyjdVjpzEpklIbiLcixe0pb0BRLucwdiqNFv9cC+N17Zpd6N5Fw3Fn
-         uJSJbJhwhagqfCQ9RLqymlMLt0UfjZPuzQ44igliPGJ9Fuwbh8++esHDTZvmpJv5Mb
-         RuKslWd5AkcogeO+LY65KT3Ppf+87c+1bik3KbSF7SbBgrV8NoN7SchEZgF45+BfBr
-         oB/Th0TJqP95A==
-Subject: Re: [PATCH 3/7] media: hantro: vp9: add support for legacy register
- set
-To:     Jernej Skrabec <jernej.skrabec@gmail.com>,
-        linux-media@vger.kernel.org
-Cc:     ezequiel@vanguardiasur.com.ar, nicolas.dufresne@collabora.com,
-        mchehab@kernel.org, robh+dt@kernel.org, mripard@kernel.org,
-        wens@csie.org, p.zabel@pengutronix.de, gregkh@linuxfoundation.org,
-        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
-        linux-staging@lists.linux.dev
-References: <20211122184702.768341-1-jernej.skrabec@gmail.com>
- <20211122184702.768341-4-jernej.skrabec@gmail.com>
-From:   Andrzej Pietrasiewicz <andrzej.p@collabora.com>
-Message-ID: <506e6056-6806-cbb0-271f-66a6512429fb@collabora.com>
-Date:   Tue, 23 Nov 2021 13:06:26 +0100
+        Tue, 23 Nov 2021 07:13:28 -0500
+Received: from mail-wr1-x433.google.com (mail-wr1-x433.google.com [IPv6:2a00:1450:4864:20::433])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 19D8BC061574
+        for <linux-media@vger.kernel.org>; Tue, 23 Nov 2021 04:10:20 -0800 (PST)
+Received: by mail-wr1-x433.google.com with SMTP id u18so38595810wrg.5
+        for <linux-media@vger.kernel.org>; Tue, 23 Nov 2021 04:10:20 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-transfer-encoding:content-language;
+        bh=AFknG6qJM/YMKbAu1sCv7OoaiWHL/D2rl7nQkGCudrI=;
+        b=bRa4Okb6B97CAsxI6mf3r38SxHOdKOJfdXw5EFkNHv6jQsGCRWS2lno155tiR0BopS
+         B6RLo/bPQwuwoWEHLNs0Bp3v+dB7t1SExZGVzBafC7VwxMjjbGGfOdoJznTMw69PNxSN
+         fqj7tPw5OwhZNWl2zIa8BfSUek5ei11JGzwSqDikDZWrCd7I3do1u918mt+RnzJbd5it
+         EGSWaLC+26McNpx0e/BHxo1mXAZEgGxuX1PVhyl82ex5hNZiXM6gZpq7uF3ZGLpLal2N
+         V0R6K4xcDAM9uc0/5ukvSCp9KlDZvL1jXyQL49MQdVR4KA14uKOaJ/AAVhaLrM4R8n03
+         iTaw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-transfer-encoding
+         :content-language;
+        bh=AFknG6qJM/YMKbAu1sCv7OoaiWHL/D2rl7nQkGCudrI=;
+        b=FJrrmIHtP7RMyJNAYbhDwXsrsSdaOhhNE8ojopbhq1e5Jj/Y4Cl6yIyK/0ADzrCf9y
+         Anqoy2uOmVlwWOOEnIkxvmdlVEDJUS7qxV1Fr37RT2U4r7dKG28TKxpXOkWvs6EYY7H/
+         w+WIWpNbBW7VvFVIHsGzLLFCoZglh2sMMRi1/SzL9lgtABldUyYVxKH5yGy3iirtdMTT
+         mp2BWryV7FmN/AoYIOq0/x035c5McPPBtt8tiB0by9Mx1P2k8Af6mRJvn4hEYRBwRz/H
+         Rg2G1Xf9zGNaC69vnfcOLTe6+VtA9n699Hv5Q9X8z3VDlmiJUcG/2jtcR44VPffflKao
+         2/Dw==
+X-Gm-Message-State: AOAM530ALctQ1HDynCq2ee5G4pQi3KvE7lg+CENpasUY4gGHPf3Zy22A
+        T8lmyqHpOJsScnuDNbv8w1UlGwaV6CU=
+X-Google-Smtp-Source: ABdhPJysY5+jAa2nM7tqOtGN/7CgtqqUO5PH2WUXL0qT15sITw6iNlmw/Aiz1CQteR3TwMZG4IeflQ==
+X-Received: by 2002:adf:ee0c:: with SMTP id y12mr6837406wrn.82.1637669418633;
+        Tue, 23 Nov 2021 04:10:18 -0800 (PST)
+Received: from [192.168.0.14] (cpc141996-chfd3-2-0-cust928.12-3.cable.virginm.net. [86.13.91.161])
+        by smtp.gmail.com with ESMTPSA id f8sm2172740wmf.2.2021.11.23.04.10.17
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 23 Nov 2021 04:10:17 -0800 (PST)
+Subject: Re: Fwd: Surface Go VCM type (was: Need to pass
+ acpi_enforce_resources=lax on the Surface Go (version1))
+To:     Hans de Goede <hdegoede@redhat.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Kate Hsuan <hpa@redhat.com>
+Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
+        libcamera-devel@lists.libcamera.org,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+References: <e2312277-f967-7d3f-5ce9-fbb197d35fd6@gmail.com>
+ <3b61bb2d-1136-cf35-ba7a-724da9642855@gmail.com>
+ <418dc16a-2a03-7604-a8e2-31c5ddfcf436@redhat.com>
+ <58dabc46-211c-844d-3ed3-fd2411936d6d@gmail.com>
+ <b0a6a762-3445-7c61-3510-6bd493f8e0fa@redhat.com>
+ <d0f969f6-e029-7c28-17ce-79b8228ddaee@gmail.com>
+ <b77cf78f-ea5e-adcc-a1b8-8cff77ebf847@gmail.com>
+ <bbfb4bd6-871a-eb14-653c-64c05c22e165@redhat.com>
+ <29bf3454-2f82-7791-2aa2-c5e1cb5610a5@gmail.com>
+ <6ee7c491-4636-8819-c954-dfc6abcfd1a5@gmail.com>
+ <495cbb6b-656d-6c3b-669a-f4b588e970cc@redhat.com>
+ <a26f70ae-203e-99fd-8e4d-484af6f207f7@gmail.com>
+ <4c7b9d72-4634-ea1d-5fff-bf17c3834b72@redhat.com>
+From:   Daniel Scally <djrscally@gmail.com>
+Message-ID: <7a84ed2e-b898-6935-ebe3-ff3c6887691e@gmail.com>
+Date:   Tue, 23 Nov 2021 12:10:16 +0000
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.14.0
 MIME-Version: 1.0
-In-Reply-To: <20211122184702.768341-4-jernej.skrabec@gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
+In-Reply-To: <4c7b9d72-4634-ea1d-5fff-bf17c3834b72@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Jernej,
+Hi Hans
 
-W dniu 22.11.2021 o 19:46, Jernej Skrabec pisze:
-> Some older G2 cores uses slightly different register set for HEVC and
-> VP9. Since vast majority of registers and logic is the same, it doesn't
-> make sense to introduce another drivers.
-> 
-> Add legacy_regs quirk and implement only VP9 changes for now. HEVC
-> changes will be introduced later, if needed.
-> 
-> Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
-> ---
->   drivers/staging/media/hantro/hantro.h         |  2 +
->   drivers/staging/media/hantro/hantro_g2_regs.h | 19 +++++
->   .../staging/media/hantro/hantro_g2_vp9_dec.c  | 74 ++++++++++++++-----
->   3 files changed, 78 insertions(+), 17 deletions(-)
-> 
-> diff --git a/drivers/staging/media/hantro/hantro.h b/drivers/staging/media/hantro/hantro.h
-> index d03824fa3222..83ed25d9657b 100644
-> --- a/drivers/staging/media/hantro/hantro.h
-> +++ b/drivers/staging/media/hantro/hantro.h
-> @@ -74,6 +74,7 @@ struct hantro_irq {
->    * @reg_names:			array of register range names
->    * @num_regs:			number of register range names in the array
->    * @double_buffer:		core needs double buffering
-> + * @legacy_regs:		core uses legacy register set
->    */
->   struct hantro_variant {
->   	unsigned int enc_offset;
-> @@ -96,6 +97,7 @@ struct hantro_variant {
->   	const char * const *reg_names;
->   	int num_regs;
->   	unsigned int double_buffer : 1;
-> +	unsigned int legacy_regs : 1;
->   };
->   
->   /**
-> diff --git a/drivers/staging/media/hantro/hantro_g2_regs.h b/drivers/staging/media/hantro/hantro_g2_regs.h
-> index 15a391a4650e..d7c2ff05208e 100644
-> --- a/drivers/staging/media/hantro/hantro_g2_regs.h
-> +++ b/drivers/staging/media/hantro/hantro_g2_regs.h
-> @@ -37,6 +37,13 @@
->   
->   #define g2_strm_swap		G2_DEC_REG(2, 28, 0xf)
->   #define g2_dirmv_swap		G2_DEC_REG(2, 20, 0xf)
-> +/* used on older variants */
-> +#define g2_strm_swap_old	G2_DEC_REG(2, 27, 0x1f)
-> +#define g2_pic_swap		G2_DEC_REG(2, 22, 0x1f)
-> +#define g2_dirmv_swap_old	G2_DEC_REG(2, 17, 0x1f)
-> +#define g2_tab0_swap		G2_DEC_REG(2, 12, 0x1f)
-> +#define g2_tab1_swap		G2_DEC_REG(2, 7, 0x1f)
-> +#define g2_tab2_swap		G2_DEC_REG(2, 2, 0x1f)\
+On 11/11/2021 15:23, Hans de Goede wrote:
+> Hi,
+>
+> On 11/11/21 12:18, Daniel Scally wrote:
+>
+> <snip>
+>
+>>>> One problem I'm experiencing
+>>>> is that the focus position I set isn't maintained; it holds for a couple
+>>>> of seconds and then resets to the "normal" focus...this happens when the
+>>>> .close() callback for the driver is called, which happens right after
+>>>> the control value is applied. All the other VCM drivers in the kernel
+>>>> power down on .close() so I did the same>
+>>> Right, I believe that this is fine though, we expect people to use
+>>> libcamera with this and once libcamera gets autofocus support, then
+>>> I would expect libcamera to keep the fd open the entire time while
+>>> streaming.
+>>
+>> OK - as long as that's how it works then I agree that this is fine as is
+>> yes.
+> So I've just picked up an old project of mine, called gtk-v4l which
+> is a nice simply v4l2 controls applet and patches it up to also
+> work on v4l-subdevs:
+>
+> https://github.com/jwrdegoede/gtk-v4l/
+>
+> So now you can run:
+>
+> sudo gtk-v4l -d /dev/v4l-subdev8
+>
+> And it will give you a slider to control the focus; and as
+> a bonus it keeps the v4l-subdev open, so no more runtime-pm
+> issue :)
 
-Please rename g2_tab[0-2]_swap to g2_tab[0-2]_swap_old. Similar names
-exist in newer variants (even if not used at the moment).
 
-It is rather difficult to come up with a consistent rule with regard
-to in what sequence to arrange these register definitions. It seems
-to me that you use a hybrid approach: if the definitions being added
-fall "out of order" then you annotate with a comment about older variants,
-and if they are "in order" then you simply fold them into their place.
+This is just neat regardless of the problem we were having; thanks!
 
-I don't have a very strong opinion, but maybe they all should be
-just "in bitfield order" and without comments?
+>>> What is necessary is some way for libcamera to:
+>>>
+>>> 1. See if there is a VCM which belongs to the sensor; and
+>>> 2. If there is a VCM figure out which v4l2-subdev it is.
+>>>
+>>> Also see this email thread, where Hans Verkuil came to the
+>>> conclusion that this info is currently missing from the MC
+>>> representation (link is to the conclusion):
+>>>
+>>> https://lists.libcamera.org/pipermail/libcamera-devel/2021-October/026144.html
+>>
+>> Yeah I read through that thread too, and had a brief chat with Laurent
+>> about it. My plan was to add a new type of link called an "ancillary
+>> link" between two entities, and automatically create those in
+>> match_notify() based on the function field of the matching entities, and
+>> expose them as part of the media graph. I've started working on that but
+>> not progressed far enough to share anything.
+> Sounds good.
+>
+>> Libcamera would need
+>> updating with support for that too though.
+> Right I think libcamera will need updating no matter what, first we
+> need to comeup with a userspace API for this.
+>
+> Although I guess it would be good to also write libcamera patches
+> once the kernel patches are ready, but not yet merged, to make
+> sure the API is usable without problems by libcamera.
 
->   
->   #define g2_mode			G2_DEC_REG(3, 27, 0x1f)
->   #define g2_compress_swap	G2_DEC_REG(3, 20, 0xf)
-> @@ -45,6 +52,8 @@
->   #define g2_out_dis		G2_DEC_REG(3, 15, 0x1)
->   #define g2_out_filtering_dis	G2_DEC_REG(3, 14, 0x1)
->   #define g2_write_mvs_e		G2_DEC_REG(3, 12, 0x1)
-> +#define g2_tab3_swap		G2_DEC_REG(3, 7, 0x1f)
 
-g2_tab3_swap_old
+Realised I'd not updated you on this for a while - I've got the new
+style of links created by the kernel when the fwnode match is made, and
+those are visible in userspace, I'm just working on hacking libcamera to
+accomodate them too. cpp is new to me though so it might take me a while
 
-With all the above addressed you can add my
-
-Reviewied-by: Andrzej Pietrasiewicz <andrzej.p@collabora.com>
-
-> +#define g2_rscan_swap		G2_DEC_REG(3, 2, 0x1f)
->   
->   #define g2_pic_width_in_cbs	G2_DEC_REG(4, 19, 0x1fff)
->   #define g2_pic_height_in_cbs	G2_DEC_REG(4, 6,  0x1fff)
-> @@ -58,6 +67,7 @@
->   #define g2_tempor_mvp_e		G2_DEC_REG(5, 11, 0x1)
->   #define g2_max_cu_qpd_depth	G2_DEC_REG(5, 5,  0x3f)
->   #define g2_cu_qpd_e		G2_DEC_REG(5, 4,  0x1)
-> +#define g2_pix_shift		G2_DEC_REG(5, 0,  0xf)
->   
->   #define g2_stream_len		G2_DEC_REG(6, 0,  0xffffffff)
->   
-> @@ -80,6 +90,8 @@
->   
->   #define g2_const_intra_e	G2_DEC_REG(8, 31, 0x1)
->   #define g2_filt_ctrl_pres	G2_DEC_REG(8, 30, 0x1)
-> +#define g2_bit_depth_y		G2_DEC_REG(8, 21, 0xf)
-> +#define g2_bit_depth_c		G2_DEC_REG(8, 17, 0xf)
->   #define g2_idr_pic_e		G2_DEC_REG(8, 16, 0x1)
->   #define g2_bit_depth_pcm_y	G2_DEC_REG(8, 12, 0xf)
->   #define g2_bit_depth_pcm_c	G2_DEC_REG(8, 8,  0xf)
-> @@ -87,6 +99,9 @@
->   #define g2_bit_depth_c_minus8	G2_DEC_REG(8, 4,  0x3)
->   #define g2_output_8_bits	G2_DEC_REG(8, 3,  0x1)
->   #define g2_output_format	G2_DEC_REG(8, 0,  0x7)
-> +/* used on older variants */
-> +#define g2_rs_out_bit_depth	G2_DEC_REG(8, 4,  0xf)
-> +#define g2_pp_pix_shift		G2_DEC_REG(8, 0,  0xf)
->   
->   #define g2_refidx1_active	G2_DEC_REG(9, 19, 0x1f)
->   #define g2_refidx0_active	G2_DEC_REG(9, 14, 0x1f)
-> @@ -98,6 +113,10 @@
->   #define g2_num_tile_rows	G2_DEC_REG(10, 14, 0x1f)
->   #define g2_tile_e		G2_DEC_REG(10, 1,  0x1)
->   #define g2_entropy_sync_e	G2_DEC_REG(10, 0,  0x1)
-> +/* used on older variants */
-> +#define g2_init_qp_old		G2_DEC_REG(10, 25, 0x3f)
-> +#define g2_num_tile_cols_old	G2_DEC_REG(10, 20, 0x1f)
-> +#define g2_num_tile_rows_old	G2_DEC_REG(10, 15, 0x1f)
->   
->   #define vp9_transform_mode	G2_DEC_REG(11, 27, 0x7)
->   #define vp9_filt_sharpness	G2_DEC_REG(11, 21, 0x7)
-> diff --git a/drivers/staging/media/hantro/hantro_g2_vp9_dec.c b/drivers/staging/media/hantro/hantro_g2_vp9_dec.c
-> index d4fc649a4da1..5aac32700cd0 100644
-> --- a/drivers/staging/media/hantro/hantro_g2_vp9_dec.c
-> +++ b/drivers/staging/media/hantro/hantro_g2_vp9_dec.c
-> @@ -150,7 +150,8 @@ static void config_output(struct hantro_ctx *ctx,
->   	dma_addr_t luma_addr, chroma_addr, mv_addr;
->   
->   	hantro_reg_write(ctx->dev, &g2_out_dis, 0);
-> -	hantro_reg_write(ctx->dev, &g2_output_format, 0);
-> +	if (!ctx->dev->variant->legacy_regs)
-> +		hantro_reg_write(ctx->dev, &g2_output_format, 0);
->   
->   	luma_addr = hantro_get_dec_buf_addr(ctx, &dst->base.vb.vb2_buf);
->   	hantro_write_addr(ctx->dev, G2_OUT_LUMA_ADDR, luma_addr);
-> @@ -327,6 +328,7 @@ config_tiles(struct hantro_ctx *ctx,
->   	struct hantro_aux_buf *tile_edge = &vp9_ctx->tile_edge;
->   	dma_addr_t addr;
->   	unsigned short *tile_mem;
-> +	unsigned int rows, cols;
->   
->   	addr = misc->dma + vp9_ctx->tile_info_offset;
->   	hantro_write_addr(ctx->dev, G2_TILE_SIZES_ADDR, addr);
-> @@ -344,17 +346,24 @@ config_tiles(struct hantro_ctx *ctx,
->   
->   		fill_tile_info(ctx, tile_r, tile_c, sbs_r, sbs_c, tile_mem);
->   
-> +		cols = tile_c;
-> +		rows = tile_r;
->   		hantro_reg_write(ctx->dev, &g2_tile_e, 1);
-> -		hantro_reg_write(ctx->dev, &g2_num_tile_cols, tile_c);
-> -		hantro_reg_write(ctx->dev, &g2_num_tile_rows, tile_r);
-> -
->   	} else {
->   		tile_mem[0] = hantro_vp9_num_sbs(dst->vp9.width);
->   		tile_mem[1] = hantro_vp9_num_sbs(dst->vp9.height);
->   
-> +		cols = 1;
-> +		rows = 1;
->   		hantro_reg_write(ctx->dev, &g2_tile_e, 0);
-> -		hantro_reg_write(ctx->dev, &g2_num_tile_cols, 1);
-> -		hantro_reg_write(ctx->dev, &g2_num_tile_rows, 1);
-> +	}
-> +
-> +	if (ctx->dev->variant->legacy_regs) {
-> +		hantro_reg_write(ctx->dev, &g2_num_tile_cols_old, cols);
-> +		hantro_reg_write(ctx->dev, &g2_num_tile_rows_old, rows);
-> +	} else {
-> +		hantro_reg_write(ctx->dev, &g2_num_tile_cols, cols);
-> +		hantro_reg_write(ctx->dev, &g2_num_tile_rows, rows);
->   	}
->   
->   	/* provide aux buffers even if no tiles are used */
-> @@ -505,8 +514,22 @@ static void config_picture_dimensions(struct hantro_ctx *ctx, struct hantro_deco
->   static void
->   config_bit_depth(struct hantro_ctx *ctx, const struct v4l2_ctrl_vp9_frame *dec_params)
->   {
-> -	hantro_reg_write(ctx->dev, &g2_bit_depth_y_minus8, dec_params->bit_depth - 8);
-> -	hantro_reg_write(ctx->dev, &g2_bit_depth_c_minus8, dec_params->bit_depth - 8);
-> +	if (ctx->dev->variant->legacy_regs) {
-> +		u8 pp_shift = 0;
-> +
-> +		hantro_reg_write(ctx->dev, &g2_bit_depth_y, dec_params->bit_depth);
-> +		hantro_reg_write(ctx->dev, &g2_bit_depth_c, dec_params->bit_depth);
-> +		hantro_reg_write(ctx->dev, &g2_rs_out_bit_depth, dec_params->bit_depth);
-> +
-> +		if (dec_params->bit_depth > 8)
-> +			pp_shift = 16 - dec_params->bit_depth;
-> +
-> +		hantro_reg_write(ctx->dev, &g2_pp_pix_shift, pp_shift);
-> +		hantro_reg_write(ctx->dev, &g2_pix_shift, 0);
-> +	} else {
-> +		hantro_reg_write(ctx->dev, &g2_bit_depth_y_minus8, dec_params->bit_depth - 8);
-> +		hantro_reg_write(ctx->dev, &g2_bit_depth_c_minus8, dec_params->bit_depth - 8);
-> +	}
->   }
->   
->   static inline bool is_lossless(const struct v4l2_vp9_quantization *quant)
-> @@ -784,9 +807,13 @@ config_source(struct hantro_ctx *ctx, const struct v4l2_ctrl_vp9_frame *dec_para
->   		     + dec_params->compressed_header_size;
->   
->   	stream_base = vb2_dma_contig_plane_dma_addr(&vb2_src->vb2_buf, 0);
-> -	hantro_write_addr(ctx->dev, G2_STREAM_ADDR, stream_base);
->   
->   	tmp_addr = stream_base + headres_size;
-> +	if (ctx->dev->variant->legacy_regs)
-> +		hantro_write_addr(ctx->dev, G2_STREAM_ADDR, (tmp_addr & ~0xf));
-> +	else
-> +		hantro_write_addr(ctx->dev, G2_STREAM_ADDR, stream_base);
-> +
->   	start_bit = (tmp_addr & 0xf) * 8;
->   	hantro_reg_write(ctx->dev, &g2_start_bit, start_bit);
->   
-> @@ -794,10 +821,12 @@ config_source(struct hantro_ctx *ctx, const struct v4l2_ctrl_vp9_frame *dec_para
->   	src_len += start_bit / 8 - headres_size;
->   	hantro_reg_write(ctx->dev, &g2_stream_len, src_len);
->   
-> -	tmp_addr &= ~0xf;
-> -	hantro_reg_write(ctx->dev, &g2_strm_start_offset, tmp_addr - stream_base);
-> -	src_buf_len = vb2_plane_size(&vb2_src->vb2_buf, 0);
-> -	hantro_reg_write(ctx->dev, &g2_strm_buffer_len, src_buf_len);
-> +	if (!ctx->dev->variant->legacy_regs) {
-> +		tmp_addr &= ~0xf;
-> +		hantro_reg_write(ctx->dev, &g2_strm_start_offset, tmp_addr - stream_base);
-> +		src_buf_len = vb2_plane_size(&vb2_src->vb2_buf, 0);
-> +		hantro_reg_write(ctx->dev, &g2_strm_buffer_len, src_buf_len);
-> +	}
->   }
->   
->   static void
-> @@ -837,13 +866,24 @@ config_registers(struct hantro_ctx *ctx, const struct v4l2_ctrl_vp9_frame *dec_p
->   
->   	/* configure basic registers */
->   	hantro_reg_write(ctx->dev, &g2_mode, VP9_DEC_MODE);
-> -	hantro_reg_write(ctx->dev, &g2_strm_swap, 0xf);
-> -	hantro_reg_write(ctx->dev, &g2_dirmv_swap, 0xf);
-> -	hantro_reg_write(ctx->dev, &g2_compress_swap, 0xf);
-> +	if (!ctx->dev->variant->legacy_regs) {
-> +		hantro_reg_write(ctx->dev, &g2_strm_swap, 0xf);
-> +		hantro_reg_write(ctx->dev, &g2_dirmv_swap, 0xf);
-> +		hantro_reg_write(ctx->dev, &g2_compress_swap, 0xf);
-> +		hantro_reg_write(ctx->dev, &g2_ref_compress_bypass, 1);
-> +	} else {
-> +		hantro_reg_write(ctx->dev, &g2_strm_swap_old, 0x1f);
-> +		hantro_reg_write(ctx->dev, &g2_pic_swap, 0x10);
-> +		hantro_reg_write(ctx->dev, &g2_dirmv_swap_old, 0x10);
-> +		hantro_reg_write(ctx->dev, &g2_tab0_swap, 0x10);
-> +		hantro_reg_write(ctx->dev, &g2_tab1_swap, 0x10);
-> +		hantro_reg_write(ctx->dev, &g2_tab2_swap, 0x10);
-> +		hantro_reg_write(ctx->dev, &g2_tab3_swap, 0x10);
-> +		hantro_reg_write(ctx->dev, &g2_rscan_swap, 0x10);
-> +	}
->   	hantro_reg_write(ctx->dev, &g2_buswidth, BUS_WIDTH_128);
->   	hantro_reg_write(ctx->dev, &g2_max_burst, 16);
->   	hantro_reg_write(ctx->dev, &g2_apf_threshold, 8);
-> -	hantro_reg_write(ctx->dev, &g2_ref_compress_bypass, 1);
->   	hantro_reg_write(ctx->dev, &g2_clk_gate_e, 1);
->   	hantro_reg_write(ctx->dev, &g2_max_cb_size, 6);
->   	hantro_reg_write(ctx->dev, &g2_min_cb_size, 3);
-> 
-
+>
+> Regards,
+>
+> Hans
+>
