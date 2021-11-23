@@ -2,160 +2,127 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id EA10645A0FB
-	for <lists+linux-media@lfdr.de>; Tue, 23 Nov 2021 12:09:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6E3F345A118
+	for <lists+linux-media@lfdr.de>; Tue, 23 Nov 2021 12:14:30 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233564AbhKWLMU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 23 Nov 2021 06:12:20 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44444 "EHLO
+        id S232056AbhKWLRh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 23 Nov 2021 06:17:37 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45638 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230160AbhKWLMU (ORCPT
+        with ESMTP id S230236AbhKWLRf (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 23 Nov 2021 06:12:20 -0500
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 47CCEC061574;
-        Tue, 23 Nov 2021 03:09:12 -0800 (PST)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: andrzej.p)
-        with ESMTPSA id 289601F454F9
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=collabora.com; s=mail;
-        t=1637665746; bh=NuYVgYcm/5QmTwPPl+jnnTdg3Amocx5TpmqHRzUvEcg=;
-        h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
-        b=LSqSWvdz2ir1uJRRRP+MYhzzqSCvQZXUIBGUzi1rgAsuwV6O1MxSQ8YhOI51oH/dp
-         H6HzqaI4iRClnWmQhWz6yBILvWHnjD1XuG0EKeHg1L/go7KulSSW9x82lw6wv0PR5S
-         eDjKRYx8ohBfs2Q55Mr18weoiX70ePI50Ll/OGLSWQlV7LMzcwCsBEFiHpHDv4n8dr
-         gvfHlQ8ysV5xX0Nnxf7fp4FdFkmA3ftpCeqf2f+xhJGxdyGdDacAsL65jeVuuSqbE5
-         T2CzggMgSeNlZh9480EWQJbSyKQutbEpimE2LUk+2F0bnWe4bU7aldi3NXvPjDQ96D
-         pLUQPB/xWapxg==
-Subject: Re: [PATCH 1/7] media: hantro: add support for reset lines
-To:     Jernej Skrabec <jernej.skrabec@gmail.com>,
-        linux-media@vger.kernel.org
-Cc:     ezequiel@vanguardiasur.com.ar, nicolas.dufresne@collabora.com,
-        mchehab@kernel.org, robh+dt@kernel.org, mripard@kernel.org,
-        wens@csie.org, p.zabel@pengutronix.de, gregkh@linuxfoundation.org,
-        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
-        linux-staging@lists.linux.dev
-References: <20211122184702.768341-1-jernej.skrabec@gmail.com>
- <20211122184702.768341-2-jernej.skrabec@gmail.com>
-From:   Andrzej Pietrasiewicz <andrzej.p@collabora.com>
-Message-ID: <08e80e9e-f646-72e4-e4d4-f8e6310228f1@collabora.com>
-Date:   Tue, 23 Nov 2021 12:09:03 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+        Tue, 23 Nov 2021 06:17:35 -0500
+Received: from mail-lf1-x144.google.com (mail-lf1-x144.google.com [IPv6:2a00:1450:4864:20::144])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 57776C061574
+        for <linux-media@vger.kernel.org>; Tue, 23 Nov 2021 03:14:27 -0800 (PST)
+Received: by mail-lf1-x144.google.com with SMTP id r26so3454636lfn.8
+        for <linux-media@vger.kernel.org>; Tue, 23 Nov 2021 03:14:27 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:reply-to:from:date:message-id:subject:to
+         :content-transfer-encoding;
+        bh=eibhgHyEnDty6prD7kw2qZTGk1uH223Sz/QXKL+fHLw=;
+        b=DBpag47DYC7Om0VLybsV5unknnBxfXkZHy7DEfTAUtgcqYe4OrHE2EgulWhEt+W2ar
+         yZ8zceyAivOifX1shbENYiGmNfnPXp08KhsNCRTdZ0wreFw4lJFSfDK25OkeUdpm3aEx
+         AkE0Crfp2BtaoXhCUJ1kepF8o5KXGQEfdBkBsn05I3DaZHEwT5qroxy2/OSmPqTZFc+g
+         lak/3Cu1jLDyJQC3+oLRfTKNwnZNUffsrcbF7ZHP9FdzPulDq5RTX482V+IKAX55x57J
+         +6I88RinoUzffzqcLITqsSAOHkJA7pbVWRUAT3OUgRpf8s2p4zweW4aawQTAs+WjGM3t
+         z4Jg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to:content-transfer-encoding;
+        bh=eibhgHyEnDty6prD7kw2qZTGk1uH223Sz/QXKL+fHLw=;
+        b=n07JjYN5mwKzujrSZpkr9+o2/eNFXQDj2aahfdgh6GkQp33xp9adUKcM7wuaa+iTmc
+         oXaOPUOYC4X+uOS6B10zfybMz6zhZf6wHE0QDAlxHs98z3aD9UjvMhM6UQxlvOuJPRhw
+         9sK1vDugRwCzAxzS4EcNzmSwoLIO9e78tfgCeDO0+eR5hRDqz5NlNN9LfbYZ6kKY2PtW
+         V8j1mOB8aSSIoeRTZJsHQM0S4fYMSJnBUxNw37WZNLHx9bGi9nABPt5Ho5aQL7MlRerm
+         IBb6Jh7dN3EoajEC6T5XHp8xXSlUJ3RwKTk4dV4FlJkYbP65e3j0kek2SGW2qIyLIuHJ
+         fjWw==
+X-Gm-Message-State: AOAM531DGUoXAHltgcR/NNmocggebvxkUY3jlVLac34CMX8MjEWPkWpa
+        pbh55Dkc7nHNby+oMDriIms/FLbned5jgJwnrk4=
+X-Google-Smtp-Source: ABdhPJxo8PC78ONOXlAEhT1cQpkW2inX1Cn3163B4q42SxC56r5HIlTnDcrYVFAURvI6lAJ9s65X0FuvWntd0UsFw9s=
+X-Received: by 2002:ac2:4e4a:: with SMTP id f10mr3934916lfr.466.1637666065556;
+ Tue, 23 Nov 2021 03:14:25 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20211122184702.768341-2-jernej.skrabec@gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Received: by 2002:a05:6504:16c9:0:0:0:0 with HTTP; Tue, 23 Nov 2021 03:14:25
+ -0800 (PST)
+Reply-To: msbelinaya892@gmail.com
+From:   msbelinaya <generaldavidperkins061@gmail.com>
+Date:   Tue, 23 Nov 2021 11:14:25 +0000
+Message-ID: <CAJMWtRYL5MzCGWiovt-8=+7yJfY6J_KBjiDSU6cc+16OrrQy2Q@mail.gmail.com>
+Subject: 
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Jernej,
+Ich biete meine Freundschaft an und glaube, dass Sie mich mit gutem
+Herzen akzeptieren werden. Ich wurde gedr=C3=A4ngt, Sie zu kontaktieren und
+zu sehen, wie wir einander am besten unterst=C3=BCtzen k=C3=B6nnen. Ich bin=
+ Frau
+Kodjovi Hegbor aus der T=C3=BCrkei und arbeite als Divisionsleiterin f=C3=
+=BCr
+Operationen bei der StandardBNP bank limited Turkey . Ich glaube, es
+ist der Wille Gottes, dass ich Ihnen jetzt begegnen werde. Ich habe
+ein wichtiges gesch=C3=A4ftliches Gespr=C3=A4ch, das ich mit Ihnen teilen
+m=C3=B6chte, von dem ich glaube, dass es Sie interessiert, da es mit Ihrem
+Nachnamen in Verbindung steht und Sie davon profitieren werden.
 
-Thanks for the patch.
+ Im Jahr 2006 hat ein B=C3=BCrger Ihres Landes ein Nicht-Residentenkonto
+f=C3=BCr 36 Monate des Kalenders im Wert von =C2=A38.400.000,00 bei meiner =
+Bank
+eingerichtet. Das Ablaufdatum f=C3=BCr diesen Einlagenvertrag war der 16.
+Januar 2009. Leider starb er w=C3=A4hrend einer Gesch=C3=A4ftsreise bei ein=
+em
+t=C3=B6dlichen Erdbeben am 12. Mai 2008 in Sichuan, China, bei dem
+mindestens 68.000 Menschen ums Leben kamen.
 
-W dniu 22.11.2021 o 19:46, Jernej Skrabec pisze:
-> Some SoCs like Allwinner H6 use reset lines for resetting Hantro G2. Add
-> support for them.
-> 
-> Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
-> ---
->   drivers/staging/media/hantro/hantro.h     |  3 +++
->   drivers/staging/media/hantro/hantro_drv.c | 15 ++++++++++++++-
->   2 files changed, 17 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/staging/media/hantro/hantro.h b/drivers/staging/media/hantro/hantro.h
-> index 7da23f7f207a..33eb3e092cc1 100644
-> --- a/drivers/staging/media/hantro/hantro.h
-> +++ b/drivers/staging/media/hantro/hantro.h
-> @@ -16,6 +16,7 @@
->   #include <linux/videodev2.h>
->   #include <linux/wait.h>
->   #include <linux/clk.h>
-> +#include <linux/reset.h>
->   
->   #include <media/v4l2-ctrls.h>
->   #include <media/v4l2-device.h>
-> @@ -171,6 +172,7 @@ hantro_vdev_to_func(struct video_device *vdev)
->    * @dev:		Pointer to device for convenient logging using
->    *			dev_ macros.
->    * @clocks:		Array of clock handles.
-> + * @resets:		Array of reset handles.
->    * @reg_bases:		Mapped addresses of VPU registers.
->    * @enc_base:		Mapped address of VPU encoder register for convenience.
->    * @dec_base:		Mapped address of VPU decoder register for convenience.
-> @@ -190,6 +192,7 @@ struct hantro_dev {
->   	struct platform_device *pdev;
->   	struct device *dev;
->   	struct clk_bulk_data *clocks;
-> +	struct reset_control *resets;
->   	void __iomem **reg_bases;
->   	void __iomem *enc_base;
->   	void __iomem *dec_base;
-> diff --git a/drivers/staging/media/hantro/hantro_drv.c b/drivers/staging/media/hantro/hantro_drv.c
-> index ab2467998d29..8c3de31f51b3 100644
-> --- a/drivers/staging/media/hantro/hantro_drv.c
-> +++ b/drivers/staging/media/hantro/hantro_drv.c
-> @@ -905,6 +905,10 @@ static int hantro_probe(struct platform_device *pdev)
->   			return PTR_ERR(vpu->clocks[0].clk);
->   	}
->   
-> +	vpu->resets = devm_reset_control_array_get(&pdev->dev, false, true);
-> +	if (IS_ERR(vpu->resets))
-> +		return PTR_ERR(vpu->resets);
-> +
->   	num_bases = vpu->variant->num_regs ?: 1;
->   	vpu->reg_bases = devm_kcalloc(&pdev->dev, num_bases,
->   				      sizeof(*vpu->reg_bases), GFP_KERNEL);
-> @@ -978,10 +982,16 @@ static int hantro_probe(struct platform_device *pdev)
->   	pm_runtime_use_autosuspend(vpu->dev);
->   	pm_runtime_enable(vpu->dev);
->   
-> +	ret = reset_control_deassert(vpu->resets);
-> +	if (ret) {
-> +		dev_err(&pdev->dev, "Failed to deassert resets\n");
-> +		return ret;
-> +	}
-> +
->   	ret = clk_bulk_prepare(vpu->variant->num_clocks, vpu->clocks);
->   	if (ret) {
->   		dev_err(&pdev->dev, "Failed to prepare clocks\n");
-> -		return ret;
-> +		goto err_rst_assert;
+Das Management meiner Bank hat noch nichts von seinem Tod erfahren,
+ich wusste davon, weil er mein Freund war und ich sein Kontof=C3=BChrer
+war, als das Konto vor meiner Bef=C3=B6rderung er=C3=B6ffnet wurde. Jedoch =
+Herr
+ erw=C3=A4hnte bei der Kontoer=C3=B6ffnung keine n=C3=A4chsten Verwandten/E=
+rben, und
+er war nicht verheiratet und hatte keine Kinder. Letzte Woche hat
+meine Bankdirektion mich gebeten, Anweisungen zu geben, was mit seinen
+Geldern zu tun ist, wenn der Vertrag verl=C3=A4ngert werden soll.
 
-Before your patch is applied if clk_bulk_prepare() fails, we
-simply return on the spot. After the patch is applied not only
-do you...
+Ich wei=C3=9F, dass dies passieren wird, und deshalb habe ich nach einem
+Mittel gesucht, um mit der Situation umzugehen, denn wenn meine
+Bankdirektoren wissen, dass sie tot sind und keinen Erben haben,
+werden sie das Geld f=C3=BCr ihren pers=C3=B6nlichen Gebrauch nehmen, also =
+Ich
+m=C3=B6chte nicht, dass so etwas passiert. Das war, als ich Ihren Nachnamen
+sah, ich war gl=C3=BCcklich und suche jetzt Ihre Mitarbeit, um Sie als Next
+of Kin/Erbe des Kontos zu pr=C3=A4sentieren, da Sie den gleichen Nachnamen
+wie er haben und meine Bankzentrale das Konto freigeben wird f=C3=BCr dich.
+Es besteht kein Risiko; die Transaktion wird im Rahmen einer legitimen
+Vereinbarung ausgef=C3=BChrt, die Sie vor Rechtsverletzungen sch=C3=BCtzt.
 
->   	}
->   
->   	ret = v4l2_device_register(&pdev->dev, &vpu->v4l2_dev);
-> @@ -1037,6 +1047,8 @@ static int hantro_probe(struct platform_device *pdev)
->   	v4l2_device_unregister(&vpu->v4l2_dev);
->   err_clk_unprepare:
->   	clk_bulk_unprepare(vpu->variant->num_clocks, vpu->clocks);
-> +err_rst_assert:
-> +	reset_control_assert(vpu->resets);
+Es ist besser, dass wir das Geld beanspruchen, als es den
+Bankdirektoren zu erlauben, es zu nehmen, sie sind bereits reich. Ich
+bin kein gieriger Mensch, daher schlage ich vor, dass wir das Geld zu
+gleichen Teilen teilen, 50/50% auf beide Parteien. Mein Anteil wird
+mir helfen, mein eigenes Unternehmen zu gr=C3=BCnden und den Erl=C3=B6s f=
+=C3=BCr
+wohlt=C3=A4tige Zwecke zu verwenden, was mein Traum war.
 
-...revert the effect of reset_control_deassert(), you also...
-
->   	pm_runtime_dont_use_autosuspend(vpu->dev);
->   	pm_runtime_disable(vpu->dev);
-
-... do pm_*() stuff. Is there any reason why this is needed?
-
-Andrzej
-
->   	return ret;
-> @@ -1055,6 +1067,7 @@ static int hantro_remove(struct platform_device *pdev)
->   	v4l2_m2m_release(vpu->m2m_dev);
->   	v4l2_device_unregister(&vpu->v4l2_dev);
->   	clk_bulk_unprepare(vpu->variant->num_clocks, vpu->clocks);
-> +	reset_control_assert(vpu->resets);
->   	pm_runtime_dont_use_autosuspend(vpu->dev);
->   	pm_runtime_disable(vpu->dev);
->   	return 0;
-> 
-
+Teilen Sie mir Ihre Meinung zu meinem Vorschlag mit, bitte ich brauche
+wirklich Ihre Hilfe bei dieser Transaktion. Ich habe Sie ausgew=C3=A4hlt,
+um mir zu helfen, nicht durch mein eigenes Tun, meine Liebe, sondern
+durch Gott wollte ich, dass Sie wissen, dass ich mir Zeit zum Beten
+genommen habe =C3=BCber diese Mitteilung, bevor ich Sie jemals kontaktiert
+habe, teilen Sie mir Ihre Meinung dazu mit und behandeln Sie diese
+Informationen bitte als STRENG GEHEIM. Nach Erhalt Ihrer Antwort,
+ausschlie=C3=9Flich =C3=BCber meine pers=C3=B6nliche E-Mail-Adresse,
+msbelinaya892@gmail.com
+gibt Ihnen Details zur Transaktion. Und eine Kopie der
+Einlagenbescheinigung des Fonds sowie die Gr=C3=BCndungsurkunde der
+Gesellschaft, die den Fonds erstellt hat.
+Gott segne, in Erwartung Ihrer dringenden Antwort
+Mit freundlichen Gr=C3=BC=C3=9Fen
+Frau Kodjovi Hegbor
+msbelinaya892@gmail.com
