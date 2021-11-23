@@ -2,61 +2,61 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 010534598C7
-	for <lists+linux-media@lfdr.de>; Tue, 23 Nov 2021 01:00:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 82BCF4598CB
+	for <lists+linux-media@lfdr.de>; Tue, 23 Nov 2021 01:01:14 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232666AbhKWADt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 22 Nov 2021 19:03:49 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35482 "EHLO
+        id S232939AbhKWADv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 22 Nov 2021 19:03:51 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35456 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232684AbhKWADh (ORCPT
+        with ESMTP id S232198AbhKWADh (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
         Mon, 22 Nov 2021 19:03:37 -0500
-Received: from mail-wm1-x32d.google.com (mail-wm1-x32d.google.com [IPv6:2a00:1450:4864:20::32d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 969A6C061714
-        for <linux-media@vger.kernel.org>; Mon, 22 Nov 2021 16:00:29 -0800 (PST)
-Received: by mail-wm1-x32d.google.com with SMTP id y196so17036352wmc.3
-        for <linux-media@vger.kernel.org>; Mon, 22 Nov 2021 16:00:29 -0800 (PST)
+Received: from mail-wm1-x331.google.com (mail-wm1-x331.google.com [IPv6:2a00:1450:4864:20::331])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9A3EAC06173E
+        for <linux-media@vger.kernel.org>; Mon, 22 Nov 2021 16:00:30 -0800 (PST)
+Received: by mail-wm1-x331.google.com with SMTP id j140-20020a1c2392000000b003399ae48f58so586594wmj.5
+        for <linux-media@vger.kernel.org>; Mon, 22 Nov 2021 16:00:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=q+3MLDYJ/ZL65E+0XzcCajbT6diDBCTk6oc3BzWVgoU=;
-        b=FybhARAoTnQHaafZwlqNdgfgq943E6OUGLF7NMU3ohZWecWhRkWkUm56s3u5Z7nFnh
-         ZUYlp4cNOt4sZ83i/eJ7xhshyQgLw8r+uBR2WbaBll1nKQW9HiEkwwufbANJxj212Wk2
-         VVPgpO28I6iIz8TgZzdnulscmUyC8duNa8kHeh2Tb5rZTRjR092qI+NaJD/356V8KsFY
-         LTTCyMXCVwxaicK9BKo8mC3+db5OnR4khADglHX30V/FHZEzpdvAIMA8mxdZMctJGdJV
-         HWtatqZUNeWxyaU/JoHGbMULs/GOgYgOl7tU725aLh4xwJVn2kcvg01Q+a0G2n5lAi5+
-         qehg==
+        bh=ZHk04WIzJnhBqPJPdsES5xLMWYgCbqGKTYJP80oXQ0w=;
+        b=VrUpJj+RRy2rWWjQqnXAuFD+Vdm+r3MlBOXsNpWofSgiMfKVbUyoOr28HtV2ybOiR+
+         bMNVn+i11zsJGfimI4g/68Ezcxk2wdwumWVFnnikyDneRmfWz604o31klHI3A58DR1sy
+         m5I/IuiU+EatJfRSRZNQFk/6dGg0BbeBB+8WzR9GtPou1vOjkxpmNbuGmcGa9V+CYKd5
+         EIv/ALLTQ7QOb2713a5s5bqdCDLFfT/NyxpYjSuG9eptFy79MCCyfhm0p4E6y7o7wzLu
+         QokOKRA3d0QbwisGcZsIZvvn6U3yEOwJq2l4850paCd4GUoZSsAQyFPAZ0Di265hKT3W
+         11yQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=q+3MLDYJ/ZL65E+0XzcCajbT6diDBCTk6oc3BzWVgoU=;
-        b=W3zNUHcd7PledHsE63jTjY7Hwu3HYGlswn8jhWta8tdCIV0/LxUzxdWPwFp0XLc8OC
-         3Xob6J/qOo00zF0KoANFna5Au9n7lL+fFtmx0nz+HrS+9qb7Sx0bZkKDpcQsJRxZSNFl
-         VaVmZcMtiV8Sc9gBu4CW1TcHsgBGPjBqhXB4OHOwmuyblkQmXoIcICu6xnnJ7hJsS66s
-         tPQv5W69eBHUgAjcL3D4loTkJmAXfYNolvVwDpCpmZU0AC+9bgsWOVVe4uxSAY38NcYK
-         xY8qxi+kkXIgvxA6015yXTj+OELeXWjhKru3ydyEg4L0Ttn2UqgS4WC+usEiT4tLsXTy
-         /5SA==
-X-Gm-Message-State: AOAM5303+ktotDe8xfATZ71A7DgjgERL+DWWPKk0eEGpDkR0RaGf7+ae
-        Mwi3PlqsvogTKpbGwVYPOfknIP/6xPA=
-X-Google-Smtp-Source: ABdhPJwAXDcfRwTHbsOirYHGKJNkxAO75WHilH3xa796F7k7fF5FG5COOsYVDNA2Y+IV7w6qJQoeQA==
-X-Received: by 2002:a05:600c:35d4:: with SMTP id r20mr1510175wmq.76.1637625628276;
-        Mon, 22 Nov 2021 16:00:28 -0800 (PST)
+        bh=ZHk04WIzJnhBqPJPdsES5xLMWYgCbqGKTYJP80oXQ0w=;
+        b=7vx99pIoMwMMlA7Da8dMKPeOgjQuju04awhcdn0pW5V3KQe+3jEWKeF4el+JXrHhSR
+         nvBdsrroJbP/1QwqQzrxapUbt5cvGOmmKQsDRcbJkNn4b7qfJ5GsFjqQWbl2ii6aFcY3
+         tJnSgScsHKrbmvzsDUdRN5PnUFtGkYmBDjEZLQRHRoJWilZo15SX2xswdFtRPoCYPsHJ
+         jSjjMdSqN/eUTn/1WXFRiin/ZpNuFyg+mmMIdD6DVhaB1czj7mt9FJ3U9tQQ2qfcMch3
+         K9IA7CN8odGuzbaYOYKUj7U+XhmO8X3wh+GrZjP928yYjUBJRQ7cjJ0nzxZGuwvbjaBa
+         xqZQ==
+X-Gm-Message-State: AOAM530vwHiP3Y6cWNGL3fogkAPkkEuYZ+mrfHBqmRVB7/7OEkmFBHr5
+        KyEayiBUPm1i1CH3NiJ4GJJaJte4O1M=
+X-Google-Smtp-Source: ABdhPJxWXnwT1ztQu9dMT+BCNJSFeIfrNSDwjHjfoCxHBahlcbbKXtXz3afoK03frEvb5ZNordulCA==
+X-Received: by 2002:a1c:488:: with SMTP id 130mr1412090wme.157.1637625629203;
+        Mon, 22 Nov 2021 16:00:29 -0800 (PST)
 Received: from localhost.localdomain (cpc141996-chfd3-2-0-cust928.12-3.cable.virginm.net. [86.13.91.161])
-        by smtp.gmail.com with ESMTPSA id s13sm23650782wmc.47.2021.11.22.16.00.27
+        by smtp.gmail.com with ESMTPSA id s13sm23650782wmc.47.2021.11.22.16.00.28
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 22 Nov 2021 16:00:27 -0800 (PST)
+        Mon, 22 Nov 2021 16:00:28 -0800 (PST)
 From:   Daniel Scally <djrscally@gmail.com>
 To:     linux-media@vger.kernel.org, paul.kocialkowski@bootlin.com
 Cc:     sakari.ailus@linux.intel.com, andriy.shevchenko@linux.intel.com,
         laurent.pinchart@ideasonboard.com, yong.zhi@intel.com,
         bingbu.cao@intel.com, jeanmichel.hautbois@ideasonboard.com,
         kieran.bingham@ideasonboard.com, hdegoede@redhat.com
-Subject: [PATCH v5 04/17] media: i2c: Fix incorrect value in comment
-Date:   Tue, 23 Nov 2021 00:00:04 +0000
-Message-Id: <20211123000017.43187-5-djrscally@gmail.com>
+Subject: [PATCH v5 05/17] media: i2c: Defer probe if not endpoint found
+Date:   Tue, 23 Nov 2021 00:00:05 +0000
+Message-Id: <20211123000017.43187-6-djrscally@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20211123000017.43187-1-djrscally@gmail.com>
 References: <20211123000017.43187-1-djrscally@gmail.com>
@@ -66,28 +66,38 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The PLL configuration defined here sets 72MHz (which is correct), not
-80MHz. Correct the comment.
+The ov8865 driver is one of those that can be connected to a CIO2
+device by the cio2-bridge code. This means that the absence of an
+endpoint for this device is not necessarily fatal, as one might be
+built by the cio2-bridge when it probes. Return -EPROBE_DEFER if no
+endpoint is found rather than a fatal error.
 
-Reviewed-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
 Signed-off-by: Daniel Scally <djrscally@gmail.com>
 ---
- drivers/media/i2c/ov8865.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Changes in v5: 
+
+	- None
+
+ drivers/media/i2c/ov8865.c | 6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
 
 diff --git a/drivers/media/i2c/ov8865.c b/drivers/media/i2c/ov8865.c
-index 9f1c0d66c4f9..a6372a0989e1 100644
+index a6372a0989e1..68fdb1ce1e94 100644
 --- a/drivers/media/i2c/ov8865.c
 +++ b/drivers/media/i2c/ov8865.c
-@@ -713,7 +713,7 @@ static const struct ov8865_pll2_config ov8865_pll2_config_native = {
- /*
-  * EXTCLK = 24 MHz
-  * DAC_CLK = 360 MHz
-- * SCLK = 80 MHz
-+ * SCLK = 72 MHz
-  */
+@@ -2796,10 +2796,8 @@ static int ov8865_probe(struct i2c_client *client)
+ 	/* Graph Endpoint */
  
- static const struct ov8865_pll2_config ov8865_pll2_config_binning = {
+ 	handle = fwnode_graph_get_next_endpoint(dev_fwnode(dev), NULL);
+-	if (!handle) {
+-		dev_err(dev, "unable to find endpoint node\n");
+-		return -EINVAL;
+-	}
++	if (!handle)
++		return -EPROBE_DEFER;
+ 
+ 	sensor->endpoint.bus_type = V4L2_MBUS_CSI2_DPHY;
+ 
 -- 
 2.25.1
 
