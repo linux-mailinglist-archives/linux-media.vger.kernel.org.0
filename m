@@ -2,201 +2,198 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D8ED645A448
-	for <lists+linux-media@lfdr.de>; Tue, 23 Nov 2021 14:59:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A4ADB45A453
+	for <lists+linux-media@lfdr.de>; Tue, 23 Nov 2021 15:01:50 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230354AbhKWOC7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 23 Nov 2021 09:02:59 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55868 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229808AbhKWOC7 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Tue, 23 Nov 2021 09:02:59 -0500
-Received: from mail-ed1-x52e.google.com (mail-ed1-x52e.google.com [IPv6:2a00:1450:4864:20::52e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CAFC2C061574;
-        Tue, 23 Nov 2021 05:59:50 -0800 (PST)
-Received: by mail-ed1-x52e.google.com with SMTP id r25so55636502edq.7;
-        Tue, 23 Nov 2021 05:59:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=zBJ46VCZftKYaX4m/MsR0nlZ09nGnHLIIi/Y8boq1S4=;
-        b=ml3xIPBlr60dBMCYl5SLkJ93OBEOai8j9KgKFEUeiaF3Qn+KW4CfKf2QfuGjsAtz8P
-         EXhcTwVOwqB61XeWlDGa1PKI3HTKllXmvMlueySF5hxgeT5Uo3fGXXm+44cuEmGA2c4i
-         Bn2efWPt8bAqAt2mBdX+jchCQ1Sb+gRrpQRZpJzjxSi+b0LeqNbi8oCNdGBB2ahCenwB
-         bqzTAfHHqHObfP48ju/EC+jfL7e+TsDQ8jo1ARpjI+m/4jA1zcXrp2FCyk+S7VdjAkk4
-         hp9evIWnjIch1SGV5dOKM1kD1S7L4+7u9/UYMsTvl1jsTgutPTABf/aSZsZfsf45z5ZC
-         aZGw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=zBJ46VCZftKYaX4m/MsR0nlZ09nGnHLIIi/Y8boq1S4=;
-        b=yOm6gtUYssTrz1WyPTrpSADHStGJxvLg16gk70lFe5vEjnqCLZu/Jas9gWEOWE9tw6
-         KxFNrbYaQCI8bMVtJO0pFoll8MyFRUAKK0OXHuIhqFfVbSvnTLZoQDkxfRkR95AYuDkg
-         GJ15cM3lGMSUTDlbTuuPk5Z0fADsdzrlnx+I8YmgIlPbUKpgT5AVE1OLBzdwkQKm6AC8
-         lMCCSJRPya0VKUj0bYI1NnuRp8wqjPdy/l4T5vGQUYGcwJBGEfFUEQ0afMSuIvWVJ9oz
-         oNcnhc/MUQQSdeWqUco2UgcWyuoYjmMQZMovWaAb2q/9ejL+/WPClczAun7h40mpK3rq
-         z9Bw==
-X-Gm-Message-State: AOAM530TXD5BBej4835vEz0Liiiyo8OIPtS6EwzD9cc5sgyp0zbzEb/9
-        0Qpt4vLctdpA0WjYQ69/K3tq+O+Sb0kmu5nwD88=
-X-Google-Smtp-Source: ABdhPJxlyDwl5cBif++Ea2x8vpPPUcK2k0klOLHoDwvnP/g5WHAWxK4LzO+Lhk3pJjlqvBtQFRzdaEAqB4H2pgpO0CU=
-X-Received: by 2002:a05:6402:510b:: with SMTP id m11mr9682609edd.165.1637675987562;
- Tue, 23 Nov 2021 05:59:47 -0800 (PST)
+        id S234990AbhKWOEx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 23 Nov 2021 09:04:53 -0500
+Received: from mga05.intel.com ([192.55.52.43]:61993 "EHLO mga05.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S234163AbhKWOEv (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 23 Nov 2021 09:04:51 -0500
+X-IronPort-AV: E=McAfee;i="6200,9189,10176"; a="321256822"
+X-IronPort-AV: E=Sophos;i="5.87,257,1631602800"; 
+   d="scan'208";a="321256822"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Nov 2021 06:01:42 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.87,257,1631602800"; 
+   d="scan'208";a="571072733"
+Received: from lkp-server02.sh.intel.com (HELO 9e1e9f9b3bcb) ([10.239.97.151])
+  by fmsmga004.fm.intel.com with ESMTP; 23 Nov 2021 06:01:39 -0800
+Received: from kbuild by 9e1e9f9b3bcb with local (Exim 4.92)
+        (envelope-from <lkp@intel.com>)
+        id 1mpWMd-0001v2-3I; Tue, 23 Nov 2021 14:01:39 +0000
+Date:   Tue, 23 Nov 2021 22:00:54 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Akhil R <akhilrajeev@nvidia.com>, andy.shevchenko@gmail.com,
+        christian.koenig@amd.com, digetx@gmail.com,
+        dri-devel@lists.freedesktop.org, jonathanh@nvidia.com,
+        ldewangan@nvidia.com, linaro-mm-sig@lists.linaro.org,
+        linux-i2c@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org
+Cc:     kbuild-all@lists.01.org
+Subject: Re: [PATCH v2] i2c: tegra: Add ACPI support
+Message-ID: <202111232153.mpoejDRV-lkp@intel.com>
+References: <1637651753-5067-1-git-send-email-akhilrajeev@nvidia.com>
 MIME-Version: 1.0
-References: <20211106155427.753197-1-aford173@gmail.com> <YZrHWkbYkrILP9oo@pendragon.ideasonboard.com>
-In-Reply-To: <YZrHWkbYkrILP9oo@pendragon.ideasonboard.com>
-From:   Adam Ford <aford173@gmail.com>
-Date:   Tue, 23 Nov 2021 07:59:36 -0600
-Message-ID: <CAHCN7xLwYcS55N7SNT4k3NqF=Lgdjfe92nJHSVMKkhCuSAPaYw@mail.gmail.com>
-Subject: Re: [PATCH V2 1/5] soc: imx: imx8m-blk-ctrl: Fix imx8mm mipi reset
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     arm-soc <linux-arm-kernel@lists.infradead.org>,
-        Tim Harvey <tharvey@gateworks.com>,
-        Schrempf Frieder <frieder.schrempf@kontron.de>,
-        linux-media <linux-media@vger.kernel.org>,
-        Adam Ford-BE <aford@beaconembedded.com>,
-        cstevens@beaconembedded.com,
-        Jagan Teki <jagan@amarulasolutions.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>, Peng Fan <peng.fan@nxp.com>,
-        Lucas Stach <l.stach@pengutronix.de>,
-        devicetree <devicetree@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1637651753-5067-1-git-send-email-akhilrajeev@nvidia.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Sun, Nov 21, 2021 at 4:25 PM Laurent Pinchart
-<laurent.pinchart@ideasonboard.com> wrote:
->
-> Hi Adam,
->
-> On Sat, Nov 06, 2021 at 10:54:23AM -0500, Adam Ford wrote:
-> > Most of the blk-ctrl reset bits are found in one register, however
-> > there are two bits in offset 8 for pulling the MIPI DPHY out of reset
-> > and these need to be set when IMX8MM_DISPBLK_PD_MIPI_CSI is brought
-> > out of reset or the MIPI_CSI hangs.
-> >
-> > Fixes: 926e57c065df ("soc: imx: imx8m-blk-ctrl: add DISP blk-ctrl")
-> > Signed-off-by: Adam Ford <aford173@gmail.com>
-> > ---
-> >
-> > V2:  Make a note that the extra register is only for Mini/Nano DISPLAY_BLK_CTRL
-> >      Rename the new register to mipi_phy_rst_mask
-> >      Encapsulate the edits to this register with an if-statement
-> >
-> >  drivers/soc/imx/imx8m-blk-ctrl.c | 18 ++++++++++++++++++
-> >  1 file changed, 18 insertions(+)
-> >
-> > diff --git a/drivers/soc/imx/imx8m-blk-ctrl.c b/drivers/soc/imx/imx8m-blk-ctrl.c
-> > index 519b3651d1d9..581eb4bc7f7d 100644
-> > --- a/drivers/soc/imx/imx8m-blk-ctrl.c
-> > +++ b/drivers/soc/imx/imx8m-blk-ctrl.c
-> > @@ -17,6 +17,7 @@
-> >
-> >  #define BLK_SFT_RSTN 0x0
-> >  #define BLK_CLK_EN   0x4
-> > +#define BLK_MIPI_RESET_DIV   0x8 /* Mini/Nano DISPLAY_BLK_CTRL only */
-> >
-> >  struct imx8m_blk_ctrl_domain;
-> >
-> > @@ -36,6 +37,15 @@ struct imx8m_blk_ctrl_domain_data {
-> >       const char *gpc_name;
-> >       u32 rst_mask;
-> >       u32 clk_mask;
-> > +
-> > +     /*
-> > +      * i.MX8M Mini and Nano have a third DISPLAY_BLK_CTRL register
-> > +      * which is used to control the reset for the MIPI Phy.
-> > +      * Since it's only present in certain circumstances,
-> > +      * an if-statement should be used before setting and clearing this
-> > +      * register.
-> > +      */
-> > +     u32 mipi_phy_rst_mask;
-> >  };
-> >
-> >  #define DOMAIN_MAX_CLKS 3
-> > @@ -78,6 +88,8 @@ static int imx8m_blk_ctrl_power_on(struct generic_pm_domain *genpd)
-> >
-> >       /* put devices into reset */
-> >       regmap_clear_bits(bc->regmap, BLK_SFT_RSTN, data->rst_mask);
-> > +     if (data->mipi_phy_rst_mask)
-> > +             regmap_clear_bits(bc->regmap, BLK_MIPI_RESET_DIV, data->mipi_phy_rst_mask);
-> >
-> >       /* enable upstream and blk-ctrl clocks to allow reset to propagate */
-> >       ret = clk_bulk_prepare_enable(data->num_clks, domain->clks);
-> > @@ -99,6 +111,8 @@ static int imx8m_blk_ctrl_power_on(struct generic_pm_domain *genpd)
-> >
-> >       /* release reset */
-> >       regmap_set_bits(bc->regmap, BLK_SFT_RSTN, data->rst_mask);
-> > +     if (data->mipi_phy_rst_mask)
-> > +             regmap_set_bits(bc->regmap, BLK_MIPI_RESET_DIV, data->mipi_phy_rst_mask);
-> >
-> >       /* disable upstream clocks */
-> >       clk_bulk_disable_unprepare(data->num_clks, domain->clks);
-> > @@ -120,6 +134,9 @@ static int imx8m_blk_ctrl_power_off(struct generic_pm_domain *genpd)
-> >       struct imx8m_blk_ctrl *bc = domain->bc;
-> >
-> >       /* put devices into reset and disable clocks */
-> > +     if (data->mipi_phy_rst_mask)
-> > +             regmap_clear_bits(bc->regmap, BLK_MIPI_RESET_DIV, data->mipi_phy_rst_mask);
-> > +
->
-> Is it the best option to enable/disable both the master and slave MIPI
-> DPHY, regardless of whether they're used or not ? Or would it be better
-> to implement a reset controller to expose the two resets independently,
-> and acquire them from the corresponding display and camera drivers ?
+Hi Akhil,
 
-In some early attempts to implement the blk-ctrl driver, there was an
-attempt to enable a reset controller, but it caused some hanging and
-issues with suspend-resume due to chicken-egg issues where some items
-were coming up in the wrong order.  I think the decision was made to
-make the resets part of the power domain so it's very clear that the
-order of operations.  Lucas might be able to elaborate more on this.
+Thank you for the patch! Yet something to improve:
 
-If bits 16 and 17 can act independently and bit 16 only impacts the
-CSI  and doesn't require bit 17, it seems reasonable to me to have the
-power-domain part of  the CSI, since this would only be enabled when
-the CSI is active.  The power domain is idled when the CSI is idled
-which would effectively place the phy in and out of reset only
-depending on the state of the CSI.  I am guessing this reset bit
-should be assigned to DISPBLK_PD_MIPI_CSI and not
-DISPBLK_PD_CSI_BRIDGE, but I can run some more tests.
+[auto build test ERROR on tegra/for-next]
+[also build test ERROR on v5.16-rc2 next-20211123]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch]
 
-AFAIK, there is no phy driver for the CSI like there is the DSI, so
-adding that would require additional work to the CSI driver to work
-around this quirk.  We don't have an acceptable DSI driver yet, so I'd
-like to push a V3 with just the corresponding bit enabled for MIPI_CSI
-after some testing.  FWICT, NXP set both bits 16 and 17 in their ATF
-gpc code, and it never gets cleared, so I think having the bit set and
-cleared on demand is an improvement.
+url:    https://github.com/0day-ci/linux/commits/Akhil-R/i2c-tegra-Add-ACPI-support/20211123-151636
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/tegra/linux.git for-next
+config: m68k-randconfig-r011-20211123 (https://download.01.org/0day-ci/archive/20211123/202111232153.mpoejDRV-lkp@intel.com/config.gz)
+compiler: m68k-linux-gcc (GCC) 11.2.0
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/0day-ci/linux/commit/dec174be801f41a9e42f4381c59c2357c25e40fb
+        git remote add linux-review https://github.com/0day-ci/linux
+        git fetch --no-tags linux-review Akhil-R/i2c-tegra-Add-ACPI-support/20211123-151636
+        git checkout dec174be801f41a9e42f4381c59c2357c25e40fb
+        # save the config file to linux build tree
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-11.2.0 make.cross ARCH=m68k 
 
->
-> >       regmap_clear_bits(bc->regmap, BLK_SFT_RSTN, data->rst_mask);
-> >       regmap_clear_bits(bc->regmap, BLK_CLK_EN, data->clk_mask);
-> >
-> > @@ -488,6 +505,7 @@ static const struct imx8m_blk_ctrl_domain_data imx8mm_disp_blk_ctl_domain_data[]
-> >               .gpc_name = "mipi-csi",
-> >               .rst_mask = BIT(3) | BIT(4),
-> >               .clk_mask = BIT(10) | BIT(11),
-> > +             .mipi_phy_rst_mask = BIT(16) | BIT(17),
-> >       },
-> >  };
-> >
+If you fix the issue, kindly add following tag as appropriate
+Reported-by: kernel test robot <lkp@intel.com>
 
-adam
+All errors (new ones prefixed by >>):
 
->
-> --
-> Regards,
->
-> Laurent Pinchart
+   drivers/i2c/busses/i2c-tegra.c: In function 'tegra_i2c_init':
+>> drivers/i2c/busses/i2c-tegra.c:623:23: error: implicit declaration of function 'acpi_has_method'; did you mean 'acpi_has_watchdog'? [-Werror=implicit-function-declaration]
+     623 |         if (handle && acpi_has_method(handle, "_RST"))
+         |                       ^~~~~~~~~~~~~~~
+         |                       acpi_has_watchdog
+   cc1: some warnings being treated as errors
+
+
+vim +623 drivers/i2c/busses/i2c-tegra.c
+
+   608	
+   609	static int tegra_i2c_init(struct tegra_i2c_dev *i2c_dev)
+   610	{
+   611		u32 val, clk_divisor, clk_multiplier, tsu_thd, tlow, thigh, non_hs_mode;
+   612		acpi_handle handle = ACPI_HANDLE(i2c_dev->dev);
+   613		int err;
+   614	
+   615		/*
+   616		 * The reset shouldn't ever fail in practice. The failure will be a
+   617		 * sign of a severe problem that needs to be resolved. Still we don't
+   618		 * want to fail the initialization completely because this may break
+   619		 * kernel boot up since voltage regulators use I2C. Hence, we will
+   620		 * emit a noisy warning on error, which won't stay unnoticed and
+   621		 * won't hose machine entirely.
+   622		 */
+ > 623		if (handle && acpi_has_method(handle, "_RST"))
+   624			err = (acpi_evaluate_object(handle, "_RST", NULL, NULL));
+   625		else
+   626			err = reset_control_reset(i2c_dev->rst);
+   627	
+   628		WARN_ON_ONCE(err);
+   629	
+   630		if (i2c_dev->is_dvc)
+   631			tegra_dvc_init(i2c_dev);
+   632	
+   633		val = I2C_CNFG_NEW_MASTER_FSM | I2C_CNFG_PACKET_MODE_EN |
+   634		      FIELD_PREP(I2C_CNFG_DEBOUNCE_CNT, 2);
+   635	
+   636		if (i2c_dev->hw->has_multi_master_mode)
+   637			val |= I2C_CNFG_MULTI_MASTER_MODE;
+   638	
+   639		i2c_writel(i2c_dev, val, I2C_CNFG);
+   640		i2c_writel(i2c_dev, 0, I2C_INT_MASK);
+   641	
+   642		if (i2c_dev->is_vi)
+   643			tegra_i2c_vi_init(i2c_dev);
+   644	
+   645		switch (i2c_dev->bus_clk_rate) {
+   646		case I2C_MAX_STANDARD_MODE_FREQ + 1 ... I2C_MAX_FAST_MODE_PLUS_FREQ:
+   647		default:
+   648			tlow = i2c_dev->hw->tlow_fast_fastplus_mode;
+   649			thigh = i2c_dev->hw->thigh_fast_fastplus_mode;
+   650			tsu_thd = i2c_dev->hw->setup_hold_time_fast_fast_plus_mode;
+   651	
+   652			if (i2c_dev->bus_clk_rate > I2C_MAX_FAST_MODE_FREQ)
+   653				non_hs_mode = i2c_dev->hw->clk_divisor_fast_plus_mode;
+   654			else
+   655				non_hs_mode = i2c_dev->hw->clk_divisor_fast_mode;
+   656			break;
+   657	
+   658		case 0 ... I2C_MAX_STANDARD_MODE_FREQ:
+   659			tlow = i2c_dev->hw->tlow_std_mode;
+   660			thigh = i2c_dev->hw->thigh_std_mode;
+   661			tsu_thd = i2c_dev->hw->setup_hold_time_std_mode;
+   662			non_hs_mode = i2c_dev->hw->clk_divisor_std_mode;
+   663			break;
+   664		}
+   665	
+   666		/* make sure clock divisor programmed correctly */
+   667		clk_divisor = FIELD_PREP(I2C_CLK_DIVISOR_HSMODE,
+   668					 i2c_dev->hw->clk_divisor_hs_mode) |
+   669			      FIELD_PREP(I2C_CLK_DIVISOR_STD_FAST_MODE, non_hs_mode);
+   670		i2c_writel(i2c_dev, clk_divisor, I2C_CLK_DIVISOR);
+   671	
+   672		if (i2c_dev->hw->has_interface_timing_reg) {
+   673			val = FIELD_PREP(I2C_INTERFACE_TIMING_THIGH, thigh) |
+   674			      FIELD_PREP(I2C_INTERFACE_TIMING_TLOW, tlow);
+   675			i2c_writel(i2c_dev, val, I2C_INTERFACE_TIMING_0);
+   676		}
+   677	
+   678		/*
+   679		 * Configure setup and hold times only when tsu_thd is non-zero.
+   680		 * Otherwise, preserve the chip default values.
+   681		 */
+   682		if (i2c_dev->hw->has_interface_timing_reg && tsu_thd)
+   683			i2c_writel(i2c_dev, tsu_thd, I2C_INTERFACE_TIMING_1);
+   684	
+   685		clk_multiplier = (tlow + thigh + 2) * (non_hs_mode + 1);
+   686	
+   687		err = clk_set_rate(i2c_dev->div_clk,
+   688				   i2c_dev->bus_clk_rate * clk_multiplier);
+   689		if (err) {
+   690			dev_err(i2c_dev->dev, "failed to set div-clk rate: %d\n", err);
+   691			return err;
+   692		}
+   693	
+   694		if (!i2c_dev->is_dvc && !i2c_dev->is_vi) {
+   695			u32 sl_cfg = i2c_readl(i2c_dev, I2C_SL_CNFG);
+   696	
+   697			sl_cfg |= I2C_SL_CNFG_NACK | I2C_SL_CNFG_NEWSL;
+   698			i2c_writel(i2c_dev, sl_cfg, I2C_SL_CNFG);
+   699			i2c_writel(i2c_dev, 0xfc, I2C_SL_ADDR1);
+   700			i2c_writel(i2c_dev, 0x00, I2C_SL_ADDR2);
+   701		}
+   702	
+   703		err = tegra_i2c_flush_fifos(i2c_dev);
+   704		if (err)
+   705			return err;
+   706	
+   707		if (i2c_dev->multimaster_mode && i2c_dev->hw->has_slcg_override_reg)
+   708			i2c_writel(i2c_dev, I2C_MST_CORE_CLKEN_OVR, I2C_CLKEN_OVERRIDE);
+   709	
+   710		err = tegra_i2c_wait_for_config_load(i2c_dev);
+   711		if (err)
+   712			return err;
+   713	
+   714		return 0;
+   715	}
+   716	
+
+---
+0-DAY CI Kernel Test Service, Intel Corporation
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
