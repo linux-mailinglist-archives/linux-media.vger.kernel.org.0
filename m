@@ -2,61 +2,61 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CD4DD45A541
-	for <lists+linux-media@lfdr.de>; Tue, 23 Nov 2021 15:21:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 84A6E45A544
+	for <lists+linux-media@lfdr.de>; Tue, 23 Nov 2021 15:21:41 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237898AbhKWOYr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 23 Nov 2021 09:24:47 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33020 "EHLO
+        id S237929AbhKWOYs (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 23 Nov 2021 09:24:48 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33032 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237929AbhKWOYp (ORCPT
+        with ESMTP id S237881AbhKWOYr (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 23 Nov 2021 09:24:45 -0500
-Received: from mail-wm1-x32f.google.com (mail-wm1-x32f.google.com [IPv6:2a00:1450:4864:20::32f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BB95CC061574
-        for <linux-media@vger.kernel.org>; Tue, 23 Nov 2021 06:21:37 -0800 (PST)
-Received: by mail-wm1-x32f.google.com with SMTP id g191-20020a1c9dc8000000b0032fbf912885so2718082wme.4
-        for <linux-media@vger.kernel.org>; Tue, 23 Nov 2021 06:21:37 -0800 (PST)
+        Tue, 23 Nov 2021 09:24:47 -0500
+Received: from mail-wm1-x32e.google.com (mail-wm1-x32e.google.com [IPv6:2a00:1450:4864:20::32e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 70FE2C061574
+        for <linux-media@vger.kernel.org>; Tue, 23 Nov 2021 06:21:39 -0800 (PST)
+Received: by mail-wm1-x32e.google.com with SMTP id o29so18892279wms.2
+        for <linux-media@vger.kernel.org>; Tue, 23 Nov 2021 06:21:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=IRN4qp5Iqo3k44JzsPUytvzY07JybWV7N7oXbJsRX+E=;
-        b=eLwYR4ZKYqhkoKNUcBKIl/SAfy9xF87d9II49MKgVRWKZESAQ+iJI5bsmv/O0K5s1e
-         Y2efcqQ5qKcudBl35z+gXv3uY1Y45G/tmeoZ4VhYgTm9X3+G7ohLsmgSFtqM4IguOr9b
-         pKcIBxkYs34qGvCySVkuPFfnf3KNeoMX7k8L80PPcgdZU5A1gj+HZtmEds4lh+2+dHGK
-         dYaeTBQinuxL21oFo6vRVJSshjdqgm8z0SzkvdARpXJ7+lAj3ZD3AdeIU9TJ6IEhHQNk
-         MRVy30mak+KWX/i7iWZjSMvOIRk21rfcF+2HG85EtBDMKeoZnhgYqpOjmtPF9nBMu8l+
-         CHsQ==
+        bh=MHiuy8hFM9J8q0FM4IEtsQAAAvGX3NWM32T+WyyUIsc=;
+        b=Aap9qb0CGJMazHPh76Zb+XR1OFS8Jd/j6yOThIDHqJ6I7ART5j3CY5Ipx2vkhBzcze
+         QlI7onwvUrpPJY9975hB53OwS3Vy9uPVDO8z2uqK00BFn3NtLS2WWDTH0nYEq17ZRaXd
+         NVbIAAtVVhRUkFwmDnCpIVN9MZW6l0/i0L2b14TR7QHs2hPT3sUW0i+Z4VjpSc6KF0KL
+         MCWEIlyf8P8lAHUGA0f9oj7TSfxyjtJq4VjJ5OYtQ/R4allQQPRZpEZZFaWkaRYcvN+3
+         jigULy1EE+5MzZLa4ZjE5k1kDEKydxv1lyxw1JiIokAki8vmDSBdOTuz0dyMU8YbVFzD
+         sBow==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=IRN4qp5Iqo3k44JzsPUytvzY07JybWV7N7oXbJsRX+E=;
-        b=tg2Rl14dc09otWwR+TUcRVhQjI2uAUX9CVIvoxsbbEnUi2rWtSbZvWO2KFpCkPwCMm
-         dXdQ9nXAOjIQevXz784Gf4ASLxKXmRmNg2euFyhDa1C7pICLBz1zU26K/SDuGITt4Svg
-         fyNGdxddahBSApR+Zu4oh+GeG3cswOSxpyYc7q8fdQwUpdIKni1C+pxL4kHFRbzSy6Rg
-         Np0JEjNWXVvMQHMXRcgaexpcyqip4oT1nxq1O2tu/RIlSzWm57vNO4NRL9YoxwwFex5j
-         vCCazj8aUI53y9XAdPIRAdIsyYOQH8os3s1WY++NkH5AZ2VAoC6iCfGUqHMeq5PT/iT0
-         Wp/A==
-X-Gm-Message-State: AOAM532+IYAoGqwlWJdqfomTzKZw8Za7B1BjG5R0Wq3wklEJjyEjQ7lD
-        uVTaKcsu1F2S/X1v0xsjUHo=
-X-Google-Smtp-Source: ABdhPJwdudJRBQUyuM6N/s07Qo3lmLid8mFUOvJ3ndWpjmCPTwrY9JZYMgsS6jk9TZToXh3BkzwbPA==
-X-Received: by 2002:a1c:f418:: with SMTP id z24mr3642026wma.95.1637677296400;
-        Tue, 23 Nov 2021 06:21:36 -0800 (PST)
+        bh=MHiuy8hFM9J8q0FM4IEtsQAAAvGX3NWM32T+WyyUIsc=;
+        b=49r6c1Ek8WbBN+hCwQbP+TB3kUNHd0asYgzt/N/kOqF44WewFkriJvNsuBSGka3CwV
+         oMDxJc7SLidLuwxgSI09+8deS5LRlKrJs8vYUQHTIraYvgVioklYFmImPgL5IQQM+SmQ
+         BGddOJVQYpmyxRiyNsey0SVT8kq5nNSwXq8vvIAQ1Z9dvzGnrwLU0lSZvFbal7UQxg8Q
+         vRFy1OtyA6A/768qvcCn2MSsJk0Hs72iyzvm0P5ZLgCnkt8/hVnnNqbGevdYjWrzrTxb
+         B3SG6nKsReGW4A/bPZsSso3uY822O82v9gw4INH7dH41sx87mEdZx8pgWOnf0kuxIx0W
+         iWyg==
+X-Gm-Message-State: AOAM532rOlf6blBBG9LAR7iOLQd3e6QgtpN50RFDPe72zjPIxp62mo++
+        bqiY2AepkDUSdOYzEuh+e14=
+X-Google-Smtp-Source: ABdhPJyZg/cZ9stJjKdPoHG3fhLgr87QipAPe+4ZbOIDj9J1X5VBkse+LtX/RaUO8k5CsW0Rixncew==
+X-Received: by 2002:a1c:1c8:: with SMTP id 191mr3498372wmb.90.1637677298054;
+        Tue, 23 Nov 2021 06:21:38 -0800 (PST)
 Received: from abel.fritz.box (p57b0b77b.dip0.t-ipconnect.de. [87.176.183.123])
-        by smtp.gmail.com with ESMTPSA id t8sm1645928wmq.32.2021.11.23.06.21.34
+        by smtp.gmail.com with ESMTPSA id t8sm1645928wmq.32.2021.11.23.06.21.36
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 23 Nov 2021 06:21:36 -0800 (PST)
+        Tue, 23 Nov 2021 06:21:37 -0800 (PST)
 From:   "=?UTF-8?q?Christian=20K=C3=B6nig?=" 
         <ckoenig.leichtzumerken@gmail.com>
 X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
 To:     sumit.semwal@linaro.org, daniel@ffwll.ch
 Cc:     linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
         linaro-mm-sig@lists.linaro.org
-Subject: [PATCH 12/26] drm/vmwgfx: stop using dma_resv_excl_fence
-Date:   Tue, 23 Nov 2021 15:20:57 +0100
-Message-Id: <20211123142111.3885-13-christian.koenig@amd.com>
+Subject: [PATCH 13/26] drm/radeon: stop using dma_resv_excl_fence
+Date:   Tue, 23 Nov 2021 15:20:58 +0100
+Message-Id: <20211123142111.3885-14-christian.koenig@amd.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20211123142111.3885-1-christian.koenig@amd.com>
 References: <20211123142111.3885-1-christian.koenig@amd.com>
@@ -71,26 +71,27 @@ Instead use the new dma_resv_get_singleton function.
 
 Signed-off-by: Christian König <christian.koenig@amd.com>
 ---
- drivers/gpu/drm/vmwgfx/vmwgfx_resource.c | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/radeon/radeon_display.c | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_resource.c b/drivers/gpu/drm/vmwgfx/vmwgfx_resource.c
-index 8d1e869cc196..23c3fc2cbf10 100644
---- a/drivers/gpu/drm/vmwgfx/vmwgfx_resource.c
-+++ b/drivers/gpu/drm/vmwgfx/vmwgfx_resource.c
-@@ -1168,8 +1168,10 @@ int vmw_resources_clean(struct vmw_buffer_object *vbo, pgoff_t start,
- 		vmw_bo_fence_single(bo, NULL);
- 		if (bo->moving)
- 			dma_fence_put(bo->moving);
--		bo->moving = dma_fence_get
--			(dma_resv_excl_fence(bo->base.resv));
-+
-+		/* TODO: This is actually a memory management dependency */
-+		return dma_resv_get_singleton(bo->base.resv, false,
-+					      &bo->moving);
+diff --git a/drivers/gpu/drm/radeon/radeon_display.c b/drivers/gpu/drm/radeon/radeon_display.c
+index 573154268d43..a6f875118f01 100644
+--- a/drivers/gpu/drm/radeon/radeon_display.c
++++ b/drivers/gpu/drm/radeon/radeon_display.c
+@@ -533,7 +533,12 @@ static int radeon_crtc_page_flip_target(struct drm_crtc *crtc,
+ 		DRM_ERROR("failed to pin new rbo buffer before flip\n");
+ 		goto cleanup;
  	}
+-	work->fence = dma_fence_get(dma_resv_excl_fence(new_rbo->tbo.base.resv));
++	r = dma_resv_get_singleton(new_rbo->tbo.base.resv, false, &work->fence);
++	if (r) {
++		radeon_bo_unreserve(new_rbo);
++		DRM_ERROR("failed to get new rbo buffer fences\n");
++		goto cleanup;
++	}
+ 	radeon_bo_get_tiling_flags(new_rbo, &tiling_flags, NULL);
+ 	radeon_bo_unreserve(new_rbo);
  
- 	return 0;
 -- 
 2.25.1
 
