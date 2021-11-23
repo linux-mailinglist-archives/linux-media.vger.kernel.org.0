@@ -2,148 +2,124 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3DEB945A7B8
-	for <lists+linux-media@lfdr.de>; Tue, 23 Nov 2021 17:32:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B45F445A7FF
+	for <lists+linux-media@lfdr.de>; Tue, 23 Nov 2021 17:34:54 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234388AbhKWQf2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 23 Nov 2021 11:35:28 -0500
-Received: from mail-ua1-f42.google.com ([209.85.222.42]:42617 "EHLO
-        mail-ua1-f42.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234281AbhKWQf0 (ORCPT
+        id S237376AbhKWQh7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 23 Nov 2021 11:37:59 -0500
+Received: from mail-io1-f48.google.com ([209.85.166.48]:42980 "EHLO
+        mail-io1-f48.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S236559AbhKWQh4 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 23 Nov 2021 11:35:26 -0500
-Received: by mail-ua1-f42.google.com with SMTP id t13so44868621uad.9;
-        Tue, 23 Nov 2021 08:32:17 -0800 (PST)
+        Tue, 23 Nov 2021 11:37:56 -0500
+Received: by mail-io1-f48.google.com with SMTP id x10so28720736ioj.9;
+        Tue, 23 Nov 2021 08:34:48 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=V9TIRszl8dgvuwgR6nhL0A0nOi/JDggQAeXQjF3xH3Y=;
-        b=VKa3hFWLqY+/OtL0PTiZF4DLCLK07pPe0KVvYhyaCA70YwmGx2rlsI70rE5kr2wyQ+
-         oIbnrtTqEn3FBcUYgddEGjtdeRfS//0v7fCaRwrQvT2ActbSi2gcXq/hd/LL+0YQFnlv
-         cVq2oMvcUEb2tzi6V8NgsoxiSc4aclMTECIV+gDdZYzNvR/7k0FHiX3aS2EUQjphSsru
-         rdlfwgpkaz9mzI+RNi1uORSHomLA4qn7ShemKnoi8eTbRQjZl+9+psihshJIKXEQq84N
-         bzv+Z8xL+bVZUAMjha+7vlUTt7P/d+POvoiu2VsmPEHqE3sqm+FvGcTojwSuj0BFz0hf
-         Xjsw==
-X-Gm-Message-State: AOAM5313FUF1F/RX6je30Rlo79WJCEgrxKZ0MwyBJMBNwRLok/0rTEuM
-        1TBqjYm04K+RU5Wg9G+IlXgFi0/2YwvTYwBM
-X-Google-Smtp-Source: ABdhPJyszXvo4yp8uEtdldHH020MjHk7hIZxcaJ+iT/idyXQC9pfreWyP51D4YgUbH6wWFmlQL4rfA==
-X-Received: by 2002:ab0:2508:: with SMTP id j8mr10526408uan.16.1637685137194;
-        Tue, 23 Nov 2021 08:32:17 -0800 (PST)
-Received: from mail-ua1-f43.google.com (mail-ua1-f43.google.com. [209.85.222.43])
-        by smtp.gmail.com with ESMTPSA id s2sm6600879uap.7.2021.11.23.08.32.16
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 23 Nov 2021 08:32:16 -0800 (PST)
-Received: by mail-ua1-f43.google.com with SMTP id t13so44868505uad.9;
-        Tue, 23 Nov 2021 08:32:16 -0800 (PST)
-X-Received: by 2002:a9f:3e01:: with SMTP id o1mr10338972uai.89.1637685125903;
- Tue, 23 Nov 2021 08:32:05 -0800 (PST)
-MIME-Version: 1.0
-References: <cover.1637592133.git.geert+renesas@glider.be> <3a54a6703879d10f08cf0275a2a69297ebd2b1d4.1637592133.git.geert+renesas@glider.be>
- <01b44b38c087c151171f8d45a2090474c2559306.camel@sipsolutions.net>
- <CAMuHMdUnBgFpqhgjf5AA0LH9MZOFALeC=YinZ4Tv_V+Y9hkRSg@mail.gmail.com> <12825803045d1cec0df968f72a9ef2724a2548fb.camel@sipsolutions.net>
-In-Reply-To: <12825803045d1cec0df968f72a9ef2724a2548fb.camel@sipsolutions.net>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Tue, 23 Nov 2021 17:31:54 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdXwhO30gy42tfGSsEgJAjDOAkQ_cUXMMiSBjMsUj0nqaA@mail.gmail.com>
-Message-ID: <CAMuHMdXwhO30gy42tfGSsEgJAjDOAkQ_cUXMMiSBjMsUj0nqaA@mail.gmail.com>
-Subject: Re: [PATCH 01/17] bitfield: Add non-constant field_{prep,get}() helpers
-To:     Johannes Berg <johannes@sipsolutions.net>
-Cc:     Tony Lindgren <tony@atomide.com>,
-        Russell King <linux@armlinux.org.uk>,
-        Rajendra Nayak <rnayak@codeaurora.org>,
-        Paul Walmsley <paul@pwsan.com>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Nicolas Ferre <nicolas.ferre@microchip.com>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Ludovic Desroches <ludovic.desroches@microchip.com>,
-        Tero Kristo <kristo@kernel.org>,
-        Jonathan Cameron <jic23@kernel.org>,
-        Lars-Peter Clausen <lars@metafoo.de>,
-        Lorenzo Bianconi <lorenzo.bianconi83@gmail.com>,
-        Benoit Parrot <bparrot@ti.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Adrian Hunter <adrian.hunter@intel.com>,
-        Andrew Jeffery <andrew@aj.id.au>,
-        Ulf Hansson <ulf.hansson@linaro.org>,
-        Joel Stanley <joel@jms.id.au>,
-        Ping-Ke Shih <pkshih@realtek.com>,
-        Kalle Valo <kvalo@codeaurora.org>,
-        "David S . Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Mark Brown <broonie@kernel.org>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Eduardo Valentin <edubezval@gmail.com>,
-        Keerthy <j-keerthy@ti.com>,
-        "Rafael J . Wysocki" <rafael@kernel.org>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Amit Kucheria <amitk@kernel.org>,
-        Zhang Rui <rui.zhang@intel.com>,
-        Jaroslav Kysela <perex@perex.cz>,
-        Takashi Iwai <tiwai@suse.com>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        "open list:TI ETHERNET SWITCH DRIVER (CPSW)" 
-        <linux-omap@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-clk <linux-clk@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        linux-iio@vger.kernel.org,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Linux MMC List <linux-mmc@vger.kernel.org>,
-        linux-aspeed@lists.ozlabs.org, openbmc@lists.ozlabs.org,
-        linux-wireless <linux-wireless@vger.kernel.org>,
-        netdev <netdev@vger.kernel.org>,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-        Linux PM list <linux-pm@vger.kernel.org>,
-        ALSA Development Mailing List <alsa-devel@alsa-project.org>
-Content-Type: text/plain; charset="UTF-8"
+        h=x-gm-message-state:from:to:cc:in-reply-to:references:subject:date
+         :message-id;
+        bh=slqXKFhgdTYySkX9nZNHik88KwfWlzq8wG1ZkB3HnKE=;
+        b=uX82T8MQtzAVcoGwzhtNxo49nfA2W5MZm6hnnOwkiqKOvFrVNNgL3jC8jGz2/tDaeo
+         lfU8Z4Zez8j5rN63f4RQOc2D4EiuS3lXe+p5i60beLC+gsQSBLHHNBUaG9NhBNZ2t9ay
+         JZSuqSHIzGFtNPqNGjh+hnAUmKb+eQrrVND2EdwDNZiScNQ/bRAT7Tp+iaJE0+2EXMZR
+         KzhxWFOtADdtKs1VwD3XAR0qD9LpL/+sS0V5RZaKl1itHWZ6gQymoKc3iieCNLF25UDr
+         pwj4WSax8MWVj6apnlGRKzNBqqV+okmhftf8O4T8SC4wGJAZbwcsa/X4GKguY/UnFNjj
+         wk1w==
+X-Gm-Message-State: AOAM533O5e5rDh/vP9CUIUOtUGrNEC3laDHU3u8npGMsK4RawJpIq6em
+        0qF8t5Dr5Hm0iMishbAPZg==
+X-Google-Smtp-Source: ABdhPJzA8ris3g/X5WP3kZdrctnemUsTCOcqWH9f6MvH8q8UdrjPL/tSfm4rUj6xrAAROn2uoOnh0g==
+X-Received: by 2002:a05:6638:2728:: with SMTP id m40mr7891072jav.111.1637685287905;
+        Tue, 23 Nov 2021 08:34:47 -0800 (PST)
+Received: from robh.at.kernel.org ([64.188.179.248])
+        by smtp.gmail.com with ESMTPSA id h14sm7403051ils.75.2021.11.23.08.34.45
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 23 Nov 2021 08:34:47 -0800 (PST)
+Received: (nullmailer pid 3442910 invoked by uid 1000);
+        Tue, 23 Nov 2021 16:34:29 -0000
+From:   Rob Herring <robh@kernel.org>
+To:     Michael Tretter <m.tretter@pengutronix.de>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Ian Arkver <ian.arkver.dev@gmail.com>,
+        linux-media@vger.kernel.org, kernel@pengutronix.de,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Marek Vasut <marex@denx.de>, devicetree@vger.kernel.org,
+        Rob Herring <robh+dt@kernel.org>, p.zabel@pengutronix.de
+In-Reply-To: <20211123101517.3656935-3-m.tretter@pengutronix.de>
+References: <20211123101517.3656935-1-m.tretter@pengutronix.de> <20211123101517.3656935-3-m.tretter@pengutronix.de>
+Subject: Re: [PATCH v8 2/3] media: dt-bindings: Add Intersil ISL79987 DT bindings
+Date:   Tue, 23 Nov 2021 09:34:29 -0700
+Message-Id: <1637685269.649925.3442909.nullmailer@robh.at.kernel.org>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Johannes,
+On Tue, 23 Nov 2021 11:15:16 +0100, Michael Tretter wrote:
+> From: Marek Vasut <marex@denx.de>
+> 
+> Add bindings for the Intersil ISL79987 analog to MIPI CSI-2 decoder.
+> 
+> Signed-off-by: Marek Vasut <marex@denx.de>
+> Cc: Sakari Ailus <sakari.ailus@linux.intel.com>
+> Cc: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+> Cc: Rob Herring <robh+dt@kernel.org>
+> Cc: devicetree@vger.kernel.org
+> To: linux-media@vger.kernel.org
+> Signed-off-by: Michael Tretter <m.tretter@pengutronix.de>
+> Reviewed-by: Rob Herring <robh@kernel.org>
+> ---
+> Changelog:
+> 
+> v8: none
+> 
+> v7: none
+> 
+> v6: none
+> 
+> v5: none
+> 
+> v4: none
+> 
+> v3:
+> 
+> - rename pd-gpios property to powerdown-gpios
+> - reference graph.yaml for ports/port properties
+> - remove reference to video-interfaces.txt
+> - remove unnecessary description of ports property
+> 
+> v2:
+> 
+> - convert binding to yaml
+> - change description to match only isl79987
+> - replace num-inputs property with multiple ports
+> - add reset gpio
+> ---
+>  .../bindings/media/i2c/isil,isl79987.yaml     | 100 ++++++++++++++++++
+>  1 file changed, 100 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/media/i2c/isil,isl79987.yaml
+> 
 
-On Tue, Nov 23, 2021 at 5:21 PM Johannes Berg <johannes@sipsolutions.net> wrote:
-> On Tue, 2021-11-23 at 09:30 +0100, Geert Uytterhoeven wrote:
-> > > We have the upper-case (constant) versions, and already
-> > > {u32,...}_get_bits()/etc.
-> >
-> > These don't work for non-const masks.
->
-> Obviously, I know that. Still, just saying.
->
-> I'm actually in the opposite camp to you I guess - I much prefer the
-> typed versions (u32_get_bits() and friends) over the FIELD_GET() macros
-> that are more magic.
->
-> Mostly though that's because the typed ones also have le32_/be32_/...
-> variants, which are tremendously useful, and so I prefer to use them all
-> across. In fact, I have considered in the past to just remove the upper-
-> case macros entirely but ... no time I guess.
+My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
+on your patch (DT_CHECKER_FLAGS is new in v5.13):
 
-OK, I have to think a bit about this.
-FTR, initially I didn't like the FIELD_{GET,PREP}() macros neither ;-)
+yamllint warnings/errors:
 
-> In fact, you have e.g. code in drivers/usb/chipidea/udc.c that does
-> things like cpu_to_le32(mul << __ffs(...)) - though in those cases it's
-> actually constant today, so you could already write it as
-> le32_encode_bits(...).
+dtschema/dtc warnings/errors:
+/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/media/i2c/isil,isl79987.example.dt.yaml: isl7998x_mipi@44: ports:port@0:endpoint: Unevaluated properties are not allowed ('clock-lanes', 'data-lanes' were unexpected)
+	From schema: /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/media/i2c/isil,isl79987.yaml
 
-Yeah, there are lots of opportunities for improvement for
-drivers/usb/chipidea/.  I didn't include a conversion patch for that
-driver, as it led me too deep into the rabbit hole, and I wanted to
-get something posted rather sooner than later...
+doc reference errors (make refcheckdocs):
 
-Gr{oetje,eeting}s,
+See https://patchwork.ozlabs.org/patch/1558453
 
-                        Geert
+This check can fail if there are any dependencies. The base for a patch
+series is generally the most recent rc1.
 
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+If you already ran 'make dt_binding_check' and didn't see the above
+error(s), then make sure 'yamllint' is installed and dt-schema is up to
+date:
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+pip3 install dtschema --upgrade
+
+Please check and re-submit.
+
