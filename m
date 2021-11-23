@@ -2,124 +2,132 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B45F445A7FF
-	for <lists+linux-media@lfdr.de>; Tue, 23 Nov 2021 17:34:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B62D545A847
+	for <lists+linux-media@lfdr.de>; Tue, 23 Nov 2021 17:37:34 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237376AbhKWQh7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 23 Nov 2021 11:37:59 -0500
-Received: from mail-io1-f48.google.com ([209.85.166.48]:42980 "EHLO
-        mail-io1-f48.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236559AbhKWQh4 (ORCPT
+        id S239122AbhKWQkh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 23 Nov 2021 11:40:37 -0500
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:45856 "EHLO
+        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S239083AbhKWQkN (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 23 Nov 2021 11:37:56 -0500
-Received: by mail-io1-f48.google.com with SMTP id x10so28720736ioj.9;
-        Tue, 23 Nov 2021 08:34:48 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:in-reply-to:references:subject:date
-         :message-id;
-        bh=slqXKFhgdTYySkX9nZNHik88KwfWlzq8wG1ZkB3HnKE=;
-        b=uX82T8MQtzAVcoGwzhtNxo49nfA2W5MZm6hnnOwkiqKOvFrVNNgL3jC8jGz2/tDaeo
-         lfU8Z4Zez8j5rN63f4RQOc2D4EiuS3lXe+p5i60beLC+gsQSBLHHNBUaG9NhBNZ2t9ay
-         JZSuqSHIzGFtNPqNGjh+hnAUmKb+eQrrVND2EdwDNZiScNQ/bRAT7Tp+iaJE0+2EXMZR
-         KzhxWFOtADdtKs1VwD3XAR0qD9LpL/+sS0V5RZaKl1itHWZ6gQymoKc3iieCNLF25UDr
-         pwj4WSax8MWVj6apnlGRKzNBqqV+okmhftf8O4T8SC4wGJAZbwcsa/X4GKguY/UnFNjj
-         wk1w==
-X-Gm-Message-State: AOAM533O5e5rDh/vP9CUIUOtUGrNEC3laDHU3u8npGMsK4RawJpIq6em
-        0qF8t5Dr5Hm0iMishbAPZg==
-X-Google-Smtp-Source: ABdhPJzA8ris3g/X5WP3kZdrctnemUsTCOcqWH9f6MvH8q8UdrjPL/tSfm4rUj6xrAAROn2uoOnh0g==
-X-Received: by 2002:a05:6638:2728:: with SMTP id m40mr7891072jav.111.1637685287905;
-        Tue, 23 Nov 2021 08:34:47 -0800 (PST)
-Received: from robh.at.kernel.org ([64.188.179.248])
-        by smtp.gmail.com with ESMTPSA id h14sm7403051ils.75.2021.11.23.08.34.45
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 23 Nov 2021 08:34:47 -0800 (PST)
-Received: (nullmailer pid 3442910 invoked by uid 1000);
-        Tue, 23 Nov 2021 16:34:29 -0000
-From:   Rob Herring <robh@kernel.org>
-To:     Michael Tretter <m.tretter@pengutronix.de>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Ian Arkver <ian.arkver.dev@gmail.com>,
-        linux-media@vger.kernel.org, kernel@pengutronix.de,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Marek Vasut <marex@denx.de>, devicetree@vger.kernel.org,
-        Rob Herring <robh+dt@kernel.org>, p.zabel@pengutronix.de
-In-Reply-To: <20211123101517.3656935-3-m.tretter@pengutronix.de>
-References: <20211123101517.3656935-1-m.tretter@pengutronix.de> <20211123101517.3656935-3-m.tretter@pengutronix.de>
-Subject: Re: [PATCH v8 2/3] media: dt-bindings: Add Intersil ISL79987 DT bindings
-Date:   Tue, 23 Nov 2021 09:34:29 -0700
-Message-Id: <1637685269.649925.3442909.nullmailer@robh.at.kernel.org>
+        Tue, 23 Nov 2021 11:40:13 -0500
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: andrzej.p)
+        with ESMTPSA id 5E5ED1F42E68
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=collabora.com; s=mail;
+        t=1637685421; bh=daLlUwwNiWxjyGD9q5YosR2QXIU4H+EhNkLeXPcw3AE=;
+        h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
+        b=G4Z1I8lixs87F0ianK1zbYPYVeiBnYksWWed/JJdLhzfz9Cd8k4R7g600a4jgqT6e
+         CEJQNsDcOsTXbCNiW2JoBfjJGggrDNF7rnf0+QzIsHUypEAERKqCf6Z53jkzRO+9FE
+         JM2P6zCOUxqL4wlqrOj2CZdpKdm4KZgyOwfAt0RVJ65pN016UYDqXMW/8CtrjbUw9f
+         VFm53j2Tz51kP+1zCh6QM+dGE541/YFf7aTkx2eG69oREeEwP765jox5HopYmz9n+x
+         NIF5qlSs7WZKB3E4alMSpNAvZk0E7VCq1iTq9e3FVB5PsDtDh1yXiahcY9O907fa5R
+         KT9ke1sko2Fmw==
+Subject: Re: [PATCH 1/7] media: hantro: add support for reset lines
+To:     Dan Carpenter <dan.carpenter@oracle.com>
+Cc:     Jernej Skrabec <jernej.skrabec@gmail.com>,
+        linux-media@vger.kernel.org, ezequiel@vanguardiasur.com.ar,
+        nicolas.dufresne@collabora.com, mchehab@kernel.org,
+        robh+dt@kernel.org, mripard@kernel.org, wens@csie.org,
+        p.zabel@pengutronix.de, gregkh@linuxfoundation.org,
+        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
+        linux-staging@lists.linux.dev
+References: <20211122184702.768341-1-jernej.skrabec@gmail.com>
+ <20211122184702.768341-2-jernej.skrabec@gmail.com>
+ <08e80e9e-f646-72e4-e4d4-f8e6310228f1@collabora.com>
+ <20211123145933.GD6514@kadam>
+From:   Andrzej Pietrasiewicz <andrzej.p@collabora.com>
+Message-ID: <c474e2b5-8900-a7ca-620d-e03a284cf0fb@collabora.com>
+Date:   Tue, 23 Nov 2021 17:36:57 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
+MIME-Version: 1.0
+In-Reply-To: <20211123145933.GD6514@kadam>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, 23 Nov 2021 11:15:16 +0100, Michael Tretter wrote:
-> From: Marek Vasut <marex@denx.de>
-> 
-> Add bindings for the Intersil ISL79987 analog to MIPI CSI-2 decoder.
-> 
-> Signed-off-by: Marek Vasut <marex@denx.de>
-> Cc: Sakari Ailus <sakari.ailus@linux.intel.com>
-> Cc: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-> Cc: Rob Herring <robh+dt@kernel.org>
-> Cc: devicetree@vger.kernel.org
-> To: linux-media@vger.kernel.org
-> Signed-off-by: Michael Tretter <m.tretter@pengutronix.de>
-> Reviewed-by: Rob Herring <robh@kernel.org>
-> ---
-> Changelog:
-> 
-> v8: none
-> 
-> v7: none
-> 
-> v6: none
-> 
-> v5: none
-> 
-> v4: none
-> 
-> v3:
-> 
-> - rename pd-gpios property to powerdown-gpios
-> - reference graph.yaml for ports/port properties
-> - remove reference to video-interfaces.txt
-> - remove unnecessary description of ports property
-> 
-> v2:
-> 
-> - convert binding to yaml
-> - change description to match only isl79987
-> - replace num-inputs property with multiple ports
-> - add reset gpio
-> ---
->  .../bindings/media/i2c/isil,isl79987.yaml     | 100 ++++++++++++++++++
->  1 file changed, 100 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/media/i2c/isil,isl79987.yaml
-> 
+Hi Dan, hi Jernej,
 
-My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
-on your patch (DT_CHECKER_FLAGS is new in v5.13):
+W dniu 23.11.2021 o 15:59, Dan Carpenter pisze:
+> On Tue, Nov 23, 2021 at 12:09:03PM +0100, Andrzej Pietrasiewicz wrote:
+>>> diff --git a/drivers/staging/media/hantro/hantro_drv.c b/drivers/staging/media/hantro/hantro_drv.c
+>>> index ab2467998d29..8c3de31f51b3 100644
+>>> --- a/drivers/staging/media/hantro/hantro_drv.c
+>>> +++ b/drivers/staging/media/hantro/hantro_drv.c
+>>> @@ -905,6 +905,10 @@ static int hantro_probe(struct platform_device *pdev)
+>>>    			return PTR_ERR(vpu->clocks[0].clk);
+>>>    	}
+>>> +	vpu->resets = devm_reset_control_array_get(&pdev->dev, false, true);
+>>> +	if (IS_ERR(vpu->resets))
+>>> +		return PTR_ERR(vpu->resets);
+>>> +
+>>>    	num_bases = vpu->variant->num_regs ?: 1;
+>>>    	vpu->reg_bases = devm_kcalloc(&pdev->dev, num_bases,
+>>>    				      sizeof(*vpu->reg_bases), GFP_KERNEL);
+>>> @@ -978,10 +982,16 @@ static int hantro_probe(struct platform_device *pdev)
+>>>    	pm_runtime_use_autosuspend(vpu->dev);
+>>>    	pm_runtime_enable(vpu->dev);
+>          ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> It looks like this is the pm stuff that we have to unwind on error
+> 
+>>> +	ret = reset_control_deassert(vpu->resets);
+>>> +	if (ret) {
+>>> +		dev_err(&pdev->dev, "Failed to deassert resets\n");
+>>> +		return ret;
+>                  ^^^^^^^^^^
+> So this return should be a goto undo_pm_stuff
+> 
+> 
+>>> +	}
+>>> +
+>>>    	ret = clk_bulk_prepare(vpu->variant->num_clocks, vpu->clocks);
+>>>    	if (ret) {
+>>>    		dev_err(&pdev->dev, "Failed to prepare clocks\n");
+>>> -		return ret;
+> 
+> And this return should also have been a goto so it's a bug in the
+> original code.
 
-yamllint warnings/errors:
+So we probably want a separate patch addressing that first, and then
+the series proper on top of that.
 
-dtschema/dtc warnings/errors:
-/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/media/i2c/isil,isl79987.example.dt.yaml: isl7998x_mipi@44: ports:port@0:endpoint: Unevaluated properties are not allowed ('clock-lanes', 'data-lanes' were unexpected)
-	From schema: /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/media/i2c/isil,isl79987.yaml
+Regards,
 
-doc reference errors (make refcheckdocs):
+Andrzej
 
-See https://patchwork.ozlabs.org/patch/1558453
-
-This check can fail if there are any dependencies. The base for a patch
-series is generally the most recent rc1.
-
-If you already ran 'make dt_binding_check' and didn't see the above
-error(s), then make sure 'yamllint' is installed and dt-schema is up to
-date:
-
-pip3 install dtschema --upgrade
-
-Please check and re-submit.
+> 
+>>> +		goto err_rst_assert;
+>>
+>> Before your patch is applied if clk_bulk_prepare() fails, we
+>> simply return on the spot. After the patch is applied not only
+>> do you...
+>>
+>>>    	}
+>>>    	ret = v4l2_device_register(&pdev->dev, &vpu->v4l2_dev);
+>>> @@ -1037,6 +1047,8 @@ static int hantro_probe(struct platform_device *pdev)
+>>>    	v4l2_device_unregister(&vpu->v4l2_dev);
+>>>    err_clk_unprepare:
+>>>    	clk_bulk_unprepare(vpu->variant->num_clocks, vpu->clocks);
+>>> +err_rst_assert:
+>>> +	reset_control_assert(vpu->resets);
+>>
+>> ...revert the effect of reset_control_deassert(), you also...
+>>
+>>>    	pm_runtime_dont_use_autosuspend(vpu->dev);
+>>>    	pm_runtime_disable(vpu->dev);
+>>
+>> ... do pm_*() stuff. Is there any reason why this is needed?
+> 
+> So, yes, it's needed, but you're correct to spot that it's not
+> consistent.
+> 
+> regards,
+> dan carpenter
+> 
 
