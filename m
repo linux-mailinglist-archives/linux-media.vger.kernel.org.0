@@ -2,106 +2,145 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3879545A6E6
-	for <lists+linux-media@lfdr.de>; Tue, 23 Nov 2021 16:54:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 24C2645A780
+	for <lists+linux-media@lfdr.de>; Tue, 23 Nov 2021 17:22:43 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234403AbhKWP6C (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 23 Nov 2021 10:58:02 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54640 "EHLO
+        id S235333AbhKWQZt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 23 Nov 2021 11:25:49 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32964 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230026AbhKWP6C (ORCPT
+        with ESMTP id S230197AbhKWQZs (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 23 Nov 2021 10:58:02 -0500
-Received: from mail-wm1-x331.google.com (mail-wm1-x331.google.com [IPv6:2a00:1450:4864:20::331])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B4FC7C061574
-        for <linux-media@vger.kernel.org>; Tue, 23 Nov 2021 07:54:53 -0800 (PST)
-Received: by mail-wm1-x331.google.com with SMTP id y196so19140362wmc.3
-        for <linux-media@vger.kernel.org>; Tue, 23 Nov 2021 07:54:53 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ragnatech-se.20210112.gappssmtp.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=jVC8DNnSzPKsuhQfh7QreEU+ZM/Yxny8aN8089Ci8dk=;
-        b=wspxmW92GjSaH2SBmxGU76BYJ9LdeUbn1Fa5LH6M+7ZmWkTIyDVVPcoWqUb7Y1ajce
-         7YTEtU4hUtfCZ0+dWG3/5ccOIpEoSeAwNcXHsCtnm5WIRW5IyBTKciwzjhCsEPtlr97B
-         PUFcgsNtZXTw+FIY9xjWaeAvLn0Wx6JaPek2ZRHIicuMNQWhBuZ8/im2hmPSz7/oqZyP
-         qJNMBS0IrI8mL6UWBIIgmkzQMxA1RGLAOdYy3g6lYD4/9kgCJr6lBF/0MhJ6oOqDq8/B
-         J99729SAXu+4tMQQZycX51nsToLkylkPxmv0N+d+jYyW2F8kemInSfiPKpqBO4nD5Hjd
-         Masw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=jVC8DNnSzPKsuhQfh7QreEU+ZM/Yxny8aN8089Ci8dk=;
-        b=q9OHZSHzLfF2pSjjByXrR1gTr6jfYBB1tpwptOcJAS4KEaO94Yte4RepB+WWnX1Xm6
-         e/3FuiT3AizysnIOdUZOBsPt/Ave9KCYbr28RMqPlshyBdjKL5+XEp0mfvau6FW3bL8z
-         wb8dIzSR9NGRhOKXPg6XEvTAbnMSa3mwn+2uwHP9FvY6kA3h39P8bU6iY3kmIsnFpuQ8
-         aeRF7n4CSLE24Igo3ruH2WvgRVSwxL/eSw/CJqjPOr0gK01XPu/s3ZitKStDU0RKj1Hb
-         QRz5UMO0+R/iXtzOtKlQzSnfgr5KPYbQGARXw2mM2YFX0ohzRTRfUQvkdE/OriwaSVX1
-         bY1g==
-X-Gm-Message-State: AOAM532UaQiVDhEKd9gDfe4+3/ZCNZG3F2oMlMYXzoe1vDHuOeSJGdki
-        oFGueoe+S/1XYxDqD2yNNqHXEA==
-X-Google-Smtp-Source: ABdhPJy5cPjOfn2fc4Kj96DEdWUZNJCQ+8T/EaPTINd96qK7y9h2zSimYmlBydU7sQSCQVlVMNmpxQ==
-X-Received: by 2002:a7b:c194:: with SMTP id y20mr4391692wmi.2.1637682892349;
-        Tue, 23 Nov 2021 07:54:52 -0800 (PST)
-Received: from bismarck.berto.se (p54ac5892.dip0.t-ipconnect.de. [84.172.88.146])
-        by smtp.googlemail.com with ESMTPSA id i15sm1892892wmq.18.2021.11.23.07.54.51
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 23 Nov 2021 07:54:52 -0800 (PST)
-From:   =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>
-To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        linux-media@vger.kernel.org
-Cc:     linux-renesas-soc@vger.kernel.org,
-        =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>
-Subject: [PATCH] rcar-vin: Add check for completed capture before completing buffer
-Date:   Tue, 23 Nov 2021 16:54:43 +0100
-Message-Id: <20211123155443.3705143-1-niklas.soderlund+renesas@ragnatech.se>
-X-Mailer: git-send-email 2.34.0
+        Tue, 23 Nov 2021 11:25:48 -0500
+Received: from sipsolutions.net (s3.sipsolutions.net [IPv6:2a01:4f8:191:4433::2])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CF565C061574;
+        Tue, 23 Nov 2021 08:22:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=sipsolutions.net; s=mail; h=Content-Transfer-Encoding:MIME-Version:
+        Content-Type:References:In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Sender
+        :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-To:
+        Resent-Cc:Resent-Message-ID; bh=T+McMKyDOKDOU+PBL1nHadWch3B4nQMaS2x2M/9vBbU=;
+        t=1637684559; x=1638894159; b=FZEKOi6ePb4qAW001XGN4ny0EAoQKUvK8czoKry60NRVFzj
+        GV9whpuel/QM1aCcfKZHf0A+Qnd2klugIEob4O0iWYkeUez0tj7rv2BGMitJ9SLYmaUOeOerRPq2i
+        y3OfSeSD+T1VyLS+k7/oNlrZAyccxgdW3InWGzLn6OoEKkmkb09Mnh4iEBR0k5Cj00ivPbiOWqQ/r
+        HFQne/h8c/BMzABbNFIJgbGZZ1nTbcG/DieqFxLMJ2AhwFiflqenOx4vLewVH9IPtS9Li056PYE6R
+        dTlYnezaO43hV8/3veGAgX2ehkv5fUZSFFWRRMPnnb9FQb5h58WdHgHdnyiz097g==;
+Received: by sipsolutions.net with esmtpsa (TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
+        (Exim 4.95)
+        (envelope-from <johannes@sipsolutions.net>)
+        id 1mpYYB-001ofh-UH;
+        Tue, 23 Nov 2021 17:21:44 +0100
+Message-ID: <12825803045d1cec0df968f72a9ef2724a2548fb.camel@sipsolutions.net>
+Subject: Re: [PATCH 01/17] bitfield: Add non-constant field_{prep,get}()
+ helpers
+From:   Johannes Berg <johannes@sipsolutions.net>
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     Tony Lindgren <tony@atomide.com>,
+        Russell King <linux@armlinux.org.uk>,
+        Rajendra Nayak <rnayak@codeaurora.org>,
+        Paul Walmsley <paul@pwsan.com>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Nicolas Ferre <nicolas.ferre@microchip.com>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Ludovic Desroches <ludovic.desroches@microchip.com>,
+        Tero Kristo <kristo@kernel.org>,
+        Jonathan Cameron <jic23@kernel.org>,
+        Lars-Peter Clausen <lars@metafoo.de>,
+        Lorenzo Bianconi <lorenzo.bianconi83@gmail.com>,
+        Benoit Parrot <bparrot@ti.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Adrian Hunter <adrian.hunter@intel.com>,
+        Andrew Jeffery <andrew@aj.id.au>,
+        Ulf Hansson <ulf.hansson@linaro.org>,
+        Joel Stanley <joel@jms.id.au>,
+        Ping-Ke Shih <pkshih@realtek.com>,
+        Kalle Valo <kvalo@codeaurora.org>,
+        "David S . Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Mark Brown <broonie@kernel.org>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Eduardo Valentin <edubezval@gmail.com>,
+        Keerthy <j-keerthy@ti.com>,
+        "Rafael J . Wysocki" <rafael@kernel.org>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        Amit Kucheria <amitk@kernel.org>,
+        Zhang Rui <rui.zhang@intel.com>,
+        Jaroslav Kysela <perex@perex.cz>,
+        Takashi Iwai <tiwai@suse.com>,
+        linux-arm-kernel@lists.infradead.org, linux-omap@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-clk@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org, linux-iio@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-mmc@vger.kernel.org,
+        linux-aspeed@lists.ozlabs.org, openbmc@lists.ozlabs.org,
+        linux-wireless@vger.kernel.org, netdev@vger.kernel.org,
+        linux-gpio@vger.kernel.org, linux-pm@vger.kernel.org,
+        alsa-devel@alsa-project.org
+Date:   Tue, 23 Nov 2021 17:21:41 +0100
+In-Reply-To: <CAMuHMdUnBgFpqhgjf5AA0LH9MZOFALeC=YinZ4Tv_V+Y9hkRSg@mail.gmail.com>
+References: <cover.1637592133.git.geert+renesas@glider.be>
+         <3a54a6703879d10f08cf0275a2a69297ebd2b1d4.1637592133.git.geert+renesas@glider.be>
+         <01b44b38c087c151171f8d45a2090474c2559306.camel@sipsolutions.net>
+         <CAMuHMdUnBgFpqhgjf5AA0LH9MZOFALeC=YinZ4Tv_V+Y9hkRSg@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.42.1 (3.42.1-1.fc35) 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
+X-malware-bazaar: not-scanned
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Before reading which slot was captured to by examining the module status
-(VnMS) register, make sure something was captured at all by examining
-the interrupt status register (VnINTS).
+On Tue, 2021-11-23 at 09:30 +0100, Geert Uytterhoeven wrote:
+> > We have the upper-case (constant) versions, and already
+> > {u32,...}_get_bits()/etc.
+> 
+> These don't work for non-const masks.
 
-Failing this a buffer maybe completed before it was captured too.
+Obviously, I know that. Still, just saying.
 
-Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
----
- drivers/media/platform/rcar-vin/rcar-dma.c | 7 +++++++
- 1 file changed, 7 insertions(+)
+I'm actually in the opposite camp to you I guess - I much prefer the
+typed versions (u32_get_bits() and friends) over the FIELD_GET() macros
+that are more magic.
 
-diff --git a/drivers/media/platform/rcar-vin/rcar-dma.c b/drivers/media/platform/rcar-vin/rcar-dma.c
-index 25ead9333d0046e7..87ccbdc3d11a0f2d 100644
---- a/drivers/media/platform/rcar-vin/rcar-dma.c
-+++ b/drivers/media/platform/rcar-vin/rcar-dma.c
-@@ -111,6 +111,9 @@
- #define VNIE_FIE		(1 << 4)
- #define VNIE_EFE		(1 << 1)
- 
-+/* Video n Interrupt Status Register bits */
-+#define VNINTS_FIS		(1 << 4)
-+
- /* Video n Data Mode Register bits */
- #define VNDMR_A8BIT(n)		(((n) & 0xff) << 24)
- #define VNDMR_A8BIT_MASK	(0xff << 24)
-@@ -1005,6 +1008,10 @@ static irqreturn_t rvin_irq(int irq, void *data)
- 	rvin_ack_interrupt(vin);
- 	handled = 1;
- 
-+	/* Nothing to do if nothing was captured. */
-+	if (!(int_status & VNINTS_FIS))
-+		goto done;
-+
- 	/* Nothing to do if capture status is 'STOPPED' */
- 	if (vin->state == STOPPED) {
- 		vin_dbg(vin, "IRQ while state stopped\n");
--- 
-2.34.0
+Mostly though that's because the typed ones also have le32_/be32_/...
+variants, which are tremendously useful, and so I prefer to use them all
+across. In fact, I have considered in the past to just remove the upper-
+case macros entirely but ... no time I guess.
 
+> > Also, you're using __ffs(), which doesn't work for 64-bit on 32-bit
+> > architectures (afaict), so that seems a bit awkward.
+> 
+> That's a valid comment. Can be fixed by using a wrapper macro
+> that checks if typeof(mask) == u64, and uses an __ffs64() version when
+> needed.
+
+You can't really do a typeof()==something, but you can check the size,
+so yeah, that could be done.
+
+> > Maybe we can make {u32,...}_get_bits() be doing compile-time only checks
+> > if it is indeed a constant? The __field_overflow() usage is already only
+> > done if __builtin_constant_p(v), so I guess we can do the same with
+> > __bad_mask()?
+> 
+> Are all compilers smart enough to replace the division by
+> field_multiplier(field) by a shift?
+
+In the constant case they are, but you'd have to replace
+field_multiplier() with the __ffs(), including the size check discussed
+above. Then it's no longer a constant, and then I'm not so sure it would
+actually be able to translate it, even if it's "1<<__ffs64(...)". I
+guess you can check, or just change it to not use the division and
+multiplication, but shifts/masks instead manually?
+
+IOW - I would much prefer to make the type_get_bits() and friends work
+for non-constant masks.
+
+In fact, you have e.g. code in drivers/usb/chipidea/udc.c that does
+things like cpu_to_le32(mul << __ffs(...)) - though in those cases it's
+actually constant today, so you could already write it as
+le32_encode_bits(...).
+
+johannes
