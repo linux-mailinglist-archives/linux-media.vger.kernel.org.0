@@ -2,154 +2,186 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A107F45B66F
-	for <lists+linux-media@lfdr.de>; Wed, 24 Nov 2021 09:24:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D575845B68E
+	for <lists+linux-media@lfdr.de>; Wed, 24 Nov 2021 09:31:25 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241324AbhKXI1a (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 24 Nov 2021 03:27:30 -0500
-Received: from so254-9.mailgun.net ([198.61.254.9]:13243 "EHLO
-        so254-9.mailgun.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241317AbhKXI13 (ORCPT
+        id S239950AbhKXIed (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 24 Nov 2021 03:34:33 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53672 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229754AbhKXIed (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 24 Nov 2021 03:27:29 -0500
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
- s=smtp; t=1637742260; h=Content-Type: MIME-Version: Message-ID:
- In-Reply-To: Date: References: Subject: Cc: To: From: Sender;
- bh=DLx8xZfugkoYBeo1v25B565K1wJJHlGolp3uooimdG4=; b=bNsxTrQyq9uGwuB3f2LyEcxsvAp9kD/C4fNIuYqL7wdR0INGNqkdkYAL6AQiYP+HKysGkv73
- CYHsPEgeVXDeFd7bJYmMA7Oz/1YUg44l72wHEEI5ntB8TnM3GEkzY/SvktnbEJA3SoSt3f0S
- PcTzk1aHGKk317FKx2i3qMH1ytk=
-X-Mailgun-Sending-Ip: 198.61.254.9
-X-Mailgun-Sid: WyI3ZjU0NiIsICJsaW51eC1tZWRpYUB2Z2VyLmtlcm5lbC5vcmciLCAiYmU5ZTRhIl0=
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n04.prod.us-east-1.postgun.com with SMTP id
- 619df6b3e7d68470afb0244a (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Wed, 24 Nov 2021 08:24:19
- GMT
-Sender: kvalo=codeaurora.org@mg.codeaurora.org
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
-        id EBD19C4338F; Wed, 24 Nov 2021 08:24:18 +0000 (UTC)
-X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
-        aws-us-west-2-caf-mail-1.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED,BAYES_00,SPF_FAIL
-        autolearn=no autolearn_force=no version=3.4.0
-Received: from tykki (tynnyri.adurom.net [51.15.11.48])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        (Authenticated sender: kvalo)
-        by smtp.codeaurora.org (Postfix) with ESMTPSA id 02E23C4338F;
-        Wed, 24 Nov 2021 08:24:05 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.codeaurora.org 02E23C4338F
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; spf=fail smtp.mailfrom=codeaurora.org
-From:   Kalle Valo <kvalo@codeaurora.org>
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Johannes Berg <johannes@sipsolutions.net>,
-        Tony Lindgren <tony@atomide.com>,
-        Russell King <linux@armlinux.org.uk>,
-        Rajendra Nayak <rnayak@codeaurora.org>,
-        Paul Walmsley <paul@pwsan.com>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Nicolas Ferre <nicolas.ferre@microchip.com>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Ludovic Desroches <ludovic.desroches@microchip.com>,
-        Tero Kristo <kristo@kernel.org>,
-        Jonathan Cameron <jic23@kernel.org>,
-        Lars-Peter Clausen <lars@metafoo.de>,
-        Lorenzo Bianconi <lorenzo.bianconi83@gmail.com>,
-        Benoit Parrot <bparrot@ti.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Adrian Hunter <adrian.hunter@intel.com>,
-        Andrew Jeffery <andrew@aj.id.au>,
-        Ulf Hansson <ulf.hansson@linaro.org>,
-        Joel Stanley <joel@jms.id.au>,
-        Ping-Ke Shih <pkshih@realtek.com>,
-        "David S . Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Mark Brown <broonie@kernel.org>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Eduardo Valentin <edubezval@gmail.com>,
-        Keerthy <j-keerthy@ti.com>,
-        "Rafael J . Wysocki" <rafael@kernel.org>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Amit Kucheria <amitk@kernel.org>,
-        Zhang Rui <rui.zhang@intel.com>,
-        Jaroslav Kysela <perex@perex.cz>,
-        Takashi Iwai <tiwai@suse.com>,
-        linux-arm-kernel@lists.infradead.org, linux-omap@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-clk@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org, linux-iio@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-mmc@vger.kernel.org,
-        linux-aspeed@lists.ozlabs.org, openbmc@lists.ozlabs.org,
-        linux-wireless@vger.kernel.org, netdev@vger.kernel.org,
-        linux-gpio@vger.kernel.org, linux-pm@vger.kernel.org,
-        alsa-devel@alsa-project.org
-Subject: Re: [PATCH 01/17] bitfield: Add non-constant field_{prep,get}() helpers
-References: <cover.1637592133.git.geert+renesas@glider.be>
-        <3a54a6703879d10f08cf0275a2a69297ebd2b1d4.1637592133.git.geert+renesas@glider.be>
-        <01b44b38c087c151171f8d45a2090474c2559306.camel@sipsolutions.net>
-        <CAMuHMdUnBgFpqhgjf5AA0LH9MZOFALeC=YinZ4Tv_V+Y9hkRSg@mail.gmail.com>
-Date:   Wed, 24 Nov 2021 10:24:02 +0200
-In-Reply-To: <CAMuHMdUnBgFpqhgjf5AA0LH9MZOFALeC=YinZ4Tv_V+Y9hkRSg@mail.gmail.com>
-        (Geert Uytterhoeven's message of "Tue, 23 Nov 2021 09:30:14 +0100")
-Message-ID: <87sfvm55ct.fsf@codeaurora.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.1 (gnu/linux)
+        Wed, 24 Nov 2021 03:34:33 -0500
+Received: from mail-lj1-x22a.google.com (mail-lj1-x22a.google.com [IPv6:2a00:1450:4864:20::22a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F420BC061574
+        for <linux-media@vger.kernel.org>; Wed, 24 Nov 2021 00:31:23 -0800 (PST)
+Received: by mail-lj1-x22a.google.com with SMTP id d11so3767812ljg.8
+        for <linux-media@vger.kernel.org>; Wed, 24 Nov 2021 00:31:23 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:in-reply-to:references
+         :mime-version;
+        bh=9QzHPaMf6KRbXd4c4t+AUDzNgI46GuaQ0qVzcfg+5ak=;
+        b=cfNoIAgdjr2vuzJy8dzIduVLUI9dJ/3A+l5rtJuEmnugIh8sVvIx5c5SsHz+7FzwmK
+         j0yF6XmIUI3gZ1BwCOOSQ/F7q2N+jFhC5btuUX7S58GnRIaayKM3O0q0CFh+4fkG/y9r
+         cdIZdvmeHbaiMfXCOH/QrGNmbdkVllBcGAFfDdKxkjqg6G3DOQXrhtWCs4knuCQqpD2D
+         jTYjYA374KGb45KmFf1B/TrAuj2ouyyaYK/dZK6S1yoeFcYz8fEVHKLm/bHrssUrgaV0
+         6SB9CH80vw4vYoU6FBfWbsiYfVNbwt52McsxE3SxTb/kff2sjYUpxE4aD4asi2kKW+u2
+         B4tw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+         :references:mime-version;
+        bh=9QzHPaMf6KRbXd4c4t+AUDzNgI46GuaQ0qVzcfg+5ak=;
+        b=ZOi5iZ6QxjPRIm5LST7AtV/yhBfYdZI8xfUQYwosILozJ1j79DbMTedKCbPTYa5sU8
+         FxgIV/yvgA5JEvypGzyGWX6DP3uS6Kx3pn60lVU39T6ERy4dGxASabMVmo96Xu/tZQ5V
+         P7NpwKlbFLlYWz+voeNzLRvg5ZfcAbu45W5B6dANttyn9g0wlldM0voHb0cbnS+Gq+lE
+         5T49XGwNzdqevdZZdLnjYz5QsoogQ8ZV6ccM0ybtb78FrDIDToATDt8EHXW3j/YwMdXv
+         ++1ChpRYLoU1Yeb+vqeH83px0NwRwlK+78Te0jr+i+ddGDlGBy8fgaorYIkY61CSddRX
+         SLfA==
+X-Gm-Message-State: AOAM533pi4kwBz7WUD5BHJbZP+E9PRxQZkyAQcrsZl2JT448tIyQGT/X
+        gnofC3QeJIpc8eqvDeJ5Vh4=
+X-Google-Smtp-Source: ABdhPJzsbO9NE/psN99YQpJyAjFRLxK170wOebG+qscF4lV2V/VYDhaYpcE4koPHwUuAX0tl8DwncQ==
+X-Received: by 2002:a2e:b01a:: with SMTP id y26mr12707319ljk.317.1637742682147;
+        Wed, 24 Nov 2021 00:31:22 -0800 (PST)
+Received: from eldfell ([194.136.85.206])
+        by smtp.gmail.com with ESMTPSA id bq39sm1542589lfb.262.2021.11.24.00.31.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 24 Nov 2021 00:31:21 -0800 (PST)
+Date:   Wed, 24 Nov 2021 10:31:11 +0200
+From:   Pekka Paalanen <ppaalanen@gmail.com>
+To:     "Christian =?UTF-8?B?S8O2bmln?=" <ckoenig.leichtzumerken@gmail.com>
+Cc:     sumit.semwal@linaro.org, daniel@ffwll.ch,
+        linaro-mm-sig@lists.linaro.org, dri-devel@lists.freedesktop.org,
+        linux-media@vger.kernel.org
+Subject: Re: completely rework the dma_resv semantic
+Message-ID: <20211124103111.17b08d79@eldfell>
+In-Reply-To: <20211123142111.3885-1-christian.koenig@amd.com>
+References: <20211123142111.3885-1-christian.koenig@amd.com>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: multipart/signed; boundary="Sig_/DfNwimGh+=2lwPx.jwlLdcA";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Geert Uytterhoeven <geert@linux-m68k.org> writes:
+--Sig_/DfNwimGh+=2lwPx.jwlLdcA
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-> Hi Johannes,
->
-> On Mon, Nov 22, 2021 at 5:33 PM Johannes Berg <johannes@sipsolutions.net> wrote:
->> On Mon, 2021-11-22 at 16:53 +0100, Geert Uytterhoeven wrote:
->> > The existing FIELD_{GET,PREP}() macros are limited to compile-time
->> > constants.  However, it is very common to prepare or extract bitfield
->> > elements where the bitfield mask is not a compile-time constant.
->> >
->>
->> I'm not sure it's really a good idea to add a third API here?
->>
->> We have the upper-case (constant) versions, and already
->> {u32,...}_get_bits()/etc.
->
-> These don't work for non-const masks.
->
->> Also, you're using __ffs(), which doesn't work for 64-bit on 32-bit
->> architectures (afaict), so that seems a bit awkward.
->
-> That's a valid comment. Can be fixed by using a wrapper macro
-> that checks if typeof(mask) == u64, and uses an __ffs64() version when
-> needed.
->
->> Maybe we can make {u32,...}_get_bits() be doing compile-time only checks
->> if it is indeed a constant? The __field_overflow() usage is already only
->> done if __builtin_constant_p(v), so I guess we can do the same with
->> __bad_mask()?
->
-> Are all compilers smart enough to replace the division by
-> field_multiplier(field) by a shift?
+On Tue, 23 Nov 2021 15:20:45 +0100
+"Christian K=C3=B6nig" <ckoenig.leichtzumerken@gmail.com> wrote:
 
-It looks like the answer is no as few weeks back I received a comment
-internally that a team is seeing a slow down with u32_get_bits():
+> Hi guys,
+>=20
+> as discussed before this set of patches completely rework the dma_resv se=
+mantic
+> and spreads the new handling over all the existing drivers and users.
+>=20
+> First of all this drops the DAG approach because it requires that every s=
+ingle
+> driver implements those relatively complicated rules correctly and any
+> violation of that immediately leads to either corruption of freed memory =
+or
+> even more severe security problems.
+>=20
+> Instead we just keep all fences around all the time until they are signal=
+ed.
+> Only fences with the same context are assumed to be signaled in the corre=
+ct
+> order since this is exercised elsewhere as well. Replacing fences is now =
+only
+> supported for hardware mechanism like VM page table updates where the har=
+dware
+> can guarantee that the resource can't be accessed any more.
+>=20
+> Then the concept of a single exclusive fence and multiple shared fences is
+> dropped as well.
+>=20
+> Instead the dma_resv object is now just a container for dma_fence objects=
+ where
+> each fence has associated usage flags. Those use flags describe how the
+> operation represented by the dma_fence object is using the resource prote=
+cted
+> by the dma_resv object. This allows us to add multiple fences for each us=
+age
+> type.
+>=20
+> Additionally to the existing WRITE/READ usages this patch set also adds t=
+he new
+> KERNEL and OTHER usages. The KERNEL usages is used in cases where the ker=
+nel
+> needs to do some operation with the resource protected by the dma_resv ob=
+ject,
+> like copies or clears. Those are mandatory to wait for when dynamic memory
+> management is used.
+>=20
+> The OTHER usage is for cases where we don't want that the operation repre=
+sented
+> by the dma_fence object participate in any implicit sync but needs to be
+> respected by the kernel memory management. Examples for those are VM page=
+ table
+> updates and preemption fences.
 
-"Time taken for executing both the macros/inline function (in terms of microseconds)
-(out of 3 Trails)
-FIELD_GET	: 32, 31, 32
-u32_get_bits	: 6379, 6664, 6558"
+Hi,
 
-Sadly I didn't realise to ask what compiler they were using. But I still
-prefer {u32,...}_get_bits() over FIELD_GET(), they are just so much
-cleaner to use.
+reading just the cover letter I wonder if KERNEL and OTHER could have
+better names based on what you describe how they are used. WRITE and
+READ immediately give an idea of semantics, KERNEL and OTHER not so
+much.
 
--- 
-https://patchwork.kernel.org/project/linux-wireless/list/
+Some suggestions coming to my mind:
 
-https://wireless.wiki.kernel.org/en/developers/documentation/submittingpatches
+KERNEL -> PREPARE or INITIALIZE or SANITIZE
+OTHER -> BOOKKEEP
+
+
+Thanks,
+pq
+
+> While doing this the new implementation cleans up existing workarounds al=
+l over
+> the place, but especially amdgpu and TTM. Surprisingly I also found two u=
+se
+> cases for the KERNEL/OTHER usage in i915 and Nouveau, those might need mo=
+re
+> thoughts.
+>=20
+> In general the existing functionality should been preserved, the only dow=
+nside
+> is that we now always need to reserve a slot before adding a fence. The n=
+ewly
+> added call to the reservation function can probably use some more cleanup.
+>=20
+> TODOs: Testing, testing, testing, doublechecking the newly added
+> kerneldoc for any typos.
+>=20
+> Please review and/or comment,
+> Christian.
+>=20
+>=20
+
+
+--Sig_/DfNwimGh+=2lwPx.jwlLdcA
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmGd+E8ACgkQI1/ltBGq
+qqd7pw/8CgOq2ENKfC/ISZ8VHDti6Qp+DlYeGrcP6oXRHnjLi9hTbKCh9AsYb6QB
+kj4PdiR0eE50ArXYYoQcd30jbHkNAitnZH4sv9i4r7b+bxlXivaEL3aha43FFh7b
+UrI68GIqc1JhY+w4cNaml9yBx3rlsjihc51xU2t4rcDTaflKPAJ4HU0MriIJOfeh
+fW/OKP7D5dvnL5m6G3H9YIb5tTIRMjbYhYSASijXdAsHjhvMYnjzBQoMwDrk5x39
+3ry1tw1domo4tMsTTrPrbKk4IrsqHqnIeefdRYdMQxqaVwmj8SBVc74KEHtawxIn
+o+w52KBsB1S+17PDA2s19q7cjqAd7aF9mehza2PrTZ2EI7WOrrlACQAqKOx3JUkU
+s/tlhds9woDzJrc6DEoart8Zqc7vHSPPZZQT9BN3gq3mQneIP3XzydOFrmgSUGsX
+EeN89o3VU0ykvyV+1jCtsLyF295G65GtdahjUlF00iiOTBW7g5pSD3AcAFqk5MgC
+gbZDQTcXC1nxtZzg5O5I4EDP7VwklVYjZaAfs3lxEFOwU02k2n+fCYeFuoVBh3vR
+NcrgN60mqTzkBHlMRZ4WirssrBood9F6Ond5ZQ9xnxoq/fu9YS3cR8SJNUwKG4n3
+c+XO0i7elp/TpW/b5+J4tobIq3z7SqGVp/aYlsH8JGwhSXULsXI=
+=oYTH
+-----END PGP SIGNATURE-----
+
+--Sig_/DfNwimGh+=2lwPx.jwlLdcA--
