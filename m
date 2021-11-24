@@ -2,96 +2,96 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 35D2B45C91F
-	for <lists+linux-media@lfdr.de>; Wed, 24 Nov 2021 16:47:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 512A645C984
+	for <lists+linux-media@lfdr.de>; Wed, 24 Nov 2021 17:05:24 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242021AbhKXPuV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 24 Nov 2021 10:50:21 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38354 "EHLO
+        id S242598AbhKXQIc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 24 Nov 2021 11:08:32 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42670 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232464AbhKXPuV (ORCPT
+        with ESMTP id S229849AbhKXQIb (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 24 Nov 2021 10:50:21 -0500
-Received: from lb1-smtp-cloud7.xs4all.net (lb1-smtp-cloud7.xs4all.net [IPv6:2001:888:0:108::1a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 84475C061574
-        for <linux-media@vger.kernel.org>; Wed, 24 Nov 2021 07:47:11 -0800 (PST)
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud7.xs4all.net with ESMTPA
-        id puUDmg0nyCMnApuUGmwarS; Wed, 24 Nov 2021 16:47:09 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1637768829; bh=T7Aj/ep1xaktQSpMVXu8sCHEqVw+/2CbceT0AI8RIcQ=;
-        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=jjANxp77wXBz+xC6/FT+5BNvYTjoQ1IPmoXJY9HVS2sqapUyCvBXVp8E379DZk7Tc
-         vp1wpHkw7uQD5QINwmIoSTqMZDHi7RLG4484gHzewDmQ4qspQIcIxRhJecxXX+xYTZ
-         5aNqyrm2joh2DB5OKguirRxt8WJuAyHp+KfNZ+5cURgF2gqUiqWb7tERuGKTYa3Qct
-         zuK+FctDJrRV7Cb6DiP07hN1o33K2ROqQjwHL4W99TdtOu7ST3LMEC5VoTHTg2MOFE
-         qMZE2Z25AVyVunb3Y1YNY+0S+gMoxr6wySWjpJGy5hEawasg87cxMzndWtDeP0TSt6
-         u31auNaMD8BNg==
-Subject: Re: [PATCH v2 2/2] media: videobuf2: add WARN_ON if bytesused is
- bigger than buffer length
-To:     Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
-        linux-media@vger.kernel.org
-Cc:     kernel@collabora.com, laurent.pinchart@ideasonboard.com,
-        dafna3@gmail.com, sakari.ailus@linux.intel.com, mchehab@kernel.org
-References: <20211111152640.1537-1-dafna.hirschfeld@collabora.com>
- <20211111152640.1537-3-dafna.hirschfeld@collabora.com>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <bad9cd33-7cff-6966-9e4d-da1f0be5df9b@xs4all.nl>
-Date:   Wed, 24 Nov 2021 16:47:04 +0100
+        Wed, 24 Nov 2021 11:08:31 -0500
+Received: from mail-lf1-x133.google.com (mail-lf1-x133.google.com [IPv6:2a00:1450:4864:20::133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CD832C061574;
+        Wed, 24 Nov 2021 08:05:21 -0800 (PST)
+Received: by mail-lf1-x133.google.com with SMTP id b1so8438914lfs.13;
+        Wed, 24 Nov 2021 08:05:21 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=XaZL1gqGefL3we/nKaFes+6q80QBPA1qm8dyiAwLJtk=;
+        b=JvocAoplJmBKFZX3YppjDDIfPCn6erSoH/8cS7ieRxpQvQU9lkBGkVm/twRJKwnLhu
+         I3BawiPYHkOHcDVlzVnkPhrkWTWKwxw+ZCKJIQTMWvN4H09wJnKg/7wBq/6yyB/reMHA
+         8bkNbqQHBWnpBQc7yJBzYiNsqDKjuoRVm5cYDqha+zcWXW5W64aR2B9TSsisc4JX4Jno
+         PUBqy+Docg631q5XAV1+VX1TPXXgnViDug3VSGocGH44cyDbXvBEX/eRpH5oDJIwO1or
+         mVXtQd9ICqWNgl18w6E6hbGq8KSnJ4sGIrdjJLiXOTIomzt9KvYWlIVJc2hzJ0eP+bnP
+         Sw1g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=XaZL1gqGefL3we/nKaFes+6q80QBPA1qm8dyiAwLJtk=;
+        b=BUvFmY91WEQ92+nwjQJCZ3RAXzN19kTkGrEqZQd+6syMiCCGYZEKfdXDNdaS+CKxNZ
+         ee19CWbI+NUo+oGkjXu5kE9B+3eRU+HucTkQVeAcGR1tiyK1SAQ8M8V4L6mzVBG/wdnM
+         LqBxA0nB2AF8OwfnDGxTE64udMgR60N0TDA9n7krb4FKyZykLr890Mo/25ZeWr6acVzm
+         39TH2GSirUS9IK/eMCXBXa3i79p9JnqWOYCcJfZWG2yVUjRPRn8bCq0frwOSPemWXfkJ
+         OkhVuPGaT9LoHh22JHUgiJGtC31tOgayfK+REmdqRXWrtcTHF6gQqr8G7k8x0ZMgDQB+
+         3JCA==
+X-Gm-Message-State: AOAM532kyKmue0y4xyhyr7CQ47OeJNwj4z+y/xDff8om9GRBEe33tV1A
+        MFB30NB92Bug3BHCS+wPPao=
+X-Google-Smtp-Source: ABdhPJxrdgHea8Krc6d9ZfZFMLQzyWZ6L75uGZec6KisbMsGo8JOFKZjsX4oRJUwAnPRr3c0zWOsZw==
+X-Received: by 2002:a19:5e59:: with SMTP id z25mr16017187lfi.686.1637769919078;
+        Wed, 24 Nov 2021 08:05:19 -0800 (PST)
+Received: from [192.168.2.145] (94-29-48-99.dynamic.spd-mgts.ru. [94.29.48.99])
+        by smtp.googlemail.com with ESMTPSA id e14sm25124lfs.150.2021.11.24.08.05.18
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 24 Nov 2021 08:05:18 -0800 (PST)
+Subject: Re: [PATCH v2] i2c: tegra: Add ACPI support
+To:     Akhil R <akhilrajeev@nvidia.com>,
+        "andy.shevchenko@gmail.com" <andy.shevchenko@gmail.com>,
+        "christian.koenig@amd.com" <christian.koenig@amd.com>,
+        "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Laxman Dewangan <ldewangan@nvidia.com>,
+        "linaro-mm-sig@lists.linaro.org" <linaro-mm-sig@lists.linaro.org>,
+        "linux-i2c@vger.kernel.org" <linux-i2c@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+        "linux-tegra@vger.kernel.org" <linux-tegra@vger.kernel.org>,
+        "p.zabel@pengutronix.de" <p.zabel@pengutronix.de>,
+        "sumit.semwal@linaro.org" <sumit.semwal@linaro.org>,
+        "thierry.reding@gmail.com" <thierry.reding@gmail.com>
+Cc:     Shardar Mohammed <smohammed@nvidia.com>
+References: <1637328734-20576-1-git-send-email-akhilrajeev@nvidia.com>
+ <1637651753-5067-1-git-send-email-akhilrajeev@nvidia.com>
+ <eebf20ea-6a7f-1120-5ad8-b6dc1f9935e6@gmail.com>
+ <BN9PR12MB5273A7628D80076F4EF2CC69C0619@BN9PR12MB5273.namprd12.prod.outlook.com>
+From:   Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <b06a5072-f0f4-c9f9-f9a2-8d76b4432415@gmail.com>
+Date:   Wed, 24 Nov 2021 19:05:17 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Firefox/78.0 Thunderbird/78.14.0
+ Thunderbird/78.14.0
 MIME-Version: 1.0
-In-Reply-To: <20211111152640.1537-3-dafna.hirschfeld@collabora.com>
+In-Reply-To: <BN9PR12MB5273A7628D80076F4EF2CC69C0619@BN9PR12MB5273.namprd12.prod.outlook.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4xfH+hWOFKNxvwGnLa0XATOzxlWtWFL1UvWDynLcMNtz5fehXKuSFV0TFnoT9rxHBSkZhFXdUu1vR+O1rSzmAQ4M8IvgO2wcarMWx2H76y7byoc2Lv33/R
- HsyOS4aeQz/xMiD+TDFrPW+KuUvMDCGMH5rwttzVU14yI+i+nwAvM3RMd82qh4vK1oyDAJUC5yPB+kwhERExW1AlOwl2I1DOJlTaXum5cpLjQaOE6VUvCg/+
- nHl3UKN9Ia/FxZCjeOz9eEsz2Jebt1so3Ww3BcDbd6LLjXCboKIhoqh3HZx9q2PakfKG5kbFiMFcdTY9nZFllgPZpGgii1jec3B8pA8lTtGV0QP5oLNYbmuq
- crMXbR1poV6VT/nBHvmQ/8QSgJH4jlbIhN877Y26SMUa27DInTVs95bHUeJGtpVrdAWsdzB6
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 11/11/2021 16:26, Dafna Hirschfeld wrote:
-> In function vb2_set_plane_payload, report if the
-> given bytesused is bigger than the buffer size,
-> and clamp it to the buffer size.
-> 
-> Signed-off-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
-> ---
->  include/media/videobuf2-core.h | 8 +++++++-
->  1 file changed, 7 insertions(+), 1 deletion(-)
-> 
-> diff --git a/include/media/videobuf2-core.h b/include/media/videobuf2-core.h
-> index 2467284e5f26..e06c190265f0 100644
-> --- a/include/media/videobuf2-core.h
-> +++ b/include/media/videobuf2-core.h
-> @@ -1155,8 +1155,14 @@ static inline void *vb2_get_drv_priv(struct vb2_queue *q)
->  static inline void vb2_set_plane_payload(struct vb2_buffer *vb,
->  				 unsigned int plane_no, unsigned long size)
->  {
-> -	if (plane_no < vb->num_planes)
-> +	/*
-> +	 * size must never be larger than the buffer length, so
-> +	 * warn and clamp to the buffer length if that's the case.
-> +	 */
-> +	if (plane_no < vb->num_planes) {
-> +		WARN_ON_ONCE(size > vb->planes[plane_no].length);
+24.11.2021 10:18, Akhil R пишет:
+>> *i2c_dev)
+>>>               i2c_dev->is_vi = true;
+>>>  }
+>> How are you going to differentiate the VI I2C from a non-VI? This doesn't look
+>> right.
+> This patch adds the ACPI support to only non-VI I2C. The device_ids in match table
+> are added accordingly. I suppose, of_device_is_compatible always returns false as 
+> there is no device tree. 
+> Agree with the other comments.
 
-This doesn't clamp size to the buffer length, so this needs to be added.
-
-Also, the subject talks about WARN_ON instead of WARN_ON_ONCE.
-
-Regards,
-
-	Hans
-
->  		vb->planes[plane_no].bytesused = size;
-> +	}
->  }
->  
->  /**
-> 
-
+Will the VI I2C have a different ACPI ID or how it's going to work?
