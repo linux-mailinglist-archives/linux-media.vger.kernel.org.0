@@ -2,94 +2,165 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2C47B45B311
-	for <lists+linux-media@lfdr.de>; Wed, 24 Nov 2021 05:20:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 72C0645B415
+	for <lists+linux-media@lfdr.de>; Wed, 24 Nov 2021 06:59:14 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240937AbhKXEXs (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 23 Nov 2021 23:23:48 -0500
-Received: from mga18.intel.com ([134.134.136.126]:45766 "EHLO mga18.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S238004AbhKXEXn (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Tue, 23 Nov 2021 23:23:43 -0500
-X-IronPort-AV: E=McAfee;i="6200,9189,10177"; a="222075447"
-X-IronPort-AV: E=Sophos;i="5.87,258,1631602800"; 
-   d="scan'208";a="222075447"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Nov 2021 20:20:31 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.87,258,1631602800"; 
-   d="scan'208";a="607057783"
-Received: from lkp-server02.sh.intel.com (HELO 9e1e9f9b3bcb) ([10.239.97.151])
-  by orsmga004.jf.intel.com with ESMTP; 23 Nov 2021 20:20:30 -0800
-Received: from kbuild by 9e1e9f9b3bcb with local (Exim 4.92)
-        (envelope-from <lkp@intel.com>)
-        id 1mpjll-0004IT-BN; Wed, 24 Nov 2021 04:20:29 +0000
-Date:   Wed, 24 Nov 2021 12:19:30 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     llvm@lists.linux.dev, kbuild-all@lists.01.org,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
-Subject: drivers/media/cec/platform/tegra/tegra_cec.c:455:34: warning: unused
- variable 'tegra_cec_of_match'
-Message-ID: <202111241201.cGFgCj9J-lkp@intel.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-User-Agent: Mutt/1.10.1 (2018-07-13)
+        id S233613AbhKXGCN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 24 Nov 2021 01:02:13 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48018 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S233411AbhKXGCM (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Wed, 24 Nov 2021 01:02:12 -0500
+Received: from lb1-smtp-cloud7.xs4all.net (lb1-smtp-cloud7.xs4all.net [IPv6:2001:888:0:108::1a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C2194C061574
+        for <linux-media@vger.kernel.org>; Tue, 23 Nov 2021 21:59:03 -0800 (PST)
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud7.xs4all.net with ESMTPA
+        id plJ1mc4e9CMnAplJ6muLkl; Wed, 24 Nov 2021 06:59:00 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
+        t=1637733540; bh=jdGHNyR5oafj4HEkSsHfv+unXVEo5yd8poZFQ02jIHc=;
+        h=Message-ID:Date:From:To:Subject:From:Subject;
+        b=QRS9bAYY2CmNh+fKuSzUOlvZdj3TqzLBooDiM7//B06Iug6MWB0YCBQ51kHsE5Sac
+         nRbexvFvuAN2JQeQEOZdL8KR97bomIYLUwqA81/gWPST1F44gb8BzXDIc29zE7JSai
+         gv4vOnYrbpMu3HhV+4nz882/izpVVaZMOtRdzgmPHG5Z64PaGYmOOlx3lrVnGfJDxn
+         kIZsIVnP5hSrwqbl0JyfZoszA2HuLHS8pP9Cz3XlGOLyTqmPxyvUhjfmDcW9UAUsVp
+         CVQUhdIR1wv5Vva9IZWtKqOZiXsPyQdooFWQ2uaLP+S3g6Zrpgbk9w51a/QfC9vkiy
+         VZVr0j5dkk/ug==
+Message-ID: <bb72a40b86e0d64472254318d3f4f11e@smtp-cloud7.xs4all.net>
+Date:   Wed, 24 Nov 2021 06:58:55 +0100
+From:   "Hans Verkuil" <hverkuil@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: WARNINGS
+X-CMAE-Envelope: MS4xfD7+3ZqBA/UCxfaFBsDCjSVgLBLq/Rz41AsJKJTAbLdq9bAcWJvjCGQwOzAXSqTNxjeKIHgoXEei0aGkzArszUcFsfRGn9JYREeLbCh/yAHLwYE5LKwE
+ s+1A2q9gMyKUJSiBeiYgeL45CGR+HGERC5Dts4Mf5a2NKvEUeFRTyeuWvZRaHIS7fi4R1mU97KEd3Q==
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Mauro,
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
 
-First bad commit (maybe != root cause):
+Results of the daily build of media_tree:
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   5d9f4cf36721aba199975a9be7863a3ff5cd4b59
-commit: df823a8208c434eee6e4e9aa016c956d0968e2e2 media: cec: rename CEC platform drivers config options
-date:   1 year, 7 months ago
-config: arm-randconfig-c002-20211123 (https://download.01.org/0day-ci/archive/20211124/202111241201.cGFgCj9J-lkp@intel.com/config.gz)
-compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project 49e3838145dff1ec91c2e67a2cb562775c8d2a08)
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # install arm cross compiling tool for clang build
-        # apt-get install binutils-arm-linux-gnueabi
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=df823a8208c434eee6e4e9aa016c956d0968e2e2
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout df823a8208c434eee6e4e9aa016c956d0968e2e2
-        # save the config file to linux build tree
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross 
+date:			Wed Nov 24 05:00:12 CET 2021
+media-tree git hash:	0d2517b3765aa331aee0a95f9b8072062d6bb7e5
+media_build git hash:	90bf75007a9f73a3bfd144cae29e05229e702035
+v4l-utils git hash:	b949cffb419ce76e8a66f83d62f2011c682f94d9
+edid-decode git hash:	b00755e34eb12aa92416aaf1bb7b02603131afe0
+gcc version:		i686-linux-gcc (GCC) 11.2.0
+sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
+sparse version:		0.6.3
+smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
+smatch version:		0.6.3
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: 8316772c4add75a82a86054e3f1c63b664b6542f
+host hardware:		x86_64
+host os:		5.14.0-2-amd64
 
-If you fix the issue, kindly add following tag as appropriate
-Reported-by: kernel test robot <lkp@intel.com>
+linux-git-sh: OK
+linux-git-arm-at91: OK
+linux-git-arm-davinci: OK
+linux-git-mips: OK
+linux-git-arm-stm32: OK
+linux-git-arm-pxa: OK
+linux-git-arm-multi: OK
+linux-git-arm64: OK
+linux-git-powerpc64: OK
+linux-git-i686: OK
+linux-git-x86_64: OK
+Check COMPILE_TEST: OK
+Check for strcpy/strncpy/strlcpy: OK
+linux-4.4.283-i686: OK
+linux-4.4.283-x86_64: OK
+linux-4.5.7-i686: OK
+linux-4.5.7-x86_64: OK
+linux-4.6.7-i686: OK
+linux-4.6.7-x86_64: OK
+linux-4.7.10-i686: OK
+linux-4.7.10-x86_64: OK
+linux-4.8.17-i686: OK
+linux-4.8.17-x86_64: OK
+linux-4.9.246-i686: OK
+linux-4.9.246-x86_64: OK
+linux-4.10.17-i686: OK
+linux-4.10.17-x86_64: OK
+linux-4.11.12-i686: OK
+linux-4.11.12-x86_64: OK
+linux-4.12.14-i686: OK
+linux-4.12.14-x86_64: OK
+linux-4.13.16-i686: OK
+linux-4.13.16-x86_64: OK
+linux-4.14.246-i686: OK
+linux-4.14.246-x86_64: OK
+linux-4.15.18-i686: OK
+linux-4.15.18-x86_64: OK
+linux-4.16.18-i686: OK
+linux-4.16.18-x86_64: OK
+linux-4.17.19-i686: OK
+linux-4.17.19-x86_64: OK
+linux-4.18.20-i686: OK
+linux-4.18.20-x86_64: OK
+linux-4.19.206-i686: OK
+linux-4.19.206-x86_64: OK
+linux-4.20.17-i686: OK
+linux-4.20.17-x86_64: OK
+linux-5.0.21-i686: OK
+linux-5.0.21-x86_64: OK
+linux-5.1.21-i686: OK
+linux-5.1.21-x86_64: OK
+linux-5.2.21-i686: OK
+linux-5.2.21-x86_64: OK
+linux-5.3.18-i686: OK
+linux-5.3.18-x86_64: OK
+linux-5.4.144-i686: OK
+linux-5.4.144-x86_64: OK
+linux-5.5.19-i686: OK
+linux-5.5.19-x86_64: OK
+linux-5.6.19-i686: OK
+linux-5.6.19-x86_64: OK
+linux-5.7.19-i686: OK
+linux-5.7.19-x86_64: OK
+linux-5.8.18-i686: OK
+linux-5.8.18-x86_64: OK
+linux-5.9.16-i686: OK
+linux-5.9.16-x86_64: OK
+linux-5.10.62-i686: OK
+linux-5.10.62-x86_64: OK
+linux-5.11.22-i686: OK
+linux-5.11.22-x86_64: OK
+linux-5.12.19-i686: OK
+linux-5.12.19-x86_64: OK
+linux-5.13.14-i686: OK
+linux-5.13.14-x86_64: OK
+linux-5.14.1-i686: OK
+linux-5.14.1-x86_64: OK
+linux-5.15.1-i686: OK
+linux-5.15.1-x86_64: OK
+linux-5.16-rc1-i686: OK
+linux-5.16-rc1-x86_64: OK
+apps: OK
+spec-git: OK
+virtme: OK: Final Summary: 2989, Succeeded: 2989, Failed: 0, Warnings: 0
+virtme-32: WARNINGS: Final Summary: 3100, Succeeded: 3100, Failed: 0, Warnings: 4
+sparse: WARNINGS
+smatch: WARNINGS
+kerneldoc: WARNINGS
 
-All warnings (new ones prefixed by >>):
+Detailed results are available here:
 
->> drivers/media/cec/platform/tegra/tegra_cec.c:455:34: warning: unused variable 'tegra_cec_of_match' [-Wunused-const-variable]
-   static const struct of_device_id tegra_cec_of_match[] = {
-                                    ^
-   1 warning generated.
+http://www.xs4all.nl/~hverkuil/logs/Wednesday.log
 
+Detailed regression test results are available here:
 
-vim +/tegra_cec_of_match +455 drivers/media/cec/platform/tegra/tegra_cec.c
+http://www.xs4all.nl/~hverkuil/logs/Wednesday-test-media.log
+http://www.xs4all.nl/~hverkuil/logs/Wednesday-test-media-32.log
+http://www.xs4all.nl/~hverkuil/logs/Wednesday-test-media-dmesg.log
 
-9d2d60687c9a062 drivers/media/platform/tegra-cec/tegra_cec.c Hans Verkuil 2017-07-15  454  
-9d2d60687c9a062 drivers/media/platform/tegra-cec/tegra_cec.c Hans Verkuil 2017-07-15 @455  static const struct of_device_id tegra_cec_of_match[] = {
-9d2d60687c9a062 drivers/media/platform/tegra-cec/tegra_cec.c Hans Verkuil 2017-07-15  456  	{ .compatible = "nvidia,tegra114-cec", },
-9d2d60687c9a062 drivers/media/platform/tegra-cec/tegra_cec.c Hans Verkuil 2017-07-15  457  	{ .compatible = "nvidia,tegra124-cec", },
-9d2d60687c9a062 drivers/media/platform/tegra-cec/tegra_cec.c Hans Verkuil 2017-07-15  458  	{ .compatible = "nvidia,tegra210-cec", },
-9d2d60687c9a062 drivers/media/platform/tegra-cec/tegra_cec.c Hans Verkuil 2017-07-15  459  	{},
-9d2d60687c9a062 drivers/media/platform/tegra-cec/tegra_cec.c Hans Verkuil 2017-07-15  460  };
-9d2d60687c9a062 drivers/media/platform/tegra-cec/tegra_cec.c Hans Verkuil 2017-07-15  461  
+Full logs are available here:
 
-:::::: The code at line 455 was first introduced by commit
-:::::: 9d2d60687c9a0621e0da40338be4cbd7e3783be2 media: tegra-cec: add Tegra HDMI CEC driver
+http://www.xs4all.nl/~hverkuil/logs/Wednesday.tar.bz2
 
-:::::: TO: Hans Verkuil <hans.verkuil@cisco.com>
-:::::: CC: Mauro Carvalho Chehab <mchehab@osg.samsung.com>
+The Media Infrastructure API from this daily build is here:
 
----
-0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+http://www.xs4all.nl/~hverkuil/spec/index.html
