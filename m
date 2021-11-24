@@ -2,179 +2,151 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3460C45C890
-	for <lists+linux-media@lfdr.de>; Wed, 24 Nov 2021 16:23:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 27F3945C91D
+	for <lists+linux-media@lfdr.de>; Wed, 24 Nov 2021 16:45:41 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234889AbhKXP0S (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 24 Nov 2021 10:26:18 -0500
-Received: from mailout1.w1.samsung.com ([210.118.77.11]:35548 "EHLO
-        mailout1.w1.samsung.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233393AbhKXP0S (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Wed, 24 Nov 2021 10:26:18 -0500
-Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
-        by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id 20211124152307euoutp016b71a6f30ead3175c88d3f0e03c8c0b0~6hMLmvrdt2907529075euoutp01p
-        for <linux-media@vger.kernel.org>; Wed, 24 Nov 2021 15:23:07 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com 20211124152307euoutp016b71a6f30ead3175c88d3f0e03c8c0b0~6hMLmvrdt2907529075euoutp01p
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-        s=mail20170921; t=1637767387;
-        bh=2ynWpYwQ987eCbBiqQjZnbNjOsKl3jbANWvNadswtGo=;
-        h=Date:Subject:To:From:In-Reply-To:References:From;
-        b=mr1SAdAyR3hxxSQForY4AqlvBxnf95I0q13xeUQdkZeMF1OKENLnO35eTXE7uVnZ0
-         X2YWM47XOzyG3k5pK1O1voHDOfRcsYYazmPxHSJhyT7nC91xn/dGyKXFVWoKjUO2oY
-         d7xYnxL/IpDirKQpYMUZyTvaioH7okd9e/jknF9M=
-Received: from eusmges3new.samsung.com (unknown [203.254.199.245]) by
-        eucas1p1.samsung.com (KnoxPortal) with ESMTP id
-        20211124152306eucas1p180a26aa8b63b897fd27a63c67fc424ee~6hMLRUAdp3072530725eucas1p16;
-        Wed, 24 Nov 2021 15:23:06 +0000 (GMT)
-Received: from eucas1p1.samsung.com ( [182.198.249.206]) by
-        eusmges3new.samsung.com (EUCPMTA) with SMTP id 4A.E7.10260.AD85E916; Wed, 24
-        Nov 2021 15:23:06 +0000 (GMT)
-Received: from eusmtrp2.samsung.com (unknown [182.198.249.139]) by
-        eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
-        20211124152306eucas1p115447d63dd410079cbbfd303d7ef1229~6hMKmi_8Z0295502955eucas1p1V;
-        Wed, 24 Nov 2021 15:23:06 +0000 (GMT)
-Received: from eusmgms2.samsung.com (unknown [182.198.249.180]) by
-        eusmtrp2.samsung.com (KnoxPortal) with ESMTP id
-        20211124152306eusmtrp2d4f19c5a1f3e99eec24f8a26c8eb1b3d~6hMKl4HPR0066700667eusmtrp2S;
-        Wed, 24 Nov 2021 15:23:06 +0000 (GMT)
-X-AuditID: cbfec7f5-bf3ff70000002814-11-619e58dab2b0
-Received: from eusmtip1.samsung.com ( [203.254.199.221]) by
-        eusmgms2.samsung.com (EUCPMTA) with SMTP id 60.8E.09404.9D85E916; Wed, 24
-        Nov 2021 15:23:05 +0000 (GMT)
-Received: from [106.210.134.141] (unknown [106.210.134.141]) by
-        eusmtip1.samsung.com (KnoxPortal) with ESMTPA id
-        20211124152305eusmtip13a24ac24911721fb1fa37ff7f694a2ff~6hMKHIqUB3211932119eusmtip1a;
-        Wed, 24 Nov 2021 15:23:05 +0000 (GMT)
-Message-ID: <b378e3ab-3d1f-7509-b218-71377ef012b3@samsung.com>
-Date:   Wed, 24 Nov 2021 16:23:05 +0100
+        id S241950AbhKXPst (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 24 Nov 2021 10:48:49 -0500
+Received: from www.linuxtv.org ([130.149.80.248]:40182 "EHLO www.linuxtv.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S231555AbhKXPss (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 24 Nov 2021 10:48:48 -0500
+Received: from builder.linuxtv.org ([140.211.167.10] helo=slave0)
+        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1mpuSn-009bB9-OG; Wed, 24 Nov 2021 15:45:37 +0000
+Received: from ip6-localhost ([::1] helo=localhost.localdomain)
+        by slave0 with esmtp (Exim 4.94.2)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1mpuSk-001T2h-Fr; Wed, 24 Nov 2021 15:45:34 +0000
+From:   Jenkins <jenkins@linuxtv.org>
+To:     mchehab+samsung@kernel.org, linux-media@vger.kernel.org
+Cc:     builder@linuxtv.org
+Subject: Re: [GIT PULL FOR 5.17] V4L2 patches (#78752)
+Date:   Wed, 24 Nov 2021 15:45:34 +0000
+Message-Id: <20211124154534.349921-1-jenkins@linuxtv.org>
+X-Mailer: git-send-email 2.30.2
+In-Reply-To: <YZ5WGhErn1kv4vlX@valkosipuli.retiisi.eu>
+References: 
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0)
-        Gecko/20100101 Thunderbird/91.3.2
-Subject: Re: [PATCH] MAINTAINERS: Update email of Andrzej Hajda
-Content-Language: en-US
-To:     Andrzej Hajda <andrzej.hajda@intel.com>,
-        =?UTF-8?Q?=c5=81ukasz_Stelmach?= <l.stelmach@samsung.com>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-From:   Sylwester Nawrocki <s.nawrocki@samsung.com>
-In-Reply-To: <20211018211353.586986-1-andrzej.hajda@intel.com>
 Content-Transfer-Encoding: 8bit
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprMKsWRmVeSWpSXmKPExsWy7djPc7q3IuYlGkzs1ra4v/gzi8WVr+/Z
-        LG4eWsFocXnXHDaLng1bWS3WHrnL7sDmsXjPSyaP+93HmTz6tqxi9Pi8SS6AJYrLJiU1J7Ms
-        tUjfLoErY91274IvYhUr/6xhbmDcI9zFyMEhIWAiMWseTxcjF4eQwApGid3rprNBOF8YJb6d
-        3s4C4XxmlPjaeJW1i5ETrONr60pWiMRyRoktK85AtXxklJh/tYsFpIpXwE7iwYH57CA2i4Cq
-        xPY3n5gh4oISJ2c+AasRFUiSmHBiNxPIHcIC9hL9n21BwswC4hK3nsxnApkpIvCVUWJl73yw
-        ejYBQ4neo32MIDYn0PwX03vZIRrkJZq3zmYGaZAQOMIh8esnxGIJAReJC88fMELYwhKvjm+B
-        istI/N8JsUFCoJlRomf3bXYIZwKjxP3jC6A6rCXunPvFBnIes4CmxPpd+hBhR4m/y6awQUKP
-        T+LGW0GII/gkJm2bzgwR5pXoaBOCqFaR+L1qOhOELSXR/eQ/C4TtITH71HrmCYyKs5CCZRaS
-        /2cheW0Wwg0LGFlWMYqnlhbnpqcWG+ellusVJ+YWl+al6yXn525iBKab0/+Of93BuOLVR71D
-        jEwcjIcYJTiYlUR4ry2ZnSjEm5JYWZValB9fVJqTWnyIUZqDRUmcV+RPQ6KQQHpiSWp2ampB
-        ahFMlomDU6qBqehd8NH7e5uNv0YKvj+7vba2fcaVoMW8Qmnm3CssGTkS765+/vAEW7tKrc2+
-        ezNrPExP3ZqrtmfdauOElnPuCxZULn92lfvWRfeze89eOR3qp6rtPjX+k833c7nBO2f15ZjK
-        iST5ePcrCt1NX7TIPCzOp4+V6ccalycvr0k0TDv/oO5lqvKKw7/OaxuuixY+qLP+SrrAbMci
-        rbjZxy2jG8OOlpuI58/mWfFv2sKWJb9ObVZhr1j3/136sSNWnv33lTxeGp+JSv2a+3xOS21F
-        rTWfUMmkaTIC1c6Bk0/3B4Xd0l077aV9ezXro1s7j13TN0r+slpWhyP48ykLu54DDgEXo75k
-        flvM3D1ThGWPkxJLcUaioRZzUXEiAMGt7yymAwAA
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprOIsWRmVeSWpSXmKPExsVy+t/xu7o3I+YlGmydbWVxf/FnFosrX9+z
-        Wdw8tILR4vKuOWwWPRu2slqsPXKX3YHNY/Gel0we97uPM3n0bVnF6PF5k1wAS5SeTVF+aUmq
-        QkZ+cYmtUrShhZGeoaWFnpGJpZ6hsXmslZGpkr6dTUpqTmZZapG+XYJexrrt3gVfxCpW/lnD
-        3MC4R7iLkZNDQsBE4mvrStYuRi4OIYGljBLLP29n62LkAEpIScxvUYKoEZb4c62LDaLmPaPE
-        1ulnWEESvAJ2Eg8OzGcHsVkEVCW2v/nEDBEXlDg58wkLiC0qkCTx9EAn2ExhAXuJ/s+2IGFm
-        AXGJW0/mM4HMFBH4ziix8NN/JogFExkl3uxsYgSpYhMwlOg92gdmcwItezG9lx1kELOAusT6
-        eUIQg+QlmrfOZp7AKDgLyepZSHbMQuiYhaRjASPLKkaR1NLi3PTcYiO94sTc4tK8dL3k/NxN
-        jMAY2nbs55YdjCtffdQ7xMjEwXiIUYKDWUmE99qS2YlCvCmJlVWpRfnxRaU5qcWHGE2B3p/I
-        LCWanA+M4rySeEMzA1NDEzNLA1NLM2MlcV7Pgo5EIYH0xJLU7NTUgtQimD4mDk6pBqaWUyaR
-        pff39TfLv5vPuldFZaZot9rN5nvhUjMmx7GvTDEPmJE1t+GpVIGoC4+M1K7/64y2ux0W2V0w
-        g/3MGdMfTPxHOBmveU2zutYWecjFz3f2vbRrBT5Lp1w+K5V3XWNy+f2+vUv7eHlPR2nwb4jP
-        9lv3cl3Ng4Disw3zDZgc15tnzWC3l1god0e2NMVp5td7u9Z3f3Y3Cv80Q2/z/aNhfLGq8s8P
-        fHl3+mBBZYuCw0M/4QKeng2dnDteitduZvuvkvSId9fxuuT6QuMJf97O41DcbX3MUSuES0/q
-        ocV6nZkhjRb8ghu/VSYUKbrdfqe55cXq0+Vvs5rKjn5157qUvyjr6ANGe22NjcJWvkosxRmJ
-        hlrMRcWJAOTfYh4qAwAA
-X-CMS-MailID: 20211124152306eucas1p115447d63dd410079cbbfd303d7ef1229
-X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-X-RootMTR: 20211018211442eucas1p1e5f7eb08c6b76c76dcfad2c2efc1da4e
-X-EPHeader: CA
-CMS-TYPE: 201P
-X-CMS-RootMailID: 20211018211442eucas1p1e5f7eb08c6b76c76dcfad2c2efc1da4e
-References: <CGME20211018211442eucas1p1e5f7eb08c6b76c76dcfad2c2efc1da4e@eucas1p1.samsung.com>
-        <20211018211353.586986-1-andrzej.hajda@intel.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 18.10.2021 23:13, Andrzej Hajda wrote:
-> Beside updating email, the patch updates maintainers
-> of Samsung drivers.
-> 
-> Signed-off-by: Andrzej Hajda <andrzej.hajda@intel.com>
-> ---
->  .mailmap    |  1 +
->  MAINTAINERS | 13 ++++++++-----
->  2 files changed, 9 insertions(+), 5 deletions(-)
-> 
-> diff --git a/.mailmap b/.mailmap
-> index 4f6e37da60589..4283a86f70d26 100644
-> --- a/.mailmap
-> +++ b/.mailmap
-> @@ -40,6 +40,7 @@ Andrew Vasquez <andrew.vasquez@qlogic.com>
->  Andrey Konovalov <andreyknvl@gmail.com> <andreyknvl@google.com>
->  Andrey Ryabinin <ryabinin.a.a@gmail.com> <a.ryabinin@samsung.com>
->  Andrey Ryabinin <ryabinin.a.a@gmail.com> <aryabinin@virtuozzo.com>
-> +Andrzej Hajda <andrzej.hajda@intel.com> <a.hajda@samsung.com>
->  Andy Adamson <andros@citi.umich.edu>
->  Antoine Tenart <atenart@kernel.org> <antoine.tenart@bootlin.com>
->  Antoine Tenart <atenart@kernel.org> <antoine.tenart@free-electrons.com>
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 54cd05d3aab65..e3fadb4ebced3 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -2546,7 +2546,7 @@ N:	s3c64xx
->  N:	s5pv210
->  
->  ARM/SAMSUNG S5P SERIES 2D GRAPHICS ACCELERATION (G2D) SUPPORT
-> -M:	Andrzej Hajda <a.hajda@samsung.com>
-> +M:	Łukasz Stelmach <l.stelmach@samsung.com>
->  L:	linux-arm-kernel@lists.infradead.org (moderated for non-subscribers)
->  L:	linux-media@vger.kernel.org
->  S:	Maintained
-> @@ -2570,7 +2570,8 @@ S:	Maintained
->  F:	drivers/media/platform/s5p-jpeg/
->  
->  ARM/SAMSUNG S5P SERIES Multi Format Codec (MFC) SUPPORT
-> -M:	Andrzej Hajda <a.hajda@samsung.com>
-> +M:	Marek Szyprowski <m.szyprowski@samsung.com>
-> +M:	Andrzej Hajda <andrzej.hajda@intel.com>
->  L:	linux-arm-kernel@lists.infradead.org (moderated for non-subscribers)
->  L:	linux-media@vger.kernel.org
->  S:	Maintained
-> @@ -6254,7 +6255,7 @@ F:	Documentation/devicetree/bindings/display/atmel/
->  F:	drivers/gpu/drm/atmel-hlcdc/
->  
->  DRM DRIVERS FOR BRIDGE CHIPS
-> -M:	Andrzej Hajda <a.hajda@samsung.com>
-> +M:	Andrzej Hajda <andrzej.hajda@intel.com>
->  M:	Neil Armstrong <narmstrong@baylibre.com>
->  M:	Robert Foss <robert.foss@linaro.org>
->  R:	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
-> @@ -16748,13 +16749,15 @@ F:	Documentation/devicetree/bindings/net/nfc/samsung,s3fwrn5.yaml
->  F:	drivers/nfc/s3fwrn5
+From: builder@linuxtv.org
 
->  SAMSUNG S5C73M3 CAMERA DRIVER
-> -M:	Andrzej Hajda <a.hajda@samsung.com>
-> +M:	Sylwester Nawrocki <s.nawrocki@samsung.com>
-> +M:	Andrzej Hajda <andrzej.hajda@intel.com>
->  L:	linux-media@vger.kernel.org
->  S:	Supported
->  F:	drivers/media/i2c/s5c73m3/*
->  SAMSUNG S5K5BAF CAMERA DRIVER
-> -M:	Andrzej Hajda <a.hajda@samsung.com>
-> +M:	Sylwester Nawrocki <s.nawrocki@samsung.com>
-> +M:	Andrzej Hajda <andrzej.hajda@intel.com>
->  L:	linux-media@vger.kernel.org
->  S:	Supported
->  F:	drivers/media/i2c/s5k5baf.c
+Pull request: https://patchwork.linuxtv.org/project/linux-media/patch/YZ5WGhErn1kv4vlX@valkosipuli.retiisi.eu/
+Build log: https://builder.linuxtv.org/job/patchwork/159659/
+Build time: 00:28:12
+Link: https://lore.kernel.org/linux-media/YZ5WGhErn1kv4vlX@valkosipuli.retiisi.eu
 
-Acked-by: Sylwester Nawrocki <s.nawrocki@samsung.com>
+gpg: Signature made Wed 24 Nov 2021 09:15:47 AM UTC
+gpg:                using DSA key 53AC58A5F5948636C04A1BF8141DFA54A1EC8DEA
+gpg:                issuer "sakari.ailus@linux.intel.com"
+gpg: Good signature from "Sakari Ailus <sakari.ailus@linux.intel.com>" [unknown]
+gpg: WARNING: This key is not certified with a trusted signature!
+gpg:          There is no indication that the signature belongs to the owner.
+Primary key fingerprint: F0D0 377A 0D4F 25A7 9238  EFE5 6D40 361B 6E28 C193
+     Subkey fingerprint: 53AC 58A5 F594 8636 C04A  1BF8 141D FA54 A1EC 8DEA
+
+Summary: got 14/28 patches with issues, being 11 at build time, plus one error when buinding PDF document
+
+Error/warnings:
+
+patches/0001-media-i2c-max9286-Depend-on-VIDEO_V4L2.patch:
+
+    allyesconfig: return code #0:
+	../scripts/genksyms/parse.y: warning: 9 shift/reduce conflicts [-Wconflicts-sr]
+	../scripts/genksyms/parse.y: warning: 5 reduce/reduce conflicts [-Wconflicts-rr]
+	../scripts/genksyms/parse.y: note: rerun with option '-Wcounterexamples' to generate conflict counterexamples
+
+    allyesconfig: return code #0:
+	../drivers/media/cec/core/cec-adap.c: ../drivers/media/cec/core/cec-adap.c:926 cec_transmit_msg_fh() warn: '&data->list' not removed from list
+	../drivers/media/rc/meson-ir-tx.c:22: warning: expecting prototype for meson(). Prototype was for DEVICE_NAME() instead
+	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2625 dvb_register() parse error: turning off implications after 60 seconds
+	SMATCH:../drivers/media/usb/siano/smsusb.c ../drivers/media/usb/siano/smsusb.c:53:38: :warning: array of flexible structures
+	SPARSE:../drivers/media/usb/siano/smsusb.c ../drivers/media/usb/siano/smsusb.c:53:38: warning: array of flexible structures
+	../drivers/media/usb/pvrusb2/pvrusb2-encoder.c: ../drivers/media/usb/pvrusb2/pvrusb2-encoder.c:288 pvr2_encoder_cmd() warn: inconsistent indenting
+	../drivers/media/usb/pvrusb2/pvrusb2-hdw.c: ../drivers/media/usb/pvrusb2/pvrusb2-hdw.c:1730 pvr2_hdw_set_streaming() warn: inconsistent indenting
+	../drivers/media/usb/pvrusb2/pvrusb2-hdw.c: ../drivers/media/usb/pvrusb2/pvrusb2-hdw.c:3461 pvr2_hdw_cpufw_set_enabled() warn: inconsistent indenting
+	../drivers/media/usb/pvrusb2/pvrusb2-hdw.c: ../drivers/media/usb/pvrusb2/pvrusb2-hdw.c:3501 pvr2_hdw_cpufw_get() warn: inconsistent indenting
+	../drivers/media/test-drivers/vivid/vivid-core.c: ../drivers/media/test-drivers/vivid/vivid-core.c:1981 vivid_create_instance() parse error: turning off implications after 60 seconds
+	../drivers/media/platform/qcom/venus/helpers.c: ../drivers/media/platform/qcom/venus/helpers.c:658 venus_helper_get_bufreq() error: we previously assumed 'req' could be null (see line 654)
+	../drivers/media/usb/em28xx/em28xx-video.c: ../drivers/media/usb/em28xx/em28xx-video.c:2874 em28xx_v4l2_init() parse error: turning off implications after 60 seconds
+
+patches/0002-media-i2c-imx274-fix-s_frame_interval-runtime-resume.patch:
+
+   checkpatch.pl:
+	$ cat patches/0002-media-i2c-imx274-fix-s_frame_interval-runtime-resume.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
+	-:13: WARNING: Possible unwrapped commit description (prefer a maximum 75 chars per line)
+
+patches/0007-media-i2c-Add-support-for-ov5693-sensor.patch:
+
+   checkpatch.pl:
+	$ cat patches/0007-media-i2c-Add-support-for-ov5693-sensor.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
+	-:1365: CHECK: Lines should not end with a '('
+	-:1368: CHECK: spaces preferred around that '-' (ctx:VxV)
+
+patches/0015-media-i2c-Add-.get_selection-support-to-ov8865.patch:
+
+    allyesconfig: return code #0:
+	../drivers/media/i2c/ov8865.c: ../drivers/media/i2c/ov8865.c:2799 ov8865_get_selection() warn: inconsistent indenting
+
+patches/0016-media-i2c-Switch-control-to-V4L2_CID_ANALOGUE_GAIN.patch:
+
+    allyesconfig: return code #0:
+	../drivers/media/i2c/ov8865.c: ../drivers/media/i2c/ov8865.c:2800 ov8865_get_selection() warn: inconsistent indenting
+
+patches/0017-media-i2c-Add-vblank-control-to-ov8865.patch:
+
+    allyesconfig: return code #0:
+	../drivers/media/i2c/ov8865.c: ../drivers/media/i2c/ov8865.c:2832 ov8865_get_selection() warn: inconsistent indenting
+
+patches/0018-media-i2c-Add-hblank-control-to-ov8865.patch:
+
+    allyesconfig: return code #0:
+	../drivers/media/i2c/ov8865.c: ../drivers/media/i2c/ov8865.c:2846 ov8865_get_selection() warn: inconsistent indenting
+
+patches/0019-media-i2c-Update-HTS-values-in-ov8865.patch:
+
+    allyesconfig: return code #0:
+	../drivers/media/i2c/ov8865.c: ../drivers/media/i2c/ov8865.c:2804 ov8865_get_selection() warn: inconsistent indenting
+
+patches/0020-media-i2c-cap-exposure-at-height-vblank-in-ov8865.patch:
+
+    allyesconfig: return code #0:
+	../drivers/media/i2c/ov8865.c: ../drivers/media/i2c/ov8865.c:2828 ov8865_get_selection() warn: inconsistent indenting
+
+patches/0021-media-i2c-Add-controls-from-fwnode-to-ov8865.patch:
+
+    allyesconfig: return code #0:
+	../drivers/media/i2c/ov8865.c: ../drivers/media/i2c/ov8865.c:2838 ov8865_get_selection() warn: inconsistent indenting
+
+patches/0022-media-i2c-Switch-exposure-control-unit-to-lines.patch:
+
+    allyesconfig: return code #0:
+	../drivers/media/i2c/ov8865.c: ../drivers/media/i2c/ov8865.c:2841 ov8865_get_selection() warn: inconsistent indenting
+
+patches/0023-media-i2c-Use-dev_err_probe-in-ov8865.patch:
+
+    allyesconfig: return code #0:
+	../drivers/media/i2c/ov8865.c: ../drivers/media/i2c/ov8865.c:2841 ov8865_get_selection() warn: inconsistent indenting
+
+patches/0024-media-i2c-Fix-max-gain-in-ov8865.patch:
+
+    allyesconfig: return code #0:
+	../drivers/media/i2c/ov8865.c: ../drivers/media/i2c/ov8865.c:2841 ov8865_get_selection() warn: inconsistent indenting
+
+patches/0028-dt-bindings-media-renesas-jpu-Convert-to-json-schema.patch:
+
+   checkpatch.pl:
+	$ cat patches/0028-dt-bindings-media-renesas-jpu-Convert-to-json-schema.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
+	-:25: WARNING: added, moved or deleted file(s), does MAINTAINERS need updating?
+	-:28: WARNING: DT binding docs and includes should be a separate patch. See: Documentation/devicetree/bindings/submitting-patches.rst
+	-:55: WARNING: DT binding docs and includes should be a separate patch. See: Documentation/devicetree/bindings/submitting-patches.rst
+
+
+Error #512 when building PDF docs
+
