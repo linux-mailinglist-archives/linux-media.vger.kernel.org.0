@@ -2,111 +2,161 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4604645B8A8
-	for <lists+linux-media@lfdr.de>; Wed, 24 Nov 2021 11:49:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1DFD445B90B
+	for <lists+linux-media@lfdr.de>; Wed, 24 Nov 2021 12:25:18 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241602AbhKXKwV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 24 Nov 2021 05:52:21 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56110 "EHLO
+        id S241139AbhKXL2X (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 24 Nov 2021 06:28:23 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35964 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235858AbhKXKwV (ORCPT
+        with ESMTP id S240520AbhKXL2R (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 24 Nov 2021 05:52:21 -0500
+        Wed, 24 Nov 2021 06:28:17 -0500
 Received: from lb2-smtp-cloud7.xs4all.net (lb2-smtp-cloud7.xs4all.net [IPv6:2001:888:0:108::2a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8E4C7C061574
-        for <linux-media@vger.kernel.org>; Wed, 24 Nov 2021 02:49:11 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5C2E9C061574
+        for <linux-media@vger.kernel.org>; Wed, 24 Nov 2021 03:25:08 -0800 (PST)
 Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
         by smtp-cloud7.xs4all.net with ESMTPA
-        id pppqmdwrSCMnAppptmvRRG; Wed, 24 Nov 2021 11:49:10 +0100
+        id pqOcmeCmKCMnApqOgmvafp; Wed, 24 Nov 2021 12:25:06 +0100
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1637750950; bh=DHIYxLpPcyxDWbxjmVmPmfgDB77V6VkQ01Yz2N0g27A=;
-        h=To:From:Subject:Message-ID:Date:MIME-Version:Content-Type:From:
+        t=1637753106; bh=Bc03DottPvarnXl4qpEyaWgUI+lK7hHXOzP8lHkKhpY=;
+        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
          Subject;
-        b=p0UjoMFbXGwfVANTaGyfwwowjGBngzaL4bkfORyXRQS9F/Z81vsS1ulz8ia4LuWGf
-         pRek5WQAJJIapebNUy7HUNsNfbCEDqTn1eJE+ZZIlp+o1TAzVzmIc2huKRqDM6bKg+
-         VSi5guWizoQp2WekgEndquiN4qScoaJHxcTRDbyaqFPe0LzUBonc0JAZnmLpv6OHBJ
-         LViqnq/Q3SJLW9hAPpf7jPrr39+lEkZmY7s52Hqm0nvC4q6yMro1jqdIDgYkD256CM
-         KmyTR2t70Ct1eTZtHTkR/sbGAfjYqe7PYrFMyUEgBbuUBtNTl+3n+/cENitcUALjGd
-         Z2FrBncQzMaQg==
-To:     Linux Media Mailing List <linux-media@vger.kernel.org>
-Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Subject: [PATCH] uvc: fix sequence counting
-Message-ID: <0d3ee0aa-0f1f-4670-a5cc-8dd982e2e3b0@xs4all.nl>
-Date:   Wed, 24 Nov 2021 11:49:06 +0100
+        b=NGxDGhmok8Jik/ZuUi69Ny0RciS+bNnIIXEPaPd3B5VzWt31AaS0l4mkC2AlaEIB7
+         TIYON1D9tk4tv43b6bWA5bELJciSJadOesYQ8idDzh8+ThLgzNSZyOfrCihdUTHgkl
+         LsDDEkwsHtAzD37Kf2gfkEk66bwsb7PmqikM+BCu83L+IwRP5PlwA9TcyXveRm1fkd
+         f36WhT/FW6u0YHj2vv79beRpu++3Bgy428b1BfY4F8TYqXzkSeAQPYdulJYsLsOwVK
+         PdsAJ+bmd5YVnIMqxSkmRzyvJN96wMNB5YXUpM4YJKPJQOG7BpQvV3CtKdCv/j7VcW
+         7mNR4VyvXK6pQ==
+Subject: Re: [PATCH] s5c73m3: adding gpiod support for the s5c73m3
+To:     =?UTF-8?Q?Ma=c3=adra_Canal?= <maira.canal@usp.br>,
+        Andrzej Hajda <andrzej.hajda@intel.com>
+Cc:     mchehab@kernel.org, linux-media@vger.kernel.org
+References: <YWXmB3yHDeR9ORN7@fedora>
+From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Message-ID: <88ea0b6a-bcb4-94dc-d9c9-a0caa9b9b6e2@xs4all.nl>
+Date:   Wed, 24 Nov 2021 12:25:02 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Firefox/78.0 Thunderbird/78.14.0
 MIME-Version: 1.0
+In-Reply-To: <YWXmB3yHDeR9ORN7@fedora>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4xfP8SCP6/8e6X2oUXFZcR3GJFtpCx9UoQBS7qvZqzu3umAotAw7i3wtl8Myj/J2aaaJla5NdTyjoIz5qy7+50gIfEw9HQLskt8ZkzZ5ZVw68TaHB5cLHo
- R+4+CzRSXN0/0T55ZGHpTbEDSpOfXMpWoRCLpeT5B+boCVnY6R+TYg8WUI5w5VXKpDWWJZnt8fpXBHDQihxUlHiRSj4YRmXs3avLyubF40as3fqfviVE7P/5
- zOyAv7snHQPYwSZfV3ff6M6RFAOPusGpglqpBbagVDqAQqc26D/Dh/8kFRyb3uIs
+Content-Transfer-Encoding: 8bit
+X-CMAE-Envelope: MS4xfA2Gij6GBbRhu/PAs8tN0E7YiGYFQnsjijbFUpwkFJSZBlcVDDilUVVjfElKdz96G1SvkZdmpZeP5kglU0CKQFagoTA/2ZCxBEIfG1ReQrhq/lYrWzs+
+ sWjfEQ3cWHhW6A2xj3CJlZm4A1BR0ccLAx8xUsDRUVrNSOPWLIVRI5S5Hbp0zkLMi3rI8LgUo7vEA1v7rDiom9Ub7xYXnp0IDsyVSDeuecK6wAyJraFWy1pb
+ vAQGPs3naSAm+P55yu6xEgMSpN+qTP7Lwb7amSRceUBtV/eFvUTbMV3u6bwQNbkBGeazt14I2uOkou+2beRfxg==
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-When you start streaming from uvc, then the first buffer will
-have sequence number 0 and the second buffer has sequence number
-2. Fix the logic to ensure proper monotonically increasing sequence
-numbers.
+Hi Maíra,
 
-The root cause is not setting last_fid when you start streaming
-and a new fid is found for the first time.
+On 12/10/2021 21:46, Maíra Canal wrote:
+> Removing old gpiod interface and replacing it for the gpiod consumer
+> interface.
 
-This patch also changes the initial last_fid value from -1 to 0xff.
-Since last_fid is unsigned, it is better to stick to unsigned values.
+Has this been tested? I feel a bit uncomfortable to merged this without
+knowing that it works. Andrzej, what do you think about this patch?
 
-Signed-off-by: Hans Verkuil <hans.verkuil@cisco.com>
----
- drivers/media/usb/uvc/uvc_video.c | 11 +++++++----
- 1 file changed, 7 insertions(+), 4 deletions(-)
+Maíra, is there a specific reason why you made this patch?
 
-diff --git a/drivers/media/usb/uvc/uvc_video.c b/drivers/media/usb/uvc/uvc_video.c
-index 9f37eaf28ce7..8ba8d25e2c4a 100644
---- a/drivers/media/usb/uvc/uvc_video.c
-+++ b/drivers/media/usb/uvc/uvc_video.c
-@@ -1055,7 +1055,10 @@ static int uvc_video_decode_start(struct uvc_streaming *stream,
- 	 * that discontinuous sequence numbers always indicate lost frames.
- 	 */
- 	if (stream->last_fid != fid) {
--		stream->sequence++;
-+		if (stream->last_fid > UVC_STREAM_FID)
-+			stream->last_fid = fid;
-+		else
-+			stream->sequence++;
- 		if (stream->sequence)
- 			uvc_video_stats_update(stream);
- 	}
-@@ -1080,7 +1083,7 @@ static int uvc_video_decode_start(struct uvc_streaming *stream,
+Regards,
 
- 	/* Synchronize to the input stream by waiting for the FID bit to be
- 	 * toggled when the the buffer state is not UVC_BUF_STATE_ACTIVE.
--	 * stream->last_fid is initialized to -1, so the first isochronous
-+	 * stream->last_fid is initialized to 0xff, so the first isochronous
- 	 * frame will always be in sync.
- 	 *
- 	 * If the device doesn't toggle the FID bit, invert stream->last_fid
-@@ -1111,7 +1114,7 @@ static int uvc_video_decode_start(struct uvc_streaming *stream,
- 	 * last payload can be lost anyway). We thus must check if the FID has
- 	 * been toggled.
- 	 *
--	 * stream->last_fid is initialized to -1, so the first isochronous
-+	 * stream->last_fid is initialized to 0xff, so the first isochronous
- 	 * frame will never trigger an end of frame detection.
- 	 *
- 	 * Empty buffers (bytesused == 0) don't trigger end of frame detection
-@@ -1895,7 +1898,7 @@ static int uvc_video_start_transfer(struct uvc_streaming *stream,
- 	int ret;
+	Hans
 
- 	stream->sequence = -1;
--	stream->last_fid = -1;
-+	stream->last_fid = 0xff;
- 	stream->bulk.header_size = 0;
- 	stream->bulk.skip_payload = 0;
- 	stream->bulk.payload_size = 0;
--- 
-2.33.0
+> 
+> Signed-off-by: Maíra Canal <maira.canal@usp.br>
+> ---
+>  drivers/media/i2c/s5c73m3/s5c73m3-core.c | 25 +++++++++++++-----------
+>  include/media/i2c/s5c73m3.h              |  3 ++-
+>  2 files changed, 16 insertions(+), 12 deletions(-)
+> 
+> diff --git a/drivers/media/i2c/s5c73m3/s5c73m3-core.c b/drivers/media/i2c/s5c73m3/s5c73m3-core.c
+> index e2b88c5e4f98..0c69a3fc7ebe 100644
+> --- a/drivers/media/i2c/s5c73m3/s5c73m3-core.c
+> +++ b/drivers/media/i2c/s5c73m3/s5c73m3-core.c
+> @@ -10,7 +10,7 @@
+>  #include <linux/clk.h>
+>  #include <linux/delay.h>
+>  #include <linux/firmware.h>
+> -#include <linux/gpio.h>
+> +#include <linux/gpio/consumer.h>
+>  #include <linux/i2c.h>
+>  #include <linux/init.h>
+>  #include <linux/media.h>
+> @@ -1349,9 +1349,9 @@ static int s5c73m3_oif_open(struct v4l2_subdev *sd, struct v4l2_subdev_fh *fh)
+>  
+>  static int s5c73m3_gpio_set_value(struct s5c73m3 *priv, int id, u32 val)
+>  {
+> -	if (!gpio_is_valid(priv->gpio[id].gpio))
+> +	if (!priv->gpio[id].gpio)
+>  		return 0;
+> -	gpio_set_value(priv->gpio[id].gpio, !!val);
+> +	gpiod_set_value(priv->gpio[id].gpio, !!val);
+>  	return 1;
+>  }
+>  
+> @@ -1548,20 +1548,24 @@ static int s5c73m3_configure_gpios(struct s5c73m3 *state)
+>  	static const char * const gpio_names[] = {
+>  		"S5C73M3_STBY", "S5C73M3_RST"
+>  	};
+> +	static const char * const prop_names[] = {
+> +		"standby", "xshutdown",
+> +	};
+> +
+>  	struct i2c_client *c = state->i2c_client;
+>  	struct s5c73m3_gpio *g = state->gpio;
+> -	int ret, i;
+> +	int i;
+>  
+>  	for (i = 0; i < GPIO_NUM; ++i) {
+> -		unsigned int flags = GPIOF_DIR_OUT;
+> +		unsigned int flags = GPIOD_OUT_LOW;
+>  		if (g[i].level)
+> -			flags |= GPIOF_INIT_HIGH;
+> -		ret = devm_gpio_request_one(&c->dev, g[i].gpio, flags,
+> -					    gpio_names[i]);
+> -		if (ret) {
+> +			flags = GPIOD_OUT_HIGH;
+> +		g[i].gpio = devm_gpiod_get_optional(&c->dev, prop_names[i],
+> +				flags);
+> +		if (IS_ERR(g[i].gpio)) {
+>  			v4l2_err(c, "failed to request gpio %s\n",
+>  				 gpio_names[i]);
+> -			return ret;
+> +			return PTR_ERR(g[i].gpio);
+>  		}
+>  	}
+>  	return 0;
+> @@ -1586,7 +1590,6 @@ static int s5c73m3_parse_gpios(struct s5c73m3 *state)
+>  				prop_names[i]);
+>  			return -EINVAL;
+>  		}
+> -		state->gpio[i].gpio = ret;
+>  		state->gpio[i].level = !(of_flags & OF_GPIO_ACTIVE_LOW);
+>  	}
+>  	return 0;
+> diff --git a/include/media/i2c/s5c73m3.h b/include/media/i2c/s5c73m3.h
+> index a51f1025ba1c..41e2235f0626 100644
+> --- a/include/media/i2c/s5c73m3.h
+> +++ b/include/media/i2c/s5c73m3.h
+> @@ -17,6 +17,7 @@
+>  #ifndef MEDIA_S5C73M3__
+>  #define MEDIA_S5C73M3__
+>  
+> +#include <linux/gpio/consumer.h>
+>  #include <linux/videodev2.h>
+>  #include <media/v4l2-mediabus.h>
+>  
+> @@ -26,7 +27,7 @@
+>   * @level: indicates active state of the @gpio
+>   */
+>  struct s5c73m3_gpio {
+> -	int gpio;
+> +	struct gpio_desc *gpio;
+>  	int level;
+>  };
+>  
+> 
 
