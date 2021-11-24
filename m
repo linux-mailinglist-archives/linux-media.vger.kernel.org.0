@@ -2,220 +2,275 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DB1F645B969
-	for <lists+linux-media@lfdr.de>; Wed, 24 Nov 2021 12:44:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D12D245C34F
+	for <lists+linux-media@lfdr.de>; Wed, 24 Nov 2021 14:34:26 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240996AbhKXLrW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 24 Nov 2021 06:47:22 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40280 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231391AbhKXLrS (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Wed, 24 Nov 2021 06:47:18 -0500
-Received: from lb2-smtp-cloud7.xs4all.net (lb2-smtp-cloud7.xs4all.net [IPv6:2001:888:0:108::2a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D11A4C061574;
-        Wed, 24 Nov 2021 03:44:07 -0800 (PST)
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud7.xs4all.net with ESMTPA
-        id pqgzmeLNgCMnApqh2mvgKM; Wed, 24 Nov 2021 12:44:04 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1637754244; bh=+V7auKfyf1wKv90AUgg2SVaaY0W1hdiUsSSI5fceQ8M=;
-        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=clvZGTOPvxfxE8yIilR39u4+eLhAG+q1XpdcTUB+thgtT3aHvrXEl0f6uJHMpF4vz
-         7wxTixdz/dYHXjllj86eK46xLyk0C6n9KAx62EGIN50tTk/6FQwF6aD5I8nmQayeZj
-         fjxtpGFlv+191Sz3CQIFlRIkn6ukyqVHq15Ry/8kcqg3K1GRgHMTs+2pFrHVyTOy0X
-         ZQ3UVH8VcmZYQa+F8NMcu/3ZDAIclA64nItP/LFh2yiBeBCmh1diL6xJlVymsTtrTE
-         8yXY/x64z9hfX3iDlIG5PvpCPObGakpC62/bsesOBs1xef1gqNTPAmHpx2yFSRduk0
-         Bs8YCBhRfDReA==
-Subject: Re: [EXT] Re: [PATCH] media: docs: dev-decoder: add restrictions
- about CAPTURE buffers
-To:     Alexandre Courbot <acourbot@chromium.org>,
-        Nicolas Dufresne <nicolas@ndufresne.ca>
-Cc:     Stanimir Varbanov <stanimir.varbanov@linaro.org>,
-        Ming Qian <ming.qian@nxp.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Tomasz Figa <tfiga@chromium.org>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-References: <20211018091427.88468-1-acourbot@chromium.org>
- <9cb4f64e2ec3959df44b71dd69ef95697920dc4b.camel@ndufresne.ca>
- <AM6PR04MB634130FEB433CCA352CE98FBE7879@AM6PR04MB6341.eurprd04.prod.outlook.com>
- <dc7496db-9ba3-fa7b-8563-1157b63c9b0d@linaro.org>
- <b8f877c9ba2cbd0d6839ac86892725a41097391a.camel@ndufresne.ca>
- <CAPBb6MVE3+=BXQver3FZtonHW-OoCvfhKeegWv+hE75cFJFTDA@mail.gmail.com>
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Message-ID: <07d055d6-d139-24c2-3711-14726cd3e441@xs4all.nl>
-Date:   Wed, 24 Nov 2021 12:44:00 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Firefox/78.0 Thunderbird/78.14.0
-MIME-Version: 1.0
-In-Reply-To: <CAPBb6MVE3+=BXQver3FZtonHW-OoCvfhKeegWv+hE75cFJFTDA@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
+        id S1350363AbhKXNhU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 24 Nov 2021 08:37:20 -0500
+Received: from mga14.intel.com ([192.55.52.115]:14971 "EHLO mga14.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1352183AbhKXNfQ (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 24 Nov 2021 08:35:16 -0500
+X-IronPort-AV: E=McAfee;i="6200,9189,10177"; a="235514396"
+X-IronPort-AV: E=Sophos;i="5.87,260,1631602800"; 
+   d="scan'208";a="235514396"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Nov 2021 05:20:58 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.87,260,1631602800"; 
+   d="scan'208";a="591566564"
+Received: from fmsmsx604.amr.corp.intel.com ([10.18.126.84])
+  by FMSMGA003.fm.intel.com with ESMTP; 24 Nov 2021 05:20:58 -0800
+Received: from fmsmsx608.amr.corp.intel.com (10.18.126.88) by
+ fmsmsx604.amr.corp.intel.com (10.18.126.84) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2242.12; Wed, 24 Nov 2021 05:20:57 -0800
+Received: from FMSEDG603.ED.cps.intel.com (10.1.192.133) by
+ fmsmsx608.amr.corp.intel.com (10.18.126.88) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2242.12 via Frontend Transport; Wed, 24 Nov 2021 05:20:57 -0800
+Received: from NAM12-BN8-obe.outbound.protection.outlook.com (104.47.55.173)
+ by edgegateway.intel.com (192.55.55.68) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2242.12; Wed, 24 Nov 2021 05:20:57 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=P620Ha5a2g0NF2A6qbML4C5jDLJUVhdXaKxfAR86BQFC6qcEtI2bxWkHxDxGW+oyc9DFsB/zN/8zCXi+/53coj9Ijy0pqtCKWgnpq0a4N1DeIrv6yscHBVY7I0CFStKM1xCVWkE2VeNqFS35RHb0BvQxMwJeg0v/E/+AWL4B+JyGU89s7jCv72pgdR97rIPri5HWrV4zqkrBbGOqcm19zzWxo1a73rEh0CUnSF38Vfiy51vxdc+4mXK8oy16eDgmHScUP+SFfmEpFiATpGJVCSuDOdjDlYBNY99h5wKYyj+yMFvv1sav1BtbFW8ZgOwdEpOJjxOMlhAhDgw+MPyiUg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=GBzVvDI4TIti+PWYjAI9yacQefaPrgzUdA4mhsKDjaM=;
+ b=KUZB+aNlBI5a4UWlVxm/yL/dDBYYdpWWY9NHy55H7yrPOOfwecYTGbhNZgp6hciwP1VtO8t6mTUXhVpsHWv/NhixO2Ire/C6xG3nQuhmIX/oBAIRgegDJjOMR3pfecw0YWAw3RWmtW33wWM0rGxlV9ZoM1yNojIgP1RlMtmz4h8XJjajqO8ihHfA8mwrQY6pyaTRoyny3fnMHQSnMleMlJ5GKvdNrYAv9dB6dj+CYTBzXI1+8TInSkTDfLq8NSyoh6LXoonDQXW9br72lf0tksEPr4gaThxlWzsK/1Y35KrKcAzdkX4zSdcmCyFI6c0Jdt5SPFlIk9BjkN9f8bE3yQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=intel.onmicrosoft.com;
+ s=selector2-intel-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=GBzVvDI4TIti+PWYjAI9yacQefaPrgzUdA4mhsKDjaM=;
+ b=GF2RlI0SguAC752XKkDbfDc6HcK7DFhR5NAi9GkbMUDK0p8K+m0edS7Awujs1kjigTcAh1GJ0en13koUeVBHyKbNdsqdxF6ofIXMXW5bgGrzSvPj+rM6Z6ztXbJIMOtsphW6CiJnlhbbZVWDkckKM6yg1OK1B37gV47ECO8O8TM=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from DM6PR11MB3180.namprd11.prod.outlook.com (2603:10b6:5:9::13) by
+ DM5PR11MB1946.namprd11.prod.outlook.com (2603:10b6:3:10c::11) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4690.26; Wed, 24 Nov 2021 13:20:56 +0000
+Received: from DM6PR11MB3180.namprd11.prod.outlook.com
+ ([fe80::a94a:21d4:f847:fda8]) by DM6PR11MB3180.namprd11.prod.outlook.com
+ ([fe80::a94a:21d4:f847:fda8%7]) with mapi id 15.20.4690.027; Wed, 24 Nov 2021
+ 13:20:56 +0000
+Message-ID: <1927728f-0f08-52df-be44-bfb5a8544cfb@intel.com>
+Date:   Wed, 24 Nov 2021 14:20:50 +0100
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Firefox/91.0 Thunderbird/91.3.2
+Subject: Re: [PATCH] s5c73m3: adding gpiod support for the s5c73m3
 Content-Language: en-US
+To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        =?UTF-8?Q?Ma=c3=adra_Canal?= <maira.canal@usp.br>
+CC:     <mchehab@kernel.org>, <linux-media@vger.kernel.org>,
+        <s.nawrocki@samsung.com>
+References: <YWXmB3yHDeR9ORN7@fedora>
+ <88ea0b6a-bcb4-94dc-d9c9-a0caa9b9b6e2@xs4all.nl>
+From:   Andrzej Hajda <andrzej.hajda@intel.com>
+Organization: Intel Technology Poland sp. z o.o. - ul. Slowackiego 173, 80-298
+ Gdansk - KRS 101882 - NIP 957-07-52-316
+In-Reply-To: <88ea0b6a-bcb4-94dc-d9c9-a0caa9b9b6e2@xs4all.nl>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-CMAE-Envelope: MS4xfEsB7zSbcjGFaBA1qqESZWBe+FcBKKgCmPdVuk4GCaUu9gUbyNuDypE/XM2PD8kmJ+bKQgyL/rqKDMKTj0ELIHF4EsLX9TdYu2VIsr3GNpkwclzK5lWS
- NQTFI4Q1MTIqnFEzKcW4k/T2E0/LPwUdpaiO5gy5ygplB+mQS0PrhiLByLQSoqbA0cFxagcudBbCkbwbSZ/OLqIUkeHnkD13xnUiTete1b9ddwqG7C3gEyyi
- kN7uE9FbD4dkMmhIuvqL5KYKPsZISR+nrpMTlrNS95AQrY4gkESjtgSNquad+PlF97Ri6nPy7nGSS/bsT9RIb9Vvb1qqwUF1AwmQCDYCrCjZHpZzwFj/zZRF
- AcTKDxQjvYRNMTP/B6XIW8QHjbM41eFMyizoy770/ec+E4yhlaOY1vz15FAIctIXablCh1n7FH+GIQ8mk3iqzM4VwlckHg==
+X-ClientProxiedBy: DB6PR0801CA0062.eurprd08.prod.outlook.com
+ (2603:10a6:4:2b::30) To DM6PR11MB3180.namprd11.prod.outlook.com
+ (2603:10b6:5:9::13)
+MIME-Version: 1.0
+Received: from [192.168.0.29] (88.156.143.198) by DB6PR0801CA0062.eurprd08.prod.outlook.com (2603:10a6:4:2b::30) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4734.19 via Frontend Transport; Wed, 24 Nov 2021 13:20:55 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 3abd070d-be83-45fb-c97a-08d9af4d3f7b
+X-MS-TrafficTypeDiagnostic: DM5PR11MB1946:
+X-Microsoft-Antispam-PRVS: <DM5PR11MB1946329D8A54BA72D9A102AAEB619@DM5PR11MB1946.namprd11.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:7691;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: HJ1c8OnBCOCK9nt+VCHTimkMqQDBF4QTDxWpH/h1Ir+/DKLASvWFzAEdxCMsIFpMWuswnO3SvlUAvGEFHT9NnzruO+nMPSVRKX0rjJ7zb6kpU/cHCUpRKbW/65NKNNiwKh1RW5HC0r9soBoWybGH6BmN/JxYtr7ztQIRgAyhE3TFXIiFg5auAqxCo4temLsbsZu0C4dLxr7oeFH0VZxG7bOIIgXqZ1uR0iG32GLcHFgQQN4DX+oHRW8fDFzddNLFIWUO7Z0UkO6sTKrMkbOF09uNMGvWQJyJ4g/+CxWk99vqnYRRJ0HydGb+MIG5hmvzPCxJMESTQxYW++RXongWjaygbRdFAh8/FmnsamIbz3j7lOgLzGVRr8ddy18YZc2sK2qQXQgly2m3Mfm4XFCfU3ieVcZyor8zrgGTTJApQ8Ej4Gij3CX7O65ADyQFV5oXWBYOIlx6uZuE7xW7m41RtB5QG8j58uirLej3S/LT3fJbFcdEwTaa33mHXLajfV8bLRAxJMq/+RWQozL3aK/Xp1i3aDnZiPPNJJ3NZiPY+QyTCZRdibYIqkwk+qYEReZ4bfhegeAPuoc/HBlG8vp2fPQk2pVrriU8hiYlKPVtygocaJIAOGefllf2nfnMmcEyP7pPW+cq8SOrupbA3+rtpIUDDIdxDtVexxYmYpfln3J1AeBMx1H/oCIDc1zuMd9i3nTcQUj8iW285MGk92cCj99MAQg1d0fAzTs1iwJnkbgsBzwNFWmMVSF3NO8ZHskIkU2wS4iFq/VrKMwxj1z2WCZzNllQwl58cPiBo9Q1fJ91XVHqk/OxP3kuAzAWhIte
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR11MB3180.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(366004)(26005)(31696002)(86362001)(83380400001)(6486002)(5660300002)(36916002)(4326008)(44832011)(186003)(2906002)(66476007)(2616005)(36756003)(6666004)(38100700002)(316002)(66946007)(66574015)(8676002)(956004)(82960400001)(53546011)(31686004)(8936002)(66556008)(16576012)(110136005)(508600001)(138113003)(98903001)(43740500002)(45980500001)(309714004);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?amhGUVRlcmNnd0ZFb2pKWGVKNE05UU9UT01OL1VVbGZzRytVV3ZIT2t0cSt2?=
+ =?utf-8?B?TW8vYnRwT1U1c2I1aFJ2ZGxlQzRMSXBpei8vbnJCeHRIWHBYZjJadGREOXdS?=
+ =?utf-8?B?NXI5VzJCcWJ3cmdCbzRLSmwySzl1L1oybmtUUVMzVzhIUU9WeC8zbldpelVy?=
+ =?utf-8?B?YklHOGRWdjlVR1c3SmUvYUFiUUdURnI2ZUpjZ3BMMkNCbXhyckFWWGpDV2hI?=
+ =?utf-8?B?Lzg0TzVXY0xtaHE5SGJHaUswMEpod1MwWGxndzU4UXdwOWRQeWdPWWNYSUlx?=
+ =?utf-8?B?YzBiVjVmSnNtS050eUN0ZUsxYUI1bHVuY2dkL2grOFQvQTh3RGRodHRCMTZs?=
+ =?utf-8?B?KzA2dTgrZjd4VERYaVJRZ0k2WXdaY011VzZ2OU8vT2pnSEJxc2oyc2hPOUN5?=
+ =?utf-8?B?R3hWTE9zZlVybnJZanYxa0F5L3MxbSswTk9IT0g4T2pGSmNnei9KT0gyWURB?=
+ =?utf-8?B?cHl3NFIvcEFxMlh5SWI5cXpncnhsVFNUckRsakFhNEdvR3VKYzhvOU8vNHlr?=
+ =?utf-8?B?aHJpQ2dWN3RubUpxUnA5OThKR1pUb20vZDFLVmZoTUZVeVp1cjNzYTlzckV3?=
+ =?utf-8?B?Wng4SHg4K1ZPMTE2TDVNUW9wS2laL1duWjdYcjZUdW1UaTN4MStHVzVRZDZB?=
+ =?utf-8?B?bzdIbmM4cktqbnM4MHhPNXRwbTVHc3BMSDZVNDFGYytUWFhtbHdiZHp6Y2FU?=
+ =?utf-8?B?dzFwUWo0Z1J2ZjdLamttQ041ZWxWc1J0aHFqVW12L3dCMjZQcEFDOGk4bDUz?=
+ =?utf-8?B?d2Rzd2F3K1gyMEZ0UCthYXdIcW0zaHdmYVpYZEVaYmNRallaMVc4WDJIYWx5?=
+ =?utf-8?B?dVIxaVBEVmtSQ2huUDVIbExDODc1R3JOQjZYT1Bnamt0Y0ZJYmxUUktSWjJu?=
+ =?utf-8?B?NmhBakUrNFM2OUlNNFI1ZHdLMHUzd25QWHZHV0tnWTdicjhSTVFNNjdyck5I?=
+ =?utf-8?B?SUk3UFh3WHA2OXdkenMvbmUxaVdNeENnVXZKeW9QRTVtM25uRnh3d3FjV0pG?=
+ =?utf-8?B?QW9hbE1RNDZFaThJRXhFOHgvdEJYZHgvVDBxbS8zYSthV3FONm1zdDNPTUtN?=
+ =?utf-8?B?VXdYSExpZWFudkdoL0JlVWZyTEhWMXpHdlFJUXZUcGIxWFRzVzZsYnU4Vk5G?=
+ =?utf-8?B?VUgvNXY0NEcwS2ZEMkdaekhlWk1BTlFHNEpoQ0hmM3NodjJ1WUY5bGpZU0xN?=
+ =?utf-8?B?VnRrZUM5QzIzckVyUEpROU95QzhuT2dLZDd4WGlNTVZXdW1rb2IzTWt5bWY5?=
+ =?utf-8?B?SkxaWlAwcm5XK1l4QWxQek9YMnZhVW83aE5xNkRuZlBUUXA4d0t4c1lUR2ha?=
+ =?utf-8?B?dHp6cStXS3dNREQ3RzA5TkJ6UW8yL1pPUUhYMDIvSndzYlpuc0duMUZJNjNZ?=
+ =?utf-8?B?U3VIem4yekZmZDlGc01BT005V085bWN6d2luQUhYcDcxQTFKK1AxdFJTdVdm?=
+ =?utf-8?B?cEdYNGhjVGVOTVZMNlFYa05CNlBUUnI4dWlLWDl3TzlXZ1hTaDFUSUc0RldB?=
+ =?utf-8?B?OEJDYjNwSnpOODFXcjhhUHpxTEd1VGRaWTNPNDVBY1NkeFpXRkxIN0F4ekxQ?=
+ =?utf-8?B?U1AybTcwSDIwMEhqWmtONE1jb25TMW1lTXJ2U3dXU0I3S0lrZGFwTW9nR3Rq?=
+ =?utf-8?B?dUNUMEVuWkJTb3NudUp4clpOZG1MZWpXUmhDcmcrSklianZ1aTBZb2hUS0dS?=
+ =?utf-8?B?WlFTdUxEMzloTmZvbmdPMEpkNW5MdWNBRHJaSnhUeEFXRWVkSnhTVStoWGFu?=
+ =?utf-8?B?MXRYaUVsejhjSlZQSTg4bG5lS2d4K3ZkMTRhTE5SUXV0SUVJQk81VzRKZ1h0?=
+ =?utf-8?B?cUdMSUhZa0JIT0srRHl0dVBiMVV4M0pIbUxIeXF3aHJSMGdTaE9vcmUzTG9s?=
+ =?utf-8?B?bFJ0OUp2OW1UalBpWElITENTSGYxQlRjTkFPMzU3R291NmdnMmJRS3VxRk5z?=
+ =?utf-8?B?Q25Yb0I5WGZ4bmFCYW9yZ3c2RldQSzhCc3VpNXVodktEMXExUlJQRjUvcnZ0?=
+ =?utf-8?B?dklQTHBHRzV5S0hFUmRuWnN0NzB6dmxONDNRQndzQjFkZ0haaEpFcmEzanlX?=
+ =?utf-8?B?OUtOL2JYYlJGSTl2UWdocXY4WUV5c3IzRjdML2x4M3FaNHRCL2RMdGloanBS?=
+ =?utf-8?B?eHA1eUZvYlRxRmVNMGk1Q1ZpMEY3M3hrTm45R0toVEJ5R1dNME9BQkw3aW9N?=
+ =?utf-8?Q?Dj3Xle4N7fIuR+1Yt/wtnbI=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3abd070d-be83-45fb-c97a-08d9af4d3f7b
+X-MS-Exchange-CrossTenant-AuthSource: DM6PR11MB3180.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Nov 2021 13:20:56.4064
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: G0hDYuQjlAyG+AVeSpP8uCf4/Sh4z3ndlwYSgug9jLEajSIGJ9tHcPc3AOYg6YIbZUp3BTHTO9XGi4chmCVjoA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR11MB1946
+X-OriginatorOrg: intel.com
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 03/11/2021 23:58, Alexandre Courbot wrote:
-> Thanks for the comments. It looks like we are having a consensus that
-> the described behavior is the current (untold) expectation, and how a
-> client should behave if it wants to support all V4L2 decoders. OTOH it
-> would also be nice to be able to signal the client that CAPTURE
-> buffers are not used by the hardware and can thus be overwritten/freed
-> at will.
-> 
-> I have discussed a bit with Nicolas on IRC and we were wondering where
-> such a flag signaling that capability should be. We could have:
-> 
-> 1) Something global to the currently set format, i.e. maybe take some
-> space from the reserved area of v4l2_pix_format_mplane to add a flag.
-> The property would then be global to all buffers, and apply between
-> calls to STREAMON and STREAMOFF.
+Hi Maíra, Hans,
 
-VIDIOC_ENUM_FMT is already used to signal format flags, so it could be
-put there.
 
-Regards,
+On 24.11.2021 12:25, Hans Verkuil wrote:
+> Hi Maíra,
+>
+> On 12/10/2021 21:46, Maíra Canal wrote:
+>> Removing old gpiod interface and replacing it for the gpiod consumer
+>> interface.
+> Has this been tested? I feel a bit uncomfortable to merged this without
+> knowing that it works. Andrzej, what do you think about this patch?
 
-	Hans
 
-> 
-> 2) An additional flag to the v4l2_buffer structure that would signal
-> whether the buffer is currently writable. This means the writable
-> property of buffers can be signaled on a finer grain (i.e. reference
-> frames would not be writable, but non-reference ones would be), and we
-> can even update the status of a given buffer after it is not used as a
-> reference (the client would have to QUERYBUF to get the updated status
-> though). OTOH a client that needs to know whether the buffers are
-> writable before streaming would need to query them all one-by-one.
-> 
-> I am not sure whether we need something as precise as 2), or whether
-> 1) would be enough and globally simpler. Any more thoughts?
-> 
-> Cheers,
-> Alex.
-> 
-> On Mon, Nov 1, 2021 at 11:52 PM Nicolas Dufresne <nicolas@ndufresne.ca> wrote:
->>
->> Le vendredi 29 octobre 2021 à 10:28 +0300, Stanimir Varbanov a écrit :
->>>
->>> On 10/29/21 5:10 AM, Ming Qian wrote:
->>>>> -----Original Message-----
->>>>> From: Nicolas Dufresne [mailto:nicolas@ndufresne.ca]
->>>>> Sent: Tuesday, October 26, 2021 10:12 PM
->>>>> To: Alexandre Courbot <acourbot@chromium.org>; Mauro Carvalho Chehab
->>>>> <mchehab@kernel.org>; Hans Verkuil <hverkuil-cisco@xs4all.nl>; Tomasz Figa
->>>>> <tfiga@chromium.org>
->>>>> Cc: linux-media@vger.kernel.org; linux-kernel@vger.kernel.org
->>>>> Subject: [EXT] Re: [PATCH] media: docs: dev-decoder: add restrictions about
->>>>> CAPTURE buffers
->>>>>
->>>>> Caution: EXT Email
->>>>>
->>>>> Le lundi 18 octobre 2021 à 18:14 +0900, Alexandre Courbot a écrit :
->>>>>> CAPTURE buffers might be read by the hardware after they are dequeued,
->>>>>> which goes against the general idea that userspace has full control
->>>>>> over dequeued buffers. Explain why and document the restrictions that
->>>>>> this implies for userspace.
->>>>>>
->>>>>> Signed-off-by: Alexandre Courbot <acourbot@chromium.org>
->>>>>> ---
->>>>>>  .../userspace-api/media/v4l/dev-decoder.rst     | 17
->>>>> +++++++++++++++++
->>>>>>  1 file changed, 17 insertions(+)
->>>>>>
->>>>>> diff --git a/Documentation/userspace-api/media/v4l/dev-decoder.rst
->>>>>> b/Documentation/userspace-api/media/v4l/dev-decoder.rst
->>>>>> index 5b9b83feeceb..3cf2b496f2d0 100644
->>>>>> --- a/Documentation/userspace-api/media/v4l/dev-decoder.rst
->>>>>> +++ b/Documentation/userspace-api/media/v4l/dev-decoder.rst
->>>>>> @@ -752,6 +752,23 @@ available to dequeue. Specifically:
->>>>>>       buffers are out-of-order compared to the ``OUTPUT`` buffers):
->>>>> ``CAPTURE``
->>>>>>       timestamps will not retain the order of ``OUTPUT`` timestamps.
->>>>>>
->>>>>> +.. note::
->>>>>> +
->>>>>> +   The backing memory of ``CAPTURE`` buffers that are used as reference
->>>>> frames
->>>>>> +   by the stream may be read by the hardware even after they are
->>>>> dequeued.
->>>>>> +   Consequently, the client should avoid writing into this memory while the
->>>>>> +   ``CAPTURE`` queue is streaming. Failure to observe this may result in
->>>>>> +   corruption of decoded frames.
->>>>>> +
->>>>>> +   Similarly, when using a memory type other than
->>>>> ``V4L2_MEMORY_MMAP``, the
->>>>>> +   client should make sure that each ``CAPTURE`` buffer is always queued
->>>>> with
->>>>>> +   the same backing memory for as long as the ``CAPTURE`` queue is
->>>>> streaming.
->>>>>> +   The reason for this is that V4L2 buffer indices can be used by drivers to
->>>>>> +   identify frames. Thus, if the backing memory of a reference frame is
->>>>>> +   submitted under a different buffer ID, the driver may misidentify it and
->>>>>> +   decode a new frame into it while it is still in use, resulting in corruption
->>>>>> +   of the following frames.
->>>>>> +
->>>>>
->>>>> I think this is nice addition, but insufficient. We should extend the API with a
->>>>> flags that let application know if the buffers are reference or secondary. For the
->>>>> context, we have a mix of CODEC that will output usable reference frames and
->>>>> needs careful manipulation and many other drivers where the buffers *maybe*
->>>>> secondary, meaning they may have been post-processed and modifying these
->>>>> in- place may have no impact.
->>>>>
->>>>> The problem is the "may", that will depends on the chosen CAPTURE format. I
->>>>> believe we should flag this, this flag should be set by the driver, on CAPTURE
->>>>> queue. The information is known after S_FMT, so Format Flag, Reqbufs
->>>>> capabilities or querybuf flags are candidates. I think the buffer flags are the
->>>>> best named flag, though we don't expect this to differ per buffer. Though,
->>>>> userspace needs to call querybuf for all buf in order to export or map them.
->>>>>
->>>>> What userspace can do with this is to export the DMABuf as read-only, and
->>>>> signal this internally in its own context. This is great to avoid any unwanted
->>>>> side effect described here.
->>>>
->>>> I think a flag should be add to tell a buffer is reference or secondary.
->>>> But for some codec, it's hard to determine the buffer flag when reqbufs.
->>>> The buffer flag should be dynamically updated by driver.
->>>> User can check the flag after dqbuf every time.
->>>
->>> +1
->>>
->>> I'm not familiar with stateless decoders where on the reqbuf time it
->>> could work, debut for stateful coders it should be a dynamic flag on
->>> every capture buffer.
->>
->> This isn't very clear request here, on which C structure to you say you would
->> prefer this ?
->>
->> There is no difference for stateful/stateless for this regard. The capture
->> format must have been configured prior to reqbuf, so nothing post S_FMT(CAPTURE)
->> can every be very dynamic. I think the flag in S_FMT is miss-named and would
->> create confusion. struct v4l2_reqbufs vs struc v4l2_buffer are equivalent. The
->> seconds opens for flexibility.
->>
->> In fact, for some certain CODEC, there exist B-Frames that are never used as
->> references, so these could indeed can be written to even if the buffer are not
->> secondary. I think recommending to flag this in v4l2_buffer, and read through
->> VIDIOC_QUERYBUF would be the best choice.
->>
->>>
->>>>
->>>>>
->>>>>>  During the decoding, the decoder may initiate one of the special
->>>>>> sequences, as  listed below. The sequences will result in the decoder
->>>>>> returning all the  ``CAPTURE`` buffers that originated from all the
->>>>>> ``OUTPUT`` buffers processed
->>>>>
->>>>
->>>
->>
->>
+This is step into good direction(thanks Maira), but I would suggest go 
+further, all this gpio stuff in s5cc73m3 is obsolete. You could remove 
+all the code which is already handled by gpiod framework:
 
+- s5c73m3_gpio,
+
+- s5c73m3_parse_gpios,
+
+- s5c73m3_gpio_set_value.
+
+
+Regards
+
+Andrzej
+
+
+
+>
+> Maíra, is there a specific reason why you made this patch?
+>
+> Regards,
+>
+> 	Hans
+>
+>> Signed-off-by: Maíra Canal <maira.canal@usp.br>
+>> ---
+>>   drivers/media/i2c/s5c73m3/s5c73m3-core.c | 25 +++++++++++++-----------
+>>   include/media/i2c/s5c73m3.h              |  3 ++-
+>>   2 files changed, 16 insertions(+), 12 deletions(-)
+>>
+>> diff --git a/drivers/media/i2c/s5c73m3/s5c73m3-core.c b/drivers/media/i2c/s5c73m3/s5c73m3-core.c
+>> index e2b88c5e4f98..0c69a3fc7ebe 100644
+>> --- a/drivers/media/i2c/s5c73m3/s5c73m3-core.c
+>> +++ b/drivers/media/i2c/s5c73m3/s5c73m3-core.c
+>> @@ -10,7 +10,7 @@
+>>   #include <linux/clk.h>
+>>   #include <linux/delay.h>
+>>   #include <linux/firmware.h>
+>> -#include <linux/gpio.h>
+>> +#include <linux/gpio/consumer.h>
+>>   #include <linux/i2c.h>
+>>   #include <linux/init.h>
+>>   #include <linux/media.h>
+>> @@ -1349,9 +1349,9 @@ static int s5c73m3_oif_open(struct v4l2_subdev *sd, struct v4l2_subdev_fh *fh)
+>>   
+>>   static int s5c73m3_gpio_set_value(struct s5c73m3 *priv, int id, u32 val)
+>>   {
+>> -	if (!gpio_is_valid(priv->gpio[id].gpio))
+>> +	if (!priv->gpio[id].gpio)
+>>   		return 0;
+>> -	gpio_set_value(priv->gpio[id].gpio, !!val);
+>> +	gpiod_set_value(priv->gpio[id].gpio, !!val);
+>>   	return 1;
+>>   }
+>>   
+>> @@ -1548,20 +1548,24 @@ static int s5c73m3_configure_gpios(struct s5c73m3 *state)
+>>   	static const char * const gpio_names[] = {
+>>   		"S5C73M3_STBY", "S5C73M3_RST"
+>>   	};
+>> +	static const char * const prop_names[] = {
+>> +		"standby", "xshutdown",
+>> +	};
+>> +
+>>   	struct i2c_client *c = state->i2c_client;
+>>   	struct s5c73m3_gpio *g = state->gpio;
+>> -	int ret, i;
+>> +	int i;
+>>   
+>>   	for (i = 0; i < GPIO_NUM; ++i) {
+>> -		unsigned int flags = GPIOF_DIR_OUT;
+>> +		unsigned int flags = GPIOD_OUT_LOW;
+>>   		if (g[i].level)
+>> -			flags |= GPIOF_INIT_HIGH;
+>> -		ret = devm_gpio_request_one(&c->dev, g[i].gpio, flags,
+>> -					    gpio_names[i]);
+>> -		if (ret) {
+>> +			flags = GPIOD_OUT_HIGH;
+>> +		g[i].gpio = devm_gpiod_get_optional(&c->dev, prop_names[i],
+>> +				flags);
+>> +		if (IS_ERR(g[i].gpio)) {
+>>   			v4l2_err(c, "failed to request gpio %s\n",
+>>   				 gpio_names[i]);
+>> -			return ret;
+>> +			return PTR_ERR(g[i].gpio);
+>>   		}
+>>   	}
+>>   	return 0;
+>> @@ -1586,7 +1590,6 @@ static int s5c73m3_parse_gpios(struct s5c73m3 *state)
+>>   				prop_names[i]);
+>>   			return -EINVAL;
+>>   		}
+>> -		state->gpio[i].gpio = ret;
+>>   		state->gpio[i].level = !(of_flags & OF_GPIO_ACTIVE_LOW);
+>>   	}
+>>   	return 0;
+>> diff --git a/include/media/i2c/s5c73m3.h b/include/media/i2c/s5c73m3.h
+>> index a51f1025ba1c..41e2235f0626 100644
+>> --- a/include/media/i2c/s5c73m3.h
+>> +++ b/include/media/i2c/s5c73m3.h
+>> @@ -17,6 +17,7 @@
+>>   #ifndef MEDIA_S5C73M3__
+>>   #define MEDIA_S5C73M3__
+>>   
+>> +#include <linux/gpio/consumer.h>
+>>   #include <linux/videodev2.h>
+>>   #include <media/v4l2-mediabus.h>
+>>   
+>> @@ -26,7 +27,7 @@
+>>    * @level: indicates active state of the @gpio
+>>    */
+>>   struct s5c73m3_gpio {
+>> -	int gpio;
+>> +	struct gpio_desc *gpio;
+>>   	int level;
+>>   };
+>>   
+>>
