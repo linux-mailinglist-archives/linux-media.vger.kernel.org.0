@@ -2,165 +2,191 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 72C0645B415
-	for <lists+linux-media@lfdr.de>; Wed, 24 Nov 2021 06:59:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9A98D45B448
+	for <lists+linux-media@lfdr.de>; Wed, 24 Nov 2021 07:30:27 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233613AbhKXGCN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 24 Nov 2021 01:02:13 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48018 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233411AbhKXGCM (ORCPT
+        id S234770AbhKXGdd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 24 Nov 2021 01:33:33 -0500
+Received: from perceval.ideasonboard.com ([213.167.242.64]:49162 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229479AbhKXGdd (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 24 Nov 2021 01:02:12 -0500
-Received: from lb1-smtp-cloud7.xs4all.net (lb1-smtp-cloud7.xs4all.net [IPv6:2001:888:0:108::1a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C2194C061574
-        for <linux-media@vger.kernel.org>; Tue, 23 Nov 2021 21:59:03 -0800 (PST)
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud7.xs4all.net with ESMTPA
-        id plJ1mc4e9CMnAplJ6muLkl; Wed, 24 Nov 2021 06:59:00 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1637733540; bh=jdGHNyR5oafj4HEkSsHfv+unXVEo5yd8poZFQ02jIHc=;
-        h=Message-ID:Date:From:To:Subject:From:Subject;
-        b=QRS9bAYY2CmNh+fKuSzUOlvZdj3TqzLBooDiM7//B06Iug6MWB0YCBQ51kHsE5Sac
-         nRbexvFvuAN2JQeQEOZdL8KR97bomIYLUwqA81/gWPST1F44gb8BzXDIc29zE7JSai
-         gv4vOnYrbpMu3HhV+4nz882/izpVVaZMOtRdzgmPHG5Z64PaGYmOOlx3lrVnGfJDxn
-         kIZsIVnP5hSrwqbl0JyfZoszA2HuLHS8pP9Cz3XlGOLyTqmPxyvUhjfmDcW9UAUsVp
-         CVQUhdIR1wv5Vva9IZWtKqOZiXsPyQdooFWQ2uaLP+S3g6Zrpgbk9w51a/QfC9vkiy
-         VZVr0j5dkk/ug==
-Message-ID: <bb72a40b86e0d64472254318d3f4f11e@smtp-cloud7.xs4all.net>
-Date:   Wed, 24 Nov 2021 06:58:55 +0100
-From:   "Hans Verkuil" <hverkuil@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: WARNINGS
-X-CMAE-Envelope: MS4xfD7+3ZqBA/UCxfaFBsDCjSVgLBLq/Rz41AsJKJTAbLdq9bAcWJvjCGQwOzAXSqTNxjeKIHgoXEei0aGkzArszUcFsfRGn9JYREeLbCh/yAHLwYE5LKwE
- s+1A2q9gMyKUJSiBeiYgeL45CGR+HGERC5Dts4Mf5a2NKvEUeFRTyeuWvZRaHIS7fi4R1mU97KEd3Q==
+        Wed, 24 Nov 2021 01:33:33 -0500
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 042C7D78;
+        Wed, 24 Nov 2021 07:30:22 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1637735423;
+        bh=oLd/p6dnZcznalXXe2bYzvgmoujMsT8+XQYircdZ648=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=Yi9ld04IgcOoUC/xnaSLdfFAr5+MlkTiI6IU0CD5IxlhBi0blec6hcxP4SBF/YWqX
+         P9LZuYyN6JWV/aorQNlZRqTJcmLumgncCepaVLDgbwOnziwwNRQzJ+94eNaMzaCd82
+         lKPu3SHbopaZVGEJjRregf//BoyCNIldPyDx+ZUA=
+Date:   Wed, 24 Nov 2021 08:30:00 +0200
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Scott K Logan <logans@cottsay.net>
+Cc:     linux-uvc-devel@lists.sourceforge.net, linux-media@vger.kernel.org,
+        Yuriy M Kaminskiy <yumkam@gmail.com>
+Subject: Re: [PATCH v2 1/1] media: uvcvideo: Add quirk for exponential
+ exposure
+Message-ID: <YZ3b6ObAhJnz9OSF@pendragon.ideasonboard.com>
+References: <20211003023554.885815-2-logans@cottsay.net>
+ <20211124005834.556428-1-logans@cottsay.net>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20211124005834.556428-1-logans@cottsay.net>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the kernels and architectures in the list below.
+Hi Scott,
 
-Results of the daily build of media_tree:
+Thank you for the patch.
 
-date:			Wed Nov 24 05:00:12 CET 2021
-media-tree git hash:	0d2517b3765aa331aee0a95f9b8072062d6bb7e5
-media_build git hash:	90bf75007a9f73a3bfd144cae29e05229e702035
-v4l-utils git hash:	b949cffb419ce76e8a66f83d62f2011c682f94d9
-edid-decode git hash:	b00755e34eb12aa92416aaf1bb7b02603131afe0
-gcc version:		i686-linux-gcc (GCC) 11.2.0
-sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
-sparse version:		0.6.3
-smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
-smatch version:		0.6.3
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: 8316772c4add75a82a86054e3f1c63b664b6542f
-host hardware:		x86_64
-host os:		5.14.0-2-amd64
+On Wed, Nov 24, 2021 at 12:59:05AM +0000, Scott K Logan wrote:
+> At least some of the Microsoft LifeCam series of webcams exhibit a
+> behavior which requires a 'quirk' to be handled properly. When
+> configuring the absolute exposure value of the image, there are only a
+> handful of values which will result in a consistent change to the image
+> exposure, while all other values appear to result in a maximum
+> exposure.
+> The valid values appear to follow an exponential pattern from the
+> maximum value (10000) down to the minimum, yielding less than 15
+> possible values depending on the device's reported minimum.
+> 
+> Signed-off-by: Scott K Logan <logans@cottsay.net>
+> ---
+>  drivers/media/usb/uvc/uvc_ctrl.c   | 41 ++++++++++++++++++++++++++++++
+>  drivers/media/usb/uvc/uvc_driver.c | 27 ++++++++++++++++++++
+>  drivers/media/usb/uvc/uvcvideo.h   |  1 +
+>  3 files changed, 69 insertions(+)
+> 
+> diff --git a/drivers/media/usb/uvc/uvc_ctrl.c b/drivers/media/usb/uvc/uvc_ctrl.c
+> index 30bfe9069a1f..2dfc70597858 100644
+> --- a/drivers/media/usb/uvc/uvc_ctrl.c
+> +++ b/drivers/media/usb/uvc/uvc_ctrl.c
+> @@ -2142,6 +2142,40 @@ int uvc_ctrl_restore_values(struct uvc_device *dev)
+>  	return 0;
+>  }
+>  
+> +/* --------------------------------------------------------------------------
+> + * Quirks
+> + */
+> +
+> +static s32 uvc_ctrl_get_abs_exposure_exponential(
+> +	struct uvc_control_mapping *mapping, u8 query, const u8 *data)
+> +{
+> +	s32 i;
+> +	s32 value = uvc_get_le_value(mapping, query, data);
+> +
+> +	switch (query) {
+> +	case UVC_GET_CUR:
+> +	case UVC_GET_MIN:
+> +	case UVC_GET_MAX:
+> +	case UVC_GET_DEF:
+> +		for (i = 0; i < 14; ++i) {
+> +			if (10000 >> i <= value)
+> +				break;
+> +		}
+> +		return 14 - i;
+> +	case UVC_GET_RES:
+> +		return 1;
+> +	default:
+> +		return value;
+> +	}
+> +}
+> +
+> +static void uvc_ctrl_set_abs_exposure_exponential(
+> +	struct uvc_control_mapping *mapping, s32 value, u8 *data)
+> +{
+> +	value = 10000 >> (14 - value);
 
-linux-git-sh: OK
-linux-git-arm-at91: OK
-linux-git-arm-davinci: OK
-linux-git-mips: OK
-linux-git-arm-stm32: OK
-linux-git-arm-pxa: OK
-linux-git-arm-multi: OK
-linux-git-arm64: OK
-linux-git-powerpc64: OK
-linux-git-i686: OK
-linux-git-x86_64: OK
-Check COMPILE_TEST: OK
-Check for strcpy/strncpy/strlcpy: OK
-linux-4.4.283-i686: OK
-linux-4.4.283-x86_64: OK
-linux-4.5.7-i686: OK
-linux-4.5.7-x86_64: OK
-linux-4.6.7-i686: OK
-linux-4.6.7-x86_64: OK
-linux-4.7.10-i686: OK
-linux-4.7.10-x86_64: OK
-linux-4.8.17-i686: OK
-linux-4.8.17-x86_64: OK
-linux-4.9.246-i686: OK
-linux-4.9.246-x86_64: OK
-linux-4.10.17-i686: OK
-linux-4.10.17-x86_64: OK
-linux-4.11.12-i686: OK
-linux-4.11.12-x86_64: OK
-linux-4.12.14-i686: OK
-linux-4.12.14-x86_64: OK
-linux-4.13.16-i686: OK
-linux-4.13.16-x86_64: OK
-linux-4.14.246-i686: OK
-linux-4.14.246-x86_64: OK
-linux-4.15.18-i686: OK
-linux-4.15.18-x86_64: OK
-linux-4.16.18-i686: OK
-linux-4.16.18-x86_64: OK
-linux-4.17.19-i686: OK
-linux-4.17.19-x86_64: OK
-linux-4.18.20-i686: OK
-linux-4.18.20-x86_64: OK
-linux-4.19.206-i686: OK
-linux-4.19.206-x86_64: OK
-linux-4.20.17-i686: OK
-linux-4.20.17-x86_64: OK
-linux-5.0.21-i686: OK
-linux-5.0.21-x86_64: OK
-linux-5.1.21-i686: OK
-linux-5.1.21-x86_64: OK
-linux-5.2.21-i686: OK
-linux-5.2.21-x86_64: OK
-linux-5.3.18-i686: OK
-linux-5.3.18-x86_64: OK
-linux-5.4.144-i686: OK
-linux-5.4.144-x86_64: OK
-linux-5.5.19-i686: OK
-linux-5.5.19-x86_64: OK
-linux-5.6.19-i686: OK
-linux-5.6.19-x86_64: OK
-linux-5.7.19-i686: OK
-linux-5.7.19-x86_64: OK
-linux-5.8.18-i686: OK
-linux-5.8.18-x86_64: OK
-linux-5.9.16-i686: OK
-linux-5.9.16-x86_64: OK
-linux-5.10.62-i686: OK
-linux-5.10.62-x86_64: OK
-linux-5.11.22-i686: OK
-linux-5.11.22-x86_64: OK
-linux-5.12.19-i686: OK
-linux-5.12.19-x86_64: OK
-linux-5.13.14-i686: OK
-linux-5.13.14-x86_64: OK
-linux-5.14.1-i686: OK
-linux-5.14.1-x86_64: OK
-linux-5.15.1-i686: OK
-linux-5.15.1-x86_64: OK
-linux-5.16-rc1-i686: OK
-linux-5.16-rc1-x86_64: OK
-apps: OK
-spec-git: OK
-virtme: OK: Final Summary: 2989, Succeeded: 2989, Failed: 0, Warnings: 0
-virtme-32: WARNINGS: Final Summary: 3100, Succeeded: 3100, Failed: 0, Warnings: 4
-sparse: WARNINGS
-smatch: WARNINGS
-kerneldoc: WARNINGS
+In addition to restricting the values to the ones correctly supported by
+the device, this maps a linear scale (1 to 10000) to an exponential
+scale (1 to 14). The V4L2 control V4L2_CID_EXPOSURE_ABSOLUTE is supposed
+to be linear, and documented as expressed in 100 µs units.
 
-Detailed results are available here:
+Wouldn't it be better to keep the original scale (1 to 10000) and round
+the requested value to the closest supported value ?
 
-http://www.xs4all.nl/~hverkuil/logs/Wednesday.log
+Additionally, do we have a guarantee that all the devices that need this
+quirk will have the same exposure range (1 to 10000), or could the
+maximum value be different ?
 
-Detailed regression test results are available here:
+> +	uvc_set_le_value(mapping, value, data);
+> +}
+> +
+>  /* --------------------------------------------------------------------------
+>   * Control and mapping handling
+>   */
+> @@ -2210,6 +2244,13 @@ static int __uvc_ctrl_add_mapping(struct uvc_video_chain *chain,
+>  		}
+>  	}
+>  
+> +	if ((chain->dev->quirks & UVC_QUIRK_EXPONENTIAL_EXPOSURE) &&
+> +	    ctrl->info.selector == UVC_CT_EXPOSURE_TIME_ABSOLUTE_CONTROL) {
+> +		uvc_dbg(chain->dev, CONTROL, "Applying exponential exposure quirk\n");
+> +		map->get = uvc_ctrl_get_abs_exposure_exponential;
+> +		map->set = uvc_ctrl_set_abs_exposure_exponential;
+> +	}
+> +
+>  	list_add_tail(&map->list, &ctrl->info.mappings);
+>  	uvc_dbg(chain->dev, CONTROL, "Adding mapping '%s' to control %pUl/%u\n",
+>  		uvc_map_get_name(map), ctrl->info.entity,
+> diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc_driver.c
+> index 7c007426e082..9edf77ee30e6 100644
+> --- a/drivers/media/usb/uvc/uvc_driver.c
+> +++ b/drivers/media/usb/uvc/uvc_driver.c
+> @@ -2718,6 +2718,33 @@ static const struct usb_device_id uvc_ids[] = {
+>  	  .bInterfaceSubClass	= 1,
+>  	  .bInterfaceProtocol	= 0,
+>  	  .driver_info		= (kernel_ulong_t)&uvc_quirk_probe_minmax },
+> +	/* Microsoft Lifecam HD-5000 */
+> +	{ .match_flags		= USB_DEVICE_ID_MATCH_DEVICE
+> +				| USB_DEVICE_ID_MATCH_INT_INFO,
+> +	  .idVendor		= 0x045e,
+> +	  .idProduct		= 0x076d,
+> +	  .bInterfaceClass	= USB_CLASS_VIDEO,
+> +	  .bInterfaceSubClass	= 1,
+> +	  .bInterfaceProtocol	= 0,
+> +	  .driver_info		= UVC_INFO_QUIRK(UVC_QUIRK_EXPONENTIAL_EXPOSURE) },
+> +	/* Microsoft Lifecam Studio */
+> +	{ .match_flags		= USB_DEVICE_ID_MATCH_DEVICE
+> +				| USB_DEVICE_ID_MATCH_INT_INFO,
+> +	  .idVendor		= 0x045e,
+> +	  .idProduct		= 0x0772,
+> +	  .bInterfaceClass	= USB_CLASS_VIDEO,
+> +	  .bInterfaceSubClass	= 1,
+> +	  .bInterfaceProtocol	= 0,
+> +	  .driver_info		= UVC_INFO_QUIRK(UVC_QUIRK_EXPONENTIAL_EXPOSURE) },
+> +	/* Microsoft Lifecam HD-3000 */
+> +	{ .match_flags		= USB_DEVICE_ID_MATCH_DEVICE
+> +				| USB_DEVICE_ID_MATCH_INT_INFO,
+> +	  .idVendor		= 0x045e,
+> +	  .idProduct		= 0x0810,
+> +	  .bInterfaceClass	= USB_CLASS_VIDEO,
+> +	  .bInterfaceSubClass	= 1,
+> +	  .bInterfaceProtocol	= 0,
+> +	  .driver_info		= UVC_INFO_QUIRK(UVC_QUIRK_EXPONENTIAL_EXPOSURE) },
+>  	/* Logitech Quickcam Fusion */
+>  	{ .match_flags		= USB_DEVICE_ID_MATCH_DEVICE
+>  				| USB_DEVICE_ID_MATCH_INT_INFO,
+> diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/uvcvideo.h
+> index 2e5366143b81..b6d5ae0b1c90 100644
+> --- a/drivers/media/usb/uvc/uvcvideo.h
+> +++ b/drivers/media/usb/uvc/uvcvideo.h
+> @@ -209,6 +209,7 @@
+>  #define UVC_QUIRK_RESTORE_CTRLS_ON_INIT	0x00000400
+>  #define UVC_QUIRK_FORCE_Y8		0x00000800
+>  #define UVC_QUIRK_FORCE_BPP		0x00001000
+> +#define UVC_QUIRK_EXPONENTIAL_EXPOSURE	0x00002000
+>  
+>  /* Format flags */
+>  #define UVC_FMT_FLAG_COMPRESSED		0x00000001
 
-http://www.xs4all.nl/~hverkuil/logs/Wednesday-test-media.log
-http://www.xs4all.nl/~hverkuil/logs/Wednesday-test-media-32.log
-http://www.xs4all.nl/~hverkuil/logs/Wednesday-test-media-dmesg.log
+-- 
+Regards,
 
-Full logs are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Wednesday.tar.bz2
-
-The Media Infrastructure API from this daily build is here:
-
-http://www.xs4all.nl/~hverkuil/spec/index.html
+Laurent Pinchart
