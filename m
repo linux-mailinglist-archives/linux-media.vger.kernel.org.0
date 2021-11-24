@@ -2,108 +2,112 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C53D745D010
-	for <lists+linux-media@lfdr.de>; Wed, 24 Nov 2021 23:25:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 03E8E45D011
+	for <lists+linux-media@lfdr.de>; Wed, 24 Nov 2021 23:27:02 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1344454AbhKXW2m (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 24 Nov 2021 17:28:42 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45164 "EHLO
+        id S1344522AbhKXWaL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 24 Nov 2021 17:30:11 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45482 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1344009AbhKXW2m (ORCPT
+        with ESMTP id S1344457AbhKXWaK (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 24 Nov 2021 17:28:42 -0500
-Received: from mail-ed1-x536.google.com (mail-ed1-x536.google.com [IPv6:2a00:1450:4864:20::536])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CE1F7C061574
-        for <linux-media@vger.kernel.org>; Wed, 24 Nov 2021 14:25:31 -0800 (PST)
-Received: by mail-ed1-x536.google.com with SMTP id w1so16943391edc.6
-        for <linux-media@vger.kernel.org>; Wed, 24 Nov 2021 14:25:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=OM+Bt0jurGFJx99me/ntkFCi3Kp9bDnkL01v69NNRek=;
-        b=hqQ/+qo8arS9AP17amb6Rarjrtm80fbeHcBDx0qqDC7zMoGHz4bxPwBOMTrSG4xg4k
-         nwNhMqezSkj4SnwAeoaU70tbnE2pvSnqYU0G46De4xVBB5CTsDPZQFycvCA/YJ5swRJz
-         fv4ZJSweVUKMC+d7JEADQjWoHI3lZiYnHBCXBKbMYIQNwr3R8iLechF87Mbj+zi1JUEa
-         G97qwH4dbMEA6uQJO5IrG0miOG+QkclNpqEHD2DZvcDyqn9/zsy77TLrG2zOgwCPyVih
-         s49ZQpQSWezft9OzD1wu9MTC711ieA6rzagf9klC+uwZxpg3JXpwZAzJM04GvQN7w98f
-         r0vA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=OM+Bt0jurGFJx99me/ntkFCi3Kp9bDnkL01v69NNRek=;
-        b=xF5ULQUfZe1ijPKt4RcoAICFlsZ4ghiLcSvTgTFA79HIUsQPpvCFVAZAvya0HixJG9
-         +hQvpGKrPYRO6UtELAVg3m+JSSRT7hFX3h/ME3Mh5Vq9NzbEuhT/+QD5dW7YKvC3Cak/
-         hfrv0SWDXAgyNA9q8rZzPt4zVOxuh9tRPG9hX6tQAASGKznD+qYIuuQh32ME1uFHGpqR
-         3HgoeXb+97DCJk5Ltj2239kF558VJSAjWZhZZFL91f2fPISQ0CRVGBHiKAJguO2U4cJr
-         HLK+qBSTbMfLBJfgIzvMDM9M0Fm++qfrPx3UbiEuQruENmtaiJmWvsKx52zcwZKl9uU1
-         EjCQ==
-X-Gm-Message-State: AOAM532AveZjgJq58yN/hShN6ON6xTYv2v8EFDkKnHglUi+qHLbnwxES
-        YAymS8SvX/RRqI3V8mFFtncxUUedVQzWNA==
-X-Google-Smtp-Source: ABdhPJwn6CYd7h6d4aBmqc7GXEUky6q9og+WHe+no+HLLKpn+8I6LjFrJakJHgbiWSmr62dLxYhiDA==
-X-Received: by 2002:a05:6402:5208:: with SMTP id s8mr31179314edd.394.1637792730090;
-        Wed, 24 Nov 2021 14:25:30 -0800 (PST)
-Received: from localhost.localdomain (hst-208-203.medicom.bg. [84.238.208.203])
-        by smtp.gmail.com with ESMTPSA id mp5sm571570ejc.68.2021.11.24.14.25.29
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 24 Nov 2021 14:25:29 -0800 (PST)
-From:   Stanimir Varbanov <stanimir.varbanov@linaro.org>
-To:     linux-media@vger.kernel.org
-Cc:     Hans Verkuil <hverkuil@xs4all.nl>,
-        Stanimir Varbanov <stanimir.varbanov@linaro.org>
-Subject: [PATCH] venus: core: Fix kerneldoc warnings
-Date:   Thu, 25 Nov 2021 00:25:12 +0200
-Message-Id: <20211124222512.1223462-1-stanimir.varbanov@linaro.org>
-X-Mailer: git-send-email 2.25.1
+        Wed, 24 Nov 2021 17:30:10 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4B2A9C061574;
+        Wed, 24 Nov 2021 14:27:00 -0800 (PST)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 8FB4290E;
+        Wed, 24 Nov 2021 23:26:58 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1637792818;
+        bh=MhpUrhVW+9QPh2Furlp0JZjdfxALMVDTKEaY5FshAys=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=hUmZ+pWDZ5FtHXjmNnznCKybWeFSFPzvHPps2vGdP/FlVszrGZp8I8HxtB24JuZ4r
+         i5vsJkyBfJcKZpod6HdLyBkSZD4b/vPUhSlK0bcyuQfATxLTyzuzi2/67o/Vg55y0A
+         OPK3nwBV2eVFR1pMiIOzVedq4h7Ie0n89XA8vYik=
+Date:   Thu, 25 Nov 2021 00:26:35 +0200
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Arnd Bergmann <arnd@kernel.org>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Vaibhav Hiremath <hvaibhav@ti.com>,
+        Stanimir Varbanov <svarbanov@mm-sol.com>,
+        Dominic Curran <dcurran@ti.com>,
+        David Cohen <dacohen@gmail.com>, linux-media@vger.kernel.org,
+        linux-kernel@vger.kernel.org, llvm@lists.linux.dev
+Subject: Re: [PATCH] media: omap3isp: fix out-of-range warning
+Message-ID: <YZ68G09viJA/vkby@pendragon.ideasonboard.com>
+References: <20211124192430.74541-1-arnd@kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20211124192430.74541-1-arnd@kernel.org>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Describe missing structure members:
+Hi Arnd,
 
-core.h: warning: Function parameter or member
-'sys_err_done' not described in 'venus_core'
-'fw_min_cnt' not described in 'venus_inst'
-'flags' not described in 'venus_inst'
-'dpb_ids' not described in 'venus_inst'
+Thank you for the patch.
 
-Signed-off-by: Stanimir Varbanov <stanimir.varbanov@linaro.org>
----
- drivers/media/platform/qcom/venus/core.h | 4 ++++
- 1 file changed, 4 insertions(+)
+On Wed, Nov 24, 2021 at 08:24:15PM +0100, Arnd Bergmann wrote:
+> From: Arnd Bergmann <arnd@arndb.de>
+> 
+> clang points out that the 8-bit height/width values never exceed
+> the range of that type when building with 'make W=1 LLVM=1':
+> 
+> drivers/media/platform/omap3isp/isph3a_af.c:173:6: error: result of comparison of constant 256 with expression of type '__u8' (aka 'unsigned char') is always false [-Werror,-Wtautological-constant-out-of-range-compare]
+>         if (IS_OUT_OF_BOUNDS(paxel_cfg->height, OMAP3ISP_AF_PAXEL_HEIGHT_MIN,
+>             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> drivers/media/platform/omap3isp/isph3a_af.c:24:33: note: expanded from macro 'IS_OUT_OF_BOUNDS'
+>         (((value) < (min)) || ((value) > (max)))
+>                                ~~~~~~~ ^ ~~~~~
+> drivers/media/platform/omap3isp/isph3a_af.c:179:6: error: result of comparison of constant 256 with expression of type '__u8' (aka 'unsigned char') is always false [-Werror,-Wtautological-constant-out-of-range-compare]
+>         if (IS_OUT_OF_BOUNDS(paxel_cfg->width, OMAP3ISP_AF_PAXEL_WIDTH_MIN,
+>             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> drivers/media/platform/omap3isp/isph3a_af.c:24:33: note: expanded from macro 'IS_OUT_OF_BOUNDS'
+>         (((value) < (min)) || ((value) > (max)))
+>                                ~~~~~~~ ^ ~~~~~
+> 
+> Add a cast to 32-bit to avoid the warning. Checking just the lower bounds
+> would be sufficient as well, but it seems more consistent to use
+> the IS_OUT_OF_BOUNDS() check for all members.
 
-diff --git a/drivers/media/platform/qcom/venus/core.h b/drivers/media/platform/qcom/venus/core.h
-index 7c3bac01cd49..c3023340d95c 100644
---- a/drivers/media/platform/qcom/venus/core.h
-+++ b/drivers/media/platform/qcom/venus/core.h
-@@ -127,6 +127,7 @@ struct venus_format {
-  * @done:	a completion for sync HFI operations
-  * @error:	an error returned during last HFI sync operations
-  * @sys_error:	an error flag that signal system error event
-+ * @sys_err_done: a waitqueue to wait for system error recovery end
-  * @core_ops:	the core operations
-  * @pm_ops:	a pointer to pm operations
-  * @pm_lock:	a lock for PM operations
-@@ -346,6 +347,7 @@ enum venus_inst_modes {
-  * @width:	current capture width
-  * @height:	current capture height
-  * @crop:	current crop rectangle
-+ * @fw_min_cnt:	 firmware minimum buffer count
-  * @out_width:	current output width
-  * @out_height:	current output height
-  * @colorspace:	current color space
-@@ -390,6 +392,8 @@ enum venus_inst_modes {
-  * @pic_struct:		bitstream progressive vs interlaced
-  * @next_buf_last: a flag to mark next queued capture buffer as last
-  * @drain_active:	Drain sequence is in progress
-+ * @flags:	bitmask flags describing current instance mode
-+ * @dpb_ids:	DPB buffer ID's
-  */
- struct venus_inst {
- 	struct list_head list;
+Mauro has submitted a fix that handles the cast in the
+IS_OUT_OF_BOUNDS() macro, see
+https://lore.kernel.org/all/b70f819b11e024649f113be1158f34b24914a1ed.1637573097.git.mchehab+huawei@kernel.org/.
+
+> Fixes: 68e342b3068c ("[media] omap3isp: Statistics")
+> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+> ---
+>  drivers/media/platform/omap3isp/isph3a_af.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/media/platform/omap3isp/isph3a_af.c b/drivers/media/platform/omap3isp/isph3a_af.c
+> index a65cfdfa9637..c544d9c812b0 100644
+> --- a/drivers/media/platform/omap3isp/isph3a_af.c
+> +++ b/drivers/media/platform/omap3isp/isph3a_af.c
+> @@ -170,13 +170,13 @@ static int h3a_af_validate_params(struct ispstat *af, void *new_conf)
+>  			     OMAP3ISP_AF_PAXEL_VERTICAL_COUNT_MAX))
+>  		return -EINVAL;
+>  
+> -	if (IS_OUT_OF_BOUNDS(paxel_cfg->height, OMAP3ISP_AF_PAXEL_HEIGHT_MIN,
+> +	if (IS_OUT_OF_BOUNDS((u32)paxel_cfg->height, OMAP3ISP_AF_PAXEL_HEIGHT_MIN,
+>  			     OMAP3ISP_AF_PAXEL_HEIGHT_MAX) ||
+>  	    paxel_cfg->height % 2)
+>  		return -EINVAL;
+>  
+>  	/* Check width */
+> -	if (IS_OUT_OF_BOUNDS(paxel_cfg->width, OMAP3ISP_AF_PAXEL_WIDTH_MIN,
+> +	if (IS_OUT_OF_BOUNDS((u32)paxel_cfg->width, OMAP3ISP_AF_PAXEL_WIDTH_MIN,
+>  			     OMAP3ISP_AF_PAXEL_WIDTH_MAX) ||
+>  	    paxel_cfg->width % 2)
+>  		return -EINVAL;
+
 -- 
-2.25.1
+Regards,
 
+Laurent Pinchart
