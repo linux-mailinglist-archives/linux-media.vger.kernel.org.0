@@ -2,103 +2,169 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 950DA45CB07
-	for <lists+linux-media@lfdr.de>; Wed, 24 Nov 2021 18:29:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id ABFBC45CB7E
+	for <lists+linux-media@lfdr.de>; Wed, 24 Nov 2021 18:57:21 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243412AbhKXRca (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 24 Nov 2021 12:32:30 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33832 "EHLO
+        id S243193AbhKXSAa (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 24 Nov 2021 13:00:30 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40148 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242092AbhKXRca (ORCPT
+        with ESMTP id S240749AbhKXSAa (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 24 Nov 2021 12:32:30 -0500
-Received: from mail-lj1-x22d.google.com (mail-lj1-x22d.google.com [IPv6:2a00:1450:4864:20::22d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F26BAC061574;
-        Wed, 24 Nov 2021 09:29:19 -0800 (PST)
-Received: by mail-lj1-x22d.google.com with SMTP id e11so6925289ljo.13;
-        Wed, 24 Nov 2021 09:29:19 -0800 (PST)
+        Wed, 24 Nov 2021 13:00:30 -0500
+Received: from mail-wr1-x42c.google.com (mail-wr1-x42c.google.com [IPv6:2a00:1450:4864:20::42c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E9886C061574
+        for <linux-media@vger.kernel.org>; Wed, 24 Nov 2021 09:57:19 -0800 (PST)
+Received: by mail-wr1-x42c.google.com with SMTP id o13so5656150wrs.12
+        for <linux-media@vger.kernel.org>; Wed, 24 Nov 2021 09:57:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=ydUydaywLW87b6G3VEUPeR5PFEYyoQL/BmcPvqzWAYE=;
-        b=CyZhQDspBWd+9xlvoI5RVBF+09UDksRX0c03lZTTtQ/7SilD8KdMDQ1DZ6hrVRsZiN
-         t5TvcoXmsHKHYC/JfKthFjYHWPYsQ/OMcKcorVPvFI56Ixyxi4EHeeN9XC2OAqThTn1Y
-         BZYL/5rzIqHLBqJJvNVsAg9l8SHRJr4C92FiFHueGuN0c1b9wVcUf4SEmShRwu2IFJrF
-         +cuzJDzIeEQguNTtO4g5XNPNQhbpLGJDADTNg/Ueg0q3pddl+TdM8mT+gOK9VY6n05JH
-         ySR9yR9+/228BIGVgHT/9r6ERxG+jbMRR5lASbNaab1UyapCu3GIu51cPhA9DVC1evnD
-         biUA==
+        d=linaro.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=jJoyvThcbb9hgq1QujgM3jWedxTK6fvqPUXSUejGJVY=;
+        b=qnOp5jdLIclbSuOfa2slKfB9E6Mni1982ntv3MHYfDgQV83zRWA4N69hahwqYnF9DU
+         CxxSG7FMztgD4UNHcVh5SzsoURXAFle4T4OG90mjFIh65pfkIMqHlXZibHwBcuzTIP/w
+         8mS21rh56S8lBYJQHuQotCODgdAJv8dF1WMEHYVEdvuGtyBVzewI8QTdVQ7dv/bKTfbu
+         eKjNWQwMfy7MWqlV9X3uf9r7hNjc1mzncgPqfgMjKVv6eDpPSsyRC1EW3gCEPafg1uV1
+         Koa34LvZThbXe3qK8R06ZV7GDFjyxLOszlh1JYcH04ZpsoaJEPKNhppcFfL5epvhVFuh
+         sUQQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=ydUydaywLW87b6G3VEUPeR5PFEYyoQL/BmcPvqzWAYE=;
-        b=2QUO7rBWvaGtTfoK4H8AFzItdz3uOlKQoOYT9kBtXKYBSsKYTmtGAMqpAjUiW6G0YD
-         /w1SYlvuoAIXM1s0n4PVow+t94h1kjFa/kdVNRte2FNRMzBYhbdv7D3c96V6e3171nIm
-         TUtghViYBTTc8JafF23rgu1cuy8QjE1i+szLJVSPJ5xDIOiDqw8ZvWQkj0TqzOdSKolv
-         OOzKDwOuuGN5d0HIPa4+dRP3eI3xAxKL8PaOxmF+srCuhGEvulc+w3lqo/PCjVj0YT1h
-         OB+LQRq6NK5IZqGtzs0NWdR98EZPb22Cdb2D34vk1Tdti7GtZ3FVIDnQc7PDMDoJI+W5
-         07jg==
-X-Gm-Message-State: AOAM530h4sez5ugjwGHceTeTyu6+Izo9/IS+s3yrDKQ/e1JJXXOszxNu
-        Fr+qlgYIXWLG0O5ny0gVXzs=
-X-Google-Smtp-Source: ABdhPJxPXUgL5sbmJ8QgM/1O4cZrC1JEdGxYpsxf6RgyOm2YXACjxbTj8io/Abcqz4xAMIM9ZZpS1w==
-X-Received: by 2002:a2e:9806:: with SMTP id a6mr17728616ljj.185.1637774958306;
-        Wed, 24 Nov 2021 09:29:18 -0800 (PST)
-Received: from [192.168.2.145] (94-29-48-99.dynamic.spd-mgts.ru. [94.29.48.99])
-        by smtp.googlemail.com with ESMTPSA id e17sm40549lfq.102.2021.11.24.09.29.17
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 24 Nov 2021 09:29:18 -0800 (PST)
-Subject: Re: [PATCH v2] i2c: tegra: Add ACPI support
-To:     Akhil R <akhilrajeev@nvidia.com>,
-        "andy.shevchenko@gmail.com" <andy.shevchenko@gmail.com>,
-        "christian.koenig@amd.com" <christian.koenig@amd.com>,
-        "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Laxman Dewangan <ldewangan@nvidia.com>,
-        "linaro-mm-sig@lists.linaro.org" <linaro-mm-sig@lists.linaro.org>,
-        "linux-i2c@vger.kernel.org" <linux-i2c@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        "linux-tegra@vger.kernel.org" <linux-tegra@vger.kernel.org>,
-        "p.zabel@pengutronix.de" <p.zabel@pengutronix.de>,
-        "sumit.semwal@linaro.org" <sumit.semwal@linaro.org>,
-        "thierry.reding@gmail.com" <thierry.reding@gmail.com>
-Cc:     Shardar Mohammed <smohammed@nvidia.com>
-References: <1637328734-20576-1-git-send-email-akhilrajeev@nvidia.com>
- <1637651753-5067-1-git-send-email-akhilrajeev@nvidia.com>
- <eebf20ea-6a7f-1120-5ad8-b6dc1f9935e6@gmail.com>
- <BN9PR12MB5273A7628D80076F4EF2CC69C0619@BN9PR12MB5273.namprd12.prod.outlook.com>
- <b06a5072-f0f4-c9f9-f9a2-8d76b4432415@gmail.com>
- <BN9PR12MB5273CA3AA78636EB0500897AC0619@BN9PR12MB5273.namprd12.prod.outlook.com>
-From:   Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <4af00198-82b8-6611-544e-4bba51354278@gmail.com>
-Date:   Wed, 24 Nov 2021 20:29:16 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+        bh=jJoyvThcbb9hgq1QujgM3jWedxTK6fvqPUXSUejGJVY=;
+        b=h9WeIZvHcQtWmOfpoGZd18l158t6FjWcGAPQxVOXzN5axCQanq3ou37vlr7JhbVpu4
+         uhIMxLh2sZ/sNIxNwuO9435tueWHiv8HOE2IfnmGKH0zys+jjoczcLBcihq8iBWWpW+Q
+         Ng6DIU3CbpeSDXnacgJPZx+8uOQXNaRbly+xjZVo58JTrcAV9lmmekzHhq7DV3OOhS4w
+         2mDg0D4RaR63W9XInVP0KPwaXr9TJKjWRCbMR0vYDlIElifSMo2719QU9td0rGwm+9B+
+         EtbkOVuG2Uh2Cy0f65VVoY0WUN5ptOaGamKfkoxtazLUAnB35i2ktxTjKBXs0n9OSdxt
+         hR5g==
+X-Gm-Message-State: AOAM5331vCEow3O9V0sIOyrgOhCE2Jo0bkQYk4hJUGnDOPQhZL+Q8GCs
+        s2liveAQ/PAb4R81U+HqHhyg0A==
+X-Google-Smtp-Source: ABdhPJzyWMOnDp9PnEBKFZfV0YJ9HfPYmzM4ZFon4mGsv4PzEG38G5UMe87hIXgfD9b7IM/j7qu0qw==
+X-Received: by 2002:a5d:4889:: with SMTP id g9mr73962wrq.455.1637776638500;
+        Wed, 24 Nov 2021 09:57:18 -0800 (PST)
+Received: from sagittarius-a.chello.ie (188-141-3-169.dynamic.upc.ie. [188.141.3.169])
+        by smtp.gmail.com with ESMTPSA id s24sm380576wmj.26.2021.11.24.09.57.17
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 24 Nov 2021 09:57:17 -0800 (PST)
+From:   Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+To:     linux-arm-msm@vger.kernel.org, linux-media@vger.kernel.org,
+        robert.foss@linaro.org, jonathan@marek.ca
+Cc:     andrey.konovalov@linaro.org, todor.too@gmail.com,
+        agross@kernel.org, bjorn.andersson@linaro.org, mchehab@kernel.org,
+        jgrahsl@snap.com, hfink@snap.com, bryan.odonoghue@linaro.org
+Subject: [PATCH v2 00/19] CAMSS: Add SM8250 support
+Date:   Wed, 24 Nov 2021 17:59:02 +0000
+Message-Id: <20211124175921.1048375-1-bryan.odonoghue@linaro.org>
+X-Mailer: git-send-email 2.33.0
 MIME-Version: 1.0
-In-Reply-To: <BN9PR12MB5273CA3AA78636EB0500897AC0619@BN9PR12MB5273.namprd12.prod.outlook.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-24.11.2021 19:40, Akhil R пишет:
->> 24.11.2021 10:18, Akhil R пишет:
->>>> *i2c_dev)
->>>>>               i2c_dev->is_vi = true;  }
->>>> How are you going to differentiate the VI I2C from a non-VI? This
->>>> doesn't look right.
->>> This patch adds the ACPI support to only non-VI I2C. The device_ids in
->>> match table are added accordingly. I suppose, of_device_is_compatible
->>> always returns false as there is no device tree.
->>> Agree with the other comments.
->>
->> Will the VI I2C have a different ACPI ID or how it's going to work?
-> As there is a different compatible for VI I2C in device tree, I suppose the ACPI
-> would have a different ID as well. I think the logic would also need an update 
-> if to have VI I2C using the ACPI. But that wasn't actually considered in this patch.
+V2:
+- Adds Tested-by Julian Grahsl as indicated.
+- Fixes low-level noise checkpatch --strict
+  I ended up having to push defines into static inlines for this.
+- Adds Reviewed-by Robert Foss.
+- Adds VFE/CSID fix for sdm845 as explicit additional sdm845 specific
+  patch per Robert's suggestion.
 
-Thanks, you could reflected it in the commit message.
+I took the time then to test out on sdm845 to ensure the new patch breaks
+nothing "./cam -c 1 --capture=1 --file=capture.raw" continues to produce
+expected data.
+
+Link: https://git.linaro.org/people/bryan.odonoghue/kernel.git/commit/?h=v5.16-rc1-sm8250-camss-imx577-only
+Link: https://git.linaro.org/people/bryan.odonoghue/kernel.git/commit/?h=v5.16-rc3-sm8250-camss-imx577-only-v2
+
+git diff v5.16-rc1-sm8250-camss-imx577-only..v5.16-rc3-sm8250-camss-imx577-only-v2 -- drivers/media/platform/qcom/camss
+
+V1/RESEND:
+RESEND: git send-email --to=inux-arm-msm@vger.kernel.org -> --to=linux-arm-msm@vger.kernel.org
+
+This series is imported from excellent enabling work contributed by
+Jonathan Marek which we have picked up in Linaro for the RB5 project.
+
+Link: https://patchwork.kernel.org/project/linux-arm-msm/patch/20210511180728.23781-2-jonathan@marek.ca/
+Link: https://www.qualcomm.com/products/robotics-rb5-platform
+Link: https://www.96boards.org/product/qualcomm-robotics-rb5
+Link: https://www.thundercomm.com/app_en/product/1590131656070623?index=1&categoryId=category0&tabIndex=1
+
+The RB5 has a slightly different sku I think to Jonathan's platform -
+QRB5165 in our case with a different version of LK the relevant bootloader
+for the board.
+
+As a result we needed to make some additional updates to the provided
+patcheset, included here.
+
+The most notable changes are:
+
+- Addition of clocks.
+- Addition of bandwidth settings.
+- Representing the dependency on a VFE for a given CSID so that V4L
+  subdevs will come out of reset right when poked.
+
+A full tree which is bootable and capable of producing pixel data from the
+imx577 main sensor is availble here, with this series being a sub-set of
+the necessary patches on the SoC side only.
+
+Link: https://git.linaro.org/people/bryan.odonoghue/kernel.git/log/?h=v5.16-rc1-sm8250-camss-imx577-only
+
+media-ctl --reset
+media-ctl -v -d /dev/media0 -V '"imx412 '20-001a'":0[fmt:SRGGB10/4056x3040 field:none]'
+media-ctl -V '"msm_csiphy2":0[fmt:SRGGB10/4056x3040]'
+media-ctl -V '"msm_csid0":0[fmt:SRGGB10/4056x3040]'
+media-ctl -V '"msm_vfe0_rdi0":0[fmt:SRGGB10/4056x3040]'
+media-ctl -l '"msm_csiphy2":1->"msm_csid0":0[1]'
+media-ctl -l '"msm_csid0":1->"msm_vfe0_rdi0":0[1]'
+
+yavta -B capture-mplane -c -I -n 5 -f SRGGB10P -s 4056x3040 -F /dev/video0
+
+
+Bryan O'Donoghue (3):
+  media: camss: Add SM8250 bandwdith configuration support
+  media: camss: Do vfe_get/vfe_put for csid on sm8250
+  media: camss: Apply vfe_get/vfe_put fix to SDM845
+
+Jonathan Marek (16):
+  media: dt-bindings: media: camss: Add qcom,sm8250-camss binding
+  media: camss: csiphy-3ph: don't print HW version as an error
+  media: camss: csiphy-3ph: disable interrupts
+  media: camss: csiphy-3ph: add support for SM8250 CSI DPHY
+  media: camss: csid-170: fix non-10bit formats
+  media: camss: csid-170: don't enable unused irqs
+  media: camss: csid-170: remove stray comment
+  media: camss: csid-170: support more than one lite vfe
+  media: camss: csid-170: set the right HALT_CMD when disabled
+  media: camss: csid: allow csid to work without a regulator
+  media: camss: remove vdda-csiN from sdm845 resources
+  media: camss: fix VFE irq name
+  media: camss: vfe-170: fix "VFE halt timeout" error
+  media: camss: Add initial support for VFE hardware version Titan 480
+  media: camss: add support for V4L2_PIX_FMT_GREY for sdm845 HW
+  media: camss: add support for SM8250 camss
+
+ .../bindings/media/qcom,sm8250-camss.yaml     | 450 ++++++++++++++
+ drivers/media/platform/qcom/camss/Makefile    |   3 +-
+ .../{camss-csid-170.c => camss-csid-gen2.c}   |  32 +-
+ .../media/platform/qcom/camss/camss-csid.c    |  56 +-
+ .../media/platform/qcom/camss/camss-csid.h    |   2 +-
+ .../qcom/camss/camss-csiphy-3ph-1-0.c         | 184 ++++--
+ .../media/platform/qcom/camss/camss-csiphy.c  |   9 +-
+ .../media/platform/qcom/camss/camss-vfe-170.c |  12 +-
+ .../media/platform/qcom/camss/camss-vfe-480.c | 564 ++++++++++++++++++
+ drivers/media/platform/qcom/camss/camss-vfe.c |  17 +-
+ drivers/media/platform/qcom/camss/camss-vfe.h |   4 +
+ .../media/platform/qcom/camss/camss-video.c   |   5 +-
+ drivers/media/platform/qcom/camss/camss.c     | 306 +++++++++-
+ drivers/media/platform/qcom/camss/camss.h     |  18 +
+ 14 files changed, 1558 insertions(+), 104 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/media/qcom,sm8250-camss.yaml
+ rename drivers/media/platform/qcom/camss/{camss-csid-170.c => camss-csid-gen2.c} (95%)
+ create mode 100644 drivers/media/platform/qcom/camss/camss-vfe-480.c
+
+-- 
+2.33.0
+
