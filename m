@@ -2,42 +2,39 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A95E545CCFC
-	for <lists+linux-media@lfdr.de>; Wed, 24 Nov 2021 20:14:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6E61B45CCEB
+	for <lists+linux-media@lfdr.de>; Wed, 24 Nov 2021 20:14:50 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1351504AbhKXTRS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 24 Nov 2021 14:17:18 -0500
-Received: from mail.kernel.org ([198.145.29.99]:52856 "EHLO mail.kernel.org"
+        id S1351230AbhKXTQs (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 24 Nov 2021 14:16:48 -0500
+Received: from mail.kernel.org ([198.145.29.99]:52872 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1351107AbhKXTQl (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 24 Nov 2021 14:16:41 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 73188610D1;
+        id S1351113AbhKXTQm (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 24 Nov 2021 14:16:42 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 7BDE5610E8;
         Wed, 24 Nov 2021 19:13:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=k20201202; t=1637781211;
-        bh=rsXGcPf9XgkX1szuElTLppvmJPyU9p+Qriu/8wbfjw4=;
+        bh=s74V3GxdYYJTz+2GcE2sG2QwoR8/KQlxxxsyyTkQRCY=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=mmCb0c+K0QulsiXzZf3WmTFX4vN8lAeLuai6JkamfeO11dISldKjdjy89ePl9Ozb8
-         UWlp3EvEyzmlrNp0RbfrdF+urQVy/kmh0Cf4bkqfULajcp6OCZLxPcfdTn6uQxELcE
-         iiGO8JF4CyA7MOnS0rmm+iviKC+urtF0xI38ruvBuvAjDXoTKfMKJmhUXYdTZwpfUu
-         LW8q++44Iz5utAM2lcPDCYI0ks4Bax7mOVb3c3T0jnB9T61exjIxP2LmRCm8Ohej8n
-         m8e+Vh8EKb8TTtIp7NvQGILCZhX3Ne315kabHJflu6M9OppBjR2y3niB72pXr3yJ8E
-         /bEwIWG/NOzQA==
+        b=V7KMfkRFwLW8uAAPcabxno83SEf9MwBa8McDunMaV3aday6eJS0BluwutiKfdAQz/
+         TRia0Wq0ikGhGnjuhCFBAp2V8xcYdgTeUwGQ4xuzMMzH2PY2N7YWr+pHfWjzV0yKAo
+         Fy6Pd00WnkKeafML4l+0Z+at/bJWoClro9XbdokF8Orjjaw1VIaP3TcSqWr9G88Krj
+         BhIK1tQTQHXIs0ROZA/p1Uw5WBqMrSVfzyZ0tQrs9aoAeIu57cgwpws+8VXJDkw4L8
+         nuMbtLRa2QdpMEyz3Ql3NL/Jy3eyp6Q36qBL99JyRQWxJFa7HaAnxQY4azEiW+RKw6
+         eDxydcRL0CCeA==
 Received: by mail.kernel.org with local (Exim 4.94.2)
         (envelope-from <mchehab@kernel.org>)
-        id 1mpxhs-004Q5k-L2; Wed, 24 Nov 2021 20:13:24 +0100
+        id 1mpxhs-004Q5o-LU; Wed, 24 Nov 2021 20:13:24 +0100
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 Cc:     linuxarm@huawei.com, mauro.chehab@huawei.com,
         Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         Hans Verkuil <hverkuil-cisco@xs4all.nl>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        llvm@lists.linux.dev
-Subject: [PATCH 13/20] media: adv7604 add _maybe_unused to currently unused functions
-Date:   Wed, 24 Nov 2021 20:13:16 +0100
-Message-Id: <d9168d0d5961c46ee2691bfea0b093888da7172b.1637781097.git.mchehab+huawei@kernel.org>
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
+Subject: [PATCH 14/20] media: adv7511: drop unused functions
+Date:   Wed, 24 Nov 2021 20:13:17 +0100
+Message-Id: <031cdb0042f8239a6746831f5c8f89cf4aef6107.1637781097.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.33.1
 In-Reply-To: <cover.1637781097.git.mchehab+huawei@kernel.org>
 References: <cover.1637781097.git.mchehab+huawei@kernel.org>
@@ -49,13 +46,8 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-There are several unused helper macros there, meant to parse some
-fields.
-
-While there's not wrong with that, it generates clang warnings
-with W=1, causing build to break with CONFIG_WERROR.
-
-So, add __maybe_unused to fix such warnings.
+Those are aliases for another function and not used at the
+current implementation. So, just drop it.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
@@ -63,90 +55,42 @@ Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To avoid mailbombing on a large number of people, only mailing lists were C/C on the cover.
 See [PATCH 00/20] at: https://lore.kernel.org/all/cover.1637781097.git.mchehab+huawei@kernel.org/
 
- drivers/media/i2c/adv7604.c | 18 +++++++++---------
- 1 file changed, 9 insertions(+), 9 deletions(-)
+ drivers/media/i2c/adv7511-v4l2.c | 22 ----------------------
+ 1 file changed, 22 deletions(-)
 
-diff --git a/drivers/media/i2c/adv7604.c b/drivers/media/i2c/adv7604.c
-index 44768b59a6ff..be95b2264221 100644
---- a/drivers/media/i2c/adv7604.c
-+++ b/drivers/media/i2c/adv7604.c
-@@ -398,14 +398,14 @@ static inline int io_write_clr_set(struct v4l2_subdev *sd, u8 reg, u8 mask,
- 	return io_write(sd, reg, (io_read(sd, reg) & ~mask) | val);
+diff --git a/drivers/media/i2c/adv7511-v4l2.c b/drivers/media/i2c/adv7511-v4l2.c
+index 41f4e749a859..8e13cae40ec5 100644
+--- a/drivers/media/i2c/adv7511-v4l2.c
++++ b/drivers/media/i2c/adv7511-v4l2.c
+@@ -270,28 +270,6 @@ static int adv7511_pktmem_rd(struct v4l2_subdev *sd, u8 reg)
+ 	return adv_smbus_read_byte_data(state->i2c_pktmem, reg);
  }
  
--static inline int avlink_read(struct v4l2_subdev *sd, u8 reg)
-+static inline int __maybe_unused avlink_read(struct v4l2_subdev *sd, u8 reg)
+-static int adv7511_pktmem_wr(struct v4l2_subdev *sd, u8 reg, u8 val)
+-{
+-	struct adv7511_state *state = get_adv7511_state(sd);
+-	int ret;
+-	int i;
+-
+-	for (i = 0; i < 3; i++) {
+-		ret = i2c_smbus_write_byte_data(state->i2c_pktmem, reg, val);
+-		if (ret == 0)
+-			return 0;
+-	}
+-	v4l2_err(sd, "%s: i2c write error\n", __func__);
+-	return ret;
+-}
+-
+-/* To set specific bits in the register, a clear-mask is given (to be AND-ed),
+-   and then the value-mask (to be OR-ed). */
+-static inline void adv7511_pktmem_wr_and_or(struct v4l2_subdev *sd, u8 reg, u8 clr_mask, u8 val_mask)
+-{
+-	adv7511_pktmem_wr(sd, reg, (adv7511_pktmem_rd(sd, reg) & clr_mask) | val_mask);
+-}
+-
+ static inline bool adv7511_have_hotplug(struct v4l2_subdev *sd)
  {
- 	struct adv76xx_state *state = to_state(sd);
- 
- 	return adv76xx_read_check(state, ADV7604_PAGE_AVLINK, reg);
- }
- 
--static inline int avlink_write(struct v4l2_subdev *sd, u8 reg, u8 val)
-+static inline int __maybe_unused avlink_write(struct v4l2_subdev *sd, u8 reg, u8 val)
- {
- 	struct adv76xx_state *state = to_state(sd);
- 
-@@ -439,14 +439,14 @@ static inline int infoframe_read(struct v4l2_subdev *sd, u8 reg)
- 	return adv76xx_read_check(state, ADV76XX_PAGE_INFOFRAME, reg);
- }
- 
--static inline int infoframe_write(struct v4l2_subdev *sd, u8 reg, u8 val)
-+static inline int __maybe_unused infoframe_write(struct v4l2_subdev *sd, u8 reg, u8 val)
- {
- 	struct adv76xx_state *state = to_state(sd);
- 
- 	return regmap_write(state->regmap[ADV76XX_PAGE_INFOFRAME], reg, val);
- }
- 
--static inline int afe_read(struct v4l2_subdev *sd, u8 reg)
-+static inline int __maybe_unused afe_read(struct v4l2_subdev *sd, u8 reg)
- {
- 	struct adv76xx_state *state = to_state(sd);
- 
-@@ -479,14 +479,14 @@ static inline int rep_write_clr_set(struct v4l2_subdev *sd, u8 reg, u8 mask, u8
- 	return rep_write(sd, reg, (rep_read(sd, reg) & ~mask) | val);
- }
- 
--static inline int edid_read(struct v4l2_subdev *sd, u8 reg)
-+static inline int __maybe_unused edid_read(struct v4l2_subdev *sd, u8 reg)
- {
- 	struct adv76xx_state *state = to_state(sd);
- 
- 	return adv76xx_read_check(state, ADV76XX_PAGE_EDID, reg);
- }
- 
--static inline int edid_write(struct v4l2_subdev *sd, u8 reg, u8 val)
-+static inline int __maybe_unused edid_write(struct v4l2_subdev *sd, u8 reg, u8 val)
- {
- 	struct adv76xx_state *state = to_state(sd);
- 
-@@ -570,7 +570,7 @@ static inline int hdmi_write_clr_set(struct v4l2_subdev *sd, u8 reg, u8 mask, u8
- 	return hdmi_write(sd, reg, (hdmi_read(sd, reg) & ~mask) | val);
- }
- 
--static inline int test_write(struct v4l2_subdev *sd, u8 reg, u8 val)
-+static inline int __maybe_unused test_write(struct v4l2_subdev *sd, u8 reg, u8 val)
- {
- 	struct adv76xx_state *state = to_state(sd);
- 
-@@ -601,14 +601,14 @@ static inline int cp_write_clr_set(struct v4l2_subdev *sd, u8 reg, u8 mask, u8 v
- 	return cp_write(sd, reg, (cp_read(sd, reg) & ~mask) | val);
- }
- 
--static inline int vdp_read(struct v4l2_subdev *sd, u8 reg)
-+static inline int __maybe_unused vdp_read(struct v4l2_subdev *sd, u8 reg)
- {
- 	struct adv76xx_state *state = to_state(sd);
- 
- 	return adv76xx_read_check(state, ADV7604_PAGE_VDP, reg);
- }
- 
--static inline int vdp_write(struct v4l2_subdev *sd, u8 reg, u8 val)
-+static inline int __maybe_unused vdp_write(struct v4l2_subdev *sd, u8 reg, u8 val)
- {
- 	struct adv76xx_state *state = to_state(sd);
- 
+ 	return adv7511_rd(sd, 0x42) & MASK_ADV7511_HPD_DETECT;
 -- 
 2.33.1
 
