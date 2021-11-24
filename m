@@ -2,98 +2,108 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C315845CFE3
-	for <lists+linux-media@lfdr.de>; Wed, 24 Nov 2021 23:12:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C53D745D010
+	for <lists+linux-media@lfdr.de>; Wed, 24 Nov 2021 23:25:33 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244852AbhKXWPz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 24 Nov 2021 17:15:55 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42328 "EHLO
+        id S1344454AbhKXW2m (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 24 Nov 2021 17:28:42 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45164 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S244618AbhKXWPy (ORCPT
+        with ESMTP id S1344009AbhKXW2m (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 24 Nov 2021 17:15:54 -0500
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C3AEBC061574;
-        Wed, 24 Nov 2021 14:12:44 -0800 (PST)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 42984340;
-        Wed, 24 Nov 2021 23:12:42 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1637791962;
-        bh=PfP/xuAr48OfrS0rYl8j4rP8WU/91eEfUs+4yvpJpUo=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=jkgYZ1uJyJZ/h6Vk/Hx04c7+Gi5BlUOQxVH+E0/zVtZqoSMgnnP7s0pB37QA8bv/y
-         iaP387HpVrM2KxKd0P8AWrFbTAs4M6ZTHfEU3iqjl4W/rROwwgenpozg/Y2AKxHMyM
-         Iez2wv/XZKGfTQSioSZTc47ECs2iEp2htWcLf1LE=
-Date:   Thu, 25 Nov 2021 00:12:18 +0200
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Adam Ford <aford173@gmail.com>
-Cc:     linux-media <linux-media@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        cstevens@beaconembedded.com, Sakari Ailus <sakari.ailus@iki.fi>
-Subject: Re: LP-11 Timeout on RZ/G2 with ov5640
-Message-ID: <YZ64wsMUVz37YlBF@pendragon.ideasonboard.com>
-References: <CAHCN7xLncsxHcTirn+U1d_x08x=F+txhiJ+LF9GAi5rWnJMUCQ@mail.gmail.com>
+        Wed, 24 Nov 2021 17:28:42 -0500
+Received: from mail-ed1-x536.google.com (mail-ed1-x536.google.com [IPv6:2a00:1450:4864:20::536])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CE1F7C061574
+        for <linux-media@vger.kernel.org>; Wed, 24 Nov 2021 14:25:31 -0800 (PST)
+Received: by mail-ed1-x536.google.com with SMTP id w1so16943391edc.6
+        for <linux-media@vger.kernel.org>; Wed, 24 Nov 2021 14:25:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=OM+Bt0jurGFJx99me/ntkFCi3Kp9bDnkL01v69NNRek=;
+        b=hqQ/+qo8arS9AP17amb6Rarjrtm80fbeHcBDx0qqDC7zMoGHz4bxPwBOMTrSG4xg4k
+         nwNhMqezSkj4SnwAeoaU70tbnE2pvSnqYU0G46De4xVBB5CTsDPZQFycvCA/YJ5swRJz
+         fv4ZJSweVUKMC+d7JEADQjWoHI3lZiYnHBCXBKbMYIQNwr3R8iLechF87Mbj+zi1JUEa
+         G97qwH4dbMEA6uQJO5IrG0miOG+QkclNpqEHD2DZvcDyqn9/zsy77TLrG2zOgwCPyVih
+         s49ZQpQSWezft9OzD1wu9MTC711ieA6rzagf9klC+uwZxpg3JXpwZAzJM04GvQN7w98f
+         r0vA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=OM+Bt0jurGFJx99me/ntkFCi3Kp9bDnkL01v69NNRek=;
+        b=xF5ULQUfZe1ijPKt4RcoAICFlsZ4ghiLcSvTgTFA79HIUsQPpvCFVAZAvya0HixJG9
+         +hQvpGKrPYRO6UtELAVg3m+JSSRT7hFX3h/ME3Mh5Vq9NzbEuhT/+QD5dW7YKvC3Cak/
+         hfrv0SWDXAgyNA9q8rZzPt4zVOxuh9tRPG9hX6tQAASGKznD+qYIuuQh32ME1uFHGpqR
+         3HgoeXb+97DCJk5Ltj2239kF558VJSAjWZhZZFL91f2fPISQ0CRVGBHiKAJguO2U4cJr
+         HLK+qBSTbMfLBJfgIzvMDM9M0Fm++qfrPx3UbiEuQruENmtaiJmWvsKx52zcwZKl9uU1
+         EjCQ==
+X-Gm-Message-State: AOAM532AveZjgJq58yN/hShN6ON6xTYv2v8EFDkKnHglUi+qHLbnwxES
+        YAymS8SvX/RRqI3V8mFFtncxUUedVQzWNA==
+X-Google-Smtp-Source: ABdhPJwn6CYd7h6d4aBmqc7GXEUky6q9og+WHe+no+HLLKpn+8I6LjFrJakJHgbiWSmr62dLxYhiDA==
+X-Received: by 2002:a05:6402:5208:: with SMTP id s8mr31179314edd.394.1637792730090;
+        Wed, 24 Nov 2021 14:25:30 -0800 (PST)
+Received: from localhost.localdomain (hst-208-203.medicom.bg. [84.238.208.203])
+        by smtp.gmail.com with ESMTPSA id mp5sm571570ejc.68.2021.11.24.14.25.29
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 24 Nov 2021 14:25:29 -0800 (PST)
+From:   Stanimir Varbanov <stanimir.varbanov@linaro.org>
+To:     linux-media@vger.kernel.org
+Cc:     Hans Verkuil <hverkuil@xs4all.nl>,
+        Stanimir Varbanov <stanimir.varbanov@linaro.org>
+Subject: [PATCH] venus: core: Fix kerneldoc warnings
+Date:   Thu, 25 Nov 2021 00:25:12 +0200
+Message-Id: <20211124222512.1223462-1-stanimir.varbanov@linaro.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <CAHCN7xLncsxHcTirn+U1d_x08x=F+txhiJ+LF9GAi5rWnJMUCQ@mail.gmail.com>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Adam,
+Describe missing structure members:
 
-(CC'ing Sakari)
+core.h: warning: Function parameter or member
+'sys_err_done' not described in 'venus_core'
+'fw_min_cnt' not described in 'venus_inst'
+'flags' not described in 'venus_inst'
+'dpb_ids' not described in 'venus_inst'
 
-On Wed, Nov 24, 2021 at 03:16:57PM -0600, Adam Ford wrote:
-> I am trying to use an OV5640 camera sensor that I've used on both an
-> i.MX6Q and an i.MX8M Mini (with good success) on an RZ/G2[MNH] board
-> connected to the 2-lane CSI interface.
-> 
-> I can get the media-ctl to show the routings, and sometimes I can get
-> streaming.  Often, I get a timeout:
-> 
->      rcar-csi2 fea80000.csi2: Timeout waiting for LP-11 state
-> 
-> Looking at the various mailing list e-mails for the LP-11, it's
-> unclear to me if the timeout is caused by the sensor not doing
-> something correctly or the CSI2 misbehaving.
+Signed-off-by: Stanimir Varbanov <stanimir.varbanov@linaro.org>
+---
+ drivers/media/platform/qcom/venus/core.h | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-Before transitioning to the high speed (HS) mode, the D-PHY transmitter
-must drive the lane in the LP-11 state. This is the idle state of the
-lane when powered up and when not in the ultra low-power state (ULPS).
-The transition to HS mode on the receiver side involves observing the
-LP-11 state. Many D-PHY RX require configuring the PHY when the lane is
-in LP-11 state, and only then starting the sensor to transition to HS.
-This requires powering up the D-PHY TX and going to idle mode, which
-most sensors support. As we're deprecating the .s_power() subdev
-operation, however, we have no way to power up the sensor without
-starting it before the D-PHY RX gets configured.
-
-In some cases, the D-PHY RX can handle the power up sequence
-automatically. They can be fully configured (from a software point of
-view) while the lane is in the power down state LP-00, and they then
-handle the transition to the stop state LP-11 and to the HS mode
-automatically. This isn't true for all receivers, some need software
-configuration after the data lane reaches the LP-11 state and before it
-transitions to HS mode. According to the documentation, the R-Car CSI-2
-receiver requires software intervention between LP-11 and HS mode at
-least on V3M and E3. There's also a software configuration step on H3,
-M3N, V3H and V3U, but there's a chance that one could possibly be
-bypassed.
-
-> I was hoping someone might have some suggestions of things I can try.
-
-I would first try to power up the sensor at probe time and keep it power
-forever, to see if it solves your issue. If it does, then introducing a
-CSI-2-specific subdev operation to power up the sensor (or officially
-de-deprecating .s_power() for this use case) could be an option to fix
-the issue properly.
-
+diff --git a/drivers/media/platform/qcom/venus/core.h b/drivers/media/platform/qcom/venus/core.h
+index 7c3bac01cd49..c3023340d95c 100644
+--- a/drivers/media/platform/qcom/venus/core.h
++++ b/drivers/media/platform/qcom/venus/core.h
+@@ -127,6 +127,7 @@ struct venus_format {
+  * @done:	a completion for sync HFI operations
+  * @error:	an error returned during last HFI sync operations
+  * @sys_error:	an error flag that signal system error event
++ * @sys_err_done: a waitqueue to wait for system error recovery end
+  * @core_ops:	the core operations
+  * @pm_ops:	a pointer to pm operations
+  * @pm_lock:	a lock for PM operations
+@@ -346,6 +347,7 @@ enum venus_inst_modes {
+  * @width:	current capture width
+  * @height:	current capture height
+  * @crop:	current crop rectangle
++ * @fw_min_cnt:	 firmware minimum buffer count
+  * @out_width:	current output width
+  * @out_height:	current output height
+  * @colorspace:	current color space
+@@ -390,6 +392,8 @@ enum venus_inst_modes {
+  * @pic_struct:		bitstream progressive vs interlaced
+  * @next_buf_last: a flag to mark next queued capture buffer as last
+  * @drain_active:	Drain sequence is in progress
++ * @flags:	bitmask flags describing current instance mode
++ * @dpb_ids:	DPB buffer ID's
+  */
+ struct venus_inst {
+ 	struct list_head list;
 -- 
-Regards,
+2.25.1
 
-Laurent Pinchart
