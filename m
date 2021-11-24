@@ -2,145 +2,179 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7785F45C88C
-	for <lists+linux-media@lfdr.de>; Wed, 24 Nov 2021 16:21:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3460C45C890
+	for <lists+linux-media@lfdr.de>; Wed, 24 Nov 2021 16:23:10 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234654AbhKXPYb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 24 Nov 2021 10:24:31 -0500
-Received: from frasgout.his.huawei.com ([185.176.79.56]:4159 "EHLO
-        frasgout.his.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229866AbhKXPY3 (ORCPT
+        id S234889AbhKXP0S (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 24 Nov 2021 10:26:18 -0500
+Received: from mailout1.w1.samsung.com ([210.118.77.11]:35548 "EHLO
+        mailout1.w1.samsung.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S233393AbhKXP0S (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 24 Nov 2021 10:24:29 -0500
-Received: from fraeml739-chm.china.huawei.com (unknown [172.18.147.201])
-        by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4Hzl7x66WJz67x9G;
-        Wed, 24 Nov 2021 23:20:45 +0800 (CST)
-Received: from lhreml710-chm.china.huawei.com (10.201.108.61) by
- fraeml739-chm.china.huawei.com (10.206.15.220) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.20; Wed, 24 Nov 2021 16:21:16 +0100
-Received: from localhost (10.52.122.252) by lhreml710-chm.china.huawei.com
- (10.201.108.61) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.20; Wed, 24 Nov
- 2021 15:21:14 +0000
-Date:   Wed, 24 Nov 2021 15:21:12 +0000
-From:   Jonathan Cameron <Jonathan.Cameron@Huawei.com>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-CC:     Tony Lindgren <tony@atomide.com>,
-        Russell King <linux@armlinux.org.uk>,
-        Rajendra Nayak <rnayak@codeaurora.org>,
-        Paul Walmsley <paul@pwsan.com>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Nicolas Ferre <nicolas.ferre@microchip.com>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Ludovic Desroches <ludovic.desroches@microchip.com>,
-        Tero Kristo <kristo@kernel.org>,
-        "Jonathan Cameron" <jic23@kernel.org>,
-        Lars-Peter Clausen <lars@metafoo.de>,
-        "Lorenzo Bianconi" <lorenzo.bianconi83@gmail.com>,
-        Benoit Parrot <bparrot@ti.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Adrian Hunter <adrian.hunter@intel.com>,
-        Andrew Jeffery <andrew@aj.id.au>,
-        Ulf Hansson <ulf.hansson@linaro.org>,
-        Joel Stanley <joel@jms.id.au>,
-        Ping-Ke Shih <pkshih@realtek.com>,
-        Kalle Valo <kvalo@codeaurora.org>,
-        "David S . Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Mark Brown <broonie@kernel.org>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Eduardo Valentin <edubezval@gmail.com>,
-        Keerthy <j-keerthy@ti.com>,
-        "Rafael J . Wysocki" <rafael@kernel.org>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        "Amit Kucheria" <amitk@kernel.org>,
-        Zhang Rui <rui.zhang@intel.com>,
-        Jaroslav Kysela <perex@perex.cz>,
-        Takashi Iwai <tiwai@suse.com>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-omap@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-clk@vger.kernel.org>, <linux-renesas-soc@vger.kernel.org>,
-        <linux-iio@vger.kernel.org>, <linux-media@vger.kernel.org>,
-        <linux-mmc@vger.kernel.org>, <linux-aspeed@lists.ozlabs.org>,
-        <openbmc@lists.ozlabs.org>, <linux-wireless@vger.kernel.org>,
-        <netdev@vger.kernel.org>, <linux-gpio@vger.kernel.org>,
-        <linux-pm@vger.kernel.org>, <alsa-devel@alsa-project.org>
-Subject: Re: [PATCH/RFC 08/17] iio: humidity: hts221: Use bitfield helpers
-Message-ID: <20211124152112.000078bf@Huawei.com>
-In-Reply-To: <c906f7449c0210cefba53eab2c2d87105d5c8599.1637592133.git.geert+renesas@glider.be>
-References: <cover.1637592133.git.geert+renesas@glider.be>
-        <c906f7449c0210cefba53eab2c2d87105d5c8599.1637592133.git.geert+renesas@glider.be>
-Organization: Huawei Technologies Research and Development (UK) Ltd.
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.29; i686-w64-mingw32)
+        Wed, 24 Nov 2021 10:26:18 -0500
+Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
+        by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id 20211124152307euoutp016b71a6f30ead3175c88d3f0e03c8c0b0~6hMLmvrdt2907529075euoutp01p
+        for <linux-media@vger.kernel.org>; Wed, 24 Nov 2021 15:23:07 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com 20211124152307euoutp016b71a6f30ead3175c88d3f0e03c8c0b0~6hMLmvrdt2907529075euoutp01p
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+        s=mail20170921; t=1637767387;
+        bh=2ynWpYwQ987eCbBiqQjZnbNjOsKl3jbANWvNadswtGo=;
+        h=Date:Subject:To:From:In-Reply-To:References:From;
+        b=mr1SAdAyR3hxxSQForY4AqlvBxnf95I0q13xeUQdkZeMF1OKENLnO35eTXE7uVnZ0
+         X2YWM47XOzyG3k5pK1O1voHDOfRcsYYazmPxHSJhyT7nC91xn/dGyKXFVWoKjUO2oY
+         d7xYnxL/IpDirKQpYMUZyTvaioH7okd9e/jknF9M=
+Received: from eusmges3new.samsung.com (unknown [203.254.199.245]) by
+        eucas1p1.samsung.com (KnoxPortal) with ESMTP id
+        20211124152306eucas1p180a26aa8b63b897fd27a63c67fc424ee~6hMLRUAdp3072530725eucas1p16;
+        Wed, 24 Nov 2021 15:23:06 +0000 (GMT)
+Received: from eucas1p1.samsung.com ( [182.198.249.206]) by
+        eusmges3new.samsung.com (EUCPMTA) with SMTP id 4A.E7.10260.AD85E916; Wed, 24
+        Nov 2021 15:23:06 +0000 (GMT)
+Received: from eusmtrp2.samsung.com (unknown [182.198.249.139]) by
+        eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
+        20211124152306eucas1p115447d63dd410079cbbfd303d7ef1229~6hMKmi_8Z0295502955eucas1p1V;
+        Wed, 24 Nov 2021 15:23:06 +0000 (GMT)
+Received: from eusmgms2.samsung.com (unknown [182.198.249.180]) by
+        eusmtrp2.samsung.com (KnoxPortal) with ESMTP id
+        20211124152306eusmtrp2d4f19c5a1f3e99eec24f8a26c8eb1b3d~6hMKl4HPR0066700667eusmtrp2S;
+        Wed, 24 Nov 2021 15:23:06 +0000 (GMT)
+X-AuditID: cbfec7f5-bf3ff70000002814-11-619e58dab2b0
+Received: from eusmtip1.samsung.com ( [203.254.199.221]) by
+        eusmgms2.samsung.com (EUCPMTA) with SMTP id 60.8E.09404.9D85E916; Wed, 24
+        Nov 2021 15:23:05 +0000 (GMT)
+Received: from [106.210.134.141] (unknown [106.210.134.141]) by
+        eusmtip1.samsung.com (KnoxPortal) with ESMTPA id
+        20211124152305eusmtip13a24ac24911721fb1fa37ff7f694a2ff~6hMKHIqUB3211932119eusmtip1a;
+        Wed, 24 Nov 2021 15:23:05 +0000 (GMT)
+Message-ID: <b378e3ab-3d1f-7509-b218-71377ef012b3@samsung.com>
+Date:   Wed, 24 Nov 2021 16:23:05 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.52.122.252]
-X-ClientProxiedBy: lhreml733-chm.china.huawei.com (10.201.108.84) To
- lhreml710-chm.china.huawei.com (10.201.108.61)
-X-CFilter-Loop: Reflected
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0)
+        Gecko/20100101 Thunderbird/91.3.2
+Subject: Re: [PATCH] MAINTAINERS: Update email of Andrzej Hajda
+Content-Language: en-US
+To:     Andrzej Hajda <andrzej.hajda@intel.com>,
+        =?UTF-8?Q?=c5=81ukasz_Stelmach?= <l.stelmach@samsung.com>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+From:   Sylwester Nawrocki <s.nawrocki@samsung.com>
+In-Reply-To: <20211018211353.586986-1-andrzej.hajda@intel.com>
+Content-Transfer-Encoding: 8bit
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprMKsWRmVeSWpSXmKPExsWy7djPc7q3IuYlGkzs1ra4v/gzi8WVr+/Z
+        LG4eWsFocXnXHDaLng1bWS3WHrnL7sDmsXjPSyaP+93HmTz6tqxi9Pi8SS6AJYrLJiU1J7Ms
+        tUjfLoErY91274IvYhUr/6xhbmDcI9zFyMEhIWAiMWseTxcjF4eQwApGid3rprNBOF8YJb6d
+        3s4C4XxmlPjaeJW1i5ETrONr60pWiMRyRoktK85AtXxklJh/tYsFpIpXwE7iwYH57CA2i4Cq
+        xPY3n5gh4oISJ2c+AasRFUiSmHBiNxPIHcIC9hL9n21BwswC4hK3nsxnApkpIvCVUWJl73yw
+        ejYBQ4neo32MIDYn0PwX03vZIRrkJZq3zmYGaZAQOMIh8esnxGIJAReJC88fMELYwhKvjm+B
+        istI/N8JsUFCoJlRomf3bXYIZwKjxP3jC6A6rCXunPvFBnIes4CmxPpd+hBhR4m/y6awQUKP
+        T+LGW0GII/gkJm2bzgwR5pXoaBOCqFaR+L1qOhOELSXR/eQ/C4TtITH71HrmCYyKs5CCZRaS
+        /2cheW0Wwg0LGFlWMYqnlhbnpqcWG+ellusVJ+YWl+al6yXn525iBKab0/+Of93BuOLVR71D
+        jEwcjIcYJTiYlUR4ry2ZnSjEm5JYWZValB9fVJqTWnyIUZqDRUmcV+RPQ6KQQHpiSWp2ampB
+        ahFMlomDU6qBqehd8NH7e5uNv0YKvj+7vba2fcaVoMW8Qmnm3CssGTkS765+/vAEW7tKrc2+
+        ezNrPExP3ZqrtmfdauOElnPuCxZULn92lfvWRfeze89eOR3qp6rtPjX+k833c7nBO2f15ZjK
+        iST5ePcrCt1NX7TIPCzOp4+V6ccalycvr0k0TDv/oO5lqvKKw7/OaxuuixY+qLP+SrrAbMci
+        rbjZxy2jG8OOlpuI58/mWfFv2sKWJb9ObVZhr1j3/136sSNWnv33lTxeGp+JSv2a+3xOS21F
+        rTWfUMmkaTIC1c6Bk0/3B4Xd0l077aV9ezXro1s7j13TN0r+slpWhyP48ykLu54DDgEXo75k
+        flvM3D1ThGWPkxJLcUaioRZzUXEiAMGt7yymAwAA
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprOIsWRmVeSWpSXmKPExsVy+t/xu7o3I+YlGmydbWVxf/FnFosrX9+z
+        Wdw8tILR4vKuOWwWPRu2slqsPXKX3YHNY/Gel0we97uPM3n0bVnF6PF5k1wAS5SeTVF+aUmq
+        QkZ+cYmtUrShhZGeoaWFnpGJpZ6hsXmslZGpkr6dTUpqTmZZapG+XYJexrrt3gVfxCpW/lnD
+        3MC4R7iLkZNDQsBE4mvrStYuRi4OIYGljBLLP29n62LkAEpIScxvUYKoEZb4c62LDaLmPaPE
+        1ulnWEESvAJ2Eg8OzGcHsVkEVCW2v/nEDBEXlDg58wkLiC0qkCTx9EAn2ExhAXuJ/s+2IGFm
+        AXGJW0/mM4HMFBH4ziix8NN/JogFExkl3uxsYgSpYhMwlOg92gdmcwItezG9lx1kELOAusT6
+        eUIQg+QlmrfOZp7AKDgLyepZSHbMQuiYhaRjASPLKkaR1NLi3PTcYiO94sTc4tK8dL3k/NxN
+        jMAY2nbs55YdjCtffdQ7xMjEwXiIUYKDWUmE99qS2YlCvCmJlVWpRfnxRaU5qcWHGE2B3p/I
+        LCWanA+M4rySeEMzA1NDEzNLA1NLM2MlcV7Pgo5EIYH0xJLU7NTUgtQimD4mDk6pBqaWUyaR
+        pff39TfLv5vPuldFZaZot9rN5nvhUjMmx7GvTDEPmJE1t+GpVIGoC4+M1K7/64y2ux0W2V0w
+        g/3MGdMfTPxHOBmveU2zutYWecjFz3f2vbRrBT5Lp1w+K5V3XWNy+f2+vUv7eHlPR2nwb4jP
+        9lv3cl3Ng4Disw3zDZgc15tnzWC3l1god0e2NMVp5td7u9Z3f3Y3Cv80Q2/z/aNhfLGq8s8P
+        fHl3+mBBZYuCw0M/4QKeng2dnDteitduZvuvkvSId9fxuuT6QuMJf97O41DcbX3MUSuES0/q
+        ocV6nZkhjRb8ghu/VSYUKbrdfqe55cXq0+Vvs5rKjn5157qUvyjr6ANGe22NjcJWvkosxRmJ
+        hlrMRcWJAOTfYh4qAwAA
+X-CMS-MailID: 20211124152306eucas1p115447d63dd410079cbbfd303d7ef1229
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+X-RootMTR: 20211018211442eucas1p1e5f7eb08c6b76c76dcfad2c2efc1da4e
+X-EPHeader: CA
+CMS-TYPE: 201P
+X-CMS-RootMailID: 20211018211442eucas1p1e5f7eb08c6b76c76dcfad2c2efc1da4e
+References: <CGME20211018211442eucas1p1e5f7eb08c6b76c76dcfad2c2efc1da4e@eucas1p1.samsung.com>
+        <20211018211353.586986-1-andrzej.hajda@intel.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, 22 Nov 2021 16:54:01 +0100
-Geert Uytterhoeven <geert+renesas@glider.be> wrote:
-
-> Use the field_prep() helper, instead of open-coding the same operation.
+On 18.10.2021 23:13, Andrzej Hajda wrote:
+> Beside updating email, the patch updates maintainers
+> of Samsung drivers.
 > 
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-Hi Geert,
-
-If this should got forwards, looks like a nice cleanup for the two IIO
-ones, so I'll be happy to pick them up once infrastructure in place
-(ideally have the infrastructure an immutable branch to save having
-to revisit in 3+ months time!)
-
-Jonathan
-
+> Signed-off-by: Andrzej Hajda <andrzej.hajda@intel.com>
 > ---
-> Compile-tested only.
-> Marked RFC, as this depends on [PATCH 01/17], but follows a different
-> path to upstream.
-> ---
->  drivers/iio/humidity/hts221_core.c | 8 ++++----
->  1 file changed, 4 insertions(+), 4 deletions(-)
+>  .mailmap    |  1 +
+>  MAINTAINERS | 13 ++++++++-----
+>  2 files changed, 9 insertions(+), 5 deletions(-)
 > 
-> diff --git a/drivers/iio/humidity/hts221_core.c b/drivers/iio/humidity/hts221_core.c
-> index 6a39615b696114cd..749aedc469ede5c1 100644
-> --- a/drivers/iio/humidity/hts221_core.c
-> +++ b/drivers/iio/humidity/hts221_core.c
-> @@ -7,6 +7,7 @@
->   * Lorenzo Bianconi <lorenzo.bianconi@st.com>
->   */
+> diff --git a/.mailmap b/.mailmap
+> index 4f6e37da60589..4283a86f70d26 100644
+> --- a/.mailmap
+> +++ b/.mailmap
+> @@ -40,6 +40,7 @@ Andrew Vasquez <andrew.vasquez@qlogic.com>
+>  Andrey Konovalov <andreyknvl@gmail.com> <andreyknvl@google.com>
+>  Andrey Ryabinin <ryabinin.a.a@gmail.com> <a.ryabinin@samsung.com>
+>  Andrey Ryabinin <ryabinin.a.a@gmail.com> <aryabinin@virtuozzo.com>
+> +Andrzej Hajda <andrzej.hajda@intel.com> <a.hajda@samsung.com>
+>  Andy Adamson <andros@citi.umich.edu>
+>  Antoine Tenart <atenart@kernel.org> <antoine.tenart@bootlin.com>
+>  Antoine Tenart <atenart@kernel.org> <antoine.tenart@free-electrons.com>
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 54cd05d3aab65..e3fadb4ebced3 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -2546,7 +2546,7 @@ N:	s3c64xx
+>  N:	s5pv210
 >  
-> +#include <linux/bitfield.h>
->  #include <linux/kernel.h>
->  #include <linux/module.h>
->  #include <linux/device.h>
-> @@ -171,7 +172,7 @@ static int hts221_update_avg(struct hts221_hw *hw,
->  			     u16 val)
->  {
->  	const struct hts221_avg *avg = &hts221_avg_list[type];
-> -	int i, err, data;
-> +	int i, err;
+>  ARM/SAMSUNG S5P SERIES 2D GRAPHICS ACCELERATION (G2D) SUPPORT
+> -M:	Andrzej Hajda <a.hajda@samsung.com>
+> +M:	Łukasz Stelmach <l.stelmach@samsung.com>
+>  L:	linux-arm-kernel@lists.infradead.org (moderated for non-subscribers)
+>  L:	linux-media@vger.kernel.org
+>  S:	Maintained
+> @@ -2570,7 +2570,8 @@ S:	Maintained
+>  F:	drivers/media/platform/s5p-jpeg/
 >  
->  	for (i = 0; i < HTS221_AVG_DEPTH; i++)
->  		if (avg->avg_avl[i] == val)
-> @@ -180,9 +181,8 @@ static int hts221_update_avg(struct hts221_hw *hw,
->  	if (i == HTS221_AVG_DEPTH)
->  		return -EINVAL;
+>  ARM/SAMSUNG S5P SERIES Multi Format Codec (MFC) SUPPORT
+> -M:	Andrzej Hajda <a.hajda@samsung.com>
+> +M:	Marek Szyprowski <m.szyprowski@samsung.com>
+> +M:	Andrzej Hajda <andrzej.hajda@intel.com>
+>  L:	linux-arm-kernel@lists.infradead.org (moderated for non-subscribers)
+>  L:	linux-media@vger.kernel.org
+>  S:	Maintained
+> @@ -6254,7 +6255,7 @@ F:	Documentation/devicetree/bindings/display/atmel/
+>  F:	drivers/gpu/drm/atmel-hlcdc/
 >  
-> -	data = ((i << __ffs(avg->mask)) & avg->mask);
-> -	err = regmap_update_bits(hw->regmap, avg->addr,
-> -				 avg->mask, data);
-> +	err = regmap_update_bits(hw->regmap, avg->addr, avg->mask,
-> +				 field_prep(avg->mask, i));
->  	if (err < 0)
->  		return err;
->  
+>  DRM DRIVERS FOR BRIDGE CHIPS
+> -M:	Andrzej Hajda <a.hajda@samsung.com>
+> +M:	Andrzej Hajda <andrzej.hajda@intel.com>
+>  M:	Neil Armstrong <narmstrong@baylibre.com>
+>  M:	Robert Foss <robert.foss@linaro.org>
+>  R:	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+> @@ -16748,13 +16749,15 @@ F:	Documentation/devicetree/bindings/net/nfc/samsung,s3fwrn5.yaml
+>  F:	drivers/nfc/s3fwrn5
 
+>  SAMSUNG S5C73M3 CAMERA DRIVER
+> -M:	Andrzej Hajda <a.hajda@samsung.com>
+> +M:	Sylwester Nawrocki <s.nawrocki@samsung.com>
+> +M:	Andrzej Hajda <andrzej.hajda@intel.com>
+>  L:	linux-media@vger.kernel.org
+>  S:	Supported
+>  F:	drivers/media/i2c/s5c73m3/*
+>  SAMSUNG S5K5BAF CAMERA DRIVER
+> -M:	Andrzej Hajda <a.hajda@samsung.com>
+> +M:	Sylwester Nawrocki <s.nawrocki@samsung.com>
+> +M:	Andrzej Hajda <andrzej.hajda@intel.com>
+>  L:	linux-media@vger.kernel.org
+>  S:	Supported
+>  F:	drivers/media/i2c/s5k5baf.c
+
+Acked-by: Sylwester Nawrocki <s.nawrocki@samsung.com>
