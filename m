@@ -2,135 +2,87 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BBF6145D561
-	for <lists+linux-media@lfdr.de>; Thu, 25 Nov 2021 08:25:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2670F45D5AD
+	for <lists+linux-media@lfdr.de>; Thu, 25 Nov 2021 08:42:34 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233243AbhKYH3G (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 25 Nov 2021 02:29:06 -0500
-Received: from meesny.iki.fi ([195.140.195.201]:42302 "EHLO meesny.iki.fi"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S232999AbhKYH1F (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 25 Nov 2021 02:27:05 -0500
-Received: from hillosipuli.retiisi.eu (89-27-103-169.bb.dnainternet.fi [89.27.103.169])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-        (No client certificate requested)
-        (Authenticated sender: sailus)
-        by meesny.iki.fi (Postfix) with ESMTPSA id 7ACB7205B6;
-        Thu, 25 Nov 2021 09:23:42 +0200 (EET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=meesny;
-        t=1637825022;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=cnvRpk6O4w07uZuhJYvUYK/lvxfVjIbaHyrDoozb7gA=;
-        b=G20sUbyj/801s5aH7+OcM4K04JNVSRWOaw7rKtwIEr4493sAHeNWdcD4zSRDmgw+TGBLAd
-        aWZWPl2Ncl/xEg/349IbIG/tfM/WgmsZtVhcxpK57bnkjrhFl8dxYlDqktclnFaz0lcWAL
-        Pz5wkkzLBeC/qBxwF/Nom9EnmnaTpGk=
-Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 0659A634C90;
-        Thu, 25 Nov 2021 09:23:41 +0200 (EET)
-Date:   Thu, 25 Nov 2021 09:23:41 +0200
-From:   Sakari Ailus <sakari.ailus@iki.fi>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Adam Ford <aford173@gmail.com>,
-        linux-media <linux-media@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Niklas =?iso-8859-1?Q?S=F6derlund?= 
-        <niklas.soderlund@ragnatech.se>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        cstevens@beaconembedded.com
-Subject: Re: LP-11 Timeout on RZ/G2 with ov5640
-Message-ID: <YZ85/TT9AmJh1G/w@valkosipuli.retiisi.eu>
-References: <CAHCN7xLncsxHcTirn+U1d_x08x=F+txhiJ+LF9GAi5rWnJMUCQ@mail.gmail.com>
- <YZ64wsMUVz37YlBF@pendragon.ideasonboard.com>
+        id S236932AbhKYHpm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 25 Nov 2021 02:45:42 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53756 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S234445AbhKYHnm (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Thu, 25 Nov 2021 02:43:42 -0500
+Received: from lb2-smtp-cloud9.xs4all.net (lb2-smtp-cloud9.xs4all.net [IPv6:2001:888:0:108::2c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BD6F9C061574
+        for <linux-media@vger.kernel.org>; Wed, 24 Nov 2021 23:40:23 -0800 (PST)
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud9.xs4all.net with ESMTPA
+        id q9Mdm5oGn1HGJq9Mgm2jiQ; Thu, 25 Nov 2021 08:40:21 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
+        t=1637826021; bh=qoJW8milJU0K39IKcYtQqBLhEmf5FvdYrGJBpumdZ9g=;
+        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
+         Subject;
+        b=fkMxRbbPssF1xKf6Jl2CkxjxnDVSN7Kmmn7QurDHbadew69Vx4TNl0Vq7WwnJFMdn
+         Q5hWy+CQoOF6YNRhwb43d7S5sSUYZ9gm7ROjrwTzd/hkfIhYCRoPZkBfMzrd9EjBaM
+         belDsMD3ltBNRuEwnBCKxhqdK1cw60mPchIo+xkg5OlubdEh5NMMzI5tDNNwSvgmXm
+         zBoV3WHCaX/dRggKCPC/51A3JEINKG3XaQUJFxzKkG2HZUi9Ou0CWh2drU5v9cXLRC
+         rRtiJz2kUDwwFhETX8s373x76YuR5UaHQTiJLm9LIqjf8dwqlBDu8c7K2oUCigsYDl
+         lZoxO99qnPjwQ==
+Subject: Re: [PATCH v4 2/2] media: imx-pxp: Add rotation support
+To:     Fabio Estevam <festevam@denx.de>,
+        Philipp Zabel <p.zabel@pengutronix.de>
+Cc:     linux-media@vger.kernel.org
+References: <20211008131015.3303915-1-festevam@denx.de>
+ <20211008131015.3303915-2-festevam@denx.de>
+ <0f777e71e47bc64b193f7840ff86ddf9799f3b11.camel@pengutronix.de>
+ <e9a03ead4a9a6b72b25587654d0239b2@denx.de>
+From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Message-ID: <300f66b6-0f3c-c793-2e0a-3d64de951a23@xs4all.nl>
+Date:   Thu, 25 Nov 2021 08:40:15 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Firefox/78.0 Thunderbird/78.14.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YZ64wsMUVz37YlBF@pendragon.ideasonboard.com>
-ARC-Authentication-Results: i=1;
-        ORIGINATING;
-        auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
-ARC-Seal: i=1; s=meesny; d=iki.fi; t=1637825022; a=rsa-sha256; cv=none;
-        b=LVcrlAx9ekFwWysN/Q0im35kgJno47VHcF9eYGhqUUWXMcWPqf5IxjutYEy4JAOXS2uD2D
-        SnuVXIUoSGBRkEfTKF18V6q5Axf+cnQ3l8Xs33U5Dmn0RdoMlwdZ8AOxgXRtpN9J5akn9W
-        TqPGQ3vEqVU37Lz5VGUEGq9f6e4aOzg=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
-        s=meesny; t=1637825022;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=cnvRpk6O4w07uZuhJYvUYK/lvxfVjIbaHyrDoozb7gA=;
-        b=izA4Y4llWyFOJ+tzBzbZPIXRaJmYAVnS6xIOuveY3QfXGpwQEaOHYtHx6NH+efq0QaY8kY
-        bQgXhfOQ3geYwi8nRt6fhf0EoP/61GKto080hkzST/Bu0wHtUD3UJdKwfMuJ1CvR2VvrJI
-        U8YqubGccGQY73niAIhtqzykafttAfk=
+In-Reply-To: <e9a03ead4a9a6b72b25587654d0239b2@denx.de>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-CMAE-Envelope: MS4xfDDb8iZkzbpJyy8LwFFiqYUyNX7bSAU0Ady8ZfU/sDrvUs6EbS35xM9rDFBW8DMAOI4isGe+zGWLyvhukHrgx+yy3jQ9gnSNmjktXB23n87NLov6BkgM
+ WS0xiMvoQ85WcDcoaCVkE3vrXQBE9oxXRyFw+vrXdhHNVVp20BJTn0TJ+9LPzTI10A6YlY11Sxy0v8tlze1bfh7r29Bg+OSzo0Rafhyf7Nh8aQ85cVmWauVA
+ 4HNeLK3QO8mrRMPXM6BvE//05Xz3MDZkNHeJ29YL+4w=
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Laurent,
-
-On Thu, Nov 25, 2021 at 12:12:18AM +0200, Laurent Pinchart wrote:
-> Hi Adam,
+On 25/11/2021 04:44, Fabio Estevam wrote:
+> Hi Hans,
 > 
-> (CC'ing Sakari)
+> On 08/10/2021 11:17, Philipp Zabel wrote:
+>> On Fri, 2021-10-08 at 10:10 -0300, Fabio Estevam wrote:
+>>> PXP allows clockwise rotation of 0°, 90°, 180° and 270°.
+>>>
+>>> Add support for it.
+>>>
+>>> Tested on a imx6ull-evk.
+>>>
+>>> For example, to rotate 90° the following Gstreamer pipeline can
+>>> be used:
+>>>
+>>> gst-launch-1.0 videotestsrc ! video/x-raw,width=640,height=480 ! \
+>>> v4l2convert extra-controls=cid,rotate=90  ! \
+>>> video/x-raw,width=120,height=160 ! fbdevsink
+>>>
+>>> Signed-off-by: Fabio Estevam <festevam@denx.de>
+>>
+>> Reviewed-by: Philipp Zabel <p.zabel@pengutronix.de>
+>>
+>> regards
+>> Philipp
 > 
-> On Wed, Nov 24, 2021 at 03:16:57PM -0600, Adam Ford wrote:
-> > I am trying to use an OV5640 camera sensor that I've used on both an
-> > i.MX6Q and an i.MX8M Mini (with good success) on an RZ/G2[MNH] board
-> > connected to the 2-lane CSI interface.
-> > 
-> > I can get the media-ctl to show the routings, and sometimes I can get
-> > streaming.  Often, I get a timeout:
-> > 
-> >      rcar-csi2 fea80000.csi2: Timeout waiting for LP-11 state
-> > 
-> > Looking at the various mailing list e-mails for the LP-11, it's
-> > unclear to me if the timeout is caused by the sensor not doing
-> > something correctly or the CSI2 misbehaving.
+> A gentle ping on this series.
 > 
-> Before transitioning to the high speed (HS) mode, the D-PHY transmitter
-> must drive the lane in the LP-11 state. This is the idle state of the
-> lane when powered up and when not in the ultra low-power state (ULPS).
-> The transition to HS mode on the receiver side involves observing the
-> LP-11 state. Many D-PHY RX require configuring the PHY when the lane is
-> in LP-11 state, and only then starting the sensor to transition to HS.
-> This requires powering up the D-PHY TX and going to idle mode, which
-> most sensors support. As we're deprecating the .s_power() subdev
-> operation, however, we have no way to power up the sensor without
-> starting it before the D-PHY RX gets configured.
 
-That's not true anymore. Please see:
+I hope to post the PR containing this series today.
 
-<URL:https://hverkuil.home.xs4all.nl/spec/driver-api/tx-rx.html#lp-11-and-lp-111-modes>
+Regards,
 
-Not all sensors can do this without tricks though.
-
-> 
-> In some cases, the D-PHY RX can handle the power up sequence
-> automatically. They can be fully configured (from a software point of
-> view) while the lane is in the power down state LP-00, and they then
-> handle the transition to the stop state LP-11 and to the HS mode
-> automatically. This isn't true for all receivers, some need software
-> configuration after the data lane reaches the LP-11 state and before it
-> transitions to HS mode. According to the documentation, the R-Car CSI-2
-> receiver requires software intervention between LP-11 and HS mode at
-> least on V3M and E3. There's also a software configuration step on H3,
-> M3N, V3H and V3U, but there's a chance that one could possibly be
-> bypassed.
-> 
-> > I was hoping someone might have some suggestions of things I can try.
-> 
-> I would first try to power up the sensor at probe time and keep it power
-> forever, to see if it solves your issue. If it does, then introducing a
-> CSI-2-specific subdev operation to power up the sensor (or officially
-> de-deprecating .s_power() for this use case) could be an option to fix
-> the issue properly.
-
--- 
-Kind regards,
-
-Sakari Ailus
+	Hans
