@@ -2,179 +2,155 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2320545D854
-	for <lists+linux-media@lfdr.de>; Thu, 25 Nov 2021 11:39:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id AEB7345D86A
+	for <lists+linux-media@lfdr.de>; Thu, 25 Nov 2021 11:47:09 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1347648AbhKYKm5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 25 Nov 2021 05:42:57 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36044 "EHLO
+        id S1354582AbhKYKuS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 25 Nov 2021 05:50:18 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37204 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1354483AbhKYKk5 (ORCPT
+        with ESMTP id S1349586AbhKYKsR (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 25 Nov 2021 05:40:57 -0500
-Received: from lb1-smtp-cloud9.xs4all.net (lb1-smtp-cloud9.xs4all.net [IPv6:2001:888:0:108::1c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5282EC06173E
-        for <linux-media@vger.kernel.org>; Thu, 25 Nov 2021 02:36:05 -0800 (PST)
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud9.xs4all.net with ESMTPA
-        id qC6im6cAw1HGJqC6lm33L8; Thu, 25 Nov 2021 11:36:03 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1637836563; bh=DuB3sIV9qAlM1nzK0E28+6fjmKgEolqX/IRiUu6l2Qw=;
-        h=To:From:Subject:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=wQa88C5xH5aSatJzLeJnF3RB6BhNhoVNALAKholrIweoxdlYauwolj8BMaCkdxnpS
-         5mn8b8dG7V+xlOYj2kHNyvw4vX3F7pd6JzVDdS0t4JknCfxMKlDK5mewXd57yo8JxQ
-         bdZjBR3PdAkIbh2S9mY734lja25OZkz0i1NNuXUMcLcePgsYzKBZ4rnJMuU1NdPHaX
-         Vr14+vR4+OaMqUUCVdgECJ0GY4lWpSedptr/NV8IAxdD9zSjpBgnrIkCNbr6xcRjiF
-         9MnOYhKaj3DZk3f79gXsofZErS8z5ySM3o3Xu0P/YQ4sRth3TnP0b4DYxQWdCSzSvr
-         N7DqN0wMDODww==
-To:     Linux Media Mailing List <linux-media@vger.kernel.org>
-Cc:     Fabio Estevam <festevam@gmail.com>,
-        Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Subject: [GIT PULL FOR v5.17] Various fixes and enhancements
-Message-ID: <ffd5ab45-3295-2051-e2ce-5395507de975@xs4all.nl>
-Date:   Thu, 25 Nov 2021 11:35:59 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Firefox/78.0 Thunderbird/78.14.0
+        Thu, 25 Nov 2021 05:48:17 -0500
+Received: from mail-pg1-x52f.google.com (mail-pg1-x52f.google.com [IPv6:2607:f8b0:4864:20::52f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 32C57C06174A
+        for <linux-media@vger.kernel.org>; Thu, 25 Nov 2021 02:43:44 -0800 (PST)
+Received: by mail-pg1-x52f.google.com with SMTP id s137so4887973pgs.5
+        for <linux-media@vger.kernel.org>; Thu, 25 Nov 2021 02:43:44 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=PLDLR5j0uGVv9q27fcEmCOFCgkuYsEfI0zTW3hiJpl4=;
+        b=GIbsqeGnjW1ynQqSkUG0vdCVPpMgM4AXg0OJdgKe5xgiIs5ck+Y5DBupLRrVSbifSl
+         /bM7yBLvxt8+5Ojjx+GdsM1W/ZLZIHhxOa1ywPnzOGGz1zi+/pKLpgWGBsALKo/jmUpj
+         SwFhGQY0L6sYoGVCYFC39uO3ZiVwklWOsORldpq5hXbGXxDcolLpzqzUcgn9UaCIwC28
+         +VsnnIRkOogFkmXRZcjk/W4kjEFidkgzjHbBVcgwcG+KT8wfTIobZxvcBnhJEP+0rJaI
+         Q6Y4mDeTTd2haqEIhDhlr89JewkrnxetqX0asbvTK2GmfxJCK/6Mx5+ZPsuIPr3PIecq
+         8Izw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=PLDLR5j0uGVv9q27fcEmCOFCgkuYsEfI0zTW3hiJpl4=;
+        b=O6neaQdgLNe/laNWOxk+3y9KjJcsGDoohuwkR1q5T4H4vqYEDTeVzYjuZHRypVVSjm
+         njSpIU/n+dwYby3kVyEK9SwYp7Kpr0G5aAPZaFtNHkWZeyDkv9y51RVIuLs8uOXDbxwH
+         KBIgrnVts9ZMiobJyZ3wdVRaTpZlta+JW4Rpbey7SmsXj4K41vzOpRO/7rxsQ+kQt0Z0
+         viS0dEPVHyADmiygT2f7Lca1b5kZYGaeV1VLuG3jSZnJwvB2fXA+AV7mcQfAuZHxDS4D
+         /UbN/Do3dhVi2USKgLdU6xL/03W/igmDUkND2OxlbFY4r/Vcolilh7nizMriu0DkQ45k
+         /kzw==
+X-Gm-Message-State: AOAM5302ouv8BoXshQ5kbvLze4IxrTnCshKuwn8CZM2/l4phSHYqqW04
+        GJIoLpdj79XWmeJEPbDMUx8smQmjQBCG3txUkA2gYQ==
+X-Google-Smtp-Source: ABdhPJxj8GzS1yiZIzq3ZfxvRsHM69e1vu7aC8vZmXn7atXgX7lOy/NZB4hc6Bfk4+E+SZLt2VmU5+Cm/DVB1zTZAd4=
+X-Received: by 2002:a63:85c3:: with SMTP id u186mr10381560pgd.201.1637837023695;
+ Thu, 25 Nov 2021 02:43:43 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-CMAE-Envelope: MS4xfOREj9wTlRcXOvvAtZOXfjxQLeEQu0eNQ9EUiBbth/hJLxowHUFoW0wn4Bi3aJDsyoHBwImKd3Qr9dI0fXpw6+n8z+5SGeSvK6sswu792Ie83IXMnj8c
- GL9v8X2ck4NjTY++8l3LGPcsVLeqeZxr5Lo3lhmUPbjfvkVkk0RmfyfwYkSNcDWw588pSm1Fso45S77WhITyxJktii6dFc/ejlQYF7I1LhYEUW5ZCllod206
- vvAZmr/iM5y0Vd1BJY+f/lGzs64L3fiG0m4E6xNkgjQ=
+References: <20211124175921.1048375-1-bryan.odonoghue@linaro.org> <20211124175921.1048375-19-bryan.odonoghue@linaro.org>
+In-Reply-To: <20211124175921.1048375-19-bryan.odonoghue@linaro.org>
+From:   Robert Foss <robert.foss@linaro.org>
+Date:   Thu, 25 Nov 2021 11:43:31 +0100
+Message-ID: <CAG3jFyuZ7EZyxJhXOKbE5mzo6mHGrsp_xe97cJWKjenMk2zLHA@mail.gmail.com>
+Subject: Re: [PATCH v2 18/19] media: camss: Do vfe_get/vfe_put for csid on sm8250
+To:     "Bryan O'Donoghue" <bryan.odonoghue@linaro.org>
+Cc:     linux-arm-msm@vger.kernel.org, linux-media@vger.kernel.org,
+        jonathan@marek.ca, andrey.konovalov@linaro.org,
+        todor.too@gmail.com, agross@kernel.org, bjorn.andersson@linaro.org,
+        mchehab@kernel.org, jgrahsl@snap.com, hfink@snap.com
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The following changes since commit b1b447e2f3e1ec0c3e9716f4f74d056461f69ab3:
+On Wed, 24 Nov 2021 at 18:57, Bryan O'Donoghue
+<bryan.odonoghue@linaro.org> wrote:
+>
+> The sm8250 CAMSS CSID depends on the VFE it is attached to being powered on
+> and clocked prior to taking the CSID out of reset.
+>
+> It is possible to open just the CSID subdev from libcamera and attempt to
+> bring the CSID block up.
+>
+> If we do not first bring up the VFE the CSID will fail to come out of
+> reset.
+>
+> Tested-by: Julian Grahsl <jgrahsl@snap.com>
+> Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+> ---
+>  drivers/media/platform/qcom/camss/camss-csid.c | 12 +++++++++++-
+>  drivers/media/platform/qcom/camss/camss-vfe.c  |  4 ++--
+>  drivers/media/platform/qcom/camss/camss-vfe.h  |  3 +++
+>  3 files changed, 16 insertions(+), 3 deletions(-)
+>
+> diff --git a/drivers/media/platform/qcom/camss/camss-csid.c b/drivers/media/platform/qcom/camss/camss-csid.c
+> index 9ef6fbbeeddf..e6835b92695b 100644
+> --- a/drivers/media/platform/qcom/camss/camss-csid.c
+> +++ b/drivers/media/platform/qcom/camss/camss-csid.c
+> @@ -156,10 +156,18 @@ static int csid_set_clock_rates(struct csid_device *csid)
+>  static int csid_set_power(struct v4l2_subdev *sd, int on)
+>  {
+>         struct csid_device *csid = v4l2_get_subdevdata(sd);
+> -       struct device *dev = csid->camss->dev;
+> +       struct camss *camss = csid->camss;
+> +       struct device *dev = camss->dev;
+> +       struct vfe_device *vfe = &camss->vfe[csid->id];
+>         int ret;
+>
+>         if (on) {
+> +               if (camss->version == CAMSS_8250) {
+> +                       ret = vfe_get(vfe);
+> +                       if (ret < 0)
+> +                               return ret;
+> +               }
+> +
+>                 ret = pm_runtime_resume_and_get(dev);
+>                 if (ret < 0)
+>                         return ret;
+> @@ -204,6 +212,8 @@ static int csid_set_power(struct v4l2_subdev *sd, int on)
+>                 camss_disable_clocks(csid->nclocks, csid->clock);
+>                 ret = csid->vdda ? regulator_disable(csid->vdda) : 0;
+>                 pm_runtime_put_sync(dev);
+> +               if (camss->version == CAMSS_8250)
+> +                       vfe_put(vfe);
+>         }
+>
+>         return ret;
+> diff --git a/drivers/media/platform/qcom/camss/camss-vfe.c b/drivers/media/platform/qcom/camss/camss-vfe.c
+> index 5b5fe620914d..703ea39f1262 100644
+> --- a/drivers/media/platform/qcom/camss/camss-vfe.c
+> +++ b/drivers/media/platform/qcom/camss/camss-vfe.c
+> @@ -575,7 +575,7 @@ static int vfe_check_clock_rates(struct vfe_device *vfe)
+>   *
+>   * Return 0 on success or a negative error code otherwise
+>   */
+> -static int vfe_get(struct vfe_device *vfe)
+> +int vfe_get(struct vfe_device *vfe)
+>  {
+>         int ret;
+>
+> @@ -637,7 +637,7 @@ static int vfe_get(struct vfe_device *vfe)
+>   * vfe_put - Power down VFE module
+>   * @vfe: VFE Device
+>   */
+> -static void vfe_put(struct vfe_device *vfe)
+> +void vfe_put(struct vfe_device *vfe)
+>  {
+>         mutex_lock(&vfe->power_lock);
+>
+> diff --git a/drivers/media/platform/qcom/camss/camss-vfe.h b/drivers/media/platform/qcom/camss/camss-vfe.h
+> index 6500474a749e..0eba04eb9b77 100644
+> --- a/drivers/media/platform/qcom/camss/camss-vfe.h
+> +++ b/drivers/media/platform/qcom/camss/camss-vfe.h
+> @@ -203,4 +203,7 @@ extern const struct vfe_hw_ops vfe_ops_4_8;
+>  extern const struct vfe_hw_ops vfe_ops_170;
+>  extern const struct vfe_hw_ops vfe_ops_480;
+>
+> +int vfe_get(struct vfe_device *vfe);
+> +void vfe_put(struct vfe_device *vfe);
+> +
+>  #endif /* QC_MSM_CAMSS_VFE_H */
+> --
+> 2.33.0
 
-  media: mxl5005s: drop some dead code (2021-11-24 20:06:42 +0100)
+Looks good to me!
 
-are available in the Git repository at:
-
-  git://linuxtv.org/hverkuil/media_tree.git tags/br-v5.17d
-
-for you to fetch changes up to e87cda7d5ce3c4fd2ad5e3b4f9c238281cf92c43:
-
-  libv4l-introduction.rst: fix undefined label (2021-11-25 11:33:55 +0100)
-
-----------------------------------------------------------------
-Tag branch
-
-----------------------------------------------------------------
-Alexandre Courbot (1):
-      media: docs: dev-decoder: add restrictions about CAPTURE buffers
-
-Andrzej Hajda (1):
-      MAINTAINERS: Update email of Andrzej Hajda
-
-Chen-Yu Tsai (1):
-      media: hantro: Hook up RK3399 JPEG encoder output
-
-Christophe JAILLET (1):
-      media: mtk-vcodec: Fix an error handling path in 'mtk_vcodec_probe()'
-
-Dafna Hirschfeld (4):
-      media: mtk-vcodec: call v4l2_m2m_ctx_release first when file is released
-      media: mtk-vcodec: fix debugging defines
-      media: mtk-vcodec: replace func vidioc_try_fmt with two funcs for out/cap
-      media: mtk-vcodec: don't check return val of mtk_venc_get_q_data
-
-Dmitry Osipenko (1):
-      media: staging: tegra-vde: Reorder misc device registration
-
-Dongliang Mu (3):
-      driver: hva: add pm_runtime_disable in the error handling code of hva_hw_probe
-      driver: bdisp: add pm_runtime_disable in the error handling code
-      driver: s3c_camif: move s3c_camif_unregister_subdev out of camif_unregister_media_entities
-
-Fabio Estevam (2):
-      media: imx-pxp: Initialize the spinlock prior to using it
-      media: imx-pxp: Add rotation support
-
-Guo Zhengkui (1):
-      media: imx: fix boolreturn.cocci warning:
-
-Hans Verkuil (5):
-      vb2: frame_vector.c: don't overwrite error code
-      cec: safely unhook lists in cec_data
-      pvrusb2: fix inconsistent indenting
-      omap3isp.h: fix kernel-doc warnings
-      libv4l-introduction.rst: fix undefined label
-
-James Cowgill (1):
-      media: hantro: Avoid global variable for jpeg quantization tables
-
-Philipp Zabel (1):
-      media: coda: fix CODA960 JPEG encoder buffer overflow
-
-Rikard Falkeborn (2):
-      media: imx: Constify static struct v4l2_m2m_ops
-      staging: media: rkvdec: Constify static struct v4l2_m2m_ops
-
-Robert Foss (1):
-      media: camss: Remove unused static function
-
-Suresh Udipi (3):
-      media: rcar-csi2: Correct the selection of hsfreqrange
-      media: rcar-csi2: Add warning for PHY speed less than minimum
-      media: rcar-csi2: Optimize the selection PHTW register
-
-Tang Bin (1):
-      media: rcar_fdp1: Fix the correct variable assignments
-
-Thierry Reding (2):
-      media: staging: tegra-vde: Support reference picture marking
-      media: staging: tegra-vde: Properly mark invalid entries
-
-Uwe Kleine-König (1):
-      s5c73m3: Drop empty spi_driver remove callback
-
-Xu Wang (1):
-      media: mtk-jpeg: Remove unnecessary print function dev_err()
-
-Yang Yingliang (1):
-      media: si470x-i2c: fix possible memory leak in si470x_i2c_probe()
-
- .mailmap                                                      |   1 +
- Documentation/userspace-api/media/v4l/dev-decoder.rst         |  17 ++++++
- Documentation/userspace-api/media/v4l/libv4l-introduction.rst |   2 +-
- MAINTAINERS                                                   |  13 +++--
- drivers/media/cec/core/cec-adap.c                             |   8 ++-
- drivers/media/cec/core/cec-api.c                              |   2 +-
- drivers/media/common/videobuf2/frame_vector.c                 |  15 ++++-
- drivers/media/i2c/s5c73m3/s5c73m3-spi.c                       |   6 --
- drivers/media/platform/coda/coda-common.c                     |   8 ++-
- drivers/media/platform/coda/coda-jpeg.c                       |  21 ++++++-
- drivers/media/platform/imx-pxp.c                              |  35 ++++++++++--
- drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c               |   4 +-
- drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_drv.c        |   5 +-
- drivers/media/platform/mtk-vcodec/mtk_vcodec_enc.c            | 188 +++++++++++++++++++++++++++------------------------------------
- drivers/media/platform/mtk-vcodec/mtk_vcodec_enc_drv.c        |   5 +-
- drivers/media/platform/mtk-vcodec/mtk_vcodec_util.c           |  10 ----
- drivers/media/platform/mtk-vcodec/mtk_vcodec_util.h           |  45 ++++-----------
- drivers/media/platform/mtk-vcodec/vdec/vdec_h264_req_if.c     |   4 +-
- drivers/media/platform/omap3isp/omap3isp.h                    |   2 +
- drivers/media/platform/qcom/camss/camss-vfe-170.c             |   7 ---
- drivers/media/platform/rcar-vin/rcar-csi2.c                   |  22 +++++++-
- drivers/media/platform/rcar_fdp1.c                            |   7 +--
- drivers/media/platform/s3c-camif/camif-core.c                 |   2 +-
- drivers/media/platform/sti/bdisp/bdisp-v4l2.c                 |   1 +
- drivers/media/platform/sti/hva/hva-hw.c                       |   4 +-
- drivers/media/radio/si470x/radio-si470x-i2c.c                 |   3 +-
- drivers/media/usb/pvrusb2/pvrusb2-encoder.c                   |   4 +-
- drivers/media/usb/pvrusb2/pvrusb2-hdw.c                       |  33 ++++++-----
- drivers/staging/media/hantro/hantro_h1_jpeg_enc.c             |   7 +--
- drivers/staging/media/hantro/hantro_hw.h                      |   3 +-
- drivers/staging/media/hantro/hantro_jpeg.c                    |  31 +++--------
- drivers/staging/media/hantro/hantro_jpeg.h                    |   4 +-
- drivers/staging/media/hantro/rockchip_vpu2_hw_jpeg_enc.c      |  22 +++++++-
- drivers/staging/media/hantro/rockchip_vpu_hw.c                |   5 +-
- drivers/staging/media/imx/imx-media-csc-scaler.c              |   2 +-
- drivers/staging/media/imx/imx-media-csi.c                     |   2 +-
- drivers/staging/media/rkvdec/rkvdec.c                         |   2 +-
- drivers/staging/media/tegra-vde/vde.c                         | 147 ++++++++++++++++++++++++++++++++++++++++++++-----
- drivers/staging/media/tegra-vde/vde.h                         |  18 ++++++
- 39 files changed, 445 insertions(+), 272 deletions(-)
+Reviewed-by: Robert Foss <robert.foss@linaro.org>
