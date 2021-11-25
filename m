@@ -2,87 +2,72 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2670F45D5AD
-	for <lists+linux-media@lfdr.de>; Thu, 25 Nov 2021 08:42:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B2F0D45D5B4
+	for <lists+linux-media@lfdr.de>; Thu, 25 Nov 2021 08:45:19 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236932AbhKYHpm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 25 Nov 2021 02:45:42 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53756 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234445AbhKYHnm (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Thu, 25 Nov 2021 02:43:42 -0500
-Received: from lb2-smtp-cloud9.xs4all.net (lb2-smtp-cloud9.xs4all.net [IPv6:2001:888:0:108::2c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BD6F9C061574
-        for <linux-media@vger.kernel.org>; Wed, 24 Nov 2021 23:40:23 -0800 (PST)
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud9.xs4all.net with ESMTPA
-        id q9Mdm5oGn1HGJq9Mgm2jiQ; Thu, 25 Nov 2021 08:40:21 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1637826021; bh=qoJW8milJU0K39IKcYtQqBLhEmf5FvdYrGJBpumdZ9g=;
-        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=fkMxRbbPssF1xKf6Jl2CkxjxnDVSN7Kmmn7QurDHbadew69Vx4TNl0Vq7WwnJFMdn
-         Q5hWy+CQoOF6YNRhwb43d7S5sSUYZ9gm7ROjrwTzd/hkfIhYCRoPZkBfMzrd9EjBaM
-         belDsMD3ltBNRuEwnBCKxhqdK1cw60mPchIo+xkg5OlubdEh5NMMzI5tDNNwSvgmXm
-         zBoV3WHCaX/dRggKCPC/51A3JEINKG3XaQUJFxzKkG2HZUi9Ou0CWh2drU5v9cXLRC
-         rRtiJz2kUDwwFhETX8s373x76YuR5UaHQTiJLm9LIqjf8dwqlBDu8c7K2oUCigsYDl
-         lZoxO99qnPjwQ==
-Subject: Re: [PATCH v4 2/2] media: imx-pxp: Add rotation support
-To:     Fabio Estevam <festevam@denx.de>,
-        Philipp Zabel <p.zabel@pengutronix.de>
-Cc:     linux-media@vger.kernel.org
-References: <20211008131015.3303915-1-festevam@denx.de>
- <20211008131015.3303915-2-festevam@denx.de>
- <0f777e71e47bc64b193f7840ff86ddf9799f3b11.camel@pengutronix.de>
- <e9a03ead4a9a6b72b25587654d0239b2@denx.de>
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Message-ID: <300f66b6-0f3c-c793-2e0a-3d64de951a23@xs4all.nl>
-Date:   Thu, 25 Nov 2021 08:40:15 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Firefox/78.0 Thunderbird/78.14.0
+        id S235330AbhKYHs3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 25 Nov 2021 02:48:29 -0500
+Received: from mail.kernel.org ([198.145.29.99]:40952 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S234489AbhKYHq2 (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 25 Nov 2021 02:46:28 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id D0BA861107;
+        Thu, 25 Nov 2021 07:43:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1637826197;
+        bh=5JmydjakFnLr1DXYN6HX8GSmUQA89caK93Xg2HhpGcc=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=Lo5Q88DYMszIwzEUP4xaWaHGk4thoYzc5zXWgjpJuOTUVXi1mPa8iX/67WsoBF7VX
+         rD+xFR2liyM3yRAaTbAXGsOj47cCGJ+pmRW4xo3//I0BaJCRWB7Z/kA9Bg6qN82TTp
+         AyNEbOE2BXH9BstgBxeYZFkKd5estm6tPwCv0ZhK5vFObG7HXzo9p2BkZTOqP06Ado
+         D9rIbDKkqEiQCL6iTDt/xMw4g5anPMfwERqQRsWQdkDFjcXO12pCFH7xee6CupoAY/
+         BgeUpmSYEn4QRRAuJK5p8WSv720GLXo7fAlnvaSQGonBLPRyg5X15OgHidOKf1WCNO
+         bnEzHNLpF18uQ==
+Received: by mail-wr1-f54.google.com with SMTP id i5so9612926wrb.2;
+        Wed, 24 Nov 2021 23:43:17 -0800 (PST)
+X-Gm-Message-State: AOAM5317Pt88MKlMckofCA2lrlV7fz6db+TI+tZa4F6mcggpkQdXaGDG
+        8+FEohGDVNjooei9b1Zkfvwu62+jCHCj2/SbTWg=
+X-Google-Smtp-Source: ABdhPJyuLBhKBRzn/KY8mhWpsA5nVPv2Qy5ZAD6+THS3UuR1IIWEOkVnw5icB8DlWWMQACCSb4V0WCkZu7KyR+FPEq4=
+X-Received: by 2002:adf:d091:: with SMTP id y17mr4508644wrh.418.1637826196259;
+ Wed, 24 Nov 2021 23:43:16 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <e9a03ead4a9a6b72b25587654d0239b2@denx.de>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-CMAE-Envelope: MS4xfDDb8iZkzbpJyy8LwFFiqYUyNX7bSAU0Ady8ZfU/sDrvUs6EbS35xM9rDFBW8DMAOI4isGe+zGWLyvhukHrgx+yy3jQ9gnSNmjktXB23n87NLov6BkgM
- WS0xiMvoQ85WcDcoaCVkE3vrXQBE9oxXRyFw+vrXdhHNVVp20BJTn0TJ+9LPzTI10A6YlY11Sxy0v8tlze1bfh7r29Bg+OSzo0Rafhyf7Nh8aQ85cVmWauVA
- 4HNeLK3QO8mrRMPXM6BvE//05Xz3MDZkNHeJ29YL+4w=
+References: <20211124192430.74541-1-arnd@kernel.org> <YZ68G09viJA/vkby@pendragon.ideasonboard.com>
+In-Reply-To: <YZ68G09viJA/vkby@pendragon.ideasonboard.com>
+From:   Arnd Bergmann <arnd@kernel.org>
+Date:   Thu, 25 Nov 2021 08:43:00 +0100
+X-Gmail-Original-Message-ID: <CAK8P3a2kEByuNJu9NMiD2m3v+K0acE-XwdevHGByi_82bko7Uw@mail.gmail.com>
+Message-ID: <CAK8P3a2kEByuNJu9NMiD2m3v+K0acE-XwdevHGByi_82bko7Uw@mail.gmail.com>
+Subject: Re: [PATCH] media: omap3isp: fix out-of-range warning
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Vaibhav Hiremath <hvaibhav@ti.com>,
+        Stanimir Varbanov <svarbanov@mm-sol.com>,
+        Dominic Curran <dcurran@ti.com>,
+        David Cohen <dacohen@gmail.com>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        llvm@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 25/11/2021 04:44, Fabio Estevam wrote:
-> Hi Hans,
-> 
-> On 08/10/2021 11:17, Philipp Zabel wrote:
->> On Fri, 2021-10-08 at 10:10 -0300, Fabio Estevam wrote:
->>> PXP allows clockwise rotation of 0°, 90°, 180° and 270°.
->>>
->>> Add support for it.
->>>
->>> Tested on a imx6ull-evk.
->>>
->>> For example, to rotate 90° the following Gstreamer pipeline can
->>> be used:
->>>
->>> gst-launch-1.0 videotestsrc ! video/x-raw,width=640,height=480 ! \
->>> v4l2convert extra-controls=cid,rotate=90  ! \
->>> video/x-raw,width=120,height=160 ! fbdevsink
->>>
->>> Signed-off-by: Fabio Estevam <festevam@denx.de>
->>
->> Reviewed-by: Philipp Zabel <p.zabel@pengutronix.de>
->>
->> regards
->> Philipp
-> 
-> A gentle ping on this series.
-> 
+On Wed, Nov 24, 2021 at 11:26 PM Laurent Pinchart
+<laurent.pinchart@ideasonboard.com> wrote:
+> On Wed, Nov 24, 2021 at 08:24:15PM +0100, Arnd Bergmann wrote:
+> >
+> > Add a cast to 32-bit to avoid the warning. Checking just the lower bounds
+> > would be sufficient as well, but it seems more consistent to use
+> > the IS_OUT_OF_BOUNDS() check for all members.
+>
+> Mauro has submitted a fix that handles the cast in the
+> IS_OUT_OF_BOUNDS() macro, see
+> https://lore.kernel.org/all/b70f819b11e024649f113be1158f34b24914a1ed.1637573097.git.mchehab+huawei@kernel.org/.
 
-I hope to post the PR containing this series today.
+Ok, thanks. I've marked my patch as 'Obsoleted' in patchwork now.
 
-Regards,
-
-	Hans
+      Arnd
