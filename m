@@ -2,130 +2,83 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3333C45E103
-	for <lists+linux-media@lfdr.de>; Thu, 25 Nov 2021 20:31:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 575C045E1AA
+	for <lists+linux-media@lfdr.de>; Thu, 25 Nov 2021 21:34:04 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1349997AbhKYTeq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 25 Nov 2021 14:34:46 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41030 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1351803AbhKYTcq (ORCPT
+        id S1350782AbhKYUhO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 25 Nov 2021 15:37:14 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:34002 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1357167AbhKYUfO (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 25 Nov 2021 14:32:46 -0500
-Received: from mail-ed1-x532.google.com (mail-ed1-x532.google.com [IPv6:2a00:1450:4864:20::532])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3BDEFC061759;
-        Thu, 25 Nov 2021 11:29:34 -0800 (PST)
-Received: by mail-ed1-x532.google.com with SMTP id y13so29463547edd.13;
-        Thu, 25 Nov 2021 11:29:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=+QdSnn9hnDbXHilVPEzYaOF00rC6aTmARJsrJsKk/HA=;
-        b=eZYdfa3q9HtFJRaW20SwlL7XA8WQ7r8jlBGVqh9TyKPBpv/nzIIQJ1cuusxBBozWUp
-         SmRZuuOksbeR9Ls1NpzezJ370EtRbOBpS3Ct/g+9c5X3nrrFfrbYZPjn+2cdCDkvrKWu
-         Syfgv5XE2Z851DPSLlO0SXfAZ7RcV3EeuawAvCDT+hY6nkmfboeK5w4IHrl9/cDJ73va
-         uXtUsQZIq0M4138F61KBzWewxcAsGrbhmCYYPkhWuDoMzmrEE7fympSIBETcwojM7rWH
-         dl4WCZb0PFuuETHN9RlD3tdpk0F6EE75DHgzpve6zHolLrfHTPaGkzEMAA+ND0mMkrrQ
-         BIhg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=+QdSnn9hnDbXHilVPEzYaOF00rC6aTmARJsrJsKk/HA=;
-        b=6bgkqjqzkftARJMMlxgaYP8lyF/PrmfP087r+/QDIJTd18EqYtBiiocMJh0yoM/HgQ
-         ugVLkrqtTyAKe1cRUjEgHOYo6ZWa15XOhlt+gYErk9j1y9sHrectZX7WgAWpluIFxI/S
-         nNZ/eoJnOnkXCn2zyHnUnvT2PBDerGFo9cKhYNewR/++MJnGlOhbRUkCbJTCiG/SO5vr
-         NIXNZeQucNFDE5OwJn1i+6FPAzHGSzU9YSiEs9IhtEmpeLFjVUfNh/6DJmYa1kghq0Av
-         dFFqN/dr4cd3EIldl1MbaeK0G/trNui7+Be1N6G8Gs5FfZvGvzChQdfhODc09oFAUj0j
-         Oh5A==
-X-Gm-Message-State: AOAM5325o18HcT2BoK48JDJ86ks3FMFuVHMt4YxD7wFxOduASExMGVPc
-        uVLgAwrqQJqEJI51eC2O1cbK5Y2ap12dovxuaD0=
-X-Google-Smtp-Source: ABdhPJxia6v+ggx0h/6ClA1/sHMg1Q/7ZU1xWeQZA6EVhTerXcEGn294ZgigAx875QVPOK7l2krbLRnAJ036HXO5fPk=
-X-Received: by 2002:a17:906:489b:: with SMTP id v27mr33672901ejq.567.1637868572711;
- Thu, 25 Nov 2021 11:29:32 -0800 (PST)
+        Thu, 25 Nov 2021 15:35:14 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1637872322;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=umO/XuNPAGhKOr8uOD1V3xlpkUaa9/xQHdtEkrt1LoM=;
+        b=Odv4yeQzIaAPQS4JIeITzd4ecarzpVDF1ui9va66B/xYEZUuEb2DAgihf+XzbDh3tSTXdw
+        GuVeTLc66OSNT0/+j0IOK84mShFb0jxK+ldoWAWOoizUWI3WP142/YyaVXSojNq2UQHpg4
+        q9NW0UmffZK8YU1RIE4gSmZZFfNFv2A=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-368-p1_xEpsaOGSQCqH99yAXFQ-1; Thu, 25 Nov 2021 15:31:59 -0500
+X-MC-Unique: p1_xEpsaOGSQCqH99yAXFQ-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com [10.5.11.14])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 153421006AA1;
+        Thu, 25 Nov 2021 20:31:58 +0000 (UTC)
+Received: from x1.localdomain (unknown [10.39.195.117])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id EFC7D17D61;
+        Thu, 25 Nov 2021 20:31:56 +0000 (UTC)
+From:   Hans de Goede <hdegoede@redhat.com>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     Hans de Goede <hdegoede@redhat.com>, linux-media@vger.kernel.org,
+        Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+Subject: [PATCH] media: i2c: ov5648: Fix lockdep error
+Date:   Thu, 25 Nov 2021 21:31:56 +0100
+Message-Id: <20211125203156.825539-1-hdegoede@redhat.com>
 MIME-Version: 1.0
-References: <1637859224-5179-1-git-send-email-akhilrajeev@nvidia.com>
-In-Reply-To: <1637859224-5179-1-git-send-email-akhilrajeev@nvidia.com>
-From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Thu, 25 Nov 2021 21:28:56 +0200
-Message-ID: <CAHp75VfPPpTNCaM+GhcqZS53ts-20GBzm+4OWLAjND=z79pgxg@mail.gmail.com>
-Subject: Re: [PATCH v4] i2c: tegra: Add the ACPI support
-To:     Akhil R <akhilrajeev@nvidia.com>
-Cc:     Christian Koenig <christian.koenig@amd.com>,
-        Dmitry Osipenko <digetx@gmail.com>,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        Jon Hunter <jonathanh@nvidia.com>,
-        Laxman Dewangan <ldewangan@nvidia.com>,
-        linaro-mm-sig@lists.linaro.org,
-        linux-i2c <linux-i2c@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        linux-tegra <linux-tegra@vger.kernel.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        Thierry Reding <thierry.reding@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, Nov 25, 2021 at 6:54 PM Akhil R <akhilrajeev@nvidia.com> wrote:
->
-> Add support for the ACPI based device registration so that the driver
-> can be also enabled through ACPI table.
->
-> This does not include the ACPI support for Tegra VI and DVC I2C.
+ov5648_state_init() calls ov5648_state_mipi_configure() which uses
+__v4l2_ctrl_s_ctrl[_int64](). This means that sensor->mutex (which
+is also sensor->ctrls.handler.lock) must be locked before calling
+ov5648_state_init().
 
-Thanks for an update, my comments below.
+ov5648_state_mipi_configure() is also used in other places where
+the lock is already held so it cannot be changed itself.
 
-...
+Note this is based on an identical (tested) fix for the ov8865 driver,
+this has only been compile-tested.
 
-> -       err = reset_control_reset(i2c_dev->rst);
-> +       if (handle)
+Cc: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+---
+ drivers/media/i2c/ov5648.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-> +               err = acpi_evaluate_object(handle, "_RST", NULL, NULL);
-
-Does it compile for CONFIG_ACPI=n case?
-
-> +       else
-> +               err = reset_control_reset(i2c_dev->rst);
-
-If not, you will need something like this instead:
-
-#ifdef CONFIG_ACPI
-               err = acpi_evaluate_object(ACPI_HANDLE(...), "_RST", NULL, NULL);
-#else
-               err = reset_control_reset(i2c_dev->rst);
-#endif
-
-...
-
-> +       err = device_property_read_u32(i2c_dev->dev, "clock-frequency",
-> +                                      &i2c_dev->bus_clk_rate);
->         if (err)
->                 i2c_dev->bus_clk_rate = I2C_MAX_STANDARD_MODE_FREQ;
-
-Actually you need to switch to use i2c_timings data structure and
-corresponding methods.
-This change will be incorporated there. I.o.w. do it as a prerequisite
-to this patch.
-
-...
-
-> +       if (ACPI_HANDLE(i2c_dev->dev))
-> +               return 0;
-
-With above mentioned ifdeffery this may be converted back to
-has_acpi_companion() which is slightly better in this case.
-
-> +       if (ACPI_HANDLE(i2c_dev->dev))
-> +               return 0;
-
-Ditto.
-
-P.S> Sorry if I missed something in the previous reviews.
-
+diff --git a/drivers/media/i2c/ov5648.c b/drivers/media/i2c/ov5648.c
+index 947d437ed0ef..9f24bdccf50f 100644
+--- a/drivers/media/i2c/ov5648.c
++++ b/drivers/media/i2c/ov5648.c
+@@ -2546,7 +2546,9 @@ static int ov5648_probe(struct i2c_client *client)
+ 	if (ret)
+ 		goto error_mutex;
+ 
++	mutex_lock(&sensor->mutex);
+ 	ret = ov5648_state_init(sensor);
++	mutex_unlock(&sensor->mutex);
+ 	if (ret)
+ 		goto error_ctrls;
+ 
 -- 
-With Best Regards,
-Andy Shevchenko
+2.33.1
+
