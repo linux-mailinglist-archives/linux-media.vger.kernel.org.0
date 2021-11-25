@@ -2,221 +2,77 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 71CD445D8FE
-	for <lists+linux-media@lfdr.de>; Thu, 25 Nov 2021 12:17:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D459545D93F
+	for <lists+linux-media@lfdr.de>; Thu, 25 Nov 2021 12:31:08 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239117AbhKYLUb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 25 Nov 2021 06:20:31 -0500
-Received: from mail-ua1-f44.google.com ([209.85.222.44]:37730 "EHLO
-        mail-ua1-f44.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235242AbhKYLSb (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Thu, 25 Nov 2021 06:18:31 -0500
-Received: by mail-ua1-f44.google.com with SMTP id o1so11513989uap.4;
-        Thu, 25 Nov 2021 03:15:20 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=nXHfa52yI/jtVJeiwa2i1H6X+EqTPj1vRtdfS4MAfjA=;
-        b=byipGA37dezQgW4QnAvdgSII3zdyZUmhi0Qtb5VbYeWZLyNwRg2BdRuT/id0xgxU+1
-         cJgBCou7c6Us7g72XgxvUDIWBwQxjOe4H/HV/yjpKHqyFKvxSNYtrpcM1rC2pSJbV0yJ
-         WTyQlSsjB53mikFFeCe7DhYI8TC6HpEQ41sza9un0KGZ7h7QBsXsN5Bm49qwBnuzXmhf
-         pIkKPHLSHCvt4LV7BEezaNtrfZahv5BzwWXgvZVUozcEiZsaMqeU2FqanvVhmCkUJhh+
-         6n+v3zUNLtmTrc2cLDxuZbYYL19+PQAlsGblwZuhK4gxswsTJmd5dv5Smy4rFUi8YJgB
-         Q0gQ==
-X-Gm-Message-State: AOAM532SpwjVR92MrVZg08+VO6EOnzoaNyj4c4qSAqhf4rfN4L6iUM55
-        Orek6rVXDX6Ntu4Y9SzhgqMiS1ePbX7p8w==
-X-Google-Smtp-Source: ABdhPJwLQhpqnZSenaQBpK/ZZn6CxVPk448n8NRkUoLllpduBsFAx/EQh60u9FhI5EyxHm1KtlMtHQ==
-X-Received: by 2002:ab0:2696:: with SMTP id t22mr24001211uao.13.1637838919322;
-        Thu, 25 Nov 2021 03:15:19 -0800 (PST)
-Received: from mail-ua1-f54.google.com (mail-ua1-f54.google.com. [209.85.222.54])
-        by smtp.gmail.com with ESMTPSA id 66sm1641841uao.0.2021.11.25.03.15.18
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 25 Nov 2021 03:15:19 -0800 (PST)
-Received: by mail-ua1-f54.google.com with SMTP id w23so11506261uao.5;
-        Thu, 25 Nov 2021 03:15:18 -0800 (PST)
-X-Received: by 2002:a05:6102:c89:: with SMTP id f9mr8076065vst.68.1637838918551;
- Thu, 25 Nov 2021 03:15:18 -0800 (PST)
+        id S229703AbhKYLeS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 25 Nov 2021 06:34:18 -0500
+Received: from www.linuxtv.org ([130.149.80.248]:33596 "EHLO www.linuxtv.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S234023AbhKYLcR (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 25 Nov 2021 06:32:17 -0500
+Received: from builder.linuxtv.org ([140.211.167.10] helo=slave0)
+        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1mqCw2-00Amz2-Kk; Thu, 25 Nov 2021 11:29:02 +0000
+Received: from ip6-localhost ([::1] helo=localhost.localdomain)
+        by slave0 with esmtp (Exim 4.94.2)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1mqCw0-006E5E-La; Thu, 25 Nov 2021 11:29:00 +0000
+From:   Jenkins <jenkins@linuxtv.org>
+To:     mchehab+samsung@kernel.org, linux-media@vger.kernel.org
+Cc:     builder@linuxtv.org
+Subject: Re: [GIT FIXES FOR v5.16] rockchip/rga: do proper error checking in probe (#78800)
+Date:   Thu, 25 Nov 2021 11:29:00 +0000
+Message-Id: <20211125112900.1484058-1-jenkins@linuxtv.org>
+X-Mailer: git-send-email 2.30.2
+In-Reply-To: <303b75c3-0b0e-b7e7-d506-609c1e4e2654@xs4all.nl>
+References: 
 MIME-Version: 1.0
-References: <20210906102837.2190387-1-martin.kepplinger@puri.sm> <20210906102837.2190387-3-martin.kepplinger@puri.sm>
-In-Reply-To: <20210906102837.2190387-3-martin.kepplinger@puri.sm>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Thu, 25 Nov 2021 12:15:07 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdVVNhLa2p-ywmpcEj-sw+NyRNp2z9jsVqsXEDrKphivCQ@mail.gmail.com>
-Message-ID: <CAMuHMdVVNhLa2p-ywmpcEj-sw+NyRNp2z9jsVqsXEDrKphivCQ@mail.gmail.com>
-Subject: Re: [PATCH v9 2/4] dt-bindings: media: document SK Hynix Hi-846 MIPI
- CSI-2 8M pixel sensor
-To:     Martin Kepplinger <martin.kepplinger@puri.sm>
-Cc:     Pavel Machek <pavel@ucw.cz>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sakari Ailus <sakari.ailus@iki.fi>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>, kernel@puri.sm,
-        Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
-        phone-devel@vger.kernel.org, Rob Herring <robh@kernel.org>,
-        shawnx.tu@intel.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, Sep 6, 2021 at 12:30 PM Martin Kepplinger
-<martin.kepplinger@puri.sm> wrote:
-> Document the bindings used for the SK Hynix Hi-846 CMOS camera driver.
->
-> Signed-off-by: Martin Kepplinger <martin.kepplinger@puri.sm>
-> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> Reviewed-by: Rob Herring <robh@kernel.org>
-> ---
->  .../bindings/media/i2c/hynix,hi846.yaml       | 120 ++++++++++++++++++
->  1 file changed, 120 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/media/i2c/hynix,hi846.yaml
->
-> diff --git a/Documentation/devicetree/bindings/media/i2c/hynix,hi846.yaml b/Documentation/devicetree/bindings/media/i2c/hynix,hi846.yaml
-> new file mode 100644
-> index 000000000000..85a8877c2f38
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/media/i2c/hynix,hi846.yaml
-> @@ -0,0 +1,120 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/media/i2c/hynix,hi846.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: SK Hynix Hi-846 1/4" 8M Pixel MIPI CSI-2 sensor
-> +
-> +maintainers:
-> +  - Martin Kepplinger <martin.kepplinger@puri.sm>
-> +
-> +description: |-
-> +  The Hi-846 is a raw image sensor with an MIPI CSI-2 image data
-> +  interface and CCI (I2C compatible) control bus. The output format
-> +  is raw Bayer.
-> +
-> +properties:
-> +  compatible:
-> +    const: hynix,hi846
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  clocks:
-> +    items:
-> +      - description: Reference to the mclk clock.
-> +
-> +  assigned-clocks:
-> +    maxItems: 1
-> +
-> +  assigned-clock-rates:
-> +    maxItems: 1
-> +
-> +  reset-gpios:
-> +    description: Reference to the GPIO connected to the RESETB pin. Active low.
-> +    maxItems: 1
-> +
-> +  shutdown-gpios:
-> +    description: Reference to the GPIO connected to the XSHUTDOWN pin. Active low.
-> +    maxItems: 1
-> +
-> +  vddio-supply:
-> +    description: Definition of the regulator used for the VDDIO power supply.
-> +
-> +  vdda-supply:
-> +    description: Definition of the regulator used for the VDDA power supply.
-> +
-> +  vddd-supply:
-> +    description: Definition of the regulator used for the VDDD power supply.
-> +
-> +  port:
-> +    $ref: /schemas/graph.yaml#/properties/port
-> +
-> +    properties:
-> +      endpoint:
-> +        $ref: /schemas/media/video-interfaces.yaml#
-> +        unevaluatedProperties: false
-> +
-> +        properties:
-> +          data-lanes:
-> +            oneOf:
-> +              - items:
-> +                  - const: 1
-> +                  - const: 2
-> +                  - const: 3
-> +                  - const: 4
-> +              - items:
-> +                  - const: 1
-> +                  - const: 2
-> +
-> +        required:
-> +          - data-lanes
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - clocks
-> +  - assigned-clocks
-> +  - assigned-clock-rates
-> +  - vddio-supply
-> +  - vdda-supply
-> +  - vddd-supply
-> +  - port
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/gpio/gpio.h>
-> +
-> +    i2c {
-> +        #address-cells = <1>;
-> +        #size-cells = <0>;
-> +
-> +        hi846: camera@20 {
-> +            compatible = "hynix,hi846";
-> +            reg = <0x20>;
-> +            pinctrl-names = "default";
-> +            pinctrl-0 = <&pinctrl_csi1>;
-> +            clocks = <&clk 0>;
-> +            assigned-clocks = <&clk 0>;
-> +            assigned-clock-rates = <25000000>;
-> +            vdda-supply = <&reg_camera_vdda>;
-> +            vddd-supply = <&reg_camera_vddd>;
-> +            vddio-supply = <&reg_camera_vddio>;
-> +            reset-gpios = <&gpio1 25 GPIO_ACTIVE_LOW>;
-> +            shutdown-gpios = <&gpio5 4 GPIO_ACTIVE_LOW>;
-> +
-> +            port {
-> +                camera_out: endpoint {
-> +                    remote-endpoint = <&csi1_ep1>;
-> +                    link-frequencies = /bits/ 64
-> +                        <80000000 200000000>;
-> +                    data-lanes = <1 2>;
+From: builder@linuxtv.org
 
-"make dt_binding_check":
+Pull request: https://patchwork.linuxtv.org/project/linux-media/patch/303b75c3-0b0e-b7e7-d506-609c1e4e2654@xs4all.nl/
+Build log: https://builder.linuxtv.org/job/patchwork/159888/
+Build time: 00:14:53
+Link: https://lore.kernel.org/linux-media/303b75c3-0b0e-b7e7-d506-609c1e4e2654@xs4all.nl
 
-    Documentation/devicetree/bindings/media/i2c/hynix,hi846.example.dt.yaml:
-camera@20: port:endpoint: Unevaluated properties are not allowed
-('link-frequencies', 'data-lanes' were unexpected)
-    From schema: Documentation/devicetree/bindings/media/i2c/hynix,hi846.yaml
+gpg: Signature made Thu 25 Nov 2021 10:36:37 AM UTC
+gpg:                using RSA key AAA7FFBA4D2D77EF4CAEA1421326E0CD23ABDCE5
+gpg: Good signature from "Hans Verkuil <hverkuil-cisco@xs4all.nl>" [unknown]
+gpg:                 aka "Hans Verkuil <hverkuil@xs4all.nl>" [unknown]
+gpg: Note: This key has expired!
+Primary key fingerprint: 052C DE7B C215 053B 689F  1BCA BD2D 6148 6614 3B4C
+     Subkey fingerprint: AAA7 FFBA 4D2D 77EF 4CAE  A142 1326 E0CD 23AB DCE5
 
-> +                };
-> +            };
-> +        };
-> +    };
+Summary: got 1/1 patches with issues, being 1 at build time, plus one error when buinding PDF document
 
-Gr{oetje,eeting}s,
+Error/warnings:
 
-                        Geert
+patches/0001-media-rockchip-rga-do-proper-error-checking-in-probe.patch:
 
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+    allyesconfig: return code #0:
+	../scripts/genksyms/parse.y: warning: 9 shift/reduce conflicts [-Wconflicts-sr]
+	../scripts/genksyms/parse.y: warning: 5 reduce/reduce conflicts [-Wconflicts-rr]
+	../scripts/genksyms/parse.y: note: rerun with option '-Wcounterexamples' to generate conflict counterexamples
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+    allyesconfig: return code #0:
+	../drivers/media/cec/core/cec-adap.c: ../drivers/media/cec/core/cec-adap.c:926 cec_transmit_msg_fh() warn: '&data->list' not removed from list
+	../drivers/media/rc/meson-ir-tx.c:22: warning: expecting prototype for meson(). Prototype was for DEVICE_NAME() instead
+	SMATCH:../drivers/media/usb/siano/smsusb.c ../drivers/media/usb/siano/smsusb.c:53:38: :warning: array of flexible structures
+	SPARSE:../drivers/media/usb/siano/smsusb.c ../drivers/media/usb/siano/smsusb.c:53:38: warning: array of flexible structures
+	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2625 dvb_register() parse error: turning off implications after 60 seconds
+	../drivers/media/platform/qcom/venus/helpers.c: ../drivers/media/platform/qcom/venus/helpers.c:658 venus_helper_get_bufreq() error: we previously assumed 'req' could be null (see line 654)
+	../drivers/media/usb/pvrusb2/pvrusb2-encoder.c: ../drivers/media/usb/pvrusb2/pvrusb2-encoder.c:288 pvr2_encoder_cmd() warn: inconsistent indenting
+	../drivers/media/usb/pvrusb2/pvrusb2-hdw.c: ../drivers/media/usb/pvrusb2/pvrusb2-hdw.c:1730 pvr2_hdw_set_streaming() warn: inconsistent indenting
+	../drivers/media/usb/pvrusb2/pvrusb2-hdw.c: ../drivers/media/usb/pvrusb2/pvrusb2-hdw.c:3461 pvr2_hdw_cpufw_set_enabled() warn: inconsistent indenting
+	../drivers/media/usb/pvrusb2/pvrusb2-hdw.c: ../drivers/media/usb/pvrusb2/pvrusb2-hdw.c:3501 pvr2_hdw_cpufw_get() warn: inconsistent indenting
+
+
+Error #512 when building PDF docs
+
