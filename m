@@ -2,209 +2,123 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 67B4D45D73E
-	for <lists+linux-media@lfdr.de>; Thu, 25 Nov 2021 10:33:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8FF3545D76F
+	for <lists+linux-media@lfdr.de>; Thu, 25 Nov 2021 10:40:54 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1350876AbhKYJhC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 25 Nov 2021 04:37:02 -0500
-Received: from mga11.intel.com ([192.55.52.93]:14918 "EHLO mga11.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1353713AbhKYJfC (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 25 Nov 2021 04:35:02 -0500
-X-IronPort-AV: E=McAfee;i="6200,9189,10178"; a="232977121"
-X-IronPort-AV: E=Sophos;i="5.87,262,1631602800"; 
-   d="scan'208";a="232977121"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Nov 2021 01:31:39 -0800
-X-IronPort-AV: E=Sophos;i="5.87,262,1631602800"; 
-   d="scan'208";a="498007659"
-Received: from refaase-mobl1.ger.corp.intel.com (HELO [10.249.32.85]) ([10.249.32.85])
-  by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Nov 2021 01:31:38 -0800
-Message-ID: <7729c40e-fe4e-853e-06d4-5e39dff17d32@linux.intel.com>
-Date:   Thu, 25 Nov 2021 10:31:35 +0100
+        id S1353921AbhKYJoD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 25 Nov 2021 04:44:03 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50602 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1353943AbhKYJmD (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Thu, 25 Nov 2021 04:42:03 -0500
+Received: from mail-lf1-x131.google.com (mail-lf1-x131.google.com [IPv6:2a00:1450:4864:20::131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C09F6C0613E1;
+        Thu, 25 Nov 2021 01:38:34 -0800 (PST)
+Received: by mail-lf1-x131.google.com with SMTP id c32so14821498lfv.4;
+        Thu, 25 Nov 2021 01:38:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=aQfEF2jOyB6rG0WgJqxX+s72gSlGzMx+nQDP2V3jnUo=;
+        b=XP1s+2vl2wLKjYg8HW8m0tBRvF1KXYoTcuBdkaaqufBoeAAUNFbRtKZwsWlR9Qx9o7
+         sQfne5msWVBOQ2sExqYlvGUSXCf/nzLL4eBoQjyPJrPkU6vh/e6Ski5TOJZXOR2ORSrI
+         Bm+8i6X5FK/MPGj3rkm64ToQQgAAmHyN5TFzSlZBYu4WZP+L8sCHlNHUXxG5j1exzQDg
+         TmzWk7pSIK/QvGZQw6J2q7td0fvZRwYoAPn0lK7WdP7iZemoSkWzW9UGjFqC6zGVMxLa
+         llEiF9wHAVSX6MuEkqlXH6/AFGI+yHioqITD0XWU1zM8ylc0lOHJqsVFbzYAxOWc4mlA
+         QxjA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=aQfEF2jOyB6rG0WgJqxX+s72gSlGzMx+nQDP2V3jnUo=;
+        b=JFMj3EnCmWSA3b3LS1j2vJkGfVvebfjRTkAiaWpCmiQFrYp5wwNgsxh82cQkBYMDhA
+         VA0dbA3KO03pWxpIeBSyCNjO2Aac7OjxVeUNhx5TUsFuYUJkS3yhzvaiUkK9QpMm0ZFp
+         z3PbdCJtuUZLlROCQLTarH+0G4x4Ti4afihRnX8LMCossvPG/qPpJWfkE9svx+LExefk
+         DW+qC7rdkjslCt+qK8gPmNXUczUX7v9eY7oIvCyveFJHFih1rgHN/iVTaO+nbHsKl8FW
+         irLkimbn/pBJ/uIYYNOYArQMDm7vuXcb1CTEbyDfkvtk3cJQe+9lt4t4kTzXmzr2oNmF
+         sSrw==
+X-Gm-Message-State: AOAM532NdryNS0lenYCSepCDiV0xwxsdYHkWcXQIyiw3LW3gLvoqXZpa
+        8U2eFKnrBJrKkqvWc4Z7U/0K81Eskr0=
+X-Google-Smtp-Source: ABdhPJzWc+bPvWIJYmGhydRiz7YOTBnPcF7QeIDgBqlVGZLg7GMaZCawciOk/gkfmc3Yo0+Xvj4ncw==
+X-Received: by 2002:a05:6512:3213:: with SMTP id d19mr22334711lfe.519.1637833113104;
+        Thu, 25 Nov 2021 01:38:33 -0800 (PST)
+Received: from [192.168.2.145] (94-29-48-99.dynamic.spd-mgts.ru. [94.29.48.99])
+        by smtp.googlemail.com with ESMTPSA id n9sm203122lji.131.2021.11.25.01.38.32
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 25 Nov 2021 01:38:32 -0800 (PST)
+Subject: Re: [PATCH v3] i2c: tegra: Add the ACPI support
+To:     Akhil R <akhilrajeev@nvidia.com>
+Cc:     andy.shevchenko@gmail.com, christian.koenig@amd.com,
+        dri-devel@lists.freedesktop.org, jonathanh@nvidia.com,
+        ldewangan@nvidia.com, linaro-mm-sig@lists.linaro.org,
+        linux-i2c@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-tegra@vger.kernel.org,
+        p.zabel@pengutronix.de, sumit.semwal@linaro.org,
+        thierry.reding@gmail.com
+References: <1637831237-30652-1-git-send-email-akhilrajeev@nvidia.com>
+From:   Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <2a005ca8-e46a-59d0-c219-dfc94a3b810f@gmail.com>
+Date:   Thu, 25 Nov 2021 12:38:31 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Firefox/91.0 Thunderbird/91.3.0
-Subject: Re: [PATCH 1/6] dma-buf: move dma_resv_prune_unlocked into dma_resv.c
+In-Reply-To: <1637831237-30652-1-git-send-email-akhilrajeev@nvidia.com>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-To:     =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>,
-        dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
-        etnaviv@lists.freedesktop.org, amd-gfx@lists.freedesktop.org
-References: <20211028132630.2330-1-christian.koenig@amd.com>
-From:   Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-In-Reply-To: <20211028132630.2330-1-christian.koenig@amd.com>
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 28-10-2021 15:26, Christian König wrote:
-> The i915 driver implements a prune function which is called when it is very
-> likely that the fences inside the dma_resv object can be removed because they
-> are all signaled.
->
-> Move that function into the dma-resv.c code since the behavior of pruning
-> fences is something internal to the object.
->
-> Signed-off-by: Christian König <christian.koenig@amd.com>
+25.11.2021 12:07, Akhil R пишет:
+> Add support for the ACPI based device registration so that the driver
+> can be also enabled through ACPI table.
+> 
+> This does not include the ACPI support for Tegra VI and DVC I2C.
+> 
+> Signed-off-by: Akhil R <akhilrajeev@nvidia.com>
 > ---
->  drivers/dma-buf/dma-resv.c                   | 18 ++++++++++++++++++
->  drivers/gpu/drm/i915/Makefile                |  1 -
->  drivers/gpu/drm/i915/dma_resv_utils.c        | 17 -----------------
->  drivers/gpu/drm/i915/dma_resv_utils.h        | 13 -------------
->  drivers/gpu/drm/i915/gem/i915_gem_shrinker.c |  3 +--
->  drivers/gpu/drm/i915/gem/i915_gem_wait.c     |  3 +--
->  include/linux/dma-resv.h                     |  1 +
->  7 files changed, 21 insertions(+), 35 deletions(-)
->  delete mode 100644 drivers/gpu/drm/i915/dma_resv_utils.c
->  delete mode 100644 drivers/gpu/drm/i915/dma_resv_utils.h
->
-> diff --git a/drivers/dma-buf/dma-resv.c b/drivers/dma-buf/dma-resv.c
-> index ff3c0558b3b8..64d4f95778c4 100644
-> --- a/drivers/dma-buf/dma-resv.c
-> +++ b/drivers/dma-buf/dma-resv.c
-> @@ -324,6 +324,24 @@ void dma_resv_add_excl_fence(struct dma_resv *obj, struct dma_fence *fence)
->  }
->  EXPORT_SYMBOL(dma_resv_add_excl_fence);
+>  drivers/i2c/busses/i2c-tegra.c | 52 ++++++++++++++++++++++++++++++++----------
+>  1 file changed, 40 insertions(+), 12 deletions(-)
+> 
+> v3 changes
+>   * removed acpi_has_method check.
+>   * moved dev_err_probe to init_reset function to make it consistent with
+> 	init_clocks.
+>   * Updates in commit message as suggested.
+> 
+> v2 - https://lkml.org/lkml/2021/11/23/82
+> v1 - https://lkml.org/lkml/2021/11/19/393
+
+Akhil, the patch looks almost good, thank you. Please see one minor
+question below.
+
+> diff --git a/drivers/i2c/busses/i2c-tegra.c b/drivers/i2c/busses/i2c-tegra.c
+> index c883044..b889eb3 100644
+> --- a/drivers/i2c/busses/i2c-tegra.c
+> +++ b/drivers/i2c/busses/i2c-tegra.c
+> @@ -6,6 +6,7 @@
+>   * Author: Colin Cross <ccross@android.com>
+>   */
 >  
-> +/**
-> + * dma_resv_prune_unlocked - try to remove signaled fences
-> + * @obj: The dma_resv object to prune
-> + *
-> + * Try to lock the object, test if it is signaled and if yes then remove all the
-> + * signaled fences.
-> + */
-> +void dma_resv_prune_unlocked(struct dma_resv *obj)
+> +#include <linux/acpi.h>
+>  #include <linux/bitfield.h>
+>  #include <linux/clk.h>
+>  #include <linux/delay.h>
+> @@ -608,6 +609,7 @@ static int tegra_i2c_wait_for_config_load(struct tegra_i2c_dev *i2c_dev)
+>  static int tegra_i2c_init(struct tegra_i2c_dev *i2c_dev)
+>  {
+>  	u32 val, clk_divisor, clk_multiplier, tsu_thd, tlow, thigh, non_hs_mode;
+> +	acpi_handle handle = ACPI_HANDLE(i2c_dev->dev);
+
+...
+> +static int tegra_i2c_init_reset(struct tegra_i2c_dev *i2c_dev)
 > +{
-> +	if (!dma_resv_trylock(obj))
-> +		return;
-> +
-> +	if (dma_resv_test_signaled(obj, true))
-> +		dma_resv_add_excl_fence(obj, NULL);
-> +	dma_resv_unlock(obj);
-> +}
-> +EXPORT_SYMBOL(dma_resv_prune_unlocked);
-> +
->  /**
->   * dma_resv_iter_restart_unlocked - restart the unlocked iterator
->   * @cursor: The dma_resv_iter object to restart
-> diff --git a/drivers/gpu/drm/i915/Makefile b/drivers/gpu/drm/i915/Makefile
-> index 660bb03de6fc..5c1af130cb6d 100644
-> --- a/drivers/gpu/drm/i915/Makefile
-> +++ b/drivers/gpu/drm/i915/Makefile
-> @@ -60,7 +60,6 @@ i915-y += i915_drv.o \
->  
->  # core library code
->  i915-y += \
-> -	dma_resv_utils.o \
->  	i915_memcpy.o \
->  	i915_mm.o \
->  	i915_sw_fence.o \
-> diff --git a/drivers/gpu/drm/i915/dma_resv_utils.c b/drivers/gpu/drm/i915/dma_resv_utils.c
-> deleted file mode 100644
-> index 7df91b7e4ca8..000000000000
-> --- a/drivers/gpu/drm/i915/dma_resv_utils.c
-> +++ /dev/null
-> @@ -1,17 +0,0 @@
-> -// SPDX-License-Identifier: MIT
-> -/*
-> - * Copyright © 2020 Intel Corporation
-> - */
-> -
-> -#include <linux/dma-resv.h>
-> -
-> -#include "dma_resv_utils.h"
-> -
-> -void dma_resv_prune(struct dma_resv *resv)
-> -{
-> -	if (dma_resv_trylock(resv)) {
-> -		if (dma_resv_test_signaled(resv, true))
-> -			dma_resv_add_excl_fence(resv, NULL);
-> -		dma_resv_unlock(resv);
-> -	}
-> -}
-> diff --git a/drivers/gpu/drm/i915/dma_resv_utils.h b/drivers/gpu/drm/i915/dma_resv_utils.h
-> deleted file mode 100644
-> index b9d8fb5f8367..000000000000
-> --- a/drivers/gpu/drm/i915/dma_resv_utils.h
-> +++ /dev/null
-> @@ -1,13 +0,0 @@
-> -/* SPDX-License-Identifier: MIT */
-> -/*
-> - * Copyright © 2020 Intel Corporation
-> - */
-> -
-> -#ifndef DMA_RESV_UTILS_H
-> -#define DMA_RESV_UTILS_H
-> -
-> -struct dma_resv;
-> -
-> -void dma_resv_prune(struct dma_resv *resv);
-> -
-> -#endif /* DMA_RESV_UTILS_H */
-> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_shrinker.c b/drivers/gpu/drm/i915/gem/i915_gem_shrinker.c
-> index 5ab136ffdeb2..48029bbda682 100644
-> --- a/drivers/gpu/drm/i915/gem/i915_gem_shrinker.c
-> +++ b/drivers/gpu/drm/i915/gem/i915_gem_shrinker.c
-> @@ -15,7 +15,6 @@
->  
->  #include "gt/intel_gt_requests.h"
->  
-> -#include "dma_resv_utils.h"
->  #include "i915_trace.h"
->  
->  static bool swap_available(void)
-> @@ -229,7 +228,7 @@ i915_gem_shrink(struct i915_gem_ww_ctx *ww,
->  					i915_gem_object_unlock(obj);
->  			}
->  
-> -			dma_resv_prune(obj->base.resv);
-> +			dma_resv_prune_unlocked(obj->base.resv);
->  
->  			scanned += obj->base.size >> PAGE_SHIFT;
->  skip:
-> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_wait.c b/drivers/gpu/drm/i915/gem/i915_gem_wait.c
-> index 569658c7859c..1915d203a72d 100644
-> --- a/drivers/gpu/drm/i915/gem/i915_gem_wait.c
-> +++ b/drivers/gpu/drm/i915/gem/i915_gem_wait.c
-> @@ -10,7 +10,6 @@
->  
->  #include "gt/intel_engine.h"
->  
-> -#include "dma_resv_utils.h"
->  #include "i915_gem_ioctls.h"
->  #include "i915_gem_object.h"
->  
-> @@ -53,7 +52,7 @@ i915_gem_object_wait_reservation(struct dma_resv *resv,
->  	 * signaled.
->  	 */
->  	if (timeout > 0)
-> -		dma_resv_prune(resv);
-> +		dma_resv_prune_unlocked(resv);
->  
->  	return timeout;
->  }
-> diff --git a/include/linux/dma-resv.h b/include/linux/dma-resv.h
-> index eebf04325b34..e0558429a5ee 100644
-> --- a/include/linux/dma-resv.h
-> +++ b/include/linux/dma-resv.h
-> @@ -458,6 +458,7 @@ void dma_resv_fini(struct dma_resv *obj);
->  int dma_resv_reserve_shared(struct dma_resv *obj, unsigned int num_fences);
->  void dma_resv_add_shared_fence(struct dma_resv *obj, struct dma_fence *fence);
->  void dma_resv_add_excl_fence(struct dma_resv *obj, struct dma_fence *fence);
-> +void dma_resv_prune_unlocked(struct dma_resv *obj);
->  int dma_resv_get_fences(struct dma_resv *obj, struct dma_fence **pfence_excl,
->  			unsigned *pshared_count, struct dma_fence ***pshared);
->  int dma_resv_copy_fences(struct dma_resv *dst, struct dma_resv *src);
+> +	if (has_acpi_companion(i2c_dev->dev))
+> +		return 0;
 
-I don't mind adding a dma_resv_prune for locked case, but I don't think unlocked would have benefits.
-
-Furthermore, I'm trying to remove the unlocked versions from i915. Could this be a prereq patch instead?
-
-https://patchwork.freedesktop.org/patch/460722/?series=96115&rev=1
-
-~Maarten
-
-~Maarten
-
+Can we use ACPI_HANDLE() everywhere instead of has_acpi_companion()? For
+consistency. I guess that's what Andy was asking about in v1?
