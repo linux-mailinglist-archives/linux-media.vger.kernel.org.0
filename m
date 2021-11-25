@@ -2,196 +2,84 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4A58645DB2C
-	for <lists+linux-media@lfdr.de>; Thu, 25 Nov 2021 14:34:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9A20245DB1F
+	for <lists+linux-media@lfdr.de>; Thu, 25 Nov 2021 14:30:39 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1348335AbhKYNh7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 25 Nov 2021 08:37:59 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48136 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1354971AbhKYNfz (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Thu, 25 Nov 2021 08:35:55 -0500
-Received: from mail-ua1-x92e.google.com (mail-ua1-x92e.google.com [IPv6:2607:f8b0:4864:20::92e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3F507C0613F4
-        for <linux-media@vger.kernel.org>; Thu, 25 Nov 2021 05:23:45 -0800 (PST)
-Received: by mail-ua1-x92e.google.com with SMTP id az37so12211075uab.13
-        for <linux-media@vger.kernel.org>; Thu, 25 Nov 2021 05:23:45 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=vanguardiasur-com-ar.20210112.gappssmtp.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=pD+qJk3r29qPwzJLYfks/oabSI7Y6YhNSM12M9kudsA=;
-        b=J8uByjrN3pIMyLs+oh8F1h51AEiVYGcn/jk6MaCawLgGb4CapJzoFhR0hQKkiQWrEh
-         xKIta24WH4WpCzvI7EIBkg+W6diz1AMrs5Nh5DWnQ17/D1qf7KcJlWZydHbexMjaU0FZ
-         6cO8NeT+7ZFSfHD3SUwtJ2YpxDY9gtwdnbcM+LqO2cSdDvD0pxxXL7jQHFJFJtFlpW78
-         EXpF6w7NvojJcmLBeousUkR+ZeJtQR0X35kMvVAuQ/xzdDhW73D7FpwNWjgCLvULsJY1
-         sEM8l0tNEuPJIsEtq7GxesgoWAZ1LHRcd6g6qsstxazhIP3WaJQ6ie4vvUpt4+Cqu0ic
-         sGig==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=pD+qJk3r29qPwzJLYfks/oabSI7Y6YhNSM12M9kudsA=;
-        b=oQ5Cre9dB3tRa7NNIa3qo+Wk2oDL+gJZr6wH3TXOiSJYhPsysbin5lUll0rS9LsvEx
-         TzrRNbFLvKClXsF1tESLVuQfj/kIsP2ls+RftHIfFZzomf/v7lLe//rljKdW4Txfncjn
-         LDhwxRTHsRn6Kf7K+ZawYMBlrh7IcJQM98d/EYM8TA5/Rz+DONAE83c3ppNIJ+eFjJxZ
-         zEhngGnWBAwJBh07BnVzMZx4XJRbmN1lhg4RFEA34EoTkoa9hzKee3eGu6zI8FyxXEgd
-         RysrXeVICmH9S1Ewk8u5pv9+a4AZjxbdjVldKIJ8psZb/CzvRBSL16ohn+B5jqx80jjR
-         fMdw==
-X-Gm-Message-State: AOAM5316WbC71xJzdsG6ULsycDNuH+sgfaYdKzsz1JsbYrMlbjw2F0/r
-        q6B0Sk90yQ1CfC46iAt3oJDc0g==
-X-Google-Smtp-Source: ABdhPJzRdO7QoZ3b2O8Hj0UdN3JVKR91c4TnqnGBSgCpEcjeZkf5dyufcKOuzsSpQNPw3BaQ4UsNCQ==
-X-Received: by 2002:a67:2fd0:: with SMTP id v199mr8700734vsv.35.1637846618499;
-        Thu, 25 Nov 2021 05:23:38 -0800 (PST)
-Received: from eze-laptop (host208.201-253-22.telecom.net.ar. [201.253.22.208])
-        by smtp.gmail.com with ESMTPSA id q9sm1674052vkn.44.2021.11.25.05.23.35
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 25 Nov 2021 05:23:37 -0800 (PST)
-Date:   Thu, 25 Nov 2021 10:23:32 -0300
-From:   Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
-To:     Chen-Yu Tsai <wenst@chromium.org>
-Cc:     Philipp Zabel <p.zabel@pengutronix.de>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
-        linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] media: hantro: Hook up RK3399 JPEG encoder output
-Message-ID: <YZ+OVEKrvsbbQrjn@eze-laptop>
-References: <20211119074654.470729-1-wenst@chromium.org>
+        id S1350014AbhKYNdt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 25 Nov 2021 08:33:49 -0500
+Received: from foss.arm.com ([217.140.110.172]:51034 "EHLO foss.arm.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1347729AbhKYNbs (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 25 Nov 2021 08:31:48 -0500
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 22A2E1FB;
+        Thu, 25 Nov 2021 05:28:37 -0800 (PST)
+Received: from [10.57.56.56] (unknown [10.57.56.56])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id C3E993F66F;
+        Thu, 25 Nov 2021 05:28:34 -0800 (PST)
+Message-ID: <85eb9053-0ce4-2514-06dc-58b8910dc5f7@arm.com>
+Date:   Thu, 25 Nov 2021 13:28:33 +0000
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20211119074654.470729-1-wenst@chromium.org>
+User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:91.0) Gecko/20100101
+ Thunderbird/91.3.2
+Subject: Re: [PATCH] dma_heap: use sg_table.orig_nents in sg_table release
+ flow
+Content-Language: en-GB
+To:     guangming.cao@mediatek.com, Sumit Semwal <sumit.semwal@linaro.org>,
+        Benjamin Gaignard <benjamin.gaignard@linaro.org>,
+        Liam Mark <lmark@codeaurora.org>,
+        Laura Abbott <labbott@redhat.com>,
+        Brian Starkey <Brian.Starkey@arm.com>,
+        John Stultz <john.stultz@linaro.org>,
+        =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        "open list:DMA-BUF HEAPS FRAMEWORK" <linux-media@vger.kernel.org>,
+        "open list:DMA-BUF HEAPS FRAMEWORK" <dri-devel@lists.freedesktop.org>,
+        "moderated list:DMA-BUF HEAPS FRAMEWORK" 
+        <linaro-mm-sig@lists.linaro.org>,
+        open list <linux-kernel@vger.kernel.org>,
+        "moderated list:ARM/Mediatek SoC support" 
+        <linux-arm-kernel@lists.infradead.org>,
+        "moderated list:ARM/Mediatek SoC support" 
+        <linux-mediatek@lists.infradead.org>
+Cc:     wsd_upstream@mediatek.com
+References: <20211125124626.60068-1-guangming.cao@mediatek.com>
+From:   Robin Murphy <robin.murphy@arm.com>
+In-Reply-To: <20211125124626.60068-1-guangming.cao@mediatek.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Chen-Yu,
-
-On Fri, Nov 19, 2021 at 03:46:54PM +0800, Chen-Yu Tsai wrote:
-> The JPEG encoder found in the Hantro H1 encoder block only produces a
-> raw entropy-encoded scan. The driver is responsible for building a JPEG
-> compliant bitstream and placing the entropy-encoded scan in it. Right
-> now the driver uses a bounce buffer for the hardware to output the raw
-> scan to.
+On 2021-11-25 12:46, guangming.cao@mediatek.com wrote:
+> From: Guangming <Guangming.Cao@mediatek.com>
 > 
-> In commit e765dba11ec2 ("hantro: Move hantro_enc_buf_finish to JPEG
-> codec_ops.done"), the code that copies the raw scan from the bounce
-> buffer to the capture buffer was moved, but was only hooked up for the
-> Hantro H1 (then RK3288) variant. The RK3399 variant was broken,
-> producing a JPEG bitstream without the scan, and the capture buffer's
-> .bytesused field unset.
-> 
-> Fix this by duplicating the code that is executed when the JPEG encoder
-> finishes encoding a frame. As the encoded length is read back from
-> hardware, and the variants having different register layouts, the
-> code is duplicated rather than shared.
-> 
-> Fixes: e765dba11ec2 ("hantro: Move hantro_enc_buf_finish to JPEG codec_ops.done")
-> Signed-off-by: Chen-Yu Tsai <wenst@chromium.org>
+> Use (sg_table.orig_nents) rather than (sg_table.nents) to traverse
+> sg_table to free sg_table.
+> Use (sg_table.nents) maybe will casuse some pages can't be freed.
 
-Thanks a lot for fixing this.
+...and this sort of bug is precisely why we have the 
+for_each_sgtable_sg() helper ;)
 
-Reviewed-by: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
+Robin.
 
+> Signed-off-by: Guangming <Guangming.Cao@mediatek.com>
 > ---
-> This was developed on the downstream ChromeOS 5.10 kernel (with a hack
-> for .data_offset) and tested with ChromeOS's jpeg_encode_accelerator_unittest
-> patched to accept non-JFIF JPEG streams (https://crrev.com/c/3291480).
+>   drivers/dma-buf/heaps/system_heap.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> This was then forward-ported to mainline (name and filename changes) and
-> compile tested only.
-> 
-> ---
->  .../staging/media/hantro/hantro_h1_jpeg_enc.c   |  2 +-
->  drivers/staging/media/hantro/hantro_hw.h        |  3 ++-
->  .../media/hantro/rockchip_vpu2_hw_jpeg_enc.c    | 17 +++++++++++++++++
->  drivers/staging/media/hantro/rockchip_vpu_hw.c  |  5 +++--
->  4 files changed, 23 insertions(+), 4 deletions(-)
-> 
-> diff --git a/drivers/staging/media/hantro/hantro_h1_jpeg_enc.c b/drivers/staging/media/hantro/hantro_h1_jpeg_enc.c
-> index 56cf261a8e95..9cd713c02a45 100644
-> --- a/drivers/staging/media/hantro/hantro_h1_jpeg_enc.c
-> +++ b/drivers/staging/media/hantro/hantro_h1_jpeg_enc.c
-> @@ -140,7 +140,7 @@ int hantro_h1_jpeg_enc_run(struct hantro_ctx *ctx)
->  	return 0;
->  }
->  
-> -void hantro_jpeg_enc_done(struct hantro_ctx *ctx)
-> +void hantro_h1_jpeg_enc_done(struct hantro_ctx *ctx)
->  {
->  	struct hantro_dev *vpu = ctx->dev;
->  	u32 bytesused = vepu_read(vpu, H1_REG_STR_BUF_LIMIT) / 8;
-> diff --git a/drivers/staging/media/hantro/hantro_hw.h b/drivers/staging/media/hantro/hantro_hw.h
-> index 267a6d33a47b..60d4602d33ed 100644
-> --- a/drivers/staging/media/hantro/hantro_hw.h
-> +++ b/drivers/staging/media/hantro/hantro_hw.h
-> @@ -239,7 +239,8 @@ int hantro_h1_jpeg_enc_run(struct hantro_ctx *ctx);
->  int rockchip_vpu2_jpeg_enc_run(struct hantro_ctx *ctx);
->  int hantro_jpeg_enc_init(struct hantro_ctx *ctx);
->  void hantro_jpeg_enc_exit(struct hantro_ctx *ctx);
-> -void hantro_jpeg_enc_done(struct hantro_ctx *ctx);
-> +void hantro_h1_jpeg_enc_done(struct hantro_ctx *ctx);
-> +void rockchip_vpu2_jpeg_enc_done(struct hantro_ctx *ctx);
->  
->  dma_addr_t hantro_h264_get_ref_buf(struct hantro_ctx *ctx,
->  				   unsigned int dpb_idx);
-> diff --git a/drivers/staging/media/hantro/rockchip_vpu2_hw_jpeg_enc.c b/drivers/staging/media/hantro/rockchip_vpu2_hw_jpeg_enc.c
-> index 991213ce1610..5d9ff420f0b5 100644
-> --- a/drivers/staging/media/hantro/rockchip_vpu2_hw_jpeg_enc.c
-> +++ b/drivers/staging/media/hantro/rockchip_vpu2_hw_jpeg_enc.c
-> @@ -171,3 +171,20 @@ int rockchip_vpu2_jpeg_enc_run(struct hantro_ctx *ctx)
->  
->  	return 0;
->  }
-> +
-> +void rockchip_vpu2_jpeg_enc_done(struct hantro_ctx *ctx)
-> +{
-> +	struct hantro_dev *vpu = ctx->dev;
-> +	u32 bytesused = vepu_read(vpu, VEPU_REG_STR_BUF_LIMIT) / 8;
-> +	struct vb2_v4l2_buffer *dst_buf = hantro_get_dst_buf(ctx);
-> +
-> +	/*
-> +	 * TODO: Rework the JPEG encoder to eliminate the need
-> +	 * for a bounce buffer.
-> +	 */
-> +	memcpy(vb2_plane_vaddr(&dst_buf->vb2_buf, 0) +
-> +	       ctx->vpu_dst_fmt->header_size,
-> +	       ctx->jpeg_enc.bounce_buffer.cpu, bytesused);
-> +	vb2_set_plane_payload(&dst_buf->vb2_buf, 0,
-> +			      ctx->vpu_dst_fmt->header_size + bytesused);
-> +}
-> diff --git a/drivers/staging/media/hantro/rockchip_vpu_hw.c b/drivers/staging/media/hantro/rockchip_vpu_hw.c
-> index d4f52957cc53..0c22039162a0 100644
-> --- a/drivers/staging/media/hantro/rockchip_vpu_hw.c
-> +++ b/drivers/staging/media/hantro/rockchip_vpu_hw.c
-> @@ -343,7 +343,7 @@ static const struct hantro_codec_ops rk3066_vpu_codec_ops[] = {
->  		.run = hantro_h1_jpeg_enc_run,
->  		.reset = rockchip_vpu1_enc_reset,
->  		.init = hantro_jpeg_enc_init,
-> -		.done = hantro_jpeg_enc_done,
-> +		.done = hantro_h1_jpeg_enc_done,
->  		.exit = hantro_jpeg_enc_exit,
->  	},
->  	[HANTRO_MODE_H264_DEC] = {
-> @@ -371,7 +371,7 @@ static const struct hantro_codec_ops rk3288_vpu_codec_ops[] = {
->  		.run = hantro_h1_jpeg_enc_run,
->  		.reset = rockchip_vpu1_enc_reset,
->  		.init = hantro_jpeg_enc_init,
-> -		.done = hantro_jpeg_enc_done,
-> +		.done = hantro_h1_jpeg_enc_done,
->  		.exit = hantro_jpeg_enc_exit,
->  	},
->  	[HANTRO_MODE_H264_DEC] = {
-> @@ -399,6 +399,7 @@ static const struct hantro_codec_ops rk3399_vpu_codec_ops[] = {
->  		.run = rockchip_vpu2_jpeg_enc_run,
->  		.reset = rockchip_vpu2_enc_reset,
->  		.init = hantro_jpeg_enc_init,
-> +		.done = rockchip_vpu2_jpeg_enc_done,
->  		.exit = hantro_jpeg_enc_exit,
->  	},
->  	[HANTRO_MODE_H264_DEC] = {
-> -- 
-> 2.34.0.rc2.393.gf8c9666880-goog
+> diff --git a/drivers/dma-buf/heaps/system_heap.c b/drivers/dma-buf/heaps/system_heap.c
+> index 23a7e74ef966..ce10d4eb674c 100644
+> --- a/drivers/dma-buf/heaps/system_heap.c
+> +++ b/drivers/dma-buf/heaps/system_heap.c
+> @@ -289,7 +289,7 @@ static void system_heap_dma_buf_release(struct dma_buf *dmabuf)
+>   	int i;
+>   
+>   	table = &buffer->sg_table;
+> -	for_each_sg(table->sgl, sg, table->nents, i) {
+> +	for_each_sg(table->sgl, sg, table->orig_nents, i) {
+>   		struct page *page = sg_page(sg);
+>   
+>   		__free_pages(page, compound_order(page));
 > 
