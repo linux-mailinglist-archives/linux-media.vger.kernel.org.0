@@ -2,123 +2,90 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8FF3545D76F
-	for <lists+linux-media@lfdr.de>; Thu, 25 Nov 2021 10:40:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 76A3045D775
+	for <lists+linux-media@lfdr.de>; Thu, 25 Nov 2021 10:42:55 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1353921AbhKYJoD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 25 Nov 2021 04:44:03 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50602 "EHLO
+        id S1354120AbhKYJp7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 25 Nov 2021 04:45:59 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51780 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1353943AbhKYJmD (ORCPT
+        with ESMTP id S1353889AbhKYJn7 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 25 Nov 2021 04:42:03 -0500
-Received: from mail-lf1-x131.google.com (mail-lf1-x131.google.com [IPv6:2a00:1450:4864:20::131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C09F6C0613E1;
-        Thu, 25 Nov 2021 01:38:34 -0800 (PST)
-Received: by mail-lf1-x131.google.com with SMTP id c32so14821498lfv.4;
-        Thu, 25 Nov 2021 01:38:34 -0800 (PST)
+        Thu, 25 Nov 2021 04:43:59 -0500
+Received: from mail-wm1-x32f.google.com (mail-wm1-x32f.google.com [IPv6:2a00:1450:4864:20::32f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CE49FC0613F7;
+        Thu, 25 Nov 2021 01:39:17 -0800 (PST)
+Received: by mail-wm1-x32f.google.com with SMTP id o19-20020a1c7513000000b0033a93202467so4226417wmc.2;
+        Thu, 25 Nov 2021 01:39:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=aQfEF2jOyB6rG0WgJqxX+s72gSlGzMx+nQDP2V3jnUo=;
-        b=XP1s+2vl2wLKjYg8HW8m0tBRvF1KXYoTcuBdkaaqufBoeAAUNFbRtKZwsWlR9Qx9o7
-         sQfne5msWVBOQ2sExqYlvGUSXCf/nzLL4eBoQjyPJrPkU6vh/e6Ski5TOJZXOR2ORSrI
-         Bm+8i6X5FK/MPGj3rkm64ToQQgAAmHyN5TFzSlZBYu4WZP+L8sCHlNHUXxG5j1exzQDg
-         TmzWk7pSIK/QvGZQw6J2q7td0fvZRwYoAPn0lK7WdP7iZemoSkWzW9UGjFqC6zGVMxLa
-         llEiF9wHAVSX6MuEkqlXH6/AFGI+yHioqITD0XWU1zM8ylc0lOHJqsVFbzYAxOWc4mlA
-         QxjA==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=JsWSBzoF6q60IKzONTXTKTOX38hGEElpEC5e1cFXxMw=;
+        b=e9BNmaZr+9frNsh1OxVSxcuyZYi5JHpT5RH5ySRVrg9VUsQimIf8iryHBDnjO6Q/Gf
+         4CNOcPC6pF1ffCESR/nfd1pkj8i3Gn2KIczOpCw7emtLwlsjCR6Zc0U9eVjQdzoAO+HW
+         Z3mBdV04WIQp60cXuw3cXABF49Fku3m7yzAuwWHTKndsWNTG/8EXu8Gr+H4NOscy6vM7
+         qHV1d4UduVpXX8Rqi83rOxxNjQmGhtLLHwyW/MBcL2oSl8pkgaILPA/q1wHvGLZp35sq
+         s7ofF4kG609Ul/4jqIOS27xPi0I5gJwpRIgkWEauHJb7uL74APaGL0UiSKaOQSUQQer7
+         fQnQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=aQfEF2jOyB6rG0WgJqxX+s72gSlGzMx+nQDP2V3jnUo=;
-        b=JFMj3EnCmWSA3b3LS1j2vJkGfVvebfjRTkAiaWpCmiQFrYp5wwNgsxh82cQkBYMDhA
-         VA0dbA3KO03pWxpIeBSyCNjO2Aac7OjxVeUNhx5TUsFuYUJkS3yhzvaiUkK9QpMm0ZFp
-         z3PbdCJtuUZLlROCQLTarH+0G4x4Ti4afihRnX8LMCossvPG/qPpJWfkE9svx+LExefk
-         DW+qC7rdkjslCt+qK8gPmNXUczUX7v9eY7oIvCyveFJHFih1rgHN/iVTaO+nbHsKl8FW
-         irLkimbn/pBJ/uIYYNOYArQMDm7vuXcb1CTEbyDfkvtk3cJQe+9lt4t4kTzXmzr2oNmF
-         sSrw==
-X-Gm-Message-State: AOAM532NdryNS0lenYCSepCDiV0xwxsdYHkWcXQIyiw3LW3gLvoqXZpa
-        8U2eFKnrBJrKkqvWc4Z7U/0K81Eskr0=
-X-Google-Smtp-Source: ABdhPJzWc+bPvWIJYmGhydRiz7YOTBnPcF7QeIDgBqlVGZLg7GMaZCawciOk/gkfmc3Yo0+Xvj4ncw==
-X-Received: by 2002:a05:6512:3213:: with SMTP id d19mr22334711lfe.519.1637833113104;
-        Thu, 25 Nov 2021 01:38:33 -0800 (PST)
-Received: from [192.168.2.145] (94-29-48-99.dynamic.spd-mgts.ru. [94.29.48.99])
-        by smtp.googlemail.com with ESMTPSA id n9sm203122lji.131.2021.11.25.01.38.32
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 25 Nov 2021 01:38:32 -0800 (PST)
-Subject: Re: [PATCH v3] i2c: tegra: Add the ACPI support
-To:     Akhil R <akhilrajeev@nvidia.com>
-Cc:     andy.shevchenko@gmail.com, christian.koenig@amd.com,
-        dri-devel@lists.freedesktop.org, jonathanh@nvidia.com,
-        ldewangan@nvidia.com, linaro-mm-sig@lists.linaro.org,
-        linux-i2c@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-tegra@vger.kernel.org,
-        p.zabel@pengutronix.de, sumit.semwal@linaro.org,
-        thierry.reding@gmail.com
-References: <1637831237-30652-1-git-send-email-akhilrajeev@nvidia.com>
-From:   Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <2a005ca8-e46a-59d0-c219-dfc94a3b810f@gmail.com>
-Date:   Thu, 25 Nov 2021 12:38:31 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=JsWSBzoF6q60IKzONTXTKTOX38hGEElpEC5e1cFXxMw=;
+        b=7ftbDRRTGSm0CKQ1WsDUk1fNcigITIMkunRQVcGBOH30JrCaAdyY8K5/b/3t0/Au5P
+         6nB8A2WYsGYllNtkwqHL04Pk0MTen/XYGv4Ul9XunMEtkA9zmguaTV+pjroorbW0WG46
+         lOaDb0HDsBO1v2CZQM8avlgRkOea5YFFRq/p027gDUJV3ULGLBn53Avp1PDJhfcW3Ukv
+         J5cj3jM21su00cAUS9pIV6TjE8syjtqv/UPvLnoubmt3dlJeuqKRUwG4FZk9KO6atyZb
+         2mFJlRIBifuP2EPvPFw9m4+6h/+c6cLkDeQ+mX79WSzXOEO/L1HEPuHu//cyyrCpxQM6
+         X+rQ==
+X-Gm-Message-State: AOAM532JWgD/s9dPwEQawzBNkxtJCNtGB2JwV94tgdwofvc6F+2P6QRn
+        M5orSDdak6r9enRmrLUGVSU=
+X-Google-Smtp-Source: ABdhPJwn9WYM4A5Ba6uOrUY3qZJujkwovHFYdpg+NpSmE67uRNgza9NoVF3XBWhs8MyNZm5A0klAMw==
+X-Received: by 2002:a05:600c:4f03:: with SMTP id l3mr5548476wmq.47.1637833156147;
+        Thu, 25 Nov 2021 01:39:16 -0800 (PST)
+Received: from archbook.localnet (84-72-105-84.dclient.hispeed.ch. [84.72.105.84])
+        by smtp.gmail.com with ESMTPSA id i17sm2732092wmq.48.2021.11.25.01.39.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 25 Nov 2021 01:39:15 -0800 (PST)
+From:   Nicolas Frattaroli <frattaroli.nicolas@gmail.com>
+To:     Ezequiel Garcia <ezequiel@collabora.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Heiko Stuebner <heiko@sntech.de>,
+        Dan Carpenter <dan.carpenter@oracle.com>,
+        linux-rockchip@lists.infradead.org
+Cc:     Kyle Copperfield <kmcopper@danwin1210.me>,
+        Dragan Simic <dragan.simic@gmail.com>,
+        linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        Kyle Copperfield <kmcopper@danwin1210.me>
+Subject: Re: [PATCH] media: rockchip/rga: do proper error checking in probe
+Date:   Thu, 25 Nov 2021 10:39:14 +0100
+Message-ID: <1864840.RQ6cyUMOaI@archbook>
+In-Reply-To: <20211120122321.20253-1-kmcopper@danwin1210.me>
+References: <20211120122321.20253-1-kmcopper@danwin1210.me>
 MIME-Version: 1.0
-In-Reply-To: <1637831237-30652-1-git-send-email-akhilrajeev@nvidia.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-25.11.2021 12:07, Akhil R пишет:
-> Add support for the ACPI based device registration so that the driver
-> can be also enabled through ACPI table.
+On Samstag, 20. November 2021 13:23:02 CET Kyle Copperfield wrote:
+> The latest fix for probe error handling contained a typo that causes
+> probing to fail with the following message:
 > 
-> This does not include the ACPI support for Tegra VI and DVC I2C.
+>   rockchip-rga: probe of ff680000.rga failed with error -12
 > 
-> Signed-off-by: Akhil R <akhilrajeev@nvidia.com>
+> This patch fixes the typo.
+> 
+> Fixes: e58430e1d4fd (media: rockchip/rga: fix error handling in probe)
+> Reviewed-by: Dragan Simic <dragan.simic@gmail.com>
+> Signed-off-by: Kyle Copperfield <kmcopper@danwin1210.me>
 > ---
->  drivers/i2c/busses/i2c-tegra.c | 52 ++++++++++++++++++++++++++++++++----------
->  1 file changed, 40 insertions(+), 12 deletions(-)
-> 
-> v3 changes
->   * removed acpi_has_method check.
->   * moved dev_err_probe to init_reset function to make it consistent with
-> 	init_clocks.
->   * Updates in commit message as suggested.
-> 
-> v2 - https://lkml.org/lkml/2021/11/23/82
-> v1 - https://lkml.org/lkml/2021/11/19/393
 
-Akhil, the patch looks almost good, thank you. Please see one minor
-question below.
+Tested-by: Nicolas Frattaroli <frattaroli.nicolas@gmail.com>
 
-> diff --git a/drivers/i2c/busses/i2c-tegra.c b/drivers/i2c/busses/i2c-tegra.c
-> index c883044..b889eb3 100644
-> --- a/drivers/i2c/busses/i2c-tegra.c
-> +++ b/drivers/i2c/busses/i2c-tegra.c
-> @@ -6,6 +6,7 @@
->   * Author: Colin Cross <ccross@android.com>
->   */
->  
-> +#include <linux/acpi.h>
->  #include <linux/bitfield.h>
->  #include <linux/clk.h>
->  #include <linux/delay.h>
-> @@ -608,6 +609,7 @@ static int tegra_i2c_wait_for_config_load(struct tegra_i2c_dev *i2c_dev)
->  static int tegra_i2c_init(struct tegra_i2c_dev *i2c_dev)
->  {
->  	u32 val, clk_divisor, clk_multiplier, tsu_thd, tlow, thigh, non_hs_mode;
-> +	acpi_handle handle = ACPI_HANDLE(i2c_dev->dev);
+Fixes RGA probing for me, many thanks!
 
-...
-> +static int tegra_i2c_init_reset(struct tegra_i2c_dev *i2c_dev)
-> +{
-> +	if (has_acpi_companion(i2c_dev->dev))
-> +		return 0;
 
-Can we use ACPI_HANDLE() everywhere instead of has_acpi_companion()? For
-consistency. I guess that's what Andy was asking about in v1?
