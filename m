@@ -2,190 +2,165 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D1D2E45D466
-	for <lists+linux-media@lfdr.de>; Thu, 25 Nov 2021 06:44:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 51D7245D47C
+	for <lists+linux-media@lfdr.de>; Thu, 25 Nov 2021 07:01:32 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S245252AbhKYFrk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 25 Nov 2021 00:47:40 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56142 "EHLO
+        id S1346397AbhKYGEl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 25 Nov 2021 01:04:41 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59802 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1345909AbhKYFpk (ORCPT
+        with ESMTP id S244237AbhKYGCl (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 25 Nov 2021 00:45:40 -0500
-Received: from mail-ed1-x529.google.com (mail-ed1-x529.google.com [IPv6:2a00:1450:4864:20::529])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9DF2CC061758
-        for <linux-media@vger.kernel.org>; Wed, 24 Nov 2021 21:42:29 -0800 (PST)
-Received: by mail-ed1-x529.google.com with SMTP id r11so20474550edd.9
-        for <linux-media@vger.kernel.org>; Wed, 24 Nov 2021 21:42:29 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=amarulasolutions.com; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=mVokkW0aterUUH0jexbVC9W/wjaVPSuabPLWpcX7R2A=;
-        b=FNT3EP7+Uy+OAfQjGgZAc++CUzXezJHka6CQFvQnrppLEF+n5eFf8/OK3iz/nID7Ka
-         wRLmeLGyaF1jGYgOYIaSGCvX7xyrt/8iQdM/WV5N87Ys7Vd5v6pjairuAdLtq//2KWTz
-         Jj1lg1F39ySbEV1Q4TgQTh/ScXiJdjAozrLg4=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=mVokkW0aterUUH0jexbVC9W/wjaVPSuabPLWpcX7R2A=;
-        b=If+sVHDbn0wIDTzgUXcN7XBzb1LhJFe76GCThZEax2MMC31XKZ3HQAMEEF+7zRL5nw
-         h5CYJqNwd5FdZc89nZCyiBgONzAl+jQgwIjcuW2kI/3Zdx8qUIpWcQvq3PHH6mRORME+
-         9v1Bj5SKOHdlIwmLEC2sPUgQ0oOrPMF9Hc+bBgK/Zi66BD3qfh98FW5ooOgEgw0Jl1Oq
-         H4G5qStTL/ZJwp2APMi2y/kq7szw8KBylVyew1Riars/DRVGJ5xsWiYvjaSphbe7Ysc/
-         uszB9v0iELWnTKbrmlE9i+/hqb9XZ5m6mq3dU1NbTyBHIkM7bP3OeZkR52YQDWLGsCSo
-         nmCA==
-X-Gm-Message-State: AOAM532EICLK2ZGJRpNnUQiSZ4HYdHAC0V9ElhPe0aNpLTI/sEKGvpAK
-        DaivZY2ePe2J4opbMtC+NwbQapCYcwZ+29tq59YNlg==
-X-Google-Smtp-Source: ABdhPJxfuEmhMR9o0/g2hgYVXDx6lw/n8Xqvuwbr/l6/CUCx+M7LoZiDWCL6t/nIP5gZg+qjAKK7pDaYQakPi7afJ+8=
-X-Received: by 2002:a05:6402:5cc:: with SMTP id n12mr35554738edx.246.1637818948087;
- Wed, 24 Nov 2021 21:42:28 -0800 (PST)
-MIME-Version: 1.0
-References: <20211106155427.753197-1-aford173@gmail.com> <YZrHWkbYkrILP9oo@pendragon.ideasonboard.com>
- <CAHCN7xLwYcS55N7SNT4k3NqF=Lgdjfe92nJHSVMKkhCuSAPaYw@mail.gmail.com>
-In-Reply-To: <CAHCN7xLwYcS55N7SNT4k3NqF=Lgdjfe92nJHSVMKkhCuSAPaYw@mail.gmail.com>
-From:   Jagan Teki <jagan@amarulasolutions.com>
-Date:   Thu, 25 Nov 2021 11:12:17 +0530
-Message-ID: <CAMty3ZDCCRXLvHaoW=8gqq+3B0j4uQvAk72YjXKr=cxuf7GAkg@mail.gmail.com>
-Subject: Re: [PATCH V2 1/5] soc: imx: imx8m-blk-ctrl: Fix imx8mm mipi reset
-To:     Adam Ford <aford173@gmail.com>
-Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        arm-soc <linux-arm-kernel@lists.infradead.org>,
-        Tim Harvey <tharvey@gateworks.com>,
-        Schrempf Frieder <frieder.schrempf@kontron.de>,
-        linux-media <linux-media@vger.kernel.org>,
-        Adam Ford-BE <aford@beaconembedded.com>,
-        cstevens@beaconembedded.com, Rob Herring <robh+dt@kernel.org>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>, Peng Fan <peng.fan@nxp.com>,
-        Lucas Stach <l.stach@pengutronix.de>,
-        devicetree <devicetree@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        Thu, 25 Nov 2021 01:02:41 -0500
+Received: from lb1-smtp-cloud8.xs4all.net (lb1-smtp-cloud8.xs4all.net [IPv6:2001:888:0:108::1b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2A8B1C061759
+        for <linux-media@vger.kernel.org>; Wed, 24 Nov 2021 21:58:45 -0800 (PST)
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud8.xs4all.net with ESMTPA
+        id q7mKmpmyzBB1Qq7mNmrzTy; Thu, 25 Nov 2021 06:58:43 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
+        t=1637819923; bh=gierxF4+Aa5F3W8zxDkDmc3Xm5rHWfrA7AJl0ObKlpk=;
+        h=Message-ID:Date:From:To:Subject:From:Subject;
+        b=QIkWz4qZnzFN8Wyg4+EzhbunV9iklOKpcqxY/VAg1lCbZnVWWGo9i8ZFtoUak8/JS
+         3/eVMRWQft3vSsKkZIEr7swW4OVD5Dhm95dGFsFW3KN1cc+NtaLlp+UGxEM2zY5TPG
+         PbFAtYWwcWwr3JvVU3fcrW3YnZS7RdtUDURMQC9hbm2hhidbAQz51wHHI9Fh6HN2fC
+         uwvxak1Q4mOvQCGM9LMXtiBAm4aCzBFA5j+IcZ05k6jjX39633+nzTV3gy+Uo/no93
+         r86Z0kUl+RENVOd8JRFV2UcEL2S0IHawIB9trfdM6Xgte1BblKAjRoVpbr6K3vEU76
+         NC+S4dr2l78YQ==
+Message-ID: <3b20174ec060c9e04689a5918c70f3e4@smtp-cloud8.xs4all.net>
+Date:   Thu, 25 Nov 2021 06:58:40 +0100
+From:   "Hans Verkuil" <hverkuil@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: WARNINGS
+X-CMAE-Envelope: MS4xfLPPAzJezzD/cFRCCW0X4wOA5nxOAvGzEDCGSNnGGvOXn0w1K7IAXhhIUxOroAAFRx3bcURNKOgfJSdAz6uePLiR1+tYmlsH3jYiedUWy+sTh5g907BC
+ ngeqLqhitNco3HKj196hLfmNT2yLp4u21dNGNJmwpsciGg190g0zE7PiKUrpvglxBA89MZmqfPgxIQ==
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Nov 23, 2021 at 7:29 PM Adam Ford <aford173@gmail.com> wrote:
->
-> On Sun, Nov 21, 2021 at 4:25 PM Laurent Pinchart
-> <laurent.pinchart@ideasonboard.com> wrote:
-> >
-> > Hi Adam,
-> >
-> > On Sat, Nov 06, 2021 at 10:54:23AM -0500, Adam Ford wrote:
-> > > Most of the blk-ctrl reset bits are found in one register, however
-> > > there are two bits in offset 8 for pulling the MIPI DPHY out of reset
-> > > and these need to be set when IMX8MM_DISPBLK_PD_MIPI_CSI is brought
-> > > out of reset or the MIPI_CSI hangs.
-> > >
-> > > Fixes: 926e57c065df ("soc: imx: imx8m-blk-ctrl: add DISP blk-ctrl")
-> > > Signed-off-by: Adam Ford <aford173@gmail.com>
-> > > ---
-> > >
-> > > V2:  Make a note that the extra register is only for Mini/Nano DISPLAY_BLK_CTRL
-> > >      Rename the new register to mipi_phy_rst_mask
-> > >      Encapsulate the edits to this register with an if-statement
-> > >
-> > >  drivers/soc/imx/imx8m-blk-ctrl.c | 18 ++++++++++++++++++
-> > >  1 file changed, 18 insertions(+)
-> > >
-> > > diff --git a/drivers/soc/imx/imx8m-blk-ctrl.c b/drivers/soc/imx/imx8m-blk-ctrl.c
-> > > index 519b3651d1d9..581eb4bc7f7d 100644
-> > > --- a/drivers/soc/imx/imx8m-blk-ctrl.c
-> > > +++ b/drivers/soc/imx/imx8m-blk-ctrl.c
-> > > @@ -17,6 +17,7 @@
-> > >
-> > >  #define BLK_SFT_RSTN 0x0
-> > >  #define BLK_CLK_EN   0x4
-> > > +#define BLK_MIPI_RESET_DIV   0x8 /* Mini/Nano DISPLAY_BLK_CTRL only */
-> > >
-> > >  struct imx8m_blk_ctrl_domain;
-> > >
-> > > @@ -36,6 +37,15 @@ struct imx8m_blk_ctrl_domain_data {
-> > >       const char *gpc_name;
-> > >       u32 rst_mask;
-> > >       u32 clk_mask;
-> > > +
-> > > +     /*
-> > > +      * i.MX8M Mini and Nano have a third DISPLAY_BLK_CTRL register
-> > > +      * which is used to control the reset for the MIPI Phy.
-> > > +      * Since it's only present in certain circumstances,
-> > > +      * an if-statement should be used before setting and clearing this
-> > > +      * register.
-> > > +      */
-> > > +     u32 mipi_phy_rst_mask;
-> > >  };
-> > >
-> > >  #define DOMAIN_MAX_CLKS 3
-> > > @@ -78,6 +88,8 @@ static int imx8m_blk_ctrl_power_on(struct generic_pm_domain *genpd)
-> > >
-> > >       /* put devices into reset */
-> > >       regmap_clear_bits(bc->regmap, BLK_SFT_RSTN, data->rst_mask);
-> > > +     if (data->mipi_phy_rst_mask)
-> > > +             regmap_clear_bits(bc->regmap, BLK_MIPI_RESET_DIV, data->mipi_phy_rst_mask);
-> > >
-> > >       /* enable upstream and blk-ctrl clocks to allow reset to propagate */
-> > >       ret = clk_bulk_prepare_enable(data->num_clks, domain->clks);
-> > > @@ -99,6 +111,8 @@ static int imx8m_blk_ctrl_power_on(struct generic_pm_domain *genpd)
-> > >
-> > >       /* release reset */
-> > >       regmap_set_bits(bc->regmap, BLK_SFT_RSTN, data->rst_mask);
-> > > +     if (data->mipi_phy_rst_mask)
-> > > +             regmap_set_bits(bc->regmap, BLK_MIPI_RESET_DIV, data->mipi_phy_rst_mask);
-> > >
-> > >       /* disable upstream clocks */
-> > >       clk_bulk_disable_unprepare(data->num_clks, domain->clks);
-> > > @@ -120,6 +134,9 @@ static int imx8m_blk_ctrl_power_off(struct generic_pm_domain *genpd)
-> > >       struct imx8m_blk_ctrl *bc = domain->bc;
-> > >
-> > >       /* put devices into reset and disable clocks */
-> > > +     if (data->mipi_phy_rst_mask)
-> > > +             regmap_clear_bits(bc->regmap, BLK_MIPI_RESET_DIV, data->mipi_phy_rst_mask);
-> > > +
-> >
-> > Is it the best option to enable/disable both the master and slave MIPI
-> > DPHY, regardless of whether they're used or not ? Or would it be better
-> > to implement a reset controller to expose the two resets independently,
-> > and acquire them from the corresponding display and camera drivers ?
->
-> In some early attempts to implement the blk-ctrl driver, there was an
-> attempt to enable a reset controller, but it caused some hanging and
-> issues with suspend-resume due to chicken-egg issues where some items
-> were coming up in the wrong order.  I think the decision was made to
-> make the resets part of the power domain so it's very clear that the
-> order of operations.  Lucas might be able to elaborate more on this.
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
 
-I think supporting via phy driver make sense to me since this resent
-is DPHY specific and nothing related to blk-ctrl.
+Results of the daily build of media_tree:
 
->
-> If bits 16 and 17 can act independently and bit 16 only impacts the
-> CSI  and doesn't require bit 17, it seems reasonable to me to have the
-> power-domain part of  the CSI, since this would only be enabled when
-> the CSI is active.  The power domain is idled when the CSI is idled
-> which would effectively place the phy in and out of reset only
-> depending on the state of the CSI.  I am guessing this reset bit
-> should be assigned to DISPBLK_PD_MIPI_CSI and not
-> DISPBLK_PD_CSI_BRIDGE, but I can run some more tests.
->
-> AFAIK, there is no phy driver for the CSI like there is the DSI, so
-> adding that would require additional work to the CSI driver to work
-> around this quirk.  We don't have an acceptable DSI driver yet, so I'd
-> like to push a V3 with just the corresponding bit enabled for MIPI_CSI
-> after some testing.  FWICT, NXP set both bits 16 and 17 in their ATF
-> gpc code, and it never gets cleared, so I think having the bit set and
-> cleared on demand is an improvement.
+date:			Thu Nov 25 05:00:13 CET 2021
+media-tree git hash:	b1b447e2f3e1ec0c3e9716f4f74d056461f69ab3
+media_build git hash:	90bf75007a9f73a3bfd144cae29e05229e702035
+v4l-utils git hash:	68d9f4636f4ec465fc05f1fa811e65f09380bdb3
+edid-decode git hash:	b00755e34eb12aa92416aaf1bb7b02603131afe0
+gcc version:		i686-linux-gcc (GCC) 11.2.0
+sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
+sparse version:		0.6.3
+smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
+smatch version:		0.6.3
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: 7696c77a86087f681c8864e9ed957938d5b69aaf
+host hardware:		x86_64
+host os:		5.14.0-2-amd64
 
-How about using the previous one that Marek sent. Add it via CSI
-pipeline and i think it would directly.
+linux-git-sh: OK
+linux-git-arm-at91: OK
+linux-git-arm-davinci: OK
+linux-git-arm-stm32: OK
+linux-git-mips: OK
+linux-git-arm-pxa: OK
+linux-git-arm-multi: OK
+linux-git-powerpc64: OK
+linux-git-arm64: OK
+linux-git-i686: OK
+linux-git-x86_64: OK
+Check COMPILE_TEST: OK
+Check for strcpy/strncpy/strlcpy: OK
+linux-4.4.283-i686: OK
+linux-4.4.283-x86_64: OK
+linux-4.5.7-i686: OK
+linux-4.5.7-x86_64: OK
+linux-4.6.7-i686: OK
+linux-4.6.7-x86_64: OK
+linux-4.7.10-i686: OK
+linux-4.7.10-x86_64: OK
+linux-4.8.17-i686: OK
+linux-4.8.17-x86_64: OK
+linux-4.9.246-i686: OK
+linux-4.9.246-x86_64: OK
+linux-4.10.17-i686: OK
+linux-4.10.17-x86_64: OK
+linux-4.11.12-i686: OK
+linux-4.11.12-x86_64: OK
+linux-4.12.14-i686: OK
+linux-4.12.14-x86_64: OK
+linux-4.13.16-i686: OK
+linux-4.13.16-x86_64: OK
+linux-4.14.246-i686: OK
+linux-4.14.246-x86_64: OK
+linux-4.15.18-i686: OK
+linux-4.15.18-x86_64: OK
+linux-4.16.18-i686: OK
+linux-4.16.18-x86_64: OK
+linux-4.17.19-i686: OK
+linux-4.17.19-x86_64: OK
+linux-4.18.20-i686: OK
+linux-4.18.20-x86_64: OK
+linux-4.19.206-i686: OK
+linux-4.19.206-x86_64: OK
+linux-4.20.17-i686: OK
+linux-4.20.17-x86_64: OK
+linux-5.0.21-i686: OK
+linux-5.0.21-x86_64: OK
+linux-5.1.21-i686: OK
+linux-5.1.21-x86_64: OK
+linux-5.2.21-i686: OK
+linux-5.2.21-x86_64: OK
+linux-5.3.18-i686: OK
+linux-5.3.18-x86_64: OK
+linux-5.4.144-i686: OK
+linux-5.4.144-x86_64: OK
+linux-5.5.19-i686: OK
+linux-5.5.19-x86_64: OK
+linux-5.6.19-i686: OK
+linux-5.6.19-x86_64: OK
+linux-5.7.19-i686: OK
+linux-5.7.19-x86_64: OK
+linux-5.8.18-i686: OK
+linux-5.8.18-x86_64: OK
+linux-5.9.16-i686: OK
+linux-5.9.16-x86_64: OK
+linux-5.10.62-i686: OK
+linux-5.10.62-x86_64: OK
+linux-5.11.22-i686: OK
+linux-5.11.22-x86_64: OK
+linux-5.12.19-i686: OK
+linux-5.12.19-x86_64: OK
+linux-5.13.14-i686: OK
+linux-5.13.14-x86_64: OK
+linux-5.14.1-i686: OK
+linux-5.14.1-x86_64: OK
+linux-5.15.1-i686: OK
+linux-5.15.1-x86_64: OK
+linux-5.16-rc1-i686: OK
+linux-5.16-rc1-x86_64: OK
+apps: OK
+spec-git: OK
+virtme: OK: Final Summary: 2989, Succeeded: 2989, Failed: 0, Warnings: 0
+virtme-32: WARNINGS: Final Summary: 3100, Succeeded: 3100, Failed: 0, Warnings: 2
+sparse: WARNINGS
+smatch: WARNINGS
+kerneldoc: WARNINGS
 
-https://www.spinics.net/lists/devicetree/msg381691.html
+Detailed results are available here:
 
-Jagan.
+http://www.xs4all.nl/~hverkuil/logs/Thursday.log
+
+Detailed regression test results are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Thursday-test-media.log
+http://www.xs4all.nl/~hverkuil/logs/Thursday-test-media-32.log
+http://www.xs4all.nl/~hverkuil/logs/Thursday-test-media-dmesg.log
+
+Full logs are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Thursday.tar.bz2
+
+The Media Infrastructure API from this daily build is here:
+
+http://www.xs4all.nl/~hverkuil/spec/index.html
