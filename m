@@ -2,219 +2,332 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B9EE945DD37
-	for <lists+linux-media@lfdr.de>; Thu, 25 Nov 2021 16:21:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BBC0B45DDD2
+	for <lists+linux-media@lfdr.de>; Thu, 25 Nov 2021 16:45:32 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1356016AbhKYPYl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 25 Nov 2021 10:24:41 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42354 "EHLO
+        id S1356164AbhKYPsm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 25 Nov 2021 10:48:42 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47700 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231849AbhKYPWj (ORCPT
+        with ESMTP id S234528AbhKYPqk (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 25 Nov 2021 10:22:39 -0500
-Received: from mail-ed1-x533.google.com (mail-ed1-x533.google.com [IPv6:2a00:1450:4864:20::533])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A2861C06179C;
-        Thu, 25 Nov 2021 07:18:37 -0800 (PST)
-Received: by mail-ed1-x533.google.com with SMTP id r11so27018506edd.9;
-        Thu, 25 Nov 2021 07:18:37 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=1xr0dJj7uqeb5C+Hg2DQB8dv6zi5yHSnunEXhTvGiX8=;
-        b=pUsSZLBVCVdSPnTayCU62AadL4O5dkTndVJQhRwYosarpiSVh1n0IyD91VdUTwACXG
-         fUii6bn9kBb6KFZ4zJ6tlxmnor8T59iDLZmTEVFDMlRuUk/HWGv3vpHRkfU4FQW0+nSm
-         TCjaYl2Y2ZjzaUOn8aBuUJD/KJ90pLVtbVDzrk3Kkv8ofKmQWgeQ36rcgpnSXOnBB8+G
-         fn78a2PB2aX9nqh35J0yFhr5hYJduaYoV9zwMliFcjXmUe2X3DrAm01eJt3fwKni8T1F
-         tD0RRICagbhSrh7WOclOaCsTLh2vJNGRgZmRV4s/ngv1nhRCHXf4b870jBEzl17JpUE9
-         Q/yg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=1xr0dJj7uqeb5C+Hg2DQB8dv6zi5yHSnunEXhTvGiX8=;
-        b=IEMizpVcpmRvp/7+cJJaqkZf7pFzEckZzaZ86lpoeDTCmqnHGhJQ5oso51ZN4ZPTu2
-         Dc+g631+MjxHsTIdUd498p0HoFsuGCeZtpEVeOMOG0ZGvuG8IbsRw/vxDs5z/K9DSNl3
-         go2sM0yDXal0VQuKuy7i8RDqSMKM6k47WFNgUJpRhiFK1jTyAr0SXGwrBSt6tT8Nupyl
-         MJnOX4EhqX4Ze26FOvbn6eJdTyJFokioXpvm7rj/x4YL3QuUp6vcuy14jpviQ1GU1pY/
-         V/3DG4oFRdvoD4LicgutAqZUpHUcB3e6d9Rk3DmrShinTl2SDikc4PYDPp/U/S9bW1iP
-         2Gbg==
-X-Gm-Message-State: AOAM530Pe7L2sE0+2F3Yzmwlorp+N77rAIwkjN3qjnBp8zPqldxkkw/B
-        e6e80kh0W4IMUMoCqeMqVsgARMf/o29CZWLT4Ac=
-X-Google-Smtp-Source: ABdhPJzXSR7WPQpbtY11tiK82bRbpa5B2Ft4LojeTmHAmk/c/+qZchj7etfnP4C9pRT5DjY47q1nBfRRWNgNI410ES8=
-X-Received: by 2002:a05:6402:2751:: with SMTP id z17mr38138223edd.296.1637853515965;
- Thu, 25 Nov 2021 07:18:35 -0800 (PST)
-MIME-Version: 1.0
-References: <20211106155427.753197-1-aford173@gmail.com> <YZrHWkbYkrILP9oo@pendragon.ideasonboard.com>
- <CAHCN7xLwYcS55N7SNT4k3NqF=Lgdjfe92nJHSVMKkhCuSAPaYw@mail.gmail.com> <CAMty3ZDCCRXLvHaoW=8gqq+3B0j4uQvAk72YjXKr=cxuf7GAkg@mail.gmail.com>
-In-Reply-To: <CAMty3ZDCCRXLvHaoW=8gqq+3B0j4uQvAk72YjXKr=cxuf7GAkg@mail.gmail.com>
-From:   Adam Ford <aford173@gmail.com>
-Date:   Thu, 25 Nov 2021 09:18:24 -0600
-Message-ID: <CAHCN7xLrg-7CALY9Gre3OLfwAUed3veF1oZpvLvyE+aw7is_TQ@mail.gmail.com>
-Subject: Re: [PATCH V2 1/5] soc: imx: imx8m-blk-ctrl: Fix imx8mm mipi reset
-To:     Jagan Teki <jagan@amarulasolutions.com>
-Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        arm-soc <linux-arm-kernel@lists.infradead.org>,
-        Tim Harvey <tharvey@gateworks.com>,
+        Thu, 25 Nov 2021 10:46:40 -0500
+Received: from lb1-smtp-cloud9.xs4all.net (lb1-smtp-cloud9.xs4all.net [IPv6:2001:888:0:108::1c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CB1F4C0613FE;
+        Thu, 25 Nov 2021 07:35:29 -0800 (PST)
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud9.xs4all.net with ESMTPA
+        id qGmPm80Yt1HGJqGmSm3a9t; Thu, 25 Nov 2021 16:35:25 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
+        t=1637854525; bh=TXJ7Ctbmiee3cETV+NOpkmOKP2PLfrWx5HhL/ioidbc=;
+        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
+         Subject;
+        b=jerUqfk4CHl2L5NvhjeJ5N6qI6wRUrz0EXCZPk5gUzRPp9Rk3b8JPkqS/fqTjeqRS
+         EGuH+7jF/OSHZF0bxiySnpLHNWLLKGsY5kahbFKKI8mHI+S121tNNDD1LJJb5IPFq1
+         bo/V4Di3+lRE9xvxrCsF4mCCsyDWll4sESm/CH5QwzMf7BgfaGPkKEJTmUZtPxIjBK
+         AE4SEyZShF7mHpL7HBHpk3mPf2UxuINr/aPpCMwu3BD9X1T1RY4xVgC55HbEsWp4in
+         2xkP/nCOWm6lPIFVSlZBYuHzgXmOzEnSdqnP6MdvXjFvzq05mabBjtdn0WQEOmtmU+
+         E+rarb32CbVyg==
+Subject: Re: [RFC 1/5] media: hantro: Add support for i.MX8M Mini
+To:     Adam Ford <aford173@gmail.com>,
+        linux-media <linux-media@vger.kernel.org>
+Cc:     Tim Harvey <tharvey@gateworks.com>,
         Schrempf Frieder <frieder.schrempf@kontron.de>,
-        linux-media <linux-media@vger.kernel.org>,
+        Marek Vasut <marek.vasut@gmail.com>,
+        Jagan Teki <jagan@amarulasolutions.com>,
         Adam Ford-BE <aford@beaconembedded.com>,
-        cstevens@beaconembedded.com, Rob Herring <robh+dt@kernel.org>,
+        cstevens@beaconembedded.com,
+        Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
         Shawn Guo <shawnguo@kernel.org>,
         Sascha Hauer <s.hauer@pengutronix.de>,
         Pengutronix Kernel Team <kernel@pengutronix.de>,
         Fabio Estevam <festevam@gmail.com>,
         NXP Linux Team <linux-imx@nxp.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>, Peng Fan <peng.fan@nxp.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Heiko Stuebner <heiko@sntech.de>,
         Lucas Stach <l.stach@pengutronix.de>,
-        devicetree <devicetree@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        Joakim Zhang <qiangqing.zhang@nxp.com>,
+        Alice Guo <alice.guo@nxp.com>, Peng Fan <peng.fan@nxp.com>,
+        "open list:HANTRO VPU CODEC DRIVER" 
+        <linux-rockchip@lists.infradead.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        "moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE" 
+        <linux-arm-kernel@lists.infradead.org>,
+        open list <linux-kernel@vger.kernel.org>,
+        "open list:STAGING SUBSYSTEM" <linux-staging@lists.linux.dev>,
+        Nicolas Dufresne <nicolas@ndufresne.ca>
+References: <20211106183802.893285-1-aford173@gmail.com>
+ <20211106183802.893285-2-aford173@gmail.com>
+ <CAHCN7x+G6K3BTEGwuYMRO_+SFHjrvAU2FWfXGawXchX8NmovWA@mail.gmail.com>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Message-ID: <f4e143fc-181a-a49a-377f-baec19ac048f@xs4all.nl>
+Date:   Thu, 25 Nov 2021 16:35:21 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Firefox/78.0 Thunderbird/78.14.0
+MIME-Version: 1.0
+In-Reply-To: <CAHCN7x+G6K3BTEGwuYMRO_+SFHjrvAU2FWfXGawXchX8NmovWA@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4xfOg0R8IxyT7lY2IJYmlCgRHGaHVChQvNTvfXXRZqUWUtQlCoadjxwN7BEYoGrUw7xZHhcisR0pZB+awL6fX4ha5IqwGduZYLEncY836mKk9TuGZesP7M
+ n+WFtaf23qExKwrsvAEEzm0RIc8kVWky//Yn3fQNgI7HphKeTBLm6aCOTzuWi/x2AAq7xl3A+XWMis/vNytsKnNzUqPP6IA1KidsLVJb8hJZjOuYpHE2MtsB
+ pj3XrS7ituIgg15UZnovz+NZMMOj3M9rJj3q4RZt/Hj+3uTbd4zbQw+aqLeLvEO3tPMauK/QCYsmaZC3hT4ygKoAqleX9KsPC2MoW4HhxSZqFSLueBld93vi
+ whSv4qFgq3XP4LW3lcqxMi3n8fzTgaBdNzl1Pwt4yB/oErUpc/SFHh7vOwazbgwUSm4v6fjM6X4vi65woPARbFBs4jK/mVNcv8GBHycKoWKq61qTBCYnsyTQ
+ B/zzAJV4DNFVFniOO12VQjjbbcMthgXMLynb4g4wBhslIyctxGAM799OrK/O40eciNvpZr1xBj6JP9xkQF8HoHedJ/VRCAz3wrw/QC23V+iVi7WcOpfRFJd0
+ MtkDxUQdNGsrbfNO0ypnvvCjPTMYwIVe4OmOHv2DJGJHLd6EsEQryhcsNic2lQd4sE9eCpAec0dDujMBA3D8SE/Ncpq6LOtAUKT5ZnZKXR3M1xyoodXzKaGK
+ FoaIHT2rB/Gu5cHXNc9sPYGxkhxGQyRvOCbX+pfZvGECDlU9Er86dK4aeZaBB/rUkM64DTFnbjbqhQJjwwsqiEY+LyCEGl1BLL7zZ1h92sAoQ7SNdCtAlDQw
+ 2j8YfdlcroJNFLd76NT9Kue3mj1595m8rg2WPoNcGzjyxlG6rsFZyrqc8r9wXZ8rloZPlHF0tL+R7X8aMgDqHFbn2P+bjdvnX91qdbSZxloMycbUYGMZigFk
+ +MSWCRJ2HI7Fic7btkncIEBn2//jeY0izZ4pJc66sC6HeuiO4EOLHpArWlU6L3pV6wsN9sIPz+V4Os5HVyG5G2G3hm3CEB4XQg6BmmaK7JrIye/K7ixFPHSZ
+ hnNQH6ey9EWDm9/DRb8wv0+tabWa7s97ZZuX433Vmk++eiG3rM10GMqPaaSsD/IhLP/4FaX8nl2WZBDwBvMS+eYyB3TrrWez/bQSL9zIWxIkTsJECdBVaklG
+ qqn0sASywkevygXS8pwziw==
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Nov 24, 2021 at 11:42 PM Jagan Teki <jagan@amarulasolutions.com> wrote:
->
-> On Tue, Nov 23, 2021 at 7:29 PM Adam Ford <aford173@gmail.com> wrote:
-> >
-> > On Sun, Nov 21, 2021 at 4:25 PM Laurent Pinchart
-> > <laurent.pinchart@ideasonboard.com> wrote:
-> > >
-> > > Hi Adam,
-> > >
-> > > On Sat, Nov 06, 2021 at 10:54:23AM -0500, Adam Ford wrote:
-> > > > Most of the blk-ctrl reset bits are found in one register, however
-> > > > there are two bits in offset 8 for pulling the MIPI DPHY out of reset
-> > > > and these need to be set when IMX8MM_DISPBLK_PD_MIPI_CSI is brought
-> > > > out of reset or the MIPI_CSI hangs.
-> > > >
-> > > > Fixes: 926e57c065df ("soc: imx: imx8m-blk-ctrl: add DISP blk-ctrl")
-> > > > Signed-off-by: Adam Ford <aford173@gmail.com>
-> > > > ---
-> > > >
-> > > > V2:  Make a note that the extra register is only for Mini/Nano DISPLAY_BLK_CTRL
-> > > >      Rename the new register to mipi_phy_rst_mask
-> > > >      Encapsulate the edits to this register with an if-statement
-> > > >
-> > > >  drivers/soc/imx/imx8m-blk-ctrl.c | 18 ++++++++++++++++++
-> > > >  1 file changed, 18 insertions(+)
-> > > >
-> > > > diff --git a/drivers/soc/imx/imx8m-blk-ctrl.c b/drivers/soc/imx/imx8m-blk-ctrl.c
-> > > > index 519b3651d1d9..581eb4bc7f7d 100644
-> > > > --- a/drivers/soc/imx/imx8m-blk-ctrl.c
-> > > > +++ b/drivers/soc/imx/imx8m-blk-ctrl.c
-> > > > @@ -17,6 +17,7 @@
-> > > >
-> > > >  #define BLK_SFT_RSTN 0x0
-> > > >  #define BLK_CLK_EN   0x4
-> > > > +#define BLK_MIPI_RESET_DIV   0x8 /* Mini/Nano DISPLAY_BLK_CTRL only */
-> > > >
-> > > >  struct imx8m_blk_ctrl_domain;
-> > > >
-> > > > @@ -36,6 +37,15 @@ struct imx8m_blk_ctrl_domain_data {
-> > > >       const char *gpc_name;
-> > > >       u32 rst_mask;
-> > > >       u32 clk_mask;
-> > > > +
-> > > > +     /*
-> > > > +      * i.MX8M Mini and Nano have a third DISPLAY_BLK_CTRL register
-> > > > +      * which is used to control the reset for the MIPI Phy.
-> > > > +      * Since it's only present in certain circumstances,
-> > > > +      * an if-statement should be used before setting and clearing this
-> > > > +      * register.
-> > > > +      */
-> > > > +     u32 mipi_phy_rst_mask;
-> > > >  };
-> > > >
-> > > >  #define DOMAIN_MAX_CLKS 3
-> > > > @@ -78,6 +88,8 @@ static int imx8m_blk_ctrl_power_on(struct generic_pm_domain *genpd)
-> > > >
-> > > >       /* put devices into reset */
-> > > >       regmap_clear_bits(bc->regmap, BLK_SFT_RSTN, data->rst_mask);
-> > > > +     if (data->mipi_phy_rst_mask)
-> > > > +             regmap_clear_bits(bc->regmap, BLK_MIPI_RESET_DIV, data->mipi_phy_rst_mask);
-> > > >
-> > > >       /* enable upstream and blk-ctrl clocks to allow reset to propagate */
-> > > >       ret = clk_bulk_prepare_enable(data->num_clks, domain->clks);
-> > > > @@ -99,6 +111,8 @@ static int imx8m_blk_ctrl_power_on(struct generic_pm_domain *genpd)
-> > > >
-> > > >       /* release reset */
-> > > >       regmap_set_bits(bc->regmap, BLK_SFT_RSTN, data->rst_mask);
-> > > > +     if (data->mipi_phy_rst_mask)
-> > > > +             regmap_set_bits(bc->regmap, BLK_MIPI_RESET_DIV, data->mipi_phy_rst_mask);
-> > > >
-> > > >       /* disable upstream clocks */
-> > > >       clk_bulk_disable_unprepare(data->num_clks, domain->clks);
-> > > > @@ -120,6 +134,9 @@ static int imx8m_blk_ctrl_power_off(struct generic_pm_domain *genpd)
-> > > >       struct imx8m_blk_ctrl *bc = domain->bc;
-> > > >
-> > > >       /* put devices into reset and disable clocks */
-> > > > +     if (data->mipi_phy_rst_mask)
-> > > > +             regmap_clear_bits(bc->regmap, BLK_MIPI_RESET_DIV, data->mipi_phy_rst_mask);
-> > > > +
-> > >
-> > > Is it the best option to enable/disable both the master and slave MIPI
-> > > DPHY, regardless of whether they're used or not ? Or would it be better
-> > > to implement a reset controller to expose the two resets independently,
-> > > and acquire them from the corresponding display and camera drivers ?
-> >
-> > In some early attempts to implement the blk-ctrl driver, there was an
-> > attempt to enable a reset controller, but it caused some hanging and
-> > issues with suspend-resume due to chicken-egg issues where some items
-> > were coming up in the wrong order.  I think the decision was made to
-> > make the resets part of the power domain so it's very clear that the
-> > order of operations.  Lucas might be able to elaborate more on this.
->
-> I think supporting via phy driver make sense to me since this resent
-> is DPHY specific and nothing related to blk-ctrl.
+On 20/11/2021 17:03, Adam Ford wrote:
+> On Sat, Nov 6, 2021 at 1:38 PM Adam Ford <aford173@gmail.com> wrote:
+>>
+>> The i.MX8M Mini has a similar implementation of the Hantro G1 and
+>> G2 decoders, but the Mini uses the vpu-blk-ctrl for handling the
+>> VPU resets through the power domain system.  As such, there are
+>> functions present in the 8MQ that are not applicable to the Mini
+>> which requires the driver to have a different compatible flags.
+>>
+> + Nicolas Dufresne
+> 
+> From what I can tell, the implementation between 8MQ and 8MM for the
+> G2 is basically the same with the only be difference being the
+> power-domain controller handling the vpu-blk-ctrl stuff in the Mini.
+> It doesn't hang, so I don't think the power-domain is a problem, but
+> the G2 throws some splat when v4l2-compliance is invoked.
+> 
+> # v4l2-compliance -d1
+> v4l2-compliance SHA: not available
 
-I would disagree that isn't not blk-ctrl.  The blk-ctrl controls the
-reset lines for the CSI and enables clocks.  The additional register
-does the same thing to the MIPI CSI and DSI.  The imx7-mipi-csis
-driver configures the dphy already, but this reset bit is not part of
-its IP block.  It seems weird to me that a phy driver would reference
-a phy driver.
+That indicates that you did not compile v4l2-compliance from the git repo.
 
->
-> >
-> > If bits 16 and 17 can act independently and bit 16 only impacts the
-> > CSI  and doesn't require bit 17, it seems reasonable to me to have the
-> > power-domain part of  the CSI, since this would only be enabled when
-> > the CSI is active.  The power domain is idled when the CSI is idled
-> > which would effectively place the phy in and out of reset only
-> > depending on the state of the CSI.  I am guessing this reset bit
-> > should be assigned to DISPBLK_PD_MIPI_CSI and not
-> > DISPBLK_PD_CSI_BRIDGE, but I can run some more tests.
-> >
-> > AFAIK, there is no phy driver for the CSI like there is the DSI, so
-> > adding that would require additional work to the CSI driver to work
-> > around this quirk.  We don't have an acceptable DSI driver yet, so I'd
-> > like to push a V3 with just the corresponding bit enabled for MIPI_CSI
-> > after some testing.  FWICT, NXP set both bits 16 and 17 in their ATF
-> > gpc code, and it never gets cleared, so I think having the bit set and
-> > cleared on demand is an improvement.
->
-> How about using the previous one that Marek sent. Add it via CSI
-> pipeline and i think it would directly.
+Please do that, that way I know you are using the latest compliance test.
 
-That driver specifically addresses the DSI phy and bringing it out of
-reset is just one small part of what that driver does.  I don't think
-adding CSI functionality to it would be appropriate for that driver as
-they are separate IP blocks.
+git clone git://linuxtv.org/v4l-utils.git
+cd v4l-utils
+./bootstrap.sh
+./configure
+make
+sudo make install
 
-If people don't want the blk-ctl to control this bit, I would advocate
-we should do a separate reset controller to be referenced byt the
-mipi-csis driver, but that was proposed before and declined.  Since
-blt-ctrl already is pulling seemingly unrelated IP blocks by
-controlling their clocks and resets.  The fact that NXP included it in
-their ATF power-domain controller tells me they considered it related
-to power domains and/or resets and not an explicit phy driver.
 
-adam
 
->
-> https://www.spinics.net/lists/devicetree/msg381691.html
->
-> Jagan.
+> , 64 bits, 64-bit time_t
+> 
+> Compliance test for hantro-vpu device /dev/video1:
+> 
+> Driver Info:
+> Driver name      : hantro-vpu
+> Card type        : nxp,imx8mm-vpu-g2-dec
+> Bus info         : platform: hantro-vpu
+> 
+> Driver v[   30.136983] ------------[ cut here ]------------
+> [   30.142038] WARNING: CPU: 3 PID: 534 at mm/page_alloc.c:5344
+> __alloc_pages+0x5b4/0xbe0
+
+Hmm:
+
+        if (unlikely(order >= MAX_ORDER)) {
+                WARN_ON_ONCE(!(gfp & __GFP_NOWARN));
+                return NULL;
+        }
+
+video needs loads of memory, so if MAX_ORDER is too low it might hit this.
+
+It's tied to kernel config option FORCE_MAX_ZONEORDER.
+
+The hantro driver uses vb2_dma_contig_memops, so the memory has to be physically
+contiguous. That does indeed typically require larger MAX_ORDER values.
+
+Regards,
+
+	Hans
+
+
+> [   30.149971] Modules linked in: 8021q garp mrp stp llc af_alg
+> caam_jr caamhash_desc caamalg_desc crypto_engine rng_core authenc
+> libdes crct10dif_ce snd_soc_fsl_asoc_card snd_soc_imx_audmux
+> snd_soc_simple_card_utils fsl_imx8_ddr_perf imx8m_ddrc hantro_vpu(C)
+> v4l2_h264 brcmfmac v4l2_mem2mem videobuf2_vmalloc brcmutil
+> videobuf2_dma_contig cfg80211 videobuf2_memops videobuf2_v4l2
+> videobuf2_common snd_soc_wm8962 videodev hci_uart mc etnaviv gpu_sched
+> btqca btbcm caam rtc_pcf85363 clk_bd718x7 at24 spi_imx spi_bitbang
+> rtc_snvs error snvs_pwrkey snd_soc_fsl_sai imx_pcm_dma imx8mm_thermal
+> imx_cpufreq_dt bluetooth ecdh_generic ecc rfkill fuse drm ipv6
+> [   30.206845] CPU: 3 PID: 534 Comm: v4l2-compliance Tainted: G
+>  C        5.16.0-rc1-00292-gb166e5dc4755-dirty #19
+> [   30.217544] Hardware name: Beacon EmbeddedWorks i.MX8M Mini
+> Development Kit (DT)
+> [   30.224940] pstate: 20000005 (nzCv daif -PAN -UAO -TCO -DIT -SSBS BTYPE=--)
+> [   30.231904] pc : __alloc_pages+0x5b4/0xbe0
+> [   30.236007] lr : __dma_direct_alloc_pages+0x17c/0x1e0
+> [   30.241065] sp : ffff80001265b810
+> [   30.244379] x29: ffff80001265b810 x28: 0000000000000034 x27: ffff00000b9ec220
+> [   30.251523] x26: ffff00000038d810 x25: 0000000000000000 x24: ffff00000038d810
+> [   30.258668] x23: ffff80001010c52c x22: ffff00000038d810 x21: 00000000ffffffff
+> [   30.265813] x20: 0000000000000cc1 x19: 0000000000000000 x18: 0000000000000000
+> [   30.272960] x17: 0000000000000000 x16: 0000000000000000 x15: 0000000000000000
+> [   30.280101] x14: 0000000000000001 x13: 0000000000000000 x12: 0000000000000000
+> ersion   : 5.16.0
+> Capabilities [   30.287247] x11: ffff80001231d000 x10:
+> ffff00000b9ec33a x9 : ffff00000b9ec32a
+> [   30.297242] x8 : 0000000000000000 x7 : 0000000000000000 x6 : 0000000000000cc0
+> [   30.304385] x5 : 00000000bfffffff x4 : ffff00000a72f000 x3 : 0000000000000000
+> [   30.311529] x2 : 0000000000000000 x1 : 0000000000000001 x0 : 0000000000000cc1
+> [   30.318676] Call trace:
+> [   30.321124]  __alloc_pages+0x5b4/0xbe0
+> [   30.324880]  __dma_direct_alloc_pages+0x17c/0x1e0
+> [   30.329588]  dma_direct_alloc+0x70/0x310
+> [   30.333514]  dma_alloc_attrs+0x7c/0xe4
+> [   30.337266]  hantro_hevc_get_ref_buf+0x15c/0x184 [hantro_vpu]
+> [   30.343038]  hantro_g2_hevc_dec_run+0x3b8/0x1910 [hantro_vpu]
+> [   30.348805]  device_run+0xac/0x110 [hantro_vpu]
+> [   30.353354]  v4l2_m2m_try_run+0x84/0x134 [v4l2_mem2mem]
+> [   30.358603]  v4l2_m2m_ioctl_streamon+0x84/0xa0 [v4l2_mem2mem]
+> [   30.364368]  v4l_streamon+0x28/0x34 [videodev]
+> [   30.368874]  __video_do_ioctl+0x178/0x3dc [videodev]
+> [   30.373889]  video_usercopy+0x368/0x6dc [videodev]
+> [   30.378734]  video_ioctl2+0x1c/0x30 [videodev]
+> [   30.383230]  v4l2_ioctl+0x44/0x64 [videodev]
+> [   30.387554]  __arm64_sys_ioctl+0xac/0xf0
+> [   30.391482]  invoke_syscall+0x48/0x114
+> [   30.395238]  el0_svc_common.constprop.0+0xd4/0xfc
+> [   30.399947]  do_el0_svc+0x2c/0x94
+> [   30.403264]  el0_svc+0x28/0x80
+> [   30.406327]  el0t_64_sync_handler+0xa8/0x130
+> [   30.410603]  el0t_64_sync+0x1a0/0x1a4
+> [   30.414272] ---[ end trace 878112336a378214 ]---
+> 
+> I was hoping someone might have some suggestions on something to try..
+> 
+> thanks,
+> 
+> adam
+>> Signed-off-by: Adam Ford <aford173@gmail.com>
+>> ---
+>>  drivers/staging/media/hantro/hantro_drv.c   |  2 +
+>>  drivers/staging/media/hantro/hantro_hw.h    |  2 +
+>>  drivers/staging/media/hantro/imx8m_vpu_hw.c | 60 +++++++++++++++++++++
+>>  3 files changed, 64 insertions(+)
+>>
+>> diff --git a/drivers/staging/media/hantro/hantro_drv.c b/drivers/staging/media/hantro/hantro_drv.c
+>> index fb82b9297a2b..2aa1c520be50 100644
+>> --- a/drivers/staging/media/hantro/hantro_drv.c
+>> +++ b/drivers/staging/media/hantro/hantro_drv.c
+>> @@ -592,6 +592,8 @@ static const struct of_device_id of_hantro_match[] = {
+>>         { .compatible = "rockchip,rk3399-vpu", .data = &rk3399_vpu_variant, },
+>>  #endif
+>>  #ifdef CONFIG_VIDEO_HANTRO_IMX8M
+>> +       { .compatible = "nxp,imx8mm-vpu", .data = &imx8mm_vpu_variant, },
+>> +       { .compatible = "nxp,imx8mm-vpu-g2", .data = &imx8mm_vpu_g2_variant },
+>>         { .compatible = "nxp,imx8mq-vpu", .data = &imx8mq_vpu_variant, },
+>>         { .compatible = "nxp,imx8mq-vpu-g2", .data = &imx8mq_vpu_g2_variant },
+>>  #endif
+>> diff --git a/drivers/staging/media/hantro/hantro_hw.h b/drivers/staging/media/hantro/hantro_hw.h
+>> index 267a6d33a47b..ae7c3fff760c 100644
+>> --- a/drivers/staging/media/hantro/hantro_hw.h
+>> +++ b/drivers/staging/media/hantro/hantro_hw.h
+>> @@ -211,6 +211,8 @@ enum hantro_enc_fmt {
+>>         ROCKCHIP_VPU_ENC_FMT_UYVY422 = 3,
+>>  };
+>>
+>> +extern const struct hantro_variant imx8mm_vpu_g2_variant;
+>> +extern const struct hantro_variant imx8mm_vpu_variant;
+>>  extern const struct hantro_variant imx8mq_vpu_g2_variant;
+>>  extern const struct hantro_variant imx8mq_vpu_variant;
+>>  extern const struct hantro_variant px30_vpu_variant;
+>> diff --git a/drivers/staging/media/hantro/imx8m_vpu_hw.c b/drivers/staging/media/hantro/imx8m_vpu_hw.c
+>> index ea919bfb9891..c819609d14d1 100644
+>> --- a/drivers/staging/media/hantro/imx8m_vpu_hw.c
+>> +++ b/drivers/staging/media/hantro/imx8m_vpu_hw.c
+>> @@ -242,6 +242,32 @@ static const struct hantro_codec_ops imx8mq_vpu_g2_codec_ops[] = {
+>>         },
+>>  };
+>>
+>> +static const struct hantro_codec_ops imx8mm_vpu_codec_ops[] = {
+>> +       [HANTRO_MODE_MPEG2_DEC] = {
+>> +               .run = hantro_g1_mpeg2_dec_run,
+>> +               .init = hantro_mpeg2_dec_init,
+>> +               .exit = hantro_mpeg2_dec_exit,
+>> +       },
+>> +       [HANTRO_MODE_VP8_DEC] = {
+>> +               .run = hantro_g1_vp8_dec_run,
+>> +               .init = hantro_vp8_dec_init,
+>> +               .exit = hantro_vp8_dec_exit,
+>> +       },
+>> +       [HANTRO_MODE_H264_DEC] = {
+>> +               .run = hantro_g1_h264_dec_run,
+>> +               .init = hantro_h264_dec_init,
+>> +               .exit = hantro_h264_dec_exit,
+>> +       },
+>> +};
+>> +
+>> +static const struct hantro_codec_ops imx8mm_vpu_g2_codec_ops[] = {
+>> +       [HANTRO_MODE_HEVC_DEC] = {
+>> +               .run = hantro_g2_hevc_dec_run,
+>> +               .init = hantro_hevc_dec_init,
+>> +               .exit = hantro_hevc_dec_exit,
+>> +       },
+>> +};
+>> +
+>>  /*
+>>   * VPU variants.
+>>   */
+>> @@ -257,6 +283,11 @@ static const struct hantro_irq imx8mq_g2_irqs[] = {
+>>  static const char * const imx8mq_clk_names[] = { "g1", "g2", "bus" };
+>>  static const char * const imx8mq_reg_names[] = { "g1", "g2", "ctrl" };
+>>
+>> +static const char * const imx8mm_g1_clk_names[] = { "g1", "bus" };
+>> +static const char * const imx8mm_g1_reg_names[] = { "g1" };
+>> +static const char * const imx8mm_g2_clk_names[] = { "g2", "bus" };
+>> +static const char * const imx8mm_g2_reg_names[] = { "g2" };
+>> +
+>>  const struct hantro_variant imx8mq_vpu_variant = {
+>>         .dec_fmts = imx8m_vpu_dec_fmts,
+>>         .num_dec_fmts = ARRAY_SIZE(imx8m_vpu_dec_fmts),
+>> @@ -289,3 +320,32 @@ const struct hantro_variant imx8mq_vpu_g2_variant = {
+>>         .clk_names = imx8mq_clk_names,
+>>         .num_clocks = ARRAY_SIZE(imx8mq_clk_names),
+>>  };
+>> +
+>> +const struct hantro_variant imx8mm_vpu_variant = {
+>> +       .dec_fmts = imx8m_vpu_dec_fmts,
+>> +       .num_dec_fmts = ARRAY_SIZE(imx8m_vpu_dec_fmts),
+>> +       .postproc_fmts = imx8m_vpu_postproc_fmts,
+>> +       .num_postproc_fmts = ARRAY_SIZE(imx8m_vpu_postproc_fmts),
+>> +       .postproc_regs = &hantro_g1_postproc_regs,
+>> +       .codec = HANTRO_MPEG2_DECODER | HANTRO_VP8_DECODER |
+>> +                HANTRO_H264_DECODER,
+>> +       .codec_ops = imx8mm_vpu_codec_ops,
+>> +       .irqs = imx8mq_irqs,
+>> +       .num_irqs = ARRAY_SIZE(imx8mq_irqs),
+>> +       .clk_names = imx8mm_g1_clk_names,
+>> +       .num_clocks = ARRAY_SIZE(imx8mm_g1_clk_names),
+>> +       .reg_names = imx8mm_g1_reg_names,
+>> +       .num_regs = ARRAY_SIZE(imx8mm_g1_reg_names)
+>> +};
+>> +
+>> +const struct hantro_variant imx8mm_vpu_g2_variant = {
+>> +       .dec_offset = 0x0,
+>> +       .dec_fmts = imx8m_vpu_g2_dec_fmts,
+>> +       .num_dec_fmts = ARRAY_SIZE(imx8m_vpu_g2_dec_fmts),
+>> +       .codec = HANTRO_HEVC_DECODER,
+>> +       .codec_ops = imx8mm_vpu_g2_codec_ops,
+>> +       .irqs = imx8mq_g2_irqs,
+>> +       .num_irqs = ARRAY_SIZE(imx8mq_g2_irqs),
+>> +       .clk_names = imx8mm_g2_clk_names,
+>> +       .num_clocks = ARRAY_SIZE(imx8mm_g2_reg_names),
+>> +};
+>> --
+>> 2.32.0
+>>
+
