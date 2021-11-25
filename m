@@ -2,78 +2,90 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A555845D8D0
-	for <lists+linux-media@lfdr.de>; Thu, 25 Nov 2021 12:07:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0CF9745D8F3
+	for <lists+linux-media@lfdr.de>; Thu, 25 Nov 2021 12:14:07 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231962AbhKYLKj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 25 Nov 2021 06:10:39 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41302 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231719AbhKYLJJ (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Thu, 25 Nov 2021 06:09:09 -0500
-Received: from lb2-smtp-cloud9.xs4all.net (lb2-smtp-cloud9.xs4all.net [IPv6:2001:888:0:108::2c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 283E9C061785
-        for <linux-media@vger.kernel.org>; Thu, 25 Nov 2021 03:03:06 -0800 (PST)
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud9.xs4all.net with ESMTPA
-        id qCWsm6kUz1HGJqCWvm374a; Thu, 25 Nov 2021 12:03:05 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1637838185; bh=z9z5WpJ8NDCugZfZJVpYJnHu5/ZAmSEbb+fM1/jYLRA=;
-        h=To:From:Subject:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=MwcJszSxWzduiP2BAeZTJFIOqFb0o/yv7pb2TSOB8p7aUSeiNdDCLJmIuWwpzSPjJ
-         k6KuX/i+pb+r4ulYEZkLH+CB7QHOcR6qOUmzGBXPLEUeX/YuvraQ6AL//bZs+nfmpS
-         HSRm5IA1s9aTBTh2RLEkOimqtuQH6vKXYyz7uCf4ZC+ns1sdUrh6B7xbKtrIMSYLpJ
-         jgtUGJJRjB7KuMUSxjf8ftWzTAvjefly7QpP+UzXmI5y21hAR+ZkwW33ErdtTOx33S
-         VmeCknjRzq0KPfuekzDGPXsfmT9CKV3i89fccsZyxZ4YZ178wssBxNXqgo6v0ObVIN
-         HuXCYSH4txR/g==
-To:     Linux Media Mailing List <linux-media@vger.kernel.org>
-Cc:     Kyle Copperfield <kmcopper@danwin1210.me>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        Dan Carpenter <dan.carpenter@oracle.com>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Subject: [GIT FIXES FOR v5.16] rockchip/rga: do proper error checking in probe
-Message-ID: <303b75c3-0b0e-b7e7-d506-609c1e4e2654@xs4all.nl>
-Date:   Thu, 25 Nov 2021 12:03:01 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Firefox/78.0 Thunderbird/78.14.0
+        id S234205AbhKYLRQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 25 Nov 2021 06:17:16 -0500
+Received: from www.linuxtv.org ([130.149.80.248]:60334 "EHLO www.linuxtv.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S234292AbhKYLPP (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 25 Nov 2021 06:15:15 -0500
+Received: from builder.linuxtv.org ([140.211.167.10] helo=slave0)
+        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1mqCfb-00Am5P-A4; Thu, 25 Nov 2021 11:12:03 +0000
+Received: from ip6-localhost ([::1] helo=localhost.localdomain)
+        by slave0 with esmtp (Exim 4.94.2)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1mqCfZ-005afJ-5J; Thu, 25 Nov 2021 11:12:01 +0000
+From:   Jenkins <jenkins@linuxtv.org>
+To:     mchehab+samsung@kernel.org, linux-media@vger.kernel.org
+Cc:     builder@linuxtv.org
+Subject: Re: [GIT PULL FOR v5.17] Various fixes and enhancements (#78799)
+Date:   Thu, 25 Nov 2021 11:12:00 +0000
+Message-Id: <20211125111200.1332535-1-jenkins@linuxtv.org>
+X-Mailer: git-send-email 2.30.2
+In-Reply-To: <ffd5ab45-3295-2051-e2ce-5395507de975@xs4all.nl>
+References: 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4xfFslT4wsg6dF0RZW+5cMq1Cz9o6fSW1JvuowEE0+dFnhbOA0xTZN31CxYlLxejrPBvA9AmNNFz/QGTox0Nfhf9wFYfcBUjevHs+YIOlmjMzJ4cS5088n
- lVZm/hxOYhj0IhwyCQIcKi5ttvG7xP2Q1APtRWXpm8+rooo1Cxb0DmZEOQeLw1cntxJh0kJeZH68fGJBsIaNcm7iGadG7+QCyjkJYguapMyI8RClh+EG+pM8
- 0eT4uwG0M4cNFtuEDuPr9ftE4oImbmBMUSIcDIM327OpvCuD4e5fM98BBYYaDzmPqQSYNbKrWZKiiN1Zy9bGsg==
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This driver can no longer be probed due to this bug. Definitely qualifies as a
-fix for 5.16 :-)
+From: builder@linuxtv.org
 
-Regards,
+Pull request: https://patchwork.linuxtv.org/project/linux-media/patch/ffd5ab45-3295-2051-e2ce-5395507de975@xs4all.nl/
+Build log: https://builder.linuxtv.org/job/patchwork/159887/
+Build time: 00:28:30
+Link: https://lore.kernel.org/linux-media/ffd5ab45-3295-2051-e2ce-5395507de975@xs4all.nl
 
-	Hans
+gpg: Signature made Thu 25 Nov 2021 10:34:09 AM UTC
+gpg:                using RSA key AAA7FFBA4D2D77EF4CAEA1421326E0CD23ABDCE5
+gpg: Good signature from "Hans Verkuil <hverkuil-cisco@xs4all.nl>" [unknown]
+gpg:                 aka "Hans Verkuil <hverkuil@xs4all.nl>" [unknown]
+gpg: Note: This key has expired!
+Primary key fingerprint: 052C DE7B C215 053B 689F  1BCA BD2D 6148 6614 3B4C
+     Subkey fingerprint: AAA7 FFBA 4D2D 77EF 4CAE  A142 1326 E0CD 23AB DCE5
 
-The following changes since commit b1b447e2f3e1ec0c3e9716f4f74d056461f69ab3:
+Summary: got 3/34 patches with issues, being 1 at build time, plus one error when buinding PDF document
 
-  media: mxl5005s: drop some dead code (2021-11-24 20:06:42 +0100)
+Error/warnings:
 
-are available in the Git repository at:
+patches/0001-media-rcar-csi2-Correct-the-selection-of-hsfreqrange.patch:
 
-  git://linuxtv.org/hverkuil/media_tree.git tags/br-v5.16b
+    allyesconfig: return code #0:
+	../scripts/genksyms/parse.y: warning: 9 shift/reduce conflicts [-Wconflicts-sr]
+	../scripts/genksyms/parse.y: warning: 5 reduce/reduce conflicts [-Wconflicts-rr]
+	../scripts/genksyms/parse.y: note: rerun with option '-Wcounterexamples' to generate conflict counterexamples
 
-for you to fetch changes up to 65d3c0d2033f30872ab2f5191f3d407e53c8e977:
+    allyesconfig: return code #0:
+	../drivers/media/cec/core/cec-adap.c: ../drivers/media/cec/core/cec-adap.c:926 cec_transmit_msg_fh() warn: '&data->list' not removed from list
+	../drivers/media/rc/meson-ir-tx.c:22: warning: expecting prototype for meson(). Prototype was for DEVICE_NAME() instead
+	SMATCH:../drivers/media/usb/siano/smsusb.c ../drivers/media/usb/siano/smsusb.c:53:38: :warning: array of flexible structures
+	SPARSE:../drivers/media/usb/siano/smsusb.c ../drivers/media/usb/siano/smsusb.c:53:38: warning: array of flexible structures
+	../drivers/media/test-drivers/vivid/vivid-core.c: ../drivers/media/test-drivers/vivid/vivid-core.c:1981 vivid_create_instance() parse error: turning off implications after 60 seconds
+	../drivers/media/usb/pvrusb2/pvrusb2-encoder.c: ../drivers/media/usb/pvrusb2/pvrusb2-encoder.c:288 pvr2_encoder_cmd() warn: inconsistent indenting
+	../drivers/media/usb/pvrusb2/pvrusb2-hdw.c: ../drivers/media/usb/pvrusb2/pvrusb2-hdw.c:1730 pvr2_hdw_set_streaming() warn: inconsistent indenting
+	../drivers/media/usb/pvrusb2/pvrusb2-hdw.c: ../drivers/media/usb/pvrusb2/pvrusb2-hdw.c:3461 pvr2_hdw_cpufw_set_enabled() warn: inconsistent indenting
+	../drivers/media/usb/pvrusb2/pvrusb2-hdw.c: ../drivers/media/usb/pvrusb2/pvrusb2-hdw.c:3501 pvr2_hdw_cpufw_get() warn: inconsistent indenting
+	../drivers/media/platform/qcom/venus/helpers.c: ../drivers/media/platform/qcom/venus/helpers.c:658 venus_helper_get_bufreq() error: we previously assumed 'req' could be null (see line 654)
+	../drivers/media/usb/em28xx/em28xx-video.c: ../drivers/media/usb/em28xx/em28xx-video.c:2888 em28xx_v4l2_init() parse error: turning off implications after 60 seconds
 
-  media: rockchip/rga: do proper error checking in probe (2021-11-25 11:36:25 +0100)
+patches/0020-media-staging-tegra-vde-Support-reference-picture-ma.patch:
 
-----------------------------------------------------------------
-Tag branch
+   checkpatch.pl:
+	$ cat patches/0020-media-staging-tegra-vde-Support-reference-picture-ma.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
+	-:11: WARNING: Possible unwrapped commit description (prefer a maximum 75 chars per line)
 
-----------------------------------------------------------------
-Kyle Copperfield (1):
-      media: rockchip/rga: do proper error checking in probe
+patches/0025-media-mtk-vcodec-call-v4l2_m2m_ctx_release-first-whe.patch:
 
- drivers/media/platform/rockchip/rga/rga.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+   checkpatch.pl:
+	$ cat patches/0025-media-mtk-vcodec-call-v4l2_m2m_ctx_release-first-whe.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
+	-:11: WARNING: Possible unwrapped commit description (prefer a maximum 75 chars per line)
+
+
+Error #512 when building PDF docs
+
