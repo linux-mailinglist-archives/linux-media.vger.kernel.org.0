@@ -2,106 +2,156 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6A74245E026
-	for <lists+linux-media@lfdr.de>; Thu, 25 Nov 2021 19:01:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id F32EA45E0F1
+	for <lists+linux-media@lfdr.de>; Thu, 25 Nov 2021 20:24:35 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239602AbhKYSEo (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 25 Nov 2021 13:04:44 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49228 "EHLO
+        id S1350020AbhKYT1p (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 25 Nov 2021 14:27:45 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39900 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235256AbhKYSCn (ORCPT
+        with ESMTP id S229898AbhKYTZp (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 25 Nov 2021 13:02:43 -0500
-Received: from mail-io1-xd32.google.com (mail-io1-xd32.google.com [IPv6:2607:f8b0:4864:20::d32])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AFBF6C0613ED
-        for <linux-media@vger.kernel.org>; Thu, 25 Nov 2021 09:53:34 -0800 (PST)
-Received: by mail-io1-xd32.google.com with SMTP id y16so8447502ioc.8
-        for <linux-media@vger.kernel.org>; Thu, 25 Nov 2021 09:53:34 -0800 (PST)
+        Thu, 25 Nov 2021 14:25:45 -0500
+Received: from mail-ed1-x532.google.com (mail-ed1-x532.google.com [IPv6:2a00:1450:4864:20::532])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 52910C061758;
+        Thu, 25 Nov 2021 11:21:45 -0800 (PST)
+Received: by mail-ed1-x532.google.com with SMTP id o20so29223969eds.10;
+        Thu, 25 Nov 2021 11:21:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=mime-version:sender:from:date:message-id:subject:to;
-        bh=hxpIxgszqLxUoL2VSzhFmmcZyWKf58JJNFT+Q7Zm/4E=;
-        b=dP4LmYdOe5rzzEUEfyYqn9NLQDLdKHoRbrDV61W+Z17ZQFH2kXQoEIxp9uVO1T4lsC
-         K2VHMr0ss4SwGuz7KeU83XKMxN1zuGhTBY+B/XPZLucqc501Vt4x9FiA+kiwMenSWC+G
-         jzvN2I6DB9KJXWxdNBOJzmQedfJjfV24uIUw4S366w1Bo3jWY2lgpOxTnojb1XXck81v
-         UQoH82HXsvGXmjsjqkhilgcjPYoyv0lRtYxWyc5yG84ZkbPoSykYeiVjOMn65h3v/d3o
-         7S9qEL5KDRYYOVypAXXGyw2PkirgZf6b3F4gvgKWfItQzq4AkTzGAwOEMeaLiIhAILAQ
-         3Sfg==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=/Vc3FfetVxIdpRbBGRnWlkdOorbqQWmi/1JlvobARac=;
+        b=kSCD7fAFOjTdgiLnjLYynUIfaux94u8yqksuzZVUebj/D10Hp3wTDktIjqQV59Di+5
+         m7hmzvMRWj2bM7ffFwopd6cIf81D7oXFRj7Uhf1H6USYExNgAvQixhwCe2a2U5CfLl5Z
+         vNXswG2lgBlRCX6sBrDx0MbUPDf2+0LwcuuHpMPrES9MuqCL1yv/5OWDm1tUrJIeaa/T
+         GXijeTf3n119pGg45yxgz0nHDtZWaP7xvnBfeoeJ/Ul5edKBpIN+6CDc6K+66o87/2FO
+         xhi2xwo8qnDYWn4GCbTMujIrOumUOBcrSD6481anYBkTnyhzhZS17dymUiznzOTHGAeD
+         JtkQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:sender:from:date:message-id:subject
-         :to;
-        bh=hxpIxgszqLxUoL2VSzhFmmcZyWKf58JJNFT+Q7Zm/4E=;
-        b=vOJHGKxt5vOMu3EUYjpuBCTkrhsP2llnWPzaUaUwwrdrhvTDeL5l6zzIzKM7hq3TqX
-         Kak/37leXqpOIDBSLuK+ifitZioref1oVWtCTDLo74JFbtrLU0xmWsobp6OxryoKDwZX
-         RR2Lk4rwPawnRXpuMNipHnnQJDOWcW+CqodCpGp26/C4Ud77Uma0cQ9hygEBSRnTcdSI
-         vOYXz2SbOPreVcanN5IjPxQjvf72wMaVisx5+8C/V8doYX4jjCJjsBmvSe+1hXB/4Rwl
-         ATew7RrfWhtKaNcP0Cu3H99cqMYee/yWVVWWesrObaoxR1HUr6aJ8lTKc/AI0z9F+m71
-         6+wg==
-X-Gm-Message-State: AOAM533PRtwYUyVcGwobDUjBjnHOKrtDbxPYqHCRh8I0ZkQQ5OvK2oLs
-        G9A/WL75iynTwRUEbIWDn5pgTADRPbyc4A3Bpc0=
-X-Google-Smtp-Source: ABdhPJyf6parg7QYaB6Je+HVK881wdcAKFwBtg4xhpw3DWMlxv94gdRORe8cVdJaij+r43AuxOHS7iLMokyXDGxIjLI=
-X-Received: by 2002:a5e:8701:: with SMTP id y1mr25896403ioj.80.1637862814100;
- Thu, 25 Nov 2021 09:53:34 -0800 (PST)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=/Vc3FfetVxIdpRbBGRnWlkdOorbqQWmi/1JlvobARac=;
+        b=cXCzDnB00gTNi3HnSxvGZ4gE+GdSyh1onAQOTjVftNBmxDHXO16oIcCn1dukb8isM9
+         BeK8xK0FaZ1i8uhQkDgCYr3q9TLYN+ZNbgJp9V7KGTVQHMqVgcl459UjHb6nkelRncxp
+         uWUWFC1r5PWxEVmweLdV1OTl02sICvgbTQ339UJnFmU8ZvSyyj6sPXIF5KOOtbndFKRN
+         syl+jeCbOvvzKYrs7f7x8M67kDvAd9+ALkUx1ES5zIycZvx2WH0nfOaPwEmap4Hpotxm
+         UJXfhqP8UUznCZGJt/GJdMy4xVNJgdEaat5CWzvdRfapYj/E43kvZwglU1T3jnvwIafT
+         kNFg==
+X-Gm-Message-State: AOAM531R9DEh2hLm326XqYUa075Z1kP28+1PbVK+QAZIRtzBMvlntygh
+        Kgne/4xcnBFkVd061SjqtA9ed1b6MloxTQ==
+X-Google-Smtp-Source: ABdhPJxsCCabBHBJ2oAC81Nu1JW2uYRVapJ0pqZTRte9s2XejGZRR2ce+rzmuo3a2NTAx3XP5MAtdw==
+X-Received: by 2002:a17:907:7e8e:: with SMTP id qb14mr33225652ejc.562.1637868103865;
+        Thu, 25 Nov 2021 11:21:43 -0800 (PST)
+Received: from jernej-laptop.localnet (89-212-178-211.dynamic.t-2.net. [89.212.178.211])
+        by smtp.gmail.com with ESMTPSA id i8sm2983304edc.12.2021.11.25.11.21.42
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 25 Nov 2021 11:21:43 -0800 (PST)
+From:   Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
+To:     Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
+Cc:     linux-media@vger.kernel.org, nicolas.dufresne@collabora.com,
+        mchehab@kernel.org, robh+dt@kernel.org, mripard@kernel.org,
+        wens@csie.org, p.zabel@pengutronix.de, andrzej.p@collabora.com,
+        gregkh@linuxfoundation.org, devicetree@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+        linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
+Subject: Re: [PATCH 4/7] media: hantro: move postproc enablement for old cores
+Date:   Thu, 25 Nov 2021 20:21:41 +0100
+Message-ID: <4693726.31r3eYUQgx@jernej-laptop>
+In-Reply-To: <YZ962CvUbKoiIGyZ@eze-laptop>
+References: <20211122184702.768341-1-jernej.skrabec@gmail.com> <20211122184702.768341-5-jernej.skrabec@gmail.com> <YZ962CvUbKoiIGyZ@eze-laptop>
 MIME-Version: 1.0
-Sender: okekebetty9@gmail.com
-Received: by 2002:a05:6602:1541:0:0:0:0 with HTTP; Thu, 25 Nov 2021 09:53:33
- -0800 (PST)
-From:   Alicia Collins <aliciacollins634@gmail.com>
-Date:   Thu, 25 Nov 2021 09:53:33 -0800
-X-Google-Sender-Auth: 98bnMaT6WVIJsI3QwUoY8dQpRJg
-Message-ID: <CAESBVMsv8Rpp+VpUbx4=Zo8t_ZHw9jrDddiZiCXj-FP4F6=ixA@mail.gmail.com>
-Subject: Hello
-To:     undisclosed-recipients:;
+Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hello my Dear friend,
+Hi Ezequiel,
 
-With due respect to your person and much sincerity of purpose I wish
-to write to you today, seeking for your urgent assistance in this
-humanitarian social investment project to be establish in your country
-for the mutual benefit of the orphans and the less privileged ones,
-haven't known each other or met before, I know that everything is
-controlled by God as there is nothing impossible to him. I believe
-that you and I can cooperate together in the service of the Lord,
-please open your heart to assist me in carrying out this benevolent
-project in your country/position. I am Mrs Alicia Collins, a dying
-widow hospitalized undergoing treatment for brain tumor disease, I
-believe that you will not expose or betray this trust and confidence
-that I am about to entrust to you for the mutual benefit of the
-orphans and the less privileged ones. My late husband made a
-substantial deposit with the Bank which I have decided to hand over
-and entrust the sum of ($ 12,500,000.00 Dollars) in the account under
-your custody for you to invest it into any social charitable project
-in your location or your country. Based on my present health status I
-am permanently indisposed to handle finances or any financial related
-project.
+Dne =C4=8Detrtek, 25. november 2021 ob 13:00:24 CET je Ezequiel Garcia napi=
+sal(a):
+> Hi Jernej,
+>=20
+> On Mon, Nov 22, 2021 at 07:46:59PM +0100, Jernej Skrabec wrote:
+> > Older G2 cores, like that in Allwinner H6, seem to have issue with
+> > latching postproc register values if this is first thing done in job.
+> > Moving that to the end solves the issue.
+>=20
+> Any idea what exact register should be written before the post-processor
+> is enabled, for H6 to work? Also, which of the PP registers need
+> to be written "at the end"?
 
- This is the reason why I decided to contact you for your support and
-help to stand as my rightful beneficiary and claim the money for
-humanitarian purposes for the mutual benefits of the less privileged
-ones. Because If the money remains unclaimed with the bank after my
-death, those greedy bank executives will place the money as an
-unclaimed Fund and share it for their selfish and worthless ventures.
-However I need your sincerity and ability to carry out this
-transaction and fulfill my final wish in implementing the charitable
-investment project in your country as it requires absolute trust and
-devotion without any failure. Meanwhile It will be my pleasure to
-compensate you with part of the total money as my Investment
-manager/partner for your effort in handling the transaction, while the
-remaining amount shall be invested into any charity project of your
-choice there in your country.
+No, there is too much registers to determine this exactly. Vendor library=20
+actually stores register values in buffer and write them all at once in=20
+increasing order. This is probably the reason why HDL engineers missed this=
+=20
+issue...
 
-Your early response will be appreciated to enable me to send you
-further details and the bank contact details where the fund has been
-deposited for you to contact the Bank for immediate release and
-transfer of the fund into your bank account as my rightful
-beneficiary.
-Thank you very much for your kind consideration and I wish you well
-and God enlighten you in this social humanitarian project.
+>=20
+> > Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+> > ---
+> >=20
+> >  drivers/staging/media/hantro/hantro_drv.c | 9 ++++++++-
+> >  1 file changed, 8 insertions(+), 1 deletion(-)
+> >=20
+> > diff --git a/drivers/staging/media/hantro/hantro_drv.c
+> > b/drivers/staging/media/hantro/hantro_drv.c index
+> > 8c3de31f51b3..530994ab3024 100644
+> > --- a/drivers/staging/media/hantro/hantro_drv.c
+> > +++ b/drivers/staging/media/hantro/hantro_drv.c
+> > @@ -130,7 +130,7 @@ void hantro_start_prepare_run(struct hantro_ctx *ct=
+x)
+> >=20
+> >  	v4l2_ctrl_request_setup(src_buf->vb2_buf.req_obj.req,
+> >  =09
+> >  				&ctx->ctrl_handler);
+> >=20
+> > -	if (!ctx->is_encoder) {
+> > +	if (!ctx->is_encoder && !ctx->dev->variant->legacy_regs) {
+>=20
+> To make this less fragile, do you think it would make sense to
+> have a dedicated quirk flag, something like "legacy_post_proc",
+> instead of overloading the meaning of legacy_regs.
 
-Best regards and God bless you.
-Sincerely Mrs Alicia Collins.
+Sure, it can be done :) But then I suggest "late_post_proc" - it better=20
+describes what it does.
+
+Best regards,
+Jernej
+
+>=20
+> What do you think?
+>=20
+> Thanks,
+> Ezequiel
+>=20
+> >  		if (hantro_needs_postproc(ctx, ctx->vpu_dst_fmt))
+> >  	=09
+> >  			hantro_postproc_enable(ctx);
+> >  	=09
+> >  		else
+> >=20
+> > @@ -142,6 +142,13 @@ void hantro_end_prepare_run(struct hantro_ctx *ctx)
+> >=20
+> >  {
+> > =20
+> >  	struct vb2_v4l2_buffer *src_buf;
+> >=20
+> > +	if (ctx->dev->variant->legacy_regs && !ctx->is_encoder) {
+> > +		if (hantro_needs_postproc(ctx, ctx->vpu_dst_fmt))
+> > +			hantro_postproc_enable(ctx);
+> > +		else
+> > +			hantro_postproc_disable(ctx);
+> > +	}
+> > +
+> >=20
+> >  	src_buf =3D hantro_get_src_buf(ctx);
+> >  	v4l2_ctrl_request_complete(src_buf->vb2_buf.req_obj.req,
+> >  =09
+> >  				   &ctx->ctrl_handler);
+
+
+
+
