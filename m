@@ -2,34 +2,34 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 31BDC45DE57
-	for <lists+linux-media@lfdr.de>; Thu, 25 Nov 2021 17:09:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B197845DE56
+	for <lists+linux-media@lfdr.de>; Thu, 25 Nov 2021 17:09:54 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1356448AbhKYQM5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 25 Nov 2021 11:12:57 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53492 "EHLO
+        id S1356443AbhKYQM4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 25 Nov 2021 11:12:56 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53490 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1349570AbhKYQKz (ORCPT
+        with ESMTP id S1356395AbhKYQKz (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
         Thu, 25 Nov 2021 11:10:55 -0500
 Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EA81BC0619E1;
-        Thu, 25 Nov 2021 07:56:56 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 03818C0619E2;
+        Thu, 25 Nov 2021 07:56:57 -0800 (PST)
 Received: from benjamin-XPS-13-9310.. (unknown [IPv6:2a01:e0a:120:3210:2581:f820:804e:edb9])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
         (Authenticated sender: benjamin.gaignard)
-        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id DD3911F464B5;
-        Thu, 25 Nov 2021 15:56:54 +0000 (GMT)
+        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 5E6B11F464B7;
+        Thu, 25 Nov 2021 15:56:55 +0000 (GMT)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=collabora.com; s=mail;
-        t=1637855815; bh=I6l0ieSYxLXJOwlHwddu1GA3tRwgCsYplMmSEx+E23E=;
+        t=1637855815; bh=WqSalgiIBPgG1EC3Dnqh7PKghzbepDs0AA3GgIyxUxw=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=L7Y7r5klZNI7Kqew3GX5PdJpjYrwR12EgWk8Wb59P05Is7YV/bBsYbxlvtfeU97bj
-         YbSW3ClViwenJIdG4sk+vE4N/VzB+cPlRBxax4gLwE0IgpFtbWFrlleeSFtcLcb5EU
-         ewhDMQolJgzejlq/o7ULVp5HVmEfUNP8z9/rA74npYYbm+aTkgs/vMLQUt0ksOI/Vk
-         afEvpX8S1ba6c+GgBSGGQVwzNL0jrN2arF7ejfwzWJaub+tNqDpTn3LEZ3ScvWmfEz
-         G9IiTAFxMMJgxtikyCaFTk2jk0ddqaydCDKrAzJHm4674sRJqKYhx4gFps+oDIg0Wx
-         famyW2gMt34pQ==
+        b=Hgc654dIc/doptW6M+E79rDcC86pEWBA/xIxWiu7YxW7ArqhMOm4+/LPL/qwNsSDs
+         Mw+gCAf+vEU2bbEURbDqDeTyQl84GkuFuAWR5Vplfy7knkNo/ddlWX8QQEO2X3aSFI
+         9MICWpketUq6LoM3HXmwKlY3pCQ8My5FMySjlOoSMTquQ4z7MwTUsjoZZ3JUUDOIJr
+         jDtxVF6uK5CEl5JxEDm9jXfPtkDwzkBKV2ffd9HJKXrcxMtF2Ex1g5UYb+8oASiOkq
+         oPfsqStQefGbZtpWD/MB1BOCJCBcmpmG+XSb69EFFMhOlSzQXlUpxlsQHzAPTnkHfO
+         l4/dbGkVT1dhw==
 From:   Benjamin Gaignard <benjamin.gaignard@collabora.com>
 To:     mchehab@kernel.org, ezequiel@vanguardiasur.com.ar,
         p.zabel@pengutronix.de, gregkh@linuxfoundation.org,
@@ -38,9 +38,9 @@ Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-arm-kernel@lists.infradead.org,
         linux-staging@lists.linux.dev, kernel@collabora.com,
         Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Subject: [PATCH v3 3/4] media: hantro: Use syscon instead of 'ctrl' register
-Date:   Thu, 25 Nov 2021 16:56:49 +0100
-Message-Id: <20211125155650.630977-4-benjamin.gaignard@collabora.com>
+Subject: [PATCH v3 4/4] arm64: dts: imx8mq: Add node to G2 hardware
+Date:   Thu, 25 Nov 2021 16:56:50 +0100
+Message-Id: <20211125155650.630977-5-benjamin.gaignard@collabora.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20211125155650.630977-1-benjamin.gaignard@collabora.com>
 References: <20211125155650.630977-1-benjamin.gaignard@collabora.com>
@@ -50,145 +50,89 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-In order to be able to share the control hardware block between
-VPUs use a syscon instead a ioremap it in the driver.
-To keep the compatibility with older DT if 'nxp,imx8mq-vpu-ctrl'
-phandle is not found look at 'ctrl' reg-name.
-With the method it becomes useless to provide a list of register
-names so remove it.
+Split the VPU node in two: one for G1 and one for G2 since they are
+different hardware blocks.
+Add syscon for the hardware control block.
+Remove the reg-names property that is useless.
+Each VPU node only needs one interrupt.
+Change G2 assigned clock to match the specification.
+In both nodes all the clocks need to be assigned to make
+sure that the control block will be correctly clocked even if
+only one device node is enabled.
 
 Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Reviewed-by: Philipp Zabel <p.zabel@pengutronix.de>
 
 Please note that the only purpose of this commit is to allow to test
 G2 hardware block for IMX8MQ until a proper solution isuing power domain
 can be found. Do not merge it.
 ---
- drivers/staging/media/hantro/hantro.h       |  5 ++-
- drivers/staging/media/hantro/imx8m_vpu_hw.c | 48 +++++++++++++--------
- 2 files changed, 34 insertions(+), 19 deletions(-)
+ arch/arm64/boot/dts/freescale/imx8mq.dtsi | 43 ++++++++++++++++++-----
+ 1 file changed, 34 insertions(+), 9 deletions(-)
 
-diff --git a/drivers/staging/media/hantro/hantro.h b/drivers/staging/media/hantro/hantro.h
-index 7da23f7f207a..616b5a6854cd 100644
---- a/drivers/staging/media/hantro/hantro.h
-+++ b/drivers/staging/media/hantro/hantro.h
-@@ -13,6 +13,7 @@
- #define HANTRO_H_
+diff --git a/arch/arm64/boot/dts/freescale/imx8mq.dtsi b/arch/arm64/boot/dts/freescale/imx8mq.dtsi
+index 972766b67a15..89d46b1e6aae 100644
+--- a/arch/arm64/boot/dts/freescale/imx8mq.dtsi
++++ b/arch/arm64/boot/dts/freescale/imx8mq.dtsi
+@@ -1432,15 +1432,16 @@ usb3_phy1: usb-phy@382f0040 {
+ 			status = "disabled";
+ 		};
  
- #include <linux/platform_device.h>
-+#include <linux/regmap.h>
- #include <linux/videodev2.h>
- #include <linux/wait.h>
- #include <linux/clk.h>
-@@ -174,7 +175,7 @@ hantro_vdev_to_func(struct video_device *vdev)
-  * @reg_bases:		Mapped addresses of VPU registers.
-  * @enc_base:		Mapped address of VPU encoder register for convenience.
-  * @dec_base:		Mapped address of VPU decoder register for convenience.
-- * @ctrl_base:		Mapped address of VPU control block.
-+ * @ctrl_base:		Regmap of VPU control block.
-  * @vpu_mutex:		Mutex to synchronize V4L2 calls.
-  * @irqlock:		Spinlock to synchronize access to data structures
-  *			shared with interrupt handlers.
-@@ -193,7 +194,7 @@ struct hantro_dev {
- 	void __iomem **reg_bases;
- 	void __iomem *enc_base;
- 	void __iomem *dec_base;
--	void __iomem *ctrl_base;
-+	struct regmap *ctrl_base;
- 
- 	struct mutex vpu_mutex;	/* video_device lock */
- 	spinlock_t irqlock;
-diff --git a/drivers/staging/media/hantro/imx8m_vpu_hw.c b/drivers/staging/media/hantro/imx8m_vpu_hw.c
-index 1a43f6fceef9..d7a63b41eb0e 100644
---- a/drivers/staging/media/hantro/imx8m_vpu_hw.c
-+++ b/drivers/staging/media/hantro/imx8m_vpu_hw.c
-@@ -7,6 +7,7 @@
- 
- #include <linux/clk.h>
- #include <linux/delay.h>
-+#include <linux/mfd/syscon.h>
- 
- #include "hantro.h"
- #include "hantro_jpeg.h"
-@@ -25,30 +26,28 @@
- #define CTRL_G1_PP_FUSE		0x0c
- #define CTRL_G2_DEC_FUSE	0x10
- 
-+static const struct regmap_config ctrl_regmap_ctrl = {
-+	.reg_bits = 32,
-+	.val_bits = 32,
-+	.reg_stride = 0x14,
-+};
+-		vpu: video-codec@38300000 {
++		vpu_ctrl: syscon@38320000 {
++			compatible = "nxp,imx8mq-vpu-ctrl", "syscon";
++			reg = <0x38320000 0x10000>;
++		};
 +
- static void imx8m_soft_reset(struct hantro_dev *vpu, u32 reset_bits)
- {
--	u32 val;
--
- 	/* Assert */
--	val = readl(vpu->ctrl_base + CTRL_SOFT_RESET);
--	val &= ~reset_bits;
--	writel(val, vpu->ctrl_base + CTRL_SOFT_RESET);
-+	regmap_update_bits(vpu->ctrl_base, CTRL_SOFT_RESET, reset_bits, 0);
- 
- 	udelay(2);
- 
- 	/* Release */
--	val = readl(vpu->ctrl_base + CTRL_SOFT_RESET);
--	val |= reset_bits;
--	writel(val, vpu->ctrl_base + CTRL_SOFT_RESET);
-+	regmap_update_bits(vpu->ctrl_base, CTRL_SOFT_RESET,
-+			   reset_bits, reset_bits);
- }
- 
- static void imx8m_clk_enable(struct hantro_dev *vpu, u32 clock_bits)
- {
--	u32 val;
--
--	val = readl(vpu->ctrl_base + CTRL_CLOCK_ENABLE);
--	val |= clock_bits;
--	writel(val, vpu->ctrl_base + CTRL_CLOCK_ENABLE);
-+	regmap_update_bits(vpu->ctrl_base, CTRL_CLOCK_ENABLE,
-+			   clock_bits, clock_bits);
- }
- 
- static int imx8mq_runtime_resume(struct hantro_dev *vpu)
-@@ -65,9 +64,9 @@ static int imx8mq_runtime_resume(struct hantro_dev *vpu)
- 	imx8m_clk_enable(vpu, CLOCK_G1 | CLOCK_G2);
- 
- 	/* Set values of the fuse registers */
--	writel(0xffffffff, vpu->ctrl_base + CTRL_G1_DEC_FUSE);
--	writel(0xffffffff, vpu->ctrl_base + CTRL_G1_PP_FUSE);
--	writel(0xffffffff, vpu->ctrl_base + CTRL_G2_DEC_FUSE);
-+	regmap_write(vpu->ctrl_base, CTRL_G1_DEC_FUSE, 0xffffffff);
-+	regmap_write(vpu->ctrl_base, CTRL_G1_PP_FUSE, 0xffffffff);
-+	regmap_write(vpu->ctrl_base, CTRL_G2_DEC_FUSE, 0xffffffff);
- 
- 	clk_bulk_disable_unprepare(vpu->variant->num_clocks, vpu->clocks);
- 
-@@ -211,7 +210,22 @@ static irqreturn_t imx8m_vpu_g2_irq(int irq, void *dev_id)
- 
- static int imx8mq_vpu_hw_init(struct hantro_dev *vpu)
- {
--	vpu->ctrl_base = vpu->reg_bases[vpu->variant->num_regs - 1];
-+	struct device_node *np = vpu->dev->of_node;
++		vpu_g1: video-codec@38300000 {
+ 			compatible = "nxp,imx8mq-vpu";
+-			reg = <0x38300000 0x10000>,
+-			      <0x38310000 0x10000>,
+-			      <0x38320000 0x10000>;
+-			reg-names = "g1", "g2", "ctrl";
+-			interrupts = <GIC_SPI 7 IRQ_TYPE_LEVEL_HIGH>,
+-				     <GIC_SPI 8 IRQ_TYPE_LEVEL_HIGH>;
+-			interrupt-names = "g1", "g2";
++			reg = <0x38300000 0x10000>;
++			interrupts = <GIC_SPI 7 IRQ_TYPE_LEVEL_HIGH>;
++			interrupt-names = "g1";
+ 			clocks = <&clk IMX8MQ_CLK_VPU_G1_ROOT>,
+ 				 <&clk IMX8MQ_CLK_VPU_G2_ROOT>,
+ 				 <&clk IMX8MQ_CLK_VPU_DEC_ROOT>;
+@@ -1453,9 +1454,33 @@ vpu: video-codec@38300000 {
+ 						 <&clk IMX8MQ_VPU_PLL_OUT>,
+ 						 <&clk IMX8MQ_SYS1_PLL_800M>,
+ 						 <&clk IMX8MQ_VPU_PLL>;
+-			assigned-clock-rates = <600000000>, <600000000>,
++			assigned-clock-rates = <600000000>, <300000000>,
++					       <800000000>, <0>;
++			power-domains = <&pgc_vpu>;
++			nxp,imx8m-vpu-ctrl = <&vpu_ctrl>;
++		};
 +
-+	vpu->ctrl_base = syscon_regmap_lookup_by_phandle(np, "nxp,imx8m-vpu-ctrl");
-+	if (IS_ERR(vpu->ctrl_base)) {
-+		struct resource *res;
-+		void __iomem *ctrl;
-+
-+		res = platform_get_resource_byname(vpu->pdev, IORESOURCE_MEM, "ctrl");
-+		ctrl = devm_ioremap_resource(vpu->dev, res);
-+		if (IS_ERR(ctrl))
-+			return PTR_ERR(ctrl);
-+
-+		vpu->ctrl_base = devm_regmap_init_mmio(vpu->dev, ctrl, &ctrl_regmap_ctrl);
-+		if (IS_ERR(vpu->ctrl_base))
-+			return PTR_ERR(vpu->ctrl_base);
-+	}
++		vpu_g2: video-codec@38310000 {
++			compatible = "nxp,imx8mq-vpu-g2";
++			reg = <0x38310000 0x10000>;
++			interrupts = <GIC_SPI 8 IRQ_TYPE_LEVEL_HIGH>;
++			interrupt-names = "g2";
++			clocks = <&clk IMX8MQ_CLK_VPU_G1_ROOT>,
++				 <&clk IMX8MQ_CLK_VPU_G2_ROOT>,
++				 <&clk IMX8MQ_CLK_VPU_DEC_ROOT>;
++			clock-names = "g1", "g2",  "bus";
++			assigned-clocks = <&clk IMX8MQ_CLK_VPU_G1>,
++					  <&clk IMX8MQ_CLK_VPU_G2>,
++					  <&clk IMX8MQ_CLK_VPU_BUS>,
++					  <&clk IMX8MQ_VPU_PLL_BYPASS>;
++			assigned-clock-parents = <&clk IMX8MQ_VPU_PLL_OUT>,
++						 <&clk IMX8MQ_VPU_PLL_OUT>,
++						 <&clk IMX8MQ_SYS1_PLL_800M>,
++						 <&clk IMX8MQ_VPU_PLL>;
++			assigned-clock-rates = <600000000>, <300000000>,
+ 					       <800000000>, <0>;
+ 			power-domains = <&pgc_vpu>;
++			nxp,imx8m-vpu-ctrl = <&vpu_ctrl>;
+ 		};
  
- 	return 0;
- }
+ 		pcie0: pcie@33800000 {
 -- 
 2.30.2
 
