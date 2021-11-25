@@ -2,106 +2,78 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id EB9AE45D89F
-	for <lists+linux-media@lfdr.de>; Thu, 25 Nov 2021 12:01:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A555845D8D0
+	for <lists+linux-media@lfdr.de>; Thu, 25 Nov 2021 12:07:32 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1354818AbhKYLFI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 25 Nov 2021 06:05:08 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39978 "EHLO
+        id S231962AbhKYLKj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 25 Nov 2021 06:10:39 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41302 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1354871AbhKYLDI (ORCPT
+        with ESMTP id S231719AbhKYLJJ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 25 Nov 2021 06:03:08 -0500
-Received: from mail-pj1-x1035.google.com (mail-pj1-x1035.google.com [IPv6:2607:f8b0:4864:20::1035])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 88572C0613FE
-        for <linux-media@vger.kernel.org>; Thu, 25 Nov 2021 02:58:58 -0800 (PST)
-Received: by mail-pj1-x1035.google.com with SMTP id gb13-20020a17090b060d00b001a674e2c4a8so5444265pjb.4
-        for <linux-media@vger.kernel.org>; Thu, 25 Nov 2021 02:58:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=sCgAh/8By8wNIrpD9ZFYd1/D45MydwuRk8zcWPcXzGQ=;
-        b=cLqXpIgXjTlGOz1+IBYb8VUFp+uxcoeg2qgpXuYboMkZ9nEN2PIueIvHrVwRREeLmb
-         +MrF9p67VwUtwkCOKgMpKFHfMbgQKrRu3A4Ei5fZTDaW/5FP6BRBW4nGfIWSFpYZFNe8
-         0HSKyJrAk7bR75zNpuXPOvX7m7hC7BeqhRGcMfOrHH6huXvQNL5Az0dD8t07sD1vp6fW
-         DSs5Sa4z5eLSfVWXh6wJRcbwCy9qkbxFE/5DrfUZkwUbQAyBimFVikRyc2tPk4rfv6vB
-         IVnUrMjl/5tVH3g09/AQOnibornKoF23XfqUGYJTThaJBEa6V998JrI4MIc7OGUol2aZ
-         HDyQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=sCgAh/8By8wNIrpD9ZFYd1/D45MydwuRk8zcWPcXzGQ=;
-        b=TCrRd693+ZYjdA8mmEdO/S/zT2o8scI9YpQBKGYA0wtugFOwouUa0ppA64jdbW4xgy
-         LM4j8o1ly6Ev8UiUaibyDohGdcP50Z/o1+J36XdGSyBXLBqPF6ii3gLFogVpP/Z2Er6c
-         3ZStNFvqqMLBrKrVXg+fomorMM2ffB/wImJ7Crn9nJ0HjdIEy71C62ZmEIr1DJqX9kfh
-         NXmZsaL9O8obnVzlmGjWV2EhgJj+nLnnw3ptg+ND+oRn2RLVN2awXvAFx5HTHbV8Zb1t
-         Ggxp29pbpKVvaWKKvZIrJ1cQG/raXRtXTYZ0Q9GB97mpH3PrmSL3IHj1HodRehP+6abe
-         BzeA==
-X-Gm-Message-State: AOAM533mXuixNnK5WRibbv5NHRQCMJp9X/nxKI/5uhFZIx2nG364Lid6
-        RhsTB/MqfdMBXarK+N0zdS6FB+z0VOUNW+tohiS86Q==
-X-Google-Smtp-Source: ABdhPJzEuWLGFxkRno8JHC5jNEyjXKuuqBAtEaEU9SYXKzgCatvz+aOmCp4g+jj8lAIvVYTHHBWYGkqPHzjzHeAWsL4=
-X-Received: by 2002:a17:90b:4a05:: with SMTP id kk5mr5895404pjb.232.1637837938076;
- Thu, 25 Nov 2021 02:58:58 -0800 (PST)
+        Thu, 25 Nov 2021 06:09:09 -0500
+Received: from lb2-smtp-cloud9.xs4all.net (lb2-smtp-cloud9.xs4all.net [IPv6:2001:888:0:108::2c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 283E9C061785
+        for <linux-media@vger.kernel.org>; Thu, 25 Nov 2021 03:03:06 -0800 (PST)
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud9.xs4all.net with ESMTPA
+        id qCWsm6kUz1HGJqCWvm374a; Thu, 25 Nov 2021 12:03:05 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
+        t=1637838185; bh=z9z5WpJ8NDCugZfZJVpYJnHu5/ZAmSEbb+fM1/jYLRA=;
+        h=To:From:Subject:Message-ID:Date:MIME-Version:Content-Type:From:
+         Subject;
+        b=MwcJszSxWzduiP2BAeZTJFIOqFb0o/yv7pb2TSOB8p7aUSeiNdDCLJmIuWwpzSPjJ
+         k6KuX/i+pb+r4ulYEZkLH+CB7QHOcR6qOUmzGBXPLEUeX/YuvraQ6AL//bZs+nfmpS
+         HSRm5IA1s9aTBTh2RLEkOimqtuQH6vKXYyz7uCf4ZC+ns1sdUrh6B7xbKtrIMSYLpJ
+         jgtUGJJRjB7KuMUSxjf8ftWzTAvjefly7QpP+UzXmI5y21hAR+ZkwW33ErdtTOx33S
+         VmeCknjRzq0KPfuekzDGPXsfmT9CKV3i89fccsZyxZ4YZ178wssBxNXqgo6v0ObVIN
+         HuXCYSH4txR/g==
+To:     Linux Media Mailing List <linux-media@vger.kernel.org>
+Cc:     Kyle Copperfield <kmcopper@danwin1210.me>,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        Dan Carpenter <dan.carpenter@oracle.com>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Subject: [GIT FIXES FOR v5.16] rockchip/rga: do proper error checking in probe
+Message-ID: <303b75c3-0b0e-b7e7-d506-609c1e4e2654@xs4all.nl>
+Date:   Thu, 25 Nov 2021 12:03:01 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Firefox/78.0 Thunderbird/78.14.0
 MIME-Version: 1.0
-References: <cover.1637781097.git.mchehab+huawei@kernel.org> <c33a6897f5a0803b3fde93fcf4ad652c0915db54.1637781097.git.mchehab+huawei@kernel.org>
-In-Reply-To: <c33a6897f5a0803b3fde93fcf4ad652c0915db54.1637781097.git.mchehab+huawei@kernel.org>
-From:   Robert Foss <robert.foss@linaro.org>
-Date:   Thu, 25 Nov 2021 11:58:45 +0100
-Message-ID: <CAG3jFyvHvNs93x29s9CoxwRJnpEo_VpyFvCcb6qOAOVpWUs+mA@mail.gmail.com>
-Subject: Re: [PATCH 17/20] media: qcom: camss: mark read reg function as __maybe_unused
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc:     linuxarm@huawei.com, mauro.chehab@huawei.com,
-        Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Todor Tomov <todor.too@gmail.com>,
-        linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, llvm@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4xfFslT4wsg6dF0RZW+5cMq1Cz9o6fSW1JvuowEE0+dFnhbOA0xTZN31CxYlLxejrPBvA9AmNNFz/QGTox0Nfhf9wFYfcBUjevHs+YIOlmjMzJ4cS5088n
+ lVZm/hxOYhj0IhwyCQIcKi5ttvG7xP2Q1APtRWXpm8+rooo1Cxb0DmZEOQeLw1cntxJh0kJeZH68fGJBsIaNcm7iGadG7+QCyjkJYguapMyI8RClh+EG+pM8
+ 0eT4uwG0M4cNFtuEDuPr9ftE4oImbmBMUSIcDIM327OpvCuD4e5fM98BBYYaDzmPqQSYNbKrWZKiiN1Zy9bGsg==
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Thanks for submitting this Mauro.
+This driver can no longer be probed due to this bug. Definitely qualifies as a
+fix for 5.16 :-)
 
-On Wed, 24 Nov 2021 at 20:13, Mauro Carvalho Chehab
-<mchehab+huawei@kernel.org> wrote:
->
-> Such function is currently unused, but could be needed in the
-> future. So, keep it, marking it as __maybe_unused, in order to
-> avoid a clang W=1 error.
->
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-> ---
->
-> To avoid mailbombing on a large number of people, only mailing lists were C/C on the cover.
-> See [PATCH 00/20] at: https://lore.kernel.org/all/cover.1637781097.git.mchehab+huawei@kernel.org/
->
->  drivers/media/platform/qcom/camss/camss-vfe-170.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/drivers/media/platform/qcom/camss/camss-vfe-170.c b/drivers/media/platform/qcom/camss/camss-vfe-170.c
-> index 5c083d70d495..455ae1a819e6 100644
-> --- a/drivers/media/platform/qcom/camss/camss-vfe-170.c
-> +++ b/drivers/media/platform/qcom/camss/camss-vfe-170.c
-> @@ -191,7 +191,7 @@ static u32 vfe_hw_version(struct vfe_device *vfe)
->         return hw_version;
->  }
->
-> -static inline void vfe_reg_clr(struct vfe_device *vfe, u32 reg, u32 clr_bits)
-> +static inline void __maybe_unused vfe_reg_clr(struct vfe_device *vfe, u32 reg, u32 clr_bits)
->  {
->         u32 bits = readl_relaxed(vfe->base + reg);
->
-> --
-> 2.33.1
->
+Regards,
 
-I've submitted a patch[1] for removing this function, with that patch
-applied, this patch is no longer needed.
+	Hans
 
-[1] https://lore.kernel.org/all/20211011121301.421410-1-robert.foss@linaro.org/
+The following changes since commit b1b447e2f3e1ec0c3e9716f4f74d056461f69ab3:
+
+  media: mxl5005s: drop some dead code (2021-11-24 20:06:42 +0100)
+
+are available in the Git repository at:
+
+  git://linuxtv.org/hverkuil/media_tree.git tags/br-v5.16b
+
+for you to fetch changes up to 65d3c0d2033f30872ab2f5191f3d407e53c8e977:
+
+  media: rockchip/rga: do proper error checking in probe (2021-11-25 11:36:25 +0100)
+
+----------------------------------------------------------------
+Tag branch
+
+----------------------------------------------------------------
+Kyle Copperfield (1):
+      media: rockchip/rga: do proper error checking in probe
+
+ drivers/media/platform/rockchip/rga/rga.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
