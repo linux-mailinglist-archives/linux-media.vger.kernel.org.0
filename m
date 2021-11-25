@@ -2,116 +2,132 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5294745D657
-	for <lists+linux-media@lfdr.de>; Thu, 25 Nov 2021 09:38:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8D52D45D671
+	for <lists+linux-media@lfdr.de>; Thu, 25 Nov 2021 09:48:09 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1353137AbhKYIlg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 25 Nov 2021 03:41:36 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37688 "EHLO
+        id S1350047AbhKYIvT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 25 Nov 2021 03:51:19 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39398 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1353283AbhKYIjf (ORCPT
+        with ESMTP id S1353505AbhKYItS (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 25 Nov 2021 03:39:35 -0500
-Received: from mail-lf1-x131.google.com (mail-lf1-x131.google.com [IPv6:2a00:1450:4864:20::131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 41EBFC061757
-        for <linux-media@vger.kernel.org>; Thu, 25 Nov 2021 00:36:23 -0800 (PST)
-Received: by mail-lf1-x131.google.com with SMTP id k37so14438218lfv.3
-        for <linux-media@vger.kernel.org>; Thu, 25 Nov 2021 00:36:23 -0800 (PST)
+        Thu, 25 Nov 2021 03:49:18 -0500
+Received: from mail-lf1-x12a.google.com (mail-lf1-x12a.google.com [IPv6:2a00:1450:4864:20::12a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A1E48C0613B3
+        for <linux-media@vger.kernel.org>; Thu, 25 Nov 2021 00:41:37 -0800 (PST)
+Received: by mail-lf1-x12a.google.com with SMTP id t26so14389831lfk.9
+        for <linux-media@vger.kernel.org>; Thu, 25 Nov 2021 00:41:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=ragnatech-se.20210112.gappssmtp.com; s=20210112;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=ADRTBrUjRd1rAOanvGXkScUFM0gsVWmkuqdva+XDWDM=;
-        b=7MxVXhzOBPI1WLFJ1LYc2sbO/uR1ZYyn+KzC66T0Fs6gWZudI0M/AZPd+tqnkbfC0J
-         NSxuB+HIQ5F+KnM57b9q4JlpFUVwU5V4QVmRUvY9q9HRmZDeexkPPMC+Hh368JqngKi1
-         EHrvboah3+7sAn8AFaDzgAU3AnM5Gxsu7jbRJ9oM7bPQhySGkaELEI0I/dzTaumPuRXg
-         4y/F8ZAyDc6XWpkC5VTnNY3+SxmOONAcviuBhTU2HWfdVvlM1s9NP8M2YD1i3V0T01B4
-         I1iIe1kDDY2xXsgOcFoOg2lGK4qNOB2n+Svo86klEbYszjtUzJmYjAzzIdlM1dxJpR3b
-         hBig==
+        bh=nx9yMihjJrikirX7YSEZYnRgpYjCEvWkb1r0ARpegII=;
+        b=xGhEioLOdHXFg9tmf5qJORJtCyUerzIwdqhprNRThmcsfsA2Exo2375kdTL9bvFFSa
+         UppGg1ymwKUeC3gGjwbwrNf3nlYsgoMpqDPIsMXsPj2qoynGcBlp0rMJTN4HjIvKfeRu
+         CMxb5OoOpfBR9fMzEX0t717Ln+XidnJ5eGsUPPgw1ZZkjVCENkjZ1KxI5Sc+frjLEWLq
+         KNLxQuo1R2e0ZqLzKumXx3MZ36omnJMD3m+Sq4WowY8hm9d54u3nMhGLcz4PYDXEvV9g
+         exNh0WEP3IvcNWNtGNvqAtOEsa8L7mKHIPdV4uExhCGHRbS3C20KJbD/Q2B/YExQX2it
+         hLTg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:content-transfer-encoding
          :in-reply-to;
-        bh=ADRTBrUjRd1rAOanvGXkScUFM0gsVWmkuqdva+XDWDM=;
-        b=RrdRLHubMjot7pqmxV1msu3AFq5Hdj19n9LotpTCUlAVbHa4X3yhxt3BWNAgtrGQ1+
-         6K31y+u5EQpbcQksExxhg/0IVN/8rI/h866o4R9ucEYzrUmeZu3c+/LxzA4+tmkVLiiF
-         kwg+7ZNRzFeFsGVfBGDm9YQbrg2jutsjoKrCykNCLOpPJ7m/aaEldF3ZZCFwJ5khGdFP
-         uCqlgxxniDDdWriSZFQp3qS5zMGa1inM6AB/+3mqmo0Xvq7G9ZDMhA4ySSKHtsSGL6t2
-         RAknq2h1yAqRlMf+nhPUQ+nXgfdUu8nmceoSTzAk8JhtYttwz/5Y3jNmiWvaCV7Etb/9
-         yelw==
-X-Gm-Message-State: AOAM531YkcxabdGagcIBbJYbvBzSbbKqQtvuDY8Yi7MM5CgdjFdSAwIq
-        o+wnsvcP0dxZsT7s/JO6FJSfDg==
-X-Google-Smtp-Source: ABdhPJyJ3FfAm0lbVXXHIYabujh2mQ2IQwaE/Ii+KLYpOULik/cHZzqrE6uXVv1twRcod1g2b+UJZw==
-X-Received: by 2002:a05:6512:230e:: with SMTP id o14mr22942804lfu.490.1637829381595;
-        Thu, 25 Nov 2021 00:36:21 -0800 (PST)
+        bh=nx9yMihjJrikirX7YSEZYnRgpYjCEvWkb1r0ARpegII=;
+        b=B8oE1r7n+4BJQQOGfTB1Bo6kWYIEMTL/xJfmwKFvU0QIzxuCG7JLPDH8qLbafgNCw4
+         gIN8Lg1uycIi1HCE0bSnt09I46BSe0n4NUhP7Utq71f4CXDxTvgZ00TFAzDq1/8HcXG4
+         P0M0sMtIYvTIxi2kWwFOL4pcwhbrFc/+7qz/PKsgS0nWDBRejpRykUIqzsI+MM5AkIM/
+         P8QPLVuCD6sEQQ45ZvLhqLgb3A/V8AwiqbAkK2NMlthAc0ngkepOGLCv3f6q4iFHSorF
+         iHz7991BkdTQ+Rc5XDbBOpr/ZyTyCuWKJyqsKieaYjqbQ0o2+PFGrq0R6pckG6YgVl7/
+         ehMA==
+X-Gm-Message-State: AOAM533Lbnv233+rs7HbUP4o1rcOI4m1veONGdyOxgLRh3gqhQXdma+k
+        3JVf8pe1rk6uIbzCPIuiq9LlPA==
+X-Google-Smtp-Source: ABdhPJwu+NLnzXYnIQCTu89xhzRZFCha7V/gCxcDXBhGTqQStg3aZ6VssNX/+/xIhPdatcGpDeWoRg==
+X-Received: by 2002:ac2:4571:: with SMTP id k17mr21391766lfm.631.1637829695936;
+        Thu, 25 Nov 2021 00:41:35 -0800 (PST)
 Received: from localhost (h-46-59-88-219.A463.priv.bahnhof.se. [46.59.88.219])
-        by smtp.gmail.com with ESMTPSA id c2sm189576ljf.50.2021.11.25.00.36.21
+        by smtp.gmail.com with ESMTPSA id e14sm246249lfs.150.2021.11.25.00.41.35
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 25 Nov 2021 00:36:21 -0800 (PST)
-Date:   Thu, 25 Nov 2021 09:36:20 +0100
+        Thu, 25 Nov 2021 00:41:35 -0800 (PST)
+Date:   Thu, 25 Nov 2021 09:41:34 +0100
 From:   Niklas =?iso-8859-1?Q?S=F6derlund?= 
-        <niklas.soderlund@ragnatech.se>
-To:     Randy Dunlap <rdunlap@infradead.org>
-Cc:     Stephen Rothwell <sfr@canb.auug.org.au>,
-        Linux Next Mailing List <linux-next@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        "open list:DMA BUFFER SHARING FRAMEWORK" 
-        <linux-media@vger.kernel.org>
-Subject: Re: linux-next: Tree for Nov 25
- [drivers/staging/media/max96712/max96712.ko]
-Message-ID: <YZ9LBN3UeGSqRVd7@oden.dyn.berto.se>
-References: <20211125160957.4ffdeb88@canb.auug.org.au>
- <4c2aabad-bf41-efc0-c9ba-da4a330e9015@infradead.org>
+        <niklas.soderlund+renesas@ragnatech.se>
+To:     Kieran Bingham <kieran.bingham@ideasonboard.com>
+Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH] rcar-vin: Add check for completed capture before
+ completing buffer
+Message-ID: <YZ9MPu1WIJk0MtLr@oden.dyn.berto.se>
+References: <20211123155443.3705143-1-niklas.soderlund+renesas@ragnatech.se>
+ <163779391741.3153335.8189408341245810954@Monstersaurus>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <4c2aabad-bf41-efc0-c9ba-da4a330e9015@infradead.org>
+In-Reply-To: <163779391741.3153335.8189408341245810954@Monstersaurus>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Randy,
+Hi Kieran,
 
-Thanks for your bug report.
+Thanks for your feedback.
 
-Sakari have fixed this problem, but it seems to be some confusion in 
-patchwork.
-
-https://patchwork.linuxtv.org/project/linux-media/patch/20211101132502.700505-1-sakari.ailus@linux.intel.com/
-
-On 2021-11-24 22:57:12 -0800, Randy Dunlap wrote:
-> On 11/24/21 9:09 PM, Stephen Rothwell wrote:
-> > Hi all,
+On 2021-11-24 22:45:17 +0000, Kieran Bingham wrote:
+> Quoting Niklas Söderlund (2021-11-23 15:54:43)
+> > Before reading which slot was captured to by examining the module status
+> > (VnMS) register, make sure something was captured at all by examining
+> > the interrupt status register (VnINTS).
 > > 
-> > Changes since 20211124:
+> > Failing this a buffer maybe completed before it was captured too.
 > > 
+> > Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+> > ---
+> >  drivers/media/platform/rcar-vin/rcar-dma.c | 7 +++++++
+> >  1 file changed, 7 insertions(+)
+> > 
+> > diff --git a/drivers/media/platform/rcar-vin/rcar-dma.c b/drivers/media/platform/rcar-vin/rcar-dma.c
+> > index 25ead9333d0046e7..87ccbdc3d11a0f2d 100644
+> > --- a/drivers/media/platform/rcar-vin/rcar-dma.c
+> > +++ b/drivers/media/platform/rcar-vin/rcar-dma.c
+> > @@ -111,6 +111,9 @@
+> >  #define VNIE_FIE               (1 << 4)
+> >  #define VNIE_EFE               (1 << 1)
+> >  
+> > +/* Video n Interrupt Status Register bits */
+> > +#define VNINTS_FIS             (1 << 4)
+> > +
+> >  /* Video n Data Mode Register bits */
+> >  #define VNDMR_A8BIT(n)         (((n) & 0xff) << 24)
+> >  #define VNDMR_A8BIT_MASK       (0xff << 24)
+> > @@ -1005,6 +1008,10 @@ static irqreturn_t rvin_irq(int irq, void *data)
+> >         rvin_ack_interrupt(vin);
+> >         handled = 1;
+> >  
+> > +       /* Nothing to do if nothing was captured. */
+> > +       if (!(int_status & VNINTS_FIS))
 > 
-> on x86_64:
-> 
-> WARNING: unmet direct dependencies detected for VIDEO_V4L2_SUBDEV_API
->   Depends on [n]: MEDIA_SUPPORT [=m] && VIDEO_DEV [=n] && MEDIA_CONTROLLER [=y]
->   Selected by [m]:
->   - VIDEO_MAX96712 [=m] && STAGING [=y] && STAGING_MEDIA [=y] && MEDIA_SUPPORT [=m] && I2C [=y] && OF_GPIO [=y]
-> 
-> and then
-> 
-> ERROR: modpost: "v4l2_ctrl_handler_free" [drivers/staging/media/max96712/max96712.ko] undefined!
-> ERROR: modpost: "v4l2_async_register_subdev" [drivers/staging/media/max96712/max96712.ko] undefined!
-> ERROR: modpost: "v4l2_ctrl_new_std_menu_items" [drivers/staging/media/max96712/max96712.ko] undefined!
-> ERROR: modpost: "v4l2_ctrl_new_std" [drivers/staging/media/max96712/max96712.ko] undefined!
-> ERROR: modpost: "v4l2_ctrl_handler_init_class" [drivers/staging/media/max96712/max96712.ko] undefined!
-> ERROR: modpost: "v4l2_fwnode_endpoint_parse" [drivers/staging/media/max96712/max96712.ko] undefined!
-> ERROR: modpost: "v4l2_async_unregister_subdev" [drivers/staging/media/max96712/max96712.ko] undefined!
-> 
-> 
-> Full randconfig file is attached.
-> 
-> -- 
-> ~Randy
+> Does this deserve a warning or debug print? It sounds like it may be
+> somewhat spurious or unexpected if it occurs?
 
+I don't think so. One can enable more interrupts then the ones we do 
+today, for example during debugging capture issues. This check just make 
+sure we don't try to process a capture if the interrupt is not related 
+to capture ;-)
 
+> 
+> --
+> Kieran
+> 
+> 
+> > +               goto done;
+> > +
+> >         /* Nothing to do if capture status is 'STOPPED' */
+> >         if (vin->state == STOPPED) {
+> >                 vin_dbg(vin, "IRQ while state stopped\n");
+> > -- 
+> > 2.34.0
+> >
 
 -- 
 Kind Regards,
