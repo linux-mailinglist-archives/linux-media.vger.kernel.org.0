@@ -2,39 +2,39 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 50FEB45DF2B
-	for <lists+linux-media@lfdr.de>; Thu, 25 Nov 2021 17:59:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5F26445DF31
+	for <lists+linux-media@lfdr.de>; Thu, 25 Nov 2021 17:59:28 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1356963AbhKYRAq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 25 Nov 2021 12:00:46 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:35541 "EHLO
+        id S1356979AbhKYRAt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 25 Nov 2021 12:00:49 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:54785 "EHLO
         us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S234232AbhKYQ6n (ORCPT
+        by vger.kernel.org with ESMTP id S1356628AbhKYQ6r (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 25 Nov 2021 11:58:43 -0500
+        Thu, 25 Nov 2021 11:58:47 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1637859331;
+        s=mimecast20190719; t=1637859336;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=LUrG4jqNJu6mVXKc6QsIJBUF4M5Dz78pxASMnLdBkbM=;
-        b=Ks2n1oSIBy3MBQawixCBQ15dr2nsa8sTtQUNopLzCzSOZB8eZe81e5yHnXBt29XjeJGcxe
-        aC4z6bvHeaGZFrcsxkfwDlZwCBi61le3suFX6vCFgRMpsrTavrMlqz3hh4RI2Ks5KtYXBC
-        JoCg60tQksMuYwdBM50qACdfZwDvusg=
+        bh=KZ7SiULw1bz9iR0a6trjSqZT1dIAIEINJ54riBhzJ8s=;
+        b=g69lWhO2AO+u+3nGFu2wW9pFkApIz18apKKk8cEybV7YITd/77uoCsxjp27yFQSjKxTxtc
+        fNbyu9pqScUOVHmYclSDavEgHOn/6Pg+qUl6jXSBuKDwUqzkv7efx6pDrKTakvq7oGe19r
+        YbzbPRR5yBLTdPzQNRWk3ZINsmao+/w=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-485-fKjlI72qOAGApb-egKqtrQ-1; Thu, 25 Nov 2021 11:55:28 -0500
-X-MC-Unique: fKjlI72qOAGApb-egKqtrQ-1
+ us-mta-394-l-rAJcE5OZSfLkqkWfhXbg-1; Thu, 25 Nov 2021 11:55:33 -0500
+X-MC-Unique: l-rAJcE5OZSfLkqkWfhXbg-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.11])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 10F532F20;
-        Thu, 25 Nov 2021 16:55:26 +0000 (UTC)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 176561006AA0;
+        Thu, 25 Nov 2021 16:55:30 +0000 (UTC)
 Received: from x1.localdomain (unknown [10.39.195.117])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 54B04604CC;
-        Thu, 25 Nov 2021 16:55:22 +0000 (UTC)
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 5D11267842;
+        Thu, 25 Nov 2021 16:55:26 +0000 (UTC)
 From:   Hans de Goede <hdegoede@redhat.com>
 To:     "Rafael J . Wysocki" <rjw@rjwysocki.net>,
         Mark Gross <markgross@kernel.org>,
@@ -54,9 +54,9 @@ Cc:     Hans de Goede <hdegoede@redhat.com>, Len Brown <lenb@kernel.org>,
         Sakari Ailus <sakari.ailus@linux.intel.com>,
         Kate Hsuan <hpa@redhat.com>, linux-media@vger.kernel.org,
         linux-clk@vger.kernel.org
-Subject: [PATCH v6 13/15] media: ipu3-cio2: Defer probing until the PMIC is fully setup
-Date:   Thu, 25 Nov 2021 17:54:10 +0100
-Message-Id: <20211125165412.535063-14-hdegoede@redhat.com>
+Subject: [PATCH v6 14/15] media: ipu3-cio2: Call cio2_bridge_init() before anything else
+Date:   Thu, 25 Nov 2021 17:54:11 +0100
+Message-Id: <20211125165412.535063-15-hdegoede@redhat.com>
 In-Reply-To: <20211125165412.535063-1-hdegoede@redhat.com>
 References: <20211125165412.535063-1-hdegoede@redhat.com>
 MIME-Version: 1.0
@@ -66,82 +66,42 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On devices where things are not fully describe in devicetree (1)
-and where the code thus falls back to calling cio2_bridge_init(),
-the i2c-clients for any VCMs also need to be instantiated manually.
-
-The VCM can be probed by its driver as soon as the code instantiates
-the i2c-client and this probing must not happen before the PMIC is
-fully setup.
-
-Make cio2_bridge_init() return -EPROBE_DEFER when the PMIC is not
-fully-setup, deferring the probe of the ipu3-cio2 driver.
-
-This is a preparation patch for adding VCM enumeration support to
-the ipu3-cio2-bridge code.
-
-1) Through embedding of devicetree info in the ACPI tables
+Since cio2_bridge_init() may now return -EPROBE_DEFER it is best to
+call it before anything else.
 
 Signed-off-by: Hans de Goede <hdegoede@redhat.com>
 ---
- drivers/media/pci/intel/ipu3/cio2-bridge.c | 37 ++++++++++++++++++++++
- 1 file changed, 37 insertions(+)
+ drivers/media/pci/intel/ipu3/ipu3-cio2-main.c | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/media/pci/intel/ipu3/cio2-bridge.c b/drivers/media/pci/intel/ipu3/cio2-bridge.c
-index 1cbbcbf4e157..460ef7f78234 100644
---- a/drivers/media/pci/intel/ipu3/cio2-bridge.c
-+++ b/drivers/media/pci/intel/ipu3/cio2-bridge.c
-@@ -308,6 +308,40 @@ static int cio2_bridge_connect_sensors(struct cio2_bridge *bridge,
- 	return ret;
- }
+diff --git a/drivers/media/pci/intel/ipu3/ipu3-cio2-main.c b/drivers/media/pci/intel/ipu3/ipu3-cio2-main.c
+index e2874fee9530..0e9b0503b62a 100644
+--- a/drivers/media/pci/intel/ipu3/ipu3-cio2-main.c
++++ b/drivers/media/pci/intel/ipu3/ipu3-cio2-main.c
+@@ -1713,11 +1713,6 @@ static int cio2_pci_probe(struct pci_dev *pci_dev,
+ 	struct cio2_device *cio2;
+ 	int r;
  
-+/*
-+ * The VCM cannot be probed until the PMIC is completely setup. We cannot rely
-+ * on -EPROBE_DEFER for this, since the consumer<->supplier relations between
-+ * the VCM and regulators/clks are not described in ACPI, instead they are
-+ * passed as board-data to the PMIC drivers. Since -PROBE_DEFER does not work
-+ * for the clks/regulators the VCM i2c-clients must not be instantiated until
-+ * the PMIC is fully setup.
-+ *
-+ * The sensor/VCM ACPI device has an ACPI _DEP on the PMIC, check this using the
-+ * acpi_dev_ready_for_enumeration() helper, like the i2c-core-acpi code does
-+ * for the sensors.
-+ */
-+int cio2_bridge_sensors_are_ready(void)
-+{
-+	struct acpi_device *adev;
-+	bool ready = true;
-+	unsigned int i;
-+
-+	for (i = 0; i < ARRAY_SIZE(cio2_supported_sensors); i++) {
-+		const struct cio2_sensor_config *cfg =
-+			&cio2_supported_sensors[i];
-+
-+		for_each_acpi_dev_match(adev, cfg->hid, NULL, -1) {
-+			if (!adev->status.enabled)
-+				continue;
-+
-+			if (!acpi_dev_ready_for_enumeration(adev))
-+				ready = false;
-+		}
-+	}
-+
-+	return ready;
-+}
-+
- int cio2_bridge_init(struct pci_dev *cio2)
- {
- 	struct device *dev = &cio2->dev;
-@@ -316,6 +350,9 @@ int cio2_bridge_init(struct pci_dev *cio2)
- 	unsigned int i;
- 	int ret;
+-	cio2 = devm_kzalloc(dev, sizeof(*cio2), GFP_KERNEL);
+-	if (!cio2)
+-		return -ENOMEM;
+-	cio2->pci_dev = pci_dev;
+-
+ 	/*
+ 	 * On some platforms no connections to sensors are defined in firmware,
+ 	 * if the device has no endpoints then we can try to build those as
+@@ -1735,6 +1730,11 @@ static int cio2_pci_probe(struct pci_dev *pci_dev,
+ 			return r;
+ 	}
  
-+	if (!cio2_bridge_sensors_are_ready())
-+		return -EPROBE_DEFER;
++	cio2 = devm_kzalloc(dev, sizeof(*cio2), GFP_KERNEL);
++	if (!cio2)
++		return -ENOMEM;
++	cio2->pci_dev = pci_dev;
 +
- 	bridge = kzalloc(sizeof(*bridge), GFP_KERNEL);
- 	if (!bridge)
- 		return -ENOMEM;
+ 	r = pcim_enable_device(pci_dev);
+ 	if (r) {
+ 		dev_err(dev, "failed to enable device (%d)\n", r);
 -- 
 2.33.1
 
