@@ -2,94 +2,75 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 17EC245D047
-	for <lists+linux-media@lfdr.de>; Wed, 24 Nov 2021 23:45:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1B42345D3BB
+	for <lists+linux-media@lfdr.de>; Thu, 25 Nov 2021 04:46:53 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1348166AbhKXWsb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 24 Nov 2021 17:48:31 -0500
-Received: from perceval.ideasonboard.com ([213.167.242.64]:41664 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1345477AbhKXWsa (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Wed, 24 Nov 2021 17:48:30 -0500
-Received: from pendragon.ideasonboard.com (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 643AB92A;
-        Wed, 24 Nov 2021 23:45:19 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1637793919;
-        bh=bZDUepvDmlpvloLrD0poARIebcqsrEFGHTUvsBxmuBo=;
-        h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
-        b=rZPgX9dloj620AwdAwAJCmtMw1WKrLGOrg3pQtv/Bc9+RnakiVv86rfcilp9cn49L
-         cjb4r6OGmnQ6b6pDikTJutyH3E0JqUNY8xX5PEN4gRr1BylVuooPnNnxd8K2t09zTY
-         Xo/AGVGpnLTAqeu6mSscWiQEpWhT62t9QGV0lQaE=
-Content-Type: text/plain; charset="utf-8"
+        id S238519AbhKYDuC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 24 Nov 2021 22:50:02 -0500
+Received: from phobos.denx.de ([85.214.62.61]:53890 "EHLO phobos.denx.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S231406AbhKYDsC (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 24 Nov 2021 22:48:02 -0500
+Received: from mail.denx.de (unknown [IPv6:2a01:238:438b:c500:173d:9f52:ddab:ee01])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+        (No client certificate requested)
+        (Authenticated sender: festevam@denx.de)
+        by phobos.denx.de (Postfix) with ESMTPSA id 2A27A8128B;
+        Thu, 25 Nov 2021 04:44:50 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
+        s=phobos-20191101; t=1637811890;
+        bh=NxaAuKqNPabFRg6DTRrSmqXGLh2v6W9sWoG3+Qs13cM=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=qxBB+RaQQktPa6hubj1XvpLrMKoQ4+C7UWVENUD1p57i0OFF1qldUe8LFSEM5/lqL
+         rG/+bumf+9K/3RCkuRn03eQpDq7LL778U60ZczOlRHHbqVeR+AM8SNFyrPDJ/IUqGP
+         h1eHDVWTRxaDxf/ximKS9x3yvPgITWGq8szrxd1/vWYvirdL8fNGSC/5NqUj0skbGa
+         7LjHKb7yaQAzNPuZTce6IDcF1ZLdgWS0m6bucPeHWPUIboN/9MgD+KfFRrkJvWJkRf
+         PA+mQXzHAbqmOL9jSJO4d32G/T4JcZEpKCbXGX2tcuQHrRxNwWKeHuzMC1bgYqugJ2
+         HuuxalZcyWohg==
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <20211123155443.3705143-1-niklas.soderlund+renesas@ragnatech.se>
-References: <20211123155443.3705143-1-niklas.soderlund+renesas@ragnatech.se>
-Subject: Re: [PATCH] rcar-vin: Add check for completed capture before completing buffer
-From:   Kieran Bingham <kieran.bingham@ideasonboard.com>
-Cc:     linux-renesas-soc@vger.kernel.org,
-        Niklas =?utf-8?q?S=C3=B6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>
-To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Niklas =?utf-8?q?S=C3=B6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>,
-        linux-media@vger.kernel.org
-Date:   Wed, 24 Nov 2021 22:45:17 +0000
-Message-ID: <163779391741.3153335.8189408341245810954@Monstersaurus>
-User-Agent: alot/0.10
+Content-Type: text/plain; charset=UTF-8;
+ format=flowed
+Content-Transfer-Encoding: 8bit
+Date:   Thu, 25 Nov 2021 00:44:49 -0300
+From:   Fabio Estevam <festevam@denx.de>
+To:     Philipp Zabel <p.zabel@pengutronix.de>, hverkuil-cisco@xs4all.nl
+Cc:     linux-media@vger.kernel.org
+Subject: Re: [PATCH v4 2/2] media: imx-pxp: Add rotation support
+In-Reply-To: <0f777e71e47bc64b193f7840ff86ddf9799f3b11.camel@pengutronix.de>
+References: <20211008131015.3303915-1-festevam@denx.de>
+ <20211008131015.3303915-2-festevam@denx.de>
+ <0f777e71e47bc64b193f7840ff86ddf9799f3b11.camel@pengutronix.de>
+Message-ID: <e9a03ead4a9a6b72b25587654d0239b2@denx.de>
+X-Sender: festevam@denx.de
+User-Agent: Roundcube Webmail/1.3.6
+X-Virus-Scanned: clamav-milter 0.103.2 at phobos.denx.de
+X-Virus-Status: Clean
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Quoting Niklas S=C3=B6derlund (2021-11-23 15:54:43)
-> Before reading which slot was captured to by examining the module status
-> (VnMS) register, make sure something was captured at all by examining
-> the interrupt status register (VnINTS).
->=20
-> Failing this a buffer maybe completed before it was captured too.
->=20
-> Signed-off-by: Niklas S=C3=B6derlund <niklas.soderlund+renesas@ragnatech.=
-se>
-> ---
->  drivers/media/platform/rcar-vin/rcar-dma.c | 7 +++++++
->  1 file changed, 7 insertions(+)
->=20
-> diff --git a/drivers/media/platform/rcar-vin/rcar-dma.c b/drivers/media/p=
-latform/rcar-vin/rcar-dma.c
-> index 25ead9333d0046e7..87ccbdc3d11a0f2d 100644
-> --- a/drivers/media/platform/rcar-vin/rcar-dma.c
-> +++ b/drivers/media/platform/rcar-vin/rcar-dma.c
-> @@ -111,6 +111,9 @@
->  #define VNIE_FIE               (1 << 4)
->  #define VNIE_EFE               (1 << 1)
-> =20
-> +/* Video n Interrupt Status Register bits */
-> +#define VNINTS_FIS             (1 << 4)
-> +
->  /* Video n Data Mode Register bits */
->  #define VNDMR_A8BIT(n)         (((n) & 0xff) << 24)
->  #define VNDMR_A8BIT_MASK       (0xff << 24)
-> @@ -1005,6 +1008,10 @@ static irqreturn_t rvin_irq(int irq, void *data)
->         rvin_ack_interrupt(vin);
->         handled =3D 1;
-> =20
-> +       /* Nothing to do if nothing was captured. */
-> +       if (!(int_status & VNINTS_FIS))
+Hi Hans,
 
-Does this deserve a warning or debug print? It sounds like it may be
-somewhat spurious or unexpected if it occurs?
+On 08/10/2021 11:17, Philipp Zabel wrote:
+> On Fri, 2021-10-08 at 10:10 -0300, Fabio Estevam wrote:
+>> PXP allows clockwise rotation of 0°, 90°, 180° and 270°.
+>> 
+>> Add support for it.
+>> 
+>> Tested on a imx6ull-evk.
+>> 
+>> For example, to rotate 90° the following Gstreamer pipeline can
+>> be used:
+>> 
+>> gst-launch-1.0 videotestsrc ! video/x-raw,width=640,height=480 ! \
+>> v4l2convert extra-controls=cid,rotate=90  ! \
+>> video/x-raw,width=120,height=160 ! fbdevsink
+>> 
+>> Signed-off-by: Fabio Estevam <festevam@denx.de>
+> 
+> Reviewed-by: Philipp Zabel <p.zabel@pengutronix.de>
+> 
+> regards
+> Philipp
 
---
-Kieran
-
-
-> +               goto done;
-> +
->         /* Nothing to do if capture status is 'STOPPED' */
->         if (vin->state =3D=3D STOPPED) {
->                 vin_dbg(vin, "IRQ while state stopped\n");
-> --=20
-> 2.34.0
->
+A gentle ping on this series.
