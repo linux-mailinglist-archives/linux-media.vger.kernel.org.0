@@ -2,156 +2,130 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id F32EA45E0F1
-	for <lists+linux-media@lfdr.de>; Thu, 25 Nov 2021 20:24:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3333C45E103
+	for <lists+linux-media@lfdr.de>; Thu, 25 Nov 2021 20:31:36 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1350020AbhKYT1p (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 25 Nov 2021 14:27:45 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39900 "EHLO
+        id S1349997AbhKYTeq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 25 Nov 2021 14:34:46 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41030 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229898AbhKYTZp (ORCPT
+        with ESMTP id S1351803AbhKYTcq (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 25 Nov 2021 14:25:45 -0500
+        Thu, 25 Nov 2021 14:32:46 -0500
 Received: from mail-ed1-x532.google.com (mail-ed1-x532.google.com [IPv6:2a00:1450:4864:20::532])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 52910C061758;
-        Thu, 25 Nov 2021 11:21:45 -0800 (PST)
-Received: by mail-ed1-x532.google.com with SMTP id o20so29223969eds.10;
-        Thu, 25 Nov 2021 11:21:45 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3BDEFC061759;
+        Thu, 25 Nov 2021 11:29:34 -0800 (PST)
+Received: by mail-ed1-x532.google.com with SMTP id y13so29463547edd.13;
+        Thu, 25 Nov 2021 11:29:34 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=/Vc3FfetVxIdpRbBGRnWlkdOorbqQWmi/1JlvobARac=;
-        b=kSCD7fAFOjTdgiLnjLYynUIfaux94u8yqksuzZVUebj/D10Hp3wTDktIjqQV59Di+5
-         m7hmzvMRWj2bM7ffFwopd6cIf81D7oXFRj7Uhf1H6USYExNgAvQixhwCe2a2U5CfLl5Z
-         vNXswG2lgBlRCX6sBrDx0MbUPDf2+0LwcuuHpMPrES9MuqCL1yv/5OWDm1tUrJIeaa/T
-         GXijeTf3n119pGg45yxgz0nHDtZWaP7xvnBfeoeJ/Ul5edKBpIN+6CDc6K+66o87/2FO
-         xhi2xwo8qnDYWn4GCbTMujIrOumUOBcrSD6481anYBkTnyhzhZS17dymUiznzOTHGAeD
-         JtkQ==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=+QdSnn9hnDbXHilVPEzYaOF00rC6aTmARJsrJsKk/HA=;
+        b=eZYdfa3q9HtFJRaW20SwlL7XA8WQ7r8jlBGVqh9TyKPBpv/nzIIQJ1cuusxBBozWUp
+         SmRZuuOksbeR9Ls1NpzezJ370EtRbOBpS3Ct/g+9c5X3nrrFfrbYZPjn+2cdCDkvrKWu
+         Syfgv5XE2Z851DPSLlO0SXfAZ7RcV3EeuawAvCDT+hY6nkmfboeK5w4IHrl9/cDJ73va
+         uXtUsQZIq0M4138F61KBzWewxcAsGrbhmCYYPkhWuDoMzmrEE7fympSIBETcwojM7rWH
+         dl4WCZb0PFuuETHN9RlD3tdpk0F6EE75DHgzpve6zHolLrfHTPaGkzEMAA+ND0mMkrrQ
+         BIhg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=/Vc3FfetVxIdpRbBGRnWlkdOorbqQWmi/1JlvobARac=;
-        b=cXCzDnB00gTNi3HnSxvGZ4gE+GdSyh1onAQOTjVftNBmxDHXO16oIcCn1dukb8isM9
-         BeK8xK0FaZ1i8uhQkDgCYr3q9TLYN+ZNbgJp9V7KGTVQHMqVgcl459UjHb6nkelRncxp
-         uWUWFC1r5PWxEVmweLdV1OTl02sICvgbTQ339UJnFmU8ZvSyyj6sPXIF5KOOtbndFKRN
-         syl+jeCbOvvzKYrs7f7x8M67kDvAd9+ALkUx1ES5zIycZvx2WH0nfOaPwEmap4Hpotxm
-         UJXfhqP8UUznCZGJt/GJdMy4xVNJgdEaat5CWzvdRfapYj/E43kvZwglU1T3jnvwIafT
-         kNFg==
-X-Gm-Message-State: AOAM531R9DEh2hLm326XqYUa075Z1kP28+1PbVK+QAZIRtzBMvlntygh
-        Kgne/4xcnBFkVd061SjqtA9ed1b6MloxTQ==
-X-Google-Smtp-Source: ABdhPJxsCCabBHBJ2oAC81Nu1JW2uYRVapJ0pqZTRte9s2XejGZRR2ce+rzmuo3a2NTAx3XP5MAtdw==
-X-Received: by 2002:a17:907:7e8e:: with SMTP id qb14mr33225652ejc.562.1637868103865;
-        Thu, 25 Nov 2021 11:21:43 -0800 (PST)
-Received: from jernej-laptop.localnet (89-212-178-211.dynamic.t-2.net. [89.212.178.211])
-        by smtp.gmail.com with ESMTPSA id i8sm2983304edc.12.2021.11.25.11.21.42
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 25 Nov 2021 11:21:43 -0800 (PST)
-From:   Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To:     Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
-Cc:     linux-media@vger.kernel.org, nicolas.dufresne@collabora.com,
-        mchehab@kernel.org, robh+dt@kernel.org, mripard@kernel.org,
-        wens@csie.org, p.zabel@pengutronix.de, andrzej.p@collabora.com,
-        gregkh@linuxfoundation.org, devicetree@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
-        linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
-Subject: Re: [PATCH 4/7] media: hantro: move postproc enablement for old cores
-Date:   Thu, 25 Nov 2021 20:21:41 +0100
-Message-ID: <4693726.31r3eYUQgx@jernej-laptop>
-In-Reply-To: <YZ962CvUbKoiIGyZ@eze-laptop>
-References: <20211122184702.768341-1-jernej.skrabec@gmail.com> <20211122184702.768341-5-jernej.skrabec@gmail.com> <YZ962CvUbKoiIGyZ@eze-laptop>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=+QdSnn9hnDbXHilVPEzYaOF00rC6aTmARJsrJsKk/HA=;
+        b=6bgkqjqzkftARJMMlxgaYP8lyF/PrmfP087r+/QDIJTd18EqYtBiiocMJh0yoM/HgQ
+         ugVLkrqtTyAKe1cRUjEgHOYo6ZWa15XOhlt+gYErk9j1y9sHrectZX7WgAWpluIFxI/S
+         nNZ/eoJnOnkXCn2zyHnUnvT2PBDerGFo9cKhYNewR/++MJnGlOhbRUkCbJTCiG/SO5vr
+         NIXNZeQucNFDE5OwJn1i+6FPAzHGSzU9YSiEs9IhtEmpeLFjVUfNh/6DJmYa1kghq0Av
+         dFFqN/dr4cd3EIldl1MbaeK0G/trNui7+Be1N6G8Gs5FfZvGvzChQdfhODc09oFAUj0j
+         Oh5A==
+X-Gm-Message-State: AOAM5325o18HcT2BoK48JDJ86ks3FMFuVHMt4YxD7wFxOduASExMGVPc
+        uVLgAwrqQJqEJI51eC2O1cbK5Y2ap12dovxuaD0=
+X-Google-Smtp-Source: ABdhPJxia6v+ggx0h/6ClA1/sHMg1Q/7ZU1xWeQZA6EVhTerXcEGn294ZgigAx875QVPOK7l2krbLRnAJ036HXO5fPk=
+X-Received: by 2002:a17:906:489b:: with SMTP id v27mr33672901ejq.567.1637868572711;
+ Thu, 25 Nov 2021 11:29:32 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+References: <1637859224-5179-1-git-send-email-akhilrajeev@nvidia.com>
+In-Reply-To: <1637859224-5179-1-git-send-email-akhilrajeev@nvidia.com>
+From:   Andy Shevchenko <andy.shevchenko@gmail.com>
+Date:   Thu, 25 Nov 2021 21:28:56 +0200
+Message-ID: <CAHp75VfPPpTNCaM+GhcqZS53ts-20GBzm+4OWLAjND=z79pgxg@mail.gmail.com>
+Subject: Re: [PATCH v4] i2c: tegra: Add the ACPI support
+To:     Akhil R <akhilrajeev@nvidia.com>
+Cc:     Christian Koenig <christian.koenig@amd.com>,
+        Dmitry Osipenko <digetx@gmail.com>,
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        Jon Hunter <jonathanh@nvidia.com>,
+        Laxman Dewangan <ldewangan@nvidia.com>,
+        linaro-mm-sig@lists.linaro.org,
+        linux-i2c <linux-i2c@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        linux-tegra <linux-tegra@vger.kernel.org>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        Thierry Reding <thierry.reding@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Ezequiel,
+On Thu, Nov 25, 2021 at 6:54 PM Akhil R <akhilrajeev@nvidia.com> wrote:
+>
+> Add support for the ACPI based device registration so that the driver
+> can be also enabled through ACPI table.
+>
+> This does not include the ACPI support for Tegra VI and DVC I2C.
 
-Dne =C4=8Detrtek, 25. november 2021 ob 13:00:24 CET je Ezequiel Garcia napi=
-sal(a):
-> Hi Jernej,
->=20
-> On Mon, Nov 22, 2021 at 07:46:59PM +0100, Jernej Skrabec wrote:
-> > Older G2 cores, like that in Allwinner H6, seem to have issue with
-> > latching postproc register values if this is first thing done in job.
-> > Moving that to the end solves the issue.
->=20
-> Any idea what exact register should be written before the post-processor
-> is enabled, for H6 to work? Also, which of the PP registers need
-> to be written "at the end"?
+Thanks for an update, my comments below.
 
-No, there is too much registers to determine this exactly. Vendor library=20
-actually stores register values in buffer and write them all at once in=20
-increasing order. This is probably the reason why HDL engineers missed this=
-=20
-issue...
+...
 
->=20
-> > Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
-> > ---
-> >=20
-> >  drivers/staging/media/hantro/hantro_drv.c | 9 ++++++++-
-> >  1 file changed, 8 insertions(+), 1 deletion(-)
-> >=20
-> > diff --git a/drivers/staging/media/hantro/hantro_drv.c
-> > b/drivers/staging/media/hantro/hantro_drv.c index
-> > 8c3de31f51b3..530994ab3024 100644
-> > --- a/drivers/staging/media/hantro/hantro_drv.c
-> > +++ b/drivers/staging/media/hantro/hantro_drv.c
-> > @@ -130,7 +130,7 @@ void hantro_start_prepare_run(struct hantro_ctx *ct=
-x)
-> >=20
-> >  	v4l2_ctrl_request_setup(src_buf->vb2_buf.req_obj.req,
-> >  =09
-> >  				&ctx->ctrl_handler);
-> >=20
-> > -	if (!ctx->is_encoder) {
-> > +	if (!ctx->is_encoder && !ctx->dev->variant->legacy_regs) {
->=20
-> To make this less fragile, do you think it would make sense to
-> have a dedicated quirk flag, something like "legacy_post_proc",
-> instead of overloading the meaning of legacy_regs.
+> -       err = reset_control_reset(i2c_dev->rst);
+> +       if (handle)
 
-Sure, it can be done :) But then I suggest "late_post_proc" - it better=20
-describes what it does.
+> +               err = acpi_evaluate_object(handle, "_RST", NULL, NULL);
 
-Best regards,
-Jernej
+Does it compile for CONFIG_ACPI=n case?
 
->=20
-> What do you think?
->=20
-> Thanks,
-> Ezequiel
->=20
-> >  		if (hantro_needs_postproc(ctx, ctx->vpu_dst_fmt))
-> >  	=09
-> >  			hantro_postproc_enable(ctx);
-> >  	=09
-> >  		else
-> >=20
-> > @@ -142,6 +142,13 @@ void hantro_end_prepare_run(struct hantro_ctx *ctx)
-> >=20
-> >  {
-> > =20
-> >  	struct vb2_v4l2_buffer *src_buf;
-> >=20
-> > +	if (ctx->dev->variant->legacy_regs && !ctx->is_encoder) {
-> > +		if (hantro_needs_postproc(ctx, ctx->vpu_dst_fmt))
-> > +			hantro_postproc_enable(ctx);
-> > +		else
-> > +			hantro_postproc_disable(ctx);
-> > +	}
-> > +
-> >=20
-> >  	src_buf =3D hantro_get_src_buf(ctx);
-> >  	v4l2_ctrl_request_complete(src_buf->vb2_buf.req_obj.req,
-> >  =09
-> >  				   &ctx->ctrl_handler);
+> +       else
+> +               err = reset_control_reset(i2c_dev->rst);
 
+If not, you will need something like this instead:
 
+#ifdef CONFIG_ACPI
+               err = acpi_evaluate_object(ACPI_HANDLE(...), "_RST", NULL, NULL);
+#else
+               err = reset_control_reset(i2c_dev->rst);
+#endif
 
+...
 
+> +       err = device_property_read_u32(i2c_dev->dev, "clock-frequency",
+> +                                      &i2c_dev->bus_clk_rate);
+>         if (err)
+>                 i2c_dev->bus_clk_rate = I2C_MAX_STANDARD_MODE_FREQ;
+
+Actually you need to switch to use i2c_timings data structure and
+corresponding methods.
+This change will be incorporated there. I.o.w. do it as a prerequisite
+to this patch.
+
+...
+
+> +       if (ACPI_HANDLE(i2c_dev->dev))
+> +               return 0;
+
+With above mentioned ifdeffery this may be converted back to
+has_acpi_companion() which is slightly better in this case.
+
+> +       if (ACPI_HANDLE(i2c_dev->dev))
+> +               return 0;
+
+Ditto.
+
+P.S> Sorry if I missed something in the previous reviews.
+
+-- 
+With Best Regards,
+Andy Shevchenko
