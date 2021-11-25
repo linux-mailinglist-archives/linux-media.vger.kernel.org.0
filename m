@@ -2,121 +2,361 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2B69045E336
-	for <lists+linux-media@lfdr.de>; Fri, 26 Nov 2021 00:10:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 12CEB45E362
+	for <lists+linux-media@lfdr.de>; Fri, 26 Nov 2021 00:35:18 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1347146AbhKYXNn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 25 Nov 2021 18:13:43 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60620 "EHLO
+        id S237515AbhKYXi2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 25 Nov 2021 18:38:28 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38180 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S244878AbhKYXLn (ORCPT
+        with ESMTP id S233705AbhKYXg1 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 25 Nov 2021 18:11:43 -0500
-Received: from mail-wm1-x333.google.com (mail-wm1-x333.google.com [IPv6:2a00:1450:4864:20::333])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 861E8C0613F9
-        for <linux-media@vger.kernel.org>; Thu, 25 Nov 2021 15:03:31 -0800 (PST)
-Received: by mail-wm1-x333.google.com with SMTP id 137so6729424wma.1
-        for <linux-media@vger.kernel.org>; Thu, 25 Nov 2021 15:03:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ragnatech-se.20210112.gappssmtp.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=z17KKRcYHCiS6VY7EKWJqLHKUJdF70M4GFqbDdSSuAc=;
-        b=YYPZSU4x07QEl/ZaS+2y04aosT1oMivHlNE+SKDCioSWzJVzkn84Bunkc68sSki9YJ
-         VNBfuWpJNlX+NsZ554fBMc5iLMYj+f9sh6Gy3nYQoFn7GVbxiK3OPvcOyWsapXQEjZGc
-         oagc11UqVNiW2V0eS4pDu58nyJSzHzT0ZP89q2w/pKe7SkWygvXYXCOAVYnlgIyTskUO
-         tzvuOvCLhoDH2tQJ5UCiBoK3BmC/9aKw16WvlDZq3V6opEBV6wTIcFAEVk7qB+kQt8rY
-         xwpYFq1J+q7yh/wwrlOonxmC5cL3EUc2FvYGEcI1JlDROVeZrrfMTZpNcAwoYUTYTnMz
-         bqQA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=z17KKRcYHCiS6VY7EKWJqLHKUJdF70M4GFqbDdSSuAc=;
-        b=N4H4w+qm0Td9rIV5wBHU+ES4yIESGOz1RNFs28yB/dkuw1M3TWaNE6OlyKgn1nOftg
-         0TZJoVyfVf45mSz0b199jjaqPGaNk5woRq4laRlTGq1d9JPkRvlwRiNcRUGYTRtWdcLR
-         7HRRUOdF/KCpA7OlXv53E+2/joSgItVqBB3Po33KttyBZ7uuQcfB21BOP8Jl/LKa5jfR
-         RGAmSQmAOrXx21mnh3fqn1/2DPCilwIF47POw+3Un9F4lSjHoqk0MWxt5r1PgOwfEYAF
-         /A7PNNig9QKf/fsLLjn9OZQnLhURXqYEgeXDbtYVSTYADmWcwpqVe0GWAa2v8k9xzI9F
-         ctUw==
-X-Gm-Message-State: AOAM531Fj65P28NCv1j460w7tlFyaMj0uadcgfkqo/rjMxM4r2R8XbQb
-        m4ki6QCjeeAdRO94vA2BIKrMIg==
-X-Google-Smtp-Source: ABdhPJxzzWPMWp2wuMbAtcEeUbEWx/KiADKQTY8r3+Rz7mEbbnwwFCG+gN59yp07yq4Po2uqJ4cPSw==
-X-Received: by 2002:a7b:cc96:: with SMTP id p22mr11420923wma.69.1637881410048;
-        Thu, 25 Nov 2021 15:03:30 -0800 (PST)
-Received: from bismarck.berto.se (p54ac5892.dip0.t-ipconnect.de. [84.172.88.146])
-        by smtp.googlemail.com with ESMTPSA id m125sm8989495wmm.39.2021.11.25.15.03.29
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 25 Nov 2021 15:03:29 -0800 (PST)
-From:   =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>
-To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        linux-media@vger.kernel.org
-Cc:     linux-renesas-soc@vger.kernel.org,
-        =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>
-Subject: [PATCH] rcar-vin: Update format alignment constraints
-Date:   Fri, 26 Nov 2021 00:02:57 +0100
-Message-Id: <20211125230257.1334452-1-niklas.soderlund+renesas@ragnatech.se>
-X-Mailer: git-send-email 2.34.0
+        Thu, 25 Nov 2021 18:36:27 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A3035C061574;
+        Thu, 25 Nov 2021 15:33:15 -0800 (PST)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 1FFBA340;
+        Fri, 26 Nov 2021 00:33:12 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1637883192;
+        bh=liwFv8omv5vbVmLi1cRj+T4GN5A/0GKkqYC99AZg//s=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=LNLOWJmtdb+C31aYNYc1cRix+XGHpMWHruVJZZKICkV0HPyZEv8BjlJ5ryTOR3BOn
+         ipOb8aO6Gem2EW7JU0l+e1uDngBZPv6p4wFd6OS9q59RNx2sESyUw84vXNVqMbIUpa
+         YHkBe1W8w+hTPwS7MM6UGjAQYAb3nmMYyccKKRaU=
+Date:   Fri, 26 Nov 2021 01:32:48 +0200
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Hans de Goede <hdegoede@redhat.com>
+Cc:     "Rafael J . Wysocki" <rjw@rjwysocki.net>,
+        Mark Gross <markgross@kernel.org>,
+        Andy Shevchenko <andy@infradead.org>,
+        Wolfram Sang <wsa@the-dreams.de>,
+        Mika Westerberg <mika.westerberg@linux.intel.com>,
+        Daniel Scally <djrscally@gmail.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Mark Brown <broonie@kernel.org>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>, Len Brown <lenb@kernel.org>,
+        linux-acpi@vger.kernel.org, platform-driver-x86@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-i2c@vger.kernel.org,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Kate Hsuan <hpa@redhat.com>, linux-media@vger.kernel.org,
+        linux-clk@vger.kernel.org,
+        Andy Shevchenko <andy.shevchenko@gmail.com>
+Subject: Re: [PATCH v6 05/15] regulator: Introduce tps68470-regulator driver
+Message-ID: <YaAdIG+2MZPsdI+F@pendragon.ideasonboard.com>
+References: <20211125165412.535063-1-hdegoede@redhat.com>
+ <20211125165412.535063-6-hdegoede@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20211125165412.535063-6-hdegoede@redhat.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This change fixes two issues with the size constraints for buffers.
+Hi Hans,
 
-- There is no width alignment constraints for RGB formats. Prior to this
-  change they where treated as YUV and as a result was more restricted
-  then needed. Add a new check to different between the two.
+Thank you for the patch.
 
-- The minimum width and height supported is 5x2, not 2x4, this is an
-  artifact from the drivers soc-camera days. Fix this incorrect
-  assumption.
+I've had a quick look and the driver seems fine. Just a few comments
+below.
 
-Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
----
- drivers/media/platform/rcar-vin/rcar-v4l2.c | 15 +++++++++++----
- 1 file changed, 11 insertions(+), 4 deletions(-)
+On Thu, Nov 25, 2021 at 05:54:02PM +0100, Hans de Goede wrote:
+> The TPS68470 PMIC provides Clocks, GPIOs and Regulators. At present in
+> the kernel the Regulators and Clocks are controlled by an OpRegion
+> driver designed to work with power control methods defined in ACPI, but
+> some platforms lack those methods, meaning drivers need to be able to
+> consume the resources of these chips through the usual frameworks.
+> 
+> This commit adds a driver for the regulators provided by the tps68470,
+> and is designed to bind to the platform_device registered by the
+> intel_skl_int3472 module.
+> 
+> This is based on this out of tree driver written by Intel:
+> https://github.com/intel/linux-intel-lts/blob/4.14/base/drivers/regulator/tps68470-regulator.c
+> with various cleanups added.
+> 
+> Reviewed-by: Andy Shevchenko <andy.shevchenko@gmail.com>
+> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+> ---
+> Changes in v6:
+> - Drop the unused volt_table argument from the TPS68470_REGULATOR() macro
+> - While working on VCM (voice coil motor) support for the camera-module behind
+>   this PMIC I learned that the VIO voltage is always on. Instead of pointing its
+>   enable_reg and enable_mask at the same register-bits as the VSIO regulator
+>   (which is wrong), add a new tps68470_always_on_reg_ops struct without
+>   is_enabled, enable and disable ops and use that for the VIO regulator.
+> 
+> Changes in v5:
+> - Small comment / code cleanups based on review from Andy
+> 
+> Changes in v4:
+> - Make the top comment block use c++ style comments
+> - Drop the bogus builtin regulator_init_data
+> - Add || COMPILE_TEST to Kconfig snippet
+> - Make the driver enable the PMIC clk when enabling the Core buck
+>   regulator, this switching regulator needs the PLL to be on
+> 
+> Changes in v2:
+> - Update the comment on why a subsys_initcall is used to register the drv
+> - Make struct regulator_ops const
+> ---
+>  drivers/regulator/Kconfig              |   9 ++
+>  drivers/regulator/Makefile             |   1 +
+>  drivers/regulator/tps68470-regulator.c | 201 +++++++++++++++++++++++++
+>  3 files changed, 211 insertions(+)
+>  create mode 100644 drivers/regulator/tps68470-regulator.c
+> 
+> diff --git a/drivers/regulator/Kconfig b/drivers/regulator/Kconfig
+> index 6be9b1c8a615..ebe46e09510e 100644
+> --- a/drivers/regulator/Kconfig
+> +++ b/drivers/regulator/Kconfig
+> @@ -1339,6 +1339,15 @@ config REGULATOR_TPS65912
+>  	help
+>  	    This driver supports TPS65912 voltage regulator chip.
+>  
+> +config REGULATOR_TPS68470
+> +	tristate "TI TPS68470 PMIC Regulators Driver"
+> +	depends on INTEL_SKL_INT3472 || COMPILE_TEST
+> +	help
+> +	  This driver adds support for the TPS68470 PMIC to register
+> +	  regulators against the usual framework.
+> +
+> +	  The module will be called "tps68470-regulator".
+> +
+>  config REGULATOR_TWL4030
+>  	tristate "TI TWL4030/TWL5030/TWL6030/TPS659x0 PMIC"
+>  	depends on TWL4030_CORE
+> diff --git a/drivers/regulator/Makefile b/drivers/regulator/Makefile
+> index b07d2a22df0b..257331d2caed 100644
+> --- a/drivers/regulator/Makefile
+> +++ b/drivers/regulator/Makefile
+> @@ -159,6 +159,7 @@ obj-$(CONFIG_REGULATOR_TPS6586X) += tps6586x-regulator.o
+>  obj-$(CONFIG_REGULATOR_TPS65910) += tps65910-regulator.o
+>  obj-$(CONFIG_REGULATOR_TPS65912) += tps65912-regulator.o
+>  obj-$(CONFIG_REGULATOR_TPS65132) += tps65132-regulator.o
+> +obj-$(CONFIG_REGULATOR_TPS68470) += tps68470-regulator.o
+>  obj-$(CONFIG_REGULATOR_TWL4030) += twl-regulator.o twl6030-regulator.o
+>  obj-$(CONFIG_REGULATOR_UNIPHIER) += uniphier-regulator.o
+>  obj-$(CONFIG_REGULATOR_VCTRL) += vctrl-regulator.o
+> diff --git a/drivers/regulator/tps68470-regulator.c b/drivers/regulator/tps68470-regulator.c
+> new file mode 100644
+> index 000000000000..9ad2d1eae8fe
+> --- /dev/null
+> +++ b/drivers/regulator/tps68470-regulator.c
+> @@ -0,0 +1,201 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +//
+> +// Regulator driver for TPS68470 PMIC
+> +//
+> +// Copyright (c) 2021 Red Hat Inc.
+> +// Copyright (C) 2018 Intel Corporation
+> +//
+> +// Authors:
+> +//	Hans de Goede <hdegoede@redhat.com>
+> +//	Zaikuo Wang <zaikuo.wang@intel.com>
+> +//	Tianshu Qiu <tian.shu.qiu@intel.com>
+> +//	Jian Xu Zheng <jian.xu.zheng@intel.com>
+> +//	Yuning Pu <yuning.pu@intel.com>
+> +//	Rajmohan Mani <rajmohan.mani@intel.com>
+> +
+> +#include <linux/clk.h>
+> +#include <linux/device.h>
+> +#include <linux/err.h>
+> +#include <linux/init.h>
+> +#include <linux/kernel.h>
+> +#include <linux/mfd/tps68470.h>
+> +#include <linux/module.h>
+> +#include <linux/platform_data/tps68470.h>
+> +#include <linux/platform_device.h>
+> +#include <linux/regulator/driver.h>
+> +#include <linux/regulator/machine.h>
+> +
+> +struct tps68470_regulator_data {
+> +	struct clk *clk;
+> +};
+> +
+> +#define TPS68470_REGULATOR(_name, _id, _ops, _n,			\
+> +			   _vr, _vm, _er, _em, _lr, _nlr)		\
+> +	[TPS68470_ ## _name] = {					\
+> +		.name			= # _name,			\
+> +		.id			= _id,				\
+> +		.ops			= &_ops,			\
+> +		.n_voltages		= _n,				\
+> +		.type			= REGULATOR_VOLTAGE,		\
+> +		.owner			= THIS_MODULE,			\
+> +		.vsel_reg		= _vr,				\
+> +		.vsel_mask		= _vm,				\
+> +		.enable_reg		= _er,				\
+> +		.enable_mask		= _em,				\
+> +		.linear_ranges		= _lr,				\
+> +		.n_linear_ranges	= _nlr,				\
+> +	}
+> +
+> +static const struct linear_range tps68470_ldo_ranges[] = {
+> +	REGULATOR_LINEAR_RANGE(875000, 0, 125, 17800),
+> +};
+> +
+> +static const struct linear_range tps68470_core_ranges[] = {
+> +	REGULATOR_LINEAR_RANGE(900000, 0, 42, 25000),
+> +};
+> +
+> +static int tps68470_regulator_enable(struct regulator_dev *rdev)
+> +{
+> +	struct tps68470_regulator_data *data = rdev->reg_data;
+> +	int ret;
+> +
+> +	/* The Core buck regulator needs the PMIC's PLL to be enabled */
+> +	if (rdev->desc->id == TPS68470_CORE) {
+> +		ret = clk_prepare_enable(data->clk);
+> +		if (ret) {
+> +			dev_err(&rdev->dev, "Error enabling TPS68470 clock\n");
+> +			return ret;
+> +		}
+> +	}
+> +
+> +	return regulator_enable_regmap(rdev);
+> +}
+> +
+> +static int tps68470_regulator_disable(struct regulator_dev *rdev)
+> +{
+> +	struct tps68470_regulator_data *data = rdev->reg_data;
+> +
+> +	if (rdev->desc->id == TPS68470_CORE)
+> +		clk_disable_unprepare(data->clk);
+> +
+> +	return regulator_disable_regmap(rdev);
+> +}
+> +
+> +/* Operations permitted on DCDCx, LDO2, LDO3 and LDO4 */
+> +static const struct regulator_ops tps68470_regulator_ops = {
+> +	.is_enabled		= regulator_is_enabled_regmap,
+> +	.enable			= tps68470_regulator_enable,
+> +	.disable		= tps68470_regulator_disable,
+> +	.get_voltage_sel	= regulator_get_voltage_sel_regmap,
+> +	.set_voltage_sel	= regulator_set_voltage_sel_regmap,
+> +	.list_voltage		= regulator_list_voltage_linear_range,
+> +	.map_voltage		= regulator_map_voltage_linear_range,
+> +};
+> +
+> +static const struct regulator_ops tps68470_always_on_reg_ops = {
+> +	.get_voltage_sel	= regulator_get_voltage_sel_regmap,
+> +	.set_voltage_sel	= regulator_set_voltage_sel_regmap,
+> +	.list_voltage		= regulator_list_voltage_linear_range,
+> +	.map_voltage		= regulator_map_voltage_linear_range,
+> +};
+> +
+> +static const struct regulator_desc regulators[] = {
+> +	TPS68470_REGULATOR(CORE, TPS68470_CORE, tps68470_regulator_ops, 43,
+> +			   TPS68470_REG_VDVAL, TPS68470_VDVAL_DVOLT_MASK,
+> +			   TPS68470_REG_VDCTL, TPS68470_VDCTL_EN_MASK,
+> +			   tps68470_core_ranges, ARRAY_SIZE(tps68470_core_ranges)),
+> +	TPS68470_REGULATOR(ANA, TPS68470_ANA, tps68470_regulator_ops, 126,
+> +			   TPS68470_REG_VAVAL, TPS68470_VAVAL_AVOLT_MASK,
+> +			   TPS68470_REG_VACTL, TPS68470_VACTL_EN_MASK,
+> +			   tps68470_ldo_ranges, ARRAY_SIZE(tps68470_ldo_ranges)),
+> +	TPS68470_REGULATOR(VCM, TPS68470_VCM, tps68470_regulator_ops, 126,
+> +			   TPS68470_REG_VCMVAL, TPS68470_VCMVAL_VCVOLT_MASK,
+> +			   TPS68470_REG_VCMCTL, TPS68470_VCMCTL_EN_MASK,
+> +			   tps68470_ldo_ranges, ARRAY_SIZE(tps68470_ldo_ranges)),
+> +	TPS68470_REGULATOR(VIO, TPS68470_VIO, tps68470_always_on_reg_ops, 126,
+> +			   TPS68470_REG_VIOVAL, TPS68470_VIOVAL_IOVOLT_MASK,
+> +			   0, 0,
+> +			   tps68470_ldo_ranges, ARRAY_SIZE(tps68470_ldo_ranges)),
+> +/*
+> + * (1) This regulator must have the same voltage as VIO if S_IO LDO is used to
+> + *     power a sensor/VCM which I2C is daisy chained behind the PMIC.
+> + * (2) If there is no I2C daisy chain it can be set freely.
+> + */
 
-diff --git a/drivers/media/platform/rcar-vin/rcar-v4l2.c b/drivers/media/platform/rcar-vin/rcar-v4l2.c
-index a5bfa76fdac6e55a..2e60b9fce03b05e0 100644
---- a/drivers/media/platform/rcar-vin/rcar-v4l2.c
-+++ b/drivers/media/platform/rcar-vin/rcar-v4l2.c
-@@ -179,20 +179,27 @@ static void rvin_format_align(struct rvin_dev *vin, struct v4l2_pix_format *pix)
- 		break;
- 	}
- 
--	/* HW limit width to a multiple of 32 (2^5) for NV12/16 else 2 (2^1) */
-+	/* Hardware limits width alignment based on format. */
- 	switch (pix->pixelformat) {
-+	/* Multiple of 32 (2^5) for NV12/16. */
- 	case V4L2_PIX_FMT_NV12:
- 	case V4L2_PIX_FMT_NV16:
- 		walign = 5;
- 		break;
--	default:
-+	/* Multiple of 2 (2^1) for YUV. */
-+	case V4L2_PIX_FMT_YUYV:
-+	case V4L2_PIX_FMT_UYVY:
- 		walign = 1;
- 		break;
-+	/* No multiple for RGB. */
-+	default:
-+		walign = 0;
-+		break;
- 	}
- 
- 	/* Limit to VIN capabilities */
--	v4l_bound_align_image(&pix->width, 2, vin->info->max_width, walign,
--			      &pix->height, 4, vin->info->max_height, 2, 0);
-+	v4l_bound_align_image(&pix->width, 5, vin->info->max_width, walign,
-+			      &pix->height, 2, vin->info->max_height, 0, 0);
- 
- 	pix->bytesperline = rvin_format_bytesperline(vin, pix);
- 	pix->sizeimage = rvin_format_sizeimage(pix);
+Do we need safety checks for this ?
+
+> +	TPS68470_REGULATOR(VSIO, TPS68470_VSIO, tps68470_regulator_ops, 126,
+> +			   TPS68470_REG_VSIOVAL, TPS68470_VSIOVAL_IOVOLT_MASK,
+> +			   TPS68470_REG_S_I2C_CTL, TPS68470_S_I2C_CTL_EN_MASK,
+> +			   tps68470_ldo_ranges, ARRAY_SIZE(tps68470_ldo_ranges)),
+> +	TPS68470_REGULATOR(AUX1, TPS68470_AUX1, tps68470_regulator_ops, 126,
+> +			   TPS68470_REG_VAUX1VAL, TPS68470_VAUX1VAL_AUX1VOLT_MASK,
+> +			   TPS68470_REG_VAUX1CTL, TPS68470_VAUX1CTL_EN_MASK,
+> +			   tps68470_ldo_ranges, ARRAY_SIZE(tps68470_ldo_ranges)),
+> +	TPS68470_REGULATOR(AUX2, TPS68470_AUX2, tps68470_regulator_ops, 126,
+> +			   TPS68470_REG_VAUX2VAL, TPS68470_VAUX2VAL_AUX2VOLT_MASK,
+> +			   TPS68470_REG_VAUX2CTL, TPS68470_VAUX2CTL_EN_MASK,
+> +			   tps68470_ldo_ranges, ARRAY_SIZE(tps68470_ldo_ranges)),
+> +};
+> +
+> +static int tps68470_regulator_probe(struct platform_device *pdev)
+> +{
+> +	struct device *dev = &pdev->dev;
+> +	struct tps68470_regulator_platform_data *pdata = dev_get_platdata(dev);
+> +	struct tps68470_regulator_data *data;
+> +	struct regulator_config config = { };
+> +	struct regulator_dev *rdev;
+> +	int i;
+> +
+> +	data = devm_kzalloc(dev, sizeof(*data), GFP_KERNEL);
+> +	if (!data)
+> +		return -ENOMEM;
+> +
+> +	data->clk = devm_clk_get(dev, "tps68470-clk");
+> +	if (IS_ERR(data->clk))
+> +		return dev_err_probe(dev, PTR_ERR(data->clk), "getting tps68470-clk\n");
+> +
+> +	config.dev = dev->parent;
+> +	config.regmap = dev_get_drvdata(dev->parent);
+> +	config.driver_data = data;
+> +
+> +	for (i = 0; i < TPS68470_NUM_REGULATORS; i++) {
+> +		if (pdata)
+> +			config.init_data = pdata->reg_init_data[i];
+> +		else
+> +			config.init_data = NULL;
+> +
+> +		rdev = devm_regulator_register(dev, &regulators[i], &config);
+> +		if (IS_ERR(rdev))
+> +			return dev_err_probe(dev, PTR_ERR(data->clk),
+
+This should be PTR_ERR(rdev).
+
+> +					     "registering %s regulator\n",
+> +					     regulators[i].name);
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +static struct platform_driver tps68470_regulator_driver = {
+> +	.driver = {
+> +		.name = "tps68470-regulator",
+> +	},
+> +	.probe = tps68470_regulator_probe,
+> +};
+> +
+> +/*
+> + * The ACPI tps68470 probe-ordering depends on the clk/gpio/regulator drivers
+> + * registering before the drivers for the camera-sensors which use them bind.
+> + * subsys_initcall() ensures this when the drivers are builtin.
+> + */
+> +static int __init tps68470_regulator_init(void)
+> +{
+> +	return platform_driver_register(&tps68470_regulator_driver);
+> +}
+> +subsys_initcall(tps68470_regulator_init);
+> +
+> +static void __exit tps68470_regulator_exit(void)
+> +{
+> +	platform_driver_unregister(&tps68470_regulator_driver);
+> +}
+> +module_exit(tps68470_regulator_exit);
+> +
+> +MODULE_ALIAS("platform:tps68470-regulator");
+> +MODULE_DESCRIPTION("TPS68470 voltage regulator driver");
+> +MODULE_LICENSE("GPL v2");
+
 -- 
-2.34.0
+Regards,
 
+Laurent Pinchart
