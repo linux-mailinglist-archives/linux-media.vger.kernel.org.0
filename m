@@ -2,257 +2,179 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 25C4745D847
-	for <lists+linux-media@lfdr.de>; Thu, 25 Nov 2021 11:29:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2320545D854
+	for <lists+linux-media@lfdr.de>; Thu, 25 Nov 2021 11:39:48 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1351679AbhKYKc6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 25 Nov 2021 05:32:58 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33898 "EHLO
+        id S1347648AbhKYKm5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 25 Nov 2021 05:42:57 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36044 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1354483AbhKYKa6 (ORCPT
+        with ESMTP id S1354483AbhKYKk5 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 25 Nov 2021 05:30:58 -0500
-Received: from mail-pf1-x42d.google.com (mail-pf1-x42d.google.com [IPv6:2607:f8b0:4864:20::42d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 47925C06175B
-        for <linux-media@vger.kernel.org>; Thu, 25 Nov 2021 02:27:47 -0800 (PST)
-Received: by mail-pf1-x42d.google.com with SMTP id o4so5463936pfp.13
-        for <linux-media@vger.kernel.org>; Thu, 25 Nov 2021 02:27:47 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=7UBpZ31d6DK8dBZhR4azdbVcJo9QJ6kyKTWtZoP8ZUA=;
-        b=V7TXZioMsgnY3ixi1rdbza6y/ipZx1LjCi3MDIDxmUsK5eG4A/XKBl71gvEmhyDGXZ
-         BApzlpkxzVB45o7HJOYQEo3TbeMqb/m9wc1RZufvxUifmEHz8HP+emJ18nMvuxEvFfOv
-         X3XOjyC32Gv2Z1TpalOW6+5oC2Z3gPVe2mHAX5ltyR7BRnIo0OFqDv5wWyHPCwpBujYn
-         G8FtLIwtwydaMPFri7+pKa/AM0Tn+fRo2K/xMabsiEoxrXmYgWYJyb0AsCVZfIltMMFR
-         toY8QxXIeZgrdb2f/yS8GriapcqgudGJT/DfHFIcofNPSDak3Yx69mowGyKDfI9Se+Fm
-         IIKg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=7UBpZ31d6DK8dBZhR4azdbVcJo9QJ6kyKTWtZoP8ZUA=;
-        b=8D5ESQvbJXAAtOKx9FzXgGFKrgXA0NwzKqjUfh9ENA6qJaRRCw2q1dyesS21LwqCVZ
-         /702nRZtuDkn+EazWaRHCmIi6LTqXBpvV0oVZqaSArShHCXr8izwDmDHSLPjqafcKx7a
-         SjdYXZQqURZ3T9r9nyUTMJ+XwT+GUhxyY0L3xDt03ezZdcCIZywhNNLm/qen+VWLJuwf
-         mnZEfElRXb8eN71YbpHWkQgE9/t8h5EPQiWYoGIY2/S3VPBCbUHMIyZCDyNup3S9Fpia
-         OkAllYVhScR5O1KKtsXIN05ZclrZ6yJzUZco8U+8PMAKLChDQY6cKPIkfc1lWmfrFrvV
-         ndtw==
-X-Gm-Message-State: AOAM5314fx4/TZpCaCOzQo9oyoF/MSHduaCl0KgS5bXI/GYagMh7KC2P
-        9zMePKjzZ57IVBKDlKDCZhEf7VBOdydukDrHs5ZfVQ==
-X-Google-Smtp-Source: ABdhPJy1uoGrEU/t9vyQ7he6hmDCBzD1nj8yUqoFr5dJ3acoqcnsJiiK8jjIIVhgr4Vw53y3fdsOrbUVsJR6cdBD+Rs=
-X-Received: by 2002:a62:7c8b:0:b0:49f:a8ae:de33 with SMTP id
- x133-20020a627c8b000000b0049fa8aede33mr13231941pfc.29.1637836066680; Thu, 25
- Nov 2021 02:27:46 -0800 (PST)
+        Thu, 25 Nov 2021 05:40:57 -0500
+Received: from lb1-smtp-cloud9.xs4all.net (lb1-smtp-cloud9.xs4all.net [IPv6:2001:888:0:108::1c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5282EC06173E
+        for <linux-media@vger.kernel.org>; Thu, 25 Nov 2021 02:36:05 -0800 (PST)
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud9.xs4all.net with ESMTPA
+        id qC6im6cAw1HGJqC6lm33L8; Thu, 25 Nov 2021 11:36:03 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
+        t=1637836563; bh=DuB3sIV9qAlM1nzK0E28+6fjmKgEolqX/IRiUu6l2Qw=;
+        h=To:From:Subject:Message-ID:Date:MIME-Version:Content-Type:From:
+         Subject;
+        b=wQa88C5xH5aSatJzLeJnF3RB6BhNhoVNALAKholrIweoxdlYauwolj8BMaCkdxnpS
+         5mn8b8dG7V+xlOYj2kHNyvw4vX3F7pd6JzVDdS0t4JknCfxMKlDK5mewXd57yo8JxQ
+         bdZjBR3PdAkIbh2S9mY734lja25OZkz0i1NNuXUMcLcePgsYzKBZ4rnJMuU1NdPHaX
+         Vr14+vR4+OaMqUUCVdgECJ0GY4lWpSedptr/NV8IAxdD9zSjpBgnrIkCNbr6xcRjiF
+         9MnOYhKaj3DZk3f79gXsofZErS8z5ySM3o3Xu0P/YQ4sRth3TnP0b4DYxQWdCSzSvr
+         N7DqN0wMDODww==
+To:     Linux Media Mailing List <linux-media@vger.kernel.org>
+Cc:     Fabio Estevam <festevam@gmail.com>,
+        Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Subject: [GIT PULL FOR v5.17] Various fixes and enhancements
+Message-ID: <ffd5ab45-3295-2051-e2ce-5395507de975@xs4all.nl>
+Date:   Thu, 25 Nov 2021 11:35:59 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Firefox/78.0 Thunderbird/78.14.0
 MIME-Version: 1.0
-References: <20211124175921.1048375-1-bryan.odonoghue@linaro.org> <20211124175921.1048375-18-bryan.odonoghue@linaro.org>
-In-Reply-To: <20211124175921.1048375-18-bryan.odonoghue@linaro.org>
-From:   Robert Foss <robert.foss@linaro.org>
-Date:   Thu, 25 Nov 2021 11:27:35 +0100
-Message-ID: <CAG3jFytVHxOWw1aymMJtXXZ=4r3gjdjtM6Qpb8mqtzc5jSs-EA@mail.gmail.com>
-Subject: Re: [PATCH v2 17/19] media: camss: Add SM8250 bandwdith configuration support
-To:     "Bryan O'Donoghue" <bryan.odonoghue@linaro.org>
-Cc:     linux-arm-msm@vger.kernel.org, linux-media@vger.kernel.org,
-        jonathan@marek.ca, andrey.konovalov@linaro.org,
-        todor.too@gmail.com, agross@kernel.org, bjorn.andersson@linaro.org,
-        mchehab@kernel.org, jgrahsl@snap.com, hfink@snap.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-CMAE-Envelope: MS4xfOREj9wTlRcXOvvAtZOXfjxQLeEQu0eNQ9EUiBbth/hJLxowHUFoW0wn4Bi3aJDsyoHBwImKd3Qr9dI0fXpw6+n8z+5SGeSvK6sswu792Ie83IXMnj8c
+ GL9v8X2ck4NjTY++8l3LGPcsVLeqeZxr5Lo3lhmUPbjfvkVkk0RmfyfwYkSNcDWw588pSm1Fso45S77WhITyxJktii6dFc/ejlQYF7I1LhYEUW5ZCllod206
+ vvAZmr/iM5y0Vd1BJY+f/lGzs64L3fiG0m4E6xNkgjQ=
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, 24 Nov 2021 at 18:57, Bryan O'Donoghue
-<bryan.odonoghue@linaro.org> wrote:
->
-> Downstream makes some pretty explicit comments about voting for bus
-> bandwidth prior to camcc_camnoc_axi_clk_src. Working with camx downstream
-> also shows that the bandwidth vote is required to get that root clock
-> working.
->
-> Add a simple mechanism to declare set and unset named NOCs. Whereas the
-> objective is to enable the sm8250 specifically the code has been
-> implemented to allow setting of whatever NOCs different SoCs using this
-> driver may require.
->
-> Tested-by: Julian Grahsl <jgrahsl@snap.com>
-> Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-> ---
->  drivers/media/platform/qcom/camss/camss.c | 81 +++++++++++++++++++++++
->  drivers/media/platform/qcom/camss/camss.h | 17 +++++
->  2 files changed, 98 insertions(+)
->
-> diff --git a/drivers/media/platform/qcom/camss/camss.c b/drivers/media/platform/qcom/camss/camss.c
-> index 066639db9f18..d9905e737d88 100644
-> --- a/drivers/media/platform/qcom/camss/camss.c
-> +++ b/drivers/media/platform/qcom/camss/camss.c
-> @@ -8,6 +8,7 @@
->   * Copyright (C) 2015-2018 Linaro Ltd.
->   */
->  #include <linux/clk.h>
-> +#include <linux/interconnect.h>
->  #include <linux/media-bus-format.h>
->  #include <linux/media.h>
->  #include <linux/module.h>
-> @@ -841,6 +842,29 @@ static const struct resources vfe_res_8250[] = {
->         },
->  };
->
-> +static const struct resources_icc icc_res_sm8250[] = {
-> +       {
-> +               .name = "cam_ahb",
-> +               .icc_bw_tbl.avg = 38400,
-> +               .icc_bw_tbl.peak = 76800,
-> +       },
-> +       {
-> +               .name = "cam_hf_0_mnoc",
-> +               .icc_bw_tbl.avg = 2097152,
-> +               .icc_bw_tbl.peak = 2097152,
-> +       },
-> +       {
-> +               .name = "cam_sf_0_mnoc",
-> +               .icc_bw_tbl.avg = 0,
-> +               .icc_bw_tbl.peak = 2097152,
-> +       },
-> +       {
-> +               .name = "cam_sf_icp_mnoc",
-> +               .icc_bw_tbl.avg = 2097152,
-> +               .icc_bw_tbl.peak = 2097152,
-> +       },
-> +};
-> +
->  /*
->   * camss_add_clock_margin - Add margin to clock frequency rate
->   * @rate: Clock frequency rate
-> @@ -1470,6 +1494,29 @@ static int camss_configure_pd(struct camss *camss)
->         return ret;
->  }
->
-> +static int camss_icc_get(struct camss *camss)
-> +{
-> +       const struct resources_icc *icc_res;
-> +       int nbr_icc_paths = 0;
-> +       int i;
-> +
-> +       if (camss->version == CAMSS_8250) {
-> +               icc_res = &icc_res_sm8250[0];
-> +               nbr_icc_paths = ICC_SM8250_COUNT;
-> +       }
-> +
-> +       for (i = 0; i < nbr_icc_paths; i++) {
-> +               camss->icc_path[i] = devm_of_icc_get(camss->dev,
-> +                                                    icc_res[i].name);
-> +               if (IS_ERR(camss->icc_path[i]))
-> +                       return PTR_ERR(camss->icc_path[i]);
-> +
-> +               camss->icc_bw_tbl[i] = icc_res[i].icc_bw_tbl;
-> +       }
-> +
-> +       return 0;
-> +}
-> +
->  /*
->   * camss_probe - Probe CAMSS platform device
->   * @pdev: Pointer to CAMSS platform device
-> @@ -1562,6 +1609,10 @@ static int camss_probe(struct platform_device *pdev)
->                 goto err_cleanup;
->         }
->
-> +       ret = camss_icc_get(camss);
-> +       if (ret < 0)
-> +               goto err_cleanup;
-> +
->         ret = camss_init_subdevices(camss);
->         if (ret < 0)
->                 goto err_cleanup;
-> @@ -1695,11 +1746,41 @@ MODULE_DEVICE_TABLE(of, camss_dt_match);
->
->  static int __maybe_unused camss_runtime_suspend(struct device *dev)
->  {
-> +       struct camss *camss = dev_get_drvdata(dev);
-> +       int nbr_icc_paths = 0;
-> +       int i;
-> +       int ret;
-> +
-> +       if (camss->version == CAMSS_8250)
-> +               nbr_icc_paths = ICC_SM8250_COUNT;
-> +
-> +       for (i = 0; i < nbr_icc_paths; i++) {
-> +               ret = icc_set_bw(camss->icc_path[i], 0, 0);
-> +               if (ret)
-> +                       return ret;
-> +       }
-> +
->         return 0;
->  }
->
->  static int __maybe_unused camss_runtime_resume(struct device *dev)
->  {
-> +       struct camss *camss = dev_get_drvdata(dev);
-> +       int nbr_icc_paths = 0;
-> +       int i;
-> +       int ret;
-> +
-> +       if (camss->version == CAMSS_8250)
-> +               nbr_icc_paths = ICC_SM8250_COUNT;
-> +
-> +       for (i = 0; i < nbr_icc_paths; i++) {
-> +               ret = icc_set_bw(camss->icc_path[i],
-> +                                camss->icc_bw_tbl[i].avg,
-> +                                camss->icc_bw_tbl[i].peak);
-> +               if (ret)
-> +                       return ret;
-> +       }
-> +
->         return 0;
->  }
->
-> diff --git a/drivers/media/platform/qcom/camss/camss.h b/drivers/media/platform/qcom/camss/camss.h
-> index 377e2474a485..9c644e638a94 100644
-> --- a/drivers/media/platform/qcom/camss/camss.h
-> +++ b/drivers/media/platform/qcom/camss/camss.h
-> @@ -56,6 +56,16 @@ struct resources_ispif {
->         char *interrupt;
->  };
->
-> +struct icc_bw_tbl {
-> +       u32 avg;
-> +       u32 peak;
-> +};
-> +
-> +struct resources_icc {
-> +       char *name;
-> +       struct icc_bw_tbl icc_bw_tbl;
-> +};
-> +
->  enum pm_domain {
->         PM_DOMAIN_VFE0 = 0,
->         PM_DOMAIN_VFE1 = 1,
-> @@ -72,6 +82,11 @@ enum camss_version {
->         CAMSS_8250,
->  };
->
-> +enum icc_count {
-> +       ICC_DEFAULT_COUNT = 0,
-> +       ICC_SM8250_COUNT = 4,
-> +};
-> +
->  struct camss {
->         enum camss_version version;
->         struct v4l2_device v4l2_dev;
-> @@ -88,6 +103,8 @@ struct camss {
->         atomic_t ref_count;
->         struct device *genpd[PM_DOMAIN_GEN2_COUNT];
->         struct device_link *genpd_link[PM_DOMAIN_GEN2_COUNT];
-> +       struct icc_path *icc_path[ICC_SM8250_COUNT];
-> +       struct icc_bw_tbl icc_bw_tbl[ICC_SM8250_COUNT];
->  };
->
->  struct camss_camera_interface {
-> --
-> 2.33.0
->
+The following changes since commit b1b447e2f3e1ec0c3e9716f4f74d056461f69ab3:
 
-Looks good!
+  media: mxl5005s: drop some dead code (2021-11-24 20:06:42 +0100)
 
-Reviewed-by: Robert Foss <robert.foss@linaro.org>
+are available in the Git repository at:
+
+  git://linuxtv.org/hverkuil/media_tree.git tags/br-v5.17d
+
+for you to fetch changes up to e87cda7d5ce3c4fd2ad5e3b4f9c238281cf92c43:
+
+  libv4l-introduction.rst: fix undefined label (2021-11-25 11:33:55 +0100)
+
+----------------------------------------------------------------
+Tag branch
+
+----------------------------------------------------------------
+Alexandre Courbot (1):
+      media: docs: dev-decoder: add restrictions about CAPTURE buffers
+
+Andrzej Hajda (1):
+      MAINTAINERS: Update email of Andrzej Hajda
+
+Chen-Yu Tsai (1):
+      media: hantro: Hook up RK3399 JPEG encoder output
+
+Christophe JAILLET (1):
+      media: mtk-vcodec: Fix an error handling path in 'mtk_vcodec_probe()'
+
+Dafna Hirschfeld (4):
+      media: mtk-vcodec: call v4l2_m2m_ctx_release first when file is released
+      media: mtk-vcodec: fix debugging defines
+      media: mtk-vcodec: replace func vidioc_try_fmt with two funcs for out/cap
+      media: mtk-vcodec: don't check return val of mtk_venc_get_q_data
+
+Dmitry Osipenko (1):
+      media: staging: tegra-vde: Reorder misc device registration
+
+Dongliang Mu (3):
+      driver: hva: add pm_runtime_disable in the error handling code of hva_hw_probe
+      driver: bdisp: add pm_runtime_disable in the error handling code
+      driver: s3c_camif: move s3c_camif_unregister_subdev out of camif_unregister_media_entities
+
+Fabio Estevam (2):
+      media: imx-pxp: Initialize the spinlock prior to using it
+      media: imx-pxp: Add rotation support
+
+Guo Zhengkui (1):
+      media: imx: fix boolreturn.cocci warning:
+
+Hans Verkuil (5):
+      vb2: frame_vector.c: don't overwrite error code
+      cec: safely unhook lists in cec_data
+      pvrusb2: fix inconsistent indenting
+      omap3isp.h: fix kernel-doc warnings
+      libv4l-introduction.rst: fix undefined label
+
+James Cowgill (1):
+      media: hantro: Avoid global variable for jpeg quantization tables
+
+Philipp Zabel (1):
+      media: coda: fix CODA960 JPEG encoder buffer overflow
+
+Rikard Falkeborn (2):
+      media: imx: Constify static struct v4l2_m2m_ops
+      staging: media: rkvdec: Constify static struct v4l2_m2m_ops
+
+Robert Foss (1):
+      media: camss: Remove unused static function
+
+Suresh Udipi (3):
+      media: rcar-csi2: Correct the selection of hsfreqrange
+      media: rcar-csi2: Add warning for PHY speed less than minimum
+      media: rcar-csi2: Optimize the selection PHTW register
+
+Tang Bin (1):
+      media: rcar_fdp1: Fix the correct variable assignments
+
+Thierry Reding (2):
+      media: staging: tegra-vde: Support reference picture marking
+      media: staging: tegra-vde: Properly mark invalid entries
+
+Uwe Kleine-König (1):
+      s5c73m3: Drop empty spi_driver remove callback
+
+Xu Wang (1):
+      media: mtk-jpeg: Remove unnecessary print function dev_err()
+
+Yang Yingliang (1):
+      media: si470x-i2c: fix possible memory leak in si470x_i2c_probe()
+
+ .mailmap                                                      |   1 +
+ Documentation/userspace-api/media/v4l/dev-decoder.rst         |  17 ++++++
+ Documentation/userspace-api/media/v4l/libv4l-introduction.rst |   2 +-
+ MAINTAINERS                                                   |  13 +++--
+ drivers/media/cec/core/cec-adap.c                             |   8 ++-
+ drivers/media/cec/core/cec-api.c                              |   2 +-
+ drivers/media/common/videobuf2/frame_vector.c                 |  15 ++++-
+ drivers/media/i2c/s5c73m3/s5c73m3-spi.c                       |   6 --
+ drivers/media/platform/coda/coda-common.c                     |   8 ++-
+ drivers/media/platform/coda/coda-jpeg.c                       |  21 ++++++-
+ drivers/media/platform/imx-pxp.c                              |  35 ++++++++++--
+ drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c               |   4 +-
+ drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_drv.c        |   5 +-
+ drivers/media/platform/mtk-vcodec/mtk_vcodec_enc.c            | 188 +++++++++++++++++++++++++++------------------------------------
+ drivers/media/platform/mtk-vcodec/mtk_vcodec_enc_drv.c        |   5 +-
+ drivers/media/platform/mtk-vcodec/mtk_vcodec_util.c           |  10 ----
+ drivers/media/platform/mtk-vcodec/mtk_vcodec_util.h           |  45 ++++-----------
+ drivers/media/platform/mtk-vcodec/vdec/vdec_h264_req_if.c     |   4 +-
+ drivers/media/platform/omap3isp/omap3isp.h                    |   2 +
+ drivers/media/platform/qcom/camss/camss-vfe-170.c             |   7 ---
+ drivers/media/platform/rcar-vin/rcar-csi2.c                   |  22 +++++++-
+ drivers/media/platform/rcar_fdp1.c                            |   7 +--
+ drivers/media/platform/s3c-camif/camif-core.c                 |   2 +-
+ drivers/media/platform/sti/bdisp/bdisp-v4l2.c                 |   1 +
+ drivers/media/platform/sti/hva/hva-hw.c                       |   4 +-
+ drivers/media/radio/si470x/radio-si470x-i2c.c                 |   3 +-
+ drivers/media/usb/pvrusb2/pvrusb2-encoder.c                   |   4 +-
+ drivers/media/usb/pvrusb2/pvrusb2-hdw.c                       |  33 ++++++-----
+ drivers/staging/media/hantro/hantro_h1_jpeg_enc.c             |   7 +--
+ drivers/staging/media/hantro/hantro_hw.h                      |   3 +-
+ drivers/staging/media/hantro/hantro_jpeg.c                    |  31 +++--------
+ drivers/staging/media/hantro/hantro_jpeg.h                    |   4 +-
+ drivers/staging/media/hantro/rockchip_vpu2_hw_jpeg_enc.c      |  22 +++++++-
+ drivers/staging/media/hantro/rockchip_vpu_hw.c                |   5 +-
+ drivers/staging/media/imx/imx-media-csc-scaler.c              |   2 +-
+ drivers/staging/media/imx/imx-media-csi.c                     |   2 +-
+ drivers/staging/media/rkvdec/rkvdec.c                         |   2 +-
+ drivers/staging/media/tegra-vde/vde.c                         | 147 ++++++++++++++++++++++++++++++++++++++++++++-----
+ drivers/staging/media/tegra-vde/vde.h                         |  18 ++++++
+ 39 files changed, 445 insertions(+), 272 deletions(-)
