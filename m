@@ -2,121 +2,79 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A240245F5EE
-	for <lists+linux-media@lfdr.de>; Fri, 26 Nov 2021 21:32:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4C59045FBB1
+	for <lists+linux-media@lfdr.de>; Sat, 27 Nov 2021 03:12:38 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238042AbhKZUfi (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 26 Nov 2021 15:35:38 -0500
-Received: from dfw.source.kernel.org ([139.178.84.217]:58404 "EHLO
-        dfw.source.kernel.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232675AbhKZUdh (ORCPT
+        id S1348608AbhK0CPr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 26 Nov 2021 21:15:47 -0500
+Received: from mail.daesangagung.co.id ([117.54.218.101]:44800 "EHLO
+        mail.daesangagung.co.id" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S241891AbhK0CNq (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 26 Nov 2021 15:33:37 -0500
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id B083762281;
-        Fri, 26 Nov 2021 20:30:23 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0BBEDC004E1;
-        Fri, 26 Nov 2021 20:30:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1637958623;
-        bh=3Ez6hA3NWEj59LlRB6xO3PkLztU9xFstRwP/8ZIKVA8=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=T9FCRVny5e1JIkFI3G1lmXSqqcPcOPcS7T6tIkDpk/NtS5zcn+LPAOJTDnnN2oZ1V
-         PUDPCyAA1pEiacX9GOds6TwlXmVRB8xpkyrFJMZ0GcojhZjxBQKa7301muEHsNDTlC
-         cR1yWKhe7vjR6lxgQpu94posgZ3m8Pi7/2gYeXCBHp0W86gnurL10N3y/HEpP6Tcnj
-         POFF0MArPuvXCSYkZPIEfGtuM5n/Y0M8mZlNwlSgPY0yj0lJ0qkIG8wpddw7cozL+q
-         cj12iZscxh8mMTCSp2BDnSUyQYD/J6DzSP/lueLosi5/B8aKEZILK1gaKQOgmvWbmr
-         pQHKxe3c/UNGQ==
-Date:   Fri, 26 Nov 2021 13:30:17 -0700
-From:   Nathan Chancellor <nathan@kernel.org>
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc:     linuxarm@huawei.com, mauro.chehab@huawei.com,
-        Bixuan Cui <cuibixuan@huawei.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        llvm@lists.linux.dev
-Subject: Re: [PATCH 20/20] media: mxl5005s: drop some dead code
-Message-ID: <YaFD2RmjE1QlBKr9@archlinux-ax161>
-References: <cover.1637781097.git.mchehab+huawei@kernel.org>
- <b1b447e2f3e1ec0c3e9716f4f74d056461f69ab3.1637781097.git.mchehab+huawei@kernel.org>
+        Fri, 26 Nov 2021 21:13:46 -0500
+Received: from localhost (localhost [127.0.0.1])
+        by mail.daesangagung.co.id (Postfix) with ESMTP id B11F180BC8355;
+        Fri, 26 Nov 2021 00:25:04 +0700 (WIB)
+Received: from mail.daesangagung.co.id ([127.0.0.1])
+        by localhost (mail.daesangagung.co.id [127.0.0.1]) (amavisd-new, port 10032)
+        with ESMTP id KP-98jJa8OIL; Fri, 26 Nov 2021 00:25:04 +0700 (WIB)
+Received: from localhost (localhost [127.0.0.1])
+        by mail.daesangagung.co.id (Postfix) with ESMTP id 9CAE7809F6432;
+        Thu, 25 Nov 2021 20:16:56 +0700 (WIB)
+X-Virus-Scanned: amavisd-new at daesangagung.co.id
+Received: from mail.daesangagung.co.id ([127.0.0.1])
+        by localhost (mail.daesangagung.co.id [127.0.0.1]) (amavisd-new, port 10026)
+        with ESMTP id wLAkd3Q9MCXI; Thu, 25 Nov 2021 20:16:56 +0700 (WIB)
+Received: from User (_gateway [10.0.22.111])
+        by mail.daesangagung.co.id (Postfix) with SMTP id 335C4809F6434;
+        Thu, 25 Nov 2021 11:25:13 +0700 (WIB)
+Reply-To: <sarb_bnk086@meta.ua>
+From:   "Hsbc Bank London" <info@daesangagung.co.id>
+Subject: Your Approved Payment !
+Date:   Wed, 24 Nov 2021 20:25:30 -0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <b1b447e2f3e1ec0c3e9716f4f74d056461f69ab3.1637781097.git.mchehab+huawei@kernel.org>
+Content-Type: text/plain;
+        charset="Windows-1251"
+Content-Transfer-Encoding: 7bit
+X-Priority: 3
+X-MSMail-Priority: Normal
+X-Mailer: Microsoft Outlook Express 6.00.2600.0000
+X-MimeOLE: Produced By Microsoft MimeOLE V6.00.2600.0000
+Message-Id: <20211125042513.335C4809F6434@mail.daesangagung.co.id>
+To:     unlisted-recipients:; (no To-header on input)
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Nov 24, 2021 at 08:13:23PM +0100, Mauro Carvalho Chehab wrote:
-> As reported by clang (with W=1), the ctrlVal var is never used.
-> 
-> Yet, there are even some loops to estimate it. As this is dead
-> code, remove it. If ever needed, someone could revert this
-> patch.
-> 
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+THE WORLDS LOCAL BANK
+International Banking
+FOREIGN EXCHANGE UNIT
 
-Reviewed-by: Nathan Chancellor <nathan@kernel.org>
+RE: MANDATORY RELEASE ORDER OF YOUR OVERDUE FUND
 
-> ---
-> 
-> To avoid mailbombing on a large number of people, only mailing lists were C/C on the cover.
-> See [PATCH 00/20] at: https://lore.kernel.org/all/cover.1637781097.git.mchehab+huawei@kernel.org/
-> 
->  drivers/media/tuners/mxl5005s.c | 14 +-------------
->  1 file changed, 1 insertion(+), 13 deletions(-)
-> 
-> diff --git a/drivers/media/tuners/mxl5005s.c b/drivers/media/tuners/mxl5005s.c
-> index f6e82a8e7d37..ab4c43df9d18 100644
-> --- a/drivers/media/tuners/mxl5005s.c
-> +++ b/drivers/media/tuners/mxl5005s.c
-> @@ -3414,9 +3414,8 @@ static u16 MXL_ControlWrite_Group(struct dvb_frontend *fe, u16 controlNum,
->  	u32 value, u16 controlGroup)
->  {
->  	struct mxl5005s_state *state = fe->tuner_priv;
-> -	u16 i, j, k;
-> +	u16 i, j;
->  	u32 highLimit;
-> -	u32 ctrlVal;
->  
->  	if (controlGroup == 1) /* Initial Control */ {
->  
-> @@ -3432,9 +3431,6 @@ static u16 MXL_ControlWrite_Group(struct dvb_frontend *fe, u16 controlNum,
->  							(u8)(state->Init_Ctrl[i].bit[j]),
->  							(u8)((value>>j) & 0x01));
->  					}
-> -					ctrlVal = 0;
-> -					for (k = 0; k < state->Init_Ctrl[i].size; k++)
-> -						ctrlVal += state->Init_Ctrl[i].val[k] * (1 << k);
->  				} else
->  					return -1;
->  			}
-> @@ -3454,9 +3450,6 @@ static u16 MXL_ControlWrite_Group(struct dvb_frontend *fe, u16 controlNum,
->  							(u8)(state->CH_Ctrl[i].bit[j]),
->  							(u8)((value>>j) & 0x01));
->  					}
-> -					ctrlVal = 0;
-> -					for (k = 0; k < state->CH_Ctrl[i].size; k++)
-> -						ctrlVal += state->CH_Ctrl[i].val[k] * (1 << k);
->  				} else
->  					return -1;
->  			}
-> @@ -3477,11 +3470,6 @@ static u16 MXL_ControlWrite_Group(struct dvb_frontend *fe, u16 controlNum,
->  							(u8)(state->MXL_Ctrl[i].bit[j]),
->  							(u8)((value>>j) & 0x01));
->  					}
-> -					ctrlVal = 0;
-> -					for (k = 0; k < state->MXL_Ctrl[i].size; k++)
-> -						ctrlVal += state->
-> -							MXL_Ctrl[i].val[k] *
-> -							(1 << k);
->  				} else
->  					return -1;
->  			}
-> -- 
-> 2.33.1
-> 
-> 
+Dear Valued Beneficiary:
+
+We are pleased to inform you that we have finally concluded arrangement towards your refund/lottery pay out which has been delayed for a Long Period of time because of your Cooperation and Dealings with Wrong Officials and importers of banks as your fund returned back to us on the 4th of Jan 2021 when we confirmed the rate of delays and questionable activities that has been related by the previous administrative banks alongside with others that collaborated in delaying the release of your fund after all charges and payments demanded were paid.
+
+Recently, the Ministry of Finance of United Kingdom, Bank of England, HSBC Bank Plc UK and United Kingdom Inland Revenue Services held a meeting on how this fund will be released to the beneficiaries to their designated bank accounts in their country without further delay since we are in the first half of the economic year 2021 and it is now overdue to be released as the said funds belongs to them.
+
+We apologize for the delay of the payment and all the inconveniences that this might have caused you during this period of time. However we have instructed all the banks in the globe which we previously asked to help us pay out this fund to the general public to STOP the process of the release of the fund due to their incompetence and negligence of duty towards the release of this fund. After our findings, some were arrested and charged for theft according to Section 1 of the Theft Act 1978, as amended by the Theft (Amendment) Act 1996 law of the United Kingdom.
+
+The Bank of England Governor (Mr Andrew Bailey) has given serious warning and Instructions and ordered the Inland Revenue Services Department of England to quickly release all on hold funds which are in their escrow account to the sole beneficiaries which you are among those who will receive their Inheritance funds.
+
+Please contact ONLY the Executive member of the Monetary Policy Committee of South African Reserve Bank (Dr Rashad Cassim) on his email: sarb_bnk086@meta.ua to advise you on how to procure the certificate of claim as the law of South Africa demands that without it there will not be any payment whether pending loan amount, lottery fund, inheritance funds or whatsoever fund locally or internationally perhaps you have not yet received it.
+
+Provide below details to Dr Rashad Cassim for his clarification:
+
+Full Name....... Tel.................
+
+Address......... Amount..............
+
+City............ Country.............
+
+Copies of documents pertaining to the fund.
+
+Best Regards,
+Mr.James Emmett.
+Chief Executive Officer, HSBC Bank plc.
+United Kingdom
