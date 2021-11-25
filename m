@@ -2,127 +2,196 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 840A945D9AC
-	for <lists+linux-media@lfdr.de>; Thu, 25 Nov 2021 13:02:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 37D0245DA05
+	for <lists+linux-media@lfdr.de>; Thu, 25 Nov 2021 13:28:30 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239834AbhKYMFo (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 25 Nov 2021 07:05:44 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54112 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239138AbhKYMDn (ORCPT
+        id S1352692AbhKYMb3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 25 Nov 2021 07:31:29 -0500
+Received: from mx0a-00069f02.pphosted.com ([205.220.165.32]:8412 "EHLO
+        mx0a-00069f02.pphosted.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1345004AbhKYM32 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 25 Nov 2021 07:03:43 -0500
-Received: from mail-vk1-xa35.google.com (mail-vk1-xa35.google.com [IPv6:2607:f8b0:4864:20::a35])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ACD8FC061746
-        for <linux-media@vger.kernel.org>; Thu, 25 Nov 2021 04:00:32 -0800 (PST)
-Received: by mail-vk1-xa35.google.com with SMTP id m16so2774867vkl.13
-        for <linux-media@vger.kernel.org>; Thu, 25 Nov 2021 04:00:32 -0800 (PST)
+        Thu, 25 Nov 2021 07:29:28 -0500
+Received: from pps.filterd (m0246627.ppops.net [127.0.0.1])
+        by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 1APBxSBp012709;
+        Thu, 25 Nov 2021 12:26:05 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
+ : subject : message-id : references : content-type : in-reply-to :
+ mime-version; s=corp-2021-07-09;
+ bh=p2yTzdPsc707far2C8TbZsWraN74C7iht7pCe2hND8Y=;
+ b=qlDOezNx6ijhxjGL+yt7CsOtOYUwbFYWrFAnm95e+Fpbeg0/yPie6az247zyTilvLBm+
+ 73LLzQDF3L9jjwcOqMvd8q/WCP5JO9PKnBHqDqDw25GUlnAbelxThzKA08Lp0du/KwIZ
+ K5RjBoWkhxLU7u6ooA7dmNVbWfKq6iW3ScnpTCD8P7YJgH1GHifUII5vSRdUj8zHKnY5
+ UKgONcavekeR2eiaRNu+UIWQck1eCUrNEYiiWVwkINlfBWcddWcVydNW4Zc6e2h9Q4fK
+ uCHFzXQPnH+4EymIbovXoAAfcBIyX+qL82h6xX4vHTdMktzbbJqyP6VlZsgX0JT53eum yQ== 
+Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
+        by mx0b-00069f02.pphosted.com with ESMTP id 3chpeex901-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Thu, 25 Nov 2021 12:26:05 +0000
+Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
+        by aserp3020.oracle.com (8.16.1.2/8.16.1.2) with SMTP id 1APCLPnd134289;
+        Thu, 25 Nov 2021 12:26:04 GMT
+Received: from nam12-mw2-obe.outbound.protection.outlook.com (mail-mw2nam12lp2047.outbound.protection.outlook.com [104.47.66.47])
+        by aserp3020.oracle.com with ESMTP id 3ceru8m1wq-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Thu, 25 Nov 2021 12:26:04 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=GBsb5JI+MImy5nf5Go8aLgsMjkOcHb1QuWnUbcIhO9L1vPMnk9mRP2RxdxmBU3/WEj/t+k03BHxoPcQyjSd8wkIWrnZvia7BpBt5gsgQ9C35UhfqIzUvK/3CffH7m6JD4V9PGHyYPMW9Tl1r2gDiDWRFLkxdY9dWKuN6fCAQir+SbZEbE5AfqFQ9s7V8hVCabRLh579Dg+exl2WsLr4hcZmb+Harq/06qw1ZRRk6ZTGDvgFMvs25d8numw1k0oS83Tr4FfLohkDRqItPSJ/NTklWgo8dU4OYklpr30KQTeyxZ+fy87vH3DCSbvcs9vL+q3Z6fHldUkzNiXSRbt80ag==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=p2yTzdPsc707far2C8TbZsWraN74C7iht7pCe2hND8Y=;
+ b=WF/76pf2n01T4QRtn7C4SaArlBzR5Vf0Qazyul/7XGUdAMiH91wxlSASj0IMNmDA6Hidpk932KmHDMrXcMuQ3Mdekcr2V5yLWr8NTG5BwwX00XWLiMSYhsABnKpDKK2g+90k12cenTrCUuE4zFtLVCwOa/9XDeARf0TnIGlkj6ost3ZHyjMj5ZGb8deJ3u3XGjVA93DJ2nL8UIdMh+BkZ78o4Yab7XLOl5regUuEJr4rdTTjoZCN6nWFYqfvysdLVMICrfsSYi4YyQTYweaAh2Uic9oxCibbzTkhDTOkpWzVjS0ZTbTsW9IPRT4b2Xj5q8axNTPSqg45FP/AZhW1Jw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=vanguardiasur-com-ar.20210112.gappssmtp.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=6Lylh8DR+450t+VKD+Wrn7i+Xuwy9BF3AUDecTVOK4g=;
-        b=erksV85QXm/bqtxQPmB7msXlbNBDCVOQLjiysuFCaDkVczzFvYyAl5dXhwb+8YbvxT
-         yYfptkjAO28P25RNMRp7yU2utcDxwTtprCmykjLrDjlwBXc+xEXFM03rSibA7KbedEpP
-         Z4tEpYadJa01M2Ewa2YfPP0S+CIEP7EDKn+vc1o3jAuGRqF6ucXS4hC9ZTURS8fm2GwZ
-         AMhr8TAKYcvFsrQUlRtTGtPVu/3nW1h5xGvbd79S22JduH8vIEZDlT0gKFOtiwU+JybA
-         JkVte1dr+fEhRJ19HCwBFy3luCv+Aa+nIQm8NWdS+NN/a1+vHezBFoJ1lkIVnEjat7Ka
-         o1RA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=6Lylh8DR+450t+VKD+Wrn7i+Xuwy9BF3AUDecTVOK4g=;
-        b=UKppVdyTS2TFSEzeFWmBVDmuVeT5S9LGAUSVxgyF7UwLQUqLEZgMaLI38Vb/KJqsua
-         MYndk2qGxSrjR8Nf1FxTKwYi+afy6qJQLvbgvIUaTHthfQIrTKl0ORh3LQDj8mXJLKni
-         pWTXsYZW2geM7p/uQazXzPac8LJM1G8eo2N2MBVIK3D5tKldQ/90vZH+ePzbejlhL6Hl
-         R5wlKLwu0qzjT4abK008miZOkh0YbdVMPgajO7kQteRWfjStkYPpyFt4iD7heTuwu3Vc
-         0T8+UgTJvcpTwxJipFpirZhvXWF1qGVFGgVknU/JcJgC7IhTD6NLBO4vAxijC4UnL/IV
-         2ShA==
-X-Gm-Message-State: AOAM530/umPkGhoMdk1ewfZGIDlfE0NfLGkfS6Xzda+lfJtBa2KjtJVR
-        YBmUUi9/oGjB7VaUVuxssR66Bw==
-X-Google-Smtp-Source: ABdhPJygr6uthtUgThXM0nJKXNt/5LsubRRa0ZItKbmNtKp+p8GFTBFPOJp05+fRHPe/w8EB24DpCg==
-X-Received: by 2002:a05:6122:d08:: with SMTP id az8mr9774743vkb.15.1637841631793;
-        Thu, 25 Nov 2021 04:00:31 -0800 (PST)
-Received: from eze-laptop (host208.201-253-22.telecom.net.ar. [201.253.22.208])
-        by smtp.gmail.com with ESMTPSA id c9sm1710140uaf.12.2021.11.25.04.00.27
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 25 Nov 2021 04:00:30 -0800 (PST)
-Date:   Thu, 25 Nov 2021 09:00:24 -0300
-From:   Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
-To:     Jernej Skrabec <jernej.skrabec@gmail.com>
-Cc:     linux-media@vger.kernel.org, nicolas.dufresne@collabora.com,
-        mchehab@kernel.org, robh+dt@kernel.org, mripard@kernel.org,
-        wens@csie.org, p.zabel@pengutronix.de, andrzej.p@collabora.com,
-        gregkh@linuxfoundation.org, devicetree@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
-        linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
-Subject: Re: [PATCH 4/7] media: hantro: move postproc enablement for old cores
-Message-ID: <YZ962CvUbKoiIGyZ@eze-laptop>
-References: <20211122184702.768341-1-jernej.skrabec@gmail.com>
- <20211122184702.768341-5-jernej.skrabec@gmail.com>
-MIME-Version: 1.0
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=p2yTzdPsc707far2C8TbZsWraN74C7iht7pCe2hND8Y=;
+ b=qaKIhyAmOjD1Xi8kOZFREOI2Llp3890+8zb+PLHG7qaE9rA30Pe0jBj1kkwGHnUoohGR8F0fL/xWW4O1stR582S/v7tplUB54PDXylECPLiLPijlC2oaBz4AifdUMKkNCkV+k5xJFeKdntgjMZSV3uLKpmeJyn5/LVwRNsDSXBQ=
+Authentication-Results: danwin1210.me; dkim=none (message not signed)
+ header.d=none;danwin1210.me; dmarc=none action=none header.from=oracle.com;
+Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
+ (2603:10b6:301:2d::28) by MW4PR10MB5861.namprd10.prod.outlook.com
+ (2603:10b6:303:18e::20) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4669.10; Thu, 25 Nov
+ 2021 12:26:02 +0000
+Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
+ ([fe80::7194:c377:36cc:d9f0]) by MWHPR1001MB2365.namprd10.prod.outlook.com
+ ([fe80::7194:c377:36cc:d9f0%6]) with mapi id 15.20.4734.022; Thu, 25 Nov 2021
+ 12:26:02 +0000
+Date:   Thu, 25 Nov 2021 15:25:38 +0300
+From:   Dan Carpenter <dan.carpenter@oracle.com>
+To:     Kyle Copperfield <kmcopper@danwin1210.me>
+Cc:     Ezequiel Garcia <ezequiel@collabora.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Heiko Stuebner <heiko@sntech.de>,
+        Dragan Simic <dragan.simic@gmail.com>,
+        linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] media: rockchip/rga: do proper error checking in probe
+Message-ID: <20211125122538.GF18178@kadam>
+References: <20211120122321.20253-1-kmcopper@danwin1210.me>
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20211122184702.768341-5-jernej.skrabec@gmail.com>
+In-Reply-To: <20211120122321.20253-1-kmcopper@danwin1210.me>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-ClientProxiedBy: JN2P275CA0006.ZAFP275.PROD.OUTLOOK.COM (2603:1086:0:3::18)
+ To MWHPR1001MB2365.namprd10.prod.outlook.com (2603:10b6:301:2d::28)
+MIME-Version: 1.0
+Received: from kadam (102.222.70.114) by JN2P275CA0006.ZAFP275.PROD.OUTLOOK.COM (2603:1086:0:3::18) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4734.20 via Frontend Transport; Thu, 25 Nov 2021 12:25:55 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 97f89e9b-fcc2-4e79-0d6b-08d9b00ebe26
+X-MS-TrafficTypeDiagnostic: MW4PR10MB5861:
+X-Microsoft-Antispam-PRVS: <MW4PR10MB58616A9E9F68E4F40D53F51A8E629@MW4PR10MB5861.namprd10.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:854;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: TOhJ3ozZwW4D9Z0z4kMuWap6o6+gR85jrutp9I01HM/dJBqfAwLteBMU82O2a0cYcnYz39caGLQ4IwutAxMuE1iSAP0yAsBOsKoQ3GcFAXeA53MaGhs9UgKV2G93M38P6w5H5pQbyNwbaXO2oFXRl/dszfyh9dJ0U41Dl67XpNGhB+ts+yhBeHTfaTXhg71pAewTSg6TY1hIUZJyJBn3cpj0hqjBK5y0+yjePa2Az6kLql+C3hMWwLdEt3MDfpphtkuC3KMn6PmgEhlVYKd8Jw1HzytN09HpGkHTZQIawWmOuPQQwmryomJQ5Uu7N6RYyDDDtAyegNbMcP7R8AkJHdVIY1vBc08MVNQKTpO9UVXkGlr+enhZoiBVvko+Qe5M/tPdG+SP6X3Dnl+uVf5hsFqpBv3lYxdo7ZG4y+15QvGyFiW7vv40Pm5xnvw/oS6vo/Z03hjfo5NRk0yG3EDTAKC04CiG+1qAwDmKUbWLpE1/Eqn9fLakyxM6Gsq9hmm2xlAhXgBf5k4+bK3mLdIcl41YJRU4Y3v2tiPLqi1HQqmCQ1KEHOpaEmd68cWKJDjBT5VEdnj7bRppuQu6CPGfz4x73tWEsh6UTfWsxAzeeJXNyB1v6CMesP3/EvMJ8Jt7OSWLzIPgWOaJSHctaH2LUPRmnULrdiFES+H6dWRWO/EAmwn+sAZCnNc597KeOT6ymWauJCBBdvSri8Uv57KAZA==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MWHPR1001MB2365.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(366004)(84040400005)(54906003)(2906002)(33716001)(6496006)(26005)(508600001)(8676002)(316002)(33656002)(6916009)(8936002)(5660300002)(9576002)(9686003)(86362001)(956004)(44832011)(66556008)(66476007)(1076003)(4326008)(52116002)(186003)(6666004)(66946007)(38100700002)(83380400001)(55016003)(38350700002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?Ua6ndyV4eUEZCr12oA9jqbAOGl0g2SkcPCrOqhIrEWRPyzx2fD/tdvvGRCKp?=
+ =?us-ascii?Q?smUNSZxPGLV6VPkgYD2o2L7XGy5kDJqS8ivYLYjHIKoYfxrx6Hu6QG6M0enO?=
+ =?us-ascii?Q?wrxBUW+OColvupXaFc1xU+uW/VKk2sPdkLH5klNMvisvsqfh31xE9/gBORzb?=
+ =?us-ascii?Q?UUPjc5wZ5XyYj+pMM0DUJX3TsRBHk8vCSSJkFkZ/fE8vSidldxTkPOFdXAjA?=
+ =?us-ascii?Q?fkqPMmR3yj9I1XxkZ4FahagB7t0Sn/EyDM582k+4iuEqesQ4FiHQv/rF5RQH?=
+ =?us-ascii?Q?r/RB3xhKvFGk36XF+xZuzgbJRrHTLAGGDPBWASCJ7Qp7fDB+WbpQpH4yoT/l?=
+ =?us-ascii?Q?L+Kx7aEnGCySs9/lBzSb9+664zvqEPi3oz6rpMyIVuB2w+ilwXtUi+azaZO0?=
+ =?us-ascii?Q?/VO9VyocP3DVgs/92ll8LaUtQrhJ+RHLvAuDHtO0t5ZLzzdlbswKsiky6Lug?=
+ =?us-ascii?Q?WI79pmW2GWBYV3gBS25wQuMFiZcD33kmOjw2TJRGB5R8l3CgFfKnAK/0btIA?=
+ =?us-ascii?Q?GkjBTHEfDWEOT5A8um+TyQxqbG065xwnKz3Bot9igktOsXnCmiPVXyMmX3uW?=
+ =?us-ascii?Q?K4YCie4q5t/zxV1dQ5wbMyaZEEc6NGekieT6naqEyNTtz34dUgBNRCfTOEok?=
+ =?us-ascii?Q?XeCub3hEno7jjq/Cas++2mqkHz7TNSqPiqRCPNp7xyf6PDIg0YzstFcqiAmC?=
+ =?us-ascii?Q?tnNHg86yVQnR/HKmIDkxwoR5i9eGPtLHpDG7Vq0Tt5TAokDjGhFZJrxFsOrJ?=
+ =?us-ascii?Q?gOAZ6m0bxv7+gIe2ffjEoX3pecOafcc2QP1LLpmnA0f7zMy99fYe0HaJra8f?=
+ =?us-ascii?Q?zpqLB3NP9SCQbA6D9Q/OCeftHwgKJ1nXghn6laMa239ND8YtNb26GnF9Y2h6?=
+ =?us-ascii?Q?MGGIsuEna9HQ6acQe49G/OiUrAy3mdk/849HFfWq88/dMcJRwtYmHJsuUcDB?=
+ =?us-ascii?Q?7/tUfiq5lt7DOEJ5OnJN/JyuVMEHYhUNvjKK8p8eJMtk03coMWEYFy9z5m1n?=
+ =?us-ascii?Q?uVuItDfsZdyqPibgBVaY7j4lSvmLl/UNSoJRIRVDyXBpcTvKfIhefTYhv6iw?=
+ =?us-ascii?Q?S3LloKt2fLehFDb/vNjyQVSvVHjD95V0tBOu9aow5rI8dMmNH8Xn/DBMgCXE?=
+ =?us-ascii?Q?AhhdOmKFBYGb0pUqjw13bY5NuYwi7pArkugYBHFVC3vMsPAQHV0fa7Jsk+n/?=
+ =?us-ascii?Q?MNQMvkOKx8cuIDPhFSGY/6ubNjO6qD7ruLJXHqBbqt0bWTAtcMc/ctnPACmU?=
+ =?us-ascii?Q?6n2zK39i3cgIHMuLdrj0VlKlOgFnX1slczFRaFMsgPB6sbDhgfcR74GbZGZh?=
+ =?us-ascii?Q?kP2pCg5oOu0eYqZM+R7zEAUWoej/xqPLctFJWK9rMPKFBxpk5oqxa8HkxaKO?=
+ =?us-ascii?Q?duLqwzLsXEzEaOKKJiSu/QsUglHhidFcfxD/woLb0V1NM6UxyRIZlKXjM6+D?=
+ =?us-ascii?Q?uCAcrcyO/7IZXPCxDi8PCXONIFbnBz0JORPfwvjni1dcDmoGo78eV/lF2yhd?=
+ =?us-ascii?Q?TBxy9udbyRZq8mHNBJK/21gyUc40NpdiKWL4uFwXJPrpQz7dk1eT+OP5Ct2g?=
+ =?us-ascii?Q?l2jW/EJkuxNv9IfMHFsGIIq3ijfzA3RTcQ25ns7mSUsCOJBXUGrjQXsp/J4l?=
+ =?us-ascii?Q?smmLlS5Eb64GUlEfGh4EcMNZuRA3oJachrpv4+8E28yvECIyGpKABrG4N5eM?=
+ =?us-ascii?Q?l4X55gOe9x61HYkFP8lSDQ8l6hA=3D?=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 97f89e9b-fcc2-4e79-0d6b-08d9b00ebe26
+X-MS-Exchange-CrossTenant-AuthSource: MWHPR1001MB2365.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Nov 2021 12:26:02.0888
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: Om9HyNhwEuKaPgYpGo8txCB0mc+p/9QMudaFjy1bVXJCxWphB0hrX+sBZGvMSGwuYrx5Dlmz3JBMtz31LKu9S7zbGRXAh/D1RE6zyP0RgHE=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR10MB5861
+X-Proofpoint-Virus-Version: vendor=nai engine=6300 definitions=10178 signatures=668683
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0 mlxscore=0 spamscore=0
+ mlxlogscore=999 malwarescore=0 phishscore=0 adultscore=0 bulkscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2110150000
+ definitions=main-2111250069
+X-Proofpoint-GUID: ANASO9_yt9weuGCVHE_KZRDsSlZUMOIt
+X-Proofpoint-ORIG-GUID: ANASO9_yt9weuGCVHE_KZRDsSlZUMOIt
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Jernej,
-
-On Mon, Nov 22, 2021 at 07:46:59PM +0100, Jernej Skrabec wrote:
-> Older G2 cores, like that in Allwinner H6, seem to have issue with
-> latching postproc register values if this is first thing done in job.
-> Moving that to the end solves the issue.
+On Sat, Nov 20, 2021 at 12:23:02PM +0000, Kyle Copperfield wrote:
+> The latest fix for probe error handling contained a typo that causes
+> probing to fail with the following message:
 > 
-
-Any idea what exact register should be written before the post-processor
-is enabled, for H6 to work? Also, which of the PP registers need
-to be written "at the end"?
-
-> Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+>   rockchip-rga: probe of ff680000.rga failed with error -12
+> 
+> This patch fixes the typo.
+> 
+> Fixes: e58430e1d4fd (media: rockchip/rga: fix error handling in probe)
+> Reviewed-by: Dragan Simic <dragan.simic@gmail.com>
+> Signed-off-by: Kyle Copperfield <kmcopper@danwin1210.me>
 > ---
->  drivers/staging/media/hantro/hantro_drv.c | 9 ++++++++-
->  1 file changed, 8 insertions(+), 1 deletion(-)
+>  drivers/media/platform/rockchip/rga/rga.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/drivers/staging/media/hantro/hantro_drv.c b/drivers/staging/media/hantro/hantro_drv.c
-> index 8c3de31f51b3..530994ab3024 100644
-> --- a/drivers/staging/media/hantro/hantro_drv.c
-> +++ b/drivers/staging/media/hantro/hantro_drv.c
-> @@ -130,7 +130,7 @@ void hantro_start_prepare_run(struct hantro_ctx *ctx)
->  	v4l2_ctrl_request_setup(src_buf->vb2_buf.req_obj.req,
->  				&ctx->ctrl_handler);
->  
-> -	if (!ctx->is_encoder) {
-> +	if (!ctx->is_encoder && !ctx->dev->variant->legacy_regs) {
+> diff --git a/drivers/media/platform/rockchip/rga/rga.c b/drivers/media/platform/rockchip/rga/rga.c
+> index 6759091b15e0..d99ea8973b67 100644
+> --- a/drivers/media/platform/rockchip/rga/rga.c
+> +++ b/drivers/media/platform/rockchip/rga/rga.c
+> @@ -895,7 +895,7 @@ static int rga_probe(struct platform_device *pdev)
+>  	}
+>  	rga->dst_mmu_pages =
+>  		(unsigned int *)__get_free_pages(GFP_KERNEL | __GFP_ZERO, 3);
+> -	if (rga->dst_mmu_pages) {
+> +	if (!rga->dst_mmu_pages) {
+>  		ret = -ENOMEM;
+>  		goto free_src_pages;
+>  	}
 
-To make this less fragile, do you think it would make sense to
-have a dedicated quirk flag, something like "legacy_post_proc",
-instead of overloading the meaning of legacy_regs.
+There was supposed to be Smatch warning to catch this bug but Smatch was
+not parsing __get_free_pages() correctly.  I've fixed that so it
+generates a warning now.
 
-What do you think?
+drivers/media/platform/rockchip/rga/rga.c:928 rga_probe() warn: 'rga->dst_mmu_pages' from __get_free_pages() not released on lines: 928.
 
-Thanks,
-Ezequiel
+Also I have introduced a new checker warning for code like:
 
->  		if (hantro_needs_postproc(ctx, ctx->vpu_dst_fmt))
->  			hantro_postproc_enable(ctx);
->  		else
-> @@ -142,6 +142,13 @@ void hantro_end_prepare_run(struct hantro_ctx *ctx)
->  {
->  	struct vb2_v4l2_buffer *src_buf;
->  
-> +	if (ctx->dev->variant->legacy_regs && !ctx->is_encoder) {
-> +		if (hantro_needs_postproc(ctx, ctx->vpu_dst_fmt))
-> +			hantro_postproc_enable(ctx);
-> +		else
-> +			hantro_postproc_disable(ctx);
-> +	}
-> +
->  	src_buf = hantro_get_src_buf(ctx);
->  	v4l2_ctrl_request_complete(src_buf->vb2_buf.req_obj.req,
->  				   &ctx->ctrl_handler);
-> -- 
-> 2.34.0
-> 
+	foo = alloc();
+	if (foo)
+		ret = -ENOMEM;
+
+drivers/media/platform/rockchip/rga/rga.c:896 rga_probe() warn: inverted NULL check
+
+I will test that out tonight.  I've also created a warning for if we
+return success when a function returns NULL but I'm not really
+optimistic that it will work.  Still, you never know until you check so
+I'll test that out as well.
+
+drivers/media/platform/rockchip/rga/rga.c:912 rga_probe() warn: success when 'rga->dst_mmu_pages' is NULL'
+
+regards,
+dan carpenter
