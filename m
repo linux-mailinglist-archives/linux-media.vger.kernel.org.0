@@ -2,134 +2,68 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 158AD45D7C6
-	for <lists+linux-media@lfdr.de>; Thu, 25 Nov 2021 10:57:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 77AC345D81D
+	for <lists+linux-media@lfdr.de>; Thu, 25 Nov 2021 11:19:15 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1343711AbhKYKAp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 25 Nov 2021 05:00:45 -0500
-Received: from perceval.ideasonboard.com ([213.167.242.64]:53092 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235766AbhKYJ6o (ORCPT
+        id S1351900AbhKYKWU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 25 Nov 2021 05:22:20 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59370 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1354566AbhKYKUU (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 25 Nov 2021 04:58:44 -0500
-Received: from pendragon.ideasonboard.com (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id BCB77881;
-        Thu, 25 Nov 2021 10:55:32 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1637834132;
-        bh=lKoWU2JH4HLLdfGlOIfP1PnKbrCcP8F5e1IgrEH2LC0=;
-        h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
-        b=H3Iu7guLmm+z6da+Rq0jxT38bDO54zEy+qBLnngYuOPsFDCnMsMnmvP+rUtTFL154
-         jtxUiAyDoZ++/xfMDPQF70rQ7ga4G8eCJ+Sk2SUBZ+Sf5vmg9T+uIsO+y/VDXET2iQ
-         rsSoR0Zz8xjpZVh4QHbOwp46KDJ5WB1gUb9zqjSw=
-Content-Type: text/plain; charset="utf-8"
+        Thu, 25 Nov 2021 05:20:20 -0500
+Received: from lb2-smtp-cloud9.xs4all.net (lb2-smtp-cloud9.xs4all.net [IPv6:2001:888:0:108::2c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6187DC061574
+        for <linux-media@vger.kernel.org>; Thu, 25 Nov 2021 02:15:19 -0800 (PST)
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud9.xs4all.net with ESMTPA
+        id qBmam6Vwq1HGJqBmem30oO; Thu, 25 Nov 2021 11:15:16 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
+        t=1637835316; bh=pL95Z7jXXiTg6lDNATeQavEOgQlMi1EfYF010LbxG8w=;
+        h=To:From:Subject:Message-ID:Date:MIME-Version:Content-Type:From:
+         Subject;
+        b=OeNG87sCsiiHwj8HvFW2iBxpGgGZoAzd8IuzbO2LpK8Avcbr9URXKdozXMrcQzr3U
+         rZn5LEbhnEV1anO1decxME4EeckeA3EtGSUzd9I3hSG/jgkDVO92KilP6nE5h4y8S3
+         nDL8Gy+B/OLyJxvX+lzkl53fYWunkgfSWlwA2xFaPEKT0DEofi4JGzkt5OQiU9ZqhW
+         mJhjXHsvS9KQXwVgHKi0AF8xF8Tg58imwoPCyQHWr2e2CaSzWAdRx9x/ws8uektm86
+         Ru+M9hJtnKkqaSHf9Fe1Xgg7hkP4Pyw34iG3DbJgIXfKQK1ez0qffUFypJ02aLPKcV
+         s9ctD0GHTYbgg==
+To:     Linux Media Mailing List <linux-media@vger.kernel.org>
+From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Subject: [PATCH] libv4l-introduction.rst: fix undefined label
+Message-ID: <0a4cef6d-a730-c87f-d573-ee0b94be037e@xs4all.nl>
+Date:   Thu, 25 Nov 2021 11:15:12 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Firefox/78.0 Thunderbird/78.14.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <YZ9MPu1WIJk0MtLr@oden.dyn.berto.se>
-References: <20211123155443.3705143-1-niklas.soderlund+renesas@ragnatech.se> <163779391741.3153335.8189408341245810954@Monstersaurus> <YZ9MPu1WIJk0MtLr@oden.dyn.berto.se>
-Subject: Re: [PATCH] rcar-vin: Add check for completed capture before completing buffer
-From:   Kieran Bingham <kieran.bingham@ideasonboard.com>
-Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-To:     Niklas =?utf-8?q?S=C3=B6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>
-Date:   Thu, 25 Nov 2021 09:55:30 +0000
-Message-ID: <163783413027.3059017.998619924817672283@Monstersaurus>
-User-Agent: alot/0.10
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4xfGqumJl7qbdvxFO6kn5Ree91/OletrbJWSgj0zMfGtFL+nI7oTqYS9EmV8c7eIUIdEStZFy/Y7cf3mjkG0QODggGOI3f85OGQWzRbG1Q5bVJoaoiei2e
+ BPx9H7SImsVdEp1MUHQE80pPcK/wZVOR5ALNwG6w3/ZeLeIH/Vguvzz/o+6Cr31qCC9EjYMMUNaQLWhZLoyIDVi//zZna5eJNKY=
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Quoting Niklas S=C3=B6derlund (2021-11-25 08:41:34)
-> Hi Kieran,
->=20
-> Thanks for your feedback.
->=20
-> On 2021-11-24 22:45:17 +0000, Kieran Bingham wrote:
-> > Quoting Niklas S=C3=B6derlund (2021-11-23 15:54:43)
-> > > Before reading which slot was captured to by examining the module sta=
-tus
-> > > (VnMS) register, make sure something was captured at all by examining
-> > > the interrupt status register (VnINTS).
-> > >=20
-> > > Failing this a buffer maybe completed before it was captured too.
-> > >=20
-> > > Signed-off-by: Niklas S=C3=B6derlund <niklas.soderlund+renesas@ragnat=
-ech.se>
-> > > ---
-> > >  drivers/media/platform/rcar-vin/rcar-dma.c | 7 +++++++
-> > >  1 file changed, 7 insertions(+)
-> > >=20
-> > > diff --git a/drivers/media/platform/rcar-vin/rcar-dma.c b/drivers/med=
-ia/platform/rcar-vin/rcar-dma.c
-> > > index 25ead9333d0046e7..87ccbdc3d11a0f2d 100644
-> > > --- a/drivers/media/platform/rcar-vin/rcar-dma.c
-> > > +++ b/drivers/media/platform/rcar-vin/rcar-dma.c
-> > > @@ -111,6 +111,9 @@
-> > >  #define VNIE_FIE               (1 << 4)
-> > >  #define VNIE_EFE               (1 << 1)
-> > > =20
-> > > +/* Video n Interrupt Status Register bits */
-> > > +#define VNINTS_FIS             (1 << 4)
-> > > +
-> > >  /* Video n Data Mode Register bits */
-> > >  #define VNDMR_A8BIT(n)         (((n) & 0xff) << 24)
-> > >  #define VNDMR_A8BIT_MASK       (0xff << 24)
-> > > @@ -1005,6 +1008,10 @@ static irqreturn_t rvin_irq(int irq, void *dat=
-a)
-> > >         rvin_ack_interrupt(vin);
-> > >         handled =3D 1;
-> > > =20
-> > > +       /* Nothing to do if nothing was captured. */
-> > > +       if (!(int_status & VNINTS_FIS))
-> >=20
-> > Does this deserve a warning or debug print? It sounds like it may be
-> > somewhat spurious or unexpected if it occurs?
->=20
-> I don't think so. One can enable more interrupts then the ones we do=20
-> today, for example during debugging capture issues. This check just make =
+V4L2_PIX_FMT_HM12 was redefined to V4L2_PIX_FMT_NV12_16L16, so use the
+new name in libv4l-introduction.rst.
 
-> sure we don't try to process a capture if the interrupt is not related=20
-> to capture ;-)
+This fixes this warning:
 
-Ok, I see. So it shouldn't occur in current code which doesn't enable
-other interrupts though.
+libv4l-introduction.rst:27: WARNING: undefined label: v4l2-pix-fmt-hm12
 
-I think it adds value/protection so is helpful, so
+Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+---
+diff --git a/Documentation/userspace-api/media/v4l/libv4l-introduction.rst b/Documentation/userspace-api/media/v4l/libv4l-introduction.rst
+index 05690f2358ce..90215313b965 100644
+--- a/Documentation/userspace-api/media/v4l/libv4l-introduction.rst
++++ b/Documentation/userspace-api/media/v4l/libv4l-introduction.rst
+@@ -26,7 +26,7 @@ found in V4L2 drivers into a few common RGB and YUY formats.
 
-Reviewed-by: Kieran Bingham <kieran.bingham@ideasonboard.com>
-
-
-If I were doing this though, I'd move the capture specific handling to
-it's own function and guard it explicitly for each possible handler:
-
-	if (int_status & VNINTS_FIS)
-		rvin_handle_fis(vin);
-=09
-	if (int_status & VNINTS_FOS)
-		rvin_handle_fifo_overflow(vin);
-=09
-	if (int_status & VNINTS_EFS)
-		rvin_handle_frame_end(vin);
-
-Then each interrupt handler is distinct, and does not get processed
-when it's interrupt isn't raised.
-
->=20
-> >=20
-> > --
-> > Kieran
-> >=20
-> >=20
-> > > +               goto done;
-> > > +
-> > >         /* Nothing to do if capture status is 'STOPPED' */
-> > >         if (vin->state =3D=3D STOPPED) {
-> > >                 vin_dbg(vin, "IRQ while state stopped\n");
-> > > --=20
-> > > 2.34.0
-> > >
->=20
-> --=20
-> Kind Regards,
-> Niklas S=C3=B6derlund
+ It currently accepts the following V4L2 driver formats:
+ :ref:`V4L2_PIX_FMT_BGR24 <V4L2-PIX-FMT-BGR24>`,
+-:ref:`V4L2_PIX_FMT_HM12 <V4L2-PIX-FMT-HM12>`,
++:ref:`V4L2_PIX_FMT_NV12_16L16 <V4L2-PIX-FMT-NV12-16L16>`,
+ :ref:`V4L2_PIX_FMT_JPEG <V4L2-PIX-FMT-JPEG>`,
+ :ref:`V4L2_PIX_FMT_MJPEG <V4L2-PIX-FMT-MJPEG>`,
+ :ref:`V4L2_PIX_FMT_MR97310A <V4L2-PIX-FMT-MR97310A>`,
