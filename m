@@ -2,188 +2,172 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2A1A045DCD6
-	for <lists+linux-media@lfdr.de>; Thu, 25 Nov 2021 16:03:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 08F9145DCEE
+	for <lists+linux-media@lfdr.de>; Thu, 25 Nov 2021 16:09:25 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232861AbhKYPGz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 25 Nov 2021 10:06:55 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:45924 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S234198AbhKYPEy (ORCPT
+        id S236671AbhKYPMe (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 25 Nov 2021 10:12:34 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40422 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S237283AbhKYPL1 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 25 Nov 2021 10:04:54 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1637852503;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=pzY+nlb0WLLo3q9EhtWI9RItnRnZnbWS8p2iLJT22S4=;
-        b=VwzyUu1DrfLnS8+zaDaRr3QULvdSPwhQo6rguMtU52Rj4AADyBukODxmXmDHw0bgX95VWJ
-        xMHNOKvufy4dMJBwFJ5I3k23xT0wo3zLqSENQxMxHadVwZEhB38cWG7XaGM1/52272XZ0S
-        kS+tNS+jGOTpeuL5wfgt4zS2mMAdFfg=
-Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
- [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-177-YuX-Rl4bNsC4Cfob3UBv2Q-1; Thu, 25 Nov 2021 10:01:41 -0500
-X-MC-Unique: YuX-Rl4bNsC4Cfob3UBv2Q-1
-Received: by mail-ed1-f71.google.com with SMTP id w4-20020aa7cb44000000b003e7c0f7cfffso5728358edt.2
-        for <linux-media@vger.kernel.org>; Thu, 25 Nov 2021 07:01:41 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=pzY+nlb0WLLo3q9EhtWI9RItnRnZnbWS8p2iLJT22S4=;
-        b=5vh+FVQREo8q/xB1LSFB99AXBzaHw51PGKH9lmL5z1pV9PkueZbgphH5ICADKvXYKb
-         KsFlcG7yO8SiCQubeXzwsMk+DzRgF+NWtW/xX0wOkBp2Lax9BHFBb8a8z16FfTjZ4JSH
-         YJ7g+/n/6NbDsQH6guu6TNFApr2j1AtfTw7n3KDBE7Y520+v8DVjYo1RwRsPToa0S2Ve
-         GqmUbzUixmEhiMDWqY8GIrh3+oXgPlZQ3VkUd9O6//HRSxtwSCUT4VBgUiu1BpxJAu/t
-         ypTq7QK3P7Q/JDNdjP/C+guL8Ro4alIR2Q3mY/3FPJuTsHNX7XNLmtSU7XX5MTQM1A2q
-         i3Gg==
-X-Gm-Message-State: AOAM532AgVtacvgs1hhSUwiRfGqP3gDAhYo9z2jOIHdoRFK3i9v47QAG
-        ZZ8ahNmV9fECA+ClN5ZS0cIhtspie26aRP3pPHeWcJcD7odYAcWz3HADl0d7KwcNQ3i/U3m5viL
-        i80zWKDO6uRiBdW6KQT1k0z4=
-X-Received: by 2002:a05:6402:5c9:: with SMTP id n9mr40305205edx.306.1637852500383;
-        Thu, 25 Nov 2021 07:01:40 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzMuiDvP4QYeeLwDI2JCOjzlhRkJeTB36IJtfD88XbWM3LPA2G1s9P+fBWdUkpvYv4+DeiFNA==
-X-Received: by 2002:a05:6402:5c9:: with SMTP id n9mr40305178edx.306.1637852500217;
-        Thu, 25 Nov 2021 07:01:40 -0800 (PST)
-Received: from ?IPV6:2001:1c00:c1e:bf00:1054:9d19:e0f0:8214? (2001-1c00-0c1e-bf00-1054-9d19-e0f0-8214.cable.dynamic.v6.ziggo.nl. [2001:1c00:c1e:bf00:1054:9d19:e0f0:8214])
-        by smtp.gmail.com with ESMTPSA id gt18sm1725641ejc.46.2021.11.25.07.01.38
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 25 Nov 2021 07:01:39 -0800 (PST)
-Message-ID: <09cdb0bd-56f6-d0fe-c35a-ed86c5919b4d@redhat.com>
-Date:   Thu, 25 Nov 2021 16:01:38 +0100
+        Thu, 25 Nov 2021 10:11:27 -0500
+Received: from lb1-smtp-cloud9.xs4all.net (lb1-smtp-cloud9.xs4all.net [IPv6:2001:888:0:108::1c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 26F36C061746;
+        Thu, 25 Nov 2021 07:08:12 -0800 (PST)
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud9.xs4all.net with ESMTPA
+        id qGM3m7t9G1HGJqGM6m3XbT; Thu, 25 Nov 2021 16:08:11 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
+        t=1637852891; bh=lUXHDU++diczvNIMw4BSOv0xLDv2tW+enr4E4KlWjZ0=;
+        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
+         Subject;
+        b=YNfjgQ8DqCWurWzS0s96GKL/vdoGE5VtxKmKXt7eeA2lndyGFz+G3TuyT1/ZXZfpA
+         AGi1n9h2Zqn4/ErSXuuaelPYgf/xGvaj23S0iXynQBRGhp3/Hg+MEKN0IQJ7uqCJ4k
+         3kReS4G0Qn6FGbDi/VuqJfiqVXdd2i3UAXxwpRJmYTStqY+ASbNgkdSK0pcWPOUZRC
+         sQxrTn0jGHsPiw4fNd3Zxr+cRwBRj7tNl1BEeB0wTBZdxPjSL4SKxjaxV6ly10RqEH
+         aPqgq2/qhjR5UALbMaxgJmZA/NbR8MJR0URRHUuBzcsl7x/R6nS0skzN8IhSuCfYAt
+         8DFCMklDWSh9w==
+Subject: Re: [PATCH v3 0/6] staging: media: wave5: add wave5 codec driver
+To:     Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
+        linux-media@vger.kernel.org
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "open list:STAGING SUBSYSTEM" <linux-staging@lists.linux.dev>,
+        open list <linux-kernel@vger.kernel.org>,
+        laurent.pinchart@ideasonboard.com, kernel@collabora.com,
+        dafna3@gmail.com, bob.beckett@collabora.com,
+        kiril.bicevski@collabora.com,
+        Nas Chung <nas.chung@chipsnmedia.com>,
+        lafley.kim@chipsnmedia.com, scott.woo@chipsnmedia.com,
+        olivier.crete@collabora.com, dan.carpenter@oracle.com,
+        rdunlap@infradead.org
+References: <20211110120910.12411-1-dafna.hirschfeld@collabora.com>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Message-ID: <c8a766f2-137b-5c17-74b0-6acf6e0338d2@xs4all.nl>
+Date:   Thu, 25 Nov 2021 16:08:06 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Firefox/78.0 Thunderbird/78.14.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.0
-Subject: Re:
+In-Reply-To: <20211110120910.12411-1-dafna.hirschfeld@collabora.com>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-To:     Stephen Boyd <sboyd@kernel.org>,
-        Andy Shevchenko <andy@infradead.org>,
-        Daniel Scally <djrscally@gmail.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Mark Brown <broonie@kernel.org>,
-        Mark Gross <markgross@kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Mika Westerberg <mika.westerberg@linux.intel.com>,
-        "Rafael J.Wysocki" <rjw@rjwysocki.net>,
-        Wolfram Sang <wsa@the-dreams.de>
-Cc:     Len Brown <lenb@kernel.org>, linux-acpi@vger.kernel.org,
-        platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-i2c@vger.kernel.org,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Kate Hsuan <hpa@redhat.com>, linux-media@vger.kernel.org,
-        linux-clk@vger.kernel.org
-References: <20211102094907.31271-1-hdegoede@redhat.com>
- <20211102094907.31271-6-hdegoede@redhat.com>
- <163588780885.2993099.2088131017920983969@swboyd.mtv.corp.google.com>
-From:   Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <163588780885.2993099.2088131017920983969@swboyd.mtv.corp.google.com>
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4xfGNuXXSmyrsfIIrCpxf1wp++V9Rag1wezYju3KhWz+SM38RcpslOgMJpVKGgeTVvmTPNWLGgWJyOp/jAhYNi+11XLoZJK+qrCRU7LJI8luMOOySz33jb
+ XqG3sPB/149iG+MfAcNptTcAqbKq9CklVo0PsXjEZJKwGmJHJEwzaY1/C2px1oJnHyO78Rr3NMeSMoGh0h3RTTeio3y3+WPb5jXGzCeZqC6Y9xana1js2jXY
+ KcHXGS5skpqfSyq0BlPcyYx6WnIuky8kkwPmLybaryqqy+dSmKXyT/Ey3EcvFFMuqNDMKMJd7DcCNLkK5PxBeZ/CiBuKPZEd5qfSSr9O//cs08AGvNZXXJDu
+ rXefyICf+SgRse7BBZxSseXWpAYfuOxIwFgdneEwo241+BPf+xyOG5jXKHx1j0D5DESS/2ZO8wPWPJhoJ0SRFnOpZvSu3UtrKcMGypy+pxaxgGn6BqsAov7j
+ pMoogIzJ4Ue8uleymKxoHsi2JTAQDOILJVYnRA5KH2ByK4iaTAFUwxGgMOIj52xqKwbpfqyfhVB4Pm0xVfRjemKc7dnbyjqb/NrNAnkFSBXQpeSdUpCP6Zir
+ 2r1ZvNX7Ypo1VYICGWVh/bddWqinHsA35vEwiiVeeW7OVSNrgNAH/e6+8HU8GLYXYyzANPeDAju5VOWJ3OWymx/nQqXRH0iOxnM3KtmWrBpMNk44c3ANUKxf
+ 50jpSkTs0tpZu38wJGnj74zMqZmB9zFtb6GHuogVjsFC+HZGyrSl49yHr1Q7MPcUC73ytWRE6qRrgdaBM5efCTLLFOnfBz/ei5pGOddqhNY/tCiTshpTyQ==
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi,
+Hi Dafna,
 
-On 11/2/21 22:16, Stephen Boyd wrote:
-> Quoting Hans de Goede (2021-11-02 02:49:01)
->> diff --git a/drivers/clk/clk-tps68470.c b/drivers/clk/clk-tps68470.c
->> new file mode 100644
->> index 000000000000..2ad0ac2f4096
->> --- /dev/null
->> +++ b/drivers/clk/clk-tps68470.c
->> @@ -0,0 +1,257 @@
->> +// SPDX-License-Identifier: GPL-2.0
->> +/*
->> + * Clock driver for TPS68470 PMIC
->> + *
->> + * Copyright (c) 2021 Red Hat Inc.
->> + * Copyright (C) 2018 Intel Corporation
->> + *
->> + * Authors:
->> + *     Hans de Goede <hdegoede@redhat.com>
->> + *     Zaikuo Wang <zaikuo.wang@intel.com>
->> + *     Tianshu Qiu <tian.shu.qiu@intel.com>
->> + *     Jian Xu Zheng <jian.xu.zheng@intel.com>
->> + *     Yuning Pu <yuning.pu@intel.com>
->> + *     Antti Laakso <antti.laakso@intel.com>
->> + */
->> +
->> +#include <linux/clk-provider.h>
->> +#include <linux/clkdev.h>
->> +#include <linux/kernel.h>
->> +#include <linux/mfd/tps68470.h>
->> +#include <linux/module.h>
->> +#include <linux/platform_device.h>
->> +#include <linux/platform_data/tps68470.h>
->> +#include <linux/regmap.h>
->> +
->> +#define TPS68470_CLK_NAME "tps68470-clk"
->> +
->> +#define to_tps68470_clkdata(clkd) \
->> +       container_of(clkd, struct tps68470_clkdata, clkout_hw)
->> +
-> [...]
->> +
->> +static int tps68470_clk_set_rate(struct clk_hw *hw, unsigned long rate,
->> +                                unsigned long parent_rate)
->> +{
->> +       struct tps68470_clkdata *clkdata = to_tps68470_clkdata(hw);
->> +       unsigned int idx = tps68470_clk_cfg_lookup(rate);
->> +
->> +       if (rate != clk_freqs[idx].freq)
->> +               return -EINVAL;
->> +
->> +       clkdata->clk_cfg_idx = idx;
+Just a high-level comment below:
+
+On 10/11/2021 13:09, Dafna Hirschfeld wrote:
+> The wave5 codec is a stateful encoder/decoder.
+> It is found on the JH7100 SoC.
 > 
-> It deserves a comment that set_rate can only be called when the clk is
-> gated. We have CLK_SET_RATE_GATE flag as well that should be set if the
-> clk can't support changing rate while enabled. With that flag set, this
-> function should be able to actually change hardware with the assumption
-> that the framework won't call down into this clk_op when the clk is
-> enabled.
-
-Ok for v6 I've added the CLK_SET_RATE_GATE flag + a comment why
-it used and moved the divider programming to tps68470_clk_set_rate()m
-while keeping the PLL_EN + output-enable writes in tps68470_clk_prepare()
-
-
+> The driver currently supports V4L2_PIX_FMT_HEVC, V4L2_PIX_FMT_H264.
 > 
->> +
->> +       return 0;
->> +}
->> +
->> +static const struct clk_ops tps68470_clk_ops = {
->> +       .is_prepared = tps68470_clk_is_prepared,
->> +       .prepare = tps68470_clk_prepare,
->> +       .unprepare = tps68470_clk_unprepare,
->> +       .recalc_rate = tps68470_clk_recalc_rate,
->> +       .round_rate = tps68470_clk_round_rate,
->> +       .set_rate = tps68470_clk_set_rate,
->> +};
->> +
->> +static const struct clk_init_data tps68470_clk_initdata = {
+> This driver has so far been tested on pre-silicon FPGA and on the beta BeagleV
+> board which uses the StarFive JH7100 beta SoC.
 > 
-> Is there a reason to make this a static global? It's probably better to
-> throw it on the stack so that a structure isn't sitting around after
-> driver probe being unused.
-
-Fixed for v6.
-
-Thanks & Regards,
-
-Hans
-
-
+> Testing on FPGA shows it working fine, though the FPGA uses polled interrupts
+> and copied buffers between the host and it's on board RAM.
 > 
->> +       .name = TPS68470_CLK_NAME,
->> +       .ops = &tps68470_clk_ops,
->> +};
+> Testing on BeagleV shows buffer corruption that is currently attributed to a
+> known silicon issue in the SoC that makes the cache coherent interconnect not
+> so coherent.
+> This can likely be solved when the riscv non-coherent dma support lands and
+> provide optional v4l2 non-contiguous allocator, though it remains to be seen
+> whether support non-coherent use cases will be useful in real world hw.
+> 
+> Until we can test and resolve any issues on final silicon (due 2H 2021)
+> this driver should remain in staging.
+> 
+> We currently tested only the decoder.
+> Testing the encoder is currently impossible because of the BeagleV buffer problems,
+> That will need to be tested once we have fixed beaglev buffer problems.
+> 
+> v4l2-compliance all pass for v2 as well.
+> 
+> changes since v1:
+> 
+> Main fixes includes:
+> * change the yaml and dirver code to support up to 4 clks (instead of one)
+> * fix Kconfig format
+> * remove unneeded cast,
+> * change var types
+> * change var names, func names
+> * checkpatch fixes
+> 
+> 
+> Dafna Hirschfeld (4):
+>   staging: media: wave5: Add vpuapi layer
+>   staging: media: wave5: Add the vdi layer
+>   staging: media: wave5: Add the v4l2 layer
+>   staging: media: wave5: Add TODO file
+> 
+> Robert Beckett (2):
+>   dt-bindings: media: staging: wave5: add yaml devicetree bindings
+>   media: wave5: Add wave5 driver to maintainers file
+> 
+>  .../bindings/staging/media/cnm,wave.yaml      |   73 +
+>  MAINTAINERS                                   |    9 +
+>  drivers/staging/media/Kconfig                 |    2 +
+>  drivers/staging/media/Makefile                |    1 +
+>  drivers/staging/media/wave5/Kconfig           |   12 +
+>  drivers/staging/media/wave5/Makefile          |   10 +
+>  drivers/staging/media/wave5/TODO              |   59 +
+>  drivers/staging/media/wave5/vdi.c             |  260 ++
+>  drivers/staging/media/wave5/vdi.h             |   76 +
+>  drivers/staging/media/wave5/vpu.c             |  367 ++
+>  drivers/staging/media/wave5/vpu.h             |   64 +
+>  drivers/staging/media/wave5/vpu_dec.c         | 1397 +++++++
+>  drivers/staging/media/wave5/vpu_enc.c         | 1585 ++++++++
+>  drivers/staging/media/wave5/vpuapi.c          | 1066 +++++
+>  drivers/staging/media/wave5/vpuapi.h          | 1140 ++++++
+>  drivers/staging/media/wave5/vpuconfig.h       |   85 +
+>  drivers/staging/media/wave5/vpuerror.h        |  455 +++
+>  drivers/staging/media/wave5/wave5-hw.c        | 3476 +++++++++++++++++
+>  drivers/staging/media/wave5/wave5.h           |   81 +
+>  drivers/staging/media/wave5/wave5_regdefine.h |  638 +++
+
+Please prefix the source/header filenames with 'wave5_' (or 'wave5-',
+as long as it is consistent).
+
+See e.g. drivers/staging/media/hantro/ or really any media driver.
+If you just see the filename then you can at least tell for which driver
+it is. Just 'vpu.c' is not descriptive enough.
+
+For the next version I would also like to see the v4l2-compliance output.
+
+Regards,
+
+	Hans
+
+>  20 files changed, 10856 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/staging/media/cnm,wave.yaml
+>  create mode 100644 drivers/staging/media/wave5/Kconfig
+>  create mode 100644 drivers/staging/media/wave5/Makefile
+>  create mode 100644 drivers/staging/media/wave5/TODO
+>  create mode 100644 drivers/staging/media/wave5/vdi.c
+>  create mode 100644 drivers/staging/media/wave5/vdi.h
+>  create mode 100644 drivers/staging/media/wave5/vpu.c
+>  create mode 100644 drivers/staging/media/wave5/vpu.h
+>  create mode 100644 drivers/staging/media/wave5/vpu_dec.c
+>  create mode 100644 drivers/staging/media/wave5/vpu_enc.c
+>  create mode 100644 drivers/staging/media/wave5/vpuapi.c
+>  create mode 100644 drivers/staging/media/wave5/vpuapi.h
+>  create mode 100644 drivers/staging/media/wave5/vpuconfig.h
+>  create mode 100644 drivers/staging/media/wave5/vpuerror.h
+>  create mode 100644 drivers/staging/media/wave5/wave5-hw.c
+>  create mode 100644 drivers/staging/media/wave5/wave5.h
+>  create mode 100644 drivers/staging/media/wave5/wave5_regdefine.h
 > 
 
