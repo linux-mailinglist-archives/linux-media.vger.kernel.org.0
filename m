@@ -2,90 +2,107 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 76A3045D775
-	for <lists+linux-media@lfdr.de>; Thu, 25 Nov 2021 10:42:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 22B0945D789
+	for <lists+linux-media@lfdr.de>; Thu, 25 Nov 2021 10:46:51 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1354120AbhKYJp7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 25 Nov 2021 04:45:59 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51780 "EHLO
+        id S1349694AbhKYJuA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 25 Nov 2021 04:50:00 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52692 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1353889AbhKYJn7 (ORCPT
+        with ESMTP id S1348803AbhKYJr7 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 25 Nov 2021 04:43:59 -0500
-Received: from mail-wm1-x32f.google.com (mail-wm1-x32f.google.com [IPv6:2a00:1450:4864:20::32f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CE49FC0613F7;
-        Thu, 25 Nov 2021 01:39:17 -0800 (PST)
-Received: by mail-wm1-x32f.google.com with SMTP id o19-20020a1c7513000000b0033a93202467so4226417wmc.2;
-        Thu, 25 Nov 2021 01:39:17 -0800 (PST)
+        Thu, 25 Nov 2021 04:47:59 -0500
+Received: from mail-wr1-x434.google.com (mail-wr1-x434.google.com [IPv6:2a00:1450:4864:20::434])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 932D6C0613E1
+        for <linux-media@vger.kernel.org>; Thu, 25 Nov 2021 01:44:29 -0800 (PST)
+Received: by mail-wr1-x434.google.com with SMTP id r8so10234456wra.7
+        for <linux-media@vger.kernel.org>; Thu, 25 Nov 2021 01:44:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=JsWSBzoF6q60IKzONTXTKTOX38hGEElpEC5e1cFXxMw=;
-        b=e9BNmaZr+9frNsh1OxVSxcuyZYi5JHpT5RH5ySRVrg9VUsQimIf8iryHBDnjO6Q/Gf
-         4CNOcPC6pF1ffCESR/nfd1pkj8i3Gn2KIczOpCw7emtLwlsjCR6Zc0U9eVjQdzoAO+HW
-         Z3mBdV04WIQp60cXuw3cXABF49Fku3m7yzAuwWHTKndsWNTG/8EXu8Gr+H4NOscy6vM7
-         qHV1d4UduVpXX8Rqi83rOxxNjQmGhtLLHwyW/MBcL2oSl8pkgaILPA/q1wHvGLZp35sq
-         s7ofF4kG609Ul/4jqIOS27xPi0I5gJwpRIgkWEauHJb7uL74APaGL0UiSKaOQSUQQer7
-         fQnQ==
+        h=subject:to:references:from:message-id:date:user-agent:mime-version
+         :in-reply-to:content-transfer-encoding:content-language;
+        bh=M4eNhtRyfszXgoCevZXctJE/hLAngb4kNGrAZca/vtQ=;
+        b=hr7P+jqEo1S6urwHZfCCiWe591gBIwIqfjkJ9WWAo4LsbX2JWYICNZteJ2bwEpNfFk
+         KGMkOnX6lZpF7lMAQWo17B7/5k1AGx48qJpn/jgqPCF4eClsFCaoU0dJDBB1GX12LdFp
+         fkaPzCdUOyqJCQAop8HdN7pXrpRb1ZkqULRBplAsjnmdi6yPj6GShfbGGv26bSOZ5mj3
+         4+ZUXqmYIJgUr8McgNrrtafhElJmiaHGgHeHor7r4lHHeOa5wq1Y8xMrRg4c3rJ2de+V
+         AFlcXQ7KdIsOFfB8z3+hj7QxR3NuK7/epZZw15YOM24P/CBqinvAWd7mKF/WbeWzavpg
+         ek5g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=JsWSBzoF6q60IKzONTXTKTOX38hGEElpEC5e1cFXxMw=;
-        b=7ftbDRRTGSm0CKQ1WsDUk1fNcigITIMkunRQVcGBOH30JrCaAdyY8K5/b/3t0/Au5P
-         6nB8A2WYsGYllNtkwqHL04Pk0MTen/XYGv4Ul9XunMEtkA9zmguaTV+pjroorbW0WG46
-         lOaDb0HDsBO1v2CZQM8avlgRkOea5YFFRq/p027gDUJV3ULGLBn53Avp1PDJhfcW3Ukv
-         J5cj3jM21su00cAUS9pIV6TjE8syjtqv/UPvLnoubmt3dlJeuqKRUwG4FZk9KO6atyZb
-         2mFJlRIBifuP2EPvPFw9m4+6h/+c6cLkDeQ+mX79WSzXOEO/L1HEPuHu//cyyrCpxQM6
-         X+rQ==
-X-Gm-Message-State: AOAM532JWgD/s9dPwEQawzBNkxtJCNtGB2JwV94tgdwofvc6F+2P6QRn
-        M5orSDdak6r9enRmrLUGVSU=
-X-Google-Smtp-Source: ABdhPJwn9WYM4A5Ba6uOrUY3qZJujkwovHFYdpg+NpSmE67uRNgza9NoVF3XBWhs8MyNZm5A0klAMw==
-X-Received: by 2002:a05:600c:4f03:: with SMTP id l3mr5548476wmq.47.1637833156147;
-        Thu, 25 Nov 2021 01:39:16 -0800 (PST)
-Received: from archbook.localnet (84-72-105-84.dclient.hispeed.ch. [84.72.105.84])
-        by smtp.gmail.com with ESMTPSA id i17sm2732092wmq.48.2021.11.25.01.39.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 25 Nov 2021 01:39:15 -0800 (PST)
-From:   Nicolas Frattaroli <frattaroli.nicolas@gmail.com>
-To:     Ezequiel Garcia <ezequiel@collabora.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Heiko Stuebner <heiko@sntech.de>,
-        Dan Carpenter <dan.carpenter@oracle.com>,
-        linux-rockchip@lists.infradead.org
-Cc:     Kyle Copperfield <kmcopper@danwin1210.me>,
-        Dragan Simic <dragan.simic@gmail.com>,
-        linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        Kyle Copperfield <kmcopper@danwin1210.me>
-Subject: Re: [PATCH] media: rockchip/rga: do proper error checking in probe
-Date:   Thu, 25 Nov 2021 10:39:14 +0100
-Message-ID: <1864840.RQ6cyUMOaI@archbook>
-In-Reply-To: <20211120122321.20253-1-kmcopper@danwin1210.me>
-References: <20211120122321.20253-1-kmcopper@danwin1210.me>
+        h=x-gm-message-state:subject:to:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-transfer-encoding
+         :content-language;
+        bh=M4eNhtRyfszXgoCevZXctJE/hLAngb4kNGrAZca/vtQ=;
+        b=hMtqcwE9wpSaMWOvyztUixBLDQx2R1ismEJt9K1cqFYK/yMrKZW8DocvhKRrjk+r59
+         8wNPzeqZh3Uw1H9IRnw2Cyce42cC41S7Jo3egguiJcOnTYtV1LA9em6UCLVG7ygUTzy+
+         Y+KuHBO34vJQn5XERWOM87qIPJCiBPEipJnVByyCwRmXJkUFK5hGgQ77skqkv5oNyTVR
+         43tSKt783OoJlUXGhCR9bOFhROZGWRH3BEPN+KFO+cEAvbAaJW9husMYKbzcX4eIndWP
+         oMAZh5OkAeJtMJ9cM3Lno+nxo/w38x6rA+P50aebhRVoM9X4nY1714FuzSMDinSRFt0M
+         y+Sg==
+X-Gm-Message-State: AOAM532hrnre8ce1Q6NWzNbvol1AYHhGMG6IRVGcUgKKnqrQvqaDUZco
+        gJG2vd4eMJOJaUqgDevQAu1JnHh7Vek=
+X-Google-Smtp-Source: ABdhPJwgehb/hMyMIn8NfuWZloUVEaV7WrJtRSt6A7q1DOrmUwW6oVfThdS27Z+K6FCs7SoPVSqGFQ==
+X-Received: by 2002:a5d:6dc3:: with SMTP id d3mr4929492wrz.159.1637833468170;
+        Thu, 25 Nov 2021 01:44:28 -0800 (PST)
+Received: from [192.168.178.21] (p57b0b77b.dip0.t-ipconnect.de. [87.176.183.123])
+        by smtp.gmail.com with ESMTPSA id az15sm2355074wmb.0.2021.11.25.01.44.27
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 25 Nov 2021 01:44:27 -0800 (PST)
+Subject: Re: [PATCH 1/6] dma-buf: move dma_resv_prune_unlocked into dma_resv.c
+To:     Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
+        etnaviv@lists.freedesktop.org, amd-gfx@lists.freedesktop.org
+References: <20211028132630.2330-1-christian.koenig@amd.com>
+ <7729c40e-fe4e-853e-06d4-5e39dff17d32@linux.intel.com>
+From:   =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
+Message-ID: <0d2f11ef-012e-f51a-80f3-3e8109fac060@gmail.com>
+Date:   Thu, 25 Nov 2021 10:44:26 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+In-Reply-To: <7729c40e-fe4e-853e-06d4-5e39dff17d32@linux.intel.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Samstag, 20. November 2021 13:23:02 CET Kyle Copperfield wrote:
-> The latest fix for probe error handling contained a typo that causes
-> probing to fail with the following message:
-> 
->   rockchip-rga: probe of ff680000.rga failed with error -12
-> 
-> This patch fixes the typo.
-> 
-> Fixes: e58430e1d4fd (media: rockchip/rga: fix error handling in probe)
-> Reviewed-by: Dragan Simic <dragan.simic@gmail.com>
-> Signed-off-by: Kyle Copperfield <kmcopper@danwin1210.me>
-> ---
+Am 25.11.21 um 10:31 schrieb Maarten Lankhorst:
+> [SNIP]
+>> diff --git a/include/linux/dma-resv.h b/include/linux/dma-resv.h
+>> index eebf04325b34..e0558429a5ee 100644
+>> --- a/include/linux/dma-resv.h
+>> +++ b/include/linux/dma-resv.h
+>> @@ -458,6 +458,7 @@ void dma_resv_fini(struct dma_resv *obj);
+>>   int dma_resv_reserve_shared(struct dma_resv *obj, unsigned int num_fences);
+>>   void dma_resv_add_shared_fence(struct dma_resv *obj, struct dma_fence *fence);
+>>   void dma_resv_add_excl_fence(struct dma_resv *obj, struct dma_fence *fence);
+>> +void dma_resv_prune_unlocked(struct dma_resv *obj);
+>>   int dma_resv_get_fences(struct dma_resv *obj, struct dma_fence **pfence_excl,
+>>   			unsigned *pshared_count, struct dma_fence ***pshared);
+>>   int dma_resv_copy_fences(struct dma_resv *dst, struct dma_resv *src);
+> I don't mind adding a dma_resv_prune for locked case, but I don't think unlocked would have benefits.
+>
+> Furthermore, I'm trying to remove the unlocked versions from i915. Could this be a prereq patch instead?
+>
+> https://patchwork.freedesktop.org/patch/460722/?series=96115&rev=1
 
-Tested-by: Nicolas Frattaroli <frattaroli.nicolas@gmail.com>
+Yeah, that works for me as well.
 
-Fixes RGA probing for me, many thanks!
+I was on the edge of dropping that from TTM as well since this is really 
+just abusing the interface to save a few bytes of memory.
 
+Feel free to add an Acked-by: Christian König <christian.koenig@amd.com> 
+to the i915 patch if it helps to get that committed.
+
+Regards,
+Christian.
+
+>
+> ~Maarten
+>
+> ~Maarten
+>
 
