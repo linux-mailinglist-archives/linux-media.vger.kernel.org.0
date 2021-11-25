@@ -2,68 +2,158 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 77AC345D81D
-	for <lists+linux-media@lfdr.de>; Thu, 25 Nov 2021 11:19:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7B3A245D820
+	for <lists+linux-media@lfdr.de>; Thu, 25 Nov 2021 11:19:28 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1351900AbhKYKWU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 25 Nov 2021 05:22:20 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59370 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1354566AbhKYKUU (ORCPT
+        id S1351418AbhKYKWg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 25 Nov 2021 05:22:36 -0500
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:37290 "EHLO
+        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1351998AbhKYKUf (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 25 Nov 2021 05:20:20 -0500
-Received: from lb2-smtp-cloud9.xs4all.net (lb2-smtp-cloud9.xs4all.net [IPv6:2001:888:0:108::2c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6187DC061574
-        for <linux-media@vger.kernel.org>; Thu, 25 Nov 2021 02:15:19 -0800 (PST)
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud9.xs4all.net with ESMTPA
-        id qBmam6Vwq1HGJqBmem30oO; Thu, 25 Nov 2021 11:15:16 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1637835316; bh=pL95Z7jXXiTg6lDNATeQavEOgQlMi1EfYF010LbxG8w=;
-        h=To:From:Subject:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=OeNG87sCsiiHwj8HvFW2iBxpGgGZoAzd8IuzbO2LpK8Avcbr9URXKdozXMrcQzr3U
-         rZn5LEbhnEV1anO1decxME4EeckeA3EtGSUzd9I3hSG/jgkDVO92KilP6nE5h4y8S3
-         nDL8Gy+B/OLyJxvX+lzkl53fYWunkgfSWlwA2xFaPEKT0DEofi4JGzkt5OQiU9ZqhW
-         mJhjXHsvS9KQXwVgHKi0AF8xF8Tg58imwoPCyQHWr2e2CaSzWAdRx9x/ws8uektm86
-         Ru+M9hJtnKkqaSHf9Fe1Xgg7hkP4Pyw34iG3DbJgIXfKQK1ez0qffUFypJ02aLPKcV
-         s9ctD0GHTYbgg==
-To:     Linux Media Mailing List <linux-media@vger.kernel.org>
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Subject: [PATCH] libv4l-introduction.rst: fix undefined label
-Message-ID: <0a4cef6d-a730-c87f-d573-ee0b94be037e@xs4all.nl>
-Date:   Thu, 25 Nov 2021 11:15:12 +0100
+        Thu, 25 Nov 2021 05:20:35 -0500
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: kholk11)
+        with ESMTPSA id 6EE071F45F43
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=collabora.com; s=mail;
+        t=1637835442; bh=kU/MZYNKaO3dvvsRN6JtzRQ0r5zNYRD15c2pxK8A1Ok=;
+        h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
+        b=JGFhrwntMATS6G/uRNt2zAPnUTAA3+pGem015A7Lx36duECl7zqipbC+UMi9omJG0
+         Iszu+AW61a7QT8TII0Bb54NsOG4GccMZvVi2maKuZk5NcVgx5zT7+Fr1keXmOj0j4m
+         S4C6Hb9EJpkLL/XtT93AH0Z/R6NQ1H0h0WwLjDTVksPPb7BM/hxUf5Wq1j6zjhCi1Q
+         J2EEXTfyMrsGHkdrZKnqnd1CSn2VNUgp8DQXs7whKpgQnY2FkrEl4JC7FbOw1FvHDN
+         g2TeRJtCr37bJEBoP5AcItesIOCFas3KRMjZ6lgHdm3IF+T/A1gQmA9CXsLb1Y6QSK
+         2Ht57sVCAfBlg==
+Subject: Re: [PATCH 0/9] Enable two H264 encoder cores on MT8195
+To:     Irui Wang <irui.wang@mediatek.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Tzung-Bi Shih <tzungbi@chromium.org>,
+        Alexandre Courbot <acourbot@chromium.org>,
+        Tiffany Lin <tiffany.lin@mediatek.com>,
+        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Tomasz Figa <tfiga@google.com>, Yong Wu <yong.wu@mediatek.com>
+Cc:     Hsin-Yi Wang <hsinyi@chromium.org>,
+        Maoguang Meng <maoguang.meng@mediatek.com>,
+        Longfei Wang <longfei.wang@mediatek.com>,
+        Yunfei Dong <yunfei.dong@mediatek.com>,
+        Fritz Koenig <frkoenig@chromium.org>,
+        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        srv_heupstream@mediatek.com, linux-mediatek@lists.infradead.org,
+        Project_Global_Chrome_Upstream_Group@mediatek.com
+References: <20210816105934.28265-1-irui.wang@mediatek.com>
+From:   AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>
+Message-ID: <50a44f71-b39e-6f5c-dfc6-67377ecb4364@collabora.com>
+Date:   Thu, 25 Nov 2021 11:17:19 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Firefox/78.0 Thunderbird/78.14.0
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <20210816105934.28265-1-irui.wang@mediatek.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4xfGqumJl7qbdvxFO6kn5Ree91/OletrbJWSgj0zMfGtFL+nI7oTqYS9EmV8c7eIUIdEStZFy/Y7cf3mjkG0QODggGOI3f85OGQWzRbG1Q5bVJoaoiei2e
- BPx9H7SImsVdEp1MUHQE80pPcK/wZVOR5ALNwG6w3/ZeLeIH/Vguvzz/o+6Cr31qCC9EjYMMUNaQLWhZLoyIDVi//zZna5eJNKY=
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-V4L2_PIX_FMT_HM12 was redefined to V4L2_PIX_FMT_NV12_16L16, so use the
-new name in libv4l-introduction.rst.
+Il 16/08/21 12:59, Irui Wang ha scritto:
+> MT8195 has two H264 encoder cores, they have their own power-domains,
+> clocks, interrupts, register base. The two H264 encoder cores can work
+> together to achieve higher performance.
+> 
+> This series of patches is to use enable two h264 encoder cores.
+> path[1..2]: use linux component framework to manage encoder hardware,
+> user call "mt8195-vcodec-enc" driver can get the encoder master device,
+> the encoding work is done by the two encoder core device. The hw_mode
+> variable is added to distinguish from old platform, two encoder cores
+> called "FRAME_RACING_MODE".
+> 
+> The hardware mode of two encoder cores work together(overlap, another
+> word called) on MT8195 called "frame_racing_mode", the two encoder
+> power-domains should be power on together while encoding, the encoding
+> process look like this:
+> 
+>      VENC Core0 frm#0....frm#2....frm#4
+>      VENC Core1  .frm#1....frm#3....frm#5
+> 
+> patch[3..5]: due to the component device, the master device has no
+> power-domains/clocks properties in dtsi, so the power/clock init function
+> can't use for "frame_racing_mode" device in master device probe process,
+> it should be called in component device probe process. Power on the
+> hardware power and clock on demand.
+> 
+> patch[6]: "frame_racing_mode" encoding need a new set of memory buffer
+> for two encoder cores. For compatibility, we should new a encoder driver
+> interface.
+> 
+> patch[7..9]: add "frame_racing_mode" encoding process:
+> As-Is: Synchronous
+> VIDIOC_QBUF#0 --> device_run(triger encoder) --> wait encoder IRQ -->
+> encode done with result --> job_finish
+> 
+> VIDIOC_QBUF#1 --> device_run(triger encoder) --> wait encoder IRQ -->
+> encode done with result --> job_finish
+> ...
+> 
+> To-Be: Asynchronous
+> VIDIOC_QBUF#0 --> device_run(triger encoder core0) --> job_finish
+> ..VIDIOC_QBUF#1 --> device_run(triger encoder core1) --> job_finish
+> (core0 may encode done here, return encode result to client)
+> VIDIOC_QBUF#2 --> device_run(triger encoder core0) --> job_finish
+> 
+> Thers is no "wait encoder IRQ" synchronous call during "frame_racing_mode"
+> encoding process, which can full use the two encoder cores to achieve
+> higher performance.
+> 
+> Irui Wang (9):
+>    dt-bindings: media: mtk-vcodec: Add binding for MT8195 two venc cores
+>    media: mtk-vcodec: Use component framework to manage encoder hardware
+>    media: mtk-vcodec: Rewrite venc power manage interface
+>    media: mtk-vcodec: Add venc power on/off interface
+>    media: mtk-vcodec: Rewrite venc clock interface
+>    media: mtk-vcodec: Add new venc drv interface for frame_racing mode
+>    media: mtk-vcodec: Add frame racing mode encode process
+>    media: mtk-vcodec: Return encode result to client
+>    media: mtk-vcodec: Add delayed worker for encode timeout
+> 
+>   .../bindings/media/mediatek-vcodec.txt        |   2 +
+>   drivers/media/platform/mtk-vcodec/Makefile    |   2 +
+>   .../platform/mtk-vcodec/mtk_vcodec_drv.h      |  34 +-
+>   .../platform/mtk-vcodec/mtk_vcodec_enc.c      | 120 +++-
+>   .../platform/mtk-vcodec/mtk_vcodec_enc.h      |  10 +-
+>   .../platform/mtk-vcodec/mtk_vcodec_enc_drv.c  | 204 +++++-
+>   .../platform/mtk-vcodec/mtk_vcodec_enc_hw.c   | 253 +++++++
+>   .../platform/mtk-vcodec/mtk_vcodec_enc_hw.h   |  38 +
+>   .../platform/mtk-vcodec/mtk_vcodec_enc_pm.c   | 213 ++++--
+>   .../platform/mtk-vcodec/mtk_vcodec_enc_pm.h   |  13 +-
+>   .../platform/mtk-vcodec/mtk_vcodec_util.c     |  19 +
+>   .../platform/mtk-vcodec/mtk_vcodec_util.h     |   5 +
+>   .../platform/mtk-vcodec/venc/venc_common_if.c | 675 ++++++++++++++++++
+>   .../platform/mtk-vcodec/venc/venc_h264_if.c   |   6 +-
+>   .../platform/mtk-vcodec/venc/venc_vp8_if.c    |   2 +-
+>   .../media/platform/mtk-vcodec/venc_drv_if.c   |  96 ++-
+>   .../media/platform/mtk-vcodec/venc_drv_if.h   |   7 +
+>   .../media/platform/mtk-vcodec/venc_vpu_if.c   |  11 +-
+>   .../media/platform/mtk-vcodec/venc_vpu_if.h   |   3 +-
+>   19 files changed, 1564 insertions(+), 149 deletions(-)
+>   create mode 100644 drivers/media/platform/mtk-vcodec/mtk_vcodec_enc_hw.c
+>   create mode 100644 drivers/media/platform/mtk-vcodec/mtk_vcodec_enc_hw.h
+>   create mode 100644 drivers/media/platform/mtk-vcodec/venc/venc_common_if.c
+> 
 
-This fixes this warning:
+Hello Irui,
+we have some interest in this series; can you please rebase it over the latest
+changes that were sent in series [1] [2]?
 
-libv4l-introduction.rst:27: WARNING: undefined label: v4l2-pix-fmt-hm12
+Also, please follow [2], where of_platform_populate was used in place of the
+component framework (where applicable and where possible) on this series, as well.
 
-Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
----
-diff --git a/Documentation/userspace-api/media/v4l/libv4l-introduction.rst b/Documentation/userspace-api/media/v4l/libv4l-introduction.rst
-index 05690f2358ce..90215313b965 100644
---- a/Documentation/userspace-api/media/v4l/libv4l-introduction.rst
-+++ b/Documentation/userspace-api/media/v4l/libv4l-introduction.rst
-@@ -26,7 +26,7 @@ found in V4L2 drivers into a few common RGB and YUY formats.
+Thanks!
+- Angelo
 
- It currently accepts the following V4L2 driver formats:
- :ref:`V4L2_PIX_FMT_BGR24 <V4L2-PIX-FMT-BGR24>`,
--:ref:`V4L2_PIX_FMT_HM12 <V4L2-PIX-FMT-HM12>`,
-+:ref:`V4L2_PIX_FMT_NV12_16L16 <V4L2-PIX-FMT-NV12-16L16>`,
- :ref:`V4L2_PIX_FMT_JPEG <V4L2-PIX-FMT-JPEG>`,
- :ref:`V4L2_PIX_FMT_MJPEG <V4L2-PIX-FMT-MJPEG>`,
- :ref:`V4L2_PIX_FMT_MR97310A <V4L2-PIX-FMT-MR97310A>`,
+[1]: https://patchwork.kernel.org/project/linux-mediatek/list/?series=579201
+[2]: https://patchwork.kernel.org/project/linux-mediatek/list/?series=578467
