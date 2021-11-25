@@ -2,196 +2,106 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 60F4445DFC5
-	for <lists+linux-media@lfdr.de>; Thu, 25 Nov 2021 18:32:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6A74245E026
+	for <lists+linux-media@lfdr.de>; Thu, 25 Nov 2021 19:01:41 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1349003AbhKYRfX convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-media@lfdr.de>); Thu, 25 Nov 2021 12:35:23 -0500
-Received: from aposti.net ([89.234.176.197]:55254 "EHLO aposti.net"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1348647AbhKYRdW (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 25 Nov 2021 12:33:22 -0500
-Date:   Thu, 25 Nov 2021 17:29:58 +0000
-From:   Paul Cercueil <paul@crapouillou.net>
-Subject: Re: [PATCH 11/15] iio: buffer-dma: Boost performance using
- write-combine cache setting
-To:     Jonathan Cameron <jic23@kernel.org>
-Cc:     Alexandru Ardelean <ardeleanalex@gmail.com>,
-        Lars-Peter Clausen <lars@metafoo.de>,
-        Michael Hennerich <Michael.Hennerich@analog.com>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        Christian =?iso-8859-1?b?S/ZuaWc=?= <christian.koenig@amd.com>,
-        linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        linaro-mm-sig@lists.linaro.org
-Message-Id: <YX153R.0PENWW3ING7F1@crapouillou.net>
-In-Reply-To: <8WNX2R.M4XE9MQC24W22@crapouillou.net>
-References: <20211115141925.60164-1-paul@crapouillou.net>
-        <20211115141925.60164-12-paul@crapouillou.net>
-        <20211121150037.2a606be0@jic23-huawei>
-        <8WNX2R.M4XE9MQC24W22@crapouillou.net>
+        id S239602AbhKYSEo (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 25 Nov 2021 13:04:44 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49228 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S235256AbhKYSCn (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Thu, 25 Nov 2021 13:02:43 -0500
+Received: from mail-io1-xd32.google.com (mail-io1-xd32.google.com [IPv6:2607:f8b0:4864:20::d32])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AFBF6C0613ED
+        for <linux-media@vger.kernel.org>; Thu, 25 Nov 2021 09:53:34 -0800 (PST)
+Received: by mail-io1-xd32.google.com with SMTP id y16so8447502ioc.8
+        for <linux-media@vger.kernel.org>; Thu, 25 Nov 2021 09:53:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:sender:from:date:message-id:subject:to;
+        bh=hxpIxgszqLxUoL2VSzhFmmcZyWKf58JJNFT+Q7Zm/4E=;
+        b=dP4LmYdOe5rzzEUEfyYqn9NLQDLdKHoRbrDV61W+Z17ZQFH2kXQoEIxp9uVO1T4lsC
+         K2VHMr0ss4SwGuz7KeU83XKMxN1zuGhTBY+B/XPZLucqc501Vt4x9FiA+kiwMenSWC+G
+         jzvN2I6DB9KJXWxdNBOJzmQedfJjfV24uIUw4S366w1Bo3jWY2lgpOxTnojb1XXck81v
+         UQoH82HXsvGXmjsjqkhilgcjPYoyv0lRtYxWyc5yG84ZkbPoSykYeiVjOMn65h3v/d3o
+         7S9qEL5KDRYYOVypAXXGyw2PkirgZf6b3F4gvgKWfItQzq4AkTzGAwOEMeaLiIhAILAQ
+         3Sfg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:sender:from:date:message-id:subject
+         :to;
+        bh=hxpIxgszqLxUoL2VSzhFmmcZyWKf58JJNFT+Q7Zm/4E=;
+        b=vOJHGKxt5vOMu3EUYjpuBCTkrhsP2llnWPzaUaUwwrdrhvTDeL5l6zzIzKM7hq3TqX
+         Kak/37leXqpOIDBSLuK+ifitZioref1oVWtCTDLo74JFbtrLU0xmWsobp6OxryoKDwZX
+         RR2Lk4rwPawnRXpuMNipHnnQJDOWcW+CqodCpGp26/C4Ud77Uma0cQ9hygEBSRnTcdSI
+         vOYXz2SbOPreVcanN5IjPxQjvf72wMaVisx5+8C/V8doYX4jjCJjsBmvSe+1hXB/4Rwl
+         ATew7RrfWhtKaNcP0Cu3H99cqMYee/yWVVWWesrObaoxR1HUr6aJ8lTKc/AI0z9F+m71
+         6+wg==
+X-Gm-Message-State: AOAM533PRtwYUyVcGwobDUjBjnHOKrtDbxPYqHCRh8I0ZkQQ5OvK2oLs
+        G9A/WL75iynTwRUEbIWDn5pgTADRPbyc4A3Bpc0=
+X-Google-Smtp-Source: ABdhPJyf6parg7QYaB6Je+HVK881wdcAKFwBtg4xhpw3DWMlxv94gdRORe8cVdJaij+r43AuxOHS7iLMokyXDGxIjLI=
+X-Received: by 2002:a5e:8701:: with SMTP id y1mr25896403ioj.80.1637862814100;
+ Thu, 25 Nov 2021 09:53:34 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1; format=flowed
-Content-Transfer-Encoding: 8BIT
+Sender: okekebetty9@gmail.com
+Received: by 2002:a05:6602:1541:0:0:0:0 with HTTP; Thu, 25 Nov 2021 09:53:33
+ -0800 (PST)
+From:   Alicia Collins <aliciacollins634@gmail.com>
+Date:   Thu, 25 Nov 2021 09:53:33 -0800
+X-Google-Sender-Auth: 98bnMaT6WVIJsI3QwUoY8dQpRJg
+Message-ID: <CAESBVMsv8Rpp+VpUbx4=Zo8t_ZHw9jrDddiZiCXj-FP4F6=ixA@mail.gmail.com>
+Subject: Hello
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Jonathan,
+Hello my Dear friend,
 
-Le dim., nov. 21 2021 at 17:43:20 +0000, Paul Cercueil 
-<paul@crapouillou.net> a écrit :
-> Hi Jonathan,
-> 
-> Le dim., nov. 21 2021 at 15:00:37 +0000, Jonathan Cameron 
-> <jic23@kernel.org> a écrit :
->> On Mon, 15 Nov 2021 14:19:21 +0000
->> Paul Cercueil <paul@crapouillou.net> wrote:
->> 
->>>  We can be certain that the input buffers will only be accessed by
->>>  userspace for reading, and output buffers will mostly be accessed 
->>> by
->>>  userspace for writing.
->> 
->> Mostly?  Perhaps a little more info on why that's not 'only'.
-> 
-> Just like with a framebuffer, it really depends on what the 
-> application does. Most of the cases it will just read sequentially an 
-> input buffer, or write sequentially an output buffer. But then you 
-> get the exotic application that will try to do something like alpha 
-> blending, which means read+write. Hence "mostly".
-> 
->>> 
->>>  Therefore, it makes more sense to use only fully cached input 
->>> buffers,
->>>  and to use the write-combine cache coherency setting for output 
->>> buffers.
->>> 
->>>  This boosts performance, as the data written to the output buffers 
->>> does
->>>  not have to be sync'd for coherency. It will halve performance if 
->>> the
->>>  userspace application tries to read from the output buffer, but 
->>> this
->>>  should never happen.
->>> 
->>>  Since we don't need to sync the cache when disabling CPU access 
->>> either
->>>  for input buffers or output buffers, the .end_cpu_access() 
->>> callback can
->>>  be dropped completely.
->> 
->> We have an odd mix of coherent and non coherent DMA in here as you 
->> noted,
->> but are you sure this is safe on all platforms?
-> 
-> The mix isn't safe, but using only coherent or only non-coherent 
-> should be safe, yes.
-> 
->> 
->>> 
->>>  Signed-off-by: Paul Cercueil <paul@crapouillou.net>
->> 
->> Any numbers to support this patch?  The mapping types are performance
->> optimisations so nice to know how much of a difference they make.
-> 
-> Output buffers are definitely faster in write-combine mode. On a 
-> ZedBoard with a AD9361 transceiver set to 66 MSPS, and buffer/size 
-> set to 8192, I would get about 185 MiB/s before, 197 MiB/s after.
-> 
-> Input buffers... early results are mixed. On ARM32 it does look like 
-> it is slightly faster to read from *uncached* memory than reading 
-> from cached memory. The cache sync does take a long time.
-> 
-> Other architectures might have a different result, for instance on 
-> MIPS invalidating the cache is a very fast operation, so using cached 
-> buffers would be a huge win in performance.
-> 
-> Setups where the DMA operations are coherent also wouldn't require 
-> any cache sync and this patch would give a huge win in performance.
-> 
-> I'll run some more tests next week to have some fresh numbers.
+With due respect to your person and much sincerity of purpose I wish
+to write to you today, seeking for your urgent assistance in this
+humanitarian social investment project to be establish in your country
+for the mutual benefit of the orphans and the less privileged ones,
+haven't known each other or met before, I know that everything is
+controlled by God as there is nothing impossible to him. I believe
+that you and I can cooperate together in the service of the Lord,
+please open your heart to assist me in carrying out this benevolent
+project in your country/position. I am Mrs Alicia Collins, a dying
+widow hospitalized undergoing treatment for brain tumor disease, I
+believe that you will not expose or betray this trust and confidence
+that I am about to entrust to you for the mutual benefit of the
+orphans and the less privileged ones. My late husband made a
+substantial deposit with the Bank which I have decided to hand over
+and entrust the sum of ($ 12,500,000.00 Dollars) in the account under
+your custody for you to invest it into any social charitable project
+in your location or your country. Based on my present health status I
+am permanently indisposed to handle finances or any financial related
+project.
 
-I think I mixed things up before, because I get different results now.
+ This is the reason why I decided to contact you for your support and
+help to stand as my rightful beneficiary and claim the money for
+humanitarian purposes for the mutual benefits of the less privileged
+ones. Because If the money remains unclaimed with the bank after my
+death, those greedy bank executives will place the money as an
+unclaimed Fund and share it for their selfish and worthless ventures.
+However I need your sincerity and ability to carry out this
+transaction and fulfill my final wish in implementing the charitable
+investment project in your country as it requires absolute trust and
+devotion without any failure. Meanwhile It will be my pleasure to
+compensate you with part of the total money as my Investment
+manager/partner for your effort in handling the transaction, while the
+remaining amount shall be invested into any charity project of your
+choice there in your country.
 
-Here are some fresh benchmarks, triple-checked, using libiio's 
-iio_readdev and iio_writedev tools, with 64K samples buffers at 61.44 
-MSPS (max. theorical throughput: 234 MiB/s):
-  iio_readdev -b 65536 cf-ad9361-lpc voltage0 voltage1 | pv > /dev/null
-  pv /dev/zero | iio_writedev -b 65536 cf-ad9361-dds-core-lpc voltage0 
-voltage1
+Your early response will be appreciated to enable me to send you
+further details and the bank contact details where the fund has been
+deposited for you to contact the Bank for immediate release and
+transfer of the fund into your bank account as my rightful
+beneficiary.
+Thank you very much for your kind consideration and I wish you well
+and God enlighten you in this social humanitarian project.
 
-Coherent mapping:
-- fileio:
-    read:	125 MiB/s
-    write:	141 MiB/s
-- dmabuf:
-    read:	171 MiB/s
-    write:	210 MiB/s
-
-Coherent reads + Write-combine writes:
-- fileio:
-    read:	125 MiB/s
-    write:	141 MiB/s
-- dmabuf:
-    read:	171 MiB/s
-    write:	210 MiB/s
-
-Non-coherent mapping:
-- fileio:
-    read:	119 MiB/s
-    write:	124 MiB/s
-- dmabuf:
-    read:	159 MiB/s
-    write:	124 MiB/s
-
-Non-coherent reads + write-combine writes:
-- fileio:
-    read:	119 MiB/s
-    write:	140 MiB/s
-- dmabuf:
-    read:	159 MiB/s
-    write:	210 MiB/s
-
-Non-coherent mapping with no cache sync:
-- fileio:
-    read:	156 MiB/s
-    write:	123 MiB/s
-- dmabuf:
-    read:	234 MiB/s (capped by sample rate)
-    write:	182 MiB/s
-
-Non-coherent reads with no cache sync + write-combine writes:
-- fileio:
-    read:	156 MiB/s
-    write:	140 MiB/s
-- dmabuf:
-    read:	234 MiB/s (capped by sample rate)
-    write:	210 MiB/s
-
-
-A few things we can deduce from this:
-
-* Write-combine is not available on Zynq/ARM? If it was working, it 
-should give a better performance than the coherent mapping, but it 
-doesn't seem to do anything at all. At least it doesn't harm 
-performance.
-
-* Non-coherent + cache invalidation is definitely a good deal slower 
-than using coherent mapping, at least on ARM32. However, when the cache 
-sync is disabled (e.g. if the DMA operations are coherent) the reads 
-are much faster.
-
-* The new dma-buf based API is a great deal faster than the fileio API.
-
-So in the future we could use coherent reads + write-combine writes, 
-unless we know the DMA operations are coherent, and in this case use 
-non-coherent reads + write-combine writes.
-
-Regarding this patch, unfortunately I cannot prove that write-combine 
-is faster, so I'll just drop this patch for now.
-
-Cheers,
--Paul
-
-
+Best regards and God bless you.
+Sincerely Mrs Alicia Collins.
