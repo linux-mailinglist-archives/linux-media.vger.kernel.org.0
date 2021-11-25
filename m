@@ -2,134 +2,326 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 65FBC45DE20
-	for <lists+linux-media@lfdr.de>; Thu, 25 Nov 2021 16:57:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 872C245DE31
+	for <lists+linux-media@lfdr.de>; Thu, 25 Nov 2021 17:01:35 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1346976AbhKYQAo (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 25 Nov 2021 11:00:44 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50808 "EHLO
+        id S240912AbhKYQEp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 25 Nov 2021 11:04:45 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52122 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1348870AbhKYP6o (ORCPT
+        with ESMTP id S1356394AbhKYQCo (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 25 Nov 2021 10:58:44 -0500
-Received: from mail-wr1-x42c.google.com (mail-wr1-x42c.google.com [IPv6:2a00:1450:4864:20::42c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7B95FC061399
-        for <linux-media@vger.kernel.org>; Thu, 25 Nov 2021 07:47:27 -0800 (PST)
-Received: by mail-wr1-x42c.google.com with SMTP id r8so12522157wra.7
-        for <linux-media@vger.kernel.org>; Thu, 25 Nov 2021 07:47:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ffwll.ch; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=GrYTK8K69bBPxxO0M+FvuVC8uOT906Mq4gG8ozU4uk4=;
-        b=d3wDvLB9aibDUksaMaJq0BzCsxenfX7o/qh4G09m6w3hGehD+WLtkdEKOfV/7xmM4p
-         o1alxzNE3KLzxu4Ad0ohpwHVVU1k6iqQd5mAQ6qjNGXOdwNMEZBir978i8nB25cdn6JY
-         n2oFt7seHvCaEi8DaO6BIa6O8e0mZYu8KAOKU=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=GrYTK8K69bBPxxO0M+FvuVC8uOT906Mq4gG8ozU4uk4=;
-        b=TCb2ikXwGZFQ1iH5wL4vlEt0IZrnt3Vygt2lptnR5RcqpO+Lo+u11uDmRkv3Dvqnq3
-         hfCIZnNkW0/7hcKqIhYM+sTzA+xMJsilDHL2MpMWB2R1660umdd2FD9sncGE9k0gHkJi
-         IGsPUzUD8ay8/30KvoZ6p7Ri/INb6Ux/xln8KhGvT+tm5tnVTD9qKpA+W6gAVfS9VsZO
-         MGSaiHvkQd83fcTK4BC/VOGIsds3z2sZLjsM7266Vz68leWa+6ZJ6US3ihCo24hkueG7
-         82DmVqAbY1VWz5CH9IqBMqzcNNrW0/9VxJskAXAVoaHJGxxgOAeHlqDw5XZORgOnixly
-         gy8w==
-X-Gm-Message-State: AOAM530KDwx2GLjXTDf4Y6iGv8opXhoq0JInfhWskXiYNCQqPp1t2Uv2
-        Frx9K+op89D/pcLAU/mjgh5kWA==
-X-Google-Smtp-Source: ABdhPJyJKxgo85AFU7bZqlQKZR/U22Xtoer9r53DLE3Pttwt+lXpKP86T5A0OTOsLHUXdHbcZKm8Dw==
-X-Received: by 2002:a5d:50c7:: with SMTP id f7mr7272141wrt.327.1637855246069;
-        Thu, 25 Nov 2021 07:47:26 -0800 (PST)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
-        by smtp.gmail.com with ESMTPSA id f18sm3113464wre.7.2021.11.25.07.47.25
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 25 Nov 2021 07:47:25 -0800 (PST)
-Date:   Thu, 25 Nov 2021 16:47:23 +0100
-From:   Daniel Vetter <daniel@ffwll.ch>
-To:     Christian =?iso-8859-1?Q?K=F6nig?= 
-        <ckoenig.leichtzumerken@gmail.com>
-Cc:     sumit.semwal@linaro.org, daniel@ffwll.ch,
-        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        linaro-mm-sig@lists.linaro.org
-Subject: Re: [PATCH 19/26] drm: support more than one write fence in
- drm_gem_plane_helper_prepare_fb
-Message-ID: <YZ+wCxjFSI4EAIvx@phenom.ffwll.local>
-References: <20211123142111.3885-1-christian.koenig@amd.com>
- <20211123142111.3885-20-christian.koenig@amd.com>
+        Thu, 25 Nov 2021 11:02:44 -0500
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7E884C0613B8;
+        Thu, 25 Nov 2021 07:50:12 -0800 (PST)
+Received: from benjamin-XPS-13-9310.. (unknown [IPv6:2a01:e0a:120:3210:2581:f820:804e:edb9])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        (Authenticated sender: benjamin.gaignard)
+        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 750811F44030;
+        Thu, 25 Nov 2021 15:50:10 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=collabora.com; s=mail;
+        t=1637855410; bh=gqdH6Vn9dIrvcJOsgbpGDTLparRytxWCslgkgep1CCg=;
+        h=From:To:Cc:Subject:Date:From;
+        b=aISBoPBzhZeu71HIar0yoWfZza7PfS3UZ4M1nswTL8G2+aNW2eQDJSxBSGT1xhqNJ
+         mQh9fzUCsbO414H7NfxVy15goFgheq4qYabTxXdkbEvEf4AgcCWpGnFJRuXDgSgswZ
+         H8NFDLkylvcHO5B8twbXleQmGtEfzP8HQQv/7VpSG1EfdmY7FDktYgcOIplnp8agQL
+         rHYGJXCFf2hClszpP8dusNnWDh/XojeRpG0Gnm3xHrClsBNrZFx9K1E59EDmHwqKHO
+         r2zaUU7WwcV/Hk6YpDoUMPVpjF21YB3y/3WonJ7IGldIaKGbSXp5L4BJgCh6MTcHlT
+         wKmFgNdOQi10w==
+From:   Benjamin Gaignard <benjamin.gaignard@collabora.com>
+To:     ezequiel@vanguardiasur.com.ar, p.zabel@pengutronix.de,
+        mchehab@kernel.org, gregkh@linuxfoundation.org
+Cc:     linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
+        linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+        kernel@collabora.com,
+        Benjamin Gaignard <benjamin.gaignard@collabora.com>
+Subject: [PATCH] media: hantro: Make G2/HEVC use hantro_postproc_ops
+Date:   Thu, 25 Nov 2021 16:50:01 +0100
+Message-Id: <20211125155001.622405-1-benjamin.gaignard@collabora.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20211123142111.3885-20-christian.koenig@amd.com>
-X-Operating-System: Linux phenom 5.10.0-8-amd64 
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Nov 23, 2021 at 03:21:04PM +0100, Christian König wrote:
-> Use dma_resv_get_singleton() here to eventually get more than one write
-> fence as single fence.
+Use the postprocessor functions introduced by Hantro G2/VP9 codec series
+and remove duplicated buffer management.
+This allow Hantro G12/HEVC to produce NV12_4L4 and NV12.
 
-Yeah this is nice, atomic commit helpers not supporting multiple write
-fences was really my main worry in this entire endeavour. Otherwise looks
-all rather reasonable.
+Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+---
+ .../staging/media/hantro/hantro_g2_hevc_dec.c | 25 +++---
+ drivers/staging/media/hantro/hantro_hevc.c    | 79 +++----------------
+ drivers/staging/media/hantro/hantro_hw.h      | 11 +++
+ .../staging/media/hantro/hantro_postproc.c    |  3 +
+ drivers/staging/media/hantro/hantro_v4l2.c    | 19 ++---
+ 5 files changed, 41 insertions(+), 96 deletions(-)
 
-I'll try to find some review bandwidth, but would be really if you can
-volunteer others too (especially making sure ttm drivers set the KERNEL
-fences correctly in all cases).
--Daniel
-
-
-> 
-> Signed-off-by: Christian König <christian.koenig@amd.com>
-> ---
->  drivers/gpu/drm/drm_gem_atomic_helper.c | 18 +++++++-----------
->  1 file changed, 7 insertions(+), 11 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/drm_gem_atomic_helper.c b/drivers/gpu/drm/drm_gem_atomic_helper.c
-> index c3189afe10cb..9338ddb7edff 100644
-> --- a/drivers/gpu/drm/drm_gem_atomic_helper.c
-> +++ b/drivers/gpu/drm/drm_gem_atomic_helper.c
-> @@ -143,25 +143,21 @@
->   */
->  int drm_gem_plane_helper_prepare_fb(struct drm_plane *plane, struct drm_plane_state *state)
->  {
-> -	struct dma_resv_iter cursor;
->  	struct drm_gem_object *obj;
->  	struct dma_fence *fence;
-> +	int ret;
->  
->  	if (!state->fb)
->  		return 0;
->  
->  	obj = drm_gem_fb_get_obj(state->fb, 0);
-> -	dma_resv_iter_begin(&cursor, obj->resv, false);
-> -	dma_resv_for_each_fence_unlocked(&cursor, fence) {
-> -		/* TODO: Currently there should be only one write fence, so this
-> -		 * here works fine. But drm_atomic_set_fence_for_plane() should
-> -		 * be changed to be able to handle more fences in general for
-> -		 * multiple BOs per fb anyway. */
-> -		dma_fence_get(fence);
-> -		break;
-> -	}
-> -	dma_resv_iter_end(&cursor);
-> +	ret = dma_resv_get_singleton(obj->resv, false, &fence);
-> +	if (ret)
-> +		return ret;
->  
-> +	/* TODO: drm_atomic_set_fence_for_plane() should be changed to be able
-> +	 * to handle more fences in general for multiple BOs per fb.
-> +	 */
->  	drm_atomic_set_fence_for_plane(state, fence);
->  	return 0;
->  }
-> -- 
-> 2.25.1
-> 
-
+diff --git a/drivers/staging/media/hantro/hantro_g2_hevc_dec.c b/drivers/staging/media/hantro/hantro_g2_hevc_dec.c
+index b35f36109a6f..6ef5430b18eb 100644
+--- a/drivers/staging/media/hantro/hantro_g2_hevc_dec.c
++++ b/drivers/staging/media/hantro/hantro_g2_hevc_dec.c
+@@ -341,6 +341,8 @@ static int set_ref(struct hantro_ctx *ctx)
+ 	const struct v4l2_hevc_dpb_entry *dpb = decode_params->dpb;
+ 	dma_addr_t luma_addr, chroma_addr, mv_addr = 0;
+ 	struct hantro_dev *vpu = ctx->dev;
++	struct vb2_v4l2_buffer *vb2_dst;
++	struct hantro_decoded_buffer *dst;
+ 	size_t cr_offset = hantro_hevc_chroma_offset(sps);
+ 	size_t mv_offset = hantro_hevc_motion_vectors_offset(sps);
+ 	u32 max_ref_frames;
+@@ -426,10 +428,15 @@ static int set_ref(struct hantro_ctx *ctx)
+ 		hantro_write_addr(vpu, G2_REF_MV_ADDR(i), mv_addr);
+ 	}
+ 
+-	luma_addr = hantro_hevc_get_ref_buf(ctx, decode_params->pic_order_cnt_val);
++	vb2_dst = hantro_get_dst_buf(ctx);
++	dst = vb2_to_hantro_decoded_buf(&vb2_dst->vb2_buf);
++	luma_addr = hantro_get_dec_buf_addr(ctx, &dst->base.vb.vb2_buf);
+ 	if (!luma_addr)
+ 		return -ENOMEM;
+ 
++	if (hantro_hevc_add_ref_buf(ctx, decode_params->pic_order_cnt_val, luma_addr))
++		return -EINVAL;
++
+ 	chroma_addr = luma_addr + cr_offset;
+ 	mv_addr = luma_addr + mv_offset;
+ 
+@@ -456,16 +463,12 @@ static int set_ref(struct hantro_ctx *ctx)
+ 
+ static void set_buffers(struct hantro_ctx *ctx)
+ {
+-	struct vb2_v4l2_buffer *src_buf, *dst_buf;
++	struct vb2_v4l2_buffer *src_buf;
+ 	struct hantro_dev *vpu = ctx->dev;
+-	const struct hantro_hevc_dec_ctrls *ctrls = &ctx->hevc_dec.ctrls;
+-	const struct v4l2_ctrl_hevc_sps *sps = ctrls->sps;
+-	size_t cr_offset = hantro_hevc_chroma_offset(sps);
+-	dma_addr_t src_dma, dst_dma;
++	dma_addr_t src_dma;
+ 	u32 src_len, src_buf_len;
+ 
+ 	src_buf = hantro_get_src_buf(ctx);
+-	dst_buf = hantro_get_dst_buf(ctx);
+ 
+ 	/* Source (stream) buffer. */
+ 	src_dma = vb2_dma_contig_plane_dma_addr(&src_buf->vb2_buf, 0);
+@@ -478,11 +481,6 @@ static void set_buffers(struct hantro_ctx *ctx)
+ 	hantro_reg_write(vpu, &g2_strm_start_offset, 0);
+ 	hantro_reg_write(vpu, &g2_write_mvs_e, 1);
+ 
+-	/* Destination (decoded frame) buffer. */
+-	dst_dma = hantro_get_dec_buf_addr(ctx, &dst_buf->vb2_buf);
+-
+-	hantro_write_addr(vpu, G2_RS_OUT_LUMA_ADDR, dst_dma);
+-	hantro_write_addr(vpu, G2_RS_OUT_CHROMA_ADDR, dst_dma + cr_offset);
+ 	hantro_write_addr(vpu, G2_TILE_SIZES_ADDR, ctx->hevc_dec.tile_sizes.dma);
+ 	hantro_write_addr(vpu, G2_TILE_FILTER_ADDR, ctx->hevc_dec.tile_filter.dma);
+ 	hantro_write_addr(vpu, G2_TILE_SAO_ADDR, ctx->hevc_dec.tile_sao.dma);
+@@ -575,9 +573,6 @@ int hantro_g2_hevc_dec_run(struct hantro_ctx *ctx)
+ 	/* Don't compress buffers */
+ 	hantro_reg_write(vpu, &g2_ref_compress_bypass, 1);
+ 
+-	/* use NV12 as output format */
+-	hantro_reg_write(vpu, &g2_out_rs_e, 1);
+-
+ 	/* Bus width and max burst */
+ 	hantro_reg_write(vpu, &g2_buswidth, BUS_WIDTH_128);
+ 	hantro_reg_write(vpu, &g2_max_burst, 16);
+diff --git a/drivers/staging/media/hantro/hantro_hevc.c b/drivers/staging/media/hantro/hantro_hevc.c
+index ee03123e7704..b49a41d7ae91 100644
+--- a/drivers/staging/media/hantro/hantro_hevc.c
++++ b/drivers/staging/media/hantro/hantro_hevc.c
+@@ -44,47 +44,6 @@ size_t hantro_hevc_motion_vectors_offset(const struct v4l2_ctrl_hevc_sps *sps)
+ 	return ALIGN((cr_offset * 3) / 2, G2_ALIGN);
+ }
+ 
+-static size_t hantro_hevc_mv_size(const struct v4l2_ctrl_hevc_sps *sps)
+-{
+-	u32 min_cb_log2_size_y = sps->log2_min_luma_coding_block_size_minus3 + 3;
+-	u32 ctb_log2_size_y = min_cb_log2_size_y + sps->log2_diff_max_min_luma_coding_block_size;
+-	u32 pic_width_in_ctbs_y = (sps->pic_width_in_luma_samples + (1 << ctb_log2_size_y) - 1)
+-				  >> ctb_log2_size_y;
+-	u32 pic_height_in_ctbs_y = (sps->pic_height_in_luma_samples + (1 << ctb_log2_size_y) - 1)
+-				   >> ctb_log2_size_y;
+-	size_t mv_size;
+-
+-	mv_size = pic_width_in_ctbs_y * pic_height_in_ctbs_y *
+-		  (1 << (2 * (ctb_log2_size_y - 4))) * 16;
+-
+-	vpu_debug(4, "%dx%d (CTBs) %zu MV bytes\n",
+-		  pic_width_in_ctbs_y, pic_height_in_ctbs_y, mv_size);
+-
+-	return mv_size;
+-}
+-
+-static size_t hantro_hevc_ref_size(struct hantro_ctx *ctx)
+-{
+-	const struct hantro_hevc_dec_ctrls *ctrls = &ctx->hevc_dec.ctrls;
+-	const struct v4l2_ctrl_hevc_sps *sps = ctrls->sps;
+-
+-	return hantro_hevc_motion_vectors_offset(sps) + hantro_hevc_mv_size(sps);
+-}
+-
+-static void hantro_hevc_ref_free(struct hantro_ctx *ctx)
+-{
+-	struct hantro_hevc_dec_hw_ctx *hevc_dec = &ctx->hevc_dec;
+-	struct hantro_dev *vpu = ctx->dev;
+-	int i;
+-
+-	for (i = 0;  i < NUM_REF_PICTURES; i++) {
+-		if (hevc_dec->ref_bufs[i].cpu)
+-			dma_free_coherent(vpu->dev, hevc_dec->ref_bufs[i].size,
+-					  hevc_dec->ref_bufs[i].cpu,
+-					  hevc_dec->ref_bufs[i].dma);
+-	}
+-}
+-
+ static void hantro_hevc_ref_init(struct hantro_ctx *ctx)
+ {
+ 	struct hantro_hevc_dec_hw_ctx *hevc_dec = &ctx->hevc_dec;
+@@ -108,37 +67,25 @@ dma_addr_t hantro_hevc_get_ref_buf(struct hantro_ctx *ctx,
+ 		}
+ 	}
+ 
+-	/* Allocate a new reference buffer */
++	return 0;
++}
++
++int hantro_hevc_add_ref_buf(struct hantro_ctx *ctx, int poc, dma_addr_t addr)
++{
++	struct hantro_hevc_dec_hw_ctx *hevc_dec = &ctx->hevc_dec;
++	int i;
++
++	/* Add a new reference buffer */
+ 	for (i = 0; i < NUM_REF_PICTURES; i++) {
+ 		if (hevc_dec->ref_bufs_poc[i] == UNUSED_REF) {
+-			if (!hevc_dec->ref_bufs[i].cpu) {
+-				struct hantro_dev *vpu = ctx->dev;
+-
+-				/*
+-				 * Allocate the space needed for the raw data +
+-				 * motion vector data. Optimizations could be to
+-				 * allocate raw data in non coherent memory and only
+-				 * clear the motion vector data.
+-				 */
+-				hevc_dec->ref_bufs[i].cpu =
+-					dma_alloc_coherent(vpu->dev,
+-							   hantro_hevc_ref_size(ctx),
+-							   &hevc_dec->ref_bufs[i].dma,
+-							   GFP_KERNEL);
+-				if (!hevc_dec->ref_bufs[i].cpu)
+-					return 0;
+-
+-				hevc_dec->ref_bufs[i].size = hantro_hevc_ref_size(ctx);
+-			}
+ 			hevc_dec->ref_bufs_used |= 1 << i;
+-			memset(hevc_dec->ref_bufs[i].cpu, 0, hantro_hevc_ref_size(ctx));
+ 			hevc_dec->ref_bufs_poc[i] = poc;
+-
+-			return hevc_dec->ref_bufs[i].dma;
++			hevc_dec->ref_bufs[i].dma = addr;
++			return 0;
+ 		}
+ 	}
+ 
+-	return 0;
++	return -EINVAL;
+ }
+ 
+ void hantro_hevc_ref_remove_unused(struct hantro_ctx *ctx)
+@@ -314,8 +261,6 @@ void hantro_hevc_dec_exit(struct hantro_ctx *ctx)
+ 				  hevc_dec->tile_bsd.cpu,
+ 				  hevc_dec->tile_bsd.dma);
+ 	hevc_dec->tile_bsd.cpu = NULL;
+-
+-	hantro_hevc_ref_free(ctx);
+ }
+ 
+ int hantro_hevc_dec_init(struct hantro_ctx *ctx)
+diff --git a/drivers/staging/media/hantro/hantro_hw.h b/drivers/staging/media/hantro/hantro_hw.h
+index dbe51303724b..7286404c32ab 100644
+--- a/drivers/staging/media/hantro/hantro_hw.h
++++ b/drivers/staging/media/hantro/hantro_hw.h
+@@ -345,6 +345,7 @@ void hantro_hevc_dec_exit(struct hantro_ctx *ctx);
+ int hantro_g2_hevc_dec_run(struct hantro_ctx *ctx);
+ int hantro_hevc_dec_prepare_run(struct hantro_ctx *ctx);
+ dma_addr_t hantro_hevc_get_ref_buf(struct hantro_ctx *ctx, int poc);
++int hantro_hevc_add_ref_buf(struct hantro_ctx *ctx, int poc, dma_addr_t addr);
+ void hantro_hevc_ref_remove_unused(struct hantro_ctx *ctx);
+ size_t hantro_hevc_chroma_offset(const struct v4l2_ctrl_hevc_sps *sps);
+ size_t hantro_hevc_motion_vectors_offset(const struct v4l2_ctrl_hevc_sps *sps);
+@@ -394,6 +395,16 @@ hantro_h264_mv_size(unsigned int width, unsigned int height)
+ 	return 64 * MB_WIDTH(width) * MB_WIDTH(height) + 32;
+ }
+ 
++static inline size_t
++hantro_hevc_mv_size(unsigned int width, unsigned int height)
++{
++	/*
++	 * A CTB can be 64x64, 32x32 or 16x16.
++	 * Allocated memory for the "worse" case: 16x16
++	 */
++	return width * height / 16;
++}
++
+ int hantro_g1_mpeg2_dec_run(struct hantro_ctx *ctx);
+ int rockchip_vpu2_mpeg2_dec_run(struct hantro_ctx *ctx);
+ void hantro_mpeg2_dec_copy_qtable(u8 *qtable,
+diff --git a/drivers/staging/media/hantro/hantro_postproc.c b/drivers/staging/media/hantro/hantro_postproc.c
+index a7774ad4c445..248abe5423f0 100644
+--- a/drivers/staging/media/hantro/hantro_postproc.c
++++ b/drivers/staging/media/hantro/hantro_postproc.c
+@@ -146,6 +146,9 @@ int hantro_postproc_alloc(struct hantro_ctx *ctx)
+ 	else if (ctx->vpu_src_fmt->fourcc == V4L2_PIX_FMT_VP9_FRAME)
+ 		buf_size += hantro_vp9_mv_size(ctx->dst_fmt.width,
+ 					       ctx->dst_fmt.height);
++	else if (ctx->vpu_src_fmt->fourcc == V4L2_PIX_FMT_HEVC_SLICE)
++		buf_size += hantro_hevc_mv_size(ctx->dst_fmt.width,
++						ctx->dst_fmt.height);
+ 
+ 	for (i = 0; i < num_buffers; ++i) {
+ 		struct hantro_aux_buf *priv = &ctx->postproc.dec_q[i];
+diff --git a/drivers/staging/media/hantro/hantro_v4l2.c b/drivers/staging/media/hantro/hantro_v4l2.c
+index e4b0645ba6fc..e1fe37afe576 100644
+--- a/drivers/staging/media/hantro/hantro_v4l2.c
++++ b/drivers/staging/media/hantro/hantro_v4l2.c
+@@ -150,20 +150,6 @@ static int vidioc_enum_fmt(struct file *file, void *priv,
+ 	unsigned int num_fmts, i, j = 0;
+ 	bool skip_mode_none;
+ 
+-	/*
+-	 * The HEVC decoder on the G2 core needs a little quirk to offer NV12
+-	 * only on the capture side. Once the post-processor logic is used,
+-	 * we will be able to expose NV12_4L4 and NV12 as the other cases,
+-	 * and therefore remove this quirk.
+-	 */
+-	if (capture && ctx->vpu_src_fmt->fourcc == V4L2_PIX_FMT_HEVC_SLICE) {
+-		if (f->index == 0) {
+-			f->pixelformat = V4L2_PIX_FMT_NV12;
+-			return 0;
+-		}
+-		return -EINVAL;
+-	}
+-
+ 	/*
+ 	 * When dealing with an encoder:
+ 	 *  - on the capture side we want to filter out all MODE_NONE formats.
+@@ -304,6 +290,11 @@ static int hantro_try_fmt(const struct hantro_ctx *ctx,
+ 			pix_mp->plane_fmt[0].sizeimage +=
+ 				hantro_vp9_mv_size(pix_mp->width,
+ 						   pix_mp->height);
++		else if (ctx->vpu_src_fmt->fourcc == V4L2_PIX_FMT_HEVC_SLICE &&
++			 !hantro_needs_postproc(ctx, fmt))
++			pix_mp->plane_fmt[0].sizeimage +=
++				hantro_hevc_mv_size(pix_mp->width,
++						    pix_mp->height);
+ 	} else if (!pix_mp->plane_fmt[0].sizeimage) {
+ 		/*
+ 		 * For coded formats the application can specify
 -- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+2.30.2
+
