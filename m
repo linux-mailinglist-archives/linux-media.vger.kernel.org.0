@@ -2,153 +2,110 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3B3B945F1CE
-	for <lists+linux-media@lfdr.de>; Fri, 26 Nov 2021 17:25:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 14E2E45F249
+	for <lists+linux-media@lfdr.de>; Fri, 26 Nov 2021 17:38:41 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236327AbhKZQ3I (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 26 Nov 2021 11:29:08 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60996 "EHLO
+        id S1378683AbhKZQlw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 26 Nov 2021 11:41:52 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35562 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235743AbhKZQ1I (ORCPT
+        with ESMTP id S1378693AbhKZQjw (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 26 Nov 2021 11:27:08 -0500
-Received: from mail-pf1-x42a.google.com (mail-pf1-x42a.google.com [IPv6:2607:f8b0:4864:20::42a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9FE7CC0619E6
-        for <linux-media@vger.kernel.org>; Fri, 26 Nov 2021 08:14:48 -0800 (PST)
-Received: by mail-pf1-x42a.google.com with SMTP id o4so9351125pfp.13
-        for <linux-media@vger.kernel.org>; Fri, 26 Nov 2021 08:14:48 -0800 (PST)
+        Fri, 26 Nov 2021 11:39:52 -0500
+Received: from mail-pl1-x633.google.com (mail-pl1-x633.google.com [IPv6:2607:f8b0:4864:20::633])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AA45EC06175E
+        for <linux-media@vger.kernel.org>; Fri, 26 Nov 2021 08:24:58 -0800 (PST)
+Received: by mail-pl1-x633.google.com with SMTP id z6so7016071plk.6
+        for <linux-media@vger.kernel.org>; Fri, 26 Nov 2021 08:24:58 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=LmXcykHjcDxReHC8KVVXYIFulm9zhgJErLAIIaZdKFs=;
-        b=V2aAIhzpPtizx5kUWWqsDwM8AGMReBhZjWk2H4gMznGacuVLwuVEP315xVEnPbgqUW
-         NWcuCYIuiU4/7x+V25DJYiG13HrdH3jWljM0CYjOLZ4JLgiOCmykfiSGaKJaro7AGm8B
-         dm75q82lEF3di2l+Sn/QKcaQVk+Yco0fXGfWscdM6jvx9oEpLmJmbNNgIy+39anF8SKe
-         Q33myt7xI9hwpORA0MXFaJlZvwWQeS6pfUT30j5ZVg94EgcAESOovmzDrx36R0lGEBGc
-         4/LO5d/w/V+9/OmL2I8tJqy1T6FJEb9P1vfhbfy0O7k05pjKQPuQNIrJNH+YLaaKl+V/
-         3uYQ==
+        bh=08yV4KanwEu2zkDpr80UVvoMXaCWawSrkw5VFDhOPzk=;
+        b=Fg75CI7T52zjOwd7Hn51B6+LIqP901GCs2UlWSz23clqDsc7Ylc7rv1QMGpgmpS5Uq
+         aAGdCGhK4MTiI/eJBWzdJo3lFCIMm0v4AoeLOFzcmYrG/1lqBplN+F2NSjHap9SvETAu
+         MpGYUA69JomC6alGhZmwWstgPPyE1wyLkBrg6dD+B262CWOxIirZzvAKmTTV2ZR6Nn8m
+         oPd3kT81J2ii1PkI9bihvEcZ/9wkwzm+nhYvvc/4Gi6pUpkRYKfFHSfmsLqWspRQOwA8
+         b0ReiHmtjrBCyl+4npegScpvj3e0MhceKGAKmMmnQQvnjQaF5HspHfp1bGuAEkE1yvL1
+         sIIg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=LmXcykHjcDxReHC8KVVXYIFulm9zhgJErLAIIaZdKFs=;
-        b=1xX7PMa3/KV3AVgwUQ1OquAHkijlETLxvp64+ccln5z/t7DQFrkKa3Q/xgh5ek3MCK
-         zABT/i1qnSeogf1oVQLx0MA1YR2hSgTDC/eZCCNyDwer+VSaGmXLrQliDSgk0E+IZRnx
-         v39cEXTo+9nXxfC8qVYmmVOtqBxQWSkuJIjIABFzRGsACUoPb3HWHZDV+3O61VI6m+DC
-         3ps8GcdDTyhGzJq15pzm8FE2B7i9ry+9D3pmc1he2dhwu9rKFvkNYmwKpwqYWvqpQPup
-         qYlISfSPzoJ0W1rYVlMxvNgP4+nHlWoHahmGs9Tu6EDjGvHsBv5IB29+7sCYnFXglt9G
-         9+Nw==
-X-Gm-Message-State: AOAM532dVLmhHFeDqhYAqAO4677ZaKYs0y4fuUQnF48bZS+6JlrGUAnR
-        40rvgkqCfogGcznpX7dOX6HdJ/0kbcNIeQzQ+RE=
-X-Google-Smtp-Source: ABdhPJxEV+upaX/HHM6jvEsrW3V39ucqATdWAmPcuDVO1XxFyhLsR/tvQEn6xbk/KnlkkObvK4VdFKyRtIkt85nNNgQ=
-X-Received: by 2002:a63:e06:: with SMTP id d6mr22405191pgl.449.1637943288082;
- Fri, 26 Nov 2021 08:14:48 -0800 (PST)
+        bh=08yV4KanwEu2zkDpr80UVvoMXaCWawSrkw5VFDhOPzk=;
+        b=tOzB74H7RfB3ZAC1Fj3/eKOzTn9q1q3EEYiu7l4LbQzUSyDJTxTCi6qkU9zFIC2X+e
+         Ez8qnMU5XOZVl0jBTwx8srFMPcU/sGEP4OGkc/VTU7TR9Q+IUYa2yk1QHvqKGl+X64RU
+         G8SWOtBMz2LVY+FEbCzj7baNUyUykwwGnrysVQhigmyzJtfpbZhfACbCWwyt3tBuoQxW
+         McModHthImTt0tiSDEEDijOcABr9cxZnbGuuOSW7p0fKe7YC543Re9mFSVh0GZdz+t2M
+         wU0Q55sUT4oyyUPZkEBMa4+tD63msT7onhRFllI+VE/x3d71Vq5rIZIPC1BCkochLdXq
+         Lgww==
+X-Gm-Message-State: AOAM531efQy9cpmx1sPjupm8FtvfacPpCorlov1F/hkgLzX08S4MdB+A
+        xGCLtTuMDyZQdg9ZrPEcp7jNkXt2WxWE2Fr2QCo=
+X-Google-Smtp-Source: ABdhPJw8Y6FXZjCQXQ5TZw9jU1NJpIPOuIje+Jrt8LPJ2MaUl9Je1nIUNmqepvttHIkgGwKQihBxb3Vy7555ADBwWbM=
+X-Received: by 2002:a17:902:e8d4:b0:143:88c2:e2c9 with SMTP id
+ v20-20020a170902e8d400b0014388c2e2c9mr38529682plg.12.1637943898058; Fri, 26
+ Nov 2021 08:24:58 -0800 (PST)
 MIME-Version: 1.0
-References: <0d3ee0aa-0f1f-4670-a5cc-8dd982e2e3b0@xs4all.nl>
-In-Reply-To: <0d3ee0aa-0f1f-4670-a5cc-8dd982e2e3b0@xs4all.nl>
+References: <3158098a-c508-a8e0-dfba-d30b59c26d34@schepmann.de>
+In-Reply-To: <3158098a-c508-a8e0-dfba-d30b59c26d34@schepmann.de>
 From:   Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>
-Date:   Fri, 26 Nov 2021 17:14:31 +0100
-Message-ID: <CAPybu_0Z_Sa1OqVWVhK0RmPchxH1Z=N_BDZft66Bd-uBxpMTBQ@mail.gmail.com>
-Subject: Re: [PATCH] uvc: fix sequence counting
-To:     Hans Verkuil <hverkuil@xs4all.nl>,
+Date:   Fri, 26 Nov 2021 17:24:41 +0100
+Message-ID: <CAPybu_0Mj7vYth9yMfs1s6kMKi6aUN+FPJOFcPh0oKULD=ex7g@mail.gmail.com>
+Subject: Re: camera not supported in your device-list does not work
+To:     Felix Schepmann <felix@schepmann.de>,
         Ricardo Ribalda <ribalda@chromium.org>
-Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     linux-media <linux-media@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hello Hans
+Hi Felix
 
-What if we make something like:
+What is the output of
 
-#define UVC_STREAM_FID_UNINITIALISED (UVC_STREAM_FID + 1)
-
-and then use that define at the initialization and in decode_start() ?
-I think it will be clearer than the current comparison.
-
-
-Also you might want to wait to assign "stream->last_fid = fid;" until
-line 1106, because otherwise the "Dropping payload" will be triggered
-(I believe)
+lsusb -v -d 0c45:6366
+v4l2-ctl -d /dev/videoX --all (where videoX is the camera)
+yavta -c /dev/videoX
 
 Thanks!
 
-PS: You will get better response time if you email me at
-ribalda@chromium.org , not much time recently for the personal email
-:(
 
 
-
-
-
-On Wed, Nov 24, 2021 at 11:49 AM Hans Verkuil <hverkuil@xs4all.nl> wrote:
+On Mon, Oct 18, 2021 at 6:48 PM Felix Schepmann <felix@schepmann.de> wrote:
 >
-> When you start streaming from uvc, then the first buffer will
-> have sequence number 0 and the second buffer has sequence number
-> 2. Fix the logic to ensure proper monotonically increasing sequence
-> numbers.
+> Hello,
 >
-> The root cause is not setting last_fid when you start streaming
-> and a new fid is found for the first time.
+> i am using a webcam with the following dmesg-output when inserting,
+> which is not showing any video signal:
 >
-> This patch also changes the initial last_fid value from -1 to 0xff.
-> Since last_fid is unsigned, it is better to stick to unsigned values.
+> [  405.386690] usb 3-1.2: USB disconnect, device number 4
+> [  411.018485] usb 3-1.1: USB disconnect, device number 3
+> [  414.105490] usb 3-1.1: new high-speed USB device number 7 using xhci_hcd
+> [  414.285316] usb 3-1.1: New USB device found, idVendor=0c45,
+> idProduct=6366, bcdDevice= 1.00
+> [  414.285331] usb 3-1.1: New USB device strings: Mfr=2, Product=1,
+> SerialNumber=3
+> [  414.285338] usb 3-1.1: Product: USB 2.0 Camera
+> [  414.285343] usb 3-1.1: Manufacturer: Sonix Technology Co., Ltd.
+> [  414.285348] usb 3-1.1: SerialNumber: SN0001
+> [  414.288227] uvcvideo: Found UVC 1.00 device USB 2.0 Camera (0c45:6366)
+> [  414.315921] input: USB 2.0 Camera: USB Camera as
+> /devices/pci0000:00/0000:00:1c.4/0000:03:00.0/0000:04:02.0/0000:39:00.0/usb3/3-1/3-1.1/3-1.1:1.0/input/input52
+> [  414.365853] usb 3-1.1: 3:1: cannot get freq at ep 0x84
+> [  414.721869] usb 3-1.1: 3:1: cannot get freq at ep 0x84
+> [  414.791189] usb 3-1.1: 3:1: cannot get freq at ep 0x84
 >
-> Signed-off-by: Hans Verkuil <hans.verkuil@cisco.com>
-> ---
->  drivers/media/usb/uvc/uvc_video.c | 11 +++++++----
->  1 file changed, 7 insertions(+), 4 deletions(-)
+> Maybe you could tell me what else of information I should show you?
 >
-> diff --git a/drivers/media/usb/uvc/uvc_video.c b/drivers/media/usb/uvc/uvc_video.c
-> index 9f37eaf28ce7..8ba8d25e2c4a 100644
-> --- a/drivers/media/usb/uvc/uvc_video.c
-> +++ b/drivers/media/usb/uvc/uvc_video.c
-> @@ -1055,7 +1055,10 @@ static int uvc_video_decode_start(struct uvc_streaming *stream,
->          * that discontinuous sequence numbers always indicate lost frames.
->          */
->         if (stream->last_fid != fid) {
-> -               stream->sequence++;
-> +               if (stream->last_fid > UVC_STREAM_FID)
-> +                       stream->last_fid = fid;
-> +               else
-> +                       stream->sequence++;
->                 if (stream->sequence)
->                         uvc_video_stats_update(stream);
->         }
-> @@ -1080,7 +1083,7 @@ static int uvc_video_decode_start(struct uvc_streaming *stream,
+> When I connect to this cam from e.g. firefox it's activity light turns
+> on, but no video-stream ist shown in my Web-conferencing screen.
 >
->         /* Synchronize to the input stream by waiting for the FID bit to be
->          * toggled when the the buffer state is not UVC_BUF_STATE_ACTIVE.
-> -        * stream->last_fid is initialized to -1, so the first isochronous
-> +        * stream->last_fid is initialized to 0xff, so the first isochronous
->          * frame will always be in sync.
->          *
->          * If the device doesn't toggle the FID bit, invert stream->last_fid
-> @@ -1111,7 +1114,7 @@ static int uvc_video_decode_start(struct uvc_streaming *stream,
->          * last payload can be lost anyway). We thus must check if the FID has
->          * been toggled.
->          *
-> -        * stream->last_fid is initialized to -1, so the first isochronous
-> +        * stream->last_fid is initialized to 0xff, so the first isochronous
->          * frame will never trigger an end of frame detection.
->          *
->          * Empty buffers (bytesused == 0) don't trigger end of frame detection
-> @@ -1895,7 +1898,7 @@ static int uvc_video_start_transfer(struct uvc_streaming *stream,
->         int ret;
+> regards, Felix
 >
->         stream->sequence = -1;
-> -       stream->last_fid = -1;
-> +       stream->last_fid = 0xff;
->         stream->bulk.header_size = 0;
->         stream->bulk.skip_payload = 0;
->         stream->bulk.payload_size = 0;
-> --
-> 2.33.0
+>
 >
 
 
---
+-- 
 Ricardo Ribalda
