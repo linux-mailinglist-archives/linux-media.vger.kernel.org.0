@@ -2,119 +2,77 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 78CFC45E945
-	for <lists+linux-media@lfdr.de>; Fri, 26 Nov 2021 09:21:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9F88445E977
+	for <lists+linux-media@lfdr.de>; Fri, 26 Nov 2021 09:36:35 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1345536AbhKZIYb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 26 Nov 2021 03:24:31 -0500
-Received: from twspam01.aspeedtech.com ([211.20.114.71]:36102 "EHLO
-        twspam01.aspeedtech.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S245061AbhKZIW2 (ORCPT
+        id S1346895AbhKZIjq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 26 Nov 2021 03:39:46 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42220 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1346223AbhKZIhq (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 26 Nov 2021 03:22:28 -0500
-Received: from mail.aspeedtech.com ([192.168.0.24])
-        by twspam01.aspeedtech.com with ESMTP id 1AQ7r4nW033248;
-        Fri, 26 Nov 2021 15:53:04 +0800 (GMT-8)
-        (envelope-from jammy_huang@aspeedtech.com)
-Received: from [192.168.2.115] (192.168.2.115) by TWMBX02.aspeed.com
- (192.168.0.24) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Fri, 26 Nov
- 2021 16:17:20 +0800
-Message-ID: <b6ba49f3-a9ed-f5e6-959c-309db8cce7f6@aspeedtech.com>
-Date:   Fri, 26 Nov 2021 16:17:20 +0800
+        Fri, 26 Nov 2021 03:37:46 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3F928C0613A1
+        for <linux-media@vger.kernel.org>; Fri, 26 Nov 2021 00:26:03 -0800 (PST)
+Received: from pendragon.ideasonboard.com (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id E4FBD340;
+        Fri, 26 Nov 2021 09:26:00 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1637915161;
+        bh=spjUIHPt/pK4KOhb2xmZaUA2H5tPunHi+d5pFLqaVzc=;
+        h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
+        b=v6Y+wNALxKdTUVOxgAXoUo/xxd0Kf7K92ttVojte5YJT7eMm6EkFALr3G3yL1tZlL
+         KulSCCfqcJsCexET6wDNN0lmtkvGVEM7+VRLXaPzeBWK2VB7QMF0nJAB009AI6wUS9
+         +VDju0m8K29QHK189wxBd1vhJC5RepdypEJ07E5I=
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.2
-Subject: Re: [PATCH v5 00/10] add aspeed-jpeg support for aspeed-video
-Content-Language: en-US
-To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>, <eajames@linux.ibm.com>,
-        <mchehab@kernel.org>, <joel@jms.id.au>, <andrew@aj.id.au>,
-        <sakari.ailus@linux.intel.com>, <gregkh@linuxfoundation.org>,
-        <laurent.pinchart@ideasonboard.com>, <linux-media@vger.kernel.org>,
-        <openbmc@lists.ozlabs.org>, <linux-arm-kernel@lists.infradead.org>,
-        <linux-aspeed@lists.ozlabs.org>, <linux-kernel@vger.kernel.org>
-References: <20211118074030.685-1-jammy_huang@aspeedtech.com>
- <5ab806d1-e407-1fa4-83ec-93ebe8df7db4@xs4all.nl>
-From:   Jammy Huang <jammy_huang@aspeedtech.com>
-In-Reply-To: <5ab806d1-e407-1fa4-83ec-93ebe8df7db4@xs4all.nl>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [192.168.2.115]
-X-ClientProxiedBy: TWMBX02.aspeed.com (192.168.0.24) To TWMBX02.aspeed.com
- (192.168.0.24)
-X-DNSRBL: 
-X-MAIL: twspam01.aspeedtech.com 1AQ7r4nW033248
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20211126080623.1587610-1-sakari.ailus@linux.intel.com>
+References: <20211126080623.1587610-1-sakari.ailus@linux.intel.com>
+Subject: Re: [PATCH 1/1] max96712: Depend on VIDEO_V4L2
+From:   Kieran Bingham <kieran.bingham@ideasonboard.com>
+Cc:     niklas.soderlund@ragnatech.se
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>,
+        linux-media@vger.kernel.org
+Date:   Fri, 26 Nov 2021 08:25:58 +0000
+Message-ID: <163791515852.3059017.1415957545181411427@Monstersaurus>
+User-Agent: alot/0.10
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Hans,
+Hi Sakari,
 
-Please refer to Page 132, 'Video stream data format – ASPEED mode compression' of
-https://github.com/AspeedTech-BMC/openbmc/releases/download/v07.02/SDK_User_Guide_v07.02.pdf
+Quoting Sakari Ailus (2021-11-26 08:06:23)
+> Depend on VIDEO_V4L2 for the driver actually depends on it, failing to
+> compile otherwise.
 
-Is above information enough??
-Or maybe we can postpone this series until the source code for this format ready.
-I think I can accomplish it by the end of this year.
+Given that this matches how I added the same for max9286, I think this
+way is better than select.
 
-On 2021/11/25 下午 10:31, Hans Verkuil wrote:
-> Hi Jammy,
->
-> I suggest posting a v3 that moves the patches that deal with the
-> Aspeed JPEG format to the end of the series. That way I can easily
-> merge the patches up to that point, and the Aspeed JPEG support can
-> be handled separately.
->
-> I'm not sure if it can be merged without that format being documented,
-> either in pixfmt-reserved.rst, by implementing support for it in
-> libv4lconvert from v4l-utils, or by providing a URL to some other
-> publicly available source code. We really don't like adding pixel
-> formats that cannot be interpreted by someone without access to the
-> datasheets.
->
-> Regards,
->
-> 	Hans
->
-> On 18/11/2021 08:40, Jammy Huang wrote:
->> The aim of this series is to add aspeed-jpeg support for aspeed-video
->> driver.
->>
->> To achieve this major goal some refactors are included.
->>
->> In the last, debugfs information is also updated per this change.
->>
->> Changes in v5:
->>   - Use model data to tell different soc
->>
->> Changes in v4:
->>   - Add definition for the Aspeed JPEG format
->>   - Reserve controls for ASPEED
->>   - Use s_fmt to update format rather than new control
->>   - Update aspeed hq quality range, 1 ~ 12
->>
->>
->> Jammy Huang (10):
->>    media: aspeed: move err-handling together to the bottom
->>    media: aspeed: use v4l2_info/v4l2_warn/v4l2_dbg for log
->>    media: aspeed: add more debug log messages
->>    media: aspeed: refactor to gather format/compress settings
->>    media: v4l: Add definition for the Aspeed JPEG format
->>    media: v4l2-ctrls: Reserve controls for ASPEED
->>    media: aspeed: use model-data
->>    media: aspeed: Support aspeed mode to reduce compressed data
->>    media: aspeed: add comments and macro
->>    media: aspeed: Extend debug message
->>
->>   .../media/uapi/v4l/pixfmt-reserved.rst        |  12 +
->>   drivers/media/platform/aspeed-video.c         | 534 ++++++++++++++----
->>   drivers/media/v4l2-core/v4l2-ioctl.c          |   1 +
->>   include/uapi/linux/aspeed-video.h             |  15 +
->>   include/uapi/linux/v4l2-controls.h            |   5 +
->>   include/uapi/linux/videodev2.h                |   1 +
->>   6 files changed, 467 insertions(+), 101 deletions(-)
->>   create mode 100644 include/uapi/linux/aspeed-video.h
->>
--- 
-Best Regards
-Jammy
+Thanks,
 
+Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+
+> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> ---
+>  drivers/staging/media/max96712/Kconfig | 1 +
+>  1 file changed, 1 insertion(+)
+>=20
+> diff --git a/drivers/staging/media/max96712/Kconfig b/drivers/staging/med=
+ia/max96712/Kconfig
+> index 258d47644cbd..acde14fd5c4d 100644
+> --- a/drivers/staging/media/max96712/Kconfig
+> +++ b/drivers/staging/media/max96712/Kconfig
+> @@ -3,6 +3,7 @@ config VIDEO_MAX96712
+>         tristate "Maxim MAX96712 Quad GMSL2 Deserializer support"
+>         depends on I2C
+>         depends on OF_GPIO
+> +       depends on VIDEO_V4L2
+>         select V4L2_FWNODE
+>         select VIDEO_V4L2_SUBDEV_API
+>         select MEDIA_CONTROLLER
+> --=20
+> 2.30.2
+>
