@@ -2,145 +2,98 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6549945E9DB
-	for <lists+linux-media@lfdr.de>; Fri, 26 Nov 2021 10:04:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1DF5545EA82
+	for <lists+linux-media@lfdr.de>; Fri, 26 Nov 2021 10:38:12 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1359778AbhKZJGk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 26 Nov 2021 04:06:40 -0500
-Received: from comms.puri.sm ([159.203.221.185]:35038 "EHLO comms.puri.sm"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1376262AbhKZJEi (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Fri, 26 Nov 2021 04:04:38 -0500
-Received: from localhost (localhost [127.0.0.1])
-        by comms.puri.sm (Postfix) with ESMTP id B4A69E1252;
-        Fri, 26 Nov 2021 01:01:25 -0800 (PST)
-Received: from comms.puri.sm ([127.0.0.1])
-        by localhost (comms.puri.sm [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id GyawlSRMnNDE; Fri, 26 Nov 2021 01:01:21 -0800 (PST)
-From:   Martin Kepplinger <martin.kepplinger@puri.sm>
-To:     martin.kepplinger@puri.sm, mchehab@kernel.org, broonie@kernel.org,
-        sakari.ailus@linux.intel.com
-Cc:     kernel@puri.sm, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-pm@vger.kernel.org,
-        Angus Ainslie <angus@akkea.ca>
-Subject: [PATCH v2] media: i2c: dw9714: add optional regulator support
-Date:   Fri, 26 Nov 2021 10:01:07 +0100
-Message-Id: <20211126090107.1243558-1-martin.kepplinger@puri.sm>
+        id S1376401AbhKZJlU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 26 Nov 2021 04:41:20 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56798 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S238177AbhKZJjR (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Fri, 26 Nov 2021 04:39:17 -0500
+Received: from mail-ed1-x532.google.com (mail-ed1-x532.google.com [IPv6:2a00:1450:4864:20::532])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EFC52C061396
+        for <linux-media@vger.kernel.org>; Fri, 26 Nov 2021 01:32:54 -0800 (PST)
+Received: by mail-ed1-x532.google.com with SMTP id v1so36290071edx.2
+        for <linux-media@vger.kernel.org>; Fri, 26 Nov 2021 01:32:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=08+LjFVBcHxIAyrTBFPcnkLL1QMPWNSenak/w+o5csE=;
+        b=M3RNY98nMXEqmIhu2vjx8RHrHVh4G9I4Awx/5Ao7WOtrFr1JRXl3fDxgH5nEGCkB17
+         OJjd0meRnsJ8dLs/Yhbc3cK5bdf8HmTdIkLwU0Q+rh8ZIxrEYJpyeWk40bWNn8XcoWSW
+         q6dFNfHYAyyOGsTDQq6iE6fY7ikZ5VwEGRqsPlPMCXR/EqundrhCq6A4rDc6fFAUsUHc
+         y612g5VGwA5NU9geqsCWn6Z2RZftQnICP4Xpnofg9kQeuj9Eq8rsd3cqdREenkH73S2n
+         k3SrFQ7Om6W+WxVc948SUGHg2okZ8otbhn/69vCba1+HW2VhaGTI74lqZQPjcYYqI6Fi
+         cvoQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=08+LjFVBcHxIAyrTBFPcnkLL1QMPWNSenak/w+o5csE=;
+        b=KvPjFae2R0Fo5qpzY81e72DGOCS/EhiVnaSfBlOGM+fTqfvGKZ8cmYlzQ9Y9J9i9a0
+         nqFHHHJxRKb51Oxa60GRWmRc9+tRB8vLDTDpwvhU/s2TKYKul/9Po/OgrXtwoW5psJBv
+         JcmeoHL4Bix9E4A8gZYXMnEmynniwz1KnO3qxsGiNPNSAYcpTdtPx1DoN0gBn8R3kt5j
+         oSU/ktjIIs5N57y53rBB1qLeeC4pimol8J7fdIhx6OGbAIn7dHjd3mUjcyML3me4f7eb
+         F2lvlo9/2X1/c/LSuOHpNMjLkshrkRonx1rsOkwr3euL308RqBIy4UM7209tO0vNzaGU
+         DpWg==
+X-Gm-Message-State: AOAM531rga7Rgd9tsNkIZNJ3p46VEiV3HtBGiGP7vadqt3GxqTsdYU1i
+        HXJjLNPZKrYI06nwA0y0pdnlysCp9glT+g==
+X-Google-Smtp-Source: ABdhPJwWk5sbUQfgK5AGSvlft9lfdmgwucbFedemNLcL0DKxg+jvQjKa52lUIETbr7Tp0S+9xOg9ww==
+X-Received: by 2002:a05:6402:1d50:: with SMTP id dz16mr44858838edb.309.1637919173288;
+        Fri, 26 Nov 2021 01:32:53 -0800 (PST)
+Received: from localhost.localdomain (hst-221-9.medicom.bg. [84.238.221.9])
+        by smtp.gmail.com with ESMTPSA id a17sm3422545edx.14.2021.11.26.01.32.52
+        for <linux-media@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 26 Nov 2021 01:32:52 -0800 (PST)
+From:   Stanimir Varbanov <stanimir.varbanov@linaro.org>
+To:     linux-media@vger.kernel.org
+Subject: [GIT PULL FOR v5.17] Venus updates
+Date:   Fri, 26 Nov 2021 11:32:43 +0200
+Message-Id: <20211126093243.1254176-1-stanimir.varbanov@linaro.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Angus Ainslie <angus@akkea.ca>
+Hi Mauro,
 
-Allow the dw9714 to control a regulator and adjust suspend() and resume()
-to support both runtime and system pm.
+This time the updates include few fixes.
 
-Signed-off-by: Angus Ainslie <angus@akkea.ca>
-Signed-off-by: Martin Kepplinger <martin.kepplinger@puri.sm>
----
+Please pull.
 
-revision history
-----------------
+regards,
+Stan
 
-v2: (thank you Mark)
- * simplify the regulator_get_optional() error path
- * fix regulator usage during probe()
+The following changes since commit 999ed03518cb01aa9ef55c025db79567eec6268c:
 
-v1:
-https://lore.kernel.org/linux-media/20211125080922.978583-1-martin.kepplinger@puri.sm/
+  media: atomisp: cleanup qbuf logic (2021-11-17 19:40:19 +0000)
 
+are available in the Git repository at:
 
+  git://linuxtv.org/svarbanov/media_tree.git tags/venus-for-v5.17
 
- drivers/media/i2c/dw9714.c | 39 ++++++++++++++++++++++++++++++++++++++
- 1 file changed, 39 insertions(+)
+for you to fetch changes up to 7f28a0331c663cdc51a2c85d76c7f9d13a19fa2e:
 
-diff --git a/drivers/media/i2c/dw9714.c b/drivers/media/i2c/dw9714.c
-index 3863dfeb8293..e8cc19b89861 100644
---- a/drivers/media/i2c/dw9714.c
-+++ b/drivers/media/i2c/dw9714.c
-@@ -5,6 +5,7 @@
- #include <linux/i2c.h>
- #include <linux/module.h>
- #include <linux/pm_runtime.h>
-+#include <linux/regulator/consumer.h>
- #include <media/v4l2-ctrls.h>
- #include <media/v4l2-device.h>
- #include <media/v4l2-event.h>
-@@ -36,6 +37,7 @@ struct dw9714_device {
- 	struct v4l2_ctrl_handler ctrls_vcm;
- 	struct v4l2_subdev sd;
- 	u16 current_val;
-+	struct regulator *vcc;
- };
- 
- static inline struct dw9714_device *to_dw9714_vcm(struct v4l2_ctrl *ctrl)
-@@ -145,6 +147,21 @@ static int dw9714_probe(struct i2c_client *client)
- 	if (dw9714_dev == NULL)
- 		return -ENOMEM;
- 
-+	dw9714_dev->vcc = devm_regulator_get_optional(&client->dev, "vcc");
-+	if (IS_ERR(dw9714_dev->vcc)) {
-+		dev_dbg(&client->dev, "No vcc regulator found: %ld\n",
-+			PTR_ERR(dw9714_dev->vcc));
-+		dw9714_dev->vcc = NULL;
-+	}
-+
-+	if (dw9714_dev->vcc) {
-+		rval = regulator_enable(dw9714_dev->vcc);
-+		if (rval < 0) {
-+			dev_err(&client->dev, "failed to enable vcc: %d\n", rval);
-+			return rval;
-+		}
-+	}
-+
- 	v4l2_i2c_subdev_init(&dw9714_dev->sd, client, &dw9714_ops);
- 	dw9714_dev->sd.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE |
- 				V4L2_SUBDEV_FL_HAS_EVENTS;
-@@ -200,6 +217,9 @@ static int __maybe_unused dw9714_vcm_suspend(struct device *dev)
- 	struct dw9714_device *dw9714_dev = sd_to_dw9714_vcm(sd);
- 	int ret, val;
- 
-+	if (pm_runtime_suspended(&client->dev))
-+		return 0;
-+
- 	for (val = dw9714_dev->current_val & ~(DW9714_CTRL_STEPS - 1);
- 	     val >= 0; val -= DW9714_CTRL_STEPS) {
- 		ret = dw9714_i2c_write(client,
-@@ -208,6 +228,13 @@ static int __maybe_unused dw9714_vcm_suspend(struct device *dev)
- 			dev_err_once(dev, "%s I2C failure: %d", __func__, ret);
- 		usleep_range(DW9714_CTRL_DELAY_US, DW9714_CTRL_DELAY_US + 10);
- 	}
-+
-+	if (dw9714_dev->vcc) {
-+		ret = regulator_disable(dw9714_dev->vcc);
-+		if (ret)
-+			dev_err(dev, "Failed to disable vcc: %d\n", ret);
-+	}
-+
- 	return 0;
- }
- 
-@@ -224,6 +251,18 @@ static int  __maybe_unused dw9714_vcm_resume(struct device *dev)
- 	struct dw9714_device *dw9714_dev = sd_to_dw9714_vcm(sd);
- 	int ret, val;
- 
-+	if (pm_runtime_suspended(&client->dev))
-+		return 0;
-+
-+	if (dw9714_dev->vcc) {
-+		ret = regulator_enable(dw9714_dev->vcc);
-+		if (ret) {
-+			dev_err(dev, "Failed to enable vcc: %d\n", ret);
-+			return ret;
-+		}
-+		usleep_range(1000, 2000);
-+	}
-+
- 	for (val = dw9714_dev->current_val % DW9714_CTRL_STEPS;
- 	     val < dw9714_dev->current_val + DW9714_CTRL_STEPS - 1;
- 	     val += DW9714_CTRL_STEPS) {
--- 
-2.30.2
+  media: venus: core: Fix a resource leak in the error handling path of 'venus_probe()' (2021-11-22 13:54:01 +0200)
 
+----------------------------------------------------------------
+Venus updates for v5.17
+
+----------------------------------------------------------------
+Christophe JAILLET (2):
+      media: venus: core: Fix a potential NULL pointer dereference in an error handling path
+      media: venus: core: Fix a resource leak in the error handling path of 'venus_probe()'
+
+Mansur Alisha Shaik (2):
+      venus: correct low power frequency calculation for encoder
+      venus: avoid calling core_clk_setrate() concurrently during concurrent video sessions
+
+ drivers/media/platform/qcom/venus/core.c       | 11 ++++++---
+ drivers/media/platform/qcom/venus/pm_helpers.c | 32 +++++++++++++-------------
+ 2 files changed, 24 insertions(+), 19 deletions(-)
