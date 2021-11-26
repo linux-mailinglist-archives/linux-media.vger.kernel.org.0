@@ -2,77 +2,115 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8A03D45EEA0
-	for <lists+linux-media@lfdr.de>; Fri, 26 Nov 2021 14:07:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BFACB45EEF2
+	for <lists+linux-media@lfdr.de>; Fri, 26 Nov 2021 14:16:19 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238207AbhKZNK1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 26 Nov 2021 08:10:27 -0500
-Received: from mail.kernel.org ([198.145.29.99]:46676 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229737AbhKZNI0 (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Fri, 26 Nov 2021 08:08:26 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 4991D610A7;
-        Fri, 26 Nov 2021 13:05:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1637931914;
-        bh=7kWyWOzNhvpzrbyXFw3NApkY4l5o3i0sxnomHklyFkQ=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=UqziiORfQ5oNDPEF5+/34wqiUp9Dn7l/0h8oEgqIpyhwqnyMzePlvT+LvV8FrtqpB
-         7CE6konpS/+G2GKVaz2Gr2+meHnZmgunZfcj7FX5STy/wLF5hFNwvKiVlGDatJeWd5
-         3uT+c9rkrGVZnbR3qFpy3rGOim+/K4EKCW1P9geg1L2XMnr1zXuM7gtHZg/briTrKi
-         k46UFoiZ8kDPNWngXiqg2WPBsLAkuu80c/86IQIAsv9fZW6JHAu1lP/HD1vVHDeZt2
-         J6idDo8+ddG8aGnL0oj3mOpHtgo0lCaif0qytQIXv0hvhgTEI3a4c974l92QkWnfJn
-         CLjWx4CmTjS0A==
-Date:   Fri, 26 Nov 2021 13:05:09 +0000
-From:   Mark Brown <broonie@kernel.org>
-To:     Martin Kepplinger <martin.kepplinger@puri.sm>
-Cc:     mchehab@kernel.org, sakari.ailus@linux.intel.com, kernel@puri.sm,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-pm@vger.kernel.org, Angus Ainslie <angus@akkea.ca>
-Subject: Re: [PATCH v2] media: i2c: dw9714: add optional regulator support
-Message-ID: <YaDbhSsh5vKBsZai@sirena.org.uk>
-References: <20211126090107.1243558-1-martin.kepplinger@puri.sm>
+        id S238823AbhKZNTb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 26 Nov 2021 08:19:31 -0500
+Received: from relay12.mail.gandi.net ([217.70.178.232]:37405 "EHLO
+        relay12.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231215AbhKZNRa (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Fri, 26 Nov 2021 08:17:30 -0500
+Received: (Authenticated sender: paul.kocialkowski@bootlin.com)
+        by relay12.mail.gandi.net (Postfix) with ESMTPSA id D553220000D;
+        Fri, 26 Nov 2021 13:14:16 +0000 (UTC)
+Date:   Fri, 26 Nov 2021 14:14:16 +0100
+From:   Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+To:     Hans de Goede <hdegoede@redhat.com>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org
+Subject: Re: [PATCH v2] media: i2c: ov5648: Fix lockdep error
+Message-ID: <YaDdqGf/Zm/7+5Z4@aptenodytes>
+References: <20211126114802.85706-1-hdegoede@redhat.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="+3BsLA530vjlUXPc"
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="zsRmWztiiPh816t3"
 Content-Disposition: inline
-In-Reply-To: <20211126090107.1243558-1-martin.kepplinger@puri.sm>
-X-Cookie: You fill a much-needed gap.
+In-Reply-To: <20211126114802.85706-1-hdegoede@redhat.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
 
---+3BsLA530vjlUXPc
-Content-Type: text/plain; charset=us-ascii
+--zsRmWztiiPh816t3
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, Nov 26, 2021 at 10:01:07AM +0100, Martin Kepplinger wrote:
+Hi,
 
-> +	dw9714_dev->vcc = devm_regulator_get_optional(&client->dev, "vcc");
-> +	if (IS_ERR(dw9714_dev->vcc)) {
-> +		dev_dbg(&client->dev, "No vcc regulator found: %ld\n",
-> +			PTR_ERR(dw9714_dev->vcc));
-> +		dw9714_dev->vcc = NULL;
-> +	}
+On Fri 26 Nov 21, 12:48, Hans de Goede wrote:
+> ov5648_state_init() calls ov5648_state_mipi_configure() which uses
+> __v4l2_ctrl_s_ctrl[_int64](). This means that sensor->mutex (which
+> is also sensor->ctrls.handler.lock) must be locked before calling
+> ov5648_state_init().
+>=20
+> ov5648_state_mipi_configure() is also used in other places where
+> the lock is already held so it cannot be changed itself.
+>=20
+> Note this is based on an identical (tested) fix for the ov8865 driver,
+> this has only been compile-tested.
 
-To repeat my original feedback: unless the supply can be physically
-absent you should use regulator_get().   The _optional variants are only
-for cases where the supply might be physically absent.
+Thanks!
 
---+3BsLA530vjlUXPc
+Reviewed-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+
+Paul
+
+> Cc: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+> ---
+> Changes in v2:
+> - Move the taking of the mutex to inside ov5648_state_init()
+> ---
+>  drivers/media/i2c/ov5648.c | 10 ++++++++--
+>  1 file changed, 8 insertions(+), 2 deletions(-)
+>=20
+> diff --git a/drivers/media/i2c/ov5648.c b/drivers/media/i2c/ov5648.c
+> index 947d437ed0ef..01e22c535267 100644
+> --- a/drivers/media/i2c/ov5648.c
+> +++ b/drivers/media/i2c/ov5648.c
+> @@ -1778,8 +1778,14 @@ static int ov5648_state_configure(struct ov5648_se=
+nsor *sensor,
+> =20
+>  static int ov5648_state_init(struct ov5648_sensor *sensor)
+>  {
+> -	return ov5648_state_configure(sensor, &ov5648_modes[0],
+> -				      ov5648_mbus_codes[0]);
+> +	int ret;
+> +
+> +	mutex_lock(&sensor->mutex);
+> +	ret =3D ov5648_state_configure(sensor, &ov5648_modes[0],
+> +				     ov5648_mbus_codes[0]);
+> +	mutex_unlock(&sensor->mutex);
+> +
+> +	return ret;
+>  }
+> =20
+>  /* Sensor Base */
+> --=20
+> 2.33.1
+>=20
+
+--=20
+Paul Kocialkowski, Bootlin
+Embedded Linux and kernel engineering
+https://bootlin.com
+
+--zsRmWztiiPh816t3
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmGg24QACgkQJNaLcl1U
-h9D7uAf/YWhxPh6vIyKOyKhroBRkkkeqy4vHZaGVEcwetiDdf/NkDXbVP6W4QskA
-7GO7fD8SXgrZC6oWqGasy2gx7Qf5lqMFezcpxpzNOulrieEI9XLRKCVj4LRM8iSD
-wLzC88AcEG5uqLt0g/Fi1Lz32VjFVNGA6yq3riz3srXdL+ZV5MOfnX4dDpcoHcuD
-mDsM1tgkhWVG7tLffFk/s5+zr7ZP/szPJul6WRRnj+kcxO9EikkrlVAxKaOLGfgU
-ov1X7FzX6V2iSltnz/g83W+tf/ZYnbw20zyPpi6eElTTDpVYHLZeli4IlnjjMbj/
-em0ysfhJXTVdTJhY7qrq8rg/g2Rr7Q==
-=IhNf
+iQEzBAEBCAAdFiEEJZpWjZeIetVBefti3cLmz3+fv9EFAmGg3agACgkQ3cLmz3+f
+v9Eh8Af+PDoxmFMzJTo5jes261htzvvZ6If7MsbujnUDoWVaFv/eTmZI5j9CW1vw
+GeVEaGUwLsKD9pBb2fyK6tWhK0cn/S+EmvQZuxRS8sGzKs+hZTfXBrC7ftZkKQ5D
+xo0FYDoWdJYbrR6HKFi+orqZGxw6Vi+z/pYEZyoRwk7RbRb+iMJrNbu9TV1GAwQ7
+fUblcRCPGb5gtmF6wym1umkHZOU4L5HlYpfvs7t1vLlban529JLQzdZtwAssVGrL
+Vrw1U8x6w0r6ARzE874hyF4J7FOdJFY1o0ch2lvmQ0uPCH0uX5NT1Cv0kjRsewcT
+wu7N0DTJTYy3A7+HJDfIDThBX4xZKw==
+=sUbI
 -----END PGP SIGNATURE-----
 
---+3BsLA530vjlUXPc--
+--zsRmWztiiPh816t3--
