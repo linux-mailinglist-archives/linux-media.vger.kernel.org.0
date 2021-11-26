@@ -2,98 +2,106 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1DF5545EA82
-	for <lists+linux-media@lfdr.de>; Fri, 26 Nov 2021 10:38:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 85CA145EA9B
+	for <lists+linux-media@lfdr.de>; Fri, 26 Nov 2021 10:43:10 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1376401AbhKZJlU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 26 Nov 2021 04:41:20 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56798 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238177AbhKZJjR (ORCPT
+        id S1376443AbhKZJqT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 26 Nov 2021 04:46:19 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:40643 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1376447AbhKZJoS (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 26 Nov 2021 04:39:17 -0500
-Received: from mail-ed1-x532.google.com (mail-ed1-x532.google.com [IPv6:2a00:1450:4864:20::532])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EFC52C061396
-        for <linux-media@vger.kernel.org>; Fri, 26 Nov 2021 01:32:54 -0800 (PST)
-Received: by mail-ed1-x532.google.com with SMTP id v1so36290071edx.2
-        for <linux-media@vger.kernel.org>; Fri, 26 Nov 2021 01:32:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=08+LjFVBcHxIAyrTBFPcnkLL1QMPWNSenak/w+o5csE=;
-        b=M3RNY98nMXEqmIhu2vjx8RHrHVh4G9I4Awx/5Ao7WOtrFr1JRXl3fDxgH5nEGCkB17
-         OJjd0meRnsJ8dLs/Yhbc3cK5bdf8HmTdIkLwU0Q+rh8ZIxrEYJpyeWk40bWNn8XcoWSW
-         q6dFNfHYAyyOGsTDQq6iE6fY7ikZ5VwEGRqsPlPMCXR/EqundrhCq6A4rDc6fFAUsUHc
-         y612g5VGwA5NU9geqsCWn6Z2RZftQnICP4Xpnofg9kQeuj9Eq8rsd3cqdREenkH73S2n
-         k3SrFQ7Om6W+WxVc948SUGHg2okZ8otbhn/69vCba1+HW2VhaGTI74lqZQPjcYYqI6Fi
-         cvoQ==
+        Fri, 26 Nov 2021 04:44:18 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1637919665;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=XQ8zhic8rwqFo80m/Z0mxtKZqdZaSQ8gA/tqkSNsYS4=;
+        b=H1SU4reYbSfpGpmejdi8A9f/vDkv2xNdW85xlhy4MlbIwEVd7K6mDbk1HzcdVhArMUEewR
+        32aJOMZRR5BFAqy9dFRpJ8USzsHHPR6VfBBX1q2YV2Fu8vR4ovzI4HQ/st4AS5UHsPntek
+        R3C/pUHkF1QAF9S7NIgh3dVteKR8avs=
+Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
+ [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-122-BscWzf8EMymu1DSxeN7EZw-1; Fri, 26 Nov 2021 04:41:04 -0500
+X-MC-Unique: BscWzf8EMymu1DSxeN7EZw-1
+Received: by mail-ed1-f69.google.com with SMTP id bx28-20020a0564020b5c00b003e7c42443dbso7531375edb.15
+        for <linux-media@vger.kernel.org>; Fri, 26 Nov 2021 01:41:04 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
          :content-transfer-encoding;
-        bh=08+LjFVBcHxIAyrTBFPcnkLL1QMPWNSenak/w+o5csE=;
-        b=KvPjFae2R0Fo5qpzY81e72DGOCS/EhiVnaSfBlOGM+fTqfvGKZ8cmYlzQ9Y9J9i9a0
-         nqFHHHJxRKb51Oxa60GRWmRc9+tRB8vLDTDpwvhU/s2TKYKul/9Po/OgrXtwoW5psJBv
-         JcmeoHL4Bix9E4A8gZYXMnEmynniwz1KnO3qxsGiNPNSAYcpTdtPx1DoN0gBn8R3kt5j
-         oSU/ktjIIs5N57y53rBB1qLeeC4pimol8J7fdIhx6OGbAIn7dHjd3mUjcyML3me4f7eb
-         F2lvlo9/2X1/c/LSuOHpNMjLkshrkRonx1rsOkwr3euL308RqBIy4UM7209tO0vNzaGU
-         DpWg==
-X-Gm-Message-State: AOAM531rga7Rgd9tsNkIZNJ3p46VEiV3HtBGiGP7vadqt3GxqTsdYU1i
-        HXJjLNPZKrYI06nwA0y0pdnlysCp9glT+g==
-X-Google-Smtp-Source: ABdhPJwWk5sbUQfgK5AGSvlft9lfdmgwucbFedemNLcL0DKxg+jvQjKa52lUIETbr7Tp0S+9xOg9ww==
-X-Received: by 2002:a05:6402:1d50:: with SMTP id dz16mr44858838edb.309.1637919173288;
-        Fri, 26 Nov 2021 01:32:53 -0800 (PST)
-Received: from localhost.localdomain (hst-221-9.medicom.bg. [84.238.221.9])
-        by smtp.gmail.com with ESMTPSA id a17sm3422545edx.14.2021.11.26.01.32.52
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 26 Nov 2021 01:32:52 -0800 (PST)
-From:   Stanimir Varbanov <stanimir.varbanov@linaro.org>
-To:     linux-media@vger.kernel.org
-Subject: [GIT PULL FOR v5.17] Venus updates
-Date:   Fri, 26 Nov 2021 11:32:43 +0200
-Message-Id: <20211126093243.1254176-1-stanimir.varbanov@linaro.org>
-X-Mailer: git-send-email 2.25.1
+        bh=XQ8zhic8rwqFo80m/Z0mxtKZqdZaSQ8gA/tqkSNsYS4=;
+        b=54wdYhZcJwoAzL6enzidHxxjR/wPpxCm2S6JHlQG+pI6PKVW6/8wuRRyBRNGUL+WhM
+         kQBmbCeWI+rVvNH8bvtd57pGzJCR19creMNMakCIKjtveC6QSEHh3prlEdF72Ft2hMF8
+         Z6Wh4aD2F6GEYAv710iZ013TgtPCfZHbHYVhVXGHpC8DMeiT8FmF4aPaZKZbU+4KJ94k
+         /kDopeI61A2A15n+SiaxUpKJwp3iEsZhsgt+PR6y2v4CvuNSvJKYOwg6BEvQYgZzMBM6
+         8dM79990GYUT5hOaizbTEl/8bNmf7D2U/Kxm/FLuGMLrjEYUgx99hSrQHWbGr4SiBxtZ
+         0oxA==
+X-Gm-Message-State: AOAM533B97jdIA23oIIcPV1eyjlAy9Rs+k7JI8qbqc74GDQ1Hu8slQmP
+        hWiaxdAq6aq6yffYPujEqBeuJSwQTgNjyHKacrDE6NRM1ZeN5fKCns92glafYOVPU8BpLb5GWxD
+        GZTG2fzHDXv8LiIS/wlas5PA=
+X-Received: by 2002:a17:907:9713:: with SMTP id jg19mr37186766ejc.364.1637919663307;
+        Fri, 26 Nov 2021 01:41:03 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwySm9kypZw0/KND1Q6vdFrXBF9DznM4Uom9IUzAe6LcNHy1MVU1135+eTkzJJZlmRpFNhgNg==
+X-Received: by 2002:a17:907:9713:: with SMTP id jg19mr37186751ejc.364.1637919663148;
+        Fri, 26 Nov 2021 01:41:03 -0800 (PST)
+Received: from ?IPV6:2001:1c00:c1e:bf00:1054:9d19:e0f0:8214? (2001-1c00-0c1e-bf00-1054-9d19-e0f0-8214.cable.dynamic.v6.ziggo.nl. [2001:1c00:c1e:bf00:1054:9d19:e0f0:8214])
+        by smtp.gmail.com with ESMTPSA id yc24sm2753029ejb.104.2021.11.26.01.41.02
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 26 Nov 2021 01:41:02 -0800 (PST)
+Message-ID: <f6982c60-3bf1-aa6c-2705-4d7315d77039@redhat.com>
+Date:   Fri, 26 Nov 2021 10:41:02 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.3.0
+Subject: Re: [RFC PATCH 0/2] Introduce ancillary links
+Content-Language: en-US
+To:     Daniel Scally <djrscally@gmail.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Kate Hsuan <hpa@redhat.com>
+Cc:     linux-media@vger.kernel.org, sakari.ailus@linux.intel.com,
+        hanlinchen@chromium.org, tfiga@chromium.org,
+        kieran.bingham@ideasonboard.com
+References: <20211126001603.41148-1-djrscally@gmail.com>
+ <YaBNlpcr+i6s5rng@pendragon.ideasonboard.com>
+ <de31fd62-b6f9-e042-9d26-6c3feb3faaa4@gmail.com>
+From:   Hans de Goede <hdegoede@redhat.com>
+In-Reply-To: <de31fd62-b6f9-e042-9d26-6c3feb3faaa4@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Mauro,
+Hi Daniel,
 
-This time the updates include few fixes.
+On 11/26/21 08:58, Daniel Scally wrote:
+> 
+> On 26/11/2021 02:59, Laurent Pinchart wrote:
+>> On Fri, Nov 26, 2021 at 12:16:01AM +0000, Daniel Scally wrote:
+>>> Hello all
+>>>
+>>> This series is not yet ready to merge, but I wanted to share it as I know some
+>>> other folks are working in similar areas at the moment (and I am including the
+>>> libcamera devel list for the same reason)
+>> Seems you forgot to CC libcamera-devel :-) Let's fix that on v2.
+> 
+> 
+> Argh! Sorry, will do
 
-Please pull.
+First of all, thank you very much for this RFC series as well
+as for the matching libcamera series.
 
-regards,
-Stan
+For v2 of the series can you please also add Kate Hsuan to the
+Cc (I've added there to the To of this email). Kate is a colleague
+of me working on adding auto-focus support for IPU3 based setups
+to libcamera.
 
-The following changes since commit 999ed03518cb01aa9ef55c025db79567eec6268c:
+Regards,
 
-  media: atomisp: cleanup qbuf logic (2021-11-17 19:40:19 +0000)
+Hans
 
-are available in the Git repository at:
-
-  git://linuxtv.org/svarbanov/media_tree.git tags/venus-for-v5.17
-
-for you to fetch changes up to 7f28a0331c663cdc51a2c85d76c7f9d13a19fa2e:
-
-  media: venus: core: Fix a resource leak in the error handling path of 'venus_probe()' (2021-11-22 13:54:01 +0200)
-
-----------------------------------------------------------------
-Venus updates for v5.17
-
-----------------------------------------------------------------
-Christophe JAILLET (2):
-      media: venus: core: Fix a potential NULL pointer dereference in an error handling path
-      media: venus: core: Fix a resource leak in the error handling path of 'venus_probe()'
-
-Mansur Alisha Shaik (2):
-      venus: correct low power frequency calculation for encoder
-      venus: avoid calling core_clk_setrate() concurrently during concurrent video sessions
-
- drivers/media/platform/qcom/venus/core.c       | 11 ++++++---
- drivers/media/platform/qcom/venus/pm_helpers.c | 32 +++++++++++++-------------
- 2 files changed, 24 insertions(+), 19 deletions(-)
