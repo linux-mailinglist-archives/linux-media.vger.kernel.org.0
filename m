@@ -2,90 +2,86 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 051F245E667
-	for <lists+linux-media@lfdr.de>; Fri, 26 Nov 2021 04:02:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 59D5945E679
+	for <lists+linux-media@lfdr.de>; Fri, 26 Nov 2021 04:17:50 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1345036AbhKZDFS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 25 Nov 2021 22:05:18 -0500
-Received: from perceval.ideasonboard.com ([213.167.242.64]:43028 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237257AbhKZDDL (ORCPT
+        id S1344964AbhKZDVA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 25 Nov 2021 22:21:00 -0500
+Received: from mailgw01.mediatek.com ([60.244.123.138]:55216 "EHLO
+        mailgw01.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
+        with ESMTP id S234851AbhKZDS7 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 25 Nov 2021 22:03:11 -0500
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id C09C5340;
-        Fri, 26 Nov 2021 03:59:57 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1637895598;
-        bh=/0ZzhPI0j/d+Wdz9SOsh304ntMwGlhRenuwekVGpHqk=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=MAvPMWUcNoSuM+Gs1kq16S6nXwGCwZY7nqS4hD/52wfkjX14dELCE+VgqJgowG1d8
-         A69tvO+0pMw4CXyYMJ5AROZkNw/FqRI8A6UXgSYDdCWJx6bLmxWpWHT1bId5AQgPx0
-         NeKINRPuh5iHA6WWYTQDOpfZAC2YJ4M7RwwYqIrM=
-Date:   Fri, 26 Nov 2021 04:59:34 +0200
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Daniel Scally <djrscally@gmail.com>
-Cc:     linux-media@vger.kernel.org, sakari.ailus@linux.intel.com,
-        hanlinchen@chromium.org, tfiga@chromium.org, hdegoede@redhat.com,
-        kieran.bingham@ideasonboard.com
-Subject: Re: [RFC PATCH 0/2] Introduce ancillary links
-Message-ID: <YaBNlpcr+i6s5rng@pendragon.ideasonboard.com>
-References: <20211126001603.41148-1-djrscally@gmail.com>
+        Thu, 25 Nov 2021 22:18:59 -0500
+X-UUID: 2ef8e41a65c6410096f01756b76319a9-20211126
+X-UUID: 2ef8e41a65c6410096f01756b76319a9-20211126
+Received: from mtkmbs10n2.mediatek.inc [(172.21.101.183)] by mailgw01.mediatek.com
+        (envelope-from <guangming.cao@mediatek.com>)
+        (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+        with ESMTP id 1675055840; Fri, 26 Nov 2021 11:15:41 +0800
+Received: from mtkcas11.mediatek.inc (172.21.101.40) by
+ mtkmbs10n1.mediatek.inc (172.21.101.34) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ 15.2.792.15; Fri, 26 Nov 2021 11:15:40 +0800
+Received: from mszswglt01.gcn.mediatek.inc (10.16.20.20) by
+ mtkcas11.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
+ 15.0.1497.2 via Frontend Transport; Fri, 26 Nov 2021 11:15:40 +0800
+From:   <guangming.cao@mediatek.com>
+To:     <robin.murphy@arm.com>
+CC:     <Brian.Starkey@arm.com>, <benjamin.gaignard@linaro.org>,
+        <christian.koenig@amd.com>, <dri-devel@lists.freedesktop.org>,
+        <guangming.cao@mediatek.com>, <john.stultz@linaro.org>,
+        <labbott@redhat.com>, <linaro-mm-sig@lists.linaro.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-kernel@vger.kernel.org>, <linux-media@vger.kernel.org>,
+        <linux-mediatek@lists.infradead.org>, <lmark@codeaurora.org>,
+        <matthias.bgg@gmail.com>, <sumit.semwal@linaro.org>,
+        <wsd_upstream@mediatek.com>, <stable@vger.kernel.org>,
+        Guangming <Guangming.Cao@mediatek.com>
+Subject: [PATCH v3] dma-buf: system_heap: Use 'for_each_sgtable_sg' in pages free flow
+Date:   Fri, 26 Nov 2021 11:16:05 +0800
+Message-ID: <20211126031605.81436-1-guangming.cao@mediatek.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <eb6cc56d-cbe0-73d5-d4f5-0aa2b76272a4@arm.com>
+References: <eb6cc56d-cbe0-73d5-d4f5-0aa2b76272a4@arm.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20211126001603.41148-1-djrscally@gmail.com>
+Content-Type: text/plain
+X-MTK:  N
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, Nov 26, 2021 at 12:16:01AM +0000, Daniel Scally wrote:
-> Hello all
-> 
-> This series is not yet ready to merge, but I wanted to share it as I know some
-> other folks are working in similar areas at the moment (and I am including the
-> libcamera devel list for the same reason)
+From: Guangming <Guangming.Cao@mediatek.com>
 
-Seems you forgot to CC libcamera-devel :-) Let's fix that on v2.
+For previous version, it uses 'sg_table.nent's to traverse sg_table in pages
+free flow.
+However, 'sg_table.nents' is reassigned in 'dma_map_sg', it means the number of
+created entries in the DMA adderess space.
+So, use 'sg_table.nents' in pages free flow will case some pages can't be freed.
 
-> At present there's no means in the kernel of describing the supporting
-> relationship between subdevices that work together to form an effective single
-> unit - the type example in this case being a camera sensor and its
-> corresponding vcm. To attempt to solve that, this series adds a new type of
-> media link called MEDIA_LNK_FL_ANCILLARY_LINK, which connects two instances of
-> struct media_entity. Further work would be needed to document it properly, and
-> there may be ramifications within the v4l2-core which I have not yet discovered
-> (a lot of places seem to assume that media_entity->links means pad-2-pad links,
-> so some extra work might be needed to validate the link type before doing any
-> thing to them).
-> 
-> The mechanism of connection I have modelled as a notifier and async subdev,
-> which seemed the best route since sensor drivers already typically will call
-> v4l2_async_register_subdev_sensor() on probe, and that function already looks
-> for a reference to a firmware node with the reference named "lens-focus". To
-> avoid boilerplate in the sensor drivers, I added some new functions in
-> v4l2-async that are called in v4l2_async_match_notify() to create the ancillary
-> links - checking the entity.function of both notifier and subdev to make sure
-> that's appropriate. I haven't gone further than that yet, but I suspect we could
-> cut down on code elsewhere by, for example, also creating pad-to-pad links in
-> the same place.
-> 
-> Thoughts and comments very welcome :)
-> 
-> Dan
-> 
-> Daniel Scally (2):
->   media: entity: Add support for ancillary links
->   media: v4l2-async: Create links during v4l2_async_match_notify()
-> 
->  drivers/media/mc/mc-entity.c         | 30 ++++++++++++++++
->  drivers/media/v4l2-core/v4l2-async.c | 51 ++++++++++++++++++++++++++++
->  include/media/media-entity.h         | 30 ++++++++++++++++
->  include/uapi/linux/media.h           |  1 +
->  4 files changed, 112 insertions(+)
-> 
+Here we should use sg_table.orig_nents to free pages memory, but use the
+sgtable helper 'for each_sgtable_sg'(, instead of the previous rather common
+helper 'for_each_sg' which maybe cause memory leak) is much better.
 
+Fixes: d963ab0f15fb0 ("dma-buf: system_heap: Allocate higher order pages if available")
+
+Signed-off-by: Guangming <Guangming.Cao@mediatek.com>
+---
+ drivers/dma-buf/heaps/system_heap.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/dma-buf/heaps/system_heap.c b/drivers/dma-buf/heaps/system_heap.c
+index 23a7e74ef966..8660508f3684 100644
+--- a/drivers/dma-buf/heaps/system_heap.c
++++ b/drivers/dma-buf/heaps/system_heap.c
+@@ -289,7 +289,7 @@ static void system_heap_dma_buf_release(struct dma_buf *dmabuf)
+ 	int i;
+ 
+ 	table = &buffer->sg_table;
+-	for_each_sg(table->sgl, sg, table->nents, i) {
++	for_each_sgtable_sg(table, sg, i) {
+ 		struct page *page = sg_page(sg);
+ 
+ 		__free_pages(page, compound_order(page));
 -- 
-Regards,
+2.17.1
 
-Laurent Pinchart
