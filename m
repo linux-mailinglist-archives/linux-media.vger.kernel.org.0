@@ -2,277 +2,210 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9D9D545ED5B
-	for <lists+linux-media@lfdr.de>; Fri, 26 Nov 2021 13:06:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8B80945EDE8
+	for <lists+linux-media@lfdr.de>; Fri, 26 Nov 2021 13:31:25 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1377328AbhKZMJM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 26 Nov 2021 07:09:12 -0500
-Received: from mail-ua1-f47.google.com ([209.85.222.47]:46952 "EHLO
-        mail-ua1-f47.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1349967AbhKZMHM (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Fri, 26 Nov 2021 07:07:12 -0500
-Received: by mail-ua1-f47.google.com with SMTP id az37so18061371uab.13;
-        Fri, 26 Nov 2021 04:03:59 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=BNC7an2ww+zEf5w3reGfTYHQ6QdOpqUWo1qBddxbOT4=;
-        b=lx/mHMlkaMdUgA52y55EvstnUWrBCJKYrsCirfh3j+iApo5fuDs5t/3j9uVAowY2yR
-         KpZ/NavEtRgYJu4oXuv59v7GTn009EH4hrhW/t3670ibQmQ+/cYXKkMInUrSiUxg+FuA
-         3TaPSzbUi2z5ne+wVOkz6XpMK6RInH1kfQzcPaOtHuJpX7l8ZDyY8t6YtSqPOCT60BVa
-         w7CumvgzVAZw0bqZMP4GpcyKC5u4B6s1rtjcPu6MM5Q3pAI2KHjx5l8h00OjvkTCpWst
-         rPHNMSsAuhr/0DRxqlgyqGNp6ntx+nbAFxTbuXYqPaLats1wPLa1Lx2NO2S1FJwU/cot
-         EopQ==
-X-Gm-Message-State: AOAM5323WGZzJGEqZ1IxwPUoZJrS2y+zsp6aKwG11QIgrz35FZZDet/u
-        5lH5Thkl3g29Gml6wzOjrTYL12oQMmBuLg==
-X-Google-Smtp-Source: ABdhPJyNclc5OZHOCVtxtWQJKxVjURNmysMp/yS4UIqvPlcWA9gdq9wzNIqaQrU1jTfm/Vta1ySWvg==
-X-Received: by 2002:a67:c38f:: with SMTP id s15mr15828946vsj.50.1637928238739;
-        Fri, 26 Nov 2021 04:03:58 -0800 (PST)
-Received: from mail-vk1-f170.google.com (mail-vk1-f170.google.com. [209.85.221.170])
-        by smtp.gmail.com with ESMTPSA id w22sm3618855vsk.11.2021.11.26.04.03.58
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 26 Nov 2021 04:03:58 -0800 (PST)
-Received: by mail-vk1-f170.google.com with SMTP id e27so5812469vkd.4;
-        Fri, 26 Nov 2021 04:03:58 -0800 (PST)
-X-Received: by 2002:a1f:4641:: with SMTP id t62mr843550vka.0.1637928237768;
- Fri, 26 Nov 2021 04:03:57 -0800 (PST)
+        id S1345972AbhKZMeg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 26 Nov 2021 07:34:36 -0500
+Received: from mga09.intel.com ([134.134.136.24]:37544 "EHLO mga09.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1347215AbhKZMce (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Fri, 26 Nov 2021 07:32:34 -0500
+X-IronPort-AV: E=McAfee;i="6200,9189,10179"; a="235478921"
+X-IronPort-AV: E=Sophos;i="5.87,265,1631602800"; 
+   d="scan'208";a="235478921"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Nov 2021 04:29:21 -0800
+X-IronPort-AV: E=Sophos;i="5.87,265,1631602800"; 
+   d="scan'208";a="607851585"
+Received: from paasikivi.fi.intel.com ([10.237.72.42])
+  by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Nov 2021 04:29:19 -0800
+Received: from paasikivi.fi.intel.com (localhost [127.0.0.1])
+        by paasikivi.fi.intel.com (Postfix) with ESMTP id 6306820165;
+        Fri, 26 Nov 2021 14:28:47 +0200 (EET)
+Date:   Fri, 26 Nov 2021 14:28:47 +0200
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     Martin Kepplinger <martin.kepplinger@puri.sm>
+Cc:     mchehab@kernel.org, broonie@kernel.org, kernel@puri.sm,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-pm@vger.kernel.org, Angus Ainslie <angus@akkea.ca>
+Subject: Re: [PATCH v2] media: i2c: dw9714: add optional regulator support
+Message-ID: <YaDS/+QbTWRl3cOS@paasikivi.fi.intel.com>
+References: <20211126090107.1243558-1-martin.kepplinger@puri.sm>
+ <YaC6nZIQOsrpBY8V@paasikivi.fi.intel.com>
+ <8d72c895ece6dce7d8badb241eebcbe076a03f81.camel@puri.sm>
 MIME-Version: 1.0
-References: <20210906102837.2190387-1-martin.kepplinger@puri.sm>
- <20210906102837.2190387-3-martin.kepplinger@puri.sm> <CAMuHMdVVNhLa2p-ywmpcEj-sw+NyRNp2z9jsVqsXEDrKphivCQ@mail.gmail.com>
- <d5e0fe8f8a5445c9c2d2b90fcf454829daf393e8.camel@puri.sm> <YaC0cxmXB8kDcDAI@valkosipuli.retiisi.eu>
-In-Reply-To: <YaC0cxmXB8kDcDAI@valkosipuli.retiisi.eu>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Fri, 26 Nov 2021 13:03:46 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdXaywzfzLDoWYj0vfQ=xjUc+exgwUrrfNvp0Z-eVcNNMg@mail.gmail.com>
-Message-ID: <CAMuHMdXaywzfzLDoWYj0vfQ=xjUc+exgwUrrfNvp0Z-eVcNNMg@mail.gmail.com>
-Subject: Re: [PATCH v9 2/4] dt-bindings: media: document SK Hynix Hi-846 MIPI
- CSI-2 8M pixel sensor
-To:     Martin Kepplinger <martin.kepplinger@puri.sm>,
-        Sakari Ailus <sakari.ailus@iki.fi>
-Cc:     Pavel Machek <pavel@ucw.cz>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>, kernel@puri.sm,
-        Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
-        phone-devel@vger.kernel.org, Rob Herring <robh@kernel.org>,
-        shawnx.tu@intel.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <8d72c895ece6dce7d8badb241eebcbe076a03f81.camel@puri.sm>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Martin,
+On Fri, Nov 26, 2021 at 12:06:03PM +0100, Martin Kepplinger wrote:
+> Am Freitag, dem 26.11.2021 um 12:44 +0200 schrieb Sakari Ailus:
+> > Hi Martin,
+> > 
+> > On Fri, Nov 26, 2021 at 10:01:07AM +0100, Martin Kepplinger wrote:
+> > > From: Angus Ainslie <angus@akkea.ca>
+> > > 
+> > > Allow the dw9714 to control a regulator and adjust suspend() and
+> > > resume()
+> > > to support both runtime and system pm.
+> > > 
+> > > Signed-off-by: Angus Ainslie <angus@akkea.ca>
+> > > Signed-off-by: Martin Kepplinger <martin.kepplinger@puri.sm>
+> > > ---
+> > > 
+> > > revision history
+> > > ----------------
+> > > 
+> > > v2: (thank you Mark)
+> > >  * simplify the regulator_get_optional() error path
+> > >  * fix regulator usage during probe()
+> > > 
+> > > v1:
+> > > https://lore.kernel.org/linux-media/20211125080922.978583-1-martin.kepplinger@puri.sm/
+> > > 
+> > > 
+> > > 
+> > >  drivers/media/i2c/dw9714.c | 39
+> > > ++++++++++++++++++++++++++++++++++++++
+> > >  1 file changed, 39 insertions(+)
+> > > 
+> > > diff --git a/drivers/media/i2c/dw9714.c
+> > > b/drivers/media/i2c/dw9714.c
+> > > index 3863dfeb8293..e8cc19b89861 100644
+> > > --- a/drivers/media/i2c/dw9714.c
+> > > +++ b/drivers/media/i2c/dw9714.c
+> > > @@ -5,6 +5,7 @@
+> > >  #include <linux/i2c.h>
+> > >  #include <linux/module.h>
+> > >  #include <linux/pm_runtime.h>
+> > > +#include <linux/regulator/consumer.h>
+> > >  #include <media/v4l2-ctrls.h>
+> > >  #include <media/v4l2-device.h>
+> > >  #include <media/v4l2-event.h>
+> > > @@ -36,6 +37,7 @@ struct dw9714_device {
+> > >         struct v4l2_ctrl_handler ctrls_vcm;
+> > >         struct v4l2_subdev sd;
+> > >         u16 current_val;
+> > > +       struct regulator *vcc;
+> > >  };
+> > >  
+> > >  static inline struct dw9714_device *to_dw9714_vcm(struct v4l2_ctrl
+> > > *ctrl)
+> > > @@ -145,6 +147,21 @@ static int dw9714_probe(struct i2c_client
+> > > *client)
+> > >         if (dw9714_dev == NULL)
+> > >                 return -ENOMEM;
+> > >  
+> > > +       dw9714_dev->vcc = devm_regulator_get_optional(&client->dev,
+> > > "vcc");
+> > 
+> > You you used regular devm_regulator_get(), you could remove the error
+> > handling below. If there's no regulator, you'll simply get a dummy
+> > one.
+> 
+> ok thanks
+> 
+> 
+> > 
+> > > +       if (IS_ERR(dw9714_dev->vcc)) {
+> > > +               dev_dbg(&client->dev, "No vcc regulator found:
+> > > %ld\n",
+> > > +                       PTR_ERR(dw9714_dev->vcc));
+> > > +               dw9714_dev->vcc = NULL;
+> > > +       }
+> > > +
+> > > +       if (dw9714_dev->vcc) {
+> > 
+> > With (dummy) regulators, these checks become unnecessary.
+> > 
+> > > +               rval = regulator_enable(dw9714_dev->vcc);
+> > > +               if (rval < 0) {
+> > > +                       dev_err(&client->dev, "failed to enable
+> > > vcc: %d\n", rval);
+> > > +                       return rval;
+> > > +               }
+> > > +       }
+> > > +
+> > >         v4l2_i2c_subdev_init(&dw9714_dev->sd, client, &dw9714_ops);
+> > >         dw9714_dev->sd.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE |
+> > >                                 V4L2_SUBDEV_FL_HAS_EVENTS;
+> > > @@ -200,6 +217,9 @@ static int __maybe_unused
+> > > dw9714_vcm_suspend(struct device *dev)
+> > >         struct dw9714_device *dw9714_dev = sd_to_dw9714_vcm(sd);
+> > >         int ret, val;
+> > >  
+> > > +       if (pm_runtime_suspended(&client->dev))
+> > > +               return 0;
+> > 
+> > This can't take place in a runtime PM suspend callback. You'll need
+> > to add
+> > system suspend callback for this.
+> 
+> but this function is both the system and runtime suspend callback.
+> doesn't splitting up the callbacks just add lines of code
+> unnecessarily?
 
-On Fri, Nov 26, 2021 at 11:18 AM Sakari Ailus <sakari.ailus@iki.fi> wrote:
-> On Fri, Nov 26, 2021 at 11:02:31AM +0100, Martin Kepplinger wrote:
-> > Am Donnerstag, dem 25.11.2021 um 12:15 +0100 schrieb Geert
-> > Uytterhoeven:
-> > > On Mon, Sep 6, 2021 at 12:30 PM Martin Kepplinger
-> > > <martin.kepplinger@puri.sm> wrote:
-> > > > Document the bindings used for the SK Hynix Hi-846 CMOS camera
-> > > > driver.
-> > > >
-> > > > Signed-off-by: Martin Kepplinger <martin.kepplinger@puri.sm>
-> > > > Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> > > > Reviewed-by: Rob Herring <robh@kernel.org>
-> > > > ---
-> > > >  .../bindings/media/i2c/hynix,hi846.yaml       | 120
-> > > > ++++++++++++++++++
-> > > >  1 file changed, 120 insertions(+)
-> > > >  create mode 100644
-> > > > Documentation/devicetree/bindings/media/i2c/hynix,hi846.yaml
-> > > >
-> > > > diff --git
-> > > > a/Documentation/devicetree/bindings/media/i2c/hynix,hi846.yaml
-> > > > b/Documentation/devicetree/bindings/media/i2c/hynix,hi846.yaml
-> > > > new file mode 100644
-> > > > index 000000000000..85a8877c2f38
-> > > > --- /dev/null
-> > > > +++ b/Documentation/devicetree/bindings/media/i2c/hynix,hi846.yaml
-> > > > @@ -0,0 +1,120 @@
-> > > > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> > > > +%YAML 1.2
-> > > > +---
-> > > > +$id: http://devicetree.org/schemas/media/i2c/hynix,hi846.yaml#
-> > > > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > > > +
-> > > > +title: SK Hynix Hi-846 1/4" 8M Pixel MIPI CSI-2 sensor
-> > > > +
-> > > > +maintainers:
-> > > > +  - Martin Kepplinger <martin.kepplinger@puri.sm>
-> > > > +
-> > > > +description: |-
-> > > > +  The Hi-846 is a raw image sensor with an MIPI CSI-2 image data
-> > > > +  interface and CCI (I2C compatible) control bus. The output
-> > > > format
-> > > > +  is raw Bayer.
-> > > > +
-> > > > +properties:
-> > > > +  compatible:
-> > > > +    const: hynix,hi846
-> > > > +
-> > > > +  reg:
-> > > > +    maxItems: 1
-> > > > +
-> > > > +  clocks:
-> > > > +    items:
-> > > > +      - description: Reference to the mclk clock.
-> > > > +
-> > > > +  assigned-clocks:
-> > > > +    maxItems: 1
-> > > > +
-> > > > +  assigned-clock-rates:
-> > > > +    maxItems: 1
-> > > > +
-> > > > +  reset-gpios:
-> > > > +    description: Reference to the GPIO connected to the RESETB
-> > > > pin. Active low.
-> > > > +    maxItems: 1
-> > > > +
-> > > > +  shutdown-gpios:
-> > > > +    description: Reference to the GPIO connected to the XSHUTDOWN
-> > > > pin. Active low.
-> > > > +    maxItems: 1
-> > > > +
-> > > > +  vddio-supply:
-> > > > +    description: Definition of the regulator used for the VDDIO
-> > > > power supply.
-> > > > +
-> > > > +  vdda-supply:
-> > > > +    description: Definition of the regulator used for the VDDA
-> > > > power supply.
-> > > > +
-> > > > +  vddd-supply:
-> > > > +    description: Definition of the regulator used for the VDDD
-> > > > power supply.
-> > > > +
-> > > > +  port:
-> > > > +    $ref: /schemas/graph.yaml#/properties/port
-> > > > +
-> > > > +    properties:
-> > > > +      endpoint:
-> > > > +        $ref: /schemas/media/video-interfaces.yaml#
-> > > > +        unevaluatedProperties: false
-> > > > +
-> > > > +        properties:
-> > > > +          data-lanes:
-> > > > +            oneOf:
-> > > > +              - items:
-> > > > +                  - const: 1
-> > > > +                  - const: 2
-> > > > +                  - const: 3
-> > > > +                  - const: 4
-> > > > +              - items:
-> > > > +                  - const: 1
-> > > > +                  - const: 2
-> > > > +
-> > > > +        required:
-> > > > +          - data-lanes
-> > > > +
-> > > > +required:
-> > > > +  - compatible
-> > > > +  - reg
-> > > > +  - clocks
-> > > > +  - assigned-clocks
-> > > > +  - assigned-clock-rates
-> > > > +  - vddio-supply
-> > > > +  - vdda-supply
-> > > > +  - vddd-supply
-> > > > +  - port
-> > > > +
-> > > > +additionalProperties: false
-> > > > +
-> > > > +examples:
-> > > > +  - |
-> > > > +    #include <dt-bindings/gpio/gpio.h>
-> > > > +
-> > > > +    i2c {
-> > > > +        #address-cells = <1>;
-> > > > +        #size-cells = <0>;
-> > > > +
-> > > > +        hi846: camera@20 {
-> > > > +            compatible = "hynix,hi846";
-> > > > +            reg = <0x20>;
-> > > > +            pinctrl-names = "default";
-> > > > +            pinctrl-0 = <&pinctrl_csi1>;
-> > > > +            clocks = <&clk 0>;
-> > > > +            assigned-clocks = <&clk 0>;
-> > > > +            assigned-clock-rates = <25000000>;
-> > > > +            vdda-supply = <&reg_camera_vdda>;
-> > > > +            vddd-supply = <&reg_camera_vddd>;
-> > > > +            vddio-supply = <&reg_camera_vddio>;
-> > > > +            reset-gpios = <&gpio1 25 GPIO_ACTIVE_LOW>;
-> > > > +            shutdown-gpios = <&gpio5 4 GPIO_ACTIVE_LOW>;
-> > > > +
-> > > > +            port {
-> > > > +                camera_out: endpoint {
-> > > > +                    remote-endpoint = <&csi1_ep1>;
-> > > > +                    link-frequencies = /bits/ 64
-> > > > +                        <80000000 200000000>;
-> > > > +                    data-lanes = <1 2>;
-> > >
-> > > "make dt_binding_check":
-> > >
-> > >
-> > > Documentation/devicetree/bindings/media/i2c/hynix,hi846.example.dt.ya
-> > > ml:
-> > > camera@20: port:endpoint: Unevaluated properties are not allowed
-> > > ('link-frequencies', 'data-lanes' were unexpected)
-> > >     From schema:
-> > > Documentation/devicetree/bindings/media/i2c/hynix,hi846.yaml
-> > >
-> > > > +                };
-> > > > +            };
-> > > > +        };
-> > > > +    };
-> > >
-> > > Gr{oetje,eeting}s,
-> > >
-> > >                         Geert
-> >
-> >
-> > thanks a lot Geert, but I can't reproduce this on linux-next. Which
-> > tree did you run it against?
-> >
-> > What I *do* see is the following during dtbs_check, so I guess I could
-> > remove "orientation" and "rotation" from the example, which would be
-> > kind of sad because these useful properties are not yet too wide know
-> > anyway in the media device driver world...
-> >
-> > /home/martin/dev/purism-forks/linux-
-> > next/arch/arm64/boot/dts/freescale/imx8mq-librem5-r2.dt.yaml:
-> > camera-front@20: 'orientation', 'rotation' do not match any of the
-> > regexes: 'pinctrl-[0-9]+'
-> >       From schema: /home/martin/dev/purism-forks/linux-
-> > next/Documentation/devicetree/bindings/media/i2c/hynix,hi846.yaml
-> >
-> >
-> > if you can be more speicific I'll definitely try to reproduce again
-> > though.
+Hmm. After thinking about this a little, I think this could indeed work.
 
-This is reproducible on next-20211126.
-Is your dt-schema up-to-date?
+Yeah, please leave it as-is.
 
-> link-frequencies is present in the example (as it needs to be) but missing
-> from required properties. I don't know why there's a complaint about
-> data-lanes though.
+> 
+> > 
+> > > +
+> > >         for (val = dw9714_dev->current_val & ~(DW9714_CTRL_STEPS -
+> > > 1);
+> > >              val >= 0; val -= DW9714_CTRL_STEPS) {
+> > >                 ret = dw9714_i2c_write(client,
+> > > @@ -208,6 +228,13 @@ static int __maybe_unused
+> > > dw9714_vcm_suspend(struct device *dev)
+> > >                         dev_err_once(dev, "%s I2C failure: %d",
+> > > __func__, ret);
+> > >                 usleep_range(DW9714_CTRL_DELAY_US,
+> > > DW9714_CTRL_DELAY_US + 10);
+> > >         }
+> > > +
+> > > +       if (dw9714_dev->vcc) {
+> > > +               ret = regulator_disable(dw9714_dev->vcc);
+> > > +               if (ret)
+> > > +                       dev_err(dev, "Failed to disable vcc: %d\n",
+> > > ret);
+> > > +       }
+> > > +
+> > >         return 0;
+> > >  }
+> > >  
+> > > @@ -224,6 +251,18 @@ static int  __maybe_unused
+> > > dw9714_vcm_resume(struct device *dev)
+> > >         struct dw9714_device *dw9714_dev = sd_to_dw9714_vcm(sd);
+> > >         int ret, val;
+> > >  
+> > > +       if (pm_runtime_suspended(&client->dev))
+> > 
+> > Same for this one.
+> > 
+> > > +               return 0;
+> > > +
+> > > +       if (dw9714_dev->vcc) {
+> > > +               ret = regulator_enable(dw9714_dev->vcc);
+> > > +               if (ret) {
+> > > +                       dev_err(dev, "Failed to enable vcc: %d\n",
+> > > ret);
+> > > +                       return ret;
+> > > +               }
+> > > +               usleep_range(1000, 2000);
+> > > +       }
+> > > +
+> > >         for (val = dw9714_dev->current_val % DW9714_CTRL_STEPS;
+> > >              val < dw9714_dev->current_val + DW9714_CTRL_STEPS - 1;
+> > >              val += DW9714_CTRL_STEPS) {
+> > 
+> 
+> 
 
-I also don't know what's wrong with data-lanes (else I would have
-sent a patch to fix it ;-)
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+-- 
+Sakari Ailus
