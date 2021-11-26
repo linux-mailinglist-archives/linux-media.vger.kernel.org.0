@@ -2,172 +2,142 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E203C45EBDE
-	for <lists+linux-media@lfdr.de>; Fri, 26 Nov 2021 11:48:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 884DA45EC31
+	for <lists+linux-media@lfdr.de>; Fri, 26 Nov 2021 12:06:21 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238179AbhKZKvY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 26 Nov 2021 05:51:24 -0500
-Received: from mga17.intel.com ([192.55.52.151]:27246 "EHLO mga17.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S232665AbhKZKtY (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Fri, 26 Nov 2021 05:49:24 -0500
-X-IronPort-AV: E=McAfee;i="6200,9189,10179"; a="216354970"
-X-IronPort-AV: E=Sophos;i="5.87,265,1631602800"; 
-   d="scan'208";a="216354970"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Nov 2021 02:44:50 -0800
-X-IronPort-AV: E=Sophos;i="5.87,265,1631602800"; 
-   d="scan'208";a="510599426"
-Received: from paasikivi.fi.intel.com ([10.237.72.42])
-  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Nov 2021 02:44:48 -0800
-Received: from paasikivi.fi.intel.com (localhost [127.0.0.1])
-        by paasikivi.fi.intel.com (Postfix) with SMTP id E45B32067A;
-        Fri, 26 Nov 2021 12:44:45 +0200 (EET)
-Date:   Fri, 26 Nov 2021 12:44:45 +0200
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Martin Kepplinger <martin.kepplinger@puri.sm>
-Cc:     mchehab@kernel.org, broonie@kernel.org, kernel@puri.sm,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-pm@vger.kernel.org, Angus Ainslie <angus@akkea.ca>
-Subject: Re: [PATCH v2] media: i2c: dw9714: add optional regulator support
-Message-ID: <YaC6nZIQOsrpBY8V@paasikivi.fi.intel.com>
-References: <20211126090107.1243558-1-martin.kepplinger@puri.sm>
+        id S235331AbhKZLJc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 26 Nov 2021 06:09:32 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46952 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S235779AbhKZLHc (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Fri, 26 Nov 2021 06:07:32 -0500
+Received: from mail-wm1-x32c.google.com (mail-wm1-x32c.google.com [IPv6:2a00:1450:4864:20::32c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DC4FDC0619F6
+        for <linux-media@vger.kernel.org>; Fri, 26 Nov 2021 02:30:22 -0800 (PST)
+Received: by mail-wm1-x32c.google.com with SMTP id az34-20020a05600c602200b0033bf8662572so6486786wmb.0
+        for <linux-media@vger.kernel.org>; Fri, 26 Nov 2021 02:30:22 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-transfer-encoding:content-language;
+        bh=zTg0WacJr7kzwrsnQJsQDndFsSlk7FEd+90GUlUHgJI=;
+        b=o6BgQc+l+C4RBDUwYZTioNATMY6ijtPxOhlL2eg6/yNMCiU6RhD6u2R4bMkx7dGIOJ
+         M7Hi7pSKfDOppaNmI3xCaoQg+wN/d7k2Uaqz5rEFxykNt5tkzLvgR/iQszQaRxW+VUYn
+         mkb5LJXmscDRFd10ZtW2Xmlygpt86CLq6Xac4qLHwhtiNw646RXheHzNmZGgxBC0tWBi
+         wh1Plz8ot0Y4Oaf6YNkCZpz0jLHDvWcLiHpp5IHlOuNazGT6Urr3W8BNKSjAHq7O5l/E
+         kPCD9h/UDZrYjsw9lk1EJGGVI681GwGDQbq0voKEzIG4EXVr2+JANPkGFXjYxnaP3F9c
+         kLOg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-transfer-encoding
+         :content-language;
+        bh=zTg0WacJr7kzwrsnQJsQDndFsSlk7FEd+90GUlUHgJI=;
+        b=RFe65H/RSgpkdQJSOKo0md1ldjHqqKUlm2vpxDoFUILTjv0hoDci3qhSDbqQl/kySq
+         SD8KfKzGFoCn0ESf+PYj6P/4hKrOSotdzLhvjGAd8w2SlamyQ5zhiBnjFol/xk6ifS2C
+         LJ0dvwBag8/YueIoot6sm6GikdSJYIRthnjdWYEGF8EviTBOedyAwEDi8mlucfKwluUh
+         LYklFY1kfkU0HssDUzfOqKR7+Blh2ILM6OyqbNaa5RM2SVup6l3RwL1LQmggwTZ89wJd
+         UCMGGg2ZquYPM5NB7fSfl0f5RtQJ5Ht2gry/nNLewvCNzDe6U0jEFOcjv6dUSuSJbe3y
+         SW3w==
+X-Gm-Message-State: AOAM532U4MT+Yfx6X95qY+KGIkApZjQqZ3nAtPyqBiCPpQmY709APjAF
+        2Yb17qWSi5gf075OQFRBqFoPBycL2pQ=
+X-Google-Smtp-Source: ABdhPJzFenGp5brgkbj5MZQnP7FS6lJhdyGMVEwRhXdQZTcZJLb6MPZQPA33OW7GQm6nsgS0NHfbiA==
+X-Received: by 2002:a05:600c:364f:: with SMTP id y15mr13749998wmq.7.1637922621452;
+        Fri, 26 Nov 2021 02:30:21 -0800 (PST)
+Received: from ?IPv6:2a02:908:1252:fb60:108:c3ea:37df:ad4c? ([2a02:908:1252:fb60:108:c3ea:37df:ad4c])
+        by smtp.gmail.com with ESMTPSA id o10sm6549508wri.15.2021.11.26.02.30.20
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 26 Nov 2021 02:30:20 -0800 (PST)
+Subject: Re: [PATCH 19/26] drm: support more than one write fence in
+ drm_gem_plane_helper_prepare_fb
+To:     Daniel Vetter <daniel@ffwll.ch>
+Cc:     sumit.semwal@linaro.org, linux-media@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org
+References: <20211123142111.3885-1-christian.koenig@amd.com>
+ <20211123142111.3885-20-christian.koenig@amd.com>
+ <YZ+wCxjFSI4EAIvx@phenom.ffwll.local>
+From:   =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
+Message-ID: <0a3f93f1-278e-c393-3e79-745a52694f3d@gmail.com>
+Date:   Fri, 26 Nov 2021 11:30:19 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20211126090107.1243558-1-martin.kepplinger@puri.sm>
+In-Reply-To: <YZ+wCxjFSI4EAIvx@phenom.ffwll.local>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Martin,
+Am 25.11.21 um 16:47 schrieb Daniel Vetter:
+> On Tue, Nov 23, 2021 at 03:21:04PM +0100, Christian König wrote:
+>> Use dma_resv_get_singleton() here to eventually get more than one write
+>> fence as single fence.
+> Yeah this is nice, atomic commit helpers not supporting multiple write
+> fences was really my main worry in this entire endeavour. Otherwise looks
+> all rather reasonable.
+>
+> I'll try to find some review bandwidth, but would be really if you can
+> volunteer others too (especially making sure ttm drivers set the KERNEL
+> fences correctly in all cases).
 
-On Fri, Nov 26, 2021 at 10:01:07AM +0100, Martin Kepplinger wrote:
-> From: Angus Ainslie <angus@akkea.ca>
-> 
-> Allow the dw9714 to control a regulator and adjust suspend() and resume()
-> to support both runtime and system pm.
-> 
-> Signed-off-by: Angus Ainslie <angus@akkea.ca>
-> Signed-off-by: Martin Kepplinger <martin.kepplinger@puri.sm>
-> ---
-> 
-> revision history
-> ----------------
-> 
-> v2: (thank you Mark)
->  * simplify the regulator_get_optional() error path
->  * fix regulator usage during probe()
-> 
-> v1:
-> https://lore.kernel.org/linux-media/20211125080922.978583-1-martin.kepplinger@puri.sm/
-> 
-> 
-> 
->  drivers/media/i2c/dw9714.c | 39 ++++++++++++++++++++++++++++++++++++++
->  1 file changed, 39 insertions(+)
-> 
-> diff --git a/drivers/media/i2c/dw9714.c b/drivers/media/i2c/dw9714.c
-> index 3863dfeb8293..e8cc19b89861 100644
-> --- a/drivers/media/i2c/dw9714.c
-> +++ b/drivers/media/i2c/dw9714.c
-> @@ -5,6 +5,7 @@
->  #include <linux/i2c.h>
->  #include <linux/module.h>
->  #include <linux/pm_runtime.h>
-> +#include <linux/regulator/consumer.h>
->  #include <media/v4l2-ctrls.h>
->  #include <media/v4l2-device.h>
->  #include <media/v4l2-event.h>
-> @@ -36,6 +37,7 @@ struct dw9714_device {
->  	struct v4l2_ctrl_handler ctrls_vcm;
->  	struct v4l2_subdev sd;
->  	u16 current_val;
-> +	struct regulator *vcc;
->  };
->  
->  static inline struct dw9714_device *to_dw9714_vcm(struct v4l2_ctrl *ctrl)
-> @@ -145,6 +147,21 @@ static int dw9714_probe(struct i2c_client *client)
->  	if (dw9714_dev == NULL)
->  		return -ENOMEM;
->  
-> +	dw9714_dev->vcc = devm_regulator_get_optional(&client->dev, "vcc");
+Maybe I should split that up into switching over to adding the enum and 
+then switching to kernel/bookkeep(previously other) for some use cases.
 
-You you used regular devm_regulator_get(), you could remove the error
-handling below. If there's no regulator, you'll simply get a dummy one.
+It would be good if I could get an rb on the trivial driver cleanups 
+first. I can send those out individually if that helps.
 
-> +	if (IS_ERR(dw9714_dev->vcc)) {
-> +		dev_dbg(&client->dev, "No vcc regulator found: %ld\n",
-> +			PTR_ERR(dw9714_dev->vcc));
-> +		dw9714_dev->vcc = NULL;
-> +	}
-> +
-> +	if (dw9714_dev->vcc) {
+Thanks,
+Christian.
 
-With (dummy) regulators, these checks become unnecessary.
+> -Daniel
+>
+>
+>> Signed-off-by: Christian König <christian.koenig@amd.com>
+>> ---
+>>   drivers/gpu/drm/drm_gem_atomic_helper.c | 18 +++++++-----------
+>>   1 file changed, 7 insertions(+), 11 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/drm_gem_atomic_helper.c b/drivers/gpu/drm/drm_gem_atomic_helper.c
+>> index c3189afe10cb..9338ddb7edff 100644
+>> --- a/drivers/gpu/drm/drm_gem_atomic_helper.c
+>> +++ b/drivers/gpu/drm/drm_gem_atomic_helper.c
+>> @@ -143,25 +143,21 @@
+>>    */
+>>   int drm_gem_plane_helper_prepare_fb(struct drm_plane *plane, struct drm_plane_state *state)
+>>   {
+>> -	struct dma_resv_iter cursor;
+>>   	struct drm_gem_object *obj;
+>>   	struct dma_fence *fence;
+>> +	int ret;
+>>   
+>>   	if (!state->fb)
+>>   		return 0;
+>>   
+>>   	obj = drm_gem_fb_get_obj(state->fb, 0);
+>> -	dma_resv_iter_begin(&cursor, obj->resv, false);
+>> -	dma_resv_for_each_fence_unlocked(&cursor, fence) {
+>> -		/* TODO: Currently there should be only one write fence, so this
+>> -		 * here works fine. But drm_atomic_set_fence_for_plane() should
+>> -		 * be changed to be able to handle more fences in general for
+>> -		 * multiple BOs per fb anyway. */
+>> -		dma_fence_get(fence);
+>> -		break;
+>> -	}
+>> -	dma_resv_iter_end(&cursor);
+>> +	ret = dma_resv_get_singleton(obj->resv, false, &fence);
+>> +	if (ret)
+>> +		return ret;
+>>   
+>> +	/* TODO: drm_atomic_set_fence_for_plane() should be changed to be able
+>> +	 * to handle more fences in general for multiple BOs per fb.
+>> +	 */
+>>   	drm_atomic_set_fence_for_plane(state, fence);
+>>   	return 0;
+>>   }
+>> -- 
+>> 2.25.1
+>>
 
-> +		rval = regulator_enable(dw9714_dev->vcc);
-> +		if (rval < 0) {
-> +			dev_err(&client->dev, "failed to enable vcc: %d\n", rval);
-> +			return rval;
-> +		}
-> +	}
-> +
->  	v4l2_i2c_subdev_init(&dw9714_dev->sd, client, &dw9714_ops);
->  	dw9714_dev->sd.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE |
->  				V4L2_SUBDEV_FL_HAS_EVENTS;
-> @@ -200,6 +217,9 @@ static int __maybe_unused dw9714_vcm_suspend(struct device *dev)
->  	struct dw9714_device *dw9714_dev = sd_to_dw9714_vcm(sd);
->  	int ret, val;
->  
-> +	if (pm_runtime_suspended(&client->dev))
-> +		return 0;
-
-This can't take place in a runtime PM suspend callback. You'll need to add
-system suspend callback for this.
-
-> +
->  	for (val = dw9714_dev->current_val & ~(DW9714_CTRL_STEPS - 1);
->  	     val >= 0; val -= DW9714_CTRL_STEPS) {
->  		ret = dw9714_i2c_write(client,
-> @@ -208,6 +228,13 @@ static int __maybe_unused dw9714_vcm_suspend(struct device *dev)
->  			dev_err_once(dev, "%s I2C failure: %d", __func__, ret);
->  		usleep_range(DW9714_CTRL_DELAY_US, DW9714_CTRL_DELAY_US + 10);
->  	}
-> +
-> +	if (dw9714_dev->vcc) {
-> +		ret = regulator_disable(dw9714_dev->vcc);
-> +		if (ret)
-> +			dev_err(dev, "Failed to disable vcc: %d\n", ret);
-> +	}
-> +
->  	return 0;
->  }
->  
-> @@ -224,6 +251,18 @@ static int  __maybe_unused dw9714_vcm_resume(struct device *dev)
->  	struct dw9714_device *dw9714_dev = sd_to_dw9714_vcm(sd);
->  	int ret, val;
->  
-> +	if (pm_runtime_suspended(&client->dev))
-
-Same for this one.
-
-> +		return 0;
-> +
-> +	if (dw9714_dev->vcc) {
-> +		ret = regulator_enable(dw9714_dev->vcc);
-> +		if (ret) {
-> +			dev_err(dev, "Failed to enable vcc: %d\n", ret);
-> +			return ret;
-> +		}
-> +		usleep_range(1000, 2000);
-> +	}
-> +
->  	for (val = dw9714_dev->current_val % DW9714_CTRL_STEPS;
->  	     val < dw9714_dev->current_val + DW9714_CTRL_STEPS - 1;
->  	     val += DW9714_CTRL_STEPS) {
-
--- 
-Kind regards,
-
-Sakari Ailus
