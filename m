@@ -2,116 +2,79 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8243F45EAD6
-	for <lists+linux-media@lfdr.de>; Fri, 26 Nov 2021 10:56:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A2A0745EAF0
+	for <lists+linux-media@lfdr.de>; Fri, 26 Nov 2021 11:01:44 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1376306AbhKZJ7X (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 26 Nov 2021 04:59:23 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:47974 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1376427AbhKZJ5W (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Fri, 26 Nov 2021 04:57:22 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1637920449;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=HwjMv8YV0GzB+Vs3i2Fz9hjEKXjgt9WRmdtmGsNMNAw=;
-        b=f3gHxfRKsxahkbzmBpQ+j2jwWtbz/p4Oh8FMZIHFksZOjnhWLMRSVU8slOj7m9RScYVhHz
-        v2QiEtTXMsvKZDMSB2TMqe8w6cBYbWwCu9Kxb6hm5YwX+Dv6lG2eC9bn3xahr3MHpZqtur
-        OlyykUeseso5MhbqfcrjsXTGG8FPbjU=
-Received: from mail-lf1-f71.google.com (mail-lf1-f71.google.com
- [209.85.167.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-548-yS4WyN17MVexTY2HWYsh2g-1; Fri, 26 Nov 2021 04:54:08 -0500
-X-MC-Unique: yS4WyN17MVexTY2HWYsh2g-1
-Received: by mail-lf1-f71.google.com with SMTP id k32-20020a0565123da000b0041643c6a467so3969312lfv.5
-        for <linux-media@vger.kernel.org>; Fri, 26 Nov 2021 01:54:07 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=HwjMv8YV0GzB+Vs3i2Fz9hjEKXjgt9WRmdtmGsNMNAw=;
-        b=kq6w1KTr/7tdxa5b0hy0Zhf1XbTu1qrYokJXB5mcmKWnfF0iKSkgMHQFn2iSVApPa/
-         lt61qgFtWZ2jjKwf8NVdGCEdePpNq1p220/FX+Qad49dfWoQQWy/uHFVPLy/PeSZVGTi
-         jjJDLYFEmqxZciHfVhie+KkKHqy4FmSYzRC3YI8XG0/j/KcGnxBYpnCjLXRftG8B+Wje
-         R2U0cfEqly351g8+rXF7shKu7WzsoK0d1oAqXLto+BbAhD8V/YqzY9iovqKJOJQiKxdf
-         IQCPfKWhKFW7MtumYsFDGPSgS56fyp//mLm0kXf21/yX7QADuQDjXUsCCR0M2XIKx04r
-         WW8A==
-X-Gm-Message-State: AOAM531KgBad9/23Jho6xYKdm+JTaEW1g1tsw9PFDfwAO3Q9qgMeoQlw
-        ekj7dN6Xl82OBeS5plH60Qa1c8DrIL/irA5Wzyhqy8nyxX/Ych9TeA2lr+QzRWnp0zAVs6gExVn
-        JY7eGyBIrAU6D5wvy13xizc++CuXjguuklWc1ljI=
-X-Received: by 2002:a05:6512:3f28:: with SMTP id y40mr29634167lfa.499.1637920446441;
-        Fri, 26 Nov 2021 01:54:06 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwGyMB0cDvOVskixqLCj3hHREs0wCSPgX21cU80TPGLg5ymcVXNnofPkZ54nFfehVWeqR/vj1GdqgwICxdBFVg=
-X-Received: by 2002:a05:6512:3f28:: with SMTP id y40mr29634137lfa.499.1637920446166;
- Fri, 26 Nov 2021 01:54:06 -0800 (PST)
+        id S1353520AbhKZKEz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 26 Nov 2021 05:04:55 -0500
+Received: from www.linuxtv.org ([130.149.80.248]:37650 "EHLO www.linuxtv.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S236287AbhKZKCy (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Fri, 26 Nov 2021 05:02:54 -0500
+Received: from builder.linuxtv.org ([140.211.167.10] helo=slave0)
+        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1mqY16-00C2Hl-NV; Fri, 26 Nov 2021 09:59:40 +0000
+Received: from ip6-localhost ([::1] helo=localhost.localdomain)
+        by slave0 with esmtp (Exim 4.94.2)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1mqY14-009ago-9J; Fri, 26 Nov 2021 09:59:38 +0000
+From:   Jenkins <jenkins@linuxtv.org>
+To:     mchehab+samsung@kernel.org, linux-media@vger.kernel.org
+Cc:     builder@linuxtv.org
+Subject: Re: [GIT PULL FOR v5.17] Venus updates (#78837)
+Date:   Fri, 26 Nov 2021 09:59:38 +0000
+Message-Id: <20211126095938.2285940-1-jenkins@linuxtv.org>
+X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20211126093243.1254176-1-stanimir.varbanov@linaro.org>
+References: 
 MIME-Version: 1.0
-References: <20211126001603.41148-1-djrscally@gmail.com> <YaBNlpcr+i6s5rng@pendragon.ideasonboard.com>
- <de31fd62-b6f9-e042-9d26-6c3feb3faaa4@gmail.com> <f6982c60-3bf1-aa6c-2705-4d7315d77039@redhat.com>
- <6e46686f-6447-26d1-3a4f-4787c9a15867@gmail.com>
-In-Reply-To: <6e46686f-6447-26d1-3a4f-4787c9a15867@gmail.com>
-From:   Kate Hsuan <hpa@redhat.com>
-Date:   Fri, 26 Nov 2021 17:53:55 +0800
-Message-ID: <CAEth8oFkrHWG+_FRkQgaLVtQgLXo791pvZxUAfmaefL498kVkA@mail.gmail.com>
-Subject: Re: [RFC PATCH 0/2] Introduce ancillary links
-To:     Daniel Scally <djrscally@gmail.com>
-Cc:     Hans de Goede <hdegoede@redhat.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        linux-media@vger.kernel.org, sakari.ailus@linux.intel.com,
-        Han-Lin Chen <hanlinchen@chromium.org>, tfiga@chromium.org,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, Nov 26, 2021 at 5:46 PM Daniel Scally <djrscally@gmail.com> wrote:
->
-> Hi Hans
->
-> On 26/11/2021 09:41, Hans de Goede wrote:
-> > Hi Daniel,
-> >
-> > On 11/26/21 08:58, Daniel Scally wrote:
-> >> On 26/11/2021 02:59, Laurent Pinchart wrote:
-> >>> On Fri, Nov 26, 2021 at 12:16:01AM +0000, Daniel Scally wrote:
-> >>>> Hello all
-> >>>>
-> >>>> This series is not yet ready to merge, but I wanted to share it as I know some
-> >>>> other folks are working in similar areas at the moment (and I am including the
-> >>>> libcamera devel list for the same reason)
-> >>> Seems you forgot to CC libcamera-devel :-) Let's fix that on v2.
-> >>
-> >> Argh! Sorry, will do
-> > First of all, thank you very much for this RFC series as well
-> > as for the matching libcamera series.
->
->
-> My pleasure
->
-> > For v2 of the series can you please also add Kate Hsuan to the
-> > Cc (I've added there to the To of this email). Kate is a colleague
-> > of me working on adding auto-focus support for IPU3 based setups
-> > to libcamera.
->
->
-> Oops again; I had intended to do that as well...sorry Kate! I'll be more
-> careful with the CC list next time
+From: builder@linuxtv.org
 
-It's OK. Thank you :)
+Pull request: https://patchwork.linuxtv.org/project/linux-media/patch/20211126093243.1254176-1-stanimir.varbanov@linaro.org/
+Build log: https://builder.linuxtv.org/job/patchwork/160156/
+Build time: 00:17:35
+Link: https://lore.kernel.org/linux-media/20211126093243.1254176-1-stanimir.varbanov@linaro.org
 
->
-> >
-> > Regards,
-> >
-> > Hans
-> >
->
+gpg: Signature made Fri 26 Nov 2021 09:26:20 AM UTC
+gpg:                using RSA key E1558C2497CE3CCC2B5AA30F25B55FC81B7035F2
+gpg: Good signature from "Stanimir Varbanov <stanimir.varbanov@linaro.org>" [unknown]
+gpg: WARNING: This key is not certified with a trusted signature!
+gpg:          There is no indication that the signature belongs to the owner.
+Primary key fingerprint: 34CF E039 8A16 AD93 18FD  D5E8 A6D0 26D8 E358 14D4
+     Subkey fingerprint: E155 8C24 97CE 3CCC 2B5A  A30F 25B5 5FC8 1B70 35F2
+
+Summary: got 1/4 patches with issues, being 1 at build time, plus one error when buinding PDF document
+
+Error/warnings:
+
+patches/0001-venus-correct-low-power-frequency-calculation-for-en.patch:
+
+    allyesconfig: return code #0:
+	../scripts/genksyms/parse.y: warning: 9 shift/reduce conflicts [-Wconflicts-sr]
+	../scripts/genksyms/parse.y: warning: 5 reduce/reduce conflicts [-Wconflicts-rr]
+	../scripts/genksyms/parse.y: note: rerun with option '-Wcounterexamples' to generate conflict counterexamples
+
+    allyesconfig: return code #0:
+	../drivers/media/cec/core/cec-adap.c: ../drivers/media/cec/core/cec-adap.c:926 cec_transmit_msg_fh() warn: '&data->list' not removed from list
+	../drivers/media/rc/meson-ir-tx.c:22: warning: expecting prototype for meson(). Prototype was for DEVICE_NAME() instead
+	SMATCH:../drivers/media/usb/siano/smsusb.c ../drivers/media/usb/siano/smsusb.c:53:38: :warning: array of flexible structures
+	SPARSE:../drivers/media/usb/siano/smsusb.c ../drivers/media/usb/siano/smsusb.c:53:38: warning: array of flexible structures
+	../drivers/media/test-drivers/vivid/vivid-core.c: ../drivers/media/test-drivers/vivid/vivid-core.c:1981 vivid_create_instance() parse error: turning off implications after 60 seconds
+	../drivers/media/usb/pvrusb2/pvrusb2-encoder.c: ../drivers/media/usb/pvrusb2/pvrusb2-encoder.c:288 pvr2_encoder_cmd() warn: inconsistent indenting
+	../drivers/media/usb/pvrusb2/pvrusb2-hdw.c: ../drivers/media/usb/pvrusb2/pvrusb2-hdw.c:1730 pvr2_hdw_set_streaming() warn: inconsistent indenting
+	../drivers/media/usb/pvrusb2/pvrusb2-hdw.c: ../drivers/media/usb/pvrusb2/pvrusb2-hdw.c:3461 pvr2_hdw_cpufw_set_enabled() warn: inconsistent indenting
+	../drivers/media/usb/pvrusb2/pvrusb2-hdw.c: ../drivers/media/usb/pvrusb2/pvrusb2-hdw.c:3501 pvr2_hdw_cpufw_get() warn: inconsistent indenting
+	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2625 dvb_register() parse error: turning off implications after 60 seconds
+	../drivers/media/platform/qcom/venus/helpers.c: ../drivers/media/platform/qcom/venus/helpers.c:658 venus_helper_get_bufreq() error: we previously assumed 'req' could be null (see line 654)
+	../drivers/media/usb/em28xx/em28xx-video.c: ../drivers/media/usb/em28xx/em28xx-video.c:2874 em28xx_v4l2_init() parse error: turning off implications after 60 seconds
 
 
--- 
-BR,
-Kate
+Error #512 when building PDF docs
 
