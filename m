@@ -2,125 +2,108 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5B83545F542
-	for <lists+linux-media@lfdr.de>; Fri, 26 Nov 2021 20:35:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3977D45F556
+	for <lists+linux-media@lfdr.de>; Fri, 26 Nov 2021 20:42:59 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237455AbhKZTiM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 26 Nov 2021 14:38:12 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45328 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237520AbhKZTgL (ORCPT
+        id S236516AbhKZTqI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 26 Nov 2021 14:46:08 -0500
+Received: from dfw.source.kernel.org ([139.178.84.217]:38032 "EHLO
+        dfw.source.kernel.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S236633AbhKZToB (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 26 Nov 2021 14:36:11 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CF418C0613BE;
-        Fri, 26 Nov 2021 11:03:00 -0800 (PST)
+        Fri, 26 Nov 2021 14:44:01 -0500
+X-Greylist: delayed 2741 seconds by postgrey-1.27 at vger.kernel.org; Fri, 26 Nov 2021 14:44:01 EST
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 6ED5162339;
-        Fri, 26 Nov 2021 19:03:00 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EFAADC9305B;
-        Fri, 26 Nov 2021 19:02:57 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id EEE0F62349;
+        Fri, 26 Nov 2021 19:40:44 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3B266C9305E;
+        Fri, 26 Nov 2021 19:40:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1637953379;
-        bh=TuzXVBqhnzassDzQH6WK9CNxr5U+CTB3GUMvwU6qJO8=;
+        s=k20201202; t=1637955644;
+        bh=oG8oK2pVUUnHX6IJxtTQVBsz/ygOdYwME2YFP9YtwU4=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=mNDBV3aTr4vMdbD4tMK3jUHRFiVgwF3EjCB99atYiG9m2JSXISezm/V/t5J4fqxxc
-         3c06YOlPgG1i4f5a2j4IK1a2CR6nKjZS2RG1QBOeKNvNo2OACG1AkgufcdC52dl2ze
-         G0VezTUG3ym1HiKmb4/qSqf1xPfuT75r2wpWYWYrj2khQekVUm4hU5+tmwfq+Urahr
-         EBx93tFyR9eIsTaSyeeVBp52LWyWv6/w4rHwZXkQL0oAD5ihHIRwWDfuSBNmBl2j3K
-         BzI+nLKzYg/WQ3pYyAEjZMmHjtZa4+focbUy+frrHVg7WFxPoVeyWwmuJxTlP/fevL
-         Y5/qWsy3a9dpg==
-Date:   Fri, 26 Nov 2021 12:02:54 -0700
+        b=jIxgUV3RtzzoC11+Zri1Dd1KbeT+w2ZJgAOlUAlpgFs73KzC+YGl7ZPBOzdy2rCiH
+         H364zFlz5S+/e3lDSy06G9EypaAZU83hVgSASZl95AZ34keoUJUGyWJnu2RQlUYqjo
+         VTuU8e5qBngyb4l1g136fWmL2RuKNEhcF/KOyj0nt6WWM4zrzoZjbCPJiu49sDSoUE
+         Z2U3RK/JI44ovbH84p/DIbyCVvGvBOk+wnTzCrmt4YSdI26KZyGNwEfKqMgKwusTTx
+         vMMbDj2TWzEQqKBhLacSAZU9WellgcIpukyaElgcK0XmClcVxqqHja5C95bLqNDW6c
+         rnztxyUJ3glaQ==
+Date:   Fri, 26 Nov 2021 12:40:38 -0700
 From:   Nathan Chancellor <nathan@kernel.org>
 To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 Cc:     linuxarm@huawei.com, mauro.chehab@huawei.com,
-        "Gustavo A. R. Silva" <gustavoars@kernel.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Antti Palosaari <crope@iki.fi>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
-Subject: Re: [PATCH 05/20] media: drxk: drop operation_mode from set_dvbt()
-Message-ID: <YaEvXpVHRUXv1xtZ@archlinux-ax161>
+        Nick Desaulniers <ndesaulniers@google.com>,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        llvm@lists.linux.dev
+Subject: Re: [PATCH 06/20] media: m88ds3103: drop reg11 calculus from
+ m88ds3103b_select_mclk()
+Message-ID: <YaE4Nkvp9NCfGItD@archlinux-ax161>
 References: <cover.1637781097.git.mchehab+huawei@kernel.org>
- <1a2a3fa651a90bd1e4d00318d67bfe0488e98df2.1637781097.git.mchehab+huawei@kernel.org>
+ <9e528a0ce280d8ce99f9bfe1a725baafa6bf1408.1637781097.git.mchehab+huawei@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <1a2a3fa651a90bd1e4d00318d67bfe0488e98df2.1637781097.git.mchehab+huawei@kernel.org>
+In-Reply-To: <9e528a0ce280d8ce99f9bfe1a725baafa6bf1408.1637781097.git.mchehab+huawei@kernel.org>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Nov 24, 2021 at 08:13:08PM +0100, Mauro Carvalho Chehab wrote:
-> This var is set, but never used. So, drop it.
+On Wed, Nov 24, 2021 at 08:13:09PM +0100, Mauro Carvalho Chehab wrote:
+> This vaklue is never used at the code. So, drop it.
+
+       ^ value
+
+> Solves a W=1 clang warning.
 > 
 > Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+
+Reviewed-by: Nathan Chancellor <nathan@kernel.org>
+
+I would expect GCC to warn about this as well.
+
 > ---
 > 
 > To avoid mailbombing on a large number of people, only mailing lists were C/C on the cover.
 > See [PATCH 00/20] at: https://lore.kernel.org/all/cover.1637781097.git.mchehab+huawei@kernel.org/
 > 
->  drivers/media/dvb-frontends/drxk_hard.c | 6 ------
->  1 file changed, 6 deletions(-)
+>  drivers/media/dvb-frontends/m88ds3103.c | 6 +-----
+>  1 file changed, 1 insertion(+), 5 deletions(-)
 > 
-> diff --git a/drivers/media/dvb-frontends/drxk_hard.c b/drivers/media/dvb-frontends/drxk_hard.c
-> index d7fc2595f15b..afa0ac85313f 100644
-> --- a/drivers/media/dvb-frontends/drxk_hard.c
-> +++ b/drivers/media/dvb-frontends/drxk_hard.c
-> @@ -3720,7 +3720,6 @@ static int set_dvbt(struct drxk_state *state, u16 intermediate_freqk_hz,
+> diff --git a/drivers/media/dvb-frontends/m88ds3103.c b/drivers/media/dvb-frontends/m88ds3103.c
+> index 02e8aa11e36e..bce0f42f3d19 100644
+> --- a/drivers/media/dvb-frontends/m88ds3103.c
+> +++ b/drivers/media/dvb-frontends/m88ds3103.c
+> @@ -451,7 +451,7 @@ static int m88ds3103b_select_mclk(struct m88ds3103_dev *dev)
+>  
+>  static int m88ds3103b_set_mclk(struct m88ds3103_dev *dev, u32 mclk_khz)
 >  {
->  	u16 cmd_result = 0;
->  	u16 transmission_params = 0;
-> -	u16 operation_mode = 0;
->  	u32 iqm_rc_rate_ofs = 0;
->  	u32 bandwidth = 0;
->  	u16 param1;
-> @@ -3760,7 +3759,6 @@ static int set_dvbt(struct drxk_state *state, u16 intermediate_freqk_hz,
->  	switch (state->props.transmission_mode) {
->  	case TRANSMISSION_MODE_AUTO:
->  	default:
-> -		operation_mode |= OFDM_SC_RA_RAM_OP_AUTO_MODE__M;
->  		fallthrough;	/* try first guess DRX_FFTMODE_8K */
-
-I think that all these fallthrough annotations in these blocks are
-useless now and can be eliminated, as the block contains no code to
-fallthrough on.
-
->  	case TRANSMISSION_MODE_8K:
->  		transmission_params |= OFDM_SC_RA_RAM_OP_PARAM_MODE_8K;
-> @@ -3774,7 +3772,6 @@ static int set_dvbt(struct drxk_state *state, u16 intermediate_freqk_hz,
->  	switch (state->props.guard_interval) {
->  	default:
->  	case GUARD_INTERVAL_AUTO:
-> -		operation_mode |= OFDM_SC_RA_RAM_OP_AUTO_GUARD__M;
->  		fallthrough;	/* try first guess DRX_GUARD_1DIV4 */
->  	case GUARD_INTERVAL_1_4:
->  		transmission_params |= OFDM_SC_RA_RAM_OP_PARAM_GUARD_4;
-> @@ -3795,7 +3792,6 @@ static int set_dvbt(struct drxk_state *state, u16 intermediate_freqk_hz,
->  	case HIERARCHY_AUTO:
->  	case HIERARCHY_NONE:
->  	default:
-> -		operation_mode |= OFDM_SC_RA_RAM_OP_AUTO_HIER__M;
->  		/* try first guess SC_RA_RAM_OP_PARAM_HIER_NO */
->  		/* transmission_params |= OFDM_SC_RA_RAM_OP_PARAM_HIER_NO; */
->  		fallthrough;
-> @@ -3815,7 +3811,6 @@ static int set_dvbt(struct drxk_state *state, u16 intermediate_freqk_hz,
->  	switch (state->props.modulation) {
->  	case QAM_AUTO:
->  	default:
-> -		operation_mode |= OFDM_SC_RA_RAM_OP_AUTO_CONST__M;
->  		fallthrough;	/* try first guess DRX_CONSTELLATION_QAM64 */
->  	case QAM_64:
->  		transmission_params |= OFDM_SC_RA_RAM_OP_PARAM_CONST_QAM64;
-> @@ -3858,7 +3853,6 @@ static int set_dvbt(struct drxk_state *state, u16 intermediate_freqk_hz,
->  	switch (state->props.code_rate_HP) {
->  	case FEC_AUTO:
->  	default:
-> -		operation_mode |= OFDM_SC_RA_RAM_OP_AUTO_RATE__M;
->  		fallthrough;	/* try first guess DRX_CODERATE_2DIV3 */
->  	case FEC_2_3:
->  		transmission_params |= OFDM_SC_RA_RAM_OP_PARAM_RATE_2_3;
+> -	u8 reg11 = 0x0A, reg15, reg16, reg1D, reg1E, reg1F, tmp;
+> +	u8 reg15, reg16, reg1D, reg1E, reg1F, tmp;
+>  	u8 sm, f0 = 0, f1 = 0, f2 = 0, f3 = 0;
+>  	u16 pll_div_fb, N;
+>  	u32 div;
+> @@ -480,8 +480,6 @@ static int m88ds3103b_set_mclk(struct m88ds3103_dev *dev, u32 mclk_khz)
+>  	div /= mclk_khz;
+>  
+>  	if (dev->cfg->ts_mode == M88DS3103_TS_SERIAL) {
+> -		reg11 |= 0x02;
+> -
+>  		if (div <= 32) {
+>  			N = 2;
+>  
+> @@ -532,8 +530,6 @@ static int m88ds3103b_set_mclk(struct m88ds3103_dev *dev, u32 mclk_khz)
+>  		else if ((f3 < 8) && (f3 != 0))
+>  			f3 = 8;
+>  	} else {
+> -		reg11 &= ~0x02;
+> -
+>  		if (div <= 32) {
+>  			N = 2;
+>  
 > -- 
 > 2.33.1
 > 
