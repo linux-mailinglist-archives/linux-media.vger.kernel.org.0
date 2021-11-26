@@ -2,79 +2,237 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A2A0745EAF0
-	for <lists+linux-media@lfdr.de>; Fri, 26 Nov 2021 11:01:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 26BD145EB05
+	for <lists+linux-media@lfdr.de>; Fri, 26 Nov 2021 11:05:19 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1353520AbhKZKEz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 26 Nov 2021 05:04:55 -0500
-Received: from www.linuxtv.org ([130.149.80.248]:37650 "EHLO www.linuxtv.org"
+        id S240422AbhKZKIY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 26 Nov 2021 05:08:24 -0500
+Received: from comms.puri.sm ([159.203.221.185]:36684 "EHLO comms.puri.sm"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S236287AbhKZKCy (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Fri, 26 Nov 2021 05:02:54 -0500
-Received: from builder.linuxtv.org ([140.211.167.10] helo=slave0)
-        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1mqY16-00C2Hl-NV; Fri, 26 Nov 2021 09:59:40 +0000
-Received: from ip6-localhost ([::1] helo=localhost.localdomain)
-        by slave0 with esmtp (Exim 4.94.2)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1mqY14-009ago-9J; Fri, 26 Nov 2021 09:59:38 +0000
-From:   Jenkins <jenkins@linuxtv.org>
-To:     mchehab+samsung@kernel.org, linux-media@vger.kernel.org
-Cc:     builder@linuxtv.org
-Subject: Re: [GIT PULL FOR v5.17] Venus updates (#78837)
-Date:   Fri, 26 Nov 2021 09:59:38 +0000
-Message-Id: <20211126095938.2285940-1-jenkins@linuxtv.org>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20211126093243.1254176-1-stanimir.varbanov@linaro.org>
-References: 
+        id S1376699AbhKZKGX (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Fri, 26 Nov 2021 05:06:23 -0500
+Received: from localhost (localhost [127.0.0.1])
+        by comms.puri.sm (Postfix) with ESMTP id EB6E1DF80A;
+        Fri, 26 Nov 2021 02:02:39 -0800 (PST)
+Received: from comms.puri.sm ([127.0.0.1])
+        by localhost (comms.puri.sm [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id FTwc4evxQriD; Fri, 26 Nov 2021 02:02:38 -0800 (PST)
+Message-ID: <d5e0fe8f8a5445c9c2d2b90fcf454829daf393e8.camel@puri.sm>
+Subject: Re: [PATCH v9 2/4] dt-bindings: media: document SK Hynix Hi-846
+ MIPI CSI-2 8M pixel sensor
+From:   Martin Kepplinger <martin.kepplinger@puri.sm>
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     Pavel Machek <pavel@ucw.cz>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Sakari Ailus <sakari.ailus@iki.fi>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>, kernel@puri.sm,
+        Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+        phone-devel@vger.kernel.org, Rob Herring <robh@kernel.org>,
+        shawnx.tu@intel.com
+Date:   Fri, 26 Nov 2021 11:02:31 +0100
+In-Reply-To: <CAMuHMdVVNhLa2p-ywmpcEj-sw+NyRNp2z9jsVqsXEDrKphivCQ@mail.gmail.com>
+References: <20210906102837.2190387-1-martin.kepplinger@puri.sm>
+         <20210906102837.2190387-3-martin.kepplinger@puri.sm>
+         <CAMuHMdVVNhLa2p-ywmpcEj-sw+NyRNp2z9jsVqsXEDrKphivCQ@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.38.3-1 
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: builder@linuxtv.org
+Am Donnerstag, dem 25.11.2021 um 12:15 +0100 schrieb Geert
+Uytterhoeven:
+> On Mon, Sep 6, 2021 at 12:30 PM Martin Kepplinger
+> <martin.kepplinger@puri.sm> wrote:
+> > Document the bindings used for the SK Hynix Hi-846 CMOS camera
+> > driver.
+> > 
+> > Signed-off-by: Martin Kepplinger <martin.kepplinger@puri.sm>
+> > Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> > Reviewed-by: Rob Herring <robh@kernel.org>
+> > ---
+> >  .../bindings/media/i2c/hynix,hi846.yaml       | 120
+> > ++++++++++++++++++
+> >  1 file changed, 120 insertions(+)
+> >  create mode 100644
+> > Documentation/devicetree/bindings/media/i2c/hynix,hi846.yaml
+> > 
+> > diff --git
+> > a/Documentation/devicetree/bindings/media/i2c/hynix,hi846.yaml
+> > b/Documentation/devicetree/bindings/media/i2c/hynix,hi846.yaml
+> > new file mode 100644
+> > index 000000000000..85a8877c2f38
+> > --- /dev/null
+> > +++ b/Documentation/devicetree/bindings/media/i2c/hynix,hi846.yaml
+> > @@ -0,0 +1,120 @@
+> > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> > +%YAML 1.2
+> > +---
+> > +$id: http://devicetree.org/schemas/media/i2c/hynix,hi846.yaml#
+> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > +
+> > +title: SK Hynix Hi-846 1/4" 8M Pixel MIPI CSI-2 sensor
+> > +
+> > +maintainers:
+> > +  - Martin Kepplinger <martin.kepplinger@puri.sm>
+> > +
+> > +description: |-
+> > +  The Hi-846 is a raw image sensor with an MIPI CSI-2 image data
+> > +  interface and CCI (I2C compatible) control bus. The output
+> > format
+> > +  is raw Bayer.
+> > +
+> > +properties:
+> > +  compatible:
+> > +    const: hynix,hi846
+> > +
+> > +  reg:
+> > +    maxItems: 1
+> > +
+> > +  clocks:
+> > +    items:
+> > +      - description: Reference to the mclk clock.
+> > +
+> > +  assigned-clocks:
+> > +    maxItems: 1
+> > +
+> > +  assigned-clock-rates:
+> > +    maxItems: 1
+> > +
+> > +  reset-gpios:
+> > +    description: Reference to the GPIO connected to the RESETB
+> > pin. Active low.
+> > +    maxItems: 1
+> > +
+> > +  shutdown-gpios:
+> > +    description: Reference to the GPIO connected to the XSHUTDOWN
+> > pin. Active low.
+> > +    maxItems: 1
+> > +
+> > +  vddio-supply:
+> > +    description: Definition of the regulator used for the VDDIO
+> > power supply.
+> > +
+> > +  vdda-supply:
+> > +    description: Definition of the regulator used for the VDDA
+> > power supply.
+> > +
+> > +  vddd-supply:
+> > +    description: Definition of the regulator used for the VDDD
+> > power supply.
+> > +
+> > +  port:
+> > +    $ref: /schemas/graph.yaml#/properties/port
+> > +
+> > +    properties:
+> > +      endpoint:
+> > +        $ref: /schemas/media/video-interfaces.yaml#
+> > +        unevaluatedProperties: false
+> > +
+> > +        properties:
+> > +          data-lanes:
+> > +            oneOf:
+> > +              - items:
+> > +                  - const: 1
+> > +                  - const: 2
+> > +                  - const: 3
+> > +                  - const: 4
+> > +              - items:
+> > +                  - const: 1
+> > +                  - const: 2
+> > +
+> > +        required:
+> > +          - data-lanes
+> > +
+> > +required:
+> > +  - compatible
+> > +  - reg
+> > +  - clocks
+> > +  - assigned-clocks
+> > +  - assigned-clock-rates
+> > +  - vddio-supply
+> > +  - vdda-supply
+> > +  - vddd-supply
+> > +  - port
+> > +
+> > +additionalProperties: false
+> > +
+> > +examples:
+> > +  - |
+> > +    #include <dt-bindings/gpio/gpio.h>
+> > +
+> > +    i2c {
+> > +        #address-cells = <1>;
+> > +        #size-cells = <0>;
+> > +
+> > +        hi846: camera@20 {
+> > +            compatible = "hynix,hi846";
+> > +            reg = <0x20>;
+> > +            pinctrl-names = "default";
+> > +            pinctrl-0 = <&pinctrl_csi1>;
+> > +            clocks = <&clk 0>;
+> > +            assigned-clocks = <&clk 0>;
+> > +            assigned-clock-rates = <25000000>;
+> > +            vdda-supply = <&reg_camera_vdda>;
+> > +            vddd-supply = <&reg_camera_vddd>;
+> > +            vddio-supply = <&reg_camera_vddio>;
+> > +            reset-gpios = <&gpio1 25 GPIO_ACTIVE_LOW>;
+> > +            shutdown-gpios = <&gpio5 4 GPIO_ACTIVE_LOW>;
+> > +
+> > +            port {
+> > +                camera_out: endpoint {
+> > +                    remote-endpoint = <&csi1_ep1>;
+> > +                    link-frequencies = /bits/ 64
+> > +                        <80000000 200000000>;
+> > +                    data-lanes = <1 2>;
+> 
+> "make dt_binding_check":
+> 
+>    
+> Documentation/devicetree/bindings/media/i2c/hynix,hi846.example.dt.ya
+> ml:
+> camera@20: port:endpoint: Unevaluated properties are not allowed
+> ('link-frequencies', 'data-lanes' were unexpected)
+>     From schema:
+> Documentation/devicetree/bindings/media/i2c/hynix,hi846.yaml
+> 
+> > +                };
+> > +            };
+> > +        };
+> > +    };
+> 
+> Gr{oetje,eeting}s,
+> 
+>                         Geert
 
-Pull request: https://patchwork.linuxtv.org/project/linux-media/patch/20211126093243.1254176-1-stanimir.varbanov@linaro.org/
-Build log: https://builder.linuxtv.org/job/patchwork/160156/
-Build time: 00:17:35
-Link: https://lore.kernel.org/linux-media/20211126093243.1254176-1-stanimir.varbanov@linaro.org
 
-gpg: Signature made Fri 26 Nov 2021 09:26:20 AM UTC
-gpg:                using RSA key E1558C2497CE3CCC2B5AA30F25B55FC81B7035F2
-gpg: Good signature from "Stanimir Varbanov <stanimir.varbanov@linaro.org>" [unknown]
-gpg: WARNING: This key is not certified with a trusted signature!
-gpg:          There is no indication that the signature belongs to the owner.
-Primary key fingerprint: 34CF E039 8A16 AD93 18FD  D5E8 A6D0 26D8 E358 14D4
-     Subkey fingerprint: E155 8C24 97CE 3CCC 2B5A  A30F 25B5 5FC8 1B70 35F2
+thanks a lot Geert, but I can't reproduce this on linux-next. Which
+tree did you run it against?
 
-Summary: got 1/4 patches with issues, being 1 at build time, plus one error when buinding PDF document
+What I *do* see is the following during dtbs_check, so I guess I could
+remove "orientation" and "rotation" from the example, which would be
+kind of sad because these useful properties are not yet too wide know
+anyway in the media device driver world...
 
-Error/warnings:
-
-patches/0001-venus-correct-low-power-frequency-calculation-for-en.patch:
-
-    allyesconfig: return code #0:
-	../scripts/genksyms/parse.y: warning: 9 shift/reduce conflicts [-Wconflicts-sr]
-	../scripts/genksyms/parse.y: warning: 5 reduce/reduce conflicts [-Wconflicts-rr]
-	../scripts/genksyms/parse.y: note: rerun with option '-Wcounterexamples' to generate conflict counterexamples
-
-    allyesconfig: return code #0:
-	../drivers/media/cec/core/cec-adap.c: ../drivers/media/cec/core/cec-adap.c:926 cec_transmit_msg_fh() warn: '&data->list' not removed from list
-	../drivers/media/rc/meson-ir-tx.c:22: warning: expecting prototype for meson(). Prototype was for DEVICE_NAME() instead
-	SMATCH:../drivers/media/usb/siano/smsusb.c ../drivers/media/usb/siano/smsusb.c:53:38: :warning: array of flexible structures
-	SPARSE:../drivers/media/usb/siano/smsusb.c ../drivers/media/usb/siano/smsusb.c:53:38: warning: array of flexible structures
-	../drivers/media/test-drivers/vivid/vivid-core.c: ../drivers/media/test-drivers/vivid/vivid-core.c:1981 vivid_create_instance() parse error: turning off implications after 60 seconds
-	../drivers/media/usb/pvrusb2/pvrusb2-encoder.c: ../drivers/media/usb/pvrusb2/pvrusb2-encoder.c:288 pvr2_encoder_cmd() warn: inconsistent indenting
-	../drivers/media/usb/pvrusb2/pvrusb2-hdw.c: ../drivers/media/usb/pvrusb2/pvrusb2-hdw.c:1730 pvr2_hdw_set_streaming() warn: inconsistent indenting
-	../drivers/media/usb/pvrusb2/pvrusb2-hdw.c: ../drivers/media/usb/pvrusb2/pvrusb2-hdw.c:3461 pvr2_hdw_cpufw_set_enabled() warn: inconsistent indenting
-	../drivers/media/usb/pvrusb2/pvrusb2-hdw.c: ../drivers/media/usb/pvrusb2/pvrusb2-hdw.c:3501 pvr2_hdw_cpufw_get() warn: inconsistent indenting
-	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2625 dvb_register() parse error: turning off implications after 60 seconds
-	../drivers/media/platform/qcom/venus/helpers.c: ../drivers/media/platform/qcom/venus/helpers.c:658 venus_helper_get_bufreq() error: we previously assumed 'req' could be null (see line 654)
-	../drivers/media/usb/em28xx/em28xx-video.c: ../drivers/media/usb/em28xx/em28xx-video.c:2874 em28xx_v4l2_init() parse error: turning off implications after 60 seconds
+/home/martin/dev/purism-forks/linux-
+next/arch/arm64/boot/dts/freescale/imx8mq-librem5-r2.dt.yaml:
+camera-front@20: 'orientation', 'rotation' do not match any of the
+regexes: 'pinctrl-[0-9]+'
+	From schema: /home/martin/dev/purism-forks/linux-
+next/Documentation/devicetree/bindings/media/i2c/hynix,hi846.yaml
 
 
-Error #512 when building PDF docs
+if you can be more speicific I'll definitely try to reproduce again
+though.
+
+thanks,
+                             martin
+
 
