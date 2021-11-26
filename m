@@ -2,107 +2,79 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 90B1D460680
-	for <lists+linux-media@lfdr.de>; Sun, 28 Nov 2021 14:28:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7978C460B0E
+	for <lists+linux-media@lfdr.de>; Mon, 29 Nov 2021 00:18:19 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1357423AbhK1NbV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 28 Nov 2021 08:31:21 -0500
-Received: from www381.your-server.de ([78.46.137.84]:54570 "EHLO
-        www381.your-server.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1346127AbhK1N3V (ORCPT
+        id S1359587AbhK1XVd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 28 Nov 2021 18:21:33 -0500
+Received: from daesangagung.co.id ([117.54.218.101]:39518 "EHLO
+        mail.daesangagung.co.id" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1359578AbhK1XTc (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 28 Nov 2021 08:29:21 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=metafoo.de;
-         s=default2002; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:
-        MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender:Reply-To:
-        Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-        Resent-To:Resent-Cc:Resent-Message-ID;
-        bh=z5cmO+w0Xv1Obso/iLfol1dI+hkAIwHqoz5lNKuJgZI=; b=P9whX+3qcnmMIQZQ1j9q62QIt4
-        PgNyt1JwbMkxu6edw637P9L/GO0D94vqRuAr+MU16jB/oKm9uU0zODxVe6IP1fUjdW6couujR4kmm
-        y3Fxfc6Kt9ToTQLLKE2nSOzIcr3v84pd4X2GSMQjvxybVxcbsv7Yr8ZyvRhM1cDhObakBsgkcfKHC
-        24qrhCy6m4gAa6V55LTpOrPsvl7d4bMZXvE7FYNJqS7TlQyFf8k2qxnDb+dYi50xrXDLNrMd9fdGh
-        gG2fo73GzaTP2AR0rPHa2N9ajr5IgbwuxQ4aTv1F/N0Nw/GiLAPyRP7GrkO/zwoxorX6wX89XjoDI
-        YGYj6U+g==;
-Received: from sslproxy06.your-server.de ([78.46.172.3])
-        by www381.your-server.de with esmtpsa (TLSv1.3:TLS_AES_256_GCM_SHA384:256)
-        (Exim 4.92.3)
-        (envelope-from <lars@metafoo.de>)
-        id 1mrKBo-0006ie-G7; Sun, 28 Nov 2021 14:25:56 +0100
-Received: from [82.135.83.112] (helo=[192.168.178.20])
-        by sslproxy06.your-server.de with esmtpsa (TLSv1.3:TLS_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <lars@metafoo.de>)
-        id 1mrKBo-000QTE-5M; Sun, 28 Nov 2021 14:25:56 +0100
-Subject: Re: [PATCH 11/15] iio: buffer-dma: Boost performance using
- write-combine cache setting
-To:     Jonathan Cameron <jic23@kernel.org>,
-        Paul Cercueil <paul@crapouillou.net>
-Cc:     Alexandru Ardelean <ardeleanalex@gmail.com>,
-        Michael Hennerich <Michael.Hennerich@analog.com>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
-        linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        linaro-mm-sig@lists.linaro.org
-References: <20211115141925.60164-1-paul@crapouillou.net>
- <20211115141925.60164-12-paul@crapouillou.net>
- <20211121150037.2a606be0@jic23-huawei> <8WNX2R.M4XE9MQC24W22@crapouillou.net>
- <YX153R.0PENWW3ING7F1@crapouillou.net> <20211127160533.5259f486@jic23-huawei>
-From:   Lars-Peter Clausen <lars@metafoo.de>
-Message-ID: <e46c6f2d-26d7-64d2-ebfc-ff6dc78aad2f@metafoo.de>
-Date:   Sun, 28 Nov 2021 14:25:55 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+        Sun, 28 Nov 2021 18:19:32 -0500
+Received: from localhost (localhost [127.0.0.1])
+        by mail.daesangagung.co.id (Postfix) with ESMTP id 5A90780E67E5A;
+        Sat, 27 Nov 2021 19:09:08 +0700 (WIB)
+Received: from mail.daesangagung.co.id ([127.0.0.1])
+        by localhost (mail.daesangagung.co.id [127.0.0.1]) (amavisd-new, port 10032)
+        with ESMTP id g3yAhq5RKMRd; Sat, 27 Nov 2021 19:09:07 +0700 (WIB)
+Received: from localhost (localhost [127.0.0.1])
+        by mail.daesangagung.co.id (Postfix) with ESMTP id 2FCB680A23C83;
+        Sat, 27 Nov 2021 05:44:04 +0700 (WIB)
+X-Virus-Scanned: amavisd-new at daesangagung.co.id
+Received: from mail.daesangagung.co.id ([127.0.0.1])
+        by localhost (mail.daesangagung.co.id [127.0.0.1]) (amavisd-new, port 10026)
+        with ESMTP id 602q0WpIthOD; Sat, 27 Nov 2021 05:44:03 +0700 (WIB)
+Received: from User (_gateway [10.0.22.111])
+        by mail.daesangagung.co.id (Postfix) with SMTP id B2C1280ADECDA;
+        Fri, 26 Nov 2021 23:43:06 +0700 (WIB)
+Reply-To: <sarb_bnk086@meta.ua>
+From:   "Hsbc Bank London" <info@daesangagung.co.id>
+Subject: Your Approved Payment Notification
+Date:   Fri, 26 Nov 2021 08:43:26 -0800
 MIME-Version: 1.0
-In-Reply-To: <20211127160533.5259f486@jic23-huawei>
-Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Type: text/plain;
+        charset="Windows-1251"
 Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-X-Authenticated-Sender: lars@metafoo.de
-X-Virus-Scanned: Clear (ClamAV 0.103.3/26367/Sun Nov 28 10:19:58 2021)
+X-Priority: 3
+X-MSMail-Priority: Normal
+X-Mailer: Microsoft Outlook Express 6.00.2600.0000
+X-MimeOLE: Produced By Microsoft MimeOLE V6.00.2600.0000
+Message-Id: <20211126164306.B2C1280ADECDA@mail.daesangagung.co.id>
+To:     unlisted-recipients:; (no To-header on input)
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 11/27/21 5:05 PM, Jonathan Cameron wrote:
->> Non-coherent mapping with no cache sync:
->> - fileio:
->>      read:	156 MiB/s
->>      write:	123 MiB/s
->> - dmabuf:
->>      read:	234 MiB/s (capped by sample rate)
->>      write:	182 MiB/s
->>
->> Non-coherent reads with no cache sync + write-combine writes:
->> - fileio:
->>      read:	156 MiB/s
->>      write:	140 MiB/s
->> - dmabuf:
->>      read:	234 MiB/s (capped by sample rate)
->>      write:	210 MiB/s
->>
->>
->> A few things we can deduce from this:
->>
->> * Write-combine is not available on Zynq/ARM? If it was working, it
->> should give a better performance than the coherent mapping, but it
->> doesn't seem to do anything at all. At least it doesn't harm
->> performance.
-> I'm not sure it's very relevant to this sort of streaming write.
-> If you write a sequence of addresses then nothing stops them getting combined
-> into a single write whether or not it is write-combining.
+THE WORLDS LOCAL BANK
+International Banking
+FOREIGN EXCHANGE UNIT
 
-There is a difference at which point they can get combined. With 
-write-combine they can be coalesced into a single transaction anywhere 
-in the interconnect, as early as the CPU itself. Without write-cobmine 
-the DDR controller might decide to combine them, but not earlier. This 
-can make a difference especially if the write is a narrow write, i.e. 
-the access size is smaller than the buswidth.
+RE: MANDATORY RELEASE ORDER OF YOUR OVERDUE FUND
 
-Lets say you do 32-bit writes, but your bus is 64 bits wide. With WC two 
-32-bits can be combined into a 64-bit write. Without WC that is not 
-possible and you are potentially not using the bus to its fullest 
-capacity. This is especially true if the memory bus is wider than the 
-widest access size of the CPU.
+Dear Valued Beneficiary:
 
+We are pleased to inform you that we have finally concluded arrangement towards your refund/lottery pay out which has been delayed for a Long Period of time because of your Cooperation and Dealings with Wrong Officials and importers of banks as your fund returned back to us on the 4th of Jan 2021 when we confirmed the rate of delays and questionable activities that has been related by the previous administrative banks alongside with others that collaborated in delaying the release of your fund after all charges and payments demanded were paid.
 
+Recently, the Ministry of Finance of United Kingdom, Bank of England, HSBC Bank Plc UK and United Kingdom Inland Revenue Services held a meeting on how this fund will be released to the beneficiaries to their designated bank accounts in their country without further delay since we are in the first half of the economic year 2021 and it is now overdue to be released as the said funds belongs to them.
+
+We apologize for the delay of the payment and all the inconveniences that this might have caused you during this period of time. However we have instructed all the banks in the globe which we previously asked to help us pay out this fund to the general public to STOP the process of the release of the fund due to their incompetence and negligence of duty towards the release of this fund. After our findings, some were arrested and charged for theft according to Section 1 of the Theft Act 1978, as amended by the Theft (Amendment) Act 1996 law of the United Kingdom.
+
+The Bank of England Governor (Mr Andrew Bailey) has given serious warning and Instructions and ordered the Inland Revenue Services Department of England to quickly release all on hold funds which are in their escrow account to the sole beneficiaries which you are among those who will receive their Inheritance funds.
+
+Please contact ONLY the Executive member of the Monetary Policy Committee of South African Reserve Bank (Dr Rashad Cassim) on his email: sarb_bnk086@meta.ua to advise you on how to procure the certificate of claim as the law of South Africa demands that without it there will not be any payment whether pending loan amount, lottery fund, inheritance funds or whatsoever fund locally or internationally perhaps you have not yet received it.
+
+Provide below details to Dr Rashad Cassim for his clarification:
+
+Full Name....... Tel.................
+
+Address......... Amount..............
+
+City............ Country.............
+
+Copies of documents pertaining to the fund.
+
+Best Regards,
+Mr.James Emmett.
+Chief Executive Officer, HSBC Bank plc.
+United Kingdom
