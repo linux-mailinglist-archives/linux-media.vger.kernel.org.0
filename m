@@ -2,61 +2,67 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C74C245F53A
-	for <lists+linux-media@lfdr.de>; Fri, 26 Nov 2021 20:33:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D47D645F538
+	for <lists+linux-media@lfdr.de>; Fri, 26 Nov 2021 20:32:54 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233186AbhKZTgM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 26 Nov 2021 14:36:12 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45328 "EHLO
+        id S237295AbhKZTgF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 26 Nov 2021 14:36:05 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45304 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232948AbhKZTeJ (ORCPT
+        with ESMTP id S232237AbhKZTeD (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 26 Nov 2021 14:34:09 -0500
+        Fri, 26 Nov 2021 14:34:03 -0500
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 73533C061D71
-        for <linux-media@vger.kernel.org>; Fri, 26 Nov 2021 10:57:06 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5D11DC061D70;
+        Fri, 26 Nov 2021 10:55:55 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 4FD6262330;
-        Fri, 26 Nov 2021 18:55:05 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7230EC93056;
-        Fri, 26 Nov 2021 18:55:02 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id EBBE162325;
+        Fri, 26 Nov 2021 18:55:54 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 793C1C9305D;
+        Fri, 26 Nov 2021 18:55:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1637952904;
-        bh=gtBDOf+Hvarye7/1kb+5zZAMsxQUS/gW1IZ5yAwRGiM=;
+        s=k20201202; t=1637952954;
+        bh=QxvpkoeoPXHKF44a5JmxbPGWCveiZYRK4WpUxai+hE8=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=hUmRsRUW1H/ipwzlnhHGll3UMynD470cUbdTAwfhmLF8KmHg+J1ngYLCViOgkCsbS
-         wmQoK7zcK75pqNHGp5jO4JrbMA4DGXNTZK9KToZbwcdfbjZI3YgBHb4zlpcqMxIr5c
-         D9tKhIT4+ZBca8wM7NXtPcncKdmZfA/aVQ7YwLOt0mAwArl3zVjqbqzq9d2RF/buEr
-         dPUfRBVm5OwRFgN6LKHWAkSkJQcuub/ywkomAo0ZacLCDGLl3oDLfkyxK3OyO+QcEy
-         ScIIAsTadrjix6xa+CzdaquSq80vT9ToG4BddfQ2f+DJjsBTDZDtqsfreX1MYJ8Ngt
-         rgsu/pdNRychg==
-Date:   Fri, 26 Nov 2021 11:54:58 -0700
+        b=QmnpKyCLljopKULpFvdNNmTA2cgguJ3Wen5AETWjo30qNrabYJsKDqH03reUIiPHD
+         0Yna7S8Dy9ORgurq8WVfNWzt+2RYdhIvfByowoPvXyPKiWzJBWPiR4RRBoWBJ3BZq2
+         yxeAG6Zij4RBukAEgOLNMvMOjvoELPvp/2Jf2UaRa2N8APzZizE5fnSTXahWfG/AWp
+         xEw+gAxljYnR3S6qP/7MLE8587sqmJK9ur32o+aMgvxPzhgbqgvbNDbJUwQNA89smM
+         b1O/xVBNPmpUSgOTVS+G/K1qDfMkkGKZ7FZYjRLHtVHWT4+A4R6GsPqQtZt+Vpzl3B
+         Ronlc8yGD3New==
+Date:   Fri, 26 Nov 2021 11:55:49 -0700
 From:   Nathan Chancellor <nathan@kernel.org>
 To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 Cc:     linuxarm@huawei.com, mauro.chehab@huawei.com,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         Nick Desaulniers <ndesaulniers@google.com>,
         linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
         llvm@lists.linux.dev
-Subject: Re: [PATCH 01/20] media: adv7842: get rid of two unused functions
-Message-ID: <YaEtgrPMAcrjJdYa@archlinux-ax161>
+Subject: Re: [PATCH 02/20] media: saa7134-go7007: get rid of to_state()
+ function
+Message-ID: <YaEttXREXakbI3Md@archlinux-ax161>
 References: <cover.1637781097.git.mchehab+huawei@kernel.org>
- <e97de1cfd545c5861634619112770cf0710a6241.1637781097.git.mchehab+huawei@kernel.org>
+ <0de4ecd59028848b24cfb57fcf0ac0480d6c7029.1637781097.git.mchehab+huawei@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <e97de1cfd545c5861634619112770cf0710a6241.1637781097.git.mchehab+huawei@kernel.org>
+In-Reply-To: <0de4ecd59028848b24cfb57fcf0ac0480d6c7029.1637781097.git.mchehab+huawei@kernel.org>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Nov 24, 2021 at 08:13:04PM +0100, Mauro Carvalho Chehab wrote:
-> Those functions just call a V4L2 core macro, and aren't used
-> anywhere. Get rid of them, in order to avoid clang warnings with
-> W=1.
+On Wed, Nov 24, 2021 at 08:13:05PM +0100, Mauro Carvalho Chehab wrote:
+> This is just an alias for container_of() and it is used only
+> on a commented code. The commented code actually is an issue that
+> require fixes, so, move the container_of() call to the commented
+> code, and drop the unused function.
+> 
+> This way, a fix for the function could be added later without
+> needing to re-add to_state() function.
+> 
+> This fixes a clang W=1 warning.
 > 
 > Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
@@ -67,35 +73,34 @@ Reviewed-by: Nathan Chancellor <nathan@kernel.org>
 > To avoid mailbombing on a large number of people, only mailing lists were C/C on the cover.
 > See [PATCH 00/20] at: https://lore.kernel.org/all/cover.1637781097.git.mchehab+huawei@kernel.org/
 > 
->  drivers/media/i2c/adv7842.c | 10 ----------
->  1 file changed, 10 deletions(-)
+>  drivers/media/pci/saa7134/saa7134-go7007.c | 7 +------
+>  1 file changed, 1 insertion(+), 6 deletions(-)
 > 
-> diff --git a/drivers/media/i2c/adv7842.c b/drivers/media/i2c/adv7842.c
-> index 7f8acbdf0db4..9d6eed0f8281 100644
-> --- a/drivers/media/i2c/adv7842.c
-> +++ b/drivers/media/i2c/adv7842.c
-> @@ -256,21 +256,11 @@ static inline struct v4l2_subdev *to_sd(struct v4l2_ctrl *ctrl)
->  	return &container_of(ctrl->handler, struct adv7842_state, hdl)->sd;
->  }
+> diff --git a/drivers/media/pci/saa7134/saa7134-go7007.c b/drivers/media/pci/saa7134/saa7134-go7007.c
+> index f319edb39c0e..da83893ffee9 100644
+> --- a/drivers/media/pci/saa7134/saa7134-go7007.c
+> +++ b/drivers/media/pci/saa7134/saa7134-go7007.c
+> @@ -56,11 +56,6 @@ struct saa7134_go7007 {
+>  	dma_addr_t bottom_dma;
+>  };
 >  
-> -static inline unsigned hblanking(const struct v4l2_bt_timings *t)
+> -static inline struct saa7134_go7007 *to_state(struct v4l2_subdev *sd)
 > -{
-> -	return V4L2_DV_BT_BLANKING_WIDTH(t);
+> -	return container_of(sd, struct saa7134_go7007, sd);
 > -}
 > -
->  static inline unsigned htotal(const struct v4l2_bt_timings *t)
+>  static const struct go7007_board_info board_voyager = {
+>  	.flags		 = 0,
+>  	.sensor_flags	 = GO7007_SENSOR_656 |
+> @@ -385,7 +380,7 @@ MODULE_FIRMWARE("go7007/go7007tv.bin");
+>  static int saa7134_go7007_s_std(struct v4l2_subdev *sd, v4l2_std_id norm)
 >  {
->  	return V4L2_DV_BT_FRAME_WIDTH(t);
->  }
+>  #if 0
+> -	struct saa7134_go7007 *saa = to_state(sd);
+> +	struct saa7134_go7007 *saa = container_of(sd, struct saa7134_go7007, sd);
+>  	struct saa7134_dev *dev = saa->dev;
 >  
-> -static inline unsigned vblanking(const struct v4l2_bt_timings *t)
-> -{
-> -	return V4L2_DV_BT_BLANKING_HEIGHT(t);
-> -}
-> -
->  static inline unsigned vtotal(const struct v4l2_bt_timings *t)
->  {
->  	return V4L2_DV_BT_FRAME_HEIGHT(t);
+>  	return saa7134_s_std_internal(dev, NULL, norm);
 > -- 
 > 2.33.1
 > 
