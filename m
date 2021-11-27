@@ -2,253 +2,271 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2A46F45FE3A
-	for <lists+linux-media@lfdr.de>; Sat, 27 Nov 2021 12:16:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D01AC45FEF6
+	for <lists+linux-media@lfdr.de>; Sat, 27 Nov 2021 14:53:04 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235472AbhK0LTs (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 27 Nov 2021 06:19:48 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51414 "EHLO
+        id S1355133AbhK0N4R (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 27 Nov 2021 08:56:17 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56906 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238682AbhK0LRs (ORCPT
+        with ESMTP id S231760AbhK0NyQ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 27 Nov 2021 06:17:48 -0500
-Received: from mail-lf1-x136.google.com (mail-lf1-x136.google.com [IPv6:2a00:1450:4864:20::136])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9732BC06174A
-        for <linux-media@vger.kernel.org>; Sat, 27 Nov 2021 03:14:33 -0800 (PST)
-Received: by mail-lf1-x136.google.com with SMTP id f18so30615608lfv.6
-        for <linux-media@vger.kernel.org>; Sat, 27 Nov 2021 03:14:33 -0800 (PST)
+        Sat, 27 Nov 2021 08:54:16 -0500
+Received: from mail-ed1-x532.google.com (mail-ed1-x532.google.com [IPv6:2a00:1450:4864:20::532])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C060FC061748;
+        Sat, 27 Nov 2021 05:51:01 -0800 (PST)
+Received: by mail-ed1-x532.google.com with SMTP id y13so50566351edd.13;
+        Sat, 27 Nov 2021 05:51:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=h9RfkEWTgj0iUHHn/LHxwna821qVc4YRJkNE3gAfcK0=;
-        b=NgpFLNqM/R1ZoMCC7U7FvN8yfovHNAVhloned5VsfbXTzoHhPRiMnl/x24C5jxbd6S
-         a9U4xxQNPwk5O1mX6JoPPvxbBCqvmcvhrBRsZPyMdO+YTF7MWhsjuAA4GETlYOJ5gcjY
-         b8eUFajRosY0HD2w3vvPCM75J2sKK9tmllQfA4hR8uyZJB7+HfwxQTgHMI55Zeh7GQJu
-         URxCFb9f2wdnzsj0N6Cm1I7Tu8khTrS32C+LqBxY0DDDeK4E92RSRbFGJJMh/Js3bks+
-         517pZ9h8R+lyIy/4O0JfN9Ab2QyMxFNYCcecdRoDVR1Lq92kd6UMpyP20n61157OihW1
-         VXWw==
+        bh=DD4N1cD5bILJxzk1YIYFZZqmcn1tSIYeclnZHWTaomI=;
+        b=qbs8Gq3nqRL4YkYXXkrZa38SuXApzQALAeWz1nECuOXoGOgKWejpobt5QBYLMR4nwC
+         Eiz6SEK6d4ODgEIyv0H4Me7HRT/7jzqKB+rSmLI7COilr2M85PajS8FAvLlL+Wpj4mrJ
+         TQ8iCxHSeKyeqrCqJzduB8AzQFTYwhk5k2a/NMhESzUwMY8Vm6YlMOw8F2JUU2Ep5kPf
+         BCpaiqftAOOCwYIEWRYTx99AtQmDAYGUhykLVX8osqHKEvUex/BsaUuAYdsgv8W1LJ56
+         zXyE5dTD0smUA8sKKHqTVStnrv/bsOkgW8WSzeFJBJT7N0E2p9qONbUOuwGw88CPxeqY
+         1lVw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=h9RfkEWTgj0iUHHn/LHxwna821qVc4YRJkNE3gAfcK0=;
-        b=AmZi8hGwgG3QV7V0LSlWqB7/CtVQFSJhsXVTa8AuHdXP1T/c6IMXb9dtAsHpq65dDt
-         qd8RjRFSP1whVApN4vU0cgcbOV0aQC9oTa/teHK+SvPLE+D73yfcO1dcSFbX/Y6b9lmB
-         pT+//+6Q5eadWdK2MCkCt5pizoObRPpCuFdCJScb4hlOeVI+OeMlUlW5CmuSDsrgx0hd
-         lU/MDlsTU/oI/w+Oja/DM/N+eo2/7XPhwkP5JFkgm2tQVCQjBPAYx7VwQfEHT7bxsDF6
-         azhXlC9H3GQflhpmbwRKi4Brj1JHFb6wrG7aAgi1etihqFMfMi2Sy8l974ALR9eiKfMt
-         Dd3w==
-X-Gm-Message-State: AOAM531tQF+KwklNvAwnVZnUm0TPE2ok5km+1VUM2e6MfSoHijHQ0Htc
-        Uk7qcwTr6u5ldoPosaYs0IUcTCrzyxwd9LTBIHWZNYLtzGAKQQ==
-X-Google-Smtp-Source: ABdhPJwzQTGYwso00zdhq+jnE5UJYHP/y8Njh1rWPi1jic6HBCW+dprom2ZwGce0jX+L2Wjk8t2D2dk9U6HPWp0P8qw=
-X-Received: by 2002:ac2:4e61:: with SMTP id y1mr36709281lfs.459.1638011671855;
- Sat, 27 Nov 2021 03:14:31 -0800 (PST)
+        bh=DD4N1cD5bILJxzk1YIYFZZqmcn1tSIYeclnZHWTaomI=;
+        b=qbUNg709cuUGh2WlyyWJYGYHUip4K6n42qrXR3Qq11NLpruWkM7pKH30e8RPZegSpH
+         sgJ8RjlAOnB4Lk9D7vYYKwyM2yLdgdbfLyvU3MYMaoAxX/SKoEINU2ywSSUXQ5luxot5
+         1w9DqGygU6ZlEOjeFqK0u66RpkR4+FZjYt4qtxZBxPrT+56KvofrVsMi1pMWxrKYulaR
+         m7RlT1YR2g+Qs7HjxPnkhQhjpFzH+5eBU3LkxEESfouVnH/baJB2jq3Q1su5u+G9t1WX
+         7gIdcgcRmhf7ddKBZlCWUh/cjRoCcVxelJPfze0OrYHgGZPWKy3U9b39/KAzny6ffVK1
+         f4yw==
+X-Gm-Message-State: AOAM531Kdt0q9XhKa11pm6uiyn9kB7ibzIzvChVWKUxPlSqxWFB+MBu4
+        nvtmXkrE7yIMweGRQFP88cbOLb5k/dvJ9uPqs95+QQYj6yg=
+X-Google-Smtp-Source: ABdhPJxKzC8Y06kzai6zEswi7ipAU16T+dlbOetKW864WdeLNFke4IpSVzxTuxUoDNGd3SrmEpebpKi5fB8VuKWw8cQ=
+X-Received: by 2002:aa7:d288:: with SMTP id w8mr16443473edq.404.1638021060072;
+ Sat, 27 Nov 2021 05:51:00 -0800 (PST)
 MIME-Version: 1.0
-References: <a348a21b-b069-19b5-2565-d70e3161f2b5@xs4all.nl>
- <CAL9mu0+nyYSKbq0TnaPk5j-mYYXF3efyp290N_WHdJOkNoFfsg@mail.gmail.com> <ce38e9c6-42b9-f08a-c6c3-2abc416df9e8@xs4all.nl>
-In-Reply-To: <ce38e9c6-42b9-f08a-c6c3-2abc416df9e8@xs4all.nl>
-From:   Dillon Min <dillon.minfei@gmail.com>
-Date:   Sat, 27 Nov 2021 19:13:55 +0800
-Message-ID: <CAL9mu0K+LuMZa6r+E5bU4L2adg+=PPs6z9rfH3b=T_A97tQ6Mw@mail.gmail.com>
-Subject: Re: [PATCH] v4l2-compliance: detect no-mmu systems
-To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>
+References: <20211106155427.753197-1-aford173@gmail.com> <YZrHWkbYkrILP9oo@pendragon.ideasonboard.com>
+ <CAHCN7xLwYcS55N7SNT4k3NqF=Lgdjfe92nJHSVMKkhCuSAPaYw@mail.gmail.com>
+ <CAMty3ZDCCRXLvHaoW=8gqq+3B0j4uQvAk72YjXKr=cxuf7GAkg@mail.gmail.com>
+ <CAHCN7xLrg-7CALY9Gre3OLfwAUed3veF1oZpvLvyE+aw7is_TQ@mail.gmail.com> <YaArb/4QH3IyPFYe@pendragon.ideasonboard.com>
+In-Reply-To: <YaArb/4QH3IyPFYe@pendragon.ideasonboard.com>
+From:   Adam Ford <aford173@gmail.com>
+Date:   Sat, 27 Nov 2021 07:50:48 -0600
+Message-ID: <CAHCN7xLFYykeSzF_1Lrcx=fG2T3Ac2b6kTf6yi8jYYSukk9NjQ@mail.gmail.com>
+Subject: Re: [PATCH V2 1/5] soc: imx: imx8m-blk-ctrl: Fix imx8mm mipi reset
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Jagan Teki <jagan@amarulasolutions.com>,
+        arm-soc <linux-arm-kernel@lists.infradead.org>,
+        Tim Harvey <tharvey@gateworks.com>,
+        Schrempf Frieder <frieder.schrempf@kontron.de>,
+        linux-media <linux-media@vger.kernel.org>,
+        Adam Ford-BE <aford@beaconembedded.com>,
+        cstevens@beaconembedded.com, Rob Herring <robh+dt@kernel.org>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>, Peng Fan <peng.fan@nxp.com>,
+        Lucas Stach <l.stach@pengutronix.de>,
+        devicetree <devicetree@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Hans,
-
-On Thu, 25 Nov 2021 at 22:12, Hans Verkuil <hverkuil-cisco@xs4all.nl> wrote:
+On Thu, Nov 25, 2021 at 6:34 PM Laurent Pinchart
+<laurent.pinchart@ideasonboard.com> wrote:
 >
-> On 25/11/2021 14:33, Dillon Min wrote:
-> > Hi Hans,
+> Hi Adam,
+>
+> On Thu, Nov 25, 2021 at 09:18:24AM -0600, Adam Ford wrote:
+> > On Wed, Nov 24, 2021 at 11:42 PM Jagan Teki wrote:
+> > > On Tue, Nov 23, 2021 at 7:29 PM Adam Ford wrote:
+> > > > On Sun, Nov 21, 2021 at 4:25 PM Laurent Pinchart wrote:
+> > > > > On Sat, Nov 06, 2021 at 10:54:23AM -0500, Adam Ford wrote:
+> > > > > > Most of the blk-ctrl reset bits are found in one register, however
+> > > > > > there are two bits in offset 8 for pulling the MIPI DPHY out of reset
+> > > > > > and these need to be set when IMX8MM_DISPBLK_PD_MIPI_CSI is brought
+> > > > > > out of reset or the MIPI_CSI hangs.
+> > > > > >
+> > > > > > Fixes: 926e57c065df ("soc: imx: imx8m-blk-ctrl: add DISP blk-ctrl")
+> > > > > > Signed-off-by: Adam Ford <aford173@gmail.com>
+> > > > > > ---
+> > > > > >
+> > > > > > V2:  Make a note that the extra register is only for Mini/Nano DISPLAY_BLK_CTRL
+> > > > > >      Rename the new register to mipi_phy_rst_mask
+> > > > > >      Encapsulate the edits to this register with an if-statement
+> > > > > >
+> > > > > >  drivers/soc/imx/imx8m-blk-ctrl.c | 18 ++++++++++++++++++
+> > > > > >  1 file changed, 18 insertions(+)
+> > > > > >
+> > > > > > diff --git a/drivers/soc/imx/imx8m-blk-ctrl.c b/drivers/soc/imx/imx8m-blk-ctrl.c
+> > > > > > index 519b3651d1d9..581eb4bc7f7d 100644
+> > > > > > --- a/drivers/soc/imx/imx8m-blk-ctrl.c
+> > > > > > +++ b/drivers/soc/imx/imx8m-blk-ctrl.c
+> > > > > > @@ -17,6 +17,7 @@
+> > > > > >
+> > > > > >  #define BLK_SFT_RSTN 0x0
+> > > > > >  #define BLK_CLK_EN   0x4
+> > > > > > +#define BLK_MIPI_RESET_DIV   0x8 /* Mini/Nano DISPLAY_BLK_CTRL only */
+> > > > > >
+> > > > > >  struct imx8m_blk_ctrl_domain;
+> > > > > >
+> > > > > > @@ -36,6 +37,15 @@ struct imx8m_blk_ctrl_domain_data {
+> > > > > >       const char *gpc_name;
+> > > > > >       u32 rst_mask;
+> > > > > >       u32 clk_mask;
+> > > > > > +
+> > > > > > +     /*
+> > > > > > +      * i.MX8M Mini and Nano have a third DISPLAY_BLK_CTRL register
+> > > > > > +      * which is used to control the reset for the MIPI Phy.
+> > > > > > +      * Since it's only present in certain circumstances,
+> > > > > > +      * an if-statement should be used before setting and clearing this
+> > > > > > +      * register.
+> > > > > > +      */
+> > > > > > +     u32 mipi_phy_rst_mask;
+> > > > > >  };
+> > > > > >
+> > > > > >  #define DOMAIN_MAX_CLKS 3
+> > > > > > @@ -78,6 +88,8 @@ static int imx8m_blk_ctrl_power_on(struct generic_pm_domain *genpd)
+> > > > > >
+> > > > > >       /* put devices into reset */
+> > > > > >       regmap_clear_bits(bc->regmap, BLK_SFT_RSTN, data->rst_mask);
+> > > > > > +     if (data->mipi_phy_rst_mask)
+> > > > > > +             regmap_clear_bits(bc->regmap, BLK_MIPI_RESET_DIV, data->mipi_phy_rst_mask);
+> > > > > >
+> > > > > >       /* enable upstream and blk-ctrl clocks to allow reset to propagate */
+> > > > > >       ret = clk_bulk_prepare_enable(data->num_clks, domain->clks);
+> > > > > > @@ -99,6 +111,8 @@ static int imx8m_blk_ctrl_power_on(struct generic_pm_domain *genpd)
+> > > > > >
+> > > > > >       /* release reset */
+> > > > > >       regmap_set_bits(bc->regmap, BLK_SFT_RSTN, data->rst_mask);
+> > > > > > +     if (data->mipi_phy_rst_mask)
+> > > > > > +             regmap_set_bits(bc->regmap, BLK_MIPI_RESET_DIV, data->mipi_phy_rst_mask);
+> > > > > >
+> > > > > >       /* disable upstream clocks */
+> > > > > >       clk_bulk_disable_unprepare(data->num_clks, domain->clks);
+> > > > > > @@ -120,6 +134,9 @@ static int imx8m_blk_ctrl_power_off(struct generic_pm_domain *genpd)
+> > > > > >       struct imx8m_blk_ctrl *bc = domain->bc;
+> > > > > >
+> > > > > >       /* put devices into reset and disable clocks */
+> > > > > > +     if (data->mipi_phy_rst_mask)
+> > > > > > +             regmap_clear_bits(bc->regmap, BLK_MIPI_RESET_DIV, data->mipi_phy_rst_mask);
+> > > > > > +
+> > > > >
+> > > > > Is it the best option to enable/disable both the master and slave MIPI
+> > > > > DPHY, regardless of whether they're used or not ? Or would it be better
+> > > > > to implement a reset controller to expose the two resets independently,
+> > > > > and acquire them from the corresponding display and camera drivers ?
+> > > >
+> > > > In some early attempts to implement the blk-ctrl driver, there was an
+> > > > attempt to enable a reset controller, but it caused some hanging and
+> > > > issues with suspend-resume due to chicken-egg issues where some items
+> > > > were coming up in the wrong order.  I think the decision was made to
+> > > > make the resets part of the power domain so it's very clear that the
+> > > > order of operations.  Lucas might be able to elaborate more on this.
+> > >
+> > > I think supporting via phy driver make sense to me since this resent
+> > > is DPHY specific and nothing related to blk-ctrl.
 > >
-> > On Thu, 25 Nov 2021 at 21:14, Hans Verkuil <hverkuil-cisco@xs4all.nl> wrote:
-> >>
-> >> Check if the OS has an MMU. If not, then skip tests that only work for
-> >> systems that have an MMU.
-> >>
-> >> The safest and most generic method I found is the FIONBIO ioctl that is
-> >> available for any file descriptor and is a write-only ioctl, so no memory
-> >> will be accidentally written. On a MMU system this will return EFAULT, and
-> >> on a ucLinux system this will return 0.
-> >>
-> >> Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-> >> ---
-> >> Dillon, the original RFC patch (1) I posted to fix this in the kernel is not
-> >> the correct method. See:
-> >>
-> >> https://stackoverflow.com/questions/24755103/how-to-handle-null-pointer-argument-to-ioctl-system-call
+> > I would disagree that isn't not blk-ctrl.  The blk-ctrl controls the
+> > reset lines for the CSI and enables clocks.  The additional register
+> > does the same thing to the MIPI CSI and DSI.  The imx7-mipi-csis
+> > driver configures the dphy already, but this reset bit is not part of
+> > its IP block.  It seems weird to me that a phy driver would reference
+> > a phy driver.
 > >
-> > Thanks for the detailed information.
+> > > > If bits 16 and 17 can act independently and bit 16 only impacts the
+> > > > CSI  and doesn't require bit 17, it seems reasonable to me to have the
+> > > > power-domain part of  the CSI, since this would only be enabled when
+> > > > the CSI is active.  The power domain is idled when the CSI is idled
+> > > > which would effectively place the phy in and out of reset only
+> > > > depending on the state of the CSI.  I am guessing this reset bit
+> > > > should be assigned to DISPBLK_PD_MIPI_CSI and not
+> > > > DISPBLK_PD_CSI_BRIDGE, but I can run some more tests.
+> > > >
+> > > > AFAIK, there is no phy driver for the CSI like there is the DSI, so
+> > > > adding that would require additional work to the CSI driver to work
+> > > > around this quirk.  We don't have an acceptable DSI driver yet, so I'd
+> > > > like to push a V3 with just the corresponding bit enabled for MIPI_CSI
+> > > > after some testing.  FWICT, NXP set both bits 16 and 17 in their ATF
+> > > > gpc code, and it never gets cleared, so I think having the bit set and
+> > > > cleared on demand is an improvement.
+> > >
+> > > How about using the previous one that Marek sent. Add it via CSI
+> > > pipeline and i think it would directly.
 > >
-> >>
-> >> So instead I try to detect if there is an MMU in v4l2-compliance and, if not,
-> >> just skip those tests that require an MMU.
-> >>
-> >> Can you test this patch?
+> > That driver specifically addresses the DSI phy and bringing it out of
+> > reset is just one small part of what that driver does.  I don't think
+> > adding CSI functionality to it would be appropriate for that driver as
+> > they are separate IP blocks.
 > >
-> > Sure, I'll test it then update the result.
+> > If people don't want the blk-ctl to control this bit, I would advocate
+> > we should do a separate reset controller to be referenced byt the
+> > mipi-csis driver, but that was proposed before and declined.  Since
+> > blt-ctrl already is pulling seemingly unrelated IP blocks by
+> > controlling their clocks and resets.  The fact that NXP included it in
+> > their ATF power-domain controller tells me they considered it related
+> > to power domains and/or resets and not an explicit phy driver.
 >
-> Note that v4l2-compliance should say at the top that it detects a no-MMU system:
+> I think it's a bit more complicated than that, unfortunately. The
+> BLK_CTRL is a mix of miscellaneous configuration bits thrown together.
+> It contains enable/disable bits for clocks and resets, but also D-PHY
+> configuration parameters (GPR_MIPI_[MS]_DPDN_SWAP_{CLK,DAT} in
+> GPR_MIPI_RESET_DIV, and all the fields of the GPR_MIPI_M_PLL* and
+> GPR_MIPI_[BMS]_DPHYCTL* registers). The latter should be controlled by
+> PHY drivers, but we may be able to control get away with hardcoded
+> values (possibly even hardware reset default values).
+
+From my testing, the default values  in this register block appeared
+sufficient to run
+the OV5640 camera I have.
 >
-> >> @@ -152,8 +153,21 @@ static struct option long_options[] = {
-> >>
-> >>  static void print_sha()
-> >>  {
-> >> +       int fd = open("/dev/null", O_RDONLY);
-> >> +
-> >> +       if (fd >= 0) {
-> >> +               // FIONBIO is a write-only ioctl that takes an int argument that
-> >> +               // enables (!= 0) or disables (== 0) nonblocking mode of a fd.
-> >> +               //
-> >> +               // Passing a nullptr should return EFAULT on MMU capable machines,
-> >> +               // and it works if there is no MMU.
-> >> +               has_mmu = ioctl(fd, FIONBIO, nullptr);
-> >> +               close(fd);
-> >> +       }
-> >>         printf("v4l2-compliance %s%s, ", PACKAGE_VERSION, STRING(GIT_COMMIT_CNT));
-> >> -       printf("%zd bits, %zd-bit time_t\n", sizeof(void *) * 8, sizeof(time_t) * 8);
-> >> +       printf("%zd bits, %zd-bit time_t%s\n",
-> >> +              sizeof(void *) * 8, sizeof(time_t) * 8,
-> >> +              has_mmu ? "" : ", has no MMU");
+> For the resets and clocks, reset and clock controllers could have been
+> nice. I'm not sure if controlling them through a power domain could
+
+That was attempted by Lucas and others, but there were a bunch of
+issues with hanging due to order of operations and the interactions
+between the bus clock from the blk-ctrl and the GPC power domains.
+
+> count as a bit of an abuse, as the power domain doesn't control power
+> rails, but looking at the imx8m-blk-ctrl driver the on/off sequences
+> required by the clocks and resets would be difficult to handle if clocks
+> and resets were exposed separately. I'd say that in the worst case it's
+> probably an acceptable hack.
+
+So if I post a revision with only bit-16 and leaving bit 17 for the
+DSI Phy driver, do you have any objections? (see my comment below)
 >
->                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> For the D-PHY resets, exposing them through a reset controller would
+> also be (in my opinion) the most pedantic approach, bus as we have power
+> domains for the CSI and DSI controllers, controlling the corresponding
+> D-PHY resets from there is in no case worse that what we have already.
 >
-> Please verify that it actually does that. I hope it does :-)
+> The only part that bothers me is the control of the master D-PHY, used
+> for MIPI DSI, from the MIPI CSI power domain. I've received feedback
+> from NXP today that those two GPR reset signals are connected directly
+> to the corresponding D-PHY, without any special combinatorial logic
+> in-between. I think it would be worth a try to control bit 16 from the
+> MIPI CSI power domain and bit 17 from the MIPI DSI power domain,
+> especially given that bit 17 didn't make any difference in my camera
+> tests on the i.MX8MM (I couldn't test display as my board doesn't use
+> the DSI output). If we then run into any issue, we can try to figure it
+> out.
 
-Yes, it works.
+I went back to test this as well.  With only bit 16 being used, it
+appeared to work too, so it seems like it's likely safe to leave bit
+17 alone for this.
 
-~ # v4l2-compliance -f -d /dev/video0
-v4l2-compliance 1.23.0-4896, 32 bits, 32-bit time_t, has no MMU
-v4l2-compliance SHA: 7858281c1cd1 2021-11-27 09:43:32
-
-Compliance test for stm-dma2d device /dev/video0:
-
-I added some extra changes for v4l-utils to make the configure step
-working on no-mmu platform, just share here , my change just make the
-compiler happy, i guess you have a more correct way here: )
-
-- add --without-argp options for configure.
-
-diff --git a/configure.ac b/configure.ac
-index 0529898..3e87b5a 100644
---- a/configure.ac
-+++ b/configure.ac
-@@ -330,14 +330,23 @@ dl_saved_libs=$LIBS
-   AC_SUBST([DLOPEN_LIBS])
- LIBS=$dl_saved_libs
-
--AC_CHECK_HEADER([argp.h],,AC_MSG_ERROR(Cannot continue: argp.h not found))
-+AC_ARG_WITH([argp],
-+           AS_HELP_STRING([--without-argp], [Do not use argp.h]),
-+           [],
-+           [with_argp=yes])
- argp_saved_libs=$LIBS
--  AC_SEARCH_LIBS([argp_parse],
--                 [argp],
--                 [test "$ac_cv_search_argp_parse" = "none required"
-|| ARGP_LIBS=$ac_cv_search_argp_parse],
--                 [AC_MSG_ERROR([unable to find the argp_parse() function])])
--  AC_SUBST([ARGP_LIBS])
-+AS_IF([test "x$with_argp" != xno],
-+      [
-+               AC_CHECK_HEADER([argp.h],,AC_MSG_ERROR(Cannot
-continue: argp.h not found))]
-+      AC_SEARCH_LIBS([argp_parse],
-+                    [argp],
-+                    [test "$ac_cv_search_argp_parse" = "none
-required" || ARGP_LIBS=$ac_cv_search_argp_parse],
-+                    [AC_MSG_ERROR([unable to find the argp_parse() function])])
-+      AC_SUBST([ARGP_LIBS])
-+      ],
-+      )
- LIBS=$argp_saved_libs
-+AM_CONDITIONAL([HAVE_ARGP], [test "x$with_argp" != xno])
-
- AC_CHECK_FUNCS([fork],
-AC_DEFINE([HAVE_LIBV4LCONVERT_HELPERS],[1],[whether to use
-libv4lconvert helpers]))
- AM_CONDITIONAL([HAVE_LIBV4LCONVERT_HELPERS], [test x$ac_cv_func_fork = xyes])
-@@ -561,7 +570,7 @@ AM_CONDITIONAL([WITH_GCONV],        [test
-x$enable_gconv = xyes -a x$enable_shar
- AM_CONDITIONAL([WITH_V4L2_CTL_LIBV4L], [test
-x${enable_v4l2_ctl_libv4l} != xno])
- AM_CONDITIONAL([WITH_V4L2_CTL_STREAM_TO], [test
-x${enable_v4l2_ctl_stream_to} != xno])
- AM_CONDITIONAL([WITH_V4L2_CTL_32], [test x${enable_v4l2_ctl_32} = xyes])
--AM_CONDITIONAL([WITH_V4L2_COMPLIANCE], [test x$ac_cv_func_fork = xyes])
-+AM_CONDITIONAL([WITH_V4L2_COMPLIANCE], [test x$ac_cv_func_fork = xno])
- AM_CONDITIONAL([WITH_V4L2_COMPLIANCE_LIBV4L], [test x$ac_cv_func_fork
-= xyes -a x${enable_v4l2_compliance_libv4l} != xno])
- AM_CONDITIONAL([WITH_V4L2_COMPLIANCE_32], [test x$ac_cv_func_fork =
-xyes -a x${enable_v4l2_compliance_32} = xyes])
- PKG_CHECK_MODULES([LIBBPF], [libbpf], [bpf_pc=yes], [bpf_pc=no])
-diff --git a/contrib/test/Makefile.am b/contrib/test/Makefile.am
-index 5771ee4..8197e6d 100644
---- a/contrib/test/Makefile.am
-+++ b/contrib/test/Makefile.am
-@@ -2,9 +2,7 @@ noinst_PROGRAMS = \
-        ioctl-test              \
-        sliced-vbi-test         \
-        sliced-vbi-detect       \
--       v4l2grab                \
-        driver-test             \
--       mc_nextgen_test         \
-        stress-buffer           \
-        capture-example
-
-@@ -13,8 +11,15 @@ noinst_PROGRAMS += pixfmt-test
- endif
-
- if HAVE_GLU
-+if HAVE_ARGP
- noinst_PROGRAMS += v4l2gl
- endif
-+endif
-+
-+if HAVE_ARGP
-+noinst_PROGRAMS += mc_nextgen_test.c \
-+                  v4l2grab
-+endif
-
-- change fork to vfork
-
-diff --git a/utils/v4l2-compliance/v4l2-test-controls.cpp
-b/utils/v4l2-compliance/v4l2-test-controls.cpp
-index 8731c9e..68b2c92 100644
---- a/utils/v4l2-compliance/v4l2-test-controls.cpp
-+++ b/utils/v4l2-compliance/v4l2-test-controls.cpp
-@@ -978,7 +978,7 @@ int testVividDisconnect(struct node *node)
-        // This can only be tested with the vivid driver that enabled
-        // the DISCONNECT control.
-
--       pid_t pid = fork();
-+       pid_t pid = vfork();
-        if (pid == 0) {
-                struct timeval tv = { 5, 0 };
-                fd_set fds;
-@@ -1010,7 +1010,7 @@ int testVividDisconnect(struct node *node)
-
-        node->reopen();
-
--       pid = fork();
-+       pid = vfork();
-        if (pid == 0) {
-                struct epoll_event ep_ev;
-                int epollfd = epoll_create1(0);
-
-Best Regards
-Dillon
+adam
 
 >
+> > > https://www.spinics.net/lists/devicetree/msg381691.html
+>
+> --
 > Regards,
 >
->         Hans
->
-> >>         if (strlen(STRING(GIT_SHA)))
-> >>                 printf("v4l2-compliance SHA: %s %s\n",
-> >>                        STRING(GIT_SHA), STRING(GIT_COMMIT_DATE));
+> Laurent Pinchart
