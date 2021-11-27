@@ -2,264 +2,879 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 03350460006
-	for <lists+linux-media@lfdr.de>; Sat, 27 Nov 2021 17:02:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2786546001C
+	for <lists+linux-media@lfdr.de>; Sat, 27 Nov 2021 17:17:34 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1355453AbhK0QFw convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-media@lfdr.de>); Sat, 27 Nov 2021 11:05:52 -0500
-Received: from dfw.source.kernel.org ([139.178.84.217]:34680 "EHLO
-        dfw.source.kernel.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239805AbhK0QDw (ORCPT
+        id S234749AbhK0QUr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 27 Nov 2021 11:20:47 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60070 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S233076AbhK0QSq (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 27 Nov 2021 11:03:52 -0500
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 5BD9B60B49;
-        Sat, 27 Nov 2021 16:00:37 +0000 (UTC)
-Received: from jic23-huawei (cpc108967-cmbg20-2-0-cust86.5-4.cable.virginm.net [81.101.6.87])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by smtp.kernel.org (Postfix) with ESMTPSA id 83A96C53FAD;
-        Sat, 27 Nov 2021 16:00:32 +0000 (UTC)
-Date:   Sat, 27 Nov 2021 16:05:33 +0000
-From:   Jonathan Cameron <jic23@kernel.org>
-To:     Paul Cercueil <paul@crapouillou.net>
-Cc:     Alexandru Ardelean <ardeleanalex@gmail.com>,
-        Lars-Peter Clausen <lars@metafoo.de>,
-        Michael Hennerich <Michael.Hennerich@analog.com>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>,
-        linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        linaro-mm-sig@lists.linaro.org
-Subject: Re: [PATCH 11/15] iio: buffer-dma: Boost performance using
- write-combine cache setting
-Message-ID: <20211127160533.5259f486@jic23-huawei>
-In-Reply-To: <YX153R.0PENWW3ING7F1@crapouillou.net>
-References: <20211115141925.60164-1-paul@crapouillou.net>
-        <20211115141925.60164-12-paul@crapouillou.net>
-        <20211121150037.2a606be0@jic23-huawei>
-        <8WNX2R.M4XE9MQC24W22@crapouillou.net>
-        <YX153R.0PENWW3ING7F1@crapouillou.net>
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.30; x86_64-pc-linux-gnu)
+        Sat, 27 Nov 2021 11:18:46 -0500
+Received: from mail-wr1-x42e.google.com (mail-wr1-x42e.google.com [IPv6:2a00:1450:4864:20::42e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AE8E2C061756
+        for <linux-media@vger.kernel.org>; Sat, 27 Nov 2021 08:15:31 -0800 (PST)
+Received: by mail-wr1-x42e.google.com with SMTP id q3so2930144wru.5
+        for <linux-media@vger.kernel.org>; Sat, 27 Nov 2021 08:15:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ragnatech-se.20210112.gappssmtp.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=ZsqkYXOg/xXclXNfJaM2ae69+ArxmJjktDgLcjplAb4=;
+        b=yRyTA/q8xG1+VKdOSwfNeWrzHuqzqdI+YwexZnZT+aXR/38o5cMCrnNkgMmPgS8V8B
+         t45awTY3j2xCz3Oh6F/x5VsTrcvRQW1jbxeHfFnOPn/Q6IO3BwJjxFGSJvRtJH92LSHk
+         mBt4yv4i4JqFWZyJuz0mM8/tFpN0BQR6PksnL7WMVtIzJjOvTMXFlLfBZnpjW90Bokvq
+         UZIlnNKrzq2lgyR9QUldtw2eeMyLO973gJhRSHOnTSNgSkJCheUCehlWCZLA7u4Fypsq
+         yTE9A/aIrgzfNvPgYFMdbaLfEfkyHXkW+ZRFPdRG08kbUPrCkNsxPF0StaD40LM6667I
+         oeHw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=ZsqkYXOg/xXclXNfJaM2ae69+ArxmJjktDgLcjplAb4=;
+        b=pHFL+smjcBoOZU8idxptr/K+mC7ocb2VdSlsJjY5gbbzGQwQYojR6nDAiFxOZ5DjF9
+         ep3/Dty+GU3myuVEsopekNmCjJuIeGiVoN9fySpZnpRO7tKN+KZpyDgMCkBCrl2AEaQo
+         F+pUtxhM/ykUZU/g56cT4NoC13ersiNgbRYFyVEKMXMuNq2/cgPYZX0x5tORcL6qBRan
+         XJCJquYApa6CiziLqJu4s7N71tEGwDm/tzUdTIHtfXA/LOZrJiXM3a9GpKAClp/eKwPG
+         KefhsQhdJ3YOBIiov3OHYRDbzoaTjki+Nl9KNuSqLz1FWpBUFlrfq/erXGRRjUr62ni/
+         aLrQ==
+X-Gm-Message-State: AOAM5308SI5SByN/jkeykCKCz1Lcd20C4zX2Wd9cbEpzofNS81aqlNvs
+        UsnfraQI0khNkE3Za9osvAvKo+TrFUZimHWE
+X-Google-Smtp-Source: ABdhPJwrqfoeUsn5+zig1+BlsXgO2VrJkd012vo+2KAJT5lsF2U6bxXOL4KySZEg8Up+q5cTtTPUOw==
+X-Received: by 2002:a5d:6351:: with SMTP id b17mr21181305wrw.151.1638029729851;
+        Sat, 27 Nov 2021 08:15:29 -0800 (PST)
+Received: from localhost (p54ac5892.dip0.t-ipconnect.de. [84.172.88.146])
+        by smtp.gmail.com with ESMTPSA id e3sm8834867wrp.8.2021.11.27.08.15.29
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 27 Nov 2021 08:15:29 -0800 (PST)
+Date:   Sat, 27 Nov 2021 17:15:28 +0100
+From:   Niklas =?iso-8859-1?Q?S=F6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>
+To:     Jacopo Mondi <jacopo@jmondi.org>
+Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH 3/3] media: rcar-{csi2,vin}: Move to full Virtual Channel
+ routing per CSI-2 IP
+Message-ID: <YaJZoHbWfK4D+prp@bismarck.dyn.berto.se>
+References: <20211020200225.1956048-1-niklas.soderlund+renesas@ragnatech.se>
+ <20211020200225.1956048-4-niklas.soderlund+renesas@ragnatech.se>
+ <20211104172933.tsnkcrp3hf6mixy7@uno.localdomain>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8BIT
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20211104172933.tsnkcrp3hf6mixy7@uno.localdomain>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, 25 Nov 2021 17:29:58 +0000
-Paul Cercueil <paul@crapouillou.net> wrote:
+Hi Jacopo,
 
-> Hi Jonathan,
+Thanks for your feedback.
+
+On 2021-11-04 18:29:33 +0100, Jacopo Mondi wrote:
+> Hi Niklas,
 > 
-> Le dim., nov. 21 2021 at 17:43:20 +0000, Paul Cercueil 
-> <paul@crapouillou.net> a Ã©crit :
-> > Hi Jonathan,
-> > 
-> > Le dim., nov. 21 2021 at 15:00:37 +0000, Jonathan Cameron 
-> > <jic23@kernel.org> a Ã©crit :  
-> >> On Mon, 15 Nov 2021 14:19:21 +0000
-> >> Paul Cercueil <paul@crapouillou.net> wrote:
-> >>   
-> >>>  We can be certain that the input buffers will only be accessed by
-> >>>  userspace for reading, and output buffers will mostly be accessed 
-> >>> by
-> >>>  userspace for writing.  
-> >> 
-> >> Mostly?  Perhaps a little more info on why that's not 'only'.  
-> > 
-> > Just like with a framebuffer, it really depends on what the 
-> > application does. Most of the cases it will just read sequentially an 
-> > input buffer, or write sequentially an output buffer. But then you 
-> > get the exotic application that will try to do something like alpha 
-> > blending, which means read+write. Hence "mostly".
-> >   
-> >>> 
-> >>>  Therefore, it makes more sense to use only fully cached input 
-> >>> buffers,
-> >>>  and to use the write-combine cache coherency setting for output 
-> >>> buffers.
-> >>> 
-> >>>  This boosts performance, as the data written to the output buffers 
-> >>> does
-> >>>  not have to be sync'd for coherency. It will halve performance if 
-> >>> the
-> >>>  userspace application tries to read from the output buffer, but 
-> >>> this
-> >>>  should never happen.
-> >>> 
-> >>>  Since we don't need to sync the cache when disabling CPU access 
-> >>> either
-> >>>  for input buffers or output buffers, the .end_cpu_access() 
-> >>> callback can
-> >>>  be dropped completely.  
-> >> 
-> >> We have an odd mix of coherent and non coherent DMA in here as you 
-> >> noted,
-> >> but are you sure this is safe on all platforms?  
-> > 
-> > The mix isn't safe, but using only coherent or only non-coherent 
-> > should be safe, yes.
-> >   
-> >>   
-> >>> 
-> >>>  Signed-off-by: Paul Cercueil <paul@crapouillou.net>  
-> >> 
-> >> Any numbers to support this patch?  The mapping types are performance
-> >> optimisations so nice to know how much of a difference they make.  
-> > 
-> > Output buffers are definitely faster in write-combine mode. On a 
-> > ZedBoard with a AD9361 transceiver set to 66 MSPS, and buffer/size 
-> > set to 8192, I would get about 185 MiB/s before, 197 MiB/s after.
-> > 
-> > Input buffers... early results are mixed. On ARM32 it does look like 
-> > it is slightly faster to read from *uncached* memory than reading 
-> > from cached memory. The cache sync does take a long time.
-> > 
-> > Other architectures might have a different result, for instance on 
-> > MIPS invalidating the cache is a very fast operation, so using cached 
-> > buffers would be a huge win in performance.
-> > 
-> > Setups where the DMA operations are coherent also wouldn't require 
-> > any cache sync and this patch would give a huge win in performance.
-> > 
-> > I'll run some more tests next week to have some fresh numbers.  
+> On Wed, Oct 20, 2021 at 10:02:25PM +0200, Niklas Söderlund wrote:
+> > When Gen3 support was first added to this R-Car VIN and CSI-2 driver the
+> > routing was centred around the CHSEL register which multiplex the
 > 
-> I think I mixed things up before, because I get different results now.
+> multiplexes
 > 
-> Here are some fresh benchmarks, triple-checked, using libiio's 
-> iio_readdev and iio_writedev tools, with 64K samples buffers at 61.44 
-> MSPS (max. theorical throughput: 234 MiB/s):
->   iio_readdev -b 65536 cf-ad9361-lpc voltage0 voltage1 | pv > /dev/null
->   pv /dev/zero | iio_writedev -b 65536 cf-ad9361-dds-core-lpc voltage0 
-> voltage1
-
-There is a bit of a terminology confusion going on here.  I think
-for the mappings you mean cacheable vs non-cacheable but maybe
-I'm misunderstanding.  That doesn't necessarily correspond to
-coherency.  Non cached memory is always coherent because all caches
-miss.
-
-Non-cacheable can be related to coherency of course. Also beware that given
-hardware might not implement non-cacheable if it knows all possible
-accesses are IO-coherent.  Affect is the same and if implemented
-correctly it will not hurt performance significantly.
-
-firmware should be letting the OS know if the device does coherent
-DMA or not... dma-coherent in dt.  It might be optional for a given
-piece of DMA engine but I've not seen that..
-
-I'm not sure I see how you can do a mixture of cacheable for reads
-and write combine (which means uncacheable) for writes...
-
+> > different parallel buses that sits between the CSI-2 receivers source
 > 
-> Coherent mapping:
-> - fileio:
->     read:	125 MiB/s
->     write:	141 MiB/s
-> - dmabuf:
->     read:	171 MiB/s
->     write:	210 MiB/s
+> buses -> sit
 > 
-> Coherent reads + Write-combine writes:
-> - fileio:
->     read:	125 MiB/s
->     write:	141 MiB/s
-> - dmabuf:
->     read:	171 MiB/s
->     write:	210 MiB/s
+> > side and the VIN dma engines. This was a bad design as the multiplexing
+> > do allow for only a few combinations and do not play nice with many
+> > video streams in the system.
+> >
+> > For example it's only possible for CSI-2 Virtual Channels 0 and 1 of any
+> > given CSI-2 receiver to be used together with the scaler.
+> >
+> > Later datasheets have expanded the documentation and it is now possible
+> > to improve on this design by allowing any Virtual Channel to be routed
+> > to any R-Car VIN instance, provided that there exists a parallel bus
+> > between them. This increases the flexibility as all Virtual Channels can
+> > now be used together with the scaler for example.
+> >
+> > The redesign is not however perfect. While the new design allows for
+> > many more routes, two constrains limit a small portion of routes that
+> > was possible in the old design but are no more.
+> >
+> > - It is no longer possible to route the same CSI-2 and VC to more then
+> >   one VIN at a time. This was theoretically possible before if the
+> >   specific SoC allowed for the same CSI-2 and VC to be routed to two
+> >   different VIN capture groups.
 > 
-> Non-coherent mapping:
-> - fileio:
->     read:	119 MiB/s
->     write:	124 MiB/s
-> - dmabuf:
->     read:	159 MiB/s
->     write:	124 MiB/s
+> I think that's acceptable
 > 
-> Non-coherent reads + write-combine writes:
-> - fileio:
->     read:	119 MiB/s
->     write:	140 MiB/s
-> - dmabuf:
->     read:	159 MiB/s
->     write:	210 MiB/s
+> >
+> > - It is no longer possible to simultaneously mix links from two CSI-2 IP
+> >   blocks to the same VIN capture group.
 > 
-
-
-> Non-coherent mapping with no cache sync:
-> - fileio:
->     read:	156 MiB/s
->     write:	123 MiB/s
-> - dmabuf:
->     read:	234 MiB/s (capped by sample rate)
->     write:	182 MiB/s
+> This one is a little bit bothering but I don't see it as a huge blocker
+> personally.
 > 
-> Non-coherent reads with no cache sync + write-combine writes:
-> - fileio:
->     read:	156 MiB/s
->     write:	140 MiB/s
-> - dmabuf:
->     read:	234 MiB/s (capped by sample rate)
->     write:	210 MiB/s
+> >
+> >   For example if VIN2 is capturing from CSI40 then VIN{0,1,3} must also
+> >   capture from CSI40. While VIN{4,5,6,7} is still free to capture from
+> >   any other CSI-2 IP in the system. Once all VIN{0,1,2,3} links to CSI40
+> >   are disabled that VIN capture group is free again to capture from any
+> >   other CSI-2 IP it is connected to.
+> >
+> > At the core of the redesign is greater cooperator of the R-Car VIN and
+> > CSI-2 drivers in configuring the routing. The VIN driver is after this
+> > change only responsible to configure the full VIN capture groups
+> > parallel buses to be to a particular CSI-2 IP. While the configuration
+> > of which CSI-2 Virtual Channel is outputted on which of the R-Car CSI-2
+> > IP output ports is handled by the CSI-2 driver.
+> >
+> > Before this change the CSI-2 Virtual Channel to output port was static
+> > in the CSI-2 driver and the different links only manipulated the VIN
+> > capture groups CHSEL register. With this change both the CHSEl register
+> > and the CSI-2 routing VCDT registers are modified for greater
+> > flexibility.
+> >
+> > This change touches both the R-Car VIN and R-Car CSI-2 drivers in the
+> > same commit as both drivers cooperate closely and one change without the
+> > other would more or less break video capture.
+> >
+> > Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+> > ---
+> >  drivers/media/platform/rcar-vin/rcar-core.c | 318 +++++---------------
+> >  drivers/media/platform/rcar-vin/rcar-csi2.c |  58 +++-
+> >  drivers/media/platform/rcar-vin/rcar-dma.c  |   2 +-
+> >  drivers/media/platform/rcar-vin/rcar-vin.h  |  18 +-
+> >  4 files changed, 136 insertions(+), 260 deletions(-)
+> >
+> > diff --git a/drivers/media/platform/rcar-vin/rcar-core.c b/drivers/media/platform/rcar-vin/rcar-core.c
+> > index 65ab66a072e9d635..6b05ad10e8aa66f9 100644
+> > --- a/drivers/media/platform/rcar-vin/rcar-core.c
+> > +++ b/drivers/media/platform/rcar-vin/rcar-core.c
+> > @@ -745,27 +745,6 @@ static int rvin_parallel_init(struct rvin_dev *vin)
+> >   * CSI-2
+> >   */
+> >
+> > -static unsigned int rvin_csi2_get_mask(struct rvin_dev *vin,
+> > -				       enum rvin_csi_id csi_id,
+> > -				       unsigned char channel)
+> > -{
+> > -	const struct rvin_group_route *route;
+> > -	unsigned int mask = 0;
+> > -
+> > -	for (route = vin->info->routes; route->mask; route++) {
+> > -		if (route->vin == vin->id &&
+> > -		    route->csi == csi_id &&
+> > -		    route->channel == channel) {
+> > -			vin_dbg(vin,
+> > -				"Adding route: vin: %d csi: %d channel: %d\n",
+> > -				route->vin, route->csi, route->channel);
+> > -			mask |= route->mask;
+> > -		}
+> > -	}
+> > -
+> > -	return mask;
+> > -}
+> > -
+> >  /*
+> >   * Link setup for the links between a VIN and a CSI-2 receiver is a bit
+> >   * complex. The reason for this is that the register controlling routing
+> > @@ -852,9 +831,9 @@ static int rvin_csi2_link_notify(struct media_link *link, u32 flags,
+> >  			link->source->entity->name);
+> >  		ret = -ENODEV;
+> >  	} else {
+> > -		unsigned int master_id, channel, mask_new;
+> > -		unsigned int mask = ~0;
+> > -		struct media_pad *csi_pad;
+> > +		const struct rvin_group_route *route;
+> > +		unsigned int chsel = -1;
+> > +		unsigned int master_id;
+> >
+> >  		master_id = rvin_group_id_to_master(vin->id);
+> >
+> > @@ -863,8 +842,10 @@ static int rvin_csi2_link_notify(struct media_link *link, u32 flags,
+> >  			goto out;
+> >  		}
+> >
+> > -		/* Build a mask for already enabled links. */
+> > +		/* Make sure group is connected to same CSI-2 */
+> >  		for (i = master_id; i < master_id + 4; i++) {
+> > +			struct media_pad *csi_pad;
+> > +
+> >  			if (!group->vin[i])
+> >  				continue;
 > 
+> Are you sure this checks for all VINs in the group to be connected to
+> the same CSI-2 receiver ? The loop goes one as
 > 
-> A few things we can deduce from this:
+> 		/* Make sure group is connected to same CSI-2 */
+> 		for (i = master_id; i < master_id + 4; i++) {
+> 			struct media_pad *csi_pad;
 > 
-> * Write-combine is not available on Zynq/ARM? If it was working, it 
-> should give a better performance than the coherent mapping, but it 
-> doesn't seem to do anything at all. At least it doesn't harm 
-> performance.
-
-I'm not sure it's very relevant to this sort of streaming write.
-If you write a sequence of addresses then nothing stops them getting combined
-into a single write whether or not it is write-combining.
-
-You may be right that the particular path to memory doesn't support it anyway.
-Also some cache architectures will rapidly detect streaming writes and
-elect not to cache them whether coherent or not.
-
-
-
-
+> 			if (!group->vin[i])
+> 				continue;
 > 
-> * Non-coherent + cache invalidation is definitely a good deal slower 
-> than using coherent mapping, at least on ARM32. However, when the cache 
-> sync is disabled (e.g. if the DMA operations are coherent) the reads 
-> are much faster.
+> 			/* Get remote CSI-2, if any. */
+> 			csi_pad = media_entity_remote_pad(
+> 					&group->vin[i]->vdev.entity.pads[0]);
+> 			if (!csi_pad)
+> 				continue;
+> 
+> 			if (csi_pad->entity != link->source->entity) {
+> 				vin_dbg(vin, "Already attached to %s\n",
+> 					csi_pad->entity->name);
+> 				ret = -EBUSY;
+> 				goto out;
+> 			}
+> 		}
+> 
+> Which if I got it right verifies that entity at the other end of the
+> link is the same as the link's source entity, which seems to be a
+> tautology to me, am I wrong ?
 
-If you are running with cache sync then it better not be cached
-as such it's coherent in the sense of there being no entries in the cache
-in either direction.
+I had to lookup tautology in the dictionary to be able to understand 
+your question ;-)
+
+No this is not a pointless checkup as the link is static, as in the link 
+that is about to be enabled if everything checks out. While the csi_pad 
+is retrieved for each VIN in the group.
+
+Put another way, loop over all VIN in the group and lookup if they have 
+an active link. If they do retrieve that links entity and then make sure 
+it is the same entity as the link that is about to be enabled. If it's 
+not the same we error out.
 
 > 
-> * The new dma-buf based API is a great deal faster than the fileio API.
+> Shouldn't you
+> 
+>         struct media_entity *csi2 = nullptr;
+>         for (i = master_id; i < master_id + 4; i++) {
+>                 struct media_pad *csi_pad;
+> 
+>                 if (!group->vin[i])
+>                         continue;
+> 
+>                 csi_pad = media_entity_remote_pad(
+>                                 &group->vin[i]->vdev.entity.pads[0]);
+> 
+>                 if (!csi2) {
+>                         csi2 = csi_pad->entity;
+>                         continue;
+>                 }
+> 
+>                 if (csi2 != csi2_pad->entity)
+>                         return -EINVAL;
+> 
+>         }
+> 
+> >
+> > @@ -874,26 +855,24 @@ static int rvin_csi2_link_notify(struct media_link *link, u32 flags,
+> >  			if (!csi_pad)
+> >  				continue;
+> >
+> > -			csi_id = rvin_group_entity_to_remote_id(group,
+> > -								csi_pad->entity);
+> > -			channel = rvin_group_csi_pad_to_channel(csi_pad->index);
+> > -
+> > -			mask &= rvin_csi2_get_mask(group->vin[i], csi_id, channel);
+> > +			if (csi_pad->entity != link->source->entity) {
+> > +				vin_dbg(vin, "Already attached to %s\n",
+> > +					csi_pad->entity->name);
+> > +				ret = -EBUSY;
+> > +				goto out;
+> > +			}
+> >  		}
+> >
+> > -		channel = rvin_group_csi_pad_to_channel(link->source->index);
+> > -		mask_new = mask & rvin_csi2_get_mask(vin, csi_id, channel);
+> > -		vin_dbg(vin, "Try link change mask: 0x%x new: 0x%x\n", mask,
+> > -			mask_new);
+> > -
+> > -		if (!mask_new) {
+> > -			ret = -EMLINK;
+> > -			goto out;
+> > +		for (route = vin->info->routes; route->chsel; route++) {
+> > +			if (route->master == master_id && route->csi == csi_id) {
+> > +				chsel = route->chsel;
+> > +				break;
+> > +			}
+> >  		}
+> >
+> > -		/* New valid CHSEL found, set the new value. */
+> > -		ret = rvin_set_channel_routing(group->vin[master_id],
+> > -					       __ffs(mask_new));
+> > +		BUG_ON(chsel < 0);
+> > +
+> > +		ret = rvin_set_channel_routing(group->vin[master_id], chsel);
+> >  		if (ret)
+> >  			goto out;
+> >
+> > @@ -909,46 +888,59 @@ static const struct media_device_ops rvin_csi2_media_ops = {
+> >  	.link_notify = rvin_csi2_link_notify,
+> >  };
+> >
+> > -static int rvin_csi2_add_route(struct rvin_group *group,
+> > -			       const struct rvin_group_route *route)
+> > +static int rvin_csi2_add_routes(struct rvin_group *group, unsigned int id,
+> > +				const struct rvin_group_route *route)
+> >
+> >  {
+> >  	struct media_entity *source = &group->remotes[route->csi].subdev->entity;
+> > -	unsigned int source_idx = rvin_group_csi_channel_to_pad(route->channel);
+> > -	struct media_entity *sink = &group->vin[route->vin]->vdev.entity;
+> > -	struct media_pad *source_pad = &source->pads[source_idx];
+> > +	struct media_entity *sink = &group->vin[id]->vdev.entity;
+> >  	struct media_pad *sink_pad = &sink->pads[0];
+> > +	unsigned int channel;
+> > +	int ret;
+> >
+> > -	if (media_entity_find_link(source_pad, sink_pad))
+> > -		return 0;
+> > +	for (channel = 0; channel < 4; channel++) {
+> > +		unsigned int source_idx = rvin_group_csi_channel_to_pad(channel);
+> > +		struct media_pad *source_pad = &source->pads[source_idx];
+> >
+> > -	return media_create_pad_link(source, source_idx, sink, 0, 0);
+> > +		if (media_entity_find_link(source_pad, sink_pad))
+> > +			continue;
+> > +
+> > +		ret = media_create_pad_link(source, source_idx, sink, 0, 0);
+> > +		if (ret)
+> > +			return ret;
+> > +	}
+> > +
+> > +	return 0;
+> >  }
+> >
+> >  static int rvin_csi2_setup_links(struct rvin_dev *vin)
+> >  {
+> >  	const struct rvin_group_route *route;
+> > +	unsigned int id;
+> >  	int ret = -EINVAL;
+> >
+> >  	/* Create all media device links between VINs and CSI-2's. */
+> >  	mutex_lock(&vin->group->lock);
+> > -	for (route = vin->info->routes; route->mask; route++) {
+> > -		/* Check that VIN is part of the group. */
+> > -		if (!vin->group->vin[route->vin])
+> > -			continue;
+> > -
+> > +	for (route = vin->info->routes; route->chsel; route++) {
+> >  		/* Check that VIN' master is part of the group. */
+> > -		if (!vin->group->vin[rvin_group_id_to_master(route->vin)])
+> > +		if (!vin->group->vin[route->master])
+> >  			continue;
+> >
+> >  		/* Check that CSI-2 is part of the group. */
+> >  		if (!vin->group->remotes[route->csi].subdev)
+> >  			continue;
+> >
+> > -		ret = rvin_csi2_add_route(vin->group, route);
+> > -		if (ret)
+> > -			break;
+> > +		for (id = route->master; id < route->master + 4; id++) {
+> > +			/* Check that VIN is part of the group. */
+> > +			if (!vin->group->vin[id])
+> > +				continue;
+> > +
+> > +			ret = rvin_csi2_add_routes(vin->group, id, route);
+> > +			if (ret)
+> > +				goto out;
+> > +		}
+> >  	}
+> > +out:
+> >  	mutex_unlock(&vin->group->lock);
+> >
+> >  	return ret;
+> > @@ -1158,30 +1150,9 @@ static const struct rvin_info rcar_info_gen2 = {
+> >  };
+> >
+> >  static const struct rvin_group_route rcar_info_r8a774e1_routes[] = {
+> > -	{ .csi = RVIN_CSI40, .channel = 0, .vin = 0, .mask = BIT(0) | BIT(3) },
+> > -	{ .csi = RVIN_CSI20, .channel = 0, .vin = 0, .mask = BIT(1) | BIT(4) },
+> > -	{ .csi = RVIN_CSI40, .channel = 1, .vin = 0, .mask = BIT(2) },
+> > -	{ .csi = RVIN_CSI20, .channel = 0, .vin = 1, .mask = BIT(0) },
+> > -	{ .csi = RVIN_CSI40, .channel = 1, .vin = 1, .mask = BIT(1) | BIT(3) },
+> > -	{ .csi = RVIN_CSI40, .channel = 0, .vin = 1, .mask = BIT(2) },
+> > -	{ .csi = RVIN_CSI20, .channel = 1, .vin = 1, .mask = BIT(4) },
+> > -	{ .csi = RVIN_CSI20, .channel = 1, .vin = 2, .mask = BIT(0) },
+> > -	{ .csi = RVIN_CSI40, .channel = 0, .vin = 2, .mask = BIT(1) },
+> > -	{ .csi = RVIN_CSI20, .channel = 0, .vin = 2, .mask = BIT(2) },
+> > -	{ .csi = RVIN_CSI40, .channel = 2, .vin = 2, .mask = BIT(3) },
+> > -	{ .csi = RVIN_CSI20, .channel = 2, .vin = 2, .mask = BIT(4) },
+> > -	{ .csi = RVIN_CSI40, .channel = 1, .vin = 3, .mask = BIT(0) },
+> > -	{ .csi = RVIN_CSI20, .channel = 1, .vin = 3, .mask = BIT(1) | BIT(2) },
+> > -	{ .csi = RVIN_CSI40, .channel = 3, .vin = 3, .mask = BIT(3) },
+> > -	{ .csi = RVIN_CSI20, .channel = 3, .vin = 3, .mask = BIT(4) },
+> > -	{ .csi = RVIN_CSI20, .channel = 0, .vin = 4, .mask = BIT(1) | BIT(4) },
+> > -	{ .csi = RVIN_CSI20, .channel = 0, .vin = 5, .mask = BIT(0) },
+> > -	{ .csi = RVIN_CSI20, .channel = 1, .vin = 5, .mask = BIT(4) },
+> > -	{ .csi = RVIN_CSI20, .channel = 1, .vin = 6, .mask = BIT(0) },
+> > -	{ .csi = RVIN_CSI20, .channel = 0, .vin = 6, .mask = BIT(2) },
+> > -	{ .csi = RVIN_CSI20, .channel = 2, .vin = 6, .mask = BIT(4) },
+> > -	{ .csi = RVIN_CSI20, .channel = 1, .vin = 7, .mask = BIT(1) | BIT(2) },
+> > -	{ .csi = RVIN_CSI20, .channel = 3, .vin = 7, .mask = BIT(4) },
+> > +	{ .master = 0, .csi = RVIN_CSI20, .chsel = 0x04 },
+> > +	{ .master = 0, .csi = RVIN_CSI40, .chsel = 0x03 },
+> > +	{ .master = 4, .csi = RVIN_CSI20, .chsel = 0x04 },
+> >  	{ /* Sentinel */ }
+> >  };
+> >
+> > @@ -1194,38 +1165,10 @@ static const struct rvin_info rcar_info_r8a774e1 = {
+> >  };
+> >
+> >  static const struct rvin_group_route rcar_info_r8a7795_routes[] = {
+> > -	{ .csi = RVIN_CSI40, .channel = 0, .vin = 0, .mask = BIT(0) | BIT(3) },
+> > -	{ .csi = RVIN_CSI20, .channel = 0, .vin = 0, .mask = BIT(1) | BIT(4) },
+> > -	{ .csi = RVIN_CSI40, .channel = 1, .vin = 0, .mask = BIT(2) },
+> > -	{ .csi = RVIN_CSI20, .channel = 0, .vin = 1, .mask = BIT(0) },
+> > -	{ .csi = RVIN_CSI40, .channel = 1, .vin = 1, .mask = BIT(1) | BIT(3) },
+> > -	{ .csi = RVIN_CSI40, .channel = 0, .vin = 1, .mask = BIT(2) },
+> > -	{ .csi = RVIN_CSI20, .channel = 1, .vin = 1, .mask = BIT(4) },
+> > -	{ .csi = RVIN_CSI20, .channel = 1, .vin = 2, .mask = BIT(0) },
+> > -	{ .csi = RVIN_CSI40, .channel = 0, .vin = 2, .mask = BIT(1) },
+> > -	{ .csi = RVIN_CSI20, .channel = 0, .vin = 2, .mask = BIT(2) },
+> > -	{ .csi = RVIN_CSI40, .channel = 2, .vin = 2, .mask = BIT(3) },
+> > -	{ .csi = RVIN_CSI20, .channel = 2, .vin = 2, .mask = BIT(4) },
+> > -	{ .csi = RVIN_CSI40, .channel = 1, .vin = 3, .mask = BIT(0) },
+> > -	{ .csi = RVIN_CSI20, .channel = 1, .vin = 3, .mask = BIT(1) | BIT(2) },
+> > -	{ .csi = RVIN_CSI40, .channel = 3, .vin = 3, .mask = BIT(3) },
+> > -	{ .csi = RVIN_CSI20, .channel = 3, .vin = 3, .mask = BIT(4) },
+> > -	{ .csi = RVIN_CSI41, .channel = 0, .vin = 4, .mask = BIT(0) | BIT(3) },
+> > -	{ .csi = RVIN_CSI20, .channel = 0, .vin = 4, .mask = BIT(1) | BIT(4) },
+> > -	{ .csi = RVIN_CSI41, .channel = 1, .vin = 4, .mask = BIT(2) },
+> > -	{ .csi = RVIN_CSI20, .channel = 0, .vin = 5, .mask = BIT(0) },
+> > -	{ .csi = RVIN_CSI41, .channel = 1, .vin = 5, .mask = BIT(1) | BIT(3) },
+> > -	{ .csi = RVIN_CSI41, .channel = 0, .vin = 5, .mask = BIT(2) },
+> > -	{ .csi = RVIN_CSI20, .channel = 1, .vin = 5, .mask = BIT(4) },
+> > -	{ .csi = RVIN_CSI20, .channel = 1, .vin = 6, .mask = BIT(0) },
+> > -	{ .csi = RVIN_CSI41, .channel = 0, .vin = 6, .mask = BIT(1) },
+> > -	{ .csi = RVIN_CSI20, .channel = 0, .vin = 6, .mask = BIT(2) },
+> > -	{ .csi = RVIN_CSI41, .channel = 2, .vin = 6, .mask = BIT(3) },
+> > -	{ .csi = RVIN_CSI20, .channel = 2, .vin = 6, .mask = BIT(4) },
+> > -	{ .csi = RVIN_CSI41, .channel = 1, .vin = 7, .mask = BIT(0) },
+> > -	{ .csi = RVIN_CSI20, .channel = 1, .vin = 7, .mask = BIT(1) | BIT(2) },
+> > -	{ .csi = RVIN_CSI41, .channel = 3, .vin = 7, .mask = BIT(3) },
+> > -	{ .csi = RVIN_CSI20, .channel = 3, .vin = 7, .mask = BIT(4) },
+> > +	{ .master = 0, .csi = RVIN_CSI20, .chsel = 0x04 },
+> > +	{ .master = 0, .csi = RVIN_CSI40, .chsel = 0x03 },
+> > +	{ .master = 4, .csi = RVIN_CSI20, .chsel = 0x04 },
+> > +	{ .master = 4, .csi = RVIN_CSI41, .chsel = 0x03 },
+> >  	{ /* Sentinel */ }
+> >  };
+> >
+> > @@ -1239,48 +1182,12 @@ static const struct rvin_info rcar_info_r8a7795 = {
+> >  };
+> >
+> >  static const struct rvin_group_route rcar_info_r8a7795es1_routes[] = {
+> > -	{ .csi = RVIN_CSI40, .channel = 0, .vin = 0, .mask = BIT(0) | BIT(3) },
+> > -	{ .csi = RVIN_CSI20, .channel = 0, .vin = 0, .mask = BIT(1) | BIT(4) },
+> > -	{ .csi = RVIN_CSI21, .channel = 0, .vin = 0, .mask = BIT(2) | BIT(5) },
+> > -	{ .csi = RVIN_CSI20, .channel = 0, .vin = 1, .mask = BIT(0) },
+> > -	{ .csi = RVIN_CSI21, .channel = 0, .vin = 1, .mask = BIT(1) },
+> > -	{ .csi = RVIN_CSI40, .channel = 0, .vin = 1, .mask = BIT(2) },
+> > -	{ .csi = RVIN_CSI40, .channel = 1, .vin = 1, .mask = BIT(3) },
+> > -	{ .csi = RVIN_CSI20, .channel = 1, .vin = 1, .mask = BIT(4) },
+> > -	{ .csi = RVIN_CSI21, .channel = 1, .vin = 1, .mask = BIT(5) },
+> > -	{ .csi = RVIN_CSI21, .channel = 0, .vin = 2, .mask = BIT(0) },
+> > -	{ .csi = RVIN_CSI40, .channel = 0, .vin = 2, .mask = BIT(1) },
+> > -	{ .csi = RVIN_CSI20, .channel = 0, .vin = 2, .mask = BIT(2) },
+> > -	{ .csi = RVIN_CSI40, .channel = 2, .vin = 2, .mask = BIT(3) },
+> > -	{ .csi = RVIN_CSI20, .channel = 2, .vin = 2, .mask = BIT(4) },
+> > -	{ .csi = RVIN_CSI21, .channel = 2, .vin = 2, .mask = BIT(5) },
+> > -	{ .csi = RVIN_CSI40, .channel = 1, .vin = 3, .mask = BIT(0) },
+> > -	{ .csi = RVIN_CSI20, .channel = 1, .vin = 3, .mask = BIT(1) },
+> > -	{ .csi = RVIN_CSI21, .channel = 1, .vin = 3, .mask = BIT(2) },
+> > -	{ .csi = RVIN_CSI40, .channel = 3, .vin = 3, .mask = BIT(3) },
+> > -	{ .csi = RVIN_CSI20, .channel = 3, .vin = 3, .mask = BIT(4) },
+> > -	{ .csi = RVIN_CSI21, .channel = 3, .vin = 3, .mask = BIT(5) },
+> > -	{ .csi = RVIN_CSI41, .channel = 0, .vin = 4, .mask = BIT(0) | BIT(3) },
+> > -	{ .csi = RVIN_CSI20, .channel = 0, .vin = 4, .mask = BIT(1) | BIT(4) },
+> > -	{ .csi = RVIN_CSI21, .channel = 0, .vin = 4, .mask = BIT(2) | BIT(5) },
+> > -	{ .csi = RVIN_CSI20, .channel = 0, .vin = 5, .mask = BIT(0) },
+> > -	{ .csi = RVIN_CSI21, .channel = 0, .vin = 5, .mask = BIT(1) },
+> > -	{ .csi = RVIN_CSI41, .channel = 0, .vin = 5, .mask = BIT(2) },
+> > -	{ .csi = RVIN_CSI41, .channel = 1, .vin = 5, .mask = BIT(3) },
+> > -	{ .csi = RVIN_CSI20, .channel = 1, .vin = 5, .mask = BIT(4) },
+> > -	{ .csi = RVIN_CSI21, .channel = 1, .vin = 5, .mask = BIT(5) },
+> > -	{ .csi = RVIN_CSI21, .channel = 0, .vin = 6, .mask = BIT(0) },
+> > -	{ .csi = RVIN_CSI41, .channel = 0, .vin = 6, .mask = BIT(1) },
+> > -	{ .csi = RVIN_CSI20, .channel = 0, .vin = 6, .mask = BIT(2) },
+> > -	{ .csi = RVIN_CSI41, .channel = 2, .vin = 6, .mask = BIT(3) },
+> > -	{ .csi = RVIN_CSI20, .channel = 2, .vin = 6, .mask = BIT(4) },
+> > -	{ .csi = RVIN_CSI21, .channel = 2, .vin = 6, .mask = BIT(5) },
+> > -	{ .csi = RVIN_CSI41, .channel = 1, .vin = 7, .mask = BIT(0) },
+> > -	{ .csi = RVIN_CSI20, .channel = 1, .vin = 7, .mask = BIT(1) },
+> > -	{ .csi = RVIN_CSI21, .channel = 1, .vin = 7, .mask = BIT(2) },
+> > -	{ .csi = RVIN_CSI41, .channel = 3, .vin = 7, .mask = BIT(3) },
+> > -	{ .csi = RVIN_CSI20, .channel = 3, .vin = 7, .mask = BIT(4) },
+> > -	{ .csi = RVIN_CSI21, .channel = 3, .vin = 7, .mask = BIT(5) },
+> > +	{ .master = 0, .csi = RVIN_CSI20, .chsel = 0x04 },
+> > +	{ .master = 0, .csi = RVIN_CSI20, .chsel = 0x05 },
+> > +	{ .master = 0, .csi = RVIN_CSI40, .chsel = 0x03 },
+> > +	{ .master = 4, .csi = RVIN_CSI20, .chsel = 0x04 },
+> > +	{ .master = 4, .csi = RVIN_CSI20, .chsel = 0x05 },
+> > +	{ .master = 4, .csi = RVIN_CSI40, .chsel = 0x03 },
+> 
+> This is really bothering, as otherwise in all other routes
+> 
+>         .csi == RVIN_CSI4x -> chsel = 0x03
+>         .csi == RVIN_CSI2x -> chsel = 0x04
 
-:)
+It is also a very good review spot as the table is wrong, it also do not 
+consider CSI21 at all after the change, the correct table is,
+
+    static const struct rvin_group_route rcar_info_r8a7795es1_routes[] = 
+    {
+            { .master = 0, .csi = RVIN_CSI20, .chsel = 0x04 },
+            { .master = 0, .csi = RVIN_CSI21, .chsel = 0x05 },
+            { .master = 0, .csi = RVIN_CSI40, .chsel = 0x03 },
+            { .master = 4, .csi = RVIN_CSI20, .chsel = 0x04 },
+            { .master = 4, .csi = RVIN_CSI21, .chsel = 0x05 },
+            { .master = 4, .csi = RVIN_CSI41, .chsel = 0x03 },
+            { /* Sentinel */ }
+    };
+
+Thanks for spotting this!
 
 > 
-> So in the future we could use coherent reads + write-combine writes, 
-> unless we know the DMA operations are coherent, and in this case use 
-> non-coherent reads + write-combine writes.
+> >  	{ /* Sentinel */ }
+> >  };
+> >
+> > @@ -1293,34 +1200,10 @@ static const struct rvin_info rcar_info_r8a7795es1 = {
+> >  };
+> >
+> >  static const struct rvin_group_route rcar_info_r8a7796_routes[] = {
+> > -	{ .csi = RVIN_CSI40, .channel = 0, .vin = 0, .mask = BIT(0) | BIT(3) },
+> > -	{ .csi = RVIN_CSI20, .channel = 0, .vin = 0, .mask = BIT(1) | BIT(4) },
+> > -	{ .csi = RVIN_CSI20, .channel = 0, .vin = 1, .mask = BIT(0) },
+> > -	{ .csi = RVIN_CSI40, .channel = 0, .vin = 1, .mask = BIT(2) },
+> > -	{ .csi = RVIN_CSI40, .channel = 1, .vin = 1, .mask = BIT(3) },
+> > -	{ .csi = RVIN_CSI20, .channel = 1, .vin = 1, .mask = BIT(4) },
+> > -	{ .csi = RVIN_CSI40, .channel = 0, .vin = 2, .mask = BIT(1) },
+> > -	{ .csi = RVIN_CSI20, .channel = 0, .vin = 2, .mask = BIT(2) },
+> > -	{ .csi = RVIN_CSI40, .channel = 2, .vin = 2, .mask = BIT(3) },
+> > -	{ .csi = RVIN_CSI20, .channel = 2, .vin = 2, .mask = BIT(4) },
+> > -	{ .csi = RVIN_CSI40, .channel = 1, .vin = 3, .mask = BIT(0) },
+> > -	{ .csi = RVIN_CSI20, .channel = 1, .vin = 3, .mask = BIT(1) },
+> > -	{ .csi = RVIN_CSI40, .channel = 3, .vin = 3, .mask = BIT(3) },
+> > -	{ .csi = RVIN_CSI20, .channel = 3, .vin = 3, .mask = BIT(4) },
+> > -	{ .csi = RVIN_CSI40, .channel = 0, .vin = 4, .mask = BIT(0) | BIT(3) },
+> > -	{ .csi = RVIN_CSI20, .channel = 0, .vin = 4, .mask = BIT(1) | BIT(4) },
+> > -	{ .csi = RVIN_CSI20, .channel = 0, .vin = 5, .mask = BIT(0) },
+> > -	{ .csi = RVIN_CSI40, .channel = 0, .vin = 5, .mask = BIT(2) },
+> > -	{ .csi = RVIN_CSI40, .channel = 1, .vin = 5, .mask = BIT(3) },
+> > -	{ .csi = RVIN_CSI20, .channel = 1, .vin = 5, .mask = BIT(4) },
+> > -	{ .csi = RVIN_CSI40, .channel = 0, .vin = 6, .mask = BIT(1) },
+> > -	{ .csi = RVIN_CSI20, .channel = 0, .vin = 6, .mask = BIT(2) },
+> > -	{ .csi = RVIN_CSI40, .channel = 2, .vin = 6, .mask = BIT(3) },
+> > -	{ .csi = RVIN_CSI20, .channel = 2, .vin = 6, .mask = BIT(4) },
+> > -	{ .csi = RVIN_CSI40, .channel = 1, .vin = 7, .mask = BIT(0) },
+> > -	{ .csi = RVIN_CSI20, .channel = 1, .vin = 7, .mask = BIT(1) },
+> > -	{ .csi = RVIN_CSI40, .channel = 3, .vin = 7, .mask = BIT(3) },
+> > -	{ .csi = RVIN_CSI20, .channel = 3, .vin = 7, .mask = BIT(4) },
+> > +	{ .master = 0, .csi = RVIN_CSI20, .chsel = 0x04 },
+> > +	{ .master = 0, .csi = RVIN_CSI40, .chsel = 0x03 },
+> > +	{ .master = 4, .csi = RVIN_CSI20, .chsel = 0x04 },
+> > +	{ .master = 4, .csi = RVIN_CSI40, .chsel = 0x03 },
+> >  	{ /* Sentinel */ }
+> >  };
+> >
+> > @@ -1334,38 +1217,10 @@ static const struct rvin_info rcar_info_r8a7796 = {
+> >  };
+> >
+> >  static const struct rvin_group_route rcar_info_r8a77965_routes[] = {
+> > -	{ .csi = RVIN_CSI40, .channel = 0, .vin = 0, .mask = BIT(0) | BIT(3) },
+> > -	{ .csi = RVIN_CSI20, .channel = 0, .vin = 0, .mask = BIT(1) | BIT(4) },
+> > -	{ .csi = RVIN_CSI40, .channel = 1, .vin = 0, .mask = BIT(2) },
+> > -	{ .csi = RVIN_CSI20, .channel = 0, .vin = 1, .mask = BIT(0) },
+> > -	{ .csi = RVIN_CSI40, .channel = 1, .vin = 1, .mask = BIT(1) | BIT(3) },
+> > -	{ .csi = RVIN_CSI40, .channel = 0, .vin = 1, .mask = BIT(2) },
+> > -	{ .csi = RVIN_CSI20, .channel = 1, .vin = 1, .mask = BIT(4) },
+> > -	{ .csi = RVIN_CSI20, .channel = 1, .vin = 2, .mask = BIT(0) },
+> > -	{ .csi = RVIN_CSI40, .channel = 0, .vin = 2, .mask = BIT(1) },
+> > -	{ .csi = RVIN_CSI20, .channel = 0, .vin = 2, .mask = BIT(2) },
+> > -	{ .csi = RVIN_CSI40, .channel = 2, .vin = 2, .mask = BIT(3) },
+> > -	{ .csi = RVIN_CSI20, .channel = 2, .vin = 2, .mask = BIT(4) },
+> > -	{ .csi = RVIN_CSI40, .channel = 1, .vin = 3, .mask = BIT(0) },
+> > -	{ .csi = RVIN_CSI20, .channel = 1, .vin = 3, .mask = BIT(1) | BIT(2) },
+> > -	{ .csi = RVIN_CSI40, .channel = 3, .vin = 3, .mask = BIT(3) },
+> > -	{ .csi = RVIN_CSI20, .channel = 3, .vin = 3, .mask = BIT(4) },
+> > -	{ .csi = RVIN_CSI40, .channel = 0, .vin = 4, .mask = BIT(0) | BIT(3) },
+> > -	{ .csi = RVIN_CSI20, .channel = 0, .vin = 4, .mask = BIT(1) | BIT(4) },
+> > -	{ .csi = RVIN_CSI40, .channel = 1, .vin = 4, .mask = BIT(2) },
+> > -	{ .csi = RVIN_CSI20, .channel = 0, .vin = 5, .mask = BIT(0) },
+> > -	{ .csi = RVIN_CSI40, .channel = 1, .vin = 5, .mask = BIT(1) | BIT(3) },
+> > -	{ .csi = RVIN_CSI40, .channel = 0, .vin = 5, .mask = BIT(2) },
+> > -	{ .csi = RVIN_CSI20, .channel = 1, .vin = 5, .mask = BIT(4) },
+> > -	{ .csi = RVIN_CSI20, .channel = 1, .vin = 6, .mask = BIT(0) },
+> > -	{ .csi = RVIN_CSI40, .channel = 0, .vin = 6, .mask = BIT(1) },
+> > -	{ .csi = RVIN_CSI20, .channel = 0, .vin = 6, .mask = BIT(2) },
+> > -	{ .csi = RVIN_CSI40, .channel = 2, .vin = 6, .mask = BIT(3) },
+> > -	{ .csi = RVIN_CSI20, .channel = 2, .vin = 6, .mask = BIT(4) },
+> > -	{ .csi = RVIN_CSI40, .channel = 1, .vin = 7, .mask = BIT(0) },
+> > -	{ .csi = RVIN_CSI20, .channel = 1, .vin = 7, .mask = BIT(1) | BIT(2) },
+> > -	{ .csi = RVIN_CSI40, .channel = 3, .vin = 7, .mask = BIT(3) },
+> > -	{ .csi = RVIN_CSI20, .channel = 3, .vin = 7, .mask = BIT(4) },
+> > +	{ .master = 0, .csi = RVIN_CSI20, .chsel = 0x04 },
+> > +	{ .master = 0, .csi = RVIN_CSI40, .chsel = 0x03 },
+> > +	{ .master = 4, .csi = RVIN_CSI20, .chsel = 0x04 },
+> > +	{ .master = 4, .csi = RVIN_CSI40, .chsel = 0x03 },
+> >  	{ /* Sentinel */ }
+> >  };
+> >
+> > @@ -1379,13 +1234,7 @@ static const struct rvin_info rcar_info_r8a77965 = {
+> >  };
+> >
+> >  static const struct rvin_group_route rcar_info_r8a77970_routes[] = {
+> > -	{ .csi = RVIN_CSI40, .channel = 0, .vin = 0, .mask = BIT(0) | BIT(3) },
+> > -	{ .csi = RVIN_CSI40, .channel = 0, .vin = 1, .mask = BIT(2) },
+> > -	{ .csi = RVIN_CSI40, .channel = 1, .vin = 1, .mask = BIT(3) },
+> > -	{ .csi = RVIN_CSI40, .channel = 0, .vin = 2, .mask = BIT(1) },
+> > -	{ .csi = RVIN_CSI40, .channel = 2, .vin = 2, .mask = BIT(3) },
+> > -	{ .csi = RVIN_CSI40, .channel = 1, .vin = 3, .mask = BIT(0) },
+> > -	{ .csi = RVIN_CSI40, .channel = 3, .vin = 3, .mask = BIT(3) },
+> > +	{ .master = 0, .csi = RVIN_CSI40, .chsel = 0x03 },
+> >  	{ /* Sentinel */ }
+> >  };
+> >
+> > @@ -1398,22 +1247,8 @@ static const struct rvin_info rcar_info_r8a77970 = {
+> >  };
+> >
+> >  static const struct rvin_group_route rcar_info_r8a77980_routes[] = {
+> > -	{ .csi = RVIN_CSI40, .channel = 0, .vin = 0, .mask = BIT(0) | BIT(3) },
+> > -	{ .csi = RVIN_CSI40, .channel = 1, .vin = 0, .mask = BIT(2) },
+> > -	{ .csi = RVIN_CSI40, .channel = 0, .vin = 1, .mask = BIT(2) },
+> > -	{ .csi = RVIN_CSI40, .channel = 1, .vin = 1, .mask = BIT(1) | BIT(3) },
+> > -	{ .csi = RVIN_CSI40, .channel = 0, .vin = 2, .mask = BIT(1) },
+> > -	{ .csi = RVIN_CSI40, .channel = 2, .vin = 2, .mask = BIT(3) },
+> > -	{ .csi = RVIN_CSI40, .channel = 1, .vin = 3, .mask = BIT(0) },
+> > -	{ .csi = RVIN_CSI40, .channel = 3, .vin = 3, .mask = BIT(3) },
+> > -	{ .csi = RVIN_CSI41, .channel = 0, .vin = 4, .mask = BIT(0) | BIT(3) },
+> > -	{ .csi = RVIN_CSI41, .channel = 1, .vin = 4, .mask = BIT(2) },
+> > -	{ .csi = RVIN_CSI41, .channel = 0, .vin = 5, .mask = BIT(2) },
+> > -	{ .csi = RVIN_CSI41, .channel = 1, .vin = 5, .mask = BIT(1) | BIT(3) },
+> > -	{ .csi = RVIN_CSI41, .channel = 0, .vin = 6, .mask = BIT(1) },
+> > -	{ .csi = RVIN_CSI41, .channel = 2, .vin = 6, .mask = BIT(3) },
+> > -	{ .csi = RVIN_CSI41, .channel = 1, .vin = 7, .mask = BIT(0) },
+> > -	{ .csi = RVIN_CSI41, .channel = 3, .vin = 7, .mask = BIT(3) },
+> > +	{ .master = 0, .csi = RVIN_CSI40, .chsel = 0x03 },
+> > +	{ .master = 4, .csi = RVIN_CSI41, .chsel = 0x03 },
+> >  	{ /* Sentinel */ }
+> >  };
+> >
+> > @@ -1427,10 +1262,7 @@ static const struct rvin_info rcar_info_r8a77980 = {
+> >  };
+> >
+> >  static const struct rvin_group_route rcar_info_r8a77990_routes[] = {
+> > -	{ .csi = RVIN_CSI40, .channel = 0, .vin = 4, .mask = BIT(0) | BIT(3) },
+> > -	{ .csi = RVIN_CSI40, .channel = 0, .vin = 5, .mask = BIT(2) },
+> > -	{ .csi = RVIN_CSI40, .channel = 1, .vin = 4, .mask = BIT(2) },
+> > -	{ .csi = RVIN_CSI40, .channel = 1, .vin = 5, .mask = BIT(1) | BIT(3) },
+> > +	{ .master = 0, .csi = RVIN_CSI40, .chsel = 0x03 },
+> >  	{ /* Sentinel */ }
+> >  };
+> >
+> > diff --git a/drivers/media/platform/rcar-vin/rcar-csi2.c b/drivers/media/platform/rcar-vin/rcar-csi2.c
+> > index 11848d0c4a55cb4c..b8c56d248454efbf 100644
+> > --- a/drivers/media/platform/rcar-vin/rcar-csi2.c
+> > +++ b/drivers/media/platform/rcar-vin/rcar-csi2.c
+> > @@ -468,6 +468,8 @@ struct rcar_csi2 {
+> >  	struct v4l2_subdev *remote;
+> >  	unsigned int remote_pad;
+> >
+> > +	int channel_vc[4];
+> > +
+> >  	struct mutex lock; /* Protects mf and stream_count. */
+> >  	struct v4l2_mbus_framefmt mf;
+> >  	int stream_count;
+> > @@ -664,8 +666,11 @@ static int rcsi2_start_receiver(struct rcar_csi2 *priv)
+> >  	for (i = 0; i < priv->info->num_channels; i++) {
+> >  		u32 vcdt_part;
+> >
+> > -		vcdt_part = VCDT_SEL_VC(i) | VCDT_VCDTN_EN | VCDT_SEL_DTN_ON |
+> > -			VCDT_SEL_DT(format->datatype);
+> > +		if (priv->channel_vc[i] < 0)
+> > +			continue;
+> > +
+> > +		vcdt_part = VCDT_SEL_VC(priv->channel_vc[i]) | VCDT_VCDTN_EN |
+> > +			VCDT_SEL_DTN_ON | VCDT_SEL_DT(format->datatype);
+> >
+> >  		/* Store in correct reg and offset. */
+> >  		if (i < 2)
+> > @@ -1240,7 +1245,53 @@ static int rcsi2_init_phtw_v3u(struct rcar_csi2 *priv,
+> >   * Platform Device Driver.
+> >   */
+> >
+> > +static int rcsi2_link_setup(struct media_entity *entity,
+> > +			    const struct media_pad *local,
+> > +			    const struct media_pad *remote, u32 flags)
+> > +{
+> > +	struct v4l2_subdev *sd = media_entity_to_v4l2_subdev(entity);
+> > +	struct rcar_csi2 *priv = sd_to_csi2(sd);
+> > +	struct video_device *vdev;
+> > +	int channel, vc;
+> > +	u32 id;
+> > +
+> > +	if (!is_media_entity_v4l2_video_device(remote->entity)) {
+> 
+> Can this happen ?
 
-Not following this argument at all, but anyway we can revisit when it mattrs.  
+It *should* not happen, but better safe then sorry :-)
 
 > 
-> Regarding this patch, unfortunately I cannot prove that write-combine 
-> is faster, so I'll just drop this patch for now.
+> > +		dev_err(priv->dev, "Remote is not a video device\n");
+> > +		return -EINVAL;
+> > +	}
+> > +
+> > +	vdev = media_entity_to_video_device(remote->entity);
+> > +
+> > +	if (of_property_read_u32(vdev->dev_parent->of_node, "renesas,id", &id)) {
+> 
+> Reading properties from a remote device node usually makes people
+> scream but I understand the purpose here and it doesn't sound -that-
+> bad
+> 
+> > +		dev_err(priv->dev, "No renesas,id, can't configure routing\n");
+> > +		return -EINVAL;
+> > +	}
+> 
+> Ouch, I take back my initial assumption that is harmless to not being
+> able anymore to capture the same VC from multiple VIN, in particular
+> in regards to embedded data.
 
-Sure, thanks for checking.  It's worth noting that WC usage in kernel
-is vanishingly rare and I suspect that's mostly because it doesn't
-do anything on many implementations.
-
-Jonathan
+The limitation of not being able to capture the same VC on multiple is 
+set by the hardware and not by the driver itself. It's just that before 
+this change the link setup allowed for this situation while after this 
+change it is not.
 
 > 
-> Cheers,
-> -Paul
-> 
-> 
+> CHSEL[3] allows to select if a specific VC or "CSI-2 embedded data
+> of Virtual Channel 0" has to be captured. This setup prevents to
+> output on two channels VC0 and filter out embedded data if I'm not
+> mistaken...
 
+Well, we don't support capturing embedded data before this change so I'm 
+not worried about that. However this takes the drivers a step closer to 
+enabling it.
+
+From the R-Car CSI-2 point of view (it's the component limiting that we 
+can only route one VC to one VIN) the embedded data is a separate 
+channel so we do not limit anything here, we just need to extend the 
+driver CSI-2 and VIN driver to support embedded data. But for that we 
+need a setup that generates embedded data to test on.
+
+> 
+> > +
+> > +	channel = id % 4;
+> > +
+> > +	if (flags & MEDIA_LNK_FL_ENABLED) {
+> > +		if (media_entity_remote_pad(local)) {
+> > +			dev_dbg(priv->dev,
+> > +				"Each VC can only be routed to one output channel\n");
+> 
+> Can this limitation be lifted to support capturing embedded data from
+> VC0 ? That would require mixing media links and formats though :(
+
+The idea is to add a new pad on the R-Car CSI-2 subdevice to output the 
+embedded data. That way we will pretend it's just another virtual 
+channel and the logic will be the same as for a channel carrying pixel 
+data.
+
+> 
+> > +			return -EINVAL;
+> > +		}
+> > +
+> > +		vc = local->index - 1;
+> > +
+> > +		dev_dbg(priv->dev, "Route VC%d to VIN%u on output channel %d\n",
+> > +			vc, id, channel);
+> > +	} else {
+> > +		vc = -1;
+> > +	}
+> > +
+> > +	priv->channel_vc[channel] = vc;
+> > +
+> > +	return 0;
+> > +}
+> > +
+> > +
+> >  static const struct media_entity_operations rcar_csi2_entity_ops = {
+> > +	.link_setup = rcsi2_link_setup,
+> >  	.link_validate = v4l2_subdev_link_validate,
+> >  };
+> >
+> > @@ -1459,6 +1510,9 @@ static int rcsi2_probe(struct platform_device *pdev)
+> >  	if (ret)
+> >  		goto error_async;
+> >
+> > +	for (i = 0; i < ARRAY_SIZE(priv->channel_vc); i++)
+> > +		priv->channel_vc[i] = -1;
+> > +
+> >  	pm_runtime_enable(&pdev->dev);
+> >
+> >  	ret = v4l2_async_register_subdev(&priv->subdev);
+> > diff --git a/drivers/media/platform/rcar-vin/rcar-dma.c b/drivers/media/platform/rcar-vin/rcar-dma.c
+> > index 25ead9333d0046e7..b72ae27a407dc96c 100644
+> > --- a/drivers/media/platform/rcar-vin/rcar-dma.c
+> > +++ b/drivers/media/platform/rcar-vin/rcar-dma.c
+> > @@ -1490,7 +1490,7 @@ int rvin_set_channel_routing(struct rvin_dev *vin, u8 chsel)
+> >  	 * register. IFMD_DES1 controls data expansion mode for CSI20/21,
+> >  	 * IFMD_DES0 controls data expansion mode for CSI40/41.
+> >  	 */
+> > -	for (route = vin->info->routes; route->mask; route++) {
+> > +	for (route = vin->info->routes; route->chsel; route++) {
+> >  		if (route->csi == RVIN_CSI20 || route->csi == RVIN_CSI21)
+> >  			ifmd |= VNCSI_IFMD_DES1;
+> >  		else
+> > diff --git a/drivers/media/platform/rcar-vin/rcar-vin.h b/drivers/media/platform/rcar-vin/rcar-vin.h
+> > index 6c06320174a2ed96..ddc1830be9a5d6c3 100644
+> > --- a/drivers/media/platform/rcar-vin/rcar-vin.h
+> > +++ b/drivers/media/platform/rcar-vin/rcar-vin.h
+> > @@ -128,11 +128,9 @@ struct rvin_parallel_entity {
+> >   * struct rvin_group_route - describes a route from a channel of a
+> >   *	CSI-2 receiver to a VIN
+> >   *
+> > + * @master:	VIN group master ID.
+> >   * @csi:	CSI-2 receiver ID.
+> > - * @channel:	Output channel of the CSI-2 receiver.
+> > - * @vin:	VIN ID.
+> > - * @mask:	Bitmask of the different CHSEL register values that
+> > - *		allow for a route from @csi + @chan to @vin.
+> > + * @chsel:	CHSEL register values that connects VIN group to CSI-2.
+> >   *
+> >   * .. note::
+> >   *	Each R-Car CSI-2 receiver has four output channels facing the VIN
+> > @@ -140,19 +138,11 @@ struct rvin_parallel_entity {
+> >   *	There is no correlation between channel number and CSI-2 VC. It's
+> >   *	up to the CSI-2 receiver driver to configure which VC is output
+> >   *	on which channel, the VIN devices only care about output channels.
+> > - *
+> > - *	There are in some cases multiple CHSEL register settings which would
+> > - *	allow for the same route from @csi + @channel to @vin. For example
+> > - *	on R-Car H3 both the CHSEL values 0 and 3 allow for a route from
+> > - *	CSI40/VC0 to VIN0. All possible CHSEL values for a route need to be
+> > - *	recorded as a bitmask in @mask, in this example bit 0 and 3 should
+> > - *	be set.
+> >   */
+> >  struct rvin_group_route {
+> > +	unsigned int master;
+> >  	enum rvin_csi_id csi;
+> > -	unsigned int channel;
+> > -	unsigned int vin;
+> > -	unsigned int mask;
+> > +	unsigned int chsel;
+> >  };
+> >
+> >  /**
+> > --
+> > 2.33.1
+> >
+
+-- 
+Kind Regards,
+Niklas Söderlund
