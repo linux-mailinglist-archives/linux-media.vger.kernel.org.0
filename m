@@ -2,108 +2,241 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C2A6045FEFF
-	for <lists+linux-media@lfdr.de>; Sat, 27 Nov 2021 15:04:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id F063345FF72
+	for <lists+linux-media@lfdr.de>; Sat, 27 Nov 2021 15:48:45 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1355066AbhK0OHp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 27 Nov 2021 09:07:45 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59418 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1355195AbhK0OFo (ORCPT
+        id S234125AbhK0Ov7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 27 Nov 2021 09:51:59 -0500
+Received: from smtp09.smtpout.orange.fr ([80.12.242.131]:52926 "EHLO
+        smtp.smtpout.orange.fr" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231829AbhK0Ot6 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 27 Nov 2021 09:05:44 -0500
-Received: from mail-lj1-x233.google.com (mail-lj1-x233.google.com [IPv6:2a00:1450:4864:20::233])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 22049C06175B
-        for <linux-media@vger.kernel.org>; Sat, 27 Nov 2021 06:02:30 -0800 (PST)
-Received: by mail-lj1-x233.google.com with SMTP id z8so24493769ljz.9
-        for <linux-media@vger.kernel.org>; Sat, 27 Nov 2021 06:02:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ragnatech-se.20210112.gappssmtp.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=6Jp+Jmv9nQ4RwfE9Lv1G0z4T1+sN4K5Hm7FU2O6G3Po=;
-        b=xLQAvi6VXf7U8l/yJVeP9gcvtkRIkIrjt64YcaNqsZaWkPQJhDq5Tqs7qufpRGEXwT
-         UeYhciNhFatnRhRVAsGgtSCCR/zwi9OQkRqaytIqViWhcaPCZZIsx3JdJf1p14HhRGmI
-         sINB1KdVGY1YSYStn5yRvJlEA9Tr33TU3K3/vHdsljmbu4ALNxeKRJ770XcPuOonS+2O
-         bXyFj51bwXK8i4iOojBQutk8mG1TQUrKNPMFQEE5jbqVOTD0H2FYX0hJWMvEStV47a/M
-         2n5pjMbkvpBrd1uoNrrN5dFe+servml7aDZvDxoPT6C1EBPaPncchphhYs1BgIZyF1mP
-         vTAw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=6Jp+Jmv9nQ4RwfE9Lv1G0z4T1+sN4K5Hm7FU2O6G3Po=;
-        b=4TqzaKkDxNWGJ8N+r5bMoZlImAnlbs3FkxTpkuQXWBN9aK8+2mUJZPfqHoim9p4/Ih
-         S7KHKyYkbET4tgJQBPp0isOrP2ijxDiVC384KdZHMsnxPyDXaRHqeuSDiP65yfB3AZkV
-         cjOMC1ewQeTt2XjiOIzimfnJe90uFK9wHQdy6IvyJxUieZJoFjmeemlD+FPdNdnQNFXb
-         QemxSO18bZkhPRII3Dp+Y3vHFQAofyczLAMANr5iLFqjl7m/upZx9UEkd5qK3e705iiw
-         ndgmyYFVbRd4TmkdfLh6CaJekvR8qh+1arovb9xjnnLaGxRXhlQVVu9cV5bmEBB14SYl
-         d8dg==
-X-Gm-Message-State: AOAM530XtLZR11uQTX5jkap3c0ehVnJpL3r31VFxvO+xRm9geSBTxYwr
-        IIOMyYbKXuXGxFZoa0vNazXHNA==
-X-Google-Smtp-Source: ABdhPJyz24J5I1/otOJx9sQYPb9FUXaXuNX7Nh3JjWdXmTizPpwpJ5pmEAEZW14aF8rvZNyADHq7hg==
-X-Received: by 2002:a2e:8e8f:: with SMTP id z15mr36136932ljk.508.1638021747974;
-        Sat, 27 Nov 2021 06:02:27 -0800 (PST)
-Received: from localhost (h-46-59-88-219.A463.priv.bahnhof.se. [46.59.88.219])
-        by smtp.gmail.com with ESMTPSA id t4sm849568lfe.220.2021.11.27.06.02.27
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 27 Nov 2021 06:02:27 -0800 (PST)
-Date:   Sat, 27 Nov 2021 15:02:26 +0100
-From:   Niklas =?iso-8859-1?Q?S=F6derlund?= 
-        <niklas.soderlund@ragnatech.se>
-To:     Rikard Falkeborn <rikard.falkeborn@gmail.com>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] media: staging: max96712: Constify static v4l2_subdev_ops
-Message-ID: <YaI6csuWQFTU7moc@oden.dyn.berto.se>
-References: <20211127094945.27985-1-rikard.falkeborn@gmail.com>
+        Sat, 27 Nov 2021 09:49:58 -0500
+Received: from pop-os.home ([86.243.171.122])
+        by smtp.orange.fr with ESMTPA
+        id qyyOmWY9jUujjqyyOmVo8k; Sat, 27 Nov 2021 15:46:43 +0100
+X-ME-Helo: pop-os.home
+X-ME-Auth: YWZlNiIxYWMyZDliZWIzOTcwYTEyYzlhMmU3ZiQ1M2U2MzfzZDfyZTMxZTBkMTYyNDBjNDJlZmQ3ZQ==
+X-ME-Date: Sat, 27 Nov 2021 15:46:43 +0100
+X-ME-IP: 86.243.171.122
+From:   Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+To:     mchehab@kernel.org, hverkuil-cisco@xs4all.nl,
+        ezequiel@vanguardiasur.com.ar, sakari.ailus@linux.intel.com,
+        laurent.pinchart@ideasonboard.com, lijian@yulong.com
+Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        kernel-janitors@vger.kernel.org,
+        Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+Subject: [PATCH] media: v4l2-dev: Use non-atomic bitmap API when applicable
+Date:   Sat, 27 Nov 2021 15:46:39 +0100
+Message-Id: <0938dd274a6d8cb3fbc0167a8696b527328a2104.1638024310.git.christophe.jaillet@wanadoo.fr>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20211127094945.27985-1-rikard.falkeborn@gmail.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hej Rikard,
+No concurrent access is possible when a bitmap is local to a function.
+So prefer the non-atomic '__[set|clear]_bit()' functions to save a few
+cycles.
 
-Tack för din patch, ser bra ut.
+Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+---
+ drivers/media/v4l2-core/v4l2-dev.c | 68 +++++++++++++++---------------
+ 1 file changed, 34 insertions(+), 34 deletions(-)
 
-On 2021-11-27 10:49:44 +0100, Rikard Falkeborn wrote:
-> The only usage of max96712_subdev_ops is to pass its address to
-> v4l2_i2c_subdev_init() which takes a pointer to const struct
-> v4l2_subdev_ops as argument. Make it const to allow the compiler to put
-> it in read-only memory.
-> 
-> Signed-off-by: Rikard Falkeborn <rikard.falkeborn@gmail.com>
-
-Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-
-> ---
->  drivers/staging/media/max96712/max96712.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/staging/media/max96712/max96712.c b/drivers/staging/media/max96712/max96712.c
-> index 847e2ffd4f53..9bc72d9a858b 100644
-> --- a/drivers/staging/media/max96712/max96712.c
-> +++ b/drivers/staging/media/max96712/max96712.c
-> @@ -250,7 +250,7 @@ static const struct v4l2_subdev_pad_ops max96712_pad_ops = {
->  	.set_fmt = max96712_get_pad_format,
->  };
->  
-> -static struct v4l2_subdev_ops max96712_subdev_ops = {
-> +static const struct v4l2_subdev_ops max96712_subdev_ops = {
->  	.video = &max96712_video_ops,
->  	.pad = &max96712_pad_ops,
->  };
-> -- 
-> 2.34.1
-> 
-
+diff --git a/drivers/media/v4l2-core/v4l2-dev.c b/drivers/media/v4l2-core/v4l2-dev.c
+index d03ace324db0..d00237ee4cae 100644
+--- a/drivers/media/v4l2-core/v4l2-dev.c
++++ b/drivers/media/v4l2-core/v4l2-dev.c
+@@ -511,7 +511,7 @@ static int get_index(struct video_device *vdev)
+ 	for (i = 0; i < VIDEO_NUM_DEVICES; i++) {
+ 		if (video_devices[i] != NULL &&
+ 		    video_devices[i]->v4l2_dev == vdev->v4l2_dev) {
+-			set_bit(video_devices[i]->index, used);
++			__set_bit(video_devices[i]->index, used);
+ 		}
+ 	}
+ 
+@@ -519,7 +519,7 @@ static int get_index(struct video_device *vdev)
+ }
+ 
+ #define SET_VALID_IOCTL(ops, cmd, op) \
+-	do { if ((ops)->op) set_bit(_IOC_NR(cmd), valid_ioctls); } while (0)
++	do { if ((ops)->op) __set_bit(_IOC_NR(cmd), valid_ioctls); } while (0)
+ 
+ /* This determines which ioctls are actually implemented in the driver.
+    It's a one-time thing which simplifies video_ioctl2 as it can just do
+@@ -562,73 +562,73 @@ static void determine_valid_ioctls(struct video_device *vdev)
+ 	/* vfl_type and vfl_dir independent ioctls */
+ 
+ 	SET_VALID_IOCTL(ops, VIDIOC_QUERYCAP, vidioc_querycap);
+-	set_bit(_IOC_NR(VIDIOC_G_PRIORITY), valid_ioctls);
+-	set_bit(_IOC_NR(VIDIOC_S_PRIORITY), valid_ioctls);
++	__set_bit(_IOC_NR(VIDIOC_G_PRIORITY), valid_ioctls);
++	__set_bit(_IOC_NR(VIDIOC_S_PRIORITY), valid_ioctls);
+ 
+ 	/* Note: the control handler can also be passed through the filehandle,
+ 	   and that can't be tested here. If the bit for these control ioctls
+ 	   is set, then the ioctl is valid. But if it is 0, then it can still
+ 	   be valid if the filehandle passed the control handler. */
+ 	if (vdev->ctrl_handler || ops->vidioc_queryctrl)
+-		set_bit(_IOC_NR(VIDIOC_QUERYCTRL), valid_ioctls);
++		__set_bit(_IOC_NR(VIDIOC_QUERYCTRL), valid_ioctls);
+ 	if (vdev->ctrl_handler || ops->vidioc_query_ext_ctrl)
+-		set_bit(_IOC_NR(VIDIOC_QUERY_EXT_CTRL), valid_ioctls);
++		__set_bit(_IOC_NR(VIDIOC_QUERY_EXT_CTRL), valid_ioctls);
+ 	if (vdev->ctrl_handler || ops->vidioc_g_ctrl || ops->vidioc_g_ext_ctrls)
+-		set_bit(_IOC_NR(VIDIOC_G_CTRL), valid_ioctls);
++		__set_bit(_IOC_NR(VIDIOC_G_CTRL), valid_ioctls);
+ 	if (vdev->ctrl_handler || ops->vidioc_s_ctrl || ops->vidioc_s_ext_ctrls)
+-		set_bit(_IOC_NR(VIDIOC_S_CTRL), valid_ioctls);
++		__set_bit(_IOC_NR(VIDIOC_S_CTRL), valid_ioctls);
+ 	if (vdev->ctrl_handler || ops->vidioc_g_ext_ctrls)
+-		set_bit(_IOC_NR(VIDIOC_G_EXT_CTRLS), valid_ioctls);
++		__set_bit(_IOC_NR(VIDIOC_G_EXT_CTRLS), valid_ioctls);
+ 	if (vdev->ctrl_handler || ops->vidioc_s_ext_ctrls)
+-		set_bit(_IOC_NR(VIDIOC_S_EXT_CTRLS), valid_ioctls);
++		__set_bit(_IOC_NR(VIDIOC_S_EXT_CTRLS), valid_ioctls);
+ 	if (vdev->ctrl_handler || ops->vidioc_try_ext_ctrls)
+-		set_bit(_IOC_NR(VIDIOC_TRY_EXT_CTRLS), valid_ioctls);
++		__set_bit(_IOC_NR(VIDIOC_TRY_EXT_CTRLS), valid_ioctls);
+ 	if (vdev->ctrl_handler || ops->vidioc_querymenu)
+-		set_bit(_IOC_NR(VIDIOC_QUERYMENU), valid_ioctls);
++		__set_bit(_IOC_NR(VIDIOC_QUERYMENU), valid_ioctls);
+ 	if (!is_tch) {
+ 		SET_VALID_IOCTL(ops, VIDIOC_G_FREQUENCY, vidioc_g_frequency);
+ 		SET_VALID_IOCTL(ops, VIDIOC_S_FREQUENCY, vidioc_s_frequency);
+ 	}
+ 	SET_VALID_IOCTL(ops, VIDIOC_LOG_STATUS, vidioc_log_status);
+ #ifdef CONFIG_VIDEO_ADV_DEBUG
+-	set_bit(_IOC_NR(VIDIOC_DBG_G_CHIP_INFO), valid_ioctls);
+-	set_bit(_IOC_NR(VIDIOC_DBG_G_REGISTER), valid_ioctls);
+-	set_bit(_IOC_NR(VIDIOC_DBG_S_REGISTER), valid_ioctls);
++	__set_bit(_IOC_NR(VIDIOC_DBG_G_CHIP_INFO), valid_ioctls);
++	__set_bit(_IOC_NR(VIDIOC_DBG_G_REGISTER), valid_ioctls);
++	__set_bit(_IOC_NR(VIDIOC_DBG_S_REGISTER), valid_ioctls);
+ #endif
+ 	/* yes, really vidioc_subscribe_event */
+ 	SET_VALID_IOCTL(ops, VIDIOC_DQEVENT, vidioc_subscribe_event);
+ 	SET_VALID_IOCTL(ops, VIDIOC_SUBSCRIBE_EVENT, vidioc_subscribe_event);
+ 	SET_VALID_IOCTL(ops, VIDIOC_UNSUBSCRIBE_EVENT, vidioc_unsubscribe_event);
+ 	if (ops->vidioc_enum_freq_bands || ops->vidioc_g_tuner || ops->vidioc_g_modulator)
+-		set_bit(_IOC_NR(VIDIOC_ENUM_FREQ_BANDS), valid_ioctls);
++		__set_bit(_IOC_NR(VIDIOC_ENUM_FREQ_BANDS), valid_ioctls);
+ 
+ 	if (is_vid) {
+ 		/* video specific ioctls */
+ 		if ((is_rx && (ops->vidioc_enum_fmt_vid_cap ||
+ 			       ops->vidioc_enum_fmt_vid_overlay)) ||
+ 		    (is_tx && ops->vidioc_enum_fmt_vid_out))
+-			set_bit(_IOC_NR(VIDIOC_ENUM_FMT), valid_ioctls);
++			__set_bit(_IOC_NR(VIDIOC_ENUM_FMT), valid_ioctls);
+ 		if ((is_rx && (ops->vidioc_g_fmt_vid_cap ||
+ 			       ops->vidioc_g_fmt_vid_cap_mplane ||
+ 			       ops->vidioc_g_fmt_vid_overlay)) ||
+ 		    (is_tx && (ops->vidioc_g_fmt_vid_out ||
+ 			       ops->vidioc_g_fmt_vid_out_mplane ||
+ 			       ops->vidioc_g_fmt_vid_out_overlay)))
+-			 set_bit(_IOC_NR(VIDIOC_G_FMT), valid_ioctls);
++			__set_bit(_IOC_NR(VIDIOC_G_FMT), valid_ioctls);
+ 		if ((is_rx && (ops->vidioc_s_fmt_vid_cap ||
+ 			       ops->vidioc_s_fmt_vid_cap_mplane ||
+ 			       ops->vidioc_s_fmt_vid_overlay)) ||
+ 		    (is_tx && (ops->vidioc_s_fmt_vid_out ||
+ 			       ops->vidioc_s_fmt_vid_out_mplane ||
+ 			       ops->vidioc_s_fmt_vid_out_overlay)))
+-			 set_bit(_IOC_NR(VIDIOC_S_FMT), valid_ioctls);
++			__set_bit(_IOC_NR(VIDIOC_S_FMT), valid_ioctls);
+ 		if ((is_rx && (ops->vidioc_try_fmt_vid_cap ||
+ 			       ops->vidioc_try_fmt_vid_cap_mplane ||
+ 			       ops->vidioc_try_fmt_vid_overlay)) ||
+ 		    (is_tx && (ops->vidioc_try_fmt_vid_out ||
+ 			       ops->vidioc_try_fmt_vid_out_mplane ||
+ 			       ops->vidioc_try_fmt_vid_out_overlay)))
+-			 set_bit(_IOC_NR(VIDIOC_TRY_FMT), valid_ioctls);
++			__set_bit(_IOC_NR(VIDIOC_TRY_FMT), valid_ioctls);
+ 		SET_VALID_IOCTL(ops, VIDIOC_OVERLAY, vidioc_overlay);
+ 		SET_VALID_IOCTL(ops, VIDIOC_G_FBUF, vidioc_g_fbuf);
+ 		SET_VALID_IOCTL(ops, VIDIOC_S_FBUF, vidioc_s_fbuf);
+@@ -642,11 +642,11 @@ static void determine_valid_ioctls(struct video_device *vdev)
+ 		SET_VALID_IOCTL(ops, VIDIOC_ENUM_FRAMESIZES, vidioc_enum_framesizes);
+ 		SET_VALID_IOCTL(ops, VIDIOC_ENUM_FRAMEINTERVALS, vidioc_enum_frameintervals);
+ 		if (ops->vidioc_g_selection) {
+-			set_bit(_IOC_NR(VIDIOC_G_CROP), valid_ioctls);
+-			set_bit(_IOC_NR(VIDIOC_CROPCAP), valid_ioctls);
++			__set_bit(_IOC_NR(VIDIOC_G_CROP), valid_ioctls);
++			__set_bit(_IOC_NR(VIDIOC_CROPCAP), valid_ioctls);
+ 		}
+ 		if (ops->vidioc_s_selection)
+-			set_bit(_IOC_NR(VIDIOC_S_CROP), valid_ioctls);
++			__set_bit(_IOC_NR(VIDIOC_S_CROP), valid_ioctls);
+ 		SET_VALID_IOCTL(ops, VIDIOC_G_SELECTION, vidioc_g_selection);
+ 		SET_VALID_IOCTL(ops, VIDIOC_S_SELECTION, vidioc_s_selection);
+ 	}
+@@ -669,17 +669,17 @@ static void determine_valid_ioctls(struct video_device *vdev)
+ 			       ops->vidioc_g_fmt_sliced_vbi_cap)) ||
+ 		    (is_tx && (ops->vidioc_g_fmt_vbi_out ||
+ 			       ops->vidioc_g_fmt_sliced_vbi_out)))
+-			set_bit(_IOC_NR(VIDIOC_G_FMT), valid_ioctls);
++			__set_bit(_IOC_NR(VIDIOC_G_FMT), valid_ioctls);
+ 		if ((is_rx && (ops->vidioc_s_fmt_vbi_cap ||
+ 			       ops->vidioc_s_fmt_sliced_vbi_cap)) ||
+ 		    (is_tx && (ops->vidioc_s_fmt_vbi_out ||
+ 			       ops->vidioc_s_fmt_sliced_vbi_out)))
+-			set_bit(_IOC_NR(VIDIOC_S_FMT), valid_ioctls);
++			__set_bit(_IOC_NR(VIDIOC_S_FMT), valid_ioctls);
+ 		if ((is_rx && (ops->vidioc_try_fmt_vbi_cap ||
+ 			       ops->vidioc_try_fmt_sliced_vbi_cap)) ||
+ 		    (is_tx && (ops->vidioc_try_fmt_vbi_out ||
+ 			       ops->vidioc_try_fmt_sliced_vbi_out)))
+-			set_bit(_IOC_NR(VIDIOC_TRY_FMT), valid_ioctls);
++			__set_bit(_IOC_NR(VIDIOC_TRY_FMT), valid_ioctls);
+ 		SET_VALID_IOCTL(ops, VIDIOC_G_SLICED_VBI_CAP, vidioc_g_sliced_vbi_cap);
+ 	} else if (is_tch) {
+ 		/* touch specific ioctls */
+@@ -724,15 +724,15 @@ static void determine_valid_ioctls(struct video_device *vdev)
+ 	if (is_vid || is_vbi || is_meta) {
+ 		/* ioctls valid for video, vbi and metadata */
+ 		if (ops->vidioc_s_std)
+-			set_bit(_IOC_NR(VIDIOC_ENUMSTD), valid_ioctls);
++			__set_bit(_IOC_NR(VIDIOC_ENUMSTD), valid_ioctls);
+ 		SET_VALID_IOCTL(ops, VIDIOC_S_STD, vidioc_s_std);
+ 		SET_VALID_IOCTL(ops, VIDIOC_G_STD, vidioc_g_std);
+ 		if (is_rx) {
+ 			SET_VALID_IOCTL(ops, VIDIOC_QUERYSTD, vidioc_querystd);
+ 			if (is_io_mc) {
+-				set_bit(_IOC_NR(VIDIOC_ENUMINPUT), valid_ioctls);
+-				set_bit(_IOC_NR(VIDIOC_G_INPUT), valid_ioctls);
+-				set_bit(_IOC_NR(VIDIOC_S_INPUT), valid_ioctls);
++				__set_bit(_IOC_NR(VIDIOC_ENUMINPUT), valid_ioctls);
++				__set_bit(_IOC_NR(VIDIOC_G_INPUT), valid_ioctls);
++				__set_bit(_IOC_NR(VIDIOC_S_INPUT), valid_ioctls);
+ 			} else {
+ 				SET_VALID_IOCTL(ops, VIDIOC_ENUMINPUT, vidioc_enum_input);
+ 				SET_VALID_IOCTL(ops, VIDIOC_G_INPUT, vidioc_g_input);
+@@ -746,9 +746,9 @@ static void determine_valid_ioctls(struct video_device *vdev)
+ 		}
+ 		if (is_tx) {
+ 			if (is_io_mc) {
+-				set_bit(_IOC_NR(VIDIOC_ENUMOUTPUT), valid_ioctls);
+-				set_bit(_IOC_NR(VIDIOC_G_OUTPUT), valid_ioctls);
+-				set_bit(_IOC_NR(VIDIOC_S_OUTPUT), valid_ioctls);
++				__set_bit(_IOC_NR(VIDIOC_ENUMOUTPUT), valid_ioctls);
++				__set_bit(_IOC_NR(VIDIOC_G_OUTPUT), valid_ioctls);
++				__set_bit(_IOC_NR(VIDIOC_S_OUTPUT), valid_ioctls);
+ 			} else {
+ 				SET_VALID_IOCTL(ops, VIDIOC_ENUMOUTPUT, vidioc_enum_output);
+ 				SET_VALID_IOCTL(ops, VIDIOC_G_OUTPUT, vidioc_g_output);
+@@ -759,7 +759,7 @@ static void determine_valid_ioctls(struct video_device *vdev)
+ 			SET_VALID_IOCTL(ops, VIDIOC_S_AUDOUT, vidioc_s_audout);
+ 		}
+ 		if (ops->vidioc_g_parm || ops->vidioc_g_std)
+-			set_bit(_IOC_NR(VIDIOC_G_PARM), valid_ioctls);
++			__set_bit(_IOC_NR(VIDIOC_G_PARM), valid_ioctls);
+ 		SET_VALID_IOCTL(ops, VIDIOC_S_PARM, vidioc_s_parm);
+ 		SET_VALID_IOCTL(ops, VIDIOC_S_DV_TIMINGS, vidioc_s_dv_timings);
+ 		SET_VALID_IOCTL(ops, VIDIOC_G_DV_TIMINGS, vidioc_g_dv_timings);
 -- 
-Kind Regards,
-Niklas Söderlund
+2.30.2
+
