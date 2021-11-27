@@ -2,195 +2,264 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 476FA45FFFD
-	for <lists+linux-media@lfdr.de>; Sat, 27 Nov 2021 16:53:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 03350460006
+	for <lists+linux-media@lfdr.de>; Sat, 27 Nov 2021 17:02:41 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1349276AbhK0P4Q (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 27 Nov 2021 10:56:16 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54742 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1351065AbhK0PyO (ORCPT
+        id S1355453AbhK0QFw convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-media@lfdr.de>); Sat, 27 Nov 2021 11:05:52 -0500
+Received: from dfw.source.kernel.org ([139.178.84.217]:34680 "EHLO
+        dfw.source.kernel.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S239805AbhK0QDw (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 27 Nov 2021 10:54:14 -0500
-Received: from mail-wr1-x42e.google.com (mail-wr1-x42e.google.com [IPv6:2a00:1450:4864:20::42e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E7DF5C0613ED
-        for <linux-media@vger.kernel.org>; Sat, 27 Nov 2021 07:49:43 -0800 (PST)
-Received: by mail-wr1-x42e.google.com with SMTP id l16so25620736wrp.11
-        for <linux-media@vger.kernel.org>; Sat, 27 Nov 2021 07:49:43 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ragnatech-se.20210112.gappssmtp.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=o7zClZEkfKlSYafiuTkKczg5s3NAbP1eM/hEt1Zsmsg=;
-        b=HYfIEQl1obgXccQ6Y99XNm1aGEdW62UyfacT0dcWWljXeF2rX2V6Dg6jhADP0kV+Cw
-         IGM43dwAJ5RKkV/Fe9Px8cKlea85DXSAGK5aShsquYqzgdYVMgfewMURCSVuF0fa87ln
-         ypeRsp9KanenZr7544KS/UW7s8QgU456RgdaPzduOoP9H3Dc7F39zbTZRHYUDyDa30iI
-         aGo8nd4+duQrMMp1Sxt+j/zx/YiFUmv7Fy8TcSHm0JJ9OkEhVgQF4SpIfXLcYsJ+J2zj
-         UV4FJ+pzbc2UNz2nY39ziNSlZfVARYuHQd3QL7PkyARkBoR3i6bTz98M5Lq7hHg7K+Qj
-         tH9A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=o7zClZEkfKlSYafiuTkKczg5s3NAbP1eM/hEt1Zsmsg=;
-        b=vJYPRsFb/JlWcVo9eBTBLoTGsM9I4TEf4Krw9hgzt+/r4av6uhmwQB5WY9ZO52HCoG
-         uB75AYqwOrSUCkficDF4SKxk+27x5CpqLykcJpfYSvJJ0lJ528f+Z+VuvDmE+9tBeH+J
-         TBLpcC3LilLP1NpiQNQ/d1gL1pjYUqE39qfmQGJkjBlpfAa/QHCxN01FY+8SCRwz+Lqw
-         lUDtbtmattztxF8VdKZYR5FJguUVzUFbUatZxHhFP0vy8nmO3A5wogTmcAgFFboEqa4u
-         STIar5yKxtLbqUYS7/1zyC4sIlGUsakgmKlwr+9/hDP3pi0yqlXC91naa++AuVElma3O
-         jkmw==
-X-Gm-Message-State: AOAM533dONABpo05apYMtUGi5B080Tnm9h0hygGD1JRAfjIZXf2mQToD
-        sLDyEOISoRGIzaaYlN4sZ4o6pw==
-X-Google-Smtp-Source: ABdhPJxFWiyIuyBoujmvAS8tsLWJuXu11V7/B5woU0UMQjlSnVK6GVQN8puDY7LPv26CGiqmz2wefw==
-X-Received: by 2002:a5d:58c5:: with SMTP id o5mr22470068wrf.15.1638028182503;
-        Sat, 27 Nov 2021 07:49:42 -0800 (PST)
-Received: from localhost (p54ac5892.dip0.t-ipconnect.de. [84.172.88.146])
-        by smtp.gmail.com with ESMTPSA id y142sm9608342wmc.40.2021.11.27.07.49.41
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 27 Nov 2021 07:49:42 -0800 (PST)
-Date:   Sat, 27 Nov 2021 16:49:41 +0100
-From:   Niklas =?iso-8859-1?Q?S=F6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Jacopo Mondi <jacopo@jmondi.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH 2/3] media: rcar-vin: Breakout media link creation
-Message-ID: <YaJTlR9DXTxe7tQe@bismarck.dyn.berto.se>
-References: <20211020200225.1956048-1-niklas.soderlund+renesas@ragnatech.se>
- <20211020200225.1956048-3-niklas.soderlund+renesas@ragnatech.se>
- <20211104164306.ia33awmr5rcnnxtg@uno.localdomain>
- <YYwG8/4qeOuV7cDG@pendragon.ideasonboard.com>
+        Sat, 27 Nov 2021 11:03:52 -0500
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 5BD9B60B49;
+        Sat, 27 Nov 2021 16:00:37 +0000 (UTC)
+Received: from jic23-huawei (cpc108967-cmbg20-2-0-cust86.5-4.cable.virginm.net [81.101.6.87])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by smtp.kernel.org (Postfix) with ESMTPSA id 83A96C53FAD;
+        Sat, 27 Nov 2021 16:00:32 +0000 (UTC)
+Date:   Sat, 27 Nov 2021 16:05:33 +0000
+From:   Jonathan Cameron <jic23@kernel.org>
+To:     Paul Cercueil <paul@crapouillou.net>
+Cc:     Alexandru Ardelean <ardeleanalex@gmail.com>,
+        Lars-Peter Clausen <lars@metafoo.de>,
+        Michael Hennerich <Michael.Hennerich@analog.com>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+        linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linaro-mm-sig@lists.linaro.org
+Subject: Re: [PATCH 11/15] iio: buffer-dma: Boost performance using
+ write-combine cache setting
+Message-ID: <20211127160533.5259f486@jic23-huawei>
+In-Reply-To: <YX153R.0PENWW3ING7F1@crapouillou.net>
+References: <20211115141925.60164-1-paul@crapouillou.net>
+        <20211115141925.60164-12-paul@crapouillou.net>
+        <20211121150037.2a606be0@jic23-huawei>
+        <8WNX2R.M4XE9MQC24W22@crapouillou.net>
+        <YX153R.0PENWW3ING7F1@crapouillou.net>
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.30; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <YYwG8/4qeOuV7cDG@pendragon.ideasonboard.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8BIT
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hello Laurent,
+On Thu, 25 Nov 2021 17:29:58 +0000
+Paul Cercueil <paul@crapouillou.net> wrote:
 
-Thanks for your review.
-
-On 2021-11-10 19:52:51 +0200, Laurent Pinchart wrote:
-> Hello,
+> Hi Jonathan,
 > 
-> On Thu, Nov 04, 2021 at 05:43:06PM +0100, Jacopo Mondi wrote:
-> > On Wed, Oct 20, 2021 at 10:02:24PM +0200, Niklas Söderlund wrote:
-> > > In preparation of creating more links to allow for full Virtual Channel
-> > > routing within the CSI-2 block break out the link creation logic to a
-> > > helper function as the logic will grow in future work.
-> 
-> Are links the right option, should we switch to subdev internal routing
-> configuration ?
-
-That is an interesting question I thought about it but decided against 
-it, at lest for now. The design we have is that each source pad of the 
-R-Car CSI-2 subdevice is fixed to a specific VC (source pad 0 -> VC0, 
-source pad 1 - > VC1, etc). And with this patch we preserve this 
-behavior.
-
-Once we have the internal routing and multiplexed stream API upstream we 
-can evolve this and still keep the API consistent. As a first step we 
-expose the internal routing true the new API, read-only as that how it 
-is implemented today and then on-top of that we can decide if we want to 
-make it configurable from user-space, or not.
-
-> 
-> > > There is no functional change.
-> > >
-> > > Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-> > > ---
-> > >  drivers/media/platform/rcar-vin/rcar-core.c | 38 ++++++++++-----------
-> > >  1 file changed, 18 insertions(+), 20 deletions(-)
-> > >
-> > > diff --git a/drivers/media/platform/rcar-vin/rcar-core.c b/drivers/media/platform/rcar-vin/rcar-core.c
-> > > index bd960c348ba5228c..65ab66a072e9d635 100644
-> > > --- a/drivers/media/platform/rcar-vin/rcar-core.c
-> > > +++ b/drivers/media/platform/rcar-vin/rcar-core.c
-> > > @@ -909,6 +909,22 @@ static const struct media_device_ops rvin_csi2_media_ops = {
-> > >  	.link_notify = rvin_csi2_link_notify,
-> > >  };
-> > >
-> > > +static int rvin_csi2_add_route(struct rvin_group *group,
+> Le dim., nov. 21 2021 at 17:43:20 +0000, Paul Cercueil 
+> <paul@crapouillou.net> a Ã©crit :
+> > Hi Jonathan,
 > > 
-> > How about rvin_csi2_create_link() ?
-> >
-> > > +			       const struct rvin_group_route *route)
-> > > +
-> > > +{
-> > > +	struct media_entity *source = &group->remotes[route->csi].subdev->entity;
-> > > +	unsigned int source_idx = rvin_group_csi_channel_to_pad(route->channel);
-> > > +	struct media_entity *sink = &group->vin[route->vin]->vdev.entity;
-> > > +	struct media_pad *source_pad = &source->pads[source_idx];
-> > > +	struct media_pad *sink_pad = &sink->pads[0];
-> > > +
-> >
-> > And keep the comment here to re-state that if the linke existed
-> > already is not a fatal error
+> > Le dim., nov. 21 2021 at 15:00:37 +0000, Jonathan Cameron 
+> > <jic23@kernel.org> a Ã©crit :  
+> >> On Mon, 15 Nov 2021 14:19:21 +0000
+> >> Paul Cercueil <paul@crapouillou.net> wrote:
+> >>   
+> >>>  We can be certain that the input buffers will only be accessed by
+> >>>  userspace for reading, and output buffers will mostly be accessed 
+> >>> by
+> >>>  userspace for writing.  
+> >> 
+> >> Mostly?  Perhaps a little more info on why that's not 'only'.  
 > > 
-> > Reviewed-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
+> > Just like with a framebuffer, it really depends on what the 
+> > application does. Most of the cases it will just read sequentially an 
+> > input buffer, or write sequentially an output buffer. But then you 
+> > get the exotic application that will try to do something like alpha 
+> > blending, which means read+write. Hence "mostly".
+> >   
+> >>> 
+> >>>  Therefore, it makes more sense to use only fully cached input 
+> >>> buffers,
+> >>>  and to use the write-combine cache coherency setting for output 
+> >>> buffers.
+> >>> 
+> >>>  This boosts performance, as the data written to the output buffers 
+> >>> does
+> >>>  not have to be sync'd for coherency. It will halve performance if 
+> >>> the
+> >>>  userspace application tries to read from the output buffer, but 
+> >>> this
+> >>>  should never happen.
+> >>> 
+> >>>  Since we don't need to sync the cache when disabling CPU access 
+> >>> either
+> >>>  for input buffers or output buffers, the .end_cpu_access() 
+> >>> callback can
+> >>>  be dropped completely.  
+> >> 
+> >> We have an odd mix of coherent and non coherent DMA in here as you 
+> >> noted,
+> >> but are you sure this is safe on all platforms?  
+> > 
+> > The mix isn't safe, but using only coherent or only non-coherent 
+> > should be safe, yes.
+> >   
+> >>   
+> >>> 
+> >>>  Signed-off-by: Paul Cercueil <paul@crapouillou.net>  
+> >> 
+> >> Any numbers to support this patch?  The mapping types are performance
+> >> optimisations so nice to know how much of a difference they make.  
+> > 
+> > Output buffers are definitely faster in write-combine mode. On a 
+> > ZedBoard with a AD9361 transceiver set to 66 MSPS, and buffer/size 
+> > set to 8192, I would get about 185 MiB/s before, 197 MiB/s after.
+> > 
+> > Input buffers... early results are mixed. On ARM32 it does look like 
+> > it is slightly faster to read from *uncached* memory than reading 
+> > from cached memory. The cache sync does take a long time.
+> > 
+> > Other architectures might have a different result, for instance on 
+> > MIPS invalidating the cache is a very fast operation, so using cached 
+> > buffers would be a huge win in performance.
+> > 
+> > Setups where the DMA operations are coherent also wouldn't require 
+> > any cache sync and this patch would give a huge win in performance.
+> > 
+> > I'll run some more tests next week to have some fresh numbers.  
 > 
-> With those comments addressed,
+> I think I mixed things up before, because I get different results now.
 > 
-> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> 
-> > > +	if (media_entity_find_link(source_pad, sink_pad))
-> > > +		return 0;
-> > > +
-> > > +	return media_create_pad_link(source, source_idx, sink, 0, 0);
-> > > +}
-> > > +
-> > >  static int rvin_csi2_setup_links(struct rvin_dev *vin)
-> > >  {
-> > >  	const struct rvin_group_route *route;
-> > > @@ -917,10 +933,6 @@ static int rvin_csi2_setup_links(struct rvin_dev *vin)
-> > >  	/* Create all media device links between VINs and CSI-2's. */
-> > >  	mutex_lock(&vin->group->lock);
-> > >  	for (route = vin->info->routes; route->mask; route++) {
-> > > -		struct media_pad *source_pad, *sink_pad;
-> > > -		struct media_entity *source, *sink;
-> > > -		unsigned int source_idx;
-> > > -
-> > >  		/* Check that VIN is part of the group. */
-> > >  		if (!vin->group->vin[route->vin])
-> > >  			continue;
-> > > @@ -933,23 +945,9 @@ static int rvin_csi2_setup_links(struct rvin_dev *vin)
-> > >  		if (!vin->group->remotes[route->csi].subdev)
-> > >  			continue;
-> > >
-> > > -		source = &vin->group->remotes[route->csi].subdev->entity;
-> > > -		source_idx = rvin_group_csi_channel_to_pad(route->channel);
-> > > -		source_pad = &source->pads[source_idx];
-> > > -
-> > > -		sink = &vin->group->vin[route->vin]->vdev.entity;
-> > > -		sink_pad = &sink->pads[0];
-> > > -
-> > > -		/* Skip if link already exists. */
-> > > -		if (media_entity_find_link(source_pad, sink_pad))
-> > > -			continue;
-> > > -
-> > > -		ret = media_create_pad_link(source, source_idx, sink, 0, 0);
-> > > -		if (ret) {
-> > > -			vin_err(vin, "Error adding link from %s to %s\n",
-> > > -				source->name, sink->name);
-> > > +		ret = rvin_csi2_add_route(vin->group, route);
-> > > +		if (ret)
-> > >  			break;
-> > > -		}
-> > >  	}
-> > >  	mutex_unlock(&vin->group->lock);
-> > >
-> 
-> -- 
-> Regards,
-> 
-> Laurent Pinchart
+> Here are some fresh benchmarks, triple-checked, using libiio's 
+> iio_readdev and iio_writedev tools, with 64K samples buffers at 61.44 
+> MSPS (max. theorical throughput: 234 MiB/s):
+>   iio_readdev -b 65536 cf-ad9361-lpc voltage0 voltage1 | pv > /dev/null
+>   pv /dev/zero | iio_writedev -b 65536 cf-ad9361-dds-core-lpc voltage0 
+> voltage1
 
--- 
-Kind Regards,
-Niklas Söderlund
+There is a bit of a terminology confusion going on here.  I think
+for the mappings you mean cacheable vs non-cacheable but maybe
+I'm misunderstanding.  That doesn't necessarily correspond to
+coherency.  Non cached memory is always coherent because all caches
+miss.
+
+Non-cacheable can be related to coherency of course. Also beware that given
+hardware might not implement non-cacheable if it knows all possible
+accesses are IO-coherent.  Affect is the same and if implemented
+correctly it will not hurt performance significantly.
+
+firmware should be letting the OS know if the device does coherent
+DMA or not... dma-coherent in dt.  It might be optional for a given
+piece of DMA engine but I've not seen that..
+
+I'm not sure I see how you can do a mixture of cacheable for reads
+and write combine (which means uncacheable) for writes...
+
+> 
+> Coherent mapping:
+> - fileio:
+>     read:	125 MiB/s
+>     write:	141 MiB/s
+> - dmabuf:
+>     read:	171 MiB/s
+>     write:	210 MiB/s
+> 
+> Coherent reads + Write-combine writes:
+> - fileio:
+>     read:	125 MiB/s
+>     write:	141 MiB/s
+> - dmabuf:
+>     read:	171 MiB/s
+>     write:	210 MiB/s
+> 
+> Non-coherent mapping:
+> - fileio:
+>     read:	119 MiB/s
+>     write:	124 MiB/s
+> - dmabuf:
+>     read:	159 MiB/s
+>     write:	124 MiB/s
+> 
+> Non-coherent reads + write-combine writes:
+> - fileio:
+>     read:	119 MiB/s
+>     write:	140 MiB/s
+> - dmabuf:
+>     read:	159 MiB/s
+>     write:	210 MiB/s
+> 
+
+
+> Non-coherent mapping with no cache sync:
+> - fileio:
+>     read:	156 MiB/s
+>     write:	123 MiB/s
+> - dmabuf:
+>     read:	234 MiB/s (capped by sample rate)
+>     write:	182 MiB/s
+> 
+> Non-coherent reads with no cache sync + write-combine writes:
+> - fileio:
+>     read:	156 MiB/s
+>     write:	140 MiB/s
+> - dmabuf:
+>     read:	234 MiB/s (capped by sample rate)
+>     write:	210 MiB/s
+> 
+> 
+> A few things we can deduce from this:
+> 
+> * Write-combine is not available on Zynq/ARM? If it was working, it 
+> should give a better performance than the coherent mapping, but it 
+> doesn't seem to do anything at all. At least it doesn't harm 
+> performance.
+
+I'm not sure it's very relevant to this sort of streaming write.
+If you write a sequence of addresses then nothing stops them getting combined
+into a single write whether or not it is write-combining.
+
+You may be right that the particular path to memory doesn't support it anyway.
+Also some cache architectures will rapidly detect streaming writes and
+elect not to cache them whether coherent or not.
+
+
+
+
+> 
+> * Non-coherent + cache invalidation is definitely a good deal slower 
+> than using coherent mapping, at least on ARM32. However, when the cache 
+> sync is disabled (e.g. if the DMA operations are coherent) the reads 
+> are much faster.
+
+If you are running with cache sync then it better not be cached
+as such it's coherent in the sense of there being no entries in the cache
+in either direction.
+
+> 
+> * The new dma-buf based API is a great deal faster than the fileio API.
+
+:)
+
+> 
+> So in the future we could use coherent reads + write-combine writes, 
+> unless we know the DMA operations are coherent, and in this case use 
+> non-coherent reads + write-combine writes.
+
+Not following this argument at all, but anyway we can revisit when it mattrs.  
+
+> 
+> Regarding this patch, unfortunately I cannot prove that write-combine 
+> is faster, so I'll just drop this patch for now.
+
+Sure, thanks for checking.  It's worth noting that WC usage in kernel
+is vanishingly rare and I suspect that's mostly because it doesn't
+do anything on many implementations.
+
+Jonathan
+
+> 
+> Cheers,
+> -Paul
+> 
+> 
+
