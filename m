@@ -2,165 +2,100 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A510A4604D9
-	for <lists+linux-media@lfdr.de>; Sun, 28 Nov 2021 07:01:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 85A48460688
+	for <lists+linux-media@lfdr.de>; Sun, 28 Nov 2021 14:33:21 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232356AbhK1GFD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 28 Nov 2021 01:05:03 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40162 "EHLO
+        id S1357577AbhK1Ngf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 28 Nov 2021 08:36:35 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51770 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231383AbhK1GDD (ORCPT
+        with ESMTP id S231739AbhK1Nee (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 28 Nov 2021 01:03:03 -0500
-Received: from lb1-smtp-cloud9.xs4all.net (lb1-smtp-cloud9.xs4all.net [IPv6:2001:888:0:108::1c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 65942C06174A
-        for <linux-media@vger.kernel.org>; Sat, 27 Nov 2021 21:59:47 -0800 (PST)
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud9.xs4all.net with ESMTPA
-        id rDDwmMnjP1HGJrDE0m6zIa; Sun, 28 Nov 2021 06:59:44 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1638079184; bh=3PXTAc9g+cWL6LyJQC5jSTbcewCksXT4wYUiOLAYHS8=;
-        h=Message-ID:Date:From:To:Subject:From:Subject;
-        b=pT7zQd3gTj9dF7qNt5qPd2N0VB4xkbYY0VIiM4beSrmlagm5tzm7XG1M8v27DBFBi
-         7HKtRRI0WiyTz2WdSnUJBqTCi9+P5LLkUhql93Dk33Vjzb/8GZkaafohnJ8MEmdHv1
-         N0+qYzppAQRhWKk+JJWzAdW1NMxQ6UE/pZwqKWQkeQEmGGTpgnvAcdec+x5r7Ph+Qt
-         0D8DypRHiSQhJxJlFXVoUmv4ioueV7oEBACo6TvMOttyLGQHB5v+KlH0Fl0MZ9CW3b
-         ZUx7708W07zxburE7mxYfPqog4JOGHDDnvfjKbyuFQJLn5IlDlNvoOQyxjywkB1qkd
-         CqVA5zgwYIQZg==
-Message-ID: <22cf50d877c85dd9381cc087e3740627@smtp-cloud9.xs4all.net>
-Date:   Sun, 28 Nov 2021 06:59:40 +0100
-From:   "Hans Verkuil" <hverkuil@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: WARNINGS
-X-CMAE-Envelope: MS4xfDxleMZO2aVS+HzKxUxuZPuuNuo56HSm3xD0XgTV3QFRN+wEgozhUS+OuiA4p6hF7oBH9ttpPlc+OoXWdBWHhGPrcnz1V62wef9eKMNX26kG0R5zJuVX
- eR/a8q4qHDIytuV64d/JcPsdmDtmib4EPdJKn6cZBXv1RPpmOiOynTcemimybGZZzatIXevdy6YE+Q==
+        Sun, 28 Nov 2021 08:34:34 -0500
+Received: from mail-wr1-x42b.google.com (mail-wr1-x42b.google.com [IPv6:2a00:1450:4864:20::42b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C683AC0619D4
+        for <linux-media@vger.kernel.org>; Sun, 28 Nov 2021 05:24:44 -0800 (PST)
+Received: by mail-wr1-x42b.google.com with SMTP id c4so30439247wrd.9
+        for <linux-media@vger.kernel.org>; Sun, 28 Nov 2021 05:24:44 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ragnatech-se.20210112.gappssmtp.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=V4B0XKpXquoJyaIL0mskRvebeDdCLQLvdHdrJVi3yY0=;
+        b=CKp1IcB1DLdjZKkgcv84NVN1WFf2w2trOJogNXwiBAGfdKzByPfMRWt8cqC4EAnjd6
+         Kl/8gNDNSB9+zeEduM90T8fg3sB1ykrklcYxoNTwwvV6HNCBLYIWk6EFZVaYzhx9+P96
+         GxXDRs+qHTjE7650zdh+9uAEN3Fad2NsbijkxrPxvVrCt5vQ8oE0Ad8HHmkRA26e+Ml2
+         a/dLRmfOVbxySYcWc8yLU5NZEodMciz4bsaoTs8fCr5ibzeKj2hPm692z9oQuHbnXkJK
+         e4AirsOTvWki1tv/Zb8b/rMyI3D7NDp2r7E249LFEJcBmjJlpe0jWj9K98IssRwMlhMo
+         CTOA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=V4B0XKpXquoJyaIL0mskRvebeDdCLQLvdHdrJVi3yY0=;
+        b=mLYvIG/BtHGQrglMdjKniCeOs6An++Stu3zD7YyTLGHGOghjLc1HINl+TRyY9I0MIt
+         fc49eU+0n0bCH+4MSEUTumdAVOmtgzV40nt+E5zRbjXUlC3dw0c6dJYp4EkaE3HXADdu
+         qVJBibvGnk2muNiBQfRj3RpzIDPm2kNeGwMuvgDGM7Zwdmp7/2JAq19Bp1+JRykyL0qJ
+         d98FbfJNsz7A2/UmWj2aqPLGZC9cjpeWlfddIUncqhTAaS5NlcD6nYrbP1pvA1QoPyIa
+         cniR8bUwW91ScX2M4DnpBt0hMnJo9XemAxehkFkBtBp+Q+5Fy4fjN4AJkBXGKjJI8cOn
+         5jUA==
+X-Gm-Message-State: AOAM533GmC158dO4NbPE4FG+oLgRNTou6TCh2AVNH2zPSOAILTbRMddq
+        tPPhc5y+5tVkgORnNw3jEkTKPA==
+X-Google-Smtp-Source: ABdhPJxlLuBNBZ5dQ1Nb0gSVklBciUH+t1d0ON54EMJoLqH9vmnlZ7TXe7lUfn2/heQVnwwORjT2Lg==
+X-Received: by 2002:a5d:6101:: with SMTP id v1mr27772473wrt.598.1638105883413;
+        Sun, 28 Nov 2021 05:24:43 -0800 (PST)
+Received: from bismarck.berto.se (p54ac5892.dip0.t-ipconnect.de. [84.172.88.146])
+        by smtp.googlemail.com with ESMTPSA id z6sm10746685wrm.93.2021.11.28.05.24.42
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 28 Nov 2021 05:24:43 -0800 (PST)
+From:   =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>
+To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        linux-media@vger.kernel.org
+Cc:     linux-renesas-soc@vger.kernel.org,
+        =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>
+Subject: [PATCH] media: rcar-csi2: Suppress bind and unbind nodes in sysfs
+Date:   Sun, 28 Nov 2021 14:24:26 +0100
+Message-Id: <20211128132426.142454-1-niklas.soderlund+renesas@ragnatech.se>
+X-Mailer: git-send-email 2.34.1
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the kernels and architectures in the list below.
+The v4l2-async framework's subdev notifiers do not behave correctly if a
+device in the middle of the pipeline is unbound and then rebound. The
+v4l2-subdevices upstream from the device being rebound gets confused as
+they receive no notification of the device unbound and can't cleanup
+their state and when they are rebound to the new v4l2-subdev notifier
+they try to reinitialize their internal state, this may include things
+as trying to create links that already exists and in some cases crash
+the system, for example the adv748x.
 
-Results of the daily build of media_tree:
+This should be solved in the v4l2-async framework, but as a stop-gap
+measure suppress the bind and unbind sysfs nodes for the rcar-csi2
+driver so it can't be used to crash the system.
 
-date:			Sun Nov 28 05:00:13 CET 2021
-media-tree git hash:	b1b447e2f3e1ec0c3e9716f4f74d056461f69ab3
-media_build git hash:	90bf75007a9f73a3bfd144cae29e05229e702035
-v4l-utils git hash:	c01c6f78adde6ecfd0ef800e381aed27bea7808b
-edid-decode git hash:	b00755e34eb12aa92416aaf1bb7b02603131afe0
-gcc version:		i686-linux-gcc (GCC) 11.2.0
-sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
-sparse version:		0.6.3
-smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
-smatch version:		0.6.3
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: 7696c77a86087f681c8864e9ed957938d5b69aaf
-host hardware:		x86_64
-host os:		5.14.0-2-amd64
+Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+---
+ drivers/media/platform/rcar-vin/rcar-csi2.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-linux-git-sh: OK
-linux-git-arm-at91: OK
-linux-git-arm-davinci: OK
-linux-git-mips: OK
-linux-git-arm-stm32: OK
-linux-git-arm-pxa: OK
-linux-git-arm-multi: OK
-linux-git-arm64: OK
-linux-git-powerpc64: OK
-linux-git-i686: OK
-linux-git-x86_64: OK
-Check COMPILE_TEST: OK
-Check for strcpy/strncpy/strlcpy: OK
-linux-4.4.283-i686: OK
-linux-4.4.283-x86_64: OK
-linux-4.5.7-i686: OK
-linux-4.5.7-x86_64: OK
-linux-4.6.7-i686: OK
-linux-4.6.7-x86_64: OK
-linux-4.7.10-i686: OK
-linux-4.7.10-x86_64: OK
-linux-4.8.17-i686: OK
-linux-4.8.17-x86_64: OK
-linux-4.9.246-i686: OK
-linux-4.9.246-x86_64: OK
-linux-4.10.17-i686: OK
-linux-4.10.17-x86_64: OK
-linux-4.11.12-i686: OK
-linux-4.11.12-x86_64: OK
-linux-4.12.14-i686: OK
-linux-4.12.14-x86_64: OK
-linux-4.13.16-i686: OK
-linux-4.13.16-x86_64: OK
-linux-4.14.246-i686: OK
-linux-4.14.246-x86_64: OK
-linux-4.15.18-i686: OK
-linux-4.15.18-x86_64: OK
-linux-4.16.18-i686: OK
-linux-4.16.18-x86_64: OK
-linux-4.17.19-i686: OK
-linux-4.17.19-x86_64: OK
-linux-4.18.20-i686: OK
-linux-4.18.20-x86_64: OK
-linux-4.19.206-i686: OK
-linux-4.19.206-x86_64: OK
-linux-4.20.17-i686: OK
-linux-4.20.17-x86_64: OK
-linux-5.0.21-i686: OK
-linux-5.0.21-x86_64: OK
-linux-5.1.21-i686: OK
-linux-5.1.21-x86_64: OK
-linux-5.2.21-i686: OK
-linux-5.2.21-x86_64: OK
-linux-5.3.18-i686: OK
-linux-5.3.18-x86_64: OK
-linux-5.4.144-i686: OK
-linux-5.4.144-x86_64: OK
-linux-5.5.19-i686: OK
-linux-5.5.19-x86_64: OK
-linux-5.6.19-i686: OK
-linux-5.6.19-x86_64: OK
-linux-5.7.19-i686: OK
-linux-5.7.19-x86_64: OK
-linux-5.8.18-i686: OK
-linux-5.8.18-x86_64: OK
-linux-5.9.16-i686: OK
-linux-5.9.16-x86_64: OK
-linux-5.10.62-i686: OK
-linux-5.10.62-x86_64: OK
-linux-5.11.22-i686: OK
-linux-5.11.22-x86_64: OK
-linux-5.12.19-i686: OK
-linux-5.12.19-x86_64: OK
-linux-5.13.14-i686: OK
-linux-5.13.14-x86_64: OK
-linux-5.14.1-i686: OK
-linux-5.14.1-x86_64: OK
-linux-5.15.1-i686: OK
-linux-5.15.1-x86_64: OK
-linux-5.16-rc1-i686: OK
-linux-5.16-rc1-x86_64: OK
-apps: OK
-spec-git: OK
-virtme: WARNINGS: Final Summary: 2989, Succeeded: 2989, Failed: 0, Warnings: 1
-virtme-32: OK: Final Summary: 3100, Succeeded: 3100, Failed: 0, Warnings: 0
-sparse: WARNINGS
-smatch: WARNINGS
-kerneldoc: WARNINGS
+diff --git a/drivers/media/platform/rcar-vin/rcar-csi2.c b/drivers/media/platform/rcar-vin/rcar-csi2.c
+index 11848d0c4a55cb4c..37cc46b9201e0546 100644
+--- a/drivers/media/platform/rcar-vin/rcar-csi2.c
++++ b/drivers/media/platform/rcar-vin/rcar-csi2.c
+@@ -1498,6 +1498,7 @@ static struct platform_driver rcar_csi2_pdrv = {
+ 	.probe	= rcsi2_probe,
+ 	.driver	= {
+ 		.name	= "rcar-csi2",
++		.suppress_bind_attrs = true,
+ 		.of_match_table	= rcar_csi2_of_table,
+ 	},
+ };
+-- 
+2.34.1
 
-Detailed results are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Sunday.log
-
-Detailed regression test results are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Sunday-test-media.log
-http://www.xs4all.nl/~hverkuil/logs/Sunday-test-media-32.log
-http://www.xs4all.nl/~hverkuil/logs/Sunday-test-media-dmesg.log
-
-Full logs are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Sunday.tar.bz2
-
-The Media Infrastructure API from this daily build is here:
-
-http://www.xs4all.nl/~hverkuil/spec/index.html
