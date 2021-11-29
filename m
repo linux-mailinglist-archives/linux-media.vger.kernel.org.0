@@ -2,123 +2,83 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6D0284611D6
-	for <lists+linux-media@lfdr.de>; Mon, 29 Nov 2021 11:08:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 46FAA4611E0
+	for <lists+linux-media@lfdr.de>; Mon, 29 Nov 2021 11:12:19 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1353067AbhK2KMB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 29 Nov 2021 05:12:01 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37698 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239028AbhK2KJ6 (ORCPT
+        id S233119AbhK2KPf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 29 Nov 2021 05:15:35 -0500
+Received: from smtprelay0233.hostedemail.com ([216.40.44.233]:60786 "EHLO
+        smtprelay.hostedemail.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S232785AbhK2KNe (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 29 Nov 2021 05:09:58 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6A290C0698CE;
-        Mon, 29 Nov 2021 01:48:00 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 3377CB80E6B;
-        Mon, 29 Nov 2021 09:47:59 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 42D06C8CFC9;
-        Mon, 29 Nov 2021 09:47:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1638179277;
-        bh=almiBRvaRIswDQ0M54jkBCu++okng5mXod3ZWHjA9zA=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=bYUkGbbarxNSXez5Q7KK4TvqK5ZftC5v/LITcTho7w9ecANgRfh/ILgp/V+XMgAzT
-         D+RHjtYH6UqgatA4xQPft02ZryN6Iolqymom+tbCVNvIk5+LpfaueCGaPU7r4oMkSB
-         5DG+DmX+vvide0RHSoqVwwhurxEbwAuclEjRZ6FnInFyF/iUmW0kN16OC/MXmrl1pQ
-         zEXqrfIwGEd9nHYteyaJtKoGtmfhGVzUWqqbKwr9cZ49dlggryl6iFVsgp2CHuFGNr
-         E7vv/yfqih4C/474Q99jWJ9jAIzFFJuXalNDW0OuHO2agUPdDUXht0TRhJ5z7dCzxJ
-         2D23CV5HiRxqg==
-Received: from mchehab by mail.kernel.org with local (Exim 4.94.2)
-        (envelope-from <mchehab@kernel.org>)
-        id 1mrdGN-000RCA-4c; Mon, 29 Nov 2021 10:47:55 +0100
-From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+        Mon, 29 Nov 2021 05:13:34 -0500
+Received: from omf13.hostedemail.com (clb03-v110.bra.tucows.net [216.40.38.60])
+        by smtprelay07.hostedemail.com (Postfix) with ESMTP id C3336184AAAA2;
+        Mon, 29 Nov 2021 10:10:16 +0000 (UTC)
+Received: from [HIDDEN] (Authenticated sender: joe@perches.com) by omf13.hostedemail.com (Postfix) with ESMTPA id 8B57F200052A;
+        Mon, 29 Nov 2021 10:10:08 +0000 (UTC)
+Message-ID: <a22c082a661df0b548511f282fcc519a11bb3340.camel@perches.com>
+Subject: Re: [PATCH v2 09/20] media: si470x: fix printk warnings with clang
+From:   Joe Perches <joe@perches.com>
+To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 Cc:     linuxarm@huawei.com, mauro.chehab@huawei.com,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Kees Cook <keescook@chromium.org>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         Nathan Chancellor <nathan@kernel.org>,
         Nick Desaulniers <ndesaulniers@google.com>,
         linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
         llvm@lists.linux.dev
-Subject: [PATCH v2 20/20] media: mxl5005s: drop some dead code
-Date:   Mon, 29 Nov 2021 10:47:52 +0100
-Message-Id: <f7702322ec7fce557850e6a5acabc1c5d574ff33.1638179135.git.mchehab+huawei@kernel.org>
-X-Mailer: git-send-email 2.33.1
-In-Reply-To: <cover.1638179135.git.mchehab+huawei@kernel.org>
+Date:   Mon, 29 Nov 2021 02:10:14 -0800
+In-Reply-To: <442df11dd08158df88e95a457175a65f20dc8369.1638179135.git.mchehab+huawei@kernel.org>
 References: <cover.1638179135.git.mchehab+huawei@kernel.org>
+         <442df11dd08158df88e95a457175a65f20dc8369.1638179135.git.mchehab+huawei@kernel.org>
+Content-Type: text/plain; charset="ISO-8859-1"
+User-Agent: Evolution 3.40.4-1 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
-To:     unlisted-recipients:; (no To-header on input)
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=1.60
+X-Stat-Signature: mirpimwbnqro13sr9bkhcgcm35ah8wdi
+X-Rspamd-Server: rspamout03
+X-Rspamd-Queue-Id: 8B57F200052A
+X-Session-Marker: 6A6F6540706572636865732E636F6D
+X-Session-ID: U2FsdGVkX191CtHozPREJeEXS5EE+p9wMyt++DJjFiw=
+X-HE-Tag: 1638180608-885365
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-As reported by clang (with W=1), the ctrlVal var is never used.
+On Mon, 2021-11-29 at 10:47 +0100, Mauro Carvalho Chehab wrote:
+> Clang doesn't like "%hu" on macros:
+> 
+> 	drivers/media/radio/si470x/radio-si470x-i2c.c:414:4: error: format specifies type 'unsigned short' but the argument has type 'int' [-Werror,-Wformat]
+> 	drivers/media/radio/si470x/radio-si470x-i2c.c:417:4: error: format specifies type 'unsigned short' but the argument has type 'int' [-Werror,-Wformat]
+> 
+> Besides that, changeset cbacb5ab0aa0 ("docs: printk-formats: Stop encouraging use of unnecessary %h[xudi] and %hh[xudi]")
+> dropped recomendation of using %h.
+> 
+> So, just replace them with "%u".
 
-Yet, there are even some loops to estimate it. As this is dead
-code, remove it. If ever needed, someone could revert this
-patch.
+And perhaps change these to single dev_warn calls instead of multiple calls.
 
-Reviewed-by: Nathan Chancellor <nathan@kernel.org>
-Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
----
+> diff --git a/drivers/media/radio/si470x/radio-si470x-i2c.c b/drivers/media/radio/si470x/radio-si470x-i2c.c
+[]
+> @@ -410,10 +410,10 @@ static int si470x_i2c_probe(struct i2c_client *client)
+>  			radio->registers[DEVICEID], radio->registers[SI_CHIPID]);
+>  	if ((radio->registers[SI_CHIPID] & SI_CHIPID_FIRMWARE) < RADIO_FW_VERSION) {
+>  		dev_warn(&client->dev,
+> -			"This driver is known to work with firmware version %hu,\n",
+> +			"This driver is known to work with firmware version %u,\n",
+>  			RADIO_FW_VERSION);
+>  		dev_warn(&client->dev,
+> -			"but the device has firmware version %hu.\n",
+> +			"but the device has firmware version %u.\n",
+>  			radio->registers[SI_CHIPID] & SI_CHIPID_FIRMWARE);
 
-See [PATCH v2 00/20] at: https://lore.kernel.org/all/cover.1638179135.git.mchehab+huawei@kernel.org/
+		dev_warn(&client->dev,
+			"This driver is known to work with firmware version %u, but the device has firmware version %u\n",
+			RADIO_FW_VERSION, radio->registers[SI_CHIPID] & SI_CHIPID_FIRMWARE);
 
- drivers/media/tuners/mxl5005s.c | 14 +-------------
- 1 file changed, 1 insertion(+), 13 deletions(-)
+etc...
 
-diff --git a/drivers/media/tuners/mxl5005s.c b/drivers/media/tuners/mxl5005s.c
-index f6e82a8e7d37..ab4c43df9d18 100644
---- a/drivers/media/tuners/mxl5005s.c
-+++ b/drivers/media/tuners/mxl5005s.c
-@@ -3414,9 +3414,8 @@ static u16 MXL_ControlWrite_Group(struct dvb_frontend *fe, u16 controlNum,
- 	u32 value, u16 controlGroup)
- {
- 	struct mxl5005s_state *state = fe->tuner_priv;
--	u16 i, j, k;
-+	u16 i, j;
- 	u32 highLimit;
--	u32 ctrlVal;
- 
- 	if (controlGroup == 1) /* Initial Control */ {
- 
-@@ -3432,9 +3431,6 @@ static u16 MXL_ControlWrite_Group(struct dvb_frontend *fe, u16 controlNum,
- 							(u8)(state->Init_Ctrl[i].bit[j]),
- 							(u8)((value>>j) & 0x01));
- 					}
--					ctrlVal = 0;
--					for (k = 0; k < state->Init_Ctrl[i].size; k++)
--						ctrlVal += state->Init_Ctrl[i].val[k] * (1 << k);
- 				} else
- 					return -1;
- 			}
-@@ -3454,9 +3450,6 @@ static u16 MXL_ControlWrite_Group(struct dvb_frontend *fe, u16 controlNum,
- 							(u8)(state->CH_Ctrl[i].bit[j]),
- 							(u8)((value>>j) & 0x01));
- 					}
--					ctrlVal = 0;
--					for (k = 0; k < state->CH_Ctrl[i].size; k++)
--						ctrlVal += state->CH_Ctrl[i].val[k] * (1 << k);
- 				} else
- 					return -1;
- 			}
-@@ -3477,11 +3470,6 @@ static u16 MXL_ControlWrite_Group(struct dvb_frontend *fe, u16 controlNum,
- 							(u8)(state->MXL_Ctrl[i].bit[j]),
- 							(u8)((value>>j) & 0x01));
- 					}
--					ctrlVal = 0;
--					for (k = 0; k < state->MXL_Ctrl[i].size; k++)
--						ctrlVal += state->
--							MXL_Ctrl[i].val[k] *
--							(1 << k);
- 				} else
- 					return -1;
- 			}
--- 
-2.33.1
 
