@@ -2,131 +2,108 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0BDA9461665
-	for <lists+linux-media@lfdr.de>; Mon, 29 Nov 2021 14:28:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1E2B54616C3
+	for <lists+linux-media@lfdr.de>; Mon, 29 Nov 2021 14:38:25 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S245509AbhK2Nbe (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 29 Nov 2021 08:31:34 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53360 "EHLO
+        id S233913AbhK2Nlk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 29 Nov 2021 08:41:40 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56020 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235896AbhK2N3c (ORCPT
+        with ESMTP id S237899AbhK2Njk (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 29 Nov 2021 08:29:32 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4D2CBC08E867;
-        Mon, 29 Nov 2021 04:08:18 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id EAD9F612DD;
-        Mon, 29 Nov 2021 12:08:17 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8C1A1C004E1;
-        Mon, 29 Nov 2021 12:08:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1638187697;
-        bh=AVNKEkmJUQ9Akh0ujLWrgjE9ECPTii2J34p78F6aXfw=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=jSaMOTsYyspim30zg0bDBb0uVEec5wgFmTHi9GaQon+uGOH/tc+TdBVNmersVCrEo
-         0HMFB0cCHq2DxHhktXImsyBWj9aGglvO/WwnGNPJ/rUq86FXT3sw0/k+nVYAJCihYq
-         Exr0epUXaL8/6JUFdJiIrQSygdI/kYE7Toaj+9tWP1nxbfqxE3oI00pTMBd2JpdJuN
-         taXK9z2gxdO6iIGRBQSkuVoBj35BM+scvhvaK83u/zg/dWST6O0yRN+Y/YO5XVzosZ
-         afP4niJMSN84BgZWulguW0TH8IsP3XhMS/+Tifm32XgplWwkYo0udX1BYOV9Cz/1q2
-         0WaT0OPtYW3MA==
-Date:   Mon, 29 Nov 2021 12:08:06 +0000
-From:   Mark Brown <broonie@kernel.org>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Hans de Goede <hdegoede@redhat.com>,
-        "Rafael J . Wysocki" <rjw@rjwysocki.net>,
-        Mark Gross <markgross@kernel.org>,
-        Andy Shevchenko <andy@infradead.org>,
-        Wolfram Sang <wsa@the-dreams.de>,
-        Mika Westerberg <mika.westerberg@linux.intel.com>,
-        Daniel Scally <djrscally@gmail.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>, Len Brown <lenb@kernel.org>,
-        linux-acpi@vger.kernel.org, platform-driver-x86@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-i2c@vger.kernel.org,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Kate Hsuan <hpa@redhat.com>, linux-media@vger.kernel.org,
-        linux-clk@vger.kernel.org,
-        Andy Shevchenko <andy.shevchenko@gmail.com>
-Subject: Re: [PATCH v6 05/15] regulator: Introduce tps68470-regulator driver
-Message-ID: <YaTCpgYaPDssQp+N@sirena.org.uk>
-References: <20211125165412.535063-1-hdegoede@redhat.com>
- <20211125165412.535063-6-hdegoede@redhat.com>
- <YaAdIG+2MZPsdI+F@pendragon.ideasonboard.com>
- <19aeff06-d397-5f88-6d07-f76a2073b682@redhat.com>
- <YaLBeq0+0A6R2FZG@pendragon.ideasonboard.com>
+        Mon, 29 Nov 2021 08:39:40 -0500
+Received: from mail-wr1-x434.google.com (mail-wr1-x434.google.com [IPv6:2a00:1450:4864:20::434])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F22A2C08EC69
+        for <linux-media@vger.kernel.org>; Mon, 29 Nov 2021 04:19:13 -0800 (PST)
+Received: by mail-wr1-x434.google.com with SMTP id q3so13485044wru.5
+        for <linux-media@vger.kernel.org>; Mon, 29 Nov 2021 04:19:13 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-transfer-encoding:content-language;
+        bh=XcU3cZ675oLKAA0YDtoMQZs1c0pmDDKNznpl0CDHRnI=;
+        b=gX559nvoo9EME4Wn9UQ4zSsuXCKTgh0cVjLmxYmXWIkRJA+z/RlsJm2wtBy/1umRn5
+         31kRXBXD9FVypfX/Km1XoIYo/rhU1dnX5ppZmSuXy/Sqvvzte8dXh49gu429ZfFOroyA
+         Nc9zK+eZBemQI9BLB/bVvXbejK6+yo8Ry1PS6uyrpvzuobkYKcQTT6o1gkZDYduyvjfI
+         zsfsspYl034R6M7cey6xrtRAA/A5yO7/gPhIIB0ZvC3m9GbpQ+N1EwKDmKjdz2QPkBTZ
+         poFsH+/1WSOGeq7w6s2fayp7snttEkHa9iF6FaF0bgYA3PTi15XaLoRw32j/te8mVu47
+         N7ug==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-transfer-encoding
+         :content-language;
+        bh=XcU3cZ675oLKAA0YDtoMQZs1c0pmDDKNznpl0CDHRnI=;
+        b=PPrMO9Zx1lwdr2Bi821C7UwRRhT6Tl7Wj0xjVD6gua6Ne4WzcrbvTxyAPflrbZTCxi
+         eXLjFqXFqGnU6ANGjEVJ4XuaRO/0S3G2cpvXVEhbLpQt5wxHYVX5QC06BwO+AZ7ZTXSH
+         bkNapaCta3ecvG5ogiAI/AhxqnPZRpHz6XnEvoS+14ctne89rlzGpLKIN6OFtk590WFI
+         VodUbzb47F//U7MFr576fPcgDjiRNqzOgWLeYTil031QxNSZJHIrUjWCiVAvIS21hqVr
+         Cp0Choie0nrwnbXcqxWuZ1/QzCo0Wmct0FdaqaDpKeLcpQ8Qq/RXzySuOOSiyloor4/f
+         2exg==
+X-Gm-Message-State: AOAM533e9oZwe1TbQiFGF46BsOmjzK1vRyvschUITLSfBMd6M/uFuQZe
+        ucQ1K2IlXON8O9T9SPcExMYXG9v/sLc=
+X-Google-Smtp-Source: ABdhPJxeWD8FcZ//PIfnggOqDMEQt5eKAjwzpuVJLP0oB3ZURw8HM3SiJfb5aEeWqkmgNST850wj9Q==
+X-Received: by 2002:a5d:5008:: with SMTP id e8mr33182089wrt.83.1638188352670;
+        Mon, 29 Nov 2021 04:19:12 -0800 (PST)
+Received: from [192.168.178.21] (p57b0b77b.dip0.t-ipconnect.de. [87.176.183.123])
+        by smtp.gmail.com with ESMTPSA id n13sm13965341wrt.44.2021.11.29.04.19.11
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 29 Nov 2021 04:19:12 -0800 (PST)
+Subject: Re: [PATCH 22/26] dma-buf: add enum dma_resv_usage
+To:     Daniel Vetter <daniel@ffwll.ch>
+Cc:     sumit.semwal@linaro.org, linux-media@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org
+References: <20211123142111.3885-1-christian.koenig@amd.com>
+ <20211123142111.3885-23-christian.koenig@amd.com>
+ <YZ+y+Uwo809qtvs5@phenom.ffwll.local>
+From:   =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
+Message-ID: <1e45687c-23ee-03da-abb8-da4a5f9d2872@gmail.com>
+Date:   Mon, 29 Nov 2021 13:19:11 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="RmSGVEEsRbHLX9Ig"
-Content-Disposition: inline
-In-Reply-To: <YaLBeq0+0A6R2FZG@pendragon.ideasonboard.com>
-X-Cookie: Thank god!! ... It's HENNY YOUNGMAN!!
+In-Reply-To: <YZ+y+Uwo809qtvs5@phenom.ffwll.local>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Am 25.11.21 um 16:59 schrieb Daniel Vetter:
+> [SNIP]
+>> + *
+>> + * For example when asking for WRITE fences then the KERNEL fences are returned
+>> + * as well. Similar when asked for READ fences then both WRITE and KERNEL
+>> + * fences are returned as well.
+>> + */
+>> +enum dma_resv_usage {
+>> +	/**
+>> +	 * @DMA_RESV_USAGE_KERNEL: For in kernel memory management only.
+>> +	 *
+>> +	 * This should only be used for things like copying or clearing memory
+>> +	 * with a DMA hardware engine for the purpose of kernel memory
+>> +	 * management.
+>> +	 *
+>> +         * Drivers *always* need to wait for those fences before accessing the
+>> +	 * resource protected by the dma_resv object. The only exception for
+>> +	 * that is when the resource is known to be locked down in place by
+>> +	 * pinning it previously.
+> Should dma_buf_pin also do the wait for kernel fences? I think that would
+> also ba e bit clearer semantics in the dma-buf patch which does these
+> waits for us.
+>
+> Or should dma_buf_pin be pipelined and it's up to callers to wait? For kms
+> that's definitely the semantics we want, but it's a bit playing with fire
+> situation, so maybe dma-buf should get the more idiot proof semantics?
 
---RmSGVEEsRbHLX9Ig
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Yeah, good question. I've already added a wait after mapping an 
+attachment for static importers.
 
-On Sun, Nov 28, 2021 at 01:38:34AM +0200, Laurent Pinchart wrote:
-> On Fri, Nov 26, 2021 at 12:22:35PM +0100, Hans de Goede wrote:
-> > On 11/26/21 00:32, Laurent Pinchart wrote:
-> > > On Thu, Nov 25, 2021 at 05:54:02PM +0100, Hans de Goede wrote:
-> > >> The TPS68470 PMIC provides Clocks, GPIOs and Regulators. At present in
-> > >> the kernel the Regulators and Clocks are controlled by an OpRegion
-> > >> driver designed to work with power control methods defined in ACPI, but
+But for dynamic importers I'm not sure what we want to do. On the one 
+hand waiting for moves to finish is certainly the more defensive 
+approach on the other hand when you have a dynamic importer you 
+absolutely need to handle those dependencies correctly anyway.
 
-Please delete unneeded context from mails when replying.  Doing this
-makes it much easier to find your reply in the message, helping ensure
-it won't be missed by people scrolling through the irrelevant quoted
-material.
-
-> > >> + * (1) This regulator must have the same voltage as VIO if S_IO LDO is used to
-> > >> + *     power a sensor/VCM which I2C is daisy chained behind the PMIC.
-> > >> + * (2) If there is no I2C daisy chain it can be set freely.
-> > >> + */
-
-> > > Do we need safety checks for this ?
-
-> > There really is no way to deal this condition needs to matches inside the driver,
-> > this should be enforced by setting proper constraints on the 2 regulators where
-> > the PMIC is used with a sensor I2C daisy chained behind it.
-
-> Right. I tend to be cautious here, as incorrect settings can destroy the
-> hardware. We should err on the side of too many safety checks rather
-> than too few. I was thinking that the cio2-bridge driver could set a
-> daisy-chaining flag, which could trigger additional checks here, but it
-> wouldn't protect against someone experimenting to support a new device
-> and setting different voltages without the daisy-chaining flag.
-
-> My biggest worry is that someone with an unsupported machine may start
-> by copying and pasting an existing configuration to try it out, and fry
-> their hardware.
-
-There's really nothing you can do that prevents this, especially in the
-cut'n'paste scenario.  Overrides tend to get copied along with the rest
-of the configuration, or checks hacked out if people think they're
-getting in the way without realising what they're there for.
-
---RmSGVEEsRbHLX9Ig
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmGkwqUACgkQJNaLcl1U
-h9CAgAf8CzQIgZiHFaA5iv2jE3nlJ5tXNUlPqGuiPWQ/ZvLAOTS7xrHL0cWrUuTQ
-T1Rci4/aDPHWanPC43f9AR6nopwXJkzEhmc46AQn2bho+YIqta//ue7YrGX3TDCS
-vn/KYo8jTKMrXMd1QCItfhdYPhHpL6t5qHvmtyQSz2/UxGH7k+SzmPQQI7Wo3bwx
-wIi09kgVKlwCEpmFMI3TyoCCpJgVKYJXi6XiLsA6a8pW2O/IkoeMZc8mcMbFYbL3
-MeZzRi7KZ7xNneWZfyZ10MZqx70nGtARsQUn1yv/gyz66hdGtGg/a0l9BQufgecB
-n3mz+wbWmgILk3zQivafxzUdjYsEow==
-=qPlL
------END PGP SIGNATURE-----
-
---RmSGVEEsRbHLX9Ig--
+Regards,
+Christian.
