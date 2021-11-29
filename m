@@ -2,228 +2,269 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B28924624AA
-	for <lists+linux-media@lfdr.de>; Mon, 29 Nov 2021 23:20:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id ECD36462300
+	for <lists+linux-media@lfdr.de>; Mon, 29 Nov 2021 22:12:30 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233481AbhK2WXq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 29 Nov 2021 17:23:46 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57172 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231983AbhK2WVy (ORCPT
+        id S230146AbhK2VPr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 29 Nov 2021 16:15:47 -0500
+Received: from mail-oi1-f170.google.com ([209.85.167.170]:33514 "EHLO
+        mail-oi1-f170.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230193AbhK2VNq (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 29 Nov 2021 17:21:54 -0500
-Received: from mail-ed1-x529.google.com (mail-ed1-x529.google.com [IPv6:2a00:1450:4864:20::529])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6EF13C08ED38;
-        Mon, 29 Nov 2021 12:13:54 -0800 (PST)
-Received: by mail-ed1-x529.google.com with SMTP id r11so77131247edd.9;
-        Mon, 29 Nov 2021 12:13:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=fi42U/2jTpx4BPkiel0v3NDRtd9dtjlNx3pYLf3HPek=;
-        b=Cp149vpQac3NuayyncHRgVWAufJASCZmcQmiC8wTWF0gcADkg5OetNokGVSlko2U5V
-         wu95zs4NSFS4Zef9eezxIxUyrXSwLKbBAQod5t5j8q51tKRtYf+I9C35RQ7He8CjsOGj
-         ozkkesanML5s0T/kTEQASrhj+zaxg1f4wLkX3jQMn6XnmzMl8ITbNwUe2xP6Ewk887Bg
-         bPoCn8Y9V5lj9fxOnFBtkW/ITEqk0Ng7XMbBVgSAsb8aYsMu85Bt71uJpF1a7A1SuXIp
-         1EzEILVjPx8v9ChnM9Gioa5D+yd/pSWgze8wHFEQM7jbT5DHLUkfT5lg1Sw0/K69pveF
-         25tw==
+        Mon, 29 Nov 2021 16:13:46 -0500
+Received: by mail-oi1-f170.google.com with SMTP id q25so37153461oiw.0;
+        Mon, 29 Nov 2021 13:10:28 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=fi42U/2jTpx4BPkiel0v3NDRtd9dtjlNx3pYLf3HPek=;
-        b=sEPpCQVfrrPa2/gdDaaSFWwPe/2lxBJzpWeBWq2spqKQt3gD+6D4HvzllGyhFba188
-         AqSa88aRP0Z9uVsiHP3FsQxbdGdfIc67eM+OxNzDUAFtlGEVz6k1MhXYFWAMn/7TPT6N
-         Y0muVw1MFf3s44OqFei/W0B72cZVuJG0yCyO7vXICqt74fTRZLR0mu2ac8VTBG7BvUmO
-         2gWIjJqn85jjaMDI/K4aYnTLmdK3lYZ8YjGfiDixzzGw4YD9pIXIw/Mo5zTM77SZ0UPM
-         TY48ubHkQqpdnwYzeiT/21e+W7r4SHW0njaht7ictk1P+yEj0UQlO4PRnS0q41voPuwQ
-         JIJQ==
-X-Gm-Message-State: AOAM533JZIfZqdtpxMpCYqWoNcE4sv+n6OULqw0xI1SAA4lySyOLn2Ly
-        fjmBs0dsX6XJiRDaNwIZoqeB0dsah8mZtN2XTnU=
-X-Google-Smtp-Source: ABdhPJxomutnM/GNTZ/jmxeBw2lYvQB2BV61no9JvRS0JnbN0CtivcJkvJEPPqNAW7GUtFRbx/PgSf3ryQizZel12NE=
-X-Received: by 2002:a05:6402:3595:: with SMTP id y21mr78068428edc.332.1638216832876;
- Mon, 29 Nov 2021 12:13:52 -0800 (PST)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=PoeOwN/KZpCo4F8TnAlVyatMjO5hr8169dxHm9L/v84=;
+        b=VNBSXTEerTs4IvbKe6PX9lj3ra7ZL+zDxyC8AMcVkvKT5KhCPHay2Ca4W9hL3JZgzW
+         gh6eRrRyNP95tKGdDB78bo/02A8uzySMy+DEYJxLSx7wUGPfOJelfKYC8A9exVrX+9gE
+         H/Kqnv9u1c18pw4KYW9xVxInV9kLYMynINhxn5pIf+HumHG+0S/7ClYax8F1PVf4Qj+j
+         YY3Fj51l5f5KMB56RO2urvtS3gZmeHpQCBYAJSvBDlyQgsh7CC1vc9G5PorPa89mZZK7
+         9lwuAvgpKtnqbRl4MKQeE7E2RvJz6JrQmiZXeA1DB0WOVXereunK/0lBJfSUoqIA4d8R
+         Q5Ng==
+X-Gm-Message-State: AOAM533GnoBpWaMLonb0RAZssEDK04KFLBbYNd1RWGJQqqWGFhlm5WYU
+        azKvj2jzBi9lBiOR2KHb7bNYPQSj9w==
+X-Google-Smtp-Source: ABdhPJySSMQ87/MdZam85kQEIgw9Myl184KLSWupnu14O1Z1MmXA2sGmauqt62BGOYoSSvc50Sdxjw==
+X-Received: by 2002:a05:6808:14c2:: with SMTP id f2mr467574oiw.154.1638220228230;
+        Mon, 29 Nov 2021 13:10:28 -0800 (PST)
+Received: from robh.at.kernel.org (66-90-148-213.dyn.grandenetworks.net. [66.90.148.213])
+        by smtp.gmail.com with ESMTPSA id m12sm2846678ots.59.2021.11.29.13.10.26
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 29 Nov 2021 13:10:27 -0800 (PST)
+Received: (nullmailer pid 615090 invoked by uid 1000);
+        Mon, 29 Nov 2021 21:10:26 -0000
+Date:   Mon, 29 Nov 2021 15:10:26 -0600
+From:   Rob Herring <robh@kernel.org>
+To:     Eugen Hristev <eugen.hristev@microchip.com>
+Cc:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        jacopo@jmondi.org, laurent.pinchart@ideasonboard.com,
+        sakari.ailus@iki.fi, nicolas.ferre@microchip.com
+Subject: Re: [PATCH v2 02/25] dt-bindings: media: atmel: csi2dc: add bindings
+ for microchip csi2dc
+Message-ID: <YaVBwjtEI3xcL551@robh.at.kernel.org>
+References: <20211112142509.2230884-1-eugen.hristev@microchip.com>
+ <20211112142509.2230884-3-eugen.hristev@microchip.com>
 MIME-Version: 1.0
-References: <20210407073534.376722-1-benjamin.gaignard@collabora.com> <20210407073534.376722-3-benjamin.gaignard@collabora.com>
-In-Reply-To: <20210407073534.376722-3-benjamin.gaignard@collabora.com>
-From:   Adam Ford <aford173@gmail.com>
-Date:   Mon, 29 Nov 2021 14:13:41 -0600
-Message-ID: <CAHCN7x+HOMoVNq-swqA2p3ddGKft_8QkB2qm00-CN8Dujaw52Q@mail.gmail.com>
-Subject: Re: [PATCH v9 02/13] dt-bindings: media: nxp, imx8mq-vpu: Update the
- bindings for G2 support
-To:     Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Cc:     Ezequiel Garcia <ezequiel@collabora.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        Lee Jones <lee.jones@linaro.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        mripard@kernel.org, paul.kocialkowski@bootlin.com,
-        Chen-Yu Tsai <wens@csie.org>,
-        Jernej Skrabec <jernej.skrabec@siol.net>,
-        hverkuil-cisco@xs4all.nl, emil.l.velikov@gmail.com,
-        Sascha Hauer <kernel@pengutronix.de>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        linux-media <linux-media@vger.kernel.org>,
-        "open list:HANTRO VPU CODEC DRIVER" 
-        <linux-rockchip@lists.infradead.org>,
-        devicetree <devicetree@vger.kernel.org>,
-        arm-soc <linux-arm-kernel@lists.infradead.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        devel@driverdev.osuosl.org, kernel@collabora.com,
-        Chris Healy <cphealy@gmail.com>, Rob Herring <robh@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20211112142509.2230884-3-eugen.hristev@microchip.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Apr 7, 2021 at 2:37 AM Benjamin Gaignard
-<benjamin.gaignard@collabora.com> wrote:
->
-> Introducing the G2 hevc video decoder requires modifications of the bindings to allow
-> one node per VPU.
->
-> VPUs share one hardware control block which is provided as a phandle on
-> a syscon.
-> Each node has now one reg and one interrupt.
-> Add a compatible for G2 hardware block: nxp,imx8mq-vpu-g2.
->
-> To be compatible with older DT the driver is still capable to use the 'ctrl'
-> reg-name even if it is deprecated now.
->
-> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-> Reviewed-by: Rob Herring <robh@kernel.org>
-> Reviewed-by: Philipp Zabel <p.zabel@pengutronix.de>
-
-I need to edit the yaml file to add support the imx8mm, but it doesn't
-appear that this series has gone anywhere.  I know there is still some
-waiting on the vpu-blk-ctrl driver, but it seems like the 8mq could
-split the codecs out using syscon in place of the blk-ctrl until that
-driver is available.  If that doesn't work, I might have to introduce
-a separate yaml file for mini which could be somehow merged with the
-8mq in the future.  I am just not sure which way to go right now.
-
-adam
+On Fri, Nov 12, 2021 at 04:24:46PM +0200, Eugen Hristev wrote:
+> Add bindings documentation for Microchip CSI2 Demultiplexer controller.
+> 
+> CSI2DC is a demultiplexer from Synopsys IDI interface specification to
+> parallel interface connection or direct memory access.
+> 
+> Signed-off-by: Eugen Hristev <eugen.hristev@microchip.com>
 > ---
-> version 9:
->  - Corrections in commit message
->
-> version 7:
->  - Add Rob and Philipp reviewed-by tag
->  - Change syscon phandle name to nxp,imx8m-vpu-ctrl (remove 'q' to be
->    usable for iMX8MM too)
->
-> version 5:
-> - This version doesn't break the backward compatibilty between kernel
->   and DT.
->
->  .../bindings/media/nxp,imx8mq-vpu.yaml        | 53 ++++++++++++-------
->  1 file changed, 34 insertions(+), 19 deletions(-)
->
-> diff --git a/Documentation/devicetree/bindings/media/nxp,imx8mq-vpu.yaml b/Documentation/devicetree/bindings/media/nxp,imx8mq-vpu.yaml
-> index 762be3f96ce9..18e7d40a5f24 100644
-> --- a/Documentation/devicetree/bindings/media/nxp,imx8mq-vpu.yaml
-> +++ b/Documentation/devicetree/bindings/media/nxp,imx8mq-vpu.yaml
-> @@ -15,22 +15,18 @@ description:
->
->  properties:
->    compatible:
-> -    const: nxp,imx8mq-vpu
-> +    oneOf:
-> +      - const: nxp,imx8mq-vpu
-> +      - const: nxp,imx8mq-vpu-g2
->
->    reg:
-> -    maxItems: 3
-> -
-> -  reg-names:
-> -    items:
-> -      - const: g1
-> -      - const: g2
-> -      - const: ctrl
+> Changes in v2:
+> - changed the endpoint/port references as suggested by Rob
+> 
+> Changes in this version :
+> - fixed 'sink' name to be actually source.
+> - added dma properties and example with dma
+> 
+> Previous change log:
+> Changes in v5:
+> - modified bindings as per Rob Herring review
+> 
+> Changes in v4:
+> - Removed property for inter-line-delay and for clock continuous/non-continuous
+> - Removed virtual channel by reg for second endpoint
+> 
+> Changes in v3:
+> - Removed some text from description, as it was explained in the schema
+> - fixed other things as per Rob's review
+> - moved some text inside the schema, like the clock description
+> 
+> Changes in v2:
+> - fixed warnings reported by dt_binding_check
+> 
+>  .../bindings/media/microchip,csi2dc.yaml      | 159 ++++++++++++++++++
+>  1 file changed, 159 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/media/microchip,csi2dc.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/media/microchip,csi2dc.yaml b/Documentation/devicetree/bindings/media/microchip,csi2dc.yaml
+> new file mode 100644
+> index 000000000000..45418c964bf3
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/media/microchip,csi2dc.yaml
+> @@ -0,0 +1,159 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/media/microchip,csi2dc.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Microchip CSI2 Demux Controller (CSI2DC)
+> +
+> +maintainers:
+> +  - Eugen Hristev <eugen.hristev@microchip.com>
+> +
+> +description:
+> +  CSI2DC - Camera Serial Interface 2 Demux Controller
+> +
+> +  CSI2DC is a hardware block that receives incoming data from an IDI interface
+> +  and filters packets based on their data type and virtual channel identifier,
+> +  then converts the byte stream into a cross clock domain to a pixel stream
+> +  to a parallel interface that can be read by a sensor controller.
+> +  IDI interface is Synopsys proprietary.
+> +
+> +  CSI2DC provides two pipes, one video pipe and one data pipe. Video pipe
+> +  is connected to a sensor controller and the data pipe is accessible
+> +  as a DMA slave port to a DMA controller.
+> +
+> +  CSI2DC supports a single 'port' node as a sink port with Synopsys 32-bit
+> +  IDI interface. The connected endpoint must be a IDI interface compatible
+> +  device , that can provide 32-bit IDI interface connection as source port.
+> +  This port is mandatory.
+> +
+> +  CSI2DC supports one 'port' node as source port with parallel interface.
+> +  This is called video pipe.
+> +  This port has an 'endpoint' that can be connected to a sink port of another
+> +  controller (next in pipeline).
+> +
+> +  CSI2DC also supports direct access to the data through AHB, via DMA channel,
+> +  called data pipe.
+> +  Because of this, the source 'port' child node (second) is not mandatory.
+> +  If the source 'port' child node is missing, only data pipe is available.
+> +  For data pipe to be available, a dma controller must be referenced.
+> +
+> +properties:
+> +  compatible:
+> +    const: microchip,sama7g5-csi2dc
+> +
+> +  reg:
 > +    maxItems: 1
->
->    interrupts:
-> -    maxItems: 2
+> +
+> +  clocks:
+> +    maxItems: 2
+> +
+> +  clock-names:
+> +    description:
+> +      CSI2DC must have two clocks to function correctly. One clock is the
+> +      peripheral clock for the inside functionality of the hardware block.
+> +      This is named 'pclk'. The second clock must be the cross domain clock,
+> +      in which CSI2DC will perform clock crossing. This clock must be fed
+> +      by the next controller in pipeline, which usually is a sensor controller.
+> +      Normally this clock should be given by this sensor controller who
+> +      is also a clock source. This clock is named 'scck', sensor controller clock.
+> +    items:
+> +      - const: pclk
+> +      - const: scck
+> +
+> +  dmas:
 > +    maxItems: 1
->
->    interrupt-names:
-> -    items:
-> +    oneOf:
->        - const: g1
->        - const: g2
->
-> @@ -46,14 +42,18 @@ properties:
->    power-domains:
->      maxItems: 1
->
-> +  nxp,imx8m-vpu-ctrl:
-> +    description: Specifies a phandle to syscon VPU hardware control block
-> +    $ref: "/schemas/types.yaml#/definitions/phandle"
 > +
->  required:
->    - compatible
->    - reg
-> -  - reg-names
->    - interrupts
->    - interrupt-names
->    - clocks
->    - clock-names
-> +  - nxp,imx8m-vpu-ctrl
->
->  additionalProperties: false
->
-> @@ -62,18 +62,33 @@ examples:
->          #include <dt-bindings/clock/imx8mq-clock.h>
->          #include <dt-bindings/interrupt-controller/arm-gic.h>
->
-> -        vpu: video-codec@38300000 {
-> +        vpu_ctrl: syscon@38320000 {
-> +                 compatible = "nxp,imx8mq-vpu-ctrl", "syscon";
-> +                 reg = <0x38320000 0x10000>;
+> +  dma-names:
+> +    const: rx
+> +
+> +  ports:
+> +    $ref: /schemas/graph.yaml#/properties/ports
+> +
+> +    properties:
+> +      port@0:
+> +        $ref: /schemas/graph.yaml#/properties/port
+
+This must be #/$defs/port-base instead of #/properties/port if 
+video-interfaces.yaml is used.
+
+> +        description:
+> +          Input port node, single endpoint describing the input port.
+> +
+> +        properties:
+> +          endpoint:
+> +            $ref: video-interfaces.yaml#
+
+But what properties from this do you use? It doesn't look like you need 
+this?
+
+> +            unevaluatedProperties: false
+> +            description: Endpoint connected to input device
+> +
+> +      port@1:
+> +        $ref: /schemas/graph.yaml#/properties/port
+> +        description:
+> +          Output port node, single endpoint describing the output port.
+> +
+> +        properties:
+> +          endpoint:
+> +            unevaluatedProperties: false
+> +            $ref: video-interfaces.yaml#
+> +            description: Endpoint connected to output device
+> +
+> +    required:
+> +      - port@0
+> +
+> +additionalProperties: false
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - clocks
+> +  - clock-names
+> +  - ports
+> +
+> +examples:
+> +  # Example for connecting to a parallel sensor controller block
+> +  - |
+> +    csi2dc@e1404000 {
+> +        compatible = "microchip,sama7g5-csi2dc";
+> +        reg = <0xe1404000 0x500>;
+> +        clocks = <&pclk>, <&scck>;
+> +        clock-names = "pclk", "scck";
+> +
+> +        ports {
+> +               #address-cells = <1>;
+> +               #size-cells = <0>;
+> +               port@0 {
+> +                       reg = <0>; /* must be 0, first child port */
+> +                       csi2dc_in: endpoint { /* input from IDI interface */
+> +                               remote-endpoint = <&csi2host_out>;
+> +                       };
+> +               };
+> +
+> +               port@1 {
+> +                       reg = <1>; /* must be 1, second child port */
+> +                       csi2dc_out: endpoint {
+> +                               remote-endpoint = <&xisc_in>; /* output to sensor controller */
+> +                       };
+> +               };
 > +        };
+> +    };
 > +
-> +        vpu_g1: video-codec@38300000 {
->                  compatible = "nxp,imx8mq-vpu";
-> -                reg = <0x38300000 0x10000>,
-> -                      <0x38310000 0x10000>,
-> -                      <0x38320000 0x10000>;
-> -                reg-names = "g1", "g2", "ctrl";
-> -                interrupts = <GIC_SPI 7 IRQ_TYPE_LEVEL_HIGH>,
-> -                             <GIC_SPI 8 IRQ_TYPE_LEVEL_HIGH>;
-> -                interrupt-names = "g1", "g2";
-> +                reg = <0x38300000 0x10000>;
-> +                interrupts = <GIC_SPI 7 IRQ_TYPE_LEVEL_HIGH>;
-> +                interrupt-names = "g1";
-> +                clocks = <&clk IMX8MQ_CLK_VPU_G1_ROOT>,
-> +                         <&clk IMX8MQ_CLK_VPU_G2_ROOT>,
-> +                         <&clk IMX8MQ_CLK_VPU_DEC_ROOT>;
-> +                clock-names = "g1", "g2", "bus";
-> +                power-domains = <&pgc_vpu>;
-> +                nxp,imx8m-vpu-ctrl = <&vpu_ctrl>;
+> +  # Example for connecting to a DMA master as an AHB slave
+> +  - |
+> +    #include <dt-bindings/dma/at91.h>
+> +    csi2dc@e1404000 {
+> +        compatible = "microchip,sama7g5-csi2dc";
+> +        reg = <0xe1404000 0x500>;
+> +        clocks = <&pclk>, <&scck>;
+> +        clock-names = "pclk", "scck";
+> +        dmas = <&dma0 AT91_XDMAC_DT_PERID(34)>;
+> +        dma-names = "rx";
+> +
+> +        ports {
+> +               #address-cells = <1>;
+> +               #size-cells = <0>;
+> +               port@0 {
+> +                       reg = <0>; /* must be 0, first child port */
+> +                       csi2dc_input: endpoint { /* input from IDI interface */
+> +                               remote-endpoint = <&csi2host_out>;
+> +                       };
+> +               };
 > +        };
+> +    };
 > +
-> +        vpu_g2: video-codec@38310000 {
-> +                compatible = "nxp,imx8mq-vpu-g2";
-> +                reg = <0x38300000 0x10000>;
-> +                interrupts = <GIC_SPI 8 IRQ_TYPE_LEVEL_HIGH>;
-> +                interrupt-names = "g2";
->                  clocks = <&clk IMX8MQ_CLK_VPU_G1_ROOT>,
->                           <&clk IMX8MQ_CLK_VPU_G2_ROOT>,
->                           <&clk IMX8MQ_CLK_VPU_DEC_ROOT>;
->                  clock-names = "g1", "g2", "bus";
->                  power-domains = <&pgc_vpu>;
-> +                nxp,imx8m-vpu-ctrl = <&vpu_ctrl>;
->          };
-> --
+> +...
+> -- 
 > 2.25.1
->
->
-> _______________________________________________
-> linux-arm-kernel mailing list
-> linux-arm-kernel@lists.infradead.org
-> http://lists.infradead.org/mailman/listinfo/linux-arm-kernel
+> 
+> 
