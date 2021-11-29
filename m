@@ -2,101 +2,166 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 209E14622E3
-	for <lists+linux-media@lfdr.de>; Mon, 29 Nov 2021 22:04:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 33D2B4625CF
+	for <lists+linux-media@lfdr.de>; Mon, 29 Nov 2021 23:40:46 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232327AbhK2VHk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 29 Nov 2021 16:07:40 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40214 "EHLO
+        id S234298AbhK2Wnp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 29 Nov 2021 17:43:45 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35048 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231445AbhK2VFk (ORCPT
+        with ESMTP id S234617AbhK2WnJ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 29 Nov 2021 16:05:40 -0500
-Received: from mail-wr1-x42a.google.com (mail-wr1-x42a.google.com [IPv6:2a00:1450:4864:20::42a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2E1C3C0048EA;
-        Mon, 29 Nov 2021 10:26:52 -0800 (PST)
-Received: by mail-wr1-x42a.google.com with SMTP id o13so38711886wrs.12;
-        Mon, 29 Nov 2021 10:26:52 -0800 (PST)
+        Mon, 29 Nov 2021 17:43:09 -0500
+Received: from mail-pg1-x533.google.com (mail-pg1-x533.google.com [IPv6:2607:f8b0:4864:20::533])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 04697C04C31A
+        for <linux-media@vger.kernel.org>; Mon, 29 Nov 2021 10:56:57 -0800 (PST)
+Received: by mail-pg1-x533.google.com with SMTP id m15so17070550pgu.11
+        for <linux-media@vger.kernel.org>; Mon, 29 Nov 2021 10:56:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=2CK7ksNUp8Pg2echFt8tqjUwXozzVDtckwrvamj3fR4=;
-        b=pEsFxY9XJrFlt6w2FqEL8BefM39rmQUeYseKPXfyn+veqbL/hRrUetlSFEWrt4TdLj
-         DX4ExO5P48trqilumGsGHydlasQa/b7e5WG/go7ES5HhH5tCptdJV33z4hjXq1I1jOK3
-         iHaLRuU9pMnJkf6EcuXNyVnwfkLZ0D/+GL7mpAazNG+hGkzB75arjFF1VvAcSRKoTk/+
-         Kn89bNMTOoi/rjcGdr8KTPpfK9Qco6+bskGhIzw1gcGe/m3sg2JBEcLfsb3WmXDFawNW
-         7XGJcr/4MuYPFN3uFCZK5lGieiQpH7Rf04o+dmd9RqixpCbvpKzd22Cex7zlMaBqgcEy
-         mJVQ==
+        d=gateworks-com.20210112.gappssmtp.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=jXj5bTskBhM/inldINGFbo3ZZXdzWlhgorUbjoQAtas=;
+        b=Lmn6AsNCssbYh6bNKKH6i6K2CJ6w+hfTb9W0XlxElmbvxxgeqsv2pQBe1P0DeAb5mf
+         TrOC61nmzwEvKBzNB4gldDuPfgynMGjjTkQXy3iONEpuocFvW877d9XY1PMT2IQiPuFc
+         pzGHYoTnfpnhOAtqXW8VUVIK/hU7KSQ02Xf8bhDtV6pdxtfxA5DfKvPwUKTRseI8Krbp
+         J2TyYWjbQE6B50juuPKsYyQWcYTpFZi1bRP/xk9YNIggq7Rh4QUpvXwiIFICOk4ZUos8
+         chEpkA85G5M44HYyJLAfwGc8NGNDcqIzRskR/j+bJIZuAWEDSy/9OnmuSCEuEy6Zw0d5
+         RvOg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=2CK7ksNUp8Pg2echFt8tqjUwXozzVDtckwrvamj3fR4=;
-        b=b+t95I7EJceBECVQkuDtJ9DuMtbZcdQ+dS2c9Cu/nmxm2F9iFXzIShONH8OKzA28HO
-         0apSThKkWMxmOmYPWEPPU/3cdBIcAd9k0HfTyHLKEHp+2rRv/Wt4w1b0tP/EScYq/Pd0
-         hcoE+sCKT2Ftn7m6bvZkT/hWLvkeED8tEjbKvmvGjPA+XF7rSf7F5Lcetm8uuXAq9FN0
-         GnCn64DMU1h0Nn0u5AUwwukPgWwn3YX9YPRM75fFitJ7lCJqyKTyrOdeIa8pKJOVAeNP
-         dkfoVFE6Osr2HKYqlGWWmvkgC4iPE20CrBB5lzrh/tkP6jWGbbq0KIswoV28OYKOx4+3
-         O0/g==
-X-Gm-Message-State: AOAM532lohIR0bhvENXoMlqmSblZrOhqq2f4b9nCKxeHWHIRSadApJgK
-        Xkc6byDk6FaJfDEBUT24r+xR8Ua4z+AL1w==
-X-Google-Smtp-Source: ABdhPJzN44NyUbZ6t3f0zWKxJtGZkXmmaeAOLVx4Xb2YyJrvOhxilgJVC5Um8UxWuCf4ryumst6epw==
-X-Received: by 2002:a5d:6351:: with SMTP id b17mr35204542wrw.151.1638210410731;
-        Mon, 29 Nov 2021 10:26:50 -0800 (PST)
-Received: from kista.localdomain (cpe-86-58-29-253.static.triera.net. [86.58.29.253])
-        by smtp.gmail.com with ESMTPSA id o12sm85907wmq.12.2021.11.29.10.26.49
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 29 Nov 2021 10:26:50 -0800 (PST)
-From:   Jernej Skrabec <jernej.skrabec@gmail.com>
-To:     linux-media@vger.kernel.org
-Cc:     ezequiel@vanguardiasur.com.ar, nicolas.dufresne@collabora.com,
-        mchehab@kernel.org, robh+dt@kernel.org, mripard@kernel.org,
-        wens@csie.org, p.zabel@pengutronix.de, andrzej.p@collabora.com,
-        gregkh@linuxfoundation.org, devicetree@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
-        linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev,
-        Jernej Skrabec <jernej.skrabec@gmail.com>
-Subject: [PATCH v2 9/9] arm64: dts: allwinner: h6: Add Hantro G2 node
-Date:   Mon, 29 Nov 2021 19:26:33 +0100
-Message-Id: <20211129182633.480021-10-jernej.skrabec@gmail.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20211129182633.480021-1-jernej.skrabec@gmail.com>
-References: <20211129182633.480021-1-jernej.skrabec@gmail.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=jXj5bTskBhM/inldINGFbo3ZZXdzWlhgorUbjoQAtas=;
+        b=Z4bgCL/WeAGhQ+eNc5GCakzzaxejWQfkDmAubHAjdKxhhjGq5ctEKNzyE1UJY9aHmB
+         11IjR4BS7nlyCr/uYOkx0dYum6/f/TzRsdE0NvpriOKayUtV6iJLpwgGUY7KQ1kmV997
+         JXXLUqJ9OQFSPmLuyQN+ye1GnYVVmBcEZkl1azs/9UDY1X6opTwE7pqCx6CYDyDKNirj
+         WScHZ/WLRo7sU2SuDgOKsd21C3oANI2EVwqOT6Rkb9mM5YzHOZbLlGK06ae0oOpB23/o
+         tVs0wP6ujNM/+SzFoIJfdy8XexReAag5d1a8qV/jEk9xwWjPqGg4K1MF0Yj8+lsztSPF
+         EkEA==
+X-Gm-Message-State: AOAM532O8/tEmxXk2ZkKzPVFT2G4szxiCx3+pXoaZi9ogeQSApvRJEi2
+        MDfzeVGtU/qABGPf7pqjoOa0YcwOZok1Rd+N5U7LYw==
+X-Google-Smtp-Source: ABdhPJw3Pvd2m+oeVtAYOMti2klhh9NIOU3uqMbIsXqzXYUhkGcKUSybIrkrs7v4GuExpBWgJs9t1jjA0qQNoD8X1pA=
+X-Received: by 2002:a63:4244:: with SMTP id p65mr36817494pga.440.1638212216494;
+ Mon, 29 Nov 2021 10:56:56 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20211106155427.753197-1-aford173@gmail.com> <20211106155427.753197-4-aford173@gmail.com>
+ <YZrTyVJR8VN6dQAf@pendragon.ideasonboard.com> <CAHCN7xK=SNgiC2kRzX4gftjkZX4Ms8PVbL69n7+eR-EAe68xag@mail.gmail.com>
+ <YZwyhWPJVlC0JmpK@pendragon.ideasonboard.com> <0c3b4cdd075919ca5cc27c56e792f510e3b76cd7.camel@ew.tq-group.com>
+ <YZy4nFgkIyNXpIo3@pendragon.ideasonboard.com>
+In-Reply-To: <YZy4nFgkIyNXpIo3@pendragon.ideasonboard.com>
+From:   Tim Harvey <tharvey@gateworks.com>
+Date:   Mon, 29 Nov 2021 10:56:45 -0800
+Message-ID: <CAJ+vNU3BtKABmBNcqdcrXmmqHzkoOZ9hJwEhC11WLh4w2popyA@mail.gmail.com>
+Subject: Re: (EXT) Re: [PATCH V2 4/5] arm64: dts: imx8mm-beacon: Enable OV5640 Camera
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Alexander Stein <alexander.stein@ew.tq-group.com>
+Cc:     Adam Ford <aford173@gmail.com>,
+        arm-soc <linux-arm-kernel@lists.infradead.org>,
+        Schrempf Frieder <frieder.schrempf@kontron.de>,
+        linux-media <linux-media@vger.kernel.org>,
+        Adam Ford-BE <aford@beaconembedded.com>,
+        cstevens@beaconembedded.com,
+        Jagan Teki <jagan@amarulasolutions.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>,
+        Lucas Stach <l.stach@pengutronix.de>,
+        Peng Fan <peng.fan@nxp.com>,
+        devicetree <devicetree@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-H6 SoC has a second VPU, dedicated to VP9 decoding. It's a slightly
-older design, though.
+On Tue, Nov 23, 2021 at 1:47 AM Laurent Pinchart
+<laurent.pinchart@ideasonboard.com> wrote:
+>
+> Hi Alexander,
+>
+> On Tue, Nov 23, 2021 at 08:38:47AM +0100, Alexander Stein wrote:
+> > Am Dienstag, dem 23.11.2021 um 02:15 +0200 schrieb Laurent Pinchart:
+> > > On Sun, Nov 21, 2021 at 09:07:26PM -0600, Adam Ford wrote:
+> > > > On Sun, Nov 21, 2021 at 5:18 PM Laurent Pinchart wrote:
+> > > > > On Sat, Nov 06, 2021 at 10:54:26AM -0500, Adam Ford wrote:
+> > > > > > The baseboard has support for a TDNext 5640 Camera which
+> > > > > > uses an OV5640 connected to a 2-lane CSI2 interface.
+> > > > > >
+> > > > > > With the CSI and mipi_csi2 drivers pointing to an OV5640 camera, the media
+> > > > > > pipeline can be configured with the following:
+> > > > > >
+> > > > > >     media-ctl --links "'ov5640 1-003c':0->'imx7-mipi-csis.0':0[1]"
+> > > > > >
+> > > > > > The camera and various nodes in the pipeline can be configured for UYVY:
+> > > > > >     media-ctl -v -V "'ov5640 1-003c':0 [fmt:UYVY8_1X16/640x480 field:none]"
+> > > > > >     media-ctl -v -V "'csi':0 [fmt:UYVY8_1X16/640x480 field:none]"
+> > > > > >
+> > > > > > Signed-off-by: Adam Ford <aford173@gmail.com>
+> > > > >
+> > > > > As the ov5640 is on an add-on module, would a DT overlay be better ?
+> > > >
+> > > > At least for the Beacon / LogicPD boards, I would prefer to avoid the
+> > > > overlays.  We have an i.M6Q and an OMAP3 board with cameras enabled in
+> > > > our development kit device trees.  If the cameras are not connected,
+> > > > they just display a message that the cameras are not communicating and
+> > > > move on.  I'm OK with that.
+> > >
+> > > You know the board better than I do, so I won't push against this, but I
+> > > still think it may not lead to the best user experience, especially if a
+> > > user wanted to connect a different sensor to the development board.
+> >
+> > I see the advantages of overlays compared to "stacked" .dts files. But
+> > is there any general supported interface how to actually apply an overlay?
+> > Documentation/devicetree/overlay-notes.rst
+> > states of_overlay_fdt_apply() but there is only exactly one user in-
+> > kernel (rcar-du). Is it expected that the bootloader like u-boot shall
+> > apply the .dtbo files?
+>
+> I believe the boot loader is expected to apply overlays nowadays, yes.
+> That's my personal workflow.
+>
 
-Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
----
- arch/arm64/boot/dts/allwinner/sun50i-h6.dtsi | 9 +++++++++
- 1 file changed, 9 insertions(+)
+That is my understanding as well. I believe the support to apply dt
+overlays within Linux (which the rpi kernel still uses) never got
+merged due to race conditions so the focus was moved to bootloader.
 
-diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h6.dtsi b/arch/arm64/boot/dts/allwinner/sun50i-h6.dtsi
-index 4c4547f7d0c7..878061e75098 100644
---- a/arch/arm64/boot/dts/allwinner/sun50i-h6.dtsi
-+++ b/arch/arm64/boot/dts/allwinner/sun50i-h6.dtsi
-@@ -153,6 +153,15 @@ mixer0_out_tcon_top_mixer0: endpoint {
- 			};
- 		};
- 
-+		video-codec-g2@1c00000 {
-+			compatible = "allwinner,sun50i-h6-vpu-g2";
-+			reg = <0x01c00000 0x1000>;
-+			interrupts = <GIC_SPI 90 IRQ_TYPE_LEVEL_HIGH>;
-+			clocks = <&ccu CLK_BUS_VP9>, <&ccu CLK_VP9>;
-+			clock-names = "bus", "mod";
-+			resets = <&ccu RST_BUS_VP9>;
-+		};
-+
- 		video-codec@1c0e000 {
- 			compatible = "allwinner,sun50i-h6-video-engine";
- 			reg = <0x01c0e000 0x2000>;
--- 
-2.34.1
+I also have begun submitting some dt overlay files [1] [2] which I
+will likely repost later this week removing the RFC.
 
+My understanding is that these should be '.dtbo' files in the Linux
+Makefile which are handled. My boards use the U-Boot bootloader and to
+handle the dt overlays there you need to:
+- set CONFIG_OF_LIBFDT_OVERLAY=y which gives you the 'fdt apply' command
+- use 'fdt addr <addr> && fdt resize && fdt apply <loadaddr>' prior to
+booting with booti
+- Note that there is some support at the FIT level as well for
+overlays if you need them applied to U-Boot's live dt (I don't for my
+needs)
+
+In my U-Boot environment I use scripts for loading the fdt and
+applying the overlays. For example for booting kernel/dtb from network
+I use:
+boot_net setenv fsload tftpboot; run loadfdt && run apply_overlays &&
+$fsload $kernel_addr_r venice/Image && booti $kernel_addr_r -
+$fdt_addr_r
+loadfdt if $fsload $fdt_addr_r $dir/$fdt_file1; then echo loaded
+$fdt_file1; elif $fsload $fdt_addr_r $dir/$fdt_file2; then echo loaded
+$fdt_file2; elif $fsload $fdt_addr_r $dir/$fdt_file3; then echo loaded
+$fdt_file3; elif $fsload $fdt_addr_r $dir/$fdt_file4; then echo loaded
+$fdt_file4; elif $fsload $fdt_addr_r $dir/$fdt_file5; then echo loaded
+$fdt_file5; fi
+apply_overlays fdt addr $fdt_addr_r && fdt resize && for i in
+"$fdt_overlays"; do $fsload $loadaddr $dir/$i && fdt apply $loadaddr
+&& echo applied $i...; done
+
+Best regards,
+
+Tim
+[1] https://www.spinics.net/lists/arm-kernel/msg933447.html
+[2] https://www.spinics.net/lists/arm-kernel/msg933638.html
