@@ -2,117 +2,63 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BAFD3462021
-	for <lists+linux-media@lfdr.de>; Mon, 29 Nov 2021 20:16:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7B4324620C0
+	for <lists+linux-media@lfdr.de>; Mon, 29 Nov 2021 20:42:31 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230123AbhK2TTm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 29 Nov 2021 14:19:42 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44742 "EHLO
+        id S241950AbhK2Tpq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 29 Nov 2021 14:45:46 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49982 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1345426AbhK2TRk (ORCPT
+        with ESMTP id S243752AbhK2Tnm (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 29 Nov 2021 14:17:40 -0500
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9E5EBC0613E1;
-        Mon, 29 Nov 2021 07:35:46 -0800 (PST)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 553C92A5;
-        Mon, 29 Nov 2021 16:35:44 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1638200144;
-        bh=vQkTcVeubQtyPEvZTfPpWgr0xCoUlM+OeJ2wAvY6uCE=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=oe4PxyJ7rOJ6yNLwvZq0rwzDfKO/ZpsZplSPR/6rbcSz8KScSUcJ0sw74veOAAPjO
-         ch3/3pIXPkuEq9U2GunOyYN4O52w4iSSmKvnQ6vxxKxiKhhFYf8jYSYLTAcCEBLcjw
-         VUeAOCZFVl5N4nOZrvU3h5xf4e8THuPM1K5Y9mls=
-Date:   Mon, 29 Nov 2021 17:35:20 +0200
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Mark Brown <broonie@kernel.org>
-Cc:     Hans de Goede <hdegoede@redhat.com>,
-        "Rafael J . Wysocki" <rjw@rjwysocki.net>,
-        Mark Gross <markgross@kernel.org>,
-        Andy Shevchenko <andy@infradead.org>,
-        Wolfram Sang <wsa@the-dreams.de>,
-        Mika Westerberg <mika.westerberg@linux.intel.com>,
-        Daniel Scally <djrscally@gmail.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>, Len Brown <lenb@kernel.org>,
-        linux-acpi@vger.kernel.org, platform-driver-x86@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-i2c@vger.kernel.org,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Kate Hsuan <hpa@redhat.com>, linux-media@vger.kernel.org,
-        linux-clk@vger.kernel.org,
-        Andy Shevchenko <andy.shevchenko@gmail.com>
-Subject: Re: [PATCH v6 05/15] regulator: Introduce tps68470-regulator driver
-Message-ID: <YaTzOA7uV5TzHDDR@pendragon.ideasonboard.com>
-References: <20211125165412.535063-1-hdegoede@redhat.com>
- <20211125165412.535063-6-hdegoede@redhat.com>
- <YaAdIG+2MZPsdI+F@pendragon.ideasonboard.com>
- <19aeff06-d397-5f88-6d07-f76a2073b682@redhat.com>
- <YaLBeq0+0A6R2FZG@pendragon.ideasonboard.com>
- <YaTCpgYaPDssQp+N@sirena.org.uk>
+        Mon, 29 Nov 2021 14:43:42 -0500
+Received: from mail-ed1-x529.google.com (mail-ed1-x529.google.com [IPv6:2a00:1450:4864:20::529])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2BAFAC042381
+        for <linux-media@vger.kernel.org>; Mon, 29 Nov 2021 08:02:52 -0800 (PST)
+Received: by mail-ed1-x529.google.com with SMTP id l25so73778908eda.11
+        for <linux-media@vger.kernel.org>; Mon, 29 Nov 2021 08:02:52 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=A9mpHfvDXsmkNMhyOGewzekr0FIgj4cYBvcSjhTr+N0=;
+        b=XLZKH/GLIn/u5rB4NKzbl/hJdSIRpUZ2fjPrk0ucAedeyrj1Q5NR7x6EhC9VyjYMj8
+         Bjj4IyaqAMbSYiA6+YPNi4zjr6Yv4dPfNaLrwzxfAq9W5VGj5dD+FnU8bqaa2ImYnrzD
+         ACEz6JxSjDxYXFeSKFYkpcYydEZsUDCSEG1aDNWwcnD8SDYGVCObv8lWgGMI/qw8qa9i
+         aBlFxwRwvgQBJZw72rXHXVTaPMX8JGkXBzup8cU4l/b9ClehsotHb79g5Qwc45TwF0gV
+         6SYkyLeP+r2PdDXgXr4EjmaQh3wz1QMIEyHscCzAKABOqX9VgVnACbXKEZIHp1uM+7qb
+         8bNQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to;
+        bh=A9mpHfvDXsmkNMhyOGewzekr0FIgj4cYBvcSjhTr+N0=;
+        b=q3IiZuY6mMXETFh1ppYA1Rzy4OqY9nqxuns3C/3cKejilIMxbvf+h0eGZ9TQSGLNTx
+         qa9O24JkaX/AqmH2AdEK7xVMpDFm6j5W5irVvnk9XcCUjjpE6Q9X007lQ8DXqjKu2ijP
+         Zp6J/kSw8jNxbYU4R2Rxt5w/MRSCMoeRclp0hXa2r7/ITIjisH9z0DUUyJsZNf00PZ4f
+         HBFjiV3Udw0j+eXIHFScyDajSAXG/rKDjQCa/vBoE5975RiEM3g9ejPOj+KxxM2CqFRr
+         9rAlUkKjD/4dqU+BVJnD66/pRnzTpC3kE66E1zGE5SfW62zBDhtgxc25zZ5q28Qq5tvF
+         mEOw==
+X-Gm-Message-State: AOAM532Ccn/6sl+7K9n+MkJZ+jdI6UOiH9HUdY+dA6tyTyXl6n0+Ydxc
+        l7KtrSkzXR68xvjfMNfRYaIoJIpObndr5/PKw1k=
+X-Google-Smtp-Source: ABdhPJyoAPjnWlBX2XZUKHME7zJWE3unyhdoRRJkbdfqrH7Z7xaDrezHqLO4n4ce/wR3ogBX9C4cs665ICbl0/7sUe8=
+X-Received: by 2002:aa7:cf9a:: with SMTP id z26mr75242392edx.136.1638201768946;
+ Mon, 29 Nov 2021 08:02:48 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <YaTCpgYaPDssQp+N@sirena.org.uk>
+Received: by 2002:a17:906:d54e:0:0:0:0 with HTTP; Mon, 29 Nov 2021 08:02:47
+ -0800 (PST)
+Reply-To: fredbenson1950@gmail.com
+From:   fred <obicasmir428@gmail.com>
+Date:   Mon, 29 Nov 2021 16:02:47 +0000
+Message-ID: <CABzKOhbS6A92o=YY3oMT+YYrSPe+i5JBbHq3Fugj1LSVph3+XQ@mail.gmail.com>
+Subject: hi
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Mark,
-
-On Mon, Nov 29, 2021 at 12:08:06PM +0000, Mark Brown wrote:
-> On Sun, Nov 28, 2021 at 01:38:34AM +0200, Laurent Pinchart wrote:
-> > On Fri, Nov 26, 2021 at 12:22:35PM +0100, Hans de Goede wrote:
-> > > On 11/26/21 00:32, Laurent Pinchart wrote:
-> > > > On Thu, Nov 25, 2021 at 05:54:02PM +0100, Hans de Goede wrote:
-> > > >> The TPS68470 PMIC provides Clocks, GPIOs and Regulators. At present in
-> > > >> the kernel the Regulators and Clocks are controlled by an OpRegion
-> > > >> driver designed to work with power control methods defined in ACPI, but
-> 
-> Please delete unneeded context from mails when replying.  Doing this
-> makes it much easier to find your reply in the message, helping ensure
-> it won't be missed by people scrolling through the irrelevant quoted
-> material.
-
-I have mixed feelings about that, someones the context is indeed not
-needed, but I've found myself more often than not replying deep in a
-mail thread and wishing the context hadn't been deleted, because it
-ended up being relevant.
-
-> > > >> + * (1) This regulator must have the same voltage as VIO if S_IO LDO is used to
-> > > >> + *     power a sensor/VCM which I2C is daisy chained behind the PMIC.
-> > > >> + * (2) If there is no I2C daisy chain it can be set freely.
-> > > >> + */
-> 
-> > > > Do we need safety checks for this ?
-> 
-> > > There really is no way to deal this condition needs to matches inside the driver,
-> > > this should be enforced by setting proper constraints on the 2 regulators where
-> > > the PMIC is used with a sensor I2C daisy chained behind it.
-> 
-> > Right. I tend to be cautious here, as incorrect settings can destroy the
-> > hardware. We should err on the side of too many safety checks rather
-> > than too few. I was thinking that the cio2-bridge driver could set a
-> > daisy-chaining flag, which could trigger additional checks here, but it
-> > wouldn't protect against someone experimenting to support a new device
-> > and setting different voltages without the daisy-chaining flag.
-> 
-> > My biggest worry is that someone with an unsupported machine may start
-> > by copying and pasting an existing configuration to try it out, and fry
-> > their hardware.
-> 
-> There's really nothing you can do that prevents this, especially in the
-> cut'n'paste scenario.  Overrides tend to get copied along with the rest
-> of the configuration, or checks hacked out if people think they're
-> getting in the way without realising what they're there for.
-
-Maybe a big fat warning comment in the code ? Apart from that, I agree,
-I don't think we can do much.
-
--- 
-Regards,
-
-Laurent Pinchart
+Good day dear friend. My name is FRED BENSON; I'm the senior partner
+at FRED BENSON & Associate Law Firm based in Togo republic.
+I want us to claim the sum of (US$ 4.5 MILLION ) from the BTCI bank
+Lome Togo security company. You get 40% from the total amount.
+We work together and there will be success at the end. Reply for more details.
