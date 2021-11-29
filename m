@@ -2,143 +2,142 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D4E4C461407
-	for <lists+linux-media@lfdr.de>; Mon, 29 Nov 2021 12:43:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B37344614C3
+	for <lists+linux-media@lfdr.de>; Mon, 29 Nov 2021 13:10:14 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244518AbhK2Lqx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 29 Nov 2021 06:46:53 -0500
-Received: from dfw.source.kernel.org ([139.178.84.217]:43662 "EHLO
-        dfw.source.kernel.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230169AbhK2Low (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Mon, 29 Nov 2021 06:44:52 -0500
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 3B58261290;
-        Mon, 29 Nov 2021 11:41:35 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A1788C004E1;
-        Mon, 29 Nov 2021 11:41:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1638186094;
-        bh=e5g2fTpXGyGRbFWlIdsWgxSW+lrXgDyxZTWLAs8w6BE=;
-        h=From:To:Cc:Subject:Date:From;
-        b=nJP88wHNdT/d5/VxltEgOWBnGP+Vwtve3nMrTq8E3K+SwmdtsqpYX5bdFknjl+q7y
-         62fcbYsTWuGyjqUicPE8FdGQQcquRl+lVytnBmPlePG7apTqNGSqYvj+EbjZXEQLkh
-         1pc+o8NTyxZVo0NOcrkgceFc0e5gcFHWEaZQRQCRK2uRiNw8xQARtVO1wBN68rahtb
-         8a9wDu6ZTRrEgTYQmyXzpZM/gzr0/6rGkTlLCFItb/9OKl3CpSIVKU6rPZz0xU4++h
-         S5mIxvGybAl0FqZwOcl2uZyoQyTBSMDgtCy3/xif56fymRsBN7DJYB96tg0ZdPMA5F
-         Jh0HeZOBJlbbQ==
-Received: from mchehab by mail.kernel.org with local (Exim 4.94.2)
-        (envelope-from <mchehab@kernel.org>)
-        id 1mrf2K-000TzS-Fz; Mon, 29 Nov 2021 12:41:32 +0100
-From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc:     linuxarm@huawei.com, mauro.chehab@huawei.com,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        "Joe Perches" <joe@perches.com>, Hans Verkuil <hverkuil@xs4all.nl>,
-        Kees Cook <keescook@chromium.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Nathan Chancellor <nathan@kernel.org>,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
-Subject: [PATCH] media: si470x: consolidate multiple printk's
-Date:   Mon, 29 Nov 2021 12:41:31 +0100
-Message-Id: <1fb7915dd3bc60afa9f69da9607700af9cccb383.1638186086.git.mchehab+huawei@kernel.org>
-X-Mailer: git-send-email 2.33.1
+        id S1345085AbhK2MNb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 29 Nov 2021 07:13:31 -0500
+Received: from comms.puri.sm ([159.203.221.185]:42286 "EHLO comms.puri.sm"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S234457AbhK2MLa (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Mon, 29 Nov 2021 07:11:30 -0500
+Received: from localhost (localhost [127.0.0.1])
+        by comms.puri.sm (Postfix) with ESMTP id E7310E1151;
+        Mon, 29 Nov 2021 04:08:12 -0800 (PST)
+Received: from comms.puri.sm ([127.0.0.1])
+        by localhost (comms.puri.sm [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id ZE6jG0-JRo6j; Mon, 29 Nov 2021 04:08:12 -0800 (PST)
+From:   Martin Kepplinger <martin.kepplinger@puri.sm>
+To:     martin.kepplinger@puri.sm, broonie@kernel.org,
+        sakari.ailus@linux.intel.com
+Cc:     angus@akkea.ca, kernel@puri.sm, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-pm@vger.kernel.org,
+        mchehab@kernel.org
+Subject: [PATCH v3] media: i2c: dw9714: add optional regulator support
+Date:   Mon, 29 Nov 2021 13:07:54 +0100
+Message-Id: <20211129120754.1766570-1-martin.kepplinger@puri.sm>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
-To:     unlisted-recipients:; (no To-header on input)
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-When the version warning is given, multiple dev_warn() are
-called. Consolidate the ones that could be merged altogether.
+From: Angus Ainslie <angus@akkea.ca>
 
-Suggested-by: Joe Perches <joe@perches.com>
-Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Allow the dw9714 to control a regulator and adjust suspend() and resume()
+to support both runtime and system pm.
+
+Signed-off-by: Angus Ainslie <angus@akkea.ca>
+Signed-off-by: Martin Kepplinger <martin.kepplinger@puri.sm>
 ---
- drivers/media/radio/si470x/radio-si470x-i2c.c | 17 +++--------------
- drivers/media/radio/si470x/radio-si470x-usb.c | 16 +++++-----------
- 2 files changed, 8 insertions(+), 25 deletions(-)
 
-diff --git a/drivers/media/radio/si470x/radio-si470x-i2c.c b/drivers/media/radio/si470x/radio-si470x-i2c.c
-index 7ea7c6326f53..bdb13c974b02 100644
---- a/drivers/media/radio/si470x/radio-si470x-i2c.c
-+++ b/drivers/media/radio/si470x/radio-si470x-i2c.c
-@@ -334,7 +334,6 @@ static int si470x_i2c_probe(struct i2c_client *client)
- {
- 	struct si470x_device *radio;
- 	int retval = 0;
--	unsigned char version_warning = 0;
+
+revision history
+----------------
+v3: (thank you Mark and Sakari)
+ * use regulator_get() instead of regulator_get_optional()
+
+v2: (thank you Mark)
+ * simplify the regulator_get_optional() error path
+ * fix regulator usage during probe()
+https://lore.kernel.org/linux-media/20211126090107.1243558-1-martin.kepplinger@puri.sm/
+
+v1:
+https://lore.kernel.org/linux-media/20211125080922.978583-1-martin.kepplinger@puri.sm/
+
+
+
+ drivers/media/i2c/dw9714.c | 32 +++++++++++++++++++++++++++++++-
+ 1 file changed, 31 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/media/i2c/dw9714.c b/drivers/media/i2c/dw9714.c
+index 3863dfeb8293..81170bbe0e55 100644
+--- a/drivers/media/i2c/dw9714.c
++++ b/drivers/media/i2c/dw9714.c
+@@ -5,6 +5,7 @@
+ #include <linux/i2c.h>
+ #include <linux/module.h>
+ #include <linux/pm_runtime.h>
++#include <linux/regulator/consumer.h>
+ #include <media/v4l2-ctrls.h>
+ #include <media/v4l2-device.h>
+ #include <media/v4l2-event.h>
+@@ -36,6 +37,7 @@ struct dw9714_device {
+ 	struct v4l2_ctrl_handler ctrls_vcm;
+ 	struct v4l2_subdev sd;
+ 	u16 current_val;
++	struct regulator *vcc;
+ };
  
- 	/* private data allocation and initialization */
- 	radio = devm_kzalloc(&client->dev, sizeof(*radio), GFP_KERNEL);
-@@ -410,20 +409,10 @@ static int si470x_i2c_probe(struct i2c_client *client)
- 			radio->registers[DEVICEID], radio->registers[SI_CHIPID]);
- 	if ((radio->registers[SI_CHIPID] & SI_CHIPID_FIRMWARE) < RADIO_FW_VERSION) {
- 		dev_warn(&client->dev,
--			"This driver is known to work with firmware version %u,\n",
--			RADIO_FW_VERSION);
--		dev_warn(&client->dev,
--			"but the device has firmware version %u.\n",
-+			"This driver is known to work with firmware version %u, but the device has firmware version %u.\n"
-+			"If you have some trouble using this driver, please report to V4L ML at linux-media@vger.kernel.org\n",
-+			RADIO_FW_VERSION,
- 			radio->registers[SI_CHIPID] & SI_CHIPID_FIRMWARE);
--		version_warning = 1;
--	}
--
--	/* give out version warning */
--	if (version_warning == 1) {
--		dev_warn(&client->dev,
--			"If you have some trouble using this driver,\n");
--		dev_warn(&client->dev,
--			"please report to V4L ML at linux-media@vger.kernel.org\n");
- 	}
+ static inline struct dw9714_device *to_dw9714_vcm(struct v4l2_ctrl *ctrl)
+@@ -145,6 +147,16 @@ static int dw9714_probe(struct i2c_client *client)
+ 	if (dw9714_dev == NULL)
+ 		return -ENOMEM;
  
- 	/* set initial frequency */
-diff --git a/drivers/media/radio/si470x/radio-si470x-usb.c b/drivers/media/radio/si470x/radio-si470x-usb.c
-index 1e70e6971fe4..6b2768623c88 100644
---- a/drivers/media/radio/si470x/radio-si470x-usb.c
-+++ b/drivers/media/radio/si470x/radio-si470x-usb.c
-@@ -681,10 +681,8 @@ static int si470x_usb_driver_probe(struct usb_interface *intf,
- 			radio->registers[DEVICEID], radio->registers[SI_CHIPID]);
- 	if ((radio->registers[SI_CHIPID] & SI_CHIPID_FIRMWARE) < RADIO_FW_VERSION) {
- 		dev_warn(&intf->dev,
--			"This driver is known to work with firmware version %u,\n",
--			RADIO_FW_VERSION);
--		dev_warn(&intf->dev,
--			"but the device has firmware version %u.\n",
-+			"This driver is known to work with firmware version %u, but the device has firmware version %u.\n",
-+			RADIO_FW_VERSION,
- 			radio->registers[SI_CHIPID] & SI_CHIPID_FIRMWARE);
- 		version_warning = 1;
- 	}
-@@ -698,10 +696,8 @@ static int si470x_usb_driver_probe(struct usb_interface *intf,
- 			radio->software_version, radio->hardware_version);
- 	if (radio->hardware_version < RADIO_HW_VERSION) {
- 		dev_warn(&intf->dev,
--			"This driver is known to work with hardware version %u,\n",
--			RADIO_HW_VERSION);
--		dev_warn(&intf->dev,
--			"but the device has hardware version %u.\n",
-+			"This driver is known to work with hardware version %u, but the device has hardware version %u.\n",
-+			RADIO_HW_VERSION,
- 			radio->hardware_version);
- 		version_warning = 1;
- 	}
-@@ -709,9 +705,7 @@ static int si470x_usb_driver_probe(struct usb_interface *intf,
- 	/* give out version warning */
- 	if (version_warning == 1) {
- 		dev_warn(&intf->dev,
--			"If you have some trouble using this driver,\n");
--		dev_warn(&intf->dev,
--			"please report to V4L ML at linux-media@vger.kernel.org\n");
-+			"If you have some trouble using this driver, please report to V4L ML at linux-media@vger.kernel.org\n");
- 	}
++	dw9714_dev->vcc = devm_regulator_get(&client->dev, "vcc");
++	if (IS_ERR(dw9714_dev->vcc))
++		return PTR_ERR(dw9714_dev->vcc);
++
++	rval = regulator_enable(dw9714_dev->vcc);
++	if (rval < 0) {
++		dev_err(&client->dev, "failed to enable vcc: %d\n", rval);
++		return rval;
++	}
++
+ 	v4l2_i2c_subdev_init(&dw9714_dev->sd, client, &dw9714_ops);
+ 	dw9714_dev->sd.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE |
+ 				V4L2_SUBDEV_FL_HAS_EVENTS;
+@@ -200,6 +212,9 @@ static int __maybe_unused dw9714_vcm_suspend(struct device *dev)
+ 	struct dw9714_device *dw9714_dev = sd_to_dw9714_vcm(sd);
+ 	int ret, val;
  
- 	/* set led to connect state */
++	if (pm_runtime_suspended(&client->dev))
++		return 0;
++
+ 	for (val = dw9714_dev->current_val & ~(DW9714_CTRL_STEPS - 1);
+ 	     val >= 0; val -= DW9714_CTRL_STEPS) {
+ 		ret = dw9714_i2c_write(client,
+@@ -208,7 +223,12 @@ static int __maybe_unused dw9714_vcm_suspend(struct device *dev)
+ 			dev_err_once(dev, "%s I2C failure: %d", __func__, ret);
+ 		usleep_range(DW9714_CTRL_DELAY_US, DW9714_CTRL_DELAY_US + 10);
+ 	}
+-	return 0;
++
++	ret = regulator_disable(dw9714_dev->vcc);
++	if (ret)
++		dev_err(dev, "Failed to disable vcc: %d\n", ret);
++
++	return ret;
+ }
+ 
+ /*
+@@ -224,6 +244,16 @@ static int  __maybe_unused dw9714_vcm_resume(struct device *dev)
+ 	struct dw9714_device *dw9714_dev = sd_to_dw9714_vcm(sd);
+ 	int ret, val;
+ 
++	if (pm_runtime_suspended(&client->dev))
++		return 0;
++
++	ret = regulator_enable(dw9714_dev->vcc);
++	if (ret) {
++		dev_err(dev, "Failed to enable vcc: %d\n", ret);
++		return ret;
++	}
++	usleep_range(1000, 2000);
++
+ 	for (val = dw9714_dev->current_val % DW9714_CTRL_STEPS;
+ 	     val < dw9714_dev->current_val + DW9714_CTRL_STEPS - 1;
+ 	     val += DW9714_CTRL_STEPS) {
 -- 
-2.33.1
+2.30.2
 
