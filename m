@@ -2,43 +2,44 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 674B946281E
-	for <lists+linux-media@lfdr.de>; Tue, 30 Nov 2021 00:17:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1F4B346282E
+	for <lists+linux-media@lfdr.de>; Tue, 30 Nov 2021 00:19:26 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231391AbhK2XUY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 29 Nov 2021 18:20:24 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42988 "EHLO
+        id S230510AbhK2XWf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 29 Nov 2021 18:22:35 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44808 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233794AbhK2XT4 (ORCPT
+        with ESMTP id S231461AbhK2XWc (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 29 Nov 2021 18:19:56 -0500
+        Mon, 29 Nov 2021 18:22:32 -0500
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 45393C058173;
-        Mon, 29 Nov 2021 15:14:57 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B8F97C0613DD;
+        Mon, 29 Nov 2021 15:19:02 -0800 (PST)
 Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 64EB8D97;
-        Tue, 30 Nov 2021 00:14:54 +0100 (CET)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 2B7FC2A5;
+        Tue, 30 Nov 2021 00:19:01 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1638227694;
-        bh=HT9LpoGOUZY9zBMjn2519+p3/sfl6YV9d7qGsvynGqQ=;
+        s=mail; t=1638227941;
+        bh=gUbxnhMvIUzO2sVauXVm/cNcXhWEDp4Dhyy26gedo70=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=ucgOUR/gh2s8cc283l/35FwhWyRohwOg8mtzq42sR+Nogw9x6Kg7f1yQ94nKNzt4K
-         efjmzu2Hq5qg7xXsvOjiNWnrFw3q4Rdp/cNu5zbt5TR7iSNQUZitJ68EuW0+DtT3pE
-         wMCqWGYI1MouUOg3iqiMbcYpfQSVvclwr5oNIaZw=
-Date:   Tue, 30 Nov 2021 01:14:30 +0200
+        b=o1K0mMTyr0TQhvwkhIaBS3WlPYl3D8biYFge2QN28QNeo0Rm4ogNyFaHbtFuxSid8
+         afS/ztzcxX+oYgpXkXpo+dbsjpvkIIkpA6gKfM6J9mlkP6uQ//jVo33JO7ADDgz0sT
+         FLZs4LGDS5KtvQSWb+A1GYRyNfIzG8N567OATEwE=
+Date:   Tue, 30 Nov 2021 01:18:37 +0200
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To:     Eugen Hristev <eugen.hristev@microchip.com>
 Cc:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
         linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
         jacopo@jmondi.org, sakari.ailus@iki.fi, nicolas.ferre@microchip.com
-Subject: Re: [PATCH v2 01/25] MAINTAINERS: add microchip csi2dc
-Message-ID: <YaVe1sNFQfYEVtKh@pendragon.ideasonboard.com>
+Subject: Re: [PATCH v2 04/25] MAINTAINERS: atmel-isc: add new file
+ atmel-isc-clk.c
+Message-ID: <YaVfzd/cBS/qqqNf@pendragon.ideasonboard.com>
 References: <20211112142509.2230884-1-eugen.hristev@microchip.com>
- <20211112142509.2230884-2-eugen.hristev@microchip.com>
+ <20211112142509.2230884-5-eugen.hristev@microchip.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20211112142509.2230884-2-eugen.hristev@microchip.com>
+In-Reply-To: <20211112142509.2230884-5-eugen.hristev@microchip.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
@@ -47,35 +48,31 @@ Hi Eugen,
 
 Thank you for the patch.
 
-On Fri, Nov 12, 2021 at 04:24:45PM +0200, Eugen Hristev wrote:
-> Add Microchip CSI2DC driver in the list.
-> 
+On Fri, Nov 12, 2021 at 04:24:48PM +0200, Eugen Hristev wrote:
+> Add new file atmel-isc-clk.c to MAINTAINERS entry.
+
+I'd squash this with the patch that adds the new file, but even better
+would be to use patterns instead of listing each file.
+
+Some for the other patches touching MAINTAINERS in this series.
+
 > Signed-off-by: Eugen Hristev <eugen.hristev@microchip.com>
-
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-
 > ---
->  MAINTAINERS | 7 +++++++
->  1 file changed, 7 insertions(+)
+>  MAINTAINERS | 1 +
+>  1 file changed, 1 insertion(+)
 > 
 > diff --git a/MAINTAINERS b/MAINTAINERS
-> index 486bdf97f754..545c642c937f 100644
+> index 545c642c937f..bb7b48e3605c 100644
 > --- a/MAINTAINERS
 > +++ b/MAINTAINERS
-> @@ -12422,6 +12422,13 @@ L:	alsa-devel@alsa-project.org (moderated for non-subscribers)
->  S:	Supported
->  F:	sound/soc/atmel
->  
-> +MICROCHIP CSI2DC DRIVER
-> +M:	Eugen Hristev <eugen.hristev@microchip.com>
-> +L:	linux-media@vger.kernel.org
-> +S:	Supported
-> +F:	Documentation/devicetree/bindings/media/microchip,csi2dc.yaml
-> +F:	drivers/media/platform/atmel/microchip-csi2dc.c
-> +
->  MICROCHIP ECC DRIVER
->  M:	Tudor Ambarus <tudor.ambarus@microchip.com>
->  L:	linux-crypto@vger.kernel.org
+> @@ -12455,6 +12455,7 @@ S:	Supported
+>  F:	Documentation/devicetree/bindings/media/atmel,isc.yaml
+>  F:	Documentation/devicetree/bindings/media/microchip,xisc.yaml
+>  F:	drivers/media/platform/atmel/atmel-isc-base.c
+> +F:	drivers/media/platform/atmel/atmel-isc-clk.c
+>  F:	drivers/media/platform/atmel/atmel-isc-regs.h
+>  F:	drivers/media/platform/atmel/atmel-isc.h
+>  F:	drivers/media/platform/atmel/atmel-sama5d2-isc.c
 
 -- 
 Regards,
