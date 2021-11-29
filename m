@@ -2,174 +2,102 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7C4904610A7
-	for <lists+linux-media@lfdr.de>; Mon, 29 Nov 2021 09:57:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0CB6F4610B5
+	for <lists+linux-media@lfdr.de>; Mon, 29 Nov 2021 10:00:09 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243164AbhK2JAq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 29 Nov 2021 04:00:46 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50396 "EHLO
+        id S239727AbhK2JDX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 29 Nov 2021 04:03:23 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50518 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S244372AbhK2I6n (ORCPT
+        with ESMTP id S237704AbhK2JBP (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 29 Nov 2021 03:58:43 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 08536C06139C;
-        Mon, 29 Nov 2021 00:44:15 -0800 (PST)
+        Mon, 29 Nov 2021 04:01:15 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D093DC0613FB;
+        Mon, 29 Nov 2021 00:46:47 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id C9042B80E2E;
-        Mon, 29 Nov 2021 08:44:13 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 990D0C004E1;
-        Mon, 29 Nov 2021 08:44:09 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 6E4396121C;
+        Mon, 29 Nov 2021 08:46:47 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2523EC53FAD;
+        Mon, 29 Nov 2021 08:46:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1638175452;
-        bh=3pcEGhFOVWdIckCjXvTNwGTmdnLfc9cuV4zeOS6jxtQ=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=bBcTPSbYBtH8V1BYLlyfjzrqDJlXOHL/FfVLpcppL0fwwOuVnepFt+IKYgF8iuin9
-         8A4Gl298WzYihOdIcgsXP5QnQod5W3wwEsey3UVkybnQbL8uGxcQx+nv6zGn4KnjWP
-         Fb0uhLHqdR55R5fRbyNhHls4rVLcmn4XMKoK6nhPc8FXsH3D2ogLskOiH5BAYZw6Xz
-         770vPuNFSBBvpjnpScxtPNbzzrotWTHbe2UFnc/iw2K45cqSNFTrLdW4n+abVhI5m6
-         PIzgSIVCRRt29zkEm12FK4wp5q2S5hIWaKa6/aTaDmhKNSZyBgsmD37d76ZoaggaEN
-         b4F7PLMRUtpwA==
-Date:   Mon, 29 Nov 2021 09:44:06 +0100
-From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To:     Nathan Chancellor <nathan@kernel.org>
-Cc:     linuxarm@huawei.com, mauro.chehab@huawei.com,
-        Andrey Utkin <andrey_utkin@fastmail.com>,
-        Anton Sviridenko <anton@corp.bluecherry.net>,
-        Bluecherry Maintainers <maintainers@bluecherrydvr.com>,
-        Ismael Luceno <ismael@iodev.co.uk>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
+        s=k20201202; t=1638175606;
+        bh=oaLcDR+6x2GaOYtTmlKovn8ka1IF1mNadAa/b6xBwck=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=Pg7ZEiGG4J5cFQgcqe6beVg4tjKtyzfpJ+htRrxFTjSijtioif8Dg/tPOGgHU7Msk
+         Q19ml6+MomEAXzIODPSPIWb1zoNoAX19UP2bd1rL+ZnzPYyQavsUmZOfURVc3UhHDN
+         snOOXQ3fCC1L6pGxH2xRN8mWlPd71GPnK6e3nQHSqrrYQySduzwa/HTbA0CZmfoiZv
+         vV0R0jFaK/J95RXMTTETTdM5oIOk3s7D8RfhP/w/p/g0ksj0M3FZiGKGbYn9zyOr1q
+         5wjV9DRAWnR/GS/qBUVO7MfRiX1XxiGzQUrsh5M/0mRaXYpZlZlOrTzh2KEcUrmvCu
+         ny64YgQN6h8eg==
+Date:   Mon, 29 Nov 2021 09:46:43 +0100
+From:   Wolfram Sang <wsa@kernel.org>
+To:     Akhil R <akhilrajeev@nvidia.com>
+Cc:     andy.shevchenko@gmail.com, christian.koenig@amd.com,
+        digetx@gmail.com, dri-devel@lists.freedesktop.org,
+        jonathanh@nvidia.com, ldewangan@nvidia.com,
+        linaro-mm-sig@lists.linaro.org, linux-i2c@vger.kernel.org,
         linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        llvm@lists.linux.dev
-Subject: Re: [PATCH 08/20] media: solo6x10: add _maybe_unused to currently
- unused functions
-Message-ID: <20211129094406.39904314@coco.lan>
-In-Reply-To: <YaE8aRz1OIJ+x5P5@archlinux-ax161>
-References: <cover.1637781097.git.mchehab+huawei@kernel.org>
-        <18daa194878d8815beef39d6fed2a838e1c2cb68.1637781097.git.mchehab+huawei@kernel.org>
-        <YaE8aRz1OIJ+x5P5@archlinux-ax161>
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.30; x86_64-redhat-linux-gnu)
+        linux-tegra@vger.kernel.org, p.zabel@pengutronix.de,
+        sumit.semwal@linaro.org, thierry.reding@gmail.com
+Subject: Re: [PATCH v4] i2c: tegra: Add the ACPI support
+Message-ID: <YaSTcx7sZfn0cZ4i@kunai>
+Mail-Followup-To: Wolfram Sang <wsa@kernel.org>,
+        Akhil R <akhilrajeev@nvidia.com>, andy.shevchenko@gmail.com,
+        christian.koenig@amd.com, digetx@gmail.com,
+        dri-devel@lists.freedesktop.org, jonathanh@nvidia.com,
+        ldewangan@nvidia.com, linaro-mm-sig@lists.linaro.org,
+        linux-i2c@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-tegra@vger.kernel.org,
+        p.zabel@pengutronix.de, sumit.semwal@linaro.org,
+        thierry.reding@gmail.com
+References: <1637859224-5179-1-git-send-email-akhilrajeev@nvidia.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="iDFdsTcaXlfLI7aZ"
+Content-Disposition: inline
+In-Reply-To: <1637859224-5179-1-git-send-email-akhilrajeev@nvidia.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Em Fri, 26 Nov 2021 12:58:33 -0700
-Nathan Chancellor <nathan@kernel.org> escreveu:
 
-> On Wed, Nov 24, 2021 at 08:13:11PM +0100, Mauro Carvalho Chehab wrote:
-> > There are several unused helper macros there, meant to parse some
-> > fields.
-> > 
-> > While there's not wrong with that, it generates clang warnings
-> > with W=1, causing build to break with CONFIG_WERROR.
-> > 
-> > So, add __maybe_unused to fix such warnings.
-> > 
-> > Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>  
-> 
-> I'll comment on this one patch but my opinion applies for all the
-> patches adding '__maybe_unused' to truly unused functions.
-> 
-> I agree with Laurent's comment [1]: unless this code is going to be used
-> soon, it should be deleted and resurrected when it is actually needed.
-> We have git for a reason and by adding this attribute, you are making it
-> harder to catch and eliminate unused functions, as no compiler will
-> catch them with an unused attribute (it is possible other static
-> analysis tools will but I doubt those are run as frequently as compilers
-> with W=1).
+--iDFdsTcaXlfLI7aZ
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-In this specific case (and on a few other patches on this series), those
-macros are used to document a field. That's why I opted to keep it.
+On Thu, Nov 25, 2021 at 10:23:44PM +0530, Akhil R wrote:
+> Add support for the ACPI based device registration so that the driver
+> can be also enabled through ACPI table.
+>=20
+> This does not include the ACPI support for Tegra VI and DVC I2C.
+>=20
+> Signed-off-by: Akhil R <akhilrajeev@nvidia.com>
 
-> 
-> However, you are the maintainer so if you really want to keep these
-> around, I would recommend adding '__always_unused' instead of
-> '__maybe_unused' for documentation and auditing purposes, even though
-> they evaluate to the same thing:
-> 
-> $ rg __always_unused | wc -l
-> 337
-> 
-> $ rg __maybe_unused | wc -l
-> 4335
-
-Good point. I'll use __always_unused on such patches.
-
-> 
-> [1]: https://lore.kernel.org/r/YZtpnjPcGxVwhe61@pendragon.ideasonboard.com/
-> 
-> Cheers,
-> Nathan
-> 
-> > ---
-> > 
-> > To avoid mailbombing on a large number of people, only mailing lists were C/C on the cover.
-> > See [PATCH 00/20] at: https://lore.kernel.org/all/cover.1637781097.git.mchehab+huawei@kernel.org/
-> > 
-> >  drivers/media/pci/solo6x10/solo6x10-v4l2-enc.c | 12 ++++++------
-> >  1 file changed, 6 insertions(+), 6 deletions(-)
-> > 
-> > diff --git a/drivers/media/pci/solo6x10/solo6x10-v4l2-enc.c b/drivers/media/pci/solo6x10/solo6x10-v4l2-enc.c
-> > index 0abcad4e84fa..85eaf5d00e9b 100644
-> > --- a/drivers/media/pci/solo6x10/solo6x10-v4l2-enc.c
-> > +++ b/drivers/media/pci/solo6x10/solo6x10-v4l2-enc.c
-> > @@ -391,12 +391,12 @@ static int solo_send_desc(struct solo_enc_dev *solo_enc, int skip,
-> >  }
-> >  
-> >  /* Extract values from VOP header - VE_STATUSxx */
-> > -static inline int vop_interlaced(const vop_header *vh)
-> > +static inline __maybe_unused int vop_interlaced(const vop_header *vh)
-> >  {
-> >  	return (__le32_to_cpu((*vh)[0]) >> 30) & 1;
-> >  }
-> >  
-> > -static inline u8 vop_channel(const vop_header *vh)
-> > +static inline __maybe_unused u8 vop_channel(const vop_header *vh)
-> >  {
-> >  	return (__le32_to_cpu((*vh)[0]) >> 24) & 0x1F;
-> >  }
-> > @@ -411,12 +411,12 @@ static inline u32 vop_mpeg_size(const vop_header *vh)
-> >  	return __le32_to_cpu((*vh)[0]) & 0xFFFFF;
-> >  }
-> >  
-> > -static inline u8 vop_hsize(const vop_header *vh)
-> > +static inline u8 __maybe_unused vop_hsize(const vop_header *vh)
-> >  {
-> >  	return (__le32_to_cpu((*vh)[1]) >> 8) & 0xFF;
-> >  }
-> >  
-> > -static inline u8 vop_vsize(const vop_header *vh)
-> > +static inline u8 __maybe_unused vop_vsize(const vop_header *vh)
-> >  {
-> >  	return __le32_to_cpu((*vh)[1]) & 0xFF;
-> >  }
-> > @@ -436,12 +436,12 @@ static inline u32 vop_jpeg_size(const vop_header *vh)
-> >  	return __le32_to_cpu((*vh)[4]) & 0xFFFFF;
-> >  }
-> >  
-> > -static inline u32 vop_sec(const vop_header *vh)
-> > +static inline u32 __maybe_unused vop_sec(const vop_header *vh)
-> >  {
-> >  	return __le32_to_cpu((*vh)[5]);
-> >  }
-> >  
-> > -static inline u32 vop_usec(const vop_header *vh)
-> > +static inline __maybe_unused u32 vop_usec(const vop_header *vh)
-> >  {
-> >  	return __le32_to_cpu((*vh)[6]);
-> >  }
-> > -- 
-> > 2.33.1
-> > 
-> >   
+Applied to for-next, thanks!
 
 
+--iDFdsTcaXlfLI7aZ
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Thanks,
-Mauro
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmGkk3MACgkQFA3kzBSg
+KbbDPg//YV1hcN80cjWSN7APDde7BabZiypwDgo8ZFZOkOsbZ2VOzZXpgyn42+4y
+3TyxXQDyO3xpqfsC0AaYnK/cGc1QqJC9xAKE4VeogWXC1yw9zPs1/UptGtvEPjAV
+wPR3TsJxNZYlEAfXkTlI5iFQh85893vXGxX+5t9XnXjLSWqawgF97UPcohaliALQ
+mtZhFbXEXccJujSSXUkmBZeSYi1YV8N23HO6kx7YjQ+DxgAjCdPXxLlHOSBhg9fe
+7nWlRC/+uUZr7hdkrD/jqi3wzXkHaiWKb0slAqmZdunzFvFpocDgIPaBazBhsbln
+Pu5RFoFpdZKqp+lP2c7RsnjU5SU9ptWxMy6HZKq6sdjNrNPAC9U8vZdVlax7kar2
+oxbhZ685bIQVtk9ep+X49eo15JN1xm+grQcTmvPpNr9mVBOEyItviBqD53kyCfFa
+P2RTudptER0hoN5gVG8m5c04qFeLQfR49kLI02zLmsyQJZE/AEkvMYiy8G/ETOei
+eOkD1A11JUgkDG3ZzkqODI2MLkhyGwHi4DyA60Xw3FX6kktcJqrAK4RT+1Cn+4fk
+Jb+Bb7PTLV0osT6H0XSGXv55Zbt9A9F5mvnQAKpnvk+vmhbmUGcS4yPnLWKi41s+
+qdute+3i7oHiAjXQfcPJ0eWVRPO5GzVwUE+MF3B4XHxg5jL0OYM=
+=PuO7
+-----END PGP SIGNATURE-----
+
+--iDFdsTcaXlfLI7aZ--
