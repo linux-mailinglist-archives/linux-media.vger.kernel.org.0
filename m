@@ -2,49 +2,55 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 55B07461098
-	for <lists+linux-media@lfdr.de>; Mon, 29 Nov 2021 09:54:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7C4904610A7
+	for <lists+linux-media@lfdr.de>; Mon, 29 Nov 2021 09:57:30 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243380AbhK2I5u (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 29 Nov 2021 03:57:50 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50196 "EHLO
+        id S243164AbhK2JAq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 29 Nov 2021 04:00:46 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50396 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234400AbhK2Izt (ORCPT
+        with ESMTP id S244372AbhK2I6n (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 29 Nov 2021 03:55:49 -0500
+        Mon, 29 Nov 2021 03:58:43 -0500
 Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 481A4C0613ED;
-        Mon, 29 Nov 2021 00:40:48 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 08536C06139C;
+        Mon, 29 Nov 2021 00:44:15 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 06139B80E2D;
-        Mon, 29 Nov 2021 08:40:47 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 77F97C004E1;
-        Mon, 29 Nov 2021 08:40:44 +0000 (UTC)
+        by ams.source.kernel.org (Postfix) with ESMTPS id C9042B80E2E;
+        Mon, 29 Nov 2021 08:44:13 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 990D0C004E1;
+        Mon, 29 Nov 2021 08:44:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1638175245;
-        bh=o9WtiRuVoveXSOInMHstY0TgqXEQ4BeT0x32wVvwrF4=;
+        s=k20201202; t=1638175452;
+        bh=3pcEGhFOVWdIckCjXvTNwGTmdnLfc9cuV4zeOS6jxtQ=;
         h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=KYSe5UbCWzL84TWEfT0tzU3BRd4IyItvgqzoV/xzcLY9og55jsXsaC792FH4NcORP
-         LjAewMDMM78KrwxAnikIlaupHikZxMaTYsNLd+/P2TZUFPsRH38/dLu7gXdd+wP+Lo
-         zTLCDTxdxQB62eASwzUOT19CwZuIvSx/Ou0MNmpKLjGwjKk2wPh0c5s7WDAO+/Qlek
-         KQclZ3nQW6xQw4o5ocPRCJUQLuL2KYcplYuDf5Q+yWHBSwoL+fhoBb6RreDQAp8sKP
-         7qhQUH9kJIeGO4AYWCRORrkSewy2l3/1mjmNH7t08/qyjYGCKJ3ehI0wMbQHvlgoub
-         JkbAlu3Rim4jg==
-Date:   Mon, 29 Nov 2021 09:40:41 +0100
+        b=bBcTPSbYBtH8V1BYLlyfjzrqDJlXOHL/FfVLpcppL0fwwOuVnepFt+IKYgF8iuin9
+         8A4Gl298WzYihOdIcgsXP5QnQod5W3wwEsey3UVkybnQbL8uGxcQx+nv6zGn4KnjWP
+         Fb0uhLHqdR55R5fRbyNhHls4rVLcmn4XMKoK6nhPc8FXsH3D2ogLskOiH5BAYZw6Xz
+         770vPuNFSBBvpjnpScxtPNbzzrotWTHbe2UFnc/iw2K45cqSNFTrLdW4n+abVhI5m6
+         PIzgSIVCRRt29zkEm12FK4wp5q2S5hIWaKa6/aTaDmhKNSZyBgsmD37d76ZoaggaEN
+         b4F7PLMRUtpwA==
+Date:   Mon, 29 Nov 2021 09:44:06 +0100
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Nathan Chancellor <nathan@kernel.org>
 Cc:     linuxarm@huawei.com, mauro.chehab@huawei.com,
+        Andrey Utkin <andrey_utkin@fastmail.com>,
+        Anton Sviridenko <anton@corp.bluecherry.net>,
+        Bluecherry Maintainers <maintainers@bluecherrydvr.com>,
+        Ismael Luceno <ismael@iodev.co.uk>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
-Subject: Re: [PATCH 07/20] media: si21xx: report eventual errors at
- set_frontend
-Message-ID: <20211129094041.4fec2ef0@coco.lan>
-In-Reply-To: <YaE5Uz0+dEtG7gaN@archlinux-ax161>
+        Nick Desaulniers <ndesaulniers@google.com>,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        llvm@lists.linux.dev
+Subject: Re: [PATCH 08/20] media: solo6x10: add _maybe_unused to currently
+ unused functions
+Message-ID: <20211129094406.39904314@coco.lan>
+In-Reply-To: <YaE8aRz1OIJ+x5P5@archlinux-ax161>
 References: <cover.1637781097.git.mchehab+huawei@kernel.org>
-        <36d55de3be035253bf1b07506db13eab04ad803d.1637781097.git.mchehab+huawei@kernel.org>
-        <YaE5Uz0+dEtG7gaN@archlinux-ax161>
+        <18daa194878d8815beef39d6fed2a838e1c2cb68.1637781097.git.mchehab+huawei@kernel.org>
+        <YaE8aRz1OIJ+x5P5@archlinux-ax161>
 X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.30; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
@@ -53,71 +59,111 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Em Fri, 26 Nov 2021 12:45:23 -0700
+Em Fri, 26 Nov 2021 12:58:33 -0700
 Nathan Chancellor <nathan@kernel.org> escreveu:
 
-> On Wed, Nov 24, 2021 at 08:13:10PM +0100, Mauro Carvalho Chehab wrote:
-> > If an error occurs while setting the registers at set_frontend,
-> > it is silently ignored. Yet, the variable status is updated.
+> On Wed, Nov 24, 2021 at 08:13:11PM +0100, Mauro Carvalho Chehab wrote:
+> > There are several unused helper macros there, meant to parse some
+> > fields.
 > > 
-> > Change the logic to return an error if it fails to write values
-> > to the registers.
+> > While there's not wrong with that, it generates clang warnings
+> > with W=1, causing build to break with CONFIG_WERROR.
+> > 
+> > So, add __maybe_unused to fix such warnings.
 > > 
 > > Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>  
 > 
-> I am not super familiar with the different return codes so I assume it
-> is appropriate (the sites that I see calling set_frontend() appears to
-> only check for a negative return code).
+> I'll comment on this one patch but my opinion applies for all the
+> patches adding '__maybe_unused' to truly unused functions.
+> 
+> I agree with Laurent's comment [1]: unless this code is going to be used
+> soon, it should be deleted and resurrected when it is actually needed.
+> We have git for a reason and by adding this attribute, you are making it
+> harder to catch and eliminate unused functions, as no compiler will
+> catch them with an unused attribute (it is possible other static
+> analysis tools will but I doubt those are run as frequently as compilers
+> with W=1).
 
-There are a couple of return codes used on media when I/O transfer fails.
-Some places use -EREMOTEIO. Others use -EIO or -ENXIO.
-
-I guess -EREMOTEIO is a little bit better than -EIO for I2C transfers,
-as the problem usually happened inside an I2C bus at the DVB adapter.
+In this specific case (and on a few other patches on this series), those
+macros are used to document a field. That's why I opted to keep it.
 
 > 
-> Reviewed-by: Nathan Chancellor <nathan@kernel.org>
+> However, you are the maintainer so if you really want to keep these
+> around, I would recommend adding '__always_unused' instead of
+> '__maybe_unused' for documentation and auditing purposes, even though
+> they evaluate to the same thing:
+> 
+> $ rg __always_unused | wc -l
+> 337
+> 
+> $ rg __maybe_unused | wc -l
+> 4335
+
+Good point. I'll use __always_unused on such patches.
+
+> 
+> [1]: https://lore.kernel.org/r/YZtpnjPcGxVwhe61@pendragon.ideasonboard.com/
+> 
+> Cheers,
+> Nathan
 > 
 > > ---
 > > 
 > > To avoid mailbombing on a large number of people, only mailing lists were C/C on the cover.
 > > See [PATCH 00/20] at: https://lore.kernel.org/all/cover.1637781097.git.mchehab+huawei@kernel.org/
 > > 
-> >  drivers/media/dvb-frontends/si21xx.c | 7 ++++---
-> >  1 file changed, 4 insertions(+), 3 deletions(-)
+> >  drivers/media/pci/solo6x10/solo6x10-v4l2-enc.c | 12 ++++++------
+> >  1 file changed, 6 insertions(+), 6 deletions(-)
 > > 
-> > diff --git a/drivers/media/dvb-frontends/si21xx.c b/drivers/media/dvb-frontends/si21xx.c
-> > index e31eb2c5cc4c..001b23588389 100644
-> > --- a/drivers/media/dvb-frontends/si21xx.c
-> > +++ b/drivers/media/dvb-frontends/si21xx.c
-> > @@ -711,7 +711,7 @@ static int si21xx_set_frontend(struct dvb_frontend *fe)
-> >  	int i;
-> >  	bool inband_interferer_div2[ALLOWABLE_FS_COUNT];
-> >  	bool inband_interferer_div4[ALLOWABLE_FS_COUNT];
-> > -	int status;
-> > +	int status = 0;
-> >  
-> >  	/* allowable sample rates for ADC in MHz */
-> >  	int afs[ALLOWABLE_FS_COUNT] = { 200, 192, 193, 194, 195,
-> > @@ -747,8 +747,6 @@ static int si21xx_set_frontend(struct dvb_frontend *fe)
-> >  	rf_freq = 10 * c->frequency ;
-> >  	data_rate = c->symbol_rate / 100;
-> >  
-> > -	status = PASS;
-> > -
-> >  	band_low = (rf_freq - lnb_lo) - ((lnb_uncertanity * 200)
-> >  					+ (data_rate * 135)) / 200;
-> >  
-> > @@ -832,6 +830,9 @@ static int si21xx_set_frontend(struct dvb_frontend *fe)
-> >  	state->fs = sample_rate;/*ADC MHz*/
-> >  	si21xx_setacquire(fe, c->symbol_rate, c->fec_inner);
-> >  
-> > +	if (status)
-> > +		return -EREMOTEIO;
-> > +
-> >  	return 0;
+> > diff --git a/drivers/media/pci/solo6x10/solo6x10-v4l2-enc.c b/drivers/media/pci/solo6x10/solo6x10-v4l2-enc.c
+> > index 0abcad4e84fa..85eaf5d00e9b 100644
+> > --- a/drivers/media/pci/solo6x10/solo6x10-v4l2-enc.c
+> > +++ b/drivers/media/pci/solo6x10/solo6x10-v4l2-enc.c
+> > @@ -391,12 +391,12 @@ static int solo_send_desc(struct solo_enc_dev *solo_enc, int skip,
 > >  }
 > >  
+> >  /* Extract values from VOP header - VE_STATUSxx */
+> > -static inline int vop_interlaced(const vop_header *vh)
+> > +static inline __maybe_unused int vop_interlaced(const vop_header *vh)
+> >  {
+> >  	return (__le32_to_cpu((*vh)[0]) >> 30) & 1;
+> >  }
+> >  
+> > -static inline u8 vop_channel(const vop_header *vh)
+> > +static inline __maybe_unused u8 vop_channel(const vop_header *vh)
+> >  {
+> >  	return (__le32_to_cpu((*vh)[0]) >> 24) & 0x1F;
+> >  }
+> > @@ -411,12 +411,12 @@ static inline u32 vop_mpeg_size(const vop_header *vh)
+> >  	return __le32_to_cpu((*vh)[0]) & 0xFFFFF;
+> >  }
+> >  
+> > -static inline u8 vop_hsize(const vop_header *vh)
+> > +static inline u8 __maybe_unused vop_hsize(const vop_header *vh)
+> >  {
+> >  	return (__le32_to_cpu((*vh)[1]) >> 8) & 0xFF;
+> >  }
+> >  
+> > -static inline u8 vop_vsize(const vop_header *vh)
+> > +static inline u8 __maybe_unused vop_vsize(const vop_header *vh)
+> >  {
+> >  	return __le32_to_cpu((*vh)[1]) & 0xFF;
+> >  }
+> > @@ -436,12 +436,12 @@ static inline u32 vop_jpeg_size(const vop_header *vh)
+> >  	return __le32_to_cpu((*vh)[4]) & 0xFFFFF;
+> >  }
+> >  
+> > -static inline u32 vop_sec(const vop_header *vh)
+> > +static inline u32 __maybe_unused vop_sec(const vop_header *vh)
+> >  {
+> >  	return __le32_to_cpu((*vh)[5]);
+> >  }
+> >  
+> > -static inline u32 vop_usec(const vop_header *vh)
+> > +static inline __maybe_unused u32 vop_usec(const vop_header *vh)
+> >  {
+> >  	return __le32_to_cpu((*vh)[6]);
+> >  }
 > > -- 
 > > 2.33.1
 > > 
