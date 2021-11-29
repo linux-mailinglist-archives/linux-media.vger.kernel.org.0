@@ -2,101 +2,138 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7703146130B
-	for <lists+linux-media@lfdr.de>; Mon, 29 Nov 2021 12:03:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B53D7461551
+	for <lists+linux-media@lfdr.de>; Mon, 29 Nov 2021 13:41:49 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238600AbhK2LHA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 29 Nov 2021 06:07:00 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49758 "EHLO
+        id S238906AbhK2MpF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 29 Nov 2021 07:45:05 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42794 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235838AbhK2LE7 (ORCPT
+        with ESMTP id S236408AbhK2MnF (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 29 Nov 2021 06:04:59 -0500
-Received: from mail-yb1-xb31.google.com (mail-yb1-xb31.google.com [IPv6:2607:f8b0:4864:20::b31])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 971FDC0613FA;
-        Mon, 29 Nov 2021 02:19:30 -0800 (PST)
-Received: by mail-yb1-xb31.google.com with SMTP id j2so40633428ybg.9;
-        Mon, 29 Nov 2021 02:19:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=ppG/ZLMPwOtn6jb5uz3xg0bkyKQKbtFMdorf6y+f5O8=;
-        b=fH0Z+H11NlvR2Vo3lKedItgHqleYX6iHBY+IGVtYaZjg+fDnsbzHXbPU+hxwM5OZzD
-         /wRycMore58LZFi2gM/Hvc3sgfqq1hU9GP7q2sNcSRNIqIneoCJcaTcAs2INj8VXI/5l
-         9M1fdnpMcVoWPRukw7kMFMIMOwcOk5cOb+lYzZBvubIjXuhmFIQpFfLlyyV7jKaXyq/X
-         0J+bGNT7h7wcZ9azbn3Nov2S0Z/8RQQdGfxNz9tRnuMFCTHTdHHfRdT1TzWRJDAo9ytt
-         DLTxXQu4VIXN6HIvp60bjA2OtOG5h0dwdLfc9bVIn2dsCCwnq71bsrDdJUAZEoypEWYj
-         qKsw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=ppG/ZLMPwOtn6jb5uz3xg0bkyKQKbtFMdorf6y+f5O8=;
-        b=wDhUrEsHeieZ89FzlLY/8TBBhTXtBqoKIcQvax/fvI+HfoQHt2cJYWgt3ZG3HvxVBb
-         2y30lkP/c3NWKxvMSgbCIxF9T26MPoa4cJ4C3Y+xQnjJ3mvkYvdaHsvnt3m58Aec6ih8
-         f+sAGf884KtJ9Aq2I721prpSY2bYFz2JMTXlcd/wVVjIKhPvSPS4s/xahZTAybuT/0W3
-         Gbh3S2NKd+6OTT+Ezt4QWoI8Tv7TkVLTBk4duR9AocdthFBYtx8FyOFy3cn26pAI3b48
-         iqct032+f993TxG0EzpPuYzZN6BPW9MTWUA7VdvSIUHdXr2kdFMlLkqHAosm0gmRyPCs
-         2TGQ==
-X-Gm-Message-State: AOAM530n+GO9R/8up/6/FmeKcd0nFr1HYhpIT3UDo2q/uQVSG/l+5gnK
-        RDdFJ+ACuUvGXNtfy3ujYkeVnRT5mpDkHxF24n4=
-X-Google-Smtp-Source: ABdhPJzG7Lik7bR0zFFLYlNQEHnT5wMALB0Xeav5csPj+MAzakqOJjCvBkEbkO/PqI3cA8q0BuWMFqAVoWf0kx9DPEY=
-X-Received: by 2002:a25:abe3:: with SMTP id v90mr34015526ybi.315.1638181169899;
- Mon, 29 Nov 2021 02:19:29 -0800 (PST)
-MIME-Version: 1.0
-References: <cover.1638179135.git.mchehab+huawei@kernel.org> <0c086fea0d3f0771f6c8627e99edb719e282a49c.1638179135.git.mchehab+huawei@kernel.org>
-In-Reply-To: <0c086fea0d3f0771f6c8627e99edb719e282a49c.1638179135.git.mchehab+huawei@kernel.org>
-From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date:   Mon, 29 Nov 2021 10:19:04 +0000
-Message-ID: <CA+V-a8tDNmNDoOGyt-qD13Rk1ta8_EqNBydSpvGW_X-LcD76BQ@mail.gmail.com>
-Subject: Re: [PATCH v2 16/20] media: davinci: vpbe_osd: mark read reg function
- as __always_unused
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc:     linuxarm@huawei.com, mauro.chehab@huawei.com,
+        Mon, 29 Nov 2021 07:43:05 -0500
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 75E04C06179F
+        for <linux-media@vger.kernel.org>; Mon, 29 Nov 2021 03:27:12 -0800 (PST)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <mtr@pengutronix.de>)
+        id 1mreoQ-0006CW-Nn; Mon, 29 Nov 2021 12:27:10 +0100
+Received: from [2a0a:edc0:0:1101:1d::39] (helo=dude03.red.stw.pengutronix.de)
+        by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
+        (envelope-from <mtr@pengutronix.de>)
+        id 1mreoQ-001j1a-5G; Mon, 29 Nov 2021 12:27:09 +0100
+Received: from mtr by dude03.red.stw.pengutronix.de with local (Exim 4.94.2)
+        (envelope-from <mtr@pengutronix.de>)
+        id 1mreoO-00DVcH-IV; Mon, 29 Nov 2021 12:27:08 +0100
+From:   Michael Tretter <m.tretter@pengutronix.de>
+To:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        Marek Vasut <marex@denx.de>
+Cc:     Rob Herring <robh+dt@kernel.org>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        LKML <linux-kernel@vger.kernel.org>,
-        linux-media <linux-media@vger.kernel.org>, llvm@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        p.zabel@pengutronix.de, Ian Arkver <ian.arkver.dev@gmail.com>,
+        kernel@pengutronix.de, Michael Tretter <m.tretter@pengutronix.de>,
+        Hans Verkuil <hverkuil@xs4all.nl>
+Subject: [PATCH v9 0/3] media: i2c: isl7998x: Add driver for Intersil ISL7998x
+Date:   Mon, 29 Nov 2021 12:27:05 +0100
+Message-Id: <20211129112708.3219754-1-m.tretter@pengutronix.de>
+X-Mailer: git-send-email 2.30.2
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: mtr@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-media@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, Nov 29, 2021 at 9:48 AM Mauro Carvalho Chehab
-<mchehab+huawei@kernel.org> wrote:
->
-> Such function is currently unused, but could be needed in the
-> future. So, keep it, marking it as __always_unused, in order to
-> avoid a clang W=1 error.
->
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-> ---
->
-> See [PATCH v2 00/20] at: https://lore.kernel.org/all/cover.1638179135.git.mchehab+huawei@kernel.org/
->
->  drivers/media/platform/davinci/vpbe_osd.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-Reviewed-by: Lad Prabhakar <prabhakar.csengg@gmail.com>
+This is v9 of the series to for adding the isl7998x driver [0].
 
-Cheers,
-Prabhakar
+The isl7998x is an analog video to MIPI CSI-2 or BT.656 converter. The dt
+binding describes only the isl79987 chip, which supports MIPI CSI-2. The
+driver could be extended to handle isl79988 (for BT.656), too, but this isn't
+implemented.
 
-> diff --git a/drivers/media/platform/davinci/vpbe_osd.c b/drivers/media/platform/davinci/vpbe_osd.c
-> index 91b571a0ac2c..32f7ef547c82 100644
-> --- a/drivers/media/platform/davinci/vpbe_osd.c
-> +++ b/drivers/media/platform/davinci/vpbe_osd.c
-> @@ -45,7 +45,7 @@ static const struct platform_device_id vpbe_osd_devtype[] = {
->  MODULE_DEVICE_TABLE(platform, vpbe_osd_devtype);
->
->  /* register access routines */
-> -static inline u32 osd_read(struct osd_state *sd, u32 offset)
-> +static inline u32 __always_unused osd_read(struct osd_state *sd, u32 offset)
->  {
->         struct osd_state *osd = sd;
->
-> --
-> 2.33.1
->
+v9 fixes the following warning when running the dt_binding_check, by removing
+the clock-lanes property from the example and adding the data-lanes property
+to the specification.
+
+	isl7998x_mipi@44: ports:port@0:endpoint: Unevaluated properties are not allowed ('clock-lanes', 'data-lanes' were unexpected)
+
+Michael
+
+[0] https://lore.kernel.org/linux-media/20190520201812.7937-1-marex@denx.de/
+
+Changelog:
+
+v9:
+
+- remove clock-lanes from dt binding example
+- add data-lanes to dt binding example
+
+v8:
+
+- rebase on v5.16-rc1
+- fix warning about ignored type qualifier
+
+v7:
+
+- add reservation and documentation for custom V4L2 controls
+- implement g_input_status, g_tvnorms, querystd, s_std, g_std
+- use v4l2_norm_to_name instead of custom implementation
+- fix off-by-one with 4 inputs
+- fix polling condition for standard detection
+
+v6:
+
+- incorporate review feedback by Philipp Zabel into isl7998x.c
+
+v5:
+
+- ignore -ENOIOCTLCMD of pre_streamon for backwards compatibility
+
+v4:
+
+- add patch for imx6-mipi-csi2 to request LP-11 mode
+- update isl7998x driver with review feedback on v3
+
+v3:
+
+- rename pd-gpios property to powerdown-gpios
+- reference graph.yaml for port/ports property
+- remove reference to video-interfaces.txt
+
+v2:
+
+- convert dt binding to yaml
+- change binding to ISL79987 only
+- general driver cleanup
+- convert driver to pm_runtime
+- use ports in device tree for specifying inputs
+- add reset gpio
+
+Marek Vasut (2):
+  media: dt-bindings: Add Intersil ISL79987 DT bindings
+  media: i2c: isl7998x: Add driver for Intersil ISL7998x
+
+Michael Tretter (1):
+  media: imx6-mipi-csi2: use pre_streamon callback to set sensor into
+    LP11
+
+ .../bindings/media/i2c/isil,isl79987.yaml     |  113 ++
+ MAINTAINERS                                   |    8 +
+ drivers/media/i2c/Kconfig                     |   10 +
+ drivers/media/i2c/Makefile                    |    1 +
+ drivers/media/i2c/isl7998x.c                  | 1543 +++++++++++++++++
+ drivers/staging/media/imx/imx6-mipi-csi2.c    |    9 +-
+ include/uapi/linux/v4l2-controls.h            |    6 +
+ 7 files changed, 1689 insertions(+), 1 deletion(-)
+ create mode 100644 Documentation/devicetree/bindings/media/i2c/isil,isl79987.yaml
+ create mode 100644 drivers/media/i2c/isl7998x.c
+
+-- 
+2.30.2
+
