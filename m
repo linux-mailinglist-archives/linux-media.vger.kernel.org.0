@@ -2,168 +2,137 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AEB7046117B
-	for <lists+linux-media@lfdr.de>; Mon, 29 Nov 2021 10:57:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2D885461159
+	for <lists+linux-media@lfdr.de>; Mon, 29 Nov 2021 10:50:11 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S245748AbhK2KAp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 29 Nov 2021 05:00:45 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35232 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238140AbhK2J6n (ORCPT
+        id S245486AbhK2Jx0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 29 Nov 2021 04:53:26 -0500
+Received: from dfw.source.kernel.org ([139.178.84.217]:53386 "EHLO
+        dfw.source.kernel.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S243997AbhK2JvO (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 29 Nov 2021 04:58:43 -0500
-Received: from mail-qk1-x731.google.com (mail-qk1-x731.google.com [IPv6:2607:f8b0:4864:20::731])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C8F30C06175F
-        for <linux-media@vger.kernel.org>; Mon, 29 Nov 2021 01:37:22 -0800 (PST)
-Received: by mail-qk1-x731.google.com with SMTP id 132so22150582qkj.11
-        for <linux-media@vger.kernel.org>; Mon, 29 Nov 2021 01:37:22 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=h5KHLBYpwHVLJmQRJ+a2RZr2V0rOrITf1iTJaEhyq+I=;
-        b=fxU1GHxrSAChQ4YoBsGlhW0ioncX9rISxXRWfWXTAvEb4z4KC9Cm+ADVe2ykY6n3dO
-         m7NGhb0hhvoZVkQalVLheDpjSjrr7rN5TdAn2XRYA6hJM71n10LmZklUIWTygHFoq0q4
-         cvBjO3MJAwR5eIO4499p/Tt3N/WSpsm6rTjKs=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=h5KHLBYpwHVLJmQRJ+a2RZr2V0rOrITf1iTJaEhyq+I=;
-        b=El6HwRxZQYIY3aSb82jLtzJP1Xxjac3mLbm3VDYeWUsyn7lDpeAdlPCQww0ZM3JrRm
-         SWeBu66ROZ6Gb1rfg0XhEjd42Vl1/ZDEHXPtQIx9a8XynxvFe1kzp5mQ+ve220ofbYBB
-         nEGlXdDrymPraFaBVUob1oCjPbpfQ6KokQvXanccjg23jwV32ARZaSZUo0u9DKe/jxLg
-         za8dobKcs/Zl4UGvZ+kRZpsa6TWcQDAyPyUBdPSM512y1Mbf6wGrA/G1Zx2v20YYpiHU
-         tq9MvdfCzjxBBoNBgB6NMYSWZKTnfE7xRpxtfbInRz8u3Q//jLW3Td+ZQyG/+N90mBTF
-         BtNw==
-X-Gm-Message-State: AOAM5300SyH+eiMaWVa+ZYDlUtlIxBRdl/VGWWBqcbjf/AZNnHo2PqVy
-        A1mad50a/Dqfj+OCof2+MPMtaiNA/9cr132k
-X-Google-Smtp-Source: ABdhPJxtL2WI6RtwSLl4x/qac9T7HntFQMwSB/IKMNOOrNZqwOxY/53p8sGxVFvpciyQnheJKZH0AA==
-X-Received: by 2002:a05:620a:bce:: with SMTP id s14mr35707913qki.482.1638178641686;
-        Mon, 29 Nov 2021 01:37:21 -0800 (PST)
-Received: from mail-yb1-f174.google.com (mail-yb1-f174.google.com. [209.85.219.174])
-        by smtp.gmail.com with ESMTPSA id s10sm7503109qke.132.2021.11.29.01.37.20
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 29 Nov 2021 01:37:21 -0800 (PST)
-Received: by mail-yb1-f174.google.com with SMTP id v203so40451890ybe.6
-        for <linux-media@vger.kernel.org>; Mon, 29 Nov 2021 01:37:20 -0800 (PST)
-X-Received: by 2002:a25:3c5:: with SMTP id 188mr34562556ybd.174.1638178640461;
- Mon, 29 Nov 2021 01:37:20 -0800 (PST)
+        Mon, 29 Nov 2021 04:51:14 -0500
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id ED4F261216;
+        Mon, 29 Nov 2021 09:47:56 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 49BBAC53FCD;
+        Mon, 29 Nov 2021 09:47:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1638179276;
+        bh=5CENAf/8QanA+lLNHGoriAWyTBD8I6cnLPIi4nuvTN4=;
+        h=From:To:Cc:Subject:Date:From;
+        b=H5x3OCE4WZM12i3Vle4WyTNxy+SESS5l9MQeZY2n7ErMwupHa1wRMhIDBf89g7wm0
+         6gSP3nnbNkjlvyl5EfRHCHT9yuFlAICe30EKLNuUnfkgpJwvV7j/LK/tpRwFkXXtNL
+         ngawzo+pjvK7MjnPQuBBEVueMaD0DcmNhT89Dcki0PS010FrjtX4z8KjMu49WiD2hB
+         Gbe7aXtjeIzubLax6URGtRpmgiSQWSoZk9ytffAodGu1kBI6yn/I9CQGZat+iZ9dFm
+         X+llPm1yrsTkJuLdmzOSQUGh9OICb+q4/osiwb1c99vuQQuHtvh97hr5+sg2lMOfgk
+         gS60XsLMi2/+g==
+Received: from mchehab by mail.kernel.org with local (Exim 4.94.2)
+        (envelope-from <mchehab@kernel.org>)
+        id 1mrdGM-000RAt-2h; Mon, 29 Nov 2021 10:47:54 +0100
+From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc:     linuxarm@huawei.com, mauro.chehab@huawei.com,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+        "Lad, Prabhakar" <prabhakar.csengg@gmail.com>,
+        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+        Andrey Utkin <andrey_utkin@fastmail.com>,
+        Andy Gross <agross@kernel.org>,
+        Anton Sviridenko <anton@corp.bluecherry.net>,
+        Antti Palosaari <crope@iki.fi>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Bluecherry Maintainers <maintainers@bluecherrydvr.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Houlong Wei <houlong.wei@mediatek.com>,
+        Ismael Luceno <ismael@iodev.co.uk>,
+        Kees Cook <keescook@chromium.org>,
+        Malcolm Priestley <tvboxspy@gmail.com>,
+        Manivannan Sadhasivam <mani@kernel.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Minghsiu Tsai <minghsiu.tsai@mediatek.com>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Robert Foss <robert.foss@linaro.org>,
+        Todor Tomov <todor.too@gmail.com>,
+        Xiaofeng Cao <caoxiaofeng@yulong.com>,
+        linux-arm-kernel@lists.infradead.org,
+        linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-mediatek@lists.infradead.org,
+        llvm@lists.linux.dev
+Subject: [PATCH v2 00/20] Solve the remaining issues with clang and W=1 on media
+Date:   Mon, 29 Nov 2021 10:47:32 +0100
+Message-Id: <cover.1638179135.git.mchehab+huawei@kernel.org>
+X-Mailer: git-send-email 2.33.1
 MIME-Version: 1.0
-References: <a8932f2c-5342-2cd8-9b98-1db0de756190@xs4all.nl>
-In-Reply-To: <a8932f2c-5342-2cd8-9b98-1db0de756190@xs4all.nl>
-From:   Tomasz Figa <tfiga@chromium.org>
-Date:   Mon, 29 Nov 2021 18:37:09 +0900
-X-Gmail-Original-Message-ID: <CAAFQd5AtvWRWQkihCaK06s+Q7ROo2g9aREej_c+PTgisD3F8ew@mail.gmail.com>
-Message-ID: <CAAFQd5AtvWRWQkihCaK06s+Q7ROo2g9aREej_c+PTgisD3F8ew@mail.gmail.com>
-Subject: Re: [PATCH] vb2: warn for or disable the CMA + USERPTR combination
-To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
+To:     unlisted-recipients:; (no To-header on input)
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, Nov 11, 2021 at 8:03 PM Hans Verkuil <hverkuil-cisco@xs4all.nl> wrote:
->
-> If one or more pages of the user-allocated buffer memory were
-> allocated in CMA memory, then when the buffer is prepared any
-> attempt to pin such pages will fail since user-allocated pages
-> in CMA memory are supposed to be moveable, and pinning them in
-> place would defeat the purpose of CMA.
->
-> CONFIG_CMA is typically only used with embedded systems, and
-> in that case the use of DMABUF is preferred.
->
-> So warn for this combination, and also add a new config option
-> to disable USERPTR support altogether if CONFIG_CMA is set.
->
-> I've chosen to put this under a config option since disabling
-> it unconditionally might cause userspace breakage.
->
-> Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-> ---
-> Should USERPTR just be disabled unconditionally if CONFIG_CMA is set?
-> Feedback would be welcome.
->
-> I noticed this issue when testing on a VM instance which had CMA
-> set and had 4 GB memory allocated to it. The test-media regression
-> test started failing because of this issue. Increasing the memory
-> to 16 GB 'solved' it, but that's just papering over the real problem.
-> Hence this patch.
-> ---
->  drivers/media/common/videobuf2/Kconfig         | 11 +++++++++++
->  .../media/common/videobuf2/videobuf2-core.c    | 18 ++++++++++++++++++
->  2 files changed, 29 insertions(+)
->
-> diff --git a/drivers/media/common/videobuf2/Kconfig b/drivers/media/common/videobuf2/Kconfig
-> index d2223a12c95f..d89042cbb5cf 100644
-> --- a/drivers/media/common/videobuf2/Kconfig
-> +++ b/drivers/media/common/videobuf2/Kconfig
-> @@ -7,6 +7,17 @@ config VIDEOBUF2_CORE
->  config VIDEOBUF2_V4L2
->         tristate
->
-> +config VIDEOBUF2_DISABLE_USERPTR_AND_CMA
-> +       bool "Disable use of V4L2 USERPTR streaming if CMA is enabled"
-> +       depends on CMA
-> +       depends on VIDEOBUF2_V4L2
-> +       help
-> +         Say Y here to disable V4L2 USERPTR streaming mode if CMA is enabled.
-> +         If some of the pages of the buffer memory were allocated in CMA memory,
-> +         then attempting to pin those pages in place will fail with an error.
-> +
-> +         When in doubt, say N.
-> +
->  config VIDEOBUF2_MEMOPS
->         tristate
->
-> diff --git a/drivers/media/common/videobuf2/videobuf2-core.c b/drivers/media/common/videobuf2/videobuf2-core.c
-> index 2266bbd239ab..17166d4212d0 100644
-> --- a/drivers/media/common/videobuf2/videobuf2-core.c
-> +++ b/drivers/media/common/videobuf2/videobuf2-core.c
-> @@ -662,6 +662,20 @@ static int __verify_userptr_ops(struct vb2_queue *q)
->             !q->mem_ops->put_userptr)
->                 return -EINVAL;
->
-> +#ifdef CONFIG_CMA
-> +       /*
-> +        * If one or more pages of the user-allocated buffer memory were
-> +        * allocated in CMA memory, then when the buffer is prepared any
-> +        * attempt to pin such pages will fail since user-allocated pages
-> +        * in CMA memory are supposed to be moveable, and pinning them in
-> +        * place would defeat the purpose of CMA.
-> +        *
-> +        * CONFIG_CMA is typically only used with embedded systems, and
-> +        * in that case the use of DMABUF is preferred.
-> +        */
-> +       pr_warn_once("The USERPTR I/O streaming mode is unreliable if CMA is enabled.\n");
-> +       pr_warn_once("Use the DMABUF I/O streaming mode instead.\n");
-> +#endif
->         return 0;
->  }
->
-> @@ -2399,6 +2413,10 @@ int vb2_core_queue_init(struct vb2_queue *q)
->         if (WARN_ON(q->supports_requests && q->min_buffers_needed))
->                 return -EINVAL;
->
-> +#ifdef CONFIG_VIDEOBUF2_DISABLE_USERPTR_AND_CMA
-> +       q->io_modes &= ~VB2_USERPTR;
-> +#endif
-> +
->         INIT_LIST_HEAD(&q->queued_list);
->         INIT_LIST_HEAD(&q->done_list);
->         spin_lock_init(&q->done_lock);
-> --
-> 2.33.0
->
+Currently, using clang with W=1 and CONFIG_WERROR causes media to break.
+This is reported by builder.linuxtv.org.
 
-I think this is a good first step. I wonder if we should explore the
-possibility of officially declaring USERPTR deprecated in the
-documentation?
+This series solve the remaining issues.
 
-Acked-by: Tomasz Figa <tfiga@chromium.org>
+v2:
+  - Use __always_unused for the code we're keeping
+  - Dropped a couple more unused functions
+  - Added reviews got from the first submission and addressed some comments.
 
-Best regards,
-Tomasz
+Mauro Carvalho Chehab (19):
+  media: adv7842: get rid of two unused functions
+  media: saa7134-go7007: get rid of to_state() function
+  media: davinci: get rid of an unused function
+  media: drxd: drop offset var from DownloadMicrocode()
+  media: drxk: drop operation_mode from set_dvbt()
+  media: m88ds3103: drop reg11 calculus from m88ds3103b_select_mclk()
+  media: si21xx: report eventual errors at set_frontend
+  media: solo6x10: mark unused functions as such
+  media: si470x: fix printk warnings with clang
+  media: radio-si476x: drop a container_of() abstraction macro
+  media: lmedm04: don't ignore errors when setting a filter
+  media: au0828-i2c: drop a duplicated function
+  media: adv7604: mark unused functions as such
+  media: adv7511: drop unused functions
+  media: imx290: mark read reg function as __always_unused
+  media: davinci: vpbe_osd: mark read reg function as __always_unused
+  media: mtk-mdp: address a clang warning
+  media: cobalt: drop an unused variable
+  media: mxl5005s: drop some dead code
+
+Robert Foss (1):
+  media: camss: Remove unused static function
+
+ drivers/media/dvb-frontends/drxd_hard.c       |  8 -------
+ drivers/media/dvb-frontends/drxk_hard.c       | 23 ++++---------------
+ drivers/media/dvb-frontends/m88ds3103.c       |  6 +----
+ drivers/media/dvb-frontends/si21xx.c          |  7 +++---
+ drivers/media/i2c/adv7511-v4l2.c              | 22 ------------------
+ drivers/media/i2c/adv7604.c                   | 18 +++++++--------
+ drivers/media/i2c/adv7842.c                   | 10 --------
+ drivers/media/i2c/imx290.c                    |  2 +-
+ drivers/media/pci/cobalt/cobalt-cpld.c        |  5 +---
+ drivers/media/pci/saa7134/saa7134-go7007.c    |  7 +-----
+ .../media/pci/solo6x10/solo6x10-v4l2-enc.c    | 12 +++++-----
+ drivers/media/platform/davinci/vpbe_osd.c     |  2 +-
+ drivers/media/platform/davinci/vpif_capture.c | 11 ---------
+ drivers/media/platform/mtk-mdp/mtk_mdp_core.c |  2 +-
+ .../media/platform/qcom/camss/camss-vfe-170.c |  7 ------
+ drivers/media/radio/radio-si476x.c            |  6 -----
+ drivers/media/radio/si470x/radio-si470x-i2c.c |  4 ++--
+ drivers/media/radio/si470x/radio-si470x-usb.c |  8 +++----
+ drivers/media/tuners/mxl5005s.c               | 14 +----------
+ drivers/media/usb/au0828/au0828-i2c.c         |  7 ------
+ drivers/media/usb/dvb-usb-v2/lmedm04.c        |  3 +++
+ 21 files changed, 40 insertions(+), 144 deletions(-)
+
+-- 
+2.33.1
+
+
