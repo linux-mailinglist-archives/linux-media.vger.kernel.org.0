@@ -2,89 +2,127 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 38C54461B2C
-	for <lists+linux-media@lfdr.de>; Mon, 29 Nov 2021 16:39:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 747E2461B49
+	for <lists+linux-media@lfdr.de>; Mon, 29 Nov 2021 16:48:23 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1347031AbhK2PmN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 29 Nov 2021 10:42:13 -0500
-Received: from mga06.intel.com ([134.134.136.31]:52861 "EHLO mga06.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1343715AbhK2PkK (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 29 Nov 2021 10:40:10 -0500
-X-IronPort-AV: E=McAfee;i="6200,9189,10182"; a="296796222"
-X-IronPort-AV: E=Sophos;i="5.87,273,1631602800"; 
-   d="scan'208";a="296796222"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Nov 2021 07:27:45 -0800
-X-IronPort-AV: E=Sophos;i="5.87,273,1631602800"; 
-   d="scan'208";a="558842006"
-Received: from vanderss-mobl.ger.corp.intel.com (HELO thellstr-mobl1.intel.com) ([10.249.254.176])
-  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Nov 2021 07:27:42 -0800
-From:   =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= 
-        <thomas.hellstrom@linux.intel.com>
-To:     intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Cc:     maarten.lankhorst@linux.intel.com, matthew.auld@intel.com,
-        =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= 
-        <thomas.hellstrom@linux.intel.com>,
-        Chris Wilson <chris@chris-wilson.co.uk>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        Gustavo Padovan <gustavo@padovan.org>,
-        =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
-        linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
-        stable@vger.kernel.org
-Subject: [PATCH v2] dma_fence_array: Fix PENDING_ERROR leak in dma_fence_array_signaled()
-Date:   Mon, 29 Nov 2021 16:27:27 +0100
-Message-Id: <20211129152727.448908-1-thomas.hellstrom@linux.intel.com>
-X-Mailer: git-send-email 2.31.1
+        id S241257AbhK2Pvg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 29 Nov 2021 10:51:36 -0500
+Received: from perceval.ideasonboard.com ([213.167.242.64]:37716 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1344446AbhK2Ptd (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Mon, 29 Nov 2021 10:49:33 -0500
+Received: from pendragon.ideasonboard.com (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 323622A5;
+        Mon, 29 Nov 2021 16:46:14 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1638200774;
+        bh=OCciDv5FkJoDANYroVNfeLNyaZxemuwDU6qmphvOn2s=;
+        h=In-Reply-To:References:Subject:From:To:Date:From;
+        b=atSdqR3kwo0G4uioRmygZIsVGTXFaFcOUrvp5YLv1Q/2qWlUVfI5kG9hnXeQRVkjp
+         A5j0+HQcaxVCo3BejWDbIHhdO1R6VH+Fiwk5FunMvI+w6wOzqPBWPa06BL/S+t2hMH
+         kIZ87Brr/SpWRw/gEPW3nhD3JKsDmuN6BIDlDym8=
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20211019114718.827400-1-dorota.czaplejewicz@puri.sm>
+References: <20211019114718.827400-1-dorota.czaplejewicz@puri.sm>
+Subject: Re: [PATCH] media: Add 16-bit Bayer formats
+From:   Kieran Bingham <kieran.bingham@ideasonboard.com>
+To:     Andrey Konovalov <andrey.konovalov@linaro.org>,
+        Dorota Czaplejewicz <dorota.czaplejewicz@puri.sm>,
+        Jacopo Mondi <jacopo@jmondi.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>, kernel@puri.sm,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
+Date:   Mon, 29 Nov 2021 15:46:11 +0000
+Message-ID: <163820077159.3059017.10242072140890692995@Monstersaurus>
+User-Agent: alot/0.10
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-If a dma_fence_array is reported signaled by a call to
-dma_fence_is_signaled(), it may leak the PENDING_ERROR status.
+Hi Dorota,
 
-Fix this by clearing the PENDING_ERROR status if we return true in
-dma_fence_array_signaled().
+Quoting Dorota Czaplejewicz (2021-10-19 12:59:29)
+> 16-bit bayer formats are used by the i.MX driver.
 
-v2:
-- Update Cc list, and add R-b.
+Can we expand upon this at all?
 
-Fixes: 1f70b8b812f3 ("dma-fence: Propagate errors to dma-fence-array container")
-Cc: Chris Wilson <chris@chris-wilson.co.uk>
-Cc: Sumit Semwal <sumit.semwal@linaro.org>
-Cc: Gustavo Padovan <gustavo@padovan.org>
-Cc: Christian König <christian.koenig@amd.com>
-Cc: "Christian König" <christian.koenig@amd.com>
-Cc: linux-media@vger.kernel.org
-Cc: dri-devel@lists.freedesktop.org
-Cc: linaro-mm-sig@lists.linaro.org
-Cc: <stable@vger.kernel.org> # v5.4+
-Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
-Reviewed-by: Christian König <christian.koenig@amd.com>
----
- drivers/dma-buf/dma-fence-array.c | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+The Subject says "Add 16-bit Bayer formats" but this isn't adding the
+format, it's purely extending the v4l2_format_info table with the
+information for that format which is otherwise missing.
 
-diff --git a/drivers/dma-buf/dma-fence-array.c b/drivers/dma-buf/dma-fence-array.c
-index d3fbd950be94..3e07f961e2f3 100644
---- a/drivers/dma-buf/dma-fence-array.c
-+++ b/drivers/dma-buf/dma-fence-array.c
-@@ -104,7 +104,11 @@ static bool dma_fence_array_signaled(struct dma_fence *fence)
- {
- 	struct dma_fence_array *array = to_dma_fence_array(fence);
- 
--	return atomic_read(&array->num_pending) <= 0;
-+	if (atomic_read(&array->num_pending) > 0)
-+		return false;
-+
-+	dma_fence_array_clear_pending_error(array);
-+	return true;
- }
- 
- static void dma_fence_array_release(struct dma_fence *fence)
--- 
-2.31.1
+I wonder what other formats are missing from that table too?
 
+
+> Signed-off-by: Dorota Czaplejewicz <dorota.czaplejewicz@puri.sm>
+> ---
+> Hello,
+>=20
+> While working on the i.MX8 video driver, I discovered that `v4l2_fill_pix=
+fmt` will fail when using 10-bit sensor formats. (For background, see the c=
+onversation at https://lkml.org/lkml/2021/10/17/93 .)
+>=20
+> It appears that the video hardware will fill a 16-bit-per-pixel buffer wh=
+en fed 10-bit-per-pixel Bayer data, making `v4l2_fill_pixfmt` effectively b=
+roken for this case.
+
+This statement is confusing to me. Are you saying you're programming the
+hardware with 10 bit, and it's using 16 bits per pixel to store that
+data? (Which is simply 'unpacked' I think ?)
+
+
+>=20
+> This change adds the relevant entries to the format info structure.
+>=20
+> Difference in behaviour observed using the i846 driver on the Librem 5.
+>=20
+> Regards,
+> Dorota Czaplejewicz
+>=20
+>  drivers/media/v4l2-core/v4l2-common.c | 4 ++++
+>  1 file changed, 4 insertions(+)
+>=20
+> diff --git a/drivers/media/v4l2-core/v4l2-common.c b/drivers/media/v4l2-c=
+ore/v4l2-common.c
+> index 04af03285a20..d2e61538e979 100644
+> --- a/drivers/media/v4l2-core/v4l2-common.c
+> +++ b/drivers/media/v4l2-core/v4l2-common.c
+> @@ -309,6 +309,10 @@ const struct v4l2_format_info *v4l2_format_info(u32 =
+format)
+>                 { .format =3D V4L2_PIX_FMT_SGBRG12,       .pixel_enc =3D =
+V4L2_PIXEL_ENC_BAYER, .mem_planes =3D 1, .comp_planes =3D 1, .bpp =3D { 2, =
+0, 0, 0 }, .hdiv =3D 1, .vdiv =3D 1 },
+>                 { .format =3D V4L2_PIX_FMT_SGRBG12,       .pixel_enc =3D =
+V4L2_PIXEL_ENC_BAYER, .mem_planes =3D 1, .comp_planes =3D 1, .bpp =3D { 2, =
+0, 0, 0 }, .hdiv =3D 1, .vdiv =3D 1 },
+>                 { .format =3D V4L2_PIX_FMT_SRGGB12,       .pixel_enc =3D =
+V4L2_PIXEL_ENC_BAYER, .mem_planes =3D 1, .comp_planes =3D 1, .bpp =3D { 2, =
+0, 0, 0 }, .hdiv =3D 1, .vdiv =3D 1 },
+> +               { .format =3D V4L2_PIX_FMT_SBGGR16,       .pixel_enc =3D =
+V4L2_PIXEL_ENC_BAYER, .mem_planes =3D 1, .comp_planes =3D 1, .bpp =3D { 2, =
+0, 0, 0 }, .hdiv =3D 1, .vdiv =3D 1 },
+> +               { .format =3D V4L2_PIX_FMT_SGBRG16,       .pixel_enc =3D =
+V4L2_PIXEL_ENC_BAYER, .mem_planes =3D 1, .comp_planes =3D 1, .bpp =3D { 2, =
+0, 0, 0 }, .hdiv =3D 1, .vdiv =3D 1 },
+> +               { .format =3D V4L2_PIX_FMT_SGRBG16,       .pixel_enc =3D =
+V4L2_PIXEL_ENC_BAYER, .mem_planes =3D 1, .comp_planes =3D 1, .bpp =3D { 2, =
+0, 0, 0 }, .hdiv =3D 1, .vdiv =3D 1 },
+> +               { .format =3D V4L2_PIX_FMT_SRGGB16,       .pixel_enc =3D =
+V4L2_PIXEL_ENC_BAYER, .mem_planes =3D 1, .comp_planes =3D 1, .bpp =3D { 2, =
+0, 0, 0 }, .hdiv =3D 1, .vdiv =3D 1 },
+
+This looks right as far as I can see though, so for the change, and
+ideally with the commit message improved to be clearer about the
+content and reasoning for the change:
+
+Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+
+>         };
+>         unsigned int i;
+> =20
+> --=20
+> 2.31.1
+>
