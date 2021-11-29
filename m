@@ -2,87 +2,91 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7EC33462376
-	for <lists+linux-media@lfdr.de>; Mon, 29 Nov 2021 22:39:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A1CE446280C
+	for <lists+linux-media@lfdr.de>; Tue, 30 Nov 2021 00:16:02 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231809AbhK2Vmj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 29 Nov 2021 16:42:39 -0500
-Received: from meesny.iki.fi ([195.140.195.201]:35944 "EHLO meesny.iki.fi"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229649AbhK2Vkj (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 29 Nov 2021 16:40:39 -0500
-Received: from hillosipuli.retiisi.eu (dkvn5pty0gzs3nltj987t-3.rev.dnainternet.fi [IPv6:2001:14ba:4457:9640:1e2d:1f75:a607:ef37])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-        (No client certificate requested)
-        (Authenticated sender: sailus)
-        by meesny.iki.fi (Postfix) with ESMTPSA id 70C8720225;
-        Mon, 29 Nov 2021 23:37:19 +0200 (EET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=meesny;
-        t=1638221839;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=uKKX3vFttQ5v+UXIzen9N9yuqDMc3m8ScyaP2x4aMhw=;
-        b=t4t+YJxbXt/UVDkHTC70AvE72123XPCjYb11CQBuBdFrjXHtx2u0FvyhV2jQ17xMpV29qT
-        NPqD5vosh1fO2Z/Zcu54YHQ081AzLGeLEix6W+qUS1qS6NEok8gwkQIU3r+c2/RDGI19Fz
-        9EC1j5/T+PDX5vII05wxdxWz1dZTFZ0=
-Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        by hillosipuli.retiisi.eu (Postfix) with ESMTPS id E2313634C90;
-        Mon, 29 Nov 2021 23:37:18 +0200 (EET)
-Date:   Mon, 29 Nov 2021 23:37:18 +0200
-From:   Sakari Ailus <sakari.ailus@iki.fi>
-To:     Rob Herring <robh@kernel.org>
-Cc:     Eugen Hristev <eugen.hristev@microchip.com>,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        jacopo@jmondi.org, laurent.pinchart@ideasonboard.com,
-        nicolas.ferre@microchip.com
-Subject: Re: [PATCH v2 02/25] dt-bindings: media: atmel: csi2dc: add bindings
- for microchip csi2dc
-Message-ID: <YaVIDgn1d2BHv6XZ@valkosipuli.retiisi.eu>
-References: <20211112142509.2230884-1-eugen.hristev@microchip.com>
- <20211112142509.2230884-3-eugen.hristev@microchip.com>
- <YaVBwjtEI3xcL551@robh.at.kernel.org>
+        id S231610AbhK2XS5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 29 Nov 2021 18:18:57 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43044 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231734AbhK2XSq (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Mon, 29 Nov 2021 18:18:46 -0500
+Received: from mail-wr1-x42d.google.com (mail-wr1-x42d.google.com [IPv6:2a00:1450:4864:20::42d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 80BADC096751;
+        Mon, 29 Nov 2021 15:06:29 -0800 (PST)
+Received: by mail-wr1-x42d.google.com with SMTP id j3so40227821wrp.1;
+        Mon, 29 Nov 2021 15:06:29 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=googlemail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=MIbZUt/YFgWRfyP/uXvxQWzY6RB+wFRt4dt1V30FGkg=;
+        b=Wr2c/Dakc89dINMCpGVmmSgkuaFb96bJvgg6Lratrao/MuWUSrAHxvzVQIVoaxkJSn
+         l2iEM01jacukj6GsQ09Z9rezsHNWBuiNXJwuGEi+1uiINAWWZyYM22rBg1oMvZnfWaHc
+         h6UDEpZfTgBf83+/AvRfPqSPJeR4RJVxkYK19050Sh6HQ4C4j86dyRCNIfAWgPL0867B
+         djMo31UIHRBvlYKhJULi/F78udFQQFMrh+Nwj89Ymq+pTYqS1Pa4RATiPutsIvpSxcNk
+         TVT66okLupg27o03asdx13avEGpYGN7Z2y3qHXNalUwN54KCNekh+1A+Tt3om0Y5DaTD
+         uIGA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=MIbZUt/YFgWRfyP/uXvxQWzY6RB+wFRt4dt1V30FGkg=;
+        b=7cTLFmXAwk/CJFcvYzDh61vM9eNQWjfTisOQ+XgNoxGq5B2KsRjyMHfQbKqZdIqySl
+         vi3AAOJ/RbsBMJw3QCMnIeOOX+jBW1Egmw0QE8WT/9BZZlIj4JxqY1tVbRNTq+HyEYqX
+         NBCK7/qYcmgaCjFCjar3LrhCBe3eJPuXESZzbjH0wvpBONS5WtIf9X4ZnLq9iw+ihw1W
+         IwbIlU4UtgHlxqIWkZ5wUsnO1J8kDg6PK7Gwg/SyMuPvVh/mhjFegQ8o/PM/H8NFgd6J
+         vk4oujU6f0yvLZfjhIkfDBKXEQPkOOaHpSO3Q4ZsMW/WIxewBruHYUv7mcOwZPYAoK+Y
+         yEwg==
+X-Gm-Message-State: AOAM5333/VE/2+Q8Ad4G1JS7MZzs00D8JNLgBTOLCLKaY0RMd7Yzz3WT
+        XAkVWCFi1EJBVg==
+X-Google-Smtp-Source: ABdhPJzKV1nYUF1XunQDqsImT/BMVzjWBD/ZtbatqJyIP557SuvlaBHZ0QnZVC9qC4FJg4NX1FO+0Q==
+X-Received: by 2002:a5d:568c:: with SMTP id f12mr36446791wrv.240.1638227188186;
+        Mon, 29 Nov 2021 15:06:28 -0800 (PST)
+Received: from localhost (cpc154979-craw9-2-0-cust193.16-3.cable.virginm.net. [80.193.200.194])
+        by smtp.gmail.com with ESMTPSA id 8sm552690wmg.24.2021.11.29.15.06.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 29 Nov 2021 15:06:27 -0800 (PST)
+From:   Colin Ian King <colin.i.king@googlemail.com>
+X-Google-Original-From: Colin Ian King <colin.i.king@gmail.com>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-media@vger.kernel.org, linux-staging@lists.linux.dev
+Cc:     kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] media: atomisp: make array idx_map static const
+Date:   Mon, 29 Nov 2021 23:06:26 +0000
+Message-Id: <20211129230626.549090-1-colin.i.king@gmail.com>
+X-Mailer: git-send-email 2.33.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YaVBwjtEI3xcL551@robh.at.kernel.org>
-ARC-Authentication-Results: i=1;
-        ORIGINATING;
-        auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
-ARC-Seal: i=1; s=meesny; d=iki.fi; t=1638221839; a=rsa-sha256; cv=none;
-        b=uYeGf2vGyBLXQ3U7bSdPwhvq3WEmLGE9ESl89yK2x6/LYQSzVkW7Ya+j0giPxfJxWBC2XZ
-        qMiG6ugoswRz2yjF810ggEJVP6Krm85TdlhWPW8+RBsV9OFgfC+2LP0sF+5IkTZMYmyROX
-        3R+RM+VG0o7pmYqEjPdP16m1QrRaths=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
-        s=meesny; t=1638221839;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=uKKX3vFttQ5v+UXIzen9N9yuqDMc3m8ScyaP2x4aMhw=;
-        b=JET/nEPi2ZU4kIef16GHzK6YQA8PLL+yLDmzbAaDfYiIsA39g17ar2XzzGfm5hbReRRWHn
-        5S91Ub81+QTvS3Wpq5JpVmRzQiR+jNPh0mih5oCw6QLVeNIq++UYd53EXDpLT5pWKvldaD
-        ytgwTMIphOTB0qHyU1d9rrpvp/xsdpk=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Rob, Eugen,
+Don't populate the array idx_map on the stack but instead make it
+static const. Also makes the object code smaller by 16 bytes.
 
-On Mon, Nov 29, 2021 at 03:10:26PM -0600, Rob Herring wrote:
-> > +        properties:
-> > +          endpoint:
-> > +            $ref: video-interfaces.yaml#
-> 
-> But what properties from this do you use? It doesn't look like you need 
-> this?
+Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
+---
+ drivers/staging/media/atomisp/pci/sh_css_params.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-I'd expect to see data-lanes at least --- unless the number of lanes is
-really fixed.
-
+diff --git a/drivers/staging/media/atomisp/pci/sh_css_params.c b/drivers/staging/media/atomisp/pci/sh_css_params.c
+index 41ed8e4600ff..09f87c285b8d 100644
+--- a/drivers/staging/media/atomisp/pci/sh_css_params.c
++++ b/drivers/staging/media/atomisp/pci/sh_css_params.c
+@@ -3399,7 +3399,7 @@ sh_css_params_write_to_ddr_internal(
+ 
+ 	if (params->config_changed[IA_CSS_MACC_ID] && binary->info->sp.enable.macc) {
+ 		unsigned int i, j, idx;
+-		unsigned int idx_map[] = {
++		static const unsigned int idx_map[] = {
+ 			0, 1, 3, 2, 6, 7, 5, 4, 12, 13, 15, 14, 10, 11, 9, 8
+ 		};
+ 
 -- 
-Sakari Ailus
+2.33.1
+
