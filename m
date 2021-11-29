@@ -2,166 +2,193 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 50050461B87
-	for <lists+linux-media@lfdr.de>; Mon, 29 Nov 2021 17:08:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B1C48461BED
+	for <lists+linux-media@lfdr.de>; Mon, 29 Nov 2021 17:41:20 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1344276AbhK2QLW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 29 Nov 2021 11:11:22 -0500
-Received: from comms.puri.sm ([159.203.221.185]:54158 "EHLO comms.puri.sm"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S242882AbhK2QJV (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 29 Nov 2021 11:09:21 -0500
-Received: from localhost (localhost [127.0.0.1])
-        by comms.puri.sm (Postfix) with ESMTP id AB8EEE10FA;
-        Mon, 29 Nov 2021 08:05:33 -0800 (PST)
-Received: from comms.puri.sm ([127.0.0.1])
-        by localhost (comms.puri.sm [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id hc2wmh2ZhkyO; Mon, 29 Nov 2021 08:05:32 -0800 (PST)
-Date:   Mon, 29 Nov 2021 17:05:23 +0100
-From:   Dorota Czaplejewicz <dorota.czaplejewicz@puri.sm>
-To:     Kieran Bingham <kieran.bingham@ideasonboard.com>
-Cc:     Andrey Konovalov <andrey.konovalov@linaro.org>,
-        Jacopo Mondi <jacopo@jmondi.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>, kernel@puri.sm,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
-Subject: Re: [PATCH] media: Add 16-bit Bayer formats
-Message-ID: <20211129170356.7258d6db.dorota.czaplejewicz@puri.sm>
-In-Reply-To: <163820077159.3059017.10242072140890692995@Monstersaurus>
-References: <20211019114718.827400-1-dorota.czaplejewicz@puri.sm>
-        <163820077159.3059017.10242072140890692995@Monstersaurus>
-Organization: Purism
+        id S1345295AbhK2Qoh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 29 Nov 2021 11:44:37 -0500
+Received: from perceval.ideasonboard.com ([213.167.242.64]:38116 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S242548AbhK2Qmg (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Mon, 29 Nov 2021 11:42:36 -0500
+Received: from pendragon.ideasonboard.com (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 8DAD52A5;
+        Mon, 29 Nov 2021 17:39:17 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1638203957;
+        bh=JmrZZIhIr8JyRc8JbmSMnZNVrCsSNfrkLgqeCBUI7WQ=;
+        h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
+        b=PUsLzayti/g/y/BmT4i6W86tOwNjWWa2bUfv9HqG7bPWElUq+EveA7+ln7M6ctJ+i
+         JWo48r98+gfict2uaYXRQhJQ/TkTuTPoiz8E1fHY2e4uKZ/P4gz9TYRZFx/ftbcd9U
+         4tKiLvEVAQ2rGBn3hExf9c3RqzxvTYCBhVtFoXMc=
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/rSs3Ei2YPG=sIYsrxFriVYL";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20211123214922.3981616-1-niklas.soderlund+renesas@ragnatech.se>
+References: <20211123214922.3981616-1-niklas.soderlund+renesas@ragnatech.se>
+Subject: Re: [PATCH] dt-bindings: staging: media: i2c: Add bindings for Maxim Integrated MAX96712
+From:   Kieran Bingham <kieran.bingham@ideasonboard.com>
+Cc:     linux-renesas-soc@vger.kernel.org,
+        Niklas =?utf-8?q?S=C3=B6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>
+To:     Niklas =?utf-8?q?S=C3=B6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>,
+        Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org,
+        linux-media@vger.kernel.org
+Date:   Mon, 29 Nov 2021 16:39:14 +0000
+Message-ID: <163820395480.3059017.6211390059943803938@Monstersaurus>
+User-Agent: alot/0.10
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
---Sig_/rSs3Ei2YPG=sIYsrxFriVYL
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+Quoting Niklas S=C3=B6derlund (2021-11-23 21:49:22)
+> Add bindings for Maxim Integrated MAX96712 deserializer. The MAX96712
+> deserializer converts GMSL2 or GMSL1 serial inputs into MIPI CSI-2 D-PHY
+> or C-PHY formatted outputs.
+>=20
+> Signed-off-by: Niklas S=C3=B6derlund <niklas.soderlund+renesas@ragnatech.=
+se>
+> ---
+>  .../staging/media/i2c/maxim,max96712.yaml     | 111 ++++++++++++++++++
+>  1 file changed, 111 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/staging/media/i2c/m=
+axim,max96712.yaml
+>=20
+> diff --git a/Documentation/devicetree/bindings/staging/media/i2c/maxim,ma=
+x96712.yaml b/Documentation/devicetree/bindings/staging/media/i2c/maxim,max=
+96712.yaml
+> new file mode 100644
+> index 0000000000000000..978f2c0e5caef567
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/staging/media/i2c/maxim,max96712.=
+yaml
+> @@ -0,0 +1,111 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +# Copyright (C) 2021 Renesas Electronics Corp.
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/staging/media/i2c/maxim,max96712.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Quad GMSL2 to CSI-2 Deserializer with GMSL1 Compatibility
+> +
+> +maintainers:
+> +  - Niklas S=C3=B6derlund <niklas.soderlund+renesas@ragnatech.se>
+> +
+> +description: |
+> +  The MAX96712 deserializer converts GMSL2 or GMSL1 serial inputs into M=
+IPI
+> +  CSI-2 D-PHY or C-PHY formatted outputs. The device allows each link to
+> +  simultaneously transmit bidirectional control-channel data while forwa=
+rd
+> +  video transmissions are in progress. The MAX96712 can accommodate as m=
+any as
+> +  four remotely located sensors using industry-standard coax or STP
+> +  interconnects.
+> +
+> +  Each GMSL2 serial link operates at a fixed rate of 3Gbps or 6Gbps in t=
+he
+> +  forward direction and 187.5Mbps in the re- verse direction. In GMSL1 m=
+ode, the
 
-On Mon, 29 Nov 2021 15:46:11 +0000
-Kieran Bingham <kieran.bingham@ideasonboard.com> wrote:
-
-> Hi Dorota,
->=20
-> Quoting Dorota Czaplejewicz (2021-10-19 12:59:29)
-> > 16-bit bayer formats are used by the i.MX driver. =20
->=20
-> Can we expand upon this at all?
->=20
-> The Subject says "Add 16-bit Bayer formats" but this isn't adding the
-> format, it's purely extending the v4l2_format_info table with the
-> information for that format which is otherwise missing.
->=20
-What do you suggest for a better commit message? My reasoning was that I'm =
-adding entries to a table.
-
-> I wonder what other formats are missing from that table too?
->=20
->=20
-> > Signed-off-by: Dorota Czaplejewicz <dorota.czaplejewicz@puri.sm>
-> > ---
-> > Hello,
-> >=20
-> > While working on the i.MX8 video driver, I discovered that `v4l2_fill_p=
-ixfmt` will fail when using 10-bit sensor formats. (For background, see the=
- conversation at https://lkml.org/lkml/2021/10/17/93 .)
-> >=20
-> > It appears that the video hardware will fill a 16-bit-per-pixel buffer =
-when fed 10-bit-per-pixel Bayer data, making `v4l2_fill_pixfmt` effectively=
- broken for this case. =20
->=20
-> This statement is confusing to me. Are you saying you're programming the
-> hardware with 10 bit, and it's using 16 bits per pixel to store that
-> data? (Which is simply 'unpacked' I think ?)
->=20
-I know the sensor I'm dealing with sends 10-bit data. I'm observing that th=
-e data arriving at this stage of the pipeline is encoded with 16 bits per p=
-ixel. As far as I understand, that's what i.MX8 does at some stage of the M=
-IPI/CSI2 pipeline by design, but I can't elaborate at the moment, and I don=
-'t think it affects the validity of the addition.
->=20
-> >=20
-> > This change adds the relevant entries to the format info structure.
-> >=20
-> > Difference in behaviour observed using the i846 driver on the Librem 5.
-> >=20
-> > Regards,
-> > Dorota Czaplejewicz
-> >=20
-> >  drivers/media/v4l2-core/v4l2-common.c | 4 ++++
-> >  1 file changed, 4 insertions(+)
-> >=20
-> > diff --git a/drivers/media/v4l2-core/v4l2-common.c b/drivers/media/v4l2=
--core/v4l2-common.c
-> > index 04af03285a20..d2e61538e979 100644
-> > --- a/drivers/media/v4l2-core/v4l2-common.c
-> > +++ b/drivers/media/v4l2-core/v4l2-common.c
-> > @@ -309,6 +309,10 @@ const struct v4l2_format_info *v4l2_format_info(u3=
-2 format)
-> >                 { .format =3D V4L2_PIX_FMT_SGBRG12,       .pixel_enc =
-=3D V4L2_PIXEL_ENC_BAYER, .mem_planes =3D 1, .comp_planes =3D 1, .bpp =3D {=
- 2, 0, 0, 0 }, .hdiv =3D 1, .vdiv =3D 1 },
-> >                 { .format =3D V4L2_PIX_FMT_SGRBG12,       .pixel_enc =
-=3D V4L2_PIXEL_ENC_BAYER, .mem_planes =3D 1, .comp_planes =3D 1, .bpp =3D {=
- 2, 0, 0, 0 }, .hdiv =3D 1, .vdiv =3D 1 },
-> >                 { .format =3D V4L2_PIX_FMT_SRGGB12,       .pixel_enc =
-=3D V4L2_PIXEL_ENC_BAYER, .mem_planes =3D 1, .comp_planes =3D 1, .bpp =3D {=
- 2, 0, 0, 0 }, .hdiv =3D 1, .vdiv =3D 1 },
-> > +               { .format =3D V4L2_PIX_FMT_SBGGR16,       .pixel_enc =
-=3D V4L2_PIXEL_ENC_BAYER, .mem_planes =3D 1, .comp_planes =3D 1, .bpp =3D {=
- 2, 0, 0, 0 }, .hdiv =3D 1, .vdiv =3D 1 },
-> > +               { .format =3D V4L2_PIX_FMT_SGBRG16,       .pixel_enc =
-=3D V4L2_PIXEL_ENC_BAYER, .mem_planes =3D 1, .comp_planes =3D 1, .bpp =3D {=
- 2, 0, 0, 0 }, .hdiv =3D 1, .vdiv =3D 1 },
-> > +               { .format =3D V4L2_PIX_FMT_SGRBG16,       .pixel_enc =
-=3D V4L2_PIXEL_ENC_BAYER, .mem_planes =3D 1, .comp_planes =3D 1, .bpp =3D {=
- 2, 0, 0, 0 }, .hdiv =3D 1, .vdiv =3D 1 },
-> > +               { .format =3D V4L2_PIX_FMT_SRGGB16,       .pixel_enc =
-=3D V4L2_PIXEL_ENC_BAYER, .mem_planes =3D 1, .comp_planes =3D 1, .bpp =3D {=
- 2, 0, 0, 0 }, .hdiv =3D 1, .vdiv =3D 1 }, =20
->=20
-> This looks right as far as I can see though, so for the change, and
-> ideally with the commit message improved to be clearer about the
-> content and reasoning for the change:
->=20
-> Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
->=20
-
-Thanks!
-
---Dorota
-> >         };
-> >         unsigned int i;
-> > =20
-> > --=20
-> > 2.31.1
-> > =20
+/re- verse/reverse/
 
 
---Sig_/rSs3Ei2YPG=sIYsrxFriVYL
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
+Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
 
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEExKRqtqfFqmh+lu1oADBpX4S8ZncFAmGk+kMACgkQADBpX4S8
-ZnchgQ/8CaLnHdVuBu+Yo4JH/2CpmOZd8OUy5640QkYM4QJxiV+JNlR1EyAiJgLO
-uErbLZdqyCrnhnGzNm/SElcJcyBmNh6e8P1zWtTFbAr62GKvBqW8Ah3BfbkDgfT8
-QRmH32WaA85SjUEeex1Y0O8XTZVzOtclBNaOGpFI6hccvPFNBp1kIMOJSYrnGoOR
-JYoaQAVQ+arB8NlGBJ5tfp1rUiE/Q5NC8jLugzUxojcy+3VbyWZ0JU+ZHOmjYfGw
-zpYG8fMt7do3NqU8eTM8qrpQkaXvA33yODAutrC2t6i3zP1S5aa9o/2GvUASc5dM
-L0qCYU1qxPmiI81y51I7QRmTqwA5MJliCH2D+NkALCz6+aYTulvF2WLqtvJrU4zQ
-3/Oc8JO/WeM/0u2lH0c8FjxhbDS5saID7b6/Maq5HLpyU3S6qrhG07FAkZuNnjwi
-Q5XAIuvcO7gcRwJBaB/8wBDSL9jSU6I3UypWeZQXuxNuUBQyAMS3MEDBv7Ma1Ai7
-zQSWCARuO77CgICVOeI7FDaCixVM/oM4wP9cyvQ+0o7XgElRuonttzTekZqLtm5s
-cad5Ho13BwhNCP3EhjTW7Id0s1lcf13Ei4a6YhR5jIn7hpQkU8jehv9peXtk15Jx
-26x/mg2SlN6wEpsvw9vV0C4mIXvoxZ8JoV5pSeDEh6jMnBUTqyo=
-=38EQ
------END PGP SIGNATURE-----
-
---Sig_/rSs3Ei2YPG=sIYsrxFriVYL--
+> +  MAX96712 can be paired with first-generation 3.12Gbps or 1.5Gbps GMSL1
+> +  serializers or operate up to 3.12Gbps with GMSL2 serializers in GMSL1 =
+mode.
+> +
+> +properties:
+> +  compatible:
+> +    const: maxim,max96712
+> +
+> +  reg:
+> +    description: I2C device address
+> +    maxItems: 1
+> +
+> +  enable-gpios: true
+> +
+> +  ports:
+> +    $ref: /schemas/graph.yaml#/properties/ports
+> +
+> +    properties:
+> +      port@0:
+> +        $ref: /schemas/graph.yaml#/properties/port
+> +        description: GMSL Input 0
+> +
+> +      port@1:
+> +        $ref: /schemas/graph.yaml#/properties/port
+> +        description: GMSL Input 1
+> +
+> +      port@2:
+> +        $ref: /schemas/graph.yaml#/properties/port
+> +        description: GMSL Input 2
+> +
+> +      port@3:
+> +        $ref: /schemas/graph.yaml#/properties/port
+> +        description: GMSL Input 3
+> +
+> +      port@4:
+> +        $ref: /schemas/graph.yaml#/$defs/port-base
+> +        unevaluatedProperties: false
+> +        description: CSI-2 Output
+> +
+> +        properties:
+> +          endpoint:
+> +            $ref: /schemas/media/video-interfaces.yaml#
+> +            unevaluatedProperties: false
+> +
+> +            properties:
+> +              data-lanes: true
+> +
+> +            required:
+> +              - data-lanes
+> +
+> +    required:
+> +      - port@4
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - ports
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/gpio/gpio.h>
+> +
+> +    i2c@e6508000 {
+> +            #address-cells =3D <1>;
+> +            #size-cells =3D <0>;
+> +
+> +            reg =3D <0 0xe6508000>;
+> +
+> +            gmsl0: gmsl-deserializer@49 {
+> +                    compatible =3D "maxim,max96712";
+> +                    reg =3D <0x49>;
+> +                    enable-gpios =3D <&pca9654_a 0 GPIO_ACTIVE_HIGH>;
+> +
+> +                    ports {
+> +                            #address-cells =3D <1>;
+> +                            #size-cells =3D <0>;
+> +
+> +                            port@4 {
+> +                                    reg =3D <4>;
+> +                                    max96712_out0: endpoint {
+> +                                            clock-lanes =3D <0>;
+> +                                            data-lanes =3D <1 2 3 4>;
+> +                                            remote-endpoint =3D <&csi40_=
+in>;
+> +                                    };
+> +                            };
+> +                    };
+> +            };
+> +    };
+> --=20
+> 2.34.0
+>
