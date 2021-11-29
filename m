@@ -2,91 +2,72 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A1CE446280C
-	for <lists+linux-media@lfdr.de>; Tue, 30 Nov 2021 00:16:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0AF264627F0
+	for <lists+linux-media@lfdr.de>; Tue, 30 Nov 2021 00:12:48 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231610AbhK2XS5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 29 Nov 2021 18:18:57 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43044 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231734AbhK2XSq (ORCPT
+        id S237132AbhK2XQB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 29 Nov 2021 18:16:01 -0500
+Received: from mail-ot1-f53.google.com ([209.85.210.53]:44577 "EHLO
+        mail-ot1-f53.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S234537AbhK2XPx (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 29 Nov 2021 18:18:46 -0500
-Received: from mail-wr1-x42d.google.com (mail-wr1-x42d.google.com [IPv6:2a00:1450:4864:20::42d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 80BADC096751;
-        Mon, 29 Nov 2021 15:06:29 -0800 (PST)
-Received: by mail-wr1-x42d.google.com with SMTP id j3so40227821wrp.1;
-        Mon, 29 Nov 2021 15:06:29 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlemail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=MIbZUt/YFgWRfyP/uXvxQWzY6RB+wFRt4dt1V30FGkg=;
-        b=Wr2c/Dakc89dINMCpGVmmSgkuaFb96bJvgg6Lratrao/MuWUSrAHxvzVQIVoaxkJSn
-         l2iEM01jacukj6GsQ09Z9rezsHNWBuiNXJwuGEi+1uiINAWWZyYM22rBg1oMvZnfWaHc
-         h6UDEpZfTgBf83+/AvRfPqSPJeR4RJVxkYK19050Sh6HQ4C4j86dyRCNIfAWgPL0867B
-         djMo31UIHRBvlYKhJULi/F78udFQQFMrh+Nwj89Ymq+pTYqS1Pa4RATiPutsIvpSxcNk
-         TVT66okLupg27o03asdx13avEGpYGN7Z2y3qHXNalUwN54KCNekh+1A+Tt3om0Y5DaTD
-         uIGA==
+        Mon, 29 Nov 2021 18:15:53 -0500
+Received: by mail-ot1-f53.google.com with SMTP id u18-20020a9d7212000000b00560cb1dc10bso27664816otj.11;
+        Mon, 29 Nov 2021 15:12:35 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=MIbZUt/YFgWRfyP/uXvxQWzY6RB+wFRt4dt1V30FGkg=;
-        b=7cTLFmXAwk/CJFcvYzDh61vM9eNQWjfTisOQ+XgNoxGq5B2KsRjyMHfQbKqZdIqySl
-         vi3AAOJ/RbsBMJw3QCMnIeOOX+jBW1Egmw0QE8WT/9BZZlIj4JxqY1tVbRNTq+HyEYqX
-         NBCK7/qYcmgaCjFCjar3LrhCBe3eJPuXESZzbjH0wvpBONS5WtIf9X4ZnLq9iw+ihw1W
-         IwbIlU4UtgHlxqIWkZ5wUsnO1J8kDg6PK7Gwg/SyMuPvVh/mhjFegQ8o/PM/H8NFgd6J
-         vk4oujU6f0yvLZfjhIkfDBKXEQPkOOaHpSO3Q4ZsMW/WIxewBruHYUv7mcOwZPYAoK+Y
-         yEwg==
-X-Gm-Message-State: AOAM5333/VE/2+Q8Ad4G1JS7MZzs00D8JNLgBTOLCLKaY0RMd7Yzz3WT
-        XAkVWCFi1EJBVg==
-X-Google-Smtp-Source: ABdhPJzKV1nYUF1XunQDqsImT/BMVzjWBD/ZtbatqJyIP557SuvlaBHZ0QnZVC9qC4FJg4NX1FO+0Q==
-X-Received: by 2002:a5d:568c:: with SMTP id f12mr36446791wrv.240.1638227188186;
-        Mon, 29 Nov 2021 15:06:28 -0800 (PST)
-Received: from localhost (cpc154979-craw9-2-0-cust193.16-3.cable.virginm.net. [80.193.200.194])
-        by smtp.gmail.com with ESMTPSA id 8sm552690wmg.24.2021.11.29.15.06.27
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=xvaWNOHxIX5RQDegrPAkNqp+TbGhYaJoM7ojwcLXG0k=;
+        b=XFttEqfrL8eO+Z+QetzVDWBugsSNgxZtAwEXY1k83kLICYq8KRl+A502ZuvJood92B
+         z0GHmDY19W++IVnGoiPgBVZL8uOHMusC85VrGzBlrMU7Yt8Osg1jZLZ+yUFaJK6secCJ
+         Wb10tExLckIpubJmVXiixLsTXep82BNRHrsoDuresJ98ZAl0//1XrNiQnvwoN5YWtgrx
+         o7oZJfa1qQ4tZpKlWUEeR11kE7GhLdSC2qruptP2T6G+U/6PpunHtwS2Bznzlc5hT6cJ
+         IGFDUuc7/5YMtgMSU86XaPYCcgCuNy094D5C91ZFzefZxD+sguerJ23+g7q971pJVI50
+         vuvQ==
+X-Gm-Message-State: AOAM531ceCTSg9RquSuwajyIzasu2l5FeAUohPOhZJIPQEAtrZtOIKWw
+        j8Nfl4wsbRhLS/Wjb/hYrw==
+X-Google-Smtp-Source: ABdhPJzrih+obICiu/TVSMEEZYpJytpel1DHE1SZn5KyWgNg2OIz1uW2EsNEa2nmDMz91dgwpPY1WA==
+X-Received: by 2002:a05:6830:199:: with SMTP id q25mr47326858ota.150.1638227555071;
+        Mon, 29 Nov 2021 15:12:35 -0800 (PST)
+Received: from robh.at.kernel.org (66-90-148-213.dyn.grandenetworks.net. [66.90.148.213])
+        by smtp.gmail.com with ESMTPSA id e16sm2443380ook.38.2021.11.29.15.12.34
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 29 Nov 2021 15:06:27 -0800 (PST)
-From:   Colin Ian King <colin.i.king@googlemail.com>
-X-Google-Original-From: Colin Ian King <colin.i.king@gmail.com>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-media@vger.kernel.org, linux-staging@lists.linux.dev
-Cc:     kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] media: atomisp: make array idx_map static const
-Date:   Mon, 29 Nov 2021 23:06:26 +0000
-Message-Id: <20211129230626.549090-1-colin.i.king@gmail.com>
-X-Mailer: git-send-email 2.33.1
+        Mon, 29 Nov 2021 15:12:34 -0800 (PST)
+Received: (nullmailer pid 788051 invoked by uid 1000);
+        Mon, 29 Nov 2021 23:12:33 -0000
+Date:   Mon, 29 Nov 2021 17:12:33 -0600
+From:   Rob Herring <robh@kernel.org>
+To:     Samuel Holland <samuel@sholland.org>
+Cc:     Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org,
+        Jernej Skrabec <jernej.skrabec@gmail.com>,
+        linux-kernel@vger.kernel.org, linux-sunxi@lists.linux.dev,
+        Chen-Yu Tsai <wens@csie.org>,
+        linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH 1/2] dt-bindings: media: Add compatible for D1
+Message-ID: <YaVeYd939OMtSJTI@robh.at.kernel.org>
+References: <20211119031519.23430-1-samuel@sholland.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20211119031519.23430-1-samuel@sholland.org>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Don't populate the array idx_map on the stack but instead make it
-static const. Also makes the object code smaller by 16 bytes.
+On Thu, 18 Nov 2021 21:15:17 -0600, Samuel Holland wrote:
+> D1 contains a video engine similar to the one in other sunxi SoCs.
+> Add a compatible for it.
+> 
+> Signed-off-by: Samuel Holland <samuel@sholland.org>
+> ---
+> 
+>  .../bindings/media/allwinner,sun4i-a10-video-engine.yaml         | 1 +
+>  1 file changed, 1 insertion(+)
+> 
 
-Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
----
- drivers/staging/media/atomisp/pci/sh_css_params.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/staging/media/atomisp/pci/sh_css_params.c b/drivers/staging/media/atomisp/pci/sh_css_params.c
-index 41ed8e4600ff..09f87c285b8d 100644
---- a/drivers/staging/media/atomisp/pci/sh_css_params.c
-+++ b/drivers/staging/media/atomisp/pci/sh_css_params.c
-@@ -3399,7 +3399,7 @@ sh_css_params_write_to_ddr_internal(
- 
- 	if (params->config_changed[IA_CSS_MACC_ID] && binary->info->sp.enable.macc) {
- 		unsigned int i, j, idx;
--		unsigned int idx_map[] = {
-+		static const unsigned int idx_map[] = {
- 			0, 1, 3, 2, 6, 7, 5, 4, 12, 13, 15, 14, 10, 11, 9, 8
- 		};
- 
--- 
-2.33.1
-
+Acked-by: Rob Herring <robh@kernel.org>
