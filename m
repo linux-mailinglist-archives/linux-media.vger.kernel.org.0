@@ -2,223 +2,187 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8BD0C4635F8
-	for <lists+linux-media@lfdr.de>; Tue, 30 Nov 2021 15:00:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1BE31463650
+	for <lists+linux-media@lfdr.de>; Tue, 30 Nov 2021 15:16:49 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241946AbhK3OED (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 30 Nov 2021 09:04:03 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48566 "EHLO
+        id S237420AbhK3OUG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 30 Nov 2021 09:20:06 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52506 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241955AbhK3OD6 (ORCPT
+        with ESMTP id S229485AbhK3OTz (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 30 Nov 2021 09:03:58 -0500
-Received: from mail-ed1-x52e.google.com (mail-ed1-x52e.google.com [IPv6:2a00:1450:4864:20::52e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AD7E3C061758
-        for <linux-media@vger.kernel.org>; Tue, 30 Nov 2021 06:00:38 -0800 (PST)
-Received: by mail-ed1-x52e.google.com with SMTP id x6so86822298edr.5
-        for <linux-media@vger.kernel.org>; Tue, 30 Nov 2021 06:00:38 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=vanguardiasur-com-ar.20210112.gappssmtp.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=QaxZlmGeTiNSpZpCZqH57v2oCRS32AJdCJEiZtFl+fo=;
-        b=UAL3sYoqWMmwujNOP724FqBzW5uObd++LAtVKS3v5u5Uf2OdsqcJyTAd46VvaTh5Bd
-         CI7BPxy7k5sgJDqLq1RcsS3wNsihI78jdpDJIITTaw/+RdV8uJbwUA5jL3bVoiO2CnZz
-         ECP+wZYQCeXwsVT03Cwq3TmyYVTdLKIqSaQxxB77ysN7pTZ6rhWOALXsXCermCrGDEm9
-         xTqkC17qeHkGGjhP+HwJkZNAmoWQo1WEBi97ntM6TwL06wMqG3TUZavTpeNmgqXB4xXm
-         gxbfUwfLqghdmcJf/K4rHwrkHT+sXq/VtbjNBGcKK6hDHJkwFOSBqyz3GYb+FTIsRGl6
-         hXsw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=QaxZlmGeTiNSpZpCZqH57v2oCRS32AJdCJEiZtFl+fo=;
-        b=K8qhpQC9U1Lr4R7GHxGZTtyVhfo166zJMD7j71x+S+69hqzMqLjLdUUajBgEWDTvM2
-         z5YEvvCTU5lvwlSA9Nks3jdJwbkse69o5uOBrDsA/H2q7FC9jokiaAkECiFlw93q6Yvq
-         PAH5JEfLpNscubhSZ5RZd2cWyH+r7yeXA9z9gNMcT4QtvVNYisvJks3urkkSt2r5ufbc
-         jFsEGwI2Dspiewcib3PGBGl15sdc9Ub+4YhvFW7mmfJuiN8H5QdMVR0vda8xG+CXB6fk
-         9or3varhVHUMh2UgGTlBHjY4x13r4mbPsnukUXCYFOKWJ7txJlK0Nqz+ep59xTXXsC7X
-         Acow==
-X-Gm-Message-State: AOAM530w4gcnDKfuU2/i4x0ozZ8QKIlHnOFqm+xGyz3dUSeoi+Yjspap
-        VdaqonUCuR195jQAvV351IHAl04ckkgS0X91Q+/h4A==
-X-Google-Smtp-Source: ABdhPJwnUIPwozxEvD8GWiVDDYw5ZDqSXm6R85I9zeuQ3bp/QzgWXBdhWWpkvOKxcxv7W9iIJOUZHicmrUxw7zSXQ5g=
-X-Received: by 2002:a05:6402:34c1:: with SMTP id w1mr83741602edc.179.1638280836615;
- Tue, 30 Nov 2021 06:00:36 -0800 (PST)
-MIME-Version: 1.0
-References: <20211106183802.893285-1-aford173@gmail.com> <718f7f6d6cd564d031c1963f1590c62d549ae725.camel@ndufresne.ca>
- <CAHCN7xKM9RUE7z-+ug1on+D=nDoEm589R4m03ofys92Aq75ZVQ@mail.gmail.com>
- <8db00a4b6faa99c940d9bc86e17161eb0db5efe3.camel@ndufresne.ca>
- <CAJ+vNU28UJffFv9jQ2KryJMudqYxvCaoVOVcU5dPqRA209iN6A@mail.gmail.com>
- <d91532c2c0772f9aa708ead36b2a97203727a7ea.camel@ndufresne.ca>
- <CAJ+vNU3H-V+bPoZ3qKead45h=W7AhQK6Lhjrx5ssdF4c_qfe=A@mail.gmail.com>
- <CAHCN7x+0LwwU_rEST+TZxGquswGKL19gnTy9WLofsXtGAtWqdw@mail.gmail.com>
- <7f94eaacfddb8c5434c17f1e069ea87a17657ce9.camel@ndufresne.ca>
- <CAHCN7xKRzxMBmPbDobWTuvNNSpTXk5XENvfBnfkhRY3eZKhn6w@mail.gmail.com>
- <CAHCN7xJFLNi_g+HX8PCy1Rkgf0jnWpO5QGYVz8nH19xrJkwHrA@mail.gmail.com>
- <CAJ+vNU3zFd=6k_Emc5aafxKkGwCPp4crgOFezQ-E_MbWsn1_EA@mail.gmail.com>
- <fed6c2fd7cf4971062c417ce41ed1e3812b900e0.camel@ndufresne.ca>
- <CAHCN7xK+wROHaqDcsY-3WYFQ82qX17L-LHNL3siSWnWvwFShzQ@mail.gmail.com>
- <CAAEAJfC1xXvemaFP+vTFVJ3S-SpYtrxyZgDamSOgLC1F3ua5xw@mail.gmail.com>
- <CAHCN7x+UMMP6RXsNm0=OC=UTQzh=RKqQo6B7FD5e4eoJAEfmpg@mail.gmail.com> <CAJ+vNU1epi9SwPMHkuDmKcb68RLemYF=bsp7AVnzz06zKc2efw@mail.gmail.com>
-In-Reply-To: <CAJ+vNU1epi9SwPMHkuDmKcb68RLemYF=bsp7AVnzz06zKc2efw@mail.gmail.com>
-From:   Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
-Date:   Tue, 30 Nov 2021 11:00:24 -0300
-Message-ID: <CAAEAJfCpjk5nWWkJYjjDT-YEpJi4pTZqZbzp_if9OGC0HKspzw@mail.gmail.com>
-Subject: Re: [RFC 0/5] arm64: imx8mm: Enable Hantro VPUs
-To:     Tim Harvey <tharvey@gateworks.com>
-Cc:     Adam Ford <aford173@gmail.com>,
-        Nicolas Dufresne <nicolas@ndufresne.ca>,
-        linux-media <linux-media@vger.kernel.org>,
-        Schrempf Frieder <frieder.schrempf@kontron.de>,
-        Marek Vasut <marek.vasut@gmail.com>,
-        Jagan Teki <jagan@amarulasolutions.com>,
-        Adam Ford-BE <aford@beaconembedded.com>,
-        cstevens@beaconembedded.com,
-        Philipp Zabel <p.zabel@pengutronix.de>,
+        Tue, 30 Nov 2021 09:19:55 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8AE6FC061574
+        for <linux-media@vger.kernel.org>; Tue, 30 Nov 2021 06:16:36 -0800 (PST)
+Received: from deskari.lan (91-156-85-209.elisa-laajakaista.fi [91.156.85.209])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id CE43A8F0;
+        Tue, 30 Nov 2021 15:16:32 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1638281793;
+        bh=vkShN4Euvd1gfMIIlsKbsOxqD/bjlXqH7Ccni3zRytM=;
+        h=From:To:Cc:Subject:Date:From;
+        b=sEwEnfkkBxDWLklBnosEcorCCXuCeW5aKHC0+Wy/rdu5uEXHCKRfvAqmCsvRhCq/z
+         cp3u72OrKMzDWXg2XK3+k4KIxnGbNkwJuPPrvdYmAm6K+mEli81qiRkn5yXkDZcV44
+         pxMaIMgRLU6OfYS4Sl751bfTKZd0jHStAIBoOlUM=
+From:   Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+To:     linux-media@vger.kernel.org, sakari.ailus@linux.intel.com,
+        Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        niklas.soderlund+renesas@ragnatech.se,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Heiko Stuebner <heiko@sntech.de>,
-        Lucas Stach <l.stach@pengutronix.de>,
-        Joakim Zhang <qiangqing.zhang@nxp.com>,
-        Alice Guo <alice.guo@nxp.com>, Peng Fan <peng.fan@nxp.com>,
-        "open list:HANTRO VPU CODEC DRIVER" 
-        <linux-rockchip@lists.infradead.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        "moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE" 
-        <linux-arm-kernel@lists.infradead.org>,
-        open list <linux-kernel@vger.kernel.org>,
-        "open list:STAGING SUBSYSTEM" <linux-staging@lists.linux.dev>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Pratyush Yadav <p.yadav@ti.com>
+Cc:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Subject: [PATCH v10 00/38] v4l: subdev internal routing and streams
+Date:   Tue, 30 Nov 2021 16:14:58 +0200
+Message-Id: <20211130141536.891878-1-tomi.valkeinen@ideasonboard.com>
+X-Mailer: git-send-email 2.25.1
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Tim,
+Hi,
 
-On Mon, 29 Nov 2021 at 16:36, Tim Harvey <tharvey@gateworks.com> wrote:
->
-> On Mon, Nov 29, 2021 at 10:59 AM Adam Ford <aford173@gmail.com> wrote:
-..
-> >
->
-> Adam,
->
-> What deps did you install in order to get v4l2codecs building? I
-> installed libgudev-1.0-dev based on Nicolas' suggestion and rebuilt
-> (not sure if I needed to re-configure somehow) but there is still
-> nothing in build/subprojects/gst-plugins-bad/sys/v4l2codecs/. A 'meson
-> configure' tells me that v4l2codecs is set to 'auto' but I'm not sure
-> how to find out what dependencies are needed or what may be missing.
->
+This is v10 of the multiplexed streams series. v8 can be found from:
 
-At least in my case (Centps-derivative), this is what I've done:
+https://lore.kernel.org/all/20211005085750.138151-1-tomi.valkeinen@ideasonboard.com/
 
-...
-gst-plugins-bad| Run-time dependency gudev-1.0 found: NO (tried
-pkgconfig and cmake)
+I have pushed my work branch to:
 
-Installed gudev ... and then:
+git://git.kernel.org/pub/scm/linux/kernel/git/tomba/linux.git multistream/work-v10
 
-...
-gst-plugins-bad| Dependency gudev-1.0 found: YES 232 (cached)
-...
-gst-plugins-bad 1.19.3.1
+which contains the patches in this series, along with subdev drivers
+using multiplexed streams.
 
-    Plugins               : accurip, adpcmdec, adpcmenc, aiff, asfmux,
-audiobuffersplit, audiofxbad, audiomixmatrix, audiolatency,
-audiovisualizers, autoconvert, bayer,
-                            camerabin, codecalpha, coloreffects,
-debugutilsbad, dvbsubenc, dvbsuboverlay, dvdspu, faceoverlay,
-festival, fieldanalysis, freeverb, frei0r,
-                            gaudieffects, gdp, geometrictransform,
-id3tag, inter, interlace, ivfparse, ivtc, jp2kdecimator, jpegformat,
-rfbsrc, midi, mpegpsdemux,
-                            mpegpsmux, mpegtsdemux, mpegtsmux, mxf,
-netsim, rtponvif, pcapparse, pnm, proxy, legacyrawparse,
-removesilence, rist, rtmp2, rtpmanagerbad,
-                            sdpelem, segmentclip, siren, smooth,
-speed, subenc, switchbin, timecode, transcode, videofiltersbad,
-videoframe_audiolevel, videoparsersbad,
-                            videosignal, vmnc, y4mdec, decklink, dvb,
-fbdevsink, ipcpipeline, nvcodec, shm, v4l2codecs, hls, sctp
+I have also pushed v4l-utils changes to:
 
-GStreamer current master build fails. It's a known issue which will be
-fixed today:
+https://github.com/tomba/v4l-utils.git streams-review-v1
 
-[...]
-[8/9] Compiling C object
-subprojects/gst-plugins-bad/sys/v4l2codecs/libgstv4l2codecs.so.p/gstv4l2cod=
-ecvp9dec.c.o
-FAILED: subprojects/gst-plugins-bad/sys/v4l2codecs/libgstv4l2codecs.so.p/gs=
-tv4l2codecvp9dec.c.o
-cc -Isubprojects/gst-plugins-bad/sys/v4l2codecs/libgstv4l2codecs.so.p
--Isubprojects/gst-plugins-bad/sys/v4l2codecs
--I../subprojects/gst-plugins-bad/sys/v4l2codecs
--Isubprojects/gst-plugins-bad -I../subprojects/gst-plugins-bad
--Isubprojects/gstreamer/libs -I../subprojects/gstreamer/libs
--Isubprojects/gstreamer -I../subprojects/gstreamer
--Isubprojects/gst-plugins-bad/gst-libs
--I../subprojects/gst-plugins-bad/gst-libs
--Isubprojects/gst-plugins-base/gst-libs
--I../subprojects/gst-plugins-base/gst-libs -Isubprojects/orc
--I../subprojects/orc -Isubprojects/gstreamer/gst
--Isubprojects/gst-plugins-base/gst-libs/gst/video
--Isubprojects/gst-plugins-base/gst-libs/gst/pbutils
--Isubprojects/gst-plugins-base/gst-libs/gst/audio
--Isubprojects/gst-plugins-base/gst-libs/gst/tag
--I/usr/include/glib-2.0 -I/usr/lib64/glib-2.0/include
--I/usr/include/gudev-1.0 -fdiagnostics-color=3Dalways
--D_FILE_OFFSET_BITS=3D64 -Wall -Winvalid-pch -O2 -g -fvisibility=3Dhidden
--fno-strict-aliasing -DG_DISABLE_DEPRECATED -Wmissing-prototypes
--Wdeclaration-after-statement -Wold-style-definition
--Wmissing-declarations -Wredundant-decls -Wwrite-strings -Wformat
--Wformat-security -Winit-self -Wmissing-include-dirs -Waddress
--Wno-multichar -Wvla -Wpointer-arith -fPIC -pthread -DHAVE_CONFIG_H
--MD -MQ subprojects/gst-plugins-bad/sys/v4l2codecs/libgstv4l2codecs.so.p/gs=
-tv4l2codecvp9dec.c.o
--MF subprojects/gst-plugins-bad/sys/v4l2codecs/libgstv4l2codecs.so.p/gstv4l=
-2codecvp9dec.c.o.d
--o subprojects/gst-plugins-bad/sys/v4l2codecs/libgstv4l2codecs.so.p/gstv4l2=
-codecvp9dec.c.o
--c ../subprojects/gst-plugins-bad/sys/v4l2codecs/gstv4l2codecvp9dec.c
-../subprojects/gst-plugins-bad/sys/v4l2codecs/gstv4l2codecvp9dec.c:92:3:
-error: unknown type name =E2=80=98grefcount=E2=80=99
-   grefcount ref_count;
-   ^~~~~~~~~
-../subprojects/gst-plugins-bad/sys/v4l2codecs/gstv4l2codecvp9dec.c: In
-function =E2=80=98gst_v4l2_codec_vp9_dec_picture_data_new=E2=80=99:
-../subprojects/gst-plugins-bad/sys/v4l2codecs/gstv4l2codecvp9dec.c:106:3:
-warning: implicit declaration of function =E2=80=98g_ref_count_init=E2=80=
-=99; did you
-mean =E2=80=98g_cond_init=E2=80=99? [-Wimplicit-function-declaration]
-   g_ref_count_init (&pic_data->ref_count);
-   ^~~~~~~~~~~~~~~~
-   g_cond_init
-../subprojects/gst-plugins-bad/sys/v4l2codecs/gstv4l2codecvp9dec.c: In
-function =E2=80=98gst_v4l2_codec_vp9_dec_picture_data_ref=E2=80=99:
-../subprojects/gst-plugins-bad/sys/v4l2codecs/gstv4l2codecvp9dec.c:118:3:
-warning: implicit declaration of function =E2=80=98g_ref_count_inc=E2=80=99=
-; did you
-mean =E2=80=98g_strv_contains=E2=80=99? [-Wimplicit-function-declaration]
-   g_ref_count_inc (&data->ref_count);
-   ^~~~~~~~~~~~~~~
-   g_strv_contains
-../subprojects/gst-plugins-bad/sys/v4l2codecs/gstv4l2codecvp9dec.c: In
-function =E2=80=98gst_v4l2_codec_vp9_dec_picture_data_unref=E2=80=99:
-../subprojects/gst-plugins-bad/sys/v4l2codecs/gstv4l2codecvp9dec.c:125:7:
-warning: implicit declaration of function =E2=80=98g_ref_count_dec=E2=80=99
-[-Wimplicit-function-declaration]
-   if (g_ref_count_dec (&data->ref_count)) {
-       ^~~~~~~~~~~~~~~
-ninja: build stopped: subcommand failed.
+Changes to v9:
 
-Hope this helps get you started!
-Ezequiel
+- Add V4L2_SUBDEV_CAP_MPLEXED flag
+- Use standard kmalloc and kmemdup for routes
+- Allow NULL as pad/stream param for v4l2_state_find_opposite_end
+- Add for_each_active_route
+- Use _BITUL() in uapi header
+- Rearrange struct v4l2_subdev_routing members to align on 64 bit
+- Renames:
+	sd->state -> sd->active_state
+	v4l2_state_find_opposite_end -> v4l2_subdev_routing_find_opposite_end
+	v4l2_state_get_opposite_stream_format -> v4l2_subdev_state_get_opposite_stream_format
+	v4l2_routing_simple_verify -> v4l2_subdev_routing_validate_1_to_1
+	v4l2_subdev_validate_and_lock_state -> v4l2_subdev_lock_and_return_state
+- Doc & comment updates
+
+ Tomi
+
+Jacopo Mondi (3):
+  media: entity: Add iterator helper for entity pads
+  media: Documentation: Add GS_ROUTING documentation
+  media: subdev: Add for_each_active_route() macro
+
+Laurent Pinchart (4):
+  media: entity: Add has_route entity operation
+  media: entity: Add media_entity_has_route() function
+  media: entity: Use routing information during graph traversal
+  media: subdev: Add [GS]_ROUTING subdev ioctls and operations
+
+Sakari Ailus (13):
+  media: entity: Use pad as a starting point for graph walk
+  media: entity: Use pads instead of entities in the media graph walk
+    stack
+  media: entity: Walk the graph based on pads
+  media: mc: Start walk from a specific pad in use count calculation
+  media: entity: Move the pipeline from entity to pads
+  media: entity: Use pad as the starting point for a pipeline
+  media: entity: Skip link validation for pads to which there is no
+    route
+  media: entity: Add an iterator helper for connected pads
+  media: entity: Add only connected pads to the pipeline
+  media: entity: Add debug information in graph walk route check
+  media: Add bus type to frame descriptors
+  media: Add CSI-2 bus configuration to frame descriptors
+  media: Add stream to frame descriptor
+
+Tomi Valkeinen (18):
+  media: subdev: rename subdev-state alloc & free
+  media: subdev: add active state to struct v4l2_subdev
+  media: subdev: pass also the active state to subdevs from ioctls
+  media: subdev: add subdev state locking
+  media: subdev: Add v4l2_subdev_lock_and_return_state()
+  media: Documentation: add documentation about subdev state
+  media: subdev: increase V4L2_FRAME_DESC_ENTRY_MAX to 8
+  media: add V4L2_SUBDEV_FL_MULTIPLEXED
+  media: add V4L2_SUBDEV_CAP_MPLEXED
+  media: subdev: add v4l2_subdev_has_route()
+  media: subdev: add v4l2_subdev_set_routing helper()
+  media: Documentation: add multiplexed streams documentation
+  media: subdev: add stream based configuration
+  media: subdev: use streams in v4l2_subdev_link_validate()
+  media: subdev: add "opposite" stream helper funcs
+  media: subdev: add v4l2_subdev_get_fmt() helper function
+  media: subdev: add v4l2_subdev_set_routing_with_fmt() helper
+  media: subdev: add v4l2_subdev_routing_validate_1_to_1 helper
+
+ Documentation/driver-api/media/mc-core.rst    |  18 +-
+ .../driver-api/media/v4l2-subdev.rst          |  36 +
+ .../userspace-api/media/v4l/dev-subdev.rst    | 167 ++++
+ .../userspace-api/media/v4l/user-func.rst     |   1 +
+ .../v4l/vidioc-subdev-enum-frame-interval.rst |   5 +-
+ .../v4l/vidioc-subdev-enum-frame-size.rst     |   5 +-
+ .../v4l/vidioc-subdev-enum-mbus-code.rst      |   5 +-
+ .../media/v4l/vidioc-subdev-g-crop.rst        |   5 +-
+ .../media/v4l/vidioc-subdev-g-fmt.rst         |   5 +-
+ .../v4l/vidioc-subdev-g-frame-interval.rst    |   5 +-
+ .../media/v4l/vidioc-subdev-g-routing.rst     | 150 ++++
+ .../media/v4l/vidioc-subdev-g-selection.rst   |   5 +-
+ drivers/media/mc/mc-device.c                  |  13 +-
+ drivers/media/mc/mc-entity.c                  | 257 +++---
+ drivers/media/pci/intel/ipu3/ipu3-cio2-main.c |   6 +-
+ .../media/platform/exynos4-is/fimc-capture.c  |   8 +-
+ .../platform/exynos4-is/fimc-isp-video.c      |   8 +-
+ drivers/media/platform/exynos4-is/fimc-isp.c  |   2 +-
+ drivers/media/platform/exynos4-is/fimc-lite.c |  10 +-
+ drivers/media/platform/exynos4-is/media-dev.c |  20 +-
+ drivers/media/platform/omap3isp/isp.c         |   2 +-
+ drivers/media/platform/omap3isp/ispvideo.c    |  25 +-
+ drivers/media/platform/omap3isp/ispvideo.h    |   2 +-
+ .../media/platform/qcom/camss/camss-video.c   |   6 +-
+ drivers/media/platform/rcar-vin/rcar-core.c   |  16 +-
+ drivers/media/platform/rcar-vin/rcar-dma.c    |   8 +-
+ drivers/media/platform/rcar-vin/rcar-v4l2.c   |   5 +-
+ .../platform/rockchip/rkisp1/rkisp1-capture.c |   6 +-
+ .../media/platform/s3c-camif/camif-capture.c  |   6 +-
+ drivers/media/platform/stm32/stm32-dcmi.c     |   6 +-
+ .../platform/sunxi/sun4i-csi/sun4i_dma.c      |   6 +-
+ .../platform/sunxi/sun6i-csi/sun6i_video.c    |   6 +-
+ drivers/media/platform/ti-vpe/cal-video.c     |   6 +-
+ drivers/media/platform/vsp1/vsp1_entity.c     |   6 +-
+ drivers/media/platform/vsp1/vsp1_video.c      |  18 +-
+ drivers/media/platform/xilinx/xilinx-dma.c    |  20 +-
+ drivers/media/platform/xilinx/xilinx-dma.h    |   2 +-
+ .../media/test-drivers/vimc/vimc-capture.c    |   6 +-
+ drivers/media/usb/au0828/au0828-core.c        |   8 +-
+ drivers/media/v4l2-core/v4l2-ioctl.c          |  25 +-
+ drivers/media/v4l2-core/v4l2-mc.c             |  43 +-
+ drivers/media/v4l2-core/v4l2-subdev.c         | 764 +++++++++++++++++-
+ drivers/staging/media/imx/imx-media-utils.c   |   8 +-
+ drivers/staging/media/ipu3/ipu3-v4l2.c        |   6 +-
+ drivers/staging/media/omap4iss/iss.c          |   2 +-
+ drivers/staging/media/omap4iss/iss_video.c    |  40 +-
+ drivers/staging/media/omap4iss/iss_video.h    |   2 +-
+ drivers/staging/media/tegra-video/tegra210.c  |   6 +-
+ drivers/staging/media/tegra-video/vi.c        |   6 +-
+ include/media/media-entity.h                  | 143 +++-
+ include/media/v4l2-subdev.h                   | 394 ++++++++-
+ include/uapi/linux/v4l2-subdev.h              |  88 +-
+ 52 files changed, 2048 insertions(+), 370 deletions(-)
+ create mode 100644 Documentation/userspace-api/media/v4l/vidioc-subdev-g-routing.rst
+
+-- 
+2.25.1
+
