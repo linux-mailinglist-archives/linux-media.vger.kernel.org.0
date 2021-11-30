@@ -2,29 +2,29 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1BE31463650
-	for <lists+linux-media@lfdr.de>; Tue, 30 Nov 2021 15:16:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 06CF1463651
+	for <lists+linux-media@lfdr.de>; Tue, 30 Nov 2021 15:16:50 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237420AbhK3OUG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 30 Nov 2021 09:20:06 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52506 "EHLO
+        id S242068AbhK3OUH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 30 Nov 2021 09:20:07 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52508 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229485AbhK3OTz (ORCPT
+        with ESMTP id S237414AbhK3OTz (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
         Tue, 30 Nov 2021 09:19:55 -0500
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8AE6FC061574
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8B62EC061746
         for <linux-media@vger.kernel.org>; Tue, 30 Nov 2021 06:16:36 -0800 (PST)
 Received: from deskari.lan (91-156-85-209.elisa-laajakaista.fi [91.156.85.209])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id CE43A8F0;
-        Tue, 30 Nov 2021 15:16:32 +0100 (CET)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 9846411C5;
+        Tue, 30 Nov 2021 15:16:33 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1638281793;
-        bh=vkShN4Euvd1gfMIIlsKbsOxqD/bjlXqH7Ccni3zRytM=;
-        h=From:To:Cc:Subject:Date:From;
-        b=sEwEnfkkBxDWLklBnosEcorCCXuCeW5aKHC0+Wy/rdu5uEXHCKRfvAqmCsvRhCq/z
-         cp3u72OrKMzDWXg2XK3+k4KIxnGbNkwJuPPrvdYmAm6K+mEli81qiRkn5yXkDZcV44
-         pxMaIMgRLU6OfYS4Sl751bfTKZd0jHStAIBoOlUM=
+        s=mail; t=1638281794;
+        bh=8m/W4j+bQX7J648PxGDBiUffe0I/OWAkTfjrZ58WQvk=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=nes2rMGcIt7nHMoKAkHDOSE1IoMwSOuGQPaSI7LvhjFKAEdMOb0Ewi9MtgCWDAdOE
+         lpi3JCkSf14S26UPCKKQUWOgOEtwnDz4dEbt+WOu7fU5LgCA+5KS6E7+jBbxvJlHnc
+         Q0VynJixAO38AJ34pTXUuL9l+f8NK7zUOiM0dSZ8=
 From:   Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 To:     linux-media@vger.kernel.org, sakari.ailus@linux.intel.com,
         Jacopo Mondi <jacopo+renesas@jmondi.org>,
@@ -34,155 +34,187 @@ To:     linux-media@vger.kernel.org, sakari.ailus@linux.intel.com,
         Hans Verkuil <hverkuil-cisco@xs4all.nl>,
         Pratyush Yadav <p.yadav@ti.com>
 Cc:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Subject: [PATCH v10 00/38] v4l: subdev internal routing and streams
-Date:   Tue, 30 Nov 2021 16:14:58 +0200
-Message-Id: <20211130141536.891878-1-tomi.valkeinen@ideasonboard.com>
+Subject: [PATCH v10 01/38] media: subdev: rename subdev-state alloc & free
+Date:   Tue, 30 Nov 2021 16:14:59 +0200
+Message-Id: <20211130141536.891878-2-tomi.valkeinen@ideasonboard.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20211130141536.891878-1-tomi.valkeinen@ideasonboard.com>
+References: <20211130141536.891878-1-tomi.valkeinen@ideasonboard.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi,
+v4l2_subdev_alloc_state() and v4l2_subdev_free_state() are not supposed
+to be used by the drivers. However, we do have a few drivers that use
+those at the moment, so we need to expose these functions for the time
+being.
 
-This is v10 of the multiplexed streams series. v8 can be found from:
+Prefix the functions with __ to mark the functions as internal.
 
-https://lore.kernel.org/all/20211005085750.138151-1-tomi.valkeinen@ideasonboard.com/
+At the same time, rename them to v4l2_subdev_state_alloc and
+v4l2_subdev_state_free to match the style used for other functions like
+video_device_alloc() and media_request_alloc().
 
-I have pushed my work branch to:
+Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Reviewed-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+---
+ drivers/media/platform/rcar-vin/rcar-v4l2.c |  4 ++--
+ drivers/media/platform/vsp1/vsp1_entity.c   |  4 ++--
+ drivers/media/v4l2-core/v4l2-subdev.c       | 12 ++++++------
+ drivers/staging/media/tegra-video/vi.c      |  4 ++--
+ include/media/v4l2-subdev.h                 | 10 +++++-----
+ 5 files changed, 17 insertions(+), 17 deletions(-)
 
-git://git.kernel.org/pub/scm/linux/kernel/git/tomba/linux.git multistream/work-v10
-
-which contains the patches in this series, along with subdev drivers
-using multiplexed streams.
-
-I have also pushed v4l-utils changes to:
-
-https://github.com/tomba/v4l-utils.git streams-review-v1
-
-Changes to v9:
-
-- Add V4L2_SUBDEV_CAP_MPLEXED flag
-- Use standard kmalloc and kmemdup for routes
-- Allow NULL as pad/stream param for v4l2_state_find_opposite_end
-- Add for_each_active_route
-- Use _BITUL() in uapi header
-- Rearrange struct v4l2_subdev_routing members to align on 64 bit
-- Renames:
-	sd->state -> sd->active_state
-	v4l2_state_find_opposite_end -> v4l2_subdev_routing_find_opposite_end
-	v4l2_state_get_opposite_stream_format -> v4l2_subdev_state_get_opposite_stream_format
-	v4l2_routing_simple_verify -> v4l2_subdev_routing_validate_1_to_1
-	v4l2_subdev_validate_and_lock_state -> v4l2_subdev_lock_and_return_state
-- Doc & comment updates
-
- Tomi
-
-Jacopo Mondi (3):
-  media: entity: Add iterator helper for entity pads
-  media: Documentation: Add GS_ROUTING documentation
-  media: subdev: Add for_each_active_route() macro
-
-Laurent Pinchart (4):
-  media: entity: Add has_route entity operation
-  media: entity: Add media_entity_has_route() function
-  media: entity: Use routing information during graph traversal
-  media: subdev: Add [GS]_ROUTING subdev ioctls and operations
-
-Sakari Ailus (13):
-  media: entity: Use pad as a starting point for graph walk
-  media: entity: Use pads instead of entities in the media graph walk
-    stack
-  media: entity: Walk the graph based on pads
-  media: mc: Start walk from a specific pad in use count calculation
-  media: entity: Move the pipeline from entity to pads
-  media: entity: Use pad as the starting point for a pipeline
-  media: entity: Skip link validation for pads to which there is no
-    route
-  media: entity: Add an iterator helper for connected pads
-  media: entity: Add only connected pads to the pipeline
-  media: entity: Add debug information in graph walk route check
-  media: Add bus type to frame descriptors
-  media: Add CSI-2 bus configuration to frame descriptors
-  media: Add stream to frame descriptor
-
-Tomi Valkeinen (18):
-  media: subdev: rename subdev-state alloc & free
-  media: subdev: add active state to struct v4l2_subdev
-  media: subdev: pass also the active state to subdevs from ioctls
-  media: subdev: add subdev state locking
-  media: subdev: Add v4l2_subdev_lock_and_return_state()
-  media: Documentation: add documentation about subdev state
-  media: subdev: increase V4L2_FRAME_DESC_ENTRY_MAX to 8
-  media: add V4L2_SUBDEV_FL_MULTIPLEXED
-  media: add V4L2_SUBDEV_CAP_MPLEXED
-  media: subdev: add v4l2_subdev_has_route()
-  media: subdev: add v4l2_subdev_set_routing helper()
-  media: Documentation: add multiplexed streams documentation
-  media: subdev: add stream based configuration
-  media: subdev: use streams in v4l2_subdev_link_validate()
-  media: subdev: add "opposite" stream helper funcs
-  media: subdev: add v4l2_subdev_get_fmt() helper function
-  media: subdev: add v4l2_subdev_set_routing_with_fmt() helper
-  media: subdev: add v4l2_subdev_routing_validate_1_to_1 helper
-
- Documentation/driver-api/media/mc-core.rst    |  18 +-
- .../driver-api/media/v4l2-subdev.rst          |  36 +
- .../userspace-api/media/v4l/dev-subdev.rst    | 167 ++++
- .../userspace-api/media/v4l/user-func.rst     |   1 +
- .../v4l/vidioc-subdev-enum-frame-interval.rst |   5 +-
- .../v4l/vidioc-subdev-enum-frame-size.rst     |   5 +-
- .../v4l/vidioc-subdev-enum-mbus-code.rst      |   5 +-
- .../media/v4l/vidioc-subdev-g-crop.rst        |   5 +-
- .../media/v4l/vidioc-subdev-g-fmt.rst         |   5 +-
- .../v4l/vidioc-subdev-g-frame-interval.rst    |   5 +-
- .../media/v4l/vidioc-subdev-g-routing.rst     | 150 ++++
- .../media/v4l/vidioc-subdev-g-selection.rst   |   5 +-
- drivers/media/mc/mc-device.c                  |  13 +-
- drivers/media/mc/mc-entity.c                  | 257 +++---
- drivers/media/pci/intel/ipu3/ipu3-cio2-main.c |   6 +-
- .../media/platform/exynos4-is/fimc-capture.c  |   8 +-
- .../platform/exynos4-is/fimc-isp-video.c      |   8 +-
- drivers/media/platform/exynos4-is/fimc-isp.c  |   2 +-
- drivers/media/platform/exynos4-is/fimc-lite.c |  10 +-
- drivers/media/platform/exynos4-is/media-dev.c |  20 +-
- drivers/media/platform/omap3isp/isp.c         |   2 +-
- drivers/media/platform/omap3isp/ispvideo.c    |  25 +-
- drivers/media/platform/omap3isp/ispvideo.h    |   2 +-
- .../media/platform/qcom/camss/camss-video.c   |   6 +-
- drivers/media/platform/rcar-vin/rcar-core.c   |  16 +-
- drivers/media/platform/rcar-vin/rcar-dma.c    |   8 +-
- drivers/media/platform/rcar-vin/rcar-v4l2.c   |   5 +-
- .../platform/rockchip/rkisp1/rkisp1-capture.c |   6 +-
- .../media/platform/s3c-camif/camif-capture.c  |   6 +-
- drivers/media/platform/stm32/stm32-dcmi.c     |   6 +-
- .../platform/sunxi/sun4i-csi/sun4i_dma.c      |   6 +-
- .../platform/sunxi/sun6i-csi/sun6i_video.c    |   6 +-
- drivers/media/platform/ti-vpe/cal-video.c     |   6 +-
- drivers/media/platform/vsp1/vsp1_entity.c     |   6 +-
- drivers/media/platform/vsp1/vsp1_video.c      |  18 +-
- drivers/media/platform/xilinx/xilinx-dma.c    |  20 +-
- drivers/media/platform/xilinx/xilinx-dma.h    |   2 +-
- .../media/test-drivers/vimc/vimc-capture.c    |   6 +-
- drivers/media/usb/au0828/au0828-core.c        |   8 +-
- drivers/media/v4l2-core/v4l2-ioctl.c          |  25 +-
- drivers/media/v4l2-core/v4l2-mc.c             |  43 +-
- drivers/media/v4l2-core/v4l2-subdev.c         | 764 +++++++++++++++++-
- drivers/staging/media/imx/imx-media-utils.c   |   8 +-
- drivers/staging/media/ipu3/ipu3-v4l2.c        |   6 +-
- drivers/staging/media/omap4iss/iss.c          |   2 +-
- drivers/staging/media/omap4iss/iss_video.c    |  40 +-
- drivers/staging/media/omap4iss/iss_video.h    |   2 +-
- drivers/staging/media/tegra-video/tegra210.c  |   6 +-
- drivers/staging/media/tegra-video/vi.c        |   6 +-
- include/media/media-entity.h                  | 143 +++-
- include/media/v4l2-subdev.h                   | 394 ++++++++-
- include/uapi/linux/v4l2-subdev.h              |  88 +-
- 52 files changed, 2048 insertions(+), 370 deletions(-)
- create mode 100644 Documentation/userspace-api/media/v4l/vidioc-subdev-g-routing.rst
-
+diff --git a/drivers/media/platform/rcar-vin/rcar-v4l2.c b/drivers/media/platform/rcar-vin/rcar-v4l2.c
+index 0d141155f0e3..ba1d16ab1651 100644
+--- a/drivers/media/platform/rcar-vin/rcar-v4l2.c
++++ b/drivers/media/platform/rcar-vin/rcar-v4l2.c
+@@ -252,7 +252,7 @@ static int rvin_try_format(struct rvin_dev *vin, u32 which,
+ 	u32 width, height;
+ 	int ret;
+ 
+-	sd_state = v4l2_subdev_alloc_state(sd);
++	sd_state = __v4l2_subdev_state_alloc(sd);
+ 	if (IS_ERR(sd_state))
+ 		return PTR_ERR(sd_state);
+ 
+@@ -288,7 +288,7 @@ static int rvin_try_format(struct rvin_dev *vin, u32 which,
+ 
+ 	rvin_format_align(vin, pix);
+ done:
+-	v4l2_subdev_free_state(sd_state);
++	__v4l2_subdev_state_free(sd_state);
+ 
+ 	return ret;
+ }
+diff --git a/drivers/media/platform/vsp1/vsp1_entity.c b/drivers/media/platform/vsp1/vsp1_entity.c
+index 823c15facd1b..869cadc1468d 100644
+--- a/drivers/media/platform/vsp1/vsp1_entity.c
++++ b/drivers/media/platform/vsp1/vsp1_entity.c
+@@ -675,7 +675,7 @@ int vsp1_entity_init(struct vsp1_device *vsp1, struct vsp1_entity *entity,
+ 	 * Allocate the pad configuration to store formats and selection
+ 	 * rectangles.
+ 	 */
+-	entity->config = v4l2_subdev_alloc_state(&entity->subdev);
++	entity->config = __v4l2_subdev_state_alloc(&entity->subdev);
+ 	if (IS_ERR(entity->config)) {
+ 		media_entity_cleanup(&entity->subdev.entity);
+ 		return PTR_ERR(entity->config);
+@@ -690,6 +690,6 @@ void vsp1_entity_destroy(struct vsp1_entity *entity)
+ 		entity->ops->destroy(entity);
+ 	if (entity->subdev.ctrl_handler)
+ 		v4l2_ctrl_handler_free(entity->subdev.ctrl_handler);
+-	v4l2_subdev_free_state(entity->config);
++	__v4l2_subdev_state_free(entity->config);
+ 	media_entity_cleanup(&entity->subdev.entity);
+ }
+diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
+index 5d27a27cc2f2..fe49c86a9b02 100644
+--- a/drivers/media/v4l2-core/v4l2-subdev.c
++++ b/drivers/media/v4l2-core/v4l2-subdev.c
+@@ -28,7 +28,7 @@ static int subdev_fh_init(struct v4l2_subdev_fh *fh, struct v4l2_subdev *sd)
+ {
+ 	struct v4l2_subdev_state *state;
+ 
+-	state = v4l2_subdev_alloc_state(sd);
++	state = __v4l2_subdev_state_alloc(sd);
+ 	if (IS_ERR(state))
+ 		return PTR_ERR(state);
+ 
+@@ -39,7 +39,7 @@ static int subdev_fh_init(struct v4l2_subdev_fh *fh, struct v4l2_subdev *sd)
+ 
+ static void subdev_fh_free(struct v4l2_subdev_fh *fh)
+ {
+-	v4l2_subdev_free_state(fh->state);
++	__v4l2_subdev_state_free(fh->state);
+ 	fh->state = NULL;
+ }
+ 
+@@ -870,7 +870,7 @@ int v4l2_subdev_link_validate(struct media_link *link)
+ }
+ EXPORT_SYMBOL_GPL(v4l2_subdev_link_validate);
+ 
+-struct v4l2_subdev_state *v4l2_subdev_alloc_state(struct v4l2_subdev *sd)
++struct v4l2_subdev_state *__v4l2_subdev_state_alloc(struct v4l2_subdev *sd)
+ {
+ 	struct v4l2_subdev_state *state;
+ 	int ret;
+@@ -903,9 +903,9 @@ struct v4l2_subdev_state *v4l2_subdev_alloc_state(struct v4l2_subdev *sd)
+ 
+ 	return ERR_PTR(ret);
+ }
+-EXPORT_SYMBOL_GPL(v4l2_subdev_alloc_state);
++EXPORT_SYMBOL_GPL(__v4l2_subdev_state_alloc);
+ 
+-void v4l2_subdev_free_state(struct v4l2_subdev_state *state)
++void __v4l2_subdev_state_free(struct v4l2_subdev_state *state)
+ {
+ 	if (!state)
+ 		return;
+@@ -913,7 +913,7 @@ void v4l2_subdev_free_state(struct v4l2_subdev_state *state)
+ 	kvfree(state->pads);
+ 	kfree(state);
+ }
+-EXPORT_SYMBOL_GPL(v4l2_subdev_free_state);
++EXPORT_SYMBOL_GPL(__v4l2_subdev_state_free);
+ 
+ #endif /* CONFIG_MEDIA_CONTROLLER */
+ 
+diff --git a/drivers/staging/media/tegra-video/vi.c b/drivers/staging/media/tegra-video/vi.c
+index d321790b07d9..66b9ce160472 100644
+--- a/drivers/staging/media/tegra-video/vi.c
++++ b/drivers/staging/media/tegra-video/vi.c
+@@ -507,7 +507,7 @@ static int __tegra_channel_try_format(struct tegra_vi_channel *chan,
+ 	if (!subdev)
+ 		return -ENODEV;
+ 
+-	sd_state = v4l2_subdev_alloc_state(subdev);
++	sd_state = __v4l2_subdev_state_alloc(subdev);
+ 	if (IS_ERR(sd_state))
+ 		return PTR_ERR(sd_state);
+ 	/*
+@@ -558,7 +558,7 @@ static int __tegra_channel_try_format(struct tegra_vi_channel *chan,
+ 	v4l2_fill_pix_format(pix, &fmt.format);
+ 	tegra_channel_fmt_align(chan, pix, fmtinfo->bpp);
+ 
+-	v4l2_subdev_free_state(sd_state);
++	__v4l2_subdev_state_free(sd_state);
+ 
+ 	return 0;
+ }
+diff --git a/include/media/v4l2-subdev.h b/include/media/v4l2-subdev.h
+index 95ec18c2f49c..e52bf508c75b 100644
+--- a/include/media/v4l2-subdev.h
++++ b/include/media/v4l2-subdev.h
+@@ -1135,20 +1135,20 @@ int v4l2_subdev_link_validate_default(struct v4l2_subdev *sd,
+ int v4l2_subdev_link_validate(struct media_link *link);
+ 
+ /**
+- * v4l2_subdev_alloc_state - allocate v4l2_subdev_state
++ * __v4l2_subdev_state_alloc - allocate v4l2_subdev_state
+  *
+  * @sd: pointer to &struct v4l2_subdev for which the state is being allocated.
+  *
+- * Must call v4l2_subdev_free_state() when state is no longer needed.
++ * Must call __v4l2_subdev_state_free() when state is no longer needed.
+  */
+-struct v4l2_subdev_state *v4l2_subdev_alloc_state(struct v4l2_subdev *sd);
++struct v4l2_subdev_state *__v4l2_subdev_state_alloc(struct v4l2_subdev *sd);
+ 
+ /**
+- * v4l2_subdev_free_state - free a v4l2_subdev_state
++ * __v4l2_subdev_state_free - free a v4l2_subdev_state
+  *
+  * @state: v4l2_subdev_state to be freed.
+  */
+-void v4l2_subdev_free_state(struct v4l2_subdev_state *state);
++void __v4l2_subdev_state_free(struct v4l2_subdev_state *state);
+ 
+ #endif /* CONFIG_MEDIA_CONTROLLER */
+ 
 -- 
 2.25.1
 
