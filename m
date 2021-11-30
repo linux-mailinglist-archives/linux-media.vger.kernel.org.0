@@ -2,211 +2,227 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 690F3463456
-	for <lists+linux-media@lfdr.de>; Tue, 30 Nov 2021 13:32:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 68A0946345B
+	for <lists+linux-media@lfdr.de>; Tue, 30 Nov 2021 13:34:11 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229731AbhK3MgG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 30 Nov 2021 07:36:06 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56430 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229638AbhK3MgF (ORCPT
+        id S230110AbhK3Mh2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 30 Nov 2021 07:37:28 -0500
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:52670 "EHLO
+        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229638AbhK3Mh0 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 30 Nov 2021 07:36:05 -0500
-Received: from mail-ed1-x529.google.com (mail-ed1-x529.google.com [IPv6:2a00:1450:4864:20::529])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9363FC061574
-        for <linux-media@vger.kernel.org>; Tue, 30 Nov 2021 04:32:46 -0800 (PST)
-Received: by mail-ed1-x529.google.com with SMTP id x15so85923422edv.1
-        for <linux-media@vger.kernel.org>; Tue, 30 Nov 2021 04:32:46 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ffwll.ch; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=d1Bn56NVWcvPf46Qrzjbzii821X2nvEc2fZCcd4IdUs=;
-        b=JqwJ/5aIUKtANy36PP4QBvvaXySnaIqe2pZot+4pWo0saNTu1KCsL1sQCTZ5OUYEQU
-         +a90+v5WZBxRA42BRECjDm2HUpE6XsO9/CelHgQQ4Zor21Mw5RWCV7/nEwAeHaHqD/A3
-         DdhDUBA5Tv8BH7aEbcofx9rXY8NIoQ1tRatjw=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=d1Bn56NVWcvPf46Qrzjbzii821X2nvEc2fZCcd4IdUs=;
-        b=faiS3aUBjzMOJCF1gdQEDWArK4ozd1Zc/grmhpdExZLEva54IMYiHu6foUc4ESr28P
-         7A+ifbvcnP3oN2yORgMxFFKPtB/jsh1XcfyOBhWxECb7dsCCITQ6By6oVZLJIhyivQ/0
-         xo1d9Sy0BpxzjjvJ30vwKW8pdcF3ft8Bt5Xft6ex7mNp2xTllXWuy63NLdUAk1OO8+xH
-         J4J1v3BNIflWcaTzUD5o3GAdBzNAxmIVqtct3yxnYLXwdxVNPNX9m7zwpvwzA8Nrnzfv
-         janRrvIRzCvehiBw3dHQl3lQV6nIz5kjQCD1iHxe3brOPK7sAoUAq149n5bVrnREm8ty
-         hVHw==
-X-Gm-Message-State: AOAM530nRVl4Q2Yi48I4yoUW/GrDFDUWcJkYMD1rghQWexWn8/9vcWb0
-        jjrQnHWFVzP7O/ueUM4Yq5J+BnoJVbVxdQ==
-X-Google-Smtp-Source: ABdhPJz5iF1qgSvyAyxGbOpVLyReEM5ZHyZeJfy6LZfs6T8ZBcNxCjhKk6F2zLtpziOgRJrcx0veFQ==
-X-Received: by 2002:a17:906:4787:: with SMTP id cw7mr72199096ejc.311.1638275565133;
-        Tue, 30 Nov 2021 04:32:45 -0800 (PST)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
-        by smtp.gmail.com with ESMTPSA id sd28sm10007710ejc.37.2021.11.30.04.32.44
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 30 Nov 2021 04:32:44 -0800 (PST)
-Date:   Tue, 30 Nov 2021 13:32:42 +0100
-From:   Daniel Vetter <daniel@ffwll.ch>
-To:     Christian =?iso-8859-1?Q?K=F6nig?= 
-        <ckoenig.leichtzumerken@gmail.com>
-Cc:     Daniel Vetter <daniel.vetter@ffwll.ch>,
-        DRI Development <dri-devel@lists.freedesktop.org>,
-        linaro-mm-sig@lists.linaro.org,
-        Daniel Vetter <daniel.vetter@intel.com>,
-        Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-        linux-media@vger.kernel.org
-Subject: Re: [Linaro-mm-sig] [PATCH] dma-resv: some doc polish for iterators
-Message-ID: <YaYZ6ku36GgDoioN@phenom.ffwll.local>
-References: <20211130091609.1335915-1-daniel.vetter@ffwll.ch>
- <02d35f5a-ad89-b78d-a31f-51ea1579b9cd@gmail.com>
+        Tue, 30 Nov 2021 07:37:26 -0500
+Received: from [IPv6:2a01:e0a:120:3210:b422:9841:4afb:11b5] (unknown [IPv6:2a01:e0a:120:3210:b422:9841:4afb:11b5])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        (Authenticated sender: benjamin.gaignard)
+        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id F38FA1F4500C;
+        Tue, 30 Nov 2021 12:34:02 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=collabora.com; s=mail;
+        t=1638275643; bh=QqCRwQ2875SMqv/AolhMllnqBqyumXGxkjHr+hKDVS4=;
+        h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
+        b=SZv1pYFCv6I+Dv3ozDVt5uFZcr7IZWZ4XeRoUyUMIu/ya8qzbMH+OqsGwWlocMyer
+         M7/Hrb1A/4u6vSeEBrdlsCP/7G+yUagSHtd3jRIlMf6kSiEEPFBadpWQrLKrbzyi8p
+         YXNRs9cz+fF3JWny8VN6FeLwlXvlEe3xgdEnClYQeUat17GBZpZV6nUteVZGmJZA+f
+         /K6CMe0H8I7epGn2tNPJC5U583cLPxILjslPRTHwuF7CwFf63mRzp47ZSzbhVZ0pOP
+         3Itfn5ShA2oXAjcuNcYpDQ59v30KaQCErVpQrqWZIErawQcftI6/f9O7YHL1y4ljwZ
+         EDQZOosbH/Ovw==
+Subject: Re: [PATCH v9 02/13] dt-bindings: media: nxp, imx8mq-vpu: Update the
+ bindings for G2 support
+To:     Adam Ford <aford173@gmail.com>
+Cc:     Ezequiel Garcia <ezequiel@collabora.com>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        Lee Jones <lee.jones@linaro.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        mripard@kernel.org, paul.kocialkowski@bootlin.com,
+        Chen-Yu Tsai <wens@csie.org>,
+        Jernej Skrabec <jernej.skrabec@siol.net>,
+        hverkuil-cisco@xs4all.nl, emil.l.velikov@gmail.com,
+        Sascha Hauer <kernel@pengutronix.de>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        linux-media <linux-media@vger.kernel.org>,
+        "open list:HANTRO VPU CODEC DRIVER" 
+        <linux-rockchip@lists.infradead.org>,
+        devicetree <devicetree@vger.kernel.org>,
+        arm-soc <linux-arm-kernel@lists.infradead.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        devel@driverdev.osuosl.org, kernel@collabora.com,
+        Chris Healy <cphealy@gmail.com>, Rob Herring <robh@kernel.org>
+References: <20210407073534.376722-1-benjamin.gaignard@collabora.com>
+ <20210407073534.376722-3-benjamin.gaignard@collabora.com>
+ <CAHCN7x+HOMoVNq-swqA2p3ddGKft_8QkB2qm00-CN8Dujaw52Q@mail.gmail.com>
+From:   Benjamin Gaignard <benjamin.gaignard@collabora.com>
+Message-ID: <f6754878-50bf-8873-ac4b-ea54a5074e23@collabora.com>
+Date:   Tue, 30 Nov 2021 13:34:00 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+In-Reply-To: <CAHCN7x+HOMoVNq-swqA2p3ddGKft_8QkB2qm00-CN8Dujaw52Q@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <02d35f5a-ad89-b78d-a31f-51ea1579b9cd@gmail.com>
-X-Operating-System: Linux phenom 5.10.0-8-amd64 
+Content-Language: en-US
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Nov 30, 2021 at 11:04:11AM +0100, Christian König wrote:
-> Am 30.11.21 um 10:16 schrieb Daniel Vetter:
-> > Hammer it a bit more in that iterators can be restarted and when that
-> > matters, plus suggest to prefer the locked version whenver.
-> > 
-> > Also delete the two leftover kerneldoc for static functions plus
-> > sprinkle some more links while at it.
-> > 
-> > Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-> > Cc: Sumit Semwal <sumit.semwal@linaro.org>
-> > Cc: "Christian König" <christian.koenig@amd.com>
-> > Cc: linux-media@vger.kernel.org
-> > Cc: linaro-mm-sig@lists.linaro.org
-> > ---
-> >   drivers/dma-buf/dma-resv.c | 26 ++++++++++++--------------
-> >   include/linux/dma-resv.h   | 13 ++++++++++++-
-> >   2 files changed, 24 insertions(+), 15 deletions(-)
-> > 
-> > diff --git a/drivers/dma-buf/dma-resv.c b/drivers/dma-buf/dma-resv.c
-> > index 9eb2baa387d4..1453b664c405 100644
-> > --- a/drivers/dma-buf/dma-resv.c
-> > +++ b/drivers/dma-buf/dma-resv.c
-> > @@ -323,12 +323,6 @@ void dma_resv_add_excl_fence(struct dma_resv *obj, struct dma_fence *fence)
-> >   }
-> >   EXPORT_SYMBOL(dma_resv_add_excl_fence);
-> > -/**
-> > - * dma_resv_iter_restart_unlocked - restart the unlocked iterator
-> > - * @cursor: The dma_resv_iter object to restart
-> > - *
-> > - * Restart the unlocked iteration by initializing the cursor object.
-> > - */
-> 
-> Maybe instead of completely removing the documentation add a single line of
-> what this is supposed to do and not to do.
-> 
-> E.g. "/* Restart the iterator by initializing all the necessary fields, but
-> not the relation to the dma_resv object. */
 
-I figured the names are selfexplanatory enough, but makes sense to keep a
-bit more detail.
--Daniel
+Le 29/11/2021 Ã  21:13, Adam Ford a Ã©critÂ :
+> On Wed, Apr 7, 2021 at 2:37 AM Benjamin Gaignard
+> <benjamin.gaignard@collabora.com> wrote:
+>> Introducing the G2 hevc video decoder requires modifications of the bindings to allow
+>> one node per VPU.
+>>
+>> VPUs share one hardware control block which is provided as a phandle on
+>> a syscon.
+>> Each node has now one reg and one interrupt.
+>> Add a compatible for G2 hardware block: nxp,imx8mq-vpu-g2.
+>>
+>> To be compatible with older DT the driver is still capable to use the 'ctrl'
+>> reg-name even if it is deprecated now.
+>>
+>> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+>> Reviewed-by: Rob Herring <robh@kernel.org>
+>> Reviewed-by: Philipp Zabel <p.zabel@pengutronix.de>
+> I need to edit the yaml file to add support the imx8mm, but it doesn't
+> appear that this series has gone anywhere.  I know there is still some
+> waiting on the vpu-blk-ctrl driver, but it seems like the 8mq could
+> split the codecs out using syscon in place of the blk-ctrl until that
+> driver is available.  If that doesn't work, I might have to introduce
+> a separate yaml file for mini which could be somehow merged with the
+> 8mq in the future.  I am just not sure which way to go right now.
 
-> 
-> >   static void dma_resv_iter_restart_unlocked(struct dma_resv_iter *cursor)
-> >   {
-> >   	cursor->seq = read_seqcount_begin(&cursor->obj->seq);
-> > @@ -344,14 +338,6 @@ static void dma_resv_iter_restart_unlocked(struct dma_resv_iter *cursor)
-> >   	cursor->is_restarted = true;
-> >   }
-> > -/**
-> > - * dma_resv_iter_walk_unlocked - walk over fences in a dma_resv obj
-> > - * @cursor: cursor to record the current position
-> > - *
-> > - * Return all the fences in the dma_resv object which are not yet signaled.
-> > - * The returned fence has an extra local reference so will stay alive.
-> > - * If a concurrent modify is detected the whole iteration is started over again.
-> > - */
-> 
-> Same here, something /* Walk to the next not signaled fence and grab a
-> reference to it */.
-> 
-> Apart from that feel free add Reviewed-by: Christian König
-> <christian.koenig@amd.com>
-> 
-> Regards,
-> Christian.
-> 
-> >   static void dma_resv_iter_walk_unlocked(struct dma_resv_iter *cursor)
-> >   {
-> >   	struct dma_resv *obj = cursor->obj;
-> > @@ -387,6 +373,12 @@ static void dma_resv_iter_walk_unlocked(struct dma_resv_iter *cursor)
-> >    * dma_resv_iter_first_unlocked - first fence in an unlocked dma_resv obj.
-> >    * @cursor: the cursor with the current position
-> >    *
-> > + * Subsequent fences are iterated with dma_resv_iter_next_unlocked().
-> > + *
-> > + * Beware that the iterator can be restarted.  Code which accumulates statistics
-> > + * or similar needs to check for this with dma_resv_iter_is_restarted(). For
-> > + * this reason prefer the locked dma_resv_iter_first() whenver possible.
-> > + *
-> >    * Returns the first fence from an unlocked dma_resv obj.
-> >    */
-> >   struct dma_fence *dma_resv_iter_first_unlocked(struct dma_resv_iter *cursor)
-> > @@ -406,6 +398,10 @@ EXPORT_SYMBOL(dma_resv_iter_first_unlocked);
-> >    * dma_resv_iter_next_unlocked - next fence in an unlocked dma_resv obj.
-> >    * @cursor: the cursor with the current position
-> >    *
-> > + * Beware that the iterator can be restarted.  Code which accumulates statistics
-> > + * or similar needs to check for this with dma_resv_iter_is_restarted(). For
-> > + * this reason prefer the locked dma_resv_iter_next() whenver possible.
-> > + *
-> >    * Returns the next fence from an unlocked dma_resv obj.
-> >    */
-> >   struct dma_fence *dma_resv_iter_next_unlocked(struct dma_resv_iter *cursor)
-> > @@ -431,6 +427,8 @@ EXPORT_SYMBOL(dma_resv_iter_next_unlocked);
-> >    * dma_resv_iter_first - first fence from a locked dma_resv object
-> >    * @cursor: cursor to record the current position
-> >    *
-> > + * Subsequent fences are iterated with dma_resv_iter_next_unlocked().
-> > + *
-> >    * Return the first fence in the dma_resv object while holding the
-> >    * &dma_resv.lock.
-> >    */
-> > diff --git a/include/linux/dma-resv.h b/include/linux/dma-resv.h
-> > index dbd235ab447f..ebe908592ac3 100644
-> > --- a/include/linux/dma-resv.h
-> > +++ b/include/linux/dma-resv.h
-> > @@ -153,6 +153,13 @@ struct dma_resv {
-> >    * struct dma_resv_iter - current position into the dma_resv fences
-> >    *
-> >    * Don't touch this directly in the driver, use the accessor function instead.
-> > + *
-> > + * IMPORTANT
-> > + *
-> > + * When using the lockless iterators like dma_resv_iter_next_unlocked() or
-> > + * dma_resv_for_each_fence_unlocked() beware that the iterator can be restarted.
-> > + * Code which accumulates statistics or similar needs to check for this with
-> > + * dma_resv_iter_is_restarted().
-> >    */
-> >   struct dma_resv_iter {
-> >   	/** @obj: The dma_resv object we iterate over */
-> > @@ -243,7 +250,11 @@ static inline bool dma_resv_iter_is_restarted(struct dma_resv_iter *cursor)
-> >    * &dma_resv.lock and using RCU instead. The cursor needs to be initialized
-> >    * with dma_resv_iter_begin() and cleaned up with dma_resv_iter_end(). Inside
-> >    * the iterator a reference to the dma_fence is held and the RCU lock dropped.
-> > - * When the dma_resv is modified the iteration starts over again.
-> > + *
-> > + * Beware that the iterator can be restarted when the struct dma_resv for
-> > + * @cursor is modified. Code which accumulates statistics or similar needs to
-> > + * check for this with dma_resv_iter_is_restarted(). For this reason prefer the
-> > + * lock iterator dma_resv_for_each_fence() whenever possible.
-> >    */
-> >   #define dma_resv_for_each_fence_unlocked(cursor, fence)			\
-> >   	for (fence = dma_resv_iter_first_unlocked(cursor);		\
-> 
+To summarize Lucas a have a branch here: https://git.pengutronix.de/cgit/lst/linux/log/?h=imx8mq-vpu-blk-ctrl
+where he try to enable blk-ctrl for imx6mq, it is working for G1 but not for G2.
 
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+You can find the thread about that here:
+https://www.spinics.net/lists/devicetree/msg450831.html
+
+Regards,
+Benjamin
+
+>
+> adam
+>> ---
+>> version 9:
+>>   - Corrections in commit message
+>>
+>> version 7:
+>>   - Add Rob and Philipp reviewed-by tag
+>>   - Change syscon phandle name to nxp,imx8m-vpu-ctrl (remove 'q' to be
+>>     usable for iMX8MM too)
+>>
+>> version 5:
+>> - This version doesn't break the backward compatibilty between kernel
+>>    and DT.
+>>
+>>   .../bindings/media/nxp,imx8mq-vpu.yaml        | 53 ++++++++++++-------
+>>   1 file changed, 34 insertions(+), 19 deletions(-)
+>>
+>> diff --git a/Documentation/devicetree/bindings/media/nxp,imx8mq-vpu.yaml b/Documentation/devicetree/bindings/media/nxp,imx8mq-vpu.yaml
+>> index 762be3f96ce9..18e7d40a5f24 100644
+>> --- a/Documentation/devicetree/bindings/media/nxp,imx8mq-vpu.yaml
+>> +++ b/Documentation/devicetree/bindings/media/nxp,imx8mq-vpu.yaml
+>> @@ -15,22 +15,18 @@ description:
+>>
+>>   properties:
+>>     compatible:
+>> -    const: nxp,imx8mq-vpu
+>> +    oneOf:
+>> +      - const: nxp,imx8mq-vpu
+>> +      - const: nxp,imx8mq-vpu-g2
+>>
+>>     reg:
+>> -    maxItems: 3
+>> -
+>> -  reg-names:
+>> -    items:
+>> -      - const: g1
+>> -      - const: g2
+>> -      - const: ctrl
+>> +    maxItems: 1
+>>
+>>     interrupts:
+>> -    maxItems: 2
+>> +    maxItems: 1
+>>
+>>     interrupt-names:
+>> -    items:
+>> +    oneOf:
+>>         - const: g1
+>>         - const: g2
+>>
+>> @@ -46,14 +42,18 @@ properties:
+>>     power-domains:
+>>       maxItems: 1
+>>
+>> +  nxp,imx8m-vpu-ctrl:
+>> +    description: Specifies a phandle to syscon VPU hardware control block
+>> +    $ref: "/schemas/types.yaml#/definitions/phandle"
+>> +
+>>   required:
+>>     - compatible
+>>     - reg
+>> -  - reg-names
+>>     - interrupts
+>>     - interrupt-names
+>>     - clocks
+>>     - clock-names
+>> +  - nxp,imx8m-vpu-ctrl
+>>
+>>   additionalProperties: false
+>>
+>> @@ -62,18 +62,33 @@ examples:
+>>           #include <dt-bindings/clock/imx8mq-clock.h>
+>>           #include <dt-bindings/interrupt-controller/arm-gic.h>
+>>
+>> -        vpu: video-codec@38300000 {
+>> +        vpu_ctrl: syscon@38320000 {
+>> +                 compatible = "nxp,imx8mq-vpu-ctrl", "syscon";
+>> +                 reg = <0x38320000 0x10000>;
+>> +        };
+>> +
+>> +        vpu_g1: video-codec@38300000 {
+>>                   compatible = "nxp,imx8mq-vpu";
+>> -                reg = <0x38300000 0x10000>,
+>> -                      <0x38310000 0x10000>,
+>> -                      <0x38320000 0x10000>;
+>> -                reg-names = "g1", "g2", "ctrl";
+>> -                interrupts = <GIC_SPI 7 IRQ_TYPE_LEVEL_HIGH>,
+>> -                             <GIC_SPI 8 IRQ_TYPE_LEVEL_HIGH>;
+>> -                interrupt-names = "g1", "g2";
+>> +                reg = <0x38300000 0x10000>;
+>> +                interrupts = <GIC_SPI 7 IRQ_TYPE_LEVEL_HIGH>;
+>> +                interrupt-names = "g1";
+>> +                clocks = <&clk IMX8MQ_CLK_VPU_G1_ROOT>,
+>> +                         <&clk IMX8MQ_CLK_VPU_G2_ROOT>,
+>> +                         <&clk IMX8MQ_CLK_VPU_DEC_ROOT>;
+>> +                clock-names = "g1", "g2", "bus";
+>> +                power-domains = <&pgc_vpu>;
+>> +                nxp,imx8m-vpu-ctrl = <&vpu_ctrl>;
+>> +        };
+>> +
+>> +        vpu_g2: video-codec@38310000 {
+>> +                compatible = "nxp,imx8mq-vpu-g2";
+>> +                reg = <0x38300000 0x10000>;
+>> +                interrupts = <GIC_SPI 8 IRQ_TYPE_LEVEL_HIGH>;
+>> +                interrupt-names = "g2";
+>>                   clocks = <&clk IMX8MQ_CLK_VPU_G1_ROOT>,
+>>                            <&clk IMX8MQ_CLK_VPU_G2_ROOT>,
+>>                            <&clk IMX8MQ_CLK_VPU_DEC_ROOT>;
+>>                   clock-names = "g1", "g2", "bus";
+>>                   power-domains = <&pgc_vpu>;
+>> +                nxp,imx8m-vpu-ctrl = <&vpu_ctrl>;
+>>           };
+>> --
+>> 2.25.1
+>>
+>>
+>> _______________________________________________
+>> linux-arm-kernel mailing list
+>> linux-arm-kernel@lists.infradead.org
+>> http://lists.infradead.org/mailman/listinfo/linux-arm-kernel
