@@ -2,165 +2,178 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 89C1E462C83
-	for <lists+linux-media@lfdr.de>; Tue, 30 Nov 2021 07:02:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id AF983462DBC
+	for <lists+linux-media@lfdr.de>; Tue, 30 Nov 2021 08:43:31 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238495AbhK3GFi (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 30 Nov 2021 01:05:38 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50564 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238491AbhK3GFh (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Tue, 30 Nov 2021 01:05:37 -0500
-Received: from lb2-smtp-cloud8.xs4all.net (lb2-smtp-cloud8.xs4all.net [IPv6:2001:888:0:108::2b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CF2BEC061574
-        for <linux-media@vger.kernel.org>; Mon, 29 Nov 2021 22:02:18 -0800 (PST)
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud8.xs4all.net with ESMTPA
-        id rwDTmVVbUBB1QrwDXm4CJW; Tue, 30 Nov 2021 07:02:15 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1638252135; bh=geO0QCDFehg0vAKWLJHocXKf1ofLk9CyBi0sWUa4Qe8=;
-        h=Message-ID:Date:From:To:Subject:From:Subject;
-        b=Vb1XUrIUY0CGPb5bw9QY4BLaIDWXSol1OgsLOXR7C/F0wb0LcqTe+OeJJofvvdZyG
-         5uEYBJ2IXFROT6EjzQm2CJyq8nFU2b/wTDqE3nsYaONaGihIBp4N8FJzr/fGoiwyXK
-         Z9Bnj5u2zt27r+FHwFkVnsfpjC4S0Y7PHnoZ2XXnkunIBlkQ2J2yqSP4vcF5tLAhPc
-         lD1hAwUxNeG2hs2Yl+k4iTkzCV5H6e3+ox2b5FDhhGVSXcM28OSaiM2dbCWsBX2BgW
-         jJZhqPjwPMl/fEvxT/QF3WQnpQC/4de7rVWjxZQcvx5cf7/5cDYqynGBTjZd/5h+p7
-         25E6QS0kPU+xg==
-Message-ID: <28a5ec98aff370d18ed618e09f700e91@smtp-cloud8.xs4all.net>
-Date:   Tue, 30 Nov 2021 07:02:10 +0100
-From:   "Hans Verkuil" <hverkuil@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: ERRORS
-X-CMAE-Envelope: MS4xfNgIhDPSFTu2213wV3AmYzoUTNawJySxb1WDKmc1wryQrsqUf4HtAvDZYylT8QiB3tLPUi/lMKHgVALFgdFubTKuiocqRQPAf0Xnud527P4c4BdjTa7H
- /reRl0LsiBAq4H/+yd2v1/wzyATKhEx1v/d70ceZoKtIoULfOAWINTXFcMYQSf6lZ+OB1IqpHL8sBQ==
+        id S234463AbhK3Hqs (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 30 Nov 2021 02:46:48 -0500
+Received: from mx1.tq-group.com ([93.104.207.81]:3424 "EHLO mx1.tq-group.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S234235AbhK3Hqs (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 30 Nov 2021 02:46:48 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
+  t=1638258209; x=1669794209;
+  h=message-id:subject:from:to:cc:date:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=XtNs5P1lQ25usXDwgWkMhdgcJrs80sI61JAMIb/ZdDs=;
+  b=hkOE6RqHorPm6UZfRCalZeupSlXqsHJaKKENxwJzYx2WsQEEivBjAue3
+   3SgUfRFC13nqwNDzmTNqDXgd/CI7UbtzSs270s19lf1HKCs8iThnKalxe
+   zohFJmOUOGV86TUi6TS6+bd2H5XBjNQ8CDA7Hzp8DVc7AQy8o3AViBwVA
+   0wxsmzw/Ceq8iB9G5fYgY1CWBsZ2y7lFmkTjPhWo3armRhTSHGNT9y5wu
+   N17S79m1QBZMjFETQK3NGPb8/6fdsha5cDc3xLqham2Z4idKuiQVpIhaa
+   O8c34iQse037gPg6EKsKEKb41wV/qx4GFJTULrw3lZHpdIhdqro1S+jJx
+   A==;
+X-IronPort-AV: E=Sophos;i="5.87,275,1631570400"; 
+   d="scan'208";a="20746155"
+Received: from unknown (HELO tq-pgp-pr1.tq-net.de) ([192.168.6.15])
+  by mx1-pgp.tq-group.com with ESMTP; 30 Nov 2021 08:43:28 +0100
+Received: from mx1.tq-group.com ([192.168.6.7])
+  by tq-pgp-pr1.tq-net.de (PGP Universal service);
+  Tue, 30 Nov 2021 08:43:28 +0100
+X-PGP-Universal: processed;
+        by tq-pgp-pr1.tq-net.de on Tue, 30 Nov 2021 08:43:28 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
+  t=1638258208; x=1669794208;
+  h=message-id:subject:from:to:cc:date:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=XtNs5P1lQ25usXDwgWkMhdgcJrs80sI61JAMIb/ZdDs=;
+  b=Z7g7XCFuE6/9KjX4OzBUPKyVfP9AUWlpV9A+HcHTBeZqG9adELwhgjgb
+   HHoQdUX54RCib02aXdJfcH3vM1383ES9ECDurnUqL6Ukp1/gy6uSN4Hde
+   O6THaZrPe5/LfUitQm89z/y5BFsv79CmrpzbOXJSfUOPW/98kmpMSYt7t
+   QSgAdft0BpobSfG2cgyhU4ezWN16Fyep+WBgg5SwjRz1yUWXVq9lMkThZ
+   Ai66mUiFgI2nutba/CIqnIRNEwa/I+me2RqBEwmUKRugmbDAFk+IKoOx4
+   OwuBfHMWwOwHlCk49iSQEOC/qyVHgCnbTUUvXthyQoHtIGrGiQ9PAYnR2
+   g==;
+X-IronPort-AV: E=Sophos;i="5.87,275,1631570400"; 
+   d="scan'208";a="20746154"
+Received: from vtuxmail01.tq-net.de ([10.115.0.20])
+  by mx1.tq-group.com with ESMTP; 30 Nov 2021 08:43:28 +0100
+Received: from steina-w (unknown [10.123.49.12])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+        (No client certificate requested)
+        by vtuxmail01.tq-net.de (Postfix) with ESMTPSA id D7C1A280065;
+        Tue, 30 Nov 2021 08:43:27 +0100 (CET)
+Message-ID: <b1ddf6f61179c2445710d8540dd42ed6d71ae353.camel@ew.tq-group.com>
+Subject: Re: (EXT) Re: [PATCH] media: Add 16-bit Bayer formats
+From:   Alexander Stein <alexander.stein@ew.tq-group.com>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Dorota Czaplejewicz <dorota.czaplejewicz@puri.sm>
+Cc:     Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        Andrey Konovalov <andrey.konovalov@linaro.org>,
+        Jacopo Mondi <jacopo@jmondi.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>, kernel@puri.sm,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
+Date:   Tue, 30 Nov 2021 08:43:25 +0100
+In-Reply-To: <YaWNkcljqIR6BSdZ@pendragon.ideasonboard.com>
+References: <20211019114718.827400-1-dorota.czaplejewicz@puri.sm>
+         <163820077159.3059017.10242072140890692995@Monstersaurus>
+         <20211129170356.7258d6db.dorota.czaplejewicz@puri.sm>
+         <YaWNkcljqIR6BSdZ@pendragon.ideasonboard.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.36.5-0ubuntu1 
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the kernels and architectures in the list below.
+Am Dienstag, dem 30.11.2021 um 04:33 +0200 schrieb Laurent Pinchart:
+> Hi Dorota,
+> 
+> On Mon, Nov 29, 2021 at 05:05:23PM +0100, Dorota Czaplejewicz wrote:
+> > On Mon, 29 Nov 2021 15:46:11 +0000 Kieran Bingham wrote:
+> > > Quoting Dorota Czaplejewicz (2021-10-19 12:59:29)
+> > > > 16-bit bayer formats are used by the i.MX driver.  
+> > > 
+> > > Can we expand upon this at all?
+> > > 
+> > > The Subject says "Add 16-bit Bayer formats" but this isn't adding
+> > > the
+> > > format, it's purely extending the v4l2_format_info table with the
+> > > information for that format which is otherwise missing.
+> > 
+> > What do you suggest for a better commit message? My reasoning was
+> > that
+> > I'm adding entries to a table.
+> 
+> The format is defined by V4L2 but isn't present in that table. I'd
+> state
+> the this patch is fixing an oversight, and reference the commit that
+> forgot to add these formats in a Fixes: tag. While at it, I'd also
+> add
+> at least the 14bpp Bayer formats, and possibly the packed formats
+> too.
+> 
+> > > I wonder what other formats are missing from that table too?
+> > > 
+> > > > Signed-off-by: Dorota Czaplejewicz <
+> > > > dorota.czaplejewicz@puri.sm
+> > > > >
+> > > > ---
+> > > > Hello,
+> > > > 
+> > > > While working on the i.MX8 video driver, I discovered that
+> > > > `v4l2_fill_pixfmt` will fail when using 10-bit sensor formats.
+> > > > (For background, see the conversation at
+> > > > https://lkml.org/lkml/2021/10/17/93
+> > > >  .)
+> > > > 
+> > > > It appears that the video hardware will fill a 16-bit-per-pixel
+> > > > buffer when fed 10-bit-per-pixel Bayer data, making
+> > > > `v4l2_fill_pixfmt` effectively broken for this case.  
+> > > 
+> > > This statement is confusing to me. Are you saying you're
+> > > programming the
+> > > hardware with 10 bit, and it's using 16 bits per pixel to store
+> > > that
+> > > data? (Which is simply 'unpacked' I think ?)
+> > 
+> > I know the sensor I'm dealing with sends 10-bit data. I'm observing
+> > that the data arriving at this stage of the pipeline is encoded
+> > with
+> > 16 bits per pixel. As far as I understand, that's what i.MX8 does
+> > at
+> > some stage of the MIPI/CSI2 pipeline by design, but I can't
+> > elaborate
+> > at the moment, and I don't think it affects the validity of the
+> > addition.
+> 
+> Is the 10 bit data stored in the MSB or LSB of the 2 bytes ?
 
-Results of the daily build of media_tree:
+Oh, I get a dejavu here. I assume this is on an i.MX8QM or i.MX8QXP,
+but not one of the other i.MX8 ones. They have a similar name, but are
+very (!) diffeent in some aspects.
 
-date:			Tue Nov 30 05:00:12 CET 2021
-media-tree git hash:	f7702322ec7fce557850e6a5acabc1c5d574ff33
-media_build git hash:	90bf75007a9f73a3bfd144cae29e05229e702035
-v4l-utils git hash:	c01c6f78adde6ecfd0ef800e381aed27bea7808b
-edid-decode git hash:	b00755e34eb12aa92416aaf1bb7b02603131afe0
-gcc version:		i686-linux-gcc (GCC) 11.2.0
-sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
-sparse version:		0.6.3
-smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
-smatch version:		0.6.3
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: 7696c77a86087f681c8864e9ed957938d5b69aaf
-host hardware:		x86_64
-host os:		5.14.0-2-amd64
+To answer your question, neither of those two alignments. The RM for
+i.MX8QM and i.MX8QXP states:
+> NOTE
+> The CSI data is right LSB aligned and zero padded depending
+> on data format. When interfacing ISI, CSI data is shifted 6-bits
+> due to ISI bits [5:0] always being zero
+> (0bxxCSIDATAxxxxxx). All RAW14, RAW12, RAW10,
+> RAW8, and RAW6 video data is filled from BIT[13] to LSB,
+> the remaining bits are zero padded. Only RAW16 input data
+> will be saved to memory from BIT[15] to LSB.
 
-linux-git-sh: OK
-linux-git-arm-davinci: OK
-linux-git-arm-at91: OK
-linux-git-arm-stm32: OK
-linux-git-mips: OK
-linux-git-arm-pxa: OK
-linux-git-arm-multi: OK
-linux-git-powerpc64: OK
-linux-git-arm64: OK
-linux-git-i686: OK
-linux-git-x86_64: OK
-Check COMPILE_TEST: OK
-Check for strcpy/strncpy/strlcpy: OK
-linux-4.4.283-i686: OK
-linux-4.4.283-x86_64: OK
-linux-4.5.7-i686: OK
-linux-4.5.7-x86_64: OK
-linux-4.6.7-i686: OK
-linux-4.6.7-x86_64: OK
-linux-4.7.10-i686: OK
-linux-4.7.10-x86_64: OK
-linux-4.8.17-i686: OK
-linux-4.8.17-x86_64: OK
-linux-4.9.246-i686: OK
-linux-4.9.246-x86_64: OK
-linux-4.10.17-i686: OK
-linux-4.10.17-x86_64: OK
-linux-4.11.12-i686: OK
-linux-4.11.12-x86_64: OK
-linux-4.12.14-i686: OK
-linux-4.12.14-x86_64: OK
-linux-4.13.16-i686: OK
-linux-4.13.16-x86_64: OK
-linux-4.14.246-i686: OK
-linux-4.14.246-x86_64: OK
-linux-4.15.18-i686: OK
-linux-4.15.18-x86_64: OK
-linux-4.16.18-i686: OK
-linux-4.16.18-x86_64: OK
-linux-4.17.19-i686: OK
-linux-4.17.19-x86_64: OK
-linux-4.18.20-i686: OK
-linux-4.18.20-x86_64: OK
-linux-4.19.206-i686: OK
-linux-4.19.206-x86_64: OK
-linux-4.20.17-i686: OK
-linux-4.20.17-x86_64: OK
-linux-5.0.21-i686: OK
-linux-5.0.21-x86_64: OK
-linux-5.1.21-i686: OK
-linux-5.1.21-x86_64: OK
-linux-5.2.21-i686: OK
-linux-5.2.21-x86_64: OK
-linux-5.3.18-i686: OK
-linux-5.3.18-x86_64: OK
-linux-5.4.144-i686: OK
-linux-5.4.144-x86_64: OK
-linux-5.5.19-i686: OK
-linux-5.5.19-x86_64: OK
-linux-5.6.19-i686: OK
-linux-5.6.19-x86_64: OK
-linux-5.7.19-i686: OK
-linux-5.7.19-x86_64: OK
-linux-5.8.18-i686: OK
-linux-5.8.18-x86_64: OK
-linux-5.9.16-i686: OK
-linux-5.9.16-x86_64: OK
-linux-5.10.62-i686: OK
-linux-5.10.62-x86_64: OK
-linux-5.11.22-i686: OK
-linux-5.11.22-x86_64: OK
-linux-5.12.19-i686: OK
-linux-5.12.19-x86_64: OK
-linux-5.13.14-i686: OK
-linux-5.13.14-x86_64: OK
-linux-5.14.1-i686: OK
-linux-5.14.1-x86_64: OK
-linux-5.15.1-i686: OK
-linux-5.15.1-x86_64: OK
-linux-5.16-rc1-i686: OK
-linux-5.16-rc1-x86_64: OK
-apps: OK
-spec-git: OK
-virtme: ERRORS: Final Summary: 2989, Succeeded: 2978, Failed: 11, Warnings: 3
-virtme-32: OK: Final Summary: 3100, Succeeded: 3100, Failed: 0, Warnings: 0
-sparse: WARNINGS
-smatch: WARNINGS
-kerneldoc: WARNINGS
+See also [1]. 
 
-Detailed results are available here:
+This essentially means, unless you use RAW16, you will get RAW14 with a
+different amount of LSB bits set to 0.
+IIRC there was some patchset to introduce a RAW14 format ([2]) for
+exactly this use cas.
+There is also some kind of demo doing post-processing ([3]).
 
-http://www.xs4all.nl/~hverkuil/logs/Tuesday.log
+Best regards,
+Alexander
 
-Detailed regression test results are available here:
+[1] 
+https://community.nxp.com/t5/i-MX-Processors/i-MX8QM-MIPI-Raw-formats-not-working-correctly/m-p/1040832/highlight/true#M153336
+[2] 
+https://yhbt.net/lore/all/20200226151431.GY5379@paasikivi.fi.intel.com/T/
+[3] 
+https://community.nxp.com/t5/i-MX-Processors-Knowledge-Base/i-MX8QXP-capture-raw-bayer-data-and-debayer/ta-p/1098963
 
-http://www.xs4all.nl/~hverkuil/logs/Tuesday-test-media.log
-http://www.xs4all.nl/~hverkuil/logs/Tuesday-test-media-32.log
-http://www.xs4all.nl/~hverkuil/logs/Tuesday-test-media-dmesg.log
 
-Full logs are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Tuesday.tar.bz2
-
-The Media Infrastructure API from this daily build is here:
-
-http://www.xs4all.nl/~hverkuil/spec/index.html
