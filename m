@@ -2,178 +2,113 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AF983462DBC
-	for <lists+linux-media@lfdr.de>; Tue, 30 Nov 2021 08:43:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 83B77462E8B
+	for <lists+linux-media@lfdr.de>; Tue, 30 Nov 2021 09:31:18 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234463AbhK3Hqs (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 30 Nov 2021 02:46:48 -0500
-Received: from mx1.tq-group.com ([93.104.207.81]:3424 "EHLO mx1.tq-group.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S234235AbhK3Hqs (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Tue, 30 Nov 2021 02:46:48 -0500
+        id S239623AbhK3Ied (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 30 Nov 2021 03:34:33 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56218 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S239620AbhK3Iec (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Tue, 30 Nov 2021 03:34:32 -0500
+Received: from mail-ed1-x536.google.com (mail-ed1-x536.google.com [IPv6:2a00:1450:4864:20::536])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CA1E1C061574
+        for <linux-media@vger.kernel.org>; Tue, 30 Nov 2021 00:31:13 -0800 (PST)
+Received: by mail-ed1-x536.google.com with SMTP id g14so83403951edb.8
+        for <linux-media@vger.kernel.org>; Tue, 30 Nov 2021 00:31:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
-  t=1638258209; x=1669794209;
-  h=message-id:subject:from:to:cc:date:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=XtNs5P1lQ25usXDwgWkMhdgcJrs80sI61JAMIb/ZdDs=;
-  b=hkOE6RqHorPm6UZfRCalZeupSlXqsHJaKKENxwJzYx2WsQEEivBjAue3
-   3SgUfRFC13nqwNDzmTNqDXgd/CI7UbtzSs270s19lf1HKCs8iThnKalxe
-   zohFJmOUOGV86TUi6TS6+bd2H5XBjNQ8CDA7Hzp8DVc7AQy8o3AViBwVA
-   0wxsmzw/Ceq8iB9G5fYgY1CWBsZ2y7lFmkTjPhWo3armRhTSHGNT9y5wu
-   N17S79m1QBZMjFETQK3NGPb8/6fdsha5cDc3xLqham2Z4idKuiQVpIhaa
-   O8c34iQse037gPg6EKsKEKb41wV/qx4GFJTULrw3lZHpdIhdqro1S+jJx
-   A==;
-X-IronPort-AV: E=Sophos;i="5.87,275,1631570400"; 
-   d="scan'208";a="20746155"
-Received: from unknown (HELO tq-pgp-pr1.tq-net.de) ([192.168.6.15])
-  by mx1-pgp.tq-group.com with ESMTP; 30 Nov 2021 08:43:28 +0100
-Received: from mx1.tq-group.com ([192.168.6.7])
-  by tq-pgp-pr1.tq-net.de (PGP Universal service);
-  Tue, 30 Nov 2021 08:43:28 +0100
-X-PGP-Universal: processed;
-        by tq-pgp-pr1.tq-net.de on Tue, 30 Nov 2021 08:43:28 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
-  t=1638258208; x=1669794208;
-  h=message-id:subject:from:to:cc:date:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=XtNs5P1lQ25usXDwgWkMhdgcJrs80sI61JAMIb/ZdDs=;
-  b=Z7g7XCFuE6/9KjX4OzBUPKyVfP9AUWlpV9A+HcHTBeZqG9adELwhgjgb
-   HHoQdUX54RCib02aXdJfcH3vM1383ES9ECDurnUqL6Ukp1/gy6uSN4Hde
-   O6THaZrPe5/LfUitQm89z/y5BFsv79CmrpzbOXJSfUOPW/98kmpMSYt7t
-   QSgAdft0BpobSfG2cgyhU4ezWN16Fyep+WBgg5SwjRz1yUWXVq9lMkThZ
-   Ai66mUiFgI2nutba/CIqnIRNEwa/I+me2RqBEwmUKRugmbDAFk+IKoOx4
-   OwuBfHMWwOwHlCk49iSQEOC/qyVHgCnbTUUvXthyQoHtIGrGiQ9PAYnR2
-   g==;
-X-IronPort-AV: E=Sophos;i="5.87,275,1631570400"; 
-   d="scan'208";a="20746154"
-Received: from vtuxmail01.tq-net.de ([10.115.0.20])
-  by mx1.tq-group.com with ESMTP; 30 Nov 2021 08:43:28 +0100
-Received: from steina-w (unknown [10.123.49.12])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
-        (No client certificate requested)
-        by vtuxmail01.tq-net.de (Postfix) with ESMTPSA id D7C1A280065;
-        Tue, 30 Nov 2021 08:43:27 +0100 (CET)
-Message-ID: <b1ddf6f61179c2445710d8540dd42ed6d71ae353.camel@ew.tq-group.com>
-Subject: Re: (EXT) Re: [PATCH] media: Add 16-bit Bayer formats
-From:   Alexander Stein <alexander.stein@ew.tq-group.com>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Dorota Czaplejewicz <dorota.czaplejewicz@puri.sm>
-Cc:     Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        Andrey Konovalov <andrey.konovalov@linaro.org>,
-        Jacopo Mondi <jacopo@jmondi.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>, kernel@puri.sm,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
-Date:   Tue, 30 Nov 2021 08:43:25 +0100
-In-Reply-To: <YaWNkcljqIR6BSdZ@pendragon.ideasonboard.com>
-References: <20211019114718.827400-1-dorota.czaplejewicz@puri.sm>
-         <163820077159.3059017.10242072140890692995@Monstersaurus>
-         <20211129170356.7258d6db.dorota.czaplejewicz@puri.sm>
-         <YaWNkcljqIR6BSdZ@pendragon.ideasonboard.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.36.5-0ubuntu1 
+        d=ffwll.ch; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=GMM6hj319wAs5POVBFDLh6DbIb0qq9wk3Wcw4ZV0r2Y=;
+        b=Hc6Yi6eQ3GtUBUI3WuciYPZtsIx42QpLCBTjxjGlWhPN2n1jTEsBIvYplewCjgdbc/
+         lSu9rVVWhM+12NPM63jIEV+CpC0QneQSuhP4dUrZNui/cxastpnGzfGTMxQ8MluJ5Dvb
+         UshwKMxaKlBbF76VRnZUBHpx/dPgCRYaIoxyo=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=GMM6hj319wAs5POVBFDLh6DbIb0qq9wk3Wcw4ZV0r2Y=;
+        b=anFOvsa//ow2vTQpxe7amD6GFAzQybQZcMfvM39uWyCBlk0UVaJmeX8WxrzkCsO4eD
+         lnZ5VrX3J3Try5bn+eN7Tg2feqjs9j5RncWPcR1aLGB5bBkLPe/hAvGyLgRUsnpcQVnv
+         TPhs2HVzJ/QxsE47UtEE0z1735uk3x8opBNogXqr3h7wbOpOfBwzDOoXz2of5RJgIrVZ
+         v3cwlY1W80XZyqjwAWp/mytYmuN8F/oaRB5FjHGL7ptigxFVO6LR7hK8EmtsPnyazPjt
+         uQsx9kpipaSgUKl64iokAxB0Pv16cqDVzP5g2vgMf/yUchO7Yb24B8ewV6xRKBvxbzwB
+         A10g==
+X-Gm-Message-State: AOAM533k2i6TDz7Ltb8eB59u9DvttbvTfkD1hRlg9gDEw2klnOR9fee5
+        Wx6ylB/UTOPkAAWzFL36EnSdeq/Gf5EvJQ==
+X-Google-Smtp-Source: ABdhPJyai5hi6W4uK1D5519BQ1UPwtPEl6b4o8aZO9aCKtIlBdeoAaOOrYlM9h3nEuXtCU99zNLfJQ==
+X-Received: by 2002:a17:906:bcce:: with SMTP id lw14mr66471416ejb.411.1638261072383;
+        Tue, 30 Nov 2021 00:31:12 -0800 (PST)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+        by smtp.gmail.com with ESMTPSA id u23sm11102327edi.88.2021.11.30.00.31.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 30 Nov 2021 00:31:11 -0800 (PST)
+Date:   Tue, 30 Nov 2021 09:31:10 +0100
+From:   Daniel Vetter <daniel@ffwll.ch>
+To:     Christian =?iso-8859-1?Q?K=F6nig?= 
+        <ckoenig.leichtzumerken@gmail.com>
+Cc:     Daniel Vetter <daniel@ffwll.ch>, sumit.semwal@linaro.org,
+        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linaro-mm-sig@lists.linaro.org
+Subject: Re: [PATCH 22/26] dma-buf: add enum dma_resv_usage
+Message-ID: <YaXhTkSKJH0tO6WT@phenom.ffwll.local>
+References: <20211123142111.3885-1-christian.koenig@amd.com>
+ <20211123142111.3885-23-christian.koenig@amd.com>
+ <YZ+y+Uwo809qtvs5@phenom.ffwll.local>
+ <1e45687c-23ee-03da-abb8-da4a5f9d2872@gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <1e45687c-23ee-03da-abb8-da4a5f9d2872@gmail.com>
+X-Operating-System: Linux phenom 5.10.0-8-amd64 
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Am Dienstag, dem 30.11.2021 um 04:33 +0200 schrieb Laurent Pinchart:
-> Hi Dorota,
-> 
-> On Mon, Nov 29, 2021 at 05:05:23PM +0100, Dorota Czaplejewicz wrote:
-> > On Mon, 29 Nov 2021 15:46:11 +0000 Kieran Bingham wrote:
-> > > Quoting Dorota Czaplejewicz (2021-10-19 12:59:29)
-> > > > 16-bit bayer formats are used by the i.MX driver.  
-> > > 
-> > > Can we expand upon this at all?
-> > > 
-> > > The Subject says "Add 16-bit Bayer formats" but this isn't adding
-> > > the
-> > > format, it's purely extending the v4l2_format_info table with the
-> > > information for that format which is otherwise missing.
+On Mon, Nov 29, 2021 at 01:19:11PM +0100, Christian König wrote:
+> Am 25.11.21 um 16:59 schrieb Daniel Vetter:
+> > [SNIP]
+> > > + *
+> > > + * For example when asking for WRITE fences then the KERNEL fences are returned
+> > > + * as well. Similar when asked for READ fences then both WRITE and KERNEL
+> > > + * fences are returned as well.
+> > > + */
+> > > +enum dma_resv_usage {
+> > > +	/**
+> > > +	 * @DMA_RESV_USAGE_KERNEL: For in kernel memory management only.
+> > > +	 *
+> > > +	 * This should only be used for things like copying or clearing memory
+> > > +	 * with a DMA hardware engine for the purpose of kernel memory
+> > > +	 * management.
+> > > +	 *
+> > > +         * Drivers *always* need to wait for those fences before accessing the
+> > > +	 * resource protected by the dma_resv object. The only exception for
+> > > +	 * that is when the resource is known to be locked down in place by
+> > > +	 * pinning it previously.
+> > Should dma_buf_pin also do the wait for kernel fences? I think that would
+> > also ba e bit clearer semantics in the dma-buf patch which does these
+> > waits for us.
 > > 
-> > What do you suggest for a better commit message? My reasoning was
-> > that
-> > I'm adding entries to a table.
+> > Or should dma_buf_pin be pipelined and it's up to callers to wait? For kms
+> > that's definitely the semantics we want, but it's a bit playing with fire
+> > situation, so maybe dma-buf should get the more idiot proof semantics?
 > 
-> The format is defined by V4L2 but isn't present in that table. I'd
-> state
-> the this patch is fixing an oversight, and reference the commit that
-> forgot to add these formats in a Fixes: tag. While at it, I'd also
-> add
-> at least the 14bpp Bayer formats, and possibly the packed formats
-> too.
+> Yeah, good question. I've already added a wait after mapping an attachment
+> for static importers.
 > 
-> > > I wonder what other formats are missing from that table too?
-> > > 
-> > > > Signed-off-by: Dorota Czaplejewicz <
-> > > > dorota.czaplejewicz@puri.sm
-> > > > >
-> > > > ---
-> > > > Hello,
-> > > > 
-> > > > While working on the i.MX8 video driver, I discovered that
-> > > > `v4l2_fill_pixfmt` will fail when using 10-bit sensor formats.
-> > > > (For background, see the conversation at
-> > > > https://lkml.org/lkml/2021/10/17/93
-> > > >  .)
-> > > > 
-> > > > It appears that the video hardware will fill a 16-bit-per-pixel
-> > > > buffer when fed 10-bit-per-pixel Bayer data, making
-> > > > `v4l2_fill_pixfmt` effectively broken for this case.  
-> > > 
-> > > This statement is confusing to me. Are you saying you're
-> > > programming the
-> > > hardware with 10 bit, and it's using 16 bits per pixel to store
-> > > that
-> > > data? (Which is simply 'unpacked' I think ?)
-> > 
-> > I know the sensor I'm dealing with sends 10-bit data. I'm observing
-> > that the data arriving at this stage of the pipeline is encoded
-> > with
-> > 16 bits per pixel. As far as I understand, that's what i.MX8 does
-> > at
-> > some stage of the MIPI/CSI2 pipeline by design, but I can't
-> > elaborate
-> > at the moment, and I don't think it affects the validity of the
-> > addition.
-> 
-> Is the 10 bit data stored in the MSB or LSB of the 2 bytes ?
+> But for dynamic importers I'm not sure what we want to do. On the one hand
+> waiting for moves to finish is certainly the more defensive approach on the
+> other hand when you have a dynamic importer you absolutely need to handle
+> those dependencies correctly anyway.
 
-Oh, I get a dejavu here. I assume this is on an i.MX8QM or i.MX8QXP,
-but not one of the other i.MX8 ones. They have a similar name, but are
-very (!) diffeent in some aspects.
-
-To answer your question, neither of those two alignments. The RM for
-i.MX8QM and i.MX8QXP states:
-> NOTE
-> The CSI data is right LSB aligned and zero padded depending
-> on data format. When interfacing ISI, CSI data is shifted 6-bits
-> due to ISI bits [5:0] always being zero
-> (0bxxCSIDATAxxxxxx). All RAW14, RAW12, RAW10,
-> RAW8, and RAW6 video data is filled from BIT[13] to LSB,
-> the remaining bits are zero padded. Only RAW16 input data
-> will be saved to memory from BIT[15] to LSB.
-
-See also [1]. 
-
-This essentially means, unless you use RAW16, you will get RAW14 with a
-different amount of LSB bits set to 0.
-IIRC there was some patchset to introduce a RAW14 format ([2]) for
-exactly this use cas.
-There is also some kind of demo doing post-processing ([3]).
-
-Best regards,
-Alexander
-
-[1] 
-https://community.nxp.com/t5/i-MX-Processors/i-MX8QM-MIPI-Raw-formats-not-working-correctly/m-p/1040832/highlight/true#M153336
-[2] 
-https://yhbt.net/lore/all/20200226151431.GY5379@paasikivi.fi.intel.com/T/
-[3] 
-https://community.nxp.com/t5/i-MX-Processors-Knowledge-Base/i-MX8QXP-capture-raw-bayer-data-and-debayer/ta-p/1098963
-
-
+Hm yeah only doing it for non-dynamic attachments sounds fine to me (with
+kerneldoc in dma_buf_pin() ofc).
+-Daniel
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
