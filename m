@@ -2,26 +2,26 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0CE0546367A
-	for <lists+linux-media@lfdr.de>; Tue, 30 Nov 2021 15:17:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B10BD46367B
+	for <lists+linux-media@lfdr.de>; Tue, 30 Nov 2021 15:18:28 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242178AbhK3OUk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 30 Nov 2021 09:20:40 -0500
-Received: from perceval.ideasonboard.com ([213.167.242.64]:41004 "EHLO
+        id S233750AbhK3OVo (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 30 Nov 2021 09:21:44 -0500
+Received: from perceval.ideasonboard.com ([213.167.242.64]:41492 "EHLO
         perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242153AbhK3OUW (ORCPT
+        with ESMTP id S232314AbhK3OVn (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 30 Nov 2021 09:20:22 -0500
+        Tue, 30 Nov 2021 09:21:43 -0500
 Received: from deskari.lan (91-156-85-209.elisa-laajakaista.fi [91.156.85.209])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 86C80352F;
-        Tue, 30 Nov 2021 15:17:02 +0100 (CET)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id DDBB18F0;
+        Tue, 30 Nov 2021 15:18:22 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1638281823;
-        bh=uBZMo976ayDKtykAgxeya07xnrH7vzAN5el/JBKEMwI=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=IUON2Pns1BX8OVIUzannle7SbQh1MEVwrFU3HD8UD7ckQTPwLDUY0mWclz+sFe3EB
-         /2I3wUm530vBcOLrRNhEnKTm3PF0c597zPwKOl4cWbuo36aBenyi8IAU5fPGni6/50
-         /AW1ez+R+chL2tn+8FGJHyGj9yMOaDyWGCUf24jU=
+        s=mail; t=1638281903;
+        bh=GUV/RT6OyPICacsL0zA03I5bRVvhuZXy3bvCEuwv0J8=;
+        h=From:To:Cc:Subject:Date:From;
+        b=bS6cjRngJoB7LICsUVsjzFbOoO1MMyGa+jQouZLHatvQK263DsufOCexBdnq9LD6X
+         gG/RyepTPOq6xZF6iXa9PUvhJVb+zCva55oCtoT8KozzhJYvMvRTYGD/hiLhTzTmco
+         uORkl1kB9PCYTO9urv3AI5rBkDs4pjudwFhwa5MY=
 From:   Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 To:     linux-media@vger.kernel.org, sakari.ailus@linux.intel.com,
         Jacopo Mondi <jacopo+renesas@jmondi.org>,
@@ -31,80 +31,52 @@ To:     linux-media@vger.kernel.org, sakari.ailus@linux.intel.com,
         Hans Verkuil <hverkuil-cisco@xs4all.nl>,
         Pratyush Yadav <p.yadav@ti.com>
 Cc:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Subject: [PATCH v10 38/38] media: subdev: Add for_each_active_route() macro
-Date:   Tue, 30 Nov 2021 16:15:36 +0200
-Message-Id: <20211130141536.891878-39-tomi.valkeinen@ideasonboard.com>
+Subject: [PATCH v1 0/4] v4l-utils: support multiplexed streams
+Date:   Tue, 30 Nov 2021 16:18:11 +0200
+Message-Id: <20211130141815.892354-1-tomi.valkeinen@ideasonboard.com>
 X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20211130141536.891878-1-tomi.valkeinen@ideasonboard.com>
-References: <20211130141536.891878-1-tomi.valkeinen@ideasonboard.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Jacopo Mondi <jacopo+renesas@jmondi.org>
+Hi,
 
-Add a for_each_active_route() macro to replace the repeated pattern
-of iterating on the active routes of a routing table.
+This series adds support to multiplexed streams.
 
-Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
-Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
----
- drivers/media/v4l2-core/v4l2-subdev.c | 20 ++++++++++++++++++++
- include/media/v4l2-subdev.h           | 13 +++++++++++++
- 2 files changed, 33 insertions(+)
+v4l2-ctl and media-ctl are updated to allow configuring routes and
+setting configs per stream.
 
-diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
-index dc31118adc6b..dca2bea180ec 100644
---- a/drivers/media/v4l2-core/v4l2-subdev.c
-+++ b/drivers/media/v4l2-core/v4l2-subdev.c
-@@ -1603,3 +1603,23 @@ int v4l2_subdev_routing_validate_1_to_1(const struct v4l2_subdev_krouting *routi
- 	return 0;
- }
- EXPORT_SYMBOL_GPL(v4l2_subdev_routing_validate_1_to_1);
-+
-+struct v4l2_subdev_route *
-+__v4l2_subdev_next_active_route(const struct v4l2_subdev_krouting *routing,
-+				struct v4l2_subdev_route *route)
-+{
-+	if (route)
-+		++route;
-+	else
-+		route = &routing->routes[0];
-+
-+	for (; route < routing->routes + routing->num_routes; ++route) {
-+		if (!(route->flags & V4L2_SUBDEV_ROUTE_FL_ACTIVE))
-+			continue;
-+
-+		return route;
-+	}
-+
-+	return NULL;
-+}
-+EXPORT_SYMBOL_GPL(__v4l2_subdev_next_active_route);
-diff --git a/include/media/v4l2-subdev.h b/include/media/v4l2-subdev.h
-index a0c122c9f51e..9754913b34f8 100644
---- a/include/media/v4l2-subdev.h
-+++ b/include/media/v4l2-subdev.h
-@@ -1586,4 +1586,17 @@ int v4l2_subdev_get_fmt(struct v4l2_subdev *sd, struct v4l2_subdev_state *state,
-  */
- int v4l2_subdev_routing_validate_1_to_1(const struct v4l2_subdev_krouting *routing);
- 
-+struct v4l2_subdev_route *
-+__v4l2_subdev_next_active_route(const struct v4l2_subdev_krouting *routing,
-+				struct v4l2_subdev_route *route);
-+
-+/**
-+ * for_each_active_route - iterate on all active routes of a routing table
-+ * @routing: The routing table
-+ * @route: The route iterator
-+ */
-+#define for_each_active_route(routing, route) \
-+	for ((route) = NULL;                  \
-+	     ((route) = __v4l2_subdev_next_active_route((routing), (route)));)
-+
- #endif
+v4l2-compliance is updated to always set the new stream field, and to do
+some testing for multiplexed subdevs.
+
+ Tomi
+
+Tomi Valkeinen (4):
+  v4l2-utils: update Linux headers for multiplexed streams
+  v4l2-ctl: Add routing and streams support
+  media-ctl: add support for routes and streams
+  v4l2-ctl/compliance: add routing and streams multiplexed streams
+
+ include/linux/v4l2-subdev.h                 |  88 +++++-
+ utils/common/v4l2-info.cpp                  |   2 +
+ utils/media-ctl/libmediactl.c               |  41 +++
+ utils/media-ctl/libv4l2subdev.c             | 256 +++++++++++++++--
+ utils/media-ctl/media-ctl.c                 | 113 ++++++--
+ utils/media-ctl/mediactl.h                  |  16 ++
+ utils/media-ctl/options.c                   |  15 +-
+ utils/media-ctl/options.h                   |   1 +
+ utils/media-ctl/v4l2subdev.h                |  58 +++-
+ utils/v4l2-compliance/v4l2-compliance.cpp   | 124 +++++++--
+ utils/v4l2-compliance/v4l2-compliance.h     |   8 +-
+ utils/v4l2-compliance/v4l2-test-subdevs.cpp |  43 ++-
+ utils/v4l2-ctl/v4l2-ctl-subdev.cpp          | 289 +++++++++++++++++---
+ utils/v4l2-ctl/v4l2-ctl.cpp                 |   2 +
+ utils/v4l2-ctl/v4l2-ctl.h                   |   2 +
+ 15 files changed, 928 insertions(+), 130 deletions(-)
+
 -- 
 2.25.1
 
