@@ -2,246 +2,211 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 713E446342B
-	for <lists+linux-media@lfdr.de>; Tue, 30 Nov 2021 13:24:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 690F3463456
+	for <lists+linux-media@lfdr.de>; Tue, 30 Nov 2021 13:32:48 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241541AbhK3M2J (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 30 Nov 2021 07:28:09 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54590 "EHLO
+        id S229731AbhK3MgG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 30 Nov 2021 07:36:06 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56430 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232521AbhK3M2I (ORCPT
+        with ESMTP id S229638AbhK3MgF (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 30 Nov 2021 07:28:08 -0500
-Received: from mail-ua1-x92a.google.com (mail-ua1-x92a.google.com [IPv6:2607:f8b0:4864:20::92a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0B0E9C061574
-        for <linux-media@vger.kernel.org>; Tue, 30 Nov 2021 04:24:49 -0800 (PST)
-Received: by mail-ua1-x92a.google.com with SMTP id p2so40853757uad.11
-        for <linux-media@vger.kernel.org>; Tue, 30 Nov 2021 04:24:49 -0800 (PST)
+        Tue, 30 Nov 2021 07:36:05 -0500
+Received: from mail-ed1-x529.google.com (mail-ed1-x529.google.com [IPv6:2a00:1450:4864:20::529])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9363FC061574
+        for <linux-media@vger.kernel.org>; Tue, 30 Nov 2021 04:32:46 -0800 (PST)
+Received: by mail-ed1-x529.google.com with SMTP id x15so85923422edv.1
+        for <linux-media@vger.kernel.org>; Tue, 30 Nov 2021 04:32:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=vanguardiasur-com-ar.20210112.gappssmtp.com; s=20210112;
+        d=ffwll.ch; s=google;
         h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=lWG+lQ/6Yyq7YVu+fKpvYuX6lXAAwVWMMq+4sXlQZDo=;
-        b=dgYsyVrTZSW3QgPN0fB1QAzXx7AqXNRb+PMGyROWIBG+couZ0XM3uRyKuVLjqozJ+R
-         19Z3AHKn8WMrAc8SWWbc415ZRc4Xfo0QkLlEbb7an/1IbezcIFyGZZnw50CiOfRHOrjq
-         2gZQPSvIYcrXTYJtA4KTwBCJ62R6/otZD19SRxTFdMWfpQWq2kzlyI/ZjV+0sPsVgaes
-         tbzMnGgGUTWoCjUurx+wXGmO/GEBTHe/qY/YuHTOfcVUnrb93fC+oeEoxT+92aNjSdfz
-         R+myw3KhthPb7804AP8d0PRL3bqsNSwL0dgx8wh09D9HvEla0sPmi0dAK3kaDp9IykQW
-         bxWg==
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=d1Bn56NVWcvPf46Qrzjbzii821X2nvEc2fZCcd4IdUs=;
+        b=JqwJ/5aIUKtANy36PP4QBvvaXySnaIqe2pZot+4pWo0saNTu1KCsL1sQCTZ5OUYEQU
+         +a90+v5WZBxRA42BRECjDm2HUpE6XsO9/CelHgQQ4Zor21Mw5RWCV7/nEwAeHaHqD/A3
+         DdhDUBA5Tv8BH7aEbcofx9rXY8NIoQ1tRatjw=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=lWG+lQ/6Yyq7YVu+fKpvYuX6lXAAwVWMMq+4sXlQZDo=;
-        b=zd8EskdgF+wVDpuE7S4cwZFEPkNXN6N4eUtfDR113ywD2HpGfPi/f8Qn4X3UnDzSJ9
-         z/V7wXN2QNLPjKzYWUsduh0ChKNb+7vhSq18Cmm43awqPOYXnkHQplfDdLDgDIdzs2U5
-         54Fcy9+FX+xqDHHRJhE+c1chZ0tem27O6cg0MfIHdR66elPH5qakrwAJeCL0E+P0eA23
-         rFzp2nNkSQ9bH2cqBe0eALt+3sLFVUwJxCrfqM76DaiMXWdxGd2eTlHnFtoHcLM+WFD/
-         7uZBZU2mbKljtFBA2/mpDzKalID1kibObjTU4KIaYKED+jDBcoe0czwc8mrZ2xrQH7Hb
-         9EyQ==
-X-Gm-Message-State: AOAM533zbSfKad/EvQflzkyKItmTRe43rn+yaxcpltR+lWx9HhqvCfY6
-        noU/YgDhT0b4MwlHCy+zGbQmbQ==
-X-Google-Smtp-Source: ABdhPJy5WbQIWizmyO+U8N1STRX2VYDr9MI16pKd0PLQHWZZB3l5X6BUWLMIBSUlAA7ncA00FoMb8Q==
-X-Received: by 2002:a05:6102:b0c:: with SMTP id b12mr40148494vst.27.1638275088172;
-        Tue, 30 Nov 2021 04:24:48 -0800 (PST)
-Received: from eze-laptop (host208.201-253-22.telecom.net.ar. [201.253.22.208])
-        by smtp.gmail.com with ESMTPSA id v7sm10324560uaj.13.2021.11.30.04.24.44
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=d1Bn56NVWcvPf46Qrzjbzii821X2nvEc2fZCcd4IdUs=;
+        b=faiS3aUBjzMOJCF1gdQEDWArK4ozd1Zc/grmhpdExZLEva54IMYiHu6foUc4ESr28P
+         7A+ifbvcnP3oN2yORgMxFFKPtB/jsh1XcfyOBhWxECb7dsCCITQ6By6oVZLJIhyivQ/0
+         xo1d9Sy0BpxzjjvJ30vwKW8pdcF3ft8Bt5Xft6ex7mNp2xTllXWuy63NLdUAk1OO8+xH
+         J4J1v3BNIflWcaTzUD5o3GAdBzNAxmIVqtct3yxnYLXwdxVNPNX9m7zwpvwzA8Nrnzfv
+         janRrvIRzCvehiBw3dHQl3lQV6nIz5kjQCD1iHxe3brOPK7sAoUAq149n5bVrnREm8ty
+         hVHw==
+X-Gm-Message-State: AOAM530nRVl4Q2Yi48I4yoUW/GrDFDUWcJkYMD1rghQWexWn8/9vcWb0
+        jjrQnHWFVzP7O/ueUM4Yq5J+BnoJVbVxdQ==
+X-Google-Smtp-Source: ABdhPJz5iF1qgSvyAyxGbOpVLyReEM5ZHyZeJfy6LZfs6T8ZBcNxCjhKk6F2zLtpziOgRJrcx0veFQ==
+X-Received: by 2002:a17:906:4787:: with SMTP id cw7mr72199096ejc.311.1638275565133;
+        Tue, 30 Nov 2021 04:32:45 -0800 (PST)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+        by smtp.gmail.com with ESMTPSA id sd28sm10007710ejc.37.2021.11.30.04.32.44
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 30 Nov 2021 04:24:47 -0800 (PST)
-Date:   Tue, 30 Nov 2021 09:24:42 -0300
-From:   Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
-To:     Jernej Skrabec <jernej.skrabec@gmail.com>
-Cc:     linux-media@vger.kernel.org, nicolas.dufresne@collabora.com,
-        mchehab@kernel.org, robh+dt@kernel.org, mripard@kernel.org,
-        wens@csie.org, p.zabel@pengutronix.de, andrzej.p@collabora.com,
-        gregkh@linuxfoundation.org, devicetree@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
-        linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
-Subject: Re: [PATCH v2 8/9] media: hantro: Add support for Allwinner H6
-Message-ID: <YaYYCpJWabFy9Lfq@eze-laptop>
-References: <20211129182633.480021-1-jernej.skrabec@gmail.com>
- <20211129182633.480021-9-jernej.skrabec@gmail.com>
+        Tue, 30 Nov 2021 04:32:44 -0800 (PST)
+Date:   Tue, 30 Nov 2021 13:32:42 +0100
+From:   Daniel Vetter <daniel@ffwll.ch>
+To:     Christian =?iso-8859-1?Q?K=F6nig?= 
+        <ckoenig.leichtzumerken@gmail.com>
+Cc:     Daniel Vetter <daniel.vetter@ffwll.ch>,
+        DRI Development <dri-devel@lists.freedesktop.org>,
+        linaro-mm-sig@lists.linaro.org,
+        Daniel Vetter <daniel.vetter@intel.com>,
+        Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+        linux-media@vger.kernel.org
+Subject: Re: [Linaro-mm-sig] [PATCH] dma-resv: some doc polish for iterators
+Message-ID: <YaYZ6ku36GgDoioN@phenom.ffwll.local>
+References: <20211130091609.1335915-1-daniel.vetter@ffwll.ch>
+ <02d35f5a-ad89-b78d-a31f-51ea1579b9cd@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20211129182633.480021-9-jernej.skrabec@gmail.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <02d35f5a-ad89-b78d-a31f-51ea1579b9cd@gmail.com>
+X-Operating-System: Linux phenom 5.10.0-8-amd64 
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, Nov 29, 2021 at 07:26:32PM +0100, Jernej Skrabec wrote:
-> Allwinner H6 has a Hantro G2 core used for VP9 decoding. It's not clear
-> at this time if HEVC is also supported or not.
+On Tue, Nov 30, 2021 at 11:04:11AM +0100, Christian König wrote:
+> Am 30.11.21 um 10:16 schrieb Daniel Vetter:
+> > Hammer it a bit more in that iterators can be restarted and when that
+> > matters, plus suggest to prefer the locked version whenver.
+> > 
+> > Also delete the two leftover kerneldoc for static functions plus
+> > sprinkle some more links while at it.
+> > 
+> > Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+> > Cc: Sumit Semwal <sumit.semwal@linaro.org>
+> > Cc: "Christian König" <christian.koenig@amd.com>
+> > Cc: linux-media@vger.kernel.org
+> > Cc: linaro-mm-sig@lists.linaro.org
+> > ---
+> >   drivers/dma-buf/dma-resv.c | 26 ++++++++++++--------------
+> >   include/linux/dma-resv.h   | 13 ++++++++++++-
+> >   2 files changed, 24 insertions(+), 15 deletions(-)
+> > 
+> > diff --git a/drivers/dma-buf/dma-resv.c b/drivers/dma-buf/dma-resv.c
+> > index 9eb2baa387d4..1453b664c405 100644
+> > --- a/drivers/dma-buf/dma-resv.c
+> > +++ b/drivers/dma-buf/dma-resv.c
+> > @@ -323,12 +323,6 @@ void dma_resv_add_excl_fence(struct dma_resv *obj, struct dma_fence *fence)
+> >   }
+> >   EXPORT_SYMBOL(dma_resv_add_excl_fence);
+> > -/**
+> > - * dma_resv_iter_restart_unlocked - restart the unlocked iterator
+> > - * @cursor: The dma_resv_iter object to restart
+> > - *
+> > - * Restart the unlocked iteration by initializing the cursor object.
+> > - */
 > 
-> Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
-
-Reviewed-by: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
-
-Thanks!
-
-> ---
->  drivers/staging/media/hantro/Kconfig        | 10 ++-
->  drivers/staging/media/hantro/Makefile       |  3 +
->  drivers/staging/media/hantro/hantro_drv.c   |  3 +
->  drivers/staging/media/hantro/hantro_hw.h    |  1 +
->  drivers/staging/media/hantro/sunxi_vpu_hw.c | 86 +++++++++++++++++++++
->  5 files changed, 102 insertions(+), 1 deletion(-)
->  create mode 100644 drivers/staging/media/hantro/sunxi_vpu_hw.c
+> Maybe instead of completely removing the documentation add a single line of
+> what this is supposed to do and not to do.
 > 
-> diff --git a/drivers/staging/media/hantro/Kconfig b/drivers/staging/media/hantro/Kconfig
-> index 00a57d88c92e..3c5d833322c8 100644
-> --- a/drivers/staging/media/hantro/Kconfig
-> +++ b/drivers/staging/media/hantro/Kconfig
-> @@ -1,7 +1,7 @@
->  # SPDX-License-Identifier: GPL-2.0
->  config VIDEO_HANTRO
->  	tristate "Hantro VPU driver"
-> -	depends on ARCH_MXC || ARCH_ROCKCHIP || ARCH_AT91 || COMPILE_TEST
-> +	depends on ARCH_MXC || ARCH_ROCKCHIP || ARCH_AT91 || ARCH_SUNXI || COMPILE_TEST
->  	depends on VIDEO_DEV && VIDEO_V4L2
->  	select MEDIA_CONTROLLER
->  	select MEDIA_CONTROLLER_REQUEST_API
-> @@ -40,3 +40,11 @@ config VIDEO_HANTRO_ROCKCHIP
->  	default y
->  	help
->  	  Enable support for RK3288, RK3328, and RK3399 SoCs.
-> +
-> +config VIDEO_HANTRO_SUNXI
-> +	bool "Hantro VPU Allwinner support"
-> +	depends on VIDEO_HANTRO
-> +	depends on ARCH_SUNXI || COMPILE_TEST
-> +	default y
-> +	help
-> +	  Enable support for H6 SoC.
-> diff --git a/drivers/staging/media/hantro/Makefile b/drivers/staging/media/hantro/Makefile
-> index 28af0a1ee4bf..ebd5ede7bef7 100644
-> --- a/drivers/staging/media/hantro/Makefile
-> +++ b/drivers/staging/media/hantro/Makefile
-> @@ -33,3 +33,6 @@ hantro-vpu-$(CONFIG_VIDEO_HANTRO_SAMA5D4) += \
->  
->  hantro-vpu-$(CONFIG_VIDEO_HANTRO_ROCKCHIP) += \
->  		rockchip_vpu_hw.o
-> +
-> +hantro-vpu-$(CONFIG_VIDEO_HANTRO_SUNXI) += \
-> +		sunxi_vpu_hw.o
-> diff --git a/drivers/staging/media/hantro/hantro_drv.c b/drivers/staging/media/hantro/hantro_drv.c
-> index 33bf78be145b..6a51f39dde56 100644
-> --- a/drivers/staging/media/hantro/hantro_drv.c
-> +++ b/drivers/staging/media/hantro/hantro_drv.c
-> @@ -620,6 +620,9 @@ static const struct of_device_id of_hantro_match[] = {
->  #endif
->  #ifdef CONFIG_VIDEO_HANTRO_SAMA5D4
->  	{ .compatible = "microchip,sama5d4-vdec", .data = &sama5d4_vdec_variant, },
-> +#endif
-> +#ifdef CONFIG_VIDEO_HANTRO_SUNXI
-> +	{ .compatible = "allwinner,sun50i-h6-vpu-g2", .data = &sunxi_vpu_variant, },
->  #endif
->  	{ /* sentinel */ }
->  };
-> diff --git a/drivers/staging/media/hantro/hantro_hw.h b/drivers/staging/media/hantro/hantro_hw.h
-> index c33b1f5df37b..c92a6ec4b187 100644
-> --- a/drivers/staging/media/hantro/hantro_hw.h
-> +++ b/drivers/staging/media/hantro/hantro_hw.h
-> @@ -308,6 +308,7 @@ extern const struct hantro_variant rk3288_vpu_variant;
->  extern const struct hantro_variant rk3328_vpu_variant;
->  extern const struct hantro_variant rk3399_vpu_variant;
->  extern const struct hantro_variant sama5d4_vdec_variant;
-> +extern const struct hantro_variant sunxi_vpu_variant;
->  
->  extern const struct hantro_postproc_ops hantro_g1_postproc_ops;
->  extern const struct hantro_postproc_ops hantro_g2_postproc_ops;
-> diff --git a/drivers/staging/media/hantro/sunxi_vpu_hw.c b/drivers/staging/media/hantro/sunxi_vpu_hw.c
-> new file mode 100644
-> index 000000000000..90633406c4eb
-> --- /dev/null
-> +++ b/drivers/staging/media/hantro/sunxi_vpu_hw.c
-> @@ -0,0 +1,86 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +/*
-> + * Allwinner Hantro G2 VPU codec driver
-> + *
-> + * Copyright (C) 2021 Jernej Skrabec <jernej.skrabec@gmail.com>
-> + */
-> +
-> +#include <linux/clk.h>
-> +
-> +#include "hantro.h"
-> +
-> +static const struct hantro_fmt sunxi_vpu_postproc_fmts[] = {
-> +	{
-> +		.fourcc = V4L2_PIX_FMT_NV12,
-> +		.codec_mode = HANTRO_MODE_NONE,
-> +		.postprocessed = true,
-> +	},
-> +};
-> +
-> +static const struct hantro_fmt sunxi_vpu_dec_fmts[] = {
-> +	{
-> +		.fourcc = V4L2_PIX_FMT_NV12_4L4,
-> +		.codec_mode = HANTRO_MODE_NONE,
-> +	},
-> +	{
-> +		.fourcc = V4L2_PIX_FMT_VP9_FRAME,
-> +		.codec_mode = HANTRO_MODE_VP9_DEC,
-> +		.max_depth = 2,
-> +		.frmsize = {
-> +			.min_width = 48,
-> +			.max_width = 3840,
-> +			.step_width = MB_DIM,
-> +			.min_height = 48,
-> +			.max_height = 2160,
-> +			.step_height = MB_DIM,
-> +		},
-> +	},
-> +};
-> +
-> +static int sunxi_vpu_hw_init(struct hantro_dev *vpu)
-> +{
-> +	clk_set_rate(vpu->clocks[0].clk, 300000000);
-> +
-> +	return 0;
-> +}
-> +
-> +static void sunxi_vpu_reset(struct hantro_ctx *ctx)
-> +{
-> +	struct hantro_dev *vpu = ctx->dev;
-> +
-> +	reset_control_reset(vpu->resets);
-> +}
-> +
-> +static const struct hantro_codec_ops sunxi_vpu_codec_ops[] = {
-> +	[HANTRO_MODE_VP9_DEC] = {
-> +		.run = hantro_g2_vp9_dec_run,
-> +		.done = hantro_g2_vp9_dec_done,
-> +		.reset = sunxi_vpu_reset,
-> +		.init = hantro_vp9_dec_init,
-> +		.exit = hantro_vp9_dec_exit,
-> +	},
-> +};
-> +
-> +static const struct hantro_irq sunxi_irqs[] = {
-> +	{ NULL, hantro_g2_irq },
-> +};
-> +
-> +static const char * const sunxi_clk_names[] = { "mod", "bus" };
-> +
-> +const struct hantro_variant sunxi_vpu_variant = {
-> +	.dec_fmts = sunxi_vpu_dec_fmts,
-> +	.num_dec_fmts = ARRAY_SIZE(sunxi_vpu_dec_fmts),
-> +	.postproc_fmts = sunxi_vpu_postproc_fmts,
-> +	.num_postproc_fmts = ARRAY_SIZE(sunxi_vpu_postproc_fmts),
-> +	.postproc_ops = &hantro_g2_postproc_ops,
-> +	.codec = HANTRO_VP9_DECODER,
-> +	.codec_ops = sunxi_vpu_codec_ops,
-> +	.init = sunxi_vpu_hw_init,
-> +	.irqs = sunxi_irqs,
-> +	.num_irqs = ARRAY_SIZE(sunxi_irqs),
-> +	.clk_names = sunxi_clk_names,
-> +	.num_clocks = ARRAY_SIZE(sunxi_clk_names),
-> +	.double_buffer = 1,
-> +	.legacy_regs = 1,
-> +	.late_postproc = 1,
-> +};
-> -- 
-> 2.34.1
+> E.g. "/* Restart the iterator by initializing all the necessary fields, but
+> not the relation to the dma_resv object. */
+
+I figured the names are selfexplanatory enough, but makes sense to keep a
+bit more detail.
+-Daniel
+
 > 
+> >   static void dma_resv_iter_restart_unlocked(struct dma_resv_iter *cursor)
+> >   {
+> >   	cursor->seq = read_seqcount_begin(&cursor->obj->seq);
+> > @@ -344,14 +338,6 @@ static void dma_resv_iter_restart_unlocked(struct dma_resv_iter *cursor)
+> >   	cursor->is_restarted = true;
+> >   }
+> > -/**
+> > - * dma_resv_iter_walk_unlocked - walk over fences in a dma_resv obj
+> > - * @cursor: cursor to record the current position
+> > - *
+> > - * Return all the fences in the dma_resv object which are not yet signaled.
+> > - * The returned fence has an extra local reference so will stay alive.
+> > - * If a concurrent modify is detected the whole iteration is started over again.
+> > - */
+> 
+> Same here, something /* Walk to the next not signaled fence and grab a
+> reference to it */.
+> 
+> Apart from that feel free add Reviewed-by: Christian König
+> <christian.koenig@amd.com>
+> 
+> Regards,
+> Christian.
+> 
+> >   static void dma_resv_iter_walk_unlocked(struct dma_resv_iter *cursor)
+> >   {
+> >   	struct dma_resv *obj = cursor->obj;
+> > @@ -387,6 +373,12 @@ static void dma_resv_iter_walk_unlocked(struct dma_resv_iter *cursor)
+> >    * dma_resv_iter_first_unlocked - first fence in an unlocked dma_resv obj.
+> >    * @cursor: the cursor with the current position
+> >    *
+> > + * Subsequent fences are iterated with dma_resv_iter_next_unlocked().
+> > + *
+> > + * Beware that the iterator can be restarted.  Code which accumulates statistics
+> > + * or similar needs to check for this with dma_resv_iter_is_restarted(). For
+> > + * this reason prefer the locked dma_resv_iter_first() whenver possible.
+> > + *
+> >    * Returns the first fence from an unlocked dma_resv obj.
+> >    */
+> >   struct dma_fence *dma_resv_iter_first_unlocked(struct dma_resv_iter *cursor)
+> > @@ -406,6 +398,10 @@ EXPORT_SYMBOL(dma_resv_iter_first_unlocked);
+> >    * dma_resv_iter_next_unlocked - next fence in an unlocked dma_resv obj.
+> >    * @cursor: the cursor with the current position
+> >    *
+> > + * Beware that the iterator can be restarted.  Code which accumulates statistics
+> > + * or similar needs to check for this with dma_resv_iter_is_restarted(). For
+> > + * this reason prefer the locked dma_resv_iter_next() whenver possible.
+> > + *
+> >    * Returns the next fence from an unlocked dma_resv obj.
+> >    */
+> >   struct dma_fence *dma_resv_iter_next_unlocked(struct dma_resv_iter *cursor)
+> > @@ -431,6 +427,8 @@ EXPORT_SYMBOL(dma_resv_iter_next_unlocked);
+> >    * dma_resv_iter_first - first fence from a locked dma_resv object
+> >    * @cursor: cursor to record the current position
+> >    *
+> > + * Subsequent fences are iterated with dma_resv_iter_next_unlocked().
+> > + *
+> >    * Return the first fence in the dma_resv object while holding the
+> >    * &dma_resv.lock.
+> >    */
+> > diff --git a/include/linux/dma-resv.h b/include/linux/dma-resv.h
+> > index dbd235ab447f..ebe908592ac3 100644
+> > --- a/include/linux/dma-resv.h
+> > +++ b/include/linux/dma-resv.h
+> > @@ -153,6 +153,13 @@ struct dma_resv {
+> >    * struct dma_resv_iter - current position into the dma_resv fences
+> >    *
+> >    * Don't touch this directly in the driver, use the accessor function instead.
+> > + *
+> > + * IMPORTANT
+> > + *
+> > + * When using the lockless iterators like dma_resv_iter_next_unlocked() or
+> > + * dma_resv_for_each_fence_unlocked() beware that the iterator can be restarted.
+> > + * Code which accumulates statistics or similar needs to check for this with
+> > + * dma_resv_iter_is_restarted().
+> >    */
+> >   struct dma_resv_iter {
+> >   	/** @obj: The dma_resv object we iterate over */
+> > @@ -243,7 +250,11 @@ static inline bool dma_resv_iter_is_restarted(struct dma_resv_iter *cursor)
+> >    * &dma_resv.lock and using RCU instead. The cursor needs to be initialized
+> >    * with dma_resv_iter_begin() and cleaned up with dma_resv_iter_end(). Inside
+> >    * the iterator a reference to the dma_fence is held and the RCU lock dropped.
+> > - * When the dma_resv is modified the iteration starts over again.
+> > + *
+> > + * Beware that the iterator can be restarted when the struct dma_resv for
+> > + * @cursor is modified. Code which accumulates statistics or similar needs to
+> > + * check for this with dma_resv_iter_is_restarted(). For this reason prefer the
+> > + * lock iterator dma_resv_for_each_fence() whenever possible.
+> >    */
+> >   #define dma_resv_for_each_fence_unlocked(cursor, fence)			\
+> >   	for (fence = dma_resv_iter_first_unlocked(cursor);		\
+> 
+
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
