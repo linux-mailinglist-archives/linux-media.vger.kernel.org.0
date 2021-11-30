@@ -2,298 +2,187 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1B18C46391F
-	for <lists+linux-media@lfdr.de>; Tue, 30 Nov 2021 16:04:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 80759463A07
+	for <lists+linux-media@lfdr.de>; Tue, 30 Nov 2021 16:28:11 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S245357AbhK3PHV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 30 Nov 2021 10:07:21 -0500
-Received: from comms.puri.sm ([159.203.221.185]:49510 "EHLO comms.puri.sm"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S244319AbhK3PBW (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Tue, 30 Nov 2021 10:01:22 -0500
-Received: from localhost (localhost [127.0.0.1])
-        by comms.puri.sm (Postfix) with ESMTP id 31F2AE1239;
-        Tue, 30 Nov 2021 06:57:26 -0800 (PST)
-Received: from comms.puri.sm ([127.0.0.1])
-        by localhost (comms.puri.sm [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id XcmA9cMzm6fl; Tue, 30 Nov 2021 06:57:25 -0800 (PST)
-Message-ID: <cbf47818643901943b844fb729c9ac360d7f3bd3.camel@puri.sm>
-Subject: Re: [PATCH v9 2/4] dt-bindings: media: document SK Hynix Hi-846
- MIPI CSI-2 8M pixel sensor
-From:   Martin Kepplinger <martin.kepplinger@puri.sm>
-To:     Geert Uytterhoeven <geert@linux-m68k.org>,
-        Sakari Ailus <sakari.ailus@iki.fi>
-Cc:     Pavel Machek <pavel@ucw.cz>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>, kernel@puri.sm,
-        Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
-        phone-devel@vger.kernel.org, Rob Herring <robh@kernel.org>,
-        shawnx.tu@intel.com
-Date:   Tue, 30 Nov 2021 15:57:18 +0100
-In-Reply-To: <CAMuHMdXaywzfzLDoWYj0vfQ=xjUc+exgwUrrfNvp0Z-eVcNNMg@mail.gmail.com>
-References: <20210906102837.2190387-1-martin.kepplinger@puri.sm>
-         <20210906102837.2190387-3-martin.kepplinger@puri.sm>
-         <CAMuHMdVVNhLa2p-ywmpcEj-sw+NyRNp2z9jsVqsXEDrKphivCQ@mail.gmail.com>
-         <d5e0fe8f8a5445c9c2d2b90fcf454829daf393e8.camel@puri.sm>
-         <YaC0cxmXB8kDcDAI@valkosipuli.retiisi.eu>
-         <CAMuHMdXaywzfzLDoWYj0vfQ=xjUc+exgwUrrfNvp0Z-eVcNNMg@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.38.3-1 
+        id S230465AbhK3Pb2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 30 Nov 2021 10:31:28 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41494 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229865AbhK3PbV (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Tue, 30 Nov 2021 10:31:21 -0500
+Received: from mail-ed1-x52c.google.com (mail-ed1-x52c.google.com [IPv6:2a00:1450:4864:20::52c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7DE6AC061574
+        for <linux-media@vger.kernel.org>; Tue, 30 Nov 2021 07:28:02 -0800 (PST)
+Received: by mail-ed1-x52c.google.com with SMTP id w1so88596301edc.6
+        for <linux-media@vger.kernel.org>; Tue, 30 Nov 2021 07:28:02 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ffwll.ch; s=google;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=KUG8ZDNwLQ9mug9AKEG2rtiTG0/UXMwSxpSjHiH+UNE=;
+        b=A6HBiWYKyW2FkPzZmHTApcwlV2pu8P3ubUaEmWvCN3eeBrGVpyEk65p/g/xvRiw+jz
+         nK5A/HZwmdz9h/JbT6JbbKdAFvxVYH5K7/kJZMF27u4k6Pzw7dvdZ0E9b/5HFxmQLy2Z
+         btMYzH92aZgv4g4mtWoOsvCINFWCvczqgEn+E=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=KUG8ZDNwLQ9mug9AKEG2rtiTG0/UXMwSxpSjHiH+UNE=;
+        b=qcsGbKuRvh0EGZg6EC14HzXcnv43K0Fe6E4Rt6+ZamBuZ0POtpH+n5DaSZ7RzXRfZ+
+         04hP+vUmody72zURX4zZuICgneqGvlivdBM1SZ9f+5y97MSdzePzYMs2CLKkRZQZb+H8
+         cdLgboXgocvSczrq29vt1/isbtnyRgWGW5JjOeVcwBxE5oU/vi+CfVzYVZx+3Rj/Jryo
+         b7rht1KJtXjEjMAkm8fTMXro2Em3UdDmeBr3IuyGBL3ncxmgNFI6WTE2VL2zzIA0xFAa
+         mZm1Vv0YbSXAYN+kNuu2vvRoOiSsbZJtz0hmVw+cotbdW4cVg9OQ5YKRWpsURw5fYpNV
+         70cg==
+X-Gm-Message-State: AOAM531ScMTz3j2DIiIfgf2q6lBjG1lgSOOHVjVps2rlaTwsVUxK8H2r
+        TNtHTbcsxkssLSkGoy89K/I8Vw==
+X-Google-Smtp-Source: ABdhPJxnvA8DcF3dnAQORTrpJZDY364vc8s5H8Qf7UOGl3epYBfx5zwFZ1uG/Cmss6f6K+CCHcY3sg==
+X-Received: by 2002:a50:fb16:: with SMTP id d22mr85823229edq.367.1638286081094;
+        Tue, 30 Nov 2021 07:28:01 -0800 (PST)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+        by smtp.gmail.com with ESMTPSA id lk22sm9342990ejb.83.2021.11.30.07.28.00
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 30 Nov 2021 07:28:00 -0800 (PST)
+From:   Daniel Vetter <daniel.vetter@ffwll.ch>
+To:     DRI Development <dri-devel@lists.freedesktop.org>
+Cc:     Daniel Vetter <daniel.vetter@ffwll.ch>,
+        =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+        Daniel Vetter <daniel.vetter@intel.com>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
+Subject: [PATCH] dma-resv: some doc polish for iterators
+Date:   Tue, 30 Nov 2021 16:27:55 +0100
+Message-Id: <20211130152756.1388106-1-daniel.vetter@ffwll.ch>
+X-Mailer: git-send-email 2.33.0
+In-Reply-To: <20211130091609.1335915-1-daniel.vetter@ffwll.ch>
+References: <20211130091609.1335915-1-daniel.vetter@ffwll.ch>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Am Freitag, dem 26.11.2021 um 13:03 +0100 schrieb Geert Uytterhoeven:
-> Hi Martin,
-> 
-> On Fri, Nov 26, 2021 at 11:18 AM Sakari Ailus <sakari.ailus@iki.fi>
-> wrote:
-> > On Fri, Nov 26, 2021 at 11:02:31AM +0100, Martin Kepplinger wrote:
-> > > Am Donnerstag, dem 25.11.2021 um 12:15 +0100 schrieb Geert
-> > > Uytterhoeven:
-> > > > On Mon, Sep 6, 2021 at 12:30 PM Martin Kepplinger
-> > > > <martin.kepplinger@puri.sm> wrote:
-> > > > > Document the bindings used for the SK Hynix Hi-846 CMOS
-> > > > > camera
-> > > > > driver.
-> > > > > 
-> > > > > Signed-off-by: Martin Kepplinger <martin.kepplinger@puri.sm>
-> > > > > Reviewed-by: Laurent Pinchart <
-> > > > > laurent.pinchart@ideasonboard.com>
-> > > > > Reviewed-by: Rob Herring <robh@kernel.org>
-> > > > > ---
-> > > > >  .../bindings/media/i2c/hynix,hi846.yaml       | 120
-> > > > > ++++++++++++++++++
-> > > > >  1 file changed, 120 insertions(+)
-> > > > >  create mode 100644
-> > > > > Documentation/devicetree/bindings/media/i2c/hynix,hi846.yaml
-> > > > > 
-> > > > > diff --git
-> > > > > a/Documentation/devicetree/bindings/media/i2c/hynix,hi846.yam
-> > > > > l
-> > > > > b/Documentation/devicetree/bindings/media/i2c/hynix,hi846.yam
-> > > > > l
-> > > > > new file mode 100644
-> > > > > index 000000000000..85a8877c2f38
-> > > > > --- /dev/null
-> > > > > +++
-> > > > > b/Documentation/devicetree/bindings/media/i2c/hynix,hi846.yam
-> > > > > l
-> > > > > @@ -0,0 +1,120 @@
-> > > > > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> > > > > +%YAML 1.2
-> > > > > +---
-> > > > > +$id: 
-> > > > > http://devicetree.org/schemas/media/i2c/hynix,hi846.yaml#
-> > > > > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > > > > +
-> > > > > +title: SK Hynix Hi-846 1/4" 8M Pixel MIPI CSI-2 sensor
-> > > > > +
-> > > > > +maintainers:
-> > > > > +  - Martin Kepplinger <martin.kepplinger@puri.sm>
-> > > > > +
-> > > > > +description: |-
-> > > > > +  The Hi-846 is a raw image sensor with an MIPI CSI-2 image
-> > > > > data
-> > > > > +  interface and CCI (I2C compatible) control bus. The output
-> > > > > format
-> > > > > +  is raw Bayer.
-> > > > > +
-> > > > > +properties:
-> > > > > +  compatible:
-> > > > > +    const: hynix,hi846
-> > > > > +
-> > > > > +  reg:
-> > > > > +    maxItems: 1
-> > > > > +
-> > > > > +  clocks:
-> > > > > +    items:
-> > > > > +      - description: Reference to the mclk clock.
-> > > > > +
-> > > > > +  assigned-clocks:
-> > > > > +    maxItems: 1
-> > > > > +
-> > > > > +  assigned-clock-rates:
-> > > > > +    maxItems: 1
-> > > > > +
-> > > > > +  reset-gpios:
-> > > > > +    description: Reference to the GPIO connected to the
-> > > > > RESETB
-> > > > > pin. Active low.
-> > > > > +    maxItems: 1
-> > > > > +
-> > > > > +  shutdown-gpios:
-> > > > > +    description: Reference to the GPIO connected to the
-> > > > > XSHUTDOWN
-> > > > > pin. Active low.
-> > > > > +    maxItems: 1
-> > > > > +
-> > > > > +  vddio-supply:
-> > > > > +    description: Definition of the regulator used for the
-> > > > > VDDIO
-> > > > > power supply.
-> > > > > +
-> > > > > +  vdda-supply:
-> > > > > +    description: Definition of the regulator used for the
-> > > > > VDDA
-> > > > > power supply.
-> > > > > +
-> > > > > +  vddd-supply:
-> > > > > +    description: Definition of the regulator used for the
-> > > > > VDDD
-> > > > > power supply.
-> > > > > +
-> > > > > +  port:
-> > > > > +    $ref: /schemas/graph.yaml#/properties/port
-> > > > > +
-> > > > > +    properties:
-> > > > > +      endpoint:
-> > > > > +        $ref: /schemas/media/video-interfaces.yaml#
-> > > > > +        unevaluatedProperties: false
-> > > > > +
-> > > > > +        properties:
-> > > > > +          data-lanes:
-> > > > > +            oneOf:
-> > > > > +              - items:
-> > > > > +                  - const: 1
-> > > > > +                  - const: 2
-> > > > > +                  - const: 3
-> > > > > +                  - const: 4
-> > > > > +              - items:
-> > > > > +                  - const: 1
-> > > > > +                  - const: 2
-> > > > > +
-> > > > > +        required:
-> > > > > +          - data-lanes
-> > > > > +
-> > > > > +required:
-> > > > > +  - compatible
-> > > > > +  - reg
-> > > > > +  - clocks
-> > > > > +  - assigned-clocks
-> > > > > +  - assigned-clock-rates
-> > > > > +  - vddio-supply
-> > > > > +  - vdda-supply
-> > > > > +  - vddd-supply
-> > > > > +  - port
-> > > > > +
-> > > > > +additionalProperties: false
-> > > > > +
-> > > > > +examples:
-> > > > > +  - |
-> > > > > +    #include <dt-bindings/gpio/gpio.h>
-> > > > > +
-> > > > > +    i2c {
-> > > > > +        #address-cells = <1>;
-> > > > > +        #size-cells = <0>;
-> > > > > +
-> > > > > +        hi846: camera@20 {
-> > > > > +            compatible = "hynix,hi846";
-> > > > > +            reg = <0x20>;
-> > > > > +            pinctrl-names = "default";
-> > > > > +            pinctrl-0 = <&pinctrl_csi1>;
-> > > > > +            clocks = <&clk 0>;
-> > > > > +            assigned-clocks = <&clk 0>;
-> > > > > +            assigned-clock-rates = <25000000>;
-> > > > > +            vdda-supply = <&reg_camera_vdda>;
-> > > > > +            vddd-supply = <&reg_camera_vddd>;
-> > > > > +            vddio-supply = <&reg_camera_vddio>;
-> > > > > +            reset-gpios = <&gpio1 25 GPIO_ACTIVE_LOW>;
-> > > > > +            shutdown-gpios = <&gpio5 4 GPIO_ACTIVE_LOW>;
-> > > > > +
-> > > > > +            port {
-> > > > > +                camera_out: endpoint {
-> > > > > +                    remote-endpoint = <&csi1_ep1>;
-> > > > > +                    link-frequencies = /bits/ 64
-> > > > > +                        <80000000 200000000>;
-> > > > > +                    data-lanes = <1 2>;
-> > > > 
-> > > > "make dt_binding_check":
-> > > > 
-> > > > 
-> > > > Documentation/devicetree/bindings/media/i2c/hynix,hi846.example
-> > > > .dt.ya
-> > > > ml:
-> > > > camera@20: port:endpoint: Unevaluated properties are not
-> > > > allowed
-> > > > ('link-frequencies', 'data-lanes' were unexpected)
-> > > >     From schema:
-> > > > Documentation/devicetree/bindings/media/i2c/hynix,hi846.yaml
-> > > > 
-> > > > > +                };
-> > > > > +            };
-> > > > > +        };
-> > > > > +    };
-> > > > 
-> > > > Gr{oetje,eeting}s,
-> > > > 
-> > > >                         Geert
-> > > 
-> > > 
-> > > thanks a lot Geert, but I can't reproduce this on linux-next.
-> > > Which
-> > > tree did you run it against?
-> > > 
-> > > What I *do* see is the following during dtbs_check, so I guess I
-> > > could
-> > > remove "orientation" and "rotation" from the example, which would
-> > > be
-> > > kind of sad because these useful properties are not yet too wide
-> > > know
-> > > anyway in the media device driver world...
-> > > 
-> > > /home/martin/dev/purism-forks/linux-
-> > > next/arch/arm64/boot/dts/freescale/imx8mq-librem5-r2.dt.yaml:
-> > > camera-front@20: 'orientation', 'rotation' do not match any of
-> > > the
-> > > regexes: 'pinctrl-[0-9]+'
-> > >       From schema: /home/martin/dev/purism-forks/linux-
-> > > next/Documentation/devicetree/bindings/media/i2c/hynix,hi846.yaml
-> > > 
-> > > 
-> > > if you can be more speicific I'll definitely try to reproduce
-> > > again
-> > > though.
-> 
-> This is reproducible on next-20211126.
-> Is your dt-schema up-to-date?
+Hammer it a bit more in that iterators can be restarted and when that
+matters, plus suggest to prefer the locked version whenver.
 
-it is now, I'm running
+Also delete the two leftover kerneldoc for static functions plus
+sprinkle some more links while at it.
 
-make -j7 ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- dt_binding_check
-dtbs_check
+v2: Keep some comments (Christian)
 
-but I can't reproduce that error. weird.
+Reviewed-by: Christian König <christian.koenig@amd.com>
+Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+Cc: Sumit Semwal <sumit.semwal@linaro.org>
+Cc: "Christian König" <christian.koenig@amd.com>
+Cc: linux-media@vger.kernel.org
+Cc: linaro-mm-sig@lists.linaro.org
+---
+ drivers/dma-buf/dma-resv.c | 29 +++++++++++++++--------------
+ include/linux/dma-resv.h   | 13 ++++++++++++-
+ 2 files changed, 27 insertions(+), 15 deletions(-)
 
-> 
-> > link-frequencies is present in the example (as it needs to be) but
-> > missing
-> > from required properties. I don't know why there's a complaint
-> > about
-> > data-lanes though.
-> 
-> I also don't know what's wrong with data-lanes (else I would have
-> sent a patch to fix it ;-)
-> 
-> Gr{oetje,eeting}s,
-> 
->                         Geert
-> 
-> --
-> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- 
-> geert@linux-m68k.org
-> 
-> In personal conversations with technical people, I call myself a
-> hacker. But
-> when I'm talking to journalists I just say "programmer" or something
-> like that.
->                                 -- Linus Torvalds
-
+diff --git a/drivers/dma-buf/dma-resv.c b/drivers/dma-buf/dma-resv.c
+index 9eb2baa387d4..a62eb8fc33b9 100644
+--- a/drivers/dma-buf/dma-resv.c
++++ b/drivers/dma-buf/dma-resv.c
+@@ -323,12 +323,8 @@ void dma_resv_add_excl_fence(struct dma_resv *obj, struct dma_fence *fence)
+ }
+ EXPORT_SYMBOL(dma_resv_add_excl_fence);
+ 
+-/**
+- * dma_resv_iter_restart_unlocked - restart the unlocked iterator
+- * @cursor: The dma_resv_iter object to restart
+- *
+- * Restart the unlocked iteration by initializing the cursor object.
+- */
++/* Restart the iterator by initializing all the necessary fields, but not the
++ * relation to the dma_resv object. */
+ static void dma_resv_iter_restart_unlocked(struct dma_resv_iter *cursor)
+ {
+ 	cursor->seq = read_seqcount_begin(&cursor->obj->seq);
+@@ -344,14 +340,7 @@ static void dma_resv_iter_restart_unlocked(struct dma_resv_iter *cursor)
+ 	cursor->is_restarted = true;
+ }
+ 
+-/**
+- * dma_resv_iter_walk_unlocked - walk over fences in a dma_resv obj
+- * @cursor: cursor to record the current position
+- *
+- * Return all the fences in the dma_resv object which are not yet signaled.
+- * The returned fence has an extra local reference so will stay alive.
+- * If a concurrent modify is detected the whole iteration is started over again.
+- */
++/* Walk to the next not signaled fence and grab a reference to it */
+ static void dma_resv_iter_walk_unlocked(struct dma_resv_iter *cursor)
+ {
+ 	struct dma_resv *obj = cursor->obj;
+@@ -387,6 +376,12 @@ static void dma_resv_iter_walk_unlocked(struct dma_resv_iter *cursor)
+  * dma_resv_iter_first_unlocked - first fence in an unlocked dma_resv obj.
+  * @cursor: the cursor with the current position
+  *
++ * Subsequent fences are iterated with dma_resv_iter_next_unlocked().
++ *
++ * Beware that the iterator can be restarted.  Code which accumulates statistics
++ * or similar needs to check for this with dma_resv_iter_is_restarted(). For
++ * this reason prefer the locked dma_resv_iter_first() whenver possible.
++ *
+  * Returns the first fence from an unlocked dma_resv obj.
+  */
+ struct dma_fence *dma_resv_iter_first_unlocked(struct dma_resv_iter *cursor)
+@@ -406,6 +401,10 @@ EXPORT_SYMBOL(dma_resv_iter_first_unlocked);
+  * dma_resv_iter_next_unlocked - next fence in an unlocked dma_resv obj.
+  * @cursor: the cursor with the current position
+  *
++ * Beware that the iterator can be restarted.  Code which accumulates statistics
++ * or similar needs to check for this with dma_resv_iter_is_restarted(). For
++ * this reason prefer the locked dma_resv_iter_next() whenver possible.
++ *
+  * Returns the next fence from an unlocked dma_resv obj.
+  */
+ struct dma_fence *dma_resv_iter_next_unlocked(struct dma_resv_iter *cursor)
+@@ -431,6 +430,8 @@ EXPORT_SYMBOL(dma_resv_iter_next_unlocked);
+  * dma_resv_iter_first - first fence from a locked dma_resv object
+  * @cursor: cursor to record the current position
+  *
++ * Subsequent fences are iterated with dma_resv_iter_next_unlocked().
++ *
+  * Return the first fence in the dma_resv object while holding the
+  * &dma_resv.lock.
+  */
+diff --git a/include/linux/dma-resv.h b/include/linux/dma-resv.h
+index dbd235ab447f..ebe908592ac3 100644
+--- a/include/linux/dma-resv.h
++++ b/include/linux/dma-resv.h
+@@ -153,6 +153,13 @@ struct dma_resv {
+  * struct dma_resv_iter - current position into the dma_resv fences
+  *
+  * Don't touch this directly in the driver, use the accessor function instead.
++ *
++ * IMPORTANT
++ *
++ * When using the lockless iterators like dma_resv_iter_next_unlocked() or
++ * dma_resv_for_each_fence_unlocked() beware that the iterator can be restarted.
++ * Code which accumulates statistics or similar needs to check for this with
++ * dma_resv_iter_is_restarted().
+  */
+ struct dma_resv_iter {
+ 	/** @obj: The dma_resv object we iterate over */
+@@ -243,7 +250,11 @@ static inline bool dma_resv_iter_is_restarted(struct dma_resv_iter *cursor)
+  * &dma_resv.lock and using RCU instead. The cursor needs to be initialized
+  * with dma_resv_iter_begin() and cleaned up with dma_resv_iter_end(). Inside
+  * the iterator a reference to the dma_fence is held and the RCU lock dropped.
+- * When the dma_resv is modified the iteration starts over again.
++ *
++ * Beware that the iterator can be restarted when the struct dma_resv for
++ * @cursor is modified. Code which accumulates statistics or similar needs to
++ * check for this with dma_resv_iter_is_restarted(). For this reason prefer the
++ * lock iterator dma_resv_for_each_fence() whenever possible.
+  */
+ #define dma_resv_for_each_fence_unlocked(cursor, fence)			\
+ 	for (fence = dma_resv_iter_first_unlocked(cursor);		\
+-- 
+2.33.0
 
