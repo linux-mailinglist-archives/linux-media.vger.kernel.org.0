@@ -2,33 +2,32 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9567046354B
-	for <lists+linux-media@lfdr.de>; Tue, 30 Nov 2021 14:21:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3809B463589
+	for <lists+linux-media@lfdr.de>; Tue, 30 Nov 2021 14:34:20 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239822AbhK3NYm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 30 Nov 2021 08:24:42 -0500
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:53546 "EHLO
+        id S240706AbhK3Nhh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 30 Nov 2021 08:37:37 -0500
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:53678 "EHLO
         bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239787AbhK3NYM (ORCPT
+        with ESMTP id S231627AbhK3Nhg (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 30 Nov 2021 08:24:12 -0500
+        Tue, 30 Nov 2021 08:37:36 -0500
 Received: from [IPv6:2a01:e0a:120:3210:b422:9841:4afb:11b5] (unknown [IPv6:2a01:e0a:120:3210:b422:9841:4afb:11b5])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
         (Authenticated sender: benjamin.gaignard)
-        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 8F1921F44745;
-        Tue, 30 Nov 2021 13:20:51 +0000 (GMT)
+        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 331AC1F450C4;
+        Tue, 30 Nov 2021 13:34:11 +0000 (GMT)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=collabora.com; s=mail;
-        t=1638278452; bh=ONtyTVbL9fzmae3u6JbAr4lLFBVbozE7teHyM5lzILY=;
+        t=1638279251; bh=8dFt0ved6B1YlHXel+R6Z2zNSNgLE7JvZbncVuRC5Qw=;
         h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
-        b=kl0ov2l5bz3CJRqCATSlOhgO7ZxikuoVtLKnBnQu8qEHSb3uuJzN5FNyTa0qdKW4V
-         AcMIndG08QboHmeExDe9NApyEdmBMc5ltEAK3FA7YB2+kE32yHbk6VQdJPwN1w7xW1
-         CCYEN/NvxOoiAQK3Lh9GX03SIFhhFc/8lG7fmS8q/QZPQrEo+bCFvFJyUIGWYymQ3k
-         Lopycg7AwhdQCAw41zCUbZZHOPM4hi+xShh/zBHNmw/iKbBVT9ONjgnBO9KwvR/I4Q
-         y/2w4scJXFxL3cTWd7465ewsyfGyCnamKFXvDvteyr+uFNnbZfxQFWFIQMMk6JEXwR
-         0zV1hVgqIiByQ==
-Subject: Re: [PATCH v11, 01/19] media: mtk-vcodec: Get numbers of register
- bases from DT
+        b=CXXTXeNJfZ9/XZgE6YFUstBI4Ouw4A5FsgohbT2N95JbtcK2UIipznG5/gVg8Sfem
+         JCpbIkg8WQz69wj4MwV68UV40duRU21gjgJFkjoUma0tvpF6V3TmFiLdyhORfTItD9
+         /R124eq8PRPWQYM4QqhiMUgfBZnzdfyvYb3rb37PdMwAOuSOQGehdscmDifViugAFH
+         mEhQ/PuzYsPcY/L0OCUhp4r0Gf/lYpE1D+9ZT3iiYuLqFxocIyV+GNSdae1CRYolzI
+         2PMMkcwokvYFBO1SwrmmVUTFgsj8//HfcsE9pyAjEBFQtt3oBrbKPl3TbheQKrlmRO
+         8jrbiFcGxJf1A==
+Subject: Re: [PATCH v11, 04/19] media: mtk-vcodec: export decoder pm functions
 To:     Yunfei Dong <yunfei.dong@mediatek.com>,
         Alexandre Courbot <acourbot@chromium.org>,
         Hans Verkuil <hverkuil-cisco@xs4all.nl>,
@@ -50,14 +49,14 @@ Cc:     Hsin-Yi Wang <hsinyi@chromium.org>,
         srv_heupstream@mediatek.com, linux-mediatek@lists.infradead.org,
         Project_Global_Chrome_Upstream_Group@mediatek.com
 References: <20211129034201.5767-1-yunfei.dong@mediatek.com>
- <20211129034201.5767-2-yunfei.dong@mediatek.com>
+ <20211129034201.5767-5-yunfei.dong@mediatek.com>
 From:   Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Message-ID: <5e350a02-eb4b-5080-8d13-fe01ccf5dd70@collabora.com>
-Date:   Tue, 30 Nov 2021 14:20:48 +0100
+Message-ID: <2fa4e19f-d57c-6264-4284-8387c4182d1f@collabora.com>
+Date:   Tue, 30 Nov 2021 14:34:07 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.14.0
 MIME-Version: 1.0
-In-Reply-To: <20211129034201.5767-2-yunfei.dong@mediatek.com>
+In-Reply-To: <20211129034201.5767-5-yunfei.dong@mediatek.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
 Content-Language: en-US
@@ -67,87 +66,68 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 
 Le 29/11/2021 à 04:41, Yunfei Dong a écrit :
-> Different platform may has different numbers of register bases. Gets the
-> numbers of register bases from DT (sizeof(u32) * 4 bytes for each).
+> Register each hardware as platform device, need to call pm functions
+> to open/close power and clock from module mtk-vcodec-dec, export these
+> functions.
+
+The commit message confuse me, maybe something like:
+"When mtk vcodec decoder is build as a module we need to export
+mtk-vcodec-dec pm functions to make them visible by the other components"
+
+With that:
+Reviewed-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+
 >
-> Reviewed-by: Tzung-Bi Shih<tzungbi@google.com>
 > Signed-off-by: Yunfei Dong <yunfei.dong@mediatek.com>
 > ---
->   .../platform/mtk-vcodec/mtk_vcodec_dec_drv.c  | 37 ++++++++++++++-----
->   1 file changed, 28 insertions(+), 9 deletions(-)
+>   drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_pm.c | 6 ++++++
+>   1 file changed, 6 insertions(+)
 >
-> diff --git a/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_drv.c b/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_drv.c
-> index e6e6a8203eeb..59caf2163349 100644
-> --- a/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_drv.c
-> +++ b/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_drv.c
-> @@ -78,6 +78,30 @@ static irqreturn_t mtk_vcodec_dec_irq_handler(int irq, void *priv)
->   	return IRQ_HANDLED;
+> diff --git a/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_pm.c b/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_pm.c
+> index 20bd157a855c..221cf60e9fbf 100644
+> --- a/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_pm.c
+> +++ b/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_pm.c
+> @@ -77,12 +77,14 @@ int mtk_vcodec_init_dec_pm(struct platform_device *pdev,
+>   	put_device(pm->larbvdec);
+>   	return ret;
 >   }
+> +EXPORT_SYMBOL_GPL(mtk_vcodec_init_dec_pm);
 >   
-> +static int mtk_vcodec_get_reg_bases(struct mtk_vcodec_dev *dev)
-> +{
-> +	struct platform_device *pdev = dev->plat_dev;
-> +	int reg_num, i;
-> +
-> +	/* Sizeof(u32) * 4 bytes for each register base. */
-> +	reg_num = of_property_count_elems_of_size(pdev->dev.of_node, "reg",
-> +		sizeof(u32) * 4);
-
-It looks strange for me to have a "reg" size equal to sizeof(u32) * 4. Usually
-we more see reg size = sizeof(u32).
-
-> +	if (reg_num <= 0 || reg_num > NUM_MAX_VDEC_REG_BASE) {
-
-If reg_num = NUM_MAX_VDEC_REG_BASE you will iterate out of bounds of dev->reg_base array.
-That never happens because dev->reg_base size equal NUM_MAX_VCODEC_REG_BASE.
-The question is what is the real needed size for dev->reg_base array ? NUM_MAX_VDEC_REG_BASE or
-NUM_MAX_VCODEC_REG_BASE ?
-
-Regards,
-Benjamin
-
-> +		dev_err(&pdev->dev, "Invalid register property size: %d\n", reg_num);
-> +		return -EINVAL;
-> +	}
-> +
-> +	for (i = 0; i < reg_num; i++) {
-> +		dev->reg_base[i] = devm_platform_ioremap_resource(pdev, i);
-> +		if (IS_ERR(dev->reg_base[i]))
-> +			return PTR_ERR(dev->reg_base[i]);
-> +
-> +		mtk_v4l2_debug(2, "reg[%d] base=%p", i, dev->reg_base[i]);
-> +	}
-> +
-> +	return 0;
-> +}
-> +
->   static int fops_vcodec_open(struct file *file)
+>   void mtk_vcodec_release_dec_pm(struct mtk_vcodec_pm *pm)
 >   {
->   	struct mtk_vcodec_dev *dev = video_drvdata(file);
-> @@ -206,7 +230,7 @@ static int mtk_vcodec_probe(struct platform_device *pdev)
->   	struct resource *res;
->   	phandle rproc_phandle;
->   	enum mtk_vcodec_fw_type fw_type;
-> -	int i, ret;
-> +	int ret;
+>   	pm_runtime_disable(pm->dev);
+>   	put_device(pm->larbvdec);
+>   }
+> +EXPORT_SYMBOL_GPL(mtk_vcodec_release_dec_pm);
 >   
->   	dev = devm_kzalloc(&pdev->dev, sizeof(*dev), GFP_KERNEL);
->   	if (!dev)
-> @@ -238,14 +262,9 @@ static int mtk_vcodec_probe(struct platform_device *pdev)
->   		goto err_dec_pm;
->   	}
+>   int mtk_vcodec_dec_pw_on(struct mtk_vcodec_pm *pm)
+>   {
+> @@ -94,6 +96,7 @@ int mtk_vcodec_dec_pw_on(struct mtk_vcodec_pm *pm)
 >   
-> -	for (i = 0; i < NUM_MAX_VDEC_REG_BASE; i++) {
-> -		dev->reg_base[i] = devm_platform_ioremap_resource(pdev, i);
-> -		if (IS_ERR((__force void *)dev->reg_base[i])) {
-> -			ret = PTR_ERR((__force void *)dev->reg_base[i]);
-> -			goto err_res;
-> -		}
-> -		mtk_v4l2_debug(2, "reg[%d] base=%p", i, dev->reg_base[i]);
-> -	}
-> +	ret = mtk_vcodec_get_reg_bases(dev);
-> +	if (ret)
-> +		goto err_res;
+>   	return ret;
+>   }
+> +EXPORT_SYMBOL_GPL(mtk_vcodec_dec_pw_on);
 >   
->   	res = platform_get_resource(pdev, IORESOURCE_IRQ, 0);
->   	if (res == NULL) {
+>   void mtk_vcodec_dec_pw_off(struct mtk_vcodec_pm *pm)
+>   {
+> @@ -103,6 +106,7 @@ void mtk_vcodec_dec_pw_off(struct mtk_vcodec_pm *pm)
+>   	if (ret)
+>   		mtk_v4l2_err("pm_runtime_put_sync fail %d", ret);
+>   }
+> +EXPORT_SYMBOL_GPL(mtk_vcodec_dec_pw_off);
+>   
+>   void mtk_vcodec_dec_clock_on(struct mtk_vcodec_pm *pm)
+>   {
+> @@ -129,6 +133,7 @@ void mtk_vcodec_dec_clock_on(struct mtk_vcodec_pm *pm)
+>   	for (i -= 1; i >= 0; i--)
+>   		clk_disable_unprepare(dec_clk->clk_info[i].vcodec_clk);
+>   }
+> +EXPORT_SYMBOL_GPL(mtk_vcodec_dec_clock_on);
+>   
+>   void mtk_vcodec_dec_clock_off(struct mtk_vcodec_pm *pm)
+>   {
+> @@ -139,3 +144,4 @@ void mtk_vcodec_dec_clock_off(struct mtk_vcodec_pm *pm)
+>   	for (i = dec_clk->clk_num - 1; i >= 0; i--)
+>   		clk_disable_unprepare(dec_clk->clk_info[i].vcodec_clk);
+>   }
+> +EXPORT_SYMBOL_GPL(mtk_vcodec_dec_clock_off);
