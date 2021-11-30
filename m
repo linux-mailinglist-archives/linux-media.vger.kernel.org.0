@@ -2,26 +2,26 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B8A89463679
-	for <lists+linux-media@lfdr.de>; Tue, 30 Nov 2021 15:17:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0CE0546367A
+	for <lists+linux-media@lfdr.de>; Tue, 30 Nov 2021 15:17:32 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242177AbhK3OUj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 30 Nov 2021 09:20:39 -0500
-Received: from perceval.ideasonboard.com ([213.167.242.64]:41006 "EHLO
+        id S242178AbhK3OUk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 30 Nov 2021 09:20:40 -0500
+Received: from perceval.ideasonboard.com ([213.167.242.64]:41004 "EHLO
         perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242150AbhK3OUW (ORCPT
+        with ESMTP id S242153AbhK3OUW (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
         Tue, 30 Nov 2021 09:20:22 -0500
 Received: from deskari.lan (91-156-85-209.elisa-laajakaista.fi [91.156.85.209])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id BFF1D181E;
-        Tue, 30 Nov 2021 15:17:01 +0100 (CET)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 86C80352F;
+        Tue, 30 Nov 2021 15:17:02 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1638281822;
-        bh=vdL8UI4gh1t4hcNkbxvLiwahYveWGWSB92RMm1k257k=;
+        s=mail; t=1638281823;
+        bh=uBZMo976ayDKtykAgxeya07xnrH7vzAN5el/JBKEMwI=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=C/Jl12EDuGOhn4y+qwa/iBADUD9AF+GPQ40yWLz2PE19M3ES3xa1RRuzNaXwChapz
-         aPUx4eUsR51dX+cxJe7DHpQcsRje04rkxC9nVBxi9qWXDCi3gMxjAxN+Dp0M8ZmG0g
-         lxwbG7n2akzVaTGzcfLva4p1pt/EN/969uZd/ass=
+        b=IUON2Pns1BX8OVIUzannle7SbQh1MEVwrFU3HD8UD7ckQTPwLDUY0mWclz+sFe3EB
+         /2I3wUm530vBcOLrRNhEnKTm3PF0c597zPwKOl4cWbuo36aBenyi8IAU5fPGni6/50
+         /AW1ez+R+chL2tn+8FGJHyGj9yMOaDyWGCUf24jU=
 From:   Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 To:     linux-media@vger.kernel.org, sakari.ailus@linux.intel.com,
         Jacopo Mondi <jacopo+renesas@jmondi.org>,
@@ -31,9 +31,9 @@ To:     linux-media@vger.kernel.org, sakari.ailus@linux.intel.com,
         Hans Verkuil <hverkuil-cisco@xs4all.nl>,
         Pratyush Yadav <p.yadav@ti.com>
 Cc:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Subject: [PATCH v10 37/38] media: subdev: add v4l2_subdev_routing_validate_1_to_1 helper
-Date:   Tue, 30 Nov 2021 16:15:35 +0200
-Message-Id: <20211130141536.891878-38-tomi.valkeinen@ideasonboard.com>
+Subject: [PATCH v10 38/38] media: subdev: Add for_each_active_route() macro
+Date:   Tue, 30 Nov 2021 16:15:36 +0200
+Message-Id: <20211130141536.891878-39-tomi.valkeinen@ideasonboard.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20211130141536.891878-1-tomi.valkeinen@ideasonboard.com>
 References: <20211130141536.891878-1-tomi.valkeinen@ideasonboard.com>
@@ -43,69 +43,66 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Add a helper for verifying routing for the common case of
-non-overlapping 1-to-1 streams.
+From: Jacopo Mondi <jacopo+renesas@jmondi.org>
 
+Add a for_each_active_route() macro to replace the repeated pattern
+of iterating on the active routes of a routing table.
+
+Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
 Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Reviewed-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 ---
- drivers/media/v4l2-core/v4l2-subdev.c | 24 ++++++++++++++++++++++++
- include/media/v4l2-subdev.h           | 14 ++++++++++++++
- 2 files changed, 38 insertions(+)
+ drivers/media/v4l2-core/v4l2-subdev.c | 20 ++++++++++++++++++++
+ include/media/v4l2-subdev.h           | 13 +++++++++++++
+ 2 files changed, 33 insertions(+)
 
 diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
-index 83ff15dc440a..dc31118adc6b 100644
+index dc31118adc6b..dca2bea180ec 100644
 --- a/drivers/media/v4l2-core/v4l2-subdev.c
 +++ b/drivers/media/v4l2-core/v4l2-subdev.c
-@@ -1579,3 +1579,27 @@ int v4l2_subdev_get_fmt(struct v4l2_subdev *sd, struct v4l2_subdev_state *state,
+@@ -1603,3 +1603,23 @@ int v4l2_subdev_routing_validate_1_to_1(const struct v4l2_subdev_krouting *routi
  	return 0;
  }
- EXPORT_SYMBOL_GPL(v4l2_subdev_get_fmt);
+ EXPORT_SYMBOL_GPL(v4l2_subdev_routing_validate_1_to_1);
 +
-+int v4l2_subdev_routing_validate_1_to_1(const struct v4l2_subdev_krouting *routing)
++struct v4l2_subdev_route *
++__v4l2_subdev_next_active_route(const struct v4l2_subdev_krouting *routing,
++				struct v4l2_subdev_route *route)
 +{
-+	unsigned int i, j;
++	if (route)
++		++route;
++	else
++		route = &routing->routes[0];
 +
-+	for (i = 0; i < routing->num_routes; ++i) {
-+		const struct v4l2_subdev_route *route = &routing->routes[i];
++	for (; route < routing->routes + routing->num_routes; ++route) {
++		if (!(route->flags & V4L2_SUBDEV_ROUTE_FL_ACTIVE))
++			continue;
 +
-+		for (j = i + 1; j < routing->num_routes; ++j) {
-+			const struct v4l2_subdev_route *r = &routing->routes[j];
-+
-+			if (route->sink_pad == r->sink_pad &&
-+			    route->sink_stream == r->sink_stream)
-+				return -EINVAL;
-+
-+			if (route->source_pad == r->source_pad &&
-+			    route->source_stream == r->source_stream)
-+				return -EINVAL;
-+		}
++		return route;
 +	}
 +
-+	return 0;
++	return NULL;
 +}
-+EXPORT_SYMBOL_GPL(v4l2_subdev_routing_validate_1_to_1);
++EXPORT_SYMBOL_GPL(__v4l2_subdev_next_active_route);
 diff --git a/include/media/v4l2-subdev.h b/include/media/v4l2-subdev.h
-index 2c70d92e497b..a0c122c9f51e 100644
+index a0c122c9f51e..9754913b34f8 100644
 --- a/include/media/v4l2-subdev.h
 +++ b/include/media/v4l2-subdev.h
-@@ -1572,4 +1572,18 @@ v4l2_subdev_state_get_opposite_stream_format(struct v4l2_subdev_state *state,
- int v4l2_subdev_get_fmt(struct v4l2_subdev *sd, struct v4l2_subdev_state *state,
- 			struct v4l2_subdev_format *format);
+@@ -1586,4 +1586,17 @@ int v4l2_subdev_get_fmt(struct v4l2_subdev *sd, struct v4l2_subdev_state *state,
+  */
+ int v4l2_subdev_routing_validate_1_to_1(const struct v4l2_subdev_krouting *routing);
  
++struct v4l2_subdev_route *
++__v4l2_subdev_next_active_route(const struct v4l2_subdev_krouting *routing,
++				struct v4l2_subdev_route *route);
++
 +/**
-+ * v4l2_subdev_routing_validate_1_to_1() - Verify that all streams are
-+ *                                         non-overlapping 1-to-1 streams
-+ * @routing: routing to verify
-+ *
-+ * This verifies that the given routing contains only non-overlapping 1-to-1
-+ * streams. In other words, no two streams have the same source or sink
-+ * stream ID on a single pad. This is the most common case of routing
-+ * supported by devices.
-+ *
-+ * Returns 0 on success, error value otherwise.
++ * for_each_active_route - iterate on all active routes of a routing table
++ * @routing: The routing table
++ * @route: The route iterator
 + */
-+int v4l2_subdev_routing_validate_1_to_1(const struct v4l2_subdev_krouting *routing);
++#define for_each_active_route(routing, route) \
++	for ((route) = NULL;                  \
++	     ((route) = __v4l2_subdev_next_active_route((routing), (route)));)
 +
  #endif
 -- 
