@@ -2,67 +2,62 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 68A0946345B
-	for <lists+linux-media@lfdr.de>; Tue, 30 Nov 2021 13:34:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9567046354B
+	for <lists+linux-media@lfdr.de>; Tue, 30 Nov 2021 14:21:25 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230110AbhK3Mh2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 30 Nov 2021 07:37:28 -0500
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:52670 "EHLO
+        id S239822AbhK3NYm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 30 Nov 2021 08:24:42 -0500
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:53546 "EHLO
         bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229638AbhK3Mh0 (ORCPT
+        with ESMTP id S239787AbhK3NYM (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 30 Nov 2021 07:37:26 -0500
+        Tue, 30 Nov 2021 08:24:12 -0500
 Received: from [IPv6:2a01:e0a:120:3210:b422:9841:4afb:11b5] (unknown [IPv6:2a01:e0a:120:3210:b422:9841:4afb:11b5])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
         (Authenticated sender: benjamin.gaignard)
-        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id F38FA1F4500C;
-        Tue, 30 Nov 2021 12:34:02 +0000 (GMT)
+        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 8F1921F44745;
+        Tue, 30 Nov 2021 13:20:51 +0000 (GMT)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=collabora.com; s=mail;
-        t=1638275643; bh=QqCRwQ2875SMqv/AolhMllnqBqyumXGxkjHr+hKDVS4=;
+        t=1638278452; bh=ONtyTVbL9fzmae3u6JbAr4lLFBVbozE7teHyM5lzILY=;
         h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
-        b=SZv1pYFCv6I+Dv3ozDVt5uFZcr7IZWZ4XeRoUyUMIu/ya8qzbMH+OqsGwWlocMyer
-         M7/Hrb1A/4u6vSeEBrdlsCP/7G+yUagSHtd3jRIlMf6kSiEEPFBadpWQrLKrbzyi8p
-         YXNRs9cz+fF3JWny8VN6FeLwlXvlEe3xgdEnClYQeUat17GBZpZV6nUteVZGmJZA+f
-         /K6CMe0H8I7epGn2tNPJC5U583cLPxILjslPRTHwuF7CwFf63mRzp47ZSzbhVZ0pOP
-         3Itfn5ShA2oXAjcuNcYpDQ59v30KaQCErVpQrqWZIErawQcftI6/f9O7YHL1y4ljwZ
-         EDQZOosbH/Ovw==
-Subject: Re: [PATCH v9 02/13] dt-bindings: media: nxp, imx8mq-vpu: Update the
- bindings for G2 support
-To:     Adam Ford <aford173@gmail.com>
-Cc:     Ezequiel Garcia <ezequiel@collabora.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
+        b=kl0ov2l5bz3CJRqCATSlOhgO7ZxikuoVtLKnBnQu8qEHSb3uuJzN5FNyTa0qdKW4V
+         AcMIndG08QboHmeExDe9NApyEdmBMc5ltEAK3FA7YB2+kE32yHbk6VQdJPwN1w7xW1
+         CCYEN/NvxOoiAQK3Lh9GX03SIFhhFc/8lG7fmS8q/QZPQrEo+bCFvFJyUIGWYymQ3k
+         Lopycg7AwhdQCAw41zCUbZZHOPM4hi+xShh/zBHNmw/iKbBVT9ONjgnBO9KwvR/I4Q
+         y/2w4scJXFxL3cTWd7465ewsyfGyCnamKFXvDvteyr+uFNnbZfxQFWFIQMMk6JEXwR
+         0zV1hVgqIiByQ==
+Subject: Re: [PATCH v11, 01/19] media: mtk-vcodec: Get numbers of register
+ bases from DT
+To:     Yunfei Dong <yunfei.dong@mediatek.com>,
+        Alexandre Courbot <acourbot@chromium.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Tzung-Bi Shih <tzungbi@chromium.org>,
+        Tiffany Lin <tiffany.lin@mediatek.com>,
+        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         Rob Herring <robh+dt@kernel.org>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        Lee Jones <lee.jones@linaro.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        mripard@kernel.org, paul.kocialkowski@bootlin.com,
-        Chen-Yu Tsai <wens@csie.org>,
-        Jernej Skrabec <jernej.skrabec@siol.net>,
-        hverkuil-cisco@xs4all.nl, emil.l.velikov@gmail.com,
-        Sascha Hauer <kernel@pengutronix.de>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        linux-media <linux-media@vger.kernel.org>,
-        "open list:HANTRO VPU CODEC DRIVER" 
-        <linux-rockchip@lists.infradead.org>,
-        devicetree <devicetree@vger.kernel.org>,
-        arm-soc <linux-arm-kernel@lists.infradead.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        devel@driverdev.osuosl.org, kernel@collabora.com,
-        Chris Healy <cphealy@gmail.com>, Rob Herring <robh@kernel.org>
-References: <20210407073534.376722-1-benjamin.gaignard@collabora.com>
- <20210407073534.376722-3-benjamin.gaignard@collabora.com>
- <CAHCN7x+HOMoVNq-swqA2p3ddGKft_8QkB2qm00-CN8Dujaw52Q@mail.gmail.com>
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Tomasz Figa <tfiga@google.com>
+Cc:     Hsin-Yi Wang <hsinyi@chromium.org>,
+        Fritz Koenig <frkoenig@chromium.org>,
+        Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        Irui Wang <irui.wang@mediatek.com>,
+        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        srv_heupstream@mediatek.com, linux-mediatek@lists.infradead.org,
+        Project_Global_Chrome_Upstream_Group@mediatek.com
+References: <20211129034201.5767-1-yunfei.dong@mediatek.com>
+ <20211129034201.5767-2-yunfei.dong@mediatek.com>
 From:   Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Message-ID: <f6754878-50bf-8873-ac4b-ea54a5074e23@collabora.com>
-Date:   Tue, 30 Nov 2021 13:34:00 +0100
+Message-ID: <5e350a02-eb4b-5080-8d13-fe01ccf5dd70@collabora.com>
+Date:   Tue, 30 Nov 2021 14:20:48 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.14.0
 MIME-Version: 1.0
-In-Reply-To: <CAHCN7x+HOMoVNq-swqA2p3ddGKft_8QkB2qm00-CN8Dujaw52Q@mail.gmail.com>
+In-Reply-To: <20211129034201.5767-2-yunfei.dong@mediatek.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
 Content-Language: en-US
@@ -71,158 +66,88 @@ List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
 
-Le 29/11/2021 à 21:13, Adam Ford a écrit :
-> On Wed, Apr 7, 2021 at 2:37 AM Benjamin Gaignard
-> <benjamin.gaignard@collabora.com> wrote:
->> Introducing the G2 hevc video decoder requires modifications of the bindings to allow
->> one node per VPU.
->>
->> VPUs share one hardware control block which is provided as a phandle on
->> a syscon.
->> Each node has now one reg and one interrupt.
->> Add a compatible for G2 hardware block: nxp,imx8mq-vpu-g2.
->>
->> To be compatible with older DT the driver is still capable to use the 'ctrl'
->> reg-name even if it is deprecated now.
->>
->> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
->> Reviewed-by: Rob Herring <robh@kernel.org>
->> Reviewed-by: Philipp Zabel <p.zabel@pengutronix.de>
-> I need to edit the yaml file to add support the imx8mm, but it doesn't
-> appear that this series has gone anywhere.  I know there is still some
-> waiting on the vpu-blk-ctrl driver, but it seems like the 8mq could
-> split the codecs out using syscon in place of the blk-ctrl until that
-> driver is available.  If that doesn't work, I might have to introduce
-> a separate yaml file for mini which could be somehow merged with the
-> 8mq in the future.  I am just not sure which way to go right now.
+Le 29/11/2021 à 04:41, Yunfei Dong a écrit :
+> Different platform may has different numbers of register bases. Gets the
+> numbers of register bases from DT (sizeof(u32) * 4 bytes for each).
+>
+> Reviewed-by: Tzung-Bi Shih<tzungbi@google.com>
+> Signed-off-by: Yunfei Dong <yunfei.dong@mediatek.com>
+> ---
+>   .../platform/mtk-vcodec/mtk_vcodec_dec_drv.c  | 37 ++++++++++++++-----
+>   1 file changed, 28 insertions(+), 9 deletions(-)
+>
+> diff --git a/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_drv.c b/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_drv.c
+> index e6e6a8203eeb..59caf2163349 100644
+> --- a/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_drv.c
+> +++ b/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_drv.c
+> @@ -78,6 +78,30 @@ static irqreturn_t mtk_vcodec_dec_irq_handler(int irq, void *priv)
+>   	return IRQ_HANDLED;
+>   }
+>   
+> +static int mtk_vcodec_get_reg_bases(struct mtk_vcodec_dev *dev)
+> +{
+> +	struct platform_device *pdev = dev->plat_dev;
+> +	int reg_num, i;
+> +
+> +	/* Sizeof(u32) * 4 bytes for each register base. */
+> +	reg_num = of_property_count_elems_of_size(pdev->dev.of_node, "reg",
+> +		sizeof(u32) * 4);
 
-To summarize Lucas a have a branch here: https://git.pengutronix.de/cgit/lst/linux/log/?h=imx8mq-vpu-blk-ctrl
-where he try to enable blk-ctrl for imx6mq, it is working for G1 but not for G2.
+It looks strange for me to have a "reg" size equal to sizeof(u32) * 4. Usually
+we more see reg size = sizeof(u32).
 
-You can find the thread about that here:
-https://www.spinics.net/lists/devicetree/msg450831.html
+> +	if (reg_num <= 0 || reg_num > NUM_MAX_VDEC_REG_BASE) {
+
+If reg_num = NUM_MAX_VDEC_REG_BASE you will iterate out of bounds of dev->reg_base array.
+That never happens because dev->reg_base size equal NUM_MAX_VCODEC_REG_BASE.
+The question is what is the real needed size for dev->reg_base array ? NUM_MAX_VDEC_REG_BASE or
+NUM_MAX_VCODEC_REG_BASE ?
 
 Regards,
 Benjamin
 
->
-> adam
->> ---
->> version 9:
->>   - Corrections in commit message
->>
->> version 7:
->>   - Add Rob and Philipp reviewed-by tag
->>   - Change syscon phandle name to nxp,imx8m-vpu-ctrl (remove 'q' to be
->>     usable for iMX8MM too)
->>
->> version 5:
->> - This version doesn't break the backward compatibilty between kernel
->>    and DT.
->>
->>   .../bindings/media/nxp,imx8mq-vpu.yaml        | 53 ++++++++++++-------
->>   1 file changed, 34 insertions(+), 19 deletions(-)
->>
->> diff --git a/Documentation/devicetree/bindings/media/nxp,imx8mq-vpu.yaml b/Documentation/devicetree/bindings/media/nxp,imx8mq-vpu.yaml
->> index 762be3f96ce9..18e7d40a5f24 100644
->> --- a/Documentation/devicetree/bindings/media/nxp,imx8mq-vpu.yaml
->> +++ b/Documentation/devicetree/bindings/media/nxp,imx8mq-vpu.yaml
->> @@ -15,22 +15,18 @@ description:
->>
->>   properties:
->>     compatible:
->> -    const: nxp,imx8mq-vpu
->> +    oneOf:
->> +      - const: nxp,imx8mq-vpu
->> +      - const: nxp,imx8mq-vpu-g2
->>
->>     reg:
->> -    maxItems: 3
->> -
->> -  reg-names:
->> -    items:
->> -      - const: g1
->> -      - const: g2
->> -      - const: ctrl
->> +    maxItems: 1
->>
->>     interrupts:
->> -    maxItems: 2
->> +    maxItems: 1
->>
->>     interrupt-names:
->> -    items:
->> +    oneOf:
->>         - const: g1
->>         - const: g2
->>
->> @@ -46,14 +42,18 @@ properties:
->>     power-domains:
->>       maxItems: 1
->>
->> +  nxp,imx8m-vpu-ctrl:
->> +    description: Specifies a phandle to syscon VPU hardware control block
->> +    $ref: "/schemas/types.yaml#/definitions/phandle"
->> +
->>   required:
->>     - compatible
->>     - reg
->> -  - reg-names
->>     - interrupts
->>     - interrupt-names
->>     - clocks
->>     - clock-names
->> +  - nxp,imx8m-vpu-ctrl
->>
->>   additionalProperties: false
->>
->> @@ -62,18 +62,33 @@ examples:
->>           #include <dt-bindings/clock/imx8mq-clock.h>
->>           #include <dt-bindings/interrupt-controller/arm-gic.h>
->>
->> -        vpu: video-codec@38300000 {
->> +        vpu_ctrl: syscon@38320000 {
->> +                 compatible = "nxp,imx8mq-vpu-ctrl", "syscon";
->> +                 reg = <0x38320000 0x10000>;
->> +        };
->> +
->> +        vpu_g1: video-codec@38300000 {
->>                   compatible = "nxp,imx8mq-vpu";
->> -                reg = <0x38300000 0x10000>,
->> -                      <0x38310000 0x10000>,
->> -                      <0x38320000 0x10000>;
->> -                reg-names = "g1", "g2", "ctrl";
->> -                interrupts = <GIC_SPI 7 IRQ_TYPE_LEVEL_HIGH>,
->> -                             <GIC_SPI 8 IRQ_TYPE_LEVEL_HIGH>;
->> -                interrupt-names = "g1", "g2";
->> +                reg = <0x38300000 0x10000>;
->> +                interrupts = <GIC_SPI 7 IRQ_TYPE_LEVEL_HIGH>;
->> +                interrupt-names = "g1";
->> +                clocks = <&clk IMX8MQ_CLK_VPU_G1_ROOT>,
->> +                         <&clk IMX8MQ_CLK_VPU_G2_ROOT>,
->> +                         <&clk IMX8MQ_CLK_VPU_DEC_ROOT>;
->> +                clock-names = "g1", "g2", "bus";
->> +                power-domains = <&pgc_vpu>;
->> +                nxp,imx8m-vpu-ctrl = <&vpu_ctrl>;
->> +        };
->> +
->> +        vpu_g2: video-codec@38310000 {
->> +                compatible = "nxp,imx8mq-vpu-g2";
->> +                reg = <0x38300000 0x10000>;
->> +                interrupts = <GIC_SPI 8 IRQ_TYPE_LEVEL_HIGH>;
->> +                interrupt-names = "g2";
->>                   clocks = <&clk IMX8MQ_CLK_VPU_G1_ROOT>,
->>                            <&clk IMX8MQ_CLK_VPU_G2_ROOT>,
->>                            <&clk IMX8MQ_CLK_VPU_DEC_ROOT>;
->>                   clock-names = "g1", "g2", "bus";
->>                   power-domains = <&pgc_vpu>;
->> +                nxp,imx8m-vpu-ctrl = <&vpu_ctrl>;
->>           };
->> --
->> 2.25.1
->>
->>
->> _______________________________________________
->> linux-arm-kernel mailing list
->> linux-arm-kernel@lists.infradead.org
->> http://lists.infradead.org/mailman/listinfo/linux-arm-kernel
+> +		dev_err(&pdev->dev, "Invalid register property size: %d\n", reg_num);
+> +		return -EINVAL;
+> +	}
+> +
+> +	for (i = 0; i < reg_num; i++) {
+> +		dev->reg_base[i] = devm_platform_ioremap_resource(pdev, i);
+> +		if (IS_ERR(dev->reg_base[i]))
+> +			return PTR_ERR(dev->reg_base[i]);
+> +
+> +		mtk_v4l2_debug(2, "reg[%d] base=%p", i, dev->reg_base[i]);
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+>   static int fops_vcodec_open(struct file *file)
+>   {
+>   	struct mtk_vcodec_dev *dev = video_drvdata(file);
+> @@ -206,7 +230,7 @@ static int mtk_vcodec_probe(struct platform_device *pdev)
+>   	struct resource *res;
+>   	phandle rproc_phandle;
+>   	enum mtk_vcodec_fw_type fw_type;
+> -	int i, ret;
+> +	int ret;
+>   
+>   	dev = devm_kzalloc(&pdev->dev, sizeof(*dev), GFP_KERNEL);
+>   	if (!dev)
+> @@ -238,14 +262,9 @@ static int mtk_vcodec_probe(struct platform_device *pdev)
+>   		goto err_dec_pm;
+>   	}
+>   
+> -	for (i = 0; i < NUM_MAX_VDEC_REG_BASE; i++) {
+> -		dev->reg_base[i] = devm_platform_ioremap_resource(pdev, i);
+> -		if (IS_ERR((__force void *)dev->reg_base[i])) {
+> -			ret = PTR_ERR((__force void *)dev->reg_base[i]);
+> -			goto err_res;
+> -		}
+> -		mtk_v4l2_debug(2, "reg[%d] base=%p", i, dev->reg_base[i]);
+> -	}
+> +	ret = mtk_vcodec_get_reg_bases(dev);
+> +	if (ret)
+> +		goto err_res;
+>   
+>   	res = platform_get_resource(pdev, IORESOURCE_IRQ, 0);
+>   	if (res == NULL) {
