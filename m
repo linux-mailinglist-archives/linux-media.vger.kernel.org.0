@@ -2,132 +2,223 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3809B463589
-	for <lists+linux-media@lfdr.de>; Tue, 30 Nov 2021 14:34:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8BD0C4635F8
+	for <lists+linux-media@lfdr.de>; Tue, 30 Nov 2021 15:00:47 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240706AbhK3Nhh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 30 Nov 2021 08:37:37 -0500
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:53678 "EHLO
-        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231627AbhK3Nhg (ORCPT
+        id S241946AbhK3OED (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 30 Nov 2021 09:04:03 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48566 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S241955AbhK3OD6 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 30 Nov 2021 08:37:36 -0500
-Received: from [IPv6:2a01:e0a:120:3210:b422:9841:4afb:11b5] (unknown [IPv6:2a01:e0a:120:3210:b422:9841:4afb:11b5])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        (Authenticated sender: benjamin.gaignard)
-        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 331AC1F450C4;
-        Tue, 30 Nov 2021 13:34:11 +0000 (GMT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=collabora.com; s=mail;
-        t=1638279251; bh=8dFt0ved6B1YlHXel+R6Z2zNSNgLE7JvZbncVuRC5Qw=;
-        h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
-        b=CXXTXeNJfZ9/XZgE6YFUstBI4Ouw4A5FsgohbT2N95JbtcK2UIipznG5/gVg8Sfem
-         JCpbIkg8WQz69wj4MwV68UV40duRU21gjgJFkjoUma0tvpF6V3TmFiLdyhORfTItD9
-         /R124eq8PRPWQYM4QqhiMUgfBZnzdfyvYb3rb37PdMwAOuSOQGehdscmDifViugAFH
-         mEhQ/PuzYsPcY/L0OCUhp4r0Gf/lYpE1D+9ZT3iiYuLqFxocIyV+GNSdae1CRYolzI
-         2PMMkcwokvYFBO1SwrmmVUTFgsj8//HfcsE9pyAjEBFQtt3oBrbKPl3TbheQKrlmRO
-         8jrbiFcGxJf1A==
-Subject: Re: [PATCH v11, 04/19] media: mtk-vcodec: export decoder pm functions
-To:     Yunfei Dong <yunfei.dong@mediatek.com>,
-        Alexandre Courbot <acourbot@chromium.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Tzung-Bi Shih <tzungbi@chromium.org>,
-        Tiffany Lin <tiffany.lin@mediatek.com>,
-        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+        Tue, 30 Nov 2021 09:03:58 -0500
+Received: from mail-ed1-x52e.google.com (mail-ed1-x52e.google.com [IPv6:2a00:1450:4864:20::52e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AD7E3C061758
+        for <linux-media@vger.kernel.org>; Tue, 30 Nov 2021 06:00:38 -0800 (PST)
+Received: by mail-ed1-x52e.google.com with SMTP id x6so86822298edr.5
+        for <linux-media@vger.kernel.org>; Tue, 30 Nov 2021 06:00:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=vanguardiasur-com-ar.20210112.gappssmtp.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=QaxZlmGeTiNSpZpCZqH57v2oCRS32AJdCJEiZtFl+fo=;
+        b=UAL3sYoqWMmwujNOP724FqBzW5uObd++LAtVKS3v5u5Uf2OdsqcJyTAd46VvaTh5Bd
+         CI7BPxy7k5sgJDqLq1RcsS3wNsihI78jdpDJIITTaw/+RdV8uJbwUA5jL3bVoiO2CnZz
+         ECP+wZYQCeXwsVT03Cwq3TmyYVTdLKIqSaQxxB77ysN7pTZ6rhWOALXsXCermCrGDEm9
+         xTqkC17qeHkGGjhP+HwJkZNAmoWQo1WEBi97ntM6TwL06wMqG3TUZavTpeNmgqXB4xXm
+         gxbfUwfLqghdmcJf/K4rHwrkHT+sXq/VtbjNBGcKK6hDHJkwFOSBqyz3GYb+FTIsRGl6
+         hXsw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=QaxZlmGeTiNSpZpCZqH57v2oCRS32AJdCJEiZtFl+fo=;
+        b=K8qhpQC9U1Lr4R7GHxGZTtyVhfo166zJMD7j71x+S+69hqzMqLjLdUUajBgEWDTvM2
+         z5YEvvCTU5lvwlSA9Nks3jdJwbkse69o5uOBrDsA/H2q7FC9jokiaAkECiFlw93q6Yvq
+         PAH5JEfLpNscubhSZ5RZd2cWyH+r7yeXA9z9gNMcT4QtvVNYisvJks3urkkSt2r5ufbc
+         jFsEGwI2Dspiewcib3PGBGl15sdc9Ub+4YhvFW7mmfJuiN8H5QdMVR0vda8xG+CXB6fk
+         9or3varhVHUMh2UgGTlBHjY4x13r4mbPsnukUXCYFOKWJ7txJlK0Nqz+ep59xTXXsC7X
+         Acow==
+X-Gm-Message-State: AOAM530w4gcnDKfuU2/i4x0ozZ8QKIlHnOFqm+xGyz3dUSeoi+Yjspap
+        VdaqonUCuR195jQAvV351IHAl04ckkgS0X91Q+/h4A==
+X-Google-Smtp-Source: ABdhPJwnUIPwozxEvD8GWiVDDYw5ZDqSXm6R85I9zeuQ3bp/QzgWXBdhWWpkvOKxcxv7W9iIJOUZHicmrUxw7zSXQ5g=
+X-Received: by 2002:a05:6402:34c1:: with SMTP id w1mr83741602edc.179.1638280836615;
+ Tue, 30 Nov 2021 06:00:36 -0800 (PST)
+MIME-Version: 1.0
+References: <20211106183802.893285-1-aford173@gmail.com> <718f7f6d6cd564d031c1963f1590c62d549ae725.camel@ndufresne.ca>
+ <CAHCN7xKM9RUE7z-+ug1on+D=nDoEm589R4m03ofys92Aq75ZVQ@mail.gmail.com>
+ <8db00a4b6faa99c940d9bc86e17161eb0db5efe3.camel@ndufresne.ca>
+ <CAJ+vNU28UJffFv9jQ2KryJMudqYxvCaoVOVcU5dPqRA209iN6A@mail.gmail.com>
+ <d91532c2c0772f9aa708ead36b2a97203727a7ea.camel@ndufresne.ca>
+ <CAJ+vNU3H-V+bPoZ3qKead45h=W7AhQK6Lhjrx5ssdF4c_qfe=A@mail.gmail.com>
+ <CAHCN7x+0LwwU_rEST+TZxGquswGKL19gnTy9WLofsXtGAtWqdw@mail.gmail.com>
+ <7f94eaacfddb8c5434c17f1e069ea87a17657ce9.camel@ndufresne.ca>
+ <CAHCN7xKRzxMBmPbDobWTuvNNSpTXk5XENvfBnfkhRY3eZKhn6w@mail.gmail.com>
+ <CAHCN7xJFLNi_g+HX8PCy1Rkgf0jnWpO5QGYVz8nH19xrJkwHrA@mail.gmail.com>
+ <CAJ+vNU3zFd=6k_Emc5aafxKkGwCPp4crgOFezQ-E_MbWsn1_EA@mail.gmail.com>
+ <fed6c2fd7cf4971062c417ce41ed1e3812b900e0.camel@ndufresne.ca>
+ <CAHCN7xK+wROHaqDcsY-3WYFQ82qX17L-LHNL3siSWnWvwFShzQ@mail.gmail.com>
+ <CAAEAJfC1xXvemaFP+vTFVJ3S-SpYtrxyZgDamSOgLC1F3ua5xw@mail.gmail.com>
+ <CAHCN7x+UMMP6RXsNm0=OC=UTQzh=RKqQo6B7FD5e4eoJAEfmpg@mail.gmail.com> <CAJ+vNU1epi9SwPMHkuDmKcb68RLemYF=bsp7AVnzz06zKc2efw@mail.gmail.com>
+In-Reply-To: <CAJ+vNU1epi9SwPMHkuDmKcb68RLemYF=bsp7AVnzz06zKc2efw@mail.gmail.com>
+From:   Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
+Date:   Tue, 30 Nov 2021 11:00:24 -0300
+Message-ID: <CAAEAJfCpjk5nWWkJYjjDT-YEpJi4pTZqZbzp_if9OGC0HKspzw@mail.gmail.com>
+Subject: Re: [RFC 0/5] arm64: imx8mm: Enable Hantro VPUs
+To:     Tim Harvey <tharvey@gateworks.com>
+Cc:     Adam Ford <aford173@gmail.com>,
+        Nicolas Dufresne <nicolas@ndufresne.ca>,
+        linux-media <linux-media@vger.kernel.org>,
+        Schrempf Frieder <frieder.schrempf@kontron.de>,
+        Marek Vasut <marek.vasut@gmail.com>,
+        Jagan Teki <jagan@amarulasolutions.com>,
+        Adam Ford-BE <aford@beaconembedded.com>,
+        cstevens@beaconembedded.com,
+        Philipp Zabel <p.zabel@pengutronix.de>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         Rob Herring <robh+dt@kernel.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Tomasz Figa <tfiga@google.com>
-Cc:     Hsin-Yi Wang <hsinyi@chromium.org>,
-        Fritz Koenig <frkoenig@chromium.org>,
-        Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        Irui Wang <irui.wang@mediatek.com>,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        srv_heupstream@mediatek.com, linux-mediatek@lists.infradead.org,
-        Project_Global_Chrome_Upstream_Group@mediatek.com
-References: <20211129034201.5767-1-yunfei.dong@mediatek.com>
- <20211129034201.5767-5-yunfei.dong@mediatek.com>
-From:   Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Message-ID: <2fa4e19f-d57c-6264-4284-8387c4182d1f@collabora.com>
-Date:   Tue, 30 Nov 2021 14:34:07 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
-MIME-Version: 1.0
-In-Reply-To: <20211129034201.5767-5-yunfei.dong@mediatek.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Heiko Stuebner <heiko@sntech.de>,
+        Lucas Stach <l.stach@pengutronix.de>,
+        Joakim Zhang <qiangqing.zhang@nxp.com>,
+        Alice Guo <alice.guo@nxp.com>, Peng Fan <peng.fan@nxp.com>,
+        "open list:HANTRO VPU CODEC DRIVER" 
+        <linux-rockchip@lists.infradead.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        "moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE" 
+        <linux-arm-kernel@lists.infradead.org>,
+        open list <linux-kernel@vger.kernel.org>,
+        "open list:STAGING SUBSYSTEM" <linux-staging@lists.linux.dev>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Hi Tim,
 
-Le 29/11/2021 à 04:41, Yunfei Dong a écrit :
-> Register each hardware as platform device, need to call pm functions
-> to open/close power and clock from module mtk-vcodec-dec, export these
-> functions.
-
-The commit message confuse me, maybe something like:
-"When mtk vcodec decoder is build as a module we need to export
-mtk-vcodec-dec pm functions to make them visible by the other components"
-
-With that:
-Reviewed-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-
+On Mon, 29 Nov 2021 at 16:36, Tim Harvey <tharvey@gateworks.com> wrote:
 >
-> Signed-off-by: Yunfei Dong <yunfei.dong@mediatek.com>
-> ---
->   drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_pm.c | 6 ++++++
->   1 file changed, 6 insertions(+)
+> On Mon, Nov 29, 2021 at 10:59 AM Adam Ford <aford173@gmail.com> wrote:
+..
+> >
 >
-> diff --git a/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_pm.c b/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_pm.c
-> index 20bd157a855c..221cf60e9fbf 100644
-> --- a/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_pm.c
-> +++ b/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_pm.c
-> @@ -77,12 +77,14 @@ int mtk_vcodec_init_dec_pm(struct platform_device *pdev,
->   	put_device(pm->larbvdec);
->   	return ret;
->   }
-> +EXPORT_SYMBOL_GPL(mtk_vcodec_init_dec_pm);
->   
->   void mtk_vcodec_release_dec_pm(struct mtk_vcodec_pm *pm)
->   {
->   	pm_runtime_disable(pm->dev);
->   	put_device(pm->larbvdec);
->   }
-> +EXPORT_SYMBOL_GPL(mtk_vcodec_release_dec_pm);
->   
->   int mtk_vcodec_dec_pw_on(struct mtk_vcodec_pm *pm)
->   {
-> @@ -94,6 +96,7 @@ int mtk_vcodec_dec_pw_on(struct mtk_vcodec_pm *pm)
->   
->   	return ret;
->   }
-> +EXPORT_SYMBOL_GPL(mtk_vcodec_dec_pw_on);
->   
->   void mtk_vcodec_dec_pw_off(struct mtk_vcodec_pm *pm)
->   {
-> @@ -103,6 +106,7 @@ void mtk_vcodec_dec_pw_off(struct mtk_vcodec_pm *pm)
->   	if (ret)
->   		mtk_v4l2_err("pm_runtime_put_sync fail %d", ret);
->   }
-> +EXPORT_SYMBOL_GPL(mtk_vcodec_dec_pw_off);
->   
->   void mtk_vcodec_dec_clock_on(struct mtk_vcodec_pm *pm)
->   {
-> @@ -129,6 +133,7 @@ void mtk_vcodec_dec_clock_on(struct mtk_vcodec_pm *pm)
->   	for (i -= 1; i >= 0; i--)
->   		clk_disable_unprepare(dec_clk->clk_info[i].vcodec_clk);
->   }
-> +EXPORT_SYMBOL_GPL(mtk_vcodec_dec_clock_on);
->   
->   void mtk_vcodec_dec_clock_off(struct mtk_vcodec_pm *pm)
->   {
-> @@ -139,3 +144,4 @@ void mtk_vcodec_dec_clock_off(struct mtk_vcodec_pm *pm)
->   	for (i = dec_clk->clk_num - 1; i >= 0; i--)
->   		clk_disable_unprepare(dec_clk->clk_info[i].vcodec_clk);
->   }
-> +EXPORT_SYMBOL_GPL(mtk_vcodec_dec_clock_off);
+> Adam,
+>
+> What deps did you install in order to get v4l2codecs building? I
+> installed libgudev-1.0-dev based on Nicolas' suggestion and rebuilt
+> (not sure if I needed to re-configure somehow) but there is still
+> nothing in build/subprojects/gst-plugins-bad/sys/v4l2codecs/. A 'meson
+> configure' tells me that v4l2codecs is set to 'auto' but I'm not sure
+> how to find out what dependencies are needed or what may be missing.
+>
+
+At least in my case (Centps-derivative), this is what I've done:
+
+...
+gst-plugins-bad| Run-time dependency gudev-1.0 found: NO (tried
+pkgconfig and cmake)
+
+Installed gudev ... and then:
+
+...
+gst-plugins-bad| Dependency gudev-1.0 found: YES 232 (cached)
+...
+gst-plugins-bad 1.19.3.1
+
+    Plugins               : accurip, adpcmdec, adpcmenc, aiff, asfmux,
+audiobuffersplit, audiofxbad, audiomixmatrix, audiolatency,
+audiovisualizers, autoconvert, bayer,
+                            camerabin, codecalpha, coloreffects,
+debugutilsbad, dvbsubenc, dvbsuboverlay, dvdspu, faceoverlay,
+festival, fieldanalysis, freeverb, frei0r,
+                            gaudieffects, gdp, geometrictransform,
+id3tag, inter, interlace, ivfparse, ivtc, jp2kdecimator, jpegformat,
+rfbsrc, midi, mpegpsdemux,
+                            mpegpsmux, mpegtsdemux, mpegtsmux, mxf,
+netsim, rtponvif, pcapparse, pnm, proxy, legacyrawparse,
+removesilence, rist, rtmp2, rtpmanagerbad,
+                            sdpelem, segmentclip, siren, smooth,
+speed, subenc, switchbin, timecode, transcode, videofiltersbad,
+videoframe_audiolevel, videoparsersbad,
+                            videosignal, vmnc, y4mdec, decklink, dvb,
+fbdevsink, ipcpipeline, nvcodec, shm, v4l2codecs, hls, sctp
+
+GStreamer current master build fails. It's a known issue which will be
+fixed today:
+
+[...]
+[8/9] Compiling C object
+subprojects/gst-plugins-bad/sys/v4l2codecs/libgstv4l2codecs.so.p/gstv4l2cod=
+ecvp9dec.c.o
+FAILED: subprojects/gst-plugins-bad/sys/v4l2codecs/libgstv4l2codecs.so.p/gs=
+tv4l2codecvp9dec.c.o
+cc -Isubprojects/gst-plugins-bad/sys/v4l2codecs/libgstv4l2codecs.so.p
+-Isubprojects/gst-plugins-bad/sys/v4l2codecs
+-I../subprojects/gst-plugins-bad/sys/v4l2codecs
+-Isubprojects/gst-plugins-bad -I../subprojects/gst-plugins-bad
+-Isubprojects/gstreamer/libs -I../subprojects/gstreamer/libs
+-Isubprojects/gstreamer -I../subprojects/gstreamer
+-Isubprojects/gst-plugins-bad/gst-libs
+-I../subprojects/gst-plugins-bad/gst-libs
+-Isubprojects/gst-plugins-base/gst-libs
+-I../subprojects/gst-plugins-base/gst-libs -Isubprojects/orc
+-I../subprojects/orc -Isubprojects/gstreamer/gst
+-Isubprojects/gst-plugins-base/gst-libs/gst/video
+-Isubprojects/gst-plugins-base/gst-libs/gst/pbutils
+-Isubprojects/gst-plugins-base/gst-libs/gst/audio
+-Isubprojects/gst-plugins-base/gst-libs/gst/tag
+-I/usr/include/glib-2.0 -I/usr/lib64/glib-2.0/include
+-I/usr/include/gudev-1.0 -fdiagnostics-color=3Dalways
+-D_FILE_OFFSET_BITS=3D64 -Wall -Winvalid-pch -O2 -g -fvisibility=3Dhidden
+-fno-strict-aliasing -DG_DISABLE_DEPRECATED -Wmissing-prototypes
+-Wdeclaration-after-statement -Wold-style-definition
+-Wmissing-declarations -Wredundant-decls -Wwrite-strings -Wformat
+-Wformat-security -Winit-self -Wmissing-include-dirs -Waddress
+-Wno-multichar -Wvla -Wpointer-arith -fPIC -pthread -DHAVE_CONFIG_H
+-MD -MQ subprojects/gst-plugins-bad/sys/v4l2codecs/libgstv4l2codecs.so.p/gs=
+tv4l2codecvp9dec.c.o
+-MF subprojects/gst-plugins-bad/sys/v4l2codecs/libgstv4l2codecs.so.p/gstv4l=
+2codecvp9dec.c.o.d
+-o subprojects/gst-plugins-bad/sys/v4l2codecs/libgstv4l2codecs.so.p/gstv4l2=
+codecvp9dec.c.o
+-c ../subprojects/gst-plugins-bad/sys/v4l2codecs/gstv4l2codecvp9dec.c
+../subprojects/gst-plugins-bad/sys/v4l2codecs/gstv4l2codecvp9dec.c:92:3:
+error: unknown type name =E2=80=98grefcount=E2=80=99
+   grefcount ref_count;
+   ^~~~~~~~~
+../subprojects/gst-plugins-bad/sys/v4l2codecs/gstv4l2codecvp9dec.c: In
+function =E2=80=98gst_v4l2_codec_vp9_dec_picture_data_new=E2=80=99:
+../subprojects/gst-plugins-bad/sys/v4l2codecs/gstv4l2codecvp9dec.c:106:3:
+warning: implicit declaration of function =E2=80=98g_ref_count_init=E2=80=
+=99; did you
+mean =E2=80=98g_cond_init=E2=80=99? [-Wimplicit-function-declaration]
+   g_ref_count_init (&pic_data->ref_count);
+   ^~~~~~~~~~~~~~~~
+   g_cond_init
+../subprojects/gst-plugins-bad/sys/v4l2codecs/gstv4l2codecvp9dec.c: In
+function =E2=80=98gst_v4l2_codec_vp9_dec_picture_data_ref=E2=80=99:
+../subprojects/gst-plugins-bad/sys/v4l2codecs/gstv4l2codecvp9dec.c:118:3:
+warning: implicit declaration of function =E2=80=98g_ref_count_inc=E2=80=99=
+; did you
+mean =E2=80=98g_strv_contains=E2=80=99? [-Wimplicit-function-declaration]
+   g_ref_count_inc (&data->ref_count);
+   ^~~~~~~~~~~~~~~
+   g_strv_contains
+../subprojects/gst-plugins-bad/sys/v4l2codecs/gstv4l2codecvp9dec.c: In
+function =E2=80=98gst_v4l2_codec_vp9_dec_picture_data_unref=E2=80=99:
+../subprojects/gst-plugins-bad/sys/v4l2codecs/gstv4l2codecvp9dec.c:125:7:
+warning: implicit declaration of function =E2=80=98g_ref_count_dec=E2=80=99
+[-Wimplicit-function-declaration]
+   if (g_ref_count_dec (&data->ref_count)) {
+       ^~~~~~~~~~~~~~~
+ninja: build stopped: subcommand failed.
+
+Hope this helps get you started!
+Ezequiel
