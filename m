@@ -2,114 +2,181 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3ABB6464B44
-	for <lists+linux-media@lfdr.de>; Wed,  1 Dec 2021 11:09:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6D044464B77
+	for <lists+linux-media@lfdr.de>; Wed,  1 Dec 2021 11:18:26 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1348488AbhLAKMx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 1 Dec 2021 05:12:53 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42510 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1348508AbhLAKMw (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 1 Dec 2021 05:12:52 -0500
-Received: from mail-lj1-x234.google.com (mail-lj1-x234.google.com [IPv6:2a00:1450:4864:20::234])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 322BBC061748
-        for <linux-media@vger.kernel.org>; Wed,  1 Dec 2021 02:09:31 -0800 (PST)
-Received: by mail-lj1-x234.google.com with SMTP id d11so47063003ljg.8
-        for <linux-media@vger.kernel.org>; Wed, 01 Dec 2021 02:09:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=OUz5GIJwWhsCyqmvdwiSMp+8PenKcEyq20yCWjGw6oo=;
-        b=h0Fitg9dKp6Gl/4ZI0YCCzy6luvo1s9aJSiGf6y033HzRqpc5bZcL22MlRCxP3mbCw
-         qaFmDSHUWkmclJFd6Gfp/IFpPuiU7sHzEXpo7ODUC+M3ObKQBAze5n0u8m5zdnSf40pd
-         rWicWAkANUpI3/KhOCbjO6u0XEmS6Zjz6t6xbahAOXpcxxGSwPHx2ZvT9rC83GjQ/Jyi
-         Zs4Tb/H/YaHN/WStBxRlcFz1073veJYxBn+ifRYQ4WrGuao/yfclD+EQY65wwJ1LSDgT
-         t35ruCeNnZ7SL3r0UrUHhEBHvQHgn/B3WNXWOVMGwWma20ykKSLR2Leaqfo+hPq4XYAq
-         HpsQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=OUz5GIJwWhsCyqmvdwiSMp+8PenKcEyq20yCWjGw6oo=;
-        b=kNrXuYjPiU0g0cfWuh0AZDQP5Xlqbao+DxdhaKmLnMgiSSNb0YfKnZhNKxuhIVRKx5
-         wJvUHYmYrbfHapDdMhraX1Oj50s/v5NeTAAaQ2fTnQw8GgbSy6ZmMK3lTSMmp4z7DcaB
-         j8TThND0LfoZ7XTH4AS5HHSyqSoYDh9PIqWJx7jbvpitufg+LKzZTw7yHdoc/T2bmDTU
-         htXCGzaOAOwk48Xu1N5O8tFvEP4xziL+Vcgm3SmrovjGt7V4aCyLRxpwyz5gq0cavH4U
-         6jbcJBARsXvlJL7FWPunCxeUXGcGtH/aGBRZVA15Y1RQIlvA7ZN+ZvLN90ncPQWwsT+V
-         J40A==
-X-Gm-Message-State: AOAM531fK857VbVmwS5r8rqtmTQZQQFDVEw0/Bi5vdCIFVzAkMupQrY2
-        Zs4Cixa0E2WRFCPn0hOf7VlP7vQq5OI9bnxf3MYJvA==
-X-Google-Smtp-Source: ABdhPJzDsJHqm+aHiy+lkIXP5Ar3k9o7SMl/nP/3Xx3p2ShJFSukJaXUE1CMRVgy9JAkWUv59xYkYWSvKKpQZ+pGyjE=
-X-Received: by 2002:a2e:5850:: with SMTP id x16mr4763005ljd.122.1638353369362;
- Wed, 01 Dec 2021 02:09:29 -0800 (PST)
+        id S1348588AbhLAKVp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 1 Dec 2021 05:21:45 -0500
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:34212 "EHLO
+        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232177AbhLAKVo (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 1 Dec 2021 05:21:44 -0500
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: kholk11)
+        with ESMTPSA id 39E9B1F457CA
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=collabora.com; s=mail;
+        t=1638353901; bh=kEAk8XF0frwBFhSJkgeTipfqBQU8xnh/gkL1Zh/TtHQ=;
+        h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
+        b=PFIyyxcjqCPX5k8bM2OnskKnFA2y4ejJZeYAHovd3mnLPyhxianlnMKeJ0ylhwpNj
+         5di9a4/njbq0aZWO7WLGKXfXPTYGKu2aCXOK6GvUsUlGUL7wJ4eq18lXFS0urNcpa/
+         Lc61U6z6aRUocOBf92IOnPUL6hXamvDZCLaOq5cxFBCYOtCrwdShUCxmqp6L53sYMB
+         SzaDTDl2TKKby9n0mhns0eVet2vTh/9UHyDEGvAd5x21g2z7aC+F9EqR1rTokSh480
+         cuFhylTuVyug1LAvFge5c3Dh2SGNFScm4g6u3e2S1yd8obabDKTWtJZNMCI9bzufw0
+         C/Xbvx3jays/w==
+Subject: Re: [PATCH v9 0/7] media: mediatek: support mdp3 on mt8183 platform
+To:     Moudy Ho <moudy.ho@mediatek.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Jernej Skrabec <jernej.skrabec@siol.net>
+Cc:     Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Rob Landley <rob@landley.net>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
+        Alexandre Courbot <acourbot@chromium.org>, tfiga@chromium.org,
+        drinkcat@chromium.org, pihsun@chromium.org, hsinyi@google.com,
+        Maoguang Meng <maoguang.meng@mediatek.com>,
+        daoyuan huang <daoyuan.huang@mediatek.com>,
+        Ping-Hsun Wu <ping-hsun.wu@mediatek.com>,
+        menghui.lin@mediatek.com, sj.huang@mediatek.com,
+        allen-kh.cheng@mediatek.com, randy.wu@mediatek.com,
+        jason-jh.lin@mediatek.com, roy-cw.yeh@mediatek.com,
+        river.cheng@mediatek.com, srv_heupstream@mediatek.com
+References: <20211201095031.31606-1-moudy.ho@mediatek.com>
+From:   AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>
+Message-ID: <9a969056-7acc-92a6-a0a8-30d7044cea01@collabora.com>
+Date:   Wed, 1 Dec 2021 11:18:17 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-References: <YaB/JHP/pMbgRJ1O@kroah.com> <20211126074904.88388-1-guangming.cao@mediatek.com>
- <CALAqxLVF1BPznzwjem2BcsDDoo5gMoBqjKEceZDLJan4zCtk3w@mail.gmail.com>
-In-Reply-To: <CALAqxLVF1BPznzwjem2BcsDDoo5gMoBqjKEceZDLJan4zCtk3w@mail.gmail.com>
-From:   Sumit Semwal <sumit.semwal@linaro.org>
-Date:   Wed, 1 Dec 2021 15:39:17 +0530
-Message-ID: <CAO_48GHxanR=-mN232ANwxQEiBo9zb3WjvO-6WmP6eFYWA1M5A@mail.gmail.com>
-Subject: Re: [PATCH v4] dma-buf: system_heap: Use 'for_each_sgtable_sg' in
- pages free flow
-To:     John Stultz <john.stultz@linaro.org>
-Cc:     guangming.cao@mediatek.com, greg@kroah.com, brian.starkey@arm.com,
-        benjamin.gaignard@linaro.org, christian.koenig@amd.com,
-        dri-devel@lists.freedesktop.org, labbott@redhat.com,
-        linaro-mm-sig@lists.linaro.org,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-mediatek@lists.infradead.org,
-        lmark@codeaurora.org, matthias.bgg@gmail.com, robin.murphy@arm.com,
-        stable@vger.kernel.org, wsd_upstream@mediatek.com,
-        kuan-ying.lee@mediatek.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20211201095031.31606-1-moudy.ho@mediatek.com>
+Content-Type: text/plain; charset=iso-8859-15; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hello Guangming,
+Il 01/12/21 10:50, Moudy Ho ha scritto:
+> Change since v8:
+> - Rebase on v5.16-rc2.
+> - Refer to Angelo's suggestion, adjust the register writing format to increase
+>    readability and significance.
+> - Refer to Angelo's suggestion, adjust or reduce inappropriate debugging
+>    messages.
+> - Refer to Rob Herring's suggestion to correct the the binding file
+>    to make it with the specification.
+> - Fix compile warning reported by kernel test robot.
+> 
+> Change since v7:
+> - Rebase on v5.15-rc6.
+> - Revise several V4L2 M2M settings to pass v4l2-compliance test.
+> - Integrate those same component dt-binding documents of DRM and MDP, and
+>    move them under the MMSYS domain.
+> - Split MMSYS and MUTEX into two different files according to
+>    their functional properties.
+> 
+> Changes since v6:
+> - Refactor GCE event to corresponding node.
+> - Fix dt_binding_check fail.
+> - Fix compilation errors.
+> 
+> Changes since v5:
+> - Rebase on v5.14-rc6.
+> - Move MMSYS/Mutex settings to corresponding driver.
+> - Revise the software license description and copyright.
+> - Remove unnecessary enum. or definitions.
+> - Optimize platform/chip definition conditions.
+> - Use general printing functions instead of MDP3 private ones.
+> - Fix compile warning.
+> 
+> Changes since v4:
+> - Rebase on v5.13-rc1.
+> - Remove the CMDQ flush flow to match the CMDQ API change.
+> - Integrate four of MDP's direct-link subcomponents into MDP controller node
+>    from syscon node to avoid illegal clock usage.
+> - Rewrite dt-binding in a JSON compatible subset of YAML
+> - Fix a bit of macro argument precedence.
+> 
+> Changes since v3:
+> - Rebase on v5.9-rc1.
+> - modify code for review comment from Rob Herring, cancel multiple nodes using
+>    same register base situation.
+> - control IOMMU port through pm runtime get/put to DMA components' device.
+> - SCP(VPU) driver revision.
+> - stop queuing jobs(remove flush_workqueue()) after mdp_m2m_release().
+> - add computation of plane address with data_offset.
+> - fix scale ratio check issue.
+> - add default v4l2_format setting.
+> 
+> Changes since v2:
+> - modify code for review comment from Tomasz Figa & Alexandre Courbot
+> - review comment from Rob Herring will offer code revision in v4, due to
+>    it's related to device node modification, will need to modify code
+>    architecture
+> 
+> Changes since v1:
+> - modify code for CMDQ v3 API support
+> - EC ipi cmd migration
+> - fix compliance test fail item (m2m cmd with -f) due to there is two problem in runing all format(-f) cmd:
+> 1. out of memory before test complete
+>          Due to capture buffer mmap (refcount + 1) after reqbuf but seems
+>          no corresponding munmap called before device close.
+>          There are total 12XX items(formats) in format test and each format
+>          alloc 8 capture/output buffers.
+> 2. unceasingly captureBufs() (randomly)
+>          Seems the break statement didn't catch the count == 0 situation:
+>          In v4l2-test-buffers.cpp, function: captureBufs()
+>                          ...
+>                          count--;
+>                          if (!node->is_m2m && !count)
+>                                  break;
+>          Log is as attachment
+> 
+> I will paste the test result with problem part in another e-mail
+> 
+> Hi,
+> 
+> This is the first version of RFC patch for Media Data Path 3 (MDP3),
+> MDP3 is used for scaling and color format conversion.
+> support using GCE to write register in critical time limitation.
+> support V4L2 m2m device control.
+> 
+> 
+> Moudy Ho (7):
+>    soc: mediatek: mmsys: add support for MDP
+>    soc: mediatek: mmsys: add support for ISP control
+>    soc: mediatek: mutex: add support for MDP
+>    soc: mediatek: mutex: add functions that operate registers by CMDQ
+>    dt-binding: mt8183: add Mediatek MDP3 dt-bindings
+>    dts: arm64: mt8183: add Mediatek MDP3 nodes
+>    media: platform: mtk-mdp3: add Mediatek MDP3 driver
+> 
 
-On Mon, 29 Nov 2021 at 23:35, John Stultz <john.stultz@linaro.org> wrote:
->
-> On Thu, Nov 25, 2021 at 11:48 PM <guangming.cao@mediatek.com> wrote:
-> >
-> > From: Guangming <Guangming.Cao@mediatek.com>
-> >
-> > For previous version, it uses 'sg_table.nent's to traverse sg_table in =
-pages
-> > free flow.
-> > However, 'sg_table.nents' is reassigned in 'dma_map_sg', it means the n=
-umber of
-> > created entries in the DMA adderess space.
-> > So, use 'sg_table.nents' in pages free flow will case some pages can't =
-be freed.
-> >
-> > Here we should use sg_table.orig_nents to free pages memory, but use th=
-e
-> > sgtable helper 'for each_sgtable_sg'(, instead of the previous rather c=
-ommon
-> > helper 'for_each_sg' which maybe cause memory leak) is much better.
+Hello Moudy,
 
-Thanks for catching this and the patch; applied to drm-misc-fixes.
-> >
-> > Fixes: d963ab0f15fb0 ("dma-buf: system_heap: Allocate higher order page=
-s if available")
-> > Signed-off-by: Guangming <Guangming.Cao@mediatek.com>
-> > Reviewed-by: Robin Murphy <robin.murphy@arm.com>
-> > Cc: <stable@vger.kernel.org> # 5.11.*
->
-> Thanks so much for catching this and sending in all the revisions!
->
-> Reviewed-by: John Stultz <john.stultz@linaro.org>
+I agree with your vision of mmsys and mutex patches being somewhat tied to the
+MDP3 driver being present but, still, can you please split this series?
+
+The reason for this is that the four patches related to mmsys and mutex are ok,
+ready to be merged, and unlikely to get any other change during the development
+of the MDP3 driver specifically.
+Like that, we could at least start getting all the required base support upstream
+and reduce the strain on you (and on reviewers) when releasing/rebasing any new
+version of this series; this will consequently help raising the quality of this
+work.
+
+Regards,
+- Angelo
 
 
-Best,
-Sumit.
 
---=20
-Thanks and regards,
 
-Sumit Semwal (he / him)
-Tech Lead - LCG, Vertical Technologies
-Linaro.org =E2=94=82 Open source software for ARM SoCs
+
+
+
