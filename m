@@ -2,151 +2,122 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 56363464BBF
-	for <lists+linux-media@lfdr.de>; Wed,  1 Dec 2021 11:37:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E89E7464C98
+	for <lists+linux-media@lfdr.de>; Wed,  1 Dec 2021 12:31:08 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243059AbhLAKlN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 1 Dec 2021 05:41:13 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49006 "EHLO
+        id S240554AbhLALeQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 1 Dec 2021 06:34:16 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60822 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237823AbhLAKlM (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 1 Dec 2021 05:41:12 -0500
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3CD82C061574;
-        Wed,  1 Dec 2021 02:37:48 -0800 (PST)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: kholk11)
-        with ESMTPSA id B24231F4105F
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=collabora.com; s=mail;
-        t=1638355067; bh=5zeRiVN6ryxwm/9AqBmiziPFHviBjXpBHA5P6czC8SI=;
-        h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
-        b=dfdAawREpQdQ0QXsUbDIvefQhw/dVtrMDpCTDUwj1cRrtQcmW12myoLxDHDjk7S6E
-         2gscGaAcrDMZGWExTzBLGYyv3kfA1P/2vmMqxt6AEfo/YA66464koVAsAZoayJNvtz
-         VRKRzQwUnAzVULeMMzFX+JTrJaedV8DnRt/n/2ZnGldBgkabvgtIOG37hHQPIpENwY
-         U2nwOxeEpzYFWcgykf6hVjtvhgijvu+JynDqerrGfXGAFBw5Yuwxy008VLO3wghsiI
-         sHQ2f5T2iJXtOyEm5PVzQGes0Ou5ZYu+Y1NPSKuQNx/0+AiwuH/zlURsMs2GOwSZ3K
-         UOcjVXnzGxUWw==
-Subject: Re: [PATCH v9 7/7] media: platform: mtk-mdp3: add Mediatek MDP3
- driver
-To:     Moudy Ho <moudy.ho@mediatek.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Jernej Skrabec <jernej.skrabec@siol.net>
-Cc:     Chun-Kuang Hu <chunkuang.hu@kernel.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Rob Landley <rob@landley.net>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
-        Alexandre Courbot <acourbot@chromium.org>, tfiga@chromium.org,
-        drinkcat@chromium.org, pihsun@chromium.org, hsinyi@google.com,
-        Maoguang Meng <maoguang.meng@mediatek.com>,
-        daoyuan huang <daoyuan.huang@mediatek.com>,
-        Ping-Hsun Wu <ping-hsun.wu@mediatek.com>,
-        menghui.lin@mediatek.com, sj.huang@mediatek.com,
-        allen-kh.cheng@mediatek.com, randy.wu@mediatek.com,
-        jason-jh.lin@mediatek.com, roy-cw.yeh@mediatek.com,
-        river.cheng@mediatek.com, srv_heupstream@mediatek.com
-References: <20211201095031.31606-1-moudy.ho@mediatek.com>
- <20211201095031.31606-8-moudy.ho@mediatek.com>
-From:   AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>
-Message-ID: <103b1664-d04c-c1fc-ff4c-e2c92ce45ee8@collabora.com>
-Date:   Wed, 1 Dec 2021 11:37:43 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+        with ESMTP id S233238AbhLALd6 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 1 Dec 2021 06:33:58 -0500
+Received: from mail-pg1-x536.google.com (mail-pg1-x536.google.com [IPv6:2607:f8b0:4864:20::536])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D64F9C061574;
+        Wed,  1 Dec 2021 03:30:32 -0800 (PST)
+Received: by mail-pg1-x536.google.com with SMTP id l190so23273078pge.7;
+        Wed, 01 Dec 2021 03:30:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :user-agent:mime-version:content-transfer-encoding;
+        bh=dL2z4oREQdf8pZHNdec+/B6oXD8rfZzVKjnWJlVoW7U=;
+        b=Hnf789KxSxQqKdQmI5TCb23Bq9Lxa/dECuDLWVrOCBa6ng00E9ywwuShEvbkiwuaES
+         AAKwJHCtXLLvf/mCUceoSiRG+ojlU2Y249nhJJv9l1NfFqS+sgEH9GoCxyuLrG6s5Qa6
+         J965EHu5DTMsB2oO3eawNc2TRiX0RHAOMwdKxLdi7fjV51qBuDCtodygj8PG+Cazl7sZ
+         PlhQp+NeiUq8bhgDAlLFFsw1XFWIOKmBm8tryixeWFyCajYJ7NhpnorkvYu4k+O4KlCd
+         w7VHK8osgSsRtD1R955ylLBSIVtqqFH1BLr/OD7cIRSVB2FE+wGsBTmEm/caI+KarJIh
+         HV9g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=dL2z4oREQdf8pZHNdec+/B6oXD8rfZzVKjnWJlVoW7U=;
+        b=79txRsYBk+j49j8RgHs/x5EqjBKvJJWlREjjo2QbNzqEFxsLsDx+eYg4wzr1DT1RA+
+         peC+jsS/pXPgWTP77+l4NZbXOBvNTjxZg3X8CRGDdqeTfFX6rt+jxl/lD3VJw8Fa2fMw
+         mWPQvW9AJVNLOIH7kVioge7VxW7HEoj1Oj+Bne2moHJMP53T0nEB70dK7KqleB6gbm6I
+         VfBGzUslQUGQfCozPq+qGZa55ZvFTeHQJrp4Z1zA90JcBPTUjVajGey2btG/r0wmx+ds
+         s9kRg+gJ2q3lCBr1d7wu+7etlD7evQRjtCmvnOgBAM7bBzpFhMNCNn0ioZbreBaFpP9V
+         5TPA==
+X-Gm-Message-State: AOAM532GCiTXwWomBPihUuALtwYYbnPLenMrN/49gPFJq0oErWWbiruV
+        AzZTemOY0B12TTeUKhz32Ic=
+X-Google-Smtp-Source: ABdhPJwQ7C8eETxrUo+aWzjU7i5NGQdVt5o0edNs09T3PWyu9EnCcp/yGqBevaaYecftWeK4ZjmY3Q==
+X-Received: by 2002:a62:a108:0:b0:4a7:8982:4a48 with SMTP id b8-20020a62a108000000b004a789824a48mr5517227pff.44.1638358231749;
+        Wed, 01 Dec 2021 03:30:31 -0800 (PST)
+Received: from ?IPv6:2400:4052:6980:3800:dba7:2b1f:3f26:a5ec? ([2400:4052:6980:3800:dba7:2b1f:3f26:a5ec])
+        by smtp.gmail.com with ESMTPSA id i10sm1159010pjd.3.2021.12.01.03.30.28
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 01 Dec 2021 03:30:31 -0800 (PST)
+Message-ID: <02a92b97134db5a01f4231acdd38dcf12a4619b4.camel@gmail.com>
+Subject: Re: [PATCH 04/17] media: atomisp: pci: do not use err var when
+ checking port validity for ISP2400
+From:   Tsuchiya Yuto <kitakar@gmail.com>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+        linux-kernel@vger.kernel.org,
+        Nable <nable.maininbox@googlemail.com>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Fabio Aiuto <fabioaiuto83@gmail.com>,
+        "andrey.i.trufanov" <andrey.i.trufanov@gmail.com>,
+        Patrik Gfeller <patrik.gfeller@gmail.com>,
+        Hans de Goede <hdegoede@redhat.com>
+Date:   Wed, 01 Dec 2021 20:30:27 +0900
+In-Reply-To: <20211117222443.3d050caa@sal.lan>
+References: <20211017161958.44351-1-kitakar@gmail.com>
+         <20211017161958.44351-5-kitakar@gmail.com>
+         <20211026092637.196447aa@sal.lan>
+         <1a295721fd1f1e512cd54a659a250aef162bfb6f.camel@gmail.com>
+         <20211028123944.66c212c1@sal.lan>
+         <af7cdf9de020171567c2e75b713deb2ed073e4e3.camel@gmail.com>
+         <20211101141058.36ea2c8e@sal.lan>
+         <ab48bd8c69273e8b18ff652f3615b2698a777092.camel@gmail.com>
+         <20211111183812.0f33fdaa@sal.lan> <20211117222443.3d050caa@sal.lan>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.42.1 
 MIME-Version: 1.0
-In-Reply-To: <20211201095031.31606-8-moudy.ho@mediatek.com>
-Content-Type: text/plain; charset=iso-8859-15; format=flowed
-Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Il 01/12/21 10:50, Moudy Ho ha scritto:
-> This patch adds driver for Mediatek's Media Data Path ver.3 (MDP3).
-> It provides the following functions:
->    color transform, format conversion, resize, crop, rotate, flip
->    and additional image quality enhancement.
-> 
-> The MDP3 driver is mainly used for Google Chromebook products to
-> import the new architecture to set the HW settings as shown below:
->    User -> V4L2 framework
->      -> MDP3 driver -> SCP (setting calculations)
->        -> MDP3 driver -> CMDQ (GCE driver) -> HW
-> 
-> Each modules' related operation control is sited in mtk-mdp3-comp.c
-> Each modules' register table is defined in file with "mdp_reg_" prefix
-> GCE related API, operation control  sited in mtk-mdp3-cmdq.c
-> V4L2 m2m device functions are implemented in mtk-mdp3-m2m.c
-> Probe, power, suspend/resume, system level functions are defined in
-> mtk-mdp3-core.c
-> 
-> Signed-off-by: Ping-Hsun Wu <ping-hsun.wu@mediatek.com>
-> Signed-off-by: daoyuan huang <daoyuan.huang@mediatek.com>
-> Signed-off-by: Moudy Ho <moudy.ho@mediatek.com>
-> Reported-by: kernel test robot <lkp@intel.com>
-> ---
->   drivers/media/platform/Kconfig                |   19 +
->   drivers/media/platform/Makefile               |    2 +
->   drivers/media/platform/mtk-mdp3/Makefile      |    6 +
->   .../media/platform/mtk-mdp3/mdp_reg_ccorr.h   |   19 +
->   drivers/media/platform/mtk-mdp3/mdp_reg_isp.h |   27 +
->   .../media/platform/mtk-mdp3/mdp_reg_rdma.h    |   65 +
->   drivers/media/platform/mtk-mdp3/mdp_reg_rsz.h |   39 +
->   .../media/platform/mtk-mdp3/mdp_reg_wdma.h    |   47 +
->   .../media/platform/mtk-mdp3/mdp_reg_wrot.h    |   55 +
->   drivers/media/platform/mtk-mdp3/mtk-img-ipi.h |  280 ++++
->   .../media/platform/mtk-mdp3/mtk-mdp3-cmdq.c   |  514 +++++++
->   .../media/platform/mtk-mdp3/mtk-mdp3-cmdq.h   |   46 +
->   .../media/platform/mtk-mdp3/mtk-mdp3-comp.c   | 1264 +++++++++++++++++
->   .../media/platform/mtk-mdp3/mtk-mdp3-comp.h   |  147 ++
->   .../media/platform/mtk-mdp3/mtk-mdp3-core.c   |  338 +++++
->   .../media/platform/mtk-mdp3/mtk-mdp3-core.h   |   76 +
->   .../media/platform/mtk-mdp3/mtk-mdp3-m2m.c    |  789 ++++++++++
->   .../media/platform/mtk-mdp3/mtk-mdp3-m2m.h    |   49 +
->   .../media/platform/mtk-mdp3/mtk-mdp3-regs.c   |  737 ++++++++++
->   .../media/platform/mtk-mdp3/mtk-mdp3-regs.h   |  372 +++++
->   .../media/platform/mtk-mdp3/mtk-mdp3-vpu.c    |  312 ++++
->   .../media/platform/mtk-mdp3/mtk-mdp3-vpu.h    |   78 +
->   22 files changed, 5281 insertions(+)
->   create mode 100644 drivers/media/platform/mtk-mdp3/Makefile
->   create mode 100644 drivers/media/platform/mtk-mdp3/mdp_reg_ccorr.h
->   create mode 100644 drivers/media/platform/mtk-mdp3/mdp_reg_isp.h
->   create mode 100644 drivers/media/platform/mtk-mdp3/mdp_reg_rdma.h
->   create mode 100644 drivers/media/platform/mtk-mdp3/mdp_reg_rsz.h
->   create mode 100644 drivers/media/platform/mtk-mdp3/mdp_reg_wdma.h
->   create mode 100644 drivers/media/platform/mtk-mdp3/mdp_reg_wrot.h
->   create mode 100644 drivers/media/platform/mtk-mdp3/mtk-img-ipi.h
->   create mode 100644 drivers/media/platform/mtk-mdp3/mtk-mdp3-cmdq.c
->   create mode 100644 drivers/media/platform/mtk-mdp3/mtk-mdp3-cmdq.h
->   create mode 100644 drivers/media/platform/mtk-mdp3/mtk-mdp3-comp.c
->   create mode 100644 drivers/media/platform/mtk-mdp3/mtk-mdp3-comp.h
->   create mode 100644 drivers/media/platform/mtk-mdp3/mtk-mdp3-core.c
->   create mode 100644 drivers/media/platform/mtk-mdp3/mtk-mdp3-core.h
->   create mode 100644 drivers/media/platform/mtk-mdp3/mtk-mdp3-m2m.c
->   create mode 100644 drivers/media/platform/mtk-mdp3/mtk-mdp3-m2m.h
->   create mode 100644 drivers/media/platform/mtk-mdp3/mtk-mdp3-regs.c
->   create mode 100644 drivers/media/platform/mtk-mdp3/mtk-mdp3-regs.h
->   create mode 100644 drivers/media/platform/mtk-mdp3/mtk-mdp3-vpu.c
->   create mode 100644 drivers/media/platform/mtk-mdp3/mtk-mdp3-vpu.h
-> 
+I'm really sorry about this delay recently. I can't spare much time now...
 
-snip...
+On Wed, 2021-11-17 at 22:24 +0000, Mauro Carvalho Chehab wrote:
+> Hi 
+> Em Thu, 11 Nov 2021 18:38:12 +0000
+> Mauro Carvalho Chehab <mchehab@kernel.org> escreveu:
+> 
+> > > The `ifdef ISP2401` was the result of merging two different version of
+> > > driver, added on the initial commit of upstreamed atomisp. And for the
+> > > `ifdef ISP2401`, I confirmed I can remove (almost [1]) all of them against
+> > > the initial commit of atomisp [2][3]
+> > > 
+> > > [1] here are the three exceptions:
+> > >     ("NOTE: ifdef ISP2400/ISP2401 usage in aero-atomisp")
+> > >     https://github.com/kitakar5525/linux-kernel/commit/1a8488cdd31ad38a3805824700b29d1e5213d3f2
+> > > 
+> > > [2] ("atomisp: pci: css2400: remove ISP2401 ifdefs")
+> > >     https://github.com/kitakar5525/linux-kernel/commit/dd6723fc5b9fe040e33b227b509a7e004243edce
+> > > [3] ("atomisp: pci: remove ISP2401 ifdefs for main pci driver")
+> > >     https://github.com/kitakar5525/linux-kernel/commit/1734341f84a96945af7635f6fff061db910f746f  
+> > 
+> > Ok, if there are more if/ifdef ISP2401 that, if reverted will keep the
+> > driver running with the firmware we're using, I'm all for it. Just send
+> > the patches ;-)
+> 
+> I went ahead and solved several INPUT_SYSTEM related ifdefs on a way
+> that it is compatible with Intel Aero firmware for the sh_css* files.
+> Except if I made any mistake, the ifdefs that are related to the
+> input system were already addressed.
+> 
+> I didn't notice any changes when running camorama on the PREVIEW
+> node. 
+> 
+> Please test. Feel free to submit fixup patches if needed.
 
-> diff --git a/drivers/media/platform/mtk-mdp3/mtk-mdp3-cmdq.c b/drivers/media/platform/mtk-mdp3/mtk-mdp3-cmdq.c
-> new file mode 100644
-> index 000000000000..a643f3ee928b
-> --- /dev/null
-> +++ b/drivers/media/platform/mtk-mdp3/mtk-mdp3-cmdq.c
-> @@ -0,0 +1,514 @@
+Thank you for your work. Just tried now and I also don't notice any
+issues so far with the latest media_stage tree.
 
-Looks like you forgot to check my review comments to this entire file.
-Can you please send a new version after applying the changes to this file
-suggested in my review of series v8?
-
-Thanks.
+Regards,
+Tsuchiya Yuto
