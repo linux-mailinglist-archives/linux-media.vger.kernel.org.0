@@ -2,196 +2,120 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5A881465505
-	for <lists+linux-media@lfdr.de>; Wed,  1 Dec 2021 19:16:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3555D465533
+	for <lists+linux-media@lfdr.de>; Wed,  1 Dec 2021 19:18:28 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244486AbhLASTz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 1 Dec 2021 13:19:55 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42264 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S244478AbhLASTv (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 1 Dec 2021 13:19:51 -0500
-Received: from mail-pj1-x1032.google.com (mail-pj1-x1032.google.com [IPv6:2607:f8b0:4864:20::1032])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5083CC061748
-        for <linux-media@vger.kernel.org>; Wed,  1 Dec 2021 10:16:30 -0800 (PST)
-Received: by mail-pj1-x1032.google.com with SMTP id j5-20020a17090a318500b001a6c749e697so1480549pjb.1
-        for <linux-media@vger.kernel.org>; Wed, 01 Dec 2021 10:16:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gateworks-com.20210112.gappssmtp.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=4Fjo/oLhM/GI33DECaidoRno6lOPTrQDXq4YeW1u3XI=;
-        b=Gy/mI/syDjgmJ/Dy5HSB0lekRFIu1fZjXrSHJRAyRpEjIvsMYeuD7jd9Gl+/dViRyQ
-         bX7H/U8ylCShghMTxCO2moMoFwVRephY825eJHoHYIsCBrCSTGr5lkGv0EVJCxBJCTjC
-         XKWTHHeI4L0kX6Cm8I0VJGnBecIMJN05ZjnxWJF4pIjeSiGX31iD106ZbDpbwRBH3ncL
-         GQspUzeaq+6ISOEZHY9XlWQRXZMBJvMLiLqaYwPf9HtglHgZUBhMgSXHJZwlcKZdu2JF
-         kvW6WGURB6KwscUjDn/Y5mtcbI6S1JQUSwK+OOMpZYnpnAwCy3Qgvhf8sAIwj+oy1ks2
-         C3Vw==
+        id S242987AbhLASVn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 1 Dec 2021 13:21:43 -0500
+Received: from mail-io1-f72.google.com ([209.85.166.72]:40618 "EHLO
+        mail-io1-f72.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S238554AbhLASVm (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 1 Dec 2021 13:21:42 -0500
+Received: by mail-io1-f72.google.com with SMTP id d12-20020a0566022d4c00b005ebda1035b1so29472919iow.7
+        for <linux-media@vger.kernel.org>; Wed, 01 Dec 2021 10:18:21 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=4Fjo/oLhM/GI33DECaidoRno6lOPTrQDXq4YeW1u3XI=;
-        b=QscuC+qU40NeguNOWuYAyIEC6t2bJB3JYFVPj5oap1Asp2P6+5RMbhFlp6tF25LNie
-         nGHRm493Jq5/bGjgqlVcbHbgf8olgFev4HGbbg8oEJiftGrDuhgopq2Atqnv4N4SaDst
-         LLROcP/oRtg+dP72bwIOy0+CEjKiNU7xQ3M+2xj9Z6SD9R/NwWWFYAmngHGZsR0X6oZX
-         KwWpqjNyX4236mqW4mEvswiCvV/jFDVO/iwJZ61EONoeFfTET9n7wEReunLdUllArYSw
-         tdF45XvyHtZXvVTAWVMGk6f3jbmAb3I/oZR5FE3E5VNsqLFEWzOfi9Hg1gzKgh0/DK68
-         lZWA==
-X-Gm-Message-State: AOAM532OsmNUdk1zdgpjYCuKbw2ES/P51umhCaWwJp+RkPIgNKyFWaWY
-        nVu4dO7i355OLSu1TRMegO1uTluz9p7cz44/81rU6A==
-X-Google-Smtp-Source: ABdhPJwttCSPFnI/f0Y+73jbxauzbId1+8+EbhmZWwrFdssLOLUTnHuIDjdXa+sBopTO83KHL5/G+HdxFmuxHV6QOCE=
-X-Received: by 2002:a17:90b:33d0:: with SMTP id lk16mr9513215pjb.66.1638382589692;
- Wed, 01 Dec 2021 10:16:29 -0800 (PST)
+        h=x-gm-message-state:mime-version:date:message-id:subject:from:to;
+        bh=KmGHnus3au4WKakf/x0ccGJ36I1Q4G9nkOFdXChMgyI=;
+        b=nCK8ZauRyduP1BoEUmEUD/qNolySP8Y6BJrs4zNTBfQ6MQbhlmgXdJkCCUXStNnM+t
+         9H3M2lTe+NypixZXKGngm/AKVvkeMSSGSxjrhsLL2VwSFfnnKdkr9W618VOqHy+lFynx
+         69A+n2weHiiJAlOq+DRu0y+oTlohPXi7N5QiCW87+q7RS8dAbfwIjqRplxKkE4bnqaeT
+         nqfuiti/zY84S96GUoJIIGMRq5o0oyE0AwEmhEPfJSC3EMslOvyX5wX7dcHYsTayxic6
+         KH/47ccHynnmMcLoAWO908aoM4uqNX6voDhc56Mc4X9a3Vv5W4Dq+jHaGG3zM0nKEVXm
+         gStQ==
+X-Gm-Message-State: AOAM533Jx7BOCYalh6ueBEgvGWQgR1M/OnghjwbD0A33w1Uf/ksQmzM4
+        FBOA4L8yoVYGh9jRgC0tivsHRP6VelsU5EMlq3wjsKYU4qT3
+X-Google-Smtp-Source: ABdhPJzzxBSjfCCgWl06pj/98H1jXN8SBT3ib/P63vbsCEnafdEnFiMSCzOq9028jCHqMSBm6Rffmik21G3i+WxGm314Gx6zrhEn
 MIME-Version: 1.0
-References: <20211201013329.15875-1-aford173@gmail.com> <CAJ+vNU1jENmWAR_5E98Vgb53ctxjxSWJewPW0YC4Yp4DuYTn3g@mail.gmail.com>
- <7216bc863d89faa9fdc5cd8d44c319f7a6d88159.camel@pengutronix.de>
-In-Reply-To: <7216bc863d89faa9fdc5cd8d44c319f7a6d88159.camel@pengutronix.de>
-From:   Tim Harvey <tharvey@gateworks.com>
-Date:   Wed, 1 Dec 2021 10:16:18 -0800
-Message-ID: <CAJ+vNU2PxgdN414Ufd4NAG5CJgnftNSAHDGpt9Nj+RfgkNmxaw@mail.gmail.com>
-Subject: Re: [RFC V2 0/2] arm64: imx8mm: Enable Hantro VPUs
-To:     Lucas Stach <l.stach@pengutronix.de>
-Cc:     Adam Ford <aford173@gmail.com>,
-        linux-media <linux-media@vger.kernel.org>,
-        Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Nicolas Dufresne <nicolas@ndufresne.ca>,
-        Adam Ford-BE <aford@beaconembedded.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Device Tree Mailing List <devicetree@vger.kernel.org>,
-        Linux ARM Mailing List <linux-arm-kernel@lists.infradead.org>,
-        open list <linux-kernel@vger.kernel.org>,
-        "open list:HANTRO VPU CODEC DRIVER" 
-        <linux-rockchip@lists.infradead.org>,
-        "open list:STAGING SUBSYSTEM" <linux-staging@lists.linux.dev>
+X-Received: by 2002:a05:6e02:1ca1:: with SMTP id x1mr10308551ill.72.1638382701646;
+ Wed, 01 Dec 2021 10:18:21 -0800 (PST)
+Date:   Wed, 01 Dec 2021 10:18:21 -0800
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <000000000000f0196305d219b2fe@google.com>
+Subject: [syzbot] WARNING in __dma_map_sg_attrs
+From:   syzbot <syzbot+10e27961f4da37c443b2@syzkaller.appspotmail.com>
+To:     christian.koenig@amd.com, dri-devel@lists.freedesktop.org,
+        hch@lst.de, iommu@lists.linux-foundation.org,
+        linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org, m.szyprowski@samsung.com,
+        robin.murphy@arm.com, sumit.semwal@linaro.org,
+        syzkaller-bugs@googlegroups.com
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Dec 1, 2021 at 9:32 AM Lucas Stach <l.stach@pengutronix.de> wrote:
->
-> Hi Tim,
->
-> Am Mittwoch, dem 01.12.2021 um 09:23 -0800 schrieb Tim Harvey:
-> > On Tue, Nov 30, 2021 at 5:33 PM Adam Ford <aford173@gmail.com> wrote:
-> > >
-> > > The i.MX8M has two Hantro video decoders, called G1 and G2 which appear
-> > > to be related to the video decoders used on the i.MX8MQ, but because of
-> > > how the Mini handles the power domains, the VPU driver does not need to
-> > > handle all the functions, nor does it support the post-processor,
-> > > so a new compatible flag is required.
-> > >
-> > > With the suggestion from Hans Verkuil, I was able to get the G2 splat to go away
-> > > with changes to FORCE_MAX_ZONEORDER, but I found I could also set cma=512M, however
-> > > it's unclear to me if that's an acceptable alternative.
-> > >
-> > > At the suggestion of Ezequiel Garcia and Nicolas Dufresne I have some
-> > > results from Fluster. However, the G2 VPU appears to fail most tests.
-> > >
-> > > ./fluster.py run -dGStreamer-H.264-V4L2SL-Gst1.0
-> > > Ran 90/135 tests successfully               in 76.431 secs
-> > >
-> > >  ./fluster.py run -d GStreamer-VP8-V4L2SL-Gst1.0
-> > > Ran 55/61 tests successfully               in 21.454 secs
-> > >
-> > > ./fluster.py run -d GStreamer-VP9-V4L2SL-Gst1.0
-> > > Ran 0/303 tests successfully               in 20.016 secs
-> > >
-> > > Each day seems to show more and more G2 submissions, and gstreamer seems to be
-> > > still working on the VP9, so I am not sure if I should drop G2 as well.
-> > >
-> > >
-> > > Adam Ford (2):
-> > >   media: hantro: Add support for i.MX8M Mini
-> > >   arm64: dts: imx8mm: Enable VPU-G1 and VPU-G2
-> > >
-> > >  arch/arm64/boot/dts/freescale/imx8mm.dtsi   | 41 +++++++++++++++
-> > >  drivers/staging/media/hantro/hantro_drv.c   |  2 +
-> > >  drivers/staging/media/hantro/hantro_hw.h    |  2 +
-> > >  drivers/staging/media/hantro/imx8m_vpu_hw.c | 57 +++++++++++++++++++++
-> > >  4 files changed, 102 insertions(+)
-> > >
-> >
-> > Adam,
-> >
-> > That's for the patches!
-> >
-> > I tested just this series on top of v5.16-rc3 on an
-> > imx8mm-venice-gw73xx-0x and found that if I loop fluster I can end up
-> > getting a hang within 10 to 15 mins or so when imx8m_blk_ctrl_power_on
-> > is called for VPUMIX pd :
-> > while [ 1 ]; do uptime; ./fluster.py run -d GStreamer-VP8-V4L2SL-Gst1.0; done
-> > ...
-> > [  618.838436] imx-pgc imx-pgc-domain.6: failed to command PGC
-> > [  618.844407] imx8m-blk-ctrl 38330000.blk-ctrl: failed to power up bus domain
-> >
-> > I added prints in imx_pgc_power_{up,down} and
-> > imx8m_blk_ctrl_power_{on,off} to get some more context
-> > ...
-> > Ran 55/61 tests successfully               in 8.685 secs
-> >  17:16:34 up 17 min,  0 users,  load average: 3.97, 2.11, 0.93
-> > ********************************************************************************
-> > ********************
-> > Running test suite VP8-TEST-VECTORS with decoder GStreamer-VP8-V4L2SL-Gst1.0
-> > Using 4 parallel job(s)
-> > ********************************************************************************
-> > ********************
-> >
-> > [TEST SUITE      ] (DECODER                    ) TEST VECTOR               ... R
-> > ESULT
-> > ----------------------------------------------------------------------
-> > [ 1023.114806] imx8m_blk_ctrl_power_on vpublk-g1
-> > [ 1023.119669] imx_pgc_power_up vpumix
-> > [ 1023.124307] imx-pgc imx-pgc-domain.6: failed to command PGC
-> > [ 1023.130006] imx8m-blk-ctrl 38330000.blk-ctrl: failed to power up bus domain
-> >
-> > While this wouldn't be an issue with this series it does indicate we
-> > still have something racy in blk-ctrl. Can you reproduce this (and if
-> > not what kernel are you based on)? Perhaps you or Lucas have some
-> > ideas?
-> >
-> Did you have "[PATCH] soc: imx: gpcv2: Synchronously suspend MIX
-> domains" applied when running those tests? It has only recently been
-> picked up by Shawn and may have an influence on the bus domain
-> behavior.
->
+Hello,
 
-Lucas,
+syzbot found the following issue on:
 
-Good point. I did have that originally before I started pruning down
-to the bare minimum to reproduce the issue.
+HEAD commit:    c5c17547b778 Merge tag 'net-5.16-rc3' of git://git.kernel...
+git tree:       upstream
+console output: https://syzkaller.appspot.com/x/log.txt?x=13a73609b00000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=bf85c53718a1e697
+dashboard link: https://syzkaller.appspot.com/bug?extid=10e27961f4da37c443b2
+compiler:       gcc (Debian 10.2.1-6) 10.2.1 20210110, GNU ld (GNU Binutils for Debian) 2.35.2
 
-I added it back and now I have the following:
-arm64: dts: imx8mm: Enable VPU-G1 and VPU-G2
-media: hantro: Add support for i.MX8M Mini
-soc: imx: gpcv2: keep i.MX8MM VPU-H1 bus clock active
-soc: imx: gpcv2: Synchronously suspend MIX domains
-Linux 5.16-rc3
+Unfortunately, I don't have any reproducer for this issue yet.
 
-Here's the latest with that patch:
-...
-[VP8-TEST-VECTORS] (GStreamer-VP8-V4L2SL-Gst1.0)
-vp80-00-comprehensive-007 ... Success
-[  316.632373] imx8m_blk_ctrl_power_off vpublk-g1
-[  316.636908] imx_pgc_power_down vpu-g1
-[  316.640983] imx_pgc_power_down vpumix
-[  316.756869] imx8m_blk_ctrl_power_on vpublk-g1
-[  316.761360] imx_pgc_power_up vpumix
-[  316.765985] imx-pgc imx-pgc-domain.6: failed to command PGC
-[  316.772743] imx8m-blk-ctrl 38330000.blk-ctrl: failed to power up bus domain
-^^^ hang
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+10e27961f4da37c443b2@syzkaller.appspotmail.com
 
-I believe there is some sort of simple test I can do to power the gpu
-up/down to test as well but not clear what that is.
+------------[ cut here ]------------
+WARNING: CPU: 2 PID: 17169 at kernel/dma/mapping.c:188 __dma_map_sg_attrs+0x181/0x1f0 kernel/dma/mapping.c:188
+Modules linked in:
+CPU: 0 PID: 17169 Comm: syz-executor.3 Not tainted 5.16.0-rc2-syzkaller #0
+Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.14.0-2 04/01/2014
+RIP: 0010:__dma_map_sg_attrs+0x181/0x1f0 kernel/dma/mapping.c:188
+Code: 00 00 00 00 00 fc ff df 48 c1 e8 03 80 3c 10 00 75 71 4c 8b 3d 70 6d b1 0d e9 db fe ff ff e8 86 ff 12 00 0f 0b e8 7f ff 12 00 <0f> 0b 45 31 e4 e9 54 ff ff ff e8 70 ff 12 00 49 8d 7f 50 48 b8 00
+RSP: 0018:ffffc90002c0fb20 EFLAGS: 00010216
+RAX: 0000000000013018 RBX: 0000000000000020 RCX: ffffc900037d4000
+RDX: 0000000000040000 RSI: ffffffff8163d361 RDI: ffff8880182ae4d0
+RBP: ffff8880182ae088 R08: 0000000000000002 R09: ffff888017ba054f
+R10: ffffffff8163d242 R11: 000000000008808a R12: 0000000000000000
+R13: ffff888024ca5700 R14: 0000000000000001 R15: 0000000000000000
+FS:  00007fa269e34700(0000) GS:ffff88802cb00000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 000000000040c120 CR3: 000000006c77c000 CR4: 0000000000150ee0
+DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
+Call Trace:
+ <TASK>
+ dma_map_sgtable+0x70/0xf0 kernel/dma/mapping.c:264
+ drm_gem_map_dma_buf+0x12a/0x1e0 drivers/gpu/drm/drm_prime.c:633
+ __map_dma_buf drivers/dma-buf/dma-buf.c:675 [inline]
+ dma_buf_map_attachment+0x39a/0x5b0 drivers/dma-buf/dma-buf.c:954
+ drm_gem_prime_import_dev.part.0+0x85/0x220 drivers/gpu/drm/drm_prime.c:939
+ drm_gem_prime_import_dev drivers/gpu/drm/drm_prime.c:982 [inline]
+ drm_gem_prime_import+0xc8/0x200 drivers/gpu/drm/drm_prime.c:982
+ virtgpu_gem_prime_import+0x49/0x150 drivers/gpu/drm/virtio/virtgpu_prime.c:166
+ drm_gem_prime_fd_to_handle+0x21d/0x550 drivers/gpu/drm/drm_prime.c:318
+ drm_prime_fd_to_handle_ioctl+0x9b/0xd0 drivers/gpu/drm/drm_prime.c:374
+ drm_ioctl_kernel+0x27d/0x4e0 drivers/gpu/drm/drm_ioctl.c:782
+ drm_ioctl+0x51e/0x9d0 drivers/gpu/drm/drm_ioctl.c:885
+ vfs_ioctl fs/ioctl.c:51 [inline]
+ __do_sys_ioctl fs/ioctl.c:874 [inline]
+ __se_sys_ioctl fs/ioctl.c:860 [inline]
+ __x64_sys_ioctl+0x193/0x200 fs/ioctl.c:860
+ do_syscall_x64 arch/x86/entry/common.c:50 [inline]
+ do_syscall_64+0x35/0xb0 arch/x86/entry/common.c:80
+ entry_SYSCALL_64_after_hwframe+0x44/0xae
+RIP: 0033:0x7fa26c8beae9
+Code: ff ff c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 40 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 bc ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007fa269e34188 EFLAGS: 00000246 ORIG_RAX: 0000000000000010
+RAX: ffffffffffffffda RBX: 00007fa26c9d1f60 RCX: 00007fa26c8beae9
+RDX: 00000000200004c0 RSI: 00000000c00c642e RDI: 0000000000000005
+RBP: 00007fa26c918f6d R08: 0000000000000000 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000000
+R13: 00007ffc0019c51f R14: 00007fa269e34300 R15: 0000000000022000
+ </TASK>
 
-Tim
+
+---
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
+
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
