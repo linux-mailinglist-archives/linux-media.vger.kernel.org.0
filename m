@@ -2,72 +2,115 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CF347464160
-	for <lists+linux-media@lfdr.de>; Tue, 30 Nov 2021 23:37:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0B5E0464487
+	for <lists+linux-media@lfdr.de>; Wed,  1 Dec 2021 02:33:54 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1344592AbhK3Wkm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 30 Nov 2021 17:40:42 -0500
-Received: from mail-ot1-f43.google.com ([209.85.210.43]:36447 "EHLO
-        mail-ot1-f43.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1344471AbhK3Wki (ORCPT
+        id S241053AbhLABhL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 30 Nov 2021 20:37:11 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39804 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S241111AbhLABg7 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 30 Nov 2021 17:40:38 -0500
-Received: by mail-ot1-f43.google.com with SMTP id w6-20020a9d77c6000000b0055e804fa524so32348838otl.3;
-        Tue, 30 Nov 2021 14:37:18 -0800 (PST)
+        Tue, 30 Nov 2021 20:36:59 -0500
+Received: from mail-io1-xd31.google.com (mail-io1-xd31.google.com [IPv6:2607:f8b0:4864:20::d31])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AA176C061746;
+        Tue, 30 Nov 2021 17:33:39 -0800 (PST)
+Received: by mail-io1-xd31.google.com with SMTP id x6so28476402iol.13;
+        Tue, 30 Nov 2021 17:33:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=z6+Hsl2E7Fnoefi4agcFRg7vLMjgK5Iu6TjBvSeyeqU=;
+        b=i+kUWaVqqQZG9C824ctJ3vKTiwSiGEPuzWPmD6nxB1isjgMBq9ueQVb2J7WGfUoOsP
+         dAokJBh1JXTjMUA107+TkDuGzB7CfvcQkFrZiGrOVchE9y4N2Tu7JXfjuNqCRrmFnEM4
+         /R+zMMiycEZBYYqbQzW+hPEIUvCVcmnwGlRLsuDjU6+s0rNjIZSWYlD+rARVK5XDDADQ
+         MAY7uj621/0AaiL1xZg8GyVdhpLD3CyrqiGBBC4xlT5w9b+TwkYPgRsP9/GIY52vUP3I
+         biMS4DaVlzka/KAJ3UeGvDjmSDp4FeFxiFGkHEbLhRDVAA6oz8Cc5CJzImWZga6sEkLD
+         s1Ug==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=qw3RdpSgeleuSiflU34NTnO23/282NpqqaqQkFDPC+U=;
-        b=zoIgpNtRSRvxXUNmcQmBJlZFoGAeFq3jhzLamSqKZgmSflXw1YE7m1uVvzGT4Rhfmq
-         OF5GLl+AX5+tuaXkCMtRs3O14D/6Fh9nM8N4ku9lMIl7OOSvb0iDoLt+ja5pMKjCAf57
-         cfjEqKoQoZAzeNCzzXr2gM2V9gEDsQBzaMRE7+igl+54tnESIUyYtJ9xsFM+ZzbIGLOG
-         3dhwLkyAtOxkTAGc7zpOGFIKxw0avDxjCIdGEtIHZLfbMb0LYqDVhidFIl9aNgKmf1a/
-         ntaj24ujupaghV7Oh0hyd4ddNZ66HdTRD0y39Vh7MnDuj+IUVRNovXwWNCQ8Sw9ay7Kr
-         hUPQ==
-X-Gm-Message-State: AOAM533dvuXE2kg5PYItOCOnM5jGaTcwyf2OyPz5wtkQanFxeyJaYPCs
-        iSe1sLqe0oP1L0mrhokjkbCf96N3ng==
-X-Google-Smtp-Source: ABdhPJzXnw3uAcMBnl5vMUGNACtD+ZNjQrW+j2Iw8Mi5+5z+lYjcpJhD6SFMUjR6QC5tM+r6phqemA==
-X-Received: by 2002:a05:6830:8:: with SMTP id c8mr2012372otp.115.1638311837835;
-        Tue, 30 Nov 2021 14:37:17 -0800 (PST)
-Received: from robh.at.kernel.org (66-90-148-213.dyn.grandenetworks.net. [66.90.148.213])
-        by smtp.gmail.com with ESMTPSA id n22sm2990827oop.29.2021.11.30.14.37.16
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=z6+Hsl2E7Fnoefi4agcFRg7vLMjgK5Iu6TjBvSeyeqU=;
+        b=kW9gKhWisogNtn2K3+02auZqWhll+9JFLLkFPIeJLLd/7j2MMG+yXnl2EUCMmhL+jt
+         4NpzW0FB9TRqGbEFdMAZyp64+ce3W+uR66vwlN05PgjrFyD4rzOuIj6ms79Db3XOQSmO
+         VHGwJkC/WEovG3aa8ATAv/BI03Q9YqiHM1hfpN2AGkvnjXRGxWfTOnIg67hlgGT9+/FI
+         ltkg28BqpWartsz5s5XYqgDRYckfZcwo658S4qMio4JWRTk5cQIYM+iTouFG/bNLCwWD
+         61/EQUI1pgFPTcPwLk7IZRlFfD0fDAma5URiJO7iQ6idWFFRRisIttdL1xwS2TtI0frj
+         /JOA==
+X-Gm-Message-State: AOAM5332I/Ho9nMT4LB8HVbT0GSNFsldK/xkw7/eAYI0sOcwgHlkPI3R
+        Bsh85J0/AvTwUCieQ2j3+ZfUjwWCMWUBRJpt
+X-Google-Smtp-Source: ABdhPJyW+HrcS0ZmOpkgFwvWGKGW6/Hwc9Osh0IEW7UhpCwjn64FvGv3Cn9B4lISIyqF86IIatHz8w==
+X-Received: by 2002:a05:6602:2e81:: with SMTP id m1mr4265751iow.55.1638322418535;
+        Tue, 30 Nov 2021 17:33:38 -0800 (PST)
+Received: from aford-IdeaCentre-A730.lan ([2601:448:8400:9e8:b7ee:f768:f33c:c028])
+        by smtp.gmail.com with ESMTPSA id u24sm11856737ior.20.2021.11.30.17.33.37
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 30 Nov 2021 14:37:17 -0800 (PST)
-Received: (nullmailer pid 3137318 invoked by uid 1000);
-        Tue, 30 Nov 2021 22:37:15 -0000
-Date:   Tue, 30 Nov 2021 16:37:15 -0600
-From:   Rob Herring <robh@kernel.org>
-To:     Niklas =?iso-8859-1?Q?S=F6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>
-Cc:     devicetree@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH] dt-bindings: staging: media: i2c: Add bindings for Maxim
- Integrated MAX96712
-Message-ID: <Yaanmxds2mxJnpil@robh.at.kernel.org>
-References: <20211123214922.3981616-1-niklas.soderlund+renesas@ragnatech.se>
+        Tue, 30 Nov 2021 17:33:38 -0800 (PST)
+From:   Adam Ford <aford173@gmail.com>
+To:     linux-media@vger.kernel.org
+Cc:     ezequiel@vanguardiasur.com.ar, hverkuil@xs4all.nl,
+        tharvey@gateworks.com, nicolas@ndufresne.ca,
+        aford@beaconembedded.com, Adam Ford <aford173@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-kernel@vger.kernel.org, linux-rockchip@lists.infradead.org,
+        linux-staging@lists.linux.dev
+Subject: [RFC V2 0/2] arm64: imx8mm: Enable Hantro VPUs
+Date:   Tue, 30 Nov 2021 19:33:27 -0600
+Message-Id: <20211201013329.15875-1-aford173@gmail.com>
+X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20211123214922.3981616-1-niklas.soderlund+renesas@ragnatech.se>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Nov 23, 2021 at 10:49:22PM +0100, Niklas Söderlund wrote:
-> Add bindings for Maxim Integrated MAX96712 deserializer. The MAX96712
-> deserializer converts GMSL2 or GMSL1 serial inputs into MIPI CSI-2 D-PHY
-> or C-PHY formatted outputs.
-> 
-> Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-> ---
->  .../staging/media/i2c/maxim,max96712.yaml     | 111 ++++++++++++++++++
->  1 file changed, 111 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/staging/media/i2c/maxim,max96712.yaml
+The i.MX8M has two Hantro video decoders, called G1 and G2 which appear
+to be related to the video decoders used on the i.MX8MQ, but because of
+how the Mini handles the power domains, the VPU driver does not need to
+handle all the functions, nor does it support the post-processor,
+so a new compatible flag is required.
 
-Drop 'staging'. We don't do staging bindings unless they are in 
-drivers/staging/ and then I ignore them. Though a couple snuck in.
+With the suggestion from Hans Verkuil, I was able to get the G2 splat to go away
+with changes to FORCE_MAX_ZONEORDER, but I found I could also set cma=512M, however
+it's unclear to me if that's an acceptable alternative.
 
-Rob
+At the suggestion of Ezequiel Garcia and Nicolas Dufresne I have some
+results from Fluster. However, the G2 VPU appears to fail most tests.
+
+./fluster.py run -dGStreamer-H.264-V4L2SL-Gst1.0
+Ran 90/135 tests successfully               in 76.431 secs
+
+ ./fluster.py run -d GStreamer-VP8-V4L2SL-Gst1.0
+Ran 55/61 tests successfully               in 21.454 secs
+
+./fluster.py run -d GStreamer-VP9-V4L2SL-Gst1.0
+Ran 0/303 tests successfully               in 20.016 secs
+
+Each day seems to show more and more G2 submissions, and gstreamer seems to be 
+still working on the VP9, so I am not sure if I should drop G2 as well.
+
+
+Adam Ford (2):
+  media: hantro: Add support for i.MX8M Mini
+  arm64: dts: imx8mm: Enable VPU-G1 and VPU-G2
+
+ arch/arm64/boot/dts/freescale/imx8mm.dtsi   | 41 +++++++++++++++
+ drivers/staging/media/hantro/hantro_drv.c   |  2 +
+ drivers/staging/media/hantro/hantro_hw.h    |  2 +
+ drivers/staging/media/hantro/imx8m_vpu_hw.c | 57 +++++++++++++++++++++
+ 4 files changed, 102 insertions(+)
+
+-- 
+2.32.0
+
