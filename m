@@ -2,204 +2,109 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A4BA046581C
-	for <lists+linux-media@lfdr.de>; Wed,  1 Dec 2021 22:03:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6DBFF465825
+	for <lists+linux-media@lfdr.de>; Wed,  1 Dec 2021 22:08:46 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1353130AbhLAVGw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 1 Dec 2021 16:06:52 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53414 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1353682AbhLAVGo (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 1 Dec 2021 16:06:44 -0500
-Received: from mail-qv1-xf30.google.com (mail-qv1-xf30.google.com [IPv6:2607:f8b0:4864:20::f30])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0C7C9C061574
-        for <linux-media@vger.kernel.org>; Wed,  1 Dec 2021 13:03:23 -0800 (PST)
-Received: by mail-qv1-xf30.google.com with SMTP id s9so22954914qvk.12
-        for <linux-media@vger.kernel.org>; Wed, 01 Dec 2021 13:03:22 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ndufresne-ca.20210112.gappssmtp.com; s=20210112;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :user-agent:mime-version:content-transfer-encoding;
-        bh=zzUyVZkYHJ/EtGhQX/pmQIpQONhG4g4J+RvLaS350ZU=;
-        b=ZI7scObmozGOck8w7W6H7cRqNiKozmSQ0jvWo7vGzBlQfhrCf7FkrsMjygkzFh9LFh
-         LWITGcH6q8MfYq/EaEHKpk8QbbfnIKtcaBVedIkXcPwhHyI9Z7ziaDZpTsmedGbEJL+E
-         nBZFSrmp6/YMldfMIpYRfvWyTeqi5rwwEZudbocxgZZ4lSCN1fwi3O6GJ0y4Vf9JO+XB
-         M03fHBu0WzbYlA2kVxuABwvHT24CUnSfKgnV6BYtQZEMR02CwmfntUdzwgFhvtjgsD43
-         ALG4hDvTjlTuqivqL5alKt5fdhtVCo/Mq+I8b1oijSnnXOdQfhijgKDnbUxUHCrM2z/X
-         FUdw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=zzUyVZkYHJ/EtGhQX/pmQIpQONhG4g4J+RvLaS350ZU=;
-        b=U1TUsaO6NqlAo4UvTXXQ5uU8PVM18dRPwLiUS7M4tobTTmDmr4HWdY7FrbrbMhFf/I
-         EoHP4wcvBZytf18C3guLgrUYGgNKkXovMnU5pDclD0Ie0LfxDtnXh5mJdrG0Hb9qxZIU
-         ceUGSQ2JoxGo1CibxSWBya8XVMuctuhVm//R5UBOLTd18GB1FOSv+9Cu2IcbRU81BVs/
-         eZZStZn6m8AYvLx5VcbhLEEnsPwX+0MlD2ZszdPdE4LIpjiw33ExghhfZjvaOsMSCbbc
-         mt++d71/2y/N91cWutg2l/Ye/1noBckLL+RFbaKm8/SMZeYsDbddqaTdaD+L0Q3x9qRt
-         RVrg==
-X-Gm-Message-State: AOAM5314D07ivtqkfeSqDbyjALFbBbCAqPs9Cx84MA767fbuNPjY64Jy
-        XUhwgKUtK4Y6JpbA3mqjhL28Gw==
-X-Google-Smtp-Source: ABdhPJwHo89Y0ElsYVSWh/R6qNsHkOikRJSJcPfLtzPsRdk3EejBbMpKLw8GyLWQT7w8bCh04oLn9Q==
-X-Received: by 2002:a05:6214:e41:: with SMTP id o1mr8967705qvc.88.1638392602056;
-        Wed, 01 Dec 2021 13:03:22 -0800 (PST)
-Received: from nicolas-tpx395.localdomain (mtl.collabora.ca. [66.171.169.34])
-        by smtp.gmail.com with ESMTPSA id w10sm454063qtk.90.2021.12.01.13.03.20
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 01 Dec 2021 13:03:21 -0800 (PST)
-Message-ID: <d8335964ece000814c8ec2ea0274498b3280812c.camel@ndufresne.ca>
-Subject: Re: [RFC V2 1/2] media: hantro: Add support for i.MX8M Mini
-From:   Nicolas Dufresne <nicolas@ndufresne.ca>
-To:     Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
-        Adam Ford <aford173@gmail.com>
-Cc:     linux-media <linux-media@vger.kernel.org>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Tim Harvey <tharvey@gateworks.com>,
-        Adam Ford-BE <aford@beaconembedded.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        devicetree <devicetree@vger.kernel.org>,
-        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        "open list:ARM/Rockchip SoC..." <linux-rockchip@lists.infradead.org>,
-        "open list:STAGING SUBSYSTEM" <linux-staging@lists.linux.dev>
-Date:   Wed, 01 Dec 2021 16:03:19 -0500
-In-Reply-To: <CAAEAJfDqBezv1_ZsF3vjAFprZYuaE7krkSXa4vzAfMZp5_z+sA@mail.gmail.com>
-References: <20211201013329.15875-1-aford173@gmail.com>
-         <20211201013329.15875-2-aford173@gmail.com>
-         <CAAEAJfBBFhRtW2wmoA6T+yyM-nurUbtPqYHKPHjeRdKzA34PcQ@mail.gmail.com>
-         <CAHCN7xLGTadbr+=-j2yJHFn233dgHic28njej8LHS2M0WwtqYQ@mail.gmail.com>
-         <CAAEAJfDqBezv1_ZsF3vjAFprZYuaE7krkSXa4vzAfMZp5_z+sA@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.42.1 (3.42.1-1.fc35) 
+        id S240310AbhLAVMG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 1 Dec 2021 16:12:06 -0500
+Received: from mout.gmx.net ([212.227.17.20]:41523 "EHLO mout.gmx.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S233009AbhLAVMF (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 1 Dec 2021 16:12:05 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
+        s=badeba3b8450; t=1638392923;
+        bh=5kQT9sBIyqU6jfWmldbdSc8NEk1+FTFlNwnqT3U4Cdo=;
+        h=X-UI-Sender-Class:From:To:Subject:Date;
+        b=kp4ldW1zyNb0Os3jyWKFK3DRe3ta2bB4loBn+WUQH/LvQsOu+CLGpMd+tJsDDPUzm
+         Avb4I5g+LkEoAtsFoNjYuH0/9cMqBa58XGRb3hQ9abYuNb1nh5CidSWiXIFh02Z/Sx
+         4gpprgyFbKlZjHEwF6WbqfTdDFDZz1tjZS6c9DgM=
+X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
+Received: from [91.65.60.26] ([91.65.60.26]) by web-mail.gmx.net
+ (3c-app-gmx-bap03.server.lan [172.19.172.73]) (via HTTP); Wed, 1 Dec 2021
+ 22:08:43 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Message-ID: <trinity-2a86eb9d-6264-4387-95e1-ba7b79a4050f-1638392923493@3c-app-gmx-bap03>
+From:   Robert Schlabbach <robert_s@gmx.net>
+To:     linux-media@vger.kernel.org
+Subject: [PATCH 1/2] media: si2157: Fix "warm" tuner state detection
+Content-Type: text/plain; charset=UTF-8
+Date:   Wed, 1 Dec 2021 22:08:43 +0100
+Importance: normal
+Sensitivity: Normal
+Content-Transfer-Encoding: quoted-printable
+X-Priority: 3
+X-Provags-ID: V03:K1:O6fRweqshlttT1E67xOk2tPP/HmWKzYkFOk5BZLuGN8kHsFfOCCdsPmR3ekqv1u+Q7zUE
+ qsKdGXvA2g5WPp9ns5PBOqGIzf04/sIPFnPgwxp3zYCip70oZgWZ9gmml4fXc8V0YGBWZ3D9F98n
+ 9ikaxWhVwiSAziYpq0kMiG2UQfgTYV0dQnbdYT/SJuZVXJxwQofkEOBsMkyX5aPDWeQI8uwlHECp
+ TJ3NfdLi2fhQ5FkVsZs5BxOkFkXtEkY2Bal/gw07P4UnBp5svZiwrSTXk8WRdyjqDhYn5BrayGfO
+ GM=
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:2xoYazx2TUU=:PKVatfObfwvRiNiUjEHauM
+ tYoy7ADzw7iqExR4fyQzB1Cg7+fLRjifSP9dFnsppQO/jZU9CV4+HBxd/XGnE6/5VD8nu7i4+
+ Nz3/J8zM39wdYYOnWE2/NCg8aYi28LO/Q3WAHxyFNy3DHEMudDvKCs7R7mM0yfY5kEpu+WfT8
+ E9v9hwWKT0B4/towHs9ZwnZ3RK5nxJtHLF43mvwzYnfPD7CW2EbyD7CAfyHVk2BU0D/uB935n
+ tzekbE6pzufFtGn9okErQaY8G2Z8RwJoFodbTkduc3YuEaN3snADgiFOYAUsJqqeHNeWA8Dym
+ 8FbYjkjC8JoPmbRUq4i30V0DL9Ygnd5xcykfFfQJvbmOBR+rrmm1sh3ZjFctfVXCb1NI5qtzR
+ lqQGHXmGrYzejnGWka5DHaK9Jd1AklS44c55cZpsVgqhEIjAZPxs+1F4mw4xohoLByB3p4xg1
+ np99OOuifiBaLOBGpPscZ8dN4dXx1VuLxK5emye0GIwKqGNa42WdRc1/4FwXHQOL95YdOxi85
+ uJosr4sdy0d9trO/dovCWgVNx/FK5Cl6G8rKehtdgvrmya4bM9Hj5hA4CZVGYKW+Lls3WBeKA
+ 7ASg00A47uc0aBjkjs2/WNAWgdLO+W0YQ82dVoVVLmWlOg2cHyaZCF/ONqBlC31DP4uJKZn6/
+ CkEOlLVAlg8c2yYWwNBRlAst+oH9Tko897KAj/u0xnSDyyy9CZ9r2dxoDf1/6LM4iFtGE1L8+
+ R7Fy0T1v5ER1UWR4a4Z4ZF78nCFBuuUo9bB0GFtOtwnnRDmAXEsYhhmx49783fEG1055iFhsh
+ MtxOmFM
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Le mercredi 01 décembre 2021 à 09:58 -0300, Ezequiel Garcia a écrit :
-> On Wed, 1 Dec 2021 at 09:36, Adam Ford <aford173@gmail.com> wrote:
-> > 
-> > On Wed, Dec 1, 2021 at 6:25 AM Ezequiel Garcia
-> > <ezequiel@vanguardiasur.com.ar> wrote:
-> > > 
-> > > Hi Adam,
-> > > 
-> > > On Tue, 30 Nov 2021 at 22:33, Adam Ford <aford173@gmail.com> wrote:
-> > > > 
-> > > > The i.MX8M Mini has a similar implementation of the Hantro G1 and
-> > > > h decoders, but the Mini uses the vpu-blk-ctrl for handling the
-> > > > VPU resets through the power domain system.  As such, there are
-> > > > functions present in the 8MQ that are not applicable to the Mini
-> > > > which requires the driver to have a different compatible flags.
-> > > > 
-> > > > Signed-off-by: Adam Ford <aford173@gmail.com>
-> > > > 
-> > > > diff --git a/drivers/staging/media/hantro/hantro_drv.c b/drivers/staging/media/hantro/hantro_drv.c
-> > > > index fb82b9297a2b..2aa1c520be50 100644
-> > > > --- a/drivers/staging/media/hantro/hantro_drv.c
-> > > > +++ b/drivers/staging/media/hantro/hantro_drv.c
-> > > > @@ -592,6 +592,8 @@ static const struct of_device_id of_hantro_match[] = {
-> > > >         { .compatible = "rockchip,rk3399-vpu", .data = &rk3399_vpu_variant, },
-> > > >  #endif
-> > > >  #ifdef CONFIG_VIDEO_HANTRO_IMX8M
-> > > > +       { .compatible = "nxp,imx8mm-vpu", .data = &imx8mm_vpu_variant, },
-> > > > +       { .compatible = "nxp,imx8mm-vpu-g2", .data = &imx8mm_vpu_g2_variant },
-> > > >         { .compatible = "nxp,imx8mq-vpu", .data = &imx8mq_vpu_variant, },
-> > > >         { .compatible = "nxp,imx8mq-vpu-g2", .data = &imx8mq_vpu_g2_variant },
-> > > >  #endif
-> > > > diff --git a/drivers/staging/media/hantro/hantro_hw.h b/drivers/staging/media/hantro/hantro_hw.h
-> > > > index 267a6d33a47b..ae7c3fff760c 100644
-> > > > --- a/drivers/staging/media/hantro/hantro_hw.h
-> > > > +++ b/drivers/staging/media/hantro/hantro_hw.h
-> > > > @@ -211,6 +211,8 @@ enum hantro_enc_fmt {
-> > > >         ROCKCHIP_VPU_ENC_FMT_UYVY422 = 3,
-> > > >  };
-> > > > 
-> > > > +extern const struct hantro_variant imx8mm_vpu_g2_variant;
-> > > > +extern const struct hantro_variant imx8mm_vpu_variant;
-> > > >  extern const struct hantro_variant imx8mq_vpu_g2_variant;
-> > > >  extern const struct hantro_variant imx8mq_vpu_variant;
-> > > >  extern const struct hantro_variant px30_vpu_variant;
-> > > > diff --git a/drivers/staging/media/hantro/imx8m_vpu_hw.c b/drivers/staging/media/hantro/imx8m_vpu_hw.c
-> > > > index ea919bfb9891..c68516c00c6d 100644
-> > > > --- a/drivers/staging/media/hantro/imx8m_vpu_hw.c
-> > > > +++ b/drivers/staging/media/hantro/imx8m_vpu_hw.c
-> > > > @@ -242,6 +242,32 @@ static const struct hantro_codec_ops imx8mq_vpu_g2_codec_ops[] = {
-> > > >         },
-> > > >  };
-> > > > 
-> > > > +static const struct hantro_codec_ops imx8mm_vpu_codec_ops[] = {
-> > > > +       [HANTRO_MODE_MPEG2_DEC] = {
-> > > > +               .run = hantro_g1_mpeg2_dec_run,
-> > > > +               .init = hantro_mpeg2_dec_init,
-> > > > +               .exit = hantro_mpeg2_dec_exit,
-> > > > +       },
-> > > > +       [HANTRO_MODE_VP8_DEC] = {
-> > > > +               .run = hantro_g1_vp8_dec_run,
-> > > > +               .init = hantro_vp8_dec_init,
-> > > > +               .exit = hantro_vp8_dec_exit,
-> > > > +       },
-> > > > +       [HANTRO_MODE_H264_DEC] = {
-> > > > +               .run = hantro_g1_h264_dec_run,
-> > > > +               .init = hantro_h264_dec_init,
-> > > > +               .exit = hantro_h264_dec_exit,
-> > > > +       },
-> > > > +};
-> > > > +
-> > > > +static const struct hantro_codec_ops imx8mm_vpu_g2_codec_ops[] = {
-> > > > +       [HANTRO_MODE_HEVC_DEC] = {
-> > > > +               .run = hantro_g2_hevc_dec_run,
-> > > > +               .init = hantro_hevc_dec_init,
-> > > > +               .exit = hantro_hevc_dec_exit,
-> > > > +       },
-> > > > +};
-> > > > +
-> > > 
-> > > I believe you are missing VP9, which explains why you get
-> > > a zero fluster score.
-> > 
-> > That's what I was thinking too and that's why I was wondering if I
-> > should wait on G2 until more of those G2 patches have been finalized
-> > and accepted.  Is there a way to test the HEVC?  I didn't see one in
-> > the fluster list.
-> > 
-> 
-> VP9 is on its way to be merged. There is a pull request from Hans
-> already: see https://www.spinics.net/lists/linux-media/msg202448.html
-> which includes the git repository and tag you can merge/rebase to test
-> it.
-> 
-> It would be great if you can test G2 on top of that, but it's also fine
-> if you want to just submit G1 for now. Up to you.
-> 
-> Regarding HEVC, currently Benjamin is who knows best how to test it.
-> Thinking about it, perhaps we should document this somewhere?
+Commit e955f959ac52 ("media: si2157: Better check for running tuner in
+init") completely broke the "warm" tuner detection of the si2157 driver
+due to a simple endian error: The Si2157 CRYSTAL_TRIM property code is
+0x0402 and needs to be transmitted LSB first=2E However, it was inserted
+MSB first, causing the warm detection to always fail and spam the kernel
+log with tuner initialization messages each time the DVB frontend
+device was closed and reopened:
 
-There is GStreamer-H.265-V4L2SL-Gst1.0 decoder already in fluster. And GStreamer
-support is still WIP.
+[  312=2E215682] si2157 16-0060: found a 'Silicon Labs Si2157-A30'
+[  312=2E264334] si2157 16-0060: firmware version: 3=2E0=2E5
+[  342=2E248593] si2157 16-0060: found a 'Silicon Labs Si2157-A30'
+[  342=2E295743] si2157 16-0060: firmware version: 3=2E0=2E5
+[  372=2E328574] si2157 16-0060: found a 'Silicon Labs Si2157-A30'
+[  372=2E385035] si2157 16-0060: firmware version: 3=2E0=2E5
 
-https://gitlab.freedesktop.org/gstreamer/gstreamer/-/merge_requests/1079
+Also, the reinitializations were observed disturb _other_ tuners on
+multi-tuner cards such as the Hauppauge WinTV-QuadHD, leading to missed
+or errored packets when one of the other DVB frontend devices on that
+card was opened=2E
 
-We had put on hold the HEVC work in order to focus on VP9. Now that VP9 is on
-its way (I've sent another MR today to GStreamer to fix some more tests). I
-haven't tested myself imx8mq recently, will likely do soon, so I can give you
-the expected score. Your VP8 and H264 score matches the result I got. Note that
-H264 driver is missing interlace support, which is half the tests.
+Fix the order of the property code bytes to make the warm detection work
+again, also reducing the tuner initialization message in the kernel log
+to once per power-on, as well as fixing the interference with other
+tuners=2E
 
-We will can resume this work. Help is welcome of course. The HEVC staging API is
-by was the worst, so there is quite some work to move this API to stable and
-then port all the drivers to the require changes that will be needed.
+Fixes: e955f959ac52 ("media: si2157: Better check for running tuner in ini=
+t")
+Reported-by: Robert Schlabbach <robert_s@gmx=2Enet>
+Signed-off-by: Robert Schlabbach <robert_s@gmx=2Enet>
+---
+ drivers/media/tuners/si2157=2Ec | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-> 
-> Regards,
-> Ezequiel
+diff --git a/drivers/media/tuners/si2157=2Ec b/drivers/media/tuners/si2157=
+=2Ec
+index fefb2625f655=2E=2E75ddf7ed1faf 100644
+--- a/drivers/media/tuners/si2157=2Ec
++++ b/drivers/media/tuners/si2157=2Ec
+@@ -90,7 +90,7 @@ static int si2157_init(struct dvb_frontend *fe)
+ 	dev_dbg(&client->dev, "\n");
+=20
+ 	/* Try to get Xtal trim property, to verify tuner still running */
+-	memcpy(cmd=2Eargs, "\x15\x00\x04\x02", 4);
++	memcpy(cmd=2Eargs, "\x15\x00\x02\x04", 4);
+ 	cmd=2Ewlen =3D 4;
+ 	cmd=2Erlen =3D 4;
+ 	ret =3D si2157_cmd_execute(client, &cmd);
+--=20
+2=2E17=2E1
 
+=C2=A0
+=C2=A0
