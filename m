@@ -2,105 +2,113 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 98DF6464A9A
-	for <lists+linux-media@lfdr.de>; Wed,  1 Dec 2021 10:28:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7DD93464ACC
+	for <lists+linux-media@lfdr.de>; Wed,  1 Dec 2021 10:40:08 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1348228AbhLAJbY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 1 Dec 2021 04:31:24 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33088 "EHLO
+        id S1348306AbhLAJn1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 1 Dec 2021 04:43:27 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35840 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242304AbhLAJbX (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 1 Dec 2021 04:31:23 -0500
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3C530C061574;
-        Wed,  1 Dec 2021 01:28:03 -0800 (PST)
-Received: from [IPv6:2a01:e0a:120:3210:81b0:4101:d4f2:ecb7] (unknown [IPv6:2a01:e0a:120:3210:81b0:4101:d4f2:ecb7])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        (Authenticated sender: benjamin.gaignard)
-        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id D03FE1F456A8;
-        Wed,  1 Dec 2021 09:28:00 +0000 (GMT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=collabora.com; s=mail;
-        t=1638350881; bh=GOanvQHnMURC6UIEgHUa/+fTqbcJzEywsBQPZpD0MJA=;
-        h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
-        b=St1k4d/bgtbXVPjdtfbYA9aV4V9ZWSYVYtYwv4/c4FjJvQMSIbZKlzc18tl6VVxys
-         +9+W64Jyao7xM80jFjcykCzfwQDYjw89p7rBHr5qi0Cc1R05nxmVPzOT0jlpRb9rG9
-         6FBaB7Bag9wbRydqBhvX98QQGE9a6Xra6HO0xPpuZqDpIwqp6DeX9+mhrm8A+8cnl+
-         HvLVl0bZkut7JlsYbQhDgdZw4Nt7bFrJQEyef6DumdrKef6n2MMUspFScI6081vh7B
-         kaRZc9wY5l5YgSoO6GU2a0YWVRzaKeCyY+7HBAIl0LGQcQfDovjeL7PEXy/4stwN8y
-         kMEDbFLZRlL9g==
-Subject: Re: [RFC V2 0/2] arm64: imx8mm: Enable Hantro VPUs
-To:     Adam Ford <aford173@gmail.com>, linux-media@vger.kernel.org
-Cc:     ezequiel@vanguardiasur.com.ar, hverkuil@xs4all.nl,
-        tharvey@gateworks.com, nicolas@ndufresne.ca,
-        aford@beaconembedded.com, Rob Herring <robh+dt@kernel.org>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-kernel@vger.kernel.org, linux-rockchip@lists.infradead.org,
-        linux-staging@lists.linux.dev
-References: <20211201013329.15875-1-aford173@gmail.com>
-From:   Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Message-ID: <a07677bc-0a18-c910-222d-d6faee3fe5a0@collabora.com>
-Date:   Wed, 1 Dec 2021 10:27:58 +0100
+        with ESMTP id S1348308AbhLAJnZ (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 1 Dec 2021 04:43:25 -0500
+Received: from lb1-smtp-cloud8.xs4all.net (lb1-smtp-cloud8.xs4all.net [IPv6:2001:888:0:108::1b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 62178C061574
+        for <linux-media@vger.kernel.org>; Wed,  1 Dec 2021 01:40:03 -0800 (PST)
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud8.xs4all.net with ESMTPA
+        id sM5lmWddZyGz2sM5pmJ3HC; Wed, 01 Dec 2021 10:40:01 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
+        t=1638351601; bh=MIRCejMF6ZscMkjdXs+qRGdWXYA4s7sGtv6GxyroWWg=;
+        h=To:From:Subject:Message-ID:Date:MIME-Version:Content-Type:From:
+         Subject;
+        b=tV+N8BSvvOoZFBCtFtm7UU91bnzEkpFlMpCFXZ0xflDgLoeWQdRRYGxChnPOj4bUd
+         ZMpIe6wTbL78La+hFn+okaKGdPgC44uNy6ZXl+SG3M0/K1WTXZo//+WsZdMD1Cn+FL
+         MRGgnOosEhF9LZjCBJl74Lq4pbp8SbGYCbALHwpOYHDdEKX/o1f5e1wpA8wa8kh7i9
+         ddAELt9ies31pZG05p67F95BrXr1h5j+oA59mXkb1j4JEym7JdE0Etd8jIiNOeaR7B
+         wQX1Ed730qMzdB8uOkJEk6+36fMnBAqzjQLJ1L4MvanKBPXrPsm1Ot91ypbfzqKzEn
+         Tf7sHskVWkLWQ==
+To:     "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>
+Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Linus Walleij <linus.walleij@linaro.org>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Subject: gpiod_set_value(): BUG: sleeping function called from invalid context
+Message-ID: <a06e7c55-f25d-8339-faea-9be6d31d1c87@xs4all.nl>
+Date:   Wed, 1 Dec 2021 10:39:57 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+ Firefox/78.0 Thunderbird/78.14.0
 MIME-Version: 1.0
-In-Reply-To: <20211201013329.15875-1-aford173@gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4xfP8J9oR23Ve08neFWTVJdWKdo6vOTLlDRWDXza6+2HKMKRoLgz50T3DkULNzosNABiX34yTvfbeqw4hYA/ILsajZJQxGW+LLuSSJTDIKOJRpF9QNYjSd
+ zR2AfLbYawBFDl29QcJwBOv+J+78WvK6YahkYoupxQBTajuEuNwpHnPHRgdYis4qXMtFgCWKG17qSy6RSVmCM+mtfr8v+p76TpHpj2VuPzL2kVBlmB7cB4la
+ PiTSJX/mvcCWR7k7XF4hMPUvH3ufYJefHmkznIS7+oM=
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Hi all,
 
-Le 01/12/2021 à 02:33, Adam Ford a écrit :
-> The i.MX8M has two Hantro video decoders, called G1 and G2 which appear
-> to be related to the video decoders used on the i.MX8MQ, but because of
-> how the Mini handles the power domains, the VPU driver does not need to
-> handle all the functions, nor does it support the post-processor,
-> so a new compatible flag is required.
->
-> With the suggestion from Hans Verkuil, I was able to get the G2 splat to go away
-> with changes to FORCE_MAX_ZONEORDER, but I found I could also set cma=512M, however
-> it's unclear to me if that's an acceptable alternative.
->
-> At the suggestion of Ezequiel Garcia and Nicolas Dufresne I have some
-> results from Fluster. However, the G2 VPU appears to fail most tests.
->
-> ./fluster.py run -dGStreamer-H.264-V4L2SL-Gst1.0
-> Ran 90/135 tests successfully               in 76.431 secs
->
->   ./fluster.py run -d GStreamer-VP8-V4L2SL-Gst1.0
-> Ran 55/61 tests successfully               in 21.454 secs
->
-> ./fluster.py run -d GStreamer-VP9-V4L2SL-Gst1.0
-> Ran 0/303 tests successfully               in 20.016 secs
->
-> Each day seems to show more and more G2 submissions, and gstreamer seems to be
-> still working on the VP9, so I am not sure if I should drop G2 as well.
+While testing the media cec-gpio driver on a Raspberry Pi 4B with CONFIG_DEBUG_ATOMIC_SLEEP
+set I got this stack trace:
 
-I think it is going in the good direction.
-I'm trying to do the same on IMX6MQ but still have hang issue on G2.
+[ 1674.731319] BUG: sleeping function called from invalid context at kernel/locking/mutex.c:281
+[ 1674.739891] in_atomic(): 1, irqs_disabled(): 128, non_block: 0, pid: 0, name: swapper/3
+[ 1674.748011] Preemption disabled at:
+[ 1674.748015] [<ffff80001019887c>] find_vm_area+0x28/0x9c
+[ 1674.756851] CPU: 3 PID: 0 Comm: swapper/3 Tainted: G         C        5.14.0-hdmi-dbg #58
+[ 1674.765149] Hardware name: Raspberry Pi 4 Model B Rev 1.4 (DT)
+[ 1674.771061] Call trace:
+[ 1674.773534]  dump_backtrace+0x0/0x1b0
+[ 1674.777251]  show_stack+0x18/0x24
+[ 1674.780612]  dump_stack_lvl+0x68/0x84
+[ 1674.784326]  dump_stack+0x18/0x34
+[ 1674.787685]  ___might_sleep+0x148/0x180
+[ 1674.791572]  __might_sleep+0x54/0x90
+[ 1674.795195]  mutex_lock+0x28/0x80
+[ 1674.798556]  pinctrl_get_device_gpio_range+0x3c/0x110
+[ 1674.803677]  pinctrl_gpio_direction+0x3c/0xd0
+[ 1674.808093]  pinctrl_gpio_direction_output+0x14/0x20
+[ 1674.813124]  bcm2835_gpio_direction_output+0x64/0x80
+[ 1674.818160]  gpio_set_open_drain_value_commit+0x6c/0xf0
+[ 1674.823458]  gpiod_set_value_nocheck+0x8c/0xb0
+[ 1674.827961]  gpiod_set_value+0x4c/0xd0
+[ 1674.831760]  cec_gpio_low+0x34/0x40
+[ 1674.835295]  cec_pin_timer+0x58c/0x11c4
+[ 1674.839182]  __hrtimer_run_queues+0x140/0x1e0
+[ 1674.843602]  hrtimer_interrupt+0xf4/0x2cc
+[ 1674.847668]  arch_timer_handler_phys+0x38/0x50
+[ 1674.852174]  handle_percpu_devid_irq+0x9c/0x160
+[ 1674.856768]  handle_domain_irq+0x98/0xe4
+[ 1674.860742]  gic_handle_irq+0x4c/0xd0
+[ 1674.864452]  call_on_irq_stack+0x2c/0x5c
+[ 1674.868428]  do_interrupt_handler+0x54/0x60
+[ 1674.872669]  el1_interrupt+0x30/0x80
+[ 1674.876291]  el1h_64_irq_handler+0x18/0x24
+[ 1674.880443]  el1h_64_irq+0x78/0x7c
+[ 1674.883889]  arch_cpu_idle+0x18/0x2c
+[ 1674.887512]  default_idle_call+0x28/0x74
+[ 1674.891486]  do_idle+0x23c/0x27c
+[ 1674.894754]  cpu_startup_entry+0x24/0x70
+[ 1674.898725]  secondary_start_kernel+0x140/0x164
+[ 1674.903315]  __secondary_switched+0x94/0x98
+
+The drivers/media/cec/platform/cec-gpio/cec-gpio.c driver uses an open drain
+gpio connected to the HDMI CEC pin. From the dts:
+
+        cec-gpio-sink {
+                compatible = "cec-gpio";
+                cec-gpios = <&gpio 6 (GPIO_ACTIVE_HIGH|GPIO_OPEN_DRAIN)>;
+                hpd-gpios = <&gpio 23 GPIO_ACTIVE_HIGH>;
+        };
+
+gpiod_set_value() is supposed to be usable from an atomic context, so this
+appears to be a bug. It's probably been there for quite a long time. I suspect
+OPEN_DRAIN isn't very common, and I think this might be the first time I tested
+this driver with this kernel config option set.
+
+Any suggestions?
 
 Regards,
-Benjamin
 
->
-> Adam Ford (2):
->    media: hantro: Add support for i.MX8M Mini
->    arm64: dts: imx8mm: Enable VPU-G1 and VPU-G2
->
->   arch/arm64/boot/dts/freescale/imx8mm.dtsi   | 41 +++++++++++++++
->   drivers/staging/media/hantro/hantro_drv.c   |  2 +
->   drivers/staging/media/hantro/hantro_hw.h    |  2 +
->   drivers/staging/media/hantro/imx8m_vpu_hw.c | 57 +++++++++++++++++++++
->   4 files changed, 102 insertions(+)
->
+	Hans
