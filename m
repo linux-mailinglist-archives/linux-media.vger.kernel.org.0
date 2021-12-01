@@ -2,140 +2,156 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8389146476F
-	for <lists+linux-media@lfdr.de>; Wed,  1 Dec 2021 07:53:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BB181464792
+	for <lists+linux-media@lfdr.de>; Wed,  1 Dec 2021 08:04:06 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1347035AbhLAG4h (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 1 Dec 2021 01:56:37 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54002 "EHLO
+        id S1347072AbhLAHHZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 1 Dec 2021 02:07:25 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56424 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237081AbhLAG4h (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 1 Dec 2021 01:56:37 -0500
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EB818C061574;
-        Tue, 30 Nov 2021 22:53:16 -0800 (PST)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 3AE3EA15;
-        Wed,  1 Dec 2021 07:53:15 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1638341595;
-        bh=sDoEfSoAB5bQ3OBVNGdIuFjdJ/u6y+6SXSepJCSesI4=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=Jfrn0mxPyZloxFH8Ux5I+0cwcdasqN4qZOg+VUHiMQhC4pj923uEvfvlAk1bgQIbL
-         TLjb+CGAFhBr0y5kJ+6UdMHhYFow9XYdEiqsVVXqnf1WqTl09yHMOALaNcwf4RBUDm
-         34izDQlMWlIDbIM3HSzDkm5brshJSjew/Acoxfv4=
-Date:   Wed, 1 Dec 2021 08:52:50 +0200
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Alexander Stein <alexander.stein@ew.tq-group.com>
-Cc:     Dorota Czaplejewicz <dorota.czaplejewicz@puri.sm>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        Andrey Konovalov <andrey.konovalov@linaro.org>,
-        Jacopo Mondi <jacopo@jmondi.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>, kernel@puri.sm,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
-Subject: Re: (EXT) Re: [PATCH] media: Add 16-bit Bayer formats
-Message-ID: <Yacbwm0VLzG1IJvS@pendragon.ideasonboard.com>
-References: <20211019114718.827400-1-dorota.czaplejewicz@puri.sm>
- <163820077159.3059017.10242072140890692995@Monstersaurus>
- <20211129170356.7258d6db.dorota.czaplejewicz@puri.sm>
- <YaWNkcljqIR6BSdZ@pendragon.ideasonboard.com>
- <b1ddf6f61179c2445710d8540dd42ed6d71ae353.camel@ew.tq-group.com>
+        with ESMTP id S239960AbhLAHHY (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 1 Dec 2021 02:07:24 -0500
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6C6AEC061574
+        for <linux-media@vger.kernel.org>; Tue, 30 Nov 2021 23:04:04 -0800 (PST)
+Received: from [IPv6:2a00:c281:1409:4a00:2db8:b7e:e649:9995] (unknown [IPv6:2a00:c281:1409:4a00:2db8:b7e:e649:9995])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        (Authenticated sender: dafna)
+        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 411F11F455BB;
+        Wed,  1 Dec 2021 07:04:02 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=collabora.com; s=mail;
+        t=1638342243; bh=nzTuH2e1Lmc470sh4m73opxf5dWAEnPvDEAgyedkEzM=;
+        h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
+        b=CXyUo9+VPdFlrX9Y1Z2qmPn23xNC9clqxqPLeF0e9Oq/LTh0896c6I+siHVD9i1aP
+         DhrjGy7gAWoYFJYombEe14YTDy4kigKM2f0aNu5rIUN16VYK1FiOJJjuPL4MCmwmag
+         SQEoUqGfa4/mBAJPOSqOF5CfCWyamo4NuiJb/odxXKTA1fDXYer4uV+Xlu0wjWZYQK
+         qT7dKCjzDKg6WW0v3G6YshPLhyV4SQw4OO/xo+Kc4wqQvX8PmpWFdBvOcOfr+ffYSs
+         B2nptc/CnwlSHWGf2ZTRSXsA2JmWRTctpFMR4rHUDKt69A1fwg8YnCN5xZaIQQgOdX
+         5/Mev9+fSGEgg==
+Subject: Re: [PATCH] media: rkisp1: remove support for V4L2_PIX_FMT_GREY
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     linux-media@vger.kernel.org, hverkuil@xs4all.nl,
+        kernel@collabora.com, dafna3@gmail.com,
+        sakari.ailus@linux.intel.com, mchehab@kernel.org
+References: <20211120110257.22775-1-dafna.hirschfeld@collabora.com>
+ <YZjrWdrZzyEE8G7g@pendragon.ideasonboard.com>
+ <abc40fe3-6529-17f3-a6d3-4ab741afe849@collabora.com>
+ <YZuNOzlVWteTaNYt@pendragon.ideasonboard.com>
+ <88434c9b-a682-7da5-ce3b-adec28b89471@collabora.com>
+ <YZupE2zKojGCKuTT@pendragon.ideasonboard.com>
+From:   Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+Message-ID: <d3f7ad1e-4ace-c6e7-db05-9afd92a5e2ef@collabora.com>
+Date:   Wed, 1 Dec 2021 09:03:59 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <b1ddf6f61179c2445710d8540dd42ed6d71ae353.camel@ew.tq-group.com>
+In-Reply-To: <YZupE2zKojGCKuTT@pendragon.ideasonboard.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Alexander,
 
-On Tue, Nov 30, 2021 at 08:43:25AM +0100, Alexander Stein wrote:
-> Am Dienstag, dem 30.11.2021 um 04:33 +0200 schrieb Laurent Pinchart:
-> > On Mon, Nov 29, 2021 at 05:05:23PM +0100, Dorota Czaplejewicz wrote:
-> > > On Mon, 29 Nov 2021 15:46:11 +0000 Kieran Bingham wrote:
-> > > > Quoting Dorota Czaplejewicz (2021-10-19 12:59:29)
-> > > > > 16-bit bayer formats are used by the i.MX driver.  
-> > > > 
-> > > > Can we expand upon this at all?
-> > > > 
-> > > > The Subject says "Add 16-bit Bayer formats" but this isn't adding the
-> > > > format, it's purely extending the v4l2_format_info table with the
-> > > > information for that format which is otherwise missing.
-> > > 
-> > > What do you suggest for a better commit message? My reasoning was that
-> > > I'm adding entries to a table.
-> > 
-> > The format is defined by V4L2 but isn't present in that table. I'd state
-> > the this patch is fixing an oversight, and reference the commit that
-> > forgot to add these formats in a Fixes: tag. While at it, I'd also add
-> > at least the 14bpp Bayer formats, and possibly the packed formats too.
-> > 
-> > > > I wonder what other formats are missing from that table too?
-> > > > 
-> > > > > Signed-off-by: Dorota Czaplejewicz <dorota.czaplejewicz@puri.sm>
-> > > > > ---
-> > > > > Hello,
-> > > > > 
-> > > > > While working on the i.MX8 video driver, I discovered that
-> > > > > `v4l2_fill_pixfmt` will fail when using 10-bit sensor formats.
-> > > > > (For background, see the conversation at
-> > > > > https://lkml.org/lkml/2021/10/17/93
-> > > > >  .)
-> > > > > 
-> > > > > It appears that the video hardware will fill a 16-bit-per-pixel
-> > > > > buffer when fed 10-bit-per-pixel Bayer data, making
-> > > > > `v4l2_fill_pixfmt` effectively broken for this case.  
-> > > > 
-> > > > This statement is confusing to me. Are you saying you're programming the
-> > > > hardware with 10 bit, and it's using 16 bits per pixel to store that
-> > > > data? (Which is simply 'unpacked' I think ?)
-> > > 
-> > > I know the sensor I'm dealing with sends 10-bit data. I'm observing
-> > > that the data arriving at this stage of the pipeline is encoded with
-> > > 16 bits per pixel. As far as I understand, that's what i.MX8 does at
-> > > some stage of the MIPI/CSI2 pipeline by design, but I can't elaborate
-> > > at the moment, and I don't think it affects the validity of the
-> > > addition.
-> > 
-> > Is the 10 bit data stored in the MSB or LSB of the 2 bytes ?
-> 
-> Oh, I get a dejavu here. I assume this is on an i.MX8QM or i.MX8QXP,
-> but not one of the other i.MX8 ones. They have a similar name, but are
-> very (!) diffeent in some aspects.
-> 
-> To answer your question, neither of those two alignments. The RM for
-> i.MX8QM and i.MX8QXP states:
->
-> > NOTE
-> > The CSI data is right LSB aligned and zero padded depending
-> > on data format. When interfacing ISI, CSI data is shifted 6-bits
-> > due to ISI bits [5:0] always being zero
-> > (0bxxCSIDATAxxxxxx). All RAW14, RAW12, RAW10,
-> > RAW8, and RAW6 video data is filled from BIT[13] to LSB,
-> > the remaining bits are zero padded. Only RAW16 input data
-> > will be saved to memory from BIT[15] to LSB.
 
-I think Dorota is working on the i.MX8MQ, which, unlike the QM and QXP,
-isn't based on the ISI IP core but the CSI bridge IP core.
-
-> See also [1]. 
+On 22.11.21 16:28, Laurent Pinchart wrote:
+> Hi Dafna,
 > 
-> This essentially means, unless you use RAW16, you will get RAW14 with a
-> different amount of LSB bits set to 0.
-> IIRC there was some patchset to introduce a RAW14 format ([2]) for
-> exactly this use cas.
-> There is also some kind of demo doing post-processing ([3]).
-> 
-> Best regards,
-> Alexander
-> 
-> [1] https://community.nxp.com/t5/i-MX-Processors/i-MX8QM-MIPI-Raw-formats-not-working-correctly/m-p/1040832/highlight/true#M153336
-> [2] https://yhbt.net/lore/all/20200226151431.GY5379@paasikivi.fi.intel.com/T/
-> [3] https://community.nxp.com/t5/i-MX-Processors-Knowledge-Base/i-MX8QXP-capture-raw-bayer-data-and-debayer/ta-p/1098963
+> On Mon, Nov 22, 2021 at 04:21:25PM +0200, Dafna Hirschfeld wrote:
+>> On 22.11.21 14:29, Laurent Pinchart wrote:
+>>> On Mon, Nov 22, 2021 at 01:20:47PM +0200, Dafna Hirschfeld wrote:
+>>>> On 20.11.21 14:34, Laurent Pinchart wrote:
+>>>>> On Sat, Nov 20, 2021 at 01:02:57PM +0200, Dafna Hirschfeld wrote:
+>>>>>> When trying to stream on both mainpatch and selfpatch
+>>>>>> with grey format, I get an iommu page fault.
+>>>>>> The fault is on the address at the end of the buffer,
+>>>>>> so it seems that the device is somehow wrongly
+>>>>>> configured and thinks there is another plane.
+>>>>>
+>>>>> Could we try to fix that instead ? There are IR sensors for which the
+>>>>> GREY format is useful.
+>>>>
+>>>> Hi, the doc is not very useful so I can try doing a bit trial and error.
+>>>> I see that there are several greyscale formats: [1]
+>>>> which make me think that maybe the device support one of the other greyscale formats.
+>>>> Do you know if some formats are more likely than other?
+>>>
+>>> GREY seems the most likely (useful for IR sensors for instance, after
+>>> ISP processing). Formats with a higher bpp would require processing of
+>>> more than 8bpp through the ISP pipeline, I don't know if that's
+>>> supported.
 
--- 
-Regards,
+I tried all kind of things but was not able to stream greyscale.
+When ISP processing works it outputs YUV 422 format and then the resizer
+is used to change the format to YUV 420 if wanted.
+I tried to chance the scale to YUV 400 (grey) or change the mainpath/selfpath
+configuration but still had that iommu page fault errors.
 
-Laurent Pinchart
+Interestingly when I bypass the iommu and dma allocation is direct
+the streaming works and even the output frames seems okayish greyscale format
+but that might be by accident.
+
+>>>
+>>> Formats with a higher bpp (both greyscale and bayer formats) are also
+>>> useful to capture raw images (before ISP processing). Is that something
+>>> the hardware and driver support ?
+>>
+>> hi, yes the variations of V4L2_PIX_FMT_Sxxxx10, V4L2_PIX_FMT_Sxxxx12
+>> are supported on mainpath.
+> 
+> That's nice. Does it bypass the whole ISP then ? Is it possible to
+> capture raw frames on the main path and processed frames on the self
+> path at the same time, or are we restricted to raw only when we capture
+> raw frames ?
+
+I think we are restricted to raw only when we capture raw frames.
+The doc describe the isp_ctl register that set the isp output to either raw or yuv.
+It seems not to be possible to send raw to mainpath and yuv to selfpath.
+
+Thanks,
+Dafna
+
+> 
+>>>> [1] https://www.kernel.org/doc/html/latest/userspace-api/media/v4l/pixfmt-yuv-luma.html
+>>>>
+>>>>>> Signed-off-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+>>>>>> ---
+>>>>>>     .../platform/rockchip/rkisp1/rkisp1-capture.c     | 15 ---------------
+>>>>>>     1 file changed, 15 deletions(-)
+>>>>>>
+>>>>>> diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-capture.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-capture.c
+>>>>>> index 768987d5f2dd..7f78f361dd5e 100644
+>>>>>> --- a/drivers/media/platform/rockchip/rkisp1/rkisp1-capture.c
+>>>>>> +++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-capture.c
+>>>>>> @@ -116,13 +116,6 @@ static const struct rkisp1_capture_fmt_cfg rkisp1_mp_fmts[] = {
+>>>>>>     		.write_format = RKISP1_MI_CTRL_MP_WRITE_YUV_PLA_OR_RAW8,
+>>>>>>     		.mbus = MEDIA_BUS_FMT_YUYV8_2X8,
+>>>>>>     	},
+>>>>>> -	/* yuv400 */
+>>>>>> -	{
+>>>>>> -		.fourcc = V4L2_PIX_FMT_GREY,
+>>>>>> -		.uv_swap = 0,
+>>>>>> -		.write_format = RKISP1_MI_CTRL_MP_WRITE_YUV_PLA_OR_RAW8,
+>>>>>> -		.mbus = MEDIA_BUS_FMT_YUYV8_2X8,
+>>>>>> -	},
+>>>>>>     	/* yuv420 */
+>>>>>>     	{
+>>>>>>     		.fourcc = V4L2_PIX_FMT_NV21,
+>>>>>> @@ -244,14 +237,6 @@ static const struct rkisp1_capture_fmt_cfg rkisp1_sp_fmts[] = {
+>>>>>>     		.output_format = RKISP1_MI_CTRL_SP_OUTPUT_YUV422,
+>>>>>>     		.mbus = MEDIA_BUS_FMT_YUYV8_2X8,
+>>>>>>     	},
+>>>>>> -	/* yuv400 */
+>>>>>> -	{
+>>>>>> -		.fourcc = V4L2_PIX_FMT_GREY,
+>>>>>> -		.uv_swap = 0,
+>>>>>> -		.write_format = RKISP1_MI_CTRL_SP_WRITE_PLA,
+>>>>>> -		.output_format = RKISP1_MI_CTRL_SP_OUTPUT_YUV400,
+>>>>>> -		.mbus = MEDIA_BUS_FMT_YUYV8_2X8,
+>>>>>> -	},
+>>>>>>     	/* rgb */
+>>>>>>     	{
+>>>>>>     		.fourcc = V4L2_PIX_FMT_XBGR32,
+> 
