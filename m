@@ -2,177 +2,156 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DF3DA464E4A
-	for <lists+linux-media@lfdr.de>; Wed,  1 Dec 2021 13:58:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E90DC464E5D
+	for <lists+linux-media@lfdr.de>; Wed,  1 Dec 2021 14:00:25 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236755AbhLANBw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 1 Dec 2021 08:01:52 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52696 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1347783AbhLANBv (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 1 Dec 2021 08:01:51 -0500
-Received: from mail-ed1-x52b.google.com (mail-ed1-x52b.google.com [IPv6:2a00:1450:4864:20::52b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DE7A5C06174A
-        for <linux-media@vger.kernel.org>; Wed,  1 Dec 2021 04:58:30 -0800 (PST)
-Received: by mail-ed1-x52b.google.com with SMTP id e3so101349017edu.4
-        for <linux-media@vger.kernel.org>; Wed, 01 Dec 2021 04:58:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=vanguardiasur-com-ar.20210112.gappssmtp.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=D5PW8BhdAuu4oqSswIsrh+4cgg8Ko16BHPb2BC0DyDc=;
-        b=ShtUvDfW5PyLg35gKksvBhAIF13Qdlo2k1kJ5nf9ddtcN2IWargq9oK9uH9Mj7mOlM
-         yrZ5ncJ7wlQ3v3gaY2hNqU4iayvlI7vavUCnibRCmaVdQk34nmuQKcpVe0PohmHbMvqP
-         Nx1ViR1M93mzRFKRGh73XszDpowN3KMR+Opzfq2PvivLIH0YhKXdc+DMIXTeShsMgFxl
-         9/rGywoLb97EPLIPX0ys7IEZFihb9iHe1IeX3ailUU8luIz9EXUyP9Qn6V0BocL4t0CC
-         j9BgxuSZEW7jn2HQAkvAuK6mVu7ghUJOjDX/Fe7XXV7vRQ/AHlnQE8pbKWqG8SpIt0l0
-         Nf9Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=D5PW8BhdAuu4oqSswIsrh+4cgg8Ko16BHPb2BC0DyDc=;
-        b=0/eem4KfKG7GoeGuKJnXy+R5m5cRY5Oe0l9dzOVO0KOPcy12Qur0IRGsSf57hcYwzw
-         CpZtxYd8AeK06syO6q9+ey/bleV6WyVdaLygNSCESackQuSBYXpktHUoD6L6dwCsrj/0
-         Yt3oIJTPNxPTxf46EWQMK4hdtxfZW/RAgpMVBn6XJ+Nx6Pbhrtv6oKni0v3ebOEHQ7Co
-         5mGKdLY72XweJq+Qko1xA6ilPqnXG33ksJF6QO9y/tKJ1b5RI65nlE8AdAyccRrxUfti
-         2eQgFJ883JbxsTi0DNfj0+oZzWQt9/juuIlPmXcUydrox/IpC59bCpk0zWftF9r084/y
-         9WnQ==
-X-Gm-Message-State: AOAM53107IKCTNZ07WWOGFm5+MKrndy/1Lfk2E6MI68KXMaucrjI2ZR0
-        R+5Up11DNZwwxPbjX/9MFrkfIGaBHLYf1h9ucm5FDg==
-X-Google-Smtp-Source: ABdhPJz9iOdDKNgMdJzD0gqeRB73Q1A4iiFR0FxNxz9fFpszk+uTamQrvcRyI5fCgzr/AcT0r10edZjMU7/6TzU7sCE=
-X-Received: by 2002:aa7:c946:: with SMTP id h6mr8446283edt.190.1638363509446;
- Wed, 01 Dec 2021 04:58:29 -0800 (PST)
+        id S1349460AbhLANDo (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 1 Dec 2021 08:03:44 -0500
+Received: from mga03.intel.com ([134.134.136.65]:14213 "EHLO mga03.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1349377AbhLANDk (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 1 Dec 2021 08:03:40 -0500
+X-IronPort-AV: E=McAfee;i="6200,9189,10184"; a="236395544"
+X-IronPort-AV: E=Sophos;i="5.87,278,1631602800"; 
+   d="scan'208";a="236395544"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Dec 2021 05:00:19 -0800
+X-IronPort-AV: E=Sophos;i="5.87,278,1631602800"; 
+   d="scan'208";a="609542469"
+Received: from paasikivi.fi.intel.com ([10.237.72.42])
+  by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Dec 2021 05:00:17 -0800
+Received: from punajuuri.localdomain (punajuuri.localdomain [192.168.240.130])
+        by paasikivi.fi.intel.com (Postfix) with ESMTP id 6062C2036B;
+        Wed,  1 Dec 2021 15:00:15 +0200 (EET)
+Received: from sailus by punajuuri.localdomain with local (Exim 4.94.2)
+        (envelope-from <sakari.ailus@linux.intel.com>)
+        id 1msPEZ-003vmX-MH; Wed, 01 Dec 2021 15:01:15 +0200
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     linux-acpi@vger.kernel.org
+Cc:     andriy.shevchenko@linux.intel.com, heikki.krogerus@linux.intel.com,
+        rafael@kernel.org, Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Sowjanya Komatineni <skomatineni@nvidia.com>,
+        linux-tegra@vger.kernel.org, linux-media@vger.kernel.org
+Subject: [PATCH v2 7/7] device property: Drop fwnode_graph_get_remote_node()
+Date:   Wed,  1 Dec 2021 15:01:15 +0200
+Message-Id: <20211201130115.937052-1-sakari.ailus@linux.intel.com>
+X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20211201125934.936953-1-sakari.ailus@linux.intel.com>
+References: <20211201125934.936953-1-sakari.ailus@linux.intel.com>
 MIME-Version: 1.0
-References: <20211201013329.15875-1-aford173@gmail.com> <20211201013329.15875-2-aford173@gmail.com>
- <CAAEAJfBBFhRtW2wmoA6T+yyM-nurUbtPqYHKPHjeRdKzA34PcQ@mail.gmail.com> <CAHCN7xLGTadbr+=-j2yJHFn233dgHic28njej8LHS2M0WwtqYQ@mail.gmail.com>
-In-Reply-To: <CAHCN7xLGTadbr+=-j2yJHFn233dgHic28njej8LHS2M0WwtqYQ@mail.gmail.com>
-From:   Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
-Date:   Wed, 1 Dec 2021 09:58:17 -0300
-Message-ID: <CAAEAJfDqBezv1_ZsF3vjAFprZYuaE7krkSXa4vzAfMZp5_z+sA@mail.gmail.com>
-Subject: Re: [RFC V2 1/2] media: hantro: Add support for i.MX8M Mini
-To:     Adam Ford <aford173@gmail.com>
-Cc:     linux-media <linux-media@vger.kernel.org>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Tim Harvey <tharvey@gateworks.com>,
-        Nicolas Dufresne <nicolas@ndufresne.ca>,
-        Adam Ford-BE <aford@beaconembedded.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        devicetree <devicetree@vger.kernel.org>,
-        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        "open list:ARM/Rockchip SoC..." <linux-rockchip@lists.infradead.org>,
-        "open list:STAGING SUBSYSTEM" <linux-staging@lists.linux.dev>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, 1 Dec 2021 at 09:36, Adam Ford <aford173@gmail.com> wrote:
->
-> On Wed, Dec 1, 2021 at 6:25 AM Ezequiel Garcia
-> <ezequiel@vanguardiasur.com.ar> wrote:
-> >
-> > Hi Adam,
-> >
-> > On Tue, 30 Nov 2021 at 22:33, Adam Ford <aford173@gmail.com> wrote:
-> > >
-> > > The i.MX8M Mini has a similar implementation of the Hantro G1 and
-> > > h decoders, but the Mini uses the vpu-blk-ctrl for handling the
-> > > VPU resets through the power domain system.  As such, there are
-> > > functions present in the 8MQ that are not applicable to the Mini
-> > > which requires the driver to have a different compatible flags.
-> > >
-> > > Signed-off-by: Adam Ford <aford173@gmail.com>
-> > >
-> > > diff --git a/drivers/staging/media/hantro/hantro_drv.c b/drivers/staging/media/hantro/hantro_drv.c
-> > > index fb82b9297a2b..2aa1c520be50 100644
-> > > --- a/drivers/staging/media/hantro/hantro_drv.c
-> > > +++ b/drivers/staging/media/hantro/hantro_drv.c
-> > > @@ -592,6 +592,8 @@ static const struct of_device_id of_hantro_match[] = {
-> > >         { .compatible = "rockchip,rk3399-vpu", .data = &rk3399_vpu_variant, },
-> > >  #endif
-> > >  #ifdef CONFIG_VIDEO_HANTRO_IMX8M
-> > > +       { .compatible = "nxp,imx8mm-vpu", .data = &imx8mm_vpu_variant, },
-> > > +       { .compatible = "nxp,imx8mm-vpu-g2", .data = &imx8mm_vpu_g2_variant },
-> > >         { .compatible = "nxp,imx8mq-vpu", .data = &imx8mq_vpu_variant, },
-> > >         { .compatible = "nxp,imx8mq-vpu-g2", .data = &imx8mq_vpu_g2_variant },
-> > >  #endif
-> > > diff --git a/drivers/staging/media/hantro/hantro_hw.h b/drivers/staging/media/hantro/hantro_hw.h
-> > > index 267a6d33a47b..ae7c3fff760c 100644
-> > > --- a/drivers/staging/media/hantro/hantro_hw.h
-> > > +++ b/drivers/staging/media/hantro/hantro_hw.h
-> > > @@ -211,6 +211,8 @@ enum hantro_enc_fmt {
-> > >         ROCKCHIP_VPU_ENC_FMT_UYVY422 = 3,
-> > >  };
-> > >
-> > > +extern const struct hantro_variant imx8mm_vpu_g2_variant;
-> > > +extern const struct hantro_variant imx8mm_vpu_variant;
-> > >  extern const struct hantro_variant imx8mq_vpu_g2_variant;
-> > >  extern const struct hantro_variant imx8mq_vpu_variant;
-> > >  extern const struct hantro_variant px30_vpu_variant;
-> > > diff --git a/drivers/staging/media/hantro/imx8m_vpu_hw.c b/drivers/staging/media/hantro/imx8m_vpu_hw.c
-> > > index ea919bfb9891..c68516c00c6d 100644
-> > > --- a/drivers/staging/media/hantro/imx8m_vpu_hw.c
-> > > +++ b/drivers/staging/media/hantro/imx8m_vpu_hw.c
-> > > @@ -242,6 +242,32 @@ static const struct hantro_codec_ops imx8mq_vpu_g2_codec_ops[] = {
-> > >         },
-> > >  };
-> > >
-> > > +static const struct hantro_codec_ops imx8mm_vpu_codec_ops[] = {
-> > > +       [HANTRO_MODE_MPEG2_DEC] = {
-> > > +               .run = hantro_g1_mpeg2_dec_run,
-> > > +               .init = hantro_mpeg2_dec_init,
-> > > +               .exit = hantro_mpeg2_dec_exit,
-> > > +       },
-> > > +       [HANTRO_MODE_VP8_DEC] = {
-> > > +               .run = hantro_g1_vp8_dec_run,
-> > > +               .init = hantro_vp8_dec_init,
-> > > +               .exit = hantro_vp8_dec_exit,
-> > > +       },
-> > > +       [HANTRO_MODE_H264_DEC] = {
-> > > +               .run = hantro_g1_h264_dec_run,
-> > > +               .init = hantro_h264_dec_init,
-> > > +               .exit = hantro_h264_dec_exit,
-> > > +       },
-> > > +};
-> > > +
-> > > +static const struct hantro_codec_ops imx8mm_vpu_g2_codec_ops[] = {
-> > > +       [HANTRO_MODE_HEVC_DEC] = {
-> > > +               .run = hantro_g2_hevc_dec_run,
-> > > +               .init = hantro_hevc_dec_init,
-> > > +               .exit = hantro_hevc_dec_exit,
-> > > +       },
-> > > +};
-> > > +
-> >
-> > I believe you are missing VP9, which explains why you get
-> > a zero fluster score.
->
-> That's what I was thinking too and that's why I was wondering if I
-> should wait on G2 until more of those G2 patches have been finalized
-> and accepted.  Is there a way to test the HEVC?  I didn't see one in
-> the fluster list.
->
+fwnode_graph_get_remote_node() is only used by the tegra-video driver.
+Convert it to use newer fwnode_graph_get_endpoint_by_id() and drop
+now-unused fwnode_graph_get_remote_node().
 
-VP9 is on its way to be merged. There is a pull request from Hans
-already: see https://www.spinics.net/lists/linux-media/msg202448.html
-which includes the git repository and tag you can merge/rebase to test
-it.
+Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+---
+ drivers/base/property.c                | 38 --------------------------
+ drivers/staging/media/tegra-video/vi.c | 12 +++++---
+ include/linux/property.h               |  3 --
+ 3 files changed, 8 insertions(+), 45 deletions(-)
 
-It would be great if you can test G2 on top of that, but it's also fine
-if you want to just submit G1 for now. Up to you.
+diff --git a/drivers/base/property.c b/drivers/base/property.c
+index 78106192babb8..a7086e5526445 100644
+--- a/drivers/base/property.c
++++ b/drivers/base/property.c
+@@ -1059,44 +1059,6 @@ fwnode_graph_get_remote_endpoint(const struct fwnode_handle *fwnode)
+ }
+ EXPORT_SYMBOL_GPL(fwnode_graph_get_remote_endpoint);
+ 
+-/**
+- * fwnode_graph_get_remote_node - get remote parent node for given port/endpoint
+- * @fwnode: pointer to parent fwnode_handle containing graph port/endpoint
+- * @port_id: identifier of the parent port node
+- * @endpoint_id: identifier of the endpoint node
+- *
+- * Return: Remote fwnode handle associated with remote endpoint node linked
+- *	   to @node. Use fwnode_node_put() on it when done.
+- */
+-struct fwnode_handle *
+-fwnode_graph_get_remote_node(const struct fwnode_handle *fwnode, u32 port_id,
+-			     u32 endpoint_id)
+-{
+-	struct fwnode_handle *endpoint;
+-
+-	fwnode_graph_for_each_endpoint(fwnode, endpoint) {
+-		struct fwnode_endpoint fwnode_ep;
+-		struct fwnode_handle *remote;
+-		int ret;
+-
+-		ret = fwnode_graph_parse_endpoint(endpoint, &fwnode_ep);
+-		if (ret < 0)
+-			continue;
+-
+-		if (fwnode_ep.port != port_id || fwnode_ep.id != endpoint_id)
+-			continue;
+-
+-		remote = fwnode_graph_get_remote_port_parent(endpoint);
+-		if (!remote)
+-			return NULL;
+-
+-		return fwnode_device_is_available(remote) ? remote : NULL;
+-	}
+-
+-	return NULL;
+-}
+-EXPORT_SYMBOL_GPL(fwnode_graph_get_remote_node);
+-
+ static bool fwnode_graph_remote_available(struct fwnode_handle *ep)
+ {
+ 	struct fwnode_handle *dev_node;
+diff --git a/drivers/staging/media/tegra-video/vi.c b/drivers/staging/media/tegra-video/vi.c
+index 69d9787d53384..d1f43f465c224 100644
+--- a/drivers/staging/media/tegra-video/vi.c
++++ b/drivers/staging/media/tegra-video/vi.c
+@@ -1845,7 +1845,6 @@ static int tegra_vi_graph_init(struct tegra_vi *vi)
+ 	struct tegra_vi_channel *chan;
+ 	struct fwnode_handle *fwnode = dev_fwnode(vi->dev);
+ 	int ret;
+-	struct fwnode_handle *remote = NULL;
+ 
+ 	/*
+ 	 * Walk the links to parse the full graph. Each channel will have
+@@ -1857,11 +1856,16 @@ static int tegra_vi_graph_init(struct tegra_vi *vi)
+ 	 * next channels.
+ 	 */
+ 	list_for_each_entry(chan, &vi->vi_chans, list) {
+-		remote = fwnode_graph_get_remote_node(fwnode, chan->portnos[0],
+-						      0);
+-		if (!remote)
++		struct fwnode_handle *ep, *remote;
++
++		ep = fwnode_graph_get_endpoint_by_id(fwnode,
++						     chan->portnos[0], 0, 0);
++		if (!ep)
+ 			continue;
+ 
++		remote = fwnode_graph_get_remote_port_parent(ep);
++		fwnode_handle_put(ep);
++
+ 		ret = tegra_vi_graph_parse_one(chan, remote);
+ 		fwnode_handle_put(remote);
+ 		if (ret < 0 || list_empty(&chan->notifier.asd_list))
+diff --git a/include/linux/property.h b/include/linux/property.h
+index e32b95f42c9db..3a31765895c11 100644
+--- a/include/linux/property.h
++++ b/include/linux/property.h
+@@ -401,9 +401,6 @@ struct fwnode_handle *fwnode_graph_get_remote_port(
+ 	const struct fwnode_handle *fwnode);
+ struct fwnode_handle *fwnode_graph_get_remote_endpoint(
+ 	const struct fwnode_handle *fwnode);
+-struct fwnode_handle *
+-fwnode_graph_get_remote_node(const struct fwnode_handle *fwnode, u32 port,
+-			     u32 endpoint);
+ 
+ static inline bool fwnode_graph_is_endpoint(struct fwnode_handle *fwnode)
+ {
+-- 
+2.30.2
 
-Regarding HEVC, currently Benjamin is who knows best how to test it.
-Thinking about it, perhaps we should document this somewhere?
-
-Regards,
-Ezequiel
