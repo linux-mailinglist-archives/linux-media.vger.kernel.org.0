@@ -2,358 +2,187 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9ED8946553D
-	for <lists+linux-media@lfdr.de>; Wed,  1 Dec 2021 19:21:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A8A3F465546
+	for <lists+linux-media@lfdr.de>; Wed,  1 Dec 2021 19:22:44 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233861AbhLASYY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 1 Dec 2021 13:24:24 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43396 "EHLO
+        id S1352309AbhLAS0D (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 1 Dec 2021 13:26:03 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43592 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1352282AbhLASYX (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 1 Dec 2021 13:24:23 -0500
-Received: from mail-vk1-xa35.google.com (mail-vk1-xa35.google.com [IPv6:2607:f8b0:4864:20::a35])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 704DDC061757
-        for <linux-media@vger.kernel.org>; Wed,  1 Dec 2021 10:21:02 -0800 (PST)
-Received: by mail-vk1-xa35.google.com with SMTP id s1so8336636vks.9
-        for <linux-media@vger.kernel.org>; Wed, 01 Dec 2021 10:21:02 -0800 (PST)
+        with ESMTP id S1352315AbhLASZJ (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 1 Dec 2021 13:25:09 -0500
+Received: from mail-ed1-x52f.google.com (mail-ed1-x52f.google.com [IPv6:2a00:1450:4864:20::52f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EEB79C061574;
+        Wed,  1 Dec 2021 10:21:47 -0800 (PST)
+Received: by mail-ed1-x52f.google.com with SMTP id z5so40492617edd.3;
+        Wed, 01 Dec 2021 10:21:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=vanguardiasur-com-ar.20210112.gappssmtp.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=L9kPdnw5Z2nHJxUwmKCeSjpjFBBkG0XR6dZZLiNpsr0=;
-        b=3Kh6RK8qDrYqc1/mVp73jlgyTwaUy7NMTswU/RwmL10r7n0JYJ1DurGHpWdKmqpP78
-         +q+hsgH/jPMM8Z8WlWFHXq2S3xnJUXz8MXB4esegcFJujj9Xulgv6jV3ABCWadBCA43q
-         JpPQohOgKPLJUezZiptzsL0D03KEJouPLefTQccF42FXL8gB+/JrWiIYDwnL/x9tvegh
-         ImhIIlNFJeG8pkIQ9qxpnlkElzvT7TUVb9BsRNlfsE7nkdoAWCS3IA189C0FDd9H6Gwi
-         0mo3+gUhJlZHXt19Ey+iCQ9w8Dmtv77KvV567XnN+qAK3mYAjvX86g3VhDy8MLNoPLRL
-         meog==
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=h+T52AWdajEU0KMwv7ankQCL42Q0SKJuFGlF6DjefnU=;
+        b=E985xw0Ej99Pw2939m+vR1Px+yO5KBMY2c7mm7AOxIRqqfIARSVGlqIP5YBbgaFb7U
+         GfO6NSHzyKu7bcpkx8ICbIwcuvVLu5bTZNOTFH/ZLkifZc66I1yAoqhzqZOcFGtEpYw9
+         OOhBf3PqlTYLATo2L54tInP2/4+wUY6/9lRTrMQM8Xr98oXu+4TZqp8H6X8UgcJPV9ma
+         rWbtHBV4hB2VlntELWamW0dIMFI5vDf0oq4RrHf7YP/NtJn59zdI0efYvI+DkkMpWQeQ
+         xzvAOoTRDf66VwgF4okHtmvaGa9FJUHIowYcJNMJUbsFmEVx+n5yhL8DFHVgzN9BqB5i
+         neIA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=L9kPdnw5Z2nHJxUwmKCeSjpjFBBkG0XR6dZZLiNpsr0=;
-        b=UFDCYpRrApOGE7OO5fu/36sg43V2rralYADOetVESsohX0HOMVWiQs6m8Afbp6O4BG
-         KQAbf5fcucmI3yXyJqlLVWpXmGotiYT7RUSggGwhiZF11KpYQXEx1pkQKTVVQ67i6jy3
-         pu5zo1B/9dtqWW0cGdnZYBPMSKCBtreqMk+si373DamdBfrd6y/ff+oea3uDl+9aEaM0
-         0u/ZsV7krP+rS710CrCWU7qBkRC1P8CcpiOlPtkAHXoNAHvrCxwO+DY2AxJajRM/W9rQ
-         JbABmSQEWRn9ubkwRrXeUEsWdv2b46KK2QMNrd5CGLKhnHnYUT8Iy3OOM9MzzpFcWzAF
-         U++Q==
-X-Gm-Message-State: AOAM533QeFQZedO1r+eVHAh57WP+B81yMtrLQEQhkVphE8u9fWabMm0f
-        jXgOhraE7MlYxrF5HEsxaygtjw==
-X-Google-Smtp-Source: ABdhPJzmkxEqvjzlgFkTA3ka18uaiDBADlwMbQaiWAoMYx6Bm/Bk67r7WLEmGWhv3wrfYpPuGw8ldg==
-X-Received: by 2002:a1f:9f04:: with SMTP id i4mr9305352vke.33.1638382859378;
-        Wed, 01 Dec 2021 10:20:59 -0800 (PST)
-Received: from eze-laptop (host208.201-253-22.telecom.net.ar. [201.253.22.208])
-        by smtp.gmail.com with ESMTPSA id 6sm202518vkq.23.2021.12.01.10.20.56
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 01 Dec 2021 10:20:58 -0800 (PST)
-Date:   Wed, 1 Dec 2021 15:20:54 -0300
-From:   Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
-To:     Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Cc:     p.zabel@pengutronix.de, mchehab@kernel.org,
-        gregkh@linuxfoundation.org, linux-media@vger.kernel.org,
-        linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev,
-        linux-kernel@vger.kernel.org, kernel@collabora.com
-Subject: Re: [PATCH] media: hantro: Make G2/HEVC use hantro_postproc_ops
-Message-ID: <Yae9BphwX9cGxhQf@eze-laptop>
-References: <20211125155001.622405-1-benjamin.gaignard@collabora.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=h+T52AWdajEU0KMwv7ankQCL42Q0SKJuFGlF6DjefnU=;
+        b=Bv1skQBmhJblEXLJMf0YgVM/TEkP2SvZZPD/ckokTQtdOaU2e+0/wT0hirUlP/1ax/
+         CXf4SkBDbDFypXhcKVwNzmqUhOc3sr3DxrROHEhJuENDLDao2ghc7IuHTyVC3PGow+6I
+         QD11hwnkXqqu6E1laG2poCxammZ+coOpQhZDw75ql0Jd+WpPEaPCP6eujnyaT/eJnjtk
+         9SDOJ6i7Kmn9Ep4bUMrj4cGY4tIBkez+MsUmDXsa/nf6Q0qTiUbOIJnL7xUbEWhIwqAh
+         8B7r6HSd7Qt6M/c2PliYtlcu/ExP1k4NXk3cnebLrblkqtDtZwuvZVEpeu/4kQ70MpZf
+         wAfw==
+X-Gm-Message-State: AOAM533WQhQ8Kqh5Z5zx75+vCSYEH556ZQJvq8Hxv8QFM0DvJ9BocVkW
+        QYyrecO8BlPpvCI8gv0Ogr5z9MfNabtwPlTXRAmaQy2W9kk=
+X-Google-Smtp-Source: ABdhPJx38wxlFqFd6LdFixKPZiuITDYT98pgvSOnzhpA66LWC6Hxwz/OMW9UuWE7hqfT7oK1vulT3U5ZKepzY78Lw0E=
+X-Received: by 2002:a17:907:75f0:: with SMTP id jz16mr9210041ejc.77.1638382906154;
+ Wed, 01 Dec 2021 10:21:46 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20211125155001.622405-1-benjamin.gaignard@collabora.com>
+References: <20211201013329.15875-1-aford173@gmail.com> <CAJ+vNU1jENmWAR_5E98Vgb53ctxjxSWJewPW0YC4Yp4DuYTn3g@mail.gmail.com>
+ <7216bc863d89faa9fdc5cd8d44c319f7a6d88159.camel@pengutronix.de>
+In-Reply-To: <7216bc863d89faa9fdc5cd8d44c319f7a6d88159.camel@pengutronix.de>
+From:   Adam Ford <aford173@gmail.com>
+Date:   Wed, 1 Dec 2021 12:21:34 -0600
+Message-ID: <CAHCN7xJevuZhwFwqAFiQxeV6=8iONmr1hwUF4QMfCFWDQ2Ve8A@mail.gmail.com>
+Subject: Re: [RFC V2 0/2] arm64: imx8mm: Enable Hantro VPUs
+To:     Lucas Stach <l.stach@pengutronix.de>
+Cc:     Tim Harvey <tharvey@gateworks.com>,
+        linux-media <linux-media@vger.kernel.org>,
+        Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Nicolas Dufresne <nicolas@ndufresne.ca>,
+        Adam Ford-BE <aford@beaconembedded.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        devicetree <devicetree@vger.kernel.org>,
+        arm-soc <linux-arm-kernel@lists.infradead.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        "open list:HANTRO VPU CODEC DRIVER" 
+        <linux-rockchip@lists.infradead.org>,
+        "open list:STAGING SUBSYSTEM" <linux-staging@lists.linux.dev>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Benjamin,
+On Wed, Dec 1, 2021 at 11:32 AM Lucas Stach <l.stach@pengutronix.de> wrote:
+>
+> Hi Tim,
+>
+> Am Mittwoch, dem 01.12.2021 um 09:23 -0800 schrieb Tim Harvey:
+> > On Tue, Nov 30, 2021 at 5:33 PM Adam Ford <aford173@gmail.com> wrote:
+> > >
+> > > The i.MX8M has two Hantro video decoders, called G1 and G2 which appear
+> > > to be related to the video decoders used on the i.MX8MQ, but because of
+> > > how the Mini handles the power domains, the VPU driver does not need to
+> > > handle all the functions, nor does it support the post-processor,
+> > > so a new compatible flag is required.
+> > >
+> > > With the suggestion from Hans Verkuil, I was able to get the G2 splat to go away
+> > > with changes to FORCE_MAX_ZONEORDER, but I found I could also set cma=512M, however
+> > > it's unclear to me if that's an acceptable alternative.
+> > >
+> > > At the suggestion of Ezequiel Garcia and Nicolas Dufresne I have some
+> > > results from Fluster. However, the G2 VPU appears to fail most tests.
+> > >
+> > > ./fluster.py run -dGStreamer-H.264-V4L2SL-Gst1.0
+> > > Ran 90/135 tests successfully               in 76.431 secs
+> > >
+> > >  ./fluster.py run -d GStreamer-VP8-V4L2SL-Gst1.0
+> > > Ran 55/61 tests successfully               in 21.454 secs
+> > >
+> > > ./fluster.py run -d GStreamer-VP9-V4L2SL-Gst1.0
+> > > Ran 0/303 tests successfully               in 20.016 secs
+> > >
+> > > Each day seems to show more and more G2 submissions, and gstreamer seems to be
+> > > still working on the VP9, so I am not sure if I should drop G2 as well.
+> > >
+> > >
+> > > Adam Ford (2):
+> > >   media: hantro: Add support for i.MX8M Mini
+> > >   arm64: dts: imx8mm: Enable VPU-G1 and VPU-G2
+> > >
+> > >  arch/arm64/boot/dts/freescale/imx8mm.dtsi   | 41 +++++++++++++++
+> > >  drivers/staging/media/hantro/hantro_drv.c   |  2 +
+> > >  drivers/staging/media/hantro/hantro_hw.h    |  2 +
+> > >  drivers/staging/media/hantro/imx8m_vpu_hw.c | 57 +++++++++++++++++++++
+> > >  4 files changed, 102 insertions(+)
+> > >
+> >
+> > Adam,
+> >
+> > That's for the patches!
+> >
+> > I tested just this series on top of v5.16-rc3 on an
+> > imx8mm-venice-gw73xx-0x and found that if I loop fluster I can end up
+> > getting a hang within 10 to 15 mins or so when imx8m_blk_ctrl_power_on
+> > is called for VPUMIX pd :
+> > while [ 1 ]; do uptime; ./fluster.py run -d GStreamer-VP8-V4L2SL-Gst1.0; done
+> > ...
+> > [  618.838436] imx-pgc imx-pgc-domain.6: failed to command PGC
+> > [  618.844407] imx8m-blk-ctrl 38330000.blk-ctrl: failed to power up bus domain
+> >
+> > I added prints in imx_pgc_power_{up,down} and
+> > imx8m_blk_ctrl_power_{on,off} to get some more context
+> > ...
+> > Ran 55/61 tests successfully               in 8.685 secs
+> >  17:16:34 up 17 min,  0 users,  load average: 3.97, 2.11, 0.93
+> > ********************************************************************************
+> > ********************
+> > Running test suite VP8-TEST-VECTORS with decoder GStreamer-VP8-V4L2SL-Gst1.0
+> > Using 4 parallel job(s)
+> > ********************************************************************************
+> > ********************
+> >
+> > [TEST SUITE      ] (DECODER                    ) TEST VECTOR               ... R
+> > ESULT
+> > ----------------------------------------------------------------------
+> > [ 1023.114806] imx8m_blk_ctrl_power_on vpublk-g1
+> > [ 1023.119669] imx_pgc_power_up vpumix
+> > [ 1023.124307] imx-pgc imx-pgc-domain.6: failed to command PGC
+> > [ 1023.130006] imx8m-blk-ctrl 38330000.blk-ctrl: failed to power up bus domain
+> >
+> > While this wouldn't be an issue with this series it does indicate we
+> > still have something racy in blk-ctrl. Can you reproduce this (and if
+> > not what kernel are you based on)? Perhaps you or Lucas have some
+> > ideas?
 
-On Thu, Nov 25, 2021 at 04:50:01PM +0100, Benjamin Gaignard wrote:
-> Use the postprocessor functions introduced by Hantro G2/VP9 codec series
-> and remove duplicated buffer management.
-> This allow Hantro G12/HEVC to produce NV12_4L4 and NV12.
-> 
+i have not seen an issue with my implementation, but used
+media-staging [1] for the last attempt to try to get as much of the
+latest hantro driver integration, although the VP9 stuff isn't quite
+ready yet on the g2-VPU
 
-Can you add the fluster score for HEVC so we confirm there are no
-regressions?
+[1] - https://git.linuxtv.org/media_stage.git/log/drivers/staging/media/hantro
 
-Also, please make sure to test with the UVG set http://ultravideo.fi/,
-as well as testing that NV12_4L4 output converted via GStreamer's
-videoconvert element.
+> >
+> Did you have "[PATCH] soc: imx: gpcv2: Synchronously suspend MIX
+> domains" applied when running those tests? It has only recently been
+> picked up by Shawn and may have an influence on the bus domain
+> behavior.
 
-Thanks,
-Ezequiel
+I didn't know about this one either, so I'll try it.
 
-> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-> ---
->  .../staging/media/hantro/hantro_g2_hevc_dec.c | 25 +++---
->  drivers/staging/media/hantro/hantro_hevc.c    | 79 +++----------------
->  drivers/staging/media/hantro/hantro_hw.h      | 11 +++
->  .../staging/media/hantro/hantro_postproc.c    |  3 +
->  drivers/staging/media/hantro/hantro_v4l2.c    | 19 ++---
->  5 files changed, 41 insertions(+), 96 deletions(-)
-> 
-> diff --git a/drivers/staging/media/hantro/hantro_g2_hevc_dec.c b/drivers/staging/media/hantro/hantro_g2_hevc_dec.c
-> index b35f36109a6f..6ef5430b18eb 100644
-> --- a/drivers/staging/media/hantro/hantro_g2_hevc_dec.c
-> +++ b/drivers/staging/media/hantro/hantro_g2_hevc_dec.c
-> @@ -341,6 +341,8 @@ static int set_ref(struct hantro_ctx *ctx)
->  	const struct v4l2_hevc_dpb_entry *dpb = decode_params->dpb;
->  	dma_addr_t luma_addr, chroma_addr, mv_addr = 0;
->  	struct hantro_dev *vpu = ctx->dev;
-> +	struct vb2_v4l2_buffer *vb2_dst;
-> +	struct hantro_decoded_buffer *dst;
->  	size_t cr_offset = hantro_hevc_chroma_offset(sps);
->  	size_t mv_offset = hantro_hevc_motion_vectors_offset(sps);
->  	u32 max_ref_frames;
-> @@ -426,10 +428,15 @@ static int set_ref(struct hantro_ctx *ctx)
->  		hantro_write_addr(vpu, G2_REF_MV_ADDR(i), mv_addr);
->  	}
->  
-> -	luma_addr = hantro_hevc_get_ref_buf(ctx, decode_params->pic_order_cnt_val);
-> +	vb2_dst = hantro_get_dst_buf(ctx);
-> +	dst = vb2_to_hantro_decoded_buf(&vb2_dst->vb2_buf);
-> +	luma_addr = hantro_get_dec_buf_addr(ctx, &dst->base.vb.vb2_buf);
->  	if (!luma_addr)
->  		return -ENOMEM;
->  
-> +	if (hantro_hevc_add_ref_buf(ctx, decode_params->pic_order_cnt_val, luma_addr))
-> +		return -EINVAL;
-> +
->  	chroma_addr = luma_addr + cr_offset;
->  	mv_addr = luma_addr + mv_offset;
->  
-> @@ -456,16 +463,12 @@ static int set_ref(struct hantro_ctx *ctx)
->  
->  static void set_buffers(struct hantro_ctx *ctx)
->  {
-> -	struct vb2_v4l2_buffer *src_buf, *dst_buf;
-> +	struct vb2_v4l2_buffer *src_buf;
->  	struct hantro_dev *vpu = ctx->dev;
-> -	const struct hantro_hevc_dec_ctrls *ctrls = &ctx->hevc_dec.ctrls;
-> -	const struct v4l2_ctrl_hevc_sps *sps = ctrls->sps;
-> -	size_t cr_offset = hantro_hevc_chroma_offset(sps);
-> -	dma_addr_t src_dma, dst_dma;
-> +	dma_addr_t src_dma;
->  	u32 src_len, src_buf_len;
->  
->  	src_buf = hantro_get_src_buf(ctx);
-> -	dst_buf = hantro_get_dst_buf(ctx);
->  
->  	/* Source (stream) buffer. */
->  	src_dma = vb2_dma_contig_plane_dma_addr(&src_buf->vb2_buf, 0);
-> @@ -478,11 +481,6 @@ static void set_buffers(struct hantro_ctx *ctx)
->  	hantro_reg_write(vpu, &g2_strm_start_offset, 0);
->  	hantro_reg_write(vpu, &g2_write_mvs_e, 1);
->  
-> -	/* Destination (decoded frame) buffer. */
-> -	dst_dma = hantro_get_dec_buf_addr(ctx, &dst_buf->vb2_buf);
-> -
-> -	hantro_write_addr(vpu, G2_RS_OUT_LUMA_ADDR, dst_dma);
-> -	hantro_write_addr(vpu, G2_RS_OUT_CHROMA_ADDR, dst_dma + cr_offset);
->  	hantro_write_addr(vpu, G2_TILE_SIZES_ADDR, ctx->hevc_dec.tile_sizes.dma);
->  	hantro_write_addr(vpu, G2_TILE_FILTER_ADDR, ctx->hevc_dec.tile_filter.dma);
->  	hantro_write_addr(vpu, G2_TILE_SAO_ADDR, ctx->hevc_dec.tile_sao.dma);
-> @@ -575,9 +573,6 @@ int hantro_g2_hevc_dec_run(struct hantro_ctx *ctx)
->  	/* Don't compress buffers */
->  	hantro_reg_write(vpu, &g2_ref_compress_bypass, 1);
->  
-> -	/* use NV12 as output format */
-> -	hantro_reg_write(vpu, &g2_out_rs_e, 1);
-> -
->  	/* Bus width and max burst */
->  	hantro_reg_write(vpu, &g2_buswidth, BUS_WIDTH_128);
->  	hantro_reg_write(vpu, &g2_max_burst, 16);
-> diff --git a/drivers/staging/media/hantro/hantro_hevc.c b/drivers/staging/media/hantro/hantro_hevc.c
-> index ee03123e7704..b49a41d7ae91 100644
-> --- a/drivers/staging/media/hantro/hantro_hevc.c
-> +++ b/drivers/staging/media/hantro/hantro_hevc.c
-> @@ -44,47 +44,6 @@ size_t hantro_hevc_motion_vectors_offset(const struct v4l2_ctrl_hevc_sps *sps)
->  	return ALIGN((cr_offset * 3) / 2, G2_ALIGN);
->  }
->  
-> -static size_t hantro_hevc_mv_size(const struct v4l2_ctrl_hevc_sps *sps)
-> -{
-> -	u32 min_cb_log2_size_y = sps->log2_min_luma_coding_block_size_minus3 + 3;
-> -	u32 ctb_log2_size_y = min_cb_log2_size_y + sps->log2_diff_max_min_luma_coding_block_size;
-> -	u32 pic_width_in_ctbs_y = (sps->pic_width_in_luma_samples + (1 << ctb_log2_size_y) - 1)
-> -				  >> ctb_log2_size_y;
-> -	u32 pic_height_in_ctbs_y = (sps->pic_height_in_luma_samples + (1 << ctb_log2_size_y) - 1)
-> -				   >> ctb_log2_size_y;
-> -	size_t mv_size;
-> -
-> -	mv_size = pic_width_in_ctbs_y * pic_height_in_ctbs_y *
-> -		  (1 << (2 * (ctb_log2_size_y - 4))) * 16;
-> -
-> -	vpu_debug(4, "%dx%d (CTBs) %zu MV bytes\n",
-> -		  pic_width_in_ctbs_y, pic_height_in_ctbs_y, mv_size);
-> -
-> -	return mv_size;
-> -}
-> -
-> -static size_t hantro_hevc_ref_size(struct hantro_ctx *ctx)
-> -{
-> -	const struct hantro_hevc_dec_ctrls *ctrls = &ctx->hevc_dec.ctrls;
-> -	const struct v4l2_ctrl_hevc_sps *sps = ctrls->sps;
-> -
-> -	return hantro_hevc_motion_vectors_offset(sps) + hantro_hevc_mv_size(sps);
-> -}
-> -
-> -static void hantro_hevc_ref_free(struct hantro_ctx *ctx)
-> -{
-> -	struct hantro_hevc_dec_hw_ctx *hevc_dec = &ctx->hevc_dec;
-> -	struct hantro_dev *vpu = ctx->dev;
-> -	int i;
-> -
-> -	for (i = 0;  i < NUM_REF_PICTURES; i++) {
-> -		if (hevc_dec->ref_bufs[i].cpu)
-> -			dma_free_coherent(vpu->dev, hevc_dec->ref_bufs[i].size,
-> -					  hevc_dec->ref_bufs[i].cpu,
-> -					  hevc_dec->ref_bufs[i].dma);
-> -	}
-> -}
-> -
->  static void hantro_hevc_ref_init(struct hantro_ctx *ctx)
->  {
->  	struct hantro_hevc_dec_hw_ctx *hevc_dec = &ctx->hevc_dec;
-> @@ -108,37 +67,25 @@ dma_addr_t hantro_hevc_get_ref_buf(struct hantro_ctx *ctx,
->  		}
->  	}
->  
-> -	/* Allocate a new reference buffer */
-> +	return 0;
-> +}
-> +
-> +int hantro_hevc_add_ref_buf(struct hantro_ctx *ctx, int poc, dma_addr_t addr)
-> +{
-> +	struct hantro_hevc_dec_hw_ctx *hevc_dec = &ctx->hevc_dec;
-> +	int i;
-> +
-> +	/* Add a new reference buffer */
->  	for (i = 0; i < NUM_REF_PICTURES; i++) {
->  		if (hevc_dec->ref_bufs_poc[i] == UNUSED_REF) {
-> -			if (!hevc_dec->ref_bufs[i].cpu) {
-> -				struct hantro_dev *vpu = ctx->dev;
-> -
-> -				/*
-> -				 * Allocate the space needed for the raw data +
-> -				 * motion vector data. Optimizations could be to
-> -				 * allocate raw data in non coherent memory and only
-> -				 * clear the motion vector data.
-> -				 */
-> -				hevc_dec->ref_bufs[i].cpu =
-> -					dma_alloc_coherent(vpu->dev,
-> -							   hantro_hevc_ref_size(ctx),
-> -							   &hevc_dec->ref_bufs[i].dma,
-> -							   GFP_KERNEL);
-> -				if (!hevc_dec->ref_bufs[i].cpu)
-> -					return 0;
-> -
-> -				hevc_dec->ref_bufs[i].size = hantro_hevc_ref_size(ctx);
-> -			}
->  			hevc_dec->ref_bufs_used |= 1 << i;
-> -			memset(hevc_dec->ref_bufs[i].cpu, 0, hantro_hevc_ref_size(ctx));
->  			hevc_dec->ref_bufs_poc[i] = poc;
-> -
-> -			return hevc_dec->ref_bufs[i].dma;
-> +			hevc_dec->ref_bufs[i].dma = addr;
-> +			return 0;
->  		}
->  	}
->  
-> -	return 0;
-> +	return -EINVAL;
->  }
->  
->  void hantro_hevc_ref_remove_unused(struct hantro_ctx *ctx)
-> @@ -314,8 +261,6 @@ void hantro_hevc_dec_exit(struct hantro_ctx *ctx)
->  				  hevc_dec->tile_bsd.cpu,
->  				  hevc_dec->tile_bsd.dma);
->  	hevc_dec->tile_bsd.cpu = NULL;
-> -
-> -	hantro_hevc_ref_free(ctx);
->  }
->  
->  int hantro_hevc_dec_init(struct hantro_ctx *ctx)
-> diff --git a/drivers/staging/media/hantro/hantro_hw.h b/drivers/staging/media/hantro/hantro_hw.h
-> index dbe51303724b..7286404c32ab 100644
-> --- a/drivers/staging/media/hantro/hantro_hw.h
-> +++ b/drivers/staging/media/hantro/hantro_hw.h
-> @@ -345,6 +345,7 @@ void hantro_hevc_dec_exit(struct hantro_ctx *ctx);
->  int hantro_g2_hevc_dec_run(struct hantro_ctx *ctx);
->  int hantro_hevc_dec_prepare_run(struct hantro_ctx *ctx);
->  dma_addr_t hantro_hevc_get_ref_buf(struct hantro_ctx *ctx, int poc);
-> +int hantro_hevc_add_ref_buf(struct hantro_ctx *ctx, int poc, dma_addr_t addr);
->  void hantro_hevc_ref_remove_unused(struct hantro_ctx *ctx);
->  size_t hantro_hevc_chroma_offset(const struct v4l2_ctrl_hevc_sps *sps);
->  size_t hantro_hevc_motion_vectors_offset(const struct v4l2_ctrl_hevc_sps *sps);
-> @@ -394,6 +395,16 @@ hantro_h264_mv_size(unsigned int width, unsigned int height)
->  	return 64 * MB_WIDTH(width) * MB_WIDTH(height) + 32;
->  }
->  
-> +static inline size_t
-> +hantro_hevc_mv_size(unsigned int width, unsigned int height)
-> +{
-> +	/*
-> +	 * A CTB can be 64x64, 32x32 or 16x16.
-> +	 * Allocated memory for the "worse" case: 16x16
-> +	 */
-> +	return width * height / 16;
-> +}
-> +
->  int hantro_g1_mpeg2_dec_run(struct hantro_ctx *ctx);
->  int rockchip_vpu2_mpeg2_dec_run(struct hantro_ctx *ctx);
->  void hantro_mpeg2_dec_copy_qtable(u8 *qtable,
-> diff --git a/drivers/staging/media/hantro/hantro_postproc.c b/drivers/staging/media/hantro/hantro_postproc.c
-> index a7774ad4c445..248abe5423f0 100644
-> --- a/drivers/staging/media/hantro/hantro_postproc.c
-> +++ b/drivers/staging/media/hantro/hantro_postproc.c
-> @@ -146,6 +146,9 @@ int hantro_postproc_alloc(struct hantro_ctx *ctx)
->  	else if (ctx->vpu_src_fmt->fourcc == V4L2_PIX_FMT_VP9_FRAME)
->  		buf_size += hantro_vp9_mv_size(ctx->dst_fmt.width,
->  					       ctx->dst_fmt.height);
-> +	else if (ctx->vpu_src_fmt->fourcc == V4L2_PIX_FMT_HEVC_SLICE)
-> +		buf_size += hantro_hevc_mv_size(ctx->dst_fmt.width,
-> +						ctx->dst_fmt.height);
->  
->  	for (i = 0; i < num_buffers; ++i) {
->  		struct hantro_aux_buf *priv = &ctx->postproc.dec_q[i];
-> diff --git a/drivers/staging/media/hantro/hantro_v4l2.c b/drivers/staging/media/hantro/hantro_v4l2.c
-> index e4b0645ba6fc..e1fe37afe576 100644
-> --- a/drivers/staging/media/hantro/hantro_v4l2.c
-> +++ b/drivers/staging/media/hantro/hantro_v4l2.c
-> @@ -150,20 +150,6 @@ static int vidioc_enum_fmt(struct file *file, void *priv,
->  	unsigned int num_fmts, i, j = 0;
->  	bool skip_mode_none;
->  
-> -	/*
-> -	 * The HEVC decoder on the G2 core needs a little quirk to offer NV12
-> -	 * only on the capture side. Once the post-processor logic is used,
-> -	 * we will be able to expose NV12_4L4 and NV12 as the other cases,
-> -	 * and therefore remove this quirk.
-> -	 */
-> -	if (capture && ctx->vpu_src_fmt->fourcc == V4L2_PIX_FMT_HEVC_SLICE) {
-> -		if (f->index == 0) {
-> -			f->pixelformat = V4L2_PIX_FMT_NV12;
-> -			return 0;
-> -		}
-> -		return -EINVAL;
-> -	}
-> -
->  	/*
->  	 * When dealing with an encoder:
->  	 *  - on the capture side we want to filter out all MODE_NONE formats.
-> @@ -304,6 +290,11 @@ static int hantro_try_fmt(const struct hantro_ctx *ctx,
->  			pix_mp->plane_fmt[0].sizeimage +=
->  				hantro_vp9_mv_size(pix_mp->width,
->  						   pix_mp->height);
-> +		else if (ctx->vpu_src_fmt->fourcc == V4L2_PIX_FMT_HEVC_SLICE &&
-> +			 !hantro_needs_postproc(ctx, fmt))
-> +			pix_mp->plane_fmt[0].sizeimage +=
-> +				hantro_hevc_mv_size(pix_mp->width,
-> +						    pix_mp->height);
->  	} else if (!pix_mp->plane_fmt[0].sizeimage) {
->  		/*
->  		 * For coded formats the application can specify
-> -- 
-> 2.30.2
-> 
+When I was attempting to read registers from the H1 vpu, I had to set
+"keep_clocks = true" for the H1 power domain or it would hang.  If the
+patch Lucas suggests doesn't work, you could try keeing the G1 or G2
+clocks on.  I believe it's already set for the vpumix, but the G1, G2
+and H1 clocks are not touched by the vpumix, just the
+IMX8MM_CLK_VPU_DEC_ROOT.
+
+>
+> Regards,
+> Lucas
+>
