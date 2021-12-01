@@ -2,134 +2,264 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AC70746453D
-	for <lists+linux-media@lfdr.de>; Wed,  1 Dec 2021 04:05:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C88D2464556
+	for <lists+linux-media@lfdr.de>; Wed,  1 Dec 2021 04:15:48 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1346386AbhLADIa (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 30 Nov 2021 22:08:30 -0500
-Received: from perceval.ideasonboard.com ([213.167.242.64]:50916 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229731AbhLADIO (ORCPT
+        id S1346320AbhLADTG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 30 Nov 2021 22:19:06 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34362 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S241616AbhLADTA (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 30 Nov 2021 22:08:14 -0500
+        Tue, 30 Nov 2021 22:19:00 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EB5BDC061746;
+        Tue, 30 Nov 2021 19:15:38 -0800 (PST)
 Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id DAD692A5;
-        Wed,  1 Dec 2021 04:04:52 +0100 (CET)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 4C79B2A5;
+        Wed,  1 Dec 2021 04:15:37 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1638327893;
-        bh=srS3unrKV9eIwD6la9ncSzfe9yDFgixGWuXjcEQzyzE=;
+        s=mail; t=1638328537;
+        bh=wlCzj5WtPkkZo7MA6RstYeimR8KZkvsnApKEauN7Jts=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=LFM3pyNzrofLgQxhrQEwRrg5cRS2uzLGYJ6xBbdw35GZK2r8ldvmLZp3qABY7sCIO
-         Xi1hoDswNIGnsjyoScY2QT9AadBQnOo7ZmSNwCamE05n6YmzGP/FF73jKhi/2lJFqd
-         XSu/GRcCBZuCbn/assirmwUFH9FbEXBBbVQssFVk=
-Date:   Wed, 1 Dec 2021 05:04:26 +0200
+        b=CggsWlsUWwr4WFMc0gxawRn64x3UAF3iro1ksm3ZeJ7o0xy1zt2As+4zOT5qq1y9D
+         yGNakPp20TNogsvRpDyYtGRjelCuVRswjOeLECqI5uNprFgrrl/7HzAkSp0TgapI9P
+         Kg/hiGChafJvCqVrrvM1kI0U41oLBqBxbKqdTLqo=
+Date:   Wed, 1 Dec 2021 05:15:12 +0200
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To:     Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>
-Cc:     Hans Verkuil <hverkuil@xs4all.nl>,
-        Ricardo Ribalda <ribalda@chromium.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>
-Subject: Re: [PATCH] uvc: fix sequence counting
-Message-ID: <YabmOi2tOBNqC8nI@pendragon.ideasonboard.com>
-References: <0d3ee0aa-0f1f-4670-a5cc-8dd982e2e3b0@xs4all.nl>
- <CAPybu_0Z_Sa1OqVWVhK0RmPchxH1Z=N_BDZft66Bd-uBxpMTBQ@mail.gmail.com>
+Cc:     Kyeongdon Kim <kyeongdon.kim@lge.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media <linux-media@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Ricardo Ribalda <ribalda@chromium.org>
+Subject: Re: [PATCH v2] media: uvcvideo: use dynamic allocation for
+ uvc_copy_op
+Message-ID: <YabowLdtOJwkXgpY@pendragon.ideasonboard.com>
+References: <20210903045456.83301-1-kyeongdon.kim@lge.com>
+ <CAPybu_10kUFE02QewKd7Lf3CVrJa5y4ogPfptViUfWzTh0W_qg@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <CAPybu_0Z_Sa1OqVWVhK0RmPchxH1Z=N_BDZft66Bd-uBxpMTBQ@mail.gmail.com>
+In-Reply-To: <CAPybu_10kUFE02QewKd7Lf3CVrJa5y4ogPfptViUfWzTh0W_qg@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hello,
+On Fri, Nov 26, 2021 at 05:37:32PM +0100, Ricardo Ribalda Delgado wrote:
+> Hi Kyeongdon
+> 
+> I fail to understand why your approach is faster than the original one.
+> 
+> Is it because of the alignment of struct uvc_copy_op copy_operations ?
 
-On Fri, Nov 26, 2021 at 05:14:31PM +0100, Ricardo Ribalda Delgado wrote:
-> Hello Hans
-> 
-> What if we make something like:
-> 
-> #define UVC_STREAM_FID_UNINITIALISED (UVC_STREAM_FID + 1)
-> 
-> and then use that define at the initialization and in decode_start() ?
-> I think it will be clearer than the current comparison.
-> 
-> 
-> Also you might want to wait to assign "stream->last_fid = fid;" until
-> line 1106, because otherwise the "Dropping payload" will be triggered
-> (I believe)
-> 
-> Thanks!
-> 
-> PS: You will get better response time if you email me at
-> ribalda@chromium.org , not much time recently for the personal email
-> :(
-> 
-> On Wed, Nov 24, 2021 at 11:49 AM Hans Verkuil wrote:
+I also wonder.
+
+> On Fri, Sep 3, 2021 at 6:56 AM Kyeongdon Kim <kyeongdon.kim@lge.com> wrote:
 > >
-> > When you start streaming from uvc, then the first buffer will
-> > have sequence number 0 and the second buffer has sequence number
-> > 2. Fix the logic to ensure proper monotonically increasing sequence
-> > numbers.
+> > There are some issues to handle frame throughput with camera devices
 > >
-> > The root cause is not setting last_fid when you start streaming
-> > and a new fid is found for the first time.
-
-I can confirm the issue with my device, but this short explanation
-doesn't really tell me where the problem comes from. Could you elaborate
-on this, maybe with a detailed sequence ?
-
-> > This patch also changes the initial last_fid value from -1 to 0xff.
-> > Since last_fid is unsigned, it is better to stick to unsigned values.
-
-Maybe U8_MAX then ?
-
-> > Signed-off-by: Hans Verkuil <hans.verkuil@cisco.com>
+> > Using devices:
+> > - Logitech Webcam
+> > - Intel(R) RealSense(TM) Depth Camera
+> >
+> > To improve efficiency, and maximise throughput,
+> > use dynamic allocation for uvc_copy_op.
+> >
+> > Change from struct uvc_copy_op copy_operations[UVC_MAX_PACKETS];
+> > to struct uvc_copy_op *copy_operations;
+> >
+> > Now, only tested bulk video options.
+> >
+> > On test device & own debug log to check frame duration(us),
+> > refer to test result the below:
+> >
+> > Use copy_operations[UVC_MAX_PACKETS]
+> > [UVC] Check time duration(us) : 54732 / 66000
+> > [UVC] Check time duration(us) : 57452 / 66000
+> > [UVC] Check time duration(us) : 57413 / 66000
+> > [UVC] Check time duration(us) : 56713 / 66000
+> > [UVC] Check time duration(us) : 57967 / 66000
+> >
+> > Use *copy_operations
+> > [UVC] Check time duration(us) : 30804 / 66000
+> > [UVC] Check time duration(us) : 38642 / 66000
+> > [UVC] Check time duration(us) : 26011 / 66000
+> > [UVC] Check time duration(us) : 30116 / 66000
+> > [UVC] Check time duration(us) : 29265 / 66000
+> >
+> > Signed-off-by: Kyeongdon Kim <kyeongdon.kim@lge.com>
 > > ---
-> >  drivers/media/usb/uvc/uvc_video.c | 11 +++++++----
-> >  1 file changed, 7 insertions(+), 4 deletions(-)
+> >  drivers/media/usb/uvc/uvc_video.c | 55 ++++++++++++++++++++++++++++++++++++---
+> >  drivers/media/usb/uvc/uvcvideo.h  |  3 ++-
+> >  2 files changed, 54 insertions(+), 4 deletions(-)
 > >
 > > diff --git a/drivers/media/usb/uvc/uvc_video.c b/drivers/media/usb/uvc/uvc_video.c
-> > index 9f37eaf28ce7..8ba8d25e2c4a 100644
+> > index e164646..3a7c131 100644
 > > --- a/drivers/media/usb/uvc/uvc_video.c
 > > +++ b/drivers/media/usb/uvc/uvc_video.c
-> > @@ -1055,7 +1055,10 @@ static int uvc_video_decode_start(struct uvc_streaming *stream,
-> >          * that discontinuous sequence numbers always indicate lost frames.
+> > @@ -1614,6 +1614,36 @@ static void uvc_video_complete(struct urb *urb)
+> >         queue_work(stream->async_wq, &uvc_urb->work);
+> >  }
+> >
+> > +static void uvc_free_urb_cop(struct uvc_streaming *stream)
+> > +{
+> > +       struct uvc_urb *uvc_urb;
+> > +
+> > +       for_each_uvc_urb(uvc_urb, stream) {
+> > +               if (uvc_urb->copy_operations) {
+
+You can drop this check, kfree() is a no-op when called with a NULL
+pointer.
+
+> > +                       kfree(uvc_urb->copy_operations);
+> > +                       uvc_urb->copy_operations = NULL;
+
+Wouldn't it be better to move this to uvc_free_urb_buffers() ?
+
+> > +               }
+> > +       }
+> > +}
+> > +
+> > +static int uvc_alloc_urb_cop(struct uvc_streaming *stream, gfp_t gfp_flags)
+> > +{
+> > +       int max_packet = stream->urb_max_packets;
+
+unsigned int. But you can drop the line, see below.
+
+> > +       struct uvc_urb *uvc_urb;
+> > +
+> > +       for_each_uvc_urb(uvc_urb, stream) {
+> > +               uvc_urb->copy_operations
+> > +                               = kcalloc(max_packet, sizeof(struct uvc_copy_op), gfp_flags);
+
+sizeof(variable) is preferred over sizeof(type).
+
+		uvc_urb->copy_operations = kcalloc(stream->urb_max_packets,
+						   sizeof(*uvc_urb->copy_operations),
+						   gfp_flags);
+
+> > +               if (uvc_urb->copy_operations == NULL)
+> > +                       goto error;
+> > +       }
+> > +       return 0;
+
+Blank line.
+
+> > +error:
+> > +       uvc_free_urb_cop(stream);
+> > +
+> > +       return -ENOMEM;
+> > +}
+> > +
+> >  /*
+> >   * Free transfer buffers.
+> >   */
+> > @@ -1687,8 +1717,8 @@ static int uvc_alloc_urb_buffers(struct uvc_streaming *stream,
+> >          * payloads across multiple URBs.
 > >          */
-> >         if (stream->last_fid != fid) {
-> > -               stream->sequence++;
-> > +               if (stream->last_fid > UVC_STREAM_FID)
-> > +                       stream->last_fid = fid;
-> > +               else
-> > +                       stream->sequence++;
-> >                 if (stream->sequence)
-> >                         uvc_video_stats_update(stream);
+> >         npackets = DIV_ROUND_UP(size, psize);
+> > -       if (npackets > UVC_MAX_PACKETS)
+> > -               npackets = UVC_MAX_PACKETS;
+> > +       if (npackets > stream->urb_max_packets)
+> > +               npackets = stream->urb_max_packets;
+> >
+> >         /* Retry allocations until one succeed. */
+> >         for (; npackets > 1; npackets /= 2) {
+> > @@ -1744,8 +1774,10 @@ static void uvc_video_stop_transfer(struct uvc_streaming *stream,
+> >                 uvc_urb->urb = NULL;
 > >         }
-> > @@ -1080,7 +1083,7 @@ static int uvc_video_decode_start(struct uvc_streaming *stream,
 > >
-> >         /* Synchronize to the input stream by waiting for the FID bit to be
-> >          * toggled when the the buffer state is not UVC_BUF_STATE_ACTIVE.
-> > -        * stream->last_fid is initialized to -1, so the first isochronous
-> > +        * stream->last_fid is initialized to 0xff, so the first isochronous
-> >          * frame will always be in sync.
-> >          *
-> >          * If the device doesn't toggle the FID bit, invert stream->last_fid
-> > @@ -1111,7 +1114,7 @@ static int uvc_video_decode_start(struct uvc_streaming *stream,
-> >          * last payload can be lost anyway). We thus must check if the FID has
-> >          * been toggled.
-> >          *
-> > -        * stream->last_fid is initialized to -1, so the first isochronous
-> > +        * stream->last_fid is initialized to 0xff, so the first isochronous
-> >          * frame will never trigger an end of frame detection.
-> >          *
-> >          * Empty buffers (bytesused == 0) don't trigger end of frame detection
-> > @@ -1895,7 +1898,7 @@ static int uvc_video_start_transfer(struct uvc_streaming *stream,
-> >         int ret;
+> > -       if (free_buffers)
+> > +       if (free_buffers) {
+> >                 uvc_free_urb_buffers(stream);
+> > +               uvc_free_urb_cop(stream);
+> > +       }
+> >  }
 > >
-> >         stream->sequence = -1;
-> > -       stream->last_fid = -1;
-> > +       stream->last_fid = 0xff;
-> >         stream->bulk.header_size = 0;
-> >         stream->bulk.skip_payload = 0;
-> >         stream->bulk.payload_size = 0;
+> >  /*
+> > @@ -1790,10 +1822,18 @@ static int uvc_init_video_isoc(struct uvc_streaming *stream,
+> >         psize = uvc_endpoint_max_bpi(stream->dev->udev, ep);
+> >         size = stream->ctrl.dwMaxVideoFrameSize;
+> >
+> > +       stream->urb_max_packets = UVC_MAX_PACKETS;
+> > +
+> >         npackets = uvc_alloc_urb_buffers(stream, size, psize, gfp_flags);
+> >         if (npackets == 0)
+> >                 return -ENOMEM;
+> >
+> > +       if (uvc_alloc_urb_cop(stream, gfp_flags) != 0) {
+> > +               uvc_dbg(stream->dev, VIDEO,
+> > +                               "Failed to init URBs copy operations.\n");
+
+This message should move to uvc_alloc_urb_cop(). I would also propagate
+the error:
+
+	ret = uvc_alloc_urb_cop(stream, gfp_flags);
+	if (ret < 0)
+		return ret;
+
+But it would be better to call this from uvc_alloc_urb_buffers().
+
+> > +               return -ENOMEM;
+> > +       }
+> > +
+> >         size = npackets * psize;
+> >
+> >         for_each_uvc_urb(uvc_urb, stream) {
+> > @@ -1842,11 +1882,18 @@ static int uvc_init_video_bulk(struct uvc_streaming *stream,
+> >         psize = usb_endpoint_maxp(&ep->desc);
+> >         size = stream->ctrl.dwMaxPayloadTransferSize;
+> >         stream->bulk.max_payload_size = size;
+> > +       stream->urb_max_packets = DIV_ROUND_UP(size, psize);
+
+This is an important change that should be explained in the commit
+message. It may even deserve a patch of its own.
+
+> >
+> >         npackets = uvc_alloc_urb_buffers(stream, size, psize, gfp_flags);
+> >         if (npackets == 0)
+> >                 return -ENOMEM;
+> >
+> > +       if (uvc_alloc_urb_cop(stream, gfp_flags) != 0) {
+> > +               uvc_dbg(stream->dev, VIDEO,
+> > +                               "Failed to init URBs copy operations.\n");
+> > +               return -ENOMEM;
+> > +       }
+> > +
+> >         size = npackets * psize;
+> >
+> >         if (usb_endpoint_dir_in(&ep->desc))
+> > @@ -2147,6 +2194,8 @@ int uvc_video_init(struct uvc_streaming *stream)
+> >                 }
+> >         }
+> >
+> > +       stream->urb_max_packets = UVC_MAX_PACKETS;
+> > +
+> >         /* Prepare asynchronous work items. */
+> >         for_each_uvc_urb(uvc_urb, stream)
+> >                 INIT_WORK(&uvc_urb->work, uvc_video_copy_data_work);
+> > diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/uvcvideo.h
+> > index cce5e38..00cf6c9 100644
+> > --- a/drivers/media/usb/uvc/uvcvideo.h
+> > +++ b/drivers/media/usb/uvc/uvcvideo.h
+> > @@ -561,7 +561,7 @@ struct uvc_urb {
+> >         struct sg_table *sgt;
+> >
+> >         unsigned int async_operations;
+> > -       struct uvc_copy_op copy_operations[UVC_MAX_PACKETS];
+> > +       struct uvc_copy_op *copy_operations;
+> >         struct work_struct work;
+> >  };
+> >
+> > @@ -616,6 +616,7 @@ struct uvc_streaming {
+> >
+> >         struct uvc_urb uvc_urb[UVC_URBS];
+> >         unsigned int urb_size;
+> > +       unsigned int urb_max_packets;
+> >
+> >         u32 sequence;
+> >         u8 last_fid;
 
 -- 
 Regards,
