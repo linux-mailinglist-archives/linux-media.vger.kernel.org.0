@@ -2,55 +2,56 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 68340465A1C
-	for <lists+linux-media@lfdr.de>; Thu,  2 Dec 2021 00:58:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7311C465A1F
+	for <lists+linux-media@lfdr.de>; Thu,  2 Dec 2021 01:00:08 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1353923AbhLBACE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 1 Dec 2021 19:02:04 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36518 "EHLO
+        id S1353902AbhLBAD1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 1 Dec 2021 19:03:27 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36832 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1353917AbhLBACD (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 1 Dec 2021 19:02:03 -0500
-Received: from mail-qt1-x82d.google.com (mail-qt1-x82d.google.com [IPv6:2607:f8b0:4864:20::82d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1BF2EC06174A
-        for <linux-media@vger.kernel.org>; Wed,  1 Dec 2021 15:58:42 -0800 (PST)
-Received: by mail-qt1-x82d.google.com with SMTP id o17so25886390qtk.1
-        for <linux-media@vger.kernel.org>; Wed, 01 Dec 2021 15:58:42 -0800 (PST)
+        with ESMTP id S235746AbhLBAD1 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 1 Dec 2021 19:03:27 -0500
+Received: from mail-qt1-x82a.google.com (mail-qt1-x82a.google.com [IPv6:2607:f8b0:4864:20::82a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E32AFC061574
+        for <linux-media@vger.kernel.org>; Wed,  1 Dec 2021 16:00:05 -0800 (PST)
+Received: by mail-qt1-x82a.google.com with SMTP id q14so25826204qtx.10
+        for <linux-media@vger.kernel.org>; Wed, 01 Dec 2021 16:00:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=mKAVFtfRZpn9mek6iPysBIxAT9sFeNDh1PJVk69vAok=;
-        b=UiQtL7PYDLYrQNpaKD6zuScFDLJgXtjIiVUSuenai/weJwHaNZGd50drPKnS644xJI
-         FsIUoEA38p0/+CgS2GnR18T3SWsehh9cfFdQhsGcYNw83eEXy2yN0V551YDlQed1a5ia
-         suumy0/x42VakjEbn2dWsY6UEt7ktkLXMzUVY=
+        bh=YzFMI5oWE2o+jFyOP5vbILw8vGd41FKbBUY66oRdEQk=;
+        b=HVyEG20SBKF/jqmTGVh7Dh/M0D4FVk1nCzH++iKpmlf4sjOzLgIFju63Hl9Ed9BGhp
+         m/HR14Jg/zzhVH6f8hsABaAUF0TrZGvGQ7qOxJWv1GPxlYKLiMTwAiS1Ujvt8ReOCeBW
+         Zk0Wf82z+4aMUjNuedm8E4Rft/118UNq0bX0w=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=mKAVFtfRZpn9mek6iPysBIxAT9sFeNDh1PJVk69vAok=;
-        b=XQtAiqjU0tc9QX+EFQe5i8bsBbpe17qO/xRhJ86sBgm58g6LLOstHp+1hAFwTExsy/
-         KwyB+/FIzHJDk0+GKmH3qjkYCargZNbaOQKTSG5u3aazXylJX2EliD0bsWYDRQi48NVn
-         UfuxPuxKBrdNC7BmsvPWGuj2UEcOlHnH1b6r07DQnwyi2NeoR3ep3DTUe6V4nBtg4Fb2
-         THXH6L3HprOZmaaFj0TP1h9zyj00YJQYVk6IJi1RMZm6ONQsY91DhknobaZyV39ZTNja
-         6iPiFIIA+IEqLo3LEMsenzPY+bphg3Hkx+hZJ30fidf9vm+YZytZ26FJZqiuxNBP9J8o
-         Yj4A==
-X-Gm-Message-State: AOAM532EB8d2AK0WITJ6IOAAx3QiHi2U3DZmKRbuysy+z6d5iYlPdFUf
-        0sMCmFvZY+5ci02L+QGRC8z/iyMB8SwQexJskVg4eg==
-X-Google-Smtp-Source: ABdhPJxjAowIZNevtYxc/JYBCkiAIs98qYglgiULGYpJOCGmpv/QaOf2gRWJM912xU3UVIlhW8QOcnJt6ZYIil4W+Lg=
-X-Received: by 2002:a05:622a:130e:: with SMTP id v14mr10542855qtk.458.1638403121278;
- Wed, 01 Dec 2021 15:58:41 -0800 (PST)
+        bh=YzFMI5oWE2o+jFyOP5vbILw8vGd41FKbBUY66oRdEQk=;
+        b=YTWn9xifJlJBOt17RNW9YLqXPvsPZdfmQ0VDyEQUWlodrBi0liLI8BxNEyBAlfx1ES
+         sgmUSkVQF/kVW+MRU5PiFQt83aWuQ/W0Rfh54F/G4YT1AaN/jbnZAPutFCudgPGJKR2U
+         RTPTna0yL7hmUxEMsz/5dIa/B2ibwOPZbJNx3qFeg7MfKcDiu6K2oycht/3KcITPy0Vr
+         rnNNBqLvCwO5Z57DGJuv6KqDSEJ0gwccDlwG6q6pb5lvBkwRaxElcGj3p0ny9eaptlGH
+         t/6oZZ01s17oIkERAiOHLsSKg9+ktFA/I+bd8Zg7RGux92CC+w1mj1IFpcGExFQJP/m9
+         qSjg==
+X-Gm-Message-State: AOAM530rDeULqCxB5pdtXSoDWFWSwWFE9vPbZsjH6hVMFSr211x+3cl8
+        F/Uj4Hsfsvazp8NRKVAt1yCjKLS7O026bj6GtjNFIA==
+X-Google-Smtp-Source: ABdhPJwuwORHr25rSusAmz6Rw8B8e2m0YmLSJeSuvEmJ4pbHkBNQlMFlJSCM9HXMUs06MfzXrMPJl/3J77nepYoci9c=
+X-Received: by 2002:ac8:5a10:: with SMTP id n16mr10785131qta.278.1638403205087;
+ Wed, 01 Dec 2021 16:00:05 -0800 (PST)
 MIME-Version: 1.0
 References: <20211129034201.5767-1-yunfei.dong@mediatek.com>
- <20211129034201.5767-3-yunfei.dong@mediatek.com> <CAC-pXoPXc=q8KPUcSfY6XZ=sLt71vDZbJV=f4SZx55Gc6VbRQw@mail.gmail.com>
-In-Reply-To: <CAC-pXoPXc=q8KPUcSfY6XZ=sLt71vDZbJV=f4SZx55Gc6VbRQw@mail.gmail.com>
+ <20211129034201.5767-5-yunfei.dong@mediatek.com> <8a5afa81-71b7-ba42-d1ce-2bbf82a7e557@collabora.com>
+In-Reply-To: <8a5afa81-71b7-ba42-d1ce-2bbf82a7e557@collabora.com>
 From:   Steve Cho <stevecho@chromium.org>
-Date:   Wed, 1 Dec 2021 15:58:30 -0800
-Message-ID: <CAC-pXoPtPb1y8c5FovXJ_T-689t_RRdyGu=54yr9BufDK+zmkw@mail.gmail.com>
-Subject: Re: [PATCH v11, 02/19] media: mtk-vcodec: Align vcodec wake up
- interrupt interface
-To:     Yunfei Dong <yunfei.dong@mediatek.com>
-Cc:     Alexandre Courbot <acourbot@chromium.org>,
+Date:   Wed, 1 Dec 2021 15:59:54 -0800
+Message-ID: <CAC-pXoP2nn-DdSJTWDES19UdMp9A5unj9u7Bs=Qw+ex9=HvyVw@mail.gmail.com>
+Subject: Re: [PATCH v11, 04/19] media: mtk-vcodec: export decoder pm functions
+To:     AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>
+Cc:     Yunfei Dong <yunfei.dong@mediatek.com>,
+        Alexandre Courbot <acourbot@chromium.org>,
         Hans Verkuil <hverkuil-cisco@xs4all.nl>,
         Tzung-Bi Shih <tzungbi@chromium.org>,
         Tiffany Lin <tiffany.lin@mediatek.com>,
@@ -77,89 +78,16 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 Reviewed-by: Steve Cho <stevecho@chromium.org>
 
-On Wed, Dec 1, 2021 at 3:55 PM Steve Cho <stevecho@chromium.org> wrote:
+On Wed, Dec 1, 2021 at 4:09 AM AngeloGioacchino Del Regno
+<angelogioacchino.delregno@collabora.com> wrote:
 >
-> LGTM.
->
-> On Sun, Nov 28, 2021 at 7:44 PM Yunfei Dong <yunfei.dong@mediatek.com> wrote:
+> Il 29/11/21 04:41, Yunfei Dong ha scritto:
+> > Register each hardware as platform device, need to call pm functions
+> > to open/close power and clock from module mtk-vcodec-dec, export these
+> > functions.
 > >
-> > Vdec and venc can use the same function to wake up interrupt event.
-> >
-> > Reviewed-by: Tzung-Bi Shih <tzungbi@google.com>
-> > Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 > > Signed-off-by: Yunfei Dong <yunfei.dong@mediatek.com>
-> > ---
-> >  drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_drv.c | 9 +--------
-> >  drivers/media/platform/mtk-vcodec/mtk_vcodec_drv.h     | 8 ++++++++
-> >  drivers/media/platform/mtk-vcodec/mtk_vcodec_enc_drv.c | 8 --------
-> >  3 files changed, 9 insertions(+), 16 deletions(-)
-> >
-> > diff --git a/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_drv.c b/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_drv.c
-> > index 59caf2163349..055d50e52720 100644
-> > --- a/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_drv.c
-> > +++ b/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_drv.c
-> > @@ -31,13 +31,6 @@
-> >  module_param(mtk_v4l2_dbg_level, int, 0644);
-> >  module_param(mtk_vcodec_dbg, bool, 0644);
-> >
-> > -/* Wake up context wait_queue */
-> > -static void wake_up_ctx(struct mtk_vcodec_ctx *ctx)
-> > -{
-> > -       ctx->int_cond = 1;
-> > -       wake_up_interruptible(&ctx->queue);
-> > -}
-> > -
-> >  static irqreturn_t mtk_vcodec_dec_irq_handler(int irq, void *priv)
-> >  {
-> >         struct mtk_vcodec_dev *dev = priv;
-> > @@ -69,7 +62,7 @@ static irqreturn_t mtk_vcodec_dec_irq_handler(int irq, void *priv)
-> >         writel((readl(vdec_misc_addr) & ~VDEC_IRQ_CLR),
-> >                 dev->reg_base[VDEC_MISC] + VDEC_IRQ_CFG_REG);
-> >
-> > -       wake_up_ctx(ctx);
-> > +       wake_up_ctx(ctx, MTK_INST_IRQ_RECEIVED);
+> > Reviewed-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
 >
-> Assuming setting up reason doesn't change functionality.
 >
-> >
-> >         mtk_v4l2_debug(3,
-> >                         "mtk_vcodec_dec_irq_handler :wake up ctx %d, dec_done_status=%x",
-> > diff --git a/drivers/media/platform/mtk-vcodec/mtk_vcodec_drv.h b/drivers/media/platform/mtk-vcodec/mtk_vcodec_drv.h
-> > index 581522177308..1d2370608d0d 100644
-> > --- a/drivers/media/platform/mtk-vcodec/mtk_vcodec_drv.h
-> > +++ b/drivers/media/platform/mtk-vcodec/mtk_vcodec_drv.h
-> > @@ -473,4 +473,12 @@ static inline struct mtk_vcodec_ctx *ctrl_to_ctx(struct v4l2_ctrl *ctrl)
-> >         return container_of(ctrl->handler, struct mtk_vcodec_ctx, ctrl_hdl);
-> >  }
-> >
-> > +/* Wake up context wait_queue */
-> > +static inline void wake_up_ctx(struct mtk_vcodec_ctx *ctx, unsigned int reason)
-> > +{
-> > +       ctx->int_cond = 1;
-> > +       ctx->int_type = reason;
-> > +       wake_up_interruptible(&ctx->queue);
-> > +}
-> > +
-> >  #endif /* _MTK_VCODEC_DRV_H_ */
-> > diff --git a/drivers/media/platform/mtk-vcodec/mtk_vcodec_enc_drv.c b/drivers/media/platform/mtk-vcodec/mtk_vcodec_enc_drv.c
-> > index eed67394cf46..7c3487fb3498 100644
-> > --- a/drivers/media/platform/mtk-vcodec/mtk_vcodec_enc_drv.c
-> > +++ b/drivers/media/platform/mtk-vcodec/mtk_vcodec_enc_drv.c
-> > @@ -65,14 +65,6 @@ static const struct mtk_video_fmt mtk_video_formats_capture_vp8[] =  {
-> >         },
-> >  };
-> >
-> > -/* Wake up context wait_queue */
-> > -static void wake_up_ctx(struct mtk_vcodec_ctx *ctx, unsigned int reason)
-> > -{
-> > -       ctx->int_cond = 1;
-> > -       ctx->int_type = reason;
-> > -       wake_up_interruptible(&ctx->queue);
-> > -}
-> > -
-> >  static void clean_irq_status(unsigned int irq_status, void __iomem *addr)
-> >  {
-> >         if (irq_status & MTK_VENC_IRQ_STATUS_PAUSE)
-> > --
-> > 2.25.1
-> >
+> Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
