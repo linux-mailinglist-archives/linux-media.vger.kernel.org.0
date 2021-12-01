@@ -2,416 +2,238 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CC48A4652F1
-	for <lists+linux-media@lfdr.de>; Wed,  1 Dec 2021 17:40:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 529584653A8
+	for <lists+linux-media@lfdr.de>; Wed,  1 Dec 2021 18:10:09 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243492AbhLAQne (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 1 Dec 2021 11:43:34 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47930 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238010AbhLAQnd (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 1 Dec 2021 11:43:33 -0500
-Received: from lb2-smtp-cloud9.xs4all.net (lb2-smtp-cloud9.xs4all.net [IPv6:2001:888:0:108::2c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 67136C061574
-        for <linux-media@vger.kernel.org>; Wed,  1 Dec 2021 08:40:12 -0800 (PST)
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud9.xs4all.net with ESMTPA
-        id sSeLmBJhoDFsksSePmGOUK; Wed, 01 Dec 2021 17:40:09 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1638376809; bh=/ebQOxJKJk7OTbwu37QXYmdrZrh2WFJZrSULxz9Ydhw=;
-        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=dkCL2ufrAE4+cfKPf+wrqIl12ee9qAgWTADMRExaGDPHrpYrdbpY5ejrWpbe9vVau
-         rqrOb+dd9sXuQXInyHTrZgOyY4lv7iCFfDhiAEZ6NzxcC3op/KMV3Mjm/jLykhHkwK
-         UmtSm5Zkpch3ejZI8TvVhz2d94dOTA1trozV36EjFhCTZWgKeKUUiqV3rhHlqrqDMV
-         NGSvxJBOPkGr1PVkm0VBBgzsAaMS2hleNkCEcsLx5mco2JHYuOsXdzetiuhy2Ui4Qo
-         cKNhH3VJ8sPLcMdE6IBQVPgOJx4nekL1KTn4AAgY4lEUccMMaJgerZGSKKOF24sHeJ
-         TcumBlJOnyAtQ==
-Subject: Re: [PATCH] media: vivid: fix timestamp and sequence wrapping
-To:     Deborah Brouwer <deborahbrouwer3563@gmail.com>,
-        linux-media@vger.kernel.org
-References: <20211122043355.61573-1-deborahbrouwer3563@gmail.com>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <4eed6f22-0a9e-ad88-dc55-64019a0a0552@xs4all.nl>
-Date:   Wed, 1 Dec 2021 17:40:05 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Firefox/78.0 Thunderbird/78.14.0
+        id S234353AbhLARN2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 1 Dec 2021 12:13:28 -0500
+Received: from mga09.intel.com ([134.134.136.24]:19038 "EHLO mga09.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S231379AbhLARN1 (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 1 Dec 2021 12:13:27 -0500
+X-IronPort-AV: E=McAfee;i="6200,9189,10185"; a="236323072"
+X-IronPort-AV: E=Sophos;i="5.87,279,1631602800"; 
+   d="scan'208";a="236323072"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Dec 2021 09:08:43 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.87,279,1631602800"; 
+   d="scan'208";a="560538743"
+Received: from lkp-server02.sh.intel.com (HELO 9e1e9f9b3bcb) ([10.239.97.151])
+  by fmsmga008.fm.intel.com with ESMTP; 01 Dec 2021 09:08:39 -0800
+Received: from kbuild by 9e1e9f9b3bcb with local (Exim 4.92)
+        (envelope-from <lkp@intel.com>)
+        id 1msT5z-000FB7-3m; Wed, 01 Dec 2021 17:08:39 +0000
+Date:   Thu, 2 Dec 2021 01:08:07 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Moudy Ho <moudy.ho@mediatek.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Jernej Skrabec <jernej.skrabec@siol.net>
+Cc:     kbuild-all@lists.01.org, linux-media@vger.kernel.org,
+        Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Rob Landley <rob@landley.net>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Subject: Re: [PATCH v9 7/7] media: platform: mtk-mdp3: add Mediatek MDP3
+ driver
+Message-ID: <202112020126.zBCAihfa-lkp@intel.com>
+References: <20211201095031.31606-8-moudy.ho@mediatek.com>
 MIME-Version: 1.0
-In-Reply-To: <20211122043355.61573-1-deborahbrouwer3563@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4xfMyQmBUA1MVVfVkg5G5RJNYebdYR3X8ZL0Ok8ErH4F9rMNK93IvllcWd1K40FgJgWmLtMFgnnAsyHrXgjfC4rMRcxYpoa9fH9hCuvJ0mZkrcqz70MDXI
- FR8/8eJ1Gr+tpFKCmCUIOKlKBNRhcAbGn2PjcFAVvCELv3AUNpfo8NchpZsQSmK6ZkWgjy7b8ikjmqgkcwy2gWVAC1UWSiPJU4k+JQGAaxAHDe048p01bOqZ
- DXr5QnlLpAZJEEQYBpfVqQ==
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20211201095031.31606-8-moudy.ho@mediatek.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Deb,
+Hi Moudy,
 
-Sorry for the delay, I needed to find some time for testing this
-since I suspected that this code didn't quite do what I was looking for.
+Thank you for the patch! Perhaps something to improve:
 
-See my comments below...
+[auto build test WARNING on media-tree/master]
+[also build test WARNING on robh/for-next linus/master v5.16-rc3 next-20211201]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch]
 
-On 22/11/2021 05:33, Deborah Brouwer wrote:
-> The error injection controls that test wrap-around sequence and
-> timestamp counters were partially broken. Add a menu option to wrap
-> the timestamp at either 64 or 32 bits because previously it was not
-> wrapping for 64 bits. Get the current time when streaming starts
-> instead of when the control is set because otherwise the time may
-> wrap around before the device can be tested.  Remove the sequence
-> count from the timestamp calculation so that sequence wrapping does
-> not interfere with the timestamp.  Add consistent time and sequence
-> wrapping to sdr and touch devices.
-> 
-> Signed-off-by: Deborah Brouwer <deborahbrouwer3563@gmail.com>
-> ---
-> How I set the controls:
-> v4l2-ctl -d <dev> -c wrap_sequence_number=1
-> v4l2-ctl -d <dev> -c wrap_timestamp=1
-> v4l2-ctl -d <dev> -c wrap_timestamp=2
-> 
-> How I tested:
-> v4l2-ctl -d <dev> --stream-mmap --verbose 
-> v4l2-ctl -d <dev> --stream-out-mmap --verbose 
-> v4l2-ctl-32 -d <dev> --stream-mmap --verbose
-> v4l2-ctl-32 -d <dev> --stream-out-mmap --verbose
-> 
-> Devices I tested:
-> vivid-000-vid-cap, inputs: webcam, TV, S-Video, HDMI
-> vivid-000-vid-out, outputs: S-Video, HDMI
-> vivid-000-touch-cap
-> vivid-000-sdr-cap
-> vivid-000-vbi-out
-> vivid-000-meta-cap
-> vivid-000-meta-out
-> 
->  drivers/media/test-drivers/vivid/vivid-core.h |  5 ++-
->  .../media/test-drivers/vivid/vivid-ctrls.c    | 32 ++++++++-----------
->  .../test-drivers/vivid/vivid-kthread-cap.c    |  9 ++++--
->  .../test-drivers/vivid/vivid-kthread-out.c    | 11 ++++---
->  .../test-drivers/vivid/vivid-kthread-touch.c  | 10 ++++++
->  .../media/test-drivers/vivid/vivid-sdr-cap.c  | 16 +++++++---
->  .../test-drivers/vivid/vivid-touch-cap.c      |  2 +-
->  7 files changed, 55 insertions(+), 30 deletions(-)
-> 
-> diff --git a/drivers/media/test-drivers/vivid/vivid-core.h b/drivers/media/test-drivers/vivid/vivid-core.h
-> index 45f96706edde..176b72cb143b 100644
-> --- a/drivers/media/test-drivers/vivid/vivid-core.h
-> +++ b/drivers/media/test-drivers/vivid/vivid-core.h
-> @@ -307,7 +307,7 @@ struct vivid_dev {
->  	bool				dqbuf_error;
->  	bool				req_validate_error;
->  	bool				seq_wrap;
-> -	bool				time_wrap;
-> +	u64				time_wrap;
->  	u64				time_wrap_offset;
->  	unsigned			perc_dropped_buffers;
->  	enum vivid_signal_mode		std_signal_mode[MAX_INPUTS];
-> @@ -437,6 +437,7 @@ struct vivid_dev {
->  	bool				touch_cap_seq_resync;
->  	u32				touch_cap_seq_start;
->  	u32				touch_cap_seq_count;
-> +	u32				touch_cap_with_seq_wrap_count;
->  	bool				touch_cap_streaming;
->  	struct v4l2_fract		timeperframe_tch_cap;
->  	struct v4l2_pix_format		tch_format;
-> @@ -524,7 +525,9 @@ struct vivid_dev {
->  	struct task_struct		*kthread_sdr_cap;
->  	unsigned long			jiffies_sdr_cap;
->  	u32				sdr_cap_seq_offset;
-> +	u32				sdr_cap_seq_start;
->  	u32				sdr_cap_seq_count;
-> +	u32				sdr_cap_with_seq_wrap_count;
->  	bool				sdr_cap_seq_resync;
->  
->  	/* RDS generator */
-> diff --git a/drivers/media/test-drivers/vivid/vivid-ctrls.c b/drivers/media/test-drivers/vivid/vivid-ctrls.c
-> index 8dc50fe22972..ef2899b7df4e 100644
-> --- a/drivers/media/test-drivers/vivid/vivid-ctrls.c
-> +++ b/drivers/media/test-drivers/vivid/vivid-ctrls.c
-> @@ -1084,7 +1084,6 @@ static const struct v4l2_ctrl_config vivid_ctrl_display_present = {
->  static int vivid_streaming_s_ctrl(struct v4l2_ctrl *ctrl)
->  {
->  	struct vivid_dev *dev = container_of(ctrl->handler, struct vivid_dev, ctrl_hdl_streaming);
-> -	u64 rem;
->  
->  	switch (ctrl->id) {
->  	case VIVID_CID_DQBUF_ERROR:
-> @@ -1122,20 +1121,10 @@ static int vivid_streaming_s_ctrl(struct v4l2_ctrl *ctrl)
->  		break;
->  	case VIVID_CID_TIME_WRAP:
->  		dev->time_wrap = ctrl->val;
-> -		if (ctrl->val == 0) {
-> -			dev->time_wrap_offset = 0;
-> -			break;
-> -		}
-> -		/*
-> -		 * We want to set the time 16 seconds before the 32 bit tv_sec
-> -		 * value of struct timeval would wrap around. So first we
-> -		 * calculate ktime_get_ns() % ((1 << 32) * NSEC_PER_SEC), and
-> -		 * then we set the offset to ((1 << 32) - 16) * NSEC_PER_SEC).
-> -		 */
-> -		div64_u64_rem(ktime_get_ns(),
-> -			0x100000000ULL * NSEC_PER_SEC, &rem);
-> -		dev->time_wrap_offset =
-> -			(0x100000000ULL - 16) * NSEC_PER_SEC - rem;
-> +		if (dev->time_wrap == 1)
-> +			dev->time_wrap = 0xFFFFFFFFFFFFFFF0ULL * NSEC_PER_SEC;
-> +		if (dev->time_wrap == 2)
-> +			dev->time_wrap = 0xFFFFFFF0ULL * NSEC_PER_SEC;
+url:    https://github.com/0day-ci/linux/commits/Moudy-Ho/media-mediatek-support-mdp3-on-mt8183-platform/20211201-175258
+base:   git://linuxtv.org/media_tree.git master
+config: arc-allyesconfig (https://download.01.org/0day-ci/archive/20211202/202112020126.zBCAihfa-lkp@intel.com/config)
+compiler: arceb-elf-gcc (GCC) 11.2.0
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/0day-ci/linux/commit/f6f2b079ebc64ba1d7f0f73b0cfcfe8b98124ec3
+        git remote add linux-review https://github.com/0day-ci/linux
+        git fetch --no-tags linux-review Moudy-Ho/media-mediatek-support-mdp3-on-mt8183-platform/20211201-175258
+        git checkout f6f2b079ebc64ba1d7f0f73b0cfcfe8b98124ec3
+        # save the config file to linux build tree
+        mkdir build_dir
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-11.2.0 make.cross O=build_dir ARCH=arc SHELL=/bin/bash drivers/media/platform/mtk-mdp3/
 
-These are strange values. This is really what you want:
+If you fix the issue, kindly add following tag as appropriate
+Reported-by: kernel test robot <lkp@intel.com>
 
-                if (dev->time_wrap == 1)
-                        dev->time_wrap = (1ULL << 63) - NSEC_PER_SEC * 16;
-                else if (dev->time_wrap == 2)
-                        dev->time_wrap = ((1ULL << 31) - 16) * NSEC_PER_SEC;
+All warnings (new ones prefixed by >>):
 
-So for 64 bit wrap around you want the time to begin 16 seconds before
-you wrap from a positive to a negative 64 bit value. For 32 bit wrap around
-you want to begin 16 seconds before the seconds field would wrap around
-on a 32 bit system.
+   In file included from include/linux/device.h:15,
+                    from include/linux/platform_device.h:13,
+                    from drivers/media/platform/mtk-mdp3/mtk-mdp3-cmdq.c:7:
+   drivers/media/platform/mtk-mdp3/mtk-mdp3-cmdq.c: In function 'mdp_cmdq_send':
+>> drivers/media/platform/mtk-mdp3/mtk-mdp3-cmdq.c:435:30: warning: format '%s' expects a matching 'char *' argument [-Wformat=]
+     435 |                 dev_err(dev, "%s mdp_path_ctx_init error\n");
+         |                              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/dev_printk.h:110:30: note: in definition of macro 'dev_printk_index_wrap'
+     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
+         |                              ^~~
+   include/linux/dev_printk.h:144:56: note: in expansion of macro 'dev_fmt'
+     144 |         dev_printk_index_wrap(_dev_err, KERN_ERR, dev, dev_fmt(fmt), ##__VA_ARGS__)
+         |                                                        ^~~~~~~
+   drivers/media/platform/mtk-mdp3/mtk-mdp3-cmdq.c:435:17: note: in expansion of macro 'dev_err'
+     435 |                 dev_err(dev, "%s mdp_path_ctx_init error\n");
+         |                 ^~~~~~~
+   drivers/media/platform/mtk-mdp3/mtk-mdp3-cmdq.c:435:32: note: format string is defined here
+     435 |                 dev_err(dev, "%s mdp_path_ctx_init error\n");
+         |                               ~^
+         |                                |
+         |                                char *
+   In file included from include/linux/device.h:15,
+                    from include/linux/platform_device.h:13,
+                    from drivers/media/platform/mtk-mdp3/mtk-mdp3-cmdq.c:7:
+   drivers/media/platform/mtk-mdp3/mtk-mdp3-cmdq.c:445:30: warning: format '%s' expects a matching 'char *' argument [-Wformat=]
+     445 |                 dev_err(dev, "%s mdp_path_config error\n");
+         |                              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/dev_printk.h:110:30: note: in definition of macro 'dev_printk_index_wrap'
+     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
+         |                              ^~~
+   include/linux/dev_printk.h:144:56: note: in expansion of macro 'dev_fmt'
+     144 |         dev_printk_index_wrap(_dev_err, KERN_ERR, dev, dev_fmt(fmt), ##__VA_ARGS__)
+         |                                                        ^~~~~~~
+   drivers/media/platform/mtk-mdp3/mtk-mdp3-cmdq.c:445:17: note: in expansion of macro 'dev_err'
+     445 |                 dev_err(dev, "%s mdp_path_config error\n");
+         |                 ^~~~~~~
+   drivers/media/platform/mtk-mdp3/mtk-mdp3-cmdq.c:445:32: note: format string is defined here
+     445 |                 dev_err(dev, "%s mdp_path_config error\n");
+         |                               ~^
+         |                                |
+         |                                char *
 
->  		break;
->  	}
->  	return 0;
-> @@ -1208,13 +1197,20 @@ static const struct v4l2_ctrl_config vivid_ctrl_seq_wrap = {
->  	.step = 1,
->  };
->  
-> +static const char * const vivid_ctrl_time_wrap_strings[] = {
-> +	"None",
-> +	"64 Bit",
-> +	"32 Bit",
-> +	NULL,
-> +};
-> +
->  static const struct v4l2_ctrl_config vivid_ctrl_time_wrap = {
->  	.ops = &vivid_streaming_ctrl_ops,
->  	.id = VIVID_CID_TIME_WRAP,
->  	.name = "Wrap Timestamp",
-> -	.type = V4L2_CTRL_TYPE_BOOLEAN,
-> -	.max = 1,
-> -	.step = 1,
-> +	.type = V4L2_CTRL_TYPE_MENU,
-> +	.max = ARRAY_SIZE(vivid_ctrl_time_wrap_strings) - 2,
-> +	.qmenu = vivid_ctrl_time_wrap_strings,
->  };
->  
->  
-> diff --git a/drivers/media/test-drivers/vivid/vivid-kthread-cap.c b/drivers/media/test-drivers/vivid/vivid-kthread-cap.c
-> index 9da730ccfa94..78e2ae8f1bb7 100644
-> --- a/drivers/media/test-drivers/vivid/vivid-kthread-cap.c
-> +++ b/drivers/media/test-drivers/vivid/vivid-kthread-cap.c
-> @@ -719,8 +719,7 @@ static noinline_for_stack void vivid_thread_vid_cap_tick(struct vivid_dev *dev,
->  	if (!vid_cap_buf && !vbi_cap_buf && !meta_cap_buf)
->  		goto update_mv;
->  
-> -	f_time = dev->cap_frame_period * dev->vid_cap_seq_count +
-> -		 dev->cap_stream_start + dev->time_wrap_offset;
-> +	f_time = ktime_get_ns() + dev->time_wrap_offset;
->  
->  	if (vid_cap_buf) {
->  		v4l2_ctrl_request_setup(vid_cap_buf->vb.vb2_buf.req_obj.req,
-> @@ -802,6 +801,7 @@ static int vivid_thread_vid_cap(void *data)
->  	unsigned numerator;
->  	unsigned denominator;
->  	int dropped_bufs;
-> +	u64 rem;
->  
->  	dprintk(dev, 1, "Video Capture Thread Start\n");
->  
-> @@ -812,6 +812,10 @@ static int vivid_thread_vid_cap(void *data)
->  	dev->cap_seq_count = 0;
->  	dev->cap_seq_resync = false;
->  	dev->jiffies_vid_cap = jiffies;
-> +	if (dev->time_wrap) {
-> +		div64_u64_rem(ktime_get_ns(), dev->time_wrap, &rem);
-> +		dev->time_wrap_offset = dev->time_wrap - rem;
-> +	}
 
-And here you do something like this:
+vim +435 drivers/media/platform/mtk-mdp3/mtk-mdp3-cmdq.c
 
-        dev->cap_stream_start = ktime_get_ns();
-        if (dev->time_wrap)
-                dev->time_wrap_offset = dev->time_wrap - dev->cap_stream_start;
-        else
-                dev->time_wrap_offset = 0;
+   390	
+   391	int mdp_cmdq_send(struct mdp_dev *mdp, struct mdp_cmdq_param *param)
+   392	{
+   393		struct mmsys_cmdq_cmd cmd;
+   394		struct mdp_path *path = NULL;
+   395		struct mdp_cmdq_cb_param *cb_param = NULL;
+   396		struct mdp_comp *comps = NULL;
+   397		struct device *dev = &mdp->pdev->dev;
+   398		int i, ret;
+   399	
+   400		if (atomic_read(&mdp->suspended))
+   401			return -ECANCELED;
+   402	
+   403		atomic_inc(&mdp->job_count);
+   404	
+   405		cmd.pkt = cmdq_pkt_create(mdp->cmdq_clt, SZ_16K);
+   406		if (IS_ERR(cmd.pkt)) {
+   407			atomic_dec(&mdp->job_count);
+   408			wake_up(&mdp->callback_wq);
+   409			return PTR_ERR(cmd.pkt);
+   410		}
+   411		cmd.event = &mdp->event[0];
+   412	
+   413		path = kzalloc(sizeof(*path), GFP_KERNEL);
+   414		if (!path) {
+   415			ret = -ENOMEM;
+   416			goto err_destroy_pkt;
+   417		}
+   418	
+   419		path->mdp_dev = mdp;
+   420		path->config = param->config;
+   421		path->param = param->param;
+   422		for (i = 0; i < param->param->num_outputs; i++) {
+   423			path->bounds[i].left = 0;
+   424			path->bounds[i].top = 0;
+   425			path->bounds[i].width =
+   426				param->param->outputs[i].buffer.format.width;
+   427			path->bounds[i].height =
+   428				param->param->outputs[i].buffer.format.height;
+   429			path->composes[i] = param->composes[i] ?
+   430				param->composes[i] : &path->bounds[i];
+   431		}
+   432	
+   433		ret = mdp_path_ctx_init(mdp, path);
+   434		if (ret) {
+ > 435			dev_err(dev, "%s mdp_path_ctx_init error\n");
+   436			goto err_destroy_pkt;
+   437		}
+   438	
+   439		mtk_mutex_prepare(mdp->mdp_mutex[MDP_PIPE_RDMA0]);
+   440		for (i = 0; i < param->config->num_components; i++)
+   441			mdp_comp_clock_on(&mdp->pdev->dev, path->comps[i].comp);
+   442	
+   443		ret = mdp_path_config(mdp, &cmd, path);
+   444		if (ret) {
+   445			dev_err(dev, "%s mdp_path_config error\n");
+   446			goto err_destroy_pkt;
+   447		}
+   448	
+   449		cb_param = kzalloc(sizeof(*cb_param), GFP_KERNEL);
+   450		if (!cb_param) {
+   451			ret = -ENOMEM;
+   452			goto err_destroy_pkt;
+   453		}
+   454	
+   455		comps = kcalloc(param->config->num_components, sizeof(*comps),
+   456				GFP_KERNEL);
+   457		if (!comps) {
+   458			ret = -ENOMEM;
+   459			goto err_destroy_pkt;
+   460		}
+   461	
+   462		for (i = 0; i < param->config->num_components; i++)
+   463			memcpy(&comps[i], path->comps[i].comp,
+   464			       sizeof(struct mdp_comp));
+   465		cb_param->mdp = mdp;
+   466		cb_param->user_cmdq_cb = param->cmdq_cb;
+   467		cb_param->user_cb_data = param->cb_data;
+   468		cb_param->pkt = cmd.pkt;
+   469		cb_param->comps = comps;
+   470		cb_param->num_comps = param->config->num_components;
+   471		cb_param->mdp_ctx = param->mdp_ctx;
+   472	
+   473		cmdq_pkt_finalize(cmd.pkt);
+   474		ret = cmdq_pkt_flush_async(cmd.pkt,
+   475					   mdp_handle_cmdq_callback,
+   476					   (void *)cb_param);
+   477		if (ret) {
+   478			dev_err(dev, "cmdq_pkt_flush_async fail!\n");
+   479			goto err_clock_off;
+   480		}
+   481		return 0;
+   482	
+   483	err_clock_off:
+   484		mtk_mutex_unprepare(mdp->mdp_mutex[MDP_PIPE_RDMA0]);
+   485		mdp_comp_clocks_off(&mdp->pdev->dev, cb_param->comps,
+   486				    cb_param->num_comps);
+   487	err_destroy_pkt:
+   488		cmdq_pkt_destroy(cmd.pkt);
+   489		atomic_dec(&mdp->job_count);
+   490		wake_up(&mdp->callback_wq);
+   491		kfree(comps);
+   492		kfree(cb_param);
+   493		kfree(path);
+   494	
+   495		return ret;
+   496	}
+   497	
 
->  	dev->cap_stream_start = ktime_get_ns();
->  	vivid_cap_update_frame_period(dev);
->  
-> @@ -928,6 +932,7 @@ int vivid_start_generating_vid_cap(struct vivid_dev *dev, bool *pstreaming)
->  	dev->vid_cap_seq_start = dev->seq_wrap * 128;
->  	dev->vbi_cap_seq_start = dev->seq_wrap * 128;
->  	dev->meta_cap_seq_start = dev->seq_wrap * 128;
-> +	dev->time_wrap_offset = 0;
-
-I think this is not needed since it is set when the kthread starts.
-
-Ditto for video output and sdr.
-
-I tested this for video capture, and it works OK.
-
-Regards,
-
-	Hans
-
->  
->  	dev->kthread_vid_cap = kthread_run(vivid_thread_vid_cap, dev,
->  			"%s-vid-cap", dev->v4l2_dev.name);
-> diff --git a/drivers/media/test-drivers/vivid/vivid-kthread-out.c b/drivers/media/test-drivers/vivid/vivid-kthread-out.c
-> index 79c57d14ac4e..8a4164a45316 100644
-> --- a/drivers/media/test-drivers/vivid/vivid-kthread-out.c
-> +++ b/drivers/media/test-drivers/vivid/vivid-kthread-out.c
-> @@ -147,6 +147,7 @@ static int vivid_thread_vid_out(void *data)
->  	unsigned wait_jiffies;
->  	unsigned numerator;
->  	unsigned denominator;
-> +	u64 rem;
->  
->  	dprintk(dev, 1, "Video Output Thread Start\n");
->  
-> @@ -154,12 +155,13 @@ static int vivid_thread_vid_out(void *data)
->  
->  	/* Resets frame counters */
->  	dev->out_seq_offset = 0;
-> -	if (dev->seq_wrap)
-> -		dev->out_seq_count = 0xffffff80U;
-> +	dev->out_seq_count = 0;
->  	dev->jiffies_vid_out = jiffies;
-> -	dev->vid_out_seq_start = dev->vbi_out_seq_start = 0;
-> -	dev->meta_out_seq_start = 0;
->  	dev->out_seq_resync = false;
-> +	if (dev->time_wrap) {
-> +		div64_u64_rem(ktime_get_ns(), dev->time_wrap, &rem);
-> +		dev->time_wrap_offset = dev->time_wrap - rem;
-> +	}
->  
->  	for (;;) {
->  		try_to_freeze();
-> @@ -272,6 +274,7 @@ int vivid_start_generating_vid_out(struct vivid_dev *dev, bool *pstreaming)
->  	dev->vid_out_seq_start = dev->seq_wrap * 128;
->  	dev->vbi_out_seq_start = dev->seq_wrap * 128;
->  	dev->meta_out_seq_start = dev->seq_wrap * 128;
-> +	dev->time_wrap_offset = 0;
->  
->  	dev->kthread_vid_out = kthread_run(vivid_thread_vid_out, dev,
->  			"%s-vid-out", dev->v4l2_dev.name);
-> diff --git a/drivers/media/test-drivers/vivid/vivid-kthread-touch.c b/drivers/media/test-drivers/vivid/vivid-kthread-touch.c
-> index 38fdfee79498..cb4e5c5a4c2a 100644
-> --- a/drivers/media/test-drivers/vivid/vivid-kthread-touch.c
-> +++ b/drivers/media/test-drivers/vivid/vivid-kthread-touch.c
-> @@ -52,6 +52,7 @@ static int vivid_thread_touch_cap(void *data)
->  	unsigned int numerator;
->  	unsigned int denominator;
->  	int dropped_bufs;
-> +	u64 rem;
->  
->  	dprintk(dev, 1, "Touch Capture Thread Start\n");
->  
-> @@ -62,6 +63,10 @@ static int vivid_thread_touch_cap(void *data)
->  	dev->touch_cap_seq_count = 0;
->  	dev->touch_cap_seq_resync = false;
->  	dev->jiffies_touch_cap = jiffies;
-> +	if (dev->time_wrap) {
-> +		div64_u64_rem(ktime_get_ns(), dev->time_wrap, &rem);
-> +		dev->time_wrap_offset = dev->time_wrap - rem;
-> +	}
->  
->  	for (;;) {
->  		try_to_freeze();
-> @@ -102,6 +107,8 @@ static int vivid_thread_touch_cap(void *data)
->  		}
->  		dropped_bufs = buffers_since_start + dev->touch_cap_seq_offset - dev->touch_cap_seq_count;
->  		dev->touch_cap_seq_count = buffers_since_start + dev->touch_cap_seq_offset;
-> +		dev->touch_cap_with_seq_wrap_count =
-> +			dev->touch_cap_seq_count - dev->touch_cap_seq_start;
->  
->  		vivid_thread_tch_cap_tick(dev, dropped_bufs);
->  
-> @@ -143,6 +150,9 @@ int vivid_start_generating_touch_cap(struct vivid_dev *dev)
->  		return 0;
->  	}
->  
-> +	dev->touch_cap_seq_start = dev->seq_wrap * 128;
-> +	dev->time_wrap_offset = 0;
-> +
->  	dev->kthread_touch_cap = kthread_run(vivid_thread_touch_cap, dev,
->  					     "%s-tch-cap", dev->v4l2_dev.name);
->  
-> diff --git a/drivers/media/test-drivers/vivid/vivid-sdr-cap.c b/drivers/media/test-drivers/vivid/vivid-sdr-cap.c
-> index 265db2114671..42e045329a76 100644
-> --- a/drivers/media/test-drivers/vivid/vivid-sdr-cap.c
-> +++ b/drivers/media/test-drivers/vivid/vivid-sdr-cap.c
-> @@ -101,7 +101,7 @@ static void vivid_thread_sdr_cap_tick(struct vivid_dev *dev)
->  	spin_unlock(&dev->slock);
->  
->  	if (sdr_cap_buf) {
-> -		sdr_cap_buf->vb.sequence = dev->sdr_cap_seq_count;
-> +		sdr_cap_buf->vb.sequence = dev->sdr_cap_with_seq_wrap_count;
->  		v4l2_ctrl_request_setup(sdr_cap_buf->vb.vb2_buf.req_obj.req,
->  					&dev->ctrl_hdl_sdr_cap);
->  		v4l2_ctrl_request_complete(sdr_cap_buf->vb.vb2_buf.req_obj.req,
-> @@ -124,6 +124,7 @@ static int vivid_thread_sdr_cap(void *data)
->  	unsigned long jiffies_since_start;
->  	unsigned long cur_jiffies;
->  	unsigned wait_jiffies;
-> +	u64 rem;
->  
->  	dprintk(dev, 1, "SDR Capture Thread Start\n");
->  
-> @@ -131,10 +132,13 @@ static int vivid_thread_sdr_cap(void *data)
->  
->  	/* Resets frame counters */
->  	dev->sdr_cap_seq_offset = 0;
-> -	if (dev->seq_wrap)
-> -		dev->sdr_cap_seq_offset = 0xffffff80U;
-> +	dev->sdr_cap_seq_count = 0;
->  	dev->jiffies_sdr_cap = jiffies;
->  	dev->sdr_cap_seq_resync = false;
-> +	if (dev->time_wrap) {
-> +		div64_u64_rem(ktime_get_ns(), dev->time_wrap, &rem);
-> +		dev->time_wrap_offset = dev->time_wrap - rem;
-> +	}
->  
->  	for (;;) {
->  		try_to_freeze();
-> @@ -174,6 +178,7 @@ static int vivid_thread_sdr_cap(void *data)
->  		}
->  		dev->sdr_cap_seq_count =
->  			buffers_since_start + dev->sdr_cap_seq_offset;
-> +		dev->sdr_cap_with_seq_wrap_count = dev->sdr_cap_seq_count - dev->sdr_cap_seq_start;
->  
->  		vivid_thread_sdr_cap_tick(dev);
->  		mutex_unlock(&dev->mutex);
-> @@ -263,7 +268,10 @@ static int sdr_cap_start_streaming(struct vb2_queue *vq, unsigned count)
->  	int err = 0;
->  
->  	dprintk(dev, 1, "%s\n", __func__);
-> -	dev->sdr_cap_seq_count = 0;
-> +
-> +	dev->sdr_cap_seq_start = dev->seq_wrap * 128;
-> +	dev->time_wrap_offset = 0;
-> +
->  	if (dev->start_streaming_error) {
->  		dev->start_streaming_error = false;
->  		err = -EINVAL;
-> diff --git a/drivers/media/test-drivers/vivid/vivid-touch-cap.c b/drivers/media/test-drivers/vivid/vivid-touch-cap.c
-> index ebb00b128030..64e3e4cb30c2 100644
-> --- a/drivers/media/test-drivers/vivid/vivid-touch-cap.c
-> +++ b/drivers/media/test-drivers/vivid/vivid-touch-cap.c
-> @@ -262,7 +262,7 @@ void vivid_fillbuff_tch(struct vivid_dev *dev, struct vivid_buffer *buf)
->  
->  	__s16 *tch_buf = vb2_plane_vaddr(&buf->vb.vb2_buf, 0);
->  
-> -	buf->vb.sequence = dev->touch_cap_seq_count;
-> +	buf->vb.sequence = dev->touch_cap_with_seq_wrap_count;
->  	test_pattern = (buf->vb.sequence / TCH_SEQ_COUNT) % TEST_CASE_MAX;
->  	test_pat_idx = buf->vb.sequence % TCH_SEQ_COUNT;
->  
-> 
-
+---
+0-DAY CI Kernel Test Service, Intel Corporation
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
