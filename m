@@ -2,160 +2,196 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 837FC4654F6
-	for <lists+linux-media@lfdr.de>; Wed,  1 Dec 2021 19:15:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5A881465505
+	for <lists+linux-media@lfdr.de>; Wed,  1 Dec 2021 19:16:49 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239894AbhLASTK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 1 Dec 2021 13:19:10 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42044 "EHLO
+        id S244486AbhLASTz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 1 Dec 2021 13:19:55 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42264 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233373AbhLASS7 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 1 Dec 2021 13:18:59 -0500
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D15E7C06175D
-        for <linux-media@vger.kernel.org>; Wed,  1 Dec 2021 10:14:59 -0800 (PST)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: nicolas)
-        with ESMTPSA id 0802E1F45E67
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=collabora.com; s=mail;
-        t=1638382498; bh=YnpACkoUDcAU+tBV9Qz7IZVRCCIaCMA+VnOuOsFhC8E=;
-        h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-        b=PBSRohQ7Te8dKf7+IuCW0TO4TZqsW9SGxR4wCR2L5y9FG70nUM3keUixmxCoCg8hu
-         3mupcM1VZ3YFd8Sg3+vUDeD6453R8HX9HHH0SJSBvsZFDFT8Di6qgqYw1nED4hBA+l
-         1hmCmWK2aAmb1ZWTHJ+01TLDiUo7QeG+s1+CAqfk6JmeGXf9BDHWJtZ2ibkwFmpzZr
-         uMoF0lSrAoYF8oxLSfHn1nCJgdZ2bm+p1kgJ3OrsXfLrm8tc2CPKKNXZu6IuzjLH2p
-         H5QDsbdlB6rYtIPlPckkQnUij1ZyTzgQvLSQrLOkJcr4DVfW7hSv9csq13Tp+n7bBg
-         SBfhzVWC4+6vA==
-Message-ID: <1fe2d411ad7e2b4a9a23d7064a4be43aec5c2f24.camel@collabora.com>
-Subject: Re: [PATCH] media: rkisp1: remove support for V4L2_PIX_FMT_GREY
-From:   Nicolas Dufresne <nicolas.dufresne@collabora.com>
-To:     Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     linux-media@vger.kernel.org, hverkuil@xs4all.nl,
-        kernel@collabora.com, dafna3@gmail.com,
-        sakari.ailus@linux.intel.com, mchehab@kernel.org
-Date:   Wed, 01 Dec 2021 13:14:45 -0500
-In-Reply-To: <d3f7ad1e-4ace-c6e7-db05-9afd92a5e2ef@collabora.com>
-References: <20211120110257.22775-1-dafna.hirschfeld@collabora.com>
-         <YZjrWdrZzyEE8G7g@pendragon.ideasonboard.com>
-         <abc40fe3-6529-17f3-a6d3-4ab741afe849@collabora.com>
-         <YZuNOzlVWteTaNYt@pendragon.ideasonboard.com>
-         <88434c9b-a682-7da5-ce3b-adec28b89471@collabora.com>
-         <YZupE2zKojGCKuTT@pendragon.ideasonboard.com>
-         <d3f7ad1e-4ace-c6e7-db05-9afd92a5e2ef@collabora.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.42.1 (3.42.1-1.fc35) 
+        with ESMTP id S244478AbhLASTv (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 1 Dec 2021 13:19:51 -0500
+Received: from mail-pj1-x1032.google.com (mail-pj1-x1032.google.com [IPv6:2607:f8b0:4864:20::1032])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5083CC061748
+        for <linux-media@vger.kernel.org>; Wed,  1 Dec 2021 10:16:30 -0800 (PST)
+Received: by mail-pj1-x1032.google.com with SMTP id j5-20020a17090a318500b001a6c749e697so1480549pjb.1
+        for <linux-media@vger.kernel.org>; Wed, 01 Dec 2021 10:16:30 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gateworks-com.20210112.gappssmtp.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=4Fjo/oLhM/GI33DECaidoRno6lOPTrQDXq4YeW1u3XI=;
+        b=Gy/mI/syDjgmJ/Dy5HSB0lekRFIu1fZjXrSHJRAyRpEjIvsMYeuD7jd9Gl+/dViRyQ
+         bX7H/U8ylCShghMTxCO2moMoFwVRephY825eJHoHYIsCBrCSTGr5lkGv0EVJCxBJCTjC
+         XKWTHHeI4L0kX6Cm8I0VJGnBecIMJN05ZjnxWJF4pIjeSiGX31iD106ZbDpbwRBH3ncL
+         GQspUzeaq+6ISOEZHY9XlWQRXZMBJvMLiLqaYwPf9HtglHgZUBhMgSXHJZwlcKZdu2JF
+         kvW6WGURB6KwscUjDn/Y5mtcbI6S1JQUSwK+OOMpZYnpnAwCy3Qgvhf8sAIwj+oy1ks2
+         C3Vw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=4Fjo/oLhM/GI33DECaidoRno6lOPTrQDXq4YeW1u3XI=;
+        b=QscuC+qU40NeguNOWuYAyIEC6t2bJB3JYFVPj5oap1Asp2P6+5RMbhFlp6tF25LNie
+         nGHRm493Jq5/bGjgqlVcbHbgf8olgFev4HGbbg8oEJiftGrDuhgopq2Atqnv4N4SaDst
+         LLROcP/oRtg+dP72bwIOy0+CEjKiNU7xQ3M+2xj9Z6SD9R/NwWWFYAmngHGZsR0X6oZX
+         KwWpqjNyX4236mqW4mEvswiCvV/jFDVO/iwJZ61EONoeFfTET9n7wEReunLdUllArYSw
+         tdF45XvyHtZXvVTAWVMGk6f3jbmAb3I/oZR5FE3E5VNsqLFEWzOfi9Hg1gzKgh0/DK68
+         lZWA==
+X-Gm-Message-State: AOAM532OsmNUdk1zdgpjYCuKbw2ES/P51umhCaWwJp+RkPIgNKyFWaWY
+        nVu4dO7i355OLSu1TRMegO1uTluz9p7cz44/81rU6A==
+X-Google-Smtp-Source: ABdhPJwttCSPFnI/f0Y+73jbxauzbId1+8+EbhmZWwrFdssLOLUTnHuIDjdXa+sBopTO83KHL5/G+HdxFmuxHV6QOCE=
+X-Received: by 2002:a17:90b:33d0:: with SMTP id lk16mr9513215pjb.66.1638382589692;
+ Wed, 01 Dec 2021 10:16:29 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20211201013329.15875-1-aford173@gmail.com> <CAJ+vNU1jENmWAR_5E98Vgb53ctxjxSWJewPW0YC4Yp4DuYTn3g@mail.gmail.com>
+ <7216bc863d89faa9fdc5cd8d44c319f7a6d88159.camel@pengutronix.de>
+In-Reply-To: <7216bc863d89faa9fdc5cd8d44c319f7a6d88159.camel@pengutronix.de>
+From:   Tim Harvey <tharvey@gateworks.com>
+Date:   Wed, 1 Dec 2021 10:16:18 -0800
+Message-ID: <CAJ+vNU2PxgdN414Ufd4NAG5CJgnftNSAHDGpt9Nj+RfgkNmxaw@mail.gmail.com>
+Subject: Re: [RFC V2 0/2] arm64: imx8mm: Enable Hantro VPUs
+To:     Lucas Stach <l.stach@pengutronix.de>
+Cc:     Adam Ford <aford173@gmail.com>,
+        linux-media <linux-media@vger.kernel.org>,
+        Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Nicolas Dufresne <nicolas@ndufresne.ca>,
+        Adam Ford-BE <aford@beaconembedded.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Device Tree Mailing List <devicetree@vger.kernel.org>,
+        Linux ARM Mailing List <linux-arm-kernel@lists.infradead.org>,
+        open list <linux-kernel@vger.kernel.org>,
+        "open list:HANTRO VPU CODEC DRIVER" 
+        <linux-rockchip@lists.infradead.org>,
+        "open list:STAGING SUBSYSTEM" <linux-staging@lists.linux.dev>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Le mercredi 01 décembre 2021 à 09:03 +0200, Dafna Hirschfeld a écrit :
-> 
-> On 22.11.21 16:28, Laurent Pinchart wrote:
-> > Hi Dafna,
-> > 
-> > On Mon, Nov 22, 2021 at 04:21:25PM +0200, Dafna Hirschfeld wrote:
-> > > On 22.11.21 14:29, Laurent Pinchart wrote:
-> > > > On Mon, Nov 22, 2021 at 01:20:47PM +0200, Dafna Hirschfeld wrote:
-> > > > > On 20.11.21 14:34, Laurent Pinchart wrote:
-> > > > > > On Sat, Nov 20, 2021 at 01:02:57PM +0200, Dafna Hirschfeld wrote:
-> > > > > > > When trying to stream on both mainpatch and selfpatch
-> > > > > > > with grey format, I get an iommu page fault.
-> > > > > > > The fault is on the address at the end of the buffer,
-> > > > > > > so it seems that the device is somehow wrongly
-> > > > > > > configured and thinks there is another plane.
-> > > > > > 
-> > > > > > Could we try to fix that instead ? There are IR sensors for which the
-> > > > > > GREY format is useful.
-> > > > > 
-> > > > > Hi, the doc is not very useful so I can try doing a bit trial and error.
-> > > > > I see that there are several greyscale formats: [1]
-> > > > > which make me think that maybe the device support one of the other greyscale formats.
-> > > > > Do you know if some formats are more likely than other?
-> > > > 
-> > > > GREY seems the most likely (useful for IR sensors for instance, after
-> > > > ISP processing). Formats with a higher bpp would require processing of
-> > > > more than 8bpp through the ISP pipeline, I don't know if that's
-> > > > supported.
-> 
-> I tried all kind of things but was not able to stream greyscale.
-> When ISP processing works it outputs YUV 422 format and then the resizer
-> is used to change the format to YUV 420 if wanted.
-> I tried to chance the scale to YUV 400 (grey) or change the mainpath/selfpath
-> configuration but still had that iommu page fault errors.
-> 
-> Interestingly when I bypass the iommu and dma allocation is direct
-> the streaming works and even the output frames seems okayish greyscale format
-> but that might be by accident.
+On Wed, Dec 1, 2021 at 9:32 AM Lucas Stach <l.stach@pengutronix.de> wrote:
+>
+> Hi Tim,
+>
+> Am Mittwoch, dem 01.12.2021 um 09:23 -0800 schrieb Tim Harvey:
+> > On Tue, Nov 30, 2021 at 5:33 PM Adam Ford <aford173@gmail.com> wrote:
+> > >
+> > > The i.MX8M has two Hantro video decoders, called G1 and G2 which appear
+> > > to be related to the video decoders used on the i.MX8MQ, but because of
+> > > how the Mini handles the power domains, the VPU driver does not need to
+> > > handle all the functions, nor does it support the post-processor,
+> > > so a new compatible flag is required.
+> > >
+> > > With the suggestion from Hans Verkuil, I was able to get the G2 splat to go away
+> > > with changes to FORCE_MAX_ZONEORDER, but I found I could also set cma=512M, however
+> > > it's unclear to me if that's an acceptable alternative.
+> > >
+> > > At the suggestion of Ezequiel Garcia and Nicolas Dufresne I have some
+> > > results from Fluster. However, the G2 VPU appears to fail most tests.
+> > >
+> > > ./fluster.py run -dGStreamer-H.264-V4L2SL-Gst1.0
+> > > Ran 90/135 tests successfully               in 76.431 secs
+> > >
+> > >  ./fluster.py run -d GStreamer-VP8-V4L2SL-Gst1.0
+> > > Ran 55/61 tests successfully               in 21.454 secs
+> > >
+> > > ./fluster.py run -d GStreamer-VP9-V4L2SL-Gst1.0
+> > > Ran 0/303 tests successfully               in 20.016 secs
+> > >
+> > > Each day seems to show more and more G2 submissions, and gstreamer seems to be
+> > > still working on the VP9, so I am not sure if I should drop G2 as well.
+> > >
+> > >
+> > > Adam Ford (2):
+> > >   media: hantro: Add support for i.MX8M Mini
+> > >   arm64: dts: imx8mm: Enable VPU-G1 and VPU-G2
+> > >
+> > >  arch/arm64/boot/dts/freescale/imx8mm.dtsi   | 41 +++++++++++++++
+> > >  drivers/staging/media/hantro/hantro_drv.c   |  2 +
+> > >  drivers/staging/media/hantro/hantro_hw.h    |  2 +
+> > >  drivers/staging/media/hantro/imx8m_vpu_hw.c | 57 +++++++++++++++++++++
+> > >  4 files changed, 102 insertions(+)
+> > >
+> >
+> > Adam,
+> >
+> > That's for the patches!
+> >
+> > I tested just this series on top of v5.16-rc3 on an
+> > imx8mm-venice-gw73xx-0x and found that if I loop fluster I can end up
+> > getting a hang within 10 to 15 mins or so when imx8m_blk_ctrl_power_on
+> > is called for VPUMIX pd :
+> > while [ 1 ]; do uptime; ./fluster.py run -d GStreamer-VP8-V4L2SL-Gst1.0; done
+> > ...
+> > [  618.838436] imx-pgc imx-pgc-domain.6: failed to command PGC
+> > [  618.844407] imx8m-blk-ctrl 38330000.blk-ctrl: failed to power up bus domain
+> >
+> > I added prints in imx_pgc_power_{up,down} and
+> > imx8m_blk_ctrl_power_{on,off} to get some more context
+> > ...
+> > Ran 55/61 tests successfully               in 8.685 secs
+> >  17:16:34 up 17 min,  0 users,  load average: 3.97, 2.11, 0.93
+> > ********************************************************************************
+> > ********************
+> > Running test suite VP8-TEST-VECTORS with decoder GStreamer-VP8-V4L2SL-Gst1.0
+> > Using 4 parallel job(s)
+> > ********************************************************************************
+> > ********************
+> >
+> > [TEST SUITE      ] (DECODER                    ) TEST VECTOR               ... R
+> > ESULT
+> > ----------------------------------------------------------------------
+> > [ 1023.114806] imx8m_blk_ctrl_power_on vpublk-g1
+> > [ 1023.119669] imx_pgc_power_up vpumix
+> > [ 1023.124307] imx-pgc imx-pgc-domain.6: failed to command PGC
+> > [ 1023.130006] imx8m-blk-ctrl 38330000.blk-ctrl: failed to power up bus domain
+> >
+> > While this wouldn't be an issue with this series it does indicate we
+> > still have something racy in blk-ctrl. Can you reproduce this (and if
+> > not what kernel are you based on)? Perhaps you or Lucas have some
+> > ideas?
+> >
+> Did you have "[PATCH] soc: imx: gpcv2: Synchronously suspend MIX
+> domains" applied when running those tests? It has only recently been
+> picked up by Shawn and may have an influence on the bus domain
+> behavior.
+>
 
-Just a guess, but its possible they use a short cut to gray scale, and write to
-NV12 buffers. planar YUV 420 are somewhat compatible with grayscale, so that's
-always a possible cheat.
+Lucas,
 
-> 
-> > > > 
-> > > > Formats with a higher bpp (both greyscale and bayer formats) are also
-> > > > useful to capture raw images (before ISP processing). Is that something
-> > > > the hardware and driver support ?
-> > > 
-> > > hi, yes the variations of V4L2_PIX_FMT_Sxxxx10, V4L2_PIX_FMT_Sxxxx12
-> > > are supported on mainpath.
-> > 
-> > That's nice. Does it bypass the whole ISP then ? Is it possible to
-> > capture raw frames on the main path and processed frames on the self
-> > path at the same time, or are we restricted to raw only when we capture
-> > raw frames ?
-> 
-> I think we are restricted to raw only when we capture raw frames.
-> The doc describe the isp_ctl register that set the isp output to either raw or yuv.
-> It seems not to be possible to send raw to mainpath and yuv to selfpath.
-> 
-> Thanks,
-> Dafna
-> 
-> > 
-> > > > > [1] https://www.kernel.org/doc/html/latest/userspace-api/media/v4l/pixfmt-yuv-luma.html
-> > > > > 
-> > > > > > > Signed-off-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
-> > > > > > > ---
-> > > > > > >     .../platform/rockchip/rkisp1/rkisp1-capture.c     | 15 ---------------
-> > > > > > >     1 file changed, 15 deletions(-)
-> > > > > > > 
-> > > > > > > diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-capture.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-capture.c
-> > > > > > > index 768987d5f2dd..7f78f361dd5e 100644
-> > > > > > > --- a/drivers/media/platform/rockchip/rkisp1/rkisp1-capture.c
-> > > > > > > +++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-capture.c
-> > > > > > > @@ -116,13 +116,6 @@ static const struct rkisp1_capture_fmt_cfg rkisp1_mp_fmts[] = {
-> > > > > > >     		.write_format = RKISP1_MI_CTRL_MP_WRITE_YUV_PLA_OR_RAW8,
-> > > > > > >     		.mbus = MEDIA_BUS_FMT_YUYV8_2X8,
-> > > > > > >     	},
-> > > > > > > -	/* yuv400 */
-> > > > > > > -	{
-> > > > > > > -		.fourcc = V4L2_PIX_FMT_GREY,
-> > > > > > > -		.uv_swap = 0,
-> > > > > > > -		.write_format = RKISP1_MI_CTRL_MP_WRITE_YUV_PLA_OR_RAW8,
-> > > > > > > -		.mbus = MEDIA_BUS_FMT_YUYV8_2X8,
-> > > > > > > -	},
-> > > > > > >     	/* yuv420 */
-> > > > > > >     	{
-> > > > > > >     		.fourcc = V4L2_PIX_FMT_NV21,
-> > > > > > > @@ -244,14 +237,6 @@ static const struct rkisp1_capture_fmt_cfg rkisp1_sp_fmts[] = {
-> > > > > > >     		.output_format = RKISP1_MI_CTRL_SP_OUTPUT_YUV422,
-> > > > > > >     		.mbus = MEDIA_BUS_FMT_YUYV8_2X8,
-> > > > > > >     	},
-> > > > > > > -	/* yuv400 */
-> > > > > > > -	{
-> > > > > > > -		.fourcc = V4L2_PIX_FMT_GREY,
-> > > > > > > -		.uv_swap = 0,
-> > > > > > > -		.write_format = RKISP1_MI_CTRL_SP_WRITE_PLA,
-> > > > > > > -		.output_format = RKISP1_MI_CTRL_SP_OUTPUT_YUV400,
-> > > > > > > -		.mbus = MEDIA_BUS_FMT_YUYV8_2X8,
-> > > > > > > -	},
-> > > > > > >     	/* rgb */
-> > > > > > >     	{
-> > > > > > >     		.fourcc = V4L2_PIX_FMT_XBGR32,
-> > 
-> 
+Good point. I did have that originally before I started pruning down
+to the bare minimum to reproduce the issue.
 
+I added it back and now I have the following:
+arm64: dts: imx8mm: Enable VPU-G1 and VPU-G2
+media: hantro: Add support for i.MX8M Mini
+soc: imx: gpcv2: keep i.MX8MM VPU-H1 bus clock active
+soc: imx: gpcv2: Synchronously suspend MIX domains
+Linux 5.16-rc3
+
+Here's the latest with that patch:
+...
+[VP8-TEST-VECTORS] (GStreamer-VP8-V4L2SL-Gst1.0)
+vp80-00-comprehensive-007 ... Success
+[  316.632373] imx8m_blk_ctrl_power_off vpublk-g1
+[  316.636908] imx_pgc_power_down vpu-g1
+[  316.640983] imx_pgc_power_down vpumix
+[  316.756869] imx8m_blk_ctrl_power_on vpublk-g1
+[  316.761360] imx_pgc_power_up vpumix
+[  316.765985] imx-pgc imx-pgc-domain.6: failed to command PGC
+[  316.772743] imx8m-blk-ctrl 38330000.blk-ctrl: failed to power up bus domain
+^^^ hang
+
+I believe there is some sort of simple test I can do to power the gpu
+up/down to test as well but not clear what that is.
+
+Tim
