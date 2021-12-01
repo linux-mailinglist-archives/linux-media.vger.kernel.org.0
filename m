@@ -2,156 +2,133 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E90DC464E5D
-	for <lists+linux-media@lfdr.de>; Wed,  1 Dec 2021 14:00:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B696B464F93
+	for <lists+linux-media@lfdr.de>; Wed,  1 Dec 2021 15:24:47 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1349460AbhLANDo (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 1 Dec 2021 08:03:44 -0500
-Received: from mga03.intel.com ([134.134.136.65]:14213 "EHLO mga03.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1349377AbhLANDk (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 1 Dec 2021 08:03:40 -0500
-X-IronPort-AV: E=McAfee;i="6200,9189,10184"; a="236395544"
-X-IronPort-AV: E=Sophos;i="5.87,278,1631602800"; 
-   d="scan'208";a="236395544"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Dec 2021 05:00:19 -0800
-X-IronPort-AV: E=Sophos;i="5.87,278,1631602800"; 
-   d="scan'208";a="609542469"
-Received: from paasikivi.fi.intel.com ([10.237.72.42])
-  by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Dec 2021 05:00:17 -0800
-Received: from punajuuri.localdomain (punajuuri.localdomain [192.168.240.130])
-        by paasikivi.fi.intel.com (Postfix) with ESMTP id 6062C2036B;
-        Wed,  1 Dec 2021 15:00:15 +0200 (EET)
-Received: from sailus by punajuuri.localdomain with local (Exim 4.94.2)
-        (envelope-from <sakari.ailus@linux.intel.com>)
-        id 1msPEZ-003vmX-MH; Wed, 01 Dec 2021 15:01:15 +0200
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     linux-acpi@vger.kernel.org
-Cc:     andriy.shevchenko@linux.intel.com, heikki.krogerus@linux.intel.com,
-        rafael@kernel.org, Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Sowjanya Komatineni <skomatineni@nvidia.com>,
-        linux-tegra@vger.kernel.org, linux-media@vger.kernel.org
-Subject: [PATCH v2 7/7] device property: Drop fwnode_graph_get_remote_node()
-Date:   Wed,  1 Dec 2021 15:01:15 +0200
-Message-Id: <20211201130115.937052-1-sakari.ailus@linux.intel.com>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20211201125934.936953-1-sakari.ailus@linux.intel.com>
-References: <20211201125934.936953-1-sakari.ailus@linux.intel.com>
+        id S1349887AbhLAO2G (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 1 Dec 2021 09:28:06 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44046 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S233835AbhLAO2F (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 1 Dec 2021 09:28:05 -0500
+Received: from mail-pf1-x42f.google.com (mail-pf1-x42f.google.com [IPv6:2607:f8b0:4864:20::42f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E5206C061574;
+        Wed,  1 Dec 2021 06:24:44 -0800 (PST)
+Received: by mail-pf1-x42f.google.com with SMTP id b68so24585981pfg.11;
+        Wed, 01 Dec 2021 06:24:44 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=+nqjIwk41+U9tH9eGUNa4mmueteq5RxG7HgTGB7HKEw=;
+        b=HRVy0Wi/A0TE+Qh4oMjxWCoWKpQGZrhJrwtLf3lCRLWtxw7zazcBWCI06PUQER51u8
+         B1sBrqfdc6icul15x5SAyP3YZ3ci45+7BJ4D3+pT+VKrnOXRYq/yzz+lU5DT6I7rVY4y
+         Jzcei8vdj34llKWyPIlfvLeFqyIdau178sqjCjd/dg+BwGENCATh4sBo7UtjIgAePt1i
+         flha/MzqVGioxlvGRQbBVnZiLtpkT9rdbqP1b4twmtYtJfFkh+ZQXBRt3rrWQDf6LiRv
+         sX5w02bqE2WAjHcFGu9eFo6IBV9LKkeB/nIKxJ6w8r5fovjohhQ+jN1esM0qRKoVJLzD
+         7kqw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=+nqjIwk41+U9tH9eGUNa4mmueteq5RxG7HgTGB7HKEw=;
+        b=K9+Ndhp7mEA/hUoc/oOglhCGcbiwKkEb5wpLXlWxECSnXMNQY4ayKB3a/Z8SoBo1ul
+         kvtdx4EDIPEQKL5/sxfCqm2Pqh6rjTwlviWloI0d1gXlMAeYP4aYI1CJLrFlz4iMNN3k
+         3MGh0Qx54vsMsoskMZgS1P+W1HwBIIg+y1wGGUQ/7RpoH3h5j/gekvboKq+t/2EZcDNc
+         mhMiwrQmg1/JVcuaU2F0wRBpjAsYcK1Z0Ttgx3YV6YF/2L/kfANrUnJsNudMUU2A5R/G
+         xPxjbpBXgOyLX8Ibghr3LqpS0bADX8EG2umCVWrCRpcyYcoSXD244EAfnyIfZ9tS7kJ7
+         a8vQ==
+X-Gm-Message-State: AOAM5315XBy/FN4q8WL0Y6PE5vj/64ib04qpgQ7zeq6sXvQsO7mbtRWU
+        TIofiLDI+5OM2nXA1nb0Tlk=
+X-Google-Smtp-Source: ABdhPJyhWQxVQrsZzaIFTMTAEpHxBdK84+D+Vb58aq+d8wtkU/Slp1916zxM0upFzx4h23XtLNMLzQ==
+X-Received: by 2002:a05:6a00:888:b0:4a8:56c:d2c with SMTP id q8-20020a056a00088800b004a8056c0d2cmr6578052pfj.40.1638368684323;
+        Wed, 01 Dec 2021 06:24:44 -0800 (PST)
+Received: from sbwpb-arch.flets-east.jp ([2400:4052:6980:3800:dba7:2b1f:3f26:a5ec])
+        by smtp.gmail.com with ESMTPSA id o7sm18293825pgq.59.2021.12.01.06.24.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 01 Dec 2021 06:24:43 -0800 (PST)
+From:   Tsuchiya Yuto <kitakar@gmail.com>
+To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+        linux-kernel@vger.kernel.org
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Tsuchiya Yuto <kitakar@gmail.com>,
+        Dan Carpenter <dan.carpenter@oracle.com>
+Subject: [PATCH v1 1/1] media: atomisp: fix "variable dereferenced before check 'asd'"
+Date:   Wed,  1 Dec 2021 23:19:04 +0900
+Message-Id: <20211201141904.47231-1-kitakar@gmail.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-fwnode_graph_get_remote_node() is only used by the tegra-video driver.
-Convert it to use newer fwnode_graph_get_endpoint_by_id() and drop
-now-unused fwnode_graph_get_remote_node().
+There are two occurrences where the variable 'asd' is dereferenced
+before check. Fix this issue by using the variable after the check.
 
-Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Link: https://lore.kernel.org/linux-media/20211122074122.GA6581@kili/
+Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
+Signed-off-by: Tsuchiya Yuto <kitakar@gmail.com>
+
 ---
- drivers/base/property.c                | 38 --------------------------
- drivers/staging/media/tegra-video/vi.c | 12 +++++---
- include/linux/property.h               |  3 --
- 3 files changed, 8 insertions(+), 45 deletions(-)
 
-diff --git a/drivers/base/property.c b/drivers/base/property.c
-index 78106192babb8..a7086e5526445 100644
---- a/drivers/base/property.c
-+++ b/drivers/base/property.c
-@@ -1059,44 +1059,6 @@ fwnode_graph_get_remote_endpoint(const struct fwnode_handle *fwnode)
- }
- EXPORT_SYMBOL_GPL(fwnode_graph_get_remote_endpoint);
+I didn't add the Fixes tag considering that the media_stage tree can
+be rebased. Here is the commit of the media_stage tree pointed out in
+the Link,
+
+	c10bcb13462e ("media: atomisp: add NULL check for asd obtained from atomisp_video_pipe")
+
+Can be applied on the top of media_stage tree.
+---
+ drivers/staging/media/atomisp/pci/atomisp_cmd.c   | 3 ++-
+ drivers/staging/media/atomisp/pci/atomisp_ioctl.c | 3 ++-
+ 2 files changed, 4 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/staging/media/atomisp/pci/atomisp_cmd.c b/drivers/staging/media/atomisp/pci/atomisp_cmd.c
+index 5a90cc31cd1a..97d5a528969b 100644
+--- a/drivers/staging/media/atomisp/pci/atomisp_cmd.c
++++ b/drivers/staging/media/atomisp/pci/atomisp_cmd.c
+@@ -5185,7 +5185,7 @@ static int atomisp_set_fmt_to_isp(struct video_device *vdev,
+ 	int (*configure_pp_input)(struct atomisp_sub_device *asd,
+ 				  unsigned int width, unsigned int height) =
+ 				      configure_pp_input_nop;
+-	u16 stream_index = atomisp_source_pad_to_stream_id(asd, source_pad);
++	u16 stream_index;
+ 	const struct atomisp_in_fmt_conv *fc;
+ 	int ret, i;
  
--/**
-- * fwnode_graph_get_remote_node - get remote parent node for given port/endpoint
-- * @fwnode: pointer to parent fwnode_handle containing graph port/endpoint
-- * @port_id: identifier of the parent port node
-- * @endpoint_id: identifier of the endpoint node
-- *
-- * Return: Remote fwnode handle associated with remote endpoint node linked
-- *	   to @node. Use fwnode_node_put() on it when done.
-- */
--struct fwnode_handle *
--fwnode_graph_get_remote_node(const struct fwnode_handle *fwnode, u32 port_id,
--			     u32 endpoint_id)
--{
--	struct fwnode_handle *endpoint;
--
--	fwnode_graph_for_each_endpoint(fwnode, endpoint) {
--		struct fwnode_endpoint fwnode_ep;
--		struct fwnode_handle *remote;
--		int ret;
--
--		ret = fwnode_graph_parse_endpoint(endpoint, &fwnode_ep);
--		if (ret < 0)
--			continue;
--
--		if (fwnode_ep.port != port_id || fwnode_ep.id != endpoint_id)
--			continue;
--
--		remote = fwnode_graph_get_remote_port_parent(endpoint);
--		if (!remote)
--			return NULL;
--
--		return fwnode_device_is_available(remote) ? remote : NULL;
--	}
--
--	return NULL;
--}
--EXPORT_SYMBOL_GPL(fwnode_graph_get_remote_node);
--
- static bool fwnode_graph_remote_available(struct fwnode_handle *ep)
- {
- 	struct fwnode_handle *dev_node;
-diff --git a/drivers/staging/media/tegra-video/vi.c b/drivers/staging/media/tegra-video/vi.c
-index 69d9787d53384..d1f43f465c224 100644
---- a/drivers/staging/media/tegra-video/vi.c
-+++ b/drivers/staging/media/tegra-video/vi.c
-@@ -1845,7 +1845,6 @@ static int tegra_vi_graph_init(struct tegra_vi *vi)
- 	struct tegra_vi_channel *chan;
- 	struct fwnode_handle *fwnode = dev_fwnode(vi->dev);
- 	int ret;
--	struct fwnode_handle *remote = NULL;
+@@ -5194,6 +5194,7 @@ static int atomisp_set_fmt_to_isp(struct video_device *vdev,
+ 			__func__, vdev->name);
+ 		return -EINVAL;
+ 	}
++	stream_index = atomisp_source_pad_to_stream_id(asd, source_pad);
  
- 	/*
- 	 * Walk the links to parse the full graph. Each channel will have
-@@ -1857,11 +1856,16 @@ static int tegra_vi_graph_init(struct tegra_vi *vi)
- 	 * next channels.
- 	 */
- 	list_for_each_entry(chan, &vi->vi_chans, list) {
--		remote = fwnode_graph_get_remote_node(fwnode, chan->portnos[0],
--						      0);
--		if (!remote)
-+		struct fwnode_handle *ep, *remote;
-+
-+		ep = fwnode_graph_get_endpoint_by_id(fwnode,
-+						     chan->portnos[0], 0, 0);
-+		if (!ep)
- 			continue;
+ 	v4l2_fh_init(&fh.vfh, vdev);
  
-+		remote = fwnode_graph_get_remote_port_parent(ep);
-+		fwnode_handle_put(ep);
-+
- 		ret = tegra_vi_graph_parse_one(chan, remote);
- 		fwnode_handle_put(remote);
- 		if (ret < 0 || list_empty(&chan->notifier.asd_list))
-diff --git a/include/linux/property.h b/include/linux/property.h
-index e32b95f42c9db..3a31765895c11 100644
---- a/include/linux/property.h
-+++ b/include/linux/property.h
-@@ -401,9 +401,6 @@ struct fwnode_handle *fwnode_graph_get_remote_port(
- 	const struct fwnode_handle *fwnode);
- struct fwnode_handle *fwnode_graph_get_remote_endpoint(
- 	const struct fwnode_handle *fwnode);
--struct fwnode_handle *
--fwnode_graph_get_remote_node(const struct fwnode_handle *fwnode, u32 port,
--			     u32 endpoint);
+diff --git a/drivers/staging/media/atomisp/pci/atomisp_ioctl.c b/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
+index 562789c75299..8fd470efd658 100644
+--- a/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
++++ b/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
+@@ -1182,7 +1182,7 @@ int __atomisp_reqbufs(struct file *file, void *fh,
+ 	struct ia_css_frame *frame;
+ 	struct videobuf_vmalloc_memory *vm_mem;
+ 	u16 source_pad = atomisp_subdev_source_pad(vdev);
+-	u16 stream_id = atomisp_source_pad_to_stream_id(asd, source_pad);
++	u16 stream_id;
+ 	int ret = 0, i = 0;
  
- static inline bool fwnode_graph_is_endpoint(struct fwnode_handle *fwnode)
- {
+ 	if (!asd) {
+@@ -1190,6 +1190,7 @@ int __atomisp_reqbufs(struct file *file, void *fh,
+ 			__func__, vdev->name);
+ 		return -EINVAL;
+ 	}
++	stream_id = atomisp_source_pad_to_stream_id(asd, source_pad);
+ 
+ 	if (req->count == 0) {
+ 		mutex_lock(&pipe->capq.vb_lock);
 -- 
-2.30.2
+2.34.1
 
