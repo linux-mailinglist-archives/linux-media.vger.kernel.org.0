@@ -2,238 +2,151 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 529584653A8
-	for <lists+linux-media@lfdr.de>; Wed,  1 Dec 2021 18:10:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D20B34653DB
+	for <lists+linux-media@lfdr.de>; Wed,  1 Dec 2021 18:23:51 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234353AbhLARN2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 1 Dec 2021 12:13:28 -0500
-Received: from mga09.intel.com ([134.134.136.24]:19038 "EHLO mga09.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231379AbhLARN1 (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 1 Dec 2021 12:13:27 -0500
-X-IronPort-AV: E=McAfee;i="6200,9189,10185"; a="236323072"
-X-IronPort-AV: E=Sophos;i="5.87,279,1631602800"; 
-   d="scan'208";a="236323072"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Dec 2021 09:08:43 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.87,279,1631602800"; 
-   d="scan'208";a="560538743"
-Received: from lkp-server02.sh.intel.com (HELO 9e1e9f9b3bcb) ([10.239.97.151])
-  by fmsmga008.fm.intel.com with ESMTP; 01 Dec 2021 09:08:39 -0800
-Received: from kbuild by 9e1e9f9b3bcb with local (Exim 4.92)
-        (envelope-from <lkp@intel.com>)
-        id 1msT5z-000FB7-3m; Wed, 01 Dec 2021 17:08:39 +0000
-Date:   Thu, 2 Dec 2021 01:08:07 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Moudy Ho <moudy.ho@mediatek.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Jernej Skrabec <jernej.skrabec@siol.net>
-Cc:     kbuild-all@lists.01.org, linux-media@vger.kernel.org,
-        Chun-Kuang Hu <chunkuang.hu@kernel.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Rob Landley <rob@landley.net>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Subject: Re: [PATCH v9 7/7] media: platform: mtk-mdp3: add Mediatek MDP3
- driver
-Message-ID: <202112020126.zBCAihfa-lkp@intel.com>
-References: <20211201095031.31606-8-moudy.ho@mediatek.com>
+        id S238269AbhLAR1J (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 1 Dec 2021 12:27:09 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58226 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1351860AbhLAR1E (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 1 Dec 2021 12:27:04 -0500
+Received: from mail-pl1-x62a.google.com (mail-pl1-x62a.google.com [IPv6:2607:f8b0:4864:20::62a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9666AC06174A
+        for <linux-media@vger.kernel.org>; Wed,  1 Dec 2021 09:23:43 -0800 (PST)
+Received: by mail-pl1-x62a.google.com with SMTP id o14so18255181plg.5
+        for <linux-media@vger.kernel.org>; Wed, 01 Dec 2021 09:23:43 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gateworks-com.20210112.gappssmtp.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=ykCOSl1DR1nooY0Igc75aTkUdtgWWtVr7m16LxU2Evo=;
+        b=QY/uWasz8CDavm3HQOwoN783a1XibY4AIEjRICoXuDJ3rcT6sX940BzyeEElAZSMKH
+         aVzwrCRWWk6s6yElOL/+zaTSWXLJLcOSpriN40a8Ecms3EoHKBrvt44FeFNk8LOPA07R
+         xHNMD8O+Dsus7qnBJjp8Gh1M7O9DvFqhQjPvBdsMtygny3z23nTbPWu0DC+BXrZ+t02u
+         dEKbme+x2iCOn14x51iomJkKVqdVzww7pF2v7VH4zCGt7XfwvdfWVfBlsyyqFq/i4iA3
+         ZFqrU7YrdyN4B6olG90FeZJsR7zVsyHy+mntkq8IGddNBIC83VYeQQK/vsKgXX1ydpUD
+         m2vw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=ykCOSl1DR1nooY0Igc75aTkUdtgWWtVr7m16LxU2Evo=;
+        b=nNCa/4pKTZjRPA15Ji4Npkg/GuK9IFAAyHpeXEF7DLultqWM1zo1Xnr2y/njPp86jY
+         rk7T2319yzVp6XJ2X+CX633+aQQSZABIoLXuO0xTcMynor9Cz+e9dZjvFoppSuq03+/K
+         rOvYzvUCMOmN+W5yH6K0mAogPrCunl1cYTOQ9eCMgCpw9WXHfHkiYTszfv5+B6pDZRT8
+         yXrkiwYydSZKffwcciNjGG9dPnhkaKLs0XtZGfT06agPD4u3GQIHYHEZtJu5j7+VBK+y
+         PenIaI0HAWReobDe5YWqctKUMtD66giQNJts18fB1ZVbNHtluI0r4AWuWbYb2sLncmEP
+         EONw==
+X-Gm-Message-State: AOAM533RarYY0bxC8ovrbmcCdoFKCPBKSecC6pzAFBk6Sa7FlTX7DhRH
+        a7nwMLY10Tcooq3WKFg9SdG/WMwkaigD+1goeDeaFw==
+X-Google-Smtp-Source: ABdhPJyzb1DYRJAzXFYCNHh3xxtvOFlxqgyxfdSYfvQhBWij59zsgTe/H6UhPJaD87eZQQzGMhfXZONUPEbRm8yF9Go=
+X-Received: by 2002:a17:90b:33d0:: with SMTP id lk16mr9151438pjb.66.1638379422917;
+ Wed, 01 Dec 2021 09:23:42 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20211201095031.31606-8-moudy.ho@mediatek.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+References: <20211201013329.15875-1-aford173@gmail.com>
+In-Reply-To: <20211201013329.15875-1-aford173@gmail.com>
+From:   Tim Harvey <tharvey@gateworks.com>
+Date:   Wed, 1 Dec 2021 09:23:31 -0800
+Message-ID: <CAJ+vNU1jENmWAR_5E98Vgb53ctxjxSWJewPW0YC4Yp4DuYTn3g@mail.gmail.com>
+Subject: Re: [RFC V2 0/2] arm64: imx8mm: Enable Hantro VPUs
+To:     Adam Ford <aford173@gmail.com>, l.stach@pengutronix.de
+Cc:     linux-media@vger.kernel.org, ezequiel@vanguardiasur.com.ar,
+        hverkuil@xs4all.nl, nicolas@ndufresne.ca, aford@beaconembedded.com,
+        Rob Herring <robh+dt@kernel.org>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-kernel@vger.kernel.org, linux-rockchip@lists.infradead.org,
+        linux-staging@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Moudy,
+On Tue, Nov 30, 2021 at 5:33 PM Adam Ford <aford173@gmail.com> wrote:
+>
+> The i.MX8M has two Hantro video decoders, called G1 and G2 which appear
+> to be related to the video decoders used on the i.MX8MQ, but because of
+> how the Mini handles the power domains, the VPU driver does not need to
+> handle all the functions, nor does it support the post-processor,
+> so a new compatible flag is required.
+>
+> With the suggestion from Hans Verkuil, I was able to get the G2 splat to go away
+> with changes to FORCE_MAX_ZONEORDER, but I found I could also set cma=512M, however
+> it's unclear to me if that's an acceptable alternative.
+>
+> At the suggestion of Ezequiel Garcia and Nicolas Dufresne I have some
+> results from Fluster. However, the G2 VPU appears to fail most tests.
+>
+> ./fluster.py run -dGStreamer-H.264-V4L2SL-Gst1.0
+> Ran 90/135 tests successfully               in 76.431 secs
+>
+>  ./fluster.py run -d GStreamer-VP8-V4L2SL-Gst1.0
+> Ran 55/61 tests successfully               in 21.454 secs
+>
+> ./fluster.py run -d GStreamer-VP9-V4L2SL-Gst1.0
+> Ran 0/303 tests successfully               in 20.016 secs
+>
+> Each day seems to show more and more G2 submissions, and gstreamer seems to be
+> still working on the VP9, so I am not sure if I should drop G2 as well.
+>
+>
+> Adam Ford (2):
+>   media: hantro: Add support for i.MX8M Mini
+>   arm64: dts: imx8mm: Enable VPU-G1 and VPU-G2
+>
+>  arch/arm64/boot/dts/freescale/imx8mm.dtsi   | 41 +++++++++++++++
+>  drivers/staging/media/hantro/hantro_drv.c   |  2 +
+>  drivers/staging/media/hantro/hantro_hw.h    |  2 +
+>  drivers/staging/media/hantro/imx8m_vpu_hw.c | 57 +++++++++++++++++++++
+>  4 files changed, 102 insertions(+)
+>
 
-Thank you for the patch! Perhaps something to improve:
+Adam,
 
-[auto build test WARNING on media-tree/master]
-[also build test WARNING on robh/for-next linus/master v5.16-rc3 next-20211201]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch]
+That's for the patches!
 
-url:    https://github.com/0day-ci/linux/commits/Moudy-Ho/media-mediatek-support-mdp3-on-mt8183-platform/20211201-175258
-base:   git://linuxtv.org/media_tree.git master
-config: arc-allyesconfig (https://download.01.org/0day-ci/archive/20211202/202112020126.zBCAihfa-lkp@intel.com/config)
-compiler: arceb-elf-gcc (GCC) 11.2.0
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/0day-ci/linux/commit/f6f2b079ebc64ba1d7f0f73b0cfcfe8b98124ec3
-        git remote add linux-review https://github.com/0day-ci/linux
-        git fetch --no-tags linux-review Moudy-Ho/media-mediatek-support-mdp3-on-mt8183-platform/20211201-175258
-        git checkout f6f2b079ebc64ba1d7f0f73b0cfcfe8b98124ec3
-        # save the config file to linux build tree
-        mkdir build_dir
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-11.2.0 make.cross O=build_dir ARCH=arc SHELL=/bin/bash drivers/media/platform/mtk-mdp3/
+I tested just this series on top of v5.16-rc3 on an
+imx8mm-venice-gw73xx-0x and found that if I loop fluster I can end up
+getting a hang within 10 to 15 mins or so when imx8m_blk_ctrl_power_on
+is called for VPUMIX pd :
+while [ 1 ]; do uptime; ./fluster.py run -d GStreamer-VP8-V4L2SL-Gst1.0; done
+...
+[  618.838436] imx-pgc imx-pgc-domain.6: failed to command PGC
+[  618.844407] imx8m-blk-ctrl 38330000.blk-ctrl: failed to power up bus domain
 
-If you fix the issue, kindly add following tag as appropriate
-Reported-by: kernel test robot <lkp@intel.com>
+I added prints in imx_pgc_power_{up,down} and
+imx8m_blk_ctrl_power_{on,off} to get some more context
+...
+Ran 55/61 tests successfully               in 8.685 secs
+ 17:16:34 up 17 min,  0 users,  load average: 3.97, 2.11, 0.93
+********************************************************************************
+********************
+Running test suite VP8-TEST-VECTORS with decoder GStreamer-VP8-V4L2SL-Gst1.0
+Using 4 parallel job(s)
+********************************************************************************
+********************
 
-All warnings (new ones prefixed by >>):
+[TEST SUITE      ] (DECODER                    ) TEST VECTOR               ... R
+ESULT
+----------------------------------------------------------------------
+[ 1023.114806] imx8m_blk_ctrl_power_on vpublk-g1
+[ 1023.119669] imx_pgc_power_up vpumix
+[ 1023.124307] imx-pgc imx-pgc-domain.6: failed to command PGC
+[ 1023.130006] imx8m-blk-ctrl 38330000.blk-ctrl: failed to power up bus domain
 
-   In file included from include/linux/device.h:15,
-                    from include/linux/platform_device.h:13,
-                    from drivers/media/platform/mtk-mdp3/mtk-mdp3-cmdq.c:7:
-   drivers/media/platform/mtk-mdp3/mtk-mdp3-cmdq.c: In function 'mdp_cmdq_send':
->> drivers/media/platform/mtk-mdp3/mtk-mdp3-cmdq.c:435:30: warning: format '%s' expects a matching 'char *' argument [-Wformat=]
-     435 |                 dev_err(dev, "%s mdp_path_ctx_init error\n");
-         |                              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:110:30: note: in definition of macro 'dev_printk_index_wrap'
-     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
-         |                              ^~~
-   include/linux/dev_printk.h:144:56: note: in expansion of macro 'dev_fmt'
-     144 |         dev_printk_index_wrap(_dev_err, KERN_ERR, dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |                                                        ^~~~~~~
-   drivers/media/platform/mtk-mdp3/mtk-mdp3-cmdq.c:435:17: note: in expansion of macro 'dev_err'
-     435 |                 dev_err(dev, "%s mdp_path_ctx_init error\n");
-         |                 ^~~~~~~
-   drivers/media/platform/mtk-mdp3/mtk-mdp3-cmdq.c:435:32: note: format string is defined here
-     435 |                 dev_err(dev, "%s mdp_path_ctx_init error\n");
-         |                               ~^
-         |                                |
-         |                                char *
-   In file included from include/linux/device.h:15,
-                    from include/linux/platform_device.h:13,
-                    from drivers/media/platform/mtk-mdp3/mtk-mdp3-cmdq.c:7:
-   drivers/media/platform/mtk-mdp3/mtk-mdp3-cmdq.c:445:30: warning: format '%s' expects a matching 'char *' argument [-Wformat=]
-     445 |                 dev_err(dev, "%s mdp_path_config error\n");
-         |                              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:110:30: note: in definition of macro 'dev_printk_index_wrap'
-     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
-         |                              ^~~
-   include/linux/dev_printk.h:144:56: note: in expansion of macro 'dev_fmt'
-     144 |         dev_printk_index_wrap(_dev_err, KERN_ERR, dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |                                                        ^~~~~~~
-   drivers/media/platform/mtk-mdp3/mtk-mdp3-cmdq.c:445:17: note: in expansion of macro 'dev_err'
-     445 |                 dev_err(dev, "%s mdp_path_config error\n");
-         |                 ^~~~~~~
-   drivers/media/platform/mtk-mdp3/mtk-mdp3-cmdq.c:445:32: note: format string is defined here
-     445 |                 dev_err(dev, "%s mdp_path_config error\n");
-         |                               ~^
-         |                                |
-         |                                char *
+While this wouldn't be an issue with this series it does indicate we
+still have something racy in blk-ctrl. Can you reproduce this (and if
+not what kernel are you based on)? Perhaps you or Lucas have some
+ideas?
 
+Best regards,
 
-vim +435 drivers/media/platform/mtk-mdp3/mtk-mdp3-cmdq.c
-
-   390	
-   391	int mdp_cmdq_send(struct mdp_dev *mdp, struct mdp_cmdq_param *param)
-   392	{
-   393		struct mmsys_cmdq_cmd cmd;
-   394		struct mdp_path *path = NULL;
-   395		struct mdp_cmdq_cb_param *cb_param = NULL;
-   396		struct mdp_comp *comps = NULL;
-   397		struct device *dev = &mdp->pdev->dev;
-   398		int i, ret;
-   399	
-   400		if (atomic_read(&mdp->suspended))
-   401			return -ECANCELED;
-   402	
-   403		atomic_inc(&mdp->job_count);
-   404	
-   405		cmd.pkt = cmdq_pkt_create(mdp->cmdq_clt, SZ_16K);
-   406		if (IS_ERR(cmd.pkt)) {
-   407			atomic_dec(&mdp->job_count);
-   408			wake_up(&mdp->callback_wq);
-   409			return PTR_ERR(cmd.pkt);
-   410		}
-   411		cmd.event = &mdp->event[0];
-   412	
-   413		path = kzalloc(sizeof(*path), GFP_KERNEL);
-   414		if (!path) {
-   415			ret = -ENOMEM;
-   416			goto err_destroy_pkt;
-   417		}
-   418	
-   419		path->mdp_dev = mdp;
-   420		path->config = param->config;
-   421		path->param = param->param;
-   422		for (i = 0; i < param->param->num_outputs; i++) {
-   423			path->bounds[i].left = 0;
-   424			path->bounds[i].top = 0;
-   425			path->bounds[i].width =
-   426				param->param->outputs[i].buffer.format.width;
-   427			path->bounds[i].height =
-   428				param->param->outputs[i].buffer.format.height;
-   429			path->composes[i] = param->composes[i] ?
-   430				param->composes[i] : &path->bounds[i];
-   431		}
-   432	
-   433		ret = mdp_path_ctx_init(mdp, path);
-   434		if (ret) {
- > 435			dev_err(dev, "%s mdp_path_ctx_init error\n");
-   436			goto err_destroy_pkt;
-   437		}
-   438	
-   439		mtk_mutex_prepare(mdp->mdp_mutex[MDP_PIPE_RDMA0]);
-   440		for (i = 0; i < param->config->num_components; i++)
-   441			mdp_comp_clock_on(&mdp->pdev->dev, path->comps[i].comp);
-   442	
-   443		ret = mdp_path_config(mdp, &cmd, path);
-   444		if (ret) {
-   445			dev_err(dev, "%s mdp_path_config error\n");
-   446			goto err_destroy_pkt;
-   447		}
-   448	
-   449		cb_param = kzalloc(sizeof(*cb_param), GFP_KERNEL);
-   450		if (!cb_param) {
-   451			ret = -ENOMEM;
-   452			goto err_destroy_pkt;
-   453		}
-   454	
-   455		comps = kcalloc(param->config->num_components, sizeof(*comps),
-   456				GFP_KERNEL);
-   457		if (!comps) {
-   458			ret = -ENOMEM;
-   459			goto err_destroy_pkt;
-   460		}
-   461	
-   462		for (i = 0; i < param->config->num_components; i++)
-   463			memcpy(&comps[i], path->comps[i].comp,
-   464			       sizeof(struct mdp_comp));
-   465		cb_param->mdp = mdp;
-   466		cb_param->user_cmdq_cb = param->cmdq_cb;
-   467		cb_param->user_cb_data = param->cb_data;
-   468		cb_param->pkt = cmd.pkt;
-   469		cb_param->comps = comps;
-   470		cb_param->num_comps = param->config->num_components;
-   471		cb_param->mdp_ctx = param->mdp_ctx;
-   472	
-   473		cmdq_pkt_finalize(cmd.pkt);
-   474		ret = cmdq_pkt_flush_async(cmd.pkt,
-   475					   mdp_handle_cmdq_callback,
-   476					   (void *)cb_param);
-   477		if (ret) {
-   478			dev_err(dev, "cmdq_pkt_flush_async fail!\n");
-   479			goto err_clock_off;
-   480		}
-   481		return 0;
-   482	
-   483	err_clock_off:
-   484		mtk_mutex_unprepare(mdp->mdp_mutex[MDP_PIPE_RDMA0]);
-   485		mdp_comp_clocks_off(&mdp->pdev->dev, cb_param->comps,
-   486				    cb_param->num_comps);
-   487	err_destroy_pkt:
-   488		cmdq_pkt_destroy(cmd.pkt);
-   489		atomic_dec(&mdp->job_count);
-   490		wake_up(&mdp->callback_wq);
-   491		kfree(comps);
-   492		kfree(cb_param);
-   493		kfree(path);
-   494	
-   495		return ret;
-   496	}
-   497	
-
----
-0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+Tim
