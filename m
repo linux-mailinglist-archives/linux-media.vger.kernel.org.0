@@ -2,78 +2,67 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 487F84646F0
-	for <lists+linux-media@lfdr.de>; Wed,  1 Dec 2021 06:57:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B90FD46471D
+	for <lists+linux-media@lfdr.de>; Wed,  1 Dec 2021 07:19:17 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1346805AbhLAGBB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 1 Dec 2021 01:01:01 -0500
-Received: from perceval.ideasonboard.com ([213.167.242.64]:54174 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229561AbhLAGBA (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 1 Dec 2021 01:01:00 -0500
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 8D095A15;
-        Wed,  1 Dec 2021 06:57:39 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1638338259;
-        bh=QKPug67dJCBhQgdp1tA60+oRXris/Uc0KDjDu3U/abc=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=sRpNzbsuvo1pJfHtE8f7JQQc4I6p2qfs3is4OdecdHc2HBlzqf1R06XM2/5oDVQr8
-         V9MwPsug+Mpu+90H5UubM4OXVKCMfO7zVCUoCB7x0wIN67F45sD3F1OL69Uv+DfsKp
-         88LvND0Mmxj9lpGQKD9LlmZOBt3txvaRHTREnJXo=
-Date:   Wed, 1 Dec 2021 07:57:14 +0200
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Ricardo Ribalda <ribalda@chromium.org>
-Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>
-Subject: [GIT PULL FOR v5.17] [v2] uvcvideo fixes
-Message-ID: <YacOun3Diggsi05V@pendragon.ideasonboard.com>
-References: <CANiDSCskY=HjJjf+0cfHfHgaxwn4TtcUC=e6JBU_EfvRuBq-ag@mail.gmail.com>
+        id S1346928AbhLAGWg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 1 Dec 2021 01:22:36 -0500
+Received: from www.linuxtv.org ([130.149.80.248]:41548 "EHLO www.linuxtv.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1346855AbhLAGWb (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 1 Dec 2021 01:22:31 -0500
+Received: from builder.linuxtv.org ([140.211.167.10] helo=slave0)
+        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1msIxP-001Lol-DT; Wed, 01 Dec 2021 06:19:07 +0000
+Received: from ip6-localhost ([::1] helo=localhost.localdomain)
+        by slave0 with esmtp (Exim 4.94.2)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1msIxN-007gLA-Cz; Wed, 01 Dec 2021 06:19:05 +0000
+From:   Jenkins <jenkins@linuxtv.org>
+To:     mchehab+samsung@kernel.org, linux-media@vger.kernel.org
+Cc:     builder@linuxtv.org
+Subject: Re: [GIT PULL FOR v5.17] [v2] uvcvideo fixes (#79016)
+Date:   Wed,  1 Dec 2021 06:19:05 +0000
+Message-Id: <20211201061905.1831006-1-jenkins@linuxtv.org>
+X-Mailer: git-send-email 2.30.2
+In-Reply-To: <YacOun3Diggsi05V@pendragon.ideasonboard.com>
+References: 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <CANiDSCskY=HjJjf+0cfHfHgaxwn4TtcUC=e6JBU_EfvRuBq-ag@mail.gmail.com>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The following changes since commit 1f1517fafda598839a02e39968c5063ddcfa51fc:
+From: builder@linuxtv.org
 
-  media: cx18: drop an unused macro (2021-11-22 08:32:02 +0000)
+Pull request: https://patchwork.linuxtv.org/project/linux-media/patch/YacOun3Diggsi05V@pendragon.ideasonboard.com/
+Build log: https://builder.linuxtv.org/job/patchwork/161545/
+Build time: 00:17:26
+Link: https://lore.kernel.org/linux-media/YacOun3Diggsi05V@pendragon.ideasonboard.com
 
-are available in the Git repository at:
+gpg: Signature made Wed 01 Dec 2021 05:54:00 AM UTC
+gpg:                using RSA key CB9D6877529820CD53099B1B65F89C37BC54210D
+gpg:                issuer "laurent.pinchart@ideasonboard.com"
+gpg: Can't check signature: No public key
 
-  git://linuxtv.org/pinchartl/media.git tags/uvc-next-20211201
+Summary: got 1/6 patches with issues, being 1 at build time
 
-for you to fetch changes up to 525214b072dbdddd3d40d6e061dc3714798e8e23:
+Error/warnings:
 
-  media: uvcvideo: Avoid returning invalid controls (2021-12-01 07:42:35 +0200)
+patches/0001-media-uvcvideo-Fix-memory-leak-of-object-map-on-erro.patch:
 
-----------------------------------------------------------------
-- uvcvideo fixes
+    allyesconfig: return code #0:
+	../scripts/genksyms/parse.y: warning: 9 shift/reduce conflicts [-Wconflicts-sr]
+	../scripts/genksyms/parse.y: warning: 5 reduce/reduce conflicts [-Wconflicts-rr]
+	../scripts/genksyms/parse.y: note: rerun with option '-Wcounterexamples' to generate conflict counterexamples
 
-----------------------------------------------------------------
-Colin Ian King (1):
-      media: uvcvideo: Fix memory leak of object map on error exit path
+    allyesconfig: return code #0:
+	../drivers/media/rc/meson-ir-tx.c:22: warning: expecting prototype for meson(). Prototype was for DEVICE_NAME() instead
+	SMATCH:../drivers/media/usb/siano/smsusb.c ../drivers/media/usb/siano/smsusb.c:53:38: :warning: array of flexible structures
+	SPARSE:../drivers/media/usb/siano/smsusb.c ../drivers/media/usb/siano/smsusb.c:53:38: warning: array of flexible structures
+	../drivers/media/i2c/ov8865.c: ../drivers/media/i2c/ov8865.c:2841 ov8865_get_selection() warn: inconsistent indenting
+	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2625 dvb_register() parse error: turning off implications after 60 seconds
+	../drivers/media/platform/qcom/venus/helpers.c: ../drivers/media/platform/qcom/venus/helpers.c:658 venus_helper_get_bufreq() error: we previously assumed 'req' could be null (see line 654)
 
-James Hilliard (1):
-      media: uvcvideo: Increase UVC_CTRL_CONTROL_TIMEOUT to 5 seconds.
-
-Johan Hovold (1):
-      media: uvcvideo: fix division by zero at stream start
-
-Ricardo Ribalda (3):
-      media: uvcvideo: Set the colorspace as sRGB if undefined
-      media: uvcvideo: Avoid invalid memory access
-      media: uvcvideo: Avoid returning invalid controls
-
- drivers/media/usb/uvc/uvc_ctrl.c   | 4 ++--
- drivers/media/usb/uvc/uvc_driver.c | 6 ++++--
- drivers/media/usb/uvc/uvc_v4l2.c   | 6 ++++--
- drivers/media/usb/uvc/uvc_video.c  | 4 ++++
- drivers/media/usb/uvc/uvcvideo.h   | 2 +-
- 5 files changed, 15 insertions(+), 7 deletions(-)
-
--- 
-Regards,
-
-Laurent Pinchart
