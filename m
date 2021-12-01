@@ -2,79 +2,71 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 132B046590A
-	for <lists+linux-media@lfdr.de>; Wed,  1 Dec 2021 23:19:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7A5C8465997
+	for <lists+linux-media@lfdr.de>; Wed,  1 Dec 2021 23:57:19 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1343684AbhLAWXH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 1 Dec 2021 17:23:07 -0500
-Received: from smtp07.smtpout.orange.fr ([80.12.242.129]:57412 "EHLO
-        smtp.smtpout.orange.fr" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1353535AbhLAWXG (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 1 Dec 2021 17:23:06 -0500
-Received: from pop-os.home ([86.243.171.122])
-        by smtp.orange.fr with ESMTPA
-        id sXx0ml9sL65jHsXx0mTXPr; Wed, 01 Dec 2021 23:19:43 +0100
-X-ME-Helo: pop-os.home
-X-ME-Auth: YWZlNiIxYWMyZDliZWIzOTcwYTEyYzlhMmU3ZiQ1M2U2MzfzZDfyZTMxZTBkMTYyNDBjNDJlZmQ3ZQ==
-X-ME-Date: Wed, 01 Dec 2021 23:19:43 +0100
-X-ME-IP: 86.243.171.122
-From:   Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-To:     sakari.ailus@linux.intel.com, laurent.pinchart@ideasonboard.com,
-        mchehab@kernel.org
-Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        kernel-janitors@vger.kernel.org,
-        Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-Subject: [PATCH] media: mc: mc-entity.c: Use bitmap_zalloc() when applicable
-Date:   Wed,  1 Dec 2021 23:19:40 +0100
-Message-Id: <b11f646dda189f490c06bf671f64a2cc0af4d45c.1638397089.git.christophe.jaillet@wanadoo.fr>
-X-Mailer: git-send-email 2.30.2
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+        id S234771AbhLAXAj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 1 Dec 2021 18:00:39 -0500
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:40978 "EHLO
+        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1353734AbhLAXAh (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 1 Dec 2021 18:00:37 -0500
+Received: from localhost.localdomain (unknown [IPv6:2a00:c281:1409:4a00:c103:6980:2c3:d021])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        (Authenticated sender: dafna)
+        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 3A7D41F45F91;
+        Wed,  1 Dec 2021 22:57:00 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=collabora.com; s=mail;
+        t=1638399421; bh=eTXEvigX2GVG5L2ru3lby/E+t5W6fFoFwv/vQONw3cM=;
+        h=From:To:Cc:Subject:Date:From;
+        b=dznbAO5FlPpOrNSvFavHD9u5wuw+NoY0UV13XEJlVolKd5Jrg3cyI7nqLg5cdoT+M
+         TUXVo47sHf2M0ypoVEo//2bKOekdh0NYn5sA/FC13yZ1CzZ031D6cauc7OGmz48CiR
+         azWR/P4/Kl+O7bVq3kHdeN3x1ow+/AOOcmcqVA2Vo7LjisQ3Qga1x3Zyt+txfwKHFF
+         h82Ck6RjMQN5elZoK/pyrGMEXftVex9eKRNT5i5NtmTw0HGpdKjYiP7fgku3NB0fd7
+         4CxO14LdqziC0FeIy0MJJC1vyYlROgDCiQm/8ibuzBpBaI51IgRBMNzgo24lQqeCqc
+         0oCnOJ/VeirTg==
+From:   Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+To:     linux-media@vger.kernel.org
+Cc:     Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
+        laurent.pinchart@ideasonboard.com, hverkuil@xs4all.nl,
+        kernel@collabora.com, dafna3@gmail.com,
+        sakari.ailus@linux.intel.com, mchehab@kernel.org
+Subject: [PATCH v3 0/2] media: videobuf2: make sure bytesused is smaller than the buffer size
+Date:   Thu,  2 Dec 2021 00:56:49 +0200
+Message-Id: <20211201225651.29830-1-dafna.hirschfeld@collabora.com>
+X-Mailer: git-send-email 2.17.1
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-'ent_enum->bmap' is a bitmap. So use 'bitmap_zalloc()' to simplify
-code, improve the semantic and avoid some open-coded arithmetic in
-allocator arguments.
+Add a WARN_ON_ONCE in vb2_set_plane_payload if bytesused is bigger than length
+and clamp the bytesused to length.
+Also change places where bytesused is set directly with that function.
+This help find/eliminate possible buffer overflow.
 
-Also change the corresponding 'kfree()' into 'bitmap_free()' to keep
-consistency.
+changes since v2:
+* Fix compilations issues on drivers/staging/media/meson/vdec/vdec_helpers.c
+* clamp the bytesused to the buffer length if it is bigger
+* update subject of second commit WARN_ON -> WARN_ON_ONCE
 
-While at it, remove a useless 'bitmap_zero()'.
+changes since v1:
+* replace WARN_ON with WARN_ON_ONCE
+* add inline doc
 
-Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
----
- drivers/media/mc/mc-entity.c | 6 ++----
- 1 file changed, 2 insertions(+), 4 deletions(-)
+Dafna Hirschfeld (2):
+  media: replace setting of bytesused with vb2_set_plane_payload
+  media: videobuf2: add WARN_ON_ONCE if bytesused is bigger than buffer
+    length
 
-diff --git a/drivers/media/mc/mc-entity.c b/drivers/media/mc/mc-entity.c
-index c02340698ad6..b411f9796191 100644
---- a/drivers/media/mc/mc-entity.c
-+++ b/drivers/media/mc/mc-entity.c
-@@ -48,12 +48,10 @@ __must_check int __media_entity_enum_init(struct media_entity_enum *ent_enum,
- 					  int idx_max)
- {
- 	idx_max = ALIGN(idx_max, BITS_PER_LONG);
--	ent_enum->bmap = kcalloc(idx_max / BITS_PER_LONG, sizeof(long),
--				 GFP_KERNEL);
-+	ent_enum->bmap = bitmap_zalloc(idx_max, GFP_KERNEL);
- 	if (!ent_enum->bmap)
- 		return -ENOMEM;
- 
--	bitmap_zero(ent_enum->bmap, idx_max);
- 	ent_enum->idx_max = idx_max;
- 
- 	return 0;
-@@ -62,7 +60,7 @@ EXPORT_SYMBOL_GPL(__media_entity_enum_init);
- 
- void media_entity_enum_cleanup(struct media_entity_enum *ent_enum)
- {
--	kfree(ent_enum->bmap);
-+	bitmap_free(ent_enum->bmap);
- }
- EXPORT_SYMBOL_GPL(media_entity_enum_cleanup);
- 
+ drivers/media/platform/allegro-dvt/allegro-core.c  |  2 +-
+ drivers/media/platform/mtk-vcodec/mtk_vcodec_enc.c | 10 +++++-----
+ drivers/media/test-drivers/vicodec/vicodec-core.c  |  2 +-
+ drivers/media/usb/go7007/go7007-driver.c           |  2 +-
+ drivers/staging/media/meson/vdec/vdec_helpers.c    | 10 +++++-----
+ include/media/videobuf2-core.h                     |  9 ++++++++-
+ 6 files changed, 21 insertions(+), 14 deletions(-)
+
 -- 
-2.30.2
+2.17.1
 
