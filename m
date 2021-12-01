@@ -2,133 +2,116 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B696B464F93
-	for <lists+linux-media@lfdr.de>; Wed,  1 Dec 2021 15:24:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id CD13B464FA4
+	for <lists+linux-media@lfdr.de>; Wed,  1 Dec 2021 15:29:00 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1349887AbhLAO2G (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 1 Dec 2021 09:28:06 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44046 "EHLO
+        id S243662AbhLAOcU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 1 Dec 2021 09:32:20 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44944 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233835AbhLAO2F (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 1 Dec 2021 09:28:05 -0500
-Received: from mail-pf1-x42f.google.com (mail-pf1-x42f.google.com [IPv6:2607:f8b0:4864:20::42f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E5206C061574;
-        Wed,  1 Dec 2021 06:24:44 -0800 (PST)
-Received: by mail-pf1-x42f.google.com with SMTP id b68so24585981pfg.11;
-        Wed, 01 Dec 2021 06:24:44 -0800 (PST)
+        with ESMTP id S1349922AbhLAOcH (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 1 Dec 2021 09:32:07 -0500
+Received: from mail-pl1-x634.google.com (mail-pl1-x634.google.com [IPv6:2607:f8b0:4864:20::634])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0B72DC06174A
+        for <linux-media@vger.kernel.org>; Wed,  1 Dec 2021 06:28:46 -0800 (PST)
+Received: by mail-pl1-x634.google.com with SMTP id v19so17833591plo.7
+        for <linux-media@vger.kernel.org>; Wed, 01 Dec 2021 06:28:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=+nqjIwk41+U9tH9eGUNa4mmueteq5RxG7HgTGB7HKEw=;
-        b=HRVy0Wi/A0TE+Qh4oMjxWCoWKpQGZrhJrwtLf3lCRLWtxw7zazcBWCI06PUQER51u8
-         B1sBrqfdc6icul15x5SAyP3YZ3ci45+7BJ4D3+pT+VKrnOXRYq/yzz+lU5DT6I7rVY4y
-         Jzcei8vdj34llKWyPIlfvLeFqyIdau178sqjCjd/dg+BwGENCATh4sBo7UtjIgAePt1i
-         flha/MzqVGioxlvGRQbBVnZiLtpkT9rdbqP1b4twmtYtJfFkh+ZQXBRt3rrWQDf6LiRv
-         sX5w02bqE2WAjHcFGu9eFo6IBV9LKkeB/nIKxJ6w8r5fovjohhQ+jN1esM0qRKoVJLzD
-         7kqw==
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :user-agent:mime-version:content-transfer-encoding;
+        bh=rY2VF/AmOobD5q304Y/BhvqBvgYCL9pl956RNeRID/0=;
+        b=A04yRCnYLLzXAZHjEOqaOHSfT/CGiw7Z8xHRKn1MI4H6cs0wlVuwUYCUbe2mkWox/R
+         kSSD0BEU/a+pT8edLRfM//AX4h3srPN59jGmUxHGKMsq4dPTnrctuULcglxOG1cybCC4
+         glulXma7KW/+Scytz6jbbx77veeGI7Ayd8vlg+Az5yy7mtK/SnxmrmPCkuY7pcHfjHxb
+         4t7a+32HB8oiz8zbOascABE9o3WcdhiEH5nu1Dz7es9oFu9uVnG9nsKm1inOT3HL/ds3
+         h4yPsytjS2pG9sAt+0DJkuCrliC5pW5mHigzrpyR75PGdzzzVyulDXk7KtKfyvWLrl0k
+         oK5Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=+nqjIwk41+U9tH9eGUNa4mmueteq5RxG7HgTGB7HKEw=;
-        b=K9+Ndhp7mEA/hUoc/oOglhCGcbiwKkEb5wpLXlWxECSnXMNQY4ayKB3a/Z8SoBo1ul
-         kvtdx4EDIPEQKL5/sxfCqm2Pqh6rjTwlviWloI0d1gXlMAeYP4aYI1CJLrFlz4iMNN3k
-         3MGh0Qx54vsMsoskMZgS1P+W1HwBIIg+y1wGGUQ/7RpoH3h5j/gekvboKq+t/2EZcDNc
-         mhMiwrQmg1/JVcuaU2F0wRBpjAsYcK1Z0Ttgx3YV6YF/2L/kfANrUnJsNudMUU2A5R/G
-         xPxjbpBXgOyLX8Ibghr3LqpS0bADX8EG2umCVWrCRpcyYcoSXD244EAfnyIfZ9tS7kJ7
-         a8vQ==
-X-Gm-Message-State: AOAM5315XBy/FN4q8WL0Y6PE5vj/64ib04qpgQ7zeq6sXvQsO7mbtRWU
-        TIofiLDI+5OM2nXA1nb0Tlk=
-X-Google-Smtp-Source: ABdhPJyhWQxVQrsZzaIFTMTAEpHxBdK84+D+Vb58aq+d8wtkU/Slp1916zxM0upFzx4h23XtLNMLzQ==
-X-Received: by 2002:a05:6a00:888:b0:4a8:56c:d2c with SMTP id q8-20020a056a00088800b004a8056c0d2cmr6578052pfj.40.1638368684323;
-        Wed, 01 Dec 2021 06:24:44 -0800 (PST)
-Received: from sbwpb-arch.flets-east.jp ([2400:4052:6980:3800:dba7:2b1f:3f26:a5ec])
-        by smtp.gmail.com with ESMTPSA id o7sm18293825pgq.59.2021.12.01.06.24.41
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=rY2VF/AmOobD5q304Y/BhvqBvgYCL9pl956RNeRID/0=;
+        b=v8BBFUKYNbVfc7/xQyG2neli4b778+FP+D6NcsnM19cYf0XyC1/c7cKiY+rTQjmZSJ
+         kBcWLb5uVk1R9b9rANIGOgSpjveNPTlZ3rTEUATfQYeIoh9w2Z+KEa+lDLz5pU5twKuR
+         EZ3Fmx3qG57oo/ejCeJbsDxUxH5UmwO2yEj4mFTJyqeO6Z3HC+VZPc/MG2WAgxGSy8wS
+         a3evAn0m2IudPB2u0JKFezx3zvw68vXggqRXXjuLiSwisWSTd3hMainCfxpMd6W9PDhA
+         TbuOnu55HKpphbz9YelroXJaw4d4mgfgnus/2VpC0NEujQQ1Evtka6IUQxWM72h77OdL
+         lIYg==
+X-Gm-Message-State: AOAM533RxjZ7sIFGjYR9mrPkphdJ5R9wNb0MXTIYKvv6COztIGsJzOtr
+        vtLUofXQyCAMT4zw6ja0iaA=
+X-Google-Smtp-Source: ABdhPJxpmVPH95wgAW6GCpxS8sRbgKa7qGqiVL3U7fX80LMMe8Cmqms/cD/f9RyMjwemmlQ1W+QLKw==
+X-Received: by 2002:a17:902:f551:b0:143:759c:6a30 with SMTP id h17-20020a170902f55100b00143759c6a30mr8148260plf.0.1638368925487;
+        Wed, 01 Dec 2021 06:28:45 -0800 (PST)
+Received: from ?IPv6:2400:4052:6980:3800:dba7:2b1f:3f26:a5ec? ([2400:4052:6980:3800:dba7:2b1f:3f26:a5ec])
+        by smtp.gmail.com with ESMTPSA id h3sm1564973pjz.43.2021.12.01.06.28.44
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 01 Dec 2021 06:24:43 -0800 (PST)
+        Wed, 01 Dec 2021 06:28:45 -0800 (PST)
+Message-ID: <0d2058ff36dd15cd4475d42891f1f7058db9cb6e.camel@gmail.com>
+Subject: Re: [bug report] media: atomisp: add NULL check for asd obtained
+ from atomisp_video_pipe
 From:   Tsuchiya Yuto <kitakar@gmail.com>
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
-        linux-kernel@vger.kernel.org
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Tsuchiya Yuto <kitakar@gmail.com>,
-        Dan Carpenter <dan.carpenter@oracle.com>
-Subject: [PATCH v1 1/1] media: atomisp: fix "variable dereferenced before check 'asd'"
-Date:   Wed,  1 Dec 2021 23:19:04 +0900
-Message-Id: <20211201141904.47231-1-kitakar@gmail.com>
-X-Mailer: git-send-email 2.34.1
+To:     Dan Carpenter <dan.carpenter@oracle.com>
+Cc:     linux-media@vger.kernel.org
+Date:   Wed, 01 Dec 2021 23:28:43 +0900
+In-Reply-To: <20211122074122.GA6581@kili>
+References: <20211122074122.GA6581@kili>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.42.1 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-There are two occurrences where the variable 'asd' is dereferenced
-before check. Fix this issue by using the variable after the check.
+On Mon, 2021-11-22 at 10:41 +0300, Dan Carpenter wrote:
+> Hello Tsuchiya Yuto,
+> 
+> This is a semi-automatic email about new static checker warnings.
+> 
+> The patch c10bcb13462e: "media: atomisp: add NULL check for asd 
+> obtained from atomisp_video_pipe" from Oct 18, 2021, leads to the 
+> following Smatch complaint:
+> 
+> drivers/staging/media/atomisp/pci/atomisp_ioctl.c:1188 __atomisp_reqbufs()
+> warn: variable dereferenced before check 'asd' (see line 1185)
+> drivers/staging/media/atomisp/pci/atomisp_cmd.c:5192 atomisp_set_fmt_to_isp()
+> warn: variable dereferenced before check 'asd' (see line 5188)
+> 
+> drivers/staging/media/atomisp/pci/atomisp_ioctl.c
+>   1175  int __atomisp_reqbufs(struct file *file, void *fh,
+>   1176                        struct v4l2_requestbuffers *req)
+>   1177  {
+>   1178          struct video_device *vdev = video_devdata(file);
+>   1179          struct atomisp_video_pipe *pipe = atomisp_to_video_pipe(vdev);
+>   1180          struct atomisp_sub_device *asd = pipe->asd;
+>   1181          struct ia_css_frame_info frame_info;
+>   1182          struct ia_css_frame *frame;
+>   1183          struct videobuf_vmalloc_memory *vm_mem;
+>   1184		u16 source_pad = atomisp_subdev_source_pad(vdev);
+>   1185		u16 stream_id = atomisp_source_pad_to_stream_id(asd, source_pad);
+>                                                                 ^^^
+> There is an unchecked dereference inside this function.
+> 
+>   1186		int ret = 0, i = 0;
+>   1187	
+>   1188		if (!asd) {
+>                     ^^^^
+> This new check is too late.
+> 
+>   1189			dev_err(pipe->isp->dev, "%s(): asd is NULL, device is %s\n",
+>   1190				__func__, vdev->name);
+> 
+> atomisp_set_fmt_to_isp() has the same thing.
+> 
+> regards,
+> dan carpenter
 
-Link: https://lore.kernel.org/linux-media/20211122074122.GA6581@kili/
-Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
-Signed-off-by: Tsuchiya Yuto <kitakar@gmail.com>
+Hello, thank you for pointing out this issue! For the record, patch sent
+as:
 
----
+	https://lore.kernel.org/linux-media/20211201141904.47231-1-kitakar@gmail.com/
+	("media: atomisp: fix "variable dereferenced before check 'asd'"")
 
-I didn't add the Fixes tag considering that the media_stage tree can
-be rebased. Here is the commit of the media_stage tree pointed out in
-the Link,
-
-	c10bcb13462e ("media: atomisp: add NULL check for asd obtained from atomisp_video_pipe")
-
-Can be applied on the top of media_stage tree.
----
- drivers/staging/media/atomisp/pci/atomisp_cmd.c   | 3 ++-
- drivers/staging/media/atomisp/pci/atomisp_ioctl.c | 3 ++-
- 2 files changed, 4 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/staging/media/atomisp/pci/atomisp_cmd.c b/drivers/staging/media/atomisp/pci/atomisp_cmd.c
-index 5a90cc31cd1a..97d5a528969b 100644
---- a/drivers/staging/media/atomisp/pci/atomisp_cmd.c
-+++ b/drivers/staging/media/atomisp/pci/atomisp_cmd.c
-@@ -5185,7 +5185,7 @@ static int atomisp_set_fmt_to_isp(struct video_device *vdev,
- 	int (*configure_pp_input)(struct atomisp_sub_device *asd,
- 				  unsigned int width, unsigned int height) =
- 				      configure_pp_input_nop;
--	u16 stream_index = atomisp_source_pad_to_stream_id(asd, source_pad);
-+	u16 stream_index;
- 	const struct atomisp_in_fmt_conv *fc;
- 	int ret, i;
- 
-@@ -5194,6 +5194,7 @@ static int atomisp_set_fmt_to_isp(struct video_device *vdev,
- 			__func__, vdev->name);
- 		return -EINVAL;
- 	}
-+	stream_index = atomisp_source_pad_to_stream_id(asd, source_pad);
- 
- 	v4l2_fh_init(&fh.vfh, vdev);
- 
-diff --git a/drivers/staging/media/atomisp/pci/atomisp_ioctl.c b/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
-index 562789c75299..8fd470efd658 100644
---- a/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
-+++ b/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
-@@ -1182,7 +1182,7 @@ int __atomisp_reqbufs(struct file *file, void *fh,
- 	struct ia_css_frame *frame;
- 	struct videobuf_vmalloc_memory *vm_mem;
- 	u16 source_pad = atomisp_subdev_source_pad(vdev);
--	u16 stream_id = atomisp_source_pad_to_stream_id(asd, source_pad);
-+	u16 stream_id;
- 	int ret = 0, i = 0;
- 
- 	if (!asd) {
-@@ -1190,6 +1190,7 @@ int __atomisp_reqbufs(struct file *file, void *fh,
- 			__func__, vdev->name);
- 		return -EINVAL;
- 	}
-+	stream_id = atomisp_source_pad_to_stream_id(asd, source_pad);
- 
- 	if (req->count == 0) {
- 		mutex_lock(&pipe->capq.vb_lock);
--- 
-2.34.1
-
+Regards,
+Tsuchiya Yuto
