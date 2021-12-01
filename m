@@ -2,57 +2,28 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A8A3F465546
-	for <lists+linux-media@lfdr.de>; Wed,  1 Dec 2021 19:22:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 755984655A7
+	for <lists+linux-media@lfdr.de>; Wed,  1 Dec 2021 19:37:55 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1352309AbhLAS0D (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 1 Dec 2021 13:26:03 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43592 "EHLO
+        id S1352525AbhLASlM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 1 Dec 2021 13:41:12 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47534 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1352315AbhLASZJ (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 1 Dec 2021 13:25:09 -0500
-Received: from mail-ed1-x52f.google.com (mail-ed1-x52f.google.com [IPv6:2a00:1450:4864:20::52f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EEB79C061574;
-        Wed,  1 Dec 2021 10:21:47 -0800 (PST)
-Received: by mail-ed1-x52f.google.com with SMTP id z5so40492617edd.3;
-        Wed, 01 Dec 2021 10:21:47 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=h+T52AWdajEU0KMwv7ankQCL42Q0SKJuFGlF6DjefnU=;
-        b=E985xw0Ej99Pw2939m+vR1Px+yO5KBMY2c7mm7AOxIRqqfIARSVGlqIP5YBbgaFb7U
-         GfO6NSHzyKu7bcpkx8ICbIwcuvVLu5bTZNOTFH/ZLkifZc66I1yAoqhzqZOcFGtEpYw9
-         OOhBf3PqlTYLATo2L54tInP2/4+wUY6/9lRTrMQM8Xr98oXu+4TZqp8H6X8UgcJPV9ma
-         rWbtHBV4hB2VlntELWamW0dIMFI5vDf0oq4RrHf7YP/NtJn59zdI0efYvI+DkkMpWQeQ
-         xzvAOoTRDf66VwgF4okHtmvaGa9FJUHIowYcJNMJUbsFmEVx+n5yhL8DFHVgzN9BqB5i
-         neIA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=h+T52AWdajEU0KMwv7ankQCL42Q0SKJuFGlF6DjefnU=;
-        b=Bv1skQBmhJblEXLJMf0YgVM/TEkP2SvZZPD/ckokTQtdOaU2e+0/wT0hirUlP/1ax/
-         CXf4SkBDbDFypXhcKVwNzmqUhOc3sr3DxrROHEhJuENDLDao2ghc7IuHTyVC3PGow+6I
-         QD11hwnkXqqu6E1laG2poCxammZ+coOpQhZDw75ql0Jd+WpPEaPCP6eujnyaT/eJnjtk
-         9SDOJ6i7Kmn9Ep4bUMrj4cGY4tIBkez+MsUmDXsa/nf6Q0qTiUbOIJnL7xUbEWhIwqAh
-         8B7r6HSd7Qt6M/c2PliYtlcu/ExP1k4NXk3cnebLrblkqtDtZwuvZVEpeu/4kQ70MpZf
-         wAfw==
-X-Gm-Message-State: AOAM533WQhQ8Kqh5Z5zx75+vCSYEH556ZQJvq8Hxv8QFM0DvJ9BocVkW
-        QYyrecO8BlPpvCI8gv0Ogr5z9MfNabtwPlTXRAmaQy2W9kk=
-X-Google-Smtp-Source: ABdhPJx38wxlFqFd6LdFixKPZiuITDYT98pgvSOnzhpA66LWC6Hxwz/OMW9UuWE7hqfT7oK1vulT3U5ZKepzY78Lw0E=
-X-Received: by 2002:a17:907:75f0:: with SMTP id jz16mr9210041ejc.77.1638382906154;
- Wed, 01 Dec 2021 10:21:46 -0800 (PST)
-MIME-Version: 1.0
-References: <20211201013329.15875-1-aford173@gmail.com> <CAJ+vNU1jENmWAR_5E98Vgb53ctxjxSWJewPW0YC4Yp4DuYTn3g@mail.gmail.com>
- <7216bc863d89faa9fdc5cd8d44c319f7a6d88159.camel@pengutronix.de>
-In-Reply-To: <7216bc863d89faa9fdc5cd8d44c319f7a6d88159.camel@pengutronix.de>
-From:   Adam Ford <aford173@gmail.com>
-Date:   Wed, 1 Dec 2021 12:21:34 -0600
-Message-ID: <CAHCN7xJevuZhwFwqAFiQxeV6=8iONmr1hwUF4QMfCFWDQ2Ve8A@mail.gmail.com>
+        with ESMTP id S1352071AbhLASlI (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 1 Dec 2021 13:41:08 -0500
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0F45DC061748
+        for <linux-media@vger.kernel.org>; Wed,  1 Dec 2021 10:37:41 -0800 (PST)
+Received: from gallifrey.ext.pengutronix.de ([2001:67c:670:201:5054:ff:fe8d:eefb] helo=[IPv6:::1])
+        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <l.stach@pengutronix.de>)
+        id 1msUU6-0003ZW-Rr; Wed, 01 Dec 2021 19:37:38 +0100
+Message-ID: <ccfc08bbb6ec0debd523bd106e7eff4a747aaa23.camel@pengutronix.de>
 Subject: Re: [RFC V2 0/2] arm64: imx8mm: Enable Hantro VPUs
-To:     Lucas Stach <l.stach@pengutronix.de>
-Cc:     Tim Harvey <tharvey@gateworks.com>,
+From:   Lucas Stach <l.stach@pengutronix.de>
+To:     Tim Harvey <tharvey@gateworks.com>
+Cc:     Adam Ford <aford173@gmail.com>,
         linux-media <linux-media@vger.kernel.org>,
         Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
         Hans Verkuil <hverkuil@xs4all.nl>,
@@ -67,122 +38,153 @@ Cc:     Tim Harvey <tharvey@gateworks.com>,
         Philipp Zabel <p.zabel@pengutronix.de>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        devicetree <devicetree@vger.kernel.org>,
-        arm-soc <linux-arm-kernel@lists.infradead.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Device Tree Mailing List <devicetree@vger.kernel.org>,
+        Linux ARM Mailing List <linux-arm-kernel@lists.infradead.org>,
+        open list <linux-kernel@vger.kernel.org>,
         "open list:HANTRO VPU CODEC DRIVER" 
         <linux-rockchip@lists.infradead.org>,
         "open list:STAGING SUBSYSTEM" <linux-staging@lists.linux.dev>
+Date:   Wed, 01 Dec 2021 19:37:34 +0100
+In-Reply-To: <CAJ+vNU2PxgdN414Ufd4NAG5CJgnftNSAHDGpt9Nj+RfgkNmxaw@mail.gmail.com>
+References: <20211201013329.15875-1-aford173@gmail.com>
+         <CAJ+vNU1jENmWAR_5E98Vgb53ctxjxSWJewPW0YC4Yp4DuYTn3g@mail.gmail.com>
+         <7216bc863d89faa9fdc5cd8d44c319f7a6d88159.camel@pengutronix.de>
+         <CAJ+vNU2PxgdN414Ufd4NAG5CJgnftNSAHDGpt9Nj+RfgkNmxaw@mail.gmail.com>
 Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.40.4 (3.40.4-1.fc34) 
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+X-SA-Exim-Connect-IP: 2001:67c:670:201:5054:ff:fe8d:eefb
+X-SA-Exim-Mail-From: l.stach@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-media@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Dec 1, 2021 at 11:32 AM Lucas Stach <l.stach@pengutronix.de> wrote:
->
-> Hi Tim,
->
-> Am Mittwoch, dem 01.12.2021 um 09:23 -0800 schrieb Tim Harvey:
-> > On Tue, Nov 30, 2021 at 5:33 PM Adam Ford <aford173@gmail.com> wrote:
-> > >
-> > > The i.MX8M has two Hantro video decoders, called G1 and G2 which appear
-> > > to be related to the video decoders used on the i.MX8MQ, but because of
-> > > how the Mini handles the power domains, the VPU driver does not need to
-> > > handle all the functions, nor does it support the post-processor,
-> > > so a new compatible flag is required.
-> > >
-> > > With the suggestion from Hans Verkuil, I was able to get the G2 splat to go away
-> > > with changes to FORCE_MAX_ZONEORDER, but I found I could also set cma=512M, however
-> > > it's unclear to me if that's an acceptable alternative.
-> > >
-> > > At the suggestion of Ezequiel Garcia and Nicolas Dufresne I have some
-> > > results from Fluster. However, the G2 VPU appears to fail most tests.
-> > >
-> > > ./fluster.py run -dGStreamer-H.264-V4L2SL-Gst1.0
-> > > Ran 90/135 tests successfully               in 76.431 secs
-> > >
-> > >  ./fluster.py run -d GStreamer-VP8-V4L2SL-Gst1.0
-> > > Ran 55/61 tests successfully               in 21.454 secs
-> > >
-> > > ./fluster.py run -d GStreamer-VP9-V4L2SL-Gst1.0
-> > > Ran 0/303 tests successfully               in 20.016 secs
-> > >
-> > > Each day seems to show more and more G2 submissions, and gstreamer seems to be
-> > > still working on the VP9, so I am not sure if I should drop G2 as well.
-> > >
-> > >
-> > > Adam Ford (2):
-> > >   media: hantro: Add support for i.MX8M Mini
-> > >   arm64: dts: imx8mm: Enable VPU-G1 and VPU-G2
-> > >
-> > >  arch/arm64/boot/dts/freescale/imx8mm.dtsi   | 41 +++++++++++++++
-> > >  drivers/staging/media/hantro/hantro_drv.c   |  2 +
-> > >  drivers/staging/media/hantro/hantro_hw.h    |  2 +
-> > >  drivers/staging/media/hantro/imx8m_vpu_hw.c | 57 +++++++++++++++++++++
-> > >  4 files changed, 102 insertions(+)
-> > >
-> >
-> > Adam,
-> >
-> > That's for the patches!
-> >
-> > I tested just this series on top of v5.16-rc3 on an
-> > imx8mm-venice-gw73xx-0x and found that if I loop fluster I can end up
-> > getting a hang within 10 to 15 mins or so when imx8m_blk_ctrl_power_on
-> > is called for VPUMIX pd :
-> > while [ 1 ]; do uptime; ./fluster.py run -d GStreamer-VP8-V4L2SL-Gst1.0; done
-> > ...
-> > [  618.838436] imx-pgc imx-pgc-domain.6: failed to command PGC
-> > [  618.844407] imx8m-blk-ctrl 38330000.blk-ctrl: failed to power up bus domain
-> >
-> > I added prints in imx_pgc_power_{up,down} and
-> > imx8m_blk_ctrl_power_{on,off} to get some more context
-> > ...
-> > Ran 55/61 tests successfully               in 8.685 secs
-> >  17:16:34 up 17 min,  0 users,  load average: 3.97, 2.11, 0.93
-> > ********************************************************************************
-> > ********************
-> > Running test suite VP8-TEST-VECTORS with decoder GStreamer-VP8-V4L2SL-Gst1.0
-> > Using 4 parallel job(s)
-> > ********************************************************************************
-> > ********************
-> >
-> > [TEST SUITE      ] (DECODER                    ) TEST VECTOR               ... R
-> > ESULT
-> > ----------------------------------------------------------------------
-> > [ 1023.114806] imx8m_blk_ctrl_power_on vpublk-g1
-> > [ 1023.119669] imx_pgc_power_up vpumix
-> > [ 1023.124307] imx-pgc imx-pgc-domain.6: failed to command PGC
-> > [ 1023.130006] imx8m-blk-ctrl 38330000.blk-ctrl: failed to power up bus domain
-> >
-> > While this wouldn't be an issue with this series it does indicate we
-> > still have something racy in blk-ctrl. Can you reproduce this (and if
-> > not what kernel are you based on)? Perhaps you or Lucas have some
-> > ideas?
+Am Mittwoch, dem 01.12.2021 um 10:16 -0800 schrieb Tim Harvey:
+> On Wed, Dec 1, 2021 at 9:32 AM Lucas Stach <l.stach@pengutronix.de> wrote:
+> > 
+> > Hi Tim,
+> > 
+> > Am Mittwoch, dem 01.12.2021 um 09:23 -0800 schrieb Tim Harvey:
+> > > On Tue, Nov 30, 2021 at 5:33 PM Adam Ford <aford173@gmail.com> wrote:
+> > > > 
+> > > > The i.MX8M has two Hantro video decoders, called G1 and G2 which appear
+> > > > to be related to the video decoders used on the i.MX8MQ, but because of
+> > > > how the Mini handles the power domains, the VPU driver does not need to
+> > > > handle all the functions, nor does it support the post-processor,
+> > > > so a new compatible flag is required.
+> > > > 
+> > > > With the suggestion from Hans Verkuil, I was able to get the G2 splat to go away
+> > > > with changes to FORCE_MAX_ZONEORDER, but I found I could also set cma=512M, however
+> > > > it's unclear to me if that's an acceptable alternative.
+> > > > 
+> > > > At the suggestion of Ezequiel Garcia and Nicolas Dufresne I have some
+> > > > results from Fluster. However, the G2 VPU appears to fail most tests.
+> > > > 
+> > > > ./fluster.py run -dGStreamer-H.264-V4L2SL-Gst1.0
+> > > > Ran 90/135 tests successfully               in 76.431 secs
+> > > > 
+> > > >  ./fluster.py run -d GStreamer-VP8-V4L2SL-Gst1.0
+> > > > Ran 55/61 tests successfully               in 21.454 secs
+> > > > 
+> > > > ./fluster.py run -d GStreamer-VP9-V4L2SL-Gst1.0
+> > > > Ran 0/303 tests successfully               in 20.016 secs
+> > > > 
+> > > > Each day seems to show more and more G2 submissions, and gstreamer seems to be
+> > > > still working on the VP9, so I am not sure if I should drop G2 as well.
+> > > > 
+> > > > 
+> > > > Adam Ford (2):
+> > > >   media: hantro: Add support for i.MX8M Mini
+> > > >   arm64: dts: imx8mm: Enable VPU-G1 and VPU-G2
+> > > > 
+> > > >  arch/arm64/boot/dts/freescale/imx8mm.dtsi   | 41 +++++++++++++++
+> > > >  drivers/staging/media/hantro/hantro_drv.c   |  2 +
+> > > >  drivers/staging/media/hantro/hantro_hw.h    |  2 +
+> > > >  drivers/staging/media/hantro/imx8m_vpu_hw.c | 57 +++++++++++++++++++++
+> > > >  4 files changed, 102 insertions(+)
+> > > > 
+> > > 
+> > > Adam,
+> > > 
+> > > That's for the patches!
+> > > 
+> > > I tested just this series on top of v5.16-rc3 on an
+> > > imx8mm-venice-gw73xx-0x and found that if I loop fluster I can end up
+> > > getting a hang within 10 to 15 mins or so when imx8m_blk_ctrl_power_on
+> > > is called for VPUMIX pd :
+> > > while [ 1 ]; do uptime; ./fluster.py run -d GStreamer-VP8-V4L2SL-Gst1.0; done
+> > > ...
+> > > [  618.838436] imx-pgc imx-pgc-domain.6: failed to command PGC
+> > > [  618.844407] imx8m-blk-ctrl 38330000.blk-ctrl: failed to power up bus domain
+> > > 
+> > > I added prints in imx_pgc_power_{up,down} and
+> > > imx8m_blk_ctrl_power_{on,off} to get some more context
+> > > ...
+> > > Ran 55/61 tests successfully               in 8.685 secs
+> > >  17:16:34 up 17 min,  0 users,  load average: 3.97, 2.11, 0.93
+> > > ********************************************************************************
+> > > ********************
+> > > Running test suite VP8-TEST-VECTORS with decoder GStreamer-VP8-V4L2SL-Gst1.0
+> > > Using 4 parallel job(s)
+> > > ********************************************************************************
+> > > ********************
+> > > 
+> > > [TEST SUITE      ] (DECODER                    ) TEST VECTOR               ... R
+> > > ESULT
+> > > ----------------------------------------------------------------------
+> > > [ 1023.114806] imx8m_blk_ctrl_power_on vpublk-g1
+> > > [ 1023.119669] imx_pgc_power_up vpumix
+> > > [ 1023.124307] imx-pgc imx-pgc-domain.6: failed to command PGC
+> > > [ 1023.130006] imx8m-blk-ctrl 38330000.blk-ctrl: failed to power up bus domain
+> > > 
+> > > While this wouldn't be an issue with this series it does indicate we
+> > > still have something racy in blk-ctrl. Can you reproduce this (and if
+> > > not what kernel are you based on)? Perhaps you or Lucas have some
+> > > ideas?
+> > > 
+> > Did you have "[PATCH] soc: imx: gpcv2: Synchronously suspend MIX
+> > domains" applied when running those tests? It has only recently been
+> > picked up by Shawn and may have an influence on the bus domain
+> > behavior.
+> > 
+> 
+> Lucas,
+> 
+> Good point. I did have that originally before I started pruning down
+> to the bare minimum to reproduce the issue.
+> 
+> I added it back and now I have the following:
+> arm64: dts: imx8mm: Enable VPU-G1 and VPU-G2
+> media: hantro: Add support for i.MX8M Mini
+> soc: imx: gpcv2: keep i.MX8MM VPU-H1 bus clock active
+> soc: imx: gpcv2: Synchronously suspend MIX domains
+> Linux 5.16-rc3
+> 
+> Here's the latest with that patch:
+> ...
+> [VP8-TEST-VECTORS] (GStreamer-VP8-V4L2SL-Gst1.0)
+> vp80-00-comprehensive-007 ... Success
+> [  316.632373] imx8m_blk_ctrl_power_off vpublk-g1
+> [  316.636908] imx_pgc_power_down vpu-g1
+> [  316.640983] imx_pgc_power_down vpumix
+> [  316.756869] imx8m_blk_ctrl_power_on vpublk-g1
+> [  316.761360] imx_pgc_power_up vpumix
+> [  316.765985] imx-pgc imx-pgc-domain.6: failed to command PGC
+> [  316.772743] imx8m-blk-ctrl 38330000.blk-ctrl: failed to power up bus domain
+> ^^^ hang
 
-i have not seen an issue with my implementation, but used
-media-staging [1] for the last attempt to try to get as much of the
-latest hantro driver integration, although the VP9 stuff isn't quite
-ready yet on the g2-VPU
+Hm, I wonder if there's some broken error handling here somewhere, as a
+failure to power up a domain shouldn't lead to a hang.
 
-[1] - https://git.linuxtv.org/media_stage.git/log/drivers/staging/media/hantro
+However, that doesn't explain why the PGC isn't completing the request.
+Can you try to extend the timeout some more. Even though I think that
+1msec should already be generous. Can you dump the content of the
+GPC_PU_PGC_SW_PUP_REQ and GPC_A53_PU_PGC_PUP_STATUSn (all 3 of them)
+registers, when the failure condition is hit?
 
-> >
-> Did you have "[PATCH] soc: imx: gpcv2: Synchronously suspend MIX
-> domains" applied when running those tests? It has only recently been
-> picked up by Shawn and may have an influence on the bus domain
-> behavior.
+Regards,
+Lucas 
 
-I didn't know about this one either, so I'll try it.
-
-When I was attempting to read registers from the H1 vpu, I had to set
-"keep_clocks = true" for the H1 power domain or it would hang.  If the
-patch Lucas suggests doesn't work, you could try keeing the G1 or G2
-clocks on.  I believe it's already set for the vpumix, but the G1, G2
-and H1 clocks are not touched by the vpumix, just the
-IMX8MM_CLK_VPU_DEC_ROOT.
-
->
-> Regards,
-> Lucas
->
