@@ -2,65 +2,105 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 89679464A49
-	for <lists+linux-media@lfdr.de>; Wed,  1 Dec 2021 10:02:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 98DF6464A9A
+	for <lists+linux-media@lfdr.de>; Wed,  1 Dec 2021 10:28:09 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234311AbhLAJF3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 1 Dec 2021 04:05:29 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55524 "EHLO
+        id S1348228AbhLAJbY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 1 Dec 2021 04:31:24 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33088 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231720AbhLAJF3 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 1 Dec 2021 04:05:29 -0500
-Received: from mail-ed1-x541.google.com (mail-ed1-x541.google.com [IPv6:2a00:1450:4864:20::541])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 84B3FC061574
-        for <linux-media@vger.kernel.org>; Wed,  1 Dec 2021 01:02:08 -0800 (PST)
-Received: by mail-ed1-x541.google.com with SMTP id y12so98619989eda.12
-        for <linux-media@vger.kernel.org>; Wed, 01 Dec 2021 01:02:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:reply-to:from:date:message-id:subject:to
-         :content-transfer-encoding;
-        bh=MJP7wImtBDw8H4PK2aZ3ZntvFPd8o+wyHEJQi9qm7e4=;
-        b=aOlX4Qdv2VM+appd7RmDVba/eDI4enqHtuFAI47Lq8Pqiuen8Uwx7bnuv6lujtGabA
-         q7g+ZDcg0sqrbjcia/uVq24YwsGLxm+sXuztFvaqzH6CnpqBQMSmGeAVEh5vE6gbxmQO
-         8l4ReutuwQrHV9JRJLsSCf8TrMUKGKTkm5mb0Ny3xSAh3mekkC2ldOcY/Z/BgtAbHyX0
-         aiBhpUpLPzwR7njPk0P0vU6Xj2gnp1s603LlabEp8Q7wdRo9ijBDdFQ8xgSdh2ecE3DA
-         aSa8ugWbtZlorHTY30nlK6Rbb9Ktt7wnDYi3UIpmFqVMF6FwSawe55mtZo6jVVf1USyJ
-         KBdg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to:content-transfer-encoding;
-        bh=MJP7wImtBDw8H4PK2aZ3ZntvFPd8o+wyHEJQi9qm7e4=;
-        b=iLSx8yy3Ure/IpdI2JhewQ4tojFGLiR6WeS6LJiSgLu0zBXcVlqwno9OHB7Tfuj0uC
-         HtWiirpwqiWJ2aoHUc/+x+BT13qwwOhLptNiuCjn4BzXBuq339YnufLZGUfKHA7EHz2H
-         SPWrxZrrqJyOdFLazHJfOoI6Spi/ATMLnCv9r3pqHncI1WdIMdJZnKf9WjZbudNjE/g3
-         Y5PGWgPVsRnWFNgAHaGWt3VSVcHQ4/bdZdc8TnS93vXk2nrCy7Gz92dE7iyd2b8eGzvO
-         YobuJWTad1TQfTZSUCpYS3rWHwOrlsy4DjRrAzrBcwVx7NHXKT9/N7Xox3DeogeV/PUg
-         4dHw==
-X-Gm-Message-State: AOAM531Hidhuds5ExqwoSCaN7QQrRDk9OcdXxYl1L5/pfA34BQ5bB39l
-        dh4+Mn0URh/G6QYnIxKN66JpvRHCJr4udluFbeI=
-X-Google-Smtp-Source: ABdhPJyDPgbg+hS7TPs2H6xoyZrmf9mvSQlkVKSxsU1csAryqiaW5rtSsQKdrM2EZ3DO5ZDRBcihPRhVioHLlpFV1ng=
-X-Received: by 2002:a05:6402:516c:: with SMTP id d12mr6540448ede.391.1638349327020;
- Wed, 01 Dec 2021 01:02:07 -0800 (PST)
+        with ESMTP id S242304AbhLAJbX (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 1 Dec 2021 04:31:23 -0500
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3C530C061574;
+        Wed,  1 Dec 2021 01:28:03 -0800 (PST)
+Received: from [IPv6:2a01:e0a:120:3210:81b0:4101:d4f2:ecb7] (unknown [IPv6:2a01:e0a:120:3210:81b0:4101:d4f2:ecb7])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        (Authenticated sender: benjamin.gaignard)
+        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id D03FE1F456A8;
+        Wed,  1 Dec 2021 09:28:00 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=collabora.com; s=mail;
+        t=1638350881; bh=GOanvQHnMURC6UIEgHUa/+fTqbcJzEywsBQPZpD0MJA=;
+        h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
+        b=St1k4d/bgtbXVPjdtfbYA9aV4V9ZWSYVYtYwv4/c4FjJvQMSIbZKlzc18tl6VVxys
+         +9+W64Jyao7xM80jFjcykCzfwQDYjw89p7rBHr5qi0Cc1R05nxmVPzOT0jlpRb9rG9
+         6FBaB7Bag9wbRydqBhvX98QQGE9a6Xra6HO0xPpuZqDpIwqp6DeX9+mhrm8A+8cnl+
+         HvLVl0bZkut7JlsYbQhDgdZw4Nt7bFrJQEyef6DumdrKef6n2MMUspFScI6081vh7B
+         kaRZc9wY5l5YgSoO6GU2a0YWVRzaKeCyY+7HBAIl0LGQcQfDovjeL7PEXy/4stwN8y
+         kMEDbFLZRlL9g==
+Subject: Re: [RFC V2 0/2] arm64: imx8mm: Enable Hantro VPUs
+To:     Adam Ford <aford173@gmail.com>, linux-media@vger.kernel.org
+Cc:     ezequiel@vanguardiasur.com.ar, hverkuil@xs4all.nl,
+        tharvey@gateworks.com, nicolas@ndufresne.ca,
+        aford@beaconembedded.com, Rob Herring <robh+dt@kernel.org>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-kernel@vger.kernel.org, linux-rockchip@lists.infradead.org,
+        linux-staging@lists.linux.dev
+References: <20211201013329.15875-1-aford173@gmail.com>
+From:   Benjamin Gaignard <benjamin.gaignard@collabora.com>
+Message-ID: <a07677bc-0a18-c910-222d-d6faee3fe5a0@collabora.com>
+Date:   Wed, 1 Dec 2021 10:27:58 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 MIME-Version: 1.0
-Received: by 2002:a50:338e:0:0:0:0:0 with HTTP; Wed, 1 Dec 2021 01:02:06 -0800 (PST)
-Reply-To: jp2888322@gmail.com
-From:   Maria-Elisabeth_Schaeffler <aliadan223344@gmail.com>
-Date:   Wed, 1 Dec 2021 12:02:06 +0300
-Message-ID: <CAN19OtEM-fKgZgLGp5q7OPkAYtkmXt1o4_YTa=+XL5D0PjvA+w@mail.gmail.com>
-Subject: Re
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20211201013329.15875-1-aford173@gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
---=20
-Ich bin Maria-Elisabeth Schaeffler, Ihre Spende von 1.500.000,00 Euro ist
-noch verf=C3=BCgbar.E-Mail f=C3=BCr weitere Informationen
 
+Le 01/12/2021 à 02:33, Adam Ford a écrit :
+> The i.MX8M has two Hantro video decoders, called G1 and G2 which appear
+> to be related to the video decoders used on the i.MX8MQ, but because of
+> how the Mini handles the power domains, the VPU driver does not need to
+> handle all the functions, nor does it support the post-processor,
+> so a new compatible flag is required.
+>
+> With the suggestion from Hans Verkuil, I was able to get the G2 splat to go away
+> with changes to FORCE_MAX_ZONEORDER, but I found I could also set cma=512M, however
+> it's unclear to me if that's an acceptable alternative.
+>
+> At the suggestion of Ezequiel Garcia and Nicolas Dufresne I have some
+> results from Fluster. However, the G2 VPU appears to fail most tests.
+>
+> ./fluster.py run -dGStreamer-H.264-V4L2SL-Gst1.0
+> Ran 90/135 tests successfully               in 76.431 secs
+>
+>   ./fluster.py run -d GStreamer-VP8-V4L2SL-Gst1.0
+> Ran 55/61 tests successfully               in 21.454 secs
+>
+> ./fluster.py run -d GStreamer-VP9-V4L2SL-Gst1.0
+> Ran 0/303 tests successfully               in 20.016 secs
+>
+> Each day seems to show more and more G2 submissions, and gstreamer seems to be
+> still working on the VP9, so I am not sure if I should drop G2 as well.
 
-Gr=C3=BC=C3=9Fe
-Maria-Elisabeth_Schaeffler
+I think it is going in the good direction.
+I'm trying to do the same on IMX6MQ but still have hang issue on G2.
+
+Regards,
+Benjamin
+
+>
+> Adam Ford (2):
+>    media: hantro: Add support for i.MX8M Mini
+>    arm64: dts: imx8mm: Enable VPU-G1 and VPU-G2
+>
+>   arch/arm64/boot/dts/freescale/imx8mm.dtsi   | 41 +++++++++++++++
+>   drivers/staging/media/hantro/hantro_drv.c   |  2 +
+>   drivers/staging/media/hantro/hantro_hw.h    |  2 +
+>   drivers/staging/media/hantro/imx8m_vpu_hw.c | 57 +++++++++++++++++++++
+>   4 files changed, 102 insertions(+)
+>
