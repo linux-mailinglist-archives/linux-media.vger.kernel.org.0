@@ -2,122 +2,77 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E89E7464C98
-	for <lists+linux-media@lfdr.de>; Wed,  1 Dec 2021 12:31:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1C15A464CF3
+	for <lists+linux-media@lfdr.de>; Wed,  1 Dec 2021 12:34:51 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240554AbhLALeQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 1 Dec 2021 06:34:16 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60822 "EHLO
+        id S1349058AbhLALht (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 1 Dec 2021 06:37:49 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33584 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233238AbhLALd6 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 1 Dec 2021 06:33:58 -0500
-Received: from mail-pg1-x536.google.com (mail-pg1-x536.google.com [IPv6:2607:f8b0:4864:20::536])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D64F9C061574;
-        Wed,  1 Dec 2021 03:30:32 -0800 (PST)
-Received: by mail-pg1-x536.google.com with SMTP id l190so23273078pge.7;
-        Wed, 01 Dec 2021 03:30:32 -0800 (PST)
+        with ESMTP id S1349011AbhLALhi (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 1 Dec 2021 06:37:38 -0500
+Received: from mail-qv1-xf2b.google.com (mail-qv1-xf2b.google.com [IPv6:2607:f8b0:4864:20::f2b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5BF21C06179E
+        for <linux-media@vger.kernel.org>; Wed,  1 Dec 2021 03:34:11 -0800 (PST)
+Received: by mail-qv1-xf2b.google.com with SMTP id p3so14022341qvj.9
+        for <linux-media@vger.kernel.org>; Wed, 01 Dec 2021 03:34:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :user-agent:mime-version:content-transfer-encoding;
-        bh=dL2z4oREQdf8pZHNdec+/B6oXD8rfZzVKjnWJlVoW7U=;
-        b=Hnf789KxSxQqKdQmI5TCb23Bq9Lxa/dECuDLWVrOCBa6ng00E9ywwuShEvbkiwuaES
-         AAKwJHCtXLLvf/mCUceoSiRG+ojlU2Y249nhJJv9l1NfFqS+sgEH9GoCxyuLrG6s5Qa6
-         J965EHu5DTMsB2oO3eawNc2TRiX0RHAOMwdKxLdi7fjV51qBuDCtodygj8PG+Cazl7sZ
-         PlhQp+NeiUq8bhgDAlLFFsw1XFWIOKmBm8tryixeWFyCajYJ7NhpnorkvYu4k+O4KlCd
-         w7VHK8osgSsRtD1R955ylLBSIVtqqFH1BLr/OD7cIRSVB2FE+wGsBTmEm/caI+KarJIh
-         HV9g==
+        h=mime-version:sender:from:date:message-id:subject:to;
+        bh=l4J9Z+m4hmgZbWtQHlC70w1zjUmiI7wjClCwm6dHAnY=;
+        b=nKE9e+4jEQRb21OhoYPSbxPLfJ2IuSmNXU0U6wmcP4ykCacrWpdbtE0jjuz/hSLLGi
+         3CHjeG+lFmWzoULwCsmlhVFgDEk5dLFaYb51pw7bXGjZ9H8t0j91dP9aL17MRQYkMPZK
+         Snvty/Yp8/ZrWZr2EuFXHqBxUdbU8X39ik45viERJ1Dn7qW8BPCFp2vlafV2okU0kn5j
+         QPTIDY8QJSy8zAVbK10d6+AY0lky+mrQRAAg0uS1DacQStzD/dQtt/uBz/RlGIdZCai/
+         BHep24kmiLdl1nvBvHYMFonu8NoJvJlErv7lbZlg2+2c277BpkzmDA4WwPZoxzlIf0Mh
+         Af5g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=dL2z4oREQdf8pZHNdec+/B6oXD8rfZzVKjnWJlVoW7U=;
-        b=79txRsYBk+j49j8RgHs/x5EqjBKvJJWlREjjo2QbNzqEFxsLsDx+eYg4wzr1DT1RA+
-         peC+jsS/pXPgWTP77+l4NZbXOBvNTjxZg3X8CRGDdqeTfFX6rt+jxl/lD3VJw8Fa2fMw
-         mWPQvW9AJVNLOIH7kVioge7VxW7HEoj1Oj+Bne2moHJMP53T0nEB70dK7KqleB6gbm6I
-         VfBGzUslQUGQfCozPq+qGZa55ZvFTeHQJrp4Z1zA90JcBPTUjVajGey2btG/r0wmx+ds
-         s9kRg+gJ2q3lCBr1d7wu+7etlD7evQRjtCmvnOgBAM7bBzpFhMNCNn0ioZbreBaFpP9V
-         5TPA==
-X-Gm-Message-State: AOAM532GCiTXwWomBPihUuALtwYYbnPLenMrN/49gPFJq0oErWWbiruV
-        AzZTemOY0B12TTeUKhz32Ic=
-X-Google-Smtp-Source: ABdhPJwQ7C8eETxrUo+aWzjU7i5NGQdVt5o0edNs09T3PWyu9EnCcp/yGqBevaaYecftWeK4ZjmY3Q==
-X-Received: by 2002:a62:a108:0:b0:4a7:8982:4a48 with SMTP id b8-20020a62a108000000b004a789824a48mr5517227pff.44.1638358231749;
-        Wed, 01 Dec 2021 03:30:31 -0800 (PST)
-Received: from ?IPv6:2400:4052:6980:3800:dba7:2b1f:3f26:a5ec? ([2400:4052:6980:3800:dba7:2b1f:3f26:a5ec])
-        by smtp.gmail.com with ESMTPSA id i10sm1159010pjd.3.2021.12.01.03.30.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 01 Dec 2021 03:30:31 -0800 (PST)
-Message-ID: <02a92b97134db5a01f4231acdd38dcf12a4619b4.camel@gmail.com>
-Subject: Re: [PATCH 04/17] media: atomisp: pci: do not use err var when
- checking port validity for ISP2400
-From:   Tsuchiya Yuto <kitakar@gmail.com>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
-        linux-kernel@vger.kernel.org,
-        Nable <nable.maininbox@googlemail.com>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Fabio Aiuto <fabioaiuto83@gmail.com>,
-        "andrey.i.trufanov" <andrey.i.trufanov@gmail.com>,
-        Patrik Gfeller <patrik.gfeller@gmail.com>,
-        Hans de Goede <hdegoede@redhat.com>
-Date:   Wed, 01 Dec 2021 20:30:27 +0900
-In-Reply-To: <20211117222443.3d050caa@sal.lan>
-References: <20211017161958.44351-1-kitakar@gmail.com>
-         <20211017161958.44351-5-kitakar@gmail.com>
-         <20211026092637.196447aa@sal.lan>
-         <1a295721fd1f1e512cd54a659a250aef162bfb6f.camel@gmail.com>
-         <20211028123944.66c212c1@sal.lan>
-         <af7cdf9de020171567c2e75b713deb2ed073e4e3.camel@gmail.com>
-         <20211101141058.36ea2c8e@sal.lan>
-         <ab48bd8c69273e8b18ff652f3615b2698a777092.camel@gmail.com>
-         <20211111183812.0f33fdaa@sal.lan> <20211117222443.3d050caa@sal.lan>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.42.1 
+        h=x-gm-message-state:mime-version:sender:from:date:message-id:subject
+         :to;
+        bh=l4J9Z+m4hmgZbWtQHlC70w1zjUmiI7wjClCwm6dHAnY=;
+        b=GGHdgOJYX+mpIzAl6cnqw4nQ0F2g4A+eCXTmSQDJlcgWBe1rtqoRuNQPax2KvHs3Z9
+         dBj5220COeUyuCjLZsDMCoX7F0jRWD8jqYLeYm6DYowFyXb2dm5Uc8dmqNCPhI2xrs2D
+         /F5YMPlHl/+uZfvBJdshnhE1bEwnflafnWeZEMF6KWd2++Tnq5fYANu/DiWqKs+3sN6Z
+         qXU97nxM7bkR3ZM70yK1kOvcNj1c53UHGf0mVEfavnXvhE9Bje2cPmRmY3mih99HshwD
+         Wu3BGiXbs1r1nUlWDupRXVzNA/1HudsramIaAoV33gXKa1MnSCNEwSADFrWExLPMdDML
+         /fdA==
+X-Gm-Message-State: AOAM531ZpHpzUzB1dfV5ArCyVRtWr/YZkal09nMDFezs0wE3JmjLcRcn
+        n9llscCuaJSfIYEwoGv6dgvIDN42EjlNxEPF7N6mshLOvl0=
+X-Google-Smtp-Source: ABdhPJwK+H50pzFgfv5CJPfAwBzUdMqIKHh+Ckkuju2lG2knVlJrzqINPiiwPjc/Uz6xuSJez7Fkn5YZPcfa5CPpvro=
+X-Received: by 2002:a67:ef4d:: with SMTP id k13mr6266305vsr.4.1638358439020;
+ Wed, 01 Dec 2021 03:33:59 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+Sender: unitednationawardwinner@gmail.com
+Received: by 2002:ab0:6c55:0:0:0:0:0 with HTTP; Wed, 1 Dec 2021 03:33:58 -0800 (PST)
+From:   "Mrs. Orgil Baatar" <mrs.orgilbaatar21@gmail.com>
+Date:   Wed, 1 Dec 2021 03:33:58 -0800
+X-Google-Sender-Auth: uTQ_nfkzXaWGWaTWp1BSFqK3Ucs
+Message-ID: <CAJ4dHaSrD-X=xpfKNZV-hXSiMV6mNYrgy5vWCNkKm6iu5RQStg@mail.gmail.com>
+Subject: Your long awaited part payment of $2.5.000.00Usd
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-I'm really sorry about this delay recently. I can't spare much time now...
+Attention: Beneficiary, Your long awaited part payment of
+$2.5.000.00Usd (TWO MILLION FIVE Hundred Thousand United State
+Dollars) is ready for immediate release to you, and it was
+electronically credited into an ATM Visa Card for easy delivery.
 
-On Wed, 2021-11-17 at 22:24 +0000, Mauro Carvalho Chehab wrote:
-> Hi 
-> Em Thu, 11 Nov 2021 18:38:12 +0000
-> Mauro Carvalho Chehab <mchehab@kernel.org> escreveu:
-> 
-> > > The `ifdef ISP2401` was the result of merging two different version of
-> > > driver, added on the initial commit of upstreamed atomisp. And for the
-> > > `ifdef ISP2401`, I confirmed I can remove (almost [1]) all of them against
-> > > the initial commit of atomisp [2][3]
-> > > 
-> > > [1] here are the three exceptions:
-> > >     ("NOTE: ifdef ISP2400/ISP2401 usage in aero-atomisp")
-> > >     https://github.com/kitakar5525/linux-kernel/commit/1a8488cdd31ad38a3805824700b29d1e5213d3f2
-> > > 
-> > > [2] ("atomisp: pci: css2400: remove ISP2401 ifdefs")
-> > >     https://github.com/kitakar5525/linux-kernel/commit/dd6723fc5b9fe040e33b227b509a7e004243edce
-> > > [3] ("atomisp: pci: remove ISP2401 ifdefs for main pci driver")
-> > >     https://github.com/kitakar5525/linux-kernel/commit/1734341f84a96945af7635f6fff061db910f746f  
-> > 
-> > Ok, if there are more if/ifdef ISP2401 that, if reverted will keep the
-> > driver running with the firmware we're using, I'm all for it. Just send
-> > the patches ;-)
-> 
-> I went ahead and solved several INPUT_SYSTEM related ifdefs on a way
-> that it is compatible with Intel Aero firmware for the sh_css* files.
-> Except if I made any mistake, the ifdefs that are related to the
-> input system were already addressed.
-> 
-> I didn't notice any changes when running camorama on the PREVIEW
-> node. 
-> 
-> Please test. Feel free to submit fixup patches if needed.
+Your new Payment Reference No.- 6363836,
+Pin Code No: 1787
+Your Certificate of Merit Payment No: 05872,
 
-Thank you for your work. Just tried now and I also don't notice any
-issues so far with the latest media_stage tree.
+Your Names: |
+Address: |
 
-Regards,
-Tsuchiya Yuto
+Person to Contact:MR KELLY HALL the Director of the International
+Audit unit ATM Payment Center,
+
+Email: uba-bf@e-ubabf.com
+TELEPHONE: +226 64865611 You can whatsApp the bank
+
+Regards.
+Mrs ORGIL BAATAR
