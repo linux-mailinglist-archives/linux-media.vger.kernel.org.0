@@ -2,140 +2,114 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 41C17465C1E
-	for <lists+linux-media@lfdr.de>; Thu,  2 Dec 2021 03:24:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 618C7465C29
+	for <lists+linux-media@lfdr.de>; Thu,  2 Dec 2021 03:30:26 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1354675AbhLBC2R (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 1 Dec 2021 21:28:17 -0500
-Received: from mailgw01.mediatek.com ([60.244.123.138]:48416 "EHLO
-        mailgw01.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
-        with ESMTP id S231411AbhLBC2O (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 1 Dec 2021 21:28:14 -0500
-X-UUID: 0f68d2f4c5b24904ab84f28d041a0082-20211202
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
-        h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:From:Subject:Message-ID; bh=AHmsPye+oS64Ia2j1cF6tOC8bwi1WXzPgbpY1A+/Zes=;
-        b=gVwC207Hd9CF1d89Sv/Gp16WE5bj+VcaByiMs8DFovLK4rH5LIXQ4TMkP1uyjPtlcX7kBtpFLQPWYE4wbeeWawLqiQ5v+wHDzOmBogxXH8x4flv+U0QYeqvIrAYc0d3SrUZYI82eLMxB8uBZwlQPhTi895PkqGWPV++0LiKnRKg=;
-X-UUID: 0f68d2f4c5b24904ab84f28d041a0082-20211202
-Received: from mtkexhb02.mediatek.inc [(172.21.101.103)] by mailgw01.mediatek.com
-        (envelope-from <yunfei.dong@mediatek.com>)
-        (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
-        with ESMTP id 196802609; Thu, 02 Dec 2021 10:24:48 +0800
-Received: from mtkexhb01.mediatek.inc (172.21.101.102) by
- mtkmbs10n1.mediatek.inc (172.21.101.34) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- 15.2.792.15; Thu, 2 Dec 2021 10:24:47 +0800
-Received: from mtkcas11.mediatek.inc (172.21.101.40) by mtkexhb01.mediatek.inc
- (172.21.101.102) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Thu, 2 Dec
- 2021 10:24:46 +0800
-Received: from mhfsdcap04 (10.17.3.154) by mtkcas11.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Thu, 2 Dec 2021 10:24:45 +0800
-Message-ID: <a33337000556c17e7de0f1ffe43cf21f159b4582.camel@mediatek.com>
-Subject: Re: [PATCH v11, 01/19] media: mtk-vcodec: Get numbers of register
- bases from DT
-From:   "yunfei.dong@mediatek.com" <yunfei.dong@mediatek.com>
-To:     Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-        Alexandre Courbot <acourbot@chromium.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        "Tzung-Bi Shih" <tzungbi@chromium.org>,
-        Tiffany Lin <tiffany.lin@mediatek.com>,
-        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+        id S1349125AbhLBCdq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 1 Dec 2021 21:33:46 -0500
+Received: from mail-oi1-f173.google.com ([209.85.167.173]:41867 "EHLO
+        mail-oi1-f173.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1348605AbhLBCdp (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 1 Dec 2021 21:33:45 -0500
+Received: by mail-oi1-f173.google.com with SMTP id u74so52629997oie.8;
+        Wed, 01 Dec 2021 18:30:23 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=gi030Sz79EGCWfzgxZd89p5s7ym6D5RDx9CccXqOS1k=;
+        b=ARXRWmWQeaMCHAb6wcmxdf3FXev+aQfW60eGV9wUjFLJVUHHCp6qPirEiAc1/s3CrF
+         2AuF633pQyeTj3AfUfZIXFVHToHyardd8Hc8O9iR9Tn8FU2IB7uPuBrEh0igLJJSe8td
+         96FgmvNMtQgeUlv9UJD4W99EIp/TPBIiC9a/Gc4lLd/SlGKMKixsxT+AwcWRr0iAI1j2
+         5CATnpI/5UQXf4ugsDcfr0LwVdEUdH4oclrON/CMwAYcGiYHdkgGElMO3nfn9Evmtvbm
+         NUaFDxl0WnQ3QRK9ITt2aZxXGCXNiFldNRGA6/oRZ1LmI8mJYf6DS4nN5Y6MfOsmF4jL
+         rGwg==
+X-Gm-Message-State: AOAM5304Oit1b9yL9nxY/5AI7EMV3bLroWez3C01HZCAyAiCHYgyRRP0
+        JEN+AHcNM507PHlouJSWrw==
+X-Google-Smtp-Source: ABdhPJxXenqPM9jZB3dQkUM/t/9CdZXodiyKwmXMhSBogi3mdk56qxLWS+QuipYs5HEzrH34AOK/Lg==
+X-Received: by 2002:a05:6808:10d0:: with SMTP id s16mr2232422ois.0.1638412223104;
+        Wed, 01 Dec 2021 18:30:23 -0800 (PST)
+Received: from xps15.herring.priv (66-90-148-213.dyn.grandenetworks.net. [66.90.148.213])
+        by smtp.googlemail.com with ESMTPSA id w80sm702862oif.2.2021.12.01.18.30.22
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 01 Dec 2021 18:30:22 -0800 (PST)
+From:   Rob Herring <robh@kernel.org>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     devicetree@vger.kernel.org, Rui Miguel Silva <rmfrfs@gmail.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Tomasz Figa <tfiga@google.com>
-CC:     Hsin-Yi Wang <hsinyi@chromium.org>,
-        Fritz Koenig <frkoenig@chromium.org>,
-        Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        Irui Wang <irui.wang@mediatek.com>,
-        <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <srv_heupstream@mediatek.com>,
-        <linux-mediatek@lists.infradead.org>,
-        <Project_Global_Chrome_Upstream_Group@mediatek.com>
-Date:   Thu, 2 Dec 2021 10:24:44 +0800
-In-Reply-To: <5e350a02-eb4b-5080-8d13-fe01ccf5dd70@collabora.com>
-References: <20211129034201.5767-1-yunfei.dong@mediatek.com>
-         <20211129034201.5767-2-yunfei.dong@mediatek.com>
-         <5e350a02-eb4b-5080-8d13-fe01ccf5dd70@collabora.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+Subject: [PATCH] dt-bindings: media: nxp,imx7-mipi-csi2: Drop bad if/then schema
+Date:   Wed,  1 Dec 2021 20:30:21 -0600
+Message-Id: <20211202023021.3655384-1-robh@kernel.org>
+X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
-X-MTK:  N
-Content-Transfer-Encoding: base64
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-SGkgQmVuamFtaW4sDQoNClRoYW5rcyBmb3IgeW91ciBzdWdnZXN0aW9uLg0KT24gVHVlLCAyMDIx
-LTExLTMwIGF0IDE0OjIwICswMTAwLCBCZW5qYW1pbiBHYWlnbmFyZCB3cm90ZToNCj4gTGUgMjkv
-MTEvMjAyMSDDoCAwNDo0MSwgWXVuZmVpIERvbmcgYSDDqWNyaXQgOg0KPiA+IERpZmZlcmVudCBw
-bGF0Zm9ybSBtYXkgaGFzIGRpZmZlcmVudCBudW1iZXJzIG9mIHJlZ2lzdGVyIGJhc2VzLg0KPiA+
-IEdldHMgdGhlDQo+ID4gbnVtYmVycyBvZiByZWdpc3RlciBiYXNlcyBmcm9tIERUIChzaXplb2Yo
-dTMyKSAqIDQgYnl0ZXMgZm9yIGVhY2gpLg0KPiA+IA0KPiA+IFJldmlld2VkLWJ5OiBUenVuZy1C
-aSBTaGloPHR6dW5nYmlAZ29vZ2xlLmNvbT4NCj4gPiBTaWduZWQtb2ZmLWJ5OiBZdW5mZWkgRG9u
-ZyA8eXVuZmVpLmRvbmdAbWVkaWF0ZWsuY29tPg0KPiA+IC0tLQ0KPiA+ICAgLi4uL3BsYXRmb3Jt
-L210ay12Y29kZWMvbXRrX3Zjb2RlY19kZWNfZHJ2LmMgIHwgMzcNCj4gPiArKysrKysrKysrKysr
-Ky0tLS0tDQo+ID4gICAxIGZpbGUgY2hhbmdlZCwgMjggaW5zZXJ0aW9ucygrKSwgOSBkZWxldGlv
-bnMoLSkNCj4gPiANCj4gPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9tZWRpYS9wbGF0Zm9ybS9tdGst
-dmNvZGVjL210a192Y29kZWNfZGVjX2Rydi5jIA0KPiA+IGIvZHJpdmVycy9tZWRpYS9wbGF0Zm9y
-bS9tdGstdmNvZGVjL210a192Y29kZWNfZGVjX2Rydi5jDQo+ID4gaW5kZXggZTZlNmE4MjAzZWVi
-Li41OWNhZjIxNjMzNDkgMTAwNjQ0DQo+ID4gLS0tIGEvZHJpdmVycy9tZWRpYS9wbGF0Zm9ybS9t
-dGstdmNvZGVjL210a192Y29kZWNfZGVjX2Rydi5jDQo+ID4gKysrIGIvZHJpdmVycy9tZWRpYS9w
-bGF0Zm9ybS9tdGstdmNvZGVjL210a192Y29kZWNfZGVjX2Rydi5jDQo+ID4gQEAgLTc4LDYgKzc4
-LDMwIEBAIHN0YXRpYyBpcnFyZXR1cm5fdA0KPiA+IG10a192Y29kZWNfZGVjX2lycV9oYW5kbGVy
-KGludCBpcnEsIHZvaWQgKnByaXYpDQo+ID4gICAJcmV0dXJuIElSUV9IQU5ETEVEOw0KPiA+ICAg
-fQ0KPiA+ICAgDQo+ID4gK3N0YXRpYyBpbnQgbXRrX3Zjb2RlY19nZXRfcmVnX2Jhc2VzKHN0cnVj
-dCBtdGtfdmNvZGVjX2RldiAqZGV2KQ0KPiA+ICt7DQo+ID4gKwlzdHJ1Y3QgcGxhdGZvcm1fZGV2
-aWNlICpwZGV2ID0gZGV2LT5wbGF0X2RldjsNCj4gPiArCWludCByZWdfbnVtLCBpOw0KPiA+ICsN
-Cj4gPiArCS8qIFNpemVvZih1MzIpICogNCBieXRlcyBmb3IgZWFjaCByZWdpc3RlciBiYXNlLiAq
-Lw0KPiA+ICsJcmVnX251bSA9IG9mX3Byb3BlcnR5X2NvdW50X2VsZW1zX29mX3NpemUocGRldi0+
-ZGV2Lm9mX25vZGUsDQo+ID4gInJlZyIsDQo+ID4gKwkJc2l6ZW9mKHUzMikgKiA0KTsNCj4gDQo+
-IEl0IGxvb2tzIHN0cmFuZ2UgZm9yIG1lIHRvIGhhdmUgYSAicmVnIiBzaXplIGVxdWFsIHRvIHNp
-emVvZih1MzIpICoNCj4gNC4gVXN1YWxseQ0KPiB3ZSBtb3JlIHNlZSByZWcgc2l6ZSA9IHNpemVv
-Zih1MzIpLg0KPiANCkZvciB0aGUgZGVmaW5pdGlvbiBvZiByZWcgaW4gZHRzaSBpcyByZWcgPSA8
-MCAweDE2MDAwMDAwIDAgMHg4MDA+LA0KTmVlZCB0byB1c2luZyBzaXplb2YodTMyKSAqIDQsIG5v
-dCBzaXplb2YodTMyKS4NCj4gPiArCWlmIChyZWdfbnVtIDw9IDAgfHwgcmVnX251bSA+IE5VTV9N
-QVhfVkRFQ19SRUdfQkFTRSkgew0KPiANCj4gSWYgcmVnX251bSA9IE5VTV9NQVhfVkRFQ19SRUdf
-QkFTRSB5b3Ugd2lsbCBpdGVyYXRlIG91dCBvZiBib3VuZHMgb2YNCj4gZGV2LT5yZWdfYmFzZSBh
-cnJheS4NCj4gVGhhdCBuZXZlciBoYXBwZW5zIGJlY2F1c2UgZGV2LT5yZWdfYmFzZSBzaXplIGVx
-dWFsDQo+IE5VTV9NQVhfVkNPREVDX1JFR19CQVNFLg0KPiBUaGUgcXVlc3Rpb24gaXMgd2hhdCBp
-cyB0aGUgcmVhbCBuZWVkZWQgc2l6ZSBmb3IgZGV2LT5yZWdfYmFzZSBhcnJheQ0KPiA/IE5VTV9N
-QVhfVkRFQ19SRUdfQkFTRSBvcg0KPiBOVU1fTUFYX1ZDT0RFQ19SRUdfQkFTRSA/DQo+IA0KPiBO
-VU1fTUFYX1ZERUNfUkVHX0JBU0UgaXMgdXNlZCBmb3IgdmlkZW8gZGVjb2RlciwgYW5kDQo+IE5V
-TV9NQVhfVkNPREVDX1JFR19CQVNFIGlzIHVzZWQgZm9yIGVuY29kZXIuDQoNClRoZSBtYXggcmVn
-aXN0ZXIgbnVtYmVyIG9mIHZpZGVvIGRlY29kZXIgaXMgTlVNX01BWF9WREVDX1JFR19CQVNFLCBh
-bmQNCnRoZSByYW5nZXMgaXMgMCB+IE5VTV9NQVhfVkRFQ19SRUdfQkFTRSAtIDEuDQoNCj4gUmVn
-YXJkcywNCj4gQmVuamFtaW4NCj4gDQpCZXN0IFJlZ2FyZHMsDQpZdW5mZWkgRG9uZw0KPiA+ICsJ
-CWRldl9lcnIoJnBkZXYtPmRldiwgIkludmFsaWQgcmVnaXN0ZXIgcHJvcGVydHkgc2l6ZToNCj4g
-PiAlZFxuIiwgcmVnX251bSk7DQo+ID4gKwkJcmV0dXJuIC1FSU5WQUw7DQo+ID4gKwl9DQo+ID4g
-Kw0KPiA+ICsJZm9yIChpID0gMDsgaSA8IHJlZ19udW07IGkrKykgew0KPiA+ICsJCWRldi0+cmVn
-X2Jhc2VbaV0gPSBkZXZtX3BsYXRmb3JtX2lvcmVtYXBfcmVzb3VyY2UocGRldiwNCj4gPiBpKTsN
-Cj4gPiArCQlpZiAoSVNfRVJSKGRldi0+cmVnX2Jhc2VbaV0pKQ0KPiA+ICsJCQlyZXR1cm4gUFRS
-X0VSUihkZXYtPnJlZ19iYXNlW2ldKTsNCj4gPiArDQo+ID4gKwkJbXRrX3Y0bDJfZGVidWcoMiwg
-InJlZ1slZF0gYmFzZT0lcCIsIGksIGRldi0NCj4gPiA+cmVnX2Jhc2VbaV0pOw0KPiA+ICsJfQ0K
-PiA+ICsNCj4gPiArCXJldHVybiAwOw0KPiA+ICt9DQo+ID4gKw0KPiA+ICAgc3RhdGljIGludCBm
-b3BzX3Zjb2RlY19vcGVuKHN0cnVjdCBmaWxlICpmaWxlKQ0KPiA+ICAgew0KPiA+ICAgCXN0cnVj
-dCBtdGtfdmNvZGVjX2RldiAqZGV2ID0gdmlkZW9fZHJ2ZGF0YShmaWxlKTsNCj4gPiBAQCAtMjA2
-LDcgKzIzMCw3IEBAIHN0YXRpYyBpbnQgbXRrX3Zjb2RlY19wcm9iZShzdHJ1Y3QNCj4gPiBwbGF0
-Zm9ybV9kZXZpY2UgKnBkZXYpDQo+ID4gICAJc3RydWN0IHJlc291cmNlICpyZXM7DQo+ID4gICAJ
-cGhhbmRsZSBycHJvY19waGFuZGxlOw0KPiA+ICAgCWVudW0gbXRrX3Zjb2RlY19md190eXBlIGZ3
-X3R5cGU7DQo+ID4gLQlpbnQgaSwgcmV0Ow0KPiA+ICsJaW50IHJldDsNCj4gPiAgIA0KPiA+ICAg
-CWRldiA9IGRldm1fa3phbGxvYygmcGRldi0+ZGV2LCBzaXplb2YoKmRldiksIEdGUF9LRVJORUwp
-Ow0KPiA+ICAgCWlmICghZGV2KQ0KPiA+IEBAIC0yMzgsMTQgKzI2Miw5IEBAIHN0YXRpYyBpbnQg
-bXRrX3Zjb2RlY19wcm9iZShzdHJ1Y3QNCj4gPiBwbGF0Zm9ybV9kZXZpY2UgKnBkZXYpDQo+ID4g
-ICAJCWdvdG8gZXJyX2RlY19wbTsNCj4gPiAgIAl9DQo+ID4gICANCj4gPiAtCWZvciAoaSA9IDA7
-IGkgPCBOVU1fTUFYX1ZERUNfUkVHX0JBU0U7IGkrKykgew0KPiA+IC0JCWRldi0+cmVnX2Jhc2Vb
-aV0gPSBkZXZtX3BsYXRmb3JtX2lvcmVtYXBfcmVzb3VyY2UocGRldiwNCj4gPiBpKTsNCj4gPiAt
-CQlpZiAoSVNfRVJSKChfX2ZvcmNlIHZvaWQgKilkZXYtPnJlZ19iYXNlW2ldKSkgew0KPiA+IC0J
-CQlyZXQgPSBQVFJfRVJSKChfX2ZvcmNlIHZvaWQgKilkZXYtDQo+ID4gPnJlZ19iYXNlW2ldKTsN
-Cj4gPiAtCQkJZ290byBlcnJfcmVzOw0KPiA+IC0JCX0NCj4gPiAtCQltdGtfdjRsMl9kZWJ1Zygy
-LCAicmVnWyVkXSBiYXNlPSVwIiwgaSwgZGV2LQ0KPiA+ID5yZWdfYmFzZVtpXSk7DQo+ID4gLQl9
-DQo+ID4gKwlyZXQgPSBtdGtfdmNvZGVjX2dldF9yZWdfYmFzZXMoZGV2KTsNCj4gPiArCWlmIChy
-ZXQpDQo+ID4gKwkJZ290byBlcnJfcmVzOw0KPiA+ICAgDQo+ID4gICAJcmVzID0gcGxhdGZvcm1f
-Z2V0X3Jlc291cmNlKHBkZXYsIElPUkVTT1VSQ0VfSVJRLCAwKTsNCj4gPiAgIAlpZiAocmVzID09
-IE5VTEwpIHsNCg==
+The if/then schema for 'data-lanes' doesn't work as 'compatible' is at a
+different level than 'data-lanes'. To make it work, the if/then schema
+would have to be moved to the top level and then whole hierarchy of
+nodes down to 'data-lanes' created. I don't think it is worth the
+complexity to do that, so let's just drop it.
+
+The error in this schema is masked by a fixup in the tools causing the
+'allOf' to get overwritten. Removing the fixup as part of moving to
+json-schema draft 2019-09 revealed the issue:
+
+Documentation/devicetree/bindings/media/nxp,imx7-mipi-csi2.example.dt.yaml: mipi-csi@30750000: ports:port@0:endpoint:data-lanes:0: [1] is too short
+	From schema: /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/media/nxp,imx7-mipi-csi2.yaml
+Documentation/devicetree/bindings/media/nxp,imx7-mipi-csi2.example.dt.yaml: mipi-csi@32e30000: ports:port@0:endpoint:data-lanes:0: [1, 2, 3, 4] is too long
+	From schema: /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/media/nxp,imx7-mipi-csi2.yaml
+
+The if condition was always true because 'compatible' did not exist in
+'endpoint' node and a non-existent property is true for json-schema.
+
+Fixes: 85b62ff2cb97 ("media: dt-bindings: media: nxp,imx7-mipi-csi2: Add i.MX8MM support")
+Cc: Rui Miguel Silva <rmfrfs@gmail.com>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: Shawn Guo <shawnguo@kernel.org>
+Cc: Sascha Hauer <s.hauer@pengutronix.de>
+Cc: Pengutronix Kernel Team <kernel@pengutronix.de>
+Cc: Fabio Estevam <festevam@gmail.com>
+Cc: NXP Linux Team <linux-imx@nxp.com>
+Cc: linux-media@vger.kernel.org
+Cc: linux-arm-kernel@lists.infradead.org
+Signed-off-by: Rob Herring <robh@kernel.org>
+---
+ .../bindings/media/nxp,imx7-mipi-csi2.yaml           | 12 ------------
+ 1 file changed, 12 deletions(-)
+
+diff --git a/Documentation/devicetree/bindings/media/nxp,imx7-mipi-csi2.yaml b/Documentation/devicetree/bindings/media/nxp,imx7-mipi-csi2.yaml
+index 877183cf4278..cb8d2afe52f7 100644
+--- a/Documentation/devicetree/bindings/media/nxp,imx7-mipi-csi2.yaml
++++ b/Documentation/devicetree/bindings/media/nxp,imx7-mipi-csi2.yaml
+@@ -91,18 +91,6 @@ properties:
+             required:
+               - data-lanes
+ 
+-            allOf:
+-              - if:
+-                  properties:
+-                    compatible:
+-                      contains:
+-                        const: fsl,imx7-mipi-csi2
+-                then:
+-                  properties:
+-                    data-lanes:
+-                      items:
+-                        maxItems: 2
+-
+       port@1:
+         $ref: /schemas/graph.yaml#/properties/port
+         description:
+-- 
+2.32.0
 
