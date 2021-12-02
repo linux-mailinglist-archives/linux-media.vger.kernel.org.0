@@ -2,1435 +2,330 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 69CCB4661C2
-	for <lists+linux-media@lfdr.de>; Thu,  2 Dec 2021 11:52:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5069A4661CA
+	for <lists+linux-media@lfdr.de>; Thu,  2 Dec 2021 11:56:00 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1357059AbhLBK4J (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 2 Dec 2021 05:56:09 -0500
-Received: from ewsoutbound.kpnmail.nl ([195.121.94.168]:21916 "EHLO
-        ewsoutbound.kpnmail.nl" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1345816AbhLBK4I (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 2 Dec 2021 05:56:08 -0500
-X-KPN-MessageId: 5fab22ea-535c-11ec-8862-005056aba152
-Received: from smtp.kpnmail.nl (unknown [10.31.155.39])
-        by ewsoutbound.so.kpn.org (Halon) with ESMTPS
-        id 5fab22ea-535c-11ec-8862-005056aba152;
-        Thu, 02 Dec 2021 11:41:14 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=xs4all.nl; s=xs4all01;
-        h=content-type:mime-version:date:message-id:from:to:subject;
-        bh=RSGR6VaZYUbpD3rxQXKvG7wgfRvt2XkqU1qnz9Z65hY=;
-        b=lQ/a10PuiaMmO1WRY2+mIpTy+DLJOVd9l0zJ0kEqVwzdl4qCLrc372Ez98qKbuxsG35WhHUjig2r8
-         dlItqAQrUvjU7a5ASBZeIFFp2+LvXJYX8bUAQkZE5uGEusrPRvVbDf3jd3cWTz9ZihhcEvDNeobLuF
-         HInMFcsr97DygoDDmDi8uXeBCFjpXYOOoBLjbebE3ewVc9QXTujQlM+VLfC0GgSNcjE0GaU/p65QvA
-         t+eOXrKvc8ilgyJAMBATcvqfnmpwn2G1A1fbYFyQlretWR9gAO6EH3AVC5HLlO+cQV/cwhRt/4iJkf
-         lGiQvqFsjDcu+OuMAvcWfbvm3WSnXOA==
-X-KPN-VerifiedSender: No
-X-CMASSUN: 33|XJB7bwg5B6aUqGyxNtHEDzrikpAFPoKXIF7Z4ej8EUm9pFST9JZJRmhJM0GjULf
- i2aapDRQEb0A6sCKUCJIgXQ==
-X-Originating-IP: 193.91.129.219
-Received: from [192.168.2.10] (cdb815bc1.dhcp.as2116.net [193.91.129.219])
-        by smtp.xs4all.nl (Halon) with ESMTPSA
-        id 6d9a11e7-535c-11ec-81f5-005056ab7447;
-        Thu, 02 Dec 2021 11:41:39 +0100 (CET)
-Subject: Re: [PATCH v13 07/13] media: amphion: add v4l2 m2m vpu encoder
- stateful driver
-To:     Ming Qian <ming.qian@nxp.com>, mchehab@kernel.org,
-        shawnguo@kernel.org, robh+dt@kernel.org, s.hauer@pengutronix.de
-Cc:     kernel@pengutronix.de, festevam@gmail.com, linux-imx@nxp.com,
-        aisheng.dong@nxp.com, linux-media@vger.kernel.org,
-        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org
-References: <cover.1638263914.git.ming.qian@nxp.com>
- <99cdb4b6299839a8a165ab5de450bc2ba6655b98.1638263914.git.ming.qian@nxp.com>
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Message-ID: <f5688e33-f634-e40a-5b79-a987f1f25270@xs4all.nl>
-Date:   Thu, 2 Dec 2021 11:41:38 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Firefox/78.0 Thunderbird/78.14.0
+        id S1346015AbhLBK7U (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 2 Dec 2021 05:59:20 -0500
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:45534 "EHLO
+        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S240997AbhLBK7T (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 2 Dec 2021 05:59:19 -0500
+Received: from benjamin-XPS-13-9310.. (unknown [IPv6:2a01:e0a:120:3210:f817:8a6c:e399:d0b])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        (Authenticated sender: benjamin.gaignard)
+        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 5A9EA1F4637E;
+        Thu,  2 Dec 2021 10:55:56 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=collabora.com; s=mail;
+        t=1638442556; bh=HcXXaN6++Z9FlQCQjPJr0wVPL+Cjkdq2Zu9ZEDqGp1g=;
+        h=From:To:Cc:Subject:Date:From;
+        b=jXixW7giPD0K/M9P77vWtKN2HSEhZe7ACAXMlMJkIwORBu5vTPvsLgCFKOLYUuFay
+         F+Qtlrw6fCKUg7Q6Ppkvvug974CDf5g9v7RKbtKheC+0TDWSvU+6zLLQ22j5Fz2kEX
+         UQghj0EgLh97HDuRkk90ldndQ1cZN7b2dcZooJGCOBixhjuG7HQnqFqF8Km3FY9bd4
+         bjJNzRsr6gd34LCZNzSOKKe5kV96jecJJPlfKA7LXSxjkicwHKKRGZMAao9uXMMswG
+         sZNY9TDjdPbVnbTyWQ8ICDU8811V3COvYxiMlPZbr7E8Z+l17MX4akKNm1y/FeGwBl
+         dIaS2MMXbziLA==
+From:   Benjamin Gaignard <benjamin.gaignard@collabora.com>
+To:     ezequiel@vanguardiasur.com.ar, p.zabel@pengutronix.de,
+        mchehab@kernel.org, gregkh@linuxfoundation.org
+Cc:     linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
+        linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+        kernel@collabora.com,
+        Benjamin Gaignard <benjamin.gaignard@collabora.com>
+Subject: [PATCH] media: hantro: Make G2/HEVC use hantro_postproc_ops
+Date:   Thu,  2 Dec 2021 11:55:49 +0100
+Message-Id: <20211202105549.276572-1-benjamin.gaignard@collabora.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-In-Reply-To: <99cdb4b6299839a8a165ab5de450bc2ba6655b98.1638263914.git.ming.qian@nxp.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 30/11/2021 10:48, Ming Qian wrote:
-> This consists of video encoder implementation plus encoder controls.
-> 
-> Signed-off-by: Ming Qian <ming.qian@nxp.com>
-> Signed-off-by: Shijie Qin <shijie.qin@nxp.com>
-> Signed-off-by: Zhou Peng <eagle.zhou@nxp.com>
-> ---
->  drivers/media/platform/amphion/venc.c | 1351 +++++++++++++++++++++++++
->  1 file changed, 1351 insertions(+)
->  create mode 100644 drivers/media/platform/amphion/venc.c
-> 
-> diff --git a/drivers/media/platform/amphion/venc.c b/drivers/media/platform/amphion/venc.c
-> new file mode 100644
-> index 000000000000..468608a76b78
-> --- /dev/null
-> +++ b/drivers/media/platform/amphion/venc.c
-> @@ -0,0 +1,1351 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +/*
-> + * Copyright 2020-2021 NXP
-> + */
-> +
-> +#include <linux/init.h>
-> +#include <linux/interconnect.h>
-> +#include <linux/ioctl.h>
-> +#include <linux/list.h>
-> +#include <linux/kernel.h>
-> +#include <linux/module.h>
-> +#include <linux/delay.h>
-> +#include <linux/videodev2.h>
-> +#include <linux/ktime.h>
-> +#include <media/v4l2-device.h>
-> +#include <media/v4l2-event.h>
-> +#include <media/v4l2-mem2mem.h>
-> +#include <media/v4l2-ioctl.h>
-> +#include <media/videobuf2-v4l2.h>
-> +#include <media/videobuf2-dma-contig.h>
-> +#include <media/videobuf2-vmalloc.h>
-> +#include "vpu.h"
-> +#include "vpu_defs.h"
-> +#include "vpu_core.h"
-> +#include "vpu_helpers.h"
-> +#include "vpu_v4l2.h"
-> +#include "vpu_cmds.h"
-> +#include "vpu_rpc.h"
-> +
-> +#define VENC_OUTPUT_ENABLE	(1 << 0)
-> +#define VENC_CAPTURE_ENABLE	(1 << 1)
-> +#define VENC_ENABLE_MASK	(VENC_OUTPUT_ENABLE | VENC_CAPTURE_ENABLE)
-> +#define VENC_MAX_BUF_CNT	8
-> +
-> +struct venc_t {
-> +	struct vpu_encode_params params;
-> +	u32 request_key_frame;
-> +	u32 input_ready;
-> +	u32 cpb_size;
-> +	bool bitrate_change;
-> +
-> +	struct vpu_buffer enc[VENC_MAX_BUF_CNT];
-> +	struct vpu_buffer ref[VENC_MAX_BUF_CNT];
-> +	struct vpu_buffer act[VENC_MAX_BUF_CNT];
-> +	struct list_head frames;
-> +	u32 frame_count;
-> +	u32 encode_count;
-> +	u32 ready_count;
-> +	u32 enable;
-> +	u32 stopped;
-> +
-> +	u32 skipped_count;
-> +	u32 skipped_bytes;
-> +
-> +	wait_queue_head_t wq;
-> +};
-> +
-> +struct venc_frame_t {
-> +	struct list_head list;
-> +	struct vpu_enc_pic_info info;
-> +	u32 bytesused;
-> +	s64 timestamp;
-> +};
-> +
-> +static const struct vpu_format venc_formats[] = {
-> +	{
-> +		.pixfmt = V4L2_PIX_FMT_NV12M,
-> +		.num_planes = 2,
-> +		.type = V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE,
-> +	},
-> +	{
-> +		.pixfmt = V4L2_PIX_FMT_H264,
-> +		.num_planes = 1,
-> +		.type = V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE,
-> +	},
-> +	{0, 0, 0, 0},
-> +};
-> +
-> +static int venc_querycap(struct file *file, void *fh, struct v4l2_capability *cap)
-> +{
-> +	strscpy(cap->driver, "amphion-vpu", sizeof(cap->driver));
-> +	strscpy(cap->card, "amphion vpu encoder", sizeof(cap->card));
-> +	strscpy(cap->bus_info, "platform: amphion-vpu", sizeof(cap->bus_info));
-> +
-> +	return 0;
-> +}
-> +
-> +static int venc_enum_fmt(struct file *file, void *fh, struct v4l2_fmtdesc *f)
-> +{
-> +	struct vpu_inst *inst = to_inst(file);
-> +	const struct vpu_format *fmt;
-> +
-> +	memset(f->reserved, 0, sizeof(f->reserved));
-> +	fmt = vpu_helper_enum_format(inst, f->type, f->index);
-> +	if (!fmt)
-> +		return -EINVAL;
-> +
-> +	f->pixelformat = fmt->pixfmt;
-> +	f->flags = fmt->flags;
-> +
-> +	return 0;
-> +}
-> +
-> +static int venc_enum_framesizes(struct file *file, void *fh, struct v4l2_frmsizeenum *fsize)
-> +{
-> +	struct vpu_inst *inst = to_inst(file);
-> +	const struct vpu_core_resources *res;
-> +
-> +	if (!fsize || fsize->index)
-> +		return -EINVAL;
-> +
-> +	if (!vpu_helper_find_format(inst, 0, fsize->pixel_format))
-> +		return -EINVAL;
-> +
-> +	res = vpu_get_resource(inst);
-> +	if (!res)
-> +		return -EINVAL;
-> +	fsize->type = V4L2_FRMSIZE_TYPE_STEPWISE;
-> +	fsize->stepwise.max_width = res->max_width;
-> +	fsize->stepwise.max_height = res->max_height;
-> +	fsize->stepwise.min_width = res->min_width;
-> +	fsize->stepwise.min_height = res->min_height;
-> +	fsize->stepwise.step_width = res->step_width;
-> +	fsize->stepwise.step_height = res->step_height;
-> +
-> +	return 0;
-> +}
-> +
-> +static int venc_enum_frameintervals(struct file *file, void *fh, struct v4l2_frmivalenum *fival)
-> +{
-> +	struct vpu_inst *inst = to_inst(file);
-> +	const struct vpu_core_resources *res;
-> +
-> +	if (!fival || fival->index)
-> +		return -EINVAL;
-> +
-> +	if (!vpu_helper_find_format(inst, 0, fival->pixel_format))
-> +		return -EINVAL;
-> +
-> +	if (!fival->width || !fival->height)
-> +		return -EINVAL;
-> +
-> +	res = vpu_get_resource(inst);
-> +	if (!res)
-> +		return -EINVAL;
-> +	if (fival->width < res->min_width ||
-> +		fival->width > res->max_width ||
-> +		fival->height < res->min_height ||
-> +		fival->height > res->max_height)
-> +		return -EINVAL;
-> +
-> +	fival->type = V4L2_FRMIVAL_TYPE_CONTINUOUS;
-> +	fival->stepwise.min.numerator = 1;
-> +	fival->stepwise.min.denominator = USHRT_MAX;
-> +	fival->stepwise.max.numerator = USHRT_MAX;
-> +	fival->stepwise.max.denominator = 1;
-> +	fival->stepwise.step.numerator = 1;
-> +	fival->stepwise.step.denominator = 1;
-> +
-> +	return 0;
-> +}
-> +
-> +static int venc_g_fmt(struct file *file, void *fh, struct v4l2_format *f)
-> +{
-> +	struct vpu_inst *inst = to_inst(file);
-> +	struct venc_t *venc = inst->priv;
-> +	struct v4l2_pix_format_mplane *pixmp = &f->fmt.pix_mp;
-> +	struct vpu_format *cur_fmt;
-> +	int i;
-> +
-> +	cur_fmt = vpu_get_format(inst, f->type);
-> +
-> +	pixmp->pixelformat = cur_fmt->pixfmt;
-> +	pixmp->num_planes = cur_fmt->num_planes;
-> +	pixmp->width = cur_fmt->width;
-> +	pixmp->height = cur_fmt->height;
-> +	pixmp->field = cur_fmt->field;
-> +	pixmp->flags = cur_fmt->flags;
-> +	for (i = 0; i < pixmp->num_planes; i++) {
-> +		pixmp->plane_fmt[i].bytesperline = cur_fmt->bytesperline[i];
-> +		pixmp->plane_fmt[i].sizeimage = cur_fmt->sizeimage[i];
-> +	}
-> +
-> +	f->fmt.pix_mp.colorspace = venc->params.color.primaries;
-> +	f->fmt.pix_mp.xfer_func = venc->params.color.transfer;
-> +	f->fmt.pix_mp.ycbcr_enc = venc->params.color.matrix;
-> +	f->fmt.pix_mp.quantization = venc->params.color.full_range;
-> +
-> +	return 0;
-> +}
-> +
-> +static int venc_try_fmt(struct file *file, void *fh, struct v4l2_format *f)
-> +{
-> +	struct vpu_inst *inst = to_inst(file);
-> +
-> +	vpu_try_fmt_common(inst, f);
-> +
-> +	return 0;
-> +}
-> +
-> +static int venc_s_fmt(struct file *file, void *fh, struct v4l2_format *f)
-> +{
-> +	struct vpu_inst *inst = to_inst(file);
-> +	const struct vpu_format *fmt;
-> +	struct vpu_format *cur_fmt;
-> +	struct vb2_queue *q;
-> +	struct venc_t *venc = inst->priv;
-> +	struct v4l2_pix_format_mplane *pix_mp = &f->fmt.pix_mp;
-> +	int i;
-> +
-> +	q = v4l2_m2m_get_vq(inst->fh.m2m_ctx, f->type);
-> +	if (!q)
-> +		return -EINVAL;
-> +	if (vb2_is_streaming(q))
-> +		return -EBUSY;
-> +
-> +	fmt = vpu_try_fmt_common(inst, f);
-> +	if (!fmt)
-> +		return -EINVAL;
-> +
-> +	cur_fmt = vpu_get_format(inst, f->type);
-> +
-> +	cur_fmt->pixfmt = fmt->pixfmt;
-> +	cur_fmt->num_planes = fmt->num_planes;
-> +	cur_fmt->flags = fmt->flags;
-> +	cur_fmt->width = pix_mp->width;
-> +	cur_fmt->height = pix_mp->height;
-> +	for (i = 0; i < fmt->num_planes; i++) {
-> +		cur_fmt->sizeimage[i] = pix_mp->plane_fmt[i].sizeimage;
-> +		cur_fmt->bytesperline[i] = pix_mp->plane_fmt[i].bytesperline;
-> +	}
-> +
-> +	if (pix_mp->field != V4L2_FIELD_ANY)
-> +		cur_fmt->field = pix_mp->field;
-> +
-> +	if (V4L2_TYPE_IS_OUTPUT(f->type)) {
-> +		venc->params.input_format = cur_fmt->pixfmt;
-> +		venc->params.src_stride = cur_fmt->bytesperline[0];
-> +		venc->params.src_width = cur_fmt->width;
-> +		venc->params.src_height = cur_fmt->height;
-> +		venc->params.crop.left = 0;
-> +		venc->params.crop.top = 0;
-> +		venc->params.crop.width = cur_fmt->width;
-> +		venc->params.crop.height = cur_fmt->height;
-> +	} else {
-> +		venc->params.codec_format = cur_fmt->pixfmt;
-> +		venc->params.out_width = cur_fmt->width;
-> +		venc->params.out_height = cur_fmt->height;
-> +	}
-> +
-> +	if (V4L2_TYPE_IS_OUTPUT(f->type)) {
-> +		if (!vpu_color_check_primaries(pix_mp->colorspace)) {
-> +			venc->params.color.primaries = pix_mp->colorspace;
-> +			vpu_color_get_default(venc->params.color.primaries,
-> +						&venc->params.color.transfer,
-> +						&venc->params.color.matrix,
-> +						&venc->params.color.full_range);
-> +		}
-> +		if (!vpu_color_check_transfers(pix_mp->xfer_func))
-> +			venc->params.color.transfer = pix_mp->xfer_func;
-> +		if (!vpu_color_check_matrix(pix_mp->ycbcr_enc))
-> +			venc->params.color.matrix = pix_mp->ycbcr_enc;
-> +		if (!vpu_color_check_full_range(pix_mp->quantization))
-> +			venc->params.color.full_range = pix_mp->quantization;
-> +	}
-> +
-> +	pix_mp->colorspace = venc->params.color.primaries;
-> +	pix_mp->xfer_func = venc->params.color.transfer;
-> +	pix_mp->ycbcr_enc = venc->params.color.matrix;
-> +	pix_mp->quantization = venc->params.color.full_range;
-> +
-> +	return 0;
-> +}
-> +
-> +static int venc_g_parm(struct file *file, void *fh, struct v4l2_streamparm *parm)
-> +{
-> +	struct vpu_inst *inst = to_inst(file);
-> +	struct venc_t *venc = inst->priv;
-> +	struct v4l2_fract *timeperframe = &parm->parm.capture.timeperframe;
-> +
-> +	if (!parm)
-> +		return -EINVAL;
-> +
-> +	if (!vpu_helper_check_type(inst, parm->type))
-> +		return -EINVAL;
-> +
-> +	parm->parm.capture.capability = V4L2_CAP_TIMEPERFRAME;
-> +	parm->parm.capture.readbuffers = 0;
-> +	timeperframe->numerator = venc->params.frame_rate.numerator;
-> +	timeperframe->denominator = venc->params.frame_rate.denominator;
-> +
-> +	return 0;
-> +}
-> +
-> +static int venc_s_parm(struct file *file, void *fh, struct v4l2_streamparm *parm)
-> +{
-> +	struct vpu_inst *inst = to_inst(file);
-> +	struct venc_t *venc = inst->priv;
-> +	struct v4l2_fract *timeperframe = &parm->parm.capture.timeperframe;
-> +
-> +	if (!parm)
-> +		return -EINVAL;
-> +
-> +	if (!vpu_helper_check_type(inst, parm->type))
-> +		return -EINVAL;
-> +
-> +	if (!timeperframe->numerator)
-> +		timeperframe->numerator = venc->params.frame_rate.numerator;
-> +	if (!timeperframe->denominator)
-> +		timeperframe->denominator = venc->params.frame_rate.denominator;
-> +
-> +	venc->params.frame_rate.numerator = timeperframe->numerator;
-> +	venc->params.frame_rate.denominator = timeperframe->denominator;
-> +
-> +	vpu_helper_calc_coprime(&venc->params.frame_rate.numerator,
-> +				&venc->params.frame_rate.denominator);
+Use the postprocessor functions introduced by Hantro G2/VP9 codec series
+and remove duplicated buffer management.
+This allow Hantro G12/HEVC to produce NV12_4L4 and NV12.
 
-You can use this function instead: rational_best_approximation().
-See e.g. drivers/media/v4l2-core/v4l2-dv-timings.c.
+fluster score is 77/147 which equal to previous score.
+Note that since NV12_4L2 is the first pixel format enumerated by the
+driver fluster pipeline and it is well converted into I420 by 
+GStreamer's videoconvert.
 
-> +
-> +	parm->parm.capture.capability = V4L2_CAP_TIMEPERFRAME;
-> +	memset(parm->parm.capture.reserved,
-> +			0, sizeof(parm->parm.capture.reserved));
-> +
-> +	return 0;
-> +}
-> +
-> +static int venc_g_selection(struct file *file, void *fh, struct v4l2_selection *s)
-> +{
-> +	struct vpu_inst *inst = to_inst(file);
-> +	struct venc_t *venc = inst->priv;
-> +
-> +	if (s->type != V4L2_BUF_TYPE_VIDEO_OUTPUT && s->type != V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE)
-> +		return -EINVAL;
-> +
-> +	switch (s->target) {
-> +	case V4L2_SEL_TGT_CROP_DEFAULT:
-> +	case V4L2_SEL_TGT_CROP_BOUNDS:
-> +		s->r.left = 0;
-> +		s->r.top = 0;
-> +		s->r.width = inst->out_format.width;
-> +		s->r.height = inst->out_format.height;
-> +		break;
-> +	case V4L2_SEL_TGT_CROP:
-> +		s->r = venc->params.crop;
-> +		break;
-> +	default:
-> +		return -EINVAL;
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +static int venc_valid_crop(struct venc_t *venc, const struct vpu_core_resources *res)
-> +{
-> +	struct v4l2_rect *rect = NULL;
-> +	u32 min_width;
-> +	u32 min_height;
-> +	u32 src_width;
-> +	u32 src_height;
-> +
-> +	rect = &venc->params.crop;
-> +	min_width = res->min_width;
-> +	min_height = res->min_height;
-> +	src_width = venc->params.src_width;
-> +	src_height = venc->params.src_height;
-> +
-> +	if (rect->width == 0 || rect->height == 0)
-> +		return -EINVAL;
-> +	if (rect->left > src_width - min_width ||
-> +		rect->top > src_height - min_height)
-> +		return -EINVAL;
-> +
-> +	rect->width = min(rect->width, src_width - rect->left);
-> +	rect->width = max_t(u32, rect->width, min_width);
-> +
-> +	rect->height = min(rect->height, src_height - rect->top);
-> +	rect->height = max_t(u32, rect->height, min_height);
-> +
-> +	return 0;
-> +}
-> +
-> +static int venc_s_selection(struct file *file, void *fh, struct v4l2_selection *s)
-> +{
-> +	struct vpu_inst *inst = to_inst(file);
-> +	const struct vpu_core_resources *res;
-> +	struct venc_t *venc = inst->priv;
-> +
-> +	res = vpu_get_resource(inst);
-> +	if (!res)
-> +		return -EINVAL;
-> +
-> +	if (s->type != V4L2_BUF_TYPE_VIDEO_OUTPUT && s->type != V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE)
-> +		return -EINVAL;
-> +	if (s->target != V4L2_SEL_TGT_CROP)
-> +		return -EINVAL;
-> +
-> +	venc->params.crop.left = ALIGN(s->r.left, res->step_width);
-> +	venc->params.crop.top = ALIGN(s->r.top, res->step_height);
-> +	venc->params.crop.width = ALIGN(s->r.width, res->step_width);
-> +	venc->params.crop.height = ALIGN(s->r.height, res->step_height);
-> +	if (venc_valid_crop(venc, res)) {
-> +		venc->params.crop.left = 0;
-> +		venc->params.crop.top = 0;
-> +		venc->params.crop.width = venc->params.src_width;
-> +		venc->params.crop.height = venc->params.src_height;
-> +	}
-> +
-> +	inst->crop = venc->params.crop;
-> +
-> +	return 0;
-> +}
-> +
-> +static int venc_drain(struct vpu_inst *inst)
-> +{
-> +	struct venc_t *venc = inst->priv;
-> +	int ret;
-> +
-> +	if (inst->state != VPU_CODEC_STATE_DRAIN)
-> +		return 0;
-> +
-> +	if (v4l2_m2m_num_src_bufs_ready(inst->fh.m2m_ctx))
-> +		return 0;
-> +
-> +	if (!venc->input_ready)
-> +		return 0;
-> +
-> +	venc->input_ready = false;
-> +	vpu_trace(inst->dev, "[%d]\n", inst->id);
-> +	ret = vpu_session_stop(inst);
-> +	if (ret)
-> +		return ret;
-> +	inst->state = VPU_CODEC_STATE_STOP;
-> +	wake_up_all(&venc->wq);
-> +
-> +	return 0;
-> +}
-> +
-> +static int venc_request_eos(struct vpu_inst *inst)
-> +{
-> +	inst->state = VPU_CODEC_STATE_DRAIN;
-> +	venc_drain(inst);
-> +
-> +	return 0;
-> +}
-> +
-> +static int venc_encoder_cmd(struct file *file, void *fh, struct v4l2_encoder_cmd *cmd)
-> +{
-> +	struct vpu_inst *inst = to_inst(file);
-> +	int ret;
-> +
-> +	ret = v4l2_m2m_ioctl_try_encoder_cmd(file, fh, cmd);
-> +	if (ret)
-> +		return ret;
-> +
-> +	vpu_inst_lock(inst);
-> +	if (cmd->cmd == V4L2_ENC_CMD_STOP) {
-> +		if (inst->state == VPU_CODEC_STATE_DEINIT)
-> +			vpu_set_last_buffer_dequeued(inst);
-> +		else
-> +			venc_request_eos(inst);
-> +	}
-> +	vpu_inst_unlock(inst);
-> +
-> +	return 0;
-> +}
-> +
-> +static int venc_subscribe_event(struct v4l2_fh *fh, const struct v4l2_event_subscription *sub)
-> +{
-> +	switch (sub->type) {
-> +	case V4L2_EVENT_EOS:
-> +		return v4l2_event_subscribe(fh, sub, 0, NULL);
-> +	case V4L2_EVENT_CTRL:
-> +		return v4l2_ctrl_subscribe_event(fh, sub);
-> +	default:
-> +		return -EINVAL;
-> +	}
-> +}
-> +
-> +static const struct v4l2_ioctl_ops venc_ioctl_ops = {
-> +	.vidioc_querycap               = venc_querycap,
-> +	.vidioc_enum_fmt_vid_cap       = venc_enum_fmt,
-> +	.vidioc_enum_fmt_vid_out       = venc_enum_fmt,
-> +	.vidioc_enum_framesizes        = venc_enum_framesizes,
-> +	.vidioc_enum_frameintervals    = venc_enum_frameintervals,
-> +	.vidioc_g_fmt_vid_cap_mplane   = venc_g_fmt,
-> +	.vidioc_g_fmt_vid_out_mplane   = venc_g_fmt,
-> +	.vidioc_try_fmt_vid_cap_mplane = venc_try_fmt,
-> +	.vidioc_try_fmt_vid_out_mplane = venc_try_fmt,
-> +	.vidioc_s_fmt_vid_cap_mplane   = venc_s_fmt,
-> +	.vidioc_s_fmt_vid_out_mplane   = venc_s_fmt,
-> +	.vidioc_g_parm                 = venc_g_parm,
-> +	.vidioc_s_parm                 = venc_s_parm,
-> +	.vidioc_g_selection            = venc_g_selection,
-> +	.vidioc_s_selection            = venc_s_selection,
-> +	.vidioc_try_encoder_cmd        = v4l2_m2m_ioctl_try_encoder_cmd,
-> +	.vidioc_encoder_cmd            = venc_encoder_cmd,
-> +	.vidioc_subscribe_event        = venc_subscribe_event,
-> +	.vidioc_unsubscribe_event      = v4l2_event_unsubscribe,
-> +	.vidioc_reqbufs                = v4l2_m2m_ioctl_reqbufs,
-> +	.vidioc_querybuf               = v4l2_m2m_ioctl_querybuf,
-> +	.vidioc_create_bufs	       = v4l2_m2m_ioctl_create_bufs,
-> +	.vidioc_prepare_buf	       = v4l2_m2m_ioctl_prepare_buf,
-> +	.vidioc_qbuf                   = v4l2_m2m_ioctl_qbuf,
-> +	.vidioc_expbuf                 = v4l2_m2m_ioctl_expbuf,
-> +	.vidioc_dqbuf                  = v4l2_m2m_ioctl_dqbuf,
-> +	.vidioc_streamon               = v4l2_m2m_ioctl_streamon,
-> +	.vidioc_streamoff              = v4l2_m2m_ioctl_streamoff,
-> +};
-> +
-> +static int venc_op_s_ctrl(struct v4l2_ctrl *ctrl)
-> +{
-> +	struct vpu_inst *inst = ctrl_to_inst(ctrl);
-> +	struct venc_t *venc = inst->priv;
-> +	int ret = 0;
-> +
-> +	vpu_inst_lock(inst);
-> +	switch (ctrl->id) {
-> +	case V4L2_CID_MPEG_VIDEO_H264_PROFILE:
-> +		venc->params.profile = ctrl->val;
-> +		break;
-> +	case V4L2_CID_MPEG_VIDEO_H264_LEVEL:
-> +		venc->params.level = ctrl->val;
-> +		break;
-> +	case V4L2_CID_MPEG_VIDEO_BITRATE_MODE:
-> +		venc->params.rc_mode = ctrl->val;
-> +		break;
-> +	case V4L2_CID_MPEG_VIDEO_BITRATE:
-> +		if (ctrl->val != venc->params.bitrate)
-> +			venc->bitrate_change = true;
-> +		venc->params.bitrate = ctrl->val;
-> +		break;
-> +	case V4L2_CID_MPEG_VIDEO_GOP_SIZE:
-> +		venc->params.gop_length = ctrl->val;
-> +		break;
-> +	case V4L2_CID_MPEG_VIDEO_B_FRAMES:
-> +		venc->params.bframes = ctrl->val;
-> +		break;
-> +	case V4L2_CID_MPEG_VIDEO_H264_I_FRAME_QP:
-> +		venc->params.i_frame_qp = ctrl->val;
-> +		break;
-> +	case V4L2_CID_MPEG_VIDEO_H264_P_FRAME_QP:
-> +		venc->params.p_frame_qp = ctrl->val;
-> +		break;
-> +	case V4L2_CID_MPEG_VIDEO_H264_B_FRAME_QP:
-> +		venc->params.b_frame_qp = ctrl->val;
-> +		break;
-> +	case V4L2_CID_MPEG_VIDEO_FORCE_KEY_FRAME:
-> +		venc->request_key_frame = 1;
-> +		break;
-> +	case V4L2_CID_MPEG_VIDEO_H264_CPB_SIZE:
-> +		venc->cpb_size = ctrl->val * 1024;
-> +		break;
-> +	case V4L2_CID_MPEG_VIDEO_H264_VUI_SAR_ENABLE:
-> +		venc->params.sar.enable = ctrl->val;
-> +		break;
-> +	case V4L2_CID_MPEG_VIDEO_H264_VUI_SAR_IDC:
-> +		venc->params.sar.idc = ctrl->val;
-> +		break;
-> +	case V4L2_CID_MPEG_VIDEO_H264_VUI_EXT_SAR_WIDTH:
-> +		venc->params.sar.width = ctrl->val;
-> +		break;
-> +	case V4L2_CID_MPEG_VIDEO_H264_VUI_EXT_SAR_HEIGHT:
-> +		venc->params.sar.height = ctrl->val;
-> +		break;
-> +	case V4L2_CID_MPEG_VIDEO_HEADER_MODE:
-> +		break;
-> +	default:
-> +		ret = -EINVAL;
-> +		break;
-> +	}
-> +	vpu_inst_unlock(inst);
-> +
-> +	return ret;
-> +}
-> +
-> +static const struct v4l2_ctrl_ops venc_ctrl_ops = {
-> +	.s_ctrl = venc_op_s_ctrl,
-> +	.g_volatile_ctrl = vpu_helper_g_volatile_ctrl,
-> +};
-> +
-> +static int venc_ctrl_init(struct vpu_inst *inst)
-> +{
-> +	struct v4l2_ctrl *ctrl;
-> +	int ret;
-> +
-> +	ret = v4l2_ctrl_handler_init(&inst->ctrl_handler, 20);
-> +	if (ret)
-> +		return ret;
-> +
-> +	v4l2_ctrl_new_std_menu(&inst->ctrl_handler, &venc_ctrl_ops,
-> +			V4L2_CID_MPEG_VIDEO_H264_PROFILE,
-> +			V4L2_MPEG_VIDEO_H264_PROFILE_HIGH,
-> +			~((1 << V4L2_MPEG_VIDEO_H264_PROFILE_BASELINE) |
-> +			  (1 << V4L2_MPEG_VIDEO_H264_PROFILE_MAIN) |
-> +			  (1 << V4L2_MPEG_VIDEO_H264_PROFILE_HIGH)),
-> +			V4L2_MPEG_VIDEO_H264_PROFILE_HIGH);
-> +
-> +	v4l2_ctrl_new_std_menu(&inst->ctrl_handler, &venc_ctrl_ops,
-> +			V4L2_CID_MPEG_VIDEO_H264_LEVEL,
-> +			V4L2_MPEG_VIDEO_H264_LEVEL_5_1,
-> +			0x0,
-> +			V4L2_MPEG_VIDEO_H264_LEVEL_4_0);
-> +
-> +	v4l2_ctrl_new_std_menu(&inst->ctrl_handler, &venc_ctrl_ops,
-> +			V4L2_CID_MPEG_VIDEO_BITRATE_MODE,
-> +			V4L2_MPEG_VIDEO_BITRATE_MODE_CBR,
-> +			0x0,
-> +			V4L2_MPEG_VIDEO_BITRATE_MODE_CBR);
-> +
-> +	v4l2_ctrl_new_std(&inst->ctrl_handler, &venc_ctrl_ops,
-> +			V4L2_CID_MPEG_VIDEO_BITRATE,
-> +			BITRATE_MIN,
-> +			BITRATE_MAX,
-> +			BITRATE_STEP,
-> +			BITRATE_DEFAULT);
-> +
-> +	v4l2_ctrl_new_std(&inst->ctrl_handler, &venc_ctrl_ops,
-> +			V4L2_CID_MPEG_VIDEO_GOP_SIZE, 0, (1 << 16) - 1, 1, 30);
-> +
-> +	v4l2_ctrl_new_std(&inst->ctrl_handler, &venc_ctrl_ops,
-> +			V4L2_CID_MPEG_VIDEO_B_FRAMES, 0, 4, 1, 0);
-> +
-> +	v4l2_ctrl_new_std(&inst->ctrl_handler, &venc_ctrl_ops,
-> +			V4L2_CID_MPEG_VIDEO_H264_I_FRAME_QP, 1, 51, 1, 26);
-> +	v4l2_ctrl_new_std(&inst->ctrl_handler, &venc_ctrl_ops,
-> +			V4L2_CID_MPEG_VIDEO_H264_P_FRAME_QP, 1, 51, 1, 28);
-> +	v4l2_ctrl_new_std(&inst->ctrl_handler, &venc_ctrl_ops,
-> +			V4L2_CID_MPEG_VIDEO_H264_B_FRAME_QP, 1, 51, 1, 30);
-> +	v4l2_ctrl_new_std(&inst->ctrl_handler, &venc_ctrl_ops,
-> +			V4L2_CID_MPEG_VIDEO_FORCE_KEY_FRAME, 0, 0, 0, 0);
-> +	ctrl = v4l2_ctrl_new_std(&inst->ctrl_handler, &venc_ctrl_ops,
-> +			V4L2_CID_MIN_BUFFERS_FOR_CAPTURE, 1, 32, 1, 2);
-> +	if (ctrl)
-> +		ctrl->flags |= V4L2_CTRL_FLAG_VOLATILE;
-> +	ctrl = v4l2_ctrl_new_std(&inst->ctrl_handler, &venc_ctrl_ops,
-> +			V4L2_CID_MIN_BUFFERS_FOR_OUTPUT, 1, 32, 1, 2);
-> +	if (ctrl)
-> +		ctrl->flags |= V4L2_CTRL_FLAG_VOLATILE;
-> +
-> +	v4l2_ctrl_new_std(&inst->ctrl_handler, &venc_ctrl_ops,
-> +			V4L2_CID_MPEG_VIDEO_H264_CPB_SIZE, 64, 10240, 1, 1024);
-> +
-> +	v4l2_ctrl_new_std(&inst->ctrl_handler, &venc_ctrl_ops,
-> +			V4L2_CID_MPEG_VIDEO_H264_VUI_SAR_ENABLE, 0, 1, 1, 1);
-> +	v4l2_ctrl_new_std_menu(&inst->ctrl_handler, &venc_ctrl_ops,
-> +			V4L2_CID_MPEG_VIDEO_H264_VUI_SAR_IDC,
-> +			V4L2_MPEG_VIDEO_H264_VUI_SAR_IDC_EXTENDED,
-> +			0x0,
-> +			V4L2_MPEG_VIDEO_H264_VUI_SAR_IDC_1x1);
-> +	v4l2_ctrl_new_std(&inst->ctrl_handler, &venc_ctrl_ops,
-> +			V4L2_CID_MPEG_VIDEO_H264_VUI_EXT_SAR_WIDTH,
-> +			0, USHRT_MAX, 1, 1);
-> +	v4l2_ctrl_new_std(&inst->ctrl_handler, &venc_ctrl_ops,
-> +			V4L2_CID_MPEG_VIDEO_H264_VUI_EXT_SAR_HEIGHT,
-> +			0, USHRT_MAX, 1, 1);
-> +	v4l2_ctrl_new_std_menu(&inst->ctrl_handler, &venc_ctrl_ops,
-> +			V4L2_CID_MPEG_VIDEO_HEADER_MODE,
-> +			V4L2_MPEG_VIDEO_HEADER_MODE_JOINED_WITH_1ST_FRAME,
-> +			~(1 << V4L2_MPEG_VIDEO_HEADER_MODE_JOINED_WITH_1ST_FRAME),
-> +			V4L2_MPEG_VIDEO_HEADER_MODE_JOINED_WITH_1ST_FRAME);
-> +
-> +	ret = v4l2_ctrl_handler_setup(&inst->ctrl_handler);
-> +	if (ret) {
-> +		dev_err(inst->dev, "[%d] setup ctrls fail, ret = %d\n", inst->id, ret);
-> +		v4l2_ctrl_handler_free(&inst->ctrl_handler);
-> +		return ret;
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +static bool venc_check_ready(struct vpu_inst *inst, unsigned int type)
-> +{
-> +	struct venc_t *venc = inst->priv;
-> +
-> +	if (V4L2_TYPE_IS_OUTPUT(type)) {
-> +		if (vpu_helper_get_free_space(inst) < venc->cpb_size)
-> +			return false;
-> +		return venc->input_ready;
-> +	}
-> +
-> +	if (list_empty(&venc->frames))
-> +		return false;
-> +	return true;
-> +}
-> +
-> +static u32 venc_get_enable_mask(u32 type)
-> +{
-> +	if (V4L2_TYPE_IS_OUTPUT(type))
-> +		return VENC_OUTPUT_ENABLE;
-> +	else
-> +		return VENC_CAPTURE_ENABLE;
-> +}
-> +
-> +static void venc_set_enable(struct venc_t *venc, u32 type, int enable)
-> +{
-> +	u32 mask = venc_get_enable_mask(type);
-> +
-> +	if (enable)
-> +		venc->enable |= mask;
-> +	else
-> +		venc->enable &= ~mask;
-> +}
-> +
-> +static u32 venc_get_enable(struct venc_t *venc, u32 type)
-> +{
-> +	return venc->enable & venc_get_enable_mask(type);
-> +}
-> +
-> +static void venc_input_done(struct vpu_inst *inst)
-> +{
-> +	struct venc_t *venc = inst->priv;
-> +
-> +	vpu_inst_lock(inst);
-> +	venc->input_ready = true;
-> +	vpu_process_output_buffer(inst);
-> +	if (inst->state == VPU_CODEC_STATE_DRAIN)
-> +		venc_drain(inst);
-> +	vpu_inst_unlock(inst);
-> +}
-> +
-> +/*
-> + * It's hardware limitation, that there may be several bytes
-> + * redundant data at the beginning of frame.
-> + * For android platform, the redundant data may cause cts test fail
-> + * So driver will strip them
-> + */
-> +static int venc_precheck_encoded_frame(struct vpu_inst *inst, struct venc_frame_t *frame)
-> +{
-> +	struct venc_t *venc;
-> +	int skipped;
-> +
-> +	if (!inst || !frame || !frame->bytesused)
-> +		return -EINVAL;
-> +
-> +	venc = inst->priv;
-> +	skipped = vpu_helper_find_startcode(&inst->stream_buffer,
-> +				inst->cap_format.pixfmt,
-> +				frame->info.wptr - inst->stream_buffer.phys,
-> +				frame->bytesused);
-> +	if (skipped > 0) {
-> +		frame->bytesused -= skipped;
-> +		frame->info.wptr = vpu_helper_step_walk(&inst->stream_buffer,
-> +						frame->info.wptr, skipped);
-> +		venc->skipped_bytes += skipped;
-> +		venc->skipped_count++;
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +static int venc_get_one_encoded_frame(struct vpu_inst *inst,
-> +					struct venc_frame_t *frame,
-> +					struct vb2_v4l2_buffer *vbuf)
-> +{
-> +	struct venc_t *venc = inst->priv;
-> +	struct vpu_vb2_buffer *vpu_buf;
-> +
-> +	if (!vbuf)
-> +		return -EAGAIN;
-> +
-> +	if (!venc_get_enable(inst->priv, vbuf->vb2_buf.type)) {
-> +		v4l2_m2m_buf_done(vbuf, VB2_BUF_STATE_ERROR);
-> +		return 0;
-> +	}
-> +	vpu_buf = to_vpu_vb2_buffer(vbuf);
-> +	if (frame->bytesused > vbuf->vb2_buf.planes[0].length) {
-> +		v4l2_m2m_buf_done(vbuf, VB2_BUF_STATE_ERROR);
-> +		return -ENOMEM;
-> +	}
-> +
-> +	venc_precheck_encoded_frame(inst, frame);
-> +
-> +	if (frame->bytesused) {
-> +		u32 rptr = frame->info.wptr;
-> +		void *dst = vb2_plane_vaddr(&vbuf->vb2_buf, 0);
-> +
-> +		vpu_helper_copy_from_stream_buffer(&inst->stream_buffer,
-> +			&rptr, frame->bytesused, dst);
-> +		vpu_iface_update_stream_buffer(inst, rptr, 0);
-> +	}
-> +	vb2_set_plane_payload(&vbuf->vb2_buf, 0, frame->bytesused);
-> +	vbuf->sequence = frame->info.frame_id;
-> +	vbuf->vb2_buf.timestamp = frame->info.timestamp;
-> +	vbuf->field = inst->cap_format.field;
-> +	vbuf->flags |= frame->info.pic_type;
-> +	vpu_buf->state = VPU_BUF_STATE_IDLE;
-> +	dev_dbg(inst->dev, "[%d][OUTPUT TS]%32lld\n", inst->id, frame->info.timestamp);
-> +	v4l2_m2m_buf_done(vbuf, VB2_BUF_STATE_DONE);
-> +	venc->ready_count++;
-> +
-> +	if (vbuf->flags & V4L2_BUF_FLAG_KEYFRAME)
-> +		dev_dbg(inst->dev, "[%d][%d]key frame\n", inst->id, frame->info.frame_id);
-> +
-> +	return 0;
-> +}
-> +
-> +static int venc_get_encoded_frames(struct vpu_inst *inst)
-> +{
-> +	struct venc_t *venc;
-> +	struct venc_frame_t *frame;
-> +	struct venc_frame_t *tmp;
-> +
-> +	if (!inst || !inst->priv)
-> +		return -EINVAL;
-> +
-> +	venc = inst->priv;
-> +	list_for_each_entry_safe(frame, tmp, &venc->frames, list) {
-> +		if (venc_get_one_encoded_frame(inst, frame,
-> +					v4l2_m2m_dst_buf_remove(inst->fh.m2m_ctx)))
-> +			break;
-> +		list_del_init(&frame->list);
-> +		vfree(frame);
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +static int venc_frame_encoded(struct vpu_inst *inst, void *arg)
-> +{
-> +	struct vpu_enc_pic_info *info = arg;
-> +	struct venc_frame_t *frame;
-> +	struct venc_t *venc;
-> +	int ret = 0;
-> +
-> +	if (!inst || !info)
-> +		return -EINVAL;
-> +	venc = inst->priv;
-> +	frame = vzalloc(sizeof(*frame));
-> +	if (!frame)
-> +		return -ENOMEM;
-> +
-> +	memcpy(&frame->info, info, sizeof(frame->info));
-> +	frame->bytesused = info->frame_size;
-> +
-> +	vpu_inst_lock(inst);
-> +	list_add_tail(&frame->list, &venc->frames);
-> +	venc->encode_count++;
-> +	venc_get_encoded_frames(inst);
-> +	vpu_inst_unlock(inst);
-> +
-> +	return ret;
-> +}
-> +
-> +static void venc_buf_done(struct vpu_inst *inst, struct vpu_frame_info *frame)
-> +{
-> +	struct vb2_v4l2_buffer *vbuf;
-> +	struct vpu_vb2_buffer *vpu_buf;
-> +
-> +	if (!inst || !frame)
-> +		return;
-> +
-> +	vpu_inst_lock(inst);
-> +	if (!venc_get_enable(inst->priv, frame->type))
-> +		goto exit;
-> +	vbuf = vpu_find_buf_by_sequence(inst, frame->type, frame->sequence);
-> +	if (!vbuf) {
-> +		dev_err(inst->dev, "[%d] can't find buf: type %d, sequence %d\n",
-> +				inst->id, frame->type, frame->sequence);
-> +		goto exit;
-> +	}
-> +
-> +	vpu_buf = to_vpu_vb2_buffer(vbuf);
-> +	vpu_buf->state = VPU_BUF_STATE_IDLE;
-> +	if (V4L2_TYPE_IS_OUTPUT(frame->type))
-> +		v4l2_m2m_src_buf_remove_by_buf(inst->fh.m2m_ctx, vbuf);
-> +	else
-> +		v4l2_m2m_dst_buf_remove_by_buf(inst->fh.m2m_ctx, vbuf);
-> +	v4l2_m2m_buf_done(vbuf, VB2_BUF_STATE_DONE);
-> +exit:
-> +	vpu_inst_unlock(inst);
-> +}
-> +
-> +static void venc_set_last_buffer_dequeued(struct vpu_inst *inst)
-> +{
-> +	struct venc_t *venc = inst->priv;
-> +
-> +	if (venc->stopped && list_empty(&venc->frames))
-> +		vpu_set_last_buffer_dequeued(inst);
-> +}
-> +
-> +static void venc_stop_done(struct vpu_inst *inst)
-> +{
-> +	struct venc_t *venc = inst->priv;
-> +
-> +	vpu_inst_lock(inst);
-> +	venc->stopped = true;
-> +	venc_set_last_buffer_dequeued(inst);
-> +	vpu_inst_unlock(inst);
-> +
-> +	wake_up_all(&venc->wq);
-> +}
-> +
-> +static void venc_event_notify(struct vpu_inst *inst, u32 event, void *data)
-> +{
-> +}
-> +
-> +static void venc_release(struct vpu_inst *inst)
-> +{
-> +}
-> +
-> +static void venc_cleanup(struct vpu_inst *inst)
-> +{
-> +	struct venc_t *venc;
-> +
-> +	if (!inst)
-> +		return;
-> +
-> +	venc = inst->priv;
-> +	if (venc)
-> +		vfree(venc);
-> +	inst->priv = NULL;
-> +	vfree(inst);
-> +}
-> +
-> +static int venc_start_session(struct vpu_inst *inst, u32 type)
-> +{
-> +	struct venc_t *venc = inst->priv;
-> +	int stream_buffer_size;
-> +	int ret;
-> +
-> +	venc_set_enable(venc, type, 1);
-> +	if ((venc->enable & VENC_ENABLE_MASK) != VENC_ENABLE_MASK)
-> +		return 0;
-> +
-> +	vpu_iface_init_instance(inst);
-> +	stream_buffer_size = vpu_iface_get_stream_buffer_size(inst->core);
-> +	if (stream_buffer_size > 0) {
-> +		inst->stream_buffer.length = max_t(u32, stream_buffer_size, venc->cpb_size * 3);
-> +		ret = vpu_alloc_dma(inst->core, &inst->stream_buffer);
-> +		if (ret)
-> +			goto error;
-> +
-> +		inst->use_stream_buffer = true;
-> +		vpu_iface_config_stream_buffer(inst, &inst->stream_buffer);
-> +	}
-> +
-> +	ret = vpu_iface_set_encode_params(inst, &venc->params, 0);
-> +	if (ret)
-> +		goto error;
-> +	ret = vpu_session_configure_codec(inst);
-> +	if (ret)
-> +		goto error;
-> +
-> +	inst->state = VPU_CODEC_STATE_CONFIGURED;
-> +	/*vpu_iface_config_memory_resource*/
-> +
-> +	/*config enc expert mode parameter*/
-> +	ret = vpu_iface_set_encode_params(inst, &venc->params, 1);
-> +	if (ret)
-> +		goto error;
-> +
-> +	ret = vpu_session_start(inst);
-> +	if (ret)
-> +		goto error;
-> +	inst->state = VPU_CODEC_STATE_STARTED;
-> +
-> +	venc->bitrate_change = false;
-> +	venc->input_ready = true;
-> +	venc->frame_count = 0;
-> +	venc->encode_count = 0;
-> +	venc->ready_count = 0;
-> +	venc->stopped = false;
-> +	vpu_process_output_buffer(inst);
-> +	if (venc->frame_count == 0)
-> +		dev_err(inst->dev, "[%d] there is no input when starting\n", inst->id);
-> +
-> +	return 0;
-> +error:
-> +	venc_set_enable(venc, type, 0);
-> +	inst->state = VPU_CODEC_STATE_DEINIT;
-> +
-> +	vpu_free_dma(&inst->stream_buffer);
-> +	return ret;
-> +}
-> +
-> +static void venc_cleanup_mem_resource(struct vpu_inst *inst)
-> +{
-> +	struct venc_t *venc;
-> +	u32 i;
-> +
-> +	WARN_ON(!inst || !inst->priv);
-> +
-> +	venc = inst->priv;
-> +
-> +	for (i = 0; i < ARRAY_SIZE(venc->enc); i++)
-> +		vpu_free_dma(&venc->enc[i]);
-> +	for (i = 0; i < ARRAY_SIZE(venc->ref); i++)
-> +		vpu_free_dma(&venc->ref[i]);
-> +	for (i = 0; i < ARRAY_SIZE(venc->act); i++)
-> +		vpu_free_dma(&venc->act[i]);
-> +}
-> +
-> +static void venc_request_mem_resource(struct vpu_inst *inst,
-> +				u32 enc_frame_size,
-> +				u32 enc_frame_num,
-> +				u32 ref_frame_size,
-> +				u32 ref_frame_num,
-> +				u32 act_frame_size,
-> +				u32 act_frame_num)
-> +{
-> +	struct venc_t *venc;
-> +	u32 i;
-> +	int ret;
-> +
-> +	WARN_ON(!inst || !inst->priv || !inst->core);
-> +
-> +	venc = inst->priv;
-> +
-> +	if (enc_frame_num > ARRAY_SIZE(venc->enc)) {
-> +		dev_err(inst->dev, "[%d] enc num(%d) is out of range\n",
-> +				inst->id, enc_frame_num);
-> +		return;
-> +	}
-> +	if (ref_frame_num > ARRAY_SIZE(venc->ref)) {
-> +		dev_err(inst->dev, "[%d] ref num(%d) is out of range\n",
-> +				inst->id, ref_frame_num);
-> +		return;
-> +	}
-> +	if (act_frame_num > ARRAY_SIZE(venc->act)) {
-> +		dev_err(inst->dev, "[%d] act num(%d) is out of range\n",
-> +				inst->id, act_frame_num);
-> +		return;
-> +	}
-> +
-> +	for (i = 0; i < enc_frame_num; i++) {
-> +		venc->enc[i].length = enc_frame_size;
-> +		ret = vpu_alloc_dma(inst->core, &venc->enc[i]);
-> +		if (ret) {
-> +			venc_cleanup_mem_resource(inst);
-> +			return;
-> +		}
-> +	}
-> +	for (i = 0; i < ref_frame_num; i++) {
-> +		venc->ref[i].length = ref_frame_size;
-> +		ret = vpu_alloc_dma(inst->core, &venc->ref[i]);
-> +		if (ret) {
-> +			venc_cleanup_mem_resource(inst);
-> +			return;
-> +		}
-> +	}
-> +	if (act_frame_num != 1 || act_frame_size > inst->act.length) {
-> +		venc_cleanup_mem_resource(inst);
-> +		return;
-> +	}
-> +	venc->act[0].length = act_frame_size;
-> +	venc->act[0].phys = inst->act.phys;
-> +	venc->act[0].virt = inst->act.virt;
-> +
-> +	for (i = 0; i < enc_frame_num; i++)
-> +		vpu_iface_config_memory_resource(inst, MEM_RES_ENC, i, &venc->enc[i]);
-> +	for (i = 0; i < ref_frame_num; i++)
-> +		vpu_iface_config_memory_resource(inst, MEM_RES_REF, i, &venc->ref[i]);
-> +	for (i = 0; i < act_frame_num; i++)
-> +		vpu_iface_config_memory_resource(inst, MEM_RES_ACT, i, &venc->act[i]);
-> +}
-> +
-> +static void venc_cleanup_frames(struct venc_t *venc)
-> +{
-> +	struct venc_frame_t *frame;
-> +	struct venc_frame_t *tmp;
-> +
-> +	list_for_each_entry_safe(frame, tmp, &venc->frames, list) {
-> +		list_del_init(&frame->list);
-> +		vfree(frame);
-> +	}
-> +}
-> +
-> +static int venc_stop_session(struct vpu_inst *inst, u32 type)
-> +{
-> +	struct venc_t *venc = inst->priv;
-> +
-> +	venc_set_enable(venc, type, 0);
-> +	if (venc->enable & VENC_ENABLE_MASK)
-> +		return 0;
-> +
-> +	if (inst->state == VPU_CODEC_STATE_DEINIT)
-> +		return 0;
-> +
-> +	if (inst->state != VPU_CODEC_STATE_STOP)
-> +		venc_request_eos(inst);
-> +
-> +	call_vop(inst, wait_prepare);
-> +	if (!wait_event_timeout(venc->wq, venc->stopped, VPU_TIMEOUT)) {
-> +		set_bit(inst->id, &inst->core->hang_mask);
-> +		vpu_session_debug(inst);
-> +	}
-> +	call_vop(inst, wait_finish);
-> +
-> +	inst->state = VPU_CODEC_STATE_DEINIT;
-> +	venc_cleanup_frames(inst->priv);
-> +	vpu_free_dma(&inst->stream_buffer);
-> +	venc_cleanup_mem_resource(inst);
-> +
-> +	return 0;
-> +}
-> +
-> +static int venc_process_output(struct vpu_inst *inst, struct vb2_buffer *vb)
-> +{
-> +	struct venc_t *venc = inst->priv;
-> +	struct vb2_v4l2_buffer *vbuf;
-> +	struct vpu_vb2_buffer *vpu_buf = NULL;
-> +	u32 flags;
-> +
-> +	if (inst->state == VPU_CODEC_STATE_DEINIT)
-> +		return -EINVAL;
-> +
-> +	vbuf = to_vb2_v4l2_buffer(vb);
-> +	vpu_buf = to_vpu_vb2_buffer(vbuf);
-> +	if (inst->state == VPU_CODEC_STATE_STARTED)
-> +		inst->state = VPU_CODEC_STATE_ACTIVE;
-> +
-> +	flags = vbuf->flags;
-> +	if (venc->request_key_frame) {
-> +		vbuf->flags |= V4L2_BUF_FLAG_KEYFRAME;
-> +		venc->request_key_frame = 0;
-> +	}
-> +	if (venc->bitrate_change) {
-> +		vpu_session_update_parameters(inst, &venc->params);
-> +		venc->bitrate_change = false;
-> +	}
-> +	dev_dbg(inst->dev, "[%d][INPUT  TS]%32lld\n", inst->id, vb->timestamp);
-> +	vpu_iface_input_frame(inst, vb);
-> +	vbuf->flags = flags;
-> +	venc->input_ready = false;
-> +	venc->frame_count++;
-> +	vpu_buf->state = VPU_BUF_STATE_INUSE;
-> +
-> +	return 0;
-> +}
-> +
-> +static int venc_process_capture(struct vpu_inst *inst, struct vb2_buffer *vb)
-> +{
-> +	struct venc_t *venc;
-> +	struct venc_frame_t *frame = NULL;
-> +	struct vb2_v4l2_buffer *vbuf;
-> +	int ret;
-> +
-> +	venc = inst->priv;
-> +	if (list_empty(&venc->frames))
-> +		return -EINVAL;
-> +
-> +	frame = list_first_entry(&venc->frames, struct venc_frame_t, list);
-> +	vbuf = to_vb2_v4l2_buffer(vb);
-> +	v4l2_m2m_dst_buf_remove_by_buf(inst->fh.m2m_ctx, vbuf);
-> +	ret = venc_get_one_encoded_frame(inst, frame, vbuf);
-> +	if (ret)
-> +		return ret;
-> +
-> +	list_del_init(&frame->list);
-> +	vfree(frame);
-> +	return 0;
-> +}
-> +
-> +static void venc_on_queue_empty(struct vpu_inst *inst, u32 type)
-> +{
-> +	struct venc_t *venc = inst->priv;
-> +
-> +	if (V4L2_TYPE_IS_OUTPUT(type))
-> +		return;
-> +
-> +	if (venc->stopped)
-> +		venc_set_last_buffer_dequeued(inst);
-> +}
-> +
-> +static int venc_get_debug_info(struct vpu_inst *inst, char *str, u32 size, u32 i)
-> +{
-> +	struct venc_t *venc = inst->priv;
-> +	int num = -1;
-> +
-> +	switch (i) {
-> +	case 0:
-> +		num = scnprintf(str, size, "profile = %d\n", venc->params.profile);
-> +		break;
-> +	case 1:
-> +		num = scnprintf(str, size, "level = %d\n", venc->params.level);
-> +		break;
-> +	case 2:
-> +		num = scnprintf(str, size, "fps = %d/%d\n",
-> +				venc->params.frame_rate.numerator,
-> +				venc->params.frame_rate.denominator);
-> +		break;
-> +	case 3:
-> +		num = scnprintf(str, size, "%d x %d -> %d x %d\n",
-> +				venc->params.src_width,
-> +				venc->params.src_height,
-> +				venc->params.out_width,
-> +				venc->params.out_height);
-> +		break;
-> +	case 4:
-> +		num = scnprintf(str, size, "(%d, %d)  %d x %d\n",
-> +				venc->params.crop.left,
-> +				venc->params.crop.top,
-> +				venc->params.crop.width,
-> +				venc->params.crop.height);
-> +		break;
-> +	case 5:
-> +		num = scnprintf(str, size,
-> +				"enable = 0x%x, input = %d, encode = %d, ready = %d, stopped = %d\n",
-> +				venc->enable,
-> +				venc->frame_count, venc->encode_count,
-> +				venc->ready_count,
-> +				venc->stopped);
-> +		break;
-> +	case 6:
-> +		num = scnprintf(str, size, "gop = %d\n", venc->params.gop_length);
-> +		break;
-> +	case 7:
-> +		num = scnprintf(str, size, "bframes = %d\n", venc->params.bframes);
-> +		break;
-> +	case 8:
-> +		num = scnprintf(str, size, "rc: mode = %d, bitrate = %d, qp = %d\n",
-> +				venc->params.rc_mode,
-> +				venc->params.bitrate,
-> +				venc->params.i_frame_qp);
-> +		break;
-> +	case 9:
-> +		num = scnprintf(str, size, "sar: enable = %d, idc = %d, %d x %d\n",
-> +				venc->params.sar.enable,
-> +				venc->params.sar.idc,
-> +				venc->params.sar.width,
-> +				venc->params.sar.height);
-> +
-> +		break;
-> +	case 10:
-> +		num = scnprintf(str, size,
-> +				"colorspace: primaries = %d, transfer = %d, matrix = %d, full_range = %d\n",
-> +				venc->params.color.primaries,
-> +				venc->params.color.transfer,
-> +				venc->params.color.matrix,
-> +				venc->params.color.full_range);
-> +		break;
-> +	case 11:
-> +		num = scnprintf(str, size, "skipped: count = %d, bytes = %d\n",
-> +				venc->skipped_count, venc->skipped_bytes);
-> +		break;
-> +	default:
-> +		break;
-> +	}
-> +
-> +	return num;
-> +}
-> +
-> +static struct vpu_inst_ops venc_inst_ops = {
-> +	.ctrl_init = venc_ctrl_init,
-> +	.check_ready = venc_check_ready,
-> +	.input_done = venc_input_done,
-> +	.get_one_frame = venc_frame_encoded,
-> +	.buf_done = venc_buf_done,
-> +	.stop_done = venc_stop_done,
-> +	.event_notify = venc_event_notify,
-> +	.release = venc_release,
-> +	.cleanup = venc_cleanup,
-> +	.start = venc_start_session,
-> +	.mem_request = venc_request_mem_resource,
-> +	.stop = venc_stop_session,
-> +	.process_output = venc_process_output,
-> +	.process_capture = venc_process_capture,
-> +	.on_queue_empty = venc_on_queue_empty,
-> +	.get_debug_info = venc_get_debug_info,
-> +	.wait_prepare = vpu_inst_unlock,
-> +	.wait_finish = vpu_inst_lock,
-> +};
-> +
-> +static void venc_init(struct file *file)
-> +{
-> +	struct vpu_inst *inst = to_inst(file);
-> +	struct venc_t *venc;
-> +	struct v4l2_format f;
-> +	struct v4l2_streamparm parm;
-> +
-> +	venc = inst->priv;
-> +	venc->params.qp_min = 1;
-> +	venc->params.qp_max = 51;
-> +	venc->params.qp_min_i = 1;
-> +	venc->params.qp_max_i = 51;
-> +	venc->params.bitrate_max = BITRATE_MAX;
-> +	venc->params.bitrate_min = BITRATE_MIN;
-> +
-> +	memset(&f, 0, sizeof(f));
-> +	f.type = V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE;
-> +	f.fmt.pix_mp.pixelformat = V4L2_PIX_FMT_NV12M;
-> +	f.fmt.pix_mp.width = 1280;
-> +	f.fmt.pix_mp.height = 720;
-> +	f.fmt.pix_mp.field = V4L2_FIELD_NONE;
-> +	f.fmt.pix_mp.colorspace = V4L2_COLORSPACE_REC709;
-> +	venc_s_fmt(file, &inst->fh, &f);
-> +
-> +	memset(&f, 0, sizeof(f));
-> +	f.type = V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE;
-> +	f.fmt.pix_mp.pixelformat = V4L2_PIX_FMT_H264;
-> +	f.fmt.pix_mp.width = 1280;
-> +	f.fmt.pix_mp.height = 720;
-> +	f.fmt.pix_mp.field = V4L2_FIELD_NONE;
-> +	venc_s_fmt(file, &inst->fh, &f);
-> +
-> +	memset(&parm, 0, sizeof(parm));
-> +	parm.type = V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE;
-> +	parm.parm.capture.timeperframe.numerator = 1;
-> +	parm.parm.capture.timeperframe.denominator = 30;
-> +	venc_s_parm(file, &inst->fh, &parm);
-> +}
-> +
-> +static int venc_open(struct file *file)
-> +{
-> +	struct vpu_inst *inst;
-> +	struct venc_t *venc;
-> +	int ret;
-> +
-> +	inst = vzalloc(sizeof(*inst));
-> +	if (!inst)
-> +		return -ENOMEM;
-> +
-> +	venc = vzalloc(sizeof(*venc));
-> +	if (!venc) {
-> +		vfree(inst);
-> +		return -ENOMEM;
-> +	}
-> +
-> +	inst->ops = &venc_inst_ops;
-> +	inst->formats = venc_formats;
-> +	inst->type = VPU_CORE_TYPE_ENC;
-> +	inst->priv = venc;
-> +	INIT_LIST_HEAD(&venc->frames);
-> +	init_waitqueue_head(&venc->wq);
-> +
-> +	ret = vpu_v4l2_open(file, inst);
-> +	if (ret)
-> +		return ret;
-> +
-> +	venc_init(file);
-> +
-> +	return 0;
-> +}
-> +
-> +static const struct v4l2_file_operations venc_fops = {
-> +	.owner = THIS_MODULE,
-> +	.open = venc_open,
-> +	.release = vpu_v4l2_close,
-> +	.unlocked_ioctl = video_ioctl2,
-> +	.poll = v4l2_m2m_fop_poll,
-> +	.mmap = v4l2_m2m_fop_mmap,
-> +};
-> +
-> +const struct v4l2_ioctl_ops *venc_get_ioctl_ops(void)
-> +{
-> +	return &venc_ioctl_ops;
-> +}
-> +
-> +const struct v4l2_file_operations *venc_get_fops(void)
-> +{
-> +	return &venc_fops;
-> +}
-> 
+Beauty, Jockey and ShakeNDry bitstreams from UVG set have also been
+tested.
 
-Regards,
+Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+---
+ .../staging/media/hantro/hantro_g2_hevc_dec.c | 25 +++---
+ drivers/staging/media/hantro/hantro_hevc.c    | 79 +++----------------
+ drivers/staging/media/hantro/hantro_hw.h      | 11 +++
+ .../staging/media/hantro/hantro_postproc.c    |  3 +
+ drivers/staging/media/hantro/hantro_v4l2.c    | 19 ++---
+ 5 files changed, 41 insertions(+), 96 deletions(-)
 
-	Hans
+diff --git a/drivers/staging/media/hantro/hantro_g2_hevc_dec.c b/drivers/staging/media/hantro/hantro_g2_hevc_dec.c
+index b35f36109a6f..6ef5430b18eb 100644
+--- a/drivers/staging/media/hantro/hantro_g2_hevc_dec.c
++++ b/drivers/staging/media/hantro/hantro_g2_hevc_dec.c
+@@ -341,6 +341,8 @@ static int set_ref(struct hantro_ctx *ctx)
+ 	const struct v4l2_hevc_dpb_entry *dpb = decode_params->dpb;
+ 	dma_addr_t luma_addr, chroma_addr, mv_addr = 0;
+ 	struct hantro_dev *vpu = ctx->dev;
++	struct vb2_v4l2_buffer *vb2_dst;
++	struct hantro_decoded_buffer *dst;
+ 	size_t cr_offset = hantro_hevc_chroma_offset(sps);
+ 	size_t mv_offset = hantro_hevc_motion_vectors_offset(sps);
+ 	u32 max_ref_frames;
+@@ -426,10 +428,15 @@ static int set_ref(struct hantro_ctx *ctx)
+ 		hantro_write_addr(vpu, G2_REF_MV_ADDR(i), mv_addr);
+ 	}
+ 
+-	luma_addr = hantro_hevc_get_ref_buf(ctx, decode_params->pic_order_cnt_val);
++	vb2_dst = hantro_get_dst_buf(ctx);
++	dst = vb2_to_hantro_decoded_buf(&vb2_dst->vb2_buf);
++	luma_addr = hantro_get_dec_buf_addr(ctx, &dst->base.vb.vb2_buf);
+ 	if (!luma_addr)
+ 		return -ENOMEM;
+ 
++	if (hantro_hevc_add_ref_buf(ctx, decode_params->pic_order_cnt_val, luma_addr))
++		return -EINVAL;
++
+ 	chroma_addr = luma_addr + cr_offset;
+ 	mv_addr = luma_addr + mv_offset;
+ 
+@@ -456,16 +463,12 @@ static int set_ref(struct hantro_ctx *ctx)
+ 
+ static void set_buffers(struct hantro_ctx *ctx)
+ {
+-	struct vb2_v4l2_buffer *src_buf, *dst_buf;
++	struct vb2_v4l2_buffer *src_buf;
+ 	struct hantro_dev *vpu = ctx->dev;
+-	const struct hantro_hevc_dec_ctrls *ctrls = &ctx->hevc_dec.ctrls;
+-	const struct v4l2_ctrl_hevc_sps *sps = ctrls->sps;
+-	size_t cr_offset = hantro_hevc_chroma_offset(sps);
+-	dma_addr_t src_dma, dst_dma;
++	dma_addr_t src_dma;
+ 	u32 src_len, src_buf_len;
+ 
+ 	src_buf = hantro_get_src_buf(ctx);
+-	dst_buf = hantro_get_dst_buf(ctx);
+ 
+ 	/* Source (stream) buffer. */
+ 	src_dma = vb2_dma_contig_plane_dma_addr(&src_buf->vb2_buf, 0);
+@@ -478,11 +481,6 @@ static void set_buffers(struct hantro_ctx *ctx)
+ 	hantro_reg_write(vpu, &g2_strm_start_offset, 0);
+ 	hantro_reg_write(vpu, &g2_write_mvs_e, 1);
+ 
+-	/* Destination (decoded frame) buffer. */
+-	dst_dma = hantro_get_dec_buf_addr(ctx, &dst_buf->vb2_buf);
+-
+-	hantro_write_addr(vpu, G2_RS_OUT_LUMA_ADDR, dst_dma);
+-	hantro_write_addr(vpu, G2_RS_OUT_CHROMA_ADDR, dst_dma + cr_offset);
+ 	hantro_write_addr(vpu, G2_TILE_SIZES_ADDR, ctx->hevc_dec.tile_sizes.dma);
+ 	hantro_write_addr(vpu, G2_TILE_FILTER_ADDR, ctx->hevc_dec.tile_filter.dma);
+ 	hantro_write_addr(vpu, G2_TILE_SAO_ADDR, ctx->hevc_dec.tile_sao.dma);
+@@ -575,9 +573,6 @@ int hantro_g2_hevc_dec_run(struct hantro_ctx *ctx)
+ 	/* Don't compress buffers */
+ 	hantro_reg_write(vpu, &g2_ref_compress_bypass, 1);
+ 
+-	/* use NV12 as output format */
+-	hantro_reg_write(vpu, &g2_out_rs_e, 1);
+-
+ 	/* Bus width and max burst */
+ 	hantro_reg_write(vpu, &g2_buswidth, BUS_WIDTH_128);
+ 	hantro_reg_write(vpu, &g2_max_burst, 16);
+diff --git a/drivers/staging/media/hantro/hantro_hevc.c b/drivers/staging/media/hantro/hantro_hevc.c
+index ee03123e7704..b49a41d7ae91 100644
+--- a/drivers/staging/media/hantro/hantro_hevc.c
++++ b/drivers/staging/media/hantro/hantro_hevc.c
+@@ -44,47 +44,6 @@ size_t hantro_hevc_motion_vectors_offset(const struct v4l2_ctrl_hevc_sps *sps)
+ 	return ALIGN((cr_offset * 3) / 2, G2_ALIGN);
+ }
+ 
+-static size_t hantro_hevc_mv_size(const struct v4l2_ctrl_hevc_sps *sps)
+-{
+-	u32 min_cb_log2_size_y = sps->log2_min_luma_coding_block_size_minus3 + 3;
+-	u32 ctb_log2_size_y = min_cb_log2_size_y + sps->log2_diff_max_min_luma_coding_block_size;
+-	u32 pic_width_in_ctbs_y = (sps->pic_width_in_luma_samples + (1 << ctb_log2_size_y) - 1)
+-				  >> ctb_log2_size_y;
+-	u32 pic_height_in_ctbs_y = (sps->pic_height_in_luma_samples + (1 << ctb_log2_size_y) - 1)
+-				   >> ctb_log2_size_y;
+-	size_t mv_size;
+-
+-	mv_size = pic_width_in_ctbs_y * pic_height_in_ctbs_y *
+-		  (1 << (2 * (ctb_log2_size_y - 4))) * 16;
+-
+-	vpu_debug(4, "%dx%d (CTBs) %zu MV bytes\n",
+-		  pic_width_in_ctbs_y, pic_height_in_ctbs_y, mv_size);
+-
+-	return mv_size;
+-}
+-
+-static size_t hantro_hevc_ref_size(struct hantro_ctx *ctx)
+-{
+-	const struct hantro_hevc_dec_ctrls *ctrls = &ctx->hevc_dec.ctrls;
+-	const struct v4l2_ctrl_hevc_sps *sps = ctrls->sps;
+-
+-	return hantro_hevc_motion_vectors_offset(sps) + hantro_hevc_mv_size(sps);
+-}
+-
+-static void hantro_hevc_ref_free(struct hantro_ctx *ctx)
+-{
+-	struct hantro_hevc_dec_hw_ctx *hevc_dec = &ctx->hevc_dec;
+-	struct hantro_dev *vpu = ctx->dev;
+-	int i;
+-
+-	for (i = 0;  i < NUM_REF_PICTURES; i++) {
+-		if (hevc_dec->ref_bufs[i].cpu)
+-			dma_free_coherent(vpu->dev, hevc_dec->ref_bufs[i].size,
+-					  hevc_dec->ref_bufs[i].cpu,
+-					  hevc_dec->ref_bufs[i].dma);
+-	}
+-}
+-
+ static void hantro_hevc_ref_init(struct hantro_ctx *ctx)
+ {
+ 	struct hantro_hevc_dec_hw_ctx *hevc_dec = &ctx->hevc_dec;
+@@ -108,37 +67,25 @@ dma_addr_t hantro_hevc_get_ref_buf(struct hantro_ctx *ctx,
+ 		}
+ 	}
+ 
+-	/* Allocate a new reference buffer */
++	return 0;
++}
++
++int hantro_hevc_add_ref_buf(struct hantro_ctx *ctx, int poc, dma_addr_t addr)
++{
++	struct hantro_hevc_dec_hw_ctx *hevc_dec = &ctx->hevc_dec;
++	int i;
++
++	/* Add a new reference buffer */
+ 	for (i = 0; i < NUM_REF_PICTURES; i++) {
+ 		if (hevc_dec->ref_bufs_poc[i] == UNUSED_REF) {
+-			if (!hevc_dec->ref_bufs[i].cpu) {
+-				struct hantro_dev *vpu = ctx->dev;
+-
+-				/*
+-				 * Allocate the space needed for the raw data +
+-				 * motion vector data. Optimizations could be to
+-				 * allocate raw data in non coherent memory and only
+-				 * clear the motion vector data.
+-				 */
+-				hevc_dec->ref_bufs[i].cpu =
+-					dma_alloc_coherent(vpu->dev,
+-							   hantro_hevc_ref_size(ctx),
+-							   &hevc_dec->ref_bufs[i].dma,
+-							   GFP_KERNEL);
+-				if (!hevc_dec->ref_bufs[i].cpu)
+-					return 0;
+-
+-				hevc_dec->ref_bufs[i].size = hantro_hevc_ref_size(ctx);
+-			}
+ 			hevc_dec->ref_bufs_used |= 1 << i;
+-			memset(hevc_dec->ref_bufs[i].cpu, 0, hantro_hevc_ref_size(ctx));
+ 			hevc_dec->ref_bufs_poc[i] = poc;
+-
+-			return hevc_dec->ref_bufs[i].dma;
++			hevc_dec->ref_bufs[i].dma = addr;
++			return 0;
+ 		}
+ 	}
+ 
+-	return 0;
++	return -EINVAL;
+ }
+ 
+ void hantro_hevc_ref_remove_unused(struct hantro_ctx *ctx)
+@@ -314,8 +261,6 @@ void hantro_hevc_dec_exit(struct hantro_ctx *ctx)
+ 				  hevc_dec->tile_bsd.cpu,
+ 				  hevc_dec->tile_bsd.dma);
+ 	hevc_dec->tile_bsd.cpu = NULL;
+-
+-	hantro_hevc_ref_free(ctx);
+ }
+ 
+ int hantro_hevc_dec_init(struct hantro_ctx *ctx)
+diff --git a/drivers/staging/media/hantro/hantro_hw.h b/drivers/staging/media/hantro/hantro_hw.h
+index dbe51303724b..7286404c32ab 100644
+--- a/drivers/staging/media/hantro/hantro_hw.h
++++ b/drivers/staging/media/hantro/hantro_hw.h
+@@ -345,6 +345,7 @@ void hantro_hevc_dec_exit(struct hantro_ctx *ctx);
+ int hantro_g2_hevc_dec_run(struct hantro_ctx *ctx);
+ int hantro_hevc_dec_prepare_run(struct hantro_ctx *ctx);
+ dma_addr_t hantro_hevc_get_ref_buf(struct hantro_ctx *ctx, int poc);
++int hantro_hevc_add_ref_buf(struct hantro_ctx *ctx, int poc, dma_addr_t addr);
+ void hantro_hevc_ref_remove_unused(struct hantro_ctx *ctx);
+ size_t hantro_hevc_chroma_offset(const struct v4l2_ctrl_hevc_sps *sps);
+ size_t hantro_hevc_motion_vectors_offset(const struct v4l2_ctrl_hevc_sps *sps);
+@@ -394,6 +395,16 @@ hantro_h264_mv_size(unsigned int width, unsigned int height)
+ 	return 64 * MB_WIDTH(width) * MB_WIDTH(height) + 32;
+ }
+ 
++static inline size_t
++hantro_hevc_mv_size(unsigned int width, unsigned int height)
++{
++	/*
++	 * A CTB can be 64x64, 32x32 or 16x16.
++	 * Allocated memory for the "worse" case: 16x16
++	 */
++	return width * height / 16;
++}
++
+ int hantro_g1_mpeg2_dec_run(struct hantro_ctx *ctx);
+ int rockchip_vpu2_mpeg2_dec_run(struct hantro_ctx *ctx);
+ void hantro_mpeg2_dec_copy_qtable(u8 *qtable,
+diff --git a/drivers/staging/media/hantro/hantro_postproc.c b/drivers/staging/media/hantro/hantro_postproc.c
+index a7774ad4c445..248abe5423f0 100644
+--- a/drivers/staging/media/hantro/hantro_postproc.c
++++ b/drivers/staging/media/hantro/hantro_postproc.c
+@@ -146,6 +146,9 @@ int hantro_postproc_alloc(struct hantro_ctx *ctx)
+ 	else if (ctx->vpu_src_fmt->fourcc == V4L2_PIX_FMT_VP9_FRAME)
+ 		buf_size += hantro_vp9_mv_size(ctx->dst_fmt.width,
+ 					       ctx->dst_fmt.height);
++	else if (ctx->vpu_src_fmt->fourcc == V4L2_PIX_FMT_HEVC_SLICE)
++		buf_size += hantro_hevc_mv_size(ctx->dst_fmt.width,
++						ctx->dst_fmt.height);
+ 
+ 	for (i = 0; i < num_buffers; ++i) {
+ 		struct hantro_aux_buf *priv = &ctx->postproc.dec_q[i];
+diff --git a/drivers/staging/media/hantro/hantro_v4l2.c b/drivers/staging/media/hantro/hantro_v4l2.c
+index e4b0645ba6fc..e1fe37afe576 100644
+--- a/drivers/staging/media/hantro/hantro_v4l2.c
++++ b/drivers/staging/media/hantro/hantro_v4l2.c
+@@ -150,20 +150,6 @@ static int vidioc_enum_fmt(struct file *file, void *priv,
+ 	unsigned int num_fmts, i, j = 0;
+ 	bool skip_mode_none;
+ 
+-	/*
+-	 * The HEVC decoder on the G2 core needs a little quirk to offer NV12
+-	 * only on the capture side. Once the post-processor logic is used,
+-	 * we will be able to expose NV12_4L4 and NV12 as the other cases,
+-	 * and therefore remove this quirk.
+-	 */
+-	if (capture && ctx->vpu_src_fmt->fourcc == V4L2_PIX_FMT_HEVC_SLICE) {
+-		if (f->index == 0) {
+-			f->pixelformat = V4L2_PIX_FMT_NV12;
+-			return 0;
+-		}
+-		return -EINVAL;
+-	}
+-
+ 	/*
+ 	 * When dealing with an encoder:
+ 	 *  - on the capture side we want to filter out all MODE_NONE formats.
+@@ -304,6 +290,11 @@ static int hantro_try_fmt(const struct hantro_ctx *ctx,
+ 			pix_mp->plane_fmt[0].sizeimage +=
+ 				hantro_vp9_mv_size(pix_mp->width,
+ 						   pix_mp->height);
++		else if (ctx->vpu_src_fmt->fourcc == V4L2_PIX_FMT_HEVC_SLICE &&
++			 !hantro_needs_postproc(ctx, fmt))
++			pix_mp->plane_fmt[0].sizeimage +=
++				hantro_hevc_mv_size(pix_mp->width,
++						    pix_mp->height);
+ 	} else if (!pix_mp->plane_fmt[0].sizeimage) {
+ 		/*
+ 		 * For coded formats the application can specify
+-- 
+2.30.2
+
