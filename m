@@ -2,50 +2,51 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 47CBD46648B
-	for <lists+linux-media@lfdr.de>; Thu,  2 Dec 2021 14:34:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 28DED4664A3
+	for <lists+linux-media@lfdr.de>; Thu,  2 Dec 2021 14:42:32 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1358243AbhLBNhe (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 2 Dec 2021 08:37:34 -0500
-Received: from ewsoutbound.kpnmail.nl ([195.121.94.167]:62726 "EHLO
+        id S1358315AbhLBNpw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 2 Dec 2021 08:45:52 -0500
+Received: from ewsoutbound.kpnmail.nl ([195.121.94.170]:54200 "EHLO
         ewsoutbound.kpnmail.nl" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1358242AbhLBNhd (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 2 Dec 2021 08:37:33 -0500
-X-KPN-MessageId: 7a702b34-5374-11ec-9a2e-005056abbe64
+        with ESMTP id S1358325AbhLBNpo (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 2 Dec 2021 08:45:44 -0500
+X-KPN-MessageId: 9011b093-5375-11ec-8a6e-005056ab378f
 Received: from smtp.kpnmail.nl (unknown [10.31.155.39])
         by ewsoutbound.so.kpn.org (Halon) with ESMTPS
-        id 7a702b34-5374-11ec-9a2e-005056abbe64;
-        Thu, 02 Dec 2021 14:33:47 +0100 (CET)
+        id 9011b093-5375-11ec-8a6e-005056ab378f;
+        Thu, 02 Dec 2021 14:41:33 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=xs4all.nl; s=xs4all01;
         h=content-type:mime-version:date:message-id:from:to:subject;
-        bh=K65nEOH5jY8KakqRM0oHkId8wuLz340TVgKfbNaHU6Q=;
-        b=UQ34l+CRkUF5uNCpSO0QVN5bl7RUZQt4nzkeoTnyCVv2upFjKnYUUzp+6B1BSeRZAz+Ecl2ObaRf7
-         xDg4EJ+ZV8H8XNR98NoWODeuH89wcXPwYr7CLYSch1+q6xpJUIJ+rEgqD0aKUmI/ry5IUgFKYFiJjt
-         8q0k7ODF7e9MG3ZJSaZw47xzIueR0WZVF+nzf8FfQjdE+M06+3G96VI7zEqbjMyBHpZJQF5q1/Ob0z
-         uJcU9yHK5TwjaVEdnuMt+X+C4ZiHzOsdc21/CXKiMQT28V7jyjzTaLs6PKvS2ZPjhiAhdUAzEUwo7s
-         6sF85ekxSMQoPFDlQHkUO3tOhGGcMXg==
+        bh=s/xVqNVOlwQge/G2W/Pt+qdPvzezn4iibA3pPzJ8pns=;
+        b=Wpj9W31xUSyCjSI/ALBRXxRks0yuXGnsi803+cC9/pM0rTioNUa6PTLbxYwBDMpH7xMnsMmAg3FLR
+         jyO4Pi5Gf9mvQx3Gsd/S+lbHKTFIXfPBQzWaCtfe69O58QtmI/Xaa2wP43JHQX8zsoGZkN0FPMSNCW
+         l1m/p2gBNqEnGCbaGTuT9sHLLtN7hImIPWHDlkzicTKFJkD/eFTWF6/A8GXtcmknCCUu6T2SMRDyhp
+         Bj5YsahnuDP3TXFZo3IDjQsljWF91YxFEMR005cb1QCuU6ZWLc2nfc6EQGWYWdLCNbFsrfNJKH9YwG
+         Kedlurco/nSsSeP1LOxoD8yotfrb56Q==
 X-KPN-VerifiedSender: Yes
-X-CMASSUN: 33|uTaTnKRySdqBsDx4+7xy/b8b6SOMtvAgR6ygjWz03ABwWWr06PSA47n1wqs82Bh
- lzXm+q9ICtIhwNPF7IeCliQ==
+X-CMASSUN: 33|LFJL3ISlOVsPjOchdIcRHzGsAB/c7qkOye+aaa47FBeyZUvDXkjIVc2N0FQyWXR
+ njJy62WTQGDOdwahA6A9MRg==
 X-Originating-IP: 193.91.129.219
 Received: from [192.168.2.10] (cdb815bc1.dhcp.as2116.net [193.91.129.219])
         by smtp.xs4all.nl (Halon) with ESMTPSA
-        id 87aabd9d-5374-11ec-81f5-005056ab7447;
-        Thu, 02 Dec 2021 14:34:10 +0100 (CET)
-Subject: Re: [PATCH] media: saa7146: hexium_gemini: Fix a NULL pointer
- dereference in hexium_attach()
+        id abae1dc3-5375-11ec-81f5-005056ab7447;
+        Thu, 02 Dec 2021 14:42:20 +0100 (CET)
+Subject: Re: [PATCH] media: vidtv: Fix a wild pointer dereference in
+ vidtv_channel_pmt_match_sections()
 To:     Zhou Qingyang <zhou1615@umn.edu>
-Cc:     kjlu@umn.edu, Mauro Carvalho Chehab <mchehab@kernel.org>,
+Cc:     kjlu@umn.edu, "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
         linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20211130161538.182313-1-zhou1615@umn.edu>
+References: <20211130163946.189005-1-zhou1615@umn.edu>
 From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <b0f7ee6e-f6fc-955e-92eb-013cd96f1d1d@xs4all.nl>
-Date:   Thu, 2 Dec 2021 14:34:09 +0100
+Message-ID: <94dbfe62-43b3-a293-5f59-d8bd1f35bde1@xs4all.nl>
+Date:   Thu, 2 Dec 2021 14:42:19 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Firefox/78.0 Thunderbird/78.14.0
 MIME-Version: 1.0
-In-Reply-To: <20211130161538.182313-1-zhou1615@umn.edu>
+In-Reply-To: <20211130163946.189005-1-zhou1615@umn.edu>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -53,14 +54,17 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 30/11/2021 17:15, Zhou Qingyang wrote:
-> In hexium_attach(dev, info), saa7146_vv_init() is called to allocate
-> a new memory for dev->vv_data. saa7146_vv_release() will be called on
-> failure of saa7146_register_device(). There is a dereference of
-> dev->vv_data in saa7146_vv_release(), which could lead to a NULL
-> pointer dereference on failure of saa7146_vv_init().
+On 30/11/2021 17:39, Zhou Qingyang wrote:
+> In vidtv_channel_pmt_match_sections(), vidtv_psi_pmt_stream_init() is
+> assigned to tail and &tail->descriptor is used in
+> vidtv_psi_desc_assign(). There is a dereference of &tail->descriptor
+> in vidtv_psi_desc_assign(), which could lead to a wild pointer
+> dereference onfailure of vidtv_psi_pmt_stream_init().
+
+onfailure -> on failure
+
 > 
-> Fix this bug by adding a check of saa7146_vv_init().
+> Fix this bug by adding a check of tail.
 > 
 > This bug was found by a static analyzer. The analysis employs
 > differential checking to identify inconsistent security operations
@@ -72,41 +76,55 @@ On 30/11/2021 17:15, Zhou Qingyang wrote:
 > positive or hard to trigger. Multiple researchers have cross-reviewed
 > the bug.
 > 
-> Builds with CONFIG_VIDEO_HEXIUM_GEMINI=m show no new warnings,
+> Builds with CONFIG_DVB_VIDTV=m show no new warnings,
 > and our static analyzer no longer warns about this code.
 > 
+> Fixes: f90cf6079bf6 ("media: vidtv: add a bridge driver")
 > Signed-off-by: Zhou Qingyang <zhou1615@umn.edu>
 > ---
->  drivers/media/pci/saa7146/hexium_gemini.c | 6 +++++-
->  1 file changed, 5 insertions(+), 1 deletion(-)
+>  drivers/media/test-drivers/vidtv/vidtv_channel.c | 11 +++++++++++
+>  1 file changed, 11 insertions(+)
 > 
-> diff --git a/drivers/media/pci/saa7146/hexium_gemini.c b/drivers/media/pci/saa7146/hexium_gemini.c
-> index 2214c74bbbf1..549b1ddc59b5 100644
-> --- a/drivers/media/pci/saa7146/hexium_gemini.c
-> +++ b/drivers/media/pci/saa7146/hexium_gemini.c
-> @@ -284,7 +284,11 @@ static int hexium_attach(struct saa7146_dev *dev, struct saa7146_pci_extension_d
->  	hexium_set_input(hexium, 0);
->  	hexium->cur_input = 0;
->  
-> -	saa7146_vv_init(dev, &vv_data);
-> +	ret = saa7146_vv_init(dev, &vv_data);
-> +	if (ret) {
-> +		kfree(hexium);
+> diff --git a/drivers/media/test-drivers/vidtv/vidtv_channel.c b/drivers/media/test-drivers/vidtv/vidtv_channel.c
+> index 7838e6272712..f2faa5504642 100644
+> --- a/drivers/media/test-drivers/vidtv/vidtv_channel.c
+> +++ b/drivers/media/test-drivers/vidtv/vidtv_channel.c
+> @@ -318,6 +318,10 @@ vidtv_channel_pmt_match_sections(struct vidtv_channel *channels,
+>  	struct vidtv_psi_table_pmt_stream *s = NULL;
+>  	struct vidtv_channel *cur_chnl = channels;
+>  	struct vidtv_psi_desc *desc = NULL;
+> +	struct vidtv_mux *m = container_of(&channels,
+> +					struct vidtv_mux,
+> +					channels);
+> +
+>  	u16 e_pid; /* elementary stream pid */
+>  	u16 curr_id;
+>  	u32 j;
+> @@ -341,6 +345,13 @@ vidtv_channel_pmt_match_sections(struct vidtv_channel *channels,
+>  					tail = vidtv_psi_pmt_stream_init(tail,
+>  									 s->type,
+>  									 e_pid);
+> +
+> +					if (!tail) {
+> +						vidtv_psi_pmt_stream_destroy(head);
 
-You need to call i2c_del_adapter(&hexium->i2c_adapter); as well.
+I honestly can't tell if this is the right thing to do.
 
-Also, saa7146_vv_init() needs be fixed since it can return -1: that should
-be -ENOMEM. Otherwise a -1 error code could be returned here, that's not
-what you want.
+Daniel, can you take a look at this?
+
+> +						dev_warn_ratelimited(m->dev,
+> +							"No enough memory for vidtv_psi_pmt_stream_init");
+
+No -> Not
+Add newline at the end of the string.
+
+> +						return;
+> +					}
+> 
+>  					if (!head)
+>  						head = tail;
+> 
 
 Regards,
 
 	Hans
-
-> +		return ret;
-> +	}
->  
->  	vv_data.vid_ops.vidioc_enum_input = vidioc_enum_input;
->  	vv_data.vid_ops.vidioc_g_input = vidioc_g_input;
-> 
-
