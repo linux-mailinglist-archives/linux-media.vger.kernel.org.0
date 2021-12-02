@@ -2,188 +2,170 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A3217466676
-	for <lists+linux-media@lfdr.de>; Thu,  2 Dec 2021 16:28:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D4C1746669B
+	for <lists+linux-media@lfdr.de>; Thu,  2 Dec 2021 16:35:45 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1346524AbhLBPbz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 2 Dec 2021 10:31:55 -0500
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:48446 "EHLO
-        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238168AbhLBPbz (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 2 Dec 2021 10:31:55 -0500
-Received: from [IPv6:2a00:c281:1409:4a00:c103:6980:2c3:d021] (unknown [IPv6:2a00:c281:1409:4a00:c103:6980:2c3:d021])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        (Authenticated sender: dafna)
-        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 4A0571F46771;
-        Thu,  2 Dec 2021 15:28:31 +0000 (GMT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=collabora.com; s=mail;
-        t=1638458912; bh=UBPtqIVCD7GGA2bmTTvEup1QLdAS87Z42PnMd0Sz5+Q=;
-        h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
-        b=n05J0EIDlc9Gt/Bi6pcDtjvpGzAu9vcCjVSo1N5BF3YLmMzcFVlZw5siQp5UQV878
-         uIUUaJx36eXuVC0UkbcI9EWKl6c7DtG2+yd83ZutE2QZQ4Hh2eDKJbzzp8hyzqlIre
-         vNc5eTGfhri+9SkUi7lDXg3D9jwQXf+pe0Mj7TAt/YlN4HQExqkCVHO0/IyACXBJ2n
-         h3eD5ghF2+WZBrl5JA8Vqpk8/0p3sw4C4kN6eYViTIYpgDtguSvbyJF5lhWKR7THl3
-         KEhFsSRXT3tFJTlr+iv4ygbQRqg1TeIw2jOZNLrrq1nEmHLsUI37anvnqFjpG2PSe/
-         kyIAPRYdoo6GQ==
-Subject: Re: [PATCH] media: rkisp1: remove support for V4L2_PIX_FMT_GREY
-To:     Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Nicolas Dufresne <nicolas.dufresne@collabora.com>
-Cc:     linux-media@vger.kernel.org, hverkuil@xs4all.nl,
-        kernel@collabora.com, dafna3@gmail.com,
-        sakari.ailus@linux.intel.com, mchehab@kernel.org
-References: <20211120110257.22775-1-dafna.hirschfeld@collabora.com>
- <YZjrWdrZzyEE8G7g@pendragon.ideasonboard.com>
- <abc40fe3-6529-17f3-a6d3-4ab741afe849@collabora.com>
- <YZuNOzlVWteTaNYt@pendragon.ideasonboard.com>
- <88434c9b-a682-7da5-ce3b-adec28b89471@collabora.com>
- <YZupE2zKojGCKuTT@pendragon.ideasonboard.com>
- <d3f7ad1e-4ace-c6e7-db05-9afd92a5e2ef@collabora.com>
- <1fe2d411ad7e2b4a9a23d7064a4be43aec5c2f24.camel@collabora.com>
- <163840136428.3570436.7897802701733761132@Monstersaurus>
-From:   Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
-Message-ID: <fadd06a6-e69c-2990-ed77-45ace7883622@collabora.com>
-Date:   Thu, 2 Dec 2021 17:28:27 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+        id S1359036AbhLBPjG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 2 Dec 2021 10:39:06 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51994 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S236658AbhLBPjE (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 2 Dec 2021 10:39:04 -0500
+Received: from mail-wm1-x32b.google.com (mail-wm1-x32b.google.com [IPv6:2a00:1450:4864:20::32b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 25EACC06174A
+        for <linux-media@vger.kernel.org>; Thu,  2 Dec 2021 07:35:42 -0800 (PST)
+Received: by mail-wm1-x32b.google.com with SMTP id c6-20020a05600c0ac600b0033c3aedd30aso44851wmr.5
+        for <linux-media@vger.kernel.org>; Thu, 02 Dec 2021 07:35:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=K9HkssWImBKo4dv3s9wAHpKIsxviV3OWoh1pMrK/FGw=;
+        b=LkiLZv9W4lisDqFLtuHwYpJj2qkSwCtjsDZafVERHldYcs013qF8QNK1p1AeTn5gXU
+         SXi8MRlnjWMkoT2lGtO4ZFSd7fTUVc16t1204++ebAIpgooEeD+X62JdY/xZn6+aOcPh
+         3L8Xq/6gNBZ0Bedr+yo7LNDMyaE7BSyBCovZjt3sz+0aB8tDDj1KWiUsDSZ6wzaTlIeO
+         kydHNgUzZbfibvyWGa026aBLfLjjI/gEhWwMlwuXpNIUocF551GxTZMLEx/bYs8ky4pb
+         zVeGzDsCwKLIVnoiZF0HwHbq7g+G4TN61ikIBwnIHt3a0e427SSwzmxPH+5X7gzRPhIp
+         5Vxw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=K9HkssWImBKo4dv3s9wAHpKIsxviV3OWoh1pMrK/FGw=;
+        b=5fUyboneWh6MJWSJIHKjd0j8dVNt6/cSgwHePOfs3hf0jlFjyukIml64uWFftC+Bqf
+         Pqyr0qKYeD3r16LyILCJBP6bpLFgiaLHYCju/y0vFFDqzipwkD3D+TK3A+vleMipirDF
+         MUmS4OL2O4gbHvMacnr3QhRfy50L7bMf8qcM4UMk0eJFd27Et0odVEowW1jIPOTcVU6b
+         9rY6Z0F4vgaXb7g+eTfFzJ6pQrLFAIVvm/oZSPiZrXbFjExNBYNgQmw8CR3F4FvajZ1w
+         yDT6XLwd95Sw2oTTxMWe4EQvK6V3m3Mn/K+4QfCEPvenSEzGJWTNkT+4IKcEIFmFlPYZ
+         jJEw==
+X-Gm-Message-State: AOAM5322xmKxchCFiNYFYj7+SJndJX6/9T2AUbOzDyvgCA0K/N63FM51
+        fTArA+GjLEgIz4dLCFiDjd1fsg==
+X-Google-Smtp-Source: ABdhPJybU9GTeXI6wScQbF0x/FRKJly0GaYA0FzFNcydzxx/pYWjk7DRtHTNavij9meWK3K1AdbRyA==
+X-Received: by 2002:a1c:208b:: with SMTP id g133mr7421993wmg.128.1638459340656;
+        Thu, 02 Dec 2021 07:35:40 -0800 (PST)
+Received: from sagittarius-a.chello.ie (188-141-3-169.dynamic.upc.ie. [188.141.3.169])
+        by smtp.gmail.com with ESMTPSA id bd18sm3662wmb.43.2021.12.02.07.35.39
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 02 Dec 2021 07:35:40 -0800 (PST)
+From:   Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+To:     linux-arm-msm@vger.kernel.org, linux-media@vger.kernel.org,
+        robert.foss@linaro.org, jonathan@marek.ca
+Cc:     andrey.konovalov@linaro.org, todor.too@gmail.com,
+        agross@kernel.org, bjorn.andersson@linaro.org, mchehab@kernel.org,
+        jgrahsl@snap.com, hfink@snap.com, bryan.odonoghue@linaro.org
+Subject: [RESEND PATCH v2 00/19] CAMSS: Add SM8250 support
+Date:   Thu,  2 Dec 2021 15:37:10 +0000
+Message-Id: <20211202153729.3362372-1-bryan.odonoghue@linaro.org>
+X-Mailer: git-send-email 2.33.0
 MIME-Version: 1.0
-In-Reply-To: <163840136428.3570436.7897802701733761132@Monstersaurus>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+RESEND V2:
++ Cc: devicetree@vger.kernel.org on first patch
 
+V2:
+- Adds Tested-by Julian Grahsl as indicated.
+- Fixes low-level noise checkpatch --strict
+  I ended up having to push defines into static inlines for this.
+- Adds Reviewed-by Robert Foss.
+- Adds VFE/CSID fix for sdm845 as explicit additional sdm845 specific
+  patch per Robert's suggestion.
 
-On 02.12.21 01:29, Kieran Bingham wrote:
-> Quoting Nicolas Dufresne (2021-12-01 18:14:45)
->> Le mercredi 01 décembre 2021 à 09:03 +0200, Dafna Hirschfeld a écrit :
->>>
->>> On 22.11.21 16:28, Laurent Pinchart wrote:
->>>> Hi Dafna,
->>>>
->>>> On Mon, Nov 22, 2021 at 04:21:25PM +0200, Dafna Hirschfeld wrote:
->>>>> On 22.11.21 14:29, Laurent Pinchart wrote:
->>>>>> On Mon, Nov 22, 2021 at 01:20:47PM +0200, Dafna Hirschfeld wrote:
->>>>>>> On 20.11.21 14:34, Laurent Pinchart wrote:
->>>>>>>> On Sat, Nov 20, 2021 at 01:02:57PM +0200, Dafna Hirschfeld wrote:
->>>>>>>>> When trying to stream on both mainpatch and selfpatch
->>>>>>>>> with grey format, I get an iommu page fault.
->>>>>>>>> The fault is on the address at the end of the buffer,
->>>>>>>>> so it seems that the device is somehow wrongly
->>>>>>>>> configured and thinks there is another plane.
->>>>>>>>
->>>>>>>> Could we try to fix that instead ? There are IR sensors for which the
->>>>>>>> GREY format is useful.
->>>>>>>
->>>>>>> Hi, the doc is not very useful so I can try doing a bit trial and error.
->>>>>>> I see that there are several greyscale formats: [1]
->>>>>>> which make me think that maybe the device support one of the other greyscale formats.
->>>>>>> Do you know if some formats are more likely than other?
->>>>>>
->>>>>> GREY seems the most likely (useful for IR sensors for instance, after
->>>>>> ISP processing). Formats with a higher bpp would require processing of
->>>>>> more than 8bpp through the ISP pipeline, I don't know if that's
->>>>>> supported.
->>>
->>> I tried all kind of things but was not able to stream greyscale.
->>> When ISP processing works it outputs YUV 422 format and then the resizer
->>> is used to change the format to YUV 420 if wanted.
->>> I tried to chance the scale to YUV 400 (grey) or change the mainpath/selfpath
->>> configuration but still had that iommu page fault errors.
->>>
->>> Interestingly when I bypass the iommu and dma allocation is direct
->>> the streaming works and even the output frames seems okayish greyscale format
->>> but that might be by accident.
->>
->> Just a guess, but its possible they use a short cut to gray scale, and write to
->> NV12 buffers. planar YUV 420 are somewhat compatible with grayscale, so that's
->> always a possible cheat.
-> 
-> NV12 would be a pain, as it would require bigger buffers to be provided
-> for the capture, which if coming from an external source rather than
-> allocated on the device might not be given ...
-> 
-> Is there an explicit way to configure the UV plane on the RKISP to an
-> internal scratch buffer that would get discarded? or will it always
-> assume the UV data is immediately after the Y data?
+I took the time then to test out on sdm845 to ensure the new patch breaks
+nothing "./cam -c 1 --capture=1 --file=capture.raw" continues to produce
+expected data.
 
-It's actually not assumed so, the UV buffer address is a different address
-configured into the device and doesn't have to be continuously after the Y buffer.
-So we can indeed set it to a dummy buffer (which is already there
-for the cases no vb2 buffers are queued.
+Link: https://git.linaro.org/people/bryan.odonoghue/kernel.git/commit/?h=v5.16-rc1-sm8250-camss-imx577-only
+Link: https://git.linaro.org/people/bryan.odonoghue/kernel.git/commit/?h=v5.16-rc3-sm8250-camss-imx577-only-v2
 
-Thanks,
-Dafna
+git diff v5.16-rc1-sm8250-camss-imx577-only..v5.16-rc3-sm8250-camss-imx577-only-v2 -- drivers/media/platform/qcom/camss
 
-> 
-> --
-> Kieran
-> 
-> 
->>>>>> Formats with a higher bpp (both greyscale and bayer formats) are also
->>>>>> useful to capture raw images (before ISP processing). Is that something
->>>>>> the hardware and driver support ?
->>>>>
->>>>> hi, yes the variations of V4L2_PIX_FMT_Sxxxx10, V4L2_PIX_FMT_Sxxxx12
->>>>> are supported on mainpath.
->>>>
->>>> That's nice. Does it bypass the whole ISP then ? Is it possible to
->>>> capture raw frames on the main path and processed frames on the self
->>>> path at the same time, or are we restricted to raw only when we capture
->>>> raw frames ?
->>>
->>> I think we are restricted to raw only when we capture raw frames.
->>> The doc describe the isp_ctl register that set the isp output to either raw or yuv.
->>> It seems not to be possible to send raw to mainpath and yuv to selfpath.
->>>
->>> Thanks,
->>> Dafna
->>>
->>>>
->>>>>>> [1] https://www.kernel.org/doc/html/latest/userspace-api/media/v4l/pixfmt-yuv-luma.html
->>>>>>>
->>>>>>>>> Signed-off-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
->>>>>>>>> ---
->>>>>>>>>      .../platform/rockchip/rkisp1/rkisp1-capture.c     | 15 ---------------
->>>>>>>>>      1 file changed, 15 deletions(-)
->>>>>>>>>
->>>>>>>>> diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-capture.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-capture.c
->>>>>>>>> index 768987d5f2dd..7f78f361dd5e 100644
->>>>>>>>> --- a/drivers/media/platform/rockchip/rkisp1/rkisp1-capture.c
->>>>>>>>> +++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-capture.c
->>>>>>>>> @@ -116,13 +116,6 @@ static const struct rkisp1_capture_fmt_cfg rkisp1_mp_fmts[] = {
->>>>>>>>>                    .write_format = RKISP1_MI_CTRL_MP_WRITE_YUV_PLA_OR_RAW8,
->>>>>>>>>                    .mbus = MEDIA_BUS_FMT_YUYV8_2X8,
->>>>>>>>>            },
->>>>>>>>> - /* yuv400 */
->>>>>>>>> - {
->>>>>>>>> -         .fourcc = V4L2_PIX_FMT_GREY,
->>>>>>>>> -         .uv_swap = 0,
->>>>>>>>> -         .write_format = RKISP1_MI_CTRL_MP_WRITE_YUV_PLA_OR_RAW8,
->>>>>>>>> -         .mbus = MEDIA_BUS_FMT_YUYV8_2X8,
->>>>>>>>> - },
->>>>>>>>>            /* yuv420 */
->>>>>>>>>            {
->>>>>>>>>                    .fourcc = V4L2_PIX_FMT_NV21,
->>>>>>>>> @@ -244,14 +237,6 @@ static const struct rkisp1_capture_fmt_cfg rkisp1_sp_fmts[] = {
->>>>>>>>>                    .output_format = RKISP1_MI_CTRL_SP_OUTPUT_YUV422,
->>>>>>>>>                    .mbus = MEDIA_BUS_FMT_YUYV8_2X8,
->>>>>>>>>            },
->>>>>>>>> - /* yuv400 */
->>>>>>>>> - {
->>>>>>>>> -         .fourcc = V4L2_PIX_FMT_GREY,
->>>>>>>>> -         .uv_swap = 0,
->>>>>>>>> -         .write_format = RKISP1_MI_CTRL_SP_WRITE_PLA,
->>>>>>>>> -         .output_format = RKISP1_MI_CTRL_SP_OUTPUT_YUV400,
->>>>>>>>> -         .mbus = MEDIA_BUS_FMT_YUYV8_2X8,
->>>>>>>>> - },
->>>>>>>>>            /* rgb */
->>>>>>>>>            {
->>>>>>>>>                    .fourcc = V4L2_PIX_FMT_XBGR32,
->>>>
->>>
->>
+V1/RESEND:
+RESEND: git send-email --to=inux-arm-msm@vger.kernel.org -> --to=linux-arm-msm@vger.kernel.org
+
+This series is imported from excellent enabling work contributed by
+Jonathan Marek which we have picked up in Linaro for the RB5 project.
+
+Link: https://patchwork.kernel.org/project/linux-arm-msm/patch/20210511180728.23781-2-jonathan@marek.ca/
+Link: https://www.qualcomm.com/products/robotics-rb5-platform
+Link: https://www.96boards.org/product/qualcomm-robotics-rb5
+Link: https://www.thundercomm.com/app_en/product/1590131656070623?index=1&categoryId=category0&tabIndex=1
+
+The RB5 has a slightly different sku I think to Jonathan's platform -
+QRB5165 in our case with a different version of LK the relevant bootloader
+for the board.
+
+As a result we needed to make some additional updates to the provided
+patcheset, included here.
+
+The most notable changes are:
+
+- Addition of clocks.
+- Addition of bandwidth settings.
+- Representing the dependency on a VFE for a given CSID so that V4L
+  subdevs will come out of reset right when poked.
+
+A full tree which is bootable and capable of producing pixel data from the
+imx577 main sensor is availble here, with this series being a sub-set of
+the necessary patches on the SoC side only.
+
+Link: https://git.linaro.org/people/bryan.odonoghue/kernel.git/log/?h=v5.16-rc1-sm8250-camss-imx577-only
+
+media-ctl --reset
+media-ctl -v -d /dev/media0 -V '"imx412 '20-001a'":0[fmt:SRGGB10/4056x3040 field:none]'
+media-ctl -V '"msm_csiphy2":0[fmt:SRGGB10/4056x3040]'
+media-ctl -V '"msm_csid0":0[fmt:SRGGB10/4056x3040]'
+media-ctl -V '"msm_vfe0_rdi0":0[fmt:SRGGB10/4056x3040]'
+media-ctl -l '"msm_csiphy2":1->"msm_csid0":0[1]'
+media-ctl -l '"msm_csid0":1->"msm_vfe0_rdi0":0[1]'
+
+yavta -B capture-mplane -c -I -n 5 -f SRGGB10P -s 4056x3040 -F /dev/video0
+
+Bryan O'Donoghue (3):
+  media: camss: Add SM8250 bandwdith configuration support
+  media: camss: Do vfe_get/vfe_put for csid on sm8250
+  media: camss: Apply vfe_get/vfe_put fix to SDM845
+
+Jonathan Marek (16):
+  media: dt-bindings: media: camss: Add qcom,sm8250-camss binding
+  media: camss: csiphy-3ph: don't print HW version as an error
+  media: camss: csiphy-3ph: disable interrupts
+  media: camss: csiphy-3ph: add support for SM8250 CSI DPHY
+  media: camss: csid-170: fix non-10bit formats
+  media: camss: csid-170: don't enable unused irqs
+  media: camss: csid-170: remove stray comment
+  media: camss: csid-170: support more than one lite vfe
+  media: camss: csid-170: set the right HALT_CMD when disabled
+  media: camss: csid: allow csid to work without a regulator
+  media: camss: remove vdda-csiN from sdm845 resources
+  media: camss: fix VFE irq name
+  media: camss: vfe-170: fix "VFE halt timeout" error
+  media: camss: Add initial support for VFE hardware version Titan 480
+  media: camss: add support for V4L2_PIX_FMT_GREY for sdm845 HW
+  media: camss: add support for SM8250 camss
+
+ .../bindings/media/qcom,sm8250-camss.yaml     | 450 ++++++++++++++
+ drivers/media/platform/qcom/camss/Makefile    |   3 +-
+ .../{camss-csid-170.c => camss-csid-gen2.c}   |  32 +-
+ .../media/platform/qcom/camss/camss-csid.c    |  56 +-
+ .../media/platform/qcom/camss/camss-csid.h    |   2 +-
+ .../qcom/camss/camss-csiphy-3ph-1-0.c         | 184 ++++--
+ .../media/platform/qcom/camss/camss-csiphy.c  |   9 +-
+ .../media/platform/qcom/camss/camss-vfe-170.c |  12 +-
+ .../media/platform/qcom/camss/camss-vfe-480.c | 564 ++++++++++++++++++
+ drivers/media/platform/qcom/camss/camss-vfe.c |  17 +-
+ drivers/media/platform/qcom/camss/camss-vfe.h |   4 +
+ .../media/platform/qcom/camss/camss-video.c   |   5 +-
+ drivers/media/platform/qcom/camss/camss.c     | 306 +++++++++-
+ drivers/media/platform/qcom/camss/camss.h     |  18 +
+ 14 files changed, 1558 insertions(+), 104 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/media/qcom,sm8250-camss.yaml
+ rename drivers/media/platform/qcom/camss/{camss-csid-170.c => camss-csid-gen2.c} (95%)
+ create mode 100644 drivers/media/platform/qcom/camss/camss-vfe-480.c
+
+-- 
+2.33.0
+
