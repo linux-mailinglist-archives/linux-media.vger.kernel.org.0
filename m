@@ -2,90 +2,111 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DAA94466443
-	for <lists+linux-media@lfdr.de>; Thu,  2 Dec 2021 14:09:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 47CBD46648B
+	for <lists+linux-media@lfdr.de>; Thu,  2 Dec 2021 14:34:14 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1354797AbhLBNM2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 2 Dec 2021 08:12:28 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46642 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1354377AbhLBNM2 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 2 Dec 2021 08:12:28 -0500
-Received: from mail-wm1-x332.google.com (mail-wm1-x332.google.com [IPv6:2a00:1450:4864:20::332])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 904FFC06174A
-        for <linux-media@vger.kernel.org>; Thu,  2 Dec 2021 05:09:05 -0800 (PST)
-Received: by mail-wm1-x332.google.com with SMTP id j140-20020a1c2392000000b003399ae48f58so2268029wmj.5
-        for <linux-media@vger.kernel.org>; Thu, 02 Dec 2021 05:09:05 -0800 (PST)
+        id S1358243AbhLBNhe (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 2 Dec 2021 08:37:34 -0500
+Received: from ewsoutbound.kpnmail.nl ([195.121.94.167]:62726 "EHLO
+        ewsoutbound.kpnmail.nl" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1358242AbhLBNhd (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 2 Dec 2021 08:37:33 -0500
+X-KPN-MessageId: 7a702b34-5374-11ec-9a2e-005056abbe64
+Received: from smtp.kpnmail.nl (unknown [10.31.155.39])
+        by ewsoutbound.so.kpn.org (Halon) with ESMTPS
+        id 7a702b34-5374-11ec-9a2e-005056abbe64;
+        Thu, 02 Dec 2021 14:33:47 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=qkloyzmgkZa50FZSGGF+wfEwZstu/TdZOMc2VxsMJqs=;
-        b=apYEp4vpKMGECl5LlrWhArJI/Lx+RPDNkc9Sz/dJ2M/+U/1nkVPXqFJSXrKTvi4apH
-         heKE5CoKV4bCpl2WIye7eBXiYDVbgQKE4nqX8FAPpe2CI3Fv6ImWnS3zUO/J9bN6CduI
-         tY9May4bHaZJC9BQNuXEJhTJsKCguOtYVS8P1196mtcSGLWYFykp0V0q7euqHqvBnkoe
-         b1c0nAbanwZVwusDYW600mdeNN/6vXr3uqZfxSrlPzzuL8faLppgc/0t/YD6J9BkjeBv
-         kXlhAy3y6kG2lQWaz1gA5bPuZl3T2+YyELAP66vflwHp679Q6JvDJxODbx7ik9JiPtpo
-         58OA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=qkloyzmgkZa50FZSGGF+wfEwZstu/TdZOMc2VxsMJqs=;
-        b=A3nU+Vv/oT9eJPWtI0rCC32q5pt9wtbYJTU28AGDFzGeSvocrmGmkytdfUPFIIKgut
-         djajy+LcyFdgIAsI9cMVBWfagd7cye7dOewvUqHKM/O3/oPC8TcLvD+ywS6oQ9dXPBNy
-         E8/l+W5WoJjv3Q0YQbkllYopQsAdsiCrjK0DeN/8hedFj60z7mjBD6YqEM3tkl4eH2Bh
-         khR9Pd5ui655RDPiQkpds8EtHtTcnfVx31Jb/Hpt76UBMXDEZD4msc+FnOtRtPpKHBnm
-         +zdLFhTLrayrt0ONBgY2l2v4C1+HqBa9v85J+U7NP9+5XRDo25c18TtDGxPvcJPsaglY
-         WNpw==
-X-Gm-Message-State: AOAM5331G+xGAXMknIH5QQBRDQxTn/wyx6nQu758Fgsc0P8Enzw7kI1b
-        KGNx20FcRHBARv4YTfELxPcPWQ==
-X-Google-Smtp-Source: ABdhPJxfqQfAywXSxFLngYVN4tPDat61yp/6i71R11WBpwUS44vkgyhgIPpJHV9bt49GoG3JJyALYQ==
-X-Received: by 2002:a05:600c:190b:: with SMTP id j11mr6258700wmq.112.1638450544141;
-        Thu, 02 Dec 2021 05:09:04 -0800 (PST)
-Received: from [192.168.0.162] (188-141-3-169.dynamic.upc.ie. [188.141.3.169])
-        by smtp.gmail.com with ESMTPSA id u15sm1812119wmq.13.2021.12.02.05.09.02
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 02 Dec 2021 05:09:03 -0800 (PST)
-Message-ID: <76ed0769-897a-5636-81a6-877c72d7df13@linaro.org>
-Date:   Thu, 2 Dec 2021 13:11:08 +0000
+        d=xs4all.nl; s=xs4all01;
+        h=content-type:mime-version:date:message-id:from:to:subject;
+        bh=K65nEOH5jY8KakqRM0oHkId8wuLz340TVgKfbNaHU6Q=;
+        b=UQ34l+CRkUF5uNCpSO0QVN5bl7RUZQt4nzkeoTnyCVv2upFjKnYUUzp+6B1BSeRZAz+Ecl2ObaRf7
+         xDg4EJ+ZV8H8XNR98NoWODeuH89wcXPwYr7CLYSch1+q6xpJUIJ+rEgqD0aKUmI/ry5IUgFKYFiJjt
+         8q0k7ODF7e9MG3ZJSaZw47xzIueR0WZVF+nzf8FfQjdE+M06+3G96VI7zEqbjMyBHpZJQF5q1/Ob0z
+         uJcU9yHK5TwjaVEdnuMt+X+C4ZiHzOsdc21/CXKiMQT28V7jyjzTaLs6PKvS2ZPjhiAhdUAzEUwo7s
+         6sF85ekxSMQoPFDlQHkUO3tOhGGcMXg==
+X-KPN-VerifiedSender: Yes
+X-CMASSUN: 33|uTaTnKRySdqBsDx4+7xy/b8b6SOMtvAgR6ygjWz03ABwWWr06PSA47n1wqs82Bh
+ lzXm+q9ICtIhwNPF7IeCliQ==
+X-Originating-IP: 193.91.129.219
+Received: from [192.168.2.10] (cdb815bc1.dhcp.as2116.net [193.91.129.219])
+        by smtp.xs4all.nl (Halon) with ESMTPSA
+        id 87aabd9d-5374-11ec-81f5-005056ab7447;
+        Thu, 02 Dec 2021 14:34:10 +0100 (CET)
+Subject: Re: [PATCH] media: saa7146: hexium_gemini: Fix a NULL pointer
+ dereference in hexium_attach()
+To:     Zhou Qingyang <zhou1615@umn.edu>
+Cc:     kjlu@umn.edu, Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20211130161538.182313-1-zhou1615@umn.edu>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Message-ID: <b0f7ee6e-f6fc-955e-92eb-013cd96f1d1d@xs4all.nl>
+Date:   Thu, 2 Dec 2021 14:34:09 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Firefox/78.0 Thunderbird/78.14.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.1.1
-Subject: Re: [PATCH v2 01/19] media: dt-bindings: media: camss: Add
- qcom,sm8250-camss binding
+In-Reply-To: <20211130161538.182313-1-zhou1615@umn.edu>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-To:     Hans Verkuil <hverkuil@xs4all.nl>, linux-arm-msm@vger.kernel.org,
-        linux-media@vger.kernel.org, robert.foss@linaro.org,
-        jonathan@marek.ca
-Cc:     andrey.konovalov@linaro.org, todor.too@gmail.com,
-        agross@kernel.org, bjorn.andersson@linaro.org, mchehab@kernel.org,
-        jgrahsl@snap.com, hfink@snap.com
-References: <20211124175921.1048375-1-bryan.odonoghue@linaro.org>
- <20211124175921.1048375-2-bryan.odonoghue@linaro.org>
- <a1c7a29d-115c-881f-4f00-fe502365242e@xs4all.nl>
-From:   Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-In-Reply-To: <a1c7a29d-115c-881f-4f00-fe502365242e@xs4all.nl>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 02/12/2021 13:06, Hans Verkuil wrote:
-> Hi Bryan,
+On 30/11/2021 17:15, Zhou Qingyang wrote:
+> In hexium_attach(dev, info), saa7146_vv_init() is called to allocate
+> a new memory for dev->vv_data. saa7146_vv_release() will be called on
+> failure of saa7146_register_device(). There is a dereference of
+> dev->vv_data in saa7146_vv_release(), which could lead to a NULL
+> pointer dereference on failure of saa7146_vv_init().
 > 
-> This patch needs to be CC-ed to devicetree@vger.kernel.org. I need an Acked-by from
-> the device tree maintainers before I can merge this series.
+> Fix this bug by adding a check of saa7146_vv_init().
 > 
-> Everything else looks good, it's the only thing preventing this from merging.
+> This bug was found by a static analyzer. The analysis employs
+> differential checking to identify inconsistent security operations
+> (e.g., checks or kfrees) between two code paths and confirms that the
+> inconsistent operations are not recovered in the current function or
+> the callers, so they constitute bugs.
 > 
-> Regards,
+> Note that, as a bug found by static analysis, it can be a false
+> positive or hard to trigger. Multiple researchers have cross-reviewed
+> the bug.
 > 
-> 	Hans
+> Builds with CONFIG_VIDEO_HEXIUM_GEMINI=m show no new warnings,
+> and our static analyzer no longer warns about this code.
+> 
+> Signed-off-by: Zhou Qingyang <zhou1615@umn.edu>
+> ---
+>  drivers/media/pci/saa7146/hexium_gemini.c | 6 +++++-
+>  1 file changed, 5 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/media/pci/saa7146/hexium_gemini.c b/drivers/media/pci/saa7146/hexium_gemini.c
+> index 2214c74bbbf1..549b1ddc59b5 100644
+> --- a/drivers/media/pci/saa7146/hexium_gemini.c
+> +++ b/drivers/media/pci/saa7146/hexium_gemini.c
+> @@ -284,7 +284,11 @@ static int hexium_attach(struct saa7146_dev *dev, struct saa7146_pci_extension_d
+>  	hexium_set_input(hexium, 0);
+>  	hexium->cur_input = 0;
+>  
+> -	saa7146_vv_init(dev, &vv_data);
+> +	ret = saa7146_vv_init(dev, &vv_data);
+> +	if (ret) {
+> +		kfree(hexium);
 
-np
+You need to call i2c_del_adapter(&hexium->i2c_adapter); as well.
 
-I'll resend with a cc
+Also, saa7146_vv_init() needs be fixed since it can return -1: that should
+be -ENOMEM. Otherwise a -1 error code could be returned here, that's not
+what you want.
+
+Regards,
+
+	Hans
+
+> +		return ret;
+> +	}
+>  
+>  	vv_data.vid_ops.vidioc_enum_input = vidioc_enum_input;
+>  	vv_data.vid_ops.vidioc_g_input = vidioc_g_input;
+> 
 
