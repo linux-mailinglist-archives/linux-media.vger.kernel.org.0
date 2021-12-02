@@ -2,226 +2,235 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 131B8465A74
-	for <lists+linux-media@lfdr.de>; Thu,  2 Dec 2021 01:10:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id AF8A5465B79
+	for <lists+linux-media@lfdr.de>; Thu,  2 Dec 2021 01:58:23 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1354103AbhLBANz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 1 Dec 2021 19:13:55 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39256 "EHLO
+        id S232366AbhLBBBn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 1 Dec 2021 20:01:43 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51196 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1344135AbhLBANi (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 1 Dec 2021 19:13:38 -0500
-Received: from mail-qk1-x736.google.com (mail-qk1-x736.google.com [IPv6:2607:f8b0:4864:20::736])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B5C7AC061758
-        for <linux-media@vger.kernel.org>; Wed,  1 Dec 2021 16:10:11 -0800 (PST)
-Received: by mail-qk1-x736.google.com with SMTP id 193so32982173qkh.10
-        for <linux-media@vger.kernel.org>; Wed, 01 Dec 2021 16:10:11 -0800 (PST)
+        with ESMTP id S1344170AbhLBBBg (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 1 Dec 2021 20:01:36 -0500
+Received: from mail-ed1-x52d.google.com (mail-ed1-x52d.google.com [IPv6:2a00:1450:4864:20::52d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4C45BC061756;
+        Wed,  1 Dec 2021 16:58:14 -0800 (PST)
+Received: by mail-ed1-x52d.google.com with SMTP id l25so109014853eda.11;
+        Wed, 01 Dec 2021 16:58:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
+        d=gmail.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=55WStG4Y7XlDovmlmdz+wvG6EaacgKrZKMN/wNUPDPc=;
-        b=NlFNrvHDX4WGr/52aCDlG+suYiNBw8eVzKVICQV7J8Elq1W5jJyjHPnT/rvgT6XOA7
-         vgsZQTED1c0q5GR7VRRuSLlaLQdHFnWtrmapHOMPSz4DfK1FrLrATzaSOkKooY3aCHSV
-         ZumUeV+X0TEDlVR72CWqMttnlvY9+YcNt6OMA=
+         :cc:content-transfer-encoding;
+        bh=MDs/Jyg2/Fm6/tmFp/cfCeZAs/P9gxctfJQzTv1D9I4=;
+        b=Z0aZppabcMHqAqe/IELdlodhbZPrnBrurEFt6x9k9ONn7v28tmLWjtowBVrAZQTdAl
+         rf5KbRRrj9IO49s54jiz4FYwK6WEfY3t3Qx2mnLRyvHHCNss50wHQRlZwDLzVErq55tO
+         Dh+fF8MmtzESvuOsxiVaeZgPtG8398wykTWGr5nc0T2IdUrQ/pc3WIPRStGQzpuDVnqo
+         RmG5y6SR7H0ACd8nWSltrrtRO+yJAlvlqjkcwGNGY+d9zZwfZOb7wsltc9DeyfVmxfnN
+         43L3ntatwysSiiO1l1Wu28qtZVLfKG/eh2OhdPRU8SwTDNtpoqHfWoH7C55cshUt0qDX
+         fMOg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=55WStG4Y7XlDovmlmdz+wvG6EaacgKrZKMN/wNUPDPc=;
-        b=fsm8ex4rtkBrk/LePrAMIjtY2iMQ6EXO7znrg9YLZIlE7IdP3XLy9p+HfkbXHx85I0
-         tTqS0TX4yfl8vS07QG+4Ot6E7GJMaddeQ6y9NkRx50ku2aQWlS3JZUYfIyol34b8Jhcq
-         3E08G/VatcK7rVn2aixihZCy941QZvOX5aGeEN8QyTHaxeeLllEDIBETKAV5HCykeeFn
-         qSQIwePCETarFaDsDTZISe1kcRCXcGKCf12mXlouoewJ8JjPqRIOhT2Kj5XdiGGSyH3m
-         5oI406RhP3row483OmWsGCn/PZKCvay2HJbeNB1z3ixcsRhHpAixtWyzjo9YroAIkoLF
-         paxQ==
-X-Gm-Message-State: AOAM532lz2MNW6LpSiDlBmszTUzvf2Hvr+8dT48HP4GuS0vguuF3QQZh
-        +Znok0gJzTWFQVoE1VbzxPUOlu/LpsuTbAWePdBUuA==
-X-Google-Smtp-Source: ABdhPJwnxcMhCHSmQbCaz9VZX6btqW3BmzytBcMVvCB83INeGr8SdIdEK+AnZ0JqT5Dl4lJC/zQNylftsh/c62mi930=
-X-Received: by 2002:a37:e20d:: with SMTP id g13mr9677715qki.121.1638403810885;
- Wed, 01 Dec 2021 16:10:10 -0800 (PST)
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=MDs/Jyg2/Fm6/tmFp/cfCeZAs/P9gxctfJQzTv1D9I4=;
+        b=fY+dqliHAlnunO/ZV8PbWwYlxZdcpK6N4RTtBhC04O5LEFkJYXiwXLGUbghDLjXuSr
+         qKupl9PcB9Q4enDst4AbOm8zBM6qoqxOTzauGhjms/Ux5KrdFTDeIIK9UzTmuZc/3DVj
+         iU69NrpKvgWnrOcdAiWxya1iu+1rXoAn/Zz4rS2o7YEXTj/mvaQ6lHJ40a457ASIUY5d
+         ZHUzegnwNUs52c13NbXp9B7Gne6SkTPT6fbMJj92fIiv2y+uzARF4BGCaqEgJ/aHq2UV
+         RSILOYav8TgTKDVvgMBDyl9mAXURh9zz3cfal8gi7RE8gD5vD/CBU+uu22eK6R7Q8T2/
+         nMeQ==
+X-Gm-Message-State: AOAM531z/u06XYR58ExsxV7sFKvKwba0B9ZNdIfVadlzPKd/BpqOKA7y
+        IY8RuFR02AqepEAWboXbyt0GqPXC7kCGKjXHq18=
+X-Google-Smtp-Source: ABdhPJy2AeC+wjbxokHKkX1QJDz4q03oGJTAKXg4f61iAPBx4Kwt2Z2Gsb5gMxoLVsTajmPMfJR8Ls7h2+OxRikmXPo=
+X-Received: by 2002:a17:907:1b17:: with SMTP id mp23mr10807590ejc.521.1638406692655;
+ Wed, 01 Dec 2021 16:58:12 -0800 (PST)
 MIME-Version: 1.0
-References: <20211129034201.5767-1-yunfei.dong@mediatek.com> <20211129034201.5767-4-yunfei.dong@mediatek.com>
-In-Reply-To: <20211129034201.5767-4-yunfei.dong@mediatek.com>
-From:   Steve Cho <stevecho@chromium.org>
-Date:   Wed, 1 Dec 2021 16:10:00 -0800
-Message-ID: <CAC-pXoNtM0CFp9iFtZLtgQ7ZG9VewXyk9wF66w6YcEE4skRghA@mail.gmail.com>
-Subject: Re: [PATCH v11, 03/19] media: mtk-vcodec: Refactor vcodec pm interface
-To:     Yunfei Dong <yunfei.dong@mediatek.com>
-Cc:     Alexandre Courbot <acourbot@chromium.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Tzung-Bi Shih <tzungbi@chromium.org>,
-        Tiffany Lin <tiffany.lin@mediatek.com>,
-        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
+References: <20211201013329.15875-1-aford173@gmail.com> <20211201013329.15875-2-aford173@gmail.com>
+ <CAAEAJfBBFhRtW2wmoA6T+yyM-nurUbtPqYHKPHjeRdKzA34PcQ@mail.gmail.com>
+ <CAHCN7xLGTadbr+=-j2yJHFn233dgHic28njej8LHS2M0WwtqYQ@mail.gmail.com>
+ <CAAEAJfDqBezv1_ZsF3vjAFprZYuaE7krkSXa4vzAfMZp5_z+sA@mail.gmail.com> <d8335964ece000814c8ec2ea0274498b3280812c.camel@ndufresne.ca>
+In-Reply-To: <d8335964ece000814c8ec2ea0274498b3280812c.camel@ndufresne.ca>
+From:   Adam Ford <aford173@gmail.com>
+Date:   Wed, 1 Dec 2021 18:58:01 -0600
+Message-ID: <CAHCN7xK7L2iJvHa8j+W0n2ufOUeLTdF06r=Fa4wjXj5UE9mM-Q@mail.gmail.com>
+Subject: Re: [RFC V2 1/2] media: hantro: Add support for i.MX8M Mini
+To:     Nicolas Dufresne <nicolas@ndufresne.ca>
+Cc:     Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+        linux-media <linux-media@vger.kernel.org>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Tim Harvey <tharvey@gateworks.com>,
+        Adam Ford-BE <aford@beaconembedded.com>,
         Rob Herring <robh+dt@kernel.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Tomasz Figa <tfiga@google.com>,
-        Hsin-Yi Wang <hsinyi@chromium.org>,
-        Fritz Koenig <frkoenig@chromium.org>,
-        Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
-        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        Irui Wang <irui.wang@mediatek.com>,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        srv_heupstream@mediatek.com, linux-mediatek@lists.infradead.org,
-        Project_Global_Chrome_Upstream_Group@mediatek.com
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        devicetree <devicetree@vger.kernel.org>,
+        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        "open list:ARM/Rockchip SoC..." <linux-rockchip@lists.infradead.org>,
+        "open list:STAGING SUBSYSTEM" <linux-staging@lists.linux.dev>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Reviewed-by: Steve Cho <stevecho@chromium.org>
+On Wed, Dec 1, 2021 at 3:03 PM Nicolas Dufresne <nicolas@ndufresne.ca> wrot=
+e:
+>
+> Le mercredi 01 d=C3=A9cembre 2021 =C3=A0 09:58 -0300, Ezequiel Garcia a =
+=C3=A9crit :
+> > On Wed, 1 Dec 2021 at 09:36, Adam Ford <aford173@gmail.com> wrote:
+> > >
+> > > On Wed, Dec 1, 2021 at 6:25 AM Ezequiel Garcia
+> > > <ezequiel@vanguardiasur.com.ar> wrote:
+> > > >
+> > > > Hi Adam,
+> > > >
+> > > > On Tue, 30 Nov 2021 at 22:33, Adam Ford <aford173@gmail.com> wrote:
+> > > > >
+> > > > > The i.MX8M Mini has a similar implementation of the Hantro G1 and
+> > > > > h decoders, but the Mini uses the vpu-blk-ctrl for handling the
+> > > > > VPU resets through the power domain system.  As such, there are
+> > > > > functions present in the 8MQ that are not applicable to the Mini
+> > > > > which requires the driver to have a different compatible flags.
+> > > > >
+> > > > > Signed-off-by: Adam Ford <aford173@gmail.com>
+> > > > >
+> > > > > diff --git a/drivers/staging/media/hantro/hantro_drv.c b/drivers/=
+staging/media/hantro/hantro_drv.c
+> > > > > index fb82b9297a2b..2aa1c520be50 100644
+> > > > > --- a/drivers/staging/media/hantro/hantro_drv.c
+> > > > > +++ b/drivers/staging/media/hantro/hantro_drv.c
+> > > > > @@ -592,6 +592,8 @@ static const struct of_device_id of_hantro_ma=
+tch[] =3D {
+> > > > >         { .compatible =3D "rockchip,rk3399-vpu", .data =3D &rk339=
+9_vpu_variant, },
+> > > > >  #endif
+> > > > >  #ifdef CONFIG_VIDEO_HANTRO_IMX8M
+> > > > > +       { .compatible =3D "nxp,imx8mm-vpu", .data =3D &imx8mm_vpu=
+_variant, },
+> > > > > +       { .compatible =3D "nxp,imx8mm-vpu-g2", .data =3D &imx8mm_=
+vpu_g2_variant },
+> > > > >         { .compatible =3D "nxp,imx8mq-vpu", .data =3D &imx8mq_vpu=
+_variant, },
+> > > > >         { .compatible =3D "nxp,imx8mq-vpu-g2", .data =3D &imx8mq_=
+vpu_g2_variant },
+> > > > >  #endif
+> > > > > diff --git a/drivers/staging/media/hantro/hantro_hw.h b/drivers/s=
+taging/media/hantro/hantro_hw.h
+> > > > > index 267a6d33a47b..ae7c3fff760c 100644
+> > > > > --- a/drivers/staging/media/hantro/hantro_hw.h
+> > > > > +++ b/drivers/staging/media/hantro/hantro_hw.h
+> > > > > @@ -211,6 +211,8 @@ enum hantro_enc_fmt {
+> > > > >         ROCKCHIP_VPU_ENC_FMT_UYVY422 =3D 3,
+> > > > >  };
+> > > > >
+> > > > > +extern const struct hantro_variant imx8mm_vpu_g2_variant;
+> > > > > +extern const struct hantro_variant imx8mm_vpu_variant;
+> > > > >  extern const struct hantro_variant imx8mq_vpu_g2_variant;
+> > > > >  extern const struct hantro_variant imx8mq_vpu_variant;
+> > > > >  extern const struct hantro_variant px30_vpu_variant;
+> > > > > diff --git a/drivers/staging/media/hantro/imx8m_vpu_hw.c b/driver=
+s/staging/media/hantro/imx8m_vpu_hw.c
+> > > > > index ea919bfb9891..c68516c00c6d 100644
+> > > > > --- a/drivers/staging/media/hantro/imx8m_vpu_hw.c
+> > > > > +++ b/drivers/staging/media/hantro/imx8m_vpu_hw.c
+> > > > > @@ -242,6 +242,32 @@ static const struct hantro_codec_ops imx8mq_=
+vpu_g2_codec_ops[] =3D {
+> > > > >         },
+> > > > >  };
+> > > > >
+> > > > > +static const struct hantro_codec_ops imx8mm_vpu_codec_ops[] =3D =
+{
+> > > > > +       [HANTRO_MODE_MPEG2_DEC] =3D {
+> > > > > +               .run =3D hantro_g1_mpeg2_dec_run,
+> > > > > +               .init =3D hantro_mpeg2_dec_init,
+> > > > > +               .exit =3D hantro_mpeg2_dec_exit,
+> > > > > +       },
+> > > > > +       [HANTRO_MODE_VP8_DEC] =3D {
+> > > > > +               .run =3D hantro_g1_vp8_dec_run,
+> > > > > +               .init =3D hantro_vp8_dec_init,
+> > > > > +               .exit =3D hantro_vp8_dec_exit,
+> > > > > +       },
+> > > > > +       [HANTRO_MODE_H264_DEC] =3D {
+> > > > > +               .run =3D hantro_g1_h264_dec_run,
+> > > > > +               .init =3D hantro_h264_dec_init,
+> > > > > +               .exit =3D hantro_h264_dec_exit,
+> > > > > +       },
+> > > > > +};
+> > > > > +
+> > > > > +static const struct hantro_codec_ops imx8mm_vpu_g2_codec_ops[] =
+=3D {
+> > > > > +       [HANTRO_MODE_HEVC_DEC] =3D {
+> > > > > +               .run =3D hantro_g2_hevc_dec_run,
+> > > > > +               .init =3D hantro_hevc_dec_init,
+> > > > > +               .exit =3D hantro_hevc_dec_exit,
+> > > > > +       },
+> > > > > +};
+> > > > > +
+> > > >
+> > > > I believe you are missing VP9, which explains why you get
+> > > > a zero fluster score.
+> > >
+> > > That's what I was thinking too and that's why I was wondering if I
+> > > should wait on G2 until more of those G2 patches have been finalized
+> > > and accepted.  Is there a way to test the HEVC?  I didn't see one in
+> > > the fluster list.
+> > >
+> >
+> > VP9 is on its way to be merged. There is a pull request from Hans
+> > already: see https://www.spinics.net/lists/linux-media/msg202448.html
+> > which includes the git repository and tag you can merge/rebase to test
+> > it.
+> >
 
-On Sun, Nov 28, 2021 at 7:44 PM Yunfei Dong <yunfei.dong@mediatek.com> wrote:
->
-> Using the needed param for pm init/release function and remove unused
-> param mtkdev in 'struct mtk_vcodec_pm'.
+Thanks for that.  I rebased my work and found some bugs, so I'll be
+posting an RFC V3 later tonight.
 
-nit: How about s/needed param/needed params |pdev| and |pm|/ ?
+> > It would be great if you can test G2 on top of that, but it's also fine
+> > if you want to just submit G1 for now. Up to you.
+> >
+> > Regarding HEVC, currently Benjamin is who knows best how to test it.
+> > Thinking about it, perhaps we should document this somewhere?
+>
+> There is GStreamer-H.265-V4L2SL-Gst1.0 decoder already in fluster. And GS=
+treamer
+> support is still WIP.
+>
+> https://gitlab.freedesktop.org/gstreamer/gstreamer/-/merge_requests/1079
+>
+> We had put on hold the HEVC work in order to focus on VP9. Now that VP9 i=
+s on
+> its way (I've sent another MR today to GStreamer to fix some more tests).=
+ I
+> haven't tested myself imx8mq recently, will likely do soon, so I can give=
+ you
+> the expected score. Your VP8 and H264 score matches the result I got. Not=
+e that
+> H264 driver is missing interlace support, which is half the tests.
+>
+> We will can resume this work. Help is welcome of course. The HEVC staging=
+ API is
+> by was the worst, so there is quite some work to move this API to stable =
+and
+> then port all the drivers to the require changes that will be needed.
 
+With the latest gstreamer and the rebase off Hans' work along with
+some improvements to my code, fluster now runs the VP9...at least for
+a while.  It doesn't technically finish because the power domain
+appears to choke which causes a hang.  This was reported by Tim
+Harvey, and with some of my updates, I can reproduce it now too.  :-(
 
-> Reviewed-by: Tzung-Bi Shih <tzungbi@google.com>
-> Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-> Signed-off-by: Yunfei Dong <yunfei.dong@mediatek.com>
-> ---
->  .../platform/mtk-vcodec/mtk_vcodec_dec_drv.c  |  6 ++---
->  .../platform/mtk-vcodec/mtk_vcodec_dec_pm.c   | 22 ++++++++-----------
->  .../platform/mtk-vcodec/mtk_vcodec_dec_pm.h   |  5 +++--
->  .../platform/mtk-vcodec/mtk_vcodec_drv.h      |  1 -
->  .../platform/mtk-vcodec/mtk_vcodec_enc_pm.c   |  1 -
->  5 files changed, 15 insertions(+), 20 deletions(-)
+At least I know I'm off to the right start on the VP9.
+
+adam
 >
-> diff --git a/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_drv.c b/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_drv.c
-> index 055d50e52720..3ac4c3935e4e 100644
-> --- a/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_drv.c
-> +++ b/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_drv.c
-> @@ -249,7 +249,7 @@ static int mtk_vcodec_probe(struct platform_device *pdev)
->         if (IS_ERR(dev->fw_handler))
->                 return PTR_ERR(dev->fw_handler);
->
-> -       ret = mtk_vcodec_init_dec_pm(dev);
-> +       ret = mtk_vcodec_init_dec_pm(dev->plat_dev, &dev->pm);
->         if (ret < 0) {
->                 dev_err(&pdev->dev, "Failed to get mt vcodec clock source");
->                 goto err_dec_pm;
-> @@ -378,7 +378,7 @@ static int mtk_vcodec_probe(struct platform_device *pdev)
->  err_dec_alloc:
->         v4l2_device_unregister(&dev->v4l2_dev);
->  err_res:
-> -       mtk_vcodec_release_dec_pm(dev);
-> +       mtk_vcodec_release_dec_pm(&dev->pm);
->  err_dec_pm:
->         mtk_vcodec_fw_release(dev->fw_handler);
->         return ret;
-> @@ -418,7 +418,7 @@ static int mtk_vcodec_dec_remove(struct platform_device *pdev)
->                 video_unregister_device(dev->vfd_dec);
->
->         v4l2_device_unregister(&dev->v4l2_dev);
-> -       mtk_vcodec_release_dec_pm(dev);
-> +       mtk_vcodec_release_dec_pm(&dev->pm);
->         mtk_vcodec_fw_release(dev->fw_handler);
->         return 0;
->  }
-> diff --git a/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_pm.c b/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_pm.c
-> index 6038db96f71c..20bd157a855c 100644
-> --- a/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_pm.c
-> +++ b/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_pm.c
-> @@ -13,18 +13,15 @@
->  #include "mtk_vcodec_dec_pm.h"
->  #include "mtk_vcodec_util.h"
->
-> -int mtk_vcodec_init_dec_pm(struct mtk_vcodec_dev *mtkdev)
-> +int mtk_vcodec_init_dec_pm(struct platform_device *pdev,
-> +       struct mtk_vcodec_pm *pm)
->  {
->         struct device_node *node;
-> -       struct platform_device *pdev;
-> -       struct mtk_vcodec_pm *pm;
-> +       struct platform_device *larb_pdev;
->         struct mtk_vcodec_clk *dec_clk;
->         struct mtk_vcodec_clk_info *clk_info;
->         int i = 0, ret = 0;
->
-> -       pdev = mtkdev->plat_dev;
-> -       pm = &mtkdev->pm;
-> -       pm->mtkdev = mtkdev;
->         dec_clk = &pm->vdec_clk;
->         node = of_parse_phandle(pdev->dev.of_node, "mediatek,larb", 0);
->         if (!node) {
-> @@ -32,13 +29,12 @@ int mtk_vcodec_init_dec_pm(struct mtk_vcodec_dev *mtkdev)
->                 return -1;
->         }
->
-> -       pdev = of_find_device_by_node(node);
-> +       larb_pdev = of_find_device_by_node(node);
->         of_node_put(node);
-> -       if (WARN_ON(!pdev)) {
-> +       if (WARN_ON(!larb_pdev)) {
->                 return -1;
->         }
-> -       pm->larbvdec = &pdev->dev;
-> -       pdev = mtkdev->plat_dev;
-> +       pm->larbvdec = &larb_pdev->dev;
->         pm->dev = &pdev->dev;
->
->         dec_clk->clk_num =
-> @@ -82,10 +78,10 @@ int mtk_vcodec_init_dec_pm(struct mtk_vcodec_dev *mtkdev)
->         return ret;
->  }
->
-> -void mtk_vcodec_release_dec_pm(struct mtk_vcodec_dev *dev)
-> +void mtk_vcodec_release_dec_pm(struct mtk_vcodec_pm *pm)
->  {
-> -       pm_runtime_disable(dev->pm.dev);
-> -       put_device(dev->pm.larbvdec);
-> +       pm_runtime_disable(pm->dev);
-> +       put_device(pm->larbvdec);
->  }
->
->  int mtk_vcodec_dec_pw_on(struct mtk_vcodec_pm *pm)
-> diff --git a/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_pm.h b/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_pm.h
-> index 280aeaefdb65..a3df6aef6cb9 100644
-> --- a/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_pm.h
-> +++ b/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_pm.h
-> @@ -9,8 +9,9 @@
->
->  #include "mtk_vcodec_drv.h"
->
-> -int mtk_vcodec_init_dec_pm(struct mtk_vcodec_dev *dev);
-> -void mtk_vcodec_release_dec_pm(struct mtk_vcodec_dev *dev);
-> +int mtk_vcodec_init_dec_pm(struct platform_device *pdev,
-> +       struct mtk_vcodec_pm *pm);
-> +void mtk_vcodec_release_dec_pm(struct mtk_vcodec_pm *pm);
->
->  int mtk_vcodec_dec_pw_on(struct mtk_vcodec_pm *pm);
->  void mtk_vcodec_dec_pw_off(struct mtk_vcodec_pm *pm);
-> diff --git a/drivers/media/platform/mtk-vcodec/mtk_vcodec_drv.h b/drivers/media/platform/mtk-vcodec/mtk_vcodec_drv.h
-> index 1d2370608d0d..0fa9d85114b9 100644
-> --- a/drivers/media/platform/mtk-vcodec/mtk_vcodec_drv.h
-> +++ b/drivers/media/platform/mtk-vcodec/mtk_vcodec_drv.h
-> @@ -195,7 +195,6 @@ struct mtk_vcodec_pm {
->         struct mtk_vcodec_clk   venc_clk;
->         struct device   *larbvenc;
->         struct device   *dev;
-> -       struct mtk_vcodec_dev   *mtkdev;
->  };
->
->  /**
-> diff --git a/drivers/media/platform/mtk-vcodec/mtk_vcodec_enc_pm.c b/drivers/media/platform/mtk-vcodec/mtk_vcodec_enc_pm.c
-> index 1b2e4930ed27..0c8c8f86788c 100644
-> --- a/drivers/media/platform/mtk-vcodec/mtk_vcodec_enc_pm.c
-> +++ b/drivers/media/platform/mtk-vcodec/mtk_vcodec_enc_pm.c
-> @@ -26,7 +26,6 @@ int mtk_vcodec_init_enc_pm(struct mtk_vcodec_dev *mtkdev)
->         pdev = mtkdev->plat_dev;
->         pm = &mtkdev->pm;
->         memset(pm, 0, sizeof(struct mtk_vcodec_pm));
-> -       pm->mtkdev = mtkdev;
->         pm->dev = &pdev->dev;
->         dev = &pdev->dev;
->         enc_clk = &pm->venc_clk;
-> --
-> 2.25.1
+> >
+> > Regards,
+> > Ezequiel
 >
