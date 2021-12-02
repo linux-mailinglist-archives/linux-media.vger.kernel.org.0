@@ -2,103 +2,100 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AD3ED466234
-	for <lists+linux-media@lfdr.de>; Thu,  2 Dec 2021 12:21:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 495B14662A1
+	for <lists+linux-media@lfdr.de>; Thu,  2 Dec 2021 12:44:39 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1346342AbhLBLYZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 2 Dec 2021 06:24:25 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49580 "EHLO
+        id S241648AbhLBLr5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 2 Dec 2021 06:47:57 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55066 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1346312AbhLBLYY (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 2 Dec 2021 06:24:24 -0500
-Received: from mail-wr1-x429.google.com (mail-wr1-x429.google.com [IPv6:2a00:1450:4864:20::429])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D23D6C06174A
-        for <linux-media@vger.kernel.org>; Thu,  2 Dec 2021 03:21:01 -0800 (PST)
-Received: by mail-wr1-x429.google.com with SMTP id s13so58940515wrb.3
-        for <linux-media@vger.kernel.org>; Thu, 02 Dec 2021 03:21:01 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-transfer-encoding:content-language;
-        bh=CRKy2kOor8DQEobWSSUF12yvepWWekGAAYF08gWNgC0=;
-        b=dDTTFI6a5q/CyOktOk8rLQ7O5bfULYTJsiBo07kxvMBphpWU7esVLdi31Yfb5urC2T
-         Ykom2AdFTXSj545qRFRI9CJH63vofGJs58tXFPGIlybv+JjZdxYucPi98N0V2fFz8Bqc
-         z4Ap0bmt55X2FDbY1x6HzO/885YZcrz8XSMTj3gXojX4p461t/YknKeKuU+SZIs0vSr8
-         a01xeRN4frlhHrASrCdAu4rvwHCRbFdTNK/L6L3sxCYp6AqDEGi9qIdXWZmQsmC7UVao
-         I/a6CnyinxdVCMX91iHTvlbatZ6sr3aEXPYpuqwh9scYL5n4bUY/ECS0EUn85qohDanV
-         vG2Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-transfer-encoding
-         :content-language;
-        bh=CRKy2kOor8DQEobWSSUF12yvepWWekGAAYF08gWNgC0=;
-        b=TTJyPzS1PVtUlzXIl0ZH5vEFNJoor4YaxhUUJlsyvRZeuikfe6ZmTw6CSlMECWipmV
-         1/pUBxbV42B6xDS41Zed6ZQhhSymqk9ntIfjU+OCSgdllk6zsP/mWJx5ZthjlGJqzi7K
-         B0/mTvKXZrjAPiotcUAaYWxFSFTP18ULnFU8tPQjxxQgWVhy0M8tdo3w+2GJANhjQ35i
-         A1+uaCE8QTa6iXF5p9ZE6Rl5BKkSaWzto9YAMcqTucLoNBPzKHh4ynqwa3FYZa5pyC2D
-         k4a6aSRCTK8lV1xKDr/+EK+DY1KktMC7F1yyij3gBWIOGBSYF8mbXpYZ+kBOkZclw/tw
-         9ffQ==
-X-Gm-Message-State: AOAM533Deap22vT6hQfHGueQVcYgCpbHNFCQ3TtTD1QwqQyqUGZmc2ZI
-        XUzge9eKgIs200qk4jY/ROQ=
-X-Google-Smtp-Source: ABdhPJwUKFpiDxyKAwy53R4kbHDF0h+0zXQyMP6ocijhrNKcGyEwAGf0HQggQFncIMb03n0bEGg5Eg==
-X-Received: by 2002:adf:fb4f:: with SMTP id c15mr14014551wrs.507.1638444060521;
-        Thu, 02 Dec 2021 03:21:00 -0800 (PST)
-Received: from [192.168.0.14] (cpc141996-chfd3-2-0-cust928.12-3.cable.virginm.net. [86.13.91.161])
-        by smtp.gmail.com with ESMTPSA id a10sm1953912wmq.27.2021.12.02.03.20.59
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 02 Dec 2021 03:21:00 -0800 (PST)
-Subject: Re: Kernel oops bisected to media: videobuf2: move cache_hints
- handling to allocators
-To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Cc:     mchehab+huawei@kernel.org,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Sergey Senozhatsky <senozhatsky@chromium.org>
-References: <d0dcd227-0753-5e9d-f757-4819cc271d4f@gmail.com>
- <YZhq0o7p0dVWeueC@google.com>
- <d4be3ea9-5d41-0a19-c03c-4037d01d1b6a@xs4all.nl>
-From:   Daniel Scally <djrscally@gmail.com>
-Message-ID: <8dc4414d-af47-d92f-e255-ccc07fc96b42@gmail.com>
-Date:   Thu, 2 Dec 2021 11:20:59 +0000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+        with ESMTP id S232052AbhLBLr4 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 2 Dec 2021 06:47:56 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 27DA3C06174A;
+        Thu,  2 Dec 2021 03:44:34 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 873D3B822AB;
+        Thu,  2 Dec 2021 11:44:32 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3EE9FC00446;
+        Thu,  2 Dec 2021 11:44:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1638445471;
+        bh=q3EQqN3v/X1CEIfgTuQWp/+LwcISKCdBgB34K50KKAI=;
+        h=From:To:Cc:Subject:Date:From;
+        b=YAcsjPf9KAnTq6UR1HqU88tgXk9OWIGpFZDV26yeDegUwgU91d4SFn/ggMDPE+UNa
+         nnWihYVKguH9tEzBIegD6I8LzTZFvm80WJk/rjQkwyewoxjSYODQ2IDg83jvEsbldQ
+         9jQSH4wpFnUU9AUlWBfOdX2rIvL4QT8j7pWJiyhIH4qe8WBquHegy3HE15brpCNTas
+         D/PvNz/i/1ddlvqyBpTbS18woF3IL8UavkLqCsI9GE9kz+IF7I2a78EOU1sImCTPpp
+         BPTNH6UafaLg8PVDaHt9VYW6vmtZCLtG3tfzB3jYxTpYNVXHDK+gJVAEc6LiLgsINW
+         fJWuBL7JuhMTw==
+Received: from mchehab by mail.kernel.org with local (Exim 4.94.2)
+        (envelope-from <mchehab@kernel.org>)
+        id 1mskVp-004YiH-3e; Thu, 02 Dec 2021 12:44:29 +0100
+From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc:     linuxarm@huawei.com, mauro.chehab@huawei.com,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Bingbu Cao <bingbu.cao@intel.com>,
+        Dan Scally <djrscally@gmail.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Tianshu Qiu <tian.shu.qiu@intel.com>,
+        Yong Zhi <yong.zhi@intel.com>, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org
+Subject: [PATCH] media: ipu3: don't use recursion at the Kernel
+Date:   Thu,  2 Dec 2021 12:44:26 +0100
+Message-Id: <cf020b6a04b3a9d7f08750927b1d100f63ff4689.1638445455.git.mchehab+huawei@kernel.org>
+X-Mailer: git-send-email 2.33.1
 MIME-Version: 1.0
-In-Reply-To: <d4be3ea9-5d41-0a19-c03c-4037d01d1b6a@xs4all.nl>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hello
+The Kernel stack is too small. Doing recursions there is a very
+bad idea, as, if something gets wrong, it could lead to data
+corruption. So, re-implement cio2_check_fwnode_graph() to avoid
+recursion.
 
-On 02/12/2021 11:15, Hans Verkuil wrote:
-> Daniel: ping!
->
-> On 20/11/2021 04:26, Sergey Senozhatsky wrote:
->> Hello,
->>
->> On (21/11/19 22:41), Daniel Scally wrote:
->>> Hi all
->>>
->>> I've been experiencing an oops trying to run libcamera's qcam util
->>> (which starts streaming on a camera sensor - the ov8865), which I
->>> bisected down to the patch cde513fd9b35: "media: videobuf2: move
->>> cache_hints handling to allocators"
->> Can you please check if you have these two patches in your tree:
->>
->> https://lore.kernel.org/lkml/20210928034634.333785-1-senozhatsky@chromium.org/raw
->> https://lore.kernel.org/all/20211101145355.533704-1-hdegoede@redhat.com/raw
->>
->> If not then please apply, this should fix the problems you're seeing.
->>
-> I really like to know if the cause is indeed that you are missing two patches.
+Compile-tested only.
 
+Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+---
+ drivers/media/pci/intel/ipu3/ipu3-cio2-main.c | 17 ++++++++---------
+ 1 file changed, 8 insertions(+), 9 deletions(-)
 
-I'm sorry, I missed this. I'll check it asap and let you know.
+diff --git a/drivers/media/pci/intel/ipu3/ipu3-cio2-main.c b/drivers/media/pci/intel/ipu3/ipu3-cio2-main.c
+index 356ea966cf8d..8e4f250a8b56 100644
+--- a/drivers/media/pci/intel/ipu3/ipu3-cio2-main.c
++++ b/drivers/media/pci/intel/ipu3/ipu3-cio2-main.c
+@@ -1691,16 +1691,15 @@ static int cio2_check_fwnode_graph(struct fwnode_handle *fwnode)
+ {
+ 	struct fwnode_handle *endpoint;
+ 
+-	if (IS_ERR_OR_NULL(fwnode))
+-		return -EINVAL;
+-
+-	endpoint = fwnode_graph_get_next_endpoint(fwnode, NULL);
+-	if (endpoint) {
+-		fwnode_handle_put(endpoint);
+-		return 0;
++	while (!IS_ERR_OR_NULL(fwnode)) {
++		endpoint = fwnode_graph_get_next_endpoint(fwnode, NULL);
++		if (endpoint) {
++			fwnode_handle_put(endpoint);
++			return 0;
++		}
++		fwnode = fwnode->secondary;
+ 	}
+-
+-	return cio2_check_fwnode_graph(fwnode->secondary);
++	return -EINVAL;
+ }
+ 
+ /**************** PCI interface ****************/
+-- 
+2.33.1
 
->
-> Regards,
->
-> 	Hans
