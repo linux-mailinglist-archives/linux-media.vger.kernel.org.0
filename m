@@ -2,129 +2,134 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 28DED4664A3
-	for <lists+linux-media@lfdr.de>; Thu,  2 Dec 2021 14:42:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9976D4664D8
+	for <lists+linux-media@lfdr.de>; Thu,  2 Dec 2021 14:58:19 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1358315AbhLBNpw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 2 Dec 2021 08:45:52 -0500
-Received: from ewsoutbound.kpnmail.nl ([195.121.94.170]:54200 "EHLO
-        ewsoutbound.kpnmail.nl" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1358325AbhLBNpo (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 2 Dec 2021 08:45:44 -0500
-X-KPN-MessageId: 9011b093-5375-11ec-8a6e-005056ab378f
-Received: from smtp.kpnmail.nl (unknown [10.31.155.39])
-        by ewsoutbound.so.kpn.org (Halon) with ESMTPS
-        id 9011b093-5375-11ec-8a6e-005056ab378f;
-        Thu, 02 Dec 2021 14:41:33 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=xs4all.nl; s=xs4all01;
-        h=content-type:mime-version:date:message-id:from:to:subject;
-        bh=s/xVqNVOlwQge/G2W/Pt+qdPvzezn4iibA3pPzJ8pns=;
-        b=Wpj9W31xUSyCjSI/ALBRXxRks0yuXGnsi803+cC9/pM0rTioNUa6PTLbxYwBDMpH7xMnsMmAg3FLR
-         jyO4Pi5Gf9mvQx3Gsd/S+lbHKTFIXfPBQzWaCtfe69O58QtmI/Xaa2wP43JHQX8zsoGZkN0FPMSNCW
-         l1m/p2gBNqEnGCbaGTuT9sHLLtN7hImIPWHDlkzicTKFJkD/eFTWF6/A8GXtcmknCCUu6T2SMRDyhp
-         Bj5YsahnuDP3TXFZo3IDjQsljWF91YxFEMR005cb1QCuU6ZWLc2nfc6EQGWYWdLCNbFsrfNJKH9YwG
-         Kedlurco/nSsSeP1LOxoD8yotfrb56Q==
-X-KPN-VerifiedSender: Yes
-X-CMASSUN: 33|LFJL3ISlOVsPjOchdIcRHzGsAB/c7qkOye+aaa47FBeyZUvDXkjIVc2N0FQyWXR
- njJy62WTQGDOdwahA6A9MRg==
-X-Originating-IP: 193.91.129.219
-Received: from [192.168.2.10] (cdb815bc1.dhcp.as2116.net [193.91.129.219])
-        by smtp.xs4all.nl (Halon) with ESMTPSA
-        id abae1dc3-5375-11ec-81f5-005056ab7447;
-        Thu, 02 Dec 2021 14:42:20 +0100 (CET)
-Subject: Re: [PATCH] media: vidtv: Fix a wild pointer dereference in
- vidtv_channel_pmt_match_sections()
-To:     Zhou Qingyang <zhou1615@umn.edu>
-Cc:     kjlu@umn.edu, "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>,
+        id S1358355AbhLBOBj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 2 Dec 2021 09:01:39 -0500
+Received: from mail-ot1-f46.google.com ([209.85.210.46]:43753 "EHLO
+        mail-ot1-f46.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229492AbhLBOBg (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 2 Dec 2021 09:01:36 -0500
+Received: by mail-ot1-f46.google.com with SMTP id i5-20020a05683033e500b0057a369ac614so18568220otu.10;
+        Thu, 02 Dec 2021 05:58:14 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:in-reply-to:references:subject:date
+         :message-id;
+        bh=z2HpIZws1sved5YYiAwSOa9ptMHfWgEG147HRUeGxkA=;
+        b=FfuZKqmfH1eZowv8SuwXMwD4K3ZrjxZXLXMFKVTK6fhH8CjbPHrJrJCeTd84D3e6RL
+         PQiRQwt9l8cMF4YiuaT34eDUT5xZcPYS9CCX3H8NA3BMLYCnHLIvbEBymWmc0O3SZ+Pa
+         0nl1VRJWBd9Ag/OeoUHPfOrRzscwW9qumBn75lqJBdsf/4Z8BI2JdsvMQkdKVGI+rgCQ
+         TjddxsCTNXBqrFgM0lRUNausBHwebKmg84AfN0aBW6SwvZzSCCqW3M8BoGkwko8Fkl9h
+         3sxPKBotl5EqUjsjrOQ1xPeMkWq0Ngp7xwQTbkbUxIRxhYskvKadtr5yTM7v9RAJ2iCX
+         5ZLw==
+X-Gm-Message-State: AOAM533jT2FUlg7FaZfT56fW17+RbwHTm2EI4ZYciZr9WWWuTEHOuLOv
+        do+SQ/zECJ/n/PVqWrrrtQ==
+X-Google-Smtp-Source: ABdhPJy674RwGXJHS5FTkNGv7TsgNd2LAzi4mTV02/kC09vSTgF3P3tTTIXMsJHbGzhyDU9YMStGuw==
+X-Received: by 2002:a9d:4702:: with SMTP id a2mr11485633otf.262.1638453493418;
+        Thu, 02 Dec 2021 05:58:13 -0800 (PST)
+Received: from robh.at.kernel.org (66-90-148-213.dyn.grandenetworks.net. [66.90.148.213])
+        by smtp.gmail.com with ESMTPSA id q10sm1239779oiw.17.2021.12.02.05.58.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 02 Dec 2021 05:58:12 -0800 (PST)
+Received: (nullmailer pid 3736897 invoked by uid 1000);
+        Thu, 02 Dec 2021 13:58:09 -0000
+From:   Rob Herring <robh@kernel.org>
+To:     Rob Herring <robh@kernel.org>
+Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        devicetree@vger.kernel.org, Sascha Hauer <s.hauer@pengutronix.de>,
+        linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        Rui Miguel Silva <rmfrfs@gmail.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20211130163946.189005-1-zhou1615@umn.edu>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <94dbfe62-43b3-a293-5f59-d8bd1f35bde1@xs4all.nl>
-Date:   Thu, 2 Dec 2021 14:42:19 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Firefox/78.0 Thunderbird/78.14.0
-MIME-Version: 1.0
-In-Reply-To: <20211130163946.189005-1-zhou1615@umn.edu>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+        Shawn Guo <shawnguo@kernel.org>,
+        Fabio Estevam <festevam@gmail.com>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>
+In-Reply-To: <20211202023021.3655384-1-robh@kernel.org>
+References: <20211202023021.3655384-1-robh@kernel.org>
+Subject: Re: [PATCH] dt-bindings: media: nxp,imx7-mipi-csi2: Drop bad if/then schema
+Date:   Thu, 02 Dec 2021 07:58:09 -0600
+Message-Id: <1638453489.547327.3736894.nullmailer@robh.at.kernel.org>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 30/11/2021 17:39, Zhou Qingyang wrote:
-> In vidtv_channel_pmt_match_sections(), vidtv_psi_pmt_stream_init() is
-> assigned to tail and &tail->descriptor is used in
-> vidtv_psi_desc_assign(). There is a dereference of &tail->descriptor
-> in vidtv_psi_desc_assign(), which could lead to a wild pointer
-> dereference onfailure of vidtv_psi_pmt_stream_init().
-
-onfailure -> on failure
-
+On Wed, 01 Dec 2021 20:30:21 -0600, Rob Herring wrote:
+> The if/then schema for 'data-lanes' doesn't work as 'compatible' is at a
+> different level than 'data-lanes'. To make it work, the if/then schema
+> would have to be moved to the top level and then whole hierarchy of
+> nodes down to 'data-lanes' created. I don't think it is worth the
+> complexity to do that, so let's just drop it.
 > 
-> Fix this bug by adding a check of tail.
+> The error in this schema is masked by a fixup in the tools causing the
+> 'allOf' to get overwritten. Removing the fixup as part of moving to
+> json-schema draft 2019-09 revealed the issue:
 > 
-> This bug was found by a static analyzer. The analysis employs
-> differential checking to identify inconsistent security operations
-> (e.g., checks or kfrees) between two code paths and confirms that the
-> inconsistent operations are not recovered in the current function or
-> the callers, so they constitute bugs.
+> Documentation/devicetree/bindings/media/nxp,imx7-mipi-csi2.example.dt.yaml: mipi-csi@30750000: ports:port@0:endpoint:data-lanes:0: [1] is too short
+> 	From schema: /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/media/nxp,imx7-mipi-csi2.yaml
+> Documentation/devicetree/bindings/media/nxp,imx7-mipi-csi2.example.dt.yaml: mipi-csi@32e30000: ports:port@0:endpoint:data-lanes:0: [1, 2, 3, 4] is too long
+> 	From schema: /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/media/nxp,imx7-mipi-csi2.yaml
 > 
-> Note that, as a bug found by static analysis, it can be a false
-> positive or hard to trigger. Multiple researchers have cross-reviewed
-> the bug.
+> The if condition was always true because 'compatible' did not exist in
+> 'endpoint' node and a non-existent property is true for json-schema.
 > 
-> Builds with CONFIG_DVB_VIDTV=m show no new warnings,
-> and our static analyzer no longer warns about this code.
-> 
-> Fixes: f90cf6079bf6 ("media: vidtv: add a bridge driver")
-> Signed-off-by: Zhou Qingyang <zhou1615@umn.edu>
+> Fixes: 85b62ff2cb97 ("media: dt-bindings: media: nxp,imx7-mipi-csi2: Add i.MX8MM support")
+> Cc: Rui Miguel Silva <rmfrfs@gmail.com>
+> Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
+> Cc: Shawn Guo <shawnguo@kernel.org>
+> Cc: Sascha Hauer <s.hauer@pengutronix.de>
+> Cc: Pengutronix Kernel Team <kernel@pengutronix.de>
+> Cc: Fabio Estevam <festevam@gmail.com>
+> Cc: NXP Linux Team <linux-imx@nxp.com>
+> Cc: linux-media@vger.kernel.org
+> Cc: linux-arm-kernel@lists.infradead.org
+> Signed-off-by: Rob Herring <robh@kernel.org>
 > ---
->  drivers/media/test-drivers/vidtv/vidtv_channel.c | 11 +++++++++++
->  1 file changed, 11 insertions(+)
-> 
-> diff --git a/drivers/media/test-drivers/vidtv/vidtv_channel.c b/drivers/media/test-drivers/vidtv/vidtv_channel.c
-> index 7838e6272712..f2faa5504642 100644
-> --- a/drivers/media/test-drivers/vidtv/vidtv_channel.c
-> +++ b/drivers/media/test-drivers/vidtv/vidtv_channel.c
-> @@ -318,6 +318,10 @@ vidtv_channel_pmt_match_sections(struct vidtv_channel *channels,
->  	struct vidtv_psi_table_pmt_stream *s = NULL;
->  	struct vidtv_channel *cur_chnl = channels;
->  	struct vidtv_psi_desc *desc = NULL;
-> +	struct vidtv_mux *m = container_of(&channels,
-> +					struct vidtv_mux,
-> +					channels);
-> +
->  	u16 e_pid; /* elementary stream pid */
->  	u16 curr_id;
->  	u32 j;
-> @@ -341,6 +345,13 @@ vidtv_channel_pmt_match_sections(struct vidtv_channel *channels,
->  					tail = vidtv_psi_pmt_stream_init(tail,
->  									 s->type,
->  									 e_pid);
-> +
-> +					if (!tail) {
-> +						vidtv_psi_pmt_stream_destroy(head);
-
-I honestly can't tell if this is the right thing to do.
-
-Daniel, can you take a look at this?
-
-> +						dev_warn_ratelimited(m->dev,
-> +							"No enough memory for vidtv_psi_pmt_stream_init");
-
-No -> Not
-Add newline at the end of the string.
-
-> +						return;
-> +					}
-> 
->  					if (!head)
->  						head = tail;
+>  .../bindings/media/nxp,imx7-mipi-csi2.yaml           | 12 ------------
+>  1 file changed, 12 deletions(-)
 > 
 
-Regards,
+Running 'make dtbs_check' with the schema in this patch gives the
+following warnings. Consider if they are expected or the schema is
+incorrect. These may not be new warnings.
 
-	Hans
+Note that it is not yet a requirement to have 0 warnings for dtbs_check.
+This will change in the future.
+
+Full log is available here: https://patchwork.ozlabs.org/patch/1562521
+
+
+mipi-csi@30750000: '#address-cells', '#size-cells', 'fsl,csis-hs-settle', 'port@0', 'port@1', 'reset-names' do not match any of the regexes: 'pinctrl-[0-9]+'
+	arch/arm/boot/dts/imx7s-warp.dt.yaml
+
+mipi-csi@30750000: '#address-cells', '#size-cells', 'port@0', 'port@1', 'reset-names' do not match any of the regexes: 'pinctrl-[0-9]+'
+	arch/arm/boot/dts/imx7d-cl-som-imx7.dt.yaml
+	arch/arm/boot/dts/imx7d-colibri-aster.dt.yaml
+	arch/arm/boot/dts/imx7d-colibri-emmc-aster.dt.yaml
+	arch/arm/boot/dts/imx7d-colibri-emmc-eval-v3.dt.yaml
+	arch/arm/boot/dts/imx7d-colibri-eval-v3.dt.yaml
+	arch/arm/boot/dts/imx7d-flex-concentrator.dt.yaml
+	arch/arm/boot/dts/imx7d-flex-concentrator-mfg.dt.yaml
+	arch/arm/boot/dts/imx7d-mba7.dt.yaml
+	arch/arm/boot/dts/imx7d-meerkat96.dt.yaml
+	arch/arm/boot/dts/imx7d-nitrogen7.dt.yaml
+	arch/arm/boot/dts/imx7d-pico-dwarf.dt.yaml
+	arch/arm/boot/dts/imx7d-pico-hobbit.dt.yaml
+	arch/arm/boot/dts/imx7d-pico-nymph.dt.yaml
+	arch/arm/boot/dts/imx7d-pico-pi.dt.yaml
+	arch/arm/boot/dts/imx7d-remarkable2.dt.yaml
+	arch/arm/boot/dts/imx7d-sbc-imx7.dt.yaml
+	arch/arm/boot/dts/imx7d-sdb.dt.yaml
+	arch/arm/boot/dts/imx7d-sdb-reva.dt.yaml
+	arch/arm/boot/dts/imx7d-sdb-sht11.dt.yaml
+	arch/arm/boot/dts/imx7d-zii-rmu2.dt.yaml
+	arch/arm/boot/dts/imx7d-zii-rpu2.dt.yaml
+	arch/arm/boot/dts/imx7s-colibri-aster.dt.yaml
+	arch/arm/boot/dts/imx7s-colibri-eval-v3.dt.yaml
+	arch/arm/boot/dts/imx7s-mba7.dt.yaml
+
+mipi-csi@30750000: 'ports' is a required property
+	arch/arm/boot/dts/imx7s-warp.dt.yaml
+
