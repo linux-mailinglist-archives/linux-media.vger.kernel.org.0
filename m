@@ -2,75 +2,222 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 309E3466D22
-	for <lists+linux-media@lfdr.de>; Thu,  2 Dec 2021 23:44:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 35DB7466D4D
+	for <lists+linux-media@lfdr.de>; Thu,  2 Dec 2021 23:54:50 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1377504AbhLBWrc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 2 Dec 2021 17:47:32 -0500
-Received: from perceval.ideasonboard.com ([213.167.242.64]:40158 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1377482AbhLBWrb (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 2 Dec 2021 17:47:31 -0500
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id A8F1EB7E;
-        Thu,  2 Dec 2021 23:44:06 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1638485046;
-        bh=b9wmW+9lDgWgXKRDWJV/3oD6ffkkHYt53ZguaT9G4bs=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=aucSEzJMJAQuE46RaLeh+EjMqWJvC4xoEVG7/2H+NWQ4sQmQYJyY8VogXtm/JTFJb
-         feGZyjqhILIbduaKtW/V2J6aQd56i9i6gsFol7Ba39KiVGj1VTf4YWBDFXdqT5IZyt
-         gnRVzEu4rnzJUpfhDwhcrgs03NgOeYrKuWaVDHTc=
-Date:   Fri, 3 Dec 2021 00:43:40 +0200
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Rob Herring <robh@kernel.org>
-Cc:     devicetree@vger.kernel.org, Rui Miguel Silva <rmfrfs@gmail.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        id S234810AbhLBW6L (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 2 Dec 2021 17:58:11 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38932 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S242851AbhLBW6L (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 2 Dec 2021 17:58:11 -0500
+Received: from mail-pj1-x102f.google.com (mail-pj1-x102f.google.com [IPv6:2607:f8b0:4864:20::102f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4B50AC06174A
+        for <linux-media@vger.kernel.org>; Thu,  2 Dec 2021 14:54:48 -0800 (PST)
+Received: by mail-pj1-x102f.google.com with SMTP id nn15-20020a17090b38cf00b001ac7dd5d40cso940524pjb.3
+        for <linux-media@vger.kernel.org>; Thu, 02 Dec 2021 14:54:48 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gateworks-com.20210112.gappssmtp.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=Vfw913dxLQGDDDu3u0AH4o7CLm4UyARzu/jOwnTAzDg=;
+        b=zCVZOPDnH85lUefIRg9bWnj7MAId6D6aN+FVUw2OKz0F6YISk7zj6lYaztcaSCySD1
+         82ES1v/dJHv93WFEWnmV2/HDH0yJFGadeEkY0HnnRKRmtiSH6bQJTKDqx76mot+h083R
+         vStvRWP59Kco0YXYzeCtIBcfl2L3bdFA5uJjuTU1wUBn3tMeWiInOYQ1xr9EX5YpzzSi
+         P0HwqMDciy4NIVr0T/l5GOfP1lwGHosCkrgf2ciGZgcXkzp/4ZgtsX2p8QpWJSezbxSy
+         pTolQgF+pLwL/uPNEzHp0m7oRq3n+HDe4Wtf4rXBG5uEZVPFynN085c09LYe/oNLxOR5
+         vmLw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=Vfw913dxLQGDDDu3u0AH4o7CLm4UyARzu/jOwnTAzDg=;
+        b=AYdo6k4PidCeVRHEo6k3FWWYPBF/G6zko09V2cy46BKQ6nZfYJ5uGKf/xg8t4kxXku
+         HnO3uUr8toje4zMyOXc44wi6sgrnXQu9IfSy2RmW/7JQb50NCH3wzbsBaWFVN+0/Mr5Q
+         WSNKHK/WcPx2Iga6I4yKTd2yJavzIOKG+9M50Lj7kemLaizV3Uf1su8WtESbItiWIDUF
+         /q2iD2G9FX9BwUtcIiohrBNw4ZIr+FwLyJ8Qm2bqrvzw2UTSD+icYHR+TtRHVgUWxhYw
+         RttKAhVVBeF2+BX2VsUSxDemoSEftv8ux+8nWV9OyF09J+nrQrJhE/OzWGFxxk0rVFG/
+         8jLg==
+X-Gm-Message-State: AOAM530xknxItXcLI3w5wnnWg5q1Z4WSKItsQdTqxAjmYVwH0xS8YZsr
+        HxNLL4ADuzHlRs0W8wuyRDtiWo6EgHyiYJpa9vmPrQ==
+X-Google-Smtp-Source: ABdhPJwNWK1BZ6y85VRBKw2XnnhU2TW8bgHhFWv+lq+A4VRYCiBdHuU2rJQ1o76TWMR9SV0iQzkrAUpUSTIwVNHJ+Cg=
+X-Received: by 2002:a17:902:a717:b0:142:76bc:da69 with SMTP id
+ w23-20020a170902a71700b0014276bcda69mr18556804plq.12.1638485687667; Thu, 02
+ Dec 2021 14:54:47 -0800 (PST)
+MIME-Version: 1.0
+References: <20211202041627.291625-1-aford173@gmail.com> <CAHCN7xJHuOFTQBQWk1yKsk3M0iDB7aKc0=L2DisUoSXVeO3xXQ@mail.gmail.com>
+ <CAJ+vNU2t7Yp5OGtWj432Y-8hL62nQBbG58zM-gAj5YfuCO__sA@mail.gmail.com> <CAHCN7xJXMUHHBACuozY3nUdZ0QqHFLrmwrXnArtCKBG7+P4UZQ@mail.gmail.com>
+In-Reply-To: <CAHCN7xJXMUHHBACuozY3nUdZ0QqHFLrmwrXnArtCKBG7+P4UZQ@mail.gmail.com>
+From:   Tim Harvey <tharvey@gateworks.com>
+Date:   Thu, 2 Dec 2021 14:54:36 -0800
+Message-ID: <CAJ+vNU15MWx9t-KUJKZjwPbBZTU=KuRtGYzxgfhypENHKFJpiQ@mail.gmail.com>
+Subject: Re: [RFC V3 0/2] arm64: imx8mm: Enable Hantro VPUs
+To:     Adam Ford <aford173@gmail.com>,
+        Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+        Nicolas Dufresne <nicolas@ndufresne.ca>
+Cc:     Lucas Stach <l.stach@pengutronix.de>,
+        linux-media <linux-media@vger.kernel.org>,
+        Adam Ford-BE <aford@beaconembedded.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Rob Herring <robh+dt@kernel.org>,
         Shawn Guo <shawnguo@kernel.org>,
         Sascha Hauer <s.hauer@pengutronix.de>,
         Pengutronix Kernel Team <kernel@pengutronix.de>,
         Fabio Estevam <festevam@gmail.com>,
         NXP Linux Team <linux-imx@nxp.com>,
-        linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH] dt-bindings: media: nxp,imx7-mipi-csi2: Drop bad if/then
- schema
-Message-ID: <YalMHPsLzQ02v5uO@pendragon.ideasonboard.com>
-References: <20211202023021.3655384-1-robh@kernel.org>
- <Yak1NLz2/X3TfeUM@pendragon.ideasonboard.com>
- <CAL_Jsq+u=Hr8_2WdqDEnu+wT8zZjngepY1-JqTrt7pazGFCTpQ@mail.gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <CAL_Jsq+u=Hr8_2WdqDEnu+wT8zZjngepY1-JqTrt7pazGFCTpQ@mail.gmail.com>
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        devicetree <devicetree@vger.kernel.org>,
+        arm-soc <linux-arm-kernel@lists.infradead.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        "open list:HANTRO VPU CODEC DRIVER" 
+        <linux-rockchip@lists.infradead.org>,
+        "open list:STAGING SUBSYSTEM" <linux-staging@lists.linux.dev>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Rob,
-
-On Thu, Dec 02, 2021 at 04:26:23PM -0600, Rob Herring wrote:
-> On Thu, Dec 2, 2021 at 3:06 PM Laurent Pinchart wrote:
-> > On Wed, Dec 01, 2021 at 08:30:21PM -0600, Rob Herring wrote:
-> > > The if/then schema for 'data-lanes' doesn't work as 'compatible' is at a
-> > > different level than 'data-lanes'. To make it work, the if/then schema
-> > > would have to be moved to the top level and then whole hierarchy of
-> > > nodes down to 'data-lanes' created. I don't think it is worth the
-> > > complexity to do that, so let's just drop it.
+On Thu, Dec 2, 2021 at 1:00 PM Adam Ford <aford173@gmail.com> wrote:
+>
+> On Thu, Dec 2, 2021 at 12:54 PM Tim Harvey <tharvey@gateworks.com> wrote:
 > >
-> > Fair enough, but then shouldn't there be a comment in the data-lanes
-> > property to tell that i.MX7 only supports up to 2 data lanes ?
-> 
-> I'll add this to data-lanes:
-> 
-> description: Note that 'fsl,imx7-mipi-csi2' only supports up to 2 data lines.
+> > On Thu, Dec 2, 2021 at 4:29 AM Adam Ford <aford173@gmail.com> wrote:
+> > >
+> > > On Wed, Dec 1, 2021 at 10:17 PM Adam Ford <aford173@gmail.com> wrote:
+> > > >
+> > > > The i.MX8M has two Hantro video decoders, called G1 and G2 which appear
+> > > > to be related to the video decoders used on the i.MX8MQ, but because of
+> > > > how the Mini handles the power domains, the VPU driver does not need to
+> > > > handle all the functions, so a new compatible flag is required.
+> > > >
+> > > > V3 is rebased from git://linuxtv.org/hverkuil/media_tree.git for-v5.17c
+> > > > This branch has support for VP9.
+> > > >
+> > > > I set cma=512M, but this may not be enough memory as some tests appeard to run out of memory
+> > > >
+> > > > V3 of this series has several changes:
+> > > >
+> > > > Update imx8m_vpu_hw to add missing 'reg' reference names for G2 and include references to VP9
+> > > > Update device tree to remove IMX8MQ_VPU_RESET, remove some duplicate vpu clock parenting
+> > > > Fix missing reg-names from vpu_g2 node.
+> > > > Apply patch [1] to manage the power domains powering down.
+> > > > [1] - https://lore.kernel.org/linux-arm-kernel/20211016210547.171717-1-marex@denx.de/t/
+> > > >
+> > > > With the above, the following Fluster scores are produced:
+> > > >
+> > > > G1:
+> > > > ./fluster.py run -dGStreamer-H.264-V4L2SL-Gst1.0
+> > > > Ran 90/135 tests successfully               in 74.406 secs
+> > > >
+> > > > ./fluster.py run -d GStreamer-VP8-V4L2SL-Gst1.0
+> > > > Ran 55/61 tests successfully               in 8.080 secs
+> > > >
+> > > > G2:
+> > > > ./fluster.py run -d GStreamer-VP9-V4L2SL-Gst1.0
+> > > > Ran 127/303 tests successfully               in 203.873 secs
+> > > >
+> > > > Fluster and G-Streamer were both built from their respective git repos using their respective master/main branches.
+> > > >
+> > >
+> > > I should note, that both interrupts appear to be triggering.
+> > >
+> > > # cat /proc/interrupts |grep codec
+> > >  57:      13442          0          0          0     GICv3  39 Level
+> > >   38300000.video-codec
+> > >  58:       7815          0          0          0     GICv3  40 Level
+> > >   38310000.video-codec
+> > >
+> >
+> > Adam,
+> >
+> > On another thread you had let me know that you also removed the reset
+> > from the pgc_vpumix power domain which does appear to resolve the
+> > hang:
+> >
+> > diff --git a/arch/arm64/boot/dts/freescale/imx8mm.dtsi
+> > b/arch/arm64/boot/dts/freescale/imx8mm.dtsi
+> > index eb9dcd9d1a31..31710af544dc 100644
+> > --- a/arch/arm64/boot/dts/freescale/imx8mm.dtsi
+> > +++ b/arch/arm64/boot/dts/freescale/imx8mm.dtsi
+> > @@ -681,7 +681,6 @@
+> >                                                 clocks = <&clk
+> > IMX8MM_CLK_VPU_DEC_ROOT>;
+> >                                                 assigned-clocks =
+> > <&clk IMX8MM_CLK_VPU_BUS>;
+> >                                                 assigned-clock-parents
+> > = <&clk IMX8MM_SYS_PLL1_800M>;
+> > -                                               resets = <&src
+> > IMX8MQ_RESET_VPU_RESET>;
+> >                                         };
+> >
+> >                                         pgc_vpu_g1: power-domain@7 {
+> >
+> > That would make such a patch have a 'Fixes commit d39d4bb15310
+> > ("arm64: dts: imx8mm: add GPC node")' but of course that vpu domain
+> > isn't active until your series so I'm not sure if we should send this
+> > separate or squash it with "arm64: dts: imx8mm: Enable VPU-G1 and
+> > VPU-G2". I'm also not clear if removing the reset requires some
+> > further discussion with Lucas.
+>
+> Unless there is objection from Lucas, I'll likely make it the first
+> patch in the series marking it with a fixes tag so it gets backported,
+> then the rest of the series would be adding the bindings, update the
+> driver and adding the G1 and G2 nodes.
+>
 
-Looks good to me.
+Adam,
 
-> I assume it is 1 or 2 and not only 2, right?
+I've also gotten decode+display working for vp8/h264 using this series
+and gstreamer-1.19.3 (although I have to use software colorspace
+conversion)
 
-Correct.
+# source: vp8 software encode on x86
+gst-launch-1.0 -v videotestsrc ! vp8enc ! rtpvp8pay ! udpsink
+host=172.24.33.15 port=9001
+# sink: vp8 hardware decode on imx8mm
+gst-launch-1.0 udpsrc port=9001 caps = 'application/x-rtp,
+media=(string)video, clock-rate=(int)90000, encoding-name=(string)VP8,
+payload=(int)96, ssrc=(uint)3363940374,
+timestamp-offset=(uint)3739685909, seqnum-offset=(uint)28161,
+a-framerate=(string)30' ! rtpvp8depay ! v4l2slvp8dec ! videoconvert !
+kmssink
 
--- 
-Regards,
+# source: h264 software encode on x86
+gst-launch-1.0 -v videotestsrc ! video/x-raw,width=800,height=480 !
+x264enc ! rtph264pay ! udpsink host=172.24.33.15 port=9001
+# sink: h264 hardware decode on imx8mm
+gst-launch-1.0 udpsrc port=9001 caps = 'application/x-rtp,
+media=(string)video, clock-rate=(int)90000,
+encoding-name=(string)H264, packetization-mode=(string)1,
+profile-level-id=(string)64001f,
+sprop-parameter-sets=(string)"Z2QAH6zZQMg9sBagwCC0oAAAAwAgAAAHkeMGMsA\=\,aOvssiw\=",
+payload=(int)96, ssrc=(uint)2753453329,
+timestamp-offset=(uint)3593065282, seqnum-offset=(uint)12297,
+a-framerate=(string)30' ! rtph264depay ! v4l2slh264dec ! videoconvert
+! kmssink
 
-Laurent Pinchart
+# source: vp9 software encode on x86
+gst-launch-1.0 -v videotestsrc ! video/x-raw,width=800,height=480 !
+vp9enc ! rtpvp9pay ! udpsink host=172.24.33.15 port=9001
+# sink: vp9 hardware decode on imx8mm
+gst-launch-1.0 udpsrc port=9001 caps = 'application/x-rtp,
+media=(string)video, clock-rate=(int)90000, encoding-name=(string)VP9,
+payload=(int)96, ssrc=(uint)2246741422,
+timestamp-offset=(uint)3441735424, seqnum-offset=(uint)30250,
+a-framerate=(string)30' ! rtpvp9depay ! v4l2slvp9dec ! fakesink
+^^^ this fails with no-negotiated
+
+Note I have to use videoconvert because v4l2slvp8dev src is
+NV12/YUY2/NV12_32L32 and from testing only BGRx appears compatible
+with kmssink (even though gst-inspect kmssink says it can sink
+NV12/YUY2). With the 800x480 resolution of my display the CPU overhead
+of software colorspcae conversion with videoconvert only about 9%
+
+I haven't yet gotten vp9 decode+display working yet as 'rtpvp9depay !
+v4l2slvp9dec ! fakesink' does not negotiate and it might be because my
+vp9enc source is on an old gstreamer 1.16.
+
+When you post the next series please add:
+Tested-By: Tim Harvey <tharvey@gateworks.com>
