@@ -2,60 +2,60 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9A3764666B0
-	for <lists+linux-media@lfdr.de>; Thu,  2 Dec 2021 16:36:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5D98E4666B2
+	for <lists+linux-media@lfdr.de>; Thu,  2 Dec 2021 16:36:08 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1359075AbhLBPjR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        id S1359070AbhLBPjR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
         Thu, 2 Dec 2021 10:39:17 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52074 "EHLO
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52084 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1359065AbhLBPjO (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 2 Dec 2021 10:39:14 -0500
-Received: from mail-wm1-x32a.google.com (mail-wm1-x32a.google.com [IPv6:2a00:1450:4864:20::32a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 24F77C06174A
-        for <linux-media@vger.kernel.org>; Thu,  2 Dec 2021 07:35:52 -0800 (PST)
-Received: by mail-wm1-x32a.google.com with SMTP id i8-20020a7bc948000000b0030db7b70b6bso2644039wml.1
-        for <linux-media@vger.kernel.org>; Thu, 02 Dec 2021 07:35:52 -0800 (PST)
+        with ESMTP id S1359068AbhLBPjP (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 2 Dec 2021 10:39:15 -0500
+Received: from mail-wr1-x431.google.com (mail-wr1-x431.google.com [IPv6:2a00:1450:4864:20::431])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 25B96C06174A
+        for <linux-media@vger.kernel.org>; Thu,  2 Dec 2021 07:35:53 -0800 (PST)
+Received: by mail-wr1-x431.google.com with SMTP id d24so60590344wra.0
+        for <linux-media@vger.kernel.org>; Thu, 02 Dec 2021 07:35:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=UdUzS90xHBZQkZnmDjqybxrLaFmgOreexYGvvJh97Uk=;
-        b=l20PipFSlEkYA/VpSSg41CHVltHUs7gkFwiH2+Ytj41lh9MwPoWpUBByLihXiLGqeB
-         wclxb5u0jsyMvyifKVDsbuQXe+W9sdn7HCDHtge34ujyXch0S9Duxe3WvD2sZkxE/UQ0
-         cQi4+1BlH3tiejuGgxLtFKgfkVtZYW59ruWJFLghKqGcUVjnP2Vy4XDyM6Q5/IWPXvdN
-         MzjXhuvJPlbd1QIDpl/VJ1MycrcVrKlLk3bRrhowMCwDeA3kZ5wj73pXVU+3qaNmZaG4
-         f/sCBKpgSnmgFXH/AAlSA5C5StzTuRJEtmxgMfcKPb6EXflhqIBqnSLF0/3iYe4oi9Te
-         MObw==
+        bh=nltQSFm14iSoAMbvdkFyYA24qQ389OopP2NKU0dRRk4=;
+        b=zwl5Ep3jlqggtOD2HbIQx5FL9JDlZXvVZfMQtiUsvzw+jQHf4jUhqfRGof5MBzqy1b
+         GTyA8IU9zUaVOt6oz1D8PB350U+QAsQos6yNS/eZU6tRWQ+WcL6l/2utn1YKccQLcz5N
+         c1Iop26GQCT7FsWFY0IGjP9yDEQUJV6oHBMfprl+TE3eZYfImR8Od1xHlcA6+ReUvW4B
+         1a3Yr6CNMC3TD5JiEjEKFyAy+lVdTFGJ2x0uGkWyoUYWlvh10PCBjxF8ssLJ+yIfsTYd
+         FyOmti1/NlmWNdYOOwAX/FGls0Jv1LI7zvUf8dSFUENPTwLj3JqQbG0ZuLMNQ/a0hTUw
+         XcTQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=UdUzS90xHBZQkZnmDjqybxrLaFmgOreexYGvvJh97Uk=;
-        b=fvmmo+7AZsbB4wC00CLXU4Nct28nh+SyyUUEw9T3cV3SQLOPS5ftBJbvrSFN6bUhhY
-         tGXOgsEbjGFTwFysfms7whUtNcELtz5uHy0auWT/33oP9Ns8C5RhCNK7wkxREgnph5f5
-         pm2noW/3qUx1DzYm9jVvEzT2oXe3Jv+/xj61k3CIJJt2kzexQZ/WzSMHCftnfMxajrcm
-         EEWO3IDazVXhaNhT81ukxJlBejGoo8+GW5ExAlxElZhgzEbb++d547cs4QhOSKNgZ1Ng
-         QqLw9zbQgMUxIu4rfWCcOSlJw2P+InEZ7g6/lFHHTAll35/boqDajeLRm/nZVZaFpidL
-         11Xg==
-X-Gm-Message-State: AOAM530/6gKjZz/NzCUGrAf3a8dMAd7rXrWkAlRiq/uSB/6+yah+MILB
-        LrHT3O1+hoenHcDbB0T+IpeupQ==
-X-Google-Smtp-Source: ABdhPJyrQO3a2GelKE8ccJxz6RDHa2NhcC58I/v2RMRHt9npcRIR2Xw0WI1d64/B+vNIlqzTX+X9qQ==
-X-Received: by 2002:a05:600c:3b8f:: with SMTP id n15mr7250072wms.180.1638459350662;
-        Thu, 02 Dec 2021 07:35:50 -0800 (PST)
+        bh=nltQSFm14iSoAMbvdkFyYA24qQ389OopP2NKU0dRRk4=;
+        b=NZkzNcVcx/UXNwwEHuNbzkGGKw36bmJLtb+czQEo/HPnR3SXI7nBtU6pJjkAHEXuEa
+         nbiO2LEaCXs6Rl/bwqNAU9YzpjAxgnElV+tr9Q81wqPNMtQdHVW/qTZ7ei1Uvej/zUFI
+         2ReRNlyCg9agoAWHg8X/apORM3I7gihA48TMOchbFwGR/sbJDTlDgKqVMG4KPzjjKxB5
+         87PFIAfhHt18yZvPPBEtWCqCXpPIP2sakSMEr/dIzWRkSc6uOaBg4o+9rNPLvVE4OmPF
+         9dP8XEpYS6emplg6/MMG4A8P/H/ZEqqaviY2xTWQpJFlo6UDq8aIVCjia6tbLuMsV6Na
+         MkmA==
+X-Gm-Message-State: AOAM533F19UmyYbH89pfX7B5y5w0bpX9U0ek8bYy+ScOU3B9Tu29hrw/
+        SdVI1NLGwvIeda6bZS0YlAKX7g==
+X-Google-Smtp-Source: ABdhPJyylTxFMNTBGC+X2JZhW8gOkej7tFVAn4lrLaHytTcldSH40AOSBiTkYLrs5VK7NAG8ZF1gKg==
+X-Received: by 2002:a5d:468f:: with SMTP id u15mr15066154wrq.171.1638459351741;
+        Thu, 02 Dec 2021 07:35:51 -0800 (PST)
 Received: from sagittarius-a.chello.ie (188-141-3-169.dynamic.upc.ie. [188.141.3.169])
-        by smtp.gmail.com with ESMTPSA id bd18sm3662wmb.43.2021.12.02.07.35.49
+        by smtp.gmail.com with ESMTPSA id bd18sm3662wmb.43.2021.12.02.07.35.50
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 02 Dec 2021 07:35:50 -0800 (PST)
+        Thu, 02 Dec 2021 07:35:51 -0800 (PST)
 From:   Bryan O'Donoghue <bryan.odonoghue@linaro.org>
 To:     linux-arm-msm@vger.kernel.org, linux-media@vger.kernel.org,
         robert.foss@linaro.org, jonathan@marek.ca
 Cc:     andrey.konovalov@linaro.org, todor.too@gmail.com,
         agross@kernel.org, bjorn.andersson@linaro.org, mchehab@kernel.org,
         jgrahsl@snap.com, hfink@snap.com, bryan.odonoghue@linaro.org
-Subject: [RESEND PATCH v2 09/19] media: camss: csid-170: set the right HALT_CMD when disabled
-Date:   Thu,  2 Dec 2021 15:37:19 +0000
-Message-Id: <20211202153729.3362372-10-bryan.odonoghue@linaro.org>
+Subject: [RESEND PATCH v2 10/19] media: camss: csid: allow csid to work without a regulator
+Date:   Thu,  2 Dec 2021 15:37:20 +0000
+Message-Id: <20211202153729.3362372-11-bryan.odonoghue@linaro.org>
 X-Mailer: git-send-email 2.33.0
 In-Reply-To: <20211202153729.3362372-1-bryan.odonoghue@linaro.org>
 References: <20211202153729.3362372-1-bryan.odonoghue@linaro.org>
@@ -67,46 +67,80 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 From: Jonathan Marek <jonathan@marek.ca>
 
-Use the "HALT_CMD_RESUME_AT_FRAME_BOUNDARY" define instead of a "1" which
-is otherwise confusing, and add a "HALT_CMD_HALT_AT_FRAME_BOUNDARY" which
-is set when disabling.
+At least for titan HW, CSID don't have an associated regulator. This change
+is necessary to be able to model this in the CSID resources.
 
-Fixes: eebe6d00e9bf ("media: camss: Add support for CSID hardware version Titan 170")
 Signed-off-by: Jonathan Marek <jonathan@marek.ca>
 Reviewed-by: Robert Foss <robert.foss@linaro.org>
 Tested-by: Julian Grahsl <jgrahsl@snap.com>
 Tested-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
 Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
 ---
- drivers/media/platform/qcom/camss/camss-csid-170.c | 8 ++++++--
- 1 file changed, 6 insertions(+), 2 deletions(-)
+ drivers/media/platform/qcom/camss/camss-csid.c | 17 +++++++++++------
+ 1 file changed, 11 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/media/platform/qcom/camss/camss-csid-170.c b/drivers/media/platform/qcom/camss/camss-csid-170.c
-index 2c84d40fe3e0..22a7d7ad6340 100644
---- a/drivers/media/platform/qcom/camss/camss-csid-170.c
-+++ b/drivers/media/platform/qcom/camss/camss-csid-170.c
-@@ -105,7 +105,8 @@
- #define CSID_RDI_CTRL(rdi)			((IS_LITE ? 0x208 : 0x308)\
- 						+ 0x100 * (rdi))
- #define		RDI_CTRL_HALT_CMD		0
--#define			ALT_CMD_RESUME_AT_FRAME_BOUNDARY	1
-+#define			HALT_CMD_HALT_AT_FRAME_BOUNDARY		0
-+#define			HALT_CMD_RESUME_AT_FRAME_BOUNDARY	1
- #define		RDI_CTRL_HALT_MODE		2
+diff --git a/drivers/media/platform/qcom/camss/camss-csid.c b/drivers/media/platform/qcom/camss/camss-csid.c
+index a1637b78568b..1226913c623b 100644
+--- a/drivers/media/platform/qcom/camss/camss-csid.c
++++ b/drivers/media/platform/qcom/camss/camss-csid.c
+@@ -160,7 +160,7 @@ static int csid_set_power(struct v4l2_subdev *sd, int on)
+ 		if (ret < 0)
+ 			return ret;
  
- #define CSID_RDI_FRM_DROP_PATTERN(rdi)			((IS_LITE ? 0x20C : 0x30C)\
-@@ -444,7 +445,10 @@ static void csid_configure_stream(struct csid_device *csid, u8 enable)
- 	val |= 1 << CSI2_RX_CFG1_MISR_EN;
- 	writel_relaxed(val, csid->base + CSID_CSI2_RX_CFG1);
+-		ret = regulator_enable(csid->vdda);
++		ret = csid->vdda ? regulator_enable(csid->vdda) : 0;
+ 		if (ret < 0) {
+ 			pm_runtime_put_sync(dev);
+ 			return ret;
+@@ -168,14 +168,16 @@ static int csid_set_power(struct v4l2_subdev *sd, int on)
  
--	val = 1 << RDI_CTRL_HALT_CMD;
-+	if (enable)
-+		val = HALT_CMD_RESUME_AT_FRAME_BOUNDARY << RDI_CTRL_HALT_CMD;
-+	else
-+		val = HALT_CMD_HALT_AT_FRAME_BOUNDARY << RDI_CTRL_HALT_CMD;
- 	writel_relaxed(val, csid->base + CSID_RDI_CTRL(0));
- }
+ 		ret = csid_set_clock_rates(csid);
+ 		if (ret < 0) {
+-			regulator_disable(csid->vdda);
++			if (csid->vdda)
++				regulator_disable(csid->vdda);
+ 			pm_runtime_put_sync(dev);
+ 			return ret;
+ 		}
  
+ 		ret = camss_enable_clocks(csid->nclocks, csid->clock, dev);
+ 		if (ret < 0) {
+-			regulator_disable(csid->vdda);
++			if (csid->vdda)
++				regulator_disable(csid->vdda);
+ 			pm_runtime_put_sync(dev);
+ 			return ret;
+ 		}
+@@ -186,7 +188,8 @@ static int csid_set_power(struct v4l2_subdev *sd, int on)
+ 		if (ret < 0) {
+ 			disable_irq(csid->irq);
+ 			camss_disable_clocks(csid->nclocks, csid->clock);
+-			regulator_disable(csid->vdda);
++			if (csid->vdda)
++				regulator_disable(csid->vdda);
+ 			pm_runtime_put_sync(dev);
+ 			return ret;
+ 		}
+@@ -195,7 +198,7 @@ static int csid_set_power(struct v4l2_subdev *sd, int on)
+ 	} else {
+ 		disable_irq(csid->irq);
+ 		camss_disable_clocks(csid->nclocks, csid->clock);
+-		ret = regulator_disable(csid->vdda);
++		ret = csid->vdda ? regulator_disable(csid->vdda) : 0;
+ 		pm_runtime_put_sync(dev);
+ 	}
+ 
+@@ -631,7 +634,9 @@ int msm_csid_subdev_init(struct camss *camss, struct csid_device *csid,
+ 
+ 	/* Regulator */
+ 
+-	csid->vdda = devm_regulator_get(dev, res->regulator[0]);
++	csid->vdda = NULL;
++	if (res->regulator[0])
++		csid->vdda = devm_regulator_get(dev, res->regulator[0]);
+ 	if (IS_ERR(csid->vdda)) {
+ 		dev_err(dev, "could not get regulator\n");
+ 		return PTR_ERR(csid->vdda);
 -- 
 2.33.0
 
