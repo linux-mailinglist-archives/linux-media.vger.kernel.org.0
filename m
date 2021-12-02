@@ -2,115 +2,88 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0A1D74665B8
-	for <lists+linux-media@lfdr.de>; Thu,  2 Dec 2021 15:47:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id F3AC3466603
+	for <lists+linux-media@lfdr.de>; Thu,  2 Dec 2021 15:59:18 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1358701AbhLBOuw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 2 Dec 2021 09:50:52 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40864 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S244209AbhLBOut (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 2 Dec 2021 09:50:49 -0500
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7A075C06174A;
-        Thu,  2 Dec 2021 06:47:27 -0800 (PST)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: kholk11)
-        with ESMTPSA id 3555F1F42F85
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=collabora.com; s=mail;
-        t=1638456445; bh=MUykvhec7Q+F9BL/7BZmg4/vwqFlvV1Za/LaHrYPEZQ=;
-        h=Subject:From:To:Cc:References:Date:In-Reply-To:From;
-        b=OdOE84s+zI270tgBwZnMRazDnisyZnQwxoeFE7beFmkgNIs0x0ZhtHuU5rUDkeMPt
-         NR+KgZY1QdEMTQJ1uTwzm0pgKLh3VFbkbunMmFb1xLrVd5fY4QU2nO+k9xl6DxZujs
-         NbELgg//hXI97t3vn/VZvcihXKe8JDeFoCBtfetrfgJguarGJbtLIhsG3h8esFxAkX
-         EVHJYf2hPU5QvZMadNg+Puv/4NhDtnCzMO2q3CvqJZb8avNQREfbVQGO2N19ApFQ4b
-         DrMMdQwZBprc3cjX6WDvLhVirLEACqf4H30xgPqYtJp7xrKRWD95x1WuI1Hfkiidol
-         Lc44APz6aaUZA==
-Subject: Re: [PATCH v3 8/9] media: platform: mtk-mdp3: support mt8195
-From:   AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>
-To:     "roy-cw.yeh" <roy-cw.yeh@mediatek.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Chun-Kuang Hu <chunkuang.hu@kernel.org>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Fabien Parent <fparent@baylibre.com>,
-        "jason-jh . lin" <jason-jh.lin@mediatek.com>,
-        daoyuan huang <daoyuan.huang@mediatek.com>,
-        Ping-Hsun Wu <ping-hsun.wu@mediatek.com>,
-        Moudy Ho <moudy.ho@mediatek.com>,
-        "river . cheng" <river.cheng@mediatek.com>,
-        Yongqiang Niu <yongqiang.niu@mediatek.com>,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org
-References: <20211022022146.3577-1-roy-cw.yeh@mediatek.com>
- <20211022022146.3577-9-roy-cw.yeh@mediatek.com>
- <59d184c6-87ee-918c-b3cb-abb923c39912@collabora.com>
-Message-ID: <f85f1433-00c6-20b9-8fe0-2ab1500f8520@collabora.com>
-Date:   Thu, 2 Dec 2021 15:47:22 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+        id S1358841AbhLBPCj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 2 Dec 2021 10:02:39 -0500
+Received: from sin.source.kernel.org ([145.40.73.55]:37452 "EHLO
+        sin.source.kernel.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1358838AbhLBPCi (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 2 Dec 2021 10:02:38 -0500
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by sin.source.kernel.org (Postfix) with ESMTPS id 146D6CE230F;
+        Thu,  2 Dec 2021 14:59:15 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 41E21C00446;
+        Thu,  2 Dec 2021 14:59:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1638457153;
+        bh=2Nicqlk5acdh/oyplxOzIx5V4wwrXUEljmZvn/zboAc=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=ZO+k/OkZcnLVSeutskTq2FpYG29dsxsUBd6PygD3UPMRhywSxYFV2JXDBpiqT4XR3
+         qVXViwnbvYOPYGXzz5zO44CCpMnE8Fwajg4hGopuIrvbxwMvHCgnF5JQ54MrDFiIgA
+         m7eYY27zg1zpgw2TKE4+H1flKZTh5f508Z3wHgFi1pPV6jaG5DcmLAuWwPsQUo8fq1
+         ta80xOUzSL2GXMcZHZaxmJt4XNQkpOCiTR8WIY8U32D8bU+sUDL2muTgBSQWp6I5r+
+         Y1MMlTv2NZIDvz7zmsmFcHsSgYw/09RnQUdMWILc/9DLukttD08P1548T94VWHHHdJ
+         Y6M87r/8lpiew==
+Date:   Thu, 2 Dec 2021 20:29:06 +0530
+From:   Manivannan Sadhasivam <mani@kernel.org>
+To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc:     linuxarm@huawei.com, mauro.chehab@huawei.com,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        llvm@lists.linux.dev
+Subject: Re: [PATCH v2 15/20] media: imx290: mark read reg function as
+ __always_unused
+Message-ID: <20211202145906.GA263467@thinkpad>
+References: <cover.1638179135.git.mchehab+huawei@kernel.org>
+ <2471c2ecdf023fc3014d1ad544f2b0e9436fc9ff.1638179135.git.mchehab+huawei@kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <59d184c6-87ee-918c-b3cb-abb923c39912@collabora.com>
-Content-Type: text/plain; charset=iso-8859-15; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <2471c2ecdf023fc3014d1ad544f2b0e9436fc9ff.1638179135.git.mchehab+huawei@kernel.org>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Il 22/10/21 10:58, AngeloGioacchino Del Regno ha scritto:
->> From: "Roy-CW.Yeh" <roy-cw.yeh@mediatek.com>
->>
->> Add mt8195 driver
->>
->> Signed-off-by: Roy-CW.Yeh <roy-cw.yeh@mediatek.com>
-> 
-> 
-> Acked-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-> 
-> 
-> 
->> ---
->>   drivers/media/platform/mtk-mdp3/mdp_reg_aal.h |   24 +
->>   .../media/platform/mtk-mdp3/mdp_reg_color.h   |   29 +
->>   drivers/media/platform/mtk-mdp3/mdp_reg_fg.h  |   23 +
->>   drivers/media/platform/mtk-mdp3/mdp_reg_hdr.h |   31 +
->>   .../media/platform/mtk-mdp3/mdp_reg_merge.h   |   23 +
->>   drivers/media/platform/mtk-mdp3/mdp_reg_ovl.h |   24 +
->>   drivers/media/platform/mtk-mdp3/mdp_reg_pad.h |   20 +
->>   .../media/platform/mtk-mdp3/mdp_reg_rdma.h    |   31 +
->>   drivers/media/platform/mtk-mdp3/mdp_reg_rsz.h |    6 +
->>   .../media/platform/mtk-mdp3/mdp_reg_tdshp.h   |  114 ++
->>   .../media/platform/mtk-mdp3/mdp_reg_wrot.h    |   18 +
->>   drivers/media/platform/mtk-mdp3/mtk-img-ipi.h |  215 ++-
->>   .../media/platform/mtk-mdp3/mtk-mdp3-cmdq.c   |  496 ++++++-
->>   .../media/platform/mtk-mdp3/mtk-mdp3-comp.c   | 1196 ++++++++++++++++-
->>   .../media/platform/mtk-mdp3/mtk-mdp3-comp.h   |   83 +-
->>   .../media/platform/mtk-mdp3/mtk-mdp3-core.c   |  703 +++++++++-
->>   .../media/platform/mtk-mdp3/mtk-mdp3-core.h   |   31 +-
->>   .../media/platform/mtk-mdp3/mtk-mdp3-m2m.c    |    4 +
->>   .../media/platform/mtk-mdp3/mtk-mdp3-regs.c   |  143 +-
->>   .../media/platform/mtk-mdp3/mtk-mdp3-regs.h   |    2 +
->>   20 files changed, 3020 insertions(+), 196 deletions(-)
->>   create mode 100644 drivers/media/platform/mtk-mdp3/mdp_reg_aal.h
->>   create mode 100644 drivers/media/platform/mtk-mdp3/mdp_reg_color.h
->>   create mode 100644 drivers/media/platform/mtk-mdp3/mdp_reg_fg.h
->>   create mode 100644 drivers/media/platform/mtk-mdp3/mdp_reg_hdr.h
->>   create mode 100644 drivers/media/platform/mtk-mdp3/mdp_reg_merge.h
->>   create mode 100644 drivers/media/platform/mtk-mdp3/mdp_reg_ovl.h
->>   create mode 100644 drivers/media/platform/mtk-mdp3/mdp_reg_pad.h
->>   create mode 100644 drivers/media/platform/mtk-mdp3/mdp_reg_tdshp.h
->>
+Hi Mauro,
 
+On Mon, Nov 29, 2021 at 10:47:47AM +0100, Mauro Carvalho Chehab wrote:
+> Such function is currently unused, but could be needed in the
+> future. So, keep it, marking it as __always_unused, in order to
+> avoid a clang W=1 error.
+> 
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+> ---
+> 
+> See [PATCH v2 00/20] at: https://lore.kernel.org/all/cover.1638179135.git.mchehab+huawei@kernel.org/
+> 
+>  drivers/media/i2c/imx290.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/media/i2c/imx290.c b/drivers/media/i2c/imx290.c
+> index bf7a6c37ca5d..99f2a50d39a4 100644
+> --- a/drivers/media/i2c/imx290.c
+> +++ b/drivers/media/i2c/imx290.c
+> @@ -363,7 +363,7 @@ static inline struct imx290 *to_imx290(struct v4l2_subdev *_sd)
+>  	return container_of(_sd, struct imx290, sd);
+>  }
+>  
+> -static inline int imx290_read_reg(struct imx290 *imx290, u16 addr, u8 *value)
+> +static inline int __always_unused imx290_read_reg(struct imx290 *imx290, u16 addr, u8 *value)
 
-Hello,
-this patch doesn't apply anymore against the latest MDP3 driver series [1].
-
-Can you please rebase ASAP?
-
-[1]: https://patchwork.kernel.org/project/linux-mediatek/list/?series=588989
+Can we drop this function instead?
 
 Thanks,
-- Angelo
+Mani
+
+>  {
+>  	unsigned int regval;
+>  	int ret;
+> -- 
+> 2.33.1
+> 
