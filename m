@@ -2,169 +2,359 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D54F5466048
-	for <lists+linux-media@lfdr.de>; Thu,  2 Dec 2021 10:24:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id EFC51466050
+	for <lists+linux-media@lfdr.de>; Thu,  2 Dec 2021 10:26:42 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1356387AbhLBJ2F (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 2 Dec 2021 04:28:05 -0500
-Received: from mail-eopbgr00064.outbound.protection.outlook.com ([40.107.0.64]:40769
-        "EHLO EUR02-AM5-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1356342AbhLBJ2D (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 2 Dec 2021 04:28:03 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=e4QApopwkOi/O2mxUtN6A983SA7FfexzE3lcQ27PsR0aJQQl/pxMajkL8yHg4j6/1MtwTIr9vuMgwguOxVttIyJC8Q2y75cYpu7MhEADYfX89gXKYakcUk/eWBLiWuvi3nuXm2N+6tJkkB3X1CxPYa+3XxQ9KFqgAtYjZs/wxuCFwfS3eIFFLUkaBQlV54RCeSpZKnYqnkgUq2BBQSBFtPlkoOaqpTqiwLooFAva9wIrEOzdgz8J3Diy+lv/oHaX5tYYVCIRBDx2srxWD8YoSEBc9ttrVPTMQd+FbjhLtJiggJTeHVmudZGyxNrcv3cEyHIgWwOKISTUUvnBaRVpaQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=4yWkdvtnCGpkWq83O5+oMAQdUBM/kUyXmcKRZPsQ53U=;
- b=folhfBh8EaehI6tPb1dnHP3BIZ4nW+7xhb7QbE1FMlmiIaDAWktmeGkACM+Bn/s6PzlwTt1rjbLWw3KOZsB4DgnBKDbPPRsD+hMI3y1l/ui3TaC7KTGVSW9PWCzLiF01ouBKzbDkvh3L7mwNK1GnAwGsq2gNrGb9KW+jaiHlqlJclAp8Tt5hRkY5mpe6PuHkjzsLnNLwWIXOBgLXmEoPVo3mOZdoLaTZCQw4Cjp0ue1+tKDbob4MhMTYD57fmgTSP38m3V9yMS+A8aukLnDyaAq4a7+I15f5n//WiQowyyBch+VspiI6ACqG4CcCRqWx/gbHSx4SGkBPWbWZHQDF3Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=4yWkdvtnCGpkWq83O5+oMAQdUBM/kUyXmcKRZPsQ53U=;
- b=cqQNoX7JZb9RNrutT3S/fZcjvlM5KjWTpCFsdoLmJzgf/FdGnbRMXSSj/dK840Sli+npNF4Lvj95AqZ+fyuP5UINrZQL/GBoAXssfR8BVdSqQOGGI52DKdAaLh11ssPyWAK9LRoRb79Qd7R2rGkH9toYgyffvyAmNrwVtDI9fEQ=
-Received: from AM6PR04MB6341.eurprd04.prod.outlook.com (2603:10a6:20b:d8::14)
- by AM6PR0402MB3590.eurprd04.prod.outlook.com (2603:10a6:209:5::17) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4755.11; Thu, 2 Dec
- 2021 09:24:35 +0000
-Received: from AM6PR04MB6341.eurprd04.prod.outlook.com
- ([fe80::fc3a:8aea:2c92:3886]) by AM6PR04MB6341.eurprd04.prod.outlook.com
- ([fe80::fc3a:8aea:2c92:3886%5]) with mapi id 15.20.4734.028; Thu, 2 Dec 2021
- 09:24:35 +0000
-From:   Ming Qian <ming.qian@nxp.com>
-To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        "mchehab@kernel.org" <mchehab@kernel.org>,
-        "shawnguo@kernel.org" <shawnguo@kernel.org>,
-        "robh+dt@kernel.org" <robh+dt@kernel.org>,
-        "s.hauer@pengutronix.de" <s.hauer@pengutronix.de>
-CC:     "kernel@pengutronix.de" <kernel@pengutronix.de>,
-        "festevam@gmail.com" <festevam@gmail.com>,
-        dl-linux-imx <linux-imx@nxp.com>,
-        Aisheng Dong <aisheng.dong@nxp.com>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>
-Subject: RE: [EXT] Re: [PATCH v13 04/13] media: amphion: add vpu core driver
-Thread-Topic: [EXT] Re: [PATCH v13 04/13] media: amphion: add vpu core driver
-Thread-Index: AQHX5c0I/CqWIb6L10+FVoyKwJl1tKwe66UAgAAED1A=
-Date:   Thu, 2 Dec 2021 09:24:35 +0000
-Message-ID: <AM6PR04MB6341380F082DA9A9BEAB899AE7699@AM6PR04MB6341.eurprd04.prod.outlook.com>
-References: <cover.1638263914.git.ming.qian@nxp.com>
- <041cfcb9c52e2c3a4e8f5927e23f1b3c70ee44f8.1638263914.git.ming.qian@nxp.com>
- <1a73baa3-3cde-8f47-f154-683650e02351@xs4all.nl>
-In-Reply-To: <1a73baa3-3cde-8f47-f154-683650e02351@xs4all.nl>
-Accept-Language: zh-CN, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nxp.com;
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 10fd75e0-73be-4540-ac14-08d9b5758ead
-x-ms-traffictypediagnostic: AM6PR0402MB3590:
-x-microsoft-antispam-prvs: <AM6PR0402MB3590751825D40B473E5ABFE9E7699@AM6PR0402MB3590.eurprd04.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:3173;
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: eUpFw3cEqyf+NrZyPhoyg5JQGSZrnlAjdytlqg8WAE/1jRP7GzCUr0i6qksV/xSLnRDQMOXLtvoI1pGjaHScQUXHOedxvUNq0gJMz9Ryb3W5RW0T02+yFtwFrENGS/Ea/kvFlSU++aa/CnTDG92BP2yNXIRW3nPOKYQum1s/B+6WVxAm0C1tLUDZWqxDj+nA9MAr/7UJAUuFuJHu6n7D3f0EUDjYs2+icNzABugsTeQyClTI2sTjebx8xk3bcc6w3ZrvG/wENofd97SiFR8yBAimGsLniLrnlUv05iuIyB8xVmCgneTlrfP2nwYLVKmBCogSVkUNLxyljdikJ4xPvv7pLzpJGtvNCcJCGFCNFpzcXsK7Ubvjt1semRTGlMVtQPCRhG7DBevUmoGHXQG56gUfWy5z4lEDfu/OAw2HLM+SZw/sQAR/G1pHDDSx1zW/VEOVfIK4UjQXq25dCD4SjnKkYyWJqLhUVkzfDlavLSdwqIntXi1ki9RQ7c4ExWx6snI+G6e0XnKFxK2Ce/d4b29LvA47dswjzqfnQQgoQZNPPMBuOzlznD02+xDbOETFFrKTnGmeQKWD/1v58Xf/mXQO12PdtRAaron+TuHJb6sDaqdPP0HYXXx85FXjyyYnF45ay2aoXj34hXv/+yJ3B3Oo37aZuYsTGnXLRy9XkCdXh82Fx6gEN3jZD6IJXvbff5yPr4zNHGBAYgxlbYGrIw==
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM6PR04MB6341.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(366004)(66556008)(9686003)(54906003)(53546011)(8936002)(66446008)(66476007)(64756008)(86362001)(122000001)(83380400001)(38100700002)(6506007)(7696005)(8676002)(26005)(33656002)(52536014)(2906002)(508600001)(38070700005)(76116006)(44832011)(71200400001)(110136005)(66946007)(316002)(55016003)(186003)(4326008)(7416002)(5660300002);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?TXl0V0JnWS9HNWs3dFJweTNnM0thcVRKc2pkVktjUE9OMmgwTjVtbk90OTE1?=
- =?utf-8?B?OXNHZTBtT3Fld1JOMzdxWXRKcjhXV200ZTJibmFkYmx1V0FCWHJOWjFtTjJB?=
- =?utf-8?B?MUQycTF1ZytyTlUxNHpJS1R3dGtVL3ozcUw4SGM0L3ZrVHo3cyt2L1htTXZP?=
- =?utf-8?B?cUR3Y29rMjRmL3F3ZEtraEY1RCtuVmNHaDJGeUhVVi94R3FPOGg0ejF6eWhH?=
- =?utf-8?B?UjRkaXFHU3VHM09mcWlQcEp3bmdBWERWUElZbVpKMzdqVTdXbk5MNzdqdzQ1?=
- =?utf-8?B?VWZaSHBXb2FNSGN0LzZUL1lJWmRaNHNQYzgzT2tSUmRsYUxGVmJicTBrQita?=
- =?utf-8?B?MmNNNjhaejB0MTRxdzVLc1J2YTFYWFBWT3B6em13Q2pmelhmdlcwWlpybk9q?=
- =?utf-8?B?MjE5TURqTnRGWEt5TG13Qk5kQUt0TzJOZy9xczhveVN1cWdHS0owNVlTNlhp?=
- =?utf-8?B?aUZYUzVwS0UvazA4ZTJqaWVPcDFrTytoK3FWeXY1WGo2VTRScWdoYlNBVm5X?=
- =?utf-8?B?c0Vza3hjZUJONi9mWWU0MXhXUi8vRGEvOEJWdlZZRmN4N05jVnhUS0IrL1pY?=
- =?utf-8?B?NVExWFgyZzVJcmMrU3piSzZzWXZYTkw5ekF3Tk1QRWRPNGl6aGw4Ykt4bE12?=
- =?utf-8?B?b1pmTndkeTFCS2JnU1dzMGdLdytHTElKWXhMU2ZaalRTNDRMNXQ0RjdUTmlm?=
- =?utf-8?B?b3hHeWJiclVmdTIvRy9rdWkvUGVOZFZ4dk9yYUVMM2hrMWV0dWRrV0ZON21x?=
- =?utf-8?B?M21wT2kzamtFLzZMOGlvSThOaStnTDUyRnVrdzBBSVcxUXJITjFRaDNrY1Fo?=
- =?utf-8?B?YkJCUkg2M1VFZEh0dmRVdUlVLzNCelZybFA0d3NvT2ZUL2xMUGNhUHMrYjNr?=
- =?utf-8?B?Q0VjUHdnSCtTYTU1U3lmZkxvd09ZTTFwY0xSdTMvcCtCbUxhSHk5OFNWRFQv?=
- =?utf-8?B?eVE3WHNLQ1F1OU0zM1VhWmJ0aE8wTlFHeWk5MFIya0FlT05vaFFsZm9qTEl1?=
- =?utf-8?B?REU2ZHI5cW5XaGJ4ZjNEelBYVUt6QVArTUFhQ0hybktsb005Q2RoZEVsUWxD?=
- =?utf-8?B?Vk1FZ2RBWlMrc0djYldDb3F5aWx0N3RnK3JaNjZBSU52TkJRWFJXR0xpU0NX?=
- =?utf-8?B?Z3BHZnFEVEFybXdnYkNrVEdOUjQ4cDhYVlEzVGUvN05kOUdycFEvUlN2TWZm?=
- =?utf-8?B?ZERaWm1VNUh2dk0rS1NNNEJDQ29FdWtBS3hSUDc2RXJUU2NJK200c2pUNVBH?=
- =?utf-8?B?YmdBV0lVck9MakxxU2x3alk3TzRnZDFRczZqSkNlQWZxUU5YRC9HaDdZN3Y0?=
- =?utf-8?B?YisyRERGM3JsZUt0NGVOZm5YU3Mwc2FpZkRTL0t3VG4xMzZJcStLSG96VWRq?=
- =?utf-8?B?ZHFXVWZEelppSWhkbmtjU0tKQ0hqRUMrVUNRb0RIblNVWFlYUHVuUldLa3pm?=
- =?utf-8?B?WURnTnRSejVXRU9Lc2gvbHZ5ZFNjRHY4UkZrMmpwMHNuY0NZUkZNbFpnQ2Vk?=
- =?utf-8?B?b2VPRS9NeWpURzNUY0dZUS9hSTdWWjEyaDA1ZHpEdGYrNnU1SVgxSFlYRFhi?=
- =?utf-8?B?MFdqUndOWGVGMGlhYVNtZlc1VkMvWDdTK0JQbXk5cGNCWVVKWWRtSmlwcitL?=
- =?utf-8?B?K2NYUHhVbjJmQ2pEbnI0NHVLY1hOTGF5NlFtMEpBMGY0bDFVYXJMQjlJR3dy?=
- =?utf-8?B?QmZQdW1Wemh6cGJORWhDcVpxVTlHSThnTUJoYXdTWCtPbGcwNUJQYzVxenRY?=
- =?utf-8?B?MUN5dzU3czBYL0RyZGFHUVVLTFBDRHZENWg1Rm90OTJ1T1E1SDhWaTZiZ1hj?=
- =?utf-8?B?d3NIcEhKM0Z2UE9lSDNKYUJtbXZsQmRyY2pxMFgxQ0hUZ1hNMEVuallMdU5P?=
- =?utf-8?B?bUs5akhWUVFUV01CYkJnN3RqMjFweXcraWFEYk5aa09IcDlHV0lzWmRDTmdl?=
- =?utf-8?B?YUljYThEZU9jS1lxVHZkTkg1aTJ3S3YvcC9uZXRvSjltbm0yRHMyRmorYmQ4?=
- =?utf-8?B?aE5NQk05S211emQrT25iQ1E0TmlRUU5nbGpMTUtMNzZ2MDRzcUxmWFV5bGg2?=
- =?utf-8?B?cWMzWnFQS2lBQjZTd1lZWnVtb05OT1NaSHNyZGk5NFdvcFBTZWs0WVdIMGl2?=
- =?utf-8?B?czdOTVNOT0p3SkV3ZzJEM2ticFVhSEtWY0xhTm95OVQzd3J4MktFS0l4NG1B?=
- =?utf-8?B?bVE9PQ==?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+        id S1353194AbhLBJaC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 2 Dec 2021 04:30:02 -0500
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:44914 "EHLO
+        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1356377AbhLBJ37 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 2 Dec 2021 04:29:59 -0500
+Received: from [IPv6:2a01:e0a:120:3210:f817:8a6c:e399:d0b] (unknown [IPv6:2a01:e0a:120:3210:f817:8a6c:e399:d0b])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        (Authenticated sender: benjamin.gaignard)
+        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 5FCEF1F45BF1;
+        Thu,  2 Dec 2021 09:26:35 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=collabora.com; s=mail;
+        t=1638437195; bh=LlJgikkZMT8Z537xGLvO+GPriB+Be0swuldHZednwxo=;
+        h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
+        b=QIj4ERi+nZt3zPcn5M1GgGTRHg9+g2LiMhWCXbUf25EXx4RTG53R/6Q2v10HTCkL8
+         GWXVbRQrAx+TJ2XBdZUjakWIesj2Yzjel9WxgSmzrScGf+9ku0hAy/dOtnAWVzaeme
+         ON9Nn2Gd+9sfIsSf07h5Dn11Y1+iG1FblT6HYIHjKzmQ9PWQDXtVNLsQhldHb0XvH0
+         W4quGssL4f0DhqRuFvFAut0GmVce6uKBNTy1VwoQlt1+rn54LoLcyJv9LXacsSj0CB
+         /dhk0EoTDFiPrACAlZLlHUTHHOf8OqdFDw72pSdkoh1tnsk7fHZ2yUdkolxSMNY761
+         U1OzRVGAfBEqg==
+Subject: Re: [PATCH] media: hantro: Make G2/HEVC use hantro_postproc_ops
+To:     Nicolas Dufresne <nicolas@ndufresne.ca>,
+        Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
+Cc:     p.zabel@pengutronix.de, mchehab@kernel.org,
+        gregkh@linuxfoundation.org, linux-media@vger.kernel.org,
+        linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev,
+        linux-kernel@vger.kernel.org, kernel@collabora.com
+References: <20211125155001.622405-1-benjamin.gaignard@collabora.com>
+ <Yae9BphwX9cGxhQf@eze-laptop>
+ <cf0ba2fa2a166da6bb514c2aa997ceec680590a7.camel@ndufresne.ca>
+From:   Benjamin Gaignard <benjamin.gaignard@collabora.com>
+Message-ID: <862d4ee2-8a32-9bdb-ee01-b307660f78a1@collabora.com>
+Date:   Thu, 2 Dec 2021 10:26:32 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 MIME-Version: 1.0
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: AM6PR04MB6341.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 10fd75e0-73be-4540-ac14-08d9b5758ead
-X-MS-Exchange-CrossTenant-originalarrivaltime: 02 Dec 2021 09:24:35.8193
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: Xo9aPErQkU5k9blA+MDN1ByDAneCcId5WQUP2uCj6MgYw+Mz9qDz1qi2q9nbvCwFmSz/YRO1EA1MKpsTNSzNUg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR0402MB3590
+In-Reply-To: <cf0ba2fa2a166da6bb514c2aa997ceec680590a7.camel@ndufresne.ca>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-PiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBIYW5zIFZlcmt1aWwgW21haWx0
-bzpodmVya3VpbC1jaXNjb0B4czRhbGwubmxdDQo+IFNlbnQ6IFRodXJzZGF5LCBEZWNlbWJlciAy
-LCAyMDIxIDU6MDUgUE0NCj4gVG86IE1pbmcgUWlhbiA8bWluZy5xaWFuQG54cC5jb20+OyBtY2hl
-aGFiQGtlcm5lbC5vcmc7DQo+IHNoYXduZ3VvQGtlcm5lbC5vcmc7IHJvYmgrZHRAa2VybmVsLm9y
-Zzsgcy5oYXVlckBwZW5ndXRyb25peC5kZQ0KPiBDYzoga2VybmVsQHBlbmd1dHJvbml4LmRlOyBm
-ZXN0ZXZhbUBnbWFpbC5jb207IGRsLWxpbnV4LWlteA0KPiA8bGludXgtaW14QG54cC5jb20+OyBB
-aXNoZW5nIERvbmcgPGFpc2hlbmcuZG9uZ0BueHAuY29tPjsNCj4gbGludXgtbWVkaWFAdmdlci5r
-ZXJuZWwub3JnOyBsaW51eC1rZXJuZWxAdmdlci5rZXJuZWwub3JnOw0KPiBkZXZpY2V0cmVlQHZn
-ZXIua2VybmVsLm9yZzsgbGludXgtYXJtLWtlcm5lbEBsaXN0cy5pbmZyYWRlYWQub3JnDQo+IFN1
-YmplY3Q6IFtFWFRdIFJlOiBbUEFUQ0ggdjEzIDA0LzEzXSBtZWRpYTogYW1waGlvbjogYWRkIHZw
-dSBjb3JlIGRyaXZlcg0KPiANCj4gQ2F1dGlvbjogRVhUIEVtYWlsDQo+IA0KPiBPbiAzMC8xMS8y
-MDIxIDEwOjQ4LCBNaW5nIFFpYW4gd3JvdGU6DQo+ID4gVGhlIHZwdSBzdXBwb3J0cyBlbmNvZGVy
-IGFuZCBkZWNvZGVyLg0KPiA+IGl0IG5lZWRzIG11IGNvcmUgdG8gaGFuZGxlIGl0Lg0KPiANCj4g
-Im11IGNvcmUiPyBEbyB5b3UgbWVhbiAidnB1IGNvcmUiPyBJZiBub3QsIHRoZW4gd2hhdCBpcyBh
-ICJtdSBjb3JlIj8NCj4gDQo+IFJlZ2FyZHMsDQo+IA0KPiAgICAgICAgIEhhbnMNCg0KWWVzLCBp
-dCBtZWFucyAidnB1IGNvcmUiLCB3ZSBvZnRlbiBjYWxsIGl0IG11IGludGVybmFsbHkuDQpJJ20g
-c29ycnkgdGhhdCBteSBzdGF0ZW1lbnQgY2F1c2VkIGNvbmZ1c2lvbg0KDQo+IA0KPiA+IGNvcmUg
-d2lsbCBydW4gZWl0aGVyIGVuY29kZXIgb3IgZGVjb2RlciBmaXJtd2FyZS4NCj4gPg0KPiA+IFRo
-aXMgZHJpdmVyIGlzIGZvciBzdXBwb3J0IHRoZSB2cHUgY29yZS4NCj4gPg0KPiA+IFNpZ25lZC1v
-ZmYtYnk6IE1pbmcgUWlhbiA8bWluZy5xaWFuQG54cC5jb20+DQo+ID4gU2lnbmVkLW9mZi1ieTog
-U2hpamllIFFpbiA8c2hpamllLnFpbkBueHAuY29tPg0KPiA+IFNpZ25lZC1vZmYtYnk6IFpob3Ug
-UGVuZyA8ZWFnbGUuemhvdUBueHAuY29tPg0KPiA+IC0tLQ0KPiA+ICBkcml2ZXJzL21lZGlhL3Bs
-YXRmb3JtL2FtcGhpb24vdnB1X2NvZGVjLmggfCAgNjcgKysNCj4gPiAgZHJpdmVycy9tZWRpYS9w
-bGF0Zm9ybS9hbXBoaW9uL3ZwdV9jb3JlLmMgIHwgOTA2DQo+ICsrKysrKysrKysrKysrKysrKysr
-Kw0KPiA+ICBkcml2ZXJzL21lZGlhL3BsYXRmb3JtL2FtcGhpb24vdnB1X2NvcmUuaCAgfCAgMTUg
-Kw0KPiA+ICBkcml2ZXJzL21lZGlhL3BsYXRmb3JtL2FtcGhpb24vdnB1X2RiZy5jICAgfCA0OTUg
-KysrKysrKysrKysNCj4gPiAgZHJpdmVycy9tZWRpYS9wbGF0Zm9ybS9hbXBoaW9uL3ZwdV9ycGMu
-YyAgIHwgMjc5ICsrKysrKysNCj4gPiAgZHJpdmVycy9tZWRpYS9wbGF0Zm9ybS9hbXBoaW9uL3Zw
-dV9ycGMuaCAgIHwgNDY0ICsrKysrKysrKysrDQo+ID4gIDYgZmlsZXMgY2hhbmdlZCwgMjIyNiBp
-bnNlcnRpb25zKCspDQo+ID4gIGNyZWF0ZSBtb2RlIDEwMDY0NCBkcml2ZXJzL21lZGlhL3BsYXRm
-b3JtL2FtcGhpb24vdnB1X2NvZGVjLmgNCj4gPiAgY3JlYXRlIG1vZGUgMTAwNjQ0IGRyaXZlcnMv
-bWVkaWEvcGxhdGZvcm0vYW1waGlvbi92cHVfY29yZS5jDQo+ID4gIGNyZWF0ZSBtb2RlIDEwMDY0
-NCBkcml2ZXJzL21lZGlhL3BsYXRmb3JtL2FtcGhpb24vdnB1X2NvcmUuaA0KPiA+ICBjcmVhdGUg
-bW9kZSAxMDA2NDQgZHJpdmVycy9tZWRpYS9wbGF0Zm9ybS9hbXBoaW9uL3ZwdV9kYmcuYw0KPiA+
-ICBjcmVhdGUgbW9kZSAxMDA2NDQgZHJpdmVycy9tZWRpYS9wbGF0Zm9ybS9hbXBoaW9uL3ZwdV9y
-cGMuYw0KPiA+ICBjcmVhdGUgbW9kZSAxMDA2NDQgZHJpdmVycy9tZWRpYS9wbGF0Zm9ybS9hbXBo
-aW9uL3ZwdV9ycGMuaA0KPiA+DQoNCg==
+
+Le 01/12/2021 à 21:53, Nicolas Dufresne a écrit :
+> Le mercredi 01 décembre 2021 à 15:20 -0300, Ezequiel Garcia a écrit :
+>> Hi Benjamin,
+>>
+>> On Thu, Nov 25, 2021 at 04:50:01PM +0100, Benjamin Gaignard wrote:
+>>> Use the postprocessor functions introduced by Hantro G2/VP9 codec series
+>>> and remove duplicated buffer management.
+>>> This allow Hantro G12/HEVC to produce NV12_4L4 and NV12.
+>>>
+>> Can you add the fluster score for HEVC so we confirm there are no
+>> regressions?
+>>
+>> Also, please make sure to test with the UVG set http://ultravideo.fi/,
+>> as well as testing that NV12_4L4 output converted via GStreamer's
+>> videoconvert element.
+> This is a bit unfortunate for performance, but fluster will endup testing from
+> 4L4 with how the pipeline get negotiated. Will be good to add some env at some
+> point so folks can test their CSC.
+
+fluster score is still 77/147 so no regressions.
+NV12_4L4 is the first pixel format enumerated by the driver so it is the one used
+by fluster pipeline and it is well converted into I420 by GStreamer's videoconvert.
+Do not worry NV12 is also working fine :-)
+
+I have tested Beauty, Jockey and ShakeNDry from UVG set and I see no problems.
+
+Regards,
+Benjamin
+
+>
+>> Thanks,
+>> Ezequiel
+>>
+>>> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+>>> ---
+>>>   .../staging/media/hantro/hantro_g2_hevc_dec.c | 25 +++---
+>>>   drivers/staging/media/hantro/hantro_hevc.c    | 79 +++----------------
+>>>   drivers/staging/media/hantro/hantro_hw.h      | 11 +++
+>>>   .../staging/media/hantro/hantro_postproc.c    |  3 +
+>>>   drivers/staging/media/hantro/hantro_v4l2.c    | 19 ++---
+>>>   5 files changed, 41 insertions(+), 96 deletions(-)
+>>>
+>>> diff --git a/drivers/staging/media/hantro/hantro_g2_hevc_dec.c b/drivers/staging/media/hantro/hantro_g2_hevc_dec.c
+>>> index b35f36109a6f..6ef5430b18eb 100644
+>>> --- a/drivers/staging/media/hantro/hantro_g2_hevc_dec.c
+>>> +++ b/drivers/staging/media/hantro/hantro_g2_hevc_dec.c
+>>> @@ -341,6 +341,8 @@ static int set_ref(struct hantro_ctx *ctx)
+>>>   	const struct v4l2_hevc_dpb_entry *dpb = decode_params->dpb;
+>>>   	dma_addr_t luma_addr, chroma_addr, mv_addr = 0;
+>>>   	struct hantro_dev *vpu = ctx->dev;
+>>> +	struct vb2_v4l2_buffer *vb2_dst;
+>>> +	struct hantro_decoded_buffer *dst;
+>>>   	size_t cr_offset = hantro_hevc_chroma_offset(sps);
+>>>   	size_t mv_offset = hantro_hevc_motion_vectors_offset(sps);
+>>>   	u32 max_ref_frames;
+>>> @@ -426,10 +428,15 @@ static int set_ref(struct hantro_ctx *ctx)
+>>>   		hantro_write_addr(vpu, G2_REF_MV_ADDR(i), mv_addr);
+>>>   	}
+>>>   
+>>> -	luma_addr = hantro_hevc_get_ref_buf(ctx, decode_params->pic_order_cnt_val);
+>>> +	vb2_dst = hantro_get_dst_buf(ctx);
+>>> +	dst = vb2_to_hantro_decoded_buf(&vb2_dst->vb2_buf);
+>>> +	luma_addr = hantro_get_dec_buf_addr(ctx, &dst->base.vb.vb2_buf);
+>>>   	if (!luma_addr)
+>>>   		return -ENOMEM;
+>>>   
+>>> +	if (hantro_hevc_add_ref_buf(ctx, decode_params->pic_order_cnt_val, luma_addr))
+>>> +		return -EINVAL;
+>>> +
+>>>   	chroma_addr = luma_addr + cr_offset;
+>>>   	mv_addr = luma_addr + mv_offset;
+>>>   
+>>> @@ -456,16 +463,12 @@ static int set_ref(struct hantro_ctx *ctx)
+>>>   
+>>>   static void set_buffers(struct hantro_ctx *ctx)
+>>>   {
+>>> -	struct vb2_v4l2_buffer *src_buf, *dst_buf;
+>>> +	struct vb2_v4l2_buffer *src_buf;
+>>>   	struct hantro_dev *vpu = ctx->dev;
+>>> -	const struct hantro_hevc_dec_ctrls *ctrls = &ctx->hevc_dec.ctrls;
+>>> -	const struct v4l2_ctrl_hevc_sps *sps = ctrls->sps;
+>>> -	size_t cr_offset = hantro_hevc_chroma_offset(sps);
+>>> -	dma_addr_t src_dma, dst_dma;
+>>> +	dma_addr_t src_dma;
+>>>   	u32 src_len, src_buf_len;
+>>>   
+>>>   	src_buf = hantro_get_src_buf(ctx);
+>>> -	dst_buf = hantro_get_dst_buf(ctx);
+>>>   
+>>>   	/* Source (stream) buffer. */
+>>>   	src_dma = vb2_dma_contig_plane_dma_addr(&src_buf->vb2_buf, 0);
+>>> @@ -478,11 +481,6 @@ static void set_buffers(struct hantro_ctx *ctx)
+>>>   	hantro_reg_write(vpu, &g2_strm_start_offset, 0);
+>>>   	hantro_reg_write(vpu, &g2_write_mvs_e, 1);
+>>>   
+>>> -	/* Destination (decoded frame) buffer. */
+>>> -	dst_dma = hantro_get_dec_buf_addr(ctx, &dst_buf->vb2_buf);
+>>> -
+>>> -	hantro_write_addr(vpu, G2_RS_OUT_LUMA_ADDR, dst_dma);
+>>> -	hantro_write_addr(vpu, G2_RS_OUT_CHROMA_ADDR, dst_dma + cr_offset);
+>>>   	hantro_write_addr(vpu, G2_TILE_SIZES_ADDR, ctx->hevc_dec.tile_sizes.dma);
+>>>   	hantro_write_addr(vpu, G2_TILE_FILTER_ADDR, ctx->hevc_dec.tile_filter.dma);
+>>>   	hantro_write_addr(vpu, G2_TILE_SAO_ADDR, ctx->hevc_dec.tile_sao.dma);
+>>> @@ -575,9 +573,6 @@ int hantro_g2_hevc_dec_run(struct hantro_ctx *ctx)
+>>>   	/* Don't compress buffers */
+>>>   	hantro_reg_write(vpu, &g2_ref_compress_bypass, 1);
+>>>   
+>>> -	/* use NV12 as output format */
+>>> -	hantro_reg_write(vpu, &g2_out_rs_e, 1);
+>>> -
+>>>   	/* Bus width and max burst */
+>>>   	hantro_reg_write(vpu, &g2_buswidth, BUS_WIDTH_128);
+>>>   	hantro_reg_write(vpu, &g2_max_burst, 16);
+>>> diff --git a/drivers/staging/media/hantro/hantro_hevc.c b/drivers/staging/media/hantro/hantro_hevc.c
+>>> index ee03123e7704..b49a41d7ae91 100644
+>>> --- a/drivers/staging/media/hantro/hantro_hevc.c
+>>> +++ b/drivers/staging/media/hantro/hantro_hevc.c
+>>> @@ -44,47 +44,6 @@ size_t hantro_hevc_motion_vectors_offset(const struct v4l2_ctrl_hevc_sps *sps)
+>>>   	return ALIGN((cr_offset * 3) / 2, G2_ALIGN);
+>>>   }
+>>>   
+>>> -static size_t hantro_hevc_mv_size(const struct v4l2_ctrl_hevc_sps *sps)
+>>> -{
+>>> -	u32 min_cb_log2_size_y = sps->log2_min_luma_coding_block_size_minus3 + 3;
+>>> -	u32 ctb_log2_size_y = min_cb_log2_size_y + sps->log2_diff_max_min_luma_coding_block_size;
+>>> -	u32 pic_width_in_ctbs_y = (sps->pic_width_in_luma_samples + (1 << ctb_log2_size_y) - 1)
+>>> -				  >> ctb_log2_size_y;
+>>> -	u32 pic_height_in_ctbs_y = (sps->pic_height_in_luma_samples + (1 << ctb_log2_size_y) - 1)
+>>> -				   >> ctb_log2_size_y;
+>>> -	size_t mv_size;
+>>> -
+>>> -	mv_size = pic_width_in_ctbs_y * pic_height_in_ctbs_y *
+>>> -		  (1 << (2 * (ctb_log2_size_y - 4))) * 16;
+>>> -
+>>> -	vpu_debug(4, "%dx%d (CTBs) %zu MV bytes\n",
+>>> -		  pic_width_in_ctbs_y, pic_height_in_ctbs_y, mv_size);
+>>> -
+>>> -	return mv_size;
+>>> -}
+>>> -
+>>> -static size_t hantro_hevc_ref_size(struct hantro_ctx *ctx)
+>>> -{
+>>> -	const struct hantro_hevc_dec_ctrls *ctrls = &ctx->hevc_dec.ctrls;
+>>> -	const struct v4l2_ctrl_hevc_sps *sps = ctrls->sps;
+>>> -
+>>> -	return hantro_hevc_motion_vectors_offset(sps) + hantro_hevc_mv_size(sps);
+>>> -}
+>>> -
+>>> -static void hantro_hevc_ref_free(struct hantro_ctx *ctx)
+>>> -{
+>>> -	struct hantro_hevc_dec_hw_ctx *hevc_dec = &ctx->hevc_dec;
+>>> -	struct hantro_dev *vpu = ctx->dev;
+>>> -	int i;
+>>> -
+>>> -	for (i = 0;  i < NUM_REF_PICTURES; i++) {
+>>> -		if (hevc_dec->ref_bufs[i].cpu)
+>>> -			dma_free_coherent(vpu->dev, hevc_dec->ref_bufs[i].size,
+>>> -					  hevc_dec->ref_bufs[i].cpu,
+>>> -					  hevc_dec->ref_bufs[i].dma);
+>>> -	}
+>>> -}
+>>> -
+>>>   static void hantro_hevc_ref_init(struct hantro_ctx *ctx)
+>>>   {
+>>>   	struct hantro_hevc_dec_hw_ctx *hevc_dec = &ctx->hevc_dec;
+>>> @@ -108,37 +67,25 @@ dma_addr_t hantro_hevc_get_ref_buf(struct hantro_ctx *ctx,
+>>>   		}
+>>>   	}
+>>>   
+>>> -	/* Allocate a new reference buffer */
+>>> +	return 0;
+>>> +}
+>>> +
+>>> +int hantro_hevc_add_ref_buf(struct hantro_ctx *ctx, int poc, dma_addr_t addr)
+>>> +{
+>>> +	struct hantro_hevc_dec_hw_ctx *hevc_dec = &ctx->hevc_dec;
+>>> +	int i;
+>>> +
+>>> +	/* Add a new reference buffer */
+>>>   	for (i = 0; i < NUM_REF_PICTURES; i++) {
+>>>   		if (hevc_dec->ref_bufs_poc[i] == UNUSED_REF) {
+>>> -			if (!hevc_dec->ref_bufs[i].cpu) {
+>>> -				struct hantro_dev *vpu = ctx->dev;
+>>> -
+>>> -				/*
+>>> -				 * Allocate the space needed for the raw data +
+>>> -				 * motion vector data. Optimizations could be to
+>>> -				 * allocate raw data in non coherent memory and only
+>>> -				 * clear the motion vector data.
+>>> -				 */
+>>> -				hevc_dec->ref_bufs[i].cpu =
+>>> -					dma_alloc_coherent(vpu->dev,
+>>> -							   hantro_hevc_ref_size(ctx),
+>>> -							   &hevc_dec->ref_bufs[i].dma,
+>>> -							   GFP_KERNEL);
+>>> -				if (!hevc_dec->ref_bufs[i].cpu)
+>>> -					return 0;
+>>> -
+>>> -				hevc_dec->ref_bufs[i].size = hantro_hevc_ref_size(ctx);
+>>> -			}
+>>>   			hevc_dec->ref_bufs_used |= 1 << i;
+>>> -			memset(hevc_dec->ref_bufs[i].cpu, 0, hantro_hevc_ref_size(ctx));
+>>>   			hevc_dec->ref_bufs_poc[i] = poc;
+>>> -
+>>> -			return hevc_dec->ref_bufs[i].dma;
+>>> +			hevc_dec->ref_bufs[i].dma = addr;
+>>> +			return 0;
+>>>   		}
+>>>   	}
+>>>   
+>>> -	return 0;
+>>> +	return -EINVAL;
+>>>   }
+>>>   
+>>>   void hantro_hevc_ref_remove_unused(struct hantro_ctx *ctx)
+>>> @@ -314,8 +261,6 @@ void hantro_hevc_dec_exit(struct hantro_ctx *ctx)
+>>>   				  hevc_dec->tile_bsd.cpu,
+>>>   				  hevc_dec->tile_bsd.dma);
+>>>   	hevc_dec->tile_bsd.cpu = NULL;
+>>> -
+>>> -	hantro_hevc_ref_free(ctx);
+>>>   }
+>>>   
+>>>   int hantro_hevc_dec_init(struct hantro_ctx *ctx)
+>>> diff --git a/drivers/staging/media/hantro/hantro_hw.h b/drivers/staging/media/hantro/hantro_hw.h
+>>> index dbe51303724b..7286404c32ab 100644
+>>> --- a/drivers/staging/media/hantro/hantro_hw.h
+>>> +++ b/drivers/staging/media/hantro/hantro_hw.h
+>>> @@ -345,6 +345,7 @@ void hantro_hevc_dec_exit(struct hantro_ctx *ctx);
+>>>   int hantro_g2_hevc_dec_run(struct hantro_ctx *ctx);
+>>>   int hantro_hevc_dec_prepare_run(struct hantro_ctx *ctx);
+>>>   dma_addr_t hantro_hevc_get_ref_buf(struct hantro_ctx *ctx, int poc);
+>>> +int hantro_hevc_add_ref_buf(struct hantro_ctx *ctx, int poc, dma_addr_t addr);
+>>>   void hantro_hevc_ref_remove_unused(struct hantro_ctx *ctx);
+>>>   size_t hantro_hevc_chroma_offset(const struct v4l2_ctrl_hevc_sps *sps);
+>>>   size_t hantro_hevc_motion_vectors_offset(const struct v4l2_ctrl_hevc_sps *sps);
+>>> @@ -394,6 +395,16 @@ hantro_h264_mv_size(unsigned int width, unsigned int height)
+>>>   	return 64 * MB_WIDTH(width) * MB_WIDTH(height) + 32;
+>>>   }
+>>>   
+>>> +static inline size_t
+>>> +hantro_hevc_mv_size(unsigned int width, unsigned int height)
+>>> +{
+>>> +	/*
+>>> +	 * A CTB can be 64x64, 32x32 or 16x16.
+>>> +	 * Allocated memory for the "worse" case: 16x16
+>>> +	 */
+>>> +	return width * height / 16;
+>>> +}
+>>> +
+>>>   int hantro_g1_mpeg2_dec_run(struct hantro_ctx *ctx);
+>>>   int rockchip_vpu2_mpeg2_dec_run(struct hantro_ctx *ctx);
+>>>   void hantro_mpeg2_dec_copy_qtable(u8 *qtable,
+>>> diff --git a/drivers/staging/media/hantro/hantro_postproc.c b/drivers/staging/media/hantro/hantro_postproc.c
+>>> index a7774ad4c445..248abe5423f0 100644
+>>> --- a/drivers/staging/media/hantro/hantro_postproc.c
+>>> +++ b/drivers/staging/media/hantro/hantro_postproc.c
+>>> @@ -146,6 +146,9 @@ int hantro_postproc_alloc(struct hantro_ctx *ctx)
+>>>   	else if (ctx->vpu_src_fmt->fourcc == V4L2_PIX_FMT_VP9_FRAME)
+>>>   		buf_size += hantro_vp9_mv_size(ctx->dst_fmt.width,
+>>>   					       ctx->dst_fmt.height);
+>>> +	else if (ctx->vpu_src_fmt->fourcc == V4L2_PIX_FMT_HEVC_SLICE)
+>>> +		buf_size += hantro_hevc_mv_size(ctx->dst_fmt.width,
+>>> +						ctx->dst_fmt.height);
+>>>   
+>>>   	for (i = 0; i < num_buffers; ++i) {
+>>>   		struct hantro_aux_buf *priv = &ctx->postproc.dec_q[i];
+>>> diff --git a/drivers/staging/media/hantro/hantro_v4l2.c b/drivers/staging/media/hantro/hantro_v4l2.c
+>>> index e4b0645ba6fc..e1fe37afe576 100644
+>>> --- a/drivers/staging/media/hantro/hantro_v4l2.c
+>>> +++ b/drivers/staging/media/hantro/hantro_v4l2.c
+>>> @@ -150,20 +150,6 @@ static int vidioc_enum_fmt(struct file *file, void *priv,
+>>>   	unsigned int num_fmts, i, j = 0;
+>>>   	bool skip_mode_none;
+>>>   
+>>> -	/*
+>>> -	 * The HEVC decoder on the G2 core needs a little quirk to offer NV12
+>>> -	 * only on the capture side. Once the post-processor logic is used,
+>>> -	 * we will be able to expose NV12_4L4 and NV12 as the other cases,
+>>> -	 * and therefore remove this quirk.
+>>> -	 */
+>>> -	if (capture && ctx->vpu_src_fmt->fourcc == V4L2_PIX_FMT_HEVC_SLICE) {
+>>> -		if (f->index == 0) {
+>>> -			f->pixelformat = V4L2_PIX_FMT_NV12;
+>>> -			return 0;
+>>> -		}
+>>> -		return -EINVAL;
+>>> -	}
+>>> -
+>>>   	/*
+>>>   	 * When dealing with an encoder:
+>>>   	 *  - on the capture side we want to filter out all MODE_NONE formats.
+>>> @@ -304,6 +290,11 @@ static int hantro_try_fmt(const struct hantro_ctx *ctx,
+>>>   			pix_mp->plane_fmt[0].sizeimage +=
+>>>   				hantro_vp9_mv_size(pix_mp->width,
+>>>   						   pix_mp->height);
+>>> +		else if (ctx->vpu_src_fmt->fourcc == V4L2_PIX_FMT_HEVC_SLICE &&
+>>> +			 !hantro_needs_postproc(ctx, fmt))
+>>> +			pix_mp->plane_fmt[0].sizeimage +=
+>>> +				hantro_hevc_mv_size(pix_mp->width,
+>>> +						    pix_mp->height);
+>>>   	} else if (!pix_mp->plane_fmt[0].sizeimage) {
+>>>   		/*
+>>>   		 * For coded formats the application can specify
+>>> -- 
+>>> 2.30.2
+>>>
