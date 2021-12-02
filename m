@@ -2,88 +2,89 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id F3AC3466603
-	for <lists+linux-media@lfdr.de>; Thu,  2 Dec 2021 15:59:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6510A466636
+	for <lists+linux-media@lfdr.de>; Thu,  2 Dec 2021 16:09:45 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1358841AbhLBPCj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 2 Dec 2021 10:02:39 -0500
-Received: from sin.source.kernel.org ([145.40.73.55]:37452 "EHLO
-        sin.source.kernel.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1358838AbhLBPCi (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 2 Dec 2021 10:02:38 -0500
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by sin.source.kernel.org (Postfix) with ESMTPS id 146D6CE230F;
-        Thu,  2 Dec 2021 14:59:15 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 41E21C00446;
-        Thu,  2 Dec 2021 14:59:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1638457153;
-        bh=2Nicqlk5acdh/oyplxOzIx5V4wwrXUEljmZvn/zboAc=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=ZO+k/OkZcnLVSeutskTq2FpYG29dsxsUBd6PygD3UPMRhywSxYFV2JXDBpiqT4XR3
-         qVXViwnbvYOPYGXzz5zO44CCpMnE8Fwajg4hGopuIrvbxwMvHCgnF5JQ54MrDFiIgA
-         m7eYY27zg1zpgw2TKE4+H1flKZTh5f508Z3wHgFi1pPV6jaG5DcmLAuWwPsQUo8fq1
-         ta80xOUzSL2GXMcZHZaxmJt4XNQkpOCiTR8WIY8U32D8bU+sUDL2muTgBSQWp6I5r+
-         Y1MMlTv2NZIDvz7zmsmFcHsSgYw/09RnQUdMWILc/9DLukttD08P1548T94VWHHHdJ
-         Y6M87r/8lpiew==
-Date:   Thu, 2 Dec 2021 20:29:06 +0530
-From:   Manivannan Sadhasivam <mani@kernel.org>
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc:     linuxarm@huawei.com, mauro.chehab@huawei.com,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        llvm@lists.linux.dev
-Subject: Re: [PATCH v2 15/20] media: imx290: mark read reg function as
- __always_unused
-Message-ID: <20211202145906.GA263467@thinkpad>
-References: <cover.1638179135.git.mchehab+huawei@kernel.org>
- <2471c2ecdf023fc3014d1ad544f2b0e9436fc9ff.1638179135.git.mchehab+huawei@kernel.org>
+        id S1358757AbhLBPNG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 2 Dec 2021 10:13:06 -0500
+Received: from www.linuxtv.org ([130.149.80.248]:41112 "EHLO www.linuxtv.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1358583AbhLBPNF (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 2 Dec 2021 10:13:05 -0500
+Received: from builder.linuxtv.org ([140.211.167.10] helo=slave0)
+        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1msniQ-003Llk-D7; Thu, 02 Dec 2021 15:09:42 +0000
+Received: from ip6-localhost ([::1] helo=localhost.localdomain)
+        by slave0 with esmtp (Exim 4.94.2)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1msniN-00CpP5-S9; Thu, 02 Dec 2021 15:09:39 +0000
+From:   Jenkins <jenkins@linuxtv.org>
+To:     mchehab+samsung@kernel.org, linux-media@vger.kernel.org
+Cc:     builder@linuxtv.org
+Subject: Re: [GIT PULL FOR v5.17] Various fixes/enhancements (#79082)
+Date:   Thu,  2 Dec 2021 15:09:39 +0000
+Message-Id: <20211202150939.3057485-1-jenkins@linuxtv.org>
+X-Mailer: git-send-email 2.30.2
+In-Reply-To: <2ddc1258-8bed-df48-2dff-c08997565d6b@xs4all.nl>
+References: 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <2471c2ecdf023fc3014d1ad544f2b0e9436fc9ff.1638179135.git.mchehab+huawei@kernel.org>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Mauro,
+From: builder@linuxtv.org
 
-On Mon, Nov 29, 2021 at 10:47:47AM +0100, Mauro Carvalho Chehab wrote:
-> Such function is currently unused, but could be needed in the
-> future. So, keep it, marking it as __always_unused, in order to
-> avoid a clang W=1 error.
-> 
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-> ---
-> 
-> See [PATCH v2 00/20] at: https://lore.kernel.org/all/cover.1638179135.git.mchehab+huawei@kernel.org/
-> 
->  drivers/media/i2c/imx290.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/media/i2c/imx290.c b/drivers/media/i2c/imx290.c
-> index bf7a6c37ca5d..99f2a50d39a4 100644
-> --- a/drivers/media/i2c/imx290.c
-> +++ b/drivers/media/i2c/imx290.c
-> @@ -363,7 +363,7 @@ static inline struct imx290 *to_imx290(struct v4l2_subdev *_sd)
->  	return container_of(_sd, struct imx290, sd);
->  }
->  
-> -static inline int imx290_read_reg(struct imx290 *imx290, u16 addr, u8 *value)
-> +static inline int __always_unused imx290_read_reg(struct imx290 *imx290, u16 addr, u8 *value)
+Pull request: https://patchwork.linuxtv.org/project/linux-media/patch/2ddc1258-8bed-df48-2dff-c08997565d6b@xs4all.nl/
+Build log: https://builder.linuxtv.org/job/patchwork/161933/
+Build time: 00:36:42
+Link: https://lore.kernel.org/linux-media/2ddc1258-8bed-df48-2dff-c08997565d6b@xs4all.nl
 
-Can we drop this function instead?
+gpg: Signature made Thu 02 Dec 2021 02:29:00 PM UTC
+gpg:                using RSA key AAA7FFBA4D2D77EF4CAEA1421326E0CD23ABDCE5
+gpg: Good signature from "Hans Verkuil <hverkuil-cisco@xs4all.nl>" [unknown]
+gpg:                 aka "Hans Verkuil <hverkuil@xs4all.nl>" [unknown]
+gpg: WARNING: This key is not certified with a trusted signature!
+gpg:          There is no indication that the signature belongs to the owner.
+Primary key fingerprint: 052C DE7B C215 053B 689F  1BCA BD2D 6148 6614 3B4C
+     Subkey fingerprint: AAA7 FFBA 4D2D 77EF 4CAE  A142 1326 E0CD 23AB DCE5
 
-Thanks,
-Mani
+Summary: got 3/17 patches with issues, being 2 at build time, plus one error when buinding PDF document
 
->  {
->  	unsigned int regval;
->  	int ret;
-> -- 
-> 2.33.1
-> 
+Error/warnings:
+
+patches/0001-dt-bindings-media-Add-compatible-for-D1.patch:
+
+    allyesconfig: return code #0:
+	../scripts/genksyms/parse.y: warning: 9 shift/reduce conflicts [-Wconflicts-sr]
+	../scripts/genksyms/parse.y: warning: 5 reduce/reduce conflicts [-Wconflicts-rr]
+	../scripts/genksyms/parse.y: note: rerun with option '-Wcounterexamples' to generate conflict counterexamples
+
+    allyesconfig: return code #0:
+	../drivers/media/rc/meson-ir-tx.c:22: warning: expecting prototype for meson(). Prototype was for DEVICE_NAME() instead
+	SMATCH:../drivers/media/usb/siano/smsusb.c ../drivers/media/usb/siano/smsusb.c:53:38: :warning: array of flexible structures
+	SPARSE:../drivers/media/usb/siano/smsusb.c ../drivers/media/usb/siano/smsusb.c:53:38: warning: array of flexible structures
+	../drivers/media/i2c/ov8865.c: ../drivers/media/i2c/ov8865.c:2841 ov8865_get_selection() warn: inconsistent indenting
+	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2625 dvb_register() parse error: turning off implications after 60 seconds
+	../drivers/media/platform/qcom/venus/helpers.c: ../drivers/media/platform/qcom/venus/helpers.c:658 venus_helper_get_bufreq() error: we previously assumed 'req' could be null (see line 654)
+	../drivers/media/usb/em28xx/em28xx-video.c: ../drivers/media/usb/em28xx/em28xx-video.c:2900 em28xx_v4l2_init() parse error: turning off implications after 60 seconds
+
+patches/0003-rcar-vin-Add-check-for-completed-capture-before-comp.patch:
+
+   checkpatch.pl:
+	$ cat patches/0003-rcar-vin-Add-check-for-completed-capture-before-comp.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
+	-:31: CHECK: Prefer using the BIT macro
+
+patches/0017-media-videobuf2-add-WARN_ON_ONCE-if-bytesused-is-big.patch:
+
+    allyesconfig: return code #0:
+	../drivers/media/test-drivers/vivid/vivid-core.c: ../drivers/media/test-drivers/vivid/vivid-core.c:1981 vivid_create_instance() parse error: turning off implications after 60 seconds
+	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2625 dvb_register() parse error: turning off implications after 60 seconds
+	../drivers/media/platform/qcom/venus/helpers.c: ../drivers/media/platform/qcom/venus/helpers.c:658 venus_helper_get_bufreq() error: we previously assumed 'req' could be null (see line 654)
+	../drivers/media/usb/em28xx/em28xx-video.c: ../drivers/media/usb/em28xx/em28xx-video.c:2874 em28xx_v4l2_init() parse error: turning off implications after 60 seconds
+
+
+Error #512 when building PDF docs
+
