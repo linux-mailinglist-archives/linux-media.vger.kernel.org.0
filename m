@@ -2,150 +2,102 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4ACA94660A0
-	for <lists+linux-media@lfdr.de>; Thu,  2 Dec 2021 10:44:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8EDAA4660A7
+	for <lists+linux-media@lfdr.de>; Thu,  2 Dec 2021 10:48:04 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1356571AbhLBJsN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 2 Dec 2021 04:48:13 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55300 "EHLO
+        id S1356546AbhLBJvZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 2 Dec 2021 04:51:25 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56026 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1356564AbhLBJsL (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 2 Dec 2021 04:48:11 -0500
-Received: from lb1-smtp-cloud8.xs4all.net (lb1-smtp-cloud8.xs4all.net [IPv6:2001:888:0:108::1b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 908D8C061758;
-        Thu,  2 Dec 2021 01:44:48 -0800 (PST)
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud8.xs4all.net with ESMTPA
-        id sidvmcy8FyGz2sidymL2iA; Thu, 02 Dec 2021 10:44:47 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1638438287; bh=ZxfQ4v+68ZsHK1oOlFqmClZyuwKlC8mqDwpqsQtx9N4=;
-        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=h5qB9hezdtFm7+KuEaKuIoaVVuNPtILkNkltkQlvlmu2PaN4ZznvCV0x4h+wG7msD
-         yiqoSW2ITohrKMC9HdMs8MHA6RE8TvbeYiinUT/8d1lQQivFVA1b24ki1UxBnYg0tD
-         e5OMXdKKgtgoZiHDqXYJwxWmYtTXlU02a1+axwy8uQU8AuZKxbi+nSTNZVMXN6IfhS
-         m68+bLzvPVM0NsCHeYFvOIHkHAqkbHTE/fasNaynFtkf6pkjSG8chWTsySOCAPsARI
-         TCWcF6cP088BWq+RHyTyjy9r/Rw7XI+S390d+158gNWtfRCaJvRSj1mrH0EXUJQ2yN
-         3MQsY1sMR1JGw==
-Subject: Re: [PATCH v13 03/13] media: amphion: add amphion vpu device driver
-To:     Ming Qian <ming.qian@nxp.com>, mchehab@kernel.org,
-        shawnguo@kernel.org, robh+dt@kernel.org, s.hauer@pengutronix.de
-Cc:     kernel@pengutronix.de, festevam@gmail.com, linux-imx@nxp.com,
-        aisheng.dong@nxp.com, linux-media@vger.kernel.org,
-        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org
-References: <cover.1638263914.git.ming.qian@nxp.com>
- <b2219ccda94dd3149c6fa5bd9d5eb77084666ce4.1638263914.git.ming.qian@nxp.com>
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Message-ID: <ea6ed8cc-7f45-d7a6-8169-2b0c726ea3a3@xs4all.nl>
-Date:   Thu, 2 Dec 2021 10:44:43 +0100
+        with ESMTP id S1345962AbhLBJvY (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 2 Dec 2021 04:51:24 -0500
+Received: from mail-wr1-x42f.google.com (mail-wr1-x42f.google.com [IPv6:2a00:1450:4864:20::42f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 343EAC06174A;
+        Thu,  2 Dec 2021 01:48:02 -0800 (PST)
+Received: by mail-wr1-x42f.google.com with SMTP id i5so58367833wrb.2;
+        Thu, 02 Dec 2021 01:48:02 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-transfer-encoding:content-language;
+        bh=758P/IaoZ9hWNIWUREsIatDsLPmQd5ti7yap9+rPwpU=;
+        b=W1AFEQ2lt6YOQr85juZ57+l9kCo54Y+j9yJB2ofNcyJnG5RTHxSDmxYju4mepX69wi
+         cj/xETlibdQw+nh4Rfk+R9M4LeaC0SAObPBhLTYyBZGlZo/24AWYhDdq1TP/9C8VJs9o
+         jPGj0izy5OA24X1iE+g0MHSXGmjvejq2IeZtlGTN6YxwvETaA+l/b5Wkq1zig8CGu47Z
+         eLn2WKF0yHGkuuceEbPMZbrxKQJYBmaYHVYRMVW1+KZ5ZCVn+WJunSszB/GXsi91nrq+
+         TcfsQSD0F+evyC5lrqF7vbDFV2UsnqKhMcue5GyIOvs5qXzhylT1vSe7RrnN0SU1XdFt
+         Dv3g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-transfer-encoding
+         :content-language;
+        bh=758P/IaoZ9hWNIWUREsIatDsLPmQd5ti7yap9+rPwpU=;
+        b=34Z1a/tCEEYZ/bmgweLq5zckpBNxZg/w0E4g3yXcgRPZAZbSTNNGgayihaC7j/ZXTE
+         PkDZHcGDgTuIltcTE9ghf8DaWdqNzTCj3cAHAqzASy3sQ1i8EZ8TRXq3Ykqfwd+UEpDH
+         I7eE3xoigimPxvztoZO9NFITQtMch/61bfu2ZzcE3cSFdLSiRd5J11Z64ecZHEQmWwM2
+         9sTmhAm6q5zgCty2WVvHKSDeIZP8MhVlGhe/P/jOW28PAgjyIrPR0N9R9YALxtM0vW6t
+         mMl5xlNo8tMY+501E18vsF1mcFXv0vaGgXDmDBtDgTOcUrlM3G9yBnaehYelwEiedFBl
+         f/9w==
+X-Gm-Message-State: AOAM5338ruqmswyTSZ8X6bhXm0zWTRkWWGChX1xSmwPGeblx/46QtlW9
+        2QhNIsr6HfeKR2ZFqy65e1096wTHNq4=
+X-Google-Smtp-Source: ABdhPJwXWoIlJP098/ORKHgYZYKpH+TxKDyd+A2hwBKy3ZXPZ7K/njWuQU5gXOAUss4KHPSBKs9r2Q==
+X-Received: by 2002:a5d:648e:: with SMTP id o14mr13065220wri.141.1638438480717;
+        Thu, 02 Dec 2021 01:48:00 -0800 (PST)
+Received: from [192.168.0.14] (cpc141996-chfd3-2-0-cust928.12-3.cable.virginm.net. [86.13.91.161])
+        by smtp.gmail.com with ESMTPSA id d1sm2015924wrz.92.2021.12.02.01.48.00
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 02 Dec 2021 01:48:00 -0800 (PST)
+Subject: Re: [PATCH] media: i2c: Fix inconsistent indenting
+To:     Jiapeng Chong <jiapeng.chong@linux.alibaba.com>, mchehab@kernel.org
+Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <1638434358-47417-1-git-send-email-jiapeng.chong@linux.alibaba.com>
+From:   Daniel Scally <djrscally@gmail.com>
+Message-ID: <4803fe17-fdce-dbcc-99e7-29e0715dfee9@gmail.com>
+Date:   Thu, 2 Dec 2021 09:47:59 +0000
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Firefox/78.0 Thunderbird/78.14.0
+ Thunderbird/78.14.0
 MIME-Version: 1.0
-In-Reply-To: <b2219ccda94dd3149c6fa5bd9d5eb77084666ce4.1638263914.git.ming.qian@nxp.com>
+In-Reply-To: <1638434358-47417-1-git-send-email-jiapeng.chong@linux.alibaba.com>
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4xfC1aThPEoa4rYiMgtU5qu+ur/Jz24tgSeGQ+nTgB3fmcBoGWiqLmZRQCef3hnGcgfuM8ri9L8Qmy3/IAbbacEKwpkcjWyFW82QQvMAynBapLfrUKI6fk
- rIv3x6Qg6Un/Q3xSJTomtjajSevc9eK74BROk09KNPyEFhOr5syG2s9wm8+vcg9qS2I4aVs8irwbdwmnL/LsbZhJTJtZCoAzrIcRA8qj2zoH/thkrYFA4qof
- H477DJdEe/Gq5dSKTcIu9VWHrPouomUvTOdyyD2kTwqogVb1M/TdTpelSVtd+B2Mtgawmt5Fyi7mUxgX1vGDJdgaT63U2upvzbOVs1jd2Khps7NfeM+E+sVp
- TeiwZQgppS7uXnI6nPvIS97rFjG8mbZtCjDbg/lEkDRVwaH29ad1B0dBI21hfnFlUGdIi7PAOActz/W1FsXI57loHyVL1BmtjksKzox4wYo5idVru0LSXj7K
- 0HVrvNRaoFfsV1wWzNb6unohkiQYFeZ1GZjzLorZvfOCekP0WB8tMJ342b3FlUQFCGJrq611hBaHAsMyfRMBZ1OvGL94qj+RuOxP2JxMtM4e9AuMjlhlB2ej
- l1yYFSSr3VDBsmVTrMRk0Znn
+Content-Language: en-US
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 30/11/2021 10:48, Ming Qian wrote:
-> The amphion vpu codec ip contains encoder and decoder.
-> Windsor is the encoder, it supports to encode H.264.
-> Malone is the decoder, it features a powerful
-> video processing unit able to decode many foramts,
+Hi Jiapeng
 
-foramts -> formats
 
-> such as H.264, HEVC, and other foramts.
+Thanks for catching that
 
-ditto
+On 02/12/2021 08:39, Jiapeng Chong wrote:
+> Eliminate the follow smatch warning:
+>
+> drivers/media/i2c/ov8865.c:2841 ov8865_get_selection() warn:
+> inconsistent indenting.
+>
+> Reported-by: Abaci Robot <abaci@linux.alibaba.com>
+> Signed-off-by: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
 
-> 
-> This Driver is for this IP that is based on the v4l2 mem2mem framework.
-> 
-> Supported SoCs are: IMX8QXP, IMX8QM
-> 
-> Signed-off-by: Ming Qian <ming.qian@nxp.com>
-> Signed-off-by: Shijie Qin <shijie.qin@nxp.com>
-> Signed-off-by: Zhou Peng <eagle.zhou@nxp.com>
-> Reported-by: kernel test robot <lkp@intel.com>
+
+Reviewed-by: Daniel Scally <djrscally@gmail.com>
+
 > ---
->  arch/arm64/configs/defconfig               |   1 +
->  drivers/media/platform/Kconfig             |  19 ++
->  drivers/media/platform/Makefile            |   2 +
->  drivers/media/platform/amphion/Makefile    |  20 ++
->  drivers/media/platform/amphion/vpu.h       | 357 +++++++++++++++++++++
->  drivers/media/platform/amphion/vpu_defs.h  | 186 +++++++++++
->  drivers/media/platform/amphion/vpu_drv.c   | 265 +++++++++++++++
->  drivers/media/platform/amphion/vpu_imx8q.c | 271 ++++++++++++++++
->  drivers/media/platform/amphion/vpu_imx8q.h | 116 +++++++
->  9 files changed, 1237 insertions(+)
->  create mode 100644 drivers/media/platform/amphion/Makefile
->  create mode 100644 drivers/media/platform/amphion/vpu.h
->  create mode 100644 drivers/media/platform/amphion/vpu_defs.h
->  create mode 100644 drivers/media/platform/amphion/vpu_drv.c
->  create mode 100644 drivers/media/platform/amphion/vpu_imx8q.c
->  create mode 100644 drivers/media/platform/amphion/vpu_imx8q.h
-> 
-> diff --git a/arch/arm64/configs/defconfig b/arch/arm64/configs/defconfig
-> index f2e2b9bdd702..cc3633112f3f 100644
-> --- a/arch/arm64/configs/defconfig
-> +++ b/arch/arm64/configs/defconfig
-> @@ -657,6 +657,7 @@ CONFIG_V4L_PLATFORM_DRIVERS=y
->  CONFIG_VIDEO_RCAR_CSI2=m
->  CONFIG_VIDEO_RCAR_VIN=m
->  CONFIG_VIDEO_SUN6I_CSI=m
-> +CONFIG_VIDEO_AMPHION_VPU=m
->  CONFIG_V4L_MEM2MEM_DRIVERS=y
->  CONFIG_VIDEO_SAMSUNG_S5P_JPEG=m
->  CONFIG_VIDEO_SAMSUNG_S5P_MFC=m
-> diff --git a/drivers/media/platform/Kconfig b/drivers/media/platform/Kconfig
-> index 9fbdba0fd1e7..7d4a8cd52a9e 100644
-> --- a/drivers/media/platform/Kconfig
-> +++ b/drivers/media/platform/Kconfig
-> @@ -216,6 +216,25 @@ config VIDEO_RCAR_ISP
->  	  To compile this driver as a module, choose M here: the
->  	  module will be called rcar-isp.
->  
-> +config VIDEO_AMPHION_VPU
-> +	tristate "Amphion VPU(Video Processing Unit) Codec IP"
-
-Add space before (
-
-> +	depends on ARCH_MXC
-
-Add: || COMPILE_TEST
-
-It should always be possible to compile test drivers, even on other architectures.
-
-> +	depends on MEDIA_SUPPORT
-> +	depends on VIDEO_DEV
-> +	depends on VIDEO_V4L2
-> +	select MEDIA_CONTROLLER
-> +	select V4L2_MEM2MEM_DEV
-> +	select VIDEOBUF2_DMA_CONTIG
-> +	select VIDEOBUF2_VMALLOC
-> +	help
-> +	  Amphion VPU Codec IP contains two parts: Windsor and Malone.
-> +	  Windsor is encoder that supports H.264, and Malone is decoder
-> +	  that supports H.264, HEVC, and other video formats.
-> +	  This is a V4L2 driver for NXP MXC 8Q video accelerator hardware.
-> +	  It accelerates encoding and decoding operations on
-> +	  various NXP SoCs.
-> +	  To compile this driver as a module choose m here.
-> +
->  endif # V4L_PLATFORM_DRIVERS
->  
->  menuconfig V4L_MEM2MEM_DRIVERS
-
-Regards,
-
-	Hans
+>  drivers/media/i2c/ov8865.c | 3 +--
+>  1 file changed, 1 insertion(+), 2 deletions(-)
+>
+> diff --git a/drivers/media/i2c/ov8865.c b/drivers/media/i2c/ov8865.c
+> index ebdb20d..09ba13f 100644
+> --- a/drivers/media/i2c/ov8865.c
+> +++ b/drivers/media/i2c/ov8865.c
+> @@ -2836,8 +2836,7 @@ static int ov8865_get_selection(struct v4l2_subdev *subdev,
+>  	switch (sel->target) {
+>  	case V4L2_SEL_TGT_CROP:
+>  		mutex_lock(&sensor->mutex);
+> -			__ov8865_get_pad_crop(sensor, state, sel->pad,
+> -					      sel->which, &sel->r);
+> +		__ov8865_get_pad_crop(sensor, state, sel->pad, sel->which, &sel->r);
+>  		mutex_unlock(&sensor->mutex);
+>  		break;
+>  	case V4L2_SEL_TGT_NATIVE_SIZE:
