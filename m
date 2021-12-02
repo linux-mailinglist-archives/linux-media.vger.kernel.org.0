@@ -2,114 +2,178 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 618C7465C29
-	for <lists+linux-media@lfdr.de>; Thu,  2 Dec 2021 03:30:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 428FF465CC6
+	for <lists+linux-media@lfdr.de>; Thu,  2 Dec 2021 04:36:10 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1349125AbhLBCdq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 1 Dec 2021 21:33:46 -0500
-Received: from mail-oi1-f173.google.com ([209.85.167.173]:41867 "EHLO
-        mail-oi1-f173.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1348605AbhLBCdp (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 1 Dec 2021 21:33:45 -0500
-Received: by mail-oi1-f173.google.com with SMTP id u74so52629997oie.8;
-        Wed, 01 Dec 2021 18:30:23 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=gi030Sz79EGCWfzgxZd89p5s7ym6D5RDx9CccXqOS1k=;
-        b=ARXRWmWQeaMCHAb6wcmxdf3FXev+aQfW60eGV9wUjFLJVUHHCp6qPirEiAc1/s3CrF
-         2AuF633pQyeTj3AfUfZIXFVHToHyardd8Hc8O9iR9Tn8FU2IB7uPuBrEh0igLJJSe8td
-         96FgmvNMtQgeUlv9UJD4W99EIp/TPBIiC9a/Gc4lLd/SlGKMKixsxT+AwcWRr0iAI1j2
-         5CATnpI/5UQXf4ugsDcfr0LwVdEUdH4oclrON/CMwAYcGiYHdkgGElMO3nfn9Evmtvbm
-         NUaFDxl0WnQ3QRK9ITt2aZxXGCXNiFldNRGA6/oRZ1LmI8mJYf6DS4nN5Y6MfOsmF4jL
-         rGwg==
-X-Gm-Message-State: AOAM5304Oit1b9yL9nxY/5AI7EMV3bLroWez3C01HZCAyAiCHYgyRRP0
-        JEN+AHcNM507PHlouJSWrw==
-X-Google-Smtp-Source: ABdhPJxXenqPM9jZB3dQkUM/t/9CdZXodiyKwmXMhSBogi3mdk56qxLWS+QuipYs5HEzrH34AOK/Lg==
-X-Received: by 2002:a05:6808:10d0:: with SMTP id s16mr2232422ois.0.1638412223104;
-        Wed, 01 Dec 2021 18:30:23 -0800 (PST)
-Received: from xps15.herring.priv (66-90-148-213.dyn.grandenetworks.net. [66.90.148.213])
-        by smtp.googlemail.com with ESMTPSA id w80sm702862oif.2.2021.12.01.18.30.22
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 01 Dec 2021 18:30:22 -0800 (PST)
-From:   Rob Herring <robh@kernel.org>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     devicetree@vger.kernel.org, Rui Miguel Silva <rmfrfs@gmail.com>,
+        id S1355221AbhLBDj1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 1 Dec 2021 22:39:27 -0500
+Received: from mailgw01.mediatek.com ([60.244.123.138]:52306 "EHLO
+        mailgw01.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1355206AbhLBDjU (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 1 Dec 2021 22:39:20 -0500
+X-UUID: 35066ef134af4aa2affe830ba67adfab-20211202
+X-UUID: 35066ef134af4aa2affe830ba67adfab-20211202
+Received: from mtkmbs10n1.mediatek.inc [(172.21.101.34)] by mailgw01.mediatek.com
+        (envelope-from <moudy.ho@mediatek.com>)
+        (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+        with ESMTP id 1064289280; Thu, 02 Dec 2021 11:35:53 +0800
+Received: from mtkexhb01.mediatek.inc (172.21.101.102) by
+ mtkmbs10n1.mediatek.inc (172.21.101.34) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ 15.2.792.15; Thu, 2 Dec 2021 11:35:52 +0800
+Received: from mtkcas11.mediatek.inc (172.21.101.40) by mtkexhb01.mediatek.inc
+ (172.21.101.102) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Thu, 2 Dec
+ 2021 11:35:51 +0800
+Received: from mtksdccf07 (172.21.84.99) by mtkcas11.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
+ Transport; Thu, 2 Dec 2021 11:35:51 +0800
+Message-ID: <0d3f33e26b67cabc82246c49c0e952194a9a88c1.camel@mediatek.com>
+Subject: Re: [PATCH v9 7/7] media: platform: mtk-mdp3: add Mediatek MDP3
+ driver
+From:   moudy ho <moudy.ho@mediatek.com>
+To:     AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org
-Subject: [PATCH] dt-bindings: media: nxp,imx7-mipi-csi2: Drop bad if/then schema
-Date:   Wed,  1 Dec 2021 20:30:21 -0600
-Message-Id: <20211202023021.3655384-1-robh@kernel.org>
-X-Mailer: git-send-email 2.32.0
+        Rob Herring <robh+dt@kernel.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Jernej Skrabec <jernej.skrabec@siol.net>
+CC:     Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Rob Landley <rob@landley.net>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-mediatek@lists.infradead.org>,
+        <linux-kernel@vger.kernel.org>,
+        Alexandre Courbot <acourbot@chromium.org>,
+        <tfiga@chromium.org>, <drinkcat@chromium.org>,
+        <pihsun@chromium.org>, <hsinyi@google.com>,
+        "Maoguang Meng" <maoguang.meng@mediatek.com>,
+        daoyuan huang <daoyuan.huang@mediatek.com>,
+        Ping-Hsun Wu <ping-hsun.wu@mediatek.com>,
+        <menghui.lin@mediatek.com>, <sj.huang@mediatek.com>,
+        <allen-kh.cheng@mediatek.com>, <randy.wu@mediatek.com>,
+        <jason-jh.lin@mediatek.com>, <roy-cw.yeh@mediatek.com>,
+        <river.cheng@mediatek.com>, <srv_heupstream@mediatek.com>
+Date:   Thu, 2 Dec 2021 11:35:51 +0800
+In-Reply-To: <103b1664-d04c-c1fc-ff4c-e2c92ce45ee8@collabora.com>
+References: <20211201095031.31606-1-moudy.ho@mediatek.com>
+         <20211201095031.31606-8-moudy.ho@mediatek.com>
+         <103b1664-d04c-c1fc-ff4c-e2c92ce45ee8@collabora.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
+X-MTK:  N
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The if/then schema for 'data-lanes' doesn't work as 'compatible' is at a
-different level than 'data-lanes'. To make it work, the if/then schema
-would have to be moved to the top level and then whole hierarchy of
-nodes down to 'data-lanes' created. I don't think it is worth the
-complexity to do that, so let's just drop it.
+On Wed, 2021-12-01 at 11:37 +0100, AngeloGioacchino Del Regno wrote:
+> Il 01/12/21 10:50, Moudy Ho ha scritto:
+> > This patch adds driver for Mediatek's Media Data Path ver.3 (MDP3).
+> > It provides the following functions:
+> >    color transform, format conversion, resize, crop, rotate, flip
+> >    and additional image quality enhancement.
+> > 
+> > The MDP3 driver is mainly used for Google Chromebook products to
+> > import the new architecture to set the HW settings as shown below:
+> >    User -> V4L2 framework
+> >      -> MDP3 driver -> SCP (setting calculations)
+> >        -> MDP3 driver -> CMDQ (GCE driver) -> HW
+> > 
+> > Each modules' related operation control is sited in mtk-mdp3-comp.c
+> > Each modules' register table is defined in file with "mdp_reg_"
+> > prefix
+> > GCE related API, operation control  sited in mtk-mdp3-cmdq.c
+> > V4L2 m2m device functions are implemented in mtk-mdp3-m2m.c
+> > Probe, power, suspend/resume, system level functions are defined in
+> > mtk-mdp3-core.c
+> > 
+> > Signed-off-by: Ping-Hsun Wu <ping-hsun.wu@mediatek.com>
+> > Signed-off-by: daoyuan huang <daoyuan.huang@mediatek.com>
+> > Signed-off-by: Moudy Ho <moudy.ho@mediatek.com>
+> > Reported-by: kernel test robot <lkp@intel.com>
+> > ---
+> >   drivers/media/platform/Kconfig                |   19 +
+> >   drivers/media/platform/Makefile               |    2 +
+> >   drivers/media/platform/mtk-mdp3/Makefile      |    6 +
+> >   .../media/platform/mtk-mdp3/mdp_reg_ccorr.h   |   19 +
+> >   drivers/media/platform/mtk-mdp3/mdp_reg_isp.h |   27 +
+> >   .../media/platform/mtk-mdp3/mdp_reg_rdma.h    |   65 +
+> >   drivers/media/platform/mtk-mdp3/mdp_reg_rsz.h |   39 +
+> >   .../media/platform/mtk-mdp3/mdp_reg_wdma.h    |   47 +
+> >   .../media/platform/mtk-mdp3/mdp_reg_wrot.h    |   55 +
+> >   drivers/media/platform/mtk-mdp3/mtk-img-ipi.h |  280 ++++
+> >   .../media/platform/mtk-mdp3/mtk-mdp3-cmdq.c   |  514 +++++++
+> >   .../media/platform/mtk-mdp3/mtk-mdp3-cmdq.h   |   46 +
+> >   .../media/platform/mtk-mdp3/mtk-mdp3-comp.c   | 1264
+> > +++++++++++++++++
+> >   .../media/platform/mtk-mdp3/mtk-mdp3-comp.h   |  147 ++
+> >   .../media/platform/mtk-mdp3/mtk-mdp3-core.c   |  338 +++++
+> >   .../media/platform/mtk-mdp3/mtk-mdp3-core.h   |   76 +
+> >   .../media/platform/mtk-mdp3/mtk-mdp3-m2m.c    |  789 ++++++++++
+> >   .../media/platform/mtk-mdp3/mtk-mdp3-m2m.h    |   49 +
+> >   .../media/platform/mtk-mdp3/mtk-mdp3-regs.c   |  737 ++++++++++
+> >   .../media/platform/mtk-mdp3/mtk-mdp3-regs.h   |  372 +++++
+> >   .../media/platform/mtk-mdp3/mtk-mdp3-vpu.c    |  312 ++++
+> >   .../media/platform/mtk-mdp3/mtk-mdp3-vpu.h    |   78 +
+> >   22 files changed, 5281 insertions(+)
+> >   create mode 100644 drivers/media/platform/mtk-mdp3/Makefile
+> >   create mode 100644 drivers/media/platform/mtk-
+> > mdp3/mdp_reg_ccorr.h
+> >   create mode 100644 drivers/media/platform/mtk-mdp3/mdp_reg_isp.h
+> >   create mode 100644 drivers/media/platform/mtk-mdp3/mdp_reg_rdma.h
+> >   create mode 100644 drivers/media/platform/mtk-mdp3/mdp_reg_rsz.h
+> >   create mode 100644 drivers/media/platform/mtk-mdp3/mdp_reg_wdma.h
+> >   create mode 100644 drivers/media/platform/mtk-mdp3/mdp_reg_wrot.h
+> >   create mode 100644 drivers/media/platform/mtk-mdp3/mtk-img-ipi.h
+> >   create mode 100644 drivers/media/platform/mtk-mdp3/mtk-mdp3-
+> > cmdq.c
+> >   create mode 100644 drivers/media/platform/mtk-mdp3/mtk-mdp3-
+> > cmdq.h
+> >   create mode 100644 drivers/media/platform/mtk-mdp3/mtk-mdp3-
+> > comp.c
+> >   create mode 100644 drivers/media/platform/mtk-mdp3/mtk-mdp3-
+> > comp.h
+> >   create mode 100644 drivers/media/platform/mtk-mdp3/mtk-mdp3-
+> > core.c
+> >   create mode 100644 drivers/media/platform/mtk-mdp3/mtk-mdp3-
+> > core.h
+> >   create mode 100644 drivers/media/platform/mtk-mdp3/mtk-mdp3-m2m.c
+> >   create mode 100644 drivers/media/platform/mtk-mdp3/mtk-mdp3-m2m.h
+> >   create mode 100644 drivers/media/platform/mtk-mdp3/mtk-mdp3-
+> > regs.c
+> >   create mode 100644 drivers/media/platform/mtk-mdp3/mtk-mdp3-
+> > regs.h
+> >   create mode 100644 drivers/media/platform/mtk-mdp3/mtk-mdp3-vpu.c
+> >   create mode 100644 drivers/media/platform/mtk-mdp3/mtk-mdp3-vpu.h
+> > 
+> 
+> snip...
+> 
+> > diff --git a/drivers/media/platform/mtk-mdp3/mtk-mdp3-cmdq.c
+> > b/drivers/media/platform/mtk-mdp3/mtk-mdp3-cmdq.c
+> > new file mode 100644
+> > index 000000000000..a643f3ee928b
+> > --- /dev/null
+> > +++ b/drivers/media/platform/mtk-mdp3/mtk-mdp3-cmdq.c
+> > @@ -0,0 +1,514 @@
+> 
+> Looks like you forgot to check my review comments to this entire
+> file.
+> Can you please send a new version after applying the changes to this
+> file
+> suggested in my review of series v8?
+Hi Angelo,
 
-The error in this schema is masked by a fixup in the tools causing the
-'allOf' to get overwritten. Removing the fixup as part of moving to
-json-schema draft 2019-09 revealed the issue:
+Thanks for the reminder and sorry for my carelessness. Considering the
+compatibility of subsequent chips and function independence, I plan to
+move those mutex mod definition to the corresponding driver, and
+release next version ASAP.
 
-Documentation/devicetree/bindings/media/nxp,imx7-mipi-csi2.example.dt.yaml: mipi-csi@30750000: ports:port@0:endpoint:data-lanes:0: [1] is too short
-	From schema: /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/media/nxp,imx7-mipi-csi2.yaml
-Documentation/devicetree/bindings/media/nxp,imx7-mipi-csi2.example.dt.yaml: mipi-csi@32e30000: ports:port@0:endpoint:data-lanes:0: [1, 2, 3, 4] is too long
-	From schema: /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/media/nxp,imx7-mipi-csi2.yaml
-
-The if condition was always true because 'compatible' did not exist in
-'endpoint' node and a non-existent property is true for json-schema.
-
-Fixes: 85b62ff2cb97 ("media: dt-bindings: media: nxp,imx7-mipi-csi2: Add i.MX8MM support")
-Cc: Rui Miguel Silva <rmfrfs@gmail.com>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: Shawn Guo <shawnguo@kernel.org>
-Cc: Sascha Hauer <s.hauer@pengutronix.de>
-Cc: Pengutronix Kernel Team <kernel@pengutronix.de>
-Cc: Fabio Estevam <festevam@gmail.com>
-Cc: NXP Linux Team <linux-imx@nxp.com>
-Cc: linux-media@vger.kernel.org
-Cc: linux-arm-kernel@lists.infradead.org
-Signed-off-by: Rob Herring <robh@kernel.org>
----
- .../bindings/media/nxp,imx7-mipi-csi2.yaml           | 12 ------------
- 1 file changed, 12 deletions(-)
-
-diff --git a/Documentation/devicetree/bindings/media/nxp,imx7-mipi-csi2.yaml b/Documentation/devicetree/bindings/media/nxp,imx7-mipi-csi2.yaml
-index 877183cf4278..cb8d2afe52f7 100644
---- a/Documentation/devicetree/bindings/media/nxp,imx7-mipi-csi2.yaml
-+++ b/Documentation/devicetree/bindings/media/nxp,imx7-mipi-csi2.yaml
-@@ -91,18 +91,6 @@ properties:
-             required:
-               - data-lanes
- 
--            allOf:
--              - if:
--                  properties:
--                    compatible:
--                      contains:
--                        const: fsl,imx7-mipi-csi2
--                then:
--                  properties:
--                    data-lanes:
--                      items:
--                        maxItems: 2
--
-       port@1:
-         $ref: /schemas/graph.yaml#/properties/port
-         description:
--- 
-2.32.0
+Thanks & Regards,
+Moudy Ho
+> Thanks.
 
