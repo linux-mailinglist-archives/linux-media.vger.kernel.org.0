@@ -2,105 +2,197 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D287C46746A
-	for <lists+linux-media@lfdr.de>; Fri,  3 Dec 2021 11:00:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6F1434674B2
+	for <lists+linux-media@lfdr.de>; Fri,  3 Dec 2021 11:21:31 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1350422AbhLCKD2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 3 Dec 2021 05:03:28 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47548 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232991AbhLCKD1 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 3 Dec 2021 05:03:27 -0500
-Received: from mail-ed1-x530.google.com (mail-ed1-x530.google.com [IPv6:2a00:1450:4864:20::530])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D20BAC06173E
-        for <linux-media@vger.kernel.org>; Fri,  3 Dec 2021 02:00:03 -0800 (PST)
-Received: by mail-ed1-x530.google.com with SMTP id r25so9191238edq.7
-        for <linux-media@vger.kernel.org>; Fri, 03 Dec 2021 02:00:03 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=konsulko.com; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=0dtq3RV/7mFC2iXGzu3eJkRL8kV5NvLsOgUXONAcOTU=;
-        b=Croet5EHtSpev9rm8E4i2UfIK3Z7SmmLWGXamCXY7QvEysTJOYHRJMNGYF1ayDa/fd
-         WSl9iQvm0RR2OgNvS9ds9odV8ZCx1RK+uiSBiSRx8xLK5LGCKOfAtUPaC3GAA4MuGGOq
-         brCNWXXuTklz7JtV7hKUplSR7JA+COcoJ9BX4=
+        id S1379823AbhLCKYv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 3 Dec 2021 05:24:51 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:57591 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1379846AbhLCKYr (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Fri, 3 Dec 2021 05:24:47 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1638526880;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=16tCcBN6A3Kz/QH+fwsigWZzWp8j5LhPyBwzqPVfU+s=;
+        b=XDiVye4NHAeEYwtI08iauyqBMQ9igNTDxN05rx4eSiiUpaAUQg+SwnJoTRfAhTVKVNv91e
+        SVNvMM4cbiR/xLt+o+AOpjMs+RcmiPLWXhosP78niNajktNWuJzH3Trp6qRsXlLQDholD/
+        V3sgbasyXE2fLTsxHaH9KL4zOhnBDAo=
+Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
+ [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-418-O9i6NZt6PwStIheTU-poIw-1; Fri, 03 Dec 2021 05:21:19 -0500
+X-MC-Unique: O9i6NZt6PwStIheTU-poIw-1
+Received: by mail-ed1-f72.google.com with SMTP id eg20-20020a056402289400b003eb56fcf6easo2125622edb.20
+        for <linux-media@vger.kernel.org>; Fri, 03 Dec 2021 02:21:19 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=0dtq3RV/7mFC2iXGzu3eJkRL8kV5NvLsOgUXONAcOTU=;
-        b=yLR7Z2QjgO/YcD1itgCl3ojuhgt/kZb8i+TF+MfBjM6uieLkiCgUxvMgBfSmJdUa1p
-         4gMEfqU+ZnXJHhE/woC1IRzjzb0A2irT1B8606hnJf5iOAw9RqBuZ3/unH+ERL71RGYF
-         GuaUXrngz3OCReVaLSe6b4bON63RMdVDEfSeJd1gl4lLbqPM1r0slNLden43mpn7g9K9
-         nm++rN+pN0TAy2Ngl6zUT8sVmQcUE1R2cxPBj29Zi+Mb43SKPMTxRNOIb764S7Xb7CXY
-         8odTLmZvVQXGhv9qF0q1mzLev4s6gVKQDndFA+dPI03vSp62pPA4m8UREY3NepzMfb9+
-         RCGw==
-X-Gm-Message-State: AOAM532mo6HZ2lEbxOI71d25ed1asjX64wNv8vqq2uV0jLslBFIbdJ4i
-        PHm4sleafgLHt2eqTjd1/bp9ww==
-X-Google-Smtp-Source: ABdhPJxX04cr0jIBXinQQx2RsdrSaRxOB2S52HaQxZh8lMIwwJGQIATRWpoD5FSTf09TkGqd5/fZVw==
-X-Received: by 2002:a17:906:1993:: with SMTP id g19mr22447246ejd.50.1638525602465;
-        Fri, 03 Dec 2021 02:00:02 -0800 (PST)
-Received: from karbon.home.net ([94.26.108.4])
-        by smtp.gmail.com with ESMTPSA id d1sm1651767edn.56.2021.12.03.02.00.01
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 03 Dec 2021 02:00:02 -0800 (PST)
-Date:   Fri, 3 Dec 2021 12:00:01 +0200
-From:   Petko Manolov <petko.manolov@konsulko.com>
-To:     Hans Verkuil <hverkuil@xs4all.nl>
-Cc:     linux-media@vger.kernel.org
-Subject: Re: ovm6211 linux driver
-Message-ID: <YanqoZ4xh+vtPIRM@karbon.home.net>
-References: <YanepzHYQMH/DfHY@karbon.home.net>
- <b881c5b5-ee29-f250-5270-66c9d7357c94@xs4all.nl>
- <63c9501c-6a58-ed69-265f-45f203952242@xs4all.nl>
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:from:to:cc:references:in-reply-to
+         :content-transfer-encoding;
+        bh=16tCcBN6A3Kz/QH+fwsigWZzWp8j5LhPyBwzqPVfU+s=;
+        b=ZDva7CmnjOe5VE3G3x3Kb2xVRN4CDsWrntIXV8eO5n5oUft5y7aa+k8VBUA0e+P8Hr
+         oDFndL+LtasrLBc7qAT+l2F9y50GSJJk0fTutz0dUvyVMdr+fV30cfJYCDF7a7ZU6297
+         KzeH6kIhASVK1VwAndTg5948clWNfWdtJEwkZzCzQaBRPYABnWicZmNTUzjc+OD65yfc
+         7Ih1ga28v673/XxTHYK0LnzTCRhoKpKN9A8TsYoyPfpz8JMdmBsiXIZNF0mEnHBcf8Ut
+         /TXWHRX8gcEmm3+fDB4m7YonxuVMjOPw44pm4pvuuSSvlbZydlk5zw2CT0SDe0vxJpNz
+         TUFw==
+X-Gm-Message-State: AOAM5337ez/ALYty/ljggD37AzCSeDmEKKVRUCstkg5vG7o4JHJLM/Lm
+        Sa2mihRpgop5X41bkw7V7cJx6CrfePzyJKsr9xbxuwi37Uju4V5TaogBcoZ1oGMaQoJdU39AciZ
+        LJADMs5ehRT4drdAj4qREZ8s=
+X-Received: by 2002:a17:906:1290:: with SMTP id k16mr21809406ejb.566.1638526878106;
+        Fri, 03 Dec 2021 02:21:18 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzfDVxFlYIQsj184u1/mFOHQafz2Rc5BDIkEaP4xxF7HrxkWS23R3eWGG8P7RWdWV8e7yqKbg==
+X-Received: by 2002:a17:906:1290:: with SMTP id k16mr21809366ejb.566.1638526877844;
+        Fri, 03 Dec 2021 02:21:17 -0800 (PST)
+Received: from ?IPV6:2001:1c00:c1e:bf00:1054:9d19:e0f0:8214? (2001-1c00-0c1e-bf00-1054-9d19-e0f0-8214.cable.dynamic.v6.ziggo.nl. [2001:1c00:c1e:bf00:1054:9d19:e0f0:8214])
+        by smtp.gmail.com with ESMTPSA id d18sm1634905edj.23.2021.12.03.02.21.16
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 03 Dec 2021 02:21:17 -0800 (PST)
+Message-ID: <724ab9d5-7ba1-dae6-49b9-831bafca5b84@redhat.com>
+Date:   Fri, 3 Dec 2021 11:21:16 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <63c9501c-6a58-ed69-265f-45f203952242@xs4all.nl>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.3.0
+Subject: Re: [PATCH v6 07/15] platform/x86: int3472: Enable I2c daisy chain
+Content-Language: en-US
+From:   Hans de Goede <hdegoede@redhat.com>
+To:     Daniel Scally <djrscally@gmail.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     "Rafael J . Wysocki" <rjw@rjwysocki.net>,
+        Mark Gross <markgross@kernel.org>,
+        Andy Shevchenko <andy@infradead.org>,
+        Wolfram Sang <wsa@the-dreams.de>,
+        Mika Westerberg <mika.westerberg@linux.intel.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Mark Brown <broonie@kernel.org>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>, Len Brown <lenb@kernel.org>,
+        linux-acpi@vger.kernel.org, platform-driver-x86@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-i2c@vger.kernel.org,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Kate Hsuan <hpa@redhat.com>, linux-media@vger.kernel.org,
+        linux-clk@vger.kernel.org,
+        Andy Shevchenko <andy.shevchenko@gmail.com>
+References: <20211125165412.535063-1-hdegoede@redhat.com>
+ <20211125165412.535063-8-hdegoede@redhat.com>
+ <YaAel9HuAvemRg2s@pendragon.ideasonboard.com>
+ <03306e12-40ec-39ab-3b40-42b0395e1b65@redhat.com>
+ <4ab5efa7-65b0-009c-293a-d7a49776e78d@gmail.com>
+ <2fd5400e-e587-54d2-1071-ad8df49a8a68@redhat.com>
+In-Reply-To: <2fd5400e-e587-54d2-1071-ad8df49a8a68@redhat.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 21-12-03 10:55:15, Hans Verkuil wrote:
-> On 03/12/2021 10:43, Hans Verkuil wrote:
-> > Hi Petko,
-> > 
-> > On 03/12/2021 10:08, Petko Manolov wrote:
-> >> 	Hi guys,
-> >>
-> >> On request by certain company we've developed a media driver for 
-> >> OmniVision's ovm6211 camera sensor.  We just got permission to mainline the 
-> >> code.  How shall i proceed?
-> >>
-> >>
-> >> cheers, Petko
-> >>
-> > 
-> > You found the correct mailinglist, so that's good :-)
-> > 
-> > This is a good starting page:
-> > 
-> > https://www.linuxtv.org/wiki/index.php/Developer_section
-> > 
-> > Check the 'Kernel driver development' - 'Submitting Your Work:' links.
-> > 
-> > Regards,
-> > 
-> > 	Hans
-> > 
+Hi,
+
+On 11/26/21 12:45, Hans de Goede wrote:
+> Hi,
 > 
-> Actually, this is a better source (for the media-subsystem-specific stuff):
+> On 11/26/21 12:39, Daniel Scally wrote:
+>> Hello
+>>
+>> On 26/11/2021 11:30, Hans de Goede wrote:
+>>> Hi,
+>>>
+>>> On 11/26/21 00:39, Laurent Pinchart wrote:
+>>>> Hi Hans,
+>>>>
+>>>> Thank you for the patch.
+>>>>
+>>>> On Thu, Nov 25, 2021 at 05:54:04PM +0100, Hans de Goede wrote:
+>>>>> From: Daniel Scally <djrscally@gmail.com>
+>>>>>
+>>>>> The TPS68470 PMIC has an I2C passthrough mode through which I2C traffic
+>>>>> can be forwarded to a device connected to the PMIC as though it were
+>>>>> connected directly to the system bus. Enable this mode when the chip
+>>>>> is initialised.
+>>>> Is there any drawback doing this unconditionally, if nothing is
+>>>> connected to the bus on the other side (including no pull-ups) ?
+>>> I actually never took a really close look at this patch, I just
+>>> sorta inherited it from Daniel.
+>>>
+>>> Now that I have taken a close look, I see that it is setting the
+>>> exact same bits as which get set when enabling the VSIO regulator.
+>>>
+>>> The idea here is that the I2C-passthrough only gets enabled when
+>>> the VSIO regulator is turned on, because some sensors end up
+>>> shorting the I2C pins to ground when the sensor is not powered.
+>>>
+>>> Since we set these bits when powering up the VSIO regulator
+>>> and since we do that before trying to talk to the sensor
+>>> I don't think that we need this (hack) anymore.
+>>>
+>>> I will give things a try without this change and if things
+>>> still work I will drop this patch from the set.
+>>>
+>>> Daniel, what do you think?
+>>
+>>
+>> Humm, we're only using the VSIO regulator with the VCM though right?
 > 
-> https://www.kernel.org/doc/html/latest/driver-api/media/maintainer-entry-profile.html
+> Nope, there is a mapping from VSIO to dovdd for the ov8865 in the
+> board_data; and I'm pretty sure I copied that from your earlier
+> attempts at getting regulator lookups registered :)
+> 
+> And even if the VSIO regulator was only used by the VCM, then it would
+> get turned off after probing the VCM, clearing the 2 bits which this
+> commit sets. Which would break things if we did not re-enable it when
+> the ov8865 needs it.
+> 
+>> Which might not be on when the ov8865 tries to probe. I haven't tried
+>> without this patch to be honest; I set it because that was what Windows
+>> does when powering on the PMIC.
+> 
+> See above, I'm pretty sure we can do without this patch which means
+> that the INT3472 code will no longer be poking at the PMIC directly
+> itself, which is good :)
+> 
+> Anyways I'll give this a try sometime next week and then drop the
+> patch.
 
-Thanks for the pointers.  Perhaps i should have mentioned that i am already 
-maintaining several kernel drivers.  This is my first 'media' driver and my 
-question was more in the lines of how you guys are doing it, although i did not 
-vocalize it explicitly.  I assume the above link will give me the bits i still 
-don't know about.
+I can confirm that this patch indeed is no longer necessary with
+the current regulator code already taking care of this.
 
-I'll send the v0 patch shortly.
+I will post version 7 of this patch-set soon, with this patch dropped.
+
+Regards,
+
+Hans
 
 
-thanks,
-Petko
+
+>>>>> Reviewed-by: Andy Shevchenko <andy.shevchenko@gmail.com>
+>>>>> Signed-off-by: Daniel Scally <djrscally@gmail.com>
+>>>>> ---
+>>>>>  .../x86/intel/int3472/intel_skl_int3472_tps68470.c         | 7 +++++++
+>>>>>  1 file changed, 7 insertions(+)
+>>>>>
+>>>>> diff --git a/drivers/platform/x86/intel/int3472/intel_skl_int3472_tps68470.c b/drivers/platform/x86/intel/int3472/intel_skl_int3472_tps68470.c
+>>>>> index c05b4cf502fe..42e688f4cad4 100644
+>>>>> --- a/drivers/platform/x86/intel/int3472/intel_skl_int3472_tps68470.c
+>>>>> +++ b/drivers/platform/x86/intel/int3472/intel_skl_int3472_tps68470.c
+>>>>> @@ -45,6 +45,13 @@ static int tps68470_chip_init(struct device *dev, struct regmap *regmap)
+>>>>>  		return ret;
+>>>>>  	}
+>>>>>  
+>>>>> +	/* Enable I2C daisy chain */
+>>>>> +	ret = regmap_write(regmap, TPS68470_REG_S_I2C_CTL, 0x03);
+>>>>> +	if (ret) {
+>>>>> +		dev_err(dev, "Failed to enable i2c daisy chain\n");
+>>>>> +		return ret;
+>>>>> +	}
+>>>>> +
+>>>>>  	dev_info(dev, "TPS68470 REVID: 0x%02x\n", version);
+>>>>>  
+>>>>>  	return 0;
+>>
+
