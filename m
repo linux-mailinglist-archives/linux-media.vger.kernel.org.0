@@ -2,126 +2,172 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CBA54467919
-	for <lists+linux-media@lfdr.de>; Fri,  3 Dec 2021 15:08:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8EE474679FC
+	for <lists+linux-media@lfdr.de>; Fri,  3 Dec 2021 16:08:00 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1381338AbhLCOLy (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 3 Dec 2021 09:11:54 -0500
-Received: from dfw.source.kernel.org ([139.178.84.217]:45940 "EHLO
-        dfw.source.kernel.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1352478AbhLCOLx (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 3 Dec 2021 09:11:53 -0500
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 6F93A62B10;
-        Fri,  3 Dec 2021 14:08:29 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2F7F4C53FC7;
-        Fri,  3 Dec 2021 14:08:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1638540508;
-        bh=eDoEsNNsQZ17vVQwvSAUdLea63vK4M1VwU4kJH81afU=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=ON2iTtZ47aa327omlPy9Dxj9VtrvSjufKZu/0XOqeeu6GIw1GTDJ3tWa8P0G3u0A5
-         VcioyuqtlHNPOkjJNoq00rTvwP8EFCz04GkxzhTVTF1MEl+j6DI8gvV2OiW1uAZBIq
-         aFCb7L7OxkXlzlx+HXSo+AbeqGT33iPWAOe0+Id7tt+bU9RVpduAz0PV1ne0LkDl42
-         NdD7tJ1ZqjjgocXZd1lVUkNekDirvPjQv3gsKWUG6PoJtVSjYZYQfll7IbFi/HAQTk
-         pTaWPSnHW1XRTulExZMYqj1klEb3xyYpS+NowLdWQJhLiCu6rt8t+dmubXDF1byx4L
-         Wf71u5K63W9zw==
-Date:   Fri, 3 Dec 2021 15:08:22 +0100
-From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To:     Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Akira Yokosawa <akiyks@gmail.com>,
-        Jani Nikula <jani.nikula@linux.intel.com>,
-        "=?UTF-8?B?TsOtY29sYXM=?= F. R. A. Prado" <nfraprado@protonmail.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Andrew Klychkov <andrew.a.klychkov@gmail.com>,
-        Miguel Ojeda <ojeda@kernel.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        linux-media@vger.kernel.org
-Subject: Re: [PATCH v3 1/4] docs: allow selecting a Sphinx theme
-Message-ID: <20211203150822.54a81cbb@coco.lan>
-In-Reply-To: <20211202124700.7e395897@coco.lan>
-References: <cover.1638369365.git.mchehab+huawei@kernel.org>
-        <eb4e49b9a701643b07a56f1863005ba8216ef694.1638369365.git.mchehab+huawei@kernel.org>
-        <CANiq72nu9TvLzxxj64b+EwFicwGexT7VTmVYVnVDzQgwkk+9ZA@mail.gmail.com>
-        <20211202124700.7e395897@coco.lan>
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.30; x86_64-redhat-linux-gnu)
+        id S1381658AbhLCPLV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 3 Dec 2021 10:11:21 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34144 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1381651AbhLCPLU (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 3 Dec 2021 10:11:20 -0500
+Received: from mail-ed1-x531.google.com (mail-ed1-x531.google.com [IPv6:2a00:1450:4864:20::531])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 77336C061354
+        for <linux-media@vger.kernel.org>; Fri,  3 Dec 2021 07:07:56 -0800 (PST)
+Received: by mail-ed1-x531.google.com with SMTP id x15so12963745edv.1
+        for <linux-media@vger.kernel.org>; Fri, 03 Dec 2021 07:07:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=rQ5ApB0ZPIcQi1X7PS6LivqOFWhSDFxReULmsEQ/x1I=;
+        b=egVUF4DA/O5x1D7pWspWl98sdEHj87pVaRYAkyyFCFwz2/vknCdCMU6Ciu0W3meLbF
+         PBna+ZZk3/po9HfGz+uMyHhzlytjssNW9iteGHXkAsy3a2TqNon9Kw1D2zy7O1BVf2q8
+         4zHB+zV6LIPskCJQ4/DFxzAU+T3h6Sod+FL9w=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=rQ5ApB0ZPIcQi1X7PS6LivqOFWhSDFxReULmsEQ/x1I=;
+        b=c1QZnuORpSuBQrENzBFYsN6M95/kuKv1utni8KOMjrgcwff8P0gNvUGJ6vJ8riciYn
+         6l+0sLOd4982bZtcsaqqJnErOBvMUHrSxPGUUZ4bAMxxUloF4+T4e23KhC86WZSpMbaI
+         u8VApr3RVPriZ+BoKNClBpCbGCZMoo9Ns4G3t8bD4axXfE98BjTyHY89Zv5ZL8wDFZYD
+         unnsuZnL5KktKviGBc4kbUo55PeoMDPNu/L1iNtenluKsUYJbFbDVGygUpN3/RcT9Bv+
+         EvEsUJUZSDDzigg5aQnbFX/1FiWFnzyFKReNOtdUf2GrAobyf9i2Jb8plgJmC+UFrY+4
+         G6hQ==
+X-Gm-Message-State: AOAM533cLeL7ZCH6RC2SIPneTojCJgO1jAqFBma2M5Ee4e1kHg8cBOJK
+        73SqEYbgHj1sVrWXv1Q158StvA==
+X-Google-Smtp-Source: ABdhPJyh2T9bEMe7PD8PXtMt1dLCfoZrdhHTZ4rRB/6mvvvioaUSceTOjrwRRsQ75iP1hljjZDm0OA==
+X-Received: by 2002:a50:e18e:: with SMTP id k14mr27491053edl.147.1638544074682;
+        Fri, 03 Dec 2021 07:07:54 -0800 (PST)
+Received: from gmail.com ([100.104.168.197])
+        by smtp.gmail.com with ESMTPSA id gz26sm2106725ejc.100.2021.12.03.07.07.53
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 03 Dec 2021 07:07:54 -0800 (PST)
+Date:   Fri, 3 Dec 2021 16:07:36 +0100
+From:   Ricardo Ribalda <ribalda@chromium.org>
+To:     "kyrie.wu" <kyrie.wu@mediatek.com>
+Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Tomasz Figa <tfiga@chromium.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Tzung-Bi Shih <tzungbi@chromium.org>,
+        Project_Global_Chrome_Upstream_Group@mediatek.com,
+        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org, xia.jiang@mediatek.com,
+        maoguang.meng@mediatek.com, srv_heupstream@mediatek.com,
+        irui.wang@mediatek.com
+Subject: Re: [PATCH V6, 3/5] media: mtk-jpegenc: add jpegenc timeout func
+ interface
+Message-ID: <YaoyuAFD8IaSij6S@gmail.com>
+References: <1638501230-13417-1-git-send-email-kyrie.wu@mediatek.com>
+ <1638501230-13417-4-git-send-email-kyrie.wu@mediatek.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1638501230-13417-4-git-send-email-kyrie.wu@mediatek.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Em Thu, 2 Dec 2021 12:47:00 +0100
-Mauro Carvalho Chehab <mchehab+huawei@kernel.org> escreveu:
+kyrie.wu wrote:
 
-> Em Thu, 2 Dec 2021 12:24:53 +0100
-> Miguel Ojeda <miguel.ojeda.sandonis@gmail.com> escreveu:
+> Generalizes jpegenc timeout func interfaces to handle HW timeout.
+
+Where do you call schedule_delayed_work() and init hw_param?
 > 
-> > On Wed, Dec 1, 2021 at 6:59 PM Mauro Carvalho Chehab
-> > <mchehab+huawei@kernel.org> wrote:  
-> > >
-> > > Instead of having RTD as an almost mandatory theme, allow the
-> > > user to select other themes via a THEMES environment var.
-> > >
-> > > There's a catch, though: as the current theme override logic is
-> > > dependent of the RTD theme, we need to move the code which
-> > > adds the CSS overrides to be inside the RTD theme logic.    
-> > 
-> > Does Sphinx support leaving the selection of the theme to "runtime",
-> > i.e. to let users pick a theme from a few from a combobox (e.g.
-> > light/dark)?
-> > 
-> > I assume not, but asking just in case.  
+> Signed-off-by: kyrie.wu <kyrie.wu@mediatek.com>
+> ---
+> V6: no change
+> ---
+>  drivers/media/platform/mtk-jpeg/mtk_jpeg_core.h   |  8 ++++++++
+>  drivers/media/platform/mtk-jpeg/mtk_jpeg_enc_hw.c | 23 +++++++++++++++++++++++
+>  2 files changed, 31 insertions(+)
 > 
-> The RTD dark theme allows that. It basically places a <sun>/<moon>
-> icon. When such icon is clicked, it switches between light/dark.
-
-Btw, I'm now using it at:
-
-	https://linuxtv.org/downloads/v4l-dvb-apis-new/index.html
-
-As we use a dark theme at linuxtv.org since ever.
-
-It was built with the following script:
-
-	CSS=linuxtv.css
-	THEME=sphinx_rtd_dark_mode
-
-	cat << EOF > $CSS
-	  html body {
-	    font-family: arial,helvetica,sans-serif;
-	    margin: 0px;
-	    padding: 0px;
-	  }
-	  html[data-theme='dark'] body {
-	    color: white !important;
-	  }
-	  html[data-theme='dark'] .sig-name {
-	    color: green !important;
-	  }
-	  html[data-theme='dark'] .wy-menu-vertical a {
-	    color: #ffcc00 !important;
-	  }
-	  html[data-theme="dark"] h1, html[data-theme="dark"] h2, html[data-theme="dark"] h3 {
-	    color: #ffcc00 !important;
-	  }
-	  html[data-theme="dark"] h4, html[data-theme="dark"] h5, html[data-theme="dark"] h6 {
-	    color: #ffcc00 !important;
-	  }
-	  html[data-theme="dark"] h7, html[data-theme="dark"] h8, html[data-theme="dark"] h9 {
-	    color: #ffcc00 !important;
-	  }
-	  html[data-theme="dark"] .wy-nav-content a, html[data-theme="dark"] .wy-nav-content a:visited {
-	    color: #ffcc00 !important;
-	  }
-	EOF
-
-	make SPHINXDIRS='media' CSS='$CSS' THEME='$THEME' htmldocs
-
-Thanks,
-Mauro
+> diff --git a/drivers/media/platform/mtk-jpeg/mtk_jpeg_core.h b/drivers/media/platform/mtk-jpeg/mtk_jpeg_core.h
+> index 7d013de..baab305 100644
+> --- a/drivers/media/platform/mtk-jpeg/mtk_jpeg_core.h
+> +++ b/drivers/media/platform/mtk-jpeg/mtk_jpeg_core.h
+> @@ -75,6 +75,12 @@ struct mtk_jpeg_variant {
+>  	u32 cap_q_default_fourcc;
+>  };
+>  
+> +struct mtk_jpeg_hw_param {
+> +	struct vb2_v4l2_buffer *src_buffer;
+> +	struct vb2_v4l2_buffer *dst_buffer;
+> +	struct mtk_jpeg_ctx *curr_ctx;
+> +};
+> +
+>  enum mtk_jpegenc_hw_id {
+>  	MTK_JPEGENC_HW0,
+>  	MTK_JPEGENC_HW1,
+> @@ -122,6 +128,8 @@ struct mtk_jpegenc_comp_dev {
+>  	struct mtk_jpeg_dev *master_dev;
+>  	struct mtk_jpegenc_pm pm;
+>  	int jpegenc_irq;
+> +	struct delayed_work job_timeout_work;
+> +	struct mtk_jpeg_hw_param hw_param;
+>  };
+>  
+>  /**
+> diff --git a/drivers/media/platform/mtk-jpeg/mtk_jpeg_enc_hw.c b/drivers/media/platform/mtk-jpeg/mtk_jpeg_enc_hw.c
+> index 4ccda1d..e62b875 100644
+> --- a/drivers/media/platform/mtk-jpeg/mtk_jpeg_enc_hw.c
+> +++ b/drivers/media/platform/mtk-jpeg/mtk_jpeg_enc_hw.c
+> @@ -183,6 +183,24 @@ void mtk_jpeg_set_enc_params(struct mtk_jpeg_ctx *ctx,  void __iomem *base)
+>  	writel(ctx->restart_interval, base + JPEG_ENC_RST_MCU_NUM);
+>  }
+>  
+> +static void mtk_jpegenc_timeout_work(struct work_struct *work)
+> +{
+> +	struct delayed_work *Pwork =
+> +		container_of(work, struct delayed_work, work);
+Please use to_delayed_work()
+> +	struct mtk_jpegenc_comp_dev *cjpeg =
+> +		container_of(Pwork, struct mtk_jpegenc_comp_dev,
+> +		job_timeout_work);
+> +	enum vb2_buffer_state buf_state = VB2_BUF_STATE_ERROR;
+> +	struct vb2_v4l2_buffer *src_buf;
+> +
+> +	src_buf = cjpeg->hw_param.src_buffer;
+> +
+> +	mtk_jpeg_enc_reset(cjpeg->reg_base);
+> +	clk_disable_unprepare(cjpeg->pm.venc_clk.clk_info->jpegenc_clk);
+> +	pm_runtime_put(cjpeg->pm.dev);
+> +	v4l2_m2m_buf_done(src_buf, buf_state);
+> +}
+> +
+>  static irqreturn_t mtk_jpegenc_hw_irq_handler(int irq, void *priv)
+>  {
+>  	struct vb2_v4l2_buffer *src_buf, *dst_buf;
+> @@ -194,6 +212,8 @@ static irqreturn_t mtk_jpegenc_hw_irq_handler(int irq, void *priv)
+>  	struct mtk_jpegenc_comp_dev *jpeg = priv;
+>  	struct mtk_jpeg_dev *master_jpeg = jpeg->master_dev;
+>  
+> +	cancel_delayed_work(&jpeg->job_timeout_work);
+Isn't here a race condition is the delayed work is being exectuted?
+> +
+>  	irq_status = readl(jpeg->reg_base + JPEG_ENC_INT_STS) &
+>  		JPEG_ENC_INT_STATUS_MASK_ALLIRQ;
+>  	if (irq_status)
+> @@ -322,6 +342,9 @@ static int mtk_jpegenc_hw_probe(struct platform_device *pdev)
+>  
+>  	dev->plat_dev = pdev;
+>  
+> +	INIT_DELAYED_WORK(&dev->job_timeout_work,
+> +		mtk_jpegenc_timeout_work);
+> +
+>  	ret = mtk_jpegenc_init_pm(dev);
+>  	if (ret) {
+>  		dev_err(&pdev->dev, "Failed to get jpeg enc clock source");
+> -- 
+> 2.6.4
+> 
+> 
+> _______________________________________________
+> Linux-mediatek mailing list
+> Linux-mediatek@lists.infradead.org
+> http://lists.infradead.org/mailman/listinfo/linux-mediatek
+> 
