@@ -2,222 +2,609 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 35DB7466D4D
-	for <lists+linux-media@lfdr.de>; Thu,  2 Dec 2021 23:54:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 67150466E59
+	for <lists+linux-media@lfdr.de>; Fri,  3 Dec 2021 01:11:53 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234810AbhLBW6L (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 2 Dec 2021 17:58:11 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38932 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242851AbhLBW6L (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 2 Dec 2021 17:58:11 -0500
-Received: from mail-pj1-x102f.google.com (mail-pj1-x102f.google.com [IPv6:2607:f8b0:4864:20::102f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4B50AC06174A
-        for <linux-media@vger.kernel.org>; Thu,  2 Dec 2021 14:54:48 -0800 (PST)
-Received: by mail-pj1-x102f.google.com with SMTP id nn15-20020a17090b38cf00b001ac7dd5d40cso940524pjb.3
-        for <linux-media@vger.kernel.org>; Thu, 02 Dec 2021 14:54:48 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gateworks-com.20210112.gappssmtp.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=Vfw913dxLQGDDDu3u0AH4o7CLm4UyARzu/jOwnTAzDg=;
-        b=zCVZOPDnH85lUefIRg9bWnj7MAId6D6aN+FVUw2OKz0F6YISk7zj6lYaztcaSCySD1
-         82ES1v/dJHv93WFEWnmV2/HDH0yJFGadeEkY0HnnRKRmtiSH6bQJTKDqx76mot+h083R
-         vStvRWP59Kco0YXYzeCtIBcfl2L3bdFA5uJjuTU1wUBn3tMeWiInOYQ1xr9EX5YpzzSi
-         P0HwqMDciy4NIVr0T/l5GOfP1lwGHosCkrgf2ciGZgcXkzp/4ZgtsX2p8QpWJSezbxSy
-         pTolQgF+pLwL/uPNEzHp0m7oRq3n+HDe4Wtf4rXBG5uEZVPFynN085c09LYe/oNLxOR5
-         vmLw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=Vfw913dxLQGDDDu3u0AH4o7CLm4UyARzu/jOwnTAzDg=;
-        b=AYdo6k4PidCeVRHEo6k3FWWYPBF/G6zko09V2cy46BKQ6nZfYJ5uGKf/xg8t4kxXku
-         HnO3uUr8toje4zMyOXc44wi6sgrnXQu9IfSy2RmW/7JQb50NCH3wzbsBaWFVN+0/Mr5Q
-         WSNKHK/WcPx2Iga6I4yKTd2yJavzIOKG+9M50Lj7kemLaizV3Uf1su8WtESbItiWIDUF
-         /q2iD2G9FX9BwUtcIiohrBNw4ZIr+FwLyJ8Qm2bqrvzw2UTSD+icYHR+TtRHVgUWxhYw
-         RttKAhVVBeF2+BX2VsUSxDemoSEftv8ux+8nWV9OyF09J+nrQrJhE/OzWGFxxk0rVFG/
-         8jLg==
-X-Gm-Message-State: AOAM530xknxItXcLI3w5wnnWg5q1Z4WSKItsQdTqxAjmYVwH0xS8YZsr
-        HxNLL4ADuzHlRs0W8wuyRDtiWo6EgHyiYJpa9vmPrQ==
-X-Google-Smtp-Source: ABdhPJwNWK1BZ6y85VRBKw2XnnhU2TW8bgHhFWv+lq+A4VRYCiBdHuU2rJQ1o76TWMR9SV0iQzkrAUpUSTIwVNHJ+Cg=
-X-Received: by 2002:a17:902:a717:b0:142:76bc:da69 with SMTP id
- w23-20020a170902a71700b0014276bcda69mr18556804plq.12.1638485687667; Thu, 02
- Dec 2021 14:54:47 -0800 (PST)
-MIME-Version: 1.0
-References: <20211202041627.291625-1-aford173@gmail.com> <CAHCN7xJHuOFTQBQWk1yKsk3M0iDB7aKc0=L2DisUoSXVeO3xXQ@mail.gmail.com>
- <CAJ+vNU2t7Yp5OGtWj432Y-8hL62nQBbG58zM-gAj5YfuCO__sA@mail.gmail.com> <CAHCN7xJXMUHHBACuozY3nUdZ0QqHFLrmwrXnArtCKBG7+P4UZQ@mail.gmail.com>
-In-Reply-To: <CAHCN7xJXMUHHBACuozY3nUdZ0QqHFLrmwrXnArtCKBG7+P4UZQ@mail.gmail.com>
-From:   Tim Harvey <tharvey@gateworks.com>
-Date:   Thu, 2 Dec 2021 14:54:36 -0800
-Message-ID: <CAJ+vNU15MWx9t-KUJKZjwPbBZTU=KuRtGYzxgfhypENHKFJpiQ@mail.gmail.com>
-Subject: Re: [RFC V3 0/2] arm64: imx8mm: Enable Hantro VPUs
-To:     Adam Ford <aford173@gmail.com>,
-        Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
-        Nicolas Dufresne <nicolas@ndufresne.ca>
-Cc:     Lucas Stach <l.stach@pengutronix.de>,
-        linux-media <linux-media@vger.kernel.org>,
-        Adam Ford-BE <aford@beaconembedded.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Rob Herring <robh+dt@kernel.org>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
+        id S231772AbhLCAPP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 2 Dec 2021 19:15:15 -0500
+Received: from mga05.intel.com ([192.55.52.43]:23328 "EHLO mga05.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229623AbhLCAPO (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 2 Dec 2021 19:15:14 -0500
+X-IronPort-AV: E=McAfee;i="6200,9189,10186"; a="323127397"
+X-IronPort-AV: E=Sophos;i="5.87,283,1631602800"; 
+   d="scan'208";a="323127397"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Dec 2021 16:11:50 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.87,283,1631602800"; 
+   d="scan'208";a="748420452"
+Received: from lkp-server02.sh.intel.com (HELO 9e1e9f9b3bcb) ([10.239.97.151])
+  by fmsmga005.fm.intel.com with ESMTP; 02 Dec 2021 16:11:47 -0800
+Received: from kbuild by 9e1e9f9b3bcb with local (Exim 4.92)
+        (envelope-from <lkp@intel.com>)
+        id 1mswB0-000Gsg-SG; Fri, 03 Dec 2021 00:11:46 +0000
+Date:   Fri, 3 Dec 2021 08:11:12 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Moudy Ho <moudy.ho@mediatek.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        devicetree <devicetree@vger.kernel.org>,
-        arm-soc <linux-arm-kernel@lists.infradead.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        "open list:HANTRO VPU CODEC DRIVER" 
-        <linux-rockchip@lists.infradead.org>,
-        "open list:STAGING SUBSYSTEM" <linux-staging@lists.linux.dev>
-Content-Type: text/plain; charset="UTF-8"
+        Rob Herring <robh+dt@kernel.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Jernej Skrabec <jernej.skrabec@siol.net>
+Cc:     kbuild-all@lists.01.org, linux-media@vger.kernel.org,
+        Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Rob Landley <rob@landley.net>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Subject: Re: [PATCH v10 3/3] media: platform: mtk-mdp3: add Mediatek MDP3
+ driver
+Message-ID: <202112030854.bLiR84B2-lkp@intel.com>
+References: <20211202062733.20338-4-moudy.ho@mediatek.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20211202062733.20338-4-moudy.ho@mediatek.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, Dec 2, 2021 at 1:00 PM Adam Ford <aford173@gmail.com> wrote:
->
-> On Thu, Dec 2, 2021 at 12:54 PM Tim Harvey <tharvey@gateworks.com> wrote:
-> >
-> > On Thu, Dec 2, 2021 at 4:29 AM Adam Ford <aford173@gmail.com> wrote:
-> > >
-> > > On Wed, Dec 1, 2021 at 10:17 PM Adam Ford <aford173@gmail.com> wrote:
-> > > >
-> > > > The i.MX8M has two Hantro video decoders, called G1 and G2 which appear
-> > > > to be related to the video decoders used on the i.MX8MQ, but because of
-> > > > how the Mini handles the power domains, the VPU driver does not need to
-> > > > handle all the functions, so a new compatible flag is required.
-> > > >
-> > > > V3 is rebased from git://linuxtv.org/hverkuil/media_tree.git for-v5.17c
-> > > > This branch has support for VP9.
-> > > >
-> > > > I set cma=512M, but this may not be enough memory as some tests appeard to run out of memory
-> > > >
-> > > > V3 of this series has several changes:
-> > > >
-> > > > Update imx8m_vpu_hw to add missing 'reg' reference names for G2 and include references to VP9
-> > > > Update device tree to remove IMX8MQ_VPU_RESET, remove some duplicate vpu clock parenting
-> > > > Fix missing reg-names from vpu_g2 node.
-> > > > Apply patch [1] to manage the power domains powering down.
-> > > > [1] - https://lore.kernel.org/linux-arm-kernel/20211016210547.171717-1-marex@denx.de/t/
-> > > >
-> > > > With the above, the following Fluster scores are produced:
-> > > >
-> > > > G1:
-> > > > ./fluster.py run -dGStreamer-H.264-V4L2SL-Gst1.0
-> > > > Ran 90/135 tests successfully               in 74.406 secs
-> > > >
-> > > > ./fluster.py run -d GStreamer-VP8-V4L2SL-Gst1.0
-> > > > Ran 55/61 tests successfully               in 8.080 secs
-> > > >
-> > > > G2:
-> > > > ./fluster.py run -d GStreamer-VP9-V4L2SL-Gst1.0
-> > > > Ran 127/303 tests successfully               in 203.873 secs
-> > > >
-> > > > Fluster and G-Streamer were both built from their respective git repos using their respective master/main branches.
-> > > >
-> > >
-> > > I should note, that both interrupts appear to be triggering.
-> > >
-> > > # cat /proc/interrupts |grep codec
-> > >  57:      13442          0          0          0     GICv3  39 Level
-> > >   38300000.video-codec
-> > >  58:       7815          0          0          0     GICv3  40 Level
-> > >   38310000.video-codec
-> > >
-> >
-> > Adam,
-> >
-> > On another thread you had let me know that you also removed the reset
-> > from the pgc_vpumix power domain which does appear to resolve the
-> > hang:
-> >
-> > diff --git a/arch/arm64/boot/dts/freescale/imx8mm.dtsi
-> > b/arch/arm64/boot/dts/freescale/imx8mm.dtsi
-> > index eb9dcd9d1a31..31710af544dc 100644
-> > --- a/arch/arm64/boot/dts/freescale/imx8mm.dtsi
-> > +++ b/arch/arm64/boot/dts/freescale/imx8mm.dtsi
-> > @@ -681,7 +681,6 @@
-> >                                                 clocks = <&clk
-> > IMX8MM_CLK_VPU_DEC_ROOT>;
-> >                                                 assigned-clocks =
-> > <&clk IMX8MM_CLK_VPU_BUS>;
-> >                                                 assigned-clock-parents
-> > = <&clk IMX8MM_SYS_PLL1_800M>;
-> > -                                               resets = <&src
-> > IMX8MQ_RESET_VPU_RESET>;
-> >                                         };
-> >
-> >                                         pgc_vpu_g1: power-domain@7 {
-> >
-> > That would make such a patch have a 'Fixes commit d39d4bb15310
-> > ("arm64: dts: imx8mm: add GPC node")' but of course that vpu domain
-> > isn't active until your series so I'm not sure if we should send this
-> > separate or squash it with "arm64: dts: imx8mm: Enable VPU-G1 and
-> > VPU-G2". I'm also not clear if removing the reset requires some
-> > further discussion with Lucas.
->
-> Unless there is objection from Lucas, I'll likely make it the first
-> patch in the series marking it with a fixes tag so it gets backported,
-> then the rest of the series would be adding the bindings, update the
-> driver and adding the G1 and G2 nodes.
->
+Hi Moudy,
 
-Adam,
+Thank you for the patch! Yet something to improve:
 
-I've also gotten decode+display working for vp8/h264 using this series
-and gstreamer-1.19.3 (although I have to use software colorspace
-conversion)
+[auto build test ERROR on media-tree/master]
+[also build test ERROR on robh/for-next v5.16-rc3 next-20211202]
+[cannot apply to mbgg-mediatek/for-next]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch]
 
-# source: vp8 software encode on x86
-gst-launch-1.0 -v videotestsrc ! vp8enc ! rtpvp8pay ! udpsink
-host=172.24.33.15 port=9001
-# sink: vp8 hardware decode on imx8mm
-gst-launch-1.0 udpsrc port=9001 caps = 'application/x-rtp,
-media=(string)video, clock-rate=(int)90000, encoding-name=(string)VP8,
-payload=(int)96, ssrc=(uint)3363940374,
-timestamp-offset=(uint)3739685909, seqnum-offset=(uint)28161,
-a-framerate=(string)30' ! rtpvp8depay ! v4l2slvp8dec ! videoconvert !
-kmssink
+url:    https://github.com/0day-ci/linux/commits/Moudy-Ho/media-mediatek-support-mdp3-on-mt8183-platform/20211202-142942
+base:   git://linuxtv.org/media_tree.git master
+config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20211203/202112030854.bLiR84B2-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 11.2.0
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/0day-ci/linux/commit/2cff549997593f4c843e2b867b06992ae409ea86
+        git remote add linux-review https://github.com/0day-ci/linux
+        git fetch --no-tags linux-review Moudy-Ho/media-mediatek-support-mdp3-on-mt8183-platform/20211202-142942
+        git checkout 2cff549997593f4c843e2b867b06992ae409ea86
+        # save the config file to linux build tree
+        mkdir build_dir
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-11.2.0 make.cross O=build_dir ARCH=m68k SHELL=/bin/bash drivers/media/
 
-# source: h264 software encode on x86
-gst-launch-1.0 -v videotestsrc ! video/x-raw,width=800,height=480 !
-x264enc ! rtph264pay ! udpsink host=172.24.33.15 port=9001
-# sink: h264 hardware decode on imx8mm
-gst-launch-1.0 udpsrc port=9001 caps = 'application/x-rtp,
-media=(string)video, clock-rate=(int)90000,
-encoding-name=(string)H264, packetization-mode=(string)1,
-profile-level-id=(string)64001f,
-sprop-parameter-sets=(string)"Z2QAH6zZQMg9sBagwCC0oAAAAwAgAAAHkeMGMsA\=\,aOvssiw\=",
-payload=(int)96, ssrc=(uint)2753453329,
-timestamp-offset=(uint)3593065282, seqnum-offset=(uint)12297,
-a-framerate=(string)30' ! rtph264depay ! v4l2slh264dec ! videoconvert
-! kmssink
+If you fix the issue, kindly add following tag as appropriate
+Reported-by: kernel test robot <lkp@intel.com>
 
-# source: vp9 software encode on x86
-gst-launch-1.0 -v videotestsrc ! video/x-raw,width=800,height=480 !
-vp9enc ! rtpvp9pay ! udpsink host=172.24.33.15 port=9001
-# sink: vp9 hardware decode on imx8mm
-gst-launch-1.0 udpsrc port=9001 caps = 'application/x-rtp,
-media=(string)video, clock-rate=(int)90000, encoding-name=(string)VP9,
-payload=(int)96, ssrc=(uint)2246741422,
-timestamp-offset=(uint)3441735424, seqnum-offset=(uint)30250,
-a-framerate=(string)30' ! rtpvp9depay ! v4l2slvp9dec ! fakesink
-^^^ this fails with no-negotiated
+All error/warnings (new ones prefixed by >>):
 
-Note I have to use videoconvert because v4l2slvp8dev src is
-NV12/YUY2/NV12_32L32 and from testing only BGRx appears compatible
-with kmssink (even though gst-inspect kmssink says it can sink
-NV12/YUY2). With the 800x480 resolution of my display the CPU overhead
-of software colorspcae conversion with videoconvert only about 9%
+   In file included from drivers/media/platform/mtk-mdp3/mtk-mdp3-core.h:14,
+                    from drivers/media/platform/mtk-mdp3/mtk-mdp3-core.c:15:
+>> drivers/media/platform/mtk-mdp3/mtk-mdp3-comp.h:109:41: error: field 'id' has incomplete type
+     109 |         enum mtk_mdp_comp_id            id;
+         |                                         ^~
+>> drivers/media/platform/mtk-mdp3/mtk-mdp3-comp.h:123:59: warning: 'struct mmsys_cmdq_cmd' declared inside parameter list will not be visible outside of this definition or declaration
+     123 |         int (*init_comp)(struct mdp_comp_ctx *ctx, struct mmsys_cmdq_cmd *cmd);
+         |                                                           ^~~~~~~~~~~~~~
+   drivers/media/platform/mtk-mdp3/mtk-mdp3-comp.h:124:62: warning: 'struct mmsys_cmdq_cmd' declared inside parameter list will not be visible outside of this definition or declaration
+     124 |         int (*config_frame)(struct mdp_comp_ctx *ctx, struct mmsys_cmdq_cmd *cmd,
+         |                                                              ^~~~~~~~~~~~~~
+   drivers/media/platform/mtk-mdp3/mtk-mdp3-comp.h:127:37: warning: 'struct mmsys_cmdq_cmd' declared inside parameter list will not be visible outside of this definition or declaration
+     127 |                              struct mmsys_cmdq_cmd *cmd, u32 index);
+         |                                     ^~~~~~~~~~~~~~
+   drivers/media/platform/mtk-mdp3/mtk-mdp3-comp.h:129:39: warning: 'struct mmsys_cmdq_cmd' declared inside parameter list will not be visible outside of this definition or declaration
+     129 |                                struct mmsys_cmdq_cmd *cmd);
+         |                                       ^~~~~~~~~~~~~~
+   drivers/media/platform/mtk-mdp3/mtk-mdp3-comp.h:131:38: warning: 'struct mmsys_cmdq_cmd' declared inside parameter list will not be visible outside of this definition or declaration
+     131 |                               struct mmsys_cmdq_cmd *cmd, u32 index);
+         |                                      ^~~~~~~~~~~~~~
+   drivers/media/platform/mtk-mdp3/mtk-mdp3-comp.h:132:62: warning: 'struct mmsys_cmdq_cmd' declared inside parameter list will not be visible outside of this definition or declaration
+     132 |         int (*post_process)(struct mdp_comp_ctx *ctx, struct mmsys_cmdq_cmd *cmd);
+         |                                                              ^~~~~~~~~~~~~~
+   In file included from drivers/media/platform/mtk-mdp3/mtk-mdp3-core.c:15:
+>> drivers/media/platform/mtk-mdp3/mtk-mdp3-core.h:43:60: error: 'MDP_PIPE_MAX' undeclared here (not in a function); did you mean 'SCP_IPI_MAX'?
+      43 |         struct mtk_mutex                        *mdp_mutex[MDP_PIPE_MAX];
+         |                                                            ^~~~~~~~~~~~
+         |                                                            SCP_IPI_MAX
+>> drivers/media/platform/mtk-mdp3/mtk-mdp3-core.h:44:55: error: 'MDP_MAX_COMP_COUNT' undeclared here (not in a function); did you mean 'MDP_MAX_EVENT_COUNT'?
+      44 |         struct mdp_comp                         *comp[MDP_MAX_COMP_COUNT];
+         |                                                       ^~~~~~~~~~~~~~~~~~
+         |                                                       MDP_MAX_EVENT_COUNT
+   drivers/media/platform/mtk-mdp3/mtk-mdp3-core.c: In function 'mdp_probe':
+>> drivers/media/platform/mtk-mdp3/mtk-mdp3-core.c:192:37: error: implicit declaration of function 'mtk_mutex_mdp_get'; did you mean 'mtk_mutex_get'? [-Werror=implicit-function-declaration]
+     192 |                 mdp->mdp_mutex[i] = mtk_mutex_mdp_get(&mm_pdev->dev, i);
+         |                                     ^~~~~~~~~~~~~~~~~
+         |                                     mtk_mutex_get
+   cc1: some warnings being treated as errors
+--
+   In file included from drivers/media/platform/mtk-mdp3/mtk-mdp3-core.h:14,
+                    from drivers/media/platform/mtk-mdp3/mtk-mdp3-vpu.c:10:
+>> drivers/media/platform/mtk-mdp3/mtk-mdp3-comp.h:109:41: error: field 'id' has incomplete type
+     109 |         enum mtk_mdp_comp_id            id;
+         |                                         ^~
+>> drivers/media/platform/mtk-mdp3/mtk-mdp3-comp.h:123:59: warning: 'struct mmsys_cmdq_cmd' declared inside parameter list will not be visible outside of this definition or declaration
+     123 |         int (*init_comp)(struct mdp_comp_ctx *ctx, struct mmsys_cmdq_cmd *cmd);
+         |                                                           ^~~~~~~~~~~~~~
+   drivers/media/platform/mtk-mdp3/mtk-mdp3-comp.h:124:62: warning: 'struct mmsys_cmdq_cmd' declared inside parameter list will not be visible outside of this definition or declaration
+     124 |         int (*config_frame)(struct mdp_comp_ctx *ctx, struct mmsys_cmdq_cmd *cmd,
+         |                                                              ^~~~~~~~~~~~~~
+   drivers/media/platform/mtk-mdp3/mtk-mdp3-comp.h:127:37: warning: 'struct mmsys_cmdq_cmd' declared inside parameter list will not be visible outside of this definition or declaration
+     127 |                              struct mmsys_cmdq_cmd *cmd, u32 index);
+         |                                     ^~~~~~~~~~~~~~
+   drivers/media/platform/mtk-mdp3/mtk-mdp3-comp.h:129:39: warning: 'struct mmsys_cmdq_cmd' declared inside parameter list will not be visible outside of this definition or declaration
+     129 |                                struct mmsys_cmdq_cmd *cmd);
+         |                                       ^~~~~~~~~~~~~~
+   drivers/media/platform/mtk-mdp3/mtk-mdp3-comp.h:131:38: warning: 'struct mmsys_cmdq_cmd' declared inside parameter list will not be visible outside of this definition or declaration
+     131 |                               struct mmsys_cmdq_cmd *cmd, u32 index);
+         |                                      ^~~~~~~~~~~~~~
+   drivers/media/platform/mtk-mdp3/mtk-mdp3-comp.h:132:62: warning: 'struct mmsys_cmdq_cmd' declared inside parameter list will not be visible outside of this definition or declaration
+     132 |         int (*post_process)(struct mdp_comp_ctx *ctx, struct mmsys_cmdq_cmd *cmd);
+         |                                                              ^~~~~~~~~~~~~~
+   In file included from drivers/media/platform/mtk-mdp3/mtk-mdp3-vpu.c:10:
+>> drivers/media/platform/mtk-mdp3/mtk-mdp3-core.h:43:60: error: 'MDP_PIPE_MAX' undeclared here (not in a function); did you mean 'SCP_IPI_MAX'?
+      43 |         struct mtk_mutex                        *mdp_mutex[MDP_PIPE_MAX];
+         |                                                            ^~~~~~~~~~~~
+         |                                                            SCP_IPI_MAX
+>> drivers/media/platform/mtk-mdp3/mtk-mdp3-core.h:44:55: error: 'MDP_MAX_COMP_COUNT' undeclared here (not in a function); did you mean 'MDP_MAX_EVENT_COUNT'?
+      44 |         struct mdp_comp                         *comp[MDP_MAX_COMP_COUNT];
+         |                                                       ^~~~~~~~~~~~~~~~~~
+         |                                                       MDP_MAX_EVENT_COUNT
+--
+   In file included from drivers/media/platform/mtk-mdp3/mtk-mdp3-core.h:14,
+                    from drivers/media/platform/mtk-mdp3/mtk-mdp3-regs.c:10:
+>> drivers/media/platform/mtk-mdp3/mtk-mdp3-comp.h:109:41: error: field 'id' has incomplete type
+     109 |         enum mtk_mdp_comp_id            id;
+         |                                         ^~
+>> drivers/media/platform/mtk-mdp3/mtk-mdp3-comp.h:123:59: warning: 'struct mmsys_cmdq_cmd' declared inside parameter list will not be visible outside of this definition or declaration
+     123 |         int (*init_comp)(struct mdp_comp_ctx *ctx, struct mmsys_cmdq_cmd *cmd);
+         |                                                           ^~~~~~~~~~~~~~
+   drivers/media/platform/mtk-mdp3/mtk-mdp3-comp.h:124:62: warning: 'struct mmsys_cmdq_cmd' declared inside parameter list will not be visible outside of this definition or declaration
+     124 |         int (*config_frame)(struct mdp_comp_ctx *ctx, struct mmsys_cmdq_cmd *cmd,
+         |                                                              ^~~~~~~~~~~~~~
+   drivers/media/platform/mtk-mdp3/mtk-mdp3-comp.h:127:37: warning: 'struct mmsys_cmdq_cmd' declared inside parameter list will not be visible outside of this definition or declaration
+     127 |                              struct mmsys_cmdq_cmd *cmd, u32 index);
+         |                                     ^~~~~~~~~~~~~~
+   drivers/media/platform/mtk-mdp3/mtk-mdp3-comp.h:129:39: warning: 'struct mmsys_cmdq_cmd' declared inside parameter list will not be visible outside of this definition or declaration
+     129 |                                struct mmsys_cmdq_cmd *cmd);
+         |                                       ^~~~~~~~~~~~~~
+   drivers/media/platform/mtk-mdp3/mtk-mdp3-comp.h:131:38: warning: 'struct mmsys_cmdq_cmd' declared inside parameter list will not be visible outside of this definition or declaration
+     131 |                               struct mmsys_cmdq_cmd *cmd, u32 index);
+         |                                      ^~~~~~~~~~~~~~
+   drivers/media/platform/mtk-mdp3/mtk-mdp3-comp.h:132:62: warning: 'struct mmsys_cmdq_cmd' declared inside parameter list will not be visible outside of this definition or declaration
+     132 |         int (*post_process)(struct mdp_comp_ctx *ctx, struct mmsys_cmdq_cmd *cmd);
+         |                                                              ^~~~~~~~~~~~~~
+   In file included from drivers/media/platform/mtk-mdp3/mtk-mdp3-regs.c:10:
+   drivers/media/platform/mtk-mdp3/mtk-mdp3-core.h:43:60: error: 'MDP_PIPE_MAX' undeclared here (not in a function)
+      43 |         struct mtk_mutex                        *mdp_mutex[MDP_PIPE_MAX];
+         |                                                            ^~~~~~~~~~~~
+>> drivers/media/platform/mtk-mdp3/mtk-mdp3-core.h:44:55: error: 'MDP_MAX_COMP_COUNT' undeclared here (not in a function); did you mean 'MDP_MAX_EVENT_COUNT'?
+      44 |         struct mdp_comp                         *comp[MDP_MAX_COMP_COUNT];
+         |                                                       ^~~~~~~~~~~~~~~~~~
+         |                                                       MDP_MAX_EVENT_COUNT
+--
+   In file included from drivers/media/platform/mtk-mdp3/mtk-mdp3-comp.c:11:
+>> drivers/media/platform/mtk-mdp3/mtk-mdp3-comp.h:109:41: error: field 'id' has incomplete type
+     109 |         enum mtk_mdp_comp_id            id;
+         |                                         ^~
+>> drivers/media/platform/mtk-mdp3/mtk-mdp3-comp.h:123:59: warning: 'struct mmsys_cmdq_cmd' declared inside parameter list will not be visible outside of this definition or declaration
+     123 |         int (*init_comp)(struct mdp_comp_ctx *ctx, struct mmsys_cmdq_cmd *cmd);
+         |                                                           ^~~~~~~~~~~~~~
+   drivers/media/platform/mtk-mdp3/mtk-mdp3-comp.h:124:62: warning: 'struct mmsys_cmdq_cmd' declared inside parameter list will not be visible outside of this definition or declaration
+     124 |         int (*config_frame)(struct mdp_comp_ctx *ctx, struct mmsys_cmdq_cmd *cmd,
+         |                                                              ^~~~~~~~~~~~~~
+   drivers/media/platform/mtk-mdp3/mtk-mdp3-comp.h:127:37: warning: 'struct mmsys_cmdq_cmd' declared inside parameter list will not be visible outside of this definition or declaration
+     127 |                              struct mmsys_cmdq_cmd *cmd, u32 index);
+         |                                     ^~~~~~~~~~~~~~
+   drivers/media/platform/mtk-mdp3/mtk-mdp3-comp.h:129:39: warning: 'struct mmsys_cmdq_cmd' declared inside parameter list will not be visible outside of this definition or declaration
+     129 |                                struct mmsys_cmdq_cmd *cmd);
+         |                                       ^~~~~~~~~~~~~~
+   drivers/media/platform/mtk-mdp3/mtk-mdp3-comp.h:131:38: warning: 'struct mmsys_cmdq_cmd' declared inside parameter list will not be visible outside of this definition or declaration
+     131 |                               struct mmsys_cmdq_cmd *cmd, u32 index);
+         |                                      ^~~~~~~~~~~~~~
+   drivers/media/platform/mtk-mdp3/mtk-mdp3-comp.h:132:62: warning: 'struct mmsys_cmdq_cmd' declared inside parameter list will not be visible outside of this definition or declaration
+     132 |         int (*post_process)(struct mdp_comp_ctx *ctx, struct mmsys_cmdq_cmd *cmd);
+         |                                                              ^~~~~~~~~~~~~~
+   In file included from drivers/media/platform/mtk-mdp3/mtk-mdp3-comp.c:12:
+   drivers/media/platform/mtk-mdp3/mtk-mdp3-core.h:43:60: error: 'MDP_PIPE_MAX' undeclared here (not in a function)
+      43 |         struct mtk_mutex                        *mdp_mutex[MDP_PIPE_MAX];
+         |                                                            ^~~~~~~~~~~~
+>> drivers/media/platform/mtk-mdp3/mtk-mdp3-core.h:44:55: error: 'MDP_MAX_COMP_COUNT' undeclared here (not in a function); did you mean 'MDP_MAX_EVENT_COUNT'?
+      44 |         struct mdp_comp                         *comp[MDP_MAX_COMP_COUNT];
+         |                                                       ^~~~~~~~~~~~~~~~~~
+         |                                                       MDP_MAX_EVENT_COUNT
+   drivers/media/platform/mtk-mdp3/mtk-mdp3-comp.c: In function 'get_comp_flag':
+>> drivers/media/platform/mtk-mdp3/mtk-mdp3-comp.c:35:38: error: 'MDP_COMP_RDMA0' undeclared (first use in this function)
+      35 |                 if (ctx->comp->id == MDP_COMP_RDMA0)
+         |                                      ^~~~~~~~~~~~~~
+   drivers/media/platform/mtk-mdp3/mtk-mdp3-comp.c:35:38: note: each undeclared identifier is reported only once for each function it appears in
+   In file included from include/linux/bits.h:6,
+                    from include/linux/bitops.h:6,
+                    from include/linux/kernel.h:13,
+                    from include/linux/clk.h:13,
+                    from drivers/media/platform/mtk-mdp3/mtk-mdp3-comp.c:7:
+>> drivers/media/platform/mtk-mdp3/mtk-mdp3-comp.c:36:58: error: 'MDP_COMP_RSZ1' undeclared (first use in this function)
+      36 |                         return BIT(MDP_COMP_RDMA0) | BIT(MDP_COMP_RSZ1);
+         |                                                          ^~~~~~~~~~~~~
+   include/vdso/bits.h:7:44: note: in definition of macro 'BIT'
+       7 | #define BIT(nr)                 (UL(1) << (nr))
+         |                                            ^~
+   drivers/media/platform/mtk-mdp3/mtk-mdp3-comp.c: At top level:
+>> drivers/media/platform/mtk-mdp3/mtk-mdp3-comp.c:41:55: warning: 'struct mmsys_cmdq_cmd' declared inside parameter list will not be visible outside of this definition or declaration
+      41 | static int init_rdma(struct mdp_comp_ctx *ctx, struct mmsys_cmdq_cmd *cmd)
+         |                                                       ^~~~~~~~~~~~~~
+   drivers/media/platform/mtk-mdp3/mtk-mdp3-comp.c: In function 'init_rdma':
+   drivers/media/platform/mtk-mdp3/mtk-mdp3-comp.c:48:66: error: 'MDP_COMP_RSZ1' undeclared (first use in this function)
+      48 |                 struct mdp_comp *prz1 = ctx->comp->mdp_dev->comp[MDP_COMP_RSZ1];
+         |                                                                  ^~~~~~~~~~~~~
+   drivers/media/platform/mtk-mdp3/mtk-mdp3-comp.c:51:38: error: 'MDP_COMP_RDMA0' undeclared (first use in this function)
+      51 |                 if (ctx->comp->id == MDP_COMP_RDMA0 && prz1)
+         |                                      ^~~~~~~~~~~~~~
+   In file included from drivers/media/platform/mtk-mdp3/mtk-mdp3-comp.c:11:
+>> drivers/media/platform/mtk-mdp3/mtk-mdp3-comp.h:14:34: error: invalid use of undefined type 'struct mmsys_cmdq_cmd'
+      14 |         cmdq_pkt_write_mask((cmd)->pkt, id, \
+         |                                  ^~
+   drivers/media/platform/mtk-mdp3/mtk-mdp3-comp.h:17:9: note: in expansion of macro 'MM_REG_WRITE_MASK'
+      17 |         MM_REG_WRITE_MASK(cmd, id, base, ofst, val, \
+         |         ^~~~~~~~~~~~~~~~~
+   drivers/media/platform/mtk-mdp3/mtk-mdp3-comp.c:52:25: note: in expansion of macro 'MM_REG_WRITE'
+      52 |                         MM_REG_WRITE(cmd, subsys_id, prz1->reg_base, PRZ_ENABLE,
+         |                         ^~~~~~~~~~~~
+>> drivers/media/platform/mtk-mdp3/mtk-mdp3-comp.h:14:34: error: invalid use of undefined type 'struct mmsys_cmdq_cmd'
+      14 |         cmdq_pkt_write_mask((cmd)->pkt, id, \
+         |                                  ^~
+   drivers/media/platform/mtk-mdp3/mtk-mdp3-comp.h:17:9: note: in expansion of macro 'MM_REG_WRITE_MASK'
+      17 |         MM_REG_WRITE_MASK(cmd, id, base, ofst, val, \
+         |         ^~~~~~~~~~~~~~~~~
+   drivers/media/platform/mtk-mdp3/mtk-mdp3-comp.c:57:9: note: in expansion of macro 'MM_REG_WRITE'
+      57 |         MM_REG_WRITE(cmd, subsys_id, base, MDP_RDMA_RESET, BIT(0), BIT(0));
+         |         ^~~~~~~~~~~~
+   drivers/media/platform/mtk-mdp3/mtk-mdp3-comp.h:34:33: error: invalid use of undefined type 'struct mmsys_cmdq_cmd'
+      34 |         cmdq_pkt_poll_mask((cmd)->pkt, id, \
+         |                                 ^~
+   drivers/media/platform/mtk-mdp3/mtk-mdp3-comp.h:37:9: note: in expansion of macro 'MM_REG_POLL_MASK'
+      37 |         MM_REG_POLL_MASK((cmd), id, base, ofst, val, \
+         |         ^~~~~~~~~~~~~~~~
+   drivers/media/platform/mtk-mdp3/mtk-mdp3-comp.c:58:9: note: in expansion of macro 'MM_REG_POLL'
+      58 |         MM_REG_POLL(cmd, subsys_id, base, MDP_RDMA_MON_STA_1, BIT(8), BIT(8));
+         |         ^~~~~~~~~~~
+>> drivers/media/platform/mtk-mdp3/mtk-mdp3-comp.h:14:34: error: invalid use of undefined type 'struct mmsys_cmdq_cmd'
+      14 |         cmdq_pkt_write_mask((cmd)->pkt, id, \
+         |                                  ^~
+   drivers/media/platform/mtk-mdp3/mtk-mdp3-comp.h:17:9: note: in expansion of macro 'MM_REG_WRITE_MASK'
+      17 |         MM_REG_WRITE_MASK(cmd, id, base, ofst, val, \
+         |         ^~~~~~~~~~~~~~~~~
+   drivers/media/platform/mtk-mdp3/mtk-mdp3-comp.c:59:9: note: in expansion of macro 'MM_REG_WRITE'
+      59 |         MM_REG_WRITE(cmd, subsys_id, base, MDP_RDMA_RESET, 0x0, BIT(0));
+         |         ^~~~~~~~~~~~
+   drivers/media/platform/mtk-mdp3/mtk-mdp3-comp.c: At top level:
+   drivers/media/platform/mtk-mdp3/mtk-mdp3-comp.c:64:37: warning: 'struct mmsys_cmdq_cmd' declared inside parameter list will not be visible outside of this definition or declaration
+      64 |                              struct mmsys_cmdq_cmd *cmd,
+         |                                     ^~~~~~~~~~~~~~
+   In file included from drivers/media/platform/mtk-mdp3/mtk-mdp3-comp.c:11:
+   drivers/media/platform/mtk-mdp3/mtk-mdp3-comp.c: In function 'config_rdma_frame':
+>> drivers/media/platform/mtk-mdp3/mtk-mdp3-comp.h:14:34: error: invalid use of undefined type 'struct mmsys_cmdq_cmd'
+      14 |         cmdq_pkt_write_mask((cmd)->pkt, id, \
+         |                                  ^~
+   drivers/media/platform/mtk-mdp3/mtk-mdp3-comp.h:17:9: note: in expansion of macro 'MM_REG_WRITE_MASK'
+      17 |         MM_REG_WRITE_MASK(cmd, id, base, ofst, val, \
+         |         ^~~~~~~~~~~~~~~~~
+   drivers/media/platform/mtk-mdp3/mtk-mdp3-comp.c:77:25: note: in expansion of macro 'MM_REG_WRITE'
+      77 |                         MM_REG_WRITE(cmd, subsys_id, base,
+         |                         ^~~~~~~~~~~~
+>> drivers/media/platform/mtk-mdp3/mtk-mdp3-comp.h:14:34: error: invalid use of undefined type 'struct mmsys_cmdq_cmd'
+      14 |         cmdq_pkt_write_mask((cmd)->pkt, id, \
+         |                                  ^~
+   drivers/media/platform/mtk-mdp3/mtk-mdp3-comp.h:17:9: note: in expansion of macro 'MM_REG_WRITE_MASK'
+      17 |         MM_REG_WRITE_MASK(cmd, id, base, ofst, val, \
+         |         ^~~~~~~~~~~~~~~~~
+   drivers/media/platform/mtk-mdp3/mtk-mdp3-comp.c:80:25: note: in expansion of macro 'MM_REG_WRITE'
+      80 |                         MM_REG_WRITE(cmd, subsys_id, base,
+         |                         ^~~~~~~~~~~~
+>> drivers/media/platform/mtk-mdp3/mtk-mdp3-comp.h:14:34: error: invalid use of undefined type 'struct mmsys_cmdq_cmd'
+      14 |         cmdq_pkt_write_mask((cmd)->pkt, id, \
+         |                                  ^~
+   drivers/media/platform/mtk-mdp3/mtk-mdp3-comp.h:17:9: note: in expansion of macro 'MM_REG_WRITE_MASK'
+      17 |         MM_REG_WRITE_MASK(cmd, id, base, ofst, val, \
+         |         ^~~~~~~~~~~~~~~~~
+   drivers/media/platform/mtk-mdp3/mtk-mdp3-comp.c:85:9: note: in expansion of macro 'MM_REG_WRITE'
+      85 |         MM_REG_WRITE(cmd, subsys_id, base, MDP_RDMA_GMCIF_CON,
+         |         ^~~~~~~~~~~~
+>> drivers/media/platform/mtk-mdp3/mtk-mdp3-comp.h:14:34: error: invalid use of undefined type 'struct mmsys_cmdq_cmd'
+      14 |         cmdq_pkt_write_mask((cmd)->pkt, id, \
+         |                                  ^~
+   drivers/media/platform/mtk-mdp3/mtk-mdp3-comp.h:17:9: note: in expansion of macro 'MM_REG_WRITE_MASK'
+      17 |         MM_REG_WRITE_MASK(cmd, id, base, ofst, val, \
+         |         ^~~~~~~~~~~~~~~~~
+   drivers/media/platform/mtk-mdp3/mtk-mdp3-comp.c:91:9: note: in expansion of macro 'MM_REG_WRITE'
+      91 |         MM_REG_WRITE(cmd, subsys_id, base, MDP_RDMA_SRC_CON, rdma->src_ctrl,
+         |         ^~~~~~~~~~~~
+>> drivers/media/platform/mtk-mdp3/mtk-mdp3-comp.h:14:34: error: invalid use of undefined type 'struct mmsys_cmdq_cmd'
+      14 |         cmdq_pkt_write_mask((cmd)->pkt, id, \
+         |                                  ^~
+   drivers/media/platform/mtk-mdp3/mtk-mdp3-comp.h:17:9: note: in expansion of macro 'MM_REG_WRITE_MASK'
+      17 |         MM_REG_WRITE_MASK(cmd, id, base, ofst, val, \
+         |         ^~~~~~~~~~~~~~~~~
+   drivers/media/platform/mtk-mdp3/mtk-mdp3-comp.c:97:25: note: in expansion of macro 'MM_REG_WRITE'
+      97 |                         MM_REG_WRITE(cmd, subsys_id,
+         |                         ^~~~~~~~~~~~
+>> drivers/media/platform/mtk-mdp3/mtk-mdp3-comp.h:14:34: error: invalid use of undefined type 'struct mmsys_cmdq_cmd'
+      14 |         cmdq_pkt_write_mask((cmd)->pkt, id, \
+         |                                  ^~
+   drivers/media/platform/mtk-mdp3/mtk-mdp3-comp.h:17:9: note: in expansion of macro 'MM_REG_WRITE_MASK'
+      17 |         MM_REG_WRITE_MASK(cmd, id, base, ofst, val, \
+         |         ^~~~~~~~~~~~~~~~~
+   drivers/media/platform/mtk-mdp3/mtk-mdp3-comp.c:100:25: note: in expansion of macro 'MM_REG_WRITE'
+     100 |                         MM_REG_WRITE(cmd, subsys_id,
+         |                         ^~~~~~~~~~~~
+>> drivers/media/platform/mtk-mdp3/mtk-mdp3-comp.h:14:34: error: invalid use of undefined type 'struct mmsys_cmdq_cmd'
+      14 |         cmdq_pkt_write_mask((cmd)->pkt, id, \
+         |                                  ^~
+   drivers/media/platform/mtk-mdp3/mtk-mdp3-comp.h:17:9: note: in expansion of macro 'MM_REG_WRITE_MASK'
+      17 |         MM_REG_WRITE_MASK(cmd, id, base, ofst, val, \
+         |         ^~~~~~~~~~~~~~~~~
+   drivers/media/platform/mtk-mdp3/mtk-mdp3-comp.c:105:33: note: in expansion of macro 'MM_REG_WRITE'
+     105 |                                 MM_REG_WRITE(cmd, subsys_id,
+         |                                 ^~~~~~~~~~~~
+>> drivers/media/platform/mtk-mdp3/mtk-mdp3-comp.h:14:34: error: invalid use of undefined type 'struct mmsys_cmdq_cmd'
+      14 |         cmdq_pkt_write_mask((cmd)->pkt, id, \
+         |                                  ^~
+   drivers/media/platform/mtk-mdp3/mtk-mdp3-comp.h:17:9: note: in expansion of macro 'MM_REG_WRITE_MASK'
+      17 |         MM_REG_WRITE_MASK(cmd, id, base, ofst, val, \
+         |         ^~~~~~~~~~~~~~~~~
+   drivers/media/platform/mtk-mdp3/mtk-mdp3-comp.c:110:9: note: in expansion of macro 'MM_REG_WRITE'
+     110 |         MM_REG_WRITE(cmd, subsys_id, base, MDP_RDMA_CON, rdma->control,
+         |         ^~~~~~~~~~~~
+>> drivers/media/platform/mtk-mdp3/mtk-mdp3-comp.h:14:34: error: invalid use of undefined type 'struct mmsys_cmdq_cmd'
+      14 |         cmdq_pkt_write_mask((cmd)->pkt, id, \
+         |                                  ^~
+   drivers/media/platform/mtk-mdp3/mtk-mdp3-comp.h:17:9: note: in expansion of macro 'MM_REG_WRITE_MASK'
+      17 |         MM_REG_WRITE_MASK(cmd, id, base, ofst, val, \
+         |         ^~~~~~~~~~~~~~~~~
+   drivers/media/platform/mtk-mdp3/mtk-mdp3-comp.c:113:9: note: in expansion of macro 'MM_REG_WRITE'
+     113 |         MM_REG_WRITE(cmd, subsys_id, base, MDP_RDMA_SRC_BASE_0, rdma->iova[0],
+         |         ^~~~~~~~~~~~
+>> drivers/media/platform/mtk-mdp3/mtk-mdp3-comp.h:14:34: error: invalid use of undefined type 'struct mmsys_cmdq_cmd'
+      14 |         cmdq_pkt_write_mask((cmd)->pkt, id, \
+         |                                  ^~
+   drivers/media/platform/mtk-mdp3/mtk-mdp3-comp.h:17:9: note: in expansion of macro 'MM_REG_WRITE_MASK'
+      17 |         MM_REG_WRITE_MASK(cmd, id, base, ofst, val, \
+         |         ^~~~~~~~~~~~~~~~~
+   drivers/media/platform/mtk-mdp3/mtk-mdp3-comp.c:115:9: note: in expansion of macro 'MM_REG_WRITE'
+     115 |         MM_REG_WRITE(cmd, subsys_id, base, MDP_RDMA_SRC_BASE_1, rdma->iova[1],
+         |         ^~~~~~~~~~~~
+>> drivers/media/platform/mtk-mdp3/mtk-mdp3-comp.h:14:34: error: invalid use of undefined type 'struct mmsys_cmdq_cmd'
+      14 |         cmdq_pkt_write_mask((cmd)->pkt, id, \
+         |                                  ^~
+   drivers/media/platform/mtk-mdp3/mtk-mdp3-comp.h:17:9: note: in expansion of macro 'MM_REG_WRITE_MASK'
+      17 |         MM_REG_WRITE_MASK(cmd, id, base, ofst, val, \
+         |         ^~~~~~~~~~~~~~~~~
+   drivers/media/platform/mtk-mdp3/mtk-mdp3-comp.c:117:9: note: in expansion of macro 'MM_REG_WRITE'
+     117 |         MM_REG_WRITE(cmd, subsys_id, base, MDP_RDMA_SRC_BASE_2, rdma->iova[2],
+         |         ^~~~~~~~~~~~
+   drivers/media/platform/mtk-mdp3/mtk-mdp3-comp.h:14:34: error: invalid use of undefined type 'struct mmsys_cmdq_cmd'
+      14 |         cmdq_pkt_write_mask((cmd)->pkt, id, \
+         |                                  ^~
+   drivers/media/platform/mtk-mdp3/mtk-mdp3-comp.h:17:9: note: in expansion of macro 'MM_REG_WRITE_MASK'
+      17 |         MM_REG_WRITE_MASK(cmd, id, base, ofst, val, \
+         |         ^~~~~~~~~~~~~~~~~
+   drivers/media/platform/mtk-mdp3/mtk-mdp3-comp.c:120:9: note: in expansion of macro 'MM_REG_WRITE'
+     120 |         MM_REG_WRITE(cmd, subsys_id, base, MDP_RDMA_SRC_END_0,
+         |         ^~~~~~~~~~~~
+   drivers/media/platform/mtk-mdp3/mtk-mdp3-comp.h:14:34: error: invalid use of undefined type 'struct mmsys_cmdq_cmd'
+      14 |         cmdq_pkt_write_mask((cmd)->pkt, id, \
+         |                                  ^~
+   drivers/media/platform/mtk-mdp3/mtk-mdp3-comp.h:17:9: note: in expansion of macro 'MM_REG_WRITE_MASK'
+      17 |         MM_REG_WRITE_MASK(cmd, id, base, ofst, val, \
+         |         ^~~~~~~~~~~~~~~~~
+   drivers/media/platform/mtk-mdp3/mtk-mdp3-comp.c:122:9: note: in expansion of macro 'MM_REG_WRITE'
+     122 |         MM_REG_WRITE(cmd, subsys_id, base, MDP_RDMA_SRC_END_1,
+         |         ^~~~~~~~~~~~
+   drivers/media/platform/mtk-mdp3/mtk-mdp3-comp.h:14:34: error: invalid use of undefined type 'struct mmsys_cmdq_cmd'
+      14 |         cmdq_pkt_write_mask((cmd)->pkt, id, \
+         |                                  ^~
+   drivers/media/platform/mtk-mdp3/mtk-mdp3-comp.h:17:9: note: in expansion of macro 'MM_REG_WRITE_MASK'
+      17 |         MM_REG_WRITE_MASK(cmd, id, base, ofst, val, \
+         |         ^~~~~~~~~~~~~~~~~
+   drivers/media/platform/mtk-mdp3/mtk-mdp3-comp.c:124:9: note: in expansion of macro 'MM_REG_WRITE'
+     124 |         MM_REG_WRITE(cmd, subsys_id, base, MDP_RDMA_SRC_END_2,
+         |         ^~~~~~~~~~~~
+   drivers/media/platform/mtk-mdp3/mtk-mdp3-comp.h:14:34: error: invalid use of undefined type 'struct mmsys_cmdq_cmd'
+      14 |         cmdq_pkt_write_mask((cmd)->pkt, id, \
+         |                                  ^~
+   drivers/media/platform/mtk-mdp3/mtk-mdp3-comp.h:17:9: note: in expansion of macro 'MM_REG_WRITE_MASK'
+      17 |         MM_REG_WRITE_MASK(cmd, id, base, ofst, val, \
+         |         ^~~~~~~~~~~~~~~~~
+   drivers/media/platform/mtk-mdp3/mtk-mdp3-comp.c:127:9: note: in expansion of macro 'MM_REG_WRITE'
+     127 |         MM_REG_WRITE(cmd, subsys_id, base, MDP_RDMA_MF_BKGD_SIZE_IN_BYTE,
+         |         ^~~~~~~~~~~~
+   drivers/media/platform/mtk-mdp3/mtk-mdp3-comp.h:14:34: error: invalid use of undefined type 'struct mmsys_cmdq_cmd'
+      14 |         cmdq_pkt_write_mask((cmd)->pkt, id, \
+         |                                  ^~
+   drivers/media/platform/mtk-mdp3/mtk-mdp3-comp.h:17:9: note: in expansion of macro 'MM_REG_WRITE_MASK'
+      17 |         MM_REG_WRITE_MASK(cmd, id, base, ofst, val, \
+         |         ^~~~~~~~~~~~~~~~~
+   drivers/media/platform/mtk-mdp3/mtk-mdp3-comp.c:129:9: note: in expansion of macro 'MM_REG_WRITE'
+     129 |         MM_REG_WRITE(cmd, subsys_id, base, MDP_RDMA_SF_BKGD_SIZE_IN_BYTE,
+         |         ^~~~~~~~~~~~
+   drivers/media/platform/mtk-mdp3/mtk-mdp3-comp.h:14:34: error: invalid use of undefined type 'struct mmsys_cmdq_cmd'
+      14 |         cmdq_pkt_write_mask((cmd)->pkt, id, \
+         |                                  ^~
+   drivers/media/platform/mtk-mdp3/mtk-mdp3-comp.h:17:9: note: in expansion of macro 'MM_REG_WRITE_MASK'
+      17 |         MM_REG_WRITE_MASK(cmd, id, base, ofst, val, \
+         |         ^~~~~~~~~~~~~~~~~
+   drivers/media/platform/mtk-mdp3/mtk-mdp3-comp.c:132:9: note: in expansion of macro 'MM_REG_WRITE'
+     132 |         MM_REG_WRITE(cmd, subsys_id, base, MDP_RDMA_TRANSFORM_0,
+         |         ^~~~~~~~~~~~
+   drivers/media/platform/mtk-mdp3/mtk-mdp3-comp.c: At top level:
+   drivers/media/platform/mtk-mdp3/mtk-mdp3-comp.c:139:38: warning: 'struct mmsys_cmdq_cmd' declared inside parameter list will not be visible outside of this definition or declaration
+     139 |                               struct mmsys_cmdq_cmd *cmd, u32 index)
+         |                                      ^~~~~~~~~~~~~~
+   In file included from drivers/media/platform/mtk-mdp3/mtk-mdp3-comp.c:11:
+   drivers/media/platform/mtk-mdp3/mtk-mdp3-comp.c: In function 'config_rdma_subfrm':
+   drivers/media/platform/mtk-mdp3/mtk-mdp3-comp.h:14:34: error: invalid use of undefined type 'struct mmsys_cmdq_cmd'
+      14 |         cmdq_pkt_write_mask((cmd)->pkt, id, \
+         |                                  ^~
+   drivers/media/platform/mtk-mdp3/mtk-mdp3-comp.h:17:9: note: in expansion of macro 'MM_REG_WRITE_MASK'
+      17 |         MM_REG_WRITE_MASK(cmd, id, base, ofst, val, \
+         |         ^~~~~~~~~~~~~~~~~
+   drivers/media/platform/mtk-mdp3/mtk-mdp3-comp.c:151:9: note: in expansion of macro 'MM_REG_WRITE'
+     151 |         MM_REG_WRITE(cmd, subsys_id, base, MDP_RDMA_EN, BIT(0), BIT(0));
+         |         ^~~~~~~~~~~~
+   drivers/media/platform/mtk-mdp3/mtk-mdp3-comp.h:14:34: error: invalid use of undefined type 'struct mmsys_cmdq_cmd'
+      14 |         cmdq_pkt_write_mask((cmd)->pkt, id, \
+         |                                  ^~
+   drivers/media/platform/mtk-mdp3/mtk-mdp3-comp.h:17:9: note: in expansion of macro 'MM_REG_WRITE_MASK'
+      17 |         MM_REG_WRITE_MASK(cmd, id, base, ofst, val, \
+         |         ^~~~~~~~~~~~~~~~~
+   drivers/media/platform/mtk-mdp3/mtk-mdp3-comp.c:154:9: note: in expansion of macro 'MM_REG_WRITE'
+     154 |         MM_REG_WRITE(cmd, subsys_id, base, MDP_RDMA_SRC_OFFSET_0,
+         |         ^~~~~~~~~~~~
+   drivers/media/platform/mtk-mdp3/mtk-mdp3-comp.h:14:34: error: invalid use of undefined type 'struct mmsys_cmdq_cmd'
+      14 |         cmdq_pkt_write_mask((cmd)->pkt, id, \
+         |                                  ^~
+   drivers/media/platform/mtk-mdp3/mtk-mdp3-comp.h:17:9: note: in expansion of macro 'MM_REG_WRITE_MASK'
+      17 |         MM_REG_WRITE_MASK(cmd, id, base, ofst, val, \
+         |         ^~~~~~~~~~~~~~~~~
+   drivers/media/platform/mtk-mdp3/mtk-mdp3-comp.c:160:25: note: in expansion of macro 'MM_REG_WRITE'
+     160 |                         MM_REG_WRITE(cmd, subsys_id, base,
+         |                         ^~~~~~~~~~~~
+   drivers/media/platform/mtk-mdp3/mtk-mdp3-comp.h:14:34: error: invalid use of undefined type 'struct mmsys_cmdq_cmd'
+      14 |         cmdq_pkt_write_mask((cmd)->pkt, id, \
+         |                                  ^~
+   drivers/media/platform/mtk-mdp3/mtk-mdp3-comp.h:17:9: note: in expansion of macro 'MM_REG_WRITE_MASK'
+      17 |         MM_REG_WRITE_MASK(cmd, id, base, ofst, val, \
+..
 
-I haven't yet gotten vp9 decode+display working yet as 'rtpvp9depay !
-v4l2slvp9dec ! fakesink' does not negotiate and it might be because my
-vp9enc source is on an old gstreamer 1.16.
 
-When you post the next series please add:
-Tested-By: Tim Harvey <tharvey@gateworks.com>
+vim +/id +109 drivers/media/platform/mtk-mdp3/mtk-mdp3-comp.h
+
+    12	
+    13	#define MM_REG_WRITE_MASK(cmd, id, base, ofst, val, mask, ...) \
+  > 14		cmdq_pkt_write_mask((cmd)->pkt, id, \
+    15			(base) + (ofst), (val), (mask), ##__VA_ARGS__)
+    16	#define MM_REG_WRITE(cmd, id, base, ofst, val, mask, ...) \
+    17		MM_REG_WRITE_MASK(cmd, id, base, ofst, val, \
+    18			(((mask) & (ofst##_MASK)) == (ofst##_MASK)) ? \
+    19				(0xffffffff) : (mask), ##__VA_ARGS__)
+    20	
+    21	#define MM_REG_WAIT(cmd, evt) \
+    22		cmdq_pkt_wfe((cmd)->pkt, (cmd)->event[(evt)], true)
+    23	
+    24	#define MM_REG_WAIT_NO_CLEAR(cmd, evt) \
+    25		cmdq_pkt_wfe((cmd)->pkt, (cmd)->event[(evt)], false)
+    26	
+    27	#define MM_REG_CLEAR(cmd, evt) \
+    28		cmdq_pkt_clear_event((cmd)->pkt, (cmd)->event[(evt)])
+    29	
+    30	#define MM_REG_SET_EVENT(cmd, evt) \
+    31		cmdq_pkt_set_event((cmd)->pkt, (cmd)->event[(evt)])
+    32	
+    33	#define MM_REG_POLL_MASK(cmd, id, base, ofst, val, mask, ...) \
+    34		cmdq_pkt_poll_mask((cmd)->pkt, id, \
+    35			(base) + (ofst), (val), (mask), ##__VA_ARGS__)
+    36	#define MM_REG_POLL(cmd, id, base, ofst, val, mask, ...) \
+    37		MM_REG_POLL_MASK((cmd), id, base, ofst, val, \
+    38			(((mask) & (ofst##_MASK)) == (ofst##_MASK)) ? \
+    39				(0xffffffff) : (mask), ##__VA_ARGS__)
+    40	
+    41	enum mdp_comp_type {
+    42		MDP_COMP_TYPE_INVALID = 0,
+    43	
+    44		MDP_COMP_TYPE_RDMA,
+    45		MDP_COMP_TYPE_RSZ,
+    46		MDP_COMP_TYPE_WROT,
+    47		MDP_COMP_TYPE_WDMA,
+    48		MDP_COMP_TYPE_PATH1,
+    49		MDP_COMP_TYPE_PATH2,
+    50	
+    51		MDP_COMP_TYPE_TDSHP,
+    52		MDP_COMP_TYPE_COLOR,
+    53		MDP_COMP_TYPE_DRE,
+    54		MDP_COMP_TYPE_CCORR,
+    55		MDP_COMP_TYPE_HDR,
+    56	
+    57		MDP_COMP_TYPE_IMGI,
+    58		MDP_COMP_TYPE_WPEI,
+    59		MDP_COMP_TYPE_EXTO,	/* External path */
+    60		MDP_COMP_TYPE_DL_PATH1, /* Direct-link path1 */
+    61		MDP_COMP_TYPE_DL_PATH2, /* Direct-link path2 */
+    62	
+    63		MDP_COMP_TYPE_COUNT	/* ALWAYS keep at the end */
+    64	};
+    65	
+    66	enum mdp_comp_event {
+    67		RDMA0_SOF,
+    68		RDMA0_DONE,
+    69		RSZ0_SOF,
+    70		RSZ1_SOF,
+    71		TDSHP0_SOF,
+    72		WROT0_SOF,
+    73		WROT0_DONE,
+    74		WDMA0_SOF,
+    75		WDMA0_DONE,
+    76	
+    77		ISP_P2_0_DONE,
+    78		ISP_P2_1_DONE,
+    79		ISP_P2_2_DONE,
+    80		ISP_P2_3_DONE,
+    81		ISP_P2_4_DONE,
+    82		ISP_P2_5_DONE,
+    83		ISP_P2_6_DONE,
+    84		ISP_P2_7_DONE,
+    85		ISP_P2_8_DONE,
+    86		ISP_P2_9_DONE,
+    87		ISP_P2_10_DONE,
+    88		ISP_P2_11_DONE,
+    89		ISP_P2_12_DONE,
+    90		ISP_P2_13_DONE,
+    91		ISP_P2_14_DONE,
+    92	
+    93		WPE_DONE,
+    94		WPE_B_DONE,
+    95	
+    96		MDP_MAX_EVENT_COUNT	/* ALWAYS keep at the end */
+    97	};
+    98	
+    99	struct mdp_comp_ops;
+   100	
+   101	struct mdp_comp {
+   102		struct mdp_dev			*mdp_dev;
+   103		void __iomem			*regs;
+   104		phys_addr_t			reg_base;
+   105		u8				subsys_id;
+   106		struct clk			*clks[6];
+   107		struct device			*comp_dev;
+   108		enum mdp_comp_type		type;
+ > 109		enum mtk_mdp_comp_id		id;
+   110		u32				alias_id;
+   111		const struct mdp_comp_ops	*ops;
+   112	};
+   113	
+   114	struct mdp_comp_ctx {
+   115		struct mdp_comp			*comp;
+   116		const struct img_compparam	*param;
+   117		const struct img_input		*input;
+   118		const struct img_output		*outputs[IMG_MAX_HW_OUTPUTS];
+   119	};
+   120	
+   121	struct mdp_comp_ops {
+   122		s64 (*get_comp_flag)(const struct mdp_comp_ctx *ctx);
+ > 123		int (*init_comp)(struct mdp_comp_ctx *ctx, struct mmsys_cmdq_cmd *cmd);
+   124		int (*config_frame)(struct mdp_comp_ctx *ctx, struct mmsys_cmdq_cmd *cmd,
+   125				    const struct v4l2_rect *compose);
+   126		int (*config_subfrm)(struct mdp_comp_ctx *ctx,
+   127				     struct mmsys_cmdq_cmd *cmd, u32 index);
+   128		int (*wait_comp_event)(struct mdp_comp_ctx *ctx,
+   129				       struct mmsys_cmdq_cmd *cmd);
+   130		int (*advance_subfrm)(struct mdp_comp_ctx *ctx,
+   131				      struct mmsys_cmdq_cmd *cmd, u32 index);
+   132		int (*post_process)(struct mdp_comp_ctx *ctx, struct mmsys_cmdq_cmd *cmd);
+   133	};
+   134	
+
+---
+0-DAY CI Kernel Test Service, Intel Corporation
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
