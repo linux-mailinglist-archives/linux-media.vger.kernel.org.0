@@ -2,78 +2,74 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id EE97E467445
-	for <lists+linux-media@lfdr.de>; Fri,  3 Dec 2021 10:46:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 12AEE467434
+	for <lists+linux-media@lfdr.de>; Fri,  3 Dec 2021 10:43:28 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1379648AbhLCJsM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 3 Dec 2021 04:48:12 -0500
-Received: from mga03.intel.com ([134.134.136.65]:57888 "EHLO mga03.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1379642AbhLCJsL (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Fri, 3 Dec 2021 04:48:11 -0500
-X-IronPort-AV: E=McAfee;i="6200,9189,10186"; a="236886214"
-X-IronPort-AV: E=Sophos;i="5.87,283,1631602800"; 
-   d="scan'208";a="236886214"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Dec 2021 01:42:11 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.87,283,1631602800"; 
-   d="scan'208";a="655897030"
-Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.171])
-  by fmsmga001.fm.intel.com with SMTP; 03 Dec 2021 01:42:07 -0800
-Received: by stinkbox (sSMTP sendmail emulation); Fri, 03 Dec 2021 11:42:06 +0200
-Date:   Fri, 3 Dec 2021 11:42:06 +0200
-From:   Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To:     Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
-Cc:     Felix.Kuehling@amd.com, airlied@linux.ie, Xinhui.Pan@amd.com,
-        linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
-        linaro-mm-sig@lists.linaro.org, dri-devel@lists.freedesktop.org,
-        alexander.deucher@amd.com, christian.koenig@amd.com,
-        linux-media@vger.kernel.org
-Subject: Re: [PATCH] drm/amdkfd: Use max() instead of doing it manually
-Message-ID: <YanmbhwDrdpu+Zup@intel.com>
-References: <1638523913-117827-1-git-send-email-jiapeng.chong@linux.alibaba.com>
+        id S1351406AbhLCJqu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 3 Dec 2021 04:46:50 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43912 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S242976AbhLCJqu (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 3 Dec 2021 04:46:50 -0500
+Received: from lb1-smtp-cloud9.xs4all.net (lb1-smtp-cloud9.xs4all.net [IPv6:2001:888:0:108::1c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 28E43C06173E
+        for <linux-media@vger.kernel.org>; Fri,  3 Dec 2021 01:43:25 -0800 (PST)
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud9.xs4all.net with ESMTPA
+        id t567mQ8znDFskt56BmNOcs; Fri, 03 Dec 2021 10:43:23 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
+        t=1638524603; bh=VRqxBUvHXR9p+u29GYmJtOk1DDU3u4oUg+r14RMy/K8=;
+        h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type:From:
+         Subject;
+        b=K6B/Oyrk21OTKMvLAJ5MNLNfV+7X0kKa13YM7SncxzVwHk7woki7WYUQqU/OY707N
+         4G1kuQVsyTJOLHlhXCJLiVt7MIQGJCHRhw8BHsdWhiqk5OayLhOoDA1pew5WZu0jVe
+         eDbfAxJpnWNmLgnBl7ttC7l3YPzK1lZNVxzgeTFpsCL8jRSIzR68kcxO0Jd7JQLXU9
+         G+hTAUzcQzOMb4lg9psp8Oqbz6dpMXaokR6I+iW0bzufMOEOEgsx17nJZE2Np94TS4
+         KT9WhlBOZxbGf6XRAQhh2L5aGfxhGHKqIkHPRLAcvD4FRL47zB2GwmmL3TmEX/lBhl
+         PoOGLvt88pegg==
+Message-ID: <b881c5b5-ee29-f250-5270-66c9d7357c94@xs4all.nl>
+Date:   Fri, 3 Dec 2021 10:43:19 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <1638523913-117827-1-git-send-email-jiapeng.chong@linux.alibaba.com>
-X-Patchwork-Hint: comment
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Firefox/91.0 Thunderbird/91.3.2
+Subject: Re: ovm6211 linux driver
+Content-Language: en-US
+To:     Petko Manolov <petko.manolov@konsulko.com>,
+        linux-media@vger.kernel.org
+References: <YanepzHYQMH/DfHY@karbon.home.net>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+In-Reply-To: <YanepzHYQMH/DfHY@karbon.home.net>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4xfKcut1mV5IY+8mZVEVeAORHblGjC2UnkA1SzxWNSHW6GTpFmehlc9VHShzVuBnmJF139OgYpUvFQEQns/9yIBZeZaj6KoVg40C0cVPAumIRTLVmE0TaU
+ 7xCeuExVutzE2oA7zAdjYp4KBC6xB/XQNu0ccHcBe5LVklyDv6xPnIurNdUTqRXtAGunr4xHuOoXm5NFmnEj2Bp4cmhoZDWLm0Rvr2Y3X3gEktn/0ba1vlg6
+ xeYSbZ2qI2Xct4XjEAVNqg==
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, Dec 03, 2021 at 05:31:53PM +0800, Jiapeng Chong wrote:
-> Fix following coccicheck warning:
-> 
-> ./drivers/gpu/drm/amd/amdkfd/kfd_svm.c:2193:16-17: WARNING opportunity
-> for max().
-> 
-> Reported-by: Abaci Robot <abaci@linux.alibaba.com>
-> Signed-off-by: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
-> ---
->  drivers/gpu/drm/amd/amdkfd/kfd_svm.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_svm.c b/drivers/gpu/drm/amd/amdkfd/kfd_svm.c
-> index f2db49c..4f7e7b1 100644
-> --- a/drivers/gpu/drm/amd/amdkfd/kfd_svm.c
-> +++ b/drivers/gpu/drm/amd/amdkfd/kfd_svm.c
-> @@ -2190,7 +2190,7 @@ void schedule_deferred_list_work(struct svm_range_list *svms)
->  
->  	start = mni->interval_tree.start;
->  	last = mni->interval_tree.last;
-> -	start = (start > range->start ? start : range->start) >> PAGE_SHIFT;
-> +	start = max(start, range->start) >> PAGE_SHIFT;
->  	last = (last < (range->end - 1) ? last : range->end - 1) >> PAGE_SHIFT;
+Hi Petko,
 
-There's an open coded min() on the very next line.
+On 03/12/2021 10:08, Petko Manolov wrote:
+> 	Hi guys,
+> 
+> On request by certain company we've developed a media driver for OmniVision's 
+> ovm6211 camera sensor.  We just got permission to mainline the code.  How shall 
+> i proceed?
+> 
+> 
+> cheers,
+> Petko
+> 
 
->  	pr_debug("[0x%lx 0x%lx] range[0x%lx 0x%lx] notifier[0x%lx 0x%lx] %d\n",
->  		 start, last, range->start >> PAGE_SHIFT,
-> -- 
-> 1.8.3.1
+You found the correct mailinglist, so that's good :-)
 
--- 
-Ville Syrjälä
-Intel
+This is a good starting page:
+
+https://www.linuxtv.org/wiki/index.php/Developer_section
+
+Check the 'Kernel driver development' - 'Submitting Your Work:' links.
+
+Regards,
+
+	Hans
