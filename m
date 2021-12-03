@@ -2,102 +2,80 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E44654675CC
-	for <lists+linux-media@lfdr.de>; Fri,  3 Dec 2021 11:58:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DA85F4677D9
+	for <lists+linux-media@lfdr.de>; Fri,  3 Dec 2021 14:09:27 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1380239AbhLCLB0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 3 Dec 2021 06:01:26 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60950 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1380234AbhLCLBY (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 3 Dec 2021 06:01:24 -0500
-Received: from mail-ed1-x52c.google.com (mail-ed1-x52c.google.com [IPv6:2a00:1450:4864:20::52c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CD418C06174A
-        for <linux-media@vger.kernel.org>; Fri,  3 Dec 2021 02:58:00 -0800 (PST)
-Received: by mail-ed1-x52c.google.com with SMTP id e3so9923947edu.4
-        for <linux-media@vger.kernel.org>; Fri, 03 Dec 2021 02:58:00 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=dL9Doftx7SsrphxuZsOqQd7wOm1YbbJk8+5XQsZLlm0=;
-        b=eN8F4WnbbKtSgAFI7LGmb78vOkq7F4X85cb6co9pialUAR0d6/bogCs6k9V1C00cCb
-         VcjZ+BMUBwZuy8ga0DF0XShJKY60R6h5kMhE/yokynDDT2vYa+xs1DjOit10zciPrGsB
-         ZslnfT/WjLXG04OJ4jdMbSS3l6OyhXLIhaGDg=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=dL9Doftx7SsrphxuZsOqQd7wOm1YbbJk8+5XQsZLlm0=;
-        b=LQQdarpYE79Ofz6GC6i2FOI1w2CXahBMHK2bqlAse6WRg6I3l8qXCQvV9G8P1uERkI
-         9EpojcuGFuWQSO2HFOR5rGtJiHJVpCyQCuFQzxFM/JGNc1nhxiM5tmfMZ+IMjsxTfiqS
-         eFBSlVuALy7AdUEs843o0Dq8wH65Q3JO+6CzeEu/nB3wDUZj4fYsq2t0mx2FD87CCmFA
-         GTIgMySxAfPoWldB/OCCOAn20ifR67zm3meQJtni/71TGbvcpBAmiYefwxOulfx4P90w
-         qV0a+gxcRcVHRtHdx+eeqZ9uk6L76NcGT4UyWF5o6GhNtekIFz9Pq7htEhbJGx0458Gq
-         XO5g==
-X-Gm-Message-State: AOAM532o42P5WWf2XEL1nk897mD9CaUoNB1bk8QpO424RXMqc6ipNAKe
-        0n0PTGxkQufysz3L0arJc10nJQ==
-X-Google-Smtp-Source: ABdhPJyqC23S2y/KFhAVAGoa8zFNPaGUHEiQ0LFXx450o6VcXoNIld07YR+hpDXDIig7z/GjDAcg2Q==
-X-Received: by 2002:a17:907:86a6:: with SMTP id qa38mr21673773ejc.286.1638529079375;
-        Fri, 03 Dec 2021 02:57:59 -0800 (PST)
-Received: from alco.corp.google.com ([100.104.168.197])
-        by smtp.gmail.com with ESMTPSA id ar2sm1699775ejc.20.2021.12.03.02.57.58
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 03 Dec 2021 02:57:59 -0800 (PST)
-From:   Ricardo Ribalda <ribalda@chromium.org>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Cc:     Ricardo Ribalda <ribalda@chromium.org>
-Subject: [PATCH] media: uvcvideo: Fix handling on Bitmask controls
-Date:   Fri,  3 Dec 2021 11:57:40 +0100
-Message-Id: <20211203105740.1084689-1-ribalda@chromium.org>
-X-Mailer: git-send-email 2.34.1.400.ga245620fadb-goog
+        id S244661AbhLCNMu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 3 Dec 2021 08:12:50 -0500
+Received: from perceval.ideasonboard.com ([213.167.242.64]:53546 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S239894AbhLCNMs (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 3 Dec 2021 08:12:48 -0500
+Received: from pendragon.ideasonboard.com (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id D07E12A5;
+        Fri,  3 Dec 2021 14:09:22 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1638536962;
+        bh=JeG57zlvMCaM2kaHo1dn1ZQVl+7DDp/7wuGlRG2esXI=;
+        h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
+        b=Kl3BN3KIcMGH+nZEs16ZXfv+/CKZBrFhmrZAzT08XMM7/cYMfKGshkQjXrAOQMASY
+         6Dv8seGhoaQnHwUW/kPQ4pRvU5/Bb7DzB4Lw5uffjy59MMr2BeoKtOhAiDMPMLImcO
+         Hko62Q1Lc6ZTBSoRModmSLmbdvzBUcDgBUo+JSds=
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20211202210335.78015-1-andriy.shevchenko@linux.intel.com>
+References: <20211202210335.78015-1-andriy.shevchenko@linux.intel.com>
+Subject: Re: [PATCH v1 1/1] media: i2c: max9286: Get rid of duplicate of_node assignment
+From:   Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Cc:     Niklas =?utf-8?q?S=C3=B6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
+Date:   Fri, 03 Dec 2021 13:09:19 +0000
+Message-ID: <163853695964.3059017.11079601755830736700@Monstersaurus>
+User-Agent: alot/0.10
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Minimum and step values for V4L2_CTRL_TYPE_BITMASK controls should be 0.
-There is no need to query the camera firmware about this and maybe get
-invalid results.
+Quoting Andy Shevchenko (2021-12-02 21:03:35)
+> GPIO library does copy the of_node from the parent device of
+> the GPIO chip, there is no need to repeat this in the individual
+> drivers. Remove assignment here.
+>=20
+> For the details one may look into the of_gpio_dev_init() implementation.
 
-Fixes v4l2-compliane:
-Control ioctls (Input 0):
-                fail: v4l2-test-controls.cpp(97): minimum must be 0 for a bitmask control
-	test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: FAIL
+I see it.
 
-Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
----
- drivers/media/usb/uvc/uvc_ctrl.c | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+Thanks,
 
-diff --git a/drivers/media/usb/uvc/uvc_ctrl.c b/drivers/media/usb/uvc/uvc_ctrl.c
-index b4f6edf968bc..d478cfbad5bb 100644
---- a/drivers/media/usb/uvc/uvc_ctrl.c
-+++ b/drivers/media/usb/uvc/uvc_ctrl.c
-@@ -1156,7 +1156,8 @@ static int __uvc_query_v4l2_ctrl(struct uvc_video_chain *chain,
- 		break;
- 	}
- 
--	if (ctrl->info.flags & UVC_CTRL_FLAG_GET_MIN)
-+	if (ctrl->info.flags & UVC_CTRL_FLAG_GET_MIN &&
-+	    mapping->v4l2_type != V4L2_CTRL_TYPE_BITMASK)
- 		v4l2_ctrl->minimum = mapping->get(mapping, UVC_GET_MIN,
- 				     uvc_ctrl_data(ctrl, UVC_CTRL_DATA_MIN));
- 
-@@ -1164,7 +1165,8 @@ static int __uvc_query_v4l2_ctrl(struct uvc_video_chain *chain,
- 		v4l2_ctrl->maximum = mapping->get(mapping, UVC_GET_MAX,
- 				     uvc_ctrl_data(ctrl, UVC_CTRL_DATA_MAX));
- 
--	if (ctrl->info.flags & UVC_CTRL_FLAG_GET_RES)
-+	if (ctrl->info.flags & UVC_CTRL_FLAG_GET_RES &&
-+	    mapping->v4l2_type != V4L2_CTRL_TYPE_BITMASK)
- 		v4l2_ctrl->step = mapping->get(mapping, UVC_GET_RES,
- 				  uvc_ctrl_data(ctrl, UVC_CTRL_DATA_RES));
- 
--- 
-2.34.1.400.ga245620fadb-goog
+Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
 
+>=20
+> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+> ---
+>  drivers/media/i2c/max9286.c | 1 -
+>  1 file changed, 1 deletion(-)
+>=20
+> diff --git a/drivers/media/i2c/max9286.c b/drivers/media/i2c/max9286.c
+> index 7c663fd587bb..a662d3aa0641 100644
+> --- a/drivers/media/i2c/max9286.c
+> +++ b/drivers/media/i2c/max9286.c
+> @@ -1055,7 +1055,6 @@ static int max9286_register_gpio(struct max9286_pri=
+v *priv)
+>         gpio->label =3D dev_name(dev);
+>         gpio->parent =3D dev;
+>         gpio->owner =3D THIS_MODULE;
+> -       gpio->of_node =3D dev->of_node;
+>         gpio->ngpio =3D 2;
+>         gpio->base =3D -1;
+>         gpio->set =3D max9286_gpio_set;
+> --=20
+> 2.33.0
+>
