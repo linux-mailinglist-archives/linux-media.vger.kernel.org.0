@@ -2,181 +2,148 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C2C5D467863
-	for <lists+linux-media@lfdr.de>; Fri,  3 Dec 2021 14:30:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BAFE0467894
+	for <lists+linux-media@lfdr.de>; Fri,  3 Dec 2021 14:39:01 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1381096AbhLCNeV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 3 Dec 2021 08:34:21 -0500
-Received: from mx0b-00069f02.pphosted.com ([205.220.177.32]:4064 "EHLO
-        mx0b-00069f02.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1381157AbhLCNeP (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Fri, 3 Dec 2021 08:34:15 -0500
-Received: from pps.filterd (m0246632.ppops.net [127.0.0.1])
-        by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 1B3CW9Zj032625;
-        Fri, 3 Dec 2021 13:30:42 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
- : subject : message-id : references : content-type : in-reply-to :
- mime-version; s=corp-2021-07-09;
- bh=TvoPsv1mQ3e9VKuBkvVcISpJTgbdacWxUg7L6CWCzCc=;
- b=bfB206ZRt/jK0O6lVGwgGKJbuSDaiS179fDgZOKE7lHNfo4pel6EERK8NR/va5k7bQhU
- KWwxUjuEkCIvSj4mSRQCrtyoK2ArROFGwoXXJA55lJRPQdFn/EZa1od7901PeQOtMF71
- MWjPXxKlvNjoW4O4/WSoMHv/HVTavy+O7vGzr2cdW02Usth5PpV9aRxRnLfL1VM0fPVS
- jNX7UjXOKtagx0n+uLl3EkyyadiHHrcstTmxNYMuUwsTrFWYs88msc5Ij9yViLuNiuOh
- VC01n1Ok62ukBdCcrz2OZv4G0Xl+QobSgVvgku/r6mkr6lWb6AQZd04qajJgmiOSJJUZ rQ== 
-Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
-        by mx0b-00069f02.pphosted.com with ESMTP id 3cp9r5fdkq-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Fri, 03 Dec 2021 13:30:41 +0000
-Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
-        by userp3030.oracle.com (8.16.1.2/8.16.1.2) with SMTP id 1B3DKvPM171790;
-        Fri, 3 Dec 2021 13:30:40 GMT
-Received: from nam10-mw2-obe.outbound.protection.outlook.com (mail-mw2nam10lp2106.outbound.protection.outlook.com [104.47.55.106])
-        by userp3030.oracle.com with ESMTP id 3ck9t66aqn-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Fri, 03 Dec 2021 13:30:40 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=cKXHLOE6EeLSmx1ABkkfQcR94eSqh3Wce5CvC0m9i4JlhlV4oELQRvGyzKL2AuARs9+kcpEltRT9vBASLVcRUX+ZCOpvdMKGFcZOTVIaSBr+fHNUYXrUwYM3sgPKCebbw7nFJ8nRatMcVqgNMhgRQpQ9KdG46p5xcMKl5jNaqB3IDOy02as2tZAeL2f6QufOKO66uDiFL6kR+GTuoQZGhoxhJJdaWAtFBdzcHkpMV8mHhROXyRkIHb0F4w9P0dXaWIQOvuFNSy/BHB++8oS3hab/ha0vLfBBPJ+rM9hVPSzlwG91y82Y54y/VdGmj4OhG2fs4ZEvIZi4Do8FRO3gyA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=TvoPsv1mQ3e9VKuBkvVcISpJTgbdacWxUg7L6CWCzCc=;
- b=nVOrkvT8fQX1TJ8maQlV+Zf7TOQnbvhJBAku7IVvIZF1MAZi1NVcJc0m3c1m/odINRX5G9oD5i+yCrws8GCxLF6jHkeo9EnayJU8UaEtGzKS/hDUi3/GWCtnzfm+/Ye+UhriUXGsd22xSupsA7pa25mlUm7fFM7/WL/7FJ3CGbXtgzFKiWnFMqi0MykLbpCiqMiNPtNnu3OvSZzSSA1tSLl2N64aeSq1C0ubQuTSmnBg4JV9u5yeHKQ/Dbx6dTUlnrsUPDZKAHZKy6W83MjpQROVUaxhhDofG/T8AHkFx+I0d+VDyIefU0anWSF+19R2GvGLD1U/3s3IXmBTT+ulYg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
+        id S1381081AbhLCNmX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 3 Dec 2021 08:42:23 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41758 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S239175AbhLCNmU (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 3 Dec 2021 08:42:20 -0500
+Received: from mail-ed1-x52e.google.com (mail-ed1-x52e.google.com [IPv6:2a00:1450:4864:20::52e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 477EBC061757
+        for <linux-media@vger.kernel.org>; Fri,  3 Dec 2021 05:38:56 -0800 (PST)
+Received: by mail-ed1-x52e.google.com with SMTP id r11so11562995edd.9
+        for <linux-media@vger.kernel.org>; Fri, 03 Dec 2021 05:38:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=TvoPsv1mQ3e9VKuBkvVcISpJTgbdacWxUg7L6CWCzCc=;
- b=CELUAIx9VyxC/XFFHEkaEJTG8BYff2wRwLa/4pYpRxU3qboqR5ZWGPywr8tsulNIbnBXbp+mukZPZp1E/9BejrjQZTuaB6ztiNc750K46gBnsUnjne3zMlrDM05vM523Peq8ADmGVOR/Q4Cap6XAse6tvRwiASof16GKm/1+LrM=
-Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
- (2603:10b6:301:2d::28) by MWHPR10MB1568.namprd10.prod.outlook.com
- (2603:10b6:300:26::20) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4755.11; Fri, 3 Dec
- 2021 13:30:38 +0000
-Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
- ([fe80::7194:c377:36cc:d9f0]) by MWHPR1001MB2365.namprd10.prod.outlook.com
- ([fe80::7194:c377:36cc:d9f0%6]) with mapi id 15.20.4734.027; Fri, 3 Dec 2021
- 13:30:38 +0000
-Date:   Fri, 3 Dec 2021 16:30:13 +0300
-From:   Dan Carpenter <dan.carpenter@oracle.com>
-To:     Zhou Qingyang <zhou1615@umn.edu>
-Cc:     kjlu@umn.edu, Neil Armstrong <narmstrong@baylibre.com>,
+        d=chromium.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=jZ0k65IEv+mkTjXj+Hsssr+TTC6PuB+uri2MNkshlgg=;
+        b=QdEZ/4DlPgf5qAJIhxS4IiSzj47x69iMSbtz+4keNZevkJKHBOQ6KaXs+ONRRpGca4
+         eLfvjCq4/SdlnzYvfJgbw8xWtg/stWatgwswPL+eJ+PjKhoD64Q9NPb+IiJCAujLdP86
+         BsS13GIC/MJa61NY5ljnuOssYsukUWJjZiYlk=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=jZ0k65IEv+mkTjXj+Hsssr+TTC6PuB+uri2MNkshlgg=;
+        b=2kfLw9N8aQMd/+cTCpjILWrRqfuCnug5TUCLPpLNh2i3HMbBfl6tGnMtFDsqbfhngN
+         vUloMawY2QtxRyvElb0TbGUPry4ziqPVqB6Ptr7XuJqo42XsV0/riUnLy/mgBnPDR2RW
+         s3Q+CeumJw3d6GdiNp8d5Vef6G2sK3RU1Ny2CBwroPcMgxAa8wKp18NYMzhQa/zMpBiE
+         FoEPlmcfW6yC5J1VeJmYvLrpi70CyWbfL6sXGDF/0jQAUUxacvKVbe0+zdg2w8FssHyK
+         3ZQ2aZdTYTLGDWYQC199ZFFaev/W8A/eDK3o9DDzjGiiyYHeKQ2WNrxr0A3kUX7bQRhA
+         O9Rg==
+X-Gm-Message-State: AOAM533OmLLqcJ0fjmE+Q3v2/j1NSkVjO0EvKh0POq9TfzW9UDi/Fa76
+        zNUX2GSyNxDzyb6+39XJ2c+ztQ==
+X-Google-Smtp-Source: ABdhPJzuITPnpzlSsz+9aNcFmFcrY+OtVEN7ewcsLzPDRrY8OL090gK8pD8o0pIwVC2mE1Ynmj9yMg==
+X-Received: by 2002:a05:6402:2809:: with SMTP id h9mr26838816ede.351.1638538734105;
+        Fri, 03 Dec 2021 05:38:54 -0800 (PST)
+Received: from gmail.com ([100.104.168.197])
+        by smtp.gmail.com with ESMTPSA id s2sm2246751ejn.96.2021.12.03.05.38.52
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 03 Dec 2021 05:38:53 -0800 (PST)
+Date:   Fri, 3 Dec 2021 14:38:35 +0100
+From:   Ricardo Ribalda <ribalda@chromium.org>
+To:     "kyrie.wu" <kyrie.wu@mediatek.com>
+Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Kevin Hilman <khilman@baylibre.com>,
-        Jerome Brunet <jbrunet@baylibre.com>,
-        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Maxime Jourdan <mjourdan@baylibre.com>,
-        linux-media@vger.kernel.org, linux-amlogic@lists.infradead.org,
-        linux-staging@lists.linux.dev,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] media: meson: vdec: Fix a NULL pointer dereference in
- amvdec_add_ts()
-Message-ID: <20211203133013.GJ9522@kadam>
-References: <20211201084108.GE9522@kadam>
- <20211202160357.75173-1-zhou1615@umn.edu>
+        Rob Herring <robh+dt@kernel.org>,
+        Tomasz Figa <tfiga@chromium.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Tzung-Bi Shih <tzungbi@chromium.org>,
+        Project_Global_Chrome_Upstream_Group@mediatek.com,
+        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org, xia.jiang@mediatek.com,
+        maoguang.meng@mediatek.com, srv_heupstream@mediatek.com,
+        irui.wang@mediatek.com
+Subject: Re: [PATCH V6, 0/5] Support multi-hardware jpeg encoding using
+ of_platform_populate
+Message-ID: <Yaod22NaGQveuevu@gmail.com>
+References: <1638501230-13417-1-git-send-email-kyrie.wu@mediatek.com>
+MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20211202160357.75173-1-zhou1615@umn.edu>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-ClientProxiedBy: JNAP275CA0013.ZAFP275.PROD.OUTLOOK.COM (2603:1086:0:4c::18)
- To MWHPR1001MB2365.namprd10.prod.outlook.com (2603:10b6:301:2d::28)
-MIME-Version: 1.0
-Received: from kadam (102.222.70.114) by JNAP275CA0013.ZAFP275.PROD.OUTLOOK.COM (2603:1086:0:4c::18) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4755.16 via Frontend Transport; Fri, 3 Dec 2021 13:30:27 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: f4835418-c2e0-4ba1-eca7-08d9b66117ee
-X-MS-TrafficTypeDiagnostic: MWHPR10MB1568:
-X-Microsoft-Antispam-PRVS: <MWHPR10MB1568E062676F51298C1652C48E6A9@MWHPR10MB1568.namprd10.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:8882;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: hgUCkrAV1IGtvQmEiDSYcKSvcuE35CQzhMw4wamMILXHjefSrLPQ6KQU1VfiYj3GloOS81Seb2OEOP9gXe8U5ImoxHUIgNV29i84zEqs0AiNaz0/aPS/q/LVeuFJs4JXnDpkI55IM+ZnXM5auMiYTw++VtyJD4JlLAJyUV1q4ebSmO8zIUR6BbSrqU46wkFPerAgNR28fD8Mqe10RliDapZhiV2U6SdFuwY+yOYS0wYXdzOLAJNue7TOegKIQaWEgbETA4JvozoNs3TRhHSkbLJZQjIEInShSjZGa3NtPnsfqeTGf8SsBB5n0PLAwTMVWAXhh7yqV1+FWMao/DcpK7KOs0puzhhHtBBtiR7t4cgmLANFMSWttMgLiBiG58Tb+LM0eU9YLi00A3Vzwrc4XgqscDXbXRi/X5oN5IxJ41UekqgzNCx3ojs1dMVkcIjdCxeJeP4P010bT4psYlvhl36mmzDmXCo4QuwUsRYHdwjoLJOJUniuIimv+7k1KDTW9Kb0ISGZ51rHjBKLQKbo7FfhoAIRsiOTo2AXrDbDexrW9L6rt72WqPlbWfHqB6NRClmetVK+XKFMuRVB0RZ9jg78lzezeMCGH7JvsJ7Z5GtlDVyrJfE7W9wG9g3NS5UWR3hSecoytW4b/+UXoXZ0tJUxVbGbhnOan9PH9QWdLmWlnGzYSaxnnIag1j9szizY6/cH8ZWHi3Dq42E4/LxsWQ==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MWHPR1001MB2365.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(366004)(2906002)(33716001)(5660300002)(55016003)(52116002)(8936002)(26005)(86362001)(38350700002)(38100700002)(6496006)(9686003)(186003)(33656002)(54906003)(83380400001)(44832011)(956004)(1076003)(316002)(7416002)(8676002)(508600001)(4326008)(6666004)(6916009)(9576002)(66476007)(66556008)(66946007);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?un/7HqyOvoQ+qzDs8AKZlablcFBNtBQETwB5E/exXcZb4r+8rJl9URrR2fBY?=
- =?us-ascii?Q?GpuL2RcuT/sdUd7yJNDBVk6Mxd4XQ+ICjbjjJ9LpGpmb2IqIvY0ssh4QsYc1?=
- =?us-ascii?Q?mjD3Y26zQOviq4c1j3NRUo0NGYKkP4Uf9CQD5yJkJAvoYuAhKnyUURWTuJIG?=
- =?us-ascii?Q?dOOJQQ36+diMkYuYNNFC2WtqMt3ld/iDXRQeGpCBC3SAs44QeZCJVr564qP2?=
- =?us-ascii?Q?nWb5nYHwU5XFV+jMYnK1zzur1nKDRxl0hf5lMbLDitSZYId3OFz/cNOL8D8v?=
- =?us-ascii?Q?JAiGe38T0O75h9YY6KCxiLVN393VK7Ku0LTUL3bL3gK/E/rctT9hLRrmzDRV?=
- =?us-ascii?Q?pz4RDkZSd5b6wa1xqNquEhM/BnNMYnx8j/90BdPeoIe73hvasP+aTmCQSp8b?=
- =?us-ascii?Q?/vmPD7qmRUVkuiGxA3OKwD/2wPALBveGh5y2wyczZxcICw9hPLRJjGHAizwi?=
- =?us-ascii?Q?Q9WtyuhvVnIiKtriAG41H0gC5vulLIb7qsv9/1I2vmmHjA+rK6vaHAFKfxAb?=
- =?us-ascii?Q?e4x1lS7FkHbINQNFbjJxQ+wZpYcypGnD+o2Z1jYzN93PquFNQsD2bsfb7fNj?=
- =?us-ascii?Q?egy/KYH1LmHncZjaMJJU8MYGqWYbvQbQIXb0CaJ8Fq/mTMJurBPWvlbqyxdF?=
- =?us-ascii?Q?q7iNDXd8D9RQCWYD8Y6H+/TYR53byAVDvBdkv6XNiDjcRZQVNLhgbdVMLbPm?=
- =?us-ascii?Q?l7RkA/R2ZxlhLcFFvja6q5t6wXtnebA85xN/dVLFDSpYIuv0/k1aMlK+CONY?=
- =?us-ascii?Q?4SmhUgrPluJXNEBs+TtlRBQzQ5M1jLpWFEVRpSAPHCN6WFkZe4tRPUeGwwUC?=
- =?us-ascii?Q?MAtubQRI3hqFuFUlus+E8BV6p32RW2I6vIGIwFXXyafCBxpnecheLkOvhR78?=
- =?us-ascii?Q?4AeoJG7Ooe4JFFLpW8OItFzwdmZ/UcytfrH+S+8xmDq3QY3xWSOIdfsVASp7?=
- =?us-ascii?Q?TIadEtYiOP6vA01cllmRja9/b+X1FIXJSQEL0O+lz3sFrGPFMPEvdbWwNPlE?=
- =?us-ascii?Q?uh8QoRtRotQ1lA8DzdvvRic5+pkMbb0yVJPgeoDlef/PukQg73bqQRdY2I7M?=
- =?us-ascii?Q?VEVwUJXtBX98B1Azuw/Uh63fyeTSrj+487zuI/xEneDrt3o2Bqmv88mKvvVz?=
- =?us-ascii?Q?Hbti7E4hDUQfA3lBEH/4N8zWIT+O84oEOyovRhxRrpKrlXp+zspxXw60jBHD?=
- =?us-ascii?Q?kXpebMOAVh+KS8nOdMYDDVyjtGtjBcIOC+4ZJ8c0czczk9zOU+7E4Ra5inP+?=
- =?us-ascii?Q?tzJtYFJF/9IiHV7g2qw6CpcU+yJ0fJEOU07qbsYBaFiVrJhBx8/GchNJg3UJ?=
- =?us-ascii?Q?PdAHf0ft5IfJ1qoIJEYmA5fXuhTN4p/A8OhkUOGhlxSRfPa/UqYkYrMZcl3m?=
- =?us-ascii?Q?kVsTvqp88ifZTQOz/gXUnulSMwKH3lQ3vfw21XYSV539FQIGKKOQL0LMzNWm?=
- =?us-ascii?Q?GUIesLGB0aap88Iv1THWxizorJr0oqPVsE12wtQQ+0jIk8X0V3PyQPMvtEcD?=
- =?us-ascii?Q?bCg2eFzluKViB4EwaTHTaGq39KYfF6hfR9Tci7OXMfWKx+amMdGh1oTdpACi?=
- =?us-ascii?Q?FMMwy3YO5rvke3OyjnwmvwSMK1reLYMGxzrf9BSL7L26ht6+fktj40JOHCKP?=
- =?us-ascii?Q?3jm4JvV16UFInKKryvoY4XwO9b/qhKOuTSjzFJLVwFajTL1PMv0q1+uprFbg?=
- =?us-ascii?Q?sBG8alVIbpfqFlnEoxYyv8CwNwE=3D?=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: f4835418-c2e0-4ba1-eca7-08d9b66117ee
-X-MS-Exchange-CrossTenant-AuthSource: MWHPR1001MB2365.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Dec 2021 13:30:38.1691
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 4V2irXk6/t6/6NrNt8D5g4j6IhUka5TDTDjFPRyU9TlcVVmLUjAPC6RXU8O/1UWuhOv8oJzhbEfK9j2DH9pxKbm7mODl8N5Eic/n7Qcy9Mw=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR10MB1568
-X-Proofpoint-Virus-Version: vendor=nai engine=6300 definitions=10186 signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0 mlxscore=0 malwarescore=0
- spamscore=0 bulkscore=0 mlxlogscore=999 suspectscore=0 adultscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2110150000
- definitions=main-2112030084
-X-Proofpoint-ORIG-GUID: i2uN8798X2nZqurxkGIWG-UruV0kvl5M
-X-Proofpoint-GUID: i2uN8798X2nZqurxkGIWG-UruV0kvl5M
+In-Reply-To: <1638501230-13417-1-git-send-email-kyrie.wu@mediatek.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, Dec 03, 2021 at 12:03:57AM +0800, Zhou Qingyang wrote:
-> In amvdec_add_ts(), there is a dereference of kzalloc(), which could lead
-> to a NULL pointer dereference on failure of kzalloc().
+Hi
+
+Any idea why this series is not available at
+https://patchwork.linuxtv.org/ but it exists in 
+https://lore.kernel.org/all/1638501230-13417-1-git-send-email-kyrie.wu@mediatek.com/#r
+
+thanks!
+
+kyrie.wu wrote:
+
+> This series adds support for multi hardware jpeg encoding, by first
+> adding use of_platform_populate to manage each hardware information:
+> interrupt, clock, register bases and power. Secondly add encoding 
+> work queue to deal with the encoding requestsof multi-hardware
+> at the same time. Lastly, add output picture reorder function
+> interface to eliminate the out of order images.
 > 
-> I fix this bug by adding a NULL check of new_ts.
+> This series has been tested with both MT8195.
+> Encoding worked for this chip.
 > 
-> This bug was found by a static analyzer. The analysis employs
-> differential checking to identify inconsistent security operations
-> (e.g., checks or kfrees) between two code paths and confirms that the
-> inconsistent operations are not recovered in the current function or
-> the callers, so they constitute bugs.
+> Patches 1~2 use of_platform_populate to replace component framework
+> to manage multi-hardware.
 > 
-> Note that, as a bug found by static analysis, it can be a false
-> positive or hard to trigger. Multiple researchers have cross-reviewed
-> the bug.
+> Patch 3 add jpeg encoding timeout function to judge hardware timeout.
 > 
-> Builds with CONFIG_VIDEO_MESON_VDEC=m show no new warnings,
-> and our static analyzer no longer warns about this code.
+> Patch 4 add encoding work queue to deal with multi-hardware encoding
+> at the same time.
 > 
-> Fixes: 876f123b8956 ("media: meson: vdec: bring up to compliance")
-> Signed-off-by: Zhou Qingyang <zhou1615@umn.edu>
+> Patch 5 add output picture reorder function to order images.
 > ---
-  ^^^
-Thanks.  Next time put the meta commentary about how the bug was found
-and the QC process under the the --- cut off line.  We don't need to
-have that drama stored in the permanent git log.
-
-Reviewed-by: Dan Carpenter <dan.carpenter@oracle.com>
-
-regards,
-dan carpenter
-
+> Changes compared with v5:
+> - use of_platform_populate to replace component framework to
+> manage multi-hardware in patch 2.
+> 
+> Changes compared with v4:
+> --No change compaered with v4
+> 
+> Changes compared with v3:
+> --Structure patches for consistency, non-backward
+>   compatible and do not break any existing functionality
+> 
+> Changes compared with v2:
+> --Split the last two patches into several patches
+>   to enhance readability
+> --Correct some syntax errors
+> --Explain why the component framework is used
+> 
+> Changes compared with v1:
+> --Add jpeg encoder dt-bindings for MT8195
+> --Use component framework to manage jpegenc HW
+> --Add jpegenc output pic reorder function interface
+> 
+> kyrie.wu (5):
+>   dt-bindings: mediatek: Add mediatek, mt8195-jpgenc compatible
+>   media: mtk-jpegenc: manage jpegenc multi-hardware
+>   media: mtk-jpegenc: add jpegenc timeout func interface
+>   media: mtk-jpegenc: add jpeg encode worker interface
+>   media: mtk-jpegenc: add output pic reorder interface
+> 
+>  .../bindings/media/mediatek-jpeg-encoder.yaml      |   3 +
+>  drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c    | 287 +++++++++++++++----
+>  drivers/media/platform/mtk-jpeg/mtk_jpeg_core.h    |  91 +++++-
+>  drivers/media/platform/mtk-jpeg/mtk_jpeg_dec_hw.c  |   1 +
+>  drivers/media/platform/mtk-jpeg/mtk_jpeg_dec_hw.h  |   3 +-
+>  drivers/media/platform/mtk-jpeg/mtk_jpeg_enc_hw.c  | 316 ++++++++++++++++++++-
+>  6 files changed, 644 insertions(+), 57 deletions(-)
+> 
+> -- 
+> 2.6.4
+> 
+> 
+> _______________________________________________
+> Linux-mediatek mailing list
+> Linux-mediatek@lists.infradead.org
+> http://lists.infradead.org/mailman/listinfo/linux-mediatek
+> 
