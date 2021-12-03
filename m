@@ -2,172 +2,200 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8EE474679FC
-	for <lists+linux-media@lfdr.de>; Fri,  3 Dec 2021 16:08:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DBAFA467A15
+	for <lists+linux-media@lfdr.de>; Fri,  3 Dec 2021 16:09:58 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1381658AbhLCPLV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 3 Dec 2021 10:11:21 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34144 "EHLO
+        id S1352696AbhLCPNV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 3 Dec 2021 10:13:21 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34680 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1381651AbhLCPLU (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 3 Dec 2021 10:11:20 -0500
-Received: from mail-ed1-x531.google.com (mail-ed1-x531.google.com [IPv6:2a00:1450:4864:20::531])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 77336C061354
-        for <linux-media@vger.kernel.org>; Fri,  3 Dec 2021 07:07:56 -0800 (PST)
-Received: by mail-ed1-x531.google.com with SMTP id x15so12963745edv.1
-        for <linux-media@vger.kernel.org>; Fri, 03 Dec 2021 07:07:56 -0800 (PST)
+        with ESMTP id S1381638AbhLCPNU (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 3 Dec 2021 10:13:20 -0500
+Received: from mail-qt1-x830.google.com (mail-qt1-x830.google.com [IPv6:2607:f8b0:4864:20::830])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8D59AC061354
+        for <linux-media@vger.kernel.org>; Fri,  3 Dec 2021 07:09:56 -0800 (PST)
+Received: by mail-qt1-x830.google.com with SMTP id f20so3555608qtb.4
+        for <linux-media@vger.kernel.org>; Fri, 03 Dec 2021 07:09:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=rQ5ApB0ZPIcQi1X7PS6LivqOFWhSDFxReULmsEQ/x1I=;
-        b=egVUF4DA/O5x1D7pWspWl98sdEHj87pVaRYAkyyFCFwz2/vknCdCMU6Ciu0W3meLbF
-         PBna+ZZk3/po9HfGz+uMyHhzlytjssNW9iteGHXkAsy3a2TqNon9Kw1D2zy7O1BVf2q8
-         4zHB+zV6LIPskCJQ4/DFxzAU+T3h6Sod+FL9w=
+        d=ndufresne-ca.20210112.gappssmtp.com; s=20210112;
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :user-agent:mime-version:content-transfer-encoding;
+        bh=5VMkJHZbpjViTRA6Jhw7uB7mIcmNarQHy6QHizi1178=;
+        b=71sGRR2nzOUu+vhocYFVTNVjY6/WqTrpjHHbfXEKt3elniexjPfWxOLr032mBBN+9Y
+         Tw220SxKekKZsp8S/8e/xLS0Hnu6R5ruFD5wh6hN/9mO4ndz4eE7tHjJxeqQWDJNLqrq
+         qfwGlUWt/qpUhoICghex1ctpDy+V5nUt/7Jh5j9M24TsTVjQOgeBpuc3+x3PNRQRmUZc
+         zgAKIocNjvp9XXJRBoWZ3FkdzPnXuIDPL24wz+TmN3YYOYBxPgIVZsut/g6DIsjuL2Gt
+         wSJaQt3bzU4ZgUkvsY6hg+Qq46O2COoQNWpTGqQeLJ24WsmNHOTnIDAckM1UfrhQqwhG
+         F4tQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=rQ5ApB0ZPIcQi1X7PS6LivqOFWhSDFxReULmsEQ/x1I=;
-        b=c1QZnuORpSuBQrENzBFYsN6M95/kuKv1utni8KOMjrgcwff8P0gNvUGJ6vJ8riciYn
-         6l+0sLOd4982bZtcsaqqJnErOBvMUHrSxPGUUZ4bAMxxUloF4+T4e23KhC86WZSpMbaI
-         u8VApr3RVPriZ+BoKNClBpCbGCZMoo9Ns4G3t8bD4axXfE98BjTyHY89Zv5ZL8wDFZYD
-         unnsuZnL5KktKviGBc4kbUo55PeoMDPNu/L1iNtenluKsUYJbFbDVGygUpN3/RcT9Bv+
-         EvEsUJUZSDDzigg5aQnbFX/1FiWFnzyFKReNOtdUf2GrAobyf9i2Jb8plgJmC+UFrY+4
-         G6hQ==
-X-Gm-Message-State: AOAM533cLeL7ZCH6RC2SIPneTojCJgO1jAqFBma2M5Ee4e1kHg8cBOJK
-        73SqEYbgHj1sVrWXv1Q158StvA==
-X-Google-Smtp-Source: ABdhPJyh2T9bEMe7PD8PXtMt1dLCfoZrdhHTZ4rRB/6mvvvioaUSceTOjrwRRsQ75iP1hljjZDm0OA==
-X-Received: by 2002:a50:e18e:: with SMTP id k14mr27491053edl.147.1638544074682;
-        Fri, 03 Dec 2021 07:07:54 -0800 (PST)
-Received: from gmail.com ([100.104.168.197])
-        by smtp.gmail.com with ESMTPSA id gz26sm2106725ejc.100.2021.12.03.07.07.53
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=5VMkJHZbpjViTRA6Jhw7uB7mIcmNarQHy6QHizi1178=;
+        b=bdDVpEdAx0ik2f/zp/e0hJ+2J6wDWuJE5k9h9tWNjRuiteTF9yw0+Ljkn/oiVbN8Qe
+         eTKZb9OzKvsxXCh/Qf99xP2JCANiQIXi7dQnP+HQ/1+GD18ka+ppDVLpwBXfD0fl7QST
+         cdnosgbc3NN5b3XiSqnM9odmu4+Wa/pAkoo8A/F4voNmtGslK7UuJ3krFTUVBW4HjGt3
+         luyAyFFlOw5nZ1dwA8Ll0ZzM2LYa56GGZuqfpAF76JpM+E5wVB6v8Sd4H7uMa8jbjKjX
+         mBMwywHjDeZjhj6UnN9AHv4FMT8ryOKPWo1NF7chUu2c2Cd5b8GJ7PEF8aLGU05QBDB4
+         sAnQ==
+X-Gm-Message-State: AOAM533W59AU8uX1F61VenwjmSDz9eCBvAix/zRzmuLiGTFIr+jfIKZB
+        th2J5IZQrpUP7wrRoeaGOb8CIg==
+X-Google-Smtp-Source: ABdhPJy61ZibMg8ILoK2AEsliArYVxsRd68TcRbdLO8nY0DiJ6C4K2+uM90k9CMi4r2w2KTjYsUWmg==
+X-Received: by 2002:ac8:598c:: with SMTP id e12mr21240483qte.337.1638544195661;
+        Fri, 03 Dec 2021 07:09:55 -0800 (PST)
+Received: from nicolas-tpx395.localdomain (173-246-12-168.qc.cable.ebox.net. [173.246.12.168])
+        by smtp.gmail.com with ESMTPSA id u10sm2307205qkp.104.2021.12.03.07.09.54
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 03 Dec 2021 07:07:54 -0800 (PST)
-Date:   Fri, 3 Dec 2021 16:07:36 +0100
-From:   Ricardo Ribalda <ribalda@chromium.org>
-To:     "kyrie.wu" <kyrie.wu@mediatek.com>
-Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Tomasz Figa <tfiga@chromium.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Tzung-Bi Shih <tzungbi@chromium.org>,
-        Project_Global_Chrome_Upstream_Group@mediatek.com,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org, xia.jiang@mediatek.com,
-        maoguang.meng@mediatek.com, srv_heupstream@mediatek.com,
-        irui.wang@mediatek.com
-Subject: Re: [PATCH V6, 3/5] media: mtk-jpegenc: add jpegenc timeout func
- interface
-Message-ID: <YaoyuAFD8IaSij6S@gmail.com>
-References: <1638501230-13417-1-git-send-email-kyrie.wu@mediatek.com>
- <1638501230-13417-4-git-send-email-kyrie.wu@mediatek.com>
+        Fri, 03 Dec 2021 07:09:55 -0800 (PST)
+Message-ID: <7e63c1665c96feccadd9c05dc603349b3a93900d.camel@ndufresne.ca>
+Subject: Re: [EXT] Re: [PATCH v13 08/13] media: amphion: add v4l2 m2m vpu
+ decoder stateful driver
+From:   Nicolas Dufresne <nicolas@ndufresne.ca>
+To:     Ming Qian <ming.qian@nxp.com>,
+        "mchehab@kernel.org" <mchehab@kernel.org>,
+        "shawnguo@kernel.org" <shawnguo@kernel.org>,
+        "robh+dt@kernel.org" <robh+dt@kernel.org>,
+        "s.hauer@pengutronix.de" <s.hauer@pengutronix.de>
+Cc:     "hverkuil-cisco@xs4all.nl" <hverkuil-cisco@xs4all.nl>,
+        "kernel@pengutronix.de" <kernel@pengutronix.de>,
+        "festevam@gmail.com" <festevam@gmail.com>,
+        dl-linux-imx <linux-imx@nxp.com>,
+        Aisheng Dong <aisheng.dong@nxp.com>,
+        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>
+Date:   Fri, 03 Dec 2021 10:09:53 -0500
+In-Reply-To: <AM6PR04MB6341537EBD82451CA14A5E3EE76A9@AM6PR04MB6341.eurprd04.prod.outlook.com>
+References: <cover.1638263914.git.ming.qian@nxp.com>
+         <9122e66af668c095548321d45dec33a3fd6ee77d.1638263914.git.ming.qian@nxp.com>
+         <fceda1576bcb2fc4e576b59e09214ab1320558b3.camel@ndufresne.ca>
+         <AM6PR04MB6341AC4C0057B09DB8A58234E76A9@AM6PR04MB6341.eurprd04.prod.outlook.com>
+         <AM6PR04MB6341537EBD82451CA14A5E3EE76A9@AM6PR04MB6341.eurprd04.prod.outlook.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.42.1 (3.42.1-1.fc35) 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1638501230-13417-4-git-send-email-kyrie.wu@mediatek.com>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-kyrie.wu wrote:
+Le vendredi 03 décembre 2021 à 06:01 +0000, Ming Qian a écrit :
+> > -----Original Message-----
+> > From: Ming Qian
+> > Sent: Friday, December 3, 2021 1:43 PM
+> > To: Nicolas Dufresne <nicolas@ndufresne.ca>; mchehab@kernel.org;
+> > shawnguo@kernel.org; robh+dt@kernel.org; s.hauer@pengutronix.de
+> > Cc: hverkuil-cisco@xs4all.nl; kernel@pengutronix.de; festevam@gmail.com;
+> > dl-linux-imx <linux-imx@nxp.com>; Aisheng Dong <aisheng.dong@nxp.com>;
+> > linux-media@vger.kernel.org; linux-kernel@vger.kernel.org;
+> > devicetree@vger.kernel.org; linux-arm-kernel@lists.infradead.org
+> > Subject: RE: [EXT] Re: [PATCH v13 08/13] media: amphion: add v4l2 m2m vpu
+> > decoder stateful driver
+> > 
+> > > -----Original Message-----
+> > > From: Nicolas Dufresne [mailto:nicolas@ndufresne.ca]
+> > > Sent: Friday, December 3, 2021 12:56 PM
+> > > To: Ming Qian <ming.qian@nxp.com>; mchehab@kernel.org;
+> > > shawnguo@kernel.org; robh+dt@kernel.org; s.hauer@pengutronix.de
+> > > Cc: hverkuil-cisco@xs4all.nl; kernel@pengutronix.de;
+> > > festevam@gmail.com; dl-linux-imx <linux-imx@nxp.com>; Aisheng Dong
+> > > <aisheng.dong@nxp.com>; linux-media@vger.kernel.org;
+> > > linux-kernel@vger.kernel.org; devicetree@vger.kernel.org;
+> > > linux-arm-kernel@lists.infradead.org
+> > > Subject: [EXT] Re: [PATCH v13 08/13] media: amphion: add v4l2 m2m vpu
+> > > decoder stateful driver
+> > > 
+> > > Caution: EXT Email
+> > > 
+> > > Le mardi 30 novembre 2021 à 17:48 +0800, Ming Qian a écrit :
+> > > > This consists of video decoder implementation plus decoder controls.
+> > > > 
+> > > > Signed-off-by: Ming Qian <ming.qian@nxp.com>
+> > > > Signed-off-by: Shijie Qin <shijie.qin@nxp.com>
+> > > > Signed-off-by: Zhou Peng <eagle.zhou@nxp.com>
+> > > > ---
+> > > >  drivers/media/platform/amphion/vdec.c | 1680
+> > > +++++++++++++++++++++++++
+> > 
+> > 
+> > > > +
+> > > > +static void vdec_init_fmt(struct vpu_inst *inst) {
+> > > > +     struct vdec_t *vdec = inst->priv;
+> > > > +     const struct vpu_format *fmt;
+> > > > +     int i;
+> > > > +
+> > > > +     fmt = vpu_helper_find_format(inst, inst->cap_format.type,
+> > > vdec->codec_info.pixfmt);
+> > > > +     inst->out_format.width = vdec->codec_info.width;
+> > > > +     inst->out_format.height = vdec->codec_info.height;
+> > > > +     inst->cap_format.width = vdec->codec_info.decoded_width;
+> > > > +     inst->cap_format.height = vdec->codec_info.decoded_height;
+> > > > +     inst->cap_format.pixfmt = vdec->codec_info.pixfmt;
+> > > > +     if (fmt) {
+> > > > +             inst->cap_format.num_planes = fmt->num_planes;
+> > > > +             inst->cap_format.flags = fmt->flags;
+> > > > +     }
+> > > > +     for (i = 0; i < inst->cap_format.num_planes; i++) {
+> > > > +             inst->cap_format.bytesperline[i] =
+> > > vdec->codec_info.bytesperline[i];
+> > > > +             inst->cap_format.sizeimage[i] =
+> > > vdec->codec_info.sizeimage[i];
+> > > > +     }
+> > > > +     if (vdec->codec_info.progressive)
+> > > > +             inst->cap_format.field = V4L2_FIELD_NONE;
+> > > > +     else
+> > > > +             inst->cap_format.field = V4L2_FIELD_INTERLACED;
+> > > 
+> > > As a followup, this should be conditional to the chosen pixel format.
+> > > If I understood correct, you produce interlaced is only produce for
+> > > linear NV12, for tiled the fields are outputed seperated in their
+> > > respective v4l2_buffer. Note sure where yet, but the V4L2 spec
+> > > requires you to pair the fields by using the same seq_num on both.
+> > 
+> > The amphion vpu will store the two fields into one v4l2_buf, So I'll change
+> > V4L2_FIELD_INTERLACED to V4L2_FIELD_SEQ_TB
+> > 
+> 
+> Hi Nicolas,
+>     Seems gstreamer doesn't support V4L2_FIELD_SEQ_TB yet.
+> 
+>   switch (fmt.fmt.pix.field) {
+>     case V4L2_FIELD_ANY:
+>     case V4L2_FIELD_NONE:
+>       interlace_mode = GST_VIDEO_INTERLACE_MODE_PROGRESSIVE;
+>       break;
+>     case V4L2_FIELD_INTERLACED:
+>     case V4L2_FIELD_INTERLACED_TB:
+>     case V4L2_FIELD_INTERLACED_BT:
+>       interlace_mode = GST_VIDEO_INTERLACE_MODE_INTERLEAVED;
+>       break;
+>     case V4L2_FIELD_ALTERNATE:
+>       interlace_mode = GST_VIDEO_INTERLACE_MODE_ALTERNATE;
+>       break;
+>     default:
+>       goto unsupported_field;
+>   }
 
-> Generalizes jpegenc timeout func interfaces to handle HW timeout.
+This is correct, I had never had the chance to implement it. So far I only know
+IMX6 camera pipeline producing that, but rarely used in practice. What matters
+here is that your driver does report the right information so that userspace
+don't get fooled into thinking it's interleaved.
 
-Where do you call schedule_delayed_work() and init hw_param?
 > 
-> Signed-off-by: kyrie.wu <kyrie.wu@mediatek.com>
-> ---
-> V6: no change
-> ---
->  drivers/media/platform/mtk-jpeg/mtk_jpeg_core.h   |  8 ++++++++
->  drivers/media/platform/mtk-jpeg/mtk_jpeg_enc_hw.c | 23 +++++++++++++++++++++++
->  2 files changed, 31 insertions(+)
-> 
-> diff --git a/drivers/media/platform/mtk-jpeg/mtk_jpeg_core.h b/drivers/media/platform/mtk-jpeg/mtk_jpeg_core.h
-> index 7d013de..baab305 100644
-> --- a/drivers/media/platform/mtk-jpeg/mtk_jpeg_core.h
-> +++ b/drivers/media/platform/mtk-jpeg/mtk_jpeg_core.h
-> @@ -75,6 +75,12 @@ struct mtk_jpeg_variant {
->  	u32 cap_q_default_fourcc;
->  };
->  
-> +struct mtk_jpeg_hw_param {
-> +	struct vb2_v4l2_buffer *src_buffer;
-> +	struct vb2_v4l2_buffer *dst_buffer;
-> +	struct mtk_jpeg_ctx *curr_ctx;
-> +};
-> +
->  enum mtk_jpegenc_hw_id {
->  	MTK_JPEGENC_HW0,
->  	MTK_JPEGENC_HW1,
-> @@ -122,6 +128,8 @@ struct mtk_jpegenc_comp_dev {
->  	struct mtk_jpeg_dev *master_dev;
->  	struct mtk_jpegenc_pm pm;
->  	int jpegenc_irq;
-> +	struct delayed_work job_timeout_work;
-> +	struct mtk_jpeg_hw_param hw_param;
->  };
->  
->  /**
-> diff --git a/drivers/media/platform/mtk-jpeg/mtk_jpeg_enc_hw.c b/drivers/media/platform/mtk-jpeg/mtk_jpeg_enc_hw.c
-> index 4ccda1d..e62b875 100644
-> --- a/drivers/media/platform/mtk-jpeg/mtk_jpeg_enc_hw.c
-> +++ b/drivers/media/platform/mtk-jpeg/mtk_jpeg_enc_hw.c
-> @@ -183,6 +183,24 @@ void mtk_jpeg_set_enc_params(struct mtk_jpeg_ctx *ctx,  void __iomem *base)
->  	writel(ctx->restart_interval, base + JPEG_ENC_RST_MCU_NUM);
->  }
->  
-> +static void mtk_jpegenc_timeout_work(struct work_struct *work)
-> +{
-> +	struct delayed_work *Pwork =
-> +		container_of(work, struct delayed_work, work);
-Please use to_delayed_work()
-> +	struct mtk_jpegenc_comp_dev *cjpeg =
-> +		container_of(Pwork, struct mtk_jpegenc_comp_dev,
-> +		job_timeout_work);
-> +	enum vb2_buffer_state buf_state = VB2_BUF_STATE_ERROR;
-> +	struct vb2_v4l2_buffer *src_buf;
-> +
-> +	src_buf = cjpeg->hw_param.src_buffer;
-> +
-> +	mtk_jpeg_enc_reset(cjpeg->reg_base);
-> +	clk_disable_unprepare(cjpeg->pm.venc_clk.clk_info->jpegenc_clk);
-> +	pm_runtime_put(cjpeg->pm.dev);
-> +	v4l2_m2m_buf_done(src_buf, buf_state);
-> +}
-> +
->  static irqreturn_t mtk_jpegenc_hw_irq_handler(int irq, void *priv)
->  {
->  	struct vb2_v4l2_buffer *src_buf, *dst_buf;
-> @@ -194,6 +212,8 @@ static irqreturn_t mtk_jpegenc_hw_irq_handler(int irq, void *priv)
->  	struct mtk_jpegenc_comp_dev *jpeg = priv;
->  	struct mtk_jpeg_dev *master_jpeg = jpeg->master_dev;
->  
-> +	cancel_delayed_work(&jpeg->job_timeout_work);
-Isn't here a race condition is the delayed work is being exectuted?
-> +
->  	irq_status = readl(jpeg->reg_base + JPEG_ENC_INT_STS) &
->  		JPEG_ENC_INT_STATUS_MASK_ALLIRQ;
->  	if (irq_status)
-> @@ -322,6 +342,9 @@ static int mtk_jpegenc_hw_probe(struct platform_device *pdev)
->  
->  	dev->plat_dev = pdev;
->  
-> +	INIT_DELAYED_WORK(&dev->job_timeout_work,
-> +		mtk_jpegenc_timeout_work);
-> +
->  	ret = mtk_jpegenc_init_pm(dev);
->  	if (ret) {
->  		dev_err(&pdev->dev, "Failed to get jpeg enc clock source");
-> -- 
-> 2.6.4
-> 
-> 
-> _______________________________________________
-> Linux-mediatek mailing list
-> Linux-mediatek@lists.infradead.org
-> http://lists.infradead.org/mailman/listinfo/linux-mediatek
-> 
+> > > 
+> > > > +     if (vdec->codec_info.color_primaries ==
+> > V4L2_COLORSPACE_DEFAULT)
+> > > > +             vdec->codec_info.color_primaries =
+> > > V4L2_COLORSPACE_REC709;
+> > > > +     if (vdec->codec_info.transfer_chars == V4L2_XFER_FUNC_DEFAULT)
+> > > > +             vdec->codec_info.transfer_chars = V4L2_XFER_FUNC_709;
+> > > > +     if (vdec->codec_info.matrix_coeffs == V4L2_YCBCR_ENC_DEFAULT)
+> > > > +             vdec->codec_info.matrix_coeffs = V4L2_YCBCR_ENC_709;
+> > > > +     if (vdec->codec_info.full_range == V4L2_QUANTIZATION_DEFAULT)
+> > > > +             vdec->codec_info.full_range =
+> > > V4L2_QUANTIZATION_LIM_RANGE;
+> > > > +}
+> > > > +
+
