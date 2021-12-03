@@ -2,132 +2,177 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id EBDBA467C51
-	for <lists+linux-media@lfdr.de>; Fri,  3 Dec 2021 18:14:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 29F52467C57
+	for <lists+linux-media@lfdr.de>; Fri,  3 Dec 2021 18:17:47 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1353089AbhLCRSQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 3 Dec 2021 12:18:16 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35416 "EHLO
+        id S1353361AbhLCRVJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 3 Dec 2021 12:21:09 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36040 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235278AbhLCRSQ (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 3 Dec 2021 12:18:16 -0500
-Received: from mail-qv1-xf2a.google.com (mail-qv1-xf2a.google.com [IPv6:2607:f8b0:4864:20::f2a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C185CC061751
-        for <linux-media@vger.kernel.org>; Fri,  3 Dec 2021 09:14:51 -0800 (PST)
-Received: by mail-qv1-xf2a.google.com with SMTP id s9so3354409qvk.12
-        for <linux-media@vger.kernel.org>; Fri, 03 Dec 2021 09:14:51 -0800 (PST)
+        with ESMTP id S1353356AbhLCRVJ (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 3 Dec 2021 12:21:09 -0500
+Received: from mail-wr1-x431.google.com (mail-wr1-x431.google.com [IPv6:2a00:1450:4864:20::431])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C5BB1C061751;
+        Fri,  3 Dec 2021 09:17:44 -0800 (PST)
+Received: by mail-wr1-x431.google.com with SMTP id d24so7285019wra.0;
+        Fri, 03 Dec 2021 09:17:44 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ndufresne-ca.20210112.gappssmtp.com; s=20210112;
-        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-         :mime-version:content-transfer-encoding;
-        bh=QuxLEAK/WGbGM+dm+Zmim9zkGezkdMzdt7fdJWpKakU=;
-        b=6XDCcjvDjeR+e+xwjKEbFQb7qJGIQRfLx9aqeGTnkRU+/lu0/Iu4FpJq5wcqBuh/eI
-         cPE/VEy5BoCVYi8A8jUrNnG+nUmOjtO0+oG8CN3ZN2bwFLyBxPJ2cqCzr8h5G0KlAb5e
-         jj7wI9cO0SvHZdmZuFClu5c4LnG/wd7X8vzIodtOgwLFrTWVg9cLm60QrMqzyFAKEVh7
-         aRiihr/eYOJcgfDSrY75JHlYnm+R0k1v8xYrLE8okdOHy03rhCPZi+GJDoVhsg7v0cV/
-         1j++cD56KYJ1xKnA9De9iLydkquKDSdmo0CdQxrG9my16+CAsAPULaZEsonX6rquY6CQ
-         Jthg==
+        d=gmail.com; s=20210112;
+        h=mime-version:content-transfer-encoding:date:message-id:cc:subject
+         :from:to:references:in-reply-to;
+        bh=fO4r4gsjGVizfHzvjtVzf6PaITpDlhXOXaurJb9WRMM=;
+        b=QAIuYEt4MVozw2zJpXy9n9s4yuKA3sYSKfEagHzSiKD+5t61CAYGIuICCIcSrmyerX
+         H4cH/uVWZyfgsS3dyB2bpNM4jJbpvIUWvczzOAakbOXxJ4TremX/frK753gp/jer5vSx
+         qsNYyLLz5khEAs/tasSjecL4Z2ycgaRHeZBCkVjhTdqEg+PeoDHTQwJGfL8jUxC7XZxF
+         YWepGFV6VyLRRYGmND/7ZLowb5wecGti7FoyqcFGFeNfRDQLxtEqOapfrXeqUbKf7vNm
+         zZMjgG9XFnxIbMNBsBnh5pVMFO50XGD8rfk/5LfMPfupFmX904m/me07YD0u0S6Pb/Pd
+         GuOw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=QuxLEAK/WGbGM+dm+Zmim9zkGezkdMzdt7fdJWpKakU=;
-        b=VnY1B6mf0rd6oseZS5qq3Jw+8mb/JmL0dbw2NqGNyYPQsFOY0jvibHZ6L/TYYxg6gS
-         g8Xkf1wJnPRBMFVE4akhqwFFHLI+0KZM3Wt/rhxx+GR9na14REhXzUVcKcEi5MYkE3vQ
-         XsDGnoZPBkVgxJQMaC2rmO/pHBy+INw8J+zflr6er39ml3rA700bjuEt13+ocYGMJDtP
-         gdnhVn29mDyGLKeE3Epqgcuc0Lem4oifLhtWINaCmpkeO0iyV0SkVex3iiA8QUzQr0IX
-         zkBIpU+z/WsDmxTdXPBuc2CaYC+cUllIlCAhUEO9qB4ThKt+YkgoPodXFLX93RbFCJud
-         lB9A==
-X-Gm-Message-State: AOAM533HJawuhyWwSBNTYghEoPAzswbC7EkC7gyFJ12K2JxrhjkbyiOf
-        sONSaNcpktlmbOB1bAj05vJq6A==
-X-Google-Smtp-Source: ABdhPJygNP0XPn8ULZVgZ8O5aSGy+Gb2KxPnNGBZJTtRuYZP6DJiomBwTSX2Oc4ioedFTLKxWG9LIg==
-X-Received: by 2002:ad4:5eca:: with SMTP id jm10mr20418462qvb.54.1638551690925;
-        Fri, 03 Dec 2021 09:14:50 -0800 (PST)
-Received: from nicolas-tpx395.localdomain (173-246-12-168.qc.cable.ebox.net. [173.246.12.168])
-        by smtp.gmail.com with ESMTPSA id o20sm2626094qkp.114.2021.12.03.09.14.49
+        h=x-gm-message-state:mime-version:content-transfer-encoding:date
+         :message-id:cc:subject:from:to:references:in-reply-to;
+        bh=fO4r4gsjGVizfHzvjtVzf6PaITpDlhXOXaurJb9WRMM=;
+        b=U/MXEJyc32rAbmmVpiTlqA3FwVMKYHiT9vqdx2KA5GHv2ZkLTgurqmT1b5hpx0FtYA
+         PfLOAUq1b6HhUJAJBAEj2dFIct+L/F7iAen2tPdeNQav6ceAByi81yh/4VAGHS8fl9C5
+         36VK7qDn9x/w/qzFQ4GrRC0R0P1iohu3pcOnjL+9V7GhaVZ9lFsKtzP7tTkvanKEtsTw
+         JJ+G6Zulr7IRFvyrqAI7CzyyF+Y19Z6Up4E7zr0/mX2AbLY78VRGGXl3jF1/a1gVcHxE
+         8oPVtO/C/+Cx2EUFhr6jy+vcijZzfXotVbWjxU/AevwjWFd9x33M3XDW/mVMKEi9xgpH
+         EBHg==
+X-Gm-Message-State: AOAM530FxLJxxfhkxXWyr2FjuYZCj1ey5grGpVIqJ7jhP1hweZcAEXIf
+        qkX43zK+oogUWIM9J+MIPDN6K7SJaIp2GQ==
+X-Google-Smtp-Source: ABdhPJwSlZ5YrUJqxTWiDOCJlgxNck9X5BnMZl+c+BWgq8iNfD/zikiOh4fWUGC0q5/M0T26tXlVBw==
+X-Received: by 2002:adf:da41:: with SMTP id r1mr23344323wrl.443.1638551863245;
+        Fri, 03 Dec 2021 09:17:43 -0800 (PST)
+Received: from localhost (a109-49-33-111.cpe.netcabo.pt. [109.49.33.111])
+        by smtp.gmail.com with ESMTPSA id f18sm3162247wre.7.2021.12.03.09.17.42
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 03 Dec 2021 09:14:50 -0800 (PST)
-Message-ID: <64e0aa29a83e0ebfd3eeba381c3a1148bdaa1e3d.camel@ndufresne.ca>
-Subject: Re: IMX8MM Hantro VP9 decode failure
-From:   Nicolas Dufresne <nicolas@ndufresne.ca>
-To:     Tim Harvey <tharvey@gateworks.com>,
-        linux-media <linux-media@vger.kernel.org>,
-        Discussion of the development of and with GStreamer 
-        <gstreamer-devel@lists.freedesktop.org>,
-        Adam Ford <aford173@gmail.com>,
-        Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
-        Fabio Estevam <festevam@gmail.com>,
-        Shawn Guo <shawnguo@kernel.org>
-Date:   Fri, 03 Dec 2021 12:14:49 -0500
-In-Reply-To: <CAJ+vNU0ZqMr3qZMe0EKKOnHWD3CDNkRc8CxDWVJPw-8m20nLsw@mail.gmail.com>
-References: <CAJ+vNU0ZqMr3qZMe0EKKOnHWD3CDNkRc8CxDWVJPw-8m20nLsw@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.42.1 (3.42.1-1.fc35) 
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+        Fri, 03 Dec 2021 09:17:42 -0800 (PST)
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date:   Fri, 03 Dec 2021 17:17:41 +0000
+Message-Id: <CG5U5PGJPN7E.23M1PTULHYT82@arch-thunder>
+Cc:     <devicetree@vger.kernel.org>,
+        "Mauro Carvalho Chehab" <mchehab@kernel.org>,
+        "Shawn Guo" <shawnguo@kernel.org>,
+        "Sascha Hauer" <s.hauer@pengutronix.de>,
+        "Pengutronix Kernel Team" <kernel@pengutronix.de>,
+        "Fabio Estevam" <festevam@gmail.com>,
+        "NXP Linux Team" <linux-imx@nxp.com>,
+        <linux-media@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>
+Subject: Re: [PATCH v2] dt-bindings: media: nxp,imx7-mipi-csi2: Drop bad
+ if/then schema
+From:   "Rui Miguel Silva" <rmfrfs@gmail.com>
+To:     "Laurent Pinchart" <laurent.pinchart@ideasonboard.com>,
+        "Rob Herring" <robh@kernel.org>
+References: <20211203164828.187642-1-robh@kernel.org>
+ <YapPYZieGxxNr/da@pendragon.ideasonboard.com>
+In-Reply-To: <YapPYZieGxxNr/da@pendragon.ideasonboard.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Le vendredi 03 décembre 2021 à 09:00 -0800, Tim Harvey a écrit :
-> Greetings,
-> 
-> I'm testing the VP9 hantro kernel support on an IMX8MM with the following:
-> - imx8mm-venice-gw73xx-0x board with a 800x480 MIPI DSI display
-> - v5.16-rc3 kernel with:
->   - [PATCH v7 00/11] VP9 codec V4L2 control interface
->   - IMX8MM DSI support added (some old patchsets)
->   - GStreamer 1.19.3+
-> 
->  with vp9 backported, hantro support added, and imx8mm display support added
-> - gstreamer 1.19.3 (git sha b5c07e11ca)
+Hi both,
+FWIW,
+On Fri Dec 3, 2021 at 5:09 PM WET, Laurent Pinchart wrote:
 
-Couple more fixed landed yesterday:
+> Hi Rob,
+>
+> Thank you for the patch.
+>
+> On Fri, Dec 03, 2021 at 10:48:28AM -0600, Rob Herring wrote:
+> > The if/then schema for 'data-lanes' doesn't work as 'compatible' is at =
+a
+> > different level than 'data-lanes'. To make it work, the if/then schema
+> > would have to be moved to the top level and then whole hierarchy of
+> > nodes down to 'data-lanes' created. I don't think it is worth the
+> > complexity to do that, so let's just drop it.
+> >=20
+> > The error in this schema is masked by a fixup in the tools causing the
+> > 'allOf' to get overwritten. Removing the fixup as part of moving to
+> > json-schema draft 2019-09 revealed the issue:
+> >=20
+> > Documentation/devicetree/bindings/media/nxp,imx7-mipi-csi2.example.dt.y=
+aml: mipi-csi@30750000: ports:port@0:endpoint:data-lanes:0: [1] is too shor=
+t
+> > 	From schema: /builds/robherring/linux-dt-review/Documentation/devicetr=
+ee/bindings/media/nxp,imx7-mipi-csi2.yaml
+> > Documentation/devicetree/bindings/media/nxp,imx7-mipi-csi2.example.dt.y=
+aml: mipi-csi@32e30000: ports:port@0:endpoint:data-lanes:0: [1, 2, 3, 4] is=
+ too long
+> > 	From schema: /builds/robherring/linux-dt-review/Documentation/devicetr=
+ee/bindings/media/nxp,imx7-mipi-csi2.yaml
+> >=20
+> > The if condition was always true because 'compatible' did not exist in
+> > 'endpoint' node and a non-existent property is true for json-schema.
+> >=20
+> > Fixes: 85b62ff2cb97 ("media: dt-bindings: media: nxp,imx7-mipi-csi2: Ad=
+d i.MX8MM support")
+> > Cc: Rui Miguel Silva <rmfrfs@gmail.com>
+> > Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> > Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
+> > Cc: Shawn Guo <shawnguo@kernel.org>
+> > Cc: Sascha Hauer <s.hauer@pengutronix.de>
+> > Cc: Pengutronix Kernel Team <kernel@pengutronix.de>
+> > Cc: Fabio Estevam <festevam@gmail.com>
+> > Cc: NXP Linux Team <linux-imx@nxp.com>
+> > Cc: linux-media@vger.kernel.org
+> > Cc: linux-arm-kernel@lists.infradead.org
+> > Signed-off-by: Rob Herring <robh@kernel.org>
+>
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Acked-by: Rui Miguel Silva <rmfrfs@gmail.com>
 
-05458f05e0 v4l2codecs: vp9: Drop frames on non-keyframe format change
+Cheers,
+     Rui
+>
+> > ---
+> > v2:
+> >  - Add note that imx7 only supports 2 lanes
+> > ---
+> >  .../bindings/media/nxp,imx7-mipi-csi2.yaml         | 14 ++------------
+> >  1 file changed, 2 insertions(+), 12 deletions(-)
+> >=20
+> > diff --git a/Documentation/devicetree/bindings/media/nxp,imx7-mipi-csi2=
+.yaml b/Documentation/devicetree/bindings/media/nxp,imx7-mipi-csi2.yaml
+> > index 877183cf4278..1ef849dc74d7 100644
+> > --- a/Documentation/devicetree/bindings/media/nxp,imx7-mipi-csi2.yaml
+> > +++ b/Documentation/devicetree/bindings/media/nxp,imx7-mipi-csi2.yaml
+> > @@ -79,6 +79,8 @@ properties:
+> > =20
+> >              properties:
+> >                data-lanes:
+> > +                description:
+> > +                  Note that 'fsl,imx7-mipi-csi2' only supports up to 2=
+ data lines.
+> >                  items:
+> >                    minItems: 1
+> >                    maxItems: 4
+> > @@ -91,18 +93,6 @@ properties:
+> >              required:
+> >                - data-lanes
+> > =20
+> > -            allOf:
+> > -              - if:
+> > -                  properties:
+> > -                    compatible:
+> > -                      contains:
+> > -                        const: fsl,imx7-mipi-csi2
+> > -                then:
+> > -                  properties:
+> > -                    data-lanes:
+> > -                      items:
+> > -                        maxItems: 2
+> > -
+> >        port@1:
+> >          $ref: /schemas/graph.yaml#/properties/port
+> >          description:
+>
+> --=20
+> Regards,
+>
+> Laurent Pinchart
 
 
-And if you want to recover MPEG2 which regressed after merging VP9, get the next
-commit too:
-
-7e875ddb2c (HEAD -> main, origin/main) v4l2codecs: mpeg2: Fix selected sizeimage
-
-> 
-> I see the v4l2 stateless decoder:
-> [gst-main] root@focal-venice:~/gstreamer/build# gst-inspect-1.0
-> v4l2codecs | grep v4l2slvp9dec
->   v4l2slvp9dec: V4L2 Stateless VP9 Video Decoder
-> 
-> I'm generating a test stream on an x86 with GStreamer 1.19.3 (git sha
-> 05458f05e0):
-> gst-launch-1.0 -v videotestsrc ! video/x-raw,width=800,height=480 !
-> vp9enc ! rtpvp9pay ! udpsink host=172.24.33.15 port=9001
-> 
-> I'm decoding on imx8mm with:
-> gst-launch-1.0 udpsrc port=9001 caps =
-> 'application/x-rtp,media=(string)video, clock-rate=(int)90000,
-> encoding-name=(string)VP9,payload=(int)96, ssrc=(uint)2246741422,
-> timestamp-offset=(uint)3441735424,
-> seqnum-offset=(uint)30250,a-framerate=(string)30' ! rtpvp9depay !
-> v4l2slvp9dec ! fakesink
-> ^^^ this fails with no-negotiated
-
-vp9parse is required. Our new stateless decoder handle frames, while VP9 have
-this notion of superframe. vp9parse will seperate the frames from the super
-frames.
-
-> 
-> Things seem to be very bleeding edge with VP9 so I'm not sure if I
-> need very specific gstreamer versions here or not.
-
-This is currently broken due to another feature, but this should work using
-playbin(3) / decodebin(3) by 1.20 hopefully. 1.20 is are soon coming next stable
-release.
-
-> 
-> Best regards,
-> 
-> Tim
 
