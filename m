@@ -2,156 +2,60 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0228B4673CB
-	for <lists+linux-media@lfdr.de>; Fri,  3 Dec 2021 10:17:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E8E1946741E
+	for <lists+linux-media@lfdr.de>; Fri,  3 Dec 2021 10:32:07 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1351350AbhLCJVD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 3 Dec 2021 04:21:03 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37864 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1351207AbhLCJVC (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 3 Dec 2021 04:21:02 -0500
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 21FD6C06173E
-        for <linux-media@vger.kernel.org>; Fri,  3 Dec 2021 01:17:39 -0800 (PST)
-Received: from gallifrey.ext.pengutronix.de ([2001:67c:670:201:5054:ff:fe8d:eefb] helo=[IPv6:::1])
-        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <l.stach@pengutronix.de>)
-        id 1mt4hE-0000j9-TQ; Fri, 03 Dec 2021 10:17:36 +0100
-Message-ID: <6a274996f96c799db2efef4498a8fc42e78e1d2d.camel@pengutronix.de>
-Subject: Re: [RFC V3 0/2] arm64: imx8mm: Enable Hantro VPUs
-From:   Lucas Stach <l.stach@pengutronix.de>
-To:     Tim Harvey <tharvey@gateworks.com>, Adam Ford <aford173@gmail.com>
-Cc:     linux-media <linux-media@vger.kernel.org>,
-        Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
-        Nicolas Dufresne <nicolas@ndufresne.ca>,
-        Adam Ford-BE <aford@beaconembedded.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Rob Herring <robh+dt@kernel.org>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        devicetree <devicetree@vger.kernel.org>,
-        arm-soc <linux-arm-kernel@lists.infradead.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        "open list:HANTRO VPU CODEC DRIVER" 
-        <linux-rockchip@lists.infradead.org>,
-        "open list:STAGING SUBSYSTEM" <linux-staging@lists.linux.dev>
-Date:   Fri, 03 Dec 2021 10:17:33 +0100
-In-Reply-To: <CAJ+vNU2t7Yp5OGtWj432Y-8hL62nQBbG58zM-gAj5YfuCO__sA@mail.gmail.com>
-References: <20211202041627.291625-1-aford173@gmail.com>
-         <CAHCN7xJHuOFTQBQWk1yKsk3M0iDB7aKc0=L2DisUoSXVeO3xXQ@mail.gmail.com>
-         <CAJ+vNU2t7Yp5OGtWj432Y-8hL62nQBbG58zM-gAj5YfuCO__sA@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.40.4 (3.40.4-1.fc34) 
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-SA-Exim-Connect-IP: 2001:67c:670:201:5054:ff:fe8d:eefb
-X-SA-Exim-Mail-From: l.stach@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-media@vger.kernel.org
+        id S1351375AbhLCJfa (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 3 Dec 2021 04:35:30 -0500
+Received: from out30-54.freemail.mail.aliyun.com ([115.124.30.54]:41192 "EHLO
+        out30-54.freemail.mail.aliyun.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1351014AbhLCJf3 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Fri, 3 Dec 2021 04:35:29 -0500
+X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R151e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=e01e04400;MF=jiapeng.chong@linux.alibaba.com;NM=1;PH=DS;RN=13;SR=0;TI=SMTPD_---0UzGGkdh_1638523919;
+Received: from j63c13417.sqa.eu95.tbsite.net(mailfrom:jiapeng.chong@linux.alibaba.com fp:SMTPD_---0UzGGkdh_1638523919)
+          by smtp.aliyun-inc.com(127.0.0.1);
+          Fri, 03 Dec 2021 17:32:03 +0800
+From:   Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
+To:     Felix.Kuehling@amd.com
+Cc:     alexander.deucher@amd.com, christian.koenig@amd.com,
+        Xinhui.Pan@amd.com, airlied@linux.ie, daniel@ffwll.ch,
+        sumit.semwal@linaro.org, amd-gfx@lists.freedesktop.org,
+        dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
+        Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
+Subject: [PATCH] drm/amdkfd: Use max() instead of doing it manually
+Date:   Fri,  3 Dec 2021 17:31:53 +0800
+Message-Id: <1638523913-117827-1-git-send-email-jiapeng.chong@linux.alibaba.com>
+X-Mailer: git-send-email 1.8.3.1
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Am Donnerstag, dem 02.12.2021 um 10:54 -0800 schrieb Tim Harvey:
-> On Thu, Dec 2, 2021 at 4:29 AM Adam Ford <aford173@gmail.com> wrote:
-> > 
-> > On Wed, Dec 1, 2021 at 10:17 PM Adam Ford <aford173@gmail.com> wrote:
-> > > 
-> > > The i.MX8M has two Hantro video decoders, called G1 and G2 which appear
-> > > to be related to the video decoders used on the i.MX8MQ, but because of
-> > > how the Mini handles the power domains, the VPU driver does not need to
-> > > handle all the functions, so a new compatible flag is required.
-> > > 
-> > > V3 is rebased from git://linuxtv.org/hverkuil/media_tree.git for-v5.17c
-> > > This branch has support for VP9.
-> > > 
-> > > I set cma=512M, but this may not be enough memory as some tests appeard to run out of memory
-> > > 
-> > > V3 of this series has several changes:
-> > > 
-> > > Update imx8m_vpu_hw to add missing 'reg' reference names for G2 and include references to VP9
-> > > Update device tree to remove IMX8MQ_VPU_RESET, remove some duplicate vpu clock parenting
-> > > Fix missing reg-names from vpu_g2 node.
-> > > Apply patch [1] to manage the power domains powering down.
-> > > [1] - https://lore.kernel.org/linux-arm-kernel/20211016210547.171717-1-marex@denx.de/t/
-> > > 
-> > > With the above, the following Fluster scores are produced:
-> > > 
-> > > G1:
-> > > ./fluster.py run -dGStreamer-H.264-V4L2SL-Gst1.0
-> > > Ran 90/135 tests successfully               in 74.406 secs
-> > > 
-> > > ./fluster.py run -d GStreamer-VP8-V4L2SL-Gst1.0
-> > > Ran 55/61 tests successfully               in 8.080 secs
-> > > 
-> > > G2:
-> > > ./fluster.py run -d GStreamer-VP9-V4L2SL-Gst1.0
-> > > Ran 127/303 tests successfully               in 203.873 secs
-> > > 
-> > > Fluster and G-Streamer were both built from their respective git repos using their respective master/main branches.
-> > > 
-> > 
-> > I should note, that both interrupts appear to be triggering.
-> > 
-> > # cat /proc/interrupts |grep codec
-> >  57:      13442          0          0          0     GICv3  39 Level
-> >   38300000.video-codec
-> >  58:       7815          0          0          0     GICv3  40 Level
-> >   38310000.video-codec
-> > 
-> 
-> Adam,
-> 
-> On another thread you had let me know that you also removed the reset
-> from the pgc_vpumix power domain which does appear to resolve the
-> hang:
-> 
-> diff --git a/arch/arm64/boot/dts/freescale/imx8mm.dtsi
-> b/arch/arm64/boot/dts/freescale/imx8mm.dtsi
-> index eb9dcd9d1a31..31710af544dc 100644
-> --- a/arch/arm64/boot/dts/freescale/imx8mm.dtsi
-> +++ b/arch/arm64/boot/dts/freescale/imx8mm.dtsi
-> @@ -681,7 +681,6 @@
->                                                 clocks = <&clk
-> IMX8MM_CLK_VPU_DEC_ROOT>;
->                                                 assigned-clocks =
-> <&clk IMX8MM_CLK_VPU_BUS>;
->                                                 assigned-clock-parents
-> = <&clk IMX8MM_SYS_PLL1_800M>;
-> -                                               resets = <&src
-> IMX8MQ_RESET_VPU_RESET>;
->                                         };
-> 
->                                         pgc_vpu_g1: power-domain@7 {
-> 
-> That would make such a patch have a 'Fixes commit d39d4bb15310
-> ("arm64: dts: imx8mm: add GPC node")' but of course that vpu domain
-> isn't active until your series so I'm not sure if we should send this
-> separate or squash it with "arm64: dts: imx8mm: Enable VPU-G1 and
-> VPU-G2". I'm also not clear if removing the reset requires some
-> further discussion with Lucas.
-> 
-I'm fine with removing the reset when it fixes things. In normal
-operation the reset should already be triggered by the GPC itself via a
-hardware mechanism. We know that this doesn't work for the GPU reset on
-the i.MX8MM, so we have the ability for the driver to handle it by
-poking the SRC explicitly.
+Fix following coccicheck warning:
 
-Adding the reset to the VPU DT description wasn't done because I know
-that we need it, but more of a "I know that things are broken with the
-GPU domain, so better be safe than sorry with the VPU domain". My line
-of thought clearly was that it may not be needed, but it may prevent
-some issues in the long run. If it is _causing_ issues however, there
-is no need to discuss anything, just get rid of it.
+./drivers/gpu/drm/amd/amdkfd/kfd_svm.c:2193:16-17: WARNING opportunity
+for max().
 
-Regards,
-Lucas
+Reported-by: Abaci Robot <abaci@linux.alibaba.com>
+Signed-off-by: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
+---
+ drivers/gpu/drm/amd/amdkfd/kfd_svm.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_svm.c b/drivers/gpu/drm/amd/amdkfd/kfd_svm.c
+index f2db49c..4f7e7b1 100644
+--- a/drivers/gpu/drm/amd/amdkfd/kfd_svm.c
++++ b/drivers/gpu/drm/amd/amdkfd/kfd_svm.c
+@@ -2190,7 +2190,7 @@ void schedule_deferred_list_work(struct svm_range_list *svms)
+ 
+ 	start = mni->interval_tree.start;
+ 	last = mni->interval_tree.last;
+-	start = (start > range->start ? start : range->start) >> PAGE_SHIFT;
++	start = max(start, range->start) >> PAGE_SHIFT;
+ 	last = (last < (range->end - 1) ? last : range->end - 1) >> PAGE_SHIFT;
+ 	pr_debug("[0x%lx 0x%lx] range[0x%lx 0x%lx] notifier[0x%lx 0x%lx] %d\n",
+ 		 start, last, range->start >> PAGE_SHIFT,
+-- 
+1.8.3.1
 
