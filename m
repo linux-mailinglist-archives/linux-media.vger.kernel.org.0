@@ -2,74 +2,75 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 12AEE467434
-	for <lists+linux-media@lfdr.de>; Fri,  3 Dec 2021 10:43:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 94AA5467438
+	for <lists+linux-media@lfdr.de>; Fri,  3 Dec 2021 10:43:46 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1351406AbhLCJqu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 3 Dec 2021 04:46:50 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43912 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242976AbhLCJqu (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 3 Dec 2021 04:46:50 -0500
-Received: from lb1-smtp-cloud9.xs4all.net (lb1-smtp-cloud9.xs4all.net [IPv6:2001:888:0:108::1c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 28E43C06173E
-        for <linux-media@vger.kernel.org>; Fri,  3 Dec 2021 01:43:25 -0800 (PST)
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud9.xs4all.net with ESMTPA
-        id t567mQ8znDFskt56BmNOcs; Fri, 03 Dec 2021 10:43:23 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1638524603; bh=VRqxBUvHXR9p+u29GYmJtOk1DDU3u4oUg+r14RMy/K8=;
-        h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type:From:
-         Subject;
-        b=K6B/Oyrk21OTKMvLAJ5MNLNfV+7X0kKa13YM7SncxzVwHk7woki7WYUQqU/OY707N
-         4G1kuQVsyTJOLHlhXCJLiVt7MIQGJCHRhw8BHsdWhiqk5OayLhOoDA1pew5WZu0jVe
-         eDbfAxJpnWNmLgnBl7ttC7l3YPzK1lZNVxzgeTFpsCL8jRSIzR68kcxO0Jd7JQLXU9
-         G+hTAUzcQzOMb4lg9psp8Oqbz6dpMXaokR6I+iW0bzufMOEOEgsx17nJZE2Np94TS4
-         KT9WhlBOZxbGf6XRAQhh2L5aGfxhGHKqIkHPRLAcvD4FRL47zB2GwmmL3TmEX/lBhl
-         PoOGLvt88pegg==
-Message-ID: <b881c5b5-ee29-f250-5270-66c9d7357c94@xs4all.nl>
-Date:   Fri, 3 Dec 2021 10:43:19 +0100
+        id S1351548AbhLCJrJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 3 Dec 2021 04:47:09 -0500
+Received: from mout.gmx.net ([212.227.15.15]:46877 "EHLO mout.gmx.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S242976AbhLCJrJ (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Fri, 3 Dec 2021 04:47:09 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
+        s=badeba3b8450; t=1638524624;
+        bh=FjKExa76ozvVRIDLYJk+r4KJYyZ+SL5HkthLbOqQE6E=;
+        h=X-UI-Sender-Class:From:To:Cc:Subject:Date:In-Reply-To:References;
+        b=WpX0NaI5QMRykdqsz6iOn6zgo/4GzhP0ezG3mkJcIslNPtb/opO9fYBHZeliMt5Jk
+         T2N9aOdwR2aSLnmHo01bfttgv1Dkeokg0FqNEZezOltVSVB/snEgcKPA6Y84AGWgs1
+         ztvOSAGjKUuFAeNm5aBJ4fCkDuCYVDz1oJHehsZU=
+X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
+Received: from [91.65.60.26] ([91.65.60.26]) by web-mail.gmx.net
+ (3c-app-gmx-bs49.server.lan [172.19.170.102]) (via HTTP); Fri, 3 Dec 2021
+ 10:43:43 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Firefox/91.0 Thunderbird/91.3.2
-Subject: Re: ovm6211 linux driver
-Content-Language: en-US
-To:     Petko Manolov <petko.manolov@konsulko.com>,
-        linux-media@vger.kernel.org
-References: <YanepzHYQMH/DfHY@karbon.home.net>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-In-Reply-To: <YanepzHYQMH/DfHY@karbon.home.net>
+Message-ID: <trinity-10035eaf-27d8-484e-b722-c2fbcf4d9215-1638524623919@3c-app-gmx-bs49>
+From:   Robert Schlabbach <Robert.Schlabbach@gmx.net>
+To:     Petko Manolov <petko.manolov@konsulko.com>
+Cc:     linux-media@vger.kernel.org
+Subject: Aw: ovm6211 linux driver
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4xfKcut1mV5IY+8mZVEVeAORHblGjC2UnkA1SzxWNSHW6GTpFmehlc9VHShzVuBnmJF139OgYpUvFQEQns/9yIBZeZaj6KoVg40C0cVPAumIRTLVmE0TaU
- 7xCeuExVutzE2oA7zAdjYp4KBC6xB/XQNu0ccHcBe5LVklyDv6xPnIurNdUTqRXtAGunr4xHuOoXm5NFmnEj2Bp4cmhoZDWLm0Rvr2Y3X3gEktn/0ba1vlg6
- xeYSbZ2qI2Xct4XjEAVNqg==
+Date:   Fri, 3 Dec 2021 10:43:43 +0100
+Importance: normal
+Sensitivity: Normal
+In-Reply-To: <YanepzHYQMH/DfHY@karbon.home.net>
+References: <YanepzHYQMH/DfHY@karbon.home.net>
+Content-Transfer-Encoding: quoted-printable
+X-UI-Message-Type: mail
+X-Priority: 3
+X-Provags-ID: V03:K1:k2pBxWZRR97py4AVQCHb1a7xZKCkOLZFsUPTozieNdfFE6bFwL4HWKH+SxcqMDos+Zblu
+ jz9xBjEn3np6AnlYbJufcvqz7Mb7i1/5Vwp7dnX/JgLwzL8N0Goo7532I+GSHMtaVBhaYxSjV5e1
+ hp+2b54VXncZTRhLKnbKdM5RGdTyApY6Prtf6qnz5zc/3kXCxPHFDATjcgsmHLrBVjFxwuXUTNCB
+ f4HU5sYl/BiaftzKVNvQlnjrZNkvl0ymsfaoaUnEguCdW52AT/dM789ZFHusIVGATY00PxjyfLqJ
+ WM=
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:UekAcMwU5VE=:3FbQylf5vc+385K+tA6pr3
+ U1h2Kl6cTIPpa0+vXjrYMXet9k8MUCqcS3tL5afUoC6Ui+Tt3OqR9z7CxuvLYb/6liY6j4E/P
+ 4LCP3FC4lZO05dc/gkR42J8GnuPWN1zzWG6zryylq9o1ECpot7xUoSwykcpwBwzgUer4aXadX
+ wJQCJ7/XtkdXyBTynm/YyRNRNixrNFzCcFmjo1qoM7McQgeF9v8A13nbqG+gtfB8E675+qHqk
+ 0MX2A+lzOlcdmYQA/GUKAQVXqrRIvzgKVohopgzCVsxZsM7FSgCZt6vtQ4LCBtgYNlM/xUBir
+ yWSC4x9V826LYZ2nKkcuWPZqE6Mj/IoKRrMFTqdsiFoOjzBwRdc2oWwzj9AIJ6VVD8cxoHFIW
+ 8fX0/ZHoxACJLA0p6geVS5LUoyZpYEkY1BPv6Kh6Nzv4fM6JrhQwgapFnXOPRf/xxGXOfRY1V
+ qAD9wgcE9t89RdECsEkUWWtcCWE0TqcqWvyIdWOD1EbKxIQjpRcdb83+vB0LhvZgQJhC9Ak86
+ g2EGbRShwzee8yYz7NTAsizdt6u4dz0soTLtB5vC8ce2uDMoIORdIqwscEKH96va0k+EOSddO
+ uyZs1yTtUimYQP1zI6SlozAAlHz6sv+jcp21P/Cad1co3HoUkUORbam6A3rfa13L5vxtS02Oa
+ d4WaUzCN+ZXR07llejPTtTGrtp+tX+2AkRo/MTJHOMb0romsQ7Q0lchmfwYBDi0bbza3gaSMH
+ gmwXceTsCNT3ICvoHZxaMyNkOohLTMrAQqugijcWbXF9CrjGcsmQpa7ewIeWV1ihTh7+JiRQr
+ 5wFgqiH
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Petko,
-
-On 03/12/2021 10:08, Petko Manolov wrote:
-> 	Hi guys,
-> 
-> On request by certain company we've developed a media driver for OmniVision's 
-> ovm6211 camera sensor.  We just got permission to mainline the code.  How shall 
+From:=C2=A0"Petko Manolov" <petko=2Emanolov@konsulko=2Ecom>
+> On request by certain company we've developed a media driver for OmniVis=
+ion's
+> ovm6211 camera sensor=2E We just got permission to mainline the code=2E =
+How shall
 > i proceed?
-> 
-> 
-> cheers,
-> Petko
-> 
 
-You found the correct mailinglist, so that's good :-)
+Hi Petko, the Linux kernel documentation has all the information you need:
 
-This is a good starting page:
+https://git=2Ekernel=2Eorg/pub/scm/linux/kernel/git/stable/linux=2Egit/tre=
+e/Documentation/process/submitting-patches=2Erst
 
-https://www.linuxtv.org/wiki/index.php/Developer_section
-
-Check the 'Kernel driver development' - 'Submitting Your Work:' links.
-
-Regards,
-
-	Hans
+Best Regards,
+-Robert
