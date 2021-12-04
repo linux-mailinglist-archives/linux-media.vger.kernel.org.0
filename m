@@ -2,135 +2,115 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B5581468532
-	for <lists+linux-media@lfdr.de>; Sat,  4 Dec 2021 14:56:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 67B0C4685C6
+	for <lists+linux-media@lfdr.de>; Sat,  4 Dec 2021 15:47:47 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1355115AbhLDOAU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 4 Dec 2021 09:00:20 -0500
-Received: from mga06.intel.com ([134.134.136.31]:20964 "EHLO mga06.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1344839AbhLDOAT (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Sat, 4 Dec 2021 09:00:19 -0500
-X-IronPort-AV: E=McAfee;i="6200,9189,10187"; a="297920377"
-X-IronPort-AV: E=Sophos;i="5.87,287,1631602800"; 
-   d="scan'208";a="297920377"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Dec 2021 05:56:53 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.87,287,1631602800"; 
-   d="scan'208";a="501539698"
-Received: from lkp-server02.sh.intel.com (HELO 9e1e9f9b3bcb) ([10.239.97.151])
-  by orsmga007.jf.intel.com with ESMTP; 04 Dec 2021 05:56:51 -0800
-Received: from kbuild by 9e1e9f9b3bcb with local (Exim 4.92)
-        (envelope-from <lkp@intel.com>)
-        id 1mtVX1-000J4I-7Q; Sat, 04 Dec 2021 13:56:51 +0000
-Date:   Sat, 4 Dec 2021 21:56:01 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Deborah Brouwer <deborahbrouwer3563@gmail.com>,
-        linux-media@vger.kernel.org
-Cc:     llvm@lists.linux.dev, kbuild-all@lists.01.org, hverkuil@xs4all.nl,
-        Deborah Brouwer <deborahbrouwer3563@gmail.com>
-Subject: Re: [PATCH v2] media: vivid: fix timestamp and sequence wrapping
-Message-ID: <202112042134.zRpYtrRg-lkp@intel.com>
-References: <20211204061351.53611-1-deborahbrouwer3563@gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20211204061351.53611-1-deborahbrouwer3563@gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+        id S235057AbhLDOvK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 4 Dec 2021 09:51:10 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38208 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232056AbhLDOvJ (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Sat, 4 Dec 2021 09:51:09 -0500
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 19C69C061751
+        for <linux-media@vger.kernel.org>; Sat,  4 Dec 2021 06:47:44 -0800 (PST)
+Received: from localhost.localdomain (unknown [IPv6:2a00:c281:1409:4a00:6988:6ac4:851c:3f63])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        (Authenticated sender: dafna)
+        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 603991F46305;
+        Sat,  4 Dec 2021 14:47:41 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=collabora.com; s=mail;
+        t=1638629262; bh=NV0cIhtEfLZjaWrPyxnl9CYdjfgbGzZZlsGLWRmNCq8=;
+        h=From:To:Cc:Subject:Date:From;
+        b=A6xi4m2Bzqg1oxEOmrJVifXqJUnhRS8JgndUOMAK5oajizaJSKMbaUB0s0tWpb/Kv
+         vll64//+xmlhia5KX14nA8/82LAwYPIPj2z6qOj0dOmHDiXZQAmQMFQtndivQIsNJd
+         hOww1S7zhF9boolIgmBVARtd1Zw9O0oMLFMWarQAxT/U1cKy8mGSsgFMDKDYzF2H35
+         ULqxfVWHsEU5uKxPP3MKlb4+sDV5n0iP3BsT7YYG78B/Oues/XUIW2a+OAfZvQwfZT
+         JXovntl8xc823IIJO8FzoeDlPo6UCYC+a6LK9PI5o7w0pHF2/GDKASZvf3Fax0kHtZ
+         sfb0ak+9GrXSQ==
+From:   Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+To:     linux-media@vger.kernel.org
+Cc:     Alexandre Courbot <acourbot@chromium.org>,
+        dafna.hirschfeld@collabora.com, kernel@collabora.com,
+        dafna3@gmail.com, tiffany.lin@mediatek.com,
+        andrew-ct.chen@mediatek.com, minghsiu.tsai@mediatek.com,
+        houlong.wei@mediatek.com, mchehab@kernel.org,
+        matthias.bgg@gmail.com, hverkuil@xs4all.nl
+Subject: [PATCH v5] media: mtk-vpu: Ensure alignment of 8 for DTCM buffer
+Date:   Sat,  4 Dec 2021 16:47:32 +0200
+Message-Id: <20211204144732.13472-1-dafna.hirschfeld@collabora.com>
+X-Mailer: git-send-email 2.17.1
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Deborah,
+From: Alexandre Courbot <acourbot@chromium.org>
 
-Thank you for the patch! Perhaps something to improve:
+When running memcpy_toio:
+memcpy_toio(send_obj->share_buf, buf, len);
+it was found that errors appear if len is not a multiple of 8:
 
-[auto build test WARNING on media-tree/master]
-[also build test WARNING on v5.16-rc3 next-20211203]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch]
+[58.350841] mtk-mdp 14001000.rdma: processing failed: -22
 
-url:    https://github.com/0day-ci/linux/commits/Deborah-Brouwer/media-vivid-fix-timestamp-and-sequence-wrapping/20211204-141534
-base:   git://linuxtv.org/media_tree.git master
-config: i386-randconfig-a013-20211203 (https://download.01.org/0day-ci/archive/20211204/202112042134.zRpYtrRg-lkp@intel.com/config)
-compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project 5f1d1854eb1450d352663ee732235893c5782237)
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/0day-ci/linux/commit/e6e5201f7b5b9718f318a5c3034b71fcc79aa47f
-        git remote add linux-review https://github.com/0day-ci/linux
-        git fetch --no-tags linux-review Deborah-Brouwer/media-vivid-fix-timestamp-and-sequence-wrapping/20211204-141534
-        git checkout e6e5201f7b5b9718f318a5c3034b71fcc79aa47f
-        # save the config file to linux build tree
-        mkdir build_dir
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 SHELL=/bin/bash drivers/media/test-drivers/vivid/
+This is because in ARM64, memcpy_toio does byte-size access
+when the length is not a multiple of 8 while access to the
+vpu iomem must be 4 aligned.
 
-If you fix the issue, kindly add following tag as appropriate
-Reported-by: kernel test robot <lkp@intel.com>
+This patch ensures the copy of a multiple of 8 size by calling
+round_up(len, 8) when copying
 
-All warnings (new ones prefixed by >>):
-
->> drivers/media/test-drivers/vivid/vivid-ctrls.c:1125:49: warning: overflow in expression; result is -1179869184 with type 'long' [-Winteger-overflow]
-                           dev->time_wrap = (1ULL << 63) - NSEC_PER_SEC * 16;
-                                                                        ^
-   1 warning generated.
-
-
-vim +/long +1125 drivers/media/test-drivers/vivid/vivid-ctrls.c
-
-  1083	
-  1084	static int vivid_streaming_s_ctrl(struct v4l2_ctrl *ctrl)
-  1085	{
-  1086		struct vivid_dev *dev = container_of(ctrl->handler, struct vivid_dev, ctrl_hdl_streaming);
-  1087	
-  1088		switch (ctrl->id) {
-  1089		case VIVID_CID_DQBUF_ERROR:
-  1090			dev->dqbuf_error = true;
-  1091			break;
-  1092		case VIVID_CID_PERC_DROPPED:
-  1093			dev->perc_dropped_buffers = ctrl->val;
-  1094			break;
-  1095		case VIVID_CID_QUEUE_SETUP_ERROR:
-  1096			dev->queue_setup_error = true;
-  1097			break;
-  1098		case VIVID_CID_BUF_PREPARE_ERROR:
-  1099			dev->buf_prepare_error = true;
-  1100			break;
-  1101		case VIVID_CID_START_STR_ERROR:
-  1102			dev->start_streaming_error = true;
-  1103			break;
-  1104		case VIVID_CID_REQ_VALIDATE_ERROR:
-  1105			dev->req_validate_error = true;
-  1106			break;
-  1107		case VIVID_CID_QUEUE_ERROR:
-  1108			if (vb2_start_streaming_called(&dev->vb_vid_cap_q))
-  1109				vb2_queue_error(&dev->vb_vid_cap_q);
-  1110			if (vb2_start_streaming_called(&dev->vb_vbi_cap_q))
-  1111				vb2_queue_error(&dev->vb_vbi_cap_q);
-  1112			if (vb2_start_streaming_called(&dev->vb_vid_out_q))
-  1113				vb2_queue_error(&dev->vb_vid_out_q);
-  1114			if (vb2_start_streaming_called(&dev->vb_vbi_out_q))
-  1115				vb2_queue_error(&dev->vb_vbi_out_q);
-  1116			if (vb2_start_streaming_called(&dev->vb_sdr_cap_q))
-  1117				vb2_queue_error(&dev->vb_sdr_cap_q);
-  1118			break;
-  1119		case VIVID_CID_SEQ_WRAP:
-  1120			dev->seq_wrap = ctrl->val;
-  1121			break;
-  1122		case VIVID_CID_TIME_WRAP:
-  1123			dev->time_wrap = ctrl->val;
-  1124			if (dev->time_wrap == 1)
-> 1125				dev->time_wrap = (1ULL << 63) - NSEC_PER_SEC * 16;
-  1126			else if (dev->time_wrap == 2)
-  1127				dev->time_wrap = ((1ULL << 31) - 16) * NSEC_PER_SEC;
-  1128			break;
-  1129		}
-  1130		return 0;
-  1131	}
-  1132	
-
+Fixes: e6599adfad30 ("media: mtk-vpu: avoid unaligned access to DTCM buffer.")
+Signed-off-by: Alexandre Courbot <acourbot@chromium.org>
+Signed-off-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+Reviewed-by: Houlong Wei <houlong.wei@mediatek.com>
 ---
-0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+changes since v4:
+1. replace data[SHARE_BUF_SIZE]; with data[sizeof(send_obj->share_buf)]
+2. Add the explanation for the failure in commit log and inline doc
+
+changes since v3:
+1. multile -> multiple
+2. add inline doc
+
+changes since v2:
+1. do the extra copy only if len is not multiple of 8
+
+changes since v1:
+1. change sign-off-by tags
+2. change values to memset
+
+ drivers/media/platform/mtk-vpu/mtk_vpu.c | 17 ++++++++++++++++-
+ 1 file changed, 16 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/media/platform/mtk-vpu/mtk_vpu.c b/drivers/media/platform/mtk-vpu/mtk_vpu.c
+index 7f1647da0ade..2ef93db239b9 100644
+--- a/drivers/media/platform/mtk-vpu/mtk_vpu.c
++++ b/drivers/media/platform/mtk-vpu/mtk_vpu.c
+@@ -349,7 +349,22 @@ int vpu_ipi_send(struct platform_device *pdev,
+ 		}
+ 	} while (vpu_cfg_readl(vpu, HOST_TO_VPU));
+ 
+-	memcpy_toio(send_obj->share_buf, buf, len);
++	/*
++	 * On Arm64, the memcpy_toio does byte-size access as long as address or length are
++	 * not 8 aligned. Access to the vpu iomem must be 4 aligned. Byte-size access is
++	 * not allowed and cause processing to fail. Therefore make sure the length
++	 * sent to memcpy_toio is a multiply of 8.
++	 */
++	if (len % 8 != 0) {
++		unsigned char data[sizeof(send_obj->share_buf)];
++
++		memset(data + len, 0, sizeof(data) - len);
++		memcpy(data, buf, len);
++		memcpy_toio(send_obj->share_buf, data, round_up(len, 8));
++	} else {
++		memcpy_toio(send_obj->share_buf, buf, len);
++	}
++
+ 	writel(len, &send_obj->len);
+ 	writel(id, &send_obj->id);
+ 
+-- 
+2.17.1
+
