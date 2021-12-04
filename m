@@ -2,82 +2,58 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9534B4686BF
-	for <lists+linux-media@lfdr.de>; Sat,  4 Dec 2021 18:46:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 23E0A468771
+	for <lists+linux-media@lfdr.de>; Sat,  4 Dec 2021 21:18:41 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1385286AbhLDRtf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 4 Dec 2021 12:49:35 -0500
-Received: from ams.source.kernel.org ([145.40.68.75]:43124 "EHLO
-        ams.source.kernel.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229534AbhLDRtd (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Sat, 4 Dec 2021 12:49:33 -0500
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id E9FB4B80D1B;
-        Sat,  4 Dec 2021 17:46:06 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C0A7AC341C0;
-        Sat,  4 Dec 2021 17:46:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1638639965;
-        bh=YhxLcJ2geY7ctl56mq7OCUWTi2CnEIueF/J1LTxlMwo=;
-        h=From:To:Cc:Subject:Date:From;
-        b=RaL7Xu0vDimthb7USQThs/dvlT7uV8pezeD8x9oGYJualOVplU3VV92N/IemAIj+v
-         WEt3NRKunAdxEZxIkKZIt6sD3QDQgdGTH4dXIP0YzxZfsJIYzNPzjs0x+W9YT9F3W8
-         vYSeGEl845zAgYkkZkJaKzSFW0GEGh/Q0jFl/l+6T87gHzUPp0x9vudue2LwTvtyXh
-         ggrMhja5JeTbBBA8LXo6RZFBpnSnAy6UnajPMSZpsDpIfHi+u0eceVslHa/Nv3d7NZ
-         48Zq0WNbZyhJzdLKhJFK7rUf6ib8dKIDXpDjWBotoFEJw0tfmQW6MPJ578sxGdizGC
-         MT9ZCfqewRVyw==
-From:   Arnd Bergmann <arnd@kernel.org>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>
-Cc:     Arnd Bergmann <arnd@arndb.de>, linux-media@vger.kernel.org,
-        linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: [PATCH] media: staging: max96712: add V4L2 dependencies
-Date:   Sat,  4 Dec 2021 18:45:48 +0100
-Message-Id: <20211204174559.1146671-1-arnd@kernel.org>
-X-Mailer: git-send-email 2.29.2
+        id S233330AbhLDUWF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 4 Dec 2021 15:22:05 -0500
+Received: from perceval.ideasonboard.com ([213.167.242.64]:57320 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231348AbhLDUWF (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Sat, 4 Dec 2021 15:22:05 -0500
+Received: from pendragon.ideasonboard.com (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 7811F30C;
+        Sat,  4 Dec 2021 21:18:38 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1638649118;
+        bh=1HJ2eIS9oI1xicSRj+lP/GIUYgAW53irGJ/WED3xbF0=;
+        h=In-Reply-To:References:Subject:From:To:Date:From;
+        b=qDsQQywhvWNkYCvxlQys30Gdt4abFkxikiO/7fS/HIFRiwoxWV5Bb3P7Xvppdoi99
+         jNAcH//nCbWbz8l/fIPR+sRUidYsP745AJCllbobbH622vLMnXoyWLQGARApD5DEK2
+         Y+cHByMBDQqShEQHz2h1/WdnYj+qNiCGrx182jEs=
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <bc992ad5-bafb-c1dc-93ac-7e7ec6d39ff7@gmail.com>
+References: <bc992ad5-bafb-c1dc-93ac-7e7ec6d39ff7@gmail.com>
+Subject: Re: ID 1871:01b0
+From:   Kieran Bingham <kieran.bingham@ideasonboard.com>
+To:     Karol =?utf-8?q?=C5=9Awito=C5=84ski?= <bgueas@gmail.com>,
+        linux-media@vger.kernel.org
+Date:   Sat, 04 Dec 2021 20:18:36 +0000
+Message-ID: <163864911659.3153335.16629362864081583227@Monstersaurus>
+User-Agent: alot/0.10
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Arnd Bergmann <arnd@arndb.de>
+Hi Karol,
 
-Without the extra dependencies, I run into randconfig build failures:
+Quoting Karol =C5=9Awito=C5=84ski (2021-12-04 16:47:25)
+> Hi, this device is not on the list.
+>=20
+> it is USB microscop,
+>=20
+> Bus 001 Device 031: ID 1871:01b0 Aveo Technology Corp. AVEO Cheetah3=20
+> USB2.0 Device
+>=20
+> can I count on support with drivers. Thank you and best regards.
 
-WARNING: unmet direct dependencies detected for VIDEO_V4L2_SUBDEV_API
-  Depends on [n]: MEDIA_SUPPORT [=y] && VIDEO_DEV [=n] && MEDIA_CONTROLLER [=y]
-  Selected by [y]:
-  - VIDEO_MAX96712 [=y] && STAGING [=y] && STAGING_MEDIA [=y] && MEDIA_SUPPORT [=y] && I2C [=y] && OF_GPIO [=y]
+Does it work? Have you had any specific issues with this device that you
+would like to report, or are you asking if it 'would' work if you bought
+it?
 
-aarch64-linux-ld: drivers/staging/media/max96712/max96712.o: in function `max96712_probe':
-max96712.c:(.text+0x1b8): undefined reference to `v4l2_fwnode_endpoint_parse'
-aarch64-linux-ld: max96712.c:(.text+0x374): undefined reference to `v4l2_ctrl_handler_init_class'
-aarch64-linux-ld: max96712.c:(.text+0x3b0): undefined reference to `v4l2_ctrl_new_std'
+--
+Regards
 
-Fixes: 5814f32fef13 ("media: staging: max96712: Add basic support for MAX96712 GMSL2 deserializer")
-Signed-off-by: Arnd Bergmann <arnd@arndb.de>
----
- drivers/staging/media/max96712/Kconfig | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/drivers/staging/media/max96712/Kconfig b/drivers/staging/media/max96712/Kconfig
-index 258d47644cbd..62534110ca3b 100644
---- a/drivers/staging/media/max96712/Kconfig
-+++ b/drivers/staging/media/max96712/Kconfig
-@@ -3,6 +3,7 @@ config VIDEO_MAX96712
- 	tristate "Maxim MAX96712 Quad GMSL2 Deserializer support"
- 	depends on I2C
- 	depends on OF_GPIO
-+	depends on VIDEO_DEV && VIDEO_V4L2
- 	select V4L2_FWNODE
- 	select VIDEO_V4L2_SUBDEV_API
- 	select MEDIA_CONTROLLER
--- 
-2.29.2
-
+Kieran
