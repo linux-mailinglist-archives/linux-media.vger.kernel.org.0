@@ -2,58 +2,98 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 23E0A468771
-	for <lists+linux-media@lfdr.de>; Sat,  4 Dec 2021 21:18:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id CE708468775
+	for <lists+linux-media@lfdr.de>; Sat,  4 Dec 2021 21:29:46 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233330AbhLDUWF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 4 Dec 2021 15:22:05 -0500
-Received: from perceval.ideasonboard.com ([213.167.242.64]:57320 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231348AbhLDUWF (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Sat, 4 Dec 2021 15:22:05 -0500
+        id S233242AbhLDUdJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 4 Dec 2021 15:33:09 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56334 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229923AbhLDUdJ (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Sat, 4 Dec 2021 15:33:09 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6DDCBC061751;
+        Sat,  4 Dec 2021 12:29:43 -0800 (PST)
 Received: from pendragon.ideasonboard.com (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 7811F30C;
-        Sat,  4 Dec 2021 21:18:38 +0100 (CET)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 18AB730C;
+        Sat,  4 Dec 2021 21:29:41 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1638649118;
-        bh=1HJ2eIS9oI1xicSRj+lP/GIUYgAW53irGJ/WED3xbF0=;
-        h=In-Reply-To:References:Subject:From:To:Date:From;
-        b=qDsQQywhvWNkYCvxlQys30Gdt4abFkxikiO/7fS/HIFRiwoxWV5Bb3P7Xvppdoi99
-         jNAcH//nCbWbz8l/fIPR+sRUidYsP745AJCllbobbH622vLMnXoyWLQGARApD5DEK2
-         Y+cHByMBDQqShEQHz2h1/WdnYj+qNiCGrx182jEs=
+        s=mail; t=1638649781;
+        bh=tI1r2v4uMJbswYcNOL1eafqOlKzNWaxrE2NiCINNAT0=;
+        h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
+        b=CL/Ukw62wHJp3IGXVn3Rnaw3hKADe93qjH+oBABWe5DDAKgn/Nryuk2mcyDLxpD/Z
+         5xtBkxI7tZb8nMwffSIx3E+br2xtn4fL05+eHu34ULTZouOYc5ieCp4pSpztPm3gOa
+         /PvE0D71PhuQUxR0P4x3KxCwLnp7GZOjhs5gqoUU=
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <bc992ad5-bafb-c1dc-93ac-7e7ec6d39ff7@gmail.com>
-References: <bc992ad5-bafb-c1dc-93ac-7e7ec6d39ff7@gmail.com>
-Subject: Re: ID 1871:01b0
+In-Reply-To: <20211204121123.22180-1-amhamza.mgc@gmail.com>
+References: <20211204121123.22180-1-amhamza.mgc@gmail.com>
+Subject: Re: [PATCH] media: venus: vdec: fixed possible memory leak issue
 From:   Kieran Bingham <kieran.bingham@ideasonboard.com>
-To:     Karol =?utf-8?q?=C5=9Awito=C5=84ski?= <bgueas@gmail.com>,
-        linux-media@vger.kernel.org
-Date:   Sat, 04 Dec 2021 20:18:36 +0000
-Message-ID: <163864911659.3153335.16629362864081583227@Monstersaurus>
+Cc:     linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        linux-kernel@vger.kernel.org, amhamza.mgc@gmail.com
+To:     Ameer Hamza <amhamza.mgc@gmail.com>, agross@kernel.org,
+        bjorn.andersson@linaro.org, mchehab@kernel.org,
+        stanimir.varbanov@linaro.org
+Date:   Sat, 04 Dec 2021 20:29:38 +0000
+Message-ID: <163864977875.3153335.18099399866051099554@Monstersaurus>
 User-Agent: alot/0.10
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Karol,
+Hi Ameer,
 
-Quoting Karol =C5=9Awito=C5=84ski (2021-12-04 16:47:25)
-> Hi, this device is not on the list.
+Quoting Ameer Hamza (2021-12-04 12:11:23)
+> Fixed coverity warning by freeing the allocated memory before return
 >=20
-> it is USB microscop,
+> Addresses-Coverity: 1494120 ("Resource leak")
 >=20
-> Bus 001 Device 031: ID 1871:01b0 Aveo Technology Corp. AVEO Cheetah3=20
-> USB2.0 Device
+> Signed-off-by: Ameer Hamza <amhamza.mgc@gmail.com>
+> ---
+>  drivers/media/platform/qcom/venus/helpers.c | 1 +
+>  1 file changed, 1 insertion(+)
 >=20
-> can I count on support with drivers. Thank you and best regards.
+> diff --git a/drivers/media/platform/qcom/venus/helpers.c b/drivers/media/=
+platform/qcom/venus/helpers.c
+> index 84c3a511ec31..344a42853898 100644
+> --- a/drivers/media/platform/qcom/venus/helpers.c
+> +++ b/drivers/media/platform/qcom/venus/helpers.c
+> @@ -197,6 +197,7 @@ int venus_helper_alloc_dpb_bufs(struct venus_inst *in=
+st)
+> =20
+>                 id =3D ida_alloc_min(&inst->dpb_ids, VB2_MAX_FRAME, GFP_K=
+ERNEL);
+>                 if (id < 0) {
+> +                       kfree(buf);
+>                         ret =3D id;
+>                         goto fail;
 
-Does it work? Have you had any specific issues with this device that you
-would like to report, or are you asking if it 'would' work if you bought
-it?
+Indeed, this is definitely a leak here.
 
---
+Normally I think resources would be cleaned up in the fail path in a
+situation like this.
+
+That would then make sure that all paths out of this loop will free on
+error.
+
+If buf is null, kfree(null) is a valid noop call, so it will not
+adversely affect the kzalloc() fail path.
+
+Given that, I would suspect that a cleaner fix is to move the kfree()
+from after  " if (!buf->va) { " to immediately after the fail label so
+that both dma_alloc_attrs() and ida_alloc_min() failures are cleaned up
+in the same way by the same error path.
+
+That way, if anyone later adds another operation in this loop, it won't
+get missed and will also clean up correctly.
+
 Regards
-
+--
 Kieran
+
+>                 }
+> --=20
+> 2.25.1
+>
