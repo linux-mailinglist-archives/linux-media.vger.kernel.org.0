@@ -2,195 +2,135 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 61ADD46851B
-	for <lists+linux-media@lfdr.de>; Sat,  4 Dec 2021 14:44:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B5581468532
+	for <lists+linux-media@lfdr.de>; Sat,  4 Dec 2021 14:56:55 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1385077AbhLDNrZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 4 Dec 2021 08:47:25 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52078 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1385082AbhLDNrV (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Sat, 4 Dec 2021 08:47:21 -0500
-Received: from mail-vk1-xa32.google.com (mail-vk1-xa32.google.com [IPv6:2607:f8b0:4864:20::a32])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 256BDC061751
-        for <linux-media@vger.kernel.org>; Sat,  4 Dec 2021 05:43:56 -0800 (PST)
-Received: by mail-vk1-xa32.google.com with SMTP id j1so3758771vkr.1
-        for <linux-media@vger.kernel.org>; Sat, 04 Dec 2021 05:43:56 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=0x0f.com; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=AydR8F2XpQAwIIfynMtw323GpH8B4sQw/G4MzaU8WuQ=;
-        b=Y90YtdyZGO6pOjo6kMX8e6oJmhT5v4ENZvx82CUq+gQVik7EfzsAPm6hlO/oiiPyvO
-         F/+WB/QnmhfOln5IWC8h+TkNpwBmyvm6d2OID2Em45rtf+nNNgB8HdbdQyNUDG1JhKIm
-         CmwcCN3vX0bfFnF62LppXDl7K8oKr6PDjIL1A=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=AydR8F2XpQAwIIfynMtw323GpH8B4sQw/G4MzaU8WuQ=;
-        b=41HMbkVhqeljkM83V+k0Hj6yNCXJkY4MSdSqqjZ6YvoYImIIgsqJwAgyLEj+QV1vRA
-         v4FCUI+4Vjx1tIQXR7et8m6C9MHCOGZL8IGG1jbphaA8WvBFfcEGUJ0ZeZMz6p8nrCB/
-         XUQXoyFsgnsOrWBFK0Ur/OyhJImsjBEEZ0aWNu8oornK2dDlSlhtpl4UoVqxCi/Cwva5
-         HlyPVxtTjH44gm9k4JFFo6oyCOZzGULMKxF6ALsh4hOUjpjB9ygd6XsAL66cy6ses4+Y
-         OU9Y2JB6sMR257jrAp3cGceQq1doUUcDHHJoKs05nbgMxjCbwscg5lH3OQMyhexsqD/a
-         PWzg==
-X-Gm-Message-State: AOAM530EthOZyHQY2BXoPzBKsb5FqAem4q+ra8QfsL3lvbX45fSY+gmc
-        TKxRk08fA9gwbaBXIH6oBJZXamBwUPNoJM76wKWfVQ==
-X-Google-Smtp-Source: ABdhPJyWq3GJEv3s6U1N7Tj4Vpnfo92Fykb0igbE9UCam071qn22efeIi3Q5vxJfMv+lS5V/Yj6Ry14ehVV/Y9DphRY=
-X-Received: by 2002:ac5:cdad:: with SMTP id l13mr29280068vka.39.1638625435253;
- Sat, 04 Dec 2021 05:43:55 -0800 (PST)
+        id S1355115AbhLDOAU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 4 Dec 2021 09:00:20 -0500
+Received: from mga06.intel.com ([134.134.136.31]:20964 "EHLO mga06.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1344839AbhLDOAT (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Sat, 4 Dec 2021 09:00:19 -0500
+X-IronPort-AV: E=McAfee;i="6200,9189,10187"; a="297920377"
+X-IronPort-AV: E=Sophos;i="5.87,287,1631602800"; 
+   d="scan'208";a="297920377"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Dec 2021 05:56:53 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.87,287,1631602800"; 
+   d="scan'208";a="501539698"
+Received: from lkp-server02.sh.intel.com (HELO 9e1e9f9b3bcb) ([10.239.97.151])
+  by orsmga007.jf.intel.com with ESMTP; 04 Dec 2021 05:56:51 -0800
+Received: from kbuild by 9e1e9f9b3bcb with local (Exim 4.92)
+        (envelope-from <lkp@intel.com>)
+        id 1mtVX1-000J4I-7Q; Sat, 04 Dec 2021 13:56:51 +0000
+Date:   Sat, 4 Dec 2021 21:56:01 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Deborah Brouwer <deborahbrouwer3563@gmail.com>,
+        linux-media@vger.kernel.org
+Cc:     llvm@lists.linux.dev, kbuild-all@lists.01.org, hverkuil@xs4all.nl,
+        Deborah Brouwer <deborahbrouwer3563@gmail.com>
+Subject: Re: [PATCH v2] media: vivid: fix timestamp and sequence wrapping
+Message-ID: <202112042134.zRpYtrRg-lkp@intel.com>
+References: <20211204061351.53611-1-deborahbrouwer3563@gmail.com>
 MIME-Version: 1.0
-References: <20211201175613.13710-1-dafna.hirschfeld@collabora.com> <20211201175613.13710-2-dafna.hirschfeld@collabora.com>
-In-Reply-To: <20211201175613.13710-2-dafna.hirschfeld@collabora.com>
-From:   Daniel Palmer <daniel@0x0f.com>
-Date:   Sat, 4 Dec 2021 22:43:44 +0900
-Message-ID: <CAFr9PX=6Pd1Rg=wJvpuX6WX63L=iAnwPA24e59An3Kac5f_vzA@mail.gmail.com>
-Subject: Re: [PATCH v4 1/6] staging: media: wave5: Add vpuapi layer
-To:     Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
-Cc:     "open list:MEDIA INPUT INFRASTRUCTURE (V4L/DVB)" 
-        <linux-media@vger.kernel.org>,
-        Robert Beckett <bob.beckett@collabora.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "open list:STAGING SUBSYSTEM" <linux-staging@lists.linux.dev>,
-        open list <linux-kernel@vger.kernel.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        hverkuil@xs4all.nl, kernel@collabora.com, dafna3@gmail.com,
-        kiril.bicevski@collabora.com,
-        Nas Chung <nas.chung@chipsnmedia.com>,
-        lafley.kim@chipsnmedia.com, scott.woo@chipsnmedia.com,
-        olivier.crete@collabora.com, dan.carpenter@oracle.com,
-        Randy Dunlap <rdunlap@infradead.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20211204061351.53611-1-deborahbrouwer3563@gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Dafna,
+Hi Deborah,
 
-Sorry for the piecemeal emails..
+Thank you for the patch! Perhaps something to improve:
 
-On Thu, 2 Dec 2021 at 02:56, Dafna Hirschfeld
-<dafna.hirschfeld@collabora.com> wrote:
-> diff --git a/drivers/staging/media/wave5/wave5-hw.c b/drivers/staging/media/wave5/wave5-hw.c
+[auto build test WARNING on media-tree/master]
+[also build test WARNING on v5.16-rc3 next-20211203]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch]
 
-... snip ...
+url:    https://github.com/0day-ci/linux/commits/Deborah-Brouwer/media-vivid-fix-timestamp-and-sequence-wrapping/20211204-141534
+base:   git://linuxtv.org/media_tree.git master
+config: i386-randconfig-a013-20211203 (https://download.01.org/0day-ci/archive/20211204/202112042134.zRpYtrRg-lkp@intel.com/config)
+compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project 5f1d1854eb1450d352663ee732235893c5782237)
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/0day-ci/linux/commit/e6e5201f7b5b9718f318a5c3034b71fcc79aa47f
+        git remote add linux-review https://github.com/0day-ci/linux
+        git fetch --no-tags linux-review Deborah-Brouwer/media-vivid-fix-timestamp-and-sequence-wrapping/20211204-141534
+        git checkout e6e5201f7b5b9718f318a5c3034b71fcc79aa47f
+        # save the config file to linux build tree
+        mkdir build_dir
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 SHELL=/bin/bash drivers/media/test-drivers/vivid/
 
-> +static int wave5_wait_bus_busy(struct vpu_device *vpu_dev, int timeout, unsigned int addr)
-> +{
-> +       u32 gdi_status_check_value = 0x3f;
-> +       u32 data;
-> +
-> +       if (vpu_dev->product_code == WAVE521C_CODE ||
-> +           vpu_dev->product_code == WAVE521_CODE ||
-> +        vpu_dev->product_code == WAVE521E1_CODE)
-> +               gdi_status_check_value = 0x00ff1f3f;
-> +
-> +       return read_poll_timeout(wave5_vdi_read_register, data, data == gdi_status_check_value,
-> +                                0, timeout * 1000, false, vpu_dev, addr);
-> +}
-> +
+If you fix the issue, kindly add following tag as appropriate
+Reported-by: kernel test robot <lkp@intel.com>
 
-This looks like it should be s/wave5_vdi_read_register/wave5_read_register/.
-For wave511 addr passed in here is 0x8e14 so well outside of what is
-directly accessible.
+All warnings (new ones prefixed by >>):
 
-Also it seems that this can either return 0 or -ETIMEDOUT...
+>> drivers/media/test-drivers/vivid/vivid-ctrls.c:1125:49: warning: overflow in expression; result is -1179869184 with type 'long' [-Winteger-overflow]
+                           dev->time_wrap = (1ULL << 63) - NSEC_PER_SEC * 16;
+                                                                        ^
+   1 warning generated.
 
-... snip ...
 
-> +int wave5_vpu_reset(struct device *dev, enum sw_reset_mode reset_mode)
-> +{
-> +       u32 val = 0;
-> +       int ret = 0;
-> +       struct vpu_device *vpu_dev = dev_get_drvdata(dev);
-> +       struct vpu_attr *p_attr = &vpu_dev->attr;
-> +       // VPU doesn't send response. force to set BUSY flag to 0.
-> +       vpu_write_reg(vpu_dev, W5_VPU_BUSY_STATUS, 0);
-> +
-> +       if (reset_mode == SW_RESET_SAFETY) {
-> +               ret = wave5_vpu_sleep_wake(dev, true, NULL, 0);
-> +               if (ret)
-> +                       return ret;
-> +       }
-> +
-> +       val = vpu_read_reg(vpu_dev, W5_VPU_RET_VPU_CONFIG0);
-> +       if ((val >> 16) & 0x1)
-> +               p_attr->support_backbone = true;
-> +       if ((val >> 22) & 0x1)
-> +               p_attr->support_vcore_backbone = true;
-> +       if ((val >> 28) & 0x1)
-> +               p_attr->support_vcpu_backbone = true;
-> +
-> +       val = vpu_read_reg(vpu_dev, W5_VPU_RET_VPU_CONFIG1);
-> +       if ((val >> 26) & 0x1)
-> +               p_attr->support_dual_core = true;
-> +
-> +       // waiting for completion of bus transaction
-> +       if (p_attr->support_backbone) {
-> +               if (p_attr->support_dual_core) {
-> +                       // check CORE0
-> +                       wave5_write_register(vpu_dev, W5_BACKBONE_BUS_CTRL_VCORE0, 0x7);
-> +
-> +                       ret = wave5_wait_bus_busy(vpu_dev, VPU_BUSY_CHECK_TIMEOUT,
-> +                                                 W5_BACKBONE_BUS_STATUS_VCORE0);
-> +                       if (ret) {
-> +                               wave5_write_register(vpu_dev, W5_BACKBONE_BUS_CTRL_VCORE0, 0x00);
-> +                               return ret;
-> +                       }
-> +
-> +                       // check CORE1
-> +                       wave5_write_register(vpu_dev, W5_BACKBONE_BUS_CTRL_VCORE1, 0x7);
-> +
-> +                       ret = wave5_wait_bus_busy(vpu_dev, VPU_BUSY_CHECK_TIMEOUT,
-> +                                                 W5_BACKBONE_BUS_STATUS_VCORE1);
-> +                       if (ret) {
-> +                               wave5_write_register(vpu_dev, W5_BACKBONE_BUS_CTRL_VCORE1, 0x00);
-> +                               return ret;
-> +                       }
-> +
-> +               } else if (p_attr->support_vcore_backbone) {
-> +                       if (p_attr->support_vcpu_backbone) {
-> +                               // step1 : disable request
-> +                               wave5_write_register(vpu_dev, W5_BACKBONE_BUS_CTRL_VCPU,
-> +                                                    0xFF);
-> +
-> +                               // step2 : waiting for completion of bus transaction
-> +                               ret = wave5_wait_vcpu_bus_busy(vpu_dev, VPU_BUSY_CHECK_TIMEOUT,
-> +                                                              W5_BACKBONE_BUS_STATUS_VCPU);
-> +                               if (ret) {
-> +                                       wave5_write_register(vpu_dev,
-> +                                                            W5_BACKBONE_BUS_CTRL_VCPU, 0x00);
-> +                                       return ret;
-> +                               }
-> +                       }
-> +                       // step1 : disable request
-> +                       wave5_write_register(vpu_dev, W5_BACKBONE_BUS_CTRL_VCORE0, 0x7);
-> +
-> +                       // step2 : waiting for completion of bus transaction
-> +                       if (wave5_wait_bus_busy(vpu_dev, VPU_BUSY_CHECK_TIMEOUT,
-> +                                               W5_BACKBONE_BUS_STATUS_VCORE0) == -1) {
-> +                               wave5_write_register(vpu_dev, W5_BACKBONE_BUS_CTRL_VCORE0, 0x00);
-> +                               return -EBUSY;
-> +                       }
+vim +/long +1125 drivers/media/test-drivers/vivid/vivid-ctrls.c
 
-but this is looking for -1 on failure.
+  1083	
+  1084	static int vivid_streaming_s_ctrl(struct v4l2_ctrl *ctrl)
+  1085	{
+  1086		struct vivid_dev *dev = container_of(ctrl->handler, struct vivid_dev, ctrl_hdl_streaming);
+  1087	
+  1088		switch (ctrl->id) {
+  1089		case VIVID_CID_DQBUF_ERROR:
+  1090			dev->dqbuf_error = true;
+  1091			break;
+  1092		case VIVID_CID_PERC_DROPPED:
+  1093			dev->perc_dropped_buffers = ctrl->val;
+  1094			break;
+  1095		case VIVID_CID_QUEUE_SETUP_ERROR:
+  1096			dev->queue_setup_error = true;
+  1097			break;
+  1098		case VIVID_CID_BUF_PREPARE_ERROR:
+  1099			dev->buf_prepare_error = true;
+  1100			break;
+  1101		case VIVID_CID_START_STR_ERROR:
+  1102			dev->start_streaming_error = true;
+  1103			break;
+  1104		case VIVID_CID_REQ_VALIDATE_ERROR:
+  1105			dev->req_validate_error = true;
+  1106			break;
+  1107		case VIVID_CID_QUEUE_ERROR:
+  1108			if (vb2_start_streaming_called(&dev->vb_vid_cap_q))
+  1109				vb2_queue_error(&dev->vb_vid_cap_q);
+  1110			if (vb2_start_streaming_called(&dev->vb_vbi_cap_q))
+  1111				vb2_queue_error(&dev->vb_vbi_cap_q);
+  1112			if (vb2_start_streaming_called(&dev->vb_vid_out_q))
+  1113				vb2_queue_error(&dev->vb_vid_out_q);
+  1114			if (vb2_start_streaming_called(&dev->vb_vbi_out_q))
+  1115				vb2_queue_error(&dev->vb_vbi_out_q);
+  1116			if (vb2_start_streaming_called(&dev->vb_sdr_cap_q))
+  1117				vb2_queue_error(&dev->vb_sdr_cap_q);
+  1118			break;
+  1119		case VIVID_CID_SEQ_WRAP:
+  1120			dev->seq_wrap = ctrl->val;
+  1121			break;
+  1122		case VIVID_CID_TIME_WRAP:
+  1123			dev->time_wrap = ctrl->val;
+  1124			if (dev->time_wrap == 1)
+> 1125				dev->time_wrap = (1ULL << 63) - NSEC_PER_SEC * 16;
+  1126			else if (dev->time_wrap == 2)
+  1127				dev->time_wrap = ((1ULL << 31) - 16) * NSEC_PER_SEC;
+  1128			break;
+  1129		}
+  1130		return 0;
+  1131	}
+  1132	
 
-> +               } else {
-> +                       // step1 : disable request
-> +                       wave5_write_register(vpu_dev, W5_COMBINED_BACKBONE_BUS_CTRL, 0x7);
-> +
-> +                       // step2 : waiting for completion of bus transaction
-> +                       if (wave5_wait_bus_busy(vpu_dev, VPU_BUSY_CHECK_TIMEOUT,
-> +                                               W5_COMBINED_BACKBONE_BUS_STATUS) == -1) {
-> +                               wave5_write_register(vpu_dev, W5_COMBINED_BACKBONE_BUS_CTRL, 0x00);
-> +                               return -EBUSY;
-> +                       }
-> +               }
-
-Here too.
-
-Cheers,
-
-Daniel
+---
+0-DAY CI Kernel Test Service, Intel Corporation
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
