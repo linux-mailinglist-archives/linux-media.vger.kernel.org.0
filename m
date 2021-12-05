@@ -2,59 +2,59 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0A84A4688AF
-	for <lists+linux-media@lfdr.de>; Sun,  5 Dec 2021 01:22:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0EF834688C3
+	for <lists+linux-media@lfdr.de>; Sun,  5 Dec 2021 01:38:04 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229995AbhLEA0L (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 4 Dec 2021 19:26:11 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50838 "EHLO
+        id S230176AbhLEAlO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 4 Dec 2021 19:41:14 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54110 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229772AbhLEA0L (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Sat, 4 Dec 2021 19:26:11 -0500
-Received: from mail-wr1-x42a.google.com (mail-wr1-x42a.google.com [IPv6:2a00:1450:4864:20::42a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B2708C061751;
-        Sat,  4 Dec 2021 16:22:44 -0800 (PST)
-Received: by mail-wr1-x42a.google.com with SMTP id c4so14012221wrd.9;
-        Sat, 04 Dec 2021 16:22:44 -0800 (PST)
+        with ESMTP id S229772AbhLEAlO (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Sat, 4 Dec 2021 19:41:14 -0500
+Received: from mail-wr1-x432.google.com (mail-wr1-x432.google.com [IPv6:2a00:1450:4864:20::432])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B43F4C061751;
+        Sat,  4 Dec 2021 16:37:47 -0800 (PST)
+Received: by mail-wr1-x432.google.com with SMTP id t9so14074867wrx.7;
+        Sat, 04 Dec 2021 16:37:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=8WvnHvP5Xh5zEZuwYzlSuOSILzoaAjIl1mg5Ih9vLFg=;
-        b=EAAvKcrVXVAALdtMA8FFuOs4mAPjRxdQ0Wz7pqiUeT1h93jqY2j7LMW6AaE9wufNz7
-         N6eM6+bv2P2qrDJcvGswWXSwnzfkp4g4EnFiyWqQb9sVv0pMo4+7f0BHtxAi+yDP/qy9
-         VKTY7yIBXzY3NroFHnJrIylRxTJceqNK0m+Anp7B+TKQUzQEC8sBXVCq0e/Hr4D4LLs+
-         gxEYW2ChBDhIh8HmJ9sSTQWKIY2lPtpbLatk53qiogpJ60QmYPwVXRV+kXzPo//0Nc0A
-         iz19OkxuviFBqWcjuajPfGCbdcUVK6eCSzYOJLpeTFDqI/fMgamFA5OeFv2E4APji+NC
-         hjBw==
+        bh=7VjfZ6s7OTc7tj3N8PNJEcBVhsk9b4bji9ek2g0iMm8=;
+        b=QRjIsvieoWsDfUbKAe/qb+/1XMZw7UDe2ZNqCOA/IoJqfT/xmqD4Uerap97yZEreZI
+         cAM28FVHU1PtO8BcC9o8Rf7bhMb+O2lxzE1qYL5CRbI5p9FPoQOaSxlrhKXjkJS1upRF
+         kQbkWVKcPT8yirzOG6UmwihOE4+SRAZOXmL+L4F4Tdh6vusSA0CmiB7YzAkL0AWORUfS
+         BOV0pVelm4uLpXb16CgGeayJmBt5zWV41Air+gbfPt3K1+zfivOlNwBJ23zQMKa4PZ1h
+         BlTadp0H5+/XpY70E9mxFHeVzdQF3hMQmuM7hsAaRkNpf+SwBrGUHEdKJklbc9dDNsxn
+         EHCQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=8WvnHvP5Xh5zEZuwYzlSuOSILzoaAjIl1mg5Ih9vLFg=;
-        b=vDk5cO6wISdkVklCAJbrwQn+A+nWaCODyVQvzyWWXeF8LT/mGda0iXaOPw3NwL2ohA
-         IHjVSFNPmZ+zNH0/UfhXTgfVH0SQlfOEdfdE2z+Jbyv1oobkeUBIdd8MuUeQdmL8pf0K
-         haf2rwd78zOymtL2pFqR1rg/TtJUpkMfCVvEX6bwo0prxG0GNkpjPsNWBOaSE7C5vMk9
-         UCdN16r6sc0eQC2aECH2+eVOSM9CFa7XmXVhYXI9Q5wom2ZOGfgAvYZMyN4eQay4G79W
-         x0eaav/MCYZaJx/ZGrQvQxEZNuUC0vRRR9VeHJOZaV1eeU50lWV/r2cK3J/EuEuITQ/X
-         PcSw==
-X-Gm-Message-State: AOAM5301CzF8t0+W4k5SYfBGMeAEzqp2Ys5X0SSOVodNPX+jNtyWLCBD
-        MkqTMf93GabeXP8B6EjEZTDg7oBKUlujng==
-X-Google-Smtp-Source: ABdhPJyMXPmWprMR6uuyVjokyNQWqpV/DA5jlV67129FrIOIuzDXSydHlQT/sDZc12mztOE4DMA8qw==
-X-Received: by 2002:a5d:4ccc:: with SMTP id c12mr32804357wrt.453.1638663763373;
-        Sat, 04 Dec 2021 16:22:43 -0800 (PST)
+        bh=7VjfZ6s7OTc7tj3N8PNJEcBVhsk9b4bji9ek2g0iMm8=;
+        b=4eDn7nH9W1dBRL6X/mtjbqJZ62Eg+0Bnn9IQAw71803/rMtoD1TUl11bauAoA3wG0o
+         1rfNkpYcQJw3/X2ddWfVVAO1J3Jg4SR8eOMsXrjkSEFxbAeXQRW7bdb2WWSOT5fOgBm3
+         J0F1gzCQFWBD1qfIDwwVRLVYX3fi4pVBkZO/ScBU5FTuDKvw7MdhG3nrrbU/HJCKPD4m
+         Y1FRnWVLtaRgJph683jSGEvzy107azM4tMu8KYooR+BDDcH25hYhWEox8MP3du9mQO9N
+         NS25aOJBXOZvMx85UG9M2qo7GKAjsSTdjp1HaHgMMLooYPOxeBJLWsUoeKRBTVy6ym7g
+         b7AQ==
+X-Gm-Message-State: AOAM530D5XayRDlSWjxB/dWBXI3y2dnsYEHNMuFYrUi3XKokYC7GO1vr
+        a4KeuJV+rnM2bcxRmQ1Vosw=
+X-Google-Smtp-Source: ABdhPJzFE+gCgORKcPtapxdDM4kC/m0056wPHWLT4KpUmCb7sZ82E83O+cRXsYqLCWNjOgQMAt8FJQ==
+X-Received: by 2002:a5d:54c5:: with SMTP id x5mr30920385wrv.607.1638664666339;
+        Sat, 04 Dec 2021 16:37:46 -0800 (PST)
 Received: from localhost (cpc154979-craw9-2-0-cust193.16-3.cable.virginm.net. [80.193.200.194])
-        by smtp.gmail.com with ESMTPSA id l8sm10517430wmc.40.2021.12.04.16.22.42
+        by smtp.gmail.com with ESMTPSA id w2sm6771582wrn.67.2021.12.04.16.37.45
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 04 Dec 2021 16:22:43 -0800 (PST)
+        Sat, 04 Dec 2021 16:37:46 -0800 (PST)
 From:   Colin Ian King <colin.i.king@gmail.com>
-To:     prabhakar.csengg@gmail.com,
+To:     Patrice Chotard <patrice.chotard@foss.st.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org
+        linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
 Cc:     kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] media: davinci: remove redundant assignment to pointer common
-Date:   Sun,  5 Dec 2021 00:22:42 +0000
-Message-Id: <20211205002242.202769-1-colin.i.king@gmail.com>
+Subject: [PATCH] media: c8sectpfe: remove redundant assignment to pointer tsin
+Date:   Sun,  5 Dec 2021 00:37:45 +0000
+Message-Id: <20211205003745.227491-1-colin.i.king@gmail.com>
 X-Mailer: git-send-email 2.33.1
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
@@ -63,26 +63,31 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Pointer common is being assigned a value in a for-loop and the pointer
-is never read afterwards. The assignment is redundant and can be removed.
+Pointer tsin is being assigned a value that is never read. The assignment
+is redundant and can be removed.
 
 Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
 ---
- drivers/media/platform/davinci/vpif_capture.c | 1 -
- 1 file changed, 1 deletion(-)
+ drivers/media/platform/sti/c8sectpfe/c8sectpfe-core.c | 4 ----
+ 1 file changed, 4 deletions(-)
 
-diff --git a/drivers/media/platform/davinci/vpif_capture.c b/drivers/media/platform/davinci/vpif_capture.c
-index aba105fa7ef9..8fe55374c5a3 100644
---- a/drivers/media/platform/davinci/vpif_capture.c
-+++ b/drivers/media/platform/davinci/vpif_capture.c
-@@ -1467,7 +1467,6 @@ static int vpif_probe_complete(void)
- 	for (k = 0; k < j; k++) {
- 		/* Get the pointer to the channel object */
- 		ch = vpif_obj.dev[k];
--		common = &ch->common[k];
- 		/* Unregister video device */
- 		video_unregister_device(&ch->video_dev);
- 	}
+diff --git a/drivers/media/platform/sti/c8sectpfe/c8sectpfe-core.c b/drivers/media/platform/sti/c8sectpfe/c8sectpfe-core.c
+index 02dc78bd7fab..e1f520903248 100644
+--- a/drivers/media/platform/sti/c8sectpfe/c8sectpfe-core.c
++++ b/drivers/media/platform/sti/c8sectpfe/c8sectpfe-core.c
+@@ -930,12 +930,8 @@ static int configure_channels(struct c8sectpfei *fei)
+ 
+ 	/* iterate round each tsin and configure memdma descriptor and IB hw */
+ 	for_each_child_of_node(np, child) {
+-
+-		tsin = fei->channel_data[index];
+-
+ 		ret = configure_memdma_and_inputblock(fei,
+ 						fei->channel_data[index]);
+-
+ 		if (ret) {
+ 			dev_err(fei->dev,
+ 				"configure_memdma_and_inputblock failed\n");
 -- 
 2.33.1
 
