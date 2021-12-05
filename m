@@ -2,78 +2,216 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9157E468CF3
-	for <lists+linux-media@lfdr.de>; Sun,  5 Dec 2021 20:18:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7F1D4468D17
+	for <lists+linux-media@lfdr.de>; Sun,  5 Dec 2021 20:51:18 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237649AbhLETWG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 5 Dec 2021 14:22:06 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42150 "EHLO
+        id S238300AbhLETyo (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 5 Dec 2021 14:54:44 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49238 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232195AbhLETWF (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Sun, 5 Dec 2021 14:22:05 -0500
-Received: from gofer.mess.org (gofer.mess.org [IPv6:2a02:8011:d000:212::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 66479C061714
-        for <linux-media@vger.kernel.org>; Sun,  5 Dec 2021 11:18:38 -0800 (PST)
-Received: by gofer.mess.org (Postfix, from userid 1000)
-        id 5F276C603C; Sun,  5 Dec 2021 19:18:35 +0000 (GMT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mess.org; s=2020;
-        t=1638731915; bh=TBwLAr0ZhsDO36jhBfJPFR8bAz4vYCn5pI3iFhzMOLE=;
-        h=From:To:Subject:Date:In-Reply-To:References:From;
-        b=CG2hmTibovVvkuaKkSHF4T8VhE44n2rnC9vyyoJIUWU3tICmhyYnmyUrLSau2nIhf
-         tRIdZqNY6fs8tLzS4SPlHhGbkSV3Rx1z7Q1TUQu6AMBXFPDUmxxt7vIxRmmjGgRJ8A
-         DcOb486txKrc9qhjJdQhL0thu0JfDiv8ZmsYDxIvWVBBQyESHLU+C/2b1h4FhptBEK
-         /5I+0PJ12kxsVUJyJBBQR39DhS6Gbyqn0m/vholskH4o04A9MPv3v4deLBwYpWLUoU
-         VZbrESY1cIW1SQEYXNWDfj0NfTU/rAeOjH4WK6DC9Cz5B0Z61Or0PsWUIC+Vjg9Nn1
-         PpZIS5pbBsrKA==
-From:   Sean Young <sean@mess.org>
-To:     linux-media@vger.kernel.org
-Subject: [PATCH 2/2] media: streamzap: no need for usb pid/vid in device name
-Date:   Sun,  5 Dec 2021 19:18:35 +0000
-Message-Id: <93926dc67db003add60eda3a4eb874ef5a74843b.1638731886.git.sean@mess.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <8a5f192d46f6bf631feeec91f6942b568bac8c05.1638731886.git.sean@mess.org>
-References: <8a5f192d46f6bf631feeec91f6942b568bac8c05.1638731886.git.sean@mess.org>
+        with ESMTP id S233648AbhLETyn (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Sun, 5 Dec 2021 14:54:43 -0500
+Received: from mail-ed1-x52b.google.com (mail-ed1-x52b.google.com [IPv6:2a00:1450:4864:20::52b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 154B0C061714;
+        Sun,  5 Dec 2021 11:51:16 -0800 (PST)
+Received: by mail-ed1-x52b.google.com with SMTP id x15so34602352edv.1;
+        Sun, 05 Dec 2021 11:51:16 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=aYk6tlltAWxz+Lc9ZOG1gq6DUYS4v1JgEkLR93QjrjA=;
+        b=PqmsZO7Oa5OdJ5RdHyIN/q2FCcc53sI5u2qfvkDWMqXurPU3LNwhVQN4G6xy83UnqB
+         JaUfqIkPDW/nW+Go0fZylKEnnxsnDgLlkVg9Z9avDDvYU0rwHSy0EGhgguW0eevFK7lh
+         2nKN5LZ14iiMhAneUPO9hEz5vbJsy24x8yV2IC0sn5bmBWkCb/AS/rv5o1Nu4DYZIavv
+         zYL40hCA5e3XujdHXuTIP0C0IxrUpOnOSlAWjicHrFC2cdz33zl//LF3eDVRlAhvqrxV
+         066KjqjrGsxe/4sze3saD72bxIZ3RfcqchiHUgV5i7BbLqnpXQ5uJtSwZu7lseL+P1Ql
+         SC1Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=aYk6tlltAWxz+Lc9ZOG1gq6DUYS4v1JgEkLR93QjrjA=;
+        b=CMZts4hlkEyLki8UPLPrRVzPTVAv4IsgLLZKei1v0+9+KuBUg/oEoHIxe8+VnCJv+Q
+         zDa2EC0+YMgrCk7zSPsiU4RebdRuqWBLqeCijtS75vACykk/ZEg9clT/JzzHwNfEqwYO
+         KhZXROKhsLjUwd5HQb+Ab1V7nE68cpRUDy7L1cyqHbAvq188rtDzxvYqp6MDDKK6KLll
+         4lB6rm63Ltzh9tEwHrMId0qSVRNflDOOJxMcdml5SMw9KBTbD50H69pzlvTpOdP6FDLM
+         u+lrkPUlOoH8TlJBs41N4s1Or6ZmCnjGzMfu5RsdSe4bPGynz9Z24fKySFRQYdXKrMQ+
+         eK9g==
+X-Gm-Message-State: AOAM533e7jedUH2ypaAPWX+0iuBp63BQxlR/w+/A4LKazdwbyPIl+Xes
+        G3Vki2GcZyp4Y6bsFEErkhFh7rHsDLMuvPuMPjXNav1YgwY=
+X-Google-Smtp-Source: ABdhPJxEEYXAtlNDIHxi+vMyv1lC0gCFxrGSQ2h/mDcSyIsJ/yDhiCAw5OsZ2QHMzxz0RC6SAm2D12hmp3o0fp/mzn0=
+X-Received: by 2002:aa7:d288:: with SMTP id w8mr49063653edq.404.1638733874161;
+ Sun, 05 Dec 2021 11:51:14 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20211205181618.1041699-1-aford173@gmail.com>
+In-Reply-To: <20211205181618.1041699-1-aford173@gmail.com>
+From:   Adam Ford <aford173@gmail.com>
+Date:   Sun, 5 Dec 2021 13:51:02 -0600
+Message-ID: <CAHCN7xL3PSbHKZK_4NKRwhNGOZYM+i54CoKCq01a6kdbCLc2KA@mail.gmail.com>
+Subject: Re: [RFC 0/5] Split iMX8MQ Hantro VPU into G1 and G2 with blk-ctrl support
+To:     linux-media@vger.kernel.org
+Cc:     benjamin.gaignard@collabora.com, cphealy@gmail.com,
+        nicolas@ndufresne.ca, Rob Herring <robh+dt@kernel.org>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Lucas Stach <l.stach@pengutronix.de>,
+        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-kernel@vger.kernel.org, linux-rockchip@lists.infradead.org,
+        linux-staging@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The usb pid/vid can be found elsewhere, the idVendor/idProduct usb sysfs
-files for example.
+On Sun, Dec 5, 2021 at 12:16 PM Adam Ford <aford173@gmail.com> wrote:
+>
+> Currently, the VPU in the i.MQ8MQ is appearing as one codec, but in reali=
+ty, it's
+> two IP blocks called G1 and G2.  There is initialization code in VPU code=
+ to
+> pull some clocks, resets and other features which has been integrated int=
+o
+> the vpu-blk-ctrl for the i.MX8M Mini and a similar method can be used to =
+make
+> the VPU codec's operate as stand-alone cores without having to know the d=
+etails
+> of each other or the quirks unique to the i.MX8MQ, so the remaining code =
+can be
+> left more generic.
+>
+> This series was started by Lucas Stach, and picked up by me so some patch=
+es have
+> his s-o-b and mine where I might have changed a few minor items.  It's in=
+ an RFC state
+> because the G2 VP9 operations appear to hang, but the parent code from wh=
+ich I started doesn't
+> appear to show VP9 support, and it looks like it should.
+>
+> since the g-streamer and media trees are in a constant state of change, t=
+his series is based on
+> git://linuxtv.org/hverkuil/media_tree.git for-v5.17e
+>
 
-Signed-off-by: Sean Young <sean@mess.org>
----
- drivers/media/rc/streamzap.c | 6 +-----
- 1 file changed, 1 insertion(+), 5 deletions(-)
+I forgot to post Fluster results.
 
-diff --git a/drivers/media/rc/streamzap.c b/drivers/media/rc/streamzap.c
-index 76f5c72501c4..1de4ce1b2033 100644
---- a/drivers/media/rc/streamzap.c
-+++ b/drivers/media/rc/streamzap.c
-@@ -88,7 +88,6 @@ struct streamzap_ir {
- 	ktime_t			signal_start;
- 	bool			timeout_enabled;
- 
--	char			name[128];
- 	char			phys[64];
- };
- 
-@@ -277,13 +276,10 @@ static struct rc_dev *streamzap_init_rc_dev(struct streamzap_ir *sz)
- 		goto out;
- 	}
- 
--	snprintf(sz->name, sizeof(sz->name), "Streamzap PC Remote Infrared Receiver (%04x:%04x)",
--		 le16_to_cpu(sz->usbdev->descriptor.idVendor),
--		 le16_to_cpu(sz->usbdev->descriptor.idProduct));
- 	usb_make_path(sz->usbdev, sz->phys, sizeof(sz->phys));
- 	strlcat(sz->phys, "/input0", sizeof(sz->phys));
- 
--	rdev->device_name = sz->name;
-+	rdev->device_name = "Streamzap PC Remote Infrared Receiver";
- 	rdev->input_phys = sz->phys;
- 	usb_to_input_id(sz->usbdev, &rdev->input_id);
- 	rdev->dev.parent = dev;
--- 
-2.33.1
+Before the patches to this branch:
 
+2gst-main] root@localhost:~/gstreamer/fluster# ./fluster.py list -c |grep -=
+i v4l
+
+    GStreamer-H.264-V4L2-Gst1.0: GStreamer H.264 V4L2 decoder for
+GStreamer 1.0... =E2=9D=8C
+    GStreamer-H.264-V4L2SL-Gst1.0: GStreamer H.264 V4L2SL decoder for
+GStreamer 1.0... =E2=9C=94=EF=B8=8F
+    GStreamer-H.265-V4L2-Gst1.0: GStreamer H.265 V4L2 decoder for
+GStreamer 1.0... =E2=9D=8C
+    GStreamer-H.265-V4L2SL-Gst1.0: GStreamer H.265 V4L2SL decoder for
+GStreamer 1.0... =E2=9D=8C
+    GStreamer-VP8-V4L2-Gst1.0: GStreamer VP8 V4L2 decoder for GStreamer 1.0=
+... =E2=9D=8C
+    GStreamer-VP8-V4L2SL-Gst1.0: GStreamer VP8 V4L2SL decoder for
+GStreamer 1.0... =E2=9C=94=EF=B8=8F
+    GStreamer-VP9-V4L2SL-Gst1.0: GStreamer VP9 V4L2SL decoder for
+GStreamer 1.0... =E2=9D=8C
+    GStreamer-AV1-V4L2SL-Gst1.0: GStreamer AV1 V4L2SL decoder for
+GStreamer 1.0... =E2=9D=8C
+[gst-main] root@localhost:~/gstreamer/fluster#
+
+There was no VP9 support.
+
+./fluster.py run -dGStreamer-H.264-V4L2SL-Gst1.0
+GStreamer-H.264-V4L2SL-Gst1.0
+Ran 90/135 tests successfully               in 58.787 secs
+
+AFTER this series, two decoders appear:
+
+[   15.919137] hantro-vpu 38300000.video-codec: registered
+nxp,imx8mq-vpu-g1-dec as /dev/video0
+[   15.983579] hantro-vpu 38310000.video-codec: registered
+nxp,imx8mq-vpu-g2-dec as /dev/video1
+
+VP9 was listed:
+
+    GStreamer-H.264-V4L2-Gst1.0: GStreamer H.264 V4L2 decoder for
+GStreamer 1.0... =E2=9D=8C
+    GStreamer-H.264-V4L2SL-Gst1.0: GStreamer H.264 V4L2SL decoder for
+GStreamer 1.0... =E2=9C=94=EF=B8=8F
+    GStreamer-H.265-V4L2-Gst1.0: GStreamer H.265 V4L2 decoder for
+GStreamer 1.0... =E2=9D=8C
+    GStreamer-H.265-V4L2SL-Gst1.0: GStreamer H.265 V4L2SL decoder for
+GStreamer 1.0... =E2=9D=8C
+    GStreamer-VP8-V4L2-Gst1.0: GStreamer VP8 V4L2 decoder for GStreamer 1.0=
+... =E2=9D=8C
+    GStreamer-VP8-V4L2SL-Gst1.0: GStreamer VP8 V4L2SL decoder for
+GStreamer 1.0... =E2=9C=94=EF=B8=8F
+    GStreamer-VP9-V4L2SL-Gst1.0: GStreamer VP9 V4L2SL decoder for
+GStreamer 1.0... =E2=9C=94=EF=B8=8F
+    GStreamer-AV1-V4L2SL-Gst1.0: GStreamer AV1 V4L2SL decoder for
+GStreamer 1.0... =E2=9D=8C
+
+./fluster.py run -d GStreamer-VP8-V4L2SL-Gst1.0
+Ran 55/61 tests successfully               in 8.565 secs
+
+
+./fluster.py run -dGStreamer-H.264-V4L2SL-Gst1.0
+Ran 90/135 tests successfully               in 60.269 secs
+
+Same results for H.264
+
+VP9 Hangs, where it didn't even appear as available before:
+
+./fluster.py run -d GStreamer-VP9-V4L2SL-Gst1.0
+***************************************************************************=
+*************************
+Running test suite VP9-TEST-VECTORS with decoder GStreamer-VP9-V4L2SL-Gst1.=
+0
+Using 4 parallel job(s)
+***************************************************************************=
+*************************
+
+[TEST SUITE      ] (DECODER                    ) TEST VECTOR
+                          ... RESULT
+----------------------------------------------------------------------
+[VP9-TEST-VECTORS] (GStreamer-VP9-V4L2SL-Gst1.0)
+vp90-2-00-quantizer-00.webm                     ... Success
+[VP9-TEST-VECTORS] (GStreamer-VP9-V4L2SL-Gst1.0)
+vp90-2-00-quantizer-01.webm                     ... Success
+[VP9-TEST-VECTORS] (GStreamer-VP9-V4L2SL-Gst1.0)
+vp90-2-00-quantizer-02.webm                     ... Succes
+
+<hang > - and yes, 'Success' didnt' finish writing to the serial port.
+
+
+
+> Adam Ford (2):
+>   media: hantro: split i.MX8MQ G1 and G2 code
+>   arm64: dts: imx8mq: Split i.MX8MQ G1 and G2 with vpu-blk-ctrl
+>
+> Lucas Stach (3):
+>   dt-bindings: power: imx8mq: add defines for VPU blk-ctrl domains
+>   dt-bindings: soc: add binding for i.MX8MQ VPU blk-ctrl
+>   soc: imx: imx8m-blk-ctrl: add i.MX8MQ VPU blk-ctrl
+>
+>  .../soc/imx/fsl,imx8mq-vpu-blk-ctrl.yaml      |  71 +++++++++++
+>  arch/arm64/boot/dts/freescale/imx8mq.dtsi     |  69 ++++++----
+>  drivers/soc/imx/imx8m-blk-ctrl.c              |  67 ++++++++++
+>  drivers/staging/media/hantro/hantro_drv.c     |   4 +-
+>  drivers/staging/media/hantro/hantro_hw.h      |   2 +-
+>  drivers/staging/media/hantro/imx8m_vpu_hw.c   | 119 +++---------------
+>  include/dt-bindings/power/imx8mq-power.h      |   3 +
+>  7 files changed, 205 insertions(+), 130 deletions(-)
+>  create mode 100644 Documentation/devicetree/bindings/soc/imx/fsl,imx8mq-=
+vpu-blk-ctrl.yaml
+>
+> --
+> 2.32.0
+>
