@@ -2,164 +2,119 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 887114689A7
-	for <lists+linux-media@lfdr.de>; Sun,  5 Dec 2021 06:58:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 65D244689DE
+	for <lists+linux-media@lfdr.de>; Sun,  5 Dec 2021 09:11:05 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231731AbhLEGCB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 5 Dec 2021 01:02:01 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38102 "EHLO
+        id S231981AbhLEIO3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 5 Dec 2021 03:14:29 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38116 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231724AbhLEGCA (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Sun, 5 Dec 2021 01:02:00 -0500
-Received: from lb1-smtp-cloud9.xs4all.net (lb1-smtp-cloud9.xs4all.net [IPv6:2001:888:0:108::1c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 20A48C061751
-        for <linux-media@vger.kernel.org>; Sat,  4 Dec 2021 21:58:33 -0800 (PST)
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud9.xs4all.net with ESMTPA
-        id tkXZmu1qPlcdAtkXdmgmgb; Sun, 05 Dec 2021 06:58:29 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1638683909; bh=tCoLQJO9INCcpOj8Qp8rUAM8XrhFyQ4aMId+tXTUo+k=;
-        h=Message-ID:Date:From:To:Subject:From:Subject;
-        b=Rf1fJopRZt76TfwQrj1TdgSBnHNxMfZ1mFWPRGZ2qy7byIQ8n6N55fXsRnL/AxGuM
-         hlMcJXDDOzXLxgWRNaK6wJBe4MwVgv7wEGQNAZrku7H+pJi6JRjJI9J/XzxRgcxpJS
-         qUdIx65auUrDRIn+7U4oAxNlnyhgPLCIbDpeMHFkxgSqx7rFi2sGS/Lx+plbQ9j7be
-         Zb4HZxUlaJCYKTosuFy+SSPiQ1wRBKaNDLRXIWnvn5B07GEY58cojzjPrPl/ZI5m5x
-         3yDxUTTnCLqgUy3LS5IAYXvIDmYH38T8PG0nTBza9Vl8UvgLZ2+m7vx2bsAeg0HMxH
-         kTviYogtqno4Q==
-Message-ID: <8dfd1a3b99b778317daca29e14637c40@smtp-cloud9.xs4all.net>
-Date:   Sun, 05 Dec 2021 06:58:25 +0100
-From:   "Hans Verkuil" <hverkuil@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: WARNINGS
-X-CMAE-Envelope: MS4xfJGSzpFRvC6xrqU2YLJSPr0GNbHU45/zlikOxk5wkHlVT8w4MnTJT1zufAoHgTV2u2qeg9vJ/yolIVObBPMhGkTH2hOJgm4wH+/8azLmuU60kPjL1ZqO
- n0RKPiYf1sMzIpYmhGU4dclc/Aa+zJfJ4n4afLIY55CuXoXsYL4WW/Ql9d5QGb2aGUfwmaGJLv0XrA==
+        with ESMTP id S231848AbhLEIO3 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Sun, 5 Dec 2021 03:14:29 -0500
+Received: from mail-ed1-x52e.google.com (mail-ed1-x52e.google.com [IPv6:2a00:1450:4864:20::52e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F08D9C0613F8
+        for <linux-media@vger.kernel.org>; Sun,  5 Dec 2021 00:11:01 -0800 (PST)
+Received: by mail-ed1-x52e.google.com with SMTP id z5so30294294edd.3
+        for <linux-media@vger.kernel.org>; Sun, 05 Dec 2021 00:11:01 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=konsulko.com; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=eFOKFsG7bK+3U2HPhrs3B7QxCunJHugKrtQkwrA1kg0=;
+        b=sRk2x8Yd8OB9XmewWtAmaz5od59gGkUfBCpvIMtGq9RzsQW7kIY/TyM4MOWMA360Tq
+         MjqXMVe9wZe4CLLQVgCGgmqx/VfEnOmg+6UdTkb3uz/Rx2J6ligCjB/VC+RLoQ5vyjxW
+         cFOoBvmwweWT5jKeRkgIEJo6rdeQMZjlnCV+E=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=eFOKFsG7bK+3U2HPhrs3B7QxCunJHugKrtQkwrA1kg0=;
+        b=ltmZTaXVbmgA/DG8dHCko7NrK+WM9wNQged+oRz9vKUTyhA2E6M8zAma7hBD0wCd6j
+         0O75uFCHTTcHdULAnS+5skT6bfiOfH7xFxhLkmu4r1eo9AiN6Qxqj/UnypwpBFiczo9Z
+         +O1m5mR+8LDOX3TgYGxh0DRZGAxYMUZL6/KfVMKUb36kKpY2NDjC0snd35TpeqA/FQBo
+         +kOexq/PridSclYYEpiu/BTYF/rY8PMRpe7uC7dUwnj5P0rPe+TRCprNcEEhkeKX1+O7
+         jDAapzXebLyrITa0jmQhUg6ujHS0Yl4BmXS5BH6WewmMZ95qy/M6gmfUYvK+uN1o1Uq7
+         6OFQ==
+X-Gm-Message-State: AOAM533j0QcAMbc5rszid5QmEpqhnTwK75vayYwqPzzF/arQvca3rDSr
+        VbZU1b69kBOsCbplMMiKIBWBIw==
+X-Google-Smtp-Source: ABdhPJzKHXCmSpWmU0pdGuOH6G/H2dagMZQCWqTiUyDnh/rB1mxGTcvhzWM+r2Wrz0uUO4mjGOjvAw==
+X-Received: by 2002:a17:906:a08d:: with SMTP id q13mr36462501ejy.465.1638691860482;
+        Sun, 05 Dec 2021 00:11:00 -0800 (PST)
+Received: from karbon.home.net (78-83-68-78.spectrumnet.bg. [78.83.68.78])
+        by smtp.gmail.com with ESMTPSA id t5sm5481849edd.68.2021.12.05.00.10.59
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 05 Dec 2021 00:11:00 -0800 (PST)
+Date:   Sun, 5 Dec 2021 10:10:58 +0200
+From:   Petko Manolov <petko.manolov@konsulko.com>
+To:     Linus Walleij <linus.walleij@linaro.org>
+Cc:     Hans Verkuil <hverkuil@xs4all.nl>,
+        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>
+Subject: Re: gpiod_set_value(): BUG: sleeping function called from invalid
+ context
+Message-ID: <Yax0ElWLg3N4qILU@karbon.home.net>
+References: <a06e7c55-f25d-8339-faea-9be6d31d1c87@xs4all.nl>
+ <CACRpkdYrZ2pyj+_yS6gn1n-TCQtHMqwrg+4eJRmiKGGyDNPnbQ@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CACRpkdYrZ2pyj+_yS6gn1n-TCQtHMqwrg+4eJRmiKGGyDNPnbQ@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the kernels and architectures in the list below.
+On 21-12-05 01:18:23, Linus Walleij wrote:
+> On Wed, Dec 1, 2021 at 10:40 AM Hans Verkuil <hverkuil@xs4all.nl> wrote:
+> 
+> > [ 1674.787685]  ___might_sleep+0x148/0x180
+> > [ 1674.791572]  __might_sleep+0x54/0x90
+> > [ 1674.795195]  mutex_lock+0x28/0x80
+> > [ 1674.798556]  pinctrl_get_device_gpio_range+0x3c/0x110
+> 
+> There is the error ^
+> 
+> > gpiod_set_value() is supposed to be usable from an atomic context, so this 
+> > appears to be a bug. It's probably been there for quite a long time. I 
+> > suspect OPEN_DRAIN isn't very common, and I think this might be the first 
+> > time I tested this driver with this kernel config option set.
+> 
+> Nah has nothing to do with open drain :)
 
-Results of the daily build of media_tree:
+OPEN_DRAIN is regularly used in single wire (1W) bit-bang drivers, so no, it 
+isn't related to this flag.
 
-date:			Sun Dec  5 05:00:14 CET 2021
-media-tree git hash:	8cc7a1b2aca067397a016cdb971a5e6ad9b640c7
-media_build git hash:	90bf75007a9f73a3bfd144cae29e05229e702035
-v4l-utils git hash:	85ed37cf472bb4f67702fb8d42992f164c36a007
-edid-decode git hash:	b00755e34eb12aa92416aaf1bb7b02603131afe0
-gcc version:		i686-linux-gcc (GCC) 11.2.0
-sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
-sparse version:		0.6.3
-smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
-smatch version:		0.6.3
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: 72fe2e990921b3757e47e6f3ea4ce8c076021161
-host hardware:		x86_64
-host os:		5.15.0-2-amd64
+> > Any suggestions?
+> 
+> pinctrl_get_device_gpio_range() needs to be modified to not take a mutex 
+> because mutex:es can sleep.
+> 
+> static int pinctrl_get_device_gpio_range(unsigned gpio,
+>                                          struct pinctrl_dev **outdev,
+>                                          struct pinctrl_gpio_range **outrange)
+> {
+>         struct pinctrl_dev *pctldev;
+> 
+>         mutex_lock(&pinctrldev_list_mutex);
+> 
+> BLAM!
+> 
+> And this definitely needs to be called on this path so no way out of that.
+> 
+> This mutex pinctrldev_list_mutex is there to protect from devices coming and 
+> going as we look for devices with ranges on.
+> 
+> One way to solve it would be to simply replace it with a spinlock, maybe that 
+> works? (Check the code carefully so there are no things like calls into 
+> drivers that may fire interrupts etc...)
 
-linux-git-sh: OK
-linux-git-arm-at91: OK
-linux-git-arm-davinci: OK
-linux-git-mips: OK
-linux-git-arm-stm32: OK
-linux-git-arm-multi: OK
-linux-git-arm-pxa: OK
-linux-git-arm64: OK
-linux-git-powerpc64: OK
-linux-git-i686: OK
-linux-git-x86_64: OK
-Check COMPILE_TEST: OK
-Check for strcpy/strncpy/strlcpy: OK
-linux-4.4.283-i686: OK
-linux-4.4.283-x86_64: OK
-linux-4.5.7-i686: OK
-linux-4.5.7-x86_64: OK
-linux-4.6.7-i686: OK
-linux-4.6.7-x86_64: OK
-linux-4.7.10-i686: OK
-linux-4.7.10-x86_64: OK
-linux-4.8.17-i686: OK
-linux-4.8.17-x86_64: OK
-linux-4.9.246-i686: OK
-linux-4.9.246-x86_64: OK
-linux-4.10.17-i686: OK
-linux-4.10.17-x86_64: OK
-linux-4.11.12-i686: OK
-linux-4.11.12-x86_64: OK
-linux-4.12.14-i686: OK
-linux-4.12.14-x86_64: OK
-linux-4.13.16-i686: OK
-linux-4.13.16-x86_64: OK
-linux-4.14.246-i686: OK
-linux-4.14.246-x86_64: OK
-linux-4.15.18-i686: OK
-linux-4.15.18-x86_64: OK
-linux-4.16.18-i686: OK
-linux-4.16.18-x86_64: OK
-linux-4.17.19-i686: OK
-linux-4.17.19-x86_64: OK
-linux-4.18.20-i686: OK
-linux-4.18.20-x86_64: OK
-linux-4.19.206-i686: OK
-linux-4.19.206-x86_64: OK
-linux-4.20.17-i686: OK
-linux-4.20.17-x86_64: OK
-linux-5.0.21-i686: OK
-linux-5.0.21-x86_64: OK
-linux-5.1.21-i686: OK
-linux-5.1.21-x86_64: OK
-linux-5.2.21-i686: OK
-linux-5.2.21-x86_64: OK
-linux-5.3.18-i686: OK
-linux-5.3.18-x86_64: OK
-linux-5.4.144-i686: OK
-linux-5.4.144-x86_64: OK
-linux-5.5.19-i686: OK
-linux-5.5.19-x86_64: OK
-linux-5.6.19-i686: OK
-linux-5.6.19-x86_64: OK
-linux-5.7.19-i686: OK
-linux-5.7.19-x86_64: OK
-linux-5.8.18-i686: OK
-linux-5.8.18-x86_64: OK
-linux-5.9.16-i686: OK
-linux-5.9.16-x86_64: OK
-linux-5.10.62-i686: OK
-linux-5.10.62-x86_64: OK
-linux-5.11.22-i686: OK
-linux-5.11.22-x86_64: OK
-linux-5.12.19-i686: OK
-linux-5.12.19-x86_64: OK
-linux-5.13.14-i686: OK
-linux-5.13.14-x86_64: OK
-linux-5.14.1-i686: OK
-linux-5.14.1-x86_64: OK
-linux-5.15.1-i686: OK
-linux-5.15.1-x86_64: OK
-linux-5.16-rc1-i686: OK
-linux-5.16-rc1-x86_64: OK
-apps: OK
-spec-git: OK
-virtme: OK: Final Summary: 2989, Succeeded: 2989, Failed: 0, Warnings: 0
-virtme-32: OK: Final Summary: 3100, Succeeded: 3100, Failed: 0, Warnings: 0
-sparse: WARNINGS
-smatch: WARNINGS
-kerneldoc: WARNINGS
+Have not seen the code in discussion, but unless the spinlock is taken for a 
+really short period of time, an alternative should be used.  I am not sure 
+refcount would do the trick here, though.
 
-Detailed results are available here:
+> If it still need to be sleepable (mutex-ish) you need to convert it to use RCU 
+> I think? (Which would be pretty cool anyway.)
 
-http://www.xs4all.nl/~hverkuil/logs/Sunday.log
+Yeah, this might be RCU-able and, if done, will also make Paul happier. ;)
 
-Detailed regression test results are available here:
 
-http://www.xs4all.nl/~hverkuil/logs/Sunday-test-media.log
-http://www.xs4all.nl/~hverkuil/logs/Sunday-test-media-32.log
-http://www.xs4all.nl/~hverkuil/logs/Sunday-test-media-dmesg.log
-
-Full logs are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Sunday.tar.bz2
-
-The Media Infrastructure API from this daily build is here:
-
-http://www.xs4all.nl/~hverkuil/spec/index.html
+		Petko
