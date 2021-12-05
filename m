@@ -2,153 +2,103 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 879F8468AAC
-	for <lists+linux-media@lfdr.de>; Sun,  5 Dec 2021 12:59:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id F26E3468B74
+	for <lists+linux-media@lfdr.de>; Sun,  5 Dec 2021 15:49:33 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233511AbhLEMDW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 5 Dec 2021 07:03:22 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59202 "EHLO
+        id S235003AbhLEOw7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 5 Dec 2021 09:52:59 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39746 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233491AbhLEMDV (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Sun, 5 Dec 2021 07:03:21 -0500
-Received: from lb2-smtp-cloud8.xs4all.net (lb2-smtp-cloud8.xs4all.net [IPv6:2001:888:0:108::2b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C868BC061751;
-        Sun,  5 Dec 2021 03:59:53 -0800 (PST)
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud8.xs4all.net with ESMTPA
-        id tqBGmfT8wQyExtqBKmyLDx; Sun, 05 Dec 2021 12:59:50 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1638705590; bh=hrSJVZCRQvQH5VVFKTI1dI5FyMet8wVqaKBAPC5OfuQ=;
-        h=Message-ID:Date:MIME-Version:Subject:From:To:Content-Type:From:
-         Subject;
-        b=e6ZVjmkZA9YvdkO5tLNoBI0QA2ygYi/hl/jMgJ68AUkpYMCu20h+h/3mtHdawqY04
-         XV43KdqJ4kAK5CNSRUjbC3p/ednJ62YOgnu0BY4NTeO9wBl617SU1naLmHlHBd30Yt
-         p4e5FSTfKKYATX8Fc3CvmZ4K3mr5JVhfgrdEUQZoJDPzor/FeSwcpj3A8k9Y/E0BGQ
-         WoEcAQkc7/E5fMWrW6MrNlZgDhpOKl2iLJTwdafHp5ZhpG9INPAm9FgBjuoKxMcH5C
-         O6Uc0sCO3FSxFGWMmDbhoFdtOhoHqZGK6GBwWw87ll3eSru3PK6Q10/zU3CparGQuN
-         eGIRceGoeP7dQ==
-Message-ID: <fabc35fb-f0ea-d4a5-e615-66a185e7b7c9@xs4all.nl>
-Date:   Sun, 5 Dec 2021 12:59:46 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Firefox/91.0 Thunderbird/91.3.2
+        with ESMTP id S234971AbhLEOw6 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Sun, 5 Dec 2021 09:52:58 -0500
+Received: from mail-ed1-x52f.google.com (mail-ed1-x52f.google.com [IPv6:2a00:1450:4864:20::52f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 79362C061751
+        for <linux-media@vger.kernel.org>; Sun,  5 Dec 2021 06:49:31 -0800 (PST)
+Received: by mail-ed1-x52f.google.com with SMTP id v1so32502892edx.2
+        for <linux-media@vger.kernel.org>; Sun, 05 Dec 2021 06:49:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=konsulko.com; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=8KQxPquIcErxyBQU2nlR443aF18MSJtkLsamh4bqGF0=;
+        b=e0xL6aQgdP9t2ANyEClIi886RouldMQzPA4AkZfkJQr8Z3aDV8APXgpb2bL3birsgF
+         8kyoh0BE1FCT4FDE+TuDA7T/Ck/l8pjk04nLpmw3KjGZd4vEe2AoWAy+zNYZesTdsCTm
+         3+Dr0F20ti90Wj6IjiduR4ZND8iCt7N+Yu+Cw=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=8KQxPquIcErxyBQU2nlR443aF18MSJtkLsamh4bqGF0=;
+        b=iC8yHNsrgUb9O2B6JE6foUWB5zjKsq3qu27nZKeAV8bEJoqrq7CSpXuUq1QeOp9sBp
+         AfdjujMeOiYqze1hQWVkrniBP3fv6wrZmdzxk1nXQa3Yt06lzEVTCHrshOL0uGmTAC6S
+         y+1uAh6uoSJXVfD7TZuA41TbH1tDBziqLicGlukRwy0R6GgWsbGABJqf4JJSz/1jV4Fl
+         I9xuFa5ec6Y103JK1REhBBQtPFzlu9KBLEtS2QUJ37ssltnrzYf6H2Sy0DmcTs6i/lRm
+         iqrSljckxHSDhdZYFh0I2vFPwYlqSDTs8zP8YgJ69id1rw1mg9XCu9Jgu7PkaRiIXXzp
+         DsoQ==
+X-Gm-Message-State: AOAM532B+l+mBxPyyWirAbXxatV/SixbdKrXylt4yJP+Zwa2T1wyTimw
+        D9WdCPDqb4ltgAa3KwRCDN5/cg==
+X-Google-Smtp-Source: ABdhPJytV2kBmCcb6yOpjwom8T02jQfVg6utXYjrAKqvrDAyoOnDIaWtHtsVa/0OLhDrKWj0eu12Kg==
+X-Received: by 2002:a17:907:6e0d:: with SMTP id sd13mr38903937ejc.90.1638715770099;
+        Sun, 05 Dec 2021 06:49:30 -0800 (PST)
+Received: from karbon.home.net (78-83-68-78.spectrumnet.bg. [78.83.68.78])
+        by smtp.gmail.com with ESMTPSA id s2sm5706994ejn.96.2021.12.05.06.49.29
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 05 Dec 2021 06:49:29 -0800 (PST)
+Date:   Sun, 5 Dec 2021 16:49:28 +0200
+From:   Petko Manolov <petko.manolov@konsulko.com>
+To:     Hans Verkuil <hverkuil@xs4all.nl>
+Cc:     Linus Walleij <linus.walleij@linaro.org>,
+        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>
 Subject: Re: gpiod_set_value(): BUG: sleeping function called from invalid
  context
-Content-Language: en-US
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-To:     Linus Walleij <linus.walleij@linaro.org>
-Cc:     "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Petko Manolov <petko.manolov@konsulko.com>
+Message-ID: <YazReHfrWDZbm6z9@karbon.home.net>
 References: <a06e7c55-f25d-8339-faea-9be6d31d1c87@xs4all.nl>
  <CACRpkdYrZ2pyj+_yS6gn1n-TCQtHMqwrg+4eJRmiKGGyDNPnbQ@mail.gmail.com>
  <1ad23a2a-bd91-526c-ab75-25543c1f4dd5@xs4all.nl>
-In-Reply-To: <1ad23a2a-bd91-526c-ab75-25543c1f4dd5@xs4all.nl>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4xfL+iB35qYwg4JmJuvLDtXvqTAKgCf4E4QQ0UreRSRrqT0wVLPGnEFyVm/TVpsPEBvTKkOyvLu71jAVeNpdKgNv9kOazUM4B+GE5n9PE2vft4BO8eXC+h
- WYN7Urde2XHteOmknq8BJpaJK3alZQ5OFBI1Rzom6iNZqR17idIHv/kdP5vCqghXiH+LAOQ6U89iO6EbczXA1Hk+HVG7e+DBptsfFFCFb43zkx1Dsi8Sb35z
- O0a1aYFHWmg91QgV2Tsy69uk7wbHXbMF5aMNk4Wm86eXLqDgjjHBIlwKa6jl2aeelP97SwdIdNPCq0rptrkG/Q==
+ <fabc35fb-f0ea-d4a5-e615-66a185e7b7c9@xs4all.nl>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <fabc35fb-f0ea-d4a5-e615-66a185e7b7c9@xs4all.nl>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 05/12/2021 11:45, Hans Verkuil wrote:
-> On 05/12/2021 01:18, Linus Walleij wrote:
->> On Wed, Dec 1, 2021 at 10:40 AM Hans Verkuil <hverkuil@xs4all.nl> wrote:
->>
->>> [ 1674.787685]  ___might_sleep+0x148/0x180
->>> [ 1674.791572]  __might_sleep+0x54/0x90
->>> [ 1674.795195]  mutex_lock+0x28/0x80
->>> [ 1674.798556]  pinctrl_get_device_gpio_range+0x3c/0x110
->>
->> There is the error ^
->>
->>> gpiod_set_value() is supposed to be usable from an atomic context, so this
->>> appears to be a bug. It's probably been there for quite a long time. I suspect
->>> OPEN_DRAIN isn't very common, and I think this might be the first time I tested
->>> this driver with this kernel config option set.
->>
->> Nah has nothing to do with open drain :)
->>
->>> Any suggestions?
->>
->> pinctrl_get_device_gpio_range() needs to be modified to not take a mutex
->> because mutex:es can sleep.
->>
->> static int pinctrl_get_device_gpio_range(unsigned gpio,
->>                                          struct pinctrl_dev **outdev,
->>                                          struct pinctrl_gpio_range **outrange)
->> {
->>         struct pinctrl_dev *pctldev;
->>
->>         mutex_lock(&pinctrldev_list_mutex);
->>
->> BLAM!
->>
->> And this definitely needs to be called on this path so no way out
->> of that.
+On 21-12-05 12:59:46, Hans Verkuil wrote:
+>
+
+<snip>
+
+> I'm not sure if the pctldev->mutex can be replaced with rcu, I suspect not.
+
+Not in this case. :)
+
+> For something that's supposed to be atomic, there seem to be an awful lot of 
+> mutexes...
+
+By looking at the generic gpiolib code, it seems that none of these are supposed 
+to be called from atomic context.
+
+> In the case of the bcm2711 the bcm2835_gpio_direction_output() function calls
+> pinctrl_gpio_direction_output, which in turn (via pinctrl_gpio_direction()
+> and pinmux_gpio_direction()) calls bcm2835_pmx_gpio_set_direction().
+
+Is the aforementioned code mainlined or is it in some other git tree?  I'd like 
+to take a quick look.
+
+> It appears to me that bcm2835_gpio_direction_output() can call
+> bcm2835_pmx_gpio_set_direction() directly, thus avoiding all the mutexes.
+> That's exactly what samsung/pinctrl-samsung.c and qcom/pinctrl-msm.c do,
+> from what I can tell.
 > 
-> Any idea why this hasn't been seen/reported before? According to git blame
-> that mutex_lock has been there since 2013. Does nobody test with
-> CONFIG_DEBUG_ATOMIC_SLEEP? Am I really the first to encounter this?
-> 
-> Before spending time on this I'd like to be sure that, yes, I'm really the
-> first in 8 years to see this, and this wasn't introduced by something else.
-> 
->>
->> This mutex pinctrldev_list_mutex is there to protect from devices coming
->> and going as we look for devices with ranges on.
->>
->> One way to solve it would be to simply replace it with a spinlock, maybe
->> that works? (Check the code carefully so there are no things like calls
->> into drivers that may fire interrupts etc...)
->>
->> If it still need to be sleepable (mutex-ish) you need to convert it to
->> use RCU I think? (Which would be pretty cool anyway.)
-> 
-> RCU seems like a reasonable alternative, but I will have to read up on it
-> since it's the first time I'll be using this. All those quizzes in the RCU
-> docs (1) scare the hell out of me :-)
+> Are pinctrl drivers supposed to call pinctrl_gpio_direction_output() from the 
+> direction_output() op? Isn't that perhaps the bug?
 
-It's worse: pinctrl_get_device_gpio_range() takes pinctrldev_list_mutex, but
-in the loop it calls pinctrl_match_gpio_range() which calls
-mutex_lock(&pctldev->mutex). So it's two mutexes that this function takes from
-what is supposed to be atomic context.
+If direction_output() is supposed to be called from atomic context, then that's 
+where the bug is.  Again, i am not familiar with this particular subsystem, but 
+these are pretty basic kernel concepts people must pay attention to.  You should 
+perhaps focus on Broadcom's code rather than pinctrl's.
 
-In addition, pinctrl_get_device_gpio_range() is called from pinctrl_gpio_direction(),
-which also takes pctldev->mutex afterwards.
 
-I'm not sure if the pctldev->mutex can be replaced with rcu, I suspect not.
-
-For something that's supposed to be atomic, there seem to be an awful lot of mutexes...
-
-In the case of the bcm2711 the bcm2835_gpio_direction_output() function calls
-pinctrl_gpio_direction_output, which in turn (via pinctrl_gpio_direction()
-and pinmux_gpio_direction()) calls bcm2835_pmx_gpio_set_direction().
-
-It appears to me that bcm2835_gpio_direction_output() can call
-bcm2835_pmx_gpio_set_direction() directly, thus avoiding all the mutexes.
-That's exactly what samsung/pinctrl-samsung.c and qcom/pinctrl-msm.c do,
-from what I can tell.
-
-Are pinctrl drivers supposed to call pinctrl_gpio_direction_output() from
-the direction_output() op? Isn't that perhaps the bug?
-
-Regards,
-
-	Hans
-
-> 
-> Regards,
-> 
-> 	Hans
-> 
-> (1) https://www.kernel.org/doc/html/latest/RCU/listRCU.html
-> 
->>
->> Yours,
->> Linus Walleij
->>
-> 
-
+		Petko
