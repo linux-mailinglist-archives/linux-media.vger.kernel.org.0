@@ -2,193 +2,86 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BF402468CA7
-	for <lists+linux-media@lfdr.de>; Sun,  5 Dec 2021 19:17:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A3EAD468CE9
+	for <lists+linux-media@lfdr.de>; Sun,  5 Dec 2021 20:04:27 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237147AbhLESUV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 5 Dec 2021 13:20:21 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56910 "EHLO
+        id S237731AbhLETHw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 5 Dec 2021 14:07:52 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39112 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237154AbhLESUO (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Sun, 5 Dec 2021 13:20:14 -0500
-Received: from mail-io1-xd34.google.com (mail-io1-xd34.google.com [IPv6:2607:f8b0:4864:20::d34])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 21B01C061359;
-        Sun,  5 Dec 2021 10:16:47 -0800 (PST)
-Received: by mail-io1-xd34.google.com with SMTP id b187so10333579iof.11;
-        Sun, 05 Dec 2021 10:16:47 -0800 (PST)
+        with ESMTP id S237649AbhLETHv (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Sun, 5 Dec 2021 14:07:51 -0500
+Received: from mail-wr1-x436.google.com (mail-wr1-x436.google.com [IPv6:2a00:1450:4864:20::436])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 942A6C061714;
+        Sun,  5 Dec 2021 11:04:23 -0800 (PST)
+Received: by mail-wr1-x436.google.com with SMTP id u1so17730912wru.13;
+        Sun, 05 Dec 2021 11:04:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=+A19AMS3FcCbKFMkiqJgqoCgdphaPyPa3g/qmWJ+CgE=;
-        b=mbtmONrktIpHdPAXu8gK/tZkvc6AKDTYPWMcriMiUe50ViMZlFAdlGnR3U4xDVj483
-         J6EhF6nBLEtFvNL7YyErIUJ9sgSyiwlcGS0K7YJnkf0SgzlfYrMnB17TjVf5rp5tvz3D
-         7vYVvLCpIbwZTD91iMcutiD2PF4dDGEGv/XxzZoxP0UNVNqEmOrA0cLubwdmNYMbpxGK
-         N9poifoxBwf298Wen2wLEf+PyDCja2CTiO8douJkX8Uf7gNFPM/FxWNtr2AdAGVzg2Gj
-         Bfy884Sc1HBRWjkhD4+AJan8/Ogs1E+LhWiIYo5KxzpZ0i5FNxDGzMC2g7gFPHEq8XEt
-         ndHw==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=lYSdlyT++8g08GNtRcnS1F1l9EQ63A4A6/NKK5qcx1w=;
+        b=qwP7m2t1ZZjhj36REhjJXCmDkbxMAOGxPerP2SU79jXqO11mcBjv35Z3WMBg8mjr+i
+         p1NesIpGlWcJv6CG1RINAXBQTnePHmKTA4ppCwBqBC5AS55TEsz6yRjwUxp5Nhsrvr59
+         Y4/S700S/pRzGxqzmt8KmWxB0GkCfuBrL6MyqhKU3xv6WtM6+gJ+JNd2DVulCl/E9egQ
+         uzBSirEI9RcTThHnqAFjVTulVCyEVLa7ct6ObF5rn7x5lkknQryGWcxaxq6YuPZLh7l/
+         H8vRGff1ta4ApEJmpugE5Gt6stzzZQDAXVISX8WYwe3+C/hszlHQ75mq9kJprQurkkUI
+         B0vQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=+A19AMS3FcCbKFMkiqJgqoCgdphaPyPa3g/qmWJ+CgE=;
-        b=xyboIq/0ugTVBWIXnpHHPrCutG5OGnAwZtUeORsYY0Po2owomt+ObU0ukf5HM9kyIK
-         uWxHIhdk/uqbgBc0p/7c6VedTbvjOkguAK8JPZJNA2wC/V5AbAw5Bhm+ER2W6ZWc++Fo
-         gHYllDjVtsCjvNiHYmb0REdoSDvIP/TDXkXQ4sd7I7SNwqDe0XiEZqUhp2rUyykj9KTj
-         Kt7oRJez2UbAldHeUu4zsF3qcPP6SbnUGkyMf/k5UMmW9yVNGvmUcvM74x6zIzv2+qu/
-         pzBiCNK7xPzhoSs8/cFs1ZSvHUkjMx0un93w4nVd2K5bQ3rZcNUxiadJQdBpiMckzMRa
-         J3lQ==
-X-Gm-Message-State: AOAM53250kcCqsZTemtTWWn4vVsCbzA+1HyrRdemYCwio5Jq/0ZfSkFG
-        QESqUMCH+a3Gv2VA4aiBa1b+imFYCYNkvw==
-X-Google-Smtp-Source: ABdhPJxUD4PGhm5f8vPBx+gx5+Nr0RDU/Xdp53jkJBIAmnEDfXpwWuC7JCIkZ2ynBhvgDKgg9bSbGg==
-X-Received: by 2002:a05:6638:4091:: with SMTP id m17mr36529663jam.41.1638728205925;
-        Sun, 05 Dec 2021 10:16:45 -0800 (PST)
-Received: from aford-IdeaCentre-A730.lan ([2601:448:8400:9e8:9ea0:bb99:b16a:6159])
-        by smtp.gmail.com with ESMTPSA id z12sm5808164ilu.27.2021.12.05.10.16.44
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=lYSdlyT++8g08GNtRcnS1F1l9EQ63A4A6/NKK5qcx1w=;
+        b=ZJuOeR25rutLhSLzBhMT7ysfB9/RLjlrbuy6nAGxD7h1OsrWYy7Yy6Ou7vinsEvrHy
+         tuiyCrLFbN24CYKevJMoxqIwm344+2tf4hb+YXi9rWx8k+KDLi+Qp98kpabppYyyaNY8
+         bzfQtDU6syau5qJF8SF/rgvGBhBz2UmvjGbaejSwt9XS0AYFM12y2fPy+fwlPdFD795v
+         H+RMJhvXqVNb03KGES8JmPtAtPyIhRV1TQ4FKWCe9BgJuO4cPbyreIUwsLeWmXMvPNPQ
+         th+Hu2D8ZT8XabhvfB53VtZ3b8vpEDHKzgSAyMz5y4qYFYqjJrbGTodyAIGs7zhxyz6z
+         4ONA==
+X-Gm-Message-State: AOAM53304+NId0ee41da1/nTk8f2sRei0BplWK9sE1LJgWHk/b5wpYsY
+        3s4t3T7LvnUkkNGb/xV6qbcPQqWiuwk=
+X-Google-Smtp-Source: ABdhPJxuxBgU2liGO8+gEQ7BH+agQm6fEjY6Oiev85d57dAeyFMRQIrVlCm94qbun91lB/Dmsi5qbg==
+X-Received: by 2002:a5d:64cd:: with SMTP id f13mr37113127wri.382.1638731062166;
+        Sun, 05 Dec 2021 11:04:22 -0800 (PST)
+Received: from localhost.localdomain ([217.113.240.86])
+        by smtp.gmail.com with ESMTPSA id m3sm8948127wrv.95.2021.12.05.11.04.20
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 05 Dec 2021 10:16:45 -0800 (PST)
-From:   Adam Ford <aford173@gmail.com>
-To:     linux-media@vger.kernel.org
-Cc:     benjamin.gaignard@collabora.com, cphealy@gmail.com,
-        nicolas@ndufresne.ca, Adam Ford <aford173@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Lucas Stach <l.stach@pengutronix.de>,
-        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-kernel@vger.kernel.org, linux-rockchip@lists.infradead.org,
-        linux-staging@lists.linux.dev
-Subject: [RFC 5/5] arm64: dts: imx8mq: Split i.MX8MQ G1 and G2 with vpu-blk-ctrl
-Date:   Sun,  5 Dec 2021 12:16:18 -0600
-Message-Id: <20211205181618.1041699-6-aford173@gmail.com>
-X-Mailer: git-send-email 2.32.0
-In-Reply-To: <20211205181618.1041699-1-aford173@gmail.com>
-References: <20211205181618.1041699-1-aford173@gmail.com>
+        Sun, 05 Dec 2021 11:04:21 -0800 (PST)
+From:   =?UTF-8?q?Jos=C3=A9=20Exp=C3=B3sito?= <jose.exposito89@gmail.com>
+To:     stanimir.varbanov@linaro.org
+Cc:     agross@kernel.org, bjorn.andersson@linaro.org, mchehab@kernel.org,
+        linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        =?UTF-8?q?Jos=C3=A9=20Exp=C3=B3sito?= <jose.exposito89@gmail.com>
+Subject: [PATCH] media: venus: helpers: Fix memory leak in venus_helper_alloc_dpb_bufs
+Date:   Sun,  5 Dec 2021 20:04:15 +0100
+Message-Id: <20211205190415.19962-1-jose.exposito89@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-With the Hantro G1 and G2 now setup to run independently, update
-the device tree to enable it again.  This requires the vpu-blk-ctrl
-node to be configured, and the clock-parents and clock-rates for
-the various VPU's to be moved into the pgc_vpu because they cannot
-get re-parented once enabled, and the pgc_vpu is the highest
-in the chain.
-
-Signed-off-by: Adam Ford <aford173@gmail.com>
+Addresses-Coverity-ID: 1494120 ("Resource leaks")
+Signed-off-by: José Expósito <jose.exposito89@gmail.com>
 ---
- arch/arm64/boot/dts/freescale/imx8mq.dtsi | 69 +++++++++++++++--------
- 1 file changed, 45 insertions(+), 24 deletions(-)
+ drivers/media/platform/qcom/venus/helpers.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-This clock rates and parents were moved to the pgc_vpu node because the vpu-blk-ctrl is 
-expecting certain clocks to be operational, and they cannot be re-parented once they are
-runing.
-
-The datasheet and the TRM both show different potential clock rates for the G2 CODEC.
-It could be as low as 300MHZ or as high as 650 depending on what document is read, and
-the operating voltage of the hardware.  Because of the uncertainty, the clock rates 
-proposed here match those in NXP's 5.10 Release.
-
-https://source.codeaurora.org/external/imx/linux-imx/tree/arch/arm64/boot/dts/freescale/imx8mq.dtsi?h=lf-5.10.y
-
-
-diff --git a/arch/arm64/boot/dts/freescale/imx8mq.dtsi b/arch/arm64/boot/dts/freescale/imx8mq.dtsi
-index 972766b67a15..0d3053bbfb2c 100644
---- a/arch/arm64/boot/dts/freescale/imx8mq.dtsi
-+++ b/arch/arm64/boot/dts/freescale/imx8mq.dtsi
-@@ -711,7 +711,21 @@ pgc_gpu: power-domain@5 {
- 					pgc_vpu: power-domain@6 {
- 						#power-domain-cells = <0>;
- 						reg = <IMX8M_POWER_DOMAIN_VPU>;
--						clocks = <&clk IMX8MQ_CLK_VPU_DEC_ROOT>;
-+						clocks = <&clk IMX8MQ_CLK_VPU_DEC_ROOT>,
-+							 <&clk IMX8MQ_CLK_VPU_G1_ROOT>,
-+							 <&clk IMX8MQ_CLK_VPU_G2_ROOT>;
-+						assigned-clocks = <&clk IMX8MQ_CLK_VPU_G1>,
-+								  <&clk IMX8MQ_CLK_VPU_G2>,
-+								  <&clk IMX8MQ_CLK_VPU_BUS>,
-+								  <&clk IMX8MQ_VPU_PLL_BYPASS>;
-+						assigned-clock-parents = <&clk IMX8MQ_VPU_PLL_OUT>,
-+									 <&clk IMX8MQ_VPU_PLL_OUT>,
-+									 <&clk IMX8MQ_SYS1_PLL_800M>,
-+									 <&clk IMX8MQ_VPU_PLL>;
-+						assigned-clock-rates = <600000000>,
-+								       <600000000>,
-+								       <800000000>,
-+								       <0>;
- 					};
+diff --git a/drivers/media/platform/qcom/venus/helpers.c b/drivers/media/platform/qcom/venus/helpers.c
+index 84c3a511ec31..344a42853898 100644
+--- a/drivers/media/platform/qcom/venus/helpers.c
++++ b/drivers/media/platform/qcom/venus/helpers.c
+@@ -197,6 +197,7 @@ int venus_helper_alloc_dpb_bufs(struct venus_inst *inst)
  
- 					pgc_disp: power-domain@7 {
-@@ -1432,30 +1446,37 @@ usb3_phy1: usb-phy@382f0040 {
- 			status = "disabled";
- 		};
- 
--		vpu: video-codec@38300000 {
--			compatible = "nxp,imx8mq-vpu";
--			reg = <0x38300000 0x10000>,
--			      <0x38310000 0x10000>,
--			      <0x38320000 0x10000>;
--			reg-names = "g1", "g2", "ctrl";
--			interrupts = <GIC_SPI 7 IRQ_TYPE_LEVEL_HIGH>,
--				     <GIC_SPI 8 IRQ_TYPE_LEVEL_HIGH>;
--			interrupt-names = "g1", "g2";
-+		vpu_g1: video-codec@38300000 {
-+			compatible = "nxp,imx8mq-vpu-g1";
-+			reg = <0x38300000 0x10000>;
-+			reg-names = "g1";
-+			interrupts = <GIC_SPI 7 IRQ_TYPE_LEVEL_HIGH>;
-+			interrupt-names = "g1";
-+			clocks = <&clk IMX8MQ_CLK_VPU_G1_ROOT>;
-+			clock-names = "g1";
-+			power-domains = <&vpu_blk_ctrl IMX8MQ_VPUBLK_PD_G1>;
-+		};
-+
-+		vpu_g2: video-codec@38310000 {
-+			compatible = "nxp,imx8mq-vpu-g2";
-+			reg = <0x38310000 0x10000>;
-+			reg-names = "g2";
-+			interrupts = <GIC_SPI 8 IRQ_TYPE_LEVEL_HIGH>;
-+			interrupt-names = "g2";
-+			clocks = <&clk IMX8MQ_CLK_VPU_G2_ROOT>;
-+			clock-names = "g2";
-+			power-domains = <&vpu_blk_ctrl IMX8MQ_VPUBLK_PD_G2>;
-+		};
-+
-+		vpu_blk_ctrl: blk-ctrl@38320000 {
-+			compatible = "fsl,imx8mq-vpu-blk-ctrl", "syscon";
-+			reg = <0x38320000 0x100>;
-+			power-domains = <&pgc_vpu>, <&pgc_vpu>, <&pgc_vpu>;
-+			power-domain-names = "bus", "g1", "g2";
- 			clocks = <&clk IMX8MQ_CLK_VPU_G1_ROOT>,
--				 <&clk IMX8MQ_CLK_VPU_G2_ROOT>,
--				 <&clk IMX8MQ_CLK_VPU_DEC_ROOT>;
--			clock-names = "g1", "g2", "bus";
--			assigned-clocks = <&clk IMX8MQ_CLK_VPU_G1>,
--					  <&clk IMX8MQ_CLK_VPU_G2>,
--					  <&clk IMX8MQ_CLK_VPU_BUS>,
--					  <&clk IMX8MQ_VPU_PLL_BYPASS>;
--			assigned-clock-parents = <&clk IMX8MQ_VPU_PLL_OUT>,
--						 <&clk IMX8MQ_VPU_PLL_OUT>,
--						 <&clk IMX8MQ_SYS1_PLL_800M>,
--						 <&clk IMX8MQ_VPU_PLL>;
--			assigned-clock-rates = <600000000>, <600000000>,
--					       <800000000>, <0>;
--			power-domains = <&pgc_vpu>;
-+				 <&clk IMX8MQ_CLK_VPU_G2_ROOT>;
-+			clock-names = "g1", "g2";
-+			#power-domain-cells = <1>;
- 		};
- 
- 		pcie0: pcie@33800000 {
+ 		id = ida_alloc_min(&inst->dpb_ids, VB2_MAX_FRAME, GFP_KERNEL);
+ 		if (id < 0) {
++			kfree(buf);
+ 			ret = id;
+ 			goto fail;
+ 		}
 -- 
-2.32.0
+2.25.1
 
