@@ -2,97 +2,105 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 19CD34688A3
-	for <lists+linux-media@lfdr.de>; Sun,  5 Dec 2021 01:17:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DBA4C4688A7
+	for <lists+linux-media@lfdr.de>; Sun,  5 Dec 2021 01:18:37 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229883AbhLEAUs (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 4 Dec 2021 19:20:48 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49646 "EHLO
+        id S229915AbhLEAWC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 4 Dec 2021 19:22:02 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49928 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229512AbhLEAUq (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Sat, 4 Dec 2021 19:20:46 -0500
-Received: from mail-wr1-x436.google.com (mail-wr1-x436.google.com [IPv6:2a00:1450:4864:20::436])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1C15DC061751;
-        Sat,  4 Dec 2021 16:17:20 -0800 (PST)
-Received: by mail-wr1-x436.google.com with SMTP id u17so6726082wrt.3;
-        Sat, 04 Dec 2021 16:17:20 -0800 (PST)
+        with ESMTP id S229772AbhLEAWB (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Sat, 4 Dec 2021 19:22:01 -0500
+Received: from mail-ot1-x32c.google.com (mail-ot1-x32c.google.com [IPv6:2607:f8b0:4864:20::32c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8A52EC0613F8
+        for <linux-media@vger.kernel.org>; Sat,  4 Dec 2021 16:18:35 -0800 (PST)
+Received: by mail-ot1-x32c.google.com with SMTP id x3-20020a05683000c300b0057a5318c517so8554620oto.13
+        for <linux-media@vger.kernel.org>; Sat, 04 Dec 2021 16:18:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=ZT8uH+WZYKbbbA52e1mD7F2y2MEMzSLs39hZ2g9wA4o=;
-        b=KPbWipGF9NN5VmLf95S54L22RiZUamWDBWtWklREvuxwXPrnlh8NRSbAnpjKnX8EDj
-         GlzYua17dO6Dx1Uiu7UMY8W2+8eCXIKh2o4bXqMO2ZjEJcprllnKkrOnH75FQEMqAdSa
-         92ZGwM0B9DloU+dKbehCRq6dGDIWfurJmc1mL5EJho9cQr5b00TLvMiGbenXUtIuvfBH
-         eOvW+89a2VVehNIdfvemNfrtFZ5/qqeGwO0wF+TfEGisYpF35d0zH/uEbCOPp8IN56ig
-         idvpDlKglI3CayAycMeexGEY0oyN2r4ghxOppJ7AWR0yvujkDbW+Y/KnfSymHx2S/Kfh
-         CagA==
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=dXf1OcxDWLdTQ0vxU++3flLW+ML8+UeIv5ErzA5lngA=;
+        b=MZUhphslBqiF0hlSyXGyN5lwgxpRhnn8Dq2M67z2Vy7MBf+hb5mCf16DSVzhrP5rXL
+         nxJDoKDnjtplZI1WhoAe7eoJFQX3+2G3HdfF7wxIJNKl2O8keczqj0YILFjMXYF7yG7Q
+         zq7kz4JMbmN5cT6dddipJX+e4IbDusO6xiKZIp4QOgy5cJKvsBZc/FdWwIT4QeDkDpjS
+         tvciR+wzTtK2v2W0baWbg1r09okAVzBSue30LhvyFGhX4lfA9sY9jfzmW4NgbHIUYSAh
+         kXxalhIdEpLPF0LOqNisimhYFGPuYxJagG/osvVQK9v2AUhzbO8yAYxJ5qDabUF4Xv52
+         oJtA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=ZT8uH+WZYKbbbA52e1mD7F2y2MEMzSLs39hZ2g9wA4o=;
-        b=1etYmGb39k3KJmeKV/svCJIXm+He2a85uLet8B0CMwXlWOP1TPyLgHk8ixSMkjn27M
-         il8BO1FeP6bLsZE1XQL+HhhcYp6729dDW237legWtbYBkwlGV49YCowsdT7P/WyOg66m
-         ROuCp5a+/VIQsY0pxuQoXEjI7IsYl6QfR5r3L2lUdITEzcAk0EnD+yEB9uaNItKjPozh
-         AIVhAAol7lAGk+K9dRlKFqt1FKyJfmO1XiSX1o1I2LXEfMCRYnN8duOuzC/wlMstVFBS
-         dPAkzaDR1Vw20xHn+nFSm3NMSX9QJGZ4AG5K9CCDJI06465yUMCNxjTI8z0OWRTxzBxH
-         anQQ==
-X-Gm-Message-State: AOAM530R4g9VL+S29iXtqU0jN6obcveZgvOMpYdzM9uAJYn9g6Y09M3y
-        cWle7dBU4yjCqbySlm8nkGO7TVrS9WMITQ==
-X-Google-Smtp-Source: ABdhPJzIOV28vkE7Pge5Zpr2lvVGDACk/1izBZLlOk1DUonIBDpy4A/Sd2MgCq0qaQX92WqsvolTwg==
-X-Received: by 2002:adf:8bd8:: with SMTP id w24mr32610946wra.540.1638663438766;
-        Sat, 04 Dec 2021 16:17:18 -0800 (PST)
-Received: from localhost (cpc154979-craw9-2-0-cust193.16-3.cable.virginm.net. [80.193.200.194])
-        by smtp.gmail.com with ESMTPSA id b11sm9053931wmj.35.2021.12.04.16.17.18
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 04 Dec 2021 16:17:18 -0800 (PST)
-From:   Colin Ian King <colin.i.king@gmail.com>
-To:     Hans Verkuil <hverkuil@xs4all.nl>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org
-Cc:     kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] media: saa7146: remove redundant assignments of i to zero
-Date:   Sun,  5 Dec 2021 00:17:17 +0000
-Message-Id: <20211205001717.178416-1-colin.i.king@gmail.com>
-X-Mailer: git-send-email 2.33.1
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=dXf1OcxDWLdTQ0vxU++3flLW+ML8+UeIv5ErzA5lngA=;
+        b=Bj2OvaWj3RmMsaSYguFjkkWwR2JAVcU9BoppJVGcbZMOgVrmbfZF37Q1kZ0zl+g9A2
+         uRAYItiHlRTQw4ywenMQgdOBSmzMvaszkWuBMOH3VLwS3lscRTGTdpGkUuaCaeF5cKZ9
+         3dbk9PxlLBAw7aPh8XkY+J5rUftIICp3uR+51wbUMoXjLgwdXkDD6MzSYGYWEo5soGT1
+         AVg/oJhKONxgG8DDC6a2MM2xc1ZHrv8BVD/BVCBRiN79J8wsBGRnoYbugdOhLm1X+Yr+
+         8UgFIZ8og7iqlltsk+abUS2wIcyfvX6w4huDOt7XNk4psB/i1NNUeY/DViGwxrpsehAY
+         N8Ww==
+X-Gm-Message-State: AOAM532UE/hNGnqEyvPZ7eA1IPDCFgJ/wa2CZNztKYtz0QDdeTHfbnX4
+        gWGIKodVLifDnm0gStAzv5sYRDiBZbHKwhtnVlpUAw==
+X-Google-Smtp-Source: ABdhPJzNzlUlTUhD3wBB9Sj2OD6rY6mUp4ITHg7cAJd+oeHBFxdF470nQNzDzVyiTH6JURzX6Crz33LJWzGziKWyE0E=
+X-Received: by 2002:a9d:ed6:: with SMTP id 80mr22849074otj.35.1638663514254;
+ Sat, 04 Dec 2021 16:18:34 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+References: <a06e7c55-f25d-8339-faea-9be6d31d1c87@xs4all.nl>
+In-Reply-To: <a06e7c55-f25d-8339-faea-9be6d31d1c87@xs4all.nl>
+From:   Linus Walleij <linus.walleij@linaro.org>
+Date:   Sun, 5 Dec 2021 01:18:23 +0100
+Message-ID: <CACRpkdYrZ2pyj+_yS6gn1n-TCQtHMqwrg+4eJRmiKGGyDNPnbQ@mail.gmail.com>
+Subject: Re: gpiod_set_value(): BUG: sleeping function called from invalid context
+To:     Hans Verkuil <hverkuil@xs4all.nl>
+Cc:     "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The variable i is assigned the value 0 and each time the value is
-never read after it has been assigned. The assignments are redundant
-and can be removed.
+On Wed, Dec 1, 2021 at 10:40 AM Hans Verkuil <hverkuil@xs4all.nl> wrote:
 
-Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
----
- drivers/media/pci/saa7146/mxb.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+> [ 1674.787685]  ___might_sleep+0x148/0x180
+> [ 1674.791572]  __might_sleep+0x54/0x90
+> [ 1674.795195]  mutex_lock+0x28/0x80
+> [ 1674.798556]  pinctrl_get_device_gpio_range+0x3c/0x110
 
-diff --git a/drivers/media/pci/saa7146/mxb.c b/drivers/media/pci/saa7146/mxb.c
-index 73fc901ecf3d..ae958ff206b2 100644
---- a/drivers/media/pci/saa7146/mxb.c
-+++ b/drivers/media/pci/saa7146/mxb.c
-@@ -340,7 +340,7 @@ static int mxb_init_done(struct saa7146_dev* dev)
- 	struct tuner_setup tun_setup;
- 	v4l2_std_id std = V4L2_STD_PAL_BG;
- 
--	int i = 0, err = 0;
-+	int i, err = 0;
- 
- 	/* mute audio on tea6420s */
- 	tea6420_route(mxb, 6);
-@@ -349,7 +349,6 @@ static int mxb_init_done(struct saa7146_dev* dev)
- 	saa7111a_call(mxb, video, s_std, std);
- 
- 	/* select tuner-output on saa7111a */
--	i = 0;
- 	saa7111a_call(mxb, video, s_routing, SAA7115_COMPOSITE0,
- 		SAA7111_FMT_CCIR, 0);
- 
--- 
-2.33.1
+There is the error ^
 
+> gpiod_set_value() is supposed to be usable from an atomic context, so this
+> appears to be a bug. It's probably been there for quite a long time. I suspect
+> OPEN_DRAIN isn't very common, and I think this might be the first time I tested
+> this driver with this kernel config option set.
+
+Nah has nothing to do with open drain :)
+
+> Any suggestions?
+
+pinctrl_get_device_gpio_range() needs to be modified to not take a mutex
+because mutex:es can sleep.
+
+static int pinctrl_get_device_gpio_range(unsigned gpio,
+                                         struct pinctrl_dev **outdev,
+                                         struct pinctrl_gpio_range **outrange)
+{
+        struct pinctrl_dev *pctldev;
+
+        mutex_lock(&pinctrldev_list_mutex);
+
+BLAM!
+
+And this definitely needs to be called on this path so no way out
+of that.
+
+This mutex pinctrldev_list_mutex is there to protect from devices coming
+and going as we look for devices with ranges on.
+
+One way to solve it would be to simply replace it with a spinlock, maybe
+that works? (Check the code carefully so there are no things like calls
+into drivers that may fire interrupts etc...)
+
+If it still need to be sleepable (mutex-ish) you need to convert it to
+use RCU I think? (Which would be pretty cool anyway.)
+
+Yours,
+Linus Walleij
