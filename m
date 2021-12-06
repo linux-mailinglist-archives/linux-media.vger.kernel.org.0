@@ -2,152 +2,102 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2F8514697A4
-	for <lists+linux-media@lfdr.de>; Mon,  6 Dec 2021 15:01:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 23CBA4698CB
+	for <lists+linux-media@lfdr.de>; Mon,  6 Dec 2021 15:25:27 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S245003AbhLFOEa (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 6 Dec 2021 09:04:30 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38012 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231828AbhLFOEa (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 6 Dec 2021 09:04:30 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7DEAAC061746
-        for <linux-media@vger.kernel.org>; Mon,  6 Dec 2021 06:01:01 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 0C3DFB810A6
-        for <linux-media@vger.kernel.org>; Mon,  6 Dec 2021 14:01:00 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F3429C341C1;
-        Mon,  6 Dec 2021 14:00:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1638799258;
-        bh=xcASyWKxGrPws4hVBTQ7dIrqxE5ere1hTU4KHIlXEQs=;
-        h=Date:From:To:Subject:In-Reply-To:References:From;
-        b=l2KfzGNRl/QK6CG6QXqHf6e4XyKZOOQCj8cpHZvVh4vJjP384E7/IzO//VZddyZWp
-         cvr51yV37JNcRu2xB7+kkwuR0xJILXzLXMic9rHKUmp5B0hzHo7TiDnapyBS5TBzG+
-         pVnCZipyTKXQsoSsFX/bNCTIuNDaJVBLTk7gyNkS+1DJb7dIYuD7cO7rP0q3ZehE+d
-         FXPf1IAD26p0/hz2HNXQRf+/MT7tIxHBhCKXl4b4Ow+hCei+Rf7iPsHbItAt7mbUk1
-         mMS0KHuAf7pU5Zv98Flgtswf6xhwIsJTwFoxf4Ak1r+CmnjwB2QbqXdpYeNc9SOU/U
-         3bBS7M4093B0A==
-Date:   Mon, 6 Dec 2021 15:00:55 +0100
-From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To:     Robert Schlabbach <robert_s@gmx.net>, linux-media@vger.kernel.org
-Subject: Re: [PATCH 2/2] media: si2157: Add optional firmware download
-Message-ID: <20211206150055.43043b53@coco.lan>
-In-Reply-To: <trinity-0a2519c2-0c5d-4006-9aed-48fcd48cff8b-1638393058526@3c-app-gmx-bap03>
-References: <trinity-0a2519c2-0c5d-4006-9aed-48fcd48cff8b-1638393058526@3c-app-gmx-bap03>
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.30; x86_64-redhat-linux-gnu)
-MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+        id S1344084AbhLFO2y (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 6 Dec 2021 09:28:54 -0500
+Received: from mail-oi1-f176.google.com ([209.85.167.176]:46673 "EHLO
+        mail-oi1-f176.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S236352AbhLFO2x (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 6 Dec 2021 09:28:53 -0500
+Received: by mail-oi1-f176.google.com with SMTP id s139so21661152oie.13;
+        Mon, 06 Dec 2021 06:25:24 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:in-reply-to:references:subject:date
+         :message-id;
+        bh=1UM6mk2YqDOCPpxKmVW4hUay67A5ShMZFccLmrgtyws=;
+        b=l1m+dAcvG6tuwyX2hv9sWXpKM9QC6dCJWTxsGuZf/wEe/H1RdrQ4BQ03FxzoEWyOHe
+         J5eGPTIhetFLIZUpl+xLlcnIgk7UBpWc9Z51k+diCzBs/ADTm488hqhnEsMK/cEKRW8/
+         8BkxxZlVfrqVAz8Dmv92lT82mq2+sI2laEYTiNZoP+sETzrF9DbKN4UUpMq9/S3H+zte
+         OQam/nwpFIBqEO8ot0jT4IT9ywd747TiQ4ykpjfYWruyMqD7U1ZbLZ2Hd5i38YjrEgvE
+         6zEFjSHtwknKkiIsmUbuvYvygB9wzYzPfz3kxWT6CzYCWsd7B6TMnknbrR6TQivhX/fh
+         Bh3g==
+X-Gm-Message-State: AOAM5337mmYznMCBu8dpkzTzxweqAFZu81MS0pZf6fowiglJZPlp6Sl4
+        w+BDrf8CvU4K/DTcIQCSo0ejeg+utQ==
+X-Google-Smtp-Source: ABdhPJwHh7iLhlSQhwyOIjqD6otmwOl55D4ggjQJihayjKesYaNOleTLyfqMib/TY7E6KZA+XSLjEA==
+X-Received: by 2002:aca:1c02:: with SMTP id c2mr24930352oic.53.1638800724490;
+        Mon, 06 Dec 2021 06:25:24 -0800 (PST)
+Received: from robh.at.kernel.org (66-90-148-213.dyn.grandenetworks.net. [66.90.148.213])
+        by smtp.gmail.com with ESMTPSA id x12sm2181654oom.44.2021.12.06.06.25.22
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 06 Dec 2021 06:25:23 -0800 (PST)
+Received: (nullmailer pid 1976291 invoked by uid 1000);
+        Mon, 06 Dec 2021 14:25:22 -0000
+From:   Rob Herring <robh@kernel.org>
+To:     Adam Ford <aford173@gmail.com>
+Cc:     Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+        benjamin.gaignard@collabora.com, cphealy@gmail.com,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        linux-staging@lists.linux.dev, linux-media@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-rockchip@lists.infradead.org, devicetree@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, nicolas@ndufresne.ca,
+        Fabio Estevam <festevam@gmail.com>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Lucas Stach <l.stach@pengutronix.de>
+In-Reply-To: <20211205181618.1041699-3-aford173@gmail.com>
+References: <20211205181618.1041699-1-aford173@gmail.com> <20211205181618.1041699-3-aford173@gmail.com>
+Subject: Re: [RFC 2/5] dt-bindings: soc: add binding for i.MX8MQ VPU blk-ctrl
+Date:   Mon, 06 Dec 2021 08:25:22 -0600
+Message-Id: <1638800722.475991.1976290.nullmailer@robh.at.kernel.org>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Robert,
-
-Em Wed, 1 Dec 2021 22:10:58 +0100
-Robert Schlabbach <robert_s@gmx.net> escreveu:
-
-> The Si2157 (A30) is functional with the ROM firmware 3.0.5, but can also
-> be patched at runtime, e.g. to firmware 3.1.3. However, although a
-> firmware filename for its firmware patch exists, that has only been used
-> for the Si2177 (A30) so far (which indeed takes the binary identical
-> firmware patch).
+On Sun, 05 Dec 2021 12:16:15 -0600, Adam Ford wrote:
+> From: Lucas Stach <l.stach@pengutronix.de>
 > 
-> Add support for downloading firmware patches into the Si2157 (A30), but
-> make it optional, so that initialization can succeed with and without a
-> firmware patch being available. Keep the use of request_firmware() for
-> this purpose rather than firmware_request_nowarn(), so that the warning
-> in the log makes users aware that it is possible to provide a firmware
-> for this tuner.
+> This adds the DT binding for the i.MX8MQ VPU blk-ctrl.
 > 
-> The firmware patch is probably also optional for other (if not all)
-> tuners supported by the driver, but since I do not have the others
-> available to test, they are kept mandatory for now to avoid regressions.
-
-This patch seems too risky. While I don't know the specifics of this
-specific chipset, usually the ROM is on a separate chip that may or
-may not be present. It may even have an unusable or problematic
-firmware, depending on when the firmware was flashed.
-
-What it could make sense, instead, would be to have a smarter error
-logic that would:
-
-	1. print an error/warn message if the firmware file was
-	   not found;
-
-	2. check if the device already come with a firmware that
-	   it is known to work. On such case, allows the init
-	   to proceed;
-
-	3. if no firmware or too old/broken firmware, return an
-	   error.
-
-Regards,
-Mauro
-
-> 
-> Signed-off-by: Robert Schlabbach <robert_s@gmx.net>
+> Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
+> Signed-off-by: Adam Ford <aford173@gmail.com>
 > ---
->  drivers/media/tuners/si2157.c | 13 ++++++++++++-
->  1 file changed, 12 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/media/tuners/si2157.c b/drivers/media/tuners/si2157.c
-> index 75ddf7ed1faf..757b27d1605a 100644
-> --- a/drivers/media/tuners/si2157.c
-> +++ b/drivers/media/tuners/si2157.c
-> @@ -85,6 +85,7 @@ static int si2157_init(struct dvb_frontend *fe)
->  	struct si2157_cmd cmd;
->  	const struct firmware *fw;
->  	const char *fw_name;
-> +	unsigned int fw_required;
->  	unsigned int chip_id, xtal_trim;
-> 
->  	dev_dbg(&client->dev, "\n");
-> @@ -151,6 +152,10 @@ static int si2157_init(struct dvb_frontend *fe)
->  	#define SI2146_A10 ('A' << 24 | 46 << 16 | '1' << 8 | '0' << 0)
->  	#define SI2141_A10 ('A' << 24 | 41 << 16 | '1' << 8 | '0' << 0)
-> 
-> +	/* assume firmware is required, unless verified not to be */
-> +	/* only the SI2157_A30 has been verified not to yet */
-> +	fw_required = true;
-> +
->  	switch (chip_id) {
->  	case SI2158_A20:
->  	case SI2148_A20:
-> @@ -159,10 +164,13 @@ static int si2157_init(struct dvb_frontend *fe)
->  	case SI2141_A10:
->  		fw_name = SI2141_A10_FIRMWARE;
->  		break;
-> +	case SI2157_A30:
-> +		fw_name = SI2157_A30_FIRMWARE;
-> +		fw_required = false;
-> +		break;
->  	case SI2177_A30:
->  		fw_name = SI2157_A30_FIRMWARE;
->  		break;
-> -	case SI2157_A30:
->  	case SI2147_A30:
->  	case SI2146_A10:
->  		fw_name = NULL;
-> @@ -184,6 +192,9 @@ static int si2157_init(struct dvb_frontend *fe)
->  	/* request the firmware, this will block and timeout */
->  	ret = request_firmware(&fw, fw_name, &client->dev);
->  	if (ret) {
-> +		if (!fw_required)
-> +			goto skip_fw_download;
-> +
->  		dev_err(&client->dev, "firmware file '%s' not found\n",
->  				fw_name);
->  		goto err;
-> --
-> 2.17.1
+>  .../soc/imx/fsl,imx8mq-vpu-blk-ctrl.yaml      | 71 +++++++++++++++++++
+>  1 file changed, 71 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/soc/imx/fsl,imx8mq-vpu-blk-ctrl.yaml
 > 
 
+My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
+on your patch (DT_CHECKER_FLAGS is new in v5.13):
 
+yamllint warnings/errors:
 
-Thanks,
-Mauro
+dtschema/dtc warnings/errors:
+/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/soc/imx/fsl,imx8mq-vpu-blk-ctrl.example.dt.yaml: blk-ctrl@38320000: compatible: ['fsl,imx8mq-vpu-blk-ctrl', 'syscon'] is too long
+	From schema: /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/soc/imx/fsl,imx8mq-vpu-blk-ctrl.yaml
+/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/soc/imx/fsl,imx8mq-vpu-blk-ctrl.example.dt.yaml: blk-ctrl@38320000: compatible: Additional items are not allowed ('syscon' was unexpected)
+	From schema: /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/soc/imx/fsl,imx8mq-vpu-blk-ctrl.yaml
+
+doc reference errors (make refcheckdocs):
+
+See https://patchwork.ozlabs.org/patch/1563759
+
+This check can fail if there are any dependencies. The base for a patch
+series is generally the most recent rc1.
+
+If you already ran 'make dt_binding_check' and didn't see the above
+error(s), then make sure 'yamllint' is installed and dt-schema is up to
+date:
+
+pip3 install dtschema --upgrade
+
+Please check and re-submit.
+
