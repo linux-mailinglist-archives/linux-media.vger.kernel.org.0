@@ -2,233 +2,400 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id ACCB54691DB
-	for <lists+linux-media@lfdr.de>; Mon,  6 Dec 2021 09:57:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id ABBF9469239
+	for <lists+linux-media@lfdr.de>; Mon,  6 Dec 2021 10:20:37 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239826AbhLFJA5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 6 Dec 2021 04:00:57 -0500
-Received: from esa.microchip.iphmx.com ([68.232.153.233]:10209 "EHLO
-        esa.microchip.iphmx.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230492AbhLFJA5 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 6 Dec 2021 04:00:57 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
-  t=1638781049; x=1670317049;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-id:content-transfer-encoding:
-   mime-version;
-  bh=yWmKXu/Rr9xYFx8MkEfkrVQ4n+JkgfGKS416vJI9WL8=;
-  b=2O1zl0tWwx1AtzPttLgaM6dbnSnlcuhgFvyfFUtM9l6IxZhPhehJqgxG
-   g900MhM2mfXo+HCI19Pn8TdCwBwHEmWTKT+w0Wtj8bUZywJ1brmsInDwV
-   jLsAaCQRAliXCqo7cGIEjfWTmXLoX/C7XkB3iCFjww9uQqiytCd9a5pwi
-   HiUcb/G+qYb1Gyiyu2z9EwbvPVZ7ePm6sCCPQ2eMtnsjUchx921wnL0ix
-   frae5jbCmLguWGvhMBKj9yP/wiWDo3oaQbLMifCJo9GjFmcGB6T/UN9KW
-   YC5UmEUoCpxYtypW03EGuSQznsqdpEYmANYkYeu2tsIz5YKFmCbykoWxG
-   g==;
-IronPort-SDR: GZpNcPMPy8oBfZ38NEqg+6CI3bnLxnoaWoIOLoXiDaeWBNbjIu4ycRNNDZz1mtg24MLRmLeKQF
- 6MSEkqJPxq5FxqkhJEfLYxa3Pj5Q8YV7ROjNuHVlUUEuDPzWPVmWRiHHfOI8DFPswrRYa9Dh5i
- n1My6v4cW9L2O+Ggu65Y/+AglSdvYGD5aG9WYJaI1RcYhm5gmzI/oX1hgjRJ3tvUqFivbVDlGO
- JbhPq6eBokCDJ3eojiIH0AW0SA48WVVghAdliQKpHXzLRSKWzXGyaJt/rTNnjBINRpWM8D6Zd4
- ZVWx0pSCjVjbdGa+QfCuwlmH
-X-IronPort-AV: E=Sophos;i="5.87,291,1631602800"; 
-   d="scan'208";a="145617840"
-Received: from smtpout.microchip.com (HELO email.microchip.com) ([198.175.253.82])
-  by esa5.microchip.iphmx.com with ESMTP/TLS/AES256-SHA256; 06 Dec 2021 01:57:28 -0700
-Received: from chn-vm-ex02.mchp-main.com (10.10.85.144) by
- chn-vm-ex03.mchp-main.com (10.10.85.151) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2176.14; Mon, 6 Dec 2021 01:57:27 -0700
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com (10.10.215.89) by
- email.microchip.com (10.10.87.72) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2176.14 via Frontend
- Transport; Mon, 6 Dec 2021 01:57:27 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=eO/gbNkaOmgctsjcOUBSpXBxspSscTjlKeg+4LDJlJKjqd+vrEYtGRu9B28mUHiQSlCt8L2vE52iSsaPFIxEq37N4EovZN1Q32Swm2Mb+ROnm6WlMVvPySX8i58TdyU3MCG8t4lymoRyT5Y0OeA5zQt+e31OaVhgHHmKUPFxVI0rvxkhT5OdvYVNWqr9KGPOfsjBYjmfRtIr6ZwAT1lgypbhIMNMx4zVPgpwnUMr+xcuc0Pcav4/FzDCSJRCT3jfuuQuHBJ7cVkM7jx80RzQ0tI9piWkHt4W6cCgaTlhZbqayoEOFirKGaqZ7xN+fBifFfEgd/ePyq0MsMyxyiWwZg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=yWmKXu/Rr9xYFx8MkEfkrVQ4n+JkgfGKS416vJI9WL8=;
- b=VrhoWctwYT9KUZLb2n1Aa8V78CliblZYkIEVLz1MN51iTHb5UYoo4DOxRFztEWN95BmntKGCFqS8vXoB/Lse741af4dpxVIC7WHIH4N+HCCOpYa/UmVNziqYn7lWKURr6H3A+IqKxfLg393OnDyJh2Tnfu6mO/wjtM1q/t4b+H4NF//FQ3z3JRSTG3nPETufA5YH8HzEOJzS2k9NWYNIIzeEsTtOuXxA+On5+nsGMXMjTvUNbfxMvw+pzF5tbP2NQQE3eZc4ixDyxtt7x24k6+DyfC1IYgCT7ej4Jfq7XyAuUI6rnZ7qumwjbNQcNEHQOH6+pSBENEp/wzwXkMJs/g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=microchip.com; dmarc=pass action=none
- header.from=microchip.com; dkim=pass header.d=microchip.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=microchiptechnology.onmicrosoft.com;
- s=selector2-microchiptechnology-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=yWmKXu/Rr9xYFx8MkEfkrVQ4n+JkgfGKS416vJI9WL8=;
- b=itfwJE+Hv2NnaaYxo5rI6J4bS1Jx57zDfHSnWFN5h2PMz1qAgVY7TWGrTwfLf6uyJqWZVvJiRjAn9c/MSzChxKOkGEK+hKiftdPPJIrtS1RSJ83RFuvFOvP0S/Arvj/Z3qlH/5KXbTeWlAdqqw3k/XiLCNkQtY1pY3VgBdrNF5Q=
-Received: from PH0PR11MB4920.namprd11.prod.outlook.com (2603:10b6:510:41::22)
- by PH7PR11MB5887.namprd11.prod.outlook.com (2603:10b6:510:136::20) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4649.15; Mon, 6 Dec
- 2021 08:57:11 +0000
-Received: from PH0PR11MB4920.namprd11.prod.outlook.com
- ([fe80::1433:9dcf:4912:b8f]) by PH0PR11MB4920.namprd11.prod.outlook.com
- ([fe80::1433:9dcf:4912:b8f%7]) with mapi id 15.20.4755.021; Mon, 6 Dec 2021
- 08:57:11 +0000
-From:   <Eugen.Hristev@microchip.com>
-To:     <sakari.ailus@iki.fi>, <robh@kernel.org>
-CC:     <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>, <jacopo@jmondi.org>,
-        <laurent.pinchart@ideasonboard.com>, <Nicolas.Ferre@microchip.com>
-Subject: Re: [PATCH v2 02/25] dt-bindings: media: atmel: csi2dc: add bindings
- for microchip csi2dc
-Thread-Topic: [PATCH v2 02/25] dt-bindings: media: atmel: csi2dc: add bindings
- for microchip csi2dc
-Thread-Index: AQHX19FHySsE7cTaeUuONulRCZesK6wbG2wAgAAHggCACivsAA==
-Date:   Mon, 6 Dec 2021 08:57:11 +0000
-Message-ID: <7b4a4062-c6ed-7de1-7275-be20568550e3@microchip.com>
-References: <20211112142509.2230884-1-eugen.hristev@microchip.com>
- <20211112142509.2230884-3-eugen.hristev@microchip.com>
- <YaVBwjtEI3xcL551@robh.at.kernel.org>
- <YaVIDgn1d2BHv6XZ@valkosipuli.retiisi.eu>
-In-Reply-To: <YaVIDgn1d2BHv6XZ@valkosipuli.retiisi.eu>
-Accept-Language: en-US, ro-RO
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-user-agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.0
-authentication-results: iki.fi; dkim=none (message not signed)
- header.d=none;iki.fi; dmarc=none action=none header.from=microchip.com;
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: e19cdddc-aa00-46a9-e872-08d9b8966403
-x-ms-traffictypediagnostic: PH7PR11MB5887:
-x-microsoft-antispam-prvs: <PH7PR11MB5887BE002FC60C8B9E643B59E86D9@PH7PR11MB5887.namprd11.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:10000;
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: bV4p3ap/klcCJ8gAeKMrhACQ2PufGezD6Jd7g/XubMD8Y/lEsWIaOeBbJvkpPHe0ZY0AtIkGdx1m1Sfsk3DKhTLa6+672t4rUwqw3n62hqhQAWnk+N1Z/Bee+70nl77nzeohy6LqufAeNzum3OhoeD9zvIS9RjCdbswmxgOJhUcsq3r8t/ZikMJraTN+Z8xt6cz4cAFS0WJnOI7CLWIr6gCe/TzOm2goHSZM5MmnEWzB7fOe2fMlvJaskCXs0qPm6akpzYw7oTZQMoYjuurhA7rK9BwtflbATa5VP15lg3gLzyOrryBVWxVUDobw7qDAUxtpJ1Vwl5iBn4jIuAb06mkg7rAGN0uLB6zu0O7jz6GN5Xc67gnT6lV/BY1Yh79tRNXknPmdm+sj0ZqBJgG2sD137f0aFkIbweZ2c2IrQ1o+7BDG6zsS+iF0m6g9+PqHHyPLoOUJIADvR/BJ2PchcZ/KcDvmywM4Mrzzf61Piiqh7G+zd9116PtJY4y4EblU83v6gVEHYED6rL6WqPIof3wG3OR1kNgvSjDvH6LSXMSlGwhJ5a+CUehsGk18EVl/dg9j9LAxaHtd4pdhSr3YCprdo8wmJI8qm64ywXIqirMakZNtpN0zisJeJrJVQMTcPpCVZClMcSJOMoDNFd1/vW5eZpK7MwNXRkXCzUL89Vz3zEleaQEl8K7YooTGN1j26r+X4XD2lQRoc1IbD/ZBkD5KaQYyz6EbWjBOOHLkIBWLfyadJNuGRB5Ny2Sexoq1LEKUqkYei/Jr9dT9TMPd/g==
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH0PR11MB4920.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(366004)(66946007)(76116006)(36756003)(66476007)(91956017)(107886003)(54906003)(31696002)(2616005)(86362001)(110136005)(122000001)(66446008)(53546011)(8936002)(6506007)(31686004)(38100700002)(2906002)(71200400001)(64756008)(316002)(38070700005)(8676002)(26005)(66556008)(6486002)(6512007)(4326008)(508600001)(5660300002)(186003)(43740500002)(45980500001);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?NUY4Q21ZOWRyQjFEMTl0YmZQVVVnNHBWejQxdWEraUFqRkRmNEdWL1BXd1pC?=
- =?utf-8?B?bWE5NjBQWk5QYysvTkVuNG1MTXI5dDhoU0RZMm9OU0FRZzNub2ZxbkN0dzR5?=
- =?utf-8?B?TStXazFjSjR3a2U4NFZEeWdkOEpRV2FhUzdpYVFraU5Fa0FIejlwdDEyVXRH?=
- =?utf-8?B?bUhENEpMclhvOG9VcnNFVEtTVWluN2k5ajQyci9kb2IwQlpYZlk5d3ZtSFJL?=
- =?utf-8?B?ZnBOTXVTdXFHR3lnK0dTTVVobmpkVGNmbTc1SnhCc3ZJUmY5NHcxTlhLWWF5?=
- =?utf-8?B?QVhmQ2xNRUlseWdBNkRGaEkzVEJuMFhscVBqK2htTnczL2pZRGFPRmJjT3lx?=
- =?utf-8?B?aS8vZDhCRjFtcWgvWDJWazI2RnFGbUc5eWc4NWJZeDJIUUZ6UFBoc1NGQUI3?=
- =?utf-8?B?SXNGNCt0cXNNaVk3eDRvZEIyYjE4QWtMQWZwMmNmai9jRjZ4SVdaTExiOHhM?=
- =?utf-8?B?OVJUaFZLd0ZKRDZMRVgwMHJFRXZvYjBMeVVjNEQxelozb3RUWWdUZEVFcDdX?=
- =?utf-8?B?TVdWZDM2V2hWcExXbGExK0MyQXJHVmpqVWtxVWRvRWdmY3d0cFFHNzhXV2kw?=
- =?utf-8?B?MzRwaVBiZTN1dzQ3bHMyRzlwSllDZ2ZOOHNobmdoRWp0QVMza25MNmxFSit4?=
- =?utf-8?B?NjVaUW9jOGxFMFpmY3lVMTJKQUNRcXREdytQTmJzdlpsMHNmM2YrTmpSNFMv?=
- =?utf-8?B?N2Y0Z3BXcXU3YmJlOWNQQmlkcWZ4TXVmTzNjQk5KWlZrcjh6d25yYUpGTWJV?=
- =?utf-8?B?VFRITEZ6OWlPZnhnQklHYmlwcjBqdVdNbzRiaHI4bjBLYUpoMWpva2UrNElp?=
- =?utf-8?B?ZnpBU3poV2NVNUl4ci9UcTl3RVllWGlHODZ4ckZhU1hOM2VSMUhnRWNJVzRw?=
- =?utf-8?B?anFVbzFuaW5qbWFMK2o2TGNZbXhNbG1aWFg2SERyS3JMRTRiYStaSlFPVHV4?=
- =?utf-8?B?U1RJUHFkWmNUbnUzWWNWTVRFM3ptSytSN2VIT1NaMmxVb3E0Z2hmWEdvSUt6?=
- =?utf-8?B?UGtvNnpyK1V1dXVNMHNnSjYwZ05vemhETWRqeVNjdk8velI1bXpNbVJEU3VX?=
- =?utf-8?B?ZzdtdkJUZG9obXpXRWlZRThHQVN4TXZwWHdobTRkWkdNcVBaVUVBdmdRSndZ?=
- =?utf-8?B?NHpLYnoveVQ5ZzhEaXVvNE95TWtoZ1lkV2dhbnEvNXpKMHB5V3EwVGJoaUcx?=
- =?utf-8?B?TmdNSDNNWWtIcGkxeGVnRWdjVERDbHJ2TnFwcDAzRGVBZkVqT01wVVZrL2oy?=
- =?utf-8?B?YVE4NkU3Z3MyMk9BWC9wMkk3L0s0ZEJFZ1Z5eHRHazdxOXhsV0h6ZjNtVlVx?=
- =?utf-8?B?Wk52MkVMOEgrbG5nS0l4VlV6Q3BGblBZMlVnbGRuU3Zmam9ZYk1CK2d4c0JD?=
- =?utf-8?B?U3hxbElKWG1aMDBBT2dobXViZmRZVXhZVGFoMkpKWWl5UjlEMyt1ZWlCS2sz?=
- =?utf-8?B?RmdZYWdYdGVEU3JTMENObmhTRlJHWVZhNkdyTzdlSDRvdEtxcVQvV0NrOGhv?=
- =?utf-8?B?QTJXeWgzY01peGdrUmNMM0MvVkZWZ0I2dWZnWDBoOERNSEFPeHNGK1FXR2dL?=
- =?utf-8?B?V1hMa1QxOXM4THhUVUlCOXdkcEJvWjJabFljblptd3ZTenA2dVAwSUoxcmhz?=
- =?utf-8?B?L0pidWQrN3lNRVNuUWFwZ3E3K1AzVlNjN0VjcmxJNVU2SWh4MHZxdEJjcTBr?=
- =?utf-8?B?U1NJQ2NwQUswdmF5UjdFcERNQmY3djdJeFhXQzBXUmJoNGNZYmR5eTRRYWgw?=
- =?utf-8?B?WndULzQ4S3h2L09KelRWcE5LalZadVlHYjJvUHRySHZrZ25ReGl0M3dEOFh1?=
- =?utf-8?B?R1E5SVpyMXlkREtib3FQL2lSelcxODhWSm13Rng3OWhQcWlOSUlTOHNQa0VB?=
- =?utf-8?B?R1lZVlg5eVRRTy9RdFl4TUhqdlJZTkpiUm04WGxacGdZQ21SNUJVdFVOREk0?=
- =?utf-8?B?RmdwdERNNHhMU3JuVVFOdnBTcHpwb25YNkp6dWRTV00yOThhM3pBZ21GRW0w?=
- =?utf-8?B?Q3I5enlvWVZjWW9CcHQ5T0pHeVh0djNMeUhCNFkxOHA4cnFqbVhpMTdUUHVp?=
- =?utf-8?B?eXlzRFpMWWk4K2hnNXhIeDJScmlHblpBem4wMFVib3ladi94Q3dQZFM3YWVS?=
- =?utf-8?B?SGcxc1I2Zkc2ZHp5ZXhwSVRHa2VscXRzbnJUQ3o2eERDK2RFYjY4cWVzU2ZD?=
- =?utf-8?B?eTNMN2NsUlJMOWlWVjBQUVJqMEs3Qm1BSjQxcnNzbStDeHZzY25YUmhIYzU3?=
- =?utf-8?B?U2JDMWl1NzdMVStLZG1rclptRmFnPT0=?=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <A480DABA294DC34088037CE0F03FD7A3@namprd11.prod.outlook.com>
-Content-Transfer-Encoding: base64
+        id S240408AbhLFJYE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 6 Dec 2021 04:24:04 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58010 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S240395AbhLFJYE (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 6 Dec 2021 04:24:04 -0500
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AAB3BC061746
+        for <linux-media@vger.kernel.org>; Mon,  6 Dec 2021 01:20:35 -0800 (PST)
+Received: from gallifrey.ext.pengutronix.de ([2001:67c:670:201:5054:ff:fe8d:eefb] helo=[IPv6:::1])
+        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <l.stach@pengutronix.de>)
+        id 1muAAi-0003X6-Sy; Mon, 06 Dec 2021 10:20:33 +0100
+Message-ID: <2c3fdfec1144ec8179396b24010bc2e8bdb4fcd4.camel@pengutronix.de>
+Subject: Re: [RFC 0/5] arm64: imx8mm: Enable Hantro VPUs
+From:   Lucas Stach <l.stach@pengutronix.de>
+To:     Nicolas Dufresne <nicolas@ndufresne.ca>,
+        Tim Harvey <tharvey@gateworks.com>
+Cc:     Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+        Adam Ford <aford173@gmail.com>,
+        linux-media <linux-media@vger.kernel.org>,
+        Schrempf Frieder <frieder.schrempf@kontron.de>,
+        Marek Vasut <marek.vasut@gmail.com>,
+        Jagan Teki <jagan@amarulasolutions.com>,
+        Adam Ford-BE <aford@beaconembedded.com>,
+        cstevens@beaconembedded.com,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Heiko Stuebner <heiko@sntech.de>,
+        Joakim Zhang <qiangqing.zhang@nxp.com>,
+        Alice Guo <alice.guo@nxp.com>, Peng Fan <peng.fan@nxp.com>,
+        "open list:HANTRO VPU CODEC DRIVER" 
+        <linux-rockchip@lists.infradead.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        "moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE" 
+        <linux-arm-kernel@lists.infradead.org>,
+        open list <linux-kernel@vger.kernel.org>,
+        "open list:STAGING SUBSYSTEM" <linux-staging@lists.linux.dev>
+Date:   Mon, 06 Dec 2021 10:20:26 +0100
+In-Reply-To: <838c44e1eb1387c68a1b8b4da18e69ef6b5ad9c2.camel@ndufresne.ca>
+References: <20211106183802.893285-1-aford173@gmail.com>
+         <718f7f6d6cd564d031c1963f1590c62d549ae725.camel@ndufresne.ca>
+         <CAHCN7xKM9RUE7z-+ug1on+D=nDoEm589R4m03ofys92Aq75ZVQ@mail.gmail.com>
+         <8db00a4b6faa99c940d9bc86e17161eb0db5efe3.camel@ndufresne.ca>
+         <CAJ+vNU28UJffFv9jQ2KryJMudqYxvCaoVOVcU5dPqRA209iN6A@mail.gmail.com>
+         <d91532c2c0772f9aa708ead36b2a97203727a7ea.camel@ndufresne.ca>
+         <CAJ+vNU3H-V+bPoZ3qKead45h=W7AhQK6Lhjrx5ssdF4c_qfe=A@mail.gmail.com>
+         <CAHCN7x+0LwwU_rEST+TZxGquswGKL19gnTy9WLofsXtGAtWqdw@mail.gmail.com>
+         <7f94eaacfddb8c5434c17f1e069ea87a17657ce9.camel@ndufresne.ca>
+         <CAHCN7xKRzxMBmPbDobWTuvNNSpTXk5XENvfBnfkhRY3eZKhn6w@mail.gmail.com>
+         <CAHCN7xJFLNi_g+HX8PCy1Rkgf0jnWpO5QGYVz8nH19xrJkwHrA@mail.gmail.com>
+         <CAJ+vNU3zFd=6k_Emc5aafxKkGwCPp4crgOFezQ-E_MbWsn1_EA@mail.gmail.com>
+         <fed6c2fd7cf4971062c417ce41ed1e3812b900e0.camel@ndufresne.ca>
+         <CAHCN7xK+wROHaqDcsY-3WYFQ82qX17L-LHNL3siSWnWvwFShzQ@mail.gmail.com>
+         <CAAEAJfC1xXvemaFP+vTFVJ3S-SpYtrxyZgDamSOgLC1F3ua5xw@mail.gmail.com>
+         <CAHCN7x+UMMP6RXsNm0=OC=UTQzh=RKqQo6B7FD5e4eoJAEfmpg@mail.gmail.com>
+         <CAJ+vNU1epi9SwPMHkuDmKcb68RLemYF=bsp7AVnzz06zKc2efw@mail.gmail.com>
+         <CAAEAJfCpjk5nWWkJYjjDT-YEpJi4pTZqZbzp_if9OGC0HKspzw@mail.gmail.com>
+         <CAJ+vNU2we5mGXgYsR6CfimvFXZsc0zktR3fDa-h6RRa02jTT0g@mail.gmail.com>
+         <1403b14061883f746bda2998b2bf4a2676f9f328.camel@ndufresne.ca>
+         <CAJ+vNU1-gq2nB5oOcgo9zj5xR+qxmqyKAS-N4De1A_8SNRO_Aw@mail.gmail.com>
+         <838c44e1eb1387c68a1b8b4da18e69ef6b5ad9c2.camel@ndufresne.ca>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.40.4 (3.40.4-1.fc34) 
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: PH0PR11MB4920.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: e19cdddc-aa00-46a9-e872-08d9b8966403
-X-MS-Exchange-CrossTenant-originalarrivaltime: 06 Dec 2021 08:57:11.1272
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 3f4057f3-b418-4d4e-ba84-d55b4e897d88
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: E5oU2C5BiHAvq/BtdcuKttf8G9WgHsKI+24+yZr5/fT2D1iz0PV/laeI74Nu7vStbQUGl7c9gsqCj97+abBdlu9BYwO5fPQlLpnWS+JxxRI=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR11MB5887
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2001:67c:670:201:5054:ff:fe8d:eefb
+X-SA-Exim-Mail-From: l.stach@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-media@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-T24gMTEvMjkvMjEgMTE6MzcgUE0sIFNha2FyaSBBaWx1cyB3cm90ZToNCj4gSGkgUm9iLCBFdWdl
-biwNCj4gDQo+IE9uIE1vbiwgTm92IDI5LCAyMDIxIGF0IDAzOjEwOjI2UE0gLTA2MDAsIFJvYiBI
-ZXJyaW5nIHdyb3RlOg0KPj4+ICsgICAgICAgIHByb3BlcnRpZXM6DQo+Pj4gKyAgICAgICAgICBl
-bmRwb2ludDoNCj4+PiArICAgICAgICAgICAgJHJlZjogdmlkZW8taW50ZXJmYWNlcy55YW1sIw0K
-Pj4NCj4+IEJ1dCB3aGF0IHByb3BlcnRpZXMgZnJvbSB0aGlzIGRvIHlvdSB1c2U/IEl0IGRvZXNu
-J3QgbG9vayBsaWtlIHlvdSBuZWVkDQo+PiB0aGlzPw0KPiANCj4gSSdkIGV4cGVjdCB0byBzZWUg
-ZGF0YS1sYW5lcyBhdCBsZWFzdCAtLS0gdW5sZXNzIHRoZSBudW1iZXIgb2YgbGFuZXMgaXMNCj4g
-cmVhbGx5IGZpeGVkLg0KDQpIZWxsbyBTYWthcmksIFJvYiwNCg0KQWN0dWFsbHkgdGhlIGlucHV0
-IHBvcnQgY2FuIGJlIGVpdGhlciB0aGUgU3lub3BzeXMgSURJIGludGVyZmFjZSwgb3IgDQpwYXJh
-bGxlbC4NClNpbmNlIHRoZXJlIGlzIG5vIHN1Y2ggYnVzIHR5cGUgJ3N5bm9wc3lzIElESScgdGhp
-cyBpbnB1dCBwb3J0IA0KY29ubmVjdGlvbiBjYW5ub3QgaGF2ZSBudW1iZXIgb2YgbGFuZXMsIGV0
-Yy4gKGl0IGlzIGEgMzIgYml0IHByb3ByaWV0YXJ5IA0Kc3lub3BzeXMgaW50ZXJmYWNlIHdoaWNo
-IGlzIGEgbXV4L3JlcGFja2FnZSBvZiB0aGUgQ1NJMiBidXMpDQoNCkFsc28sIHRoaXMgaW5wdXQg
-cG9ydCBjb3VsZCBiZSBjb25uZWN0ZWQgdG8gYSBwYXJhbGxlbCBzZW5zb3IuIEluIHRoaXMgDQpj
-YXNlIHRoZSBjc2kyZGMgYWN0cyBhcyBhIGJ5cGFzcyBiZXR3ZWVuIHRoZSBpbnB1dCBwb3J0IGFu
-ZCB0aGUgb3V0cHV0IA0KcG9ydC4gSG93ZXZlciwgdGhlIGNzaTJkYyBzdGlsbCBuZWVkcyB0byBi
-ZSBwcm9iZWQgYW5kIHN0aWxsIG5lZWRzIHRvIGJlIA0KY29uZmlndXJlZCwgdGh1cywgaXQgY2Fu
-bm90IGJlIHJlbW92ZWQgZnJvbSB0aGUgcGlwZWxpbmUgKG90aGVyd2lzZSB0aGUgDQpoYXJkd2Fy
-ZSBwaXBlbGluZSB3b24ndCB3b3JrKQ0KDQpTbyBteSBjdXJyZW50IGltcGxlbWVudGF0aW9uIGlz
-IGxpa2UgdGhpcyA6IGlmIHRoZSBpbnB1dCBwb3J0IGlzIA0KcGFyYWxsZWwsIHVzZSBwYXJhbGxl
-bCBtb2RlLCBidXQgaWYgdGhlIGJ1cyB0eXBlIGlzIHNldCB0byBDU0kyLURQSFkgKCANCmFjdHVh
-bGx5IHRoaXMgaXMgdGhlIGJ1cyBpbnRlcmZhY2UgdXNlZCBieSB0aGUgc2Vuc29yICksIHVzZSB0
-aGUgY3NpMmRjIA0KZGVtdXggdmlkZW8gcGlwZWxpbmUgdG8gZGVtdXggZnJvbSBJREkgdG8gcGFy
-YWxsZWwgaW50ZXJmYWNlLg0KDQptYXliZSB0aGlzIHNjaGVtYXRpYyBpcyBtb3JlIGNsZWFyIHRo
-YW4gbXkgd29yZHMgYWJvdmU6DQoNCg0KIA0KDQogICAgICAgICAgICAgICAgICAgICAgICArLS0t
-LS0tLS0tLS0tLS0tLS0rICstLS0tLS0tLS0tLS0tKyANCg0KICAgICAgICAgICAgICAgICAgICAg
-ICAgfHBvcnQgMCAgICAgICAgICAgfCB8ICBwb3J0IDEgICAgIHwgDQoNCiAgICAgICAgICAgICAg
-ICAgICAgICAgIHwgICAgICAgICAgICAgICAgIHwgfCAgICAgICAgICAgICB8IA0KDQogICAgICAg
-ICAgICAgICAgICAgICAgICB8ICAgICAgICAgICAgICAgICB8IHwgICAgICAgICAgICAgfCANCg0K
-ICAgICAgICAgICAgICAgICAgICAgICAgfCAgICAgICAgICAgICAgICAgfCB8ICAgICAgICAgICAg
-IHwgDQoNCiAgICAgICAgICAgICAgICAgICAgICAgIHwgICAgICAgICAgICAgICAgIHwgfCAgICAg
-ICAgICAgICB8IA0KDQogICAgICAgICAgICAgICAgICAgICAgICB8ICAgICAgICAgICAgICAgICB8
-IHwgICAgICAgICAgICAgfCANCg0KICAgKy0tLS0tLS0tLS0rICAgICAgICAgfCAgICAgICAgKy0t
-LS0tLS0tfC18LS0tLS0tLSsgICAgIHwgDQoNCiAgIHwgICAgICAgICAgfCAgICAgICAgIHwgICAg
-ICAgIHwrLS0tLS0tLS0tLS0tKyAgICB8ICAgICB8IA0KDQogICB8ICBwYXJhbGxlbHwtLS0tLS0t
-LS18LS0tLS0tLS18fCBieXBhc3N8IHwgIHwgICAgLS0tLS0tfC0tLS0gDQoNCiAgIHwgIHNlbnNv
-ciAgfCBwYXJhbGxlbHwgICAgICAgIHx8ICAgICAgIHwgfCAgfCAgICB8ICAgICB8IA0KDQogICB8
-ICAgICAgICAgIHwgaW50ZiAgICB8ICAgICAgICB8fCAgICAgICB8IHwgIHwgICAgfCBwYXJhbGxl
-bCANCg0KICAgKy0tLS0tLS0tLS0rICAgICAgICAgfCAgICAgICAgfCstLS0tLS0tLS0tLS0rICAg
-IHwgb3V0cHV0IA0KDQogICAgICAgICAgICAgICAgICAgICAgICB8ICAgICAgICB8ICAgICAgICB8
-IHwgICAgICAgfCBpbnRmfCANCg0KICAgICAgICAgICAgICAgICAgICAgICAgfCAgICAgICAgfCBj
-c2kyZGMgfCB8ICAgICAgIHwgICAgIHwgDQoNCiAgICAgICAgICAgICAgICAgICAgICAgIHwgICAg
-ICAgIHwgICAgICAgIHwgfCAgICAgICB8ICAgICB8IA0KDQogICArLS0tLS0tLS0tLS0tLS0tKyAg
-ICB8ICAgICAgICB8ICAgICAgICB8IHwgICAgICAgfCAgICAgfCANCg0KICAgfCAgICAgICAgICAg
-ICAgIHxzeW5vcHN5cyAgICAgfCAgICAgICAgfCB8ICAgICAgIHwgICAgIHwgDQoNCiAgIHwgIHN5
-bm9wc3lzIGhvc3R8SURJIHwgICAgICAgIHwgICAgICAgIHwgfCAgICAgICB8ICAgICB8IA0KDQog
-ICB8ICBjb250cm9sbGVyICAgLS0tLS0tLS0tLS0tLS18ICAgICAgICB8IHwgICAgICAgfCAgICAg
-fCANCg0KICAgfCAgICAgICAgICAgICAgIHwgICAgfCAgICAgICAgfCAgICAgICAgfCB8ICAgICAg
-IHwgICAgIHwgDQoNCiAgIHwgICAgICAgICAgICAgICB8ICAgIHwgICAgICAgICstLS0tLS0tLXwt
-fC0tLS0tLS0rICAgICB8IA0KDQogICArLS0tLS0tLS0tLS0tLS0tKyAgICB8ICAgICAgICAgICAg
-ICAgICB8IHwgICAgICAgICAgICAgfCANCg0KICAgICAgICAgICBeICAgICAgICAgICAgfCAgICAg
-ICAgICAgICAgICAgfCB8ICAgICAgICAgICAgIHwgDQoNCiAgY3NpMiBidXMgfCAgICAgICAgICAg
-IHwgICAgICAgICAgICAgICAgIHwgfCAgICAgICAgICAgICB8IA0KDQogICAgKy0tLS0tLS0tLS0t
-LSsgICAgICB8ICAgICAgICAgICAgICAgICB8IHwgICAgICAgICAgICAgfCANCg0KICAgIHwgICAg
-ICAgICAgICB8ICAgICAgfCAgICAgICAgICAgICAgICAgfCB8ICAgICAgICAgICAgIHwgDQoNCiAg
-ICB8IGNzaTIgc2Vuc29yfCAgICAgICstLS0tLS0tLS0tLS0tLS0tLSsgKy0tLS0tLS0tLS0tLS0r
-IA0KDQogICAgfCAgICAgICAgICAgIHwgDQoNCiAgICB8ICAgICAgICAgICAgfCANCg0KICAgICst
-LS0tLS0tLS0tLS0rIA0KDQogDQoNCg0KDQpJbiB0aGlzIGNhc2UsIHdoYXQgd291bGQgeW91IGFk
-dmlzZSB0byB1c2UgZm9yIHRoZSBiaW5kaW5ncyBvZiB0aGUgY3NpMmRjID8NCg0KT25lIG9wdGlv
-biBpcyB0byBhZGQgdGhlIFN5bm9wc3lzIElESSBpbnRlcmZhY2UgYW5kIGRvY3VtZW50IHRoaXMg
-YXMgYSANCnBvc3NpYmxlIGJ1cyB0eXBlLiBJIHdvdWxkIHJhdGhlciBub3QgZG8gdGhpcywgc2lu
-Y2UgaXQncyBTeW5vcHN5cyANCnByb3ByaWV0YXJ5IGFuZCBpdCB3b3VsZCBiZSBkaWZmaWN1bHQg
-Zm9yIG1lIHRvIGRvY3VtZW50IGl0IGF0IHRoaXMgDQptb21lbnQgKHJhdGhlciBzb21lb25lIGZy
-b20gU3lub3BzeXMgd2hvIGlzIG1vcmUgZmFtaWxpYXIgd2l0aCB0aGlzICkNCg0KU28sIEkgc2hv
-dWxkIHN0aWxsIHJlZmVyIHZpZGVvIGludGVyZmFjZXMgaW4gdGhlIG5vZGUsIGFuZCB0aGVuIHNw
-ZWNpZnkgDQp0aGF0IHRoaXMgYnVzIGNhbiBiZSBlaXRoZXIgcGFyYWxsZWwgb3IgY3NpMiBkcGh5
-LCBidXQgd2l0aG91dCBudW1iZXIgb2YgDQpsYW5lcyBzaW5jZSBpdCBkb2VzIG5vdCBtYWtlIHNl
-bnNlICh0aGlzIHdvdWxkIGJlIGJldHdlZW4gY3NpMiBzZW5zb3IgDQphbmQgc3lub3BzeXMgaG9z
-dCBjb250cm9sbGVyKSwgYW5kIHNwZWNpZnkgb25seSBwYXJhbGxlbCBwcm9wZXJ0aWVzIGxpa2Ug
-DQpidXMgd2lkdGggLCBldGMgPw0KDQpXaGljaCB3b3VsZCBiZSBhIGJldHRlciB3YXkgdG8gZ28g
-Pw0KDQpUaGFua3MsDQpFdWdlbg0KIA0KDQoNCg0KDQo+IA0KPiAtLQ0KPiBTYWthcmkgQWlsdXMN
-Cj4gDQoNCg==
+Am Freitag, dem 03.12.2021 um 14:37 -0500 schrieb Nicolas Dufresne:
+> Le vendredi 03 décembre 2021 à 08:46 -0800, Tim Harvey a écrit :
+> > On Thu, Dec 2, 2021 at 8:34 PM Nicolas Dufresne <nicolas@ndufresne.ca> wrote:
+> > > 
+> > > Le mardi 30 novembre 2021 à 11:28 -0800, Tim Harvey a écrit :
+> > > > On Tue, Nov 30, 2021 at 6:00 AM Ezequiel Garcia
+> > > > <ezequiel@vanguardiasur.com.ar> wrote:
+> > > > > 
+> > > > > Hi Tim,
+> > > > > 
+> > > > > On Mon, 29 Nov 2021 at 16:36, Tim Harvey <tharvey@gateworks.com> wrote:
+> > > > > > 
+> > > > > > On Mon, Nov 29, 2021 at 10:59 AM Adam Ford <aford173@gmail.com> wrote:
+> > > > > ..
+> > > > > > > 
+> > > > > > 
+> > > > > > Adam,
+> > > > > > 
+> > > > > > What deps did you install in order to get v4l2codecs building? I
+> > > > > > installed libgudev-1.0-dev based on Nicolas' suggestion and rebuilt
+> > > > > > (not sure if I needed to re-configure somehow) but there is still
+> > > > > > nothing in build/subprojects/gst-plugins-bad/sys/v4l2codecs/. A 'meson
+> > > > > > configure' tells me that v4l2codecs is set to 'auto' but I'm not sure
+> > > > > > how to find out what dependencies are needed or what may be missing.
+> > > > > > 
+> > > > > 
+> > > > > At least in my case (Centps-derivative), this is what I've done:
+> > > > > 
+> > > > > ...
+> > > > > gst-plugins-bad| Run-time dependency gudev-1.0 found: NO (tried
+> > > > > pkgconfig and cmake)
+> > > > > 
+> > > > > Installed gudev ... and then:
+> > > > > 
+> > > > > ...
+> > > > > gst-plugins-bad| Dependency gudev-1.0 found: YES 232 (cached)
+> > > > > ...
+> > > > > gst-plugins-bad 1.19.3.1
+> > > > > 
+> > > > >     Plugins               : accurip, adpcmdec, adpcmenc, aiff, asfmux,
+> > > > > audiobuffersplit, audiofxbad, audiomixmatrix, audiolatency,
+> > > > > audiovisualizers, autoconvert, bayer,
+> > > > >                             camerabin, codecalpha, coloreffects,
+> > > > > debugutilsbad, dvbsubenc, dvbsuboverlay, dvdspu, faceoverlay,
+> > > > > festival, fieldanalysis, freeverb, frei0r,
+> > > > >                             gaudieffects, gdp, geometrictransform,
+> > > > > id3tag, inter, interlace, ivfparse, ivtc, jp2kdecimator, jpegformat,
+> > > > > rfbsrc, midi, mpegpsdemux,
+> > > > >                             mpegpsmux, mpegtsdemux, mpegtsmux, mxf,
+> > > > > netsim, rtponvif, pcapparse, pnm, proxy, legacyrawparse,
+> > > > > removesilence, rist, rtmp2, rtpmanagerbad,
+> > > > >                             sdpelem, segmentclip, siren, smooth,
+> > > > > speed, subenc, switchbin, timecode, transcode, videofiltersbad,
+> > > > > videoframe_audiolevel, videoparsersbad,
+> > > > >                             videosignal, vmnc, y4mdec, decklink, dvb,
+> > > > > fbdevsink, ipcpipeline, nvcodec, shm, v4l2codecs, hls, sctp
+> > > > > 
+> > > > > GStreamer current master build fails. It's a known issue which will be
+> > > > > fixed today:
+> > > > > 
+> > > > > [...]
+> > > > > [8/9] Compiling C object
+> > > > > subprojects/gst-plugins-bad/sys/v4l2codecs/libgstv4l2codecs.so.p/gstv4l2codecvp9dec.c.o
+> > > > > FAILED: subprojects/gst-plugins-bad/sys/v4l2codecs/libgstv4l2codecs.so.p/gstv4l2codecvp9dec.c.o
+> > > > > cc -Isubprojects/gst-plugins-bad/sys/v4l2codecs/libgstv4l2codecs.so.p
+> > > > > -Isubprojects/gst-plugins-bad/sys/v4l2codecs
+> > > > > -I../subprojects/gst-plugins-bad/sys/v4l2codecs
+> > > > > -Isubprojects/gst-plugins-bad -I../subprojects/gst-plugins-bad
+> > > > > -Isubprojects/gstreamer/libs -I../subprojects/gstreamer/libs
+> > > > > -Isubprojects/gstreamer -I../subprojects/gstreamer
+> > > > > -Isubprojects/gst-plugins-bad/gst-libs
+> > > > > -I../subprojects/gst-plugins-bad/gst-libs
+> > > > > -Isubprojects/gst-plugins-base/gst-libs
+> > > > > -I../subprojects/gst-plugins-base/gst-libs -Isubprojects/orc
+> > > > > -I../subprojects/orc -Isubprojects/gstreamer/gst
+> > > > > -Isubprojects/gst-plugins-base/gst-libs/gst/video
+> > > > > -Isubprojects/gst-plugins-base/gst-libs/gst/pbutils
+> > > > > -Isubprojects/gst-plugins-base/gst-libs/gst/audio
+> > > > > -Isubprojects/gst-plugins-base/gst-libs/gst/tag
+> > > > > -I/usr/include/glib-2.0 -I/usr/lib64/glib-2.0/include
+> > > > > -I/usr/include/gudev-1.0 -fdiagnostics-color=always
+> > > > > -D_FILE_OFFSET_BITS=64 -Wall -Winvalid-pch -O2 -g -fvisibility=hidden
+> > > > > -fno-strict-aliasing -DG_DISABLE_DEPRECATED -Wmissing-prototypes
+> > > > > -Wdeclaration-after-statement -Wold-style-definition
+> > > > > -Wmissing-declarations -Wredundant-decls -Wwrite-strings -Wformat
+> > > > > -Wformat-security -Winit-self -Wmissing-include-dirs -Waddress
+> > > > > -Wno-multichar -Wvla -Wpointer-arith -fPIC -pthread -DHAVE_CONFIG_H
+> > > > > -MD -MQ subprojects/gst-plugins-bad/sys/v4l2codecs/libgstv4l2codecs.so.p/gstv4l2codecvp9dec.c.o
+> > > > > -MF subprojects/gst-plugins-bad/sys/v4l2codecs/libgstv4l2codecs.so.p/gstv4l2codecvp9dec.c.o.d
+> > > > > -o subprojects/gst-plugins-bad/sys/v4l2codecs/libgstv4l2codecs.so.p/gstv4l2codecvp9dec.c.o
+> > > > > -c ../subprojects/gst-plugins-bad/sys/v4l2codecs/gstv4l2codecvp9dec.c
+> > > > > ../subprojects/gst-plugins-bad/sys/v4l2codecs/gstv4l2codecvp9dec.c:92:3:
+> > > > > error: unknown type name ‘grefcount’
+> > > > >    grefcount ref_count;
+> > > > >    ^~~~~~~~~
+> > > > > ../subprojects/gst-plugins-bad/sys/v4l2codecs/gstv4l2codecvp9dec.c: In
+> > > > > function ‘gst_v4l2_codec_vp9_dec_picture_data_new’:
+> > > > > ../subprojects/gst-plugins-bad/sys/v4l2codecs/gstv4l2codecvp9dec.c:106:3:
+> > > > > warning: implicit declaration of function ‘g_ref_count_init’; did you
+> > > > > mean ‘g_cond_init’? [-Wimplicit-function-declaration]
+> > > > >    g_ref_count_init (&pic_data->ref_count);
+> > > > >    ^~~~~~~~~~~~~~~~
+> > > > >    g_cond_init
+> > > > > ../subprojects/gst-plugins-bad/sys/v4l2codecs/gstv4l2codecvp9dec.c: In
+> > > > > function ‘gst_v4l2_codec_vp9_dec_picture_data_ref’:
+> > > > > ../subprojects/gst-plugins-bad/sys/v4l2codecs/gstv4l2codecvp9dec.c:118:3:
+> > > > > warning: implicit declaration of function ‘g_ref_count_inc’; did you
+> > > > > mean ‘g_strv_contains’? [-Wimplicit-function-declaration]
+> > > > >    g_ref_count_inc (&data->ref_count);
+> > > > >    ^~~~~~~~~~~~~~~
+> > > > >    g_strv_contains
+> > > > > ../subprojects/gst-plugins-bad/sys/v4l2codecs/gstv4l2codecvp9dec.c: In
+> > > > > function ‘gst_v4l2_codec_vp9_dec_picture_data_unref’:
+> > > > > ../subprojects/gst-plugins-bad/sys/v4l2codecs/gstv4l2codecvp9dec.c:125:7:
+> > > > > warning: implicit declaration of function ‘g_ref_count_dec’
+> > > > > [-Wimplicit-function-declaration]
+> > > > >    if (g_ref_count_dec (&data->ref_count)) {
+> > > > >        ^~~~~~~~~~~~~~~
+> > > > > ninja: build stopped: subcommand failed.
+> > > > > 
+> > > > > Hope this helps get you started!
+> > > > > Ezequiel
+> > > > 
+> > > > Ezequiel and Nicolas,
+> > > > 
+> > > > Thanks - I did manage to get gstreamer 1.19.3 built successfully with
+> > > > v4l2codecs finally by getting the correct dependencies. I've attempted
+> > > > to software encode from another system and decode/display on the IMX8M
+> > > > Mini but thus far have not been successful.
+> > > > 
+> > > > I see that v4l2codecs plugin v4l2slh264dec/v4l2slmpeg2dec/v4l2slvp8dec
+> > > > and these all can output video/x-raw NV12/YUY2 which kmssink should
+> > > > accept so I'm attempting the following :
+> > > > 
+> > > > # vp8 encode from x86
+> > > > gst-launch-1.0 -v videotestsrc ! video/x-raw,width=800,height=480 !
+> > > > vp8enc ! rtpvp8pay ! udpsink host=172.24.33.15 port=9001
+> > > > # vp8 decode on imx8mm@172.24.33.15 which has a 800x480 display
+> > > > [gst-main] root@focal-venice:~/gstreamer/build# gst-launch-1.0 -v
+> > > > udpsrc port=9001 caps = "application/x-rtp, media=(string)video,
+> > > > clock-rate=(int)90000, encoding-name=(string)VP8, payload=(int)96,
+> > > > ssrc=(uint)2745262155, timestamp-offset=(uint)2515032683,
+> > > > seqnum-offset=(uint)19579, a-framerate=(string)30" ! rtpvp8depay !
+> > > > v4l2slvp8dec ! kmssink
+> > > > Setting pipeline to PAUSED ...
+> > > > Pipeline is live and does not need PREROLL ...
+> > > > /GstPipeline:pipeline0/GstKMSSink:kmssink0: display-width = 800
+> > > > /GstPipeline:pipeline0/GstKMSSink:kmssink0: display-height = 480
+> > > > Pipeline is PREROLLED ...
+> > > > Setting pipeline to PLAYING ...
+> > > > /GstPipeline:pipeline0/GstUDPSrc:udpsrc0.GstPad:src: caps =
+> > > > application/x-rtp, media=(string)video, clock-rate=(int)90000,
+> > > > encoding-name=(string)VP8, payload=(int)96, ssrc=(uint)2745262155,
+> > > > timestamp-offset=(uint)2515032683, seqnum-offset=(uint)19579,
+> > > > a-framerate=(string)30
+> > > > New clock: GstSystemClock
+> > > > /GstPipeline:pipeline0/GstRtpVP8Depay:rtpvp8depay0.GstPad:sink: caps =
+> > > > application/x-rtp, media=(string)video, clock-rate=(int)90000,
+> > > > encoding-name=(string)VP8, payload=(int)96, ssrc=(uint)2745262155,
+> > > > timestamp-offset=(uint)2515032683, seqnum-offset=(uint)19579,
+> > > > a-framerate=(string)30
+> > > > /GstPipeline:pipeline0/GstRtpVP8Depay:rtpvp8depay0.GstPad:src: caps =
+> > > > video/x-vp8, framerate=(fraction)0/1, height=(int)480, width=(int)800,
+> > > > profile=(string)0
+> > > > ERROR: from element /GstPipeline:pipeline0/GstUDPSrc:udpsrc0: Internal
+> > > > data stream error.
+> > > > Additional debug info:
+> > > > ../subprojects/gstreamer/libs/gst/base/gstbasesrc.c(3127):
+> > > > gst_base_src_loop (): /GstPipeline:pipeline0/GstUDPSrc:udpsrc0:
+> > > > streaming stopped, reason not-negotiated (-4)
+> > > > Execution ended after 0:00:02.076839644
+> > > > Setting pipeline to NULL ...
+> > > > Freeing pipeline ...
+> > > > 
+> > > > I'm getting the same thing when trying to use h264.
+> > > > 
+> > > > I've never quite been able to grasp how to debug GStreamer's
+> > > > negotiation issues. If I end with fakesink it appears to decode so it
+> > > > must be the v4l2slvp8dec to kmssink. I tried forcing the pixel format
+> > > > using 'v4l2slvp8dec ! "video/x-raw,format=(string)NV12" ! kmssink' but
+> > > > I still get the negotiation error.
+> > > > 
+> > > > What interrupts should I be seeing in /proc/interrupts? I don't see
+> > > > anything vpu/hantro related there.
+> > > > 
+> > > > I also want to make sure I have a basic understanding of the vpu
+> > > > drivers and usersapce on the IMX8M Mini. The IMX6Q/DL that I'm more
+> > > > familiar with has a vpu that is supported by the GStreamer video4linux
+> > > > plugin which shows the following (on GStreamer 1.16.2):
+> > > >   v4l2jpegenc: V4L2 JPEG Encoder
+> > > >   v4l2jpegdec: V4L2 JPEG Decoder
+> > > >   v4l2h264enc: V4L2 H.264 Encoder
+> > > >   v4l2mpeg4enc: V4L2 MPEG4 Encoder
+> > > >   v4l2mpeg4dec: V4L2 MPEG4 Decoder
+> > > >   v4l2mpeg2dec: V4L2 MPEG2 Decoder
+> > > >   v4l2h264dec: V4L2 H264 Decoder
+> > > > The IMX6Q/DL also has an IPU that has an M2M driver that provides the
+> > > > following for scaling/colorspace conversion:
+> > > >   v4l2convert: V4L2 Video Converter
+> > > > 
+> > > > I believe what I'm reading is that the IMX8M Mini Hantro codecs are
+> > > > 'stateful' where more software is required to drive them and is
+> > > 
+> > > 'stateless'. the rest is right.
+> > > 
+> > > > supported by the newer v4l2codecs plugin. I haven't been able to
+> > > > understand what kernel version/requirements the v4l2codecs plugin
+> > > > users/requires.
+> > > 
+> > > After H264 debacle with 5.9, 5.10 and 5.11 API break and GStreamer not getting
+> > > enough release to support all of these we started merging support for CODECs
+> > > only when the stable uAPI land. I made an exception for VP9 as it is already
+> > > applied in the media tree and didn't want to miss 1.20 release.
+> > > 
+> > > So to answer you question, it depends on when the CODEC uAPI landed.
+> > > 
+> > 
+> > Ok, thanks for the explanation.
+> > 
+> > > > 
+> > > > I'm also trying to understand how we can get scaling/colorspace
+> > > > conversion on the IMX8M Mini. The IMX8M lacks an IPU... is there some
+> > > > way to utilize scaling/colorspace conversion from the 2D GPU bound to
+> > > > the etnaviv driver?
+> > > 
+> > > The concept of the mini, is that you would be using th encoder for anything that
+> > > isn't going to the display. So they only integrated the Hantro PP on the
+> > > encoder. Unfortunately, you'll have to be patient for mainline stateless encoder
+> > > support, we barely scratch the surface of this subject, but its being worked on.
+> > 
+> > After some searching for Hantro PP I see that the IMXMQ (IMX8M
+> > Dual/QuadLite/Quad) mentions Hantro PP. From the IMX8MDQLQRM section
+> > 14.1.2.1 Decoder Features:
+> > <quote>
+> > Video post-processing features
+> >  - Frame rotation 90 degrees left/right
+> >  - Frame mirroring horizontally/vertically
+> >  - Frame cropping
+> >  - Frame conversion from YCbCr formats to 16-bit or 32-bit RGB formats
+> >  - Frame scaling with maximum up-scaling factor of 3
+> >  - Two rectangular or alpha blending masks for output frame
+> > 
+> >  The post-processing features can be used in pipeline with the
+> > decoder. The postprocessing features can also be used as stand-alone,
+> > without performing any decoding
+> > </quote>
+> > 
+> > The above is under the VPU_G1 section and the same is not mentioned
+> > for VPU_G2 and the IMX8MQ doesn't have encode support. Where do you
+> > see that the IMX8MM has the Hantro PP on the H1? I know the TRM's lack
+> > a lot of info so perhaps you know more about the internals than what
+> > the TRM states.
+> 
+> I've got told that by someone with contacts at NXP recently (in IRC). I haven't
+> verified it though, it just made sense for the targeted use of th mini. Hantro 
+> G1 driver does not yet expose an M2M for the standalone mode of the PP, but
+> shall be possible. Decode an PP cannot run concurrently though, so concurrent PP
+> and decode will have big impact on performance.
+> 
+> The G2 PP is different, but I *think* its always there. It's not doing much,
+> linear NV12 (detiling from 4x4 linear tiles), and can scale down by factor of 2,
+> 4 an 8. If there is more feature I'm not aware.
+> 
+> > 
+> > I also found on a forum
+> > (https://community.nxp.com/t5/i-MX-Processors/imx8mq-Hantro-G1-scaling/m-p/1285343)
+> > that NXP's BSP doesn't use the Hantro for scaling (and likely not csc
+> > either) and they use the GPU instead. I'm still unclear if/how you
+> > could tap into the 2D GPU to use its scaling/conversion if it's bound
+> > to the etnaviv driver.
+> > 
+> > > Unlike the IMX8MQ, you don't have the option to output YUYV (packed yuv 4:2:2)
+> > > which would satisfy the 2D GPU support hoold to the DMABuf import path.
+> 
+> As I'm saying above, you can't, there is no NV12 support in that 2D GPU from
+> what I was old by Etnaviv folks, only YUYV (4:2:2 packed). Shaders is the only
+> option.
+> 
+That's not correct. The 3D GPU can sample directly from YUYV, so it's
+the optimal zero-copy format if you are going to use the video with the
+3D GPU. Most of the 2D GPU cores (and I think the one of the 8MM is no
+exception) can handle planar formats, some of them only at reduced rate
+of 1 Pixel/clock, instead of the usual 2 Pixels/clock.
+> > > 
+> > > When the display driver gets ready and upstream (it's been only 2-3 years now),
+> > > you'll get linear NV12 support along with G2 compression support (this one is
+> > > not supported by the GPU, so it will be tricky to expose in userland). I don't
+> > > think the display support 4L4 tiles, but you GPU most likely can do with the
+> > > right shared and texelFetch() or vulkan equivalent if that exist on that target.
+> > 
+> > Do you mean the Samsung Exynos DRM driver (which doesn't yet have
+> > support for IMX8MM) or drivers/gpu/drm/mxsfb?
+> > 
+> > I'm currently using a pretty old patchset that adds IMX8MM support to
+> > the drm/exynos driver. I'm way out of my realm when talking about
+> > GPU/VPU and display drivers.
+> 
+> Didn't know the mini was using Samsung display controller. Didn't even know that
+> chip could exist outside of Exynos chips. On imx8mq, they have a NXP display
+> chip and it is new. Downstream driver exist, and upstream driver is being worked
+> on.
+
+The display controller on the 8MM is derived from the existing simple
+eLCDIF controllers found on earlier i.MX SoCs. 8MQ is the only one with
+the very capable DCSS display controller. In fact the 8MQ DCSS is
+upstream, what is missing is the Cadence eDP/HDMI bridge driver. The
+MIPI-DSI controller and PHY on the 8MM is Samsung IP.
+
+Regards,
+Lucas
+
