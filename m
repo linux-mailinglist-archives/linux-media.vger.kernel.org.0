@@ -2,95 +2,228 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 81F73469D6D
-	for <lists+linux-media@lfdr.de>; Mon,  6 Dec 2021 16:33:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 48F2C46A14D
+	for <lists+linux-media@lfdr.de>; Mon,  6 Dec 2021 17:26:27 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1358064AbhLFP3m (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 6 Dec 2021 10:29:42 -0500
-Received: from www.linuxtv.org ([130.149.80.248]:58376 "EHLO www.linuxtv.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1356562AbhLFP1j (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 6 Dec 2021 10:27:39 -0500
-Received: from builder.linuxtv.org ([140.211.167.10] helo=slave0)
-        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1muFqb-0099Ro-KI; Mon, 06 Dec 2021 15:24:09 +0000
-Received: from ip6-localhost ([::1] helo=localhost.localdomain)
-        by slave0 with esmtp (Exim 4.94.2)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1muFqY-0082Xq-7M; Mon, 06 Dec 2021 15:24:07 +0000
-From:   Jenkins <jenkins@linuxtv.org>
-To:     mchehab+samsung@kernel.org, linux-media@vger.kernel.org
-Cc:     builder@linuxtv.org
-Subject: Re: [GIT PULL FOR v5.17] Mediatek improvements (#79174)
-Date:   Mon,  6 Dec 2021 15:24:05 +0000
-Message-Id: <20211206152405.1916360-1-jenkins@linuxtv.org>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <e85c97e7-cdd1-db38-5c9a-5455cd83e6ad@xs4all.nl>
-References: 
+        id S1376936AbhLFQ3y (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 6 Dec 2021 11:29:54 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45048 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1358749AbhLFQ3r (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 6 Dec 2021 11:29:47 -0500
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 74C2BC061354;
+        Mon,  6 Dec 2021 08:26:18 -0800 (PST)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: kholk11)
+        with ESMTPSA id 2A2121F449AA
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=collabora.com; s=mail;
+        t=1638807977; bh=0rQTTF2QgSQJJ2bf5Dy5jQmG8LVwC5zO11tv6jX0lD8=;
+        h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
+        b=W4h85dImJdJQH7Oc7BRt49wZWM81HCKeAFrqvhzH2zGAWWvnPh7GHUuqUtffAElxL
+         +BW5+mIT/cMKfX+L1d4rYM/k3a37IIxejwkKpeIs4cPcD0DmNWFZ/388R/tnlGZshY
+         zroRVpymTCTmwV4fMBdkdLPGushIcrB4kn4h46fsXOb4zneDJOwmy2XHiHvhBTCdm4
+         4tzfMA/dIt4iEoboEiVJT4rO86e1BjCbTl3pa+iBTilR40tInFqfC0yE/zfMRDBYlT
+         Vt0eU4uILRYsSQq0tenDYfWgKt7XR2TBQ/UbE1BGLHx2VRDguv1si9HP4HMcjSiMlb
+         nb2LkHyYJgP5g==
+Subject: Re: [PATCH V1, 4/6] media: mtk-jpegdec: add jpeg decode worker
+ interface
+To:     "kyrie.wu" <kyrie.wu@mediatek.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Tomasz Figa <tfiga@chromium.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Tzung-Bi Shih <tzungbi@chromium.org>
+Cc:     Project_Global_Chrome_Upstream_Group@mediatek.com,
+        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org, xia.jiang@mediatek.com,
+        maoguang.meng@mediatek.com, srv_heupstream@mediatek.com,
+        irui.wang@mediatek.com
+References: <1638509655-14296-1-git-send-email-kyrie.wu@mediatek.com>
+ <1638509655-14296-5-git-send-email-kyrie.wu@mediatek.com>
+From:   AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>
+Message-ID: <1de01778-5750-c7aa-eac9-d9f91ad76ddb@collabora.com>
+Date:   Mon, 6 Dec 2021 17:26:13 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <1638509655-14296-5-git-send-email-kyrie.wu@mediatek.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: builder@linuxtv.org
+Il 03/12/21 06:34, kyrie.wu ha scritto:
+> Add jpeg decoding worker to ensure that three HWs
+> run in parallel in MT8195.
+> 
+> Signed-off-by: kyrie.wu <kyrie.wu@mediatek.com>
+> ---
+>   drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c   | 190 +++++++++++++++++++---
+>   drivers/media/platform/mtk-jpeg/mtk_jpeg_core.h   |   5 +
+>   drivers/media/platform/mtk-jpeg/mtk_jpeg_dec_hw.c |  17 ++
+>   3 files changed, 189 insertions(+), 23 deletions(-)
+> 
 
-Pull request: https://patchwork.linuxtv.org/project/linux-media/patch/e85c97e7-cdd1-db38-5c9a-5455cd83e6ad@xs4all.nl/
-Build log: https://builder.linuxtv.org/job/patchwork/163085/
-Build time: 00:20:36
-Link: https://lore.kernel.org/linux-media/e85c97e7-cdd1-db38-5c9a-5455cd83e6ad@xs4all.nl
+Hello Kyrie,
+thanks for the patch! However, there are some things to improve...
 
-gpg: Signature made Mon 06 Dec 2021 02:43:51 PM UTC
-gpg:                using RSA key AAA7FFBA4D2D77EF4CAEA1421326E0CD23ABDCE5
-gpg: Good signature from "Hans Verkuil <hverkuil-cisco@xs4all.nl>" [unknown]
-gpg:                 aka "Hans Verkuil <hverkuil@xs4all.nl>" [unknown]
-gpg: WARNING: This key is not certified with a trusted signature!
-gpg:          There is no indication that the signature belongs to the owner.
-Primary key fingerprint: 052C DE7B C215 053B 689F  1BCA BD2D 6148 6614 3B4C
-     Subkey fingerprint: AAA7 FFBA 4D2D 77EF 4CAE  A142 1326 E0CD 23AB DCE5
+> diff --git a/drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c b/drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c
+> index f2a5e84..2518660 100644
+> --- a/drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c
+> +++ b/drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c
+> @@ -1065,57 +1065,187 @@ static void mtk_jpeg_enc_device_run(void *priv)
+>   	queue_work(jpeg->workqueue, &ctx->jpeg_work);
+>   }
+>   
+> -static void mtk_jpeg_dec_device_run(void *priv)
+> +static int mtk_jpegdec_select_hw(struct mtk_jpeg_ctx *ctx)
+>   {
+> -	struct mtk_jpeg_ctx *ctx = priv;
+> +	struct mtk_jpegdec_comp_dev *comp_jpeg;
+>   	struct mtk_jpeg_dev *jpeg = ctx->jpeg;
+> -	struct vb2_v4l2_buffer *src_buf, *dst_buf;
+> -	enum vb2_buffer_state buf_state = VB2_BUF_STATE_ERROR;
+>   	unsigned long flags;
+> -	struct mtk_jpeg_src_buf *jpeg_src_buf;
+> +	int hw_id = -1;
+> +	int i;
+> +
+> +	spin_lock_irqsave(&jpeg->hw_lock, flags);
+> +	for (i = 0; i < MTK_JPEGDEC_HW_MAX; i++) {
+> +		comp_jpeg = jpeg->dec_hw_dev[i];
+> +		if (comp_jpeg->hw_state == MTK_JPEG_HW_IDLE) {
+> +			hw_id = i;
+> +			comp_jpeg->hw_state = MTK_JPEG_HW_BUSY;
+> +			break;
+> +		}
+> +	}
+> +	spin_unlock_irqrestore(&jpeg->hw_lock, flags);
+> +
+> +	return hw_id;
+> +}
+> +
+> +static int mtk_jpegdec_deselect_hw(struct mtk_jpeg_dev *jpeg, int hw_id)
+> +{
+> +	unsigned long flags;
+> +
+> +	spin_lock_irqsave(&jpeg->hw_lock, flags);
+> +	jpeg->dec_hw_dev[hw_id]->hw_state =
+> +		MTK_JPEG_HW_IDLE;
+> +	spin_unlock_irqrestore(&jpeg->hw_lock, flags);
+> +
+> +	return 0;
+> +}
+> +
+> +static int mtk_jpegdec_set_hw_param(struct mtk_jpeg_ctx *ctx,
+> +	int hw_id,
+> +	struct vb2_v4l2_buffer *src_buf,
+> +	struct vb2_v4l2_buffer *dst_buf)
+> +{
+> +	struct mtk_jpegdec_comp_dev *jpeg =
+> +		ctx->jpeg->dec_hw_dev[hw_id];
+> +
+> +	jpeg->hw_param.curr_ctx = ctx;
+> +	jpeg->hw_param.src_buffer = src_buf;
+> +	jpeg->hw_param.dst_buffer = dst_buf;
+> +
+> +	return 0;
+> +}
+> +
+> +static void mtk_jpegdec_worker(struct work_struct *work)
+> +{
+> +	struct mtk_jpeg_ctx *ctx = container_of(work, struct mtk_jpeg_ctx,
+> +		jpeg_work);
+> +	struct mtk_jpegdec_comp_dev *comp_jpeg[MTK_JPEGDEC_HW_MAX];
+> +	enum vb2_buffer_state buf_state = VB2_BUF_STATE_ERROR;
+> +	struct mtk_jpeg_src_buf *jpeg_src_buf, *jpeg_dst_buf;
+> +	struct vb2_v4l2_buffer *src_buf, *dst_buf;
+> +	struct mtk_jpeg_dev *jpeg = ctx->jpeg;
+> +	atomic_t *hw_rdy[MTK_JPEGDEC_HW_MAX];
+> +	struct clk *jpegdec_clk;
+> +	int ret, i, hw_id = 0;
+>   	struct mtk_jpeg_bs bs;
+>   	struct mtk_jpeg_fb fb;
+> -	int ret;
+> +	unsigned long flags;
+> +
+> +	for (i = 0; i < MTK_JPEGDEC_HW_MAX; i++) {
+> +		comp_jpeg[i] = jpeg->dec_hw_dev[i];
+> +		hw_rdy[i] = &comp_jpeg[i]->hw_rdy;
+> +	}
+> +
 
-Summary: got 3/15 patches with issues, being 1 at build time, plus one error when buinding PDF document
+This entire retry_select block should go to a helper function instead
+of being inside of here.
 
-Error/warnings:
+Also, there's a big issue with this snippet that has to be solved: you're
+unconditionally calling "goto retry_select" at the end of the if branch,
+but please consider the following scenario:
 
-patches/0001-dt-bindings-mediatek-convert-mtk-jpeg-decoder-encode.patch:
+- mtk_jpegdec_select_hw() returns a hw_id < 0
+- wait_event_interruptible returns 0
+... then we redo the same, and we still get the same result.
 
-    allyesconfig: return code #0:
-	../scripts/genksyms/parse.y: warning: 9 shift/reduce conflicts [-Wconflicts-sr]
-	../scripts/genksyms/parse.y: warning: 5 reduce/reduce conflicts [-Wconflicts-rr]
-	../scripts/genksyms/parse.y: note: rerun with option '-Wcounterexamples' to generate conflict counterexamples
+This may generate an infinite loop!!
 
-    allyesconfig: return code #0:
-	../drivers/media/rc/meson-ir-tx.c:22: warning: expecting prototype for meson(). Prototype was for DEVICE_NAME() instead
-	SMATCH:../drivers/media/usb/siano/smsusb.c ../drivers/media/usb/siano/smsusb.c:53:38: :warning: array of flexible structures
-	SPARSE:../drivers/media/usb/siano/smsusb.c ../drivers/media/usb/siano/smsusb.c:53:38: warning: array of flexible structures
-	../drivers/media/i2c/ov8865.c: ../drivers/media/i2c/ov8865.c:2841 ov8865_get_selection() warn: inconsistent indenting
-	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2625 dvb_register() parse error: turning off implications after 60 seconds
-	../drivers/media/platform/qcom/venus/helpers.c: ../drivers/media/platform/qcom/venus/helpers.c:658 venus_helper_get_bufreq() error: we previously assumed 'req' could be null (see line 654)
-	../drivers/media/usb/em28xx/em28xx-video.c: ../drivers/media/usb/em28xx/em28xx-video.c:2874 em28xx_v4l2_init() parse error: turning off implications after 60 seconds
+After putting this into a separate function, please use a controlled loop
+with a well thought maximum number of retries, as to avoid this situation.
 
-   checkpatch.pl:
-	$ cat patches/0001-dt-bindings-mediatek-convert-mtk-jpeg-decoder-encode.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
-	-:23: WARNING: added, moved or deleted file(s), does MAINTAINERS need updating?
-	-:26: WARNING: DT binding docs and includes should be a separate patch. See: Documentation/devicetree/bindings/submitting-patches.rst
-	-:66: WARNING: DT binding docs and includes should be a separate patch. See: Documentation/devicetree/bindings/submitting-patches.rst
-	-:165: WARNING: DT binding docs and includes should be a separate patch. See: Documentation/devicetree/bindings/submitting-patches.rst
-	-:202: WARNING: DT binding docs and includes should be a separate patch. See: Documentation/devicetree/bindings/submitting-patches.rst
+> +retry_select:
+> +	hw_id = mtk_jpegdec_select_hw(ctx);
+> +	if (hw_id < 0) {
+> +		ret = wait_event_interruptible(jpeg->dec_hw_wq,
+> +			(atomic_read(hw_rdy[0]) ||
+> +			atomic_read(hw_rdy[1]) ||
+> +			atomic_read(hw_rdy[2])) > 0);
+> +		if (ret != 0) {
+> +			dev_err(jpeg->dev, "%s : %d, all HW are busy\n",
+> +				__func__, __LINE__);
+> +			v4l2_m2m_job_finish(jpeg->m2m_dev, ctx->fh.m2m_ctx);
+> +			return;
+> +		}
+> +
+> +		dev_err(jpeg->dev, "%s : %d, NEW HW IDLE, please retry selcet!!!\n",
+> +			__func__, __LINE__);
+> +		goto retry_select;
+> +	}
+>   
+> +	atomic_dec(&comp_jpeg[hw_id]->hw_rdy);
+>   	src_buf = v4l2_m2m_next_src_buf(ctx->fh.m2m_ctx);
+> +	if (!src_buf) {
+> +		dev_err(jpeg->dev, "%s : %d, get src_buf fail !!!\n",
+> +			__func__, __LINE__);
+> +		goto getbuf_fail;
+> +	}
+>   	dst_buf = v4l2_m2m_next_dst_buf(ctx->fh.m2m_ctx);
+> +	if (!dst_buf) {
+> +		dev_err(jpeg->dev, "%s : %d, get dst_buf fail !!!\n",
+> +			__func__, __LINE__);
+> +		goto getbuf_fail;
+> +	}
+> +
+>   	jpeg_src_buf = mtk_jpeg_vb2_to_srcbuf(&src_buf->vb2_buf);
+> +	jpeg_dst_buf = mtk_jpeg_vb2_to_srcbuf(&dst_buf->vb2_buf);
+>   
+> -	if (mtk_jpeg_check_resolution_change(ctx, &jpeg_src_buf->dec_param)) {
+> +	if (mtk_jpeg_check_resolution_change(ctx,
+> +		&jpeg_src_buf->dec_param)) {
 
-patches/0004-iommu-mediatek-v1-Free-the-existed-fwspec-if-the-mas.patch:
+Why are you breaking this line? There's no need to.
 
-   checkpatch.pl:
-	$ cat patches/0004-iommu-mediatek-v1-Free-the-existed-fwspec-if-the-mas.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
-	-:36: WARNING: Possible unwrapped commit description (prefer a maximum 75 chars per line)
-
-patches/0007-iommu-mediatek-Add-device_link-between-the-consumer-.patch:
-
-   checkpatch.pl:
-	$ cat patches/0007-iommu-mediatek-Add-device_link-between-the-consumer-.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
-	-:47: WARNING: Possible unwrapped commit description (prefer a maximum 75 chars per line)
+>   		mtk_jpeg_queue_src_chg_event(ctx);
+>   		ctx->state = MTK_JPEG_SOURCE_CHANGE;
+> -		v4l2_m2m_job_finish(jpeg->m2m_dev, ctx->fh.m2m_ctx);
+> -		return;
+> +		goto getbuf_fail;
+>   	}
+>   
 
 
-Error #512 when building PDF docs
-
+Regards,
+- Angelo
