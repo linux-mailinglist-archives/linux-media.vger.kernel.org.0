@@ -2,158 +2,157 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C13D946A4AD
-	for <lists+linux-media@lfdr.de>; Mon,  6 Dec 2021 19:34:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4294546A556
+	for <lists+linux-media@lfdr.de>; Mon,  6 Dec 2021 20:05:12 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238859AbhLFShf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 6 Dec 2021 13:37:35 -0500
-Received: from mail-mw2nam12hn2205.outbound.protection.outlook.com ([52.100.167.205]:25697
-        "EHLO NAM12-MW2-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S238059AbhLFShe (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 6 Dec 2021 13:37:34 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=i2gpE3XFPFtgonfYNMavx4DUuHCvdSKfAnxG71DAvYuk5IDndnHP9Z4mC7OPVga+5GoQtZa8ljapJx5WrrEFf4mmxCg82N25hrNzdNjBavTXUbwiX2p5xQRXHlJEddpjhX7/fR7tQwwtjJh0mJJRxea8P1XtDwyDZz7cRCSWzoTWfcg4as20BWIbd1zoBGXITCLYqKYSNI+VWDfbmyX9TzcOAoD0GbxZsSY/ffTLctqEqkKW06Q7FkC70SNvrIoqrYKmj8DVTcqFcX+EAvD1jVEUYCIOT0oqQJY6ZjTah3WXh0tHvM/CNKYvaIZm/uKLFFSgeE1aIV22NhGJLkkw2g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=NTkULZ5UHExQp4+lt+mjKcEqTWLs4cv4821EJcQtSYE=;
- b=lH2gG2PFL4+JSUi7U2CR7+G1ZaKq2b5zMPVmim2gJWY+F4kLPs6+axYyBAYxUwT4bmKo0arWOSRj0YGYVZAAUCWDMnuUiOdhRh76UZmrR12i2ccHGuSc99BvojwHsFxJBBSVHnTikae1De8Yy5n6AePin/dSYI5EASQj48hA+hVmxlCsPYQ0Wp4M+vN7+5QIC+AGFUVgIGdCprmuMOBn4odPMRjnT7GaAXgrMu+Jg91blJ4PtuOzB80SBvojPDeKPI6S1tGKQQ3R1TfcKOt5JV3DqfNlKgm85rUva5GGJFzAbNgKrQSF321+Tyxm8fK380vL3CogFoxrQwncI10q7Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=softfail (sender ip
- is 146.201.107.145) smtp.rcpttodomain=shippinglabels.com
- smtp.mailfrom=msn.com; dmarc=fail (p=none sp=quarantine pct=100) action=none
- header.from=msn.com; dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fsu.onmicrosoft.com;
- s=selector2-fsu-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=NTkULZ5UHExQp4+lt+mjKcEqTWLs4cv4821EJcQtSYE=;
- b=KpPBrpNtoI2enO9C27AFKfIgJ009C+FG+TQk2LF2Babse0AS4lG0BkSYVwy6s3CUrr0PT58WHM7G3j7Z1iL0ohb/WWKzlpaAb70/ak2ha5LbB1rGIBvSTuVyR16MPiOD8VMdkk68wPWcMfOuvpg61wRQBSPoW9oUStHyonQKP8U=
-Received: from DM5PR07CA0060.namprd07.prod.outlook.com (2603:10b6:4:ad::25) by
- SJ0P220MB0462.NAMP220.PROD.OUTLOOK.COM (2603:10b6:a03:301::18) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4755.16; Mon, 6 Dec 2021 18:33:59 +0000
-Received: from DM6NAM04FT031.eop-NAM04.prod.protection.outlook.com
- (2603:10b6:4:ad:cafe::f9) by DM5PR07CA0060.outlook.office365.com
- (2603:10b6:4:ad::25) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4755.14 via Frontend
- Transport; Mon, 6 Dec 2021 18:33:58 +0000
-X-MS-Exchange-Authentication-Results: spf=softfail (sender IP is
- 146.201.107.145) smtp.mailfrom=msn.com; dkim=none (message not signed)
- header.d=none;dmarc=fail action=none header.from=msn.com;
-Received-SPF: SoftFail (protection.outlook.com: domain of transitioning
- msn.com discourages use of 146.201.107.145 as permitted sender)
-Received: from mailrelay03.its.fsu.edu (146.201.107.145) by
- DM6NAM04FT031.mail.protection.outlook.com (10.13.158.86) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4755.13 via Frontend Transport; Mon, 6 Dec 2021 18:33:58 +0000
-Received: from [10.0.0.200] (ani.stat.fsu.edu [128.186.4.119])
-        by mailrelay03.its.fsu.edu (Postfix) with ESMTP id 791F29388F;
-        Mon,  6 Dec 2021 13:33:20 -0500 (EST)
-Content-Type: text/plain; charset="utf-8"
+        id S1348222AbhLFTIi (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 6 Dec 2021 14:08:38 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56542 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1347046AbhLFTIi (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 6 Dec 2021 14:08:38 -0500
+Received: from mail-qv1-xf34.google.com (mail-qv1-xf34.google.com [IPv6:2607:f8b0:4864:20::f34])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2A79EC061746
+        for <linux-media@vger.kernel.org>; Mon,  6 Dec 2021 11:05:09 -0800 (PST)
+Received: by mail-qv1-xf34.google.com with SMTP id i13so10834187qvm.1
+        for <linux-media@vger.kernel.org>; Mon, 06 Dec 2021 11:05:09 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ndufresne-ca.20210112.gappssmtp.com; s=20210112;
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :user-agent:mime-version:content-transfer-encoding;
+        bh=Bc6SGKQNlMFh9taK81eaVOm8+Noh1ocBxGN8bqECuqk=;
+        b=tSTX6CVKOlJcxtnIXzTwvjih4g9VupPHqBfCCpeawQ1csVcTqeSor0FqXaDLcOVoto
+         SkDMTCTaROpRgpmx6SLtt7xtyKRW+AAF16z6QuNpHpJH1NwOQJBhp5rjlYa5jTPp3xkR
+         Lv737niiytUuvSFQILx0sDCVkNSvEOpHo+KmX8y3N1AaLFQ5YEmJdBBw7vbpZHFYDvks
+         H4VrREJ78AsSpJoOQiX9JCzgz+Zv4lBHzR6bGFa5Z2iCW3wWgOzPs4bAodPyEZ3x68+m
+         LyoRRaxFTXJqV9uZcUdnYXYgn83ZNvB4r8zV6K3quKdCfV6zuFw57GMo9RGwpudOb+Ob
+         Vncw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=Bc6SGKQNlMFh9taK81eaVOm8+Noh1ocBxGN8bqECuqk=;
+        b=ryva0FncltsMX+vjaKWCkM+LM7Gv0FhLbSVaBnNe4R+r7Zzh7EovXusUS5yFpRIS90
+         DnT5lANuLReJIFnFks5dVAoyrpEYQREfOXmZYmKZ2u17G21VDKstZTc1PgzBbI32C5Jc
+         MdH+wSHTsh7evIq00zNOKw+diV1kAZznYHdYzceGdiCEawbclw4SN6+koW64QmTfgion
+         HHlL/PJEg1XPVjAap5P91cnG5ezLP3zOm/iNCJGaEVmwE1hs2E7obHFZiSwwwSfhEzj5
+         BZ+3mD9AS7YJXMHzxMiQEaTsM8n1DNIBlKbTKxgGf5Nut1BkguciW9xCznyaPcycX80V
+         N54Q==
+X-Gm-Message-State: AOAM533r/5cklhXsr8Egj907giXQcwx670imCeRZbyKNVlNL7zyWqC7K
+        rJoVjf1JUITYxkR0sOHtePowJA==
+X-Google-Smtp-Source: ABdhPJyzfE7VvZ03mSWFEoCHvAWa5ou1h9E4HstNlAcV0HyPMH1PrFVEgBSZun35WQhcbrUSoBqAoA==
+X-Received: by 2002:a05:6214:c47:: with SMTP id r7mr39609317qvj.51.1638817508236;
+        Mon, 06 Dec 2021 11:05:08 -0800 (PST)
+Received: from nicolas-tpx395.localdomain (mtl.collabora.ca. [66.171.169.34])
+        by smtp.gmail.com with ESMTPSA id d19sm8064502qtb.47.2021.12.06.11.05.06
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 06 Dec 2021 11:05:07 -0800 (PST)
+Message-ID: <b4bfa8b8f3d8f25c48a3b0b81a0e87dc90f111af.camel@ndufresne.ca>
+Subject: [REGRESSION] Re: [PATCH v10 11/21] media: uvcvideo: Set unique vdev
+ name based in type
+From:   Nicolas Dufresne <nicolas@ndufresne.ca>
+To:     Ricardo Ribalda <ribalda@chromium.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        tfiga@chromium.org
+Cc:     linux-kernel@vger.kernel.org, stable <stable@vger.kernel.org>
+Date:   Mon, 06 Dec 2021 14:05:06 -0500
+In-Reply-To: <20210618122923.385938-12-ribalda@chromium.org>
+References: <20210618122923.385938-1-ribalda@chromium.org>
+         <20210618122923.385938-12-ribalda@chromium.org>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.42.1 (3.42.1-1.fc35) 
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Description: Mail message body
-Subject: Re: From Fred!
-To:     Recipients <fred128@msn.com>
-From:   "Fred Gamba." <fred128@msn.com>
-Date:   Mon, 06 Dec 2021 19:32:38 +0100
-Reply-To: fred_gamba@yahoo.co.jp
-Message-ID: <955cd642-9683-4894-a115-fe68cc88cf7c@DM6NAM04FT031.eop-NAM04.prod.protection.outlook.com>
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: d1f6abcf-f315-4d72-6172-08d9b8e6f781
-X-MS-TrafficTypeDiagnostic: SJ0P220MB0462:EE_
-X-Microsoft-Antispam-PRVS: <SJ0P220MB046261E8C4F8DC844EB5FE93EB6D9@SJ0P220MB0462.NAMP220.PROD.OUTLOOK.COM>
-X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
-X-MS-Exchange-SenderADCheck: 2
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Forefront-Antispam-Report: CIP:146.201.107.145;CTRY:US;LANG:en;SCL:5;SRV:;IPV:CAL;SFV:SPM;H:mailrelay03.its.fsu.edu;PTR:mailrelay03.its.fsu.edu;CAT:OSPM;SFS:(4636009)(84050400002)(46966006)(40470700001)(356005)(9686003)(7596003)(6666004)(6862004)(86362001)(5660300002)(6266002)(316002)(508600001)(82202003)(336012)(26005)(47076005)(2906002)(70206006)(786003)(7116003)(7406005)(31696002)(2860700004)(7416002)(7366002)(6200100001)(70586007)(8936002)(31686004)(956004)(82310400004)(3480700007)(35950700001)(83380400001)(8676002)(40460700001)(480584002);DIR:OUT;SFP:1501;
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?dkZtQzZlV2tJa3dIWlZnQWZwWVJaQk44V2t4V282eThwWUhMTjVRV3R4UEZh?=
- =?utf-8?B?N0N1RnNkUVMrNTZlWkRsbjVBR0UxbkF2QWk2alk0U0wwRjJjdGxHdHYya1hR?=
- =?utf-8?B?Y3l0c1NoRk1XVWN1ejFjalJCUzh3eGphTjRnL1Y0Y2lkM1drNVk4a0hLdW4r?=
- =?utf-8?B?b2ZoUGlGT1NxSUtLYnRSQnNaTjdORm8vazdkdWRleUVJMzFhcVVFYkl6TUY2?=
- =?utf-8?B?TjIrbEphY0I0U3BQQ2dpSlJONEtibStqS21STzUzM1dtcWovRzEzLzhyOEli?=
- =?utf-8?B?VElKalNhYnd0SWE1bTRoWDRlU1oxZFhrWWdZNnFTV0kwM0hpbDlXMlYwdlUw?=
- =?utf-8?B?aE9qMUd0NjJzTlpPbDdRM3ZvRkpHVHYrRWFpa2R3dHc2M1FQR254Q0MrdTZK?=
- =?utf-8?B?ZDdSbkxIbTE5VUkrRmZwcHRoSWx1RXBVeEJwYXRSK1JFWHQ2dUlEd1M0ai9m?=
- =?utf-8?B?MTQ5QkQ0UWZqczlZWjVkSHR0QitNME1sNE0rYW5mQTZVc1N4V3BpZ3JGWVdX?=
- =?utf-8?B?ZU00dHRJVWlwUUQ4QjY0QkdYTVhlS21NV1FWWWxVaWZHREM2Yllwek8rWXNY?=
- =?utf-8?B?MHdNMG96UktzZXZVV1Jsei94MC9HeStsbERKdGp2K29lTkpBQnVkNWdaOWJV?=
- =?utf-8?B?SjV3RkwxYjUybnAzU2UrbXFKZzFhMVZyN20ycmVhbnJIUjMxZ1cwV3dUY0VD?=
- =?utf-8?B?VWZNdVFtcjBLS0ZHQVZ0OGdNc3VXeGl6M2ZpbExxUnQxakNTbjZFVXc2OThG?=
- =?utf-8?B?T3R6d1pTbTNwUWhRbFZSemdEWnc5T0hVZkJHSW9VaVMvdW1rVThlbEVlSWVw?=
- =?utf-8?B?N3NSOFRJTHR6RDRQK3k4c21GVzVZMm90QkhvSHY0dlBQNmljemFUME0yeHhW?=
- =?utf-8?B?cUZ1UVNCUVdSeFdtc2R6UTA2Y0p3aklOMXViZklwbG92TGFKamFIaVl0OVU1?=
- =?utf-8?B?M3A1VXlqN2ZLRnhRNkN1YUwxWFBlRm1SWmsrN1QvbitKandMT2RaemhkMXJW?=
- =?utf-8?B?OG8xeTA0RlgwaHBOSFVYaHJIeEcrcUhNMmYwUk5rRmJ5a2Q4L3dYQXF2ZFhZ?=
- =?utf-8?B?b3NaYkNldklsUFVGa2p4UFBmazQ0SDY4eEdXcXlzaGZsc3VDaTdsUEE3TnVj?=
- =?utf-8?B?aUlsUEt0LytGRk5aVWtGSy9jLy9mcnFmTWN5SE01VFpMTWNnQXpOL3VKenBj?=
- =?utf-8?B?bTBUWHpXWHZ5cWI5dnpjdGJ4bkgxek1uMHp3bVpZQjNnYkZnK1B2NHJicmY4?=
- =?utf-8?B?ekJES1czNFVSd2JRZjl1VHpnbFBtZG1BWjdydmZuK2tQbGxPZWlNZWdOZlhy?=
- =?utf-8?B?cFBZSXF5ajVSc1dGYTNEbncyckswSG1hNEhxdmt3aFdHTGN1ZVAwWHBveW9U?=
- =?utf-8?B?QlliTDQ4K3c2YW9PczZNbXluQlhzNjUxcVhDV2ptbTFKWHE0M05kWkVPOXNM?=
- =?utf-8?Q?yi8w22zX?=
-X-OriginatorOrg: fsu.edu
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Dec 2021 18:33:58.2670
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: d1f6abcf-f315-4d72-6172-08d9b8e6f781
-X-MS-Exchange-CrossTenant-Id: a36450eb-db06-42a7-8d1b-026719f701e3
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=a36450eb-db06-42a7-8d1b-026719f701e3;Ip=[146.201.107.145];Helo=[mailrelay03.its.fsu.edu]
-X-MS-Exchange-CrossTenant-AuthSource: DM6NAM04FT031.eop-NAM04.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0P220MB0462
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hello,
+Hi Ricard, 
 
-I decided to write you this proposal in good faith, believing that you will=
- not betray me. I have been in search of someone with the same last name of=
- our late customer and close friend of mine (Mr. Richard), heence I contact=
-ed you Because both of you bear the same surname and coincidentally from th=
-e same country, and I was pushed to contact you and see how best we can ass=
-ist each other. Meanwhile I am Mr. Fred Gamba, a reputable banker here in A=
-ccra Ghana.
+Le vendredi 18 juin 2021 à 14:29 +0200, Ricardo Ribalda a écrit :
+> All the entities must have a unique name. We can have a descriptive and
+> unique name by appending the function and the entity->id.
 
-On the 15 January 2009, the young millionaire (Mr. Richard) a citizen of yo=
-ur country and Crude Oil dealer made a fixed deposit with my bank for 60 ca=
-lendar months, valued at US $ 6,500,000.00 (Six Million, Five Hundred Thous=
-and US Dollars) and The mature date for this deposit contract was on 15th o=
-f January, 2015. But sadly he was among the death victims in the 03 March 2=
-011, Earthquake disaster in Japan that killed over 20,000 people including =
-him. Because he was in Japan on a business trip and that was how he met his=
- end.
+Thanks for your work. The only issue is that unfortunately this change cause an
+important regression for users. All UVC cameras in all UIs seems to no longer
+include any information about the camera. As an example, I have two cameras on
+my system and Firefox, Chrome, Cheese, Zoom and MS Team all agree that my camera
+are now:
 
-My bank management is yet to know about his death, but I knew about it beca=
-use he was my friend and I am his Account Relationship Officer, and he did =
-not mention any Next of Kin / Heir when the account was opened, because he =
-was not married and no children. Last week my Bank Management reminded me a=
-gain requested that Mr. Richard should give instructions on what to do abou=
-t his funds, if to renew the contract or not.
+  Video Capture 4
+  Video Capture 5
 
-I know this will happen and that is why I have been looking for a means to =
-handle the situation, because if my Bank Directors happens to know that he =
-is dead and do not have any Heir, they will take the funds for their person=
-al use, That is why I am seeking your co-operation to present you as the Ne=
-xt of Kin / Heir to the account, since you bear same last name with the dec=
-eased customer.
+Previously they would be shown as something like:
 
-There is no risk involved; the transaction will be executed under a legitim=
-ate arrangement that will protect you from any breach of law okay. So It's =
-better that we claim the money, than allowing the Bank Directors to take it=
-, they are rich already. I am not a greedy person, so I am suggesting we sh=
-are the funds in this ratio, 50% 50, ie equal.
+  StreamCam
+  Integrated
 
-Let me know your mind on this and please do treat this information highly c=
-onfidential.
+We should probably revert this change quickly before it get deployed more
+widely, I have notice the backport being sent for 5.4, 5.10 and 5.14. I'm using
+5.15 shipped by Fedora team.
 
-I will review further information to you as soon as I receive your
-positive response.
+As a proper solution, maybe I could suggest to keep using dev->name, but trim it
+enough to fit the " N" string to guaranty that you have enough space in this
+limited 32 char string and use that instead ? This should fit the uniqueness
+requirement without the sacrifice of the only possibly useful information we had
+in that limited string.
 
-Have a nice day and I anticipating your communication.
+regards,
+Nicolas
 
-With Regards,
-Fred Gamba.
+> 
+> This is even resilent to multi chain devices.
+> 
+> Fixes v4l2-compliance:
+> Media Controller ioctls:
+>                 fail: v4l2-test-media.cpp(205): v2_entity_names_set.find(key) != v2_entity_names_set.end()
+>         test MEDIA_IOC_G_TOPOLOGY: FAIL
+>                 fail: v4l2-test-media.cpp(394): num_data_links != num_links
+> 	test MEDIA_IOC_ENUM_ENTITIES/LINKS: FAIL
+> 
+> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> Reviewed-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+> ---
+>  drivers/media/usb/uvc/uvc_driver.c | 7 ++++++-
+>  1 file changed, 6 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc_driver.c
+> index 14b60792ffab..037bf80d1100 100644
+> --- a/drivers/media/usb/uvc/uvc_driver.c
+> +++ b/drivers/media/usb/uvc/uvc_driver.c
+> @@ -2194,6 +2194,7 @@ int uvc_register_video_device(struct uvc_device *dev,
+>  			      const struct v4l2_file_operations *fops,
+>  			      const struct v4l2_ioctl_ops *ioctl_ops)
+>  {
+> +	const char *name;
+>  	int ret;
+>  
+>  	/* Initialize the video buffers queue. */
+> @@ -2222,16 +2223,20 @@ int uvc_register_video_device(struct uvc_device *dev,
+>  	case V4L2_BUF_TYPE_VIDEO_CAPTURE:
+>  	default:
+>  		vdev->device_caps = V4L2_CAP_VIDEO_CAPTURE | V4L2_CAP_STREAMING;
+> +		name = "Video Capture";
+>  		break;
+>  	case V4L2_BUF_TYPE_VIDEO_OUTPUT:
+>  		vdev->device_caps = V4L2_CAP_VIDEO_OUTPUT | V4L2_CAP_STREAMING;
+> +		name = "Video Output";
+>  		break;
+>  	case V4L2_BUF_TYPE_META_CAPTURE:
+>  		vdev->device_caps = V4L2_CAP_META_CAPTURE | V4L2_CAP_STREAMING;
+> +		name = "Metadata";
+>  		break;
+>  	}
+>  
+> -	strscpy(vdev->name, dev->name, sizeof(vdev->name));
+> +	snprintf(vdev->name, sizeof(vdev->name), "%s %u", name,
+> +		 stream->header.bTerminalLink);
+>  
+>  	/*
+>  	 * Set the driver data before calling video_register_device, otherwise
+
