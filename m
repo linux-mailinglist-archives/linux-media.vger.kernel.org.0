@@ -2,101 +2,247 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CCE3F46963F
-	for <lists+linux-media@lfdr.de>; Mon,  6 Dec 2021 14:04:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4CD6446964B
+	for <lists+linux-media@lfdr.de>; Mon,  6 Dec 2021 14:07:21 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243804AbhLFNII (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 6 Dec 2021 08:08:08 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52996 "EHLO
+        id S243842AbhLFNKs (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 6 Dec 2021 08:10:48 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53642 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243743AbhLFNIG (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 6 Dec 2021 08:08:06 -0500
-Received: from mail-pj1-x1031.google.com (mail-pj1-x1031.google.com [IPv6:2607:f8b0:4864:20::1031])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 65502C061354
-        for <linux-media@vger.kernel.org>; Mon,  6 Dec 2021 05:04:37 -0800 (PST)
-Received: by mail-pj1-x1031.google.com with SMTP id f18-20020a17090aa79200b001ad9cb23022so6090514pjq.4
-        for <linux-media@vger.kernel.org>; Mon, 06 Dec 2021 05:04:37 -0800 (PST)
+        with ESMTP id S243829AbhLFNKr (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 6 Dec 2021 08:10:47 -0500
+Received: from mail-io1-xd2d.google.com (mail-io1-xd2d.google.com [IPv6:2607:f8b0:4864:20::d2d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 10217C061746
+        for <linux-media@vger.kernel.org>; Mon,  6 Dec 2021 05:07:19 -0800 (PST)
+Received: by mail-io1-xd2d.google.com with SMTP id q72so8167383iod.12
+        for <linux-media@vger.kernel.org>; Mon, 06 Dec 2021 05:07:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=EZNxS2Er2+TWPCvjwKrCutia6d+RziQ5eq8Nih9Wpag=;
-        b=NwQdgeQkNdIYvLlsCYBFOR7AArMeA4ocHnxglBH96EmJ72XZY4K6lP0WXCMPZC5MRd
-         e+xFSAfy3OIMsGoCjnF1s7RECqJpn+ibnWq/3RijwIqsS0/GA1OD6qEdDWL9wxC28o7F
-         QlNXB+IfCpWa0uCAhBQoxLGfF26k79BLgWYFM=
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=4qLqL6TExfilJQa816YeOozRIvZOpLAU1niZeo6h9s4=;
+        b=RqbFbzidRsMZ6ISGBUafhletbxbU5A6KbKIV4Y/dzS/Kp12avFv0vyUFV2afbxunuQ
+         P7/0Ze7JjtFyfNEaj9hAf30/T2LBcEqwRBs4w8zkaMUf2Jy5kA+TR17u0L36kCsrSQPU
+         bhXkw09ylw46GaFzvDkZ3IRwn3prdmgWjpcrI=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=EZNxS2Er2+TWPCvjwKrCutia6d+RziQ5eq8Nih9Wpag=;
-        b=3m1fRjUPn87f3MZMJfk2SAoyQ/SChYZxH4z4p0iobMsVyaetHfDJmj/Ba/S+l5Sbxw
-         q5wvmcfqtBK5ab3j6MLV1zQUwSM54qzKkv51eGpAa3OyJ+0/OkmyN1Octg7I7Nhamfrs
-         u1W38OjsyR/pWJXQKp7LEZpOX0KFGAUToPFr5ewXDYMnhW649bFaEjIj4VtOnNiRzFXu
-         8x6XwvI5b2e79HS0IBkH5Rzs1S/5n5i5iT1sp74vdaezWEfyMNHkiI3lDBXyWiqQTH1e
-         XFlNN73DmJAo+W5YzcSK317ti3V1c4Zy+Akre0f6pO+0p6C5zeCc7p0yPy7VmmA/pGkI
-         OrUQ==
-X-Gm-Message-State: AOAM531XI87G/lI85C/+YXDor/+E9hDkGq7mVKe79QfD8PT7FJIcK2tp
-        dlr10FkGIXoDX0IUPZeVA08sA/Y0htD5yg==
-X-Google-Smtp-Source: ABdhPJxzHx6MmM0wI6OVhtmYu60irjAp+3SFk9nmVn9Dxj4qPjt0SsnUvMGMavc7yAJJu47x0/ncFg==
-X-Received: by 2002:a17:902:b110:b0:142:7621:aecb with SMTP id q16-20020a170902b11000b001427621aecbmr43580422plr.55.1638795876908;
-        Mon, 06 Dec 2021 05:04:36 -0800 (PST)
-Received: from hsinyi-z840.tpe.corp.google.com ([2401:fa00:1:10:5044:6464:4ad7:572c])
-        by smtp.gmail.com with ESMTPSA id v25sm12402292pfg.175.2021.12.06.05.04.35
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 06 Dec 2021 05:04:36 -0800 (PST)
-From:   Hsin-Yi Wang <hsinyi@chromium.org>
-To:     Matthias Brugger <matthias.bgg@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>, linux-media@vger.kernel.org
-Cc:     linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
-        linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
-        yong.wu@mediatek.com
-Subject: [v6 3/3] arm64: dts: mt8183: add jpeg enc node for mt8183
-Date:   Mon,  6 Dec 2021 21:04:25 +0800
-Message-Id: <20211206130425.184420-3-hsinyi@chromium.org>
-X-Mailer: git-send-email 2.34.1.400.ga245620fadb-goog
-In-Reply-To: <20211206130425.184420-1-hsinyi@chromium.org>
-References: <20211206130425.184420-1-hsinyi@chromium.org>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=4qLqL6TExfilJQa816YeOozRIvZOpLAU1niZeo6h9s4=;
+        b=Izs2McoxSsT7ySM9OpkjG3vtFFPRFzQpu2x+k/MLFsL4NxENtxlEDELmRdFydmjMF8
+         dS7c9vWCH1xhCAJLx97BzEDGjTcMPXcCoRfx5JoqQdsQYcmRwpotE1Bv2GFH9nH1Ty8m
+         As8bWFD67FnRSeVWF+S2wKU4aJC7r2pr0ekXYgAh2dG8A6F72RYN6VYS4OPFSg3knZZa
+         4IdjnSI7bCUQMJ1cfW4j+BZUvxyaUNswlv/nF2k7KgWbr09VzO5tep76wdlFSJ2MfixL
+         PHJjULwHYmz7rYKQMuuCNVgbfsdYrUNzIqHJ6wIfi69QXKsaCetIwQ7qXFJWjPk9vQfw
+         3x0g==
+X-Gm-Message-State: AOAM533bNPGoTR/1fk343Lc2yASc6XvPNWXQt6O/UXCeVwSNA8pG8t2e
+        edRYqG/F1uWNdVp5u7mmkRnksnFB5GmFNgP2GhS4DQ==
+X-Google-Smtp-Source: ABdhPJy085ORsitV4ZaNdB4Xow1WGBaA/RrivGlO/iRgMUsG0n9UtP5kWQuGtKWiXbbvXUuCUCWpEf8sSiE1MbF1mpM=
+X-Received: by 2002:a05:6602:2e81:: with SMTP id m1mr31883395iow.55.1638796038291;
+ Mon, 06 Dec 2021 05:07:18 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20211112105509.12010-1-yong.wu@mediatek.com> <6d4056d6-21ac-c230-ac7f-a45eb3d3dcfa@xs4all.nl>
+In-Reply-To: <6d4056d6-21ac-c230-ac7f-a45eb3d3dcfa@xs4all.nl>
+From:   Hsin-Yi Wang <hsinyi@chromium.org>
+Date:   Mon, 6 Dec 2021 21:06:52 +0800
+Message-ID: <CAJMQK-iD_BCzkThV0gyHCY_YL+OwgJ6D0tHMx8Fk=m=8t-E7UA@mail.gmail.com>
+Subject: Re: [PATCH v9 00/15] Clean up "mediatek,larb"
+To:     Hans Verkuil <hverkuil@xs4all.nl>
+Cc:     Yong Wu <yong.wu@mediatek.com>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Joerg Roedel <joro@8bytes.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
+        David Airlie <airlied@linux.ie>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Evan Green <evgreen@chromium.org>,
+        Robin Murphy <robin.murphy@arm.com>,
+        Tomasz Figa <tfiga@chromium.org>,
+        Will Deacon <will.deacon@arm.com>,
+        linux-mediatek@lists.infradead.org, srv_heupstream@mediatek.com,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        iommu@lists.linux-foundation.org, youlin.pei@mediatek.com,
+        Matthias Kaehlcke <mka@chromium.org>, anan.sun@mediatek.com,
+        yi.kuo@mediatek.com, acourbot@chromium.org,
+        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Tiffany Lin <tiffany.lin@mediatek.com>,
+        Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
+        Eizan Miyamoto <eizan@chromium.org>,
+        anthony.huang@mediatek.com,
+        Frank Wunderlich <frank-w@public-files.de>,
+        mingyuan.ma@mediatek.com, yf.wang@mediatek.com,
+        libo.kang@mediatek.com
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Maoguang Meng <maoguang.meng@mediatek.com>
+On Mon, Dec 6, 2021 at 8:23 PM Hans Verkuil <hverkuil@xs4all.nl> wrote:
+>
+> Hi Yong Wu,
+>
+> On 12/11/2021 11:54, Yong Wu wrote:
+> > MediaTek IOMMU block diagram always like below:
+> >
+> >         M4U
+> >          |
+> >     smi-common
+> >          |
+> >   -------------
+> >   |         |  ...
+> >   |         |
+> > larb1     larb2
+> >   |         |
+> > vdec       venc
+> >
+> > All the consumer connect with smi-larb, then connect with smi-common.
+> >
+> > When the consumer works, it should enable the smi-larb's power which also
+> > need enable the smi-common's power firstly.
+> >
+> > Thus, Firstly, use the device link connect the consumer and the
+> > smi-larbs. then add device link between the smi-larb and smi-common.
+> >
+> > After adding the device_link, then "mediatek,larb" property can be removed.
+> > the iommu consumer don't need call the mtk_smi_larb_get/put to enable
+> > the power and clock of smi-larb and smi-common.
+> >
+> > Base on a jpeg dt-bing patchset[1] that already got the necessary R-b.
+> >
+> > This patchset cross several tree, From [2], the media tree should be a good choice.
+> >
+> > [1] https://lore.kernel.org/linux-mediatek/20210702102304.3346429-1-hsinyi@chromium.org/
+>
+> Please resend this patch series converting the jpeg bindings to yaml, and this time
+> CC the linux-media mailinglist. Because that was omitted, it never appeared in the
+> media patchwork system, and so this was never merged. Since this patch series depends on
+> this series, this needs to be merged first.
 
-Add jpeg encoder device tree node.
+Hi Hans,
 
-Signed-off-by: Maoguang Meng <maoguang.meng@mediatek.com>
-Signed-off-by: Hsin-Yi Wang <hsinyi@chromium.org>
----
-v5->v6: no change, rebase to latest linux-next
----
- arch/arm64/boot/dts/mediatek/mt8183.dtsi | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
+I've resent a v6 and cc linux-media:
+https://patchwork.linuxtv.org/project/linux-media/patch/20211206130425.184420-1-hsinyi@chromium.org/
 
-diff --git a/arch/arm64/boot/dts/mediatek/mt8183.dtsi b/arch/arm64/boot/dts/mediatek/mt8183.dtsi
-index ba4584faca5aea..ac6b0c12d3b339 100644
---- a/arch/arm64/boot/dts/mediatek/mt8183.dtsi
-+++ b/arch/arm64/boot/dts/mediatek/mt8183.dtsi
-@@ -1530,6 +1530,18 @@ larb4: larb@17010000 {
- 			power-domains = <&spm MT8183_POWER_DOMAIN_VENC>;
- 		};
- 
-+		venc_jpg: venc_jpg@17030000 {
-+			compatible = "mediatek,mt8183-jpgenc", "mediatek,mtk-jpgenc";
-+			reg = <0 0x17030000 0 0x1000>;
-+			interrupts = <GIC_SPI 249 IRQ_TYPE_LEVEL_LOW>;
-+			mediatek,larb = <&larb4>;
-+			iommus = <&iommu M4U_PORT_JPGENC_RDMA>,
-+				 <&iommu M4U_PORT_JPGENC_BSDMA>;
-+			power-domains = <&spm MT8183_POWER_DOMAIN_VENC>;
-+			clocks = <&vencsys CLK_VENC_JPGENC>;
-+			clock-names = "jpgenc";
-+		};
-+
- 		ipu_conn: syscon@19000000 {
- 			compatible = "mediatek,mt8183-ipu_conn", "syscon";
- 			reg = <0 0x19000000 0 0x1000>;
--- 
-2.34.1.400.ga245620fadb-goog
+thanks
 
+>
+> Bindings for media drivers must be CC-ed to linux-media, since we maintain those.
+>
+> Regards,
+>
+>         Hans
+>
+> > [2] https://lore.kernel.org/linux-mediatek/e7269c80-5437-6ab9-c1db-df0b94eb97d8@gmail.com/
+> >
+> > Change notes:
+> > v9: 1) Add return -ENODEV when the dev is null.
+> >     2) Add more strict about the case that a iommu consume device use the ports in
+> >     different larbs. Don't allow this case.
+> >     3) Remove two codec interface: mtk_vcodec_release_enc/dec_pm since it only has one
+> >     line now.
+> >
+> > v8: https://lore.kernel.org/linux-mediatek/20210929013719.25120-1-yong.wu@mediatek.com/
+> >     1) Rebase on v5.15-rc1.
+> >     2) Don't rebase the below mdp patchset that may still need more discuss.
+> >     https://lore.kernel.org/linux-mediatek/20210709022324.1607884-1-eizan@chromium.org/
+> >     3) Add Frank's Tested-by. Remove Dafna's Tested-by as he requested.
+> >
+> > v7: https://lore.kernel.org/linux-mediatek/20210730025238.22456-1-yong.wu@mediatek.com/
+> >     1) Fix a arm32 boot fail issue. reported from Frank.
+> >     2) Add a return fail in the mtk drm. suggested by Dafna.
+> >
+> > v6: https://lore.kernel.org/linux-mediatek/20210714025626.5528-1-yong.wu@mediatek.com/
+> >     1) rebase on v5.14-rc1.
+> >     2) Fix the issue commented in v5 from Dafna and Hsin-Yi.
+> >     3) Remove the patches about using pm_runtime_resume_and_get since they have
+> >        already been merged by other patches.
+> >
+> > v5: https://lore.kernel.org/linux-mediatek/20210410091128.31823-1-yong.wu@mediatek.com/
+> >     1) Base v5.12-rc2.
+> >     2) Remove changing the mtk-iommu to module_platform_driver patch, It have already been a
+> >     independent patch.
+> >
+> > v4: https://lore.kernel.org/linux-mediatek/1590826218-23653-1-git-send-email-yong.wu@mediatek.com/
+> >     base on v5.7-rc1.
+> >   1) Move drm PM patch before smi patchs.
+> >   2) Change builtin_platform_driver to module_platform_driver since we may need
+> >      build as module.
+> >   3) Rebase many patchset as above.
+> >
+> > v3: https://lore.kernel.org/linux-iommu/1567503456-24725-1-git-send-email-yong.wu@mediatek.com/
+> >     1) rebase on v5.3-rc1 and the latest mt8183 patchset.
+> >     2) Use device_is_bound to check whether the driver is ready from Matthias.
+> >     3) Add DL_FLAG_STATELESS flag when calling device_link_add and explain the
+> >    reason in the commit message[3/14].
+> >     4) Add a display patch[12/14] into this series. otherwise it may affect
+> >    display HW fastlogo even though it don't happen in mt8183.
+> >
+> > v2: https://lore.kernel.org/linux-iommu/1560171313-28299-1-git-send-email-yong.wu@mediatek.com/
+> >    1) rebase on v5.2-rc1.
+> >    2) Move adding device_link between the consumer and smi-larb into
+> > iommu_add_device from Robin.
+> >    3) add DL_FLAG_AUTOREMOVE_CONSUMER even though the smi is built-in from Evan.
+> >    4) Remove the shutdown callback in iommu.
+> >
+> > v1: https://lore.kernel.org/linux-iommu/1546318276-18993-1-git-send-email-yong.wu@mediatek.com/
+> >
+> > Yong Wu (14):
+> >   dt-binding: mediatek: Get rid of mediatek, larb for multimedia HW
+> >   iommu/mediatek-v1: Free the existed fwspec if the master dev already
+> >     has
+> >   iommu/mediatek: Return ENODEV if the device is NULL
+> >   iommu/mediatek: Add probe_defer for smi-larb
+> >   iommu/mediatek: Add device_link between the consumer and the larb
+> >     devices
+> >   media: mtk-jpeg: Get rid of mtk_smi_larb_get/put
+> >   media: mtk-mdp: Get rid of mtk_smi_larb_get/put
+> >   drm/mediatek: Get rid of mtk_smi_larb_get/put
+> >   media: mtk-vcodec: Get rid of mtk_smi_larb_get/put
+> >   media: mtk-vcodec: dec: Remove mtk_vcodec_release_dec_pm
+> >   media: mtk-vcodec: enc: Remove mtk_vcodec_release_enc_pm
+> >   memory: mtk-smi: Get rid of mtk_smi_larb_get/put
+> >   arm: dts: mediatek: Get rid of mediatek, larb for MM nodes
+> >   arm64: dts: mediatek: Get rid of mediatek, larb for MM nodes
+> >
+> > Yongqiang Niu (1):
+> >   drm/mediatek: Add pm runtime support for ovl and rdma
+> >
+> >  .../display/mediatek/mediatek,disp.txt        |  9 ----
+> >  .../bindings/media/mediatek-jpeg-decoder.yaml |  9 ----
+> >  .../bindings/media/mediatek-jpeg-encoder.yaml |  9 ----
+> >  .../bindings/media/mediatek-mdp.txt           |  8 ---
+> >  .../bindings/media/mediatek-vcodec.txt        |  4 --
+> >  arch/arm/boot/dts/mt2701.dtsi                 |  2 -
+> >  arch/arm/boot/dts/mt7623n.dtsi                |  5 --
+> >  arch/arm64/boot/dts/mediatek/mt8173.dtsi      | 16 ------
+> >  arch/arm64/boot/dts/mediatek/mt8183.dtsi      |  6 ---
+> >  drivers/gpu/drm/mediatek/mtk_disp_ovl.c       |  8 ++-
+> >  drivers/gpu/drm/mediatek/mtk_disp_rdma.c      |  9 +++-
+> >  drivers/gpu/drm/mediatek/mtk_drm_crtc.c       | 15 +++---
+> >  drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c   | 36 +------------
+> >  drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h   |  1 -
+> >  drivers/gpu/drm/mediatek/mtk_drm_drv.c        |  5 +-
+> >  drivers/iommu/mtk_iommu.c                     | 34 ++++++++++++
+> >  drivers/iommu/mtk_iommu_v1.c                  | 42 ++++++++++++++-
+> >  .../media/platform/mtk-jpeg/mtk_jpeg_core.c   | 45 +---------------
+> >  .../media/platform/mtk-jpeg/mtk_jpeg_core.h   |  2 -
+> >  drivers/media/platform/mtk-mdp/mtk_mdp_comp.c | 40 --------------
+> >  drivers/media/platform/mtk-mdp/mtk_mdp_comp.h |  2 -
+> >  drivers/media/platform/mtk-mdp/mtk_mdp_core.c |  1 -
+> >  .../platform/mtk-vcodec/mtk_vcodec_dec_drv.c  |  8 +--
+> >  .../platform/mtk-vcodec/mtk_vcodec_dec_pm.c   | 46 +++-------------
+> >  .../platform/mtk-vcodec/mtk_vcodec_dec_pm.h   |  3 +-
+> >  .../platform/mtk-vcodec/mtk_vcodec_drv.h      |  3 --
+> >  .../platform/mtk-vcodec/mtk_vcodec_enc.c      |  1 -
+> >  .../platform/mtk-vcodec/mtk_vcodec_enc_drv.c  |  6 +--
+> >  .../platform/mtk-vcodec/mtk_vcodec_enc_pm.c   | 52 +++----------------
+> >  .../platform/mtk-vcodec/mtk_vcodec_enc_pm.h   |  3 +-
+> >  drivers/memory/mtk-smi.c                      | 14 -----
+> >  include/soc/mediatek/smi.h                    | 20 -------
+> >  32 files changed, 125 insertions(+), 339 deletions(-)
+> >
+>
