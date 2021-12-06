@@ -2,83 +2,292 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BAE7E46A303
-	for <lists+linux-media@lfdr.de>; Mon,  6 Dec 2021 18:29:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7B03646A3CA
+	for <lists+linux-media@lfdr.de>; Mon,  6 Dec 2021 19:06:46 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242645AbhLFRdG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 6 Dec 2021 12:33:06 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33986 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236887AbhLFRdG (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 6 Dec 2021 12:33:06 -0500
-Received: from mail-pf1-x436.google.com (mail-pf1-x436.google.com [IPv6:2607:f8b0:4864:20::436])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3E398C061746;
-        Mon,  6 Dec 2021 09:29:37 -0800 (PST)
-Received: by mail-pf1-x436.google.com with SMTP id k64so2620072pfd.11;
-        Mon, 06 Dec 2021 09:29:37 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=+4D2gd34chIeky2+Mk94dpK2WzcUZASaCDqX1ESt5ek=;
-        b=GlBcN0/Q0jgQzFNFmk5XW+lqVah7ziMXS0Av6h382Qu/J6mOWiSs365RYqaoN0qfeG
-         ZVoIMi4m/mqbrRCMB84hkh6xdG4vPuBYqHqnipum337AoS/OxI/o7kTrStYRImkbA9k1
-         PdoiRDfN/sYYYSuQpQIqclNn/6tnGvZKCsd+rHh0zHzE6c+8Y+0RhGkm+ylE6ESLwvSR
-         1r+xqIjSDk+i5u0BAwiK3N9E9AirUr2qLQU5bmjxBgcrmrIpjsStKwfcEjVGy59mNlZ7
-         B1O+84sLzNblTUQTrGtZ0o92zhUcFFMiQtyn9qt8of4wCIOPtYOdWvq32AaYm85Hw1v/
-         7aug==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=+4D2gd34chIeky2+Mk94dpK2WzcUZASaCDqX1ESt5ek=;
-        b=bWOKLddp0HhKIvkxSBklMvHJ+ymF0jLmbEI1ndqzTV7zVvjgni8eHrbLfbS3aySSY/
-         IgrYhXJRpBuJLio239Lp7QI6vQ/OsndicDyVfHmRoDLC7A5K/buYx+n46G2+/eaMylJw
-         MvCD+mppV8+qxKAs4sf9/QgvlCilYYgq8xvLwFe9qUY2wKvP56KjLWoDvoEg0MlKNe0e
-         vPkrdpfwxyk1jtbWEgEP4K5P88x9FTEVOew7vdXfJzYbeWJHJaodxH6dTfg2+D8YpmUm
-         8H184o+S6ohYDHMO1mB8jlPF85cykBltMpDIa0oHBhQ2qe42n695uQubcQls2IpmpYD9
-         in1Q==
-X-Gm-Message-State: AOAM533w/c4vYA8mD5ujgkkmiSt0VbnwiRZM4zMebS8xHoEJv0YFZsc0
-        8sxfWGiKA3FXVs2QawwX4rAafIrBU0Y=
-X-Google-Smtp-Source: ABdhPJzObQy1ac11926kAG+QhAGbysShB/qk5amvYBRp3rHagbfyfTeBFpiAA/VvDrKIvis+/3ymiA==
-X-Received: by 2002:a05:6a00:8cc:b0:4a8:262:49e1 with SMTP id s12-20020a056a0008cc00b004a8026249e1mr37711586pfu.28.1638811776791;
-        Mon, 06 Dec 2021 09:29:36 -0800 (PST)
-Received: from [10.67.48.245] ([192.19.223.252])
-        by smtp.googlemail.com with ESMTPSA id ms15sm2153pjb.26.2021.12.06.09.29.35
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 06 Dec 2021 09:29:36 -0800 (PST)
-Subject: Re: [RFC PATCH 2/3] pinctrl-bcm2835: don't call
- pinctrl_gpio_direction()
-To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        linux-media@vger.kernel.org
-Cc:     Linus Walleij <linus.walleij@linaro.org>,
-        linux-gpio@vger.kernel.org, Maxime Ripard <maxime@cerno.tech>
-References: <20211206131648.1521868-1-hverkuil-cisco@xs4all.nl>
- <20211206131648.1521868-3-hverkuil-cisco@xs4all.nl>
-From:   Florian Fainelli <f.fainelli@gmail.com>
-Message-ID: <1623272c-75ce-4410-d939-e4d28ffe5bd9@gmail.com>
-Date:   Mon, 6 Dec 2021 09:29:35 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+        id S1346526AbhLFSKO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 6 Dec 2021 13:10:14 -0500
+Received: from gofer.mess.org ([88.97.38.141]:57015 "EHLO gofer.mess.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S238530AbhLFSKN (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Mon, 6 Dec 2021 13:10:13 -0500
+Received: by gofer.mess.org (Postfix, from userid 1000)
+        id 791E0C63C2; Mon,  6 Dec 2021 18:06:43 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mess.org; s=2020;
+        t=1638814003; bh=5UsiuUCw3vbuWHb3TEEmtbmhwrRimdqfPJQvlqrpC5g=;
+        h=From:To:Cc:Subject:Date:From;
+        b=bqpalmOKNiE6c0F8iRxZc3XgYeokbxpnGXh6lYIURHETReU36FBZ6pLUMaUGpawfa
+         9pLdUGFGaY1v/PzNgKSkZgrFxU+LUfkjZvQRkk65fS0TYSWPJTIIghPfqsk0x6k0ro
+         AI7YxbFboumqv/gABQxIGc93sDt5wluJ1Tec7zKJ8mCkhdgL1POEQ49zZ9kAGOF0uV
+         dMhdWMjw2Ip93A1ep5W+HYbLXvoOjqAfhxiG1edKFFz0wZU88cnXDu0ZbBWJSGytMf
+         zsE274ke9fJMDCjw5xBjnLLvMPFV89XGzDlXdcAlIt5gRGtrJNpbeVEPu/XPKg2rng
+         nAvfhESXtTe3A==
+From:   Sean Young <sean@mess.org>
+To:     linux-media@vger.kernel.org
+Cc:     =?UTF-8?q?=D0=9C=D0=B8=D1=85=D0=B0=D0=B8=D0=BB?= 
+        <vrserver1@gmail.com>
+Subject: [PATCH v4l-utils] ir-ctl: allow for different gaps to be specified
+Date:   Mon,  6 Dec 2021 18:06:43 +0000
+Message-Id: <20211206180643.2690-1-sean@mess.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-In-Reply-To: <20211206131648.1521868-3-hverkuil-cisco@xs4all.nl>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 12/6/21 5:16 AM, Hans Verkuil wrote:
-> Set the direction directly without calling pinctrl_gpio_direction().
-> This avoids the mutex_lock() calls in that function, which would
-> invalid the can_sleep = false.
+For example:
 
-make invalid, or invalidate?
+ir-ctl --send=part1 --gap=10000 --send=part2 --gap=20000 --send=part3
 
-With that fixed:
+This would introduce a gap of 10000 microseconds between part1 and
+part2, and 20000 microseconds between part2 and part3.
 
-Reviewed-by: Florian Fainelli <f.fainelli@gmail.com>
+Signed-off-by: Sean Young <sean@mess.org>
+---
+ utils/ir-ctl/ir-ctl.c | 122 +++++++++++++++++++++---------------------
+ 1 file changed, 60 insertions(+), 62 deletions(-)
+
+diff --git a/utils/ir-ctl/ir-ctl.c b/utils/ir-ctl/ir-ctl.c
+index 34cde11e..c3a34d3f 100644
+--- a/utils/ir-ctl/ir-ctl.c
++++ b/utils/ir-ctl/ir-ctl.c
+@@ -66,14 +66,19 @@
+ const char *argp_program_version = "IR ctl version " V4L_UTILS_VERSION;
+ const char *argp_program_bug_address = "Sean Young <sean@mess.org>";
+ 
++enum send_ty {
++	SEND_RAW,
++	SEND_SCANCODE,
++	SEND_KEYCODE,
++	SEND_GAP,
++};
+ /*
+  * Since this program drives the lirc interface, use the same terminology
+  */
+ struct send {
+ 	struct send *next;
+ 	const char *fname;
+-	bool is_scancode;
+-	bool is_keycode;
++	enum send_ty ty;
+ 	union {
+ 		struct {
+ 			unsigned carrier;
+@@ -85,6 +90,7 @@ struct send {
+ 			unsigned protocol;
+ 		};
+ 		char	keycode[1];
++		int	gap;
+ 	};
+ };
+ 
+@@ -223,8 +229,7 @@ static struct send *read_file_pulse_space(struct arguments *args, const char *fn
+ 		fprintf(stderr, _("Failed to allocate memory\n"));
+ 		return NULL;
+ 	}
+-	f->is_scancode = false;
+-	f->is_keycode = false;
++	f->ty = SEND_RAW;
+ 	f->carrier = UNSET;
+ 	f->fname = fname;
+ 
+@@ -393,8 +398,7 @@ static struct send *read_file_raw(struct arguments *args, const char *fname, FIL
+ 		fclose(input);
+ 		return NULL;
+ 	}
+-	f->is_scancode = false;
+-	f->is_keycode = false;
++	f->ty = SEND_RAW;
+ 	f->carrier = UNSET;
+ 	f->fname = fname;
+ 
+@@ -549,14 +553,32 @@ static struct send *read_scancode(const char *name)
+ 		return NULL;
+ 	}
+ 
+-	f->is_scancode = true;
+-	f->is_keycode = false;
++	f->ty = SEND_SCANCODE;
+ 	f->scancode = scancode;
+ 	f->protocol = proto;
+ 
+ 	return f;
+ }
+ 
++static void add_to_send_list(struct arguments *arguments, struct send *send)
++{
++	send->next = NULL;
++
++	if (arguments->send == NULL)
++		arguments->send = send;
++	else {
++		// introduce gap
++		struct send *gap = malloc(sizeof(*gap));
++		gap->ty = SEND_GAP;
++		gap->gap = arguments->gap;
++		gap->next = send;
++
++		struct send *p = arguments->send;
++		while (p->next) p = p->next;
++		p->next = gap;
++	}
++}
++
+ static error_t parse_opt(int k, char *arg, struct argp_state *state)
+ {
+ 	struct arguments *arguments = state->input;
+@@ -664,14 +686,7 @@ static error_t parse_opt(int k, char *arg, struct argp_state *state)
+ 		if (s == NULL)
+ 			exit(EX_DATAERR);
+ 
+-		s->next = NULL;
+-		if (arguments->send == NULL)
+-			arguments->send = s;
+-		else {
+-			struct send *p = arguments->send;
+-			while (p->next) p = p->next;
+-			p->next = s;
+-		}
++		add_to_send_list(arguments, s);
+ 		break;
+ 	case 'S':
+ 		if (arguments->receive || arguments->features)
+@@ -680,14 +695,7 @@ static error_t parse_opt(int k, char *arg, struct argp_state *state)
+ 		if (s == NULL)
+ 			exit(EX_DATAERR);
+ 
+-		s->next = NULL;
+-		if (arguments->send == NULL)
+-			arguments->send = s;
+-		else {
+-			struct send *p = arguments->send;
+-			while (p->next) p = p->next;
+-			p->next = s;
+-		}
++		add_to_send_list(arguments, s);
+ 		break;
+ 
+ 	case 'K':
+@@ -696,18 +704,10 @@ static error_t parse_opt(int k, char *arg, struct argp_state *state)
+ 		s = malloc(sizeof(*s) + strlen(arg));
+ 		if (s == NULL)
+ 			exit(EX_DATAERR);
+-
+-		s->next = NULL;
+ 		strcpy(s->keycode, arg);
+-		s->is_scancode = false;
+-		s->is_keycode = true;
+-		if (arguments->send == NULL)
+-			arguments->send = s;
+-		else {
+-			struct send *p = arguments->send;
+-			while (p->next) p = p->next;
+-			p->next = s;
+-		}
++		s->ty = SEND_KEYCODE;
++
++		add_to_send_list(arguments, s);
+ 		break;
+ 
+ 	case 'k':
+@@ -757,8 +757,7 @@ static struct send* convert_keycode(struct keymap *map, const char *keycode)
+ 				s = malloc(sizeof(*s) + re->raw_length * sizeof(int));
+ 				s->len = re->raw_length;
+ 				memcpy(s->buf, re->raw, s->len * sizeof(int));
+-				s->is_scancode = false;
+-				s->is_keycode = false;
++				s->ty = SEND_RAW;
+ 				s->carrier = keymap_param(map, "carrier", 0);
+ 				s->next = NULL;
+ 			}
+@@ -783,16 +782,14 @@ static struct send* convert_keycode(struct keymap *map, const char *keycode)
+ 				s = malloc(sizeof(*s));
+ 				s->protocol = proto;
+ 				s->scancode = se->scancode;
+-				s->is_scancode = true;
+-				s->is_keycode = false;
++				s->ty = SEND_SCANCODE;
+ 				s->next = NULL;
+ 			} else if (encode_bpf_protocol(map, se->scancode,
+ 						       buf, &length)) {
+ 				s = malloc(sizeof(*s) + sizeof(int) * length);
+ 				s->len = length;
+ 				memcpy(s->buf, buf, length * sizeof(int));
+-				s->is_scancode = false;
+-				s->is_keycode = false;
++				s->ty = SEND_RAW;
+ 				s->carrier = keymap_param(map, "carrier", 0);
+ 				s->next = NULL;
+ 			} else {
+@@ -1049,7 +1046,7 @@ static int lirc_send(struct arguments *args, int fd, unsigned features, struct s
+ 		return EX_UNAVAILABLE;
+ 	}
+ 
+-	if (f->is_scancode) {
++	if (f->ty == SEND_SCANCODE) {
+ 		if (args->verbose)
+ 			printf("Sending to kernel encoder protocol:%s scancode:0x%x\n",
+ 			       protocol_name(f->protocol), f->scancode);
+@@ -1075,7 +1072,7 @@ static int lirc_send(struct arguments *args, int fd, unsigned features, struct s
+ 		return EX_UNAVAILABLE;
+ 	}
+ 
+-	if (f->is_scancode) {
++	if (f->ty == SEND_SCANCODE) {
+ 		// encode scancode
+ 		enum rc_proto proto = f->protocol;
+ 		if (!protocol_encoder_available(proto)) {
+@@ -1265,29 +1262,30 @@ int main(int argc, char *argv[])
+ 	struct send *s = args.send;
+ 	while (s) {
+ 		struct send *next = s->next;
+-		if (s != args.send)
+-			usleep(args.gap);
+-
+-		if (s->is_keycode) {
+-			struct send *k;
++		if (s->ty == SEND_GAP) {
++			usleep(s->gap);
++		} else {
++			if (s->ty == SEND_KEYCODE) {
++				struct send *k;
+ 
+-			if (!args.keymap) {
+-				fprintf(stderr, _("error: no keymap specified\n"));
+-				exit(EX_DATAERR);
+-			}
++				if (!args.keymap) {
++					fprintf(stderr, _("error: no keymap specified\n"));
++					exit(EX_DATAERR);
++				}
+ 
+-			k = convert_keycode(args.keymap, s->keycode);
+-			if (!k)
+-				exit(EX_DATAERR);
++				k = convert_keycode(args.keymap, s->keycode);
++				if (!k)
++					exit(EX_DATAERR);
+ 
+-			free(s);
+-			s = k;
+-		}
++				free(s);
++				s = k;
++			}
+ 
+-		rc = lirc_send(&args, fd, features, s);
+-		if (rc) {
+-			close(fd);
+-			exit(rc);
++			rc = lirc_send(&args, fd, features, s);
++			if (rc) {
++				close(fd);
++				exit(rc);
++			}
+ 		}
+ 
+ 		free(s);
 -- 
-Florian
+2.33.1
+
