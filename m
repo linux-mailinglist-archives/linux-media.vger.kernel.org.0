@@ -2,337 +2,243 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0BFDE46AB60
-	for <lists+linux-media@lfdr.de>; Mon,  6 Dec 2021 23:24:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6242246AC0D
+	for <lists+linux-media@lfdr.de>; Mon,  6 Dec 2021 23:30:46 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1356525AbhLFW1b (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 6 Dec 2021 17:27:31 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47558 "EHLO
+        id S1356899AbhLFWeN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 6 Dec 2021 17:34:13 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49042 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242901AbhLFW1a (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 6 Dec 2021 17:27:30 -0500
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8CC06C061746
-        for <linux-media@vger.kernel.org>; Mon,  6 Dec 2021 14:24:01 -0800 (PST)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 432C0EE;
-        Mon,  6 Dec 2021 23:23:57 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1638829437;
-        bh=KpeEE4T5PkSNvU8NYaBfa8MUJqBD0LovMNdSYgyx+KI=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=sMThb5ftfyfXMP7V1By7zwz/2ygtShnZBUhPj6Xqxvq4Qp8N+sSDLzK6gc1qf7XxY
-         2iV17G9pXEeIEtffqMgpjDSdiJLXl60Uw11bDqOZIiDZrLfpI2csjY6nJoERqfjyWZ
-         7fOlE3Pd4+s559AOnSFId85CJfDmLO95LMgAbij0=
-Date:   Tue, 7 Dec 2021 00:23:29 +0200
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc:     linux-media@vger.kernel.org, Benoit Parrot <bparrot@ti.com>
-Subject: Re: [PATCH 2/2] media: i2c: Add OV1063x sensor driver
-Message-ID: <Ya6NYb/ZrQr+zjrI@pendragon.ideasonboard.com>
-References: <20210104053945.12409-1-laurent.pinchart@ideasonboard.com>
- <20210104053945.12409-3-laurent.pinchart@ideasonboard.com>
- <20210104114115.GJ11878@paasikivi.fi.intel.com>
+        with ESMTP id S1357223AbhLFWeH (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 6 Dec 2021 17:34:07 -0500
+Received: from mail-ed1-x531.google.com (mail-ed1-x531.google.com [IPv6:2a00:1450:4864:20::531])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 360D1C061746;
+        Mon,  6 Dec 2021 14:30:38 -0800 (PST)
+Received: by mail-ed1-x531.google.com with SMTP id x15so49378713edv.1;
+        Mon, 06 Dec 2021 14:30:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=LF7apLKcpYb8fvK9WPsUiELxqz9ybSGMuibULs2XKcc=;
+        b=dT6XdcapV8kcqziMl9wPK2OKcZFvPt0bTHJxhQhzZQE0PU6hzr0AslYrNsERmz+5Co
+         xsn0aDOT/s9uIPXK9vmPx5nY4T31lziS8pBR8dAjlfaPxBayDDmiv9SbksZpuL4PbZO5
+         0kpUPswMP7YLJg96MCSh4g0M/s9mz7Lj2gPVJpaboyMHzERlZOP75NAjn8u96KmDUj4A
+         RusRu07SCaaooiz/HnO8JPNPAn0cTBcP28WhNn3y84HcU39qQcDKpg4n1lT8mJY7h+Rv
+         ARS5ACHfc400zclKckhkYxZoUp0f4e7n92VJ9xHe/ve16cpfNxmU2bDFRA5lTqFvGHTQ
+         prVA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=LF7apLKcpYb8fvK9WPsUiELxqz9ybSGMuibULs2XKcc=;
+        b=jc6DG4De5DwGTzMjGqgxi+1x5B8HhMXy7KyOit8FidyXXXobTB5s6lPFTkYWaQlY0s
+         774zxu3EUWjrZ5jVMyzY07Y/ce8T/kEpOCDBNNRUWlT6TZ0rCp5V9Ipy5H8SrLLIyJxK
+         DQsPDLBzdCP7sDLCFuWltdqnwGZqhPpGkoohzmYb4uSaG6pim9Tr9O7uBCdfm8LhMHsJ
+         mrxahqERu0ddvfKK0EFE8GlA+UcRihyZAclv//9D61flExkulHaayUIblVzRMOPzuxsx
+         AzOrQWW+XCkMkuC80ffDx0MO9X+VHbrC8qNolzNDMyeEy0ATI5stjn+xseP7QB2s/1V+
+         eY2Q==
+X-Gm-Message-State: AOAM533LrBIWv4N8ytgFpL7vdiaEssOWlBIcd/zF9pYXIgFA/nDCz7xP
+        FuQe+nn4bYVv8yP7Ql8ShnnBTmJYNGZJlcwZE6s=
+X-Google-Smtp-Source: ABdhPJxCkbtcjS8pwF9zoc+/MtVMporrm7B4YAD2/6Hc2oTY++WO6h4cBYi8e7h7Xl9VNX1iXWr6pl3+6woOsAAkcHg=
+X-Received: by 2002:a05:6402:3488:: with SMTP id v8mr3010156edc.398.1638829836588;
+ Mon, 06 Dec 2021 14:30:36 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20210104114115.GJ11878@paasikivi.fi.intel.com>
+References: <20211205181618.1041699-1-aford173@gmail.com> <CAHCN7xL3PSbHKZK_4NKRwhNGOZYM+i54CoKCq01a6kdbCLc2KA@mail.gmail.com>
+ <3b81a33d9bbadd10bc61c3daedecc5b73b99a435.camel@ndufresne.ca>
+In-Reply-To: <3b81a33d9bbadd10bc61c3daedecc5b73b99a435.camel@ndufresne.ca>
+From:   Adam Ford <aford173@gmail.com>
+Date:   Mon, 6 Dec 2021 16:30:25 -0600
+Message-ID: <CAHCN7xKb4YhH83oOnbXtkAKWk-3QWNNxE8EhVJ=i7xKW0wjYXw@mail.gmail.com>
+Subject: Re: [RFC 0/5] Split iMX8MQ Hantro VPU into G1 and G2 with blk-ctrl support
+To:     Nicolas Dufresne <nicolas@ndufresne.ca>
+Cc:     linux-media <linux-media@vger.kernel.org>,
+        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+        Chris Healy <cphealy@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Lucas Stach <l.stach@pengutronix.de>,
+        devicetree <devicetree@vger.kernel.org>,
+        arm-soc <linux-arm-kernel@lists.infradead.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        "open list:HANTRO VPU CODEC DRIVER" 
+        <linux-rockchip@lists.infradead.org>,
+        "open list:STAGING SUBSYSTEM" <linux-staging@lists.linux.dev>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Sakari,
-
-I realize I've never replied to your e-mail.
-
-On Mon, Jan 04, 2021 at 01:41:15PM +0200, Sakari Ailus wrote:
-> On Mon, Jan 04, 2021 at 07:39:45AM +0200, Laurent Pinchart wrote:
-> > Add a new V4L2 subdev driver for the OmniVision OV10633 and OV10635
-> > camera sensors. The work is based on the driver from the TI BSP, itself
-> > based on original work by Phil Edworthy posted to the linux-media
-> > mailing list ([1]). This version of the code is a large rewrite of many
-> > parts.
-> 
-> The driver seems generally quite nice. It doesn't check known-good link
-> frequencies are not defined in bindings nor checked by the driver. Could
-> you add them?
-
-That won't work easily with the existing PLL configuration code, and I'm
-afraid I don't have enough information about the hardware to fix it.
-Please see below.
-
-> Same or the assigned-clock-rates in bindings.
-> 
-> Please see more comments below.
+On Mon, Dec 6, 2021 at 2:51 PM Nicolas Dufresne <nicolas@ndufresne.ca> wrot=
+e:
 >
-> > [1] http://www.spinics.net/lists/linux-media/msg64347.html
-> > 
-> > Signed-off-by: Nikhil Devshatwar <nikhil.nd@ti.com>
-> > Signed-off-by: Benoit Parrot <bparrot@ti.com>
-> > Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> > ---
-> >  MAINTAINERS                      |    2 +
-> >  drivers/media/i2c/Kconfig        |   12 +
-> >  drivers/media/i2c/Makefile       |    1 +
-> >  drivers/media/i2c/ov1063x.c      | 1692 ++++++++++++++++++++++++++++++
-> >  drivers/media/i2c/ov1063x_regs.h |  626 +++++++++++
-> >  5 files changed, 2333 insertions(+)
-> >  create mode 100644 drivers/media/i2c/ov1063x.c
-> >  create mode 100644 drivers/media/i2c/ov1063x_regs.h
+> Le dimanche 05 d=C3=A9cembre 2021 =C3=A0 13:51 -0600, Adam Ford a =C3=A9c=
+rit :
+> > On Sun, Dec 5, 2021 at 12:16 PM Adam Ford <aford173@gmail.com> wrote:
+> > >
+> > > Currently, the VPU in the i.MQ8MQ is appearing as one codec, but in r=
+eality, it's
+> > > two IP blocks called G1 and G2.  There is initialization code in VPU =
+code to
+> > > pull some clocks, resets and other features which has been integrated=
+ into
+> > > the vpu-blk-ctrl for the i.MX8M Mini and a similar method can be used=
+ to make
+> > > the VPU codec's operate as stand-alone cores without having to know t=
+he details
+> > > of each other or the quirks unique to the i.MX8MQ, so the remaining c=
+ode can be
+> > > left more generic.
+> > >
+> > > This series was started by Lucas Stach, and picked up by me so some p=
+atches have
+> > > his s-o-b and mine where I might have changed a few minor items.  It'=
+s in an RFC state
+> > > because the G2 VP9 operations appear to hang, but the parent code fro=
+m which I started doesn't
+> > > appear to show VP9 support, and it looks like it should.
+> > >
+> > > since the g-streamer and media trees are in a constant state of chang=
+e, this series is based on
+> > > git://linuxtv.org/hverkuil/media_tree.git for-v5.17e
+> > >
+> >
+> > I forgot to post Fluster results.
+> >
+> > Before the patches to this branch:
+> >
+> > 2gst-main] root@localhost:~/gstreamer/fluster# ./fluster.py list -c |gr=
+ep -i v4l
+> >
+> >     GStreamer-H.264-V4L2-Gst1.0: GStreamer H.264 V4L2 decoder for
+> > GStreamer 1.0... =E2=9D=8C
+> >     GStreamer-H.264-V4L2SL-Gst1.0: GStreamer H.264 V4L2SL decoder for
+> > GStreamer 1.0... =E2=9C=94=EF=B8=8F
+> >     GStreamer-H.265-V4L2-Gst1.0: GStreamer H.265 V4L2 decoder for
+> > GStreamer 1.0... =E2=9D=8C
+> >     GStreamer-H.265-V4L2SL-Gst1.0: GStreamer H.265 V4L2SL decoder for
+> > GStreamer 1.0... =E2=9D=8C
+> >     GStreamer-VP8-V4L2-Gst1.0: GStreamer VP8 V4L2 decoder for GStreamer=
+ 1.0... =E2=9D=8C
+> >     GStreamer-VP8-V4L2SL-Gst1.0: GStreamer VP8 V4L2SL decoder for
+> > GStreamer 1.0... =E2=9C=94=EF=B8=8F
+> >     GStreamer-VP9-V4L2SL-Gst1.0: GStreamer VP9 V4L2SL decoder for
+> > GStreamer 1.0... =E2=9D=8C
+> >     GStreamer-AV1-V4L2SL-Gst1.0: GStreamer AV1 V4L2SL decoder for
+> > GStreamer 1.0... =E2=9D=8C
+> > [gst-main] root@localhost:~/gstreamer/fluster#
+> >
+> > There was no VP9 support.
+> >
+> > ./fluster.py run -dGStreamer-H.264-V4L2SL-Gst1.0
+> > GStreamer-H.264-V4L2SL-Gst1.0
+> > Ran 90/135 tests successfully               in 58.787 secs
+> >
+> > AFTER this series, two decoders appear:
+> >
+> > [   15.919137] hantro-vpu 38300000.video-codec: registered
+> > nxp,imx8mq-vpu-g1-dec as /dev/video0
+> > [   15.983579] hantro-vpu 38310000.video-codec: registered
+> > nxp,imx8mq-vpu-g2-dec as /dev/video1
+> >
+> > VP9 was listed:
+> >
+> >     GStreamer-H.264-V4L2-Gst1.0: GStreamer H.264 V4L2 decoder for
+> > GStreamer 1.0... =E2=9D=8C
+> >     GStreamer-H.264-V4L2SL-Gst1.0: GStreamer H.264 V4L2SL decoder for
+> > GStreamer 1.0... =E2=9C=94=EF=B8=8F
+> >     GStreamer-H.265-V4L2-Gst1.0: GStreamer H.265 V4L2 decoder for
+> > GStreamer 1.0... =E2=9D=8C
+> >     GStreamer-H.265-V4L2SL-Gst1.0: GStreamer H.265 V4L2SL decoder for
+> > GStreamer 1.0... =E2=9D=8C
+> >     GStreamer-VP8-V4L2-Gst1.0: GStreamer VP8 V4L2 decoder for GStreamer=
+ 1.0... =E2=9D=8C
+> >     GStreamer-VP8-V4L2SL-Gst1.0: GStreamer VP8 V4L2SL decoder for
+> > GStreamer 1.0... =E2=9C=94=EF=B8=8F
+> >     GStreamer-VP9-V4L2SL-Gst1.0: GStreamer VP9 V4L2SL decoder for
+> > GStreamer 1.0... =E2=9C=94=EF=B8=8F
+> >     GStreamer-AV1-V4L2SL-Gst1.0: GStreamer AV1 V4L2SL decoder for
+> > GStreamer 1.0... =E2=9D=8C
+> >
+> > ./fluster.py run -d GStreamer-VP8-V4L2SL-Gst1.0
+> > Ran 55/61 tests successfully               in 8.565 secs
+> >
+> >
+> > ./fluster.py run -dGStreamer-H.264-V4L2SL-Gst1.0
+> > Ran 90/135 tests successfully               in 60.269 secs
+> >
+> > Same results for H.264
+> >
+> > VP9 Hangs, where it didn't even appear as available before:
+> >
+> > ./fluster.py run -d GStreamer-VP9-V4L2SL-Gst1.0
+> > ***********************************************************************=
+*****************************
+> > Running test suite VP9-TEST-VECTORS with decoder GStreamer-VP9-V4L2SL-G=
+st1.0
+> > Using 4 parallel job(s)
+> > ***********************************************************************=
+*****************************
+> >
+> > [TEST SUITE      ] (DECODER                    ) TEST VECTOR
+> >                           ... RESULT
+> > ----------------------------------------------------------------------
+> > [VP9-TEST-VECTORS] (GStreamer-VP9-V4L2SL-Gst1.0)
+> > vp90-2-00-quantizer-00.webm                     ... Success
+> > [VP9-TEST-VECTORS] (GStreamer-VP9-V4L2SL-Gst1.0)
+> > vp90-2-00-quantizer-01.webm                     ... Success
+> > [VP9-TEST-VECTORS] (GStreamer-VP9-V4L2SL-Gst1.0)
+> > vp90-2-00-quantizer-02.webm                     ... Succes
+> >
+> > <hang > - and yes, 'Success' didnt' finish writing to the serial port.
+>
+> Looks like hope to me ! Do you get further with -j 1 (one concurrent deco=
+de) ?
 
-[snip]
+Anything after the first attempt appears to fail.  I haven't figured
+out if it's the G2 code or the power domain stuff.  Since VP9 didn't
+work I migrated it to use the vpu-blk-ctrl, I can't really compare to
+know if it was a regression or an improvement.
 
-> > diff --git a/drivers/media/i2c/ov1063x.c b/drivers/media/i2c/ov1063x.c
-> > new file mode 100644
-> > index 000000000000..5b25ed5e766b
-> > --- /dev/null
-> > +++ b/drivers/media/i2c/ov1063x.c
-> > @@ -0,0 +1,1692 @@
+:-)
 
-[snip]
+adam
 
-> > +struct ov1063x_pll_config {
-> > +	unsigned int pre_div;
-> > +	unsigned int mult;
-> > +	unsigned int div;
-> > +	unsigned int clk_out;
-> > +};
-> > +
-> > +static int ov1063x_pll_setup(unsigned int clk_rate,
-> > +			     unsigned int *htsmin, unsigned int vts,
-> > +			     unsigned int fps_numerator,
-> > +			     unsigned int fps_denominator,
-> > +			     struct ov1063x_pll_config *cfg)
-> > +{
-> > +	static const unsigned int pre_divs[] = { 2, 3, 4, 6, 8, 10, 12, 14 };
-> > +
-> > +	unsigned int best_pclk = UINT_MAX;
-> > +	unsigned int best_pre_div;
-> > +	unsigned int best_mult;
-> > +	unsigned int best_div;
-> > +	unsigned int best_hts;
-> > +	unsigned int max_pre_div;
-> > +	unsigned int pre_div;
-> > +	unsigned int hts;
-> > +
-> > +	/*
-> > +	 *  XVCLK --> pre-div -------> mult ----------> div --> output
-> > +	 * 6-27 MHz           3-27 MHz      200-500 MHz       Max 96 MHz
-> > +	 *
-> > +	 * Valid pre-divider values are 1, 1.5, 2, 3, 4, 5, 6 and 7. The
-> > +	 * pre_divs array stores the pre-dividers multiplied by two, indexed by
-> > +	 * register values.
-> > +	 *
-> > +	 * Valid multiplier values are [1, 63], stored as-is in registers.
-> > +	 *
-> > +	 * Valid divider values are 2 to 16 with a step of 2, stored in
-> > +	 * registers as (div / 2) - 1.
-> > +	 */
-> > +
-> > +	if (clk_rate < 6 * 1000 * 1000 || clk_rate > 27 * 1000 * 1000)
-> > +		return -EINVAL;
-> > +
-> > +	/*
-> > +	 * We try all valid combinations of settings for the 3 blocks to get
-> > +	 * the pixel clock, and from that calculate the actual hts/vts to use.
-> > +	 * The vts is extended so as to achieve the required frame rate.
-> > +	 */
-> > +
-> > +	max_pre_div = max(clk_rate / (3 * 1000 * 1000),
-> > +			  ARRAY_SIZE(pre_divs) - 1);
-> > +
-> > +	for (pre_div = 0; pre_div <= max_pre_div; pre_div++) {
-> > +		unsigned int clk1 = clk_rate * 2 / pre_divs[pre_div];
-> > +		unsigned int min_mult;
-> > +		unsigned int max_mult;
-> > +		unsigned int mult;
-> > +
-> > +		if (clk1 < 3 * 1000 * 1000 || clk1 > 27 * 1000 * 1000)
-> > +			continue;
-> > +
-> > +		min_mult = DIV_ROUND_UP(200 * 1000 * 1000, clk1);
-> > +		max_mult = min(500 * 1000 * 1000 / clk1, 63U);
-> > +
-> > +		for (mult = min_mult; mult <= max_mult; mult++) {
-> > +			unsigned int clk2 = clk1 * mult;
-> > +			unsigned int min_div;
-> > +			unsigned int div;
-> > +
-> > +			min_div = DIV_ROUND_UP(clk2, 96 * 1000 * 1000);
-> > +			min_div = round_up(min_div, 2);
-> > +
-> > +			for (div = min_div; div <= 16; div += 2) {
-> > +				unsigned int pclk = clk2 / div;
-> > +				unsigned int min_pclk;
-> > +
-> > +				/*
-> > +				 * TODO: HTS calculation should ideally be split
-> > +				 * from the PLL calculations. This requires
-> > +				 * figuring out where the pclk / 300000 comes
-> > +				 * from.
-> > +				 */
-> > +				hts = *htsmin + pclk / (300*1000);
-> > +
-> > +				/* 2 clock cycles for every YUV422 pixel. */
-> > +				min_pclk = hts * vts / fps_denominator
-> > +					 * fps_numerator * 2;
-> > +				if (pclk < min_pclk)
-> > +					continue;
-> > +
-> > +				if (pclk < best_pclk) {
-> > +					best_pclk = pclk;
-> > +					best_hts = hts;
-> > +					best_pre_div = pre_div;
-> > +					best_mult = mult;
-> > +					best_div = div;
-> 
-> Can the requested frame rate exceed the highest possible rate here?
-> 
-> You already control the sensor's PLL and other capabilities such as
-> analogue cropping directly. You could make these all configurable from the
-> user space the same way the ccs driver does. What do you think?
-
-HTS and VTS should be configurable by userspace, and so should the link
-frequency (and possibly even the input clock frequency, indirectly at
-least).
-
-I however don't have enough documentation to implement this. I've
-reworked this driver from a BSP kernel, with access to some
-documentation, but the constraints on HTS and VTS are not documented.
-The above TODO comment explains part of the issue. This is the best I
-can do for new I believe.
-
-> > +				}
-> > +			}
-> > +		}
-> > +	}
-> > +
-> > +	if (best_pclk == UINT_MAX)
-> > +		return -EINVAL;
-> > +
-> > +	cfg->mult = best_mult;
-> > +	cfg->pre_div = best_pre_div;
-> > +	cfg->div = (best_div / 2) - 1;
-> > +	cfg->clk_out = best_pclk;
-> > +
-> > +	*htsmin = best_hts;
-> > +
-> > +	return 0;
-> > +}
-
-[snip]
-
-> > +static int ov1063x_set_fmt(struct v4l2_subdev *sd,
-> > +			   struct v4l2_subdev_pad_config *cfg,
-> > +			   struct v4l2_subdev_format *fmt)
-> > +{
-> > +	struct ov1063x_priv *priv = to_ov1063x(sd);
-> > +	struct v4l2_mbus_framefmt *format;
-> > +	const struct v4l2_area *fsize;
-> > +	unsigned int i;
-> > +	u32 code;
-> > +	int ret = 0;
-> > +
-> > +	/*
-> > +	 * Validate the media bus code, defaulting to the first one if the
-> > +	 * requested code isn't supported.
-> > +	 */
-> > +	for (i = 0; i < ARRAY_SIZE(ov1063x_mbus_formats); ++i) {
-> > +		if (ov1063x_mbus_formats[i] == fmt->format.code) {
-> > +			code = fmt->format.code;
-> > +			break;
-> > +		}
-> > +	}
-> > +
-> > +	if (i == ARRAY_SIZE(ov1063x_mbus_formats))
-> > +		code = ov1063x_mbus_formats[0];
-> 
-> You could do this assignment unconditionally in variable initialisation.
-
-I could, but I think it would be more confusing than the current code
-pattern, which expresses "try to find format, and if failed, default to
-[0]".
-
-> > +
-> > +	/* Find the nearest supported frame size. */
-> > +	fsize = v4l2_find_nearest_size(ov1063x_framesizes,
-> > +				       ARRAY_SIZE(ov1063x_framesizes),
-> > +				       width, height, fmt->format.width,
-> > +				       fmt->format.height);
-> > +
-> > +	/* Update the stored format and return it. */
-> > +	format = __ov1063x_get_pad_format(priv, cfg, fmt->pad, fmt->which);
-> > +
-> > +	mutex_lock(priv->hdl.lock);
-> > +
-> > +	if (fmt->which == V4L2_SUBDEV_FORMAT_ACTIVE && priv->streaming) {
-> > +		ret = -EBUSY;
-> > +		goto done;
-> > +	}
-> > +
-> > +	format->code = code;
-> > +	format->width = fsize->width;
-> > +	format->height = fsize->height;
-> > +
-> > +	if (fmt->which == V4L2_SUBDEV_FORMAT_ACTIVE) {
-> > +		unsigned int hsub;
-> > +		unsigned int vsub;
-> > +
-> > +		/*
-> > +		 * Enable horizontal or vertical sub-sampling automatically when
-> > +		 * the width or height are smaller than half the maximum
-> > +		 * resolution.
-> > +		 */
-> > +		hsub = format->width <= 640 ? 2 : 1;
-> > +		vsub = format->height <= 400 ? 2 : 1;
-> > +
-> > +		/*
-> > +		 * The analog horizontal crop is restricted to the full sensor
-> > +		 * width (1312 pixels), 768 or 656 pixels. Additional cropping
-> > +		 * will be applied in the digital domain.
-> > +		 */
-> > +		priv->analog_crop.width = format->width * hsub;
-> > +		priv->analog_crop.height = format->height * vsub;
-> > +
-> > +		if (priv->analog_crop.width > 768)
-> > +			priv->analog_crop.width = OV1063X_SENSOR_WIDTH;
-> > +		else if (priv->analog_crop.width > 656)
-> > +			priv->analog_crop.width = 768;
-> > +		else
-> > +			priv->analog_crop.width = 656;
-> > +
-> > +		/*
-> > +		 * The digital crop is applied at the ISP input, before
-> > +		 * horizontal sub-sampling but after vertical sub-sampling as
-> > +		 * the latter is applied in the pixel array.
-> > +		 */
-> > +		priv->digital_crop.width = format->width * hsub;
-> > +		priv->digital_crop.height = format->height;
-> > +
-> > +		/*
-> > +		 * Center the crop rectangles, rounding coordinates to a
-> > +		 * multiple of 2 to avoid changing the Bayer pattern.
-> > +		 */
-> > +		priv->analog_crop.left = ((OV1063X_SENSOR_WIDTH -
-> > +					   priv->analog_crop.width) / 2) & ~1;
-> > +		priv->analog_crop.top = ((OV1063X_SENSOR_HEIGHT -
-> > +					  priv->analog_crop.height) / 2) & ~1;
-> > +		priv->digital_crop.left = ((priv->analog_crop.width -
-> > +					    priv->digital_crop.width) / 2) & ~1;
-> > +		priv->analog_crop.top = 0;
-> > +	}
-> > +
-> > +	fmt->format = *format;
-> > +
-> > +done:
-> > +	mutex_unlock(priv->hdl.lock);
-> > +
-> > +	return ret;
-> > +}
-
-[snip]
-
--- 
-Regards,
-
-Laurent Pinchart
+>
+> >
+> >
+> >
+> > > Adam Ford (2):
+> > >   media: hantro: split i.MX8MQ G1 and G2 code
+> > >   arm64: dts: imx8mq: Split i.MX8MQ G1 and G2 with vpu-blk-ctrl
+> > >
+> > > Lucas Stach (3):
+> > >   dt-bindings: power: imx8mq: add defines for VPU blk-ctrl domains
+> > >   dt-bindings: soc: add binding for i.MX8MQ VPU blk-ctrl
+> > >   soc: imx: imx8m-blk-ctrl: add i.MX8MQ VPU blk-ctrl
+> > >
+> > >  .../soc/imx/fsl,imx8mq-vpu-blk-ctrl.yaml      |  71 +++++++++++
+> > >  arch/arm64/boot/dts/freescale/imx8mq.dtsi     |  69 ++++++----
+> > >  drivers/soc/imx/imx8m-blk-ctrl.c              |  67 ++++++++++
+> > >  drivers/staging/media/hantro/hantro_drv.c     |   4 +-
+> > >  drivers/staging/media/hantro/hantro_hw.h      |   2 +-
+> > >  drivers/staging/media/hantro/imx8m_vpu_hw.c   | 119 +++-------------=
+--
+> > >  include/dt-bindings/power/imx8mq-power.h      |   3 +
+> > >  7 files changed, 205 insertions(+), 130 deletions(-)
+> > >  create mode 100644 Documentation/devicetree/bindings/soc/imx/fsl,imx=
+8mq-vpu-blk-ctrl.yaml
+> > >
+> > > --
+> > > 2.32.0
+> > >
+>
