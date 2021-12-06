@@ -2,141 +2,433 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 808EF46A576
-	for <lists+linux-media@lfdr.de>; Mon,  6 Dec 2021 20:16:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id ADD9E46A8C5
+	for <lists+linux-media@lfdr.de>; Mon,  6 Dec 2021 21:46:18 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1348339AbhLFTTv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 6 Dec 2021 14:19:51 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59076 "EHLO
+        id S238973AbhLFUtq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 6 Dec 2021 15:49:46 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52068 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243589AbhLFTTt (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 6 Dec 2021 14:19:49 -0500
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C4F43C061746;
-        Mon,  6 Dec 2021 11:16:19 -0800 (PST)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id AC23EEE;
-        Mon,  6 Dec 2021 20:16:17 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1638818177;
-        bh=zFdavL06ulBt0zjQ7jeYKdKdKljFjx0ZhG2E2ii+PXA=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=wBh8jXa753hMgT9b6/K+PVJpkzBq8qkAtu1hjEuzg1JN6hQ9DNIWPX7/WMianAta7
-         p+bub5JrrQTtcINp2vfzGJO8q5sDjXHNCWLg8xf2HqcPw12e0M6gOyUako1DB5JB/X
-         xjk1m+fgJVqB8YkfWmNvpaBiPMn9hfauO4DgoqKk=
-Date:   Mon, 6 Dec 2021 21:15:50 +0200
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Nicolas Dufresne <nicolas@ndufresne.ca>
-Cc:     Ricardo Ribalda <ribalda@chromium.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        with ESMTP id S1349795AbhLFUtp (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 6 Dec 2021 15:49:45 -0500
+Received: from mail-qv1-xf2e.google.com (mail-qv1-xf2e.google.com [IPv6:2607:f8b0:4864:20::f2e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4B94EC0613F8
+        for <linux-media@vger.kernel.org>; Mon,  6 Dec 2021 12:46:16 -0800 (PST)
+Received: by mail-qv1-xf2e.google.com with SMTP id bu11so11121864qvb.0
+        for <linux-media@vger.kernel.org>; Mon, 06 Dec 2021 12:46:16 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ndufresne-ca.20210112.gappssmtp.com; s=20210112;
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :user-agent:mime-version:content-transfer-encoding;
+        bh=Dk9uAaajqq7DA+VmTTpMeBPQ2D0kqREULLsEVWT4+NE=;
+        b=V5ht31CmrDEjqp/qYEf8A1hVZVzjFXE1LYcMsEhfUTnp2lqKo319IafWX3Dcx3ApEp
+         D0wRlJsPcUJyTygG2hi6exk9//On83hj3De49ISI8HgEhW/B9ODbomhnsKyaDiPekhsf
+         NDkQpENHvP9J9f3T9HjNWTWmWMpE/cmBsNVKEvu2n5Ak5civedcll6qGfAJ5FY1kk1MG
+         cIOG1Oh1H2oClusorr2EGWdgmXpLBwB46xLArmZwSRVohxurrJZJeZWSwt5KZPGzcBtj
+         BXz7yiWJN0aSdTZkmm/DO0+4hBzj0m8+sF1Tpc5KExjfaYtMYzPfAcKN7AWduP5VnFKx
+         AuDQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=Dk9uAaajqq7DA+VmTTpMeBPQ2D0kqREULLsEVWT4+NE=;
+        b=B4hynXpY1Xxsq9n5viydS44LCrtcD32hkd7dovBq5BRwJqiGy5AyRDkPtgi7gSJZgi
+         w+K3xHzu9evMXaEcAB9VSbGaHSXj2jlpeR5B1+Iby28gBKMgCsqZ0EZm/0l5sqhq+At9
+         /ooOQ50motHmf2wmySol13kiJBSYJ/7txYBkS/FFXCvUcNyAIJme6Lxpomtf6kFCH+wo
+         jWS6FaR7bhlsHKgLTApLcx9xdcR7kvTwuhQtmAnm6uTM4A2WvHDV96cIl489jp015por
+         SX4r39iBdpMxuH/3ZTyhclixn3Ruon8H1CF0f7Kktlb28t9X44sxBVj11/5u/uB9MGe0
+         2EIA==
+X-Gm-Message-State: AOAM5311iWEm2lfEXper6B0kQfCIbAXJrbvhUXxHN0s+aY2/AOYG9O6Y
+        5Ij5/BcKl4VHzpW29sSOuSAZSw==
+X-Google-Smtp-Source: ABdhPJwP5y+kFu1sL9a01GyaGAB0zdPZvjVvfSCb0wJqWGHvNYA9xKKkcTq6Vs/P/7mKN+cYbOnT1w==
+X-Received: by 2002:a0c:c2cb:: with SMTP id c11mr39869334qvi.107.1638823575288;
+        Mon, 06 Dec 2021 12:46:15 -0800 (PST)
+Received: from nicolas-tpx395.localdomain (mtl.collabora.ca. [66.171.169.34])
+        by smtp.gmail.com with ESMTPSA id j14sm7024511qkp.28.2021.12.06.12.46.13
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 06 Dec 2021 12:46:14 -0800 (PST)
+Message-ID: <9b76d3499d9c34abe1b067573b9089a239302df7.camel@ndufresne.ca>
+Subject: Re: [RFC 0/5] arm64: imx8mm: Enable Hantro VPUs
+From:   Nicolas Dufresne <nicolas@ndufresne.ca>
+To:     Lucas Stach <l.stach@pengutronix.de>,
+        Tim Harvey <tharvey@gateworks.com>
+Cc:     Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+        Adam Ford <aford173@gmail.com>,
+        linux-media <linux-media@vger.kernel.org>,
+        Schrempf Frieder <frieder.schrempf@kontron.de>,
+        Marek Vasut <marek.vasut@gmail.com>,
+        Jagan Teki <jagan@amarulasolutions.com>,
+        Adam Ford-BE <aford@beaconembedded.com>,
+        cstevens@beaconembedded.com,
+        Philipp Zabel <p.zabel@pengutronix.de>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        tfiga@chromium.org, stable <stable@vger.kernel.org>
-Subject: Re: [REGRESSION] Re: [PATCH v10 11/21] media: uvcvideo: Set unique
- vdev name based in type
-Message-ID: <Ya5hZtwcfBU/19CU@pendragon.ideasonboard.com>
-References: <20210618122923.385938-1-ribalda@chromium.org>
- <20210618122923.385938-12-ribalda@chromium.org>
- <b4bfa8b8f3d8f25c48a3b0b81a0e87dc90f111af.camel@ndufresne.ca>
+        Rob Herring <robh+dt@kernel.org>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Heiko Stuebner <heiko@sntech.de>,
+        Joakim Zhang <qiangqing.zhang@nxp.com>,
+        Alice Guo <alice.guo@nxp.com>, Peng Fan <peng.fan@nxp.com>,
+        "open list:HANTRO VPU CODEC DRIVER" 
+        <linux-rockchip@lists.infradead.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        "moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE" 
+        <linux-arm-kernel@lists.infradead.org>,
+        open list <linux-kernel@vger.kernel.org>,
+        "open list:STAGING SUBSYSTEM" <linux-staging@lists.linux.dev>
+Date:   Mon, 06 Dec 2021 15:46:12 -0500
+In-Reply-To: <2c3fdfec1144ec8179396b24010bc2e8bdb4fcd4.camel@pengutronix.de>
+References: <20211106183802.893285-1-aford173@gmail.com>
+         <718f7f6d6cd564d031c1963f1590c62d549ae725.camel@ndufresne.ca>
+         <CAHCN7xKM9RUE7z-+ug1on+D=nDoEm589R4m03ofys92Aq75ZVQ@mail.gmail.com>
+         <8db00a4b6faa99c940d9bc86e17161eb0db5efe3.camel@ndufresne.ca>
+         <CAJ+vNU28UJffFv9jQ2KryJMudqYxvCaoVOVcU5dPqRA209iN6A@mail.gmail.com>
+         <d91532c2c0772f9aa708ead36b2a97203727a7ea.camel@ndufresne.ca>
+         <CAJ+vNU3H-V+bPoZ3qKead45h=W7AhQK6Lhjrx5ssdF4c_qfe=A@mail.gmail.com>
+         <CAHCN7x+0LwwU_rEST+TZxGquswGKL19gnTy9WLofsXtGAtWqdw@mail.gmail.com>
+         <7f94eaacfddb8c5434c17f1e069ea87a17657ce9.camel@ndufresne.ca>
+         <CAHCN7xKRzxMBmPbDobWTuvNNSpTXk5XENvfBnfkhRY3eZKhn6w@mail.gmail.com>
+         <CAHCN7xJFLNi_g+HX8PCy1Rkgf0jnWpO5QGYVz8nH19xrJkwHrA@mail.gmail.com>
+         <CAJ+vNU3zFd=6k_Emc5aafxKkGwCPp4crgOFezQ-E_MbWsn1_EA@mail.gmail.com>
+         <fed6c2fd7cf4971062c417ce41ed1e3812b900e0.camel@ndufresne.ca>
+         <CAHCN7xK+wROHaqDcsY-3WYFQ82qX17L-LHNL3siSWnWvwFShzQ@mail.gmail.com>
+         <CAAEAJfC1xXvemaFP+vTFVJ3S-SpYtrxyZgDamSOgLC1F3ua5xw@mail.gmail.com>
+         <CAHCN7x+UMMP6RXsNm0=OC=UTQzh=RKqQo6B7FD5e4eoJAEfmpg@mail.gmail.com>
+         <CAJ+vNU1epi9SwPMHkuDmKcb68RLemYF=bsp7AVnzz06zKc2efw@mail.gmail.com>
+         <CAAEAJfCpjk5nWWkJYjjDT-YEpJi4pTZqZbzp_if9OGC0HKspzw@mail.gmail.com>
+         <CAJ+vNU2we5mGXgYsR6CfimvFXZsc0zktR3fDa-h6RRa02jTT0g@mail.gmail.com>
+         <1403b14061883f746bda2998b2bf4a2676f9f328.camel@ndufresne.ca>
+         <CAJ+vNU1-gq2nB5oOcgo9zj5xR+qxmqyKAS-N4De1A_8SNRO_Aw@mail.gmail.com>
+         <838c44e1eb1387c68a1b8b4da18e69ef6b5ad9c2.camel@ndufresne.ca>
+         <2c3fdfec1144ec8179396b24010bc2e8bdb4fcd4.camel@pengutronix.de>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.42.1 (3.42.1-1.fc35) 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <b4bfa8b8f3d8f25c48a3b0b81a0e87dc90f111af.camel@ndufresne.ca>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Nicolas,
-
-On Mon, Dec 06, 2021 at 02:05:06PM -0500, Nicolas Dufresne wrote:
-> Le vendredi 18 juin 2021 à 14:29 +0200, Ricardo Ribalda a écrit :
-> > All the entities must have a unique name. We can have a descriptive and
-> > unique name by appending the function and the entity->id.
-> 
-> Thanks for your work. The only issue is that unfortunately this change cause an
-> important regression for users. All UVC cameras in all UIs seems to no longer
-> include any information about the camera. As an example, I have two cameras on
-> my system and Firefox, Chrome, Cheese, Zoom and MS Team all agree that my camera
-> are now:
-> 
->   Video Capture 4
->   Video Capture 5
-> 
-> Previously they would be shown as something like:
-> 
->   StreamCam
->   Integrated
-> 
-> We should probably revert this change quickly before it get deployed more
-> widely, I have notice the backport being sent for 5.4, 5.10 and 5.14. I'm using
-> 5.15 shipped by Fedora team.
-
-Ack.
-
-> As a proper solution, maybe I could suggest to keep using dev->name, but trim it
-> enough to fit the " N" string to guaranty that you have enough space in this
-> limited 32 char string and use that instead ? This should fit the uniqueness
-> requirement without the sacrifice of the only possibly useful information we had
-> in that limited string.
-
-That would polute the device name a bit, which isn't very nice for
-users. I wonder if we could instead decouple the entity name from the
-video device name.
-
-> > This is even resilent to multi chain devices.
+Le lundi 06 décembre 2021 à 10:20 +0100, Lucas Stach a écrit :
+> Am Freitag, dem 03.12.2021 um 14:37 -0500 schrieb Nicolas Dufresne:
+> > Le vendredi 03 décembre 2021 à 08:46 -0800, Tim Harvey a écrit :
+> > > On Thu, Dec 2, 2021 at 8:34 PM Nicolas Dufresne <nicolas@ndufresne.ca> wrote:
+> > > > 
+> > > > Le mardi 30 novembre 2021 à 11:28 -0800, Tim Harvey a écrit :
+> > > > > On Tue, Nov 30, 2021 at 6:00 AM Ezequiel Garcia
+> > > > > <ezequiel@vanguardiasur.com.ar> wrote:
+> > > > > > 
+> > > > > > Hi Tim,
+> > > > > > 
+> > > > > > On Mon, 29 Nov 2021 at 16:36, Tim Harvey <tharvey@gateworks.com> wrote:
+> > > > > > > 
+> > > > > > > On Mon, Nov 29, 2021 at 10:59 AM Adam Ford <aford173@gmail.com> wrote:
+> > > > > > ..
+> > > > > > > > 
+> > > > > > > 
+> > > > > > > Adam,
+> > > > > > > 
+> > > > > > > What deps did you install in order to get v4l2codecs building? I
+> > > > > > > installed libgudev-1.0-dev based on Nicolas' suggestion and rebuilt
+> > > > > > > (not sure if I needed to re-configure somehow) but there is still
+> > > > > > > nothing in build/subprojects/gst-plugins-bad/sys/v4l2codecs/. A 'meson
+> > > > > > > configure' tells me that v4l2codecs is set to 'auto' but I'm not sure
+> > > > > > > how to find out what dependencies are needed or what may be missing.
+> > > > > > > 
+> > > > > > 
+> > > > > > At least in my case (Centps-derivative), this is what I've done:
+> > > > > > 
+> > > > > > ...
+> > > > > > gst-plugins-bad| Run-time dependency gudev-1.0 found: NO (tried
+> > > > > > pkgconfig and cmake)
+> > > > > > 
+> > > > > > Installed gudev ... and then:
+> > > > > > 
+> > > > > > ...
+> > > > > > gst-plugins-bad| Dependency gudev-1.0 found: YES 232 (cached)
+> > > > > > ...
+> > > > > > gst-plugins-bad 1.19.3.1
+> > > > > > 
+> > > > > >     Plugins               : accurip, adpcmdec, adpcmenc, aiff, asfmux,
+> > > > > > audiobuffersplit, audiofxbad, audiomixmatrix, audiolatency,
+> > > > > > audiovisualizers, autoconvert, bayer,
+> > > > > >                             camerabin, codecalpha, coloreffects,
+> > > > > > debugutilsbad, dvbsubenc, dvbsuboverlay, dvdspu, faceoverlay,
+> > > > > > festival, fieldanalysis, freeverb, frei0r,
+> > > > > >                             gaudieffects, gdp, geometrictransform,
+> > > > > > id3tag, inter, interlace, ivfparse, ivtc, jp2kdecimator, jpegformat,
+> > > > > > rfbsrc, midi, mpegpsdemux,
+> > > > > >                             mpegpsmux, mpegtsdemux, mpegtsmux, mxf,
+> > > > > > netsim, rtponvif, pcapparse, pnm, proxy, legacyrawparse,
+> > > > > > removesilence, rist, rtmp2, rtpmanagerbad,
+> > > > > >                             sdpelem, segmentclip, siren, smooth,
+> > > > > > speed, subenc, switchbin, timecode, transcode, videofiltersbad,
+> > > > > > videoframe_audiolevel, videoparsersbad,
+> > > > > >                             videosignal, vmnc, y4mdec, decklink, dvb,
+> > > > > > fbdevsink, ipcpipeline, nvcodec, shm, v4l2codecs, hls, sctp
+> > > > > > 
+> > > > > > GStreamer current master build fails. It's a known issue which will be
+> > > > > > fixed today:
+> > > > > > 
+> > > > > > [...]
+> > > > > > [8/9] Compiling C object
+> > > > > > subprojects/gst-plugins-bad/sys/v4l2codecs/libgstv4l2codecs.so.p/gstv4l2codecvp9dec.c.o
+> > > > > > FAILED: subprojects/gst-plugins-bad/sys/v4l2codecs/libgstv4l2codecs.so.p/gstv4l2codecvp9dec.c.o
+> > > > > > cc -Isubprojects/gst-plugins-bad/sys/v4l2codecs/libgstv4l2codecs.so.p
+> > > > > > -Isubprojects/gst-plugins-bad/sys/v4l2codecs
+> > > > > > -I../subprojects/gst-plugins-bad/sys/v4l2codecs
+> > > > > > -Isubprojects/gst-plugins-bad -I../subprojects/gst-plugins-bad
+> > > > > > -Isubprojects/gstreamer/libs -I../subprojects/gstreamer/libs
+> > > > > > -Isubprojects/gstreamer -I../subprojects/gstreamer
+> > > > > > -Isubprojects/gst-plugins-bad/gst-libs
+> > > > > > -I../subprojects/gst-plugins-bad/gst-libs
+> > > > > > -Isubprojects/gst-plugins-base/gst-libs
+> > > > > > -I../subprojects/gst-plugins-base/gst-libs -Isubprojects/orc
+> > > > > > -I../subprojects/orc -Isubprojects/gstreamer/gst
+> > > > > > -Isubprojects/gst-plugins-base/gst-libs/gst/video
+> > > > > > -Isubprojects/gst-plugins-base/gst-libs/gst/pbutils
+> > > > > > -Isubprojects/gst-plugins-base/gst-libs/gst/audio
+> > > > > > -Isubprojects/gst-plugins-base/gst-libs/gst/tag
+> > > > > > -I/usr/include/glib-2.0 -I/usr/lib64/glib-2.0/include
+> > > > > > -I/usr/include/gudev-1.0 -fdiagnostics-color=always
+> > > > > > -D_FILE_OFFSET_BITS=64 -Wall -Winvalid-pch -O2 -g -fvisibility=hidden
+> > > > > > -fno-strict-aliasing -DG_DISABLE_DEPRECATED -Wmissing-prototypes
+> > > > > > -Wdeclaration-after-statement -Wold-style-definition
+> > > > > > -Wmissing-declarations -Wredundant-decls -Wwrite-strings -Wformat
+> > > > > > -Wformat-security -Winit-self -Wmissing-include-dirs -Waddress
+> > > > > > -Wno-multichar -Wvla -Wpointer-arith -fPIC -pthread -DHAVE_CONFIG_H
+> > > > > > -MD -MQ subprojects/gst-plugins-bad/sys/v4l2codecs/libgstv4l2codecs.so.p/gstv4l2codecvp9dec.c.o
+> > > > > > -MF subprojects/gst-plugins-bad/sys/v4l2codecs/libgstv4l2codecs.so.p/gstv4l2codecvp9dec.c.o.d
+> > > > > > -o subprojects/gst-plugins-bad/sys/v4l2codecs/libgstv4l2codecs.so.p/gstv4l2codecvp9dec.c.o
+> > > > > > -c ../subprojects/gst-plugins-bad/sys/v4l2codecs/gstv4l2codecvp9dec.c
+> > > > > > ../subprojects/gst-plugins-bad/sys/v4l2codecs/gstv4l2codecvp9dec.c:92:3:
+> > > > > > error: unknown type name ‘grefcount’
+> > > > > >    grefcount ref_count;
+> > > > > >    ^~~~~~~~~
+> > > > > > ../subprojects/gst-plugins-bad/sys/v4l2codecs/gstv4l2codecvp9dec.c: In
+> > > > > > function ‘gst_v4l2_codec_vp9_dec_picture_data_new’:
+> > > > > > ../subprojects/gst-plugins-bad/sys/v4l2codecs/gstv4l2codecvp9dec.c:106:3:
+> > > > > > warning: implicit declaration of function ‘g_ref_count_init’; did you
+> > > > > > mean ‘g_cond_init’? [-Wimplicit-function-declaration]
+> > > > > >    g_ref_count_init (&pic_data->ref_count);
+> > > > > >    ^~~~~~~~~~~~~~~~
+> > > > > >    g_cond_init
+> > > > > > ../subprojects/gst-plugins-bad/sys/v4l2codecs/gstv4l2codecvp9dec.c: In
+> > > > > > function ‘gst_v4l2_codec_vp9_dec_picture_data_ref’:
+> > > > > > ../subprojects/gst-plugins-bad/sys/v4l2codecs/gstv4l2codecvp9dec.c:118:3:
+> > > > > > warning: implicit declaration of function ‘g_ref_count_inc’; did you
+> > > > > > mean ‘g_strv_contains’? [-Wimplicit-function-declaration]
+> > > > > >    g_ref_count_inc (&data->ref_count);
+> > > > > >    ^~~~~~~~~~~~~~~
+> > > > > >    g_strv_contains
+> > > > > > ../subprojects/gst-plugins-bad/sys/v4l2codecs/gstv4l2codecvp9dec.c: In
+> > > > > > function ‘gst_v4l2_codec_vp9_dec_picture_data_unref’:
+> > > > > > ../subprojects/gst-plugins-bad/sys/v4l2codecs/gstv4l2codecvp9dec.c:125:7:
+> > > > > > warning: implicit declaration of function ‘g_ref_count_dec’
+> > > > > > [-Wimplicit-function-declaration]
+> > > > > >    if (g_ref_count_dec (&data->ref_count)) {
+> > > > > >        ^~~~~~~~~~~~~~~
+> > > > > > ninja: build stopped: subcommand failed.
+> > > > > > 
+> > > > > > Hope this helps get you started!
+> > > > > > Ezequiel
+> > > > > 
+> > > > > Ezequiel and Nicolas,
+> > > > > 
+> > > > > Thanks - I did manage to get gstreamer 1.19.3 built successfully with
+> > > > > v4l2codecs finally by getting the correct dependencies. I've attempted
+> > > > > to software encode from another system and decode/display on the IMX8M
+> > > > > Mini but thus far have not been successful.
+> > > > > 
+> > > > > I see that v4l2codecs plugin v4l2slh264dec/v4l2slmpeg2dec/v4l2slvp8dec
+> > > > > and these all can output video/x-raw NV12/YUY2 which kmssink should
+> > > > > accept so I'm attempting the following :
+> > > > > 
+> > > > > # vp8 encode from x86
+> > > > > gst-launch-1.0 -v videotestsrc ! video/x-raw,width=800,height=480 !
+> > > > > vp8enc ! rtpvp8pay ! udpsink host=172.24.33.15 port=9001
+> > > > > # vp8 decode on imx8mm@172.24.33.15 which has a 800x480 display
+> > > > > [gst-main] root@focal-venice:~/gstreamer/build# gst-launch-1.0 -v
+> > > > > udpsrc port=9001 caps = "application/x-rtp, media=(string)video,
+> > > > > clock-rate=(int)90000, encoding-name=(string)VP8, payload=(int)96,
+> > > > > ssrc=(uint)2745262155, timestamp-offset=(uint)2515032683,
+> > > > > seqnum-offset=(uint)19579, a-framerate=(string)30" ! rtpvp8depay !
+> > > > > v4l2slvp8dec ! kmssink
+> > > > > Setting pipeline to PAUSED ...
+> > > > > Pipeline is live and does not need PREROLL ...
+> > > > > /GstPipeline:pipeline0/GstKMSSink:kmssink0: display-width = 800
+> > > > > /GstPipeline:pipeline0/GstKMSSink:kmssink0: display-height = 480
+> > > > > Pipeline is PREROLLED ...
+> > > > > Setting pipeline to PLAYING ...
+> > > > > /GstPipeline:pipeline0/GstUDPSrc:udpsrc0.GstPad:src: caps =
+> > > > > application/x-rtp, media=(string)video, clock-rate=(int)90000,
+> > > > > encoding-name=(string)VP8, payload=(int)96, ssrc=(uint)2745262155,
+> > > > > timestamp-offset=(uint)2515032683, seqnum-offset=(uint)19579,
+> > > > > a-framerate=(string)30
+> > > > > New clock: GstSystemClock
+> > > > > /GstPipeline:pipeline0/GstRtpVP8Depay:rtpvp8depay0.GstPad:sink: caps =
+> > > > > application/x-rtp, media=(string)video, clock-rate=(int)90000,
+> > > > > encoding-name=(string)VP8, payload=(int)96, ssrc=(uint)2745262155,
+> > > > > timestamp-offset=(uint)2515032683, seqnum-offset=(uint)19579,
+> > > > > a-framerate=(string)30
+> > > > > /GstPipeline:pipeline0/GstRtpVP8Depay:rtpvp8depay0.GstPad:src: caps =
+> > > > > video/x-vp8, framerate=(fraction)0/1, height=(int)480, width=(int)800,
+> > > > > profile=(string)0
+> > > > > ERROR: from element /GstPipeline:pipeline0/GstUDPSrc:udpsrc0: Internal
+> > > > > data stream error.
+> > > > > Additional debug info:
+> > > > > ../subprojects/gstreamer/libs/gst/base/gstbasesrc.c(3127):
+> > > > > gst_base_src_loop (): /GstPipeline:pipeline0/GstUDPSrc:udpsrc0:
+> > > > > streaming stopped, reason not-negotiated (-4)
+> > > > > Execution ended after 0:00:02.076839644
+> > > > > Setting pipeline to NULL ...
+> > > > > Freeing pipeline ...
+> > > > > 
+> > > > > I'm getting the same thing when trying to use h264.
+> > > > > 
+> > > > > I've never quite been able to grasp how to debug GStreamer's
+> > > > > negotiation issues. If I end with fakesink it appears to decode so it
+> > > > > must be the v4l2slvp8dec to kmssink. I tried forcing the pixel format
+> > > > > using 'v4l2slvp8dec ! "video/x-raw,format=(string)NV12" ! kmssink' but
+> > > > > I still get the negotiation error.
+> > > > > 
+> > > > > What interrupts should I be seeing in /proc/interrupts? I don't see
+> > > > > anything vpu/hantro related there.
+> > > > > 
+> > > > > I also want to make sure I have a basic understanding of the vpu
+> > > > > drivers and usersapce on the IMX8M Mini. The IMX6Q/DL that I'm more
+> > > > > familiar with has a vpu that is supported by the GStreamer video4linux
+> > > > > plugin which shows the following (on GStreamer 1.16.2):
+> > > > >   v4l2jpegenc: V4L2 JPEG Encoder
+> > > > >   v4l2jpegdec: V4L2 JPEG Decoder
+> > > > >   v4l2h264enc: V4L2 H.264 Encoder
+> > > > >   v4l2mpeg4enc: V4L2 MPEG4 Encoder
+> > > > >   v4l2mpeg4dec: V4L2 MPEG4 Decoder
+> > > > >   v4l2mpeg2dec: V4L2 MPEG2 Decoder
+> > > > >   v4l2h264dec: V4L2 H264 Decoder
+> > > > > The IMX6Q/DL also has an IPU that has an M2M driver that provides the
+> > > > > following for scaling/colorspace conversion:
+> > > > >   v4l2convert: V4L2 Video Converter
+> > > > > 
+> > > > > I believe what I'm reading is that the IMX8M Mini Hantro codecs are
+> > > > > 'stateful' where more software is required to drive them and is
+> > > > 
+> > > > 'stateless'. the rest is right.
+> > > > 
+> > > > > supported by the newer v4l2codecs plugin. I haven't been able to
+> > > > > understand what kernel version/requirements the v4l2codecs plugin
+> > > > > users/requires.
+> > > > 
+> > > > After H264 debacle with 5.9, 5.10 and 5.11 API break and GStreamer not getting
+> > > > enough release to support all of these we started merging support for CODECs
+> > > > only when the stable uAPI land. I made an exception for VP9 as it is already
+> > > > applied in the media tree and didn't want to miss 1.20 release.
+> > > > 
+> > > > So to answer you question, it depends on when the CODEC uAPI landed.
+> > > > 
+> > > 
+> > > Ok, thanks for the explanation.
+> > > 
+> > > > > 
+> > > > > I'm also trying to understand how we can get scaling/colorspace
+> > > > > conversion on the IMX8M Mini. The IMX8M lacks an IPU... is there some
+> > > > > way to utilize scaling/colorspace conversion from the 2D GPU bound to
+> > > > > the etnaviv driver?
+> > > > 
+> > > > The concept of the mini, is that you would be using th encoder for anything that
+> > > > isn't going to the display. So they only integrated the Hantro PP on the
+> > > > encoder. Unfortunately, you'll have to be patient for mainline stateless encoder
+> > > > support, we barely scratch the surface of this subject, but its being worked on.
+> > > 
+> > > After some searching for Hantro PP I see that the IMXMQ (IMX8M
+> > > Dual/QuadLite/Quad) mentions Hantro PP. From the IMX8MDQLQRM section
+> > > 14.1.2.1 Decoder Features:
+> > > <quote>
+> > > Video post-processing features
+> > >  - Frame rotation 90 degrees left/right
+> > >  - Frame mirroring horizontally/vertically
+> > >  - Frame cropping
+> > >  - Frame conversion from YCbCr formats to 16-bit or 32-bit RGB formats
+> > >  - Frame scaling with maximum up-scaling factor of 3
+> > >  - Two rectangular or alpha blending masks for output frame
+> > > 
+> > >  The post-processing features can be used in pipeline with the
+> > > decoder. The postprocessing features can also be used as stand-alone,
+> > > without performing any decoding
+> > > </quote>
+> > > 
+> > > The above is under the VPU_G1 section and the same is not mentioned
+> > > for VPU_G2 and the IMX8MQ doesn't have encode support. Where do you
+> > > see that the IMX8MM has the Hantro PP on the H1? I know the TRM's lack
+> > > a lot of info so perhaps you know more about the internals than what
+> > > the TRM states.
 > > 
-> > Fixes v4l2-compliance:
-> > Media Controller ioctls:
-> >                 fail: v4l2-test-media.cpp(205): v2_entity_names_set.find(key) != v2_entity_names_set.end()
-> >         test MEDIA_IOC_G_TOPOLOGY: FAIL
-> >                 fail: v4l2-test-media.cpp(394): num_data_links != num_links
-> > 	test MEDIA_IOC_ENUM_ENTITIES/LINKS: FAIL
+> > I've got told that by someone with contacts at NXP recently (in IRC). I haven't
+> > verified it though, it just made sense for the targeted use of th mini. Hantro 
+> > G1 driver does not yet expose an M2M for the standalone mode of the PP, but
+> > shall be possible. Decode an PP cannot run concurrently though, so concurrent PP
+> > and decode will have big impact on performance.
 > > 
-> > Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
-> > Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> > Reviewed-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-> > ---
-> >  drivers/media/usb/uvc/uvc_driver.c | 7 ++++++-
-> >  1 file changed, 6 insertions(+), 1 deletion(-)
+> > The G2 PP is different, but I *think* its always there. It's not doing much,
+> > linear NV12 (detiling from 4x4 linear tiles), and can scale down by factor of 2,
+> > 4 an 8. If there is more feature I'm not aware.
 > > 
-> > diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc_driver.c
-> > index 14b60792ffab..037bf80d1100 100644
-> > --- a/drivers/media/usb/uvc/uvc_driver.c
-> > +++ b/drivers/media/usb/uvc/uvc_driver.c
-> > @@ -2194,6 +2194,7 @@ int uvc_register_video_device(struct uvc_device *dev,
-> >  			      const struct v4l2_file_operations *fops,
-> >  			      const struct v4l2_ioctl_ops *ioctl_ops)
-> >  {
-> > +	const char *name;
-> >  	int ret;
-> >  
-> >  	/* Initialize the video buffers queue. */
-> > @@ -2222,16 +2223,20 @@ int uvc_register_video_device(struct uvc_device *dev,
-> >  	case V4L2_BUF_TYPE_VIDEO_CAPTURE:
-> >  	default:
-> >  		vdev->device_caps = V4L2_CAP_VIDEO_CAPTURE | V4L2_CAP_STREAMING;
-> > +		name = "Video Capture";
-> >  		break;
-> >  	case V4L2_BUF_TYPE_VIDEO_OUTPUT:
-> >  		vdev->device_caps = V4L2_CAP_VIDEO_OUTPUT | V4L2_CAP_STREAMING;
-> > +		name = "Video Output";
-> >  		break;
-> >  	case V4L2_BUF_TYPE_META_CAPTURE:
-> >  		vdev->device_caps = V4L2_CAP_META_CAPTURE | V4L2_CAP_STREAMING;
-> > +		name = "Metadata";
-> >  		break;
-> >  	}
-> >  
-> > -	strscpy(vdev->name, dev->name, sizeof(vdev->name));
-> > +	snprintf(vdev->name, sizeof(vdev->name), "%s %u", name,
-> > +		 stream->header.bTerminalLink);
-> >  
-> >  	/*
-> >  	 * Set the driver data before calling video_register_device, otherwise
+> > > 
+> > > I also found on a forum
+> > > (https://community.nxp.com/t5/i-MX-Processors/imx8mq-Hantro-G1-scaling/m-p/1285343)
+> > > that NXP's BSP doesn't use the Hantro for scaling (and likely not csc
+> > > either) and they use the GPU instead. I'm still unclear if/how you
+> > > could tap into the 2D GPU to use its scaling/conversion if it's bound
+> > > to the etnaviv driver.
+> > > 
+> > > > Unlike the IMX8MQ, you don't have the option to output YUYV (packed yuv 4:2:2)
+> > > > which would satisfy the 2D GPU support hoold to the DMABuf import path.
+> > 
+> > As I'm saying above, you can't, there is no NV12 support in that 2D GPU from
+> > what I was old by Etnaviv folks, only YUYV (4:2:2 packed). Shaders is the only
+> > option.
+> > 
+> That's not correct. The 3D GPU can sample directly from YUYV, so it's
+> the optimal zero-copy format if you are going to use the video with the
+> 3D GPU. Most of the 2D GPU cores (and I think the one of the 8MM is no
+> exception) can handle planar formats, some of them only at reduced rate
+> of 1 Pixel/clock, instead of the usual 2 Pixels/clock.
 
--- 
-Regards,
+Isn't that enough to disqualify that as "optimal" ?
 
-Laurent Pinchart
+> > > > 
+> > > > When the display driver gets ready and upstream (it's been only 2-3 years now),
+> > > > you'll get linear NV12 support along with G2 compression support (this one is
+> > > > not supported by the GPU, so it will be tricky to expose in userland). I don't
+> > > > think the display support 4L4 tiles, but you GPU most likely can do with the
+> > > > right shared and texelFetch() or vulkan equivalent if that exist on that target.
+> > > 
+> > > Do you mean the Samsung Exynos DRM driver (which doesn't yet have
+> > > support for IMX8MM) or drivers/gpu/drm/mxsfb?
+> > > 
+> > > I'm currently using a pretty old patchset that adds IMX8MM support to
+> > > the drm/exynos driver. I'm way out of my realm when talking about
+> > > GPU/VPU and display drivers.
+> > 
+> > Didn't know the mini was using Samsung display controller. Didn't even know that
+> > chip could exist outside of Exynos chips. On imx8mq, they have a NXP display
+> > chip and it is new. Downstream driver exist, and upstream driver is being worked
+> > on.
+> 
+> The display controller on the 8MM is derived from the existing simple
+> eLCDIF controllers found on earlier i.MX SoCs. 8MQ is the only one with
+> the very capable DCSS display controller. In fact the 8MQ DCSS is
+> upstream, what is missing is the Cadence eDP/HDMI bridge driver. The
+> MIPI-DSI controller and PHY on the 8MM is Samsung IP.
+
+Thanks for clarification.
+
+> 
+> Regards,
+> Lucas
+> 
+
