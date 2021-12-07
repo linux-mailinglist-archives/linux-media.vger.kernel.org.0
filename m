@@ -2,150 +2,184 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3D2EF46BD60
-	for <lists+linux-media@lfdr.de>; Tue,  7 Dec 2021 15:16:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4901A46BD71
+	for <lists+linux-media@lfdr.de>; Tue,  7 Dec 2021 15:20:31 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237670AbhLGOUM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 7 Dec 2021 09:20:12 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41356 "EHLO
+        id S237287AbhLGOYA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 7 Dec 2021 09:24:00 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42242 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233173AbhLGOUL (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 7 Dec 2021 09:20:11 -0500
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AF1B6C061574
-        for <linux-media@vger.kernel.org>; Tue,  7 Dec 2021 06:16:41 -0800 (PST)
-Received: from gallifrey.ext.pengutronix.de ([2001:67c:670:201:5054:ff:fe8d:eefb] helo=[IPv6:::1])
-        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <l.stach@pengutronix.de>)
-        id 1mubGp-0001MK-F4; Tue, 07 Dec 2021 15:16:39 +0100
-Message-ID: <3723dba86bc8c4ac4147d766787c926af486103f.camel@pengutronix.de>
-Subject: Re: [RFC V2 5/6] media: hantro: split i.MX8MQ G1 and G2 code
-From:   Lucas Stach <l.stach@pengutronix.de>
-To:     Adam Ford <aford173@gmail.com>
-Cc:     Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
-        linux-media <linux-media@vger.kernel.org>,
-        Chris Healy <cphealy@gmail.com>,
-        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
+        with ESMTP id S229615AbhLGOX7 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 7 Dec 2021 09:23:59 -0500
+Received: from lb2-smtp-cloud8.xs4all.net (lb2-smtp-cloud8.xs4all.net [IPv6:2001:888:0:108::2b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CA1EFC061574;
+        Tue,  7 Dec 2021 06:20:27 -0800 (PST)
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud8.xs4all.net with ESMTPA
+        id ubKHm0IBcQyExubKLm7GOu; Tue, 07 Dec 2021 15:20:25 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
+        t=1638886825; bh=nHsNw5awsuV5Hy14rbgowmf8bWApqDSwX8s3aD8P2yI=;
+        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
+         Subject;
+        b=ZtHZie7OZNJDrjzcX/OzbGFws1fkSDvkAmwqmRqFMDyC6kl6L9JwM/bSQa0zYS9H5
+         yCCdKE3dfyD0WnY1Y5qqCt3kPByAAqRr9rJ610n86EDf24LB7lAbqu9mPX2Mye+TWO
+         BmDMnr/CjutYkSEFRIEUiGZqxZEWyHA0P29css3/Mo0xdXUHerysMqaY1rhFnvSmiM
+         VT8Z4MBOMbWyBZVbvSvYukRMPnfIq7zWBsRV/aF8f+hldQGVZg6clCvtKzac3kSKBG
+         Ns0Oc1pzE2TfO+PSzPczni1VapTqWhORAS3rkQTDfDynw+JXfCnl3+sU6037OBM/tM
+         SCgHQI6Th8gtg==
+Subject: Re: [PATCH v10 3/3] media: platform: mtk-mdp3: add Mediatek MDP3
+ driver
+To:     Moudy Ho <moudy.ho@mediatek.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         Rob Herring <robh+dt@kernel.org>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "open list:HANTRO VPU CODEC DRIVER" 
-        <linux-rockchip@lists.infradead.org>,
-        devicetree <devicetree@vger.kernel.org>,
-        arm-soc <linux-arm-kernel@lists.infradead.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        "open list:STAGING SUBSYSTEM" <linux-staging@lists.linux.dev>
-Date:   Tue, 07 Dec 2021 15:16:37 +0100
-In-Reply-To: <CAHCN7xKtD+ROTM5_bCr0EgC+vyoAAgEW11SkCvpPQ5wHO3bWBA@mail.gmail.com>
-References: <20211207015446.1250854-1-aford173@gmail.com>
-         <20211207015446.1250854-6-aford173@gmail.com> <Ya9V7Kwa8MICeS34@eze-laptop>
-         <CAHCN7xJ9kTdTmhbSwwNCCivRdTULO494CEj0eVkfPfqbPqNPvA@mail.gmail.com>
-         <d82868b7dbc2953c6022165488e822699f7240c5.camel@pengutronix.de>
-         <CAHCN7xL3JgmEf=H9UueFLYpnGqraRYUu3yYSTqn_JNi8tPnOfQ@mail.gmail.com>
-         <6e41beec102951ea057ba1af02ef4aaad40bd0dc.camel@pengutronix.de>
-         <CAHCN7xKtD+ROTM5_bCr0EgC+vyoAAgEW11SkCvpPQ5wHO3bWBA@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.40.4 (3.40.4-1.fc34) 
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Jernej Skrabec <jernej.skrabec@siol.net>
+Cc:     Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Rob Landley <rob@landley.net>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
+        Alexandre Courbot <acourbot@chromium.org>, tfiga@chromium.org,
+        drinkcat@chromium.org, pihsun@chromium.org, hsinyi@google.com,
+        AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>,
+        Maoguang Meng <maoguang.meng@mediatek.com>,
+        daoyuan huang <daoyuan.huang@mediatek.com>,
+        Ping-Hsun Wu <ping-hsun.wu@mediatek.com>,
+        menghui.lin@mediatek.com, sj.huang@mediatek.com,
+        allen-kh.cheng@mediatek.com, randy.wu@mediatek.com,
+        jason-jh.lin@mediatek.com, roy-cw.yeh@mediatek.com,
+        river.cheng@mediatek.com, srv_heupstream@mediatek.com
+References: <20211202062733.20338-1-moudy.ho@mediatek.com>
+ <20211202062733.20338-4-moudy.ho@mediatek.com>
+From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Message-ID: <c48154b9-b202-c47c-c27e-53aa97877430@xs4all.nl>
+Date:   Tue, 7 Dec 2021 15:20:13 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 MIME-Version: 1.0
+In-Reply-To: <20211202062733.20338-4-moudy.ho@mediatek.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-SA-Exim-Connect-IP: 2001:67c:670:201:5054:ff:fe8d:eefb
-X-SA-Exim-Mail-From: l.stach@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-media@vger.kernel.org
+X-CMAE-Envelope: MS4xfOWUbPfTiPTqirbiNfEpShw1ekwWSNVBklXd6tW+PX5RoibUYVNnPuH1W0Sv0F/PxUpzjBPYWp0cFS0vnE0gpKSfURIOaucsX732AgIM+ukOGzSQ9wNA
+ nNnYbD1UZ18/W5nHu8Jdnsu5LExcznoZ96e4mfwARYr8+Z0HfVPAMBfun5q680aBlYglJgElkR85tMLPnuGafp2JNHqwZo4voWHP3kkJAL4ku+Ey5XUMj5Hl
+ R6Cw+5fE4WW1/x0VYrv8uDcKit8XpThhu57lAawTiJY+TAy/d1wqcdF29tLhKe5/uyM9i7bEhtH+SBJiby48tziakD1nL7UU97IX2QMi7/zDEk65wzk6O2+v
+ +7ClTGLyDmjZTsq5jiebvx/jkJug7aBm/ngg8QRc3NleZLDdUONuEU69khFL/DUTnwNtIsf0S+ypPvi9SpUwMrzOlEP8op9f4FSJuuArR6HAF8EhXgaWqI5L
+ sKg2tn3nrnXEc/Lyai9bQ2GCFiG7lrbCcYIMxJ8hc4dPqh4Wt/s/uOc35CiEKFGrUmWRLusxLk+U8EGs71Fq5rVP9VtAgoaljmREZjXLnQmoIl9QW0UeDYwN
+ 0Zju9vqI3wGRJQPd7mU0XeCaTSv/lsAvgun6F9aXDf3Nsb9biM4ZBw1orB07QHtS0kg/HMGln/Fs9UAaZgPN3zwedh7sVxdm+RJTjeDX6BTP/IXJURYXroSJ
+ PMiBIWTVEPbAgDPRnLs1KlsswAiaPOShDBmyaXsbR+rjrPcQUl2fE5pvS4a524SBwYerXIjYWa6pgJojCm/8VXZqvFWriISWzcrSxMcQ87KejhSrH58jJV9P
+ 1ip6T8HAuYJeQnakhyJvnJzJoiHP+D0Seqv1AZKrGNie5N3N5O8hhcJ+nTZjq6WNQTm8UqDliBTI/Wla1eARP6k5cf/5cpNb39QYCHU/C2NVKB2aUW5+z9n8
+ D666FGOVbX9MXHfdDgpcPlCSt4NdXu7T6m4hWKjCEk/jyWGt8SeTWlNwZT3tnb0gvt2S/XL/aOX9ZYSvVbv3I2wlg1fmKBPQZmurZGXo1bG2yg7TsHhtZhZ+
+ 4qqZ3FMxz4TQ6MMGbv2VNXPyTtUOg9j+M1ou4j/rvwQsyHV/vDHX0XdfajSbtToN2/qoTaaWu9J6yvnbtB7PMr8U/KGItkRPAbzfjvjF89hv3fcgpEdj2m80
+ mF4aMINaCg/sPBn5NMJ/cYyMTgc51/C+aWz0cgNDOnm7sccv+xSleD8ON+tEeF80URdI2LEWbuJPF2HP5uI3PBbFpPjcAYrko85mxOI++BFm5lTwaLAEP6ma
+ C3VMFSKoUv7SjFozzjEDwedHPTjBFVyeI5EOh9uV5qzroYDxVk4Q9nQJf20a2ahuF30LnYL+aQqi8zA4FvPgjBz8w+mUl1z9vJ/UIkrIHiwYqGyFMpaqEb9l
+ 8TEivMpj4iTZNGVI
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Am Dienstag, dem 07.12.2021 um 08:07 -0600 schrieb Adam Ford:
-> > > > > > 
-[...]
-> > > > > > I think it's important to clarify that you are breaking support
-> > > > > > for the previous device-tree binding. Not only because of the compatible
-> > > > > > string change, but because the binding is now quite different.
-> > > > > > 
-> > > > > > Note that in the past Benjamin tried to avoid this.
-> > > > > > IIRC, his proposal was backwards compatible.
-> > > > > 
-> > > > > I was looking at how to do this, but the stand-alone vpu bindings did
-> > > > > the reset and the fuses manually, it causes issues.  When the block
-> > > > > control is enabled those memory locations for the resets and fuses are
-> > > > > assigned to the blk-ctrl driver, so attempting to access them from a
-> > > > > different driver was a violation.
-> > > > > 
-> > > > > When I started looking at this, the stand-alone VPU was trying to be
-> > > > > both G1 and G2, but when I was testing it before I made changes, I
-> > > > > didn't see the G2 function at all. When I was done the G2 seemed to
-> > > > > work, so it seems like this is an improvement.  If you want me to keep
-> > > > > the previous compatible flag, I could rename the nxp,imx8mq-vpu-g1
-> > > > > back to nxp,imx8mq-vpu and remove the reset/fuse controls, but I'd
-> > > > > have to add the blk-ctrl reference, so it seemed to me like a better
-> > > > > alternative to deprecate the old binding/driver and replace it with
-> > > > > the new one because of the significant changes.  Since I'd like to
-> > > > > rebase the i.MX8M Mini I did on this work, it seemed weird to have
-> > > > > nxp,imx8mq-vpu, nxp,imx8mq-vpu-g2, nxp,imx8mm-vpu-g1, and
-> > > > > nxp,imx8mm-vpu-g2 where the only one without a Gx name was the
-> > > > > original 8MQ binding but limited to G1 functionality and the G2
-> > > > > stripped out.
-> > > > 
-> > > > I would very much appreciate if we could keep the driver code for the
-> > > > old binding. It does not need to have any new additional functionality,
-> > > > but just keep the existing G1 h.264 decode when booted on a old DT with
-> > > > the old VPU description and no blk-ctrl, so we don't regress
-> > > > functionality when a new kernel is booted with a old DT.
-> > > > 
-> > > > New functionality with the G2 can depend on the new VPU binding and the
-> > > > blk-ctrl driver.
-> > > 
-> > > How does that work when both the original VPU and the blk-ctrl attempt
-> > > to manipulate the reset and clock lines?  The original binding for the
-> > > vpu was assigned:
-> > > 
-> > > reg = <0x38300000 0x10000>,
-> > >           <0x38310000 0x10000>,
-> > >           <0x38320000 0x10000>;
-> > > reg-names = "g1", "g2", "ctrl";
-> > > 
-> > > If G2 is going to run from 38310000 and vpu-blk-ctrl run from
-> > > 38320000, they'll collide.
-> > > 
-> > It's not going to work, but it also doesn't have to. Either you have a
-> > old DT where the VPU driver will poke the blk-ctrl registers, but no
-> > blk-ctrl driver, or you have a new DT where the VPU driver leaves the
-> > blk-ctrl region alone and the blk-ctrl driver needs to handle it.
-> > 
-> > Just don't support mixing the old VPU DT binding with the new blk-ctrl
-> > way of doing things. The only thing that needs to keep working is a
-> > unchannged old DT, where the VPU uses the old binding, but no blk-ctrl
-> > is present as a separate node.
+On 12/2/21 7:27 AM, Moudy Ho wrote:
+> This patch adds driver for Mediatek's Media Data Path ver.3 (MDP3).
+> It provides the following functions:
+>   color transform, format conversion, resize, crop, rotate, flip
+>   and additional image quality enhancement.
 > 
-> I think I understand.  I'll leave the old code for the old binding in
-> the driver and add the new code for the new bindings with blk-ctrl.
-> Once the device tree is migrated to the new bindings, the old one
-> becomes harmless, but still works with old device trees lacking the
-> blk-ctrl.  That makes sense.  In my head, I wasn't thinking about
-> mixing older device trees.
+> The MDP3 driver is mainly used for Google Chromebook products to
+> import the new architecture to set the HW settings as shown below:
+>   User -> V4L2 framework
+>     -> MDP3 driver -> SCP (setting calculations)
+>       -> MDP3 driver -> CMDQ (GCE driver) -> HW
+> 
+> Each modules' related operation control is sited in mtk-mdp3-comp.c
+> Each modules' register table is defined in file with "mdp_reg_" prefix
+> GCE related API, operation control  sited in mtk-mdp3-cmdq.c
+> V4L2 m2m device functions are implemented in mtk-mdp3-m2m.c
+> Probe, power, suspend/resume, system level functions are defined in
+> mtk-mdp3-core.c
+> 
+> Signed-off-by: Ping-Hsun Wu <ping-hsun.wu@mediatek.com>
+> Signed-off-by: daoyuan huang <daoyuan.huang@mediatek.com>
+> Signed-off-by: Moudy Ho <moudy.ho@mediatek.com>
+> Reported-by: kernel test robot <lkp@intel.com>
+> ---
+>  drivers/media/platform/Kconfig                |   19 +
+>  drivers/media/platform/Makefile               |    2 +
+>  drivers/media/platform/mtk-mdp3/Makefile      |    6 +
+>  .../media/platform/mtk-mdp3/mdp_reg_ccorr.h   |   19 +
+>  drivers/media/platform/mtk-mdp3/mdp_reg_isp.h |   27 +
+>  .../media/platform/mtk-mdp3/mdp_reg_rdma.h    |   65 +
+>  drivers/media/platform/mtk-mdp3/mdp_reg_rsz.h |   39 +
+>  .../media/platform/mtk-mdp3/mdp_reg_wdma.h    |   47 +
+>  .../media/platform/mtk-mdp3/mdp_reg_wrot.h    |   55 +
+>  drivers/media/platform/mtk-mdp3/mtk-img-ipi.h |  280 ++++
+>  .../media/platform/mtk-mdp3/mtk-mdp3-cmdq.c   |  505 +++++++
+>  .../media/platform/mtk-mdp3/mtk-mdp3-cmdq.h   |   46 +
+>  .../media/platform/mtk-mdp3/mtk-mdp3-comp.c   | 1264 +++++++++++++++++
+>  .../media/platform/mtk-mdp3/mtk-mdp3-comp.h   |  147 ++
+>  .../media/platform/mtk-mdp3/mtk-mdp3-core.c   |  338 +++++
+>  .../media/platform/mtk-mdp3/mtk-mdp3-core.h   |   76 +
+>  .../media/platform/mtk-mdp3/mtk-mdp3-m2m.c    |  789 ++++++++++
+>  .../media/platform/mtk-mdp3/mtk-mdp3-m2m.h    |   49 +
+>  .../media/platform/mtk-mdp3/mtk-mdp3-regs.c   |  737 ++++++++++
+>  .../media/platform/mtk-mdp3/mtk-mdp3-regs.h   |  372 +++++
+>  .../media/platform/mtk-mdp3/mtk-mdp3-vpu.c    |  312 ++++
+>  .../media/platform/mtk-mdp3/mtk-mdp3-vpu.h    |   78 +
+>  22 files changed, 5272 insertions(+)
+>  create mode 100644 drivers/media/platform/mtk-mdp3/Makefile
+>  create mode 100644 drivers/media/platform/mtk-mdp3/mdp_reg_ccorr.h
+>  create mode 100644 drivers/media/platform/mtk-mdp3/mdp_reg_isp.h
+>  create mode 100644 drivers/media/platform/mtk-mdp3/mdp_reg_rdma.h
+>  create mode 100644 drivers/media/platform/mtk-mdp3/mdp_reg_rsz.h
+>  create mode 100644 drivers/media/platform/mtk-mdp3/mdp_reg_wdma.h
+>  create mode 100644 drivers/media/platform/mtk-mdp3/mdp_reg_wrot.h
+>  create mode 100644 drivers/media/platform/mtk-mdp3/mtk-img-ipi.h
+>  create mode 100644 drivers/media/platform/mtk-mdp3/mtk-mdp3-cmdq.c
+>  create mode 100644 drivers/media/platform/mtk-mdp3/mtk-mdp3-cmdq.h
+>  create mode 100644 drivers/media/platform/mtk-mdp3/mtk-mdp3-comp.c
+>  create mode 100644 drivers/media/platform/mtk-mdp3/mtk-mdp3-comp.h
+>  create mode 100644 drivers/media/platform/mtk-mdp3/mtk-mdp3-core.c
+>  create mode 100644 drivers/media/platform/mtk-mdp3/mtk-mdp3-core.h
+>  create mode 100644 drivers/media/platform/mtk-mdp3/mtk-mdp3-m2m.c
+>  create mode 100644 drivers/media/platform/mtk-mdp3/mtk-mdp3-m2m.h
+>  create mode 100644 drivers/media/platform/mtk-mdp3/mtk-mdp3-regs.c
+>  create mode 100644 drivers/media/platform/mtk-mdp3/mtk-mdp3-regs.h
+>  create mode 100644 drivers/media/platform/mtk-mdp3/mtk-mdp3-vpu.c
+>  create mode 100644 drivers/media/platform/mtk-mdp3/mtk-mdp3-vpu.h
+> 
+> diff --git a/drivers/media/platform/Kconfig b/drivers/media/platform/Kconfig
+> index cf4adc64c953..e6c1e8892154 100644
+> --- a/drivers/media/platform/Kconfig
+> +++ b/drivers/media/platform/Kconfig
+> @@ -315,6 +315,25 @@ config VIDEO_MEDIATEK_MDP
+>  	    To compile this driver as a module, choose M here: the
+>  	    module will be called mtk-mdp.
+>  
+> +config VIDEO_MEDIATEK_MDP3
+> +	tristate "Mediatek MDP v3 driver"
+> +	depends on MTK_IOMMU || COMPLIE_TEST
 
-Exactly. While most people don't use it this way, the kernel and DT are
-supposed to be independent, e.g. the DTB could be included in the
-device firmware, while the kernel could be updated via a distro.
+Typo: COMPLIE_TEST -> COMPILE_TEST
 
-To not break this use-case without a good reason, new kernels should
-try to not regress functionality with a existing binary DT. We can
-mandate DT updates for new functionality (like being able to use the G2
-core only with the new blk-ctrl + split VPU binding), but we shouldn't
-break existing features if there isn't a very good reason to do so.
-Keeping the bit of code in the VPU driver to keep the old G1 only
-decoding working with a new kernel isn't much of a burden IMHO, so we
-should try to keep it alive.
+After fixing this, trying to build this driver on my PC results in:
+
+ERROR: modpost: "mtk_mmsys_mdp_connect" [drivers/media/platform/mtk-mdp3/mtk-mdp3.ko] undefined!
+ERROR: modpost: "mtk_mmsys_mdp_camin_ctrl" [drivers/media/platform/mtk-mdp3/mtk-mdp3.ko] undefined!
+ERROR: modpost: "mtk_mmsys_mdp_isp_ctrl" [drivers/media/platform/mtk-mdp3/mtk-mdp3.ko] undefined!
+ERROR: modpost: "mtk_mutex_prepare" [drivers/media/platform/mtk-mdp3/mtk-mdp3.ko] undefined!
+ERROR: modpost: "mtk_mmsys_mdp_disconnect" [drivers/media/platform/mtk-mdp3/mtk-mdp3.ko] undefined!
+ERROR: modpost: "mtk_mutex_unprepare" [drivers/media/platform/mtk-mdp3/mtk-mdp3.ko] undefined!
+ERROR: modpost: "mtk_mutex_get_mdp_mod" [drivers/media/platform/mtk-mdp3/mtk-mdp3.ko] undefined!
+ERROR: modpost: "mtk_mutex_put" [drivers/media/platform/mtk-mdp3/mtk-mdp3.ko] undefined!
+ERROR: modpost: "mtk_mutex_mdp_get" [drivers/media/platform/mtk-mdp3/mtk-mdp3.ko] undefined!
+ERROR: modpost: "mtk_mutex_add_mod_by_cmdq" [drivers/media/platform/mtk-mdp3/mtk-mdp3.ko] undefined!
+WARNING: modpost: suppressed 1 unresolved symbol warnings because there were too many)
+
+include/linux/soc/mediatek/mtk-mmsys.h should probably provide dummy functions
+if CONFIG_MTK_MMSYS is undefined. Ditto for include/linux/soc/mediatek/mtk-mutex.h.
 
 Regards,
-Lucas
 
+	Hans
