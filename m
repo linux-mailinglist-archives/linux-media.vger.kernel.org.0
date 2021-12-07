@@ -2,100 +2,118 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B719D46B77B
-	for <lists+linux-media@lfdr.de>; Tue,  7 Dec 2021 10:35:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8856346B80F
+	for <lists+linux-media@lfdr.de>; Tue,  7 Dec 2021 10:52:37 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234164AbhLGJi5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 7 Dec 2021 04:38:57 -0500
-Received: from mx07-00178001.pphosted.com ([185.132.182.106]:43876 "EHLO
-        mx07-00178001.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S234100AbhLGJiq (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Tue, 7 Dec 2021 04:38:46 -0500
-Received: from pps.filterd (m0288072.ppops.net [127.0.0.1])
-        by mx07-00178001.pphosted.com (8.16.1.2/8.16.1.2) with ESMTP id 1B793qL2003535;
-        Tue, 7 Dec 2021 10:35:04 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=subject : to : cc :
- references : from : message-id : date : mime-version : in-reply-to :
- content-type : content-transfer-encoding; s=selector1;
- bh=OZRzd7CtLaEEjK8QBafsNuOEhymPrvAmrI4t5/GSY/w=;
- b=JgX3uBNAC90HS8ZVrXp5TOxGhXo8aaSIEw2Io3MvTiWAXQnuaVz3deHlSeq5DLRHG06l
- Bel6lUvpcQbZmG0QmalZuthiSiD6wDqecUUL1LdPZuXGm7c/L6+1ZaWWWoXDw21ogB/4
- 3wV2AWftg6dEyrhs0zH6UkTdRqscGXRLb2t6VcrjDhCKj1O3hyXniJrNweyN3x2hHt0L
- 24DVhrM57iLz945Ep+Eo3U5YzBbovGQfh5zOO06BTcQWFyZv6U/kEFO8PzCQj0pPP6wn
- WPqthXhp4jxSBJkm07s+wE1mKJsY3TabHxrPWj6hfkDpp9+Pl5WmPXOfSfkkEscpUlk8 tg== 
-Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
-        by mx07-00178001.pphosted.com (PPS) with ESMTPS id 3csmx0m6ts-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Tue, 07 Dec 2021 10:35:04 +0100
-Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
-        by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id B1A2810002A;
-        Tue,  7 Dec 2021 10:35:03 +0100 (CET)
-Received: from Webmail-eu.st.com (sfhdag2node2.st.com [10.75.127.5])
-        by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 88C0D2178C0;
-        Tue,  7 Dec 2021 10:35:02 +0100 (CET)
-Received: from lmecxl0573.lme.st.com (10.75.127.48) by SFHDAG2NODE2.st.com
- (10.75.127.5) with Microsoft SMTP Server (TLS) id 15.0.1497.26; Tue, 7 Dec
- 2021 10:35:02 +0100
-Subject: Re: [PATCH] media: c8sectpfe: remove redundant assignment to pointer
- tsin
-To:     Colin Ian King <colin.i.king@gmail.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-media@vger.kernel.org>
-CC:     <kernel-janitors@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-References: <20211205003745.227491-1-colin.i.king@gmail.com>
-From:   Patrice CHOTARD <patrice.chotard@foss.st.com>
-Message-ID: <b8d7a9c9-7108-8141-cd22-0759b821e4c4@foss.st.com>
-Date:   Tue, 7 Dec 2021 10:35:01 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+        id S234532AbhLGJ4B (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 7 Dec 2021 04:56:01 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36018 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232778AbhLGJ4B (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 7 Dec 2021 04:56:01 -0500
+Received: from lb2-smtp-cloud8.xs4all.net (lb2-smtp-cloud8.xs4all.net [IPv6:2001:888:0:108::2b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A4BB8C061574;
+        Tue,  7 Dec 2021 01:52:30 -0800 (PST)
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud8.xs4all.net with ESMTPA
+        id uX96mxufCQyExuX99m6Mav; Tue, 07 Dec 2021 10:52:28 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
+        t=1638870748; bh=YIK8OHDbi3V4LndmzWao6mLqVaAtXkrpBG9mG5TVAco=;
+        h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type:From:
+         Subject;
+        b=ET2rNmICLk25V6X121sF2QETLZMyvygTF/J9Ke96bkaYZk1A8tzrA3Vml13GhNBCb
+         TemdWpPzs1qFchb43BGfsVvGq1zHCTdAAzFPQzUNcF7t9Gurw4ESM0z0AsrzOSyAUJ
+         S5gfMaVlpmadluchLBNs5xle/MLKQdPisg/Eqk+Gmy6oe1kpRmZjQXMq7KY2jvMsnC
+         F0fKi7ubIVxDL9OWJQFZBQIqBz+CZ3g0u152BSLpHDDkXHy0B29xmNN0N0tM5Ww14+
+         xONBla2v0xYa4DBe3DllwPbzjRHvKI80WjWo6dysFjEAj6JvtW1o8+aNlX+3Fc+G9G
+         vnGJzqBe4shVQ==
+Message-ID: <6e64bb76-14f5-b492-ca36-775a0011acba@xs4all.nl>
+Date:   Tue, 7 Dec 2021 10:52:24 +0100
 MIME-Version: 1.0
-In-Reply-To: <20211205003745.227491-1-colin.i.king@gmail.com>
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Firefox/91.0 Thunderbird/91.3.2
+Subject: Re: [PATCH v2 1/4] Revert "media: uvcvideo: Set unique vdev name
+ based in type"
 Content-Language: en-US
+To:     Ricardo Ribalda <ribalda@chromium.org>,
+        Nicolas Dufresne <nicolas@ndufresne.ca>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        tfiga@chromium.org
+Cc:     stable@vger.kernel.org
+References: <20211207003840.1212374-1-ribalda@chromium.org>
+ <20211207003840.1212374-2-ribalda@chromium.org>
+From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
+In-Reply-To: <20211207003840.1212374-2-ribalda@chromium.org>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.75.127.48]
-X-ClientProxiedBy: SFHDAG1NODE2.st.com (10.75.127.2) To SFHDAG2NODE2.st.com
- (10.75.127.5)
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.790,Hydra:6.0.425,FMLib:17.11.62.513
- definitions=2021-12-07_03,2021-12-06_02,2021-12-02_01
+X-CMAE-Envelope: MS4xfE+7voatNWDKUjr1aMl0AXKaQkhI98MJFkc/Lc4uEEl8JUYVekHCg1kpUPeDtNOSCR3zbvKlb+wACVj4luuYXw9Rk+IR0nLOdcaRSIxSONlfqOMOK0eS
+ Jb5s3XXxzu5qTJSwy+/iKd30uvGIB4wa3L3j9cH/WZLi1zfuQ6rzvoIX+Cb93sfMjk6LXHi0BJQtzDJGXMO2f0dXmiMGLq1bOp7Pzn3w4NXIox46Vqr8qC+v
+ g15GyFUrFPyBsN/wFm+7LQUuMsdI8mm2GpkwQFLneCgI1qAPEJritCAi7RPwwNJ8sltnfsTr8ViLJlSrwOtlmW+RpLQa5hIbVtnemMiAwzBVVgmEEUrqCNYA
+ rU54yNRvsCR8oaQ7Mq5Y1cNppAoERPWeMv611qc2eO+GIyyiV2fMrRjOvG3p3ZUuHnO1dGtP+DBN//8bTTzj1PZMzPOiZaLid3LCGPetROHYbNkuc/+5+sOF
+ PZ/zbuptl7bKZ3TiBrtTmDMABy5f1p9BevFd+A==
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Colin
-
-On 12/5/21 1:37 AM, Colin Ian King wrote:
-> Pointer tsin is being assigned a value that is never read. The assignment
-> is redundant and can be removed.
+On 07/12/2021 01:38, Ricardo Ribalda wrote:
+> A lot of userspace depends on a descriptive name for vdev. Without this
+> patch, users have a hard time figuring out which camera shall they use
+> for their video conferencing.
 > 
-> Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
+> This reverts commit e3f60e7e1a2b451f538f9926763432249bcf39c4.
+> 
+> Cc: <stable@vger.kernel.org>
+> Fixes: e3f60e7e1a2b ("media: uvcvideo: Set unique vdev name based in type")
+> Reported-by: Nicolas Dufresne <nicolas@ndufresne.ca>
+> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+
+Reviewed-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+
+Thanks!
+
+	Hans
+
 > ---
->  drivers/media/platform/sti/c8sectpfe/c8sectpfe-core.c | 4 ----
->  1 file changed, 4 deletions(-)
+>  drivers/media/usb/uvc/uvc_driver.c | 7 +------
+>  1 file changed, 1 insertion(+), 6 deletions(-)
 > 
-> diff --git a/drivers/media/platform/sti/c8sectpfe/c8sectpfe-core.c b/drivers/media/platform/sti/c8sectpfe/c8sectpfe-core.c
-> index 02dc78bd7fab..e1f520903248 100644
-> --- a/drivers/media/platform/sti/c8sectpfe/c8sectpfe-core.c
-> +++ b/drivers/media/platform/sti/c8sectpfe/c8sectpfe-core.c
-> @@ -930,12 +930,8 @@ static int configure_channels(struct c8sectpfei *fei)
+> diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc_driver.c
+> index 7c007426e082..058d28a0344b 100644
+> --- a/drivers/media/usb/uvc/uvc_driver.c
+> +++ b/drivers/media/usb/uvc/uvc_driver.c
+> @@ -2193,7 +2193,6 @@ int uvc_register_video_device(struct uvc_device *dev,
+>  			      const struct v4l2_file_operations *fops,
+>  			      const struct v4l2_ioctl_ops *ioctl_ops)
+>  {
+> -	const char *name;
+>  	int ret;
 >  
->  	/* iterate round each tsin and configure memdma descriptor and IB hw */
->  	for_each_child_of_node(np, child) {
-> -
-> -		tsin = fei->channel_data[index];
-> -
->  		ret = configure_memdma_and_inputblock(fei,
->  						fei->channel_data[index]);
-> -
->  		if (ret) {
->  			dev_err(fei->dev,
->  				"configure_memdma_and_inputblock failed\n");
+>  	/* Initialize the video buffers queue. */
+> @@ -2222,20 +2221,16 @@ int uvc_register_video_device(struct uvc_device *dev,
+>  	case V4L2_BUF_TYPE_VIDEO_CAPTURE:
+>  	default:
+>  		vdev->device_caps = V4L2_CAP_VIDEO_CAPTURE | V4L2_CAP_STREAMING;
+> -		name = "Video Capture";
+>  		break;
+>  	case V4L2_BUF_TYPE_VIDEO_OUTPUT:
+>  		vdev->device_caps = V4L2_CAP_VIDEO_OUTPUT | V4L2_CAP_STREAMING;
+> -		name = "Video Output";
+>  		break;
+>  	case V4L2_BUF_TYPE_META_CAPTURE:
+>  		vdev->device_caps = V4L2_CAP_META_CAPTURE | V4L2_CAP_STREAMING;
+> -		name = "Metadata";
+>  		break;
+>  	}
+>  
+> -	snprintf(vdev->name, sizeof(vdev->name), "%s %u", name,
+> -		 stream->header.bTerminalLink);
+> +	strscpy(vdev->name, dev->name, sizeof(vdev->name));
+>  
+>  	/*
+>  	 * Set the driver data before calling video_register_device, otherwise
 > 
 
-Reviewed-by: Patrice Chotard <patrice.chotard@foss.st.com>
-
-Thanks
-Patrice
