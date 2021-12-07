@@ -2,78 +2,104 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DD7CB46C6A4
-	for <lists+linux-media@lfdr.de>; Tue,  7 Dec 2021 22:23:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id F00E446C6D6
+	for <lists+linux-media@lfdr.de>; Tue,  7 Dec 2021 22:41:48 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241737AbhLGV0n (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 7 Dec 2021 16:26:43 -0500
-Received: from www.linuxtv.org ([130.149.80.248]:32912 "EHLO www.linuxtv.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S233742AbhLGV0n (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Tue, 7 Dec 2021 16:26:43 -0500
-Received: from builder.linuxtv.org ([140.211.167.10] helo=slave0)
-        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1muhvb-00B92U-C2; Tue, 07 Dec 2021 21:23:11 +0000
-Received: from ip6-localhost ([::1] helo=localhost.localdomain)
-        by slave0 with esmtp (Exim 4.94.2)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1muhvY-00E6qZ-94; Tue, 07 Dec 2021 21:23:08 +0000
-From:   Jenkins <jenkins@linuxtv.org>
-To:     mchehab+samsung@kernel.org, linux-media@vger.kernel.org
-Cc:     builder@linuxtv.org
-Subject: Re: [GIT PULL FOR v5.17] Lirc and streamzap improvements (#79246)
-Date:   Tue,  7 Dec 2021 21:23:07 +0000
-Message-Id: <20211207212307.3362865-1-jenkins@linuxtv.org>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20211207204433.GA16243@gofer.mess.org>
-References: 
+        id S241948AbhLGVpS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 7 Dec 2021 16:45:18 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36756 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230374AbhLGVpS (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 7 Dec 2021 16:45:18 -0500
+Received: from mail-wm1-x333.google.com (mail-wm1-x333.google.com [IPv6:2a00:1450:4864:20::333])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1B367C061574
+        for <linux-media@vger.kernel.org>; Tue,  7 Dec 2021 13:41:47 -0800 (PST)
+Received: by mail-wm1-x333.google.com with SMTP id m25-20020a7bcb99000000b0033aa12cdd33so2378612wmi.1
+        for <linux-media@vger.kernel.org>; Tue, 07 Dec 2021 13:41:47 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-transfer-encoding:content-language;
+        bh=m7SBcgT6qnJ07efzq1500j94z4PnFQPJxjGBISzWxmM=;
+        b=fRBZSZSn+84pe6kYSZUD8L5BCrdSAR8KB6QSYsTCluNujE+bVO1XlAodB4QBmeoaI/
+         o18u0gK2Q8rYQkASVq0CQFEZa29F0Kd2N//GhKBGuyBhIi50SDzVGQx9FPKeAm0d2PUj
+         qTRXglRPWyQ/9wHw6LV9Y4DtVmkrz5YDOolP+c0J+MoLE4LGpKgktf2fWvHvKa69bR6z
+         shwtZWpckxpgH9hpzwOud+xkNjmeh3Sfr1SYuYV4JOgO4igX9XNUjmB/Rohj+3w9cQOu
+         0zl8kzGhc/+5NGBj3ZDVAukjBWjhZcpIVYOSAkwwz2SHABXSYnTHA88/KfKf1sUWPDp1
+         Gy9Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-transfer-encoding
+         :content-language;
+        bh=m7SBcgT6qnJ07efzq1500j94z4PnFQPJxjGBISzWxmM=;
+        b=d8vVfBSmOx0CFe82uyRe9s4tFjceRrPCJ01x0V03W9dHqXKsT+hPRxyDDvt6U2D2F2
+         buDP3tdEBBR33e2dpWYNkxN2U9WEhIna1gsRXhpjUrY2ItcGLLuPTo1cKQ/yyW60ydHo
+         pYt/cYxqUa2s838SV4p43LA89qpItbKJGVFja92BXWIlUZ4NiacHNWCkqmvUc0zljwmA
+         mlenTOZUEUNEUc6U0rJypY3fJFCrmJltKwUWE6OywPhZ0Wz/nQ12UtkAueVUs2V1PjVV
+         yMy9RqZXqjTNZQaUnmXB66t3lyME0KmjaTxOB9aT/6OW+HXtDhOBkaJwjRcyYffO7U6p
+         GRBw==
+X-Gm-Message-State: AOAM533B1HrhjAq70RY2qqVbko306KCOZfawCR4LF0304OQ8YTjt+LQd
+        RigWglYQPRBP0qWJHS1xGnk=
+X-Google-Smtp-Source: ABdhPJzmo6aMdvEYkyej66wYCSDkqSz+cD8aa1aLzWSCBXsJqfK8K+IENXaMMdMpMdA1+GXc/8256A==
+X-Received: by 2002:a7b:c310:: with SMTP id k16mr10460153wmj.169.1638913305651;
+        Tue, 07 Dec 2021 13:41:45 -0800 (PST)
+Received: from [192.168.0.14] (cpc141996-chfd3-2-0-cust928.12-3.cable.virginm.net. [86.13.91.161])
+        by smtp.gmail.com with ESMTPSA id l15sm723598wme.47.2021.12.07.13.41.44
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 07 Dec 2021 13:41:44 -0800 (PST)
+Subject: Re: Kernel oops bisected to media: videobuf2: move cache_hints
+ handling to allocators
+To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Cc:     mchehab+huawei@kernel.org,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Sergey Senozhatsky <senozhatsky@chromium.org>
+References: <d0dcd227-0753-5e9d-f757-4819cc271d4f@gmail.com>
+ <YZhq0o7p0dVWeueC@google.com>
+ <d4be3ea9-5d41-0a19-c03c-4037d01d1b6a@xs4all.nl>
+From:   Daniel Scally <djrscally@gmail.com>
+Message-ID: <17f34600-2717-d125-62ba-fd933b3b59f1@gmail.com>
+Date:   Tue, 7 Dec 2021 21:41:43 +0000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <d4be3ea9-5d41-0a19-c03c-4037d01d1b6a@xs4all.nl>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: builder@linuxtv.org
+Hi Hans
 
-Pull request: https://patchwork.linuxtv.org/project/linux-media/patch/20211207204433.GA16243@gofer.mess.org/
-Build log: https://builder.linuxtv.org/job/patchwork/163439/
-Build time: 00:27:12
-Link: https://lore.kernel.org/linux-media/20211207204433.GA16243@gofer.mess.org
-
-gpg: Signature made Tue 07 Dec 2021 01:37:02 PM UTC
-gpg:                using RSA key A624251A26084A9ED9E4C8B6425F639D3960FA9E
-gpg:                issuer "sean@mess.org"
-gpg: Good signature from "Sean Young <sean@mess.org>" [unknown]
-gpg: WARNING: This key is not certified with a trusted signature!
-gpg:          There is no indication that the signature belongs to the owner.
-Primary key fingerprint: A624 251A 2608 4A9E D9E4  C8B6 425F 639D 3960 FA9E
-
-Summary: got 1/9 patches with issues, being 1 at build time, plus one error when buinding PDF document
-
-Error/warnings:
-
-patches/0001-media-lirc-always-send-timeout-reports.patch:
-
-    allyesconfig: return code #0:
-	../scripts/genksyms/parse.y: warning: 9 shift/reduce conflicts [-Wconflicts-sr]
-	../scripts/genksyms/parse.y: warning: 5 reduce/reduce conflicts [-Wconflicts-rr]
-	../scripts/genksyms/parse.y: note: rerun with option '-Wcounterexamples' to generate conflict counterexamples
-
-    allyesconfig: return code #0:
-	SMATCH:../drivers/media/usb/siano/smsusb.c ../drivers/media/usb/siano/smsusb.c:53:38: :warning: array of flexible structures
-	SPARSE:../drivers/media/usb/siano/smsusb.c ../drivers/media/usb/siano/smsusb.c:53:38: warning: array of flexible structures
-	../drivers/media/rc/meson-ir-tx.c:22: warning: expecting prototype for meson(). Prototype was for DEVICE_NAME() instead
-	../drivers/media/i2c/ov8865.c: ../drivers/media/i2c/ov8865.c:2841 ov8865_get_selection() warn: inconsistent indenting
-	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2625 dvb_register() parse error: turning off implications after 60 seconds
-	../drivers/media/platform/qcom/venus/helpers.c: ../drivers/media/platform/qcom/venus/helpers.c:658 venus_helper_get_bufreq() error: we previously assumed 'req' could be null (see line 654)
-	../drivers/media/usb/em28xx/em28xx-video.c: ../drivers/media/usb/em28xx/em28xx-video.c:2874 em28xx_v4l2_init() parse error: turning off implications after 60 seconds
-
-   checkpatch.pl:
-	$ cat patches/0001-media-lirc-always-send-timeout-reports.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
-	-:75: WARNING: added, moved or deleted file(s), does MAINTAINERS need updating?
+On 02/12/2021 11:15, Hans Verkuil wrote:
+> Daniel: ping!
+>
+> On 20/11/2021 04:26, Sergey Senozhatsky wrote:
+>> Hello,
+>>
+>> On (21/11/19 22:41), Daniel Scally wrote:
+>>> Hi all
+>>>
+>>> I've been experiencing an oops trying to run libcamera's qcam util
+>>> (which starts streaming on a camera sensor - the ov8865), which I
+>>> bisected down to the patch cde513fd9b35: "media: videobuf2: move
+>>> cache_hints handling to allocators"
+>> Can you please check if you have these two patches in your tree:
+>>
+>> https://lore.kernel.org/lkml/20210928034634.333785-1-senozhatsky@chromium.org/raw
+>> https://lore.kernel.org/all/20211101145355.533704-1-hdegoede@redhat.com/raw
+>>
+>> If not then please apply, this should fix the problems you're seeing.
+>>
+> I really like to know if the cause is indeed that you are missing two patches.
 
 
-Error #512 when building PDF docs
+Apologies for the delayed response - I was indeed missing those patches
+and, having added them, everything's working fine.
 
+>
+> Regards,
+>
+> 	Hans
