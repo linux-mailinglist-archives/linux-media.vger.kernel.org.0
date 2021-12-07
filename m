@@ -2,179 +2,164 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id EB9CB46B12C
-	for <lists+linux-media@lfdr.de>; Tue,  7 Dec 2021 04:04:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9747A46B2B2
+	for <lists+linux-media@lfdr.de>; Tue,  7 Dec 2021 06:58:20 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232525AbhLGDHo (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 6 Dec 2021 22:07:44 -0500
-Received: from twspam01.aspeedtech.com ([211.20.114.71]:5829 "EHLO
-        twspam01.aspeedtech.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229514AbhLGDHo (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 6 Dec 2021 22:07:44 -0500
-Received: from mail.aspeedtech.com ([192.168.0.24])
-        by twspam01.aspeedtech.com with ESMTP id 1B72c6u1065147;
-        Tue, 7 Dec 2021 10:38:06 +0800 (GMT-8)
-        (envelope-from jammy_huang@aspeedtech.com)
-Received: from [192.168.2.115] (192.168.2.115) by TWMBX02.aspeed.com
- (192.168.0.24) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Tue, 7 Dec
- 2021 11:03:00 +0800
-Message-ID: <e61856d5-c371-ab52-2814-d0d8aabee0f0@aspeedtech.com>
-Date:   Tue, 7 Dec 2021 11:03:00 +0800
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.2
-Subject: Re: [PATCH v5 00/10] add aspeed-jpeg support for aspeed-video
-Content-Language: en-US
-From:   Jammy Huang <jammy_huang@aspeedtech.com>
-To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        "eajames@linux.ibm.com" <eajames@linux.ibm.com>,
-        "mchehab@kernel.org" <mchehab@kernel.org>,
-        "joel@jms.id.au" <joel@jms.id.au>,
-        "andrew@aj.id.au" <andrew@aj.id.au>,
-        "sakari.ailus@linux.intel.com" <sakari.ailus@linux.intel.com>,
-        "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
-        "laurent.pinchart@ideasonboard.com" 
-        <laurent.pinchart@ideasonboard.com>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        "openbmc@lists.ozlabs.org" <openbmc@lists.ozlabs.org>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>,
-        "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-References: <20211118074030.685-1-jammy_huang@aspeedtech.com>
- <5ab806d1-e407-1fa4-83ec-93ebe8df7db4@xs4all.nl>
- <b6ba49f3-a9ed-f5e6-959c-309db8cce7f6@aspeedtech.com>
- <6e0da74e-ddce-3c94-42a1-f98833489d60@xs4all.nl>
- <549aaf9a-cd72-e200-0329-30f6c71b8ed7@aspeedtech.com>
-In-Reply-To: <549aaf9a-cd72-e200-0329-30f6c71b8ed7@aspeedtech.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [192.168.2.115]
-X-ClientProxiedBy: TWMBX02.aspeed.com (192.168.0.24) To TWMBX02.aspeed.com
- (192.168.0.24)
-X-DNSRBL: 
-X-MAIL: twspam01.aspeedtech.com 1B72c6u1065147
+        id S236392AbhLGGBt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 7 Dec 2021 01:01:49 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36992 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230094AbhLGGBs (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 7 Dec 2021 01:01:48 -0500
+Received: from lb1-smtp-cloud7.xs4all.net (lb1-smtp-cloud7.xs4all.net [IPv6:2001:888:0:108::1a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C21D9C061746
+        for <linux-media@vger.kernel.org>; Mon,  6 Dec 2021 21:58:18 -0800 (PST)
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud7.xs4all.net with ESMTPA
+        id uTURmWTpOgFRtuTUVmIDJN; Tue, 07 Dec 2021 06:58:15 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
+        t=1638856695; bh=WCOK6/h494M1f06nDARlqivpwWlD840rHSEhxCZwaNI=;
+        h=Message-ID:Date:From:To:Subject:From:Subject;
+        b=q+IC8a2O6Y3b09foYhjmbfCjk3PyNTK5jXM0rJ8VDogoEg1PDLmVfBOhGDI0GhksI
+         H3dj3LT80rhfmkMCu73340bcBV+OQdIAOlBy4jQyffkJygaFRFIY8DpINDm+z6UCr0
+         gB5Iyil8gBLXv6vIp5cEE7MdqvhbMnY9SHLAJ01fLGp6qdZ2MtNOtHrWj4IvpUa2JQ
+         438goM4S/op1cPOZkpiZg228dozMrLbd9lMOi3uGTHcKLIRUlsSA341VpCKMcJV4sO
+         nphg/0cUw/qPn/QIJYQS6RUa5L2qTiXRCBVNjFYd3k4yrecUOCI/xXpfDMlkjAiXli
+         BV9D/pp7f34yQ==
+Message-ID: <21a619abce843740f6d3b851191ba8cb@smtp-cloud7.xs4all.net>
+Date:   Tue, 07 Dec 2021 06:58:11 +0100
+From:   "Hans Verkuil" <hverkuil@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: WARNINGS
+X-CMAE-Envelope: MS4xfMYd2CXdU18IKbxe1BoKxNE6mHhxII9Vw9iR510g3QQDSFUcAfyUYKTOMH6+NKfXw0ArtezS2NT5UdClsmLXXploVNYrAfvDoAvt9h2M61n/zKUYJygP
+ tr6Jj68Q/0s3OOh1g5NNmY/iYQFHpLvrh4scH1NLm3vtkIaub5OculeGaf5ubBgzPQS1A64HB0wOJQ==
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Hans,
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
 
-The implementation of decoder for this format as been available here.
-https://github.com/AspeedTech-BMC/aspeed_codec
+Results of the daily build of media_tree:
 
-On 2021/12/2 上午 09:29, Jammy Huang wrote:
-> Hi Hans,
->
-> Thanks for your review and suggestions.
->
-> On 2021/11/26 下午 05:51, Hans Verkuil wrote:
->> On 26/11/2021 09:17, Jammy Huang wrote:
->>> Hi Hans,
->>>
->>> Please refer to Page 132, 'Video stream data format – ASPEED mode compression' of
->>> https://github.com/AspeedTech-BMC/openbmc/releases/download/v07.02/SDK_User_Guide_v07.02.pdf
->>>
->>> Is above information enough??
->> Hmm, close. It would need some additional information, possibly documented in the source
->> code:
->>
->> - What is the Frame Header? (the doc just says that it is different, but not what it actually is)
->> - What is the EOI code? Is it equal to 'FEND'? (not quite clear to me)
->>
->> I think the documentation looks sufficient once those two items are addressed.
-> Information you mentioned will be included in next revision,
-> "SDK_User_Guide_v07.03.pdf".
-> The releases will be updated to
-> https://github.com/AspeedTech-BMC/openbmc/releases
->>> Or maybe we can postpone this series until the source code for this format ready.
->>> I think I can accomplish it by the end of this year.
->> That's quite soon, so perhaps that would be the best approach. That way you also
->> know exactly what information is missing from the SDK User Guide, and if that is
->> documented, then this format can be used in the kernel.
->>
->> But several of the patches in the series are independent of the new jpeg format,
->> so it might be useful to get those in first.
-> Understood. For the patches below, I will resend except for patch
-> 5/6/8/10 which are closely
-> relative to aspeed jpeg format.
->
->      1. media: aspeed: move err-handling together to the bottom
->      2. media: aspeed: use v4l2_info/v4l2_warn/v4l2_dbg for log
->      3. media: aspeed: add more debug log messages
->      4. media: aspeed: refactor to gather format/compress settings
->      5. media: v4l: Add definition for the Aspeed JPEG format
->      6. media: v4l2-ctrls: Reserve controls for ASPEED
->      7. media: aspeed: use model-data
->      8. media: aspeed: Support aspeed mode to reduce compressed data
->      9. media: aspeed: add comments and macro
->      10.media: aspeed: Extend debug message
->
->
->
->> Regards,
->>
->> 	Hans
->>
->>> On 2021/11/25 下午 10:31, Hans Verkuil wrote:
->>>> Hi Jammy,
->>>>
->>>> I suggest posting a v3 that moves the patches that deal with the
->>>> Aspeed JPEG format to the end of the series. That way I can easily
->>>> merge the patches up to that point, and the Aspeed JPEG support can
->>>> be handled separately.
->>>>
->>>> I'm not sure if it can be merged without that format being documented,
->>>> either in pixfmt-reserved.rst, by implementing support for it in
->>>> libv4lconvert from v4l-utils, or by providing a URL to some other
->>>> publicly available source code. We really don't like adding pixel
->>>> formats that cannot be interpreted by someone without access to the
->>>> datasheets.
->>>>
->>>> Regards,
->>>>
->>>> 	Hans
->>>>
->>>> On 18/11/2021 08:40, Jammy Huang wrote:
->>>>> The aim of this series is to add aspeed-jpeg support for aspeed-video
->>>>> driver.
->>>>>
->>>>> To achieve this major goal some refactors are included.
->>>>>
->>>>> In the last, debugfs information is also updated per this change.
->>>>>
->>>>> Changes in v5:
->>>>>     - Use model data to tell different soc
->>>>>
->>>>> Changes in v4:
->>>>>     - Add definition for the Aspeed JPEG format
->>>>>     - Reserve controls for ASPEED
->>>>>     - Use s_fmt to update format rather than new control
->>>>>     - Update aspeed hq quality range, 1 ~ 12
->>>>>
->>>>>
->>>>> Jammy Huang (10):
->>>>>      media: aspeed: move err-handling together to the bottom
->>>>>      media: aspeed: use v4l2_info/v4l2_warn/v4l2_dbg for log
->>>>>      media: aspeed: add more debug log messages
->>>>>      media: aspeed: refactor to gather format/compress settings
->>>>>      media: v4l: Add definition for the Aspeed JPEG format
->>>>>      media: v4l2-ctrls: Reserve controls for ASPEED
->>>>>      media: aspeed: use model-data
->>>>>      media: aspeed: Support aspeed mode to reduce compressed data
->>>>>      media: aspeed: add comments and macro
->>>>>      media: aspeed: Extend debug message
->>>>>
->>>>>     .../media/uapi/v4l/pixfmt-reserved.rst        |  12 +
->>>>>     drivers/media/platform/aspeed-video.c         | 534 ++++++++++++++----
->>>>>     drivers/media/v4l2-core/v4l2-ioctl.c          |   1 +
->>>>>     include/uapi/linux/aspeed-video.h             |  15 +
->>>>>     include/uapi/linux/v4l2-controls.h            |   5 +
->>>>>     include/uapi/linux/videodev2.h                |   1 +
->>>>>     6 files changed, 467 insertions(+), 101 deletions(-)
->>>>>     create mode 100644 include/uapi/linux/aspeed-video.h
->>>>>
--- 
-Best Regards
-Jammy
+date:			Tue Dec  7 05:00:13 CET 2021
+media-tree git hash:	e6df6ad17c766f1e62e90332d143cd1c45567ffc
+media_build git hash:	90bf75007a9f73a3bfd144cae29e05229e702035
+v4l-utils git hash:	85ed37cf472bb4f67702fb8d42992f164c36a007
+edid-decode git hash:	b00755e34eb12aa92416aaf1bb7b02603131afe0
+gcc version:		i686-linux-gcc (GCC) 11.2.0
+sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
+sparse version:		0.6.3
+smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
+smatch version:		0.6.3
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: 72fe2e990921b3757e47e6f3ea4ce8c076021161
+host hardware:		x86_64
+host os:		5.15.0-2-amd64
 
+linux-git-sh: OK
+linux-git-arm-at91: OK
+linux-git-arm-davinci: OK
+linux-git-mips: OK
+linux-git-arm-stm32: OK
+linux-git-arm-pxa: OK
+linux-git-arm-multi: OK
+linux-git-arm64: OK
+linux-git-powerpc64: OK
+linux-git-i686: OK
+linux-git-x86_64: OK
+Check COMPILE_TEST: OK
+Check for strcpy/strncpy/strlcpy: OK
+linux-4.4.283-i686: OK
+linux-4.4.283-x86_64: OK
+linux-4.5.7-i686: OK
+linux-4.5.7-x86_64: OK
+linux-4.6.7-i686: OK
+linux-4.6.7-x86_64: OK
+linux-4.7.10-i686: OK
+linux-4.7.10-x86_64: OK
+linux-4.8.17-i686: OK
+linux-4.8.17-x86_64: OK
+linux-4.9.246-i686: OK
+linux-4.9.246-x86_64: OK
+linux-4.10.17-i686: OK
+linux-4.10.17-x86_64: OK
+linux-4.11.12-i686: OK
+linux-4.11.12-x86_64: OK
+linux-4.12.14-i686: OK
+linux-4.12.14-x86_64: OK
+linux-4.13.16-i686: OK
+linux-4.13.16-x86_64: OK
+linux-4.14.246-i686: OK
+linux-4.14.246-x86_64: OK
+linux-4.15.18-i686: OK
+linux-4.15.18-x86_64: OK
+linux-4.16.18-i686: OK
+linux-4.16.18-x86_64: OK
+linux-4.17.19-i686: OK
+linux-4.17.19-x86_64: OK
+linux-4.18.20-i686: OK
+linux-4.18.20-x86_64: OK
+linux-4.19.206-i686: OK
+linux-4.19.206-x86_64: OK
+linux-4.20.17-i686: OK
+linux-4.20.17-x86_64: OK
+linux-5.0.21-i686: OK
+linux-5.0.21-x86_64: OK
+linux-5.1.21-i686: OK
+linux-5.1.21-x86_64: OK
+linux-5.2.21-i686: OK
+linux-5.2.21-x86_64: OK
+linux-5.3.18-i686: OK
+linux-5.3.18-x86_64: OK
+linux-5.4.144-i686: OK
+linux-5.4.144-x86_64: OK
+linux-5.5.19-i686: OK
+linux-5.5.19-x86_64: OK
+linux-5.6.19-i686: OK
+linux-5.6.19-x86_64: OK
+linux-5.7.19-i686: OK
+linux-5.7.19-x86_64: OK
+linux-5.8.18-i686: OK
+linux-5.8.18-x86_64: OK
+linux-5.9.16-i686: OK
+linux-5.9.16-x86_64: OK
+linux-5.10.62-i686: OK
+linux-5.10.62-x86_64: OK
+linux-5.11.22-i686: OK
+linux-5.11.22-x86_64: OK
+linux-5.12.19-i686: OK
+linux-5.12.19-x86_64: OK
+linux-5.13.14-i686: OK
+linux-5.13.14-x86_64: OK
+linux-5.14.1-i686: OK
+linux-5.14.1-x86_64: OK
+linux-5.15.1-i686: OK
+linux-5.15.1-x86_64: OK
+linux-5.16-rc1-i686: OK
+linux-5.16-rc1-x86_64: OK
+apps: OK
+spec-git: OK
+virtme: OK: Final Summary: 2989, Succeeded: 2989, Failed: 0, Warnings: 0
+virtme-32: OK: Final Summary: 3100, Succeeded: 3100, Failed: 0, Warnings: 0
+sparse: WARNINGS
+smatch: WARNINGS
+kerneldoc: WARNINGS
+
+Detailed results are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Tuesday.log
+
+Detailed regression test results are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Tuesday-test-media.log
+http://www.xs4all.nl/~hverkuil/logs/Tuesday-test-media-32.log
+http://www.xs4all.nl/~hverkuil/logs/Tuesday-test-media-dmesg.log
+
+Full logs are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Tuesday.tar.bz2
+
+The Media Infrastructure API from this daily build is here:
+
+http://www.xs4all.nl/~hverkuil/spec/index.html
