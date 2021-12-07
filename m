@@ -2,371 +2,238 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C911046BB41
-	for <lists+linux-media@lfdr.de>; Tue,  7 Dec 2021 13:34:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0306F46BB77
+	for <lists+linux-media@lfdr.de>; Tue,  7 Dec 2021 13:37:40 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236468AbhLGMiQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 7 Dec 2021 07:38:16 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45612 "EHLO
+        id S236394AbhLGMlI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 7 Dec 2021 07:41:08 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46304 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236437AbhLGMiQ (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 7 Dec 2021 07:38:16 -0500
-Received: from mail-wr1-x42b.google.com (mail-wr1-x42b.google.com [IPv6:2a00:1450:4864:20::42b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C1B11C061574
-        for <linux-media@vger.kernel.org>; Tue,  7 Dec 2021 04:34:45 -0800 (PST)
-Received: by mail-wr1-x42b.google.com with SMTP id u17so21840059wrt.3
-        for <linux-media@vger.kernel.org>; Tue, 07 Dec 2021 04:34:45 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:subject:date:message-id:in-reply-to:references:mime-version
-         :content-transfer-encoding;
-        bh=8xnPj441s3TV1aGalpjXjgvASD5TAa8diNN8hPlUdR0=;
-        b=NBTbgcXKEvJnvBHC86NYlS1DbKBh/zQdCG8wVjZ/vGNbPIMvL2PNtvcRZZcVm7dFve
-         3DgV6rIK+O3aeo84+PZdGBsUQ6wzZ4j6ArffrMDekQArRYG9lKnRlQs4F0r6WbK1GrnD
-         J1zM/TGUSg0xnxMUS0y0PfHK7NqlHSEfEPa8skvvXM2uHFumZsiOYFXz4+JGvpIZpMwI
-         V4E4MclDTk1kMGFSrmUVuU7yb2GXk28WqMD/oiFMecVmt0OYPUlmbE+EqxJ8iQW7wFgE
-         XihbY6Y6YCm59Sutsm2rF5njU7yNKKZ6ajdg0TjfiAtRfcOmK3EvknYbPG/KoXuFUjnI
-         aGrA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=8xnPj441s3TV1aGalpjXjgvASD5TAa8diNN8hPlUdR0=;
-        b=nUg2S8Wvf63RkOi72vd8wDzXimWHTuJZGbpPEpBtuIH5YEQT+D8bhjZp2ZFcjt4Onv
-         og5ijSbxIedVSiTn5SNWDvjPvFH8jjuXweFMTJoyLBiQqLzgzgewMFa1LnVoZKb2m8EB
-         Yovw9bEsvbvT7+1FCJFnhlfL6yABeGZyL/N+f7IdcKMzC5yoeEFL+7fjMInjVYWv2hy7
-         WDFYn8inp0QT/jQm+tCaU5Qb99Tjl5eJaKaC47q1bqmQQ5yHEZuO8e9tOYwUSP4Mw928
-         lVnYw5uYekOjTbWZ4vBv4e77PgBMTgm0XvvaiJiRaHMvmgeaoaiJK7oRuW/rrRsKD0M/
-         QOsQ==
-X-Gm-Message-State: AOAM532KeOOp5X5SVy1r+aCM7JJEaEfI0BasBNVi5fUkIRPrpwTD4hwM
-        KLLgdWEU2t0akeaOu6UnTjA=
-X-Google-Smtp-Source: ABdhPJwT0cWGy8UJdvpQukeww3M4QQk96uDi979XvpVbo+KKagNzSQ3OHtSCWMEidpPk5SEoB/73Gg==
-X-Received: by 2002:adf:cc91:: with SMTP id p17mr51128860wrj.589.1638880484367;
-        Tue, 07 Dec 2021 04:34:44 -0800 (PST)
-Received: from abel.fritz.box (p57b0bff8.dip0.t-ipconnect.de. [87.176.191.248])
-        by smtp.gmail.com with ESMTPSA id f19sm2802203wmq.34.2021.12.07.04.34.43
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 07 Dec 2021 04:34:44 -0800 (PST)
-From:   "=?UTF-8?q?Christian=20K=C3=B6nig?=" 
-        <ckoenig.leichtzumerken@gmail.com>
-X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
-To:     daniel@ffwll.ch, dri-devel@lists.freedesktop.org,
-        linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
-Subject: [PATCH 24/24] drm/ttm: remove bo->moving
-Date:   Tue,  7 Dec 2021 13:34:11 +0100
-Message-Id: <20211207123411.167006-25-christian.koenig@amd.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20211207123411.167006-1-christian.koenig@amd.com>
-References: <20211207123411.167006-1-christian.koenig@amd.com>
+        with ESMTP id S232094AbhLGMlI (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 7 Dec 2021 07:41:08 -0500
+Received: from lb1-smtp-cloud9.xs4all.net (lb1-smtp-cloud9.xs4all.net [IPv6:2001:888:0:108::1c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C2AA5C061574;
+        Tue,  7 Dec 2021 04:37:37 -0800 (PST)
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud9.xs4all.net with ESMTPA
+        id uZiom8JcOlcdAuZitmm74J; Tue, 07 Dec 2021 13:37:35 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
+        t=1638880655; bh=e1nxQHMf3JV3K8iQrlbfQrErzLZwfWaT7Fr5WTmgnOM=;
+        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
+         Subject;
+        b=Mr8/8ewjooFmJ/S61fP1mr6xOU38rw38iZ+j6r+EbaTiUrN+YYQkOGFVW3glXIm7m
+         oevRtMt86hWNJIP3wus7QLayB7j5M8tu7ITzWPC44srkw/SsDXC5sNQer9sj9EC6ux
+         lR/kCah6/cX/y5IxbK1LHdwnWw0yj7H/08oFu1ca0GZGJYRyp5qb2PPDJ/NTdYoNFg
+         5PCq70/SAEw+lx0Ak2eX+MdrI4efFD58QL7F9tqmgbjKguQK0MO+XgleOE1k64HMWv
+         JRpZlnU21mxk2BRW+ulFIuiA8SsQH+uuR7b80Z2DWbexeDGyrtYq8OklDuAbqrwgYJ
+         K+dQPqlh3B/sw==
+Subject: Re: [PATCH v7 2/7] mtk-mdp: add driver to probe mdp components
+To:     houlong wei <houlong.wei@mediatek.com>,
+        Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+        Eizan Miyamoto <eizan@chromium.org>
+Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        "chunkuang.hu@kernel.org" <chunkuang.hu@kernel.org>,
+        =?UTF-8?B?WW9uZyBXdSAo5ZC05YuHKQ==?= <Yong.Wu@mediatek.com>,
+        "wenst@chromium.org" <wenst@chromium.org>,
+        =?UTF-8?B?Q0sgSHUgKOiDoeS/ig==?= =?UTF-8?B?5YWJKQ==?= 
+        <ck.hu@mediatek.com>,
+        Enric Balletbo i Serra <enric.balletbo@collabora.com>,
+        =?UTF-8?B?WW9uZ3FpYW5nIE5pdSAo54mb5rC45by6KQ==?= 
+        <yongqiang.niu@mediatek.com>,
+        =?UTF-8?B?QW5kcmV3LUNUIENoZW4gKOmZs+aZuui/qik=?= 
+        <Andrew-CT.Chen@mediatek.com>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        =?UTF-8?B?TWluZ2hzaXUgVHNhaSAo6JSh5piO5L+uKQ==?= 
+        <Minghsiu.Tsai@mediatek.com>,
+        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
+        linux-media <linux-media@vger.kernel.org>,
+        "moderated list:ARM/Mediatek SoC support" 
+        <linux-mediatek@lists.infradead.org>
+References: <20210825063323.3607738-1-eizan@chromium.org>
+ <20210825163247.v7.2.Ie6d1e6e39cf9b5d6b2108ae1096af34c3d55880b@changeid>
+ <CAAEAJfDNDXdJFfB-bHhFcqnnKZ0TY--d_wLGddKRymQOLQY4TQ@mail.gmail.com>
+ <fc309940c9e59f80397b90c8b11424fea344e1b5.camel@mediatek.com>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Message-ID: <a0b3a10d-9313-7ac5-692c-822aeff50858@xs4all.nl>
+Date:   Tue, 7 Dec 2021 13:37:26 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <fc309940c9e59f80397b90c8b11424fea344e1b5.camel@mediatek.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4xfFrnF+E4LspJHa9iC0okvk65sbYCc7UmaWwSeF1PKedql/7Kwu+Dco+/KY6CStjjVju+3Z9bt2NnyNbrgIOsecXm9eWl7G4gTxaWJ1DEOLU/6yyIjNJs
+ 1u0aYHUrRGYEYFQl3Qg8fEdMuXc658dE0kDzfeNC4kQL0cNF6Ryy8SLPKQR9R31foRCM8wXZ2tESy6u05DnPeY6W0SUAq9mFU4LqQR7RanMdcduzBFKO7en2
+ R3Ip7HBIqMplDVeM1wIuUDSHBYYO7xy+1OBxq63Jp3Skoq/I8Oj7HU0YWX0Wey4tYGRJSSzr8xUyTyh2LzCXfVSODjorqjdxK+lEhFtIQEIQeqIShNxE6ztm
+ bR0Z0iLkj4sc+CAly15ZTCjycEpy8WjK3GW8i4gGT/6YbG7Bp/8XYyP3KmIIEiDd4dDjoeAxKN4yajFi99nRfKBF06iSMjPbYykD/oUDTpfJCZ9McUyPjDCF
+ rYCg4UklGLRodTiZIbTHROu2JD+M+Z9mqvgXHVFv9NGXQA3ovX6mODRQoCKFJSAWrJccq/vqCYaqjveQYeNC05ETw0tTcXKrPs5wAZd7nq5mZHVwt+Y1Z6V4
+ eyk4uQFEJdtYRe+6VUzsL2C2FWXYNuiq6IVNto8D1nO/SohM/PKkAVlHhzScpUS3YTiUNvgHixr1rzmumDAow0OlUO+dn2aksuadSKbnRP0aVdA8hCWO9v3z
+ F5Q5noY403z5sA6K+ibcTply5RPmCMWfqEDQLN5rGE2svPvpQeFo/8sjOlh3HXD3EYaJU10pz60/huqymFVRDBkGFfHQoWf78A5O99zUP9nEopC8hf/E9qDd
+ hV2ouCnmQBYyEQN95u3NAA6gk1NF00ttXJ7hdalKnxlqCbL/Ir9GiDZfpm+u6VTNFxZmNRTRMrS4C/QQJ0A=
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This is now handled by the DMA-buf framework in the dma_resv obj.
+On 9/5/21 6:23 PM, houlong wei wrote:
+> Hi Ezequiel,
+> 
+> Thank you for your attention to this series of patches. I answer partial of your questions below.
+> Regards,
+> Houlong
+> 
+> On Sat, 2021-09-04 at 20:34 +0800, Ezequiel Garcia wrote:
+>> Hi Eizan,
+>>
+>> Sorry for seeing this series so late.
+>>
+>> On Wed, 25 Aug 2021 at 03:35, Eizan Miyamoto <eizan@chromium.org>
+>> wrote:
+>>>
+>>> Broadly, this patch (1) adds a driver for various MTK MDP
+>>> components to
+>>> go alongside the main MTK MDP driver, and (2) hooks them all
+>>> together
+>>> using the component framework.
+>>>
+>>> (1) Up until now, the MTK MDP driver controls 8 devices in the
+>>> device
+>>> tree on its own. When running tests for the hardware video decoder,
+>>> we
+>>> found that the iommus and LARBs were not being properly configured.
+>>
+>> Why were not being properly configured? What was the problem?
+>> Why not fixing that instead?
+>>
+>> Does this mean the driver is currently broken and unusable?
+> 
+> This series of patches are supplements to another series, please refer
+> to  
+> https://patchwork.kernel.org/project/linux-mediatek/list/?series=515129c
+> , which add device link between the mtk-iommu consumer and the mtk-larb 
+> devices. Without that series of patches, the mtk-mdp driver can work
+> well so far.
+> But with that series, it seems the device link only can be established
+> for the device which is registered as a platform driver. That's why
+> Eizan adds this series of patches to make all mdp components to be
+> registered as platform drivers.
 
-Signed-off-by: Christian König <christian.koenig@amd.com>
----
- .../gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c  | 13 ++++---
- drivers/gpu/drm/amd/amdgpu/amdgpu_object.c    |  7 ++--
- drivers/gpu/drm/amd/amdgpu/amdgpu_vm_cpu.c    | 11 +++---
- drivers/gpu/drm/amd/amdgpu/amdgpu_vm_sdma.c   | 11 ++++--
- drivers/gpu/drm/ttm/ttm_bo.c                  | 10 ++----
- drivers/gpu/drm/ttm/ttm_bo_util.c             |  7 ----
- drivers/gpu/drm/ttm/ttm_bo_vm.c               | 34 +++++++------------
- drivers/gpu/drm/vmwgfx/vmwgfx_resource.c      |  6 ----
- include/drm/ttm/ttm_bo_api.h                  |  2 --
- 9 files changed, 40 insertions(+), 61 deletions(-)
+Hold on, so this means that if that iommu device-link series is merged,
+then the mtk-mdp driver breaks? I posted a PR for that iommu series, but
+I've just withdrawn that PR until this issue is clarified.
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c
-index bbfd7a1e42e8..7bd39e5d36dd 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c
-@@ -2330,6 +2330,8 @@ int amdgpu_amdkfd_gpuvm_restore_process_bos(void *info, struct dma_fence **ef)
- 		struct amdgpu_bo *bo = mem->bo;
- 		uint32_t domain = mem->domain;
- 		struct kfd_mem_attachment *attachment;
-+		struct dma_resv_iter cursor;
-+		struct dma_fence *fence;
- 
- 		total_size += amdgpu_bo_size(bo);
- 
-@@ -2344,10 +2346,13 @@ int amdgpu_amdkfd_gpuvm_restore_process_bos(void *info, struct dma_fence **ef)
- 				goto validate_map_fail;
- 			}
- 		}
--		ret = amdgpu_sync_fence(&sync_obj, bo->tbo.moving);
--		if (ret) {
--			pr_debug("Memory eviction: Sync BO fence failed. Try again\n");
--			goto validate_map_fail;
-+		dma_resv_for_each_fence(&cursor, bo->tbo.base.resv,
-+					DMA_RESV_USAGE_KERNEL, fence) {
-+			ret = amdgpu_sync_fence(&sync_obj, fence);
-+			if (ret) {
-+				pr_debug("Memory eviction: Sync BO fence failed. Try again\n");
-+				goto validate_map_fail;
-+			}
- 		}
- 		list_for_each_entry(attachment, &mem->attachments, list) {
- 			if (!attachment->is_mapped)
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
-index a40ede9bccd0..3881a503a7bf 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
-@@ -608,9 +608,8 @@ int amdgpu_bo_create(struct amdgpu_device *adev,
- 		if (unlikely(r))
- 			goto fail_unreserve;
- 
--		amdgpu_bo_fence(bo, fence, false);
--		dma_fence_put(bo->tbo.moving);
--		bo->tbo.moving = dma_fence_get(fence);
-+		dma_resv_add_fence(bo->tbo.base.resv, fence,
-+				   DMA_RESV_USAGE_KERNEL);
- 		dma_fence_put(fence);
- 	}
- 	if (!bp->resv)
-@@ -1290,7 +1289,7 @@ void amdgpu_bo_release_notify(struct ttm_buffer_object *bo)
- 
- 	r = amdgpu_fill_buffer(abo, AMDGPU_POISON, bo->base.resv, &fence);
- 	if (!WARN_ON(r)) {
--		amdgpu_bo_fence(abo, fence, false);
-+		dma_resv_add_fence(bo->base.resv, fence, DMA_RESV_USAGE_KERNEL);
- 		dma_fence_put(fence);
- 	}
- 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm_cpu.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm_cpu.c
-index e3fbf0f10add..31913ae86de6 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm_cpu.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm_cpu.c
-@@ -74,13 +74,12 @@ static int amdgpu_vm_cpu_update(struct amdgpu_vm_update_params *p,
- {
- 	unsigned int i;
- 	uint64_t value;
--	int r;
-+	long r;
- 
--	if (vmbo->bo.tbo.moving) {
--		r = dma_fence_wait(vmbo->bo.tbo.moving, true);
--		if (r)
--			return r;
--	}
-+	r = dma_resv_wait_timeout(vmbo->bo.tbo.base.resv, DMA_RESV_USAGE_KERNEL,
-+				  true, MAX_SCHEDULE_TIMEOUT);
-+	if (r < 0)
-+		return r;
- 
- 	pe += (unsigned long)amdgpu_bo_kptr(&vmbo->bo);
- 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm_sdma.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm_sdma.c
-index dbb551762805..bdb44cee19d3 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm_sdma.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm_sdma.c
-@@ -204,14 +204,19 @@ static int amdgpu_vm_sdma_update(struct amdgpu_vm_update_params *p,
- 	struct amdgpu_bo *bo = &vmbo->bo;
- 	enum amdgpu_ib_pool_type pool = p->immediate ? AMDGPU_IB_POOL_IMMEDIATE
- 		: AMDGPU_IB_POOL_DELAYED;
-+	struct dma_resv_iter cursor;
- 	unsigned int i, ndw, nptes;
-+	struct dma_fence *fence;
- 	uint64_t *pte;
- 	int r;
- 
- 	/* Wait for PD/PT moves to be completed */
--	r = amdgpu_sync_fence(&p->job->sync, bo->tbo.moving);
--	if (r)
--		return r;
-+	dma_resv_for_each_fence(&cursor, bo->tbo.base.resv,
-+				DMA_RESV_USAGE_KERNEL, fence) {
-+		r = amdgpu_sync_fence(&p->job->sync, fence);
-+		if (r)
-+			return r;
-+	}
- 
- 	do {
- 		ndw = p->num_dw_left;
-diff --git a/drivers/gpu/drm/ttm/ttm_bo.c b/drivers/gpu/drm/ttm/ttm_bo.c
-index d3527d3f7b18..7b9e0f46f121 100644
---- a/drivers/gpu/drm/ttm/ttm_bo.c
-+++ b/drivers/gpu/drm/ttm/ttm_bo.c
-@@ -468,7 +468,6 @@ static void ttm_bo_release(struct kref *kref)
- 	dma_resv_unlock(bo->base.resv);
- 
- 	atomic_dec(&ttm_glob.bo_count);
--	dma_fence_put(bo->moving);
- 	bo->destroy(bo);
- }
- 
-@@ -737,9 +736,8 @@ int ttm_mem_evict_first(struct ttm_device *bdev,
- }
- 
- /*
-- * Add the last move fence to the BO and reserve a new shared slot. We only use
-- * a shared slot to avoid unecessary sync and rely on the subsequent bo move to
-- * either stall or use an exclusive fence respectively set bo->moving.
-+ * Add the last move fence to the BO as kernel dependency and reserve a new
-+ * fence slot.
-  */
- static int ttm_bo_add_move_fence(struct ttm_buffer_object *bo,
- 				 struct ttm_resource_manager *man,
-@@ -769,9 +767,6 @@ static int ttm_bo_add_move_fence(struct ttm_buffer_object *bo,
- 		dma_fence_put(fence);
- 		return ret;
- 	}
--
--	dma_fence_put(bo->moving);
--	bo->moving = fence;
- 	return 0;
- }
- 
-@@ -978,7 +973,6 @@ int ttm_bo_init_reserved(struct ttm_device *bdev,
- 	bo->bdev = bdev;
- 	bo->type = type;
- 	bo->page_alignment = page_alignment;
--	bo->moving = NULL;
- 	bo->pin_count = 0;
- 	bo->sg = sg;
- 	if (resv) {
-diff --git a/drivers/gpu/drm/ttm/ttm_bo_util.c b/drivers/gpu/drm/ttm/ttm_bo_util.c
-index b9cfb62c4b6e..95de2691ee7c 100644
---- a/drivers/gpu/drm/ttm/ttm_bo_util.c
-+++ b/drivers/gpu/drm/ttm/ttm_bo_util.c
-@@ -229,7 +229,6 @@ static int ttm_buffer_object_transfer(struct ttm_buffer_object *bo,
- 	atomic_inc(&ttm_glob.bo_count);
- 	INIT_LIST_HEAD(&fbo->base.ddestroy);
- 	INIT_LIST_HEAD(&fbo->base.lru);
--	fbo->base.moving = NULL;
- 	drm_vma_node_reset(&fbo->base.base.vma_node);
- 
- 	kref_init(&fbo->base.kref);
-@@ -496,9 +495,6 @@ static int ttm_bo_move_to_ghost(struct ttm_buffer_object *bo,
- 	 * operation has completed.
- 	 */
- 
--	dma_fence_put(bo->moving);
--	bo->moving = dma_fence_get(fence);
--
- 	ret = ttm_buffer_object_transfer(bo, &ghost_obj);
- 	if (ret)
- 		return ret;
-@@ -543,9 +539,6 @@ static void ttm_bo_move_pipeline_evict(struct ttm_buffer_object *bo,
- 	spin_unlock(&from->move_lock);
- 
- 	ttm_resource_free(bo, &bo->resource);
--
--	dma_fence_put(bo->moving);
--	bo->moving = dma_fence_get(fence);
- }
- 
- int ttm_bo_move_accel_cleanup(struct ttm_buffer_object *bo,
-diff --git a/drivers/gpu/drm/ttm/ttm_bo_vm.c b/drivers/gpu/drm/ttm/ttm_bo_vm.c
-index 08ba083a80d2..5b324f245265 100644
---- a/drivers/gpu/drm/ttm/ttm_bo_vm.c
-+++ b/drivers/gpu/drm/ttm/ttm_bo_vm.c
-@@ -46,17 +46,13 @@
- static vm_fault_t ttm_bo_vm_fault_idle(struct ttm_buffer_object *bo,
- 				struct vm_fault *vmf)
- {
--	vm_fault_t ret = 0;
--	int err = 0;
--
--	if (likely(!bo->moving))
--		goto out_unlock;
-+	long err = 0;
- 
- 	/*
- 	 * Quick non-stalling check for idle.
- 	 */
--	if (dma_fence_is_signaled(bo->moving))
--		goto out_clear;
-+	if (dma_resv_test_signaled(bo->base.resv, DMA_RESV_USAGE_KERNEL))
-+		return 0;
- 
- 	/*
- 	 * If possible, avoid waiting for GPU with mmap_lock
-@@ -64,34 +60,30 @@ static vm_fault_t ttm_bo_vm_fault_idle(struct ttm_buffer_object *bo,
- 	 * is the first attempt.
- 	 */
- 	if (fault_flag_allow_retry_first(vmf->flags)) {
--		ret = VM_FAULT_RETRY;
- 		if (vmf->flags & FAULT_FLAG_RETRY_NOWAIT)
--			goto out_unlock;
-+			return VM_FAULT_RETRY;
- 
- 		ttm_bo_get(bo);
- 		mmap_read_unlock(vmf->vma->vm_mm);
--		(void) dma_fence_wait(bo->moving, true);
-+		(void)dma_resv_wait_timeout(bo->base.resv,
-+					    DMA_RESV_USAGE_KERNEL, true,
-+					    MAX_SCHEDULE_TIMEOUT);
- 		dma_resv_unlock(bo->base.resv);
- 		ttm_bo_put(bo);
--		goto out_unlock;
-+		return VM_FAULT_RETRY;
- 	}
- 
- 	/*
- 	 * Ordinary wait.
- 	 */
--	err = dma_fence_wait(bo->moving, true);
--	if (unlikely(err != 0)) {
--		ret = (err != -ERESTARTSYS) ? VM_FAULT_SIGBUS :
-+	err = dma_resv_wait_timeout(bo->base.resv, DMA_RESV_USAGE_KERNEL, true,
-+				    MAX_SCHEDULE_TIMEOUT);
-+	if (unlikely(err < 0)) {
-+		return (err != -ERESTARTSYS) ? VM_FAULT_SIGBUS :
- 			VM_FAULT_NOPAGE;
--		goto out_unlock;
- 	}
- 
--out_clear:
--	dma_fence_put(bo->moving);
--	bo->moving = NULL;
--
--out_unlock:
--	return ret;
-+	return 0;
- }
- 
- static unsigned long ttm_bo_io_mem_pfn(struct ttm_buffer_object *bo,
-diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_resource.c b/drivers/gpu/drm/vmwgfx/vmwgfx_resource.c
-index 9e3dcbb573e7..40cc2c13e963 100644
---- a/drivers/gpu/drm/vmwgfx/vmwgfx_resource.c
-+++ b/drivers/gpu/drm/vmwgfx/vmwgfx_resource.c
-@@ -1166,12 +1166,6 @@ int vmw_resources_clean(struct vmw_buffer_object *vbo, pgoff_t start,
- 		*num_prefault = __KERNEL_DIV_ROUND_UP(last_cleaned - res_start,
- 						      PAGE_SIZE);
- 		vmw_bo_fence_single(bo, NULL);
--		if (bo->moving)
--			dma_fence_put(bo->moving);
--
--		return dma_resv_get_singleton(bo->base.resv,
--					      DMA_RESV_USAGE_KERNEL,
--					      &bo->moving);
- 	}
- 
- 	return 0;
-diff --git a/include/drm/ttm/ttm_bo_api.h b/include/drm/ttm/ttm_bo_api.h
-index c17b2df9178b..4c7134550262 100644
---- a/include/drm/ttm/ttm_bo_api.h
-+++ b/include/drm/ttm/ttm_bo_api.h
-@@ -97,7 +97,6 @@ struct ttm_tt;
-  * @lru: List head for the lru list.
-  * @ddestroy: List head for the delayed destroy list.
-  * @swap: List head for swap LRU list.
-- * @moving: Fence set when BO is moving
-  * @offset: The current GPU offset, which can have different meanings
-  * depending on the memory type. For SYSTEM type memory, it should be 0.
-  * @cur_placement: Hint of current placement.
-@@ -150,7 +149,6 @@ struct ttm_buffer_object {
- 	 * Members protected by a bo reservation.
- 	 */
- 
--	struct dma_fence *moving;
- 	unsigned priority;
- 	unsigned pin_count;
- 
--- 
-2.25.1
+Is it only mtk-mdp that is affected by this iommu device-link series, or
+others as well?
+
+Regards,
+
+	Hans
+
+> 
+>>
+>>> To
+>>> configure them, a driver for each be added to mtk_mdp_comp so that
+>>> mtk_iommu_add_device() can (eventually) be called from
+>>> dma_configure()
+>>> inside really_probe().
+>>>
+>>> (2) The integration into the component framework allows us to defer
+>>> the
+>>> registration with the v4l2 subsystem until all the MDP-related
+>>> devices
+>>> have been probed, so that the relevant device node does not become
+>>> available until initialization of all the components is complete.
+>>>
+>>> Some notes about how the component framework has been integrated:
+>>>
+>>> - The driver for the rdma0 component serves double duty as the
+>>> "master"
+>>>   (aggregate) driver as well as a component driver. This is a non-
+>>> ideal
+>>>   compromise until a better solution is developed. This device is
+>>>   differentiated from the rest by checking for a "mediatek,vpu"
+>>> property
+>>>   in the device node.
+>>>
+>>
+>> As I have stated in Yunfei, I am not convinced you need an async
+>> framework
+>> at all. It seems all these devices could have been linked together
+>> in the device tree, and then have a master device to tie them.
+>>
+>> I.e. something like
+>>
+>> mdp {
+>>   mdp_rdma0 {
+>>   }
+>>   mdp_rsz0 {
+>>   }
+>>   mdp_rsz1 {
+>>   }
+>> }
+>>
+> 
+> The commit message of the patch below explains that " If the mdp_*
+> nodes are under an mdp sub-node, their corresponding platform device
+> does not automatically get its iommu assigned properly."
+> Please refer to 
+> https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git/commit/arch/arm64/boot/dts/mediatek/mt8173.dtsi?h=v5.14.1&id=8127881f741dbbf9a1da9e9bc59133820160b217
+> 
+>> All this async games seem like making the driver really obfuscated,
+>> which will mean harder to debug and maintain.
+>> I am not sure we want that burden.
+>>
+>> Even if we are all fully convinced that you absolutely need
+>> an async framework, then what's wrong with v4l2-async?
+>>
+>> I would start by addressing what is wrong with the IOMMUs
+>> in the current design.
+>>
+>> Thanks,
+>> Ezequiel
+>>
+>>> - The list of mdp components remains hard-coded as
+>>> mtk_mdp_comp_dt_ids[]
+>>>   in mtk_mdp_core.c, and as mtk_mdp_comp_driver_dt_match[] in
+>>>   mtk_mdp_comp.c. This unfortunate duplication of information is
+>>>   addressed in a following patch in this series.
+>>>
+>>> - The component driver calls component_add() for each device that
+>>> is
+>>>   probed.
+>>>
+>>> - In mtk_mdp_probe (the "master" device), we scan the device tree
+>>> for
+>>>   any matching nodes against mtk_mdp_comp_dt_ids, and add component
+>>>   matches for them. The match criteria is a matching device node
+>>>   pointer.
+>>>
+>>> - When the set of components devices that have been probed
+>>> corresponds
+>>>   with the list that is generated by the "master", the callback to
+>>>   mtk_mdp_master_bind() is made, which then calls the component
+>>> bind
+>>>   functions.
+>>>
+>>> - Inside mtk_mdp_master_bind(), once all the component bind
+>>> functions
+>>>   have been called, we can then register our device to the v4l2
+>>>   subsystem.
+>>>
+>>> - The call to pm_runtime_enable() in the master device is called
+>>> after
+>>>   all the components have been registered by their bind() functions
+>>>   called by mtk_mtp_master_bind(). As a result, the list of
+>>> components
+>>>   will not change while power management callbacks
+>>> mtk_mdp_suspend()/
+>>>   resume() are accessing the list of components.
+>>>
+>>> Signed-off-by: Eizan Miyamoto <eizan@chromium.org>
+>>> Reviewed-by: Enric Balletbo i Serra <enric.balletbo@collabora.com>
+>>> Reviewed-by: Houlong Wei <houlong.wei@mediatek.com>
+>>> ---
+>>>
+> 
 
