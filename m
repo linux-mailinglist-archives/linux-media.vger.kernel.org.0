@@ -2,196 +2,75 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 27B5546BAFF
-	for <lists+linux-media@lfdr.de>; Tue,  7 Dec 2021 13:25:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 25E7B46BB1B
+	for <lists+linux-media@lfdr.de>; Tue,  7 Dec 2021 13:34:18 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236148AbhLGM2b (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 7 Dec 2021 07:28:31 -0500
-Received: from meesny.iki.fi ([195.140.195.201]:50278 "EHLO meesny.iki.fi"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231962AbhLGM2a (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Tue, 7 Dec 2021 07:28:30 -0500
-Received: from hillosipuli.retiisi.eu (89-27-103-169.bb.dnainternet.fi [89.27.103.169])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-        (No client certificate requested)
-        (Authenticated sender: sailus)
-        by meesny.iki.fi (Postfix) with ESMTPSA id BA20420054;
-        Tue,  7 Dec 2021 14:24:53 +0200 (EET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=meesny;
-        t=1638879893;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=Cas7ci08rTbBx556E3jwiGUlOxjhK3fn+BcQ2dXZit0=;
-        b=qVvNEQhngj9h9y/k871Mtr+5SZ8gXL1Pre0QeKnqeOFenRhE7eppRv6eR0ZO3QVlbscHGs
-        HzIXSShBd7mqpQr3y/QAw27TE7IuBxiSITKbrVKzaL9UNw+5I29ZhWNT7Kz9Mzpb/LfCgA
-        ArppRL9d5mCtzaZaRy7FLAhKLfulWDo=
-Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        by hillosipuli.retiisi.eu (Postfix) with ESMTPS id E8906634C90;
-        Tue,  7 Dec 2021 14:24:52 +0200 (EET)
-Date:   Tue, 7 Dec 2021 14:24:52 +0200
-From:   Sakari Ailus <sakari.ailus@iki.fi>
-To:     Joe Perches <joe@perches.com>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
-        linux-media <linux-media@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH] media: i2c: ov8865: Neaten unnecessary indentation
-Message-ID: <Ya9SlGo5HZpOXTmZ@valkosipuli.retiisi.eu>
-References: <c6189daaac183ddf51da1444c597d8577c1ac416.camel@perches.com>
+        id S236364AbhLGMhr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 7 Dec 2021 07:37:47 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45456 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230264AbhLGMhq (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 7 Dec 2021 07:37:46 -0500
+Received: from mail-wr1-x431.google.com (mail-wr1-x431.google.com [IPv6:2a00:1450:4864:20::431])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5C731C061574
+        for <linux-media@vger.kernel.org>; Tue,  7 Dec 2021 04:34:16 -0800 (PST)
+Received: by mail-wr1-x431.google.com with SMTP id a18so29203199wrn.6
+        for <linux-media@vger.kernel.org>; Tue, 07 Dec 2021 04:34:16 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=UsLymO2NJxokLiyNAuPhk/abHIkS5BcAyNq3oHabOw0=;
+        b=L6i3ochUOdIIETzfMMhvl0xo+H8PmC13ybWiQDxyxHPOFGCNd+9x0hd1C0uXpix9WD
+         0DNwXOLiHGYfiy9TZku7tlkw7W6o37V3Th8X7CJs/M1hLkk36/VJSGAYJTTh0yaRbFtD
+         w61hkT14D2249rxzC224Nge9I3Ng8NXsUBF3eXEhr4ILcahaEdIYkmqU8auYhSh/d0bK
+         PEMGFapUXGs8izpAeBsxU1cFTTR1p0DKXZ0IxE7pSrKJh1pUbMCUlyqW0xGImtOlZZuu
+         Weup2zh9VXTlhiS4yJzPlF21UqN4wI9fV+vjZdkpR3jnMsvFEmTlmBxLa3IuD16qS60R
+         kh0w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=UsLymO2NJxokLiyNAuPhk/abHIkS5BcAyNq3oHabOw0=;
+        b=Co79U2Ehe0A50gW8RipbZtP2d3JcRwL/TI/I1YV9Dbp7+3Bbc1ZUYhV5qJCI7efZ9S
+         yk0IkY50Oyeio44k0oNcFJIfe5Zw93vuelesw3YkTqlwv8vZ/3g8x/M5d3EjRbbQMlpL
+         aCDATj/qnBSXExp2fhM5AkAAA5Jesgt9PMeRY2R5ise4/IyDBOTKqKqsw/75xS/SsZU9
+         Ex91s41eBalqxgDw7eLXZV+oLmx76yu9GdiFmC/o+DhTVHBQEEcW2WCTFdOtjw3mM6LH
+         nM6bL5/7LYciz5bns8q6w8cA6oXVCwnLOGlxvoyHUP5e6oc6bkiK3vnFpqqzBF/IK31P
+         Bg0A==
+X-Gm-Message-State: AOAM531VCSDd8kGkUiXoRmbqf32fz9Xfyj+I+eREJQpTLHwMeexkb7Rm
+        w3hHDnL1MD0xfH+/zXdCwd8=
+X-Google-Smtp-Source: ABdhPJwXJf/rZIxlu0oRQ74XzCWMNqr/EEFzXvSGNCj6TPD/+9C+4p2bj/r7c/TlKRh50YHkBhdduw==
+X-Received: by 2002:a5d:6508:: with SMTP id x8mr49147397wru.388.1638880455017;
+        Tue, 07 Dec 2021 04:34:15 -0800 (PST)
+Received: from abel.fritz.box (p57b0bff8.dip0.t-ipconnect.de. [87.176.191.248])
+        by smtp.gmail.com with ESMTPSA id f19sm2802203wmq.34.2021.12.07.04.34.13
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 07 Dec 2021 04:34:14 -0800 (PST)
+From:   "=?UTF-8?q?Christian=20K=C3=B6nig?=" 
+        <ckoenig.leichtzumerken@gmail.com>
+X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
+To:     daniel@ffwll.ch, dri-devel@lists.freedesktop.org,
+        linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
+Subject: completely rework the dma_resv semantic
+Date:   Tue,  7 Dec 2021 13:33:47 +0100
+Message-Id: <20211207123411.167006-1-christian.koenig@amd.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <c6189daaac183ddf51da1444c597d8577c1ac416.camel@perches.com>
-ARC-Authentication-Results: i=1;
-        ORIGINATING;
-        auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
-ARC-Seal: i=1; s=meesny; d=iki.fi; t=1638879893; a=rsa-sha256; cv=none;
-        b=tQj+QrtOXTVsT2T0ySVMtAAPlz4rSLyGImvPjvzuZTw7qk2AnqBm7vY2NnMpz3hiZaPvXe
-        q+MYfWHt0u/2n5u+WfkLvqaCtjr3zODKcLugGCIGeH/Mue56IqTMvO45JIOM97HknzG2gM
-        QVLyEWW8eLEsbwW5xEgSx0a2kvHV4b4=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
-        s=meesny; t=1638879893;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=Cas7ci08rTbBx556E3jwiGUlOxjhK3fn+BcQ2dXZit0=;
-        b=haLON3qhLaYNajGv13pJEm6frwbadAXQzn0FmXetpYg6OGd9jmDKhUCUfMWN4vjJGitW1X
-        4dSzh38Y/czYlBfE84pes61k+JhuJ622GNWtDAc4vY3efERlPnatHp9zH/4cUgemejBDjG
-        xVzUGYl7jqH0jZlFAqcvtwcry3MMNW0=
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Joe (and Paul),
+Hi Daniel,
 
-On Thu, Dec 02, 2021 at 01:06:01AM -0800, Joe Perches wrote:
-> Jumping to the start of a labeled else block isn't typical.
-> 
-> Unindent the code by reversing the test and using a goto instead.
-> 
-> Signed-off-by: Joe Perches <joe@perches.com>
-> ---
->  drivers/media/i2c/ov8865.c | 81 +++++++++++++++++++++++-----------------------
->  1 file changed, 41 insertions(+), 40 deletions(-)
-> 
-> diff --git a/drivers/media/i2c/ov8865.c b/drivers/media/i2c/ov8865.c
-> index ebdb20d3fe9d8..7ef83a10f586f 100644
-> --- a/drivers/media/i2c/ov8865.c
-> +++ b/drivers/media/i2c/ov8865.c
-> @@ -2396,56 +2396,57 @@ static int ov8865_sensor_init(struct ov8865_sensor *sensor)
->  
->  static int ov8865_sensor_power(struct ov8865_sensor *sensor, bool on)
->  {
-> -	/* Keep initialized to zero for disable label. */
-> -	int ret = 0;
-> +	int ret;
->  
-> -	if (on) {
-> -		gpiod_set_value_cansleep(sensor->reset, 1);
-> -		gpiod_set_value_cansleep(sensor->powerdown, 1);
-> +	if (!on) {
-> +		ret = 0;
-> +		goto disable;
-> +	}
->  
-> -		ret = regulator_enable(sensor->dovdd);
-> -		if (ret) {
-> -			dev_err(sensor->dev,
-> -				"failed to enable DOVDD regulator\n");
-> -			goto disable;
+just a gentle ping that you wanted to take a look at this.
 
-I guess this patch is fine as such but there seems to be a problem in error
-handling here: all regulators are disabled if there's a problem enabling
-one of them.
+Not much changed compared to the last version, only a minor bugfix in
+the dma_resv_get_singleton error handling.
 
-Would it be possible to fix this as well?
+Regards,
+Christian.
 
-> -		}
-> +	gpiod_set_value_cansleep(sensor->reset, 1);
-> +	gpiod_set_value_cansleep(sensor->powerdown, 1);
->  
-> -		ret = regulator_enable(sensor->avdd);
-> -		if (ret) {
-> -			dev_err(sensor->dev,
-> -				"failed to enable AVDD regulator\n");
-> -			goto disable;
-> -		}
-> +	ret = regulator_enable(sensor->dovdd);
-> +	if (ret) {
-> +		dev_err(sensor->dev, "failed to enable DOVDD regulator\n");
-> +		goto disable;
-> +	}
->  
-> -		ret = regulator_enable(sensor->dvdd);
-> -		if (ret) {
-> -			dev_err(sensor->dev,
-> -				"failed to enable DVDD regulator\n");
-> -			goto disable;
-> -		}
-> +	ret = regulator_enable(sensor->avdd);
-> +	if (ret) {
-> +		dev_err(sensor->dev, "failed to enable AVDD regulator\n");
-> +		goto disable;
-> +	}
->  
-> -		ret = clk_prepare_enable(sensor->extclk);
-> -		if (ret) {
-> -			dev_err(sensor->dev, "failed to enable EXTCLK clock\n");
-> -			goto disable;
-> -		}
-> +	ret = regulator_enable(sensor->dvdd);
-> +	if (ret) {
-> +		dev_err(sensor->dev, "failed to enable DVDD regulator\n");
-> +		goto disable;
-> +	}
-> +
-> +	ret = clk_prepare_enable(sensor->extclk);
-> +	if (ret) {
-> +		dev_err(sensor->dev, "failed to enable EXTCLK clock\n");
-> +		goto disable;
-> +	}
->  
-> -		gpiod_set_value_cansleep(sensor->reset, 0);
-> -		gpiod_set_value_cansleep(sensor->powerdown, 0);
-> +	gpiod_set_value_cansleep(sensor->reset, 0);
-> +	gpiod_set_value_cansleep(sensor->powerdown, 0);
-> +
-> +	/* Time to enter streaming mode according to power timings. */
-> +	usleep_range(10000, 12000);
-> +
-> +	return 0;
->  
-> -		/* Time to enter streaming mode according to power timings. */
-> -		usleep_range(10000, 12000);
-> -	} else {
->  disable:
-> -		gpiod_set_value_cansleep(sensor->powerdown, 1);
-> -		gpiod_set_value_cansleep(sensor->reset, 1);
-> +	gpiod_set_value_cansleep(sensor->powerdown, 1);
-> +	gpiod_set_value_cansleep(sensor->reset, 1);
->  
-> -		clk_disable_unprepare(sensor->extclk);
-> +	clk_disable_unprepare(sensor->extclk);
->  
-> -		regulator_disable(sensor->dvdd);
-> -		regulator_disable(sensor->avdd);
-> -		regulator_disable(sensor->dovdd);
-> -	}
-> +	regulator_disable(sensor->dvdd);
-> +	regulator_disable(sensor->avdd);
-> +	regulator_disable(sensor->dovdd);
->  
->  	return ret;
->  }
-> 
-> 
 
--- 
-Kind regards,
-
-Sakari Ailus
