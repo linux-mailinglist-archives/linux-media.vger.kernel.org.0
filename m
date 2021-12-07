@@ -2,205 +2,96 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7B06E46BF9F
-	for <lists+linux-media@lfdr.de>; Tue,  7 Dec 2021 16:38:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9FEC846C174
+	for <lists+linux-media@lfdr.de>; Tue,  7 Dec 2021 18:14:55 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239003AbhLGPlz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 7 Dec 2021 10:41:55 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33520 "EHLO
+        id S235416AbhLGRSY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 7 Dec 2021 12:18:24 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57018 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238999AbhLGPlz (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 7 Dec 2021 10:41:55 -0500
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D2537C061574
-        for <linux-media@vger.kernel.org>; Tue,  7 Dec 2021 07:38:24 -0800 (PST)
-Received: from gallifrey.ext.pengutronix.de ([2001:67c:670:201:5054:ff:fe8d:eefb] helo=[IPv6:::1])
-        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <l.stach@pengutronix.de>)
-        id 1mucXu-0004Ow-J8; Tue, 07 Dec 2021 16:38:22 +0100
-Message-ID: <dbe7f7e488d92364ac2573175b0a262477a4d69a.camel@pengutronix.de>
-Subject: Re: [RFC V2 3/6] dt-bindings: media: nxp,imx8mq-vpu: Update the
- bindings for G2 support
-From:   Lucas Stach <l.stach@pengutronix.de>
-To:     Rob Herring <robh@kernel.org>, Adam Ford <aford173@gmail.com>
-Cc:     linux-media@vger.kernel.org, cphealy@gmail.com,
-        benjamin.gaignard@collabora.com, hverkuil@xs4all.nl,
-        Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-rockchip@lists.infradead.org, devicetree@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        linux-staging@lists.linux.dev
-Date:   Tue, 07 Dec 2021 16:38:19 +0100
-In-Reply-To: <Ya96O6VXuIDdcM8p@robh.at.kernel.org>
-References: <20211207015446.1250854-1-aford173@gmail.com>
-         <20211207015446.1250854-4-aford173@gmail.com>
-         <Ya96O6VXuIDdcM8p@robh.at.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.40.4 (3.40.4-1.fc34) 
+        with ESMTP id S230283AbhLGRSY (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 7 Dec 2021 12:18:24 -0500
+Received: from mail-qv1-xf35.google.com (mail-qv1-xf35.google.com [IPv6:2607:f8b0:4864:20::f35])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DE16DC061746
+        for <linux-media@vger.kernel.org>; Tue,  7 Dec 2021 09:14:53 -0800 (PST)
+Received: by mail-qv1-xf35.google.com with SMTP id kl8so13735937qvb.3
+        for <linux-media@vger.kernel.org>; Tue, 07 Dec 2021 09:14:53 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ziepe.ca; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=wVc8LSPwSI3Fgta6L7kEkmdc/aDqjUxriE82WBGtIW0=;
+        b=Rfja9PD8xnDksY1HYbcjkWT4ttEpzcj1mkWQRYEdiFZjxlZutjCEU3l+TzKeZAWZA/
+         R3Hgi5Or/0X0d8myLQpzwZQAnhxm/OcfYbG+5B/66ZNNo8nbFHqD9DYlNSXtBgkDujdj
+         GS0HSG3F4O5HKNUn9sTmGvZtZoUDvBg3FelKkCyTF22wHUt+fuZxsll/djq0gwdp9UES
+         rKe7Ww/zz2n88os5/TA3xAj0fxq+mkd+U3+5eLTUO9k3l8BCEoBS1Bzv7RwiFY3K03FM
+         XvX2OC7NgTOQWukgIns3VlWwdovpkxoyJF0F7548j2+41xs1nJaH080SGXg30oO09e0f
+         Lkgg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=wVc8LSPwSI3Fgta6L7kEkmdc/aDqjUxriE82WBGtIW0=;
+        b=gv2R2i038IyiKgsN+8bn+0Lr5OMV/0Q42dEJ7jS6XssT2uZFVINMgvjc/dd4agYKOU
+         6oa9QK4TpUuNKUZ07694PxC6UynYCFKce5QcGPgeaau3oKlQVwoDKbvk4Ir5rRnxFEl/
+         fwU+Z/cuB3HmjTEw64HjprqGGNKsoOK6UNMPbilvta+ERE+OM03zjpcf5CZ+faitTxVF
+         oYTPfdi1v9lP9ABSsonEA0miCy0AawH6hKAZ9LsBbk4VQY70aFiHCZvl+mMZIDSbyQDp
+         oV7C10PAZi+VdWHMhpO35rR5qFYVMYjAkY9fF2K4G0s6iOS7OmBv2Iyb1W3gYoCCTR6O
+         ejZg==
+X-Gm-Message-State: AOAM531bOXAZLdEuyvFfQ/tGDcmnmiGhtvFFUmO6kyoMXFGIdoJZuWbd
+        gyp5ZEa5y5t/fmwbCVlLjRLkHg==
+X-Google-Smtp-Source: ABdhPJw0PP90ueBnYWFUDjF76i2hMme/rVXQvmtZfOsQkyWewKl1qaIvxAAjfaYW0kFwWOh6hBhAtQ==
+X-Received: by 2002:a05:6214:e65:: with SMTP id jz5mr300169qvb.103.1638897293016;
+        Tue, 07 Dec 2021 09:14:53 -0800 (PST)
+Received: from ziepe.ca (hlfxns017vw-142-162-113-129.dhcp-dynamic.fibreop.ns.bellaliant.net. [142.162.113.129])
+        by smtp.gmail.com with ESMTPSA id n13sm138629qkp.19.2021.12.07.09.14.48
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 07 Dec 2021 09:14:50 -0800 (PST)
+Received: from jgg by mlx with local (Exim 4.94)
+        (envelope-from <jgg@ziepe.ca>)
+        id 1mue3D-0005cs-LC; Tue, 07 Dec 2021 13:14:47 -0400
+Date:   Tue, 7 Dec 2021 13:14:47 -0400
+From:   Jason Gunthorpe <jgg@ziepe.ca>
+To:     Shunsuke Mie <mie@igel.co.jp>
+Cc:     Zhu Yanjun <zyjzyj2000@gmail.com>,
+        Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+        Alex Deucher <alexander.deucher@amd.com>,
+        Daniel Vetter <daniel.vetter@ffwll.ch>,
+        Doug Ledford <dledford@redhat.com>,
+        Jianxin Xiong <jianxin.xiong@intel.com>,
+        Leon Romanovsky <leon@kernel.org>,
+        Maor Gottlieb <maorg@nvidia.com>,
+        Sean Hefty <sean.hefty@intel.com>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+        linux-media@vger.kernel.org,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-rdma <linux-rdma@vger.kernel.org>,
+        Damian Hobson-Garcia <dhobsong@igel.co.jp>,
+        Takanari Hayama <taki@igel.co.jp>,
+        Tomohito Esaki <etom@igel.co.jp>
+Subject: Re: [RFC PATCH v4 0/2] RDMA/rxe: Add dma-buf support
+Message-ID: <20211207171447.GA6467@ziepe.ca>
+References: <20211122110817.33319-1-mie@igel.co.jp>
+ <CANXvt5oB8_2sDGccSiTMqeLYGi3Vuo-6NnHJ9PGgZZMv=fnUVw@mail.gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-SA-Exim-Connect-IP: 2001:67c:670:201:5054:ff:fe8d:eefb
-X-SA-Exim-Mail-From: l.stach@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-media@vger.kernel.org
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CANXvt5oB8_2sDGccSiTMqeLYGi3Vuo-6NnHJ9PGgZZMv=fnUVw@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Rob,
-
-Am Dienstag, dem 07.12.2021 um 09:14 -0600 schrieb Rob Herring:
-> On Mon, Dec 06, 2021 at 07:54:42PM -0600, Adam Ford wrote:
-> > From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-> > 
-> > Introducing the G2 hevc video decoder requires modifications of the bindings to allow
-> > one node per VPU.
+On Fri, Dec 03, 2021 at 12:51:44PM +0900, Shunsuke Mie wrote:
+> Hi maintainers,
 > 
-> Why? It looks like the G2 part was already described. If you are 
-> changing this because you want 2 drivers for G1 and G2, then NAK. DT 
-> nodes and drivers don't have to be 1:1. This change is breaking 
-> compatibility.
+> Could you please review this patch series?
 
-We can keep the compatibility by just keeping the code in the VPU
-driver to handle the G1 block as-is. The VPU block on the imx8mq is
-really three peripherals: the control block working together with the
-power domain controller to provide clocks and resets and the G1 and G2
-VPU cores.
+Why is it RFC?
 
-> 
-> > 
-> > VPUs share one hardware control block which is provided as a phandle on
-> > a syscon.
-> 
-> That's not really ideal. Is this really a separate block?
-> 
-This part of the commit message is not accurate anymore. The control
-block is in fact so separate from the VPU that we even added a new
-driver to handle those control blocks: the imx8m blk-ctrl driver. The
-VPU driver doesn't need handle this control block anymore, it's now
-handled via the power-domain abstraction.
+I'm confused why this is useful? 
 
-Regards,
-Lucas
+This can't do copy from MMIO memory, so it shouldn't be compatible
+with things like Gaudi - does something prevent this?
 
-> > Each node has now one reg and one interrupt.
-> > Add a compatible for G2 hardware block: nxp,imx8mq-vpu-g2.
-> > 
-> > To be compatible with older DT the driver is still capable to use the 'ctrl'
-> > reg-name even if it is deprecated now.
-> > 
-> > Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-> > Signed-off-by: Adam Ford <aford173@gmail.com>
-> > 
-> > diff --git a/Documentation/devicetree/bindings/media/nxp,imx8mq-vpu.yaml b/Documentation/devicetree/bindings/media/nxp,imx8mq-vpu.yaml
-> > index 762be3f96ce9..eaeba4ce262a 100644
-> > --- a/Documentation/devicetree/bindings/media/nxp,imx8mq-vpu.yaml
-> > +++ b/Documentation/devicetree/bindings/media/nxp,imx8mq-vpu.yaml
-> > @@ -15,37 +15,36 @@ description:
-> >  
-> >  properties:
-> >    compatible:
-> > -    const: nxp,imx8mq-vpu
-> > +    oneOf:
-> > +      - const: nxp,imx8mq-vpu-g1
-> > +      - const: nxp,imx8mq-vpu-g2
-> >  
-> >    reg:
-> > -    maxItems: 3
-> > -
-> > -  reg-names:
-> > -    items:
-> > -      - const: g1
-> > -      - const: g2
-> > -      - const: ctrl
-> > +    maxItems: 1
-> >  
-> >    interrupts:
-> > -    maxItems: 2
-> > +    maxItems: 1
-> >  
-> >    interrupt-names:
-> > -    items:
-> > +    oneOf:
-> >        - const: g1
-> >        - const: g2
-> >  
-> >    clocks:
-> > -    maxItems: 3
-> > +    maxItems: 1
-> >  
-> >    clock-names:
-> > -    items:
-> > +    oneOf:
-> >        - const: g1
-> >        - const: g2
-> > -      - const: bus
-> >  
-> >    power-domains:
-> >      maxItems: 1
-> >  
-> > +  nxp,imx8m-vpu-ctrl:
-> > +    description: Specifies a phandle to syscon VPU hardware control block
-> > +    $ref: "/schemas/types.yaml#/definitions/phandle"
-> 
-> This is optional?
-> 
-> > +
-> >  required:
-> >    - compatible
-> >    - reg
-> > @@ -60,20 +59,27 @@ additionalProperties: false
-> >  examples:
-> >    - |
-> >          #include <dt-bindings/clock/imx8mq-clock.h>
-> > +        #include <dt-bindings/power/imx8mq-power.h>
-> >          #include <dt-bindings/interrupt-controller/arm-gic.h>
-> >  
-> > -        vpu: video-codec@38300000 {
-> > +        vpu_g1: video-codec@38300000 {
-> >                  compatible = "nxp,imx8mq-vpu";
-> > -                reg = <0x38300000 0x10000>,
-> > -                      <0x38310000 0x10000>,
-> > -                      <0x38320000 0x10000>;
-> > -                reg-names = "g1", "g2", "ctrl";
-> > -                interrupts = <GIC_SPI 7 IRQ_TYPE_LEVEL_HIGH>,
-> > -                             <GIC_SPI 8 IRQ_TYPE_LEVEL_HIGH>;
-> > -                interrupt-names = "g1", "g2";
-> > -                clocks = <&clk IMX8MQ_CLK_VPU_G1_ROOT>,
-> > -                         <&clk IMX8MQ_CLK_VPU_G2_ROOT>,
-> > -                         <&clk IMX8MQ_CLK_VPU_DEC_ROOT>;
-> > -                clock-names = "g1", "g2", "bus";
-> > -                power-domains = <&pgc_vpu>;
-> > +                reg = <0x38300000 0x10000>;
-> > +                reg-names "g1";
-> > +                interrupts = <GIC_SPI 7 IRQ_TYPE_LEVEL_HIGH>;
-> > +                interrupt-names = "g1";
-> > +                clocks = <&clk IMX8MQ_CLK_VPU_G2_ROOT>;
-> > +                clock-names = "g1";
-> > +                power-domains = <&vpu_blk_ctrl IMX8MQ_VPUBLK_PD_G1>;
-> > +        };
-> > +
-> > +        vpu_g2: video-codec@38310000 {
-> > +                compatible = "nxp,imx8mq-vpu-g2";
-> > +                reg = <0x38300000 0x10000>;
-> > +                reg-names "g2";
-> > +                interrupts = <GIC_SPI 8 IRQ_TYPE_LEVEL_HIGH>;
-> > +                interrupt-names = "g2";
-> > +                clocks = <&clk IMX8MQ_CLK_VPU_G2_ROOT>;
-> > +                clock-names = "g2";
-> > +                power-domains = <&vpu_blk_ctrl IMX8MQ_VPUBLK_PD_G2>;
-> >          };
-> > -- 
-> > 2.32.0
-> > 
-> > 
-
-
+Jason
