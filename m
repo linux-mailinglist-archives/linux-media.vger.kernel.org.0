@@ -2,74 +2,78 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 950BC46C67B
-	for <lists+linux-media@lfdr.de>; Tue,  7 Dec 2021 22:14:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DD7CB46C6A4
+	for <lists+linux-media@lfdr.de>; Tue,  7 Dec 2021 22:23:13 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241745AbhLGVRw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 7 Dec 2021 16:17:52 -0500
-Received: from mail-oi1-f171.google.com ([209.85.167.171]:44970 "EHLO
-        mail-oi1-f171.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241731AbhLGVRv (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 7 Dec 2021 16:17:51 -0500
-Received: by mail-oi1-f171.google.com with SMTP id be32so943050oib.11;
-        Tue, 07 Dec 2021 13:14:19 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=asvIIgcfdstNfjFsb5JYamSeC7BkZaM5BJh8bn9MdF4=;
-        b=uiV8ApIC7s9cvXVLss9Uo2EZMZQRkWwXufL9D9vx3wkAFzsSLAIoLOmcLc9Y4zCgsa
-         Lq6583GsHNqzao+6NeKkJhuFIwDqR05hZZe/Hjv+sSYaSt0TX4LX09wpNHLkf7BEA+gC
-         80y/l9pbVIVDXeL8U29ZQ4/DTnrXeEn08BwKFbiHUzWgro+qManjHdh1zRn57PtbBFQ7
-         MIkPqP1Oji1zqVWRBH51RGQM+eWh21bBKi1n10LHDgt/ZUJ7deA6uy4tFDRW6mnB+W8x
-         jC14zHeIXZyKvaQzKFJvgv5p5slbTrYhxe6zkr9iBFWIWA1zhBVowqoRFLu/yhQh1ZO/
-         DUwg==
-X-Gm-Message-State: AOAM531dajfrmZynyI9j4aOGErvGrhDWsJVCBdW48xAnOJOq6S1/kZue
-        mvYWnIj9vHDF9S4JBRpSTQ==
-X-Google-Smtp-Source: ABdhPJxc/AHj+LnGGT6zJnz1p3C+dMtJOu6aTpY+Io5e+BMbWIEn0nwFat+1MwVmkTIt17nn/3xhGw==
-X-Received: by 2002:a05:6808:11c6:: with SMTP id p6mr7741859oiv.44.1638911659363;
-        Tue, 07 Dec 2021 13:14:19 -0800 (PST)
-Received: from robh.at.kernel.org (66-90-148-213.dyn.grandenetworks.net. [66.90.148.213])
-        by smtp.gmail.com with ESMTPSA id v19sm146773ott.13.2021.12.07.13.14.18
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 07 Dec 2021 13:14:18 -0800 (PST)
-Received: (nullmailer pid 842210 invoked by uid 1000);
-        Tue, 07 Dec 2021 21:14:17 -0000
-Date:   Tue, 7 Dec 2021 15:14:17 -0600
-From:   Rob Herring <robh@kernel.org>
-To:     Jernej Skrabec <jernej.skrabec@gmail.com>
-Cc:     andrzej.p@collabora.com, linux-staging@lists.linux.dev,
-        linux-media@vger.kernel.org, gregkh@linuxfoundation.org,
-        mchehab@kernel.org, ezequiel@vanguardiasur.com.ar,
-        robh+dt@kernel.org, p.zabel@pengutronix.de,
-        linux-arm-kernel@lists.infradead.org,
-        nicolas.dufresne@collabora.com, linux-kernel@vger.kernel.org,
-        mripard@kernel.org, linux-sunxi@lists.linux.dev, wens@csie.org,
-        devicetree@vger.kernel.org
-Subject: Re: [PATCH v2 7/9] media: dt-bindings: allwinner: document H6 Hantro
- G2 binding
-Message-ID: <Ya/OqXg7vVKPwudd@robh.at.kernel.org>
-References: <20211129182633.480021-1-jernej.skrabec@gmail.com>
- <20211129182633.480021-8-jernej.skrabec@gmail.com>
+        id S241737AbhLGV0n (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 7 Dec 2021 16:26:43 -0500
+Received: from www.linuxtv.org ([130.149.80.248]:32912 "EHLO www.linuxtv.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S233742AbhLGV0n (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 7 Dec 2021 16:26:43 -0500
+Received: from builder.linuxtv.org ([140.211.167.10] helo=slave0)
+        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1muhvb-00B92U-C2; Tue, 07 Dec 2021 21:23:11 +0000
+Received: from ip6-localhost ([::1] helo=localhost.localdomain)
+        by slave0 with esmtp (Exim 4.94.2)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1muhvY-00E6qZ-94; Tue, 07 Dec 2021 21:23:08 +0000
+From:   Jenkins <jenkins@linuxtv.org>
+To:     mchehab+samsung@kernel.org, linux-media@vger.kernel.org
+Cc:     builder@linuxtv.org
+Subject: Re: [GIT PULL FOR v5.17] Lirc and streamzap improvements (#79246)
+Date:   Tue,  7 Dec 2021 21:23:07 +0000
+Message-Id: <20211207212307.3362865-1-jenkins@linuxtv.org>
+X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20211207204433.GA16243@gofer.mess.org>
+References: 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20211129182633.480021-8-jernej.skrabec@gmail.com>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, 29 Nov 2021 19:26:31 +0100, Jernej Skrabec wrote:
-> Allwinner H6 contains older Hantro G2 core, primarly used for VP9 video
-> decoding. It's unclear for now if HEVC is also supported.
-> 
-> Describe it's binding.
-> 
-> Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
-> ---
->  .../media/allwinner,sun50i-h6-vpu-g2.yaml     | 64 +++++++++++++++++++
->  1 file changed, 64 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/media/allwinner,sun50i-h6-vpu-g2.yaml
-> 
+From: builder@linuxtv.org
 
-Reviewed-by: Rob Herring <robh@kernel.org>
+Pull request: https://patchwork.linuxtv.org/project/linux-media/patch/20211207204433.GA16243@gofer.mess.org/
+Build log: https://builder.linuxtv.org/job/patchwork/163439/
+Build time: 00:27:12
+Link: https://lore.kernel.org/linux-media/20211207204433.GA16243@gofer.mess.org
+
+gpg: Signature made Tue 07 Dec 2021 01:37:02 PM UTC
+gpg:                using RSA key A624251A26084A9ED9E4C8B6425F639D3960FA9E
+gpg:                issuer "sean@mess.org"
+gpg: Good signature from "Sean Young <sean@mess.org>" [unknown]
+gpg: WARNING: This key is not certified with a trusted signature!
+gpg:          There is no indication that the signature belongs to the owner.
+Primary key fingerprint: A624 251A 2608 4A9E D9E4  C8B6 425F 639D 3960 FA9E
+
+Summary: got 1/9 patches with issues, being 1 at build time, plus one error when buinding PDF document
+
+Error/warnings:
+
+patches/0001-media-lirc-always-send-timeout-reports.patch:
+
+    allyesconfig: return code #0:
+	../scripts/genksyms/parse.y: warning: 9 shift/reduce conflicts [-Wconflicts-sr]
+	../scripts/genksyms/parse.y: warning: 5 reduce/reduce conflicts [-Wconflicts-rr]
+	../scripts/genksyms/parse.y: note: rerun with option '-Wcounterexamples' to generate conflict counterexamples
+
+    allyesconfig: return code #0:
+	SMATCH:../drivers/media/usb/siano/smsusb.c ../drivers/media/usb/siano/smsusb.c:53:38: :warning: array of flexible structures
+	SPARSE:../drivers/media/usb/siano/smsusb.c ../drivers/media/usb/siano/smsusb.c:53:38: warning: array of flexible structures
+	../drivers/media/rc/meson-ir-tx.c:22: warning: expecting prototype for meson(). Prototype was for DEVICE_NAME() instead
+	../drivers/media/i2c/ov8865.c: ../drivers/media/i2c/ov8865.c:2841 ov8865_get_selection() warn: inconsistent indenting
+	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2625 dvb_register() parse error: turning off implications after 60 seconds
+	../drivers/media/platform/qcom/venus/helpers.c: ../drivers/media/platform/qcom/venus/helpers.c:658 venus_helper_get_bufreq() error: we previously assumed 'req' could be null (see line 654)
+	../drivers/media/usb/em28xx/em28xx-video.c: ../drivers/media/usb/em28xx/em28xx-video.c:2874 em28xx_v4l2_init() parse error: turning off implications after 60 seconds
+
+   checkpatch.pl:
+	$ cat patches/0001-media-lirc-always-send-timeout-reports.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
+	-:75: WARNING: added, moved or deleted file(s), does MAINTAINERS need updating?
+
+
+Error #512 when building PDF docs
+
