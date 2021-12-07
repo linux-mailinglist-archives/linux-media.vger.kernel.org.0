@@ -2,59 +2,59 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1222446BB3F
+	by mail.lfdr.de (Postfix) with ESMTP id 7E91A46BB40
 	for <lists+linux-media@lfdr.de>; Tue,  7 Dec 2021 13:34:49 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236462AbhLGMiO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        id S236464AbhLGMiO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
         Tue, 7 Dec 2021 07:38:14 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45600 "EHLO
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45604 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236437AbhLGMiN (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 7 Dec 2021 07:38:13 -0500
-Received: from mail-wr1-x435.google.com (mail-wr1-x435.google.com [IPv6:2a00:1450:4864:20::435])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 279D9C061574
-        for <linux-media@vger.kernel.org>; Tue,  7 Dec 2021 04:34:43 -0800 (PST)
-Received: by mail-wr1-x435.google.com with SMTP id i5so29206221wrb.2
-        for <linux-media@vger.kernel.org>; Tue, 07 Dec 2021 04:34:43 -0800 (PST)
+        with ESMTP id S236437AbhLGMiO (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 7 Dec 2021 07:38:14 -0500
+Received: from mail-wr1-x42c.google.com (mail-wr1-x42c.google.com [IPv6:2a00:1450:4864:20::42c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 550F0C061574
+        for <linux-media@vger.kernel.org>; Tue,  7 Dec 2021 04:34:44 -0800 (PST)
+Received: by mail-wr1-x42c.google.com with SMTP id u1so29097943wru.13
+        for <linux-media@vger.kernel.org>; Tue, 07 Dec 2021 04:34:44 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=gbmJORdWFTlKxxvK7X3M8XQMp1KTxZM5H1KKK8r07Vo=;
-        b=D40iYFgmEVwmrxxeFd+eiQP9lgOoeXjNyjZ76/AkBDfS7vRlO8/gojz/MhisRbJPBN
-         6p5tj8wINL3FMgbEPFLwsjMPSQtmdmkJeCKG0oRJjyrSj4VVw5WSQTXzzsACApjm+mKF
-         NHgcuHhCtWJqSh89jPMCnU94KS85erHU7HRS/p7N0KfJkEW8FbKJ9IN1oLUuVrsIunxU
-         WTDDf6QRM+aMfhQEMTwwp8KO/WsKpSOe5l2YD11zx0xboCA7gYXRAe1qOXhyraOfUmE2
-         CquzkID+ShqHiLujajslKD2xrT4wNt9ETq6PmlsLA8aBVwkH3PqpYw14+BOYG3Om4fdl
-         U8nA==
+        bh=7XV1ycL0JA6uJA4j325yZigiICpFpwzKb7YQrY4jauM=;
+        b=pj9t0p0A4Wo19ZnH1VKW/t1vFVi96WKTE9qa5LmJo+Nw6R6l+9eRup+wt1lvvR9gKG
+         N7bI+djt8RnrbrvobLfG3ONZj//2YtyVxWIA/Yk7bJBbDWqQGchtN2q+vLX80bc158xJ
+         G+vrnK7qsmCzb88x7gEWyhv4YfkSLoJTQ3N0yYxqTiDRQdjlUcVRQ4Pk9usVOucBZ3LZ
+         h0dSXU8xpHL2QcbhxglmI4mzvkqBjmnCRgj547ZXulaD/iqJCJ/WP+533l2k5FXUnRvY
+         JdBw2keqyEat8gSy2ppqLstOyTD3/ZYAO8Gy3eNlV7sB9d7gm2qzY94E2mB99OWNSDVV
+         yTpw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=gbmJORdWFTlKxxvK7X3M8XQMp1KTxZM5H1KKK8r07Vo=;
-        b=KSJqS0ZW0DaeJzVTxPX1ZpbquXPJ57CpnsazEcxJO397kFlHXMkfcx8ate9xsj9Cl2
-         IJ5YyAy4ef4JLmoJTja4uP5O0p9kdYhqatD6uDNulHeAdupdIplOS+xadYXZDpDG6LcF
-         IgNx3J8+nQXcva7hLPNnk58FTcVdoYzvr5tNc4gQb4UqjZbbLToGTF66vV2YZ09woQ8Z
-         RXfCptYVO/t6dICEJbR+IG6c9RvTRRX99dF1cQIoI6aOG/N5pqesNeIgs3+f8WM5sGRl
-         N/Y8xE832cevAL/1OStXSRWPYR3TYP1ENuWCEV9pXHVKItMlc7nrBDKcTDCoYaFn/mTd
-         7chw==
-X-Gm-Message-State: AOAM531lkIgHFO5xqa7QENogQt58rwvb9VivBNfBgwTT93dyx1LboRtu
-        wPmkZRrvHUWJDPdM0DQJBHo=
-X-Google-Smtp-Source: ABdhPJzsvOjakge7Q2aJ3vV+UweZHczFmOCuSFOQgQ5ISW5R51JI7fM+hJ1q7P5Fnzx7QhHc1j484w==
-X-Received: by 2002:adf:f990:: with SMTP id f16mr48998131wrr.128.1638880481759;
-        Tue, 07 Dec 2021 04:34:41 -0800 (PST)
+        bh=7XV1ycL0JA6uJA4j325yZigiICpFpwzKb7YQrY4jauM=;
+        b=VcezOmwxmLrcxg2f28VjM1uKIJSngeoy14kLUdfPJFokPAmNMS8FghbQSgjTQuVDod
+         0smHAyaQLu/M0wdu97J3FUtkQ3TPUTyg63OYHznx4EKKWas7zZgzyRSM8pIyw2EIoqSi
+         WqOO87xPpZliU0jlSxtoaUywXPwXraB/WccFklEBowKukAs4Xivlq/V/DKSrh7krgaCa
+         GilygMbsZtEUglKzg8NbYTMI2b2aJofuqJ1AnzE64GnKFMnqrfn4Y7QVk/B0Mp21119B
+         qSs8siH9vx/DjlS987+rkHIIfyaYI+r+Wxsorr5bFa7cdVDkbXGWF/7RFekUVLhD4XRb
+         ZZTA==
+X-Gm-Message-State: AOAM530eweN7euG5A8nw1HWhy6BZEvFAP7b8ElFgtDZTO/z6b5j1Uq8q
+        0x/88hZXbdDLFeoDpBOC5n4=
+X-Google-Smtp-Source: ABdhPJwVIawAb44+Y6nZ7ksLr6chagYlk3TqUMwD0PEgxdO7LwORlA8yABy4FWK+h61tgsfFCqe30Q==
+X-Received: by 2002:a5d:584e:: with SMTP id i14mr51733949wrf.386.1638880483013;
+        Tue, 07 Dec 2021 04:34:43 -0800 (PST)
 Received: from abel.fritz.box (p57b0bff8.dip0.t-ipconnect.de. [87.176.191.248])
-        by smtp.gmail.com with ESMTPSA id f19sm2802203wmq.34.2021.12.07.04.34.40
+        by smtp.gmail.com with ESMTPSA id f19sm2802203wmq.34.2021.12.07.04.34.41
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 07 Dec 2021 04:34:41 -0800 (PST)
+        Tue, 07 Dec 2021 04:34:42 -0800 (PST)
 From:   "=?UTF-8?q?Christian=20K=C3=B6nig?=" 
         <ckoenig.leichtzumerken@gmail.com>
 X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
 To:     daniel@ffwll.ch, dri-devel@lists.freedesktop.org,
         linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
-Subject: [PATCH 22/24] dma-buf: wait for map to complete for static attachments
-Date:   Tue,  7 Dec 2021 13:34:09 +0100
-Message-Id: <20211207123411.167006-23-christian.koenig@amd.com>
+Subject: [PATCH 23/24] amdgpu: remove DMA-buf fence workaround
+Date:   Tue,  7 Dec 2021 13:34:10 +0100
+Message-Id: <20211207123411.167006-24-christian.koenig@amd.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20211207123411.167006-1-christian.koenig@amd.com>
 References: <20211207123411.167006-1-christian.koenig@amd.com>
@@ -65,133 +65,113 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-We have previously done that in the individual drivers but it is
-more defensive to move that into the common code.
-
-Dynamic attachments should wait for map operations to complete by themselves.
+Not needed any more now we have that inside the framework.
 
 Signed-off-by: Christian König <christian.koenig@amd.com>
 ---
- drivers/dma-buf/dma-buf.c                   | 18 +++++++++++++++---
- drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c | 14 +-------------
- drivers/gpu/drm/nouveau/nouveau_prime.c     | 17 +----------------
- drivers/gpu/drm/radeon/radeon_prime.c       | 16 +++-------------
- 4 files changed, 20 insertions(+), 45 deletions(-)
+ drivers/gpu/drm/amd/amdgpu/amdgpu_bo_list.h |  1 -
+ drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c      | 52 +++------------------
+ 2 files changed, 6 insertions(+), 47 deletions(-)
 
-diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
-index 528983d3ba64..d3dd602c4753 100644
---- a/drivers/dma-buf/dma-buf.c
-+++ b/drivers/dma-buf/dma-buf.c
-@@ -660,12 +660,24 @@ static struct sg_table * __map_dma_buf(struct dma_buf_attachment *attach,
- 				       enum dma_data_direction direction)
- {
- 	struct sg_table *sg_table;
-+	signed long ret;
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_bo_list.h b/drivers/gpu/drm/amd/amdgpu/amdgpu_bo_list.h
+index 044b41f0bfd9..529d52a204cf 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_bo_list.h
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_bo_list.h
+@@ -34,7 +34,6 @@ struct amdgpu_fpriv;
+ struct amdgpu_bo_list_entry {
+ 	struct ttm_validate_buffer	tv;
+ 	struct amdgpu_bo_va		*bo_va;
+-	struct dma_fence_chain		*chain;
+ 	uint32_t			priority;
+ 	struct page			**user_pages;
+ 	bool				user_invalidated;
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
+index 92091e800022..413606d10080 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
+@@ -576,14 +576,6 @@ static int amdgpu_cs_parser_bos(struct amdgpu_cs_parser *p,
+ 		struct amdgpu_bo *bo = ttm_to_amdgpu_bo(e->tv.bo);
  
- 	sg_table = attach->dmabuf->ops->map_dma_buf(attach, direction);
-+	if (IS_ERR_OR_NULL(sg_table))
-+		return sg_table;
-+
-+	if (!dma_buf_attachment_is_dynamic(attach)) {
-+		ret = dma_resv_wait_timeout(attach->dmabuf->resv,
-+					    DMA_RESV_USAGE_KERNEL, true,
-+					    MAX_SCHEDULE_TIMEOUT);
-+		if (ret < 0) {
-+			attach->dmabuf->ops->unmap_dma_buf(attach, sg_table,
-+							   direction);
-+			return ERR_PTR(ret);
-+		}
-+	}
- 
--	if (!IS_ERR_OR_NULL(sg_table))
--		mangle_sg_table(sg_table);
+ 		e->bo_va = amdgpu_vm_bo_find(vm, bo);
 -
-+	mangle_sg_table(sg_table);
- 	return sg_table;
- }
- 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c
-index 4896c876ffec..33127bd56c64 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c
-@@ -102,21 +102,9 @@ static int amdgpu_dma_buf_pin(struct dma_buf_attachment *attach)
- {
- 	struct drm_gem_object *obj = attach->dmabuf->priv;
- 	struct amdgpu_bo *bo = gem_to_amdgpu_bo(obj);
--	int r;
- 
- 	/* pin buffer into GTT */
--	r = amdgpu_bo_pin(bo, AMDGPU_GEM_DOMAIN_GTT);
--	if (r)
--		return r;
--
--	if (bo->tbo.moving) {
--		r = dma_fence_wait(bo->tbo.moving, true);
--		if (r) {
--			amdgpu_bo_unpin(bo);
--			return r;
+-		if (bo->tbo.base.dma_buf && !amdgpu_bo_explicit_sync(bo)) {
+-			e->chain = dma_fence_chain_alloc();
+-			if (!e->chain) {
+-				r = -ENOMEM;
+-				goto error_validate;
+-			}
 -		}
--	}
--	return 0;
-+	return amdgpu_bo_pin(bo, AMDGPU_GEM_DOMAIN_GTT);
- }
+ 	}
  
- /**
-diff --git a/drivers/gpu/drm/nouveau/nouveau_prime.c b/drivers/gpu/drm/nouveau/nouveau_prime.c
-index 60019d0532fc..347488685f74 100644
---- a/drivers/gpu/drm/nouveau/nouveau_prime.c
-+++ b/drivers/gpu/drm/nouveau/nouveau_prime.c
-@@ -93,22 +93,7 @@ int nouveau_gem_prime_pin(struct drm_gem_object *obj)
- 	if (ret)
- 		return -EINVAL;
+ 	amdgpu_cs_get_threshold_for_moves(p->adev, &p->bytes_moved_threshold,
+@@ -634,13 +626,8 @@ static int amdgpu_cs_parser_bos(struct amdgpu_cs_parser *p,
+ 	}
  
--	ret = ttm_bo_reserve(&nvbo->bo, false, false, NULL);
--	if (ret)
--		goto error;
--
--	if (nvbo->bo.moving)
--		ret = dma_fence_wait(nvbo->bo.moving, true);
--
--	ttm_bo_unreserve(&nvbo->bo);
--	if (ret)
--		goto error;
--
--	return ret;
--
--error:
--	nouveau_bo_unpin(nvbo);
--	return ret;
-+	return 0;
- }
- 
- void nouveau_gem_prime_unpin(struct drm_gem_object *obj)
-diff --git a/drivers/gpu/drm/radeon/radeon_prime.c b/drivers/gpu/drm/radeon/radeon_prime.c
-index 4a90807351e7..42a87948e28c 100644
---- a/drivers/gpu/drm/radeon/radeon_prime.c
-+++ b/drivers/gpu/drm/radeon/radeon_prime.c
-@@ -77,19 +77,9 @@ int radeon_gem_prime_pin(struct drm_gem_object *obj)
- 
- 	/* pin buffer into GTT */
- 	ret = radeon_bo_pin(bo, RADEON_GEM_DOMAIN_GTT, NULL);
--	if (unlikely(ret))
--		goto error;
--
--	if (bo->tbo.moving) {
--		ret = dma_fence_wait(bo->tbo.moving, false);
--		if (unlikely(ret)) {
--			radeon_bo_unpin(bo);
--			goto error;
+ error_validate:
+-	if (r) {
+-		amdgpu_bo_list_for_each_entry(e, p->bo_list) {
+-			dma_fence_chain_free(e->chain);
+-			e->chain = NULL;
 -		}
++	if (r)
+ 		ttm_eu_backoff_reservation(&p->ticket, &p->validated);
 -	}
--
--	bo->prime_shared_count++;
--error:
-+	if (likely(ret == 0))
-+		bo->prime_shared_count++;
-+
- 	radeon_bo_unreserve(bo);
- 	return ret;
+ out:
+ 	return r;
  }
+@@ -680,17 +667,9 @@ static void amdgpu_cs_parser_fini(struct amdgpu_cs_parser *parser, int error,
+ {
+ 	unsigned i;
+ 
+-	if (error && backoff) {
+-		struct amdgpu_bo_list_entry *e;
+-
+-		amdgpu_bo_list_for_each_entry(e, parser->bo_list) {
+-			dma_fence_chain_free(e->chain);
+-			e->chain = NULL;
+-		}
+-
++	if (error && backoff)
+ 		ttm_eu_backoff_reservation(&parser->ticket,
+ 					   &parser->validated);
+-	}
+ 
+ 	for (i = 0; i < parser->num_post_deps; i++) {
+ 		drm_syncobj_put(parser->post_deps[i].syncobj);
+@@ -1265,29 +1244,10 @@ static int amdgpu_cs_submit(struct amdgpu_cs_parser *p,
+ 
+ 	amdgpu_vm_move_to_lru_tail(p->adev, &fpriv->vm);
+ 
+-	amdgpu_bo_list_for_each_entry(e, p->bo_list) {
+-		struct dma_resv *resv = e->tv.bo->base.resv;
+-		struct dma_fence_chain *chain = e->chain;
+-		struct dma_resv_iter cursor;
+-		struct dma_fence *fence;
+-
+-		if (!chain)
+-			continue;
+-
+-		/*
+-		 * Work around dma_resv shortcommings by wrapping up the
+-		 * submission in a dma_fence_chain and add it as exclusive
+-		 * fence.
+-		 */
+-		dma_resv_for_each_fence(&cursor, resv,
+-					DMA_RESV_USAGE_WRITE,
+-					fence) {
+-			break;
+-		}
+-		dma_fence_chain_init(chain, fence, dma_fence_get(p->fence), 1);
+-		dma_resv_add_fence(resv, &chain->base, DMA_RESV_USAGE_WRITE);
+-		e->chain = NULL;
+-	}
++	/* For now manually add the resulting fence as writer as well */
++	amdgpu_bo_list_for_each_entry(e, p->bo_list)
++		dma_resv_add_fence(e->tv.bo->base.resv, p->fence,
++				   DMA_RESV_USAGE_WRITE);
+ 
+ 	ttm_eu_fence_buffer_objects(&p->ticket, &p->validated, p->fence);
+ 	mutex_unlock(&p->adev->notifier_lock);
 -- 
 2.25.1
 
