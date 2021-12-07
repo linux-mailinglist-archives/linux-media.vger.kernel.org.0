@@ -2,125 +2,58 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3829B46AFC0
-	for <lists+linux-media@lfdr.de>; Tue,  7 Dec 2021 02:24:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B92F646AFF4
+	for <lists+linux-media@lfdr.de>; Tue,  7 Dec 2021 02:42:42 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1354982AbhLGB1o (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 6 Dec 2021 20:27:44 -0500
-Received: from relmlor2.renesas.com ([210.160.252.172]:52147 "EHLO
-        relmlie6.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1355012AbhLGB1n (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Mon, 6 Dec 2021 20:27:43 -0500
-X-IronPort-AV: E=Sophos;i="5.87,293,1631545200"; 
-   d="scan'208";a="103026631"
-Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie6.idc.renesas.com with ESMTP; 07 Dec 2021 10:24:12 +0900
-Received: from localhost.localdomain (unknown [10.226.36.204])
-        by relmlir6.idc.renesas.com (Postfix) with ESMTP id E4E084172F32;
-        Tue,  7 Dec 2021 10:24:09 +0900 (JST)
-From:   Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>
-Cc:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        Prabhakar <prabhakar.csengg@gmail.com>,
-        Biju Das <biju.das.jz@bp.renesas.com>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [RFC PATCH 3/3] arm64: dts: renesas: r9a07g044: Add CRU node
-Date:   Tue,  7 Dec 2021 01:23:51 +0000
-Message-Id: <20211207012351.15754-4-prabhakar.mahadev-lad.rj@bp.renesas.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20211207012351.15754-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-References: <20211207012351.15754-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+        id S234145AbhLGBqL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 6 Dec 2021 20:46:11 -0500
+Received: from twspam01.aspeedtech.com ([211.20.114.71]:38988 "EHLO
+        twspam01.aspeedtech.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229643AbhLGBqK (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 6 Dec 2021 20:46:10 -0500
+Received: from mail.aspeedtech.com ([192.168.0.24])
+        by twspam01.aspeedtech.com with ESMTP id 1B71GubU058439;
+        Tue, 7 Dec 2021 09:16:56 +0800 (GMT-8)
+        (envelope-from jammy_huang@aspeedtech.com)
+Received: from JammyHuang-PC.aspeed.com (192.168.2.115) by TWMBX02.aspeed.com
+ (192.168.0.24) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Tue, 7 Dec
+ 2021 09:41:50 +0800
+From:   Jammy Huang <jammy_huang@aspeedtech.com>
+To:     <eajames@linux.ibm.com>, <mchehab@kernel.org>, <joel@jms.id.au>,
+        <andrew@aj.id.au>, <linux-media@vger.kernel.org>,
+        <openbmc@lists.ozlabs.org>, <linux-arm-kernel@lists.infradead.org>,
+        <linux-aspeed@lists.ozlabs.org>, <linux-kernel@vger.kernel.org>
+Subject: [PATCH 0/2] Use v4l2_info/v4l2_warn/v4l2_dbg for log
+Date:   Tue, 7 Dec 2021 09:41:45 +0800
+Message-ID: <20211207014147.226-1-jammy_huang@aspeedtech.com>
+X-Mailer: git-send-email 2.25.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7BIT
+Content-Type:   text/plain; charset=US-ASCII
+X-Originating-IP: [192.168.2.115]
+X-ClientProxiedBy: TWMBX02.aspeed.com (192.168.0.24) To TWMBX02.aspeed.com
+ (192.168.0.24)
+X-DNSRBL: 
+X-MAIL: twspam01.aspeedtech.com 1B71GubU058439
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Add CRU node r9a07g044 (RZ/G2L) SoC DTSI.
+In this seris, v4l2_xxx log macro will be adapted.
+With v4l2_dbg, the debug level can be set with the module parameter
+called debug. In this way, we won't have to see all debug logs together.
+To many log could have bad influence on the rate to reproduce some
+issues as well.
 
-Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
----
- arch/arm64/boot/dts/renesas/r9a07g044.dtsi | 59 ++++++++++++++++++++++
- 1 file changed, 59 insertions(+)
+Some logs are added, and more is coming for aspeed-format.
 
-diff --git a/arch/arm64/boot/dts/renesas/r9a07g044.dtsi b/arch/arm64/boot/dts/renesas/r9a07g044.dtsi
-index 3f231968a762..dd459cf869ec 100644
---- a/arch/arm64/boot/dts/renesas/r9a07g044.dtsi
-+++ b/arch/arm64/boot/dts/renesas/r9a07g044.dtsi
-@@ -556,6 +556,65 @@
- 			status = "disabled";
- 		};
- 
-+		cru: video@10830000 {
-+			compatible = "renesas,r9a07g044-cru", "renesas,rzg2l-cru";
-+			reg = <0 0x10830000 0 0x10000>;
-+			clocks = <&cpg CPG_MOD R9A07G044_CRU_SYSCLK>,
-+				 <&cpg CPG_MOD R9A07G044_CRU_VCLK>,
-+				 <&cpg CPG_MOD R9A07G044_CRU_PCLK>,
-+				 <&cpg CPG_MOD R9A07G044_CRU_ACLK>;
-+			clock-names = "sysclk", "vclk", "pclk", "aclk";
-+			interrupts = <GIC_SPI 166 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 167 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 168 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 169 IRQ_TYPE_LEVEL_HIGH>;
-+			interrupt-names = "csi2_link_int", "image_conv_int",
-+					  "image_conv_err_int", "axi_mst_err_int";
-+			resets = <&cpg R9A07G044_CRU_CMN_RSTB>,
-+				 <&cpg R9A07G044_CRU_PRESETN>,
-+				 <&cpg R9A07G044_CRU_ARESETN>;
-+			reset-names = "cmn-rstb", "presetn", "aresetn";
-+			power-domains = <&cpg>;
-+			status = "disabled";
-+
-+			ports {
-+				#address-cells = <1>;
-+				#size-cells = <0>;
-+
-+				port@0 {
-+					/* parallel input */
-+					reg = <0>;
-+				};
-+
-+				port@1 {
-+					/* input to CSI port */
-+					reg = <1>;
-+				};
-+
-+				port@2 {
-+					#address-cells = <1>;
-+					#size-cells = <0>;
-+					reg = <2>;
-+
-+					csi2cru: endpoint@0 {
-+						reg = <0>;
-+						remote-endpoint = <&crucsi2>;
-+					};
-+				};
-+
-+				port@3 {
-+					#address-cells = <1>;
-+					#size-cells = <0>;
-+
-+					reg = <3>;
-+					crucsi2: endpoint@0 {
-+						reg = <0>;
-+						remote-endpoint = <&csi2cru>;
-+					};
-+				};
-+			};
-+		};
-+
- 		cpg: clock-controller@11010000 {
- 			compatible = "renesas,r9a07g044-cpg";
- 			reg = <0 0x11010000 0 0x10000>;
+Jammy Huang (2):
+  media: aspeed: use v4l2_info/v4l2_warn/v4l2_dbg for log
+  media: aspeed: add more debug log messages
+
+ drivers/media/platform/aspeed-video.c | 64 ++++++++++++++++++++-------
+ 1 file changed, 47 insertions(+), 17 deletions(-)
+
 -- 
-2.17.1
+2.25.1
 
