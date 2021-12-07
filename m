@@ -2,38 +2,38 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B38AB46B813
-	for <lists+linux-media@lfdr.de>; Tue,  7 Dec 2021 10:52:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 701B546B817
+	for <lists+linux-media@lfdr.de>; Tue,  7 Dec 2021 10:53:08 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232710AbhLGJ4S (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 7 Dec 2021 04:56:18 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36092 "EHLO
+        id S234538AbhLGJ4g (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 7 Dec 2021 04:56:36 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36180 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230351AbhLGJ4S (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 7 Dec 2021 04:56:18 -0500
+        with ESMTP id S230351AbhLGJ4f (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 7 Dec 2021 04:56:35 -0500
 Received: from lb2-smtp-cloud8.xs4all.net (lb2-smtp-cloud8.xs4all.net [IPv6:2001:888:0:108::2b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CD2FEC061574;
-        Tue,  7 Dec 2021 01:52:47 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2BE43C061574;
+        Tue,  7 Dec 2021 01:53:04 -0800 (PST)
 Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
         by smtp-cloud8.xs4all.net with ESMTPA
-        id uX9QmxupeQyExuX9Tm6Meb; Tue, 07 Dec 2021 10:52:47 +0100
+        id uX9hmxuz0QyExuX9km6Mi2; Tue, 07 Dec 2021 10:53:04 +0100
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1638870767; bh=xcBSzC84ENHyCJggetySzc9vha9XBNexfRqRB15Gr0I=;
+        t=1638870784; bh=EstFIXaPiRyN3kx9hm1aQnJe5UL/aOez14bDvEP3YPk=;
         h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type:From:
          Subject;
-        b=fYXdARPWvbWyUoa+WHSTDA+oaH/drdJkCy5PSdAQ4B5s7nQkqv4t+GCV2aP69/JV7
-         W/B95/8Sxtn6Z2wltk04bZBLYmCyFIuB6YNHI6BFtlT53SnBYJMvClEdCHoYOBKoVl
-         7acl3PBotq7iZudfqgxxDBJzVSqMBY82kn4FmmhTvlhpTDfYKaq15aXSmYV3MPzWsd
-         i07VQSXNWyp7SW/U/B+x9Vkx/qjP2JO7G0wcNDuPZOu8OFyFlz9HxwSmoSm8dt3S+l
-         s8i0wfMJnV3XimrQJos0MnhViDKp0QXpXIsHLmmIAowmpKk47G7uhWQR5RYk9P8ud2
-         tdevhXN7TIUgg==
-Message-ID: <0d80df0a-0d20-5048-1e6d-ad913dc986c7@xs4all.nl>
-Date:   Tue, 7 Dec 2021 10:52:44 +0100
+        b=ZYrzLQzZGFbNfLf4+4KFVI/PfKHp8ETnyrMW8tI8D8yekKsoAtAPYSPs6TQLM38re
+         AsGjnrm7nFzwcJL0QT/yD3OIa0KwN8CE30GoTfFX+BQLPOZAep9z77gib1YadrrIng
+         xtvazhczzR1dnLTOYYIC5aNTOCJ4s83opwrVmeg39lkT5EDUVQTMj6sMP7bOHC+We6
+         pDFHEioxlrA08IWmwFsJ6++fKTV9DVhxlG88aeNNy51UOiKlQLU6dbD9wtURpm3IJk
+         wP0H9inwBSts9sEZujv/Ob6l5JRLCnEXdw7Du8F5Y6YNdz+0T7v2fl52IeoImNnFSq
+         Wi+TM6cYZUgLw==
+Message-ID: <8942f489-6d02-8a3c-9c8d-1a4ef15e90fa@xs4all.nl>
+Date:   Tue, 7 Dec 2021 10:53:01 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Firefox/91.0 Thunderbird/91.3.2
-Subject: Re: [PATCH v2 2/4] media: v4l2-dev.c: Allow driver-defined entity
- names
+Subject: Re: [PATCH v2 3/4] media: Documentation/driver-api: Document entity
+ name
 Content-Language: en-US
 To:     Ricardo Ribalda <ribalda@chromium.org>,
         Nicolas Dufresne <nicolas@ndufresne.ca>,
@@ -43,25 +43,23 @@ To:     Ricardo Ribalda <ribalda@chromium.org>,
         linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
         tfiga@chromium.org
 References: <20211207003840.1212374-1-ribalda@chromium.org>
- <20211207003840.1212374-3-ribalda@chromium.org>
+ <20211207003840.1212374-4-ribalda@chromium.org>
 From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-In-Reply-To: <20211207003840.1212374-3-ribalda@chromium.org>
+In-Reply-To: <20211207003840.1212374-4-ribalda@chromium.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4xfN0iEp9/KQRCtLK0nAhbuSENAmF4dmRxs9kDaBs7lL1M8xywzvJSdFObfvYFkXtn2YmIorpJy1V4jfC3xEdo6ZkoeulI2cElfC3HwlkI+9mCwr9SOe/1
- ubEM+17FmN4PxFvoECW5okgkdaYZ9uOovhtKMiuzeLAl23lWZsB4GUlraepRBue8gPR0CwdwvvIJllQK99gLbwcKrDdwrbUfOF7vUBwBywbNO0ocorNUhOGH
- 0XzSWAsfdyNDXBlUM86M7UlmNdub5FVZeLf4wJvrNDdAzKDuXKRygnJqfajpgr2wp9rZLZCRIwX0ZEGj0J7pGXV9tyg5Cyl4zHVtevbqfzFZVJXonzPnnSH2
- cScZsd70fPWtui9o2QxNYmkNWfsPl1Uj0+Zjkk61iktRRyH9iazGHb/ByfL+deojmm8hlXLsPjBDCYMlHOx8Kzg6Cz9bN8tf/Poo70qHsBY8WyAG9IQ=
+X-CMAE-Envelope: MS4xfBu7utwmC6EGa7HKe7ke3QdQtZmAME2hu+u75WwHvFpHFKhXwD4fYqqRMfGrWBiurvSAMVKvrCl3QWAEH8yp3ZIfZQQFecMjiMM9UTuJ3oIzo+uWQbIN
+ vFyl/B3jbB7AA/xTTm4FPY6wBuQdP1amK9hMShz1OSRjtcmJH4TzbcoZqM2NCSLa8LR4o4GatV/okVPS6r+yimUePr8pwX868YWDawKddfAgIBjRrMEytFjf
+ s6eMEIcwfD/zeD33G9X5sRcLT5imNtl7O7xbS+LsW/14LqghRP0UAIlamobgwW4H4KGWPpKuZcgMHC/CAgBzPy3VPI+ZdsQRMz123wg5rav+Y3papHH9nDWz
+ nLvUk8nFGPOKY1YRKFvvLtI5p8MKDDDn5xRM3Tpnyj8pzoDRUtitDdJwICvOTNw4xjQXL6P1Bd/z5VQLElBy81yFXs4saU/T1bsjLoqhrDOK3vyetgI=
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
 On 07/12/2021 01:38, Ricardo Ribalda wrote:
-> If the driver provides an name for an entity, use it.
-> This is particularly useful for drivers that export multiple video
-> devices for the same hardware (i.e. metadata and data).
+> Now the entity name can be configured by the driver to a value different
+> than vdev->name. Document it accordingly.
 > 
-> Suggested-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 > Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
 
 Reviewed-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
@@ -71,23 +69,23 @@ Thanks!
 	Hans
 
 > ---
->  drivers/media/v4l2-core/v4l2-dev.c | 4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
+>  Documentation/driver-api/media/v4l2-dev.rst | 4 ++++
+>  1 file changed, 4 insertions(+)
 > 
-> diff --git a/drivers/media/v4l2-core/v4l2-dev.c b/drivers/media/v4l2-core/v4l2-dev.c
-> index d03ace324db0..4c00503b9349 100644
-> --- a/drivers/media/v4l2-core/v4l2-dev.c
-> +++ b/drivers/media/v4l2-core/v4l2-dev.c
-> @@ -832,7 +832,9 @@ static int video_register_media_controller(struct video_device *vdev)
->  	}
+> diff --git a/Documentation/driver-api/media/v4l2-dev.rst b/Documentation/driver-api/media/v4l2-dev.rst
+> index 99e3b5fa7444..22120b60b0a9 100644
+> --- a/Documentation/driver-api/media/v4l2-dev.rst
+> +++ b/Documentation/driver-api/media/v4l2-dev.rst
+> @@ -134,6 +134,10 @@ manually set the struct media_entity type and name fields.
+>  A reference to the entity will be automatically acquired/released when the
+>  video device is opened/closed.
 >  
->  	if (vdev->entity.function != MEDIA_ENT_F_UNKNOWN) {
-> -		vdev->entity.name = vdev->name;
-> +		/* Use entity names provided by the driver, if available. */
-> +		if (!vdev->entity.name)
-> +			vdev->entity.name = vdev->name;
+> +The entity name can be configured by setting the `vdev->entity.name` pointer
+> +to the desired value. If it is set to NULL, the entity will be named as the
+> +video device.
+> +
+>  ioctls and locking
+>  ------------------
 >  
->  		/* Needed just for backward compatibility with legacy MC API */
->  		vdev->entity.info.dev.major = VIDEO_MAJOR;
 > 
 
