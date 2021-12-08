@@ -2,96 +2,101 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 57DED46D302
-	for <lists+linux-media@lfdr.de>; Wed,  8 Dec 2021 13:08:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9A2CB46D322
+	for <lists+linux-media@lfdr.de>; Wed,  8 Dec 2021 13:18:32 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233093AbhLHMLu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 8 Dec 2021 07:11:50 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36324 "EHLO
+        id S233216AbhLHMWC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 8 Dec 2021 07:22:02 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38676 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233064AbhLHMLr (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 8 Dec 2021 07:11:47 -0500
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5B428C0617A2;
-        Wed,  8 Dec 2021 04:08:15 -0800 (PST)
-Received: from localhost.localdomain (unknown [IPv6:2a00:c281:1230:3700:51d0:7039:5913:64d3])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        (Authenticated sender: dafna)
-        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 32EAE1F45CD8;
-        Wed,  8 Dec 2021 12:08:13 +0000 (GMT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=collabora.com; s=mail;
-        t=1638965294; bh=G9wyjm+JcpBuGTU5PaSnqlWsQq2znoMjrDZdkywQlnY=;
-        h=From:To:Subject:Date:In-Reply-To:References:From;
-        b=kb9C2fVQI5+8rtQymm3l8HLiyN1QCH1KfHOfc2PhFGn8d4y6GjxkbBlNqwN+BWm8r
-         tch0oDrm0FD0HQdryvlsVIfJJ0dusjcsu2ADofkLLCSrNiFxzl5Ay5tGUcX/vRNjtu
-         XG9fcXd7SfGgSRwLqI5j9+emeLaPrb5hXG4cR/ltLxktw69haPyl5fE2wG9ubSqsZS
-         /utSX3pQofgpXnRw3rJz+I1lKY5tZXhenJxqYb+3VgBZMuCiiphKm9mU2BXHI6f4dO
-         JvyNF2dk2EPtspUhBswvj2ItrSCam2agdjtme10+dlxlepmxpFM6GtmItR2U+vr7Nt
-         LeT/rOo5k21/w==
-From:   Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
-To:     iommu@lists.linux-foundation.org, Yong Wu <yong.wu@mediatek.com>,
-        Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        linux-mediatek@lists.infradead.org (moderated list:MEDIATEK IOMMU
-        DRIVER),
-        linux-arm-kernel@lists.infradead.org (moderated list:ARM/Mediatek SoC
-        support), linux-kernel@vger.kernel.org (open list),
-        dafna.hirschfeld@collabora.com, kernel@collabora.com,
-        linux-media@vger.kernel.org, sebastian.reichel@collabora.com
-Subject: [PATCH v2 5/5] iommu/mediatek: Always tlb_flush_all when each PM resume
-Date:   Wed,  8 Dec 2021 14:07:44 +0200
-Message-Id: <20211208120744.2415-6-dafna.hirschfeld@collabora.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20211208120744.2415-1-dafna.hirschfeld@collabora.com>
-References: <20211208120744.2415-1-dafna.hirschfeld@collabora.com>
+        with ESMTP id S229767AbhLHMWB (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 8 Dec 2021 07:22:01 -0500
+Received: from mail-wr1-x42e.google.com (mail-wr1-x42e.google.com [IPv6:2a00:1450:4864:20::42e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 19062C0617A1
+        for <linux-media@vger.kernel.org>; Wed,  8 Dec 2021 04:18:30 -0800 (PST)
+Received: by mail-wr1-x42e.google.com with SMTP id c4so3726561wrd.9
+        for <linux-media@vger.kernel.org>; Wed, 08 Dec 2021 04:18:30 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ragnatech-se.20210112.gappssmtp.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=JBz1CYJlqFlyc33DhEvmNhqSn4/EdXinmBtKY4GLl0c=;
+        b=K/9zl4kN4iO5SvLBsTYiUtmuTeBVvsU+lYY8PYbT80X7Gt4qpDl8qQG3J3l7ISdTQR
+         wmVn7j1KHm39akckfD+FhD3jmzybF6T5T9lfCo2yeKD9DuXMehTLm509OAUxTNhelT/k
+         GQR1YdtYe4OGO11FN9fuZB1DdErXVa0poEoaZRfgOLPSwVjJ45myr+p5hroCt1pLfyZn
+         A1wrKDVfoaM2joslX0K3IxTJd+m9jHvkMxHCBBYYiKJwTJtohumlZh5XdBL7vfRPIcmU
+         o//idQ8x1ry9lFA0RFVVY8z8/6gp3shbhrpWJVbOgfBgYUicuZ/v/gt1ma5GJ5ctcZ0c
+         /Mtg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=JBz1CYJlqFlyc33DhEvmNhqSn4/EdXinmBtKY4GLl0c=;
+        b=J+szXHjn8CmKKWYmV9HnWZsZaMMnRXiyLimNZVw5+GhjYot/A33271Gl9llG2KKTez
+         QLsOTbe1Wjzr1PfRYRk7Qa1AOu3dr8pc7xy5+NIstBCIZyTLBOfKu6MMaRGscJ+aBfJ7
+         2oLGXNRaulHU4kyG/ioGBAIetpfMonWT5EU7KZLNVBvhzGPE7FQVt4FWXbp7ZHblu5nh
+         ng+d2AS4zMrEev8xC2ailJLyJPPyzYuaZHO1vWsJ0M9lr9WZLXlzEJmX+cVxv6+UjTx4
+         eAJXu8CEy5H3lPLXYhyiaBzZsy7TfcN+rtdfCE0g1/BvLPQQmk7jddSqNWExZcCwa5+8
+         yy/A==
+X-Gm-Message-State: AOAM533nORm3RNcmB4kDGtW0EJKP2YRAFp0szJhwyjB24xQDYw9aQVRK
+        Mv56Mu6gwvfpotnXTlxBEPdmeQ==
+X-Google-Smtp-Source: ABdhPJwfdPYN0qlT+8NZ6nK0vQTyEXNlds6dLsTrDo9vH6Lsp/8b+QMqAL8SfZMXZnhqPpaQH0q+0Q==
+X-Received: by 2002:adf:e8d1:: with SMTP id k17mr57226421wrn.465.1638965908707;
+        Wed, 08 Dec 2021 04:18:28 -0800 (PST)
+Received: from bismarck.berto.se (p54ac5892.dip0.t-ipconnect.de. [84.172.88.146])
+        by smtp.googlemail.com with ESMTPSA id l11sm2532997wrp.61.2021.12.08.04.18.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 08 Dec 2021 04:18:28 -0800 (PST)
+From:   =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>
+To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+        linux-media@vger.kernel.org
+Cc:     linux-renesas-soc@vger.kernel.org,
+        =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [PATCH] media: i2c: max9286: Use dev_err_probe() helper
+Date:   Wed,  8 Dec 2021 13:17:56 +0100
+Message-Id: <20211208121756.3051565-1-niklas.soderlund+renesas@ragnatech.se>
+X-Mailer: git-send-email 2.34.1
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Yong Wu <yong.wu@mediatek.com>
+Use the dev_err_probe() helper, instead of open-coding the same
+operation. While at it retrieve the error once and use it from
+'ret' instead of retrieving it twice.
 
-Prepare for 2 HWs that sharing pgtable in different power-domains.
-
-When there are 2 M4U HWs, it may has problem in the flush_range in which
-we get the pm_status via the m4u dev, BUT that function don't reflect the
-real power-domain status of the HW since there may be other HW also use
-that power-domain.
-
-DAM allocation is often done while the allocating device is runtime
-suspended. In such a case the iommu will also be suspended and partial
-flushing of the tlb will not be executed.
-Therefore, we add a tlb_flush_all in the pm_runtime_resume to make
-sure the tlb is always clean.
-
-In other case, the iommu's power should be active via device
-link with smi.
-
-Signed-off-by: Yong Wu <yong.wu@mediatek.com>
-[move the call to mtk_iommu_tlb_flush_all to the bottom of resume cb, improve doc/log]
-Signed-off-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+Suggested-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
 ---
- drivers/iommu/mtk_iommu.c | 7 +++++++
- 1 file changed, 7 insertions(+)
+ drivers/media/i2c/max9286.c | 6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/iommu/mtk_iommu.c b/drivers/iommu/mtk_iommu.c
-index 195a411e3087..4799cd06511b 100644
---- a/drivers/iommu/mtk_iommu.c
-+++ b/drivers/iommu/mtk_iommu.c
-@@ -997,6 +997,13 @@ static int __maybe_unused mtk_iommu_runtime_resume(struct device *dev)
- 	writel_relaxed(reg->ivrp_paddr, base + REG_MMU_IVRP_PADDR);
- 	writel_relaxed(reg->vld_pa_rng, base + REG_MMU_VLD_PA_RNG);
- 	writel(m4u_dom->cfg.arm_v7s_cfg.ttbr & MMU_PT_ADDR_MASK, base + REG_MMU_PT_BASE_ADDR);
-+
-+	/*
-+	 * Users may allocate dma buffer before they call pm_runtime_get,
-+	 * in which case it will lack the necessary tlb flush.
-+	 * Thus, make sure to update the tlb after each PM resume.
-+	 */
-+	mtk_iommu_tlb_flush_all(data);
- 	return 0;
- }
+diff --git a/drivers/media/i2c/max9286.c b/drivers/media/i2c/max9286.c
+index 7c663fd587bbeefa..16aa7e5b0e81c210 100644
+--- a/drivers/media/i2c/max9286.c
++++ b/drivers/media/i2c/max9286.c
+@@ -1295,11 +1295,9 @@ static int max9286_probe(struct i2c_client *client)
+ 
+ 	priv->regulator = devm_regulator_get(&client->dev, "poc");
+ 	if (IS_ERR(priv->regulator)) {
+-		if (PTR_ERR(priv->regulator) != -EPROBE_DEFER)
+-			dev_err(&client->dev,
+-				"Unable to get PoC regulator (%ld)\n",
+-				PTR_ERR(priv->regulator));
+ 		ret = PTR_ERR(priv->regulator);
++		dev_err_probe(&client->dev, ret,
++			      "Unable to get PoC regulator\n");
+ 		goto err_powerdown;
+ 	}
  
 -- 
-2.17.1
+2.34.1
 
