@@ -2,89 +2,143 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 03A1446D013
-	for <lists+linux-media@lfdr.de>; Wed,  8 Dec 2021 10:28:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6F84146D025
+	for <lists+linux-media@lfdr.de>; Wed,  8 Dec 2021 10:33:02 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230071AbhLHJbc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 8 Dec 2021 04:31:32 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55596 "EHLO
+        id S229703AbhLHJgc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 8 Dec 2021 04:36:32 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56708 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229481AbhLHJbc (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 8 Dec 2021 04:31:32 -0500
-Received: from lb2-smtp-cloud7.xs4all.net (lb2-smtp-cloud7.xs4all.net [IPv6:2001:888:0:108::2a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 895FDC061746
-        for <linux-media@vger.kernel.org>; Wed,  8 Dec 2021 01:28:00 -0800 (PST)
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud7.xs4all.net with ESMTPA
-        id utExmfMqmgFRtutF0mL1wt; Wed, 08 Dec 2021 10:27:59 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1638955679; bh=e1Ahxpf21OtARi7R0FZtxGAi7oWn5OaJOh/8h0Z9c6s=;
-        h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type:From:
-         Subject;
-        b=OZtQ794rQF8dxSuOTelg4Y9H16zph+3Nk7GZ/65KqJTzuZE8VEpiXzlZMtzxCgOya
-         obJ4GEEC1cgdr4ook4gCX4eBaEn47xOmTeOU78STIEa5dn75qcVf+w0u8w5Mgs10cs
-         h6WjUe0XZweG7xioe8tyGkz4HPev5qtVKZggDX02Q28uX7P9o036Dcy5G7J58xfDgh
-         FYblvX5HyrlWtVolcz0A+xP9OX0Z6PSdCEvXUTVtfdeXnd293V78e1ElAJOHwL3Q0s
-         qvEID84AntF/FGt6X/UDuVvPkCF28HcIIIvyAKXBsq0xiTWv7KfFo9esc7SQ4mbsBh
-         D4WCHp5L2biGA==
-Message-ID: <fe41d021-09cb-63ad-9e0e-d1457ce0aa49@xs4all.nl>
-Date:   Wed, 8 Dec 2021 10:27:55 +0100
+        with ESMTP id S229449AbhLHJgc (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 8 Dec 2021 04:36:32 -0500
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 74184C0617A1;
+        Wed,  8 Dec 2021 01:33:00 -0800 (PST)
+Received: from [IPv6:2a01:e0a:120:3210:9928:73b0:79a4:e623] (unknown [IPv6:2a01:e0a:120:3210:9928:73b0:79a4:e623])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        (Authenticated sender: benjamin.gaignard)
+        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 39CCF1F45A1D;
+        Wed,  8 Dec 2021 09:32:58 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=collabora.com; s=mail;
+        t=1638955978; bh=qdoGNUS0B38g/vQl8OYWvSbXd37jJA7vB7+2VrQDEBo=;
+        h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
+        b=nJ8VNPLOSjOYZBedj0grLrp18tc5OnjuKMsPV07CFaOr4tQuywGpklRmMhlMXjMJe
+         kpthjLYUO6CMUJGV5jxCi1qX9YhRPVDNIs2zAL0QmV2eh8j7imKbYNpQFLRSFa1VuS
+         G+8lxXDTfyUi1KlHQh9LQkMCg1DlXLkZP/ngthXFt2cC6QStIBGAIEBrSEm6J4zIL0
+         EXorkYrmiitvE9lQLwyTxnHXSMk2PrUsdEimtUT46tb0ualBFzLQmGcYCz5GGO5tBL
+         t1wIc1nA2WdnH1QCeaaXG/9IyrMeIaXf5B4KzrRehwz20bE4HRzXh3dRZ7cLvCin3Y
+         /+txpI5hwgjvQ==
+Subject: Re: [RFC V2 0/6] media: Hantro: Split iMX8MQ VPU into G1 and G2 with
+ blk-ctrl support
+To:     Adam Ford <aford173@gmail.com>, linux-media@vger.kernel.org
+Cc:     cphealy@gmail.com, hverkuil@xs4all.nl,
+        Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Lucas Stach <l.stach@pengutronix.de>,
+        linux-rockchip@lists.infradead.org, devicetree@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        linux-staging@lists.linux.dev
+References: <20211207015446.1250854-1-aford173@gmail.com>
+From:   Benjamin Gaignard <benjamin.gaignard@collabora.com>
+Message-ID: <f85da774-ccb3-85de-edd6-5333ed8d0503@collabora.com>
+Date:   Wed, 8 Dec 2021 10:32:55 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Firefox/91.0 Thunderbird/91.3.2
-Subject: Re: Kernel oops bisected to media: videobuf2: move cache_hints
- handling to allocators
+In-Reply-To: <20211207015446.1250854-1-aford173@gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
 Content-Language: en-US
-To:     Daniel Scally <djrscally@gmail.com>
-Cc:     mchehab+huawei@kernel.org,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Sergey Senozhatsky <senozhatsky@chromium.org>
-References: <d0dcd227-0753-5e9d-f757-4819cc271d4f@gmail.com>
- <YZhq0o7p0dVWeueC@google.com>
- <d4be3ea9-5d41-0a19-c03c-4037d01d1b6a@xs4all.nl>
- <17f34600-2717-d125-62ba-fd933b3b59f1@gmail.com>
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-In-Reply-To: <17f34600-2717-d125-62ba-fd933b3b59f1@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4xfDejKI1ZYwa+69Ok33aAOFIkB8TW2D6i8qdISNh6fQgxhrOfLqVM2AluyI9tbVt+iN5ruICX78csgpEHu7SbUL+YywluqVk2/RKnP7Qndr/v13UpPgti
- pWMlxHlG8bgyC7LRT5FgKy/2HF8+IjC6YFL6fVkBZKkdvjQCCUPx0Mzhm/XNEGazA9aE5vBz3oXxIMkazlLqm+OOxFIld/Wm33gAq0byZUJwEj79guCRn+ym
- +ayZ90WlN8OO6xh/ZF0+2ZGDif7PdLPxAGr7si+GUTEfMIcWyeqoFtPKB14JNsgN7ql4fVaFKxfER2kahgNlLQ==
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 07/12/2021 22:41, Daniel Scally wrote:
-> Hi Hans
-> 
-> On 02/12/2021 11:15, Hans Verkuil wrote:
->> Daniel: ping!
->>
->> On 20/11/2021 04:26, Sergey Senozhatsky wrote:
->>> Hello,
->>>
->>> On (21/11/19 22:41), Daniel Scally wrote:
->>>> Hi all
->>>>
->>>> I've been experiencing an oops trying to run libcamera's qcam util
->>>> (which starts streaming on a camera sensor - the ov8865), which I
->>>> bisected down to the patch cde513fd9b35: "media: videobuf2: move
->>>> cache_hints handling to allocators"
->>> Can you please check if you have these two patches in your tree:
->>>
->>> https://lore.kernel.org/lkml/20210928034634.333785-1-senozhatsky@chromium.org/raw
->>> https://lore.kernel.org/all/20211101145355.533704-1-hdegoede@redhat.com/raw
->>>
->>> If not then please apply, this should fix the problems you're seeing.
->>>
->> I really like to know if the cause is indeed that you are missing two patches.
-> 
-> 
-> Apologies for the delayed response - I was indeed missing those patches
-> and, having added them, everything's working fine.
 
-Great! Thank you for taking the time to confirm this.
+Le 07/12/2021 à 02:54, Adam Ford a écrit :
+
+> Currently, the VPU in the i.MQ8MQ is appearing as one codec, but in
+> reality, it's two IP blocks called G1 and G2.  There is initialization
+> code in VPU code to pull some clocks, resets and other features which
+> has been integrated into the vpu-blk-ctrl for the i.MX8M Mini and a
+> similar method can be used to make the VPU codec's operate as
+> stand-alone cores without having to know the details of each other
+> or the quirks unique to the i.MX8MQ, so the remaining code can be
+> left more generic.
+>
+> This series was started by Lucas Stach with one by Benjamin Gaignard.
+> Most patches have been modified slightly by me.  It's in an RFC state
+> because I wasn't sure how to best handle the signatures and wasn't sure
+> if I could base it off the branch I did.
+>
+> Since the g-streamer and media trees are in a constant state of
+> change, this series is based on
+>
+> git://linuxtv.org/hverkuil/media_tree.git for-v5.17e
+>
+> The downstream code from NXP shows the G1 and G2 clocks running
+> at 600MHz, but between the TRM and the datasheet, there is some
+> discrepancy.  Because the NXP reference code used 600MHz, that is
+> what was chosen here.  Users who need to adjust their G1 and G2
+> clocks can do so in their board files.
+
+Hi Adam,
+
+Thanks for your patches, I have been able to reproduce VP9 results on my side (Fluster 147/303).
+In past I have notice spurious errors when using 600MHz clock on HEVC decode but not with 300MHz.
 
 Regards,
+Benjamin
 
-	Hans
+>
+> Fluster Results:
+>
+> ./fluster.py run -dGStreamer-H.264-V4L2SL-Gst1.0
+> Ran 90/135 tests successfully               in 61.966 secs
+>
+> ./fluster.py run -d GStreamer-VP8-V4L2SL-Gst1.0
+> Ran 55/61 tests successfully               in 7.660 secs
+>
+>
+> ./fluster.py run -d GStreamer-VP9-V4L2SL-Gst1.0
+> Ran 144/303 tests successfully               in 162.665 secs
+>
+> Changes log:
+>
+> V2:  Make vpu-blk-ctrl enable G2 clock when enabling fuses.
+>       Remove syscon from device tree and binding example
+>       Added modified nxp,imx8mq-vpu.yaml from Benjamin Gaignard
+>
+> Adam Ford (2):
+>    media: hantro: split i.MX8MQ G1 and G2 code
+>    arm64: dts: imx8mq: Split i.MX8MQ G1 and G2 with vpu-blk-ctrl
+>
+> Benjamin Gaignard (1):
+>    dt-bindings: media: nxp,imx8mq-vpu: Update the bindings for G2 support
+>
+> Lucas Stach (3):
+>    dt-bindings: power: imx8mq: add defines for VPU blk-ctrl domains
+>    dt-bindings: soc: add binding for i.MX8MQ VPU blk-ctrl
+>    soc: imx: imx8m-blk-ctrl: add i.MX8MQ VPU blk-ctrl
+>
+>   .../bindings/media/nxp,imx8mq-vpu.yaml        |  58 +++++----
+>   .../soc/imx/fsl,imx8mq-vpu-blk-ctrl.yaml      |  71 +++++++++++
+>   arch/arm64/boot/dts/freescale/imx8mq.dtsi     |  69 ++++++----
+>   drivers/soc/imx/imx8m-blk-ctrl.c              |  68 +++++++++-
+>   drivers/staging/media/hantro/hantro_drv.c     |   4 +-
+>   drivers/staging/media/hantro/hantro_hw.h      |   2 +-
+>   drivers/staging/media/hantro/imx8m_vpu_hw.c   | 119 +++---------------
+>   include/dt-bindings/power/imx8mq-power.h      |   3 +
+>   8 files changed, 237 insertions(+), 157 deletions(-)
+>   create mode 100644 Documentation/devicetree/bindings/soc/imx/fsl,imx8mq-vpu-blk-ctrl.yaml
+>
+>
+> base-commit: d1888b0bfd2ddef2e8a81505ffa200b92cc32e0c
