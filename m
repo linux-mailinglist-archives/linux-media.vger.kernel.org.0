@@ -2,70 +2,99 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 882F146D8E1
-	for <lists+linux-media@lfdr.de>; Wed,  8 Dec 2021 17:50:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0E87B46D92D
+	for <lists+linux-media@lfdr.de>; Wed,  8 Dec 2021 18:03:56 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237307AbhLHQxy (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 8 Dec 2021 11:53:54 -0500
-Received: from mail-il1-f200.google.com ([209.85.166.200]:42857 "EHLO
-        mail-il1-f200.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234667AbhLHQxx (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 8 Dec 2021 11:53:53 -0500
-Received: by mail-il1-f200.google.com with SMTP id l3-20020a056e021c0300b0029fcec8f2ccso3803302ilh.9
-        for <linux-media@vger.kernel.org>; Wed, 08 Dec 2021 08:50:21 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:date:in-reply-to:message-id:subject
-         :from:to;
-        bh=Y2MKn0H4DmrM0L6Iz1p6QeMbYkp5ONn3ncEFOG9HuPY=;
-        b=sCbQZcEjHqJJ7wSM6Zs/zsxZldTnOZJrEYYFl/HQDDiDGkpgNDm3Js54eC/8ZfooQT
-         Sgl5wfVz63t8wFzTzeDz5eZyoizIH4rGOt/7KKb0cKxJMiAhifLfwWrda6GF2yKkv5/z
-         cquVn6PqO3iSyMWzQtQwkNTN4ADHOsTw9wdf5FL9c+Xv+7jzovi0GQP6pgOkUDu/bp/F
-         B03bxV6sLjJuYtt2QB61cjM3G35mmolkVKl/hiGTN0O09t0uNeD3Pal5OdCEMBSFV2x4
-         1qNEy83JxiZYRVIKJa9rp/4lHQNgZ0dwXAbTtmNkl4bEPt/wbu8nbZaJV7MK9zfeDeJ0
-         kwhA==
-X-Gm-Message-State: AOAM532Gx3DxheH9SqF3/fzYb3aS1R+xvgr0IElTT8dNAjV7GA8Sp79L
-        BoFOO/So0tFxaa7dgQDRNCU56zAuLukuIf0rMtM51QmZvmy9
-X-Google-Smtp-Source: ABdhPJyc/riIjsNBQquRKBx3zhx7T0mOnltc1lRv7qgl6QjY5+31fT0TFfCdocEuGFSE/lTjXS8RldIflBOMK6IqQjFPpAs7TNHi
+        id S237520AbhLHRH0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 8 Dec 2021 12:07:26 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49808 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229713AbhLHRH0 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 8 Dec 2021 12:07:26 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 724F2C061746
+        for <linux-media@vger.kernel.org>; Wed,  8 Dec 2021 09:03:54 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 4384EB821D9
+        for <linux-media@vger.kernel.org>; Wed,  8 Dec 2021 17:03:53 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 405B4C00446;
+        Wed,  8 Dec 2021 17:03:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1638983032;
+        bh=Wqkh4Hl1LAZjX6ffevPfJSkEBeLjht0+iq9fY7i7a6g=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=QjQ9TFNc9bgDrqfHDNhQ/rYxQjUkfq/nFo0Cu59otoIu+Eeeycbxa0i/+g61fvkbB
+         Qvoa6epD59B8Ya9ybOB8sdownM8HYw+gBnfhKbbq29xwC1J+Hd60lTgjSX9zUJZ2pI
+         lIsUnMxlae00fUJ1ySCkNRD+9VZ+CB8H2ValBh4Sf7fyUk0XX7EsQfo1jHw+kMUTiW
+         HtFCyPAIdwmqB91v5kHc8nsEvdDa4qysT0bJZ4YyYSuRRUatvi2DAFU6dPUvVk7fDh
+         vZBUISqfmV3A9FUu/r4EDdLzzVvjc0H2LtmnKfVtCcDCnuuTfO2H07r78aRlm5iwLx
+         3V7LGVBwSyhcQ==
+Date:   Wed, 8 Dec 2021 18:03:48 +0100
+From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To:     Robert Schlabbach <robert_s@gmx.net>
+Cc:     linux-media@vger.kernel.org
+Subject: Re: [PATCH 1/3] media: si2157: move firmware load to a separate
+ function
+Message-ID: <20211208180348.217c8d86@coco.lan>
+In-Reply-To: <trinity-6e9f5250-2524-47a2-9c0b-ba5ee2346cee-1638981656579@3c-app-gmx-bs36>
+References: <cover.1638958050.git.mchehab+huawei@kernel.org>
+        <dc8d0be6a9756bf65371e2e1e0a8062df74f0e5f.1638958050.git.mchehab+huawei@kernel.org>
+        <trinity-6e9f5250-2524-47a2-9c0b-ba5ee2346cee-1638981656579@3c-app-gmx-bs36>
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.30; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-X-Received: by 2002:a92:d8cf:: with SMTP id l15mr8724262ilo.59.1638982221538;
- Wed, 08 Dec 2021 08:50:21 -0800 (PST)
-Date:   Wed, 08 Dec 2021 08:50:21 -0800
-In-Reply-To: <000000000000b5e7f105d0d2d165@google.com>
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <0000000000001bab9705d2a549cb@google.com>
-Subject: Re: [syzbot] WARNING in __i2c_transfer (2)
-From:   syzbot <syzbot+e417648b303855b91d8a@syzkaller.appspotmail.com>
-To:     dwlsalmeida@gmail.com, linux-i2c@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        mchehab+huawei@kernel.org, mchehab@kernel.org,
-        syzkaller-bugs@googlegroups.com, wsa@kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-syzbot has bisected this issue to:
+Em Wed, 8 Dec 2021 17:40:56 +0100
+Robert Schlabbach <robert_s@gmx.net> escreveu:
 
-commit f90cf6079bf67988f8b1ad1ade70fc89d0080905
-Author: Daniel W. S. Almeida <dwlsalmeida@gmail.com>
-Date:   Fri Aug 21 12:58:47 2020 +0000
+> > @@ -181,45 +228,13 @@  static int si2157_init(struct dvb_frontend *fe)
+> >  	if (fw_name == NULL)
+> >  		goto skip_fw_download;  
+> 
+> You can invert the condition now and put the si2157_load_firmware() call
+> inside the if () block, and do away with the goto.
 
-    media: vidtv: add a bridge driver
+I know, but this would also require to move the dont_load_firmware check,
+which also does the goto.
 
-bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=152b58b1b00000
-start commit:   cd8c917a56f2 Makefile: Do not quote value for CONFIG_CC_IM..
-git tree:       upstream
-final oops:     https://syzkaller.appspot.com/x/report.txt?x=172b58b1b00000
-console output: https://syzkaller.appspot.com/x/log.txt?x=132b58b1b00000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=221ffc09e39ebbd1
-dashboard link: https://syzkaller.appspot.com/bug?extid=e417648b303855b91d8a
-userspace arch: i386
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=17a68531b00000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=16b91d89b00000
+I did that on a first version of the patch, but ended reverting,
+as I can't be 100% certain devices with dont_load_firmware:
 
-Reported-by: syzbot+e417648b303855b91d8a@syzkaller.appspotmail.com
-Fixes: f90cf6079bf6 ("media: vidtv: add a bridge driver")
+	if ((le16_to_cpu(d->udev->descriptor.idVendor) == USB_VID_DEXATEK &&
+	     le16_to_cpu(d->udev->descriptor.idProduct) == 0x0100) ||
+	    (le16_to_cpu(d->udev->descriptor.idVendor) == USB_VID_TERRATEC &&
+	     le16_to_cpu(d->udev->descriptor.idProduct) == USB_PID_TERRATEC_CINERGY_TC2_STICK))
+		si2157_config.dont_load_firmware = true;
 
-For information about bisection process see: https://goo.gl/tpsmEJ#bisection
+Would keep work and report the hardware type/review. 
+
+> > -	/* request the firmware, this will block and timeout */
+> > -	ret = request_firmware(&fw, fw_name, &client->dev);
+> > +	ret = si2157_load_firmware(fe, fw_name);
+> >  	if (ret) {
+> >  		dev_err(&client->dev, "firmware file '%s' not found\n",  
+> 
+> This will produce duplicate error messages, because the called function
+> will already output some error messages. You should move this line to
+> the extracted function as well, and reduce the code in the init function
+> to:
+> 
+> if (fw_name != null) {
+>         ret = si2157_load_firmware(fe, fw_name);
+>         if (ret)
+>                 goto err;
+> }
+
+True, but I guess patch 3 fixes it.
+
+On patch 1, my goal were just to place everything on a single routine
+without any real changes.  Patch 3 does the optimization/cleanup.
+
+Thanks,
+Mauro
