@@ -2,62 +2,109 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 35FBC46DAFA
-	for <lists+linux-media@lfdr.de>; Wed,  8 Dec 2021 19:24:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 82C9946DE76
+	for <lists+linux-media@lfdr.de>; Wed,  8 Dec 2021 23:37:47 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238842AbhLHS2K (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 8 Dec 2021 13:28:10 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40862 "EHLO
+        id S237587AbhLHWlS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 8 Dec 2021 17:41:18 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42326 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229958AbhLHS2J (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 8 Dec 2021 13:28:09 -0500
-Received: from mail-ot1-x334.google.com (mail-ot1-x334.google.com [IPv6:2607:f8b0:4864:20::334])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6AE28C061746
-        for <linux-media@vger.kernel.org>; Wed,  8 Dec 2021 10:24:37 -0800 (PST)
-Received: by mail-ot1-x334.google.com with SMTP id u18-20020a9d7212000000b00560cb1dc10bso3577945otj.11
-        for <linux-media@vger.kernel.org>; Wed, 08 Dec 2021 10:24:37 -0800 (PST)
+        with ESMTP id S236539AbhLHWlS (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 8 Dec 2021 17:41:18 -0500
+Received: from mail-wr1-x435.google.com (mail-wr1-x435.google.com [IPv6:2a00:1450:4864:20::435])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AC8F7C061746;
+        Wed,  8 Dec 2021 14:37:45 -0800 (PST)
+Received: by mail-wr1-x435.google.com with SMTP id t9so6632128wrx.7;
+        Wed, 08 Dec 2021 14:37:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=04eP9NX11mGOjkHW341e1AFStNXY4/sPxk2GLOiPsRo=;
-        b=avppFFhQdGiZpmw7JraafGIEGKNp4uSNFQwuOu9WsC45Nbvubb+MILubktDe8Xx5JE
-         DuMHymVXJiCdoMrr87ukl5cY/PlSHCjC4PccItBuIfI7zKKuJ/amErxMFDB79+F4gn1R
-         uePlCzppseDo3LgFkptyb6njs8zfyihlbJZHnsWXGppdhkQWVd25zWSj8CO7DspE6fip
-         txG0kJpop9nRTcDLxxKH4FxGVEHa/NsDM66eUS6hkrnml1eFiSbTRLWSLrYgKgQNpAKb
-         uzvrzuDsOhlSWU2wmix56CRvRmG2KXvEIPTBuDCZxduGfa0FIczZmC5eiNTAzc8jiq9G
-         wl2w==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=ltEh61NUR5opsmEls4nl8qwF170eYcG3QnbnvsYmLkc=;
+        b=Vv1SnbI3Hnmh/yVAYnhqqnaCYZW/MWbUHZQ574aDiL95EWaS9us80hpNVP57iFaGSm
+         331JvFk7M8N0PL1+E3v1P0NRDUsDEWGWqoUttdDvUJtD9zVPm0D6J9juH6yLmNYDVpr2
+         Uos/3n84IFMmegHCsQQx3NzhrLTTnhLKoWRGa8IZsGZlA16khSgixXfW5qALU7s0QFjw
+         1AIGn69RFK+U1rVSib/xnGAaF7wYj1kj2lwZrUgVwuFnDcWtZF6ulKibSybipdjo8e+w
+         qXHC7sYYsd5kV+kFkU9xOrVvLMVRIcBLmGVQCKl4v3vrkIfUxhrJs5iVQB8riA5ejioJ
+         QKlg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=04eP9NX11mGOjkHW341e1AFStNXY4/sPxk2GLOiPsRo=;
-        b=Q85WTcWNTvLsh0ZH4adOb+kg8JdKCvdi0LZt0BPhDbCo/Y6VhVyx8Dxs2YH6rm96nj
-         985WcuvznxbX0f1pdjQnBT7lNLYyXODi9h885rERdIeEa98xtAZmUJO5R23hYFlwhkyy
-         UEaxTkLV/I87xxRhLBq0Bh5QmpacISZ0kOUOXMF6Mgci4nCTenmSuYxTXaKocGaHyoZr
-         zfOTmKmfBpCf3uixgMU7VhY5NliQzCUIUO3WHJhhjolFv7oG3uln6PAFYuKH9EYnnUpI
-         U3tnvMhseANWGwrPGS6pHNzuTh8WIXXt+LxBgjwljI7k7COoZqjWP01cYf53dNgdKXTh
-         Q4TQ==
-X-Gm-Message-State: AOAM531MXT9epKHsFXft+Mz2p1cF2Z2xfVecB5ADOwtIhUcH6BteHFmS
-        eAxVeoy5wJyYsYiQRLK5cpXSz0m+UPNNtpVYxBA=
-X-Google-Smtp-Source: ABdhPJzCoG1xMPI49avnZ0kNNyDFIOA4+Ydp1EnPF2iJkL0mcK2K73NpRsNkWLxsa1kJa1fNBeanbcAAUNzzV/kQuoU=
-X-Received: by 2002:a9d:2ab:: with SMTP id 40mr1090934otl.208.1638987876781;
- Wed, 08 Dec 2021 10:24:36 -0800 (PST)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=ltEh61NUR5opsmEls4nl8qwF170eYcG3QnbnvsYmLkc=;
+        b=u40gJFakYa9mJeM0S0jMhqBHp2ZPryxNZWJWJKA5JIaJAINqhN+aV8PeV7qX03cGbX
+         hQiDlX5C3A7dZryscv6/YAmbyvgqA8Mszvt//rudfgShVLtrv0jMwdrKZmjRfQ3ft/Qj
+         GzYikPqh6dyWW+hOVVAbg+ylsbWdtinADOtmoULdeH2EUHFfsRCIDYO1ovl9rLOTR8uv
+         qOLFm9ytvfubqX0+aevYwCipTfXl8dZDZ85m0fgISBg6oqiZAOdEGEFJo6B+eLWuH5hK
+         LSLYbF/fKSn0posNmgE9fO/gJAFZ4EW1XyHaz2Xbljbf5Mmp30dY8qmMdCFPMNVaz9fQ
+         1GUw==
+X-Gm-Message-State: AOAM530OHhQp6mBnRomNRc9ZpRnd6KXC3Yhb205gFSNnY/KsqHMb6W/R
+        guAlA1DcmRH7AicpSSALgio=
+X-Google-Smtp-Source: ABdhPJw14QKUmBDLUvt7AbHOxb6KmnlLuia4Ejrt7gieEu7zj7nD8l/9Pf/+40qNSkKWuBwex673fg==
+X-Received: by 2002:adf:dc12:: with SMTP id t18mr1808383wri.566.1639003064320;
+        Wed, 08 Dec 2021 14:37:44 -0800 (PST)
+Received: from localhost.localdomain ([217.113.240.86])
+        by smtp.gmail.com with ESMTPSA id n184sm6957308wme.2.2021.12.08.14.37.42
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 08 Dec 2021 14:37:43 -0800 (PST)
+From:   =?UTF-8?q?Jos=C3=A9=20Exp=C3=B3sito?= <jose.exposito89@gmail.com>
+To:     kys@microsoft.com
+Cc:     haiyangz@microsoft.com, sthemmin@microsoft.com, wei.liu@kernel.org,
+        decui@microsoft.com, davem@davemloft.net, sumit.semwal@linaro.org,
+        christian.koenig@amd.com, linux-hyperv@vger.kernel.org,
+        netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linaro-mm-sig@lists.linaro.org,
+        =?UTF-8?q?Jos=C3=A9=20Exp=C3=B3sito?= <jose.exposito89@gmail.com>
+Subject: [PATCH] net: mana: Fix memory leak in mana_hwc_create_wq
+Date:   Wed,  8 Dec 2021 23:37:23 +0100
+Message-Id: <20211208223723.18520-1-jose.exposito89@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Received: by 2002:a9d:4042:0:0:0:0:0 with HTTP; Wed, 8 Dec 2021 10:24:36 -0800 (PST)
-Reply-To: drgerdger@gmail.com
-From:   Dr Gerd <ismissakou@gmail.com>
-Date:   Thu, 9 Dec 2021 05:24:36 +1100
-Message-ID: <CAKJFig8Fkn481VCOpTmXe1Oyx1uyZdn2nC84YF1ucKKRSz5vSg@mail.gmail.com>
-Subject: Dear
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Dear
+If allocating the DMA buffer fails, mana_hwc_destroy_wq was called
+without previously storing the pointer to the queue.
 
-Nice to meet you,I would like have a personal discussion with you
+In order to avoid leaking the pointer to the queue, store it as soon as
+it is allocated.
 
-Thanks
-Dr Gred
+Addresses-Coverity-ID: 1484720 ("Resource leak")
+Signed-off-by: José Expósito <jose.exposito89@gmail.com>
+---
+ drivers/net/ethernet/microsoft/mana/hw_channel.c | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
+
+diff --git a/drivers/net/ethernet/microsoft/mana/hw_channel.c b/drivers/net/ethernet/microsoft/mana/hw_channel.c
+index 34b971ff8ef8..078d6a5a0768 100644
+--- a/drivers/net/ethernet/microsoft/mana/hw_channel.c
++++ b/drivers/net/ethernet/microsoft/mana/hw_channel.c
+@@ -480,16 +480,16 @@ static int mana_hwc_create_wq(struct hw_channel_context *hwc,
+ 	if (err)
+ 		goto out;
+ 
+-	err = mana_hwc_alloc_dma_buf(hwc, q_depth, max_msg_size,
+-				     &hwc_wq->msg_buf);
+-	if (err)
+-		goto out;
+-
+ 	hwc_wq->hwc = hwc;
+ 	hwc_wq->gdma_wq = queue;
+ 	hwc_wq->queue_depth = q_depth;
+ 	hwc_wq->hwc_cq = hwc_cq;
+ 
++	err = mana_hwc_alloc_dma_buf(hwc, q_depth, max_msg_size,
++				     &hwc_wq->msg_buf);
++	if (err)
++		goto out;
++
+ 	*hwc_wq_ptr = hwc_wq;
+ 	return 0;
+ out:
+-- 
+2.25.1
+
