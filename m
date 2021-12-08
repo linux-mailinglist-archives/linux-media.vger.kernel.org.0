@@ -2,158 +2,122 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6D33746D485
-	for <lists+linux-media@lfdr.de>; Wed,  8 Dec 2021 14:36:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2AE7D46D599
+	for <lists+linux-media@lfdr.de>; Wed,  8 Dec 2021 15:26:33 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233630AbhLHNjy (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 8 Dec 2021 08:39:54 -0500
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:45232 "EHLO
-        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230186AbhLHNjx (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 8 Dec 2021 08:39:53 -0500
-Received: from [IPv6:2a01:e0a:120:3210:9928:73b0:79a4:e623] (unknown [IPv6:2a01:e0a:120:3210:9928:73b0:79a4:e623])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        (Authenticated sender: benjamin.gaignard)
-        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 5FDF81F45C58;
-        Wed,  8 Dec 2021 13:36:19 +0000 (GMT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=collabora.com; s=mail;
-        t=1638970579; bh=T21DsC5WunBNF8almSy/Pv06AmMgo6zWaeFNxDn4064=;
-        h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
-        b=Ie6bllBZvUbJ8qRV5YkgwvVshsAED4wNMwBPtOkfuUUSthqKkrGwx3KB+HC0cqek/
-         WtZudzhSK8pLL/2cB9WzfdxoC11+UzOBtc3Y6bFeH1S9T4Jc8TOqRu2oEXTEVFrfYD
-         sqIAJeqyjwj2wCCpj/xR8VbcwCZnc4N7VpC5YIYcATQKQWN59j9TgMhMeWvVMM80rf
-         690B0N65kHWNu8EH4yvj8/vWuQTpg7lYZZOS4X5bwNk6nI7jTpzGI0/+dQ3rN/RJqL
-         i8qnaiWEUgfsMwE7azQV0wcGirqC8W1D38XCPjYwlwAxnXvfXJ7yRvsSaMueTnQkjI
-         +5KOAOmFmKLPw==
-Subject: Re: [RFC V2 0/6] media: Hantro: Split iMX8MQ VPU into G1 and G2 with
- blk-ctrl support
-To:     Lucas Stach <l.stach@pengutronix.de>,
-        Adam Ford <aford173@gmail.com>, linux-media@vger.kernel.org
-Cc:     cphealy@gmail.com, hverkuil@xs4all.nl,
-        Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-rockchip@lists.infradead.org, devicetree@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        linux-staging@lists.linux.dev
-References: <20211207015446.1250854-1-aford173@gmail.com>
- <f85da774-ccb3-85de-edd6-5333ed8d0503@collabora.com>
- <5a8b84e91bd8e7670a0d0108e4affe9b964202cb.camel@pengutronix.de>
-From:   Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Message-ID: <4cc3404b-7f8a-6c87-8c1c-ace399f9edd3@collabora.com>
-Date:   Wed, 8 Dec 2021 14:36:16 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+        id S235099AbhLHOaD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 8 Dec 2021 09:30:03 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40740 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231634AbhLHOaC (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 8 Dec 2021 09:30:02 -0500
+Received: from mail-ed1-x533.google.com (mail-ed1-x533.google.com [IPv6:2a00:1450:4864:20::533])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EEE99C061746;
+        Wed,  8 Dec 2021 06:26:29 -0800 (PST)
+Received: by mail-ed1-x533.google.com with SMTP id t5so9177114edd.0;
+        Wed, 08 Dec 2021 06:26:29 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=WEqGRbqWp40+7xIlHrxTNX9Z2+0HYwvvaJQn6NNsWnY=;
+        b=AEzodwMSKr6CHlgAaIAZ/IOORN2qo/H8d7g/Nq7kBhZkFhEFb06XsBrsPwzBjwOeBd
+         aI80HSFhGRBsC0v8m5tU8zVx6ArTFbpLpT5UQqLQ5pAaiI0wfA8by/bsrKUduBSxn18i
+         DWsDPc6UmuCLEswfROW6DqaRvnYK8Ipzlx7VenCGcASAxlCWemoJgCJFpxDGX/H7RMZM
+         B5e7fuvpVvHFD3PH+TwkqUxANhcA3ICinxzdfI1xmiFeh2KuLZcPVMjkWYtrR5uBXCzQ
+         899JkPcPGRFDzXmXhELzN4ytDBtwD42SAxni4RHwqM9foiqOEbeRsIdiacXBhrTj9lC1
+         H8fg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=WEqGRbqWp40+7xIlHrxTNX9Z2+0HYwvvaJQn6NNsWnY=;
+        b=EGVIVKQRhFynkHCBw7GTXD69v3ICvk0n6rJXBKGgPCmpTLZ55RVSLwwOYXjaM3FJXQ
+         lV0WfITc1ekmXx7YPa5f6kbIXld7nZIVSkNC+OGWshk5aohFgnB478gPQaWktEiag6Ww
+         wsndsyXYu6Obwq5Fz9sMI0jx4X8tyc/9mbaJE8WlE5gliCLXWQZmcbYfs4lzRkeQjgxC
+         fc1CnLq53hrGZ4amgLgH/vYJkU/prio4Q8C8jgGD/XQDC0J2wovJHsIbZ4kdxnmRkgtU
+         wO0GiZrH7fP+ssU4D3+Hb7YvAnPULJLgBvnZ7fpAPJHYhd/2oYapgShiWdXA/hwzsEMc
+         5Tww==
+X-Gm-Message-State: AOAM530WRkufC8hvlhIqX2qE4XbAwQ4IXq004Dh1y2AnVKIjhlqm4QE5
+        bt9TNimi50J58FDb5qcofciDJwKjlnkO3BJ5lFs=
+X-Google-Smtp-Source: ABdhPJxX9XcPpR79RIlsOvNcLKOHM1oOtGfJHVEXIfKfG9URMTDbZftI5+ttxlZfcAlWULxKeI7xc9yp3TpvQvcteMo=
+X-Received: by 2002:a17:907:869e:: with SMTP id qa30mr7465535ejc.356.1638973587669;
+ Wed, 08 Dec 2021 06:26:27 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <5a8b84e91bd8e7670a0d0108e4affe9b964202cb.camel@pengutronix.de>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
+References: <20211206131648.1521868-1-hverkuil-cisco@xs4all.nl>
+ <CAHp75VcPhSvQvjA5WBO72Lb5idc6vkkodai_V=YmLWtsz-qg1A@mail.gmail.com>
+ <CACRpkda2d9j7_HOM1Q1dEsK+U4-4KmbvjvTAEvx2AbxMQtOgFA@mail.gmail.com> <d1ce87a0-decb-ac29-7906-1181c83c1067@xs4all.nl>
+In-Reply-To: <d1ce87a0-decb-ac29-7906-1181c83c1067@xs4all.nl>
+From:   Andy Shevchenko <andy.shevchenko@gmail.com>
+Date:   Wed, 8 Dec 2021 16:24:54 +0200
+Message-ID: <CAHp75VfqH_1Rc4i-Fb9_SxtTWqr2SOspgvk=JGxMUHFWOZn6uQ@mail.gmail.com>
+Subject: Re: [RFC PATCH 0/3] pinctrl: can_sleep and pinctrl_gpio_direction
+To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Cc:     Linus Walleij <linus.walleij@linaro.org>,
+        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+        "linux-gpio@vger.kernel.org" <linux-gpio@vger.kernel.org>,
+        Maxime Ripard <maxime@cerno.tech>,
+        Florian Fainelli <f.fainelli@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+On Wed, Dec 8, 2021 at 11:26 AM Hans Verkuil <hverkuil-cisco@xs4all.nl> wro=
+te:
+> On 08/12/2021 01:30, Linus Walleij wrote:
+> > On Tue, Dec 7, 2021 at 11:14 PM Andy Shevchenko
+> > <andy.shevchenko@gmail.com> wrote:
+> >> On Monday, December 6, 2021, Hans Verkuil <hverkuil-cisco@xs4all.nl> w=
+rote:
 
-Le 08/12/2021 à 11:32, Lucas Stach a écrit :
-> Am Mittwoch, dem 08.12.2021 um 10:32 +0100 schrieb Benjamin Gaignard:
->> Le 07/12/2021 à 02:54, Adam Ford a écrit :
->>
->>> Currently, the VPU in the i.MQ8MQ is appearing as one codec, but in
->>> reality, it's two IP blocks called G1 and G2.  There is initialization
->>> code in VPU code to pull some clocks, resets and other features which
->>> has been integrated into the vpu-blk-ctrl for the i.MX8M Mini and a
->>> similar method can be used to make the VPU codec's operate as
->>> stand-alone cores without having to know the details of each other
->>> or the quirks unique to the i.MX8MQ, so the remaining code can be
->>> left more generic.
->>>
->>> This series was started by Lucas Stach with one by Benjamin Gaignard.
->>> Most patches have been modified slightly by me.  It's in an RFC state
->>> because I wasn't sure how to best handle the signatures and wasn't sure
->>> if I could base it off the branch I did.
->>>
->>> Since the g-streamer and media trees are in a constant state of
->>> change, this series is based on
->>>
->>> git://linuxtv.org/hverkuil/media_tree.git for-v5.17e
->>>
->>> The downstream code from NXP shows the G1 and G2 clocks running
->>> at 600MHz, but between the TRM and the datasheet, there is some
->>> discrepancy.  Because the NXP reference code used 600MHz, that is
->>> what was chosen here.  Users who need to adjust their G1 and G2
->>> clocks can do so in their board files.
->> Hi Adam,
->>
->> Thanks for your patches, I have been able to reproduce VP9 results on my side (Fluster 147/303).
->> In past I have notice spurious errors when using 600MHz clock on HEVC decode but not with 300MHz.
-
-The results for Fluster HEVC are 77/147 so no regressions :-)
-
-Regards,
-Benjamin
-
->> The max supported G2 clock frequency is 660MHz but needs a higher
->> voltage. The maximum supported  frequency at the default 0.9V is
->> 550MHz. We should not configure the clocks for the higher than that, as
->> long as there is no support in the VPU driver to scale the voltage
->> along with the frequency. Same as with the GPU we should stick to base
->> frequency levels for the nominal operating mode.
->>
->> Regards,
->> Lucas
->>
->> Regards,
->> Benjamin
->>
->>> Fluster Results:
->>>
->>> ./fluster.py run -dGStreamer-H.264-V4L2SL-Gst1.0
->>> Ran 90/135 tests successfully               in 61.966 secs
->>>
->>> ./fluster.py run -d GStreamer-VP8-V4L2SL-Gst1.0
->>> Ran 55/61 tests successfully               in 7.660 secs
->>>
->>>
->>> ./fluster.py run -d GStreamer-VP9-V4L2SL-Gst1.0
->>> Ran 144/303 tests successfully               in 162.665 secs
->>>
->>> Changes log:
->>>
->>> V2:  Make vpu-blk-ctrl enable G2 clock when enabling fuses.
->>>        Remove syscon from device tree and binding example
->>>        Added modified nxp,imx8mq-vpu.yaml from Benjamin Gaignard
->>>
->>> Adam Ford (2):
->>>     media: hantro: split i.MX8MQ G1 and G2 code
->>>     arm64: dts: imx8mq: Split i.MX8MQ G1 and G2 with vpu-blk-ctrl
->>>
->>> Benjamin Gaignard (1):
->>>     dt-bindings: media: nxp,imx8mq-vpu: Update the bindings for G2 support
->>>
->>> Lucas Stach (3):
->>>     dt-bindings: power: imx8mq: add defines for VPU blk-ctrl domains
->>>     dt-bindings: soc: add binding for i.MX8MQ VPU blk-ctrl
->>>     soc: imx: imx8m-blk-ctrl: add i.MX8MQ VPU blk-ctrl
->>>
->>>    .../bindings/media/nxp,imx8mq-vpu.yaml        |  58 +++++----
->>>    .../soc/imx/fsl,imx8mq-vpu-blk-ctrl.yaml      |  71 +++++++++++
->>>    arch/arm64/boot/dts/freescale/imx8mq.dtsi     |  69 ++++++----
->>>    drivers/soc/imx/imx8m-blk-ctrl.c              |  68 +++++++++-
->>>    drivers/staging/media/hantro/hantro_drv.c     |   4 +-
->>>    drivers/staging/media/hantro/hantro_hw.h      |   2 +-
->>>    drivers/staging/media/hantro/imx8m_vpu_hw.c   | 119 +++---------------
->>>    include/dt-bindings/power/imx8mq-power.h      |   3 +
->>>    8 files changed, 237 insertions(+), 157 deletions(-)
->>>    create mode 100644 Documentation/devicetree/bindings/soc/imx/fsl,imx8mq-vpu-blk-ctrl.yaml
->>>
->>>
->>> base-commit: d1888b0bfd2ddef2e8a81505ffa200b92cc32e0c
+> >>> Based on this discussion:
+> >>>
+> >>> https://lore.kernel.org/linux-gpio/CACRpkdb3q4-9O3dHS6QDWnZZ5JJjXWXS9=
+KPvwXVaowLMRhcejA@mail.gmail.com/T/#t
+> >>>
+> >>> I propose this RFC series.
+> >>
+> >>
+> >> When I first saw your report I was thinking about actually adding a ne=
+w callback ->set_direction_atomic()
+> >> and then make pinctrl use it, otherwise like you do, I.e. issue a warn=
+ing when it=E2=80=99s called in atomic context
+> >
+> > The problem is inside of pinctrl core, not in any driver. It takes a
+> > mutex when going over
+> > the GPIO ranges.
+> >
+> > I suggested maybe just replacing these mutexes with spinlocks, or RCU.
 >
+> RCU or spinlock would most likely work as a replacement for pinctrldev_li=
+st_mutex, but
+> not for pctldev->mutex. I didn't see any obvious way of replacing it with=
+ something else.
+
+You can't get rid of locking even with RCU. AFAIR the locking protects
+"writer" side and it can well be mutex, doesn't really matter. The
+question about RCU is what we are actually _doing_ in the call we are
+talking about. If it's a simple _reader_ of some (shared) array of
+data which is not being updated during this traversing, then it's a
+very good fit for it. Otherwise other means should be considered.
+
+> I'm open to any suggestions, but for now this was the best I could come u=
+p with, given
+> my limited knowledge of the gpio/pinctrl subsystems. It at least warns yo=
+u that something
+> is wrong.
+>
+> Personally I think that for combined gpio/pinctrl drivers it doesn't make=
+ sense to take
+> this additional loop through the pinctrl core, regardless of whatever loc=
+king mechanism
+> is used. I actually think that it obfuscates those drivers a bit, but tha=
+t might just be
+> me.
+
+
+--=20
+With Best Regards,
+Andy Shevchenko
