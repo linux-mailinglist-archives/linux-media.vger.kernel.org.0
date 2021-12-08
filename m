@@ -2,82 +2,92 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9FA6B46D944
-	for <lists+linux-media@lfdr.de>; Wed,  8 Dec 2021 18:09:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 97FF846DA39
+	for <lists+linux-media@lfdr.de>; Wed,  8 Dec 2021 18:42:08 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237580AbhLHRM6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 8 Dec 2021 12:12:58 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51120 "EHLO
+        id S234146AbhLHRpi (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 8 Dec 2021 12:45:38 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58994 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237597AbhLHRMz (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 8 Dec 2021 12:12:55 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B503EC061746
-        for <linux-media@vger.kernel.org>; Wed,  8 Dec 2021 09:09:23 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 7DFBCB821DB
-        for <linux-media@vger.kernel.org>; Wed,  8 Dec 2021 17:09:22 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6B96FC341DB;
-        Wed,  8 Dec 2021 17:09:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1638983361;
-        bh=cCac+wepuFN0fMnogX/fR3GQKsIJHH42uEz4ZraYaKM=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=gVnDy/eH0qrEapY8ogWrzX4VetAGJhjD78tdW2k7Xwqekk76693MPYstyjjDkaHYF
-         M5dC5z0hpHsoLouZduW2PVB/UtarHHCu/76wECXJGcP5lidcTjEo+2SmltHTyK2SPJ
-         WZ/G2AnJBesvfR2VI0Eumy48TVkwIPol8sg0l4Hl4Rz9RuyGku6cxsOg+SACAuDaK8
-         BFfTm2AzKOialuWTz2lqy4ci0IxgZiqeeWu7kPUN0cjuuH33X/2T1dGjwmjeZ8U9Hh
-         aOcVQEWs55KqTuDseCfDOGIBsDENG++A6KT6CcuYjIom4wn95xFBGRnrUzkAyCX7c/
-         2cILXxz3nmHNQ==
-Date:   Wed, 8 Dec 2021 18:09:17 +0100
-From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To:     Robert Schlabbach <robert_s@gmx.net>
-Cc:     linux-media@vger.kernel.org
-Subject: Re: [PATCH 2/3] media: si2157: Add optional firmware download
-Message-ID: <20211208180917.3f503599@coco.lan>
-In-Reply-To: <trinity-904b019d-ee32-4227-9160-001a00fdd69f-1638981943562@3c-app-gmx-bs36>
-References: <cover.1638958050.git.mchehab+huawei@kernel.org>
-        <68cd904138504a94c5e592b50547e0a22cd33d4d.1638958050.git.mchehab+huawei@kernel.org>
-        <trinity-904b019d-ee32-4227-9160-001a00fdd69f-1638981943562@3c-app-gmx-bs36>
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.30; x86_64-redhat-linux-gnu)
+        with ESMTP id S233881AbhLHRpi (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 8 Dec 2021 12:45:38 -0500
+Received: from mail-wm1-x336.google.com (mail-wm1-x336.google.com [IPv6:2a00:1450:4864:20::336])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E3A45C061746;
+        Wed,  8 Dec 2021 09:42:05 -0800 (PST)
+Received: by mail-wm1-x336.google.com with SMTP id y196so2342396wmc.3;
+        Wed, 08 Dec 2021 09:42:05 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=1VhrYwP48UAqiV9TObLVTzDhXCitwHm97z2ea44Mx4M=;
+        b=SqanebBhEUI592RBsmvyz3w3wiM1vg+N7B6CDf76bteFErSS4TWAmnAPFJj7WUJ24Z
+         og2l0Y6mwtdebnCuGNmiFo0wNleUj6n7UlHaw7ckyJLzmtyV/WE6m6VW3k/ouXWb+URR
+         QGvDlmkVgpIqrNNs+72112qDWa3aXzhunZJRl0ipZQIpK95DpI2t+LZAoenH+jKe+hJq
+         pL+VD7ZOt9FIhsthSBGe9KAeCMmOg/iMYBoGz0qzvEhrFX0NwskFzFu4WizILMS4LByi
+         XkaJiT4d6N1jv540/hgo13zOWnMXEULIpTOAp0qttm/2FHFf9ITSMqdLRvuG1i79M4nY
+         iLbw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=1VhrYwP48UAqiV9TObLVTzDhXCitwHm97z2ea44Mx4M=;
+        b=YLtSUBsNPz4tZBqiQkyy7K+Vd5/okrsAEJN+xIVZzR8BWTK/ISWIG3L0q5bAczu1Ik
+         aF5D3xVPmKL8AZvUYSQMPOqGPCO5DfUX3ceQ9NCNarbf2nDlbVglAouq3mY2vsDf36m9
+         ZyTtLMILXaVjctl+ec0BKIv0cW8Uud6fRkmU+KYh7EUU2L+CuKEhoksRnT+KzKslv2nP
+         H45Ggrb3B/FoqBQRzdKLLRDxMc6J8O/68RMqFjPKkfhT6N1GRlwq1crUMWQabeEDjuUR
+         caR7NT+SeUHvtEdhaOZ8eCowt/4PI3fnsVuf29fMeRYkvNAMftUuZDjkd1GkYR32T850
+         XcDA==
+X-Gm-Message-State: AOAM533CxHtOwwZhmuKnEm/f+sYl9g0nS54gjb6VClTxHLe8F/bwBU1H
+        406YqBDZd/Lj5a6ww0VfOp28nystZLQGqA==
+X-Google-Smtp-Source: ABdhPJwnC0YY4P1eecwv9Xx2rzdaVtKbdgl8R4rg0/OZw7UXLgX/QXyxWs6ZtjTFlRmn3QZHYTG++g==
+X-Received: by 2002:a05:600c:4f8f:: with SMTP id n15mr200281wmq.70.1638985324428;
+        Wed, 08 Dec 2021 09:42:04 -0800 (PST)
+Received: from localhost.localdomain ([39.48.134.175])
+        by smtp.gmail.com with ESMTPSA id 9sm4637252wry.0.2021.12.08.09.42.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 08 Dec 2021 09:42:03 -0800 (PST)
+From:   Ameer Hamza <amhamza.mgc@gmail.com>
+To:     laurent.pinchart@ideasonboard.com, mchehab@kernel.org
+Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Ameer Hamza <amhamza.mgc@gmail.com>
+Subject: [PATCH] media: uvcvideo: fix possible memory leak issue
+Date:   Wed,  8 Dec 2021 22:41:58 +0500
+Message-Id: <20211208174158.114122-1-amhamza.mgc@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Em Wed, 8 Dec 2021 17:45:43 +0100
-Robert Schlabbach <robert_s@gmx.net> escreveu:
+In uvc_ioctl_ctrl_map() implementation, there is a possibility of memory
+leak if control id name is not listed and kmemdup() is failed somehow.
+This is a rare scenario but possible.
 
-> > 	ret = si2157_load_firmware(fe, fw_name);
-> >  	if (ret) {
-> > +		if (!fw_required)
-> > +			goto skip_fw_download;
-> > +  
-> 
-> In conjunction with my proposal for PATCH 1/3, this can be simplified to:
-> 
-> ret = si2157_load_firmware(fe, fw_name);
-> if (ret && fw_required)
->         goto err;
+Addresses-Coverity: 1494069 (Resource leak)
+Signed-off-by: Ameer Hamza <amhamza.mgc@gmail.com>
+---
+ drivers/media/usb/uvc/uvc_v4l2.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-See the patch 3:
+diff --git a/drivers/media/usb/uvc/uvc_v4l2.c b/drivers/media/usb/uvc/uvc_v4l2.c
+index f4e4aff8ddf7..711556d13d03 100644
+--- a/drivers/media/usb/uvc/uvc_v4l2.c
++++ b/drivers/media/usb/uvc/uvc_v4l2.c
+@@ -44,8 +44,10 @@ static int uvc_ioctl_ctrl_map(struct uvc_video_chain *chain,
+ 	if (v4l2_ctrl_get_name(map->id) == NULL) {
+ 		map->name = kmemdup(xmap->name, sizeof(xmap->name),
+ 				    GFP_KERNEL);
+-		if (!map->name)
+-			return -ENOMEM;
++		if (!map->name) {
++			ret = -ENOMEM;
++			goto free_map;
++		}
+ 	}
+ 	memcpy(map->entity, xmap->entity, sizeof(map->entity));
+ 	map->selector = xmap->selector;
+-- 
+2.25.1
 
-	ret = si2157_load_firmware(fe, fw_name);
-+	if (fw_required && ret == -ENOENT)
-+		warn_firmware_not_loaded = true;
-+	else if (ret < 0) {
-+		dev_err(&client->dev, "error %d when loading firmware file '%s'\n",
-+			ret, fw_name);
-
-Basically, it will do (about) the same thing you proposed, with one
-important difference: It should only ignore errors loading the firmware
-when the error is due to a non-existing firmware file. If the firmware
-file is corrupted or can't be load for other reasons (ENOMEM, corrupted
-file, etc), it will print the error code and bail out.
-
-Thanks,
-Mauro
