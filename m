@@ -2,339 +2,143 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7B30646C96A
-	for <lists+linux-media@lfdr.de>; Wed,  8 Dec 2021 01:40:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2629946CAB0
+	for <lists+linux-media@lfdr.de>; Wed,  8 Dec 2021 03:01:06 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231377AbhLHAoZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 7 Dec 2021 19:44:25 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49582 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229479AbhLHAoZ (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 7 Dec 2021 19:44:25 -0500
-Received: from mail-pl1-x641.google.com (mail-pl1-x641.google.com [IPv6:2607:f8b0:4864:20::641])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6EE8EC061574
-        for <linux-media@vger.kernel.org>; Tue,  7 Dec 2021 16:40:54 -0800 (PST)
-Received: by mail-pl1-x641.google.com with SMTP id o14so421368plg.5
-        for <linux-media@vger.kernel.org>; Tue, 07 Dec 2021 16:40:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=AATQQH0+rpWo4fZkNKnhqu4NVviJRRg3zcMsP/nyO8Q=;
-        b=b0mm6SkGjI0N8ZUQDzPYph+Y2QLZR3lfM/LwzlbvObMJJuC/z1LXhNRCoJ/237qn22
-         wTd/8siYzxx+84M3cDsTrpsr7nUAw4OjYbcdwP5jOogKv98bAfgDe9HT1li4xFIqyCzR
-         4gxmqzCZNGvZtMPBdJ0eBgvfSck6JlxCzkat6prz4LwhFQTY8jqWeJ+OsEiEtvqJ19tT
-         /XiRSiSIj2JtD/3O5Y9lnQpEqZTFm0dLMkEfKpmZ3knW/BLUesiybcCKbA+cIh4146/V
-         0FB2UgN4FQ9F2Z4Wm7G3SQiErPy/QoAMNEkb/NfgmwFWLGrJrAd4TKX4Y9vKi7mRnaqo
-         0ZQA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=AATQQH0+rpWo4fZkNKnhqu4NVviJRRg3zcMsP/nyO8Q=;
-        b=aSGsF+ACG+5Mj9Cu4SpaZEP+x9v2gsFfiL8JzjKMPZ6AL1ivmglE9IDJYQE50YM0rf
-         PgSFZxKOPkta1QaANgb08vhy7oBjp5U5XuBEdd4nFSpbas3N3xUwS9Jeqd9S5Q3ACy9z
-         wS73LWGfu2emIrkUMHWQqxMkjA7wYAOCJIJpPZwSJ7SNAI7SCQnPnvRiCPRmQN1iIAUm
-         ZPP1uZh9Cx35iPZCaDLfJz7Zi1GPxuM8eHHMzxdxEZEiHuy/AOO0Rkwkykd3ak7G1ott
-         zEMtPw8m4GOAgR0RAhoLjtzVldOM/N+t28Gz/RpQH1Mx9gesFVTJTMRjIP8x9bzQUOoS
-         wgrw==
-X-Gm-Message-State: AOAM531Lc/quAv9bJAQxpSs3Gtoc5U1lrrWzr2E6hTq+9X8zWCGk2k1i
-        AludiohE8cbeUfewELkrP1aWWSbyE4hwBSdu
-X-Google-Smtp-Source: ABdhPJxaSjRosxWTaXFEN5UwLO143qwhKWymogMc+xkTJdQgNSbyAw76N24y2b1J6vUhMGNWoLgh6w==
-X-Received: by 2002:a17:90a:be0f:: with SMTP id a15mr2985785pjs.243.1638924053847;
-        Tue, 07 Dec 2021 16:40:53 -0800 (PST)
-Received: from dbcomp.hitronhub.home (S0106ac202ecb0523.gv.shawcable.net. [70.67.120.89])
-        by smtp.gmail.com with ESMTPSA id g20sm1016378pfj.12.2021.12.07.16.40.52
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 07 Dec 2021 16:40:53 -0800 (PST)
-From:   Deborah Brouwer <deborahbrouwer3563@gmail.com>
-To:     linux-media@vger.kernel.org
-Cc:     hverkuil@xs4all.nl, Deborah Brouwer <deborahbrouwer3563@gmail.com>
-Subject: [PATCH v3] media: vivid: fix timestamp and sequence wrapping
-Date:   Tue,  7 Dec 2021 16:40:42 -0800
-Message-Id: <20211208004042.13939-1-deborahbrouwer3563@gmail.com>
-X-Mailer: git-send-email 2.25.1
+        id S235143AbhLHCEf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 7 Dec 2021 21:04:35 -0500
+Received: from mailgw02.mediatek.com ([210.61.82.184]:35466 "EHLO
+        mailgw02.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
+        with ESMTP id S232311AbhLHCEf (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 7 Dec 2021 21:04:35 -0500
+X-UUID: f05e892a241e430e88faada1e0e9d722-20211208
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
+        h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:From:Subject:Message-ID; bh=DZaORBOtJY/yncuKK0ASrYmOnUqpv3wP5VjwQJkPl2o=;
+        b=b+UDQlVg4XGmaR/qFBZQ2UnrcsS4U9u3hEOst0+evmQLKEDBQc5+YTeybF9YdI2le6UgfGcwjLYs7HK33Fld6u8aYRUCOFNIFgZSmhdtnE7TPNSKvz15SVskae9YpUMy4K36oR8VctY7reduWByuNECn+GyfqSdZtz1YUxpIpus=;
+X-UUID: f05e892a241e430e88faada1e0e9d722-20211208
+Received: from mtkcas10.mediatek.inc [(172.21.101.39)] by mailgw02.mediatek.com
+        (envelope-from <yong.wu@mediatek.com>)
+        (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
+        with ESMTP id 89225687; Wed, 08 Dec 2021 10:01:00 +0800
+Received: from mtkcas10.mediatek.inc (172.21.101.39) by
+ mtkmbs07n2.mediatek.inc (172.21.101.141) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Wed, 8 Dec 2021 10:00:59 +0800
+Received: from mhfsdcap04 (10.17.3.154) by mtkcas10.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
+ Transport; Wed, 8 Dec 2021 10:00:58 +0800
+Message-ID: <00e62ae7e7764296023b34395e4d109139c10325.camel@mediatek.com>
+Subject: Re: [PATCH v7 2/7] mtk-mdp: add driver to probe mdp components
+From:   Yong Wu <yong.wu@mediatek.com>
+To:     houlong wei <houlong.wei@mediatek.com>,
+        Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+        Eizan Miyamoto <eizan@chromium.org>,
+        "Hans Verkuil" <hverkuil@xs4all.nl>
+CC:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        "chunkuang.hu@kernel.org" <chunkuang.hu@kernel.org>,
+        "wenst@chromium.org" <wenst@chromium.org>,
+        CK Hu =?UTF-8?Q?=28=E8=83=A1=E4=BF=8A=E5=85=89=29?= 
+        <ck.hu@mediatek.com>,
+        Enric Balletbo i Serra <enric.balletbo@collabora.com>,
+        Yongqiang Niu =?UTF-8?Q?=28=E7=89=9B=E6=B0=B8=E5=BC=BA=29?= 
+        <yongqiang.niu@mediatek.com>,
+        Andrew-CT Chen =?UTF-8?Q?=28=E9=99=B3=E6=99=BA=E8=BF=AA=29?= 
+        <Andrew-CT.Chen@mediatek.com>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Minghsiu Tsai =?UTF-8?Q?=28=E8=94=A1=E6=98=8E=E4=BF=AE=29?= 
+        <Minghsiu.Tsai@mediatek.com>,
+        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
+        linux-media <linux-media@vger.kernel.org>,
+        "moderated list:ARM/Mediatek SoC support" 
+        <linux-mediatek@lists.infradead.org>
+Date:   Wed, 8 Dec 2021 10:00:54 +0800
+In-Reply-To: <fc309940c9e59f80397b90c8b11424fea344e1b5.camel@mediatek.com>
+References: <20210825063323.3607738-1-eizan@chromium.org>
+         <20210825163247.v7.2.Ie6d1e6e39cf9b5d6b2108ae1096af34c3d55880b@changeid>
+         <CAAEAJfDNDXdJFfB-bHhFcqnnKZ0TY--d_wLGddKRymQOLQY4TQ@mail.gmail.com>
+         <fc309940c9e59f80397b90c8b11424fea344e1b5.camel@mediatek.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MTK:  N
+Content-Transfer-Encoding: base64
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The error injection controls that test wrap-around sequence and timestamp
-counters were partially broken. Add a menu option for 64 or 32 bit signed
-timestamp wrapping. Prevent the timestamp from wrapping around before the
-device can be tested.  Remove the sequence count from the timestamp
-calculation so that sequence wrapping does not interfere with the
-timestamp.  Add consistent time and sequence wrapping to sdr and touch
-devices.
-
-Signed-off-by: Deborah Brouwer <deborahbrouwer3563@gmail.com>
----
-Changes since v2:
-- fix overflow warning for 32 bit systems by adding ULL to
-  constant before multiplying by NSEC_PER_SEC
-
-Changes since v1:
-- wrap timestamp at signed rather than unsigned values
-- simplify time_wrap_offset calculation
-
-How I set the controls:
-v4l2-ctl -d <dev> -c wrap_sequence_number=1
-v4l2-ctl -d <dev> -c wrap_timestamp=1
-v4l2-ctl -d <dev> -c wrap_timestamp=2
-
-How I tested:
-v4l2-ctl -d <dev> --stream-mmap --verbose 
-v4l2-ctl -d <dev> --stream-out-mmap --verbose 
-v4l2-ctl-32 -d <dev> --stream-mmap --verbose
-v4l2-ctl-32 -d <dev> --stream-out-mmap --verbose
-
-Devices I tested:c
-vivid-000-vid-cap, inputs: webcam, TV, S-Video, HDMI
-vivid-000-vid-out, outputs: S-Video, HDMI
-vivid-000-touch-cap
-vivid-000-sdr-cap
-vivid-000-vbi-out
-
- drivers/media/test-drivers/vivid/vivid-core.h |  5 ++-
- .../media/test-drivers/vivid/vivid-ctrls.c    | 32 ++++++++-----------
- .../test-drivers/vivid/vivid-kthread-cap.c    |  7 ++--
- .../test-drivers/vivid/vivid-kthread-out.c    |  9 +++---
- .../test-drivers/vivid/vivid-kthread-touch.c  |  7 ++++
- .../media/test-drivers/vivid/vivid-sdr-cap.c  | 12 ++++---
- .../test-drivers/vivid/vivid-touch-cap.c      |  2 +-
- 7 files changed, 44 insertions(+), 30 deletions(-)
-
-diff --git a/drivers/media/test-drivers/vivid/vivid-core.h b/drivers/media/test-drivers/vivid/vivid-core.h
-index 45f96706edde..176b72cb143b 100644
---- a/drivers/media/test-drivers/vivid/vivid-core.h
-+++ b/drivers/media/test-drivers/vivid/vivid-core.h
-@@ -307,7 +307,7 @@ struct vivid_dev {
- 	bool				dqbuf_error;
- 	bool				req_validate_error;
- 	bool				seq_wrap;
--	bool				time_wrap;
-+	u64				time_wrap;
- 	u64				time_wrap_offset;
- 	unsigned			perc_dropped_buffers;
- 	enum vivid_signal_mode		std_signal_mode[MAX_INPUTS];
-@@ -437,6 +437,7 @@ struct vivid_dev {
- 	bool				touch_cap_seq_resync;
- 	u32				touch_cap_seq_start;
- 	u32				touch_cap_seq_count;
-+	u32				touch_cap_with_seq_wrap_count;
- 	bool				touch_cap_streaming;
- 	struct v4l2_fract		timeperframe_tch_cap;
- 	struct v4l2_pix_format		tch_format;
-@@ -524,7 +525,9 @@ struct vivid_dev {
- 	struct task_struct		*kthread_sdr_cap;
- 	unsigned long			jiffies_sdr_cap;
- 	u32				sdr_cap_seq_offset;
-+	u32				sdr_cap_seq_start;
- 	u32				sdr_cap_seq_count;
-+	u32				sdr_cap_with_seq_wrap_count;
- 	bool				sdr_cap_seq_resync;
- 
- 	/* RDS generator */
-diff --git a/drivers/media/test-drivers/vivid/vivid-ctrls.c b/drivers/media/test-drivers/vivid/vivid-ctrls.c
-index 8dc50fe22972..e7516dc1227b 100644
---- a/drivers/media/test-drivers/vivid/vivid-ctrls.c
-+++ b/drivers/media/test-drivers/vivid/vivid-ctrls.c
-@@ -1084,7 +1084,6 @@ static const struct v4l2_ctrl_config vivid_ctrl_display_present = {
- static int vivid_streaming_s_ctrl(struct v4l2_ctrl *ctrl)
- {
- 	struct vivid_dev *dev = container_of(ctrl->handler, struct vivid_dev, ctrl_hdl_streaming);
--	u64 rem;
- 
- 	switch (ctrl->id) {
- 	case VIVID_CID_DQBUF_ERROR:
-@@ -1122,20 +1121,10 @@ static int vivid_streaming_s_ctrl(struct v4l2_ctrl *ctrl)
- 		break;
- 	case VIVID_CID_TIME_WRAP:
- 		dev->time_wrap = ctrl->val;
--		if (ctrl->val == 0) {
--			dev->time_wrap_offset = 0;
--			break;
--		}
--		/*
--		 * We want to set the time 16 seconds before the 32 bit tv_sec
--		 * value of struct timeval would wrap around. So first we
--		 * calculate ktime_get_ns() % ((1 << 32) * NSEC_PER_SEC), and
--		 * then we set the offset to ((1 << 32) - 16) * NSEC_PER_SEC).
--		 */
--		div64_u64_rem(ktime_get_ns(),
--			0x100000000ULL * NSEC_PER_SEC, &rem);
--		dev->time_wrap_offset =
--			(0x100000000ULL - 16) * NSEC_PER_SEC - rem;
-+		if (dev->time_wrap == 1)
-+			dev->time_wrap = (1ULL << 63) - NSEC_PER_SEC * 16ULL;
-+		else if (dev->time_wrap == 2)
-+			dev->time_wrap = ((1ULL << 31) - 16) * NSEC_PER_SEC;
- 		break;
- 	}
- 	return 0;
-@@ -1208,13 +1197,20 @@ static const struct v4l2_ctrl_config vivid_ctrl_seq_wrap = {
- 	.step = 1,
- };
- 
-+static const char * const vivid_ctrl_time_wrap_strings[] = {
-+	"None",
-+	"64 Bit",
-+	"32 Bit",
-+	NULL,
-+};
-+
- static const struct v4l2_ctrl_config vivid_ctrl_time_wrap = {
- 	.ops = &vivid_streaming_ctrl_ops,
- 	.id = VIVID_CID_TIME_WRAP,
- 	.name = "Wrap Timestamp",
--	.type = V4L2_CTRL_TYPE_BOOLEAN,
--	.max = 1,
--	.step = 1,
-+	.type = V4L2_CTRL_TYPE_MENU,
-+	.max = ARRAY_SIZE(vivid_ctrl_time_wrap_strings) - 2,
-+	.qmenu = vivid_ctrl_time_wrap_strings,
- };
- 
- 
-diff --git a/drivers/media/test-drivers/vivid/vivid-kthread-cap.c b/drivers/media/test-drivers/vivid/vivid-kthread-cap.c
-index 9da730ccfa94..6baa046c1ae3 100644
---- a/drivers/media/test-drivers/vivid/vivid-kthread-cap.c
-+++ b/drivers/media/test-drivers/vivid/vivid-kthread-cap.c
-@@ -719,8 +719,7 @@ static noinline_for_stack void vivid_thread_vid_cap_tick(struct vivid_dev *dev,
- 	if (!vid_cap_buf && !vbi_cap_buf && !meta_cap_buf)
- 		goto update_mv;
- 
--	f_time = dev->cap_frame_period * dev->vid_cap_seq_count +
--		 dev->cap_stream_start + dev->time_wrap_offset;
-+	f_time = ktime_get_ns() + dev->time_wrap_offset;
- 
- 	if (vid_cap_buf) {
- 		v4l2_ctrl_request_setup(vid_cap_buf->vb.vb2_buf.req_obj.req,
-@@ -813,6 +812,10 @@ static int vivid_thread_vid_cap(void *data)
- 	dev->cap_seq_resync = false;
- 	dev->jiffies_vid_cap = jiffies;
- 	dev->cap_stream_start = ktime_get_ns();
-+	if (dev->time_wrap)
-+		dev->time_wrap_offset = dev->time_wrap - dev->cap_stream_start;
-+	else
-+		dev->time_wrap_offset = 0;
- 	vivid_cap_update_frame_period(dev);
- 
- 	for (;;) {
-diff --git a/drivers/media/test-drivers/vivid/vivid-kthread-out.c b/drivers/media/test-drivers/vivid/vivid-kthread-out.c
-index 79c57d14ac4e..b6d43169e970 100644
---- a/drivers/media/test-drivers/vivid/vivid-kthread-out.c
-+++ b/drivers/media/test-drivers/vivid/vivid-kthread-out.c
-@@ -154,12 +154,13 @@ static int vivid_thread_vid_out(void *data)
- 
- 	/* Resets frame counters */
- 	dev->out_seq_offset = 0;
--	if (dev->seq_wrap)
--		dev->out_seq_count = 0xffffff80U;
-+	dev->out_seq_count = 0;
- 	dev->jiffies_vid_out = jiffies;
--	dev->vid_out_seq_start = dev->vbi_out_seq_start = 0;
--	dev->meta_out_seq_start = 0;
- 	dev->out_seq_resync = false;
-+	if (dev->time_wrap)
-+		dev->time_wrap_offset = dev->time_wrap - ktime_get_ns();
-+	else
-+		dev->time_wrap_offset = 0;
- 
- 	for (;;) {
- 		try_to_freeze();
-diff --git a/drivers/media/test-drivers/vivid/vivid-kthread-touch.c b/drivers/media/test-drivers/vivid/vivid-kthread-touch.c
-index 38fdfee79498..f065faae4988 100644
---- a/drivers/media/test-drivers/vivid/vivid-kthread-touch.c
-+++ b/drivers/media/test-drivers/vivid/vivid-kthread-touch.c
-@@ -62,6 +62,10 @@ static int vivid_thread_touch_cap(void *data)
- 	dev->touch_cap_seq_count = 0;
- 	dev->touch_cap_seq_resync = false;
- 	dev->jiffies_touch_cap = jiffies;
-+	if (dev->time_wrap)
-+		dev->time_wrap_offset = dev->time_wrap - ktime_get_ns();
-+	else
-+		dev->time_wrap_offset = 0;
- 
- 	for (;;) {
- 		try_to_freeze();
-@@ -102,6 +106,8 @@ static int vivid_thread_touch_cap(void *data)
- 		}
- 		dropped_bufs = buffers_since_start + dev->touch_cap_seq_offset - dev->touch_cap_seq_count;
- 		dev->touch_cap_seq_count = buffers_since_start + dev->touch_cap_seq_offset;
-+		dev->touch_cap_with_seq_wrap_count =
-+			dev->touch_cap_seq_count - dev->touch_cap_seq_start;
- 
- 		vivid_thread_tch_cap_tick(dev, dropped_bufs);
- 
-@@ -143,6 +149,7 @@ int vivid_start_generating_touch_cap(struct vivid_dev *dev)
- 		return 0;
- 	}
- 
-+	dev->touch_cap_seq_start = dev->seq_wrap * 128;
- 	dev->kthread_touch_cap = kthread_run(vivid_thread_touch_cap, dev,
- 					     "%s-tch-cap", dev->v4l2_dev.name);
- 
-diff --git a/drivers/media/test-drivers/vivid/vivid-sdr-cap.c b/drivers/media/test-drivers/vivid/vivid-sdr-cap.c
-index 265db2114671..59fd508e27c8 100644
---- a/drivers/media/test-drivers/vivid/vivid-sdr-cap.c
-+++ b/drivers/media/test-drivers/vivid/vivid-sdr-cap.c
-@@ -101,7 +101,7 @@ static void vivid_thread_sdr_cap_tick(struct vivid_dev *dev)
- 	spin_unlock(&dev->slock);
- 
- 	if (sdr_cap_buf) {
--		sdr_cap_buf->vb.sequence = dev->sdr_cap_seq_count;
-+		sdr_cap_buf->vb.sequence = dev->sdr_cap_with_seq_wrap_count;
- 		v4l2_ctrl_request_setup(sdr_cap_buf->vb.vb2_buf.req_obj.req,
- 					&dev->ctrl_hdl_sdr_cap);
- 		v4l2_ctrl_request_complete(sdr_cap_buf->vb.vb2_buf.req_obj.req,
-@@ -131,10 +131,13 @@ static int vivid_thread_sdr_cap(void *data)
- 
- 	/* Resets frame counters */
- 	dev->sdr_cap_seq_offset = 0;
--	if (dev->seq_wrap)
--		dev->sdr_cap_seq_offset = 0xffffff80U;
-+	dev->sdr_cap_seq_count = 0;
- 	dev->jiffies_sdr_cap = jiffies;
- 	dev->sdr_cap_seq_resync = false;
-+	if (dev->time_wrap)
-+		dev->time_wrap_offset = dev->time_wrap - ktime_get_ns();
-+	else
-+		dev->time_wrap_offset = 0;
- 
- 	for (;;) {
- 		try_to_freeze();
-@@ -174,6 +177,7 @@ static int vivid_thread_sdr_cap(void *data)
- 		}
- 		dev->sdr_cap_seq_count =
- 			buffers_since_start + dev->sdr_cap_seq_offset;
-+		dev->sdr_cap_with_seq_wrap_count = dev->sdr_cap_seq_count - dev->sdr_cap_seq_start;
- 
- 		vivid_thread_sdr_cap_tick(dev);
- 		mutex_unlock(&dev->mutex);
-@@ -263,7 +267,7 @@ static int sdr_cap_start_streaming(struct vb2_queue *vq, unsigned count)
- 	int err = 0;
- 
- 	dprintk(dev, 1, "%s\n", __func__);
--	dev->sdr_cap_seq_count = 0;
-+	dev->sdr_cap_seq_start = dev->seq_wrap * 128;
- 	if (dev->start_streaming_error) {
- 		dev->start_streaming_error = false;
- 		err = -EINVAL;
-diff --git a/drivers/media/test-drivers/vivid/vivid-touch-cap.c b/drivers/media/test-drivers/vivid/vivid-touch-cap.c
-index ebb00b128030..64e3e4cb30c2 100644
---- a/drivers/media/test-drivers/vivid/vivid-touch-cap.c
-+++ b/drivers/media/test-drivers/vivid/vivid-touch-cap.c
-@@ -262,7 +262,7 @@ void vivid_fillbuff_tch(struct vivid_dev *dev, struct vivid_buffer *buf)
- 
- 	__s16 *tch_buf = vb2_plane_vaddr(&buf->vb.vb2_buf, 0);
- 
--	buf->vb.sequence = dev->touch_cap_seq_count;
-+	buf->vb.sequence = dev->touch_cap_with_seq_wrap_count;
- 	test_pattern = (buf->vb.sequence / TCH_SEQ_COUNT) % TEST_CASE_MAX;
- 	test_pat_idx = buf->vb.sequence % TCH_SEQ_COUNT;
- 
--- 
-2.20.1
+T24gTW9uLCAyMDIxLTA5LTA2IGF0IDAwOjIzICswODAwLCBob3Vsb25nIHdlaSB3cm90ZToNCj4g
+SGkgRXplcXVpZWwsDQo+IA0KPiBUaGFuayB5b3UgZm9yIHlvdXIgYXR0ZW50aW9uIHRvIHRoaXMg
+c2VyaWVzIG9mIHBhdGNoZXMuIEkgYW5zd2VyDQo+IHBhcnRpYWwgb2YgeW91ciBxdWVzdGlvbnMg
+YmVsb3cuDQo+IFJlZ2FyZHMsDQo+IEhvdWxvbmcNCj4gDQo+IE9uIFNhdCwgMjAyMS0wOS0wNCBh
+dCAyMDozNCArMDgwMCwgRXplcXVpZWwgR2FyY2lhIHdyb3RlOg0KPiA+IEhpIEVpemFuLA0KPiA+
+IA0KPiA+IFNvcnJ5IGZvciBzZWVpbmcgdGhpcyBzZXJpZXMgc28gbGF0ZS4NCj4gPiANCj4gPiBP
+biBXZWQsIDI1IEF1ZyAyMDIxIGF0IDAzOjM1LCBFaXphbiBNaXlhbW90byA8ZWl6YW5AY2hyb21p
+dW0ub3JnPg0KPiA+IHdyb3RlOg0KPiA+ID4gDQo+ID4gPiBCcm9hZGx5LCB0aGlzIHBhdGNoICgx
+KSBhZGRzIGEgZHJpdmVyIGZvciB2YXJpb3VzIE1USyBNRFANCj4gPiA+IGNvbXBvbmVudHMgdG8N
+Cj4gPiA+IGdvIGFsb25nc2lkZSB0aGUgbWFpbiBNVEsgTURQIGRyaXZlciwgYW5kICgyKSBob29r
+cyB0aGVtIGFsbA0KPiA+ID4gdG9nZXRoZXINCj4gPiA+IHVzaW5nIHRoZSBjb21wb25lbnQgZnJh
+bWV3b3JrLg0KPiA+ID4gDQo+ID4gPiAoMSkgVXAgdW50aWwgbm93LCB0aGUgTVRLIE1EUCBkcml2
+ZXIgY29udHJvbHMgOCBkZXZpY2VzIGluIHRoZQ0KPiA+ID4gZGV2aWNlDQo+ID4gPiB0cmVlIG9u
+IGl0cyBvd24uIFdoZW4gcnVubmluZyB0ZXN0cyBmb3IgdGhlIGhhcmR3YXJlIHZpZGVvDQo+ID4g
+PiBkZWNvZGVyLA0KPiA+ID4gd2UNCj4gPiA+IGZvdW5kIHRoYXQgdGhlIGlvbW11cyBhbmQgTEFS
+QnMgd2VyZSBub3QgYmVpbmcgcHJvcGVybHkNCj4gPiA+IGNvbmZpZ3VyZWQuDQo+ID4gDQo+ID4g
+V2h5IHdlcmUgbm90IGJlaW5nIHByb3Blcmx5IGNvbmZpZ3VyZWQ/IFdoYXQgd2FzIHRoZSBwcm9i
+bGVtPw0KPiA+IFdoeSBub3QgZml4aW5nIHRoYXQgaW5zdGVhZD8NCj4gPiANCj4gPiBEb2VzIHRo
+aXMgbWVhbiB0aGUgZHJpdmVyIGlzIGN1cnJlbnRseSBicm9rZW4gYW5kIHVudXNhYmxlPw0KPiAN
+Cj4gVGhpcyBzZXJpZXMgb2YgcGF0Y2hlcyBhcmUgc3VwcGxlbWVudHMgdG8gYW5vdGhlciBzZXJp
+ZXMsIHBsZWFzZQ0KPiByZWZlcg0KPiB0byAgDQo+IA0KaHR0cHM6Ly9wYXRjaHdvcmsua2VybmVs
+Lm9yZy9wcm9qZWN0L2xpbnV4LW1lZGlhdGVrL2xpc3QvP3Nlcmllcz01MTUxMjljDQo+ICwgd2hp
+Y2ggYWRkIGRldmljZSBsaW5rIGJldHdlZW4gdGhlIG10ay1pb21tdSBjb25zdW1lciBhbmQgdGhl
+IG10ay0NCj4gbGFyYiANCj4gZGV2aWNlcy4gV2l0aG91dCB0aGF0IHNlcmllcyBvZiBwYXRjaGVz
+LCB0aGUgbXRrLW1kcCBkcml2ZXIgY2FuIHdvcmsNCj4gd2VsbCBzbyBmYXIuDQo+IEJ1dCB3aXRo
+IHRoYXQgc2VyaWVzLCBpdCBzZWVtcyB0aGUgZGV2aWNlIGxpbmsgb25seSBjYW4gYmUNCj4gZXN0
+YWJsaXNoZWQNCj4gZm9yIHRoZSBkZXZpY2Ugd2hpY2ggaXMgcmVnaXN0ZXJlZCBhcyBhIHBsYXRm
+b3JtIGRyaXZlci4gVGhhdCdzIHdoeQ0KPiBFaXphbiBhZGRzIHRoaXMgc2VyaWVzIG9mIHBhdGNo
+ZXMgdG8gbWFrZSBhbGwgbWRwIGNvbXBvbmVudHMgdG8gYmUNCj4gcmVnaXN0ZXJlZCBhcyBwbGF0
+Zm9ybSBkcml2ZXJzLg0KDQpUaGUgbXQ4MTczIG1kcCBoYXMgc2V2ZXJhbCBkZXZpY2VzOg0KICAg
+bWVkaWF0ZWssbXQ4MTczLW1kcC1yZG1hLCBtZWRpYXRlayxtdDgxNzMtbWRwICANCiAgIG1lZGlh
+dGVrLG10ODE3My1tZHAtcnN6DQogICBtZWRpYXRlayxtdDgxNzMtbWRwLXdkbWENCiAgIG1lZGlh
+dGVrLG10ODE3My1tZHAtd3JvdA0KDQpFeGNlcHQgdGhlIGZpcnN0IG9uZSwgdGhlIGxhc3QgdGhy
+ZWUgZGV2aWNlcyBhcmUgbm90IHRoZSBzdGFuZGFyZA0KcGxhdGZvcm0gZGV2aWNlcy4gVGh1cywg
+dGhleSBzaG91bGQgbm90IGJlIHRoZSBpb21tdSBjb25zdW1lciBkZXZpY2VzLg0KDQpRdWVzdGlv
+biAxOiBUaGUgbGFzdCB0aHJlZSBkZXZpY2UgZG9uJ3Qgd29yayBhY3R1YWxseSBpbiBtdDgxNzMg
+Y2hyb21lLA0KcmlnaHQ/IG9yIHRoZXkgYWNjZXNzIGNvbnRpbnVvdXMgYnVmZmVycz8NCg0KUXVl
+c3Rpb24gMjogVGhlIElPTU1VIGRldmljZS1saW5rIHBhdGNoc2V0IGp1c3QgcmVwbGFjZXMgdGhl
+IHBtIHJ1bnRpbWUNCmludGVyZmFjZXMuIEl0IGRvbid0IGltcHJvdmUgdGhlIG1kcCBmbG93LCBh
+bHNvIHNob3VsZCBub3QgaW50cm9kdWNlDQpyZWdyZXNzaW9uLiB0aHVzLCBteSB2OCBkb24ndCBy
+ZWJhc2UgdGhpcyBtZHAgcGF0Y2hlcy4gRG9lcyB0aGUgaW9tbXUNCnBhdGNoc2V0IGludHJvZHVj
+ZSByZWdyZXNzaW9uIGZvciBtZHA/DQoNCkBFaXphbiwgQGhvdWxvbmcsIENvdWxkIHlvdSBoZWxw
+IGNvbmZpcm0gdGhpcz8NClRoYW5rcy4NCg0KPiANCj4gPiANCj4gPiA+IFRvDQo+ID4gPiBjb25m
+aWd1cmUgdGhlbSwgYSBkcml2ZXIgZm9yIGVhY2ggYmUgYWRkZWQgdG8gbXRrX21kcF9jb21wIHNv
+DQo+ID4gPiB0aGF0DQo+ID4gPiBtdGtfaW9tbXVfYWRkX2RldmljZSgpIGNhbiAoZXZlbnR1YWxs
+eSkgYmUgY2FsbGVkIGZyb20NCj4gPiA+IGRtYV9jb25maWd1cmUoKQ0KPiA+ID4gaW5zaWRlIHJl
+YWxseV9wcm9iZSgpLg0KPiA+ID4gDQo+ID4gPiAoMikgVGhlIGludGVncmF0aW9uIGludG8gdGhl
+IGNvbXBvbmVudCBmcmFtZXdvcmsgYWxsb3dzIHVzIHRvDQo+ID4gPiBkZWZlcg0KPiA+ID4gdGhl
+DQo+ID4gPiByZWdpc3RyYXRpb24gd2l0aCB0aGUgdjRsMiBzdWJzeXN0ZW0gdW50aWwgYWxsIHRo
+ZSBNRFAtcmVsYXRlZA0KPiA+ID4gZGV2aWNlcw0KPiA+ID4gaGF2ZSBiZWVuIHByb2JlZCwgc28g
+dGhhdCB0aGUgcmVsZXZhbnQgZGV2aWNlIG5vZGUgZG9lcyBub3QNCj4gPiA+IGJlY29tZQ0KPiA+
+ID4gYXZhaWxhYmxlIHVudGlsIGluaXRpYWxpemF0aW9uIG9mIGFsbCB0aGUgY29tcG9uZW50cyBp
+cyBjb21wbGV0ZS4NCj4gPiA+IA0KPiA+ID4gU29tZSBub3RlcyBhYm91dCBob3cgdGhlIGNvbXBv
+bmVudCBmcmFtZXdvcmsgaGFzIGJlZW4gaW50ZWdyYXRlZDoNCj4gPiA+IA0KPiA+ID4gLSBUaGUg
+ZHJpdmVyIGZvciB0aGUgcmRtYTAgY29tcG9uZW50IHNlcnZlcyBkb3VibGUgZHV0eSBhcyB0aGUN
+Cj4gPiA+ICJtYXN0ZXIiDQo+ID4gPiAgIChhZ2dyZWdhdGUpIGRyaXZlciBhcyB3ZWxsIGFzIGEg
+Y29tcG9uZW50IGRyaXZlci4gVGhpcyBpcyBhDQo+ID4gPiBub24tDQo+ID4gPiBpZGVhbA0KPiA+
+ID4gICBjb21wcm9taXNlIHVudGlsIGEgYmV0dGVyIHNvbHV0aW9uIGlzIGRldmVsb3BlZC4gVGhp
+cyBkZXZpY2UgaXMNCj4gPiA+ICAgZGlmZmVyZW50aWF0ZWQgZnJvbSB0aGUgcmVzdCBieSBjaGVj
+a2luZyBmb3IgYSAibWVkaWF0ZWssdnB1Ig0KPiA+ID4gcHJvcGVydHkNCj4gPiA+ICAgaW4gdGhl
+IGRldmljZSBub2RlLg0KPiA+ID4gDQo+ID4gDQo+ID4gQXMgSSBoYXZlIHN0YXRlZCBpbiBZdW5m
+ZWksIEkgYW0gbm90IGNvbnZpbmNlZCB5b3UgbmVlZCBhbiBhc3luYw0KPiA+IGZyYW1ld29yaw0K
+PiA+IGF0IGFsbC4gSXQgc2VlbXMgYWxsIHRoZXNlIGRldmljZXMgY291bGQgaGF2ZSBiZWVuIGxp
+bmtlZCB0b2dldGhlcg0KPiA+IGluIHRoZSBkZXZpY2UgdHJlZSwgYW5kIHRoZW4gaGF2ZSBhIG1h
+c3RlciBkZXZpY2UgdG8gdGllIHRoZW0uDQo+ID4gDQo+ID4gSS5lLiBzb21ldGhpbmcgbGlrZQ0K
+PiA+IA0KPiA+IG1kcCB7DQo+ID4gICBtZHBfcmRtYTAgew0KPiA+ICAgfQ0KPiA+ICAgbWRwX3Jz
+ejAgew0KPiA+ICAgfQ0KPiA+ICAgbWRwX3JzejEgew0KPiA+ICAgfQ0KPiA+IH0NCj4gPiANCj4g
+DQo+IFRoZSBjb21taXQgbWVzc2FnZSBvZiB0aGUgcGF0Y2ggYmVsb3cgZXhwbGFpbnMgdGhhdCAi
+IElmIHRoZSBtZHBfKg0KPiBub2RlcyBhcmUgdW5kZXIgYW4gbWRwIHN1Yi1ub2RlLCB0aGVpciBj
+b3JyZXNwb25kaW5nIHBsYXRmb3JtIGRldmljZQ0KPiBkb2VzIG5vdCBhdXRvbWF0aWNhbGx5IGdl
+dCBpdHMgaW9tbXUgYXNzaWduZWQgcHJvcGVybHkuIg0KPiBQbGVhc2UgcmVmZXIgdG8gDQo+IA0K
+aHR0cHM6Ly9naXQua2VybmVsLm9yZy9wdWIvc2NtL2xpbnV4L2tlcm5lbC9naXQvc3RhYmxlL2xp
+bnV4LmdpdC9jb21taXQvYXJjaC9hcm02NC9ib290L2R0cy9tZWRpYXRlay9tdDgxNzMuZHRzaT9o
+PXY1LjE0LjEmaWQ9ODEyNzg4MWY3NDFkYmJmOWExZGE5ZTliYzU5MTMzODIwMTYwYjIxNw0KPiAN
+CltzbmlwXQ0K
 
