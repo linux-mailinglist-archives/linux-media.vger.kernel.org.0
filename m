@@ -2,122 +2,206 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2AE7D46D599
-	for <lists+linux-media@lfdr.de>; Wed,  8 Dec 2021 15:26:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B65BD46D6BE
+	for <lists+linux-media@lfdr.de>; Wed,  8 Dec 2021 16:14:08 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235099AbhLHOaD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 8 Dec 2021 09:30:03 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40740 "EHLO
+        id S235843AbhLHPRi (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 8 Dec 2021 10:17:38 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52238 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231634AbhLHOaC (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 8 Dec 2021 09:30:02 -0500
-Received: from mail-ed1-x533.google.com (mail-ed1-x533.google.com [IPv6:2a00:1450:4864:20::533])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EEE99C061746;
-        Wed,  8 Dec 2021 06:26:29 -0800 (PST)
-Received: by mail-ed1-x533.google.com with SMTP id t5so9177114edd.0;
-        Wed, 08 Dec 2021 06:26:29 -0800 (PST)
+        with ESMTP id S235838AbhLHPRb (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 8 Dec 2021 10:17:31 -0500
+Received: from mail-ed1-x535.google.com (mail-ed1-x535.google.com [IPv6:2a00:1450:4864:20::535])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A3E05C061746;
+        Wed,  8 Dec 2021 07:13:59 -0800 (PST)
+Received: by mail-ed1-x535.google.com with SMTP id l25so9358609eda.11;
+        Wed, 08 Dec 2021 07:13:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc:content-transfer-encoding;
-        bh=WEqGRbqWp40+7xIlHrxTNX9Z2+0HYwvvaJQn6NNsWnY=;
-        b=AEzodwMSKr6CHlgAaIAZ/IOORN2qo/H8d7g/Nq7kBhZkFhEFb06XsBrsPwzBjwOeBd
-         aI80HSFhGRBsC0v8m5tU8zVx6ArTFbpLpT5UQqLQ5pAaiI0wfA8by/bsrKUduBSxn18i
-         DWsDPc6UmuCLEswfROW6DqaRvnYK8Ipzlx7VenCGcASAxlCWemoJgCJFpxDGX/H7RMZM
-         B5e7fuvpVvHFD3PH+TwkqUxANhcA3ICinxzdfI1xmiFeh2KuLZcPVMjkWYtrR5uBXCzQ
-         899JkPcPGRFDzXmXhELzN4ytDBtwD42SAxni4RHwqM9foiqOEbeRsIdiacXBhrTj9lC1
-         H8fg==
+        bh=VdUdxIiaU5pFF+V8DTX3AHEAt5/Eve6LradMf5zXN3A=;
+        b=d0DFQxVhQJSsNcwUBQkigMPaxadTwrFHzuGfAQb+ee+piHGEaANf5Z8P2KiO8ik+Kg
+         unYXfBOPH4bNGrv9FtChzyEycOQEH9jNIoP4W1aqvEPzEmMC7riKxpp/5uswhlWVRtAa
+         RNppAOavenQzJiMdh0LHaUdHLS0hQethRictq9Eeza/eNHNutocJ79BzUh3+JUQzgJdI
+         O+nwF2EyE+3BP3JR4MpcQU2kPZgBCK3Bvfp2/bmOufePEV3iBlY+SAtwjOzzhop6Y3lx
+         CuulofXSV7VICoQtPy0Yag/CnBJ4bDIjj4Dmn2Tgr8pYZJdlWZI/59EQj/gY7t9qGo44
+         A29A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc:content-transfer-encoding;
-        bh=WEqGRbqWp40+7xIlHrxTNX9Z2+0HYwvvaJQn6NNsWnY=;
-        b=EGVIVKQRhFynkHCBw7GTXD69v3ICvk0n6rJXBKGgPCmpTLZ55RVSLwwOYXjaM3FJXQ
-         lV0WfITc1ekmXx7YPa5f6kbIXld7nZIVSkNC+OGWshk5aohFgnB478gPQaWktEiag6Ww
-         wsndsyXYu6Obwq5Fz9sMI0jx4X8tyc/9mbaJE8WlE5gliCLXWQZmcbYfs4lzRkeQjgxC
-         fc1CnLq53hrGZ4amgLgH/vYJkU/prio4Q8C8jgGD/XQDC0J2wovJHsIbZ4kdxnmRkgtU
-         wO0GiZrH7fP+ssU4D3+Hb7YvAnPULJLgBvnZ7fpAPJHYhd/2oYapgShiWdXA/hwzsEMc
-         5Tww==
-X-Gm-Message-State: AOAM530WRkufC8hvlhIqX2qE4XbAwQ4IXq004Dh1y2AnVKIjhlqm4QE5
-        bt9TNimi50J58FDb5qcofciDJwKjlnkO3BJ5lFs=
-X-Google-Smtp-Source: ABdhPJxX9XcPpR79RIlsOvNcLKOHM1oOtGfJHVEXIfKfG9URMTDbZftI5+ttxlZfcAlWULxKeI7xc9yp3TpvQvcteMo=
-X-Received: by 2002:a17:907:869e:: with SMTP id qa30mr7465535ejc.356.1638973587669;
- Wed, 08 Dec 2021 06:26:27 -0800 (PST)
+        bh=VdUdxIiaU5pFF+V8DTX3AHEAt5/Eve6LradMf5zXN3A=;
+        b=71x9cNE1nJy4sy/5BnwUAvpFg+um5/qKYg7fzq/a80qgQ0uNoVk40fWV2ThqELuLgf
+         WxkZn89UkWbc4hiyCP5ZglR6PuUpP7sOEY//+z1Ds9B/w76Cmi6lG76d4IAEHK5K8K51
+         TXgvx6SGJG4M0plBYmZ9qAxXTQ/Pi+6NSX1paoBwkWtIzyutUxvAp+pl6B23Fj4JEz26
+         9Z51TB+PoN7mpsUokGh80TeOjJrehPrU3hM8L+5vBtpIQRlam5YOX1MAvHJOndP0Q8CI
+         suiWUJlNk5nc/XLIGfJDEeucx4VaXYImC2EHsm8F9UQ304qQ54j9GXY50oQWO0/zy6ke
+         wEHg==
+X-Gm-Message-State: AOAM530Jjlx03RtsZwEz4eRhFtX8mBb5g7onShdO82jddFyX35fUTvuh
+        ziDGz/KCUOMVgj5OEBEHgcGpK79b6LBC/hu4sOo=
+X-Google-Smtp-Source: ABdhPJzPHBFy+YHW8yC/1wHg8+o4FteQqgjl4FzR3P6qHxX2U0B74TAMmXXGyddSKBaRqSt5gXqrFBWeDu0p3AmM+Gg=
+X-Received: by 2002:aa7:d288:: with SMTP id w8mr20577138edq.404.1638976435569;
+ Wed, 08 Dec 2021 07:13:55 -0800 (PST)
 MIME-Version: 1.0
-References: <20211206131648.1521868-1-hverkuil-cisco@xs4all.nl>
- <CAHp75VcPhSvQvjA5WBO72Lb5idc6vkkodai_V=YmLWtsz-qg1A@mail.gmail.com>
- <CACRpkda2d9j7_HOM1Q1dEsK+U4-4KmbvjvTAEvx2AbxMQtOgFA@mail.gmail.com> <d1ce87a0-decb-ac29-7906-1181c83c1067@xs4all.nl>
-In-Reply-To: <d1ce87a0-decb-ac29-7906-1181c83c1067@xs4all.nl>
-From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Wed, 8 Dec 2021 16:24:54 +0200
-Message-ID: <CAHp75VfqH_1Rc4i-Fb9_SxtTWqr2SOspgvk=JGxMUHFWOZn6uQ@mail.gmail.com>
-Subject: Re: [RFC PATCH 0/3] pinctrl: can_sleep and pinctrl_gpio_direction
-To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Cc:     Linus Walleij <linus.walleij@linaro.org>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        "linux-gpio@vger.kernel.org" <linux-gpio@vger.kernel.org>,
-        Maxime Ripard <maxime@cerno.tech>,
-        Florian Fainelli <f.fainelli@gmail.com>
+References: <20211207015446.1250854-1-aford173@gmail.com> <f85da774-ccb3-85de-edd6-5333ed8d0503@collabora.com>
+ <5a8b84e91bd8e7670a0d0108e4affe9b964202cb.camel@pengutronix.de> <4cc3404b-7f8a-6c87-8c1c-ace399f9edd3@collabora.com>
+In-Reply-To: <4cc3404b-7f8a-6c87-8c1c-ace399f9edd3@collabora.com>
+From:   Adam Ford <aford173@gmail.com>
+Date:   Wed, 8 Dec 2021 09:13:44 -0600
+Message-ID: <CAHCN7xJJfBXdK6B1tHXjmja4Lr=Q-Uony+QWcvVqoQp36RLY=w@mail.gmail.com>
+Subject: Re: [RFC V2 0/6] media: Hantro: Split iMX8MQ VPU into G1 and G2 with
+ blk-ctrl support
+To:     Benjamin Gaignard <benjamin.gaignard@collabora.com>
+Cc:     Lucas Stach <l.stach@pengutronix.de>,
+        linux-media <linux-media@vger.kernel.org>,
+        Chris Healy <cphealy@gmail.com>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "open list:HANTRO VPU CODEC DRIVER" 
+        <linux-rockchip@lists.infradead.org>,
+        devicetree <devicetree@vger.kernel.org>,
+        arm-soc <linux-arm-kernel@lists.infradead.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        "open list:STAGING SUBSYSTEM" <linux-staging@lists.linux.dev>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Dec 8, 2021 at 11:26 AM Hans Verkuil <hverkuil-cisco@xs4all.nl> wro=
-te:
-> On 08/12/2021 01:30, Linus Walleij wrote:
-> > On Tue, Dec 7, 2021 at 11:14 PM Andy Shevchenko
-> > <andy.shevchenko@gmail.com> wrote:
-> >> On Monday, December 6, 2021, Hans Verkuil <hverkuil-cisco@xs4all.nl> w=
-rote:
-
-> >>> Based on this discussion:
-> >>>
-> >>> https://lore.kernel.org/linux-gpio/CACRpkdb3q4-9O3dHS6QDWnZZ5JJjXWXS9=
-KPvwXVaowLMRhcejA@mail.gmail.com/T/#t
-> >>>
-> >>> I propose this RFC series.
-> >>
-> >>
-> >> When I first saw your report I was thinking about actually adding a ne=
-w callback ->set_direction_atomic()
-> >> and then make pinctrl use it, otherwise like you do, I.e. issue a warn=
-ing when it=E2=80=99s called in atomic context
-> >
-> > The problem is inside of pinctrl core, not in any driver. It takes a
-> > mutex when going over
-> > the GPIO ranges.
-> >
-> > I suggested maybe just replacing these mutexes with spinlocks, or RCU.
+On Wed, Dec 8, 2021 at 7:36 AM Benjamin Gaignard
+<benjamin.gaignard@collabora.com> wrote:
 >
-> RCU or spinlock would most likely work as a replacement for pinctrldev_li=
-st_mutex, but
-> not for pctldev->mutex. I didn't see any obvious way of replacing it with=
- something else.
-
-You can't get rid of locking even with RCU. AFAIR the locking protects
-"writer" side and it can well be mutex, doesn't really matter. The
-question about RCU is what we are actually _doing_ in the call we are
-talking about. If it's a simple _reader_ of some (shared) array of
-data which is not being updated during this traversing, then it's a
-very good fit for it. Otherwise other means should be considered.
-
-> I'm open to any suggestions, but for now this was the best I could come u=
-p with, given
-> my limited knowledge of the gpio/pinctrl subsystems. It at least warns yo=
-u that something
-> is wrong.
 >
-> Personally I think that for combined gpio/pinctrl drivers it doesn't make=
- sense to take
-> this additional loop through the pinctrl core, regardless of whatever loc=
-king mechanism
-> is used. I actually think that it obfuscates those drivers a bit, but tha=
-t might just be
-> me.
+> Le 08/12/2021 =C3=A0 11:32, Lucas Stach a =C3=A9crit :
+> > Am Mittwoch, dem 08.12.2021 um 10:32 +0100 schrieb Benjamin Gaignard:
+> >> Le 07/12/2021 =C3=A0 02:54, Adam Ford a =C3=A9crit :
+> >>
+> >>> Currently, the VPU in the i.MQ8MQ is appearing as one codec, but in
+> >>> reality, it's two IP blocks called G1 and G2.  There is initializatio=
+n
+> >>> code in VPU code to pull some clocks, resets and other features which
+> >>> has been integrated into the vpu-blk-ctrl for the i.MX8M Mini and a
+> >>> similar method can be used to make the VPU codec's operate as
+> >>> stand-alone cores without having to know the details of each other
+> >>> or the quirks unique to the i.MX8MQ, so the remaining code can be
+> >>> left more generic.
+> >>>
+> >>> This series was started by Lucas Stach with one by Benjamin Gaignard.
+> >>> Most patches have been modified slightly by me.  It's in an RFC state
+> >>> because I wasn't sure how to best handle the signatures and wasn't su=
+re
+> >>> if I could base it off the branch I did.
+> >>>
+> >>> Since the g-streamer and media trees are in a constant state of
+> >>> change, this series is based on
+> >>>
+> >>> git://linuxtv.org/hverkuil/media_tree.git for-v5.17e
+> >>>
+> >>> The downstream code from NXP shows the G1 and G2 clocks running
+> >>> at 600MHz, but between the TRM and the datasheet, there is some
+> >>> discrepancy.  Because the NXP reference code used 600MHz, that is
+> >>> what was chosen here.  Users who need to adjust their G1 and G2
+> >>> clocks can do so in their board files.
+> >> Hi Adam,
+> >>
+> >> Thanks for your patches, I have been able to reproduce VP9 results on =
+my side (Fluster 147/303).
+> >> In past I have notice spurious errors when using 600MHz clock on HEVC =
+decode but not with 300MHz.
+>
+> The results for Fluster HEVC are 77/147 so no regressions :-)
+>
+> Regards,
+> Benjamin
+>
+> >> The max supported G2 clock frequency is 660MHz but needs a higher
+> >> voltage. The maximum supported  frequency at the default 0.9V is
+> >> 550MHz. We should not configure the clocks for the higher than that, a=
+s
+> >> long as there is no support in the VPU driver to scale the voltage
+> >> along with the frequency. Same as with the GPU we should stick to base
+> >> frequency levels for the nominal operating mode.
 
+Lucas,
 
---=20
-With Best Regards,
-Andy Shevchenko
+After reviewing the comments from Benjamin, I re-ran the VP9 tests
+with the G2 running at 300MHz,and the number of passing VP9 tests
+increased to 148 from 144 with an increase of time to 250.502 secs
+from 162.665 secs.
+
+While the datasheet reads that the G2 can run faster, the i.MX 8M
+Dual/8M QuadLite/8M Quad Applications Processors Reference Manual,
+Rev. 3.1, 06/2021, table 5-1  shows the VPU_G2_CLK_ROOT has a max
+clock of 300MHz.  I might be inclined to agree with Benjamin on the
+300MHz and let people who want to push their hardware overwrite the
+default clocks since it increases functionality.
+
+I wonder if someone from NXP can comment
+
+adam
+
+> >>
+> >> Regards,
+> >> Lucas
+> >>
+> >> Regards,
+> >> Benjamin
+> >>
+> >>> Fluster Results:
+> >>>
+> >>> ./fluster.py run -dGStreamer-H.264-V4L2SL-Gst1.0
+> >>> Ran 90/135 tests successfully               in 61.966 secs
+> >>>
+> >>> ./fluster.py run -d GStreamer-VP8-V4L2SL-Gst1.0
+> >>> Ran 55/61 tests successfully               in 7.660 secs
+> >>>
+> >>>
+> >>> ./fluster.py run -d GStreamer-VP9-V4L2SL-Gst1.0
+> >>> Ran 144/303 tests successfully               in 162.665 secs
+> >>>
+> >>> Changes log:
+> >>>
+> >>> V2:  Make vpu-blk-ctrl enable G2 clock when enabling fuses.
+> >>>        Remove syscon from device tree and binding example
+> >>>        Added modified nxp,imx8mq-vpu.yaml from Benjamin Gaignard
+> >>>
+> >>> Adam Ford (2):
+> >>>     media: hantro: split i.MX8MQ G1 and G2 code
+> >>>     arm64: dts: imx8mq: Split i.MX8MQ G1 and G2 with vpu-blk-ctrl
+> >>>
+> >>> Benjamin Gaignard (1):
+> >>>     dt-bindings: media: nxp,imx8mq-vpu: Update the bindings for G2 su=
+pport
+> >>>
+> >>> Lucas Stach (3):
+> >>>     dt-bindings: power: imx8mq: add defines for VPU blk-ctrl domains
+> >>>     dt-bindings: soc: add binding for i.MX8MQ VPU blk-ctrl
+> >>>     soc: imx: imx8m-blk-ctrl: add i.MX8MQ VPU blk-ctrl
+> >>>
+> >>>    .../bindings/media/nxp,imx8mq-vpu.yaml        |  58 +++++----
+> >>>    .../soc/imx/fsl,imx8mq-vpu-blk-ctrl.yaml      |  71 +++++++++++
+> >>>    arch/arm64/boot/dts/freescale/imx8mq.dtsi     |  69 ++++++----
+> >>>    drivers/soc/imx/imx8m-blk-ctrl.c              |  68 +++++++++-
+> >>>    drivers/staging/media/hantro/hantro_drv.c     |   4 +-
+> >>>    drivers/staging/media/hantro/hantro_hw.h      |   2 +-
+> >>>    drivers/staging/media/hantro/imx8m_vpu_hw.c   | 119 +++-----------=
+----
+> >>>    include/dt-bindings/power/imx8mq-power.h      |   3 +
+> >>>    8 files changed, 237 insertions(+), 157 deletions(-)
+> >>>    create mode 100644 Documentation/devicetree/bindings/soc/imx/fsl,i=
+mx8mq-vpu-blk-ctrl.yaml
+> >>>
+> >>>
+> >>> base-commit: d1888b0bfd2ddef2e8a81505ffa200b92cc32e0c
+> >
