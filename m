@@ -2,150 +2,185 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D484746D0B5
-	for <lists+linux-media@lfdr.de>; Wed,  8 Dec 2021 11:13:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 63C1346D0D0
+	for <lists+linux-media@lfdr.de>; Wed,  8 Dec 2021 11:18:30 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231361AbhLHKRJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 8 Dec 2021 05:17:09 -0500
-Received: from sin.source.kernel.org ([145.40.73.55]:34628 "EHLO
-        sin.source.kernel.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231305AbhLHKRF (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 8 Dec 2021 05:17:05 -0500
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        id S231445AbhLHKWA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 8 Dec 2021 05:22:00 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38838 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231423AbhLHKWA (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 8 Dec 2021 05:22:00 -0500
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 779FCC061746;
+        Wed,  8 Dec 2021 02:18:28 -0800 (PST)
+Received: from [IPv6:2a00:c281:1230:3700:51d0:7039:5913:64d3] (unknown [IPv6:2a00:c281:1230:3700:51d0:7039:5913:64d3])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by sin.source.kernel.org (Postfix) with ESMTPS id 75083CE20FB;
-        Wed,  8 Dec 2021 10:13:32 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9F13BC341CD;
-        Wed,  8 Dec 2021 10:13:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1638958410;
-        bh=tDecbwk5LoyTmkCY8tOxOZRssd9DDpKv75KEUiOGOvw=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=gKvMv9+uEObtikOniX+WnPI7I9D67rtB/KkgFvyFWEsBtdkCFGsr7naOvMSaUaPqb
-         QUInSeYJpe51PnayWCiSVZPasPSiA2SpIeq+N+dWiNVLG4qcwpTiJE5slua3Rb2i92
-         QWehx2PQe9eeECyWZnePh5kKgqJy4wNnhCmXv6ZUbbAMmM7FX7s4TkNgMD7ReK8OQv
-         hGvz2t+ywVl1sLOOf64rhgxnNLz5ZiT1dfV8afKlboH4kngX6dOD9fGzLznSapzALq
-         grNUsfd1TePAxYO7/dv5hMJwWRnrNXv1oBf7JLhqOr8OHIPK2U2Rix7db/CN+qVABq
-         dWbdYFL9EsiPA==
-Received: from mchehab by mail.kernel.org with local (Exim 4.94.2)
-        (envelope-from <mchehab@kernel.org>)
-        id 1mutx2-00BgVP-Gr; Wed, 08 Dec 2021 11:13:28 +0100
-From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc:     linuxarm@huawei.com, mauro.chehab@huawei.com,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        "Robert Schlabbach" <robert_s@gmx.net>,
-        Antti Palosaari <crope@iki.fi>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
-Subject: [PATCH 3/3] media: si2157: rework the firmware load logic
-Date:   Wed,  8 Dec 2021 11:13:26 +0100
-Message-Id: <842e61352a54e9f1a7f44c4e3250a055c2d45e13.1638958050.git.mchehab+huawei@kernel.org>
-X-Mailer: git-send-email 2.33.1
-In-Reply-To: <cover.1638958050.git.mchehab+huawei@kernel.org>
-References: <cover.1638958050.git.mchehab+huawei@kernel.org>
+        (Authenticated sender: dafna)
+        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 3C3151F45B78;
+        Wed,  8 Dec 2021 10:18:26 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=collabora.com; s=mail;
+        t=1638958707; bh=XIp6xgTjTz1fumiAWczWcdggIWQ+LeHxsFc60JWF7Ps=;
+        h=Subject:From:To:Cc:References:Date:In-Reply-To:From;
+        b=CvB+lbSI8KGOkVe64pC7KSWOPjGy2HdhiLNHkl8TISiHEF5zVr2bYafItXVKu4HiC
+         CyGvWKkh0Z1vpcQ7rbvwLCWVKEreJeB9vSNXZtAOXsiwTtRxsLMLeek41jmJvdIi6N
+         T9+BQaVRSlxyGH0CSO56/mEMoS0XtkvZBhoAXEz2V2LFfYHEFdrYCQQQtbxS4pEKv1
+         gZWDUknmpbI0OlylsTkD2Yed/YvxSoiZM4yUagxUkzZgZRcW1PSslyruTlkMoXvdpF
+         4sSNPaRkg4nYga3W0JhF8L1mIhk4Ds0hUTcotdo9U50WEI//Cec9Osuw0ftD54roJo
+         A/3OMDOcAMhMg==
+Subject: Re: [PATCH 1/2] iommu/mediatek: Always tlb_flush_all when each PM
+ resume
+From:   Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+To:     Yong Wu <yong.wu@mediatek.com>
+Cc:     kernel@collabora.com, Joerg Roedel <joro@8bytes.org>,
+        Will Deacon <will@kernel.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        "moderated list:MEDIATEK IOMMU DRIVER" 
+        <linux-mediatek@lists.infradead.org>,
+        "moderated list:ARM/Mediatek SoC support" 
+        <linux-arm-kernel@lists.infradead.org>,
+        open list <linux-kernel@vger.kernel.org>,
+        linux-media@vger.kernel.org, sebastian.reichel@collabora.com,
+        iommu@lists.linux-foundation.org
+References: <20211122104400.4160-1-dafna.hirschfeld@collabora.com>
+ <20211122104400.4160-2-dafna.hirschfeld@collabora.com>
+ <6abef78f6447c626b737fd35688f421c29871f43.camel@mediatek.com>
+ <d30438bf-9add-7904-bad0-0764e3602263@collabora.com>
+ <35d53ea0-68db-a516-9e9c-272e8f0ed082@collabora.com>
+Message-ID: <b246cd23-f19e-e3d9-a19e-2f598b6d1425@collabora.com>
+Date:   Wed, 8 Dec 2021 12:18:23 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 MIME-Version: 1.0
+In-Reply-To: <35d53ea0-68db-a516-9e9c-272e8f0ed082@collabora.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
-To:     unlisted-recipients:; (no To-header on input)
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Loading a firmware file should not be mandatory, as devices
-could work with an eeprom firmware, if available.
 
-Yet, using the eeprom firmware could lead into unpredictable
-results, so the best is to warn about that.
 
-Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
----
+On 08.12.21 11:50, Dafna Hirschfeld wrote:
+> 
+> 
+> On 07.12.21 10:31, Dafna Hirschfeld wrote:
+>>
+>>
+>> On 27.11.21 04:46, Yong Wu wrote:
+>>> Hi Dafna,
+>>>
+>>> Sorry for reply late.
+>>>
+>>> On Mon, 2021-11-22 at 12:43 +0200, Dafna Hirschfeld wrote:
+>>>> From: Yong Wu <yong.wu@mediatek.com>
+>>>>
+>>>> Prepare for 2 HWs that sharing pgtable in different power-domains.
+>>>>
+>>>> When there are 2 M4U HWs, it may has problem in the flush_range in
+>>>> which
+>>>> we get the pm_status via the m4u dev, BUT that function don't reflect
+>>>> the
+>>>> real power-domain status of the HW since there may be other HW also
+>>>> use
+>>>> that power-domain.
+>>>>
+>>>> The function dma_alloc_attrs help allocate the iommu buffer which
+>>>> need the corresponding power domain since tlb flush is needed when
+>>>> preparing iova. BUT this function only is for allocating buffer,
+>>>> we have no good reason to request the user always call pm_runtime_get
+>>>> before calling dma_alloc_xxx. Therefore, we add a tlb_flush_all
+>>>> in the pm_runtime_resume to make sure the tlb always is clean.
+>>>>
+>>>> Another solution is always call pm_runtime_get in the
+>>>> tlb_flush_range.
+>>>> This will trigger pm runtime resume/backup so often when the iommu
+>>>> power is not active at some time(means user don't call pm_runtime_get
+>>>> before calling dma_alloc_xxx), This may cause the performance drop.
+>>>> thus we don't use this.
+>>>>
+>>>> In other case, the iommu's power should always be active via device
+>>>> link with smi.
+>>>>
+>>>> The previous SoC don't have PM except mt8192. the mt8192 IOMMU is
+>>>> display's
+>>>> power-domain which nearly always is enabled. thus no need fix tags
+>>>> here.
+>>>> Prepare for mt8195.
+>>>
+>>> In this patchset, this message should be not proper. I think you could
+>>> add the comment why this patch is needed in mt8173.
+>>>
+>>>>
+>>>> Signed-off-by: Yong Wu <yong.wu@mediatek.com>
+>>>> [imporvie inline doc]
+>>>> Signed-off-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+>>>> ---
+>>>>   drivers/iommu/mtk_iommu.c | 7 +++++++
+>>>>   1 file changed, 7 insertions(+)
+>>>>
+>>>> diff --git a/drivers/iommu/mtk_iommu.c b/drivers/iommu/mtk_iommu.c
+>>>> index 25b834104790..28dc4b95b6d9 100644
+>>>> --- a/drivers/iommu/mtk_iommu.c
+>>>> +++ b/drivers/iommu/mtk_iommu.c
+>>>> @@ -964,6 +964,13 @@ static int __maybe_unused
+>>>> mtk_iommu_runtime_resume(struct device *dev)
+>>>>           return ret;
+>>>>       }
+>>>> +    /*
+>>>> +     * Users may allocate dma buffer before they call
+>>>> pm_runtime_get,
+>>>> +     * in which case it will lack the necessary tlb flush.
+>>>> +     * Thus, make sure to update the tlb after each PM resume.
+>>>> +     */
+>>>> +    mtk_iommu_tlb_flush_all(data);
+>>>
+>>> This should not work. since current the *_tlb_flush_all call
+>>> pm_runtime_get_if_in_use which will always return 0 when it called from
+>>> this runtime_cb in my test. thus, It won't do the tlb_flush_all
+>>> actually.
+> 
+> He, indeed, my mistake, although the encoder works more or less fine even
+> without the full flush so I didn't catch that.
+> 
+>>>
+>>> I guess this also depend on these two patches of mt8195 v3.
+>>> [PATCH v3 09/33] iommu/mediatek: Remove for_each_m4u in tlb_sync_all
+>>> [PATCH v3 10/33] iommu/mediatek: Add tlb_lock in tlb_flush_all
+> 
+> I'll add those two
+> 
+>>>
+>>> like in [10/33], I added a mtk_iommu_tlb_do_flush_all which don't have
+>>> the pm operation.
+> 
+> yes, I need to remove the pm_runtime_get_if_in_use call in the 'flush_all' func
+> I see there is also a patch for that in the mt8195 v3 series "[PATCH v3 13/33] iommu/mediatek: Remove the power status checking in tlb flush all"
+> 
+> So I'll send v2, adding all those 3 patches, but I think adding mtk_iommu_tlb_do_flush_all
+> on patch 9 and removing it again on patch 13 is confusing so I'll avoid that.
+> 
 
-To avoid mailbombing on a large number of people, only mailing lists were C/C on the cover.
-See [PATCH 0/3] at: https://lore.kernel.org/all/cover.1638958050.git.mchehab+huawei@kernel.org/
+In addition, the call to mtk_iommu_tlb_flush_all from mtk_iommu_runtime_resume should move to the bottom of the function
+after all values are updated
 
- drivers/media/tuners/si2157.c | 31 ++++++++++++++++++-------------
- 1 file changed, 18 insertions(+), 13 deletions(-)
-
-diff --git a/drivers/media/tuners/si2157.c b/drivers/media/tuners/si2157.c
-index ed28672c060d..5f4ae8593864 100644
---- a/drivers/media/tuners/si2157.c
-+++ b/drivers/media/tuners/si2157.c
-@@ -129,8 +129,9 @@ static int si2157_init(struct dvb_frontend *fe)
- 	struct dtv_frontend_properties *c = &fe->dtv_property_cache;
- 	struct i2c_client *client = fe->tuner_priv;
- 	struct si2157_dev *dev = i2c_get_clientdata(client);
-+	bool warn_firmware_not_loaded = false;
- 	unsigned int chip_id, xtal_trim;
--	unsigned int fw_required;
-+	bool fw_required = true;
- 	struct si2157_cmd cmd;
- 	const char *fw_name;
- 	int ret;
-@@ -199,10 +200,6 @@ static int si2157_init(struct dvb_frontend *fe)
- 	#define SI2146_A10 ('A' << 24 | 46 << 16 | '1' << 8 | '0' << 0)
- 	#define SI2141_A10 ('A' << 24 | 41 << 16 | '1' << 8 | '0' << 0)
- 
--	/* assume firmware is required, unless verified not to be */
--	/* only the SI2157_A30 has been verified not to yet */
--	fw_required = true;
--
- 	switch (chip_id) {
- 	case SI2158_A20:
- 	case SI2148_A20:
-@@ -212,9 +209,8 @@ static int si2157_init(struct dvb_frontend *fe)
- 		fw_name = SI2141_A10_FIRMWARE;
- 		break;
- 	case SI2157_A30:
--		fw_name = SI2157_A30_FIRMWARE;
- 		fw_required = false;
--		break;
-+		fallthrough;
- 	case SI2177_A30:
- 		fw_name = SI2157_A30_FIRMWARE;
- 		break;
-@@ -237,12 +233,11 @@ static int si2157_init(struct dvb_frontend *fe)
- 		goto skip_fw_download;
- 
- 	ret = si2157_load_firmware(fe, fw_name);
--	if (ret) {
--		if (!fw_required)
--			goto skip_fw_download;
--
--		dev_err(&client->dev, "firmware file '%s' not found\n",
--			fw_name);
-+	if (fw_required && ret == -ENOENT)
-+		warn_firmware_not_loaded = true;
-+	else if (ret < 0) {
-+		dev_err(&client->dev, "error %d when loading firmware file '%s'\n",
-+			ret, fw_name);
- 		goto err;
- 	}
- 
-@@ -263,6 +258,11 @@ static int si2157_init(struct dvb_frontend *fe)
- 	if (ret)
- 		goto err;
- 
-+	if (warn_firmware_not_loaded) {
-+		dev_warn(&client->dev, "firmware file '%s' not found. Using firmware from eeprom.\n",
-+			 fw_name);
-+		warn_firmware_not_loaded = false;
-+	}
- 	dev_info(&client->dev, "firmware version: %c.%c.%d\n",
- 			cmd.args[6], cmd.args[7], cmd.args[8]);
- 
-@@ -298,6 +298,11 @@ static int si2157_init(struct dvb_frontend *fe)
- 	return 0;
- 
- err:
-+	if (warn_firmware_not_loaded)
-+		dev_err(&client->dev,
-+			"firmware file '%s' not found. Can't continue without a firmware.\n",
-+			fw_name);
-+
- 	dev_dbg(&client->dev, "failed=%d\n", ret);
- 	return ret;
- }
--- 
-2.33.1
-
+> Thanks,
+> Dafna
+> 
+> 
+> 
+>>>
+>>> This looks has a dependence. Let me know if I can help this.
+>>
+>> It did work for me, testing on elm device. I'll check that again.
+>>
+>>
+>>>
+>>>> +
+>>>>       /*
+>>>>        * Uppon first resume, only enable the clk and return, since
+>>>> the values of the
+>>>>        * registers are not yet set.
+>>
