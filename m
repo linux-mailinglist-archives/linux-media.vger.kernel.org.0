@@ -2,149 +2,100 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AA95A46D10F
-	for <lists+linux-media@lfdr.de>; Wed,  8 Dec 2021 11:32:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id CA13746D2F4
+	for <lists+linux-media@lfdr.de>; Wed,  8 Dec 2021 13:08:10 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230417AbhLHKgO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 8 Dec 2021 05:36:14 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42138 "EHLO
+        id S232958AbhLHMLl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 8 Dec 2021 07:11:41 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36290 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229531AbhLHKgO (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 8 Dec 2021 05:36:14 -0500
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5D1ECC061746
-        for <linux-media@vger.kernel.org>; Wed,  8 Dec 2021 02:32:42 -0800 (PST)
-Received: from gallifrey.ext.pengutronix.de ([2001:67c:670:201:5054:ff:fe8d:eefb] helo=[IPv6:::1])
-        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <l.stach@pengutronix.de>)
-        id 1muuFc-0003cK-1S; Wed, 08 Dec 2021 11:32:40 +0100
-Message-ID: <5a8b84e91bd8e7670a0d0108e4affe9b964202cb.camel@pengutronix.de>
-Subject: Re: [RFC V2 0/6] media: Hantro: Split iMX8MQ VPU into G1 and G2
- with blk-ctrl support
-From:   Lucas Stach <l.stach@pengutronix.de>
-To:     Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-        Adam Ford <aford173@gmail.com>, linux-media@vger.kernel.org
-Cc:     cphealy@gmail.com, hverkuil@xs4all.nl,
-        Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-rockchip@lists.infradead.org, devicetree@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        linux-staging@lists.linux.dev
-Date:   Wed, 08 Dec 2021 11:32:36 +0100
-In-Reply-To: <f85da774-ccb3-85de-edd6-5333ed8d0503@collabora.com>
-References: <20211207015446.1250854-1-aford173@gmail.com>
-         <f85da774-ccb3-85de-edd6-5333ed8d0503@collabora.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.40.4 (3.40.4-1.fc34) 
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2001:67c:670:201:5054:ff:fe8d:eefb
-X-SA-Exim-Mail-From: l.stach@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-media@vger.kernel.org
+        with ESMTP id S232869AbhLHMLk (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 8 Dec 2021 07:11:40 -0500
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 40C7BC061746;
+        Wed,  8 Dec 2021 04:08:09 -0800 (PST)
+Received: from localhost.localdomain (unknown [IPv6:2a00:c281:1230:3700:51d0:7039:5913:64d3])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        (Authenticated sender: dafna)
+        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 9EC681F45C7B;
+        Wed,  8 Dec 2021 12:08:06 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=collabora.com; s=mail;
+        t=1638965287; bh=L9d2/HDk7J7gj/gXjduUDMoRjsqJJjeSwDd7JPhOG9k=;
+        h=From:To:Subject:Date:From;
+        b=oBCBNfBpdFOfovUIiOFd2rS4JUzm/my5mfPfGW1At667YUHorYABd8psyv6pnFD7a
+         cLP0FK+r4UZdQQUb6zi5p8/3TuVTpcnqsOuK7diMwO+zugLcxk99zRUWqwD+OLb5ro
+         YFZBTw4Pxiay2V+kZdiUM9vUcF+kIQydtqtFzKROttPBmxb1UYGcZIg5sqXZgjNi2W
+         EguiMMYdgfqF93sybRg/2X0YjFtFVZb/mcuy4T0y7M1wtP9H4N0QH1L2WJr6XqD7+r
+         1k+HFC3//Oxdu2A0cOpIn+yw3Px4obMiw28qSROhcGyex/46Ee3yKUGAECDt4LW/zR
+         /JnFyRLE+b6mQ==
+From:   Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+To:     iommu@lists.linux-foundation.org, Yong Wu <yong.wu@mediatek.com>,
+        Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        linux-mediatek@lists.infradead.org (moderated list:MEDIATEK IOMMU
+        DRIVER),
+        linux-arm-kernel@lists.infradead.org (moderated list:ARM/Mediatek SoC
+        support), linux-kernel@vger.kernel.org (open list),
+        dafna.hirschfeld@collabora.com, kernel@collabora.com,
+        linux-media@vger.kernel.org, sebastian.reichel@collabora.com
+Subject: [PATCH v2 0/5] iommu/mediatek: Fix tlb flush logic
+Date:   Wed,  8 Dec 2021 14:07:39 +0200
+Message-Id: <20211208120744.2415-1-dafna.hirschfeld@collabora.com>
+X-Mailer: git-send-email 2.17.1
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Am Mittwoch, dem 08.12.2021 um 10:32 +0100 schrieb Benjamin Gaignard:
-> Le 07/12/2021 à 02:54, Adam Ford a écrit :
-> 
-> > Currently, the VPU in the i.MQ8MQ is appearing as one codec, but in
-> > reality, it's two IP blocks called G1 and G2.  There is initialization
-> > code in VPU code to pull some clocks, resets and other features which
-> > has been integrated into the vpu-blk-ctrl for the i.MX8M Mini and a
-> > similar method can be used to make the VPU codec's operate as
-> > stand-alone cores without having to know the details of each other
-> > or the quirks unique to the i.MX8MQ, so the remaining code can be
-> > left more generic.
-> > 
-> > This series was started by Lucas Stach with one by Benjamin Gaignard.
-> > Most patches have been modified slightly by me.  It's in an RFC state
-> > because I wasn't sure how to best handle the signatures and wasn't sure
-> > if I could base it off the branch I did.
-> > 
-> > Since the g-streamer and media trees are in a constant state of
-> > change, this series is based on
-> > 
-> > git://linuxtv.org/hverkuil/media_tree.git for-v5.17e
-> > 
-> > The downstream code from NXP shows the G1 and G2 clocks running
-> > at 600MHz, but between the TRM and the datasheet, there is some
-> > discrepancy.  Because the NXP reference code used 600MHz, that is
-> > what was chosen here.  Users who need to adjust their G1 and G2
-> > clocks can do so in their board files.
-> 
-> Hi Adam,
-> 
-> Thanks for your patches, I have been able to reproduce VP9 results on my side (Fluster 147/303).
-> In past I have notice spurious errors when using 600MHz clock on HEVC decode but not with 300MHz.
+Often devices allocate DMA buffers before they do
+runtime pm resume. This is the case for example with v4l2
+devices where buffers are allocated during 'VIDIOC_REQBUFS`
+and runtime resume happens later usually during 'VIDIOC_STREAMON'.
+In such cases the partial tlb flush when allocating will fail
+since the iommu is runtime suspended. This will print a warning
+and try to do full flush. But there is actually no need to flush
+the tlb before the consumer device is turned on.
 
-The max supported G2 clock frequency is 660MHz but needs a higher
-voltage. The maximum supported  frequency at the default 0.9V is
-550MHz. We should not configure the clocks for the higher than that, as
-long as there is no support in the VPU driver to scale the voltage
-along with the frequency. Same as with the GPU we should stick to base
-frequency levels for the nominal operating mode.
+Fix the warning by skipping partial flush when allocating and instead
+do full flash in runtime resume.
 
-Regards,
-Lucas
+In order to do full flush from the resume cb, the test:
 
-> 
-> Regards,
-> Benjamin
-> 
-> > 
-> > Fluster Results:
-> > 
-> > ./fluster.py run -dGStreamer-H.264-V4L2SL-Gst1.0
-> > Ran 90/135 tests successfully               in 61.966 secs
-> > 
-> > ./fluster.py run -d GStreamer-VP8-V4L2SL-Gst1.0
-> > Ran 55/61 tests successfully               in 7.660 secs
-> > 
-> > 
-> > ./fluster.py run -d GStreamer-VP9-V4L2SL-Gst1.0
-> > Ran 144/303 tests successfully               in 162.665 secs
-> > 
-> > Changes log:
-> > 
-> > V2:  Make vpu-blk-ctrl enable G2 clock when enabling fuses.
-> >       Remove syscon from device tree and binding example
-> >       Added modified nxp,imx8mq-vpu.yaml from Benjamin Gaignard
-> > 
-> > Adam Ford (2):
-> >    media: hantro: split i.MX8MQ G1 and G2 code
-> >    arm64: dts: imx8mq: Split i.MX8MQ G1 and G2 with vpu-blk-ctrl
-> > 
-> > Benjamin Gaignard (1):
-> >    dt-bindings: media: nxp,imx8mq-vpu: Update the bindings for G2 support
-> > 
-> > Lucas Stach (3):
-> >    dt-bindings: power: imx8mq: add defines for VPU blk-ctrl domains
-> >    dt-bindings: soc: add binding for i.MX8MQ VPU blk-ctrl
-> >    soc: imx: imx8m-blk-ctrl: add i.MX8MQ VPU blk-ctrl
-> > 
-> >   .../bindings/media/nxp,imx8mq-vpu.yaml        |  58 +++++----
-> >   .../soc/imx/fsl,imx8mq-vpu-blk-ctrl.yaml      |  71 +++++++++++
-> >   arch/arm64/boot/dts/freescale/imx8mq.dtsi     |  69 ++++++----
-> >   drivers/soc/imx/imx8m-blk-ctrl.c              |  68 +++++++++-
-> >   drivers/staging/media/hantro/hantro_drv.c     |   4 +-
-> >   drivers/staging/media/hantro/hantro_hw.h      |   2 +-
-> >   drivers/staging/media/hantro/imx8m_vpu_hw.c   | 119 +++---------------
-> >   include/dt-bindings/power/imx8mq-power.h      |   3 +
-> >   8 files changed, 237 insertions(+), 157 deletions(-)
-> >   create mode 100644 Documentation/devicetree/bindings/soc/imx/fsl,imx8mq-vpu-blk-ctrl.yaml
-> > 
-> > 
-> > base-commit: d1888b0bfd2ddef2e8a81505ffa200b92cc32e0c
+if (pm_runtime_get_if_in_use(data->dev) <= 0)
+	    continue;
 
+needs to be removed from the flush all func since pm_runtime_get_if_in_use
+returns 0 while resuming and will skip the flush
+
+
+This patchset is a combination of 4 patches already sent in a different
+patchset: [1] and a warning fix from Sebastian Reichel
+
+[1] https://lore.kernel.org/linux-devicetree/20210923115840.17813-1-yong.wu@mediatek.com/
+
+changes since v1:
+-----------------
+
+* Added preparation patches to remove the unneeded 'for_each_m4u' usage
+and add a spinlock to protect access to tlb control registers.
+* remove the pm runtime status check as explained above.
+* refactor commit logs and inline doc
+* move the call to full flush to the bottom of the resume cb after all registers are updated.
+
+
+Sebastian Reichel (1):
+  iommu/mediatek: Always check runtime PM status in tlb flush range
+    callback
+
+Yong Wu (4):
+  iommu/mediatek: Remove for_each_m4u in tlb_sync_all
+  iommu/mediatek: Remove the power status checking in tlb flush all
+  iommu/mediatek: Add tlb_lock in tlb_flush_all
+  iommu/mediatek: Always tlb_flush_all when each PM resume
+
+ drivers/iommu/mtk_iommu.c | 42 ++++++++++++++++++++-------------------
+ 1 file changed, 22 insertions(+), 20 deletions(-)
+
+-- 
+2.17.1
 
