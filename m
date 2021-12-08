@@ -2,116 +2,141 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BF39146DE74
-	for <lists+linux-media@lfdr.de>; Wed,  8 Dec 2021 23:37:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 149C146DE92
+	for <lists+linux-media@lfdr.de>; Wed,  8 Dec 2021 23:50:42 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233943AbhLHWlM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 8 Dec 2021 17:41:12 -0500
-Received: from mout.gmx.net ([212.227.17.21]:36115 "EHLO mout.gmx.net"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229533AbhLHWlL (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 8 Dec 2021 17:41:11 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
-        s=badeba3b8450; t=1639003053;
-        bh=AWA9692cJSEtkUfRwqBpwz0feFUfCFHaLrm6VZa3cSw=;
-        h=X-UI-Sender-Class:From:To:Cc:Subject:Date:In-Reply-To:References;
-        b=K3e4K4wv3mLV22M49S++KIwn57TuBtbDxa3eFCx5h7cijvspOyg+qRbJ5cu6BFmCP
-         HDB9LS8rRvUriHSX6W5KYsDQ5viNdvv3nX6iEZQtbJRrVwQV0hDOSZmmPK9c3UeI4i
-         nGZxOZbXtpX5g+xJkuJqlGfky3FOX3cCOkuTiMOU=
-X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
-Received: from [91.65.60.26] ([91.65.60.26]) by web-mail.gmx.net
- (3c-app-gmx-bap08.server.lan [172.19.172.78]) (via HTTP); Wed, 8 Dec 2021
- 23:37:33 +0100
+        id S240648AbhLHWyM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 8 Dec 2021 17:54:12 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45136 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S235310AbhLHWyL (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 8 Dec 2021 17:54:11 -0500
+Received: from mail-io1-xd2f.google.com (mail-io1-xd2f.google.com [IPv6:2607:f8b0:4864:20::d2f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0355DC061746;
+        Wed,  8 Dec 2021 14:50:38 -0800 (PST)
+Received: by mail-io1-xd2f.google.com with SMTP id 14so4597806ioe.2;
+        Wed, 08 Dec 2021 14:50:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=mMi1WPOBzI4R2YZ5HVYQx/dnfliDDCI8Msm6WyR+eh4=;
+        b=XcTrSwtnNRn21WNNBvMrv1NLcY+Mu2z72raACo/rJ6Taqa/EMOV2oNk4pwj4EmSvLt
+         luGUbISzvvMt4KSslR634zeGU7QYraSlBBEYjYNASBeA99EN9gyzY0p3wkqYQQhmphEs
+         8l6EQVJ9oSaQ7qdsh3KMQ5fyqkh0iQTq9sXGOyz+HT58120MR9jLg5eqv6VmCk0b0gqW
+         34LQEiA0JxmeDCBx2kRlrxNHM5UZLoMzC557S3/8Anr6qDjJTuoMvojX8ltnjNtmc2Lp
+         sdaKeArGSaq2svysxh0W+nXexC/NVpk3OK92mdkaPLWl6MwyxoTVlfMCYz+CxLRAeJ0i
+         tSyw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=mMi1WPOBzI4R2YZ5HVYQx/dnfliDDCI8Msm6WyR+eh4=;
+        b=ggcxL0UyDMH17Fv6R8hUbFKVo5asIfw0SlsplkJ1kAJyLMqDbnNdWqvzrnU6qNmhpd
+         95tgs/si8ynPfEsy9gSsuJIbCFeC5JjvzyQVLCcBvtwKvobfxp5/gqdYxY17Shi3Q+8x
+         clHliwc5yK0/NuzHPvxvQE1lCycpd3yRUYSBhRufWlDmEWfxCOwq2V06e0jQbeYI9HI5
+         ylDH4rIK3ayRXHsAz3cuam+9wbRVk7C1sAJ3P46EBKQHpBkxmhtGNO0e0VpyZ2sxHE8H
+         sSjrSwnnl6fb0h29FezkmcZoReoDdtM0vqzQot/C3ov5ovtmkUGrOQIiYGcN5ui/V4cG
+         Omhg==
+X-Gm-Message-State: AOAM5334rLyGf/NKYcfC++zsWu9m7/a0pCwPzQJBQygJp9v4ZWxYq0RX
+        U9roa3jbhU76U0QR9OZ5feQTrBoPYfjcGQ==
+X-Google-Smtp-Source: ABdhPJzZJP3Os1XE981Rf8W5rVV6iSlxLLkvkEoeb5qMER1aAj+4hxIA+fbfp5SLUrLTyxyWqwN1AA==
+X-Received: by 2002:a6b:b490:: with SMTP id d138mr10603468iof.180.1639003837735;
+        Wed, 08 Dec 2021 14:50:37 -0800 (PST)
+Received: from aford-IdeaCentre-A730.lan ([2601:448:8400:9e8:269a:1aa2:f1d9:8dbb])
+        by smtp.gmail.com with ESMTPSA id t6sm2378751ioi.51.2021.12.08.14.50.36
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 08 Dec 2021 14:50:37 -0800 (PST)
+From:   Adam Ford <aford173@gmail.com>
+To:     linux-media@vger.kernel.org
+Cc:     benjamin.gaignard@collabora.com, cphealy@gmail.com,
+        aford@beaconembedded.com, nicolas@ndufresne.ca,
+        Adam Ford <aford173@gmail.com>,
+        Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Lucas Stach <l.stach@pengutronix.de>,
+        linux-rockchip@lists.infradead.org, devicetree@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        linux-staging@lists.linux.dev
+Subject: [PATCH 00/10] media: hantro: imx8mq/imx8mm: Let VPU decoders get controlled by vpu-blk-ctrl
+Date:   Wed,  8 Dec 2021 16:50:19 -0600
+Message-Id: <20211208225030.2018923-1-aford173@gmail.com>
+X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
-Message-ID: <trinity-7e7d5b59-e213-481b-9b1b-ae9d0819a33c-1639003053723@3c-app-gmx-bap08>
-From:   Robert Schlabbach <robert_s@gmx.net>
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc:     linux-media@vger.kernel.org
-Subject: Re: [PATCH 3/3] media: si2157: rework the firmware load logic
-Content-Type: text/plain; charset=UTF-8
-Date:   Wed, 8 Dec 2021 23:37:33 +0100
-Importance: normal
-Sensitivity: Normal
-In-Reply-To: <842e61352a54e9f1a7f44c4e3250a055c2d45e13.1638958050.git.mchehab+huawei@kernel.org>
-References: <cover.1638958050.git.mchehab+huawei@kernel.org>
- <842e61352a54e9f1a7f44c4e3250a055c2d45e13.1638958050.git.mchehab+huawei@kernel.org>
-X-UI-Message-Type: mail
-X-Priority: 3
-X-Provags-ID: V03:K1:fsAwsr9zfamWPubZIHVRKUiZTnQFmXFbS4967f87SArSJaqMcAQGH5KVXQkNABJJtW2CR
- qeg8VLp/lcrB/NP5EZ5UctIaB+rlxJqtkxCbwT/eA/44ZxfoGXIP0mW4wW3SCB2armQO78Rp7M/P
- +/IPAfBNkSeJy86+4yc8x3DMV3BGDrgPZi50iRThG9E1iASS5VpT3gBfyaiXzV+26za6TQ+1V1Uy
- JgiguEwx5ldsYIkmqBrDqFLoTIUSzFXt1Lfi+zCEFAnPzynJtyASgJkjSW4PH7PxNTlTddQQP6UY
- NQ=
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:unuG6y316xs=:qGjuVt83faebt5BpjV3vwz
- x0pjZBMQJsLFCuyh/wiQPlVVNumrI79YFg6bmlg1C1c+w9hme0pKcD6j9AZmvv5HyVMYvktKx
- ks3IRclMvAius5kGexynYp2TN/jhn3Doac8aFdw7wQaiddlVouzRigS6RpOP3mL4t4FUgRZDc
- uUduZxkGJrau970D/GkVljn1T34mJ3HwDtGZSfj0CStS0d866DZh7KWuKwlfWY+wSoOmlesPs
- xiU71bK14W7UgAtQi3FMui8ZGmLSj55/N79D+C/th4DPkggyAwJRnqvtqAGv15nkkFtQXaL6b
- wSOkFd5giPP+zExcmFsjCwW23lehpzIXQ2BF0SJk53ETahiI/yQeerd+nlcUyF+lv/lLr7MDS
- Ur/O9H+G8UabrT38OfEUtFZNn9qTEYQ5diev4PE+Ax8KDON6d+ut6KVb0gXv3C+SCT5dVAfqs
- pKM89MfHqdkczcFqzjWM4YlSAkf9v4oyzgvJIlT5AYGvqrmn0W83zFoBIVmeTC9aOnBP3v2oD
- IDITmEp+UdE1x7yp2fnQkE8lz4lLkatVrxzAHCf9c2YZLbdKdlqqsjY85dAnjwtlFOdSx0fVe
- rHlbD5uaYo63r968nkF8/6LUAR1EcrZ0bHGJTrtwNNnwWaGpPJEWLPy86/YRZb2PL6SN6tvFq
- Y1hVxVvlOGxLh1MhruKFzspFL9gMrx3KcdpM9C9roHFM49GITxXSifpLluQnvnrz74t9PS8/B
- vxqvoqS+TQg5hAh5lGWnDk1qr69aX84+O3YwV4WhiDKe6+qGINRxOxiv+uwT13GDTgIZrduwY
- 00Ih0uF
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-> Loading a firmware file should not be mandatory, as devices
-> could work with an eeprom firmware, if available.
->
-> Yet, using the eeprom firmware could lead into unpredictable
-> results, so the best is to warn about that.
+Both the i.MX8MQ and i.MX8MM have G1 and G2 decoders.
+The two decoders are similar, but the imx8mm lacks the
+post-processor, so they will have distinct compatible flags.
+Splitting the i.MX8MQ VPU into G1 and G2 makes it easier to
+control them independently since the TRM of both the i.MX8MQ and
+i.MX8MM list them as distinct IP blocks.  With them being split,
+the power-domain can shift to the vpu-blk-ctrl which is available
+on both i.MX8MQ and i.MX8MM but some of bits are different, so
+they'll have separate device tree bindings.
+Lastly, with the G1 and G2 operational, enable the i.MX8MM.
+On the i.MX8MM, the clock speed of 600MHz was chosen to match
+the default of the kernel repo from NXP and can be overwritten
+by board files for anyone who under/over volts the power rail.
 
-As there is no proof of an EEPROM being involved in any of
-that, but strong evidence that all these devices actually have
-an embedded firmware ROM, I propose changing that to "ROM"
-instead.
+The repo used as the starting point was:
+   git://linuxtv.org/hverkuil/media_tree.git for-v5.17e
 
-> + bool warn_firmware_not_loaded =3D false;
-> unsigned int chip_id, xtal_trim;
-> - unsigned int fw_required;
-> + bool fw_required =3D true;
+This media hantro group has been especially helpful in helping
+me get up to speed on how it works.
 
-To me, this is getting too ugly. All these per-model special
-flags set somewhere in the code.
+Fluster was run on the i.MX8M Mini at 600 MHz:
 
-I propose removing BOTH these flags. Review of the SiLabs code
-revealed:
+./fluster.py run -d GStreamer-VP8-V4L2SL-Gst1.0
+Ran 55/61 tests successfully               in 8.299 secs
 
-1. ALL of the tuner models this driver supports have a firmware
-   patch from SiLabs available.
+./fluster.py run -dGStreamer-H.264-V4L2SL-Gst1.0
+Ran 90/135 tests successfully               in 71.200 secs
 
-2. NONE of them seems to require it. At least all the SiLabs
-   drivers allow disabling the download.
+./fluster.py run -d GStreamer-VP9-V4L2SL-Gst1.0
+Ran 139/303 tests successfully               in 218.079 secs
 
-So my proposal is:
 
-1. Add firmware download support to all tuner models (this
-   means adding some new firmware file names)
+Adam Ford (7):
+  dt-bindings: media: nxp,imx8mq-vpu: Support split G1 and G2 nodes with
+    vpu-blk-ctrl
+  media: hantro: Allow i.MX8MQ G1 and G2 to run independently
+  arm64: dts: imx8mq: Enable both G1 and G2 VPU's with vpu-blk-ctrl
+  arm64: dts: imx8mm: Fix VPU Hanging
+  dt-bindings: media: nxp,imx8mq-vpu: Enable support for i.MX8M Mini
+  media: hantro: Add support for i.MX8MM
+  arm64: dts: imx8mm: Enable Hantro G1 and G2 video decoders
 
-2. When a firmware file is not available, log an info (not
-   warning) message and proceed.
+Lucas Stach (3):
+  dt-bindings: power: imx8mq: add defines for VPU blk-ctrl domains
+  dt-bindings: soc: add binding for i.MX8MQ VPU blk-ctrl
+  soc: imx: imx8m-blk-ctrl: add i.MX8MQ VPU blk-ctrl
 
-None of the above boolean flags are needed then. The
-dont_load_firmware flag from the config should of course be
-kept as it is.
+ .../bindings/media/nxp,imx8mq-vpu.yaml        | 85 ++++++++++++++-----
+ .../soc/imx/fsl,imx8mq-vpu-blk-ctrl.yaml      | 71 ++++++++++++++++
+ arch/arm64/boot/dts/freescale/imx8mm.dtsi     | 29 ++++++-
+ arch/arm64/boot/dts/freescale/imx8mq.dtsi     | 69 +++++++++------
+ drivers/soc/imx/imx8m-blk-ctrl.c              | 68 ++++++++++++++-
+ drivers/staging/media/hantro/hantro_drv.c     |  3 +
+ drivers/staging/media/hantro/hantro_hw.h      |  3 +
+ drivers/staging/media/hantro/imx8m_vpu_hw.c   | 84 +++++++++++++++---
+ include/dt-bindings/power/imx8mq-power.h      |  3 +
+ 9 files changed, 357 insertions(+), 58 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/soc/imx/fsl,imx8mq-vpu-blk-ctrl.yaml
 
-> + dev_warn(&client->dev, "firmware file '%s' not found. Using firmware f=
-rom eeprom.\n",
+base-commit: d1888b0bfd2ddef2e8a81505ffa200b92cc32e0c
 
-Aside from using dev_info instead and changing the text to
-"ROM firmware will be used.", this would also be a duplicate
-message, as firmware_request() also logs a message when a
-requested firmware file is not found.
+-- 
+2.32.0
 
-So I propose also changing the firmware_request() call to
-request_firmware_nowarn() instead to suppress the message
-from the firmware loader.
-
-Best Regards,
--Robert Schlabbach
