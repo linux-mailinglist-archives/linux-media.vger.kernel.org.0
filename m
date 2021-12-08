@@ -2,100 +2,89 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6387F46D00F
-	for <lists+linux-media@lfdr.de>; Wed,  8 Dec 2021 10:26:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 03A1446D013
+	for <lists+linux-media@lfdr.de>; Wed,  8 Dec 2021 10:28:02 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231191AbhLHJ36 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 8 Dec 2021 04:29:58 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55238 "EHLO
+        id S230071AbhLHJbc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 8 Dec 2021 04:31:32 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55596 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229528AbhLHJ35 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 8 Dec 2021 04:29:57 -0500
+        with ESMTP id S229481AbhLHJbc (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 8 Dec 2021 04:31:32 -0500
 Received: from lb2-smtp-cloud7.xs4all.net (lb2-smtp-cloud7.xs4all.net [IPv6:2001:888:0:108::2a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AC86BC061746;
-        Wed,  8 Dec 2021 01:26:25 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 895FDC061746
+        for <linux-media@vger.kernel.org>; Wed,  8 Dec 2021 01:28:00 -0800 (PST)
 Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
         by smtp-cloud7.xs4all.net with ESMTPA
-        id utDPmfMJIgFRtutDSmL1js; Wed, 08 Dec 2021 10:26:23 +0100
+        id utExmfMqmgFRtutF0mL1wt; Wed, 08 Dec 2021 10:27:59 +0100
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1638955583; bh=jOAGs4cD/IqIy8UFMtQkqf/WjpulPYltsLVXfNTU9TA=;
+        t=1638955679; bh=e1Ahxpf21OtARi7R0FZtxGAi7oWn5OaJOh/8h0Z9c6s=;
         h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type:From:
          Subject;
-        b=q6qvu57LNKRIuf/3hnPy96Rq1mkyfqxn1IFEmffr7ZdZswqTCnNTBE4CfeonjX+VV
-         KyoQ2Ymy60xa0qdJUKaTB4c+aQn0COm+yJsMIVxXcNQyRGrPEX+c1dJQPwi9gpgIUL
-         34eEcmexBCwcUtm2CDDXOGjm8YaKsrk1hc0AvTSEYxwdsTNdUSFIZVLwoOE3DbaVD2
-         B0iD8+0XQatms1NywPjNLwFzdU9xG0iwzk51Bz9jw7qVeRuvcBjeQp72rNVfGRO2Sr
-         3+ey3yApQurucpgzZIfRqanEAbx1r3dMnro83j5cybQ5BYzjCv0BXD7B2EPpAFxz3R
-         FD1/YwjJEsSdg==
-Message-ID: <d1ce87a0-decb-ac29-7906-1181c83c1067@xs4all.nl>
-Date:   Wed, 8 Dec 2021 10:26:19 +0100
+        b=OZtQ794rQF8dxSuOTelg4Y9H16zph+3Nk7GZ/65KqJTzuZE8VEpiXzlZMtzxCgOya
+         obJ4GEEC1cgdr4ook4gCX4eBaEn47xOmTeOU78STIEa5dn75qcVf+w0u8w5Mgs10cs
+         h6WjUe0XZweG7xioe8tyGkz4HPev5qtVKZggDX02Q28uX7P9o036Dcy5G7J58xfDgh
+         FYblvX5HyrlWtVolcz0A+xP9OX0Z6PSdCEvXUTVtfdeXnd293V78e1ElAJOHwL3Q0s
+         qvEID84AntF/FGt6X/UDuVvPkCF28HcIIIvyAKXBsq0xiTWv7KfFo9esc7SQ4mbsBh
+         D4WCHp5L2biGA==
+Message-ID: <fe41d021-09cb-63ad-9e0e-d1457ce0aa49@xs4all.nl>
+Date:   Wed, 8 Dec 2021 10:27:55 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Firefox/91.0 Thunderbird/91.3.2
-Subject: Re: [RFC PATCH 0/3] pinctrl: can_sleep and pinctrl_gpio_direction
+Subject: Re: Kernel oops bisected to media: videobuf2: move cache_hints
+ handling to allocators
 Content-Language: en-US
-To:     Linus Walleij <linus.walleij@linaro.org>,
-        Andy Shevchenko <andy.shevchenko@gmail.com>
-Cc:     "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        "linux-gpio@vger.kernel.org" <linux-gpio@vger.kernel.org>,
-        Maxime Ripard <maxime@cerno.tech>,
-        Florian Fainelli <f.fainelli@gmail.com>
-References: <20211206131648.1521868-1-hverkuil-cisco@xs4all.nl>
- <CAHp75VcPhSvQvjA5WBO72Lb5idc6vkkodai_V=YmLWtsz-qg1A@mail.gmail.com>
- <CACRpkda2d9j7_HOM1Q1dEsK+U4-4KmbvjvTAEvx2AbxMQtOgFA@mail.gmail.com>
+To:     Daniel Scally <djrscally@gmail.com>
+Cc:     mchehab+huawei@kernel.org,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Sergey Senozhatsky <senozhatsky@chromium.org>
+References: <d0dcd227-0753-5e9d-f757-4819cc271d4f@gmail.com>
+ <YZhq0o7p0dVWeueC@google.com>
+ <d4be3ea9-5d41-0a19-c03c-4037d01d1b6a@xs4all.nl>
+ <17f34600-2717-d125-62ba-fd933b3b59f1@gmail.com>
 From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-In-Reply-To: <CACRpkda2d9j7_HOM1Q1dEsK+U4-4KmbvjvTAEvx2AbxMQtOgFA@mail.gmail.com>
+In-Reply-To: <17f34600-2717-d125-62ba-fd933b3b59f1@gmail.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-CMAE-Envelope: MS4xfNMlzR0EKsWyI4ey8aSY25ZqiEC335EbESytkwSUvdHcDED74MYN9gDPTJhm3xvK9MrRUlI5RRoaF4B63aOrhNCmXGRmfZ7PxoIwfHGBQWCv2WFHGT9n
- Du3uih+xreqOOokeyLRElwvsCE2aw/By6EvJEyQYGi3iAEduOYoOGmxWaoRblWLr1jO7AUHCjwfxDAacxU71RoEfJtALZJGBFgo7c/IKKYgDc3CX6lPytL4l
- RtR4cpI1+2pUQzgebYR+PrrEWJ1w+FobL98cc02b3lHEdRh0d5tUgazHYRT2QCqY6eYkN+hwDqyO63oK59CH0KqGio46Phs3P9iSGoKmHbT07BeOrTrC/Aa4
- DrXIpginob18hpEg93UyA4NZrfhjKA==
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4xfDejKI1ZYwa+69Ok33aAOFIkB8TW2D6i8qdISNh6fQgxhrOfLqVM2AluyI9tbVt+iN5ruICX78csgpEHu7SbUL+YywluqVk2/RKnP7Qndr/v13UpPgti
+ pWMlxHlG8bgyC7LRT5FgKy/2HF8+IjC6YFL6fVkBZKkdvjQCCUPx0Mzhm/XNEGazA9aE5vBz3oXxIMkazlLqm+OOxFIld/Wm33gAq0byZUJwEj79guCRn+ym
+ +ayZ90WlN8OO6xh/ZF0+2ZGDif7PdLPxAGr7si+GUTEfMIcWyeqoFtPKB14JNsgN7ql4fVaFKxfER2kahgNlLQ==
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 08/12/2021 01:30, Linus Walleij wrote:
-> On Tue, Dec 7, 2021 at 11:14 PM Andy Shevchenko
-> <andy.shevchenko@gmail.com> wrote:
->> On Monday, December 6, 2021, Hans Verkuil <hverkuil-cisco@xs4all.nl> wrote:
->>>
->>> Hi all,
->>>
->>> Based on this discussion:
->>>
->>> https://lore.kernel.org/linux-gpio/CACRpkdb3q4-9O3dHS6QDWnZZ5JJjXWXS9KPvwXVaowLMRhcejA@mail.gmail.com/T/#t
->>>
->>> I propose this RFC series.
->>
->>
->> When I first saw your report I was thinking about actually adding a new callback ->set_direction_atomic()
->> and then make pinctrl use it, otherwise like you do, I.e. issue a warning when it’s called in atomic context
+On 07/12/2021 22:41, Daniel Scally wrote:
+> Hi Hans
 > 
-> The problem is inside of pinctrl core, not in any driver. It takes a
-> mutex when going over
-> the GPIO ranges.
+> On 02/12/2021 11:15, Hans Verkuil wrote:
+>> Daniel: ping!
+>>
+>> On 20/11/2021 04:26, Sergey Senozhatsky wrote:
+>>> Hello,
+>>>
+>>> On (21/11/19 22:41), Daniel Scally wrote:
+>>>> Hi all
+>>>>
+>>>> I've been experiencing an oops trying to run libcamera's qcam util
+>>>> (which starts streaming on a camera sensor - the ov8865), which I
+>>>> bisected down to the patch cde513fd9b35: "media: videobuf2: move
+>>>> cache_hints handling to allocators"
+>>> Can you please check if you have these two patches in your tree:
+>>>
+>>> https://lore.kernel.org/lkml/20210928034634.333785-1-senozhatsky@chromium.org/raw
+>>> https://lore.kernel.org/all/20211101145355.533704-1-hdegoede@redhat.com/raw
+>>>
+>>> If not then please apply, this should fix the problems you're seeing.
+>>>
+>> I really like to know if the cause is indeed that you are missing two patches.
 > 
-> I suggested maybe just replacing these mutexes with spinlocks, or RCU.
+> 
+> Apologies for the delayed response - I was indeed missing those patches
+> and, having added them, everything's working fine.
 
-RCU or spinlock would most likely work as a replacement for pinctrldev_list_mutex, but
-not for pctldev->mutex. I didn't see any obvious way of replacing it with something else.
-
-I'm open to any suggestions, but for now this was the best I could come up with, given
-my limited knowledge of the gpio/pinctrl subsystems. It at least warns you that something
-is wrong.
-
-Personally I think that for combined gpio/pinctrl drivers it doesn't make sense to take
-this additional loop through the pinctrl core, regardless of whatever locking mechanism
-is used. I actually think that it obfuscates those drivers a bit, but that might just be
-me.
+Great! Thank you for taking the time to confirm this.
 
 Regards,
 
 	Hans
-
-> 
-> Yours,
-> Linus Walleij
-> 
-
