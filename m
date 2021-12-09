@@ -2,172 +2,122 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CC3E646E68F
-	for <lists+linux-media@lfdr.de>; Thu,  9 Dec 2021 11:26:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A94A246E7A4
+	for <lists+linux-media@lfdr.de>; Thu,  9 Dec 2021 12:34:30 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234340AbhLIK3x (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 9 Dec 2021 05:29:53 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33444 "EHLO
+        id S236764AbhLILiC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 9 Dec 2021 06:38:02 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49612 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234318AbhLIK3x (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 9 Dec 2021 05:29:53 -0500
-Received: from mail-ua1-x935.google.com (mail-ua1-x935.google.com [IPv6:2607:f8b0:4864:20::935])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DB2EBC061746
-        for <linux-media@vger.kernel.org>; Thu,  9 Dec 2021 02:26:19 -0800 (PST)
-Received: by mail-ua1-x935.google.com with SMTP id o1so9841451uap.4
-        for <linux-media@vger.kernel.org>; Thu, 09 Dec 2021 02:26:19 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=vanguardiasur-com-ar.20210112.gappssmtp.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=n1e+HtRg9maQtc2GLxQiCgRrqKPDjfCHzrqnIVz2IyI=;
-        b=hIhiw8NfbkDX84PoIgWiuo2LnvGpIzgmT1aR76Z0WPIXHtxQWDaNb1/Q6SbUwXUs77
-         7vTvAtsrCiOx5Gb7h8GSvNCGPmca7yXkUZti+RAdqWIWgoC3aHNvoa68hCL5akLSsO6c
-         4rIZbaD0hBixRCLygqOA9+BJTGhi1j4IIL1v6uUS1G9sizof0JNtncXfUMjF0d07e8CW
-         HCy4BPujk8eQSwQcQbYcU6+aF44t02BlfWGeQfbD9Wl4ywSvDBq7krGRdsHr4KTiJt0L
-         rbiEWP6AUbf5kZJwC9/ROPA0gNp22ydzbxkN/l+tMej6/31N9D0rHhgKk5PGfhYfbZx9
-         jS0w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=n1e+HtRg9maQtc2GLxQiCgRrqKPDjfCHzrqnIVz2IyI=;
-        b=DQHLh4kOdTt1ff2Qxa9CQdYtXm0SoJ6HFTRsPy81jhtoJT3fwFztRm5knz7hDRDxwN
-         QjFye1B/+hszkWjxjalDdZ814+LLEjHJ7AIIElMZChaNgOUPZl/70p+u2uHE6bxFD+yu
-         l7HdWzPpxOf7e9ZTy3GVMtPzLJFgduM2+aPw8ojE9GK+6Hc0RTU13kPYAw2IfwchLC3C
-         IpQbbcZIoSPhGF/NldAkeE5GqwQHTGaTFEEUix6gXt20+WpgYaHB0UoHpodprOYGm1iZ
-         w855Ply25FwzJcRJNF/gI3V46976z3HGi+gxQAoJxGtv1wrBQ4hph45sovmq3pvR331p
-         Gt5g==
-X-Gm-Message-State: AOAM532sAUlKzk4GOz18NDmA9OI3BZAnEAjy0noZ/XAFCsX0sYkIhWrD
-        EIVZeN6nOBsOFNUDk6X/Pgw2hw==
-X-Google-Smtp-Source: ABdhPJwJv3mXRM/g6+dEqNxe+KKZgULXoBaIC5TH7Y0NcdNLGdr+N3FNJpkSYLsYjEsMxvQvMtvoVQ==
-X-Received: by 2002:a67:d78c:: with SMTP id q12mr6398800vsj.35.1639045578937;
-        Thu, 09 Dec 2021 02:26:18 -0800 (PST)
-Received: from eze-laptop ([186.122.18.54])
-        by smtp.gmail.com with ESMTPSA id t132sm3543495vkb.19.2021.12.09.02.26.11
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 09 Dec 2021 02:26:17 -0800 (PST)
-Date:   Thu, 9 Dec 2021 07:26:07 -0300
-From:   Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
-To:     Adam Ford <aford173@gmail.com>
-Cc:     linux-media@vger.kernel.org, benjamin.gaignard@collabora.com,
-        cphealy@gmail.com, aford@beaconembedded.com, nicolas@ndufresne.ca,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Lucas Stach <l.stach@pengutronix.de>,
-        linux-rockchip@lists.infradead.org, devicetree@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        linux-staging@lists.linux.dev
-Subject: Re: [PATCH 04/10] dt-bindings: media: nxp,imx8mq-vpu: Support split
- G1 and G2 nodes with vpu-blk-ctrl
-Message-ID: <YbHZvysazqYeZ8h3@eze-laptop>
-References: <20211208225030.2018923-1-aford173@gmail.com>
- <20211208225030.2018923-5-aford173@gmail.com>
+        with ESMTP id S232989AbhLILiC (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 9 Dec 2021 06:38:02 -0500
+Received: from sin.source.kernel.org (sin.source.kernel.org [IPv6:2604:1380:40e1:4800::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CE5B6C0617A1
+        for <linux-media@vger.kernel.org>; Thu,  9 Dec 2021 03:34:28 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by sin.source.kernel.org (Postfix) with ESMTPS id 13074CE1FD9
+        for <linux-media@vger.kernel.org>; Thu,  9 Dec 2021 11:34:27 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B74BAC004DD;
+        Thu,  9 Dec 2021 11:34:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1639049665;
+        bh=zaegQFxy2zo/aeo/GZjXntfHWrwJ4LgHb2u0dCkcQv4=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=ScBAQLCd1lEmWE8WOTl8yBqIc7BkWu4o8j+X7IZZ/WbJKr+Bd14jt1LhD4ZZbX8qX
+         +LWPg5EzHDZ7UICyXCBbAUmJxsMBjrVtKRQi67p23paddTmrwI3is90o5X2qVoWL8w
+         i8U05pzkubzK4Kzjev+9yK4PQ+seSKqkPefGZtSTM/xKfliBKXYDDx+R6tyRpGnqWH
+         mPDVVakzH5kb3bZoQLrQ0GOoErbLChI8Y0IKsfgpUj/Be1rTOuKQMgCe0VMdFD0J2b
+         VKDRTO+zfxuhtAMnTBLC01/lEBKg0cF71JZa4MNjLzIPjTUUFfolyBWP+2E4N96Ag0
+         b4VGAJfSb3diQ==
+Date:   Thu, 9 Dec 2021 12:34:22 +0100
+From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To:     Robert Schlabbach <robert_s@gmx.net>
+Cc:     linux-media@vger.kernel.org
+Subject: Re: [PATCH 3/3] media: si2157: rework the firmware load logic
+Message-ID: <20211209123422.054175cd@coco.lan>
+In-Reply-To: <trinity-7e7d5b59-e213-481b-9b1b-ae9d0819a33c-1639003053723@3c-app-gmx-bap08>
+References: <cover.1638958050.git.mchehab+huawei@kernel.org>
+        <842e61352a54e9f1a7f44c4e3250a055c2d45e13.1638958050.git.mchehab+huawei@kernel.org>
+        <trinity-7e7d5b59-e213-481b-9b1b-ae9d0819a33c-1639003053723@3c-app-gmx-bap08>
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.30; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20211208225030.2018923-5-aford173@gmail.com>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi,
+Em Wed, 8 Dec 2021 23:37:33 +0100
+Robert Schlabbach <robert_s@gmx.net> escreveu:
 
-Thanks for the patch.
-
-On Wed, Dec 08, 2021 at 04:50:23PM -0600, Adam Ford wrote:
-> The G1 and G2 are separate decoder blocks that are enabled by the
-> vpu-blk-ctrl power-domain controller, which now has a proper driver.
-> Update the bindings to support separate nodes for the G1 and G2
-> decoders using the proper driver or the older unified node with
-> the legacy controls.
+> > Loading a firmware file should not be mandatory, as devices
+> > could work with an eeprom firmware, if available.
+> >
+> > Yet, using the eeprom firmware could lead into unpredictable
+> > results, so the best is to warn about that.
 > 
-> To be compatible with older DT the driver, mark certain items as
-> deprecated and retain the backwards compatible example.
+> As there is no proof of an EEPROM being involved in any of
+> that, but strong evidence that all these devices actually have
+> an embedded firmware ROM, I propose changing that to "ROM"
+> instead.
+
+Agreed. Will do such changes on patch 4, to be added to this series.
+
+> > + bool warn_firmware_not_loaded = false;
+> > unsigned int chip_id, xtal_trim;
+> > - unsigned int fw_required;
+> > + bool fw_required = true;
 > 
-> Signed-off-by: Adam Ford <aford173@gmail.com>
-> ---
->  .../bindings/media/nxp,imx8mq-vpu.yaml        | 83 ++++++++++++++-----
->  1 file changed, 64 insertions(+), 19 deletions(-)
+> To me, this is getting too ugly. All these per-model special
+> flags set somewhere in the code.
 > 
-> diff --git a/Documentation/devicetree/bindings/media/nxp,imx8mq-vpu.yaml b/Documentation/devicetree/bindings/media/nxp,imx8mq-vpu.yaml
-> index 762be3f96ce9..eeb7bd6281f9 100644
-> --- a/Documentation/devicetree/bindings/media/nxp,imx8mq-vpu.yaml
-> +++ b/Documentation/devicetree/bindings/media/nxp,imx8mq-vpu.yaml
-> @@ -15,29 +15,39 @@ description:
->  
->  properties:
->    compatible:
-> -    const: nxp,imx8mq-vpu
-> +    oneOf:
-> +      - const: nxp,imx8mq-vpu
-> +        deprecated: true
-> +      - const: nxp,imx8mq-vpu-g1
-> +      - const: nxp,imx8mq-vpu-g2
->  
->    reg:
-> +    minItems: 1
->      maxItems: 3
+> I propose removing BOTH these flags. Review of the SiLabs code
+> revealed:
+> 
+> 1. ALL of the tuner models this driver supports have a firmware
+>    patch from SiLabs available.
 
-Is it really useful to keep the deprecated binding nxp,imx8mq-vpu
-as something supported by the binding file?
+OK.
 
-In other words, can we drop the deprecated binding from this file,
-while keeping the support in the driver for legacy device-trees?
+> 2. NONE of them seems to require it. At least all the SiLabs
+>    drivers allow disabling the download.
 
-[..]
-> +
-> +  # VPU G1 with vpu-blk-ctrl
-> +  - |
-> +    #include <dt-bindings/clock/imx8mq-clock.h>
-> +    #include <dt-bindings/power/imx8mq-power.h>
-> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
-> +
-> +    vpu_g1: video-codec@38300000 {
-> +        compatible = "nxp,imx8mq-vpu-g1";
-> +        reg = <0x38300000 0x10000>;
-> +        reg-names "g1";
-> +        interrupts = <GIC_SPI 7 IRQ_TYPE_LEVEL_HIGH>;
-> +        interrupt-names = "g1";
-> +        clocks = <&clk IMX8MQ_CLK_VPU_G1_ROOT>;
-> +        clock-names = "g1";
+Not true. if you check the code for si2148, it doesn't have
+an option to skip firmware load.
 
-reg-names, interrupt-names and clock-names should be removed
-given for this device there's only one of each.
+The same is also true for other currently unsupported models.
 
-This will make the binding actually quite easier, but it also
-means you need to make some changes to struct hantro_variant imx8mq_vpu_g1_variant
-to make it work properly.
+> So my proposal is:
+> 
+> 1. Add firmware download support to all tuner models (this
+>    means adding some new firmware file names)
 
-See Rob's feedback on the SAMA5 VPU binding:
+Ok.
 
-https://yhbt.net/lore/all/20210324151715.GA3070006@robh.at.kernel.org/
+> 2. When a firmware file is not available, log an info (not
+>    warning) message and proceed.
 
-Also, take a look at drivers/staging/media/hantro/sama5d4_vdec_hw.c
-for reference.
+I guess this shouldn't be allowed for si2148 devices.
 
-> +        power-domains = <&vpu_blk_ctrl IMX8MQ_VPUBLK_PD_G1>;
-> +    };
-> +
-> +  # VPU G2 with vpu-blk-ctrl
-> +  - |
-> +    #include <dt-bindings/clock/imx8mq-clock.h>
-> +    #include <dt-bindings/power/imx8mq-power.h>
-> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
-> +
-> +    vpu_g2: video-codec@38310000 {
-> +        compatible = "nxp,imx8mq-vpu-g2";
-> +        reg = <0x38310000 0x10000>;
-> +        reg-names "g2";
+> None of the above boolean flags are needed then. The
+> dont_load_firmware flag from the config should of course be
+> kept as it is.
+> 
+> > + dev_warn(&client->dev, "firmware file '%s' not found. Using firmware from eeprom.\n",
+> 
+> Aside from using dev_info instead and changing the text to
+> "ROM firmware will be used.", this would also be a duplicate
+> message, as firmware_request() also logs a message when a
+> requested firmware file is not found.
+> 
+> So I propose also changing the firmware_request() call to
+> request_firmware_nowarn() instead to suppress the message
+> from the firmware loader.
 
-And same here.
+I can't see a request_firmware_nowarn() function, but year, the
+printed messages can be simplified.
 
-Thanks!
-Ezequiel
+Thanks,
+Mauro
