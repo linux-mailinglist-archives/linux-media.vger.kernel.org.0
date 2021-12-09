@@ -2,112 +2,77 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E741446E4A5
-	for <lists+linux-media@lfdr.de>; Thu,  9 Dec 2021 09:54:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7321946E4BE
+	for <lists+linux-media@lfdr.de>; Thu,  9 Dec 2021 09:59:17 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235348AbhLII5x (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 9 Dec 2021 03:57:53 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39916 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235302AbhLII5x (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 9 Dec 2021 03:57:53 -0500
-Received: from mail-ot1-x336.google.com (mail-ot1-x336.google.com [IPv6:2607:f8b0:4864:20::336])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0BCA9C0617A2
-        for <linux-media@vger.kernel.org>; Thu,  9 Dec 2021 00:54:20 -0800 (PST)
-Received: by mail-ot1-x336.google.com with SMTP id n17-20020a9d64d1000000b00579cf677301so5445307otl.8
-        for <linux-media@vger.kernel.org>; Thu, 09 Dec 2021 00:54:20 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=OS54GWWcwsrTmTbT3JvuCSiGaQ1hB71d7lr0N1iLqQk=;
-        b=mIzGlwDNxua032moc9mIB5jGSsJtFd3Y6ysKCUSN9mczC0Kb9cGqOhn3dxZV3MtfOH
-         9bMhfpFN7crCbjA6FkT7kyibcoNX4qf8s+EJ+ed2qD8rTRDBAs4HLtBG8kAexJOQKbgs
-         TfERho74HIAubVtxTLOykzOtDDcw6hTDJUdfs=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=OS54GWWcwsrTmTbT3JvuCSiGaQ1hB71d7lr0N1iLqQk=;
-        b=ufOpeuymtT7CmUmGICGUTtX0c93ztjnaUfxmNlsVjR0XAJnsqRaC5IsYBBk284zzbo
-         8hL4cu5XQDT27ui1kXSq/O1mSHdmRKLoxLdbITjPOzw27egvPDju8QvUrmHGVKPC1DAy
-         rsq5fccZKuWoXIstI3Z3ndg6GC+KqTsYRw1wIbmWs681ksH+vpX4ABDJYy2iYHzVWMNN
-         U/8xSSiJriiqb++4o/gZlgOYgqnZ6Bh5tJeFHlMRQ29TsMz8J/7UPKfubboj01CsWd9k
-         JMYesDEQNFcTh/hFSa4pz5xNPQjoNNUKFUVB4LCx7YM/AdUiwOcmdE0Qt/aecG44GKPQ
-         xTHQ==
-X-Gm-Message-State: AOAM530tTHlbgvblM2ZalnSbT4W6ALNNbpiB/ksxUY0dYeg2lNMVNoyK
-        z9Qpl57xDujD2gBxxz+1ja50KPoiEB6kEQ==
-X-Google-Smtp-Source: ABdhPJznhpIKnXGQbHpQr2ViAgyaye+M5OGkWydQSx7IYPSSm70lNGsUtnanOf7AClgC285NDo1dFg==
-X-Received: by 2002:a9d:6e2:: with SMTP id 89mr4117931otx.324.1639040059164;
-        Thu, 09 Dec 2021 00:54:19 -0800 (PST)
-Received: from mail-ot1-f48.google.com (mail-ot1-f48.google.com. [209.85.210.48])
-        by smtp.gmail.com with ESMTPSA id 109sm886278otv.30.2021.12.09.00.54.18
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 09 Dec 2021 00:54:18 -0800 (PST)
-Received: by mail-ot1-f48.google.com with SMTP id x19-20020a9d7053000000b0055c8b39420bso5481247otj.1
-        for <linux-media@vger.kernel.org>; Thu, 09 Dec 2021 00:54:18 -0800 (PST)
-X-Received: by 2002:a05:6830:22f0:: with SMTP id t16mr4051388otc.349.1639040057919;
- Thu, 09 Dec 2021 00:54:17 -0800 (PST)
+        id S235559AbhLIJCt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 9 Dec 2021 04:02:49 -0500
+Received: from smtp21.cstnet.cn ([159.226.251.21]:33900 "EHLO cstnet.cn"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S235471AbhLIJCr (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 9 Dec 2021 04:02:47 -0500
+Received: from localhost.localdomain (unknown [124.16.138.128])
+        by APP-01 (Coremail) with SMTP id qwCowAD3_p5ExbFhvtbuAQ--.47934S2;
+        Thu, 09 Dec 2021 16:58:48 +0800 (CST)
+From:   Jiasheng Jiang <jiasheng@iscas.ac.cn>
+To:     narmstrong@baylibre.com, mchehab@kernel.org,
+        gregkh@linuxfoundation.org, khilman@baylibre.com,
+        jbrunet@baylibre.com, martin.blumenstingl@googlemail.com
+Cc:     linux-media@vger.kernel.org, linux-amlogic@lists.infradead.org,
+        linux-staging@lists.linux.dev,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        Jiasheng Jiang <jiasheng@iscas.ac.cn>
+Subject: [PATCH] media: meson: vdec: potential dereference of null pointer
+Date:   Thu,  9 Dec 2021 16:58:40 +0800
+Message-Id: <20211209085840.2081024-1-jiasheng@iscas.ac.cn>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20211208174158.114122-1-amhamza.mgc@gmail.com>
-In-Reply-To: <20211208174158.114122-1-amhamza.mgc@gmail.com>
-From:   Ricardo Ribalda <ribalda@chromium.org>
-Date:   Thu, 9 Dec 2021 09:54:06 +0100
-X-Gmail-Original-Message-ID: <CANiDSCu-Q=VqkS1_B-1pvc4uZtUZynRYkpyu2ZASddSqsmT31A@mail.gmail.com>
-Message-ID: <CANiDSCu-Q=VqkS1_B-1pvc4uZtUZynRYkpyu2ZASddSqsmT31A@mail.gmail.com>
-Subject: Re: [PATCH] media: uvcvideo: fix possible memory leak issue
-To:     Ameer Hamza <amhamza.mgc@gmail.com>
-Cc:     laurent.pinchart@ideasonboard.com, mchehab@kernel.org,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: qwCowAD3_p5ExbFhvtbuAQ--.47934S2
+X-Coremail-Antispam: 1UD129KBjvdXoWrtw4xtrW8Cw4xAF4fGr1DAwb_yoWfWrc_Gr
+        ZFqrnxZryDZa1Skr15tw4F9FWFqr4IvFsYvanxtFW3uFyDA3W5Z39F9rn5Jr1UJFWSkrZr
+        A393tr13Kr1UGjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+        9fnUUIcSsGvfJTRUUUbVkFF20E14v26r4j6ryUM7CY07I20VC2zVCF04k26cxKx2IYs7xG
+        6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8w
+        A2z4x0Y4vE2Ix0cI8IcVAFwI0_Xr0_Ar1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr0_
+        Cr1l84ACjcxK6I8E87Iv67AKxVWxJr0_GcWl84ACjcxK6I8E87Iv6xkF7I0E14v26rxl6s
+        0DM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xII
+        jxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr0_Gr
+        1lF7xvr2IYc2Ij64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7M4IIrI8v6xkF7I0E8cxa
+        n2IY04v7MxkIecxEwVAFwVW8ZwCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJV
+        W8JwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF
+        1VAFwI0_Jw0_GFylIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6x
+        IIjxv20xvEc7CjxVAFwI0_Gr0_Cr1lIxAIcVCF04k26cxKx2IYs7xG6rW3Jr0E3s1lIxAI
+        cVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2Kf
+        nxnUUI43ZEXa7VUjNJ55UUUUU==
+X-Originating-IP: [124.16.138.128]
+X-CM-SenderInfo: pmld2xxhqjqxpvfd2hldfou0/
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Ameer
+he return value of kzalloc() needs to be checked.
+To avoid use of null pointer in case of the failure of alloc.
 
-Thanks for the patch.
+Fixes: 876f123b8956 ("media: meson: vdec: bring up to compliance")
+Signed-off-by: Jiasheng Jiang <jiasheng@iscas.ac.cn>
+---
+ drivers/staging/media/meson/vdec/vdec_helpers.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-It is already covered by
-https://lore.kernel.org/lkml/20210917114930.47261-1-colin.king@canonical.com/
-which is in the staging branch of the media tree.
-
-Thanks!
-
-On Thu, 9 Dec 2021 at 01:33, Ameer Hamza <amhamza.mgc@gmail.com> wrote:
->
-> In uvc_ioctl_ctrl_map() implementation, there is a possibility of memory
-> leak if control id name is not listed and kmemdup() is failed somehow.
-> This is a rare scenario but possible.
->
-> Addresses-Coverity: 1494069 (Resource leak)
-> Signed-off-by: Ameer Hamza <amhamza.mgc@gmail.com>
-> ---
->  drivers/media/usb/uvc/uvc_v4l2.c | 6 ++++--
->  1 file changed, 4 insertions(+), 2 deletions(-)
->
-> diff --git a/drivers/media/usb/uvc/uvc_v4l2.c b/drivers/media/usb/uvc/uvc_v4l2.c
-> index f4e4aff8ddf7..711556d13d03 100644
-> --- a/drivers/media/usb/uvc/uvc_v4l2.c
-> +++ b/drivers/media/usb/uvc/uvc_v4l2.c
-> @@ -44,8 +44,10 @@ static int uvc_ioctl_ctrl_map(struct uvc_video_chain *chain,
->         if (v4l2_ctrl_get_name(map->id) == NULL) {
->                 map->name = kmemdup(xmap->name, sizeof(xmap->name),
->                                     GFP_KERNEL);
-> -               if (!map->name)
-> -                       return -ENOMEM;
-> +               if (!map->name) {
-> +                       ret = -ENOMEM;
-> +                       goto free_map;
-> +               }
->         }
->         memcpy(map->entity, xmap->entity, sizeof(map->entity));
->         map->selector = xmap->selector;
-> --
-> 2.25.1
->
-
-
+diff --git a/drivers/staging/media/meson/vdec/vdec_helpers.c b/drivers/staging/media/meson/vdec/vdec_helpers.c
+index 7f07a9175815..025885fcfec6 100644
+--- a/drivers/staging/media/meson/vdec/vdec_helpers.c
++++ b/drivers/staging/media/meson/vdec/vdec_helpers.c
+@@ -234,6 +234,8 @@ void amvdec_add_ts(struct amvdec_session *sess, u64 ts,
+ 	unsigned long flags;
+ 
+ 	new_ts = kzalloc(sizeof(*new_ts), GFP_KERNEL);
++	if (!new_ts)
++		return;
+ 	new_ts->ts = ts;
+ 	new_ts->tc = tc;
+ 	new_ts->offset = offset;
 -- 
-Ricardo Ribalda
+2.25.1
+
