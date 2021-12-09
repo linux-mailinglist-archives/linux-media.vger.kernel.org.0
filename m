@@ -2,102 +2,92 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 38B5B46EBEB
-	for <lists+linux-media@lfdr.de>; Thu,  9 Dec 2021 16:39:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5401C46EB71
+	for <lists+linux-media@lfdr.de>; Thu,  9 Dec 2021 16:36:35 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240418AbhLIPmg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 9 Dec 2021 10:42:36 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49932 "EHLO
+        id S239962AbhLIPkG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 9 Dec 2021 10:40:06 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49780 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241291AbhLIPmE (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 9 Dec 2021 10:42:04 -0500
-Received: from mail-ed1-x532.google.com (mail-ed1-x532.google.com [IPv6:2a00:1450:4864:20::532])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4BFE6C061353;
-        Thu,  9 Dec 2021 07:38:00 -0800 (PST)
-Received: by mail-ed1-x532.google.com with SMTP id g14so20271032edb.8;
-        Thu, 09 Dec 2021 07:38:00 -0800 (PST)
+        with ESMTP id S239950AbhLIPkG (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 9 Dec 2021 10:40:06 -0500
+Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com [IPv6:2a00:1450:4864:20::442])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BAA87C061A32
+        for <linux-media@vger.kernel.org>; Thu,  9 Dec 2021 07:36:32 -0800 (PST)
+Received: by mail-wr1-x442.google.com with SMTP id v11so10330901wrw.10
+        for <linux-media@vger.kernel.org>; Thu, 09 Dec 2021 07:36:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=8lxkFDRMwg8pNfKVoAyUh19eKSO8wmq+MV5O7kUhYxI=;
-        b=esWLlSPHynxWr5honL+GAEx/gqvDANyWuVRIgrW1bOxZBXPPpdzkngm0lr3iTi31DN
-         taGQfbAYqHrKHjUhKXSMXiU9OZoBhG7h+0YIYUBmWV6MBnoEHyK72T0MJnQu93fGrQF/
-         A9bXGbUTXq5mENYIV3z2bA93OHTcySlsg3LWFqGQuLj16ZIMJ5FaUHlw4jYj5dxFmFwR
-         Ehh9Q9b3zbJlHwxaWmX9UNO7aREverDxv/1pcPAmXbdqyZDscw3Njt8a/fcAyp5Dm+WU
-         jqsoCBAo2UnZKc9hd8Qsu2Hv+tGSaHlD31TP/LCI7md1zpzZ1o/mKBQaimhi0G8/JLby
-         cEQQ==
+        h=mime-version:reply-to:from:date:message-id:subject:to
+         :content-transfer-encoding;
+        bh=IjIAd0xUS2BRKjtGKPNVsTkA1UQ7V9j5VF08vh2UREs=;
+        b=jSw1EMangldOcv5qx/ygrev9v5pgce9Tnk7OIV4jMPfPW9h2UENppWYHuE/Zw0taUy
+         jxOfL2pTGw0uCv5h4c0iaWtY9U1jO+JvWxP+kabX9n3PPwTvPZRrcvBYF8GejRF9lejE
+         jAvuN/ESpwqO+0nGlg8Gfwa8riqHrOn+rOJ5Q7JHUYv5gtX84Hyt8Jk3LJUjlFCzz4k2
+         nAXLKhV0XEnJ+3B4HTpfsjNvnCUB7ZFs171+rglZszR7MD6Mw/c7QlUNJR7VmNeupH9m
+         O2HnfiA7tg2YDJRO0jemIsslHp5z7PnYXNeqJ5bme6ewc3Ido+5mwGnFWA/Hd1/VWFfd
+         5i0g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=8lxkFDRMwg8pNfKVoAyUh19eKSO8wmq+MV5O7kUhYxI=;
-        b=KvKBITjj1VtMwW1hfhX9Uo+7FkLqOCSNuQ9vopldg8lS4AUR5mD/iSsbioCgUgEkwz
-         8a8AZv7jovk543LYdadAT4xuBzEqRxhD95pa+flbvtuEj8G6aPkxzJ7cbgrReOXa0USx
-         IMq7Ziyp7dZG9KefjVyD8n6hwIEEoG0jg4wKNqA8ZOgkHusGBr0wePoW2NC4Da/N2pFy
-         nILJ7MFIANhZatkEsmaXgmtRwrOSp3KHdboiZJF65KlgeDWAmcq53BG+lz7a6XT2UmT+
-         vMxowSvjGF1Pg/xOPO+LTEFwES8W+hp5NlklAX8lxdA5d0w2e8NbrW2SOARwZL2zwQk/
-         vS8w==
-X-Gm-Message-State: AOAM531pbnsiwve/lKhcX2onuirCuLXPvr8Iyj6dg12DEP7bl7o75OAN
-        mLvOxeulkWyWZRuU5rShUi9kQuTthTEH7Z9BzJo=
-X-Google-Smtp-Source: ABdhPJyMKzJQYJxTsKbBv+y62UDyk4QFBVKlhVjI7qC3dvWq418bPqN5fQgjAP7p0KHuljU4XKmV8Y+t89+fa5Sh8eA=
-X-Received: by 2002:aa7:d0d1:: with SMTP id u17mr29711824edo.135.1639064121144;
- Thu, 09 Dec 2021 07:35:21 -0800 (PST)
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to:content-transfer-encoding;
+        bh=IjIAd0xUS2BRKjtGKPNVsTkA1UQ7V9j5VF08vh2UREs=;
+        b=wWQ01Wkkd04tsHYAb6EYggXSIYQlzNAXuRy7ERsMDlIKDKLtRSkr9PH6bURd7eHxxj
+         r+DDAgNCeucg3c7DTwRs9nV/NVLY74SVrvBhIzKzk1q4IV4PQ/rNyuERiocfcs5I9xuO
+         wti+3LIVMAdBNFpHixLhGpCMwn6AhvpZMyHb+ygXRWpqWEEEsJC0/BHzVFjPMX6fbqWq
+         W7r4eXUQMvNBjK5Nd+D2PkNsBbMdWPEMET1paMdK/xR9FOsgYfrdAdzjpzPP1R247XfQ
+         PReBlT/NJ8iwcT92tGlcoLl7QrK8kz94R99wscFXb67MMqkZBFygX1ijpgOPzapySs/r
+         zjZA==
+X-Gm-Message-State: AOAM530fF0PKlteD96CU8DZx2cceof4Hgb1LVPg8G4b8caFl4TZMFvUe
+        /wOtEGJIhfYlrGV/cAZjAYwokEwc0Kikq8Bc2yk=
+X-Google-Smtp-Source: ABdhPJw7eEe/8OvD/dTN2viM09PCMz2XB+dCpelT4asool+4Uq4lv79pvk5WKjByS1uQuSeZDjltHUbzQelwJxXCXDA=
+X-Received: by 2002:adf:f90a:: with SMTP id b10mr6945462wrr.255.1639064190825;
+ Thu, 09 Dec 2021 07:36:30 -0800 (PST)
 MIME-Version: 1.0
-References: <1639062321-18840-1-git-send-email-akhilrajeev@nvidia.com>
- <1639062321-18840-3-git-send-email-akhilrajeev@nvidia.com> <976c8d73-d137-2050-ca82-18326456c9e8@gmail.com>
-In-Reply-To: <976c8d73-d137-2050-ca82-18326456c9e8@gmail.com>
-From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Thu, 9 Dec 2021 17:33:46 +0200
-Message-ID: <CAHp75VdzrT5z13qx-mMRdrS2=GrMOv87WaEPL5eoPO5cBiqjDg@mail.gmail.com>
-Subject: Re: [PATCH 2/2] i2c: tegra: Add SMBus block read and SMBus alert functions
-To:     Dmitry Osipenko <digetx@gmail.com>
-Cc:     Akhil R <akhilrajeev@nvidia.com>,
-        Christian Koenig <christian.koenig@amd.com>,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        Jon Hunter <jonathanh@nvidia.com>,
-        Laxman Dewangan <ldewangan@nvidia.com>,
-        linaro-mm-sig@lists.linaro.org,
-        linux-i2c <linux-i2c@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        linux-tegra <linux-tegra@vger.kernel.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        devicetree <devicetree@vger.kernel.org>
+Received: by 2002:a5d:5284:0:0:0:0:0 with HTTP; Thu, 9 Dec 2021 07:36:30 -0800 (PST)
+Reply-To: mrsaishag45@gmail.com
+From:   Mrs Aisha Al-Qaddafi <mrsaishag88@gmail.com>
+Date:   Thu, 9 Dec 2021 07:36:30 -0800
+Message-ID: <CAFGDMRt08mr-z_A88xLOgpRU0KqJbGRmh+SwmY5iAQiB+yaRhA@mail.gmail.com>
+Subject: Dear Friend,
+To:     undisclosed-recipients:;
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, Dec 9, 2021 at 5:30 PM Dmitry Osipenko <digetx@gmail.com> wrote:
-> 09.12.2021 18:05, Akhil R =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
-> > +static int tegra_i2c_setup_smbalert(struct tegra_i2c_dev *i2c_dev)
-> > +{
-> > +     struct tegra_i2c_smbalert *smbalert =3D &i2c_dev->smbalert;
-> > +     struct gpio_desc *alert_gpiod;
-> > +     struct i2c_client *ara;
-> > +
-> > +     alert_gpiod =3D devm_gpiod_get(i2c_dev->dev, "smbalert", GPIOD_IN=
-);
-> > +     if (IS_ERR(alert_gpiod))
-> > +             return PTR_ERR(alert_gpiod);
-> > +
-> > +     smbalert->alert_data.irq =3D gpiod_to_irq(alert_gpiod);
-> > +     if (smbalert->alert_data.irq <=3D 0)
-> > +             return smbalert->alert_data.irq;
->
-> 0 is the error condition.
+Dear Friend,
+I am Aisha Muammar Gaddafi, the only daughter of the embattled president of
+Libya, Hon. Muammar Gaddafi. I know my mail might come to you as a surprise
+because you don=E2=80=99t know me, but due to the unsolicited nature of my
+situation here in Refugee camp Ouagadougou Burkina Faso i decided to
+contact you for help. I have passed through pains and sorrowful moments
+since the death of my father. At the same time, my family is the target of
+Western nations led by Nato who want to destroy my father at all costs. Our
+investments and bank accounts in several countries are their targets to
+freeze.
 
-I'm not sure what you implied here. gpiod_to_irq() returns 0 if and
-only if it goes to the architectures where it might be possible to
-have valid vIRQ 0, but this is not the case (at least I never heard of
-a such) for GPIO controllers on such platforms. So, looking at the
-above code I may tell that the '=3D' part is redundant.
+My Father of blessed memory deposited the sum of $27.5M (Twenty Seven
+Million Five Hundred Thousand Dollars) in a Bank at Burkina Faso which he
+used my name as the next of kin. I have been commissioned by the (BOA) bank
+to present an interested foreign investor/partner who can stand as my
+trustee and receive the fund in his account for a possible investment in
+his country due to my refugee status here in Burkina Faso.
 
---=20
-With Best Regards,
-Andy Shevchenko
+I am in search of an honest and reliable person who will help me and stand
+as my trustee so that I will present him to the Bank for the transfer of
+the fund to his bank account overseas. I have chosen to contact you after
+my prayers and I believe that you will not betray my trust but rather take
+me as your own sister or daughter. If this transaction interests you, you
+don't have to disclose it to anybody because of what is going on with my
+entire family, if the United nation happens to know this account, they will
+freeze it as they freeze others, so please keep this transaction only to
+yourself until we finalize it.
+
+Sorry for my pictures. I will enclose it in my next mail and more about me
+when I hear from you okay.
+
+Yours Sincerely
+Best Regard,
+Aisha Gaddafi
