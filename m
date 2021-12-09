@@ -2,70 +2,150 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7E5FE46F57C
-	for <lists+linux-media@lfdr.de>; Thu,  9 Dec 2021 22:00:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 33EAC46F5EF
+	for <lists+linux-media@lfdr.de>; Thu,  9 Dec 2021 22:30:11 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231390AbhLIVDw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 9 Dec 2021 16:03:52 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43596 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232319AbhLIVDv (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 9 Dec 2021 16:03:51 -0500
-Received: from mail-pg1-x52b.google.com (mail-pg1-x52b.google.com [IPv6:2607:f8b0:4864:20::52b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A99FFC061A72
-        for <linux-media@vger.kernel.org>; Thu,  9 Dec 2021 13:00:17 -0800 (PST)
-Received: by mail-pg1-x52b.google.com with SMTP id r5so6181014pgi.6
-        for <linux-media@vger.kernel.org>; Thu, 09 Dec 2021 13:00:17 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:reply-to:from:date:message-id:subject:to
-         :content-transfer-encoding;
-        bh=BJPWo58tKlQXm4vRD5vnXhZrKIbn/SXsA1N14vuJVFE=;
-        b=jQWbkZ2Wn0DGuMmXNjQ8F02bBMlGypEanZx6SRJGq2s0IsCyss7KyEi9kTG2u5yTFd
-         PrVKAMGIaxk1X04MIILMx0o+5b4fbiYFaKVhvEciPW2qPPP2ycT4KLKDAsIO/e5asUZ0
-         +7w6TKBPbmLNUqNLPOXWyyrQv325TUdlz1gZyMZx/YjwPJp94Nl2vG8oYnWbtfDLdxpV
-         dq06/pQpQaq/729Rwj9Sag0gaKC1D9OcrEDZ/OWStfQhWuuriSQMvPt0UahmrqbyFSFA
-         4I4v3TnMDzg5uVnGG3/gUqBndb3XHQF7dviMGfOkJ4TjNAWKiZLmLWivjaKiBCYR4gR2
-         XS+Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to:content-transfer-encoding;
-        bh=BJPWo58tKlQXm4vRD5vnXhZrKIbn/SXsA1N14vuJVFE=;
-        b=zhfXOLlA2qyFWW5w6TLsCStBZ6DAlL0rOCk5iMzT5Axl5mFpKcgF8WdBrPbb9C0azh
-         4gInGBZMhKekgG4H4RafUYCEai+X1w8Q1oXBI02FopejaXa2SVf+I4tI61T81wpKS0Eo
-         YEw/oafi47KmghY/XHx+APP3x9CeR/NtTB9fpmh0VSMhlXveaV2VzEHlbvzQLfHyb7Ot
-         VD2PLUqHMK16SVqdYJW0hqotGC0+14WP1tUCdsh067PH4keOvIwCLNaYPUx3E9YPV/D+
-         qY3Lq2/MjqDq47DQvLWb1zvKjHmcZy0FVq/aeDsOWXaNH6MzmqgrBbUTHnAbu2ErEJvu
-         jNLQ==
-X-Gm-Message-State: AOAM5336/YRogyzOQd3QOQ82PfQKq4fTVNiwlG+bbxZznVRmY2ffGw3p
-        gOB1/esoSnq5SNlZKM8X4KgZ77BNHSzGoiROO9U=
-X-Google-Smtp-Source: ABdhPJyMkZDKuJmsQcWUoR8BtIUa4Zkw+CMwR6RtSByVUY2mK0cg1os8OY6hzm/vRkM8Hc7SH+XXiV73iFARFpu5aZU=
-X-Received: by 2002:a05:6a00:a14:b0:4a0:945:16fa with SMTP id
- p20-20020a056a000a1400b004a0094516famr13707540pfh.9.1639083617185; Thu, 09
- Dec 2021 13:00:17 -0800 (PST)
+        id S232248AbhLIVdn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 9 Dec 2021 16:33:43 -0500
+Received: from mout.gmx.net ([212.227.17.22]:57503 "EHLO mout.gmx.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229505AbhLIVdm (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 9 Dec 2021 16:33:42 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
+        s=badeba3b8450; t=1639085403;
+        bh=nA2YXEvqkFpbueXCD48tWlgA43nzota5ObmX2fSQ1Ik=;
+        h=X-UI-Sender-Class:From:To:Cc:Subject:Date:In-Reply-To:References;
+        b=Ucv+m4dygxevUwWtjzRJo3P3kARjy8KzLwvM6eavM4F9NX0qp0YqgpnuK1uWbpZ5v
+         YZwv+Qo2W0qyUmUW8imzp7P/1QdjjVwXllure1HLDC4aulP8HcLqP/sQMwJNIcRrA0
+         thLRJrzetEu4SuTxl5WiwdpayrXLZbkOd8Y95uAI=
+X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
+Received: from [91.65.60.26] ([91.65.60.26]) by web-mail.gmx.net
+ (3c-app-gmx-bap23.server.lan [172.19.172.93]) (via HTTP); Thu, 9 Dec 2021
+ 22:30:03 +0100
 MIME-Version: 1.0
-Received: by 2002:a05:6a20:7d8b:b0:5d:5c22:870b with HTTP; Thu, 9 Dec 2021
- 13:00:16 -0800 (PST)
-Reply-To: clmloans9@gmail.com
-From:   MR ANTHONY EDWARD <debraalessii@gmail.com>
-Date:   Thu, 9 Dec 2021 22:00:16 +0100
-Message-ID: <CAM30Lis5P9dFLAJZVv+OnuNM1huR68kSJzvkLivpphDKffocDA@mail.gmail.com>
-Subject: DARLEHEN ZU 2% BEANTRAGEN
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Message-ID: <trinity-bb680ebb-853c-44e5-9457-1e66e3bd1791-1639085403130@3c-app-gmx-bap23>
+From:   Robert Schlabbach <Robert.Schlabbach@gmx.net>
+To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc:     linux-media@vger.kernel.org
+Subject: Re: [PATCH v2 4/4] media: si2157: use a different namespace for
+ firmware
+Content-Type: text/plain; charset=UTF-8
+Date:   Thu, 9 Dec 2021 22:30:03 +0100
+Importance: normal
+Sensitivity: Normal
+In-Reply-To: <c06c7806247557daffa999d15cf090437d346747.1639049865.git.mchehab+huawei@kernel.org>
+References: <cover.1639049865.git.mchehab+huawei@kernel.org>
+ <c06c7806247557daffa999d15cf090437d346747.1639049865.git.mchehab+huawei@kernel.org>
+X-UI-Message-Type: mail
+X-Priority: 3
+X-Provags-ID: V03:K1:gl2hGEtbfqzMjq4zDpevT8E8hSgTyknNCcGJr8589EaugtSGa+Uxq//XpyR2D4YfuGYe8
+ +RPMR2in+V8zV5UQbhX/TRgevIbto0CZN0cWYIgrXQqX3IRnkFp6gc8RL0T2/3eg00dmYjSIbDq3
+ yTKjUWRLkhVcLaHPDZ66WJ9j1NUw43sC2+XHiLmWcJgoriOZCPnKsv+FpGrLEL7hF7wZxImqnxh4
+ dCMbsX6yoLYr3gEzbECIbQCVVo3fPipzhaP3DNV52OOyAD9GmOs5gpsK/FgQ11p7h+gRYMperW6T
+ gY=
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:6rJhihegRLg=:PsTD5HOj00uUCQoQx81yHN
+ J0Z4WBXHCsWbl+RPEJQ1b5iE8bNOtT2HwcIsMuJjuAjaa7fbeG8w0OAWlHaBzBUU6CO2HV5Ph
+ fCcCpal/lIUWFNUulo5d2Pnqh/RKOehBNFV4RpbtjHkvEsEHMXWJEaygnPzLsaed/5isxbRiG
+ VTYZjLND7j/zl3JWRnOx4H+4rseAK0xjiKJ/3LK8kaGIwXDGS8fCtqvUnwWjxxHE4WwqimJdi
+ maDzoKr/A2z4PxPum0sUOAZgDkLAP4B5h2f5n8GlVXeoi4yKv9e6jeEyM6TcMzc2rOkHduEX/
+ I23PrwLmP2YJOR/mV2eJZEPCEff0iKjLGNRSBsEfX4L6KPjrJV8P2pDKH/zcoNnQsyKyYW/sN
+ MRnY25jhRiCiHRfiKwXjXEzB33be/AOwdDk0+MaHcRB2gWQpYpqTRrgeGOdlNatLAW4OFz6j+
+ TEaMpDG9sVI+dG17ywpG9tlEZDU67s3QxCD6NWRLPsPh5k7fSr4oGkJdRbZzMZCtNabbleuFK
+ hXY4XbaTii7qneN0+KA1w096wu/QNtTGSfxgljM6+RHwKPOp/XyzEzoWApcOneRaYJo7wshRa
+ hs69erA0LpR9nTBm4sp7wIY1X2YMc9f7HKQs4+wgM5qj7o9hoYxQAwWcxIoJHvaUYD0wZZYbH
+ 7N/20w/jC4bvvrw6uofEmpAIyRXi/g1OTQwUFGHRukN3WbOuIApg7WYzPmliPYIQWfd40KY79
+ wYmKRgmml27kgRYpBOi3icD9qYbyQQ+7sh1uBaySZr1/65hOjjRWnzREGXiQm7UDvVpUn8vf5
+ QIVOv4J
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
---=20
-Ben=C3=B6tigen Sie einen Gesch=C3=A4ftskredit oder einen Kredit jeglicher A=
-rt?
-Wenn ja, kontaktieren Sie uns
+Just wondering: You keep stacking new commits on top, rather than fixing
+issues found in the earlier commits. Do you plan to squash these into
+a single commit in the end? Because I would not feel well submitting the
+"bad"/untested in-between commits into the code...
 
-*Vollst=C3=A4ndiger Name:
-*Ben=C3=B6tigte Menge:
-*Darlehensdauer:
-*Handy:
-*Land:
+> Rework the code in orde to use different firmware files depending
+> at the chip ID and rom ID.
+
+"order" (r missing) and "depending on" not "at".
+
+> +enum si2157_chip_type {
+
+SiLabs calls this "part", and I would stick to that name to avoid
+confusion. We should not invent new names for things that the know
+the original name of.
+
+> +struct si2157_firmware {
+
+My original idea was that this struct array would be the one-stop shop
+where the driver would obtain ALL its information about the tuners it
+supports from, i.e. it would be used to:
+
+- provide a list of the supported parts, with all the constants
+  needed for identification
+- provide the firmware filenames
+- provide further information, e.g. "quirks"
+
+In fact, you already use it for all that, but do not reflect that in
+the name. Maybe "struct si2157_tuner_info" and then name the list
+"si2157_supported_tuners[]"?
+
+As to the #defines for the part numbers, I actually see not much use
+in that, if each define will only be used in exactly one place - the
+table. Why not have the table be the "single source of truth",
+containing _all_ identifiers in one place, rather than needlessly
+scattering them over the source code?
+
+> + enum si2157_chip_type chip_id;
+> + unsigned char rom_id;
+> + bool required;
+> + const char *fw_name, *fw_alt_name;
+
+Before this patch, the driver determined whether it supported the
+tuner by comparing more/other fields from the PART_INFO response.
+I suppose it is ok to expand the support, but the newly introduced
+comparison of the rom_id could theoretically remove support for
+tuners that were previously supported by this driver. Is this an
+acceptable risk?
+
+> + const char *fw_name, *fw_alt_name;
+
+This might not suffice. Theoretically, there could be newer firmware
+patches in the future which we would want to support. Would we then
+throw out support for the older patches?
+
+I would suggest, e.g.:
+
+#define MAX_SUPPORTED_FIRMWARE_VERSIONS 4
+
+const char *fw_name[MAX_SUPPORTED_FIRMWARE_VERSIONS];
+
+and then sort the filenames from newest to oldest, and put the
+"legacy" names at the bottom.
+
+> +static int si2157_find_and_load_firmware(struct dvb_frontend *fe)
+
+Hmm, I would prefer to cut the functionality in a different way:
+
+- query the part information (it's not "chip revision" - Antti did
+  not have the SiLabs source code available and had to guess what
+  this was called) and determine whether this part is supported by
+  the driver (and if we do not want to take the risk mentioned
+  above, maybe even pick one when there is no matching rom_id,
+  but the other values from the part information match?). I think
+  this would be compact enough to remain in the init() function.
+
+- have a download_and_start_firmware() function that is passed the
+  matched struct si2157_tuner_info * and iterates over the contained
+  firmware filenames, and if it finds an available one, downloads
+  that into the tuner. Either way, the EXIT_BOOTLOADER command
+  (commented in the code as "reboot the tuner with new firmware?",
+  because, again, Antti could not know what the command was
+  called) should be part of THIS function, and not be in the init()
+  function. That is also the way it is cut in the SiLabs sources,
+  and it makes sense to me.
+
+Best Regards,
+-Robert Schlabbach
