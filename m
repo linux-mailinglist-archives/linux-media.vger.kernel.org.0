@@ -2,205 +2,181 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 26FF146E27C
-	for <lists+linux-media@lfdr.de>; Thu,  9 Dec 2021 07:29:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 64B6046E3F4
+	for <lists+linux-media@lfdr.de>; Thu,  9 Dec 2021 09:17:24 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233082AbhLIGdS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 9 Dec 2021 01:33:18 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35078 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233036AbhLIGdR (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 9 Dec 2021 01:33:17 -0500
-Received: from mail-pg1-x533.google.com (mail-pg1-x533.google.com [IPv6:2607:f8b0:4864:20::533])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5B965C0617A1
-        for <linux-media@vger.kernel.org>; Wed,  8 Dec 2021 22:29:44 -0800 (PST)
-Received: by mail-pg1-x533.google.com with SMTP id r138so4171106pgr.13
-        for <linux-media@vger.kernel.org>; Wed, 08 Dec 2021 22:29:44 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=nDQeLFsJWWQ29fDPIRsuMsj8pMxqvIriv1EEMWZcKag=;
-        b=Gyjp7Xf3cj1lZ8F/xfViYEIuRYf3fMl/Mw1adhD4mSO3XNhNa2pa98S/1og1a3P1gF
-         JhMAHRepEmOmBg195q1VKTLU6xtKvEMZfF4C63CoLFJRkoVidivE0fDbauL2wUC3PlVf
-         vbj0px713lX0sbbz9B2aQQn+rDYWkoBvZJjgA=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=nDQeLFsJWWQ29fDPIRsuMsj8pMxqvIriv1EEMWZcKag=;
-        b=V0Hs0ZBT2GeHGjsIuhxkgfzZu9zuVhC65+Zn8ACq1QCk7u7BJn+0hVGuRo/9AsGq4K
-         Y2SbDtrxosv97xiIdnUIc764r6bCmELwpAfJjCROEtOiL45mih4HVQ0o3ujkmi3TSzT+
-         CFKC1yxR75D23OrOMVLQphxnZAT80CDRDe7mBwCqnn6vZT1uidKWuGsS53QqWXZvowCv
-         16+8nsYrIww22W8FAxF6F9ThMABeqnB8Au0hA9RlUyE0hMuQnF6X9Ru9NtOI1QqYbW0S
-         nKRVt0/sOyneAb/O2fNmw41SJpXRoL82+9hI1thpvbQjFgpzla5dlzgXV+e3mY8E/CoT
-         6HLg==
-X-Gm-Message-State: AOAM5314fGPz4L8riIGHpXz7xzxFBFyKd6hlEQ6hZx3cwryT+uftv+4B
-        bArmeFqGpVDiml66ZaVdI0eSjg==
-X-Google-Smtp-Source: ABdhPJz0oqWHYeM9S4aGwcZ+QzMWku/0b3Ibttb0E/0Hqw7EylOUJ2GHHJ2w27Ua5SGg5emAapqOiA==
-X-Received: by 2002:a63:f015:: with SMTP id k21mr28881226pgh.154.1639031383867;
-        Wed, 08 Dec 2021 22:29:43 -0800 (PST)
-Received: from wenstp920.tpe.corp.google.com ([2401:fa00:1:10:edb5:3ef8:a855:9380])
-        by smtp.gmail.com with ESMTPSA id h20sm4158955pgh.13.2021.12.08.22.29.42
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 08 Dec 2021 22:29:43 -0800 (PST)
-From:   Chen-Yu Tsai <wenst@chromium.org>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Cc:     Chen-Yu Tsai <wenst@chromium.org>, linux-media@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH] media: v4l2-mem2mem: Apply DST_QUEUE_OFF_BASE on MMAP buffers across ioctls
-Date:   Thu,  9 Dec 2021 14:29:26 +0800
-Message-Id: <20211209062926.991516-2-wenst@chromium.org>
-X-Mailer: git-send-email 2.34.1.400.ga245620fadb-goog
+        id S234475AbhLIIU4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 9 Dec 2021 03:20:56 -0500
+Received: from ams.source.kernel.org ([145.40.68.75]:43324 "EHLO
+        ams.source.kernel.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229536AbhLIIU4 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 9 Dec 2021 03:20:56 -0500
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 6F7B0B823CE
+        for <linux-media@vger.kernel.org>; Thu,  9 Dec 2021 08:17:22 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 816B9C004DD;
+        Thu,  9 Dec 2021 08:17:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1639037841;
+        bh=oXUw2Z1pRmJ6PhEzFdXwz8MNrCTJ4n0B3EZXm10ddxQ=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=g4Vg2aJeGSSebt4vgW0e8Jp3/i06RWZpH50D+0jZ3CHS62Hsbl9hd5XBmFCm4LAqU
+         4oVQ9CeAlqL6+zzDVkM8aN01tziZFW0Y7yQpVkIpp9mSJBTD1rxcCvDVN6WSpwkru9
+         ucTJbeumxWeyP15H+nVlNV+E69wgXg1QKoIOsB901PtOqbMX3Cegk+cLFqScKcdc21
+         KjPgalmEocaruXcFDeeOK0O4YXdQnOnZzUcz4cz/8S2CINOXVxcvkabzk95S6o0s0F
+         RMpfFe0jSxVbQiNe6/ViYYmW6EM4r1RjpySy0NxTnk63PziClhhgt5jTSgvdjoeJN9
+         9hh+2kqZqJcFw==
+Date:   Thu, 9 Dec 2021 09:17:17 +0100
+From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To:     Robert Schlabbach <robert_s@gmx.net>
+Cc:     linux-media@vger.kernel.org
+Subject: Re: [PATCH RFC] media: si2157: optionally load firmare for
+ SI2146_A10 and
+Message-ID: <20211209091717.3107faca@coco.lan>
+In-Reply-To: <trinity-8c68f148-355b-481f-8671-fb703307cb76-1639004515653@3c-app-gmx-bap08>
+References: <cd3a382dc39e72229a73149cb91e80cf69e2b07d.1638958947.git.mchehab+huawei@kernel.org>
+        <trinity-8c68f148-355b-481f-8671-fb703307cb76-1639004515653@3c-app-gmx-bap08>
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.30; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-DST_QUEUE_OFF_BASE is applied to offset/mem_offset on MMAP capture buffers
-only for the VIDIOC_QUERYBUF ioctl, while the userspace fields (including
-offset/mem_offset) are filled in for VIDIOC_{QUERY,PREPARE,Q,DQ}BUF
-ioctls. This leads to differences in the values presented to userspace.
-If userspace attempts to mmap the capture buffer directly using values
-from DQBUF, it will fail.
+Em Thu, 9 Dec 2021 00:01:55 +0100
+Robert Schlabbach <robert_s@gmx.net> escreveu:
 
-Move the code that applies the magic offset into a helper, and call
-that helper from all four ioctl entry points.
+> > + case SI2146_A10:
+> > + fw_required = false;
+> > + fallthrough;
+> > case SI2141_A10:
+> > fw_name = SI2141_A10_FIRMWARE;
+> > break;  
+> 
+> I don't think this form of firmware name aliasing is
+> a good idea. The SiLabs code has a dedicated source
+> file for the ROM patch for each tuner model, even if
+> some are binary identical.
+> 
+> And in this particular case, there are not even
+> binary identical firmware patches available for these
+> two tuners, so they definitely should NOT share the
+> same firmware filename.
 
-Fixes: 7f98639def42 ("V4L/DVB: add memory-to-memory device helper framework for videobuf")
-Fixes: 908a0d7c588e ("[media] v4l: mem2mem: port to videobuf2")
-Signed-off-by: Chen-Yu Tsai <wenst@chromium.org>
----
-This was tested on RK3399 with
+Ok.
 
-    gst-launch-1.0 videotestsrc num-buffers=2 ! v4l2jpegenc ! fakesink
+> So I propose having a clean 1:1 model <-> firmware
+> filename mapping.
 
-and verifying the values using the V4L2 debug messages:
+Makes sense.
 
-    video2: VIDIOC_QUERYBUF: 00:00:00.000000 index=0, type=vid-cap-mplane, request_fd=0, flags=0x00004000, field=any, sequence=0, memory=mmap
-    plane 0: bytesused=0, data_offset=0x00000000, offset/userptr=0x40000000, length=2097152
-    timecode=00:00:00 type=0, flags=0x00000000, frames=0, userbits=0x00000000
-    video2: VIDIOC_QUERYBUF: 00:00:00.000000 index=0, type=vid-out-mplane, request_fd=0, flags=0x00004000, field=any, sequence=0, memory=mmap
-    plane 0: bytesused=0, data_offset=0x00000000, offset/userptr=0x0, length=153600
-    timecode=00:00:00 type=0, flags=0x00000000, frames=0, userbits=0x00000000
+> For si2157/si2177 and si2148/si2158
+> it's already too late, but we should not expand this
+> error even further.
 
-    video2: VIDIOC_QBUF: 00:00:00.000000 index=0, type=vid-cap-mplane, request_fd=0, flags=0x00004003, field=any, sequence=0, memory=mmap
-    plane 0: bytesused=2097152, data_offset=0x00000000, offset/userptr=0x40000000, length=2097152
-    timecode=00:00:00 type=0, flags=0x00000000, frames=0, userbits=0x00000000
-    video2: VIDIOC_QBUF: 00:00:00.000000 index=0, type=vid-out-mplane, request_fd=0, flags=0x00004003, field=none, sequence=0, memory=mmap
-    plane 0: bytesused=153600, data_offset=0x00000000, offset/userptr=0x0, length=153600
-    timecode=00:00:00 type=0, flags=0x00000000, frames=0, userbits=0x00000000
+It is not too late. It is just a matter of adding a secondary
+firmware name for those devices. if the primary (new) name
+is not found, the driver would try the old name for those
+firmwares. As this is the current namespace:
 
-    video2: VIDIOC_DQBUF: 00:00:00.000000 index=0, type=vid-cap-mplane, request_fd=0, flags=0x00004001, field=none, sequence=0, memory=mmap
-    plane 0: bytesused=6324, data_offset=0x00000000, offset/userptr=0x40000000, length=2097152
-    timecode=00:00:00 type=0, flags=0x00000000, frames=0, userbits=0x00000000
-    video2: VIDIOC_DQBUF: 00:00:00.000000 index=0, type=vid-out-mplane, request_fd=0, flags=0x00004001, field=none, sequence=0, memory=mmap
-    plane 0: bytesused=153600, data_offset=0x00000000, offset/userptr=0x0, length=153600
-    timecode=00:00:00 type=0, flags=0x00000000, frames=0, userbits=0x00000000
+#define SI2158_A20_FIRMWARE "dvb-tuner-si2158-a20-01.fw"
+#define SI2141_A10_FIRMWARE "dvb-tuner-si2141-a10-01.fw"
+#define SI2157_A30_FIRMWARE "dvb-tuner-si2157-a30-01.fw"
 
-Gstreamer doesn't do PREPAREBUF calls, so that path was not verified.
-However the code changes are exactly the same, so I'm quite confident
-about them.
+We would need to have a different namespace for the newer firmware
+file model. On a quick look at the opensourced drivers, those seem to
+be the firmware structs over there:
 
----
- drivers/media/v4l2-core/v4l2-mem2mem.c | 46 ++++++++++++++++++++------
- 1 file changed, 35 insertions(+), 11 deletions(-)
+	$ git grep 'firmware_struct.*=.\s*{' TER|perl -ne 'print "$1\n" if m/struct.*(Si[^\[]+)/'
+	Si2124_FW_2_1b5
+	Si2141_FW_0_Ab23
+	Si2141_FW_1_1b12
+	Si2144_FW_2_1b5
+	Si2147_FW_3_1b3
+	Si2148_FW_2_1b11
+	Si2151_FW_0_Ab23
+	Si2151_FW_1_1b11
+	Si2157_FW_3_1b3
+	Si2158B_FW_0_Ab15
+	Si2158B_FW_4_1b3
+	Si2177_FW_3_1b3
+	Si2178B_FW_0_Ab15
+	Si2178B_FW_4_1b3
 
-diff --git a/drivers/media/v4l2-core/v4l2-mem2mem.c b/drivers/media/v4l2-core/v4l2-mem2mem.c
-index e2654b422334..b47f25297c43 100644
---- a/drivers/media/v4l2-core/v4l2-mem2mem.c
-+++ b/drivers/media/v4l2-core/v4l2-mem2mem.c
-@@ -585,19 +585,14 @@ int v4l2_m2m_reqbufs(struct file *file, struct v4l2_m2m_ctx *m2m_ctx,
- }
- EXPORT_SYMBOL_GPL(v4l2_m2m_reqbufs);
- 
--int v4l2_m2m_querybuf(struct file *file, struct v4l2_m2m_ctx *m2m_ctx,
--		      struct v4l2_buffer *buf)
-+static void v4l2_m2m_adjust_mem_offset(struct vb2_queue *vq,
-+				       struct v4l2_buffer *buf)
- {
--	struct vb2_queue *vq;
--	int ret = 0;
--	unsigned int i;
--
--	vq = v4l2_m2m_get_vq(m2m_ctx, buf->type);
--	ret = vb2_querybuf(vq, buf);
--
- 	/* Adjust MMAP memory offsets for the CAPTURE queue */
- 	if (buf->memory == V4L2_MEMORY_MMAP && V4L2_TYPE_IS_CAPTURE(vq->type)) {
- 		if (V4L2_TYPE_IS_MULTIPLANAR(vq->type)) {
-+			unsigned int i;
-+
- 			for (i = 0; i < buf->length; ++i)
- 				buf->m.planes[i].m.mem_offset
- 					+= DST_QUEUE_OFF_BASE;
-@@ -605,6 +600,19 @@ int v4l2_m2m_querybuf(struct file *file, struct v4l2_m2m_ctx *m2m_ctx,
- 			buf->m.offset += DST_QUEUE_OFF_BASE;
- 		}
- 	}
-+}
-+
-+int v4l2_m2m_querybuf(struct file *file, struct v4l2_m2m_ctx *m2m_ctx,
-+		      struct v4l2_buffer *buf)
-+{
-+	struct vb2_queue *vq;
-+	int ret = 0;
-+
-+	vq = v4l2_m2m_get_vq(m2m_ctx, buf->type);
-+	ret = vb2_querybuf(vq, buf);
-+
-+	/* Adjust MMAP memory offsets for the CAPTURE queue */
-+	v4l2_m2m_adjust_mem_offset(vq, buf);
- 
- 	return ret;
- }
-@@ -760,6 +768,10 @@ int v4l2_m2m_qbuf(struct file *file, struct v4l2_m2m_ctx *m2m_ctx,
- 	}
- 
- 	ret = vb2_qbuf(vq, vdev->v4l2_dev->mdev, buf);
-+
-+	/* Adjust MMAP memory offsets for the CAPTURE queue */
-+	v4l2_m2m_adjust_mem_offset(vq, buf);
-+
- 	if (ret)
- 		return ret;
- 
-@@ -784,9 +796,15 @@ int v4l2_m2m_dqbuf(struct file *file, struct v4l2_m2m_ctx *m2m_ctx,
- 		   struct v4l2_buffer *buf)
- {
- 	struct vb2_queue *vq;
-+	int ret;
- 
- 	vq = v4l2_m2m_get_vq(m2m_ctx, buf->type);
--	return vb2_dqbuf(vq, buf, file->f_flags & O_NONBLOCK);
-+	ret = vb2_dqbuf(vq, buf, file->f_flags & O_NONBLOCK);
-+
-+	/* Adjust MMAP memory offsets for the CAPTURE queue */
-+	v4l2_m2m_adjust_mem_offset(vq, buf);
-+
-+	return ret;
- }
- EXPORT_SYMBOL_GPL(v4l2_m2m_dqbuf);
- 
-@@ -795,9 +813,15 @@ int v4l2_m2m_prepare_buf(struct file *file, struct v4l2_m2m_ctx *m2m_ctx,
- {
- 	struct video_device *vdev = video_devdata(file);
- 	struct vb2_queue *vq;
-+	int ret;
- 
- 	vq = v4l2_m2m_get_vq(m2m_ctx, buf->type);
--	return vb2_prepare_buf(vq, vdev->v4l2_dev->mdev, buf);
-+	ret = vb2_prepare_buf(vq, vdev->v4l2_dev->mdev, buf);
-+
-+	/* Adjust MMAP memory offsets for the CAPTURE queue */
-+	v4l2_m2m_adjust_mem_offset(vq, buf);
-+
-+	return ret;
- }
- EXPORT_SYMBOL_GPL(v4l2_m2m_prepare_buf);
- 
--- 
-2.34.1.400.ga245620fadb-goog
+If the idea is to be as close as possible to how the original firmware are named,
+we could do, e. g. something like this:
 
+	$ git grep 'firmware_struct.*=.\s*{' TER|perl -ne 'tr /A-Z/a-z/; print "dvb_driver_si$1_$2.fw\n" if m/struct.*si(\w+)_fw_([^\[]+)/'
+	dvb_driver_si2124_2_1b5.fw
+	dvb_driver_si2141_0_ab23.fw
+	dvb_driver_si2141_1_1b12.fw
+	dvb_driver_si2144_2_1b5.fw
+	dvb_driver_si2147_3_1b3.fw
+	dvb_driver_si2148_2_1b11.fw
+	dvb_driver_si2151_0_ab23.fw
+	dvb_driver_si2151_1_1b11.fw
+	dvb_driver_si2157_3_1b3.fw
+	dvb_driver_si2158b_0_ab15.fw
+	dvb_driver_si2158b_4_1b3.fw
+	dvb_driver_si2177_3_1b3.fw
+	dvb_driver_si2178b_0_ab15.fw
+	dvb_driver_si2178b_4_1b3.fw
+
+On other words, for si2157, for instance, the driver would first try
+to load:
+	dvb_driver_si2157_3_1b3.fw
+if it fails, it would try:
+	dvb-tuner-si2157-a30-01.fw
+
+This is backward compatible and should be flexible enough to support
+different firmware for different tuners.
+
+There are some issues, though. This would require to have all those
+firmware files generated from the opensourced sources and stored somewhere,
+assuming that the license would allow that.
+
+Also, as the firmware files will probably be different, tests with
+the different supported models will be required to be sure that the
+code is compatible with them (as the API might have changed on
+some of those).
+
+> More broadly, the SiLabs code actually matches the
+> applicable firmware patch to the rom_id returned by
+> the tuner. So if we wanted to do a real cleanup,
+> I would propose having a const struct table, e.g.
+> 
+> const struct {
+>     unsigned char part;
+>     unsigned char chiprev;
+>     unsigned char pmajor;
+>     unsigned char pminor;
+>     unsigned char rom_id;
+>     const char *  firmware_name
+> } supported_models[] = {
+>     { /*Si21*/41, 'A', 1, 0, 0x60, "dvb-tuner-si2141-a10-00.fw" },
+>     { /*Si21*/41, 'A', 1, 0, 0x61, "dvb-tuner-si2141-a10-01.fw" },
+>     { /*Si21*/57, 'A', 3, 0, 0x50, "dvb-tuner-si2157-a30-01.fw" },
+> (etc)
+> };
+
+The struct itself sounds OK to me, with some adjustments:
+
+1. Coding style nit:  firmware name should be, instead:
+
+	const char *firmware_name
+
+2. It would also need a:
+
+	const char *firmware_alt_name
+
+   to store the old firmware namespace, e. g.:
+	SI2158_A20_FIRMWARE, SI2141_A10_FIRMWARE and SI2157_A30_FIRMWARE.
+
+3. instead of placing a number (41, 57, ...) it should use defines
+   or enums.
+
+Thanks,
+Mauro
