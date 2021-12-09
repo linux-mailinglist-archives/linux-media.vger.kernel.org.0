@@ -2,99 +2,171 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BBD8546F17D
-	for <lists+linux-media@lfdr.de>; Thu,  9 Dec 2021 18:20:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8CBC746F27B
+	for <lists+linux-media@lfdr.de>; Thu,  9 Dec 2021 18:52:18 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242472AbhLIRXy (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 9 Dec 2021 12:23:54 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47894 "EHLO
+        id S235869AbhLIRzu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 9 Dec 2021 12:55:50 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56090 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235879AbhLIRXx (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 9 Dec 2021 12:23:53 -0500
-Received: from mail-vk1-xa31.google.com (mail-vk1-xa31.google.com [IPv6:2607:f8b0:4864:20::a31])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 31837C061746
-        for <linux-media@vger.kernel.org>; Thu,  9 Dec 2021 09:20:20 -0800 (PST)
-Received: by mail-vk1-xa31.google.com with SMTP id h1so4299350vkh.0
-        for <linux-media@vger.kernel.org>; Thu, 09 Dec 2021 09:20:20 -0800 (PST)
+        with ESMTP id S230094AbhLIRzt (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 9 Dec 2021 12:55:49 -0500
+Received: from mail-wm1-x32d.google.com (mail-wm1-x32d.google.com [IPv6:2a00:1450:4864:20::32d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 00C25C061746
+        for <linux-media@vger.kernel.org>; Thu,  9 Dec 2021 09:52:16 -0800 (PST)
+Received: by mail-wm1-x32d.google.com with SMTP id d72-20020a1c1d4b000000b00331140f3dc8so4750920wmd.1
+        for <linux-media@vger.kernel.org>; Thu, 09 Dec 2021 09:52:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:sender:from:date:message-id:subject:to
+        d=baylibre-com.20210112.gappssmtp.com; s=20210112;
+        h=subject:to:cc:references:from:organization:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=cyYyeMptIvnc8bAP1NEszda/m1hQd2oyWvGbBMl3hsE=;
-        b=WPqrnj3StsMjoCWVg6AGJb0N3usS5nV1+XCEoj/CJvuWzUA0Yd3GX9dhiXHia0uA0j
-         ufJDt4oIAZmI2rOOldV7Y2LXn3RYB+JskEZNZWgu9/+HaUQul6X9TDOVS3dkUmy/p1Y2
-         5gePjSu3vDur1p5D3Nh1UR8epDiifwvGzRaiueEgs56Z3zqK2R4/Zr7dDwpBnCW+Eye7
-         w3Bwk7m70CiElGeT5PI2z3X8uZjPG2507N6M4Zdvjq75DmhzftSg9N7Y0R4gcEAgT8bN
-         aVj9Lfp95dCw4R7/NIU2o9+vn4EhghBysU/2J3USBwxqHaQTHu0dv4UuHs9qpXCxiCYh
-         DHkA==
+        bh=Bd8+kTrTfhFU5QWPnGzZKoBEXJcLIGbK/BR+H+0gbYw=;
+        b=XbFa42nnAwDGxO66/HbO3nB2gPzLqX2MOc+1zouWEXl3y62x+JQixZnni2tTWFd1CI
+         mFZs+VL2zwSM+nOzrmeBxhvLkGHZZUO24TnH0JAKdpbly1p+jK6L5LOjAaTq7kqR70/q
+         dH/ZA0AQho791bypxmO/O605uUfAUi5Mam0+utMXeo2MO9Zr3FJNU8Mb3QX+q7RFD06O
+         DfNKHxZ4UU4Cor8daNfV2JclnpukSCkUS0TXtEkM+6bjsBMz8CJpl5Q9x2jJe4KLtejM
+         ggJMrX5P1niJ6l+JHs2F/aRrfM8IxpyGzvibQ/im15eeGdFDrxxN8oLO5Odg1QHUWYb2
+         YngA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:sender:from:date:message-id:subject
-         :to:content-transfer-encoding;
-        bh=cyYyeMptIvnc8bAP1NEszda/m1hQd2oyWvGbBMl3hsE=;
-        b=Lqiebp8S6ODOd6m/pFTaxdGvRm5o4IPy0N854kVhyE6ycc0guFgHUKz4GOdaTC9dOx
-         7tKia5Kjp6FvEJ+t9XjIQSdbicTsrCS1vOc6dCzcWGIgQfhziPx3x10WWwvxe4QWz5qK
-         jrpgITfQQc0oILYNuPAcgrhZaS2NVsWRIMwe15Flh63IbelNn0LL345BoZJH9Zu9mF6G
-         YDzAkJw7aO7WwlCuDT42hHDMeTzFOv9baEfDyrjZsP4DTD0FOzQMN+LBZoQI6NfJduiq
-         ijjMqoZH1VQPuGfPV7+yBmJGEsqf2LBfblwP9a0IzZOVjSFG/L33dWt+ShCF1VN7qYYy
-         7vfQ==
-X-Gm-Message-State: AOAM532yiSedLnY/vmpKoqb0+TVC9ixItuT4qtcdkFcFgqbA0MTDn9ji
-        /PGWd1XTkFwntZhS5mAxTWHfOhp0qVqshczdRcI=
-X-Google-Smtp-Source: ABdhPJwq6OUTsI6WYDOChdKA0N+VZVOVV0uc43jCkIX5HLz77EiBYPlDwRjhaKgHypmhYu0Q54wjZNJUWULZN/smzlI=
-X-Received: by 2002:a05:6122:629:: with SMTP id g9mr10782144vkp.36.1639070419352;
- Thu, 09 Dec 2021 09:20:19 -0800 (PST)
+        h=x-gm-message-state:subject:to:cc:references:from:organization
+         :message-id:date:user-agent:mime-version:in-reply-to
+         :content-language:content-transfer-encoding;
+        bh=Bd8+kTrTfhFU5QWPnGzZKoBEXJcLIGbK/BR+H+0gbYw=;
+        b=RLbTKeTouDAU+09xPSR9pxY2bdt1T941CBTIlspXB/DZFJKRQY3/eDc2QmXVTjsUra
+         +hwMCJlthGuCQbA4BEFpWg/xbsdXrgt7q81eI8gulk0h1qZLUDv+CDGqQl76mNmuP9ph
+         e0bwDvwdyzSYzGHCo9yiTLlWdOCq4Jn9TbOwpVAV5lkIP9N1wyVcLaYedsu0jsSsOLUh
+         cR7LsHD8V2IhOwLTAhuqpKe7bO/GIUWgDsSpntYMQlsQmjcyBW2xEuRur5wuRKXNmeWq
+         4E4bt394nGujq2+Wf6rJ6hFUgRAcGgG4sPyHVXBQ93/ZNiz+Mq2h+1hiW1q1qdghULuM
+         aHVQ==
+X-Gm-Message-State: AOAM531Vc0bxMQFmpH7G3r2omg63qGKxHJXEWikatiukv5q0NT5TKL26
+        lYQRK+ekpF5+Xl+9d4Xjo5aD6Q==
+X-Google-Smtp-Source: ABdhPJyMie+a/YOeewKo1Obvu7zuEr3tSxdpZfoN/rSq9A/nErVJDjjw8oiP8Y9G/3nEDK98Fbtfqg==
+X-Received: by 2002:a05:600c:3b27:: with SMTP id m39mr9397831wms.132.1639072334313;
+        Thu, 09 Dec 2021 09:52:14 -0800 (PST)
+Received: from ?IPv6:2001:861:44c0:66c0:ee1f:92e9:bcbf:be87? ([2001:861:44c0:66c0:ee1f:92e9:bcbf:be87])
+        by smtp.gmail.com with ESMTPSA id b197sm449999wmb.24.2021.12.09.09.52.13
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 09 Dec 2021 09:52:13 -0800 (PST)
+Subject: Re: [PATCH] media: meson: vdec: potential dereference of null pointer
+To:     Hans Verkuil <hverkuil@xs4all.nl>,
+        Jiasheng Jiang <jiasheng@iscas.ac.cn>, mchehab@kernel.org,
+        gregkh@linuxfoundation.org, khilman@baylibre.com,
+        jbrunet@baylibre.com, martin.blumenstingl@googlemail.com
+Cc:     linux-media@vger.kernel.org, linux-amlogic@lists.infradead.org,
+        linux-staging@lists.linux.dev,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+References: <20211209085840.2081024-1-jiasheng@iscas.ac.cn>
+ <bfd1801c-9d1e-0574-a237-711d3d5ae755@xs4all.nl>
+From:   Neil Armstrong <narmstrong@baylibre.com>
+Organization: Baylibre
+Message-ID: <0c1fadf0-e7ba-fb7a-822d-6787f78faaad@baylibre.com>
+Date:   Thu, 9 Dec 2021 18:52:12 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-Sender: edwardcarlos536@gmail.com
-Received: by 2002:a59:b9c6:0:b0:23d:e3cf:31d4 with HTTP; Thu, 9 Dec 2021
- 09:20:19 -0800 (PST)
-From:   Candice Marie Benbow <candicemariebenbow85@gmail.com>
-Date:   Thu, 9 Dec 2021 17:20:19 +0000
-X-Google-Sender-Auth: aQV6zWhWEAsZIITJYWbpste9O1I
-Message-ID: <CAFyj9jwE29do0Ri2oL6S2ZmNmHeB8jKmBk5rPqe=5BL=pLsKwA@mail.gmail.com>
-Subject: Good Day My beloved,
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <bfd1801c-9d1e-0574-a237-711d3d5ae755@xs4all.nl>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Greetings My Dear.
-Please do not feel disturbed for contacting =C2=A0you in this regards, It
-was based on the critical health condition I find mine self. =C2=A0My names
- are Mrs.Candice Marie Benbow, a widow and I=E2=80=99m suffering from brain
-tumor disease and this illness has gotten to a very bad stage, I
- married my husband for Ten years without any family members and no
-child. =C2=A0My husband died after a brief illness that lasted for few
-days.
-Since the death of my husband, I decided not to remarry again, When my
-late husband was alive he deposited the sum of =C2=A0($  12.000.000 Million
-Dollars.) with the Bank. Presently this money is still in bank. And My
- Doctor told me that I don't have much time to live because my illness
-has gotten to a very bad stage, Having known my condition I  decided
-to entrust over the deposited fund under your custody to take care of
-the less-privileged ones therein your country or position,
-which i believe that you will utilize this money the way I am going to
-instruct herein.
-However all I need and required from you is your sincerity and ability
-to carry out the transaction successfully and fulfill my final wish in
-implementing the charitable project as it requires absolute trust and
-devotion without any failure and I will be glad to see that the bank
-finally release and transfer the fund into your bank account in your
-country even before I die here in the hospital, because my present
-health condition is very critical at the moment everything needs to be
-process rapidly as soon as possible.
-It will be my pleasure to compensate you as my Investment
-Manager/Partner with 35 % percent of the total fund for your effort in
- handling the transaction, 5 % percent for any expenses or processing
-charges fee that will involve during this process while 60% of the
-fund will be Invested into the charity project there in your country
-for the mutual benefit of the orphans and the less privileges ones.
-Meanwhile I am waiting for your prompt respond, if only you are
-interested for further details of the transaction and execution of
-this  humanitarian project for the glory and honor of God the merciful
-compassionate.
-May God bless you and your family.
-Regards,
-Mrs.Candice Marie Benbow.
-written from Hospital.
+Hi,
+
+On 09/12/2021 12:58, Hans Verkuil wrote:
+> On 09/12/2021 09:58, Jiasheng Jiang wrote:
+>> he return value of kzalloc() needs to be checked.
+>> To avoid use of null pointer in case of the failure of alloc.
+>>
+>> Fixes: 876f123b8956 ("media: meson: vdec: bring up to compliance")
+>> Signed-off-by: Jiasheng Jiang <jiasheng@iscas.ac.cn>
+>> ---
+>>  drivers/staging/media/meson/vdec/vdec_helpers.c | 2 ++
+>>  1 file changed, 2 insertions(+)
+>>
+>> diff --git a/drivers/staging/media/meson/vdec/vdec_helpers.c b/drivers/staging/media/meson/vdec/vdec_helpers.c
+>> index 7f07a9175815..025885fcfec6 100644
+>> --- a/drivers/staging/media/meson/vdec/vdec_helpers.c
+>> +++ b/drivers/staging/media/meson/vdec/vdec_helpers.c
+>> @@ -234,6 +234,8 @@ void amvdec_add_ts(struct amvdec_session *sess, u64 ts,
+>>  	unsigned long flags;
+>>  
+>>  	new_ts = kzalloc(sizeof(*new_ts), GFP_KERNEL);
+>> +	if (!new_ts)
+>> +		return;
+> 
+> While this avoids dereferencing a NULL pointer, this error isn't propagated to the
+> caller. And I'm not sure if that's right.
+> 
+> Neil, what should be done in this case?
+> 
+> Regards,
+> 
+> 	Hans
+> 
+>>  	new_ts->ts = ts;
+>>  	new_ts->tc = tc;
+>>  	new_ts->offset = offset;
+>>
+> 
+
+Probably something like this:
+
+===================><=============================
+diff --git a/drivers/staging/media/meson/vdec/esparser.c b/drivers/staging/media/meson/vdec/esparser.c
+index db7022707ff8..df733eff9ac7 100644
+--- a/drivers/staging/media/meson/vdec/esparser.c
++++ b/drivers/staging/media/meson/vdec/esparser.c
+@@ -328,7 +328,11 @@ esparser_queue(struct amvdec_session *sess, struct vb2_v4l2_buffer *vbuf)
+
+        offset = esparser_get_offset(sess);
+
+-       amvdec_add_ts(sess, vb->timestamp, vbuf->timecode, offset, vbuf->flags);
++       ret = amvdec_add_ts(sess, vb->timestamp, vbuf->timecode, offset, vbuf->flags);
++       if (ret) {
++               v4l2_m2m_buf_done(vbuf, VB2_BUF_STATE_ERROR);
++               return ret;
++       }
+        dev_dbg(core->dev, "esparser: ts = %llu pld_size = %u offset = %08X flags = %08X\n",
+                vb->timestamp, payload_size, offset, vbuf->flags);
+
+diff --git a/drivers/staging/media/meson/vdec/vdec_helpers.c b/drivers/staging/media/meson/vdec/vdec_helpers.c
+index b9125c295d1d..593b2ccbece2 100644
+--- a/drivers/staging/media/meson/vdec/vdec_helpers.c
++++ b/drivers/staging/media/meson/vdec/vdec_helpers.c
+@@ -227,13 +227,15 @@ int amvdec_set_canvases(struct amvdec_session *sess,
+ }
+ EXPORT_SYMBOL_GPL(amvdec_set_canvases);
+
+-void amvdec_add_ts(struct amvdec_session *sess, u64 ts,
+-                  struct v4l2_timecode tc, u32 offset, u32 vbuf_flags)
++int amvdec_add_ts(struct amvdec_session *sess, u64 ts,
++                 struct v4l2_timecode tc, u32 offset, u32 vbuf_flags)
+ {
+        struct amvdec_timestamp *new_ts;
+        unsigned long flags;
+
+        new_ts = kzalloc(sizeof(*new_ts), GFP_KERNEL);
++       if (!new_ts)
++               return -ENOMEM;
+        new_ts->ts = ts;
+        new_ts->tc = tc;
+        new_ts->offset = offset;
+diff --git a/drivers/staging/media/meson/vdec/vdec_helpers.h b/drivers/staging/media/meson/vdec/vdec_helpers.h
+index 88137d15aa3a..4bf3e61d081b 100644
+--- a/drivers/staging/media/meson/vdec/vdec_helpers.h
++++ b/drivers/staging/media/meson/vdec/vdec_helpers.h
+@@ -56,8 +56,8 @@ void amvdec_dst_buf_done_offset(struct amvdec_session *sess,
+  * @offset: offset in the VIFIFO where the associated packet was written
+  * @flags: the vb2_v4l2_buffer flags
+  */
+-void amvdec_add_ts(struct amvdec_session *sess, u64 ts,
+-                  struct v4l2_timecode tc, u32 offset, u32 flags);
++int amvdec_add_ts(struct amvdec_session *sess, u64 ts,
++                 struct v4l2_timecode tc, u32 offset, u32 flags);
+ void amvdec_remove_ts(struct amvdec_session *sess, u64 ts);
+
+ /**
