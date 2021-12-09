@@ -2,103 +2,164 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 57F6B46E12C
-	for <lists+linux-media@lfdr.de>; Thu,  9 Dec 2021 04:11:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id EC46946E239
+	for <lists+linux-media@lfdr.de>; Thu,  9 Dec 2021 06:58:54 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231316AbhLIDO7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 8 Dec 2021 22:14:59 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47232 "EHLO
+        id S232591AbhLIGC1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 9 Dec 2021 01:02:27 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56346 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231290AbhLIDO7 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 8 Dec 2021 22:14:59 -0500
-Received: from mail-lf1-x12b.google.com (mail-lf1-x12b.google.com [IPv6:2a00:1450:4864:20::12b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DAE38C0617A2
-        for <linux-media@vger.kernel.org>; Wed,  8 Dec 2021 19:11:25 -0800 (PST)
-Received: by mail-lf1-x12b.google.com with SMTP id t26so9399372lfk.9
-        for <linux-media@vger.kernel.org>; Wed, 08 Dec 2021 19:11:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=c+zQKGqZr8HXn102ZG5ijRoDp7kpXqQXnN4PdMGmbcg=;
-        b=jYx3n3tG3V6uw2IXXiIyTTwc4IaIMPdJFd/JgAw0N80PfaQM1Oy+Oef/S7yoz7CaV0
-         1o3rsj6avNqKZ46XIrNvYHADvRgO0udYMlcMXtgV7PO8wEGHgDq8dvh9hcJeosAy1NOt
-         6Ubry5ylivFKI0KcuaJZPXJ7hTkJbpoZe9ATgb5Q9Cim4qxXGNmIbTRilkKBg9bSxVQK
-         J8AJY9RbGy63vzQCDr5uVUGX7AxIUhBrKayqUdPM5ObNm0dpNvmaP95ReAtSoJcNiZAX
-         NAj5+urPVmDogqR+DOAagoN4BqF8fouxUE8n/jd3RMhBFDthm86uwR2BFKoxb+8/HDNK
-         x5XQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=c+zQKGqZr8HXn102ZG5ijRoDp7kpXqQXnN4PdMGmbcg=;
-        b=zX9r66YmSzlG+0m8OqyQze+DlE/agV7ECpHvO9doFiTSstbMhZmdBbrmlXXKxYlO91
-         8oQWDYdUzEL4LhFjUUwZ8+UvrWMftVX0SrR/hojH6SnkgvifcuxLuPW2k4DmNiz3Get6
-         9R+Up+E/Q3XRIz83TawXQKmY9559wq9dZe7RdusCbpjoXk1TkJTEqWm1Y7PJ9M3KEHpF
-         5n6GuipA0++pDVWXtMhdOM0qadiL9GehGG6uRJuME38+MgMy5EIOmcQSCYJBf9ernrqW
-         lgJcC3/Gh21iZSmGa20s2YWWHJitP6WHHmHfL64g94KsN764Qj9Tk1ksKenp/ieEhb8d
-         jEfQ==
-X-Gm-Message-State: AOAM5336U0BlQj+T3MCwnLpEdRfLzFVvjjRyhE/nYFpkGLu/b0PKAhLq
-        jXpc0LYpi61Ky8TwN/o12YbEoi4PaFe1U4oefrLLKA==
-X-Google-Smtp-Source: ABdhPJxMfltZiIgin1roB5XH9E4O9k9cjPWiXPuBF9cRXFGcERVh6IPLOCF1yrPcWr9jbe9xAOcI0Xr+CQaR9dW37eE=
-X-Received: by 2002:a19:760d:: with SMTP id c13mr3280695lff.661.1639019484116;
- Wed, 08 Dec 2021 19:11:24 -0800 (PST)
-MIME-Version: 1.0
-References: <20211029214833.2615274-1-tadeusz.struk@linaro.org>
- <YZ2x+xuvnHC48MHg@ripper> <CALAqxLV7YzuHLzNFSWawjpoJGb3WwO4bgnMN_5mWoHmB582kZw@mail.gmail.com>
-In-Reply-To: <CALAqxLV7YzuHLzNFSWawjpoJGb3WwO4bgnMN_5mWoHmB582kZw@mail.gmail.com>
-From:   John Stultz <john.stultz@linaro.org>
-Date:   Wed, 8 Dec 2021 19:11:13 -0800
-Message-ID: <CALAqxLWjK4h-ghF5s8qV6Q3Wp3K1N816dTfiLNatBTms6NDe3A@mail.gmail.com>
-Subject: Re: [PATCH v2] media: venus: Synchronize probe() between venus_core
- and enc/dec
-To:     Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Stanimir Varbanov <stanimir.varbanov@linaro.org>
-Cc:     Tadeusz Struk <tadeusz.struk@linaro.org>,
-        Andy Gross <agross@kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Lee Jones <lee.jones@linaro.org>,
-        Amit Pundir <amit.pundir@linaro.org>,
-        linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+        with ESMTP id S231316AbhLIGC0 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 9 Dec 2021 01:02:26 -0500
+Received: from lb2-smtp-cloud8.xs4all.net (lb2-smtp-cloud8.xs4all.net [IPv6:2001:888:0:108::2b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C5797C061746
+        for <linux-media@vger.kernel.org>; Wed,  8 Dec 2021 21:58:53 -0800 (PST)
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud8.xs4all.net with ESMTPA
+        id vCRvmIydShsVfvCSAm6dre; Thu, 09 Dec 2021 06:58:50 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
+        t=1639029530; bh=fgiil+ddqNOxhLp/id4HBAtYVambxKLiQXniTUYtUt4=;
+        h=Message-ID:Date:From:To:Subject:From:Subject;
+        b=TwcmlB+MvzZRzCgaYGa1EOAwSnEfCp1TEUB8+gYbq5fK66EwQYNEoA/CYzYzpps13
+         vly7136n5qB/6oewryb/ae65E0zOlo/ex8+DdJ0OD7F8ZwV24tfX0gFWzX53jAlrB5
+         7qIdiORr+s4wDAg/PWgM7tyqDL5DVbA9w/nzRN/bYwq4oKRx8c8QEAH5WLMRUnXUVz
+         mS0CI37p4v04TUXTQV0tieQvNeL+6Z7ethP1ytr0MAF6tclFlvcpNffEQWZu+dpd0v
+         VcWbWzqiBPlw5K+o6vmLaaxV8lx8RfSO0n9wX0q67Vffu4ZH0bF8FdD6+vvnvRThAi
+         2prnaMoKz019Q==
+Message-ID: <2dc4640838faee0ce20c3d2934730a1a@smtp-cloud8.xs4all.net>
+Date:   Thu, 09 Dec 2021 06:58:35 +0100
+From:   "Hans Verkuil" <hverkuil@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: WARNINGS
+X-CMAE-Envelope: MS4xfHnC6HTX6+WmmT41w+khFurLDVzsXFXAl+u7o7r9N8MAwPqC4TS4+3ID2CAlJCbiQcb+zwAILAxV5CiRlImayvyFu5fyTK6/06ELurpiFG4X/w7otfgD
+ WzVaS81H8F9kJ7J+4FJqD/uTe0CzV1F6jUNUxsZh2JkqwPHssHUFpkkA/4YPKjuGKgHtB4TE2tIcfQ==
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Nov 30, 2021 at 8:49 PM John Stultz <john.stultz@linaro.org> wrote:
-> On Tue, Nov 23, 2021 at 7:29 PM Bjorn Andersson
-> <bjorn.andersson@linaro.org> wrote:
-> > Rather than trying to synchronize away the side effects of
-> > of_platform_populate() I think we should stop using it.
-> >
-> > I had the very same problem in the qcom_wcnss remoteproc driver and
-> > in below change I got rid of that by manually initializing a struct
-> > device for the child node. In the event that the child probe defer I
-> > would just probe defer the parent as well.
-> >
-> > 1fcef985c8bd ("remoteproc: qcom: wcnss: Fix race with iris probe")
-> >
-> > The change might look a little bit messy, but the end result it much
-> > cleaner than relying on various locks etc.
-> >
-> >
-> > But in the qcom_wcnss case I have a child _device_ because I need
-> > something to do e.g. regulator_get() on. I fail to see why venc and vdec
-> > are devices in the first place.
->
-> I definitely agree with Bjorn that all this asynchronous component
-> probing feels overly complicated, and a rework is probably the better
-> solution.
->
-> Though my only question is:  is someone planning to do this rework?
->
-> In the meantime, Tadeusz' patch does resolve a *very* frequent boot
-> crash seen when the venus driver is enabled.
-> So Stanimir, should we consider merging this as a stop gap until the
-> larger probe rework is done?
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
 
-Stanimir? Does the above sound reasonable?
+Results of the daily build of media_tree:
 
-thanks
--john
+date:			Thu Dec  9 05:00:10 CET 2021
+media-tree git hash:	9b4d7b5c81a2578e080da33b5cddc3149fa611aa
+media_build git hash:	c5c30e768ef3b757da479220d7a389470c3ad978
+v4l-utils git hash:	85ed37cf472bb4f67702fb8d42992f164c36a007
+edid-decode git hash:	b00755e34eb12aa92416aaf1bb7b02603131afe0
+gcc version:		i686-linux-gcc (GCC) 11.2.0
+sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
+sparse version:		0.6.3
+smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
+smatch version:		0.6.3
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: 72fe2e990921b3757e47e6f3ea4ce8c076021161
+host hardware:		x86_64
+host os:		5.15.0-2-amd64
+
+linux-git-sh: OK
+linux-git-arm-at91: OK
+linux-git-arm-davinci: OK
+linux-git-mips: OK
+linux-git-arm-stm32: OK
+linux-git-arm-pxa: OK
+linux-git-arm-multi: OK
+linux-git-arm64: OK
+linux-git-powerpc64: OK
+linux-git-i686: OK
+linux-git-x86_64: OK
+Check COMPILE_TEST: OK
+Check for strcpy/strncpy/strlcpy: OK
+linux-4.4.283-i686: OK
+linux-4.4.283-x86_64: OK
+linux-4.5.7-i686: OK
+linux-4.5.7-x86_64: OK
+linux-4.6.7-i686: OK
+linux-4.6.7-x86_64: OK
+linux-4.7.10-i686: OK
+linux-4.7.10-x86_64: OK
+linux-4.8.17-i686: OK
+linux-4.8.17-x86_64: OK
+linux-4.9.246-i686: OK
+linux-4.9.246-x86_64: OK
+linux-4.10.17-i686: OK
+linux-4.10.17-x86_64: OK
+linux-4.11.12-i686: OK
+linux-4.11.12-x86_64: OK
+linux-4.12.14-i686: OK
+linux-4.12.14-x86_64: OK
+linux-4.13.16-i686: OK
+linux-4.13.16-x86_64: OK
+linux-4.14.246-i686: OK
+linux-4.14.246-x86_64: OK
+linux-4.15.18-i686: OK
+linux-4.15.18-x86_64: OK
+linux-4.16.18-i686: OK
+linux-4.16.18-x86_64: OK
+linux-4.17.19-i686: OK
+linux-4.17.19-x86_64: OK
+linux-4.18.20-i686: OK
+linux-4.18.20-x86_64: OK
+linux-4.19.206-i686: OK
+linux-4.19.206-x86_64: OK
+linux-4.20.17-i686: OK
+linux-4.20.17-x86_64: OK
+linux-5.0.21-i686: OK
+linux-5.0.21-x86_64: OK
+linux-5.1.21-i686: OK
+linux-5.1.21-x86_64: OK
+linux-5.2.21-i686: OK
+linux-5.2.21-x86_64: OK
+linux-5.3.18-i686: OK
+linux-5.3.18-x86_64: OK
+linux-5.4.144-i686: OK
+linux-5.4.144-x86_64: OK
+linux-5.5.19-i686: OK
+linux-5.5.19-x86_64: OK
+linux-5.6.19-i686: OK
+linux-5.6.19-x86_64: OK
+linux-5.7.19-i686: OK
+linux-5.7.19-x86_64: OK
+linux-5.8.18-i686: OK
+linux-5.8.18-x86_64: OK
+linux-5.9.16-i686: OK
+linux-5.9.16-x86_64: OK
+linux-5.10.62-i686: OK
+linux-5.10.62-x86_64: OK
+linux-5.11.22-i686: OK
+linux-5.11.22-x86_64: OK
+linux-5.12.19-i686: OK
+linux-5.12.19-x86_64: OK
+linux-5.13.14-i686: OK
+linux-5.13.14-x86_64: OK
+linux-5.14.1-i686: OK
+linux-5.14.1-x86_64: OK
+linux-5.15.1-i686: OK
+linux-5.15.1-x86_64: OK
+linux-5.16-rc1-i686: OK
+linux-5.16-rc1-x86_64: OK
+apps: OK
+spec-git: OK
+virtme: OK: Final Summary: 2989, Succeeded: 2989, Failed: 0, Warnings: 0
+virtme-32: OK: Final Summary: 3100, Succeeded: 3100, Failed: 0, Warnings: 0
+sparse: WARNINGS
+smatch: WARNINGS
+kerneldoc: WARNINGS
+
+Detailed results are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Thursday.log
+
+Detailed regression test results are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Thursday-test-media.log
+http://www.xs4all.nl/~hverkuil/logs/Thursday-test-media-32.log
+http://www.xs4all.nl/~hverkuil/logs/Thursday-test-media-dmesg.log
+
+Full logs are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Thursday.tar.bz2
+
+The Media Infrastructure API from this daily build is here:
+
+http://www.xs4all.nl/~hverkuil/spec/index.html
