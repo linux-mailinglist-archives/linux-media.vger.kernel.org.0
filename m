@@ -2,218 +2,99 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D0F9046ED44
-	for <lists+linux-media@lfdr.de>; Thu,  9 Dec 2021 17:38:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BBD8546F17D
+	for <lists+linux-media@lfdr.de>; Thu,  9 Dec 2021 18:20:21 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241233AbhLIQlz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 9 Dec 2021 11:41:55 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36700 "EHLO
+        id S242472AbhLIRXy (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 9 Dec 2021 12:23:54 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47894 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241250AbhLIQlx (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 9 Dec 2021 11:41:53 -0500
-Received: from mail-pf1-x42a.google.com (mail-pf1-x42a.google.com [IPv6:2607:f8b0:4864:20::42a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3DBC5C061A32
-        for <linux-media@vger.kernel.org>; Thu,  9 Dec 2021 08:38:18 -0800 (PST)
-Received: by mail-pf1-x42a.google.com with SMTP id 8so5925801pfo.4
-        for <linux-media@vger.kernel.org>; Thu, 09 Dec 2021 08:38:18 -0800 (PST)
+        with ESMTP id S235879AbhLIRXx (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 9 Dec 2021 12:23:53 -0500
+Received: from mail-vk1-xa31.google.com (mail-vk1-xa31.google.com [IPv6:2607:f8b0:4864:20::a31])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 31837C061746
+        for <linux-media@vger.kernel.org>; Thu,  9 Dec 2021 09:20:20 -0800 (PST)
+Received: by mail-vk1-xa31.google.com with SMTP id h1so4299350vkh.0
+        for <linux-media@vger.kernel.org>; Thu, 09 Dec 2021 09:20:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=from:to:cc:subject:date:message-id:mime-version
+        d=gmail.com; s=20210112;
+        h=mime-version:sender:from:date:message-id:subject:to
          :content-transfer-encoding;
-        bh=XIWAlclISqLqVZ4fRSoN98EYOrbeHDE9G5UV/J5AqJc=;
-        b=kwytV/KMewUmDWtOJyCZp716nKMqO3YkHmDZulL8AHr+bTivS/8Zcyqvi5qs4vznzu
-         xzVS5eiaUAwhOWIBpub5KjsKoDc92D6rELfnR/bDSM5Yd+GDe55aZF7NVBore31eZXcr
-         9RQb8LE4DB1cUn+mWHQDVLYSUg0S0lao18Ogo=
+        bh=cyYyeMptIvnc8bAP1NEszda/m1hQd2oyWvGbBMl3hsE=;
+        b=WPqrnj3StsMjoCWVg6AGJb0N3usS5nV1+XCEoj/CJvuWzUA0Yd3GX9dhiXHia0uA0j
+         ufJDt4oIAZmI2rOOldV7Y2LXn3RYB+JskEZNZWgu9/+HaUQul6X9TDOVS3dkUmy/p1Y2
+         5gePjSu3vDur1p5D3Nh1UR8epDiifwvGzRaiueEgs56Z3zqK2R4/Zr7dDwpBnCW+Eye7
+         w3Bwk7m70CiElGeT5PI2z3X8uZjPG2507N6M4Zdvjq75DmhzftSg9N7Y0R4gcEAgT8bN
+         aVj9Lfp95dCw4R7/NIU2o9+vn4EhghBysU/2J3USBwxqHaQTHu0dv4UuHs9qpXCxiCYh
+         DHkA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=XIWAlclISqLqVZ4fRSoN98EYOrbeHDE9G5UV/J5AqJc=;
-        b=S3hbUPHbobzwA4HbLa/sJXefrQIQ73gJ6pnk8vOINu/RYLESbZB2tJrgpfmQ5su0LX
-         HnX/1AbZtMJkk6KQKYrn6Ragrqs8ypvhbuq9SF9a5hbJa1dCgmvCKujI9A0RQuzPfX4v
-         ZPIgIlvufi2Ph58QFtqiF0wmUpWJigE04QmP1Lu3e4G9OaSGjcNd1x+KFH5kw3BrWG3V
-         JYmHqKycdI88fUMZ4KcojlMob660614oSgjWxOb/RWNxH+HL1rWBl6oiQ5YSBdNJ5phQ
-         Gk1Be+QjytUYXk+uD+M3SMpDvuVXFROjSEr9+bjPgdxyCvOFz13D6KciWCqJTHuYrEMm
-         OsCw==
-X-Gm-Message-State: AOAM533nusaEmJdldJtEt+icoLgTK7T6aIfeMUT8uLFhRM9m5JEPZFOD
-        vQY1emEUgSlipa4ZHPFA1Zzn5g==
-X-Google-Smtp-Source: ABdhPJwM+U9294o+lCojT+6u6ijmR3fo/V/A//k0Ne81kyfVEY9DQhsu03XodsKNObSLag06y15Wkg==
-X-Received: by 2002:a63:90c7:: with SMTP id a190mr35608096pge.526.1639067897780;
-        Thu, 09 Dec 2021 08:38:17 -0800 (PST)
-Received: from wenstp920.tpe.corp.google.com ([2401:fa00:1:10:edb5:3ef8:a855:9380])
-        by smtp.gmail.com with ESMTPSA id k14sm229483pff.6.2021.12.09.08.38.16
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 09 Dec 2021 08:38:17 -0800 (PST)
-From:   Chen-Yu Tsai <wenst@chromium.org>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Cc:     Chen-Yu Tsai <wenst@chromium.org>, linux-media@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH v2] media: v4l2-mem2mem: Apply DST_QUEUE_OFF_BASE on MMAP buffers across ioctls
-Date:   Fri, 10 Dec 2021 00:38:03 +0800
-Message-Id: <20211209163803.1239386-1-wenst@chromium.org>
-X-Mailer: git-send-email 2.34.1.400.ga245620fadb-goog
+        h=x-gm-message-state:mime-version:sender:from:date:message-id:subject
+         :to:content-transfer-encoding;
+        bh=cyYyeMptIvnc8bAP1NEszda/m1hQd2oyWvGbBMl3hsE=;
+        b=Lqiebp8S6ODOd6m/pFTaxdGvRm5o4IPy0N854kVhyE6ycc0guFgHUKz4GOdaTC9dOx
+         7tKia5Kjp6FvEJ+t9XjIQSdbicTsrCS1vOc6dCzcWGIgQfhziPx3x10WWwvxe4QWz5qK
+         jrpgITfQQc0oILYNuPAcgrhZaS2NVsWRIMwe15Flh63IbelNn0LL345BoZJH9Zu9mF6G
+         YDzAkJw7aO7WwlCuDT42hHDMeTzFOv9baEfDyrjZsP4DTD0FOzQMN+LBZoQI6NfJduiq
+         ijjMqoZH1VQPuGfPV7+yBmJGEsqf2LBfblwP9a0IzZOVjSFG/L33dWt+ShCF1VN7qYYy
+         7vfQ==
+X-Gm-Message-State: AOAM532yiSedLnY/vmpKoqb0+TVC9ixItuT4qtcdkFcFgqbA0MTDn9ji
+        /PGWd1XTkFwntZhS5mAxTWHfOhp0qVqshczdRcI=
+X-Google-Smtp-Source: ABdhPJwq6OUTsI6WYDOChdKA0N+VZVOVV0uc43jCkIX5HLz77EiBYPlDwRjhaKgHypmhYu0Q54wjZNJUWULZN/smzlI=
+X-Received: by 2002:a05:6122:629:: with SMTP id g9mr10782144vkp.36.1639070419352;
+ Thu, 09 Dec 2021 09:20:19 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Sender: edwardcarlos536@gmail.com
+Received: by 2002:a59:b9c6:0:b0:23d:e3cf:31d4 with HTTP; Thu, 9 Dec 2021
+ 09:20:19 -0800 (PST)
+From:   Candice Marie Benbow <candicemariebenbow85@gmail.com>
+Date:   Thu, 9 Dec 2021 17:20:19 +0000
+X-Google-Sender-Auth: aQV6zWhWEAsZIITJYWbpste9O1I
+Message-ID: <CAFyj9jwE29do0Ri2oL6S2ZmNmHeB8jKmBk5rPqe=5BL=pLsKwA@mail.gmail.com>
+Subject: Good Day My beloved,
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-DST_QUEUE_OFF_BASE is applied to offset/mem_offset on MMAP capture buffers
-only for the VIDIOC_QUERYBUF ioctl, while the userspace fields (including
-offset/mem_offset) are filled in for VIDIOC_{QUERY,PREPARE,Q,DQ}BUF
-ioctls. This leads to differences in the values presented to userspace.
-If userspace attempts to mmap the capture buffer directly using values
-from DQBUF, it will fail.
-
-Move the code that applies the magic offset into a helper, and call
-that helper from all four ioctl entry points.
-
-Fixes: 7f98639def42 ("V4L/DVB: add memory-to-memory device helper framework for videobuf")
-Fixes: 908a0d7c588e ("[media] v4l: mem2mem: port to videobuf2")
-Signed-off-by: Chen-Yu Tsai <wenst@chromium.org>
----
-Changes since v1:
-
-  - Bail out directly without adjusting offsets if the respective
-    vb2_*() calls failed
-
-This was tested on RK3399 with
-
-    gst-launch-1.0 videotestsrc num-buffers=2 ! v4l2jpegenc ! fakesink
-
-and verifying the values using the V4L2 debug messages:
-
-    video2: VIDIOC_QUERYBUF: 00:00:00.000000 index=0, type=vid-cap-mplane, request_fd=0, flags=0x00004000, field=any, sequence=0, memory=mmap
-    plane 0: bytesused=0, data_offset=0x00000000, offset/userptr=0x40000000, length=2097152
-    timecode=00:00:00 type=0, flags=0x00000000, frames=0, userbits=0x00000000
-    video2: VIDIOC_QUERYBUF: 00:00:00.000000 index=0, type=vid-out-mplane, request_fd=0, flags=0x00004000, field=any, sequence=0, memory=mmap
-    plane 0: bytesused=0, data_offset=0x00000000, offset/userptr=0x0, length=153600
-    timecode=00:00:00 type=0, flags=0x00000000, frames=0, userbits=0x00000000
-
-    video2: VIDIOC_QBUF: 00:00:00.000000 index=0, type=vid-cap-mplane, request_fd=0, flags=0x00004003, field=any, sequence=0, memory=mmap
-    plane 0: bytesused=2097152, data_offset=0x00000000, offset/userptr=0x40000000, length=2097152
-    timecode=00:00:00 type=0, flags=0x00000000, frames=0, userbits=0x00000000
-    video2: VIDIOC_QBUF: 00:00:00.000000 index=0, type=vid-out-mplane, request_fd=0, flags=0x00004003, field=none, sequence=0, memory=mmap
-    plane 0: bytesused=153600, data_offset=0x00000000, offset/userptr=0x0, length=153600
-    timecode=00:00:00 type=0, flags=0x00000000, frames=0, userbits=0x00000000
-
-    video2: VIDIOC_DQBUF: 00:00:00.000000 index=0, type=vid-cap-mplane, request_fd=0, flags=0x00004001, field=none, sequence=0, memory=mmap
-    plane 0: bytesused=6324, data_offset=0x00000000, offset/userptr=0x40000000, length=2097152
-    timecode=00:00:00 type=0, flags=0x00000000, frames=0, userbits=0x00000000
-    video2: VIDIOC_DQBUF: 00:00:00.000000 index=0, type=vid-out-mplane, request_fd=0, flags=0x00004001, field=none, sequence=0, memory=mmap
-    plane 0: bytesused=153600, data_offset=0x00000000, offset/userptr=0x0, length=153600
-    timecode=00:00:00 type=0, flags=0x00000000, frames=0, userbits=0x00000000
-
-Gstreamer doesn't do PREPAREBUF calls, so that path was not verified.
-However the code changes are exactly the same, so I'm quite confident
-about them.
-
----
- drivers/media/v4l2-core/v4l2-mem2mem.c | 53 ++++++++++++++++++++------
- 1 file changed, 41 insertions(+), 12 deletions(-)
-
-diff --git a/drivers/media/v4l2-core/v4l2-mem2mem.c b/drivers/media/v4l2-core/v4l2-mem2mem.c
-index e2654b422334..3bac9e373502 100644
---- a/drivers/media/v4l2-core/v4l2-mem2mem.c
-+++ b/drivers/media/v4l2-core/v4l2-mem2mem.c
-@@ -585,19 +585,14 @@ int v4l2_m2m_reqbufs(struct file *file, struct v4l2_m2m_ctx *m2m_ctx,
- }
- EXPORT_SYMBOL_GPL(v4l2_m2m_reqbufs);
- 
--int v4l2_m2m_querybuf(struct file *file, struct v4l2_m2m_ctx *m2m_ctx,
--		      struct v4l2_buffer *buf)
-+static void v4l2_m2m_adjust_mem_offset(struct vb2_queue *vq,
-+				       struct v4l2_buffer *buf)
- {
--	struct vb2_queue *vq;
--	int ret = 0;
--	unsigned int i;
--
--	vq = v4l2_m2m_get_vq(m2m_ctx, buf->type);
--	ret = vb2_querybuf(vq, buf);
--
- 	/* Adjust MMAP memory offsets for the CAPTURE queue */
- 	if (buf->memory == V4L2_MEMORY_MMAP && V4L2_TYPE_IS_CAPTURE(vq->type)) {
- 		if (V4L2_TYPE_IS_MULTIPLANAR(vq->type)) {
-+			unsigned int i;
-+
- 			for (i = 0; i < buf->length; ++i)
- 				buf->m.planes[i].m.mem_offset
- 					+= DST_QUEUE_OFF_BASE;
-@@ -605,8 +600,23 @@ int v4l2_m2m_querybuf(struct file *file, struct v4l2_m2m_ctx *m2m_ctx,
- 			buf->m.offset += DST_QUEUE_OFF_BASE;
- 		}
- 	}
-+}
- 
--	return ret;
-+int v4l2_m2m_querybuf(struct file *file, struct v4l2_m2m_ctx *m2m_ctx,
-+		      struct v4l2_buffer *buf)
-+{
-+	struct vb2_queue *vq;
-+	int ret = 0;
-+
-+	vq = v4l2_m2m_get_vq(m2m_ctx, buf->type);
-+	ret = vb2_querybuf(vq, buf);
-+	if (ret)
-+		return ret;
-+
-+	/* Adjust MMAP memory offsets for the CAPTURE queue */
-+	v4l2_m2m_adjust_mem_offset(vq, buf);
-+
-+	return 0;
- }
- EXPORT_SYMBOL_GPL(v4l2_m2m_querybuf);
- 
-@@ -763,6 +773,9 @@ int v4l2_m2m_qbuf(struct file *file, struct v4l2_m2m_ctx *m2m_ctx,
- 	if (ret)
- 		return ret;
- 
-+	/* Adjust MMAP memory offsets for the CAPTURE queue */
-+	v4l2_m2m_adjust_mem_offset(vq, buf);
-+
- 	/*
- 	 * If the capture queue is streaming, but streaming hasn't started
- 	 * on the device, but was asked to stop, mark the previously queued
-@@ -784,9 +797,17 @@ int v4l2_m2m_dqbuf(struct file *file, struct v4l2_m2m_ctx *m2m_ctx,
- 		   struct v4l2_buffer *buf)
- {
- 	struct vb2_queue *vq;
-+	int ret;
- 
- 	vq = v4l2_m2m_get_vq(m2m_ctx, buf->type);
--	return vb2_dqbuf(vq, buf, file->f_flags & O_NONBLOCK);
-+	ret = vb2_dqbuf(vq, buf, file->f_flags & O_NONBLOCK);
-+	if (ret)
-+		return ret;
-+
-+	/* Adjust MMAP memory offsets for the CAPTURE queue */
-+	v4l2_m2m_adjust_mem_offset(vq, buf);
-+
-+	return 0;
- }
- EXPORT_SYMBOL_GPL(v4l2_m2m_dqbuf);
- 
-@@ -795,9 +816,17 @@ int v4l2_m2m_prepare_buf(struct file *file, struct v4l2_m2m_ctx *m2m_ctx,
- {
- 	struct video_device *vdev = video_devdata(file);
- 	struct vb2_queue *vq;
-+	int ret;
- 
- 	vq = v4l2_m2m_get_vq(m2m_ctx, buf->type);
--	return vb2_prepare_buf(vq, vdev->v4l2_dev->mdev, buf);
-+	ret = vb2_prepare_buf(vq, vdev->v4l2_dev->mdev, buf);
-+	if (ret)
-+		return ret;
-+
-+	/* Adjust MMAP memory offsets for the CAPTURE queue */
-+	v4l2_m2m_adjust_mem_offset(vq, buf);
-+
-+	return 0;
- }
- EXPORT_SYMBOL_GPL(v4l2_m2m_prepare_buf);
- 
--- 
-2.34.1.400.ga245620fadb-goog
-
+Greetings My Dear.
+Please do not feel disturbed for contacting =C2=A0you in this regards, It
+was based on the critical health condition I find mine self. =C2=A0My names
+ are Mrs.Candice Marie Benbow, a widow and I=E2=80=99m suffering from brain
+tumor disease and this illness has gotten to a very bad stage, I
+ married my husband for Ten years without any family members and no
+child. =C2=A0My husband died after a brief illness that lasted for few
+days.
+Since the death of my husband, I decided not to remarry again, When my
+late husband was alive he deposited the sum of =C2=A0($  12.000.000 Million
+Dollars.) with the Bank. Presently this money is still in bank. And My
+ Doctor told me that I don't have much time to live because my illness
+has gotten to a very bad stage, Having known my condition I  decided
+to entrust over the deposited fund under your custody to take care of
+the less-privileged ones therein your country or position,
+which i believe that you will utilize this money the way I am going to
+instruct herein.
+However all I need and required from you is your sincerity and ability
+to carry out the transaction successfully and fulfill my final wish in
+implementing the charitable project as it requires absolute trust and
+devotion without any failure and I will be glad to see that the bank
+finally release and transfer the fund into your bank account in your
+country even before I die here in the hospital, because my present
+health condition is very critical at the moment everything needs to be
+process rapidly as soon as possible.
+It will be my pleasure to compensate you as my Investment
+Manager/Partner with 35 % percent of the total fund for your effort in
+ handling the transaction, 5 % percent for any expenses or processing
+charges fee that will involve during this process while 60% of the
+fund will be Invested into the charity project there in your country
+for the mutual benefit of the orphans and the less privileges ones.
+Meanwhile I am waiting for your prompt respond, if only you are
+interested for further details of the transaction and execution of
+this  humanitarian project for the glory and honor of God the merciful
+compassionate.
+May God bless you and your family.
+Regards,
+Mrs.Candice Marie Benbow.
+written from Hospital.
