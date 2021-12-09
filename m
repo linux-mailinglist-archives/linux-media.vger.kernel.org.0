@@ -2,181 +2,112 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 64B6046E3F4
-	for <lists+linux-media@lfdr.de>; Thu,  9 Dec 2021 09:17:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E741446E4A5
+	for <lists+linux-media@lfdr.de>; Thu,  9 Dec 2021 09:54:21 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234475AbhLIIU4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 9 Dec 2021 03:20:56 -0500
-Received: from ams.source.kernel.org ([145.40.68.75]:43324 "EHLO
-        ams.source.kernel.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229536AbhLIIU4 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 9 Dec 2021 03:20:56 -0500
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 6F7B0B823CE
-        for <linux-media@vger.kernel.org>; Thu,  9 Dec 2021 08:17:22 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 816B9C004DD;
-        Thu,  9 Dec 2021 08:17:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1639037841;
-        bh=oXUw2Z1pRmJ6PhEzFdXwz8MNrCTJ4n0B3EZXm10ddxQ=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=g4Vg2aJeGSSebt4vgW0e8Jp3/i06RWZpH50D+0jZ3CHS62Hsbl9hd5XBmFCm4LAqU
-         4oVQ9CeAlqL6+zzDVkM8aN01tziZFW0Y7yQpVkIpp9mSJBTD1rxcCvDVN6WSpwkru9
-         ucTJbeumxWeyP15H+nVlNV+E69wgXg1QKoIOsB901PtOqbMX3Cegk+cLFqScKcdc21
-         KjPgalmEocaruXcFDeeOK0O4YXdQnOnZzUcz4cz/8S2CINOXVxcvkabzk95S6o0s0F
-         RMpfFe0jSxVbQiNe6/ViYYmW6EM4r1RjpySy0NxTnk63PziClhhgt5jTSgvdjoeJN9
-         9hh+2kqZqJcFw==
-Date:   Thu, 9 Dec 2021 09:17:17 +0100
-From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To:     Robert Schlabbach <robert_s@gmx.net>
-Cc:     linux-media@vger.kernel.org
-Subject: Re: [PATCH RFC] media: si2157: optionally load firmare for
- SI2146_A10 and
-Message-ID: <20211209091717.3107faca@coco.lan>
-In-Reply-To: <trinity-8c68f148-355b-481f-8671-fb703307cb76-1639004515653@3c-app-gmx-bap08>
-References: <cd3a382dc39e72229a73149cb91e80cf69e2b07d.1638958947.git.mchehab+huawei@kernel.org>
-        <trinity-8c68f148-355b-481f-8671-fb703307cb76-1639004515653@3c-app-gmx-bap08>
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.30; x86_64-redhat-linux-gnu)
+        id S235348AbhLII5x (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 9 Dec 2021 03:57:53 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39916 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S235302AbhLII5x (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 9 Dec 2021 03:57:53 -0500
+Received: from mail-ot1-x336.google.com (mail-ot1-x336.google.com [IPv6:2607:f8b0:4864:20::336])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0BCA9C0617A2
+        for <linux-media@vger.kernel.org>; Thu,  9 Dec 2021 00:54:20 -0800 (PST)
+Received: by mail-ot1-x336.google.com with SMTP id n17-20020a9d64d1000000b00579cf677301so5445307otl.8
+        for <linux-media@vger.kernel.org>; Thu, 09 Dec 2021 00:54:20 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=OS54GWWcwsrTmTbT3JvuCSiGaQ1hB71d7lr0N1iLqQk=;
+        b=mIzGlwDNxua032moc9mIB5jGSsJtFd3Y6ysKCUSN9mczC0Kb9cGqOhn3dxZV3MtfOH
+         9bMhfpFN7crCbjA6FkT7kyibcoNX4qf8s+EJ+ed2qD8rTRDBAs4HLtBG8kAexJOQKbgs
+         TfERho74HIAubVtxTLOykzOtDDcw6hTDJUdfs=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=OS54GWWcwsrTmTbT3JvuCSiGaQ1hB71d7lr0N1iLqQk=;
+        b=ufOpeuymtT7CmUmGICGUTtX0c93ztjnaUfxmNlsVjR0XAJnsqRaC5IsYBBk284zzbo
+         8hL4cu5XQDT27ui1kXSq/O1mSHdmRKLoxLdbITjPOzw27egvPDju8QvUrmHGVKPC1DAy
+         rsq5fccZKuWoXIstI3Z3ndg6GC+KqTsYRw1wIbmWs681ksH+vpX4ABDJYy2iYHzVWMNN
+         U/8xSSiJriiqb++4o/gZlgOYgqnZ6Bh5tJeFHlMRQ29TsMz8J/7UPKfubboj01CsWd9k
+         JMYesDEQNFcTh/hFSa4pz5xNPQjoNNUKFUVB4LCx7YM/AdUiwOcmdE0Qt/aecG44GKPQ
+         xTHQ==
+X-Gm-Message-State: AOAM530tTHlbgvblM2ZalnSbT4W6ALNNbpiB/ksxUY0dYeg2lNMVNoyK
+        z9Qpl57xDujD2gBxxz+1ja50KPoiEB6kEQ==
+X-Google-Smtp-Source: ABdhPJznhpIKnXGQbHpQr2ViAgyaye+M5OGkWydQSx7IYPSSm70lNGsUtnanOf7AClgC285NDo1dFg==
+X-Received: by 2002:a9d:6e2:: with SMTP id 89mr4117931otx.324.1639040059164;
+        Thu, 09 Dec 2021 00:54:19 -0800 (PST)
+Received: from mail-ot1-f48.google.com (mail-ot1-f48.google.com. [209.85.210.48])
+        by smtp.gmail.com with ESMTPSA id 109sm886278otv.30.2021.12.09.00.54.18
+        for <linux-media@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 09 Dec 2021 00:54:18 -0800 (PST)
+Received: by mail-ot1-f48.google.com with SMTP id x19-20020a9d7053000000b0055c8b39420bso5481247otj.1
+        for <linux-media@vger.kernel.org>; Thu, 09 Dec 2021 00:54:18 -0800 (PST)
+X-Received: by 2002:a05:6830:22f0:: with SMTP id t16mr4051388otc.349.1639040057919;
+ Thu, 09 Dec 2021 00:54:17 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+References: <20211208174158.114122-1-amhamza.mgc@gmail.com>
+In-Reply-To: <20211208174158.114122-1-amhamza.mgc@gmail.com>
+From:   Ricardo Ribalda <ribalda@chromium.org>
+Date:   Thu, 9 Dec 2021 09:54:06 +0100
+X-Gmail-Original-Message-ID: <CANiDSCu-Q=VqkS1_B-1pvc4uZtUZynRYkpyu2ZASddSqsmT31A@mail.gmail.com>
+Message-ID: <CANiDSCu-Q=VqkS1_B-1pvc4uZtUZynRYkpyu2ZASddSqsmT31A@mail.gmail.com>
+Subject: Re: [PATCH] media: uvcvideo: fix possible memory leak issue
+To:     Ameer Hamza <amhamza.mgc@gmail.com>
+Cc:     laurent.pinchart@ideasonboard.com, mchehab@kernel.org,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Em Thu, 9 Dec 2021 00:01:55 +0100
-Robert Schlabbach <robert_s@gmx.net> escreveu:
+Hi Ameer
 
-> > + case SI2146_A10:
-> > + fw_required = false;
-> > + fallthrough;
-> > case SI2141_A10:
-> > fw_name = SI2141_A10_FIRMWARE;
-> > break;  
-> 
-> I don't think this form of firmware name aliasing is
-> a good idea. The SiLabs code has a dedicated source
-> file for the ROM patch for each tuner model, even if
-> some are binary identical.
-> 
-> And in this particular case, there are not even
-> binary identical firmware patches available for these
-> two tuners, so they definitely should NOT share the
-> same firmware filename.
+Thanks for the patch.
 
-Ok.
+It is already covered by
+https://lore.kernel.org/lkml/20210917114930.47261-1-colin.king@canonical.com/
+which is in the staging branch of the media tree.
 
-> So I propose having a clean 1:1 model <-> firmware
-> filename mapping.
+Thanks!
 
-Makes sense.
+On Thu, 9 Dec 2021 at 01:33, Ameer Hamza <amhamza.mgc@gmail.com> wrote:
+>
+> In uvc_ioctl_ctrl_map() implementation, there is a possibility of memory
+> leak if control id name is not listed and kmemdup() is failed somehow.
+> This is a rare scenario but possible.
+>
+> Addresses-Coverity: 1494069 (Resource leak)
+> Signed-off-by: Ameer Hamza <amhamza.mgc@gmail.com>
+> ---
+>  drivers/media/usb/uvc/uvc_v4l2.c | 6 ++++--
+>  1 file changed, 4 insertions(+), 2 deletions(-)
+>
+> diff --git a/drivers/media/usb/uvc/uvc_v4l2.c b/drivers/media/usb/uvc/uvc_v4l2.c
+> index f4e4aff8ddf7..711556d13d03 100644
+> --- a/drivers/media/usb/uvc/uvc_v4l2.c
+> +++ b/drivers/media/usb/uvc/uvc_v4l2.c
+> @@ -44,8 +44,10 @@ static int uvc_ioctl_ctrl_map(struct uvc_video_chain *chain,
+>         if (v4l2_ctrl_get_name(map->id) == NULL) {
+>                 map->name = kmemdup(xmap->name, sizeof(xmap->name),
+>                                     GFP_KERNEL);
+> -               if (!map->name)
+> -                       return -ENOMEM;
+> +               if (!map->name) {
+> +                       ret = -ENOMEM;
+> +                       goto free_map;
+> +               }
+>         }
+>         memcpy(map->entity, xmap->entity, sizeof(map->entity));
+>         map->selector = xmap->selector;
+> --
+> 2.25.1
+>
 
-> For si2157/si2177 and si2148/si2158
-> it's already too late, but we should not expand this
-> error even further.
 
-It is not too late. It is just a matter of adding a secondary
-firmware name for those devices. if the primary (new) name
-is not found, the driver would try the old name for those
-firmwares. As this is the current namespace:
-
-#define SI2158_A20_FIRMWARE "dvb-tuner-si2158-a20-01.fw"
-#define SI2141_A10_FIRMWARE "dvb-tuner-si2141-a10-01.fw"
-#define SI2157_A30_FIRMWARE "dvb-tuner-si2157-a30-01.fw"
-
-We would need to have a different namespace for the newer firmware
-file model. On a quick look at the opensourced drivers, those seem to
-be the firmware structs over there:
-
-	$ git grep 'firmware_struct.*=.\s*{' TER|perl -ne 'print "$1\n" if m/struct.*(Si[^\[]+)/'
-	Si2124_FW_2_1b5
-	Si2141_FW_0_Ab23
-	Si2141_FW_1_1b12
-	Si2144_FW_2_1b5
-	Si2147_FW_3_1b3
-	Si2148_FW_2_1b11
-	Si2151_FW_0_Ab23
-	Si2151_FW_1_1b11
-	Si2157_FW_3_1b3
-	Si2158B_FW_0_Ab15
-	Si2158B_FW_4_1b3
-	Si2177_FW_3_1b3
-	Si2178B_FW_0_Ab15
-	Si2178B_FW_4_1b3
-
-If the idea is to be as close as possible to how the original firmware are named,
-we could do, e. g. something like this:
-
-	$ git grep 'firmware_struct.*=.\s*{' TER|perl -ne 'tr /A-Z/a-z/; print "dvb_driver_si$1_$2.fw\n" if m/struct.*si(\w+)_fw_([^\[]+)/'
-	dvb_driver_si2124_2_1b5.fw
-	dvb_driver_si2141_0_ab23.fw
-	dvb_driver_si2141_1_1b12.fw
-	dvb_driver_si2144_2_1b5.fw
-	dvb_driver_si2147_3_1b3.fw
-	dvb_driver_si2148_2_1b11.fw
-	dvb_driver_si2151_0_ab23.fw
-	dvb_driver_si2151_1_1b11.fw
-	dvb_driver_si2157_3_1b3.fw
-	dvb_driver_si2158b_0_ab15.fw
-	dvb_driver_si2158b_4_1b3.fw
-	dvb_driver_si2177_3_1b3.fw
-	dvb_driver_si2178b_0_ab15.fw
-	dvb_driver_si2178b_4_1b3.fw
-
-On other words, for si2157, for instance, the driver would first try
-to load:
-	dvb_driver_si2157_3_1b3.fw
-if it fails, it would try:
-	dvb-tuner-si2157-a30-01.fw
-
-This is backward compatible and should be flexible enough to support
-different firmware for different tuners.
-
-There are some issues, though. This would require to have all those
-firmware files generated from the opensourced sources and stored somewhere,
-assuming that the license would allow that.
-
-Also, as the firmware files will probably be different, tests with
-the different supported models will be required to be sure that the
-code is compatible with them (as the API might have changed on
-some of those).
-
-> More broadly, the SiLabs code actually matches the
-> applicable firmware patch to the rom_id returned by
-> the tuner. So if we wanted to do a real cleanup,
-> I would propose having a const struct table, e.g.
-> 
-> const struct {
->     unsigned char part;
->     unsigned char chiprev;
->     unsigned char pmajor;
->     unsigned char pminor;
->     unsigned char rom_id;
->     const char *  firmware_name
-> } supported_models[] = {
->     { /*Si21*/41, 'A', 1, 0, 0x60, "dvb-tuner-si2141-a10-00.fw" },
->     { /*Si21*/41, 'A', 1, 0, 0x61, "dvb-tuner-si2141-a10-01.fw" },
->     { /*Si21*/57, 'A', 3, 0, 0x50, "dvb-tuner-si2157-a30-01.fw" },
-> (etc)
-> };
-
-The struct itself sounds OK to me, with some adjustments:
-
-1. Coding style nit:  firmware name should be, instead:
-
-	const char *firmware_name
-
-2. It would also need a:
-
-	const char *firmware_alt_name
-
-   to store the old firmware namespace, e. g.:
-	SI2158_A20_FIRMWARE, SI2141_A10_FIRMWARE and SI2157_A30_FIRMWARE.
-
-3. instead of placing a number (41, 57, ...) it should use defines
-   or enums.
-
-Thanks,
-Mauro
+-- 
+Ricardo Ribalda
