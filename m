@@ -2,61 +2,61 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 643B446E95E
-	for <lists+linux-media@lfdr.de>; Thu,  9 Dec 2021 14:48:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D157F46EA95
+	for <lists+linux-media@lfdr.de>; Thu,  9 Dec 2021 16:05:58 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231177AbhLINwZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 9 Dec 2021 08:52:25 -0500
-Received: from mail-bn7nam10on2045.outbound.protection.outlook.com ([40.107.92.45]:21985
-        "EHLO NAM10-BN7-obe.outbound.protection.outlook.com"
+        id S239164AbhLIPJa (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 9 Dec 2021 10:09:30 -0500
+Received: from mail-dm6nam11on2089.outbound.protection.outlook.com ([40.107.223.89]:2369
+        "EHLO NAM11-DM6-obe.outbound.protection.outlook.com"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S230072AbhLINwY (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 9 Dec 2021 08:52:24 -0500
+        id S231782AbhLIPJ3 (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 9 Dec 2021 10:09:29 -0500
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=LCAIfRDvTY8+JNqIWBAI/gcvWMWtWxS3vH9QbCwFEtWoDL8+F5JtUUzIPkJm6CbpWdRDz4I2xnRxJdNNPuL74YiqClIlOzdqw55WgaLARZ+VoQptrYtFvUyUj78Ee6q+j6yEibN9zdcaouec6I8cG0yxBz8x7OLS6xX7V8F7Vh+Pxpc9Lm+x5wN5zuFw0wP1SVCEb1rN1as5gaQ4y4q60q6X/EFRo5p19E480J3vk0CxogG2KAb3EP36kKIOiWOn5Jdq7mRt5+SMDHcSOC6VUqynLsoFtYLiTaBx3ypJlCITP5oO/ho3SzV2t1/yEbtbrotkDQhygU7LtN4awy4cpQ==
+ b=I13ieZbBdaoQntlm2FTwNhTd9ceI6nfzOiHrdlKl4qQB7Su+kdZCzVRwJT+Ms4Y8BGnlLj4B6I1Y+f7Gq/XRD+UwGqid1jUYkzMEnO92yMxPBaXowCLpOeUolnO9Y128JOo2bIdg6udbn+4ksF+eVeYkmKda01S93U8wcXziIh/y4vKEguu36hJIg3i2LRj3eqf1mqM/6HgLBOfWSEXnGGO90Xer/+mpng58/HeV356w5I5i3Q32H2ea17pFXmCrlNvfmCh5fE5I3V2leKrc5Uxcblqf8V2uGCOhZSxsbgLAzkgC/NBtmm2nmQ9rKiqMy3jICh4wJJimUiFJpiX1Tg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=agjWDN8w5YqKO0JMoBb37V5H5doveDmbepbbLdVRE7E=;
- b=TNGZubU1Qdd3iERZzmE/+ARZ1ToWMmfHR1wDYnMzlqJ+CI7wItJ/isDR3wb/5rjmK0w7SOlb8slMlDeA7jtfEVxADZ4SaEGbzm3nl2jCuxHixxenwE+/Rdu+K2pECvJ3Jb4SWZD5guH1HEHoOvaKyoemNdW3WzPASIau4xKIhmDSpMylFLgVWzqPjydlZBUAehUIY2LruaiRKk+rroAq2aOUxiXGtWVAGavFrawmXvjASRcfBN2pm6V5qbjHWHBZzNyLsh51fo3Gj1QE3Njv4sHvPM/J9IlLdKxuUySrzzRV/YDy+rpN9RWN2fz4cv2ghxWBdVyAVTh9mLf5RIdn8g==
+ bh=SGbD/ZtNUULihlvi39rVGAJZ5YlqSUUdShSV/Mxte08=;
+ b=P8ZOoh1J2yVlLKXTIsJeqxIPbLqGvFibtvmIhLiE+dyYv5TmETbWuxxcZ3Vu9PQ8+Kr8jVYIQBdhXRpO/VENUG0AzQm0ssafv9HTRC7KZFdmgHiRtpexjV1j4RUzlO6aRheqjykLAj3zp+iTWELEDNIZOG37iKpSNPVV9Df0URNcyH/bK4XkRs8V6wuS7I/jsXmcI1Lmm095/46MNVQdi5pjTPFqjpXPPZtf0bj8jjiHH/ximlk14fkdNSODhu+RzBZdMeoBu2oDjuuYT3v72XqQE6Jbk2K5M6VYwGzsuNBjPKW2B2dJAuSUVobjW9oXIVq1vRNPC4K0EgxkTrXi9g==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 203.18.50.14) smtp.rcpttodomain=amd.com smtp.mailfrom=nvidia.com; dmarc=pass
- (p=quarantine sp=quarantine pct=100) action=none header.from=nvidia.com;
- dkim=none (message not signed); arc=none
+ 203.18.50.13) smtp.rcpttodomain=lists.freedesktop.org
+ smtp.mailfrom=nvidia.com; dmarc=pass (p=quarantine sp=quarantine pct=100)
+ action=none header.from=nvidia.com; dkim=none (message not signed); arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=agjWDN8w5YqKO0JMoBb37V5H5doveDmbepbbLdVRE7E=;
- b=KIH6iGgVbFadIk8QY/cd7xhGBR0lxj0x3b6giMpW0JyUaE1ubiugPywM3qMNteO6gn9fE/44LaOGf+qJzagTawwJHkjbeteyTroe+3zJZXP1dwN9pZCIrNoLzAWKSDmiR8BcGmSBAWieiFAEptlCz8tNDe/Q1DZjp2+DkQRCNo/mrEyWiZcmZ5XgsoCXRJ3oP3OW00+OOhXZTpS8uiRYuju0s1/W8xcPQatPmUmn9F47PU0t0622j1eTKw2Uf41lo8IYaYas6VBGx6tiDv8OJmQptLEfNICsKCWllAjSIyaBUxI/Oh1ktllnHVYt2zr0uVeqire+F+Gbdtgd4zo3JQ==
-Received: from BN9PR03CA0362.namprd03.prod.outlook.com (2603:10b6:408:f7::7)
- by MN2PR12MB4584.namprd12.prod.outlook.com (2603:10b6:208:24e::11) with
+ bh=SGbD/ZtNUULihlvi39rVGAJZ5YlqSUUdShSV/Mxte08=;
+ b=GlipjfLVflwAXFPQyqQ3qzoHj+Z2ND5naldlLDpli2d2EFLlEofEuazo1RRE0oQnEowzNDBS9zd/pXcdBpNjSqaShgczdFmHlp2hgHj6rOWADBYzoLNqixX+AASJQvZgHgLXkQTsbbtvZXHil5yVEUk0jQrpKlm5zIx1LdMDPj5ZJiG6Z6mKo9S14O/ISpb6iGasb5IjpcZeCHfwFw+uJR4PsokEQ+Lmet/48rzj7JrM3Mz6KvErDAjK1aNpp1arUcSv8bXIf5hmOIw+AT9uW6q1Tb3a+47qz2y1zlPBqKJvv22QqFWYWVfEkxM8fERvbS+S892V5nyMc+T5j4jw5A==
+Received: from DS7PR03CA0184.namprd03.prod.outlook.com (2603:10b6:5:3b6::9) by
+ BN6PR12MB1875.namprd12.prod.outlook.com (2603:10b6:404:103::23) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4778.11; Thu, 9 Dec
- 2021 13:48:48 +0000
-Received: from BN8NAM11FT058.eop-nam11.prod.protection.outlook.com
- (2603:10b6:408:f7:cafe::1) by BN9PR03CA0362.outlook.office365.com
- (2603:10b6:408:f7::7) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4755.20; Thu, 9 Dec
+ 2021 15:05:52 +0000
+Received: from DM6NAM11FT064.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:5:3b6:cafe::e3) by DS7PR03CA0184.outlook.office365.com
+ (2603:10b6:5:3b6::9) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4778.12 via Frontend
- Transport; Thu, 9 Dec 2021 13:48:48 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 203.18.50.14)
+ Transport; Thu, 9 Dec 2021 15:05:52 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 203.18.50.13)
  smtp.mailfrom=nvidia.com; dkim=none (message not signed)
  header.d=none;dmarc=pass action=none header.from=nvidia.com;
 Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 203.18.50.14 as permitted sender) receiver=protection.outlook.com;
- client-ip=203.18.50.14; helo=mail.nvidia.com;
-Received: from mail.nvidia.com (203.18.50.14) by
- BN8NAM11FT058.mail.protection.outlook.com (10.13.177.58) with Microsoft SMTP
+ 203.18.50.13 as permitted sender) receiver=protection.outlook.com;
+ client-ip=203.18.50.13; helo=mail.nvidia.com;
+Received: from mail.nvidia.com (203.18.50.13) by
+ DM6NAM11FT064.mail.protection.outlook.com (10.13.172.234) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- 15.20.4755.13 via Frontend Transport; Thu, 9 Dec 2021 13:48:48 +0000
-Received: from HQMAIL109.nvidia.com (172.20.187.15) by HKMAIL103.nvidia.com
- (10.18.16.12) with Microsoft SMTP Server (TLS) id 15.0.1497.18; Thu, 9 Dec
- 2021 13:48:32 +0000
-Received: from HQMAIL109.nvidia.com (172.20.187.15) by HQMAIL109.nvidia.com
- (172.20.187.15) with Microsoft SMTP Server (TLS) id 15.0.1497.18; Thu, 9 Dec
- 2021 05:48:29 -0800
-Received: from kyarlagadda-linux.nvidia.com (172.20.187.5) by mail.nvidia.com
- (172.20.187.15) with Microsoft SMTP Server id 15.0.1497.18 via Frontend
- Transport; Thu, 9 Dec 2021 05:48:23 -0800
+ 15.20.4755.13 via Frontend Transport; Thu, 9 Dec 2021 15:05:51 +0000
+Received: from HQMAIL107.nvidia.com (172.20.187.13) by HKMAIL102.nvidia.com
+ (10.18.16.11) with Microsoft SMTP Server (TLS) id 15.0.1497.18; Thu, 9 Dec
+ 2021 15:05:38 +0000
+Received: from HQMAIL105.nvidia.com (172.20.187.12) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1497.18; Thu, 9 Dec
+ 2021 15:05:37 +0000
+Received: from kyarlagadda-linux.nvidia.com (172.20.187.6) by mail.nvidia.com
+ (172.20.187.12) with Microsoft SMTP Server id 15.0.1497.18 via Frontend
+ Transport; Thu, 9 Dec 2021 15:05:32 +0000
 From:   Akhil R <akhilrajeev@nvidia.com>
 To:     <andy.shevchenko@gmail.com>, <christian.koenig@amd.com>,
         <digetx@gmail.com>, <dri-devel@lists.freedesktop.org>,
@@ -64,129 +64,52 @@ To:     <andy.shevchenko@gmail.com>, <christian.koenig@amd.com>,
         <linaro-mm-sig@lists.linaro.org>, <linux-i2c@vger.kernel.org>,
         <linux-kernel@vger.kernel.org>, <linux-media@vger.kernel.org>,
         <linux-tegra@vger.kernel.org>, <p.zabel@pengutronix.de>,
-        <sumit.semwal@linaro.org>, <thierry.reding@gmail.com>
+        <sumit.semwal@linaro.org>, <thierry.reding@gmail.com>,
+        <robh+dt@kernel.org>, <devicetree@vger.kernel.org>
 CC:     <akhilrajeev@nvidia.com>
-Subject: [PATCH] i2c: tegra: use i2c_timings for bus clock freq
-Date:   Thu, 9 Dec 2021 19:17:48 +0530
-Message-ID: <1639057668-14377-1-git-send-email-akhilrajeev@nvidia.com>
+Subject: [PATCH 0/2] Add SMBus features to Tegra I2C
+Date:   Thu, 9 Dec 2021 20:35:19 +0530
+Message-ID: <1639062321-18840-1-git-send-email-akhilrajeev@nvidia.com>
 X-Mailer: git-send-email 2.7.4
 X-NVConfidentiality: public
 MIME-Version: 1.0
 Content-Type: text/plain
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 8cde6373-903f-402b-c6ee-08d9bb1aa077
-X-MS-TrafficTypeDiagnostic: MN2PR12MB4584:EE_
-X-Microsoft-Antispam-PRVS: <MN2PR12MB4584DBCED9BA721CCD9C6126C0709@MN2PR12MB4584.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:513;
+X-MS-Office365-Filtering-Correlation-Id: ae97c5f4-d77c-4a84-006c-08d9bb25642c
+X-MS-TrafficTypeDiagnostic: BN6PR12MB1875:EE_
+X-Microsoft-Antispam-PRVS: <BN6PR12MB18756CBCEDD4B4C2C7A826E2C0709@BN6PR12MB1875.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:2399;
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: LeagAhG65+sliZ2LEnvznZxN78F3X758ZFHqL/ovQCg28EysL/ZWA4jysYhTdl04rCyEeIevxWetQZIZ/g/VZdPDwSEVd/Jemb4lBolyq6rh32yjWR6Fdasrdnq2hXHlOVrXmOHLc8GzJ3gr8xk/qv/VzVdcdBze0HNofKcS6LgbFXkGSilkTYBwgCEeUh38thpQTJB4/ZwZ9ZE5Xj13SislUIpgI0Cfpae2fU5utuS1s8o9slaBh4wzwOg4lXS3OIEibWeE914sg03gxAobDIZyPrY25Ii4hxIEH2muBJ+IO8koav4fJ4JgSxISSm+LMo4hcejs90tQ4IocBTF4c43N8P6rWST+EWXBH/01H1VQUvDKHLMNQdacOGeF1XX+FXCY8dqWUVuhaAa4vRV3jCazXseM7jpSKnqPMRk97SoBSVrcyzXl83jIDYhjgbzwMfRHJ+J6iAH9JaWIBshaf8zJpS6Cjw2J8VkWX2GoleJusQ1cQmj9gQjpUoytd0/cE5XMFl/UJmxiUaAMqs74nAmE5nZw7simzJ+VvIjNF/hEC27tPXVFUPvyAq+foxhJVyzArnePjswvDj8VXq9QS69I710gM9JBga1JtOPE/UQa/rcaJEVP0UchJGierR45i0aXMt0XA8YCcJdXJe8IEk1W8rSYt1kEg8l0HpKSB/eKlWRsJ6kIqd7tjVwksavjM7eiBDznHX3UDc310ntbaIac5AXlcDIHU6wEHKO9vd6F+Eiohj83IzqNZhYvcq7Owouso78x93BOHRTeaPsfwVAcvEBQfSpAADvf9FL917knVEpd3Wx+DnWpnAqFNR8S88BinE417KmTLiskbKvW/prvMEKD+ng40SO6kM84BIylvUThXLD5+HoVrPbiRM6YCVO5MoBFkFaGDVVAtobMOkQd7P/SNfrMawKaQFrG8DAqsPG7i7DmCUdJRZ3P9WTB
-X-Forefront-Antispam-Report: CIP:203.18.50.14;CTRY:HK;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:hkhybrid03.nvidia.com;CAT:NONE;SFS:(4636009)(46966006)(36840700001)(40470700001)(316002)(186003)(426003)(508600001)(7696005)(921005)(47076005)(70206006)(36756003)(36860700001)(34020700004)(26005)(110136005)(356005)(8676002)(83380400001)(4326008)(70586007)(2906002)(40460700001)(2616005)(5660300002)(86362001)(82310400004)(6666004)(966005)(107886003)(8936002)(7416002)(7636003)(336012)(83996005)(2101003);DIR:OUT;SFP:1101;
+X-Microsoft-Antispam-Message-Info: x037NUYQNjwHJXBsyMDU3XDAvf7hyCFEWA07HPWWOnBstGJBGzdzbJNy27KUk0aohzgOt5BGUHIUnddWC/Av1+oLzp76zeVX5WhFnvENp5uhxVrMsNytTQ9ll1kUK9tUcl/1W1u4WWUXJtgZBp9fCjO/2+TqoXL5Y2usLqFSRUg0K8DrZa0Kg++16eyRX7nui9rANRx8Z7UFpSJv/TUf5onCVIetlu1Qq5zV/pmHJD0BKQvPQwTPPJzDG4bdJrIy7dU/qFhwGSFWpHYKEyqupoLEIDlmjDKngHdzEcQRjp3Lzz8egiS0hPNfQzjN0plCgg3zt24pThkH6vDfj2UWh5U/LZuS3AKgXwtGp/VDdRBd97WflOd+cd30pSXYSMYspGt9xcXDDpL8L/6I9YWPqnvqT168v6nRzURj07PxWmKYdVuy66jSQaVw7WS1MSCJoSxnF+Lu5Ow7JtWZ9rmscWvkWKta3T/j/w0GkEjpUnt4lU8CjeGgeAUiONgAE1sdcIA+4GQuZ21KzRGdgJ7TwraRZF5HHEd3SNCKkCspP7lQU5Tjk/UxJxVH2OxmfGNaXO1uF2Lmv+0cLMiVYcGvferNhFvY4oKPiyNVtW91vBgn7WqcFCTR8SzF7uR7BqwTHOb8naHnmkNgJTi8dWnC+LEGdqAjsmVYWu8SHV4bhGGXBxUwWcT57XaSa66FtvfMQlKlHzxkicxnhZjnkdvYne0L71dky479OzmpV78nOoYbFHq2PKIhxqATpfeXPhRlqMJ4FQ1KSHIJqLYVKGnGB2WlQrlo/79mXAMMQj2IdASz9CoZnJ1dtxpXkHaKazVU6wmIzagDLiAQV8wMx8q9B6xlctMHMD/hv3SUp27aTfQ=
+X-Forefront-Antispam-Report: CIP:203.18.50.13;CTRY:HK;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:hkhybrid02.nvidia.com;CAT:NONE;SFS:(4636009)(46966006)(36840700001)(40470700001)(186003)(7636003)(26005)(7696005)(47076005)(921005)(83380400001)(356005)(82310400004)(6666004)(86362001)(4744005)(2906002)(36860700001)(5660300002)(7416002)(34020700004)(40460700001)(36756003)(316002)(336012)(8936002)(110136005)(107886003)(508600001)(70586007)(426003)(8676002)(4326008)(2616005)(70206006)(83996005)(2101003);DIR:OUT;SFP:1101;
 X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Dec 2021 13:48:48.0540
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Dec 2021 15:05:51.4050
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8cde6373-903f-402b-c6ee-08d9bb1aa077
+X-MS-Exchange-CrossTenant-Network-Message-Id: ae97c5f4-d77c-4a84-006c-08d9bb25642c
 X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[203.18.50.14];Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource: BN8NAM11FT058.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[203.18.50.13];Helo=[mail.nvidia.com]
+X-MS-Exchange-CrossTenant-AuthSource: DM6NAM11FT064.eop-nam11.prod.protection.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB4584
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN6PR12MB1875
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Use i2c_timings struct and corresponding methods to get bus clock frequency
+Add support for SMBus Alert and SMBus block read functions to
+i2c-tegra driver
 
-Signed-off-by: Akhil R <akhilrajeev@nvidia.com>
----
- drivers/i2c/busses/i2c-tegra.c | 19 ++++++++-----------
- 1 file changed, 8 insertions(+), 11 deletions(-)
+Akhil R (2):
+  dt-bindings: i2c: tegra: Add SMBus feature properties
+  i2c: tegra: Add SMBus block read and SMBus alert functions
 
-The patch is in response to the discussion in a previous patch to use
-i2c_timings struct for bus freq.
-ref. https://lkml.org/lkml/2021/11/25/767
+ .../devicetree/bindings/i2c/nvidia,tegra20-i2c.txt |  4 ++
+ drivers/i2c/busses/i2c-tegra.c                     | 54 +++++++++++++++++++++-
+ 2 files changed, 57 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/i2c/busses/i2c-tegra.c b/drivers/i2c/busses/i2c-tegra.c
-index a5be8f0..ffd2ad2 100644
---- a/drivers/i2c/busses/i2c-tegra.c
-+++ b/drivers/i2c/busses/i2c-tegra.c
-@@ -246,7 +246,7 @@ struct tegra_i2c_hw_feature {
-  * @msg_buf: pointer to current message data
-  * @msg_buf_remaining: size of unsent data in the message buffer
-  * @msg_read: indicates that the transfer is a read access
-- * @bus_clk_rate: current I2C bus clock rate
-+ * @timings: i2c timings information like bus frequency
-  * @multimaster_mode: indicates that I2C controller is in multi-master mode
-  * @tx_dma_chan: DMA transmit channel
-  * @rx_dma_chan: DMA receive channel
-@@ -273,7 +273,7 @@ struct tegra_i2c_dev {
- 	unsigned int nclocks;
- 
- 	struct clk *div_clk;
--	u32 bus_clk_rate;
-+	struct i2c_timings timings;
- 
- 	struct completion msg_complete;
- 	size_t msg_buf_remaining;
-@@ -642,14 +642,14 @@ static int tegra_i2c_init(struct tegra_i2c_dev *i2c_dev)
- 	if (i2c_dev->is_vi)
- 		tegra_i2c_vi_init(i2c_dev);
- 
--	switch (i2c_dev->bus_clk_rate) {
-+	switch (i2c_dev->timings.bus_freq_hz) {
- 	case I2C_MAX_STANDARD_MODE_FREQ + 1 ... I2C_MAX_FAST_MODE_PLUS_FREQ:
- 	default:
- 		tlow = i2c_dev->hw->tlow_fast_fastplus_mode;
- 		thigh = i2c_dev->hw->thigh_fast_fastplus_mode;
- 		tsu_thd = i2c_dev->hw->setup_hold_time_fast_fast_plus_mode;
- 
--		if (i2c_dev->bus_clk_rate > I2C_MAX_FAST_MODE_FREQ)
-+		if (i2c_dev->timings.bus_freq_hz > I2C_MAX_FAST_MODE_FREQ)
- 			non_hs_mode = i2c_dev->hw->clk_divisor_fast_plus_mode;
- 		else
- 			non_hs_mode = i2c_dev->hw->clk_divisor_fast_mode;
-@@ -685,7 +685,7 @@ static int tegra_i2c_init(struct tegra_i2c_dev *i2c_dev)
- 	clk_multiplier = (tlow + thigh + 2) * (non_hs_mode + 1);
- 
- 	err = clk_set_rate(i2c_dev->div_clk,
--			   i2c_dev->bus_clk_rate * clk_multiplier);
-+			   i2c_dev->timings.bus_freq_hz * clk_multiplier);
- 	if (err) {
- 		dev_err(i2c_dev->dev, "failed to set div-clk rate: %d\n", err);
- 		return err;
-@@ -724,7 +724,7 @@ static int tegra_i2c_disable_packet_mode(struct tegra_i2c_dev *i2c_dev)
- 	 * before disabling the controller so that the STOP condition has
- 	 * been delivered properly.
- 	 */
--	udelay(DIV_ROUND_UP(2 * 1000000, i2c_dev->bus_clk_rate));
-+	udelay(DIV_ROUND_UP(2 * 1000000, i2c_dev->timings.bus_freq_hz));
- 
- 	cnfg = i2c_readl(i2c_dev, I2C_CNFG);
- 	if (cnfg & I2C_CNFG_PACKET_MODE_EN)
-@@ -1254,7 +1254,7 @@ static int tegra_i2c_xfer_msg(struct tegra_i2c_dev *i2c_dev,
- 	 * Total bits = 9 bits per byte (including ACK bit) + Start & stop bits
- 	 */
- 	xfer_time += DIV_ROUND_CLOSEST(((xfer_size * 9) + 2) * MSEC_PER_SEC,
--				       i2c_dev->bus_clk_rate);
-+				       i2c_dev->timings.bus_freq_hz);
- 
- 	int_mask = I2C_INT_NO_ACK | I2C_INT_ARBITRATION_LOST;
- 	tegra_i2c_unmask_irq(i2c_dev, int_mask);
-@@ -1633,10 +1633,7 @@ static void tegra_i2c_parse_dt(struct tegra_i2c_dev *i2c_dev)
- 	bool multi_mode;
- 	int err;
- 
--	err = device_property_read_u32(i2c_dev->dev, "clock-frequency",
--				       &i2c_dev->bus_clk_rate);
--	if (err)
--		i2c_dev->bus_clk_rate = I2C_MAX_STANDARD_MODE_FREQ;
-+	i2c_parse_fw_timings(i2c_dev->dev, &i2c_dev->timings, true);
- 
- 	multi_mode = device_property_read_bool(i2c_dev->dev, "multi-master");
- 	i2c_dev->multimaster_mode = multi_mode;
 -- 
 2.7.4
 
