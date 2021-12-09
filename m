@@ -2,56 +2,56 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4166846E27A
-	for <lists+linux-media@lfdr.de>; Thu,  9 Dec 2021 07:29:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 26FF146E27C
+	for <lists+linux-media@lfdr.de>; Thu,  9 Dec 2021 07:29:52 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233057AbhLIGdP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 9 Dec 2021 01:33:15 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35066 "EHLO
+        id S233082AbhLIGdS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 9 Dec 2021 01:33:18 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35078 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233028AbhLIGdP (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 9 Dec 2021 01:33:15 -0500
-Received: from mail-pl1-x62b.google.com (mail-pl1-x62b.google.com [IPv6:2607:f8b0:4864:20::62b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5C065C061746
-        for <linux-media@vger.kernel.org>; Wed,  8 Dec 2021 22:29:42 -0800 (PST)
-Received: by mail-pl1-x62b.google.com with SMTP id u17so3139520plg.9
-        for <linux-media@vger.kernel.org>; Wed, 08 Dec 2021 22:29:42 -0800 (PST)
+        with ESMTP id S233036AbhLIGdR (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 9 Dec 2021 01:33:17 -0500
+Received: from mail-pg1-x533.google.com (mail-pg1-x533.google.com [IPv6:2607:f8b0:4864:20::533])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5B965C0617A1
+        for <linux-media@vger.kernel.org>; Wed,  8 Dec 2021 22:29:44 -0800 (PST)
+Received: by mail-pg1-x533.google.com with SMTP id r138so4171106pgr.13
+        for <linux-media@vger.kernel.org>; Wed, 08 Dec 2021 22:29:44 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=l70yrT2MnFH7bNPw1mTKeaVZEUJsCzdp2hTTSYAY8Ho=;
-        b=G9PjGpIwWFcaeZ9f8ADTb/FlHKQkjX6igYz6ah6WZAInRXZD+vkwfQ1LOFhycuoA5c
-         2QW5FPVY5C+vOPq/aJkB2+DeRiB6DZw2W/hpITZBWUc4NCoMv27ACwhwu4hW475e5JkT
-         IwsLGkFZ6KmRXqwoPIh7S5iZ+DHKsleobUh5Y=
+        bh=nDQeLFsJWWQ29fDPIRsuMsj8pMxqvIriv1EEMWZcKag=;
+        b=Gyjp7Xf3cj1lZ8F/xfViYEIuRYf3fMl/Mw1adhD4mSO3XNhNa2pa98S/1og1a3P1gF
+         JhMAHRepEmOmBg195q1VKTLU6xtKvEMZfF4C63CoLFJRkoVidivE0fDbauL2wUC3PlVf
+         vbj0px713lX0sbbz9B2aQQn+rDYWkoBvZJjgA=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=l70yrT2MnFH7bNPw1mTKeaVZEUJsCzdp2hTTSYAY8Ho=;
-        b=KWPY+3YKfDWQU0hiEmVE18Jv/SL1zhPGC7CdpeT/MJNRgbHBJoFmn2MO4Bx6FWIGSB
-         bhF7KCuQw2X5PJBl79kGymTWCc1pFE/mhQhX9rZ76OewprhLQHhcguOeWaJAz57Geqgx
-         lZHUcDofcWSruKhpl0gwYbZhDWHghkWMliyQ2F9uoNa+ifrMOps8hzP7UOafS/j/b2Zo
-         7lAQvEr3nSIaSJvd0pSjZZVY4R0DcJBX0MF6srpI4a5NIXcK1LTh8mlv9UmLrOcTxEdc
-         Kmdiu/f3X00M/ZSd0lvOzDz+AgFKuNIVuC2KtoV48IEwagjWlqYEhghpHWVU/xE4ZA+7
-         CtPw==
-X-Gm-Message-State: AOAM532EH5hvDz8NkiyZqzmJS71LDIUXNcyPDlM3npu7mKlpGPFC1HAF
-        QTH318jOOJwDIylRMLJd7y8tRSeFZGAPfQ==
-X-Google-Smtp-Source: ABdhPJzUq9ICMOJkOd3j4HnkBJOY1s8yXIXSMq2SXIN0DuDNBSRr7qKyOZ1Svq/OniclaWGRN+PRJQ==
-X-Received: by 2002:a17:902:8214:b0:142:61cf:7be with SMTP id x20-20020a170902821400b0014261cf07bemr65238289pln.0.1639031381883;
-        Wed, 08 Dec 2021 22:29:41 -0800 (PST)
+        bh=nDQeLFsJWWQ29fDPIRsuMsj8pMxqvIriv1EEMWZcKag=;
+        b=V0Hs0ZBT2GeHGjsIuhxkgfzZu9zuVhC65+Zn8ACq1QCk7u7BJn+0hVGuRo/9AsGq4K
+         Y2SbDtrxosv97xiIdnUIc764r6bCmELwpAfJjCROEtOiL45mih4HVQ0o3ujkmi3TSzT+
+         CFKC1yxR75D23OrOMVLQphxnZAT80CDRDe7mBwCqnn6vZT1uidKWuGsS53QqWXZvowCv
+         16+8nsYrIww22W8FAxF6F9ThMABeqnB8Au0hA9RlUyE0hMuQnF6X9Ru9NtOI1QqYbW0S
+         nKRVt0/sOyneAb/O2fNmw41SJpXRoL82+9hI1thpvbQjFgpzla5dlzgXV+e3mY8E/CoT
+         6HLg==
+X-Gm-Message-State: AOAM5314fGPz4L8riIGHpXz7xzxFBFyKd6hlEQ6hZx3cwryT+uftv+4B
+        bArmeFqGpVDiml66ZaVdI0eSjg==
+X-Google-Smtp-Source: ABdhPJz0oqWHYeM9S4aGwcZ+QzMWku/0b3Ibttb0E/0Hqw7EylOUJ2GHHJ2w27Ua5SGg5emAapqOiA==
+X-Received: by 2002:a63:f015:: with SMTP id k21mr28881226pgh.154.1639031383867;
+        Wed, 08 Dec 2021 22:29:43 -0800 (PST)
 Received: from wenstp920.tpe.corp.google.com ([2401:fa00:1:10:edb5:3ef8:a855:9380])
-        by smtp.gmail.com with ESMTPSA id h20sm4158955pgh.13.2021.12.08.22.29.40
+        by smtp.gmail.com with ESMTPSA id h20sm4158955pgh.13.2021.12.08.22.29.42
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 08 Dec 2021 22:29:41 -0800 (PST)
+        Wed, 08 Dec 2021 22:29:43 -0800 (PST)
 From:   Chen-Yu Tsai <wenst@chromium.org>
 To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
         Hans Verkuil <hverkuil-cisco@xs4all.nl>
 Cc:     Chen-Yu Tsai <wenst@chromium.org>, linux-media@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Subject: [PATCH] media: docs: vidioc-dqbuf: State all remaining fields are filled by driver
-Date:   Thu,  9 Dec 2021 14:29:25 +0800
-Message-Id: <20211209062926.991516-1-wenst@chromium.org>
+Subject: [PATCH] media: v4l2-mem2mem: Apply DST_QUEUE_OFF_BASE on MMAP buffers across ioctls
+Date:   Thu,  9 Dec 2021 14:29:26 +0800
+Message-Id: <20211209062926.991516-2-wenst@chromium.org>
 X-Mailer: git-send-email 2.34.1.400.ga245620fadb-goog
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -59,30 +59,148 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The specification for VIDIOC_DQBUF is slightly ambiguous on what fields
-of |struct v4l2_buffer| is filled by the driver.
+DST_QUEUE_OFF_BASE is applied to offset/mem_offset on MMAP capture buffers
+only for the VIDIOC_QUERYBUF ioctl, while the userspace fields (including
+offset/mem_offset) are filled in for VIDIOC_{QUERY,PREPARE,Q,DQ}BUF
+ioctls. This leads to differences in the values presented to userspace.
+If userspace attempts to mmap the capture buffer directly using values
+from DQBUF, it will fail.
 
-Reword it so things are clear: the driver fills in all remaining fields
-not specified to be filled in by userspace applications.
+Move the code that applies the magic offset into a helper, and call
+that helper from all four ioctl entry points.
 
+Fixes: 7f98639def42 ("V4L/DVB: add memory-to-memory device helper framework for videobuf")
+Fixes: 908a0d7c588e ("[media] v4l: mem2mem: port to videobuf2")
 Signed-off-by: Chen-Yu Tsai <wenst@chromium.org>
 ---
- Documentation/userspace-api/media/v4l/vidioc-qbuf.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+This was tested on RK3399 with
 
-diff --git a/Documentation/userspace-api/media/v4l/vidioc-qbuf.rst b/Documentation/userspace-api/media/v4l/vidioc-qbuf.rst
-index 77e0747a6d28..e4b3d9beb9ab 100644
---- a/Documentation/userspace-api/media/v4l/vidioc-qbuf.rst
-+++ b/Documentation/userspace-api/media/v4l/vidioc-qbuf.rst
-@@ -125,7 +125,7 @@ Applications call the ``VIDIOC_DQBUF`` ioctl to dequeue a filled
- queue. They just set the ``type``, ``memory`` and ``reserved`` fields of
- a struct :c:type:`v4l2_buffer` as above, when
- ``VIDIOC_DQBUF`` is called with a pointer to this structure the driver
--fills the remaining fields or returns an error code. The driver may also
-+fills all remaining fields or returns an error code. The driver may also
- set ``V4L2_BUF_FLAG_ERROR`` in the ``flags`` field. It indicates a
- non-critical (recoverable) streaming error. In such case the application
- may continue as normal, but should be aware that data in the dequeued
+    gst-launch-1.0 videotestsrc num-buffers=2 ! v4l2jpegenc ! fakesink
+
+and verifying the values using the V4L2 debug messages:
+
+    video2: VIDIOC_QUERYBUF: 00:00:00.000000 index=0, type=vid-cap-mplane, request_fd=0, flags=0x00004000, field=any, sequence=0, memory=mmap
+    plane 0: bytesused=0, data_offset=0x00000000, offset/userptr=0x40000000, length=2097152
+    timecode=00:00:00 type=0, flags=0x00000000, frames=0, userbits=0x00000000
+    video2: VIDIOC_QUERYBUF: 00:00:00.000000 index=0, type=vid-out-mplane, request_fd=0, flags=0x00004000, field=any, sequence=0, memory=mmap
+    plane 0: bytesused=0, data_offset=0x00000000, offset/userptr=0x0, length=153600
+    timecode=00:00:00 type=0, flags=0x00000000, frames=0, userbits=0x00000000
+
+    video2: VIDIOC_QBUF: 00:00:00.000000 index=0, type=vid-cap-mplane, request_fd=0, flags=0x00004003, field=any, sequence=0, memory=mmap
+    plane 0: bytesused=2097152, data_offset=0x00000000, offset/userptr=0x40000000, length=2097152
+    timecode=00:00:00 type=0, flags=0x00000000, frames=0, userbits=0x00000000
+    video2: VIDIOC_QBUF: 00:00:00.000000 index=0, type=vid-out-mplane, request_fd=0, flags=0x00004003, field=none, sequence=0, memory=mmap
+    plane 0: bytesused=153600, data_offset=0x00000000, offset/userptr=0x0, length=153600
+    timecode=00:00:00 type=0, flags=0x00000000, frames=0, userbits=0x00000000
+
+    video2: VIDIOC_DQBUF: 00:00:00.000000 index=0, type=vid-cap-mplane, request_fd=0, flags=0x00004001, field=none, sequence=0, memory=mmap
+    plane 0: bytesused=6324, data_offset=0x00000000, offset/userptr=0x40000000, length=2097152
+    timecode=00:00:00 type=0, flags=0x00000000, frames=0, userbits=0x00000000
+    video2: VIDIOC_DQBUF: 00:00:00.000000 index=0, type=vid-out-mplane, request_fd=0, flags=0x00004001, field=none, sequence=0, memory=mmap
+    plane 0: bytesused=153600, data_offset=0x00000000, offset/userptr=0x0, length=153600
+    timecode=00:00:00 type=0, flags=0x00000000, frames=0, userbits=0x00000000
+
+Gstreamer doesn't do PREPAREBUF calls, so that path was not verified.
+However the code changes are exactly the same, so I'm quite confident
+about them.
+
+---
+ drivers/media/v4l2-core/v4l2-mem2mem.c | 46 ++++++++++++++++++++------
+ 1 file changed, 35 insertions(+), 11 deletions(-)
+
+diff --git a/drivers/media/v4l2-core/v4l2-mem2mem.c b/drivers/media/v4l2-core/v4l2-mem2mem.c
+index e2654b422334..b47f25297c43 100644
+--- a/drivers/media/v4l2-core/v4l2-mem2mem.c
++++ b/drivers/media/v4l2-core/v4l2-mem2mem.c
+@@ -585,19 +585,14 @@ int v4l2_m2m_reqbufs(struct file *file, struct v4l2_m2m_ctx *m2m_ctx,
+ }
+ EXPORT_SYMBOL_GPL(v4l2_m2m_reqbufs);
+ 
+-int v4l2_m2m_querybuf(struct file *file, struct v4l2_m2m_ctx *m2m_ctx,
+-		      struct v4l2_buffer *buf)
++static void v4l2_m2m_adjust_mem_offset(struct vb2_queue *vq,
++				       struct v4l2_buffer *buf)
+ {
+-	struct vb2_queue *vq;
+-	int ret = 0;
+-	unsigned int i;
+-
+-	vq = v4l2_m2m_get_vq(m2m_ctx, buf->type);
+-	ret = vb2_querybuf(vq, buf);
+-
+ 	/* Adjust MMAP memory offsets for the CAPTURE queue */
+ 	if (buf->memory == V4L2_MEMORY_MMAP && V4L2_TYPE_IS_CAPTURE(vq->type)) {
+ 		if (V4L2_TYPE_IS_MULTIPLANAR(vq->type)) {
++			unsigned int i;
++
+ 			for (i = 0; i < buf->length; ++i)
+ 				buf->m.planes[i].m.mem_offset
+ 					+= DST_QUEUE_OFF_BASE;
+@@ -605,6 +600,19 @@ int v4l2_m2m_querybuf(struct file *file, struct v4l2_m2m_ctx *m2m_ctx,
+ 			buf->m.offset += DST_QUEUE_OFF_BASE;
+ 		}
+ 	}
++}
++
++int v4l2_m2m_querybuf(struct file *file, struct v4l2_m2m_ctx *m2m_ctx,
++		      struct v4l2_buffer *buf)
++{
++	struct vb2_queue *vq;
++	int ret = 0;
++
++	vq = v4l2_m2m_get_vq(m2m_ctx, buf->type);
++	ret = vb2_querybuf(vq, buf);
++
++	/* Adjust MMAP memory offsets for the CAPTURE queue */
++	v4l2_m2m_adjust_mem_offset(vq, buf);
+ 
+ 	return ret;
+ }
+@@ -760,6 +768,10 @@ int v4l2_m2m_qbuf(struct file *file, struct v4l2_m2m_ctx *m2m_ctx,
+ 	}
+ 
+ 	ret = vb2_qbuf(vq, vdev->v4l2_dev->mdev, buf);
++
++	/* Adjust MMAP memory offsets for the CAPTURE queue */
++	v4l2_m2m_adjust_mem_offset(vq, buf);
++
+ 	if (ret)
+ 		return ret;
+ 
+@@ -784,9 +796,15 @@ int v4l2_m2m_dqbuf(struct file *file, struct v4l2_m2m_ctx *m2m_ctx,
+ 		   struct v4l2_buffer *buf)
+ {
+ 	struct vb2_queue *vq;
++	int ret;
+ 
+ 	vq = v4l2_m2m_get_vq(m2m_ctx, buf->type);
+-	return vb2_dqbuf(vq, buf, file->f_flags & O_NONBLOCK);
++	ret = vb2_dqbuf(vq, buf, file->f_flags & O_NONBLOCK);
++
++	/* Adjust MMAP memory offsets for the CAPTURE queue */
++	v4l2_m2m_adjust_mem_offset(vq, buf);
++
++	return ret;
+ }
+ EXPORT_SYMBOL_GPL(v4l2_m2m_dqbuf);
+ 
+@@ -795,9 +813,15 @@ int v4l2_m2m_prepare_buf(struct file *file, struct v4l2_m2m_ctx *m2m_ctx,
+ {
+ 	struct video_device *vdev = video_devdata(file);
+ 	struct vb2_queue *vq;
++	int ret;
+ 
+ 	vq = v4l2_m2m_get_vq(m2m_ctx, buf->type);
+-	return vb2_prepare_buf(vq, vdev->v4l2_dev->mdev, buf);
++	ret = vb2_prepare_buf(vq, vdev->v4l2_dev->mdev, buf);
++
++	/* Adjust MMAP memory offsets for the CAPTURE queue */
++	v4l2_m2m_adjust_mem_offset(vq, buf);
++
++	return ret;
+ }
+ EXPORT_SYMBOL_GPL(v4l2_m2m_prepare_buf);
+ 
 -- 
 2.34.1.400.ga245620fadb-goog
 
