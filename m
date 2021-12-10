@@ -2,104 +2,208 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8037946FFD1
-	for <lists+linux-media@lfdr.de>; Fri, 10 Dec 2021 12:29:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DAEA2470059
+	for <lists+linux-media@lfdr.de>; Fri, 10 Dec 2021 12:51:17 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240408AbhLJLdO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 10 Dec 2021 06:33:14 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42522 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231759AbhLJLdM (ORCPT
+        id S240808AbhLJLyv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 10 Dec 2021 06:54:51 -0500
+Received: from ams.source.kernel.org ([145.40.68.75]:35862 "EHLO
+        ams.source.kernel.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S240459AbhLJLyv (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 10 Dec 2021 06:33:12 -0500
-Received: from mail-lj1-x235.google.com (mail-lj1-x235.google.com [IPv6:2a00:1450:4864:20::235])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 47188C0617A2
-        for <linux-media@vger.kernel.org>; Fri, 10 Dec 2021 03:29:37 -0800 (PST)
-Received: by mail-lj1-x235.google.com with SMTP id 207so13240565ljf.10
-        for <linux-media@vger.kernel.org>; Fri, 10 Dec 2021 03:29:37 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=igel-co-jp.20210112.gappssmtp.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=NoFmsSrPPIXAa6UPVY+mW7OCxWGbDYJZNT+23nos+Sg=;
-        b=qWwEZ0dr3wB90wKhnvHvxBcIiKESCW7Al3Ey5haBrU1NXSjxw6Uk3WvGDEa73lpqKG
-         oiOphDZpol/2qK5XeiKoCvwFEfbP+YBlSXRB/dFfSAo5X9qKzfR0oNKdlMAMQ5AQ8U8j
-         R0Gvr1N/O5jjntEM1/7X2LjEU2aZJTmDvyzAM/jyGd0WqVl6RoRR5zgDWr3NaQOCGcdn
-         g+9Sc5QNZ6eEU5cYybryGjYZJSR5eBFNLlYWNsZStFZTnAwIJz2D0DQYgDFWMiApQrsm
-         3hkNlUbn6wXEVai/1RmAL2B+lMUBsYjU9WPgvuzyTtgvuDMBsr4fFoKyp7gcZvukpd1H
-         fiZA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=NoFmsSrPPIXAa6UPVY+mW7OCxWGbDYJZNT+23nos+Sg=;
-        b=yXOACj2vJY+LchRs/3b+H2GmkY+vF27yJtVnh2EgW1TGFAX0MW7wWwQ59DyjO/g+o/
-         NwPJgnzlsw1wJE+DsOTduq4CjxxXlNYeAzsZAI2rKBwZBn8y9J9oE+wMBZEKs4zNSwlq
-         6IUTqoofTetinU+Sy5ln+6ZP7RgZyRej3KD/m5WUICtXVekvTQ44a0hTQfs7j+7Um5Mu
-         osE3sH6RdmKBl10GdbEj6P7EcS/w87fdRA/aVhBtc/J93q9dGtmSKlP60/mseLAoNj8S
-         VajA0wN01wLoYWtKLjPW5KtXoGpvSGxIPUsRiocjyUE7EPCE+LXTi3H41d6DTlP8ChJe
-         D3JA==
-X-Gm-Message-State: AOAM532GGBZGrsvzF3pBAceIWokYZsasfeRbu993ug21zHhUnc3NPt08
-        rfJ7P/rCU3E/fsFd0JYanyD6x7NNQvclWbKCBWkaWg==
-X-Google-Smtp-Source: ABdhPJxW80fXD1lPzt8qWiH7Rg3BsOb2N9Z56Edp5343fNtBZQTJ4N/w3p0jxa7LzbmAiq6ABQIafercLd1qNZpj6cY=
-X-Received: by 2002:a2e:6e0d:: with SMTP id j13mr11934080ljc.124.1639135775473;
- Fri, 10 Dec 2021 03:29:35 -0800 (PST)
+        Fri, 10 Dec 2021 06:54:51 -0500
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 274D3B827EC;
+        Fri, 10 Dec 2021 11:51:15 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C22FEC00446;
+        Fri, 10 Dec 2021 11:51:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1639137073;
+        bh=k6SoHWhosx0qzm2ZpWW1ByceeyzMtPO2w4609dbQnKU=;
+        h=From:To:Cc:Subject:Date:From;
+        b=BQvaSVhwExVghGCYl9TyVS/k2l4rDqcfVaZ5yXRPW8vhK61maQPPBNKe28Ugp3EyM
+         5vtvKMIFmitqiiybgFUTW+13bQVAwBg5djldUlyD7i8YEUIWz23Xr7qY2JAj0iL/lO
+         JxaEkH144KM497Mkb+aU9w1TPmrBycKv0jC7FLf4XTeEjFc64NpS/Fd1qSRIrloCr+
+         R3aRQ620NJnUw7uJcYZdZGMd4RdhZSMK99/4Cl+6h2Bide8BnqMHehPyIN5yU8kAY0
+         2RJXTHTsBwobXQTd+eUrYw03VLlptezMrab8FVjCwNuuLFqvdnCCRCeMWyPzrSjWzS
+         wMeoEWypzkFoQ==
+Received: from mchehab by mail.kernel.org with local (Exim 4.94.2)
+        (envelope-from <mchehab@kernel.org>)
+        id 1mveQh-000EFs-JX; Fri, 10 Dec 2021 12:51:11 +0100
+From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc:     linuxarm@huawei.com, mauro.chehab@huawei.com,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Antti Palosaari <crope@iki.fi>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        Robert Schlabbach <robert_s@gmx.net>
+Subject: [PATCH v2] media: si2157: get rid of chiptype data
+Date:   Fri, 10 Dec 2021 12:51:10 +0100
+Message-Id: <08e7a803894687c7706dc974bffd7d8b0c9df53d.1639136930.git.mchehab+huawei@kernel.org>
+X-Mailer: git-send-email 2.33.1
 MIME-Version: 1.0
-References: <20211122110817.33319-1-mie@igel.co.jp> <CANXvt5oB8_2sDGccSiTMqeLYGi3Vuo-6NnHJ9PGgZZMv=fnUVw@mail.gmail.com>
- <20211207171447.GA6467@ziepe.ca>
-In-Reply-To: <20211207171447.GA6467@ziepe.ca>
-From:   Shunsuke Mie <mie@igel.co.jp>
-Date:   Fri, 10 Dec 2021 20:29:24 +0900
-Message-ID: <CANXvt5rCayOcengPr7Z_aFmJaXwWj9VcWZbaHnuHj6=2CkPndA@mail.gmail.com>
-Subject: Re: [RFC PATCH v4 0/2] RDMA/rxe: Add dma-buf support
-To:     Jason Gunthorpe <jgg@ziepe.ca>
-Cc:     Zhu Yanjun <zyjzyj2000@gmail.com>,
-        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
-        Alex Deucher <alexander.deucher@amd.com>,
-        Daniel Vetter <daniel.vetter@ffwll.ch>,
-        Doug Ledford <dledford@redhat.com>,
-        Jianxin Xiong <jianxin.xiong@intel.com>,
-        Leon Romanovsky <leon@kernel.org>,
-        Maor Gottlieb <maorg@nvidia.com>,
-        Sean Hefty <sean.hefty@intel.com>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
-        linux-media@vger.kernel.org,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-rdma <linux-rdma@vger.kernel.org>,
-        Damian Hobson-Garcia <dhobsong@igel.co.jp>,
-        Takanari Hayama <taki@igel.co.jp>,
-        Tomohito Esaki <etom@igel.co.jp>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
+To:     unlisted-recipients:; (no To-header on input)
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Jason,
-Thank you for replying.
+The driver should be capable of autodetecting its type, so no
+need to pass it via device driver's data.
 
-2021=E5=B9=B412=E6=9C=888=E6=97=A5(=E6=B0=B4) 2:14 Jason Gunthorpe <jgg@zie=
-pe.ca>:
->
-> On Fri, Dec 03, 2021 at 12:51:44PM +0900, Shunsuke Mie wrote:
-> > Hi maintainers,
-> >
-> > Could you please review this patch series?
->
-> Why is it RFC?
->
-> I'm confused why this is useful?
->
-> This can't do copy from MMIO memory, so it shouldn't be compatible
-> with things like Gaudi - does something prevent this?
-I think if an export of the dma-buf supports vmap, CPU is able to access th=
-e
-mmio memory.
+While here, improve documentation of some of the part_id
+specific code.
 
-Is it wrong? If this is wrong, there is no advantages this changes..
->
-> Jason
+Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+---
 
-Regards,
-Shunsuke
+v2:
+   - Checked against the open-sourced manufacturer driver to see if the
+     part_id-dependent parts make sense;
+   - Added a couple of comments for some of those part_id-specific code
+
+ drivers/media/tuners/si2157.c      | 44 ++++++++++++++++++------------
+ drivers/media/tuners/si2157_priv.h |  7 +----
+ 2 files changed, 27 insertions(+), 24 deletions(-)
+
+diff --git a/drivers/media/tuners/si2157.c b/drivers/media/tuners/si2157.c
+index bb590395e81a..a2f0dfd50e8d 100644
+--- a/drivers/media/tuners/si2157.c
++++ b/drivers/media/tuners/si2157.c
+@@ -185,6 +185,9 @@ static int si2157_find_and_load_firmware(struct dvb_frontend *fe)
+ 		return -EINVAL;
+ 	}
+ 
++	/* Update the part id based on device's report */
++	dev->part_id = part_id;
++
+ 	dev_info(&client->dev,
+ 		 "found a 'Silicon Labs Si21%d-%c%c%c ROM 0x%02x'\n",
+ 		 part_id, cmd.args[1], cmd.args[3], cmd.args[4], rom_id);
+@@ -235,10 +238,12 @@ static int si2157_init(struct dvb_frontend *fe)
+ 	dev->if_frequency = 0; /* we no longer know current tuner state */
+ 
+ 	/* power up */
+-	if (dev->chiptype == SI2157_CHIPTYPE_SI2146) {
++	if (dev->part_id == SI2146) {
++		/* clock_mode = XTAL, clock_freq = 24MHz */
+ 		memcpy(cmd.args, "\xc0\x05\x01\x00\x00\x0b\x00\x00\x01", 9);
+ 		cmd.wlen = 9;
+-	} else if (dev->chiptype == SI2157_CHIPTYPE_SI2141) {
++	} else if (dev->part_id == SI2141) {
++		/* clock_mode: XTAL, xout enabled */
+ 		memcpy(cmd.args, "\xc0\x00\x0d\x0e\x00\x01\x01\x01\x01\x03", 10);
+ 		cmd.wlen = 10;
+ 	} else {
+@@ -247,11 +252,11 @@ static int si2157_init(struct dvb_frontend *fe)
+ 	}
+ 	cmd.rlen = 1;
+ 	ret = si2157_cmd_execute(client, &cmd);
+-	if (ret && (dev->chiptype != SI2157_CHIPTYPE_SI2141 || ret != -EAGAIN))
++	if (ret && (dev->part_id != SI2141 || ret != -EAGAIN))
+ 		goto err;
+ 
+-	/* Si2141 needs a second command before it answers the revision query */
+-	if (dev->chiptype == SI2157_CHIPTYPE_SI2141) {
++	/* Si2141 needs a wake up command */
++	if (dev->part_id == SI2141) {
+ 		memcpy(cmd.args, "\xc0\x08\x01\x02\x00\x00\x01", 7);
+ 		cmd.wlen = 7;
+ 		ret = si2157_cmd_execute(client, &cmd);
+@@ -493,7 +498,7 @@ static int si2157_set_params(struct dvb_frontend *fe)
+ 	if (ret)
+ 		goto err;
+ 
+-	if (dev->chiptype == SI2157_CHIPTYPE_SI2146)
++	if (dev->part_id == SI2146)
+ 		memcpy(cmd.args, "\x14\x00\x02\x07\x00\x01", 6);
+ 	else
+ 		memcpy(cmd.args, "\x14\x00\x02\x07\x00\x00", 6);
+@@ -560,9 +565,9 @@ static int si2157_set_analog_params(struct dvb_frontend *fe,
+ 	u8 color = 0;    /* 0=NTSC/PAL, 0x10=SECAM */
+ 	u8 invert_analog = 1; /* analog tuner spectrum; 0=normal, 1=inverted */
+ 
+-	if (dev->chiptype != SI2157_CHIPTYPE_SI2157) {
+-		dev_info(&client->dev, "Analog tuning not supported for chiptype=%u\n",
+-			 dev->chiptype);
++	if (dev->part_id != SI2157) {
++		dev_info(&client->dev, "Analog tuning not supported on Si21%d\n",
++			 dev->part_id);
+ 		ret = -EINVAL;
+ 		goto err;
+ 	}
+@@ -874,7 +879,7 @@ static int si2157_probe(struct i2c_client *client,
+ 	dev->inversion = cfg->inversion;
+ 	dev->dont_load_firmware = cfg->dont_load_firmware;
+ 	dev->if_port = cfg->if_port;
+-	dev->chiptype = (u8)id->driver_data;
++	dev->part_id = (u8)id->driver_data;
+ 	dev->if_frequency = 5000000; /* default value of property 0x0706 */
+ 	mutex_init(&dev->i2c_mutex);
+ 	INIT_DELAYED_WORK(&dev->stat_work, si2157_stat_work);
+@@ -917,10 +922,8 @@ static int si2157_probe(struct i2c_client *client,
+ 	}
+ #endif
+ 
+-	dev_info(&client->dev, "Silicon Labs %s successfully attached\n",
+-			dev->chiptype == SI2157_CHIPTYPE_SI2141 ?  "Si2141" :
+-			dev->chiptype == SI2157_CHIPTYPE_SI2146 ?
+-			"Si2146" : "Si2147/2148/2157/2158");
++	dev_info(&client->dev, "Silicon Labs Si21%d successfully attached\n",
++		 dev->part_id);
+ 
+ 	return 0;
+ 
+@@ -953,11 +956,16 @@ static int si2157_remove(struct i2c_client *client)
+ 	return 0;
+ }
+ 
++/*
++ * The part_id used here will only be used on buggy devices that don't
++ * accept firmware uploads. Non-buggy devices should just use "si2157" for
++ * all SiLabs TER tuners, as the driver should auto-detect it.
++ */
+ static const struct i2c_device_id si2157_id_table[] = {
+-	{"si2157", SI2157_CHIPTYPE_SI2157},
+-	{"si2146", SI2157_CHIPTYPE_SI2146},
+-	{"si2141", SI2157_CHIPTYPE_SI2141},
+-	{"si2177", SI2157_CHIPTYPE_SI2177},
++	{"si2157", SI2157},
++	{"si2146", SI2146},
++	{"si2141", SI2141},
++	{"si2177", SI2177},
+ 	{}
+ };
+ MODULE_DEVICE_TABLE(i2c, si2157_id_table);
+diff --git a/drivers/media/tuners/si2157_priv.h b/drivers/media/tuners/si2157_priv.h
+index 0db21b082ba9..df17a5f03561 100644
+--- a/drivers/media/tuners/si2157_priv.h
++++ b/drivers/media/tuners/si2157_priv.h
+@@ -26,7 +26,7 @@ struct si2157_dev {
+ 	unsigned int active:1;
+ 	unsigned int inversion:1;
+ 	unsigned int dont_load_firmware:1;
+-	u8 chiptype;
++	u8 part_id;
+ 	u8 if_port;
+ 	u32 if_frequency;
+ 	u32 bandwidth;
+@@ -58,11 +58,6 @@ struct si2157_tuner_info {
+ 	const char		*fw_name, *fw_alt_name;
+ };
+ 
+-#define SI2157_CHIPTYPE_SI2157 0
+-#define SI2157_CHIPTYPE_SI2146 1
+-#define SI2157_CHIPTYPE_SI2141 2
+-#define SI2157_CHIPTYPE_SI2177 3
+-
+ /* firmware command struct */
+ #define SI2157_ARGLEN      30
+ struct si2157_cmd {
+-- 
+2.33.1
+
+
