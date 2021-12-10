@@ -2,75 +2,141 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C8BB3470718
-	for <lists+linux-media@lfdr.de>; Fri, 10 Dec 2021 18:27:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 301B047085B
+	for <lists+linux-media@lfdr.de>; Fri, 10 Dec 2021 19:17:28 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244580AbhLJRai (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 10 Dec 2021 12:30:38 -0500
-Received: from mailgw01.mediatek.com ([60.244.123.138]:43206 "EHLO
-        mailgw01.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
-        with ESMTP id S244460AbhLJRad (ORCPT
+        id S242073AbhLJSVB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 10 Dec 2021 13:21:01 -0500
+Received: from mail-oi1-f179.google.com ([209.85.167.179]:44991 "EHLO
+        mail-oi1-f179.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S236861AbhLJSVB (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 10 Dec 2021 12:30:33 -0500
-X-UUID: 8a66b5db05b54330990f2211af852f73-20211211
-X-UUID: 8a66b5db05b54330990f2211af852f73-20211211
-Received: from mtkexhb02.mediatek.inc [(172.21.101.103)] by mailgw01.mediatek.com
-        (envelope-from <flora.fu@mediatek.com>)
-        (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
-        with ESMTP id 1049938422; Sat, 11 Dec 2021 01:26:55 +0800
-Received: from mtkcas10.mediatek.inc (172.21.101.39) by
- mtkmbs07n2.mediatek.inc (172.21.101.141) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Sat, 11 Dec 2021 01:26:53 +0800
-Received: from mtksdccf07.mediatek.inc (172.21.84.99) by mtkcas10.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Sat, 11 Dec 2021 01:26:52 +0800
-From:   Flora Fu <flora.fu@mediatek.com>
-To:     Matthias Brugger <matthias.bgg@gmail.com>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Mark Brown <broonie@kernel.org>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        Yong Wu <yong.wu@mediatek.com>,
-        Pi-Cheng Chen <pi-cheng.chen@mediatek.com>
-CC:     <linux-arm-kernel@lists.infradead.org>,
-        <linux-mediatek@lists.infradead.org>,
-        <linux-kernel@vger.kernel.org>, <linux-media@vger.kernel.org>,
-        <dri-devel@lists.freedesktop.org>,
-        <linaro-mm-sig@lists.linaro.org>, Flora Fu <flora.fu@mediatek.com>,
-        JB Tsai <jb.tsai@mediatek.com>
-Subject: [PATCH 17/17] arm64: dts: mt8192: Set up regulators for APU subsys
-Date:   Sat, 11 Dec 2021 01:26:05 +0800
-Message-ID: <20211210172605.30618-18-flora.fu@mediatek.com>
-X-Mailer: git-send-email 2.18.0
-In-Reply-To: <20211210172605.30618-1-flora.fu@mediatek.com>
-References: <20211210172605.30618-1-flora.fu@mediatek.com>
+        Fri, 10 Dec 2021 13:21:01 -0500
+Received: by mail-oi1-f179.google.com with SMTP id be32so14272730oib.11;
+        Fri, 10 Dec 2021 10:17:25 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=YU9YCbZbDktrwFwYhXC085Scw8TfNhTNhBZqDcowh58=;
+        b=2LVjZJyHC0bzx2BkJAb0Cm1VRMu1LuzLm69vTEyVoyl28sBTPhrsz4MjkOX1TIriOM
+         UDRa4oyC7Xn84PCypw+esFRELdoUY719T1TOgQKhavbnMRpiI+vhfggsZyPkHu0U9atr
+         PR283SAEBY1bSqBdpeXpIxUBqhN6vCzIAl8yQXlQ9WFTtDWmKZn+9/5vQN1lKVg9tcSh
+         wAMERXlr9AILLVeB+U4G+cUdxJ9BXJIZjWIMSxDkxxMDHEzf3SL8p/7S5s1AEOfsJK3V
+         W2e37I8dX60CU4/A4sTu+9792RnQiy6HawkCS58YX2u+T8O0oA82RCjlg6Eu1iV6mjO2
+         kJ7Q==
+X-Gm-Message-State: AOAM531WBz3H2q+Dc3owQkCIbLYw0oEEGnYhcbHFNY7jBBohKN+Uqszr
+        JGF6S/kQUNcATYRKJv3Dxwktm7jVHA==
+X-Google-Smtp-Source: ABdhPJyvpSgennWM9D8Uf+LQaqbHK2gVSasZ6S9vGBlFwcRSN30Q22MHR58rfH44QR08viRIKDt9jQ==
+X-Received: by 2002:a54:4692:: with SMTP id k18mr13899661oic.93.1639160245462;
+        Fri, 10 Dec 2021 10:17:25 -0800 (PST)
+Received: from robh.at.kernel.org (66-90-148-213.dyn.grandenetworks.net. [66.90.148.213])
+        by smtp.gmail.com with ESMTPSA id bq5sm930460oib.55.2021.12.10.10.17.22
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 10 Dec 2021 10:17:24 -0800 (PST)
+Received: (nullmailer pid 1641340 invoked by uid 1000);
+        Fri, 10 Dec 2021 18:17:21 -0000
+Date:   Fri, 10 Dec 2021 12:17:21 -0600
+From:   Rob Herring <robh@kernel.org>
+To:     Moudy Ho <moudy.ho@mediatek.com>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Jernej Skrabec <jernej.skrabec@siol.net>,
+        Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Rob Landley <rob@landley.net>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
+        Alexandre Courbot <acourbot@chromium.org>, tfiga@chromium.org,
+        drinkcat@chromium.org, pihsun@chromium.org, hsinyi@google.com,
+        AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>,
+        Maoguang Meng <maoguang.meng@mediatek.com>,
+        daoyuan huang <daoyuan.huang@mediatek.com>,
+        Ping-Hsun Wu <ping-hsun.wu@mediatek.com>,
+        menghui.lin@mediatek.com, sj.huang@mediatek.com,
+        allen-kh.cheng@mediatek.com, randy.wu@mediatek.com,
+        jason-jh.lin@mediatek.com, roy-cw.yeh@mediatek.com,
+        river.cheng@mediatek.com, srv_heupstream@mediatek.com
+Subject: Re: [PATCH v10 1/3] dt-binding: mt8183: add Mediatek MDP3 dt-bindings
+Message-ID: <YbOZsd+zNmwOpB4x@robh.at.kernel.org>
+References: <20211202062733.20338-1-moudy.ho@mediatek.com>
+ <20211202062733.20338-2-moudy.ho@mediatek.com>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-MTK:  N
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20211202062733.20338-2-moudy.ho@mediatek.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Set up APU regulators for mdla and vvpu.
+On Thu, Dec 02, 2021 at 02:27:31PM +0800, Moudy Ho wrote:
+> This patch adds DT binding document for Media Data Path 3 (MDP3)
+> a unit in multimedia system used for scaling and color format convert.
+> 
+> Signed-off-by: Moudy Ho <moudy.ho@mediatek.com>
+> ---
+>  .../bindings/media/mediatek,mdp3-rsz.yaml     |  65 ++++++
+>  .../bindings/media/mediatek,mdp3-wrot.yaml    |  67 ++++++
+>  .../bindings/soc/mediatek/mediatek,ccorr.yaml |  57 +++++
+>  .../bindings/soc/mediatek/mediatek,rdma.yaml  | 216 ++++++++++++++++++
+>  .../bindings/soc/mediatek/mediatek,wdma.yaml  |  68 ++++++
+>  5 files changed, 473 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/media/mediatek,mdp3-rsz.yaml
+>  create mode 100644 Documentation/devicetree/bindings/media/mediatek,mdp3-wrot.yaml
+>  create mode 100644 Documentation/devicetree/bindings/soc/mediatek/mediatek,ccorr.yaml
+>  create mode 100644 Documentation/devicetree/bindings/soc/mediatek/mediatek,rdma.yaml
+>  create mode 100644 Documentation/devicetree/bindings/soc/mediatek/mediatek,wdma.yaml
 
-Signed-off-by: Flora Fu <flora.fu@mediatek.com>
+I'm not a fan of bindings/soc/ either. Put everything in 
+bindings/media/. What's the difference between these blocks here and 
+the version used for display? If they are the same h/w, then the binding 
+needs to be the same. How they get used is the kernel's problem. 
 
----
- arch/arm64/boot/dts/mediatek/mt8192-evb.dts | 5 +++++
- 1 file changed, 5 insertions(+)
+It looks like the display ccorr, rdma, and wdma aren't documented. Fix 
+that before you add new stuff.
 
-diff --git a/arch/arm64/boot/dts/mediatek/mt8192-evb.dts b/arch/arm64/boot/dts/mediatek/mt8192-evb.dts
-index 5d9e108e41f5..431008466d77 100644
---- a/arch/arm64/boot/dts/mediatek/mt8192-evb.dts
-+++ b/arch/arm64/boot/dts/mediatek/mt8192-evb.dts
-@@ -35,3 +35,8 @@
- 		domain-supply = <&mt6359_vproc1_buck_reg>;
- 	};
- };
-+
-+&apusys_power {
-+	vvpu-supply = <&mt6359_vproc1_buck_reg>;
-+	vmdla-supply = <&mt6359_vproc2_buck_reg>;
-+};
--- 
-2.18.0
 
+> diff --git a/Documentation/devicetree/bindings/media/mediatek,mdp3-rsz.yaml b/Documentation/devicetree/bindings/media/mediatek,mdp3-rsz.yaml
+> new file mode 100644
+> index 000000000000..d7f104a0f165
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/media/mediatek,mdp3-rsz.yaml
+> @@ -0,0 +1,65 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/media/mediatek,mdp3-rsz.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Mediatek Resizer
+> +
+> +maintainers:
+> +  - Matthias Brugger <matthias.bgg@gmail.com>
+> +
+> +description: |
+> +  One of Media Data Path 3 (MDP3) components used to do frame resizing.
+> +
+> +properties:
+> +  compatible:
+> +    items:
+> +      - enum:
+> +          - mediatek,mt8183-mdp3-rsz
+> +
+> +  mediatek,mdp3-id:
+> +    description: There may be multiple components with the same function but
+> +      different addresses in MDP3. The MDP3 driver can select one or zero of
+> +      them and connect other components in series according to the current
+> +      application to form one or more data paths. This property indicate the
+> +      selection order of the same components.
+> +    $ref: /schemas/types.yaml#/definitions/uint32
+> +    enum: [0, 1, 2, 3]
+
+Again, an index nor an alias is the right approach for this. Use DT 
+graph like others do. 'It's too complicated' is not a reason unless you 
+show how and why it won't work.
+
+Rob
