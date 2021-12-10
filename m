@@ -2,141 +2,117 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 301B047085B
-	for <lists+linux-media@lfdr.de>; Fri, 10 Dec 2021 19:17:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E311B4708DE
+	for <lists+linux-media@lfdr.de>; Fri, 10 Dec 2021 19:33:09 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242073AbhLJSVB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 10 Dec 2021 13:21:01 -0500
-Received: from mail-oi1-f179.google.com ([209.85.167.179]:44991 "EHLO
-        mail-oi1-f179.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236861AbhLJSVB (ORCPT
+        id S245407AbhLJSgn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 10 Dec 2021 13:36:43 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58424 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232658AbhLJSgn (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 10 Dec 2021 13:21:01 -0500
-Received: by mail-oi1-f179.google.com with SMTP id be32so14272730oib.11;
-        Fri, 10 Dec 2021 10:17:25 -0800 (PST)
+        Fri, 10 Dec 2021 13:36:43 -0500
+Received: from mail-ed1-x536.google.com (mail-ed1-x536.google.com [IPv6:2a00:1450:4864:20::536])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E129AC061746
+        for <linux-media@vger.kernel.org>; Fri, 10 Dec 2021 10:33:07 -0800 (PST)
+Received: by mail-ed1-x536.google.com with SMTP id t5so32315877edd.0
+        for <linux-media@vger.kernel.org>; Fri, 10 Dec 2021 10:33:07 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=vanguardiasur-com-ar.20210112.gappssmtp.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=R+5wfzvY98r911pdlNHS5MRZhjqkHPF9SqDy5RQ+nGs=;
+        b=0FrAeyHRpiQDLNRCH38LGYEW5OlercFk3DROOyI+5MF4Aiw8BvLF+GCTJpv3NKxJy8
+         w6XzrFa0A4VvMMlEU5z/Z298tMnaEJKBq6VeGIjX+thf/iO5KbDMg1BG2s0ux0pQV0XL
+         L0w0pukiLEDpC5eKc8vPyhFf4+3+6sceGamqAVhs5Kn+fhrwpRXew7EnfGZfjV1KOpOo
+         GsbDXtupxwNXVLa7onRj0aOr7ByIMeeLVr8b9i5Ih2ez3BMkuu+Noz8qQcPqLFM956T3
+         mU1cLd9j/5Aeb5XROTdKgsLG6YeZUnyInnb8MjJCX3TEKg+E78spgZbNmQA8jGbD++MV
+         Xm+g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=YU9YCbZbDktrwFwYhXC085Scw8TfNhTNhBZqDcowh58=;
-        b=2LVjZJyHC0bzx2BkJAb0Cm1VRMu1LuzLm69vTEyVoyl28sBTPhrsz4MjkOX1TIriOM
-         UDRa4oyC7Xn84PCypw+esFRELdoUY719T1TOgQKhavbnMRpiI+vhfggsZyPkHu0U9atr
-         PR283SAEBY1bSqBdpeXpIxUBqhN6vCzIAl8yQXlQ9WFTtDWmKZn+9/5vQN1lKVg9tcSh
-         wAMERXlr9AILLVeB+U4G+cUdxJ9BXJIZjWIMSxDkxxMDHEzf3SL8p/7S5s1AEOfsJK3V
-         W2e37I8dX60CU4/A4sTu+9792RnQiy6HawkCS58YX2u+T8O0oA82RCjlg6Eu1iV6mjO2
-         kJ7Q==
-X-Gm-Message-State: AOAM531WBz3H2q+Dc3owQkCIbLYw0oEEGnYhcbHFNY7jBBohKN+Uqszr
-        JGF6S/kQUNcATYRKJv3Dxwktm7jVHA==
-X-Google-Smtp-Source: ABdhPJyvpSgennWM9D8Uf+LQaqbHK2gVSasZ6S9vGBlFwcRSN30Q22MHR58rfH44QR08viRIKDt9jQ==
-X-Received: by 2002:a54:4692:: with SMTP id k18mr13899661oic.93.1639160245462;
-        Fri, 10 Dec 2021 10:17:25 -0800 (PST)
-Received: from robh.at.kernel.org (66-90-148-213.dyn.grandenetworks.net. [66.90.148.213])
-        by smtp.gmail.com with ESMTPSA id bq5sm930460oib.55.2021.12.10.10.17.22
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 10 Dec 2021 10:17:24 -0800 (PST)
-Received: (nullmailer pid 1641340 invoked by uid 1000);
-        Fri, 10 Dec 2021 18:17:21 -0000
-Date:   Fri, 10 Dec 2021 12:17:21 -0600
-From:   Rob Herring <robh@kernel.org>
-To:     Moudy Ho <moudy.ho@mediatek.com>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Jernej Skrabec <jernej.skrabec@siol.net>,
-        Chun-Kuang Hu <chunkuang.hu@kernel.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Rob Landley <rob@landley.net>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
-        Alexandre Courbot <acourbot@chromium.org>, tfiga@chromium.org,
-        drinkcat@chromium.org, pihsun@chromium.org, hsinyi@google.com,
-        AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>,
-        Maoguang Meng <maoguang.meng@mediatek.com>,
-        daoyuan huang <daoyuan.huang@mediatek.com>,
-        Ping-Hsun Wu <ping-hsun.wu@mediatek.com>,
-        menghui.lin@mediatek.com, sj.huang@mediatek.com,
-        allen-kh.cheng@mediatek.com, randy.wu@mediatek.com,
-        jason-jh.lin@mediatek.com, roy-cw.yeh@mediatek.com,
-        river.cheng@mediatek.com, srv_heupstream@mediatek.com
-Subject: Re: [PATCH v10 1/3] dt-binding: mt8183: add Mediatek MDP3 dt-bindings
-Message-ID: <YbOZsd+zNmwOpB4x@robh.at.kernel.org>
-References: <20211202062733.20338-1-moudy.ho@mediatek.com>
- <20211202062733.20338-2-moudy.ho@mediatek.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=R+5wfzvY98r911pdlNHS5MRZhjqkHPF9SqDy5RQ+nGs=;
+        b=TqNK/q7Vd8IGws1W1A/ByJJ2QEBO2P2pFNmpaMFObFUqLNTbT1KAZfaAv5nllBLkz1
+         bbAQ2c1GjPvxKsJvPTeVlKL4byFKHb1RKYcicdP5T7QGESpvVMRpfBjUCHPdr4zlahL8
+         2fTFVo7YYflU9H4MaFE7WUiHzy6gd9q1rP5KAo4BotNMV9LvKAuWzDNRuiBaPgqgrfdb
+         Wk+2CdvObqSotj1A3CZv5umHMNR7ME4+pY63s9Ebv+n9KxhiTmn3F6HgXpqcaewyBXBX
+         uL20a3LEdHUdKgu40zsKkYkDB7HTHct3tQPYhORQL4ANMsLvU1MjY2CX0dzWcg5lV94B
+         wI/w==
+X-Gm-Message-State: AOAM531OpUFxfLChFMS/XUscW/uQM+6TFcgbndv0GuziNnn/Nd7F148/
+        BmCw2rwr+YC/X+svHIOKBops9GgyQi15FoYt7tZcqQ==
+X-Google-Smtp-Source: ABdhPJw2lS/O2yAfLVTw6WVq78ELyMdt5/AEs5anuvPRPowAgkoa3NmZtsHE2c0DEj0r6fuPtxiB7KX0gypvQotrn6Q=
+X-Received: by 2002:aa7:c30e:: with SMTP id l14mr40506518edq.370.1639161186439;
+ Fri, 10 Dec 2021 10:33:06 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20211202062733.20338-2-moudy.ho@mediatek.com>
+References: <20211208225030.2018923-1-aford173@gmail.com> <20211208225030.2018923-5-aford173@gmail.com>
+ <YbHZvysazqYeZ8h3@eze-laptop> <CAHCN7xKrHSSsqS9DNL1tMH1Ctpz16FsSgcVbSHXzUWF98v738Q@mail.gmail.com>
+ <YbNz94G3vwbHCMdB@robh.at.kernel.org> <c88b7a90f7a3bf94fc0cbb9a6f967ce769d5c03b.camel@pengutronix.de>
+ <CAHCN7xLQrYy6H3U_yjCevu7F3AtEJJNbA7gdig=dn08hQfXCUA@mail.gmail.com>
+In-Reply-To: <CAHCN7xLQrYy6H3U_yjCevu7F3AtEJJNbA7gdig=dn08hQfXCUA@mail.gmail.com>
+From:   Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
+Date:   Fri, 10 Dec 2021 15:32:54 -0300
+Message-ID: <CAAEAJfAuH_cupFkEN=5M3fy-JJ401EB3f2-6yvXFt9zJ4rYW4A@mail.gmail.com>
+Subject: Re: [PATCH 04/10] dt-bindings: media: nxp,imx8mq-vpu: Support split
+ G1 and G2 nodes with vpu-blk-ctrl
+To:     Adam Ford <aford173@gmail.com>
+Cc:     Lucas Stach <l.stach@pengutronix.de>,
+        Rob Herring <robh@kernel.org>,
+        linux-media <linux-media@vger.kernel.org>,
+        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+        Chris Healy <cphealy@gmail.com>,
+        Adam Ford-BE <aford@beaconembedded.com>,
+        Nicolas Dufresne <nicolas@ndufresne.ca>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "open list:HANTRO VPU CODEC DRIVER" 
+        <linux-rockchip@lists.infradead.org>,
+        devicetree <devicetree@vger.kernel.org>,
+        arm-soc <linux-arm-kernel@lists.infradead.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        "open list:STAGING SUBSYSTEM" <linux-staging@lists.linux.dev>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, Dec 02, 2021 at 02:27:31PM +0800, Moudy Ho wrote:
-> This patch adds DT binding document for Media Data Path 3 (MDP3)
-> a unit in multimedia system used for scaling and color format convert.
-> 
-> Signed-off-by: Moudy Ho <moudy.ho@mediatek.com>
-> ---
->  .../bindings/media/mediatek,mdp3-rsz.yaml     |  65 ++++++
->  .../bindings/media/mediatek,mdp3-wrot.yaml    |  67 ++++++
->  .../bindings/soc/mediatek/mediatek,ccorr.yaml |  57 +++++
->  .../bindings/soc/mediatek/mediatek,rdma.yaml  | 216 ++++++++++++++++++
->  .../bindings/soc/mediatek/mediatek,wdma.yaml  |  68 ++++++
->  5 files changed, 473 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/media/mediatek,mdp3-rsz.yaml
->  create mode 100644 Documentation/devicetree/bindings/media/mediatek,mdp3-wrot.yaml
->  create mode 100644 Documentation/devicetree/bindings/soc/mediatek/mediatek,ccorr.yaml
->  create mode 100644 Documentation/devicetree/bindings/soc/mediatek/mediatek,rdma.yaml
->  create mode 100644 Documentation/devicetree/bindings/soc/mediatek/mediatek,wdma.yaml
+> >
+> > I'm in favor of dropping the old binding from the schema. New DTs
+> > should clearly use the new binding and old DTs shouldn't change
+> > anymore, so validation is less useful there.
+>
+> I wonder if it makes sense to have a more standardized hantro schema
+> for all the users instead of one dedicated to each platform using a
+> hantro driver.  The unified schema could have all the various
+> compatible flags so the driver still knows which features are
+> enabled/disabled and it's very clear who all the users are for it. I
+> would think it could cover both the encoder and decoder variants as
+> well.  We do something similar for 8250 serial ports.
+>
+> If so, can someone from the media group suggest the best one to
+> follow?  Ezequiel suggested I look at the sama5d4-vdec to help reduce
+> some clutter in the driver.  If that binding is good enough, should I
+> just add the compatible flags to that and potentially rename it.
+>
 
-I'm not a fan of bindings/soc/ either. Put everything in 
-bindings/media/. What's the difference between these blocks here and 
-the version used for display? If they are the same h/w, then the binding 
-needs to be the same. How they get used is the kernel's problem. 
+A unified schema might sound elegant and compelling, but I suspect
+it can bite us down the road, due to differences in the platform integration.
 
-It looks like the display ccorr, rdma, and wdma aren't documented. Fix 
-that before you add new stuff.
+Seems we are all on-board going forward with a patch similar to this one,
+but also dropping the deprecated binding from the schema (while of course
+still supporting old DTBs on new kernels).
 
+Rob's suggestion about having a warning in the platform if the binding has
+not been updated, sounds like very useful too.
 
-> diff --git a/Documentation/devicetree/bindings/media/mediatek,mdp3-rsz.yaml b/Documentation/devicetree/bindings/media/mediatek,mdp3-rsz.yaml
-> new file mode 100644
-> index 000000000000..d7f104a0f165
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/media/mediatek,mdp3-rsz.yaml
-> @@ -0,0 +1,65 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/media/mediatek,mdp3-rsz.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Mediatek Resizer
-> +
-> +maintainers:
-> +  - Matthias Brugger <matthias.bgg@gmail.com>
-> +
-> +description: |
-> +  One of Media Data Path 3 (MDP3) components used to do frame resizing.
-> +
-> +properties:
-> +  compatible:
-> +    items:
-> +      - enum:
-> +          - mediatek,mt8183-mdp3-rsz
-> +
-> +  mediatek,mdp3-id:
-> +    description: There may be multiple components with the same function but
-> +      different addresses in MDP3. The MDP3 driver can select one or zero of
-> +      them and connect other components in series according to the current
-> +      application to form one or more data paths. This property indicate the
-> +      selection order of the same components.
-> +    $ref: /schemas/types.yaml#/definitions/uint32
-> +    enum: [0, 1, 2, 3]
+Keep in mind v5.16-rc5 is near, which means we still have a few weeks to
+discuss this patch, until the next linux-media merge season.
 
-Again, an index nor an alias is the right approach for this. Use DT 
-graph like others do. 'It's too complicated' is not a reason unless you 
-show how and why it won't work.
-
-Rob
+Thanks,
+Ezequiel
