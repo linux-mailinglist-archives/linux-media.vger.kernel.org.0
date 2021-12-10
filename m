@@ -2,120 +2,170 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B41A746F957
-	for <lists+linux-media@lfdr.de>; Fri, 10 Dec 2021 03:47:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C9E7646FA8A
+	for <lists+linux-media@lfdr.de>; Fri, 10 Dec 2021 06:59:31 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236163AbhLJCu7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 9 Dec 2021 21:50:59 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37422 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236135AbhLJCu7 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 9 Dec 2021 21:50:59 -0500
-Received: from mail-pj1-x1032.google.com (mail-pj1-x1032.google.com [IPv6:2607:f8b0:4864:20::1032])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0CB27C061746;
-        Thu,  9 Dec 2021 18:47:25 -0800 (PST)
-Received: by mail-pj1-x1032.google.com with SMTP id f18-20020a17090aa79200b001ad9cb23022so6395738pjq.4;
-        Thu, 09 Dec 2021 18:47:25 -0800 (PST)
+        id S236845AbhLJGDE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 10 Dec 2021 01:03:04 -0500
+Received: from ewsoutbound.kpnmail.nl ([195.121.94.167]:51090 "EHLO
+        ewsoutbound.kpnmail.nl" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232524AbhLJGDE (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Fri, 10 Dec 2021 01:03:04 -0500
+X-KPN-MessageId: 46c0babe-597e-11ec-9a2e-005056abbe64
+Received: from smtp.kpnmail.nl (unknown [10.31.155.37])
+        by ewsoutbound.so.kpn.org (Halon) with ESMTPS
+        id 46c0babe-597e-11ec-9a2e-005056abbe64;
+        Fri, 10 Dec 2021 06:59:02 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=HFjP5yys5IDHQWYAUzGuN/Cv6LM+IWrecQEiC4DzVFU=;
-        b=O1087wv/kihX7s74BGkNcBvX3ArBLzG46naDUvSZLzF1Q7am8XFE0hA7jm+dGQHila
-         Uex59Duj+48yP/NYfaa8AFhu2IjAPRiBpDRSzJJMvjtqnY8BBGp8B5deL0hzUAxpUl24
-         JGBbjIXZOoOKNByInD64BS/fJNCDCLh56yapBNSd0uNH4j/y/LmoSt0HZz3THgPGPLrv
-         DNMe7uELo6PbaYlddHX5UWRpl0Vfc7HJ9p/XLhOdYJ2NUaoZUkkMGTTtMltIOgV81+n4
-         GQ2gFMV93v3UAXPeIEWeVFAtPuaxFck3FYGnNwn+LpwH2sX9tERmhcLF7ZOp0CjMNAxN
-         x1Sw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=HFjP5yys5IDHQWYAUzGuN/Cv6LM+IWrecQEiC4DzVFU=;
-        b=M1kyItp8OsZOrOI7WgImRwROP4kc883dSPJUEzHZ1VPACO/RaaQmORb1Ea6st8c5Np
-         NEyXBfosCJdOCYxhjIEBV20L22c+vYVHCj5zwX5SmW+YFJVp8hmk9uipFEOkz+bOMF6F
-         O+9ulcxewPGDDUZtY783wAX6/P08NBvMlBCoMyELZGRPTamwckpOZ1c9xd1bqckMioFC
-         s86AC4d4oVH8vc5DABH04ah8XRhYQEIOfEWJlFez5SkCXSrvB/y1Cc8l4hkqm5b1uJFM
-         Vo+DeBMR2EVLmBsAUuV6r/REYVGI6b1yvneWAe04ojTvj9v6mPbMbf+ljkYTiIEg196t
-         EVkA==
-X-Gm-Message-State: AOAM53066d5acncYnTqGB0hCmw9uE8ERnke5SWZGkzApVgp9lj53nOoA
-        zzNQO35n1lYHCHof4jszECY=
-X-Google-Smtp-Source: ABdhPJyaVfUp3xVppisHdyvCrx0MGagHrEA5QOR43Ab/35cJQ5/B4IbC4ohc+GDBia5uELf6OnFHYA==
-X-Received: by 2002:a17:90b:17cc:: with SMTP id me12mr20490287pjb.179.1639104444655;
-        Thu, 09 Dec 2021 18:47:24 -0800 (PST)
-Received: from localhost.localdomain ([193.203.214.57])
-        by smtp.gmail.com with ESMTPSA id y25sm1022220pfa.12.2021.12.09.18.47.23
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 09 Dec 2021 18:47:24 -0800 (PST)
-From:   cgel.zte@gmail.com
-X-Google-Original-From: chi.minghao@zte.com.cn
-To:     dwlsalmeida@gmail.com
-Cc:     mchehab@kernel.org, linux-media@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Minghao Chi <chi.minghao@zte.com.cn>,
-        Zeal Robot <zealci@zte.com.cm>
-Subject: [PATCH] media:vidtv: remove unneeded variable make code cleaner
-Date:   Fri, 10 Dec 2021 02:47:21 +0000
-Message-Id: <20211210024721.425145-1-chi.minghao@zte.com.cn>
-X-Mailer: git-send-email 2.25.1
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+        d=xs4all.nl; s=xs4all01;
+        h=subject:to:from:date:message-id;
+        bh=MSzI1lANEfyXOLr01ymAWICAhCWeyj0JyTfpm7SCr5E=;
+        b=pYPpgqQ4ZtRADCkSZupasRmp6yBBMAKgVgCwjGTHewlko4UchwVVSWNDXuZMMH6GfZz4Ois21aRE8
+         CPm455OrrKf2zTF830r65sUr+eQicQHtgqmHZ56+vHna1T8wT60eIn9hNd3PQDUYIk+j1/XFCAWOoU
+         tefld7UKvz6J19hScgEPm6zO+2CGitXyryz5BR+9L7bvWgZKsI+p3VMZwb6aUsVQzNR6LiIXoqmsJm
+         4puWVUtQkKAvyQPuGP2nIuZxp7bcfzlDJluyF/XPNefRswuER0HKbj/f9q3YHBpu5PgpEAMWDXPKvM
+         Q2JSGMB/NiEwW1NTessKrfACd4pNOdg==
+Message-ID: <55f84f23-597e-11ec-83ab-005056ab1411@smtp.kpnmail.nl>
+X-KPN-VerifiedSender: Yes
+X-CMASSUN: 33|6zoF6Jo4rlHINO0ePUYajNwapx0knK3yZfayAJr2NnBbphK8lf+1g5UxiBVbvVk
+ HmkTkb9BaBL6u9cBxHWybGA==
+X-Originating-IP: 193.91.129.219
+Received: from localhost (cdb815bc1.dhcp.as2116.net [193.91.129.219])
+        by smtp.xs4all.nl (Halon) with ESMTPSA
+        id 559d4b55-597e-11ec-83ab-005056ab1411;
+        Fri, 10 Dec 2021 06:59:28 +0100 (CET)
+Date:   Fri, 10 Dec 2021 06:59:27 +0100
+From:   "Hans Verkuil" <hverkuil@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: WARNINGS
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Minghao Chi <chi.minghao@zte.com.cn>
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
 
-return value form directly instead of
-taking this in another redundant variable.
+Results of the daily build of media_tree:
 
-Reported-by: Zeal Robot <zealci@zte.com.cm>
-Signed-off-by: Minghao Chi <chi.minghao@zte.com.cn>
----
- drivers/media/test-drivers/vidtv/vidtv_psi.c | 12 +++---------
- 1 file changed, 3 insertions(+), 9 deletions(-)
+date:			Fri Dec 10 05:00:15 CET 2021
+media-tree git hash:	9b4d7b5c81a2578e080da33b5cddc3149fa611aa
+media_build git hash:	c5c30e768ef3b757da479220d7a389470c3ad978
+v4l-utils git hash:	85ed37cf472bb4f67702fb8d42992f164c36a007
+edid-decode git hash:	6514c9d9b18160fe9f09d3d70f99dda85d6fca71
+gcc version:		i686-linux-gcc (GCC) 11.2.0
+sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
+sparse version:		0.6.3
+smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
+smatch version:		0.6.3
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: 72fe2e990921b3757e47e6f3ea4ce8c076021161
+host hardware:		x86_64
+host os:		5.15.0-2-amd64
 
-diff --git a/drivers/media/test-drivers/vidtv/vidtv_psi.c b/drivers/media/test-drivers/vidtv/vidtv_psi.c
-index c11ac8dca73d..a5875380ef40 100644
---- a/drivers/media/test-drivers/vidtv/vidtv_psi.c
-+++ b/drivers/media/test-drivers/vidtv/vidtv_psi.c
-@@ -94,34 +94,28 @@ static void vidtv_psi_update_version_num(struct vidtv_psi_table_header *h)
- static u16 vidtv_psi_get_sec_len(struct vidtv_psi_table_header *h)
- {
- 	u16 mask;
--	u16 ret;
- 
- 	mask = GENMASK(11, 0);
- 
--	ret = be16_to_cpu(h->bitfield) & mask;
--	return ret;
-+	return be16_to_cpu(h->bitfield) & mask;
- }
- 
- u16 vidtv_psi_get_pat_program_pid(struct vidtv_psi_table_pat_program *p)
- {
- 	u16 mask;
--	u16 ret;
- 
- 	mask = GENMASK(12, 0);
- 
--	ret = be16_to_cpu(p->bitfield) & mask;
--	return ret;
-+	return be16_to_cpu(p->bitfield) & mask;
- }
- 
- u16 vidtv_psi_pmt_stream_get_elem_pid(struct vidtv_psi_table_pmt_stream *s)
- {
- 	u16 mask;
--	u16 ret;
- 
- 	mask = GENMASK(12, 0);
- 
--	ret = be16_to_cpu(s->bitfield) & mask;
--	return ret;
-+	return be16_to_cpu(s->bitfield) & mask;
- }
- 
- static void vidtv_psi_set_desc_loop_len(__be16 *bitfield, u16 new_len,
--- 
-2.25.1
+linux-git-sh: OK
+linux-git-arm-at91: OK
+linux-git-arm-davinci: OK
+linux-git-mips: OK
+linux-git-arm-stm32: OK
+linux-git-arm-pxa: OK
+linux-git-arm-multi: OK
+linux-git-arm64: OK
+linux-git-powerpc64: OK
+linux-git-i686: OK
+linux-git-x86_64: OK
+Check COMPILE_TEST: OK
+Check for strcpy/strncpy/strlcpy: OK
+linux-4.4.283-i686: OK
+linux-4.4.283-x86_64: OK
+linux-4.5.7-i686: OK
+linux-4.5.7-x86_64: OK
+linux-4.6.7-i686: OK
+linux-4.6.7-x86_64: OK
+linux-4.7.10-i686: OK
+linux-4.7.10-x86_64: OK
+linux-4.8.17-i686: OK
+linux-4.8.17-x86_64: OK
+linux-4.9.246-i686: OK
+linux-4.9.246-x86_64: OK
+linux-4.10.17-i686: OK
+linux-4.10.17-x86_64: OK
+linux-4.11.12-i686: OK
+linux-4.11.12-x86_64: OK
+linux-4.12.14-i686: OK
+linux-4.12.14-x86_64: OK
+linux-4.13.16-i686: OK
+linux-4.13.16-x86_64: OK
+linux-4.14.246-i686: OK
+linux-4.14.246-x86_64: OK
+linux-4.15.18-i686: OK
+linux-4.15.18-x86_64: OK
+linux-4.16.18-i686: OK
+linux-4.16.18-x86_64: OK
+linux-4.17.19-i686: OK
+linux-4.17.19-x86_64: OK
+linux-4.18.20-i686: OK
+linux-4.18.20-x86_64: OK
+linux-4.19.206-i686: OK
+linux-4.19.206-x86_64: OK
+linux-4.20.17-i686: OK
+linux-4.20.17-x86_64: OK
+linux-5.0.21-i686: OK
+linux-5.0.21-x86_64: OK
+linux-5.1.21-i686: OK
+linux-5.1.21-x86_64: OK
+linux-5.2.21-i686: OK
+linux-5.2.21-x86_64: OK
+linux-5.3.18-i686: OK
+linux-5.3.18-x86_64: OK
+linux-5.4.144-i686: OK
+linux-5.4.144-x86_64: OK
+linux-5.5.19-i686: OK
+linux-5.5.19-x86_64: OK
+linux-5.6.19-i686: OK
+linux-5.6.19-x86_64: OK
+linux-5.7.19-i686: OK
+linux-5.7.19-x86_64: OK
+linux-5.8.18-i686: OK
+linux-5.8.18-x86_64: OK
+linux-5.9.16-i686: OK
+linux-5.9.16-x86_64: OK
+linux-5.10.62-i686: OK
+linux-5.10.62-x86_64: OK
+linux-5.11.22-i686: OK
+linux-5.11.22-x86_64: OK
+linux-5.12.19-i686: OK
+linux-5.12.19-x86_64: OK
+linux-5.13.14-i686: OK
+linux-5.13.14-x86_64: OK
+linux-5.14.1-i686: OK
+linux-5.14.1-x86_64: OK
+linux-5.15.1-i686: OK
+linux-5.15.1-x86_64: OK
+linux-5.16-rc1-i686: OK
+linux-5.16-rc1-x86_64: OK
+apps: OK
+spec-git: OK
+virtme: Warnings: Final Summary: 2989, Succeeded: 2989, Failed: 0, Warnings: 1
+virtme-32: Warnings: Final Summary: 3100, Succeeded: 3100, Failed: 0, Warnings: 3
+sparse: WARNINGS
+smatch: WARNINGS
+kerneldoc: WARNINGS
 
+Detailed results are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Friday.log
+
+Detailed regression test results are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Friday-test-media.log
+http://www.xs4all.nl/~hverkuil/logs/Friday-test-media-32.log
+http://www.xs4all.nl/~hverkuil/logs/Friday-test-media-dmesg.log
+
+Full logs are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Friday.tar.bz2
+
+The Media Infrastructure API from this daily build is here:
+
+http://www.xs4all.nl/~hverkuil/spec/index.html
