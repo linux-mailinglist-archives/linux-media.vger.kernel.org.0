@@ -2,202 +2,133 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4AD1B46FC36
-	for <lists+linux-media@lfdr.de>; Fri, 10 Dec 2021 09:00:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 25B6146FD17
+	for <lists+linux-media@lfdr.de>; Fri, 10 Dec 2021 09:56:39 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237958AbhLJIDd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 10 Dec 2021 03:03:33 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49814 "EHLO
+        id S238798AbhLJJAL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 10 Dec 2021 04:00:11 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34542 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231806AbhLJIDd (ORCPT
+        with ESMTP id S238778AbhLJJAJ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 10 Dec 2021 03:03:33 -0500
-Received: from sin.source.kernel.org (sin.source.kernel.org [IPv6:2604:1380:40e1:4800::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6FBDFC061746;
-        Thu,  9 Dec 2021 23:59:58 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by sin.source.kernel.org (Postfix) with ESMTPS id 8F6F5CE2A2C;
-        Fri, 10 Dec 2021 07:59:56 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B87D0C341C8;
-        Fri, 10 Dec 2021 07:59:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1639123194;
-        bh=Nf+Wcdf04qf2Nlhbx2KQt1pzdfSFDlEh5q45kHafA08=;
-        h=From:To:Cc:Subject:Date:From;
-        b=YXGJe3h1nzK/olC++6chtobUC26on3d+t3ZQl75gynrPzIaEAsq2c5SOj5EmSa1Hb
-         j/GV7k1VRfHuH+B1lgYOdLvTMRk14wWJT4MWSXe1l9POArcggrBaFo0FkRS6U0Aop7
-         uZda8DWIdzzNFfu97JR5+ZltHzD2PC6UjLfLlMxQEiq+cdLiJLZBZfvCWCAVSqLSKQ
-         wHL3JN9M15CYfnxWb17c/QIe0f/e8n5b9GfrAw6sutiTsj2RONNJCBYF21bWiIvNcI
-         vGJs9TWRFi47CYEeQNHL1w45OZTmBDKraSs9ZfeIM+o2dbhdb2aipRk4Q9M18Ruz5S
-         VI+kFctIQPr4w==
-Received: from mchehab by mail.kernel.org with local (Exim 4.94.2)
-        (envelope-from <mchehab@kernel.org>)
-        id 1mvaoq-000BYg-MA; Fri, 10 Dec 2021 08:59:52 +0100
-From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc:     linuxarm@huawei.com, mauro.chehab@huawei.com,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Antti Palosaari <crope@iki.fi>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
-Subject: [PATCH RFC] media: si2157: get rid of chiptype data
-Date:   Fri, 10 Dec 2021 08:59:50 +0100
-Message-Id: <7dfc5692c89a4017591f475341f7178e473f7bb1.1639123045.git.mchehab+huawei@kernel.org>
-X-Mailer: git-send-email 2.33.1
+        Fri, 10 Dec 2021 04:00:09 -0500
+Received: from mail-wm1-x335.google.com (mail-wm1-x335.google.com [IPv6:2a00:1450:4864:20::335])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 061E9C061746;
+        Fri, 10 Dec 2021 00:56:35 -0800 (PST)
+Received: by mail-wm1-x335.google.com with SMTP id 137so6257016wma.1;
+        Fri, 10 Dec 2021 00:56:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=ugWZHzEIl/ed3UDm2nkNMQGNSpbu5KKxXnSYP4z8tmE=;
+        b=V1Hc554AnCsotFmE/SYmLUYY13GxEa0a/+6yg6iYQxXVQooWp4UIl1EXOR/ohWtaoh
+         SSDSNJHt4bNUl/dJwy0wej4Ep8UARUR21gHDlk+x663IHiyy4a/NgKCRovFDYw/X0GqK
+         B0GvmtraFjTWvvl8t8r0RLTXTsXkqXtW8LJlkQ+OKgUTPFT8X4K/hmLXYq6iNBIRHRDE
+         5fEAb3Dz3vp1/xo0UjoVyow4VJpvk8nnqABG1vfT3GWt/VPgf3y2fDFVg0N08aw/nD4M
+         9oCdjVfig+4ewNy8Vv94fP+lE9ZFAlF1cWVDMK/Bm2xCoBxzeXAVuJWqn4ALjpPKRpg0
+         0oAQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=ugWZHzEIl/ed3UDm2nkNMQGNSpbu5KKxXnSYP4z8tmE=;
+        b=l6EXYA/wM2UiddIMUCSQmpRhx/f7KcHM6rtEFKRqioHPqC+HHcfikGa4rW5Jd+/AqX
+         MTpVjA3BqQDzqQKiC2keOu9FdyKS+mxuWXH5YQkPpXfWbYClnoSRBcEhPohDP0owmDws
+         VHtdmv3ALrqfbYV95Z6iqa36FeXgvXTMAcHxJv/HLurY+TUgwVwsbRjyZJztFdn1qKPy
+         fNQ97xkBAOL9RFD2L3qD7QKdT5TmvE4OxVJV4oRZut49hnzs56EvR/m3pfgXWi/f/rnd
+         eYKcrzKnFEyDoX+R5SWxxXojkYRF/CKhgTQyZGTrUn4yXrOJT4T98Ry1e4XoWtDD6Pkp
+         spcA==
+X-Gm-Message-State: AOAM532INNuYhk6r36cVY12fdNjhAU5cPiay8wpzAwGRwIOWu5oluY3l
+        fjJ5+2gOPLavV/ryLtfIz5U=
+X-Google-Smtp-Source: ABdhPJzpGB9V66upS/EkyZnBy/vCflZB/b4r7xftEE8qItQGNebjwjNFs3haPcemiq8JZjpXgnqFTw==
+X-Received: by 2002:a05:600c:3489:: with SMTP id a9mr14966701wmq.53.1639126593509;
+        Fri, 10 Dec 2021 00:56:33 -0800 (PST)
+Received: from orome ([193.209.96.43])
+        by smtp.gmail.com with ESMTPSA id w17sm2333809wmc.14.2021.12.10.00.56.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 10 Dec 2021 00:56:32 -0800 (PST)
+Date:   Fri, 10 Dec 2021 09:56:28 +0100
+From:   Thierry Reding <thierry.reding@gmail.com>
+To:     Dmitry Osipenko <digetx@gmail.com>
+Cc:     Akhil R <akhilrajeev@nvidia.com>, andy.shevchenko@gmail.com,
+        christian.koenig@amd.com, dri-devel@lists.freedesktop.org,
+        jonathanh@nvidia.com, ldewangan@nvidia.com,
+        linaro-mm-sig@lists.linaro.org, linux-i2c@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-tegra@vger.kernel.org, p.zabel@pengutronix.de,
+        sumit.semwal@linaro.org, robh+dt@kernel.org,
+        devicetree@vger.kernel.org
+Subject: Re: [PATCH 0/2] Add SMBus features to Tegra I2C
+Message-ID: <YbMWPGMcHEQXGkHf@orome>
+References: <1639062321-18840-1-git-send-email-akhilrajeev@nvidia.com>
+ <e3deea6a-3854-e58c-0d27-602413f2a496@gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
-To:     unlisted-recipients:; (no To-header on input)
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="2IhQJxqBxhd1xrh2"
+Content-Disposition: inline
+In-Reply-To: <e3deea6a-3854-e58c-0d27-602413f2a496@gmail.com>
+User-Agent: Mutt/2.1.3 (987dde4c) (2021-09-10)
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The driver should be capable of autodetecting its type, so no
-need to pass it via device driver's data.
 
-Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
----
+--2IhQJxqBxhd1xrh2
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-This is RFC, as this patch could potentially cause regressions, if some of the
-data there would actually be quirks needed by some specific devices. 
+On Thu, Dec 09, 2021 at 07:04:30PM +0300, Dmitry Osipenko wrote:
+> 09.12.2021 18:05, Akhil R =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
+> > Add support for SMBus Alert and SMBus block read functions to
+> > i2c-tegra driver
+> >=20
+> > Akhil R (2):
+> >   dt-bindings: i2c: tegra: Add SMBus feature properties
+> >   i2c: tegra: Add SMBus block read and SMBus alert functions
+> >=20
+> >  .../devicetree/bindings/i2c/nvidia,tegra20-i2c.txt |  4 ++
+> >  drivers/i2c/busses/i2c-tegra.c                     | 54 ++++++++++++++=
++++++++-
+> >  2 files changed, 57 insertions(+), 1 deletion(-)
+> >=20
+>=20
+> How this was tested? This series must include the DT patch. If there is
+> no real user in upstream for this feature, then I don't think that we
+> should bother at all about it.
 
- drivers/media/tuners/si2157.c      | 40 +++++++++++++++++-------------
- drivers/media/tuners/si2157_priv.h |  7 +-----
- 2 files changed, 24 insertions(+), 23 deletions(-)
+This is primarily used by a device that uses ACPI and the driver uses
+the firmware-agnostic APIs to get at this. However, it also means that
+the driver effectively provides this same support for DT via those APIs
+and therefore it makes sense to document that part even if there are no
+current users of the DT bits.
 
-diff --git a/drivers/media/tuners/si2157.c b/drivers/media/tuners/si2157.c
-index bb590395e81a..8c33c412a203 100644
---- a/drivers/media/tuners/si2157.c
-+++ b/drivers/media/tuners/si2157.c
-@@ -185,6 +185,9 @@ static int si2157_find_and_load_firmware(struct dvb_frontend *fe)
- 		return -EINVAL;
- 	}
- 
-+	/* Update the part id based on device's report */
-+	dev->part_id = part_id;
-+
- 	dev_info(&client->dev,
- 		 "found a 'Silicon Labs Si21%d-%c%c%c ROM 0x%02x'\n",
- 		 part_id, cmd.args[1], cmd.args[3], cmd.args[4], rom_id);
-@@ -235,10 +238,10 @@ static int si2157_init(struct dvb_frontend *fe)
- 	dev->if_frequency = 0; /* we no longer know current tuner state */
- 
- 	/* power up */
--	if (dev->chiptype == SI2157_CHIPTYPE_SI2146) {
-+	if (dev->part_id == SI2146) {
- 		memcpy(cmd.args, "\xc0\x05\x01\x00\x00\x0b\x00\x00\x01", 9);
- 		cmd.wlen = 9;
--	} else if (dev->chiptype == SI2157_CHIPTYPE_SI2141) {
-+	} else if (dev->part_id == SI2141) {
- 		memcpy(cmd.args, "\xc0\x00\x0d\x0e\x00\x01\x01\x01\x01\x03", 10);
- 		cmd.wlen = 10;
- 	} else {
-@@ -247,11 +250,11 @@ static int si2157_init(struct dvb_frontend *fe)
- 	}
- 	cmd.rlen = 1;
- 	ret = si2157_cmd_execute(client, &cmd);
--	if (ret && (dev->chiptype != SI2157_CHIPTYPE_SI2141 || ret != -EAGAIN))
-+	if (ret && (dev->part_id != SI2141 || ret != -EAGAIN))
- 		goto err;
- 
- 	/* Si2141 needs a second command before it answers the revision query */
--	if (dev->chiptype == SI2157_CHIPTYPE_SI2141) {
-+	if (dev->part_id == SI2141) {
- 		memcpy(cmd.args, "\xc0\x08\x01\x02\x00\x00\x01", 7);
- 		cmd.wlen = 7;
- 		ret = si2157_cmd_execute(client, &cmd);
-@@ -493,7 +496,7 @@ static int si2157_set_params(struct dvb_frontend *fe)
- 	if (ret)
- 		goto err;
- 
--	if (dev->chiptype == SI2157_CHIPTYPE_SI2146)
-+	if (dev->part_id == SI2146)
- 		memcpy(cmd.args, "\x14\x00\x02\x07\x00\x01", 6);
- 	else
- 		memcpy(cmd.args, "\x14\x00\x02\x07\x00\x00", 6);
-@@ -560,9 +563,9 @@ static int si2157_set_analog_params(struct dvb_frontend *fe,
- 	u8 color = 0;    /* 0=NTSC/PAL, 0x10=SECAM */
- 	u8 invert_analog = 1; /* analog tuner spectrum; 0=normal, 1=inverted */
- 
--	if (dev->chiptype != SI2157_CHIPTYPE_SI2157) {
--		dev_info(&client->dev, "Analog tuning not supported for chiptype=%u\n",
--			 dev->chiptype);
-+	if (dev->part_id != SI2157) {
-+		dev_info(&client->dev, "Analog tuning not supported on Si21%d\n",
-+			 dev->part_id);
- 		ret = -EINVAL;
- 		goto err;
- 	}
-@@ -874,7 +877,7 @@ static int si2157_probe(struct i2c_client *client,
- 	dev->inversion = cfg->inversion;
- 	dev->dont_load_firmware = cfg->dont_load_firmware;
- 	dev->if_port = cfg->if_port;
--	dev->chiptype = (u8)id->driver_data;
-+	dev->part_id = (u8)id->driver_data;
- 	dev->if_frequency = 5000000; /* default value of property 0x0706 */
- 	mutex_init(&dev->i2c_mutex);
- 	INIT_DELAYED_WORK(&dev->stat_work, si2157_stat_work);
-@@ -917,10 +920,8 @@ static int si2157_probe(struct i2c_client *client,
- 	}
- #endif
- 
--	dev_info(&client->dev, "Silicon Labs %s successfully attached\n",
--			dev->chiptype == SI2157_CHIPTYPE_SI2141 ?  "Si2141" :
--			dev->chiptype == SI2157_CHIPTYPE_SI2146 ?
--			"Si2146" : "Si2147/2148/2157/2158");
-+	dev_info(&client->dev, "Silicon Labs Si21%d successfully attached\n",
-+		 dev->part_id);
- 
- 	return 0;
- 
-@@ -953,11 +954,16 @@ static int si2157_remove(struct i2c_client *client)
- 	return 0;
- }
- 
-+/*
-+ * The part_id used here will only be used on buggy devices that don't
-+ * accept firmware uploads. Non-buggy devices should just use "si2157" for
-+ * all SiLabs TER tuners, as the driver should auto-detect it.
-+ */
- static const struct i2c_device_id si2157_id_table[] = {
--	{"si2157", SI2157_CHIPTYPE_SI2157},
--	{"si2146", SI2157_CHIPTYPE_SI2146},
--	{"si2141", SI2157_CHIPTYPE_SI2141},
--	{"si2177", SI2157_CHIPTYPE_SI2177},
-+	{"si2157", SI2157},
-+	{"si2146", SI2146},
-+	{"si2141", SI2141},
-+	{"si2177", SI2177},
- 	{}
- };
- MODULE_DEVICE_TABLE(i2c, si2157_id_table);
-diff --git a/drivers/media/tuners/si2157_priv.h b/drivers/media/tuners/si2157_priv.h
-index 0db21b082ba9..df17a5f03561 100644
---- a/drivers/media/tuners/si2157_priv.h
-+++ b/drivers/media/tuners/si2157_priv.h
-@@ -26,7 +26,7 @@ struct si2157_dev {
- 	unsigned int active:1;
- 	unsigned int inversion:1;
- 	unsigned int dont_load_firmware:1;
--	u8 chiptype;
-+	u8 part_id;
- 	u8 if_port;
- 	u32 if_frequency;
- 	u32 bandwidth;
-@@ -58,11 +58,6 @@ struct si2157_tuner_info {
- 	const char		*fw_name, *fw_alt_name;
- };
- 
--#define SI2157_CHIPTYPE_SI2157 0
--#define SI2157_CHIPTYPE_SI2146 1
--#define SI2157_CHIPTYPE_SI2141 2
--#define SI2157_CHIPTYPE_SI2177 3
--
- /* firmware command struct */
- #define SI2157_ARGLEN      30
- struct si2157_cmd {
--- 
-2.33.1
+One big advantage of this is that it helps keep the ACPI and DT bindings
+in sync, and document this on the DT side also allows us to document the
+ACPI side of things where no formal documentation exists, as far as I
+know.
 
+Thierry
 
+--2IhQJxqBxhd1xrh2
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmGzFjwACgkQ3SOs138+
+s6F8mQ/9Fc5fNDbeJjUOJvaNOnGBiFoOwLTvUU5rJe09sJUQNqqXte8PM4BhTxGm
+rnqsAjSmfY3Hgw9XbdIad4hEj3GAtKavsAdK5oyDcqmCyyIcP2k2DxcPSP+LsOCN
+MnH6Byzm6HeMPX+FunjtCXxuJT1Htsb+Uy5iUkGctqZeW13f60qMSfmyKlcX6uxJ
+b4///ebppLbU9u989KnLx6WDQX9tfppHzCqYR8K9yYH25nidvmr5uu8EHUBYq0s2
+t+CyKM+IXbpCsk6ZS1eIPuKIkKntvl8DHkIiEMUX3Vs45DGWc6oYYF/Wa9GSZn3q
+xBI1B2nUfQCvumi0cyTwjJBSpkSjnBFLon3KAoqs20LygKF6XLjcHJZDtltuLKXB
+XqXCOoR2qoH6JwxdpXgYAr+pXEz1XJeKfQCZ61RDWI34I/nt2SYUxmEJIzFUXhmJ
+VgrugrKVa3yeGz8H6oni8YvQLufMPn+MrInuvAy24ndt0ICnB9f970tZwEngFacp
+YlxjV63f+KvH78B2KWjxtTTzqExZi393GHoxLjahWWx+EYXrYIdh2F+7DDwHN+NI
+6Ac+uWK3ZJZuoLADboTmoc45ShoN0NTkFjIiIGzmzU2cgcxG0D8d33+kT6GBNNPi
+z2ZODA/uePOon1EdVR6lbdAFMTA/8RnKQbK5BtuNEZ+YcRnRFqY=
+=eLpi
+-----END PGP SIGNATURE-----
+
+--2IhQJxqBxhd1xrh2--
