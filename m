@@ -2,131 +2,144 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A2E1D472AA3
-	for <lists+linux-media@lfdr.de>; Mon, 13 Dec 2021 11:48:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id CA51B472B25
+	for <lists+linux-media@lfdr.de>; Mon, 13 Dec 2021 12:19:11 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236493AbhLMKs5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 13 Dec 2021 05:48:57 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:21698 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S236239AbhLMKs4 (ORCPT
+        id S232453AbhLMLTL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 13 Dec 2021 06:19:11 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51268 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230407AbhLMLTK (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 13 Dec 2021 05:48:56 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1639392535;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=hSMRWWvDwDZ8+s/iBej33Q+kZmQH43UiURk7nbOWwWQ=;
-        b=Guuhnn3Uof8zRW0JiHIxl5zq0LAH4t9BW5Qugw93Q2L7ljX3rBwTNrqTEvzjQphphh+bUA
-        QlddvftCDRfqCrfLN0/lImSNrtYLmcT0Ney2bde/+0hkEpilmeZLH/OEV2oFJlUNHW68qx
-        FBdq51kMB6Z9Syw5b/3NaoVQOxrTl3s=
-Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
- [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-418--nxUoFj7OzSqfSTNW9UtmQ-1; Mon, 13 Dec 2021 05:48:54 -0500
-X-MC-Unique: -nxUoFj7OzSqfSTNW9UtmQ-1
-Received: by mail-ed1-f70.google.com with SMTP id d13-20020a056402516d00b003e7e67a8f93so13635085ede.0
-        for <linux-media@vger.kernel.org>; Mon, 13 Dec 2021 02:48:54 -0800 (PST)
+        Mon, 13 Dec 2021 06:19:10 -0500
+Received: from mail-lf1-x133.google.com (mail-lf1-x133.google.com [IPv6:2a00:1450:4864:20::133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A05AEC06173F
+        for <linux-media@vger.kernel.org>; Mon, 13 Dec 2021 03:19:09 -0800 (PST)
+Received: by mail-lf1-x133.google.com with SMTP id m27so30123279lfj.12
+        for <linux-media@vger.kernel.org>; Mon, 13 Dec 2021 03:19:09 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=igel-co-jp.20210112.gappssmtp.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=pisr92gZKvsteBy/s9F3IAR+cQBvUriK+eu6zsF7wyw=;
+        b=Q9NH27t3R9Qm08Yn225jCBXBnjCDUbBZlO9iRSlzuJM0fyX3f4CIpWznxDuwS3/xNl
+         y2RpQuwsrnpMkdIOZb4IWOfvErkD6LdjKd7X8Paq83V3hc5v2n3QXq3pP4vuRHpp8gyK
+         QkJW8E8vid1iTF5iQKzovyuhseShdVMobmPGSrZXnl9JqSSSPJlix4PWSVSmZMrKeyhO
+         ygeYT11OLE4eFeCBzH4iRsOtraCkEgzGqvcV/xvaxftmcI3T2BN7wUUKDpuZG+EkT+ai
+         hBk2Zdp1yNsq5FvvflSwi97L2anCWRtNWArzEuD2dELEz2VNih1Zd0dWPKt9aRScBjcZ
+         ILGQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=hSMRWWvDwDZ8+s/iBej33Q+kZmQH43UiURk7nbOWwWQ=;
-        b=jpZBf4eGaaRoimrz87qOpxo/PQVPksdW7MR6FvVoJczS5pyIttv75TL8dKT4NhpDjc
-         gi7xW/p4sxPo50T4aqFK+Ucm4iKqXEjK/3xcGQNuNkP1vwDEMm2Jvy1a5ZgKq3eTWWwa
-         n6eaDHyGw1IoaNFL3CValXYIClrbTwIv1H1TKZSIIm7cLPdqeTa5piEBlPJz8ixyXGnP
-         rc2Vph6xgxb8fnb2krybQbucYytgMnNDptDyACYCXn93TT/Pi64czZH1OAqWbQMQt5e1
-         1lLerG17jBw/TCJTiUMc+W594y+orhT2b6gj0658Vdyw81NLGAILderXdDs9SUc/TXaP
-         4qUQ==
-X-Gm-Message-State: AOAM53308oK0jVku5eMuDPsBOQOkTMXZ4qJRnlNCKGL2V28exMjD/EaM
-        +bGBjROz/+ALNexvPtAIJYmiZVVBoH3sudjOQLKNnrK7Zl99EJfNFfK3I2FP0whoZPAsV+gWA5a
-        kd45bUohkYkmXi510Yyr05dg=
-X-Received: by 2002:a17:906:1697:: with SMTP id s23mr44596865ejd.60.1639392533085;
-        Mon, 13 Dec 2021 02:48:53 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwwFggy2dFOgUjYCsFjmoXFnFNZYH9/F2s6stMUwGL3v9+wBbcRAHCKqxo/kLkyq2T9/Q0jYg==
-X-Received: by 2002:a17:906:1697:: with SMTP id s23mr44596844ejd.60.1639392532881;
-        Mon, 13 Dec 2021 02:48:52 -0800 (PST)
-Received: from ?IPV6:2001:1c00:c1e:bf00:1054:9d19:e0f0:8214? (2001-1c00-0c1e-bf00-1054-9d19-e0f0-8214.cable.dynamic.v6.ziggo.nl. [2001:1c00:c1e:bf00:1054:9d19:e0f0:8214])
-        by smtp.gmail.com with ESMTPSA id hg19sm5541132ejc.1.2021.12.13.02.48.52
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 13 Dec 2021 02:48:52 -0800 (PST)
-Message-ID: <b11e9554-c3ac-10a8-63ad-46e4f3d1235b@redhat.com>
-Date:   Mon, 13 Dec 2021 11:48:51 +0100
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=pisr92gZKvsteBy/s9F3IAR+cQBvUriK+eu6zsF7wyw=;
+        b=Mc5kHz4CjfE0MuaB1UpCSBcH46Lz+75Sj/MdmliyllLhvJJzeS9K43qvrcLeLQ3ZPc
+         MVsGykwUUYaM911pJUtpppEebGeKRPoCjFZYciv+qX/B7QdQm4Tb8RqytseSnAjComiA
+         vyhTogmM3EMRE2wc0AYMoOcZu1CHhoKdXBgWI0Z+7b0qKVb0pHbodbAGOgVeAg447s+A
+         3/xLSzwuJYD00d/sPXrjiyUFLvVesZYUZRgBh8ZYQCpOlR0d6JEUyBVhd81PwQsCNdlQ
+         Tk+q53bimgj4RBKUQHUalUZtUCWEkC+DwhLgRIjxmh9Mu2Wt2HAIfZk3YVlzTtnNkN5c
+         yoOQ==
+X-Gm-Message-State: AOAM532nzHfL3ZUwzbqeywNvm7dd+HEBDsgsNYTVHxnpDbQsqrouD58j
+        V6zw1+mdP14Jy8oWXfb4BRT9T50ncUwdcn2osl7/ig==
+X-Google-Smtp-Source: ABdhPJx30c7FAJ3lvGEDI+ZSXrcR+/grZyj0VFN1XwsLOUnbgMIYy/6u7p86PmkVTn96nNYygrLsKqZS0iLS3XSZseg=
+X-Received: by 2002:a05:6512:118b:: with SMTP id g11mr26987032lfr.46.1639394347900;
+ Mon, 13 Dec 2021 03:19:07 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.0
-Subject: Re: [PATCH v7 06/14] clk: Introduce clk-tps68470 driver
-Content-Language: en-US
-To:     Stephen Boyd <sboyd@kernel.org>,
-        Andy Shevchenko <andy@infradead.org>,
-        Daniel Scally <djrscally@gmail.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Mark Brown <broonie@kernel.org>,
-        Mark Gross <markgross@kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Mika Westerberg <mika.westerberg@linux.intel.com>,
-        "Rafael J.Wysocki" <rjw@rjwysocki.net>,
-        Wolfram Sang <wsa@the-dreams.de>
-Cc:     Len Brown <lenb@kernel.org>, linux-acpi@vger.kernel.org,
-        platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Kate Hsuan <hpa@redhat.com>, linux-media@vger.kernel.org,
-        linux-clk@vger.kernel.org,
-        Andy Shevchenko <andy.shevchenko@gmail.com>
-References: <20211203102857.44539-1-hdegoede@redhat.com>
- <20211203102857.44539-7-hdegoede@redhat.com>
- <20211210005710.2BB88C004DD@smtp.kernel.org>
-From:   Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <20211210005710.2BB88C004DD@smtp.kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20211122110817.33319-1-mie@igel.co.jp> <CANXvt5oB8_2sDGccSiTMqeLYGi3Vuo-6NnHJ9PGgZZMv=fnUVw@mail.gmail.com>
+ <20211207171447.GA6467@ziepe.ca> <CANXvt5rCayOcengPr7Z_aFmJaXwWj9VcWZbaHnuHj6=2CkPndA@mail.gmail.com>
+ <20211210124204.GG6467@ziepe.ca> <880e25ad-4fe9-eacd-a971-993eaea37fc4@amd.com>
+ <20211210132656.GH6467@ziepe.ca> <d25b2895-63b6-158d-ff73-f05e437e0f91@amd.com>
+In-Reply-To: <d25b2895-63b6-158d-ff73-f05e437e0f91@amd.com>
+From:   Shunsuke Mie <mie@igel.co.jp>
+Date:   Mon, 13 Dec 2021 20:18:57 +0900
+Message-ID: <CANXvt5rzmEnF3Gph4U6NT-XzJhV6zqyay1g7dHkTgH=Aqc6Geg@mail.gmail.com>
+Subject: Re: [RFC PATCH v4 0/2] RDMA/rxe: Add dma-buf support
+To:     =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Cc:     Jason Gunthorpe <jgg@ziepe.ca>, Zhu Yanjun <zyjzyj2000@gmail.com>,
+        Alex Deucher <alexander.deucher@amd.com>,
+        Daniel Vetter <daniel.vetter@ffwll.ch>,
+        Doug Ledford <dledford@redhat.com>,
+        Jianxin Xiong <jianxin.xiong@intel.com>,
+        Leon Romanovsky <leon@kernel.org>,
+        Maor Gottlieb <maorg@nvidia.com>,
+        Sean Hefty <sean.hefty@intel.com>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+        linux-media@vger.kernel.org,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-rdma <linux-rdma@vger.kernel.org>,
+        Damian Hobson-Garcia <dhobsong@igel.co.jp>,
+        Takanari Hayama <taki@igel.co.jp>,
+        Tomohito Esaki <etom@igel.co.jp>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Stephen,
+2021=E5=B9=B412=E6=9C=8810=E6=97=A5(=E9=87=91) 22:29 Christian K=C3=B6nig <=
+christian.koenig@amd.com>:
+>
+> Am 10.12.21 um 14:26 schrieb Jason Gunthorpe:
+> > On Fri, Dec 10, 2021 at 01:47:37PM +0100, Christian K=C3=B6nig wrote:
+> >> Am 10.12.21 um 13:42 schrieb Jason Gunthorpe:
+> >>> On Fri, Dec 10, 2021 at 08:29:24PM +0900, Shunsuke Mie wrote:
+> >>>> Hi Jason,
+> >>>> Thank you for replying.
+> >>>>
+> >>>> 2021=E5=B9=B412=E6=9C=888=E6=97=A5(=E6=B0=B4) 2:14 Jason Gunthorpe <=
+jgg@ziepe.ca>:
+> >>>>> On Fri, Dec 03, 2021 at 12:51:44PM +0900, Shunsuke Mie wrote:
+> >>>>>> Hi maintainers,
+> >>>>>>
+> >>>>>> Could you please review this patch series?
+> >>>>> Why is it RFC?
+> >>>>>
+> >>>>> I'm confused why this is useful?
+> >>>>>
+> >>>>> This can't do copy from MMIO memory, so it shouldn't be compatible
+> >>>>> with things like Gaudi - does something prevent this?
+> >>>> I think if an export of the dma-buf supports vmap, CPU is able to ac=
+cess the
+> >>>> mmio memory.
+> >>>>
+> >>>> Is it wrong? If this is wrong, there is no advantages this changes..
+> >>> I don't know what the dmabuf folks did, but yes, it is wrong.
+> >>>
+> >>> IOMEM must be touched using only special accessors, some platforms
+> >>> crash if you don't do this. Even x86 will crash if you touch it with
+> >>> something like an XMM optimized memcpy.
+> >>>
+> >>> Christian? If the vmap succeeds what rules must the caller use to
+> >>> access the memory?
+> >> See dma-buf-map.h and especially struct dma_buf_map.
+> >>
+> >> MMIO memory is perfectly supported here and actually the most common c=
+ase.
+> > Okay that looks sane, but this rxe RFC seems to ignore this
+> > completely. It stuffs the vaddr directly into a umem which goes to all
+> > manner of places in the driver.
+> >
+> > ??
+>
+> Well, yes that can go boom pretty quickly.
+Sorry, I was wrong. The dma_buf_map treats both iomem and vaddr region, but
+this RFC only supports vaddr. Advantage of the partial support is we can us=
+e the
+vaddr dma-buf in RXE without changing a rxe data copy implementation.
 
-On 12/10/21 01:57, Stephen Boyd wrote:
-> Quoting Hans de Goede (2021-12-03 02:28:49)
->> The TPS68470 PMIC provides Clocks, GPIOs and Regulators. At present in
->> the kernel the Regulators and Clocks are controlled by an OpRegion
->> driver designed to work with power control methods defined in ACPI, but
->> some platforms lack those methods, meaning drivers need to be able to
->> consume the resources of these chips through the usual frameworks.
->>
->> This commit adds a driver for the clocks provided by the tps68470,
->> and is designed to bind to the platform_device registered by the
->> intel_skl_int3472 module.
->>
->> This is based on this out of tree driver written by Intel:
->> https://github.com/intel/linux-intel-lts/blob/4.14/base/drivers/clk/clk-tps68470.c
->> with various cleanups added.
->>
->> Reviewed-by: Andy Shevchenko <andy.shevchenko@gmail.com>
->> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
->> ---
-> 
-> Reviewed-by: Stephen Boyd <sboyd@kernel.org>
+An example of a dma-buf pointing to a vaddr is some gpu drivers use RAM for
+VRAM and we can get dma-buf for the region that indicates vaddr regions.
+Specifically, the gpu driver using gpu/drm/drm_gem_cma_helper.c is one such
+example.
 
-Thank you.
+> Not sure what they want to use this for.
+I'd like to use RDMA with RXE for that memory region.
 
-I'm preparing an immutable branch based on 5.16-rc1 + patches 1-4 + 7-11
-from this series.
-
-I can send you a pull-req for that once its ready (its building atm) and
-then you can merge the branch + this patch on top; or I can simply add this
-patch to that branch and take it upstream through the platform-driver-x86
-git tree.
-
-Please let me know how you want to proceed with this.
-
-Regards,
-
-Hans
-
-
+Best,
+Shunsuke
+> Christian.
+>
+> >
+> > Jason
+>
