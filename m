@@ -2,95 +2,94 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1A3124721F0
-	for <lists+linux-media@lfdr.de>; Mon, 13 Dec 2021 08:50:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 90E174721FC
+	for <lists+linux-media@lfdr.de>; Mon, 13 Dec 2021 08:53:30 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232618AbhLMHuM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 13 Dec 2021 02:50:12 -0500
-Received: from out162-62-57-252.mail.qq.com ([162.62.57.252]:58891 "EHLO
-        out162-62-57-252.mail.qq.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S231407AbhLMHuL (ORCPT
+        id S232657AbhLMHx3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 13 Dec 2021 02:53:29 -0500
+Received: from mailgw01.mediatek.com ([60.244.123.138]:54706 "EHLO
+        mailgw01.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
+        with ESMTP id S231407AbhLMHx2 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 13 Dec 2021 02:50:11 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foxmail.com;
-        s=s201512; t=1639381808;
-        bh=+9zpwVH7/8zpy6rB3XifZdvk+wYtdwLHCiHdBMgpeBk=;
-        h=From:To:Cc:Subject:Date;
-        b=GPSvgffKi+y6N4UbbQOSYSO7pQ+sPLa5+c+EMxjeWEObXPNl2ck+ZHjB+MHBG2GEX
-         gQwYt3GbwzDDYxJpGrWnSsrMfKzzK+E55FpyH/2yfGO9zC6/rHBrKEeFHoQx3fymZ9
-         96H7LealnwJXj27PY80Q+e3v0qAiiRXc++C6kcHw=
-Received: from localhost.localdomain ([43.227.136.188])
-        by newxmesmtplogicsvrsza8.qq.com (NewEsmtp) with SMTP
-        id C382A62D; Mon, 13 Dec 2021 15:48:56 +0800
-X-QQ-mid: xmsmtpt1639381736tg4k1nbca
-Message-ID: <tencent_07FF16C8253370EE140700057438B052FD06@qq.com>
-X-QQ-XMAILINFO: M3vv73qU6a4um1Sg2+RZMQQDAHB9eIxlliAtOeUzIymUvINy+AUk7+XKJ9qT/G
-         xxdwtlWgjQva0FOABEi4WzwmXq+1ig+cXlc2EwSKwcd7x0dNocuk8ouiBIsj7sJ3bHG8bgFQMfhf
-         C1Wz9yN0n1ky2dDMXVBsD/TgKNoCd89T5L9QqawknU41PJIMFEm8CkHHlIR2J6b1c/5BkHqE/8VH
-         bGtvuq12CGF97sHkxY16jAs1WO9f3FJ054b2HPCH2VEqJe4xAM9KMMQ09oxyXj2NRQnOZMSK+38Q
-         lyBhdSa+dIAKRx3hRQE4Fg7jC1g8c9KyG+4lhsabjRsXuAgmBsb0cbomxSICMEV5BaWSUY3eMraT
-         mVs1D7cuFvwQcfCkRW4vFSk9Tm4SF4CMkH8AvR3DEWw3PVwfJ3pNeY+W4Q73s4D8VfLDBwbdGrkx
-         sv/648Ps2CQfp0NCy+RJMY8rqu+hc0yCBAmriihX8k9edW0tkjplphxZtjQLsvJvRG2qZ/LR54RQ
-         ZQzQ7lkpVUCxkQeTlkvKL4P9PTjJ4/4fy+fxT7xPCktSiPsPZCI/m4ol/FiuOU1El8Q/LQaee0z5
-         qtwf6jmOoCasb9ZoU0NvtC39NPxJ89r1d4lYbhRRwPQOdHw6UdEVRsbn4csmEA5SqSnkBKX5xp8H
-         sQakiWCDQgM9xPS+lpZ4JTqBGlJUoTzJMR8QkUSxrndWUccAyHv9iUSGBydkcbDfY/kKajm1/o/k
-         OnPh+pNPHrSuKgjQjSzHjmFHdrR1u8G5o9acvyykxe7tnEZeq0phAc9c0kWjk6eOxBI8wMtT73Tr
-         nYAi9Y2IXxPant+saD28CnvbAAakOR8nDdi+H1tmRXYMwtf2Xs/HTFszqGc45tR+eVq4QzpTHH0s
-         oVhQrOjKZ2vjs1zhFlVwg=
-From:   Xiaoke Wang <xkernel.wang@foxmail.com>
-To:     crope@iki.fi, mchehab@kernel.org
-Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Xiaoke Wang <xkernel.wang@foxmail.com>
-Subject: [PATCH] media: usb: dvb-usb-v2: check the return value of kstrdup()
-Date:   Mon, 13 Dec 2021 15:48:33 +0800
-X-OQ-MSGID: <20211213074833.4286-1-xkernel.wang@foxmail.com>
-X-Mailer: git-send-email 2.33.0.windows.2
+        Mon, 13 Dec 2021 02:53:28 -0500
+X-UUID: 57532857ba324863b30b86ee5b258dab-20211213
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
+        h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:From:Subject:Message-ID; bh=Qje268K+koi4R/car/RXG6pCHuYVAIpCtFKrTVwyePw=;
+        b=hEUQeaDAIt80yzZnHJXhppfyMwu8hQHG3Son84yVkg1qjkaXt4/UZ66oTZJJ47UtSsCdK0uizxcRxqxTtKZzjTJxbpnVl2vCOZBMiPLT9mhnGV8snhbemCrfJ3PITWoW9nsNHD1gkXPuyeCZB4yQhGmEgqt3cCbuNqmJicS39AY=;
+X-UUID: 57532857ba324863b30b86ee5b258dab-20211213
+Received: from mtkcas10.mediatek.inc [(172.21.101.39)] by mailgw01.mediatek.com
+        (envelope-from <yong.wu@mediatek.com>)
+        (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
+        with ESMTP id 1184157638; Mon, 13 Dec 2021 15:53:24 +0800
+Received: from mtkcas11.mediatek.inc (172.21.101.40) by
+ mtkmbs07n1.mediatek.inc (172.21.101.16) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Mon, 13 Dec 2021 15:53:23 +0800
+Received: from mhfsdcap04 (10.17.3.154) by mtkcas11.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
+ Transport; Mon, 13 Dec 2021 15:53:22 +0800
+Message-ID: <00161c73917e4c811a34228ff9729ef22141190d.camel@mediatek.com>
+Subject: Re: [PATCH v2 2/5] iommu/mediatek: Always check runtime PM status
+ in tlb flush range callback
+From:   Yong Wu <yong.wu@mediatek.com>
+To:     Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+CC:     <iommu@lists.linux-foundation.org>, Joerg Roedel <joro@8bytes.org>,
+        "Will Deacon" <will@kernel.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        "moderated list:MEDIATEK IOMMU DRIVER" 
+        <linux-mediatek@lists.infradead.org>,
+        "moderated list:ARM/Mediatek SoC support" 
+        <linux-arm-kernel@lists.infradead.org>,
+        open list <linux-kernel@vger.kernel.org>,
+        <kernel@collabora.com>, <linux-media@vger.kernel.org>,
+        <sebastian.reichel@collabora.com>
+Date:   Mon, 13 Dec 2021 15:53:25 +0800
+In-Reply-To: <20211208120744.2415-3-dafna.hirschfeld@collabora.com>
+References: <20211208120744.2415-1-dafna.hirschfeld@collabora.com>
+         <20211208120744.2415-3-dafna.hirschfeld@collabora.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MTK:  N
+Content-Transfer-Encoding: base64
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Note: Compare with the last email, this one is using my full name.
-kstrdup() returns NULL if some internal memory errors happen, it is
-better to check the return value of it. Since the return type of
-dvb_usbv2_disconnect() is void, so only raise the error info.
+T24gV2VkLCAyMDIxLTEyLTA4IGF0IDE0OjA3ICswMjAwLCBEYWZuYSBIaXJzY2hmZWxkIHdyb3Rl
+Og0KPiBGcm9tOiBTZWJhc3RpYW4gUmVpY2hlbCA8c2ViYXN0aWFuLnJlaWNoZWxAY29sbGFib3Jh
+LmNvbT4NCj4gDQo+IEluIGNhc2Ugb2YgdjRsMl9yZXFidWZzKCkgaXQgaXMgcG9zc2libGUsIHRo
+YXQgYSBUTEIgZmx1c2ggaXMgZG9uZQ0KPiB3aXRob3V0IHJ1bnRpbWUgUE0gYmVpbmcgZW5hYmxl
+ZC4gSW4gdGhhdCBjYXNlIHRoZSAiUGFydGlhbCBUTEIgZmx1c2gNCj4gdGltZWQgb3V0LCBmYWxs
+aW5nIGJhY2sgdG8gZnVsbCBmbHVzaCIgd2FybmluZyBpcyBwcmludGVkLg0KPiANCj4gQ29tbWl0
+IGMwYjU3NTgxYjczYiAoImlvbW11L21lZGlhdGVrOiBBZGQgcG93ZXItZG9tYWluIG9wZXJhdGlv
+biIpDQo+IGludHJvZHVjZWQgaGFzX3BtIGFzIG9wdGltaXphdGlvbiB0byBhdm9pZCBjaGVja2lu
+ZyBydW50aW1lIFBNDQo+IHdoZW4gdGhlcmUgaXMgbm8gcG93ZXIgZG9tYWluIGF0dGFjaGVkLiBC
+dXQgd2l0aG91dCB0aGUgUE0gZG9tYWluDQo+IHRoZXJlIGlzIHN0aWxsIHRoZSBkZXZpY2UgZHJp
+dmVyJ3MgcnVudGltZSBQTSBzdXNwZW5kIGhhbmRsZXIsIHdoaWNoDQo+IGRpc2FibGVzIHRoZSBj
+bG9jay4gVGh1cyBmbHVzaGluZyBzaG91bGQgYWxzbyBiZSBhdm9pZGVkIHdoZW4gdGhlcmUNCj4g
+aXMgbm8gUE0gZG9tYWluIGludm9sdmVkLg0KPiANCj4gU2lnbmVkLW9mZi1ieTogU2ViYXN0aWFu
+IFJlaWNoZWwgPHNlYmFzdGlhbi5yZWljaGVsQGNvbGxhYm9yYS5jb20+DQo+IFJldmlld2VkLWJ5
+OiBEYWZuYSBIaXJzY2hmZWxkIDxkYWZuYS5oaXJzY2hmZWxkQGNvbGxhYm9yYS5jb20+DQoNClJl
+dmlld2VkLWJ5OiBZb25nIFd1IDx5b25nLnd1QG1lZGlhdGVrLmNvbT4NCg0KPiAtLS0NCj4gIGRy
+aXZlcnMvaW9tbXUvbXRrX2lvbW11LmMgfCAxMCArKystLS0tLS0tDQo+ICAxIGZpbGUgY2hhbmdl
+ZCwgMyBpbnNlcnRpb25zKCspLCA3IGRlbGV0aW9ucygtKQ0KPiANCj4gZGlmZiAtLWdpdCBhL2Ry
+aXZlcnMvaW9tbXUvbXRrX2lvbW11LmMgYi9kcml2ZXJzL2lvbW11L210a19pb21tdS5jDQo+IGlu
+ZGV4IDM0MmFhNTYyYWI2YS4uZGQyYzA4YzU0ZGY0IDEwMDY0NA0KPiAtLS0gYS9kcml2ZXJzL2lv
+bW11L210a19pb21tdS5jDQo+ICsrKyBiL2RyaXZlcnMvaW9tbXUvbXRrX2lvbW11LmMNCj4gQEAg
+LTIyNSwxNiArMjI1LDEzIEBAIHN0YXRpYyB2b2lkDQo+IG10a19pb21tdV90bGJfZmx1c2hfcmFu
+Z2Vfc3luYyh1bnNpZ25lZCBsb25nIGlvdmEsIHNpemVfdCBzaXplLA0KPiAgCQkJCQkgICBzaXpl
+X3QgZ3JhbnVsZSwNCj4gIAkJCQkJICAgc3RydWN0IG10a19pb21tdV9kYXRhICpkYXRhKQ0KPiAg
+ew0KPiAtCWJvb2wgaGFzX3BtID0gISFkYXRhLT5kZXYtPnBtX2RvbWFpbjsNCj4gIAl1bnNpZ25l
+ZCBsb25nIGZsYWdzOw0KPiAgCWludCByZXQ7DQo+ICAJdTMyIHRtcDsNCj4gIA0KPiAgCWZvcl9l
+YWNoX200dShkYXRhKSB7DQo+IC0JCWlmIChoYXNfcG0pIHsNCj4gLQkJCWlmIChwbV9ydW50aW1l
+X2dldF9pZl9pbl91c2UoZGF0YS0+ZGV2KSA8PSAwKQ0KPiAtCQkJCWNvbnRpbnVlOw0KPiAtCQl9
+DQo+ICsJCWlmIChwbV9ydW50aW1lX2dldF9pZl9pbl91c2UoZGF0YS0+ZGV2KSA8PSAwKQ0KPiAr
+CQkJY29udGludWU7DQo+ICANCj4gIAkJc3Bpbl9sb2NrX2lycXNhdmUoJmRhdGEtPnRsYl9sb2Nr
+LCBmbGFncyk7DQo+ICAJCXdyaXRlbF9yZWxheGVkKEZfSU5WTERfRU4xIHwgRl9JTlZMRF9FTjAs
+DQo+IEBAIC0yNTksOCArMjU2LDcgQEAgc3RhdGljIHZvaWQNCj4gbXRrX2lvbW11X3RsYl9mbHVz
+aF9yYW5nZV9zeW5jKHVuc2lnbmVkIGxvbmcgaW92YSwgc2l6ZV90IHNpemUsDQo+ICAJCXdyaXRl
+bF9yZWxheGVkKDAsIGRhdGEtPmJhc2UgKyBSRUdfTU1VX0NQRV9ET05FKTsNCj4gIAkJc3Bpbl91
+bmxvY2tfaXJxcmVzdG9yZSgmZGF0YS0+dGxiX2xvY2ssIGZsYWdzKTsNCj4gIA0KPiAtCQlpZiAo
+aGFzX3BtKQ0KPiAtCQkJcG1fcnVudGltZV9wdXQoZGF0YS0+ZGV2KTsNCj4gKwkJcG1fcnVudGlt
+ZV9wdXQoZGF0YS0+ZGV2KTsNCj4gIAl9DQo+ICB9DQo+ICANCg==
 
-Signed-off-by: Xiaoke Wang <xkernel.wang@foxmail.com>
----
- drivers/media/usb/dvb-usb-v2/dvb_usb_core.c | 14 +++++++++++---
- 1 file changed, 11 insertions(+), 3 deletions(-)
-
-diff --git a/drivers/media/usb/dvb-usb-v2/dvb_usb_core.c b/drivers/media/usb/dvb-usb-v2/dvb_usb_core.c
-index f1c79f3..a43a310 100644
---- a/drivers/media/usb/dvb-usb-v2/dvb_usb_core.c
-+++ b/drivers/media/usb/dvb-usb-v2/dvb_usb_core.c
-@@ -1009,6 +1009,9 @@ void dvb_usbv2_disconnect(struct usb_interface *intf)
- 	const char *devname = kstrdup(dev_name(&d->udev->dev), GFP_KERNEL);
- 	const char *drvname = d->name;
- 
-+	if (!devname)
-+		dev_err(&d->udev->dev, "%s: kstrdup() failed\n", KBUILD_MODNAME);
-+
- 	dev_dbg(&d->udev->dev, "%s: bInterfaceNumber=%d\n", __func__,
- 			intf->cur_altsetting->desc.bInterfaceNumber);
- 
-@@ -1023,9 +1026,14 @@ void dvb_usbv2_disconnect(struct usb_interface *intf)
- 	kfree(d->priv);
- 	kfree(d);
- 
--	pr_info("%s: '%s:%s' successfully deinitialized and disconnected\n",
--		KBUILD_MODNAME, drvname, devname);
--	kfree(devname);
-+	if (devname) {
-+		pr_info("%s: '%s:%s' successfully deinitialized and disconnected\n",
-+			KBUILD_MODNAME, drvname, devname);
-+		kfree(devname);
-+	} else {
-+		pr_info("%s: '%s:UNKNOWN' successfully deinitialized and disconnected\n",
-+			KBUILD_MODNAME, drvname);
-+	}
- }
- EXPORT_SYMBOL(dvb_usbv2_disconnect);
- 
--- 
