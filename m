@@ -2,74 +2,98 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 745954735DC
-	for <lists+linux-media@lfdr.de>; Mon, 13 Dec 2021 21:26:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1FDA14735DE
+	for <lists+linux-media@lfdr.de>; Mon, 13 Dec 2021 21:27:09 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239897AbhLMU0B (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 13 Dec 2021 15:26:01 -0500
-Received: from mail-oi1-f180.google.com ([209.85.167.180]:43639 "EHLO
-        mail-oi1-f180.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234464AbhLMU0A (ORCPT
+        id S239897AbhLMU1H (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 13 Dec 2021 15:27:07 -0500
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:42510 "EHLO
+        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S234464AbhLMU1H (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 13 Dec 2021 15:26:00 -0500
-Received: by mail-oi1-f180.google.com with SMTP id o4so24716729oia.10;
-        Mon, 13 Dec 2021 12:25:59 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=W2nr5lzeTuc4wVsr2H7zTWsAZoBJt4rbybjCxgiGF3o=;
-        b=Zk1wI3A9P+gvTRiStYTTCsvWzL+1+gT2hzYFWUujVJaim+gBGkTAiJdJOqySXmK9mD
-         +TzItdPZUcaLBvG46OFgxI//XJ34/iJLBSKASLf9SPDNLkDIqHOxti0VEdaJnP6rNpfn
-         3aV/E1o2bC4k2PCq7QUYpHgqGKuLDf4Rm+p/B4ItA4W1a+iMqVgSutEQJY/5+ZKdN66/
-         aI9vMmALze/dvB+z0YAOBJeHVKxokAxu8L60JajbBB4ME7bUw6Dq1m55p7m1FwlLYLKy
-         nhaOU+PlZpsVD7LjwPvbsQIdyae0wFFoGnaVu7VmoAzlaHybJBuQ7EMMaOFJE9+3lhDw
-         TVkw==
-X-Gm-Message-State: AOAM533Psxw6yG5BvSgNTzqqmDstf/eensL0h7+V4P67vA6VEpnliymI
-        yKtynx8foupzNDgzPhxLIg==
-X-Google-Smtp-Source: ABdhPJzV3OAQgZPJLeYTPL4sGb9aQ9kYn2FUqrWfgSHlsezxQ/4uq2Xl5gUxl58V5kLhQFdPJyFlHA==
-X-Received: by 2002:aca:1708:: with SMTP id j8mr795198oii.62.1639427159461;
-        Mon, 13 Dec 2021 12:25:59 -0800 (PST)
-Received: from robh.at.kernel.org (66-90-148-213.dyn.grandenetworks.net. [66.90.148.213])
-        by smtp.gmail.com with ESMTPSA id n22sm2351916oop.29.2021.12.13.12.25.58
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 13 Dec 2021 12:25:58 -0800 (PST)
-Received: (nullmailer pid 1512288 invoked by uid 1000);
-        Mon, 13 Dec 2021 20:25:57 -0000
-Date:   Mon, 13 Dec 2021 14:25:57 -0600
-From:   Rob Herring <robh@kernel.org>
-To:     Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-Cc:     robert.foss@linaro.org, devicetree@vger.kernel.org,
-        todor.too@gmail.com, bjorn.andersson@linaro.org,
-        linux-arm-msm@vger.kernel.org, linux-media@vger.kernel.org,
-        agross@kernel.org, mchehab@kernel.org, jgrahsl@snap.com,
-        andrey.konovalov@linaro.org, jonathan@marek.ca, hfink@snap.com
-Subject: Re: [RESEND PATCH v2 01/19] media: dt-bindings: media: camss: Add
- qcom,sm8250-camss binding
-Message-ID: <YbesVRKPOGUGZW/I@robh.at.kernel.org>
-References: <20211202153729.3362372-1-bryan.odonoghue@linaro.org>
- <20211202153729.3362372-2-bryan.odonoghue@linaro.org>
+        Mon, 13 Dec 2021 15:27:07 -0500
+Received: from [IPv6:2a00:c281:1276:dc00:2d23:3482:5e76:1917] (unknown [IPv6:2a00:c281:1276:dc00:2d23:3482:5e76:1917])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        (Authenticated sender: dafna)
+        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 125EA1F4441D;
+        Mon, 13 Dec 2021 20:27:03 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=collabora.com; s=mail;
+        t=1639427225; bh=wB80XAQrujm7o6G/mYQfgxxJ4rJXLU1g58F+Re9c0m0=;
+        h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
+        b=WJ45my+s63TDKntL2k8ejSBu7AHluUCLHoOYsDdYYZkLUtsEnQuUHndPjMYO+AUcJ
+         G0RGZ+VNJ6IuqRC1mLohcviWtpec9jbWHk5kxbJamw6fyA9mmld8XPrrc9HtXpG9HT
+         lWBjueaggTvF05nbLUes68mKtkbFuSclLApD8R7MSh6d+nY16HBStFI2bMJZ7XkAs1
+         trIlnjni+intxxLNArC6oPXuwON7t/fKF9ei0DG1KMlGHCITU1MZ1JPaIQnTuvobsZ
+         YzVJOi1RW7TAeHPi2sZ+9TZ7pHiWobRRvh2v+xKh2twEhTW0KQ/N55k+2FeisWNbn9
+         HU+1rbYXDHAWw==
+Subject: Re: [PATCH v4 0/6] staging: media: wave5: add wave5 codec driver
+To:     Daniel Palmer <daniel@0x0f.com>
+Cc:     "open list:MEDIA INPUT INFRASTRUCTURE (V4L/DVB)" 
+        <linux-media@vger.kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "open list:STAGING SUBSYSTEM" <linux-staging@lists.linux.dev>,
+        open list <linux-kernel@vger.kernel.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        hverkuil@xs4all.nl, kernel@collabora.com, dafna3@gmail.com,
+        Robert Beckett <bob.beckett@collabora.com>,
+        kiril.bicevski@collabora.com,
+        Nas Chung <nas.chung@chipsnmedia.com>,
+        lafley.kim@chipsnmedia.com, scott.woo@chipsnmedia.com,
+        olivier.crete@collabora.com, dan.carpenter@oracle.com,
+        Randy Dunlap <rdunlap@infradead.org>
+References: <20211201175613.13710-1-dafna.hirschfeld@collabora.com>
+ <CAFr9PXnvbqtx-SpxjyO2uvoBR3ueNBD9vSFnbqjbAHz_7Lh8VA@mail.gmail.com>
+From:   Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+Message-ID: <02a9c780-49e0-7a61-4443-7825d6a1271e@collabora.com>
+Date:   Mon, 13 Dec 2021 22:27:00 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20211202153729.3362372-2-bryan.odonoghue@linaro.org>
+In-Reply-To: <CAFr9PXnvbqtx-SpxjyO2uvoBR3ueNBD9vSFnbqjbAHz_7Lh8VA@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, 02 Dec 2021 15:37:11 +0000, Bryan O'Donoghue wrote:
-> From: Jonathan Marek <jonathan@marek.ca>
-> 
-> Add bindings for qcom,sm8250-camss in order to support the camera
-> subsystem for SM8250.
-> 
-> Cc: devicetree@vger.kernel.org
-> Signed-off-by: Jonathan Marek <jonathan@marek.ca>
-> Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-> ---
->  .../bindings/media/qcom,sm8250-camss.yaml     | 450 ++++++++++++++++++
->  1 file changed, 450 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/media/qcom,sm8250-camss.yaml
-> 
 
-Reviewed-by: Rob Herring <robh@kernel.org>
+
+On 02.12.21 12:11, Daniel Palmer wrote:
+> Hi Dafna,
+> 
+> On Thu, 2 Dec 2021 at 02:56, Dafna Hirschfeld
+> <dafna.hirschfeld@collabora.com> wrote:
+>> Testing on BeagleV shows buffer corruption that is currently attributed to a
+>> known silicon issue in the SoC that makes the cache coherent interconnect not
+>> so coherent.
+> 
+> Maybe it's mentioned somewhere else and I missed it but would it be
+> possible to tell me which version of the IP is in the BeagleV chip?
+> The reason I ask is I'm trying to get this going on the SigmaStar
+> SSD202D which seems to have the "Wave 511".
+> I can see the firmware binary get uploaded and it seems to do
+> something as the register that exposes the vcpu program counter is
+> doing something (and the addresses look the same as the addresses seem
+> when the working vendor kernel + binary .ko are running so I think
+> it's not just running garbage).
+> 
+> I'm wondering if the BeagleV is a different version and the driver
+> just won't work as is on mine or maybe the firmware I have has hacks
+> for the vendors version of the driver which I don't have source for.
+
+Hi, thank you for trying this out. The versions I see on the Beaglv are 511 for the
+decoder and 521c for the encoder.
+This driver is also based on a vendor driver from cnm: https://gitlab.collabora.com/chipsnmedia/wave5-driver
+Also, a patch to add the firmware was also sent to linux-firmware ml https://lore.kernel.org/linux-firmware/20211126093014.1385752-1-nas.chung@chipsnmedia.com/T/
+
+Thanks,
+Dafna
+
+> 
+> Thanks,
+> 
+> Daniel
+> 
