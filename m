@@ -2,321 +2,185 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 732EA473824
-	for <lists+linux-media@lfdr.de>; Mon, 13 Dec 2021 23:58:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 75B39473856
+	for <lists+linux-media@lfdr.de>; Tue, 14 Dec 2021 00:18:44 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238473AbhLMW6o (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 13 Dec 2021 17:58:44 -0500
-Received: from mail-oi1-f175.google.com ([209.85.167.175]:35328 "EHLO
-        mail-oi1-f175.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235493AbhLMW6n (ORCPT
+        id S244142AbhLMXSm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 13 Dec 2021 18:18:42 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51986 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S243871AbhLMXSm (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 13 Dec 2021 17:58:43 -0500
-Received: by mail-oi1-f175.google.com with SMTP id m6so25174947oim.2;
-        Mon, 13 Dec 2021 14:58:43 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=oN9QD+4le2ZstPeai9jkstj5lqXyXh/QMU7lqvGG3Pk=;
-        b=UMNxU1zMDkjec1gNKp76YavXleP1zKjPK6NGYLKA13M23ModNwmAtUMYoGUwwggL13
-         O3KHco51WGE6flshvoOPPrNKVqtou63gYWFDiG7/R693RCjexgOVf4LClsOvt2deKZdL
-         EHrJJ5caSqnG6IKl+YWFHDYBQIsLJPjGl7lNIG/4FU+/hXICHfWi1T/pqQpp5Mf+akpP
-         H1isOlSRi7/9aBgCAiJJQD9mycsQtWw0276kCNnI7O91qgVUeK0s2VmDNX2qHRil/JnY
-         6P9EZO1zVHQqWajwVdYXVdrceOWsPlbM+k86JV4SODNsf9A2nHFF0ud2yohECmC60Ll7
-         x2AQ==
-X-Gm-Message-State: AOAM532XY0i0H47dF39kHVC6ealQC+fIx1IHPJHnlOLvnaZCDfXDcn3t
-        usFaNHapcDiW4AzH1yVDQaVP2zi7uQ==
-X-Google-Smtp-Source: ABdhPJyhck/wutr6Ityf3XzrySgOzaFKaTPPjvCmroXJCzXIzya7jzKoPRUQdlcYAzGW5TlO6ICYyA==
-X-Received: by 2002:a05:6808:1454:: with SMTP id x20mr1349974oiv.166.1639436322844;
-        Mon, 13 Dec 2021 14:58:42 -0800 (PST)
-Received: from robh.at.kernel.org (66-90-148-213.dyn.grandenetworks.net. [66.90.148.213])
-        by smtp.gmail.com with ESMTPSA id v19sm2442838ott.13.2021.12.13.14.58.41
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 13 Dec 2021 14:58:41 -0800 (PST)
-Received: (nullmailer pid 1736453 invoked by uid 1000);
-        Mon, 13 Dec 2021 22:58:40 -0000
-Date:   Mon, 13 Dec 2021 16:58:40 -0600
-From:   Rob Herring <robh@kernel.org>
-To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Niklas =?iso-8859-1?Q?S=F6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Mon, 13 Dec 2021 18:18:42 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9DDB5C061574;
+        Mon, 13 Dec 2021 15:18:41 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 66DE9B816E1;
+        Mon, 13 Dec 2021 23:18:40 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8922AC34600;
+        Mon, 13 Dec 2021 23:18:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1639437519;
+        bh=Z80p1A+c7fVAB/CaA/qq8wArc2yUp77Z05L1Jot+bdE=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=geQ8GJP7yM5QJRI/uDH+qvxlOz23r8gwJeWPPEXDoEUhgQ+FPbejV65NBdsvxsldl
+         tGnbSStsG4uxcYm0n8RDalA+r5YjYh+WTpNSffAT60QIiKqHxYPnwUZVAHzgG0ptMk
+         eNwN/IGHFd9rh6k0E3BBZOo9/U6O4PaoTC6JmP4mVmO0nwtn/y+CabTv7kS0jsdlCw
+         +q0vn2StlpwmkpVGvoVA1KQORDP88fhwdS+ri8jHGQKm6t3uGZfpg+WqlJDZuB8Smk
+         sMkEO+seRBnqLyWzvM2tiiBkfIYB0w4sYlNawBNP5b7h1Cg7oR+Jykuq3jiRUFDuT2
+         OC1hRArNQlo8g==
+Date:   Mon, 13 Dec 2021 17:24:16 -0600
+From:   "Gustavo A. R. Silva" <gustavoars@kernel.org>
+To:     Kees Cook <keescook@chromium.org>
+Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Arnd Bergmann <arnd@arndb.de>,
         Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        Prabhakar <prabhakar.csengg@gmail.com>,
-        Biju Das <biju.das.jz@bp.renesas.com>
-Subject: Re: [RFC PATCH 1/3] media: dt-bindings: media: Document RZ/G2L CRU
- block
-Message-ID: <YbfQIPS270So+jUh@robh.at.kernel.org>
-References: <20211207012351.15754-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20211207012351.15754-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-hardening@vger.kernel.org,
+        "Gustavo A. R. Silva" <gustavoars@kernel.org>
+Subject: Re: [PATCH] media: omap3isp: Use struct_group() for memcpy() region
+Message-ID: <20211213232416.GA60133@embeddedor>
+References: <20211118184352.1284792-1-keescook@chromium.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20211207012351.15754-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <20211118184352.1284792-1-keescook@chromium.org>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Dec 07, 2021 at 01:23:49AM +0000, Lad Prabhakar wrote:
-> Document the CRU block found on Renesas RZ/G2L SoC's.
+On Thu, Nov 18, 2021 at 10:43:52AM -0800, Kees Cook wrote:
+> In preparation for FORTIFY_SOURCE performing compile-time and run-time
+> field bounds checking for memcpy(), memmove(), and memset(), avoid
+> intentionally writing across neighboring fields. Wrap the target region
+> in struct_group(). This additionally fixes a theoretical misalignment
+> of the copy (since the size of "buf" changes between 64-bit and 32-bit,
+> but this is likely never built for 64-bit).
 > 
-> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> FWIW, I think this code is totally broken on 64-bit (which appears to
+> not be a "real" build configuration): it would either always fail (with
+> an uninitialized data->buf_size) or would cause corruption in userspace
+> due to the copy_to_user() in the call path against an uninitialized
+> data->buf value:
+> 
+> omap3isp_stat_request_statistics_time32(...)
+>     struct omap3isp_stat_data data64;
+>     ...
+>     omap3isp_stat_request_statistics(stat, &data64);
+> 
+> int omap3isp_stat_request_statistics(struct ispstat *stat,
+>                                      struct omap3isp_stat_data *data)
+>     ...
+>     buf = isp_stat_buf_get(stat, data);
+> 
+> static struct ispstat_buffer *isp_stat_buf_get(struct ispstat *stat,
+>                                                struct omap3isp_stat_data *data)
+> ...
+>     if (buf->buf_size > data->buf_size) {
+>             ...
+>             return ERR_PTR(-EINVAL);
+>     }
+>     ...
+>     rval = copy_to_user(data->buf,
+>                         buf->virt_addr,
+>                         buf->buf_size);
+> 
+> Regardless, additionally initialize data64 to be zero-filled to avoid
+> undefined behavior.
+> 
+> Fixes: 378e3f81cb56 ("media: omap3isp: support 64-bit version of omap3isp_stat_data")
+> Signed-off-by: Kees Cook <keescook@chromium.org>
 > ---
->  .../bindings/media/renesas,rzg2l-cru.yaml     | 227 ++++++++++++++++++
->  1 file changed, 227 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/media/renesas,rzg2l-cru.yaml
+>  drivers/media/platform/omap3isp/ispstat.c |  5 +++--
+>  include/uapi/linux/omap3isp.h             | 21 +++++++++++++--------
+>  2 files changed, 16 insertions(+), 10 deletions(-)
 > 
-> diff --git a/Documentation/devicetree/bindings/media/renesas,rzg2l-cru.yaml b/Documentation/devicetree/bindings/media/renesas,rzg2l-cru.yaml
-> new file mode 100644
-> index 000000000000..7b2835810516
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/media/renesas,rzg2l-cru.yaml
-> @@ -0,0 +1,227 @@
-> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-> +# Copyright (C) 2021 Renesas Electronics Corp.
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/media/renesas,rzg2l-cru.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Renesas RZ/G2L Camera Data Receiving Unit (CRU)
-> +
-> +maintainers:
-> +  - Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> +
-> +description:
-> +  The RZ/G2L Camera Data Receiving Unit (CRU) device provides video input
-> +  capabilities for the Renesas RZ/G2L family of devices.
-> +
-> +  Depending on the instance the Image Processing input is connected to
-> +  external SoC pins or to a CSI-2 receiver.
-> +
-> +properties:
-> +  compatible:
-> +    oneOf:
-> +      - items:
+> diff --git a/drivers/media/platform/omap3isp/ispstat.c b/drivers/media/platform/omap3isp/ispstat.c
+> index 5b9b57f4d9bf..68cf68dbcace 100644
+> --- a/drivers/media/platform/omap3isp/ispstat.c
+> +++ b/drivers/media/platform/omap3isp/ispstat.c
+> @@ -512,7 +512,7 @@ int omap3isp_stat_request_statistics(struct ispstat *stat,
+>  int omap3isp_stat_request_statistics_time32(struct ispstat *stat,
+>  					struct omap3isp_stat_data_time32 *data)
+>  {
+> -	struct omap3isp_stat_data data64;
+> +	struct omap3isp_stat_data data64 = { };
+>  	int ret;
+>  
+>  	ret = omap3isp_stat_request_statistics(stat, &data64);
+> @@ -521,7 +521,8 @@ int omap3isp_stat_request_statistics_time32(struct ispstat *stat,
+>  
+>  	data->ts.tv_sec = data64.ts.tv_sec;
+>  	data->ts.tv_usec = data64.ts.tv_usec;
+> -	memcpy(&data->buf, &data64.buf, sizeof(*data) - sizeof(data->ts));
+> +	data->buf = (uintptr_t)data64.buf;
 
-Don't need oneOf with only 1 entry.
+Shouldn't this be
 
-> +          - enum:
-> +              - renesas,r9a07g044-cru     # RZ/G2{L,LC}
-> +          - const: renesas,rzg2l-cru
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  interrupts:
-> +    maxItems: 4
-> +
-> +  interrupt-names:
-> +    items:
-> +      - const: csi2_link_int
-> +      - const: image_conv_int
-> +      - const: image_conv_err_int
-> +      - const: axi_mst_err_int
+	data->buf = (uintptr_t)(void *)data64.buf;
 
-_int is redundant.
+instead?
 
-> +
-> +  clocks:
-> +    items:
-> +      - description: Internal clock for connecting CRU and MIPI
-> +      - description: CRU Main clock
-> +      - description: CPU Register access clock
-> +      - description: CRU image transfer clock
-> +
-> +  clock-names:
-> +    items:
-> +      - const: sysclk
-> +      - const: vclk
-> +      - const: pclk
-> +      - const: aclk
-> +
-> +  power-domains:
-> +    maxItems: 1
-> +
-> +  resets:
-> +    items:
-> +      - description: CRU_CMN_RSTB reset terminal
-> +      - description: CRU_PRESETN reset terminal
-> +      - description: CRU_ARESETN reset terminal
-> +
-> +  reset-names:
-> +    items:
-> +      - const: cmn-rstb
-> +      - const: presetn
-> +      - const: aresetn
-> +
-> +  ports:
-> +    $ref: /schemas/graph.yaml#/properties/ports
-> +
-> +    properties:
-> +      port@0:
-> +        $ref: /schemas/graph.yaml#/$defs/port-base
-> +        unevaluatedProperties: false
-> +        description:
-> +          Input port node, single endpoint describing a parallel input source.
-> +
-> +        properties:
-> +          endpoint:
-> +            $ref: video-interfaces.yaml#
-> +            unevaluatedProperties: false
-> +
-> +            properties:
-> +              hsync-active: true
-> +
-> +              vsync-active: true
-> +
-> +              bus-width: true
-> +
-> +              data-shift: true
-> +
-> +      port@1:
-> +        $ref: /schemas/graph.yaml#/$defs/port-base
-> +        unevaluatedProperties: false
-> +        description:
-> +          Input port node, single endpoint describing the CSI-2 transmitter.
-> +
-> +        properties:
-> +          endpoint:
-> +            $ref: video-interfaces.yaml#
-> +            unevaluatedProperties: false
-> +
-> +            properties:
-> +              clock-lanes:
-> +                maxItems: 1
-> +
-> +              data-lanes:
-> +                maxItems: 1
-> +
-> +            required:
-> +              - clock-lanes
-> +              - data-lanes
-> +
-> +      port@2:
-> +        $ref: /schemas/graph.yaml#/properties/port
-> +        description:
-> +          Output port node, describing the RZ/G2L Image Processing module
-> +          connected the CSI-2 receiver
-> +
-> +        properties:
-> +          endpoint@0:
+--
+Gustavo
 
-Unless you have mutiple endpoints to define or endpoint properties to 
-add, you don't need to specify anything more than the port.
-
-> +            $ref: /schemas/graph.yaml#/properties/endpoint
-> +            description: Endpoint connected to CSI2.
-> +
-> +        anyOf:
-> +          - required:
-> +              - endpoint@0
-> +
-> +      port@3:
-> +        $ref: /schemas/graph.yaml#/properties/port
-> +        description:
-> +          Input port node, describing the RZ/G2L CSI-2 module connected the
-> +          Image Processing block.
-> +
-> +        properties:
-> +          endpoint@0:
-> +            $ref: /schemas/graph.yaml#/properties/endpoint
-> +            description: Endpoint connected to CSI2.
-> +
-> +        anyOf:
-> +          - required:
-> +              - endpoint@0
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - interrupts
-> +  - interrupt-names
-> +  - clocks
-> +  - clock-names
-> +  - resets
-> +  - reset-names
-> +  - power-domains
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  # Device node example with CSI-2
-> +  - |
-> +    #include <dt-bindings/clock/r9a07g044-cpg.h>
-> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
-> +
-> +    cru: video@10830000 {
-> +            compatible = "renesas,r9a07g044-cru", "renesas,rzg2l-cru";
-> +            reg = <0x10830000 0x10000>;
-> +            interrupts = <GIC_SPI 166 IRQ_TYPE_LEVEL_HIGH>,
-> +                         <GIC_SPI 167 IRQ_TYPE_LEVEL_HIGH>,
-> +                         <GIC_SPI 168 IRQ_TYPE_LEVEL_HIGH>,
-> +                         <GIC_SPI 169 IRQ_TYPE_LEVEL_HIGH>;
-> +            interrupt-names = "csi2_link_int", "image_conv_int",
-> +                              "image_conv_err_int", "axi_mst_err_int";
-> +            clocks = <&cpg CPG_MOD R9A07G044_CRU_SYSCLK>,
-> +                     <&cpg CPG_MOD R9A07G044_CRU_VCLK>,
-> +                     <&cpg CPG_MOD R9A07G044_CRU_PCLK>,
-> +                     <&cpg CPG_MOD R9A07G044_CRU_ACLK>;
-> +            clock-names = "sysclk", "vclk", "pclk", "aclk";
-> +            power-domains = <&cpg>;
-> +            resets = <&cpg R9A07G044_CRU_CMN_RSTB>,
-> +                     <&cpg R9A07G044_CRU_PRESETN>,
-> +                     <&cpg R9A07G044_CRU_ARESETN>;
-> +            reset-names = "cmn-rstb", "presetn", "aresetn";
-> +
-> +            ports {
-> +                    #address-cells = <1>;
-> +                    #size-cells = <0>;
-> +
-> +                    port@1 {
-> +                            #address-cells = <1>;
-> +                            #size-cells = <0>;
-> +
-> +                            reg = <1>;
-> +
-> +                            csi2_in: endpoint@0 {
-> +                                    reg = <0>;
-> +                                    clock-lanes = <0>;
-> +                                    data-lanes = <1 2>;
-> +                                    remote-endpoint = <&ov5645_ep>;
-> +                            };
-> +                    };
-> +
-> +                    port@2 {
-> +                            #address-cells = <1>;
-> +                            #size-cells = <0>;
-> +
-> +                            reg = <2>;
-> +
-> +                            csi2cru: endpoint@0 {
-> +                                    reg = <0>;
-> +                                    remote-endpoint= <&crucsi2>;
-> +                            };
-> +                    };
-> +
-> +                    port@3 {
-> +                            #address-cells = <1>;
-> +                            #size-cells = <0>;
-> +
-> +                            reg = <3>;
-> +
-> +                            crucsi2: endpoint@0 {
-> +                                    reg = <0>;
-> +                                    remote-endpoint= <&csi2cru>;
-> +                            };
-> +                    };
-> +            };
-> +    };
+> +	memcpy(&data->frame, &data64.frame, sizeof(data->frame));
+>  
+>  	return 0;
+>  }
+> diff --git a/include/uapi/linux/omap3isp.h b/include/uapi/linux/omap3isp.h
+> index 87b55755f4ff..9a6b3ed11455 100644
+> --- a/include/uapi/linux/omap3isp.h
+> +++ b/include/uapi/linux/omap3isp.h
+> @@ -162,6 +162,7 @@ struct omap3isp_h3a_aewb_config {
+>   * struct omap3isp_stat_data - Statistic data sent to or received from user
+>   * @ts: Timestamp of returned framestats.
+>   * @buf: Pointer to pass to user.
+> + * @buf_size: Size of buffer.
+>   * @frame_number: Frame number of requested stats.
+>   * @cur_frame: Current frame number being processed.
+>   * @config_counter: Number of the configuration associated with the data.
+> @@ -176,10 +177,12 @@ struct omap3isp_stat_data {
+>  	struct timeval ts;
+>  #endif
+>  	void __user *buf;
+> -	__u32 buf_size;
+> -	__u16 frame_number;
+> -	__u16 cur_frame;
+> -	__u16 config_counter;
+> +	__struct_group(/* no type */, frame, /* no attrs */,
+> +		__u32 buf_size;
+> +		__u16 frame_number;
+> +		__u16 cur_frame;
+> +		__u16 config_counter;
+> +	);
+>  };
+>  
+>  #ifdef __KERNEL__
+> @@ -189,10 +192,12 @@ struct omap3isp_stat_data_time32 {
+>  		__s32	tv_usec;
+>  	} ts;
+>  	__u32 buf;
+> -	__u32 buf_size;
+> -	__u16 frame_number;
+> -	__u16 cur_frame;
+> -	__u16 config_counter;
+> +	__struct_group(/* no type */, frame, /* no attrs */,
+> +		__u32 buf_size;
+> +		__u16 frame_number;
+> +		__u16 cur_frame;
+> +		__u16 config_counter;
+> +	);
+>  };
+>  #endif
+>  
 > -- 
-> 2.17.1
+> 2.30.2
+> 
+> 
 > 
 > 
