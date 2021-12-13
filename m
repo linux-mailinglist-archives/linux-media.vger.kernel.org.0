@@ -2,94 +2,170 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3A6F2471B12
-	for <lists+linux-media@lfdr.de>; Sun, 12 Dec 2021 16:09:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 70C334720FE
+	for <lists+linux-media@lfdr.de>; Mon, 13 Dec 2021 07:12:46 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230338AbhLLPJf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 12 Dec 2021 10:09:35 -0500
-Received: from out162-62-57-49.mail.qq.com ([162.62.57.49]:50157 "EHLO
-        out162-62-57-49.mail.qq.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S229622AbhLLPJe (ORCPT
+        id S232160AbhLMGMp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 13 Dec 2021 01:12:45 -0500
+Received: from ewsoutbound.kpnmail.nl ([195.121.94.183]:40181 "EHLO
+        ewsoutbound.kpnmail.nl" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232145AbhLMGMn (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 12 Dec 2021 10:09:34 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foxmail.com;
-        s=s201512; t=1639321771;
-        bh=iYZdxcxe9VY+yNUM+YHAJte4KYDTh4ZgWycVEiQ2c6Y=;
-        h=From:To:Cc:Subject:Date;
-        b=fV5Ms65XFKG3wQ6C5T2t9PdbWPQfFerGqxTFezeZsd5fpN1rzp5RSOGdc8+xJvloY
-         XtcQGhyBbjom7MtymlZ9CsRC88WjJ/BgUEFyKa1EiHoEIGrKXT+20kfyeaYu48g/wa
-         HJ3kezLcx5xSe4XZh5+endFTWFTX9L+ADYzhYCP4=
-Received: from localhost.localdomain ([218.197.153.188])
-        by newxmesmtplogicsvrsza9.qq.com (NewEsmtp) with SMTP
-        id D719A2F8; Sun, 12 Dec 2021 22:53:49 +0800
-X-QQ-mid: xmsmtpt1639320829tbpueg3ia
-Message-ID: <tencent_CE9983800222FC46C9E9BF12C492592F9705@qq.com>
-X-QQ-XMAILINFO: NojR6Ao/DkED+5UYiYGfEf03/afmb+7dfQ6nVybJfhhfOJI6vJB51p0g80gJZp
-         D1b/+V6Id3tZ18RQUY1B8LEMoB2NOsZeuIHD5v7eiwALzLngSRzE080SJX+LO6SWyJNoeba0goTh
-         3xCaItZdN1ejAvOxYScD3XOF3XyRw8rhRnVoYpUr3HMj/9tdAZcGwuPU76QP+eP60kkIFh87+c+a
-         9ghfIqhNZ1v3Y2+fx9rAklTFK3W8gSkS6Z1XhsX0Gi6MWdbiSavixEVDe6LqEf44lJJQdXzujyBH
-         ZEj4meQ8aYuUzSssMvYqdcXLrEiZPnMRlamYwmFKqt6ggoZIgOUVa6pF5sWtj/jjQQK2NobfxLPd
-         PG6Lb45WvP1I39UaZe8iJu9RB2R3ZJGtuGg/rGS8MlLQfS87OOGIs/71yB6wsclk5OuK4BNkugrH
-         bl3XGbDGZPxoNyvOe5vGeRi9yvZQ7G3xf0Gval97ePDHoGPvA+EcWr0NxKtHLRlwDufFCH7SzzAZ
-         TfqqaF8g3IRS8wZ+M8aoNEIUDOwPwjpq/NvckttHpamXNvMGkHcNQBQewKKWiQguV1OvPvGa8yPU
-         LSt9XYHBfvkG1Z1dJb93RT0tcD+hX32xGsmmqg1ygCsPfUtmo/63+yXPcZ/lR0b9LzFS3wDUwA/d
-         kqo5gqN1KQK9cfjVIGWpIUnvUd/1mIro/13rA4jDabVEtfoYVkEUAe8Kqo8ZrZ3x9Qy0nYYP/Bwm
-         9S2c0m67vxHE2XlaWwJyUn0BVuqA45z/JKNzh8AX3IGi4n5v3miQ/pIvJLuvQzHc2KF6kEX65u2L
-         jixKDonjmzxPZfPf0tDEWo8e8fqrdnmFPP//zBxRh2hJegOWcWYatz0VbENFiguyfl57w2ixdQ7k
-         7AS38UpDNboNQg2tUEJr8=
-From:   xkernel <xkernel.wang@foxmail.com>
-To:     crope@iki.fi, mchehab@kernel.org
-Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        xkernel <xkernel.wang@foxmail.com>
-Subject: [PATCH] media: usb: dvb-usb-v2: check the return value of kstrdup()
-Date:   Sun, 12 Dec 2021 22:52:24 +0800
-X-OQ-MSGID: <20211212145224.2056-1-xkernel.wang@foxmail.com>
-X-Mailer: git-send-email 2.33.0.windows.2
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+        Mon, 13 Dec 2021 01:12:43 -0500
+X-KPN-MessageId: 2d9384cc-5bdb-11ec-a02e-005056992ed3
+Received: from smtp.kpnmail.nl (unknown [10.31.155.7])
+        by ewsoutbound.so.kpn.org (Halon) with ESMTPS
+        id 2d9384cc-5bdb-11ec-a02e-005056992ed3;
+        Mon, 13 Dec 2021 07:09:06 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=xs4all.nl; s=xs4all01;
+        h=subject:to:from:date:message-id;
+        bh=/QDgjm4QJ/64rt3hvAYx1z37B0dzuydgwasSxTj297o=;
+        b=mVr8jLsuiPeal++Xpcn2wCPNSkHsLErJkKL9+XvPBOJ9TmowvxCGnnpEaItAoBX+RBUDZvZBJ9eF2
+         Xa8DQvqxoCZO8U8sE8+4EzdlQh3SkCZSs7C/HdsHLp+YgnFl7ofgsniUp05T583XlmvdLs4H4xoZIL
+         Djicm152wi6Jd9CZDE9L8Fsp1dcV9WMerBuxsJoct7yzWiH/VQSns/GrfFSvHrH9CuLpYBt4cxL2CD
+         ZY2sRjF26JHsJOSBn01e8Dew/nf/+/+LI4OZROrDwARMLlosLOSd30MDWg1N7xV5X9MAyzCTocnZUq
+         6uEcfVJ3ReSP+8g55Oy4nYsLR/mvdKQ==
+Message-ID: <adbd0746-5bdb-11ec-aee6-005056998788@smtp.kpnmail.nl>
+X-KPN-VerifiedSender: Yes
+X-CMASSUN: 33|cwRXQYiqncHhOxs/1PuAccj33H6PvJFJeHmddu1NTcWPontQqz7ddHpTVFp/dpO
+ F38cbJgMken0bAlkf8RO44Q==
+X-Originating-IP: 80.101.105.217
+Received: from localhost (marune.xs4all.nl [80.101.105.217])
+        by smtp.xs4all.nl (Halon) with ESMTPSA
+        id ad8cc5e5-5bdb-11ec-aee6-005056998788;
+        Mon, 13 Dec 2021 07:12:41 +0100 (CET)
+Date:   Mon, 13 Dec 2021 07:12:40 +0100
+From:   "Hans Verkuil" <hverkuil@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: ERRORS
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-kstrdup() returns NULL if some internal memory errors happen, it is
-better to check the return value of it. Since the return type of
-dvb_usbv2_disconnect() is void, so only raise the error info.
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
 
-Signed-off-by: xkernel <xkernel.wang@foxmail.com>
----
- drivers/media/usb/dvb-usb-v2/dvb_usb_core.c | 14 +++++++++++---
- 1 file changed, 11 insertions(+), 3 deletions(-)
+Results of the daily build of media_tree:
 
-diff --git a/drivers/media/usb/dvb-usb-v2/dvb_usb_core.c b/drivers/media/usb/dvb-usb-v2/dvb_usb_core.c
-index f1c79f3..a43a310 100644
---- a/drivers/media/usb/dvb-usb-v2/dvb_usb_core.c
-+++ b/drivers/media/usb/dvb-usb-v2/dvb_usb_core.c
-@@ -1009,6 +1009,9 @@ void dvb_usbv2_disconnect(struct usb_interface *intf)
- 	const char *devname = kstrdup(dev_name(&d->udev->dev), GFP_KERNEL);
- 	const char *drvname = d->name;
- 
-+	if (!devname)
-+		dev_err(&d->udev->dev, "%s: kstrdup() failed\n", KBUILD_MODNAME);
-+
- 	dev_dbg(&d->udev->dev, "%s: bInterfaceNumber=%d\n", __func__,
- 			intf->cur_altsetting->desc.bInterfaceNumber);
- 
-@@ -1023,9 +1026,14 @@ void dvb_usbv2_disconnect(struct usb_interface *intf)
- 	kfree(d->priv);
- 	kfree(d);
- 
--	pr_info("%s: '%s:%s' successfully deinitialized and disconnected\n",
--		KBUILD_MODNAME, drvname, devname);
--	kfree(devname);
-+	if (devname) {
-+		pr_info("%s: '%s:%s' successfully deinitialized and disconnected\n",
-+			KBUILD_MODNAME, drvname, devname);
-+		kfree(devname);
-+	} else {
-+		pr_info("%s: '%s:UNKNOWN' successfully deinitialized and disconnected\n",
-+			KBUILD_MODNAME, drvname);
-+	}
- }
- EXPORT_SYMBOL(dvb_usbv2_disconnect);
- 
--- 
+date:			Mon Dec 13 05:00:39 CET 2021
+media-tree git hash:	9b4d7b5c81a2578e080da33b5cddc3149fa611aa
+media_build git hash:	c5c30e768ef3b757da479220d7a389470c3ad978
+v4l-utils git hash:	85ed37cf472bb4f67702fb8d42992f164c36a007
+edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
+gcc version:		i686-linux-gcc (GCC) 11.2.0
+sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
+sparse version:		v0.6.3-349-gb21d5e09
+smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
+smatch version:		v0.5.0-7593-g7f4b93661
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: 72fe2e990921b3757e47e6f3ea4ce8c076021161
+host hardware:		x86_64
+host os:		5.15.0-2-amd64
+
+linux-git-sh: OK
+linux-git-arm-at91: OK
+linux-git-arm-davinci: OK
+linux-git-arm-stm32: OK
+linux-git-arm-pxa: OK
+linux-git-mips: OK
+linux-git-powerpc64: OK
+linux-git-arm-multi: OK
+linux-git-arm64: OK
+linux-git-i686: OK
+linux-git-x86_64: OK
+Check COMPILE_TEST: OK
+Check for strcpy/strncpy/strlcpy: OK
+linux-4.4.283-i686: OK
+linux-4.4.283-x86_64: OK
+linux-4.5.7-i686: OK
+linux-4.5.7-x86_64: OK
+linux-4.6.7-i686: OK
+linux-4.6.7-x86_64: OK
+linux-4.7.10-i686: OK
+linux-4.7.10-x86_64: OK
+linux-4.8.17-i686: OK
+linux-4.8.17-x86_64: OK
+linux-4.9.246-i686: OK
+linux-4.9.246-x86_64: OK
+linux-4.10.17-i686: OK
+linux-4.10.17-x86_64: OK
+linux-4.11.12-i686: OK
+linux-4.11.12-x86_64: OK
+linux-4.12.14-i686: OK
+linux-4.12.14-x86_64: OK
+linux-4.13.16-i686: OK
+linux-4.13.16-x86_64: OK
+linux-4.14.246-i686: OK
+linux-4.14.246-x86_64: OK
+linux-4.15.18-i686: OK
+linux-4.15.18-x86_64: OK
+linux-4.16.18-i686: OK
+linux-4.16.18-x86_64: OK
+linux-4.17.19-i686: OK
+linux-4.17.19-x86_64: OK
+linux-4.18.20-i686: OK
+linux-4.18.20-x86_64: OK
+linux-4.19.206-i686: OK
+linux-4.19.206-x86_64: OK
+linux-4.20.17-i686: OK
+linux-4.20.17-x86_64: OK
+linux-5.0.21-i686: OK
+linux-5.0.21-x86_64: OK
+linux-5.1.21-i686: OK
+linux-5.1.21-x86_64: OK
+linux-5.2.21-i686: OK
+linux-5.2.21-x86_64: OK
+linux-5.3.18-i686: OK
+linux-5.3.18-x86_64: OK
+linux-5.4.144-i686: OK
+linux-5.4.144-x86_64: OK
+linux-5.5.19-i686: OK
+linux-5.5.19-x86_64: OK
+linux-5.6.19-i686: OK
+linux-5.6.19-x86_64: OK
+linux-5.7.19-i686: OK
+linux-5.7.19-x86_64: OK
+linux-5.8.18-i686: OK
+linux-5.8.18-x86_64: OK
+linux-5.9.16-i686: OK
+linux-5.9.16-x86_64: OK
+linux-5.10.62-i686: OK
+linux-5.10.62-x86_64: OK
+linux-5.11.22-i686: OK
+linux-5.11.22-x86_64: OK
+linux-5.12.19-i686: OK
+linux-5.12.19-x86_64: OK
+linux-5.13.14-i686: OK
+linux-5.13.14-x86_64: OK
+linux-5.14.1-i686: OK
+linux-5.14.1-x86_64: OK
+linux-5.15.1-i686: OK
+linux-5.15.1-x86_64: OK
+linux-5.16-rc1-i686: OK
+linux-5.16-rc1-x86_64: OK
+apps: OK
+spec-git: OK
+virtme: Errors: Final Summary: 2989, Succeeded: 2988, Failed: 1, Warnings: 11
+virtme-32: ERRORS
+sparse: WARNINGS
+smatch: WARNINGS
+kerneldoc: WARNINGS
+
+Detailed results are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Monday.log
+
+Detailed regression test results are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Monday-test-media.log
+http://www.xs4all.nl/~hverkuil/logs/Monday-test-media-32.log
+http://www.xs4all.nl/~hverkuil/logs/Monday-test-media-dmesg.log
+
+Full logs are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Monday.tar.bz2
+
+The Media Infrastructure API from this daily build is here:
+
+http://www.xs4all.nl/~hverkuil/spec/index.html
