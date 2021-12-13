@@ -2,239 +2,321 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 32C78473820
-	for <lists+linux-media@lfdr.de>; Mon, 13 Dec 2021 23:55:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 732EA473824
+	for <lists+linux-media@lfdr.de>; Mon, 13 Dec 2021 23:58:45 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244044AbhLMWz4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 13 Dec 2021 17:55:56 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46604 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237566AbhLMWzr (ORCPT
+        id S238473AbhLMW6o (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 13 Dec 2021 17:58:44 -0500
+Received: from mail-oi1-f175.google.com ([209.85.167.175]:35328 "EHLO
+        mail-oi1-f175.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S235493AbhLMW6n (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 13 Dec 2021 17:55:47 -0500
-Received: from mail-ed1-x52d.google.com (mail-ed1-x52d.google.com [IPv6:2a00:1450:4864:20::52d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DDD47C06173F
-        for <linux-media@vger.kernel.org>; Mon, 13 Dec 2021 14:55:46 -0800 (PST)
-Received: by mail-ed1-x52d.google.com with SMTP id l25so57516345eda.11
-        for <linux-media@vger.kernel.org>; Mon, 13 Dec 2021 14:55:46 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=subject:from:to:cc:references:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=/nvhxeMTi05OGmz1DsmtB7RmMc0RwaHnCA/LhMCRmZs=;
-        b=HrJDI8IX0mMlJsutIPoMjb+Oc6sUOW4+n6t8+j0m7VBiYBUYJzZllbSW2pZyEEpsT9
-         rTGVg4xUaLUsYajEll9J6CRYLXMG5ephiRE/Y697Quu56dy1kJUEh1PCpGjQd1SEtuIO
-         jyFid9OUZE87cBCbgQFFu0713nbb0y9ssTyyb9FEjhzu/lC8D8nAjCtKjeHwW8N+t7rL
-         nOM0Okjaaf4oA14Rrr8g2bHgVBnUeRFX8EpMH5hHaeqNjEJE7mcFHHTKAAIvbCY05fap
-         YVG6TU6NuMHdYO949vw5cwp1LGCnyA98gIGuDUqiXRC4g/O+cZRV0GRVYfBdf/PA1E6W
-         KedA==
+        Mon, 13 Dec 2021 17:58:43 -0500
+Received: by mail-oi1-f175.google.com with SMTP id m6so25174947oim.2;
+        Mon, 13 Dec 2021 14:58:43 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:subject:from:to:cc:references:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=/nvhxeMTi05OGmz1DsmtB7RmMc0RwaHnCA/LhMCRmZs=;
-        b=CqRpTKKU463PkCQIIwwrQDHd3EPYBlEyN8ljtdtEJF9If08hzIx5X6m6LCztUKuQDP
-         aNtozBNhNGbqt5VyjgHTThMi5DsT036jekNzduT7NZlEB8gMuKS4UDtfgA+d7xPYdTbd
-         wjNqndtaOGENjwkahNLTf3rYEiPvC8DutgT888bK/qJd9Qh2GBbVVNQ6dQwjpr6Xjqjz
-         xJxQBOufdOCNFYOmwhj3QooZzxPGhsKxEqdF7yUsLr7JC1KWXThW09V58yAmQIxYqyhX
-         gIAUWLzWxFRy+doMqGOIdm1R82Q0EHEqZuY+O0NYQ6sZc8o7TDio5W1ucc9pvMwlkV3X
-         VhQQ==
-X-Gm-Message-State: AOAM532KQ+HGwUQy8tVi0aBsPKbkpaBQ+e8DCebqheXEoWzvUO8n0uNe
-        oBnFYQikeKP7awYaqR5/aYbNWw==
-X-Google-Smtp-Source: ABdhPJyOuKQfGjttoEpTXUX47uqhRj3Qnn0Z9g70ETG9oc780+wOIHeV4mG3irsYY0uFJAP8XiurHA==
-X-Received: by 2002:a17:907:d89:: with SMTP id go9mr1516948ejc.330.1639436145433;
-        Mon, 13 Dec 2021 14:55:45 -0800 (PST)
-Received: from [192.168.1.15] (hst-221-97.medicom.bg. [84.238.221.97])
-        by smtp.googlemail.com with ESMTPSA id a13sm6882861edk.29.2021.12.13.14.55.44
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 13 Dec 2021 14:55:45 -0800 (PST)
-Subject: Re: [PATCH v2] media: venus: Synchronize probe() between venus_core
- and enc/dec
-From:   Stanimir Varbanov <stanimir.varbanov@linaro.org>
-To:     John Stultz <john.stultz@linaro.org>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>
-Cc:     Tadeusz Struk <tadeusz.struk@linaro.org>,
-        Andy Gross <agross@kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Lee Jones <lee.jones@linaro.org>,
-        Amit Pundir <amit.pundir@linaro.org>,
-        linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <20211029214833.2615274-1-tadeusz.struk@linaro.org>
- <YZ2x+xuvnHC48MHg@ripper>
- <CALAqxLV7YzuHLzNFSWawjpoJGb3WwO4bgnMN_5mWoHmB582kZw@mail.gmail.com>
- <CALAqxLWjK4h-ghF5s8qV6Q3Wp3K1N816dTfiLNatBTms6NDe3A@mail.gmail.com>
- <fee96315-28cb-58a1-7f2d-eb82d9ecb56a@linaro.org>
-Message-ID: <906cfb55-3f9a-e7ab-355c-ba4f02029f93@linaro.org>
-Date:   Tue, 14 Dec 2021 00:55:44 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=oN9QD+4le2ZstPeai9jkstj5lqXyXh/QMU7lqvGG3Pk=;
+        b=UMNxU1zMDkjec1gNKp76YavXleP1zKjPK6NGYLKA13M23ModNwmAtUMYoGUwwggL13
+         O3KHco51WGE6flshvoOPPrNKVqtou63gYWFDiG7/R693RCjexgOVf4LClsOvt2deKZdL
+         EHrJJ5caSqnG6IKl+YWFHDYBQIsLJPjGl7lNIG/4FU+/hXICHfWi1T/pqQpp5Mf+akpP
+         H1isOlSRi7/9aBgCAiJJQD9mycsQtWw0276kCNnI7O91qgVUeK0s2VmDNX2qHRil/JnY
+         6P9EZO1zVHQqWajwVdYXVdrceOWsPlbM+k86JV4SODNsf9A2nHFF0ud2yohECmC60Ll7
+         x2AQ==
+X-Gm-Message-State: AOAM532XY0i0H47dF39kHVC6ealQC+fIx1IHPJHnlOLvnaZCDfXDcn3t
+        usFaNHapcDiW4AzH1yVDQaVP2zi7uQ==
+X-Google-Smtp-Source: ABdhPJyhck/wutr6Ityf3XzrySgOzaFKaTPPjvCmroXJCzXIzya7jzKoPRUQdlcYAzGW5TlO6ICYyA==
+X-Received: by 2002:a05:6808:1454:: with SMTP id x20mr1349974oiv.166.1639436322844;
+        Mon, 13 Dec 2021 14:58:42 -0800 (PST)
+Received: from robh.at.kernel.org (66-90-148-213.dyn.grandenetworks.net. [66.90.148.213])
+        by smtp.gmail.com with ESMTPSA id v19sm2442838ott.13.2021.12.13.14.58.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 13 Dec 2021 14:58:41 -0800 (PST)
+Received: (nullmailer pid 1736453 invoked by uid 1000);
+        Mon, 13 Dec 2021 22:58:40 -0000
+Date:   Mon, 13 Dec 2021 16:58:40 -0600
+From:   Rob Herring <robh@kernel.org>
+To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Niklas =?iso-8859-1?Q?S=F6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Prabhakar <prabhakar.csengg@gmail.com>,
+        Biju Das <biju.das.jz@bp.renesas.com>
+Subject: Re: [RFC PATCH 1/3] media: dt-bindings: media: Document RZ/G2L CRU
+ block
+Message-ID: <YbfQIPS270So+jUh@robh.at.kernel.org>
+References: <20211207012351.15754-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20211207012351.15754-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
 MIME-Version: 1.0
-In-Reply-To: <fee96315-28cb-58a1-7f2d-eb82d9ecb56a@linaro.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20211207012351.15754-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-
-
-On 12/14/21 12:50 AM, Stanimir Varbanov wrote:
-> From 9bfb69026374fa010d36680554e2634d5d435681 Mon Sep 17 00:00:00 2001
-> From: Stanimir Varbanov <stanimir.varbanov@linaro.org>
-> Date: Tue, 14 Dec 2021 00:45:18 +0200
-> Subject: [PATCH] venus: WIP: Rework and reorder firmware load
+On Tue, Dec 07, 2021 at 01:23:49AM +0000, Lad Prabhakar wrote:
+> Document the CRU block found on Renesas RZ/G2L SoC's.
 > 
-> Signed-off-by: Stanimir Varbanov <stanimir.varbanov@linaro.org>
+> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 > ---
->  drivers/media/platform/qcom/venus/core.c     |  8 +++----
->  drivers/media/platform/qcom/venus/core.h     |  2 ++
->  drivers/media/platform/qcom/venus/firmware.c | 22 +++++++++++++++++++-
->  drivers/media/platform/qcom/venus/vdec.c     |  3 ++-
->  drivers/media/platform/qcom/venus/venc.c     |  3 ++-
->  5 files changed, 31 insertions(+), 7 deletions(-)
+>  .../bindings/media/renesas,rzg2l-cru.yaml     | 227 ++++++++++++++++++
+>  1 file changed, 227 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/media/renesas,rzg2l-cru.yaml
 > 
-> diff --git a/drivers/media/platform/qcom/venus/core.c
-> b/drivers/media/platform/qcom/venus/core.c
-> index 877eca125803..7f65b08b2bac 100644
-> --- a/drivers/media/platform/qcom/venus/core.c
-> +++ b/drivers/media/platform/qcom/venus/core.c
-> @@ -344,10 +344,6 @@ static int venus_probe(struct platform_device *pdev)
->  	if (ret < 0)
->  		goto err_runtime_disable;
-> 
-> -	ret = of_platform_populate(dev->of_node, NULL, NULL, dev);
-> -	if (ret)
-> -		goto err_runtime_disable;
-> -
->  	ret = venus_firmware_init(core);
->  	if (ret)
->  		goto err_of_depopulate;
-> @@ -372,6 +368,10 @@ static int venus_probe(struct platform_device *pdev)
->  	if (ret)
->  		goto err_venus_shutdown;
-> 
-> +	ret = of_platform_populate(dev->of_node, NULL, NULL, dev);
-> +	if (ret)
-> +		goto err_venus_shutdown;
+> diff --git a/Documentation/devicetree/bindings/media/renesas,rzg2l-cru.yaml b/Documentation/devicetree/bindings/media/renesas,rzg2l-cru.yaml
+> new file mode 100644
+> index 000000000000..7b2835810516
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/media/renesas,rzg2l-cru.yaml
+> @@ -0,0 +1,227 @@
+> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
+> +# Copyright (C) 2021 Renesas Electronics Corp.
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/media/renesas,rzg2l-cru.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
 > +
->  	ret = pm_runtime_put_sync(dev);
->  	if (ret) {
->  		pm_runtime_get_noresume(dev);
-> diff --git a/drivers/media/platform/qcom/venus/core.h
-> b/drivers/media/platform/qcom/venus/core.h
-> index 7c3bac01cd49..6455efb35168 100644
-> --- a/drivers/media/platform/qcom/venus/core.h
-> +++ b/drivers/media/platform/qcom/venus/core.h
-> @@ -182,6 +182,8 @@ struct venus_core {
->  	atomic_t insts_count;
->  	unsigned int state;
->  	struct completion done;
-> +	struct completion fwload_done;
-> +	bool fwload_success;
->  	unsigned int error;
->  	unsigned long sys_error;
->  	wait_queue_head_t sys_err_done;
-> diff --git a/drivers/media/platform/qcom/venus/firmware.c
-> b/drivers/media/platform/qcom/venus/firmware.c
-> index 14b6f1d05991..d523fbeb9d56 100644
-> --- a/drivers/media/platform/qcom/venus/firmware.c
-> +++ b/drivers/media/platform/qcom/venus/firmware.c
-> @@ -76,6 +76,14 @@ int venus_set_hw_state(struct venus_core *core, bool
-> resume)
->  	return 0;
->  }
-> 
-> +static void firmware_async_load(const struct firmware *fw, void *context)
-> +{
-> +	struct venus_core *core = context;
+> +title: Renesas RZ/G2L Camera Data Receiving Unit (CRU)
 > +
-> +	core->fwload_success = true;
+> +maintainers:
+> +  - Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> +
+> +description:
+> +  The RZ/G2L Camera Data Receiving Unit (CRU) device provides video input
+> +  capabilities for the Renesas RZ/G2L family of devices.
+> +
+> +  Depending on the instance the Image Processing input is connected to
+> +  external SoC pins or to a CSI-2 receiver.
+> +
+> +properties:
+> +  compatible:
+> +    oneOf:
+> +      - items:
 
-this should be
+Don't need oneOf with only 1 entry.
 
-	if (fw)
-		core->fwload_success = true;
+> +          - enum:
+> +              - renesas,r9a07g044-cru     # RZ/G2{L,LC}
+> +          - const: renesas,rzg2l-cru
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  interrupts:
+> +    maxItems: 4
+> +
+> +  interrupt-names:
+> +    items:
+> +      - const: csi2_link_int
+> +      - const: image_conv_int
+> +      - const: image_conv_err_int
+> +      - const: axi_mst_err_int
 
-> +	complete(&core->fwload_done);
-> +}
-> +
->  static int venus_load_fw(struct venus_core *core, const char *fwname,
->  			 phys_addr_t *mem_phys, size_t *mem_size)
->  {
-> @@ -101,10 +109,22 @@ static int venus_load_fw(struct venus_core *core,
-> const char *fwname,
->  	if (ret)
->  		goto err_put_node;
-> 
-> -	ret = request_firmware(&mdt, fwname, dev);
-> +	init_completion(&core->fwload_done);
-> +	core->fwload_success = false;
-> +
-> +	ret = request_firmware_nowait(THIS_MODULE, FW_ACTION_NOUEVENT, fwname,
-> +				      dev, GFP_KERNEL, core,
-> +				      firmware_async_load);
->  	if (ret < 0)
->  		goto err_put_node;
-> 
-> +	wait_for_completion(&core->fwload_done);
-> +
-> +	if (!core->fwload_success) {
-> +		ret = -ENOENT;
-> +		goto err_put_node;
-> +	}
-> +
->  	fw_size = qcom_mdt_get_size(mdt);
->  	if (fw_size < 0) {
->  		ret = fw_size;
-> diff --git a/drivers/media/platform/qcom/venus/vdec.c
-> b/drivers/media/platform/qcom/venus/vdec.c
-> index 91da3f509724..0e718d24a3b3 100644
-> --- a/drivers/media/platform/qcom/venus/vdec.c
-> +++ b/drivers/media/platform/qcom/venus/vdec.c
-> @@ -1718,6 +1718,8 @@ static int vdec_probe(struct platform_device *pdev)
->  	if (!vdev)
->  		return -ENOMEM;
-> 
-> +	core->dev_dec = dev;
-> +
->  	strscpy(vdev->name, "qcom-venus-decoder", sizeof(vdev->name));
->  	vdev->release = video_device_release;
->  	vdev->fops = &vdec_fops;
-> @@ -1731,7 +1733,6 @@ static int vdec_probe(struct platform_device *pdev)
->  		goto err_vdev_release;
-> 
->  	core->vdev_dec = vdev;
-> -	core->dev_dec = dev;
-> 
->  	video_set_drvdata(vdev, core);
->  	pm_runtime_set_autosuspend_delay(dev, 2000);
-> diff --git a/drivers/media/platform/qcom/venus/venc.c
-> b/drivers/media/platform/qcom/venus/venc.c
-> index 84bafc3118cc..1b3fb927eb16 100644
-> --- a/drivers/media/platform/qcom/venus/venc.c
-> +++ b/drivers/media/platform/qcom/venus/venc.c
-> @@ -1448,6 +1448,8 @@ static int venc_probe(struct platform_device *pdev)
->  	if (!vdev)
->  		return -ENOMEM;
-> 
-> +	core->dev_enc = dev;
-> +
->  	strscpy(vdev->name, "qcom-venus-encoder", sizeof(vdev->name));
->  	vdev->release = video_device_release;
->  	vdev->fops = &venc_fops;
-> @@ -1461,7 +1463,6 @@ static int venc_probe(struct platform_device *pdev)
->  		goto err_vdev_release;
-> 
->  	core->vdev_enc = vdev;
-> -	core->dev_enc = dev;
-> 
->  	video_set_drvdata(vdev, core);
->  	pm_runtime_set_autosuspend_delay(dev, 2000);
-> -- 2.25.1
+_int is redundant.
 
--- 
-regards,
-Stan
+> +
+> +  clocks:
+> +    items:
+> +      - description: Internal clock for connecting CRU and MIPI
+> +      - description: CRU Main clock
+> +      - description: CPU Register access clock
+> +      - description: CRU image transfer clock
+> +
+> +  clock-names:
+> +    items:
+> +      - const: sysclk
+> +      - const: vclk
+> +      - const: pclk
+> +      - const: aclk
+> +
+> +  power-domains:
+> +    maxItems: 1
+> +
+> +  resets:
+> +    items:
+> +      - description: CRU_CMN_RSTB reset terminal
+> +      - description: CRU_PRESETN reset terminal
+> +      - description: CRU_ARESETN reset terminal
+> +
+> +  reset-names:
+> +    items:
+> +      - const: cmn-rstb
+> +      - const: presetn
+> +      - const: aresetn
+> +
+> +  ports:
+> +    $ref: /schemas/graph.yaml#/properties/ports
+> +
+> +    properties:
+> +      port@0:
+> +        $ref: /schemas/graph.yaml#/$defs/port-base
+> +        unevaluatedProperties: false
+> +        description:
+> +          Input port node, single endpoint describing a parallel input source.
+> +
+> +        properties:
+> +          endpoint:
+> +            $ref: video-interfaces.yaml#
+> +            unevaluatedProperties: false
+> +
+> +            properties:
+> +              hsync-active: true
+> +
+> +              vsync-active: true
+> +
+> +              bus-width: true
+> +
+> +              data-shift: true
+> +
+> +      port@1:
+> +        $ref: /schemas/graph.yaml#/$defs/port-base
+> +        unevaluatedProperties: false
+> +        description:
+> +          Input port node, single endpoint describing the CSI-2 transmitter.
+> +
+> +        properties:
+> +          endpoint:
+> +            $ref: video-interfaces.yaml#
+> +            unevaluatedProperties: false
+> +
+> +            properties:
+> +              clock-lanes:
+> +                maxItems: 1
+> +
+> +              data-lanes:
+> +                maxItems: 1
+> +
+> +            required:
+> +              - clock-lanes
+> +              - data-lanes
+> +
+> +      port@2:
+> +        $ref: /schemas/graph.yaml#/properties/port
+> +        description:
+> +          Output port node, describing the RZ/G2L Image Processing module
+> +          connected the CSI-2 receiver
+> +
+> +        properties:
+> +          endpoint@0:
+
+Unless you have mutiple endpoints to define or endpoint properties to 
+add, you don't need to specify anything more than the port.
+
+> +            $ref: /schemas/graph.yaml#/properties/endpoint
+> +            description: Endpoint connected to CSI2.
+> +
+> +        anyOf:
+> +          - required:
+> +              - endpoint@0
+> +
+> +      port@3:
+> +        $ref: /schemas/graph.yaml#/properties/port
+> +        description:
+> +          Input port node, describing the RZ/G2L CSI-2 module connected the
+> +          Image Processing block.
+> +
+> +        properties:
+> +          endpoint@0:
+> +            $ref: /schemas/graph.yaml#/properties/endpoint
+> +            description: Endpoint connected to CSI2.
+> +
+> +        anyOf:
+> +          - required:
+> +              - endpoint@0
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - interrupts
+> +  - interrupt-names
+> +  - clocks
+> +  - clock-names
+> +  - resets
+> +  - reset-names
+> +  - power-domains
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  # Device node example with CSI-2
+> +  - |
+> +    #include <dt-bindings/clock/r9a07g044-cpg.h>
+> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
+> +
+> +    cru: video@10830000 {
+> +            compatible = "renesas,r9a07g044-cru", "renesas,rzg2l-cru";
+> +            reg = <0x10830000 0x10000>;
+> +            interrupts = <GIC_SPI 166 IRQ_TYPE_LEVEL_HIGH>,
+> +                         <GIC_SPI 167 IRQ_TYPE_LEVEL_HIGH>,
+> +                         <GIC_SPI 168 IRQ_TYPE_LEVEL_HIGH>,
+> +                         <GIC_SPI 169 IRQ_TYPE_LEVEL_HIGH>;
+> +            interrupt-names = "csi2_link_int", "image_conv_int",
+> +                              "image_conv_err_int", "axi_mst_err_int";
+> +            clocks = <&cpg CPG_MOD R9A07G044_CRU_SYSCLK>,
+> +                     <&cpg CPG_MOD R9A07G044_CRU_VCLK>,
+> +                     <&cpg CPG_MOD R9A07G044_CRU_PCLK>,
+> +                     <&cpg CPG_MOD R9A07G044_CRU_ACLK>;
+> +            clock-names = "sysclk", "vclk", "pclk", "aclk";
+> +            power-domains = <&cpg>;
+> +            resets = <&cpg R9A07G044_CRU_CMN_RSTB>,
+> +                     <&cpg R9A07G044_CRU_PRESETN>,
+> +                     <&cpg R9A07G044_CRU_ARESETN>;
+> +            reset-names = "cmn-rstb", "presetn", "aresetn";
+> +
+> +            ports {
+> +                    #address-cells = <1>;
+> +                    #size-cells = <0>;
+> +
+> +                    port@1 {
+> +                            #address-cells = <1>;
+> +                            #size-cells = <0>;
+> +
+> +                            reg = <1>;
+> +
+> +                            csi2_in: endpoint@0 {
+> +                                    reg = <0>;
+> +                                    clock-lanes = <0>;
+> +                                    data-lanes = <1 2>;
+> +                                    remote-endpoint = <&ov5645_ep>;
+> +                            };
+> +                    };
+> +
+> +                    port@2 {
+> +                            #address-cells = <1>;
+> +                            #size-cells = <0>;
+> +
+> +                            reg = <2>;
+> +
+> +                            csi2cru: endpoint@0 {
+> +                                    reg = <0>;
+> +                                    remote-endpoint= <&crucsi2>;
+> +                            };
+> +                    };
+> +
+> +                    port@3 {
+> +                            #address-cells = <1>;
+> +                            #size-cells = <0>;
+> +
+> +                            reg = <3>;
+> +
+> +                            crucsi2: endpoint@0 {
+> +                                    reg = <0>;
+> +                                    remote-endpoint= <&csi2cru>;
+> +                            };
+> +                    };
+> +            };
+> +    };
+> -- 
+> 2.17.1
+> 
+> 
