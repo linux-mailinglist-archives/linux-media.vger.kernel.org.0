@@ -2,101 +2,113 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9386F472F2C
-	for <lists+linux-media@lfdr.de>; Mon, 13 Dec 2021 15:27:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D0C28472F65
+	for <lists+linux-media@lfdr.de>; Mon, 13 Dec 2021 15:33:53 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239180AbhLMO1q (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 13 Dec 2021 09:27:46 -0500
-Received: from www.linuxtv.org ([130.149.80.248]:57004 "EHLO www.linuxtv.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S239139AbhLMO1q (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 13 Dec 2021 09:27:46 -0500
-Received: from builder.linuxtv.org ([140.211.167.10] helo=slave0)
-        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1mwmIq-001XRS-ML; Mon, 13 Dec 2021 14:27:44 +0000
-Received: from ip6-localhost ([::1] helo=localhost.localdomain)
-        by slave0 with esmtp (Exim 4.94.2)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1mwmIo-00EJN3-Cp; Mon, 13 Dec 2021 14:27:42 +0000
-From:   Jenkins <jenkins@linuxtv.org>
-To:     mchehab+samsung@kernel.org, linux-media@vger.kernel.org
-Cc:     builder@linuxtv.org
-Subject: Re: [GIT PULL FOR 5.17] V4L2 patches (#79352)
-Date:   Mon, 13 Dec 2021 14:27:42 +0000
-Message-Id: <20211213142742.3411007-1-jenkins@linuxtv.org>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <YbdPdh/ivnjZKIOA@valkosipuli.retiisi.eu>
-References: 
+        id S239433AbhLMOdu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 13 Dec 2021 09:33:50 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41744 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S239430AbhLMOdt (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Mon, 13 Dec 2021 09:33:49 -0500
+Received: from mail-lj1-x229.google.com (mail-lj1-x229.google.com [IPv6:2a00:1450:4864:20::229])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BD92BC06173F
+        for <linux-media@vger.kernel.org>; Mon, 13 Dec 2021 06:33:48 -0800 (PST)
+Received: by mail-lj1-x229.google.com with SMTP id z8so23943235ljz.9
+        for <linux-media@vger.kernel.org>; Mon, 13 Dec 2021 06:33:48 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:reply-to:from:date:message-id:subject:to
+         :content-transfer-encoding;
+        bh=CbA+5ZHGa1HxKsPMKw+RROjkQYigebR64chE+BlfOuc=;
+        b=LzZZ1cx0iN5YT5q1tpBJT8vaZqKqBz8EkczCWfvuYybCm8qZHr1wHHqERGELxjWtPl
+         BVMoOkmEiBCnC7NPhTOqKMK1KZXbhLMqwJINSEzdBjS4Y33WEn34Tx7q4K0wlKplZ4Bi
+         xkaKu0DPBtBLFVkKCKimZLkSqC+YqbbrJtg21IpjXGOjhBwqeUb9L6LbNn0iA62WgwOI
+         L4raqioOpwaM7akCjdybXDfOYMF4UuYTicsxxRW9OB+3RR5CXlrXQbvbJ2+lBn647XlJ
+         T5a2x54CSRtS0JuypjEZQ+TwZd5Zkq3JyllFOlvM/7RDlt6sCV1NPBnVTRbGVyJ6gi5d
+         RRYg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to:content-transfer-encoding;
+        bh=CbA+5ZHGa1HxKsPMKw+RROjkQYigebR64chE+BlfOuc=;
+        b=h4YqtgJdWBypyv6aBoVsnYRuLrAKK/OcBow8Mr3HkMPt7Iw8zbOyOfEPN5ZZXUG4qf
+         m0a1LikRU9vsCctlryzBEQcJIU8pFStOJSfFzgLXctrrDG/iFc2sS0XwPejFhc2zcJPp
+         1RnGectCW08EvrvkWxEcakcEpYY5VFrUO2c0yar6yh121zFien9TNkuQ4DYHQbwAr2d0
+         bzb6WxnIpor5BdE3dP6HMwQBMfueObWodDtP2kyAsoCglXnu05pNp9TdpAqZqKkVPs21
+         WydvnZw4BCyibKjQ2o2vVjAirHXaQtvUAoRmEuKtCkUj2qIiZ3I4YNwsRmOiYl+/deN6
+         p6Iw==
+X-Gm-Message-State: AOAM5317sUawMK249lajRNRf2AL5vkmDQhCWcDWx1VmnNKA4fTMuDl1o
+        uss0AaNsf82/etOhK5u5a+DG9WGycm/h4Nqq2+U=
+X-Google-Smtp-Source: ABdhPJywMCXDj4wfOO1DwArdYnoMdJKuXHOwDNLcezPT75p1Bi+8fcSkzZo0hUcHiTpa9uDmS3tBTvQLZyR5wLcK9gc=
+X-Received: by 2002:a2e:3c16:: with SMTP id j22mr4646524lja.158.1639406026773;
+ Mon, 13 Dec 2021 06:33:46 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Received: by 2002:a05:6512:1592:0:0:0:0 with HTTP; Mon, 13 Dec 2021 06:33:45
+ -0800 (PST)
+Reply-To: jesspayne72@gmail.com
+From:   Jess Payne <mariamsawadugo1@gmail.com>
+Date:   Mon, 13 Dec 2021 06:33:45 -0800
+Message-ID: <CAFAVePEy1f_fM5v79eec7g_VmB4tVTh=1WazYuoh7vszi2mdUQ@mail.gmail.com>
+Subject: I need your assistance
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: builder@linuxtv.org
+I'm Mrs. Sergeant Jess Payne.
 
-Pull request: https://patchwork.linuxtv.org/project/linux-media/patch/YbdPdh/ivnjZKIOA@valkosipuli.retiisi.eu/
-Build log: https://builder.linuxtv.org/job/patchwork/165075/
-Build time: 00:35:23
-Link: https://lore.kernel.org/linux-media/YbdPdh/ivnjZKIOA@valkosipuli.retiisi.eu
+In the military branch of the US Army. USA, A Sergeant, 32, I am
+single from Cleveland, Tennessee, United States, currently stationed
+in Syria, at war with terrorism. My unit is the 782nd Brigade Support
+Battalion, 4th Nursing Team.
 
-gpg: Signature made Mon 13 Dec 2021 12:05:48 PM UTC
-gpg:                using DSA key 53AC58A5F5948636C04A1BF8141DFA54A1EC8DEA
-gpg:                issuer "sakari.ailus@linux.intel.com"
-gpg: Good signature from "Sakari Ailus <sakari.ailus@linux.intel.com>" [unknown]
-gpg: WARNING: This key is not certified with a trusted signature!
-gpg:          There is no indication that the signature belongs to the owner.
-Primary key fingerprint: F0D0 377A 0D4F 25A7 9238  EFE5 6D40 361B 6E28 C193
-     Subkey fingerprint: 53AC 58A5 F594 8636 C04A  1BF8 141D FA54 A1EC 8DEA
+I am a loving, honest and affectionate person with a good sense of
+humor, I enjoy meeting new people and getting to know their way of
+life, I enjoy seeing the waves of the sea and the beauty of the
+mountains and all that nature has to offer. It would be a pleasure to
+know more about you and I think we can establish a good business
+friendship.
 
-Summary: got 3/5 patches with issues, being 2 at build time, plus one error when buinding PDF document
+I have been so much unhappy because life has been unfair to me for
+some years now; i lost my parents, when i was 21 years. My father name
+is Joel Payne and my mother Mary Payne. Nobody to help me, but am
+happy i finally found myself in the US military.
 
-Error/warnings:
+I got married and had a child, but he died and shortly after my
+husband started cheating on me, so I had to give up the marriage.
 
-patches/0001-max96712-Depend-on-VIDEO_V4L2.patch:
+I am also blessed there in my country, the United States, and here in
+Syria, with everything I need in life, but no one to advise me. In
+which I need an honest person to trust and who will also advise me on
+how to invest my money. Because I was the only girl my parents gave
+birth to before they died.
 
-    allyesconfig: return code #0:
-	../scripts/genksyms/parse.y: warning: 9 shift/reduce conflicts [-Wconflicts-sr]
-	../scripts/genksyms/parse.y: warning: 5 reduce/reduce conflicts [-Wconflicts-rr]
-	../scripts/genksyms/parse.y: note: rerun with option '-Wcounterexamples' to generate conflict counterexamples
+I don't know you in person, but I think there is a good human being
+who can be trusted and who can build authentic trust and good business
+friendship, I also have something to share with you if you really have
+a name of honesty and trust. On you, because I will need your help. I
+have in my possession the sum of ($ 5.5 million) that I made here in
+Syria. I will tell you how I did it in my next email, do not panic,
+they are risk free and I also deposited this money in a bank with the
+help of a humanitarian doctor linked to the Red. I want you to present
+yourself as my beneficiary to receive the Fund and keep it safe when
+I'm done here and get my military pass to meet you there in your
+country; don=E2=80=99t be afraid the bank will store the fund in an ATM VIS=
+A
+CARD which is secured and faster for us.
 
-    allyesconfig: return code #0:
-	SMATCH:../drivers/media/usb/siano/smsusb.c ../drivers/media/usb/siano/smsusb.c:53:38: :warning: array of flexible structures
-	SPARSE:../drivers/media/usb/siano/smsusb.c ../drivers/media/usb/siano/smsusb.c:53:38: warning: array of flexible structures
-	../drivers/media/rc/meson-ir-tx.c:22: warning: expecting prototype for meson(). Prototype was for DEVICE_NAME() instead
-	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2625 dvb_register() parse error: turning off implications after 60 seconds
-	../drivers/media/i2c/ov8865.c: ../drivers/media/i2c/ov8865.c:2841 ov8865_get_selection() warn: inconsistent indenting
-	../drivers/media/test-drivers/vivid/vivid-core.c: ../drivers/media/test-drivers/vivid/vivid-core.c:1981 vivid_create_instance() parse error: turning off implications after 60 seconds
-	../drivers/media/platform/qcom/venus/helpers.c: ../drivers/media/platform/qcom/venus/helpers.c:658 venus_helper_get_bufreq() error: we previously assumed 'req' could be null (see line 654)
-	../drivers/media/usb/em28xx/em28xx-video.c: ../drivers/media/usb/em28xx/em28xx-video.c:2874 em28xx_v4l2_init() parse error: turning off implications after 60 seconds
+Note; I don't know how long we are going to stay here and my destiny
+since I survived two bomb attacks here, which led me to look for a
+trustworthy person to help me receive and invest the Fund, because I
+will be coming to your country of origin to invest and start a new
+life, no longer as a soldier.
 
-patches/0004-media-dt-bindings-Add-Intersil-ISL79987-DT-bindings.patch:
-
-   checkpatch.pl:
-	$ cat patches/0004-media-dt-bindings-Add-Intersil-ISL79987-DT-bindings.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
-	-:23: WARNING: added, moved or deleted file(s), does MAINTAINERS need updating?
-
-patches/0005-media-i2c-isl7998x-Add-driver-for-Intersil-ISL7998x.patch:
-
-    allyesconfig: return code #0:
-	../drivers/media/i2c/ov8865.c: ../drivers/media/i2c/ov8865.c:2841 ov8865_get_selection() warn: inconsistent indenting
-	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2625 dvb_register() parse error: turning off implications after 60 seconds
-	../drivers/media/platform/qcom/venus/helpers.c: ../drivers/media/platform/qcom/venus/helpers.c:658 venus_helper_get_bufreq() error: we previously assumed 'req' could be null (see line 654)
-	../drivers/media/usb/em28xx/em28xx-video.c: ../drivers/media/usb/em28xx/em28xx-video.c:2864 em28xx_v4l2_init() parse error: turning off implications after 60 seconds
-
-   checkpatch.pl:
-	$ cat patches/0005-media-i2c-isl7998x-Add-driver-for-Intersil-ISL7998x.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
-	-:59: WARNING: please write a paragraph that describes the config symbol fully
-	-:879: CHECK: Alignment should match open parenthesis
-	-:1165: ERROR: Macros with complex values should be enclosed in parentheses
-	-:1165: CHECK: Macro argument reuse 'page' - possible side-effects?
-	-:1193: ERROR: Macros with complex values should be enclosed in parentheses
-	-:1193: CHECK: Macro argument reuse 'page' - possible side-effects?
-	-:1227: ERROR: Macros with complex values should be enclosed in parentheses
-	-:1227: CHECK: Macro argument reuse 'page' - possible side-effects?
-
-
-Error #512 when building PDF docs
-
+Please respond to me if you are willing to handle this carefully. I
+will tell you the next process and send you more information about the
+bank where the Fund is deposited. And how the bank will help us move
+the money to your country through ATM VISA CARD. Please contact me if
+you are interested.
