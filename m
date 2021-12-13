@@ -2,118 +2,60 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7308B472D91
-	for <lists+linux-media@lfdr.de>; Mon, 13 Dec 2021 14:40:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0AE69472D9E
+	for <lists+linux-media@lfdr.de>; Mon, 13 Dec 2021 14:42:10 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237761AbhLMNkO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 13 Dec 2021 08:40:14 -0500
-Received: from esa.microchip.iphmx.com ([68.232.154.123]:25757 "EHLO
-        esa.microchip.iphmx.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237740AbhLMNkN (ORCPT
+        id S237785AbhLMNmI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 13 Dec 2021 08:42:08 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56644 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S237786AbhLMNmH (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 13 Dec 2021 08:40:13 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
-  t=1639402813; x=1670938813;
-  h=subject:to:cc:references:from:message-id:date:
-   mime-version:in-reply-to:content-transfer-encoding;
-  bh=+A9fEozVZHok3npBonJzIZu/ogaEiI/8H2o3VCeFoNg=;
-  b=Q2lBCvpanL+IibzhJ0jgQ2YQy0SmRlSWR9H2fSA91dozI+kLDcgN4CIp
-   0j2WKImSPEK7lsE4WLHgjsowHCwBbVNELioSfdtE7lHMfn8K07Q3xPP6M
-   M5oU2endFH6ehBDAM4F9iVUEDGIp5v9xeDxgtCq6gfQ+daR/i5L42Z57g
-   7uzwT847O1EJa153AAZHtYcdktI6kGDQTLFmzxx0OJCjOx+0TZv9EI8Xh
-   cokNPvWcABqcboWCE9zVGeKLFLj7cjKIAvUyIz4/sQQloOmKjOoNH5GHd
-   hHvWxjn39UiTn1fkiqWKFA9IuZ17BbeQaA2HIoOR/+ca3qdIqzPcSz4c7
-   A==;
-IronPort-SDR: 3pLTKlHHa9aGl6CpaQK2IoFrv9t/rE4xoPmOO7VLF9Sj7KsKgOmqyD1iIND4qYB5lHWJXjrN2d
- PSSo3pwCcTUQbHqPywhzYaOBW+n5Sqh9Fb1qqNOXIc1pabKPY/9tLARZKDib8vqpecCU2T0ey0
- la1gynJXlOksfF4F45RYD7tTFBaOxBMyCrX2zEpHowzTdpe6zqiXxZYHwmOiFwaJtacdhfhelW
- /xSKWVGAi9gZ1Q10H4BTXr5wbeCJaFqBxr9t0ph00YKI4EOcYYu7e5BW9S97rMAA5xtMPtwsyk
- 0ZVJ6tkVHGIqv0wEvjmgdOXL
-X-IronPort-AV: E=Sophos;i="5.88,202,1635231600"; 
-   d="scan'208";a="139570623"
-Received: from smtpout.microchip.com (HELO email.microchip.com) ([198.175.253.82])
-  by esa4.microchip.iphmx.com with ESMTP/TLS/AES256-SHA256; 13 Dec 2021 06:40:11 -0700
-Received: from chn-vm-ex01.mchp-main.com (10.10.85.143) by
- chn-vm-ex04.mchp-main.com (10.10.85.152) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.17; Mon, 13 Dec 2021 06:40:12 -0700
-Received: from [10.159.245.112] (10.10.115.15) by chn-vm-ex01.mchp-main.com
- (10.10.85.143) with Microsoft SMTP Server id 15.1.2375.17 via Frontend
- Transport; Mon, 13 Dec 2021 06:40:10 -0700
-Subject: Re: [PATCH v2 01/25] MAINTAINERS: add microchip csi2dc
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Eugen Hristev <eugen.hristev@microchip.com>
-CC:     <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>, <jacopo@jmondi.org>,
-        <sakari.ailus@iki.fi>
-References: <20211112142509.2230884-1-eugen.hristev@microchip.com>
- <20211112142509.2230884-2-eugen.hristev@microchip.com>
- <YaVe1sNFQfYEVtKh@pendragon.ideasonboard.com>
-From:   Nicolas Ferre <nicolas.ferre@microchip.com>
-Organization: microchip
-Message-ID: <25c5a4dd-0927-5b78-e32c-9254fcca29b0@microchip.com>
-Date:   Mon, 13 Dec 2021 14:40:08 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+        Mon, 13 Dec 2021 08:42:07 -0500
+Received: from mail-pf1-x433.google.com (mail-pf1-x433.google.com [IPv6:2607:f8b0:4864:20::433])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 261F3C06173F
+        for <linux-media@vger.kernel.org>; Mon, 13 Dec 2021 05:42:07 -0800 (PST)
+Received: by mail-pf1-x433.google.com with SMTP id u80so14947515pfc.9
+        for <linux-media@vger.kernel.org>; Mon, 13 Dec 2021 05:42:07 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=Av10FJHZ16PNlaWBwLeHhLYMKvHi/4lm87heoggNDKA=;
+        b=U1uBd4ypfG5vkpV6uCv/Xk5Rzkl00cgNZjVzCYmPGJJm6+5Pk/sSwWA2synjqUszQ4
+         ob02ltyVbf/mFRjqsTwoeyu6vfhFRgP+v54uLIe+LJJnTzEC4VMmYkmhgtndwnsXI8by
+         /3ux7pM2Flvtu1dSd9kyAIxGoJOKUO12fiu4QHk0aQPAeiaSzbvcOHLty7U9kpxpmLOK
+         QNtlbVVt1/tJpagOAybJZ4IOWgqYEomOkxGZQQ+0yR7JvODaJvYZClOVRRTLz7aXU872
+         Ypp8DI0vjllfX+Um5/jNmdC4/qCzuru3VTHEK9lFNyMj/sm75TnGS3NdWx5mv5Wfqj4H
+         I95A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to;
+        bh=Av10FJHZ16PNlaWBwLeHhLYMKvHi/4lm87heoggNDKA=;
+        b=Sg/G+OHa+irlqqdq1QaaoUD/HWv3Bc1JTm3uTQeDaVjHkpcd1fnM4kjSaxNr+HaiOI
+         54olE63HON23n65HqzfEUgNYVYaZaqBwa17RxotD+jwzzSTZxzkTFuLeSquSaXZqfaa4
+         A4nWnGchJxHGIj16yG97e0xhzw2EKz4+J6QWefTSdQTqu3snCdDkqP1RAQMzLwZD0EUy
+         uvaOUWsZHoInVP0GcWDV6YSu+wYhsihGUIBnwAslJZsK2Tk/SWRj+ti4WEyIvb2yr8fO
+         MCDepmwCo8p6Rx9pTkiYp1c2W1NGL3Y1E4xBxqsl1zcsY6FjTnhfCLHPhU6Kl00QNiTd
+         OtMA==
+X-Gm-Message-State: AOAM532I/RBm7uRKaAUZ+80aVHwWpHAfQEXlGdykWcDiyS+hyyuvWkzS
+        uij5/JHq//5FLB0ztsD2iUBrVmYfMMZM8NF2lao=
+X-Google-Smtp-Source: ABdhPJyU8p+wXSF8fsUXdzMSpR3Qnx9ERg+/u6AkCAXJ8USZI3Q4wwWUdBJvCB0vV8+MMIies73wJ6o9fgmpKL4OELk=
+X-Received: by 2002:a63:5119:: with SMTP id f25mr53931106pgb.11.1639402926679;
+ Mon, 13 Dec 2021 05:42:06 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <YaVe1sNFQfYEVtKh@pendragon.ideasonboard.com>
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Received: by 2002:a05:6a10:680b:0:0:0:0 with HTTP; Mon, 13 Dec 2021 05:42:06
+ -0800 (PST)
+Reply-To: fionahill.usa@hotmail.com
+From:   Fiona Hill <grace.desmond2021@gmail.com>
+Date:   Mon, 13 Dec 2021 05:42:06 -0800
+Message-ID: <CAOW9D1sWEMe1bL5WS+SNpjcQrNv16pEM6so5LDX-fD3-opxXkg@mail.gmail.com>
+Subject: 
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 30/11/2021 at 00:14, Laurent Pinchart wrote:
-> Hi Eugen,
-> 
-> Thank you for the patch.
-> 
-> On Fri, Nov 12, 2021 at 04:24:45PM +0200, Eugen Hristev wrote:
->> Add Microchip CSI2DC driver in the list.
->>
->> Signed-off-by: Eugen Hristev <eugen.hristev@microchip.com>
-> 
-> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-
-If needed:
-Acked-by: Nicolas Ferre <nicolas.ferre@microchip.com>
-
-Thanks a lot Eugen!
-Best regards,
-   Nicolas
-
->> ---
->>   MAINTAINERS | 7 +++++++
->>   1 file changed, 7 insertions(+)
->>
->> diff --git a/MAINTAINERS b/MAINTAINERS
->> index 486bdf97f754..545c642c937f 100644
->> --- a/MAINTAINERS
->> +++ b/MAINTAINERS
->> @@ -12422,6 +12422,13 @@ L:   alsa-devel@alsa-project.org (moderated for non-subscribers)
->>   S:   Supported
->>   F:   sound/soc/atmel
->>
->> +MICROCHIP CSI2DC DRIVER
->> +M:   Eugen Hristev <eugen.hristev@microchip.com>
->> +L:   linux-media@vger.kernel.org
->> +S:   Supported
->> +F:   Documentation/devicetree/bindings/media/microchip,csi2dc.yaml
->> +F:   drivers/media/platform/atmel/microchip-csi2dc.c
->> +
->>   MICROCHIP ECC DRIVER
->>   M:   Tudor Ambarus <tudor.ambarus@microchip.com>
->>   L:   linux-crypto@vger.kernel.org
-> 
-> --
-> Regards,
-> 
-> Laurent Pinchart
-> 
-
-
 -- 
-Nicolas Ferre
+Hi, did you receive my message  i send to you?
