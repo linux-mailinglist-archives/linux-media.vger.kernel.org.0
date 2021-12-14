@@ -2,46 +2,44 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1BF9F474600
-	for <lists+linux-media@lfdr.de>; Tue, 14 Dec 2021 16:07:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id EF645474617
+	for <lists+linux-media@lfdr.de>; Tue, 14 Dec 2021 16:12:26 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235473AbhLNPG6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 14 Dec 2021 10:06:58 -0500
-Received: from dfw.source.kernel.org ([139.178.84.217]:41168 "EHLO
-        dfw.source.kernel.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235308AbhLNPG6 (ORCPT
+        id S233317AbhLNPM0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 14 Dec 2021 10:12:26 -0500
+Received: from ams.source.kernel.org ([145.40.68.75]:38276 "EHLO
+        ams.source.kernel.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229883AbhLNPMY (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 14 Dec 2021 10:06:58 -0500
+        Tue, 14 Dec 2021 10:12:24 -0500
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 7BF9261513;
-        Tue, 14 Dec 2021 15:06:57 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 351BCC34605;
-        Tue, 14 Dec 2021 15:06:55 +0000 (UTC)
+        by ams.source.kernel.org (Postfix) with ESMTPS id B5496B81A58;
+        Tue, 14 Dec 2021 15:12:22 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6601EC34605;
+        Tue, 14 Dec 2021 15:12:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1639494416;
-        bh=EYufVmTkuXTD1hBchy+lUX58PL7FQ1rkvQEWSW24zgo=;
+        s=k20201202; t=1639494741;
+        bh=Yy4WSR11rEbUUj8oSHYb5/v6Hcw0PnPE3YztZN+362Y=;
         h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=azrQ8ZdL6+6aF7cIbJDAnKqEYJ1Sm+kqvBgyqvWd2Re2fdqhR7CK7nXHBb/IQCp/8
-         yJBxN+vTJswJ0QhZaRXG+OntA+NEbh3wssubCaBJ+ix0V421BGY4umqz+5CSX0X9Qz
-         aYqa5QoHc+px4V0HjQ6EBfTgfpmqjZkJb6Pkmku4z2oP/GVvFDrcvUmE262SXTlpN2
-         5MJ6rfRHZuFs3fiuWs9zBpv/xjZwvmoVqVz0XS839291yWwHHrQ8Jmvm/kI/8AHxN3
-         2ELQY9T4t9IumZNDQxnxU5i05w/q6N/JDelfBo1zPZftO2WaY99zTHrVnEvLLOtNsN
-         EOgSImDUrYnfQ==
-Date:   Tue, 14 Dec 2021 16:06:52 +0100
+        b=NgMScKCA9mwR3E1bfQKuF/vcwttLrXydOhYQcxc1Ou2PrOHikaBZIzt8i5wGKA6sn
+         layap6mjhielEd8nNBZqtHaVAtVc0oz0xvW58G+ppZ9jjA7Mz3bwCUYMy+eKMyGdq8
+         s3RwQwlBtDlkKbZb3wsciWhqQzrRT77eInxJdCpPPe1V6WeFPyNjfAy1h67cZmUTWD
+         j1Ss7xPv1uQ2D4bYwPI6D99sbiYApXa8GJG+yEvSP+y7gVjp2gl13vkbIjBLWMpSnA
+         8WR11kAqZhNcZIdCW567Vy0EkJKy0ONjNNJMMrA4PM0LVVeQFu++x0Q5/byE0Bsci8
+         TnWhqZYPUQOBw==
+Date:   Tue, 14 Dec 2021 16:12:16 +0100
 From:   Mauro Carvalho Chehab <mchehab@kernel.org>
-To:     Marc Gonzalez <marc.w.gonzalez@free.fr>
-Cc:     Sean Young <sean@mess.org>, Brad Love <brad@nextdimension.cc>,
-        linux-media <linux-media@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Antti Palosaari <crope@iki.fi>,
-        Jan Pieter van Woerkom <jp@jpvw.nl>
-Subject: Re: [RFC PATCH][DO NOT COMMIT] media: dvb_frontend: Support
- concurrent DVB-T/DVB-T2 scan
-Message-ID: <20211214160652.058673f1@coco.lan>
-In-Reply-To: <4c32558d-3be7-9a57-b655-65c744c1e532@free.fr>
-References: <4c32558d-3be7-9a57-b655-65c744c1e532@free.fr>
+To:     Jammy Huang <jammy_huang@aspeedtech.com>
+Cc:     <eajames@linux.ibm.com>, <joel@jms.id.au>, <andrew@aj.id.au>,
+        <linux-media@vger.kernel.org>, <openbmc@lists.ozlabs.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-aspeed@lists.ozlabs.org>, <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH] media: aspeed: Use runtime configuration
+Message-ID: <20211214161216.607df557@coco.lan>
+In-Reply-To: <20211207015544.1755-1-jammy_huang@aspeedtech.com>
+References: <20211207015544.1755-1-jammy_huang@aspeedtech.com>
 X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.30; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
@@ -50,80 +48,185 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Em Thu, 11 Jun 2020 13:57:13 +0200
-Marc Gonzalez <marc.w.gonzalez@free.fr> escreveu:
+Hi Jammy,
 
-> Some demodulators (e.g. si2168) are able to scan for DVB-T and DVB-T2
-> signals concurrently. Use SYS_DVBT_AUTO for this purpose.
+A different version of this patch was already applied. If it still makes
+change, please rebase this one on the top of the media upstream and
+re-send.
+
+Thanks,
+Mauro
+
+Em Tue, 7 Dec 2021 09:55:44 +0800
+Jammy Huang <jammy_huang@aspeedtech.com> escreveu:
+
+> The aspeed video IP has some differences between SoC families. Currently
+> the driver decides which registers to use at compile time, which means
+> a single kernel can not be used between platforms.
+> 
+> Switch to using runtime configuration of the registers that vary between
+> SoC families.
+> 
+> Signed-off-by: Joel Stanley <joel@jms.id.au>
+> Signed-off-by: Jammy Huang <jammy_huang@aspeedtech.com>
 > ---
-> This is a Request For Comments from media maintainers and users :-)
-
-Sorry for taking so long to answer... Somehow, this one got stuck in the
-middle of the pile of patches.
-
-I don't think this patch is needed. The same also happens with DVB-S/S2
-cards: when some of those are set to the second gen, it may report both
-1st and 2nd gen channels.
-
-The main issue is actually how to report that a scanned channel is
-DVB-T during a DVB-T2 scan: the driver should likely identify those
-and set the properties accordingly.
-
+>  drivers/media/platform/aspeed-video.c | 71 ++++++++++++++++++++-------
+>  1 file changed, 52 insertions(+), 19 deletions(-)
 > 
-> One issue: suppose DVB Project publishes DVB-T3 in a few years.
-> Today's demods might handle T/T2, but they won't handle T3, while users
-> may expect SYS_DVBT_AUTO to mean "all DVB-T standards".
-> 
-> Therefore, perhaps the delsys name should be explicit,
-> like SYS_DVBT_DVBT2 or SYS_DVBT_1_2.
-> Then if/when DVB_T3 appears, we can add SYS_DVBT_1_2_3 ???
-> 
-> Or maybe use the FE_CAN_2G_MODULATION and hypothetical FE_CAN_3G_MODULATION
-> 
-> Or maybe, with several standards having a v2 and possibly v3 in the future,
-> delivery system might move to a bitmask approach? (API issues though)
-> 
-> Reference to related implementation:
-> https://patchwork.kernel.org/patch/10744999/
-> ---
->  drivers/media/dvb-frontends/si2168.c | 2 +-
->  include/uapi/linux/dvb/frontend.h    | 3 +++
->  2 files changed, 4 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/media/dvb-frontends/si2168.c b/drivers/media/dvb-frontends/si2168.c
-> index 14b93a7d3358..8578b8917955 100644
-> --- a/drivers/media/dvb-frontends/si2168.c
-> +++ b/drivers/media/dvb-frontends/si2168.c
-> @@ -624,7 +624,7 @@ static int si2168_deselect(struct i2c_mux_core *muxc, u32 chan)
+> diff --git a/drivers/media/platform/aspeed-video.c b/drivers/media/platform/aspeed-video.c
+> index d2335d669fb3..ba8ee82b38c3 100644
+> --- a/drivers/media/platform/aspeed-video.c
+> +++ b/drivers/media/platform/aspeed-video.c
+> @@ -75,11 +75,8 @@
+>  #define  VE_SEQ_CTRL_CAP_BUSY		BIT(16)
+>  #define  VE_SEQ_CTRL_COMP_BUSY		BIT(18)
+>  
+> -#ifdef CONFIG_MACH_ASPEED_G4
+> -#define  VE_SEQ_CTRL_JPEG_MODE		BIT(8)	/* AST2400 */
+> -#else
+> -#define  VE_SEQ_CTRL_JPEG_MODE		BIT(13)	/* AST2500/2600 */
+> -#endif
+> +#define AST2500_VE_SEQ_CTRL_JPEG_MODE	BIT(13)
+> +#define AST2400_VE_SEQ_CTRL_JPEG_MODE	BIT(8)
+>  
+>  #define VE_CTRL				0x008
+>  #define  VE_CTRL_HSYNC_POL		BIT(0)
+> @@ -136,9 +133,8 @@
+>  #define  VE_COMP_CTRL_HQ_DCT_CHR	GENMASK(26, 22)
+>  #define  VE_COMP_CTRL_HQ_DCT_LUM	GENMASK(31, 27)
+>  
+> -#define VE_OFFSET_COMP_STREAM		0x078
+> -
+> -#define VE_JPEG_COMP_SIZE_READ_BACK	0x084
+> +#define AST2400_VE_COMP_SIZE_READ_BACK	0x078
+> +#define AST2600_VE_COMP_SIZE_READ_BACK	0x084
+>  
+>  #define VE_SRC_LR_EDGE_DET		0x090
+>  #define  VE_SRC_LR_EDGE_DET_LEFT	GENMASK(11, 0)
+> @@ -233,6 +229,8 @@ struct aspeed_video {
+>  	struct video_device vdev;
+>  	struct mutex video_lock;	/* v4l2 and videobuf2 lock */
+>  
+> +	struct aspeed_video_config config;
+> +
+>  	wait_queue_head_t wait;
+>  	spinlock_t lock;		/* buffer list lock */
+>  	struct delayed_work res_work;
+> @@ -258,6 +256,30 @@ struct aspeed_video {
+>  
+>  #define to_aspeed_video(x) container_of((x), struct aspeed_video, v4l2_dev)
+>  
+> +struct aspeed_video_config {
+> +	u32 version;
+> +	u32 jpeg_mode;
+> +	u32 comp_size_read;
+> +};
+> +
+> +static const struct aspeed_video_config ast2400_config = {
+> +	.version = 4,
+> +	.jpeg_mode = AST2400_VE_SEQ_CTRL_JPEG_MODE,
+> +	.comp_size_read = AST2400_VE_COMP_SIZE_READ_BACK,
+> +};
+> +
+> +static const struct aspeed_video_config ast2500_config = {
+> +	.version = 5,
+> +	.jpeg_mode = AST2500_VE_SEQ_CTRL_JPEG_MODE,
+> +	.comp_size_read = AST2400_VE_COMP_SIZE_READ_BACK,
+> +};
+> +
+> +static const struct aspeed_video_config ast2600_config = {
+> +	.version = 6,
+> +	.jpeg_mode = AST2500_VE_SEQ_CTRL_JPEG_MODE,
+> +	.comp_size_read = AST2600_VE_COMP_SIZE_READ_BACK,
+> +};
+> +
+>  static const u32 aspeed_video_jpeg_header[ASPEED_VIDEO_JPEG_HEADER_SIZE] = {
+>  	0xe0ffd8ff, 0x464a1000, 0x01004649, 0x60000101, 0x00006000, 0x0f00feff,
+>  	0x00002d05, 0x00000000, 0x00000000, 0x00dbff00
+> @@ -640,7 +662,7 @@ static irqreturn_t aspeed_video_irq(int irq, void *arg)
+>  	if (sts & VE_INTERRUPT_COMP_COMPLETE) {
+>  		struct aspeed_video_buffer *buf;
+>  		u32 frame_size = aspeed_video_read(video,
+> -						   VE_JPEG_COMP_SIZE_READ_BACK);
+> +						   video->config.comp_size_read);
+>  
+>  		update_perf(&video->perf);
+>  
+> @@ -973,7 +995,7 @@ static void aspeed_video_update_regs(struct aspeed_video *video)
+>  		FIELD_PREP(VE_COMP_CTRL_DCT_LUM, video->jpeg_quality) |
+>  		FIELD_PREP(VE_COMP_CTRL_DCT_CHR, video->jpeg_quality | 0x10);
+>  	u32 ctrl = 0;
+> -	u32 seq_ctrl = VE_SEQ_CTRL_JPEG_MODE;
+> +	u32 seq_ctrl = video->config.jpeg_mode;
+>  
+>  	v4l2_dbg(1, debug, &video->v4l2_dev, "framerate(%d)\n",
+>  		 video->frame_rate);
+> @@ -993,7 +1015,7 @@ static void aspeed_video_update_regs(struct aspeed_video *video)
+>  
+>  	/* Set control registers */
+>  	aspeed_video_update(video, VE_SEQ_CTRL,
+> -			    VE_SEQ_CTRL_JPEG_MODE | VE_SEQ_CTRL_YUV420,
+> +			    video->config.jpeg_mode | VE_SEQ_CTRL_YUV420,
+>  			    seq_ctrl);
+>  	aspeed_video_update(video, VE_CTRL, VE_CTRL_FRC, ctrl);
+>  	aspeed_video_update(video, VE_COMP_CTRL,
+> @@ -1790,8 +1812,18 @@ static int aspeed_video_init(struct aspeed_video *video)
+>  	return rc;
 >  }
 >  
->  static const struct dvb_frontend_ops si2168_ops = {
-> -	.delsys = {SYS_DVBT, SYS_DVBT2, SYS_DVBC_ANNEX_A},
-> +	.delsys = {SYS_DVBT, SYS_DVBT2, SYS_DVBT_AUTO, SYS_DVBC_ANNEX_A},
->  	.info = {
->  		.name = "Silicon Labs Si2168",
->  		.frequency_min_hz      =  48 * MHz,
-> diff --git a/include/uapi/linux/dvb/frontend.h b/include/uapi/linux/dvb/frontend.h
-> index 4f9b4551c534..3a6348748041 100644
-> --- a/include/uapi/linux/dvb/frontend.h
-> +++ b/include/uapi/linux/dvb/frontend.h
-> @@ -600,6 +600,8 @@ enum fe_rolloff {
->   *	Terrestrial TV: DVB-T
->   * @SYS_DVBT2:
->   *	Terrestrial TV: DVB-T2
-> + * @SYS_DVBT_AUTO:
-> + *	Terrestrial TV: Autodetect DVB-T gen
->   * @SYS_ISDBT:
->   *	Terrestrial TV: ISDB-T
->   * @SYS_ATSC:
-> @@ -645,6 +647,7 @@ enum fe_delivery_system {
->  	SYS_DVBT2,
->  	SYS_TURBO,
->  	SYS_DVBC_ANNEX_C,
-> +	SYS_DVBT_AUTO,
->  };
+> +static const struct of_device_id aspeed_video_of_match[] = {
+> +	{ .compatible = "aspeed,ast2400-video-engine", .data = &ast2400_config },
+> +	{ .compatible = "aspeed,ast2500-video-engine", .data = &ast2500_config },
+> +	{ .compatible = "aspeed,ast2600-video-engine", .data = &ast2600_config },
+> +	{}
+> +};
+> +MODULE_DEVICE_TABLE(of, aspeed_video_of_match);
+> +
+>  static int aspeed_video_probe(struct platform_device *pdev)
+>  {
+> +	const struct aspeed_video_config *config;
+> +	const struct of_device_id *match;
+>  	int rc;
+>  	struct resource *res;
+>  	struct aspeed_video *video =
+> @@ -1815,6 +1847,13 @@ static int aspeed_video_probe(struct platform_device *pdev)
+>  	if (IS_ERR(video->base))
+>  		return PTR_ERR(video->base);
 >  
->  /* backward compatibility definitions for delivery systems */
+> +	match = of_match_node(aspeed_video_of_match, pdev->dev.of_node);
+> +	if (!match)
+> +		return -EINVAL;
+> +
+> +	config = match->data;
+> +	video->config = *config;
+> +
+>  	rc = aspeed_video_init(video);
+>  	if (rc)
+>  		return rc;
+> @@ -1828,6 +1867,8 @@ static int aspeed_video_probe(struct platform_device *pdev)
+>  
+>  	aspeed_video_debugfs_create(video);
+>  
+> +	dev_info(video->dev, "compatible for g%d\n", config->version);
+> +
+>  	return 0;
+>  }
+>  
+> @@ -1860,14 +1901,6 @@ static int aspeed_video_remove(struct platform_device *pdev)
+>  	return 0;
+>  }
+>  
+> -static const struct of_device_id aspeed_video_of_match[] = {
+> -	{ .compatible = "aspeed,ast2400-video-engine" },
+> -	{ .compatible = "aspeed,ast2500-video-engine" },
+> -	{ .compatible = "aspeed,ast2600-video-engine" },
+> -	{}
+> -};
+> -MODULE_DEVICE_TABLE(of, aspeed_video_of_match);
+> -
+>  static struct platform_driver aspeed_video_driver = {
+>  	.driver = {
+>  		.name = DEVICE_NAME,
 
 
 
