@@ -2,170 +2,268 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E68B2473CAF
-	for <lists+linux-media@lfdr.de>; Tue, 14 Dec 2021 06:44:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id CF44F473D89
+	for <lists+linux-media@lfdr.de>; Tue, 14 Dec 2021 08:23:16 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229991AbhLNFod (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 14 Dec 2021 00:44:33 -0500
-Received: from ewsoutbound.kpnmail.nl ([195.121.94.169]:10157 "EHLO
-        ewsoutbound.kpnmail.nl" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229983AbhLNFoc (ORCPT
+        id S231422AbhLNHXP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 14 Dec 2021 02:23:15 -0500
+Received: from mslow1.mail.gandi.net ([217.70.178.240]:50663 "EHLO
+        mslow1.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230000AbhLNHXP (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 14 Dec 2021 00:44:32 -0500
-X-KPN-MessageId: 7b32a946-5ca0-11ec-9abf-005056abad63
-Received: from smtp.kpnmail.nl (unknown [10.31.155.40])
-        by ewsoutbound.so.kpn.org (Halon) with ESMTPS
-        id 7b32a946-5ca0-11ec-9abf-005056abad63;
-        Tue, 14 Dec 2021 06:41:27 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=xs4all.nl; s=xs4all01;
-        h=subject:to:from:date:message-id;
-        bh=psWDyau1fXhrOoHyYDZnMmWS+lCpzs2qMTWXmkzQ/SI=;
-        b=pmev+JG6bg/KC+0nLjnmkxY/Rh3JzU2PngglBCt9sNrG9MXMa7QGJYnZIMFo/3WnEgSXBwdbOmuI0
-         6T1Gd5qKNPlm3E5Sdbc6Q1idj+ZUYynGquosBgI8XzDHA+g4js0S1iB1UxsS5zEpfKLJvShCTs+39A
-         19mW6jdpBhFAPDIjBIp/LuTdtCoWRGBsfk4Wx1cIp8bKTX/BSK5VT8ydgWKrhCH/LLznRLcJigTd+z
-         MAU8QcQVTCgzZMiUeS7MMlA8qrWSqx0enVlaTinYJZCu2LqWHvUQRn93xk3J+LYl6MsbYjJPeexd7+
-         CaU5OKRTcjIxZTaaLIs5BLAzq2HhhJw==
-Message-ID: <e85405f5-5ca0-11ec-b76f-005056ab7584@smtp.kpnmail.nl>
-X-KPN-VerifiedSender: Yes
-X-CMASSUN: 33|BzKmCTJ/urzA61qsae/yPbSM/FSwpoGEVOoZoMIZwXbIlmnHG7mLC5ilsXd5VDQ
- NTXPe9L1tVnSsYHY/svrLcA==
-X-Originating-IP: 80.101.105.217
-Received: from localhost (marune.xs4all.nl [80.101.105.217])
-        by smtp.xs4all.nl (Halon) with ESMTPSA
-        id e8379422-5ca0-11ec-b76f-005056ab7584;
-        Tue, 14 Dec 2021 06:44:30 +0100 (CET)
-Date:   Tue, 14 Dec 2021 06:44:30 +0100
-From:   "Hans Verkuil" <hverkuil@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: WARNINGS
+        Tue, 14 Dec 2021 02:23:15 -0500
+Received: from relay6-d.mail.gandi.net (unknown [217.70.183.198])
+        by mslow1.mail.gandi.net (Postfix) with ESMTP id B745ACBF16
+        for <linux-media@vger.kernel.org>; Tue, 14 Dec 2021 07:12:47 +0000 (UTC)
+Received: (Authenticated sender: jacopo@jmondi.org)
+        by relay6-d.mail.gandi.net (Postfix) with ESMTPSA id CE3B6C0004;
+        Tue, 14 Dec 2021 07:12:23 +0000 (UTC)
+Date:   Tue, 14 Dec 2021 08:13:17 +0100
+From:   Jacopo Mondi <jacopo@jmondi.org>
+To:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Cc:     linux-media@vger.kernel.org, sakari.ailus@linux.intel.com,
+        Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        niklas.soderlund+renesas@ragnatech.se,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Pratyush Yadav <p.yadav@ti.com>
+Subject: Re: [PATCH v10 03/38] media: subdev: pass also the active state to
+ subdevs from ioctls
+Message-ID: <20211214071317.mfgbokmab3uvbfoq@uno.localdomain>
+References: <20211130141536.891878-1-tomi.valkeinen@ideasonboard.com>
+ <20211130141536.891878-4-tomi.valkeinen@ideasonboard.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20211130141536.891878-4-tomi.valkeinen@ideasonboard.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the kernels and architectures in the list below.
+Hi Tomi
 
-Results of the daily build of media_tree:
+On Tue, Nov 30, 2021 at 04:15:01PM +0200, Tomi Valkeinen wrote:
+> At the moment when a subdev op is called, the TRY subdev state
+> (subdev_fh->state) is passed as a parameter even for the ACTIVE case, or
+> alternatively a NULL can be passed for ACTIVE case. This used to make
+> sense, as the ACTIVE state was handled internally by the subdev drivers.
+>
+> We now have a state for the ACTIVE case in a standard place, and can
+> pass that also to the drivers. This patch changes the subdev ioctls to
+> either pass the TRY or ACTIVE state to the subdev.
+>
+> Unfortunately many drivers call ops from other subdevs, and implicitly
+> pass NULL as the state, so this is just a partial solution. A coccinelle
+> spatch could perhaps be created which fixes the drivers' subdev calls.
+>
+> For all current upstream drivers this doesn't matter, as they do not
+> expect to get a valid state for ACTIVE case. But future drivers which
+> support multiplexed streaming and routing will depend on getting a state
+> for both active and try cases.
+>
+> For new drivers we can mandate that the pipelines where the drivers are
+> used need to pass the state properly, or preferably, not call such
+> subdev ops at all.
+>
+> However, if an existing subdev driver is changed to support multiplexed
+> streams, the driver has to consider cases where its ops will be called
+> with NULL state. The problem can easily be solved by using the
+> v4l2_subdev_validate_and_lock_state() helper, introduced in a follow up
 
-date:			Tue Dec 14 05:00:12 CET 2021
-media-tree git hash:	9b4d7b5c81a2578e080da33b5cddc3149fa611aa
-media_build git hash:	c5c30e768ef3b757da479220d7a389470c3ad978
-v4l-utils git hash:	7acbf135af9c2fdc0ff27aecdd16659d1cd342b0
-edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
-gcc version:		i686-linux-gcc (GCC) 11.2.0
-sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
-sparse version:		v0.6.3-349-gb21d5e09
-smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
-smatch version:		v0.5.0-7593-g7f4b93661
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: 72fe2e990921b3757e47e6f3ea4ce8c076021161
-host hardware:		x86_64
-host os:		5.15.0-2-amd64
+Now called v4l2_subdev_lock_and_return_state() and introduced in a
+previous patch.
 
-linux-git-sh: OK
-linux-git-arm-at91: OK
-linux-git-arm-davinci: OK
-linux-git-mips: OK
-linux-git-arm-stm32: OK
-linux-git-arm-pxa: OK
-linux-git-arm-multi: OK
-linux-git-arm64: OK
-linux-git-powerpc64: OK
-linux-git-i686: OK
-linux-git-x86_64: OK
-Check COMPILE_TEST: OK
-Check for strcpy/strncpy/strlcpy: OK
-linux-4.4.283-i686: OK
-linux-4.4.283-x86_64: OK
-linux-4.5.7-i686: OK
-linux-4.5.7-x86_64: OK
-linux-4.6.7-i686: OK
-linux-4.6.7-x86_64: OK
-linux-4.7.10-i686: OK
-linux-4.7.10-x86_64: OK
-linux-4.8.17-i686: OK
-linux-4.8.17-x86_64: OK
-linux-4.9.246-i686: OK
-linux-4.9.246-x86_64: OK
-linux-4.10.17-i686: OK
-linux-4.10.17-x86_64: OK
-linux-4.11.12-i686: OK
-linux-4.11.12-x86_64: OK
-linux-4.12.14-i686: OK
-linux-4.12.14-x86_64: OK
-linux-4.13.16-i686: OK
-linux-4.13.16-x86_64: OK
-linux-4.14.246-i686: OK
-linux-4.14.246-x86_64: OK
-linux-4.15.18-i686: OK
-linux-4.15.18-x86_64: OK
-linux-4.16.18-i686: OK
-linux-4.16.18-x86_64: OK
-linux-4.17.19-i686: OK
-linux-4.17.19-x86_64: OK
-linux-4.18.20-i686: OK
-linux-4.18.20-x86_64: OK
-linux-4.19.206-i686: OK
-linux-4.19.206-x86_64: OK
-linux-4.20.17-i686: OK
-linux-4.20.17-x86_64: OK
-linux-5.0.21-i686: OK
-linux-5.0.21-x86_64: OK
-linux-5.1.21-i686: OK
-linux-5.1.21-x86_64: OK
-linux-5.2.21-i686: OK
-linux-5.2.21-x86_64: OK
-linux-5.3.18-i686: OK
-linux-5.3.18-x86_64: OK
-linux-5.4.144-i686: OK
-linux-5.4.144-x86_64: OK
-linux-5.5.19-i686: OK
-linux-5.5.19-x86_64: OK
-linux-5.6.19-i686: OK
-linux-5.6.19-x86_64: OK
-linux-5.7.19-i686: OK
-linux-5.7.19-x86_64: OK
-linux-5.8.18-i686: OK
-linux-5.8.18-x86_64: OK
-linux-5.9.16-i686: OK
-linux-5.9.16-x86_64: OK
-linux-5.10.62-i686: OK
-linux-5.10.62-x86_64: OK
-linux-5.11.22-i686: OK
-linux-5.11.22-x86_64: OK
-linux-5.12.19-i686: OK
-linux-5.12.19-x86_64: OK
-linux-5.13.14-i686: OK
-linux-5.13.14-x86_64: OK
-linux-5.14.1-i686: OK
-linux-5.14.1-x86_64: OK
-linux-5.15.1-i686: OK
-linux-5.15.1-x86_64: OK
-linux-5.16-rc1-i686: OK
-linux-5.16-rc1-x86_64: OK
-apps: OK
-spec-git: OK
-virtme: OK: Final Summary: 2989, Succeeded: 2989, Failed: 0, Warnings: 0
-virtme-32: OK: Final Summary: 3100, Succeeded: 3100, Failed: 0, Warnings: 0
-sparse: WARNINGS
-smatch: WARNINGS
-kerneldoc: WARNINGS
+I would still push for state-aware subdev drivers to BUG() on !state
+and tell them to fix the caller. Is this too harsh ?
 
-Detailed results are available here:
+> patch.
+>
+> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+> Reviewed-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+> ---
+>  drivers/media/v4l2-core/v4l2-subdev.c | 73 +++++++++++++++++++++++----
+>  1 file changed, 63 insertions(+), 10 deletions(-)
+>
+> diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
+> index de160140d63b..3289875d9ec1 100644
+> --- a/drivers/media/v4l2-core/v4l2-subdev.c
+> +++ b/drivers/media/v4l2-core/v4l2-subdev.c
+> @@ -353,6 +353,53 @@ const struct v4l2_subdev_ops v4l2_subdev_call_wrappers = {
+>  EXPORT_SYMBOL(v4l2_subdev_call_wrappers);
+>
+>  #if defined(CONFIG_VIDEO_V4L2_SUBDEV_API)
+> +
+> +static struct v4l2_subdev_state *
+> +subdev_ioctl_get_state(struct v4l2_subdev *sd, struct v4l2_subdev_fh *subdev_fh,
+> +		       unsigned int cmd, void *arg)
+> +{
+> +	u32 which;
+> +
+> +	switch (cmd) {
+> +	default:
+> +		return NULL;
+> +
+> +	case VIDIOC_SUBDEV_G_FMT:
+> +	case VIDIOC_SUBDEV_S_FMT: {
+> +		which = ((struct v4l2_subdev_format *)arg)->which;
+> +		break;
+> +	}
+> +	case VIDIOC_SUBDEV_G_CROP:
+> +	case VIDIOC_SUBDEV_S_CROP: {
+> +		which = ((struct v4l2_subdev_crop *)arg)->which;
+> +		break;
+> +	}
+> +	case VIDIOC_SUBDEV_ENUM_MBUS_CODE: {
+> +		which = ((struct v4l2_subdev_mbus_code_enum *)arg)->which;
+> +		break;
+> +	}
+> +	case VIDIOC_SUBDEV_ENUM_FRAME_SIZE: {
+> +		which = ((struct v4l2_subdev_frame_size_enum *)arg)->which;
+> +		break;
+> +	}
 
-http://www.xs4all.nl/~hverkuil/logs/Tuesday.log
+No need for braces if I'm not mistaken, and also some blocks are
+followed by an empty line some or not.
 
-Detailed regression test results are available here:
+> +
+> +	case VIDIOC_SUBDEV_ENUM_FRAME_INTERVAL: {
+> +		which = ((struct v4l2_subdev_frame_interval_enum *)arg)->which;
+> +		break;
+> +	}
+> +
+> +	case VIDIOC_SUBDEV_G_SELECTION:
+> +	case VIDIOC_SUBDEV_S_SELECTION: {
+> +		which = ((struct v4l2_subdev_selection *)arg)->which;
+> +		break;
+> +	}
+> +	}
+> +
+> +	return which == V4L2_SUBDEV_FORMAT_TRY ?
+> +			     subdev_fh->state :
+> +			     v4l2_subdev_get_active_state(sd);
+> +}
+> +
+>  static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg)
+>  {
+>  	struct video_device *vdev = video_devdata(file);
+> @@ -360,8 +407,11 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg)
+>  	struct v4l2_fh *vfh = file->private_data;
+>  	struct v4l2_subdev_fh *subdev_fh = to_v4l2_subdev_fh(vfh);
+>  	bool ro_subdev = test_bit(V4L2_FL_SUBDEV_RO_DEVNODE, &vdev->flags);
+> +	struct v4l2_subdev_state *state;
+>  	int rval;
+>
+> +	state = subdev_ioctl_get_state(sd, subdev_fh, cmd, arg);
+> +
 
-http://www.xs4all.nl/~hverkuil/logs/Tuesday-test-media.log
-http://www.xs4all.nl/~hverkuil/logs/Tuesday-test-media-32.log
-http://www.xs4all.nl/~hverkuil/logs/Tuesday-test-media-dmesg.log
+There's a possibility NULL is returned if a new subdev_fh is added and
+the above not updated. Should we BUG_ON() ?
 
-Full logs are available here:
+>  	switch (cmd) {
+>  	case VIDIOC_SUBDEV_QUERYCAP: {
+>  		struct v4l2_subdev_capability *cap = arg;
+> @@ -484,7 +534,7 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg)
+>
+>  		memset(format->reserved, 0, sizeof(format->reserved));
+>  		memset(format->format.reserved, 0, sizeof(format->format.reserved));
+> -		return v4l2_subdev_call(sd, pad, get_fmt, subdev_fh->state, format);
+> +		return v4l2_subdev_call(sd, pad, get_fmt, state, format);
+>  	}
+>
+>  	case VIDIOC_SUBDEV_S_FMT: {
+> @@ -495,7 +545,7 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg)
+>
+>  		memset(format->reserved, 0, sizeof(format->reserved));
+>  		memset(format->format.reserved, 0, sizeof(format->format.reserved));
+> -		return v4l2_subdev_call(sd, pad, set_fmt, subdev_fh->state, format);
+> +		return v4l2_subdev_call(sd, pad, set_fmt, state, format);
+>  	}
+>
+>  	case VIDIOC_SUBDEV_G_CROP: {
+> @@ -509,7 +559,7 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg)
+>  		sel.target = V4L2_SEL_TGT_CROP;
+>
+>  		rval = v4l2_subdev_call(
+> -			sd, pad, get_selection, subdev_fh->state, &sel);
+> +			sd, pad, get_selection, state, &sel);
+>
+>  		crop->rect = sel.r;
+>
+> @@ -531,7 +581,7 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg)
+>  		sel.r = crop->rect;
+>
+>  		rval = v4l2_subdev_call(
+> -			sd, pad, set_selection, subdev_fh->state, &sel);
+> +			sd, pad, set_selection, state, &sel);
+>
+>  		crop->rect = sel.r;
+>
+> @@ -542,7 +592,7 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg)
+>  		struct v4l2_subdev_mbus_code_enum *code = arg;
+>
+>  		memset(code->reserved, 0, sizeof(code->reserved));
+> -		return v4l2_subdev_call(sd, pad, enum_mbus_code, subdev_fh->state,
+> +		return v4l2_subdev_call(sd, pad, enum_mbus_code, state,
+>  					code);
+>  	}
+>
+> @@ -550,7 +600,7 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg)
+>  		struct v4l2_subdev_frame_size_enum *fse = arg;
+>
+>  		memset(fse->reserved, 0, sizeof(fse->reserved));
+> -		return v4l2_subdev_call(sd, pad, enum_frame_size, subdev_fh->state,
+> +		return v4l2_subdev_call(sd, pad, enum_frame_size, state,
+>  					fse);
+>  	}
+>
+> @@ -575,7 +625,7 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg)
+>  		struct v4l2_subdev_frame_interval_enum *fie = arg;
+>
+>  		memset(fie->reserved, 0, sizeof(fie->reserved));
+> -		return v4l2_subdev_call(sd, pad, enum_frame_interval, subdev_fh->state,
+> +		return v4l2_subdev_call(sd, pad, enum_frame_interval, state,
+>  					fie);
+>  	}
+>
+> @@ -584,7 +634,7 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg)
+>
+>  		memset(sel->reserved, 0, sizeof(sel->reserved));
+>  		return v4l2_subdev_call(
+> -			sd, pad, get_selection, subdev_fh->state, sel);
+> +			sd, pad, get_selection, state, sel);
+>  	}
+>
+>  	case VIDIOC_SUBDEV_S_SELECTION: {
+> @@ -595,7 +645,7 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg)
+>
+>  		memset(sel->reserved, 0, sizeof(sel->reserved));
+>  		return v4l2_subdev_call(
+> -			sd, pad, set_selection, subdev_fh->state, sel);
+> +			sd, pad, set_selection, state, sel);
+>  	}
+>
+>  	case VIDIOC_G_EDID: {
+> @@ -829,10 +879,13 @@ v4l2_subdev_link_validate_get_format(struct media_pad *pad,
+>  	if (is_media_entity_v4l2_subdev(pad->entity)) {
+>  		struct v4l2_subdev *sd =
+>  			media_entity_to_v4l2_subdev(pad->entity);
+> +		struct v4l2_subdev_state *state;
+> +
+> +		state = v4l2_subdev_get_active_state(sd);
+>
+>  		fmt->which = V4L2_SUBDEV_FORMAT_ACTIVE;
+>  		fmt->pad = pad->index;
+> -		return v4l2_subdev_call(sd, pad, get_fmt, NULL, fmt);
+> +		return v4l2_subdev_call(sd, pad, get_fmt, state, fmt);
 
-http://www.xs4all.nl/~hverkuil/logs/Tuesday.tar.bz2
+Reviewed-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
 
-The Media Infrastructure API from this daily build is here:
-
-http://www.xs4all.nl/~hverkuil/spec/index.html
+Thanks
+   j
+>  	}
+>
+>  	WARN(pad->entity->function != MEDIA_ENT_F_IO_V4L,
+> --
+> 2.25.1
+>
