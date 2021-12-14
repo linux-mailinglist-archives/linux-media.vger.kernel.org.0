@@ -2,233 +2,73 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id EF645474617
-	for <lists+linux-media@lfdr.de>; Tue, 14 Dec 2021 16:12:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 57E2C47464E
+	for <lists+linux-media@lfdr.de>; Tue, 14 Dec 2021 16:21:29 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233317AbhLNPM0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 14 Dec 2021 10:12:26 -0500
-Received: from ams.source.kernel.org ([145.40.68.75]:38276 "EHLO
-        ams.source.kernel.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229883AbhLNPMY (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Tue, 14 Dec 2021 10:12:24 -0500
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id B5496B81A58;
-        Tue, 14 Dec 2021 15:12:22 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6601EC34605;
-        Tue, 14 Dec 2021 15:12:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1639494741;
-        bh=Yy4WSR11rEbUUj8oSHYb5/v6Hcw0PnPE3YztZN+362Y=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=NgMScKCA9mwR3E1bfQKuF/vcwttLrXydOhYQcxc1Ou2PrOHikaBZIzt8i5wGKA6sn
-         layap6mjhielEd8nNBZqtHaVAtVc0oz0xvW58G+ppZ9jjA7Mz3bwCUYMy+eKMyGdq8
-         s3RwQwlBtDlkKbZb3wsciWhqQzrRT77eInxJdCpPPe1V6WeFPyNjfAy1h67cZmUTWD
-         j1Ss7xPv1uQ2D4bYwPI6D99sbiYApXa8GJG+yEvSP+y7gVjp2gl13vkbIjBLWMpSnA
-         8WR11kAqZhNcZIdCW567Vy0EkJKy0ONjNNJMMrA4PM0LVVeQFu++x0Q5/byE0Bsci8
-         TnWhqZYPUQOBw==
-Date:   Tue, 14 Dec 2021 16:12:16 +0100
-From:   Mauro Carvalho Chehab <mchehab@kernel.org>
-To:     Jammy Huang <jammy_huang@aspeedtech.com>
-Cc:     <eajames@linux.ibm.com>, <joel@jms.id.au>, <andrew@aj.id.au>,
-        <linux-media@vger.kernel.org>, <openbmc@lists.ozlabs.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-aspeed@lists.ozlabs.org>, <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH] media: aspeed: Use runtime configuration
-Message-ID: <20211214161216.607df557@coco.lan>
-In-Reply-To: <20211207015544.1755-1-jammy_huang@aspeedtech.com>
-References: <20211207015544.1755-1-jammy_huang@aspeedtech.com>
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.30; x86_64-redhat-linux-gnu)
+        id S232948AbhLNPV1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 14 Dec 2021 10:21:27 -0500
+Received: from mga04.intel.com ([192.55.52.120]:23843 "EHLO mga04.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S232651AbhLNPVZ (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 14 Dec 2021 10:21:25 -0500
+X-IronPort-AV: E=McAfee;i="6200,9189,10197"; a="237735217"
+X-IronPort-AV: E=Sophos;i="5.88,205,1635231600"; 
+   d="scan'208";a="237735217"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Dec 2021 07:21:11 -0800
+X-IronPort-AV: E=Sophos;i="5.88,205,1635231600"; 
+   d="scan'208";a="614311910"
+Received: from paasikivi.fi.intel.com ([10.237.72.42])
+  by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Dec 2021 07:21:09 -0800
+Received: from paasikivi.fi.intel.com (localhost [127.0.0.1])
+        by paasikivi.fi.intel.com (Postfix) with ESMTP id 7F2A220462;
+        Tue, 14 Dec 2021 17:21:07 +0200 (EET)
+Date:   Tue, 14 Dec 2021 17:21:07 +0200
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     Martin Kepplinger <martin.kepplinger@puri.sm>
+Cc:     mchehab@kernel.org, linux-media@vger.kernel.org,
+        linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org,
+        kernel@puri.sm
+Subject: Re: [PATCH v1 0/2] media: i2c: hi846: minor PM fixes
+Message-ID: <Ybi2Yylo718i8SLl@paasikivi.fi.intel.com>
+References: <20211109131013.2684058-1-martin.kepplinger@puri.sm>
+ <f08075656c83ff43947942c6f754936ced63dc01.camel@puri.sm>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <f08075656c83ff43947942c6f754936ced63dc01.camel@puri.sm>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Jammy,
-
-A different version of this patch was already applied. If it still makes
-change, please rebase this one on the top of the media upstream and
-re-send.
-
-Thanks,
-Mauro
-
-Em Tue, 7 Dec 2021 09:55:44 +0800
-Jammy Huang <jammy_huang@aspeedtech.com> escreveu:
-
-> The aspeed video IP has some differences between SoC families. Currently
-> the driver decides which registers to use at compile time, which means
-> a single kernel can not be used between platforms.
+On Tue, Dec 14, 2021 at 02:44:41PM +0100, Martin Kepplinger wrote:
+> Am Dienstag, dem 09.11.2021 um 14:10 +0100 schrieb Martin Kepplinger:
+> > hi Saraki and all,
+> > 
+> > Here are minor PM fixes for the hi846 sensor while testing system
+> > suspend:
+> > 
+> > thank you very much for your time,
+> > 
+> >                              martin
+> > 
+> > 
+> > Martin Kepplinger (2):
+> >   media: i2c: hi846: check return value of regulator_bulk_disable()
+> >   media: i2c: hi846: use pm_runtime_force_suspend/resume for system
+> >     suspend
+> > 
+> >  drivers/media/i2c/hi846.c | 14 ++++++++------
+> >  1 file changed, 8 insertions(+), 6 deletions(-)
+> > 
 > 
-> Switch to using runtime configuration of the registers that vary between
-> SoC families.
-> 
-> Signed-off-by: Joel Stanley <joel@jms.id.au>
-> Signed-off-by: Jammy Huang <jammy_huang@aspeedtech.com>
-> ---
->  drivers/media/platform/aspeed-video.c | 71 ++++++++++++++++++++-------
->  1 file changed, 52 insertions(+), 19 deletions(-)
-> 
-> diff --git a/drivers/media/platform/aspeed-video.c b/drivers/media/platform/aspeed-video.c
-> index d2335d669fb3..ba8ee82b38c3 100644
-> --- a/drivers/media/platform/aspeed-video.c
-> +++ b/drivers/media/platform/aspeed-video.c
-> @@ -75,11 +75,8 @@
->  #define  VE_SEQ_CTRL_CAP_BUSY		BIT(16)
->  #define  VE_SEQ_CTRL_COMP_BUSY		BIT(18)
->  
-> -#ifdef CONFIG_MACH_ASPEED_G4
-> -#define  VE_SEQ_CTRL_JPEG_MODE		BIT(8)	/* AST2400 */
-> -#else
-> -#define  VE_SEQ_CTRL_JPEG_MODE		BIT(13)	/* AST2500/2600 */
-> -#endif
-> +#define AST2500_VE_SEQ_CTRL_JPEG_MODE	BIT(13)
-> +#define AST2400_VE_SEQ_CTRL_JPEG_MODE	BIT(8)
->  
->  #define VE_CTRL				0x008
->  #define  VE_CTRL_HSYNC_POL		BIT(0)
-> @@ -136,9 +133,8 @@
->  #define  VE_COMP_CTRL_HQ_DCT_CHR	GENMASK(26, 22)
->  #define  VE_COMP_CTRL_HQ_DCT_LUM	GENMASK(31, 27)
->  
-> -#define VE_OFFSET_COMP_STREAM		0x078
-> -
-> -#define VE_JPEG_COMP_SIZE_READ_BACK	0x084
-> +#define AST2400_VE_COMP_SIZE_READ_BACK	0x078
-> +#define AST2600_VE_COMP_SIZE_READ_BACK	0x084
->  
->  #define VE_SRC_LR_EDGE_DET		0x090
->  #define  VE_SRC_LR_EDGE_DET_LEFT	GENMASK(11, 0)
-> @@ -233,6 +229,8 @@ struct aspeed_video {
->  	struct video_device vdev;
->  	struct mutex video_lock;	/* v4l2 and videobuf2 lock */
->  
-> +	struct aspeed_video_config config;
-> +
->  	wait_queue_head_t wait;
->  	spinlock_t lock;		/* buffer list lock */
->  	struct delayed_work res_work;
-> @@ -258,6 +256,30 @@ struct aspeed_video {
->  
->  #define to_aspeed_video(x) container_of((x), struct aspeed_video, v4l2_dev)
->  
-> +struct aspeed_video_config {
-> +	u32 version;
-> +	u32 jpeg_mode;
-> +	u32 comp_size_read;
-> +};
-> +
-> +static const struct aspeed_video_config ast2400_config = {
-> +	.version = 4,
-> +	.jpeg_mode = AST2400_VE_SEQ_CTRL_JPEG_MODE,
-> +	.comp_size_read = AST2400_VE_COMP_SIZE_READ_BACK,
-> +};
-> +
-> +static const struct aspeed_video_config ast2500_config = {
-> +	.version = 5,
-> +	.jpeg_mode = AST2500_VE_SEQ_CTRL_JPEG_MODE,
-> +	.comp_size_read = AST2400_VE_COMP_SIZE_READ_BACK,
-> +};
-> +
-> +static const struct aspeed_video_config ast2600_config = {
-> +	.version = 6,
-> +	.jpeg_mode = AST2500_VE_SEQ_CTRL_JPEG_MODE,
-> +	.comp_size_read = AST2600_VE_COMP_SIZE_READ_BACK,
-> +};
-> +
->  static const u32 aspeed_video_jpeg_header[ASPEED_VIDEO_JPEG_HEADER_SIZE] = {
->  	0xe0ffd8ff, 0x464a1000, 0x01004649, 0x60000101, 0x00006000, 0x0f00feff,
->  	0x00002d05, 0x00000000, 0x00000000, 0x00dbff00
-> @@ -640,7 +662,7 @@ static irqreturn_t aspeed_video_irq(int irq, void *arg)
->  	if (sts & VE_INTERRUPT_COMP_COMPLETE) {
->  		struct aspeed_video_buffer *buf;
->  		u32 frame_size = aspeed_video_read(video,
-> -						   VE_JPEG_COMP_SIZE_READ_BACK);
-> +						   video->config.comp_size_read);
->  
->  		update_perf(&video->perf);
->  
-> @@ -973,7 +995,7 @@ static void aspeed_video_update_regs(struct aspeed_video *video)
->  		FIELD_PREP(VE_COMP_CTRL_DCT_LUM, video->jpeg_quality) |
->  		FIELD_PREP(VE_COMP_CTRL_DCT_CHR, video->jpeg_quality | 0x10);
->  	u32 ctrl = 0;
-> -	u32 seq_ctrl = VE_SEQ_CTRL_JPEG_MODE;
-> +	u32 seq_ctrl = video->config.jpeg_mode;
->  
->  	v4l2_dbg(1, debug, &video->v4l2_dev, "framerate(%d)\n",
->  		 video->frame_rate);
-> @@ -993,7 +1015,7 @@ static void aspeed_video_update_regs(struct aspeed_video *video)
->  
->  	/* Set control registers */
->  	aspeed_video_update(video, VE_SEQ_CTRL,
-> -			    VE_SEQ_CTRL_JPEG_MODE | VE_SEQ_CTRL_YUV420,
-> +			    video->config.jpeg_mode | VE_SEQ_CTRL_YUV420,
->  			    seq_ctrl);
->  	aspeed_video_update(video, VE_CTRL, VE_CTRL_FRC, ctrl);
->  	aspeed_video_update(video, VE_COMP_CTRL,
-> @@ -1790,8 +1812,18 @@ static int aspeed_video_init(struct aspeed_video *video)
->  	return rc;
->  }
->  
-> +static const struct of_device_id aspeed_video_of_match[] = {
-> +	{ .compatible = "aspeed,ast2400-video-engine", .data = &ast2400_config },
-> +	{ .compatible = "aspeed,ast2500-video-engine", .data = &ast2500_config },
-> +	{ .compatible = "aspeed,ast2600-video-engine", .data = &ast2600_config },
-> +	{}
-> +};
-> +MODULE_DEVICE_TABLE(of, aspeed_video_of_match);
-> +
->  static int aspeed_video_probe(struct platform_device *pdev)
->  {
-> +	const struct aspeed_video_config *config;
-> +	const struct of_device_id *match;
->  	int rc;
->  	struct resource *res;
->  	struct aspeed_video *video =
-> @@ -1815,6 +1847,13 @@ static int aspeed_video_probe(struct platform_device *pdev)
->  	if (IS_ERR(video->base))
->  		return PTR_ERR(video->base);
->  
-> +	match = of_match_node(aspeed_video_of_match, pdev->dev.of_node);
-> +	if (!match)
-> +		return -EINVAL;
-> +
-> +	config = match->data;
-> +	video->config = *config;
-> +
->  	rc = aspeed_video_init(video);
->  	if (rc)
->  		return rc;
-> @@ -1828,6 +1867,8 @@ static int aspeed_video_probe(struct platform_device *pdev)
->  
->  	aspeed_video_debugfs_create(video);
->  
-> +	dev_info(video->dev, "compatible for g%d\n", config->version);
-> +
->  	return 0;
->  }
->  
-> @@ -1860,14 +1901,6 @@ static int aspeed_video_remove(struct platform_device *pdev)
->  	return 0;
->  }
->  
-> -static const struct of_device_id aspeed_video_of_match[] = {
-> -	{ .compatible = "aspeed,ast2400-video-engine" },
-> -	{ .compatible = "aspeed,ast2500-video-engine" },
-> -	{ .compatible = "aspeed,ast2600-video-engine" },
-> -	{}
-> -};
-> -MODULE_DEVICE_TABLE(of, aspeed_video_of_match);
-> -
->  static struct platform_driver aspeed_video_driver = {
->  	.driver = {
->  		.name = DEVICE_NAME,
+> hi all. Any objection or other thoughts about this? This fixes system
+> suspend.
 
+Thanks for the ping, Martin.
 
+The patches are in my tree now.
 
-Thanks,
-Mauro
+-- 
+Sakari Ailus
