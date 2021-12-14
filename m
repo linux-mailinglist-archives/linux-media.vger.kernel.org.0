@@ -2,213 +2,170 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2B00C473C97
-	for <lists+linux-media@lfdr.de>; Tue, 14 Dec 2021 06:33:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E68B2473CAF
+	for <lists+linux-media@lfdr.de>; Tue, 14 Dec 2021 06:44:33 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229927AbhLNFdN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 14 Dec 2021 00:33:13 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51116 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229755AbhLNFdM (ORCPT
+        id S229991AbhLNFod (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 14 Dec 2021 00:44:33 -0500
+Received: from ewsoutbound.kpnmail.nl ([195.121.94.169]:10157 "EHLO
+        ewsoutbound.kpnmail.nl" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229983AbhLNFoc (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 14 Dec 2021 00:33:12 -0500
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 11F8CC061574;
-        Mon, 13 Dec 2021 21:33:12 -0800 (PST)
-Received: from [IPv6:2a00:c281:1276:dc00:2d23:3482:5e76:1917] (unknown [IPv6:2a00:c281:1276:dc00:2d23:3482:5e76:1917])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        (Authenticated sender: dafna)
-        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id E04171F44CCD;
-        Tue, 14 Dec 2021 05:33:08 +0000 (GMT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=collabora.com; s=mail;
-        t=1639459990; bh=3KC1bWQ3pxWCoc0QxfJhUxC4q9jGPU7p1u6MAjMchuw=;
-        h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
-        b=f306EXdVEAQOzaQTpEzw+imyfcguIQfjb+MdqQ/Iq4Pj3FRp0VNK0/FfFqMTV6Ckm
-         JGl18pW5tXB3wSjk7ksdtUJNCs46sC58R5n7XyWDYaaqbvC2cm9s23XJrcT8kIFljZ
-         smHk+svywJYUisVfkafuAjDP085X2AxGcs0axIqlZLL8z3fBYRPnoAp7ryzBsMl+sJ
-         scpM7EfZEAfYeK/rpHSpxH0M0ZSsd9xZYalaOF3pi5/htvPhIvLzkVWIYiKn3Nhwys
-         erNnKLjf7rYO5ZYeYjnlvPcXMefc7F1L+X4SALNuk59CAQ4Dfuq76TxcE+gK3Z56uv
-         di9Kdak8YLvUQ==
-Subject: Re: [PATCH v4 1/6] staging: media: wave5: Add vpuapi layer
-To:     Daniel Palmer <daniel@0x0f.com>
-Cc:     "open list:MEDIA INPUT INFRASTRUCTURE (V4L/DVB)" 
-        <linux-media@vger.kernel.org>,
-        Robert Beckett <bob.beckett@collabora.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "open list:STAGING SUBSYSTEM" <linux-staging@lists.linux.dev>,
-        open list <linux-kernel@vger.kernel.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        hverkuil@xs4all.nl, kernel@collabora.com, dafna3@gmail.com,
-        kiril.bicevski@collabora.com,
-        Nas Chung <nas.chung@chipsnmedia.com>,
-        lafley.kim@chipsnmedia.com, scott.woo@chipsnmedia.com,
-        olivier.crete@collabora.com, dan.carpenter@oracle.com,
-        Randy Dunlap <rdunlap@infradead.org>
-References: <20211201175613.13710-1-dafna.hirschfeld@collabora.com>
- <20211201175613.13710-2-dafna.hirschfeld@collabora.com>
- <CAFr9PX=6Pd1Rg=wJvpuX6WX63L=iAnwPA24e59An3Kac5f_vzA@mail.gmail.com>
-From:   Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
-Message-ID: <cdd9b485-364f-c6bd-776f-a0ca2d260762@collabora.com>
-Date:   Tue, 14 Dec 2021 07:33:06 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
-MIME-Version: 1.0
-In-Reply-To: <CAFr9PX=6Pd1Rg=wJvpuX6WX63L=iAnwPA24e59An3Kac5f_vzA@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+        Tue, 14 Dec 2021 00:44:32 -0500
+X-KPN-MessageId: 7b32a946-5ca0-11ec-9abf-005056abad63
+Received: from smtp.kpnmail.nl (unknown [10.31.155.40])
+        by ewsoutbound.so.kpn.org (Halon) with ESMTPS
+        id 7b32a946-5ca0-11ec-9abf-005056abad63;
+        Tue, 14 Dec 2021 06:41:27 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=xs4all.nl; s=xs4all01;
+        h=subject:to:from:date:message-id;
+        bh=psWDyau1fXhrOoHyYDZnMmWS+lCpzs2qMTWXmkzQ/SI=;
+        b=pmev+JG6bg/KC+0nLjnmkxY/Rh3JzU2PngglBCt9sNrG9MXMa7QGJYnZIMFo/3WnEgSXBwdbOmuI0
+         6T1Gd5qKNPlm3E5Sdbc6Q1idj+ZUYynGquosBgI8XzDHA+g4js0S1iB1UxsS5zEpfKLJvShCTs+39A
+         19mW6jdpBhFAPDIjBIp/LuTdtCoWRGBsfk4Wx1cIp8bKTX/BSK5VT8ydgWKrhCH/LLznRLcJigTd+z
+         MAU8QcQVTCgzZMiUeS7MMlA8qrWSqx0enVlaTinYJZCu2LqWHvUQRn93xk3J+LYl6MsbYjJPeexd7+
+         CaU5OKRTcjIxZTaaLIs5BLAzq2HhhJw==
+Message-ID: <e85405f5-5ca0-11ec-b76f-005056ab7584@smtp.kpnmail.nl>
+X-KPN-VerifiedSender: Yes
+X-CMASSUN: 33|BzKmCTJ/urzA61qsae/yPbSM/FSwpoGEVOoZoMIZwXbIlmnHG7mLC5ilsXd5VDQ
+ NTXPe9L1tVnSsYHY/svrLcA==
+X-Originating-IP: 80.101.105.217
+Received: from localhost (marune.xs4all.nl [80.101.105.217])
+        by smtp.xs4all.nl (Halon) with ESMTPSA
+        id e8379422-5ca0-11ec-b76f-005056ab7584;
+        Tue, 14 Dec 2021 06:44:30 +0100 (CET)
+Date:   Tue, 14 Dec 2021 06:44:30 +0100
+From:   "Hans Verkuil" <hverkuil@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: WARNINGS
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
 
+Results of the daily build of media_tree:
 
-On 04.12.21 15:43, Daniel Palmer wrote:
-> Hi Dafna,
-> 
-> Sorry for the piecemeal emails..
-> 
-> On Thu, 2 Dec 2021 at 02:56, Dafna Hirschfeld
-> <dafna.hirschfeld@collabora.com> wrote:
->> diff --git a/drivers/staging/media/wave5/wave5-hw.c b/drivers/staging/media/wave5/wave5-hw.c
-> 
-> ... snip ...
-> 
->> +static int wave5_wait_bus_busy(struct vpu_device *vpu_dev, int timeout, unsigned int addr)
->> +{
->> +       u32 gdi_status_check_value = 0x3f;
->> +       u32 data;
->> +
->> +       if (vpu_dev->product_code == WAVE521C_CODE ||
->> +           vpu_dev->product_code == WAVE521_CODE ||
->> +        vpu_dev->product_code == WAVE521E1_CODE)
->> +               gdi_status_check_value = 0x00ff1f3f;
->> +
->> +       return read_poll_timeout(wave5_vdi_read_register, data, data == gdi_status_check_value,
->> +                                0, timeout * 1000, false, vpu_dev, addr);
->> +}
->> +
-> 
-> This looks like it should be s/wave5_vdi_read_register/wave5_read_register/.
-> For wave511 addr passed in here is 0x8e14 so well outside of what is
-> directly accessible.
+date:			Tue Dec 14 05:00:12 CET 2021
+media-tree git hash:	9b4d7b5c81a2578e080da33b5cddc3149fa611aa
+media_build git hash:	c5c30e768ef3b757da479220d7a389470c3ad978
+v4l-utils git hash:	7acbf135af9c2fdc0ff27aecdd16659d1cd342b0
+edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
+gcc version:		i686-linux-gcc (GCC) 11.2.0
+sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
+sparse version:		v0.6.3-349-gb21d5e09
+smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
+smatch version:		v0.5.0-7593-g7f4b93661
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: 72fe2e990921b3757e47e6f3ea4ce8c076021161
+host hardware:		x86_64
+host os:		5.15.0-2-amd64
 
-Hi, I didn't understand this explanation. I see that
-wave5_read_register eventually calls 'wave5_vdi_read_register'.
-Could you please explain in more detail why you think
-calling wave5_vdi_read_register is wrong?
+linux-git-sh: OK
+linux-git-arm-at91: OK
+linux-git-arm-davinci: OK
+linux-git-mips: OK
+linux-git-arm-stm32: OK
+linux-git-arm-pxa: OK
+linux-git-arm-multi: OK
+linux-git-arm64: OK
+linux-git-powerpc64: OK
+linux-git-i686: OK
+linux-git-x86_64: OK
+Check COMPILE_TEST: OK
+Check for strcpy/strncpy/strlcpy: OK
+linux-4.4.283-i686: OK
+linux-4.4.283-x86_64: OK
+linux-4.5.7-i686: OK
+linux-4.5.7-x86_64: OK
+linux-4.6.7-i686: OK
+linux-4.6.7-x86_64: OK
+linux-4.7.10-i686: OK
+linux-4.7.10-x86_64: OK
+linux-4.8.17-i686: OK
+linux-4.8.17-x86_64: OK
+linux-4.9.246-i686: OK
+linux-4.9.246-x86_64: OK
+linux-4.10.17-i686: OK
+linux-4.10.17-x86_64: OK
+linux-4.11.12-i686: OK
+linux-4.11.12-x86_64: OK
+linux-4.12.14-i686: OK
+linux-4.12.14-x86_64: OK
+linux-4.13.16-i686: OK
+linux-4.13.16-x86_64: OK
+linux-4.14.246-i686: OK
+linux-4.14.246-x86_64: OK
+linux-4.15.18-i686: OK
+linux-4.15.18-x86_64: OK
+linux-4.16.18-i686: OK
+linux-4.16.18-x86_64: OK
+linux-4.17.19-i686: OK
+linux-4.17.19-x86_64: OK
+linux-4.18.20-i686: OK
+linux-4.18.20-x86_64: OK
+linux-4.19.206-i686: OK
+linux-4.19.206-x86_64: OK
+linux-4.20.17-i686: OK
+linux-4.20.17-x86_64: OK
+linux-5.0.21-i686: OK
+linux-5.0.21-x86_64: OK
+linux-5.1.21-i686: OK
+linux-5.1.21-x86_64: OK
+linux-5.2.21-i686: OK
+linux-5.2.21-x86_64: OK
+linux-5.3.18-i686: OK
+linux-5.3.18-x86_64: OK
+linux-5.4.144-i686: OK
+linux-5.4.144-x86_64: OK
+linux-5.5.19-i686: OK
+linux-5.5.19-x86_64: OK
+linux-5.6.19-i686: OK
+linux-5.6.19-x86_64: OK
+linux-5.7.19-i686: OK
+linux-5.7.19-x86_64: OK
+linux-5.8.18-i686: OK
+linux-5.8.18-x86_64: OK
+linux-5.9.16-i686: OK
+linux-5.9.16-x86_64: OK
+linux-5.10.62-i686: OK
+linux-5.10.62-x86_64: OK
+linux-5.11.22-i686: OK
+linux-5.11.22-x86_64: OK
+linux-5.12.19-i686: OK
+linux-5.12.19-x86_64: OK
+linux-5.13.14-i686: OK
+linux-5.13.14-x86_64: OK
+linux-5.14.1-i686: OK
+linux-5.14.1-x86_64: OK
+linux-5.15.1-i686: OK
+linux-5.15.1-x86_64: OK
+linux-5.16-rc1-i686: OK
+linux-5.16-rc1-x86_64: OK
+apps: OK
+spec-git: OK
+virtme: OK: Final Summary: 2989, Succeeded: 2989, Failed: 0, Warnings: 0
+virtme-32: OK: Final Summary: 3100, Succeeded: 3100, Failed: 0, Warnings: 0
+sparse: WARNINGS
+smatch: WARNINGS
+kerneldoc: WARNINGS
 
-Actually the name 'wave5_read_register' is a bad name for that
-func since it eventually return the value of the W5_VPU_FIO_DATA
-register upon success and not the address sent to it.
+Detailed results are available here:
 
+http://www.xs4all.nl/~hverkuil/logs/Tuesday.log
 
-> 
-> Also it seems that this can either return 0 or -ETIMEDOUT...
-> 
-> ... snip ...
-> 
->> +int wave5_vpu_reset(struct device *dev, enum sw_reset_mode reset_mode)
->> +{
->> +       u32 val = 0;
->> +       int ret = 0;
->> +       struct vpu_device *vpu_dev = dev_get_drvdata(dev);
->> +       struct vpu_attr *p_attr = &vpu_dev->attr;
->> +       // VPU doesn't send response. force to set BUSY flag to 0.
->> +       vpu_write_reg(vpu_dev, W5_VPU_BUSY_STATUS, 0);
->> +
->> +       if (reset_mode == SW_RESET_SAFETY) {
->> +               ret = wave5_vpu_sleep_wake(dev, true, NULL, 0);
->> +               if (ret)
->> +                       return ret;
->> +       }
->> +
->> +       val = vpu_read_reg(vpu_dev, W5_VPU_RET_VPU_CONFIG0);
->> +       if ((val >> 16) & 0x1)
->> +               p_attr->support_backbone = true;
->> +       if ((val >> 22) & 0x1)
->> +               p_attr->support_vcore_backbone = true;
->> +       if ((val >> 28) & 0x1)
->> +               p_attr->support_vcpu_backbone = true;
->> +
->> +       val = vpu_read_reg(vpu_dev, W5_VPU_RET_VPU_CONFIG1);
->> +       if ((val >> 26) & 0x1)
->> +               p_attr->support_dual_core = true;
->> +
->> +       // waiting for completion of bus transaction
->> +       if (p_attr->support_backbone) {
->> +               if (p_attr->support_dual_core) {
->> +                       // check CORE0
->> +                       wave5_write_register(vpu_dev, W5_BACKBONE_BUS_CTRL_VCORE0, 0x7);
->> +
->> +                       ret = wave5_wait_bus_busy(vpu_dev, VPU_BUSY_CHECK_TIMEOUT,
->> +                                                 W5_BACKBONE_BUS_STATUS_VCORE0);
->> +                       if (ret) {
->> +                               wave5_write_register(vpu_dev, W5_BACKBONE_BUS_CTRL_VCORE0, 0x00);
->> +                               return ret;
->> +                       }
->> +
->> +                       // check CORE1
->> +                       wave5_write_register(vpu_dev, W5_BACKBONE_BUS_CTRL_VCORE1, 0x7);
->> +
->> +                       ret = wave5_wait_bus_busy(vpu_dev, VPU_BUSY_CHECK_TIMEOUT,
->> +                                                 W5_BACKBONE_BUS_STATUS_VCORE1);
->> +                       if (ret) {
->> +                               wave5_write_register(vpu_dev, W5_BACKBONE_BUS_CTRL_VCORE1, 0x00);
->> +                               return ret;
->> +                       }
->> +
->> +               } else if (p_attr->support_vcore_backbone) {
->> +                       if (p_attr->support_vcpu_backbone) {
->> +                               // step1 : disable request
->> +                               wave5_write_register(vpu_dev, W5_BACKBONE_BUS_CTRL_VCPU,
->> +                                                    0xFF);
->> +
->> +                               // step2 : waiting for completion of bus transaction
->> +                               ret = wave5_wait_vcpu_bus_busy(vpu_dev, VPU_BUSY_CHECK_TIMEOUT,
->> +                                                              W5_BACKBONE_BUS_STATUS_VCPU);
->> +                               if (ret) {
->> +                                       wave5_write_register(vpu_dev,
->> +                                                            W5_BACKBONE_BUS_CTRL_VCPU, 0x00);
->> +                                       return ret;
->> +                               }
->> +                       }
->> +                       // step1 : disable request
->> +                       wave5_write_register(vpu_dev, W5_BACKBONE_BUS_CTRL_VCORE0, 0x7);
->> +
->> +                       // step2 : waiting for completion of bus transaction
->> +                       if (wave5_wait_bus_busy(vpu_dev, VPU_BUSY_CHECK_TIMEOUT,
->> +                                               W5_BACKBONE_BUS_STATUS_VCORE0) == -1) {
->> +                               wave5_write_register(vpu_dev, W5_BACKBONE_BUS_CTRL_VCORE0, 0x00);
->> +                               return -EBUSY;
->> +                       }
-> 
-> but this is looking for -1 on failure.
+Detailed regression test results are available here:
 
-right, thanks for finding this, I see that wave5_read_register return -1 on failure so maybe
-this is the source of the confusion.
+http://www.xs4all.nl/~hverkuil/logs/Tuesday-test-media.log
+http://www.xs4all.nl/~hverkuil/logs/Tuesday-test-media-32.log
+http://www.xs4all.nl/~hverkuil/logs/Tuesday-test-media-dmesg.log
 
-Thanks,
-Dafna
+Full logs are available here:
 
-> 
->> +               } else {
->> +                       // step1 : disable request
->> +                       wave5_write_register(vpu_dev, W5_COMBINED_BACKBONE_BUS_CTRL, 0x7);
->> +
->> +                       // step2 : waiting for completion of bus transaction
->> +                       if (wave5_wait_bus_busy(vpu_dev, VPU_BUSY_CHECK_TIMEOUT,
->> +                                               W5_COMBINED_BACKBONE_BUS_STATUS) == -1) {
->> +                               wave5_write_register(vpu_dev, W5_COMBINED_BACKBONE_BUS_CTRL, 0x00);
->> +                               return -EBUSY;
->> +                       }
->> +               }
-> 
-> Here too.
-> 
-> Cheers,
-> 
-> Daniel
-> 
+http://www.xs4all.nl/~hverkuil/logs/Tuesday.tar.bz2
+
+The Media Infrastructure API from this daily build is here:
+
+http://www.xs4all.nl/~hverkuil/spec/index.html
