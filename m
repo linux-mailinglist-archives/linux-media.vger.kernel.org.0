@@ -2,344 +2,105 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4480547420D
-	for <lists+linux-media@lfdr.de>; Tue, 14 Dec 2021 13:07:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E0A42474270
+	for <lists+linux-media@lfdr.de>; Tue, 14 Dec 2021 13:25:39 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233812AbhLNMHm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 14 Dec 2021 07:07:42 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55798 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229494AbhLNMHl (ORCPT
+        id S233928AbhLNMZi (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 14 Dec 2021 07:25:38 -0500
+Received: from ams.source.kernel.org ([145.40.68.75]:48860 "EHLO
+        ams.source.kernel.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S233872AbhLNMZh (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 14 Dec 2021 07:07:41 -0500
-Received: from mail-yb1-xb36.google.com (mail-yb1-xb36.google.com [IPv6:2607:f8b0:4864:20::b36])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 83446C061574;
-        Tue, 14 Dec 2021 04:07:41 -0800 (PST)
-Received: by mail-yb1-xb36.google.com with SMTP id 131so45594304ybc.7;
-        Tue, 14 Dec 2021 04:07:41 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=ZU5wk5S012xqTD1gQyYvUFaZJkUyYz4X+YCYVNoID1o=;
-        b=jo1/5ZSYOVvhd6VUpVNQxwMaPxq7K5uauDLeQX7BbED78ES76n+kO2dxI5xm1GJKkZ
-         n24msv9sW3CQ3nPyaAD8eZV7RFErhyo22eGoOF2blArEugU4g6mvuY/Yj22NuE1lqMY6
-         CdobDSMJmaLTTl7KLkBZwOI7XYZ6Tnfs8fECK+3IMWBNwP3gZjARj+AC8FqGY+JKozCT
-         0PaSdkUpAru6yXpRp88sDf0Uhsad4YqRHv6lx4hmOyJZBMsIyTmAnVUBRFmfMcTyLYpe
-         NwZ4gQR6E4c9t+X6nGM6EAuXK1LRAZi+PymFuXV5DQIU3XOkgRxUkPWbMmgFMwhiw/CY
-         YbFg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=ZU5wk5S012xqTD1gQyYvUFaZJkUyYz4X+YCYVNoID1o=;
-        b=gtMuQXVDjwjoQbL0qiqoxPEIo3EVU7B3g2ymldoZ/PWp72wKhjmHMc9UzekdGTou0Y
-         5Cc6B09O4zvm7NNbccfQOJ6yq0fPy1zhxbCCAnZeNYCGHAYsyP45wWkqkvgc/Hx4iSh0
-         krRgueEQbeB6tAGTz4EglGGZ0hS88F4zuk1YasPDtSuohIwKBZDnrU6MOiHmrl4wx19M
-         otkDZcd+cq4NUFPNVC9pF/XiColcCNC2n2oIrZTXEpiLfDLEJ2ZRaSxhetlK11BwTwML
-         3G804bwi84BS+lrr0NnaD3LqPEEB6qOb9aYZyXWbPwo4pS3wzI7bOwtzS+navx5xZlm6
-         WfMQ==
-X-Gm-Message-State: AOAM531E2OseStxgk5TzVHFY6Cgvnzkxxp+RLuEL76G5waaMgDT04R+s
-        3GmuKz2/hQB7U8EhAxbv+DByADaMkKbDPt1bbjE=
-X-Google-Smtp-Source: ABdhPJxnzRQp4Y/l60JMMtyn81CqMHnROFR7anoBuR9EOy7qK4JAjzH6sLDdkRcX764FEd7eg4Cb0sSKV9nS5RTdQbY=
-X-Received: by 2002:a25:dc4d:: with SMTP id y74mr5264483ybe.422.1639483660726;
- Tue, 14 Dec 2021 04:07:40 -0800 (PST)
+        Tue, 14 Dec 2021 07:25:37 -0500
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id D7D9FB818CA
+        for <linux-media@vger.kernel.org>; Tue, 14 Dec 2021 12:25:36 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 91458C34601;
+        Tue, 14 Dec 2021 12:25:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1639484735;
+        bh=01Ugw2BRJAlL+eMD7Peiw93L9oYMAuyYavuzZsBxkA0=;
+        h=From:To:Cc:Subject:Date:From;
+        b=Y9Nr9Ndvgs5BfMWWTtjwgT1h5IkfZ8jkzejuPCl2OnEzmcDWYiN/Dice2M7T5hSMP
+         k/FlUaUVfaev1o2KVejD/x1rmT/DUNwFf0BYa/WMsDwKOY9J1e4KpwedASuOSOgao1
+         fZI426bq04z8KvumNZRyIgeFmpzIBjh+5iitaW8zQlRUwIFoUgjHPrPhUSBNH/nzTl
+         Nv5Ss8Skqmi7RoixjASwrleZLwa3ll94pOOAmGdG13uwaGteJBeJ5SNjE/NZKe2/Tr
+         qen4qAb4WxQvt1VjaX4NJFdQip/3pI3bDCJrl0LqNJ854nfPKSS0MoQRwSZBibjyA0
+         7LYDEjvUKmH4Q==
+Received: from mchehab by mail.kernel.org with local (Exim 4.94.2)
+        (envelope-from <mchehab@kernel.org>)
+        id 1mx6s9-002O1k-Ej; Tue, 14 Dec 2021 13:25:33 +0100
+From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To:     linux-media@vger.kernel.org
+Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Stefan Seyfried <stefan.seyfried@googlemail.com>
+Subject: [PATCH] libdvbv5: dvb-scan: fix DVB-S2 checks for DVB-S tuning
+Date:   Tue, 14 Dec 2021 13:25:23 +0100
+Message-Id: <20211214122523.569011-1-mchehab+huawei@kernel.org>
+X-Mailer: git-send-email 2.33.1
 MIME-Version: 1.0
-References: <20211207012351.15754-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20211207012351.15754-2-prabhakar.mahadev-lad.rj@bp.renesas.com> <YbfQIPS270So+jUh@robh.at.kernel.org>
-In-Reply-To: <YbfQIPS270So+jUh@robh.at.kernel.org>
-From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date:   Tue, 14 Dec 2021 12:07:14 +0000
-Message-ID: <CA+V-a8tHL-DwNz3USQwh5NieTRvPhUAjZV-GqFsK67fgU+kF_w@mail.gmail.com>
-Subject: Re: [RFC PATCH 1/3] media: dt-bindings: media: Document RZ/G2L CRU block
-To:     Rob Herring <robh@kernel.org>
-Cc:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        =?UTF-8?Q?Niklas_S=C3=B6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        linux-media <linux-media@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>, LKML <linux-kernel@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Biju Das <biju.das.jz@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Rob,
+When DVB-S2 tunning is requested, the tuner may report both
+DVB-S and DVB-S2 frequencies. There's a logic that tries to
+discover if the channel is either S or S2, but such logic is
+incomplete, causing problems.
 
-Thank you for the review.
+Fix it, doing a complete check for DVB-S compatible parameters.
 
-On Mon, Dec 13, 2021 at 10:58 PM Rob Herring <robh@kernel.org> wrote:
->
-> On Tue, Dec 07, 2021 at 01:23:49AM +0000, Lad Prabhakar wrote:
-> > Document the CRU block found on Renesas RZ/G2L SoC's.
-> >
-> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > ---
-> >  .../bindings/media/renesas,rzg2l-cru.yaml     | 227 ++++++++++++++++++
-> >  1 file changed, 227 insertions(+)
-> >  create mode 100644 Documentation/devicetree/bindings/media/renesas,rzg2l-cru.yaml
-> >
-> > diff --git a/Documentation/devicetree/bindings/media/renesas,rzg2l-cru.yaml b/Documentation/devicetree/bindings/media/renesas,rzg2l-cru.yaml
-> > new file mode 100644
-> > index 000000000000..7b2835810516
-> > --- /dev/null
-> > +++ b/Documentation/devicetree/bindings/media/renesas,rzg2l-cru.yaml
-> > @@ -0,0 +1,227 @@
-> > +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-> > +# Copyright (C) 2021 Renesas Electronics Corp.
-> > +%YAML 1.2
-> > +---
-> > +$id: http://devicetree.org/schemas/media/renesas,rzg2l-cru.yaml#
-> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > +
-> > +title: Renesas RZ/G2L Camera Data Receiving Unit (CRU)
-> > +
-> > +maintainers:
-> > +  - Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > +
-> > +description:
-> > +  The RZ/G2L Camera Data Receiving Unit (CRU) device provides video input
-> > +  capabilities for the Renesas RZ/G2L family of devices.
-> > +
-> > +  Depending on the instance the Image Processing input is connected to
-> > +  external SoC pins or to a CSI-2 receiver.
-> > +
-> > +properties:
-> > +  compatible:
-> > +    oneOf:
-> > +      - items:
->
-> Don't need oneOf with only 1 entry.
->
-I added this as there will be couple of more SoC's using this driver.
+Reported-by: Stefan Seyfried <stefan.seyfried@googlemail.com>
+Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+---
+ lib/libdvbv5/dvb-scan.c | 30 +++++++++++++++++++++++++++---
+ 1 file changed, 27 insertions(+), 3 deletions(-)
 
-> > +          - enum:
-> > +              - renesas,r9a07g044-cru     # RZ/G2{L,LC}
-> > +          - const: renesas,rzg2l-cru
-> > +
-> > +  reg:
-> > +    maxItems: 1
-> > +
-> > +  interrupts:
-> > +    maxItems: 4
-> > +
-> > +  interrupt-names:
-> > +    items:
-> > +      - const: csi2_link_int
-> > +      - const: image_conv_int
-> > +      - const: image_conv_err_int
-> > +      - const: axi_mst_err_int
->
-> _int is redundant.
->
-Agreed will drop "_int".
+diff --git a/lib/libdvbv5/dvb-scan.c b/lib/libdvbv5/dvb-scan.c
+index 5c8aca96df33..5bbeec1fa4fc 100644
+--- a/lib/libdvbv5/dvb-scan.c
++++ b/lib/libdvbv5/dvb-scan.c
+@@ -1118,9 +1118,33 @@ static void add_update_nit_dvbs(struct dvb_table_nit *nit,
+ 			     dvbs_dvbc_dvbs_freq_inner[d->fec]);
+ 	dvb_store_entry_prop(new, DTV_ROLLOFF,
+ 			     dvbs_rolloff[d->roll_off]);
+-	if (d->roll_off != 0)
+-		dvb_store_entry_prop(new, DTV_DELIVERY_SYSTEM,
+-				     SYS_DVBS2);
++
++	/*
++	 * Check if the returned parameters are really DVB-S or not
++	 *
++	 * DVB-S supports only 0.35 roll-off, with QPSK and
++	 * Red-Solomon FEC 1/2, 2/3, 3/4, 5/6, 7/8. If anythign else is
++	 * reported, then it is DVB-S2.
++	 */
++
++	if ((d->roll_off != 0 && d->roll_off != ROLLOFF_35) ||
++	    (d->modulation_system != 0 && d->modulation_system != QPSK)) {
++		dvb_store_entry_prop(new, DTV_DELIVERY_SYSTEM, SYS_DVBS2);
++		return;
++	}
++
++	switch (d->fec) {
++	case FEC_NONE:
++	case FEC_AUTO:
++	case FEC_1_2:
++	case FEC_2_3:
++	case FEC_3_4:
++	case FEC_5_6:
++	case FEC_7_8:
++		return;
++	default:
++		dvb_store_entry_prop(new, DTV_DELIVERY_SYSTEM, SYS_DVBS2);
++	}
+ }
+ 
+ static void add_update_nit_isdbs(struct dvb_table_nit *nit,
+-- 
+2.33.1
 
-> > +
-> > +  clocks:
-> > +    items:
-> > +      - description: Internal clock for connecting CRU and MIPI
-> > +      - description: CRU Main clock
-> > +      - description: CPU Register access clock
-> > +      - description: CRU image transfer clock
-> > +
-> > +  clock-names:
-> > +    items:
-> > +      - const: sysclk
-> > +      - const: vclk
-> > +      - const: pclk
-> > +      - const: aclk
-> > +
-> > +  power-domains:
-> > +    maxItems: 1
-> > +
-> > +  resets:
-> > +    items:
-> > +      - description: CRU_CMN_RSTB reset terminal
-> > +      - description: CRU_PRESETN reset terminal
-> > +      - description: CRU_ARESETN reset terminal
-> > +
-> > +  reset-names:
-> > +    items:
-> > +      - const: cmn-rstb
-> > +      - const: presetn
-> > +      - const: aresetn
-> > +
-> > +  ports:
-> > +    $ref: /schemas/graph.yaml#/properties/ports
-> > +
-> > +    properties:
-> > +      port@0:
-> > +        $ref: /schemas/graph.yaml#/$defs/port-base
-> > +        unevaluatedProperties: false
-> > +        description:
-> > +          Input port node, single endpoint describing a parallel input source.
-> > +
-> > +        properties:
-> > +          endpoint:
-> > +            $ref: video-interfaces.yaml#
-> > +            unevaluatedProperties: false
-> > +
-> > +            properties:
-> > +              hsync-active: true
-> > +
-> > +              vsync-active: true
-> > +
-> > +              bus-width: true
-> > +
-> > +              data-shift: true
-> > +
-> > +      port@1:
-> > +        $ref: /schemas/graph.yaml#/$defs/port-base
-> > +        unevaluatedProperties: false
-> > +        description:
-> > +          Input port node, single endpoint describing the CSI-2 transmitter.
-> > +
-> > +        properties:
-> > +          endpoint:
-> > +            $ref: video-interfaces.yaml#
-> > +            unevaluatedProperties: false
-> > +
-> > +            properties:
-> > +              clock-lanes:
-> > +                maxItems: 1
-> > +
-> > +              data-lanes:
-> > +                maxItems: 1
-> > +
-> > +            required:
-> > +              - clock-lanes
-> > +              - data-lanes
-> > +
-> > +      port@2:
-> > +        $ref: /schemas/graph.yaml#/properties/port
-> > +        description:
-> > +          Output port node, describing the RZ/G2L Image Processing module
-> > +          connected the CSI-2 receiver
-> > +
-> > +        properties:
-> > +          endpoint@0:
->
-> Unless you have mutiple endpoints to define or endpoint properties to
-> add, you don't need to specify anything more than the port.
->
-Agreed will drop it.
-
-Cheers,
-Prabhakar
-
-> > +            $ref: /schemas/graph.yaml#/properties/endpoint
-> > +            description: Endpoint connected to CSI2.
-> > +
-> > +        anyOf:
-> > +          - required:
-> > +              - endpoint@0
-> > +
-> > +      port@3:
-> > +        $ref: /schemas/graph.yaml#/properties/port
-> > +        description:
-> > +          Input port node, describing the RZ/G2L CSI-2 module connected the
-> > +          Image Processing block.
-> > +
-> > +        properties:
-> > +          endpoint@0:
-> > +            $ref: /schemas/graph.yaml#/properties/endpoint
-> > +            description: Endpoint connected to CSI2.
-> > +
-> > +        anyOf:
-> > +          - required:
-> > +              - endpoint@0
-> > +
-> > +required:
-> > +  - compatible
-> > +  - reg
-> > +  - interrupts
-> > +  - interrupt-names
-> > +  - clocks
-> > +  - clock-names
-> > +  - resets
-> > +  - reset-names
-> > +  - power-domains
-> > +
-> > +additionalProperties: false
-> > +
-> > +examples:
-> > +  # Device node example with CSI-2
-> > +  - |
-> > +    #include <dt-bindings/clock/r9a07g044-cpg.h>
-> > +    #include <dt-bindings/interrupt-controller/arm-gic.h>
-> > +
-> > +    cru: video@10830000 {
-> > +            compatible = "renesas,r9a07g044-cru", "renesas,rzg2l-cru";
-> > +            reg = <0x10830000 0x10000>;
-> > +            interrupts = <GIC_SPI 166 IRQ_TYPE_LEVEL_HIGH>,
-> > +                         <GIC_SPI 167 IRQ_TYPE_LEVEL_HIGH>,
-> > +                         <GIC_SPI 168 IRQ_TYPE_LEVEL_HIGH>,
-> > +                         <GIC_SPI 169 IRQ_TYPE_LEVEL_HIGH>;
-> > +            interrupt-names = "csi2_link_int", "image_conv_int",
-> > +                              "image_conv_err_int", "axi_mst_err_int";
-> > +            clocks = <&cpg CPG_MOD R9A07G044_CRU_SYSCLK>,
-> > +                     <&cpg CPG_MOD R9A07G044_CRU_VCLK>,
-> > +                     <&cpg CPG_MOD R9A07G044_CRU_PCLK>,
-> > +                     <&cpg CPG_MOD R9A07G044_CRU_ACLK>;
-> > +            clock-names = "sysclk", "vclk", "pclk", "aclk";
-> > +            power-domains = <&cpg>;
-> > +            resets = <&cpg R9A07G044_CRU_CMN_RSTB>,
-> > +                     <&cpg R9A07G044_CRU_PRESETN>,
-> > +                     <&cpg R9A07G044_CRU_ARESETN>;
-> > +            reset-names = "cmn-rstb", "presetn", "aresetn";
-> > +
-> > +            ports {
-> > +                    #address-cells = <1>;
-> > +                    #size-cells = <0>;
-> > +
-> > +                    port@1 {
-> > +                            #address-cells = <1>;
-> > +                            #size-cells = <0>;
-> > +
-> > +                            reg = <1>;
-> > +
-> > +                            csi2_in: endpoint@0 {
-> > +                                    reg = <0>;
-> > +                                    clock-lanes = <0>;
-> > +                                    data-lanes = <1 2>;
-> > +                                    remote-endpoint = <&ov5645_ep>;
-> > +                            };
-> > +                    };
-> > +
-> > +                    port@2 {
-> > +                            #address-cells = <1>;
-> > +                            #size-cells = <0>;
-> > +
-> > +                            reg = <2>;
-> > +
-> > +                            csi2cru: endpoint@0 {
-> > +                                    reg = <0>;
-> > +                                    remote-endpoint= <&crucsi2>;
-> > +                            };
-> > +                    };
-> > +
-> > +                    port@3 {
-> > +                            #address-cells = <1>;
-> > +                            #size-cells = <0>;
-> > +
-> > +                            reg = <3>;
-> > +
-> > +                            crucsi2: endpoint@0 {
-> > +                                    reg = <0>;
-> > +                                    remote-endpoint= <&csi2cru>;
-> > +                            };
-> > +                    };
-> > +            };
-> > +    };
-> > --
-> > 2.17.1
-> >
-> >
