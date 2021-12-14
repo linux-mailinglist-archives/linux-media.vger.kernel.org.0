@@ -2,87 +2,107 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 61DBA4745C7
-	for <lists+linux-media@lfdr.de>; Tue, 14 Dec 2021 16:01:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 039014745DF
+	for <lists+linux-media@lfdr.de>; Tue, 14 Dec 2021 16:04:50 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232849AbhLNPB3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 14 Dec 2021 10:01:29 -0500
-Received: from mga11.intel.com ([192.55.52.93]:31244 "EHLO mga11.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230488AbhLNPB2 (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Tue, 14 Dec 2021 10:01:28 -0500
-X-IronPort-AV: E=McAfee;i="6200,9189,10197"; a="236526264"
-X-IronPort-AV: E=Sophos;i="5.88,205,1635231600"; 
-   d="scan'208";a="236526264"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Dec 2021 07:01:27 -0800
-X-IronPort-AV: E=Sophos;i="5.88,205,1635231600"; 
-   d="scan'208";a="609890038"
-Received: from paasikivi.fi.intel.com ([10.237.72.42])
-  by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Dec 2021 07:01:25 -0800
-Received: from paasikivi.fi.intel.com (localhost [127.0.0.1])
-        by paasikivi.fi.intel.com (Postfix) with SMTP id 5853D20462;
-        Tue, 14 Dec 2021 17:01:23 +0200 (EET)
-Date:   Tue, 14 Dec 2021 17:01:23 +0200
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Daniel Scally <djrscally@gmail.com>
-Cc:     linux-media@vger.kernel.org, libcamera-devel@lists.libcamera.org,
-        laurent.pinchart@ideasonboard.com, hanlinchen@chromium.org,
-        tfiga@chromium.org, hdegoede@redhat.com,
-        kieran.bingham@ideasonboard.com, hpa@redhat.com
-Subject: Re: [PATCH 3/5] media: entity: Skip non-data links in graph iteration
-Message-ID: <Ybixw0dIZyC6wQL4@paasikivi.fi.intel.com>
-References: <20211213232849.40071-1-djrscally@gmail.com>
- <20211213232849.40071-4-djrscally@gmail.com>
+        id S235249AbhLNPEo (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 14 Dec 2021 10:04:44 -0500
+Received: from ams.source.kernel.org ([145.40.68.75]:33628 "EHLO
+        ams.source.kernel.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S235314AbhLNPDl (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Tue, 14 Dec 2021 10:03:41 -0500
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id C46DFB81A34;
+        Tue, 14 Dec 2021 15:03:39 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 78956C34606;
+        Tue, 14 Dec 2021 15:03:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1639494218;
+        bh=oCBk+mGt99XcZ4/jJejvVk9Y6BqK9SVRacIVgVA9myI=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=fmAFbSv7CwFHhyvSbVLYwb0Wd/P7Q0b8ZchksPtb6z9Txpct617A61yF7uCJRwdXY
+         yL9MQptvcB127vasL2aSmbnmQHyWAotZbT7+1+vC2f4SLqRtPMXjBZBS65VoltUMV1
+         enJNVzIRu5a6c0LXWrjMWTkkHDLJIwlY0iHGN7BTX5gMdoDPkMCZ4FiwwEwvFkDH57
+         ewV8oNkBvcEuH2aFVxSfmQQOwErre7uBkgoJr5JmePWqMjLaBJC90vQJXO6ktvBww1
+         UzV6zchW3bgH2IZAPvWodZ8ynxCBZw4PH+niNvTwSMzubbIVDJkejSvNblAUeRPDR8
+         UvMI38PPJRv9g==
+Date:   Tue, 14 Dec 2021 16:03:34 +0100
+From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To:     Xiaoke Wang <xkernel.wang@foxmail.com>
+Cc:     crope@iki.fi, linux-media@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] media: usb: dvb-usb-v2: check the return value of
+ kstrdup()
+Message-ID: <20211214160334.6e493a32@coco.lan>
+In-Reply-To: <tencent_07FF16C8253370EE140700057438B052FD06@qq.com>
+References: <tencent_07FF16C8253370EE140700057438B052FD06@qq.com>
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.30; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20211213232849.40071-4-djrscally@gmail.com>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Daniel,
+Em Mon, 13 Dec 2021 15:48:33 +0800
+Xiaoke Wang <xkernel.wang@foxmail.com> escreveu:
 
-On Mon, Dec 13, 2021 at 11:28:47PM +0000, Daniel Scally wrote:
-> When iterating over the media graph, don't follow links that are not
-> pad-to-pad links.
+> Note: Compare with the last email, this one is using my full name.
+> kstrdup() returns NULL if some internal memory errors happen, it is
+> better to check the return value of it. Since the return type of
+> dvb_usbv2_disconnect() is void, so only raise the error info.
 > 
-> Signed-off-by: Daniel Scally <djrscally@gmail.com>
+> Signed-off-by: Xiaoke Wang <xkernel.wang@foxmail.com>
 > ---
-> Changes since the rfc:
+>  drivers/media/usb/dvb-usb-v2/dvb_usb_core.c | 14 +++++++++++---
+>  1 file changed, 11 insertions(+), 3 deletions(-)
 > 
-> 	- new patch
-> 
->  drivers/media/mc/mc-entity.c | 8 ++++++++
->  1 file changed, 8 insertions(+)
-> 
-> diff --git a/drivers/media/mc/mc-entity.c b/drivers/media/mc/mc-entity.c
-> index d79eb88bc167..aeddc3f6310e 100644
-> --- a/drivers/media/mc/mc-entity.c
-> +++ b/drivers/media/mc/mc-entity.c
-> @@ -325,6 +325,14 @@ static void media_graph_walk_iter(struct media_graph *graph)
+> diff --git a/drivers/media/usb/dvb-usb-v2/dvb_usb_core.c b/drivers/media/usb/dvb-usb-v2/dvb_usb_core.c
+> index f1c79f3..a43a310 100644
+> --- a/drivers/media/usb/dvb-usb-v2/dvb_usb_core.c
+> +++ b/drivers/media/usb/dvb-usb-v2/dvb_usb_core.c
+> @@ -1009,6 +1009,9 @@ void dvb_usbv2_disconnect(struct usb_interface *intf)
+>  	const char *devname = kstrdup(dev_name(&d->udev->dev), GFP_KERNEL);
+>  	const char *drvname = d->name;
 >  
->  	link = list_entry(link_top(graph), typeof(*link), list);
->  
-> +	/* If the link is not a pad-to-pad link, don't follow it */
-
-This comment should mention data links, not pad-to-pad links.
-
-Seems fine apart from this.
-
-> +	if ((link->flags & MEDIA_LNK_FL_LINK_TYPE) != MEDIA_LNK_FL_DATA_LINK) {
-> +		link_top(graph) = link_top(graph)->next;
-> +		dev_dbg(entity->graph_obj.mdev->dev, "walk: skipping %s link\n",
-> +			link_type(link));
-> +		return;
-> +	}
+> +	if (!devname)
+> +		dev_err(&d->udev->dev, "%s: kstrdup() failed\n", KBUILD_MODNAME);
 > +
->  	/* The link is not enabled so we do not follow. */
->  	if (!(link->flags & MEDIA_LNK_FL_ENABLED)) {
->  		link_top(graph) = link_top(graph)->next;
 
--- 
-Kind regards,
+Don't use KBUILD_MODNAME, as dev_err will already add the driver/device's
+name.
 
-Sakari Ailus
+>  	dev_dbg(&d->udev->dev, "%s: bInterfaceNumber=%d\n", __func__,
+>  			intf->cur_altsetting->desc.bInterfaceNumber);
+>  
+> @@ -1023,9 +1026,14 @@ void dvb_usbv2_disconnect(struct usb_interface *intf)
+>  	kfree(d->priv);
+>  	kfree(d);
+>  
+> -	pr_info("%s: '%s:%s' successfully deinitialized and disconnected\n",
+> -		KBUILD_MODNAME, drvname, devname);
+
+Better to use:
+	dev_dbg(&d->udev->dev, "successfully deinitialized and disconnected\n");
+
+> -	kfree(devname);
+
+No need to place kfree() inside an if, as kfree(NULL) is safe.
+
+> +	if (devname) {
+> +		pr_info("%s: '%s:%s' successfully deinitialized and disconnected\n",
+> +			KBUILD_MODNAME, drvname, devname);
+> +		kfree(devname);
+> +	} else {
+> +		pr_info("%s: '%s:UNKNOWN' successfully deinitialized and disconnected\n",
+> +			KBUILD_MODNAME, drvname);
+> +	}
+>  }
+>  EXPORT_SYMBOL(dvb_usbv2_disconnect);
+> 
+
+Thanks,
+Mauro
