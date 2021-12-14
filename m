@@ -2,325 +2,228 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 13D6E473DC3
-	for <lists+linux-media@lfdr.de>; Tue, 14 Dec 2021 08:41:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C0386473DC8
+	for <lists+linux-media@lfdr.de>; Tue, 14 Dec 2021 08:48:14 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231506AbhLNHli (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 14 Dec 2021 02:41:38 -0500
-Received: from relay8-d.mail.gandi.net ([217.70.183.201]:41369 "EHLO
-        relay8-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229631AbhLNHlh (ORCPT
+        id S231546AbhLNHsN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 14 Dec 2021 02:48:13 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52976 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231506AbhLNHsN (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 14 Dec 2021 02:41:37 -0500
-Received: (Authenticated sender: jacopo@jmondi.org)
-        by relay8-d.mail.gandi.net (Postfix) with ESMTPSA id 0DC9B1BF215;
-        Tue, 14 Dec 2021 07:41:33 +0000 (UTC)
-Date:   Tue, 14 Dec 2021 08:42:27 +0100
-From:   Jacopo Mondi <jacopo@jmondi.org>
-To:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Cc:     linux-media@vger.kernel.org, sakari.ailus@linux.intel.com,
-        Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        niklas.soderlund+renesas@ragnatech.se,
+        Tue, 14 Dec 2021 02:48:13 -0500
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8F38AC061574;
+        Mon, 13 Dec 2021 23:48:12 -0800 (PST)
+Received: from [IPv6:2a00:c281:1276:dc00:2d23:3482:5e76:1917] (unknown [IPv6:2a00:c281:1276:dc00:2d23:3482:5e76:1917])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        (Authenticated sender: dafna)
+        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 2FF1F1F44D4A;
+        Tue, 14 Dec 2021 07:48:09 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=collabora.com; s=mail;
+        t=1639468090; bh=mzF7DDJC3cGDqz7hyNGX5SQVyrSCt20CyCZlVxgKA4g=;
+        h=Subject:From:To:Cc:References:Date:In-Reply-To:From;
+        b=agnkmvPM3CLrADMDtdtFz1mFpRmLY3tPoNXjoJAxFReez2AZ22CSP2B9ze6LV7XIA
+         H12WnJhbdIph8vpc8WRlirat0OEXlNXZfS16/L4aFEELHmQCReKX1RPyiTneLfwsJk
+         LenkSeo+HATLdR2Fge9zvPS9XgJjcgMdFuCX4chI/0M/A6PbIXAaBIItAMNCZYvQrj
+         iYKU6sM2N2xlAgzabS61fqjYQk50+Y4iIBDoe5ry+v7JRxvNPUBHAPKPvsLpwfUih9
+         p/b9aEcWVDc8SDSlMPiBhiFAgXgPma/5dr2RwoOKt6KwP61oAsswZhikTBowmhMnzt
+         iV27upxdOQ5gQ==
+Subject: Re: [PATCH v4 1/6] staging: media: wave5: Add vpuapi layer
+From:   Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+To:     Daniel Palmer <daniel@0x0f.com>
+Cc:     "open list:MEDIA INPUT INFRASTRUCTURE (V4L/DVB)" 
+        <linux-media@vger.kernel.org>,
+        Robert Beckett <bob.beckett@collabora.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Pratyush Yadav <p.yadav@ti.com>
-Subject: Re: [PATCH v10 04/38] media: subdev: add subdev state locking
-Message-ID: <20211214074227.onx7erpc5sdc4fcv@uno.localdomain>
-References: <20211130141536.891878-1-tomi.valkeinen@ideasonboard.com>
- <20211130141536.891878-5-tomi.valkeinen@ideasonboard.com>
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "open list:STAGING SUBSYSTEM" <linux-staging@lists.linux.dev>,
+        open list <linux-kernel@vger.kernel.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        hverkuil@xs4all.nl, kernel@collabora.com, dafna3@gmail.com,
+        kiril.bicevski@collabora.com,
+        Nas Chung <nas.chung@chipsnmedia.com>,
+        lafley.kim@chipsnmedia.com, scott.woo@chipsnmedia.com,
+        olivier.crete@collabora.com, dan.carpenter@oracle.com,
+        Randy Dunlap <rdunlap@infradead.org>
+References: <20211201175613.13710-1-dafna.hirschfeld@collabora.com>
+ <20211201175613.13710-2-dafna.hirschfeld@collabora.com>
+ <CAFr9PX=6Pd1Rg=wJvpuX6WX63L=iAnwPA24e59An3Kac5f_vzA@mail.gmail.com>
+ <cdd9b485-364f-c6bd-776f-a0ca2d260762@collabora.com>
+Message-ID: <e9905774-a994-6311-7b53-b40588d4f6ec@collabora.com>
+Date:   Tue, 14 Dec 2021 09:48:06 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20211130141536.891878-5-tomi.valkeinen@ideasonboard.com>
+In-Reply-To: <cdd9b485-364f-c6bd-776f-a0ca2d260762@collabora.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Tomi,
 
-On Tue, Nov 30, 2021 at 04:15:02PM +0200, Tomi Valkeinen wrote:
-> The V4L2 subdevs have managed without centralized locking for the state
-> (previously pad_config), as the TRY state is supposedly safe (although I
-> believe two TRY ioctls for the same fd would race), and the ACTIVE
-> state, and its locking, is managed by the drivers internally.
->
-> We now have ACTIVE state in a centralized position, and need locking.
 
-I would use 'active' instead of ACTIVE
+On 14.12.21 07:33, Dafna Hirschfeld wrote:
+> 
+> 
+> On 04.12.21 15:43, Daniel Palmer wrote:
+>> Hi Dafna,
+>>
+>> Sorry for the piecemeal emails..
+>>
+>> On Thu, 2 Dec 2021 at 02:56, Dafna Hirschfeld
+>> <dafna.hirschfeld@collabora.com> wrote:
+>>> diff --git a/drivers/staging/media/wave5/wave5-hw.c b/drivers/staging/media/wave5/wave5-hw.c
+>>
+>> ... snip ...
+>>
+>>> +static int wave5_wait_bus_busy(struct vpu_device *vpu_dev, int timeout, unsigned int addr)
+>>> +{
+>>> +       u32 gdi_status_check_value = 0x3f;
+>>> +       u32 data;
+>>> +
+>>> +       if (vpu_dev->product_code == WAVE521C_CODE ||
+>>> +           vpu_dev->product_code == WAVE521_CODE ||
+>>> +        vpu_dev->product_code == WAVE521E1_CODE)
+>>> +               gdi_status_check_value = 0x00ff1f3f;
+>>> +
+>>> +       return read_poll_timeout(wave5_vdi_read_register, data, data == gdi_status_check_value,
+>>> +                                0, timeout * 1000, false, vpu_dev, addr);
+>>> +}
+>>> +
+>>
+>> This looks like it should be s/wave5_vdi_read_register/wave5_read_register/.
+>> For wave511 addr passed in here is 0x8e14 so well outside of what is
+>> directly accessible.
+> 
+> Hi, I didn't understand this explanation. I see that
+> wave5_read_register eventually calls 'wave5_vdi_read_register'.
+> Could you please explain in more detail why you think
+> calling wave5_vdi_read_register is wrong?
 
-> Strictly speaking the locking is only needed for new drivers that use
-> the new state, as the current drivers continue behaving as they used to.
->
-> Add a mutex to the struct v4l2_subdev_state, along with a few helper
-> functions for locking/unlocking.
->
-> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-> ---
->  drivers/media/platform/rcar-vin/rcar-v4l2.c |  3 +-
->  drivers/media/platform/vsp1/vsp1_entity.c   |  4 +-
->  drivers/media/v4l2-core/v4l2-subdev.c       | 38 +++++++++++++---
->  drivers/staging/media/tegra-video/vi.c      |  4 +-
->  include/media/v4l2-subdev.h                 | 50 ++++++++++++++++++++-
->  5 files changed, 89 insertions(+), 10 deletions(-)
->
-> diff --git a/drivers/media/platform/rcar-vin/rcar-v4l2.c b/drivers/media/platform/rcar-vin/rcar-v4l2.c
-> index ba1d16ab1651..e6bd94d63e4f 100644
-> --- a/drivers/media/platform/rcar-vin/rcar-v4l2.c
-> +++ b/drivers/media/platform/rcar-vin/rcar-v4l2.c
-> @@ -244,6 +244,7 @@ static int rvin_try_format(struct rvin_dev *vin, u32 which,
->  {
->  	struct v4l2_subdev *sd = vin_to_source(vin);
->  	struct v4l2_subdev_state *sd_state;
-> +	static struct lock_class_key key;
->  	struct v4l2_subdev_format format = {
->  		.which = which,
->  		.pad = vin->parallel.source_pad,
-> @@ -252,7 +253,7 @@ static int rvin_try_format(struct rvin_dev *vin, u32 which,
->  	u32 width, height;
->  	int ret;
->
-> -	sd_state = __v4l2_subdev_state_alloc(sd);
-> +	sd_state = __v4l2_subdev_state_alloc(sd, "rvin:state->lock", &key);
+hi, I see know that those backbone address are indeed not read and written directly but
+the address should be first written to a regsiter W5_VPU_FIO_CTRL_ADDR,
+and then the content is returned from W5_VPU_FIO_DATA.
 
-Is key needed in the callers ? can it be moved to
-__v4l2_subdev_state_alloc() ?
+I'll fix it on v5
 
-This apart
-Reviewed-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
+Thanks,
+Dafna
 
-Thanks
-   j
-
->  	if (IS_ERR(sd_state))
->  		return PTR_ERR(sd_state);
->
-> diff --git a/drivers/media/platform/vsp1/vsp1_entity.c b/drivers/media/platform/vsp1/vsp1_entity.c
-> index 869cadc1468d..e607c3ae2520 100644
-> --- a/drivers/media/platform/vsp1/vsp1_entity.c
-> +++ b/drivers/media/platform/vsp1/vsp1_entity.c
-> @@ -613,6 +613,7 @@ int vsp1_entity_init(struct vsp1_device *vsp1, struct vsp1_entity *entity,
->  		     const char *name, unsigned int num_pads,
->  		     const struct v4l2_subdev_ops *ops, u32 function)
->  {
-> +	static struct lock_class_key key;
->  	struct v4l2_subdev *subdev;
->  	unsigned int i;
->  	int ret;
-> @@ -675,7 +676,8 @@ int vsp1_entity_init(struct vsp1_device *vsp1, struct vsp1_entity *entity,
->  	 * Allocate the pad configuration to store formats and selection
->  	 * rectangles.
->  	 */
-> -	entity->config = __v4l2_subdev_state_alloc(&entity->subdev);
-> +	entity->config = __v4l2_subdev_state_alloc(&entity->subdev,
-> +						   "vsp1:config->lock", &key);
->  	if (IS_ERR(entity->config)) {
->  		media_entity_cleanup(&entity->subdev.entity);
->  		return PTR_ERR(entity->config);
-> diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
-> index 3289875d9ec1..2053fe1cd67d 100644
-> --- a/drivers/media/v4l2-core/v4l2-subdev.c
-> +++ b/drivers/media/v4l2-core/v4l2-subdev.c
-> @@ -27,8 +27,9 @@
->  static int subdev_fh_init(struct v4l2_subdev_fh *fh, struct v4l2_subdev *sd)
->  {
->  	struct v4l2_subdev_state *state;
-> +	static struct lock_class_key key;
->
-> -	state = __v4l2_subdev_state_alloc(sd);
-> +	state = __v4l2_subdev_state_alloc(sd, "fh->state->lock", &key);
->  	if (IS_ERR(state))
->  		return PTR_ERR(state);
->
-> @@ -923,7 +924,9 @@ int v4l2_subdev_link_validate(struct media_link *link)
->  }
->  EXPORT_SYMBOL_GPL(v4l2_subdev_link_validate);
->
-> -struct v4l2_subdev_state *__v4l2_subdev_state_alloc(struct v4l2_subdev *sd)
-> +struct v4l2_subdev_state *
-> +__v4l2_subdev_state_alloc(struct v4l2_subdev *sd, const char *lock_name,
-> +			  struct lock_class_key *lock_key)
->  {
->  	struct v4l2_subdev_state *state;
->  	int ret;
-> @@ -932,6 +935,8 @@ struct v4l2_subdev_state *__v4l2_subdev_state_alloc(struct v4l2_subdev *sd)
->  	if (!state)
->  		return ERR_PTR(-ENOMEM);
->
-> +	__mutex_init(&state->lock, lock_name, lock_key);
-> +
->  	if (sd->entity.num_pads) {
->  		state->pads = kvmalloc_array(sd->entity.num_pads,
->  					     sizeof(*state->pads),
-> @@ -963,6 +968,8 @@ void __v4l2_subdev_state_free(struct v4l2_subdev_state *state)
->  	if (!state)
->  		return;
->
-> +	mutex_destroy(&state->lock);
-> +
->  	kvfree(state->pads);
->  	kfree(state);
->  }
-> @@ -997,11 +1004,12 @@ void v4l2_subdev_notify_event(struct v4l2_subdev *sd,
->  }
->  EXPORT_SYMBOL_GPL(v4l2_subdev_notify_event);
->
-> -int v4l2_subdev_init_finalize(struct v4l2_subdev *sd)
-> +int __v4l2_subdev_init_finalize(struct v4l2_subdev *sd, const char *name,
-> +				struct lock_class_key *key)
->  {
->  	struct v4l2_subdev_state *state;
->
-> -	state = __v4l2_subdev_state_alloc(sd);
-> +	state = __v4l2_subdev_state_alloc(sd, name, key);
->  	if (IS_ERR(state))
->  		return PTR_ERR(state);
->
-> @@ -1009,7 +1017,7 @@ int v4l2_subdev_init_finalize(struct v4l2_subdev *sd)
->
->  	return 0;
->  }
-> -EXPORT_SYMBOL_GPL(v4l2_subdev_init_finalize);
-> +EXPORT_SYMBOL_GPL(__v4l2_subdev_init_finalize);
->
->  void v4l2_subdev_cleanup(struct v4l2_subdev *sd)
->  {
-> @@ -1017,3 +1025,23 @@ void v4l2_subdev_cleanup(struct v4l2_subdev *sd)
->  	sd->active_state = NULL;
->  }
->  EXPORT_SYMBOL_GPL(v4l2_subdev_cleanup);
-> +
-> +struct v4l2_subdev_state *v4l2_subdev_lock_active_state(struct v4l2_subdev *sd)
-> +{
-> +	mutex_lock(&sd->active_state->lock);
-> +
-> +	return sd->active_state;
-> +}
-> +EXPORT_SYMBOL_GPL(v4l2_subdev_lock_active_state);
-> +
-> +void v4l2_subdev_lock_state(struct v4l2_subdev_state *state)
-> +{
-> +	mutex_lock(&state->lock);
-> +}
-> +EXPORT_SYMBOL_GPL(v4l2_subdev_lock_state);
-> +
-> +void v4l2_subdev_unlock_state(struct v4l2_subdev_state *state)
-> +{
-> +	mutex_unlock(&state->lock);
-> +}
-> +EXPORT_SYMBOL_GPL(v4l2_subdev_unlock_state);
-> diff --git a/drivers/staging/media/tegra-video/vi.c b/drivers/staging/media/tegra-video/vi.c
-> index 66b9ce160472..3516735f0cad 100644
-> --- a/drivers/staging/media/tegra-video/vi.c
-> +++ b/drivers/staging/media/tegra-video/vi.c
-> @@ -491,6 +491,7 @@ static int __tegra_channel_try_format(struct tegra_vi_channel *chan,
->  				      struct v4l2_pix_format *pix)
->  {
->  	const struct tegra_video_format *fmtinfo;
-> +	static struct lock_class_key key;
->  	struct v4l2_subdev *subdev;
->  	struct v4l2_subdev_format fmt;
->  	struct v4l2_subdev_state *sd_state;
-> @@ -507,7 +508,8 @@ static int __tegra_channel_try_format(struct tegra_vi_channel *chan,
->  	if (!subdev)
->  		return -ENODEV;
->
-> -	sd_state = __v4l2_subdev_state_alloc(subdev);
-> +	sd_state = __v4l2_subdev_state_alloc(subdev, "tegra:state->lock",
-> +					     &key);
->  	if (IS_ERR(sd_state))
->  		return PTR_ERR(sd_state);
->  	/*
-> diff --git a/include/media/v4l2-subdev.h b/include/media/v4l2-subdev.h
-> index 87c3126b2754..1810dde9c7fc 100644
-> --- a/include/media/v4l2-subdev.h
-> +++ b/include/media/v4l2-subdev.h
-> @@ -658,6 +658,7 @@ struct v4l2_subdev_pad_config {
->  /**
->   * struct v4l2_subdev_state - Used for storing subdev state information.
->   *
-> + * @lock: mutex for the state
->   * @pads: &struct v4l2_subdev_pad_config array
->   *
->   * This structure only needs to be passed to the pad op if the 'which' field
-> @@ -665,6 +666,8 @@ struct v4l2_subdev_pad_config {
->   * %V4L2_SUBDEV_FORMAT_ACTIVE it is safe to pass %NULL.
->   */
->  struct v4l2_subdev_state {
-> +	/* lock for the struct v4l2_subdev_state fields */
-> +	struct mutex lock;
->  	struct v4l2_subdev_pad_config *pads;
->  };
->
-> @@ -1156,10 +1159,14 @@ int v4l2_subdev_link_validate(struct media_link *link);
->   * __v4l2_subdev_state_alloc - allocate v4l2_subdev_state
->   *
->   * @sd: pointer to &struct v4l2_subdev for which the state is being allocated.
-> + * @lock_name: name of the state lock
-> + * @key: lock_class_key for the lock
->   *
->   * Must call __v4l2_subdev_state_free() when state is no longer needed.
->   */
-> -struct v4l2_subdev_state *__v4l2_subdev_state_alloc(struct v4l2_subdev *sd);
-> +struct v4l2_subdev_state *__v4l2_subdev_state_alloc(struct v4l2_subdev *sd,
-> +						    const char *lock_name,
-> +						    struct lock_class_key *key);
->
->  /**
->   * __v4l2_subdev_state_free - free a v4l2_subdev_state
-> @@ -1248,7 +1255,16 @@ void v4l2_subdev_notify_event(struct v4l2_subdev *sd,
->   *
->   * Must call v4l2_subdev_cleanup() when the subdev is being removed.
->   */
-> -int v4l2_subdev_init_finalize(struct v4l2_subdev *sd);
-> +#define v4l2_subdev_init_finalize(sd)                                          \
-> +	({                                                                     \
-> +		static struct lock_class_key __key;                            \
-> +		const char *name = KBUILD_BASENAME                             \
-> +			":" __stringify(__LINE__) ":subdev->state->lock";      \
-> +		__v4l2_subdev_init_finalize(sd, name, &__key);                 \
-> +	})
-> +
-> +int __v4l2_subdev_init_finalize(struct v4l2_subdev *sd, const char *name,
-> +				struct lock_class_key *key);
->
->  /**
->   * v4l2_subdev_cleanup() - Release the resources needed by the subdevice
-> @@ -1271,4 +1287,34 @@ v4l2_subdev_get_active_state(struct v4l2_subdev *sd)
->  	return sd->active_state;
->  }
->
-> +/**
-> + * v4l2_subdev_lock_active_state() - Lock and return the active subdev state for
-> + *				     subdevice
-> + * @sd: The subdevice
-> + *
-> + * Return the locked active state for the subdevice, or NULL if the subdev
-> + * does not support active state.
-> + *
-> + * Must be unlocked with v4l2_subdev_unlock_state() after use.
-> + */
-> +struct v4l2_subdev_state *v4l2_subdev_lock_active_state(struct v4l2_subdev *sd);
-> +
-> +/**
-> + * v4l2_subdev_lock_state() - Lock the subdev state
-> + * @state: The subdevice state
-> + *
-> + * Lock the given subdev state.
-> + *
-> + * Must be unlocked with v4l2_subdev_unlock_state() after use.
-> + */
-> +void v4l2_subdev_lock_state(struct v4l2_subdev_state *state);
-> +
-> +/**
-> + * v4l2_subdev_unlock_state() - Unlock the subdev state
-> + * @state: The subdevice state
-> + *
-> + * Unlock the given subdev state.
-> + */
-> +void v4l2_subdev_unlock_state(struct v4l2_subdev_state *state);
-> +
->  #endif
-> --
-> 2.25.1
->
+> 
+> Actually the name 'wave5_read_register' is a bad name for that
+> func since it eventually return the value of the W5_VPU_FIO_DATA
+> register upon success and not the address sent to it.
+> 
+> 
+>>
+>> Also it seems that this can either return 0 or -ETIMEDOUT...
+>>
+>> ... snip ...
+>>
+>>> +int wave5_vpu_reset(struct device *dev, enum sw_reset_mode reset_mode)
+>>> +{
+>>> +       u32 val = 0;
+>>> +       int ret = 0;
+>>> +       struct vpu_device *vpu_dev = dev_get_drvdata(dev);
+>>> +       struct vpu_attr *p_attr = &vpu_dev->attr;
+>>> +       // VPU doesn't send response. force to set BUSY flag to 0.
+>>> +       vpu_write_reg(vpu_dev, W5_VPU_BUSY_STATUS, 0);
+>>> +
+>>> +       if (reset_mode == SW_RESET_SAFETY) {
+>>> +               ret = wave5_vpu_sleep_wake(dev, true, NULL, 0);
+>>> +               if (ret)
+>>> +                       return ret;
+>>> +       }
+>>> +
+>>> +       val = vpu_read_reg(vpu_dev, W5_VPU_RET_VPU_CONFIG0);
+>>> +       if ((val >> 16) & 0x1)
+>>> +               p_attr->support_backbone = true;
+>>> +       if ((val >> 22) & 0x1)
+>>> +               p_attr->support_vcore_backbone = true;
+>>> +       if ((val >> 28) & 0x1)
+>>> +               p_attr->support_vcpu_backbone = true;
+>>> +
+>>> +       val = vpu_read_reg(vpu_dev, W5_VPU_RET_VPU_CONFIG1);
+>>> +       if ((val >> 26) & 0x1)
+>>> +               p_attr->support_dual_core = true;
+>>> +
+>>> +       // waiting for completion of bus transaction
+>>> +       if (p_attr->support_backbone) {
+>>> +               if (p_attr->support_dual_core) {
+>>> +                       // check CORE0
+>>> +                       wave5_write_register(vpu_dev, W5_BACKBONE_BUS_CTRL_VCORE0, 0x7);
+>>> +
+>>> +                       ret = wave5_wait_bus_busy(vpu_dev, VPU_BUSY_CHECK_TIMEOUT,
+>>> +                                                 W5_BACKBONE_BUS_STATUS_VCORE0);
+>>> +                       if (ret) {
+>>> +                               wave5_write_register(vpu_dev, W5_BACKBONE_BUS_CTRL_VCORE0, 0x00);
+>>> +                               return ret;
+>>> +                       }
+>>> +
+>>> +                       // check CORE1
+>>> +                       wave5_write_register(vpu_dev, W5_BACKBONE_BUS_CTRL_VCORE1, 0x7);
+>>> +
+>>> +                       ret = wave5_wait_bus_busy(vpu_dev, VPU_BUSY_CHECK_TIMEOUT,
+>>> +                                                 W5_BACKBONE_BUS_STATUS_VCORE1);
+>>> +                       if (ret) {
+>>> +                               wave5_write_register(vpu_dev, W5_BACKBONE_BUS_CTRL_VCORE1, 0x00);
+>>> +                               return ret;
+>>> +                       }
+>>> +
+>>> +               } else if (p_attr->support_vcore_backbone) {
+>>> +                       if (p_attr->support_vcpu_backbone) {
+>>> +                               // step1 : disable request
+>>> +                               wave5_write_register(vpu_dev, W5_BACKBONE_BUS_CTRL_VCPU,
+>>> +                                                    0xFF);
+>>> +
+>>> +                               // step2 : waiting for completion of bus transaction
+>>> +                               ret = wave5_wait_vcpu_bus_busy(vpu_dev, VPU_BUSY_CHECK_TIMEOUT,
+>>> +                                                              W5_BACKBONE_BUS_STATUS_VCPU);
+>>> +                               if (ret) {
+>>> +                                       wave5_write_register(vpu_dev,
+>>> +                                                            W5_BACKBONE_BUS_CTRL_VCPU, 0x00);
+>>> +                                       return ret;
+>>> +                               }
+>>> +                       }
+>>> +                       // step1 : disable request
+>>> +                       wave5_write_register(vpu_dev, W5_BACKBONE_BUS_CTRL_VCORE0, 0x7);
+>>> +
+>>> +                       // step2 : waiting for completion of bus transaction
+>>> +                       if (wave5_wait_bus_busy(vpu_dev, VPU_BUSY_CHECK_TIMEOUT,
+>>> +                                               W5_BACKBONE_BUS_STATUS_VCORE0) == -1) {
+>>> +                               wave5_write_register(vpu_dev, W5_BACKBONE_BUS_CTRL_VCORE0, 0x00);
+>>> +                               return -EBUSY;
+>>> +                       }
+>>
+>> but this is looking for -1 on failure.
+> 
+> right, thanks for finding this, I see that wave5_read_register return -1 on failure so maybe
+> this is the source of the confusion.
+> 
+> Thanks,
+> Dafna
+> 
+>>
+>>> +               } else {
+>>> +                       // step1 : disable request
+>>> +                       wave5_write_register(vpu_dev, W5_COMBINED_BACKBONE_BUS_CTRL, 0x7);
+>>> +
+>>> +                       // step2 : waiting for completion of bus transaction
+>>> +                       if (wave5_wait_bus_busy(vpu_dev, VPU_BUSY_CHECK_TIMEOUT,
+>>> +                                               W5_COMBINED_BACKBONE_BUS_STATUS) == -1) {
+>>> +                               wave5_write_register(vpu_dev, W5_COMBINED_BACKBONE_BUS_CTRL, 0x00);
+>>> +                               return -EBUSY;
+>>> +                       }
+>>> +               }
+>>
+>> Here too.
+>>
+>> Cheers,
+>>
+>> Daniel
+>>
+> 
