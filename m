@@ -2,115 +2,93 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BEE634743CC
-	for <lists+linux-media@lfdr.de>; Tue, 14 Dec 2021 14:46:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9E2554743F0
+	for <lists+linux-media@lfdr.de>; Tue, 14 Dec 2021 14:54:40 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234532AbhLNNqW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 14 Dec 2021 08:46:22 -0500
-Received: from ams.source.kernel.org ([145.40.68.75]:52648 "EHLO
-        ams.source.kernel.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230088AbhLNNqV (ORCPT
+        id S232361AbhLNNyd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 14 Dec 2021 08:54:33 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52468 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230038AbhLNNyc (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 14 Dec 2021 08:46:21 -0500
+        Tue, 14 Dec 2021 08:54:32 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5360BC061574;
+        Tue, 14 Dec 2021 05:54:32 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id B88F5B819B4;
-        Tue, 14 Dec 2021 13:46:20 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 93E0EC34601;
-        Tue, 14 Dec 2021 13:46:16 +0000 (UTC)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 13961B819BD;
+        Tue, 14 Dec 2021 13:54:31 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B8E0DC34601;
+        Tue, 14 Dec 2021 13:54:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1639489579;
-        bh=IPUyK9+cTg9d2YEDhc90Ub9/uzFy2tW8VkPRCEUQ3Dw=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=urnGSGDpfLi3eHC8Ge0YggS1h4NDPuPnmRzrsrjOnq2Oc8POGut1BzG2LQHGVJbWN
-         rI1uGalDQm4LOTdO8K4KowL00SF16QpUBr0syqGHY9Aoz5jOrRS3BkeskcKEW7Psbs
-         YxvB5CCBhjmHCHuxRlY6J0tXphweVu1XMfBnqe1pEiZ4CNYn8ZRYZxegPsfowK5ZOo
-         c1B+Mo8fBBwVVVj8jzU5/N3NEx2uulrUXO+7umSx10/KuNYm1GT6OvWd3GpppcTv/x
-         BSs5yaydxuJjsxhzH6KFbneQoCBtm+WBS/GJVF1Vqn40gKp31s8741qw6q/ZHYH4zS
-         OUHZsfGAkvvmw==
-Date:   Tue, 14 Dec 2021 14:46:13 +0100
-From:   Mauro Carvalho Chehab <mchehab@kernel.org>
-To:     Zhou Qingyang <zhou1615@umn.edu>
-Cc:     kjlu@umn.edu, Neil Armstrong <narmstrong@baylibre.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Kevin Hilman <khilman@baylibre.com>,
-        Jerome Brunet <jbrunet@baylibre.com>,
-        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Maxime Jourdan <mjourdan@baylibre.com>,
-        linux-media@vger.kernel.org, linux-amlogic@lists.infradead.org,
-        linux-staging@lists.linux.dev,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] media: meson: vdec: Fix a NULL pointer dereference
- in amvdec_add_ts()
-Message-ID: <20211214144613.35fec82a@coco.lan>
-In-Reply-To: <20211202160357.75173-1-zhou1615@umn.edu>
-References: <20211201084108.GE9522@kadam>
-        <20211202160357.75173-1-zhou1615@umn.edu>
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.30; x86_64-redhat-linux-gnu)
+        s=k20201202; t=1639490069;
+        bh=CFSSHRmfjaMqqbUJcEc7poqXaoNhUH2xA9KZNHxIbos=;
+        h=From:To:Cc:Subject:Date:From;
+        b=gP8m5WyJ6WOcQXKS3ff5BZwURbVUs7ncZxFb3BEX3QERZSZC4G0Rkn35jNch0fhkk
+         /Q/7gG98fPoMuE85UC5t8SoniDouNQkuZTNf6xSsUQbD3BFAtBvIaRokYK6fLbWXW9
+         Y/UvxCvwActxfi1CVZ+NAAm06JXNi9Lus1LjLD4GmJo9xCA3GNhovI2AOefHngyCUD
+         VAKEZvC+y1lXrcdBI73Jjgb1ovpGx+/XFHCfvKUW/dEXFFz9me+4CsckAQRQZq7Wdf
+         tqsxy7lstZnhAArQFCR4VazyX9hr1X9SJxJjJzCEGqVSgnZOcx4O6DLlblgbTdndLM
+         EFqSJP57tVs3Q==
+Received: from mchehab by mail.kernel.org with local (Exim 4.94.2)
+        (envelope-from <mchehab@kernel.org>)
+        id 1mx8GB-003f6Q-Ju; Tue, 14 Dec 2021 14:54:27 +0100
+From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
+Subject: [PATCH] media: saa7146: fix error logic at saa7146_vv_init()
+Date:   Tue, 14 Dec 2021 14:54:26 +0100
+Message-Id: <841b07a8738778e3db88afc7c18757edf22f89c2.1639490063.git.mchehab+huawei@kernel.org>
+X-Mailer: git-send-email 2.33.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
+To:     unlisted-recipients:; (no To-header on input)
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Em Fri,  3 Dec 2021 00:03:57 +0800
-Zhou Qingyang <zhou1615@umn.edu> escreveu:
+As the first thing this function does is to call
+v4l2_device_register(), it should call v4l2_device_unregister()
+if an error occurs, the same way as done at saa7146_vv_release().
 
-> In amvdec_add_ts(), there is a dereference of kzalloc(), which could lead
-> to a NULL pointer dereference on failure of kzalloc().
-> 
-> I fix this bug by adding a NULL check of new_ts.
-> 
-> This bug was found by a static analyzer. The analysis employs
-> differential checking to identify inconsistent security operations
-> (e.g., checks or kfrees) between two code paths and confirms that the
-> inconsistent operations are not recovered in the current function or
-> the callers, so they constitute bugs.
-> 
-> Note that, as a bug found by static analysis, it can be a false
-> positive or hard to trigger. Multiple researchers have cross-reviewed
-> the bug.
-> 
-> Builds with CONFIG_VIDEO_MESON_VDEC=m show no new warnings,
-> and our static analyzer no longer warns about this code.
-> 
-> Fixes: 876f123b8956 ("media: meson: vdec: bring up to compliance")
-> Signed-off-by: Zhou Qingyang <zhou1615@umn.edu>
-> ---
-> Changes in v2:
->   -  Delete dev_err() message
-> 
->  drivers/staging/media/meson/vdec/vdec_helpers.c | 3 +++
->  1 file changed, 3 insertions(+)
-> 
-> diff --git a/drivers/staging/media/meson/vdec/vdec_helpers.c b/drivers/staging/media/meson/vdec/vdec_helpers.c
-> index b9125c295d1d..ac60514c475b 100644
-> --- a/drivers/staging/media/meson/vdec/vdec_helpers.c
-> +++ b/drivers/staging/media/meson/vdec/vdec_helpers.c
-> @@ -234,6 +234,9 @@ void amvdec_add_ts(struct amvdec_session *sess, u64 ts,
->  	unsigned long flags;
->  
->  	new_ts = kzalloc(sizeof(*new_ts), GFP_KERNEL);
-> +	if (!new_ts)
-> +		return;
-> +
->  	new_ts->ts = ts;
->  	new_ts->tc = tc;
->  	new_ts->offset = offset;
+Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+---
+ drivers/media/common/saa7146/saa7146_fops.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-I don't think this change is ok. Sure, it needs to check if
-kzalloc() fails, but it should return -ENOMEM and the caller
-should check if it returns an error. So, I would expect
-that this patch would also touch the caller function at
-drivers/staging/media/meson/vdec/esparser.c.
+diff --git a/drivers/media/common/saa7146/saa7146_fops.c b/drivers/media/common/saa7146/saa7146_fops.c
+index be3215977714..e9a15de6126e 100644
+--- a/drivers/media/common/saa7146/saa7146_fops.c
++++ b/drivers/media/common/saa7146/saa7146_fops.c
+@@ -487,6 +487,7 @@ int saa7146_vv_init(struct saa7146_dev* dev, struct saa7146_ext_vv *ext_vv)
+ 	if (hdl->error) {
+ 		err = hdl->error;
+ 		v4l2_ctrl_handler_free(hdl);
++		v4l2_device_unregister(&dev->v4l2_dev);
+ 		return err;
+ 	}
+ 	dev->v4l2_dev.ctrl_handler = hdl;
+@@ -495,6 +496,7 @@ int saa7146_vv_init(struct saa7146_dev* dev, struct saa7146_ext_vv *ext_vv)
+ 	if (vv == NULL) {
+ 		ERR("out of memory. aborting.\n");
+ 		v4l2_ctrl_handler_free(hdl);
++		v4l2_device_unregister(&dev->v4l2_dev);
+ 		return -ENOMEM;
+ 	}
+ 	ext_vv->vid_ops = saa7146_video_ioctl_ops;
+@@ -521,6 +523,7 @@ int saa7146_vv_init(struct saa7146_dev* dev, struct saa7146_ext_vv *ext_vv)
+ 		ERR("out of memory. aborting.\n");
+ 		kfree(vv);
+ 		v4l2_ctrl_handler_free(hdl);
++		v4l2_device_unregister(&dev->v4l2_dev);
+ 		return -ENOMEM;
+ 	}
+ 
+-- 
+2.33.1
 
-Regards,
-Mauro
-
-
-
-Thanks,
-Mauro
