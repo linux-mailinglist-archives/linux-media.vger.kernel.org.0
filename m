@@ -2,105 +2,90 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7656347470E
-	for <lists+linux-media@lfdr.de>; Tue, 14 Dec 2021 17:02:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id AE3DD47471C
+	for <lists+linux-media@lfdr.de>; Tue, 14 Dec 2021 17:06:59 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235428AbhLNQCq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 14 Dec 2021 11:02:46 -0500
-Received: from mga02.intel.com ([134.134.136.20]:22975 "EHLO mga02.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231494AbhLNQCq (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Tue, 14 Dec 2021 11:02:46 -0500
-X-IronPort-AV: E=McAfee;i="6200,9189,10197"; a="226285125"
-X-IronPort-AV: E=Sophos;i="5.88,205,1635231600"; 
-   d="scan'208";a="226285125"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Dec 2021 08:02:43 -0800
-X-IronPort-AV: E=Sophos;i="5.88,205,1635231600"; 
-   d="scan'208";a="614327874"
-Received: from paasikivi.fi.intel.com ([10.237.72.42])
-  by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Dec 2021 08:02:40 -0800
-Received: from paasikivi.fi.intel.com (localhost [127.0.0.1])
-        by paasikivi.fi.intel.com (Postfix) with SMTP id F0AE820462;
-        Tue, 14 Dec 2021 18:02:38 +0200 (EET)
-Date:   Tue, 14 Dec 2021 18:02:38 +0200
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Bingbu Cao <bingbu.cao@intel.com>
-Cc:     linux-media@vger.kernel.org, rafael@kernel.org,
-        shawnx.tu@intel.com, tian.shu.qiu@intel.com,
-        chiranjeevi.rapolu@intel.com, hyungwoo.yang@intel.com,
-        tfiga@chromium.org, senozhatsky@chromium.org,
-        linux-kernel@vger.kernel.org, bingbu.cao@linux.intel.com
-Subject: Re: [PATCH 6/6] media: hi556: Support device probe in non-zero ACPI
- D state
-Message-ID: <YbjAHhDFJOSxFI+v@paasikivi.fi.intel.com>
-References: <1636447715-15526-1-git-send-email-bingbu.cao@intel.com>
- <1636447715-15526-7-git-send-email-bingbu.cao@intel.com>
+        id S235505AbhLNQG6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 14 Dec 2021 11:06:58 -0500
+Received: from mail-ot1-f44.google.com ([209.85.210.44]:41980 "EHLO
+        mail-ot1-f44.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231515AbhLNQG6 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Tue, 14 Dec 2021 11:06:58 -0500
+Received: by mail-ot1-f44.google.com with SMTP id n17-20020a9d64d1000000b00579cf677301so21341015otl.8;
+        Tue, 14 Dec 2021 08:06:57 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=CWeglYX86Kh/jx6qsj0rbVo/zA4v+6dDtBcJ8ZfP9I8=;
+        b=ATx2CtZW8+uN1RxVBwQNl1zycF+FIBAExw/Rj52MkHnT1Rl5t+aLy+uFgVUVKHynAj
+         kJt/daxdNjPuFOgzXEJhPKnuEijsGtJI5Dd2wDxyUFv72wRqe7RuYh5piiwD+FPur5Aj
+         BU5q5ImYPzWP7/gIoHwQHwIDw9f3xXAf6oPRcbnxKN5v61Hx7HT7Pe3oi9Tcf8dxwNG+
+         SpwTeRJhhi72iWefDhF/Y4jirOiBjK5vTlXZiMUqLcV8vMTXogYYdTntwKtSAB3DDnxM
+         0igbq/WAIiBQjKpL3DdEy9VnqfmZXgNuEyGfXxrYs7oX7H6VPIwG6YAOBFKYA0MZF7Wm
+         yfgA==
+X-Gm-Message-State: AOAM530yVb1a7mUZaLj4DAWOrTLdgMLtiDvxIU2pDiX3h0K/2PAJ2CAl
+        5Or58YSzZ4Bb80E0rcZ5Ig==
+X-Google-Smtp-Source: ABdhPJzkIOmtEo5hn0+hMuoG7HvhDOIIqOzzWYSglSMtBtWvqRjpOAt28cIAYU9DiODBsaihaQ23kw==
+X-Received: by 2002:a9d:5190:: with SMTP id y16mr5121669otg.364.1639498017370;
+        Tue, 14 Dec 2021 08:06:57 -0800 (PST)
+Received: from robh.at.kernel.org (66-90-148-213.dyn.grandenetworks.net. [66.90.148.213])
+        by smtp.gmail.com with ESMTPSA id j5sm48247oou.23.2021.12.14.08.06.55
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 14 Dec 2021 08:06:56 -0800 (PST)
+Received: (nullmailer pid 3472932 invoked by uid 1000);
+        Tue, 14 Dec 2021 16:06:55 -0000
+Date:   Tue, 14 Dec 2021 10:06:55 -0600
+From:   Rob Herring <robh@kernel.org>
+To:     Yunfei Dong <yunfei.dong@mediatek.com>
+Cc:     Fritz Koenig <frkoenig@chromium.org>,
+        AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>,
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+        Alexandre Courbot <acourbot@chromium.org>,
+        Tomasz Figa <tfiga@google.com>, devicetree@vger.kernel.org,
+        Steve Cho <stevecho@chromium.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Hsin-Yi Wang <hsinyi@chromium.org>,
+        Irui Wang <irui.wang@mediatek.com>,
+        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+        linux-media@vger.kernel.org,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Tiffany Lin <tiffany.lin@mediatek.com>,
+        linux-kernel@vger.kernel.org,
+        Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Tzung-Bi Shih <tzungbi@chromium.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Project_Global_Chrome_Upstream_Group@mediatek.com,
+        srv_heupstream@mediatek.com, linux-mediatek@lists.infradead.org,
+        linux-arm-kernel@lists.infradead.org,
+        Daniel Vetter <daniel@ffwll.ch>
+Subject: Re: [PATCH v13, 15/19] dt-bindings: media: mtk-vcodec: Adds decoder
+ dt-bindings for mt8192
+Message-ID: <YbjBHwMXFwi/Sds4@robh.at.kernel.org>
+References: <20211213084141.13363-1-yunfei.dong@mediatek.com>
+ <20211213084141.13363-16-yunfei.dong@mediatek.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <1636447715-15526-7-git-send-email-bingbu.cao@intel.com>
+In-Reply-To: <20211213084141.13363-16-yunfei.dong@mediatek.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Bingbu,
-
-On Tue, Nov 09, 2021 at 04:48:35PM +0800, Bingbu Cao wrote:
-> Tell ACPI device PM code that the driver supports the device being in
-> non-zero ACPI D state when the driver's probe function is entered.
+On Mon, 13 Dec 2021 16:41:37 +0800, Yunfei Dong wrote:
+> Adds decoder dt-bindings for mt8192.
 > 
-> Also do identification on the first access of the device, whether in probe
-> or when starting streaming.
-> 
-> Signed-off-by: Bingbu Cao <bingbu.cao@intel.com>
-> Signed-off-by: Kao, Arec <arec.kao@intel.com>
+> Signed-off-by: Yunfei Dong <yunfei.dong@mediatek.com>
 > ---
->  drivers/media/i2c/hi556.c | 67 +++++++++++++++++++++++++++++------------------
->  1 file changed, 42 insertions(+), 25 deletions(-)
+> Fix comments from rob.
+> ---
+>  .../media/mediatek,vcodec-subdev-decoder.yaml | 265 ++++++++++++++++++
+>  1 file changed, 265 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/media/mediatek,vcodec-subdev-decoder.yaml
 > 
-> diff --git a/drivers/media/i2c/hi556.c b/drivers/media/i2c/hi556.c
-> index 8db1cbedc1fd..c8011467d1a4 100644
-> --- a/drivers/media/i2c/hi556.c
-> +++ b/drivers/media/i2c/hi556.c
-> @@ -495,6 +495,9 @@ struct hi556 {
->  
->  	/* Streaming on/off */
->  	bool streaming;
-> +
-> +	/* True if the device has been identified */
-> +	bool identified;
->  };
->  
->  static u64 to_pixel_rate(u32 f_index)
-> @@ -757,12 +760,38 @@ static void hi556_assign_pad_format(const struct hi556_mode *mode,
->  	fmt->field = V4L2_FIELD_NONE;
->  }
->  
-> +static int hi556_identify_module(struct hi556 *hi556)
-> +{
-> +	struct i2c_client *client = v4l2_get_subdevdata(&hi556->sd);
-> +	int ret;
-> +	u32 val;
 
-If the sensor's already identified, you can return 0 here.
-
-> +
-> +	ret = hi556_read_reg(hi556, HI556_REG_CHIP_ID,
-> +			     HI556_REG_VALUE_16BIT, &val);
-> +	if (ret)
-> +		return ret;
-> +
-> +	if (val != HI556_CHIP_ID) {
-> +		dev_err(&client->dev, "chip id mismatch: %x!=%x",
-> +			HI556_CHIP_ID, val);
-> +		return -ENXIO;
-> +	}
-> +
-> +	hi556->identified = true;
-> +
-> +	return 0;
-> +}
-
--- 
-Sakari Ailus
+Reviewed-by: Rob Herring <robh@kernel.org>
