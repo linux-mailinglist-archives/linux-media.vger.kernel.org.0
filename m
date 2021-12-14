@@ -2,49 +2,47 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A48AB474570
-	for <lists+linux-media@lfdr.de>; Tue, 14 Dec 2021 15:44:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 46E1447459C
+	for <lists+linux-media@lfdr.de>; Tue, 14 Dec 2021 15:53:12 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234975AbhLNOoR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 14 Dec 2021 09:44:17 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36312 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232847AbhLNOoR (ORCPT
+        id S235063AbhLNOxK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 14 Dec 2021 09:53:10 -0500
+Received: from ams.source.kernel.org ([145.40.68.75]:56956 "EHLO
+        ams.source.kernel.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S235053AbhLNOxI (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 14 Dec 2021 09:44:17 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A6CB5C061574;
-        Tue, 14 Dec 2021 06:44:16 -0800 (PST)
+        Tue, 14 Dec 2021 09:53:08 -0500
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 6FF9EB819E2;
-        Tue, 14 Dec 2021 14:44:15 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 951E5C34601;
-        Tue, 14 Dec 2021 14:44:12 +0000 (UTC)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 2361CB819D0;
+        Tue, 14 Dec 2021 14:53:07 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 41196C34605;
+        Tue, 14 Dec 2021 14:53:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1639493054;
-        bh=8kE25lHJX38zMYqV26wAuz0kRQbim0EKFMko/TuL3ys=;
+        s=k20201202; t=1639493585;
+        bh=AzHNcyUA/QRvy9mrDm7aHrX+kNREOEaOReCfcbc2Xx4=;
         h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=UrAA9n3JIlqfRx72ruF3mVgM9KP5nDEjQIBuPfresFgCEmarF5Fh4jk0icEhgErLY
-         uufVVRt2+yXAd/FKLgYN1JwjjhkOOwkl8miq9pBznBh9aE2MHIvSA7hbeHbtqSSmF3
-         7S63tDasO/FbzKIQkgNXJgCiDsgEO664LYvFOSk/ZaKeP4FT9QYgOPjrkvOqzaV+3x
-         n2ozNvt5EYWJK/r7CQNNmZbkU/5OC8vcFsnsCxm/L2AIyrKyJtt5Gn5PC1ibvMu3pB
-         DUyRfXU2trDc7hCV8hWeF1uZn/3obYcX7xAozSxGPSWePytP/WZfsCycrQ4wyo4KJJ
-         qMXZn9nLXNW3g==
-Date:   Tue, 14 Dec 2021 15:44:09 +0100
-From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To:     Ricardo Ribalda <ribalda@chromium.org>
-Cc:     Nicolas Dufresne <nicolas@ndufresne.ca>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        tfiga@chromium.org
-Subject: Re: [PATCH v2 0/4] uvc: Restore old vdev name
-Message-ID: <20211214154409.292c1173@coco.lan>
-In-Reply-To: <20211207003840.1212374-1-ribalda@chromium.org>
-References: <20211207003840.1212374-1-ribalda@chromium.org>
+        b=cF/VhgNgrjUoFOwS01/hdqyirsFFhGaSbDWxWEnel4pr35r2BE3+67wFlo0385QVN
+         sg11RNm9ImM9CopIofbxt5YmJUEDE6s+TV+gxzdR3/J1lIBjEn+80OyZI8FjYQA7hT
+         V/eFgALuGcKBUPY2hmCe9h2RRKT9bNMNMhHgBRHTLtmDJizrdhra/g7LvmTRMJgzGx
+         Wr83hZUr5FLOQlRF8ScScaZVx4rfA6FkJoz+XZ1YugXijMDSCVovxxYoB10a8DryAj
+         EefdXQTfGDZ3//3zus4/tACdXPwLr5UMj0BRBc/vWgBzwRstHWPdX+uhbj2AusjOYz
+         W6rBfIELeqezQ==
+Date:   Tue, 14 Dec 2021 15:53:00 +0100
+From:   Mauro Carvalho Chehab <mchehab@kernel.org>
+To:     Jammy Huang <jammy_huang@aspeedtech.com>
+Cc:     <hverkuil-cisco@xs4all.nl>, <sakari.ailus@linux.intel.com>,
+        <gregkh@linuxfoundation.org>, <laurent.pinchart@ideasonboard.com>,
+        <eajames@linux.ibm.com>, <joel@jms.id.au>, <andrew@aj.id.au>,
+        <linux-media@vger.kernel.org>, <openbmc@lists.ozlabs.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-aspeed@lists.ozlabs.org>, <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v2] media: aspeed: move err-handling together to the
+ bottom
+Message-ID: <20211214155300.0132946e@coco.lan>
+In-Reply-To: <20211206004811.1118-1-jammy_huang@aspeedtech.com>
+References: <20211206004811.1118-1-jammy_huang@aspeedtech.com>
 X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.30; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
@@ -53,65 +51,83 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Em Tue,  7 Dec 2021 01:38:36 +0100
-Ricardo Ribalda <ribalda@chromium.org> escreveu:
+Em Mon, 6 Dec 2021 08:48:11 +0800
+Jammy Huang <jammy_huang@aspeedtech.com> escreveu:
 
-> In order to have unique entity names, we decided to change the name of
-> the video devices with their functionality.
-> 
-> This has resulted in some (all?) GUIs showing not useful names.
-> 
-> This patchset reverts the original patch and introduces a new one to
-> allow having different entity and vdev names.
-> 
-> Since some distros have ported the reverted patch to their stable
-> kernels, it would be great if we can get this sent asap, to avoid making
-> more people angry ;).
+> refine aspeed_video_setup_video() flow.
 
-Yeah, patch 1 of this series makes a lot sense. Reporting a camera
-as "Video Capture" doesn't seem too nice, specially if multiple
-UVC cameras are present.
-
-Yet, I'm a little in doubt about patch 4/4, for a couple of reasons:
-
-1. IMO, on *all* devices (not only uvc), it makes sense to add a "Metadata" 
-   at the name string for the metadata devnodes.
-
-   So, I would implement such logic at V4L2 core instead.
-
-2. Such metadata string should be there not only for the entity name,
-   but also for vdev->name;
-
-3. I would, instead, set the device name as:
-
-	vdev->name = "Meta: <foo>"
-
-   for the meta devnodes, as the string size is limited.
-
-4. As almost all devices have either video capture or video
-   output, I can't see any value to unconditionally add
-   "Video Capture"/"Video Output" strings. It would only make
-   sense to have them on devices that report having both.
+Why? It makes no difference where the error handling code is. Let's
+keep it as preferred by the driver's author ;-)
 
 Regards,
 Mauro
 
 > 
+> Signed-off-by: Jammy Huang <jammy_huang@aspeedtech.com>
+> ---
 > v2:
->  - Add Documentation
->  - Mark maybe unused variables as __maybe_unused
->  - Add Suggested-by
+>  - remove change-id in comment
+> ---
+>  drivers/media/platform/aspeed-video.c | 24 +++++++++++-------------
+>  1 file changed, 11 insertions(+), 13 deletions(-)
 > 
-> Ricardo Ribalda (4):
->   Revert "media: uvcvideo: Set unique vdev name based in type"
->   media: v4l2-dev.c: Allow driver-defined entity names
->   media: Documentation/driver-api: Document entity name
->   media: uvcvideo: Set unique entity name based in type
-> 
->  Documentation/driver-api/media/v4l2-dev.rst |  4 ++++
->  drivers/media/usb/uvc/uvc_driver.c          | 14 +++++++++++---
->  drivers/media/v4l2-core/v4l2-dev.c          |  4 +++-
->  3 files changed, 18 insertions(+), 4 deletions(-
+> diff --git a/drivers/media/platform/aspeed-video.c b/drivers/media/platform/aspeed-video.c
+> index fea5e4d0927e..f5c40d6b4ece 100644
+> --- a/drivers/media/platform/aspeed-video.c
+> +++ b/drivers/media/platform/aspeed-video.c
+> @@ -1641,11 +1641,8 @@ static int aspeed_video_setup_video(struct aspeed_video *video)
+>  
+>  	rc = video->ctrl_handler.error;
+>  	if (rc) {
+> -		v4l2_ctrl_handler_free(&video->ctrl_handler);
+> -		v4l2_device_unregister(v4l2_dev);
+> -
+>  		dev_err(video->dev, "Failed to init controls: %d\n", rc);
+> -		return rc;
+> +		goto err_ctrl_init;
+>  	}
+>  
+>  	v4l2_dev->ctrl_handler = &video->ctrl_handler;
+> @@ -1663,11 +1660,8 @@ static int aspeed_video_setup_video(struct aspeed_video *video)
+>  
+>  	rc = vb2_queue_init(vbq);
+>  	if (rc) {
+> -		v4l2_ctrl_handler_free(&video->ctrl_handler);
+> -		v4l2_device_unregister(v4l2_dev);
+> -
+>  		dev_err(video->dev, "Failed to init vb2 queue\n");
+> -		return rc;
+> +		goto err_vb2_init;
+>  	}
+>  
+>  	vdev->queue = vbq;
+> @@ -1685,15 +1679,19 @@ static int aspeed_video_setup_video(struct aspeed_video *video)
+>  	video_set_drvdata(vdev, video);
+>  	rc = video_register_device(vdev, VFL_TYPE_GRABBER, 0);
+>  	if (rc) {
+> -		vb2_queue_release(vbq);
+> -		v4l2_ctrl_handler_free(&video->ctrl_handler);
+> -		v4l2_device_unregister(v4l2_dev);
+> -
+>  		dev_err(video->dev, "Failed to register video device\n");
+> -		return rc;
+> +		goto err_video_reg;
+>  	}
+>  
+>  	return 0;
+> +
+> +err_video_reg:
+> +	vb2_queue_release(vbq);
+> +err_vb2_init:
+> +err_ctrl_init:
+> +	v4l2_ctrl_handler_free(&video->ctrl_handler);
+> +	v4l2_device_unregister(v4l2_dev);
+> +	return rc;
+>  }
+>  
+>  static int aspeed_video_init(struct aspeed_video *video)
+
+
 
 Thanks,
 Mauro
