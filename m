@@ -2,132 +2,87 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 46E1447459C
-	for <lists+linux-media@lfdr.de>; Tue, 14 Dec 2021 15:53:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 61DBA4745C7
+	for <lists+linux-media@lfdr.de>; Tue, 14 Dec 2021 16:01:30 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235063AbhLNOxK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 14 Dec 2021 09:53:10 -0500
-Received: from ams.source.kernel.org ([145.40.68.75]:56956 "EHLO
-        ams.source.kernel.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235053AbhLNOxI (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Tue, 14 Dec 2021 09:53:08 -0500
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 2361CB819D0;
-        Tue, 14 Dec 2021 14:53:07 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 41196C34605;
-        Tue, 14 Dec 2021 14:53:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1639493585;
-        bh=AzHNcyUA/QRvy9mrDm7aHrX+kNREOEaOReCfcbc2Xx4=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=cF/VhgNgrjUoFOwS01/hdqyirsFFhGaSbDWxWEnel4pr35r2BE3+67wFlo0385QVN
-         sg11RNm9ImM9CopIofbxt5YmJUEDE6s+TV+gxzdR3/J1lIBjEn+80OyZI8FjYQA7hT
-         V/eFgALuGcKBUPY2hmCe9h2RRKT9bNMNMhHgBRHTLtmDJizrdhra/g7LvmTRMJgzGx
-         Wr83hZUr5FLOQlRF8ScScaZVx4rfA6FkJoz+XZ1YugXijMDSCVovxxYoB10a8DryAj
-         EefdXQTfGDZ3//3zus4/tACdXPwLr5UMj0BRBc/vWgBzwRstHWPdX+uhbj2AusjOYz
-         W6rBfIELeqezQ==
-Date:   Tue, 14 Dec 2021 15:53:00 +0100
-From:   Mauro Carvalho Chehab <mchehab@kernel.org>
-To:     Jammy Huang <jammy_huang@aspeedtech.com>
-Cc:     <hverkuil-cisco@xs4all.nl>, <sakari.ailus@linux.intel.com>,
-        <gregkh@linuxfoundation.org>, <laurent.pinchart@ideasonboard.com>,
-        <eajames@linux.ibm.com>, <joel@jms.id.au>, <andrew@aj.id.au>,
-        <linux-media@vger.kernel.org>, <openbmc@lists.ozlabs.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-aspeed@lists.ozlabs.org>, <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v2] media: aspeed: move err-handling together to the
- bottom
-Message-ID: <20211214155300.0132946e@coco.lan>
-In-Reply-To: <20211206004811.1118-1-jammy_huang@aspeedtech.com>
-References: <20211206004811.1118-1-jammy_huang@aspeedtech.com>
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.30; x86_64-redhat-linux-gnu)
+        id S232849AbhLNPB3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 14 Dec 2021 10:01:29 -0500
+Received: from mga11.intel.com ([192.55.52.93]:31244 "EHLO mga11.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S230488AbhLNPB2 (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 14 Dec 2021 10:01:28 -0500
+X-IronPort-AV: E=McAfee;i="6200,9189,10197"; a="236526264"
+X-IronPort-AV: E=Sophos;i="5.88,205,1635231600"; 
+   d="scan'208";a="236526264"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Dec 2021 07:01:27 -0800
+X-IronPort-AV: E=Sophos;i="5.88,205,1635231600"; 
+   d="scan'208";a="609890038"
+Received: from paasikivi.fi.intel.com ([10.237.72.42])
+  by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Dec 2021 07:01:25 -0800
+Received: from paasikivi.fi.intel.com (localhost [127.0.0.1])
+        by paasikivi.fi.intel.com (Postfix) with SMTP id 5853D20462;
+        Tue, 14 Dec 2021 17:01:23 +0200 (EET)
+Date:   Tue, 14 Dec 2021 17:01:23 +0200
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     Daniel Scally <djrscally@gmail.com>
+Cc:     linux-media@vger.kernel.org, libcamera-devel@lists.libcamera.org,
+        laurent.pinchart@ideasonboard.com, hanlinchen@chromium.org,
+        tfiga@chromium.org, hdegoede@redhat.com,
+        kieran.bingham@ideasonboard.com, hpa@redhat.com
+Subject: Re: [PATCH 3/5] media: entity: Skip non-data links in graph iteration
+Message-ID: <Ybixw0dIZyC6wQL4@paasikivi.fi.intel.com>
+References: <20211213232849.40071-1-djrscally@gmail.com>
+ <20211213232849.40071-4-djrscally@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20211213232849.40071-4-djrscally@gmail.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Em Mon, 6 Dec 2021 08:48:11 +0800
-Jammy Huang <jammy_huang@aspeedtech.com> escreveu:
+Hi Daniel,
 
-> refine aspeed_video_setup_video() flow.
-
-Why? It makes no difference where the error handling code is. Let's
-keep it as preferred by the driver's author ;-)
-
-Regards,
-Mauro
-
+On Mon, Dec 13, 2021 at 11:28:47PM +0000, Daniel Scally wrote:
+> When iterating over the media graph, don't follow links that are not
+> pad-to-pad links.
 > 
-> Signed-off-by: Jammy Huang <jammy_huang@aspeedtech.com>
+> Signed-off-by: Daniel Scally <djrscally@gmail.com>
 > ---
-> v2:
->  - remove change-id in comment
-> ---
->  drivers/media/platform/aspeed-video.c | 24 +++++++++++-------------
->  1 file changed, 11 insertions(+), 13 deletions(-)
+> Changes since the rfc:
 > 
-> diff --git a/drivers/media/platform/aspeed-video.c b/drivers/media/platform/aspeed-video.c
-> index fea5e4d0927e..f5c40d6b4ece 100644
-> --- a/drivers/media/platform/aspeed-video.c
-> +++ b/drivers/media/platform/aspeed-video.c
-> @@ -1641,11 +1641,8 @@ static int aspeed_video_setup_video(struct aspeed_video *video)
+> 	- new patch
+> 
+>  drivers/media/mc/mc-entity.c | 8 ++++++++
+>  1 file changed, 8 insertions(+)
+> 
+> diff --git a/drivers/media/mc/mc-entity.c b/drivers/media/mc/mc-entity.c
+> index d79eb88bc167..aeddc3f6310e 100644
+> --- a/drivers/media/mc/mc-entity.c
+> +++ b/drivers/media/mc/mc-entity.c
+> @@ -325,6 +325,14 @@ static void media_graph_walk_iter(struct media_graph *graph)
 >  
->  	rc = video->ctrl_handler.error;
->  	if (rc) {
-> -		v4l2_ctrl_handler_free(&video->ctrl_handler);
-> -		v4l2_device_unregister(v4l2_dev);
-> -
->  		dev_err(video->dev, "Failed to init controls: %d\n", rc);
-> -		return rc;
-> +		goto err_ctrl_init;
->  	}
+>  	link = list_entry(link_top(graph), typeof(*link), list);
 >  
->  	v4l2_dev->ctrl_handler = &video->ctrl_handler;
-> @@ -1663,11 +1660,8 @@ static int aspeed_video_setup_video(struct aspeed_video *video)
->  
->  	rc = vb2_queue_init(vbq);
->  	if (rc) {
-> -		v4l2_ctrl_handler_free(&video->ctrl_handler);
-> -		v4l2_device_unregister(v4l2_dev);
-> -
->  		dev_err(video->dev, "Failed to init vb2 queue\n");
-> -		return rc;
-> +		goto err_vb2_init;
->  	}
->  
->  	vdev->queue = vbq;
-> @@ -1685,15 +1679,19 @@ static int aspeed_video_setup_video(struct aspeed_video *video)
->  	video_set_drvdata(vdev, video);
->  	rc = video_register_device(vdev, VFL_TYPE_GRABBER, 0);
->  	if (rc) {
-> -		vb2_queue_release(vbq);
-> -		v4l2_ctrl_handler_free(&video->ctrl_handler);
-> -		v4l2_device_unregister(v4l2_dev);
-> -
->  		dev_err(video->dev, "Failed to register video device\n");
-> -		return rc;
-> +		goto err_video_reg;
->  	}
->  
->  	return 0;
+> +	/* If the link is not a pad-to-pad link, don't follow it */
+
+This comment should mention data links, not pad-to-pad links.
+
+Seems fine apart from this.
+
+> +	if ((link->flags & MEDIA_LNK_FL_LINK_TYPE) != MEDIA_LNK_FL_DATA_LINK) {
+> +		link_top(graph) = link_top(graph)->next;
+> +		dev_dbg(entity->graph_obj.mdev->dev, "walk: skipping %s link\n",
+> +			link_type(link));
+> +		return;
+> +	}
 > +
-> +err_video_reg:
-> +	vb2_queue_release(vbq);
-> +err_vb2_init:
-> +err_ctrl_init:
-> +	v4l2_ctrl_handler_free(&video->ctrl_handler);
-> +	v4l2_device_unregister(v4l2_dev);
-> +	return rc;
->  }
->  
->  static int aspeed_video_init(struct aspeed_video *video)
+>  	/* The link is not enabled so we do not follow. */
+>  	if (!(link->flags & MEDIA_LNK_FL_ENABLED)) {
+>  		link_top(graph) = link_top(graph)->next;
 
+-- 
+Kind regards,
 
-
-Thanks,
-Mauro
+Sakari Ailus
