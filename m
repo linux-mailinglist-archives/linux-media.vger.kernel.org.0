@@ -2,109 +2,84 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DAEDF473BEA
-	for <lists+linux-media@lfdr.de>; Tue, 14 Dec 2021 05:07:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 21AA9473C34
+	for <lists+linux-media@lfdr.de>; Tue, 14 Dec 2021 05:54:42 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232880AbhLNEHM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 13 Dec 2021 23:07:12 -0500
-Received: from mga03.intel.com ([134.134.136.65]:65296 "EHLO mga03.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229669AbhLNEHM (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 13 Dec 2021 23:07:12 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1639454832; x=1670990832;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=idGga7JHsTTNGwOM4gkNNjAONgZTkfZEFF35dWQ/gXI=;
-  b=jU+XqypT295RaxiZe6wfxJj5Bh9SCgVNvTKazv4LebDwofxjqNr46E8D
-   MraxbiGvTiKNF0tktELuIQiAP/dInws5GLDMSHvyP9a/zs4H0MfAsQ08V
-   RtPzu9sHOH02HMFezrjulmWvT3yqq3zTDf0hNLG7pYNbIFL0tWEA/0Xnc
-   j6eRD7OJ9aRLKt/gTidghnx/Z94fAxLQteSqaDEIc5JmgXN7L9f/mrPzz
-   LFZIYWqSj7+Bzny05cRoa29scaXgDs2zyyKftPvDBcygDCzGCI7Cmnqc5
-   DjmRZiKYOTnr+MK81dtY48/TsBkbxEoovfcUZjmlDH6fFNCmTRF8g5c8Z
-   w==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10197"; a="238838881"
-X-IronPort-AV: E=Sophos;i="5.88,204,1635231600"; 
-   d="scan'208";a="238838881"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Dec 2021 20:07:11 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.88,204,1635231600"; 
-   d="scan'208";a="754693591"
-Received: from lkp-server02.sh.intel.com (HELO 9e1e9f9b3bcb) ([10.239.97.151])
-  by fmsmga005.fm.intel.com with ESMTP; 13 Dec 2021 20:07:08 -0800
-Received: from kbuild by 9e1e9f9b3bcb with local (Exim 4.92)
-        (envelope-from <lkp@intel.com>)
-        id 1mwz5o-0007QA-1K; Tue, 14 Dec 2021 04:07:08 +0000
-Date:   Tue, 14 Dec 2021 12:06:44 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Daniel Scally <djrscally@gmail.com>, linux-media@vger.kernel.org,
-        libcamera-devel@lists.libcamera.org
-Cc:     llvm@lists.linux.dev, kbuild-all@lists.01.org,
-        sakari.ailus@linux.intel.com, laurent.pinchart@ideasonboard.com,
-        hanlinchen@chromium.org, tfiga@chromium.org, hdegoede@redhat.com,
-        kieran.bingham@ideasonboard.com, hpa@redhat.com
-Subject: Re: [PATCH 4/5] media: entity: Add support for ancillary links
-Message-ID: <202112141239.xdqTNOOD-lkp@intel.com>
-References: <20211213232849.40071-5-djrscally@gmail.com>
+        id S229698AbhLNEyl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 13 Dec 2021 23:54:41 -0500
+Received: from twspam01.aspeedtech.com ([211.20.114.71]:37634 "EHLO
+        twspam01.aspeedtech.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229436AbhLNEyk (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Mon, 13 Dec 2021 23:54:40 -0500
+Received: from mail.aspeedtech.com ([192.168.0.24])
+        by twspam01.aspeedtech.com with ESMTP id 1BE4SSVb001929;
+        Tue, 14 Dec 2021 12:28:28 +0800 (GMT-8)
+        (envelope-from jammy_huang@aspeedtech.com)
+Received: from JammyHuang-PC.aspeed.com (192.168.2.115) by TWMBX02.aspeed.com
+ (192.168.0.24) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Tue, 14 Dec
+ 2021 12:53:47 +0800
+From:   Jammy Huang <jammy_huang@aspeedtech.com>
+To:     <eajames@linux.ibm.com>, <mchehab@kernel.org>, <joel@jms.id.au>,
+        <andrew@aj.id.au>, <linux-media@vger.kernel.org>,
+        <openbmc@lists.ozlabs.org>, <linux-arm-kernel@lists.infradead.org>,
+        <linux-aspeed@lists.ozlabs.org>, <linux-kernel@vger.kernel.org>
+Subject: [PATCH] media: aspeed: Fix no complete irq for non-64-aligned width
+Date:   Tue, 14 Dec 2021 12:53:48 +0800
+Message-ID: <20211214045348.13702-1-jammy_huang@aspeedtech.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20211213232849.40071-5-djrscally@gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: 7BIT
+Content-Type:   text/plain; charset=US-ASCII
+X-Originating-IP: [192.168.2.115]
+X-ClientProxiedBy: TWMBX02.aspeed.com (192.168.0.24) To TWMBX02.aspeed.com
+ (192.168.0.24)
+X-DNSRBL: 
+X-MAIL: twspam01.aspeedtech.com 1BE4SSVb001929
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Daniel,
+In ast2500, engine will stop occasionally for 1360x768.
 
-I love your patch! Perhaps something to improve:
+This is a bug which has been addressed, but the workaround is specific
+for 1680 only. Here we make it more complete.
 
-[auto build test WARNING on media-tree/master]
-[also build test WARNING on v5.16-rc5]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch]
-
-url:    https://github.com/0day-ci/linux/commits/Daniel-Scally/Introduce-ancillary-links/20211214-073020
-base:   git://linuxtv.org/media_tree.git master
-config: i386-buildonly-randconfig-r003-20211213 (https://download.01.org/0day-ci/archive/20211214/202112141239.xdqTNOOD-lkp@intel.com/config)
-compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project b6a2ddb6c8ac29412b1361810972e15221fa021c)
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/0day-ci/linux/commit/627c8446267d301ed36953f7e4fa616ab6cb771a
-        git remote add linux-review https://github.com/0day-ci/linux
-        git fetch --no-tags linux-review Daniel-Scally/Introduce-ancillary-links/20211214-073020
-        git checkout 627c8446267d301ed36953f7e4fa616ab6cb771a
-        # save the config file to linux build tree
-        mkdir build_dir
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 SHELL=/bin/bash drivers/media/mc/
-
-If you fix the issue, kindly add following tag as appropriate
-Reported-by: kernel test robot <lkp@intel.com>
-
-All warnings (new ones prefixed by >>):
-
->> drivers/media/mc/mc-entity.c:1062:6: warning: no previous prototype for function 'media_remove_ancillary_link' [-Wmissing-prototypes]
-   void media_remove_ancillary_link(struct media_link *link)
-        ^
-   drivers/media/mc/mc-entity.c:1062:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   void media_remove_ancillary_link(struct media_link *link)
-   ^
-   static 
-   drivers/media/mc/mc-entity.c:17:27: warning: unused function 'intf_type' [-Wunused-function]
-   static inline const char *intf_type(struct media_interface *intf)
-                             ^
-   2 warnings generated.
-
-
-vim +/media_remove_ancillary_link +1062 drivers/media/mc/mc-entity.c
-
-  1061	
-> 1062	void media_remove_ancillary_link(struct media_link *link)
-
+Signed-off-by: Jammy Huang <jammy_huang@aspeedtech.com>
 ---
-0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+ drivers/media/platform/aspeed-video.c | 12 +++++++-----
+ 1 file changed, 7 insertions(+), 5 deletions(-)
+
+diff --git a/drivers/media/platform/aspeed-video.c b/drivers/media/platform/aspeed-video.c
+index 793b2adaa0f5..4d3e6b105d44 100644
+--- a/drivers/media/platform/aspeed-video.c
++++ b/drivers/media/platform/aspeed-video.c
+@@ -1055,18 +1055,20 @@ static void aspeed_video_set_resolution(struct aspeed_video *video)
+ 	/* Set capture/compression frame sizes */
+ 	aspeed_video_calc_compressed_size(video, size);
+ 
+-	if (video->active_timings.width == 1680) {
++	if (!IS_ALIGNED(act->width, 64)) {
+ 		/*
+ 		 * This is a workaround to fix a silicon bug on A1 and A2
+ 		 * revisions. Since it doesn't break capturing operation of
+ 		 * other revisions, use it for all revisions without checking
+-		 * the revision ID. It picked 1728 which is a very next
+-		 * 64-pixels aligned value to 1680 to minimize memory bandwidth
++		 * the revision ID. It picked new width which is a very next
++		 * 64-pixels aligned value to minimize memory bandwidth
+ 		 * and to get better access speed from video engine.
+ 		 */
++		u32 width = ALIGN(act->width, 64);
++
+ 		aspeed_video_write(video, VE_CAP_WINDOW,
+-				   1728 << 16 | act->height);
+-		size += (1728 - 1680) * video->active_timings.height;
++				   width << 16 | act->height);
++		size = width * act->height;
+ 	} else {
+ 		aspeed_video_write(video, VE_CAP_WINDOW,
+ 				   act->width << 16 | act->height);
+-- 
+2.25.1
+
