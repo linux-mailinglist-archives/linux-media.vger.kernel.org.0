@@ -2,141 +2,116 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B184D474B6C
-	for <lists+linux-media@lfdr.de>; Tue, 14 Dec 2021 20:02:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id ACF57474AFC
+	for <lists+linux-media@lfdr.de>; Tue, 14 Dec 2021 19:35:41 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237242AbhLNTB7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 14 Dec 2021 14:01:59 -0500
-Received: from mga01.intel.com ([192.55.52.88]:51005 "EHLO mga01.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S234390AbhLNTB6 (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Tue, 14 Dec 2021 14:01:58 -0500
-X-IronPort-AV: E=McAfee;i="6200,9189,10197"; a="263200679"
-X-IronPort-AV: E=Sophos;i="5.88,205,1635231600"; 
-   d="scan'208";a="263200679"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Dec 2021 10:32:22 -0800
-X-IronPort-AV: E=Sophos;i="5.88,205,1635231600"; 
-   d="scan'208";a="661540417"
-Received: from paasikivi.fi.intel.com ([10.237.72.42])
-  by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Dec 2021 10:32:18 -0800
-Received: from paasikivi.fi.intel.com (localhost [127.0.0.1])
-        by paasikivi.fi.intel.com (Postfix) with SMTP id C7C0B20462;
-        Tue, 14 Dec 2021 20:32:16 +0200 (EET)
-Date:   Tue, 14 Dec 2021 20:32:16 +0200
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     Jammy Huang <jammy_huang@aspeedtech.com>, hverkuil-cisco@xs4all.nl,
-        gregkh@linuxfoundation.org, laurent.pinchart@ideasonboard.com,
-        eajames@linux.ibm.com, joel@jms.id.au, andrew@aj.id.au,
-        linux-media@vger.kernel.org, openbmc@lists.ozlabs.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] media: aspeed: move err-handling together to the
- bottom
-Message-ID: <YbjjMDQ+V6ilbQvj@paasikivi.fi.intel.com>
-References: <20211206004811.1118-1-jammy_huang@aspeedtech.com>
- <20211214155300.0132946e@coco.lan>
+        id S236993AbhLNSff (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 14 Dec 2021 13:35:35 -0500
+Received: from relay7-d.mail.gandi.net ([217.70.183.200]:58447 "EHLO
+        relay7-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229517AbhLNSfe (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Tue, 14 Dec 2021 13:35:34 -0500
+Received: (Authenticated sender: jacopo@jmondi.org)
+        by relay7-d.mail.gandi.net (Postfix) with ESMTPSA id F1A1520002;
+        Tue, 14 Dec 2021 18:35:30 +0000 (UTC)
+Date:   Tue, 14 Dec 2021 19:36:23 +0100
+From:   Jacopo Mondi <jacopo@jmondi.org>
+To:     "Mirela Rabulea (OSS)" <mirela.rabulea@oss.nxp.com>
+Cc:     slongerbeam@gmail.com, mchehab@kernel.org, hugues.fruchet@st.com,
+        jacopo+renesas@jmondi.org, guoniu.zhou@nxp.com,
+        manish.bajaj@nxp.com, robert.chiras@nxp.com,
+        xavier.roumegue@oss.nxp.com, linux-media@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-imx@nxp.com,
+        Mirela Rabulea <mirela.rabulea@nxp.com>
+Subject: Re: [PATCH] media: ov5640: Fix set format, v4l2_mbus_pixelcode not
+ updated
+Message-ID: <20211214183623.d3g3e5qwp5rfr3oo@uno.localdomain>
+References: <20211101195251.700674-1-mirela.rabulea@oss.nxp.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20211214155300.0132946e@coco.lan>
+In-Reply-To: <20211101195251.700674-1-mirela.rabulea@oss.nxp.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Mauro,
+Hi Mirela,
 
-On Tue, Dec 14, 2021 at 03:53:00PM +0100, Mauro Carvalho Chehab wrote:
-> Em Mon, 6 Dec 2021 08:48:11 +0800
-> Jammy Huang <jammy_huang@aspeedtech.com> escreveu:
-> 
-> > refine aspeed_video_setup_video() flow.
-> 
-> Why? It makes no difference where the error handling code is. Let's
-> keep it as preferred by the driver's author ;-)
+On Mon, Nov 01, 2021 at 09:52:51PM +0200, Mirela Rabulea (OSS) wrote:
+> From: Mirela Rabulea <mirela.rabulea@nxp.com>
+>
+> In ov5640_set_fmt, pending_fmt_change will always be false, because the
+> sensor format is saved before comparing it with the previous format:
+> 	fmt = &sensor->fmt;...
+> 	*fmt = *mbus_fmt;...
+> 	if (mbus_fmt->code != sensor->fmt.code)
+> 		sensor->pending_fmt_change = true;
+> This causes the sensor to capture with the previous pixelcode.
+>
+> Also, changes might happen even for V4L2_SUBDEV_FORMAT_TRY, so fix that.
+>
+> Basically, revert back to the state before
+> commit 071154499193 ("media: ov5640: Fix set format regression")
+> as it was more clear, and then update format even when pixelcode does
+> not change, as resolution might change.
+>
+> Fixes: 071154499193 ("media: ov5640: Fix set format regression")
+> Fixes: 6949d864776e ("media: ov5640: do not change mode if format or frame interval is unchanged")
+> Fixes: fb98e29ff1ea5 ("media: ov5640: fix mode change regression")
 
-Doing error handling can be done in different ways of course, but I think
-it's easier to see it's right as it's done by this patch. Of course the
-original author's --- like anyone else's --- review wouldn't hurt. But I
-see he hasn't reviewed other recent patches to the driver either.
+Wow, we really piled bug over bug. So sorry about this and thanks for
+fixing
 
-A better description would be nice though, including capital letter
-beginning a sentence.
+Reviewed-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
 
-> 
-> Regards,
-> Mauro
-> 
-> > 
-> > Signed-off-by: Jammy Huang <jammy_huang@aspeedtech.com>
-> > ---
-> > v2:
-> >  - remove change-id in comment
-> > ---
-> >  drivers/media/platform/aspeed-video.c | 24 +++++++++++-------------
-> >  1 file changed, 11 insertions(+), 13 deletions(-)
-> > 
-> > diff --git a/drivers/media/platform/aspeed-video.c b/drivers/media/platform/aspeed-video.c
-> > index fea5e4d0927e..f5c40d6b4ece 100644
-> > --- a/drivers/media/platform/aspeed-video.c
-> > +++ b/drivers/media/platform/aspeed-video.c
-> > @@ -1641,11 +1641,8 @@ static int aspeed_video_setup_video(struct aspeed_video *video)
-> >  
-> >  	rc = video->ctrl_handler.error;
-> >  	if (rc) {
-> > -		v4l2_ctrl_handler_free(&video->ctrl_handler);
-> > -		v4l2_device_unregister(v4l2_dev);
-> > -
-> >  		dev_err(video->dev, "Failed to init controls: %d\n", rc);
-> > -		return rc;
-> > +		goto err_ctrl_init;
-> >  	}
-> >  
-> >  	v4l2_dev->ctrl_handler = &video->ctrl_handler;
-> > @@ -1663,11 +1660,8 @@ static int aspeed_video_setup_video(struct aspeed_video *video)
-> >  
-> >  	rc = vb2_queue_init(vbq);
-> >  	if (rc) {
-> > -		v4l2_ctrl_handler_free(&video->ctrl_handler);
-> > -		v4l2_device_unregister(v4l2_dev);
-> > -
-> >  		dev_err(video->dev, "Failed to init vb2 queue\n");
-> > -		return rc;
-> > +		goto err_vb2_init;
-> >  	}
-> >  
-> >  	vdev->queue = vbq;
-> > @@ -1685,15 +1679,19 @@ static int aspeed_video_setup_video(struct aspeed_video *video)
-> >  	video_set_drvdata(vdev, video);
-> >  	rc = video_register_device(vdev, VFL_TYPE_GRABBER, 0);
-> >  	if (rc) {
-> > -		vb2_queue_release(vbq);
-> > -		v4l2_ctrl_handler_free(&video->ctrl_handler);
-> > -		v4l2_device_unregister(v4l2_dev);
-> > -
-> >  		dev_err(video->dev, "Failed to register video device\n");
-> > -		return rc;
-> > +		goto err_video_reg;
-> >  	}
-> >  
-> >  	return 0;
-> > +
-> > +err_video_reg:
-> > +	vb2_queue_release(vbq);
-> > +err_vb2_init:
-> > +err_ctrl_init:
-> > +	v4l2_ctrl_handler_free(&video->ctrl_handler);
-> > +	v4l2_device_unregister(v4l2_dev);
-> > +	return rc;
-> >  }
-> >  
-> >  static int aspeed_video_init(struct aspeed_video *video)
-> 
-> 
-> 
-> Thanks,
-> Mauro
-
--- 
-Sakari Ailus
+Thanks
+   j
+>
+> Signed-off-by: Mirela Rabulea <mirela.rabulea@nxp.com>
+> ---
+>  drivers/media/i2c/ov5640.c | 14 +++++++-------
+>  1 file changed, 7 insertions(+), 7 deletions(-)
+>
+> diff --git a/drivers/media/i2c/ov5640.c b/drivers/media/i2c/ov5640.c
+> index ddbd71394db3..db5a19babe67 100644
+> --- a/drivers/media/i2c/ov5640.c
+> +++ b/drivers/media/i2c/ov5640.c
+> @@ -2293,7 +2293,6 @@ static int ov5640_set_fmt(struct v4l2_subdev *sd,
+>  	struct ov5640_dev *sensor = to_ov5640_dev(sd);
+>  	const struct ov5640_mode_info *new_mode;
+>  	struct v4l2_mbus_framefmt *mbus_fmt = &format->format;
+> -	struct v4l2_mbus_framefmt *fmt;
+>  	int ret;
+>
+>  	if (format->pad != 0)
+> @@ -2311,12 +2310,10 @@ static int ov5640_set_fmt(struct v4l2_subdev *sd,
+>  	if (ret)
+>  		goto out;
+>
+> -	if (format->which == V4L2_SUBDEV_FORMAT_TRY)
+> -		fmt = v4l2_subdev_get_try_format(sd, sd_state, 0);
+> -	else
+> -		fmt = &sensor->fmt;
+> -
+> -	*fmt = *mbus_fmt;
+> +	if (format->which == V4L2_SUBDEV_FORMAT_TRY) {
+> +		*v4l2_subdev_get_try_format(sd, sd_state, 0) = *mbus_fmt;
+> +		goto out;
+> +	}
+>
+>  	if (new_mode != sensor->current_mode) {
+>  		sensor->current_mode = new_mode;
+> @@ -2325,6 +2322,9 @@ static int ov5640_set_fmt(struct v4l2_subdev *sd,
+>  	if (mbus_fmt->code != sensor->fmt.code)
+>  		sensor->pending_fmt_change = true;
+>
+> +	/* update format even if code is unchanged, resolution might change */
+> +	sensor->fmt = *mbus_fmt;
+> +
+>  	__v4l2_ctrl_s_ctrl_int64(sensor->ctrls.pixel_rate,
+>  				 ov5640_calc_pixel_rate(sensor));
+>  out:
+> --
+> 2.25.1
+>
