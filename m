@@ -2,102 +2,115 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4874C47405F
-	for <lists+linux-media@lfdr.de>; Tue, 14 Dec 2021 11:23:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 27C3747407A
+	for <lists+linux-media@lfdr.de>; Tue, 14 Dec 2021 11:33:15 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231219AbhLNKX3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 14 Dec 2021 05:23:29 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60256 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230072AbhLNKX2 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Tue, 14 Dec 2021 05:23:28 -0500
-Received: from mail-ed1-x52d.google.com (mail-ed1-x52d.google.com [IPv6:2a00:1450:4864:20::52d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DF9DCC061574
-        for <linux-media@vger.kernel.org>; Tue, 14 Dec 2021 02:23:27 -0800 (PST)
-Received: by mail-ed1-x52d.google.com with SMTP id b7so2065857edd.6
-        for <linux-media@vger.kernel.org>; Tue, 14 Dec 2021 02:23:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:reply-to:sender:from:date:message-id:subject:to
-         :content-transfer-encoding;
-        bh=NDL3z5DiLqt+3E7IEqAYwscgPcvqEFW1R6PEVvZKhBQ=;
-        b=Ufp0f4uBmFgnjXAKRl9IiXdR0O5RGwe6692MCWB23Uy2/3eR6x4k/IaSGf1erf9DDA
-         Qe+ExHTz3iPrTEhWr038CyzfBiy62vuxwYQOpUQW74W8iy5oo6bqDtx85Pb5ajYoAB4C
-         1UbOXdHKqLnNAJyaDPfdNgJzL3IJZ+lVkzYSMtVc46yCD6jeOEH7PODIWQ6ckUoc/9N6
-         UIms61yimKzKRsKBVRIq71+jApq4NuBHmZA6Dh/BZKPaE4oUpwm7j7rVyn01vjZnu38U
-         OVFDNVCyfFpWYFYs3F6MVhl2aVlnyb80oht7btFcCjnrH9l+A1wXkBu/m0cq7bvxtZw9
-         jmfQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:reply-to:sender:from:date
-         :message-id:subject:to:content-transfer-encoding;
-        bh=NDL3z5DiLqt+3E7IEqAYwscgPcvqEFW1R6PEVvZKhBQ=;
-        b=jPEd6k4SJSwKthSZ/116uINDY8Tne6e8wKC56rlzYL9zoFnxVP0vjRv7JNxi++DI3L
-         werwy5q0WKV2fr9p0/NZjt8L3p3YPd4W9oIVnMlzdsIOQTlP47+3T0uGlpltUAQM8cMK
-         vyJ/DUhhibx1jlEEWwpBlnwafiP4iCuUrbUqbbuwFdoc+catVERQZAMk2TI6E/kh39Kv
-         zk1BDh0+3j6Rk4UXQdNSRDcsHzYo+3yYMXF7jgY9NWNDIDcazZkUef8kmbco+yehGdSF
-         71zBggWLv/nO4KlX9Gz+IbD2UHWC1Oga6OEyvWQoYCNUAfQI/FP9WBjuZbNz9GbVTpHH
-         RDkw==
-X-Gm-Message-State: AOAM533RDMPamncw8LGf+szpN4UyOBOhwll0VjAOPDjNe+LE4fBi+4Ir
-        s7KLydVH2YY6jAi6DQhFrHVw4+7QcueSk3IVtr8=
-X-Google-Smtp-Source: ABdhPJxCN+9xHPa92mFQa2QNYRZ2TRrmaOBvS3H8KNt1/S2Su218T78yNfDjMqXziSYfHd4XNo5GmuTGZtSPTmEyPoA=
-X-Received: by 2002:a05:6402:1ca2:: with SMTP id cz2mr6426083edb.302.1639477406327;
- Tue, 14 Dec 2021 02:23:26 -0800 (PST)
+        id S233060AbhLNKdO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 14 Dec 2021 05:33:14 -0500
+Received: from meesny.iki.fi ([195.140.195.201]:48486 "EHLO meesny.iki.fi"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S233058AbhLNKdN (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 14 Dec 2021 05:33:13 -0500
+Received: from hillosipuli.retiisi.eu (dkvn5pty0gzs3nltj987t-3.rev.dnainternet.fi [IPv6:2001:14ba:4457:9640:1e2d:1f75:a607:ef37])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: sailus)
+        by meesny.iki.fi (Postfix) with ESMTPSA id B47382022D;
+        Tue, 14 Dec 2021 12:33:10 +0200 (EET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=meesny;
+        t=1639477990;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=dBURt7D01PsN/w8K3Zj7k92UaYtfMSx8V2AUx1/WEc0=;
+        b=VvWBGrgwYHW1yVZbzwZD+GBJdl6Lbbi6yaqtEzCAIxdUtiJ+TzSgWZNnCTjE6GF3fgdcWG
+        V1YrtbV5jiGzwIYTBE7Vkp0JAg819+K67XhOrY45BMNeQJWu8qvskR6KXOSnf4pHquuN/V
+        WvIxD4ixlh6L94LfPSlzeEMYOlX9HG4=
+Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 39796634C90;
+        Tue, 14 Dec 2021 12:33:10 +0200 (EET)
+Date:   Tue, 14 Dec 2021 12:33:10 +0200
+From:   Sakari Ailus <sakari.ailus@iki.fi>
+To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc:     linux-media@vger.kernel.org
+Subject: Re: [GIT PULL FOR 5.17] V4L2 patches
+Message-ID: <Ybhy5qKkZskE/Kue@valkosipuli.retiisi.eu>
+References: <YbdPdh/ivnjZKIOA@valkosipuli.retiisi.eu>
+ <20211214112131.6ccc4a5b@coco.lan>
 MIME-Version: 1.0
-Reply-To: mrsdaniella.kyle@yandex.com
-Sender: luitesamson@gmail.com
-Received: by 2002:ab4:a728:0:0:0:0:0 with HTTP; Tue, 14 Dec 2021 02:23:26
- -0800 (PST)
-From:   Mrs Daniella Kyle <mrsdaniellakyle6@gmail.com>
-Date:   Tue, 14 Dec 2021 02:23:26 -0800
-X-Google-Sender-Auth: q-bvl9Zxv20ndRVHqXpwzHZdWbs
-Message-ID: <CAOXn9EMOdioikf5icxzyTY01jwUNsu_5dVWL_TNKo4M-FS3ndQ@mail.gmail.com>
-Subject: Re:ATM Visa card compensation, Thanks for your past effort
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20211214112131.6ccc4a5b@coco.lan>
+ARC-Authentication-Results: i=1;
+        ORIGINATING;
+        auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
+ARC-Seal: i=1; s=meesny; d=iki.fi; t=1639477990; a=rsa-sha256; cv=none;
+        b=LQXkw/Gdmircm9cTcLP2IQcfTNPfTeEr2cVhM2wMGcyz25RshxnQvCr+Z1ngNDTW2XcbnU
+        8HNoQeuAaCpGKYrg1JkFJNxsnc5S+OcOPmeigegztd6A4sw/M3qEcFDr3JBRMfYggxF4Ea
+        8A9W2iBNsbJCPxdaH0E51i6pJ67yLYw=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
+        s=meesny; t=1639477990;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=dBURt7D01PsN/w8K3Zj7k92UaYtfMSx8V2AUx1/WEc0=;
+        b=Rfz/xyINgw24OCOb39o8N4ykpLLU1fb0wn/2DA99hrkYtyE70qlCVqaFL5uHycX9v2JZTq
+        qatIiC5Kirf570HVKsK+/MEEMVMhQviOSMVAR4BaJV+VXvXHl1Vm8J1HPAdgv6zGfRfowK
+        e10ljQSleGYTW2coy+KemzGTkeHr5NI=
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Good Day,
+On Tue, Dec 14, 2021 at 11:21:31AM +0100, Mauro Carvalho Chehab wrote:
+> Hi Sakari,
+> 
+> Em Mon, 13 Dec 2021 15:49:42 +0200
+> Sakari Ailus <sakari.ailus@iki.fi> escreveu:
+> 
+> > Hi Mauro,
+> > 
+> > Here's a few patches for 5.17. In particular, included are isl79987 driver
+> > from Michale Tretter and Marek Vasut, and a dependency fix for the recently
+> > added max96712 driver.
+> > 
+> > Please pull.
+> > 
+> > 
+> > The following changes since commit 4383cfa18c5bbc5b9b6a9e77adc12aec1c20b72d:
+> > 
+> >   Merge tag 'v5.16-rc4' into media_tree (2021-12-07 11:29:41 +0100)
+> > 
+> > are available in the Git repository at:
+> > 
+> >   git://linuxtv.org/sailus/media_tree.git tags/for-5.17-2-signed
+> > 
+> > for you to fetch changes up to 0541ae639fb1165fb309ebf58605f901146c2535:
+> > 
+> >   media: i2c: isl7998x: Add driver for Intersil ISL7998x (2021-12-08 09:51:54 +0200)
+> > 
+> > ----------------------------------------------------------------
+> > V4L2 patches for 5.17
+> > 
+> > ----------------------------------------------------------------
+> > Andy Shevchenko (1):
+> >       media: i2c: max9286: Get rid of duplicate of_node assignment
+> > 
+> > Marek Vasut (2):
+> >       media: dt-bindings: Add Intersil ISL79987 DT bindings
+> >       media: i2c: isl7998x: Add driver for Intersil ISL7998x
+> 
+> There are a couple of issues at the STD decoding logic, plus some coding
+> style issues at the isl7998x driver. So, I'm not applying those two
+> patches. Those are easily fixable, but we'll be closing the merge window
+> for 5.17 this week. If it were just the coding styles, I would have just
+> fixed and applied, but the best here would be for Marek to fix the issues
+> I point, re-test and submit asap, in order to be on this merge window.
 
-This message may actually come to you as surprises today, To be very
-honest with you, It is a joyful moment for me and my family right now,
-so therefore am using this opportunity to inform you that have
-successfully move to Vietnam where am currently living with my
-business partner who assisted me to complete the transfer, but due to
-the willingness and acceptance you showed during my pain have decided
-to willingly compensated you and show my gratitude to you with these
-sum of $950,000.00 Nine Hundred and fifty Thousand US Dollars).
+Ack, I see you've already replied Michael. Thanks.
 
-I want you to accept this amount it=E2=80=99s from the bottom of my heart,
-have issued the check and instructed the bank to roll the fund on a
-master card for security reasons, you can use the card to withdraw
-money from any ATM machine worldwide with a maximum of US$10,000 per
-day. My bank account manager said you can receive the card and use it
-anywhere in this global world.
-
-Go ahead contact the Global ATM Alliance directly with this below
-information. Email Address:   maastercarddeptme20@yahoo.com
-
-The Company Name: ........... ....... Global Alliance Burkina Faso
-Company Address; ...... 01BP 23 Rue Des Grands Moulins.Ouagadougou, Burkina=
- Faso
-Email Address: ..... [maastercarddeptme20@yahoo.com]
-Name of Manager In charge: Mrs Zoure Gueratou
-
-Presently, I am very busy here in Vietnam because of the investment
-projects which I and my new partner are having at hand, I have given
-instructions to the ATM Visa card office on your behalf to release the
-ATM card which I gave to you as compensation. Therefore feel free and
-get in touch with her and she will send the card and the pin code to
-you in your location in order for you to start withdrawing the
-compensation money without delay.
-
-Let me know as soon you received the card together with the pin code.
-
-Thank you
-Yours Sincerely
-Daniela Angelo Kyle
+-- 
+Sakari Ailus
