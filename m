@@ -2,410 +2,311 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D5C0E4748C9
-	for <lists+linux-media@lfdr.de>; Tue, 14 Dec 2021 18:04:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 55B1A4749F1
+	for <lists+linux-media@lfdr.de>; Tue, 14 Dec 2021 18:45:42 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236264AbhLNRD6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 14 Dec 2021 12:03:58 -0500
-Received: from mail-bn7nam10on2073.outbound.protection.outlook.com ([40.107.92.73]:9311
-        "EHLO NAM10-BN7-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S236257AbhLNRD5 (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Tue, 14 Dec 2021 12:03:57 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=OdQ9pL4Mmokr+liLjURdDiJ0rLP6IT7kboXKC1FQi0wBtpNurbCuiRhbh4apkx9xqUBEBPko/zUZSF/PVR9NYEwqS7/oQcCbU+LECBIKA0rIiGtxV2zljyJ3zr0UNlqi533TAb45EARujyPLJHceyU5W0yhkG/Gj4j3r/UsM/q0N3qdmwRXH6cHB6mZBXwXz2UNtGvjAa1emB3c1lfe8rSmrEZnjcR1beUJtDyidSI1vLPSR0ea8MfCNy4iHcoROpAarYGgZ4YRkwfrOY3yLYOxsn47FbqekRu3irJ/ez+zq2pvtxxBc/VhSe/Jo0ZHK5oQzSJyQvRIJoPfn3Th0nw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Eo/KwfSIYvU3GZKxyRAZHq/IihdEu2qEwD8Y+MExX68=;
- b=Via93h+eSn8H0v9tGHtmBYjE9OsqFNG6Af5tQ3584YK+Th8NLzMvM7/i3+1vQB0KbWlTjetkg5dSh6BRCD2iVepVYvYXonknxjzTi5ytV3OwUTqITEINnowtrC1rsf/APFJtNizpTmCMIUbWY7Qsl0gq5OXfzP0vciuvwBgwAQLbiS4UFaTQy5+Ev95muCe/PGu+SFh7EaaZe7jyKMv+NdfcsyOJhZm+8pdk0Flu8d4ZbrY6/pyHqRyF4prYCppabUoPkCJ/xmmHUQ+lKfmvhWpZvHRhLflS5r2774MhvCwzdxZKh3fCNG88GfT/LYB15CrH5JtB/s6o8++Ruix7Sw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Eo/KwfSIYvU3GZKxyRAZHq/IihdEu2qEwD8Y+MExX68=;
- b=zceMzSfpwCqjgRusit5l/X26Qo0hOJqYBxOxwqsYxtSuICmm5x1fwiuDcD8gcEIjmFnbxp8/qZ5RXe2sKa9jQjzk9kdEbZ4fyrS6za1lp7SzJsDi+fkM3YSeNlTquumR4Myjax0ehBXSzVLKyrKBguwerRmdZyiN/Geiz+BtsMY=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from DM5PR12MB1947.namprd12.prod.outlook.com (2603:10b6:3:111::23)
- by DM6PR12MB4234.namprd12.prod.outlook.com (2603:10b6:5:213::18) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4801.14; Tue, 14 Dec
- 2021 17:03:55 +0000
-Received: from DM5PR12MB1947.namprd12.prod.outlook.com
- ([fe80::5573:3d0a:9cfd:f13c]) by DM5PR12MB1947.namprd12.prod.outlook.com
- ([fe80::5573:3d0a:9cfd:f13c%7]) with mapi id 15.20.4801.014; Tue, 14 Dec 2021
- 17:03:54 +0000
-Subject: Re: [PATCH v2] drm/amdgpu: introduce new amdgpu_fence object to
- indicate the job embedded fence
-To:     Huang Rui <ray.huang@amd.com>, dri-devel@lists.freedesktop.org,
-        =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
-        Daniel Vetter <daniel.vetter@ffwll.ch>,
-        Sumit Semwal <sumit.semwal@linaro.org>
-Cc:     Alex Deucher <alexander.deucher@amd.com>,
-        Monk Liu <Monk.Liu@amd.com>, amd-gfx@lists.freedesktop.org,
-        linux-media@vger.kernel.org
-References: <20211214111554.2672812-1-ray.huang@amd.com>
-From:   Andrey Grodzovsky <andrey.grodzovsky@amd.com>
-Message-ID: <20f336a4-0bfd-9988-ee3b-a8206f045f7e@amd.com>
-Date:   Tue, 14 Dec 2021 12:03:51 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
-In-Reply-To: <20211214111554.2672812-1-ray.huang@amd.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-X-ClientProxiedBy: MN2PR04CA0032.namprd04.prod.outlook.com
- (2603:10b6:208:d4::45) To DM5PR12MB1947.namprd12.prod.outlook.com
- (2603:10b6:3:111::23)
+        id S230007AbhLNRpl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 14 Dec 2021 12:45:41 -0500
+Received: from mga06.intel.com ([134.134.136.31]:19236 "EHLO mga06.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229593AbhLNRpl (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 14 Dec 2021 12:45:41 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1639503941; x=1671039941;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=qgQf1l1Sh+4Ghj/UNqaSyRA6jQeXlevpaLLEFSn73hM=;
+  b=kWv5g8SHDHKeVNYluheSzyhyfwvBzKMGdOgj0p5kebPe8UJ2yoH17jio
+   KQWFe/CiOYZVVMrUQBy8GQQj7LBZxDpO40HZYW+4UE/co5gUpmJw5Hrei
+   5uEh4g/V3J4JavylL3+pShl+4Ax73KfnvtWXS3PRJuHdd6QIOV8h+TEUC
+   3PuxcrqIzyeTUiHIgiqVBgnAXYt7PBM5fIzQVJJ67jyjmpaqCrnRjhddH
+   yxnciS+23BtnTurHoZUG8XOY3pA/MrDeWxNnXUIYZddMFXk1iepuDGpX8
+   rh0P+Oq1NX1WLaL0GI8lBqnB1agdl2CvBxGnaie4sPK0Ir/EJrEVVVssQ
+   w==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10197"; a="299814416"
+X-IronPort-AV: E=Sophos;i="5.88,205,1635231600"; 
+   d="scan'208";a="299814416"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Dec 2021 09:45:18 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.88,205,1635231600"; 
+   d="scan'208";a="463882597"
+Received: from lkp-server02.sh.intel.com (HELO 9f38c0981d9f) ([10.239.97.151])
+  by orsmga003.jf.intel.com with ESMTP; 14 Dec 2021 09:45:15 -0800
+Received: from kbuild by 9f38c0981d9f with local (Exim 4.92)
+        (envelope-from <lkp@intel.com>)
+        id 1mxBrW-0000a0-K1; Tue, 14 Dec 2021 17:45:14 +0000
+Date:   Wed, 15 Dec 2021 01:44:27 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     llvm@lists.linux.dev, kbuild-all@lists.01.org,
+        linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
+        Michal Simek <monstr@monstr.eu>,
+        Jonathan Corbet <corbet@lwn.net>
+Subject: [xilinx-xlnx:xlnx_rebase_v5.10 1566/1981]
+ drivers/usb/cdns3/ep0.c:690: warning: expecting prototype for
+ cdns3_gadget_ep0_queue Transfer data on endpoint zero(). Prototype was for
+ cdns3_gadget_ep0_queue() instead
+Message-ID: <202112150159.zq5SREqP-lkp@intel.com>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 2be3e230-4af6-4791-6caf-08d9bf23b5b9
-X-MS-TrafficTypeDiagnostic: DM6PR12MB4234:EE_
-X-Microsoft-Antispam-PRVS: <DM6PR12MB42347930B1203287CA8F8DC2EA759@DM6PR12MB4234.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:110;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: Tewyt1/tR/zY7R1mayUagzP14iWy+sMND+6RZBQLNvrTBg7DMQKgQk3aZz1joLbF3pGwdGDx6z5c8N8BDJTE2piWD0DDvi7qsWdJJmIUNq1j5MxcYoViXEylHmqF6eC0FxCQH84QCHLSdBx9E3hQT9c0KmWVKdi3avw6t96Rblk2n5d6+c0yMvswHmlgJGUY5nWQSWH3WvwISFqIT9eMCOr5dtNOf8FBXsL1cfbhTRTN2JdyVeJd29c6kyefceAZ1alsczB8wWJpOJ9mxNcAxkxUNX5wcK7BOUL5OnCJzHlR3od4YMB6J1yFZdWO73C7V1ASNw38GGNYMfQoSWAFdyvMwQvMThHyTUCL0dysKWRpEyNuLBnbpB9kvSFvGWYPnUSK9uTtuQhDPyk81UrSyvmKNDNo3ChXTQHclEDAkQ1a6nSDLUlff0Y0RRBwG5HHIvbbjPjr3/9GabHxQoJTFWs5iD72CVcgjj6AjO4nOazuc4u2A9hgq9Q3WgTRuTy//YxqXVoqqirhD5iVHG9x4P82AdhjyQVf4D+Oj9zN9MbwbmekZQsb+8Aj/37X9Nv1ef5j3XVJ5NuzsBhLhwvFQsp3iKdzY6uwUo+DMn0whHQHbTrSfiSTxuC1rJ61DHvAVLHH285gJwYA/X3KUx3CvPtGw5WI1PKveSlEpKYESdhh5qlydq5d0Y8OVsuJsbsFwmrBE3cHlsbBBFvH11E8ONPJ7BO3n/93/7ZvdL+nxdo=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM5PR12MB1947.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(366004)(83380400001)(8676002)(44832011)(508600001)(36756003)(4001150100001)(8936002)(38100700002)(6486002)(31696002)(2906002)(86362001)(110136005)(66476007)(6666004)(6506007)(6512007)(2616005)(53546011)(5660300002)(186003)(66556008)(66946007)(4326008)(31686004)(316002)(30864003)(54906003)(45980500001)(43740500002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?d3FybzFheFgxcWFGU0RucVlwRmRoMm9lclJSWDhoR0lzR2FDRVlXSytRZmFJ?=
- =?utf-8?B?RkVXREQ2Zm9WZXlPQ0U0b2xhN0h6SFBmVmpsVVFjdjlkSlE4bGpCdEs1dURD?=
- =?utf-8?B?QnNUbm9McHJ4NXpGbWwrc3dZdDA1SW1qTWh1RGlrSisyLzNLb1k5QWtaUFM5?=
- =?utf-8?B?M2FhRytoak1vK3FHbTMwMFZyQUNiVTJOc0daVzhXRytIeW00YjNidkxOTmF4?=
- =?utf-8?B?YklBSFV0QjVkWnVEV3lXVWJLVkp6TmF4bXlKWWdvbCt6Yi84NWNuNWd0ZzI1?=
- =?utf-8?B?cjExeDQvVUVMQllWbWRMTENYRHJyRUhzRVZqaTc1K1JSeFBDNVZCZzExU0J2?=
- =?utf-8?B?Y2hiTWYyRXZEUFRDS0VxblprZWZiZzJ5aGJ4eDZnOExtT1FFWk01M3FTWmtx?=
- =?utf-8?B?U2lKdUVXeVVydTNRMzRLVWtDWDNsS01KOStMNmZQNFpiN1pQRDl3MlJFbVJZ?=
- =?utf-8?B?dVMxUmd1ek9OZm9DOFBoQ2JueVFoMW05VFhOY1QrL3hwUGdlVGdMYVZLdjNG?=
- =?utf-8?B?dkhXQlhLaS8xR2c4VGV1UDdMVFYxeFdzbXJrd3lBZ0NFSmdZQmRBbU1JY0V0?=
- =?utf-8?B?S29NWFB5ODdVVjZDd0JuRExyOXJsNDNockxVcDh2Y1NJREszNWVFeHVqQmlT?=
- =?utf-8?B?SDdMVEl0L3VuSllQNWtBVUVxS3drMFpEMmhheElTWnZYbWxxMk56L3phVkl4?=
- =?utf-8?B?V2EraGlHNEh1T0VTUU5rSHg0UUdMa0xkVkUvTTd2d2hOWUdBY3ErN0ZXcnZR?=
- =?utf-8?B?MWMzWVR6eWhKTHdSSlNHTnU3eEVoWE5zTkhnUnpDeG5jS2FWSm9sdE1oREJX?=
- =?utf-8?B?d0lQVnh0WnpDZXpWL3RRU3pBUDJ1TUh5SHZacjJ1ZzZNNi8ySVROWFdQQzQ1?=
- =?utf-8?B?QkViUmRWRHVreUp5bWQ3MHV5OVVDTkUxTmpLYmk2Q0pUMDlPTEVSUVB2bFB4?=
- =?utf-8?B?NmhITzIrSUNqRTJSall1K2tlU2hxQ3U1K05mbWhvSjZkNC92RW5EZW9jL2Ir?=
- =?utf-8?B?b0ZNUXJTTjQ2ZVJ4eWF2Z2JpQ3BqbkhCR0pzNnVxTlBGdGZ4TzBsd2thYlZs?=
- =?utf-8?B?b0xNb0NUNDhrd1llNzQyVGVmNkpuL0h1WVVRTCtkWGQ1Q1kxSWwyYWxidFhn?=
- =?utf-8?B?SEpkdWpLNXozQ1B2bDFxOG5jMnNlUHJ0eU9nYmYxVllGS1dYRlMwdlZEMFBS?=
- =?utf-8?B?YkZWcWlLQ0VQRGxPdGE0cE5wd25PUXZkNkxVY1NMamRudC9xSXZXRTE1Q29J?=
- =?utf-8?B?cDFvVmUzUWFCZWtXMGVQUTBlL2MrNExnV3VSM215RmJSSnNOTWNNUU5PM2VM?=
- =?utf-8?B?YjMzK250Zjd2NUZ2S2pCVWN0OW5XNzFVbENRSk1ZY2ZNRmtWZUxwNjM3YUVV?=
- =?utf-8?B?N2paTVZ0VnZPcS9FOG9CbW4rUjNCbmNSVmtwVUgvNytmbEtGSG1ES1ozV3BR?=
- =?utf-8?B?ZnJjREVud2FwSUdLR3Z2Skd0TFhvNUpCdDdnVmZ6TFBLUjJLMTE3eWZGd2Zs?=
- =?utf-8?B?bTk4Mzg3SkliaVJSTFVDdXR1L3lIa0huajlNdjA4cXNxVFB3c3Y0WFVUZmdn?=
- =?utf-8?B?YnFMemJuaUZadTFpM09lTmJkL2lISVgydlEweXhtaEtRVFhEVDFUdGY5TlE2?=
- =?utf-8?B?cmg1NXJwR3BiTW5BU2xYSWpISllMTDhjOXg5emZwSU1OVk4wN0JiVjZHMGxz?=
- =?utf-8?B?WFpFWWh0SzdxNGNFZ2VpL1VWYnM0NVB3QU45ZmtWaEFoaGtLRk1wME11YnZs?=
- =?utf-8?B?U3U4R2FyNW9YTmFzcEJVSjRuQWNyLzdBTldMVVluRXppT2FMUWRWTUdRaEoy?=
- =?utf-8?B?Z29NWXNaQkJIUnpPNWI1TzFOMW1WSllnMi92S2NlUkVYMEwrQjVXOVl6THR6?=
- =?utf-8?B?L216N0tEa0dkVVFvUGlVcHE0MmRUZU9hdUJsWmRrZWwrd0ZPUGZBcUxlenNX?=
- =?utf-8?B?WjhtbUFaTGRQN3I5ZWE4QUJvZkV0akpFOUpRRzRHZURWWnljb1QrSkhscmJC?=
- =?utf-8?B?OERjbU40akpyb25NVXR4TUdHZnBuWXhWR3JEUzV5Z080RjF4TFozZHNrekZ2?=
- =?utf-8?B?eFQ2WDl2U2xZOE9qTFhYYVJLQzhmMXV2S1QyamRoR1ptdzJxMnBpSFdUakpM?=
- =?utf-8?B?WG5WOUZYOVZaWG9Tc3QrQ092RUllQzhWUlNUS0RYdUVrSXVnWlFyK0JiZmxp?=
- =?utf-8?B?T2FwT2tMaXBpQWJzQ2JML1Q1K2lsRUFzY3JPQ0I0SmNkZ1dhR3dPLy9mZHo5?=
- =?utf-8?Q?lMGLsDh790koNi1oWQU2rT7DOiEUrh0t4f1hidYyhI=3D?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2be3e230-4af6-4791-6caf-08d9bf23b5b9
-X-MS-Exchange-CrossTenant-AuthSource: DM5PR12MB1947.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Dec 2021 17:03:54.6974
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: KFXeTVaTteqKeuww5pk9NKejiALzwgkvw7lcOK1DIwMO8+IGOedOWRJWC06L8a43E4VisJcwMWsu2I/FpMdPZA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB4234
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+tree:   https://github.com/Xilinx/linux-xlnx xlnx_rebase_v5.10
+head:   87ec9a2d98a7a7dfc98b57348a0ec310fd170e4b
+commit: d3328cb2dd0a2fb94a09587105c37299e296d4c6 [1566/1981] scripts: kernel-doc: validate kernel-doc markup with the actual names
+config: x86_64-randconfig-a016-20211214 (https://download.01.org/0day-ci/archive/20211215/202112150159.zq5SREqP-lkp@intel.com/config)
+compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project b6a2ddb6c8ac29412b1361810972e15221fa021c)
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/Xilinx/linux-xlnx/commit/d3328cb2dd0a2fb94a09587105c37299e296d4c6
+        git remote add xilinx-xlnx https://github.com/Xilinx/linux-xlnx
+        git fetch --no-tags xilinx-xlnx xlnx_rebase_v5.10
+        git checkout d3328cb2dd0a2fb94a09587105c37299e296d4c6
+        # save the config file to linux build tree
+        mkdir build_dir
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/usb/cdns3/
 
-On 2021-12-14 6:15 a.m., Huang Rui wrote:
-> The job embedded fence donesn't initialize the flags at
-> dma_fence_init(). Then we will go a wrong way in
-> amdgpu_fence_get_timeline_name callback and trigger a null pointer panic
-> once we enabled the trace event here. So introduce new amdgpu_fence
-> object to indicate the job embedded fence.
->
-> [  156.131790] BUG: kernel NULL pointer dereference, address: 00000000000002a0
-> [  156.131804] #PF: supervisor read access in kernel mode
-> [  156.131811] #PF: error_code(0x0000) - not-present page
-> [  156.131817] PGD 0 P4D 0
-> [  156.131824] Oops: 0000 [#1] PREEMPT SMP PTI
-> [  156.131832] CPU: 6 PID: 1404 Comm: sdma0 Tainted: G           OE     5.16.0-rc1-custom #1
-> [  156.131842] Hardware name: Gigabyte Technology Co., Ltd. Z170XP-SLI/Z170XP-SLI-CF, BIOS F20 11/04/2016
-> [  156.131848] RIP: 0010:strlen+0x0/0x20
-> [  156.131859] Code: 89 c0 c3 0f 1f 80 00 00 00 00 48 01 fe eb 0f 0f b6 07 38 d0 74 10 48 83 c7 01 84 c0 74 05 48 39 f7 75 ec 31 c0 c3 48 89 f8 c3 <80> 3f 00 74 10 48 89 f8 48 83 c0 01 80 38 00 75 f7 48 29 f8 c3 31
-> [  156.131872] RSP: 0018:ffff9bd0018dbcf8 EFLAGS: 00010206
-> [  156.131880] RAX: 00000000000002a0 RBX: ffff8d0305ef01b0 RCX: 000000000000000b
-> [  156.131888] RDX: ffff8d03772ab924 RSI: ffff8d0305ef01b0 RDI: 00000000000002a0
-> [  156.131895] RBP: ffff9bd0018dbd60 R08: ffff8d03002094d0 R09: 0000000000000000
-> [  156.131901] R10: 000000000000005e R11: 0000000000000065 R12: ffff8d03002094d0
-> [  156.131907] R13: 000000000000001f R14: 0000000000070018 R15: 0000000000000007
-> [  156.131914] FS:  0000000000000000(0000) GS:ffff8d062ed80000(0000) knlGS:0000000000000000
-> [  156.131923] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-> [  156.131929] CR2: 000000amdgpu_job_alloc00000002a0 CR3: 000000001120a005 CR4: 00000000003706e0
-> [  156.131937] DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
-> [  156.131942] DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
-> [  156.131949] Call Trace:
-> [  156.131953]  <TASK>
-> [  156.131957]  ? trace_event_raw_event_dma_fence+0xcc/0x200
-> [  156.131973]  ? ring_buffer_unlock_commit+0x23/0x130
-> [  156.131982]  dma_fence_init+0x92/0xb0
-> [  156.131993]  amdgpu_fence_emit+0x10d/0x2b0 [amdgpu]
-> [  156.132302]  amdgpu_ib_schedule+0x2f9/0x580 [amdgpu]
-> [  156.132586]  amdgpu_job_run+0xed/0x220 [amdgpu]
->
-> Signed-off-by: Huang Rui <ray.huang@amd.com>
-> ---
->   drivers/gpu/drm/amd/amdgpu/amdgpu.h        |   1 +
->   drivers/gpu/drm/amd/amdgpu/amdgpu_device.c |   3 +-
->   drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c  | 117 ++++++++++++++-------
->   drivers/gpu/drm/amd/amdgpu/amdgpu_ring.h   |   3 -
->   4 files changed, 80 insertions(+), 44 deletions(-)
->
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu.h b/drivers/gpu/drm/amd/amdgpu/amdgpu.h
-> index 9f017663ac50..fcaf6e9703f9 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu.h
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu.h
-> @@ -444,6 +444,7 @@ struct amdgpu_sa_bo {
->   
->   int amdgpu_fence_slab_init(void);
->   void amdgpu_fence_slab_fini(void);
-> +bool is_job_embedded_fence(struct dma_fence *f);
->   
->   /*
->    * IRQS.
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-> index 5625f7736e37..444a19eb2248 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-> @@ -4483,9 +4483,8 @@ int amdgpu_device_pre_asic_reset(struct amdgpu_device *adev,
->   
->   			ptr = &ring->fence_drv.fences[j];
->   			old = rcu_dereference_protected(*ptr, 1);
-> -			if (old && test_bit(AMDGPU_FENCE_FLAG_EMBED_IN_JOB_BIT, &old->flags)) {
-> +			if (old && is_job_embedded_fence(old))
->   				RCU_INIT_POINTER(*ptr, NULL);
-> -			}
->   		}
->   		/* after all hw jobs are reset, hw fence is meaningless, so force_completion */
->   		amdgpu_fence_driver_force_completion(ring);
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c
-> index 3b7e86ea7167..3a81249b5660 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c
-> @@ -77,16 +77,28 @@ void amdgpu_fence_slab_fini(void)
->    * Cast helper
->    */
->   static const struct dma_fence_ops amdgpu_fence_ops;
-> +static const struct dma_fence_ops amdgpu_job_fence_ops;
->   static inline struct amdgpu_fence *to_amdgpu_fence(struct dma_fence *f)
->   {
->   	struct amdgpu_fence *__f = container_of(f, struct amdgpu_fence, base);
->   
-> -	if (__f->base.ops == &amdgpu_fence_ops)
-> +	if (__f->base.ops == &amdgpu_fence_ops ||
-> +	    __f->base.ops == &amdgpu_job_fence_ops)
->   		return __f;
->   
->   	return NULL;
->   }
->   
-> +bool is_job_embedded_fence(struct dma_fence *f)
-> +{
-> +	struct amdgpu_fence *__f = container_of(f, struct amdgpu_fence, base);
-> +
-> +	if (__f->base.ops == &amdgpu_job_fence_ops)
-> +		return true;
-> +
-> +	return false;
-> +}
-> +
->   /**
->    * amdgpu_fence_write - write a fence value
->    *
-> @@ -158,19 +170,18 @@ int amdgpu_fence_emit(struct amdgpu_ring *ring, struct dma_fence **f, struct amd
->   	}
->   
->   	seq = ++ring->fence_drv.sync_seq;
-> -	if (job != NULL && job->job_run_counter) {
-> +	if (job && job->job_run_counter) {
->   		/* reinit seq for resubmitted jobs */
->   		fence->seqno = seq;
->   	} else {
-> -		dma_fence_init(fence, &amdgpu_fence_ops,
-> -				&ring->fence_drv.lock,
-> -				adev->fence_context + ring->idx,
-> -				seq);
-> -	}
-> -
-> -	if (job != NULL) {
-> -		/* mark this fence has a parent job */
-> -		set_bit(AMDGPU_FENCE_FLAG_EMBED_IN_JOB_BIT, &fence->flags);
-> +		if (job)
-> +			dma_fence_init(fence, &amdgpu_job_fence_ops,
-> +				       &ring->fence_drv.lock,
-> +				       adev->fence_context + ring->idx, seq);
-> +		else
-> +			dma_fence_init(fence, &amdgpu_fence_ops,
-> +				       &ring->fence_drv.lock,
-> +				       adev->fence_context + ring->idx, seq);
->   	}
+If you fix the issue, kindly add following tag as appropriate
+Reported-by: kernel test robot <lkp@intel.com>
+
+All warnings (new ones prefixed by >>):
+
+>> drivers/usb/cdns3/ep0.c:690: warning: expecting prototype for cdns3_gadget_ep0_queue Transfer data on endpoint zero(). Prototype was for cdns3_gadget_ep0_queue() instead
+>> drivers/usb/cdns3/ep0.c:781: warning: expecting prototype for cdns3_gadget_ep_set_wedge Set wedge on selected endpoint(). Prototype was for cdns3_gadget_ep_set_wedge() instead
+>> drivers/usb/cdns3/ep0.c:876: warning: expecting prototype for cdns3_init_ep0 Initializes software endpoint 0 of gadget(). Prototype was for cdns3_init_ep0() instead
+--
+>> drivers/usb/cdns3/gadget.c:162: warning: expecting prototype for select_ep(). Prototype was for cdns3_select_ep() instead
+>> drivers/usb/cdns3/gadget.c:509: warning: expecting prototype for cdns3_wa2_descmiss_copy_data copy data from internal requests to(). Prototype was for cdns3_wa2_descmiss_copy_data() instead
+>> drivers/usb/cdns3/gadget.c:2029: warning: expecting prototype for cdns3_ep_config Configure hardware endpoint(). Prototype was for cdns3_ep_config() instead
+>> drivers/usb/cdns3/gadget.c:2233: warning: expecting prototype for cdns3_gadget_ep_alloc_request Allocates request(). Prototype was for cdns3_gadget_ep_alloc_request() instead
+>> drivers/usb/cdns3/gadget.c:2254: warning: expecting prototype for cdns3_gadget_ep_free_request Free memory occupied by request(). Prototype was for cdns3_gadget_ep_free_request() instead
+>> drivers/usb/cdns3/gadget.c:2273: warning: expecting prototype for cdns3_gadget_ep_enable Enable endpoint(). Prototype was for cdns3_gadget_ep_enable() instead
+>> drivers/usb/cdns3/gadget.c:2406: warning: expecting prototype for cdns3_gadget_ep_disable Disable endpoint(). Prototype was for cdns3_gadget_ep_disable() instead
+>> drivers/usb/cdns3/gadget.c:2500: warning: expecting prototype for cdns3_gadget_ep_queue Transfer data on endpoint(). Prototype was for __cdns3_gadget_ep_queue() instead
+>> drivers/usb/cdns3/gadget.c:2598: warning: expecting prototype for cdns3_gadget_ep_dequeue Remove request from transfer queue(). Prototype was for cdns3_gadget_ep_dequeue() instead
+>> drivers/usb/cdns3/gadget.c:2662: warning: expecting prototype for __cdns3_gadget_ep_set_halt Sets stall on selected endpoint(). Prototype was for __cdns3_gadget_ep_set_halt() instead
+>> drivers/usb/cdns3/gadget.c:2683: warning: expecting prototype for __cdns3_gadget_ep_clear_halt Clears stall on selected endpoint(). Prototype was for __cdns3_gadget_ep_clear_halt() instead
+>> drivers/usb/cdns3/gadget.c:2730: warning: expecting prototype for clears stall on selected endpoint(). Prototype was for cdns3_gadget_ep_set_halt() instead
+>> drivers/usb/cdns3/gadget.c:2775: warning: expecting prototype for cdns3_gadget_get_frame Returns number of actual ITP frame(). Prototype was for cdns3_gadget_get_frame() instead
+>> drivers/usb/cdns3/gadget.c:2886: warning: expecting prototype for cdns3_gadget_udc_start Gadget start(). Prototype was for cdns3_gadget_udc_start() instead
+>> drivers/usb/cdns3/gadget.c:2930: warning: expecting prototype for cdns3_gadget_udc_stop Stops gadget(). Prototype was for cdns3_gadget_udc_stop() instead
+>> drivers/usb/cdns3/gadget.c:2993: warning: expecting prototype for cdns3_init_eps Initializes software endpoints of gadget(). Prototype was for cdns3_init_eps() instead
 
 
-It's probably me missing something but why can't we just move setting of 
-AMDGPU_FENCE_FLAG_EMBED_IN_JOB_BIT
-to before dma_fence_init here or even into amdgpu_job_alloc instead of 
-all the refactoring ?
+vim +690 drivers/usb/cdns3/ep0.c
 
-Andrey
+7733f6c32e36ff9 Pawel Laszczak 2019-08-26  678  
+7733f6c32e36ff9 Pawel Laszczak 2019-08-26  679  /**
+7733f6c32e36ff9 Pawel Laszczak 2019-08-26  680   * cdns3_gadget_ep0_queue Transfer data on endpoint zero
+7733f6c32e36ff9 Pawel Laszczak 2019-08-26  681   * @ep: pointer to endpoint zero object
+7733f6c32e36ff9 Pawel Laszczak 2019-08-26  682   * @request: pointer to request object
+7733f6c32e36ff9 Pawel Laszczak 2019-08-26  683   * @gfp_flags: gfp flags
+7733f6c32e36ff9 Pawel Laszczak 2019-08-26  684   *
+7733f6c32e36ff9 Pawel Laszczak 2019-08-26  685   * Returns 0 on success, error code elsewhere
+7733f6c32e36ff9 Pawel Laszczak 2019-08-26  686   */
+7733f6c32e36ff9 Pawel Laszczak 2019-08-26  687  static int cdns3_gadget_ep0_queue(struct usb_ep *ep,
+7733f6c32e36ff9 Pawel Laszczak 2019-08-26  688  				  struct usb_request *request,
+7733f6c32e36ff9 Pawel Laszczak 2019-08-26  689  				  gfp_t gfp_flags)
+7733f6c32e36ff9 Pawel Laszczak 2019-08-26 @690  {
+7733f6c32e36ff9 Pawel Laszczak 2019-08-26  691  	struct cdns3_endpoint *priv_ep = ep_to_cdns3_ep(ep);
+7733f6c32e36ff9 Pawel Laszczak 2019-08-26  692  	struct cdns3_device *priv_dev = priv_ep->cdns3_dev;
+7733f6c32e36ff9 Pawel Laszczak 2019-08-26  693  	unsigned long flags;
+7733f6c32e36ff9 Pawel Laszczak 2019-08-26  694  	int ret = 0;
+7733f6c32e36ff9 Pawel Laszczak 2019-08-26  695  	u8 zlp = 0;
+52d3967704aea6c Pawel Laszczak 2020-10-22  696  	int i;
+7733f6c32e36ff9 Pawel Laszczak 2019-08-26  697  
+d0b78265cac9d8b Peter Chen     2020-06-23  698  	spin_lock_irqsave(&priv_dev->lock, flags);
+7733f6c32e36ff9 Pawel Laszczak 2019-08-26  699  	trace_cdns3_ep0_queue(priv_dev, request);
+7733f6c32e36ff9 Pawel Laszczak 2019-08-26  700  
+7733f6c32e36ff9 Pawel Laszczak 2019-08-26  701  	/* cancel the request if controller receive new SETUP packet. */
+d0b78265cac9d8b Peter Chen     2020-06-23  702  	if (cdns3_check_new_setup(priv_dev)) {
+d0b78265cac9d8b Peter Chen     2020-06-23  703  		spin_unlock_irqrestore(&priv_dev->lock, flags);
+7733f6c32e36ff9 Pawel Laszczak 2019-08-26  704  		return -ECONNRESET;
+d0b78265cac9d8b Peter Chen     2020-06-23  705  	}
+7733f6c32e36ff9 Pawel Laszczak 2019-08-26  706  
+7733f6c32e36ff9 Pawel Laszczak 2019-08-26  707  	/* send STATUS stage. Should be called only for SET_CONFIGURATION */
+7733f6c32e36ff9 Pawel Laszczak 2019-08-26  708  	if (priv_dev->ep0_stage == CDNS3_STATUS_STAGE) {
+b21cf9371c2e659 Peter Chen     2020-09-01  709  		u32 val;
+b21cf9371c2e659 Peter Chen     2020-09-01  710  
+7733f6c32e36ff9 Pawel Laszczak 2019-08-26  711  		cdns3_select_ep(priv_dev, 0x00);
+52d3967704aea6c Pawel Laszczak 2020-10-22  712  
+52d3967704aea6c Pawel Laszczak 2020-10-22  713  		/*
+52d3967704aea6c Pawel Laszczak 2020-10-22  714  		 * Configure all non-control EPs which are not enabled by class driver
+52d3967704aea6c Pawel Laszczak 2020-10-22  715  		 */
+52d3967704aea6c Pawel Laszczak 2020-10-22  716  		for (i = 0; i < CDNS3_ENDPOINTS_MAX_COUNT; i++) {
+52d3967704aea6c Pawel Laszczak 2020-10-22  717  			priv_ep = priv_dev->eps[i];
+52d3967704aea6c Pawel Laszczak 2020-10-22  718  			if (priv_ep && priv_ep->flags & EP_CLAIMED &&
+52d3967704aea6c Pawel Laszczak 2020-10-22  719  			    !(priv_ep->flags & EP_ENABLED))
+52d3967704aea6c Pawel Laszczak 2020-10-22  720  				cdns3_ep_config(priv_ep, 0);
+52d3967704aea6c Pawel Laszczak 2020-10-22  721  		}
+52d3967704aea6c Pawel Laszczak 2020-10-22  722  
+7733f6c32e36ff9 Pawel Laszczak 2019-08-26  723  		cdns3_set_hw_configuration(priv_dev);
+7733f6c32e36ff9 Pawel Laszczak 2019-08-26  724  		cdns3_ep0_complete_setup(priv_dev, 0, 1);
+b21cf9371c2e659 Peter Chen     2020-09-01  725  		/* wait until configuration set */
+b21cf9371c2e659 Peter Chen     2020-09-01  726  		ret = readl_poll_timeout_atomic(&priv_dev->regs->usb_sts, val,
+b21cf9371c2e659 Peter Chen     2020-09-01  727  					  val & USB_STS_CFGSTS_MASK, 1, 100);
+b21cf9371c2e659 Peter Chen     2020-09-01  728  		if (ret == -ETIMEDOUT)
+b21cf9371c2e659 Peter Chen     2020-09-01  729  			dev_warn(priv_dev->dev, "timeout for waiting configuration set\n");
+b21cf9371c2e659 Peter Chen     2020-09-01  730  
+7733f6c32e36ff9 Pawel Laszczak 2019-08-26  731  		request->actual = 0;
+7733f6c32e36ff9 Pawel Laszczak 2019-08-26  732  		priv_dev->status_completion_no_call = true;
+7733f6c32e36ff9 Pawel Laszczak 2019-08-26  733  		priv_dev->pending_status_request = request;
+7733f6c32e36ff9 Pawel Laszczak 2019-08-26  734  		spin_unlock_irqrestore(&priv_dev->lock, flags);
+7733f6c32e36ff9 Pawel Laszczak 2019-08-26  735  
+7733f6c32e36ff9 Pawel Laszczak 2019-08-26  736  		/*
+7733f6c32e36ff9 Pawel Laszczak 2019-08-26  737  		 * Since there is no completion interrupt for status stage,
+7733f6c32e36ff9 Pawel Laszczak 2019-08-26  738  		 * it needs to call ->completion in software after
+7733f6c32e36ff9 Pawel Laszczak 2019-08-26  739  		 * ep0_queue is back.
+7733f6c32e36ff9 Pawel Laszczak 2019-08-26  740  		 */
+7733f6c32e36ff9 Pawel Laszczak 2019-08-26  741  		queue_work(system_freezable_wq, &priv_dev->pending_status_wq);
+b21cf9371c2e659 Peter Chen     2020-09-01  742  		return ret;
+7733f6c32e36ff9 Pawel Laszczak 2019-08-26  743  	}
+7733f6c32e36ff9 Pawel Laszczak 2019-08-26  744  
+7733f6c32e36ff9 Pawel Laszczak 2019-08-26  745  	if (!list_empty(&priv_ep->pending_req_list)) {
+7733f6c32e36ff9 Pawel Laszczak 2019-08-26  746  		dev_err(priv_dev->dev,
+7733f6c32e36ff9 Pawel Laszczak 2019-08-26  747  			"can't handle multiple requests for ep0\n");
+7733f6c32e36ff9 Pawel Laszczak 2019-08-26  748  		spin_unlock_irqrestore(&priv_dev->lock, flags);
+7733f6c32e36ff9 Pawel Laszczak 2019-08-26  749  		return -EBUSY;
+7733f6c32e36ff9 Pawel Laszczak 2019-08-26  750  	}
+7733f6c32e36ff9 Pawel Laszczak 2019-08-26  751  
+7733f6c32e36ff9 Pawel Laszczak 2019-08-26  752  	ret = usb_gadget_map_request_by_dev(priv_dev->sysdev, request,
+7733f6c32e36ff9 Pawel Laszczak 2019-08-26  753  					    priv_dev->ep0_data_dir);
+7733f6c32e36ff9 Pawel Laszczak 2019-08-26  754  	if (ret) {
+7733f6c32e36ff9 Pawel Laszczak 2019-08-26  755  		spin_unlock_irqrestore(&priv_dev->lock, flags);
+7733f6c32e36ff9 Pawel Laszczak 2019-08-26  756  		dev_err(priv_dev->dev, "failed to map request\n");
+7733f6c32e36ff9 Pawel Laszczak 2019-08-26  757  		return -EINVAL;
+7733f6c32e36ff9 Pawel Laszczak 2019-08-26  758  	}
+7733f6c32e36ff9 Pawel Laszczak 2019-08-26  759  
+7733f6c32e36ff9 Pawel Laszczak 2019-08-26  760  	request->status = -EINPROGRESS;
+7733f6c32e36ff9 Pawel Laszczak 2019-08-26  761  	list_add_tail(&request->list, &priv_ep->pending_req_list);
+7733f6c32e36ff9 Pawel Laszczak 2019-08-26  762  
+7733f6c32e36ff9 Pawel Laszczak 2019-08-26  763  	if (request->zero && request->length &&
+7733f6c32e36ff9 Pawel Laszczak 2019-08-26  764  	    (request->length % ep->maxpacket == 0))
+7733f6c32e36ff9 Pawel Laszczak 2019-08-26  765  		zlp = 1;
+7733f6c32e36ff9 Pawel Laszczak 2019-08-26  766  
+7733f6c32e36ff9 Pawel Laszczak 2019-08-26  767  	cdns3_ep0_run_transfer(priv_dev, request->dma, request->length, 1, zlp);
+7733f6c32e36ff9 Pawel Laszczak 2019-08-26  768  
+7733f6c32e36ff9 Pawel Laszczak 2019-08-26  769  	spin_unlock_irqrestore(&priv_dev->lock, flags);
+7733f6c32e36ff9 Pawel Laszczak 2019-08-26  770  
+7733f6c32e36ff9 Pawel Laszczak 2019-08-26  771  	return ret;
+7733f6c32e36ff9 Pawel Laszczak 2019-08-26  772  }
+7733f6c32e36ff9 Pawel Laszczak 2019-08-26  773  
+7733f6c32e36ff9 Pawel Laszczak 2019-08-26  774  /**
+7733f6c32e36ff9 Pawel Laszczak 2019-08-26  775   * cdns3_gadget_ep_set_wedge Set wedge on selected endpoint
+7733f6c32e36ff9 Pawel Laszczak 2019-08-26  776   * @ep: endpoint object
+7733f6c32e36ff9 Pawel Laszczak 2019-08-26  777   *
+7733f6c32e36ff9 Pawel Laszczak 2019-08-26  778   * Returns 0
+7733f6c32e36ff9 Pawel Laszczak 2019-08-26  779   */
+7733f6c32e36ff9 Pawel Laszczak 2019-08-26  780  int cdns3_gadget_ep_set_wedge(struct usb_ep *ep)
+7733f6c32e36ff9 Pawel Laszczak 2019-08-26 @781  {
+7733f6c32e36ff9 Pawel Laszczak 2019-08-26  782  	struct cdns3_endpoint *priv_ep = ep_to_cdns3_ep(ep);
+7733f6c32e36ff9 Pawel Laszczak 2019-08-26  783  	struct cdns3_device *priv_dev = priv_ep->cdns3_dev;
+7733f6c32e36ff9 Pawel Laszczak 2019-08-26  784  
+7733f6c32e36ff9 Pawel Laszczak 2019-08-26  785  	dev_dbg(priv_dev->dev, "Wedge for %s\n", ep->name);
+7733f6c32e36ff9 Pawel Laszczak 2019-08-26  786  	cdns3_gadget_ep_set_halt(ep, 1);
+7733f6c32e36ff9 Pawel Laszczak 2019-08-26  787  	priv_ep->flags |= EP_WEDGE;
+7733f6c32e36ff9 Pawel Laszczak 2019-08-26  788  
+7733f6c32e36ff9 Pawel Laszczak 2019-08-26  789  	return 0;
+7733f6c32e36ff9 Pawel Laszczak 2019-08-26  790  }
+7733f6c32e36ff9 Pawel Laszczak 2019-08-26  791  
+7733f6c32e36ff9 Pawel Laszczak 2019-08-26  792  const struct usb_ep_ops cdns3_gadget_ep0_ops = {
+7733f6c32e36ff9 Pawel Laszczak 2019-08-26  793  	.enable = cdns3_gadget_ep0_enable,
+7733f6c32e36ff9 Pawel Laszczak 2019-08-26  794  	.disable = cdns3_gadget_ep0_disable,
+7733f6c32e36ff9 Pawel Laszczak 2019-08-26  795  	.alloc_request = cdns3_gadget_ep_alloc_request,
+7733f6c32e36ff9 Pawel Laszczak 2019-08-26  796  	.free_request = cdns3_gadget_ep_free_request,
+7733f6c32e36ff9 Pawel Laszczak 2019-08-26  797  	.queue = cdns3_gadget_ep0_queue,
+7733f6c32e36ff9 Pawel Laszczak 2019-08-26  798  	.dequeue = cdns3_gadget_ep_dequeue,
+7733f6c32e36ff9 Pawel Laszczak 2019-08-26  799  	.set_halt = cdns3_gadget_ep0_set_halt,
+7733f6c32e36ff9 Pawel Laszczak 2019-08-26  800  	.set_wedge = cdns3_gadget_ep_set_wedge,
+7733f6c32e36ff9 Pawel Laszczak 2019-08-26  801  };
+7733f6c32e36ff9 Pawel Laszczak 2019-08-26  802  
+7733f6c32e36ff9 Pawel Laszczak 2019-08-26  803  /**
+7733f6c32e36ff9 Pawel Laszczak 2019-08-26  804   * cdns3_ep0_config - Configures default endpoint
+7733f6c32e36ff9 Pawel Laszczak 2019-08-26  805   * @priv_dev: extended gadget object
+7733f6c32e36ff9 Pawel Laszczak 2019-08-26  806   *
+7733f6c32e36ff9 Pawel Laszczak 2019-08-26  807   * Functions sets parameters: maximal packet size and enables interrupts
+7733f6c32e36ff9 Pawel Laszczak 2019-08-26  808   */
+7733f6c32e36ff9 Pawel Laszczak 2019-08-26  809  void cdns3_ep0_config(struct cdns3_device *priv_dev)
+7733f6c32e36ff9 Pawel Laszczak 2019-08-26  810  {
+7733f6c32e36ff9 Pawel Laszczak 2019-08-26  811  	struct cdns3_usb_regs __iomem *regs;
+7733f6c32e36ff9 Pawel Laszczak 2019-08-26  812  	struct cdns3_endpoint *priv_ep;
+7733f6c32e36ff9 Pawel Laszczak 2019-08-26  813  	u32 max_packet_size = 64;
+52d3967704aea6c Pawel Laszczak 2020-10-22  814  	u32 ep_cfg;
+7733f6c32e36ff9 Pawel Laszczak 2019-08-26  815  
+7733f6c32e36ff9 Pawel Laszczak 2019-08-26  816  	regs = priv_dev->regs;
+7733f6c32e36ff9 Pawel Laszczak 2019-08-26  817  
+7733f6c32e36ff9 Pawel Laszczak 2019-08-26  818  	if (priv_dev->gadget.speed == USB_SPEED_SUPER)
+7733f6c32e36ff9 Pawel Laszczak 2019-08-26  819  		max_packet_size = 512;
+7733f6c32e36ff9 Pawel Laszczak 2019-08-26  820  
+7733f6c32e36ff9 Pawel Laszczak 2019-08-26  821  	priv_ep = priv_dev->eps[0];
+7733f6c32e36ff9 Pawel Laszczak 2019-08-26  822  
+7733f6c32e36ff9 Pawel Laszczak 2019-08-26  823  	if (!list_empty(&priv_ep->pending_req_list)) {
+7733f6c32e36ff9 Pawel Laszczak 2019-08-26  824  		struct usb_request *request;
+7733f6c32e36ff9 Pawel Laszczak 2019-08-26  825  
+7733f6c32e36ff9 Pawel Laszczak 2019-08-26  826  		request = cdns3_next_request(&priv_ep->pending_req_list);
+7733f6c32e36ff9 Pawel Laszczak 2019-08-26  827  		list_del_init(&request->list);
+7733f6c32e36ff9 Pawel Laszczak 2019-08-26  828  	}
+7733f6c32e36ff9 Pawel Laszczak 2019-08-26  829  
+7733f6c32e36ff9 Pawel Laszczak 2019-08-26  830  	priv_dev->u1_allowed = 0;
+7733f6c32e36ff9 Pawel Laszczak 2019-08-26  831  	priv_dev->u2_allowed = 0;
+7733f6c32e36ff9 Pawel Laszczak 2019-08-26  832  
+7733f6c32e36ff9 Pawel Laszczak 2019-08-26  833  	priv_dev->gadget.ep0->maxpacket = max_packet_size;
+7733f6c32e36ff9 Pawel Laszczak 2019-08-26  834  	cdns3_gadget_ep0_desc.wMaxPacketSize = cpu_to_le16(max_packet_size);
+7733f6c32e36ff9 Pawel Laszczak 2019-08-26  835  
+7733f6c32e36ff9 Pawel Laszczak 2019-08-26  836  	/* init ep out */
+7733f6c32e36ff9 Pawel Laszczak 2019-08-26  837  	cdns3_select_ep(priv_dev, USB_DIR_OUT);
+7733f6c32e36ff9 Pawel Laszczak 2019-08-26  838  
+7733f6c32e36ff9 Pawel Laszczak 2019-08-26  839  	if (priv_dev->dev_ver >= DEV_VER_V3) {
+7733f6c32e36ff9 Pawel Laszczak 2019-08-26  840  		cdns3_set_register_bit(&priv_dev->regs->dtrans,
+7733f6c32e36ff9 Pawel Laszczak 2019-08-26  841  				       BIT(0) | BIT(16));
+7733f6c32e36ff9 Pawel Laszczak 2019-08-26  842  		cdns3_set_register_bit(&priv_dev->regs->tdl_from_trb,
+7733f6c32e36ff9 Pawel Laszczak 2019-08-26  843  				       BIT(0) | BIT(16));
+7733f6c32e36ff9 Pawel Laszczak 2019-08-26  844  	}
+7733f6c32e36ff9 Pawel Laszczak 2019-08-26  845  
+52d3967704aea6c Pawel Laszczak 2020-10-22  846  	ep_cfg = EP_CFG_ENABLE | EP_CFG_MAXPKTSIZE(max_packet_size);
+52d3967704aea6c Pawel Laszczak 2020-10-22  847  
+52d3967704aea6c Pawel Laszczak 2020-10-22  848  	if (!(priv_ep->flags & EP_CONFIGURED))
+52d3967704aea6c Pawel Laszczak 2020-10-22  849  		writel(ep_cfg, &regs->ep_cfg);
+7733f6c32e36ff9 Pawel Laszczak 2019-08-26  850  
+7733f6c32e36ff9 Pawel Laszczak 2019-08-26  851  	writel(EP_STS_EN_SETUPEN | EP_STS_EN_DESCMISEN | EP_STS_EN_TRBERREN,
+7733f6c32e36ff9 Pawel Laszczak 2019-08-26  852  	       &regs->ep_sts_en);
+7733f6c32e36ff9 Pawel Laszczak 2019-08-26  853  
+7733f6c32e36ff9 Pawel Laszczak 2019-08-26  854  	/* init ep in */
+7733f6c32e36ff9 Pawel Laszczak 2019-08-26  855  	cdns3_select_ep(priv_dev, USB_DIR_IN);
+7733f6c32e36ff9 Pawel Laszczak 2019-08-26  856  
+52d3967704aea6c Pawel Laszczak 2020-10-22  857  	if (!(priv_ep->flags & EP_CONFIGURED))
+52d3967704aea6c Pawel Laszczak 2020-10-22  858  		writel(ep_cfg, &regs->ep_cfg);
+52d3967704aea6c Pawel Laszczak 2020-10-22  859  
+52d3967704aea6c Pawel Laszczak 2020-10-22  860  	priv_ep->flags |= EP_CONFIGURED;
+7733f6c32e36ff9 Pawel Laszczak 2019-08-26  861  
+7733f6c32e36ff9 Pawel Laszczak 2019-08-26  862  	writel(EP_STS_EN_SETUPEN | EP_STS_EN_TRBERREN, &regs->ep_sts_en);
+7733f6c32e36ff9 Pawel Laszczak 2019-08-26  863  
+7733f6c32e36ff9 Pawel Laszczak 2019-08-26  864  	cdns3_set_register_bit(&regs->usb_conf, USB_CONF_U1DS | USB_CONF_U2DS);
+7733f6c32e36ff9 Pawel Laszczak 2019-08-26  865  }
+7733f6c32e36ff9 Pawel Laszczak 2019-08-26  866  
+7733f6c32e36ff9 Pawel Laszczak 2019-08-26  867  /**
+7733f6c32e36ff9 Pawel Laszczak 2019-08-26  868   * cdns3_init_ep0 Initializes software endpoint 0 of gadget
+7733f6c32e36ff9 Pawel Laszczak 2019-08-26  869   * @priv_dev: extended gadget object
+9293b7db8c33b28 Lee Jones      2020-07-02  870   * @priv_ep: extended endpoint object
+7733f6c32e36ff9 Pawel Laszczak 2019-08-26  871   *
+7733f6c32e36ff9 Pawel Laszczak 2019-08-26  872   * Returns 0 on success else error code.
+7733f6c32e36ff9 Pawel Laszczak 2019-08-26  873   */
+7733f6c32e36ff9 Pawel Laszczak 2019-08-26  874  int cdns3_init_ep0(struct cdns3_device *priv_dev,
+7733f6c32e36ff9 Pawel Laszczak 2019-08-26  875  		   struct cdns3_endpoint *priv_ep)
+7733f6c32e36ff9 Pawel Laszczak 2019-08-26 @876  {
 
+:::::: The code at line 690 was first introduced by commit
+:::::: 7733f6c32e36ff9d7adadf40001039bf219b1cbe usb: cdns3: Add Cadence USB3 DRD Driver
 
->   
->   	amdgpu_ring_emit_fence(ring, ring->fence_drv.gpu_addr,
-> @@ -643,16 +654,14 @@ static const char *amdgpu_fence_get_driver_name(struct dma_fence *fence)
->   
->   static const char *amdgpu_fence_get_timeline_name(struct dma_fence *f)
->   {
-> -	struct amdgpu_ring *ring;
-> +	return (const char *)to_amdgpu_fence(f)->ring->name;
-> +}
->   
-> -	if (test_bit(AMDGPU_FENCE_FLAG_EMBED_IN_JOB_BIT, &f->flags)) {
-> -		struct amdgpu_job *job = container_of(f, struct amdgpu_job, hw_fence);
-> +static const char *amdgpu_job_fence_get_timeline_name(struct dma_fence *f)
-> +{
-> +	struct amdgpu_job *job = container_of(f, struct amdgpu_job, hw_fence);
->   
-> -		ring = to_amdgpu_ring(job->base.sched);
-> -	} else {
-> -		ring = to_amdgpu_fence(f)->ring;
-> -	}
-> -	return (const char *)ring->name;
-> +	return (const char *)to_amdgpu_ring(job->base.sched)->name;
->   }
->   
->   /**
-> @@ -665,18 +674,25 @@ static const char *amdgpu_fence_get_timeline_name(struct dma_fence *f)
->    */
->   static bool amdgpu_fence_enable_signaling(struct dma_fence *f)
->   {
-> -	struct amdgpu_ring *ring;
-> +	if (!timer_pending(&to_amdgpu_fence(f)->ring->fence_drv.fallback_timer))
-> +		amdgpu_fence_schedule_fallback(to_amdgpu_fence(f)->ring);
->   
-> -	if (test_bit(AMDGPU_FENCE_FLAG_EMBED_IN_JOB_BIT, &f->flags)) {
-> -		struct amdgpu_job *job = container_of(f, struct amdgpu_job, hw_fence);
-> +	return true;
-> +}
->   
-> -		ring = to_amdgpu_ring(job->base.sched);
-> -	} else {
-> -		ring = to_amdgpu_fence(f)->ring;
-> -	}
-> +/**
-> + * amdgpu_job_fence_enable_signaling - enable signalling on job fence
-> + * @f: fence
-> + *
-> + * This is the simliar function with amdgpu_fence_enable_signaling above, it
-> + * only handles the job embedded fence.
-> + */
-> +static bool amdgpu_job_fence_enable_signaling(struct dma_fence *f)
-> +{
-> +	struct amdgpu_job *job = container_of(f, struct amdgpu_job, hw_fence);
->   
-> -	if (!timer_pending(&ring->fence_drv.fallback_timer))
-> -		amdgpu_fence_schedule_fallback(ring);
-> +	if (!timer_pending(&to_amdgpu_ring(job->base.sched)->fence_drv.fallback_timer))
-> +		amdgpu_fence_schedule_fallback(to_amdgpu_ring(job->base.sched));
->   
->   	return true;
->   }
-> @@ -692,19 +708,23 @@ static void amdgpu_fence_free(struct rcu_head *rcu)
->   {
->   	struct dma_fence *f = container_of(rcu, struct dma_fence, rcu);
->   
-> -	if (test_bit(AMDGPU_FENCE_FLAG_EMBED_IN_JOB_BIT, &f->flags)) {
-> -	/* free job if fence has a parent job */
-> -		struct amdgpu_job *job;
-> -
-> -		job = container_of(f, struct amdgpu_job, hw_fence);
-> -		kfree(job);
-> -	} else {
->   	/* free fence_slab if it's separated fence*/
-> -		struct amdgpu_fence *fence;
-> +	kmem_cache_free(amdgpu_fence_slab, to_amdgpu_fence(f));
-> +}
->   
-> -		fence = to_amdgpu_fence(f);
-> -		kmem_cache_free(amdgpu_fence_slab, fence);
-> -	}
-> +/**
-> + * amdgpu_job_fence_free - free up the job with embedded fence
-> + *
-> + * @rcu: RCU callback head
-> + *
-> + * Free up the job with embedded fence after the RCU grace period.
-> + */
-> +static void amdgpu_job_fence_free(struct rcu_head *rcu)
-> +{
-> +	struct dma_fence *f = container_of(rcu, struct dma_fence, rcu);
-> +
-> +	/* free job if fence has a parent job */
-> +	kfree(container_of(f, struct amdgpu_job, hw_fence));
->   }
->   
->   /**
-> @@ -720,6 +740,19 @@ static void amdgpu_fence_release(struct dma_fence *f)
->   	call_rcu(&f->rcu, amdgpu_fence_free);
->   }
->   
-> +/**
-> + * amdgpu_job_fence_release - callback that job embedded fence can be freed
-> + *
-> + * @f: fence
-> + *
-> + * This is the simliar function with amdgpu_fence_release above, it
-> + * only handles the job embedded fence.
-> + */
-> +static void amdgpu_job_fence_release(struct dma_fence *f)
-> +{
-> +	call_rcu(&f->rcu, amdgpu_job_fence_free);
-> +}
-> +
->   static const struct dma_fence_ops amdgpu_fence_ops = {
->   	.get_driver_name = amdgpu_fence_get_driver_name,
->   	.get_timeline_name = amdgpu_fence_get_timeline_name,
-> @@ -727,6 +760,12 @@ static const struct dma_fence_ops amdgpu_fence_ops = {
->   	.release = amdgpu_fence_release,
->   };
->   
-> +static const struct dma_fence_ops amdgpu_job_fence_ops = {
-> +	.get_driver_name = amdgpu_fence_get_driver_name,
-> +	.get_timeline_name = amdgpu_job_fence_get_timeline_name,
-> +	.enable_signaling = amdgpu_job_fence_enable_signaling,
-> +	.release = amdgpu_job_fence_release,
-> +};
->   
->   /*
->    * Fence debugfs
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ring.h b/drivers/gpu/drm/amd/amdgpu/amdgpu_ring.h
-> index 4d380e79752c..c29554cf6e63 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ring.h
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ring.h
-> @@ -53,9 +53,6 @@ enum amdgpu_ring_priority_level {
->   #define AMDGPU_FENCE_FLAG_INT           (1 << 1)
->   #define AMDGPU_FENCE_FLAG_TC_WB_ONLY    (1 << 2)
->   
-> -/* fence flag bit to indicate the face is embedded in job*/
-> -#define AMDGPU_FENCE_FLAG_EMBED_IN_JOB_BIT		(DMA_FENCE_FLAG_USER_BITS + 1)
-> -
->   #define to_amdgpu_ring(s) container_of((s), struct amdgpu_ring, sched)
->   
->   #define AMDGPU_IB_POOL_SIZE	(1024 * 1024)
+:::::: TO: Pawel Laszczak <pawell@cadence.com>
+:::::: CC: Felipe Balbi <felipe.balbi@linux.intel.com>
+
+---
+0-DAY CI Kernel Test Service, Intel Corporation
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
