@@ -2,298 +2,314 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C34FC474387
-	for <lists+linux-media@lfdr.de>; Tue, 14 Dec 2021 14:33:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id CC30247439B
+	for <lists+linux-media@lfdr.de>; Tue, 14 Dec 2021 14:37:46 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234429AbhLNNdL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 14 Dec 2021 08:33:11 -0500
-Received: from www.linuxtv.org ([130.149.80.248]:38042 "EHLO www.linuxtv.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S232098AbhLNNdL (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Tue, 14 Dec 2021 08:33:11 -0500
-Received: from builder.linuxtv.org ([140.211.167.10])
-        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1mx7vW-002qlX-H3; Tue, 14 Dec 2021 13:33:06 +0000
-Received: from [127.0.0.1] (helo=builder.linuxtv.org)
-        by builder.linuxtv.org with esmtp (Exim 4.94.2)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1mx7vU-005HGe-Gq; Tue, 14 Dec 2021 13:33:04 +0000
-Date:   Tue, 14 Dec 2021 13:33:03 +0000 (UTC)
-From:   Jenkins Builder Robot <jenkins@linuxtv.org>
-To:     mchehab@kernel.org, linux-media@vger.kernel.org,
-        mchehab@linuxtv.org
-Message-ID: <1805868822.1.1639488783969@builder.linuxtv.org>
-Subject: Build failed in Jenkins: media_stage_clang #391
+        id S234460AbhLNNhp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 14 Dec 2021 08:37:45 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48556 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229517AbhLNNhp (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Tue, 14 Dec 2021 08:37:45 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B77D3C061574;
+        Tue, 14 Dec 2021 05:37:44 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 76468B819B6;
+        Tue, 14 Dec 2021 13:37:43 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1DC8EC34601;
+        Tue, 14 Dec 2021 13:37:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1639489062;
+        bh=deFyXMcKiwCRpUDJn69BxS6xCrAqOSThqPq5nRVxAGI=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=hHtBvzlU39mAmq3xjbRUe8YqzLHaBkzT6T3VqtpKPNrk73Y3LfEWbyHYvgXEa6FUt
+         ddVmEJiULld/Y+jrGJMwITVL6aQxtwXH2n4CAI9iTMahH/nGMjnI6EXbLmJK90mned
+         O9qYd9lL2kABQgbard8dhbq2DleBWF94AulcXrFI83NTCor5b+53MVi92qUErAoUvT
+         Tq3zdpbKWOXK870dIxCkbhRvCJwQ7XkP7t0r8bVL+q/RpuguI0sli/OxJ6AtsoX9rY
+         S5wCLI0TGQWBW3RS0shYKoS5woUI4i/Ys6m9t9tma/zeg5u+opGw/MGi/I7XySKVjC
+         ZCFd+0g5gJwdw==
+Date:   Tue, 14 Dec 2021 14:37:38 +0100
+From:   Mauro Carvalho Chehab <mchehab@kernel.org>
+To:     Chuck Ritola <cjritola@gmail.com>
+Cc:     crope@iki.fi, linux-media@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] media: dvb-frontends: a8293: fix LNB powerup failure in
+ PCTV 461e
+Message-ID: <20211214143738.7cd2c240@coco.lan>
+In-Reply-To: <20211119020905.22725-1-cjritola@gmail.com>
+References: <20211119020905.22725-1-cjritola@gmail.com>
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.30; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-X-Instance-Identity: MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEApAf928QubrKEjMQ0IZR0WWXn8zG7uTdH33F2Idx4Xmlp6Z138NdNMQYNG71OKzmvn3/E1G4rpd9JsMls16nRZ2NAPgOWX0qfFr6HyOoQklLGZt+vkOFb0BvmBFfdI+00J5B1SPupxv4pT3bDLSiwbBNCOLY4sdB0gG1ng14mzu47G8zmH6l2ZE/9urEd6OLFhzrb6ym4vlkCE8uvNJAdAWbeafd1plHSLdU/TVqHMZELuM0wt9khqhUOkfE+dHr7h6DNrkFpvm/8j/5wTuy98ZwwWimP+pfjSQMgKrhXjwHcJJa2N9v1HdwrwlUaRYuA6o8fwUHNC9vLj7cCXM3qiwIDAQAB
-X-Jenkins-Job: media_stage_clang
-X-Jenkins-Result: FAILURE
-Auto-submitted: auto-generated
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-See <https://builder.linuxtv.org/job/media_stage_clang/391/display/redirect?page=changes>
+Em Thu, 18 Nov 2021 21:09:05 -0500
+Chuck Ritola <cjritola@gmail.com> escreveu:
 
-Changes:
+> Fixes a8293 failure to raise LNB voltage in PCTV 461e DVB-S2 Stick
+> affecting multiple users over several years as found here:
+> 
+> http://www.linuxquestions.org/questions/linux-hardware-18/pctv-dvb-s2-stick-461e-not-feeding-lnb-4175529374/
+> https://www.linuxtv.org/wiki/index.php/Pinnacle_PCTV_DVB-S2_Stick_(461e)
+> https://github.com/OpenELEC/OpenELEC.tv/issues/3731
+> 
+> Caused by vIN undervoltage lockout (status register bit 7) when raising LNB to 18V.
+> Addressed by using the higher-precision voltages available on the a8293 to gradually
+> increase (slew) the voltage when voltage increases are requested.
+> 
+> Adds volt_slew_nanos_per_mv to a8293_platform_data struct for specifying slew rate.
+> If value is <1 or non-sane (>1600), the original no-slew version for a8293_set_voltage is used.
+> 
+> Signed-off-by: Chuck Ritola <cjritola@gmail.com>
+> ---
+>  drivers/media/dvb-frontends/a8293.c   | 147 +++++++++++++++++++++++++-
+>  drivers/media/dvb-frontends/a8293.h   |   2 +
+>  drivers/media/usb/em28xx/em28xx-dvb.c |   3 +
+>  3 files changed, 150 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/media/dvb-frontends/a8293.c b/drivers/media/dvb-frontends/a8293.c
+> index 57f52c004..f86af43ee 100644
+> --- a/drivers/media/dvb-frontends/a8293.c
+> +++ b/drivers/media/dvb-frontends/a8293.c
+> @@ -3,16 +3,139 @@
+>   * Allegro A8293 SEC driver
+>   *
+>   * Copyright (C) 2011 Antti Palosaari <crope@iki.fi>
+> + * Copyright (C) 2021 Chuck Ritola <cjritola@gmail.com>
 
-[Mauro Carvalho Chehab] media: i2c: Add driver for the Analog Devices ADDI9036 ToF front-end
+We don't usually add copyrights on files authored by others, except
+when the original author explicitly agree with that by sending his
+Signed-off-by or Acked-by.
 
-[Mauro Carvalho Chehab] media: pt3: Switch to using functions pcim_* and devm_*
+So, except if Antti agrees with that, please remove this change
+from the patch. Your credits will still be there stored at the
+git tree.
 
+>   */
+>  
+>  #include "a8293.h"
+>  
+> +#define A8293_FLAG_ODT			0x10
+> +
+> +
+>  struct a8293_dev {
+>  	struct i2c_client *client;
+>  	u8 reg[2];
+> +	int volt_slew_nanos_per_mv;
+>  };
+>  
+> -static int a8293_set_voltage(struct dvb_frontend *fe,
+> +/*
+> + * When increasing voltage, do so in minimal steps over time, minimizing risk of vIN undervoltage.
+> + */
+> +
+> +static int a8293_set_voltage_slew(struct a8293_dev *dev,
+> +				struct i2c_client *client,
+> +			     enum fe_sec_voltage fe_sec_voltage,
+> +				int min_nanos_per_mv)
+> +{
+> +	int ret;
+> +	u8 reg0, reg1;
+> +	int new_volt_idx;
+> +	const int idx_to_mv[] = {0,    12709, 13042, 13375, 14042, 15042, 18042, 18709, 19042};
+> +	const u8 idx_to_reg[] = {0x00, 0x20,  0x21,  0x22,  0x24,  0x27,  0x28,  0x2A,  0x2B };
+> +	int this_volt_idx;
+> +	u8 status;
+> +	int prev_volt_idx;
+> +
+> +	dev_dbg(&client->dev, "set_voltage_slew fe_sec_voltage=%d\n", fe_sec_voltage);
+> +
+> +	/* Read status register to clear any stale faults. */
+> +	ret = i2c_master_recv(client, &status, 1);
+> +	if (ret < 0)
+> +		goto err;
+> +
+> +	/* Determine previous voltage */
+> +	switch (dev->reg[0] & 0x2F) {
+> +	case 0x00:
+> +		prev_volt_idx = 0;
+> +		break;
+> +	case 0x20:
+> +		prev_volt_idx = 1;
+> +		break;
+> +	case 0x21:
+> +		prev_volt_idx = 2;
+> +		break;
+> +	case 0x22:
+> +		prev_volt_idx = 3;
+> +		break;
+> +	case 0x24:
+> +		prev_volt_idx = 4;
+> +		break;
+> +	case 0x27:
+> +		prev_volt_idx = 5;
+> +		break;
+> +	case 0x28:
+> +		prev_volt_idx = 6;
+> +		break;
+> +	case 0x2A:
+> +		prev_volt_idx = 7;
+> +		break;
+> +	case 0x2B:
+> +		prev_volt_idx = 8;
+> +		break;
+> +	default:
+> +		prev_volt_idx = 0;
+> +	}
+> +
+> +	/* Determine new voltage */
+> +	switch (fe_sec_voltage) {
+> +	case SEC_VOLTAGE_OFF:
+> +		new_volt_idx = 0;
+> +		break;
+> +	case SEC_VOLTAGE_13:
+> +		new_volt_idx = 2;
+> +		break;
+> +	case SEC_VOLTAGE_18:
+> +		new_volt_idx = 6;
+> +		break;
+> +	default:
+> +		ret = -EINVAL;
+> +		goto err;
+> +	}
+> +
+> +	/* Slew to new voltage if new voltage is greater than current voltage */
+> +	this_volt_idx = prev_volt_idx;
+> +	if (this_volt_idx < new_volt_idx) {
+> +		while (this_volt_idx < new_volt_idx) {
+> +			int delta_mv = idx_to_mv[this_volt_idx+1] - idx_to_mv[this_volt_idx];
+> +			int min_wait_time = delta_mv * min_nanos_per_mv;
+> +
+> +			reg0 = idx_to_reg[this_volt_idx+1];
+> +			reg0 |= A8293_FLAG_ODT;
+> +
+> +			ret = i2c_master_send(client, &reg0, 1);
+> +			if (ret < 0)
+> +				goto err;
+> +			dev->reg[0] = reg0;
+> +			this_volt_idx++;
+> +			usleep_range(min_wait_time, min_wait_time * 2);
+> +		}
+> +	} else { /* Else just set the voltage */
+> +		reg0 = idx_to_reg[new_volt_idx];
+> +		reg0 |= A8293_FLAG_ODT;
+> +		ret = i2c_master_send(client, &reg0, 1);
+> +		if (ret < 0)
+> +			goto err;
+> +		dev->reg[0] = reg0;
+> +	}
+> +
+> +	/* TMODE=0, TGATE=1 */
+> +	reg1 = 0x82;
+> +	if (reg1 != dev->reg[1]) {
+> +		ret = i2c_master_send(client, &reg1, 1);
+> +		if (ret < 0)
+> +			goto err;
+> +		dev->reg[1] = reg1;
+> +	}
+> +
+> +	usleep_range(1500, 5000);
+> +
+> +	return 0;
+> +err:
+> +	dev_dbg(&client->dev, "failed=%d\n", ret);
+> +	return ret;
+> +}
+> +
+> +
+> +static int a8293_set_voltage_noslew(struct dvb_frontend *fe,
+>  			     enum fe_sec_voltage fe_sec_voltage)
+>  {
+>  	struct a8293_dev *dev = fe->sec_priv;
+> @@ -20,7 +143,7 @@ static int a8293_set_voltage(struct dvb_frontend *fe,
+>  	int ret;
+>  	u8 reg0, reg1;
+>  
+> -	dev_dbg(&client->dev, "fe_sec_voltage=%d\n", fe_sec_voltage);
+> +	dev_dbg(&client->dev, "set_voltage_noslew fe_sec_voltage=%d\n", fe_sec_voltage);
+>  
+>  	switch (fe_sec_voltage) {
+>  	case SEC_VOLTAGE_OFF:
+> @@ -62,6 +185,24 @@ static int a8293_set_voltage(struct dvb_frontend *fe,
+>  	return ret;
+>  }
+>  
+> +static int a8293_set_voltage(struct dvb_frontend *fe,
+> +			     enum fe_sec_voltage fe_sec_voltage)
+> +{
+> +	struct a8293_dev *dev = fe->sec_priv;
+> +	struct i2c_client *client = dev->client;
+> +	int volt_slew_nanos_per_mv = dev->volt_slew_nanos_per_mv;
+> +
+> +	dev_dbg(&client->dev, "set_voltage volt_slew_nanos_per_mv=%d\n", volt_slew_nanos_per_mv);
+> +
+> +	/* Use slew version if slew rate is set to a sane value */
+> +	if (volt_slew_nanos_per_mv > 0 && volt_slew_nanos_per_mv < 1600)
+> +		a8293_set_voltage_slew(dev, client, fe_sec_voltage, volt_slew_nanos_per_mv);
+> +	else
+> +		a8293_set_voltage_noslew(fe, fe_sec_voltage);
+> +
+> +	return 0;
+> +}
+> +
+>  static int a8293_probe(struct i2c_client *client,
+>  		       const struct i2c_device_id *id)
+>  {
+> @@ -78,6 +219,7 @@ static int a8293_probe(struct i2c_client *client,
+>  	}
+>  
+>  	dev->client = client;
+> +	dev->volt_slew_nanos_per_mv = pdata->volt_slew_nanos_per_mv;
+>  
+>  	/* check if the SEC is there */
+>  	ret = i2c_master_recv(client, buf, 2);
+> @@ -127,5 +269,6 @@ static struct i2c_driver a8293_driver = {
+>  module_i2c_driver(a8293_driver);
+>  
+>  MODULE_AUTHOR("Antti Palosaari <crope@iki.fi>");
+> +MODULE_AUTHOR("Chuck Ritola <cjritola@gmail.com>");
 
-------------------------------------------
-[...truncated 59.39 KB...]
-  CC      drivers/media/platform/vsp1/vsp1_uif.o
-  CC      drivers/media/usb/gspca/pac207.o
-  CC      drivers/media/platform/rcar-vin/rcar-v4l2.o
-  AR      drivers/media/platform/atmel/built-in.a
-  CC      drivers/media/usb/gspca/pac7302.o
-  CC      drivers/media/i2c/imx412.o
-  CC      drivers/media/usb/stk1160/stk1160-core.o
-  CC      drivers/media/usb/stk1160/stk1160-v4l.o
-  CC      drivers/media/usb/pvrusb2/pvrusb2-cx2584x-v4l.o
-  AR      drivers/media/platform/vsp1/built-in.a
-  CC      drivers/media/usb/pvrusb2/pvrusb2-wm8775.o
-  CC      drivers/media/usb/pvrusb2/pvrusb2-cs53l32a.o
-  CC      drivers/media/usb/pvrusb2/pvrusb2-dvb.o
-  AR      drivers/media/platform/rcar-vin/built-in.a
-  CC      drivers/media/usb/gspca/pac7311.o
-  CC      drivers/media/i2c/max9286.o
-  CC      drivers/media/platform/mtk-vcodec/vdec/vdec_h264_if.o
-  CC      drivers/media/platform/mtk-mdp/mtk_mdp_core.o
-  CC      drivers/media/usb/stk1160/stk1160-video.o
-  CC      drivers/media/platform/mtk-jpeg/mtk_jpeg_core.o
-  CC      drivers/media/platform/qcom/camss/camss.o
-  CC      drivers/media/platform/qcom/venus/core.o
-  CC      drivers/media/usb/gspca/se401.o
-  CC      drivers/media/usb/pvrusb2/pvrusb2-sysfs.o
-  CC      drivers/media/i2c/rdacm20.o
-  CC      drivers/media/usb/stk1160/stk1160-i2c.o
-  CC      drivers/media/platform/mtk-vcodec/vdec/vdec_vp8_if.o
-  CC      drivers/media/platform/mtk-mdp/mtk_mdp_m2m.o
-  CC      drivers/media/usb/pvrusb2/pvrusb2-debugifc.o
-  CC      drivers/media/platform/qcom/venus/helpers.o
-  CC      drivers/media/platform/qcom/camss/camss-csid.o
-  CC      drivers/media/platform/mtk-jpeg/mtk_jpeg_dec_hw.o
-  CC      drivers/media/usb/gspca/sn9c2028.o
-  CC      drivers/media/i2c/rdacm21.o
-  AR      drivers/media/usb/pvrusb2/built-in.a
-  CC      drivers/media/usb/stk1160/stk1160-ac97.o
-  CC      drivers/media/platform/mtk-vcodec/vdec/vdec_vp9_if.o
-  CC      drivers/media/i2c/st-mipid02.o
-  CC      drivers/media/platform/qcom/camss/camss-csid-4-1.o
-  CC      drivers/media/platform/mtk-mdp/mtk_mdp_regs.o
-  CC      drivers/media/usb/gspca/sn9c20x.o
-  AR      drivers/media/usb/stk1160/built-in.a
-  CC      drivers/media/usb/cx231xx/cx231xx-video.o
-  CC      drivers/media/platform/sunxi/sun4i-csi/sun4i_csi.o
-  CC      drivers/media/platform/mtk-jpeg/mtk_jpeg_dec_parse.o
-  CC      drivers/media/platform/mtk-vcodec/vdec/vdec_h264_req_if.o
-  CC      drivers/media/i2c/max2175.o
-  CC      drivers/media/platform/qcom/venus/firmware.o
-  CC      drivers/media/platform/qcom/camss/camss-csid-4-7.o
-  CC      drivers/media/platform/mtk-mdp/mtk_mdp_vpu.o
-  CC      drivers/media/platform/sunxi/sun4i-csi/sun4i_dma.o
-  CC      drivers/media/platform/mtk-jpeg/mtk_jpeg_enc_hw.o
-  CC      drivers/media/usb/gspca/sonixb.o
-  CC      drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_drv.o
-  CC      drivers/media/platform/qcom/camss/camss-csid-170.o
-  CC      drivers/media/i2c/addi9036.o
-  CC      drivers/media/usb/cx231xx/cx231xx-i2c.o
-  CC      drivers/media/platform/qcom/venus/hfi_venus.o
-  AR      drivers/media/platform/mtk-mdp/built-in.a
-  CC      drivers/media/platform/meson/ge2d/ge2d.o
-  AR      drivers/media/platform/mtk-jpeg/built-in.a
-  CC      drivers/media/usb/gspca/sonixj.o
-  CC      drivers/media/usb/tm6000/tm6000-cards.o
-  CC      drivers/media/platform/sunxi/sun4i-csi/sun4i_v4l2.o
-drivers/media/i2c/addi9036.c:310:52: error: incompatible pointer types passing 'struct v4l2_subdev_pad_config *' to parameter of type 'struct v4l2_subdev_state *' [-Werror,-Wincompatible-pointer-types]
-                return v4l2_subdev_get_try_format(&addi9036->sd, cfg, pad);
-                                                                 ^~~
-./include/media/v4l2-subdev.h:995:33: note: passing argument to parameter 'state' here
-                           struct v4l2_subdev_state *state,
-                                                     ^
-drivers/media/i2c/addi9036.c:342:50: error: incompatible pointer types passing 'struct v4l2_subdev_pad_config *' to parameter of type 'struct v4l2_subdev_state *' [-Werror,-Wincompatible-pointer-types]
-                return v4l2_subdev_get_try_crop(&addi9036->sd, cfg, pad);
-                                                               ^~~
-./include/media/v4l2-subdev.h:1013:31: note: passing argument to parameter 'state' here
-                         struct v4l2_subdev_state *state,
-                                                   ^
-drivers/media/i2c/addi9036.c:521:15: error: incompatible function pointer types initializing 'int (*)(struct v4l2_subdev *, struct v4l2_subdev_state *)' with an expression of type 'int (struct v4l2_subdev *, struct v4l2_subdev_pad_config *)' [-Werror,-Wincompatible-function-pointer-types]
-        .init_cfg               = addi9036_entity_init_cfg,
-                                  ^~~~~~~~~~~~~~~~~~~~~~~~
-drivers/media/i2c/addi9036.c:522:21: error: incompatible function pointer types initializing 'int (*)(struct v4l2_subdev *, struct v4l2_subdev_state *, struct v4l2_subdev_mbus_code_enum *)' with an expression of type 'int (struct v4l2_subdev *, struct v4l2_subdev_pad_config *, struct v4l2_subdev_mbus_code_enum *)' [-Werror,-Wincompatible-function-pointer-types]
-        .enum_mbus_code         = addi9036_enum_mbus_code,
-                                  ^~~~~~~~~~~~~~~~~~~~~~~
-drivers/media/i2c/addi9036.c:523:21: error: incompatible function pointer types initializing 'int (*)(struct v4l2_subdev *, struct v4l2_subdev_state *, struct v4l2_subdev_frame_size_enum *)' with an expression of type 'int (struct v4l2_subdev *, struct v4l2_subdev_pad_config *, struct v4l2_subdev_frame_size_enum *)' [-Werror,-Wincompatible-function-pointer-types]
-        .enum_frame_size        = addi9036_enum_frame_size,
-                                  ^~~~~~~~~~~~~~~~~~~~~~~~
-drivers/media/i2c/addi9036.c:524:14: error: incompatible function pointer types initializing 'int (*)(struct v4l2_subdev *, struct v4l2_subdev_state *, struct v4l2_subdev_format *)' with an expression of type 'int (struct v4l2_subdev *, struct v4l2_subdev_pad_config *, struct v4l2_subdev_format *)' [-Werror,-Wincompatible-function-pointer-types]
-        .get_fmt                = addi9036_get_format,
-                                  ^~~~~~~~~~~~~~~~~~~
-drivers/media/i2c/addi9036.c:525:14: error: incompatible function pointer types initializing 'int (*)(struct v4l2_subdev *, struct v4l2_subdev_state *, struct v4l2_subdev_format *)' with an expression of type 'int (struct v4l2_subdev *, struct v4l2_subdev_pad_config *, struct v4l2_subdev_format *)' [-Werror,-Wincompatible-function-pointer-types]
-        .set_fmt                = addi9036_set_format,
-                                  ^~~~~~~~~~~~~~~~~~~
-drivers/media/i2c/addi9036.c:526:20: error: incompatible function pointer types initializing 'int (*)(struct v4l2_subdev *, struct v4l2_subdev_state *, struct v4l2_subdev_selection *)' with an expression of type 'int (struct v4l2_subdev *, struct v4l2_subdev_pad_config *, struct v4l2_subdev_selection *)' [-Werror,-Wincompatible-function-pointer-types]
-        .get_selection          = addi9036_get_selection,
-                                  ^~~~~~~~~~~~~~~~~~~~~~
-8 errors generated.
-make[3]: *** [scripts/Makefile.build:287: drivers/media/i2c/addi9036.o] Error 1
-make[2]: *** [scripts/Makefile.build:549: drivers/media/i2c] Error 2
-make[2]: *** Waiting for unfinished jobs....
-  CC      drivers/media/usb/em28xx/em28xx-core.o
-  CC      drivers/media/platform/mtk-vcodec/vdec_drv_if.o
-  CC      drivers/media/platform/qcom/camss/camss-csiphy-2ph-1-0.o
-  CC      drivers/media/usb/cx231xx/cx231xx-cards.o
-  CC      drivers/media/platform/qcom/venus/hfi_msgs.o
-  AR      drivers/media/platform/meson/ge2d/built-in.a
-  CC      drivers/media/usb/usbtv/usbtv-core.o
-  AR      drivers/media/platform/sunxi/sun4i-csi/built-in.a
-  CC      drivers/media/platform/sunxi/sun6i-csi/sun6i_video.o
-  CC      drivers/media/platform/mtk-vcodec/vdec_vpu_if.o
-  CC      drivers/media/usb/tm6000/tm6000-core.o
-  CC      drivers/media/usb/gspca/spca500.o
-  CC      drivers/media/platform/qcom/camss/camss-csiphy-3ph-1-0.o
-  CC      drivers/media/usb/em28xx/em28xx-i2c.o
-  CC      drivers/media/usb/cx231xx/cx231xx-core.o
-  CC      drivers/media/platform/qcom/venus/hfi.o
-  CC      drivers/media/usb/usbtv/usbtv-video.o
-  CC      drivers/media/usb/gspca/spca501.o
-  CC      drivers/media/usb/tm6000/tm6000-i2c.o
-  CC      drivers/media/platform/mtk-vcodec/mtk_vcodec_dec.o
-  CC      drivers/media/platform/qcom/camss/camss-csiphy.o
-  CC      drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.o
-  CC      drivers/media/usb/em28xx/em28xx-cards.o
-  CC      drivers/media/usb/cx231xx/cx231xx-avcore.o
-  CC      drivers/media/platform/qcom/venus/hfi_parser.o
-  CC      drivers/media/usb/usbtv/usbtv-audio.o
-  CC      drivers/media/usb/tm6000/tm6000-video.o
-  CC      drivers/media/platform/qcom/camss/camss-ispif.o
-  CC      drivers/media/usb/gspca/spca505.o
-  CC      drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_stateful.o
-  CC      drivers/media/platform/qcom/venus/pm_helpers.o
-  AR      drivers/media/platform/sunxi/sun6i-csi/built-in.a
-  AR      drivers/media/usb/usbtv/built-in.a
-  CC      drivers/media/platform/sunxi/sun8i-di/sun8i-di.o
-  CC      drivers/media/platform/qcom/venus/dbgfs.o
-  CC      drivers/media/usb/em28xx/em28xx-camera.o
-  CC      drivers/media/usb/cx231xx/cx231xx-417.o
-  CC      drivers/media/usb/gspca/spca506.o
-  CC      drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_stateless.o
-  CC      drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_pm.o
-  CC      drivers/media/platform/qcom/camss/camss-vfe-4-1.o
-  CC      drivers/media/usb/tm6000/tm6000-stds.o
-  CC      drivers/media/platform/qcom/venus/hfi_platform.o
-  CC      drivers/media/usb/em28xx/em28xx-video.o
-  CC      drivers/media/usb/gspca/spca508.o
-  CC      drivers/media/platform/qcom/venus/hfi_platform_v4.o
-  CC      drivers/media/usb/cx231xx/cx231xx-pcb-cfg.o
-  CC      drivers/media/platform/qcom/venus/hfi_platform_v6.o
-  AR      drivers/media/platform/sunxi/sun8i-di/built-in.a
-  CC      drivers/media/platform/sunxi/sun8i-rotate/sun8i_rotate.o
-  CC      drivers/media/usb/go7007/go7007-v4l2.o
-  CC      drivers/media/platform/mtk-vcodec/venc/venc_vp8_if.o
-  CC      drivers/media/usb/tm6000/tm6000-input.o
-  CC      drivers/media/platform/qcom/venus/hfi_plat_bufs_v6.o
-  CC      drivers/media/platform/qcom/camss/camss-vfe-4-7.o
-  CC      drivers/media/usb/gspca/spca561.o
-  CC      drivers/media/usb/cx231xx/cx231xx-vbi.o
-  CC      drivers/media/platform/sunxi/sun8i-rotate/sun8i_formats.o
-  CC      drivers/media/platform/mtk-vcodec/venc/venc_h264_if.o
-  CC      drivers/media/usb/em28xx/em28xx-vbi.o
-  CC      drivers/media/usb/tm6000/tm6000-alsa.o
-  CC      drivers/media/platform/qcom/venus/vdec.o
-  CC      drivers/media/usb/go7007/go7007-driver.o
-  CC      drivers/media/usb/gspca/spca1528.o
-  CC      drivers/media/usb/cx231xx/cx231xx-input.o
-  CC      drivers/media/platform/qcom/camss/camss-vfe-4-8.o
-  CC      drivers/media/usb/em28xx/em28xx-audio.o
-  CC      drivers/media/platform/mtk-vcodec/mtk_vcodec_enc.o
-  AR      drivers/media/platform/sunxi/sun8i-rotate/built-in.a
-  AR      drivers/media/platform/sunxi/built-in.a
-  CC      drivers/media/platform/mtk-vcodec/mtk_vcodec_enc_drv.o
-  CC      drivers/media/usb/gspca/sq905.o
-  CC      drivers/media/usb/go7007/go7007-i2c.o
-  CC      drivers/media/usb/tm6000/tm6000-dvb.o
-  CC      drivers/media/platform/qcom/venus/vdec_ctrls.o
-  CC      drivers/media/usb/cx231xx/cx231xx-audio.o
-  CC      drivers/media/platform/qcom/camss/camss-vfe-170.o
-  CC      drivers/media/usb/em28xx/em28xx-dvb.o
-  CC      drivers/media/usb/go7007/go7007-fw.o
-  CC      drivers/media/usb/cx231xx/cx231xx-dvb.o
-  CC      drivers/media/platform/mtk-vcodec/mtk_vcodec_enc_pm.o
-  CC      drivers/media/usb/gspca/sq905c.o
-  CC      drivers/media/platform/qcom/venus/venc.o
-  AR      drivers/media/usb/tm6000/built-in.a
-  CC      drivers/media/usb/gspca/sq930x.o
-  CC      drivers/media/platform/mtk-vcodec/venc_drv_if.o
-  CC      drivers/media/platform/qcom/camss/camss-vfe-gen1.o
-  CC      drivers/media/platform/qcom/camss/camss-vfe.o
-  CC      drivers/media/platform/mtk-vcodec/venc_vpu_if.o
-  CC      drivers/media/usb/em28xx/em28xx-input.o
-  CC      drivers/media/usb/gspca/sunplus.o
-  AR      drivers/media/usb/cx231xx/built-in.a
-  CC      drivers/media/platform/qcom/venus/venc_ctrls.o
-  CC      drivers/media/platform/mtk-vcodec/mtk_vcodec_intr.o
-  CC      drivers/media/usb/go7007/snd-go7007.o
-  CC      drivers/media/platform/mtk-vcodec/mtk_vcodec_util.o
-  CC      drivers/media/platform/mtk-vcodec/mtk_vcodec_fw.o
-  CC      drivers/media/platform/qcom/camss/camss-video.o
-  CC      drivers/media/platform/mtk-vcodec/mtk_vcodec_fw_vpu.o
-  CC      drivers/media/usb/go7007/go7007-usb.o
-  AR      drivers/media/usb/em28xx/built-in.a
-  CC      drivers/media/usb/gspca/stk014.o
-  AR      drivers/media/platform/qcom/venus/built-in.a
-  CC      drivers/media/platform/mtk-vcodec/mtk_vcodec_fw_scp.o
-  CC      drivers/media/usb/as102/as102_drv.o
-  CC      drivers/media/usb/gspca/stk1135.o
-  CC      drivers/media/usb/gspca/stv0680.o
-  CC      drivers/media/usb/as102/as102_fw.o
-  CC      drivers/media/usb/as102/as10x_cmd.o
-  AR      drivers/media/platform/qcom/camss/built-in.a
-  CC      drivers/media/usb/as102/as10x_cmd_stream.o
-  CC      drivers/media/usb/as102/as102_usb_drv.o
-  CC      drivers/media/usb/as102/as10x_cmd_cfg.o
-  AR      drivers/media/platform/mtk-vcodec/built-in.a
-  AR      drivers/media/platform/built-in.a
-  CC      drivers/media/usb/gspca/t613.o
-  CC      drivers/media/usb/go7007/s2250-board.o
-  CC      drivers/media/usb/gspca/topro.o
-  CC      drivers/media/usb/gspca/touptek.o
-  CC      drivers/media/usb/gspca/tv8532.o
-  CC      drivers/media/usb/gspca/vc032x.o
-  CC      drivers/media/usb/gspca/vicam.o
-  CC      drivers/media/usb/gspca/xirlink_cit.o
-  AR      drivers/media/usb/as102/built-in.a
-  CC      drivers/media/usb/gspca/zc3xx.o
-  AR      drivers/media/usb/go7007/built-in.a
-  CC      drivers/media/usb/gspca/m5602/m5602_core.o
-  CC      drivers/media/usb/gspca/stv06xx/stv06xx.o
-  CC      drivers/media/usb/gspca/stv06xx/stv06xx_vv6410.o
-  CC      drivers/media/usb/gspca/gl860/gl860.o
-  CC      drivers/media/usb/gspca/gl860/gl860-mi1320.o
-  CC      drivers/media/usb/gspca/gl860/gl860-ov2640.o
-  CC      drivers/media/usb/gspca/gl860/gl860-ov9655.o
-  CC      drivers/media/usb/gspca/gl860/gl860-mi2020.o
-  CC      drivers/media/usb/gspca/stv06xx/stv06xx_hdcs.o
-  CC      drivers/media/usb/gspca/stv06xx/stv06xx_pb0100.o
-  CC      drivers/media/usb/gspca/m5602/m5602_ov9650.o
-  CC      drivers/media/usb/gspca/m5602/m5602_ov7660.o
-  CC      drivers/media/usb/gspca/m5602/m5602_mt9m111.o
-  CC      drivers/media/usb/gspca/m5602/m5602_po1030.o
-  CC      drivers/media/usb/gspca/m5602/m5602_s5k83a.o
-  CC      drivers/media/usb/gspca/m5602/m5602_s5k4aa.o
-  AR      drivers/media/usb/gspca/gl860/built-in.a
-  CC      drivers/media/usb/gspca/stv06xx/stv06xx_st6422.o
-  AR      drivers/media/usb/gspca/m5602/built-in.a
-  AR      drivers/media/usb/gspca/stv06xx/built-in.a
-  AR      drivers/media/usb/gspca/built-in.a
-  AR      drivers/media/usb/built-in.a
-make[1]: *** [scripts/Makefile.build:549: drivers/media] Error 2
-make: *** [Makefile:1846: drivers] Error 2
-Build step 'Execute shell' marked build as failure
+Same applies here.
+
+>  MODULE_DESCRIPTION("Allegro A8293 SEC driver");
+>  MODULE_LICENSE("GPL");
+> diff --git a/drivers/media/dvb-frontends/a8293.h b/drivers/media/dvb-frontends/a8293.h
+> index 8c09635ef..0a807c022 100644
+> --- a/drivers/media/dvb-frontends/a8293.h
+> +++ b/drivers/media/dvb-frontends/a8293.h
+> @@ -18,9 +18,11 @@
+>  /**
+>   * struct a8293_platform_data - Platform data for the a8293 driver
+>   * @dvb_frontend: DVB frontend.
+> + * @volt_slew_nanos_per_mv: Slew rate when increasing LNB voltage, in nanoseconds per millivolt.
+>   */
+>  struct a8293_platform_data {
+>  	struct dvb_frontend *dvb_frontend;
+> +	int volt_slew_nanos_per_mv;
+>  };
+>  
+>  #endif /* A8293_H */
+> diff --git a/drivers/media/usb/em28xx/em28xx-dvb.c b/drivers/media/usb/em28xx/em28xx-dvb.c
+> index 471bd7466..859f4a33e 100644
+> --- a/drivers/media/usb/em28xx/em28xx-dvb.c
+> +++ b/drivers/media/usb/em28xx/em28xx-dvb.c
+> @@ -1208,6 +1208,9 @@ static int em28178_dvb_init_pctv_461e(struct em28xx *dev)
+>  
+>  	/* attach SEC */
+>  	a8293_pdata.dvb_frontend = dvb->fe[0];
+> +	/* 461e has a tendency to have vIN undervoltage troubles. Slew mitigates this. */
+> +	a8293_pdata.volt_slew_nanos_per_mv = 20;
+> +
+>  	dvb->i2c_client_sec = dvb_module_probe("a8293", NULL,
+>  					       &dev->i2c_adap[dev->def_i2c_bus],
+>  					       0x08, &a8293_pdata);
+
+Thanks,
+Mauro
