@@ -2,141 +2,143 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0E4254764F8
-	for <lists+linux-media@lfdr.de>; Wed, 15 Dec 2021 22:52:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id AD80E47650E
+	for <lists+linux-media@lfdr.de>; Wed, 15 Dec 2021 22:59:27 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230182AbhLOVw2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 15 Dec 2021 16:52:28 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:32942 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S230176AbhLOVw1 (ORCPT
+        id S230295AbhLOV70 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 15 Dec 2021 16:59:26 -0500
+Received: from dfw.source.kernel.org ([139.178.84.217]:58334 "EHLO
+        dfw.source.kernel.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230116AbhLOV7Z (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 15 Dec 2021 16:52:27 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1639605147;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding;
-        bh=d8Xx3zTekrihbvJfhZhhSli7JDX8raqst1ZSqjxf0vI=;
-        b=VyAnZa5Ea2e6Tvem5EeUyB/Ln5eecw4ryau+VGyce+TL+Rf8ocMmrDs4/GEJRGRKoM88gg
-        FML1z97KpCOSLyTSYLsd06CTDjAFDvK3qJZh0Ja/lgphy9b+5oJiPkl8RkzrL61X61hgTK
-        0rY5w3VYozSlJh4aDpzzG3WmH+V86UI=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-604-PMyltjrkMS6PmpVo4bzuhQ-1; Wed, 15 Dec 2021 16:52:23 -0500
-X-MC-Unique: PMyltjrkMS6PmpVo4bzuhQ-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.12])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        Wed, 15 Dec 2021 16:59:25 -0500
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D18E7190B2A3;
-        Wed, 15 Dec 2021 21:52:20 +0000 (UTC)
-Received: from shalem.redhat.com (unknown [10.39.192.60])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id D67DF78DE6;
-        Wed, 15 Dec 2021 21:52:13 +0000 (UTC)
-From:   Hans de Goede <hdegoede@redhat.com>
-To:     "Rafael J . Wysocki" <rjw@rjwysocki.net>,
-        Mark Gross <markgross@kernel.org>,
-        Andy Shevchenko <andy@infradead.org>,
-        Wolfram Sang <wsa@the-dreams.de>,
-        Mika Westerberg <mika.westerberg@linux.intel.com>,
-        Daniel Scally <djrscally@gmail.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 3BC0861ADD;
+        Wed, 15 Dec 2021 21:59:25 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1B94AC36AE2;
+        Wed, 15 Dec 2021 21:59:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1639605564;
+        bh=DVg54QbMWu+0DdObQKJN9dF5Q1puv+DkorrIi0OFPFw=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=VZkjPXSi+PKmQfTY3OXjEFGlXW2uD/kzBLrimazVJbPzcfud+jl81BX41iCcMEd8s
+         cVR8upjEpWY577HmriQTkSCzTyR5DPqJFW6+h0xGRMa0jhXa+egPUl44MkKcUUuYMp
+         oHZ4bZJgFgy+I1zPjCynd7G2J/GneX5J+SvysYv4rfVDmaZHWZYF3lg8wCZcmNSfBz
+         +6TQScSMXyclEt318c9dWMBNkHxov8H43aFqm5eB7mqd7ovh7/5kAR/V0EWGUEvz/n
+         ucpIZOe7c1pcX8DaI4R4Xx8Q5cL8M1P+WdGJGs50NTmu9j7izUvksfr1cEeugES6CI
+         mvrp+V7gD5sRw==
+Date:   Wed, 15 Dec 2021 16:05:05 -0600
+From:   "Gustavo A. R. Silva" <gustavoars@kernel.org>
+To:     Kees Cook <keescook@chromium.org>
+Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Mark Brown <broonie@kernel.org>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>
-Cc:     Hans de Goede <hdegoede@redhat.com>, Len Brown <lenb@kernel.org>,
-        linux-acpi@vger.kernel.org, platform-driver-x86@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
         Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Kate Hsuan <hpa@redhat.com>, linux-media@vger.kernel.org,
-        linux-clk@vger.kernel.org
-Subject: [GIT PULL] Immutable branch with INT3472 ACPI/i2c + pdx86 patches
-Date:   Wed, 15 Dec 2021 22:52:12 +0100
-Message-Id: <20211215215212.321235-1-hdegoede@redhat.com>
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-hardening@vger.kernel.org
+Subject: Re: [PATCH] media: omap3isp: Use struct_group() for memcpy() region
+Message-ID: <20211215220505.GB21862@embeddedor>
+References: <20211118184352.1284792-1-keescook@chromium.org>
+ <20211213232416.GA60133@embeddedor>
+ <202112150937.8E4974D35@keescook>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <202112150937.8E4974D35@keescook>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hello clk, regulator and media maintainers,
+On Wed, Dec 15, 2021 at 09:38:55AM -0800, Kees Cook wrote:
+> On Mon, Dec 13, 2021 at 05:24:16PM -0600, Gustavo A. R. Silva wrote:
+> > On Thu, Nov 18, 2021 at 10:43:52AM -0800, Kees Cook wrote:
+> > > In preparation for FORTIFY_SOURCE performing compile-time and run-time
+> > > field bounds checking for memcpy(), memmove(), and memset(), avoid
+> > > intentionally writing across neighboring fields. Wrap the target region
+> > > in struct_group(). This additionally fixes a theoretical misalignment
+> > > of the copy (since the size of "buf" changes between 64-bit and 32-bit,
+> > > but this is likely never built for 64-bit).
+> > > 
+> > > FWIW, I think this code is totally broken on 64-bit (which appears to
+> > > not be a "real" build configuration): it would either always fail (with
+> > > an uninitialized data->buf_size) or would cause corruption in userspace
+> > > due to the copy_to_user() in the call path against an uninitialized
+> > > data->buf value:
+> > > 
+> > > omap3isp_stat_request_statistics_time32(...)
+> > >     struct omap3isp_stat_data data64;
+> > >     ...
+> > >     omap3isp_stat_request_statistics(stat, &data64);
+> > > 
+> > > int omap3isp_stat_request_statistics(struct ispstat *stat,
+> > >                                      struct omap3isp_stat_data *data)
+> > >     ...
+> > >     buf = isp_stat_buf_get(stat, data);
+> > > 
+> > > static struct ispstat_buffer *isp_stat_buf_get(struct ispstat *stat,
+> > >                                                struct omap3isp_stat_data *data)
+> > > ...
+> > >     if (buf->buf_size > data->buf_size) {
+> > >             ...
+> > >             return ERR_PTR(-EINVAL);
+> > >     }
+> > >     ...
+> > >     rval = copy_to_user(data->buf,
+> > >                         buf->virt_addr,
+> > >                         buf->buf_size);
+> > > 
+> > > Regardless, additionally initialize data64 to be zero-filled to avoid
+> > > undefined behavior.
+> > > 
+> > > Fixes: 378e3f81cb56 ("media: omap3isp: support 64-bit version of omap3isp_stat_data")
+> > > Signed-off-by: Kees Cook <keescook@chromium.org>
 
-As discussed here is a pull-req from an immutable branch based on 5.16-rc1
-with the ACPI/i2c, tps68470 and pdx86/INT3472 changes necessary as a base
-to merge the remaining clk / regulator / media changes from my
-[PATCH v7 00/14] Add support for X86/ACPI camera sensor/PMIC setup with clk and regulator platform data
-series. The remaining changes are:
+Reviewed-by: Gustavo A. R. Silva <gustavoars@kernel.org>
 
-[PATCH v7 05/14] regulator: Introduce tps68470-regulator driver
-[PATCH v7 06/14] clk: Introduce clk-tps68470 driver
-[PATCH v7 12/14] media: ipu3-cio2: Defer probing until the PMIC is fully setup
-[PATCH v7 13/14] media: ipu3-cio2: Call cio2_bridge_init() before anything else
-[PATCH v7 14/14] media: ipu3-cio2: Add support for instantiating i2c-clients for VCMs
+> > > ---
+> > >  drivers/media/platform/omap3isp/ispstat.c |  5 +++--
+> > >  include/uapi/linux/omap3isp.h             | 21 +++++++++++++--------
+> > >  2 files changed, 16 insertions(+), 10 deletions(-)
+> > > 
+> > > diff --git a/drivers/media/platform/omap3isp/ispstat.c b/drivers/media/platform/omap3isp/ispstat.c
+> > > index 5b9b57f4d9bf..68cf68dbcace 100644
+> > > --- a/drivers/media/platform/omap3isp/ispstat.c
+> > > +++ b/drivers/media/platform/omap3isp/ispstat.c
+> > > @@ -512,7 +512,7 @@ int omap3isp_stat_request_statistics(struct ispstat *stat,
+> > >  int omap3isp_stat_request_statistics_time32(struct ispstat *stat,
+> > >  					struct omap3isp_stat_data_time32 *data)
+> > >  {
+> > > -	struct omap3isp_stat_data data64;
+> > > +	struct omap3isp_stat_data data64 = { };
+> > >  	int ret;
+> > >  
+> > >  	ret = omap3isp_stat_request_statistics(stat, &data64);
+> > > @@ -521,7 +521,8 @@ int omap3isp_stat_request_statistics_time32(struct ispstat *stat,
+> > >  
+> > >  	data->ts.tv_sec = data64.ts.tv_sec;
+> > >  	data->ts.tv_usec = data64.ts.tv_usec;
+> > > -	memcpy(&data->buf, &data64.buf, sizeof(*data) - sizeof(data->ts));
+> > > +	data->buf = (uintptr_t)data64.buf;
+> > 
+> > Shouldn't this be
+> > 
+> > 	data->buf = (uintptr_t)(void *)data64.buf;
+> > 
+> > instead?
+> 
+> This is already a void *:
+> 
+> struct omap3isp_stat_data {
+> 	...
+>         void __user *buf;
+> };
+> 
+> But I agree, the mix of structures in here is confusing! :)
 
-Please pull this immutable branch into your tree and then merge the
-remaining patches relevant for your tree on top.
+Yep; you're right. :)
 
-Regards,
-
-Hans
-
-
-The following changes since commit fa55b7dcdc43c1aa1ba12bca9d2dd4318c2a0dbf:
-
-  Linux 5.16-rc1 (2021-11-14 13:56:52 -0800)
-
-are available in the Git repository at:
-
-  git://git.kernel.org/pub/scm/linux/kernel/git/pdx86/platform-drivers-x86.git tags/platform-drivers-x86-int3472-1
-
-for you to fetch changes up to 97c2259ec7757ec24a90f0ef8fc5ea7fa1c6acca:
-
-  platform/x86: int3472: Deal with probe ordering issues (2021-12-13 11:44:51 +0100)
-
-----------------------------------------------------------------
-Signed tag for the immutable platform-drivers-x86-int3472 branch
-
-This branch contains 5.16-rc1 + the pending ACPI/i2c, tps68570 platform_data
-and INT3472 driver patches.
-
-----------------------------------------------------------------
-Hans de Goede (9):
-      ACPI: delay enumeration of devices with a _DEP pointing to an INT3472 device
-      i2c: acpi: Use acpi_dev_ready_for_enumeration() helper
-      i2c: acpi: Add i2c_acpi_new_device_by_fwnode() function
-      platform_data: Add linux/platform_data/tps68470.h file
-      platform/x86: int3472: Split into 2 drivers
-      platform/x86: int3472: Add get_sensor_adev_and_name() helper
-      platform/x86: int3472: Pass tps68470_clk_platform_data to the tps68470-regulator MFD-cell
-      platform/x86: int3472: Pass tps68470_regulator_platform_data to the tps68470-regulator MFD-cell
-      platform/x86: int3472: Deal with probe ordering issues
-
- drivers/acpi/scan.c                                |  37 +++++-
- drivers/i2c/i2c-core-acpi.c                        |  22 +++-
- drivers/platform/x86/intel/int3472/Makefile        |   9 +-
- ...472_clk_and_regulator.c => clk_and_regulator.c} |   2 +-
- drivers/platform/x86/intel/int3472/common.c        |  82 ++++++++++++
- .../{intel_skl_int3472_common.h => common.h}       |   6 +-
- .../{intel_skl_int3472_discrete.c => discrete.c}   |  51 +++++---
- .../x86/intel/int3472/intel_skl_int3472_common.c   | 106 ---------------
- .../{intel_skl_int3472_tps68470.c => tps68470.c}   |  92 +++++++++++--
- drivers/platform/x86/intel/int3472/tps68470.h      |  25 ++++
- .../x86/intel/int3472/tps68470_board_data.c        | 145 +++++++++++++++++++++
- include/acpi/acpi_bus.h                            |   5 +-
- include/linux/i2c.h                                |  17 ++-
- include/linux/platform_data/tps68470.h             |  35 +++++
- 14 files changed, 473 insertions(+), 161 deletions(-)
- rename drivers/platform/x86/intel/int3472/{intel_skl_int3472_clk_and_regulator.c => clk_and_regulator.c} (99%)
- create mode 100644 drivers/platform/x86/intel/int3472/common.c
- rename drivers/platform/x86/intel/int3472/{intel_skl_int3472_common.h => common.h} (94%)
- rename drivers/platform/x86/intel/int3472/{intel_skl_int3472_discrete.c => discrete.c} (91%)
- delete mode 100644 drivers/platform/x86/intel/int3472/intel_skl_int3472_common.c
- rename drivers/platform/x86/intel/int3472/{intel_skl_int3472_tps68470.c => tps68470.c} (56%)
- create mode 100644 drivers/platform/x86/intel/int3472/tps68470.h
- create mode 100644 drivers/platform/x86/intel/int3472/tps68470_board_data.c
- create mode 100644 include/linux/platform_data/tps68470.h
-
+Thanks
+--
+Gustavo
