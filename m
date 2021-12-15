@@ -2,170 +2,79 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B55F147524C
-	for <lists+linux-media@lfdr.de>; Wed, 15 Dec 2021 06:50:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B6E7C475251
+	for <lists+linux-media@lfdr.de>; Wed, 15 Dec 2021 06:55:53 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235735AbhLOFu2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 15 Dec 2021 00:50:28 -0500
-Received: from ewsoutbound.kpnmail.nl ([195.121.94.169]:11416 "EHLO
-        ewsoutbound.kpnmail.nl" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233488AbhLOFu2 (ORCPT
+        id S237758AbhLOFzw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 15 Dec 2021 00:55:52 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45764 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S233244AbhLOFzv (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 15 Dec 2021 00:50:28 -0500
-X-KPN-MessageId: 7889e350-5d6a-11ec-9abf-005056abad63
-Received: from smtp.kpnmail.nl (unknown [10.31.155.38])
-        by ewsoutbound.so.kpn.org (Halon) with ESMTPS
-        id 7889e350-5d6a-11ec-9abf-005056abad63;
-        Wed, 15 Dec 2021 06:47:21 +0100 (CET)
+        Wed, 15 Dec 2021 00:55:51 -0500
+Received: from mail-pf1-x436.google.com (mail-pf1-x436.google.com [IPv6:2607:f8b0:4864:20::436])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 496F5C061574
+        for <linux-media@vger.kernel.org>; Tue, 14 Dec 2021 21:55:51 -0800 (PST)
+Received: by mail-pf1-x436.google.com with SMTP id i12so19764409pfd.6
+        for <linux-media@vger.kernel.org>; Tue, 14 Dec 2021 21:55:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=xs4all.nl; s=xs4all01;
-        h=subject:to:from:date:message-id;
-        bh=L3L1XuedHjBRrm9m2rx+stlZnOLvB0/kaXKQSv7LFTs=;
-        b=kpzx3JcFTnN/cTh6UJTty4hGanIuwBghjOyfHa8IqMtdP3Aq94WNLRCF0yV4XOpLlq578NxsrAswN
-         b8aBSUo7X6ZQZtlzhzANxqvbKDSW9BS0J+giMRjLDo/DI+P++fGkjk9VgSd26q4LPKBHAjEyotNI7A
-         0gLpHq+B5fImiGePj8Hy8JDhsE329EuEHpGEKHTIdgUJSfySphqDTyD/IsbAZXwk915DCJzY6waC9K
-         3TGQErDpkOqsyrdsgnKs1XTpZW2HY+BWWKRQkHpQzRm57eHh0K0qEAs3/yzzQcz70873dmEDY1cXRk
-         OF+1c33i4j4dnO9RFEDZ02+nexTj5ng==
-Message-ID: <e72217e4-5d6a-11ec-94d2-005056abf0db@smtp.kpnmail.nl>
-X-KPN-VerifiedSender: Yes
-X-CMASSUN: 33|8HY4pIZ8HB7eBUf8l5kERBik5A2UnY/XiNZIgH8dzomrVGF2CrAPPnreVpp0t6F
- nQ4yV+xhpseCtcTtZQR8y0Q==
-X-Originating-IP: 80.101.105.217
-Received: from localhost (marune.xs4all.nl [80.101.105.217])
-        by smtp.xs4all.nl (Halon) with ESMTPSA
-        id e6f6187e-5d6a-11ec-94d2-005056abf0db;
-        Wed, 15 Dec 2021 06:50:26 +0100 (CET)
-Date:   Wed, 15 Dec 2021 06:50:26 +0100
-From:   "Hans Verkuil" <hverkuil@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: WARNINGS
+        d=google.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=or349biYLFpL+w0ZA3FfJe1BgIFAwbYkc2y2ZXxAeHw=;
+        b=kDowek4cSSKDkV4UGyJuXyqi5JIWAReO4OxHgYeFCA2HgFjEt1CmeiAM/M29ggFdWg
+         zDA/vFKSK9uddEPsw6wgIXwmAHpCHwIGsC3J/1ibKr0pCY02/gmpC/7BEgpLr/c4ATlC
+         L3nLg9A3lMltpboAcgF5Vbiohm/XRqfAc6EERoIOQoo/W0TrNgmv4Sgo3e6xJjP+J/19
+         4hBUComVDTtx8ThzXRwuIHX16u61zSn3cVAorIsKN+qBdjiiNhlbPIqoOlNh/vYW33HJ
+         9LaKqv8Cfwn8Hk4NM7gRBQU/s3wspmVc7BIW1GQm67V9cop79vBDzKcQPPSZmi3etjlo
+         An/g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=or349biYLFpL+w0ZA3FfJe1BgIFAwbYkc2y2ZXxAeHw=;
+        b=ivoxv2/5sk61uxCHG+LQAjsV/g9jmxEf8coszoWMsmvO2OFTIzLSbyfAquv/eYS+42
+         ro+tHj2L1oL64WW6irJaEDsls/JjtQDomX/3C/5g9anHTvtjFGLB54XP1XnghQE7gLiP
+         nNrJa070ArxHLmnl0n5fAYudSKTz+qVeGeCaRDWw2ZyQ5fYTlpFwFU1tlCjaSfkRpJI1
+         w4Ip4pJZkd0UG26MdV3dkN3CQXYA1digrUC3CqWdzr8yqdzNw0i2/MyhP2pxhIi76rP1
+         yoa1ryNkpISoa3SX9R5Ko5VfeVk0o597HPgGcU6IcAcA/Dbg0j5eGRJ+CaYedBUb2usB
+         vZ7w==
+X-Gm-Message-State: AOAM531ZHx5XFWzp/nBUOPbppX4QdLCDK6w6K5NIssbqUIKFZa0XuvpN
+        AEnf0zFJRxzQvZSeYaz5FbqzRQ==
+X-Google-Smtp-Source: ABdhPJxJk9jvjtHfRNmilmy4wTT3wZeaD4iKsJSZSfKzYHurbYvLQ7MyZFm9b5pPFVNOYSjjm5goIA==
+X-Received: by 2002:a63:102:: with SMTP id 2mr6802124pgb.311.1639547750606;
+        Tue, 14 Dec 2021 21:55:50 -0800 (PST)
+Received: from google.com ([2401:fa00:1:10:754d:1c44:62a9:6d30])
+        by smtp.gmail.com with ESMTPSA id k22sm1015260pfu.72.2021.12.14.21.55.48
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 14 Dec 2021 21:55:50 -0800 (PST)
+Date:   Wed, 15 Dec 2021 13:55:47 +0800
+From:   Tzung-Bi Shih <tzungbi@google.com>
+To:     Jiasheng Jiang <jiasheng@iscas.ac.cn>
+Cc:     tiffany.lin@mediatek.com, andrew-ct.chen@mediatek.com,
+        mchehab@kernel.org, matthias.bgg@gmail.com,
+        linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] media: mtk-vcodec: potential dereference of null
+ pointer
+Message-ID: <YbmDY9PbQUlHgyPF@google.com>
+References: <20211215052157.94172-1-jiasheng@iscas.ac.cn>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20211215052157.94172-1-jiasheng@iscas.ac.cn>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the kernels and architectures in the list below.
+On Wed, Dec 15, 2021 at 01:21:57PM +0800, Jiasheng Jiang wrote:
+> The return value of devm_kzalloc() needs to be checked.
+> To avoid use of null pointer in case of thefailure of alloc.
+> 
+> Fixes: 46233e91fa24 ("media: mtk-vcodec: move firmware implementations into their own files")
+> Signed-off-by: Jiasheng Jiang <jiasheng@iscas.ac.cn>
 
-Results of the daily build of media_tree:
+With a nit:
+s/thefailure/the failure/
 
-date:			Wed Dec 15 05:00:11 CET 2021
-media-tree git hash:	b9aafbd46eb92b3174781661c33bdb2c17d484f1
-media_build git hash:	c5c30e768ef3b757da479220d7a389470c3ad978
-v4l-utils git hash:	7acbf135af9c2fdc0ff27aecdd16659d1cd342b0
-edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
-gcc version:		i686-linux-gcc (GCC) 11.2.0
-sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
-sparse version:		v0.6.3-349-gb21d5e09
-smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
-smatch version:		v0.5.0-7593-g7f4b93661
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: 72fe2e990921b3757e47e6f3ea4ce8c076021161
-host hardware:		x86_64
-host os:		5.15.0-2-amd64
-
-linux-git-sh: OK
-linux-git-arm-at91: OK
-linux-git-arm-davinci: OK
-linux-git-arm-stm32: OK
-linux-git-mips: OK
-linux-git-arm-pxa: OK
-linux-git-arm-multi: OK
-linux-git-arm64: OK
-linux-git-powerpc64: OK
-linux-git-i686: OK
-linux-git-x86_64: OK
-Check COMPILE_TEST: OK
-Check for strcpy/strncpy/strlcpy: OK
-linux-4.4.283-i686: OK
-linux-4.4.283-x86_64: OK
-linux-4.5.7-i686: OK
-linux-4.5.7-x86_64: OK
-linux-4.6.7-i686: OK
-linux-4.6.7-x86_64: OK
-linux-4.7.10-i686: OK
-linux-4.7.10-x86_64: OK
-linux-4.8.17-i686: OK
-linux-4.8.17-x86_64: OK
-linux-4.9.246-i686: OK
-linux-4.9.246-x86_64: OK
-linux-4.10.17-i686: OK
-linux-4.10.17-x86_64: OK
-linux-4.11.12-i686: OK
-linux-4.11.12-x86_64: OK
-linux-4.12.14-i686: OK
-linux-4.12.14-x86_64: OK
-linux-4.13.16-i686: OK
-linux-4.13.16-x86_64: OK
-linux-4.14.246-i686: OK
-linux-4.14.246-x86_64: OK
-linux-4.15.18-i686: OK
-linux-4.15.18-x86_64: OK
-linux-4.16.18-i686: OK
-linux-4.16.18-x86_64: OK
-linux-4.17.19-i686: OK
-linux-4.17.19-x86_64: OK
-linux-4.18.20-i686: OK
-linux-4.18.20-x86_64: OK
-linux-4.19.206-i686: OK
-linux-4.19.206-x86_64: OK
-linux-4.20.17-i686: OK
-linux-4.20.17-x86_64: OK
-linux-5.0.21-i686: OK
-linux-5.0.21-x86_64: OK
-linux-5.1.21-i686: OK
-linux-5.1.21-x86_64: OK
-linux-5.2.21-i686: OK
-linux-5.2.21-x86_64: OK
-linux-5.3.18-i686: OK
-linux-5.3.18-x86_64: OK
-linux-5.4.144-i686: OK
-linux-5.4.144-x86_64: OK
-linux-5.5.19-i686: OK
-linux-5.5.19-x86_64: OK
-linux-5.6.19-i686: OK
-linux-5.6.19-x86_64: OK
-linux-5.7.19-i686: OK
-linux-5.7.19-x86_64: OK
-linux-5.8.18-i686: OK
-linux-5.8.18-x86_64: OK
-linux-5.9.16-i686: OK
-linux-5.9.16-x86_64: OK
-linux-5.10.62-i686: OK
-linux-5.10.62-x86_64: OK
-linux-5.11.22-i686: OK
-linux-5.11.22-x86_64: OK
-linux-5.12.19-i686: OK
-linux-5.12.19-x86_64: OK
-linux-5.13.14-i686: OK
-linux-5.13.14-x86_64: OK
-linux-5.14.1-i686: OK
-linux-5.14.1-x86_64: OK
-linux-5.15.1-i686: OK
-linux-5.15.1-x86_64: OK
-linux-5.16-rc1-i686: OK
-linux-5.16-rc1-x86_64: OK
-apps: OK
-spec-git: OK
-virtme: OK: Final Summary: 2989, Succeeded: 2989, Failed: 0, Warnings: 0
-virtme-32: OK: Final Summary: 3100, Succeeded: 3100, Failed: 0, Warnings: 0
-sparse: WARNINGS
-smatch: WARNINGS
-kerneldoc: WARNINGS
-
-Detailed results are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Wednesday.log
-
-Detailed regression test results are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Wednesday-test-media.log
-http://www.xs4all.nl/~hverkuil/logs/Wednesday-test-media-32.log
-http://www.xs4all.nl/~hverkuil/logs/Wednesday-test-media-dmesg.log
-
-Full logs are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Wednesday.tar.bz2
-
-The Media Infrastructure API from this daily build is here:
-
-http://www.xs4all.nl/~hverkuil/spec/index.html
+Reviewed-by: Tzung-Bi Shih <tzungbi@google.com>
