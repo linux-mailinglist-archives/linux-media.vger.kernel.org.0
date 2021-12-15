@@ -2,79 +2,99 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B6E7C475251
-	for <lists+linux-media@lfdr.de>; Wed, 15 Dec 2021 06:55:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 076CF475277
+	for <lists+linux-media@lfdr.de>; Wed, 15 Dec 2021 07:03:47 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237758AbhLOFzw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 15 Dec 2021 00:55:52 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45764 "EHLO
+        id S235732AbhLOGDp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 15 Dec 2021 01:03:45 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47574 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233244AbhLOFzv (ORCPT
+        with ESMTP id S231609AbhLOGDp (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 15 Dec 2021 00:55:51 -0500
-Received: from mail-pf1-x436.google.com (mail-pf1-x436.google.com [IPv6:2607:f8b0:4864:20::436])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 496F5C061574
-        for <linux-media@vger.kernel.org>; Tue, 14 Dec 2021 21:55:51 -0800 (PST)
-Received: by mail-pf1-x436.google.com with SMTP id i12so19764409pfd.6
-        for <linux-media@vger.kernel.org>; Tue, 14 Dec 2021 21:55:51 -0800 (PST)
+        Wed, 15 Dec 2021 01:03:45 -0500
+Received: from mail-qv1-xf30.google.com (mail-qv1-xf30.google.com [IPv6:2607:f8b0:4864:20::f30])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E77FBC061574;
+        Tue, 14 Dec 2021 22:03:44 -0800 (PST)
+Received: by mail-qv1-xf30.google.com with SMTP id i12so19387255qvh.11;
+        Tue, 14 Dec 2021 22:03:44 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=or349biYLFpL+w0ZA3FfJe1BgIFAwbYkc2y2ZXxAeHw=;
-        b=kDowek4cSSKDkV4UGyJuXyqi5JIWAReO4OxHgYeFCA2HgFjEt1CmeiAM/M29ggFdWg
-         zDA/vFKSK9uddEPsw6wgIXwmAHpCHwIGsC3J/1ibKr0pCY02/gmpC/7BEgpLr/c4ATlC
-         L3nLg9A3lMltpboAcgF5Vbiohm/XRqfAc6EERoIOQoo/W0TrNgmv4Sgo3e6xJjP+J/19
-         4hBUComVDTtx8ThzXRwuIHX16u61zSn3cVAorIsKN+qBdjiiNhlbPIqoOlNh/vYW33HJ
-         9LaKqv8Cfwn8Hk4NM7gRBQU/s3wspmVc7BIW1GQm67V9cop79vBDzKcQPPSZmi3etjlo
-         An/g==
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=00gvlCVZoUfNgXMNllOlq06WfYH2Dl5nJAnc2H0V/zY=;
+        b=aLSBeezUnCNnj/bCBkX1EsTgVKD2EOSq1GAje6VHOxZFdXqZScTUkvriUssoGFQyfO
+         zjZ8Im6yeZ7ijfyUFK7PJQSQPtgsS2DqhcdHtTaRkoiO4jFQAAckIHjcwYC1VBD2XzDo
+         qBgYRuIKIjugjtvNcOqRg7Q0PLo74VmRWf20DRDeFJhGczGs2OSCuVTn3fin70nttBMm
+         9166IUNxR8eaFTNIDRS4l4mFuAn9I5vTyqx1/MoSAz+y/l0W3CbCXi4SBBh4EDMZls3A
+         QRlYfXE7k+BDTpJc5JTe8qIwTe4y0m90NA6ijBAONQEviMU2ZbYT+VcQ+8tPc2RkQe5x
+         GM/Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=or349biYLFpL+w0ZA3FfJe1BgIFAwbYkc2y2ZXxAeHw=;
-        b=ivoxv2/5sk61uxCHG+LQAjsV/g9jmxEf8coszoWMsmvO2OFTIzLSbyfAquv/eYS+42
-         ro+tHj2L1oL64WW6irJaEDsls/JjtQDomX/3C/5g9anHTvtjFGLB54XP1XnghQE7gLiP
-         nNrJa070ArxHLmnl0n5fAYudSKTz+qVeGeCaRDWw2ZyQ5fYTlpFwFU1tlCjaSfkRpJI1
-         w4Ip4pJZkd0UG26MdV3dkN3CQXYA1digrUC3CqWdzr8yqdzNw0i2/MyhP2pxhIi76rP1
-         yoa1ryNkpISoa3SX9R5Ko5VfeVk0o597HPgGcU6IcAcA/Dbg0j5eGRJ+CaYedBUb2usB
-         vZ7w==
-X-Gm-Message-State: AOAM531ZHx5XFWzp/nBUOPbppX4QdLCDK6w6K5NIssbqUIKFZa0XuvpN
-        AEnf0zFJRxzQvZSeYaz5FbqzRQ==
-X-Google-Smtp-Source: ABdhPJxJk9jvjtHfRNmilmy4wTT3wZeaD4iKsJSZSfKzYHurbYvLQ7MyZFm9b5pPFVNOYSjjm5goIA==
-X-Received: by 2002:a63:102:: with SMTP id 2mr6802124pgb.311.1639547750606;
-        Tue, 14 Dec 2021 21:55:50 -0800 (PST)
-Received: from google.com ([2401:fa00:1:10:754d:1c44:62a9:6d30])
-        by smtp.gmail.com with ESMTPSA id k22sm1015260pfu.72.2021.12.14.21.55.48
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=00gvlCVZoUfNgXMNllOlq06WfYH2Dl5nJAnc2H0V/zY=;
+        b=B/5PxAFNI9wPftBZYFJCFdLJgRpCm/9CKXEAjbTtdyDU2fIzN/PSLWeOiBRmv/QFwH
+         iTeJO2iRsrKVLC4vu4lgmDL+RxWnfJukVqTO3anxIyFOiM9c6tVAkrzITWs8R+AWDvgq
+         XVEEBWuO7gEdmL5QQKQJ/D6zBm1gOiA5YYsMjqmR00zvKQiDhPtQPDLuvXYNqw0BrPdZ
+         y1lX9gHGZA0WsMHYZu7Iwumqh1JWViPj6W+gDgdnRqoGl2dh6zCgEp3qigudjMLusEyN
+         5xtokqdLPESBaL7jrZpWE1KIUk68i3poXYqO6fzP2dtA9cmkd4dWCGOQhiV/sbqplLYu
+         UtYw==
+X-Gm-Message-State: AOAM533qIbylXzk4lKVsFGwyUEtCWshHQtd4HkXdxqln2CwdIPMNpp5y
+        ccd0pho7klkEFy9kV5XUj88=
+X-Google-Smtp-Source: ABdhPJxky32i2ceyaBkcawpbUORnlOolabOZmtCf4ffSu5T0Y4eZkjDb1LJMY3itCtAnyEKlAiotwg==
+X-Received: by 2002:a05:6214:4005:: with SMTP id kd5mr982227qvb.80.1639548223748;
+        Tue, 14 Dec 2021 22:03:43 -0800 (PST)
+Received: from localhost.localdomain ([193.203.214.57])
+        by smtp.gmail.com with ESMTPSA id y6sm723746qtn.23.2021.12.14.22.03.41
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 14 Dec 2021 21:55:50 -0800 (PST)
-Date:   Wed, 15 Dec 2021 13:55:47 +0800
-From:   Tzung-Bi Shih <tzungbi@google.com>
-To:     Jiasheng Jiang <jiasheng@iscas.ac.cn>
-Cc:     tiffany.lin@mediatek.com, andrew-ct.chen@mediatek.com,
-        mchehab@kernel.org, matthias.bgg@gmail.com,
-        linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] media: mtk-vcodec: potential dereference of null
- pointer
-Message-ID: <YbmDY9PbQUlHgyPF@google.com>
-References: <20211215052157.94172-1-jiasheng@iscas.ac.cn>
+        Tue, 14 Dec 2021 22:03:43 -0800 (PST)
+From:   cgel.zte@gmail.com
+X-Google-Original-From: chi.minghao@zte.com.cn
+To:     prabhakar.csengg@gmail.com
+Cc:     mchehab@kernel.org, linux-media@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Minghao Chi <chi.minghao@zte.com.cn>,
+        Zeal Robot <zealci@zte.com.cn>
+Subject: [PATCH platform-next] media/platform: remove redundant bpp variable
+Date:   Wed, 15 Dec 2021 06:03:39 +0000
+Message-Id: <20211215060339.441820-1-chi.minghao@zte.com.cn>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20211215052157.94172-1-jiasheng@iscas.ac.cn>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Dec 15, 2021 at 01:21:57PM +0800, Jiasheng Jiang wrote:
-> The return value of devm_kzalloc() needs to be checked.
-> To avoid use of null pointer in case of thefailure of alloc.
-> 
-> Fixes: 46233e91fa24 ("media: mtk-vcodec: move firmware implementations into their own files")
-> Signed-off-by: Jiasheng Jiang <jiasheng@iscas.ac.cn>
+From: Minghao Chi <chi.minghao@zte.com.cn>
 
-With a nit:
-s/thefailure/the failure/
+Return value directly instead of taking this in another
+redundant variable.
 
-Reviewed-by: Tzung-Bi Shih <tzungbi@google.com>
+Reported-by: Zeal Robot <zealci@zte.com.cn>
+Signed-off-by: Minghao Chi <chi.minghao@zte.com.cn>
+---
+ drivers/media/platform/am437x/am437x-vpfe.c | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
+
+diff --git a/drivers/media/platform/am437x/am437x-vpfe.c b/drivers/media/platform/am437x/am437x-vpfe.c
+index 2dfae9bc0bba..dc3ef0708f14 100644
+--- a/drivers/media/platform/am437x/am437x-vpfe.c
++++ b/drivers/media/platform/am437x/am437x-vpfe.c
+@@ -143,13 +143,12 @@ static unsigned int __get_bytesperpixel(struct vpfe_device *vpfe,
+ {
+ 	struct vpfe_subdev_info *sdinfo = vpfe->current_subdev;
+ 	unsigned int bus_width = sdinfo->vpfe_param.bus_width;
+-	u32 bpp, bus_width_bytes, clocksperpixel;
++	u32 bus_width_bytes, clocksperpixel;
+ 
+ 	bus_width_bytes = ALIGN(bus_width, 8) >> 3;
+ 	clocksperpixel = DIV_ROUND_UP(fmt->bitsperpixel, bus_width);
+-	bpp = clocksperpixel * bus_width_bytes;
+ 
+-	return bpp;
++	return clocksperpixel * bus_width_bytes;
+ }
+ 
+ /*  Print Four-character-code (FOURCC) */
+-- 
+2.25.1
+
