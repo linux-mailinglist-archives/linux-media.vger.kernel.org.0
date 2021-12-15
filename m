@@ -2,72 +2,184 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 81335475413
-	for <lists+linux-media@lfdr.de>; Wed, 15 Dec 2021 09:07:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9AC1047541F
+	for <lists+linux-media@lfdr.de>; Wed, 15 Dec 2021 09:13:34 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236164AbhLOIHS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 15 Dec 2021 03:07:18 -0500
-Received: from relay036.a.hostedemail.com ([64.99.140.36]:4968 "EHLO
-        relay.hostedemail.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S236140AbhLOIHR (ORCPT
+        id S240731AbhLOINd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 15 Dec 2021 03:13:33 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48578 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S235661AbhLOINc (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 15 Dec 2021 03:07:17 -0500
-Received: from omf18.hostedemail.com (a10.router.float.18 [10.200.18.1])
-        by unirelay02.hostedemail.com (Postfix) with ESMTP id 536E0220BF;
-        Wed, 15 Dec 2021 08:07:16 +0000 (UTC)
-Received: from [HIDDEN] (Authenticated sender: joe@perches.com) by omf18.hostedemail.com (Postfix) with ESMTPA id 3DB5F3B;
-        Wed, 15 Dec 2021 08:07:15 +0000 (UTC)
-Message-ID: <8541216a98a1a68fe6c339096e5e148a40b414e2.camel@perches.com>
-Subject: Re: [PATCH] media: i2c: ov8865: Neaten unnecessary indentation
-From:   Joe Perches <joe@perches.com>
-To:     Sakari Ailus <sakari.ailus@iki.fi>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
-        linux-media <linux-media@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>
-Date:   Wed, 15 Dec 2021 00:07:14 -0800
-In-Reply-To: <Ybmgwo/6bQXtaT35@valkosipuli.retiisi.eu>
-References: <c6189daaac183ddf51da1444c597d8577c1ac416.camel@perches.com>
-         <Ya9SlGo5HZpOXTmZ@valkosipuli.retiisi.eu>
-         <f02e4204284af7ea848027a67cb1e907fb7d4403.camel@perches.com>
-         <Ybmgwo/6bQXtaT35@valkosipuli.retiisi.eu>
-Content-Type: text/plain; charset="ISO-8859-1"
-User-Agent: Evolution 3.40.4-1ubuntu2 
+        Wed, 15 Dec 2021 03:13:32 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A95BCC061574
+        for <linux-media@vger.kernel.org>; Wed, 15 Dec 2021 00:13:32 -0800 (PST)
+Received: from [192.168.1.111] (91-156-85-209.elisa-laajakaista.fi [91.156.85.209])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 60704292;
+        Wed, 15 Dec 2021 09:13:30 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1639556010;
+        bh=W6/z8l5hwgC0nO4sFZ+2y/FDLQ89+LfiVsw0kmIqh7M=;
+        h=To:Cc:References:From:Subject:Date:In-Reply-To:From;
+        b=eivfwnPaImHhAr0Tz/V/uL0yRLRa+qouxooLeyqMbTKzW6oxhex/DqBy0d0LWuXUm
+         cgbW0c3BOMcmfmmw7AYj3QG2e2oFxyQqTpPN8ANnZBgK1GgsbpdjTzR2SXm6GxPEwi
+         nZrmTB7j81ePFEZPL+i7FsimNXFgLAbS+9EeTFf4=
+To:     Jacopo Mondi <jacopo@jmondi.org>
+Cc:     linux-media@vger.kernel.org, sakari.ailus@linux.intel.com,
+        Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        niklas.soderlund+renesas@ragnatech.se,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Pratyush Yadav <p.yadav@ti.com>
+References: <20211130141536.891878-1-tomi.valkeinen@ideasonboard.com>
+ <20211130141536.891878-4-tomi.valkeinen@ideasonboard.com>
+ <20211214071317.mfgbokmab3uvbfoq@uno.localdomain>
+From:   Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Subject: Re: [PATCH v10 03/38] media: subdev: pass also the active state to
+ subdevs from ioctls
+Message-ID: <7c3964d5-20d6-babb-2460-3674ab9a6a24@ideasonboard.com>
+Date:   Wed, 15 Dec 2021 10:13:27 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-Rspamd-Queue-Id: 3DB5F3B
-X-Spam-Status: No, score=-4.88
-X-Stat-Signature: km5npprd61ewifgnwhqgxggaz4ngo19e
-X-Rspamd-Server: rspamout02
-X-Session-Marker: 6A6F6540706572636865732E636F6D
-X-Session-ID: U2FsdGVkX1+1G938b2DUMZ6I57iIh8PxrMvSJ4wkvwo=
-X-HE-Tag: 1639555635-293209
+In-Reply-To: <20211214071317.mfgbokmab3uvbfoq@uno.localdomain>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, 2021-12-15 at 10:01 +0200, Sakari Ailus wrote:
-> Hi Joe
-> 
-> On Tue, Dec 07, 2021 at 06:47:45AM -0800, Joe Perches wrote:
-> > On Tue, 2021-12-07 at 14:24 +0200, Sakari Ailus wrote:
-> > > Hi Joe (and Paul),
-> > 
-> > > I guess this patch is fine as such but there seems to be a problem in error
-> > > handling here: all regulators are disabled if there's a problem enabling
-> > > one of them.
-> > > 
-> > > Would it be possible to fix this as well?
-> > 
-> > I've no hardware to test, so I've no idea if that's the right thing to do.
-> 
-> I don't have the hardware either.
-> 
-> But I can tell that you shouldn't disable a regulator you haven't enabled
-> to begin with. Bugs (fixes of which probably should go to stable trees)
-> need to be fixed before reworking the code.
+Hi,
 
-I'm just fixing the ugly code.
-You are welcome to fix what you believe to be logical defects.
+On 14/12/2021 09:13, Jacopo Mondi wrote:
+> Hi Tomi
+> 
+> On Tue, Nov 30, 2021 at 04:15:01PM +0200, Tomi Valkeinen wrote:
+>> At the moment when a subdev op is called, the TRY subdev state
+>> (subdev_fh->state) is passed as a parameter even for the ACTIVE case, or
+>> alternatively a NULL can be passed for ACTIVE case. This used to make
+>> sense, as the ACTIVE state was handled internally by the subdev drivers.
+>>
+>> We now have a state for the ACTIVE case in a standard place, and can
+>> pass that also to the drivers. This patch changes the subdev ioctls to
+>> either pass the TRY or ACTIVE state to the subdev.
+>>
+>> Unfortunately many drivers call ops from other subdevs, and implicitly
+>> pass NULL as the state, so this is just a partial solution. A coccinelle
+>> spatch could perhaps be created which fixes the drivers' subdev calls.
+>>
+>> For all current upstream drivers this doesn't matter, as they do not
+>> expect to get a valid state for ACTIVE case. But future drivers which
+>> support multiplexed streaming and routing will depend on getting a state
+>> for both active and try cases.
+>>
+>> For new drivers we can mandate that the pipelines where the drivers are
+>> used need to pass the state properly, or preferably, not call such
+>> subdev ops at all.
+>>
+>> However, if an existing subdev driver is changed to support multiplexed
+>> streams, the driver has to consider cases where its ops will be called
+>> with NULL state. The problem can easily be solved by using the
+>> v4l2_subdev_validate_and_lock_state() helper, introduced in a follow up
+> 
+> Now called v4l2_subdev_lock_and_return_state() and introduced in a
+> previous patch.
 
+Ah, right.
 
+> I would still push for state-aware subdev drivers to BUG() on !state
+> and tell them to fix the caller. Is this too harsh ?
+
+I think so. We can't break currently working drivers.
+
+>> patch.
+>>
+>> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+>> Reviewed-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+>> ---
+>>   drivers/media/v4l2-core/v4l2-subdev.c | 73 +++++++++++++++++++++++----
+>>   1 file changed, 63 insertions(+), 10 deletions(-)
+>>
+>> diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
+>> index de160140d63b..3289875d9ec1 100644
+>> --- a/drivers/media/v4l2-core/v4l2-subdev.c
+>> +++ b/drivers/media/v4l2-core/v4l2-subdev.c
+>> @@ -353,6 +353,53 @@ const struct v4l2_subdev_ops v4l2_subdev_call_wrappers = {
+>>   EXPORT_SYMBOL(v4l2_subdev_call_wrappers);
+>>
+>>   #if defined(CONFIG_VIDEO_V4L2_SUBDEV_API)
+>> +
+>> +static struct v4l2_subdev_state *
+>> +subdev_ioctl_get_state(struct v4l2_subdev *sd, struct v4l2_subdev_fh *subdev_fh,
+>> +		       unsigned int cmd, void *arg)
+>> +{
+>> +	u32 which;
+>> +
+>> +	switch (cmd) {
+>> +	default:
+>> +		return NULL;
+>> +
+>> +	case VIDIOC_SUBDEV_G_FMT:
+>> +	case VIDIOC_SUBDEV_S_FMT: {
+>> +		which = ((struct v4l2_subdev_format *)arg)->which;
+>> +		break;
+>> +	}
+>> +	case VIDIOC_SUBDEV_G_CROP:
+>> +	case VIDIOC_SUBDEV_S_CROP: {
+>> +		which = ((struct v4l2_subdev_crop *)arg)->which;
+>> +		break;
+>> +	}
+>> +	case VIDIOC_SUBDEV_ENUM_MBUS_CODE: {
+>> +		which = ((struct v4l2_subdev_mbus_code_enum *)arg)->which;
+>> +		break;
+>> +	}
+>> +	case VIDIOC_SUBDEV_ENUM_FRAME_SIZE: {
+>> +		which = ((struct v4l2_subdev_frame_size_enum *)arg)->which;
+>> +		break;
+>> +	}
+> 
+> No need for braces if I'm not mistaken, and also some blocks are
+> followed by an empty line some or not.
+
+Ok.
+
+>> +
+>> +	case VIDIOC_SUBDEV_ENUM_FRAME_INTERVAL: {
+>> +		which = ((struct v4l2_subdev_frame_interval_enum *)arg)->which;
+>> +		break;
+>> +	}
+>> +
+>> +	case VIDIOC_SUBDEV_G_SELECTION:
+>> +	case VIDIOC_SUBDEV_S_SELECTION: {
+>> +		which = ((struct v4l2_subdev_selection *)arg)->which;
+>> +		break;
+>> +	}
+>> +	}
+>> +
+>> +	return which == V4L2_SUBDEV_FORMAT_TRY ?
+>> +			     subdev_fh->state :
+>> +			     v4l2_subdev_get_active_state(sd);
+>> +}
+>> +
+>>   static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg)
+>>   {
+>>   	struct video_device *vdev = video_devdata(file);
+>> @@ -360,8 +407,11 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg)
+>>   	struct v4l2_fh *vfh = file->private_data;
+>>   	struct v4l2_subdev_fh *subdev_fh = to_v4l2_subdev_fh(vfh);
+>>   	bool ro_subdev = test_bit(V4L2_FL_SUBDEV_RO_DEVNODE, &vdev->flags);
+>> +	struct v4l2_subdev_state *state;
+>>   	int rval;
+>>
+>> +	state = subdev_ioctl_get_state(sd, subdev_fh, cmd, arg);
+>> +
+> 
+> There's a possibility NULL is returned if a new subdev_fh is added and
+> the above not updated. Should we BUG_ON() ?
+
+NULL is fine, as not all ioctls need a state.
+
+  Tomi
