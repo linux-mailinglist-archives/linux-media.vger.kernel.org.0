@@ -2,190 +2,246 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6B356474ED1
-	for <lists+linux-media@lfdr.de>; Wed, 15 Dec 2021 01:02:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 503B647504C
+	for <lists+linux-media@lfdr.de>; Wed, 15 Dec 2021 02:13:00 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233381AbhLOAB7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 14 Dec 2021 19:01:59 -0500
-Received: from mga04.intel.com ([192.55.52.120]:6580 "EHLO mga04.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S234272AbhLOAB5 (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Tue, 14 Dec 2021 19:01:57 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1639526517; x=1671062517;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Fb2cVcz4LwC7zZEOQweYUdwyszIStBC9RhYXkmAbPrA=;
-  b=n0QJURbn+PGSpiniOaAw/Mq64yxE5PRb7JutMeyrvVFNqhY9SBbT+mwM
-   xGF/eTQwE5AG0iH1YCa7PUDm7nsqnnS7JmLw39R5tj/gKphvCR3XHtT45
-   QDmMMPB2n4IXldKshNXtySTa2G/pNslqHP8oAPeMQk5u1IV08khTDbpGT
-   e1wkxeBBfwC+dF1fFm0/kJ8wo4eV4CKxxDlnHUwJdN+5A6rXQa6ad58Pt
-   BPqPwkxS36PlpxZgAcw0Ep+0aMUtmYEY2cGteeEuIxx7zn/MLueSfQsbF
-   RFMEht2bL5LlT5v8OBrZ7eCtfagLi1//WkyLrbdjGzxQ6ya/I7O0kKbVz
-   A==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10197"; a="237846488"
-X-IronPort-AV: E=Sophos;i="5.88,206,1635231600"; 
-   d="scan'208";a="237846488"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Dec 2021 16:01:37 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.88,206,1635231600"; 
-   d="scan'208";a="661675155"
-Received: from lkp-server02.sh.intel.com (HELO 9f38c0981d9f) ([10.239.97.151])
-  by fmsmga001.fm.intel.com with ESMTP; 14 Dec 2021 16:01:35 -0800
-Received: from kbuild by 9f38c0981d9f with local (Exim 4.92)
-        (envelope-from <lkp@intel.com>)
-        id 1mxHjj-0000x0-3Q; Wed, 15 Dec 2021 00:01:35 +0000
-Date:   Wed, 15 Dec 2021 08:00:38 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linuxtv-commits@linuxtv.org
-Cc:     kbuild-all@lists.01.org, linux-media@vger.kernel.org,
-        Bogdan Togorean <bogdan.togorean@analog.com>,
-        linux-kernel@vger.kernel.org
-Subject: Re: [git:media_stage/master] media: i2c: Add driver for the Analog
- Devices ADDI9036 ToF front-end
-Message-ID: <202112150733.a6LCjbXP-lkp@intel.com>
-References: <E1mx7hB-002ppP-O7@www.linuxtv.org>
+        id S239017AbhLOBGK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 14 Dec 2021 20:06:10 -0500
+Received: from twspam01.aspeedtech.com ([211.20.114.71]:45952 "EHLO
+        twspam01.aspeedtech.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S235365AbhLOBFy (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Tue, 14 Dec 2021 20:05:54 -0500
+Received: from mail.aspeedtech.com ([192.168.0.24])
+        by twspam01.aspeedtech.com with ESMTP id 1BF0dDeu017400;
+        Wed, 15 Dec 2021 08:39:13 +0800 (GMT-8)
+        (envelope-from jammy_huang@aspeedtech.com)
+Received: from [192.168.2.115] (192.168.2.115) by TWMBX02.aspeed.com
+ (192.168.0.24) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Wed, 15 Dec
+ 2021 09:04:35 +0800
+Message-ID: <387e8181-c943-9372-48b1-3caadac4caac@aspeedtech.com>
+Date:   Wed, 15 Dec 2021 09:04:36 +0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <E1mx7hB-002ppP-O7@www.linuxtv.org>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.3.2
+Subject: Re: [PATCH] media: aspeed: Use runtime configuration
+Content-Language: en-US
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>
+CC:     "eajames@linux.ibm.com" <eajames@linux.ibm.com>,
+        "joel@jms.id.au" <joel@jms.id.au>,
+        "andrew@aj.id.au" <andrew@aj.id.au>,
+        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+        "openbmc@lists.ozlabs.org" <openbmc@lists.ozlabs.org>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>,
+        "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+References: <20211207015544.1755-1-jammy_huang@aspeedtech.com>
+ <20211214161216.607df557@coco.lan>
+From:   Jammy Huang <jammy_huang@aspeedtech.com>
+In-Reply-To: <20211214161216.607df557@coco.lan>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [192.168.2.115]
+X-ClientProxiedBy: TWMBX02.aspeed.com (192.168.0.24) To TWMBX02.aspeed.com
+ (192.168.0.24)
+X-DNSRBL: 
+X-MAIL: twspam01.aspeedtech.com 1BF0dDeu017400
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
 Hi Mauro,
 
-I love your patch! Yet something to improve:
+OK, I didn't notice previouso one has been applied.
+Thank you.
 
-[auto build test ERROR on media-tree/master]
-[also build test ERROR on linux/master linus/master v5.16-rc5 next-20211213]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch]
+On 2021/12/14 下午 11:12, Mauro Carvalho Chehab wrote:
+> Hi Jammy,
+>
+> A different version of this patch was already applied. If it still makes
+> change, please rebase this one on the top of the media upstream and
+> re-send.
+>
+> Thanks,
+> Mauro
+>
+> Em Tue, 7 Dec 2021 09:55:44 +0800
+> Jammy Huang <jammy_huang@aspeedtech.com> escreveu:
+>
+>> The aspeed video IP has some differences between SoC families. Currently
+>> the driver decides which registers to use at compile time, which means
+>> a single kernel can not be used between platforms.
+>>
+>> Switch to using runtime configuration of the registers that vary between
+>> SoC families.
+>>
+>> Signed-off-by: Joel Stanley <joel@jms.id.au>
+>> Signed-off-by: Jammy Huang <jammy_huang@aspeedtech.com>
+>> ---
+>>   drivers/media/platform/aspeed-video.c | 71 ++++++++++++++++++++-------
+>>   1 file changed, 52 insertions(+), 19 deletions(-)
+>>
+>> diff --git a/drivers/media/platform/aspeed-video.c b/drivers/media/platform/aspeed-video.c
+>> index d2335d669fb3..ba8ee82b38c3 100644
+>> --- a/drivers/media/platform/aspeed-video.c
+>> +++ b/drivers/media/platform/aspeed-video.c
+>> @@ -75,11 +75,8 @@
+>>   #define  VE_SEQ_CTRL_CAP_BUSY		BIT(16)
+>>   #define  VE_SEQ_CTRL_COMP_BUSY		BIT(18)
+>>   
+>> -#ifdef CONFIG_MACH_ASPEED_G4
+>> -#define  VE_SEQ_CTRL_JPEG_MODE		BIT(8)	/* AST2400 */
+>> -#else
+>> -#define  VE_SEQ_CTRL_JPEG_MODE		BIT(13)	/* AST2500/2600 */
+>> -#endif
+>> +#define AST2500_VE_SEQ_CTRL_JPEG_MODE	BIT(13)
+>> +#define AST2400_VE_SEQ_CTRL_JPEG_MODE	BIT(8)
+>>   
+>>   #define VE_CTRL				0x008
+>>   #define  VE_CTRL_HSYNC_POL		BIT(0)
+>> @@ -136,9 +133,8 @@
+>>   #define  VE_COMP_CTRL_HQ_DCT_CHR	GENMASK(26, 22)
+>>   #define  VE_COMP_CTRL_HQ_DCT_LUM	GENMASK(31, 27)
+>>   
+>> -#define VE_OFFSET_COMP_STREAM		0x078
+>> -
+>> -#define VE_JPEG_COMP_SIZE_READ_BACK	0x084
+>> +#define AST2400_VE_COMP_SIZE_READ_BACK	0x078
+>> +#define AST2600_VE_COMP_SIZE_READ_BACK	0x084
+>>   
+>>   #define VE_SRC_LR_EDGE_DET		0x090
+>>   #define  VE_SRC_LR_EDGE_DET_LEFT	GENMASK(11, 0)
+>> @@ -233,6 +229,8 @@ struct aspeed_video {
+>>   	struct video_device vdev;
+>>   	struct mutex video_lock;	/* v4l2 and videobuf2 lock */
+>>   
+>> +	struct aspeed_video_config config;
+>> +
+>>   	wait_queue_head_t wait;
+>>   	spinlock_t lock;		/* buffer list lock */
+>>   	struct delayed_work res_work;
+>> @@ -258,6 +256,30 @@ struct aspeed_video {
+>>   
+>>   #define to_aspeed_video(x) container_of((x), struct aspeed_video, v4l2_dev)
+>>   
+>> +struct aspeed_video_config {
+>> +	u32 version;
+>> +	u32 jpeg_mode;
+>> +	u32 comp_size_read;
+>> +};
+>> +
+>> +static const struct aspeed_video_config ast2400_config = {
+>> +	.version = 4,
+>> +	.jpeg_mode = AST2400_VE_SEQ_CTRL_JPEG_MODE,
+>> +	.comp_size_read = AST2400_VE_COMP_SIZE_READ_BACK,
+>> +};
+>> +
+>> +static const struct aspeed_video_config ast2500_config = {
+>> +	.version = 5,
+>> +	.jpeg_mode = AST2500_VE_SEQ_CTRL_JPEG_MODE,
+>> +	.comp_size_read = AST2400_VE_COMP_SIZE_READ_BACK,
+>> +};
+>> +
+>> +static const struct aspeed_video_config ast2600_config = {
+>> +	.version = 6,
+>> +	.jpeg_mode = AST2500_VE_SEQ_CTRL_JPEG_MODE,
+>> +	.comp_size_read = AST2600_VE_COMP_SIZE_READ_BACK,
+>> +};
+>> +
+>>   static const u32 aspeed_video_jpeg_header[ASPEED_VIDEO_JPEG_HEADER_SIZE] = {
+>>   	0xe0ffd8ff, 0x464a1000, 0x01004649, 0x60000101, 0x00006000, 0x0f00feff,
+>>   	0x00002d05, 0x00000000, 0x00000000, 0x00dbff00
+>> @@ -640,7 +662,7 @@ static irqreturn_t aspeed_video_irq(int irq, void *arg)
+>>   	if (sts & VE_INTERRUPT_COMP_COMPLETE) {
+>>   		struct aspeed_video_buffer *buf;
+>>   		u32 frame_size = aspeed_video_read(video,
+>> -						   VE_JPEG_COMP_SIZE_READ_BACK);
+>> +						   video->config.comp_size_read);
+>>   
+>>   		update_perf(&video->perf);
+>>   
+>> @@ -973,7 +995,7 @@ static void aspeed_video_update_regs(struct aspeed_video *video)
+>>   		FIELD_PREP(VE_COMP_CTRL_DCT_LUM, video->jpeg_quality) |
+>>   		FIELD_PREP(VE_COMP_CTRL_DCT_CHR, video->jpeg_quality | 0x10);
+>>   	u32 ctrl = 0;
+>> -	u32 seq_ctrl = VE_SEQ_CTRL_JPEG_MODE;
+>> +	u32 seq_ctrl = video->config.jpeg_mode;
+>>   
+>>   	v4l2_dbg(1, debug, &video->v4l2_dev, "framerate(%d)\n",
+>>   		 video->frame_rate);
+>> @@ -993,7 +1015,7 @@ static void aspeed_video_update_regs(struct aspeed_video *video)
+>>   
+>>   	/* Set control registers */
+>>   	aspeed_video_update(video, VE_SEQ_CTRL,
+>> -			    VE_SEQ_CTRL_JPEG_MODE | VE_SEQ_CTRL_YUV420,
+>> +			    video->config.jpeg_mode | VE_SEQ_CTRL_YUV420,
+>>   			    seq_ctrl);
+>>   	aspeed_video_update(video, VE_CTRL, VE_CTRL_FRC, ctrl);
+>>   	aspeed_video_update(video, VE_COMP_CTRL,
+>> @@ -1790,8 +1812,18 @@ static int aspeed_video_init(struct aspeed_video *video)
+>>   	return rc;
+>>   }
+>>   
+>> +static const struct of_device_id aspeed_video_of_match[] = {
+>> +	{ .compatible = "aspeed,ast2400-video-engine", .data = &ast2400_config },
+>> +	{ .compatible = "aspeed,ast2500-video-engine", .data = &ast2500_config },
+>> +	{ .compatible = "aspeed,ast2600-video-engine", .data = &ast2600_config },
+>> +	{}
+>> +};
+>> +MODULE_DEVICE_TABLE(of, aspeed_video_of_match);
+>> +
+>>   static int aspeed_video_probe(struct platform_device *pdev)
+>>   {
+>> +	const struct aspeed_video_config *config;
+>> +	const struct of_device_id *match;
+>>   	int rc;
+>>   	struct resource *res;
+>>   	struct aspeed_video *video =
+>> @@ -1815,6 +1847,13 @@ static int aspeed_video_probe(struct platform_device *pdev)
+>>   	if (IS_ERR(video->base))
+>>   		return PTR_ERR(video->base);
+>>   
+>> +	match = of_match_node(aspeed_video_of_match, pdev->dev.of_node);
+>> +	if (!match)
+>> +		return -EINVAL;
+>> +
+>> +	config = match->data;
+>> +	video->config = *config;
+>> +
+>>   	rc = aspeed_video_init(video);
+>>   	if (rc)
+>>   		return rc;
+>> @@ -1828,6 +1867,8 @@ static int aspeed_video_probe(struct platform_device *pdev)
+>>   
+>>   	aspeed_video_debugfs_create(video);
+>>   
+>> +	dev_info(video->dev, "compatible for g%d\n", config->version);
+>> +
+>>   	return 0;
+>>   }
+>>   
+>> @@ -1860,14 +1901,6 @@ static int aspeed_video_remove(struct platform_device *pdev)
+>>   	return 0;
+>>   }
+>>   
+>> -static const struct of_device_id aspeed_video_of_match[] = {
+>> -	{ .compatible = "aspeed,ast2400-video-engine" },
+>> -	{ .compatible = "aspeed,ast2500-video-engine" },
+>> -	{ .compatible = "aspeed,ast2600-video-engine" },
+>> -	{}
+>> -};
+>> -MODULE_DEVICE_TABLE(of, aspeed_video_of_match);
+>> -
+>>   static struct platform_driver aspeed_video_driver = {
+>>   	.driver = {
+>>   		.name = DEVICE_NAME,
+>
+>
+> Thanks,
+> Mauro
 
-url:    https://github.com/0day-ci/linux/commits/Mauro-Carvalho-Chehab/media-i2c-Add-driver-for-the-Analog-Devices-ADDI9036-ToF-front-end/20211214-211851
-base:   git://linuxtv.org/media_tree.git master
-config: nios2-allyesconfig (https://download.01.org/0day-ci/archive/20211215/202112150733.a6LCjbXP-lkp@intel.com/config)
-compiler: nios2-linux-gcc (GCC) 11.2.0
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/0day-ci/linux/commit/ec03b2029965b84eff6a7d1e8fe130330c3e69ed
-        git remote add linux-review https://github.com/0day-ci/linux
-        git fetch --no-tags linux-review Mauro-Carvalho-Chehab/media-i2c-Add-driver-for-the-Analog-Devices-ADDI9036-ToF-front-end/20211214-211851
-        git checkout ec03b2029965b84eff6a7d1e8fe130330c3e69ed
-        # save the config file to linux build tree
-        mkdir build_dir
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-11.2.0 make.cross O=build_dir ARCH=nios2 SHELL=/bin/bash
+-- 
+Best Regards
+Jammy
 
-If you fix the issue, kindly add following tag as appropriate
-Reported-by: kernel test robot <lkp@intel.com>
-
-All errors (new ones prefixed by >>):
-
-   drivers/media/i2c/addi9036.c: In function 'addi9036_get_pad_format':
->> drivers/media/i2c/addi9036.c:310:66: error: passing argument 2 of 'v4l2_subdev_get_try_format' from incompatible pointer type [-Werror=incompatible-pointer-types]
-     310 |                 return v4l2_subdev_get_try_format(&addi9036->sd, cfg, pad);
-         |                                                                  ^~~
-         |                                                                  |
-         |                                                                  struct v4l2_subdev_pad_config *
-   In file included from drivers/media/i2c/addi9036.c:17:
-   include/media/v4l2-subdev.h:995:54: note: expected 'struct v4l2_subdev_state *' but argument is of type 'struct v4l2_subdev_pad_config *'
-     995 |                            struct v4l2_subdev_state *state,
-         |                            ~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~
-   drivers/media/i2c/addi9036.c: In function 'addi9036_get_pad_crop':
->> drivers/media/i2c/addi9036.c:342:64: error: passing argument 2 of 'v4l2_subdev_get_try_crop' from incompatible pointer type [-Werror=incompatible-pointer-types]
-     342 |                 return v4l2_subdev_get_try_crop(&addi9036->sd, cfg, pad);
-         |                                                                ^~~
-         |                                                                |
-         |                                                                struct v4l2_subdev_pad_config *
-   In file included from drivers/media/i2c/addi9036.c:17:
-   include/media/v4l2-subdev.h:1013:52: note: expected 'struct v4l2_subdev_state *' but argument is of type 'struct v4l2_subdev_pad_config *'
-    1013 |                          struct v4l2_subdev_state *state,
-         |                          ~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~
-   drivers/media/i2c/addi9036.c: At top level:
->> drivers/media/i2c/addi9036.c:521:35: error: initialization of 'int (*)(struct v4l2_subdev *, struct v4l2_subdev_state *)' from incompatible pointer type 'int (*)(struct v4l2_subdev *, struct v4l2_subdev_pad_config *)' [-Werror=incompatible-pointer-types]
-     521 |         .init_cfg               = addi9036_entity_init_cfg,
-         |                                   ^~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/i2c/addi9036.c:521:35: note: (near initialization for 'addi9036_subdev_pad_ops.init_cfg')
->> drivers/media/i2c/addi9036.c:522:35: error: initialization of 'int (*)(struct v4l2_subdev *, struct v4l2_subdev_state *, struct v4l2_subdev_mbus_code_enum *)' from incompatible pointer type 'int (*)(struct v4l2_subdev *, struct v4l2_subdev_pad_config *, struct v4l2_subdev_mbus_code_enum *)' [-Werror=incompatible-pointer-types]
-     522 |         .enum_mbus_code         = addi9036_enum_mbus_code,
-         |                                   ^~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/i2c/addi9036.c:522:35: note: (near initialization for 'addi9036_subdev_pad_ops.enum_mbus_code')
->> drivers/media/i2c/addi9036.c:523:35: error: initialization of 'int (*)(struct v4l2_subdev *, struct v4l2_subdev_state *, struct v4l2_subdev_frame_size_enum *)' from incompatible pointer type 'int (*)(struct v4l2_subdev *, struct v4l2_subdev_pad_config *, struct v4l2_subdev_frame_size_enum *)' [-Werror=incompatible-pointer-types]
-     523 |         .enum_frame_size        = addi9036_enum_frame_size,
-         |                                   ^~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/i2c/addi9036.c:523:35: note: (near initialization for 'addi9036_subdev_pad_ops.enum_frame_size')
->> drivers/media/i2c/addi9036.c:524:35: error: initialization of 'int (*)(struct v4l2_subdev *, struct v4l2_subdev_state *, struct v4l2_subdev_format *)' from incompatible pointer type 'int (*)(struct v4l2_subdev *, struct v4l2_subdev_pad_config *, struct v4l2_subdev_format *)' [-Werror=incompatible-pointer-types]
-     524 |         .get_fmt                = addi9036_get_format,
-         |                                   ^~~~~~~~~~~~~~~~~~~
-   drivers/media/i2c/addi9036.c:524:35: note: (near initialization for 'addi9036_subdev_pad_ops.get_fmt')
-   drivers/media/i2c/addi9036.c:525:35: error: initialization of 'int (*)(struct v4l2_subdev *, struct v4l2_subdev_state *, struct v4l2_subdev_format *)' from incompatible pointer type 'int (*)(struct v4l2_subdev *, struct v4l2_subdev_pad_config *, struct v4l2_subdev_format *)' [-Werror=incompatible-pointer-types]
-     525 |         .set_fmt                = addi9036_set_format,
-         |                                   ^~~~~~~~~~~~~~~~~~~
-   drivers/media/i2c/addi9036.c:525:35: note: (near initialization for 'addi9036_subdev_pad_ops.set_fmt')
->> drivers/media/i2c/addi9036.c:526:35: error: initialization of 'int (*)(struct v4l2_subdev *, struct v4l2_subdev_state *, struct v4l2_subdev_selection *)' from incompatible pointer type 'int (*)(struct v4l2_subdev *, struct v4l2_subdev_pad_config *, struct v4l2_subdev_selection *)' [-Werror=incompatible-pointer-types]
-     526 |         .get_selection          = addi9036_get_selection,
-         |                                   ^~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/i2c/addi9036.c:526:35: note: (near initialization for 'addi9036_subdev_pad_ops.get_selection')
-   cc1: some warnings being treated as errors
-
-
-vim +/v4l2_subdev_get_try_format +310 drivers/media/i2c/addi9036.c
-
-   302	
-   303	static struct v4l2_mbus_framefmt *
-   304	addi9036_get_pad_format(struct addi9036 *addi9036,
-   305				struct v4l2_subdev_pad_config *cfg, unsigned int pad,
-   306				enum v4l2_subdev_format_whence which)
-   307	{
-   308		switch (which) {
-   309		case V4L2_SUBDEV_FORMAT_TRY:
- > 310			return v4l2_subdev_get_try_format(&addi9036->sd, cfg, pad);
-   311		case V4L2_SUBDEV_FORMAT_ACTIVE:
-   312			return &addi9036->fmt;
-   313		default:
-   314			return ERR_PTR(-EINVAL);
-   315		}
-   316	}
-   317	
-   318	static int addi9036_get_format(struct v4l2_subdev *sd,
-   319				       struct v4l2_subdev_pad_config *cfg,
-   320				       struct v4l2_subdev_format *format)
-   321	{
-   322		struct addi9036 *addi9036 = to_addi9036(sd);
-   323		struct v4l2_mbus_framefmt *pad_format;
-   324	
-   325		pad_format = addi9036_get_pad_format(addi9036, cfg, format->pad,
-   326						     format->which);
-   327		if (IS_ERR(pad_format))
-   328			return PTR_ERR(pad_format);
-   329	
-   330		format->format = *pad_format;
-   331	
-   332		return 0;
-   333	}
-   334	
-   335	static struct v4l2_rect *
-   336	addi9036_get_pad_crop(struct addi9036 *addi9036,
-   337			      struct v4l2_subdev_pad_config *cfg,
-   338			      unsigned int pad, enum v4l2_subdev_format_whence which)
-   339	{
-   340		switch (which) {
-   341		case V4L2_SUBDEV_FORMAT_TRY:
- > 342			return v4l2_subdev_get_try_crop(&addi9036->sd, cfg, pad);
-   343		case V4L2_SUBDEV_FORMAT_ACTIVE:
-   344			return &addi9036->crop;
-   345		default:
-   346			return ERR_PTR(-EINVAL);
-   347		}
-   348	}
-   349	
-
----
-0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
