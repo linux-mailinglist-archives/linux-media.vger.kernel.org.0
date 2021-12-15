@@ -2,136 +2,153 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id EE49E475E9B
-	for <lists+linux-media@lfdr.de>; Wed, 15 Dec 2021 18:25:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 98E86475F80
+	for <lists+linux-media@lfdr.de>; Wed, 15 Dec 2021 18:39:48 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S245501AbhLORXV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 15 Dec 2021 12:23:21 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35140 "EHLO
+        id S235126AbhLORi5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 15 Dec 2021 12:38:57 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39198 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S245351AbhLORXE (ORCPT
+        with ESMTP id S234826AbhLORi4 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 15 Dec 2021 12:23:04 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DB456C06173E;
-        Wed, 15 Dec 2021 09:23:03 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id A68DFB82023;
-        Wed, 15 Dec 2021 17:23:02 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EF635C36AE4;
-        Wed, 15 Dec 2021 17:23:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1639588981;
-        bh=pdD7OQqmkY5962sRXlSmyDA9SqmytB67ve9HECdPo18=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=vFbw96Esg00XHt7eiHJXPW+MSx+Bq8zKzXs5IU8njLHe5mQ7uAfiu8eCy180zbNL7
-         X9ewroQe8v/Z3tdZJkXY2arJxWrFo4iBtgGhWx9B+f9Stf7evgL7MdAlnVDPr9b40C
-         2c1JEs3Os1MbHeqxm3e+WjlMASi5VnUiI0IfIkWQ=
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     linux-kernel@vger.kernel.org
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        stable@vger.kernel.org, Rui Miguel Silva <rmfrfs@gmail.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Wed, 15 Dec 2021 12:38:56 -0500
+Received: from mail-pf1-x434.google.com (mail-pf1-x434.google.com [IPv6:2607:f8b0:4864:20::434])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 99EDFC06173F
+        for <linux-media@vger.kernel.org>; Wed, 15 Dec 2021 09:38:56 -0800 (PST)
+Received: by mail-pf1-x434.google.com with SMTP id z6so21313854pfe.7
+        for <linux-media@vger.kernel.org>; Wed, 15 Dec 2021 09:38:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=7d470J2+oFZT41mCZ376rK26LqeNBavtRleay07yiuU=;
+        b=ShKjENR921vHVi9BK4jRMiwapa1k1KK+vUxc53wDkqYIuBKVCsl4RQNh41pHh9gfN5
+         qBefYvjITmGgqIUmdTaO3akklhgd2jqjoY7Sa/qBBt3yNmmox7DCb2eM2/1tgN/DXO6d
+         9KqCMg3X2smyr6MIrrwuUnfuQY52i4tM9nxkY=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=7d470J2+oFZT41mCZ376rK26LqeNBavtRleay07yiuU=;
+        b=ruoALuijVy0XOEXkmySrBKMg2jYC4eD1SMO1N5X2vPaTdpcyq1j58fVs5Fwkfmx3Vf
+         wbcCHERp0lWQwPtOvg4M19MLt+on6tKIAddcrC3lLXGtotUQMIK4P0boIAIVcmgIiFKL
+         BfNp9Ygqq2yoeoCdvqFknmMe2i0tZHcxxrs863ae0yMYNOq3uSP1qgsoW0v0DS5JFQzw
+         us1VAJS7qa0obJ7uMiFzPatpq+myYsozpz8KKYOLr/JWEVY8nTXfM/gLIGmEmOHj9Ow7
+         l5OtR4VfH6cKgCGMks8l5dGCdC1c/zXNBUuj6R/qq1qMp8gT4tlypeih0S6vKYEie++z
+         b5EQ==
+X-Gm-Message-State: AOAM533Ok927iRekIYseqvpWUDchxgcrnNY4YPIqh3Hlvi/jaoZXQF1q
+        oWX24VVFYv2kw8a753HPvBpzRw==
+X-Google-Smtp-Source: ABdhPJynliM9cHiw8dNrLv4gGNPzE8G4eePKE155CqEwxDkieosnFXcYTf2FunPD85TdO0YqxHJ12Q==
+X-Received: by 2002:a63:1f16:: with SMTP id f22mr8437116pgf.259.1639589936105;
+        Wed, 15 Dec 2021 09:38:56 -0800 (PST)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+        by smtp.gmail.com with ESMTPSA id w37sm2853924pgk.87.2021.12.15.09.38.55
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 15 Dec 2021 09:38:55 -0800 (PST)
+Date:   Wed, 15 Dec 2021 09:38:55 -0800
+From:   Kees Cook <keescook@chromium.org>
+To:     "Gustavo A. R. Silva" <gustavoars@kernel.org>
+Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        Rob Herring <robh@kernel.org>, Sasha Levin <sashal@kernel.org>
-Subject: [PATCH 5.15 08/42] dt-bindings: media: nxp,imx7-mipi-csi2: Drop bad if/then schema
-Date:   Wed, 15 Dec 2021 18:20:49 +0100
-Message-Id: <20211215172026.927622164@linuxfoundation.org>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20211215172026.641863587@linuxfoundation.org>
-References: <20211215172026.641863587@linuxfoundation.org>
-User-Agent: quilt/0.66
+        Arnd Bergmann <arnd@arndb.de>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-hardening@vger.kernel.org
+Subject: Re: [PATCH] media: omap3isp: Use struct_group() for memcpy() region
+Message-ID: <202112150937.8E4974D35@keescook>
+References: <20211118184352.1284792-1-keescook@chromium.org>
+ <20211213232416.GA60133@embeddedor>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20211213232416.GA60133@embeddedor>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Rob Herring <robh@kernel.org>
+On Mon, Dec 13, 2021 at 05:24:16PM -0600, Gustavo A. R. Silva wrote:
+> On Thu, Nov 18, 2021 at 10:43:52AM -0800, Kees Cook wrote:
+> > In preparation for FORTIFY_SOURCE performing compile-time and run-time
+> > field bounds checking for memcpy(), memmove(), and memset(), avoid
+> > intentionally writing across neighboring fields. Wrap the target region
+> > in struct_group(). This additionally fixes a theoretical misalignment
+> > of the copy (since the size of "buf" changes between 64-bit and 32-bit,
+> > but this is likely never built for 64-bit).
+> > 
+> > FWIW, I think this code is totally broken on 64-bit (which appears to
+> > not be a "real" build configuration): it would either always fail (with
+> > an uninitialized data->buf_size) or would cause corruption in userspace
+> > due to the copy_to_user() in the call path against an uninitialized
+> > data->buf value:
+> > 
+> > omap3isp_stat_request_statistics_time32(...)
+> >     struct omap3isp_stat_data data64;
+> >     ...
+> >     omap3isp_stat_request_statistics(stat, &data64);
+> > 
+> > int omap3isp_stat_request_statistics(struct ispstat *stat,
+> >                                      struct omap3isp_stat_data *data)
+> >     ...
+> >     buf = isp_stat_buf_get(stat, data);
+> > 
+> > static struct ispstat_buffer *isp_stat_buf_get(struct ispstat *stat,
+> >                                                struct omap3isp_stat_data *data)
+> > ...
+> >     if (buf->buf_size > data->buf_size) {
+> >             ...
+> >             return ERR_PTR(-EINVAL);
+> >     }
+> >     ...
+> >     rval = copy_to_user(data->buf,
+> >                         buf->virt_addr,
+> >                         buf->buf_size);
+> > 
+> > Regardless, additionally initialize data64 to be zero-filled to avoid
+> > undefined behavior.
+> > 
+> > Fixes: 378e3f81cb56 ("media: omap3isp: support 64-bit version of omap3isp_stat_data")
+> > Signed-off-by: Kees Cook <keescook@chromium.org>
+> > ---
+> >  drivers/media/platform/omap3isp/ispstat.c |  5 +++--
+> >  include/uapi/linux/omap3isp.h             | 21 +++++++++++++--------
+> >  2 files changed, 16 insertions(+), 10 deletions(-)
+> > 
+> > diff --git a/drivers/media/platform/omap3isp/ispstat.c b/drivers/media/platform/omap3isp/ispstat.c
+> > index 5b9b57f4d9bf..68cf68dbcace 100644
+> > --- a/drivers/media/platform/omap3isp/ispstat.c
+> > +++ b/drivers/media/platform/omap3isp/ispstat.c
+> > @@ -512,7 +512,7 @@ int omap3isp_stat_request_statistics(struct ispstat *stat,
+> >  int omap3isp_stat_request_statistics_time32(struct ispstat *stat,
+> >  					struct omap3isp_stat_data_time32 *data)
+> >  {
+> > -	struct omap3isp_stat_data data64;
+> > +	struct omap3isp_stat_data data64 = { };
+> >  	int ret;
+> >  
+> >  	ret = omap3isp_stat_request_statistics(stat, &data64);
+> > @@ -521,7 +521,8 @@ int omap3isp_stat_request_statistics_time32(struct ispstat *stat,
+> >  
+> >  	data->ts.tv_sec = data64.ts.tv_sec;
+> >  	data->ts.tv_usec = data64.ts.tv_usec;
+> > -	memcpy(&data->buf, &data64.buf, sizeof(*data) - sizeof(data->ts));
+> > +	data->buf = (uintptr_t)data64.buf;
+> 
+> Shouldn't this be
+> 
+> 	data->buf = (uintptr_t)(void *)data64.buf;
+> 
+> instead?
 
-[ Upstream commit b54472a02cefd0dc468158bbc4d636b27cd6fc34 ]
+This is already a void *:
 
-The if/then schema for 'data-lanes' doesn't work as 'compatible' is at a
-different level than 'data-lanes'. To make it work, the if/then schema
-would have to be moved to the top level and then whole hierarchy of
-nodes down to 'data-lanes' created. I don't think it is worth the
-complexity to do that, so let's just drop it.
+struct omap3isp_stat_data {
+	...
+        void __user *buf;
+};
 
-The error in this schema is masked by a fixup in the tools causing the
-'allOf' to get overwritten. Removing the fixup as part of moving to
-json-schema draft 2019-09 revealed the issue:
+But I agree, the mix of structures in here is confusing! :)
 
-Documentation/devicetree/bindings/media/nxp,imx7-mipi-csi2.example.dt.yaml: mipi-csi@30750000: ports:port@0:endpoint:data-lanes:0: [1] is too short
-	From schema: /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/media/nxp,imx7-mipi-csi2.yaml
-Documentation/devicetree/bindings/media/nxp,imx7-mipi-csi2.example.dt.yaml: mipi-csi@32e30000: ports:port@0:endpoint:data-lanes:0: [1, 2, 3, 4] is too long
-	From schema: /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/media/nxp,imx7-mipi-csi2.yaml
+-Kees
 
-The if condition was always true because 'compatible' did not exist in
-'endpoint' node and a non-existent property is true for json-schema.
-
-Fixes: 85b62ff2cb97 ("media: dt-bindings: media: nxp,imx7-mipi-csi2: Add i.MX8MM support")
-Cc: Rui Miguel Silva <rmfrfs@gmail.com>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: Shawn Guo <shawnguo@kernel.org>
-Cc: Sascha Hauer <s.hauer@pengutronix.de>
-Cc: Pengutronix Kernel Team <kernel@pengutronix.de>
-Cc: Fabio Estevam <festevam@gmail.com>
-Cc: NXP Linux Team <linux-imx@nxp.com>
-Cc: linux-media@vger.kernel.org
-Cc: linux-arm-kernel@lists.infradead.org
-Signed-off-by: Rob Herring <robh@kernel.org>
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Acked-by: Rui Miguel Silva <rmfrfs@gmail.com>
-Link: https://lore.kernel.org/r/20211203164828.187642-1-robh@kernel.org
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- .../bindings/media/nxp,imx7-mipi-csi2.yaml         | 14 ++------------
- 1 file changed, 2 insertions(+), 12 deletions(-)
-
-diff --git a/Documentation/devicetree/bindings/media/nxp,imx7-mipi-csi2.yaml b/Documentation/devicetree/bindings/media/nxp,imx7-mipi-csi2.yaml
-index 877183cf42787..1ef849dc74d7e 100644
---- a/Documentation/devicetree/bindings/media/nxp,imx7-mipi-csi2.yaml
-+++ b/Documentation/devicetree/bindings/media/nxp,imx7-mipi-csi2.yaml
-@@ -79,6 +79,8 @@ properties:
- 
-             properties:
-               data-lanes:
-+                description:
-+                  Note that 'fsl,imx7-mipi-csi2' only supports up to 2 data lines.
-                 items:
-                   minItems: 1
-                   maxItems: 4
-@@ -91,18 +93,6 @@ properties:
-             required:
-               - data-lanes
- 
--            allOf:
--              - if:
--                  properties:
--                    compatible:
--                      contains:
--                        const: fsl,imx7-mipi-csi2
--                then:
--                  properties:
--                    data-lanes:
--                      items:
--                        maxItems: 2
--
-       port@1:
-         $ref: /schemas/graph.yaml#/properties/port
-         description:
 -- 
-2.33.0
-
-
-
+Kees Cook
