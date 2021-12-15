@@ -2,119 +2,112 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3CFE547538D
-	for <lists+linux-media@lfdr.de>; Wed, 15 Dec 2021 08:14:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2AB474753A3
+	for <lists+linux-media@lfdr.de>; Wed, 15 Dec 2021 08:26:33 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240460AbhLOHOr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 15 Dec 2021 02:14:47 -0500
-Received: from mga03.intel.com ([134.134.136.65]:62426 "EHLO mga03.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S240324AbhLOHOr (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 15 Dec 2021 02:14:47 -0500
-X-IronPort-AV: E=McAfee;i="6200,9189,10198"; a="239116968"
-X-IronPort-AV: E=Sophos;i="5.88,207,1635231600"; 
-   d="scan'208";a="239116968"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Dec 2021 23:14:47 -0800
-X-IronPort-AV: E=Sophos;i="5.88,207,1635231600"; 
-   d="scan'208";a="753265360"
-Received: from paasikivi.fi.intel.com ([10.237.72.42])
-  by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Dec 2021 23:14:44 -0800
-Received: from paasikivi.fi.intel.com (localhost [127.0.0.1])
-        by paasikivi.fi.intel.com (Postfix) with SMTP id 2B42920657;
-        Wed, 15 Dec 2021 09:14:42 +0200 (EET)
-Date:   Wed, 15 Dec 2021 09:14:42 +0200
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Bingbu Cao <bingbu.cao@linux.intel.com>
-Cc:     Bingbu Cao <bingbu.cao@intel.com>, linux-media@vger.kernel.org,
-        rafael@kernel.org, shawnx.tu@intel.com, tian.shu.qiu@intel.com,
-        chiranjeevi.rapolu@intel.com, hyungwoo.yang@intel.com,
-        tfiga@chromium.org, senozhatsky@chromium.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 4/6] media: imx208: Support device probe in non-zero ACPI
- D state
-Message-ID: <YbmV4hHrixPAeQYD@paasikivi.fi.intel.com>
-References: <1636447715-15526-1-git-send-email-bingbu.cao@intel.com>
- <1636447715-15526-5-git-send-email-bingbu.cao@intel.com>
- <Ybi/b0QYV2BwSbQk@paasikivi.fi.intel.com>
- <374d87f4-a3e5-fbaa-b4eb-c1ac1bd983dd@linux.intel.com>
+        id S240513AbhLOH03 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 15 Dec 2021 02:26:29 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38036 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S233441AbhLOH03 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Wed, 15 Dec 2021 02:26:29 -0500
+Received: from mail-wm1-x333.google.com (mail-wm1-x333.google.com [IPv6:2a00:1450:4864:20::333])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0410DC061574;
+        Tue, 14 Dec 2021 23:26:29 -0800 (PST)
+Received: by mail-wm1-x333.google.com with SMTP id p27-20020a05600c1d9b00b0033bf8532855so15357445wms.3;
+        Tue, 14 Dec 2021 23:26:28 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=D0S+D/FQRGuVQki4kVkJvs2fOsfa72Dpr2oChnts0Ws=;
+        b=WdvxT3AHJGP0FowpHfoyKjf86KJRfCJAo/ZMy1uiUGYvBdjJz1KMfHcZpwGLL02iDY
+         LGQBRYY0VSUkJEoQzSxVYxpVBRtd1e/sBUegdImeVx0q4CJpoU6k6rUcdrq3SUcmQisw
+         vw7hP0NS8pijMK5dor9haSYxpq9sbmZ0wlhtL9+Y0BxxX7UOV1wiFdHQyQIuFkBmc8pC
+         b1mJ4svz1jKQ8KIsmrxneYddmK5bcBxfJfrt4GF/2TA/e76pwK7wi/kvk8/xHnSJGcVc
+         eBc5+0SSDcblNb6RLcuZlVyqil5g0chWhrvys2q35nitr5GWVolEFRIk1qiNtOyz8AXk
+         mczg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=D0S+D/FQRGuVQki4kVkJvs2fOsfa72Dpr2oChnts0Ws=;
+        b=oX1fXPm+s+VBjyX2aThWs1rEvsSoAn5uck1+FScpTPhJtu5+CbXNuwFVDqBw2y2jl6
+         UP4wxYcFBqLO7KKnMJOsALMZpsLawFjRb3LYjHVGDy4FQM7Sl3CTHw1BcWSO3No9AuqS
+         /zJk6svrQUeP/E0fdiXUBmJdaDd5gIqvj1RqtYEHTegEEwhaJ02T5ik+02jiVHsDzMpo
+         kueqoK3NEN8JfBmMEzgQAc4agLvYJjAu8nhKDVWQz7agtdbUeiytop3vfI0A6RXoO0PB
+         ddNyYt28QA0IB2jST7odzVOId1ZXfgpdqzAQwxOOTyHDiIcuJBYZ80rS4ZY+NDWk6RWw
+         /brw==
+X-Gm-Message-State: AOAM533jaOgv3YB3ul2nUFnVvz4rQ06bxAUtt/h+ZkP+5/hd0aWIZwVH
+        lQ5d8vgQyeXPHVjETlCsTj0=
+X-Google-Smtp-Source: ABdhPJy/GrSOOMdxeif45fSIo768/oWC9Ngyny3KxPbnBtG8e2Huth5hWJoCBpOteRbxOktqQt0SOA==
+X-Received: by 2002:a1c:1fc2:: with SMTP id f185mr3189608wmf.149.1639553187498;
+        Tue, 14 Dec 2021 23:26:27 -0800 (PST)
+Received: from localhost.localdomain ([217.113.240.86])
+        by smtp.gmail.com with ESMTPSA id f7sm1283383wri.74.2021.12.14.23.26.26
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 14 Dec 2021 23:26:26 -0800 (PST)
+From:   =?UTF-8?q?Jos=C3=A9=20Exp=C3=B3sito?= <jose.exposito89@gmail.com>
+To:     laurent.pinchart@ideasonboard.com
+Cc:     mchehab@kernel.org, linux-media@vger.kernel.org,
+        linux-kernel@vger.kernel.org, ribalda@chromium.org,
+        =?UTF-8?q?Jos=C3=A9=20Exp=C3=B3sito?= <jose.exposito89@gmail.com>
+Subject: [PATCH v2] media: uvcvideo: Fix memory leak in uvc_gpio_parse
+Date:   Wed, 15 Dec 2021 08:26:18 +0100
+Message-Id: <20211215072618.7646-1-jose.exposito89@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <374d87f4-a3e5-fbaa-b4eb-c1ac1bd983dd@linux.intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Bingbu,
+Previously the unit buffer was allocated before checking the IRQ for
+privacy GPIO.
+In case of error, the unit buffer was leaked.
 
-On Wed, Dec 15, 2021 at 11:13:03AM +0800, Bingbu Cao wrote:
-> 
-> 
-> On 12/14/21 11:59 PM, Sakari Ailus wrote:
-> > Hi Bingbu,
-> > 
-> > On Tue, Nov 09, 2021 at 04:48:33PM +0800, Bingbu Cao wrote:
-> >> Tell ACPI device PM code that the driver supports the device being in
-> >> non-zero ACPI D state when the driver's probe function is entered.
-> >>
-> >> Also do identification on the first access of the device, whether in probe
-> >> or when starting streaming.
-> >>
-> >> Signed-off-by: Bingbu Cao <bingbu.cao@intel.com>
-> >> ---
-> >>  drivers/media/i2c/imx208.c | 77 +++++++++++++++++++++++++++++-----------------
-> >>  1 file changed, 48 insertions(+), 29 deletions(-)
-> >>
-> >> diff --git a/drivers/media/i2c/imx208.c b/drivers/media/i2c/imx208.c
-> >> index 6f3d9c1b5879..b9f6d5f33b58 100644
-> >> --- a/drivers/media/i2c/imx208.c
-> >> +++ b/drivers/media/i2c/imx208.c
-> >> @@ -296,6 +296,9 @@ struct imx208 {
-> >>  	/* OTP data */
-> >>  	bool otp_read;
-> >>  	char otp_data[IMX208_OTP_SIZE];
-> >> +
-> >> +	/* True if the device has been identified */
-> >> +	bool identified;
-> >>  };
-> >>  
-> >>  static inline struct imx208 *to_imx208(struct v4l2_subdev *_sd)
-> >> @@ -619,6 +622,34 @@ static int imx208_set_pad_format(struct v4l2_subdev *sd,
-> >>  	return 0;
-> >>  }
-> >>  
-> >> +static int imx208_identify_module(struct imx208 *imx208)
-> >> +{
-> >> +	struct i2c_client *client = v4l2_get_subdevdata(&imx208->sd);
-> >> +	int ret;
-> >> +	u32 val;
-> >> +
-> >> +	if (imx208->identified)
-> >> +		return 0;
-> > 
-> > Otp access requires this as well.
-> 
-> Sakari, thanks for your review.
-> 
-> Yes, OTP read will trigger the LED blink, but I am not sure it makes sense that camera
-> framework try to read the OTP data without streaming, and it would complain once fail to
-> access the OTP data.
+Allocate the unit buffer after the IRQ to avoid it.
 
-That might be the case, but the interface this driver provides is
-accessible in the user space before streaming is enabled. Accessing
-sensor's other registers shouldn't be done before the sensor is identified.
+Addresses-Coverity-ID: 1474639 ("Resource leak")
+Fixes: 2886477ff987 ("media: uvcvideo: Implement UVC_EXT_GPIO_UNIT")
+Signed-off-by: José Expósito <jose.exposito89@gmail.com>
+Reviewed-by: Ricardo Ribalda <ribalda@chromium.org>
 
-> > 
-> > How about adding a runtime PM resume callback for this?
-> 
-> For the runtime PM callback, what is the benefit adding a callback here as will call try
-> pm_runtime_get_sync() each stream on?
+---
 
-My suggestion is to identify the sensor from the runtime PM resume callback
-(which this driver doesn't have yet), i.e. not here.
+v2: Add Fixes and Reviewed-by tags
+---
+ drivers/media/usb/uvc/uvc_driver.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
+diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc_driver.c
+index 7c007426e082..9e83e2002710 100644
+--- a/drivers/media/usb/uvc/uvc_driver.c
++++ b/drivers/media/usb/uvc/uvc_driver.c
+@@ -1533,10 +1533,6 @@ static int uvc_gpio_parse(struct uvc_device *dev)
+ 	if (IS_ERR_OR_NULL(gpio_privacy))
+ 		return PTR_ERR_OR_ZERO(gpio_privacy);
+ 
+-	unit = uvc_alloc_entity(UVC_EXT_GPIO_UNIT, UVC_EXT_GPIO_UNIT_ID, 0, 1);
+-	if (!unit)
+-		return -ENOMEM;
+-
+ 	irq = gpiod_to_irq(gpio_privacy);
+ 	if (irq < 0) {
+ 		if (irq != EPROBE_DEFER)
+@@ -1545,6 +1541,10 @@ static int uvc_gpio_parse(struct uvc_device *dev)
+ 		return irq;
+ 	}
+ 
++	unit = uvc_alloc_entity(UVC_EXT_GPIO_UNIT, UVC_EXT_GPIO_UNIT_ID, 0, 1);
++	if (!unit)
++		return -ENOMEM;
++
+ 	unit->gpio.gpio_privacy = gpio_privacy;
+ 	unit->gpio.irq = irq;
+ 	unit->gpio.bControlSize = 1;
 -- 
-Kind regards,
+2.25.1
 
-Sakari Ailus
