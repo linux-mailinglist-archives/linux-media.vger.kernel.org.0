@@ -2,201 +2,190 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CB10A474EA9
-	for <lists+linux-media@lfdr.de>; Wed, 15 Dec 2021 00:41:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6B356474ED1
+	for <lists+linux-media@lfdr.de>; Wed, 15 Dec 2021 01:02:02 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235169AbhLNXlb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 14 Dec 2021 18:41:31 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47254 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234368AbhLNXla (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Tue, 14 Dec 2021 18:41:30 -0500
-Received: from mail-wr1-x432.google.com (mail-wr1-x432.google.com [IPv6:2a00:1450:4864:20::432])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 45805C061574
-        for <linux-media@vger.kernel.org>; Tue, 14 Dec 2021 15:41:30 -0800 (PST)
-Received: by mail-wr1-x432.google.com with SMTP id v11so35071686wrw.10
-        for <linux-media@vger.kernel.org>; Tue, 14 Dec 2021 15:41:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-transfer-encoding:content-language;
-        bh=WBK9ujCDquphOcxIQprqcX8PBsYrqY9YsFZztCmyu+w=;
-        b=J/+KgmOZx0YEhVBC7ORIVWiXCntUsExUoUlJkmWAGpGaguA5CDHCj8HEvwBPEgrbq3
-         UrgZ6myH4S5nUSZGvfjwpFlVFFP0jBdyFKmDW/zrv+oCfB1WCWlrmOyKhyxgtkKJTyu1
-         y4r7vgoqYU3cAoxKwMA69rC/y1/Cbbz6i4mR/dIPJI9YOCfigLz0GLW38MTo8z/OxgKc
-         ecb0ArEQZUDXo2e8v8Lg8KREU6jxljy/zZSaY7dmTUMgQeNr56hwwG2ewStD4o3NTa8i
-         0mC9i8U7Gtl5Tkojks19FhNwTb+DjogY51votEXtqGTcZFy2JGvoIPR0PYk5fr4B8XHm
-         6MVA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-transfer-encoding
-         :content-language;
-        bh=WBK9ujCDquphOcxIQprqcX8PBsYrqY9YsFZztCmyu+w=;
-        b=3PKfqH697hOb5n0o7iJmYi3MHLaF2f14XG5J/EMjLGbEJ21uXvm6QnmZnPXHe9N0f5
-         M2FSiISybORX1KUGqUm6O0tHqugp4ztr6mTCWn6+ASpfOfLa63xiN+hnoqceY/8uW3MN
-         sHRy86E61hecEJyKZCh5dWfM7wR4/GHOrO0nPdxcVv5oFJIuvlD6uuMSS7S8Uv0JqRqr
-         q0O95uhOAS39nJ88qWmDStsEGyT8NS7AZga0tqk9dn1PPVHX8+E7mgSMwlkPOuVBwThS
-         mRBT4EjPzbBgP1TXcIOuMp/26XGMOK5z6ZWya/3fL15qREA0+2YR94VCs16Tv69Ni8HK
-         b2SQ==
-X-Gm-Message-State: AOAM531p1NRFZWXGgpcCrAL9+TDBNPA2p58+Tjp/0uSalC6BucrSPLOA
-        K8aoo9dS7VnZzZcXTK4NgguI4fUARGQ=
-X-Google-Smtp-Source: ABdhPJyrPUAXlrNwrLSNpDogiN1Qn8r4voz8GFUDBsOXg108m5oiR4+mErISzycCgyuU5FD8DHJ2Pg==
-X-Received: by 2002:a05:6000:1788:: with SMTP id e8mr2073411wrg.45.1639525288776;
-        Tue, 14 Dec 2021 15:41:28 -0800 (PST)
-Received: from [192.168.0.14] (cpc141996-chfd3-2-0-cust928.12-3.cable.virginm.net. [86.13.91.161])
-        by smtp.gmail.com with ESMTPSA id z11sm44201wmf.9.2021.12.14.15.41.27
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 14 Dec 2021 15:41:28 -0800 (PST)
-Subject: Re: [PATCH 5/5] media: v4l2-async: Create links during
- v4l2_async_match_notify()
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     linux-media@vger.kernel.org, libcamera-devel@lists.libcamera.org,
-        sakari.ailus@linux.intel.com, hanlinchen@chromium.org,
-        tfiga@chromium.org, hdegoede@redhat.com,
-        kieran.bingham@ideasonboard.com, hpa@redhat.com
-References: <20211213232849.40071-1-djrscally@gmail.com>
- <20211213232849.40071-6-djrscally@gmail.com>
- <YbkZEDKHP2gyKjqd@pendragon.ideasonboard.com>
- <73e56a19-13a8-2c76-386f-dbc5e1babce7@gmail.com>
- <YbkiOoHnl9duDjUR@pendragon.ideasonboard.com>
-From:   Daniel Scally <djrscally@gmail.com>
-Message-ID: <35553048-f338-8650-027f-708cfaac030d@gmail.com>
-Date:   Tue, 14 Dec 2021 23:41:27 +0000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+        id S233381AbhLOAB7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 14 Dec 2021 19:01:59 -0500
+Received: from mga04.intel.com ([192.55.52.120]:6580 "EHLO mga04.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S234272AbhLOAB5 (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 14 Dec 2021 19:01:57 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1639526517; x=1671062517;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=Fb2cVcz4LwC7zZEOQweYUdwyszIStBC9RhYXkmAbPrA=;
+  b=n0QJURbn+PGSpiniOaAw/Mq64yxE5PRb7JutMeyrvVFNqhY9SBbT+mwM
+   xGF/eTQwE5AG0iH1YCa7PUDm7nsqnnS7JmLw39R5tj/gKphvCR3XHtT45
+   QDmMMPB2n4IXldKshNXtySTa2G/pNslqHP8oAPeMQk5u1IV08khTDbpGT
+   e1wkxeBBfwC+dF1fFm0/kJ8wo4eV4CKxxDlnHUwJdN+5A6rXQa6ad58Pt
+   BPqPwkxS36PlpxZgAcw0Ep+0aMUtmYEY2cGteeEuIxx7zn/MLueSfQsbF
+   RFMEht2bL5LlT5v8OBrZ7eCtfagLi1//WkyLrbdjGzxQ6ya/I7O0kKbVz
+   A==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10197"; a="237846488"
+X-IronPort-AV: E=Sophos;i="5.88,206,1635231600"; 
+   d="scan'208";a="237846488"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Dec 2021 16:01:37 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.88,206,1635231600"; 
+   d="scan'208";a="661675155"
+Received: from lkp-server02.sh.intel.com (HELO 9f38c0981d9f) ([10.239.97.151])
+  by fmsmga001.fm.intel.com with ESMTP; 14 Dec 2021 16:01:35 -0800
+Received: from kbuild by 9f38c0981d9f with local (Exim 4.92)
+        (envelope-from <lkp@intel.com>)
+        id 1mxHjj-0000x0-3Q; Wed, 15 Dec 2021 00:01:35 +0000
+Date:   Wed, 15 Dec 2021 08:00:38 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linuxtv-commits@linuxtv.org
+Cc:     kbuild-all@lists.01.org, linux-media@vger.kernel.org,
+        Bogdan Togorean <bogdan.togorean@analog.com>,
+        linux-kernel@vger.kernel.org
+Subject: Re: [git:media_stage/master] media: i2c: Add driver for the Analog
+ Devices ADDI9036 ToF front-end
+Message-ID: <202112150733.a6LCjbXP-lkp@intel.com>
+References: <E1mx7hB-002ppP-O7@www.linuxtv.org>
 MIME-Version: 1.0
-In-Reply-To: <YbkiOoHnl9duDjUR@pendragon.ideasonboard.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <E1mx7hB-002ppP-O7@www.linuxtv.org>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Laurent
+Hi Mauro,
 
-On 14/12/2021 23:01, Laurent Pinchart wrote:
-> Hi Daniel,
->
-> On Tue, Dec 14, 2021 at 10:36:01PM +0000, Daniel Scally wrote:
->> On 14/12/2021 22:22, Laurent Pinchart wrote:
->>> On Mon, Dec 13, 2021 at 11:28:49PM +0000, Daniel Scally wrote:
->>>> Upon an async fwnode match, there's some typical behaviour that the
->>>> notifier and matching subdev will want to do. For example, a notifier
->>>> representing a sensor matching to an async subdev representing its
->>>> VCM will want to create an ancillary link to expose that relationship
->>>> to userspace.
->>>>
->>>> To avoid lots of code in individual drivers, try to build these links
->>>> within v4l2 core.
->>>>
->>>> Signed-off-by: Daniel Scally <djrscally@gmail.com>
->>>> ---
->>>> Changes since the rfc:
->>>>
->>>> 	- None
->>>>
->>>>  drivers/media/v4l2-core/v4l2-async.c | 51 ++++++++++++++++++++++++++++
->>>>  1 file changed, 51 insertions(+)
->>>>
->>>> diff --git a/drivers/media/v4l2-core/v4l2-async.c b/drivers/media/v4l2-core/v4l2-async.c
->>>> index 0404267f1ae4..6575b1cbe95f 100644
->>>> --- a/drivers/media/v4l2-core/v4l2-async.c
->>>> +++ b/drivers/media/v4l2-core/v4l2-async.c
->>>> @@ -275,6 +275,45 @@ v4l2_async_nf_try_complete(struct v4l2_async_notifier *notifier)
->>>>  static int
->>>>  v4l2_async_nf_try_all_subdevs(struct v4l2_async_notifier *notifier);
->>>>  
->>>> +static int
->>>> +__v4l2_async_create_ancillary_link(struct v4l2_async_notifier *notifier,
->>>> +				   struct v4l2_subdev *sd)
->>>> +{
->>>> +	struct media_link *link;
->>>> +
->>>> +	if (sd->entity.function != MEDIA_ENT_F_LENS &&
->>>> +	    sd->entity.function != MEDIA_ENT_F_FLASH)
->>>> +		return -EINVAL;
->>>> +
->>>> +	link = media_create_ancillary_link(&notifier->sd->entity, &sd->entity,
->>> Is there a guarantee at this point that notifier->sd->entity has already
->>> been registered with the media_device ? That's done by
->>> media_device_register_entity() called from
->>> v4l2_device_register_subdev().
->> v4l2_async_match_notify() calls v4l2_device_register_subdev() before the
->> point that I've added the call to v4l2_async_try_create_links(), so I
->> think that's covered there.
-> It calls it on sd, not notifier->sd. It's the latter that concerns me.
+I love your patch! Yet something to improve:
+
+[auto build test ERROR on media-tree/master]
+[also build test ERROR on linux/master linus/master v5.16-rc5 next-20211213]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch]
+
+url:    https://github.com/0day-ci/linux/commits/Mauro-Carvalho-Chehab/media-i2c-Add-driver-for-the-Analog-Devices-ADDI9036-ToF-front-end/20211214-211851
+base:   git://linuxtv.org/media_tree.git master
+config: nios2-allyesconfig (https://download.01.org/0day-ci/archive/20211215/202112150733.a6LCjbXP-lkp@intel.com/config)
+compiler: nios2-linux-gcc (GCC) 11.2.0
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/0day-ci/linux/commit/ec03b2029965b84eff6a7d1e8fe130330c3e69ed
+        git remote add linux-review https://github.com/0day-ci/linux
+        git fetch --no-tags linux-review Mauro-Carvalho-Chehab/media-i2c-Add-driver-for-the-Analog-Devices-ADDI9036-ToF-front-end/20211214-211851
+        git checkout ec03b2029965b84eff6a7d1e8fe130330c3e69ed
+        # save the config file to linux build tree
+        mkdir build_dir
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-11.2.0 make.cross O=build_dir ARCH=nios2 SHELL=/bin/bash
+
+If you fix the issue, kindly add following tag as appropriate
+Reported-by: kernel test robot <lkp@intel.com>
+
+All errors (new ones prefixed by >>):
+
+   drivers/media/i2c/addi9036.c: In function 'addi9036_get_pad_format':
+>> drivers/media/i2c/addi9036.c:310:66: error: passing argument 2 of 'v4l2_subdev_get_try_format' from incompatible pointer type [-Werror=incompatible-pointer-types]
+     310 |                 return v4l2_subdev_get_try_format(&addi9036->sd, cfg, pad);
+         |                                                                  ^~~
+         |                                                                  |
+         |                                                                  struct v4l2_subdev_pad_config *
+   In file included from drivers/media/i2c/addi9036.c:17:
+   include/media/v4l2-subdev.h:995:54: note: expected 'struct v4l2_subdev_state *' but argument is of type 'struct v4l2_subdev_pad_config *'
+     995 |                            struct v4l2_subdev_state *state,
+         |                            ~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~
+   drivers/media/i2c/addi9036.c: In function 'addi9036_get_pad_crop':
+>> drivers/media/i2c/addi9036.c:342:64: error: passing argument 2 of 'v4l2_subdev_get_try_crop' from incompatible pointer type [-Werror=incompatible-pointer-types]
+     342 |                 return v4l2_subdev_get_try_crop(&addi9036->sd, cfg, pad);
+         |                                                                ^~~
+         |                                                                |
+         |                                                                struct v4l2_subdev_pad_config *
+   In file included from drivers/media/i2c/addi9036.c:17:
+   include/media/v4l2-subdev.h:1013:52: note: expected 'struct v4l2_subdev_state *' but argument is of type 'struct v4l2_subdev_pad_config *'
+    1013 |                          struct v4l2_subdev_state *state,
+         |                          ~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~
+   drivers/media/i2c/addi9036.c: At top level:
+>> drivers/media/i2c/addi9036.c:521:35: error: initialization of 'int (*)(struct v4l2_subdev *, struct v4l2_subdev_state *)' from incompatible pointer type 'int (*)(struct v4l2_subdev *, struct v4l2_subdev_pad_config *)' [-Werror=incompatible-pointer-types]
+     521 |         .init_cfg               = addi9036_entity_init_cfg,
+         |                                   ^~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/i2c/addi9036.c:521:35: note: (near initialization for 'addi9036_subdev_pad_ops.init_cfg')
+>> drivers/media/i2c/addi9036.c:522:35: error: initialization of 'int (*)(struct v4l2_subdev *, struct v4l2_subdev_state *, struct v4l2_subdev_mbus_code_enum *)' from incompatible pointer type 'int (*)(struct v4l2_subdev *, struct v4l2_subdev_pad_config *, struct v4l2_subdev_mbus_code_enum *)' [-Werror=incompatible-pointer-types]
+     522 |         .enum_mbus_code         = addi9036_enum_mbus_code,
+         |                                   ^~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/i2c/addi9036.c:522:35: note: (near initialization for 'addi9036_subdev_pad_ops.enum_mbus_code')
+>> drivers/media/i2c/addi9036.c:523:35: error: initialization of 'int (*)(struct v4l2_subdev *, struct v4l2_subdev_state *, struct v4l2_subdev_frame_size_enum *)' from incompatible pointer type 'int (*)(struct v4l2_subdev *, struct v4l2_subdev_pad_config *, struct v4l2_subdev_frame_size_enum *)' [-Werror=incompatible-pointer-types]
+     523 |         .enum_frame_size        = addi9036_enum_frame_size,
+         |                                   ^~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/i2c/addi9036.c:523:35: note: (near initialization for 'addi9036_subdev_pad_ops.enum_frame_size')
+>> drivers/media/i2c/addi9036.c:524:35: error: initialization of 'int (*)(struct v4l2_subdev *, struct v4l2_subdev_state *, struct v4l2_subdev_format *)' from incompatible pointer type 'int (*)(struct v4l2_subdev *, struct v4l2_subdev_pad_config *, struct v4l2_subdev_format *)' [-Werror=incompatible-pointer-types]
+     524 |         .get_fmt                = addi9036_get_format,
+         |                                   ^~~~~~~~~~~~~~~~~~~
+   drivers/media/i2c/addi9036.c:524:35: note: (near initialization for 'addi9036_subdev_pad_ops.get_fmt')
+   drivers/media/i2c/addi9036.c:525:35: error: initialization of 'int (*)(struct v4l2_subdev *, struct v4l2_subdev_state *, struct v4l2_subdev_format *)' from incompatible pointer type 'int (*)(struct v4l2_subdev *, struct v4l2_subdev_pad_config *, struct v4l2_subdev_format *)' [-Werror=incompatible-pointer-types]
+     525 |         .set_fmt                = addi9036_set_format,
+         |                                   ^~~~~~~~~~~~~~~~~~~
+   drivers/media/i2c/addi9036.c:525:35: note: (near initialization for 'addi9036_subdev_pad_ops.set_fmt')
+>> drivers/media/i2c/addi9036.c:526:35: error: initialization of 'int (*)(struct v4l2_subdev *, struct v4l2_subdev_state *, struct v4l2_subdev_selection *)' from incompatible pointer type 'int (*)(struct v4l2_subdev *, struct v4l2_subdev_pad_config *, struct v4l2_subdev_selection *)' [-Werror=incompatible-pointer-types]
+     526 |         .get_selection          = addi9036_get_selection,
+         |                                   ^~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/i2c/addi9036.c:526:35: note: (near initialization for 'addi9036_subdev_pad_ops.get_selection')
+   cc1: some warnings being treated as errors
 
 
-Ah, you're right of course...I guess in that case the notifier->sd would
-get registered during the v4l2_async_match_notify() where the sensor
-driver's subdev is sd, but I don't think there's any guarantee that that
-would happen first...I haven't traced it through but my guess is that it
-would depend on the order in which the ipu3-cio2, sensor and lens
-controller drivers probed. I'll check to try and be sure how it works
-tomorrow
+vim +/v4l2_subdev_get_try_format +310 drivers/media/i2c/addi9036.c
 
->
->>>> +					   MEDIA_LNK_FL_ENABLED |
->>>> +					   MEDIA_LNK_FL_IMMUTABLE);
->>>> +
->>>> +	return IS_ERR(link) ? PTR_ERR(link) : 0;
->>>> +}
->>>> +
->>>> +/*
->>>> + * Setup links on behalf of the notifier and subdev, where it's obvious what
->>> s/Setup/Create/ ("link setup" refers to another operation, enabling and
->>> disabling links at runtime)
->> Yes, good point; although that too is a piece of terminology I find a
->> bit jarring to be honest; I would have named that function
->> media_entity_configure_link()
->>
->>>> + * should be done. At the moment, we only support cases where the notifier
->>>> + * is a sensor and the subdev is a lens.
->>> s/sensor/camera sensor/
->>> s/lens/lens controller/
->>>
->>>> + *
->>>> + * TODO: Setup pad links if the notifier's function is MEDIA_ENT_F_VID_IF_BRIDGE
->>>> + * and the subdev's is MEDIA_ENT_F_CAM_SENSOR
->>>> + */
->>>> +static int v4l2_async_try_create_links(struct v4l2_async_notifier *notifier,
->>>> +				       struct v4l2_subdev *sd)
->>>> +{
->>>> +	if (!notifier->sd)
->>>> +		return 0;
->>>> +
->>>> +	switch (notifier->sd->entity.function) {
->>>> +	case MEDIA_ENT_F_CAM_SENSOR:
->>>> +		return __v4l2_async_create_ancillary_link(notifier, sd);
->>>> +	default:
->>>> +		return 0;
->>>> +	}
->>>> +}
->>>> +
->>>>  static int v4l2_async_match_notify(struct v4l2_async_notifier *notifier,
->>>>  				   struct v4l2_device *v4l2_dev,
->>>>  				   struct v4l2_subdev *sd,
->>>> @@ -293,6 +332,18 @@ static int v4l2_async_match_notify(struct v4l2_async_notifier *notifier,
->>>>  		return ret;
->>>>  	}
->>>>  
->>>> +	/*
->>>> +	 * Depending of the function of the entities involved, we may want to
->>>> +	 * create links between them (for example between a sensor and its lens
->>>> +	 * or between a sensor's source pad and the connected device's sink
->>>> +	 * pad)
->>> s/)/)./
->>>
->>>> +	 */
->>>> +	ret = v4l2_async_try_create_links(notifier, sd);
->>>> +	if (ret) {
->>>> +		v4l2_device_unregister_subdev(sd);
->>>> +		return ret;
->>>> +	}
->>>> +
->>>>  	/* Remove from the waiting list */
->>>>  	list_del(&asd->list);
->>>>  	sd->asd = asd;
+   302	
+   303	static struct v4l2_mbus_framefmt *
+   304	addi9036_get_pad_format(struct addi9036 *addi9036,
+   305				struct v4l2_subdev_pad_config *cfg, unsigned int pad,
+   306				enum v4l2_subdev_format_whence which)
+   307	{
+   308		switch (which) {
+   309		case V4L2_SUBDEV_FORMAT_TRY:
+ > 310			return v4l2_subdev_get_try_format(&addi9036->sd, cfg, pad);
+   311		case V4L2_SUBDEV_FORMAT_ACTIVE:
+   312			return &addi9036->fmt;
+   313		default:
+   314			return ERR_PTR(-EINVAL);
+   315		}
+   316	}
+   317	
+   318	static int addi9036_get_format(struct v4l2_subdev *sd,
+   319				       struct v4l2_subdev_pad_config *cfg,
+   320				       struct v4l2_subdev_format *format)
+   321	{
+   322		struct addi9036 *addi9036 = to_addi9036(sd);
+   323		struct v4l2_mbus_framefmt *pad_format;
+   324	
+   325		pad_format = addi9036_get_pad_format(addi9036, cfg, format->pad,
+   326						     format->which);
+   327		if (IS_ERR(pad_format))
+   328			return PTR_ERR(pad_format);
+   329	
+   330		format->format = *pad_format;
+   331	
+   332		return 0;
+   333	}
+   334	
+   335	static struct v4l2_rect *
+   336	addi9036_get_pad_crop(struct addi9036 *addi9036,
+   337			      struct v4l2_subdev_pad_config *cfg,
+   338			      unsigned int pad, enum v4l2_subdev_format_whence which)
+   339	{
+   340		switch (which) {
+   341		case V4L2_SUBDEV_FORMAT_TRY:
+ > 342			return v4l2_subdev_get_try_crop(&addi9036->sd, cfg, pad);
+   343		case V4L2_SUBDEV_FORMAT_ACTIVE:
+   344			return &addi9036->crop;
+   345		default:
+   346			return ERR_PTR(-EINVAL);
+   347		}
+   348	}
+   349	
+
+---
+0-DAY CI Kernel Test Service, Intel Corporation
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
