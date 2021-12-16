@@ -2,87 +2,124 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 866DD47744F
-	for <lists+linux-media@lfdr.de>; Thu, 16 Dec 2021 15:19:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0CA4A4774B8
+	for <lists+linux-media@lfdr.de>; Thu, 16 Dec 2021 15:34:27 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235006AbhLPOTR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 16 Dec 2021 09:19:17 -0500
-Received: from www.linuxtv.org ([130.149.80.248]:58164 "EHLO www.linuxtv.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229583AbhLPOTQ (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 16 Dec 2021 09:19:16 -0500
-Received: from builder.linuxtv.org ([140.211.167.10] helo=slave0)
-        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1mxrbH-005Y8K-KZ; Thu, 16 Dec 2021 14:19:15 +0000
-Received: from ip6-localhost ([::1] helo=localhost.localdomain)
-        by slave0 with esmtp (Exim 4.94.2)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1mxrbF-008hsQ-Ig; Thu, 16 Dec 2021 14:19:13 +0000
-From:   Jenkins <jenkins@linuxtv.org>
-To:     mchehab+samsung@kernel.org, linux-media@vger.kernel.org
-Cc:     builder@linuxtv.org
-Subject: Re: [GIT PULL FOR v5.17] hantro: add Allwinner H6 support (#79519)
-Date:   Thu, 16 Dec 2021 14:19:13 +0000
-Message-Id: <20211216141913.2075240-1-jenkins@linuxtv.org>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <eab48e21-fb71-8a41-9d0c-b19aa779746b@xs4all.nl>
-References: 
+        id S238033AbhLPOe0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 16 Dec 2021 09:34:26 -0500
+Received: from perceval.ideasonboard.com ([213.167.242.64]:38528 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232285AbhLPOeZ (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Thu, 16 Dec 2021 09:34:25 -0500
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 2F0AD3F6;
+        Thu, 16 Dec 2021 15:34:24 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1639665264;
+        bh=jCw5qgf4uGnUYDeISfNM5W8CH7QMcPd78YSFI8Iu4nU=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=Jp0JFjm3jYBrhR3pvHuWpYhcaxhEJISKrBEPZdZqJrK+hTg82ocTcN2UVMG0ROE9H
+         seQX/ETcQUKy1+CkhUqpudvU49p5xKran5IXmeSU1FXtXDtQC7Eypq/c99yNuFmugF
+         cbWsc3Sh/nXbrjnBlLeKMR7ducY9hUTV8FdiotHQ=
+Date:   Thu, 16 Dec 2021 16:34:22 +0200
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Cc:     linux-media@vger.kernel.org, sakari.ailus@linux.intel.com,
+        Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        niklas.soderlund+renesas@ragnatech.se,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Pratyush Yadav <p.yadav@ti.com>
+Subject: Re: [PATCH v10 05/38] media: subdev: Add
+ v4l2_subdev_lock_and_return_state()
+Message-ID: <YbtObq+RJbW70pjD@pendragon.ideasonboard.com>
+References: <20211130141536.891878-1-tomi.valkeinen@ideasonboard.com>
+ <20211130141536.891878-6-tomi.valkeinen@ideasonboard.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20211130141536.891878-6-tomi.valkeinen@ideasonboard.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: builder@linuxtv.org
+Hi Tomi,
 
-Pull request: https://patchwork.linuxtv.org/project/linux-media/patch/eab48e21-fb71-8a41-9d0c-b19aa779746b@xs4all.nl/
-Build log: https://builder.linuxtv.org/job/patchwork/165912/
-Build time: 00:18:05
-Link: https://lore.kernel.org/linux-media/eab48e21-fb71-8a41-9d0c-b19aa779746b@xs4all.nl
+Thank you for the patch.
 
-gpg: Signature made Thu 16 Dec 2021 12:36:35 PM UTC
-gpg:                using RSA key AAA7FFBA4D2D77EF4CAEA1421326E0CD23ABDCE5
-gpg: Good signature from "Hans Verkuil <hverkuil-cisco@xs4all.nl>" [unknown]
-gpg:                 aka "Hans Verkuil <hverkuil@xs4all.nl>" [unknown]
-gpg: WARNING: This key is not certified with a trusted signature!
-gpg:          There is no indication that the signature belongs to the owner.
-Primary key fingerprint: 052C DE7B C215 053B 689F  1BCA BD2D 6148 6614 3B4C
-     Subkey fingerprint: AAA7 FFBA 4D2D 77EF 4CAE  A142 1326 E0CD 23AB DCE5
+On Tue, Nov 30, 2021 at 04:15:03PM +0200, Tomi Valkeinen wrote:
+> All suitable subdev ops are now passed either the TRY or the ACTIVE
+> state by the v4l2 core. However, other subdev drivers can still call the
+> ops passing NULL as the state, implying the active case.
+> 
+> For all current upstream drivers this doesn't matter, as they do not
+> expect to get a valid state for ACTIVE case. But future drivers which
+> support multiplexed streaming and routing will depend on getting a state
+> for both active and try cases.
+> 
+> For new drivers we can mandate that the pipelines where the drivers are
+> used need to pass the state properly, or preferably, not call such
+> subdev ops at all.
+> 
+> However, if an existing subdev driver is changed to support multiplexed
+> streams, the driver has to consider cases where its ops will be called
+> with NULL state. The problem can easily be solved by using the
+> v4l2_subdev_lock_and_return_state() helper, introduced here.
+> 
+> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+> ---
+>  include/media/v4l2-subdev.h | 31 +++++++++++++++++++++++++++++++
+>  1 file changed, 31 insertions(+)
+> 
+> diff --git a/include/media/v4l2-subdev.h b/include/media/v4l2-subdev.h
+> index 1810dde9c7fc..873bbe0686e3 100644
+> --- a/include/media/v4l2-subdev.h
+> +++ b/include/media/v4l2-subdev.h
+> @@ -1317,4 +1317,35 @@ void v4l2_subdev_lock_state(struct v4l2_subdev_state *state);
+>   */
+>  void v4l2_subdev_unlock_state(struct v4l2_subdev_state *state);
+>  
+> +/**
+> + * v4l2_subdev_lock_and_return_state() - Gets locked TRY or ACTIVE subdev state
+> + * @sd: subdevice
+> + * @state: subdevice state as passed to the subdev op
+> + *
+> + * Due to legacy reasons, when subdev drivers call ops in other subdevs they use
+> + * NULL as the state parameter, as subdevs always used to have their active
+> + * state stored privately.
+> + *
+> + * However, newer state-aware subdev drivers, which store their active state in
+> + * a common place, subdev->active_state, expect to always get a proper state as
+> + * a parameter.
+> + *
+> + * These state-aware drivers can use v4l2_subdev_lock_and_return_state() instead
+> + * of v4l2_subdev_lock_state(). v4l2_subdev_lock_and_return_state() solves the
+> + * issue by using subdev->state in case the passed state is NULL.
+> + *
+> + * This is a temporary helper function, and should be removed when we can ensure
+> + * that all drivers pass proper state when calling other subdevs.
+> + */
+> +static inline struct v4l2_subdev_state *
+> +v4l2_subdev_lock_and_return_state(struct v4l2_subdev *sd,
+> +				  struct v4l2_subdev_state *state)
+> +{
+> +	state = state ? state : sd->active_state;
 
-Summary: got 3/8 patches with issues, being 1 at build time, plus one error when buinding PDF document
+Can we add a dev_warn() when state is NULL ? This will help speeding up
+the transition.
 
-Error/warnings:
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
-patches/0001-media-hantro-Fix-probe-func-error-path.patch:
+> +
+> +	v4l2_subdev_lock_state(state);
+> +
+> +	return state;
+> +}
+> +
+>  #endif
 
-    allyesconfig: return code #0:
-	../scripts/genksyms/parse.y: warning: 9 shift/reduce conflicts [-Wconflicts-sr]
-	../scripts/genksyms/parse.y: warning: 5 reduce/reduce conflicts [-Wconflicts-rr]
-	../scripts/genksyms/parse.y: note: rerun with option '-Wcounterexamples' to generate conflict counterexamples
+-- 
+Regards,
 
-    allyesconfig: return code #0:
-	SMATCH:../drivers/media/usb/siano/smsusb.c ../drivers/media/usb/siano/smsusb.c:53:38: :warning: array of flexible structures
-	SPARSE:../drivers/media/usb/siano/smsusb.c ../drivers/media/usb/siano/smsusb.c:53:38: warning: array of flexible structures
-	../drivers/media/rc/meson-ir-tx.c:22: warning: expecting prototype for meson(). Prototype was for DEVICE_NAME() instead
-	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2625 dvb_register() parse error: turning off implications after 60 seconds
-	../drivers/media/i2c/ov8865.c: ../drivers/media/i2c/ov8865.c:2841 ov8865_get_selection() warn: inconsistent indenting
-	../drivers/media/platform/qcom/venus/helpers.c: ../drivers/media/platform/qcom/venus/helpers.c:658 venus_helper_get_bufreq() error: we previously assumed 'req' could be null (see line 654)
-	../drivers/media/usb/em28xx/em28xx-video.c: ../drivers/media/usb/em28xx/em28xx-video.c:2894 em28xx_v4l2_init() parse error: turning off implications after 60 seconds
-
-patches/0007-media-dt-bindings-allwinner-document-H6-Hantro-G2-bi.patch:
-
-   checkpatch.pl:
-	$ cat patches/0007-media-dt-bindings-allwinner-document-H6-Hantro-G2-bi.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
-	-:20: WARNING: added, moved or deleted file(s), does MAINTAINERS need updating?
-
-patches/0008-media-hantro-Add-support-for-Allwinner-H6.patch:
-
-   checkpatch.pl:
-	$ cat patches/0008-media-hantro-Add-support-for-Allwinner-H6.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
-	-:85: WARNING: added, moved or deleted file(s), does MAINTAINERS need updating?
-
-
-Error #512 when building PDF docs
-
+Laurent Pinchart
