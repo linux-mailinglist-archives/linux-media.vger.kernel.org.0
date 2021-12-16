@@ -2,131 +2,222 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5B20C4771ED
-	for <lists+linux-media@lfdr.de>; Thu, 16 Dec 2021 13:35:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8A7F54771F8
+	for <lists+linux-media@lfdr.de>; Thu, 16 Dec 2021 13:39:15 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236839AbhLPMfU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 16 Dec 2021 07:35:20 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44368 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236577AbhLPMfT (ORCPT
+        id S234404AbhLPMjO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 16 Dec 2021 07:39:14 -0500
+Received: from perceval.ideasonboard.com ([213.167.242.64]:37048 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229747AbhLPMjO (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 16 Dec 2021 07:35:19 -0500
-Received: from meesny.iki.fi (meesny.iki.fi [IPv6:2001:67c:2b0:1c1::201])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 638BEC061574
-        for <linux-media@vger.kernel.org>; Thu, 16 Dec 2021 04:35:19 -0800 (PST)
-Received: from hillosipuli.retiisi.eu (dkvn5pty0gzs3nltj987t-3.rev.dnainternet.fi [IPv6:2001:14ba:4457:9640:1e2d:1f75:a607:ef37])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-        (No client certificate requested)
-        (Authenticated sender: sailus)
-        by meesny.iki.fi (Postfix) with ESMTPSA id DD852201E0
-        for <linux-media@vger.kernel.org>; Thu, 16 Dec 2021 14:35:16 +0200 (EET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=meesny;
-        t=1639658116;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:mime-version:mime-version:content-type:content-type;
-        bh=2tQtrIX6jo7+xG5RWJiWO3vf2lZRf4gHqxi9b4s0Tw8=;
-        b=S2m0wAUfjMKJPkWKVF2Q73ecHWmGJp5KSrDLyn/IwFtAX66/kNN8ItT6+cQTLGp2PitF1A
-        u/bBHILpP987HfgSAsdkAcD8Nn4iotpC/HeArkF6QAWpGOTJ+f3P0AicD53IokHggKWQw4
-        T5j3IB+B13QQu/yftAcMQphSHPEPF5k=
-Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 2C2AA634C91
-        for <linux-media@vger.kernel.org>; Thu, 16 Dec 2021 14:35:14 +0200 (EET)
-Date:   Thu, 16 Dec 2021 14:35:14 +0200
-From:   Sakari Ailus <sakari.ailus@iki.fi>
-To:     linux-media@vger.kernel.org
-Subject: [GIT PULL v2 FOR 5.17] V4L2 patches
-Message-ID: <Ybsygi8PTRXngyay@valkosipuli.retiisi.eu>
+        Thu, 16 Dec 2021 07:39:14 -0500
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id C4C9B3F6;
+        Thu, 16 Dec 2021 13:39:12 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1639658353;
+        bh=yv6a7OIfZwnB5j0HMiQW5n8V5kL9wz6Q/Dy9DoEX12w=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=FROHEYg/rJ9omALe8S3++KciLd4hP85/89+lPyXB2vljkFEeZsll5mdPxDheFwFVc
+         he5i7GVc8f3tFDC6NafOLoUI48NYZFGqRqz/G3/bRzUV2qsKf96x7gobF5waRgcvnO
+         wWrpyI5HjKghK/l6d/i9RIDoFiIu47VIRpF4pV+U=
+Date:   Thu, 16 Dec 2021 14:39:09 +0200
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Jacopo Mondi <jacopo+renesas@jmondi.org>
+Cc:     tomi.valkeinen@ideasonboard.com, sakari.ailus@linux.intel.com,
+        niklas.soderlund@ragnatech.se, kieran.bingham@ideasonboard.com,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH v2 01/13] media: max9286: Add support for
+ v4l2_subdev_state
+Message-ID: <YbszbYppvy7M9KIw@pendragon.ideasonboard.com>
+References: <20211017182449.64192-1-jacopo+renesas@jmondi.org>
+ <20211017182449.64192-2-jacopo+renesas@jmondi.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-ARC-Authentication-Results: i=1;
-        ORIGINATING;
-        auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
-ARC-Seal: i=1; s=meesny; d=iki.fi; t=1639658116; a=rsa-sha256; cv=none;
-        b=R8A2fl/p49K7VkOmWcgweJP49+gNxv7HvnBUBrmvMMPJkmdLG43UKJ1gyKIAOvASpzv1y4
-        FUIWHtfmSFSXGHFxy19+T/ElDrOGG2QTURyhsBJSJb2NGBRS2a+Ly8M762Cm98Vy12hgXO
-        Jst4ZP+nGzl+1Vmshw4NkwWGWfGWKTg=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
-        s=meesny; t=1639658116;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:mime-version:mime-version:content-type:content-type;
-        bh=2tQtrIX6jo7+xG5RWJiWO3vf2lZRf4gHqxi9b4s0Tw8=;
-        b=EUWmGIYHm1UDza9Eih/yZDgLmdOWh0CMaZ+DDy7GDSiA47HCPKtMwgLddH5FEE4Fulr/Xb
-        GkboPtT9w3gE72oyXqknkQN1U+DsPr4zQtRDTZHnqfS4VbhGRpBXB8a3n6z9y7PBcFjKU+
-        Q35Vdb7gFsTRQxCzmwYUuvio0ae0sC4=
+In-Reply-To: <20211017182449.64192-2-jacopo+renesas@jmondi.org>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Mauro,
+Hi Jacopo,
 
-Here's a few more V4L2 patches for 5.17.
+Thank you for the patch.
 
-There are various patches for supporting sensor driver probing in non-D0
-ACPI power states and a few random fixes.
+On Sun, Oct 17, 2021 at 08:24:37PM +0200, Jacopo Mondi wrote:
+> Create and initialize the v4l2_subdev_state for the max9286 driver in
+> order to prepare to support routing operations and multiplexed streams.
+> 
+> Create the subdevice state with v4l2_subdev_init_finalize() and
+> implement the init_cfg() operation to guarantee the state is initialized
+> correctly with the default device format.
+> 
+> Remove the max9286_open() subdev internal operation as the format of the
+> file-handle state is now initialized by init_cfg().
+> 
+> Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
+> ---
+>  drivers/media/i2c/max9286.c | 90 +++++++++++++++++++++++--------------
+>  1 file changed, 57 insertions(+), 33 deletions(-)
+> 
+> diff --git a/drivers/media/i2c/max9286.c b/drivers/media/i2c/max9286.c
+> index 1b92d18a1f94..5997fe40509f 100644
+> --- a/drivers/media/i2c/max9286.c
+> +++ b/drivers/media/i2c/max9286.c
+> @@ -215,6 +215,17 @@ static inline struct max9286_priv *sd_to_max9286(struct v4l2_subdev *sd)
+>  	return container_of(sd, struct max9286_priv, sd);
+>  }
+>  
+> +static const struct v4l2_mbus_framefmt max9286_default_format = {
+> +	.width		= 1280,
+> +	.height		= 800,
+> +	.code		= MEDIA_BUS_FMT_UYVY8_1X16,
+> +	.colorspace	= V4L2_COLORSPACE_SRGB,
+> +	.field		= V4L2_FIELD_NONE,
+> +	.ycbcr_enc	= V4L2_YCBCR_ENC_DEFAULT,
+> +	.quantization	= V4L2_QUANTIZATION_DEFAULT,
+> +	.xfer_func	= V4L2_XFER_FUNC_DEFAULT,
+> +};
+> +
+>  /* -----------------------------------------------------------------------------
+>   * I2C IO
+>   */
+> @@ -822,11 +833,45 @@ static int max9286_get_fmt(struct v4l2_subdev *sd,
+>  	return 0;
+>  }
+>  
+> +static int max9286_init_cfg(struct v4l2_subdev *sd,
+> +			    struct v4l2_subdev_state *state)
+> +{
+> +	struct v4l2_subdev_route routes[MAX9286_NUM_GMSL];
+> +	struct max9286_priv *priv = sd_to_max9286(sd);
+> +	struct v4l2_subdev_krouting routing;
+> +	struct max9286_source *source;
+> +	unsigned int num_routes = 0;
+> +	int ret;
+> +
+> +	/* Create a route for each enable source. */
+> +	for_each_source(priv, source) {
+> +		struct v4l2_subdev_route *route = &routes[num_routes++];
+> +		unsigned int idx = to_index(priv, source);
+> +
+> +		route->sink_pad = idx;
+> +		route->sink_stream = 0;
+> +		route->source_pad = MAX9286_SRC_PAD;
+> +		route->source_stream = idx;
+> +		route->flags = V4L2_SUBDEV_ROUTE_FL_ACTIVE;
+> +	}
+> +
+> +	routing.num_routes = num_routes;
+> +	routing.routes = routes;
+> +
+> +	state = v4l2_subdev_validate_and_lock_state(sd, state);
+> +	ret = v4l2_subdev_set_routing_with_fmt(sd, state, &routing,
+> +					       &max9286_default_format);
+> +	v4l2_subdev_unlock_state(state);
+> +
+> +	return ret;
+> +}
+> +
+>  static const struct v4l2_subdev_video_ops max9286_video_ops = {
+>  	.s_stream	= max9286_s_stream,
+>  };
+>  
+>  static const struct v4l2_subdev_pad_ops max9286_pad_ops = {
+> +	.init_cfg	= max9286_init_cfg,
+>  	.enum_mbus_code = max9286_enum_mbus_code,
+>  	.get_fmt	= max9286_get_fmt,
+>  	.set_fmt	= max9286_set_fmt,
+> @@ -837,35 +882,6 @@ static const struct v4l2_subdev_ops max9286_subdev_ops = {
+>  	.pad		= &max9286_pad_ops,
+>  };
+>  
+> -static void max9286_init_format(struct v4l2_mbus_framefmt *fmt)
+> -{
+> -	fmt->width		= 1280;
+> -	fmt->height		= 800;
+> -	fmt->code		= MEDIA_BUS_FMT_UYVY8_1X16;
+> -	fmt->colorspace		= V4L2_COLORSPACE_SRGB;
+> -	fmt->field		= V4L2_FIELD_NONE;
+> -	fmt->ycbcr_enc		= V4L2_YCBCR_ENC_DEFAULT;
+> -	fmt->quantization	= V4L2_QUANTIZATION_DEFAULT;
+> -	fmt->xfer_func		= V4L2_XFER_FUNC_DEFAULT;
+> -}
+> -
+> -static int max9286_open(struct v4l2_subdev *subdev, struct v4l2_subdev_fh *fh)
+> -{
+> -	struct v4l2_mbus_framefmt *format;
+> -	unsigned int i;
+> -
+> -	for (i = 0; i < MAX9286_N_SINKS; i++) {
+> -		format = v4l2_subdev_get_try_format(subdev, fh->state, i);
+> -		max9286_init_format(format);
+> -	}
+> -
+> -	return 0;
+> -}
+> -
+> -static const struct v4l2_subdev_internal_ops max9286_subdev_internal_ops = {
+> -	.open = max9286_open,
+> -};
+> -
+>  static int max9286_s_ctrl(struct v4l2_ctrl *ctrl)
+>  {
+>  	switch (ctrl->id) {
+> @@ -897,11 +913,11 @@ static int max9286_v4l2_register(struct max9286_priv *priv)
+>  	/* Configure V4L2 for the MAX9286 itself */
+>  
+>  	for (i = 0; i < MAX9286_N_SINKS; i++)
+> -		max9286_init_format(&priv->fmt[i]);
+> +		priv->fmt[i] = max9286_default_format;
+>  
+>  	v4l2_i2c_subdev_init(&priv->sd, priv->client, &max9286_subdev_ops);
+> -	priv->sd.internal_ops = &max9286_subdev_internal_ops;
+> -	priv->sd.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE;
+> +	priv->sd.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE |
+> +			  V4L2_SUBDEV_FL_MULTIPLEXED;
+>  
+>  	v4l2_ctrl_handler_init(&priv->ctrls, 1);
+>  	priv->pixelrate = v4l2_ctrl_new_std(&priv->ctrls,
+> @@ -933,14 +949,21 @@ static int max9286_v4l2_register(struct max9286_priv *priv)
+>  	}
+>  	priv->sd.fwnode = ep;
+>  
+> +	ret = v4l2_subdev_init_finalize(&priv->sd);
+> +	if (ret)
+> +		goto err_put_node;
+> +
+>  	ret = v4l2_async_register_subdev(&priv->sd);
+>  	if (ret < 0) {
+>  		dev_err(dev, "Unable to register subdevice\n");
+> -		goto err_put_node;
+> +		goto err_free_state;
+>  	}
+>  
+>  	return 0;
+>  
+> +err_free_state:
 
-Note that the checkpatch.pl complaint about Martin's From: and Sob:
-originate from .mailmap.
+I'd call this new label err_subdev_cleanup.
 
-Since v1, I've rebased on media stage tree.
-
-Please pull.
-
-
-The following changes since commit b9aafbd46eb92b3174781661c33bdb2c17d484f1:
-
-  media: si2157: add ATV support for si2158 (2021-12-14 16:19:05 +0100)
-
-are available in the Git repository at:
-
-  git://linuxtv.org/sailus/media_tree.git tags/for-5.17-3.1-signed
-
-for you to fetch changes up to a4aab54975e042f182eb3d49b1451dccde38b789:
-
-  media: i2c: hi846: use pm_runtime_force_suspend/resume for system suspend (2021-12-16 14:29:52 +0200)
-
-----------------------------------------------------------------
-V4L2 patches for 5.17
-
-----------------------------------------------------------------
-Bingbu Cao (5):
-      media: ov8856: support device probe in non-zero ACPI D state
-      media: ov2740: support device probe in non-zero ACPI D state
-      media: imx208: Support device probe in non-zero ACPI D state
-      media: ov5675: Support device probe in non-zero ACPI D state
-      media: hi556: Support device probe in non-zero ACPI D state
-
-Jean-Michel Hautbois (1):
-      media: staging: ipu3-imgu: add the AWB memory layout
-
-Martin Kepplinger (2):
-      media: i2c: hi846: check return value of regulator_bulk_disable()
-      media: i2c: hi846: use pm_runtime_force_suspend/resume for system suspend
-
-Sakari Ailus (3):
-      Update Intel-submitted camera sensor driver contacts
-      ov8865: Disable only enabled regulators on error path
-      media: ov5670: Support device probe in non-zero ACPI D state
-
- MAINTAINERS                                        |   1 -
- drivers/media/i2c/hi556.c                          |  70 +++++----
- drivers/media/i2c/hi846.c                          |  14 +-
- drivers/media/i2c/imx208.c                         |  82 +++++++----
- drivers/media/i2c/imx319.c                         |   2 +-
- drivers/media/i2c/imx355.c                         |   2 +-
- drivers/media/i2c/ov13858.c                        |   2 +-
- drivers/media/i2c/ov2740.c                         |  69 ++++++---
- drivers/media/i2c/ov5670.c                         |  80 +++++-----
- drivers/media/i2c/ov5675.c                         |  71 +++++----
- drivers/media/i2c/ov8856.c                         | 162 +++++++++++----------
- drivers/media/i2c/ov8865.c                         |  12 +-
- .../staging/media/ipu3/include/uapi/intel-ipu3.h   |  32 +++-
- 13 files changed, 370 insertions(+), 229 deletions(-)
+> +	v4l2_subdev_cleanup(&priv->sd);
+> +
+>  err_put_node:
+>  	fwnode_handle_put(ep);
+>  err_async:
+> @@ -953,6 +976,7 @@ static void max9286_v4l2_unregister(struct max9286_priv *priv)
+>  {
+>  	fwnode_handle_put(priv->sd.fwnode);
+>  	v4l2_async_unregister_subdev(&priv->sd);
+> +	v4l2_subdev_cleanup(&priv->sd);
+>  	max9286_v4l2_notifier_unregister(priv);
+>  }
+>  
 
 -- 
-Sakari Ailus
+Regards,
+
+Laurent Pinchart
