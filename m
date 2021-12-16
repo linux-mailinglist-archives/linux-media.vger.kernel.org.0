@@ -2,169 +2,131 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9E5B9476DF8
-	for <lists+linux-media@lfdr.de>; Thu, 16 Dec 2021 10:47:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D8116476EEB
+	for <lists+linux-media@lfdr.de>; Thu, 16 Dec 2021 11:31:48 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235966AbhLPJqq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 16 Dec 2021 04:46:46 -0500
-Received: from mailgw02.mediatek.com ([210.61.82.184]:39964 "EHLO
-        mailgw02.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
-        with ESMTP id S235755AbhLPJq0 (ORCPT
+        id S236094AbhLPKbs (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 16 Dec 2021 05:31:48 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43502 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231292AbhLPKbr (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 16 Dec 2021 04:46:26 -0500
-X-UUID: 6f447f3cf24349e38648f80dcc7a5024-20211216
-X-UUID: 6f447f3cf24349e38648f80dcc7a5024-20211216
-Received: from mtkmbs10n2.mediatek.inc [(172.21.101.183)] by mailgw02.mediatek.com
-        (envelope-from <yunfei.dong@mediatek.com>)
-        (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
-        with ESMTP id 742571204; Thu, 16 Dec 2021 17:46:23 +0800
-Received: from mtkexhb01.mediatek.inc (172.21.101.102) by
- mtkmbs07n1.mediatek.inc (172.21.101.16) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Thu, 16 Dec 2021 17:46:22 +0800
-Received: from mtkcas10.mediatek.inc (172.21.101.39) by mtkexhb01.mediatek.inc
- (172.21.101.102) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Thu, 16 Dec
- 2021 17:46:20 +0800
-Received: from mhfsdcap04.gcn.mediatek.inc (10.17.3.154) by
- mtkcas10.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
- 15.0.1497.2 via Frontend Transport; Thu, 16 Dec 2021 17:46:19 +0800
-From:   Yunfei Dong <yunfei.dong@mediatek.com>
-To:     Yunfei Dong <yunfei.dong@mediatek.com>,
-        Alexandre Courbot <acourbot@chromium.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        "Tzung-Bi Shih" <tzungbi@chromium.org>,
-        Tiffany Lin <tiffany.lin@mediatek.com>,
-        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Tomasz Figa <tfiga@google.com>
-CC:     Hsin-Yi Wang <hsinyi@chromium.org>,
-        Fritz Koenig <frkoenig@chromium.org>,
-        Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
-        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        Irui Wang <irui.wang@mediatek.com>,
-        AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>,
-        "Steve Cho" <stevecho@chromium.org>, <linux-media@vger.kernel.org>,
-        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <srv_heupstream@mediatek.com>,
-        <linux-mediatek@lists.infradead.org>,
-        <Project_Global_Chrome_Upstream_Group@mediatek.com>
-Subject: [PATCH v16, 19/19] media: mtk-vcodec: Remove mtk_vcodec_release_enc_pm
-Date:   Thu, 16 Dec 2021 17:45:52 +0800
-Message-ID: <20211216094552.19104-20-yunfei.dong@mediatek.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20211216094552.19104-1-yunfei.dong@mediatek.com>
-References: <20211216094552.19104-1-yunfei.dong@mediatek.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7BIT
-Content-Type:   text/plain; charset=US-ASCII
-X-MTK:  N
+        Thu, 16 Dec 2021 05:31:47 -0500
+Received: from mail-wr1-x432.google.com (mail-wr1-x432.google.com [IPv6:2a00:1450:4864:20::432])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 45C9EC061574;
+        Thu, 16 Dec 2021 02:31:47 -0800 (PST)
+Received: by mail-wr1-x432.google.com with SMTP id v11so43255561wrw.10;
+        Thu, 16 Dec 2021 02:31:47 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id;
+        bh=NSLbFKF3l2MC+VZMq4xcql75R+Dywdt7m8WtZkY7/Ow=;
+        b=VbQd+fMUAIH0AjTsTLfHDLRX1Ph8gJo18ABbkcYzOj68ScWPmKyieumddIRv1Oi+zL
+         Em74AMhNSSYMTZf6YdTaWnp5eAg4hAPb9yamf+akszCO+Ic9+tmh2Bkr7iC8Z0GMeJjS
+         jXmdDKdaVaI96k+IH03IM1dbZCMBwqLgUbqn0RvfmYmEKkrY/zn4DeWGd0xTX3iObwQs
+         M917qg8zOlYtBSNe0E83zjei9K8qtu8P0xXFnX84Ip6gdL1E73mLIhWd1pwYlc6nnqOJ
+         Gycn16b78iSjsgNplZfMFkeTmERS/e0Xl68+ZUJsqFA7U+zGhjTdI5I2m5PC56t/61fj
+         lOCA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=NSLbFKF3l2MC+VZMq4xcql75R+Dywdt7m8WtZkY7/Ow=;
+        b=aT70rIaFNbPUxVgzo3TZD79Q+oS/IORggBaspNdTJkFsgTjvNE3o3vKoPaSnSuOoPA
+         2A3VNGl+hgtQRZVTbPZI8LYLGZFsJ2bFmUzc1PfE2WPlsRURd5Yx6LfOJHJEqNI2mdbx
+         x9Ug3hIDCqMSHZesIC9c4cLUrslBLbTBvTFsL94MOs17BNnj25gF75So2OgHCFakXw9R
+         tETnhuX3L90tPzxlMI5FKdk/6UL8bUPbfjyMK1KZZ2wv0tlHVpEAvydS5IGxO/pIlpn6
+         +kDHmfbfkM+3SXI4Jr2w4RruoL1+y7PcL12iQ4q4x2Ov40fPjhHHIQttRX/26X2ftRkm
+         e0gw==
+X-Gm-Message-State: AOAM530TvdFT4/7q6LJ80G1JsAfhoFsju5IzDruwOUsgOJYymnlAvN/Z
+        QL7ChagaeleSRlb/oTKRnzs=
+X-Google-Smtp-Source: ABdhPJxiHI10MvHaHZMLObDjMA+4TuuNNS/pyYG7cirXBSQB8NGEj/8OJy4aYktvN9NIv8Qq1fH/Ag==
+X-Received: by 2002:adf:fe4e:: with SMTP id m14mr4136481wrs.713.1639650705820;
+        Thu, 16 Dec 2021 02:31:45 -0800 (PST)
+Received: from felia.fritz.box ([2001:16b8:267b:1200:18af:bb55:aabf:94a8])
+        by smtp.gmail.com with ESMTPSA id u12sm4399299wrf.60.2021.12.16.02.31.44
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 16 Dec 2021 02:31:45 -0800 (PST)
+From:   Lukas Bulwahn <lukas.bulwahn@gmail.com>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Cai Huoqing <caihuoqing@baidu.com>, linux-media@vger.kernel.org
+Cc:     Thomas Gleixner <tglx@linutronix.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-spdx@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Subject: [PATCH] media: prefer generic SPDX-License expression to deprecated one
+Date:   Thu, 16 Dec 2021 11:31:32 +0100
+Message-Id: <20211216103132.8087-1-lukas.bulwahn@gmail.com>
+X-Mailer: git-send-email 2.17.1
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-There are only two lines in mtk_vcodec_release_enc_pm, using
-pm_runtime_disable and put_device instead directly.
+Commit 8d395ce6f04b ("media: dvb-core: Convert to SPDX identifier") and
+commit e67219b0496b ("media: b2c2: flexcop: Convert to SPDX identifier")
+introduce the SPDX-License expression LGPL-2.1-or-later for some files.
 
-Move pm_runtime_enable outside mtk_vcodec_release_enc_pm to symmetry with
-pm_runtime_disable, after that, rename mtk_vcodec_init_enc_pm to *_clk since
-it only has clock operations now.
+The command ./scripts/spdxcheck.py warns:
 
-Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Signed-off-by: Yunfei Dong <yunfei.dong@mediatek.com>
-Co-developed-by: Yong Wu <yong.wu@mediatek.com>
+  drivers/media/dvb-core/dmxdev.c: 1:28 Invalid License ID: LGPL-2.1-or-later
+  drivers/media/dvb-core/dvb_demux.c: 1:28 Invalid License ID: LGPL-2.1-or-later
+  drivers/media/dvb-core/dvbdev.c: 1:28 Invalid License ID: LGPL-2.1-or-later
+  drivers/media/common/b2c2/flexcop.c: 1:28 Invalid License ID: LGPL-2.1-or-later
+
+The preferred SPDX expression for LGPL-2.1 or any later version is with
+the more generic "+"-extension for "any later version", so: LGPL-2.1+
+
+This makes spdxcheck happy again.
+
+Fixes: 8d395ce6f04b ("media: dvb-core: Convert to SPDX identifier")
+Fixes: e67219b0496b ("media: b2c2: flexcop: Convert to SPDX identifier")
+Signed-off-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
 ---
- drivers/media/platform/mtk-vcodec/mtk_vcodec_enc_drv.c | 9 ++++++---
- drivers/media/platform/mtk-vcodec/mtk_vcodec_enc_pm.c  | 9 +--------
- drivers/media/platform/mtk-vcodec/mtk_vcodec_enc_pm.h  | 3 +--
- 3 files changed, 8 insertions(+), 13 deletions(-)
+ drivers/media/common/b2c2/flexcop.c | 2 +-
+ drivers/media/dvb-core/dmxdev.c     | 2 +-
+ drivers/media/dvb-core/dvb_demux.c  | 2 +-
+ drivers/media/dvb-core/dvbdev.c     | 2 +-
+ 4 files changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/media/platform/mtk-vcodec/mtk_vcodec_enc_drv.c b/drivers/media/platform/mtk-vcodec/mtk_vcodec_enc_drv.c
-index 347f0d87e2ff..507ad1ea2104 100644
---- a/drivers/media/platform/mtk-vcodec/mtk_vcodec_enc_drv.c
-+++ b/drivers/media/platform/mtk-vcodec/mtk_vcodec_enc_drv.c
-@@ -11,6 +11,7 @@
- #include <linux/module.h>
- #include <linux/of_device.h>
- #include <linux/of.h>
-+#include <linux/pm_runtime.h>
- #include <media/v4l2-event.h>
- #include <media/v4l2-mem2mem.h>
- #include <media/videobuf2-dma-contig.h>
-@@ -257,7 +258,7 @@ static int mtk_vcodec_probe(struct platform_device *pdev)
- 		return PTR_ERR(dev->fw_handler);
- 
- 	dev->venc_pdata = of_device_get_match_data(&pdev->dev);
--	ret = mtk_vcodec_init_enc_pm(dev);
-+	ret = mtk_vcodec_init_enc_clk(dev);
- 	if (ret < 0) {
- 		dev_err(&pdev->dev, "Failed to get mtk vcodec clock source!");
- 		goto err_enc_pm;
-@@ -369,7 +370,8 @@ static int mtk_vcodec_probe(struct platform_device *pdev)
- err_enc_alloc:
- 	v4l2_device_unregister(&dev->v4l2_dev);
- err_res:
--	mtk_vcodec_release_enc_pm(dev);
-+	pm_runtime_disable(dev->pm.dev);
-+	put_device(dev->pm.larbvenc);
- err_enc_pm:
- 	mtk_vcodec_fw_release(dev->fw_handler);
- 	return ret;
-@@ -458,7 +460,8 @@ static int mtk_vcodec_enc_remove(struct platform_device *pdev)
- 		video_unregister_device(dev->vfd_enc);
- 
- 	v4l2_device_unregister(&dev->v4l2_dev);
--	mtk_vcodec_release_enc_pm(dev);
-+	pm_runtime_disable(dev->pm.dev);
-+	put_device(dev->pm.larbvenc);
- 	mtk_vcodec_fw_release(dev->fw_handler);
- 	return 0;
- }
-diff --git a/drivers/media/platform/mtk-vcodec/mtk_vcodec_enc_pm.c b/drivers/media/platform/mtk-vcodec/mtk_vcodec_enc_pm.c
-index 0c8c8f86788c..0825c6ec4eb7 100644
---- a/drivers/media/platform/mtk-vcodec/mtk_vcodec_enc_pm.c
-+++ b/drivers/media/platform/mtk-vcodec/mtk_vcodec_enc_pm.c
-@@ -13,7 +13,7 @@
- #include "mtk_vcodec_enc_pm.h"
- #include "mtk_vcodec_util.h"
- 
--int mtk_vcodec_init_enc_pm(struct mtk_vcodec_dev *mtkdev)
-+int mtk_vcodec_init_enc_clk(struct mtk_vcodec_dev *mtkdev)
- {
- 	struct device_node *node;
- 	struct platform_device *pdev;
-@@ -86,13 +86,6 @@ int mtk_vcodec_init_enc_pm(struct mtk_vcodec_dev *mtkdev)
- 	return ret;
- }
- 
--void mtk_vcodec_release_enc_pm(struct mtk_vcodec_dev *mtkdev)
--{
--	pm_runtime_disable(mtkdev->pm.dev);
--	put_device(mtkdev->pm.larbvenc);
--}
--
--
- void mtk_vcodec_enc_clock_on(struct mtk_vcodec_pm *pm)
- {
- 	struct mtk_vcodec_clk *enc_clk = &pm->venc_clk;
-diff --git a/drivers/media/platform/mtk-vcodec/mtk_vcodec_enc_pm.h b/drivers/media/platform/mtk-vcodec/mtk_vcodec_enc_pm.h
-index b7ecdfd74823..bc455cefc0cd 100644
---- a/drivers/media/platform/mtk-vcodec/mtk_vcodec_enc_pm.h
-+++ b/drivers/media/platform/mtk-vcodec/mtk_vcodec_enc_pm.h
-@@ -9,8 +9,7 @@
- 
- #include "mtk_vcodec_drv.h"
- 
--int mtk_vcodec_init_enc_pm(struct mtk_vcodec_dev *dev);
--void mtk_vcodec_release_enc_pm(struct mtk_vcodec_dev *dev);
-+int mtk_vcodec_init_enc_clk(struct mtk_vcodec_dev *dev);
- 
- void mtk_vcodec_enc_clock_on(struct mtk_vcodec_pm *pm);
- void mtk_vcodec_enc_clock_off(struct mtk_vcodec_pm *pm);
+diff --git a/drivers/media/common/b2c2/flexcop.c b/drivers/media/common/b2c2/flexcop.c
+index e7a88a2d248c..38c300da3fc2 100644
+--- a/drivers/media/common/b2c2/flexcop.c
++++ b/drivers/media/common/b2c2/flexcop.c
+@@ -1,4 +1,4 @@
+-// SPDX-License-Identifier: LGPL-2.1-or-later
++// SPDX-License-Identifier: LGPL-2.1+
+ /*
+  * Linux driver for digital TV devices equipped with B2C2 FlexcopII(b)/III
+  * flexcop.c - main module part
+diff --git a/drivers/media/dvb-core/dmxdev.c b/drivers/media/dvb-core/dmxdev.c
+index f6ee678107d3..2b4fb2ec1efd 100644
+--- a/drivers/media/dvb-core/dmxdev.c
++++ b/drivers/media/dvb-core/dmxdev.c
+@@ -1,4 +1,4 @@
+-// SPDX-License-Identifier: LGPL-2.1-or-later
++// SPDX-License-Identifier: LGPL-2.1+
+ /*
+  * dmxdev.c - DVB demultiplexer device
+  *
+diff --git a/drivers/media/dvb-core/dvb_demux.c b/drivers/media/dvb-core/dvb_demux.c
+index 83cc32ad7e12..35bf76b0425c 100644
+--- a/drivers/media/dvb-core/dvb_demux.c
++++ b/drivers/media/dvb-core/dvb_demux.c
+@@ -1,4 +1,4 @@
+-// SPDX-License-Identifier: LGPL-2.1-or-later
++// SPDX-License-Identifier: LGPL-2.1+
+ /*
+  * dvb_demux.c - DVB kernel demux API
+  *
+diff --git a/drivers/media/dvb-core/dvbdev.c b/drivers/media/dvb-core/dvbdev.c
+index 675d877a67b2..861559e8b4c9 100644
+--- a/drivers/media/dvb-core/dvbdev.c
++++ b/drivers/media/dvb-core/dvbdev.c
+@@ -1,4 +1,4 @@
+-// SPDX-License-Identifier: LGPL-2.1-or-later
++// SPDX-License-Identifier: LGPL-2.1+
+ /*
+  * dvbdev.c
+  *
 -- 
-2.25.1
+2.17.1
 
