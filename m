@@ -2,140 +2,105 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0B93D4775A2
-	for <lists+linux-media@lfdr.de>; Thu, 16 Dec 2021 16:18:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4CF6047760C
+	for <lists+linux-media@lfdr.de>; Thu, 16 Dec 2021 16:35:56 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232953AbhLPPSM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 16 Dec 2021 10:18:12 -0500
-Received: from mga01.intel.com ([192.55.52.88]:27706 "EHLO mga01.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S232605AbhLPPSL (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 16 Dec 2021 10:18:11 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1639667891; x=1671203891;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Sj3XHCLBEEWpQ+x2/i2MjFTaTVO1ZOBXBg0AInTZJVc=;
-  b=l7ysjpgnN8ehWL7cmHylSF9K1NlvyC4JMDfJxi9oQ9DW/RF0fTys95jV
-   WI8+ZsrdMVUoePpM58f2rSY/5tG9eNyIW4ZapVXcQLbj7sVDnRM0+Roza
-   VAXGQqyoiGs59BCUZ03jMTkpKwYInQ/JlMQdZ87Qy9kvFTmflQQo+Ho0d
-   PK1F73IRueVEq2W9U2/GNIaSZryRv8rtDbQKsQI69tOq6NYS7xTceTbc8
-   hfGxfrAmdtMXv+3ki8LgWLTwM+z9+/x0qsYapRI7qHXLmkmEWfiVZxDUg
-   ErNMB4CjTAd5UB6yrL/84ARMl9a9sVSVW9Vh1mINNJmJLF1h0wDywaHpL
-   Q==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10199"; a="263681381"
-X-IronPort-AV: E=Sophos;i="5.88,211,1635231600"; 
-   d="scan'208";a="263681381"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Dec 2021 07:18:11 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.88,211,1635231600"; 
-   d="scan'208";a="546012901"
-Received: from lkp-server02.sh.intel.com (HELO 9f38c0981d9f) ([10.239.97.151])
-  by orsmga001.jf.intel.com with ESMTP; 16 Dec 2021 07:18:08 -0800
-Received: from kbuild by 9f38c0981d9f with local (Exim 4.92)
-        (envelope-from <lkp@intel.com>)
-        id 1mxsWF-0003NX-TC; Thu, 16 Dec 2021 15:18:07 +0000
-Date:   Thu, 16 Dec 2021 23:17:14 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Yunfei Dong <yunfei.dong@mediatek.com>,
-        Alexandre Courbot <acourbot@chromium.org>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Tzung-Bi Shih <tzungbi@chromium.org>,
-        Tiffany Lin <tiffany.lin@mediatek.com>,
-        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>
-Cc:     kbuild-all@lists.01.org, linux-media@vger.kernel.org
-Subject: Re: [PATCH v16, 13/19] media: mtk-vcodec: Add work queue for core
- hardware decode
-Message-ID: <202112162312.CKVSGb5P-lkp@intel.com>
-References: <20211216094552.19104-14-yunfei.dong@mediatek.com>
+        id S238573AbhLPPfz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 16 Dec 2021 10:35:55 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59340 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S235074AbhLPPfz (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Thu, 16 Dec 2021 10:35:55 -0500
+Received: from mail-ot1-x32b.google.com (mail-ot1-x32b.google.com [IPv6:2607:f8b0:4864:20::32b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3D40CC061574
+        for <linux-media@vger.kernel.org>; Thu, 16 Dec 2021 07:35:55 -0800 (PST)
+Received: by mail-ot1-x32b.google.com with SMTP id 47-20020a9d0332000000b005798ac20d72so29361404otv.9
+        for <linux-media@vger.kernel.org>; Thu, 16 Dec 2021 07:35:55 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:sender:from:date:message-id:subject:to
+         :content-transfer-encoding;
+        bh=G0RN1/MB2GDdOZ8S+RSntY+TeGIHAxl+ksWenno3NeM=;
+        b=gHozxpQqdILg9shKlKiN3kmDMb9jXvKXwrxmSp2hsQTCP9gNZbbx7B8sYLUQO8aUyY
+         zWvexQ52YSG2iFZw4/j1N2ZsmuKqM7mUM2seeLE3nUVj1KJeRZ8fK8iMC/B4Bg3ElTst
+         8AczjfCh12dLQq5oZDaWIxnR8BnCYJf+FR2/G61h7oOTkQ1KXNtlsMEax4+uhVfC4CjN
+         zlZgEpPj3BLtJHpMef61WEDjDQfejwhJS1+E8wZrQI1wY672Qn66TjU7AT4PTJCY5z+p
+         gDTeD4yffKjTXiGcLzaU7X7xzYmAJAQeOU7//a9nc3CxYA7iU3XQ7TzwcdFG95W36RAm
+         /+kQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:sender:from:date:message-id:subject
+         :to:content-transfer-encoding;
+        bh=G0RN1/MB2GDdOZ8S+RSntY+TeGIHAxl+ksWenno3NeM=;
+        b=K/rofBvqI024z7t44Px/jSssXvqo0cOSiu7VRKWOQkynf5epbFetczY1GJ8xjduXfl
+         7xH+AqVePLOJWVrhKl26uro7kuf3boIS0NELhpL8KqyMnWGwaA8M5WBcQ3ry9BU3kClJ
+         F+k8kijlpCxT+kFSMIHUUBxBX9DXKi0xy9NN/767RNwbulkhQgyRaSekbm9hxUAMgW5O
+         2KOPqpprtYmcNd8sqsRaOFN97IYNwVs90yLVuNnlGTkMBXDdEim5jTC+/aRvekIaX18c
+         S3Vy8QG6tBsJhZW02mFcBBpemXupP45xpTulJrRyXsj2ARV79fy1suNrMJ5BSzMpDIf4
+         uPfQ==
+X-Gm-Message-State: AOAM5336zyIJwVWXlgAJHmZ09eeBW+XacGAXy7QGLPEDqHRsY0PGV9B7
+        Ie9vOcHKyZTwaQ5cUlrLg5Qf26DZQiET7aPOO9/Q4nfxDIedPFSJ
+X-Google-Smtp-Source: ABdhPJxSJkjWYfUQ6md2i9xY8x0qd24YHm828JD9p3x4xTp13XT0xTFkn5rKeqzHcO8jfFuCqvsSYKIb94O+rQM4si0=
+X-Received: by 2002:a9d:734d:: with SMTP id l13mr12795763otk.292.1639668954388;
+ Thu, 16 Dec 2021 07:35:54 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20211216094552.19104-14-yunfei.dong@mediatek.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Sender: charityvangal@gmail.com
+Received: by 2002:a4a:d9cb:0:0:0:0:0 with HTTP; Thu, 16 Dec 2021 07:35:53
+ -0800 (PST)
+From:   DINA MCKENNA <dinamckennahowley@gmail.com>
+Date:   Thu, 16 Dec 2021 15:35:53 +0000
+X-Google-Sender-Auth: oeURwIXKXiqyam6gkaVdDvAnrDg
+Message-ID: <CABTbXj+ahP9ySFdBN-CNc=987KfG6Zgauzb0zjU0UhrHTHua+Q@mail.gmail.com>
+Subject: Hello,
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Yunfei,
+Hello my dear,
 
-Thank you for the patch! Perhaps something to improve:
+ I sent this mail praying it will get to you in a good condition of
+health, since I myself are in a very critical health condition in
+which I sleep every night without knowing if I may be alive to see the
+next day. I bring peace and love to you. It is by the grace of God, I
+had no choice than to do what is lawful and right in the sight of God
+for eternal life and in the sight of man, for witness of God=E2=80=99s merc=
+y
+and glory upon my life. I am Mrs. Dina Howley. Mckenna, a widow. I am
+suffering from a long time brain tumor, It has defiled all forms of
+medical treatment, and right now I have about a few months to leave,
+according to medical experts. The situation has gotten complicated
+recently with my inability to hear proper, am communicating with you
+with the help of the chief nurse herein the hospital, from all
+indication my conditions is really deteriorating and it is quite
+obvious that, according to my doctors they have advised me that I may
+not live too long, Because this illness has gotten to a very bad
+stage. I plead that you will not expose or betray this trust and
+confidence that I am about to repose on you for the mutual benefit of
+the orphans and the less privilege. I have some funds I inherited from
+my late husband, the sum of ($ 11,000,000.00, Eleven Million Dollars).
+Having known my condition, I decided to donate this fund to you
+believing that you will utilize it the way i am going to instruct
+herein. I need you to assist me and reclaim this money and use it for
+Charity works therein your country  for orphanages and gives justice
+and help to the poor, needy and widows says The Lord." Jeremiah
+22:15-16.=E2=80=9C and also build schools for less privilege that will be
+named after my late husband if possible and to promote the word of God
+and the effort that the house of God is maintained. I do not want a
+situation where this money will be used in an ungodly manner. That's
+why I'm taking this decision. I'm not afraid of death, so I know where
+I'm going. I accept this decision because I do not have any child who
+will inherit this money after I die.. Please I want your sincerely and
+urgent answer to know if you will be able to execute this project for
+the glory of God, and I will give you more information on how the fund
+will be transferred to your bank account.. May the grace, peace, love
+and the truth in the Word of God be with you and all those that you
+love and care for.
 
-[auto build test WARNING on media-tree/master]
-[also build test WARNING on next-20211215]
-[cannot apply to v5.16-rc5]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch]
+I'm waiting for your immediate reply.
 
-url:    https://github.com/0day-ci/linux/commits/Yunfei-Dong/Support-multi-hardware-decode-using-of_platform_populate/20211216-174823
-base:   git://linuxtv.org/media_tree.git master
-config: alpha-randconfig-r033-20211216 (https://download.01.org/0day-ci/archive/20211216/202112162312.CKVSGb5P-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 11.2.0
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/0day-ci/linux/commit/7ce79e6a446bd8e992083b0fb72f0934009ca99d
-        git remote add linux-review https://github.com/0day-ci/linux
-        git fetch --no-tags linux-review Yunfei-Dong/Support-multi-hardware-decode-using-of_platform_populate/20211216-174823
-        git checkout 7ce79e6a446bd8e992083b0fb72f0934009ca99d
-        # save the config file to linux build tree
-        mkdir build_dir
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-11.2.0 make.cross O=build_dir ARCH=alpha SHELL=/bin/bash drivers/media/platform/mtk-vcodec/
-
-If you fix the issue, kindly add following tag as appropriate
-Reported-by: kernel test robot <lkp@intel.com>
-
-All warnings (new ones prefixed by >>):
-
-   In file included from include/asm-generic/bug.h:22,
-                    from arch/alpha/include/asm/bug.h:23,
-                    from include/linux/bug.h:5,
-                    from include/linux/thread_info.h:13,
-                    from include/asm-generic/current.h:5,
-                    from ./arch/alpha/include/generated/asm/current.h:1,
-                    from include/linux/sched.h:12,
-                    from include/linux/freezer.h:8,
-                    from drivers/media/platform/mtk-vcodec/vdec_msg_queue.c:7:
-   drivers/media/platform/mtk-vcodec/vdec_msg_queue.c: In function 'vdec_msg_queue_core_work':
->> include/linux/kern_levels.h:5:25: warning: too many arguments for format [-Wformat-extra-args]
-       5 | #define KERN_SOH        "\001"          /* ASCII Start Of Header */
-         |                         ^~~~~~
-   include/linux/printk.h:422:25: note: in definition of macro 'printk_index_wrap'
-     422 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
-         |                         ^~~~
-   include/linux/printk.h:132:17: note: in expansion of macro 'printk'
-     132 |                 printk(fmt, ##__VA_ARGS__);             \
-         |                 ^~~~~~
-   include/linux/printk.h:580:9: note: in expansion of macro 'no_printk'
-     580 |         no_printk(KERN_DEBUG pr_fmt(fmt), ##__VA_ARGS__)
-         |         ^~~~~~~~~
-   include/linux/kern_levels.h:15:25: note: in expansion of macro 'KERN_SOH'
-      15 | #define KERN_DEBUG      KERN_SOH "7"    /* debug-level messages */
-         |                         ^~~~~~~~
-   include/linux/printk.h:580:19: note: in expansion of macro 'KERN_DEBUG'
-     580 |         no_printk(KERN_DEBUG pr_fmt(fmt), ##__VA_ARGS__)
-         |                   ^~~~~~~~~~
-   drivers/media/platform/mtk-vcodec/mtk_vcodec_util.h:39:45: note: in expansion of macro 'pr_debug'
-      39 | #define mtk_v4l2_debug(level, fmt, args...) pr_debug(fmt, ##args)
-         |                                             ^~~~~~~~
-   drivers/media/platform/mtk-vcodec/vdec_msg_queue.c:223:17: note: in expansion of macro 'mtk_v4l2_debug'
-     223 |                 mtk_v4l2_debug(3, "re-schedule to decode for core",
-         |                 ^~~~~~~~~~~~~~
-
-
-vim +5 include/linux/kern_levels.h
-
-314ba3520e513a Joe Perches 2012-07-30  4  
-04d2c8c83d0e3a Joe Perches 2012-07-30 @5  #define KERN_SOH	"\001"		/* ASCII Start Of Header */
-04d2c8c83d0e3a Joe Perches 2012-07-30  6  #define KERN_SOH_ASCII	'\001'
-04d2c8c83d0e3a Joe Perches 2012-07-30  7  
-
----
-0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+May God Bless you,
+Mrs. Dina Howley. Mckenna.
