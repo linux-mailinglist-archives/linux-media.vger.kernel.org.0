@@ -2,226 +2,82 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 81764477B93
-	for <lists+linux-media@lfdr.de>; Thu, 16 Dec 2021 19:33:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1819B477D8C
+	for <lists+linux-media@lfdr.de>; Thu, 16 Dec 2021 21:27:27 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240695AbhLPSdg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 16 Dec 2021 13:33:36 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46368 "EHLO
+        id S241417AbhLPU1Y (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 16 Dec 2021 15:27:24 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44606 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240693AbhLPSdg (ORCPT
+        with ESMTP id S240527AbhLPU1Y (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 16 Dec 2021 13:33:36 -0500
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CF4F2C06173E;
-        Thu, 16 Dec 2021 10:33:35 -0800 (PST)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 92A623F6;
-        Thu, 16 Dec 2021 19:33:31 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1639679611;
-        bh=rceAQ/YsJhVQ2PiizoA6ww+RIrMAQMSpqu6yyRK90Mg=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=q+dOr/qgXy+ugIzrJyOdEcCIHWNab1NDlK66vVOJschAFqBpdaJk8npRgptnkxmCS
-         A3KsnqydKavqkjsTA9RKlSpWQxOloAzkBJd7f/IQYuYeILLycDiA4644quOfQEaFMP
-         i1x6fE3QY00v+lEZM9va/32+4qcT3+Rf+ggdxgQo=
-Date:   Thu, 16 Dec 2021 20:33:29 +0200
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Jacopo Mondi <jacopo+renesas@jmondi.org>
-Cc:     tomi.valkeinen@ideasonboard.com, sakari.ailus@linux.intel.com,
-        niklas.soderlund@ragnatech.se, kieran.bingham@ideasonboard.com,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH v4 1/6] media: max9286: Add support for v4l2_subdev_state
-Message-ID: <YbuGeXLNQUPYqMFP@pendragon.ideasonboard.com>
-References: <20211216174746.147233-1-jacopo+renesas@jmondi.org>
- <20211216174746.147233-2-jacopo+renesas@jmondi.org>
+        Thu, 16 Dec 2021 15:27:24 -0500
+Received: from mail-lf1-x12b.google.com (mail-lf1-x12b.google.com [IPv6:2a00:1450:4864:20::12b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C9B86C061574
+        for <linux-media@vger.kernel.org>; Thu, 16 Dec 2021 12:27:23 -0800 (PST)
+Received: by mail-lf1-x12b.google.com with SMTP id m6so355745lfu.1
+        for <linux-media@vger.kernel.org>; Thu, 16 Dec 2021 12:27:23 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ragnatech-se.20210112.gappssmtp.com; s=20210112;
+        h=date:from:to:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=yp8nR+Sm7SDCOEKQCHnVDUVfeKtATtEq7tPYFmHOlS0=;
+        b=j5KiwllH+w0gArstm+342bdDvALLXYB1P6W58MjDSXcYtxYoBGclrKTamcKv2w04PC
+         Aduypv/tdjUjMP7RjUFUrk7KVWvrI+9V8eif6ROp4Y86DXrqF8NYxr35A1RSbjfCsG84
+         b+xA681BMzseGzy9Jy00rgbvNdcmb+xzqXSc5HbqxA8KPOeJRxqhcNb91KsypB9Fk53n
+         0knaC8Ktvd7lE6Z/2qkU2tBBF7W0Met7FVN//3TLuerkdlx2i0lmJa4NB9kBPv1I7Pfh
+         1wZpbYwgqEPQepruyE0cPolHGg2OKn7/HXGvluEXQ0ZM74u0GNOOK/55mADX0eJ5wzMe
+         Dadw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=yp8nR+Sm7SDCOEKQCHnVDUVfeKtATtEq7tPYFmHOlS0=;
+        b=DnTFrlJAbNY0vchEv0xujEqIlcHoEYPfr45ZM68Y+EtPkqxM553Q0JVT+C/Tfep9Cv
+         MKsFzopZDlIyJi1aJ6/VDb3Nqv4ERPt0FJUGjjq76714mUOBDDOKe7Df9jz7wyzIytz1
+         z2vlCbJLSAtwwZZzUA0CUN/zn4j486i/RnDUiKtrtUMGQo9e4t1Xx4+2avNXRxHb1Y0d
+         9eBUNTmdyzS45+NpoXncxfZMcbvp2N0ZCgtEsxrHksN2MPnrU4sNKgrcLbMXhMDFzckQ
+         7lj+kkejLzu/P1vw0pCQ5cFSkl6vaKWiBb9wP5NMJDgD0RuCxFv2rN+G5dP68N9Grp6i
+         vCLg==
+X-Gm-Message-State: AOAM532IV0h1lQSJvKOGJOHR723dq6rHdDTKL6GetLWzN7Wjajuvr1P3
+        wI1mNWXxFtAYrVmG6nllHBVJdvA2uFlIIA==
+X-Google-Smtp-Source: ABdhPJwu5TmQnMKAPgGjs5Af+64FWyTqvCaGacmRJr3sLSW5Uqtw1IrMpLJUwH5LjX2ZL9FYi9lr2A==
+X-Received: by 2002:ac2:4e61:: with SMTP id y1mr16722072lfs.459.1639686441386;
+        Thu, 16 Dec 2021 12:27:21 -0800 (PST)
+Received: from localhost (h-46-59-90-226.A463.priv.bahnhof.se. [46.59.90.226])
+        by smtp.gmail.com with ESMTPSA id d23sm1033112lfm.107.2021.12.16.12.27.20
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 16 Dec 2021 12:27:21 -0800 (PST)
+Date:   Thu, 16 Dec 2021 21:27:20 +0100
+From:   "Niklas S\\xF6derlund" <niklas.soderlund+renesas@ragnatech.se>
+To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        linux-media@vger.kernel.org
+Subject: Re: [git:media_tree/master] media: i2c: max9286: Use dev_err_probe()
+ helper
+Message-ID: <YbuhKCR56T0txqUS@oden.dyn.berto.se>
+References: <E1mxwo1-005rm2-68@www.linuxtv.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20211216174746.147233-2-jacopo+renesas@jmondi.org>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <E1mxwo1-005rm2-68@www.linuxtv.org>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Jacopo,
+Hi Mauro,
 
-Thank you for the patch.
+Thanks for merging this patch.
 
-On Thu, Dec 16, 2021 at 06:47:41PM +0100, Jacopo Mondi wrote:
-> Create and initialize the v4l2_subdev_state for the max9286 driver in
-> order to prepare to support routing operations and multiplexed streams.
-> 
-> Create the subdevice state with v4l2_subdev_init_finalize() and
-> implement the init_cfg() operation to guarantee the state is initialized
-> correctly with the default device format.
-> 
-> Remove the max9286_open() subdev internal operation as the format of the
-> file-handle state is now initialized by init_cfg().
-> 
-> Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
+On 2021-12-14 15:19:04 +0000, Mauro Carvalho Chehab wrote:
+> Signed-off-by: Niklas S\xF6derlund > <niklas.soderlund+renesas@ragnatech.se>
 
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Could you please fix this?
 
-> ---
->  drivers/media/i2c/max9286.c | 89 +++++++++++++++++++++++--------------
->  1 file changed, 56 insertions(+), 33 deletions(-)
-> 
-> diff --git a/drivers/media/i2c/max9286.c b/drivers/media/i2c/max9286.c
-> index 9e204aabf465..1b9ff537d08e 100644
-> --- a/drivers/media/i2c/max9286.c
-> +++ b/drivers/media/i2c/max9286.c
-> @@ -214,6 +214,17 @@ static inline struct max9286_priv *sd_to_max9286(struct v4l2_subdev *sd)
->  	return container_of(sd, struct max9286_priv, sd);
->  }
->  
-> +static const struct v4l2_mbus_framefmt max9286_default_format = {
-> +	.width		= 1280,
-> +	.height		= 800,
-> +	.code		= MEDIA_BUS_FMT_UYVY8_1X16,
-> +	.colorspace	= V4L2_COLORSPACE_SRGB,
-> +	.field		= V4L2_FIELD_NONE,
-> +	.ycbcr_enc	= V4L2_YCBCR_ENC_DEFAULT,
-> +	.quantization	= V4L2_QUANTIZATION_DEFAULT,
-> +	.xfer_func	= V4L2_XFER_FUNC_DEFAULT,
-> +};
-> +
->  /* -----------------------------------------------------------------------------
->   * I2C IO
->   */
-> @@ -821,11 +832,45 @@ static int max9286_get_fmt(struct v4l2_subdev *sd,
->  	return 0;
->  }
->  
-> +static int max9286_init_cfg(struct v4l2_subdev *sd,
-> +			    struct v4l2_subdev_state *state)
-> +{
-> +	struct v4l2_subdev_route routes[MAX9286_NUM_GMSL];
-> +	struct max9286_priv *priv = sd_to_max9286(sd);
-> +	struct v4l2_subdev_krouting routing;
-> +	struct max9286_source *source;
-> +	unsigned int num_routes = 0;
-> +	int ret;
-> +
-> +	/* Create a route for each enable source. */
-> +	for_each_source(priv, source) {
-> +		struct v4l2_subdev_route *route = &routes[num_routes++];
-> +		unsigned int idx = to_index(priv, source);
-> +
-> +		route->sink_pad = idx;
-> +		route->sink_stream = 0;
-> +		route->source_pad = MAX9286_SRC_PAD;
-> +		route->source_stream = idx;
-> +		route->flags = V4L2_SUBDEV_ROUTE_FL_ACTIVE;
-> +	}
-> +
-> +	routing.num_routes = num_routes;
-> +	routing.routes = routes;
-> +
-> +	v4l2_subdev_lock_state(state);
-> +	ret = v4l2_subdev_set_routing_with_fmt(sd, state, &routing,
-> +					       &max9286_default_format);
-> +	v4l2_subdev_unlock_state(state);
-> +
-> +	return ret;
-> +}
-> +
->  static const struct v4l2_subdev_video_ops max9286_video_ops = {
->  	.s_stream	= max9286_s_stream,
->  };
->  
->  static const struct v4l2_subdev_pad_ops max9286_pad_ops = {
-> +	.init_cfg	= max9286_init_cfg,
->  	.enum_mbus_code = max9286_enum_mbus_code,
->  	.get_fmt	= max9286_get_fmt,
->  	.set_fmt	= max9286_set_fmt,
-> @@ -836,35 +881,6 @@ static const struct v4l2_subdev_ops max9286_subdev_ops = {
->  	.pad		= &max9286_pad_ops,
->  };
->  
-> -static void max9286_init_format(struct v4l2_mbus_framefmt *fmt)
-> -{
-> -	fmt->width		= 1280;
-> -	fmt->height		= 800;
-> -	fmt->code		= MEDIA_BUS_FMT_UYVY8_1X16;
-> -	fmt->colorspace		= V4L2_COLORSPACE_SRGB;
-> -	fmt->field		= V4L2_FIELD_NONE;
-> -	fmt->ycbcr_enc		= V4L2_YCBCR_ENC_DEFAULT;
-> -	fmt->quantization	= V4L2_QUANTIZATION_DEFAULT;
-> -	fmt->xfer_func		= V4L2_XFER_FUNC_DEFAULT;
-> -}
-> -
-> -static int max9286_open(struct v4l2_subdev *subdev, struct v4l2_subdev_fh *fh)
-> -{
-> -	struct v4l2_mbus_framefmt *format;
-> -	unsigned int i;
-> -
-> -	for (i = 0; i < MAX9286_N_SINKS; i++) {
-> -		format = v4l2_subdev_get_try_format(subdev, fh->state, i);
-> -		max9286_init_format(format);
-> -	}
-> -
-> -	return 0;
-> -}
-> -
-> -static const struct v4l2_subdev_internal_ops max9286_subdev_internal_ops = {
-> -	.open = max9286_open,
-> -};
-> -
->  static int max9286_s_ctrl(struct v4l2_ctrl *ctrl)
->  {
->  	switch (ctrl->id) {
-> @@ -896,11 +912,11 @@ static int max9286_v4l2_register(struct max9286_priv *priv)
->  	/* Configure V4L2 for the MAX9286 itself */
->  
->  	for (i = 0; i < MAX9286_N_SINKS; i++)
-> -		max9286_init_format(&priv->fmt[i]);
-> +		priv->fmt[i] = max9286_default_format;
->  
->  	v4l2_i2c_subdev_init(&priv->sd, priv->client, &max9286_subdev_ops);
-> -	priv->sd.internal_ops = &max9286_subdev_internal_ops;
-> -	priv->sd.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE;
-> +	priv->sd.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE |
-> +			  V4L2_SUBDEV_FL_MULTIPLEXED;
->  
->  	v4l2_ctrl_handler_init(&priv->ctrls, 1);
->  	priv->pixelrate = v4l2_ctrl_new_std(&priv->ctrls,
-> @@ -932,14 +948,20 @@ static int max9286_v4l2_register(struct max9286_priv *priv)
->  	}
->  	priv->sd.fwnode = ep;
->  
-> +	ret = v4l2_subdev_init_finalize(&priv->sd);
-> +	if (ret)
-> +		goto err_put_node;
-> +
->  	ret = v4l2_async_register_subdev(&priv->sd);
->  	if (ret < 0) {
->  		dev_err(dev, "Unable to register subdevice\n");
-> -		goto err_put_node;
-> +		goto err_state_cleanup;
->  	}
->  
->  	return 0;
->  
-> +err_state_cleanup:
-> +	v4l2_subdev_cleanup(&priv->sd);
->  err_put_node:
->  	fwnode_handle_put(ep);
->  err_async:
-> @@ -952,6 +974,7 @@ static void max9286_v4l2_unregister(struct max9286_priv *priv)
->  {
->  	fwnode_handle_put(priv->sd.fwnode);
->  	v4l2_async_unregister_subdev(&priv->sd);
-> +	v4l2_subdev_cleanup(&priv->sd);
->  	max9286_v4l2_notifier_unregister(priv);
->  }
->  
-> -- 
-> 2.33.1
-> 
+This have worked in the past. But for the last ~week or so all patches 
+merged by you have had my SoB and R-b tags mangled in this way.
 
 -- 
-Regards,
-
-Laurent Pinchart
+Kind Regards,
+Niklas Söderlund
