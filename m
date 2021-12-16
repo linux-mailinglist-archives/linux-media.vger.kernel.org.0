@@ -2,158 +2,211 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A3DA44772FD
-	for <lists+linux-media@lfdr.de>; Thu, 16 Dec 2021 14:18:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C5546477336
+	for <lists+linux-media@lfdr.de>; Thu, 16 Dec 2021 14:32:19 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237462AbhLPNSK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 16 Dec 2021 08:18:10 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54824 "EHLO
+        id S234654AbhLPNcS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 16 Dec 2021 08:32:18 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58078 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234573AbhLPNSK (ORCPT
+        with ESMTP id S234599AbhLPNcR (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 16 Dec 2021 08:18:10 -0500
-Received: from mail-yb1-xb2f.google.com (mail-yb1-xb2f.google.com [IPv6:2607:f8b0:4864:20::b2f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 095B3C061574;
-        Thu, 16 Dec 2021 05:18:10 -0800 (PST)
-Received: by mail-yb1-xb2f.google.com with SMTP id j2so64413000ybg.9;
-        Thu, 16 Dec 2021 05:18:09 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=4ZPqCPeKkF5/1MPYiuOGy4JgZ/F6BznknqA4rnfWZkI=;
-        b=ahY1UDGTLwLl0X7LxleqPM1c/pjUKL+DAViFxHjNO9mU2FeRmBt8QX37I3se6mS+gB
-         EZI/ZcoRmhfUE0IWvWS6Ou15q/5BHq5FA2JUh+d7EsZn10TxUShun0zrEoR95guAKGDd
-         X++TWK44N+lFUw3iqNpN+UvNsYE5fBwImD8wTuIbxUlCvskH17iYwzUUHigsqaaB2Vo1
-         pQzRuGZact0tfxZwYbTG39ve2gYv+TFFSpy3qzWy19SogaqzEB1oo+dtOGaEm0ofKi2a
-         JsDs9ks+yzCz8tuM9/sy9useY/8afoqsBHefJIVpF40nxTIP8gLLm/o+qpBI3iprR7UR
-         eX6w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=4ZPqCPeKkF5/1MPYiuOGy4JgZ/F6BznknqA4rnfWZkI=;
-        b=sWfJ4eKbcFjYwrPvGAgZ315aK2AJbsL4sh0Lm5qTr7kxxwclbnkJadzMDkcd8Z5mdB
-         v5eI9IYNMPz+LySBK8fprpq4j/A7713dVJrqYffRa3t6G4RDGBBouTe+KyeDsg56IB8V
-         g9I3eU7yoZ9grg3f4Rb3wvMgXUP/0uEamCRgd3ptA14hg3V67ehryF5UxlhhBl5Za9g0
-         mlgoyvntCG/FF7V264GS7ndAixFDWTfIs/NMLypVjtnf2dIgDtPNa82IenJ1fwkYvi/5
-         Wgrr9lnqUf6FnuypNfxbk6oeakbTV64XBwFuQHdN424CZIB0zN3+ix6eyuujiAGuho+2
-         e+iw==
-X-Gm-Message-State: AOAM532AYCI41+7yNZChZACktNOB+2fkjm4uYRYtvt6jaCKipa5JjnMm
-        Tjsh+IM4dlq852LDAaGbpD4Oq18B5tV2Ambf1xT78p1dZwI=
-X-Google-Smtp-Source: ABdhPJx+q2LUYLRFLsp4KRRdV3c8S9ru3NDUyZ+gyniTmQpgOReqb9DYNfRD1VRB/+X3evUVojBN+2fCqcf8P1rtVfc=
-X-Received: by 2002:a25:dfd1:: with SMTP id w200mr12467763ybg.359.1639660689172;
- Thu, 16 Dec 2021 05:18:09 -0800 (PST)
+        Thu, 16 Dec 2021 08:32:17 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7F239C061574;
+        Thu, 16 Dec 2021 05:32:17 -0800 (PST)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id D83A73F6;
+        Thu, 16 Dec 2021 14:32:15 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1639661536;
+        bh=6BYTwDMJAz48uY5rsME4qy/+7JNglc7H0Z0Mllf4mKM=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=AE5wgl1m5jSCxesha4wTw2PTyxTTc1F1tq854Q2KTrDmmJ6yXIz4eCEk3kqf6dIhn
+         FuUSSuG2stJwpp0Jh8N7ELyf6p3FX4ibcsYavGJfqbT9eJ0TTsbtEBHhgc/nwZI6Xl
+         4t6r7KndPtAdGWnEHPywQ8ZNbMtyKvpyGZmzMXe4=
+Date:   Thu, 16 Dec 2021 15:32:13 +0200
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Jacopo Mondi <jacopo+renesas@jmondi.org>
+Cc:     tomi.valkeinen@ideasonboard.com, sakari.ailus@linux.intel.com,
+        niklas.soderlund@ragnatech.se, kieran.bingham@ideasonboard.com,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH v2 05/13] media: max9286: Move format to subdev state
+Message-ID: <Ybs/3RJEvbMQXcLc@pendragon.ideasonboard.com>
+References: <20211017182449.64192-1-jacopo+renesas@jmondi.org>
+ <20211017182449.64192-6-jacopo+renesas@jmondi.org>
+ <Ybs0Tl3qqfXbwO50@pendragon.ideasonboard.com>
 MIME-Version: 1.0
-References: <20211216103132.8087-1-lukas.bulwahn@gmail.com>
- <20211216122311.0c9d154e@coco.lan> <Ybsrdll5sqIakINT@kroah.com> <20211216131522.4e7b148d@coco.lan>
-In-Reply-To: <20211216131522.4e7b148d@coco.lan>
-From:   Lukas Bulwahn <lukas.bulwahn@gmail.com>
-Date:   Thu, 16 Dec 2021 14:17:59 +0100
-Message-ID: <CAKXUXMwoMV_QrZjDtkjLMfsJAFN39ZQsZi3sh_iFsE8szEKTtQ@mail.gmail.com>
-Subject: Re: [PATCH] media: prefer generic SPDX-License expression to
- deprecated one
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Cai Huoqing <caihuoqing@baidu.com>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        linux-spdx@vger.kernel.org,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <Ybs0Tl3qqfXbwO50@pendragon.ideasonboard.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, Dec 16, 2021 at 1:15 PM Mauro Carvalho Chehab
-<mchehab@kernel.org> wrote:
->
-> Em Thu, 16 Dec 2021 13:05:10 +0100
-> Greg Kroah-Hartman <gregkh@linuxfoundation.org> escreveu:
->
-> > On Thu, Dec 16, 2021 at 12:23:11PM +0100, Mauro Carvalho Chehab wrote:
-> > > Em Thu, 16 Dec 2021 11:31:32 +0100
-> > > Lukas Bulwahn <lukas.bulwahn@gmail.com> escreveu:
-> > >
-> > > > Commit 8d395ce6f04b ("media: dvb-core: Convert to SPDX identifier") and
-> > > > commit e67219b0496b ("media: b2c2: flexcop: Convert to SPDX identifier")
-> > > > introduce the SPDX-License expression LGPL-2.1-or-later for some files.
-> > > >
-> > > > The command ./scripts/spdxcheck.py warns:
-> > > >
-> > > >   drivers/media/dvb-core/dmxdev.c: 1:28 Invalid License ID: LGPL-2.1-or-later
-> > > >   drivers/media/dvb-core/dvb_demux.c: 1:28 Invalid License ID: LGPL-2.1-or-later
-> > > >   drivers/media/dvb-core/dvbdev.c: 1:28 Invalid License ID: LGPL-2.1-or-later
-> > > >   drivers/media/common/b2c2/flexcop.c: 1:28 Invalid License ID: LGPL-2.1-or-later
-> > > >
-> > > > The preferred SPDX expression for LGPL-2.1 or any later version is with
-> > > > the more generic "+"-extension for "any later version", so: LGPL-2.1+
-> > > >
-> > > > This makes spdxcheck happy again.
-> > >
-> > > It doesn't sound right to apply such patch.
-> > >
-> > > See, the latest SPDX version uses LGPL-2.1-or-later:
-> > >
-> > >     https://spdx.org/licenses/LGPL-2.1-or-later.html
-> > >
-> > > And it deprecated LGPL-2.1+:
-> > >
-> > >     https://spdx.org/licenses/LGPL-2.1+.html
-> > >
-> > > So, those files are perfectly fine with regards to SPDX, and are
-> > > adherent to its latest specs. We do need the latest specs on media,
-> > > as our documentation is under GFDL-1.1-no-invariants-or-later, which
-> > > only exists on newer SPDX versions.
-> > >
-> > > So, the right thing to do here seems to fix spdxcheck.py, letting it
-> > > either allow both variants (as we probably don't want to replace it
-> > > everywhere) or to emit a warning if the deprecated ones are used.
-> >
-> > No, we are not going to add a "warning" for older SPDX versions like
-> > that, otherwise the majority of the kernel will start spitting out
-> > warnings.
-> >
-> > Let's worry about actually fixing all of the files that do NOT have SPDX
-> > tags before even considering to move to a newer version of the spec.  We
-> > started this work before the FSF made the crazy change to their tags,
-> > let's not worry about any deprecated issues at the moment.
->
-> Yeah, agreed.
->
+Hi Jacopo,
 
-Sorry, I first read the section Deprecated License Identifiers on
-https://spdx.org/licenses/, where it stated:
+On Thu, Dec 16, 2021 at 02:42:55PM +0200, Laurent Pinchart wrote:
+> On Sun, Oct 17, 2021 at 08:24:41PM +0200, Jacopo Mondi wrote:
+> > Move format handling to the v4l2_subdev state and store it per
+> > (pad, stream) combination.
+> > 
+> > Now that the image format is stored in the subdev state, it can be
+> > accessed through v4l2_subdev_get_fmt() instead of open-coding it.
+> 
+> Would it be possible to move this to 02/13 in the series ? Storing the
+> formats in the state doesn't depend on multiplexed streams support, we
+> could thus merge it early. The current 01/13 would need to be split in
+> two, with one part to allocate the active state and implement
+> .init_cfg() without muxed streams support, and another part to add muxed
+> streams support on top.
 
-Release 2.0 of the SPDX Specification introduced License Expressions
-that supports the ability to identify common variations of
-SPDX-identified licenses without the need to define each potential
-variation as a distinct license on the SPDX License List. This new
-syntax supports the ability to declare an SPDX-identified license
-exception using the "WITH" operator (e.g. GPL-2.0-or-later WITH
-Autoconf-exception-2.0), as well as the ability to use a simple "+"
-operator after a license short identifier to indicate "or later
-version". SPDX has defined a list of license exceptions to use after
-the "WITH" operator. As a result, a number of licenses formerly
-included on the SPDX License List have been deprecated, and correct
-usage employs the License Expression syntax as of v2.0.
+It looks like not all patches required for this have been upstreamed yet
+:-( Still, we may be able to merge the "V4L2 Subdev State" subset of the
+muxed streams series sooner than latter, so moving this patch to the
+beginning of the series may make sense.
 
-So, I assumed the "+" operator is the right thing...
+> > Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
+> > ---
+> >  drivers/media/i2c/max9286.c | 85 ++++++++++++-------------------------
+> >  1 file changed, 27 insertions(+), 58 deletions(-)
+> > 
+> > diff --git a/drivers/media/i2c/max9286.c b/drivers/media/i2c/max9286.c
+> > index 3485478f08a5..e51771d99437 100644
+> > --- a/drivers/media/i2c/max9286.c
+> > +++ b/drivers/media/i2c/max9286.c
+> > @@ -175,8 +175,6 @@ struct max9286_priv {
+> >  	struct v4l2_ctrl_handler ctrls;
+> >  	struct v4l2_ctrl *pixelrate;
+> >  
+> > -	struct v4l2_mbus_framefmt fmt[MAX9286_N_SINKS];
+> > -
+> >  	/* Protects controls and fmt structures */
+> >  	struct mutex mutex;
+> >  
+> > @@ -829,28 +827,18 @@ static int max9286_enum_mbus_code(struct v4l2_subdev *sd,
+> >  	return 0;
+> >  }
+> >  
+> > -static struct v4l2_mbus_framefmt *
+> > -max9286_get_pad_format(struct max9286_priv *priv,
+> > -		       struct v4l2_subdev_state *sd_state,
+> > -		       unsigned int pad, u32 which)
+> > -{
+> > -	switch (which) {
+> > -	case V4L2_SUBDEV_FORMAT_TRY:
+> > -		return v4l2_subdev_get_try_format(&priv->sd, sd_state, pad);
+> > -	case V4L2_SUBDEV_FORMAT_ACTIVE:
+> > -		return &priv->fmt[pad];
+> > -	default:
+> > -		return NULL;
+> > -	}
+> > -}
+> > -
+> >  static int max9286_set_fmt(struct v4l2_subdev *sd,
+> >  			   struct v4l2_subdev_state *sd_state,
+> >  			   struct v4l2_subdev_format *format)
+> >  {
+> > -	struct max9286_priv *priv = sd_to_max9286(sd);
+> > -	struct v4l2_mbus_framefmt *cfg_fmt;
+> > +	struct v4l2_mbus_framefmt *fmt;
+> > +	struct v4l2_subdev_state *state;
+> > +	int ret = 0;
+> >  
+> > +	/*
+> > +	 * Refuse to set format on the multiplexed source pad.
+> > +	 * Format is propagated from sinks streams to source streams.
+> > +	 */
+> >  	if (format->pad == MAX9286_SRC_PAD)
+> >  		return -EINVAL;
+> >  
+> > @@ -866,44 +854,28 @@ static int max9286_set_fmt(struct v4l2_subdev *sd,
+> >  		break;
+> >  	}
+> >  
+> > -	cfg_fmt = max9286_get_pad_format(priv, sd_state, format->pad,
+> > -					 format->which);
+> > -	if (!cfg_fmt)
+> > -		return -EINVAL;
+> > -
+> > -	mutex_lock(&priv->mutex);
+> > -	*cfg_fmt = format->format;
+> > -	mutex_unlock(&priv->mutex);
+> > -
+> > -	return 0;
+> > -}
+> > -
+> > -static int max9286_get_fmt(struct v4l2_subdev *sd,
+> > -			   struct v4l2_subdev_state *sd_state,
+> > -			   struct v4l2_subdev_format *format)
+> > -{
+> > -	struct max9286_priv *priv = sd_to_max9286(sd);
+> > -	struct v4l2_mbus_framefmt *cfg_fmt;
+> > -	unsigned int pad = format->pad;
+> > -
+> > -	/*
+> > -	 * Multiplexed Stream Support: Support link validation by returning the
+> > -	 * format of the first bound link. All links must have the same format,
+> > -	 * as we do not support mixing and matching of cameras connected to the
+> > -	 * max9286.
+> > -	 */
+> > -	if (pad == MAX9286_SRC_PAD)
+> > -		pad = __ffs(priv->bound_sources);
+> > +	state = v4l2_subdev_validate_and_lock_state(sd, sd_state);
+> > +	fmt = v4l2_state_get_stream_format(state, format->pad,
+> > +					   format->stream);
+> > +	if (!fmt) {
+> > +		ret = -EINVAL;
+> > +		goto out;
+> > +	}
+> > +	*fmt = format->format;
+> >  
+> > -	cfg_fmt = max9286_get_pad_format(priv, sd_state, pad, format->which);
+> > -	if (!cfg_fmt)
+> > -		return -EINVAL;
+> > +	/* Propagate format to the other end of the route. */
+> > +	fmt = v4l2_state_get_opposite_stream_format(state, format->pad,
+> > +						    format->stream);
+> > +	if (!fmt) {
+> > +		ret = -EINVAL;
+> > +		goto out;
+> > +	}
+> > +	*fmt = format->format;
+> >  
+> > -	mutex_lock(&priv->mutex);
+> > -	format->format = *cfg_fmt;
+> > -	mutex_unlock(&priv->mutex);
+> > +out:
+> > +	v4l2_subdev_unlock_state(state);
+> >  
+> > -	return 0;
+> > +	return ret;
+> >  }
+> >  
+> >  static int max9286_routing_verify(struct max9286_priv *priv,
+> > @@ -1052,7 +1024,7 @@ static const struct v4l2_subdev_video_ops max9286_video_ops = {
+> >  static const struct v4l2_subdev_pad_ops max9286_pad_ops = {
+> >  	.init_cfg	= max9286_init_cfg,
+> >  	.enum_mbus_code = max9286_enum_mbus_code,
+> > -	.get_fmt	= max9286_get_fmt,
+> > +	.get_fmt	= v4l2_subdev_get_fmt,
+> >  	.set_fmt	= max9286_set_fmt,
+> >  	.set_routing	= max9286_set_routing,
+> >  };
+> > @@ -1092,9 +1064,6 @@ static int max9286_v4l2_register(struct max9286_priv *priv)
+> >  
+> >  	/* Configure V4L2 for the MAX9286 itself */
+> >  
+> > -	for (i = 0; i < MAX9286_N_SINKS; i++)
+> > -		priv->fmt[i] = max9286_default_format;
+> > -
+> >  	v4l2_i2c_subdev_init(&priv->sd, priv->client, &max9286_subdev_ops);
+> >  	priv->sd.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE |
+> >  			  V4L2_SUBDEV_FL_MULTIPLEXED;
 
-But, if I would have just read the next sentence; I would have noticed
-that SPDX did a flip backwards on GNU licenses:
+-- 
+Regards,
 
-Release 3.0 replaced previous Identifiers for GNU licenses with more
-explicit Identifiers to reflect the "this version only" or "any later
-version" option specific to those licenses. As such, the previously
-used Identifiers for those licenses are deprecated as of v3.0.
-
-Now, I did some more digging into this whole SPDX spec evolution...
-And in the section Allowing later versions of a license on
-https://spdx.dev/ids/, it explains that this later version aspect is
-different for GNU and non-GNU Licenses... with a rationale from the
-GNU blog... I got it now.
-
-So, sorry for the noise. This patch can be ignored.
-
-Lukas
+Laurent Pinchart
