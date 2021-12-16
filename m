@@ -2,242 +2,158 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 144D14772ED
-	for <lists+linux-media@lfdr.de>; Thu, 16 Dec 2021 14:15:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A3DA44772FD
+	for <lists+linux-media@lfdr.de>; Thu, 16 Dec 2021 14:18:11 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237419AbhLPNPX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 16 Dec 2021 08:15:23 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54152 "EHLO
+        id S237462AbhLPNSK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 16 Dec 2021 08:18:10 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54824 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237400AbhLPNPX (ORCPT
+        with ESMTP id S234573AbhLPNSK (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 16 Dec 2021 08:15:23 -0500
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2F9F2C061574;
-        Thu, 16 Dec 2021 05:15:23 -0800 (PST)
-Received: from pendragon.lan (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 69AE1993;
-        Thu, 16 Dec 2021 14:15:21 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1639660521;
-        bh=qSiMi5Rpfq2U4b5DdovAUiPFEtav+QU+8QzWfmEG8cg=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=HkM+zvcP/JkkKVYIoEt5ZRqNQGbKOWjgSkm6olgonf+soqBErV4DqJfPeJWNvGevM
-         ERuIwtITy8qIL+5ZmTL9dUi/GWod+Wxo8FNNXyHP/6jvGhxiC8JNAsl88bMJSVSTBd
-         I7Pe1jnUbqLF2Og0vd4Y5h3BeMafjg1hxE48yfu4=
-From:   Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-To:     linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Cc:     Jacopo Mondi <jacopo@jmondi.org>,
-        Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Subject: [PATCH 2/2] media: subdev: Extend routing validation helper
-Date:   Thu, 16 Dec 2021 15:15:10 +0200
-Message-Id: <20211216131510.12308-3-laurent.pinchart+renesas@ideasonboard.com>
-X-Mailer: git-send-email 2.32.0
-In-Reply-To: <20211216131510.12308-1-laurent.pinchart+renesas@ideasonboard.com>
-References: <20211216131510.12308-1-laurent.pinchart+renesas@ideasonboard.com>
+        Thu, 16 Dec 2021 08:18:10 -0500
+Received: from mail-yb1-xb2f.google.com (mail-yb1-xb2f.google.com [IPv6:2607:f8b0:4864:20::b2f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 095B3C061574;
+        Thu, 16 Dec 2021 05:18:10 -0800 (PST)
+Received: by mail-yb1-xb2f.google.com with SMTP id j2so64413000ybg.9;
+        Thu, 16 Dec 2021 05:18:09 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=4ZPqCPeKkF5/1MPYiuOGy4JgZ/F6BznknqA4rnfWZkI=;
+        b=ahY1UDGTLwLl0X7LxleqPM1c/pjUKL+DAViFxHjNO9mU2FeRmBt8QX37I3se6mS+gB
+         EZI/ZcoRmhfUE0IWvWS6Ou15q/5BHq5FA2JUh+d7EsZn10TxUShun0zrEoR95guAKGDd
+         X++TWK44N+lFUw3iqNpN+UvNsYE5fBwImD8wTuIbxUlCvskH17iYwzUUHigsqaaB2Vo1
+         pQzRuGZact0tfxZwYbTG39ve2gYv+TFFSpy3qzWy19SogaqzEB1oo+dtOGaEm0ofKi2a
+         JsDs9ks+yzCz8tuM9/sy9useY/8afoqsBHefJIVpF40nxTIP8gLLm/o+qpBI3iprR7UR
+         eX6w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=4ZPqCPeKkF5/1MPYiuOGy4JgZ/F6BznknqA4rnfWZkI=;
+        b=sWfJ4eKbcFjYwrPvGAgZ315aK2AJbsL4sh0Lm5qTr7kxxwclbnkJadzMDkcd8Z5mdB
+         v5eI9IYNMPz+LySBK8fprpq4j/A7713dVJrqYffRa3t6G4RDGBBouTe+KyeDsg56IB8V
+         g9I3eU7yoZ9grg3f4Rb3wvMgXUP/0uEamCRgd3ptA14hg3V67ehryF5UxlhhBl5Za9g0
+         mlgoyvntCG/FF7V264GS7ndAixFDWTfIs/NMLypVjtnf2dIgDtPNa82IenJ1fwkYvi/5
+         Wgrr9lnqUf6FnuypNfxbk6oeakbTV64XBwFuQHdN424CZIB0zN3+ix6eyuujiAGuho+2
+         e+iw==
+X-Gm-Message-State: AOAM532AYCI41+7yNZChZACktNOB+2fkjm4uYRYtvt6jaCKipa5JjnMm
+        Tjsh+IM4dlq852LDAaGbpD4Oq18B5tV2Ambf1xT78p1dZwI=
+X-Google-Smtp-Source: ABdhPJx+q2LUYLRFLsp4KRRdV3c8S9ru3NDUyZ+gyniTmQpgOReqb9DYNfRD1VRB/+X3evUVojBN+2fCqcf8P1rtVfc=
+X-Received: by 2002:a25:dfd1:: with SMTP id w200mr12467763ybg.359.1639660689172;
+ Thu, 16 Dec 2021 05:18:09 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20211216103132.8087-1-lukas.bulwahn@gmail.com>
+ <20211216122311.0c9d154e@coco.lan> <Ybsrdll5sqIakINT@kroah.com> <20211216131522.4e7b148d@coco.lan>
+In-Reply-To: <20211216131522.4e7b148d@coco.lan>
+From:   Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Date:   Thu, 16 Dec 2021 14:17:59 +0100
+Message-ID: <CAKXUXMwoMV_QrZjDtkjLMfsJAFN39ZQsZi3sh_iFsE8szEKTtQ@mail.gmail.com>
+Subject: Re: [PATCH] media: prefer generic SPDX-License expression to
+ deprecated one
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Cai Huoqing <caihuoqing@baidu.com>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        linux-spdx@vger.kernel.org,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-There are more common constraints on routing than the ones validated by
-v4l2_subdev_routing_validate_1_to_1(). Extend the function to support
-more validation, conditioned by constraint flags.
+On Thu, Dec 16, 2021 at 1:15 PM Mauro Carvalho Chehab
+<mchehab@kernel.org> wrote:
+>
+> Em Thu, 16 Dec 2021 13:05:10 +0100
+> Greg Kroah-Hartman <gregkh@linuxfoundation.org> escreveu:
+>
+> > On Thu, Dec 16, 2021 at 12:23:11PM +0100, Mauro Carvalho Chehab wrote:
+> > > Em Thu, 16 Dec 2021 11:31:32 +0100
+> > > Lukas Bulwahn <lukas.bulwahn@gmail.com> escreveu:
+> > >
+> > > > Commit 8d395ce6f04b ("media: dvb-core: Convert to SPDX identifier") and
+> > > > commit e67219b0496b ("media: b2c2: flexcop: Convert to SPDX identifier")
+> > > > introduce the SPDX-License expression LGPL-2.1-or-later for some files.
+> > > >
+> > > > The command ./scripts/spdxcheck.py warns:
+> > > >
+> > > >   drivers/media/dvb-core/dmxdev.c: 1:28 Invalid License ID: LGPL-2.1-or-later
+> > > >   drivers/media/dvb-core/dvb_demux.c: 1:28 Invalid License ID: LGPL-2.1-or-later
+> > > >   drivers/media/dvb-core/dvbdev.c: 1:28 Invalid License ID: LGPL-2.1-or-later
+> > > >   drivers/media/common/b2c2/flexcop.c: 1:28 Invalid License ID: LGPL-2.1-or-later
+> > > >
+> > > > The preferred SPDX expression for LGPL-2.1 or any later version is with
+> > > > the more generic "+"-extension for "any later version", so: LGPL-2.1+
+> > > >
+> > > > This makes spdxcheck happy again.
+> > >
+> > > It doesn't sound right to apply such patch.
+> > >
+> > > See, the latest SPDX version uses LGPL-2.1-or-later:
+> > >
+> > >     https://spdx.org/licenses/LGPL-2.1-or-later.html
+> > >
+> > > And it deprecated LGPL-2.1+:
+> > >
+> > >     https://spdx.org/licenses/LGPL-2.1+.html
+> > >
+> > > So, those files are perfectly fine with regards to SPDX, and are
+> > > adherent to its latest specs. We do need the latest specs on media,
+> > > as our documentation is under GFDL-1.1-no-invariants-or-later, which
+> > > only exists on newer SPDX versions.
+> > >
+> > > So, the right thing to do here seems to fix spdxcheck.py, letting it
+> > > either allow both variants (as we probably don't want to replace it
+> > > everywhere) or to emit a warning if the deprecated ones are used.
+> >
+> > No, we are not going to add a "warning" for older SPDX versions like
+> > that, otherwise the majority of the kernel will start spitting out
+> > warnings.
+> >
+> > Let's worry about actually fixing all of the files that do NOT have SPDX
+> > tags before even considering to move to a newer version of the spec.  We
+> > started this work before the FSF made the crazy change to their tags,
+> > let's not worry about any deprecated issues at the moment.
+>
+> Yeah, agreed.
+>
 
-Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
----
- drivers/media/v4l2-core/v4l2-subdev.c | 97 ++++++++++++++++++++++++---
- include/media/v4l2-subdev.h           | 41 ++++++++---
- 2 files changed, 121 insertions(+), 17 deletions(-)
+Sorry, I first read the section Deprecated License Identifiers on
+https://spdx.org/licenses/, where it stated:
 
-diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
-index 73ee7f01838f..e7fb694cc5df 100644
---- a/drivers/media/v4l2-core/v4l2-subdev.c
-+++ b/drivers/media/v4l2-core/v4l2-subdev.c
-@@ -9,6 +9,7 @@
-  */
- 
- #include <linux/ioctl.h>
-+#include <linux/limits.h>
- #include <linux/mm.h>
- #include <linux/module.h>
- #include <linux/slab.h>
-@@ -1582,29 +1583,107 @@ int v4l2_subdev_get_fmt(struct v4l2_subdev *sd, struct v4l2_subdev_state *state,
- }
- EXPORT_SYMBOL_GPL(v4l2_subdev_get_fmt);
- 
--int v4l2_subdev_routing_validate_1_to_1(const struct v4l2_subdev_krouting *routing)
-+int v4l2_subdev_routing_validate(struct v4l2_subdev *sd,
-+				 const struct v4l2_subdev_krouting *routing,
-+				 enum v4l2_subdev_routing_restriction disallow)
- {
-+	u32 *remote_pads = NULL;
- 	unsigned int i, j;
-+	int ret = -EINVAL;
-+
-+	if (disallow & V4L2_SUBDEV_ROUTING_NO_STREAM_MIX) {
-+		remote_pads = kcalloc(sd->entity.num_pads, sizeof(*remote_pads),
-+				      GFP_KERNEL);
-+		if (!remote_pads)
-+			return -ENOMEM;
-+
-+		for (i = 0; i < sd->entity.num_pads; ++i)
-+			remote_pads[i] = U32_MAX;
-+	}
- 
- 	for (i = 0; i < routing->num_routes; ++i) {
- 		const struct v4l2_subdev_route *route = &routing->routes[i];
- 
-+		/* Validate the sink and source pad numbers. */
-+		if (route->sink_pad >= sd->entity.num_pads ||
-+		    !(sd->entity.pads[route->sink_pad].flags & MEDIA_PAD_FL_SINK)) {
-+			dev_dbg(sd->dev, "route %u sink (%u) is not a sink pad\n",
-+				i, route->sink_pad);
-+			goto out;
-+		}
-+
-+		if (route->source_pad >= sd->entity.num_pads ||
-+		    !(sd->entity.pads[route->source_pad].flags & MEDIA_PAD_FL_SOURCE)) {
-+			dev_dbg(sd->dev, "route %u source (%u) is not a source pad\n",
-+				i, route->source_pad);
-+			goto out;
-+		}
-+
-+		/*
-+		 * V4L2_SUBDEV_ROUTING_NO_STREAM_MIX: Streams on the same pad
-+		 * may not be routed to streams on different pads.
-+		 */
-+		if (disallow & V4L2_SUBDEV_ROUTING_NO_STREAM_MIX) {
-+			if (remote_pads[route->sink_pad] != U32_MAX &&
-+			    remote_pads[route->sink_pad] != route->source_pad) {
-+				dev_dbg(sd->dev,
-+					"route %u attempts to mix %s streams\n",
-+					i, "sink");
-+				goto out;
-+			}
-+
-+			if (remote_pads[route->source_pad] != U32_MAX &&
-+			    remote_pads[route->source_pad] != route->sink_pad) {
-+				dev_dbg(sd->dev,
-+					"route %u attempts to mix %s streams\n",
-+					i, "source");
-+				goto out;
-+			}
-+
-+			remote_pads[route->sink_pad] = route->source_pad;
-+			remote_pads[route->source_pad] = route->sink_pad;
-+		}
-+
- 		for (j = i + 1; j < routing->num_routes; ++j) {
- 			const struct v4l2_subdev_route *r = &routing->routes[j];
- 
--			if (route->sink_pad == r->sink_pad &&
--			    route->sink_stream == r->sink_stream)
--				return -EINVAL;
-+			/*
-+			 * V4L2_SUBDEV_ROUTING_NO_1_TO_N: No two routes can
-+			 * originate from the same (sink) stream.
-+			 */
-+			if ((disallow & V4L2_SUBDEV_ROUTING_NO_1_TO_N) &&
-+			    route->sink_pad == r->sink_pad &&
-+			    route->sink_stream == r->sink_stream) {
-+				dev_dbg(sd->dev,
-+					"routes %u and %u originate from same sink (%u/%u)\n",
-+					i, j, route->sink_pad,
-+					route->sink_stream);
-+				goto out;
-+			}
- 
--			if (route->source_pad == r->source_pad &&
--			    route->source_stream == r->source_stream)
--				return -EINVAL;
-+			/*
-+			 * V4L2_SUBDEV_ROUTING_NO_N_TO_1: No two routes can end
-+			 * at the same (source) stream.
-+			 */
-+			if ((disallow & V4L2_SUBDEV_ROUTING_NO_N_TO_1) &&
-+			    route->source_pad == r->source_pad &&
-+			    route->source_stream == r->source_stream) {
-+				dev_dbg(sd->dev,
-+					"routes %u and %u end at same source (%u/%u)\n",
-+					i, j, route->source_pad,
-+					route->source_stream);
-+				goto out;
-+			}
- 		}
- 	}
- 
--	return 0;
-+	ret = 0;
-+
-+out:
-+	kfree(remote_pads);
-+	return ret;
- }
--EXPORT_SYMBOL_GPL(v4l2_subdev_routing_validate_1_to_1);
-+EXPORT_SYMBOL_GPL(v4l2_subdev_routing_validate);
- 
- struct v4l2_subdev_route *
- __v4l2_subdev_next_active_route(const struct v4l2_subdev_krouting *routing,
-diff --git a/include/media/v4l2-subdev.h b/include/media/v4l2-subdev.h
-index aff1fb3a30d5..65c3e419a57d 100644
---- a/include/media/v4l2-subdev.h
-+++ b/include/media/v4l2-subdev.h
-@@ -1573,18 +1573,43 @@ int v4l2_subdev_get_fmt(struct v4l2_subdev *sd, struct v4l2_subdev_state *state,
- 			struct v4l2_subdev_format *format);
- 
- /**
-- * v4l2_subdev_routing_validate_1_to_1() - Verify that all streams are
-- *                                         non-overlapping 1-to-1 streams
-- * @routing: routing to verify
-+ * enum v4l2_subdev_routing_restriction - Subdevice internal routing restrictions
-  *
-- * This verifies that the given routing contains only non-overlapping 1-to-1
-- * streams. In other words, no two streams have the same source or sink
-- * stream ID on a single pad. This is the most common case of routing
-- * supported by devices.
-+ * @V4L2_SUBDEV_ROUTING_NO_1_TO_N:
-+ * 	an input stream may not be routed to multiple output streams (stream
-+ * 	duplication)
-+ * @V4L2_SUBDEV_ROUTING_NO_N_TO_1:
-+ *	multiple input streams may not be routed to the same output stream
-+ *	(stream merging)
-+ * @V4L2_SUBDEV_ROUTING_NO_STREAM_MIX:
-+ *	streams on the same pad may not be routed to streams on different pads
-+ * @V4L2_SUBDEV_ROUTING_ONLY_1_TO_1:
-+ *	only non-overlapping 1-to-1 stream routing is allowed (a combination of
-+ *	@V4L2_SUBDEV_ROUTING_NO_1_TO_N and @V4L2_SUBDEV_ROUTING_NO_N_TO_1)
-+ */
-+enum v4l2_subdev_routing_restriction {
-+	V4L2_SUBDEV_ROUTING_NO_1_TO_N = BIT(0),
-+	V4L2_SUBDEV_ROUTING_NO_N_TO_1 = BIT(1),
-+	V4L2_SUBDEV_ROUTING_NO_STREAM_MIX = BIT(2),
-+	V4L2_SUBDEV_ROUTING_ONLY_1_TO_1 =
-+		V4L2_SUBDEV_ROUTING_NO_1_TO_N |
-+		V4L2_SUBDEV_ROUTING_NO_N_TO_1,
-+};
-+
-+/**
-+ * v4l2_subdev_routing_validate() - Verify that routes comply with driver
-+ *				    constraints
-+ * @sd: The subdevice
-+ * @routing: Routing to verify
-+ * @disallow: Restrictions on routes
-+ *
-+ * This verifies that the given routing complies with the @disallow contraints.
-  *
-  * Returns 0 on success, error value otherwise.
-  */
--int v4l2_subdev_routing_validate_1_to_1(const struct v4l2_subdev_krouting *routing);
-+int v4l2_subdev_routing_validate(struct v4l2_subdev *sd,
-+				 const struct v4l2_subdev_krouting *routing,
-+				 enum v4l2_subdev_routing_restriction disallow);
- 
- struct v4l2_subdev_route *
- __v4l2_subdev_next_active_route(const struct v4l2_subdev_krouting *routing,
--- 
-Regards,
+Release 2.0 of the SPDX Specification introduced License Expressions
+that supports the ability to identify common variations of
+SPDX-identified licenses without the need to define each potential
+variation as a distinct license on the SPDX License List. This new
+syntax supports the ability to declare an SPDX-identified license
+exception using the "WITH" operator (e.g. GPL-2.0-or-later WITH
+Autoconf-exception-2.0), as well as the ability to use a simple "+"
+operator after a license short identifier to indicate "or later
+version". SPDX has defined a list of license exceptions to use after
+the "WITH" operator. As a result, a number of licenses formerly
+included on the SPDX License List have been deprecated, and correct
+usage employs the License Expression syntax as of v2.0.
 
-Laurent Pinchart
+So, I assumed the "+" operator is the right thing...
 
+But, if I would have just read the next sentence; I would have noticed
+that SPDX did a flip backwards on GNU licenses:
+
+Release 3.0 replaced previous Identifiers for GNU licenses with more
+explicit Identifiers to reflect the "this version only" or "any later
+version" option specific to those licenses. As such, the previously
+used Identifiers for those licenses are deprecated as of v3.0.
+
+Now, I did some more digging into this whole SPDX spec evolution...
+And in the section Allowing later versions of a license on
+https://spdx.dev/ids/, it explains that this later version aspect is
+different for GNU and non-GNU Licenses... with a rationale from the
+GNU blog... I got it now.
+
+So, sorry for the noise. This patch can be ignored.
+
+Lukas
