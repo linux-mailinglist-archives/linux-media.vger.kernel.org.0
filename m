@@ -2,128 +2,170 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 69C6347692E
-	for <lists+linux-media@lfdr.de>; Thu, 16 Dec 2021 05:40:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9B3274769DD
+	for <lists+linux-media@lfdr.de>; Thu, 16 Dec 2021 06:45:01 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233607AbhLPEkZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 15 Dec 2021 23:40:25 -0500
-Received: from mail-dm6nam08on2058.outbound.protection.outlook.com ([40.107.102.58]:37665
-        "EHLO NAM04-DM6-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S233592AbhLPEkY (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 15 Dec 2021 23:40:24 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=JAaiGXKdRAXKI17u9k0FSHOhe8sm3d2I4hesk2Na0yH3tdpQKAS3MujYsK/jGGWLvuce0DtP6y8teyEF4MJMu51U+Dw6dtWwngV/x9rjKmy2l3hJHCeKzMZOFW7yCUvszM4jPn1A7dTx+7PohxDbv8GsAkwSav6SBSYxJKcQzPPQdxWkJSbSLnd3KdMe0aDN/y6cFqaGnKtOSXHqdxXlCIJXoS5pIsiLlszeJxC/u7Tg3FGBdeyMeqHq4dQN+jafg8WUGaM5rmrk8PKDgmT0aV8jdX/VvZOFrb1kTlSx6bzNbMyLfvMxrpOnZXcIC48PA9iOQfor9d0OtmWfpGOI/g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=rMz9VCPyxdnK0nj8MFtraVvssQOW5beL0vWVnO4iHcA=;
- b=Nrle3bA+v+M+ia0OysUTS+faBnRqvHFpEA0z8RPGJJcfBYaTHEO5cg+0lJCETXVG4yJAHPdpgtYROUM/uZoa9F6p4yqwJZhQBJy6xaKMSbx1avBe8oNSHBlTeKDnbw7e/59D2fe+kay3RziHA/Ma1S208AnxGHuEkCbSC2pca3MqYIomkHPC2gu9Y/Tvpd3sGy4/18KOBm8OK8SgptMdolPFapxqemFcFXTujHDfKm1KU83i9l/8bWp7TZV6WkyK9sO4QSn/TcZjEifL/nQTpJmYP7ISYt+xWxDnXzkp3VSsup8VIe17ENOFwzWE5lysBCfdnu4w7EQDRiCwjqCSaA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com;
- dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
- header.from=amd.com; dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=rMz9VCPyxdnK0nj8MFtraVvssQOW5beL0vWVnO4iHcA=;
- b=KhQjKZXce14Igx8jVxt+JZ1AcMdJDelAMq0Kj0tCeWHFt3tcMf+Zbr4ubApKg097ZTmGsRlPA8IXdAqSjEgJvuhdgYKdMUm399PKg87Aa82zKAFHEDYRJqsUY3sK/+0WBePCJwqMO7nXMPgNNjz1hwMM6eLaGdjY4ylCaFszU24=
-Received: from CO1PR15CA0050.namprd15.prod.outlook.com (2603:10b6:101:1f::18)
- by MN2PR12MB4485.namprd12.prod.outlook.com (2603:10b6:208:269::12) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4801.14; Thu, 16 Dec
- 2021 04:40:22 +0000
-Received: from CO1NAM11FT041.eop-nam11.prod.protection.outlook.com
- (2603:10b6:101:1f:cafe::c) by CO1PR15CA0050.outlook.office365.com
- (2603:10b6:101:1f::18) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4778.16 via Frontend
- Transport; Thu, 16 Dec 2021 04:40:21 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB03.amd.com;
-Received: from SATLEXMB03.amd.com (165.204.84.17) by
- CO1NAM11FT041.mail.protection.outlook.com (10.13.174.217) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.4801.14 via Frontend Transport; Thu, 16 Dec 2021 04:40:21 +0000
-Received: from hr-amd.amd.com (10.180.168.240) by SATLEXMB03.amd.com
- (10.181.40.144) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.17; Wed, 15 Dec
- 2021 22:40:17 -0600
-From:   Huang Rui <ray.huang@amd.com>
-To:     <dri-devel@lists.freedesktop.org>,
-        =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
-        Daniel Vetter <daniel.vetter@ffwll.ch>,
-        "Sumit Semwal" <sumit.semwal@linaro.org>
-CC:     <amd-gfx@lists.freedesktop.org>, <linux-media@vger.kernel.org>,
-        "Alex Deucher" <alexander.deucher@amd.com>,
-        Monk Liu <Monk.Liu@amd.com>,
-        "Andrey Grodzovsky" <andrey.grodzovsky@amd.com>,
-        Huang Rui <ray.huang@amd.com>,
-        "kernel test robot" <lkp@intel.com>
-Subject: [PATCH] drm/amdgpu: fix mismatch warning between the prototype and function name
-Date:   Thu, 16 Dec 2021 12:39:37 +0800
-Message-ID: <20211216043937.138522-1-ray.huang@amd.com>
-X-Mailer: git-send-email 2.25.1
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.180.168.240]
-X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB03.amd.com
- (10.181.40.144)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: f9d29472-d729-4f5b-f840-08d9c04e2b4c
-X-MS-TrafficTypeDiagnostic: MN2PR12MB4485:EE_
-X-Microsoft-Antispam-PRVS: <MN2PR12MB4485903AB6CBA05FDFE472FAEC779@MN2PR12MB4485.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:5797;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: fPyQmOhsusVlmpaDebhq5eYgRfGn2Oknot7JTutXdy94knHPj+5gs4t/VkThqoAeuZx74Hk9lsLaTF5+xReHovmzk0u8tZX45zmqiKisSn3dBXz+tnVQNYmR6hQ6636RBnB7Rhy71DdZxmkgnKcMlKFFpdRDBVmpKCCS9OxtLGCfsMLrxD4NL5rCtRKJIQkAWCNuDZb+F600ZyjTz8W/B6pMHXa0Wk/LLY7K0cMuaJBV/F2wdvRj1mUkYe84rkOV1yX+HkgggYnhoI0vlD6Ru96rJwRyArJhAkjg8f2Z893P0JfuskqPVbrNiAVTLyC79zkfkUVlts4ogCKIeA1SAAbBOH2YNwKs4K1guwmkqas80FTUjwUr4xCOkAixynWD6IpfplIi5+htTIXFFi3b+qJwAq11IYoswBvgSvb+CznnS255NjNYHQxw4iin+ILgUq1uQh07siEcPOnNkVDDSrEt2fjGpkIQOzKBdpT5UVG9AUh5ssj4EzEBB6CIMLvZXHe8K+epTsrC8vXr9ahMW2/32NOPi0ytoPqzlYR6W8pIKvqNPm6ieNmsoK+X3RJnYE5yZJ1HIYdb4WR9ifdoaCB0HK7PeaUrWhKlUPL4UJcPHyYUi8KPnwGdg7vk6VZ1lHVr1Tj7BEm3EYRox7OoFevTlgbS4TkZs1hSuuPSS2TBMbKIK2UOo91ViUfTCiWtSnCGI4TcIJ+sUqcRfmek/ZeE4I6/cI18ixJtbTomB4WQfCUtHwTq+3+H0eV0fkAwo4ODdegL0j1cH7bLKxC7KOO5h/+44w+cMEbPpyxwOtI=
-X-Forefront-Antispam-Report: CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB03.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(4636009)(46966006)(36840700001)(40470700001)(4326008)(8936002)(426003)(86362001)(336012)(5660300002)(6666004)(110136005)(316002)(40460700001)(82310400004)(2906002)(8676002)(81166007)(54906003)(4744005)(16526019)(186003)(508600001)(83380400001)(26005)(47076005)(36860700001)(356005)(1076003)(7696005)(2616005)(70586007)(70206006)(36756003)(36900700001);DIR:OUT;SFP:1101;
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Dec 2021 04:40:21.4460
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: f9d29472-d729-4f5b-f840-08d9c04e2b4c
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB03.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: CO1NAM11FT041.eop-nam11.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB4485
+        id S231523AbhLPFo4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 16 Dec 2021 00:44:56 -0500
+Received: from ewsoutbound.kpnmail.nl ([195.121.94.167]:48906 "EHLO
+        ewsoutbound.kpnmail.nl" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S233985AbhLPFoW (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Thu, 16 Dec 2021 00:44:22 -0500
+X-KPN-MessageId: 25c230f0-5e33-11ec-9a2e-005056abbe64
+Received: from smtp.kpnmail.nl (unknown [10.31.155.38])
+        by ewsoutbound.so.kpn.org (Halon) with ESMTPS
+        id 25c230f0-5e33-11ec-9a2e-005056abbe64;
+        Thu, 16 Dec 2021 06:43:51 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=xs4all.nl; s=xs4all01;
+        h=subject:to:from:date:message-id;
+        bh=6gSd9Qkd7NhxHJ/YfhlxCchQDLxwiIPwBG+wKCMBB+o=;
+        b=nrtCVYNFmi1s1/VWbVrkr+otQG0n26x3w82boDmeAUtI38yq4/hOBOAh9wkNfQ9Jo0mUGU1VEJwDP
+         iifKAKfYFY8bTig9jEOy2wIrfS98Pb+kehEkvfkv2Ps/ELKTSJZeesMv5+l6h6sctwWyYqw3S5HBXy
+         xEt1sIOP5VQZZ4BxTesIRYS9VNUiTP5F3NpLJjrctLola1tlhY8SZN3D1dBrrrJ6UtAmB+ngPmcc3r
+         Ei6tmOmRwzVHIAv/Q0PDk/N/+mamtp/54FL98rhdEJW5BGQ8IKLrUW7+NuvgFsKI2gy96JyifxjPC+
+         ZEFAZG3IgJavtjnFMlm03iucxb+4Hmg==
+Message-ID: <363bf71f-5e33-11ec-94d2-005056abf0db@smtp.kpnmail.nl>
+X-KPN-VerifiedSender: Yes
+X-CMASSUN: 33|wXutYkwo9ZFYoKtQ0gBnHQhf0u9cgR2bmXVczoNBDQVGccUGOU6ixiFJp34DWJs
+ iJqfinkMfA14OLXeD3tA54w==
+X-Originating-IP: 80.101.105.217
+Received: from localhost (marune.xs4all.nl [80.101.105.217])
+        by smtp.xs4all.nl (Halon) with ESMTPSA
+        id 360941fd-5e33-11ec-94d2-005056abf0db;
+        Thu, 16 Dec 2021 06:44:18 +0100 (CET)
+Date:   Thu, 16 Dec 2021 06:44:18 +0100
+From:   "Hans Verkuil" <hverkuil@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: WARNINGS
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Fix the typo to align with the prototype and function name.
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
 
-All warnings (new ones prefixed by >>):
+Results of the daily build of media_tree:
 
->> drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c:631: warning: expecting
-prototype for amdgpu_fence_clear_job_fences(). Prototype was for
-amdgpu_fence_driver_clear_job_fences() instead
+date:			Thu Dec 16 05:00:11 CET 2021
+media-tree git hash:	b9aafbd46eb92b3174781661c33bdb2c17d484f1
+media_build git hash:	c5c30e768ef3b757da479220d7a389470c3ad978
+v4l-utils git hash:	6c905930e8e9bdf485f857ea8aadcaffbfd0943d
+edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
+gcc version:		i686-linux-gcc (GCC) 11.2.0
+sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
+sparse version:		v0.6.3-349-gb21d5e09
+smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
+smatch version:		v0.5.0-7593-g7f4b93661
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: 72fe2e990921b3757e47e6f3ea4ce8c076021161
+host hardware:		x86_64
+host os:		5.15.0-2-amd64
 
-Reported-by: kernel test robot <lkp@intel.com>
-Signed-off-by: Huang Rui <ray.huang@amd.com>
----
- drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+linux-git-sh: OK
+linux-git-arm-at91: OK
+linux-git-arm-davinci: OK
+linux-git-mips: OK
+linux-git-arm-stm32: OK
+linux-git-arm-pxa: OK
+linux-git-arm-multi: OK
+linux-git-arm64: OK
+linux-git-powerpc64: OK
+linux-git-i686: OK
+linux-git-x86_64: OK
+Check COMPILE_TEST: OK
+Check for strcpy/strncpy/strlcpy: OK
+linux-4.4.283-i686: OK
+linux-4.4.283-x86_64: OK
+linux-4.5.7-i686: OK
+linux-4.5.7-x86_64: OK
+linux-4.6.7-i686: OK
+linux-4.6.7-x86_64: OK
+linux-4.7.10-i686: OK
+linux-4.7.10-x86_64: OK
+linux-4.8.17-i686: OK
+linux-4.8.17-x86_64: OK
+linux-4.9.246-i686: OK
+linux-4.9.246-x86_64: OK
+linux-4.10.17-i686: OK
+linux-4.10.17-x86_64: OK
+linux-4.11.12-i686: OK
+linux-4.11.12-x86_64: OK
+linux-4.12.14-i686: OK
+linux-4.12.14-x86_64: OK
+linux-4.13.16-i686: OK
+linux-4.13.16-x86_64: OK
+linux-4.14.246-i686: OK
+linux-4.14.246-x86_64: OK
+linux-4.15.18-i686: OK
+linux-4.15.18-x86_64: OK
+linux-4.16.18-i686: OK
+linux-4.16.18-x86_64: OK
+linux-4.17.19-i686: OK
+linux-4.17.19-x86_64: OK
+linux-4.18.20-i686: OK
+linux-4.18.20-x86_64: OK
+linux-4.19.206-i686: OK
+linux-4.19.206-x86_64: OK
+linux-4.20.17-i686: OK
+linux-4.20.17-x86_64: OK
+linux-5.0.21-i686: OK
+linux-5.0.21-x86_64: OK
+linux-5.1.21-i686: OK
+linux-5.1.21-x86_64: OK
+linux-5.2.21-i686: OK
+linux-5.2.21-x86_64: OK
+linux-5.3.18-i686: OK
+linux-5.3.18-x86_64: OK
+linux-5.4.144-i686: OK
+linux-5.4.144-x86_64: OK
+linux-5.5.19-i686: OK
+linux-5.5.19-x86_64: OK
+linux-5.6.19-i686: OK
+linux-5.6.19-x86_64: OK
+linux-5.7.19-i686: OK
+linux-5.7.19-x86_64: OK
+linux-5.8.18-i686: OK
+linux-5.8.18-x86_64: OK
+linux-5.9.16-i686: OK
+linux-5.9.16-x86_64: OK
+linux-5.10.62-i686: OK
+linux-5.10.62-x86_64: OK
+linux-5.11.22-i686: OK
+linux-5.11.22-x86_64: OK
+linux-5.12.19-i686: OK
+linux-5.12.19-x86_64: OK
+linux-5.13.14-i686: OK
+linux-5.13.14-x86_64: OK
+linux-5.14.1-i686: OK
+linux-5.14.1-x86_64: OK
+linux-5.15.1-i686: OK
+linux-5.15.1-x86_64: OK
+linux-5.16-rc1-i686: OK
+linux-5.16-rc1-x86_64: OK
+apps: OK
+spec-git: OK
+virtme: OK: Final Summary: 2989, Succeeded: 2989, Failed: 0, Warnings: 0
+virtme-32: OK: Final Summary: 3100, Succeeded: 3100, Failed: 0, Warnings: 0
+sparse: WARNINGS
+smatch: WARNINGS
+kerneldoc: WARNINGS
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c
-index db41d16838b9..9afd11ca2709 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c
-@@ -622,7 +622,7 @@ void amdgpu_fence_driver_hw_init(struct amdgpu_device *adev)
- }
- 
- /**
-- * amdgpu_fence_clear_job_fences - clear job embedded fences of ring
-+ * amdgpu_fence_driver_clear_job_fences - clear job embedded fences of ring
-  *
-  * @ring: fence of the ring to be cleared
-  *
--- 
-2.25.1
+Detailed results are available here:
 
+http://www.xs4all.nl/~hverkuil/logs/Thursday.log
+
+Detailed regression test results are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Thursday-test-media.log
+http://www.xs4all.nl/~hverkuil/logs/Thursday-test-media-32.log
+http://www.xs4all.nl/~hverkuil/logs/Thursday-test-media-dmesg.log
+
+Full logs are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Thursday.tar.bz2
+
+The Media Infrastructure API from this daily build is here:
+
+http://www.xs4all.nl/~hverkuil/spec/index.html
