@@ -2,33 +2,36 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 765154772EB
-	for <lists+linux-media@lfdr.de>; Thu, 16 Dec 2021 14:15:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 144D14772ED
+	for <lists+linux-media@lfdr.de>; Thu, 16 Dec 2021 14:15:25 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237412AbhLPNPX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        id S237419AbhLPNPX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
         Thu, 16 Dec 2021 08:15:23 -0500
-Received: from perceval.ideasonboard.com ([213.167.242.64]:37506 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237411AbhLPNPW (ORCPT
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54152 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S237400AbhLPNPX (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 16 Dec 2021 08:15:22 -0500
+        Thu, 16 Dec 2021 08:15:23 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2F9F2C061574;
+        Thu, 16 Dec 2021 05:15:23 -0800 (PST)
 Received: from pendragon.lan (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id AE2CBE81;
-        Thu, 16 Dec 2021 14:15:20 +0100 (CET)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 69AE1993;
+        Thu, 16 Dec 2021 14:15:21 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
         s=mail; t=1639660521;
-        bh=w/QcI/GPC9Ef8XEdQV5zWB4v6Q9+865LdhHt8dOwLKA=;
+        bh=qSiMi5Rpfq2U4b5DdovAUiPFEtav+QU+8QzWfmEG8cg=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=BIynxGkAv0c46W5IXw5bQylJNJAYQc6HSJghvtK6SelblgGN4phgqsVVL1YE/Yb8w
-         FadcGjmsfBzhKaWRC8ukVK7ZN1xuZomFvs7Bsqe8EDqGZ85LWiF+Zeh5L02QZmytV7
-         nzSYHs41AkvjWi+UpFS9V9nPB5gXwukKZ20vtP5c=
+        b=HkM+zvcP/JkkKVYIoEt5ZRqNQGbKOWjgSkm6olgonf+soqBErV4DqJfPeJWNvGevM
+         ERuIwtITy8qIL+5ZmTL9dUi/GWod+Wxo8FNNXyHP/6jvGhxiC8JNAsl88bMJSVSTBd
+         I7Pe1jnUbqLF2Og0vd4Y5h3BeMafjg1hxE48yfu4=
 From:   Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 To:     linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org
 Cc:     Jacopo Mondi <jacopo@jmondi.org>,
         Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Subject: [PATCH 1/2] media: subdev: Rename v4l2_state_get_stream_format() with subdev prefix
-Date:   Thu, 16 Dec 2021 15:15:09 +0200
-Message-Id: <20211216131510.12308-2-laurent.pinchart+renesas@ideasonboard.com>
+Subject: [PATCH 2/2] media: subdev: Extend routing validation helper
+Date:   Thu, 16 Dec 2021 15:15:10 +0200
+Message-Id: <20211216131510.12308-3-laurent.pinchart+renesas@ideasonboard.com>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20211216131510.12308-1-laurent.pinchart+renesas@ideasonboard.com>
 References: <20211216131510.12308-1-laurent.pinchart+renesas@ideasonboard.com>
@@ -38,92 +41,201 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The v4l2_state_get_stream_format() function operates on a subdev state,
-rename it accordingly to v4l2_subdev_state_get_stream_format().
+There are more common constraints on routing than the ones validated by
+v4l2_subdev_routing_validate_1_to_1(). Extend the function to support
+more validation, conditioned by constraint flags.
 
 Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 ---
- drivers/media/v4l2-core/v4l2-subdev.c | 14 ++++++++------
- include/media/v4l2-subdev.h           |  6 +++---
- 2 files changed, 11 insertions(+), 9 deletions(-)
+ drivers/media/v4l2-core/v4l2-subdev.c | 97 ++++++++++++++++++++++++---
+ include/media/v4l2-subdev.h           | 41 ++++++++---
+ 2 files changed, 121 insertions(+), 17 deletions(-)
 
 diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
-index dca2bea180ec..73ee7f01838f 100644
+index 73ee7f01838f..e7fb694cc5df 100644
 --- a/drivers/media/v4l2-core/v4l2-subdev.c
 +++ b/drivers/media/v4l2-core/v4l2-subdev.c
-@@ -179,7 +179,7 @@ static int check_state_pad_stream(struct v4l2_subdev *sd,
- 	 */
- 	v4l2_subdev_lock_state(state);
+@@ -9,6 +9,7 @@
+  */
  
--	fmt = v4l2_state_get_stream_format(state, pad, stream);
-+	fmt = v4l2_subdev_state_get_stream_format(state, pad, stream);
+ #include <linux/ioctl.h>
++#include <linux/limits.h>
+ #include <linux/mm.h>
+ #include <linux/module.h>
+ #include <linux/slab.h>
+@@ -1582,29 +1583,107 @@ int v4l2_subdev_get_fmt(struct v4l2_subdev *sd, struct v4l2_subdev_state *state,
+ }
+ EXPORT_SYMBOL_GPL(v4l2_subdev_get_fmt);
  
- 	v4l2_subdev_unlock_state(state);
- 
-@@ -1492,8 +1492,8 @@ int v4l2_subdev_set_routing_with_fmt(struct v4l2_subdev *sd,
- EXPORT_SYMBOL_GPL(v4l2_subdev_set_routing_with_fmt);
- 
- struct v4l2_mbus_framefmt *
--v4l2_state_get_stream_format(struct v4l2_subdev_state *state, unsigned int pad,
--			     u32 stream)
-+v4l2_subdev_state_get_stream_format(struct v4l2_subdev_state *state,
-+				    unsigned int pad, u32 stream)
+-int v4l2_subdev_routing_validate_1_to_1(const struct v4l2_subdev_krouting *routing)
++int v4l2_subdev_routing_validate(struct v4l2_subdev *sd,
++				 const struct v4l2_subdev_krouting *routing,
++				 enum v4l2_subdev_routing_restriction disallow)
  {
- 	struct v4l2_subdev_stream_configs *stream_configs;
- 	unsigned int i;
-@@ -1510,7 +1510,7 @@ v4l2_state_get_stream_format(struct v4l2_subdev_state *state, unsigned int pad,
++	u32 *remote_pads = NULL;
+ 	unsigned int i, j;
++	int ret = -EINVAL;
++
++	if (disallow & V4L2_SUBDEV_ROUTING_NO_STREAM_MIX) {
++		remote_pads = kcalloc(sd->entity.num_pads, sizeof(*remote_pads),
++				      GFP_KERNEL);
++		if (!remote_pads)
++			return -ENOMEM;
++
++		for (i = 0; i < sd->entity.num_pads; ++i)
++			remote_pads[i] = U32_MAX;
++	}
  
- 	return NULL;
+ 	for (i = 0; i < routing->num_routes; ++i) {
+ 		const struct v4l2_subdev_route *route = &routing->routes[i];
+ 
++		/* Validate the sink and source pad numbers. */
++		if (route->sink_pad >= sd->entity.num_pads ||
++		    !(sd->entity.pads[route->sink_pad].flags & MEDIA_PAD_FL_SINK)) {
++			dev_dbg(sd->dev, "route %u sink (%u) is not a sink pad\n",
++				i, route->sink_pad);
++			goto out;
++		}
++
++		if (route->source_pad >= sd->entity.num_pads ||
++		    !(sd->entity.pads[route->source_pad].flags & MEDIA_PAD_FL_SOURCE)) {
++			dev_dbg(sd->dev, "route %u source (%u) is not a source pad\n",
++				i, route->source_pad);
++			goto out;
++		}
++
++		/*
++		 * V4L2_SUBDEV_ROUTING_NO_STREAM_MIX: Streams on the same pad
++		 * may not be routed to streams on different pads.
++		 */
++		if (disallow & V4L2_SUBDEV_ROUTING_NO_STREAM_MIX) {
++			if (remote_pads[route->sink_pad] != U32_MAX &&
++			    remote_pads[route->sink_pad] != route->source_pad) {
++				dev_dbg(sd->dev,
++					"route %u attempts to mix %s streams\n",
++					i, "sink");
++				goto out;
++			}
++
++			if (remote_pads[route->source_pad] != U32_MAX &&
++			    remote_pads[route->source_pad] != route->sink_pad) {
++				dev_dbg(sd->dev,
++					"route %u attempts to mix %s streams\n",
++					i, "source");
++				goto out;
++			}
++
++			remote_pads[route->sink_pad] = route->source_pad;
++			remote_pads[route->source_pad] = route->sink_pad;
++		}
++
+ 		for (j = i + 1; j < routing->num_routes; ++j) {
+ 			const struct v4l2_subdev_route *r = &routing->routes[j];
+ 
+-			if (route->sink_pad == r->sink_pad &&
+-			    route->sink_stream == r->sink_stream)
+-				return -EINVAL;
++			/*
++			 * V4L2_SUBDEV_ROUTING_NO_1_TO_N: No two routes can
++			 * originate from the same (sink) stream.
++			 */
++			if ((disallow & V4L2_SUBDEV_ROUTING_NO_1_TO_N) &&
++			    route->sink_pad == r->sink_pad &&
++			    route->sink_stream == r->sink_stream) {
++				dev_dbg(sd->dev,
++					"routes %u and %u originate from same sink (%u/%u)\n",
++					i, j, route->sink_pad,
++					route->sink_stream);
++				goto out;
++			}
+ 
+-			if (route->source_pad == r->source_pad &&
+-			    route->source_stream == r->source_stream)
+-				return -EINVAL;
++			/*
++			 * V4L2_SUBDEV_ROUTING_NO_N_TO_1: No two routes can end
++			 * at the same (source) stream.
++			 */
++			if ((disallow & V4L2_SUBDEV_ROUTING_NO_N_TO_1) &&
++			    route->source_pad == r->source_pad &&
++			    route->source_stream == r->source_stream) {
++				dev_dbg(sd->dev,
++					"routes %u and %u end at same source (%u/%u)\n",
++					i, j, route->source_pad,
++					route->source_stream);
++				goto out;
++			}
+ 		}
+ 	}
+ 
+-	return 0;
++	ret = 0;
++
++out:
++	kfree(remote_pads);
++	return ret;
  }
--EXPORT_SYMBOL_GPL(v4l2_state_get_stream_format);
-+EXPORT_SYMBOL_GPL(v4l2_subdev_state_get_stream_format);
+-EXPORT_SYMBOL_GPL(v4l2_subdev_routing_validate_1_to_1);
++EXPORT_SYMBOL_GPL(v4l2_subdev_routing_validate);
  
- int v4l2_subdev_routing_find_opposite_end(const struct v4l2_subdev_krouting *routing,
- 					  u32 pad, u32 stream, u32 *other_pad,
-@@ -1555,7 +1555,8 @@ v4l2_subdev_state_get_opposite_stream_format(struct v4l2_subdev_state *state,
- 	if (ret)
- 		return NULL;
- 
--	return v4l2_state_get_stream_format(state, other_pad, other_stream);
-+	return v4l2_subdev_state_get_stream_format(state, other_pad,
-+						   other_stream);
- }
- EXPORT_SYMBOL_GPL(v4l2_subdev_state_get_opposite_stream_format);
- 
-@@ -1566,7 +1567,8 @@ int v4l2_subdev_get_fmt(struct v4l2_subdev *sd, struct v4l2_subdev_state *state,
- 
- 	v4l2_subdev_lock_state(state);
- 
--	fmt = v4l2_state_get_stream_format(state, format->pad, format->stream);
-+	fmt = v4l2_subdev_state_get_stream_format(state, format->pad,
-+						  format->stream);
- 	if (!fmt) {
- 		v4l2_subdev_unlock_state(state);
- 		return -EINVAL;
+ struct v4l2_subdev_route *
+ __v4l2_subdev_next_active_route(const struct v4l2_subdev_krouting *routing,
 diff --git a/include/media/v4l2-subdev.h b/include/media/v4l2-subdev.h
-index 9754913b34f8..aff1fb3a30d5 100644
+index aff1fb3a30d5..65c3e419a57d 100644
 --- a/include/media/v4l2-subdev.h
 +++ b/include/media/v4l2-subdev.h
-@@ -1505,7 +1505,7 @@ int v4l2_subdev_set_routing_with_fmt(struct v4l2_subdev *sd,
- 				     const struct v4l2_mbus_framefmt *fmt);
+@@ -1573,18 +1573,43 @@ int v4l2_subdev_get_fmt(struct v4l2_subdev *sd, struct v4l2_subdev_state *state,
+ 			struct v4l2_subdev_format *format);
  
  /**
-- * v4l2_state_get_stream_format() - Get pointer to a stream format
-+ * v4l2_subdev_state_get_stream_format() - Get pointer to a stream format
-  * @state: subdevice state
-  * @pad: pad id
-  * @stream: stream id
-@@ -1516,8 +1516,8 @@ int v4l2_subdev_set_routing_with_fmt(struct v4l2_subdev *sd,
-  * If the state does not contain the given pad + stream, NULL is returned.
+- * v4l2_subdev_routing_validate_1_to_1() - Verify that all streams are
+- *                                         non-overlapping 1-to-1 streams
+- * @routing: routing to verify
++ * enum v4l2_subdev_routing_restriction - Subdevice internal routing restrictions
+  *
+- * This verifies that the given routing contains only non-overlapping 1-to-1
+- * streams. In other words, no two streams have the same source or sink
+- * stream ID on a single pad. This is the most common case of routing
+- * supported by devices.
++ * @V4L2_SUBDEV_ROUTING_NO_1_TO_N:
++ * 	an input stream may not be routed to multiple output streams (stream
++ * 	duplication)
++ * @V4L2_SUBDEV_ROUTING_NO_N_TO_1:
++ *	multiple input streams may not be routed to the same output stream
++ *	(stream merging)
++ * @V4L2_SUBDEV_ROUTING_NO_STREAM_MIX:
++ *	streams on the same pad may not be routed to streams on different pads
++ * @V4L2_SUBDEV_ROUTING_ONLY_1_TO_1:
++ *	only non-overlapping 1-to-1 stream routing is allowed (a combination of
++ *	@V4L2_SUBDEV_ROUTING_NO_1_TO_N and @V4L2_SUBDEV_ROUTING_NO_N_TO_1)
++ */
++enum v4l2_subdev_routing_restriction {
++	V4L2_SUBDEV_ROUTING_NO_1_TO_N = BIT(0),
++	V4L2_SUBDEV_ROUTING_NO_N_TO_1 = BIT(1),
++	V4L2_SUBDEV_ROUTING_NO_STREAM_MIX = BIT(2),
++	V4L2_SUBDEV_ROUTING_ONLY_1_TO_1 =
++		V4L2_SUBDEV_ROUTING_NO_1_TO_N |
++		V4L2_SUBDEV_ROUTING_NO_N_TO_1,
++};
++
++/**
++ * v4l2_subdev_routing_validate() - Verify that routes comply with driver
++ *				    constraints
++ * @sd: The subdevice
++ * @routing: Routing to verify
++ * @disallow: Restrictions on routes
++ *
++ * This verifies that the given routing complies with the @disallow contraints.
+  *
+  * Returns 0 on success, error value otherwise.
   */
- struct v4l2_mbus_framefmt *
--v4l2_state_get_stream_format(struct v4l2_subdev_state *state, unsigned int pad,
--			     u32 stream);
-+v4l2_subdev_state_get_stream_format(struct v4l2_subdev_state *state,
-+				    unsigned int pad, u32 stream);
+-int v4l2_subdev_routing_validate_1_to_1(const struct v4l2_subdev_krouting *routing);
++int v4l2_subdev_routing_validate(struct v4l2_subdev *sd,
++				 const struct v4l2_subdev_krouting *routing,
++				 enum v4l2_subdev_routing_restriction disallow);
  
- /**
-  * v4l2_subdev_routing_find_opposite_end() - Find the opposite stream
+ struct v4l2_subdev_route *
+ __v4l2_subdev_next_active_route(const struct v4l2_subdev_krouting *routing,
 -- 
 Regards,
 
