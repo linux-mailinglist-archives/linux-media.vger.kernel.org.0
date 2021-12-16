@@ -2,131 +2,168 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 25741476F93
-	for <lists+linux-media@lfdr.de>; Thu, 16 Dec 2021 12:11:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E63B1476F97
+	for <lists+linux-media@lfdr.de>; Thu, 16 Dec 2021 12:13:18 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236477AbhLPLLJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 16 Dec 2021 06:11:09 -0500
-Received: from mga03.intel.com ([134.134.136.65]:3876 "EHLO mga03.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S236475AbhLPLLI (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 16 Dec 2021 06:11:08 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1639653068; x=1671189068;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=tLmQDIOY/nuxj81xa9HFBkghDkLFp+wjKf+/8rQrsx0=;
-  b=MKrNLMMfeZkt1PfQN3CsgJ1voIJE7fkqwIIXdLexWJa3V5KEUrLZuazi
-   7UypgFyG+O9JqxGhC3b/xyIlBDUYpLG2mQv/kht3KS0nTu7vTAxVrgJSm
-   ebBCgxwHI4OnMyN1d0Afei6oEbJoJUu/DMACIzy77ZJ3uiVj8dmU4Xmpu
-   hGAFoM/Gc7cIrBKqQH59tePuFXsqWuwuLV23rHKsxllCMLR0GfbOU5WM+
-   btJ6c9fzRxTiPu3IjvwO8JxZ8HccC9LtMpBIWAjWzO4HAvgNHUcHtO1xw
-   FedDQ6xJGHAQf8ltDuGXAsk8NqO+6vaezDwuzo23iMq1DkzigAugEqYk4
-   A==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10199"; a="239414959"
-X-IronPort-AV: E=Sophos;i="5.88,211,1635231600"; 
-   d="scan'208";a="239414959"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Dec 2021 03:11:00 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.88,211,1635231600"; 
-   d="scan'208";a="584811970"
-Received: from lkp-server02.sh.intel.com (HELO 9f38c0981d9f) ([10.239.97.151])
-  by fmsmga004.fm.intel.com with ESMTP; 16 Dec 2021 03:10:57 -0800
-Received: from kbuild by 9f38c0981d9f with local (Exim 4.92)
-        (envelope-from <lkp@intel.com>)
-        id 1mxof3-00033S-4R; Thu, 16 Dec 2021 11:10:57 +0000
-Date:   Thu, 16 Dec 2021 19:10:17 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Daniel Scally <djrscally@gmail.com>, linux-media@vger.kernel.org,
-        libcamera-devel@lists.libcamera.org
-Cc:     llvm@lists.linux.dev, kbuild-all@lists.01.org,
-        sakari.ailus@linux.intel.com, laurent.pinchart@ideasonboard.com,
-        hanlinchen@chromium.org, tfiga@chromium.org, hdegoede@redhat.com,
-        kieran.bingham@ideasonboard.com, hpa@redhat.com
-Subject: Re: [PATCH 5/5] media: v4l2-async: Create links during
- v4l2_async_match_notify()
-Message-ID: <202112161906.gHHRLukN-lkp@intel.com>
-References: <20211213232849.40071-6-djrscally@gmail.com>
+        id S233847AbhLPLNP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 16 Dec 2021 06:13:15 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53002 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231459AbhLPLNO (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Thu, 16 Dec 2021 06:13:14 -0500
+Received: from mail-io1-xd35.google.com (mail-io1-xd35.google.com [IPv6:2607:f8b0:4864:20::d35])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4409FC061574;
+        Thu, 16 Dec 2021 03:13:14 -0800 (PST)
+Received: by mail-io1-xd35.google.com with SMTP id x6so34406369iol.13;
+        Thu, 16 Dec 2021 03:13:14 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=54oWWoqoZRE1KomV36qp17pwppN05XALT4TsXIurcA8=;
+        b=cItagiJJAz7DHAfCxPnMgC4HuMPJL3dRt3szmXX+GaUxfZ0rOhAq2f25XNBCk8Xo46
+         ZC3jnDok91LDP/J0Aojhf8S+RVc/UGmhRKbnOdqPyEZAi3vqM4tkTUlvhQ00fg1vvRgm
+         2uYkYPp7AqaID4zqBsI+5lrt7U5EN4ek6mAL6K3m4MCUOxi5Bn8ZcAakI0bQ1fS13l7c
+         As7EPAEOqBrOBHM8kFPlxvO6ZeJY/0N4DYB4IuA5zTxdxumdJ0vm88nlquyLbzyFaAxS
+         Dq0nuOaqsJipOx15C++m7ysQBYRUgX+qXtVN80idfexI+j/TGQcR5ciJY4KtrKX4G+dS
+         JrKQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=54oWWoqoZRE1KomV36qp17pwppN05XALT4TsXIurcA8=;
+        b=PYQy2GTcotot02T695ZpzY1i14HZQotQylmj/nHuwlDCVtKQS6OiaIdm6XSeO4qS5s
+         9FTOf+5HfWLAwKPTX6sylEUa3ab9Od1E2rWIALOrAp1H18YPNgkiLsaoQ+Oe7y6OBQzq
+         wl7rMbxM1KmOpwjzINLSsOg0OY5YuqyfMQQSU0yOh8DuhHFgyzVdy8dIuVJKYz1uJtb8
+         LXj71gRiO6heVD3pB0AndRzZ17fa4YAM9iDp8V8asD/rhEFk9z2E+cFMQTr8qHNcHJXJ
+         iVau+BMoKwS2yEhbdv8mTm3YVh+1LDfpJ94MQm0NMKvUgm+nIm7hgKdoCunzYi52h2sw
+         Sp9g==
+X-Gm-Message-State: AOAM53269KBsQx1WzkAvn7wMGvGUPXp1IWLGJSkdg7PGWR+qY8Soa2SR
+        8nuM1ijagCymlxDUge3H2Ald413FARQcJLd5
+X-Google-Smtp-Source: ABdhPJwvVo8tPWOUQxrNaQVlLXq+RAbTp5V12nskk+dTmerWZP7vQgxY7ozL9koGj1zxFhGi3B4yWw==
+X-Received: by 2002:a05:6638:33a6:: with SMTP id h38mr9195152jav.185.1639653193110;
+        Thu, 16 Dec 2021 03:13:13 -0800 (PST)
+Received: from aford-IdeaCentre-A730.lan ([2601:448:8400:9e8:fe22:1652:55f7:5197])
+        by smtp.gmail.com with ESMTPSA id h1sm3090946iow.31.2021.12.16.03.13.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 16 Dec 2021 03:13:12 -0800 (PST)
+From:   Adam Ford <aford173@gmail.com>
+To:     linux-media@vger.kernel.org
+Cc:     abel.vesa@nxp.com, aford@beaconembedded.com,
+        benjamin.gaignard@collabora.com, hverkuil-cisco@xs4all.nl,
+        Adam Ford <aford173@gmail.com>,
+        Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Lucas Stach <l.stach@pengutronix.de>,
+        linux-rockchip@lists.infradead.org, devicetree@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        linux-staging@lists.linux.dev
+Subject: [PATCH V2 00/10] media: hantro: imx8mq/imx8mm: Let VPU decoders get controlled by vpu-blk-ctrl
+Date:   Thu, 16 Dec 2021 05:12:45 -0600
+Message-Id: <20211216111256.2362683-1-aford173@gmail.com>
+X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20211213232849.40071-6-djrscally@gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Daniel,
+Both the i.MX8MQ and i.MX8MM have G1 and G2 decoders.
+The two decoders are similar, but the imx8mm lacks the
+post-processor, so they will have distinct compatible flags.
 
-I love your patch! Yet something to improve:
+From what I can tell, the G2 decoder wasn't working, so splitting
+the i.MX8MQ VPU into G1 and G2 makes it easier to control them 
+independently since the TRM of both the i.MX8MQ and
+i.MX8MM list them as distinct IP blocks. This also allowed G2 to
+become available.
 
-[auto build test ERROR on media-tree/master]
-[also build test ERROR on v5.16-rc5 next-20211215]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch]
+With them being split, the power-domain can shift to the
+vpu-blk-ctrl which is available on both i.MX8MQ and i.MX8MM,
+but some of bits are different, so they'll have separate bindings.
 
-url:    https://github.com/0day-ci/linux/commits/Daniel-Scally/Introduce-ancillary-links/20211214-073020
-base:   git://linuxtv.org/media_tree.git master
-config: x86_64-randconfig-r015-20211216 (https://download.01.org/0day-ci/archive/20211216/202112161906.gHHRLukN-lkp@intel.com/config)
-compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project dd245bab9fbb364faa1581e4f92ba3119a872fba)
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/0day-ci/linux/commit/7e7fcd65e8144f3ffa337760c26fb786f4028466
-        git remote add linux-review https://github.com/0day-ci/linux
-        git fetch --no-tags linux-review Daniel-Scally/Introduce-ancillary-links/20211214-073020
-        git checkout 7e7fcd65e8144f3ffa337760c26fb786f4028466
-        # save the config file to linux build tree
-        mkdir build_dir
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/media/v4l2-core/
+Lastly, with the G1 and G2 operational, enable the i.MX8MM.
+On the i.MX8MM, the clock speed of 600MHz was chosen to match
+the default of the kernel repo from NXP and can be overwritten
+by board files for anyone who under/over volts the power rail.
 
-If you fix the issue, kindly add following tag as appropriate
-Reported-by: kernel test robot <lkp@intel.com>
+There seems to be some disagreement between the TRM and the Datasheet
+for the imx8mq as to whether the speed should be 300MHz (TRM) or
+600MHz (datasheet), so feedback from NXP would be very much
+appreciated.
 
-All errors (new ones prefixed by >>):
+The repo used as the starting point was:
+git://linuxtv.org/hverkuil/media_tree.git for-v5.17e
 
->> drivers/media/v4l2-core/v4l2-async.c:284:10: error: no member named 'entity' in 'struct v4l2_subdev'
-           if (sd->entity.function != MEDIA_ENT_F_LENS &&
-               ~~  ^
-   drivers/media/v4l2-core/v4l2-async.c:285:10: error: no member named 'entity' in 'struct v4l2_subdev'
-               sd->entity.function != MEDIA_ENT_F_FLASH)
-               ~~  ^
-   drivers/media/v4l2-core/v4l2-async.c:288:52: error: no member named 'entity' in 'struct v4l2_subdev'
-           link = media_create_ancillary_link(&notifier->sd->entity, &sd->entity,
-                                               ~~~~~~~~~~~~  ^
-   drivers/media/v4l2-core/v4l2-async.c:288:65: error: no member named 'entity' in 'struct v4l2_subdev'
-           link = media_create_ancillary_link(&notifier->sd->entity, &sd->entity,
-                                                                      ~~  ^
-   drivers/media/v4l2-core/v4l2-async.c:309:24: error: no member named 'entity' in 'struct v4l2_subdev'
-           switch (notifier->sd->entity.function) {
-                   ~~~~~~~~~~~~  ^
-   5 errors generated.
+Fluster was run on both i.MX8MM and i.MX8MQ
+
+At 600 MHz, the i.MX8MM had the following:
+
+./fluster.py run -d GStreamer-VP8-V4L2SL-Gst1.0
+Ran 55/61 tests successfully               in 8.299 secs
+
+./fluster.py run -dGStreamer-H.264-V4L2SL-Gst1.0
+Ran 90/135 tests successfully               in 71.200 secs
+
+./fluster.py run -d GStreamer-VP9-V4L2SL-Gst1.0
+Ran 139/303 tests successfully               in 218.079 secs
+
+The i.MX8MQ had the following:
+
+./fluster.py run -d GStreamer-VP8-V4L2SL-Gst1.0
+Ran 55/61 tests successfully               in 7.732 secs
+
+./fluster.py run -dGStreamer-H.264-V4L2SL-Gst1.0
+Ran 90/135 tests successfully               in 58.558 secs
+
+./fluster.py run -d GStreamer-VP9-V4L2SL-Gst1.0
+Ran 144/303 tests successfully               in 271.373 secs
+
+V2:  Remove references to legacy dt-binding from YAML, but keep
+     it in the driver so older device trees can still be used.
+     Fix typos in YAML
+     Remove reg-names, interrupt-names, and clock-names from YAML,
+     since each node will only have one of each, they're not necessary
+     Add Fluster scores to cover letter for i.MX8MQ
+
+Adam Ford (7):
+  dt-bindings: media: nxp,imx8mq-vpu: Split G1 and G2 nodes
+  media: hantro: Allow i.MX8MQ G1 and G2 to run independently
+  arm64: dts: imx8mq: Enable both G1 and G2 VPU's with vpu-blk-ctrl
+  arm64: dts: imx8mm: Fix VPU Hanging
+  dt-bindings: media: nxp,imx8mq-vpu: Add support for G1 and G2 on
+    imx8mm
+  media: hantro: Add support for i.MX8MM
+  arm64: dts: imx8mm: Enable Hantro G1 and G2 video decoders
+
+Lucas Stach (3):
+  dt-bindings: power: imx8mq: add defines for VPU blk-ctrl domains
+  dt-bindings: soc: add binding for i.MX8MQ VPU blk-ctrl
+  soc: imx: imx8m-blk-ctrl: add i.MX8MQ VPU blk-ctrl
+
+ .../bindings/media/nxp,imx8mq-vpu.yaml        | 93 +++++++++++--------
+ .../soc/imx/fsl,imx8mq-vpu-blk-ctrl.yaml      | 71 ++++++++++++++
+ arch/arm64/boot/dts/freescale/imx8mm.dtsi     | 23 ++++-
+ arch/arm64/boot/dts/freescale/imx8mq.dtsi     | 63 ++++++++-----
+ drivers/soc/imx/imx8m-blk-ctrl.c              | 68 +++++++++++++-
+ drivers/staging/media/hantro/hantro_drv.c     |  3 +
+ drivers/staging/media/hantro/hantro_hw.h      |  3 +
+ drivers/staging/media/hantro/imx8m_vpu_hw.c   | 75 ++++++++++++---
+ include/dt-bindings/power/imx8mq-power.h      |  3 +
+ 9 files changed, 324 insertions(+), 78 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/soc/imx/fsl,imx8mq-vpu-blk-ctrl.yaml
 
 
-vim +284 drivers/media/v4l2-core/v4l2-async.c
+base-commit: d1888b0bfd2ddef2e8a81505ffa200b92cc32e0c
+-- 
+2.32.0
 
-   277	
-   278	static int
-   279	__v4l2_async_create_ancillary_link(struct v4l2_async_notifier *notifier,
-   280					   struct v4l2_subdev *sd)
-   281	{
-   282		struct media_link *link;
-   283	
- > 284		if (sd->entity.function != MEDIA_ENT_F_LENS &&
-   285		    sd->entity.function != MEDIA_ENT_F_FLASH)
-   286			return -EINVAL;
-   287	
-   288		link = media_create_ancillary_link(&notifier->sd->entity, &sd->entity,
-   289						   MEDIA_LNK_FL_ENABLED |
-   290						   MEDIA_LNK_FL_IMMUTABLE);
-   291	
-   292		return IS_ERR(link) ? PTR_ERR(link) : 0;
-   293	}
-   294	
-
----
-0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
