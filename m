@@ -2,122 +2,90 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 39BA8476B12
-	for <lists+linux-media@lfdr.de>; Thu, 16 Dec 2021 08:33:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0C8B2476B2E
+	for <lists+linux-media@lfdr.de>; Thu, 16 Dec 2021 08:48:51 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232138AbhLPHdY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 16 Dec 2021 02:33:24 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58606 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229664AbhLPHdX (ORCPT
+        id S234543AbhLPHss (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 16 Dec 2021 02:48:48 -0500
+Received: from wnew4-smtp.messagingengine.com ([64.147.123.18]:59251 "EHLO
+        wnew4-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S234540AbhLPHsq (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 16 Dec 2021 02:33:23 -0500
-Received: from mail-lj1-x22f.google.com (mail-lj1-x22f.google.com [IPv6:2a00:1450:4864:20::22f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 36843C061574
-        for <linux-media@vger.kernel.org>; Wed, 15 Dec 2021 23:33:23 -0800 (PST)
-Received: by mail-lj1-x22f.google.com with SMTP id z8so37102071ljz.9
-        for <linux-media@vger.kernel.org>; Wed, 15 Dec 2021 23:33:23 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ragnatech-se.20210112.gappssmtp.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=aSgutWPTCcATr98yGj7KVkZJEMsLEmRpgDqJ2f91vgY=;
-        b=cfUIEGS/I+5GHzfC4E3lftXN7Jo0JtgOJtwAWKPABolJfB7oQ0eqjpTV4dvH5xKQsM
-         WoSWNQ8LFQqLY5oDU3n8YKnpbvZbhIkVds5ijjrYm07fC8SWVgs3/HRDLHMrBzIz57aa
-         yaDdxUMPvXYTZEWDrdEYo7QUax1T6fc01GqvXFsyZCtIIyf6A6UGPQPBVA8aAm2To7MW
-         LCrZt0uI/PQzoOVhkRUCpHfOLMMAOksaJwhKiYEtra4HtXgMAzagSzpc/UYTwfyTA/sl
-         MsI9QFJG6PI4pcrkOGWFjQmXT08qchvRFxkF4T0XsEBLtJxOnOJkkm4Ap3rDzRwZMFGB
-         ai9Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=aSgutWPTCcATr98yGj7KVkZJEMsLEmRpgDqJ2f91vgY=;
-        b=kWAw36Kb+X6u6Pypv6poAU/QZXqKwLTq21E4WsrcwmUBIb7EtZmDEETY1M9uGIYMHE
-         6tqkb37KA6j7mBBlCBP+UF3K9iRz8dipif4CCnwbgPkz8ClnYJkj6OiU1XE3WsK4V7gj
-         wqX2TzUYF9K/v+lj7rFUff7m7tkLTLQnX2qBME6mZRZtGLnShvX+9az2XC5GZFMBIeQd
-         /UDL1CEdi9Wei7nIrLkAJ3SpX06ccifWZHDbUbJ8c17zLGSdJh/j9M1pXmTohKm6RDX8
-         kaNKW0PCJuTGHKofQnnv6n//zXgUeabMkXh6MAJELwauHQ0jvszbSOBSCFk9bu/4j7jK
-         StMQ==
-X-Gm-Message-State: AOAM533EZy49iso1boAkHD2IVIG3DGGsPVxThD79MkjqftgFMn5uGxwO
-        lM9hxuft1PvfakzkMgtYvcMaGQ==
-X-Google-Smtp-Source: ABdhPJx3a4mUsG7Yiz80YHUr7Tx6vHgC33oQymymvfH9MqlFHD69rMz5hQCPTo1324t1x4EVM8jDbw==
-X-Received: by 2002:a2e:a311:: with SMTP id l17mr13653507lje.9.1639640001300;
-        Wed, 15 Dec 2021 23:33:21 -0800 (PST)
-Received: from localhost (h-46-59-90-226.A463.priv.bahnhof.se. [46.59.90.226])
-        by smtp.gmail.com with ESMTPSA id f15sm722384lfa.233.2021.12.15.23.33.20
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 15 Dec 2021 23:33:20 -0800 (PST)
-Date:   Thu, 16 Dec 2021 08:33:20 +0100
-From:   Niklas =?iso-8859-1?Q?S=F6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>
-To:     Julian Braha <julianbraha@gmail.com>
-Cc:     mchehab@kernel.org, gregkh@linuxfoundation.org,
-        sakari.ailus@linux.intel.com,
-        kieran.bingham+renesas@ideasonboard.com,
-        linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
-        failyildiran@gmail.com
-Subject: Re: [PATCH] media: max96712: fix unmet dependency on VIDEO_DEV for
- VIDEO_V4L2_SUBDEV_API
-Message-ID: <YbrrwOx0Ayf/2/+z@oden.dyn.berto.se>
-References: <20211215233543.163578-1-julianbraha@gmail.com>
+        Thu, 16 Dec 2021 02:48:46 -0500
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+        by mailnew.west.internal (Postfix) with ESMTP id A3B492B00211;
+        Thu, 16 Dec 2021 02:48:42 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute3.internal (MEProxy); Thu, 16 Dec 2021 02:48:44 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
+        from:to:cc:subject:date:message-id:in-reply-to:references
+        :mime-version:content-type:content-transfer-encoding; s=fm1; bh=
+        brGpKAbHSatyt+6U6fdOq8xciGlXAc1QxVcd3uIFK0U=; b=ngRC06rmjNE67xVf
+        W/gX1CEXkhFQNpzlFChPu1OnpwjXx1YhZVnDqwusfRn++/KNuJVTpMTxcODV6fIc
+        UErmQpDa6wjnTeqnc9GSMj8V8Cj9n4AhXhwz8Qgx76PZqUda5W/9ppZj7SamOmms
+        UxwdWjtG1yLljMc5ChnYiR+o86FqkI5sb9Mfu3kkzmONyQJzE/8S/2yruP1rHKFT
+        s+UFpbFbHs6YkwaYf130VfG95ircvi9QaUtW3e3HPY7S3QpxaVkP4vGlAnEqDngC
+        qhRlOPqrec0dLhN/1CXnaAH10pQzpBidUDZ7N/+XouhQsOnQnD7tMAqHedIPUHrb
+        oCvD5Q==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:content-transfer-encoding:content-type
+        :date:from:in-reply-to:message-id:mime-version:references
+        :subject:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+        :x-sasl-enc; s=fm1; bh=brGpKAbHSatyt+6U6fdOq8xciGlXAc1QxVcd3uIFK
+        0U=; b=hoF6LyZMg4KxrolnBGyy34gytPD1g4asZq0IuEncfmjLUw1OoMXlzwH3r
+        F3hz6VOIuWVKtYqiveUvVXl1kEKaT6WgPrCOLOIk+HXADq51V/xE5ihhHbqPECHd
+        yr5Y5mkdEYac8sSz7prh0tJ12YxcITFJVlcdEbnkxdhi7hnxxTZqmX4bylwttx4A
+        WD3/BMOodJUPa4CZsG3AlT91cyQOGD6aErQhx+fsmfSIoL36ETXzKOrZdgQvOF8n
+        P+sfi3Jdg7cBvqI25NMOHyFxG1TH78Vj/ZgBI4aWcv7OdX6B2NIGKVGh0SAHjdRd
+        k1xziFU6vE6JqphyNht/HnIN6Qt+g==
+X-ME-Sender: <xms:WO-6YVBejOPnLuF7QQreVcLtIHf8Oc3zBZ2W1YP7pe3I7fq0MaoVmg>
+    <xme:WO-6YTgkNpmFSKzkymJgma7F8LNVGdyLvahEmfrIBVAQQ2sLDYNa6o6hU4LK_U9Mm
+    Bo97_FAuDWbV-f-AU4>
+X-ME-Received: <xmr:WO-6YQkUmMsqExnbW1qxmjy_mdyYcwTcer6covo1qOHd8rFthSaTFLJPhDgIdP8Af4uRdlY_1Fqs0aMt8lEOpxiVe2IjDt0DG_t51mI>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvuddrleefgddutdelucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhephffvufffkffojghfgggtgfesthekredtredtjeenucfhrhhomhepofgrgihi
+    mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
+    htthgvrhhnpeejuefggeekfffgueevtddvudffhfejffejjedvvdduudethefhfefhfeeg
+    ieekkeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
+    hmrgigihhmvgestggvrhhnohdrthgvtghh
+X-ME-Proxy: <xmx:WO-6YfwJ8NzFD30EzKqtWEQUR-gP6zydJTydOePqYNmabKb9dPzkMg>
+    <xmx:WO-6YaRswLMDMkWb3W-aY3MwFDPTMIoP_FILoi-el_VKOZLhaUU3NQ>
+    <xmx:WO-6YSY2oEqyyHthmrmgtmxLUcmWx1Yhx74Mof-K4NLp4TtU0mjmTA>
+    <xmx:Wu-6YfjSNPS1AQZm15noobMAiBbP4g6ej828fmP0MYmvmf9jIIp1pvqih1Y>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 16 Dec 2021 02:48:40 -0500 (EST)
+From:   Maxime Ripard <maxime@cerno.tech>
+To:     Jernej Skrabec <jernej.skrabec@gmail.com>,
+        linux-media@vger.kernel.org
+Cc:     Maxime Ripard <maxime@cerno.tech>, linux-sunxi@lists.linux.dev,
+        p.zabel@pengutronix.de, linux-staging@lists.linux.dev,
+        gregkh@linuxfoundation.org, linux-arm-kernel@lists.infradead.org,
+        mripard@kernel.org, devicetree@vger.kernel.org,
+        ezequiel@vanguardiasur.com.ar, robh+dt@kernel.org,
+        linux-kernel@vger.kernel.org, wens@csie.org, mchehab@kernel.org,
+        nicolas.dufresne@collabora.com, andrzej.p@collabora.com
+Subject: Re: (subset) [PATCH v2 9/9] arm64: dts: allwinner: h6: Add Hantro G2 node
+Date:   Thu, 16 Dec 2021 08:48:37 +0100
+Message-Id: <163964090958.427634.7595301324701306993.b4-ty@cerno.tech>
+X-Mailer: git-send-email 2.33.1
+In-Reply-To: <20211129182633.480021-10-jernej.skrabec@gmail.com>
+References: <20211129182633.480021-1-jernej.skrabec@gmail.com> <20211129182633.480021-10-jernej.skrabec@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20211215233543.163578-1-julianbraha@gmail.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Julian,
-
-Thanks for your work.
-
-The issue is already fixed in [1].
-
-1. https://git.linuxtv.org/media_stage.git/commit/?id=8cc464fdcaaef1a38423c79c29df96db397d8b69
-
-On 2021-12-15 18:35:43 -0500, Julian Braha wrote:
-> When VIDEO_MAX96712 is selected,
-> and VIDEO_DEV is not selected,
-> Kbuild gives the following warning:
+On Mon, 29 Nov 2021 19:26:33 +0100, Jernej Skrabec wrote:
+> H6 SoC has a second VPU, dedicated to VP9 decoding. It's a slightly
+> older design, though.
 > 
-> WARNING: unmet direct dependencies detected for VIDEO_V4L2_SUBDEV_API
->   Depends on [n]: MEDIA_SUPPORT [=y] && VIDEO_DEV [=n] && MEDIA_CONTROLLER [=y]
->   Selected by [y]:
->   - VIDEO_MAX96712 [=y] && STAGING [=y] && STAGING_MEDIA [=y] && MEDIA_SUPPORT [=y] && I2C [=y] && OF_GPIO [=y]
-> 
-> This is because VIDEO_MAX96712 selects VIDEO_V4L2_SUBDEV_API,
-> without selecting or depending on VIDEO_DEV, despite
-> VIDEO_V4L2_SUBDEV_API depending on VIDEO_DEV.
-> 
-> This unmet dependency bug was detected by Kismet,
-> a static analysis tool for Kconfig. Please advise
-> if this is not the appropriate solution.
-> 
-> Signed-off-by: Julian Braha <julianbraha@gmail.com>
-> ---
->  drivers/staging/media/max96712/Kconfig | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/drivers/staging/media/max96712/Kconfig b/drivers/staging/media/max96712/Kconfig
-> index 258d47644cbd..117fadf81bd0 100644
-> --- a/drivers/staging/media/max96712/Kconfig
-> +++ b/drivers/staging/media/max96712/Kconfig
-> @@ -3,6 +3,7 @@ config VIDEO_MAX96712
->  	tristate "Maxim MAX96712 Quad GMSL2 Deserializer support"
->  	depends on I2C
->  	depends on OF_GPIO
-> +	depends on VIDEO_DEV
->  	select V4L2_FWNODE
->  	select VIDEO_V4L2_SUBDEV_API
->  	select MEDIA_CONTROLLER
-> -- 
-> 2.32.0
 > 
 
--- 
-Kind Regards,
-Niklas Söderlund
+Applied to sunxi/linux.git (sunxi/dt-for-5.17).
+
+Thanks!
+Maxime
