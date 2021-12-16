@@ -2,55 +2,55 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5319B47683B
-	for <lists+linux-media@lfdr.de>; Thu, 16 Dec 2021 03:43:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3740E476841
+	for <lists+linux-media@lfdr.de>; Thu, 16 Dec 2021 03:44:46 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231207AbhLPCng (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 15 Dec 2021 21:43:36 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51084 "EHLO
+        id S231248AbhLPCoo (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 15 Dec 2021 21:44:44 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51350 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231202AbhLPCnf (ORCPT
+        with ESMTP id S230151AbhLPCoo (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 15 Dec 2021 21:43:35 -0500
-Received: from mail-oi1-x22d.google.com (mail-oi1-x22d.google.com [IPv6:2607:f8b0:4864:20::22d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5E288C06173E
-        for <linux-media@vger.kernel.org>; Wed, 15 Dec 2021 18:43:35 -0800 (PST)
-Received: by mail-oi1-x22d.google.com with SMTP id m6so34460165oim.2
-        for <linux-media@vger.kernel.org>; Wed, 15 Dec 2021 18:43:35 -0800 (PST)
+        Wed, 15 Dec 2021 21:44:44 -0500
+Received: from mail-ot1-x32b.google.com (mail-ot1-x32b.google.com [IPv6:2607:f8b0:4864:20::32b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 01DBBC061574
+        for <linux-media@vger.kernel.org>; Wed, 15 Dec 2021 18:44:44 -0800 (PST)
+Received: by mail-ot1-x32b.google.com with SMTP id i5-20020a05683033e500b0057a369ac614so27283649otu.10
+        for <linux-media@vger.kernel.org>; Wed, 15 Dec 2021 18:44:43 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
         bh=SZBQ577Z00Gsm2ELBgWvaGZ7PZo29hRdVb3EOpEKqss=;
-        b=eYYmyBfqnAYpsCbL05z+3k3G5fpCc4Z/EeMS545DBILp9csCvzNnATnPqIYfAIsA1q
-         o/z32a3YKosoDTl6zOn5P4YNabxqk2HrAazzugbLevahDvtQOZlQJYCUxIQ2HzqOYbhN
-         B6uaoUlX8+2BIU1r5fYRWqyTTO60K53uxM/gmmGB+qAt6sG5H6i45RED7qun3fB1pLjj
-         IDabNWFLkpni+lkFUomfbEint9i1AUqmeQEFPhIx1RRMhjj8O7x1EyT2grotjvcQjgIA
-         OAXDTq++AGqZiWfTpiRwT6EMWvM4RRguxMkSNsSdRK/nzbezmjdjXwTZFUFGHK/hNLGG
-         fqXw==
+        b=ajjUafm9zvAnqME9F3Y0Ln4XTUl/3+81o1V+PkzAz1hXxVH+tjHuzpOAWWhTY7zBWQ
+         Ykb3fJaKBT0OOy2XjeHUxGryNCpWWE9TxysZjMOYLjarVvZv4x6p5O40y7GNyTmf2u7T
+         Ia8L5bm2IuBuXKWOw7uK0i0pk8TwYJu5OknTYSaHHYxJL80HIJ8EFugZ+IYT74exu47l
+         hqI3PcHsueVeNUs8Qe/2msXGlkjkfat6KL81di0IdeQETSYS+I+cxD4dHM+sbnfZUzIR
+         XIdO7h7d7wcqHVPahRV5hPDVNnOBakBahcitvjdwrAUsNVFyJOxwI3k0wcOU793Y0+uh
+         OM8Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
         bh=SZBQ577Z00Gsm2ELBgWvaGZ7PZo29hRdVb3EOpEKqss=;
-        b=5roYjnu4I5eWZXAG2oLOToP8MMz+FBrI/vEf2DZCIwEP1ML0nt54O5ootOO57dlFet
-         xxEJMW8YJRaftHFrQbt/eJVzKx1gi/A/So6XMzmJdpxclNRUmxZZ5OaKeWDoBWnJk7Ij
-         M5+pT7zOwrnuDy5mB77DKE3pOwmzPhARxckk1e3LJe02JZQ3gVrEWKD0hGsxfXB1KgW/
-         1RkSpxnfCG73AqHZT8o2wwnbPzfRzdyY/YP7z7SBeV51BpSwRe6gkWfeLIUcx9YsiEfQ
-         SIDLDQBx2YJNfoOmdgYLrAme9egiWqG8oTyY/AxcR3LRNmQ/We9wTiFKP9bqSCxYysDz
-         LpQg==
-X-Gm-Message-State: AOAM533mMQ/soWw/0f4PpGPdmSLFk1/X7Jq+BhpJsWalpi1bLQHo4Cx+
-        6SCbRV3ETrJhNH7roMCKqbMUH8vKum2i1olN8FSzNw==
-X-Google-Smtp-Source: ABdhPJwNJgqrfeC5CN/Gvm+NgkvRXKGZS2NCxanweRecHxOftNdIweNOo08zNh4qiNSFqwGqnz/kOIrsGlbo0tpzaB4=
-X-Received: by 2002:aca:120f:: with SMTP id 15mr2525146ois.132.1639622614228;
- Wed, 15 Dec 2021 18:43:34 -0800 (PST)
+        b=w5tB60M4hkLMvnAOztJfjJsI5USjMKld1v43M27Pw1aC53afTEDmwGhUlVzKaQ2Rsx
+         cuGqhAhPRdctAfOCZpKtMaqNZa+ZpE9c2LkmtVXgGk71DTWasEQtr0MGZU3nkI+LK/eb
+         Sm3vf3lHWaq8lSS7B7Q/BIJScnSiJz+aPD30g8TaaFwb5B7oQzGMiYKuw/ozq9WfnvpA
+         0VOTvptBKo2sw0j1QdL2PZsOSIniBYpDbnZC4WNIzDucVRZGu3wkFFhYDMMPP0dK1MeX
+         prXQz9Lyf3T5GKyYpt4yRKmpk4tx8sW3WDvjCZO0AyaFNjjhylbmpQRRhektUAKsEdQb
+         fxfA==
+X-Gm-Message-State: AOAM533kFl5daX86ycYlv2FqrrojLKHF7OvKVR3zl3cmV2vniWRvFlwq
+        LdmMcEXjFTehp5WMV6GdXPYuwobaZXVJV9vlP44wKw==
+X-Google-Smtp-Source: ABdhPJwNby26TXaQenyHeX9TznyLunCDxBe80eRHr3WPHDPwv5u1r1oIikC75XJd9IMyaOKYK8vE0wU1cB3nU0OHZe4=
+X-Received: by 2002:a9d:a42:: with SMTP id 60mr11421164otg.179.1639622683376;
+ Wed, 15 Dec 2021 18:44:43 -0800 (PST)
 MIME-Version: 1.0
-References: <20211206131648.1521868-1-hverkuil-cisco@xs4all.nl> <20211206131648.1521868-3-hverkuil-cisco@xs4all.nl>
-In-Reply-To: <20211206131648.1521868-3-hverkuil-cisco@xs4all.nl>
+References: <20211206131648.1521868-1-hverkuil-cisco@xs4all.nl> <20211206131648.1521868-4-hverkuil-cisco@xs4all.nl>
+In-Reply-To: <20211206131648.1521868-4-hverkuil-cisco@xs4all.nl>
 From:   Linus Walleij <linus.walleij@linaro.org>
-Date:   Thu, 16 Dec 2021 03:43:22 +0100
-Message-ID: <CACRpkdbsGekjw78jmR1yy5xRbup3L67Xga12zd1LJiyHmaEs7A@mail.gmail.com>
-Subject: Re: [RFC PATCH 2/3] pinctrl-bcm2835: don't call pinctrl_gpio_direction()
+Date:   Thu, 16 Dec 2021 03:44:32 +0100
+Message-ID: <CACRpkdbvmAGP=MWQ8mSHbeEqBBRxfU6FmxeYapN-b178-75X0w@mail.gmail.com>
+Subject: Re: [RFC PATCH 3/3] pinctrl-sunxi: don't call pinctrl_gpio_direction()
 To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>
 Cc:     linux-media@vger.kernel.org, linux-gpio@vger.kernel.org,
         Maxime Ripard <maxime@cerno.tech>,
