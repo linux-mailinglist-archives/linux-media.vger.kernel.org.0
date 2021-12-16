@@ -2,101 +2,73 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2A6DB4767D9
-	for <lists+linux-media@lfdr.de>; Thu, 16 Dec 2021 03:21:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5319B47683B
+	for <lists+linux-media@lfdr.de>; Thu, 16 Dec 2021 03:43:37 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232891AbhLPCV1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 15 Dec 2021 21:21:27 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45968 "EHLO
+        id S231207AbhLPCng (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 15 Dec 2021 21:43:36 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51084 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232885AbhLPCVZ (ORCPT
+        with ESMTP id S231202AbhLPCnf (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 15 Dec 2021 21:21:25 -0500
-Received: from sin.source.kernel.org (sin.source.kernel.org [IPv6:2604:1380:40e1:4800::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7A4CBC061574;
-        Wed, 15 Dec 2021 18:21:25 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by sin.source.kernel.org (Postfix) with ESMTPS id C62D1CE1FD2;
-        Thu, 16 Dec 2021 02:21:23 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3E83FC36AE1;
-        Thu, 16 Dec 2021 02:21:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1639621282;
-        bh=De1MrH3eP1ytxROVw6moLHf969b21GpHp9ByMYABKSI=;
-        h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-        b=MUDfEyeYXedtPQZrd2Exfczu0ZFYL9AgssxE/0zw+dbRG1tR3gWlGND0YsdGqhcan
-         UcWHxYDRN13oaOnj9cbF8NAjLlmz3WgP6EckyLbumR41aRQGKj1Bi6hCPEcrYcGC0y
-         HstW1EnQeHTeS30nxCLAjWsAlS2OrLIpAE3X7BBA95xCTj1StpKTf8dQw7/ArpIXnr
-         U94dQiVmvpVOFOQPzn1lAGDSkDhSp2elbZmwnw47/DlF2u54VpI0o9TKvzTb9xzR9r
-         1/arHeRInG8RvgNBmBgNXeZaVQ8RpG3Rh05V0f3ryMl/QWIQw0DrQVIc0srb2zJSjb
-         lVvHB0Rm57i9w==
-From:   Mark Brown <broonie@kernel.org>
-To:     Wolfram Sang <wsa@the-dreams.de>, Stephen Boyd <sboyd@kernel.org>,
-        Daniel Scally <djrscally@gmail.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Mark Gross <markgross@kernel.org>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        "Rafael J . Wysocki" <rjw@rjwysocki.net>,
-        Mika Westerberg <mika.westerberg@linux.intel.com>,
-        Andy Shevchenko <andy@infradead.org>
-Cc:     Len Brown <lenb@kernel.org>, Kate Hsuan <hpa@redhat.com>,
-        linux-kernel@vger.kernel.org,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        linux-clk@vger.kernel.org, linux-acpi@vger.kernel.org,
-        linux-media@vger.kernel.org, platform-driver-x86@vger.kernel.org
-In-Reply-To: <20211203102857.44539-1-hdegoede@redhat.com>
-References: <20211203102857.44539-1-hdegoede@redhat.com>
-Subject: Re: (subset) [PATCH v7 00/14] Add support for X86/ACPI camera sensor/PMIC setup with clk and regulator platform data
-Message-Id: <163962127796.2075461.6086847444730016805.b4-ty@kernel.org>
-Date:   Thu, 16 Dec 2021 02:21:17 +0000
+        Wed, 15 Dec 2021 21:43:35 -0500
+Received: from mail-oi1-x22d.google.com (mail-oi1-x22d.google.com [IPv6:2607:f8b0:4864:20::22d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5E288C06173E
+        for <linux-media@vger.kernel.org>; Wed, 15 Dec 2021 18:43:35 -0800 (PST)
+Received: by mail-oi1-x22d.google.com with SMTP id m6so34460165oim.2
+        for <linux-media@vger.kernel.org>; Wed, 15 Dec 2021 18:43:35 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=SZBQ577Z00Gsm2ELBgWvaGZ7PZo29hRdVb3EOpEKqss=;
+        b=eYYmyBfqnAYpsCbL05z+3k3G5fpCc4Z/EeMS545DBILp9csCvzNnATnPqIYfAIsA1q
+         o/z32a3YKosoDTl6zOn5P4YNabxqk2HrAazzugbLevahDvtQOZlQJYCUxIQ2HzqOYbhN
+         B6uaoUlX8+2BIU1r5fYRWqyTTO60K53uxM/gmmGB+qAt6sG5H6i45RED7qun3fB1pLjj
+         IDabNWFLkpni+lkFUomfbEint9i1AUqmeQEFPhIx1RRMhjj8O7x1EyT2grotjvcQjgIA
+         OAXDTq++AGqZiWfTpiRwT6EMWvM4RRguxMkSNsSdRK/nzbezmjdjXwTZFUFGHK/hNLGG
+         fqXw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=SZBQ577Z00Gsm2ELBgWvaGZ7PZo29hRdVb3EOpEKqss=;
+        b=5roYjnu4I5eWZXAG2oLOToP8MMz+FBrI/vEf2DZCIwEP1ML0nt54O5ootOO57dlFet
+         xxEJMW8YJRaftHFrQbt/eJVzKx1gi/A/So6XMzmJdpxclNRUmxZZ5OaKeWDoBWnJk7Ij
+         M5+pT7zOwrnuDy5mB77DKE3pOwmzPhARxckk1e3LJe02JZQ3gVrEWKD0hGsxfXB1KgW/
+         1RkSpxnfCG73AqHZT8o2wwnbPzfRzdyY/YP7z7SBeV51BpSwRe6gkWfeLIUcx9YsiEfQ
+         SIDLDQBx2YJNfoOmdgYLrAme9egiWqG8oTyY/AxcR3LRNmQ/We9wTiFKP9bqSCxYysDz
+         LpQg==
+X-Gm-Message-State: AOAM533mMQ/soWw/0f4PpGPdmSLFk1/X7Jq+BhpJsWalpi1bLQHo4Cx+
+        6SCbRV3ETrJhNH7roMCKqbMUH8vKum2i1olN8FSzNw==
+X-Google-Smtp-Source: ABdhPJwNJgqrfeC5CN/Gvm+NgkvRXKGZS2NCxanweRecHxOftNdIweNOo08zNh4qiNSFqwGqnz/kOIrsGlbo0tpzaB4=
+X-Received: by 2002:aca:120f:: with SMTP id 15mr2525146ois.132.1639622614228;
+ Wed, 15 Dec 2021 18:43:34 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+References: <20211206131648.1521868-1-hverkuil-cisco@xs4all.nl> <20211206131648.1521868-3-hverkuil-cisco@xs4all.nl>
+In-Reply-To: <20211206131648.1521868-3-hverkuil-cisco@xs4all.nl>
+From:   Linus Walleij <linus.walleij@linaro.org>
+Date:   Thu, 16 Dec 2021 03:43:22 +0100
+Message-ID: <CACRpkdbsGekjw78jmR1yy5xRbup3L67Xga12zd1LJiyHmaEs7A@mail.gmail.com>
+Subject: Re: [RFC PATCH 2/3] pinctrl-bcm2835: don't call pinctrl_gpio_direction()
+To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Cc:     linux-media@vger.kernel.org, linux-gpio@vger.kernel.org,
+        Maxime Ripard <maxime@cerno.tech>,
+        Florian Fainelli <f.fainelli@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, 3 Dec 2021 11:28:43 +0100, Hans de Goede wrote:
-> Here is v7 of my patch-set adding support for camera sensor connected to a
-> TPS68470 PMIC on x86/ACPI devices.
-> 
-> Changes in v7:
-> - Drop "platform/x86: int3472: Enable I2c daisy chain" this workaround is
->   no longer necessary (the regulator code now takes care of this)
-> - Fix using PTR_ERR(data->clk) instead of PTR_ERR(rdev) to log an error
->   code in "regulator: Introduce tps68470-regulator driver"
-> 
-> [...]
+On Mon, Dec 6, 2021 at 2:16 PM Hans Verkuil <hverkuil-cisco@xs4all.nl> wrote:
 
-Applied to
+> Set the direction directly without calling pinctrl_gpio_direction().
+> This avoids the mutex_lock() calls in that function, which would
+> invalid the can_sleep = false.
+>
+> Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/regulator.git for-next
+Patch applied.
 
-Thanks!
-
-[05/14] regulator: Introduce tps68470-regulator driver
-        commit: 0fc31d8f1a8ad17224f6423e3ed6234507375d48
-
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
+Yours,
+Linus Walleij
