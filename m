@@ -2,93 +2,206 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 15890477201
-	for <lists+linux-media@lfdr.de>; Thu, 16 Dec 2021 13:42:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 72F0847720B
+	for <lists+linux-media@lfdr.de>; Thu, 16 Dec 2021 13:43:00 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236852AbhLPMmC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 16 Dec 2021 07:42:02 -0500
-Received: from ewsoutbound.kpnmail.nl ([195.121.94.168]:57987 "EHLO
-        ewsoutbound.kpnmail.nl" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231650AbhLPMmC (ORCPT
+        id S236871AbhLPMm7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 16 Dec 2021 07:42:59 -0500
+Received: from perceval.ideasonboard.com ([213.167.242.64]:37100 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231686AbhLPMm6 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 16 Dec 2021 07:42:02 -0500
-X-KPN-MessageId: 7eaaea01-5e6d-11ec-8862-005056aba152
-Received: from smtp.kpnmail.nl (unknown [10.31.155.38])
-        by ewsoutbound.so.kpn.org (Halon) with ESMTPS
-        id 7eaaea01-5e6d-11ec-8862-005056aba152;
-        Thu, 16 Dec 2021 13:41:31 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=xs4all.nl; s=xs4all01;
-        h=content-type:subject:from:to:mime-version:date:message-id;
-        bh=p06rlHeb5vHskdaBlE/nr14WCMzuREIAw32gDLbIFcA=;
-        b=W/pBBXtMgVDnfcZmS0dAseu5ejFq/R5OpidMMaAZO72RfRro6rZziMyw2dEoXwIxm3sPX0mTRC/iC
-         +BSlP7KrYlHtytmhjl6ZEGoLwvNo4NQ9WuCaK2F2Vlxr4PJImQ1NTUjw96xq52RQgZphmgFtKDqUBL
-         yNMyWjcy8ubR21EEhvXCrn30OlM2Wob0BDUqb1rFVW0pM2Lg522d5wuzzNwlfMbd9UVoCj0GHl525n
-         IKbeQsLBTtEnu/KFotYy10+33hR1Ms9qMPF5/h99FP7i1pNa17s46Q8tiyoVeJwJZQsBUCX7bvM5/3
-         xtuGDFeMCNc5dwwVPoTHdZZmBrUuVjg==
-X-KPN-VerifiedSender: Yes
-X-CMASSUN: 33|yQnzTE/EhGrUQTdI1A0BoSRRLBZ0AdIbDRQUHu7PtCI9CYgZLwoK/rnA05hc+uP
- 1crAbnLR7dfL+fV6JFsPPmg==
-X-Originating-IP: 80.101.105.217
-Received: from [192.168.1.10] (marune.xs4all.nl [80.101.105.217])
-        by smtp.xs4all.nl (Halon) with ESMTPSA
-        id 9031939b-5e6d-11ec-94d2-005056abf0db;
-        Thu, 16 Dec 2021 13:42:00 +0100 (CET)
-Message-ID: <eab48e21-fb71-8a41-9d0c-b19aa779746b@xs4all.nl>
-Date:   Thu, 16 Dec 2021 13:42:00 +0100
+        Thu, 16 Dec 2021 07:42:58 -0500
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id B687E3F6;
+        Thu, 16 Dec 2021 13:42:56 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1639658576;
+        bh=lM0DqAprTv2QJrwDzZByb7Ef7KoiQfnRCcNg/z2bV5U=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=Cnvik3Lo5HlASRMMAXgzbmfS2E9ytD0n8bMAFwCmOozRe8CLDIWwi3u0BxqkVhLFn
+         THzwX+7XMGE9C5unG5UeMa0btyEWRWOSYUvBkPGmxP7i0plYlSzmCxvAwmcw4Iep0t
+         xca3Ibik798lvBTB25BuPbtGr9nyp8yG+MhwmhHI=
+Date:   Thu, 16 Dec 2021 14:42:54 +0200
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Jacopo Mondi <jacopo+renesas@jmondi.org>
+Cc:     tomi.valkeinen@ideasonboard.com, sakari.ailus@linux.intel.com,
+        niklas.soderlund@ragnatech.se, kieran.bingham@ideasonboard.com,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH v2 05/13] media: max9286: Move format to subdev state
+Message-ID: <Ybs0Tl3qqfXbwO50@pendragon.ideasonboard.com>
+References: <20211017182449.64192-1-jacopo+renesas@jmondi.org>
+ <20211017182449.64192-6-jacopo+renesas@jmondi.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.2
-Content-Language: en-US
-To:     Linux Media Mailing List <linux-media@vger.kernel.org>
-Cc:     =?UTF-8?Q?Jernej_=c5=a0krabec?= <jernej.skrabec@gmail.com>,
-        Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
-        Andrzej Pietrasiewicz <andrzej.p@collabora.com>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Subject: [GIT PULL FOR v5.17] hantro: add Allwinner H6 support
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20211017182449.64192-6-jacopo+renesas@jmondi.org>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The following changes since commit b9aafbd46eb92b3174781661c33bdb2c17d484f1:
+Hi Jacopo,
 
-  media: si2157: add ATV support for si2158 (2021-12-14 16:19:05 +0100)
+Thank you for the patch.
 
-are available in the Git repository at:
+On Sun, Oct 17, 2021 at 08:24:41PM +0200, Jacopo Mondi wrote:
+> Move format handling to the v4l2_subdev state and store it per
+> (pad, stream) combination.
+> 
+> Now that the image format is stored in the subdev state, it can be
+> accessed through v4l2_subdev_get_fmt() instead of open-coding it.
 
-  git://linuxtv.org/hverkuil/media_tree.git tags/br-v5.17h
+Would it be possible to move this to 02/13 in the series ? Storing the
+formats in the state doesn't depend on multiplexed streams support, we
+could thus merge it early. The current 01/13 would need to be split in
+two, with one part to allocate the active state and implement
+.init_cfg() without muxed streams support, and another part to add muxed
+streams support on top.
 
-for you to fetch changes up to 7002aa6312bbf3ea1374163bd013165cabb880b1:
+> Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
+> ---
+>  drivers/media/i2c/max9286.c | 85 ++++++++++++-------------------------
+>  1 file changed, 27 insertions(+), 58 deletions(-)
+> 
+> diff --git a/drivers/media/i2c/max9286.c b/drivers/media/i2c/max9286.c
+> index 3485478f08a5..e51771d99437 100644
+> --- a/drivers/media/i2c/max9286.c
+> +++ b/drivers/media/i2c/max9286.c
+> @@ -175,8 +175,6 @@ struct max9286_priv {
+>  	struct v4l2_ctrl_handler ctrls;
+>  	struct v4l2_ctrl *pixelrate;
+>  
+> -	struct v4l2_mbus_framefmt fmt[MAX9286_N_SINKS];
+> -
+>  	/* Protects controls and fmt structures */
+>  	struct mutex mutex;
+>  
+> @@ -829,28 +827,18 @@ static int max9286_enum_mbus_code(struct v4l2_subdev *sd,
+>  	return 0;
+>  }
+>  
+> -static struct v4l2_mbus_framefmt *
+> -max9286_get_pad_format(struct max9286_priv *priv,
+> -		       struct v4l2_subdev_state *sd_state,
+> -		       unsigned int pad, u32 which)
+> -{
+> -	switch (which) {
+> -	case V4L2_SUBDEV_FORMAT_TRY:
+> -		return v4l2_subdev_get_try_format(&priv->sd, sd_state, pad);
+> -	case V4L2_SUBDEV_FORMAT_ACTIVE:
+> -		return &priv->fmt[pad];
+> -	default:
+> -		return NULL;
+> -	}
+> -}
+> -
+>  static int max9286_set_fmt(struct v4l2_subdev *sd,
+>  			   struct v4l2_subdev_state *sd_state,
+>  			   struct v4l2_subdev_format *format)
+>  {
+> -	struct max9286_priv *priv = sd_to_max9286(sd);
+> -	struct v4l2_mbus_framefmt *cfg_fmt;
+> +	struct v4l2_mbus_framefmt *fmt;
+> +	struct v4l2_subdev_state *state;
+> +	int ret = 0;
+>  
+> +	/*
+> +	 * Refuse to set format on the multiplexed source pad.
+> +	 * Format is propagated from sinks streams to source streams.
+> +	 */
+>  	if (format->pad == MAX9286_SRC_PAD)
+>  		return -EINVAL;
+>  
+> @@ -866,44 +854,28 @@ static int max9286_set_fmt(struct v4l2_subdev *sd,
+>  		break;
+>  	}
+>  
+> -	cfg_fmt = max9286_get_pad_format(priv, sd_state, format->pad,
+> -					 format->which);
+> -	if (!cfg_fmt)
+> -		return -EINVAL;
+> -
+> -	mutex_lock(&priv->mutex);
+> -	*cfg_fmt = format->format;
+> -	mutex_unlock(&priv->mutex);
+> -
+> -	return 0;
+> -}
+> -
+> -static int max9286_get_fmt(struct v4l2_subdev *sd,
+> -			   struct v4l2_subdev_state *sd_state,
+> -			   struct v4l2_subdev_format *format)
+> -{
+> -	struct max9286_priv *priv = sd_to_max9286(sd);
+> -	struct v4l2_mbus_framefmt *cfg_fmt;
+> -	unsigned int pad = format->pad;
+> -
+> -	/*
+> -	 * Multiplexed Stream Support: Support link validation by returning the
+> -	 * format of the first bound link. All links must have the same format,
+> -	 * as we do not support mixing and matching of cameras connected to the
+> -	 * max9286.
+> -	 */
+> -	if (pad == MAX9286_SRC_PAD)
+> -		pad = __ffs(priv->bound_sources);
+> +	state = v4l2_subdev_validate_and_lock_state(sd, sd_state);
+> +	fmt = v4l2_state_get_stream_format(state, format->pad,
+> +					   format->stream);
+> +	if (!fmt) {
+> +		ret = -EINVAL;
+> +		goto out;
+> +	}
+> +	*fmt = format->format;
+>  
+> -	cfg_fmt = max9286_get_pad_format(priv, sd_state, pad, format->which);
+> -	if (!cfg_fmt)
+> -		return -EINVAL;
+> +	/* Propagate format to the other end of the route. */
+> +	fmt = v4l2_state_get_opposite_stream_format(state, format->pad,
+> +						    format->stream);
+> +	if (!fmt) {
+> +		ret = -EINVAL;
+> +		goto out;
+> +	}
+> +	*fmt = format->format;
+>  
+> -	mutex_lock(&priv->mutex);
+> -	format->format = *cfg_fmt;
+> -	mutex_unlock(&priv->mutex);
+> +out:
+> +	v4l2_subdev_unlock_state(state);
+>  
+> -	return 0;
+> +	return ret;
+>  }
+>  
+>  static int max9286_routing_verify(struct max9286_priv *priv,
+> @@ -1052,7 +1024,7 @@ static const struct v4l2_subdev_video_ops max9286_video_ops = {
+>  static const struct v4l2_subdev_pad_ops max9286_pad_ops = {
+>  	.init_cfg	= max9286_init_cfg,
+>  	.enum_mbus_code = max9286_enum_mbus_code,
+> -	.get_fmt	= max9286_get_fmt,
+> +	.get_fmt	= v4l2_subdev_get_fmt,
+>  	.set_fmt	= max9286_set_fmt,
+>  	.set_routing	= max9286_set_routing,
+>  };
+> @@ -1092,9 +1064,6 @@ static int max9286_v4l2_register(struct max9286_priv *priv)
+>  
+>  	/* Configure V4L2 for the MAX9286 itself */
+>  
+> -	for (i = 0; i < MAX9286_N_SINKS; i++)
+> -		priv->fmt[i] = max9286_default_format;
+> -
+>  	v4l2_i2c_subdev_init(&priv->sd, priv->client, &max9286_subdev_ops);
+>  	priv->sd.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE |
+>  			  V4L2_SUBDEV_FL_MULTIPLEXED;
+> -- 
+> 2.33.0
+> 
 
-  media: hantro: Add support for Allwinner H6 (2021-12-16 09:17:04 +0100)
+-- 
+Regards,
 
-----------------------------------------------------------------
-Tag branch
-
-----------------------------------------------------------------
-Jernej Skrabec (8):
-      media: hantro: Fix probe func error path
-      media: hantro: add support for reset lines
-      media: hantro: vp9: use double buffering if needed
-      media: hantro: vp9: add support for legacy register set
-      media: hantro: move postproc enablement for old cores
-      media: hantro: Convert imx8m_vpu_g2_irq to helper
-      media: dt-bindings: allwinner: document H6 Hantro G2 binding
-      media: hantro: Add support for Allwinner H6
-
- Documentation/devicetree/bindings/media/allwinner,sun50i-h6-vpu-g2.yaml | 64 +++++++++++++++++++++++++++++++++++
- drivers/staging/media/hantro/Kconfig                                    | 10 +++++-
- drivers/staging/media/hantro/Makefile                                   |  3 ++
- drivers/staging/media/hantro/hantro.h                                   |  9 +++++
- drivers/staging/media/hantro/hantro_drv.c                               | 28 ++++++++++++++--
- drivers/staging/media/hantro/hantro_g2.c                                | 18 ++++++++++
- drivers/staging/media/hantro/hantro_g2_regs.h                           | 17 ++++++++++
- drivers/staging/media/hantro/hantro_g2_vp9_dec.c                        | 76 ++++++++++++++++++++++++++++++++----------
- drivers/staging/media/hantro/hantro_hw.h                                |  2 ++
- drivers/staging/media/hantro/imx8m_vpu_hw.c                             | 20 +----------
- drivers/staging/media/hantro/sunxi_vpu_hw.c                             | 86 ++++++++++++++++++++++++++++++++++++++++++++++++
- 11 files changed, 294 insertions(+), 39 deletions(-)
- create mode 100644 Documentation/devicetree/bindings/media/allwinner,sun50i-h6-vpu-g2.yaml
- create mode 100644 drivers/staging/media/hantro/sunxi_vpu_hw.c
+Laurent Pinchart
