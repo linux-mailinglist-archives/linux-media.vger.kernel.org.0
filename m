@@ -2,105 +2,138 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 59395477631
-	for <lists+linux-media@lfdr.de>; Thu, 16 Dec 2021 16:43:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 184D84776D2
+	for <lists+linux-media@lfdr.de>; Thu, 16 Dec 2021 17:07:01 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238632AbhLPPn6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 16 Dec 2021 10:43:58 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32936 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230303AbhLPPn5 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Thu, 16 Dec 2021 10:43:57 -0500
-Received: from mail-ot1-x32b.google.com (mail-ot1-x32b.google.com [IPv6:2607:f8b0:4864:20::32b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AC475C061574
-        for <linux-media@vger.kernel.org>; Thu, 16 Dec 2021 07:43:57 -0800 (PST)
-Received: by mail-ot1-x32b.google.com with SMTP id a23-20020a9d4717000000b0056c15d6d0caso29375006otf.12
-        for <linux-media@vger.kernel.org>; Thu, 16 Dec 2021 07:43:57 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:sender:from:date:message-id:subject:to
-         :content-transfer-encoding;
-        bh=G0RN1/MB2GDdOZ8S+RSntY+TeGIHAxl+ksWenno3NeM=;
-        b=G+BzvY4Blcao7e8cpNsoPfHt8lf+0xZ2zpKTskcLaqDXXDKtXzTguJEW+TqfCD+62F
-         boRfgSuoxVoF4IU+ym548bFe/PoA84J/jM++vDvKYhNq641AaGl2053qDHsJ184HPszB
-         5gKMtWMe1IN2gsGhFBjQo8bP8CqbXF4wlxm03PHh6BJj7kApgqKGuFI7lbatsl4sBcWd
-         dxGKErIDzOrvVJPnADxZUiInxPF0yTLHzUUWksdvK1pezpc71JoLcfuPmGLcv/5+g6RY
-         zj4zcd1ppK+kCNEqp8o4yM2tYHO2DFKpVwB3/qOmulPFf8JLqXCYLIQja+AQvuu0sKob
-         wR1g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:sender:from:date:message-id:subject
-         :to:content-transfer-encoding;
-        bh=G0RN1/MB2GDdOZ8S+RSntY+TeGIHAxl+ksWenno3NeM=;
-        b=p/bB/rYpa3ebLVNogv1A4k1HdQJYUf4KyAejq8X17jxpCv+rBMIJ6R3nGYmdKyj8Hb
-         dQaj2diSodtYP8e1WaW8dsdSMsorCc62QuVtIizR5JIteEpnXBxsucZZp2o2+KE5ZKy8
-         NMk2q8WEJlYwhhyhkAeJ0Wh1y2aTNdkZtj6BE+m6SeqeotEqxETOCr/aEFTUjDdLOK5f
-         d4Uu1joKk/Y5clmUV9gWMohSD5c5ZJN+cB7NNOiu0GPNLeLXOD5sXq0wabIMIG5qC67b
-         UxQ07bHdvgtiL6h2p770IWawcgPKItz4su55ttmDDrLzsi4qVkgtb9x+z9vZcvebeWuL
-         YNrA==
-X-Gm-Message-State: AOAM532TkAjmsLRXpjs+aaeMHQL1OpsLQSfz8aPmnwiS11eV0DEOx6Ar
-        lv9JtZkgc35azhPnEhSJQitnUjzJferPAna+akuyTFc+IvYjZs79
-X-Google-Smtp-Source: ABdhPJzD/p4NxYRl2RPNo8UcfjDsuF1nGkLQLjYMJXhI2cXxubmtBudhHH5pt/gFSxz21UxsoQXxIphtt5lk58az8to=
-X-Received: by 2002:a05:6830:18b:: with SMTP id q11mr13428046ota.113.1639669436789;
- Thu, 16 Dec 2021 07:43:56 -0800 (PST)
+        id S238939AbhLPQG6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 16 Dec 2021 11:06:58 -0500
+Received: from meesny.iki.fi ([195.140.195.201]:48676 "EHLO meesny.iki.fi"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S238861AbhLPQGv (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 16 Dec 2021 11:06:51 -0500
+Received: from hillosipuli.retiisi.eu (89-27-103-169.bb.dnainternet.fi [89.27.103.169])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: sailus)
+        by meesny.iki.fi (Postfix) with ESMTPSA id C41D72067E;
+        Thu, 16 Dec 2021 18:06:49 +0200 (EET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=meesny;
+        t=1639670809;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type;
+        bh=bz1RfdFo0nnYNYeu6J+BkgWlcCFi5f/Q1ybmg6NPCN8=;
+        b=YTvMIGXt/e0qIGTpCrUG67R2ckvK6uZDDReHVaXJI+aq6NhzmOxQZfyHT3dfA7TNDX1V7F
+        6uh4y9RLVg3mmnVbBDr7xvVKlDEhnbCUJVs6gNcsptiFIvgs7RzEOiV04IEro8XcrM4M4Y
+        lGh/NwNKjx8UMeJpWZqt/zks/yqOk68=
+Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 0FB5B634C94;
+        Thu, 16 Dec 2021 18:06:48 +0200 (EET)
+Date:   Thu, 16 Dec 2021 18:06:48 +0200
+From:   Sakari Ailus <sakari.ailus@iki.fi>
+To:     linux-media@vger.kernel.org
+Cc:     Hans de Goede <hdegoede@redhat.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Subject: [GIT PULL FOR 5.17] Ipu3-cio2 VCM on Windows BIOS
+Message-ID: <YbtkGLF1cNN6d2cC@valkosipuli.retiisi.eu>
 MIME-Version: 1.0
-Sender: charityvangal@gmail.com
-Received: by 2002:a4a:d9cb:0:0:0:0:0 with HTTP; Thu, 16 Dec 2021 07:43:56
- -0800 (PST)
-From:   DINA MCKENNA <dinamckennahowley@gmail.com>
-Date:   Thu, 16 Dec 2021 15:43:56 +0000
-X-Google-Sender-Auth: KpI44645gFn6fLSGjum0E2uKkqE
-Message-ID: <CABTbXj+Ev7w494_1C5qq_NokBHWsvJ44RagDJjefAPDPkr98uw@mail.gmail.com>
-Subject: Hello,
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+ARC-Authentication-Results: i=1;
+        ORIGINATING;
+        auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
+ARC-Seal: i=1; s=meesny; d=iki.fi; t=1639670809; a=rsa-sha256; cv=none;
+        b=CiHpSVeVhwxwpuKlTDJnObHbYWFoFblkDR2O1FVqpYj13FRKfs7T4+DAp3hmAgVYbiK35H
+        CsQT8xqGBUdnPnctzPVKjUEfI4WjWKpyDUsSAhs3yqtJnOKK4GsojNZRT39f2U6RUJ/MFh
+        Uer2/4DtGAuhnesqpEoAEBOg0W1VPjE=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
+        s=meesny; t=1639670809;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type;
+        bh=bz1RfdFo0nnYNYeu6J+BkgWlcCFi5f/Q1ybmg6NPCN8=;
+        b=VusdPTUCG7CWTS9zcjxWEa0lfDriJwzH+suiv785T/9i465x3pIYOT1+zRcH8qEKPtmzns
+        sQzbIlul9HZfOalWH/1urnIZRdR2xdDqqVXpZe/+VQnNeGmuQKCUf74RmyOagZQp169JBR
+        C4dvDB4olBOlPvhGcR82vPgNkueQr0s=
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hello my dear,
+Hi Mauro,
 
- I sent this mail praying it will get to you in a good condition of
-health, since I myself are in a very critical health condition in
-which I sleep every night without knowing if I may be alive to see the
-next day. I bring peace and love to you. It is by the grace of God, I
-had no choice than to do what is lawful and right in the sight of God
-for eternal life and in the sight of man, for witness of God=E2=80=99s merc=
-y
-and glory upon my life. I am Mrs. Dina Howley. Mckenna, a widow. I am
-suffering from a long time brain tumor, It has defiled all forms of
-medical treatment, and right now I have about a few months to leave,
-according to medical experts. The situation has gotten complicated
-recently with my inability to hear proper, am communicating with you
-with the help of the chief nurse herein the hospital, from all
-indication my conditions is really deteriorating and it is quite
-obvious that, according to my doctors they have advised me that I may
-not live too long, Because this illness has gotten to a very bad
-stage. I plead that you will not expose or betray this trust and
-confidence that I am about to repose on you for the mutual benefit of
-the orphans and the less privilege. I have some funds I inherited from
-my late husband, the sum of ($ 11,000,000.00, Eleven Million Dollars).
-Having known my condition, I decided to donate this fund to you
-believing that you will utilize it the way i am going to instruct
-herein. I need you to assist me and reclaim this money and use it for
-Charity works therein your country  for orphanages and gives justice
-and help to the poor, needy and widows says The Lord." Jeremiah
-22:15-16.=E2=80=9C and also build schools for less privilege that will be
-named after my late husband if possible and to promote the word of God
-and the effort that the house of God is maintained. I do not want a
-situation where this money will be used in an ungodly manner. That's
-why I'm taking this decision. I'm not afraid of death, so I know where
-I'm going. I accept this decision because I do not have any child who
-will inherit this money after I die.. Please I want your sincerely and
-urgent answer to know if you will be able to execute this project for
-the glory of God, and I will give you more information on how the fund
-will be transferred to your bank account.. May the grace, peace, love
-and the truth in the Word of God be with you and all those that you
-love and care for.
+Here are ipu3-cio2 patches for supporting VCM on those laptops shipped with
+Windows from Hans de Goede, on top of an immutable branch on rc1.
 
-I'm waiting for your immediate reply.
+I pulled Hans's branch on the media tree master and applied the media
+patches there. I hope this is fine.
 
-May God Bless you,
-Mrs. Dina Howley. Mckenna.
+Please pull.
+
+
+The following changes since commit 9b4d7b5c81a2578e080da33b5cddc3149fa611aa:
+
+  media: bttv: use DEVICE_ATTR_RO() helper macro (2021-12-07 11:29:58 +0100)
+
+are available in the Git repository at:
+
+  git://linuxtv.org/sailus/media_tree.git tags/for-5.17-hans-signed
+
+for you to fetch changes up to e41aa17756846f7796771566c4baab5d96117ae1:
+
+  media: ipu3-cio2: Add support for instantiating i2c-clients for VCMs (2021-12-16 16:28:59 +0200)
+
+----------------------------------------------------------------
+Hans's ipu3-cio2 patches on top of INT3472 stuff
+
+----------------------------------------------------------------
+Hans de Goede (12):
+      ACPI: delay enumeration of devices with a _DEP pointing to an INT3472 device
+      i2c: acpi: Use acpi_dev_ready_for_enumeration() helper
+      i2c: acpi: Add i2c_acpi_new_device_by_fwnode() function
+      platform_data: Add linux/platform_data/tps68470.h file
+      platform/x86: int3472: Split into 2 drivers
+      platform/x86: int3472: Add get_sensor_adev_and_name() helper
+      platform/x86: int3472: Pass tps68470_clk_platform_data to the tps68470-regulator MFD-cell
+      platform/x86: int3472: Pass tps68470_regulator_platform_data to the tps68470-regulator MFD-cell
+      platform/x86: int3472: Deal with probe ordering issues
+      media: ipu3-cio2: Defer probing until the PMIC is fully setup
+      media: ipu3-cio2: Call cio2_bridge_init() before anything else
+      media: ipu3-cio2: Add support for instantiating i2c-clients for VCMs
+
+Sakari Ailus (1):
+      Merge tag 'platform-drivers-x86-int3472-1' of https://git.kernel.org/pub/scm/linux/kernel/git/pdx86/platform-drivers-x86 into for-5.17-stable
+
+ drivers/acpi/scan.c                                |  37 +++++-
+ drivers/i2c/i2c-core-acpi.c                        |  22 +++-
+ drivers/media/pci/intel/ipu3/cio2-bridge.c         |  92 +++++++++++++
+ drivers/media/pci/intel/ipu3/cio2-bridge.h         |  16 ++-
+ drivers/media/pci/intel/ipu3/ipu3-cio2-main.c      |  10 +-
+ drivers/platform/x86/intel/int3472/Makefile        |   9 +-
+ ...472_clk_and_regulator.c => clk_and_regulator.c} |   2 +-
+ drivers/platform/x86/intel/int3472/common.c        |  82 ++++++++++++
+ .../{intel_skl_int3472_common.h => common.h}       |   6 +-
+ .../{intel_skl_int3472_discrete.c => discrete.c}   |  51 +++++---
+ .../x86/intel/int3472/intel_skl_int3472_common.c   | 106 ---------------
+ .../{intel_skl_int3472_tps68470.c => tps68470.c}   |  92 +++++++++++--
+ drivers/platform/x86/intel/int3472/tps68470.h      |  25 ++++
+ .../x86/intel/int3472/tps68470_board_data.c        | 145 +++++++++++++++++++++
+ include/acpi/acpi_bus.h                            |   5 +-
+ include/linux/i2c.h                                |  17 ++-
+ include/linux/platform_data/tps68470.h             |  35 +++++
+ 17 files changed, 584 insertions(+), 168 deletions(-)
+ rename drivers/platform/x86/intel/int3472/{intel_skl_int3472_clk_and_regulator.c => clk_and_regulator.c} (99%)
+ create mode 100644 drivers/platform/x86/intel/int3472/common.c
+ rename drivers/platform/x86/intel/int3472/{intel_skl_int3472_common.h => common.h} (94%)
+ rename drivers/platform/x86/intel/int3472/{intel_skl_int3472_discrete.c => discrete.c} (91%)
+ delete mode 100644 drivers/platform/x86/intel/int3472/intel_skl_int3472_common.c
+ rename drivers/platform/x86/intel/int3472/{intel_skl_int3472_tps68470.c => tps68470.c} (56%)
+ create mode 100644 drivers/platform/x86/intel/int3472/tps68470.h
+ create mode 100644 drivers/platform/x86/intel/int3472/tps68470_board_data.c
+ create mode 100644 include/linux/platform_data/tps68470.h
+
+-- 
+Kind regards,
+
+Sakari Ailus
