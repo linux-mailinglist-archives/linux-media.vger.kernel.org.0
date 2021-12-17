@@ -2,193 +2,144 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 42D7F47834D
-	for <lists+linux-media@lfdr.de>; Fri, 17 Dec 2021 03:42:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E243C478354
+	for <lists+linux-media@lfdr.de>; Fri, 17 Dec 2021 03:45:08 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231722AbhLQCmr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 16 Dec 2021 21:42:47 -0500
-Received: from mga06.intel.com ([134.134.136.31]:37931 "EHLO mga06.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231700AbhLQCmr (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 16 Dec 2021 21:42:47 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1639708967; x=1671244967;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=0TtOHIBy35xHtjXIt6VN7YXpjKckJWib0kjrzyWcSJo=;
-  b=nWvigW/LQMgiPLjEEX85LeFGuCMaUQkK0ywDR44B0A+7SASeKARkXvtA
-   029985e8ZLNQUzyQjokrYXk0gsm0j87JoPHJyHSHz4phjTkFDKP/E3eBA
-   VL/MkoTXlmOKChQg5sUQIZgX5kd5yyaagFSwvEfMqoVmR7Mfjp6kNVrzf
-   Jnqu3Dj+4exFwp7bgHMir76jDvVbLg/eNT/CcE9y6KXdW+IzcBG8IwhU9
-   lpInzhZTUgFs86/rC5S3PubVzz79a8hZueGIIwlirdcgTqYZUjfrxg3Yg
-   xHExWCoorgOoeQKatBVGzsxdIAIUNCi29ZY6qiiIH8MtRBhfSqTHz7nS2
-   Q==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10200"; a="300438980"
-X-IronPort-AV: E=Sophos;i="5.88,213,1635231600"; 
-   d="scan'208";a="300438980"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Dec 2021 18:42:37 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.88,213,1635231600"; 
-   d="scan'208";a="483074461"
-Received: from lkp-server02.sh.intel.com (HELO 9f38c0981d9f) ([10.239.97.151])
-  by orsmga002.jf.intel.com with ESMTP; 16 Dec 2021 18:42:34 -0800
-Received: from kbuild by 9f38c0981d9f with local (Exim 4.92)
-        (envelope-from <lkp@intel.com>)
-        id 1my3Cc-00047x-0n; Fri, 17 Dec 2021 02:42:34 +0000
-Date:   Fri, 17 Dec 2021 10:41:47 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        tomi.valkeinen@ideasonboard.com, sakari.ailus@linux.intel.com,
-        laurent.pinchart@ideasonboard.com, niklas.soderlund@ragnatech.se,
-        kieran.bingham@ideasonboard.com
-Cc:     kbuild-all@lists.01.org, Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        id S231608AbhLQCpH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 16 Dec 2021 21:45:07 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45578 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229471AbhLQCpG (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Thu, 16 Dec 2021 21:45:06 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BDD56C061574;
+        Thu, 16 Dec 2021 18:45:06 -0800 (PST)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 03BF092A;
+        Fri, 17 Dec 2021 03:45:04 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1639709105;
+        bh=WTLGcHv2JkBr04OsbAmBlpxElYU5LnYuHjX3OBVTwiE=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=u4f/SWdSFCVkX5WAeCVnkq3rynX/x9gvS1Fz37gdnqnkk52JE5lLc7E7lpntwDZWa
+         jgjL3TWCYkvz9oWRhs8PvjRUAJLwYblfIQr4UcaWOcGEnCVqfpeDnjM34qVKaJ2eyc
+         uFNX4w2WE8qdlFTyYcSza+s6K2vLPsO1Si/mDHMI=
+Date:   Fri, 17 Dec 2021 04:45:02 +0200
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Jacopo Mondi <jacopo+renesas@jmondi.org>
+Cc:     tomi.valkeinen@ideasonboard.com, sakari.ailus@linux.intel.com,
+        niklas.soderlund@ragnatech.se, kieran.bingham@ideasonboard.com,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, Hans Verkuil <hverkuil@xs4all.nl>,
-        linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH 2/5] media: adv748x: Add support for v4l2_subdev_state
-Message-ID: <202112171052.3JgXYSA4-lkp@intel.com>
-References: <20211216170323.141321-3-jacopo+renesas@jmondi.org>
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH v4 6/6] media: max9286: Implement get_frame_desc()
+Message-ID: <Ybv5roGoqemlQ/NH@pendragon.ideasonboard.com>
+References: <20211216174746.147233-1-jacopo+renesas@jmondi.org>
+ <20211216174746.147233-7-jacopo+renesas@jmondi.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20211216170323.141321-3-jacopo+renesas@jmondi.org>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20211216174746.147233-7-jacopo+renesas@jmondi.org>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
 Hi Jacopo,
 
-I love your patch! Yet something to improve:
+Thank you for the patch.
 
-[auto build test ERROR on media-tree/master]
-[also build test ERROR on v5.16-rc5 next-20211215]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch]
+On Thu, Dec 16, 2021 at 06:47:46PM +0100, Jacopo Mondi wrote:
+> Implement the get_frame_desc pad operation to allow retrieving the
+> stream configuration of the max9286 subdevice.
+> 
+> Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
+> ---
+>  drivers/media/i2c/max9286.c | 53 +++++++++++++++++++++++++++++++++++++
+>  1 file changed, 53 insertions(+)
+> 
+> diff --git a/drivers/media/i2c/max9286.c b/drivers/media/i2c/max9286.c
+> index aa7cb7c10fc0..78988f2bdf91 100644
+> --- a/drivers/media/i2c/max9286.c
+> +++ b/drivers/media/i2c/max9286.c
+> @@ -876,6 +876,58 @@ static int max9286_set_fmt(struct v4l2_subdev *sd,
+>  	return ret;
+>  }
+>  
+> +static int max9286_get_frame_desc(struct v4l2_subdev *sd, unsigned int pad,
+> +				  struct v4l2_mbus_frame_desc *fd)
+> +{
+> +	struct v4l2_subdev_route *route;
+> +	struct v4l2_subdev_state *state;
+> +	int ret = 0;
+> +
+> +	if (pad != MAX9286_SRC_PAD)
+> +		return -EINVAL;
+> +
+> +	state = v4l2_subdev_lock_active_state(sd);
+> +
+> +	memset(fd, 0, sizeof(*fd));
+> +
+> +	/* One stream entry per each connected route. */
+> +	for_each_active_route(&state->routing, route) {
+> +		struct v4l2_mbus_frame_desc_entry *entry =
+> +						&fd->entry[fd->num_entries];
+> +		struct v4l2_mbus_framefmt *fmt;
 
-url:    https://github.com/0day-ci/linux/commits/Jacopo-Mondi/media-adv748x-Add-CSI-2-VC-support/20211217-010519
-base:   git://linuxtv.org/media_tree.git master
-config: arc-randconfig-r043-20211216 (https://download.01.org/0day-ci/archive/20211217/202112171052.3JgXYSA4-lkp@intel.com/config)
-compiler: arc-elf-gcc (GCC) 11.2.0
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/0day-ci/linux/commit/beac1be47b64ce291e1647699be3f26d88028b3b
-        git remote add linux-review https://github.com/0day-ci/linux
-        git fetch --no-tags linux-review Jacopo-Mondi/media-adv748x-Add-CSI-2-VC-support/20211217-010519
-        git checkout beac1be47b64ce291e1647699be3f26d88028b3b
-        # save the config file to linux build tree
-        mkdir build_dir
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-11.2.0 make.cross O=build_dir ARCH=arc SHELL=/bin/bash
+This can be const.
 
-If you fix the issue, kindly add following tag as appropriate
-Reported-by: kernel test robot <lkp@intel.com>
+> +
+> +		fmt = v4l2_state_get_stream_format(state, pad,
+> +						   route->source_stream);
+> +		if (!fmt) {
+> +			ret = -EINVAL;
+> +			goto out;
+> +		}
+> +
+> +		/*
+> +		 * Assume a YUYV format (0x1e DT) and 16 bpp: we only support
+> +		 * these formats at the moment.
+> +		 */
+> +		entry->stream = fd->num_entries++;
+> +		entry->flags = V4L2_MBUS_FRAME_DESC_FL_LEN_MAX;
+> +		entry->length = fmt->width * fmt->height * 16 / 8;
+> +		entry->pixelcode = fmt->code;
+> +
+> +		/*
+> +		 * The source stream id corresponds to the virtual channel a
+> +		 * stream is output on.
+> +		 */
+> +		entry->bus.csi2.vc = route->source_stream;
+> +		entry->bus.csi2.dt = 0x1e;
 
-All errors (new ones prefixed by >>):
+A header file for the CSI-2 data types could be useful (out of scope for
+this series, unless you insist :-)).
 
-   drivers/media/i2c/adv748x/adv748x-csi2.c: In function 'adv748x_csi2_init_cfg':
->> drivers/media/i2c/adv748x/adv748x-csi2.c:146:34: error: array type has incomplete element type 'struct v4l2_subdev_route'
-     146 |         struct v4l2_subdev_route routes[ADV748X_CSI2_STREAMS] = {
-         |                                  ^~~~~~
->> drivers/media/i2c/adv748x/adv748x-csi2.c:152:34: error: 'V4L2_SUBDEV_ROUTE_FL_ACTIVE' undeclared (first use in this function); did you mean 'V4L2_SUBDEV_FORMAT_ACTIVE'?
-     152 |                         .flags = V4L2_SUBDEV_ROUTE_FL_ACTIVE,
-         |                                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-         |                                  V4L2_SUBDEV_FORMAT_ACTIVE
-   drivers/media/i2c/adv748x/adv748x-csi2.c:152:34: note: each undeclared identifier is reported only once for each function it appears in
->> drivers/media/i2c/adv748x/adv748x-csi2.c:173:37: error: storage size of 'routing' isn't known
-     173 |         struct v4l2_subdev_krouting routing;
-         |                                     ^~~~~~~
->> drivers/media/i2c/adv748x/adv748x-csi2.c:179:9: error: implicit declaration of function 'v4l2_subdev_lock_state'; did you mean 'v4l2_subdev_alloc_state'? [-Werror=implicit-function-declaration]
-     179 |         v4l2_subdev_lock_state(state);
-         |         ^~~~~~~~~~~~~~~~~~~~~~
-         |         v4l2_subdev_alloc_state
->> drivers/media/i2c/adv748x/adv748x-csi2.c:180:15: error: implicit declaration of function 'v4l2_subdev_set_routing'; did you mean 'v4l2_subdev_notify'? [-Werror=implicit-function-declaration]
-     180 |         ret = v4l2_subdev_set_routing(sd, state, &routing);
-         |               ^~~~~~~~~~~~~~~~~~~~~~~
-         |               v4l2_subdev_notify
->> drivers/media/i2c/adv748x/adv748x-csi2.c:181:9: error: implicit declaration of function 'v4l2_subdev_unlock_state'; did you mean 'v4l2_subdev_alloc_state'? [-Werror=implicit-function-declaration]
-     181 |         v4l2_subdev_unlock_state(state);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~
-         |         v4l2_subdev_alloc_state
-   drivers/media/i2c/adv748x/adv748x-csi2.c:173:37: warning: unused variable 'routing' [-Wunused-variable]
-     173 |         struct v4l2_subdev_krouting routing;
-         |                                     ^~~~~~~
-   drivers/media/i2c/adv748x/adv748x-csi2.c:146:34: warning: unused variable 'routes' [-Wunused-variable]
-     146 |         struct v4l2_subdev_route routes[ADV748X_CSI2_STREAMS] = {
-         |                                  ^~~~~~
-   drivers/media/i2c/adv748x/adv748x-csi2.c: In function 'adv748x_csi2_init':
->> drivers/media/i2c/adv748x/adv748x-csi2.c:362:29: error: 'V4L2_SUBDEV_FL_MULTIPLEXED' undeclared (first use in this function)
-     362 |                             V4L2_SUBDEV_FL_MULTIPLEXED,
-         |                             ^~~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/media/i2c/adv748x/adv748x-csi2.c:379:15: error: implicit declaration of function 'v4l2_subdev_init_finalize'; did you mean 'v4l2_subdev_init'? [-Werror=implicit-function-declaration]
-     379 |         ret = v4l2_subdev_init_finalize(&tx->sd);
-         |               ^~~~~~~~~~~~~~~~~~~~~~~~~
-         |               v4l2_subdev_init
->> drivers/media/i2c/adv748x/adv748x-csi2.c:396:9: error: implicit declaration of function 'v4l2_subdev_cleanup'; did you mean 'v4l2_subdev_call'? [-Werror=implicit-function-declaration]
-     396 |         v4l2_subdev_cleanup(&tx->sd);
-         |         ^~~~~~~~~~~~~~~~~~~
-         |         v4l2_subdev_call
-   cc1: some warnings being treated as errors
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
+> +	}
+> +
+> +	fd->type = V4L2_MBUS_FRAME_DESC_TYPE_CSI2;
+> +
+> +out:
+> +	v4l2_subdev_unlock_state(state);
+> +
+> +	return ret;
+> +}
+> +
+>  static int max9286_routing_validate(struct max9286_priv *priv,
+>  				    struct v4l2_subdev_krouting *routing)
+>  {
+> @@ -1025,6 +1077,7 @@ static const struct v4l2_subdev_pad_ops max9286_pad_ops = {
+>  	.enum_mbus_code = max9286_enum_mbus_code,
+>  	.get_fmt	= v4l2_subdev_get_fmt,
+>  	.set_fmt	= max9286_set_fmt,
+> +	.get_frame_desc = max9286_get_frame_desc,
+>  	.set_routing	= max9286_set_routing,
+>  };
+>  
 
-vim +146 drivers/media/i2c/adv748x/adv748x-csi2.c
+-- 
+Regards,
 
-   134	
-   135	/* -----------------------------------------------------------------------------
-   136	 * v4l2_subdev_pad_ops
-   137	 *
-   138	 * The CSI2 bus pads are ignorant to the data sizes or formats.
-   139	 * But we must support setting the pad formats for format propagation.
-   140	 */
-   141	
-   142	static int adv748x_csi2_init_cfg(struct v4l2_subdev *sd,
-   143					 struct v4l2_subdev_state *state)
-   144	{
-   145		/* One route for each virtual channel. Route 0 enabled by default. */
- > 146		struct v4l2_subdev_route routes[ADV748X_CSI2_STREAMS] = {
-   147			{
-   148				.sink_pad = ADV748X_CSI2_SINK,
-   149				.sink_stream = 0,
-   150				.source_pad = ADV748X_CSI2_SOURCE,
-   151				.source_stream = 0,
- > 152				.flags = V4L2_SUBDEV_ROUTE_FL_ACTIVE,
-   153			},
-   154			{
-   155				.sink_pad = ADV748X_CSI2_SINK,
-   156				.sink_stream = 0,
-   157				.source_pad = ADV748X_CSI2_SOURCE,
-   158				.source_stream = 1,
-   159			},
-   160			{
-   161				.sink_pad = ADV748X_CSI2_SINK,
-   162				.sink_stream = 0,
-   163				.source_pad = ADV748X_CSI2_SOURCE,
-   164				.source_stream = 2,
-   165			},
-   166			{
-   167				.sink_pad = ADV748X_CSI2_SINK,
-   168				.sink_stream = 0,
-   169				.source_pad = ADV748X_CSI2_SOURCE,
-   170				.source_stream = 3,
-   171			},
-   172		};
- > 173		struct v4l2_subdev_krouting routing;
-   174		int ret;
-   175	
-   176		routing.num_routes = ADV748X_CSI2_STREAMS;
-   177		routing.routes = routes;
-   178	
- > 179		v4l2_subdev_lock_state(state);
- > 180		ret = v4l2_subdev_set_routing(sd, state, &routing);
- > 181		v4l2_subdev_unlock_state(state);
-   182	
-   183		return ret;
-   184	}
-   185	
-
----
-0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+Laurent Pinchart
