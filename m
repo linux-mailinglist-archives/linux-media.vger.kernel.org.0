@@ -2,20 +2,20 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2F7E2478AC7
-	for <lists+linux-media@lfdr.de>; Fri, 17 Dec 2021 13:04:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id CB47D478AD8
+	for <lists+linux-media@lfdr.de>; Fri, 17 Dec 2021 13:07:13 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235624AbhLQMEj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 17 Dec 2021 07:04:39 -0500
-Received: from relay1-d.mail.gandi.net ([217.70.183.193]:40385 "EHLO
-        relay1-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235463AbhLQMEi (ORCPT
+        id S235925AbhLQMHJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 17 Dec 2021 07:07:09 -0500
+Received: from relay3-d.mail.gandi.net ([217.70.183.195]:32815 "EHLO
+        relay3-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S235845AbhLQMHH (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 17 Dec 2021 07:04:38 -0500
+        Fri, 17 Dec 2021 07:07:07 -0500
 Received: (Authenticated sender: jacopo@jmondi.org)
-        by relay1-d.mail.gandi.net (Postfix) with ESMTPSA id B446C240008;
-        Fri, 17 Dec 2021 12:04:34 +0000 (UTC)
-Date:   Fri, 17 Dec 2021 13:05:27 +0100
+        by relay3-d.mail.gandi.net (Postfix) with ESMTPSA id 2F5A36000F;
+        Fri, 17 Dec 2021 12:07:02 +0000 (UTC)
+Date:   Fri, 17 Dec 2021 13:07:56 +0100
 From:   Jacopo Mondi <jacopo@jmondi.org>
 To:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 Cc:     linux-media@vger.kernel.org, sakari.ailus@linux.intel.com,
@@ -25,144 +25,163 @@ Cc:     linux-media@vger.kernel.org, sakari.ailus@linux.intel.com,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         Hans Verkuil <hverkuil-cisco@xs4all.nl>,
         Pratyush Yadav <p.yadav@ti.com>
-Subject: Re: [PATCH 6/6] media: Documentation: add documentation about subdev
- state
-Message-ID: <20211217120527.cljnvbfcnztsnnw5@uno.localdomain>
+Subject: Re: [PATCH 2/6] media: subdev: add active state to struct v4l2_subdev
+Message-ID: <20211217120756.bcbfete54jcsmjmd@uno.localdomain>
 References: <20211217111836.225013-1-tomi.valkeinen@ideasonboard.com>
- <20211217111836.225013-7-tomi.valkeinen@ideasonboard.com>
+ <20211217111836.225013-3-tomi.valkeinen@ideasonboard.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20211217111836.225013-7-tomi.valkeinen@ideasonboard.com>
+In-Reply-To: <20211217111836.225013-3-tomi.valkeinen@ideasonboard.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
 Hi Tomi,
 
-On Fri, Dec 17, 2021 at 01:18:36PM +0200, Tomi Valkeinen wrote:
-> Add documentation about centrally managed subdev state.
+On Fri, Dec 17, 2021 at 01:18:32PM +0200, Tomi Valkeinen wrote:
+> Add a new 'active_state' field to struct v4l2_subdev to which we can
+> store the active state of a subdev. This will place the subdev
+> configuration into a known place, allowing us to use the state directly
+> from the v4l2 framework, thus simplifying the drivers.
+>
+> Also add functions v4l2_subdev_init_finalize() and
+> v4l2_subdev_cleanup(), which will allocate and free the active state.
+> The functions are named in a generic way so that they can be also used
+> for other subdev initialization work.
 >
 > Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+> Reviewed-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 > ---
->  .../driver-api/media/v4l2-subdev.rst          | 58 +++++++++++++++++++
->  1 file changed, 58 insertions(+)
+>  drivers/media/v4l2-core/v4l2-subdev.c | 21 ++++++++++
+>  include/media/v4l2-subdev.h           | 58 +++++++++++++++++++++++++++
+>  2 files changed, 79 insertions(+)
 >
-> diff --git a/Documentation/driver-api/media/v4l2-subdev.rst b/Documentation/driver-api/media/v4l2-subdev.rst
-> index 08ea2673b19e..f0ba04c80563 100644
-> --- a/Documentation/driver-api/media/v4l2-subdev.rst
-> +++ b/Documentation/driver-api/media/v4l2-subdev.rst
-> @@ -518,6 +518,64 @@ The :c:func:`v4l2_i2c_new_subdev` function will call
->  :c:type:`i2c_board_info` structure using the ``client_type`` and the
->  ``addr`` to fill it.
->
-> +Centrally managed subdev active state
-> +-------------------------------------
+> diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
+> index fe49c86a9b02..de160140d63b 100644
+> --- a/drivers/media/v4l2-core/v4l2-subdev.c
+> +++ b/drivers/media/v4l2-core/v4l2-subdev.c
+> @@ -943,3 +943,24 @@ void v4l2_subdev_notify_event(struct v4l2_subdev *sd,
+>  	v4l2_subdev_notify(sd, V4L2_DEVICE_NOTIFY_EVENT, (void *)ev);
+>  }
+>  EXPORT_SYMBOL_GPL(v4l2_subdev_notify_event);
 > +
-> +Traditionally V4L2 subdev drivers maintained internal state for the active
-> +configuration for the subdev. This is often implemented e.g. as an array of
-
-s/configuration for the subdev/device configuration/
-
-to avoid repeating subdev
-
-> +struct v4l2_mbus_framefmt, one entry for each pad, and similarly for cropping
-> +and composition using struct v4l2_rect.
-
-cropping and composition rectangles
-
+> +int v4l2_subdev_init_finalize(struct v4l2_subdev *sd)
+> +{
+> +	struct v4l2_subdev_state *state;
 > +
-> +In addition to the active configuration, each subdev filehandle has an array of
-> +struct v4l2_subdev_pad_config, managed by V4L2 core, which contains the try
-> +configuration.
+> +	state = __v4l2_subdev_state_alloc(sd);
+> +	if (IS_ERR(state))
+> +		return PTR_ERR(state);
 > +
-> +To simplify the subdev drivers the V4L2 subdev API now optionally supports a
-> +centrally managed active configuration represented by
-> +:c:type:`v4l2_subdev_state`. One instance of state, which contains the active
-> +device configuration, is associated with the sub-device itself as part of
-> +the :c:type:`v4l2_subdev` structure, while the core associates to each open
-> +file handle a try state, which contains the configuration valid in the
-> +file-handle context only.
-
-Three different spelling of file\.*handle :)
-
-You're rightfully confused :)
-
-~/project/linux$ git grep "file handle" Documentation/ | wc -l
-92
-~/project/linux$ git grep "filehandle" Documentation/ | wc -l
-61
-~/project/linux$ git grep "file-handle" Documentation/ | wc -l
-1
-
+> +	sd->active_state = state;
 > +
-> +Sub-device drivers can opt-in and use state to manage their active configuration
-> +by initializing the subdevice state with a call to v4l2_subdev_init_finalize()
-> +before registering the sub-device. They must also call v4l2_subdev_cleanup()
-> +to release all the acquired resources before unregistering the sub-device.
-> +The core automatically initializes a state for each open file handle where to
-> +store the try configurations and releases them at file handle closing time.
+> +	return 0;
+> +}
+> +EXPORT_SYMBOL_GPL(v4l2_subdev_init_finalize);
 > +
-> +V4L2 sub-device operations that operate on both the :ref:`ACTIVE and TRY formats
-> +<v4l2-subdev-format-whence>` receive the correct state to operate on an
+> +void v4l2_subdev_cleanup(struct v4l2_subdev *sd)
+> +{
+> +	__v4l2_subdev_state_free(sd->active_state);
+> +	sd->active_state = NULL;
+> +}
+> +EXPORT_SYMBOL_GPL(v4l2_subdev_cleanup);
+> diff --git a/include/media/v4l2-subdev.h b/include/media/v4l2-subdev.h
+> index e52bf508c75b..eddf72768e10 100644
+> --- a/include/media/v4l2-subdev.h
+> +++ b/include/media/v4l2-subdev.h
+> @@ -645,6 +645,9 @@ struct v4l2_subdev_ir_ops {
+>   * This structure only needs to be passed to the pad op if the 'which' field
+>   * of the main argument is set to %V4L2_SUBDEV_FORMAT_TRY. For
+>   * %V4L2_SUBDEV_FORMAT_ACTIVE it is safe to pass %NULL.
+> + *
+> + * Note: This struct is also used in active state, and the try_ prefix is
+> + * historical and to be removed.
+>   */
+>  struct v4l2_subdev_pad_config {
+>  	struct v4l2_mbus_framefmt try_fmt;
+> @@ -898,6 +901,9 @@ struct v4l2_subdev_platform_data {
+>   * @subdev_notifier: A sub-device notifier implicitly registered for the sub-
+>   *		     device using v4l2_async_register_subdev_sensor().
+>   * @pdata: common part of subdevice platform data
+> + * @active_state: Active state for the subdev (NULL for subdevs tracking the
+> + *		  state internally). Initialized by calling
+> + *		  v4l2_subdev_init_finalize().
 
-s/an/as an/
-
-> +operation parameter. The sub-device driver can access and modify the
-> +configuration stored in the provided state after having locked it by calling
-> +:c:func:`v4l2_subdev_lock_state()`. The driver must then call
-> +:c:func:`v4l2_subdev_unlock_state()` to unlock the state when done.
-> +
-> +Operations that do not receive a state parameter implicitly operate on the
-> +subdevice active state, which drivers can exclusively access by
-> +calling :c:func:`v4l2_subdev_lock_active_state()`. The sub-device active state
-> +should equally be released by calling
-> +:c:func:`v4l2_subdev_unlock_state()`.
-> +
-> +In no occasions driver should try to manually access the state stored
-> +in the :c:type:`v4l2_subdev` or in the file handle without going
-> +through the designated helpers.
-> +
-> +The V4L2 core will pass either the try- or active-state to various subdev ops.
-
-What about making clear the issue is about callers of the kAPI ?
-
-While the V4L2 core will pass the correct try- or active-state to the
-subdevice operations, device drivers might call operations on other
-subdevices by using :c:func:`v4l2_subdev_call()` kAPI.
-
-> +Unfortunately not all the callers comply with this yet, and may pass NULL as
-
-Unfortunately not all callers properly support subdevice state
-handling yet, and may pass NULL as the state parameter.
-
-> +the active-state. This is only a problem for subdev drivers which use the
-> +centrally managed active-state and are used in media pipelines with older
-> +subdev drivers. In these cases the called subdev ops must also handle the NULL
-> +case. This can be easily managed by the use of
-> +v4l2_subdev_validate_and_lock_state() helper.
-
-Do you get the right linking without using :c:func:`..` ?
-
-> +
-> +v4l2_subdev_validate_and_lock_state() should only be used when porting an
-> +existing driver to the new state management when it cannot be guaranteed that
-> +the current callers will pass the state properly. The function prints a notice
-> +when the passed state is NULL to encourage the porting of the callers to the
-> +new state management.
-
-Awesome!
-
-Thanks for having brought this up to v11!
+Is alignement a little off or is it my mail client ?
+Nit apart:
 Reviewed-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
 
 Thanks
    j
 
+>   *
+>   * Each instance of a subdev driver should create this struct, either
+>   * stand-alone or embedded in a larger struct.
+> @@ -929,6 +935,19 @@ struct v4l2_subdev {
+>  	struct v4l2_async_notifier *notifier;
+>  	struct v4l2_async_notifier *subdev_notifier;
+>  	struct v4l2_subdev_platform_data *pdata;
 > +
->  V4L2 sub-device functions and data structures
->  ---------------------------------------------
+> +	/*
+> +	 * The fields below are private, and should only be accessed via
+> +	 * appropriate functions.
+> +	 */
+> +
+> +	/*
+> +	 * TODO: active_state should most likely be changed from a pointer to an
+> +	 * embedded field. For the time being it's kept as a pointer to more
+> +	 * easily catch uses of active_state in the cases where the driver
+> +	 * doesn't support it.
+> +	 */
+> +	struct v4l2_subdev_state *active_state;
+>  };
 >
+>
+> @@ -1217,4 +1236,43 @@ extern const struct v4l2_subdev_ops v4l2_subdev_call_wrappers;
+>  void v4l2_subdev_notify_event(struct v4l2_subdev *sd,
+>  			      const struct v4l2_event *ev);
+>
+> +/**
+> + * v4l2_subdev_init_finalize() - Finalizes the initialization of the subdevice
+> + * @sd: The subdev
+> + *
+> + * This function finalizes the initialization of the subdev, including
+> + * allocation of the active state for the subdev.
+> + *
+> + * This function must be called by the subdev drivers that use the centralized
+> + * active state, after the subdev struct has been initialized and
+> + * media_entity_pads_init() has been called, but before registering the
+> + * subdev.
+> + *
+> + * The user must call v4l2_subdev_cleanup() when the subdev is being removed.
+> + */
+> +int v4l2_subdev_init_finalize(struct v4l2_subdev *sd);
+> +
+> +/**
+> + * v4l2_subdev_cleanup() - Releases the resources needed by the subdevice
+> + * @sd: The subdevice
+> + *
+> + * This function will release the resources allocated in
+> + * v4l2_subdev_init_finalize.
+> + */
+> +void v4l2_subdev_cleanup(struct v4l2_subdev *sd);
+> +
+> +/**
+> + * v4l2_subdev_get_active_state() - Returns the active subdev state for
+> + *				    subdevice
+> + * @sd: The subdevice
+> + *
+> + * Returns the active state for the subdevice, or NULL if the subdev does not
+> + * support active state.
+> + */
+> +static inline struct v4l2_subdev_state *
+> +v4l2_subdev_get_active_state(struct v4l2_subdev *sd)
+> +{
+> +	return sd->active_state;
+> +}
+> +
+>  #endif
 > --
 > 2.25.1
 >
