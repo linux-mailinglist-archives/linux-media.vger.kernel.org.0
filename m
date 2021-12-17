@@ -2,119 +2,216 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AE9A3478C1D
-	for <lists+linux-media@lfdr.de>; Fri, 17 Dec 2021 14:21:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id CC4D2478C4D
+	for <lists+linux-media@lfdr.de>; Fri, 17 Dec 2021 14:27:18 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236626AbhLQNVY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 17 Dec 2021 08:21:24 -0500
-Received: from ewsoutbound.kpnmail.nl ([195.121.94.186]:53641 "EHLO
-        ewsoutbound.kpnmail.nl" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236627AbhLQNVY (ORCPT
+        id S230183AbhLQN1R (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 17 Dec 2021 08:27:17 -0500
+Received: from relay1-d.mail.gandi.net ([217.70.183.193]:39869 "EHLO
+        relay1-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229543AbhLQN1Q (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 17 Dec 2021 08:21:24 -0500
-X-KPN-MessageId: 2a51c3ec-5f3c-11ec-922e-00505699b430
-Received: from smtp.kpnmail.nl (unknown [10.31.155.8])
-        by ewsoutbound.so.kpn.org (Halon) with ESMTPS
-        id 2a51c3ec-5f3c-11ec-922e-00505699b430;
-        Fri, 17 Dec 2021 14:20:55 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=xs4all.nl; s=xs4all01;
-        h=content-type:subject:from:to:mime-version:date:message-id;
-        bh=54l3MUuY8jOtwJd5myVJkPA895mcWEmnwp1iJNqwWxE=;
-        b=RaHKZg1biN7SLd3MMeoB+IGLF7DetRhpMUtQsUJvted6XsnE5gAHcdU0FNC5MhOM4gn4btz4m3G9O
-         uTdizf0ifGrADoLfMXX10hv9S9lGVdjTI1dJqZvoVTERgkGJcN/ubUojYwQWibrFu9fBYgi8xmUCrP
-         GNjUFMih1SB7eJqcGw1QS+1cUu6eLJ7BkEjcngJQCSJYKn2LYii/WqRawdVhshFzQojGsy9ltU1SA3
-         ITDAQ8xIZFNlOfUqKHFpMnwWA8YKGqR5VQ60bfwu2NxFQqiiPIAacqMPijT25hrnCKiV61z/JEtHE7
-         GeHedVevENfaqX6wsrU4c7lg2OhZKfw==
-X-KPN-VerifiedSender: Yes
-X-CMASSUN: 33|wZicJ3ig7GjF2T+24zKfP4tlB5cOYg7PYGNSbrsf4pCUpwtK22PAoe9NoTAxgyR
- hm8s6YB2trPhH6yp9I1h1Yw==
-X-Originating-IP: 80.101.105.217
-Received: from [192.168.1.10] (marune.xs4all.nl [80.101.105.217])
-        by smtp.xs4all.nl (Halon) with ESMTPSA
-        id 49f7e9b7-5f3c-11ec-a83c-00505699d6e5;
-        Fri, 17 Dec 2021 14:21:48 +0100 (CET)
-Message-ID: <73e71dca-fc28-6bb8-09b0-dcdd0f4974cf@xs4all.nl>
-Date:   Fri, 17 Dec 2021 14:21:22 +0100
+        Fri, 17 Dec 2021 08:27:16 -0500
+Received: (Authenticated sender: jacopo@jmondi.org)
+        by relay1-d.mail.gandi.net (Postfix) with ESMTPSA id B8F74240004;
+        Fri, 17 Dec 2021 13:27:11 +0000 (UTC)
+Date:   Fri, 17 Dec 2021 14:28:04 +0100
+From:   Jacopo Mondi <jacopo@jmondi.org>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        tomi.valkeinen@ideasonboard.com, sakari.ailus@linux.intel.com,
+        niklas.soderlund@ragnatech.se, kieran.bingham@ideasonboard.com,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH v4 2/6] media: max9286: Implement set_routing
+Message-ID: <20211217132804.n6hztoeajm2mnd3g@uno.localdomain>
+References: <20211216174746.147233-1-jacopo+renesas@jmondi.org>
+ <20211216174746.147233-3-jacopo+renesas@jmondi.org>
+ <YbvuYIQJ6kDxDhHA@pendragon.ideasonboard.com>
+ <Ybvziu4AAaaSSSIs@pendragon.ideasonboard.com>
+ <Ybv0yYau//LuiqYd@pendragon.ideasonboard.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.2
-Content-Language: en-US
-To:     Linux Media Mailing List <linux-media@vger.kernel.org>
-Cc:     Corentin Labbe <clabbe@baylibre.com>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Subject: [GIT PULL FOR v5.17] zoran: merge into one module, many fixes
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <Ybv0yYau//LuiqYd@pendragon.ideasonboard.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Corentin,
+Hi Laurent,
 
-This is a great improvement over v3: all issues I saw before are now resolved,
-and it passed the compliance tests with flying colors.
+On Fri, Dec 17, 2021 at 04:24:09AM +0200, Laurent Pinchart wrote:
+> On Fri, Dec 17, 2021 at 04:18:51AM +0200, Laurent Pinchart wrote:
+> > Hi Jacopo,
+> >
+> > Another comment.
+> >
+> > On Fri, Dec 17, 2021 at 03:56:48AM +0200, Laurent Pinchart wrote:
+> > > On Thu, Dec 16, 2021 at 06:47:42PM +0100, Jacopo Mondi wrote:
+> > > > Add the set_routing() subdev operation to allow userspace to configure
+> > > > routing on the max9286 deserializer.
+> > > >
+> > > > Implement route verification but do not take routing into consideration
+> > > > when configuring the CSI-2 output and pixel rate yet.
+> > > >
+> > > > Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
+> > > > ---
+> > > >  drivers/media/i2c/max9286.c | 89 ++++++++++++++++++++++++++++++++++++-
+> > > >  1 file changed, 87 insertions(+), 2 deletions(-)
+> > > >
+> > > > diff --git a/drivers/media/i2c/max9286.c b/drivers/media/i2c/max9286.c
+> > > > index 1b9ff537d08e..eb76acdb2cd9 100644
+> > > > --- a/drivers/media/i2c/max9286.c
+> > > > +++ b/drivers/media/i2c/max9286.c
+> > > > @@ -832,6 +832,91 @@ static int max9286_get_fmt(struct v4l2_subdev *sd,
+> > > >  	return 0;
+> > > >  }
+> > > >
+> > > > +static int max9286_routing_validate(struct max9286_priv *priv,
+> > > > +				    struct v4l2_subdev_krouting *routing)
+> > > > +{
+> > > > +	unsigned int i;
+> > > > +	int ret;
+> > > > +
+> > > > +	ret = v4l2_subdev_routing_validate_1_to_1(routing);
+> > > > +	if (ret)
+> > > > +		return ret;
+> > > > +
+> > > > +	/*
+> > > > +	 * Make sure all routes points to the single source pad which can have
+> > > > +	 * up to 4 streams. All routes shall start from a sink pad and shall not
+> > > > +	 * have more than one sink stream. The GMSL link for the sink has to be
+> > > > +	 * enabled.
+> > > > +	 */
+> > > > +	for (i = 0; i < routing->num_routes; ++i) {
+> > > > +		const struct v4l2_subdev_route *route = &routing->routes[i];
+> > > > +		struct max9286_source *source = &priv->sources[i];
+> >
+> > There's no need to initialize source here.
+> >
+> > > > +
+> > > > +		if (route->source_pad != MAX9286_SRC_PAD ||
+> > > > +		    route->source_stream > 4) {
+> > > > +			dev_err(&priv->client->dev,
+> > > > +				"Invalid (%u,%u) source in route %u\n",
+> > > > +				route->source_pad, route->source_stream, i);
+> > > > +			return -EINVAL;
+> > > > +		}
+> > > > +
+> > > > +		if (route->sink_pad >= MAX9286_N_SINKS ||
+> > > > +		    route->sink_stream != 0) {
+> > > > +			dev_err(&priv->client->dev,
+> > > > +				"Invalid (%u,%u) sink in route %u\n",
+> > > > +				route->sink_pad, route->sink_stream, i);
+> > > > +			return -EINVAL;
+> > > > +		}
+> > > > +
+> > > > +		source = &priv->sources[route->sink_pad];
+> > > > +		if (!source->fwnode) {
+> > > > +			dev_err(&priv->client->dev,
+> > > > +				"Cannot set route for non-active source %u\n",
+> > > > +				route->sink_pad);
+> > > > +			return -EINVAL;
+> > > > +		}
+> > > > +	}
+> > >
+> > > Apart from from possibly using the new helper I've submitted, this looks
+> > > fine.
+> >
+> > The helper should allow to drop the source_pad and sink_pad checks, but
+> > the source_stream and sink_stream checks are still needed. This may be
+> > possible to factorize in the helper too, let's see when we'll have more
+> > use cases.
+> >
+> > > > +
+> > > > +	return 0;
+> > > > +}
+> > > > +
+> > > > +static int _max9286_set_routing(struct v4l2_subdev *sd,
+> > > > +				struct v4l2_subdev_state *state,
+> > > > +				struct v4l2_subdev_krouting *routing)
+> > > > +{
+> > > > +	struct max9286_priv *priv = sd_to_max9286(sd);
+> > > > +	int ret;
+> > > > +
+> > > > +	ret = max9286_routing_validate(priv, routing);
+> > > > +	if (ret)
+> > > > +		return ret;
+> > > > +
+> > > > +	/* Re-initialize the format on a routing change. */
+> > > > +	ret = v4l2_subdev_set_routing_with_fmt(sd, state, routing,
+> > > > +					       &max9286_default_format);
+> > > > +	if (ret)
+> > > > +		return ret;
+> > > > +
+> > > > +	return 0;
+> > > > +}
+> > > > +
+> > > > +static int max9286_set_routing(struct v4l2_subdev *sd,
+> > > > +			       struct v4l2_subdev_state *state,
+> > > > +			       enum v4l2_subdev_format_whence which,
+> > > > +			       struct v4l2_subdev_krouting *routing)
+> > > > +{
+> > > > +	struct max9286_priv *priv = sd_to_max9286(sd);
+> > > > +	unsigned int i;
+>
+> priv and i are not used (they will be used in a patch later in the
+> series, so should be moved there).
+>
 
-Thank you for your work on this!
+Ah ups, I've not compiled this in isolation it seems
 
-While the PR is for 5.17, there is a good chance that it will slip to 5.18
-due to vacation.
+> > > > +	int ret;
+> > > > +
+> > > > +	v4l2_subdev_lock_state(state);
+> > > > +
+> > >
+> > > I'd drop the blank line, or add one before the unlock call.
+> > >
+> > > > +	ret = _max9286_set_routing(sd, state, routing);
+> > > > +	v4l2_subdev_unlock_state(state);
+> > > > +
+> > > > +	return ret;
+> > > > +}
+> > > > +
+> > > >  static int max9286_init_cfg(struct v4l2_subdev *sd,
+> > > >  			    struct v4l2_subdev_state *state)
+> > > >  {
+> > > > @@ -858,8 +943,7 @@ static int max9286_init_cfg(struct v4l2_subdev *sd,
+> > > >  	routing.routes = routes;
+> > > >
+> > > >  	v4l2_subdev_lock_state(state);
+> > > > -	ret = v4l2_subdev_set_routing_with_fmt(sd, state, &routing,
+> > > > -					       &max9286_default_format);
+> > > > +	ret = _max9286_set_routing(sd, state, &routing);
+> > > >  	v4l2_subdev_unlock_state(state);
+>
+> This is identical to max9286_set_routing(), you could call it directly,
+> and then merge _max9286_set_routing() and max9286_set_routing().
+>
 
-Regards,
+meh, yes it is right now, but later max9286_set_routing() will also
+configure the pixelrate. Also, max9286_set_routing() needs a whence,
+something I don't have here.
 
-	Hans
+I would keep it the way it is if that's ok for you.
 
-The following changes since commit 3a956f0b123c1c2b165314a3173755aa3404036c:
+Thanks
+   j
 
-  Merge tag 'platform-drivers-x86-int3472-1' of git://git.kernel.org/pub/scm/linux/kernel/git/pdx86/platform-drivers-x86 into media_tree (2021-12-16 20:54:02 +0100)
-
-are available in the Git repository at:
-
-  git://linuxtv.org/hverkuil/media_tree.git tags/br-v5.17i
-
-for you to fetch changes up to 3461867e58209ef84c3e4c17a18913da5f6126ae:
-
-  staging: media: zoran: drop read/write support (2021-12-17 13:50:43 +0100)
-
-----------------------------------------------------------------
-Tag branch
-
-----------------------------------------------------------------
-Corentin Labbe (14):
-      staging: media: zoran: move module parameter checks to zoran_probe
-      staging: media: zoran: use module_pci_driver
-      staging: media: zoran: rename debug module parameter
-      staging: media: zoran: add debugfs
-      staging: media: zoran: videocode: remove procfs
-      staging: media: zoran: merge all modules
-      staging: media: zoran: remove vidmem
-      staging: media: zoran: move videodev alloc
-      staging: media: zoran: move config select on primary kconfig
-      staging: media: zoran: introduce zoran_i2c_init
-      staging: media: zoran: fix usage of vb2_dma_contig_set_max_seg_size
-      staging: media: zoran: clean unused code
-      staging: media: zoran: fix counting buffer in reserve
-      staging: media: zoran: calculate the right buffer number for zoran_reap_stat_com
-
-Hans Verkuil (4):
-      staging: media: zoran: fix various V4L2 compliance errors
-      staging: media: zoran: fix TRY_FMT handling
-      staging: media: zoran: drop kernel log spam
-      staging: media: zoran: drop read/write support
-
- drivers/staging/media/zoran/Kconfig        |  38 ++++----
- drivers/staging/media/zoran/Makefile       |   8 +-
- drivers/staging/media/zoran/videocodec.c   |  68 ++-----------
- drivers/staging/media/zoran/videocodec.h   |   4 +-
- drivers/staging/media/zoran/zoran.h        |  18 +---
- drivers/staging/media/zoran/zoran_card.c   | 398 ++++++++++++++++++++++++++++++++++++++++++++++++----------------------------
- drivers/staging/media/zoran/zoran_device.c |  15 ++-
- drivers/staging/media/zoran/zoran_device.h |   2 -
- drivers/staging/media/zoran/zoran_driver.c |  56 +++++------
- drivers/staging/media/zoran/zr36016.c      |  25 ++---
- drivers/staging/media/zoran/zr36016.h      |   2 +
- drivers/staging/media/zoran/zr36050.c      |  24 ++---
- drivers/staging/media/zoran/zr36050.h      |   2 +
- drivers/staging/media/zoran/zr36060.c      |  23 ++---
- drivers/staging/media/zoran/zr36060.h      |   2 +
- 15 files changed, 349 insertions(+), 336 deletions(-)
+> > > >
+> > > >  	return ret;
+> > > > @@ -874,6 +958,7 @@ static const struct v4l2_subdev_pad_ops max9286_pad_ops = {
+> > > >  	.enum_mbus_code = max9286_enum_mbus_code,
+> > > >  	.get_fmt	= max9286_get_fmt,
+> > > >  	.set_fmt	= max9286_set_fmt,
+> > > > +	.set_routing	= max9286_set_routing,
+> > > >  };
+> > > >
+> > > >  static const struct v4l2_subdev_ops max9286_subdev_ops = {
+>
+> --
+> Regards,
+>
+> Laurent Pinchart
