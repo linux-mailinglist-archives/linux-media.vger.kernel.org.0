@@ -2,20 +2,20 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C60B5478D0E
-	for <lists+linux-media@lfdr.de>; Fri, 17 Dec 2021 15:10:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0A1F6478D11
+	for <lists+linux-media@lfdr.de>; Fri, 17 Dec 2021 15:11:19 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232942AbhLQOKm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 17 Dec 2021 09:10:42 -0500
-Received: from relay9-d.mail.gandi.net ([217.70.183.199]:37325 "EHLO
-        relay9-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229599AbhLQOKl (ORCPT
+        id S236857AbhLQOLS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 17 Dec 2021 09:11:18 -0500
+Received: from relay3-d.mail.gandi.net ([217.70.183.195]:46141 "EHLO
+        relay3-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229599AbhLQOLR (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 17 Dec 2021 09:10:41 -0500
+        Fri, 17 Dec 2021 09:11:17 -0500
 Received: (Authenticated sender: jacopo@jmondi.org)
-        by relay9-d.mail.gandi.net (Postfix) with ESMTPSA id D539AFF811;
-        Fri, 17 Dec 2021 14:10:35 +0000 (UTC)
-Date:   Fri, 17 Dec 2021 15:11:28 +0100
+        by relay3-d.mail.gandi.net (Postfix) with ESMTPSA id 6DB956000D;
+        Fri, 17 Dec 2021 14:11:12 +0000 (UTC)
+Date:   Fri, 17 Dec 2021 15:12:05 +0100
 From:   Jacopo Mondi <jacopo@jmondi.org>
 To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Cc:     Jacopo Mondi <jacopo+renesas@jmondi.org>,
@@ -24,193 +24,125 @@ Cc:     Jacopo Mondi <jacopo+renesas@jmondi.org>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         Hans Verkuil <hverkuil-cisco@xs4all.nl>,
         linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH v4 5/6] media: max9286: Move format to subdev state
-Message-ID: <20211217141128.jfwgymso2admkfv5@uno.localdomain>
+Subject: Re: [PATCH v4 6/6] media: max9286: Implement get_frame_desc()
+Message-ID: <20211217141205.6fu4psfq734hpeze@uno.localdomain>
 References: <20211216174746.147233-1-jacopo+renesas@jmondi.org>
- <20211216174746.147233-6-jacopo+renesas@jmondi.org>
- <Ybv4mnk/x3kBX74k@pendragon.ideasonboard.com>
- <Ybv/c/yDOCj563XB@pendragon.ideasonboard.com>
+ <20211216174746.147233-7-jacopo+renesas@jmondi.org>
+ <Ybv5roGoqemlQ/NH@pendragon.ideasonboard.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <Ybv/c/yDOCj563XB@pendragon.ideasonboard.com>
+In-Reply-To: <Ybv5roGoqemlQ/NH@pendragon.ideasonboard.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
 Hi Laurent,
 
-On Fri, Dec 17, 2021 at 05:09:39AM +0200, Laurent Pinchart wrote:
+On Fri, Dec 17, 2021 at 04:45:02AM +0200, Laurent Pinchart wrote:
 > Hi Jacopo,
 >
-> On Fri, Dec 17, 2021 at 04:40:26AM +0200, Laurent Pinchart wrote:
-> > On Thu, Dec 16, 2021 at 06:47:45PM +0100, Jacopo Mondi wrote:
-> > > Move format handling to the v4l2_subdev state and store it per
-> > > (pad, stream) combination.
-> > >
-> > > Now that the image format is stored in the subdev state, it can be
-> > > accessed through v4l2_subdev_get_fmt() instead of open-coding it.
+> Thank you for the patch.
+>
+> On Thu, Dec 16, 2021 at 06:47:46PM +0100, Jacopo Mondi wrote:
+> > Implement the get_frame_desc pad operation to allow retrieving the
+> > stream configuration of the max9286 subdevice.
 > >
-> > It could still be good to move this to the beginning of the series, in
-> > order to merge the patch with 01/38 to 06/38 from the muxed streams
-> > series (which will be submitted standalone in a v11).
+> > Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
+> > ---
+> >  drivers/media/i2c/max9286.c | 53 +++++++++++++++++++++++++++++++++++++
+> >  1 file changed, 53 insertions(+)
 > >
-> > This patch looks good to me otherwise.
+> > diff --git a/drivers/media/i2c/max9286.c b/drivers/media/i2c/max9286.c
+> > index aa7cb7c10fc0..78988f2bdf91 100644
+> > --- a/drivers/media/i2c/max9286.c
+> > +++ b/drivers/media/i2c/max9286.c
+> > @@ -876,6 +876,58 @@ static int max9286_set_fmt(struct v4l2_subdev *sd,
+> >  	return ret;
+> >  }
 > >
-> > Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> > +static int max9286_get_frame_desc(struct v4l2_subdev *sd, unsigned int pad,
+> > +				  struct v4l2_mbus_frame_desc *fd)
+> > +{
+> > +	struct v4l2_subdev_route *route;
+> > +	struct v4l2_subdev_state *state;
+> > +	int ret = 0;
+> > +
+> > +	if (pad != MAX9286_SRC_PAD)
+> > +		return -EINVAL;
+> > +
+> > +	state = v4l2_subdev_lock_active_state(sd);
+> > +
+> > +	memset(fd, 0, sizeof(*fd));
+> > +
+> > +	/* One stream entry per each connected route. */
+> > +	for_each_active_route(&state->routing, route) {
+> > +		struct v4l2_mbus_frame_desc_entry *entry =
+> > +						&fd->entry[fd->num_entries];
+> > +		struct v4l2_mbus_framefmt *fmt;
 >
-> Not quite yet actually :-)
->
-> > > Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
-> > > ---
-> > >  drivers/media/i2c/max9286.c | 86 ++++++++++++-------------------------
-> > >  1 file changed, 27 insertions(+), 59 deletions(-)
-> > >
-> > > diff --git a/drivers/media/i2c/max9286.c b/drivers/media/i2c/max9286.c
-> > > index 5d728fa23f01..aa7cb7c10fc0 100644
-> > > --- a/drivers/media/i2c/max9286.c
-> > > +++ b/drivers/media/i2c/max9286.c
-> > > @@ -174,8 +174,6 @@ struct max9286_priv {
-> > >  	struct v4l2_ctrl_handler ctrls;
-> > >  	struct v4l2_ctrl *pixelrate;
-> > >
-> > > -	struct v4l2_mbus_framefmt fmt[MAX9286_N_SINKS];
-> > > -
-> > >  	/* Protects controls and fmt structures */
-> > >  	struct mutex mutex;
-> > >
-> > > @@ -828,28 +826,17 @@ static int max9286_enum_mbus_code(struct v4l2_subdev *sd,
-> > >  	return 0;
-> > >  }
-> > >
-> > > -static struct v4l2_mbus_framefmt *
-> > > -max9286_get_pad_format(struct max9286_priv *priv,
-> > > -		       struct v4l2_subdev_state *sd_state,
-> > > -		       unsigned int pad, u32 which)
-> > > -{
-> > > -	switch (which) {
-> > > -	case V4L2_SUBDEV_FORMAT_TRY:
-> > > -		return v4l2_subdev_get_try_format(&priv->sd, sd_state, pad);
-> > > -	case V4L2_SUBDEV_FORMAT_ACTIVE:
-> > > -		return &priv->fmt[pad];
-> > > -	default:
-> > > -		return NULL;
-> > > -	}
-> > > -}
-> > > -
-> > >  static int max9286_set_fmt(struct v4l2_subdev *sd,
-> > > -			   struct v4l2_subdev_state *sd_state,
-> > > +			   struct v4l2_subdev_state *state,
-> > >  			   struct v4l2_subdev_format *format)
-> > >  {
-> > > -	struct max9286_priv *priv = sd_to_max9286(sd);
-> > > -	struct v4l2_mbus_framefmt *cfg_fmt;
-> > > +	struct v4l2_mbus_framefmt *fmt;
-> > > +	int ret = 0;
-> > >
-> > > +	/*
-> > > +	 * Refuse to set format on the multiplexed source pad.
-> > > +	 * Format is propagated from sinks streams to source streams.
-> > > +	 */
-> > >  	if (format->pad == MAX9286_SRC_PAD)
-> > >  		return -EINVAL;
->
-> We should return v4l2_subdev_get_fmt() now.
+> This can be const.
 >
 
-I might have missed the reason.
+Indeed!
 
-The current documentation says
+> > +
+> > +		fmt = v4l2_state_get_stream_format(state, pad,
+> > +						   route->source_stream);
+> > +		if (!fmt) {
+> > +			ret = -EINVAL;
+> > +			goto out;
+> > +		}
+> > +
+> > +		/*
+> > +		 * Assume a YUYV format (0x1e DT) and 16 bpp: we only support
+> > +		 * these formats at the moment.
+> > +		 */
+> > +		entry->stream = fd->num_entries++;
+> > +		entry->flags = V4L2_MBUS_FRAME_DESC_FL_LEN_MAX;
+> > +		entry->length = fmt->width * fmt->height * 16 / 8;
+> > +		entry->pixelcode = fmt->code;
+> > +
+> > +		/*
+> > +		 * The source stream id corresponds to the virtual channel a
+> > +		 * stream is output on.
+> > +		 */
+> > +		entry->bus.csi2.vc = route->source_stream;
+> > +		entry->bus.csi2.dt = 0x1e;
+>
+> A header file for the CSI-2 data types could be useful (out of scope for
+> this series, unless you insist :-)).
 
-EINVAL
-The struct v4l2_subdev_format pad references a non-existing pad,
+Nice try!
 
-Should this be changd to "non-existing or invalid pad" ?
+>
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
-> > >
-> > > @@ -865,44 +852,28 @@ static int max9286_set_fmt(struct v4l2_subdev *sd,
-> > >  		break;
-> > >  	}
-> > >
-> > > -	cfg_fmt = max9286_get_pad_format(priv, sd_state, format->pad,
-> > > -					 format->which);
-> > > -	if (!cfg_fmt)
-> > > -		return -EINVAL;
-> > > -
-> > > -	mutex_lock(&priv->mutex);
-> > > -	*cfg_fmt = format->format;
-> > > -	mutex_unlock(&priv->mutex);
-> > > -
-> > > -	return 0;
-> > > -}
-> > > -
-> > > -static int max9286_get_fmt(struct v4l2_subdev *sd,
-> > > -			   struct v4l2_subdev_state *sd_state,
-> > > -			   struct v4l2_subdev_format *format)
-> > > -{
-> > > -	struct max9286_priv *priv = sd_to_max9286(sd);
-> > > -	struct v4l2_mbus_framefmt *cfg_fmt;
-> > > -	unsigned int pad = format->pad;
-> > > -
-> > > -	/*
-> > > -	 * Multiplexed Stream Support: Support link validation by returning the
-> > > -	 * format of the first bound link. All links must have the same format,
-> > > -	 * as we do not support mixing and matching of cameras connected to the
-> > > -	 * max9286.
-> > > -	 */
-> > > -	if (pad == MAX9286_SRC_PAD)
-> > > -		pad = __ffs(priv->bound_sources);
-> > > +	v4l2_subdev_lock_state(state);
-> > > +	fmt = v4l2_state_get_stream_format(state, format->pad,
-> > > +					   format->stream);
-> > > +	if (!fmt) {
-> > > +		ret = -EINVAL;
-> > > +		goto out;
-> > > +	}
-> > > +	*fmt = format->format;
-> > >
-> > > -	cfg_fmt = max9286_get_pad_format(priv, sd_state, pad, format->which);
-> > > -	if (!cfg_fmt)
-> > > -		return -EINVAL;
-> > > +	/* Propagate format to the other end of the route. */
-> > > +	fmt = v4l2_subdev_state_get_opposite_stream_format(state, format->pad,
-> > > +							   format->stream);
-> > > +	if (!fmt) {
-> > > +		ret = -EINVAL;
-> > > +		goto out;
-> > > +	}
-> > > +	*fmt = format->format;
-> > >
-> > > -	mutex_lock(&priv->mutex);
-> > > -	format->format = *cfg_fmt;
-> > > -	mutex_unlock(&priv->mutex);
-> > > +out:
-> > > +	v4l2_subdev_unlock_state(state);
-> > >
-> > > -	return 0;
-> > > +	return ret;
-> > >  }
-> > >
-> > >  static int max9286_routing_validate(struct max9286_priv *priv,
-> > > @@ -1052,7 +1023,7 @@ static const struct v4l2_subdev_video_ops max9286_video_ops = {
-> > >  static const struct v4l2_subdev_pad_ops max9286_pad_ops = {
-> > >  	.init_cfg	= max9286_init_cfg,
-> > >  	.enum_mbus_code = max9286_enum_mbus_code,
-> > > -	.get_fmt	= max9286_get_fmt,
-> > > +	.get_fmt	= v4l2_subdev_get_fmt,
-> > >  	.set_fmt	= max9286_set_fmt,
-> > >  	.set_routing	= max9286_set_routing,
-> > >  };
-> > > @@ -1092,9 +1063,6 @@ static int max9286_v4l2_register(struct max9286_priv *priv)
-> > >
-> > >  	/* Configure V4L2 for the MAX9286 itself */
-> > >
-> > > -	for (i = 0; i < MAX9286_N_SINKS; i++)
-> > > -		priv->fmt[i] = max9286_default_format;
-> > > -
-> > >  	v4l2_i2c_subdev_init(&priv->sd, priv->client, &max9286_subdev_ops);
-> > >  	priv->sd.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE |
-> > >  			  V4L2_SUBDEV_FL_MULTIPLEXED;
+Thanks
+   j
+
+>
+> > +	}
+> > +
+> > +	fd->type = V4L2_MBUS_FRAME_DESC_TYPE_CSI2;
+> > +
+> > +out:
+> > +	v4l2_subdev_unlock_state(state);
+> > +
+> > +	return ret;
+> > +}
+> > +
+> >  static int max9286_routing_validate(struct max9286_priv *priv,
+> >  				    struct v4l2_subdev_krouting *routing)
+> >  {
+> > @@ -1025,6 +1077,7 @@ static const struct v4l2_subdev_pad_ops max9286_pad_ops = {
+> >  	.enum_mbus_code = max9286_enum_mbus_code,
+> >  	.get_fmt	= v4l2_subdev_get_fmt,
+> >  	.set_fmt	= max9286_set_fmt,
+> > +	.get_frame_desc = max9286_get_frame_desc,
+> >  	.set_routing	= max9286_set_routing,
+> >  };
+> >
 >
 > --
 > Regards,
