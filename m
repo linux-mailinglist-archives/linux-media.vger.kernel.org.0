@@ -2,283 +2,199 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3B72247885F
-	for <lists+linux-media@lfdr.de>; Fri, 17 Dec 2021 11:07:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1A120478875
+	for <lists+linux-media@lfdr.de>; Fri, 17 Dec 2021 11:12:43 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234669AbhLQKHO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 17 Dec 2021 05:07:14 -0500
-Received: from relay10.mail.gandi.net ([217.70.178.230]:46475 "EHLO
-        relay10.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231968AbhLQKHN (ORCPT
+        id S234737AbhLQKMm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 17 Dec 2021 05:12:42 -0500
+Received: from ewsoutbound.kpnmail.nl ([195.121.94.185]:19880 "EHLO
+        ewsoutbound.kpnmail.nl" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232647AbhLQKMl (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 17 Dec 2021 05:07:13 -0500
-Received: (Authenticated sender: jacopo@jmondi.org)
-        by relay10.mail.gandi.net (Postfix) with ESMTPSA id B396F240015;
-        Fri, 17 Dec 2021 10:07:10 +0000 (UTC)
-Date:   Fri, 17 Dec 2021 11:08:02 +0100
-From:   Jacopo Mondi <jacopo@jmondi.org>
-To:     Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-Cc:     linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Subject: Re: [PATCH 2/2] media: subdev: Extend routing validation helper
-Message-ID: <20211217100802.yb5fskdyhhknmzxk@uno.localdomain>
-References: <20211216131510.12308-1-laurent.pinchart+renesas@ideasonboard.com>
- <20211216131510.12308-3-laurent.pinchart+renesas@ideasonboard.com>
+        Fri, 17 Dec 2021 05:12:41 -0500
+X-KPN-MessageId: 4244b90b-5f21-11ec-a0ab-005056999439
+Received: from smtp.kpnmail.nl (unknown [10.31.155.8])
+        by ewsoutbound.so.kpn.org (Halon) with ESMTPS
+        id 4244b90b-5f21-11ec-a0ab-005056999439;
+        Fri, 17 Dec 2021 11:08:19 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=xs4all.nl; s=xs4all01;
+        h=content-type:from:to:subject:mime-version:date:message-id;
+        bh=iKmX/8EH8eIEkNCCqTU+Np4JV79diYE9anpjoS/yXcc=;
+        b=jL+Z8hQtSKZ+pc/M6LI/1p+uMmzx18P6pegTxw7CWypnCppUw5XFvIfplw7nISjHKLqLcKHPT0Dpf
+         wwT3oo4LPcoreX4K5r8jGsDMMM4ORI0JkbiNUPa78aytYknoiqfqtQUfjzp8wjDpq2ypkwD4Vl1Bjt
+         TfsC+bOa4WsVcUzMb13NjoLMWF9TFCvviwixSwVIy/JnmONt8qeMsssPBOl6SFjF49A/j5A39Qw9H2
+         bmMD+0PYLZyPboClQkAua+BKQji/RYKYVXWC9PI3L8v6yb79T5kDusFvK4mTiN1yvvZ/Y5FsG84rky
+         Q1qbnLZp8HVTjYVxPE8kfDR5L4hw5GQ==
+X-KPN-VerifiedSender: No
+X-CMASSUN: 33|x0YfSwC83faf5ueqcnlzSV06B6ljEzOCa4QVAZrrpdWBGADi0Ev2JuSLKhViG2/
+ Rda/lF7PVbsOk/PEjxdnSyQ==
+X-Originating-IP: 80.101.105.217
+Received: from [192.168.1.10] (marune.xs4all.nl [80.101.105.217])
+        by smtp.xs4all.nl (Halon) with ESMTPSA
+        id ecaa9a51-5f21-11ec-a83c-00505699d6e5;
+        Fri, 17 Dec 2021 11:13:05 +0100 (CET)
+Message-ID: <14e83145-94f0-fd42-581e-66dd0f8be524@xs4all.nl>
+Date:   Fri, 17 Dec 2021 11:12:38 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20211216131510.12308-3-laurent.pinchart+renesas@ideasonboard.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.3.2
+Subject: Re: [PATCH v10 02/38] media: subdev: add active state to struct
+ v4l2_subdev
+Content-Language: en-US
+To:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+        linux-media@vger.kernel.org, sakari.ailus@linux.intel.com,
+        Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        niklas.soderlund+renesas@ragnatech.se,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Pratyush Yadav <p.yadav@ti.com>
+References: <20211130141536.891878-1-tomi.valkeinen@ideasonboard.com>
+ <20211130141536.891878-3-tomi.valkeinen@ideasonboard.com>
+From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
+In-Reply-To: <20211130141536.891878-3-tomi.valkeinen@ideasonboard.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Laurent,
+On 30/11/2021 15:15, Tomi Valkeinen wrote:
+> Add a new 'active_state' field to struct v4l2_subdev to which we can
+> store the active state of a subdev. This will place the subdev
+> configuration into a known place, allowing us to use the state directly
+> from the v4l2 framework, thus simplifying the drivers.
+> 
+> Also add functions v4l2_subdev_init_finalize() and
+> v4l2_subdev_cleanup(), which will allocate and free the active state.
+> The functions are named in a generic way so that they can be also used
+> for other subdev initialization work.
+> 
+> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 
-On Thu, Dec 16, 2021 at 03:15:10PM +0200, Laurent Pinchart wrote:
-> There are more common constraints on routing than the ones validated by
-> v4l2_subdev_routing_validate_1_to_1(). Extend the function to support
-> more validation, conditioned by constraint flags.
->
+Reviewed-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 
-I'm debated: is this sweet or over-designed ? :)
+Regards,
 
-> Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+	Hans
+
 > ---
->  drivers/media/v4l2-core/v4l2-subdev.c | 97 ++++++++++++++++++++++++---
->  include/media/v4l2-subdev.h           | 41 ++++++++---
->  2 files changed, 121 insertions(+), 17 deletions(-)
->
+>  drivers/media/v4l2-core/v4l2-subdev.c | 21 +++++++++++
+>  include/media/v4l2-subdev.h           | 54 +++++++++++++++++++++++++++
+>  2 files changed, 75 insertions(+)
+> 
 > diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
-> index 73ee7f01838f..e7fb694cc5df 100644
+> index fe49c86a9b02..de160140d63b 100644
 > --- a/drivers/media/v4l2-core/v4l2-subdev.c
 > +++ b/drivers/media/v4l2-core/v4l2-subdev.c
-> @@ -9,6 +9,7 @@
->   */
->
->  #include <linux/ioctl.h>
-> +#include <linux/limits.h>
->  #include <linux/mm.h>
->  #include <linux/module.h>
->  #include <linux/slab.h>
-> @@ -1582,29 +1583,107 @@ int v4l2_subdev_get_fmt(struct v4l2_subdev *sd, struct v4l2_subdev_state *state,
+> @@ -943,3 +943,24 @@ void v4l2_subdev_notify_event(struct v4l2_subdev *sd,
+>  	v4l2_subdev_notify(sd, V4L2_DEVICE_NOTIFY_EVENT, (void *)ev);
 >  }
->  EXPORT_SYMBOL_GPL(v4l2_subdev_get_fmt);
->
-> -int v4l2_subdev_routing_validate_1_to_1(const struct v4l2_subdev_krouting *routing)
-> +int v4l2_subdev_routing_validate(struct v4l2_subdev *sd,
-> +				 const struct v4l2_subdev_krouting *routing,
-> +				 enum v4l2_subdev_routing_restriction disallow)
->  {
-> +	u32 *remote_pads = NULL;
->  	unsigned int i, j;
-> +	int ret = -EINVAL;
+>  EXPORT_SYMBOL_GPL(v4l2_subdev_notify_event);
 > +
-> +	if (disallow & V4L2_SUBDEV_ROUTING_NO_STREAM_MIX) {
-
-The STREAM_MIX in particular makes me wonder what use case is this
-for.
-
-> +		remote_pads = kcalloc(sd->entity.num_pads, sizeof(*remote_pads),
-> +				      GFP_KERNEL);
-> +		if (!remote_pads)
-> +			return -ENOMEM;
+> +int v4l2_subdev_init_finalize(struct v4l2_subdev *sd)
+> +{
+> +	struct v4l2_subdev_state *state;
 > +
-> +		for (i = 0; i < sd->entity.num_pads; ++i)
-> +			remote_pads[i] = U32_MAX;
-> +	}
->
->  	for (i = 0; i < routing->num_routes; ++i) {
->  		const struct v4l2_subdev_route *route = &routing->routes[i];
->
-> +		/* Validate the sink and source pad numbers. */
-> +		if (route->sink_pad >= sd->entity.num_pads ||
-> +		    !(sd->entity.pads[route->sink_pad].flags & MEDIA_PAD_FL_SINK)) {
-> +			dev_dbg(sd->dev, "route %u sink (%u) is not a sink pad\n",
-> +				i, route->sink_pad);
-> +			goto out;
-> +		}
+> +	state = __v4l2_subdev_state_alloc(sd);
+> +	if (IS_ERR(state))
+> +		return PTR_ERR(state);
 > +
-> +		if (route->source_pad >= sd->entity.num_pads ||
-> +		    !(sd->entity.pads[route->source_pad].flags & MEDIA_PAD_FL_SOURCE)) {
-> +			dev_dbg(sd->dev, "route %u source (%u) is not a source pad\n",
-> +				i, route->source_pad);
-> +			goto out;
-> +		}
+> +	sd->active_state = state;
 > +
-> +		/*
-> +		 * V4L2_SUBDEV_ROUTING_NO_STREAM_MIX: Streams on the same pad
-> +		 * may not be routed to streams on different pads.
-
-s/on the same/from the same/ ?
-s/may/shall ?
-
-> +		 */
-> +		if (disallow & V4L2_SUBDEV_ROUTING_NO_STREAM_MIX) {
-> +			if (remote_pads[route->sink_pad] != U32_MAX &&
-> +			    remote_pads[route->sink_pad] != route->source_pad) {
-> +				dev_dbg(sd->dev,
-> +					"route %u attempts to mix %s streams\n",
-> +					i, "sink");
-> +				goto out;
-> +			}
+> +	return 0;
+> +}
+> +EXPORT_SYMBOL_GPL(v4l2_subdev_init_finalize);
 > +
-> +			if (remote_pads[route->source_pad] != U32_MAX &&
-> +			    remote_pads[route->source_pad] != route->sink_pad) {
-> +				dev_dbg(sd->dev,
-> +					"route %u attempts to mix %s streams\n",
-> +					i, "source");
-> +				goto out;
-> +			}
-> +
-> +			remote_pads[route->sink_pad] = route->source_pad;
-> +			remote_pads[route->source_pad] = route->sink_pad;
-> +		}
-> +
->  		for (j = i + 1; j < routing->num_routes; ++j) {
->  			const struct v4l2_subdev_route *r = &routing->routes[j];
->
-> -			if (route->sink_pad == r->sink_pad &&
-> -			    route->sink_stream == r->sink_stream)
-> -				return -EINVAL;
-> +			/*
-> +			 * V4L2_SUBDEV_ROUTING_NO_1_TO_N: No two routes can
-> +			 * originate from the same (sink) stream.
-> +			 */
-> +			if ((disallow & V4L2_SUBDEV_ROUTING_NO_1_TO_N) &&
-> +			    route->sink_pad == r->sink_pad &&
-> +			    route->sink_stream == r->sink_stream) {
-> +				dev_dbg(sd->dev,
-> +					"routes %u and %u originate from same sink (%u/%u)\n",
-> +					i, j, route->sink_pad,
-> +					route->sink_stream);
-> +				goto out;
-> +			}
->
-> -			if (route->source_pad == r->source_pad &&
-> -			    route->source_stream == r->source_stream)
-> -				return -EINVAL;
-> +			/*
-> +			 * V4L2_SUBDEV_ROUTING_NO_N_TO_1: No two routes can end
-> +			 * at the same (source) stream.
-> +			 */
-> +			if ((disallow & V4L2_SUBDEV_ROUTING_NO_N_TO_1) &&
-> +			    route->source_pad == r->source_pad &&
-> +			    route->source_stream == r->source_stream) {
-> +				dev_dbg(sd->dev,
-> +					"routes %u and %u end at same source (%u/%u)\n",
-> +					i, j, route->source_pad,
-> +					route->source_stream);
-> +				goto out;
-> +			}
->  		}
->  	}
->
-> -	return 0;
-> +	ret = 0;
-> +
-> +out:
-> +	kfree(remote_pads);
-> +	return ret;
->  }
-> -EXPORT_SYMBOL_GPL(v4l2_subdev_routing_validate_1_to_1);
-> +EXPORT_SYMBOL_GPL(v4l2_subdev_routing_validate);
->
->  struct v4l2_subdev_route *
->  __v4l2_subdev_next_active_route(const struct v4l2_subdev_krouting *routing,
+> +void v4l2_subdev_cleanup(struct v4l2_subdev *sd)
+> +{
+> +	__v4l2_subdev_state_free(sd->active_state);
+> +	sd->active_state = NULL;
+> +}
+> +EXPORT_SYMBOL_GPL(v4l2_subdev_cleanup);
 > diff --git a/include/media/v4l2-subdev.h b/include/media/v4l2-subdev.h
-> index aff1fb3a30d5..65c3e419a57d 100644
+> index e52bf508c75b..87c3126b2754 100644
 > --- a/include/media/v4l2-subdev.h
 > +++ b/include/media/v4l2-subdev.h
-> @@ -1573,18 +1573,43 @@ int v4l2_subdev_get_fmt(struct v4l2_subdev *sd, struct v4l2_subdev_state *state,
->  			struct v4l2_subdev_format *format);
->
->  /**
-> - * v4l2_subdev_routing_validate_1_to_1() - Verify that all streams are
-> - *                                         non-overlapping 1-to-1 streams
-> - * @routing: routing to verify
-> + * enum v4l2_subdev_routing_restriction - Subdevice internal routing restrictions
+> @@ -645,6 +645,9 @@ struct v4l2_subdev_ir_ops {
+>   * This structure only needs to be passed to the pad op if the 'which' field
+>   * of the main argument is set to %V4L2_SUBDEV_FORMAT_TRY. For
+>   * %V4L2_SUBDEV_FORMAT_ACTIVE it is safe to pass %NULL.
+> + *
+> + * Note: This struct is also used in active state, and the try_ prefix is
+> + * historical and to be removed.
+>   */
+>  struct v4l2_subdev_pad_config {
+>  	struct v4l2_mbus_framefmt try_fmt;
+> @@ -898,6 +901,8 @@ struct v4l2_subdev_platform_data {
+>   * @subdev_notifier: A sub-device notifier implicitly registered for the sub-
+>   *		     device using v4l2_async_register_subdev_sensor().
+>   * @pdata: common part of subdevice platform data
+> + * @active_state: active state for the subdev (NULL for subdevs tracking the
+> + *                state internally)
 >   *
-> - * This verifies that the given routing contains only non-overlapping 1-to-1
-> - * streams. In other words, no two streams have the same source or sink
-> - * stream ID on a single pad. This is the most common case of routing
-> - * supported by devices.
-> + * @V4L2_SUBDEV_ROUTING_NO_1_TO_N:
-> + * 	an input stream may not be routed to multiple output streams (stream
-
-very minor nit: can we enforce the usage of 'sink' and 'source' for
-streams instead of using 'input' and 'output' ?
-
-> + * 	duplication)
-> + * @V4L2_SUBDEV_ROUTING_NO_N_TO_1:
-> + *	multiple input streams may not be routed to the same output stream
-> + *	(stream merging)
-> + * @V4L2_SUBDEV_ROUTING_NO_STREAM_MIX:
-> + *	streams on the same pad may not be routed to streams on different pads
-> + * @V4L2_SUBDEV_ROUTING_ONLY_1_TO_1:
-> + *	only non-overlapping 1-to-1 stream routing is allowed (a combination of
-> + *	@V4L2_SUBDEV_ROUTING_NO_1_TO_N and @V4L2_SUBDEV_ROUTING_NO_N_TO_1)
+>   * Each instance of a subdev driver should create this struct, either
+>   * stand-alone or embedded in a larger struct.
+> @@ -929,6 +934,19 @@ struct v4l2_subdev {
+>  	struct v4l2_async_notifier *notifier;
+>  	struct v4l2_async_notifier *subdev_notifier;
+>  	struct v4l2_subdev_platform_data *pdata;
+> +
+> +	/*
+> +	 * The fields below are private, and should only be accessed via
+> +	 * appropriate functions.
+> +	 */
+> +
+> +	/*
+> +	 * TODO: state should most likely be changed from a pointer to an
+> +	 * embedded field. For the time being it's kept as a pointer to more
+> +	 * easily catch uses of state in the cases where the driver doesn't
+> +	 * support it.
+> +	 */
+> +	struct v4l2_subdev_state *active_state;
+>  };
+>  
+>  
+> @@ -1217,4 +1235,40 @@ extern const struct v4l2_subdev_ops v4l2_subdev_call_wrappers;
+>  void v4l2_subdev_notify_event(struct v4l2_subdev *sd,
+>  			      const struct v4l2_event *ev);
+>  
+> +/**
+> + * v4l2_subdev_init_finalize() - Finalize the initialization of the subdevice
+> + * @sd: The subdev
+> + *
+> + * This finalizes the initialization of the subdev, including allocation of
+> + * the active state for the subdev.
+> + *
+> + * This must be called by the subdev drivers that use the centralized active
+> + * state, after the subdev struct has been initialized and
+> + * media_entity_pads_init() has been called.
+> + *
+> + * Must call v4l2_subdev_cleanup() when the subdev is being removed.
 > + */
-> +enum v4l2_subdev_routing_restriction {
-
-I've seen that you rebased max9286 on this and there the
-v4l2_subdev_routing_validate() function is called with a '0' disallow
-flag. Should a V4L2_SUBDEV_ROUTING_SIMPLE = 0 field be added here ?
-
-> +	V4L2_SUBDEV_ROUTING_NO_1_TO_N = BIT(0),
-> +	V4L2_SUBDEV_ROUTING_NO_N_TO_1 = BIT(1),
-> +	V4L2_SUBDEV_ROUTING_NO_STREAM_MIX = BIT(2),
-> +	V4L2_SUBDEV_ROUTING_ONLY_1_TO_1 =
-> +		V4L2_SUBDEV_ROUTING_NO_1_TO_N |
-> +		V4L2_SUBDEV_ROUTING_NO_N_TO_1,
-
-OR-ing NO_1_TO_N, NO_N_TO_1 and NO_STREAM_MIX gives a
-ROUTING_PASSTHROUGH ? (ie all the streams from one sink pad are routed to
-exactly one stream on a source pad). Is this a valid constraint ?
-
-Using the max9286 as an example, and for the sake of discussion I
-would have defined constrains in terms of the entity capabilities
-
-- A MUXER can route streams from multiple sink pads to streams of a
-  source pad -> sink streams shall be equal to 0 - This is the typical
-  CSI-2 transmitter
-
-- A DEMUXER can route streams from a single sink pad to streams of
-  multiple source pad -> source streams shall be equal to 0 - This is
-  the typical CSI-2 receiver
-
-Which is a simpler case to start with (and would have allowed me to
-remove most of the custom validation from the driver).
-
-On top of this, the validation above about how streams could be
-demuxed/coalesced together might apply on top ? (I admit it is not
-totally clear to how streams coalescing would work, in example for
-video/embedded data transmission on the same VC).
-
-Thanks
-   j
-
-> +};
+> +int v4l2_subdev_init_finalize(struct v4l2_subdev *sd);
 > +
 > +/**
-> + * v4l2_subdev_routing_validate() - Verify that routes comply with driver
-> + *				    constraints
+> + * v4l2_subdev_cleanup() - Release the resources needed by the subdevice
 > + * @sd: The subdevice
-> + * @routing: Routing to verify
-> + * @disallow: Restrictions on routes
 > + *
-> + * This verifies that the given routing complies with the @disallow contraints.
->   *
->   * Returns 0 on success, error value otherwise.
->   */
-> -int v4l2_subdev_routing_validate_1_to_1(const struct v4l2_subdev_krouting *routing);
-> +int v4l2_subdev_routing_validate(struct v4l2_subdev *sd,
-> +				 const struct v4l2_subdev_krouting *routing,
-> +				 enum v4l2_subdev_routing_restriction disallow);
->
->  struct v4l2_subdev_route *
->  __v4l2_subdev_next_active_route(const struct v4l2_subdev_krouting *routing,
-> --
-> Regards,
->
-> Laurent Pinchart
->
+> + * This will release the resources allocated in v4l2_subdev_init_finalize.
+> + */
+> +void v4l2_subdev_cleanup(struct v4l2_subdev *sd);
+> +
+> +/**
+> + * v4l2_subdev_get_active_state() - Return the active subdev state for subdevice
+> + * @sd: The subdevice
+> + *
+> + * Return the active state for the subdevice, or NULL if the subdev does not
+> + * support active state.
+> + */
+> +static inline struct v4l2_subdev_state *
+> +v4l2_subdev_get_active_state(struct v4l2_subdev *sd)
+> +{
+> +	return sd->active_state;
+> +}
+> +
+>  #endif
+> 
+
