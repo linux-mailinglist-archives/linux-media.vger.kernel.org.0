@@ -2,170 +2,233 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A1D2E4784A0
-	for <lists+linux-media@lfdr.de>; Fri, 17 Dec 2021 06:45:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7051A478592
+	for <lists+linux-media@lfdr.de>; Fri, 17 Dec 2021 08:31:03 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233015AbhLQFpg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 17 Dec 2021 00:45:36 -0500
-Received: from ewsoutbound.kpnmail.nl ([195.121.94.183]:58767 "EHLO
-        ewsoutbound.kpnmail.nl" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231860AbhLQFpg (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Fri, 17 Dec 2021 00:45:36 -0500
-X-KPN-MessageId: 06bcb5c3-5efc-11ec-a02e-005056992ed3
-Received: from smtp.kpnmail.nl (unknown [10.31.155.5])
-        by ewsoutbound.so.kpn.org (Halon) with ESMTPS
-        id 06bcb5c3-5efc-11ec-a02e-005056992ed3;
-        Fri, 17 Dec 2021 06:41:47 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=xs4all.nl; s=xs4all01;
-        h=subject:to:from:date:message-id;
-        bh=IG1D2xBS6wuqbq8+1gBmgkNmYZ3aGJAip0O+yvAFbyE=;
-        b=bWsuErwuhjGGz9qQJ/i/pA3GicZBjn4mTNp4K+DUKP2GC59saaJjB3EyRbzOTl9SP0C8UYMdcWvKp
-         k9SVVWatmFYif8ummKfHnDc7U1pcwEXGPPWlhhHVkx9dn+PtjYAw56lK60fdwQUj+/AoAiB82RyVK8
-         U3S1X+de6uI0tXg0LwoNt0Khf4ITxq2DD8FN8G9jlnT/KamfoJ6kbRk1YrRAfh37BdcgoiMAKVqG8c
-         6fw2FqEICLdqrlRRaL0G3i9VsSf9y38e2WE1KZ7YdU002q7CohfdIHcxOVrNaDSIsrcLMHZqJEWLNs
-         MUv7vFxlB0APrcV6WNGm9ui/jv9NKSw==
-Message-ID: <8cfb23dc-5efc-11ec-8d65-00505699b758@smtp.kpnmail.nl>
-X-KPN-VerifiedSender: Yes
-X-CMASSUN: 33|JLGnCJ2tabli03fkG8yI/jVaw7K61PvgyK4ti81W2iodHc2fWNkO36euAlspmfM
- VzHu/y7Unl+cWyGZ2uIxO5Q==
-X-Originating-IP: 80.101.105.217
-Received: from localhost (marune.xs4all.nl [80.101.105.217])
-        by smtp.xs4all.nl (Halon) with ESMTPSA
-        id 8cdea0ad-5efc-11ec-8d65-00505699b758;
-        Fri, 17 Dec 2021 06:45:33 +0100 (CET)
-Date:   Fri, 17 Dec 2021 06:45:32 +0100
-From:   "Hans Verkuil" <hverkuil@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: ERRORS
+        id S233681AbhLQHbC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 17 Dec 2021 02:31:02 -0500
+Received: from mga18.intel.com ([134.134.136.126]:21111 "EHLO mga18.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S232167AbhLQHbB (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Fri, 17 Dec 2021 02:31:01 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1639726261; x=1671262261;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=Lef5dSA4LeHC9lZ2cNG+drfrdUv+KUI7A5fwZiwG8x4=;
+  b=DgBv47UTgEySTQxVKpZnNli7iq1w5R4lXw6v+ArrmP3jUibZvUNH8Qmn
+   2QJ+194W4h0bVcItfStpv4brYcBA+sQbHPmkEwCU4jsSVvdF+iW0orlGA
+   ZxAnKOrkr+77PvIKBb7cvVOWsAVqUD0T7rhfjKVZ/vqWYbrD1ARinXnNm
+   NH0MbP73uoO60DwFDCv9vFJPudTMaaAOhFUAbUdy2bpnZyk7Pe0ggiEDs
+   4+eb6BWg4P3Iuw4IXafRlr5c/GhGMkpDxz4gQ+o1BzryaK0EW/I+wzS5H
+   jv6fEiQLgMrcDmjXv3QRAW/Yp+CJfXsBVPJSFPxPaMGhBHmQuIM9akwTn
+   g==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10200"; a="226559248"
+X-IronPort-AV: E=Sophos;i="5.88,213,1635231600"; 
+   d="scan'208";a="226559248"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Dec 2021 23:31:01 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.88,213,1635231600"; 
+   d="scan'208";a="683289320"
+Received: from lkp-server02.sh.intel.com (HELO 9f38c0981d9f) ([10.239.97.151])
+  by orsmga005.jf.intel.com with ESMTP; 16 Dec 2021 23:30:58 -0800
+Received: from kbuild by 9f38c0981d9f with local (Exim 4.92)
+        (envelope-from <lkp@intel.com>)
+        id 1my7hh-0004Q1-WC; Fri, 17 Dec 2021 07:30:57 +0000
+Date:   Fri, 17 Dec 2021 15:30:10 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        tomi.valkeinen@ideasonboard.com, sakari.ailus@linux.intel.com,
+        laurent.pinchart@ideasonboard.com, niklas.soderlund@ragnatech.se,
+        kieran.bingham@ideasonboard.com
+Cc:     kbuild-all@lists.01.org, Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, Hans Verkuil <hverkuil@xs4all.nl>,
+        linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH 3/5] media: adv748x: Move format to subdev state
+Message-ID: <202112171539.cPT19ZOz-lkp@intel.com>
+References: <20211216170323.141321-4-jacopo+renesas@jmondi.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20211216170323.141321-4-jacopo+renesas@jmondi.org>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the kernels and architectures in the list below.
+Hi Jacopo,
 
-Results of the daily build of media_tree:
+I love your patch! Yet something to improve:
 
-date:			Fri Dec 17 05:00:15 CET 2021
-media-tree git hash:	68b9bcc8a534cd11fe55f8bc82f948aae7d81b3c
-media_build git hash:	c5c30e768ef3b757da479220d7a389470c3ad978
-v4l-utils git hash:	6c905930e8e9bdf485f857ea8aadcaffbfd0943d
-edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
-gcc version:		i686-linux-gcc (GCC) 11.2.0
-sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
-sparse version:		v0.6.3-349-gb21d5e09
-smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
-smatch version:		v0.5.0-7537-ga9e379d05
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: 72fe2e990921b3757e47e6f3ea4ce8c076021161
-host hardware:		x86_64
-host os:		5.15.0-2-amd64
+[auto build test ERROR on media-tree/master]
+[also build test ERROR on v5.16-rc5 next-20211216]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch]
 
-linux-git-sh: OK
-linux-git-arm-davinci: OK
-linux-git-arm-at91: OK
-linux-git-arm-stm32: OK
-linux-git-arm-pxa: OK
-linux-git-mips: OK
-linux-git-powerpc64: OK
-linux-git-arm-multi: OK
-linux-git-arm64: OK
-linux-git-i686: OK
-linux-git-x86_64: OK
-Check COMPILE_TEST: OK
-Check for strcpy/strncpy/strlcpy: OK
-linux-4.4.283-i686: ERRORS
-linux-4.4.283-x86_64: ERRORS
-linux-4.5.7-i686: ERRORS
-linux-4.5.7-x86_64: ERRORS
-linux-4.6.7-i686: ERRORS
-linux-4.6.7-x86_64: ERRORS
-linux-4.7.10-i686: ERRORS
-linux-4.7.10-x86_64: ERRORS
-linux-4.8.17-i686: ERRORS
-linux-4.8.17-x86_64: ERRORS
-linux-4.9.246-i686: ERRORS
-linux-4.9.246-x86_64: ERRORS
-linux-4.10.17-i686: ERRORS
-linux-4.10.17-x86_64: ERRORS
-linux-4.11.12-i686: ERRORS
-linux-4.11.12-x86_64: ERRORS
-linux-4.12.14-i686: ERRORS
-linux-4.12.14-x86_64: ERRORS
-linux-4.13.16-i686: ERRORS
-linux-4.13.16-x86_64: ERRORS
-linux-4.14.246-i686: ERRORS
-linux-4.14.246-x86_64: ERRORS
-linux-4.15.18-i686: ERRORS
-linux-4.15.18-x86_64: ERRORS
-linux-4.16.18-i686: ERRORS
-linux-4.16.18-x86_64: ERRORS
-linux-4.17.19-i686: ERRORS
-linux-4.17.19-x86_64: ERRORS
-linux-4.18.20-i686: ERRORS
-linux-4.18.20-x86_64: ERRORS
-linux-4.19.206-i686: OK
-linux-4.19.206-x86_64: OK
-linux-4.20.17-i686: OK
-linux-4.20.17-x86_64: OK
-linux-5.0.21-i686: OK
-linux-5.0.21-x86_64: OK
-linux-5.1.21-i686: OK
-linux-5.1.21-x86_64: OK
-linux-5.2.21-i686: OK
-linux-5.2.21-x86_64: OK
-linux-5.3.18-i686: OK
-linux-5.3.18-x86_64: OK
-linux-5.4.144-i686: OK
-linux-5.4.144-x86_64: OK
-linux-5.5.19-i686: OK
-linux-5.5.19-x86_64: OK
-linux-5.6.19-i686: OK
-linux-5.6.19-x86_64: OK
-linux-5.7.19-i686: OK
-linux-5.7.19-x86_64: OK
-linux-5.8.18-i686: OK
-linux-5.8.18-x86_64: OK
-linux-5.9.16-i686: OK
-linux-5.9.16-x86_64: OK
-linux-5.10.62-i686: OK
-linux-5.10.62-x86_64: OK
-linux-5.11.22-i686: OK
-linux-5.11.22-x86_64: OK
-linux-5.12.19-i686: OK
-linux-5.12.19-x86_64: OK
-linux-5.13.14-i686: OK
-linux-5.13.14-x86_64: OK
-linux-5.14.1-i686: OK
-linux-5.14.1-x86_64: OK
-linux-5.15.1-i686: OK
-linux-5.15.1-x86_64: OK
-linux-5.16-rc1-i686: OK
-linux-5.16-rc1-x86_64: OK
-apps: OK
-spec-git: OK
-virtme: OK: Final Summary: 2989, Succeeded: 2989, Failed: 0, Warnings: 0
-virtme-32: OK: Final Summary: 3100, Succeeded: 3100, Failed: 0, Warnings: 0
-sparse: WARNINGS
-smatch: WARNINGS
-kerneldoc: WARNINGS
+url:    https://github.com/0day-ci/linux/commits/Jacopo-Mondi/media-adv748x-Add-CSI-2-VC-support/20211217-010519
+base:   git://linuxtv.org/media_tree.git master
+config: arc-randconfig-r043-20211216 (https://download.01.org/0day-ci/archive/20211217/202112171539.cPT19ZOz-lkp@intel.com/config)
+compiler: arc-elf-gcc (GCC) 11.2.0
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/0day-ci/linux/commit/90158bf217d9df03d83fac378198a756af229010
+        git remote add linux-review https://github.com/0day-ci/linux
+        git fetch --no-tags linux-review Jacopo-Mondi/media-adv748x-Add-CSI-2-VC-support/20211217-010519
+        git checkout 90158bf217d9df03d83fac378198a756af229010
+        # save the config file to linux build tree
+        mkdir build_dir
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-11.2.0 make.cross O=build_dir ARCH=arc SHELL=/bin/bash
 
-Detailed results are available here:
+If you fix the issue, kindly add following tag as appropriate
+Reported-by: kernel test robot <lkp@intel.com>
 
-http://www.xs4all.nl/~hverkuil/logs/Friday.log
+All errors (new ones prefixed by >>):
 
-Detailed regression test results are available here:
+   drivers/media/i2c/adv748x/adv748x-csi2.c: In function 'adv748x_csi2_init_cfg':
+   drivers/media/i2c/adv748x/adv748x-csi2.c:146:34: error: array type has incomplete element type 'struct v4l2_subdev_route'
+     146 |         struct v4l2_subdev_route routes[ADV748X_CSI2_STREAMS] = {
+         |                                  ^~~~~~
+   drivers/media/i2c/adv748x/adv748x-csi2.c:152:34: error: 'V4L2_SUBDEV_ROUTE_FL_ACTIVE' undeclared (first use in this function); did you mean 'V4L2_SUBDEV_FORMAT_ACTIVE'?
+     152 |                         .flags = V4L2_SUBDEV_ROUTE_FL_ACTIVE,
+         |                                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+         |                                  V4L2_SUBDEV_FORMAT_ACTIVE
+   drivers/media/i2c/adv748x/adv748x-csi2.c:152:34: note: each undeclared identifier is reported only once for each function it appears in
+   drivers/media/i2c/adv748x/adv748x-csi2.c:173:37: error: storage size of 'routing' isn't known
+     173 |         struct v4l2_subdev_krouting routing;
+         |                                     ^~~~~~~
+   drivers/media/i2c/adv748x/adv748x-csi2.c:179:9: error: implicit declaration of function 'v4l2_subdev_lock_state'; did you mean 'v4l2_subdev_alloc_state'? [-Werror=implicit-function-declaration]
+     179 |         v4l2_subdev_lock_state(state);
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+         |         v4l2_subdev_alloc_state
+   drivers/media/i2c/adv748x/adv748x-csi2.c:180:15: error: implicit declaration of function 'v4l2_subdev_set_routing'; did you mean 'v4l2_subdev_notify'? [-Werror=implicit-function-declaration]
+     180 |         ret = v4l2_subdev_set_routing(sd, state, &routing);
+         |               ^~~~~~~~~~~~~~~~~~~~~~~
+         |               v4l2_subdev_notify
+   drivers/media/i2c/adv748x/adv748x-csi2.c:181:9: error: implicit declaration of function 'v4l2_subdev_unlock_state'; did you mean 'v4l2_subdev_alloc_state'? [-Werror=implicit-function-declaration]
+     181 |         v4l2_subdev_unlock_state(state);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~
+         |         v4l2_subdev_alloc_state
+   drivers/media/i2c/adv748x/adv748x-csi2.c:173:37: warning: unused variable 'routing' [-Wunused-variable]
+     173 |         struct v4l2_subdev_krouting routing;
+         |                                     ^~~~~~~
+   drivers/media/i2c/adv748x/adv748x-csi2.c:146:34: warning: unused variable 'routes' [-Wunused-variable]
+     146 |         struct v4l2_subdev_route routes[ADV748X_CSI2_STREAMS] = {
+         |                                  ^~~~~~
+   drivers/media/i2c/adv748x/adv748x-csi2.c: In function 'adv748x_csi2_set_format':
+>> drivers/media/i2c/adv748x/adv748x-csi2.c:198:15: error: implicit declaration of function 'v4l2_state_get_stream_format'; did you mean 'v4l2_subdev_get_try_format'? [-Werror=implicit-function-declaration]
+     198 |         fmt = v4l2_state_get_stream_format(sd_state, sdformat->pad,
+         |               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+         |               v4l2_subdev_get_try_format
+>> drivers/media/i2c/adv748x/adv748x-csi2.c:199:52: error: 'struct v4l2_subdev_format' has no member named 'stream'
+     199 |                                            sdformat->stream);
+         |                                                    ^~
+>> drivers/media/i2c/adv748x/adv748x-csi2.c:207:15: error: implicit declaration of function 'v4l2_subdev_state_get_opposite_stream_format' [-Werror=implicit-function-declaration]
+     207 |         fmt = v4l2_subdev_state_get_opposite_stream_format(sd_state, sdformat->pad,
+         |               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/i2c/adv748x/adv748x-csi2.c:208:68: error: 'struct v4l2_subdev_format' has no member named 'stream'
+     208 |                                                            sdformat->stream);
+         |                                                                    ^~
+   drivers/media/i2c/adv748x/adv748x-csi2.c: At top level:
+>> drivers/media/i2c/adv748x/adv748x-csi2.c:253:20: error: 'v4l2_subdev_get_fmt' undeclared here (not in a function); did you mean 'v4l2_subdev_notify'?
+     253 |         .get_fmt = v4l2_subdev_get_fmt,
+         |                    ^~~~~~~~~~~~~~~~~~~
+         |                    v4l2_subdev_notify
+   drivers/media/i2c/adv748x/adv748x-csi2.c: In function 'adv748x_csi2_init':
+   drivers/media/i2c/adv748x/adv748x-csi2.c:323:29: error: 'V4L2_SUBDEV_FL_MULTIPLEXED' undeclared (first use in this function)
+     323 |                             V4L2_SUBDEV_FL_MULTIPLEXED,
+         |                             ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/i2c/adv748x/adv748x-csi2.c:340:15: error: implicit declaration of function 'v4l2_subdev_init_finalize'; did you mean 'v4l2_subdev_init'? [-Werror=implicit-function-declaration]
+     340 |         ret = v4l2_subdev_init_finalize(&tx->sd);
+         |               ^~~~~~~~~~~~~~~~~~~~~~~~~
+         |               v4l2_subdev_init
+   drivers/media/i2c/adv748x/adv748x-csi2.c:357:9: error: implicit declaration of function 'v4l2_subdev_cleanup'; did you mean 'v4l2_subdev_call'? [-Werror=implicit-function-declaration]
+     357 |         v4l2_subdev_cleanup(&tx->sd);
+         |         ^~~~~~~~~~~~~~~~~~~
+         |         v4l2_subdev_call
+   cc1: some warnings being treated as errors
 
-http://www.xs4all.nl/~hverkuil/logs/Friday-test-media.log
-http://www.xs4all.nl/~hverkuil/logs/Friday-test-media-32.log
-http://www.xs4all.nl/~hverkuil/logs/Friday-test-media-dmesg.log
 
-Full logs are available here:
+vim +198 drivers/media/i2c/adv748x/adv748x-csi2.c
 
-http://www.xs4all.nl/~hverkuil/logs/Friday.tar.bz2
+   185	
+   186	static int adv748x_csi2_set_format(struct v4l2_subdev *sd,
+   187					   struct v4l2_subdev_state *sd_state,
+   188					   struct v4l2_subdev_format *sdformat)
+   189	{
+   190		struct v4l2_mbus_framefmt *fmt;
+   191		int ret = 0;
+   192	
+   193		/* Do not allow to set format on the multiplexed source pad. */
+   194		if (sdformat->pad == ADV748X_CSI2_SOURCE)
+   195			return -EINVAL;
+   196	
+   197		v4l2_subdev_lock_state(sd_state);
+ > 198		fmt = v4l2_state_get_stream_format(sd_state, sdformat->pad,
+ > 199						   sdformat->stream);
+   200		if (!fmt) {
+   201			ret = -EINVAL;
+   202			goto out;
+   203		};
+   204		*fmt = sdformat->format;
+   205	
+   206		/* Propagate format to the other end of the route. */
+ > 207		fmt = v4l2_subdev_state_get_opposite_stream_format(sd_state, sdformat->pad,
+   208								   sdformat->stream);
+   209		if (!fmt) {
+   210			ret = -EINVAL;
+   211			goto out;
+   212		}
+   213		*fmt = sdformat->format;
+   214	
+   215	out:
+   216		v4l2_subdev_unlock_state(sd_state);
+   217	
+   218		return ret;
+   219	}
+   220	
+   221	static int adv748x_csi2_get_mbus_config(struct v4l2_subdev *sd, unsigned int pad,
+   222						struct v4l2_mbus_config *config)
+   223	{
+   224		struct adv748x_csi2 *tx = adv748x_sd_to_csi2(sd);
+   225	
+   226		if (pad != ADV748X_CSI2_SOURCE)
+   227			return -EINVAL;
+   228	
+   229		config->type = V4L2_MBUS_CSI2_DPHY;
+   230		switch (tx->active_lanes) {
+   231		case 1:
+   232			config->flags = V4L2_MBUS_CSI2_1_LANE;
+   233			break;
+   234	
+   235		case 2:
+   236			config->flags = V4L2_MBUS_CSI2_2_LANE;
+   237			break;
+   238	
+   239		case 3:
+   240			config->flags = V4L2_MBUS_CSI2_3_LANE;
+   241			break;
+   242	
+   243		case 4:
+   244			config->flags = V4L2_MBUS_CSI2_4_LANE;
+   245			break;
+   246		}
+   247	
+   248		return 0;
+   249	}
+   250	
+   251	static const struct v4l2_subdev_pad_ops adv748x_csi2_pad_ops = {
+   252		.init_cfg = adv748x_csi2_init_cfg,
+ > 253		.get_fmt = v4l2_subdev_get_fmt,
+   254		.set_fmt = adv748x_csi2_set_format,
+   255		.get_mbus_config = adv748x_csi2_get_mbus_config,
+   256	};
+   257	
 
-The Media Infrastructure API from this daily build is here:
-
-http://www.xs4all.nl/~hverkuil/spec/index.html
+---
+0-DAY CI Kernel Test Service, Intel Corporation
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
