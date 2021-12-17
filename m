@@ -2,133 +2,207 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id EA379479303
-	for <lists+linux-media@lfdr.de>; Fri, 17 Dec 2021 18:44:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C2403479314
+	for <lists+linux-media@lfdr.de>; Fri, 17 Dec 2021 18:49:13 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236274AbhLQRoB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 17 Dec 2021 12:44:01 -0500
-Received: from mga01.intel.com ([192.55.52.88]:3059 "EHLO mga01.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S236112AbhLQRoA (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Fri, 17 Dec 2021 12:44:00 -0500
-X-IronPort-AV: E=McAfee;i="6200,9189,10201"; a="263976126"
-X-IronPort-AV: E=Sophos;i="5.88,214,1635231600"; 
-   d="scan'208";a="263976126"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Dec 2021 09:44:00 -0800
-X-IronPort-AV: E=Sophos;i="5.88,214,1635231600"; 
-   d="scan'208";a="546462941"
-Received: from paasikivi.fi.intel.com ([10.237.72.42])
-  by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Dec 2021 09:43:57 -0800
-Received: from paasikivi.fi.intel.com (localhost [127.0.0.1])
-        by paasikivi.fi.intel.com (Postfix) with SMTP id 9CBC720531;
-        Fri, 17 Dec 2021 19:43:55 +0200 (EET)
-Date:   Fri, 17 Dec 2021 19:43:55 +0200
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-        linux-media@vger.kernel.org,
+        id S239937AbhLQRtN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 17 Dec 2021 12:49:13 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34510 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S239936AbhLQRtM (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Fri, 17 Dec 2021 12:49:12 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7491DC061574;
+        Fri, 17 Dec 2021 09:49:12 -0800 (PST)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 25D5E93;
+        Fri, 17 Dec 2021 18:49:10 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1639763350;
+        bh=gPfXp0PBYqZP6NLXKs1t7dG1iIdVmUCP3sIoFQFuLMA=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=XyG2lNb5PyZHIS5+hlvQ9xJ4wrHyOPzCxo2rRFg44WITOmdM3dVrpeWY8/ugl+V2v
+         XsZzcIinMJNDkW8O3g64iBMuq//65lSvGKP4G/J4JnAuiS+jmDwdmya81sjVLSQHRQ
+         CRgYR32AU8IuwxNhPpHGnsMcUt5BN7KTV5292MGU=
+Date:   Fri, 17 Dec 2021 19:49:07 +0200
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Jacopo Mondi <jacopo@jmondi.org>
+Cc:     linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
         Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        niklas.soderlund+renesas@ragnatech.se,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Pratyush Yadav <p.yadav@ti.com>
-Subject: Re: [PATCH v10 05/38] media: subdev: Add
- v4l2_subdev_lock_and_return_state()
-Message-ID: <YbzMW+dvmwgZhhST@paasikivi.fi.intel.com>
-References: <20211130141536.891878-1-tomi.valkeinen@ideasonboard.com>
- <20211130141536.891878-6-tomi.valkeinen@ideasonboard.com>
- <YbtObq+RJbW70pjD@pendragon.ideasonboard.com>
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        Niklas =?utf-8?Q?S=C3=B6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>,
+        Thomas Nizan <tnizan@witekio.com>
+Subject: Re: [PATCH 3/3] media: i2c: max9286: Support manual framesync
+ operation
+Message-ID: <YbzNk7p6Fk28ay7q@pendragon.ideasonboard.com>
+References: <20211216220946.20771-1-laurent.pinchart+renesas@ideasonboard.com>
+ <20211216220946.20771-4-laurent.pinchart+renesas@ideasonboard.com>
+ <20211217111403.3hgb67bwuor5ysiq@uno.localdomain>
+ <Yby1LUfI9fmuUneJ@pendragon.ideasonboard.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <YbtObq+RJbW70pjD@pendragon.ideasonboard.com>
+In-Reply-To: <Yby1LUfI9fmuUneJ@pendragon.ideasonboard.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Laurent,
+Hi Jacopo,
 
-On Thu, Dec 16, 2021 at 04:34:22PM +0200, Laurent Pinchart wrote:
-> Hi Tomi,
+On Fri, Dec 17, 2021 at 06:05:02PM +0200, Laurent Pinchart wrote:
+> On Fri, Dec 17, 2021 at 12:14:03PM +0100, Jacopo Mondi wrote:
+> > On Fri, Dec 17, 2021 at 12:09:46AM +0200, Laurent Pinchart wrote:
+> > > From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> > >
+> > > The MAX9286 can generate a framesync signal to synchronize the cameras,
+> > > using an internal timer. Support this mode of operation and configure it
+> > > through the .s_frameinterval() operation. If the frame interval is not
+> > > 0, framesync is switched to manual mode with the specified interval,
+> > > otherwise automatic mode is used.
+> > >
+> > > Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> > > ---
+> > >  drivers/media/i2c/max9286.c | 66 +++++++++++++++++++++++++++++++++++--
+> > >  1 file changed, 63 insertions(+), 3 deletions(-)
+> > >
+> > > diff --git a/drivers/media/i2c/max9286.c b/drivers/media/i2c/max9286.c
+> > > index fa2f6a823fe6..dce1146635d2 100644
+> > > --- a/drivers/media/i2c/max9286.c
+> > > +++ b/drivers/media/i2c/max9286.c
+> > > @@ -174,6 +174,7 @@ struct max9286_priv {
+> > >  	struct v4l2_ctrl *pixelrate;
+> > >
+> > >  	struct v4l2_mbus_framefmt fmt[MAX9286_N_SINKS];
+> > > +	struct v4l2_fract interval;
+> > >
+> > >  	/* Protects controls and fmt structures */
+> > >  	struct mutex mutex;
+> > > @@ -474,6 +475,37 @@ static int max9286_check_config_link(struct max9286_priv *priv,
+> > >  	return 0;
+> > >  }
+> > >
+> > > +static void max9286_set_fsync_period(struct max9286_priv *priv)
+> > > +{
+> > > +	u32 fsync;
+> > > +
+> > > +	if (!priv->interval.numerator || !priv->interval.denominator) {
+> > > +		/*
+> > > +		 * Special case, a null interval enables automatic FRAMESYNC
+> > > +		 * mode. FRAMESYNC is taken from the slowest link.
+> > > +		 */
+> > > +		max9286_write(priv, 0x01, MAX9286_FSYNCMODE_INT_HIZ |
+> > > +			      MAX9286_FSYNCMETH_AUTO);
+> > > +		return;
+> > > +	}
+> > > +
+> > > +	/*
+> > > +	 * Manual FRAMESYNC
+> > > +	 *
+> > > +	 * The FRAMESYNC generator is configured with a period expressed as a
+> > > +	 * number of PCLK periods, which runs at 75MHz.
+> > > +	 */
+> > > +	fsync = div_u64(75000000ULL * priv->interval.numerator,
+> > > +			priv->interval.denominator);
+> > 
+> > Don't we calculate the pixel rate dynamically based on the number of
+> > enabled sources ?
 > 
-> Thank you for the patch.
+> That's a good point, this hardcodes operation for 4 cameras. I'll see
+> how I can fix that.
 > 
-> On Tue, Nov 30, 2021 at 04:15:03PM +0200, Tomi Valkeinen wrote:
-> > All suitable subdev ops are now passed either the TRY or the ACTIVE
-> > state by the v4l2 core. However, other subdev drivers can still call the
-> > ops passing NULL as the state, implying the active case.
+> > > +
+> > > +	max9286_write(priv, 0x01, MAX9286_FSYNCMODE_INT_OUT |
+> > > +		      MAX9286_FSYNCMETH_MANUAL);
+> > > +
+> > > +	max9286_write(priv, 0x06, (fsync >> 0) & 0xff);
+> > > +	max9286_write(priv, 0x07, (fsync >> 8) & 0xff);
+> > > +	max9286_write(priv, 0x08, (fsync >> 16) & 0xff);
+> > > +}
+> > > +
+> > >  /* -----------------------------------------------------------------------------
+> > >   * V4L2 Subdev
+> > >   */
+> > > @@ -656,6 +688,8 @@ static int max9286_s_stream(struct v4l2_subdev *sd, int enable)
+> > >  	int ret;
+> > >
+> > >  	if (enable) {
+> > > +		max9286_set_fsync_period(priv);
+> > > +
+> > >  		/*
+> > >  		 * The frame sync between cameras is transmitted across the
+> > >  		 * reverse channel as GPIO. We must open all channels while
+> > > @@ -715,6 +749,32 @@ static int max9286_s_stream(struct v4l2_subdev *sd, int enable)
+> > >  	return 0;
+> > >  }
+> > >
+> > > +static int max9286_g_frame_interval(struct v4l2_subdev *sd,
+> > > +				    struct v4l2_subdev_frame_interval *interval)
+> > > +{
+> > > +	struct max9286_priv *priv = sd_to_max9286(sd);
+> > > +
+> > > +	if (interval->pad == MAX9286_SRC_PAD)
 > > 
-> > For all current upstream drivers this doesn't matter, as they do not
-> > expect to get a valid state for ACTIVE case. But future drivers which
-> > support multiplexed streaming and routing will depend on getting a state
-> > for both active and try cases.
+> > Ah!
 > > 
-> > For new drivers we can mandate that the pipelines where the drivers are
-> > used need to pass the state properly, or preferably, not call such
-> > subdev ops at all.
-> > 
-> > However, if an existing subdev driver is changed to support multiplexed
-> > streams, the driver has to consider cases where its ops will be called
-> > with NULL state. The problem can easily be solved by using the
-> > v4l2_subdev_lock_and_return_state() helper, introduced here.
-> > 
-> > Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-> > ---
-> >  include/media/v4l2-subdev.h | 31 +++++++++++++++++++++++++++++++
-> >  1 file changed, 31 insertions(+)
-> > 
-> > diff --git a/include/media/v4l2-subdev.h b/include/media/v4l2-subdev.h
-> > index 1810dde9c7fc..873bbe0686e3 100644
-> > --- a/include/media/v4l2-subdev.h
-> > +++ b/include/media/v4l2-subdev.h
-> > @@ -1317,4 +1317,35 @@ void v4l2_subdev_lock_state(struct v4l2_subdev_state *state);
-> >   */
-> >  void v4l2_subdev_unlock_state(struct v4l2_subdev_state *state);
-> >  
-> > +/**
-> > + * v4l2_subdev_lock_and_return_state() - Gets locked TRY or ACTIVE subdev state
-> > + * @sd: subdevice
-> > + * @state: subdevice state as passed to the subdev op
-> > + *
-> > + * Due to legacy reasons, when subdev drivers call ops in other subdevs they use
-> > + * NULL as the state parameter, as subdevs always used to have their active
-> > + * state stored privately.
-> > + *
-> > + * However, newer state-aware subdev drivers, which store their active state in
-> > + * a common place, subdev->active_state, expect to always get a proper state as
-> > + * a parameter.
-> > + *
-> > + * These state-aware drivers can use v4l2_subdev_lock_and_return_state() instead
-> > + * of v4l2_subdev_lock_state(). v4l2_subdev_lock_and_return_state() solves the
-> > + * issue by using subdev->state in case the passed state is NULL.
-> > + *
-> > + * This is a temporary helper function, and should be removed when we can ensure
-> > + * that all drivers pass proper state when calling other subdevs.
-> > + */
-> > +static inline struct v4l2_subdev_state *
-> > +v4l2_subdev_lock_and_return_state(struct v4l2_subdev *sd,
-> > +				  struct v4l2_subdev_state *state)
-> > +{
-> > +	state = state ? state : sd->active_state;
+> > I would have expected, as this setting applies to all cameras, and
+> > consequentially to the output image stream frame rate, that the
+> > operation should have been done on the single source pad... Why is
+> > this not the case ?
 > 
-> Can we add a dev_warn() when state is NULL ? This will help speeding up
-> the transition.
+> I went back and forth between the two, I think it would work fine on the
+> source pad as well. I'll give it a try.
 
-Wouldn't this produce lots of warnings? I'd rather use dev_warn_once() to
-avoid flooding logs.
+Note that once we'll move to the muxed streams API, the frame interval
+will be per stream, so setting it on the source pad won't make much of a
+difference. What do you think ?
 
-> 
-> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> 
-> > +
-> > +	v4l2_subdev_lock_state(state);
-> > +
-> > +	return state;
-> > +}
-> > +
-> >  #endif
-> 
+> > > +		return -EINVAL;
+> > > +
+> > > +	interval->interval = priv->interval;
+> > > +
+> > > +	return 0;
+> > > +}
+> > > +
+> > > +static int max9286_s_frame_interval(struct v4l2_subdev *sd,
+> > > +				    struct v4l2_subdev_frame_interval *interval)
+> > > +{
+> > > +	struct max9286_priv *priv = sd_to_max9286(sd);
+> > > +
+> > > +	if (interval->pad == MAX9286_SRC_PAD)
+> > > +		return -EINVAL;
+> > > +
+> > > +	priv->interval = interval->interval;
+> > > +
+> > > +	return 0;
+> > > +}
+> > > +
+> > >  static int max9286_enum_mbus_code(struct v4l2_subdev *sd,
+> > >  				  struct v4l2_subdev_state *sd_state,
+> > >  				  struct v4l2_subdev_mbus_code_enum *code)
+> > > @@ -806,6 +866,8 @@ static int max9286_get_fmt(struct v4l2_subdev *sd,
+> > >
+> > >  static const struct v4l2_subdev_video_ops max9286_video_ops = {
+> > >  	.s_stream	= max9286_s_stream,
+> > > +	.g_frame_interval = max9286_g_frame_interval,
+> > > +	.s_frame_interval = max9286_s_frame_interval,
+> > >  };
+> > >
+> > >  static const struct v4l2_subdev_pad_ops max9286_pad_ops = {
+> > > @@ -998,9 +1060,7 @@ static int max9286_setup(struct max9286_priv *priv)
+> > >  		      MAX9286_CSILANECNT(priv->csi2_data_lanes) |
+> > >  		      MAX9286_DATATYPE_YUV422_8BIT);
+> > >
+> > > -	/* Automatic: FRAMESYNC taken from the slowest Link. */
+> > > -	max9286_write(priv, 0x01, MAX9286_FSYNCMODE_INT_HIZ |
+> > > -		      MAX9286_FSYNCMETH_AUTO);
+> > > +	max9286_set_fsync_period(priv);
+> > >
+> > >  	/* Enable HS/VS encoding, use D14/15 for HS/VS, invert VS. */
+> > >  	max9286_write(priv, 0x0c, MAX9286_HVEN | MAX9286_INVVS |
 
 -- 
-Sakari Ailus
+Regards,
+
+Laurent Pinchart
