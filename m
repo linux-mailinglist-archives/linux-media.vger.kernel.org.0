@@ -2,152 +2,90 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 056D6478DDF
-	for <lists+linux-media@lfdr.de>; Fri, 17 Dec 2021 15:35:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DF77F478DF2
+	for <lists+linux-media@lfdr.de>; Fri, 17 Dec 2021 15:39:59 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234476AbhLQOfG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 17 Dec 2021 09:35:06 -0500
-Received: from ewsoutbound.kpnmail.nl ([195.121.94.170]:19335 "EHLO
-        ewsoutbound.kpnmail.nl" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230248AbhLQOfF (ORCPT
+        id S237340AbhLQOj4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 17 Dec 2021 09:39:56 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44932 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S237336AbhLQOjz (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 17 Dec 2021 09:35:05 -0500
-X-KPN-MessageId: 631ffec7-5f46-11ec-8a6e-005056ab378f
-Received: from smtp.kpnmail.nl (unknown [10.31.155.38])
-        by ewsoutbound.so.kpn.org (Halon) with ESMTPS
-        id 631ffec7-5f46-11ec-8a6e-005056ab378f;
-        Fri, 17 Dec 2021 15:34:05 +0100 (CET)
+        Fri, 17 Dec 2021 09:39:55 -0500
+Received: from mail-wm1-x336.google.com (mail-wm1-x336.google.com [IPv6:2a00:1450:4864:20::336])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 90475C061574
+        for <linux-media@vger.kernel.org>; Fri, 17 Dec 2021 06:39:55 -0800 (PST)
+Received: by mail-wm1-x336.google.com with SMTP id a83-20020a1c9856000000b00344731e044bso1691116wme.1
+        for <linux-media@vger.kernel.org>; Fri, 17 Dec 2021 06:39:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=xs4all.nl; s=xs4all01;
-        h=content-type:from:to:subject:mime-version:date:message-id;
-        bh=ixgqKVt/uxT80R1nKt0+mVHZMTzJ7vsX5Bb6IlLcP8s=;
-        b=b7+syIJVKGnOgflj46SgrnasVH8CCdxhh6c/9CN6wISE4W34cIiFrO9s3b4hBCNysnxGr/z4le1k6
-         QaTtM8jUSPPipFpIW5ipChsunw6T2bTiP9TfeSboPX4lJAC354/xqWin2VyCP00nbXB4Zl4ieyfeAO
-         43CuS4XrxGPSwe/5Bp6R8yLfWr+l9vNnAfg6xfLNxf2emZCN/x3exAd0q8Bi9Xk0LD4wUj7fuYjZw5
-         lfN/T/baRLszWHyfZs9pOFVNxABYm1vQySellGkk1QIzDk+ep7J6D0eaCyDKNucJt71X/opsyGkW3l
-         Nmua1oQHmopd+/vfpC3H08S/Pz4MbGg==
-X-KPN-VerifiedSender: No
-X-CMASSUN: 33|RP5rhhJK7YImVnbHFRk+2NoyKtveOqahQy+bUu9k789FEX2aT6a5l+QBweEyLyb
- Lh+WA9zbDcA+TfwHc/t1B1Q==
-X-Originating-IP: 80.101.105.217
-Received: from [192.168.1.10] (marune.xs4all.nl [80.101.105.217])
-        by smtp.xs4all.nl (Halon) with ESMTPSA
-        id 858378a0-5f46-11ec-94d2-005056abf0db;
-        Fri, 17 Dec 2021 15:35:03 +0100 (CET)
-Message-ID: <c1b379c4-242a-2a92-a89d-6b067c8facf7@xs4all.nl>
-Date:   Fri, 17 Dec 2021 15:35:03 +0100
+        d=gmail.com; s=20210112;
+        h=subject:from:to:references:message-id:date:user-agent:mime-version
+         :in-reply-to:content-transfer-encoding:content-language;
+        bh=HWygtIWBaax9xKMejUdqL907XvRbbIbFJ++8LtFRCPM=;
+        b=j709/z9d0nSj4a0LhjxAyTEsN82bBOs0ZuTF0SBlP4ANVkoPs6vU80t/hCULEe2cY6
+         e9ePIzlfTZ+pso6oQW4Bx3WLmELFM1ye7QLPCo8kWo/rO02s8Zah0A0VOzXbTP9HrANf
+         J76KGHrHfzwzQE1OE/3mx6gNNJoPPlJLh9m+nRgMVcTUKK4m4pVc25BGxaVzBefwoTDg
+         GaPrTAWH+hapqZRvVRazMowjmEYmaCNtUgQ7GRK17yhpyP3H0ir+WnjulWYOixtxjulm
+         2yDImCe+IiUPn1SOX3haboDK6x7G2bHkqCBdmXNSbEB8qQ1tXjOrPVuJVFh6lL31sC5C
+         APfg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:subject:from:to:references:message-id:date
+         :user-agent:mime-version:in-reply-to:content-transfer-encoding
+         :content-language;
+        bh=HWygtIWBaax9xKMejUdqL907XvRbbIbFJ++8LtFRCPM=;
+        b=RFbJ+MOo4pUcTAKcCzbGGjby2VSM0Ybm289sV+1riYwEg2bdNaDDXWdqkyc5scnlmP
+         eQmAwRUIkW/tAzhXnSv+Kx5e95egZIXLgVuqk9nW181YeGsO10wmsK2D7fL4NBKv0KLK
+         xDIbGLdP38CEntvRXCDfQPKd7+2Xc5+J/0dLiyqYikEGhesdS1j79c+TCGyYzN/CYN3j
+         18ItcruEtBifjDMNSHqfW3s8EC3m0WScqFch/Y169Vf4C/ruOHvvGOJHH1TDniVkFOPS
+         pqPSen1VrnS7Plbkmw/XhEXTrmPA+qvLi8WGN4gyem3n1H2ahj/Wt0xezW8g3uhPAQFP
+         ppsQ==
+X-Gm-Message-State: AOAM531DE7zpmFD9i+wSCUHQkCCsvwQVRBGz59ow0OT2K5bxz1Fa/eTG
+        iQOcj5CDbRTCHadoMvgNDDs=
+X-Google-Smtp-Source: ABdhPJyo5WDyT2lwprMsF8S6JSfvPGHlYUch6ROyXUW3mwaC72PuDgs8QSZqOEU1xTpafddGznuFMw==
+X-Received: by 2002:a05:600c:8a7:: with SMTP id l39mr10158138wmp.138.1639751994168;
+        Fri, 17 Dec 2021 06:39:54 -0800 (PST)
+Received: from ?IPv6:2a02:908:1252:fb60:5aaa:182f:8216:9a28? ([2a02:908:1252:fb60:5aaa:182f:8216:9a28])
+        by smtp.gmail.com with ESMTPSA id l5sm8846192wrs.59.2021.12.17.06.39.53
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 17 Dec 2021 06:39:53 -0800 (PST)
+Subject: Re: completely rework the dma_resv semantic
+From:   =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
+To:     daniel@ffwll.ch, dri-devel@lists.freedesktop.org,
+        linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
+References: <20211207123411.167006-1-christian.koenig@amd.com>
+Message-ID: <e8c7284f-e18e-0dcc-f0a2-3a1ad6222fd4@gmail.com>
+Date:   Fri, 17 Dec 2021 15:39:52 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.2
-Subject: Re: [PATCH v2 6/6] media: Documentation: add documentation about
- subdev state
+In-Reply-To: <20211207123411.167006-1-christian.koenig@amd.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
 Content-Language: en-US
-To:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-        linux-media@vger.kernel.org, sakari.ailus@linux.intel.com,
-        Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        niklas.soderlund+renesas@ragnatech.se,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Pratyush Yadav <p.yadav@ti.com>
-References: <20211217135022.364954-1-tomi.valkeinen@ideasonboard.com>
- <20211217135022.364954-7-tomi.valkeinen@ideasonboard.com>
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-In-Reply-To: <20211217135022.364954-7-tomi.valkeinen@ideasonboard.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 17/12/2021 14:50, Tomi Valkeinen wrote:
-> Add documentation about centrally managed subdev state.
-> 
-> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-> Reviewed-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
-> ---
->  .../driver-api/media/v4l2-subdev.rst          | 57 +++++++++++++++++++
->  1 file changed, 57 insertions(+)
-> 
-> diff --git a/Documentation/driver-api/media/v4l2-subdev.rst b/Documentation/driver-api/media/v4l2-subdev.rst
-> index 08ea2673b19e..18b00bd3d6d4 100644
-> --- a/Documentation/driver-api/media/v4l2-subdev.rst
-> +++ b/Documentation/driver-api/media/v4l2-subdev.rst
-> @@ -518,6 +518,63 @@ The :c:func:`v4l2_i2c_new_subdev` function will call
->  :c:type:`i2c_board_info` structure using the ``client_type`` and the
->  ``addr`` to fill it.
->  
-> +Centrally managed subdev active state
-> +-------------------------------------
-> +
-> +Traditionally V4L2 subdev drivers maintained internal state for the active
-> +device configuration. This is often implemented e.g. as an array of
+Hi Daniel,
 
-e.g. as -> as e.g.
+looks like this is going nowhere and you don't seem to have time to review.
 
-> +struct v4l2_mbus_framefmt, one entry for each pad, and similarly for cropping
-> +and composition rectangles.
-> +
-> +In addition to the active configuration, each subdev file-handle has an array of
-> +struct v4l2_subdev_pad_config, managed by V4L2 core, which contains the try
+What can we do?
 
-by V4L2 -> by the V4L2
+Thanks,
+Christian.
 
-> +configuration.
-> +
-> +To simplify the subdev drivers the V4L2 subdev API now optionally supports a
-> +centrally managed active configuration represented by
-> +:c:type:`v4l2_subdev_state`. One instance of state, which contains the active
-> +device configuration, is associated with the sub-device itself as part of
-> +the :c:type:`v4l2_subdev` structure, while the core associates to each open
-> +file-handle a try state, which contains the configuration valid in the
-> +file-handle context only.
-> +
-> +Sub-device drivers can opt-in and use state to manage their active configuration
-> +by initializing the subdevice state with a call to v4l2_subdev_init_finalize()
-> +before registering the sub-device. They must also call v4l2_subdev_cleanup()
-> +to release all the acquired resources before unregistering the sub-device.
-> +The core automatically initializes a state for each open file-handle where to
-> +store the try configurations and releases them at file-handle closing time.
-> +
-> +V4L2 sub-device operations that use both the :ref:`ACTIVE and TRY formats
-> +<v4l2-subdev-format-whence>` receive the correct state to operate on as a
-> +'state' parameter. The sub-device driver can access and modify the
-> +configuration stored in the provided state after having locked it by calling
-> +:c:func:`v4l2_subdev_lock_state()`. The driver must then call
-> +:c:func:`v4l2_subdev_unlock_state()` to unlock the state when done.
-> +
-> +Operations that do not receive a state parameter implicitly operate on the
-> +subdevice active state, which drivers can exclusively access by
-> +calling :c:func:`v4l2_subdev_lock_active_state()`. The sub-device active state
-> +must equally be released by calling :c:func:`v4l2_subdev_unlock_state()`.
-> +
-> +Drivers must never manually access the state stored in the :c:type:`v4l2_subdev`
-> +or in the file-handle without going through the designated helpers.
-> +
-> +While the V4L2 core will pass the correct try- or active-state to the
-> +subdevice operations, device drivers might call operations on other
-> +subdevices by using :c:func:`v4l2_subdev_call()` kAPI and pass NULL as the
-> +state. This is only a problem for subdev drivers which use the
-> +centrally managed active-state and are used in media pipelines with older
-> +subdev drivers. In these cases the called subdev ops must also handle the NULL
-> +case. This can be easily managed by the use of
-> +:c:func:`v4l2_subdev_lock_and_return_state()` helper.
-> +
-> +:c:func:`v4l2_subdev_lock_and_return_state()` should only be used when porting
-> +an existing driver to the new state management when it cannot be guaranteed
-> +that the current callers will pass the state properly. The function prints a
-> +notice when the passed state is NULL to encourage the porting of the callers
-> +to the new state management.
-> +
->  V4L2 sub-device functions and data structures
->  ---------------------------------------------
->  
-> 
+Am 07.12.21 um 13:33 schrieb Christian König:
+> Hi Daniel,
+>
+> just a gentle ping that you wanted to take a look at this.
+>
+> Not much changed compared to the last version, only a minor bugfix in
+> the dma_resv_get_singleton error handling.
+>
+> Regards,
+> Christian.
+>
+>
 
-With those tiny changes:
-
-Reviewed-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-
-Regards,
-
-	Hans
