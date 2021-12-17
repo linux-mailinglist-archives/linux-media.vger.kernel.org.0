@@ -2,207 +2,208 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C2403479314
-	for <lists+linux-media@lfdr.de>; Fri, 17 Dec 2021 18:49:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 868CB47931F
+	for <lists+linux-media@lfdr.de>; Fri, 17 Dec 2021 18:52:57 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239937AbhLQRtN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 17 Dec 2021 12:49:13 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34510 "EHLO
+        id S239945AbhLQRwz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 17 Dec 2021 12:52:55 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35344 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239936AbhLQRtM (ORCPT
+        with ESMTP id S231529AbhLQRwz (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 17 Dec 2021 12:49:12 -0500
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7491DC061574;
-        Fri, 17 Dec 2021 09:49:12 -0800 (PST)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 25D5E93;
-        Fri, 17 Dec 2021 18:49:10 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1639763350;
-        bh=gPfXp0PBYqZP6NLXKs1t7dG1iIdVmUCP3sIoFQFuLMA=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=XyG2lNb5PyZHIS5+hlvQ9xJ4wrHyOPzCxo2rRFg44WITOmdM3dVrpeWY8/ugl+V2v
-         XsZzcIinMJNDkW8O3g64iBMuq//65lSvGKP4G/J4JnAuiS+jmDwdmya81sjVLSQHRQ
-         CRgYR32AU8IuwxNhPpHGnsMcUt5BN7KTV5292MGU=
-Date:   Fri, 17 Dec 2021 19:49:07 +0200
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Jacopo Mondi <jacopo@jmondi.org>
-Cc:     linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        Niklas =?utf-8?Q?S=C3=B6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>,
-        Thomas Nizan <tnizan@witekio.com>
-Subject: Re: [PATCH 3/3] media: i2c: max9286: Support manual framesync
- operation
-Message-ID: <YbzNk7p6Fk28ay7q@pendragon.ideasonboard.com>
-References: <20211216220946.20771-1-laurent.pinchart+renesas@ideasonboard.com>
- <20211216220946.20771-4-laurent.pinchart+renesas@ideasonboard.com>
- <20211217111403.3hgb67bwuor5ysiq@uno.localdomain>
- <Yby1LUfI9fmuUneJ@pendragon.ideasonboard.com>
+        Fri, 17 Dec 2021 12:52:55 -0500
+Received: from mail-qt1-x833.google.com (mail-qt1-x833.google.com [IPv6:2607:f8b0:4864:20::833])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D8805C061574
+        for <linux-media@vger.kernel.org>; Fri, 17 Dec 2021 09:52:54 -0800 (PST)
+Received: by mail-qt1-x833.google.com with SMTP id 8so3424485qtx.5
+        for <linux-media@vger.kernel.org>; Fri, 17 Dec 2021 09:52:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ndufresne-ca.20210112.gappssmtp.com; s=20210112;
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :user-agent:mime-version:content-transfer-encoding;
+        bh=EdfDMc3dGy+rtz/PQ2kf0voPWh+Gy8fg3uDbtzFcCyk=;
+        b=s1yP2xfwlw4arGnpUI7y1LjifZqDnsQb1y/tviXNIW6r5+cfjaBQctF8AGDlp4uLNB
+         W+518UCjBVCrf2JL8fHE2MvU2mQVOH//19q5aMXsUTw604ZLTHK6jdaBHoalX/DnMxY2
+         N35BUyeBK3f++52UL7N848oA3qKgR+DYoWXvfGf5NeQEl7Nw9r3zp5I5wzl3HTaqMzu4
+         vkkieGMUrCPWq4Xx+cBvX8MGdQygOsQ+vQ/QMUwzPv372ygeMe3PAyLsywMGtsIZ18AW
+         EoDoqyI/DdKVHEP2ZpOy6pMCWvFaVKWNjx0B3Z/Zvphq8DpbL7P9aPFiTalah3iOG50j
+         d1/g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=EdfDMc3dGy+rtz/PQ2kf0voPWh+Gy8fg3uDbtzFcCyk=;
+        b=lRlYvOqz1YZtwXjqzkOJD6PTy9e1Cp7FpB3m30/jPsXWFfcIzRYNTlpFBASMYF1OoF
+         4FQaNSmBte3DNZCXBnfFD4RkPqYkyG8EyjJ2DJpPEU5xQZnySz6HOY1BbNW5w5dQf6/x
+         eQPxGTYZQSNXRxqIBAM6IyyhlD9zvjU/ddrmnzAS5gOyUOtFurR2FjqIv4I0bPNGEuQ9
+         rOjgETyl2o1dBQ2tJ0Vr6SQc7pHTWOkv4eac5VppFzaxwqUIJCgi1UVZFX42hLKcOxUP
+         QrNweMypmMpm/6LmNzWzcFa843AZ/hpev0SUq4kGfAMlZs23T42Qjp0ysjtewKDG1b1B
+         F8Eg==
+X-Gm-Message-State: AOAM531au5MXJaept0PCpV5mriVvWTfyQxZ8ztn+Ybd5Tvlift+KuzQR
+        zYaHqeDrMSu2xs/elI0I+own5Q==
+X-Google-Smtp-Source: ABdhPJzydc3+rBb7SLARVOLCMtRjYOmkbg8KG3gbO/t8lzwiGUAnAnHeWbz325P00g8oSWik3/9jeQ==
+X-Received: by 2002:ac8:7f06:: with SMTP id f6mr3508448qtk.258.1639763574019;
+        Fri, 17 Dec 2021 09:52:54 -0800 (PST)
+Received: from nicolas-tpx395.localdomain (mtl.collabora.ca. [66.171.169.34])
+        by smtp.gmail.com with ESMTPSA id x13sm5683430qkp.102.2021.12.17.09.52.52
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 17 Dec 2021 09:52:53 -0800 (PST)
+Message-ID: <41f0e00cf5e57668b643b096e6bb69c67635c540.camel@ndufresne.ca>
+Subject: Re: [RFC 0/5] arm64: imx8mm: Enable Hantro VPUs
+From:   Nicolas Dufresne <nicolas@ndufresne.ca>
+To:     Tim Harvey <tharvey@gateworks.com>
+Cc:     Adam Ford <aford173@gmail.com>,
+        Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+        linux-media <linux-media@vger.kernel.org>,
+        Schrempf Frieder <frieder.schrempf@kontron.de>,
+        Marek Vasut <marek.vasut@gmail.com>,
+        Jagan Teki <jagan@amarulasolutions.com>,
+        Adam Ford-BE <aford@beaconembedded.com>,
+        cstevens@beaconembedded.com,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Heiko Stuebner <heiko@sntech.de>,
+        Lucas Stach <l.stach@pengutronix.de>,
+        Joakim Zhang <qiangqing.zhang@nxp.com>,
+        Alice Guo <alice.guo@nxp.com>, Peng Fan <peng.fan@nxp.com>,
+        "open list:HANTRO VPU CODEC DRIVER" 
+        <linux-rockchip@lists.infradead.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        "moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE" 
+        <linux-arm-kernel@lists.infradead.org>,
+        open list <linux-kernel@vger.kernel.org>,
+        "open list:STAGING SUBSYSTEM" <linux-staging@lists.linux.dev>
+Date:   Fri, 17 Dec 2021 12:52:51 -0500
+In-Reply-To: <CAJ+vNU1ZxAAasKT8j1sfcFz1pk8fyYjwOW6wqxYq_ur8+2MX_Q@mail.gmail.com>
+References: <20211106183802.893285-1-aford173@gmail.com>
+         <718f7f6d6cd564d031c1963f1590c62d549ae725.camel@ndufresne.ca>
+         <CAHCN7xKM9RUE7z-+ug1on+D=nDoEm589R4m03ofys92Aq75ZVQ@mail.gmail.com>
+         <8db00a4b6faa99c940d9bc86e17161eb0db5efe3.camel@ndufresne.ca>
+         <CAJ+vNU28UJffFv9jQ2KryJMudqYxvCaoVOVcU5dPqRA209iN6A@mail.gmail.com>
+         <d91532c2c0772f9aa708ead36b2a97203727a7ea.camel@ndufresne.ca>
+         <CAJ+vNU3H-V+bPoZ3qKead45h=W7AhQK6Lhjrx5ssdF4c_qfe=A@mail.gmail.com>
+         <CAHCN7x+0LwwU_rEST+TZxGquswGKL19gnTy9WLofsXtGAtWqdw@mail.gmail.com>
+         <7f94eaacfddb8c5434c17f1e069ea87a17657ce9.camel@ndufresne.ca>
+         <CAHCN7xKRzxMBmPbDobWTuvNNSpTXk5XENvfBnfkhRY3eZKhn6w@mail.gmail.com>
+         <CAHCN7xJFLNi_g+HX8PCy1Rkgf0jnWpO5QGYVz8nH19xrJkwHrA@mail.gmail.com>
+         <CAJ+vNU3zFd=6k_Emc5aafxKkGwCPp4crgOFezQ-E_MbWsn1_EA@mail.gmail.com>
+         <fed6c2fd7cf4971062c417ce41ed1e3812b900e0.camel@ndufresne.ca>
+         <CAHCN7xK+wROHaqDcsY-3WYFQ82qX17L-LHNL3siSWnWvwFShzQ@mail.gmail.com>
+         <CAAEAJfC1xXvemaFP+vTFVJ3S-SpYtrxyZgDamSOgLC1F3ua5xw@mail.gmail.com>
+         <CAHCN7x+UMMP6RXsNm0=OC=UTQzh=RKqQo6B7FD5e4eoJAEfmpg@mail.gmail.com>
+         <CAJ+vNU1epi9SwPMHkuDmKcb68RLemYF=bsp7AVnzz06zKc2efw@mail.gmail.com>
+         <CAAEAJfCpjk5nWWkJYjjDT-YEpJi4pTZqZbzp_if9OGC0HKspzw@mail.gmail.com>
+         <CAJ+vNU2we5mGXgYsR6CfimvFXZsc0zktR3fDa-h6RRa02jTT0g@mail.gmail.com>
+         <CAHCN7xJrM9uZUnmx65uTxWEo6HAkjozd3kD3UoEv-pYd5DV4QA@mail.gmail.com>
+         <CAAEAJfBXU-AiKKhkhXzgUSR4p1yefysNuHFycBz3F-GzNewS6w@mail.gmail.com>
+         <CAHCN7xL4y67V6AW5MV=8iudvvGVBWs2LoUhu_2CUJf6bSycgFA@mail.gmail.com>
+         <8438070708d16c34c0f79aba19e67fa343adb169.camel@ndufresne.ca>
+         <CAJ+vNU1ZxAAasKT8j1sfcFz1pk8fyYjwOW6wqxYq_ur8+2MX_Q@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.42.2 (3.42.2-1.fc35) 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <Yby1LUfI9fmuUneJ@pendragon.ideasonboard.com>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Jacopo,
-
-On Fri, Dec 17, 2021 at 06:05:02PM +0200, Laurent Pinchart wrote:
-> On Fri, Dec 17, 2021 at 12:14:03PM +0100, Jacopo Mondi wrote:
-> > On Fri, Dec 17, 2021 at 12:09:46AM +0200, Laurent Pinchart wrote:
-> > > From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> > >
-> > > The MAX9286 can generate a framesync signal to synchronize the cameras,
-> > > using an internal timer. Support this mode of operation and configure it
-> > > through the .s_frameinterval() operation. If the frame interval is not
-> > > 0, framesync is switched to manual mode with the specified interval,
-> > > otherwise automatic mode is used.
-> > >
-> > > Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> > > ---
-> > >  drivers/media/i2c/max9286.c | 66 +++++++++++++++++++++++++++++++++++--
-> > >  1 file changed, 63 insertions(+), 3 deletions(-)
-> > >
-> > > diff --git a/drivers/media/i2c/max9286.c b/drivers/media/i2c/max9286.c
-> > > index fa2f6a823fe6..dce1146635d2 100644
-> > > --- a/drivers/media/i2c/max9286.c
-> > > +++ b/drivers/media/i2c/max9286.c
-> > > @@ -174,6 +174,7 @@ struct max9286_priv {
-> > >  	struct v4l2_ctrl *pixelrate;
-> > >
-> > >  	struct v4l2_mbus_framefmt fmt[MAX9286_N_SINKS];
-> > > +	struct v4l2_fract interval;
-> > >
-> > >  	/* Protects controls and fmt structures */
-> > >  	struct mutex mutex;
-> > > @@ -474,6 +475,37 @@ static int max9286_check_config_link(struct max9286_priv *priv,
-> > >  	return 0;
-> > >  }
-> > >
-> > > +static void max9286_set_fsync_period(struct max9286_priv *priv)
-> > > +{
-> > > +	u32 fsync;
-> > > +
-> > > +	if (!priv->interval.numerator || !priv->interval.denominator) {
-> > > +		/*
-> > > +		 * Special case, a null interval enables automatic FRAMESYNC
-> > > +		 * mode. FRAMESYNC is taken from the slowest link.
-> > > +		 */
-> > > +		max9286_write(priv, 0x01, MAX9286_FSYNCMODE_INT_HIZ |
-> > > +			      MAX9286_FSYNCMETH_AUTO);
-> > > +		return;
-> > > +	}
-> > > +
-> > > +	/*
-> > > +	 * Manual FRAMESYNC
-> > > +	 *
-> > > +	 * The FRAMESYNC generator is configured with a period expressed as a
-> > > +	 * number of PCLK periods, which runs at 75MHz.
-> > > +	 */
-> > > +	fsync = div_u64(75000000ULL * priv->interval.numerator,
-> > > +			priv->interval.denominator);
+Le vendredi 17 décembre 2021 à 09:26 -0800, Tim Harvey a écrit :
+> On Fri, Dec 17, 2021 at 9:13 AM Nicolas Dufresne <nicolas@ndufresne.ca> wrote:
 > > 
-> > Don't we calculate the pixel rate dynamically based on the number of
-> > enabled sources ?
-> 
-> That's a good point, this hardcodes operation for 4 cameras. I'll see
-> how I can fix that.
-> 
-> > > +
-> > > +	max9286_write(priv, 0x01, MAX9286_FSYNCMODE_INT_OUT |
-> > > +		      MAX9286_FSYNCMETH_MANUAL);
-> > > +
-> > > +	max9286_write(priv, 0x06, (fsync >> 0) & 0xff);
-> > > +	max9286_write(priv, 0x07, (fsync >> 8) & 0xff);
-> > > +	max9286_write(priv, 0x08, (fsync >> 16) & 0xff);
-> > > +}
-> > > +
-> > >  /* -----------------------------------------------------------------------------
-> > >   * V4L2 Subdev
-> > >   */
-> > > @@ -656,6 +688,8 @@ static int max9286_s_stream(struct v4l2_subdev *sd, int enable)
-> > >  	int ret;
-> > >
-> > >  	if (enable) {
-> > > +		max9286_set_fsync_period(priv);
-> > > +
-> > >  		/*
-> > >  		 * The frame sync between cameras is transmitted across the
-> > >  		 * reverse channel as GPIO. We must open all channels while
-> > > @@ -715,6 +749,32 @@ static int max9286_s_stream(struct v4l2_subdev *sd, int enable)
-> > >  	return 0;
-> > >  }
-> > >
-> > > +static int max9286_g_frame_interval(struct v4l2_subdev *sd,
-> > > +				    struct v4l2_subdev_frame_interval *interval)
-> > > +{
-> > > +	struct max9286_priv *priv = sd_to_max9286(sd);
-> > > +
-> > > +	if (interval->pad == MAX9286_SRC_PAD)
+> > Le vendredi 17 décembre 2021 à 07:15 -0600, Adam Ford a écrit :
+> > > On Thu, Dec 16, 2021 at 10:49 PM Ezequiel Garcia
+> > > <ezequiel@vanguardiasur.com.ar> wrote:
+> > > > 
+> > > > Hi Adam,
+> > > > 
+> > > > > 
+> > > > > I will post a V2 last today with the Mini's post-processing removed.
+> > > > > Someone, I apologize that I forget who, mentioned it was fused out of
+> > > > > the Mini, so the testing I've been doing was with that removed and I
+> > > > > removed the H1 encoder since the Mini doesn't support JPEG encoding.
+> > > > > 
+> > > > [...]
+> > > > 
+> > > > Resurrecting this thread here. IMX8MMRM Rev. 0, 02/2019 mentions
+> > > > post-processor features for G1 and G2.
+> > > > 
+> > > > Have you checked the fuse and synth registers to see if they throw
+> > > > any useful information about the hardware? For instance,
+> > > > comparing PP fuse register (SWREG99) and
+> > > > Synthesis configuration register post-processor (SWREG100)
+> > > > in both 8MQ and 8MM could be useful.
+> > > > 
+> > > > As I mentioned on my previous mail, even if G1 PP is disabled
+> > > > on the Mini, I would imagine the G2 can do linear NV12 (aka raster-scan)
+> > > > which in our hantro driver jargon is a  "post-processed" format :-)
+> > > 
+> > > You're likely right.  I was going on memory from an e-mail from
+> > > Nicloas Defresne who wrote:
+> > > 
+> > > "I will check the patchset, but you need in the mini-variant to disable the G1
+> > > post processor, because this block was fused out. We didn't make it optional
+> > > from the start as according to the V1 of the TRM it was there, but that error
+> > > was corrected in V3."
+> > > 
+> > > In my head I assumed the G2 was affected as well, but when I double
+> > > checked his email, and based on the above statement, the G2
+> > > post-processing is probably there, so I'll run some tests with the G2
+> > > post-processing enabled.  I'll also double check those registers on
+> > > both to confirm what they read. I am not sure when I'll have time
+> > > because I leave for London next week, and I won't return until early
+> > > January, but I'll do what I can.
 > > 
-> > Ah!
+> > Sorry if this was a bit ambiguous, indeed I meant the G1 only. I've learned
+> > later that the design of the Mini is that there is a good pre-processor in the
+> > H1 block (encoder), so for the targeted use-cases this shall be sufficient for
+> > most users (the output of the G1 is suitable for GPU and Display already, so the
+> > post processor is not strictly needed).
 > > 
-> > I would have expected, as this setting applies to all cameras, and
-> > consequentially to the output image stream frame rate, that the
-> > operation should have been done on the single source pad... Why is
-> > this not the case ?
 > 
-> I went back and forth between the two, I think it would work fine on the
-> source pad as well. I'll give it a try.
+> Nicolas,
+> 
+> Does this mean that if the IMX8MM G2 may be able to output a wider
+> array of pixel formats and that the H1 encoder may be able to accept a
+> wider array of pixel formats? Is this code already in place in the
 
-Note that once we'll move to the muxed streams API, the frame interval
-will be per stream, so setting it on the source pad won't make much of a
-difference. What do you think ?
+No since the G2 post processor does not have a color converter (it is very
+limited). In term of format, this is pretty much identical, produces linear or
+tiled. The difference is that G1 supports the two layout natively, not the G2.
 
-> > > +		return -EINVAL;
-> > > +
-> > > +	interval->interval = priv->interval;
-> > > +
-> > > +	return 0;
-> > > +}
-> > > +
-> > > +static int max9286_s_frame_interval(struct v4l2_subdev *sd,
-> > > +				    struct v4l2_subdev_frame_interval *interval)
-> > > +{
-> > > +	struct max9286_priv *priv = sd_to_max9286(sd);
-> > > +
-> > > +	if (interval->pad == MAX9286_SRC_PAD)
-> > > +		return -EINVAL;
-> > > +
-> > > +	priv->interval = interval->interval;
-> > > +
-> > > +	return 0;
-> > > +}
-> > > +
-> > >  static int max9286_enum_mbus_code(struct v4l2_subdev *sd,
-> > >  				  struct v4l2_subdev_state *sd_state,
-> > >  				  struct v4l2_subdev_mbus_code_enum *code)
-> > > @@ -806,6 +866,8 @@ static int max9286_get_fmt(struct v4l2_subdev *sd,
-> > >
-> > >  static const struct v4l2_subdev_video_ops max9286_video_ops = {
-> > >  	.s_stream	= max9286_s_stream,
-> > > +	.g_frame_interval = max9286_g_frame_interval,
-> > > +	.s_frame_interval = max9286_s_frame_interval,
-> > >  };
-> > >
-> > >  static const struct v4l2_subdev_pad_ops max9286_pad_ops = {
-> > > @@ -998,9 +1060,7 @@ static int max9286_setup(struct max9286_priv *priv)
-> > >  		      MAX9286_CSILANECNT(priv->csi2_data_lanes) |
-> > >  		      MAX9286_DATATYPE_YUV422_8BIT);
-> > >
-> > > -	/* Automatic: FRAMESYNC taken from the slowest Link. */
-> > > -	max9286_write(priv, 0x01, MAX9286_FSYNCMODE_INT_HIZ |
-> > > -		      MAX9286_FSYNCMETH_AUTO);
-> > > +	max9286_set_fsync_period(priv);
-> > >
-> > >  	/* Enable HS/VS encoding, use D14/15 for HS/VS, invert VS. */
-> > >  	max9286_write(priv, 0x0c, MAX9286_HVEN | MAX9286_INVVS |
+> hantro driver and it just needs to be enabled if the IMX8MM can handle
+> it or is there code to be written?
+> 
+> I'm not clear if anyone is working on IMX8MM VPU H1 support. You had
+> mentioned that some support [1] and [2] can be derived from the RK3288
+> using the Google ChromeOS method (a v4l2 plugin that simulates in
+> userspace a stateful encoder). I'm not sure if this is worth pursuing
+> if others are working on stateless encode support in kernel and
+> gstreamer.
 
--- 
-Regards,
+My colleagues started last week the project of crafting mainline stateless
+encoder uAPI. This is too early. In older project, we have had good success with
+the emulated stateful encoder. It is of course quite limited, but works in
+gstreamer, ffmpeg and chromium. It is also likely safer compared to the vendor
+provided driver.
 
-Laurent Pinchart
+p.s. From my knowledge, there is virtually no difference between the H1 on
+RK3288 and IMX8MM/P, but we've learn from G1 that there could effectively have
+more of less features.
+
+> 
+> Best Regards,
+> 
+> Tim
+> [1] libv4l plugins /
+> https://chromium.googlesource.com/chromiumos/third_party/libv4lplugins/+/refs/heads/master
+> [2] Kernel Driver /
+> https://chromium.googlesource.com/chromiumos/third_party/kernel/+/chromeos-4.4/drivers/media/platform/rockchip-vpu/
+
