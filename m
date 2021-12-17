@@ -2,58 +2,79 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BDDA247928A
-	for <lists+linux-media@lfdr.de>; Fri, 17 Dec 2021 18:13:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B1CB54792CF
+	for <lists+linux-media@lfdr.de>; Fri, 17 Dec 2021 18:27:14 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239712AbhLQRNp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 17 Dec 2021 12:13:45 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54524 "EHLO
+        id S239885AbhLQR1N (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 17 Dec 2021 12:27:13 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57710 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239704AbhLQRNn (ORCPT
+        with ESMTP id S239911AbhLQR1K (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 17 Dec 2021 12:13:43 -0500
-Received: from mail-qt1-x832.google.com (mail-qt1-x832.google.com [IPv6:2607:f8b0:4864:20::832])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E5E1CC06173F
-        for <linux-media@vger.kernel.org>; Fri, 17 Dec 2021 09:13:40 -0800 (PST)
-Received: by mail-qt1-x832.google.com with SMTP id v22so3278796qtx.8
-        for <linux-media@vger.kernel.org>; Fri, 17 Dec 2021 09:13:40 -0800 (PST)
+        Fri, 17 Dec 2021 12:27:10 -0500
+Received: from mail-pl1-x633.google.com (mail-pl1-x633.google.com [IPv6:2607:f8b0:4864:20::633])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E4546C06173F
+        for <linux-media@vger.kernel.org>; Fri, 17 Dec 2021 09:27:09 -0800 (PST)
+Received: by mail-pl1-x633.google.com with SMTP id n16so1678829plc.2
+        for <linux-media@vger.kernel.org>; Fri, 17 Dec 2021 09:27:09 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ndufresne-ca.20210112.gappssmtp.com; s=20210112;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :user-agent:mime-version:content-transfer-encoding;
-        bh=w0ePfBRpZ4tnDRs/xE4SxppW2MhJaXJI3jPg1l0ZidU=;
-        b=d0r+zumEWRCd8edkxDtAelIdbks/tvrSjd2WRBcpFrggZYpGv8CcpuyYipF+dIcD4X
-         ujm5de4JcFhieLwM3uDJ/7a9q+qbGcNj6odnsUrmY5hUkTJqN7RWtW6M62qsPCrmEN22
-         MZ1PWjnfebddZ4YNdcZ+ItYvMVfyOeTazjqPIJrb5C4Njpce8ZF87VPpdK2bo8hOPORw
-         UxIMl/WKvHz7KvQ2hQ0Vt39EH4VDRNM/mp+KF37kguTSzTb33C0AtevcY7YAi4ZydTF4
-         QL8A7ILJWjdpr55XZ6yxqdbR2Z1nur635t9qEopilsGB9hc2oL+pa55JGJ93C5pTZNT8
-         f1ZQ==
+        d=gateworks-com.20210112.gappssmtp.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=94lytwgo2pGPKoCz7cXjNIBQaFpmuX64JbTjaHifeEo=;
+        b=R/D+giI9xp6G3jBIYNNDmBdzy8vtLbErm1zXG1RUpUrVR7TplNui48kHW1HA7L4AXr
+         8xYSnKLB/KktrXYjS5rcAfBqUAG3k7JMmlN3Z4cmdNnjLxA9G6f7hSVmW97x+QlbZyju
+         7CvKfsGCnO0A37sh//tlbNDCgdjk8Xg81hQQ6WPJ0QwNNKGFHiLM/MCpZz0HfgyuwjnR
+         r+8tQosxe7KhEgBHoCAes46E4VMj/3CvCDjxGTyyKl3Y2yVCxn2IHJQo/ssx/0fJQPzn
+         mt2f/cAHhVIXZMu9HYc9cR14FshrILqP0+1mmNqnZKov6JMTkdYmxRaLTBcmxCMsHEfe
+         6WxA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=w0ePfBRpZ4tnDRs/xE4SxppW2MhJaXJI3jPg1l0ZidU=;
-        b=fH5mTBzWArdg/C+TkZDwU1+5PZlZsgePm1yLquIBrP2NSlRiGIryQhyCsuVltyAqA3
-         xZ8YMGk/Iq6WL7842NAx5pLcZZ0mowFaHslvjwVwtkzMSWel7Dbhwunmy19Ke5FxXBb9
-         TJ8zDWsXoDrzReLH112ri/+/EKpAj3dWSoAfdXZCQTFkWD+TRnqZ+nKj8wguwEXoRm+M
-         9Jlc7AbpszP5bY3KpM/SxtgIGWhA4vlcR8s9oQ05YwaoxfOUXsLkc2SpZ7vqHEGu0n+y
-         1AH9aAySfjd+8E+FFyJZ6Q+Qee3ak5ugYdOBIBF0z215bCVskRy0dTiaysHU7XYs18rV
-         iQvw==
-X-Gm-Message-State: AOAM530d8YfWE5M8ywPCghDgR2dgDDcsb0uiJbW2I4vhdh5gOMpDk6v8
-        gfCwTKiKXXPBS7W+9zWnxCjLfA==
-X-Google-Smtp-Source: ABdhPJxJBL27ebJZdMFF/QRhavMPKPNPSJTTnJf3ixn7JU2VNH70vq6aREGcCANw5VyzSQrlwn44Xw==
-X-Received: by 2002:a05:622a:612:: with SMTP id z18mr3252353qta.616.1639761220040;
-        Fri, 17 Dec 2021 09:13:40 -0800 (PST)
-Received: from nicolas-tpx395.localdomain (mtl.collabora.ca. [66.171.169.34])
-        by smtp.gmail.com with ESMTPSA id 8sm7864127qtz.28.2021.12.17.09.13.37
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 17 Dec 2021 09:13:39 -0800 (PST)
-Message-ID: <8438070708d16c34c0f79aba19e67fa343adb169.camel@ndufresne.ca>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=94lytwgo2pGPKoCz7cXjNIBQaFpmuX64JbTjaHifeEo=;
+        b=2E9AnwOKlegRJl4IiuKp0hKScbDkuRz+H2FF40UU2SiYc/1wFoesFZutjrpccign/P
+         67TJd6CJLaH7tDsctNOps0EQuUKVK97SB1mMba/lfwrPYEbkUzkzUD+gy99kmweI8B7c
+         nmmrOUO3sv3mPImrfIcApDhlAL8W8jQeR5jTjzrqUjjCPoGzStwYFISI88F7hJzBMhY4
+         zhP2HYK6YApU+EPucN4ErwbtE8f9FabZzi1m2z+jfON5DIAdj0COAIPFLt/xp9bkX0IG
+         2HB1NUfVYpIuvtmqg+gU1cLhoYfnzUqtGwY+O1b4rnHRlW2KJht1CgL5fnCVn2t62xzp
+         bwwg==
+X-Gm-Message-State: AOAM532bOFjTffJc6U11Sw23VnWAbVqa8Wc6ay6EsvdZE1FL/i9Y1Mbm
+        5gkR9u/v4hbNONpAPRTjbLkl086+94VBbIp5b2RAkQ==
+X-Google-Smtp-Source: ABdhPJxh6drjRqJyeeghVLdXC+QG2CUejhvUilM6pihIKCowBomy2bFqr6Blk7qvQTT9UHKElHVBCV9i+77UTKQoPfE=
+X-Received: by 2002:a17:902:c214:b0:148:a798:7aa with SMTP id
+ 20-20020a170902c21400b00148a79807aamr4115431pll.90.1639762029356; Fri, 17 Dec
+ 2021 09:27:09 -0800 (PST)
+MIME-Version: 1.0
+References: <20211106183802.893285-1-aford173@gmail.com> <718f7f6d6cd564d031c1963f1590c62d549ae725.camel@ndufresne.ca>
+ <CAHCN7xKM9RUE7z-+ug1on+D=nDoEm589R4m03ofys92Aq75ZVQ@mail.gmail.com>
+ <8db00a4b6faa99c940d9bc86e17161eb0db5efe3.camel@ndufresne.ca>
+ <CAJ+vNU28UJffFv9jQ2KryJMudqYxvCaoVOVcU5dPqRA209iN6A@mail.gmail.com>
+ <d91532c2c0772f9aa708ead36b2a97203727a7ea.camel@ndufresne.ca>
+ <CAJ+vNU3H-V+bPoZ3qKead45h=W7AhQK6Lhjrx5ssdF4c_qfe=A@mail.gmail.com>
+ <CAHCN7x+0LwwU_rEST+TZxGquswGKL19gnTy9WLofsXtGAtWqdw@mail.gmail.com>
+ <7f94eaacfddb8c5434c17f1e069ea87a17657ce9.camel@ndufresne.ca>
+ <CAHCN7xKRzxMBmPbDobWTuvNNSpTXk5XENvfBnfkhRY3eZKhn6w@mail.gmail.com>
+ <CAHCN7xJFLNi_g+HX8PCy1Rkgf0jnWpO5QGYVz8nH19xrJkwHrA@mail.gmail.com>
+ <CAJ+vNU3zFd=6k_Emc5aafxKkGwCPp4crgOFezQ-E_MbWsn1_EA@mail.gmail.com>
+ <fed6c2fd7cf4971062c417ce41ed1e3812b900e0.camel@ndufresne.ca>
+ <CAHCN7xK+wROHaqDcsY-3WYFQ82qX17L-LHNL3siSWnWvwFShzQ@mail.gmail.com>
+ <CAAEAJfC1xXvemaFP+vTFVJ3S-SpYtrxyZgDamSOgLC1F3ua5xw@mail.gmail.com>
+ <CAHCN7x+UMMP6RXsNm0=OC=UTQzh=RKqQo6B7FD5e4eoJAEfmpg@mail.gmail.com>
+ <CAJ+vNU1epi9SwPMHkuDmKcb68RLemYF=bsp7AVnzz06zKc2efw@mail.gmail.com>
+ <CAAEAJfCpjk5nWWkJYjjDT-YEpJi4pTZqZbzp_if9OGC0HKspzw@mail.gmail.com>
+ <CAJ+vNU2we5mGXgYsR6CfimvFXZsc0zktR3fDa-h6RRa02jTT0g@mail.gmail.com>
+ <CAHCN7xJrM9uZUnmx65uTxWEo6HAkjozd3kD3UoEv-pYd5DV4QA@mail.gmail.com>
+ <CAAEAJfBXU-AiKKhkhXzgUSR4p1yefysNuHFycBz3F-GzNewS6w@mail.gmail.com>
+ <CAHCN7xL4y67V6AW5MV=8iudvvGVBWs2LoUhu_2CUJf6bSycgFA@mail.gmail.com> <8438070708d16c34c0f79aba19e67fa343adb169.camel@ndufresne.ca>
+In-Reply-To: <8438070708d16c34c0f79aba19e67fa343adb169.camel@ndufresne.ca>
+From:   Tim Harvey <tharvey@gateworks.com>
+Date:   Fri, 17 Dec 2021 09:26:58 -0800
+Message-ID: <CAJ+vNU1ZxAAasKT8j1sfcFz1pk8fyYjwOW6wqxYq_ur8+2MX_Q@mail.gmail.com>
 Subject: Re: [RFC 0/5] arm64: imx8mm: Enable Hantro VPUs
-From:   Nicolas Dufresne <nicolas@ndufresne.ca>
-To:     Adam Ford <aford173@gmail.com>,
-        Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
-Cc:     Tim Harvey <tharvey@gateworks.com>,
+To:     Nicolas Dufresne <nicolas@ndufresne.ca>
+Cc:     Adam Ford <aford173@gmail.com>,
+        Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
         linux-media <linux-media@vger.kernel.org>,
         Schrempf Frieder <frieder.schrempf@kontron.de>,
         Marek Vasut <marek.vasut@gmail.com>,
@@ -81,93 +102,99 @@ Cc:     Tim Harvey <tharvey@gateworks.com>,
         <linux-arm-kernel@lists.infradead.org>,
         open list <linux-kernel@vger.kernel.org>,
         "open list:STAGING SUBSYSTEM" <linux-staging@lists.linux.dev>
-Date:   Fri, 17 Dec 2021 12:13:37 -0500
-In-Reply-To: <CAHCN7xL4y67V6AW5MV=8iudvvGVBWs2LoUhu_2CUJf6bSycgFA@mail.gmail.com>
-References: <20211106183802.893285-1-aford173@gmail.com>
-         <718f7f6d6cd564d031c1963f1590c62d549ae725.camel@ndufresne.ca>
-         <CAHCN7xKM9RUE7z-+ug1on+D=nDoEm589R4m03ofys92Aq75ZVQ@mail.gmail.com>
-         <8db00a4b6faa99c940d9bc86e17161eb0db5efe3.camel@ndufresne.ca>
-         <CAJ+vNU28UJffFv9jQ2KryJMudqYxvCaoVOVcU5dPqRA209iN6A@mail.gmail.com>
-         <d91532c2c0772f9aa708ead36b2a97203727a7ea.camel@ndufresne.ca>
-         <CAJ+vNU3H-V+bPoZ3qKead45h=W7AhQK6Lhjrx5ssdF4c_qfe=A@mail.gmail.com>
-         <CAHCN7x+0LwwU_rEST+TZxGquswGKL19gnTy9WLofsXtGAtWqdw@mail.gmail.com>
-         <7f94eaacfddb8c5434c17f1e069ea87a17657ce9.camel@ndufresne.ca>
-         <CAHCN7xKRzxMBmPbDobWTuvNNSpTXk5XENvfBnfkhRY3eZKhn6w@mail.gmail.com>
-         <CAHCN7xJFLNi_g+HX8PCy1Rkgf0jnWpO5QGYVz8nH19xrJkwHrA@mail.gmail.com>
-         <CAJ+vNU3zFd=6k_Emc5aafxKkGwCPp4crgOFezQ-E_MbWsn1_EA@mail.gmail.com>
-         <fed6c2fd7cf4971062c417ce41ed1e3812b900e0.camel@ndufresne.ca>
-         <CAHCN7xK+wROHaqDcsY-3WYFQ82qX17L-LHNL3siSWnWvwFShzQ@mail.gmail.com>
-         <CAAEAJfC1xXvemaFP+vTFVJ3S-SpYtrxyZgDamSOgLC1F3ua5xw@mail.gmail.com>
-         <CAHCN7x+UMMP6RXsNm0=OC=UTQzh=RKqQo6B7FD5e4eoJAEfmpg@mail.gmail.com>
-         <CAJ+vNU1epi9SwPMHkuDmKcb68RLemYF=bsp7AVnzz06zKc2efw@mail.gmail.com>
-         <CAAEAJfCpjk5nWWkJYjjDT-YEpJi4pTZqZbzp_if9OGC0HKspzw@mail.gmail.com>
-         <CAJ+vNU2we5mGXgYsR6CfimvFXZsc0zktR3fDa-h6RRa02jTT0g@mail.gmail.com>
-         <CAHCN7xJrM9uZUnmx65uTxWEo6HAkjozd3kD3UoEv-pYd5DV4QA@mail.gmail.com>
-         <CAAEAJfBXU-AiKKhkhXzgUSR4p1yefysNuHFycBz3F-GzNewS6w@mail.gmail.com>
-         <CAHCN7xL4y67V6AW5MV=8iudvvGVBWs2LoUhu_2CUJf6bSycgFA@mail.gmail.com>
 Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.42.2 (3.42.2-1.fc35) 
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Le vendredi 17 décembre 2021 à 07:15 -0600, Adam Ford a écrit :
-> On Thu, Dec 16, 2021 at 10:49 PM Ezequiel Garcia
-> <ezequiel@vanguardiasur.com.ar> wrote:
-> > 
-> > Hi Adam,
-> > 
-> > > 
-> > > I will post a V2 last today with the Mini's post-processing removed.
-> > > Someone, I apologize that I forget who, mentioned it was fused out of
-> > > the Mini, so the testing I've been doing was with that removed and I
-> > > removed the H1 encoder since the Mini doesn't support JPEG encoding.
-> > > 
-> > [...]
-> > 
-> > Resurrecting this thread here. IMX8MMRM Rev. 0, 02/2019 mentions
-> > post-processor features for G1 and G2.
-> > 
-> > Have you checked the fuse and synth registers to see if they throw
-> > any useful information about the hardware? For instance,
-> > comparing PP fuse register (SWREG99) and
-> > Synthesis configuration register post-processor (SWREG100)
-> > in both 8MQ and 8MM could be useful.
-> > 
-> > As I mentioned on my previous mail, even if G1 PP is disabled
-> > on the Mini, I would imagine the G2 can do linear NV12 (aka raster-scan)
-> > which in our hantro driver jargon is a  "post-processed" format :-)
-> 
-> You're likely right.  I was going on memory from an e-mail from
-> Nicloas Defresne who wrote:
-> 
-> "I will check the patchset, but you need in the mini-variant to disable the G1
-> post processor, because this block was fused out. We didn't make it optional
-> from the start as according to the V1 of the TRM it was there, but that error
-> was corrected in V3."
-> 
-> In my head I assumed the G2 was affected as well, but when I double
-> checked his email, and based on the above statement, the G2
-> post-processing is probably there, so I'll run some tests with the G2
-> post-processing enabled.  I'll also double check those registers on
-> both to confirm what they read. I am not sure when I'll have time
-> because I leave for London next week, and I won't return until early
-> January, but I'll do what I can.
+On Fri, Dec 17, 2021 at 9:13 AM Nicolas Dufresne <nicolas@ndufresne.ca> wro=
+te:
+>
+> Le vendredi 17 d=C3=A9cembre 2021 =C3=A0 07:15 -0600, Adam Ford a =C3=A9c=
+rit :
+> > On Thu, Dec 16, 2021 at 10:49 PM Ezequiel Garcia
+> > <ezequiel@vanguardiasur.com.ar> wrote:
+> > >
+> > > Hi Adam,
+> > >
+> > > >
+> > > > I will post a V2 last today with the Mini's post-processing removed=
+.
+> > > > Someone, I apologize that I forget who, mentioned it was fused out =
+of
+> > > > the Mini, so the testing I've been doing was with that removed and =
+I
+> > > > removed the H1 encoder since the Mini doesn't support JPEG encoding=
+.
+> > > >
+> > > [...]
+> > >
+> > > Resurrecting this thread here. IMX8MMRM Rev. 0, 02/2019 mentions
+> > > post-processor features for G1 and G2.
+> > >
+> > > Have you checked the fuse and synth registers to see if they throw
+> > > any useful information about the hardware? For instance,
+> > > comparing PP fuse register (SWREG99) and
+> > > Synthesis configuration register post-processor (SWREG100)
+> > > in both 8MQ and 8MM could be useful.
+> > >
+> > > As I mentioned on my previous mail, even if G1 PP is disabled
+> > > on the Mini, I would imagine the G2 can do linear NV12 (aka raster-sc=
+an)
+> > > which in our hantro driver jargon is a  "post-processed" format :-)
+> >
+> > You're likely right.  I was going on memory from an e-mail from
+> > Nicloas Defresne who wrote:
+> >
+> > "I will check the patchset, but you need in the mini-variant to disable=
+ the G1
+> > post processor, because this block was fused out. We didn't make it opt=
+ional
+> > from the start as according to the V1 of the TRM it was there, but that=
+ error
+> > was corrected in V3."
+> >
+> > In my head I assumed the G2 was affected as well, but when I double
+> > checked his email, and based on the above statement, the G2
+> > post-processing is probably there, so I'll run some tests with the G2
+> > post-processing enabled.  I'll also double check those registers on
+> > both to confirm what they read. I am not sure when I'll have time
+> > because I leave for London next week, and I won't return until early
+> > January, but I'll do what I can.
+>
+> Sorry if this was a bit ambiguous, indeed I meant the G1 only. I've learn=
+ed
+> later that the design of the Mini is that there is a good pre-processor i=
+n the
+> H1 block (encoder), so for the targeted use-cases this shall be sufficien=
+t for
+> most users (the output of the G1 is suitable for GPU and Display already,=
+ so the
+> post processor is not strictly needed).
+>
 
-Sorry if this was a bit ambiguous, indeed I meant the G1 only. I've learned
-later that the design of the Mini is that there is a good pre-processor in the
-H1 block (encoder), so for the targeted use-cases this shall be sufficient for
-most users (the output of the G1 is suitable for GPU and Display already, so the
-post processor is not strictly needed).
+Nicolas,
 
-regards,
-Nicolas
+Does this mean that if the IMX8MM G2 may be able to output a wider
+array of pixel formats and that the H1 encoder may be able to accept a
+wider array of pixel formats? Is this code already in place in the
+hantro driver and it just needs to be enabled if the IMX8MM can handle
+it or is there code to be written?
 
-> 
-> adam
-> > 
-> > Thanks,
-> > Ezequiel
+I'm not clear if anyone is working on IMX8MM VPU H1 support. You had
+mentioned that some support [1] and [2] can be derived from the RK3288
+using the Google ChromeOS method (a v4l2 plugin that simulates in
+userspace a stateful encoder). I'm not sure if this is worth pursuing
+if others are working on stateless encode support in kernel and
+gstreamer.
 
+Best Regards,
+
+Tim
+[1] libv4l plugins /
+https://chromium.googlesource.com/chromiumos/third_party/libv4lplugins/+/re=
+fs/heads/master
+[2] Kernel Driver /
+https://chromium.googlesource.com/chromiumos/third_party/kernel/+/chromeos-=
+4.4/drivers/media/platform/rockchip-vpu/
