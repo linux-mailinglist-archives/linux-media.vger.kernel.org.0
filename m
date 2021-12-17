@@ -2,65 +2,138 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E1E724786BE
-	for <lists+linux-media@lfdr.de>; Fri, 17 Dec 2021 10:08:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B57A34786DE
+	for <lists+linux-media@lfdr.de>; Fri, 17 Dec 2021 10:16:11 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234038AbhLQJI6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 17 Dec 2021 04:08:58 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52592 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234026AbhLQJI6 (ORCPT
+        id S234079AbhLQJQK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 17 Dec 2021 04:16:10 -0500
+Received: from relay4-d.mail.gandi.net ([217.70.183.196]:33865 "EHLO
+        relay4-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231449AbhLQJQK (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 17 Dec 2021 04:08:58 -0500
-Received: from michel.telenet-ops.be (michel.telenet-ops.be [IPv6:2a02:1800:110:4::f00:18])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A15C5C06173E
-        for <linux-media@vger.kernel.org>; Fri, 17 Dec 2021 01:08:57 -0800 (PST)
-Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed20:d13f:527c:5504:a743])
-        by michel.telenet-ops.be with bizsmtp
-        id XM8u2600k250X3006M8ukg; Fri, 17 Dec 2021 10:08:55 +0100
-Received: from rox.of.borg ([192.168.97.57])
-        by ramsan.of.borg with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-        (Exim 4.93)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1my9EU-005XGF-EM; Fri, 17 Dec 2021 10:08:54 +0100
-Received: from geert by rox.of.borg with local (Exim 4.93)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1my9ET-00A9zO-8h; Fri, 17 Dec 2021 10:08:53 +0100
-From:   Geert Uytterhoeven <geert+renesas@glider.be>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Jiri Kosina <trivial@kernel.org>
-Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH trivial] media: dvb_ringbuffer: Fix typo in dvb_ringbuffer_pkt_write() kerneldoc
-Date:   Fri, 17 Dec 2021 10:08:52 +0100
-Message-Id: <270f5b7f79a24dc1a3e81d94f6f54fc0f08daf56.1639732105.git.geert+renesas@glider.be>
-X-Mailer: git-send-email 2.25.1
+        Fri, 17 Dec 2021 04:16:10 -0500
+Received: (Authenticated sender: jacopo@jmondi.org)
+        by relay4-d.mail.gandi.net (Postfix) with ESMTPSA id 1FA1FE0008;
+        Fri, 17 Dec 2021 09:16:06 +0000 (UTC)
+Date:   Fri, 17 Dec 2021 10:17:00 +0100
+From:   Jacopo Mondi <jacopo@jmondi.org>
+To:     Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+Cc:     linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Subject: Re: [PATCH 1/2] media: subdev: Rename v4l2_state_get_stream_format()
+ with subdev prefix
+Message-ID: <20211217091700.ml5hgw46vzogzyrh@uno.localdomain>
+References: <20211216131510.12308-1-laurent.pinchart+renesas@ideasonboard.com>
+ <20211216131510.12308-2-laurent.pinchart+renesas@ideasonboard.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20211216131510.12308-2-laurent.pinchart+renesas@ideasonboard.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-There is no such error code EVINAL.
+Hi Laurent,
 
-Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
----
- include/media/dvb_ringbuffer.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+On Thu, Dec 16, 2021 at 03:15:09PM +0200, Laurent Pinchart wrote:
+> The v4l2_state_get_stream_format() function operates on a subdev state,
+> rename it accordingly to v4l2_subdev_state_get_stream_format().
 
-diff --git a/include/media/dvb_ringbuffer.h b/include/media/dvb_ringbuffer.h
-index 8ed6bcc3a56e5ffd..029c8b615e490fae 100644
---- a/include/media/dvb_ringbuffer.h
-+++ b/include/media/dvb_ringbuffer.h
-@@ -214,7 +214,7 @@ extern ssize_t dvb_ringbuffer_write_user(struct dvb_ringbuffer *rbuf,
-  * @buf: Buffer to write.
-  * @len: Length of buffer (currently limited to 65535 bytes max).
-  *
-- * Return: Number of bytes written, or -EFAULT, -ENOMEM, -EVINAL.
-+ * Return: Number of bytes written, or -EFAULT, -ENOMEM, -EINVAL.
-  */
- extern ssize_t dvb_ringbuffer_pkt_write(struct dvb_ringbuffer *rbuf, u8 *buf,
- 					size_t len);
--- 
-2.25.1
+No need for a formal ack as I assume this will go in Tomi's v11 (if he
+likes the patch ofc).
 
+But in any case, it makes sense to me
+Reviewed-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
+
+Thanks
+   j
+
+>
+> Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+> ---
+>  drivers/media/v4l2-core/v4l2-subdev.c | 14 ++++++++------
+>  include/media/v4l2-subdev.h           |  6 +++---
+>  2 files changed, 11 insertions(+), 9 deletions(-)
+>
+> diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
+> index dca2bea180ec..73ee7f01838f 100644
+> --- a/drivers/media/v4l2-core/v4l2-subdev.c
+> +++ b/drivers/media/v4l2-core/v4l2-subdev.c
+> @@ -179,7 +179,7 @@ static int check_state_pad_stream(struct v4l2_subdev *sd,
+>  	 */
+>  	v4l2_subdev_lock_state(state);
+>
+> -	fmt = v4l2_state_get_stream_format(state, pad, stream);
+> +	fmt = v4l2_subdev_state_get_stream_format(state, pad, stream);
+>
+>  	v4l2_subdev_unlock_state(state);
+>
+> @@ -1492,8 +1492,8 @@ int v4l2_subdev_set_routing_with_fmt(struct v4l2_subdev *sd,
+>  EXPORT_SYMBOL_GPL(v4l2_subdev_set_routing_with_fmt);
+>
+>  struct v4l2_mbus_framefmt *
+> -v4l2_state_get_stream_format(struct v4l2_subdev_state *state, unsigned int pad,
+> -			     u32 stream)
+> +v4l2_subdev_state_get_stream_format(struct v4l2_subdev_state *state,
+> +				    unsigned int pad, u32 stream)
+>  {
+>  	struct v4l2_subdev_stream_configs *stream_configs;
+>  	unsigned int i;
+> @@ -1510,7 +1510,7 @@ v4l2_state_get_stream_format(struct v4l2_subdev_state *state, unsigned int pad,
+>
+>  	return NULL;
+>  }
+> -EXPORT_SYMBOL_GPL(v4l2_state_get_stream_format);
+> +EXPORT_SYMBOL_GPL(v4l2_subdev_state_get_stream_format);
+>
+>  int v4l2_subdev_routing_find_opposite_end(const struct v4l2_subdev_krouting *routing,
+>  					  u32 pad, u32 stream, u32 *other_pad,
+> @@ -1555,7 +1555,8 @@ v4l2_subdev_state_get_opposite_stream_format(struct v4l2_subdev_state *state,
+>  	if (ret)
+>  		return NULL;
+>
+> -	return v4l2_state_get_stream_format(state, other_pad, other_stream);
+> +	return v4l2_subdev_state_get_stream_format(state, other_pad,
+> +						   other_stream);
+>  }
+>  EXPORT_SYMBOL_GPL(v4l2_subdev_state_get_opposite_stream_format);
+>
+> @@ -1566,7 +1567,8 @@ int v4l2_subdev_get_fmt(struct v4l2_subdev *sd, struct v4l2_subdev_state *state,
+>
+>  	v4l2_subdev_lock_state(state);
+>
+> -	fmt = v4l2_state_get_stream_format(state, format->pad, format->stream);
+> +	fmt = v4l2_subdev_state_get_stream_format(state, format->pad,
+> +						  format->stream);
+>  	if (!fmt) {
+>  		v4l2_subdev_unlock_state(state);
+>  		return -EINVAL;
+> diff --git a/include/media/v4l2-subdev.h b/include/media/v4l2-subdev.h
+> index 9754913b34f8..aff1fb3a30d5 100644
+> --- a/include/media/v4l2-subdev.h
+> +++ b/include/media/v4l2-subdev.h
+> @@ -1505,7 +1505,7 @@ int v4l2_subdev_set_routing_with_fmt(struct v4l2_subdev *sd,
+>  				     const struct v4l2_mbus_framefmt *fmt);
+>
+>  /**
+> - * v4l2_state_get_stream_format() - Get pointer to a stream format
+> + * v4l2_subdev_state_get_stream_format() - Get pointer to a stream format
+>   * @state: subdevice state
+>   * @pad: pad id
+>   * @stream: stream id
+> @@ -1516,8 +1516,8 @@ int v4l2_subdev_set_routing_with_fmt(struct v4l2_subdev *sd,
+>   * If the state does not contain the given pad + stream, NULL is returned.
+>   */
+>  struct v4l2_mbus_framefmt *
+> -v4l2_state_get_stream_format(struct v4l2_subdev_state *state, unsigned int pad,
+> -			     u32 stream);
+> +v4l2_subdev_state_get_stream_format(struct v4l2_subdev_state *state,
+> +				    unsigned int pad, u32 stream);
+>
+>  /**
+>   * v4l2_subdev_routing_find_opposite_end() - Find the opposite stream
+> --
+> Regards,
+>
+> Laurent Pinchart
+>
