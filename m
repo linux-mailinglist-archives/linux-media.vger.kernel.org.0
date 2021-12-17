@@ -2,208 +2,137 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 868CB47931F
-	for <lists+linux-media@lfdr.de>; Fri, 17 Dec 2021 18:52:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 19FC147932C
+	for <lists+linux-media@lfdr.de>; Fri, 17 Dec 2021 18:54:46 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239945AbhLQRwz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 17 Dec 2021 12:52:55 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35344 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231529AbhLQRwz (ORCPT
+        id S239964AbhLQRyn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 17 Dec 2021 12:54:43 -0500
+Received: from perceval.ideasonboard.com ([213.167.242.64]:57724 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S239961AbhLQRym (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 17 Dec 2021 12:52:55 -0500
-Received: from mail-qt1-x833.google.com (mail-qt1-x833.google.com [IPv6:2607:f8b0:4864:20::833])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D8805C061574
-        for <linux-media@vger.kernel.org>; Fri, 17 Dec 2021 09:52:54 -0800 (PST)
-Received: by mail-qt1-x833.google.com with SMTP id 8so3424485qtx.5
-        for <linux-media@vger.kernel.org>; Fri, 17 Dec 2021 09:52:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ndufresne-ca.20210112.gappssmtp.com; s=20210112;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :user-agent:mime-version:content-transfer-encoding;
-        bh=EdfDMc3dGy+rtz/PQ2kf0voPWh+Gy8fg3uDbtzFcCyk=;
-        b=s1yP2xfwlw4arGnpUI7y1LjifZqDnsQb1y/tviXNIW6r5+cfjaBQctF8AGDlp4uLNB
-         W+518UCjBVCrf2JL8fHE2MvU2mQVOH//19q5aMXsUTw604ZLTHK6jdaBHoalX/DnMxY2
-         N35BUyeBK3f++52UL7N848oA3qKgR+DYoWXvfGf5NeQEl7Nw9r3zp5I5wzl3HTaqMzu4
-         vkkieGMUrCPWq4Xx+cBvX8MGdQygOsQ+vQ/QMUwzPv372ygeMe3PAyLsywMGtsIZ18AW
-         EoDoqyI/DdKVHEP2ZpOy6pMCWvFaVKWNjx0B3Z/Zvphq8DpbL7P9aPFiTalah3iOG50j
-         d1/g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=EdfDMc3dGy+rtz/PQ2kf0voPWh+Gy8fg3uDbtzFcCyk=;
-        b=lRlYvOqz1YZtwXjqzkOJD6PTy9e1Cp7FpB3m30/jPsXWFfcIzRYNTlpFBASMYF1OoF
-         4FQaNSmBte3DNZCXBnfFD4RkPqYkyG8EyjJ2DJpPEU5xQZnySz6HOY1BbNW5w5dQf6/x
-         eQPxGTYZQSNXRxqIBAM6IyyhlD9zvjU/ddrmnzAS5gOyUOtFurR2FjqIv4I0bPNGEuQ9
-         rOjgETyl2o1dBQ2tJ0Vr6SQc7pHTWOkv4eac5VppFzaxwqUIJCgi1UVZFX42hLKcOxUP
-         QrNweMypmMpm/6LmNzWzcFa843AZ/hpev0SUq4kGfAMlZs23T42Qjp0ysjtewKDG1b1B
-         F8Eg==
-X-Gm-Message-State: AOAM531au5MXJaept0PCpV5mriVvWTfyQxZ8ztn+Ybd5Tvlift+KuzQR
-        zYaHqeDrMSu2xs/elI0I+own5Q==
-X-Google-Smtp-Source: ABdhPJzydc3+rBb7SLARVOLCMtRjYOmkbg8KG3gbO/t8lzwiGUAnAnHeWbz325P00g8oSWik3/9jeQ==
-X-Received: by 2002:ac8:7f06:: with SMTP id f6mr3508448qtk.258.1639763574019;
-        Fri, 17 Dec 2021 09:52:54 -0800 (PST)
-Received: from nicolas-tpx395.localdomain (mtl.collabora.ca. [66.171.169.34])
-        by smtp.gmail.com with ESMTPSA id x13sm5683430qkp.102.2021.12.17.09.52.52
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 17 Dec 2021 09:52:53 -0800 (PST)
-Message-ID: <41f0e00cf5e57668b643b096e6bb69c67635c540.camel@ndufresne.ca>
-Subject: Re: [RFC 0/5] arm64: imx8mm: Enable Hantro VPUs
-From:   Nicolas Dufresne <nicolas@ndufresne.ca>
-To:     Tim Harvey <tharvey@gateworks.com>
-Cc:     Adam Ford <aford173@gmail.com>,
-        Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
-        linux-media <linux-media@vger.kernel.org>,
-        Schrempf Frieder <frieder.schrempf@kontron.de>,
-        Marek Vasut <marek.vasut@gmail.com>,
-        Jagan Teki <jagan@amarulasolutions.com>,
-        Adam Ford-BE <aford@beaconembedded.com>,
-        cstevens@beaconembedded.com,
-        Philipp Zabel <p.zabel@pengutronix.de>,
+        Fri, 17 Dec 2021 12:54:42 -0500
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 9F57D93;
+        Fri, 17 Dec 2021 18:54:40 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1639763680;
+        bh=BaokllrVKanSbefKvctTebuB7/MixIU763lM1tb6MAk=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=ahVQzAFGPzQF1IoYwetati/c22ftTHDNWJX0uERgJn4TYmJtb5iewyxDZSlYShoHE
+         FTuAVsO8FxB5NaM92p/mMYaJ3dgJv/oIv6He7cDg+5DIn/2+v/u3pIBoulL8xEC6BB
+         Pe5GPyKWOimWbjR7++Ov/rs7DGQjkJzhXLzrrLko=
+Date:   Fri, 17 Dec 2021 19:54:38 +0200
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+        linux-media@vger.kernel.org,
+        Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        niklas.soderlund+renesas@ragnatech.se,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Heiko Stuebner <heiko@sntech.de>,
-        Lucas Stach <l.stach@pengutronix.de>,
-        Joakim Zhang <qiangqing.zhang@nxp.com>,
-        Alice Guo <alice.guo@nxp.com>, Peng Fan <peng.fan@nxp.com>,
-        "open list:HANTRO VPU CODEC DRIVER" 
-        <linux-rockchip@lists.infradead.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        "moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE" 
-        <linux-arm-kernel@lists.infradead.org>,
-        open list <linux-kernel@vger.kernel.org>,
-        "open list:STAGING SUBSYSTEM" <linux-staging@lists.linux.dev>
-Date:   Fri, 17 Dec 2021 12:52:51 -0500
-In-Reply-To: <CAJ+vNU1ZxAAasKT8j1sfcFz1pk8fyYjwOW6wqxYq_ur8+2MX_Q@mail.gmail.com>
-References: <20211106183802.893285-1-aford173@gmail.com>
-         <718f7f6d6cd564d031c1963f1590c62d549ae725.camel@ndufresne.ca>
-         <CAHCN7xKM9RUE7z-+ug1on+D=nDoEm589R4m03ofys92Aq75ZVQ@mail.gmail.com>
-         <8db00a4b6faa99c940d9bc86e17161eb0db5efe3.camel@ndufresne.ca>
-         <CAJ+vNU28UJffFv9jQ2KryJMudqYxvCaoVOVcU5dPqRA209iN6A@mail.gmail.com>
-         <d91532c2c0772f9aa708ead36b2a97203727a7ea.camel@ndufresne.ca>
-         <CAJ+vNU3H-V+bPoZ3qKead45h=W7AhQK6Lhjrx5ssdF4c_qfe=A@mail.gmail.com>
-         <CAHCN7x+0LwwU_rEST+TZxGquswGKL19gnTy9WLofsXtGAtWqdw@mail.gmail.com>
-         <7f94eaacfddb8c5434c17f1e069ea87a17657ce9.camel@ndufresne.ca>
-         <CAHCN7xKRzxMBmPbDobWTuvNNSpTXk5XENvfBnfkhRY3eZKhn6w@mail.gmail.com>
-         <CAHCN7xJFLNi_g+HX8PCy1Rkgf0jnWpO5QGYVz8nH19xrJkwHrA@mail.gmail.com>
-         <CAJ+vNU3zFd=6k_Emc5aafxKkGwCPp4crgOFezQ-E_MbWsn1_EA@mail.gmail.com>
-         <fed6c2fd7cf4971062c417ce41ed1e3812b900e0.camel@ndufresne.ca>
-         <CAHCN7xK+wROHaqDcsY-3WYFQ82qX17L-LHNL3siSWnWvwFShzQ@mail.gmail.com>
-         <CAAEAJfC1xXvemaFP+vTFVJ3S-SpYtrxyZgDamSOgLC1F3ua5xw@mail.gmail.com>
-         <CAHCN7x+UMMP6RXsNm0=OC=UTQzh=RKqQo6B7FD5e4eoJAEfmpg@mail.gmail.com>
-         <CAJ+vNU1epi9SwPMHkuDmKcb68RLemYF=bsp7AVnzz06zKc2efw@mail.gmail.com>
-         <CAAEAJfCpjk5nWWkJYjjDT-YEpJi4pTZqZbzp_if9OGC0HKspzw@mail.gmail.com>
-         <CAJ+vNU2we5mGXgYsR6CfimvFXZsc0zktR3fDa-h6RRa02jTT0g@mail.gmail.com>
-         <CAHCN7xJrM9uZUnmx65uTxWEo6HAkjozd3kD3UoEv-pYd5DV4QA@mail.gmail.com>
-         <CAAEAJfBXU-AiKKhkhXzgUSR4p1yefysNuHFycBz3F-GzNewS6w@mail.gmail.com>
-         <CAHCN7xL4y67V6AW5MV=8iudvvGVBWs2LoUhu_2CUJf6bSycgFA@mail.gmail.com>
-         <8438070708d16c34c0f79aba19e67fa343adb169.camel@ndufresne.ca>
-         <CAJ+vNU1ZxAAasKT8j1sfcFz1pk8fyYjwOW6wqxYq_ur8+2MX_Q@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.42.2 (3.42.2-1.fc35) 
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Pratyush Yadav <p.yadav@ti.com>
+Subject: Re: [PATCH v10 05/38] media: subdev: Add
+ v4l2_subdev_lock_and_return_state()
+Message-ID: <YbzO3htQHR+gRT9M@pendragon.ideasonboard.com>
+References: <20211130141536.891878-1-tomi.valkeinen@ideasonboard.com>
+ <20211130141536.891878-6-tomi.valkeinen@ideasonboard.com>
+ <YbtObq+RJbW70pjD@pendragon.ideasonboard.com>
+ <YbzMW+dvmwgZhhST@paasikivi.fi.intel.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <YbzMW+dvmwgZhhST@paasikivi.fi.intel.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Le vendredi 17 décembre 2021 à 09:26 -0800, Tim Harvey a écrit :
-> On Fri, Dec 17, 2021 at 9:13 AM Nicolas Dufresne <nicolas@ndufresne.ca> wrote:
-> > 
-> > Le vendredi 17 décembre 2021 à 07:15 -0600, Adam Ford a écrit :
-> > > On Thu, Dec 16, 2021 at 10:49 PM Ezequiel Garcia
-> > > <ezequiel@vanguardiasur.com.ar> wrote:
-> > > > 
-> > > > Hi Adam,
-> > > > 
-> > > > > 
-> > > > > I will post a V2 last today with the Mini's post-processing removed.
-> > > > > Someone, I apologize that I forget who, mentioned it was fused out of
-> > > > > the Mini, so the testing I've been doing was with that removed and I
-> > > > > removed the H1 encoder since the Mini doesn't support JPEG encoding.
-> > > > > 
-> > > > [...]
-> > > > 
-> > > > Resurrecting this thread here. IMX8MMRM Rev. 0, 02/2019 mentions
-> > > > post-processor features for G1 and G2.
-> > > > 
-> > > > Have you checked the fuse and synth registers to see if they throw
-> > > > any useful information about the hardware? For instance,
-> > > > comparing PP fuse register (SWREG99) and
-> > > > Synthesis configuration register post-processor (SWREG100)
-> > > > in both 8MQ and 8MM could be useful.
-> > > > 
-> > > > As I mentioned on my previous mail, even if G1 PP is disabled
-> > > > on the Mini, I would imagine the G2 can do linear NV12 (aka raster-scan)
-> > > > which in our hantro driver jargon is a  "post-processed" format :-)
+Hi Sakari,
+
+On Fri, Dec 17, 2021 at 07:43:55PM +0200, Sakari Ailus wrote:
+> On Thu, Dec 16, 2021 at 04:34:22PM +0200, Laurent Pinchart wrote:
+> > On Tue, Nov 30, 2021 at 04:15:03PM +0200, Tomi Valkeinen wrote:
+> > > All suitable subdev ops are now passed either the TRY or the ACTIVE
+> > > state by the v4l2 core. However, other subdev drivers can still call the
+> > > ops passing NULL as the state, implying the active case.
 > > > 
-> > > You're likely right.  I was going on memory from an e-mail from
-> > > Nicloas Defresne who wrote:
+> > > For all current upstream drivers this doesn't matter, as they do not
+> > > expect to get a valid state for ACTIVE case. But future drivers which
+> > > support multiplexed streaming and routing will depend on getting a state
+> > > for both active and try cases.
 > > > 
-> > > "I will check the patchset, but you need in the mini-variant to disable the G1
-> > > post processor, because this block was fused out. We didn't make it optional
-> > > from the start as according to the V1 of the TRM it was there, but that error
-> > > was corrected in V3."
+> > > For new drivers we can mandate that the pipelines where the drivers are
+> > > used need to pass the state properly, or preferably, not call such
+> > > subdev ops at all.
 > > > 
-> > > In my head I assumed the G2 was affected as well, but when I double
-> > > checked his email, and based on the above statement, the G2
-> > > post-processing is probably there, so I'll run some tests with the G2
-> > > post-processing enabled.  I'll also double check those registers on
-> > > both to confirm what they read. I am not sure when I'll have time
-> > > because I leave for London next week, and I won't return until early
-> > > January, but I'll do what I can.
+> > > However, if an existing subdev driver is changed to support multiplexed
+> > > streams, the driver has to consider cases where its ops will be called
+> > > with NULL state. The problem can easily be solved by using the
+> > > v4l2_subdev_lock_and_return_state() helper, introduced here.
+> > > 
+> > > Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+> > > ---
+> > >  include/media/v4l2-subdev.h | 31 +++++++++++++++++++++++++++++++
+> > >  1 file changed, 31 insertions(+)
+> > > 
+> > > diff --git a/include/media/v4l2-subdev.h b/include/media/v4l2-subdev.h
+> > > index 1810dde9c7fc..873bbe0686e3 100644
+> > > --- a/include/media/v4l2-subdev.h
+> > > +++ b/include/media/v4l2-subdev.h
+> > > @@ -1317,4 +1317,35 @@ void v4l2_subdev_lock_state(struct v4l2_subdev_state *state);
+> > >   */
+> > >  void v4l2_subdev_unlock_state(struct v4l2_subdev_state *state);
+> > >  
+> > > +/**
+> > > + * v4l2_subdev_lock_and_return_state() - Gets locked TRY or ACTIVE subdev state
+> > > + * @sd: subdevice
+> > > + * @state: subdevice state as passed to the subdev op
+> > > + *
+> > > + * Due to legacy reasons, when subdev drivers call ops in other subdevs they use
+> > > + * NULL as the state parameter, as subdevs always used to have their active
+> > > + * state stored privately.
+> > > + *
+> > > + * However, newer state-aware subdev drivers, which store their active state in
+> > > + * a common place, subdev->active_state, expect to always get a proper state as
+> > > + * a parameter.
+> > > + *
+> > > + * These state-aware drivers can use v4l2_subdev_lock_and_return_state() instead
+> > > + * of v4l2_subdev_lock_state(). v4l2_subdev_lock_and_return_state() solves the
+> > > + * issue by using subdev->state in case the passed state is NULL.
+> > > + *
+> > > + * This is a temporary helper function, and should be removed when we can ensure
+> > > + * that all drivers pass proper state when calling other subdevs.
+> > > + */
+> > > +static inline struct v4l2_subdev_state *
+> > > +v4l2_subdev_lock_and_return_state(struct v4l2_subdev *sd,
+> > > +				  struct v4l2_subdev_state *state)
+> > > +{
+> > > +	state = state ? state : sd->active_state;
 > > 
-> > Sorry if this was a bit ambiguous, indeed I meant the G1 only. I've learned
-> > later that the design of the Mini is that there is a good pre-processor in the
-> > H1 block (encoder), so for the targeted use-cases this shall be sufficient for
-> > most users (the output of the G1 is suitable for GPU and Display already, so the
-> > post processor is not strictly needed).
+> > Can we add a dev_warn() when state is NULL ? This will help speeding up
+> > the transition.
+> 
+> Wouldn't this produce lots of warnings? I'd rather use dev_warn_once() to
+> avoid flooding logs.
+
+The goal is to notice the issue, to get it fixed, so I'd prefer a few
+warnings instead of a dev_warn_once().
+
+Please note that the first 6 patches from this series have been posted
+in a new version as "[PATCH v2 0/6] v4l: subdev active state"
+(20211217135022.364954-1-tomi.valkeinen@ideasonboard.com).
+
+> > Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 > > 
-> 
-> Nicolas,
-> 
-> Does this mean that if the IMX8MM G2 may be able to output a wider
-> array of pixel formats and that the H1 encoder may be able to accept a
-> wider array of pixel formats? Is this code already in place in the
+> > > +
+> > > +	v4l2_subdev_lock_state(state);
+> > > +
+> > > +	return state;
+> > > +}
+> > > +
+> > >  #endif
 
-No since the G2 post processor does not have a color converter (it is very
-limited). In term of format, this is pretty much identical, produces linear or
-tiled. The difference is that G1 supports the two layout natively, not the G2.
+-- 
+Regards,
 
-> hantro driver and it just needs to be enabled if the IMX8MM can handle
-> it or is there code to be written?
-> 
-> I'm not clear if anyone is working on IMX8MM VPU H1 support. You had
-> mentioned that some support [1] and [2] can be derived from the RK3288
-> using the Google ChromeOS method (a v4l2 plugin that simulates in
-> userspace a stateful encoder). I'm not sure if this is worth pursuing
-> if others are working on stateless encode support in kernel and
-> gstreamer.
-
-My colleagues started last week the project of crafting mainline stateless
-encoder uAPI. This is too early. In older project, we have had good success with
-the emulated stateful encoder. It is of course quite limited, but works in
-gstreamer, ffmpeg and chromium. It is also likely safer compared to the vendor
-provided driver.
-
-p.s. From my knowledge, there is virtually no difference between the H1 on
-RK3288 and IMX8MM/P, but we've learn from G1 that there could effectively have
-more of less features.
-
-> 
-> Best Regards,
-> 
-> Tim
-> [1] libv4l plugins /
-> https://chromium.googlesource.com/chromiumos/third_party/libv4lplugins/+/refs/heads/master
-> [2] Kernel Driver /
-> https://chromium.googlesource.com/chromiumos/third_party/kernel/+/chromeos-4.4/drivers/media/platform/rockchip-vpu/
-
+Laurent Pinchart
