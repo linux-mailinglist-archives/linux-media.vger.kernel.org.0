@@ -2,170 +2,185 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 92B124782D0
-	for <lists+linux-media@lfdr.de>; Fri, 17 Dec 2021 02:56:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 651624782E4
+	for <lists+linux-media@lfdr.de>; Fri, 17 Dec 2021 02:59:34 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232413AbhLQB4O (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 16 Dec 2021 20:56:14 -0500
-Received: from mailgw02.mediatek.com ([210.61.82.184]:34814 "EHLO
-        mailgw02.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
-        with ESMTP id S232420AbhLQB4E (ORCPT
+        id S230292AbhLQB6y (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 16 Dec 2021 20:58:54 -0500
+Received: from perceval.ideasonboard.com ([213.167.242.64]:47008 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232419AbhLQB4w (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 16 Dec 2021 20:56:04 -0500
-X-UUID: 8fabaf7e7f0e4a9797ceec78015b7b97-20211217
-X-UUID: 8fabaf7e7f0e4a9797ceec78015b7b97-20211217
-Received: from mtkmbs10n1.mediatek.inc [(172.21.101.34)] by mailgw02.mediatek.com
-        (envelope-from <yunfei.dong@mediatek.com>)
-        (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
-        with ESMTP id 1409953433; Fri, 17 Dec 2021 09:56:02 +0800
-Received: from mtkexhb02.mediatek.inc (172.21.101.103) by
- mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.792.3;
- Fri, 17 Dec 2021 09:56:02 +0800
-Received: from mtkcas11.mediatek.inc (172.21.101.40) by mtkexhb02.mediatek.inc
- (172.21.101.103) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Fri, 17 Dec
- 2021 09:56:01 +0800
-Received: from mhfsdcap04.gcn.mediatek.inc (10.17.3.154) by
- mtkcas11.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
- 15.0.1497.2 via Frontend Transport; Fri, 17 Dec 2021 09:56:00 +0800
-From:   Yunfei Dong <yunfei.dong@mediatek.com>
-To:     Yunfei Dong <yunfei.dong@mediatek.com>,
-        Alexandre Courbot <acourbot@chromium.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        "Tzung-Bi Shih" <tzungbi@chromium.org>,
-        Tiffany Lin <tiffany.lin@mediatek.com>,
-        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+        Thu, 16 Dec 2021 20:56:52 -0500
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 0135792A;
+        Fri, 17 Dec 2021 02:56:50 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1639706211;
+        bh=havv8U00AQgT4Z3A6kTdK6fuk4lvg9s0yjebBg1E/B4=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=jJlASbtn6ZjnQcq+wK48tivejdSGzw2sgq8Wb6XvsIMo/6HLgCQCRtyxZ7MVs40cv
+         cNOWqIu6rtWToad59WslcaK9HxLzsvY2/smOu7Xfs/D6+mma4OJWFBziShbYasc609
+         wrSL8FFyi/UL2lhQRCA6JdHplR2lcENKjpmHJ2Vc=
+Date:   Fri, 17 Dec 2021 03:56:48 +0200
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Jacopo Mondi <jacopo+renesas@jmondi.org>
+Cc:     tomi.valkeinen@ideasonboard.com, sakari.ailus@linux.intel.com,
+        niklas.soderlund@ragnatech.se, kieran.bingham@ideasonboard.com,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Tomasz Figa <tfiga@google.com>
-CC:     Hsin-Yi Wang <hsinyi@chromium.org>,
-        Fritz Koenig <frkoenig@chromium.org>,
-        Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
-        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        Irui Wang <irui.wang@mediatek.com>,
-        AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>,
-        "Steve Cho" <stevecho@chromium.org>, <linux-media@vger.kernel.org>,
-        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <srv_heupstream@mediatek.com>,
-        <linux-mediatek@lists.infradead.org>,
-        <Project_Global_Chrome_Upstream_Group@mediatek.com>
-Subject: [PATCH v17, 19/19] media: mtk-vcodec: Remove mtk_vcodec_release_enc_pm
-Date:   Fri, 17 Dec 2021 09:55:30 +0800
-Message-ID: <20211217015530.23720-20-yunfei.dong@mediatek.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20211217015530.23720-1-yunfei.dong@mediatek.com>
-References: <20211217015530.23720-1-yunfei.dong@mediatek.com>
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH v4 2/6] media: max9286: Implement set_routing
+Message-ID: <YbvuYIQJ6kDxDhHA@pendragon.ideasonboard.com>
+References: <20211216174746.147233-1-jacopo+renesas@jmondi.org>
+ <20211216174746.147233-3-jacopo+renesas@jmondi.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7BIT
-Content-Type:   text/plain; charset=US-ASCII
-X-MTK:  N
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20211216174746.147233-3-jacopo+renesas@jmondi.org>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-There are only two lines in mtk_vcodec_release_enc_pm, using
-pm_runtime_disable and put_device instead directly.
+Hi Jacopo,
 
-Move pm_runtime_enable outside mtk_vcodec_release_enc_pm to symmetry with
-pm_runtime_disable, after that, rename mtk_vcodec_init_enc_pm to *_clk since
-it only has clock operations now.
+Thank you for the patch.
 
-Signed-off-by: Yunfei Dong <yunfei.dong@mediatek.com>
-Co-developed-by: Yong Wu <yong.wu@mediatek.com>
-Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
----
- drivers/media/platform/mtk-vcodec/mtk_vcodec_enc_drv.c | 9 ++++++---
- drivers/media/platform/mtk-vcodec/mtk_vcodec_enc_pm.c  | 9 +--------
- drivers/media/platform/mtk-vcodec/mtk_vcodec_enc_pm.h  | 3 +--
- 3 files changed, 8 insertions(+), 13 deletions(-)
+On Thu, Dec 16, 2021 at 06:47:42PM +0100, Jacopo Mondi wrote:
+> Add the set_routing() subdev operation to allow userspace to configure
+> routing on the max9286 deserializer.
+> 
+> Implement route verification but do not take routing into consideration
+> when configuring the CSI-2 output and pixel rate yet.
+> 
+> Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
+> ---
+>  drivers/media/i2c/max9286.c | 89 ++++++++++++++++++++++++++++++++++++-
+>  1 file changed, 87 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/media/i2c/max9286.c b/drivers/media/i2c/max9286.c
+> index 1b9ff537d08e..eb76acdb2cd9 100644
+> --- a/drivers/media/i2c/max9286.c
+> +++ b/drivers/media/i2c/max9286.c
+> @@ -832,6 +832,91 @@ static int max9286_get_fmt(struct v4l2_subdev *sd,
+>  	return 0;
+>  }
+>  
+> +static int max9286_routing_validate(struct max9286_priv *priv,
+> +				    struct v4l2_subdev_krouting *routing)
+> +{
+> +	unsigned int i;
+> +	int ret;
+> +
+> +	ret = v4l2_subdev_routing_validate_1_to_1(routing);
+> +	if (ret)
+> +		return ret;
+> +
+> +	/*
+> +	 * Make sure all routes points to the single source pad which can have
+> +	 * up to 4 streams. All routes shall start from a sink pad and shall not
+> +	 * have more than one sink stream. The GMSL link for the sink has to be
+> +	 * enabled.
+> +	 */
+> +	for (i = 0; i < routing->num_routes; ++i) {
+> +		const struct v4l2_subdev_route *route = &routing->routes[i];
+> +		struct max9286_source *source = &priv->sources[i];
+> +
+> +		if (route->source_pad != MAX9286_SRC_PAD ||
+> +		    route->source_stream > 4) {
+> +			dev_err(&priv->client->dev,
+> +				"Invalid (%u,%u) source in route %u\n",
+> +				route->source_pad, route->source_stream, i);
+> +			return -EINVAL;
+> +		}
+> +
+> +		if (route->sink_pad >= MAX9286_N_SINKS ||
+> +		    route->sink_stream != 0) {
+> +			dev_err(&priv->client->dev,
+> +				"Invalid (%u,%u) sink in route %u\n",
+> +				route->sink_pad, route->sink_stream, i);
+> +			return -EINVAL;
+> +		}
+> +
+> +		source = &priv->sources[route->sink_pad];
+> +		if (!source->fwnode) {
+> +			dev_err(&priv->client->dev,
+> +				"Cannot set route for non-active source %u\n",
+> +				route->sink_pad);
+> +			return -EINVAL;
+> +		}
+> +	}
 
-diff --git a/drivers/media/platform/mtk-vcodec/mtk_vcodec_enc_drv.c b/drivers/media/platform/mtk-vcodec/mtk_vcodec_enc_drv.c
-index 347f0d87e2ff..507ad1ea2104 100644
---- a/drivers/media/platform/mtk-vcodec/mtk_vcodec_enc_drv.c
-+++ b/drivers/media/platform/mtk-vcodec/mtk_vcodec_enc_drv.c
-@@ -11,6 +11,7 @@
- #include <linux/module.h>
- #include <linux/of_device.h>
- #include <linux/of.h>
-+#include <linux/pm_runtime.h>
- #include <media/v4l2-event.h>
- #include <media/v4l2-mem2mem.h>
- #include <media/videobuf2-dma-contig.h>
-@@ -257,7 +258,7 @@ static int mtk_vcodec_probe(struct platform_device *pdev)
- 		return PTR_ERR(dev->fw_handler);
- 
- 	dev->venc_pdata = of_device_get_match_data(&pdev->dev);
--	ret = mtk_vcodec_init_enc_pm(dev);
-+	ret = mtk_vcodec_init_enc_clk(dev);
- 	if (ret < 0) {
- 		dev_err(&pdev->dev, "Failed to get mtk vcodec clock source!");
- 		goto err_enc_pm;
-@@ -369,7 +370,8 @@ static int mtk_vcodec_probe(struct platform_device *pdev)
- err_enc_alloc:
- 	v4l2_device_unregister(&dev->v4l2_dev);
- err_res:
--	mtk_vcodec_release_enc_pm(dev);
-+	pm_runtime_disable(dev->pm.dev);
-+	put_device(dev->pm.larbvenc);
- err_enc_pm:
- 	mtk_vcodec_fw_release(dev->fw_handler);
- 	return ret;
-@@ -458,7 +460,8 @@ static int mtk_vcodec_enc_remove(struct platform_device *pdev)
- 		video_unregister_device(dev->vfd_enc);
- 
- 	v4l2_device_unregister(&dev->v4l2_dev);
--	mtk_vcodec_release_enc_pm(dev);
-+	pm_runtime_disable(dev->pm.dev);
-+	put_device(dev->pm.larbvenc);
- 	mtk_vcodec_fw_release(dev->fw_handler);
- 	return 0;
- }
-diff --git a/drivers/media/platform/mtk-vcodec/mtk_vcodec_enc_pm.c b/drivers/media/platform/mtk-vcodec/mtk_vcodec_enc_pm.c
-index 0c8c8f86788c..0825c6ec4eb7 100644
---- a/drivers/media/platform/mtk-vcodec/mtk_vcodec_enc_pm.c
-+++ b/drivers/media/platform/mtk-vcodec/mtk_vcodec_enc_pm.c
-@@ -13,7 +13,7 @@
- #include "mtk_vcodec_enc_pm.h"
- #include "mtk_vcodec_util.h"
- 
--int mtk_vcodec_init_enc_pm(struct mtk_vcodec_dev *mtkdev)
-+int mtk_vcodec_init_enc_clk(struct mtk_vcodec_dev *mtkdev)
- {
- 	struct device_node *node;
- 	struct platform_device *pdev;
-@@ -86,13 +86,6 @@ int mtk_vcodec_init_enc_pm(struct mtk_vcodec_dev *mtkdev)
- 	return ret;
- }
- 
--void mtk_vcodec_release_enc_pm(struct mtk_vcodec_dev *mtkdev)
--{
--	pm_runtime_disable(mtkdev->pm.dev);
--	put_device(mtkdev->pm.larbvenc);
--}
--
--
- void mtk_vcodec_enc_clock_on(struct mtk_vcodec_pm *pm)
- {
- 	struct mtk_vcodec_clk *enc_clk = &pm->venc_clk;
-diff --git a/drivers/media/platform/mtk-vcodec/mtk_vcodec_enc_pm.h b/drivers/media/platform/mtk-vcodec/mtk_vcodec_enc_pm.h
-index b7ecdfd74823..bc455cefc0cd 100644
---- a/drivers/media/platform/mtk-vcodec/mtk_vcodec_enc_pm.h
-+++ b/drivers/media/platform/mtk-vcodec/mtk_vcodec_enc_pm.h
-@@ -9,8 +9,7 @@
- 
- #include "mtk_vcodec_drv.h"
- 
--int mtk_vcodec_init_enc_pm(struct mtk_vcodec_dev *dev);
--void mtk_vcodec_release_enc_pm(struct mtk_vcodec_dev *dev);
-+int mtk_vcodec_init_enc_clk(struct mtk_vcodec_dev *dev);
- 
- void mtk_vcodec_enc_clock_on(struct mtk_vcodec_pm *pm);
- void mtk_vcodec_enc_clock_off(struct mtk_vcodec_pm *pm);
+Apart from from possibly using the new helper I've submitted, this looks
+fine.
+
+> +
+> +	return 0;
+> +}
+> +
+> +static int _max9286_set_routing(struct v4l2_subdev *sd,
+> +				struct v4l2_subdev_state *state,
+> +				struct v4l2_subdev_krouting *routing)
+> +{
+> +	struct max9286_priv *priv = sd_to_max9286(sd);
+> +	int ret;
+> +
+> +	ret = max9286_routing_validate(priv, routing);
+> +	if (ret)
+> +		return ret;
+> +
+> +	/* Re-initialize the format on a routing change. */
+> +	ret = v4l2_subdev_set_routing_with_fmt(sd, state, routing,
+> +					       &max9286_default_format);
+> +	if (ret)
+> +		return ret;
+> +
+> +	return 0;
+> +}
+> +
+> +static int max9286_set_routing(struct v4l2_subdev *sd,
+> +			       struct v4l2_subdev_state *state,
+> +			       enum v4l2_subdev_format_whence which,
+> +			       struct v4l2_subdev_krouting *routing)
+> +{
+> +	struct max9286_priv *priv = sd_to_max9286(sd);
+> +	unsigned int i;
+> +	int ret;
+> +
+> +	v4l2_subdev_lock_state(state);
+> +
+
+I'd drop the blank line, or add one before the unlock call.
+
+> +	ret = _max9286_set_routing(sd, state, routing);
+> +	v4l2_subdev_unlock_state(state);
+> +
+> +	return ret;
+> +}
+> +
+>  static int max9286_init_cfg(struct v4l2_subdev *sd,
+>  			    struct v4l2_subdev_state *state)
+>  {
+> @@ -858,8 +943,7 @@ static int max9286_init_cfg(struct v4l2_subdev *sd,
+>  	routing.routes = routes;
+>  
+>  	v4l2_subdev_lock_state(state);
+> -	ret = v4l2_subdev_set_routing_with_fmt(sd, state, &routing,
+> -					       &max9286_default_format);
+> +	ret = _max9286_set_routing(sd, state, &routing);
+>  	v4l2_subdev_unlock_state(state);
+>  
+>  	return ret;
+> @@ -874,6 +958,7 @@ static const struct v4l2_subdev_pad_ops max9286_pad_ops = {
+>  	.enum_mbus_code = max9286_enum_mbus_code,
+>  	.get_fmt	= max9286_get_fmt,
+>  	.set_fmt	= max9286_set_fmt,
+> +	.set_routing	= max9286_set_routing,
+>  };
+>  
+>  static const struct v4l2_subdev_ops max9286_subdev_ops = {
+
 -- 
-2.25.1
+Regards,
 
+Laurent Pinchart
