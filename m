@@ -2,123 +2,169 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 726AA478CB8
-	for <lists+linux-media@lfdr.de>; Fri, 17 Dec 2021 14:50:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2A666478CF1
+	for <lists+linux-media@lfdr.de>; Fri, 17 Dec 2021 14:59:29 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236841AbhLQNuu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 17 Dec 2021 08:50:50 -0500
-Received: from perceval.ideasonboard.com ([213.167.242.64]:55128 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236824AbhLQNuu (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Fri, 17 Dec 2021 08:50:50 -0500
-Received: from deskari.lan (91-156-85-209.elisa-laajakaista.fi [91.156.85.209])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 289AAAF2;
-        Fri, 17 Dec 2021 14:50:48 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1639749048;
-        bh=lu5Pr9MqVOmFs4UqQcngUIOlilBbsHuxxWyCBpSeZ0U=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=rr4+Ymw0lK0kP5yKpRVv0SL7aOO0aRVFFWlWZ4N1v16aMaRKL1zfvuqpTf90OuPWU
-         w02NpwFezKuKW38xC4fiPAnE327J7mbrB70jvl9xNP/ywbygP4jZrxbPj45PlDD54C
-         GTrWlKA2H24L+YNU6egDuzUDpQSvEaAwOYS/wkRI=
-From:   Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-To:     linux-media@vger.kernel.org, sakari.ailus@linux.intel.com,
-        Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        niklas.soderlund+renesas@ragnatech.se,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Pratyush Yadav <p.yadav@ti.com>
-Cc:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Subject: [PATCH v2 6/6] media: Documentation: add documentation about subdev state
-Date:   Fri, 17 Dec 2021 15:50:22 +0200
-Message-Id: <20211217135022.364954-7-tomi.valkeinen@ideasonboard.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20211217135022.364954-1-tomi.valkeinen@ideasonboard.com>
-References: <20211217135022.364954-1-tomi.valkeinen@ideasonboard.com>
+        id S234487AbhLQN72 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 17 Dec 2021 08:59:28 -0500
+Received: from www.linuxtv.org ([130.149.80.248]:35684 "EHLO www.linuxtv.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S231337AbhLQN71 (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Fri, 17 Dec 2021 08:59:27 -0500
+Received: from builder.linuxtv.org ([140.211.167.10] helo=slave0)
+        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1myDle-006sNj-Gb; Fri, 17 Dec 2021 13:59:26 +0000
+Received: from ip6-localhost ([::1] helo=localhost.localdomain)
+        by slave0 with esmtp (Exim 4.94.2)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1myDlb-00FB1V-4v; Fri, 17 Dec 2021 13:59:23 +0000
+From:   Jenkins <jenkins@linuxtv.org>
+To:     mchehab+samsung@kernel.org, linux-media@vger.kernel.org
+Cc:     builder@linuxtv.org
+Subject: Re: [GIT PULL FOR v5.17] zoran: merge into one module, many fixes (#79583)
+Date:   Fri, 17 Dec 2021 13:59:22 +0000
+Message-Id: <20211217135922.3617247-1-jenkins@linuxtv.org>
+X-Mailer: git-send-email 2.30.2
+In-Reply-To: <73e71dca-fc28-6bb8-09b0-dcdd0f4974cf@xs4all.nl>
+References: 
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Add documentation about centrally managed subdev state.
+From: builder@linuxtv.org
 
-Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Reviewed-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
----
- .../driver-api/media/v4l2-subdev.rst          | 57 +++++++++++++++++++
- 1 file changed, 57 insertions(+)
+Pull request: https://patchwork.linuxtv.org/project/linux-media/patch/73e71dca-fc28-6bb8-09b0-dcdd0f4974cf@xs4all.nl/
+Build log: https://builder.linuxtv.org/job/patchwork/166186/
+Build time: 00:25:10
+Link: https://lore.kernel.org/linux-media/73e71dca-fc28-6bb8-09b0-dcdd0f4974cf@xs4all.nl
 
-diff --git a/Documentation/driver-api/media/v4l2-subdev.rst b/Documentation/driver-api/media/v4l2-subdev.rst
-index 08ea2673b19e..18b00bd3d6d4 100644
---- a/Documentation/driver-api/media/v4l2-subdev.rst
-+++ b/Documentation/driver-api/media/v4l2-subdev.rst
-@@ -518,6 +518,63 @@ The :c:func:`v4l2_i2c_new_subdev` function will call
- :c:type:`i2c_board_info` structure using the ``client_type`` and the
- ``addr`` to fill it.
- 
-+Centrally managed subdev active state
-+-------------------------------------
-+
-+Traditionally V4L2 subdev drivers maintained internal state for the active
-+device configuration. This is often implemented e.g. as an array of
-+struct v4l2_mbus_framefmt, one entry for each pad, and similarly for cropping
-+and composition rectangles.
-+
-+In addition to the active configuration, each subdev file-handle has an array of
-+struct v4l2_subdev_pad_config, managed by V4L2 core, which contains the try
-+configuration.
-+
-+To simplify the subdev drivers the V4L2 subdev API now optionally supports a
-+centrally managed active configuration represented by
-+:c:type:`v4l2_subdev_state`. One instance of state, which contains the active
-+device configuration, is associated with the sub-device itself as part of
-+the :c:type:`v4l2_subdev` structure, while the core associates to each open
-+file-handle a try state, which contains the configuration valid in the
-+file-handle context only.
-+
-+Sub-device drivers can opt-in and use state to manage their active configuration
-+by initializing the subdevice state with a call to v4l2_subdev_init_finalize()
-+before registering the sub-device. They must also call v4l2_subdev_cleanup()
-+to release all the acquired resources before unregistering the sub-device.
-+The core automatically initializes a state for each open file-handle where to
-+store the try configurations and releases them at file-handle closing time.
-+
-+V4L2 sub-device operations that use both the :ref:`ACTIVE and TRY formats
-+<v4l2-subdev-format-whence>` receive the correct state to operate on as a
-+'state' parameter. The sub-device driver can access and modify the
-+configuration stored in the provided state after having locked it by calling
-+:c:func:`v4l2_subdev_lock_state()`. The driver must then call
-+:c:func:`v4l2_subdev_unlock_state()` to unlock the state when done.
-+
-+Operations that do not receive a state parameter implicitly operate on the
-+subdevice active state, which drivers can exclusively access by
-+calling :c:func:`v4l2_subdev_lock_active_state()`. The sub-device active state
-+must equally be released by calling :c:func:`v4l2_subdev_unlock_state()`.
-+
-+Drivers must never manually access the state stored in the :c:type:`v4l2_subdev`
-+or in the file-handle without going through the designated helpers.
-+
-+While the V4L2 core will pass the correct try- or active-state to the
-+subdevice operations, device drivers might call operations on other
-+subdevices by using :c:func:`v4l2_subdev_call()` kAPI and pass NULL as the
-+state. This is only a problem for subdev drivers which use the
-+centrally managed active-state and are used in media pipelines with older
-+subdev drivers. In these cases the called subdev ops must also handle the NULL
-+case. This can be easily managed by the use of
-+:c:func:`v4l2_subdev_lock_and_return_state()` helper.
-+
-+:c:func:`v4l2_subdev_lock_and_return_state()` should only be used when porting
-+an existing driver to the new state management when it cannot be guaranteed
-+that the current callers will pass the state properly. The function prints a
-+notice when the passed state is NULL to encourage the porting of the callers
-+to the new state management.
-+
- V4L2 sub-device functions and data structures
- ---------------------------------------------
- 
--- 
-2.25.1
+gpg: Signature made Fri 17 Dec 2021 01:17:50 PM UTC
+gpg:                using RSA key AAA7FFBA4D2D77EF4CAEA1421326E0CD23ABDCE5
+gpg: Good signature from "Hans Verkuil <hverkuil-cisco@xs4all.nl>" [unknown]
+gpg:                 aka "Hans Verkuil <hverkuil@xs4all.nl>" [unknown]
+gpg: WARNING: This key is not certified with a trusted signature!
+gpg:          There is no indication that the signature belongs to the owner.
+Primary key fingerprint: 052C DE7B C215 053B 689F  1BCA BD2D 6148 6614 3B4C
+     Subkey fingerprint: AAA7 FFBA 4D2D 77EF 4CAE  A142 1326 E0CD 23AB DCE5
+
+Summary: got 5/18 patches with issues, being 5 at build time, plus one error when buinding PDF document
+
+Error/warnings:
+
+patches/0001-staging-media-zoran-move-module-parameter-checks-to-.patch:
+
+    allyesconfig: return code #0:
+	../scripts/genksyms/parse.y: warning: 9 shift/reduce conflicts [-Wconflicts-sr]
+	../scripts/genksyms/parse.y: warning: 5 reduce/reduce conflicts [-Wconflicts-rr]
+	../scripts/genksyms/parse.y: note: rerun with option '-Wcounterexamples' to generate conflict counterexamples
+
+    allyesconfig: return code #0:
+	../drivers/media/rc/meson-ir-tx.c:22: warning: expecting prototype for meson(). Prototype was for DEVICE_NAME() instead
+	../drivers/media/test-drivers/vivid/vivid-core.c: ../drivers/media/test-drivers/vivid/vivid-core.c:1981 vivid_create_instance() parse error: turning off implications after 60 seconds
+	SMATCH:../drivers/media/usb/siano/smsusb.c ../drivers/media/usb/siano/smsusb.c:53:38: :warning: array of flexible structures
+	SPARSE:../drivers/media/usb/siano/smsusb.c ../drivers/media/usb/siano/smsusb.c:53:38: warning: array of flexible structures
+	../drivers/media/i2c/ov8865.c: ../drivers/media/i2c/ov8865.c:2843 ov8865_get_selection() warn: inconsistent indenting
+	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2625 dvb_register() parse error: turning off implications after 60 seconds
+	../drivers/media/platform/qcom/venus/helpers.c: ../drivers/media/platform/qcom/venus/helpers.c:658 venus_helper_get_bufreq() error: we previously assumed 'req' could be null (see line 654)
+	../drivers/media/usb/em28xx/em28xx-video.c: ../drivers/media/usb/em28xx/em28xx-video.c:2889 em28xx_v4l2_init() parse error: turning off implications after 60 seconds
+
+patches/0006-staging-media-zoran-merge-all-modules.patch:
+
+    allyesconfig: return code #512:
+	../drivers/staging/media/zoran/zoran_card.c:1412:1: error: label ‘zr_unreg_videocodec’ defined but not used [-Werror=unused-label]
+	cc1: all warnings being treated as errors
+	make[5]: *** [../scripts/Makefile.build:287: drivers/staging/media/zoran/zoran_card.o] Error 1
+	make[5]: *** Waiting for unfinished jobs....
+	make[4]: *** [../scripts/Makefile.build:549: drivers/staging/media/zoran] Error 2
+	make[3]: *** [../scripts/Makefile.build:549: drivers/staging/media] Error 2
+	make[2]: *** [../scripts/Makefile.build:549: drivers/staging] Error 2
+	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:1846: drivers] Error 2
+	make: *** [Makefile:219: __sub-make] Error 2
+
+    allmodconfig: return code #512:
+	../drivers/staging/media/zoran/zoran_card.c:1412:1: error: label ‘zr_unreg_videocodec’ defined but not used [-Werror=unused-label]
+	cc1: all warnings being treated as errors
+	make[5]: *** [../scripts/Makefile.build:287: drivers/staging/media/zoran/zoran_card.o] Error 1
+	make[5]: *** Waiting for unfinished jobs....
+	make[4]: *** [../scripts/Makefile.build:549: drivers/staging/media/zoran] Error 2
+	make[3]: *** [../scripts/Makefile.build:549: drivers/staging/media] Error 2
+	make[2]: *** [../scripts/Makefile.build:549: drivers/staging] Error 2
+	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:1846: drivers] Error 2
+	make: *** [Makefile:219: __sub-make] Error 2
+
+patches/0007-staging-media-zoran-remove-vidmem.patch:
+
+    allyesconfig: return code #512:
+	../drivers/staging/media/zoran/zoran_card.c:1397:1: error: label ‘zr_unreg_videocodec’ defined but not used [-Werror=unused-label]
+	cc1: all warnings being treated as errors
+	make[5]: *** [../scripts/Makefile.build:287: drivers/staging/media/zoran/zoran_card.o] Error 1
+	make[4]: *** [../scripts/Makefile.build:549: drivers/staging/media/zoran] Error 2
+	make[3]: *** [../scripts/Makefile.build:549: drivers/staging/media] Error 2
+	make[2]: *** [../scripts/Makefile.build:549: drivers/staging] Error 2
+	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:1846: drivers] Error 2
+	make: *** [Makefile:219: __sub-make] Error 2
+
+    allmodconfig: return code #512:
+	../drivers/staging/media/zoran/zoran_card.c:1397:1: error: label ‘zr_unreg_videocodec’ defined but not used [-Werror=unused-label]
+	cc1: all warnings being treated as errors
+	make[5]: *** [../scripts/Makefile.build:287: drivers/staging/media/zoran/zoran_card.o] Error 1
+	make[4]: *** [../scripts/Makefile.build:549: drivers/staging/media/zoran] Error 2
+	make[3]: *** [../scripts/Makefile.build:549: drivers/staging/media] Error 2
+	make[2]: *** [../scripts/Makefile.build:549: drivers/staging] Error 2
+	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:1846: drivers] Error 2
+	make: *** [Makefile:219: __sub-make] Error 2
+
+patches/0008-staging-media-zoran-move-videodev-alloc.patch:
+
+    allyesconfig: return code #512:
+	../drivers/staging/media/zoran/zoran_card.c:1417:1: error: label ‘zr_unreg_videocodec’ defined but not used [-Werror=unused-label]
+	cc1: all warnings being treated as errors
+	make[5]: *** [../scripts/Makefile.build:287: drivers/staging/media/zoran/zoran_card.o] Error 1
+	make[5]: *** Waiting for unfinished jobs....
+	make[4]: *** [../scripts/Makefile.build:549: drivers/staging/media/zoran] Error 2
+	make[3]: *** [../scripts/Makefile.build:549: drivers/staging/media] Error 2
+	make[2]: *** [../scripts/Makefile.build:549: drivers/staging] Error 2
+	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:1846: drivers] Error 2
+	make: *** [Makefile:219: __sub-make] Error 2
+
+    allmodconfig: return code #512:
+	../drivers/staging/media/zoran/zoran_card.c:1417:1: error: label ‘zr_unreg_videocodec’ defined but not used [-Werror=unused-label]
+	cc1: all warnings being treated as errors
+	make[5]: *** [../scripts/Makefile.build:287: drivers/staging/media/zoran/zoran_card.o] Error 1
+	make[5]: *** Waiting for unfinished jobs....
+	make[4]: *** [../scripts/Makefile.build:549: drivers/staging/media/zoran] Error 2
+	make[3]: *** [../scripts/Makefile.build:549: drivers/staging/media] Error 2
+	make[2]: *** [../scripts/Makefile.build:549: drivers/staging] Error 2
+	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:1846: drivers] Error 2
+	make: *** [Makefile:219: __sub-make] Error 2
+
+patches/0009-staging-media-zoran-move-config-select-on-primary-kc.patch:
+
+    allyesconfig: return code #512:
+	../drivers/staging/media/zoran/zoran_card.c:1417:1: error: label ‘zr_unreg_videocodec’ defined but not used [-Werror=unused-label]
+	cc1: all warnings being treated as errors
+	make[5]: *** [../scripts/Makefile.build:287: drivers/staging/media/zoran/zoran_card.o] Error 1
+	make[4]: *** [../scripts/Makefile.build:549: drivers/staging/media/zoran] Error 2
+	make[3]: *** [../scripts/Makefile.build:549: drivers/staging/media] Error 2
+	make[2]: *** [../scripts/Makefile.build:549: drivers/staging] Error 2
+	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:1846: drivers] Error 2
+	make: *** [Makefile:219: __sub-make] Error 2
+
+    allmodconfig: return code #512:
+	../drivers/staging/media/zoran/zoran_card.c:1417:1: error: label ‘zr_unreg_videocodec’ defined but not used [-Werror=unused-label]
+	cc1: all warnings being treated as errors
+	make[5]: *** [../scripts/Makefile.build:287: drivers/staging/media/zoran/zoran_card.o] Error 1
+	make[4]: *** [../scripts/Makefile.build:549: drivers/staging/media/zoran] Error 2
+	make[3]: *** [../scripts/Makefile.build:549: drivers/staging/media] Error 2
+	make[2]: *** [../scripts/Makefile.build:549: drivers/staging] Error 2
+	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:1846: drivers] Error 2
+	make: *** [Makefile:219: __sub-make] Error 2
+
+
+Error #512 when building PDF docs
 
