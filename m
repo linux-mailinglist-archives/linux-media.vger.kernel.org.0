@@ -2,287 +2,152 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CCCDB478DCE
-	for <lists+linux-media@lfdr.de>; Fri, 17 Dec 2021 15:29:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 056D6478DDF
+	for <lists+linux-media@lfdr.de>; Fri, 17 Dec 2021 15:35:07 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234925AbhLQO3f (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 17 Dec 2021 09:29:35 -0500
-Received: from relay4-d.mail.gandi.net ([217.70.183.196]:45381 "EHLO
-        relay4-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234682AbhLQO3e (ORCPT
+        id S234476AbhLQOfG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 17 Dec 2021 09:35:06 -0500
+Received: from ewsoutbound.kpnmail.nl ([195.121.94.170]:19335 "EHLO
+        ewsoutbound.kpnmail.nl" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230248AbhLQOfF (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 17 Dec 2021 09:29:34 -0500
-Received: (Authenticated sender: jacopo@jmondi.org)
-        by relay4-d.mail.gandi.net (Postfix) with ESMTPSA id DB0C8E0014;
-        Fri, 17 Dec 2021 14:29:29 +0000 (UTC)
-From:   Jacopo Mondi <jacopo+renesas@jmondi.org>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>
-Cc:     Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        linux-renesas-soc@vger.kernel.org, linux-media@vger.kernel.org,
-        devicetree@vger.kernel.org
-Subject: [v8.1 3/7] media: i2c: max9286: Use "maxim,gpio-poc" property
-Date:   Fri, 17 Dec 2021 15:30:18 +0100
-Message-Id: <20211217143018.41653-1-jacopo+renesas@jmondi.org>
-X-Mailer: git-send-email 2.33.1
-In-Reply-To: <20211216163439.139579-1-jacopo+renesas@jmondi.org>
-References: <20211216163439.139579-1-jacopo+renesas@jmondi.org>
+        Fri, 17 Dec 2021 09:35:05 -0500
+X-KPN-MessageId: 631ffec7-5f46-11ec-8a6e-005056ab378f
+Received: from smtp.kpnmail.nl (unknown [10.31.155.38])
+        by ewsoutbound.so.kpn.org (Halon) with ESMTPS
+        id 631ffec7-5f46-11ec-8a6e-005056ab378f;
+        Fri, 17 Dec 2021 15:34:05 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=xs4all.nl; s=xs4all01;
+        h=content-type:from:to:subject:mime-version:date:message-id;
+        bh=ixgqKVt/uxT80R1nKt0+mVHZMTzJ7vsX5Bb6IlLcP8s=;
+        b=b7+syIJVKGnOgflj46SgrnasVH8CCdxhh6c/9CN6wISE4W34cIiFrO9s3b4hBCNysnxGr/z4le1k6
+         QaTtM8jUSPPipFpIW5ipChsunw6T2bTiP9TfeSboPX4lJAC354/xqWin2VyCP00nbXB4Zl4ieyfeAO
+         43CuS4XrxGPSwe/5Bp6R8yLfWr+l9vNnAfg6xfLNxf2emZCN/x3exAd0q8Bi9Xk0LD4wUj7fuYjZw5
+         lfN/T/baRLszWHyfZs9pOFVNxABYm1vQySellGkk1QIzDk+ep7J6D0eaCyDKNucJt71X/opsyGkW3l
+         Nmua1oQHmopd+/vfpC3H08S/Pz4MbGg==
+X-KPN-VerifiedSender: No
+X-CMASSUN: 33|RP5rhhJK7YImVnbHFRk+2NoyKtveOqahQy+bUu9k789FEX2aT6a5l+QBweEyLyb
+ Lh+WA9zbDcA+TfwHc/t1B1Q==
+X-Originating-IP: 80.101.105.217
+Received: from [192.168.1.10] (marune.xs4all.nl [80.101.105.217])
+        by smtp.xs4all.nl (Halon) with ESMTPSA
+        id 858378a0-5f46-11ec-94d2-005056abf0db;
+        Fri, 17 Dec 2021 15:35:03 +0100 (CET)
+Message-ID: <c1b379c4-242a-2a92-a89d-6b067c8facf7@xs4all.nl>
+Date:   Fri, 17 Dec 2021 15:35:03 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.3.2
+Subject: Re: [PATCH v2 6/6] media: Documentation: add documentation about
+ subdev state
+Content-Language: en-US
+To:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+        linux-media@vger.kernel.org, sakari.ailus@linux.intel.com,
+        Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        niklas.soderlund+renesas@ragnatech.se,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Pratyush Yadav <p.yadav@ti.com>
+References: <20211217135022.364954-1-tomi.valkeinen@ideasonboard.com>
+ <20211217135022.364954-7-tomi.valkeinen@ideasonboard.com>
+From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
+In-Reply-To: <20211217135022.364954-7-tomi.valkeinen@ideasonboard.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The 'maxim,gpio-poc' property is used when the remote camera
-power-over-coax is controlled by one of the MAX9286 gpio lines,
-to instruct the driver about which line to use and what the line
-polarity is.
+On 17/12/2021 14:50, Tomi Valkeinen wrote:
+> Add documentation about centrally managed subdev state.
+> 
+> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+> Reviewed-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
+> ---
+>  .../driver-api/media/v4l2-subdev.rst          | 57 +++++++++++++++++++
+>  1 file changed, 57 insertions(+)
+> 
+> diff --git a/Documentation/driver-api/media/v4l2-subdev.rst b/Documentation/driver-api/media/v4l2-subdev.rst
+> index 08ea2673b19e..18b00bd3d6d4 100644
+> --- a/Documentation/driver-api/media/v4l2-subdev.rst
+> +++ b/Documentation/driver-api/media/v4l2-subdev.rst
+> @@ -518,6 +518,63 @@ The :c:func:`v4l2_i2c_new_subdev` function will call
+>  :c:type:`i2c_board_info` structure using the ``client_type`` and the
+>  ``addr`` to fill it.
+>  
+> +Centrally managed subdev active state
+> +-------------------------------------
+> +
+> +Traditionally V4L2 subdev drivers maintained internal state for the active
+> +device configuration. This is often implemented e.g. as an array of
 
-Add to the max9286 driver support for parsing the newly introduced
-property and use it if available in place of the usual supply, as it is
-not possible to establish one as consumer of the max9286 gpio
-controller.
+e.g. as -> as e.g.
 
-If the new property is present, no gpio controller is registered and
-'poc-supply' is ignored.
+> +struct v4l2_mbus_framefmt, one entry for each pad, and similarly for cropping
+> +and composition rectangles.
+> +
+> +In addition to the active configuration, each subdev file-handle has an array of
+> +struct v4l2_subdev_pad_config, managed by V4L2 core, which contains the try
 
-In order to maximize code re-use, break out the max9286 gpio handling
-function so that they can be used by the gpio controller through the
-gpio-consumer API, or directly by the driver code.
+by V4L2 -> by the V4L2
 
-Wrap the power up and power down routines to their own function to
-be able to use either the gpio line directly or the supply. This will
-make it easier to control the remote camera power at run time.
+> +configuration.
+> +
+> +To simplify the subdev drivers the V4L2 subdev API now optionally supports a
+> +centrally managed active configuration represented by
+> +:c:type:`v4l2_subdev_state`. One instance of state, which contains the active
+> +device configuration, is associated with the sub-device itself as part of
+> +the :c:type:`v4l2_subdev` structure, while the core associates to each open
+> +file-handle a try state, which contains the configuration valid in the
+> +file-handle context only.
+> +
+> +Sub-device drivers can opt-in and use state to manage their active configuration
+> +by initializing the subdevice state with a call to v4l2_subdev_init_finalize()
+> +before registering the sub-device. They must also call v4l2_subdev_cleanup()
+> +to release all the acquired resources before unregistering the sub-device.
+> +The core automatically initializes a state for each open file-handle where to
+> +store the try configurations and releases them at file-handle closing time.
+> +
+> +V4L2 sub-device operations that use both the :ref:`ACTIVE and TRY formats
+> +<v4l2-subdev-format-whence>` receive the correct state to operate on as a
+> +'state' parameter. The sub-device driver can access and modify the
+> +configuration stored in the provided state after having locked it by calling
+> +:c:func:`v4l2_subdev_lock_state()`. The driver must then call
+> +:c:func:`v4l2_subdev_unlock_state()` to unlock the state when done.
+> +
+> +Operations that do not receive a state parameter implicitly operate on the
+> +subdevice active state, which drivers can exclusively access by
+> +calling :c:func:`v4l2_subdev_lock_active_state()`. The sub-device active state
+> +must equally be released by calling :c:func:`v4l2_subdev_unlock_state()`.
+> +
+> +Drivers must never manually access the state stored in the :c:type:`v4l2_subdev`
+> +or in the file-handle without going through the designated helpers.
+> +
+> +While the V4L2 core will pass the correct try- or active-state to the
+> +subdevice operations, device drivers might call operations on other
+> +subdevices by using :c:func:`v4l2_subdev_call()` kAPI and pass NULL as the
+> +state. This is only a problem for subdev drivers which use the
+> +centrally managed active-state and are used in media pipelines with older
+> +subdev drivers. In these cases the called subdev ops must also handle the NULL
+> +case. This can be easily managed by the use of
+> +:c:func:`v4l2_subdev_lock_and_return_state()` helper.
+> +
+> +:c:func:`v4l2_subdev_lock_and_return_state()` should only be used when porting
+> +an existing driver to the new state management when it cannot be guaranteed
+> +that the current callers will pass the state properly. The function prints a
+> +notice when the passed state is NULL to encourage the porting of the callers
+> +to the new state management.
+> +
+>  V4L2 sub-device functions and data structures
+>  ---------------------------------------------
+>  
+> 
 
-Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
----
+With those tiny changes:
 
-Changes from v8:
-- Use dev_err_probe() instead of open coding it
+Reviewed-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 
----
- drivers/media/i2c/max9286.c | 122 ++++++++++++++++++++++++++----------
- 1 file changed, 90 insertions(+), 32 deletions(-)
+Regards,
 
-diff --git a/drivers/media/i2c/max9286.c b/drivers/media/i2c/max9286.c
-index 18d38db9864c..f06ec0b0a8a8 100644
---- a/drivers/media/i2c/max9286.c
-+++ b/drivers/media/i2c/max9286.c
-@@ -15,6 +15,7 @@
- #include <linux/fwnode.h>
- #include <linux/gpio/consumer.h>
- #include <linux/gpio/driver.h>
-+#include <linux/gpio/machine.h>
- #include <linux/i2c.h>
- #include <linux/i2c-mux.h>
- #include <linux/module.h>
-@@ -168,6 +169,8 @@ struct max9286_priv {
- 	u32 init_rev_chan_mv;
- 	u32 rev_chan_mv;
-
-+	u32 gpio_poc[2];
-+
- 	struct v4l2_ctrl_handler ctrls;
- 	struct v4l2_ctrl *pixelrate;
-
-@@ -1041,20 +1044,27 @@ static int max9286_setup(struct max9286_priv *priv)
- 	return 0;
- }
-
--static void max9286_gpio_set(struct gpio_chip *chip,
--			     unsigned int offset, int value)
-+static int max9286_gpio_set(struct max9286_priv *priv, unsigned int offset,
-+			    int value)
- {
--	struct max9286_priv *priv = gpiochip_get_data(chip);
--
- 	if (value)
- 		priv->gpio_state |= BIT(offset);
- 	else
- 		priv->gpio_state &= ~BIT(offset);
-
--	max9286_write(priv, 0x0f, MAX9286_0X0F_RESERVED | priv->gpio_state);
-+	return max9286_write(priv, 0x0f,
-+			     MAX9286_0X0F_RESERVED | priv->gpio_state);
- }
-
--static int max9286_gpio_get(struct gpio_chip *chip, unsigned int offset)
-+static void max9286_gpiochip_set(struct gpio_chip *chip,
-+				 unsigned int offset, int value)
-+{
-+	struct max9286_priv *priv = gpiochip_get_data(chip);
-+
-+	max9286_gpio_set(priv, offset, value);
-+}
-+
-+static int max9286_gpiochip_get(struct gpio_chip *chip, unsigned int offset)
- {
- 	struct max9286_priv *priv = gpiochip_get_data(chip);
-
-@@ -1074,13 +1084,10 @@ static int max9286_register_gpio(struct max9286_priv *priv)
- 	gpio->of_node = dev->of_node;
- 	gpio->ngpio = 2;
- 	gpio->base = -1;
--	gpio->set = max9286_gpio_set;
--	gpio->get = max9286_gpio_get;
-+	gpio->set = max9286_gpiochip_set;
-+	gpio->get = max9286_gpiochip_get;
- 	gpio->can_sleep = true;
-
--	/* GPIO values default to high */
--	priv->gpio_state = BIT(0) | BIT(1);
--
- 	ret = devm_gpiochip_add_data(dev, gpio, priv);
- 	if (ret)
- 		dev_err(dev, "Unable to create gpio_chip\n");
-@@ -1088,6 +1095,70 @@ static int max9286_register_gpio(struct max9286_priv *priv)
- 	return ret;
- }
-
-+static int max9286_parse_gpios(struct max9286_priv *priv)
-+{
-+	struct device *dev = &priv->client->dev;
-+	int ret;
-+
-+	/* GPIO values default to high */
-+	priv->gpio_state = BIT(0) | BIT(1);
-+
-+	/*
-+	 * Parse the "gpio-poc" vendor property. If the property is not
-+	 * specified the camera power is controlled by a regulator.
-+	 */
-+	ret = of_property_read_u32_array(dev->of_node, "maxim,gpio-poc",
-+					 priv->gpio_poc, 2);
-+	if (ret == -EINVAL) {
-+		/*
-+		 * If gpio lines are not used for the camera power, register
-+		 * a gpio controller for consumers.
-+		 */
-+		ret = max9286_register_gpio(priv);
-+		if (ret)
-+			return ret;
-+
-+		priv->regulator = devm_regulator_get(dev, "poc");
-+		if (IS_ERR(priv->regulator)) {
-+			return dev_err_probe(dev, PTR_ERR(priv->regulator),
-+					     "Unable to get PoC regulator (%ld)\n",
-+					     PTR_ERR(priv->regulator));
-+		}
-+
-+		return 0;
-+	}
-+
-+	/* If the property is specified make sure it is well formed. */
-+	if (ret || priv->gpio_poc[0] > 1 ||
-+	    (priv->gpio_poc[1] != GPIO_ACTIVE_HIGH &&
-+	     priv->gpio_poc[1] != GPIO_ACTIVE_LOW)) {
-+		dev_err(dev, "Invalid 'gpio-poc' property\n");
-+		return -EINVAL;
-+	}
-+
-+	return 0;
-+}
-+
-+static int max9286_poc_enable(struct max9286_priv *priv, bool enable)
-+{
-+	int ret;
-+
-+	/* If the regulator is not available, use gpio to control power. */
-+	if (!priv->regulator)
-+		ret = max9286_gpio_set(priv, priv->gpio_poc[0],
-+				       enable ^ priv->gpio_poc[1]);
-+	else if (enable)
-+		ret = regulator_enable(priv->regulator);
-+	else
-+		ret = regulator_disable(priv->regulator);
-+
-+	if (ret < 0)
-+		dev_err(&priv->client->dev, "Unable to turn power %s\n",
-+			enable ? "on" : "off");
-+
-+	return ret;
-+}
-+
- static int max9286_init(struct device *dev)
- {
- 	struct max9286_priv *priv;
-@@ -1097,17 +1168,14 @@ static int max9286_init(struct device *dev)
- 	client = to_i2c_client(dev);
- 	priv = i2c_get_clientdata(client);
-
--	/* Enable the bus power. */
--	ret = regulator_enable(priv->regulator);
--	if (ret < 0) {
--		dev_err(&client->dev, "Unable to turn PoC on\n");
-+	ret = max9286_poc_enable(priv, true);
-+	if (ret)
- 		return ret;
--	}
-
- 	ret = max9286_setup(priv);
- 	if (ret) {
- 		dev_err(dev, "Unable to setup max9286\n");
--		goto err_regulator;
-+		goto err_poc_disable;
- 	}
-
- 	/*
-@@ -1117,7 +1185,7 @@ static int max9286_init(struct device *dev)
- 	ret = max9286_v4l2_register(priv);
- 	if (ret) {
- 		dev_err(dev, "Failed to register with V4L2\n");
--		goto err_regulator;
-+		goto err_poc_disable;
- 	}
-
- 	ret = max9286_i2c_mux_init(priv);
-@@ -1133,8 +1201,8 @@ static int max9286_init(struct device *dev)
-
- err_v4l2_register:
- 	max9286_v4l2_unregister(priv);
--err_regulator:
--	regulator_disable(priv->regulator);
-+err_poc_disable:
-+	max9286_poc_enable(priv, false);
-
- 	return ret;
- }
-@@ -1305,20 +1373,10 @@ static int max9286_probe(struct i2c_client *client)
- 	 */
- 	max9286_configure_i2c(priv, false);
-
--	ret = max9286_register_gpio(priv);
-+	ret = max9286_parse_gpios(priv);
- 	if (ret)
- 		goto err_powerdown;
-
--	priv->regulator = devm_regulator_get(&client->dev, "poc");
--	if (IS_ERR(priv->regulator)) {
--		if (PTR_ERR(priv->regulator) != -EPROBE_DEFER)
--			dev_err(&client->dev,
--				"Unable to get PoC regulator (%ld)\n",
--				PTR_ERR(priv->regulator));
--		ret = PTR_ERR(priv->regulator);
--		goto err_powerdown;
--	}
--
- 	ret = max9286_parse_dt(priv);
- 	if (ret)
- 		goto err_powerdown;
-@@ -1345,7 +1403,7 @@ static int max9286_remove(struct i2c_client *client)
-
- 	max9286_v4l2_unregister(priv);
-
--	regulator_disable(priv->regulator);
-+	max9286_poc_enable(priv, false);
-
- 	gpiod_set_value_cansleep(priv->gpiod_pwdn, 0);
-
---
-2.33.1
-
+	Hans
