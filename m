@@ -2,123 +2,99 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7BBD94799ED
-	for <lists+linux-media@lfdr.de>; Sat, 18 Dec 2021 10:15:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C70B44799EE
+	for <lists+linux-media@lfdr.de>; Sat, 18 Dec 2021 10:16:49 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231382AbhLRJP1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 18 Dec 2021 04:15:27 -0500
-Received: from ams.source.kernel.org ([145.40.68.75]:51648 "EHLO
-        ams.source.kernel.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229938AbhLRJP0 (ORCPT
+        id S232526AbhLRJQs (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 18 Dec 2021 04:16:48 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40860 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229938AbhLRJQs (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 18 Dec 2021 04:15:26 -0500
+        Sat, 18 Dec 2021 04:16:48 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F1501C061574;
+        Sat, 18 Dec 2021 01:16:47 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id A5CE0B8075D
-        for <linux-media@vger.kernel.org>; Sat, 18 Dec 2021 09:15:25 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 10240C36AE1;
-        Sat, 18 Dec 2021 09:15:22 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 8893F60E73;
+        Sat, 18 Dec 2021 09:16:47 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1A129C36AE1;
+        Sat, 18 Dec 2021 09:16:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1639818924;
-        bh=DWNz+TXGG6cXxz6aKv9fOPTaXvuMTZU97n6sFjJFKG4=;
+        s=k20201202; t=1639819006;
+        bh=hOMGL3IpkFJQfo5rO2SN15qADKosK49E/K3YyTIMkBA=;
         h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=UOBXwEGQdPPpZnDIbFpiWPnxOK4IIveSHjHUIJPjxVI7jR+vSdkVoAusC5Lv+H0/B
-         RGWh7Hevh0cgXW390RaxNK8aj1EY761VW1TlscUWkbCaF3u1dQVJ3MF/LisH0r+fcc
-         H7Bv4pfZVj2zmpvgub4BwBbUy3WoF7Z4urB7M/t5H4eIwEacKqwQeWFMCJ/Uue+KB0
-         bZy86RphsF+3U0Nu/Xc7gFfWEJUItisdMF7tmNDSTz4PJ6AO1HKM3PUSlrvAqUyeee
-         xoNakSyJaa/eZlP+IMn2SwUwAUjiWfwNS5y3jJRdy16PTf/Hn2jLBoS5jsWn6LE2yN
-         2eCX4UzwLHirg==
-Date:   Sat, 18 Dec 2021 10:15:19 +0100
-From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To:     Maximilian =?UTF-8?B?QsO2aG0=?= <maximilian.boehm@elbmurf.de>
-Cc:     paskripkin@gmail.com, hverkuil-cisco@xs4all.nl, sashal@kernel.org,
-        linux-media@vger.kernel.org, Brad Love <brad@nextdimension.cc>
-Subject: Re: Kernel hangs after DVB patch from July 2021 with Hauppauge
- WinTV dualHD
-Message-ID: <20211218101519.756c027d@coco.lan>
-In-Reply-To: <6a72a37b-e972-187d-0322-16336e12bdc5@elbmurf.de>
-References: <6a72a37b-e972-187d-0322-16336e12bdc5@elbmurf.de>
+        b=Wvp7dAZaWIGNnA1fIfeIkbncQZu5sDHqg7PZ3efcsTfMsYBOLCyUUocVKRxX1OfTv
+         dddQqg8jW6KcHVkSz3PR8KUD5lL2d+dnKfYeWpsODh5tLys3XY1n8Vf0p3sHXrHKmv
+         iRFbwCSAPi4oDK7rBxcuo9+x374b++z6RU67V20KqNZvEJA+ZpqZ/Aw1sxgWIg1m2r
+         /XXJq+PZ4cEWjJtqsaCrteEcRS2T7FMRy9JoDFh9pAxusXxjT0AdygmMjhCTRogh2a
+         y3LGIQbc5HH8kjqEeXW6wfTI08lB4tWw5CODFeX/vMZ07ptyKmuL7F7EBRxYma0mE3
+         7m5rIiE6xpwnw==
+Date:   Sat, 18 Dec 2021 10:16:42 +0100
+From:   Mauro Carvalho Chehab <mchehab@kernel.org>
+To:     davidcomponentone@gmail.com
+Cc:     arnd@arndb.de, hverkuil-cisco@xs4all.nl,
+        laurent.pinchart@ideasonboard.com, linux-media@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Yang Guang <yang.guang5@zte.com.cn>,
+        Zeal Robot <zealci@zte.com.cn>
+Subject: Re: [PATCH] media: saa7134: use swap() to make code cleaner
+Message-ID: <20211218101642.1e1c22ca@coco.lan>
+In-Reply-To: <021c7dbfec45346672d1773bd322c00b62906e54.1639791971.git.yang.guang5@zte.com.cn>
+References: <021c7dbfec45346672d1773bd322c00b62906e54.1639791971.git.yang.guang5@zte.com.cn>
 X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.30; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Em Sat, 18 Dec 2021 02:09:46 +0100
-Maximilian B=C3=B6hm <maximilian.boehm@elbmurf.de> escreveu:
+Em Sat, 18 Dec 2021 09:58:02 +0800
+davidcomponentone@gmail.com escreveu:
 
-> Hello Paul and the other people involved,
->=20
-> I=E2=80=99m a user of a Hauppauge WinTV dualHD DVB-T2 USB card and experi=
-encing a bug since Linux 5.15.3 of which kernel bisecting brought me to a c=
-ommit by you from Juli 29: "media: em28xx: add missing em28xx_close_extensi=
-on".
+> From: Yang Guang <yang.guang5@zte.com.cn>
+> 
+> Use the macro 'swap()' defined in 'include/linux/minmax.h' to avoid
+> opencoding it.
+> 
+> Reported-by: Zeal Robot <zealci@zte.com.cn>
+> Signed-off-by: David Yang <davidcomponentone@gmail.com>
+> Signed-off-by: Yang Guang <yang.guang5@zte.com.cn>
+> ---
+>  drivers/media/pci/saa7134/saa7134-video.c | 6 ++----
+>  1 file changed, 2 insertions(+), 4 deletions(-)
+> 
+> diff --git a/drivers/media/pci/saa7134/saa7134-video.c b/drivers/media/pci/saa7134/saa7134-video.c
+> index 374c8e1087de..6f4132058c35 100644
+> --- a/drivers/media/pci/saa7134/saa7134-video.c
+> +++ b/drivers/media/pci/saa7134/saa7134-video.c
+> @@ -823,7 +823,7 @@ static int buffer_activate(struct saa7134_dev *dev,
+>  {
+>  	struct saa7134_dmaqueue *dmaq = buf->vb2.vb2_buf.vb2_queue->drv_priv;
+>  	unsigned long base,control,bpl;
+> -	unsigned long bpl_uv,lines_uv,base2,base3,tmp; /* planar */
+> +	unsigned long bpl_uv, lines_uv, base2, base3; /* planar */
+>  
+>  	video_dbg("buffer_activate buf=%p\n", buf);
+>  	buf->top_seen = 0;
+> @@ -869,9 +869,7 @@ static int buffer_activate(struct saa7134_dev *dev,
+>  		base2    = base + bpl * dev->height;
+>  		base3    = base2 + bpl_uv * lines_uv;
+>  		if (dev->fmt->uvswap) {
+> -			tmp = base2;
+> -			base2 = base3;
+> -			base3 = tmp;
+> +			swap(base2, base3);
+>  		}
+
+No need for {}
+
+>  		video_dbg("uv: bpl=%ld lines=%ld base2/3=%ld/%ld\n",
+>  			bpl_uv,lines_uv,base2,base3);
 
 
-So, basically this changeset: 2c98b8a3458d ("media: em28xx: add missing em2=
-8xx_close_extension")
-
-> My problem: This TV stick doesn=E2=80=99t work for me after a wake up fro=
-m a system standby, so I have to use the little helper tool usbreset to res=
-et its USB connection.
-
-What such patch should be doing is to ensure that the drivers will
-do the right thing when the device is removed (or unbound).
-
-It shouldn't have been called during suspend/resume. While this bug
-should be fixed, the issue with suspend/resume callbacks also seem
-to require additional work.
-
-Now, I dunno what a "usbreset" tool would be doing, but I'm assuming
-that it will be doing a unbind/bind sequence.
-
-> But if I try this after Linux 5.15.3, I get a severe kernel error in dmes=
-g, system hangs and I=E2=80=99m unable to proper reboot or shutdown. I have=
- reported this on the kernel Bugzilla, including a dmesg log: https://bugzi=
-lla.kernel.org/show_bug.cgi?id=3D215241
-
-Such patch should actually be fixing a use-after-free on disconnect.
-
-Anyway, could you please try the enclosed patch?
-
-> I hope you have an idea about how to stop this problem from occurring and=
- I=E2=80=98m willing to help testing a fix.
-> Another thinkable fix would be to directly fix this TV stick=E2=80=99s st=
-andby-wake-up problem but I=E2=80=99m not savvy enough to determine if this=
- would be the better option than to fix this hanging issue.
-
-Yeah, that would be the best. Unfortunately, right now, I don't have=20
-any dual DVB-T em28xx-based board to test.
 
 Thanks,
 Mauro
-
-[PATCH] media: em28xx: close exension first at dev_next
-
-Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-
-diff --git a/drivers/media/usb/em28xx/em28xx-cards.c b/drivers/media/usb/em=
-28xx/em28xx-cards.c
-index b451ce3cb169..08f34a8aab5e 100644
---- a/drivers/media/usb/em28xx/em28xx-cards.c
-+++ b/drivers/media/usb/em28xx/em28xx-cards.c
-@@ -4148,13 +4148,12 @@ static void em28xx_usb_disconnect(struct usb_interf=
-ace *intf)
-=20
-        flush_request_modules(dev);
-=20
--       em28xx_close_extension(dev);
--
-        if (dev->dev_next) {
-                em28xx_close_extension(dev->dev_next);
-                em28xx_release_resources(dev->dev_next);
-        }
-=20
-+       em28xx_close_extension(dev);
-        em28xx_release_resources(dev);
-=20
-        if (dev->dev_next) {
-
