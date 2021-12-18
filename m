@@ -2,62 +2,105 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E23A14797FC
-	for <lists+linux-media@lfdr.de>; Sat, 18 Dec 2021 02:09:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A30DB479815
+	for <lists+linux-media@lfdr.de>; Sat, 18 Dec 2021 02:58:16 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229718AbhLRBJ6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 17 Dec 2021 20:09:58 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49136 "EHLO
+        id S231634AbhLRB6P (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 17 Dec 2021 20:58:15 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59554 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229704AbhLRBJ6 (ORCPT
+        with ESMTP id S229709AbhLRB6P (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 17 Dec 2021 20:09:58 -0500
-Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [IPv6:2001:67c:2050::465:102])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BDE42C061574
-        for <linux-media@vger.kernel.org>; Fri, 17 Dec 2021 17:09:57 -0800 (PST)
-Received: from smtp202.mailbox.org (smtp202.mailbox.org [IPv6:2001:67c:2050:105:465:1:4:0])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-384) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4JG7736qH3zQk3V;
-        Sat, 18 Dec 2021 02:09:51 +0100 (CET)
-X-Virus-Scanned: amavisd-new at heinlein-support.de
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=elbmurf.de; s=MBO0001;
-        t=1639789790;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding;
-        bh=nCWVrM3gVdLOvIu4KIRoGk+PSvXGsGkKC7lqJrVq+T0=;
-        b=O266jj7/e6YF2E3hWkRBY5yfpRLEXxsGirYlxm/5uxMQy4j2JSoWzNeD2NgsX37WHcbwRw
-        eiiQFlnYmH7RFll8bFvUaH3IWRpf2/CdOp/uFE9nhWyBFJjlu88TRpP4cme2mjn37NQm37
-        Ag7w6volCHgh9BQQTtd70JG6AeU7ZmrrYN9Q2ah4NZ/mkf/7HV7/WD4o43uN/8cBxFXveV
-        /4qjef/V96eKpBxTILhkaGEtvItKIMFf0FUb7K0/PbcFZ0UjKQBNg9QZ+k0FfysnfPM8eY
-        LHhI5Ha6p9CLJMkP4FzD1EB0M+MNPviysS5JcehiYIXjBVykmU6rIq+57byrNg==
-Message-ID: <6a72a37b-e972-187d-0322-16336e12bdc5@elbmurf.de>
-Date:   Sat, 18 Dec 2021 02:09:46 +0100
+        Fri, 17 Dec 2021 20:58:15 -0500
+Received: from mail-pl1-x630.google.com (mail-pl1-x630.google.com [IPv6:2607:f8b0:4864:20::630])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 063E5C061574;
+        Fri, 17 Dec 2021 17:58:15 -0800 (PST)
+Received: by mail-pl1-x630.google.com with SMTP id m24so3303670pls.10;
+        Fri, 17 Dec 2021 17:58:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=pFfNVSOltuNWp1wMtI3hg/qMObF7DQ/1Aun+IfAtVr8=;
+        b=Ku2yX3hNsH1XjBVY62B25nOIqkkNt+zmO+8g5n+lPfF75Uze5Tam4vlb1rWefeX0tQ
+         jGr/W02uNdbacnH0FuFZjctXsxa26d9e/0MzE9yJCNwSY88Q2g/300ORMOJQRuhGfxPf
+         ea84uiFj+ShaVJIP0LMO66MPHnSKDDfmQEZUxiH4lRUiyfAO9bN8WkrfmmTLWxmxV+ie
+         YK6C/Pn1QjfjCuChIUxzOs4MCsXRGzsrqjuul/dztx6ugdKnSbhCUYitwWTMKgeUd16V
+         jybCQzyUJ5NLbWMO324vcBmue+7HLvpi80Us5fk6TovQ2wQg+GyHkqIupQZbjs4N/quS
+         w/uw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=pFfNVSOltuNWp1wMtI3hg/qMObF7DQ/1Aun+IfAtVr8=;
+        b=0m427m2SFF37JWNjbj4g4kCYgDfPKdrEeRnvtKHwNA4ur79pdUz0NoMvyoJYGbrhtD
+         dUEr3mp9ubT54J2iwzeWmCW/xGwFb3WRanA6a2eIravFGfRP6hXe9mufNB0xEo3wRMbV
+         TR1oru/oL9dQUCZbxFMShli+BbFbop0MnO4Bcb/+F/aTptYUsIHnmGyb2wPqkgwfx2Zr
+         0YIlW6hJeh4H80ooFvQDCNcMDah/+mEMK/stwM0b7P+trNBVQo52/LJnLovYijEGJsS7
+         WFSZt+mHhGqNcjMtgQ6uyPpcIKu7rzczIBMhqKh0bEcEIhD7zZxApfR1mhq71WOWlr/+
+         KxRw==
+X-Gm-Message-State: AOAM530r5BO+ZuhnSxahaTJwGUFUsziwfzU3KJKW7E6W/u+2Th7Cxsw0
+        GC26SlVUQMRTZX9AodYBe14=
+X-Google-Smtp-Source: ABdhPJzB8JazEJhP+/mJKteVGLQBI8KNkSAxq2OHSWjU+1dJJCp9aBhu/oGvEjtTneUzIRrqMt7hLg==
+X-Received: by 2002:a17:902:bc41:b0:148:aef6:b5ad with SMTP id t1-20020a170902bc4100b00148aef6b5admr6073087plz.27.1639792694595;
+        Fri, 17 Dec 2021 17:58:14 -0800 (PST)
+Received: from debian11-dev-61.localdomain (192.243.120.180.16clouds.com. [192.243.120.180])
+        by smtp.gmail.com with ESMTPSA id n14sm404657pgd.80.2021.12.17.17.58.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 17 Dec 2021 17:58:14 -0800 (PST)
+From:   davidcomponentone@gmail.com
+To:     mchehab@kernel.org
+Cc:     davidcomponentone@gmail.com, arnd@arndb.de,
+        hverkuil-cisco@xs4all.nl, laurent.pinchart@ideasonboard.com,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Yang Guang <yang.guang5@zte.com.cn>,
+        Zeal Robot <zealci@zte.com.cn>
+Subject: [PATCH] media: saa7134: use swap() to make code cleaner
+Date:   Sat, 18 Dec 2021 09:58:02 +0800
+Message-Id: <021c7dbfec45346672d1773bd322c00b62906e54.1639791971.git.yang.guang5@zte.com.cn>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-Content-Language: en-US-large
-From:   =?UTF-8?Q?Maximilian_B=c3=b6hm?= <maximilian.boehm@elbmurf.de>
-To:     paskripkin@gmail.com, hverkuil-cisco@xs4all.nl,
-        mchehab+huawei@kernel.org, sashal@kernel.org,
-        linux-media@vger.kernel.org
-Subject: Kernel hangs after DVB patch from July 2021 with Hauppauge WinTV
- dualHD
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hello Paul and the other people involved,
+From: Yang Guang <yang.guang5@zte.com.cn>
 
-I’m a user of a Hauppauge WinTV dualHD DVB-T2 USB card and experiencing a bug since Linux 5.15.3 of which kernel bisecting brought me to a commit by you from Juli 29: "media: em28xx: add missing em28xx_close_extension".
-My problem: This TV stick doesn’t work for me after a wake up from a system standby, so I have to use the little helper tool usbreset to reset its USB connection. But if I try this after Linux 5.15.3, I get a severe kernel error in dmesg, system hangs and I’m unable to proper reboot or shutdown. I have reported this on the kernel Bugzilla, including a dmesg log: https://bugzilla.kernel.org/show_bug.cgi?id=215241
+Use the macro 'swap()' defined in 'include/linux/minmax.h' to avoid
+opencoding it.
 
-I hope you have an idea about how to stop this problem from occurring and I‘m willing to help testing a fix.
-Another thinkable fix would be to directly fix this TV stick’s standby-wake-up problem but I’m not savvy enough to determine if this would be the better option than to fix this hanging issue.
+Reported-by: Zeal Robot <zealci@zte.com.cn>
+Signed-off-by: David Yang <davidcomponentone@gmail.com>
+Signed-off-by: Yang Guang <yang.guang5@zte.com.cn>
+---
+ drivers/media/pci/saa7134/saa7134-video.c | 6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
 
-Best regards
-
-Maximilian Böhm
+diff --git a/drivers/media/pci/saa7134/saa7134-video.c b/drivers/media/pci/saa7134/saa7134-video.c
+index 374c8e1087de..6f4132058c35 100644
+--- a/drivers/media/pci/saa7134/saa7134-video.c
++++ b/drivers/media/pci/saa7134/saa7134-video.c
+@@ -823,7 +823,7 @@ static int buffer_activate(struct saa7134_dev *dev,
+ {
+ 	struct saa7134_dmaqueue *dmaq = buf->vb2.vb2_buf.vb2_queue->drv_priv;
+ 	unsigned long base,control,bpl;
+-	unsigned long bpl_uv,lines_uv,base2,base3,tmp; /* planar */
++	unsigned long bpl_uv, lines_uv, base2, base3; /* planar */
+ 
+ 	video_dbg("buffer_activate buf=%p\n", buf);
+ 	buf->top_seen = 0;
+@@ -869,9 +869,7 @@ static int buffer_activate(struct saa7134_dev *dev,
+ 		base2    = base + bpl * dev->height;
+ 		base3    = base2 + bpl_uv * lines_uv;
+ 		if (dev->fmt->uvswap) {
+-			tmp = base2;
+-			base2 = base3;
+-			base3 = tmp;
++			swap(base2, base3);
+ 		}
+ 		video_dbg("uv: bpl=%ld lines=%ld base2/3=%ld/%ld\n",
+ 			bpl_uv,lines_uv,base2,base3);
+-- 
+2.30.2
 
