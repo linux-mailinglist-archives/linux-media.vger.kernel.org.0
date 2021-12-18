@@ -2,99 +2,123 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C70B44799EE
-	for <lists+linux-media@lfdr.de>; Sat, 18 Dec 2021 10:16:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4FEE3479AB2
+	for <lists+linux-media@lfdr.de>; Sat, 18 Dec 2021 13:13:08 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232526AbhLRJQs (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 18 Dec 2021 04:16:48 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40860 "EHLO
+        id S229870AbhLRMNG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 18 Dec 2021 07:13:06 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51062 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229938AbhLRJQs (ORCPT
+        with ESMTP id S229710AbhLRMNF (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 18 Dec 2021 04:16:48 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F1501C061574;
-        Sat, 18 Dec 2021 01:16:47 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 8893F60E73;
-        Sat, 18 Dec 2021 09:16:47 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1A129C36AE1;
-        Sat, 18 Dec 2021 09:16:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1639819006;
-        bh=hOMGL3IpkFJQfo5rO2SN15qADKosK49E/K3YyTIMkBA=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=Wvp7dAZaWIGNnA1fIfeIkbncQZu5sDHqg7PZ3efcsTfMsYBOLCyUUocVKRxX1OfTv
-         dddQqg8jW6KcHVkSz3PR8KUD5lL2d+dnKfYeWpsODh5tLys3XY1n8Vf0p3sHXrHKmv
-         iRFbwCSAPi4oDK7rBxcuo9+x374b++z6RU67V20KqNZvEJA+ZpqZ/Aw1sxgWIg1m2r
-         /XXJq+PZ4cEWjJtqsaCrteEcRS2T7FMRy9JoDFh9pAxusXxjT0AdygmMjhCTRogh2a
-         y3LGIQbc5HH8kjqEeXW6wfTI08lB4tWw5CODFeX/vMZ07ptyKmuL7F7EBRxYma0mE3
-         7m5rIiE6xpwnw==
-Date:   Sat, 18 Dec 2021 10:16:42 +0100
-From:   Mauro Carvalho Chehab <mchehab@kernel.org>
-To:     davidcomponentone@gmail.com
-Cc:     arnd@arndb.de, hverkuil-cisco@xs4all.nl,
-        laurent.pinchart@ideasonboard.com, linux-media@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Yang Guang <yang.guang5@zte.com.cn>,
-        Zeal Robot <zealci@zte.com.cn>
-Subject: Re: [PATCH] media: saa7134: use swap() to make code cleaner
-Message-ID: <20211218101642.1e1c22ca@coco.lan>
-In-Reply-To: <021c7dbfec45346672d1773bd322c00b62906e54.1639791971.git.yang.guang5@zte.com.cn>
-References: <021c7dbfec45346672d1773bd322c00b62906e54.1639791971.git.yang.guang5@zte.com.cn>
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.30; x86_64-redhat-linux-gnu)
+        Sat, 18 Dec 2021 07:13:05 -0500
+Received: from mail-ua1-x934.google.com (mail-ua1-x934.google.com [IPv6:2607:f8b0:4864:20::934])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A16C1C061574
+        for <linux-media@vger.kernel.org>; Sat, 18 Dec 2021 04:13:05 -0800 (PST)
+Received: by mail-ua1-x934.google.com with SMTP id i6so9171861uae.6
+        for <linux-media@vger.kernel.org>; Sat, 18 Dec 2021 04:13:05 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:reply-to:from:date:message-id:subject:to
+         :content-transfer-encoding;
+        bh=+Y2CW3FU7Np6BiQVUMozXDENdMi4If2dH0S2b0JuT48=;
+        b=W+eJ1PBtJfbgQxZhmj9iaVIV9e3kBEAArRfeUmwK88laC/wQJH2nsFG8AP/a7dG/+1
+         kvWTrYivSywstHvIHiln2HoD0FnWfo1NFCCXDIGfcLthM3/uou3XbgkmoKltSmn9qzbl
+         QGPkpcThZVff35pcioKDBLh/8WgDLic0h2IpdoqHCIMAqLTQ3FtPVxuH5ungZihNyqpc
+         E7BvYrP6cgPTARF7tw0j1/Y5GzjVMcgGkQHKEfAoqMl/LFJk3XjkeQPONeXJFdNGhwOo
+         IGDEKGdlvxJrc4BPZojf096er1A8zYjtQHwD8anFORPPUZPBZevujbU/YOflQbO/PdMl
+         5HLQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to:content-transfer-encoding;
+        bh=+Y2CW3FU7Np6BiQVUMozXDENdMi4If2dH0S2b0JuT48=;
+        b=1QimIboIZwmoWT7mGDBnvB/7HAg0FnqbRXjtamwOmJ+5oEVhjqidRqYkYIcRoBYSue
+         S7LA7Q5iJX6HpptXTSt7nmLexO6ZQTox3T1fF0sazOMn1elZYKU/5ZZ4uNZrI1yfB3D4
+         edHumsBmnL/npQpNJnFihVKoCJp0WNsZQqCDeIMqW75Jj5VQCiD3XTX+Kor0ptahSvTf
+         RnW9AIJI690zI1xs2kkqWgr1AAPVtMBWrWCQRPL0+jfM+D/ZFiX0Ku6RORJ2NLClIqGu
+         6x0DxA3KKJfdzyWrznuRgMAxBQayot5dzGjaX328b9FcB605JGPtjSzE7PVmjr+8WZzY
+         J8Dw==
+X-Gm-Message-State: AOAM532shMIuai4LS966WGyv4ew4qWV5OPU0Mbm95MIBvHFEqVKwbQub
+        LdrAswNK5pe36G7sYTxHIPXYxzzTgbkgd9x3MqM=
+X-Google-Smtp-Source: ABdhPJyhXvDGgCzbOVC5gfW7h5J28nMivn1tE+fvl5BWNhMzgy9P9VxFtGxBt+MajnWzDurQtBd4qpeZJJga9va/NrA=
+X-Received: by 2002:ab0:4465:: with SMTP id m92mr2772765uam.47.1639829584629;
+ Sat, 18 Dec 2021 04:13:04 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Received: by 2002:a59:9a43:0:b0:271:75db:9647 with HTTP; Sat, 18 Dec 2021
+ 04:13:04 -0800 (PST)
+Reply-To: cristinacampeell@outlook.com
+From:   "Mrs. Cristina Campbell" <smith76544@gmail.com>
+Date:   Sat, 18 Dec 2021 12:13:04 +0000
+Message-ID: <CAAYzYtOq2dFtLvz3sJnrT6jiHfiEutz-YUdNDGfs_vh+DCF5MQ@mail.gmail.com>
+Subject: Kannst du mir helfen?
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Em Sat, 18 Dec 2021 09:58:02 +0800
-davidcomponentone@gmail.com escreveu:
+Lieber geliebter,
 
-> From: Yang Guang <yang.guang5@zte.com.cn>
-> 
-> Use the macro 'swap()' defined in 'include/linux/minmax.h' to avoid
-> opencoding it.
-> 
-> Reported-by: Zeal Robot <zealci@zte.com.cn>
-> Signed-off-by: David Yang <davidcomponentone@gmail.com>
-> Signed-off-by: Yang Guang <yang.guang5@zte.com.cn>
-> ---
->  drivers/media/pci/saa7134/saa7134-video.c | 6 ++----
->  1 file changed, 2 insertions(+), 4 deletions(-)
-> 
-> diff --git a/drivers/media/pci/saa7134/saa7134-video.c b/drivers/media/pci/saa7134/saa7134-video.c
-> index 374c8e1087de..6f4132058c35 100644
-> --- a/drivers/media/pci/saa7134/saa7134-video.c
-> +++ b/drivers/media/pci/saa7134/saa7134-video.c
-> @@ -823,7 +823,7 @@ static int buffer_activate(struct saa7134_dev *dev,
->  {
->  	struct saa7134_dmaqueue *dmaq = buf->vb2.vb2_buf.vb2_queue->drv_priv;
->  	unsigned long base,control,bpl;
-> -	unsigned long bpl_uv,lines_uv,base2,base3,tmp; /* planar */
-> +	unsigned long bpl_uv, lines_uv, base2, base3; /* planar */
->  
->  	video_dbg("buffer_activate buf=%p\n", buf);
->  	buf->top_seen = 0;
-> @@ -869,9 +869,7 @@ static int buffer_activate(struct saa7134_dev *dev,
->  		base2    = base + bpl * dev->height;
->  		base3    = base2 + bpl_uv * lines_uv;
->  		if (dev->fmt->uvswap) {
-> -			tmp = base2;
-> -			base2 = base3;
-> -			base3 = tmp;
-> +			swap(base2, base3);
->  		}
+Bitte lesen Sie dies langsam und sorgf=C3=A4ltig durch, da es sich
+m=C3=B6glicherweise um eine der wichtigsten E-Mails handelt, die Sie jemals
+erhalten. Ich bin Mrs. Cristina Campbell, ich war mit dem verstorbenen
+Edward Campbell verheiratet. Er arbeitete fr=C3=BCher f=C3=BCr die Shell
+Petroleum Development Company London und war auch ein erfahrener
+Bauunternehmer in der Region Ostasien. Er starb am Montag, 31. Juli
+2003 in Paris. Wir waren sieben Jahre ohne Kind verheiratet.
 
-No need for {}
+W=C3=A4hrend Sie dies lesen, m=C3=B6chte ich nicht, dass Sie Mitleid mit mi=
+r
+haben, denn ich glaube, dass jeder eines Tages sterben wird. Bei mir
+wurde Speiser=C3=B6hrenkrebs diagnostiziert und mein Arzt sagte mir, dass
+ich aufgrund meiner komplizierten Gesundheitsprobleme nicht lange
+durchhalten w=C3=BCrde.
 
->  		video_dbg("uv: bpl=%ld lines=%ld base2/3=%ld/%ld\n",
->  			bpl_uv,lines_uv,base2,base3);
+Ich m=C3=B6chte, dass Gott mir gegen=C3=BCber barmherzig ist und meine Seel=
+e
+annimmt, deshalb habe ich beschlossen, Almosen an
+Wohlt=C3=A4tigkeitsorganisationen / Kirchen / buddhistische Tempel /
+Moscheen / mutterlose Babys / weniger Privilegierte und Witwen zu
+geben, da ich m=C3=B6chte, dass dies eine der letzten guten Taten ist Ich
+tue es auf der Erde, bevor ich sterbe. Bisher habe ich Geld an einige
+Wohlt=C3=A4tigkeitsorganisationen in Schottland, Wales, Panama, Finnland
+und Griechenland verteilt. Jetzt, wo sich mein Gesundheitszustand so
+stark verschlechtert hat, kann ich das nicht mehr selbst machen.
 
+Ich habe einmal Mitglieder meiner Familie gebeten, eines meiner Konten
+zu schlie=C3=9Fen und das Geld, das ich dort habe, an
+Wohlt=C3=A4tigkeitsorganisationen in =C3=96sterreich, Luxemburg, Deutschlan=
+d,
+Italien und der Schweiz zu verteilen, sie weigerten sich und behielten
+das Geld f=C3=BCr sich. Daher vertraue ich nicht sie nicht mehr, da sie
+anscheinend nicht mit dem zufrieden sind, was ich ihnen hinterlassen
+habe. Das letzte von meinem Geld, von dem niemand wei=C3=9F, ist die
+riesige Bareinzahlung von sechs Millionen US-Dollar $ 6.000.000,00,
+die ich bei einer Bank in Thailand habe, bei der ich den Fonds
+hinterlegt habe. Ich m=C3=B6chte, dass Sie diesen Fonds f=C3=BCr
+Wohlt=C3=A4tigkeitsprogramme verwenden und die Menschheit in Ihrem Land
+unterst=C3=BCtzen, wenn Sie nur aufrichtig sind.
 
+Ich habe diese Entscheidung getroffen, weil ich kein Kind habe, das
+dieses Geld erben wird. Ich habe keine Angst vor dem Tod, daher wei=C3=9F
+ich, wohin ich gehe. Ich wei=C3=9F, dass ich im Scho=C3=9F des Herrn sein w=
+erde.
+Sobald ich Ihre Antwort erhalten habe, werde ich Ihnen den Kontakt der
+Bank mitteilen und Ihnen eine Vollmacht ausstellen, die Sie als
+urspr=C3=BCnglichen Beg=C3=BCnstigten dieses Fonds erm=C3=A4chtigt, dieses
+Wohlt=C3=A4tigkeitsprogramm sofort in Ihrem Land zu beginnen.
 
-Thanks,
-Mauro
+Nur ein Leben, das f=C3=BCr andere gelebt wird, ist ein lebenswertes Leben.
+Ich m=C3=B6chte, dass Sie immer f=C3=BCr mich beten. Jede Verz=C3=B6gerung =
+Ihrer
+Antwort wird mir Raum geben, eine andere Person zu diesem Zweck zu
+finden. Wenn Sie kein Interesse haben, bitte ich um Entschuldigung f=C3=BCr
+die Kontaktaufnahme. Du kannst mich mit meiner privaten E-Mail
+erreichen oder mir antworten: (cristinacampeell@outlook.com).
+
+Danke,
+Dein,
+Frau Cristina Campbell
+Email; cristinacampeell@outlook.com
