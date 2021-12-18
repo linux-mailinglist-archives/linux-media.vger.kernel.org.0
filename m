@@ -2,246 +2,89 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D0AD7479C7D
-	for <lists+linux-media@lfdr.de>; Sat, 18 Dec 2021 21:09:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2A7A3479C95
+	for <lists+linux-media@lfdr.de>; Sat, 18 Dec 2021 21:33:23 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234086AbhLRUJb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 18 Dec 2021 15:09:31 -0500
-Received: from mail-il1-f199.google.com ([209.85.166.199]:35572 "EHLO
-        mail-il1-f199.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234084AbhLRUJa (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Sat, 18 Dec 2021 15:09:30 -0500
-Received: by mail-il1-f199.google.com with SMTP id b3-20020a92c563000000b002aea8d2dfa7so3381179ilj.2
-        for <linux-media@vger.kernel.org>; Sat, 18 Dec 2021 12:09:30 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:date:in-reply-to:message-id:subject
-         :from:to;
-        bh=uzuy0eiWp28yimwzI9sBHKHVRNTrHm7IO9laQGPL454=;
-        b=WgtZ8TH7/+gtOUtUn3FWzMGK8Lb28g7lcOk6xV1fLVtx+6rBWr5zI+KczmadTkqQrs
-         Ar2Na1uNlTstQPguXAPr/9ZQ/JXzCh+/kx4VM8mAf6FM48cVZ8kNZz2IyIO9Flz2evmg
-         Sw+wyrO4RUlFk4oihiPW78CFSmfiT1DndKVk6uyFbOjPc+0SlH2NU9rNCypEPmvQgjWN
-         TLqNNxdl0mJoUCBPHiYDLxX+Kdq8C++tjhiEKSsejfpITaoC2RJ+nQplqYFHD9ypGRy2
-         +cBsyUTfWVjaZg3dpnVIr2QC9N1qHIxxlKEPIw85XtzcqlDFb5f2o+o15X4Qv2L8KmfE
-         iT6g==
-X-Gm-Message-State: AOAM531LjY5TQmGlaDRofbTxm7/JMm+ajNoK3PY6uOZXo2i/MXcp58Eu
-        vSsrbx3k8gLG7A/oXBmPY7RhyQEnzl/nE39Yma3UnlFBwLqE
-X-Google-Smtp-Source: ABdhPJxJM3ZKxlBqQLVNhxPHvuPVqahgeBv66CegUKUKU8ImD/DziCkcZxc+VaG5AUrnJAAdG0jpkcXJ9GFyTMVbJQURgsw6RiOj
+        id S234129AbhLRUdW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 18 Dec 2021 15:33:22 -0500
+Received: from mout.gmx.net ([212.227.17.22]:37175 "EHLO mout.gmx.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S230130AbhLRUdW (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Sat, 18 Dec 2021 15:33:22 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
+        s=badeba3b8450; t=1639859596;
+        bh=gOaQYADC6tt6+rvX0Z9ahWT1hrOnu8U/R9LAjZtHU6Y=;
+        h=X-UI-Sender-Class:From:To:Cc:Subject:Date:In-Reply-To:References;
+        b=h/i4APXJjetNjhowWu1YX4+vR9nJ4vGA7o9I1kc4j+M7A5va0FJoIJSTd4wqxLL8S
+         9Qe8LGuPY4q05CxikmzKB7ZNucQvNzyXQnU/ts86+L1wdUUxd6oY8s8KJryYrcOBwj
+         QU92rpA6wzfR35DqxmBk87n/J/qp6Dfjv19ArXsg=
+X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
+Received: from [91.65.60.26] ([91.65.60.26]) by web-mail.gmx.net
+ (3c-app-gmx-bap71.server.lan [172.19.172.171]) (via HTTP); Sat, 18 Dec 2021
+ 21:33:16 +0100
 MIME-Version: 1.0
-X-Received: by 2002:a05:6602:2f04:: with SMTP id q4mr4800568iow.94.1639858170267;
- Sat, 18 Dec 2021 12:09:30 -0800 (PST)
-Date:   Sat, 18 Dec 2021 12:09:30 -0800
-In-Reply-To: <000000000000685c4605d0e47dad@google.com>
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <000000000000b88d6f05d3713b3d@google.com>
-Subject: Re: [syzbot] KASAN: use-after-free Read in drm_gem_object_release_handle
-From:   syzbot <syzbot+c8ae65286134dd1b800d@syzkaller.appspotmail.com>
-To:     airlied@linux.ie, christian.koenig@amd.com, daniel@ffwll.ch,
-        dri-devel@lists.freedesktop.org,
-        linaro-mm-sig-owner@lists.linaro.org,
-        linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, maarten.lankhorst@linux.intel.com,
-        mripard@kernel.org, sumit.semwal@linaro.org,
-        syzkaller-bugs@googlegroups.com, tzimmermann@suse.de
-Content-Type: text/plain; charset="UTF-8"
+Message-ID: <trinity-7eee9e9d-525d-4c2b-9346-53f362c89264-1639859596666@3c-app-gmx-bap71>
+From:   Robert Schlabbach <Robert.Schlabbach@gmx.net>
+To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc:     paskripkin@gmail.com, linux-media@vger.kernel.org
+Subject: Re: Kernel hangs after DVB patch from July 2021 with Hauppauge
+ WinTV dualHD
+Content-Type: text/plain; charset=UTF-8
+Date:   Sat, 18 Dec 2021 21:33:16 +0100
+Importance: normal
+Sensitivity: Normal
+In-Reply-To: <20211218101519.756c027d@coco.lan>
+References: <6a72a37b-e972-187d-0322-16336e12bdc5@elbmurf.de>
+ <20211218101519.756c027d@coco.lan>
+X-UI-Message-Type: mail
+X-Priority: 3
+X-Provags-ID: V03:K1:aC2KnWKUTkTlZ/bNU0Pmf4qNM/Jv/HGCCy+d5MQlmw8B4tjdcBAaDGkbFYzArNyxuHyPS
+ A8sN0ihN/HNZNW25y4MyWHlByd4j3oBgWrh6nmxXAoYyBj34AIWMw3BEBqUPQFl0EQZo1RCOUHwD
+ b67jxVWcCNoMYEnlLDu1iXeUgI/V4KsNPlPVO3R4x84U0bcF9b2LL0kmXuNd2ipkhIabrwOx1p1n
+ JTFZTwb7n9gvd3Os7oBOhSM2eB2eHEm1lfoPfS+8gpu6p3rNqSyFgTYyx020mxymwfoTnNUOc6to
+ pQ=
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:ZE1AlyNXG6k=:IK4tyFd964GHrAqxmBA+zC
+ Cb+C6aO+lv3Hu7pnqtSQvKMXHojIdDPWwPM3/DxudliC1H9YBO0lvfENkn7wcgZtmSZLw+44H
+ vtf+I+y6u05zcfFgWi7A9I/EHWSetEemhO5VursiAiXMzGrs84NpGKoJmwz+EFUw7S7qE5rQa
+ JxPwZSHAfOZ8EK3/z2gxWBRpixIpICVADhMUo4FCIUcCPRXIcPAdhuvVgpbVXtqvc3XbwAxLv
+ tMWQ9MjF0QsLWpSdyxLnVrfvl54xqHXd5hvEpIDbHASMIE5NPzc27Cr+358dLR5TiYpmVb0vi
+ Um5AcGM7nRbtJ6y7n4YIa9qqPKHAQRRwTEr7bB37BPOsFr6RSFudKXxEwiQwmtbEqyyHoqDDt
+ ojMQ+hdHZUHelfr1LM9i7cYesG6R6sUJoOn4S+oIZ4Iw1abLT9Dd2cl0VSr7O0e4Inrg29vYo
+ 480zqe8wTVyjXyyucnZ/F/Ssv6/gsJqsIO9WRmkvKuRoizFlFDAjqP94UxfWQ5Qbu3O/dvbcE
+ gTvSdpTVIOyTFXjp+sXmrb4FbsIw/t4KDlJa6QuBMCSD1LrSKtGqVmToU0cNF7BGcuYt99CsX
+ Kx63AoByVs1phP20I+XAhJ+NaqoaxczMt5uemV2lJD32CqTa0c4RvCGrZ2V5keejImX9EegYp
+ rpp7OjRWMyq5Mx3uuDvSh6qt58Gwrx1D0F+1epWt4CAVi8TZNzUhUCt+tkW/vzDoNxAGsCOqo
+ Ze878kmorNgK1X+7dESBugVfUrpnreX08t8+7r2MZj9WzoluL1Rbbk81EeByR2t940hQJALUt
+ RF3Kr39
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-syzbot has found a reproducer for the following issue on:
+> Such patch should actually be fixing a use-after-free on disconnect.
 
-HEAD commit:    fbf252e09678 Add linux-next specific files for 20211216
-git tree:       linux-next
-console output: https://syzkaller.appspot.com/x/log.txt?x=168bf493b00000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=7fcbb9aa19a433c8
-dashboard link: https://syzkaller.appspot.com/bug?extid=c8ae65286134dd1b800d
-compiler:       gcc (Debian 10.2.1-6) 10.2.1 20210110, GNU ld (GNU Binutils for Debian) 2.35.2
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=144be7cbb00000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=136e3193b00000
+I wonder if it's the right thing to do, though, because if you look into the em28xx_close_extension() function in em28xx-core.c:
 
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+c8ae65286134dd1b800d@syzkaller.appspotmail.com
+		if (ops->fini) {
+			if (dev->dev_next)
+				ops->fini(dev->dev_next);
+			ops->fini(dev);
+		}
 
-RBP: 00007ffe623d1b90 R08: 0000000000000003 R09: 0000000100000000
-R10: 0000000000000012 R11: 0000000000000246 R12: 0000000000000004
-R13: 0000000000000000 R14: 0000000000000000 R15: 0000000000000000
- </TASK>
-==================================================================
-BUG: KASAN: use-after-free in drm_gem_object_release_handle+0xf2/0x110 drivers/gpu/drm/drm_gem.c:252 drivers/gpu/drm/drm_gem.c:252
-Read of size 8 at addr ffff8881473d3228 by task syz-executor513/3605
+So doing this in em28xx_cards.c:
 
-CPU: 1 PID: 3605 Comm: syz-executor513 Not tainted 5.16.0-rc5-next-20211216-syzkaller #0
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 01/01/2011
-Call Trace:
- <TASK>
- __dump_stack lib/dump_stack.c:88 [inline]
- __dump_stack lib/dump_stack.c:88 [inline] lib/dump_stack.c:106
- dump_stack_lvl+0xcd/0x134 lib/dump_stack.c:106 lib/dump_stack.c:106
- print_address_description.constprop.0.cold+0xa5/0x3ed mm/kasan/report.c:255 mm/kasan/report.c:255
- __kasan_report mm/kasan/report.c:442 [inline]
- __kasan_report mm/kasan/report.c:442 [inline] mm/kasan/report.c:459
- kasan_report.cold+0x83/0xdf mm/kasan/report.c:459 mm/kasan/report.c:459
- drm_gem_object_release_handle+0xf2/0x110 drivers/gpu/drm/drm_gem.c:252 drivers/gpu/drm/drm_gem.c:252
- idr_for_each+0x113/0x220 lib/idr.c:208 lib/idr.c:208
- drm_gem_release+0x22/0x30 drivers/gpu/drm/drm_gem.c:930 drivers/gpu/drm/drm_gem.c:930
- drm_file_free.part.0+0x805/0xb80 drivers/gpu/drm/drm_file.c:281 drivers/gpu/drm/drm_file.c:281
- drm_file_free drivers/gpu/drm/drm_file.c:248 [inline]
- drm_file_free drivers/gpu/drm/drm_file.c:248 [inline] drivers/gpu/drm/drm_file.c:308
- drm_close_helper.isra.0+0x17d/0x1f0 drivers/gpu/drm/drm_file.c:308 drivers/gpu/drm/drm_file.c:308
- drm_release+0x1e6/0x530 drivers/gpu/drm/drm_file.c:495 drivers/gpu/drm/drm_file.c:495
- __fput+0x286/0x9f0 fs/file_table.c:311 fs/file_table.c:311
- task_work_run+0xdd/0x1a0 kernel/task_work.c:164 kernel/task_work.c:164
- exit_task_work include/linux/task_work.h:32 [inline]
- exit_task_work include/linux/task_work.h:32 [inline] kernel/exit.c:832
- do_exit+0xc14/0x2c20 kernel/exit.c:832 kernel/exit.c:832
- do_group_exit+0x125/0x310 kernel/exit.c:929 kernel/exit.c:929
- __do_sys_exit_group kernel/exit.c:940 [inline]
- __se_sys_exit_group kernel/exit.c:938 [inline]
- __do_sys_exit_group kernel/exit.c:940 [inline] kernel/exit.c:938
- __se_sys_exit_group kernel/exit.c:938 [inline] kernel/exit.c:938
- __x64_sys_exit_group+0x3a/0x50 kernel/exit.c:938 kernel/exit.c:938
- do_syscall_x64 arch/x86/entry/common.c:50 [inline]
- do_syscall_x64 arch/x86/entry/common.c:50 [inline] arch/x86/entry/common.c:80
- do_syscall_64+0x35/0xb0 arch/x86/entry/common.c:80 arch/x86/entry/common.c:80
- entry_SYSCALL_64_after_hwframe+0x44/0xae
-RIP: 0033:0x7ff6a71909f9
-Code: Unable to access opcode bytes at RIP 0x7ff6a71909cf.
-RSP: 002b:00007ffe623d1b68 EFLAGS: 00000246 ORIG_RAX: 00000000000000e7
-RAX: ffffffffffffffda RBX: 00007ff6a72043f0 RCX: 00007ff6a71909f9
-RDX: 000000000000003c RSI: 00000000000000e7 RDI: 0000000000000000
-RBP: 0000000000000000 R08: ffffffffffffffc0 R09: 0000000100000000
-R10: 0000000000000012 R11: 0000000000000246 R12: 00007ff6a72043f0
-R13: 0000000000000001 R14: 0000000000000000 R15: 0000000000000001
- </TASK>
+	em28xx_close_extension(dev);
 
-Allocated by task 3605:
- kasan_save_stack+0x1e/0x40 mm/kasan/common.c:38 mm/kasan/common.c:38
- kasan_set_track mm/kasan/common.c:45 [inline]
- set_alloc_info mm/kasan/common.c:436 [inline]
- ____kasan_kmalloc mm/kasan/common.c:515 [inline]
- ____kasan_kmalloc mm/kasan/common.c:474 [inline]
- kasan_set_track mm/kasan/common.c:45 [inline] mm/kasan/common.c:524
- set_alloc_info mm/kasan/common.c:436 [inline] mm/kasan/common.c:524
- ____kasan_kmalloc mm/kasan/common.c:515 [inline] mm/kasan/common.c:524
- ____kasan_kmalloc mm/kasan/common.c:474 [inline] mm/kasan/common.c:524
- __kasan_kmalloc+0xa9/0xd0 mm/kasan/common.c:524 mm/kasan/common.c:524
- kmalloc include/linux/slab.h:581 [inline]
- kzalloc include/linux/slab.h:715 [inline]
- kmalloc include/linux/slab.h:581 [inline] drivers/gpu/drm/vgem/vgem_drv.c:98
- kzalloc include/linux/slab.h:715 [inline] drivers/gpu/drm/vgem/vgem_drv.c:98
- vgem_gem_create_object+0x38/0xb0 drivers/gpu/drm/vgem/vgem_drv.c:98 drivers/gpu/drm/vgem/vgem_drv.c:98
- __drm_gem_shmem_create+0x80/0x480 drivers/gpu/drm/drm_gem_shmem_helper.c:61 drivers/gpu/drm/drm_gem_shmem_helper.c:61
- drm_gem_shmem_create drivers/gpu/drm/drm_gem_shmem_helper.c:126 [inline]
- drm_gem_shmem_create_with_handle drivers/gpu/drm/drm_gem_shmem_helper.c:419 [inline]
- drm_gem_shmem_create drivers/gpu/drm/drm_gem_shmem_helper.c:126 [inline] drivers/gpu/drm/drm_gem_shmem_helper.c:529
- drm_gem_shmem_create_with_handle drivers/gpu/drm/drm_gem_shmem_helper.c:419 [inline] drivers/gpu/drm/drm_gem_shmem_helper.c:529
- drm_gem_shmem_dumb_create+0x13c/0x380 drivers/gpu/drm/drm_gem_shmem_helper.c:529 drivers/gpu/drm/drm_gem_shmem_helper.c:529
- drm_mode_create_dumb+0x26c/0x2f0 drivers/gpu/drm/drm_dumb_buffers.c:96 drivers/gpu/drm/drm_dumb_buffers.c:96
- drm_ioctl_kernel+0x27d/0x4e0 drivers/gpu/drm/drm_ioctl.c:782 drivers/gpu/drm/drm_ioctl.c:782
- drm_ioctl+0x51e/0x9d0 drivers/gpu/drm/drm_ioctl.c:885 drivers/gpu/drm/drm_ioctl.c:885
- vfs_ioctl fs/ioctl.c:51 [inline]
- __do_sys_ioctl fs/ioctl.c:874 [inline]
- __se_sys_ioctl fs/ioctl.c:860 [inline]
- vfs_ioctl fs/ioctl.c:51 [inline] fs/ioctl.c:860
- __do_sys_ioctl fs/ioctl.c:874 [inline] fs/ioctl.c:860
- __se_sys_ioctl fs/ioctl.c:860 [inline] fs/ioctl.c:860
- __x64_sys_ioctl+0x193/0x200 fs/ioctl.c:860 fs/ioctl.c:860
- do_syscall_x64 arch/x86/entry/common.c:50 [inline]
- do_syscall_x64 arch/x86/entry/common.c:50 [inline] arch/x86/entry/common.c:80
- do_syscall_64+0x35/0xb0 arch/x86/entry/common.c:80 arch/x86/entry/common.c:80
- entry_SYSCALL_64_after_hwframe+0x44/0xae
+	if (dev->dev_next) {
+		em28xx_close_extension(dev->dev_next);
+		em28xx_release_resources(dev->dev_next);
+	}
 
-Freed by task 3605:
- kasan_save_stack+0x1e/0x40 mm/kasan/common.c:38 mm/kasan/common.c:38
- kasan_set_track+0x21/0x30 mm/kasan/common.c:45 mm/kasan/common.c:45
- kasan_set_free_info+0x20/0x30 mm/kasan/generic.c:370 mm/kasan/generic.c:370
- ____kasan_slab_free mm/kasan/common.c:366 [inline]
- ____kasan_slab_free mm/kasan/common.c:366 [inline] mm/kasan/common.c:328
- ____kasan_slab_free+0x166/0x1a0 mm/kasan/common.c:328 mm/kasan/common.c:328
- kasan_slab_free include/linux/kasan.h:236 [inline]
- slab_free_hook mm/slub.c:1728 [inline]
- kasan_slab_free include/linux/kasan.h:236 [inline] mm/slub.c:1754
- slab_free_hook mm/slub.c:1728 [inline] mm/slub.c:1754
- slab_free_freelist_hook+0x8b/0x1c0 mm/slub.c:1754 mm/slub.c:1754
- slab_free mm/slub.c:3510 [inline]
- slab_free mm/slub.c:3510 [inline] mm/slub.c:4561
- kfree+0xd0/0x4b0 mm/slub.c:4561 mm/slub.c:4561
- drm_gem_object_free+0x58/0x80 drivers/gpu/drm/drm_gem.c:972 drivers/gpu/drm/drm_gem.c:972
- kref_put include/linux/kref.h:65 [inline]
- __drm_gem_object_put include/drm/drm_gem.h:371 [inline]
- drm_gem_object_put include/drm/drm_gem.h:384 [inline]
- kref_put include/linux/kref.h:65 [inline] drivers/gpu/drm/drm_gem.c:1132
- __drm_gem_object_put include/drm/drm_gem.h:371 [inline] drivers/gpu/drm/drm_gem.c:1132
- drm_gem_object_put include/drm/drm_gem.h:384 [inline] drivers/gpu/drm/drm_gem.c:1132
- drm_gem_mmap+0x4aa/0x680 drivers/gpu/drm/drm_gem.c:1132 drivers/gpu/drm/drm_gem.c:1132
- call_mmap include/linux/fs.h:2084 [inline]
- call_mmap include/linux/fs.h:2084 [inline] mm/mmap.c:1793
- mmap_region+0xd8e/0x1660 mm/mmap.c:1793 mm/mmap.c:1793
- do_mmap+0x869/0xfb0 mm/mmap.c:1582 mm/mmap.c:1582
- vm_mmap_pgoff+0x1b7/0x290 mm/util.c:519 mm/util.c:519
- ksys_mmap_pgoff+0x40d/0x5a0 mm/mmap.c:1630 mm/mmap.c:1630
- do_syscall_x64 arch/x86/entry/common.c:50 [inline]
- do_syscall_x64 arch/x86/entry/common.c:50 [inline] arch/x86/entry/common.c:80
- do_syscall_64+0x35/0xb0 arch/x86/entry/common.c:80 arch/x86/entry/common.c:80
- entry_SYSCALL_64_after_hwframe+0x44/0xae
+will end up calling ops->fini() twice on dev->dev_next, no matter in which order you put the calls.
 
-The buggy address belongs to the object at ffff8881473d3000
- which belongs to the cache kmalloc-1k of size 1024
-The buggy address is located 552 bytes inside of
- 1024-byte region [ffff8881473d3000, ffff8881473d3400)
-The buggy address belongs to the page:
-page:ffffea00051cf400 refcount:1 mapcount:0 mapping:0000000000000000 index:0x0 pfn:0x1473d0
-head:ffffea00051cf400 order:3 compound_mapcount:0 compound_pincount:0
-flags: 0x57ff00000010200(slab|head|node=1|zone=2|lastcpupid=0x7ff)
-raw: 057ff00000010200 0000000000000000 dead000000000001 ffff888010c41dc0
-raw: 0000000000000000 0000000080100010 00000001ffffffff 0000000000000000
-page dumped because: kasan: bad access detected
-page_owner tracks the page as allocated
-page last allocated via order 3, migratetype Unmovable, gfp_mask 0xd20c0(__GFP_IO|__GFP_FS|__GFP_NOWARN|__GFP_NORETRY|__GFP_COMP|__GFP_NOMEMALLOC), pid 1, ts 7979660614, free_ts 0
- prep_new_page mm/page_alloc.c:2433 [inline]
- prep_new_page mm/page_alloc.c:2433 [inline] mm/page_alloc.c:4164
- get_page_from_freelist+0xa72/0x2f40 mm/page_alloc.c:4164 mm/page_alloc.c:4164
- __alloc_pages+0x1b2/0x500 mm/page_alloc.c:5376 mm/page_alloc.c:5376
- alloc_page_interleave+0x1e/0x200 mm/mempolicy.c:2116 mm/mempolicy.c:2116
- alloc_pages+0x2b1/0x310 mm/mempolicy.c:2266 mm/mempolicy.c:2266
- alloc_slab_page mm/slub.c:1799 [inline]
- allocate_slab mm/slub.c:1944 [inline]
- alloc_slab_page mm/slub.c:1799 [inline] mm/slub.c:2004
- allocate_slab mm/slub.c:1944 [inline] mm/slub.c:2004
- new_slab+0x28d/0x3a0 mm/slub.c:2004 mm/slub.c:2004
- ___slab_alloc+0x6be/0xd60 mm/slub.c:3019 mm/slub.c:3019
- __slab_alloc.constprop.0+0x4d/0xa0 mm/slub.c:3106 mm/slub.c:3106
- slab_alloc_node mm/slub.c:3197 [inline]
- slab_alloc_node mm/slub.c:3197 [inline] mm/slub.c:3281
- kmem_cache_alloc_node_trace+0x116/0x300 mm/slub.c:3281 mm/slub.c:3281
- kmalloc_node include/linux/slab.h:599 [inline]
- kzalloc_node include/linux/slab.h:726 [inline]
- kmalloc_node include/linux/slab.h:599 [inline] block/genhd.c:1289
- kzalloc_node include/linux/slab.h:726 [inline] block/genhd.c:1289
- __alloc_disk_node+0x77/0x5c0 block/genhd.c:1289 block/genhd.c:1289
- __blk_mq_alloc_disk+0x12d/0x1c0 block/blk-mq.c:3857 block/blk-mq.c:3857
- nbd_dev_add+0x3b2/0xcd0 drivers/block/nbd.c:1765 drivers/block/nbd.c:1765
- nbd_init+0x297/0x2a7 drivers/block/nbd.c:2511 drivers/block/nbd.c:2511
- do_one_initcall+0x103/0x650 init/main.c:1303 init/main.c:1303
- do_initcall_level init/main.c:1378 [inline]
- do_initcalls init/main.c:1394 [inline]
- do_basic_setup init/main.c:1413 [inline]
- do_initcall_level init/main.c:1378 [inline] init/main.c:1618
- do_initcalls init/main.c:1394 [inline] init/main.c:1618
- do_basic_setup init/main.c:1413 [inline] init/main.c:1618
- kernel_init_freeable+0x6b1/0x73a init/main.c:1618 init/main.c:1618
- kernel_init+0x1a/0x1d0 init/main.c:1507 init/main.c:1507
- ret_from_fork+0x1f/0x30 arch/x86/entry/entry_64.S:295 arch/x86/entry/entry_64.S:295
-page_owner free stack trace missing
+So it looks prone to double-free, but at least em28xx_dvb_fini() in em28xx_dvb.c guards against that by NULLing the dev->dvb pointer after free and checking the pointer at entry.
 
-Memory state around the buggy address:
- ffff8881473d3100: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
- ffff8881473d3180: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
->ffff8881473d3200: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
-                                  ^
- ffff8881473d3280: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
- ffff8881473d3300: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
-==================================================================
+Still, there are redundant calls here. I think a decision should be made whether dev->dev_next is taken care of in em28xx-core.c or in em28xx-cards.c, and the code then be made consistent accordingly.
 
+Best Regards,
+-Robert Schlabbach
