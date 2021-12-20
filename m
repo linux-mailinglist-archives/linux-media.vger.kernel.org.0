@@ -2,28 +2,28 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D7FA647B213
-	for <lists+linux-media@lfdr.de>; Mon, 20 Dec 2021 18:25:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A07E047B270
+	for <lists+linux-media@lfdr.de>; Mon, 20 Dec 2021 18:57:40 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240203AbhLTRZb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 20 Dec 2021 12:25:31 -0500
-Received: from mga18.intel.com ([134.134.136.126]:43694 "EHLO mga18.intel.com"
+        id S233520AbhLTR5j (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 20 Dec 2021 12:57:39 -0500
+Received: from mga17.intel.com ([192.55.52.151]:10217 "EHLO mga17.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S233139AbhLTRZ3 (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 20 Dec 2021 12:25:29 -0500
-X-IronPort-AV: E=McAfee;i="6200,9189,10203"; a="227083675"
+        id S233340AbhLTR5i (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Mon, 20 Dec 2021 12:57:38 -0500
+X-IronPort-AV: E=McAfee;i="6200,9189,10203"; a="220912562"
 X-IronPort-AV: E=Sophos;i="5.88,221,1635231600"; 
-   d="scan'208";a="227083675"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Dec 2021 09:25:29 -0800
+   d="scan'208";a="220912562"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Dec 2021 09:56:38 -0800
 X-IronPort-AV: E=Sophos;i="5.88,221,1635231600"; 
-   d="scan'208";a="484128478"
+   d="scan'208";a="606798724"
 Received: from paasikivi.fi.intel.com ([10.237.72.42])
-  by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Dec 2021 09:25:27 -0800
+  by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Dec 2021 09:56:33 -0800
 Received: from paasikivi.fi.intel.com (localhost [127.0.0.1])
-        by paasikivi.fi.intel.com (Postfix) with SMTP id C9FC121DB2;
-        Mon, 20 Dec 2021 19:25:24 +0200 (EET)
-Date:   Mon, 20 Dec 2021 19:25:24 +0200
+        by paasikivi.fi.intel.com (Postfix) with SMTP id CE21321DB2;
+        Mon, 20 Dec 2021 19:56:31 +0200 (EET)
+Date:   Mon, 20 Dec 2021 19:56:31 +0200
 From:   Sakari Ailus <sakari.ailus@linux.intel.com>
 To:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 Cc:     linux-media@vger.kernel.org,
@@ -33,97 +33,119 @@ Cc:     linux-media@vger.kernel.org,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         Hans Verkuil <hverkuil-cisco@xs4all.nl>,
         Pratyush Yadav <p.yadav@ti.com>
-Subject: Re: [PATCH v2 5/6] media: subdev: Add
- v4l2_subdev_lock_and_return_state()
-Message-ID: <YcC8hBTaH39AeY2g@paasikivi.fi.intel.com>
+Subject: Re: [PATCH v2 6/6] media: Documentation: add documentation about
+ subdev state
+Message-ID: <YcDDzzX3XNlE/K05@paasikivi.fi.intel.com>
 References: <20211217135022.364954-1-tomi.valkeinen@ideasonboard.com>
- <20211217135022.364954-6-tomi.valkeinen@ideasonboard.com>
- <YcB8VPVuSqhY40A5@paasikivi.fi.intel.com>
+ <20211217135022.364954-7-tomi.valkeinen@ideasonboard.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <YcB8VPVuSqhY40A5@paasikivi.fi.intel.com>
+In-Reply-To: <20211217135022.364954-7-tomi.valkeinen@ideasonboard.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, Dec 20, 2021 at 02:51:32PM +0200, Sakari Ailus wrote:
-> Moi,
-> 
-> On Fri, Dec 17, 2021 at 03:50:21PM +0200, Tomi Valkeinen wrote:
-> > All suitable subdev ops are now passed either the TRY or the ACTIVE
-> > state by the v4l2 core. However, other subdev drivers can still call the
-> > ops passing NULL as the state, implying the active case.
-> > 
-> > For all current upstream drivers this doesn't matter, as they do not
-> > expect to get a valid state for ACTIVE case. But future drivers which
-> > support multiplexed streaming and routing will depend on getting a state
-> > for both active and try cases.
-> > 
-> > For new drivers we can mandate that the pipelines where the drivers are
-> > used need to pass the state properly, or preferably, not call such
-> > subdev ops at all.
-> > 
-> > However, if an existing subdev driver is changed to support multiplexed
-> > streams, the driver has to consider cases where its ops will be called
-> > with NULL state. The problem can easily be solved by using the
-> > v4l2_subdev_lock_and_return_state() helper, introduced here.
-> > 
-> > Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-> > Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> > Reviewed-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-> > Reviewed-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
-> > ---
-> >  include/media/v4l2-subdev.h | 36 ++++++++++++++++++++++++++++++++++++
-> >  1 file changed, 36 insertions(+)
-> > 
-> > diff --git a/include/media/v4l2-subdev.h b/include/media/v4l2-subdev.h
-> > index 867e19ef80bd..d6c7db1d37e4 100644
-> > --- a/include/media/v4l2-subdev.h
-> > +++ b/include/media/v4l2-subdev.h
-> > @@ -1321,4 +1321,40 @@ void v4l2_subdev_lock_state(struct v4l2_subdev_state *state);
-> >   */
-> >  void v4l2_subdev_unlock_state(struct v4l2_subdev_state *state);
-> >  
-> > +/**
-> > + * v4l2_subdev_lock_and_return_state() - Gets locked try or active subdev state
-> > + * @sd: subdevice
-> > + * @state: subdevice state as passed to the subdev op
-> > + *
-> > + * Due to legacy reasons, when subdev drivers call ops in other subdevs they use
-> > + * NULL as the state parameter, as subdevs always used to have their active
-> > + * state stored privately.
-> > + *
-> > + * However, newer state-aware subdev drivers, which store their active state in
-> > + * a common place, subdev->active_state, expect to always get a proper state as
-> > + * a parameter.
-> > + *
-> > + * These state-aware drivers can use v4l2_subdev_lock_and_return_state() instead
-> > + * of v4l2_subdev_lock_state(). v4l2_subdev_lock_and_return_state() solves the
-> > + * issue by using subdev->active_state in case the passed state is NULL.
-> > + *
-> > + * This is a temporary helper function, and should be removed when we can ensure
-> > + * that all drivers pass proper state when calling other subdevs.
-> > + */
-> > +static inline struct v4l2_subdev_state *
-> > +v4l2_subdev_lock_and_return_state(struct v4l2_subdev *sd,
-> > +				  struct v4l2_subdev_state *state)
-> > +{
-> > +	if (!state)
-> > +		dev_notice_once(sd->dev,
-> 
-> I thought about this a little more.
-> 
-> This currently warns once when there's something that calls the function
-> with NULL state.
-> 
-> How about going a bit further, moving this to a macro so all instances will
-> be covered, and then using WARN_ON_ONCE() so there would be a clear
-> indication where the warning comes from?
+Moi,
 
-Actually --- please ignore this. The function is already static inline in
-the header and prints the device name. That should be enough to point out
-the culprit.
+Thanks for the update.
+
+On Fri, Dec 17, 2021 at 03:50:22PM +0200, Tomi Valkeinen wrote:
+> Add documentation about centrally managed subdev state.
+> 
+> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+> Reviewed-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
+> ---
+>  .../driver-api/media/v4l2-subdev.rst          | 57 +++++++++++++++++++
+>  1 file changed, 57 insertions(+)
+> 
+> diff --git a/Documentation/driver-api/media/v4l2-subdev.rst b/Documentation/driver-api/media/v4l2-subdev.rst
+> index 08ea2673b19e..18b00bd3d6d4 100644
+> --- a/Documentation/driver-api/media/v4l2-subdev.rst
+> +++ b/Documentation/driver-api/media/v4l2-subdev.rst
+> @@ -518,6 +518,63 @@ The :c:func:`v4l2_i2c_new_subdev` function will call
+>  :c:type:`i2c_board_info` structure using the ``client_type`` and the
+>  ``addr`` to fill it.
+>  
+> +Centrally managed subdev active state
+> +-------------------------------------
+> +
+> +Traditionally V4L2 subdev drivers maintained internal state for the active
+> +device configuration. This is often implemented e.g. as an array of
+> +struct v4l2_mbus_framefmt, one entry for each pad, and similarly for cropping
+> +and composition rectangles.
+> +
+> +In addition to the active configuration, each subdev file-handle has an array of
+> +struct v4l2_subdev_pad_config, managed by V4L2 core, which contains the try
+> +configuration.
+> +
+> +To simplify the subdev drivers the V4L2 subdev API now optionally supports a
+> +centrally managed active configuration represented by
+> +:c:type:`v4l2_subdev_state`. One instance of state, which contains the active
+> +device configuration, is associated with the sub-device itself as part of
+> +the :c:type:`v4l2_subdev` structure, while the core associates to each open
+> +file-handle a try state, which contains the configuration valid in the
+> +file-handle context only.
+> +
+> +Sub-device drivers can opt-in and use state to manage their active configuration
+> +by initializing the subdevice state with a call to v4l2_subdev_init_finalize()
+> +before registering the sub-device. They must also call v4l2_subdev_cleanup()
+> +to release all the acquired resources before unregistering the sub-device.
+> +The core automatically initializes a state for each open file-handle where to
+> +store the try configurations and releases them at file-handle closing time.
+> +
+> +V4L2 sub-device operations that use both the :ref:`ACTIVE and TRY formats
+> +<v4l2-subdev-format-whence>` receive the correct state to operate on as a
+> +'state' parameter. The sub-device driver can access and modify the
+> +configuration stored in the provided state after having locked it by calling
+> +:c:func:`v4l2_subdev_lock_state()`. The driver must then call
+> +:c:func:`v4l2_subdev_unlock_state()` to unlock the state when done.
+> +
+> +Operations that do not receive a state parameter implicitly operate on the
+> +subdevice active state, which drivers can exclusively access by
+> +calling :c:func:`v4l2_subdev_lock_active_state()`. The sub-device active state
+> +must equally be released by calling :c:func:`v4l2_subdev_unlock_state()`.
+> +
+> +Drivers must never manually access the state stored in the :c:type:`v4l2_subdev`
+> +or in the file-handle without going through the designated helpers.
+
+Have you thought how this will interact with controls?
+
+Generally active state information exists for a device in struct
+v4l2_subdev_state as well as the device's control handler as control
+values. Controls have dependencies to other state information (active and
+try).
+
+Until now, drivers have been responsible for serialising access to this
+state on their own, mostly using a single mutex. Controls require a mutex
+as well, but it's the same mutex independently of whether a driver is
+dealing with active or try subdev state.
+
+In other words, if the above is assumed, when you're dealing with try state
+that has dependencies to controls, you have to hold both that try state's
+mutex as well as the control handler's mutex.
+
+> +
+> +While the V4L2 core will pass the correct try- or active-state to the
+> +subdevice operations, device drivers might call operations on other
+> +subdevices by using :c:func:`v4l2_subdev_call()` kAPI and pass NULL as the
+> +state. This is only a problem for subdev drivers which use the
+> +centrally managed active-state and are used in media pipelines with older
+> +subdev drivers. In these cases the called subdev ops must also handle the NULL
+> +case. This can be easily managed by the use of
+> +:c:func:`v4l2_subdev_lock_and_return_state()` helper.
+> +
+> +:c:func:`v4l2_subdev_lock_and_return_state()` should only be used when porting
+> +an existing driver to the new state management when it cannot be guaranteed
+> +that the current callers will pass the state properly. The function prints a
+> +notice when the passed state is NULL to encourage the porting of the callers
+> +to the new state management.
+> +
+>  V4L2 sub-device functions and data structures
+>  ---------------------------------------------
+>  
 
 -- 
+Terveisin,
+
 Sakari Ailus
