@@ -2,154 +2,136 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E139847A70B
-	for <lists+linux-media@lfdr.de>; Mon, 20 Dec 2021 10:31:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2FA3A47A8F5
+	for <lists+linux-media@lfdr.de>; Mon, 20 Dec 2021 12:49:03 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229513AbhLTJbd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 20 Dec 2021 04:31:33 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45202 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229436AbhLTJbc (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Mon, 20 Dec 2021 04:31:32 -0500
-Received: from mail-wr1-x42f.google.com (mail-wr1-x42f.google.com [IPv6:2a00:1450:4864:20::42f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B8FB6C061574
-        for <linux-media@vger.kernel.org>; Mon, 20 Dec 2021 01:31:31 -0800 (PST)
-Received: by mail-wr1-x42f.google.com with SMTP id r17so18401200wrc.3
-        for <linux-media@vger.kernel.org>; Mon, 20 Dec 2021 01:31:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ffwll.ch; s=google;
-        h=date:from:to:cc:subject:message-id:mail-followup-to:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=Htm2M/1UPb5WYk7y28mkq1tTi0RGZ2Jp48YbGwwH0kA=;
-        b=ZF/MduX4/4cT+oBmR4T+v8wQ+QDwsxOJuqK9/wRsJS6zcgT2AKpV/tkvOsOZ5L5v6m
-         6lR2L48gW5VYExLPAmgVcEuReMeF3qKNn0fEl4cDu9N7mwYe03+7XG7yhhRMXGiShQAG
-         VuATgjbbmIZ4i7mM+4AGwwVET8Ejjexw+StR8=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id
-         :mail-followup-to:references:mime-version:content-disposition
-         :content-transfer-encoding:in-reply-to;
-        bh=Htm2M/1UPb5WYk7y28mkq1tTi0RGZ2Jp48YbGwwH0kA=;
-        b=5fMpTvgqG4zVDQK96sxnUyLuECguMl7ZlUR73AtQYQG+PJxCmcpyWoRt0J6Ta6q+pn
-         D8L/QCVdJHLlbNp8mvc4dLu/XpZHsPTZ4Sl4gyIgQfg1KevnoCgvx7jjuvZwERWBrryS
-         QbPyqmkEPpqM3sP9q6nJilH0OWT3WHHolAf9VUdCji/8wc0FBU2W6oa8yQ/74Ap8gekM
-         62w6LoXQjq5Yuyg1VAuuEaqwhFkzDldID+S99V9mHm7s1ZaJcP22Nn/OVMEm2MeXBWV9
-         Q+shMELKokQmQxnqw69S++JqfeEsSpFr0MAag/lWxAEhAohgZQ+vOkAayvbhP+mmGKzR
-         HZZg==
-X-Gm-Message-State: AOAM533D6NrYq5d6pi7b2r4vrtj2Gv6c0F/1QsSsbxc+g1II7n/5yIhA
-        4iHs3mekibMArqWnLLCdVQOz3A==
-X-Google-Smtp-Source: ABdhPJzIKEWyHUlLuEcrr0JV7s9D8oMvc34Me/oLD7Mq3UMFLkvWeDwegpHqyN1hAZyC9N8Yil8rXg==
-X-Received: by 2002:a05:6000:148:: with SMTP id r8mr11746823wrx.333.1639992690397;
-        Mon, 20 Dec 2021 01:31:30 -0800 (PST)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
-        by smtp.gmail.com with ESMTPSA id r17sm15109035wmq.11.2021.12.20.01.31.29
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 20 Dec 2021 01:31:29 -0800 (PST)
-Date:   Mon, 20 Dec 2021 10:31:27 +0100
-From:   Daniel Vetter <daniel@ffwll.ch>
-To:     Jason Gunthorpe <jgg@ziepe.ca>
-Cc:     Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-        Shunsuke Mie <mie@igel.co.jp>,
-        Zhu Yanjun <zyjzyj2000@gmail.com>,
-        Alex Deucher <alexander.deucher@amd.com>,
-        Daniel Vetter <daniel.vetter@ffwll.ch>,
-        Doug Ledford <dledford@redhat.com>,
-        Jianxin Xiong <jianxin.xiong@intel.com>,
-        Leon Romanovsky <leon@kernel.org>,
-        Maor Gottlieb <maorg@nvidia.com>,
-        Sean Hefty <sean.hefty@intel.com>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+        id S230130AbhLTLtB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 20 Dec 2021 06:49:01 -0500
+Received: from mga14.intel.com ([192.55.52.115]:7101 "EHLO mga14.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229619AbhLTLtB (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Mon, 20 Dec 2021 06:49:01 -0500
+X-IronPort-AV: E=McAfee;i="6200,9189,10203"; a="240371977"
+X-IronPort-AV: E=Sophos;i="5.88,220,1635231600"; 
+   d="scan'208";a="240371977"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Dec 2021 03:49:00 -0800
+X-IronPort-AV: E=Sophos;i="5.88,220,1635231600"; 
+   d="scan'208";a="613040685"
+Received: from paasikivi.fi.intel.com ([10.237.72.42])
+  by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Dec 2021 03:48:58 -0800
+Received: from paasikivi.fi.intel.com (localhost [127.0.0.1])
+        by paasikivi.fi.intel.com (Postfix) with SMTP id 9A29C21DB2;
+        Mon, 20 Dec 2021 13:48:56 +0200 (EET)
+Date:   Mon, 20 Dec 2021 13:48:56 +0200
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
         linux-media@vger.kernel.org,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-rdma <linux-rdma@vger.kernel.org>,
-        Damian Hobson-Garcia <dhobsong@igel.co.jp>,
-        Takanari Hayama <taki@igel.co.jp>,
-        Tomohito Esaki <etom@igel.co.jp>
-Subject: Re: [RFC PATCH v4 0/2] RDMA/rxe: Add dma-buf support
-Message-ID: <YcBNbypJT3UJ0RG6@phenom.ffwll.local>
-Mail-Followup-To: Jason Gunthorpe <jgg@ziepe.ca>,
-        Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-        Shunsuke Mie <mie@igel.co.jp>, Zhu Yanjun <zyjzyj2000@gmail.com>,
-        Alex Deucher <alexander.deucher@amd.com>,
-        Doug Ledford <dledford@redhat.com>,
-        Jianxin Xiong <jianxin.xiong@intel.com>,
-        Leon Romanovsky <leon@kernel.org>, Maor Gottlieb <maorg@nvidia.com>,
-        Sean Hefty <sean.hefty@intel.com>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
-        linux-media@vger.kernel.org,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-rdma <linux-rdma@vger.kernel.org>,
-        Damian Hobson-Garcia <dhobsong@igel.co.jp>,
-        Takanari Hayama <taki@igel.co.jp>, Tomohito Esaki <etom@igel.co.jp>
-References: <20211122110817.33319-1-mie@igel.co.jp>
- <CANXvt5oB8_2sDGccSiTMqeLYGi3Vuo-6NnHJ9PGgZZMv=fnUVw@mail.gmail.com>
- <20211207171447.GA6467@ziepe.ca>
- <CANXvt5rCayOcengPr7Z_aFmJaXwWj9VcWZbaHnuHj6=2CkPndA@mail.gmail.com>
- <20211210124204.GG6467@ziepe.ca>
- <880e25ad-4fe9-eacd-a971-993eaea37fc4@amd.com>
- <20211210132656.GH6467@ziepe.ca>
+        Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        niklas.soderlund+renesas@ragnatech.se,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Pratyush Yadav <p.yadav@ti.com>
+Subject: Re: [PATCH v10 05/38] media: subdev: Add
+ v4l2_subdev_lock_and_return_state()
+Message-ID: <YcBtqIFbQ8nut/WC@paasikivi.fi.intel.com>
+References: <20211130141536.891878-1-tomi.valkeinen@ideasonboard.com>
+ <20211130141536.891878-6-tomi.valkeinen@ideasonboard.com>
+ <YbtObq+RJbW70pjD@pendragon.ideasonboard.com>
+ <YbzMW+dvmwgZhhST@paasikivi.fi.intel.com>
+ <YbzO3htQHR+gRT9M@pendragon.ideasonboard.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20211210132656.GH6467@ziepe.ca>
-X-Operating-System: Linux phenom 5.10.0-8-amd64 
+In-Reply-To: <YbzO3htQHR+gRT9M@pendragon.ideasonboard.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, Dec 10, 2021 at 09:26:56AM -0400, Jason Gunthorpe wrote:
-> On Fri, Dec 10, 2021 at 01:47:37PM +0100, Christian König wrote:
-> > Am 10.12.21 um 13:42 schrieb Jason Gunthorpe:
-> > > On Fri, Dec 10, 2021 at 08:29:24PM +0900, Shunsuke Mie wrote:
-> > > > Hi Jason,
-> > > > Thank you for replying.
-> > > > 
-> > > > 2021年12月8日(水) 2:14 Jason Gunthorpe <jgg@ziepe.ca>:
-> > > > > On Fri, Dec 03, 2021 at 12:51:44PM +0900, Shunsuke Mie wrote:
-> > > > > > Hi maintainers,
-> > > > > > 
-> > > > > > Could you please review this patch series?
-> > > > > Why is it RFC?
-> > > > > 
-> > > > > I'm confused why this is useful?
-> > > > > 
-> > > > > This can't do copy from MMIO memory, so it shouldn't be compatible
-> > > > > with things like Gaudi - does something prevent this?
-> > > > I think if an export of the dma-buf supports vmap, CPU is able to access the
-> > > > mmio memory.
-> > > > 
-> > > > Is it wrong? If this is wrong, there is no advantages this changes..
-> > > I don't know what the dmabuf folks did, but yes, it is wrong.
-> > > 
-> > > IOMEM must be touched using only special accessors, some platforms
-> > > crash if you don't do this. Even x86 will crash if you touch it with
-> > > something like an XMM optimized memcpy.
-> > > 
-> > > Christian? If the vmap succeeds what rules must the caller use to
-> > > access the memory?
-> > 
-> > See dma-buf-map.h and especially struct dma_buf_map.
-> > 
-> > MMIO memory is perfectly supported here and actually the most common case.
-> 
-> Okay that looks sane, but this rxe RFC seems to ignore this
-> completely. It stuffs the vaddr directly into a umem which goes to all
-> manner of places in the driver.
-> 
-> ??
+Hi Laurent,
 
-dma_buf_map is fairly new and we haven't rolled it out consistently yet.
-In the past 10 years we simply yolo'd this :-)
+On Fri, Dec 17, 2021 at 07:54:38PM +0200, Laurent Pinchart wrote:
+> Hi Sakari,
+> 
+> On Fri, Dec 17, 2021 at 07:43:55PM +0200, Sakari Ailus wrote:
+> > On Thu, Dec 16, 2021 at 04:34:22PM +0200, Laurent Pinchart wrote:
+> > > On Tue, Nov 30, 2021 at 04:15:03PM +0200, Tomi Valkeinen wrote:
+> > > > All suitable subdev ops are now passed either the TRY or the ACTIVE
+> > > > state by the v4l2 core. However, other subdev drivers can still call the
+> > > > ops passing NULL as the state, implying the active case.
+> > > > 
+> > > > For all current upstream drivers this doesn't matter, as they do not
+> > > > expect to get a valid state for ACTIVE case. But future drivers which
+> > > > support multiplexed streaming and routing will depend on getting a state
+> > > > for both active and try cases.
+> > > > 
+> > > > For new drivers we can mandate that the pipelines where the drivers are
+> > > > used need to pass the state properly, or preferably, not call such
+> > > > subdev ops at all.
+> > > > 
+> > > > However, if an existing subdev driver is changed to support multiplexed
+> > > > streams, the driver has to consider cases where its ops will be called
+> > > > with NULL state. The problem can easily be solved by using the
+> > > > v4l2_subdev_lock_and_return_state() helper, introduced here.
+> > > > 
+> > > > Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+> > > > ---
+> > > >  include/media/v4l2-subdev.h | 31 +++++++++++++++++++++++++++++++
+> > > >  1 file changed, 31 insertions(+)
+> > > > 
+> > > > diff --git a/include/media/v4l2-subdev.h b/include/media/v4l2-subdev.h
+> > > > index 1810dde9c7fc..873bbe0686e3 100644
+> > > > --- a/include/media/v4l2-subdev.h
+> > > > +++ b/include/media/v4l2-subdev.h
+> > > > @@ -1317,4 +1317,35 @@ void v4l2_subdev_lock_state(struct v4l2_subdev_state *state);
+> > > >   */
+> > > >  void v4l2_subdev_unlock_state(struct v4l2_subdev_state *state);
+> > > >  
+> > > > +/**
+> > > > + * v4l2_subdev_lock_and_return_state() - Gets locked TRY or ACTIVE subdev state
+> > > > + * @sd: subdevice
+> > > > + * @state: subdevice state as passed to the subdev op
+> > > > + *
+> > > > + * Due to legacy reasons, when subdev drivers call ops in other subdevs they use
+> > > > + * NULL as the state parameter, as subdevs always used to have their active
+> > > > + * state stored privately.
+> > > > + *
+> > > > + * However, newer state-aware subdev drivers, which store their active state in
+> > > > + * a common place, subdev->active_state, expect to always get a proper state as
+> > > > + * a parameter.
+> > > > + *
+> > > > + * These state-aware drivers can use v4l2_subdev_lock_and_return_state() instead
+> > > > + * of v4l2_subdev_lock_state(). v4l2_subdev_lock_and_return_state() solves the
+> > > > + * issue by using subdev->state in case the passed state is NULL.
+> > > > + *
+> > > > + * This is a temporary helper function, and should be removed when we can ensure
+> > > > + * that all drivers pass proper state when calling other subdevs.
+> > > > + */
+> > > > +static inline struct v4l2_subdev_state *
+> > > > +v4l2_subdev_lock_and_return_state(struct v4l2_subdev *sd,
+> > > > +				  struct v4l2_subdev_state *state)
+> > > > +{
+> > > > +	state = state ? state : sd->active_state;
+> > > 
+> > > Can we add a dev_warn() when state is NULL ? This will help speeding up
+> > > the transition.
+> > 
+> > Wouldn't this produce lots of warnings? I'd rather use dev_warn_once() to
+> > avoid flooding logs.
+> 
+> The goal is to notice the issue, to get it fixed, so I'd prefer a few
+> warnings instead of a dev_warn_once().
 
-Just an explanation, not an excuse for new code to not use dma_buf_map
-consistently now that we fixed this mistake.
--Daniel
+This wouldn't be a few, but quite possibly system logs full of such lines
+unless some kind of limiting factor is in place.
+
+> 
+> Please note that the first 6 patches from this series have been posted
+> in a new version as "[PATCH v2 0/6] v4l: subdev active state"
+> (20211217135022.364954-1-tomi.valkeinen@ideasonboard.com).
+
+Yes, I see this is addressed in v2.
+
 -- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+Sakari Ailus
