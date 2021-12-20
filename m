@@ -2,147 +2,136 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D01B847A367
-	for <lists+linux-media@lfdr.de>; Mon, 20 Dec 2021 03:03:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9CBDA47A3C9
+	for <lists+linux-media@lfdr.de>; Mon, 20 Dec 2021 04:13:55 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237134AbhLTCDN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 19 Dec 2021 21:03:13 -0500
-Received: from twspam01.aspeedtech.com ([211.20.114.71]:56111 "EHLO
-        twspam01.aspeedtech.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237126AbhLTCDN (ORCPT
+        id S237318AbhLTDNw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 19 Dec 2021 22:13:52 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47226 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231167AbhLTDNv (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 19 Dec 2021 21:03:13 -0500
-Received: from mail.aspeedtech.com ([192.168.0.24])
-        by twspam01.aspeedtech.com with ESMTP id 1BK1uUmI075902;
-        Mon, 20 Dec 2021 09:56:30 +0800 (GMT-8)
-        (envelope-from jammy_huang@aspeedtech.com)
-Received: from JammyHuang-PC.aspeed.com (192.168.2.115) by TWMBX02.aspeed.com
- (192.168.0.24) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Mon, 20 Dec
- 2021 10:01:48 +0800
-From:   Jammy Huang <jammy_huang@aspeedtech.com>
-To:     <hverkuil-cisco@xs4all.nl>, <sakari.ailus@linux.intel.com>,
-        <gregkh@linuxfoundation.org>, <eajames@linux.ibm.com>,
-        <mchehab@kernel.org>, <joel@jms.id.au>, <andrew@aj.id.au>,
-        <linux-media@vger.kernel.org>, <openbmc@lists.ozlabs.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-aspeed@lists.ozlabs.org>, <linux-kernel@vger.kernel.org>
-Subject: [PATCH v7 4/4] media: aspeed: Extend debug message
-Date:   Mon, 20 Dec 2021 10:01:43 +0800
-Message-ID: <20211220020143.1216-5-jammy_huang@aspeedtech.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20211220020143.1216-1-jammy_huang@aspeedtech.com>
-References: <20211220020143.1216-1-jammy_huang@aspeedtech.com>
+        Sun, 19 Dec 2021 22:13:51 -0500
+Received: from mail-lj1-x22c.google.com (mail-lj1-x22c.google.com [IPv6:2a00:1450:4864:20::22c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1A77CC061574
+        for <linux-media@vger.kernel.org>; Sun, 19 Dec 2021 19:13:51 -0800 (PST)
+Received: by mail-lj1-x22c.google.com with SMTP id bn20so13637780ljb.8
+        for <linux-media@vger.kernel.org>; Sun, 19 Dec 2021 19:13:50 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=mF5wYxPSqdxf3ndDaiNpjYh7EExZO+92B2rlWd4Hn/w=;
+        b=H/hN9JtCLykDVNHSsTlSCCQbC1jeDpVXuzoQfGiqcOKtC70LixZK3hc4x9DnBgZyYy
+         1lLhpZ4uboMNb8eVCBGXv+DAuWFNdo9AJq8iZMJAPl7xxsDE0dNGDqyySE0w4YJ1yLgU
+         QaK+fHHXI5tJEgGPBjGRAbFYXb32mQxTV2jCQ=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=mF5wYxPSqdxf3ndDaiNpjYh7EExZO+92B2rlWd4Hn/w=;
+        b=In0jtsbPna28l4ze8FzXYawjWdudy59vNzc68v9M+C6YUReeXqy0OSWzCJdr/YVXKZ
+         wpFnTX/T1mwzoXfatWE4wOEG9IWMmAixYHXOEkYr/b4l0EvPEffx0vroicNBjK82oSBH
+         KWJtGbXq0ESMTc2lMOpI6M1sU2GRlcswzBL0TJwVs2hwfa5a65SMlRiH495KOena4PTN
+         WBJitCVtEwr9B5CdDeAC5+aCDBRP3ZhxELtXPUogBEudQbMZTTguYkQkfxMF4xDkY0YX
+         hFe20iqNwaLAN5UBBUm8nENUYC/kNAOCrDfoQmLw5HGf7RLT2ABKPg1ftq3BwNUrOYgQ
+         0kvA==
+X-Gm-Message-State: AOAM530GX4eZk5RWjw3AOzaOsdyt2ryTJBYD1DWmTKNU/S4jLSeMkG31
+        dVWS2QD2AsIPKFskdgUZI25Ws2HPy2Qkmhp1dQOdLw==
+X-Google-Smtp-Source: ABdhPJxunl6swmvnYR15PB/3dHuBiP42NrBlmSpRdVW8fHz4URsaEzdHg45SD9YGC11Q7qsqGbLcNVjoVI+7j1Re0fg=
+X-Received: by 2002:a2e:a54c:: with SMTP id e12mr13210214ljn.457.1639970029235;
+ Sun, 19 Dec 2021 19:13:49 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7BIT
-Content-Type:   text/plain; charset=US-ASCII
-X-Originating-IP: [192.168.2.115]
-X-ClientProxiedBy: TWMBX02.aspeed.com (192.168.0.24) To TWMBX02.aspeed.com
- (192.168.0.24)
-X-DNSRBL: 
-X-MAIL: twspam01.aspeedtech.com 1BK1uUmI075902
+References: <20211106183802.893285-1-aford173@gmail.com> <718f7f6d6cd564d031c1963f1590c62d549ae725.camel@ndufresne.ca>
+ <CAHCN7xKM9RUE7z-+ug1on+D=nDoEm589R4m03ofys92Aq75ZVQ@mail.gmail.com>
+ <8db00a4b6faa99c940d9bc86e17161eb0db5efe3.camel@ndufresne.ca>
+ <CAJ+vNU28UJffFv9jQ2KryJMudqYxvCaoVOVcU5dPqRA209iN6A@mail.gmail.com>
+ <d91532c2c0772f9aa708ead36b2a97203727a7ea.camel@ndufresne.ca>
+ <CAJ+vNU3H-V+bPoZ3qKead45h=W7AhQK6Lhjrx5ssdF4c_qfe=A@mail.gmail.com>
+ <CAHCN7x+0LwwU_rEST+TZxGquswGKL19gnTy9WLofsXtGAtWqdw@mail.gmail.com>
+ <7f94eaacfddb8c5434c17f1e069ea87a17657ce9.camel@ndufresne.ca>
+ <CAHCN7xKRzxMBmPbDobWTuvNNSpTXk5XENvfBnfkhRY3eZKhn6w@mail.gmail.com>
+ <CAHCN7xJFLNi_g+HX8PCy1Rkgf0jnWpO5QGYVz8nH19xrJkwHrA@mail.gmail.com>
+ <CAJ+vNU3zFd=6k_Emc5aafxKkGwCPp4crgOFezQ-E_MbWsn1_EA@mail.gmail.com>
+ <fed6c2fd7cf4971062c417ce41ed1e3812b900e0.camel@ndufresne.ca>
+ <CAHCN7xK+wROHaqDcsY-3WYFQ82qX17L-LHNL3siSWnWvwFShzQ@mail.gmail.com>
+ <CAAEAJfC1xXvemaFP+vTFVJ3S-SpYtrxyZgDamSOgLC1F3ua5xw@mail.gmail.com>
+ <CAHCN7x+UMMP6RXsNm0=OC=UTQzh=RKqQo6B7FD5e4eoJAEfmpg@mail.gmail.com>
+ <CAJ+vNU1epi9SwPMHkuDmKcb68RLemYF=bsp7AVnzz06zKc2efw@mail.gmail.com>
+ <CAAEAJfCpjk5nWWkJYjjDT-YEpJi4pTZqZbzp_if9OGC0HKspzw@mail.gmail.com>
+ <CAJ+vNU2we5mGXgYsR6CfimvFXZsc0zktR3fDa-h6RRa02jTT0g@mail.gmail.com>
+ <CAHCN7xJrM9uZUnmx65uTxWEo6HAkjozd3kD3UoEv-pYd5DV4QA@mail.gmail.com>
+ <CAAEAJfBXU-AiKKhkhXzgUSR4p1yefysNuHFycBz3F-GzNewS6w@mail.gmail.com>
+ <CAHCN7xL4y67V6AW5MV=8iudvvGVBWs2LoUhu_2CUJf6bSycgFA@mail.gmail.com>
+ <8438070708d16c34c0f79aba19e67fa343adb169.camel@ndufresne.ca>
+ <CAJ+vNU1ZxAAasKT8j1sfcFz1pk8fyYjwOW6wqxYq_ur8+2MX_Q@mail.gmail.com> <41f0e00cf5e57668b643b096e6bb69c67635c540.camel@ndufresne.ca>
+In-Reply-To: <41f0e00cf5e57668b643b096e6bb69c67635c540.camel@ndufresne.ca>
+From:   Chen-Yu Tsai <wenst@chromium.org>
+Date:   Mon, 20 Dec 2021 11:13:37 +0800
+Message-ID: <CAGXv+5H1qdvRPK0Qf_aNFpaipateW9ZD4R+AHYT0d4Y8RnWKBw@mail.gmail.com>
+Subject: Re: [RFC 0/5] arm64: imx8mm: Enable Hantro VPUs
+To:     Nicolas Dufresne <nicolas@ndufresne.ca>
+Cc:     Tim Harvey <tharvey@gateworks.com>, Adam Ford <aford173@gmail.com>,
+        Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+        linux-media <linux-media@vger.kernel.org>,
+        Schrempf Frieder <frieder.schrempf@kontron.de>,
+        Marek Vasut <marek.vasut@gmail.com>,
+        Jagan Teki <jagan@amarulasolutions.com>,
+        Adam Ford-BE <aford@beaconembedded.com>,
+        cstevens@beaconembedded.com,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Heiko Stuebner <heiko@sntech.de>,
+        Lucas Stach <l.stach@pengutronix.de>,
+        Joakim Zhang <qiangqing.zhang@nxp.com>,
+        Alice Guo <alice.guo@nxp.com>, Peng Fan <peng.fan@nxp.com>,
+        "open list:HANTRO VPU CODEC DRIVER" 
+        <linux-rockchip@lists.infradead.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        "moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE" 
+        <linux-arm-kernel@lists.infradead.org>,
+        open list <linux-kernel@vger.kernel.org>,
+        "open list:STAGING SUBSYSTEM" <linux-staging@lists.linux.dev>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-updated as below:
+On Sat, Dec 18, 2021 at 1:52 AM Nicolas Dufresne <nicolas@ndufresne.ca> wro=
+te:
+> Le vendredi 17 d=C3=A9cembre 2021 =C3=A0 09:26 -0800, Tim Harvey a =C3=A9=
+crit :
+> > I'm not clear if anyone is working on IMX8MM VPU H1 support. You had
+> > mentioned that some support [1] and [2] can be derived from the RK3288
+> > using the Google ChromeOS method (a v4l2 plugin that simulates in
+> > userspace a stateful encoder). I'm not sure if this is worth pursuing
+> > if others are working on stateless encode support in kernel and
+> > gstreamer.
+>
+> My colleagues started last week the project of crafting mainline stateles=
+s
+> encoder uAPI. This is too early. In older project, we have had good succe=
+ss with
+> the emulated stateful encoder. It is of course quite limited, but works i=
+n
+> gstreamer, ffmpeg and chromium. It is also likely safer compared to the v=
+endor
+> provided driver.
 
-Capture:
-  Mode                : Direct fetch
-  VGA bpp mode        : 32
-  Signal              : lock
-  Width               : 1920
-  Height              : 1080
-  FRC                 : 0
+If people still want to play with the old emulated stateful encoder, there
+is a forward-ported version in the ChromeOS v5.10 kernel now. Note that
+RK3288 (H1) support is untested. Also, RK3288 and RK3399 require different
+versions of the userspace plugin. And the RK3288 version might require some
+updates to add SELECTION API support.
 
-Compression:
-  Format              : JPEG
-  Subsampling         : 444
-  Quality             : 4
 
-Performance:
-  Frame#              : 4
-  Frame Duration(ms)  :
-    Now               : 22
-    Min               : 21
-    Max               : 22
-  FPS                 : 45
-
-Signed-off-by: Jammy Huang <jammy_huang@aspeedtech.com>
----
-v7:
-  - update debugfs message. Aspeed-jpeg's compression parameters only shown
-    if it's aspeed jpeg now
-v6:
-  - no update
-v5:
-  - no update
-v4:
-  - update debugfs log
-v3:
-  - no update
-v2:
-  - update commit message
----
- drivers/media/platform/aspeed-video.c | 35 +++++++++++++++++++++++++++
- 1 file changed, 35 insertions(+)
-
-diff --git a/drivers/media/platform/aspeed-video.c b/drivers/media/platform/aspeed-video.c
-index c0cfcf98659d..b388bc56ce81 100644
---- a/drivers/media/platform/aspeed-video.c
-+++ b/drivers/media/platform/aspeed-video.c
-@@ -1835,10 +1835,29 @@ static const struct vb2_ops aspeed_video_vb2_ops = {
- static int aspeed_video_debugfs_show(struct seq_file *s, void *data)
- {
- 	struct aspeed_video *v = s->private;
-+	u32 val08;
- 
- 	seq_puts(s, "\n");
- 
- 	seq_puts(s, "Capture:\n");
-+	val08 = aspeed_video_read(v, VE_CTRL);
-+	if (FIELD_GET(VE_CTRL_DIRECT_FETCH, val08)) {
-+		seq_printf(s, "  %-20s:\tDirect fetch\n", "Mode");
-+		seq_printf(s, "  %-20s:\t%s\n", "VGA bpp mode",
-+			   FIELD_GET(VE_CTRL_INT_DE, val08) ? "16" : "32");
-+	} else {
-+		seq_printf(s, "  %-20s:\tSync\n", "Mode");
-+		seq_printf(s, "  %-20s:\t%s\n", "Video source",
-+			   FIELD_GET(VE_CTRL_SOURCE, val08) ?
-+			   "external" : "internal");
-+		seq_printf(s, "  %-20s:\t%s\n", "DE source",
-+			   FIELD_GET(VE_CTRL_INT_DE, val08) ?
-+			   "internal" : "external");
-+		seq_printf(s, "  %-20s:\t%s\n", "Cursor overlay",
-+			   FIELD_GET(VE_CTRL_AUTO_OR_CURSOR, val08) ?
-+			   "Without" : "With");
-+	}
-+
- 	seq_printf(s, "  %-20s:\t%s\n", "Signal",
- 		   v->v4l2_input_status ? "Unlock" : "Lock");
- 	seq_printf(s, "  %-20s:\t%d\n", "Width", v->pix_fmt.width);
-@@ -1847,6 +1866,22 @@ static int aspeed_video_debugfs_show(struct seq_file *s, void *data)
- 
- 	seq_puts(s, "\n");
- 
-+	seq_puts(s, "Compression:\n");
-+	seq_printf(s, "  %-20s:\t%s\n", "Format", format_str[v->format]);
-+	seq_printf(s, "  %-20s:\t%s\n", "Subsampling",
-+		   v->yuv420 ? "420" : "444");
-+	seq_printf(s, "  %-20s:\t%d\n", "Quality", v->jpeg_quality);
-+	if (v->format == VIDEO_FMT_ASPEED) {
-+		seq_printf(s, "  %-20s:\t%s\n", "HQ Mode",
-+			   v->hq_mode ? "on" : "off");
-+		seq_printf(s, "  %-20s:\t%d\n", "HQ Quality",
-+			   v->hq_mode ? v->jpeg_hq_quality : 0);
-+		seq_printf(s, "  %-20s:\t%s\n", "Coding Scheme",
-+			   compress_scheme_str[v->compression_scheme]);
-+	}
-+
-+	seq_puts(s, "\n");
-+
- 	seq_puts(s, "Performance:\n");
- 	seq_printf(s, "  %-20s:\t%d\n", "Frame#", v->sequence);
- 	seq_printf(s, "  %-20s:\n", "Frame Duration(ms)");
--- 
-2.25.1
-
+ChenYu
