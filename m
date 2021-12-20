@@ -2,111 +2,214 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AA76247A57A
-	for <lists+linux-media@lfdr.de>; Mon, 20 Dec 2021 08:47:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E5ADC47A626
+	for <lists+linux-media@lfdr.de>; Mon, 20 Dec 2021 09:43:06 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237758AbhLTHrE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 20 Dec 2021 02:47:04 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49666 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229680AbhLTHrD (ORCPT
+        id S235225AbhLTInF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 20 Dec 2021 03:43:05 -0500
+Received: from relay6-d.mail.gandi.net ([217.70.183.198]:38701 "EHLO
+        relay6-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S237129AbhLTInF (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 20 Dec 2021 02:47:03 -0500
-Received: from mail-pj1-x1036.google.com (mail-pj1-x1036.google.com [IPv6:2607:f8b0:4864:20::1036])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 399FFC061574;
-        Sun, 19 Dec 2021 23:47:03 -0800 (PST)
-Received: by mail-pj1-x1036.google.com with SMTP id v16so8523290pjn.1;
-        Sun, 19 Dec 2021 23:47:03 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=xbFfVTLwYNEeaZM0iP6zcXXCgb7TcMhev/HZm7YFsT8=;
-        b=mYgWCGcfbeAMpFFkoTy2lIAgDHyyokHWjXgciTv7HX9cRTH+WS2PnOqJdO6rBN281f
-         CP7e+5+6k0SfcomPen1r8NHf0NUd1ytKS6rbNbfpJS9JF8c4uK5ImfLFVmMNNl5UeKa7
-         lPSHJqHKSU2AQml/uCb10kdkOA1GbhlDFiLLv3UAQPDGk0DsUn1q83zlo57SF9fr9MlU
-         uVeYCOXB99OAkTUaYn81RDrxF6Inxcsjfn5KVVDkTOU/VwxWj91N481M/2fStu3sPvDE
-         6Q0M9/t5RTPQVX4f67bJHyNNbnfveEpSNS/a9iK9w00fVtHZF96gEs0vY9MlGhlOmNl2
-         7O6w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=xbFfVTLwYNEeaZM0iP6zcXXCgb7TcMhev/HZm7YFsT8=;
-        b=FuziMtn9TqTBt5XKeKUZOFqtEcu7rkSRDM2k2E2ZsXYJ3Y1WNLbDnVGMLM56SqfEW+
-         3H6tD4B2Gc0+am4p2iQNY+WXfa0LHCBKXgtmTsq2T7NbpA5VCg4Vef2w1SrX4FNbOedQ
-         vv6NfRNUv9XVSXTL/wBO9Eq81YA+ao4H/1JZ2lKByNqAN9RGQGBnOQ6kOm4y7Go8pCAo
-         xGJqU4773jiRqikK2eauVBOAI2laq0jRkTidR/nbdw3R2Cglvdy0Zcsc9/WWg/vA5GCJ
-         SaGLQAOx1lTr+o00DokPChk7e5dKORSI3dD1/Hq0bilxdwyOusZRuJDUj0n4Y/lWAWZ1
-         XPCw==
-X-Gm-Message-State: AOAM533e6rvE4FM/A60Ks/VYA3kaU0hDRy6Jwsr5nSnPB+EkDX7kNHqw
-        8I5+stxTYYVxqeskFmd4pTzuPI2BMpA=
-X-Google-Smtp-Source: ABdhPJz7HgaBSytkb16nvnJkSo4L3EUqePAHaK29iy68WXThwHIzzAbVu9wTh6JwKfnOLs2AOcDqNg==
-X-Received: by 2002:a17:90b:f82:: with SMTP id ft2mr296151pjb.203.1639986421520;
-        Sun, 19 Dec 2021 23:47:01 -0800 (PST)
-Received: from debian11-dev-61.localdomain (192.243.120.180.16clouds.com. [192.243.120.180])
-        by smtp.gmail.com with ESMTPSA id n16sm16488637pja.46.2021.12.19.23.46.57
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 19 Dec 2021 23:47:00 -0800 (PST)
-From:   davidcomponentone@gmail.com
-To:     mchehab@kernel.org
-Cc:     davidcomponentone@gmail.com, arnd@arndb.de,
-        hverkuil-cisco@xs4all.nl, laurent.pinchart@ideasonboard.com,
-        yang.guang5@zte.com.cn, linux-media@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Zeal Robot <zealci@zte.com.cn>
-Subject: [PATCH v2] media: saa7134: use swap() to make code cleaner
-Date:   Mon, 20 Dec 2021 15:46:46 +0800
-Message-Id: <6c4f34f21648a981f195e8e7a57edab4f3865676.1639961762.git.yang.guang5@zte.com.cn>
-X-Mailer: git-send-email 2.30.2
+        Mon, 20 Dec 2021 03:43:05 -0500
+Received: (Authenticated sender: jacopo@jmondi.org)
+        by relay6-d.mail.gandi.net (Postfix) with ESMTPSA id 26001C000B;
+        Mon, 20 Dec 2021 08:43:01 +0000 (UTC)
+Date:   Mon, 20 Dec 2021 09:43:57 +0100
+From:   Jacopo Mondi <jacopo@jmondi.org>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        Niklas =?utf-8?Q?S=C3=B6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>,
+        Thomas Nizan <tnizan@witekio.com>
+Subject: Re: [PATCH 3/3] media: i2c: max9286: Support manual framesync
+ operation
+Message-ID: <20211220084357.zqwunvppuxst7e6f@uno.localdomain>
+References: <20211216220946.20771-1-laurent.pinchart+renesas@ideasonboard.com>
+ <20211216220946.20771-4-laurent.pinchart+renesas@ideasonboard.com>
+ <20211217111403.3hgb67bwuor5ysiq@uno.localdomain>
+ <Yby1LUfI9fmuUneJ@pendragon.ideasonboard.com>
+ <YbzNk7p6Fk28ay7q@pendragon.ideasonboard.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <YbzNk7p6Fk28ay7q@pendragon.ideasonboard.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Yang Guang <yang.guang5@zte.com.cn>
+Hi Laurent,
 
-Use the macro 'swap()' defined in 'include/linux/minmax.h' to avoid
-opencoding it.
+On Fri, Dec 17, 2021 at 07:49:07PM +0200, Laurent Pinchart wrote:
+> Hi Jacopo,
+>
+> On Fri, Dec 17, 2021 at 06:05:02PM +0200, Laurent Pinchart wrote:
+> > On Fri, Dec 17, 2021 at 12:14:03PM +0100, Jacopo Mondi wrote:
+> > > On Fri, Dec 17, 2021 at 12:09:46AM +0200, Laurent Pinchart wrote:
+> > > > From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> > > >
+> > > > The MAX9286 can generate a framesync signal to synchronize the cameras,
+> > > > using an internal timer. Support this mode of operation and configure it
+> > > > through the .s_frameinterval() operation. If the frame interval is not
+> > > > 0, framesync is switched to manual mode with the specified interval,
+> > > > otherwise automatic mode is used.
+> > > >
+> > > > Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> > > > ---
+> > > >  drivers/media/i2c/max9286.c | 66 +++++++++++++++++++++++++++++++++++--
+> > > >  1 file changed, 63 insertions(+), 3 deletions(-)
+> > > >
+> > > > diff --git a/drivers/media/i2c/max9286.c b/drivers/media/i2c/max9286.c
+> > > > index fa2f6a823fe6..dce1146635d2 100644
+> > > > --- a/drivers/media/i2c/max9286.c
+> > > > +++ b/drivers/media/i2c/max9286.c
+> > > > @@ -174,6 +174,7 @@ struct max9286_priv {
+> > > >  	struct v4l2_ctrl *pixelrate;
+> > > >
+> > > >  	struct v4l2_mbus_framefmt fmt[MAX9286_N_SINKS];
+> > > > +	struct v4l2_fract interval;
+> > > >
+> > > >  	/* Protects controls and fmt structures */
+> > > >  	struct mutex mutex;
+> > > > @@ -474,6 +475,37 @@ static int max9286_check_config_link(struct max9286_priv *priv,
+> > > >  	return 0;
+> > > >  }
+> > > >
+> > > > +static void max9286_set_fsync_period(struct max9286_priv *priv)
+> > > > +{
+> > > > +	u32 fsync;
+> > > > +
+> > > > +	if (!priv->interval.numerator || !priv->interval.denominator) {
+> > > > +		/*
+> > > > +		 * Special case, a null interval enables automatic FRAMESYNC
+> > > > +		 * mode. FRAMESYNC is taken from the slowest link.
+> > > > +		 */
+> > > > +		max9286_write(priv, 0x01, MAX9286_FSYNCMODE_INT_HIZ |
+> > > > +			      MAX9286_FSYNCMETH_AUTO);
+> > > > +		return;
+> > > > +	}
+> > > > +
+> > > > +	/*
+> > > > +	 * Manual FRAMESYNC
+> > > > +	 *
+> > > > +	 * The FRAMESYNC generator is configured with a period expressed as a
+> > > > +	 * number of PCLK periods, which runs at 75MHz.
+> > > > +	 */
+> > > > +	fsync = div_u64(75000000ULL * priv->interval.numerator,
+> > > > +			priv->interval.denominator);
+> > >
+> > > Don't we calculate the pixel rate dynamically based on the number of
+> > > enabled sources ?
+> >
+> > That's a good point, this hardcodes operation for 4 cameras. I'll see
+> > how I can fix that.
+> >
+> > > > +
+> > > > +	max9286_write(priv, 0x01, MAX9286_FSYNCMODE_INT_OUT |
+> > > > +		      MAX9286_FSYNCMETH_MANUAL);
+> > > > +
+> > > > +	max9286_write(priv, 0x06, (fsync >> 0) & 0xff);
+> > > > +	max9286_write(priv, 0x07, (fsync >> 8) & 0xff);
+> > > > +	max9286_write(priv, 0x08, (fsync >> 16) & 0xff);
+> > > > +}
+> > > > +
+> > > >  /* -----------------------------------------------------------------------------
+> > > >   * V4L2 Subdev
+> > > >   */
+> > > > @@ -656,6 +688,8 @@ static int max9286_s_stream(struct v4l2_subdev *sd, int enable)
+> > > >  	int ret;
+> > > >
+> > > >  	if (enable) {
+> > > > +		max9286_set_fsync_period(priv);
+> > > > +
+> > > >  		/*
+> > > >  		 * The frame sync between cameras is transmitted across the
+> > > >  		 * reverse channel as GPIO. We must open all channels while
+> > > > @@ -715,6 +749,32 @@ static int max9286_s_stream(struct v4l2_subdev *sd, int enable)
+> > > >  	return 0;
+> > > >  }
+> > > >
+> > > > +static int max9286_g_frame_interval(struct v4l2_subdev *sd,
+> > > > +				    struct v4l2_subdev_frame_interval *interval)
+> > > > +{
+> > > > +	struct max9286_priv *priv = sd_to_max9286(sd);
+> > > > +
+> > > > +	if (interval->pad == MAX9286_SRC_PAD)
+> > >
+> > > Ah!
+> > >
+> > > I would have expected, as this setting applies to all cameras, and
+> > > consequentially to the output image stream frame rate, that the
+> > > operation should have been done on the single source pad... Why is
+> > > this not the case ?
+> >
+> > I went back and forth between the two, I think it would work fine on the
+> > source pad as well. I'll give it a try.
+>
+> Note that once we'll move to the muxed streams API, the frame interval
+> will be per stream, so setting it on the source pad won't make much of a
+> difference. What do you think ?
+>
 
----
-Change from V1->V2:
-- Delete the curly {} braces.
+Per-stream means you have it apply on all the enabled source pads, and
+potentially configure cameras differently, which is not supported
+because frame sync is a configuration parameter which applies to all
+sources.
 
-Reported-by: Zeal Robot <zealci@zte.com.cn>
-Signed-off-by: David Yang <davidcomponentone@gmail.com>
-Signed-off-by: Yang Guang <yang.guang5@zte.com.cn>
----
- drivers/media/pci/saa7134/saa7134-video.c | 9 +++------
- 1 file changed, 3 insertions(+), 6 deletions(-)
+If I were you I would have used the single source pad, as from the
+user perspective what is relevant is the max9286 produced frame rate,
+but I understand the counter-argument, so up to you :)
 
-diff --git a/drivers/media/pci/saa7134/saa7134-video.c b/drivers/media/pci/saa7134/saa7134-video.c
-index 374c8e1087de..7bc4c7709f4d 100644
---- a/drivers/media/pci/saa7134/saa7134-video.c
-+++ b/drivers/media/pci/saa7134/saa7134-video.c
-@@ -823,7 +823,7 @@ static int buffer_activate(struct saa7134_dev *dev,
- {
- 	struct saa7134_dmaqueue *dmaq = buf->vb2.vb2_buf.vb2_queue->drv_priv;
- 	unsigned long base,control,bpl;
--	unsigned long bpl_uv,lines_uv,base2,base3,tmp; /* planar */
-+	unsigned long bpl_uv, lines_uv, base2, base3; /* planar */
- 
- 	video_dbg("buffer_activate buf=%p\n", buf);
- 	buf->top_seen = 0;
-@@ -868,11 +868,8 @@ static int buffer_activate(struct saa7134_dev *dev,
- 		lines_uv = dev->height >> dev->fmt->vshift;
- 		base2    = base + bpl * dev->height;
- 		base3    = base2 + bpl_uv * lines_uv;
--		if (dev->fmt->uvswap) {
--			tmp = base2;
--			base2 = base3;
--			base3 = tmp;
--		}
-+		if (dev->fmt->uvswap)
-+			swap(base2, base3);
- 		video_dbg("uv: bpl=%ld lines=%ld base2/3=%ld/%ld\n",
- 			bpl_uv,lines_uv,base2,base3);
- 		if (V4L2_FIELD_HAS_BOTH(dev->field)) {
--- 
-2.30.2
+Thanks
+   j
 
+> > > > +		return -EINVAL;
+> > > > +
+> > > > +	interval->interval = priv->interval;
+> > > > +
+> > > > +	return 0;
+> > > > +}
+> > > > +
+> > > > +static int max9286_s_frame_interval(struct v4l2_subdev *sd,
+> > > > +				    struct v4l2_subdev_frame_interval *interval)
+> > > > +{
+> > > > +	struct max9286_priv *priv = sd_to_max9286(sd);
+> > > > +
+> > > > +	if (interval->pad == MAX9286_SRC_PAD)
+> > > > +		return -EINVAL;
+> > > > +
+> > > > +	priv->interval = interval->interval;
+> > > > +
+> > > > +	return 0;
+> > > > +}
+> > > > +
+> > > >  static int max9286_enum_mbus_code(struct v4l2_subdev *sd,
+> > > >  				  struct v4l2_subdev_state *sd_state,
+> > > >  				  struct v4l2_subdev_mbus_code_enum *code)
+> > > > @@ -806,6 +866,8 @@ static int max9286_get_fmt(struct v4l2_subdev *sd,
+> > > >
+> > > >  static const struct v4l2_subdev_video_ops max9286_video_ops = {
+> > > >  	.s_stream	= max9286_s_stream,
+> > > > +	.g_frame_interval = max9286_g_frame_interval,
+> > > > +	.s_frame_interval = max9286_s_frame_interval,
+> > > >  };
+> > > >
+> > > >  static const struct v4l2_subdev_pad_ops max9286_pad_ops = {
+> > > > @@ -998,9 +1060,7 @@ static int max9286_setup(struct max9286_priv *priv)
+> > > >  		      MAX9286_CSILANECNT(priv->csi2_data_lanes) |
+> > > >  		      MAX9286_DATATYPE_YUV422_8BIT);
+> > > >
+> > > > -	/* Automatic: FRAMESYNC taken from the slowest Link. */
+> > > > -	max9286_write(priv, 0x01, MAX9286_FSYNCMODE_INT_HIZ |
+> > > > -		      MAX9286_FSYNCMETH_AUTO);
+> > > > +	max9286_set_fsync_period(priv);
+> > > >
+> > > >  	/* Enable HS/VS encoding, use D14/15 for HS/VS, invert VS. */
+> > > >  	max9286_write(priv, 0x0c, MAX9286_HVEN | MAX9286_INVVS |
+>
+> --
+> Regards,
+>
+> Laurent Pinchart
