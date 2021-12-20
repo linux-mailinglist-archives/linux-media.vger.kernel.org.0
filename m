@@ -2,247 +2,128 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E7C9C47B022
-	for <lists+linux-media@lfdr.de>; Mon, 20 Dec 2021 16:25:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D7FA647B213
+	for <lists+linux-media@lfdr.de>; Mon, 20 Dec 2021 18:25:42 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237811AbhLTPZx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 20 Dec 2021 10:25:53 -0500
-Received: from perceval.ideasonboard.com ([213.167.242.64]:55532 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237174AbhLTPZO (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Mon, 20 Dec 2021 10:25:14 -0500
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id B4BF8B9C;
-        Mon, 20 Dec 2021 16:25:12 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1640013912;
-        bh=Y+J9G6qOPHI+Xmgx1ca4rCM8oO7TIic6/MDeOCc6XQc=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=HOH8HUe8NLwQ0zENFx/X0dBbCxUTbQjXybDHLh1SVdlKdvFE4IBjkegRQNfTpiEqb
-         jkEhWj8k5ozwshtK10a1JuNBdkdQGbaWXSZsbFRYzvNG1M5K/yeK2lErtmhOro7FEF
-         JJiB8BKZydS5IcNQ7qRIjpH65gOSUO0AUFm42njo=
-Date:   Mon, 20 Dec 2021 17:25:10 +0200
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Thomas Nizan <tomniz035@gmail.com>
-Cc:     linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        id S240203AbhLTRZb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 20 Dec 2021 12:25:31 -0500
+Received: from mga18.intel.com ([134.134.136.126]:43694 "EHLO mga18.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S233139AbhLTRZ3 (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Mon, 20 Dec 2021 12:25:29 -0500
+X-IronPort-AV: E=McAfee;i="6200,9189,10203"; a="227083675"
+X-IronPort-AV: E=Sophos;i="5.88,221,1635231600"; 
+   d="scan'208";a="227083675"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Dec 2021 09:25:29 -0800
+X-IronPort-AV: E=Sophos;i="5.88,221,1635231600"; 
+   d="scan'208";a="484128478"
+Received: from paasikivi.fi.intel.com ([10.237.72.42])
+  by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Dec 2021 09:25:27 -0800
+Received: from paasikivi.fi.intel.com (localhost [127.0.0.1])
+        by paasikivi.fi.intel.com (Postfix) with SMTP id C9FC121DB2;
+        Mon, 20 Dec 2021 19:25:24 +0200 (EET)
+Date:   Mon, 20 Dec 2021 19:25:24 +0200
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Cc:     linux-media@vger.kernel.org,
         Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        Niklas =?utf-8?Q?S=C3=B6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>,
-        Thomas Nizan <tnizan@witekio.com>
-Subject: Re: [PATCH 2/3] media: i2c: max9286: Add support for port regulators
-Message-ID: <YcCgVvppKkSwRHuu@pendragon.ideasonboard.com>
-References: <20211216220946.20771-1-laurent.pinchart+renesas@ideasonboard.com>
- <20211216220946.20771-3-laurent.pinchart+renesas@ideasonboard.com>
- <351eddd4-fc73-420e-0817-7282e413c126@gmail.com>
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        niklas.soderlund+renesas@ragnatech.se,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Pratyush Yadav <p.yadav@ti.com>
+Subject: Re: [PATCH v2 5/6] media: subdev: Add
+ v4l2_subdev_lock_and_return_state()
+Message-ID: <YcC8hBTaH39AeY2g@paasikivi.fi.intel.com>
+References: <20211217135022.364954-1-tomi.valkeinen@ideasonboard.com>
+ <20211217135022.364954-6-tomi.valkeinen@ideasonboard.com>
+ <YcB8VPVuSqhY40A5@paasikivi.fi.intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <351eddd4-fc73-420e-0817-7282e413c126@gmail.com>
+In-Reply-To: <YcB8VPVuSqhY40A5@paasikivi.fi.intel.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Thomas,
-
-On Mon, Dec 20, 2021 at 04:06:26PM +0100, Thomas Nizan wrote:
-> On 2021-12-16 11:09 p.m., Laurent Pinchart wrote:
-> > From: Thomas Nizan <tnizan@witekio.com>
+On Mon, Dec 20, 2021 at 02:51:32PM +0200, Sakari Ailus wrote:
+> Moi,
+> 
+> On Fri, Dec 17, 2021 at 03:50:21PM +0200, Tomi Valkeinen wrote:
+> > All suitable subdev ops are now passed either the TRY or the ACTIVE
+> > state by the v4l2 core. However, other subdev drivers can still call the
+> > ops passing NULL as the state, implying the active case.
 > > 
-> > Allow users to use one PoC regulator per port, instead of a global
-> > regulator.
+> > For all current upstream drivers this doesn't matter, as they do not
+> > expect to get a valid state for ACTIVE case. But future drivers which
+> > support multiplexed streaming and routing will depend on getting a state
+> > for both active and try cases.
 > > 
-> > The properties '^port[0-3]-poc-supply$' in the DT node are used to
-> > indicate the regulators for individual ports.
->
-> Signed-off-by: Thomas Nizan <tnizan@witekio.com>
-
-Thank you.
-
-> > Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> > For new drivers we can mandate that the pipelines where the drivers are
+> > used need to pass the state properly, or preferably, not call such
+> > subdev ops at all.
+> > 
+> > However, if an existing subdev driver is changed to support multiplexed
+> > streams, the driver has to consider cases where its ops will be called
+> > with NULL state. The problem can easily be solved by using the
+> > v4l2_subdev_lock_and_return_state() helper, introduced here.
+> > 
+> > Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+> > Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> > Reviewed-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+> > Reviewed-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
 > > ---
-> >  drivers/media/i2c/max9286.c | 112 +++++++++++++++++++++++++++++++-----
-> >  1 file changed, 98 insertions(+), 14 deletions(-)
+> >  include/media/v4l2-subdev.h | 36 ++++++++++++++++++++++++++++++++++++
+> >  1 file changed, 36 insertions(+)
 > > 
-> > diff --git a/drivers/media/i2c/max9286.c b/drivers/media/i2c/max9286.c
-> > index 7c663fd587bb..fa2f6a823fe6 100644
-> > --- a/drivers/media/i2c/max9286.c
-> > +++ b/drivers/media/i2c/max9286.c
-> > @@ -136,8 +136,10 @@
-> >  #define MAX9286_SRC_PAD			4
+> > diff --git a/include/media/v4l2-subdev.h b/include/media/v4l2-subdev.h
+> > index 867e19ef80bd..d6c7db1d37e4 100644
+> > --- a/include/media/v4l2-subdev.h
+> > +++ b/include/media/v4l2-subdev.h
+> > @@ -1321,4 +1321,40 @@ void v4l2_subdev_lock_state(struct v4l2_subdev_state *state);
+> >   */
+> >  void v4l2_subdev_unlock_state(struct v4l2_subdev_state *state);
 > >  
-> >  struct max9286_source {
-> > +	unsigned int index;
-> >  	struct v4l2_subdev *sd;
-> >  	struct fwnode_handle *fwnode;
-> > +	struct regulator *regulator;
-> >  };
-> >  
-> >  struct max9286_asd {
-> > @@ -1072,6 +1074,49 @@ static int max9286_register_gpio(struct max9286_priv *priv)
-> >  	return ret;
-> >  }
-> >  
-> > +static int max9286_poc_power_on(struct max9286_priv *priv)
+> > +/**
+> > + * v4l2_subdev_lock_and_return_state() - Gets locked try or active subdev state
+> > + * @sd: subdevice
+> > + * @state: subdevice state as passed to the subdev op
+> > + *
+> > + * Due to legacy reasons, when subdev drivers call ops in other subdevs they use
+> > + * NULL as the state parameter, as subdevs always used to have their active
+> > + * state stored privately.
+> > + *
+> > + * However, newer state-aware subdev drivers, which store their active state in
+> > + * a common place, subdev->active_state, expect to always get a proper state as
+> > + * a parameter.
+> > + *
+> > + * These state-aware drivers can use v4l2_subdev_lock_and_return_state() instead
+> > + * of v4l2_subdev_lock_state(). v4l2_subdev_lock_and_return_state() solves the
+> > + * issue by using subdev->active_state in case the passed state is NULL.
+> > + *
+> > + * This is a temporary helper function, and should be removed when we can ensure
+> > + * that all drivers pass proper state when calling other subdevs.
+> > + */
+> > +static inline struct v4l2_subdev_state *
+> > +v4l2_subdev_lock_and_return_state(struct v4l2_subdev *sd,
+> > +				  struct v4l2_subdev_state *state)
 > > +{
-> > +	struct max9286_source *source;
-> > +	unsigned int enabled = 0;
-> > +	int ret;
-> > +
-> > +	/* Enable the global regulator if available. */
-> > +	if (priv->regulator)
-> > +		return regulator_enable(priv->regulator);
-> > +
-> > +	/* Otherwise use the per-port regulators. */
-> > +	for_each_source(priv, source) {
-> > +		ret = regulator_enable(source->regulator);
-> > +		if (ret < 0)
-> > +			goto error;
-> > +
-> > +		enabled |= BIT(source->index);
-> > +	}
-> > +
-> > +	return 0;
-> > +
-> > +error:
-> > +	for_each_source(priv, source) {
-> > +		if (enabled & BIT(source->index))
-> > +			regulator_disable(source->regulator);
-> > +	}
-> > +
-> > +	return ret;
-> > +}
-> > +
-> > +static void max9286_poc_power_off(struct max9286_priv *priv)
-> > +{
-> > +	struct max9286_source *source;
-> > +
-> > +	if (priv->regulator) {
-> > +		regulator_disable(priv->regulator);
-> > +		return;
-> > +	}
-> > +
-> > +	for_each_source(priv, source)
-> > +		regulator_disable(source->regulator);
-> > +}
-> > +
-> >  static int max9286_init(struct device *dev)
-> >  {
-> >  	struct max9286_priv *priv;
-> > @@ -1082,9 +1127,9 @@ static int max9286_init(struct device *dev)
-> >  	priv = i2c_get_clientdata(client);
-> >  
-> >  	/* Enable the bus power. */
-> > -	ret = regulator_enable(priv->regulator);
-> > +	ret = max9286_poc_power_on(priv);
-> >  	if (ret < 0) {
-> > -		dev_err(&client->dev, "Unable to turn PoC on\n");
-> > +		dev_err(dev, "Unable to turn PoC on\n");
-> >  		return ret;
-> >  	}
-> >  
-> > @@ -1118,7 +1163,7 @@ static int max9286_init(struct device *dev)
-> >  err_v4l2_register:
-> >  	max9286_v4l2_unregister(priv);
-> >  err_regulator:
-> > -	regulator_disable(priv->regulator);
-> > +	max9286_poc_power_off(priv);
-> >  
-> >  	return ret;
-> >  }
-> > @@ -1215,6 +1260,7 @@ static int max9286_parse_dt(struct max9286_priv *priv)
-> >  		}
-> >  
-> >  		source = &priv->sources[ep.port];
-> > +		source->index = ep.port;
-> >  		source->fwnode = fwnode_graph_get_remote_endpoint(
-> >  						of_fwnode_handle(node));
-> >  		if (!source->fwnode) {
-> > @@ -1249,6 +1295,50 @@ static int max9286_parse_dt(struct max9286_priv *priv)
-> >  	return 0;
-> >  }
-> >  
-> > +static int max9286_get_poc_supplies(struct max9286_priv *priv)
-> > +{
-> > +	struct device *dev = &priv->client->dev;
-> > +	struct max9286_source *source;
-> > +
-> > +	/*
-> > +	 * Start by getting the global regulator. Usage of the exclusive API is
-> > +	 * required to receive an error in case the supply isn't specified in
-> > +	 * the device tree.
-> > +	 */
-> > +	priv->regulator = devm_regulator_get_exclusive(dev, "poc");
-> > +	if (!IS_ERR(priv->regulator))
-> > +		return 0;
-> > +
-> > +	if (PTR_ERR(priv->regulator) != -ENODEV) {
-> > +		if (PTR_ERR(priv->regulator) != -EPROBE_DEFER)
-> > +			dev_err(dev, "Unable to get PoC regulator: %ld\n",
-> > +				PTR_ERR(priv->regulator));
-> > +		return PTR_ERR(priv->regulator);
-> > +	}
-> > +
-> > +	/* If there's no global regulator, get per-port regulators. */
-> > +	dev_dbg(dev,
-> > +		"No global PoC regulator, looking for per-port regulators\n");
-> > +	priv->regulator = NULL;
-> > +
-> > +	for_each_source(priv, source) {
-> > +		char name[10];
-> > +
-> > +		snprintf(name, sizeof(name), "port%u-poc", source->index);
-> > +		source->regulator = devm_regulator_get_exclusive(dev, name);
-> > +		if (IS_ERR(source->regulator)) {
-> > +			if (PTR_ERR(source->regulator) != -EPROBE_DEFER)
-> > +				dev_err(dev,
-> > +					"Unable to get port %u PoC regulator: %ld\n",
-> > +					source->index,
-> > +					PTR_ERR(source->regulator));
-> > +			return PTR_ERR(source->regulator);
-> > +		}
-> > +	}
-> > +
-> > +	return 0;
-> > +}
-> > +
-> >  static int max9286_probe(struct i2c_client *client)
-> >  {
-> >  	struct max9286_priv *priv;
-> > @@ -1293,17 +1383,11 @@ static int max9286_probe(struct i2c_client *client)
-> >  	if (ret)
-> >  		goto err_powerdown;
-> >  
-> > -	priv->regulator = devm_regulator_get(&client->dev, "poc");
-> > -	if (IS_ERR(priv->regulator)) {
-> > -		if (PTR_ERR(priv->regulator) != -EPROBE_DEFER)
-> > -			dev_err(&client->dev,
-> > -				"Unable to get PoC regulator (%ld)\n",
-> > -				PTR_ERR(priv->regulator));
-> > -		ret = PTR_ERR(priv->regulator);
-> > -		goto err_powerdown;
-> > -	}
-> > -
-> >  	ret = max9286_parse_dt(priv);
-> > +	if (ret)
-> > +		goto err_cleanup_dt;
-> > +
-> > +	ret = max9286_get_poc_supplies(priv);
-> >  	if (ret)
-> >  		goto err_powerdown;
-> >  
-> > @@ -1329,7 +1413,7 @@ static int max9286_remove(struct i2c_client *client)
-> >  
-> >  	max9286_v4l2_unregister(priv);
-> >  
-> > -	regulator_disable(priv->regulator);
-> > +	max9286_poc_power_off(priv);
-> >  
-> >  	gpiod_set_value_cansleep(priv->gpiod_pwdn, 0);
-> >  
+> > +	if (!state)
+> > +		dev_notice_once(sd->dev,
+> 
+> I thought about this a little more.
+> 
+> This currently warns once when there's something that calls the function
+> with NULL state.
+> 
+> How about going a bit further, moving this to a macro so all instances will
+> be covered, and then using WARN_ON_ONCE() so there would be a clear
+> indication where the warning comes from?
+
+Actually --- please ignore this. The function is already static inline in
+the header and prints the device name. That should be enough to point out
+the culprit.
 
 -- 
-Regards,
-
-Laurent Pinchart
+Sakari Ailus
