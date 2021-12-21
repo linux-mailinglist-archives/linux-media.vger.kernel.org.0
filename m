@@ -2,111 +2,215 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 56EF147C5C5
-	for <lists+linux-media@lfdr.de>; Tue, 21 Dec 2021 19:07:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id F141147C945
+	for <lists+linux-media@lfdr.de>; Tue, 21 Dec 2021 23:36:45 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240927AbhLUSHh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 21 Dec 2021 13:07:37 -0500
-Received: from perceval.ideasonboard.com ([213.167.242.64]:41208 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240898AbhLUSHf (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Tue, 21 Dec 2021 13:07:35 -0500
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 1B121881;
-        Tue, 21 Dec 2021 19:07:33 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1640110053;
-        bh=/EAbN7PvJY0uxVeHPALlIpyBAdVWKv8cVpzdpx6vnX4=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=h7JVj6IziYONALoz69FYZBFNjkiSvrYuztwN4GddEQiRkQpi/w0UvLvP9oxQ/itZp
-         EAPTWsbppyDUW0hHGp+Zxb4GPtkhu4PWVz9MJec+D3JoaP8Vhz/cjcaWmgr0JisOtz
-         N/0vHhC5bTKC96tjzCzTJ67oRqG66ODKb9/rW8+c=
-Date:   Tue, 21 Dec 2021 20:07:30 +0200
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Jacopo Mondi <jacopo@jmondi.org>
-Cc:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-        linux-media@vger.kernel.org, sakari.ailus@linux.intel.com,
-        Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        niklas.soderlund+renesas@ragnatech.se,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Pratyush Yadav <p.yadav@ti.com>
-Subject: Re: [PATCH v10 26/38] media: add V4L2_SUBDEV_CAP_MPLEXED
-Message-ID: <YcIX4vqG1i79CX07@pendragon.ideasonboard.com>
-References: <20211130141536.891878-1-tomi.valkeinen@ideasonboard.com>
- <20211130141536.891878-27-tomi.valkeinen@ideasonboard.com>
- <20211214083950.yfp6ss6hdsjejtla@uno.localdomain>
+        id S237988AbhLUWgp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 21 Dec 2021 17:36:45 -0500
+Received: from mga07.intel.com ([134.134.136.100]:22000 "EHLO mga07.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S237387AbhLUWgo (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 21 Dec 2021 17:36:44 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1640126204; x=1671662204;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=7+zcXeJFEm2uxCbsmG6YEfjfiN3y+5NaQlSt8ITghWg=;
+  b=LCGUCFvz00m1wdNVyVKFPq4PhCQ22gQ4FpA5kFJOO5XNgCIoouU+4M+3
+   tAPMbDd9AwzQSdWntLQkECt+fXHu9PKysY04Npr4YXPYGa00Tkvo3Td/U
+   vcvMI/QOUw3vk8MCsLUllaZb/65wmhOq3a6ooi8x827J1K2/CYEqTqjjs
+   NJtKBWHKK9KPjJ19juEiT5TvOgEA/AoPVEUPi6q1NT1fzT6qtnkHlOMzY
+   w9ItropC1Ou785HM5cBXjXuUCfzwMcHJtYVRamXfz50kQfE9byS97GEFJ
+   KOPHFe5QJ/ZdcnHbxZqxvFShMPIU3p8zbUjfo2gOaeUAqN25N+2GhG61c
+   g==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10205"; a="303874448"
+X-IronPort-AV: E=Sophos;i="5.88,224,1635231600"; 
+   d="scan'208";a="303874448"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Dec 2021 14:36:44 -0800
+X-IronPort-AV: E=Sophos;i="5.88,224,1635231600"; 
+   d="scan'208";a="484563640"
+Received: from paasikivi.fi.intel.com ([10.237.72.42])
+  by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Dec 2021 14:36:42 -0800
+Received: from paasikivi.fi.intel.com (localhost [127.0.0.1])
+        by paasikivi.fi.intel.com (Postfix) with SMTP id 460842057F;
+        Wed, 22 Dec 2021 00:36:40 +0200 (EET)
+Date:   Wed, 22 Dec 2021 00:36:40 +0200
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     linux-media@vger.kernel.org,
+        Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
+        Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org
+Subject: Re: [PATCH v2 1/2] dt-bindings: media: i2c: Add IMX296 CMOS sensor
+ binding
+Message-ID: <YcJW+EZhDkxk2u2w@paasikivi.fi.intel.com>
+References: <20211219220948.28953-1-laurent.pinchart@ideasonboard.com>
+ <20211219220948.28953-2-laurent.pinchart@ideasonboard.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20211214083950.yfp6ss6hdsjejtla@uno.localdomain>
+In-Reply-To: <20211219220948.28953-2-laurent.pinchart@ideasonboard.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Dec 14, 2021 at 09:39:50AM +0100, Jacopo Mondi wrote:
-> On Tue, Nov 30, 2021 at 04:15:24PM +0200, Tomi Valkeinen wrote:
-> > Add a subdev capability flag to expose to userspace if a subdev supports
-> > multiplexed streams.
-> >
-> > Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-> > ---
-> >  drivers/media/v4l2-core/v4l2-subdev.c | 4 +++-
-> >  include/uapi/linux/v4l2-subdev.h      | 3 +++
-> >  2 files changed, 6 insertions(+), 1 deletion(-)
-> >
-> > diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
-> > index 2053fe1cd67d..721148e35624 100644
-> > --- a/drivers/media/v4l2-core/v4l2-subdev.c
-> > +++ b/drivers/media/v4l2-core/v4l2-subdev.c
-> > @@ -419,7 +419,9 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg)
-> >
-> >  		memset(cap->reserved, 0, sizeof(cap->reserved));
-> >  		cap->version = LINUX_VERSION_CODE;
-> > -		cap->capabilities = ro_subdev ? V4L2_SUBDEV_CAP_RO_SUBDEV : 0;
-> > +		cap->capabilities =
-> > +			(ro_subdev ? V4L2_SUBDEV_CAP_RO_SUBDEV : 0) |
-> > +			((sd->flags & V4L2_SUBDEV_FL_MULTIPLEXED) ? V4L2_SUBDEV_CAP_MPLEXED : 0);
-> 
-> I had been suggested to go for:
-> 
-> 	bool ro_subdev = test_bit(V4L2_FL_SUBDEV_RO_DEVNODE, &vdev->flags);
-> 
-> when introducing V4L2_SUBDEV_CAP_RO_SUBDEV.
-> 
-> To me it doesn't make much difference
-> 
-> Reviewed-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
-> 
-> >
-> >  		return 0;
-> >  	}
-> > diff --git a/include/uapi/linux/v4l2-subdev.h b/include/uapi/linux/v4l2-subdev.h
-> > index 658106f5b5dc..d91ab6f22fa7 100644
-> > --- a/include/uapi/linux/v4l2-subdev.h
-> > +++ b/include/uapi/linux/v4l2-subdev.h
-> > @@ -188,6 +188,9 @@ struct v4l2_subdev_capability {
-> >  /* The v4l2 sub-device video device node is registered in read-only mode. */
-> >  #define V4L2_SUBDEV_CAP_RO_SUBDEV		0x00000001
-> >
-> > +/* The v4l2 sub-device supports multiplexed streams. */
-> > +#define V4L2_SUBDEV_CAP_MPLEXED			0x00000002
+Hi Laurent,
 
-We have V4L2_SUBDEV_FL_MULTIPLEXED vs. V4L2_SUBDEV_CAP_MPLEXED, can we
-try to standardize naming ? V4L2 is notoriously bad in this area
-(VIDIOC_ENUM_FMT vs. VIDIOC_ENUMSTD, v4l2_fmtdesc vs. v4l2_format, ...).
-It would be nice to avoid repeating the same mistakes all the time, my
-OCD is suffering :-( (and this also really hinders development, when one
-has to always remember which abbreviation has been used in a given
-context).
+On Mon, Dec 20, 2021 at 12:09:47AM +0200, Laurent Pinchart wrote:
+> From: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+> 
+> Add YAML devicetree binding for IMX296 CMOS image sensor. Let's also
+> add MAINTAINERS entry for the binding and driver.
+> 
+> Signed-off-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> ---
+> Changes since v4:
+> 
+> - Rename to sony,imx296.yaml
+> - Add Laurent Pinchart as maintainer
+> - Rename power supplies
+> - Rename clock to INCK
+> - Drop clock-frequency property
+> - Reference OF graph DT schema
+> - Mention reset GPIO pin name
+> - Fix schema $id
+> - Fix port
+> ---
+>  .../bindings/media/i2c/sony,imx296.yaml       | 95 +++++++++++++++++++
+>  MAINTAINERS                                   |  8 ++
+>  2 files changed, 103 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/media/i2c/sony,imx296.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/media/i2c/sony,imx296.yaml b/Documentation/devicetree/bindings/media/i2c/sony,imx296.yaml
+> new file mode 100644
+> index 000000000000..e8f9a73bf2db
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/media/i2c/sony,imx296.yaml
+> @@ -0,0 +1,95 @@
+> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/media/i2c/sony,imx296.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Sony IMX296 1/2.8-Inch CMOS Image Sensor
+> +
+> +maintainers:
+> +  - Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+> +  - Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> +
+> +description: |-
+> +  The Sony IMX296 is a 1/2.9-Inch active pixel type CMOS Solid-state image
+> +  sensor with square pixel array and 1.58 M effective pixels. This chip
+> +  features a global shutter with variable charge-integration time. It is
+> +  programmable through I2C and 4-wire interfaces. The sensor output is
+> +  available via CSI-2 serial data output (1 Lane).
+> +
+> +properties:
+> +  compatible:
+> +    const: sony,imx296
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  clocks:
+> +    maxItems: 1
+> +
+> +  clock-names:
+> +    description: Input clock (37.125 MHz, 54 MHz or 74.25 MHz)
+> +    items:
+> +      - const: inck
 
-> > +
-> >  /* Backwards compatibility define --- to be removed */
-> >  #define v4l2_subdev_edid v4l2_edid
-> >
+As the driver only gets the frequency, should we require assigned-clock-*
+stuff here?
+
+Virtually all other sensors have a wide range of supported frequencies.
+
+> +
+> +  avdd-supply:
+> +    description: Analog power supply (3.3V)
+> +
+> +  dvdd-supply:
+> +    description: Digital power supply (1.2V)
+> +
+> +  ovdd-supply:
+> +    description: Interface power supply (1.8V)
+> +
+> +  reset-gpios:
+> +    description: Sensor reset (XCLR) GPIO
+> +    maxItems: 1
+> +
+> +  port:
+> +    $ref: /schemas/graph.yaml#/properties/port
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - clocks
+> +  - clock-names
+> +  - avdd-supply
+> +  - dvdd-supply
+> +  - ovdd-supply
+> +  - port
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/gpio/gpio.h>
+> +
+> +    i2c {
+> +        #address-cells = <1>;
+> +        #size-cells = <0>;
+> +
+> +        imx296: camera-sensor@1a {
+> +            compatible = "sony,imx296";
+> +            reg = <0x1a>;
+> +
+> +            pinctrl-names = "default";
+> +            pinctrl-0 = <&camera_rear_default>;
+> +
+> +            clocks = <&gcc 90>;
+> +            clock-names = "inck";
+> +
+> +            avdd-supply = <&camera_vdda_3v3>;
+> +            dvdd-supply = <&camera_vddd_1v2>;
+> +            ovdd-supply = <&camera_vddo_1v8>;
+> +
+> +            reset-gpios = <&msmgpio 35 GPIO_ACTIVE_LOW>;
+> +
+> +            port {
+> +                imx296_ep: endpoint {
+> +                    remote-endpoint = <&csiphy0_ep>;
+> +                };
+> +            };
+> +        };
+> +    };
+> +
+> +...
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 43007f2d29e0..1b20f2b90aec 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -17752,6 +17752,14 @@ T:	git git://linuxtv.org/media_tree.git
+>  F:	Documentation/devicetree/bindings/media/i2c/imx290.txt
+>  F:	drivers/media/i2c/imx290.c
+>  
+> +SONY IMX296 SENSOR DRIVER
+> +M:	Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> +M:	Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+> +L:	linux-media@vger.kernel.org
+> +S:	Maintained
+> +T:	git git://linuxtv.org/media_tree.git
+> +F:	Documentation/devicetree/bindings/media/i2c/sony,imx296.yaml
+> +
+>  SONY IMX319 SENSOR DRIVER
+>  M:	Bingbu Cao <bingbu.cao@intel.com>
+>  L:	linux-media@vger.kernel.org
 
 -- 
-Regards,
+Kind regards,
 
-Laurent Pinchart
+Sakari Ailus
