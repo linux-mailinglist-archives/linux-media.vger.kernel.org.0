@@ -2,203 +2,163 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6123C47C38F
-	for <lists+linux-media@lfdr.de>; Tue, 21 Dec 2021 17:12:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5611347C512
+	for <lists+linux-media@lfdr.de>; Tue, 21 Dec 2021 18:34:00 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239580AbhLUQMr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 21 Dec 2021 11:12:47 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42378 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239555AbhLUQMq (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Tue, 21 Dec 2021 11:12:46 -0500
-Received: from mail-lf1-x12e.google.com (mail-lf1-x12e.google.com [IPv6:2a00:1450:4864:20::12e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5D65CC06173F
-        for <linux-media@vger.kernel.org>; Tue, 21 Dec 2021 08:12:46 -0800 (PST)
-Received: by mail-lf1-x12e.google.com with SMTP id bu9so8917869lfb.7
-        for <linux-media@vger.kernel.org>; Tue, 21 Dec 2021 08:12:46 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ragnatech-se.20210112.gappssmtp.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=Yfv5aXMU9TYpLkiQK9aoGDrbvJw2B5NWyCkCE7qVn0k=;
-        b=li1ReLybOkP08XdCuVSUKkhKFh1tsynEzrShPG9tZVG77RW9mAiWDi4AALJYfzNdE3
-         LPEM9MZpsgQ9nij1CHvG9nCSG0Okwi1oRSMbA/aPRvK5ThBYQ5gxdrIvuI78xHPYOR6i
-         h2L46+0MQxhX1hxzR4RthfzbMtFSpbxbVzRTlBwv4MH1pyfYxW+x/RVhws1OwZI2IrII
-         sgHNWzl2ovqTZ404wyQBl8D2ZNMUmIfQNLSIUM/dJ5GkZ2jJmBSGqCR18KoxdL5q6+13
-         eBZPSqoREQ8LdWM4/qNzxjb76VGzROfJ5pnHTrS4/RMjR7FyoD9XqEiXdMxcg0ua3oxI
-         /92w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=Yfv5aXMU9TYpLkiQK9aoGDrbvJw2B5NWyCkCE7qVn0k=;
-        b=qH2xPGOzVmYHZDZl6pf2+2xFE18Zrwlgo9Qon8R+cAPU9JRQRpxl3pithLq/7b9z9+
-         Dgrd3s5O5ZNmmJc5Ho0YkR7eUUjQbFsq9upE77yfk4lx+/whyStaEQ+6k3mIg/c//3Nl
-         rozT2NcglT8+9QM50BsreCKm82qPkI0m1vYJRDI5jnMuaCOlQNh2iEp7ym1OdwkpM911
-         raDZqPPGGhXA0AESci1c7983hdECxxQcz1yj0PUnJUQBchlY9sXk/l9GYcufn0js/qS/
-         y+2kn4+EXZ7vJ6HhddRCuyePe6Ad67s3gO0ck/CtQb0uRBf2k3XCIoJfnDw8b8AGn537
-         MhDg==
-X-Gm-Message-State: AOAM533zAkSwqOeeJKc+a/f1eks26A2Pfsse2D3H7ECqMZPRfM6BRB35
-        tsitSJbjgn6CLsgFbIgcWaN56Q==
-X-Google-Smtp-Source: ABdhPJzhXuDTLbz5gDatMJq/3hpbsOBVVVeUDBRwYbAJyehpIqanF6bH0mE5vifofMRxd8aMsXQifw==
-X-Received: by 2002:a05:6512:374a:: with SMTP id a10mr3552988lfs.103.1640103164654;
-        Tue, 21 Dec 2021 08:12:44 -0800 (PST)
-Received: from localhost.localdomain (host-78-79-238-21.mobileonline.telia.com. [78.79.238.21])
-        by smtp.googlemail.com with ESMTPSA id s10sm550708lfr.45.2021.12.21.08.12.43
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 21 Dec 2021 08:12:44 -0800 (PST)
-From:   =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>
-To:     Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org,
-        linux-media@vger.kernel.org
-Cc:     linux-renesas-soc@vger.kernel.org,
-        =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-Subject: [PATCH v2] dt-bindings: i2c: maxim,max96712: Add bindings for Maxim Integrated MAX96712
-Date:   Tue, 21 Dec 2021 17:12:24 +0100
-Message-Id: <20211221161224.71258-1-niklas.soderlund+renesas@ragnatech.se>
-X-Mailer: git-send-email 2.34.1
+        id S240424AbhLURd6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 21 Dec 2021 12:33:58 -0500
+Received: from comms.puri.sm ([159.203.221.185]:37944 "EHLO comms.puri.sm"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S233723AbhLURd5 (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 21 Dec 2021 12:33:57 -0500
+Received: from localhost (localhost [127.0.0.1])
+        by comms.puri.sm (Postfix) with ESMTP id 1E53EE118A;
+        Tue, 21 Dec 2021 09:33:27 -0800 (PST)
+Received: from comms.puri.sm ([127.0.0.1])
+        by localhost (comms.puri.sm [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id YznpmPtefpP4; Tue, 21 Dec 2021 09:33:26 -0800 (PST)
+Message-ID: <8f4c0f74523ea615786942fe2a30f83a2d0e8c16.camel@puri.sm>
+Subject: Re: [PATCH v3] media: i2c: dw9714: add optional regulator support
+From:   Martin Kepplinger <martin.kepplinger@puri.sm>
+To:     broonie@kernel.org, sakari.ailus@linux.intel.com
+Cc:     angus@akkea.ca, kernel@puri.sm, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-pm@vger.kernel.org,
+        mchehab@kernel.org
+Date:   Tue, 21 Dec 2021 18:33:21 +0100
+In-Reply-To: <20211129120754.1766570-1-martin.kepplinger@puri.sm>
+References: <20211129120754.1766570-1-martin.kepplinger@puri.sm>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.38.3-1 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Add bindings for Maxim Integrated MAX96712 deserializer. The MAX96712
-deserializer converts GMSL2 or GMSL1 serial inputs into MIPI CSI-2 D-PHY
-or C-PHY formatted outputs.
+Am Montag, dem 29.11.2021 um 13:07 +0100 schrieb Martin Kepplinger:
+> From: Angus Ainslie <angus@akkea.ca>
+> 
+> Allow the dw9714 to control a regulator and adjust suspend() and
+> resume()
+> to support both runtime and system pm.
+> 
+> Signed-off-by: Angus Ainslie <angus@akkea.ca>
+> Signed-off-by: Martin Kepplinger <martin.kepplinger@puri.sm>
+> ---
+> 
+> 
+> revision history
+> ----------------
+> v3: (thank you Mark and Sakari)
+>  * use regulator_get() instead of regulator_get_optional()
+> 
+> v2: (thank you Mark)
+>  * simplify the regulator_get_optional() error path
+>  * fix regulator usage during probe()
+> https://lore.kernel.org/linux-media/20211126090107.1243558-1-martin.kepplinger@puri.sm/
+> 
+> v1:
+> https://lore.kernel.org/linux-media/20211125080922.978583-1-martin.kepplinger@puri.sm/
+> 
+> 
+> 
+>  drivers/media/i2c/dw9714.c | 32 +++++++++++++++++++++++++++++++-
+>  1 file changed, 31 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/media/i2c/dw9714.c b/drivers/media/i2c/dw9714.c
+> index 3863dfeb8293..81170bbe0e55 100644
+> --- a/drivers/media/i2c/dw9714.c
+> +++ b/drivers/media/i2c/dw9714.c
+> @@ -5,6 +5,7 @@
+>  #include <linux/i2c.h>
+>  #include <linux/module.h>
+>  #include <linux/pm_runtime.h>
+> +#include <linux/regulator/consumer.h>
+>  #include <media/v4l2-ctrls.h>
+>  #include <media/v4l2-device.h>
+>  #include <media/v4l2-event.h>
+> @@ -36,6 +37,7 @@ struct dw9714_device {
+>         struct v4l2_ctrl_handler ctrls_vcm;
+>         struct v4l2_subdev sd;
+>         u16 current_val;
+> +       struct regulator *vcc;
+>  };
+>  
+>  static inline struct dw9714_device *to_dw9714_vcm(struct v4l2_ctrl
+> *ctrl)
+> @@ -145,6 +147,16 @@ static int dw9714_probe(struct i2c_client
+> *client)
+>         if (dw9714_dev == NULL)
+>                 return -ENOMEM;
+>  
+> +       dw9714_dev->vcc = devm_regulator_get(&client->dev, "vcc");
+> +       if (IS_ERR(dw9714_dev->vcc))
+> +               return PTR_ERR(dw9714_dev->vcc);
+> +
+> +       rval = regulator_enable(dw9714_dev->vcc);
+> +       if (rval < 0) {
+> +               dev_err(&client->dev, "failed to enable vcc: %d\n",
+> rval);
+> +               return rval;
+> +       }
+> +
+>         v4l2_i2c_subdev_init(&dw9714_dev->sd, client, &dw9714_ops);
+>         dw9714_dev->sd.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE |
+>                                 V4L2_SUBDEV_FL_HAS_EVENTS;
+> @@ -200,6 +212,9 @@ static int __maybe_unused
+> dw9714_vcm_suspend(struct device *dev)
+>         struct dw9714_device *dw9714_dev = sd_to_dw9714_vcm(sd);
+>         int ret, val;
+>  
+> +       if (pm_runtime_suspended(&client->dev))
+> +               return 0;
+> +
+>         for (val = dw9714_dev->current_val & ~(DW9714_CTRL_STEPS -
+> 1);
+>              val >= 0; val -= DW9714_CTRL_STEPS) {
+>                 ret = dw9714_i2c_write(client,
+> @@ -208,7 +223,12 @@ static int __maybe_unused
+> dw9714_vcm_suspend(struct device *dev)
+>                         dev_err_once(dev, "%s I2C failure: %d",
+> __func__, ret);
+>                 usleep_range(DW9714_CTRL_DELAY_US,
+> DW9714_CTRL_DELAY_US + 10);
+>         }
+> -       return 0;
+> +
+> +       ret = regulator_disable(dw9714_dev->vcc);
+> +       if (ret)
+> +               dev_err(dev, "Failed to disable vcc: %d\n", ret);
+> +
+> +       return ret;
+>  }
+>  
+>  /*
+> @@ -224,6 +244,16 @@ static int  __maybe_unused
+> dw9714_vcm_resume(struct device *dev)
+>         struct dw9714_device *dw9714_dev = sd_to_dw9714_vcm(sd);
+>         int ret, val;
+>  
+> +       if (pm_runtime_suspended(&client->dev))
+> +               return 0;
+> +
+> +       ret = regulator_enable(dw9714_dev->vcc);
+> +       if (ret) {
+> +               dev_err(dev, "Failed to enable vcc: %d\n", ret);
+> +               return ret;
+> +       }
+> +       usleep_range(1000, 2000);
+> +
+>         for (val = dw9714_dev->current_val % DW9714_CTRL_STEPS;
+>              val < dw9714_dev->current_val + DW9714_CTRL_STEPS - 1;
+>              val += DW9714_CTRL_STEPS) {
 
-Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
----
-* Changes since v1
-- Fixed spelling in binding description.
-- Drop 'staging' per Rob's suggestion.
----
- .../bindings/media/i2c/maxim,max96712.yaml    | 111 ++++++++++++++++++
- 1 file changed, 111 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/media/i2c/maxim,max96712.yaml
+hi Sakari and all interested,
 
-diff --git a/Documentation/devicetree/bindings/media/i2c/maxim,max96712.yaml b/Documentation/devicetree/bindings/media/i2c/maxim,max96712.yaml
-new file mode 100644
-index 0000000000000000..b303f7a891169a79
---- /dev/null
-+++ b/Documentation/devicetree/bindings/media/i2c/maxim,max96712.yaml
-@@ -0,0 +1,111 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+# Copyright (C) 2021 Renesas Electronics Corp.
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/staging/media/i2c/maxim,max96712.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Quad GMSL2 to CSI-2 Deserializer with GMSL1 Compatibility
-+
-+maintainers:
-+  - Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-+
-+description: |
-+  The MAX96712 deserializer converts GMSL2 or GMSL1 serial inputs into MIPI
-+  CSI-2 D-PHY or C-PHY formatted outputs. The device allows each link to
-+  simultaneously transmit bidirectional control-channel data while forward
-+  video transmissions are in progress. The MAX96712 can accommodate as many as
-+  four remotely located sensors using industry-standard coax or STP
-+  interconnects.
-+
-+  Each GMSL2 serial link operates at a fixed rate of 3Gbps or 6Gbps in the
-+  forward direction and 187.5Mbps in the reverse direction. In GMSL1 mode, the
-+  MAX96712 can be paired with first-generation 3.12Gbps or 1.5Gbps GMSL1
-+  serializers or operate up to 3.12Gbps with GMSL2 serializers in GMSL1 mode.
-+
-+properties:
-+  compatible:
-+    const: maxim,max96712
-+
-+  reg:
-+    description: I2C device address
-+    maxItems: 1
-+
-+  enable-gpios: true
-+
-+  ports:
-+    $ref: /schemas/graph.yaml#/properties/ports
-+
-+    properties:
-+      port@0:
-+        $ref: /schemas/graph.yaml#/properties/port
-+        description: GMSL Input 0
-+
-+      port@1:
-+        $ref: /schemas/graph.yaml#/properties/port
-+        description: GMSL Input 1
-+
-+      port@2:
-+        $ref: /schemas/graph.yaml#/properties/port
-+        description: GMSL Input 2
-+
-+      port@3:
-+        $ref: /schemas/graph.yaml#/properties/port
-+        description: GMSL Input 3
-+
-+      port@4:
-+        $ref: /schemas/graph.yaml#/$defs/port-base
-+        unevaluatedProperties: false
-+        description: CSI-2 Output
-+
-+        properties:
-+          endpoint:
-+            $ref: /schemas/media/video-interfaces.yaml#
-+            unevaluatedProperties: false
-+
-+            properties:
-+              data-lanes: true
-+
-+            required:
-+              - data-lanes
-+
-+    required:
-+      - port@4
-+
-+required:
-+  - compatible
-+  - reg
-+  - ports
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+    #include <dt-bindings/gpio/gpio.h>
-+
-+    i2c@e6508000 {
-+            #address-cells = <1>;
-+            #size-cells = <0>;
-+
-+            reg = <0 0xe6508000>;
-+
-+            gmsl0: gmsl-deserializer@49 {
-+                    compatible = "maxim,max96712";
-+                    reg = <0x49>;
-+                    enable-gpios = <&pca9654_a 0 GPIO_ACTIVE_HIGH>;
-+
-+                    ports {
-+                            #address-cells = <1>;
-+                            #size-cells = <0>;
-+
-+                            port@4 {
-+                                    reg = <4>;
-+                                    max96712_out0: endpoint {
-+                                            clock-lanes = <0>;
-+                                            data-lanes = <1 2 3 4>;
-+                                            remote-endpoint = <&csi40_in>;
-+                                    };
-+                            };
-+                    };
-+            };
-+    };
--- 
-2.34.1
+any objection to this addition? I run it for a long time now.
+
+thank you,
+
+                              martin
+
 
