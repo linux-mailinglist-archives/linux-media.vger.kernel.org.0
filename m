@@ -2,220 +2,343 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2B68847BBF6
-	for <lists+linux-media@lfdr.de>; Tue, 21 Dec 2021 09:36:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 56ECC47BC1D
+	for <lists+linux-media@lfdr.de>; Tue, 21 Dec 2021 09:47:29 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235699AbhLUIgs (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 21 Dec 2021 03:36:48 -0500
-Received: from perceval.ideasonboard.com ([213.167.242.64]:35536 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235700AbhLUIgr (ORCPT
+        id S235790AbhLUIr1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 21 Dec 2021 03:47:27 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51288 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S234395AbhLUIr0 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 21 Dec 2021 03:36:47 -0500
+        Tue, 21 Dec 2021 03:47:26 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 613E9C061574;
+        Tue, 21 Dec 2021 00:47:26 -0800 (PST)
 Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 486D3881;
-        Tue, 21 Dec 2021 09:36:46 +0100 (CET)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id A57B6881;
+        Tue, 21 Dec 2021 09:47:24 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1640075806;
-        bh=V8NTf7uoNGHTNLgiDojCJZxI5r3g2oA0NrFUp76JbyM=;
+        s=mail; t=1640076444;
+        bh=/VTze/ZagOupEMdJkPudNkGv0WwLpT5c151Qt2p6m+0=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=tZGNjiXDaTDU4mnQ0q+H9mKcp5MUXJ6KYOrqK3PKQs6sYQE9gVI296h4bSEGgWXa1
-         QPhEXqXEdsBlJkGVrY8KUVUKqmDkcuojhSL3U3PFCJ6h8Te+ArckFtkG30wO13Bb1k
-         nlcqnv+1ST3yMRecyJl3OlzQXKRn22ooDbd8EutE=
-Date:   Tue, 21 Dec 2021 10:36:43 +0200
+        b=EAl/5clNb9X+HnXbNJ2uQ1dvnDHGKzFcoJ3sm4l2fsQnc+Fz0O0R6XX7fWB4xn0lX
+         5M9RFwndXEaEh5OS41bAg6bGL9jxEiZcsgN84lEDAFdE2z3uZwHOMa3/56EKjq+pRT
+         rbEdRpfA6OH4md6AU2s/teFv4/3/sCxweiXwgnRI=
+Date:   Tue, 21 Dec 2021 10:47:22 +0200
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-        linux-media@vger.kernel.org,
-        Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        niklas.soderlund+renesas@ragnatech.se,
+To:     "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Cc:     Rob Herring <robh@kernel.org>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
         Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Pratyush Yadav <p.yadav@ti.com>
-Subject: Re: [PATCH v2 6/6] media: Documentation: add documentation about
- subdev state
-Message-ID: <YcGSG8PHXNHa7VKv@pendragon.ideasonboard.com>
-References: <20211217135022.364954-1-tomi.valkeinen@ideasonboard.com>
- <20211217135022.364954-7-tomi.valkeinen@ideasonboard.com>
- <YcDDzzX3XNlE/K05@paasikivi.fi.intel.com>
+        Niklas =?utf-8?Q?S=C3=B6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        linux-media <linux-media@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>, LKML <linux-kernel@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Biju Das <biju.das.jz@bp.renesas.com>
+Subject: Re: [RFC PATCH 1/3] media: dt-bindings: media: Document RZ/G2L CRU
+ block
+Message-ID: <YcGUmvq32fUXOMTo@pendragon.ideasonboard.com>
+References: <20211207012351.15754-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20211207012351.15754-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <YbfQIPS270So+jUh@robh.at.kernel.org>
+ <CA+V-a8tHL-DwNz3USQwh5NieTRvPhUAjZV-GqFsK67fgU+kF_w@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <YcDDzzX3XNlE/K05@paasikivi.fi.intel.com>
+In-Reply-To: <CA+V-a8tHL-DwNz3USQwh5NieTRvPhUAjZV-GqFsK67fgU+kF_w@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Moi Sakari,
+Hi Prabhakar,
 
-On Mon, Dec 20, 2021 at 07:56:31PM +0200, Sakari Ailus wrote:
-> Moi,
+Thank you for the patch.
+
+On Tue, Dec 14, 2021 at 12:07:14PM +0000, Lad, Prabhakar wrote:
+> On Mon, Dec 13, 2021 at 10:58 PM Rob Herring wrote:
+> > On Tue, Dec 07, 2021 at 01:23:49AM +0000, Lad Prabhakar wrote:
+> > > Document the CRU block found on Renesas RZ/G2L SoC's.
+> > >
+> > > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > > ---
+> > >  .../bindings/media/renesas,rzg2l-cru.yaml     | 227 ++++++++++++++++++
+> > >  1 file changed, 227 insertions(+)
+> > >  create mode 100644 Documentation/devicetree/bindings/media/renesas,rzg2l-cru.yaml
+> > >
+> > > diff --git a/Documentation/devicetree/bindings/media/renesas,rzg2l-cru.yaml b/Documentation/devicetree/bindings/media/renesas,rzg2l-cru.yaml
+> > > new file mode 100644
+> > > index 000000000000..7b2835810516
+> > > --- /dev/null
+> > > +++ b/Documentation/devicetree/bindings/media/renesas,rzg2l-cru.yaml
+> > > @@ -0,0 +1,227 @@
+> > > +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
+> > > +# Copyright (C) 2021 Renesas Electronics Corp.
+> > > +%YAML 1.2
+> > > +---
+> > > +$id: http://devicetree.org/schemas/media/renesas,rzg2l-cru.yaml#
+> > > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > > +
+> > > +title: Renesas RZ/G2L Camera Data Receiving Unit (CRU)
+> > > +
+> > > +maintainers:
+> > > +  - Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > > +
+> > > +description:
+> > > +  The RZ/G2L Camera Data Receiving Unit (CRU) device provides video input
+> > > +  capabilities for the Renesas RZ/G2L family of devices.
+> > > +
+> > > +  Depending on the instance the Image Processing input is connected to
+> > > +  external SoC pins or to a CSI-2 receiver.
+> > > +
+> > > +properties:
+> > > +  compatible:
+> > > +    oneOf:
+> > > +      - items:
+> >
+> > Don't need oneOf with only 1 entry.
+>
+> I added this as there will be couple of more SoC's using this driver.
+
+Will that be SoCs not compatible tieh the rzg2l-cru compatible string ?
+If so oneOf may be needed, but you can also add it later.
+
+> > > +          - enum:
+> > > +              - renesas,r9a07g044-cru     # RZ/G2{L,LC}
+> > > +          - const: renesas,rzg2l-cru
+> > > +
+> > > +  reg:
+> > > +    maxItems: 1
+> > > +
+> > > +  interrupts:
+> > > +    maxItems: 4
+> > > +
+> > > +  interrupt-names:
+> > > +    items:
+> > > +      - const: csi2_link_int
+
+I'm not thrilled by this. It looks like the CSI-2 receiver and the image
+processing block are separate IP cores. Can we model them as separate DT
+nodes ? I expect the CSI-2 receiver to possibly be reused in other SoCs
+with a different integration.
+
+> > > +      - const: image_conv_int
+> > > +      - const: image_conv_err_int
+> > > +      - const: axi_mst_err_int
+> >
+> > _int is redundant.
+>
+> Agreed will drop "_int".
 > 
-> Thanks for the update.
+> > > +
+> > > +  clocks:
+> > > +    items:
+> > > +      - description: Internal clock for connecting CRU and MIPI
+> > > +      - description: CRU Main clock
+> > > +      - description: CPU Register access clock
+> > > +      - description: CRU image transfer clock
+> > > +
+> > > +  clock-names:
+> > > +    items:
+> > > +      - const: sysclk
+> > > +      - const: vclk
+> > > +      - const: pclk
+> > > +      - const: aclk
+> > > +
+> > > +  power-domains:
+> > > +    maxItems: 1
+> > > +
+> > > +  resets:
+> > > +    items:
+> > > +      - description: CRU_CMN_RSTB reset terminal
+> > > +      - description: CRU_PRESETN reset terminal
+> > > +      - description: CRU_ARESETN reset terminal
+> > > +
+> > > +  reset-names:
+> > > +    items:
+> > > +      - const: cmn-rstb
+> > > +      - const: presetn
+> > > +      - const: aresetn
+> > > +
+> > > +  ports:
+> > > +    $ref: /schemas/graph.yaml#/properties/ports
+> > > +
+> > > +    properties:
+> > > +      port@0:
+> > > +        $ref: /schemas/graph.yaml#/$defs/port-base
+> > > +        unevaluatedProperties: false
+> > > +        description:
+> > > +          Input port node, single endpoint describing a parallel input source.
+> > > +
+> > > +        properties:
+> > > +          endpoint:
+> > > +            $ref: video-interfaces.yaml#
+> > > +            unevaluatedProperties: false
+> > > +
+> > > +            properties:
+> > > +              hsync-active: true
+> > > +
+> > > +              vsync-active: true
+> > > +
+> > > +              bus-width: true
+> > > +
+> > > +              data-shift: true
 
-Kiitos arvostelusta.
+No need for a blank line between all properties.
 
-> On Fri, Dec 17, 2021 at 03:50:22PM +0200, Tomi Valkeinen wrote:
-> > Add documentation about centrally managed subdev state.
-> > 
-> > Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-> > Reviewed-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
-> > ---
-> >  .../driver-api/media/v4l2-subdev.rst          | 57 +++++++++++++++++++
-> >  1 file changed, 57 insertions(+)
-> > 
-> > diff --git a/Documentation/driver-api/media/v4l2-subdev.rst b/Documentation/driver-api/media/v4l2-subdev.rst
-> > index 08ea2673b19e..18b00bd3d6d4 100644
-> > --- a/Documentation/driver-api/media/v4l2-subdev.rst
-> > +++ b/Documentation/driver-api/media/v4l2-subdev.rst
-> > @@ -518,6 +518,63 @@ The :c:func:`v4l2_i2c_new_subdev` function will call
-> >  :c:type:`i2c_board_info` structure using the ``client_type`` and the
-> >  ``addr`` to fill it.
-> >  
-> > +Centrally managed subdev active state
-> > +-------------------------------------
-> > +
-> > +Traditionally V4L2 subdev drivers maintained internal state for the active
-> > +device configuration. This is often implemented e.g. as an array of
-> > +struct v4l2_mbus_framefmt, one entry for each pad, and similarly for cropping
-> > +and composition rectangles.
+> > > +
+> > > +      port@1:
+> > > +        $ref: /schemas/graph.yaml#/$defs/port-base
+> > > +        unevaluatedProperties: false
+> > > +        description:
+> > > +          Input port node, single endpoint describing the CSI-2 transmitter.
+> > > +
+> > > +        properties:
+> > > +          endpoint:
+> > > +            $ref: video-interfaces.yaml#
+> > > +            unevaluatedProperties: false
+> > > +
+> > > +            properties:
+> > > +              clock-lanes:
+> > > +                maxItems: 1
 
-I think we usually write
+If lane reordering isn't supported, you could omit this.
 
-s/cropping/crop/
-s/composition/compose/
+> > > +
+> > > +              data-lanes:
+> > > +                maxItems: 1
 
-> > +
-> > +In addition to the active configuration, each subdev file-handle has an array of
+Doesn't the CSI-2 receiver support more than one lane ?
 
-s/file-handle/file handle/ (through the whole patch)
-
-> > +struct v4l2_subdev_pad_config, managed by V4L2 core, which contains the try
-> > +configuration.
-> > +
-> > +To simplify the subdev drivers the V4L2 subdev API now optionally supports a
-> > +centrally managed active configuration represented by
-> > +:c:type:`v4l2_subdev_state`. One instance of state, which contains the active
-> > +device configuration, is associated with the sub-device itself as part of
-
-s/associated with/stored in/
-
-> > +the :c:type:`v4l2_subdev` structure, while the core associates to each open
-> > +file-handle a try state, which contains the configuration valid in the
-> > +file-handle context only.
-
-I'd write
-
-[...] while the core associates a try state to each open file-handle, to
-store the try configuration related to that file-handle.
-
-> > +
-> > +Sub-device drivers can opt-in and use state to manage their active configuration
-> > +by initializing the subdevice state with a call to v4l2_subdev_init_finalize()
-> > +before registering the sub-device. They must also call v4l2_subdev_cleanup()
-> > +to release all the acquired resources before unregistering the sub-device.
-
-s/acquired/allocated/
-
-> > +The core automatically initializes a state for each open file-handle where to
-
-s/initializes/allocates and initializes/
-s/where to/to/
-
-> > +store the try configurations and releases them at file-handle closing time.
-
-s/releases it at file-handle closing time/frees it when closing the file handle/
-
-> > +
-> > +V4L2 sub-device operations that use both the :ref:`ACTIVE and TRY formats
-> > +<v4l2-subdev-format-whence>` receive the correct state to operate on as a
-
-s/as a/through the/
-
-> > +'state' parameter. The sub-device driver can access and modify the
-> > +configuration stored in the provided state after having locked it by calling
-
-s/locked it/locked the state/
-
-> > +:c:func:`v4l2_subdev_lock_state()`. The driver must then call
-> > +:c:func:`v4l2_subdev_unlock_state()` to unlock the state when done.
-> > +
-> > +Operations that do not receive a state parameter implicitly operate on the
-> > +subdevice active state, which drivers can exclusively access by
-> > +calling :c:func:`v4l2_subdev_lock_active_state()`. The sub-device active state
-> > +must equally be released by calling :c:func:`v4l2_subdev_unlock_state()`.
-> > +
-> > +Drivers must never manually access the state stored in the :c:type:`v4l2_subdev`
-> > +or in the file-handle without going through the designated helpers.
+> > > +
+> > > +            required:
+> > > +              - clock-lanes
+> > > +              - data-lanes
+> > > +
+> > > +      port@2:
+> > > +        $ref: /schemas/graph.yaml#/properties/port
+> > > +        description:
+> > > +          Output port node, describing the RZ/G2L Image Processing module
+> > > +          connected the CSI-2 receiver
+> > > +
+> > > +        properties:
+> > > +          endpoint@0:
+> >
+> > Unless you have mutiple endpoints to define or endpoint properties to
+> > add, you don't need to specify anything more than the port.
+>
+> Agreed will drop it.
 > 
-> Have you thought how this will interact with controls?
-> 
-> Generally active state information exists for a device in struct
-> v4l2_subdev_state as well as the device's control handler as control
-> values. Controls have dependencies to other state information (active and
-> try).
-> 
-> Until now, drivers have been responsible for serialising access to this
-> state on their own, mostly using a single mutex. Controls require a mutex
-> as well, but it's the same mutex independently of whether a driver is
-> dealing with active or try subdev state.
-> 
-> In other words, if the above is assumed, when you're dealing with try state
-> that has dependencies to controls, you have to hold both that try state's
-> mutex as well as the control handler's mutex.
-
-Going forward, I think we should store the controls in the subdev state.
-That will require a uAPI extension to pass a `which` parameter to the
-control ioctls, and deprecated the control TRY ioctl on subdevs.
-Interactions between controls and pad formats will be easier to test, as
-applications will be able to set controls in the TRY state, interacting
-with the TRY formats. We will also need to rework the control handler
-operations to split .s_ctrl() in two, with one function to adjust a
-control value and one function to apply it.
-
-In the meantime, I think we'll need to acquire both locks, or possibly
-use the active state lock as the control handler lock.
-
-> > +
-> > +While the V4L2 core will pass the correct try- or active-state to the
-
-s/try-/try/
-s/active-/active /
-
-> > +subdevice operations, device drivers might call operations on other
-> > +subdevices by using :c:func:`v4l2_subdev_call()` kAPI and pass NULL as the
-> > +state. This is only a problem for subdev drivers which use the
-> > +centrally managed active-state and are used in media pipelines with older
-> > +subdev drivers. In these cases the called subdev ops must also handle the NULL
-> > +case. This can be easily managed by the use of
-> > +:c:func:`v4l2_subdev_lock_and_return_state()` helper.
-
-This doesn't emphasize strongly enough that this pattern should be
-phased out. You could write it as follows.
-
-While the V4L2 core passes the correct try or active state to the
-subdevice operations, some existing device drivers pass a NULL state
-when calling operations with :c:func:`v4l2_subdev_call()`. This legacy
-construct causes issues with subdevice drivers that let the V4L2 core
-manage the active state, as they expect to receive the appropriate state
-as a parameter. To help the conversion of subdevice drivers to a managed
-active state without having to convert all callers at the same time, the
-:c:func:`v4l2_subdev_lock_and_return_state()` helper function can be
-used by subdevice drivers to retrieve the active state if a NULL state
-is passed to the subdevice operation.
-
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-
-> > +
-> > +:c:func:`v4l2_subdev_lock_and_return_state()` should only be used when porting
-> > +an existing driver to the new state management when it cannot be guaranteed
-> > +that the current callers will pass the state properly. The function prints a
-> > +notice when the passed state is NULL to encourage the porting of the callers
-> > +to the new state management.
-> > +
-> >  V4L2 sub-device functions and data structures
-> >  ---------------------------------------------
-> >  
+> > > +            $ref: /schemas/graph.yaml#/properties/endpoint
+> > > +            description: Endpoint connected to CSI2.
+> > > +
+> > > +        anyOf:
+> > > +          - required:
+> > > +              - endpoint@0
+> > > +
+> > > +      port@3:
+> > > +        $ref: /schemas/graph.yaml#/properties/port
+> > > +        description:
+> > > +          Input port node, describing the RZ/G2L CSI-2 module connected the
+> > > +          Image Processing block.
+> > > +
+> > > +        properties:
+> > > +          endpoint@0:
+> > > +            $ref: /schemas/graph.yaml#/properties/endpoint
+> > > +            description: Endpoint connected to CSI2.
+> > > +
+> > > +        anyOf:
+> > > +          - required:
+> > > +              - endpoint@0
+> > > +
+> > > +required:
+> > > +  - compatible
+> > > +  - reg
+> > > +  - interrupts
+> > > +  - interrupt-names
+> > > +  - clocks
+> > > +  - clock-names
+> > > +  - resets
+> > > +  - reset-names
+> > > +  - power-domains
+> > > +
+> > > +additionalProperties: false
+> > > +
+> > > +examples:
+> > > +  # Device node example with CSI-2
+> > > +  - |
+> > > +    #include <dt-bindings/clock/r9a07g044-cpg.h>
+> > > +    #include <dt-bindings/interrupt-controller/arm-gic.h>
+> > > +
+> > > +    cru: video@10830000 {
+> > > +            compatible = "renesas,r9a07g044-cru", "renesas,rzg2l-cru";
+> > > +            reg = <0x10830000 0x10000>;
+> > > +            interrupts = <GIC_SPI 166 IRQ_TYPE_LEVEL_HIGH>,
+> > > +                         <GIC_SPI 167 IRQ_TYPE_LEVEL_HIGH>,
+> > > +                         <GIC_SPI 168 IRQ_TYPE_LEVEL_HIGH>,
+> > > +                         <GIC_SPI 169 IRQ_TYPE_LEVEL_HIGH>;
+> > > +            interrupt-names = "csi2_link_int", "image_conv_int",
+> > > +                              "image_conv_err_int", "axi_mst_err_int";
+> > > +            clocks = <&cpg CPG_MOD R9A07G044_CRU_SYSCLK>,
+> > > +                     <&cpg CPG_MOD R9A07G044_CRU_VCLK>,
+> > > +                     <&cpg CPG_MOD R9A07G044_CRU_PCLK>,
+> > > +                     <&cpg CPG_MOD R9A07G044_CRU_ACLK>;
+> > > +            clock-names = "sysclk", "vclk", "pclk", "aclk";
+> > > +            power-domains = <&cpg>;
+> > > +            resets = <&cpg R9A07G044_CRU_CMN_RSTB>,
+> > > +                     <&cpg R9A07G044_CRU_PRESETN>,
+> > > +                     <&cpg R9A07G044_CRU_ARESETN>;
+> > > +            reset-names = "cmn-rstb", "presetn", "aresetn";
+> > > +
+> > > +            ports {
+> > > +                    #address-cells = <1>;
+> > > +                    #size-cells = <0>;
+> > > +
+> > > +                    port@1 {
+> > > +                            #address-cells = <1>;
+> > > +                            #size-cells = <0>;
+> > > +
+> > > +                            reg = <1>;
+> > > +
+> > > +                            csi2_in: endpoint@0 {
+> > > +                                    reg = <0>;
+> > > +                                    clock-lanes = <0>;
+> > > +                                    data-lanes = <1 2>;
+> > > +                                    remote-endpoint = <&ov5645_ep>;
+> > > +                            };
+> > > +                    };
+> > > +
+> > > +                    port@2 {
+> > > +                            #address-cells = <1>;
+> > > +                            #size-cells = <0>;
+> > > +
+> > > +                            reg = <2>;
+> > > +
+> > > +                            csi2cru: endpoint@0 {
+> > > +                                    reg = <0>;
+> > > +                                    remote-endpoint= <&crucsi2>;
+> > > +                            };
+> > > +                    };
+> > > +
+> > > +                    port@3 {
+> > > +                            #address-cells = <1>;
+> > > +                            #size-cells = <0>;
+> > > +
+> > > +                            reg = <3>;
+> > > +
+> > > +                            crucsi2: endpoint@0 {
+> > > +                                    reg = <0>;
+> > > +                                    remote-endpoint= <&csi2cru>;
+> > > +                            };
+> > > +                    };
+> > > +            };
+> > > +    };
 
 -- 
 Regards,
