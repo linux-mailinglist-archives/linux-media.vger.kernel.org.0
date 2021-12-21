@@ -2,338 +2,220 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 732E547BB7D
-	for <lists+linux-media@lfdr.de>; Tue, 21 Dec 2021 09:11:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2B68847BBF6
+	for <lists+linux-media@lfdr.de>; Tue, 21 Dec 2021 09:36:49 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235408AbhLUILQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 21 Dec 2021 03:11:16 -0500
-Received: from perceval.ideasonboard.com ([213.167.242.64]:35294 "EHLO
+        id S235699AbhLUIgs (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 21 Dec 2021 03:36:48 -0500
+Received: from perceval.ideasonboard.com ([213.167.242.64]:35536 "EHLO
         perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234701AbhLUILQ (ORCPT
+        with ESMTP id S235700AbhLUIgr (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 21 Dec 2021 03:11:16 -0500
+        Tue, 21 Dec 2021 03:36:47 -0500
 Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 649AF881;
-        Tue, 21 Dec 2021 09:11:14 +0100 (CET)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 486D3881;
+        Tue, 21 Dec 2021 09:36:46 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1640074274;
-        bh=Yx1qJZNvsEyV7YU9QEsSPF4TrlvRqFCED4QJni0ivh8=;
+        s=mail; t=1640075806;
+        bh=V8NTf7uoNGHTNLgiDojCJZxI5r3g2oA0NrFUp76JbyM=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=F1ae3xsKl1ixDkM8zYgeHeNiEdI+TguhnTU4CQzzOsnF+jEd2tGmWrl/z2LPYAoVR
-         BZSTSm/4//0OEZ7aw9gr0kTe+0ZFu9ytzZYWoBtU32MiV0bfw3xU+xTi5DnyCCUgxa
-         tmqUsMG5XKyKeZPRbXm56eDI+5X95bSUjgshfTOo=
-Date:   Tue, 21 Dec 2021 10:11:11 +0200
+        b=tZGNjiXDaTDU4mnQ0q+H9mKcp5MUXJ6KYOrqK3PKQs6sYQE9gVI296h4bSEGgWXa1
+         QPhEXqXEdsBlJkGVrY8KUVUKqmDkcuojhSL3U3PFCJ6h8Te+ArckFtkG30wO13Bb1k
+         nlcqnv+1ST3yMRecyJl3OlzQXKRn22ooDbd8EutE=
+Date:   Tue, 21 Dec 2021 10:36:43 +0200
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Cc:     linux-media@vger.kernel.org, sakari.ailus@linux.intel.com,
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+        linux-media@vger.kernel.org,
         Jacopo Mondi <jacopo+renesas@jmondi.org>,
         niklas.soderlund+renesas@ragnatech.se,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         Hans Verkuil <hverkuil-cisco@xs4all.nl>,
         Pratyush Yadav <p.yadav@ti.com>
-Subject: Re: [PATCH v2 4/6] media: subdev: add subdev state locking
-Message-ID: <YcGMH2icrC3aCjZz@pendragon.ideasonboard.com>
+Subject: Re: [PATCH v2 6/6] media: Documentation: add documentation about
+ subdev state
+Message-ID: <YcGSG8PHXNHa7VKv@pendragon.ideasonboard.com>
 References: <20211217135022.364954-1-tomi.valkeinen@ideasonboard.com>
- <20211217135022.364954-5-tomi.valkeinen@ideasonboard.com>
+ <20211217135022.364954-7-tomi.valkeinen@ideasonboard.com>
+ <YcDDzzX3XNlE/K05@paasikivi.fi.intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20211217135022.364954-5-tomi.valkeinen@ideasonboard.com>
+In-Reply-To: <YcDDzzX3XNlE/K05@paasikivi.fi.intel.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Tomi,
+Moi Sakari,
 
-Thank you for the patch.
+On Mon, Dec 20, 2021 at 07:56:31PM +0200, Sakari Ailus wrote:
+> Moi,
+> 
+> Thanks for the update.
 
-On Fri, Dec 17, 2021 at 03:50:20PM +0200, Tomi Valkeinen wrote:
-> The V4L2 subdevs have managed without centralized locking for the state
-> (previously pad_config), as the try-state is supposedly safe (although I
-> believe two TRY ioctls for the same fd would race), and the
-> active-state, and its locking, is managed by the drivers internally.
-> 
-> We now have active-state in a centralized position, and need locking.
-> Strictly speaking the locking is only needed for new drivers that use
-> the new state, as the current drivers continue behaving as they used to.
-> 
-> Add a mutex to the struct v4l2_subdev_state, along with a few helper
-> functions for locking/unlocking.
-> 
-> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-> Reviewed-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
-> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> Reviewed-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-> ---
->  drivers/media/platform/rcar-vin/rcar-v4l2.c |  7 ++-
->  drivers/media/platform/vsp1/vsp1_entity.c   |  8 +++-
->  drivers/media/v4l2-core/v4l2-subdev.c       | 38 +++++++++++++---
->  drivers/staging/media/tegra-video/vi.c      |  8 +++-
->  include/media/v4l2-subdev.h                 | 50 ++++++++++++++++++++-
->  5 files changed, 101 insertions(+), 10 deletions(-)
-> 
-> diff --git a/drivers/media/platform/rcar-vin/rcar-v4l2.c b/drivers/media/platform/rcar-vin/rcar-v4l2.c
-> index 5aae01456c04..3759f4619a77 100644
-> --- a/drivers/media/platform/rcar-vin/rcar-v4l2.c
-> +++ b/drivers/media/platform/rcar-vin/rcar-v4l2.c
-> @@ -255,6 +255,7 @@ static int rvin_try_format(struct rvin_dev *vin, u32 which,
->  {
->  	struct v4l2_subdev *sd = vin_to_source(vin);
->  	struct v4l2_subdev_state *sd_state;
-> +	static struct lock_class_key key;
->  	struct v4l2_subdev_format format = {
->  		.which = which,
->  		.pad = vin->parallel.source_pad,
-> @@ -263,7 +264,11 @@ static int rvin_try_format(struct rvin_dev *vin, u32 which,
->  	u32 width, height;
->  	int ret;
->  
-> -	sd_state = __v4l2_subdev_state_alloc(sd);
-> +	/*
-> +	 * FIXME: Drop this call, drivers are not supposed to use
-> +	 * __v4l2_subdev_state_alloc().
-> +	 */
-> +	sd_state = __v4l2_subdev_state_alloc(sd, "rvin:state->lock", &key);
->  	if (IS_ERR(sd_state))
->  		return PTR_ERR(sd_state);
->  
-> diff --git a/drivers/media/platform/vsp1/vsp1_entity.c b/drivers/media/platform/vsp1/vsp1_entity.c
-> index 869cadc1468d..a116a3362f9e 100644
-> --- a/drivers/media/platform/vsp1/vsp1_entity.c
-> +++ b/drivers/media/platform/vsp1/vsp1_entity.c
-> @@ -613,6 +613,7 @@ int vsp1_entity_init(struct vsp1_device *vsp1, struct vsp1_entity *entity,
->  		     const char *name, unsigned int num_pads,
->  		     const struct v4l2_subdev_ops *ops, u32 function)
->  {
-> +	static struct lock_class_key key;
->  	struct v4l2_subdev *subdev;
->  	unsigned int i;
->  	int ret;
-> @@ -675,7 +676,12 @@ int vsp1_entity_init(struct vsp1_device *vsp1, struct vsp1_entity *entity,
->  	 * Allocate the pad configuration to store formats and selection
->  	 * rectangles.
->  	 */
-> -	entity->config = __v4l2_subdev_state_alloc(&entity->subdev);
-> +	/*
-> +	 * FIXME: Drop this call, drivers are not supposed to use
-> +	 * __v4l2_subdev_state_alloc().
-> +	 */
+Kiitos arvostelusta.
 
-Feel free to remind me to fix this once the series lands :-)
+> On Fri, Dec 17, 2021 at 03:50:22PM +0200, Tomi Valkeinen wrote:
+> > Add documentation about centrally managed subdev state.
+> > 
+> > Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+> > Reviewed-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
+> > ---
+> >  .../driver-api/media/v4l2-subdev.rst          | 57 +++++++++++++++++++
+> >  1 file changed, 57 insertions(+)
+> > 
+> > diff --git a/Documentation/driver-api/media/v4l2-subdev.rst b/Documentation/driver-api/media/v4l2-subdev.rst
+> > index 08ea2673b19e..18b00bd3d6d4 100644
+> > --- a/Documentation/driver-api/media/v4l2-subdev.rst
+> > +++ b/Documentation/driver-api/media/v4l2-subdev.rst
+> > @@ -518,6 +518,63 @@ The :c:func:`v4l2_i2c_new_subdev` function will call
+> >  :c:type:`i2c_board_info` structure using the ``client_type`` and the
+> >  ``addr`` to fill it.
+> >  
+> > +Centrally managed subdev active state
+> > +-------------------------------------
+> > +
+> > +Traditionally V4L2 subdev drivers maintained internal state for the active
+> > +device configuration. This is often implemented e.g. as an array of
+> > +struct v4l2_mbus_framefmt, one entry for each pad, and similarly for cropping
+> > +and composition rectangles.
 
-> +	entity->config = __v4l2_subdev_state_alloc(&entity->subdev,
-> +						   "vsp1:config->lock", &key);
->  	if (IS_ERR(entity->config)) {
->  		media_entity_cleanup(&entity->subdev.entity);
->  		return PTR_ERR(entity->config);
-> diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
-> index 779d7ae2262d..5322329d396f 100644
-> --- a/drivers/media/v4l2-core/v4l2-subdev.c
-> +++ b/drivers/media/v4l2-core/v4l2-subdev.c
-> @@ -27,8 +27,9 @@
->  static int subdev_fh_init(struct v4l2_subdev_fh *fh, struct v4l2_subdev *sd)
->  {
->  	struct v4l2_subdev_state *state;
-> +	static struct lock_class_key key;
->  
-> -	state = __v4l2_subdev_state_alloc(sd);
-> +	state = __v4l2_subdev_state_alloc(sd, "fh->state->lock", &key);
->  	if (IS_ERR(state))
->  		return PTR_ERR(state);
->  
-> @@ -914,7 +915,9 @@ int v4l2_subdev_link_validate(struct media_link *link)
->  }
->  EXPORT_SYMBOL_GPL(v4l2_subdev_link_validate);
->  
-> -struct v4l2_subdev_state *__v4l2_subdev_state_alloc(struct v4l2_subdev *sd)
-> +struct v4l2_subdev_state *
-> +__v4l2_subdev_state_alloc(struct v4l2_subdev *sd, const char *lock_name,
-> +			  struct lock_class_key *lock_key)
->  {
->  	struct v4l2_subdev_state *state;
->  	int ret;
-> @@ -923,6 +926,8 @@ struct v4l2_subdev_state *__v4l2_subdev_state_alloc(struct v4l2_subdev *sd)
->  	if (!state)
->  		return ERR_PTR(-ENOMEM);
->  
-> +	__mutex_init(&state->lock, lock_name, lock_key);
-> +
->  	if (sd->entity.num_pads) {
->  		state->pads = kvmalloc_array(sd->entity.num_pads,
->  					     sizeof(*state->pads),
-> @@ -954,6 +959,8 @@ void __v4l2_subdev_state_free(struct v4l2_subdev_state *state)
->  	if (!state)
->  		return;
->  
-> +	mutex_destroy(&state->lock);
-> +
->  	kvfree(state->pads);
->  	kfree(state);
->  }
-> @@ -988,11 +995,12 @@ void v4l2_subdev_notify_event(struct v4l2_subdev *sd,
->  }
->  EXPORT_SYMBOL_GPL(v4l2_subdev_notify_event);
->  
-> -int v4l2_subdev_init_finalize(struct v4l2_subdev *sd)
-> +int __v4l2_subdev_init_finalize(struct v4l2_subdev *sd, const char *name,
-> +				struct lock_class_key *key)
->  {
->  	struct v4l2_subdev_state *state;
->  
-> -	state = __v4l2_subdev_state_alloc(sd);
-> +	state = __v4l2_subdev_state_alloc(sd, name, key);
->  	if (IS_ERR(state))
->  		return PTR_ERR(state);
->  
-> @@ -1000,7 +1008,7 @@ int v4l2_subdev_init_finalize(struct v4l2_subdev *sd)
->  
->  	return 0;
->  }
-> -EXPORT_SYMBOL_GPL(v4l2_subdev_init_finalize);
-> +EXPORT_SYMBOL_GPL(__v4l2_subdev_init_finalize);
->  
->  void v4l2_subdev_cleanup(struct v4l2_subdev *sd)
->  {
-> @@ -1008,3 +1016,23 @@ void v4l2_subdev_cleanup(struct v4l2_subdev *sd)
->  	sd->active_state = NULL;
->  }
->  EXPORT_SYMBOL_GPL(v4l2_subdev_cleanup);
-> +
-> +struct v4l2_subdev_state *v4l2_subdev_lock_active_state(struct v4l2_subdev *sd)
-> +{
-> +	mutex_lock(&sd->active_state->lock);
-> +
-> +	return sd->active_state;
-> +}
-> +EXPORT_SYMBOL_GPL(v4l2_subdev_lock_active_state);
-> +
-> +void v4l2_subdev_lock_state(struct v4l2_subdev_state *state)
-> +{
-> +	mutex_lock(&state->lock);
-> +}
-> +EXPORT_SYMBOL_GPL(v4l2_subdev_lock_state);
-> +
-> +void v4l2_subdev_unlock_state(struct v4l2_subdev_state *state)
-> +{
-> +	mutex_unlock(&state->lock);
-> +}
-> +EXPORT_SYMBOL_GPL(v4l2_subdev_unlock_state);
-> diff --git a/drivers/staging/media/tegra-video/vi.c b/drivers/staging/media/tegra-video/vi.c
-> index b01f19e0f332..b366b56df15c 100644
-> --- a/drivers/staging/media/tegra-video/vi.c
-> +++ b/drivers/staging/media/tegra-video/vi.c
-> @@ -491,6 +491,7 @@ static int __tegra_channel_try_format(struct tegra_vi_channel *chan,
->  				      struct v4l2_pix_format *pix)
->  {
->  	const struct tegra_video_format *fmtinfo;
-> +	static struct lock_class_key key;
->  	struct v4l2_subdev *subdev;
->  	struct v4l2_subdev_format fmt;
->  	struct v4l2_subdev_state *sd_state;
-> @@ -507,7 +508,12 @@ static int __tegra_channel_try_format(struct tegra_vi_channel *chan,
->  	if (!subdev)
->  		return -ENODEV;
->  
-> -	sd_state = __v4l2_subdev_state_alloc(subdev);
-> +	/*
-> +	 * FIXME: Drop this call, drivers are not supposed to use
-> +	 * __v4l2_subdev_state_alloc().
-> +	 */
-> +	sd_state = __v4l2_subdev_state_alloc(subdev, "tegra:state->lock",
-> +					     &key);
->  	if (IS_ERR(sd_state))
->  		return PTR_ERR(sd_state);
->  	/*
-> diff --git a/include/media/v4l2-subdev.h b/include/media/v4l2-subdev.h
-> index eddf72768e10..867e19ef80bd 100644
-> --- a/include/media/v4l2-subdev.h
-> +++ b/include/media/v4l2-subdev.h
-> @@ -658,6 +658,7 @@ struct v4l2_subdev_pad_config {
->  /**
->   * struct v4l2_subdev_state - Used for storing subdev state information.
->   *
-> + * @lock: mutex for the state
->   * @pads: &struct v4l2_subdev_pad_config array
->   *
->   * This structure only needs to be passed to the pad op if the 'which' field
-> @@ -665,6 +666,8 @@ struct v4l2_subdev_pad_config {
->   * %V4L2_SUBDEV_FORMAT_ACTIVE it is safe to pass %NULL.
->   */
->  struct v4l2_subdev_state {
-> +	/* lock for the struct v4l2_subdev_state fields */
-> +	struct mutex lock;
->  	struct v4l2_subdev_pad_config *pads;
->  };
->  
-> @@ -1157,10 +1160,14 @@ int v4l2_subdev_link_validate(struct media_link *link);
->   * __v4l2_subdev_state_alloc - allocate v4l2_subdev_state
->   *
->   * @sd: pointer to &struct v4l2_subdev for which the state is being allocated.
-> + * @lock_name: name of the state lock
-> + * @key: lock_class_key for the lock
->   *
->   * Must call __v4l2_subdev_state_free() when state is no longer needed.
->   */
-> -struct v4l2_subdev_state *__v4l2_subdev_state_alloc(struct v4l2_subdev *sd);
-> +struct v4l2_subdev_state *__v4l2_subdev_state_alloc(struct v4l2_subdev *sd,
-> +						    const char *lock_name,
-> +						    struct lock_class_key *key);
->  
->  /**
->   * __v4l2_subdev_state_free - free a v4l2_subdev_state
-> @@ -1250,7 +1257,16 @@ void v4l2_subdev_notify_event(struct v4l2_subdev *sd,
->   *
->   * The user must call v4l2_subdev_cleanup() when the subdev is being removed.
->   */
-> -int v4l2_subdev_init_finalize(struct v4l2_subdev *sd);
-> +#define v4l2_subdev_init_finalize(sd)                                          \
-> +	({                                                                     \
-> +		static struct lock_class_key __key;                            \
-> +		const char *name = KBUILD_BASENAME                             \
-> +			":" __stringify(__LINE__) ":sd->active_state->lock";   \
-> +		__v4l2_subdev_init_finalize(sd, name, &__key);                 \
-> +	})
-> +
-> +int __v4l2_subdev_init_finalize(struct v4l2_subdev *sd, const char *name,
-> +				struct lock_class_key *key);
->  
->  /**
->   * v4l2_subdev_cleanup() - Releases the resources needed by the subdevice
-> @@ -1275,4 +1291,34 @@ v4l2_subdev_get_active_state(struct v4l2_subdev *sd)
->  	return sd->active_state;
->  }
->  
-> +/**
-> + * v4l2_subdev_lock_active_state() - Locks and returns the active subdev state
-> + *				     for the subdevice
-> + * @sd: The subdevice
-> + *
-> + * Returns the locked active state for the subdevice, or NULL if the subdev
-> + * does not support active state.
-> + *
-> + * The state must be unlocked with v4l2_subdev_unlock_state() after use.
-> + */
-> +struct v4l2_subdev_state *v4l2_subdev_lock_active_state(struct v4l2_subdev *sd);
-> +
-> +/**
-> + * v4l2_subdev_lock_state() - Locks the subdev state
-> + * @state: The subdevice state
-> + *
-> + * Locks the given subdev state.
-> + *
-> + * The state must be unlocked with v4l2_subdev_unlock_state() after use.
-> + */
-> +void v4l2_subdev_lock_state(struct v4l2_subdev_state *state);
-> +
-> +/**
-> + * v4l2_subdev_unlock_state() - Unlocks the subdev state
-> + * @state: The subdevice state
-> + *
-> + * Unlocks the given subdev state.
-> + */
-> +void v4l2_subdev_unlock_state(struct v4l2_subdev_state *state);
-> +
->  #endif
+I think we usually write
+
+s/cropping/crop/
+s/composition/compose/
+
+> > +
+> > +In addition to the active configuration, each subdev file-handle has an array of
+
+s/file-handle/file handle/ (through the whole patch)
+
+> > +struct v4l2_subdev_pad_config, managed by V4L2 core, which contains the try
+> > +configuration.
+> > +
+> > +To simplify the subdev drivers the V4L2 subdev API now optionally supports a
+> > +centrally managed active configuration represented by
+> > +:c:type:`v4l2_subdev_state`. One instance of state, which contains the active
+> > +device configuration, is associated with the sub-device itself as part of
+
+s/associated with/stored in/
+
+> > +the :c:type:`v4l2_subdev` structure, while the core associates to each open
+> > +file-handle a try state, which contains the configuration valid in the
+> > +file-handle context only.
+
+I'd write
+
+[...] while the core associates a try state to each open file-handle, to
+store the try configuration related to that file-handle.
+
+> > +
+> > +Sub-device drivers can opt-in and use state to manage their active configuration
+> > +by initializing the subdevice state with a call to v4l2_subdev_init_finalize()
+> > +before registering the sub-device. They must also call v4l2_subdev_cleanup()
+> > +to release all the acquired resources before unregistering the sub-device.
+
+s/acquired/allocated/
+
+> > +The core automatically initializes a state for each open file-handle where to
+
+s/initializes/allocates and initializes/
+s/where to/to/
+
+> > +store the try configurations and releases them at file-handle closing time.
+
+s/releases it at file-handle closing time/frees it when closing the file handle/
+
+> > +
+> > +V4L2 sub-device operations that use both the :ref:`ACTIVE and TRY formats
+> > +<v4l2-subdev-format-whence>` receive the correct state to operate on as a
+
+s/as a/through the/
+
+> > +'state' parameter. The sub-device driver can access and modify the
+> > +configuration stored in the provided state after having locked it by calling
+
+s/locked it/locked the state/
+
+> > +:c:func:`v4l2_subdev_lock_state()`. The driver must then call
+> > +:c:func:`v4l2_subdev_unlock_state()` to unlock the state when done.
+> > +
+> > +Operations that do not receive a state parameter implicitly operate on the
+> > +subdevice active state, which drivers can exclusively access by
+> > +calling :c:func:`v4l2_subdev_lock_active_state()`. The sub-device active state
+> > +must equally be released by calling :c:func:`v4l2_subdev_unlock_state()`.
+> > +
+> > +Drivers must never manually access the state stored in the :c:type:`v4l2_subdev`
+> > +or in the file-handle without going through the designated helpers.
+> 
+> Have you thought how this will interact with controls?
+> 
+> Generally active state information exists for a device in struct
+> v4l2_subdev_state as well as the device's control handler as control
+> values. Controls have dependencies to other state information (active and
+> try).
+> 
+> Until now, drivers have been responsible for serialising access to this
+> state on their own, mostly using a single mutex. Controls require a mutex
+> as well, but it's the same mutex independently of whether a driver is
+> dealing with active or try subdev state.
+> 
+> In other words, if the above is assumed, when you're dealing with try state
+> that has dependencies to controls, you have to hold both that try state's
+> mutex as well as the control handler's mutex.
+
+Going forward, I think we should store the controls in the subdev state.
+That will require a uAPI extension to pass a `which` parameter to the
+control ioctls, and deprecated the control TRY ioctl on subdevs.
+Interactions between controls and pad formats will be easier to test, as
+applications will be able to set controls in the TRY state, interacting
+with the TRY formats. We will also need to rework the control handler
+operations to split .s_ctrl() in two, with one function to adjust a
+control value and one function to apply it.
+
+In the meantime, I think we'll need to acquire both locks, or possibly
+use the active state lock as the control handler lock.
+
+> > +
+> > +While the V4L2 core will pass the correct try- or active-state to the
+
+s/try-/try/
+s/active-/active /
+
+> > +subdevice operations, device drivers might call operations on other
+> > +subdevices by using :c:func:`v4l2_subdev_call()` kAPI and pass NULL as the
+> > +state. This is only a problem for subdev drivers which use the
+> > +centrally managed active-state and are used in media pipelines with older
+> > +subdev drivers. In these cases the called subdev ops must also handle the NULL
+> > +case. This can be easily managed by the use of
+> > +:c:func:`v4l2_subdev_lock_and_return_state()` helper.
+
+This doesn't emphasize strongly enough that this pattern should be
+phased out. You could write it as follows.
+
+While the V4L2 core passes the correct try or active state to the
+subdevice operations, some existing device drivers pass a NULL state
+when calling operations with :c:func:`v4l2_subdev_call()`. This legacy
+construct causes issues with subdevice drivers that let the V4L2 core
+manage the active state, as they expect to receive the appropriate state
+as a parameter. To help the conversion of subdevice drivers to a managed
+active state without having to convert all callers at the same time, the
+:c:func:`v4l2_subdev_lock_and_return_state()` helper function can be
+used by subdevice drivers to retrieve the active state if a NULL state
+is passed to the subdevice operation.
+
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+
+> > +
+> > +:c:func:`v4l2_subdev_lock_and_return_state()` should only be used when porting
+> > +an existing driver to the new state management when it cannot be guaranteed
+> > +that the current callers will pass the state properly. The function prints a
+> > +notice when the passed state is NULL to encourage the porting of the callers
+> > +to the new state management.
+> > +
+> >  V4L2 sub-device functions and data structures
+> >  ---------------------------------------------
+> >  
 
 -- 
 Regards,
