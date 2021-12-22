@@ -2,52 +2,52 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 33A1A47CA5E
+	by mail.lfdr.de (Postfix) with ESMTP id E9FC847CA60
 	for <lists+linux-media@lfdr.de>; Wed, 22 Dec 2021 01:36:02 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239846AbhLVAgA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 21 Dec 2021 19:36:00 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44418 "EHLO
+        id S239884AbhLVAgB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 21 Dec 2021 19:36:01 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44426 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239736AbhLVAf7 (ORCPT
+        with ESMTP id S239830AbhLVAgA (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 21 Dec 2021 19:35:59 -0500
-Received: from mail-wm1-x32d.google.com (mail-wm1-x32d.google.com [IPv6:2a00:1450:4864:20::32d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4F8B9C061574
-        for <linux-media@vger.kernel.org>; Tue, 21 Dec 2021 16:35:59 -0800 (PST)
-Received: by mail-wm1-x32d.google.com with SMTP id l4so485036wmq.3
-        for <linux-media@vger.kernel.org>; Tue, 21 Dec 2021 16:35:59 -0800 (PST)
+        Tue, 21 Dec 2021 19:36:00 -0500
+Received: from mail-wr1-x429.google.com (mail-wr1-x429.google.com [IPv6:2a00:1450:4864:20::429])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6A542C061574
+        for <linux-media@vger.kernel.org>; Tue, 21 Dec 2021 16:36:00 -0800 (PST)
+Received: by mail-wr1-x429.google.com with SMTP id j18so1359354wrd.2
+        for <linux-media@vger.kernel.org>; Tue, 21 Dec 2021 16:36:00 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=ZcMjdQkiVJ7cNLB1yHDfiaYLmc+S+ohuC3EPTWpGpPI=;
-        b=uGLYwEHUGWL3hJKDRTmqALg8GjuUFchbwJOaaZpqZV1WTCi85OUq9A6iONJqqKv9Bf
-         HVninYUseLQRjSBACXt82+okddgEi71NVJ5mhYKcV7NANy1SVxhcHfeMGFtjtJnr0Rxe
-         GDv7oGYO+qKY3LLr+dWYzu/1sWj9gozfSuOgpg0rsMtlkQyCg0Sp+P/egiPRP7MD6DzY
-         JHh9WeclZOXJ0op/hz1D3LcJtl2zwHz6Db94D5GEpkZ4jdAwgD04an+sXH8DUTdnqEh0
-         ad2y7kqW8bPHp2m2IaXnAC1E5MB9lH9yYMCOUWZ7cgbDJt+qyj2nsg92Wungq11XNu/W
-         v1Ag==
+        bh=Y2ECIv5rz0LlBtesPY2mGVUaYSCB2Z9s9Xx1bQRqPLs=;
+        b=u4XgYVsk3yXqRlWXb5uTiqzblDxSscAlO4071k5vE9+r7OHnaWVKeNKyNnGlqopiEf
+         0Cfj51SrI41cRgvtZRTqIB17CIQiRT/9D5pbVaxwiAiMTHYjO8jr9z6XtIIBlT/Q1Y9n
+         GsKE78b29yiWPIHo7WOZT76qlybCCy2X77VDyIiabPIf4vK1reB6Sesh92CeWY25rmKx
+         CaDcK6quJ+xxIntTORiXWooqwiYlMCkm/vySMR0fbw9rHTGHHKO1j0odw5GmVcWrgiOw
+         lmggHLD6v3MvdRWdQ/lAQxYWxC3tbsEPzP27MJoSSRSjpcLrtkXU1swkbdDTekc8afIP
+         PBRg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=ZcMjdQkiVJ7cNLB1yHDfiaYLmc+S+ohuC3EPTWpGpPI=;
-        b=REos3t5csVoAw0FrVw9uqKvmJpKl5unmi1Wi7LFAu+N0k5Cpao4ISfsqeCjDsKeWy0
-         MjraHS/pjAiYMPm0FBBwydMiUEzXJ6N/uO24UJfNEfjY2yimfxXZEuVaCMM8eX1DRtXu
-         UiAXCFV2/xWyP1nIlEsuwaQIM0XUoD9ZhPhHwSZKcx6kALzXgF23HnMyk5KXD6m/JXzx
-         qyRQs/9I+HEGwjKK2l7qwY03Is944AZQgT4fIotLIUDuM34OB3TRfXBtLhgFa5m3sVw6
-         sTcRzCcEuVAtpirRgd3pFzexvxU6WpNTOWg4a3qBVr+7vseqDoDb+/Mcx1XeLpboG3P2
-         BArA==
-X-Gm-Message-State: AOAM533cuBl3O+SaDTDHKZgdmqpVRVhEoE9i3axaC9jxRTARJ5ApjtVW
-        2tC6ZxQTpSyMIQA9y6Qi4IbZwtxC/CDW7Q==
-X-Google-Smtp-Source: ABdhPJwbaGQpNGFvenUhVv+jd8ZLoY1uREh2zVL6M1OQGYss/jpOf/1GnCYYVSSUt8b8jx4j/hb8Ow==
-X-Received: by 2002:a7b:c101:: with SMTP id w1mr412682wmi.149.1640133357926;
-        Tue, 21 Dec 2021 16:35:57 -0800 (PST)
+        bh=Y2ECIv5rz0LlBtesPY2mGVUaYSCB2Z9s9Xx1bQRqPLs=;
+        b=cFXKjTb1wzPBW881w37UkFJI/ieR+oFNg60Rc6e9BhKEVcfSqXdx6YHT1Of63ocRVy
+         kKMXLO12Ko3N3wT7L9SMTAgQjEZYcFYG3NDbuPDqgGZZVJRpSgU1ugvB/8qmaasgDVfl
+         jw8k4DGJIde678X660fM18Ycq78hq9kzMjtBHGIKkN3ziZc6vU/jClot+93gFBv13t+Q
+         X3qvxVX4kRE9d6yEpnkSHMipW0WUF6QZOI1hNYKNk/76N5b26HoDDeUS+73opfSyJurd
+         84byhlKozDZVKoX8+lQWxGTftRTdsnAgAWZ5ZXN9tHaiF7XvSWpMlNtBKGzz/caN229n
+         LCGw==
+X-Gm-Message-State: AOAM530os168DwUlxF75bsrVeIon4TBP3rL8Icx/bJYWgtbm8gw5cu+i
+        2RBCReOvOZsxrl4Lzu7k7e8i7g==
+X-Google-Smtp-Source: ABdhPJzNS+l2xwjIvbbXru+KF8u4HLy2DHQBPTSwduRJVkTWc2MkjRPwsvzmyhUSOsMgpjkoSU8Bzw==
+X-Received: by 2002:a05:6000:1449:: with SMTP id v9mr392997wrx.280.1640133359039;
+        Tue, 21 Dec 2021 16:35:59 -0800 (PST)
 Received: from sagittarius-a.chello.ie (188-141-3-169.dynamic.upc.ie. [188.141.3.169])
-        by smtp.gmail.com with ESMTPSA id n7sm282825wms.45.2021.12.21.16.35.56
+        by smtp.gmail.com with ESMTPSA id n7sm282825wms.45.2021.12.21.16.35.58
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 21 Dec 2021 16:35:57 -0800 (PST)
+        Tue, 21 Dec 2021 16:35:58 -0800 (PST)
 From:   Bryan O'Donoghue <bryan.odonoghue@linaro.org>
 To:     linux-arm-msm@vger.kernel.org, linux-media@vger.kernel.org,
         mchehab@kernel.org, hverkuil@xs4all.nl, robert.foss@linaro.org
@@ -55,9 +55,9 @@ Cc:     jonathan@marek.ca, andrey.konovalov@linaro.org,
         todor.too@gmail.com, agross@kernel.org, bjorn.andersson@linaro.org,
         jgrahsl@snap.com, hfink@snap.com, vladimir.zapolskiy@linaro.org,
         dmitry.baryshkov@linaro.org, bryan.odonoghue@linaro.org
-Subject: [PATCH v3 11/19] media: camss: remove vdda-csiN from sdm845 resources
-Date:   Wed, 22 Dec 2021 00:37:43 +0000
-Message-Id: <20211222003751.2461466-12-bryan.odonoghue@linaro.org>
+Subject: [PATCH v3 12/19] media: camss: fix VFE irq name
+Date:   Wed, 22 Dec 2021 00:37:44 +0000
+Message-Id: <20211222003751.2461466-13-bryan.odonoghue@linaro.org>
 X-Mailer: git-send-email 2.33.0
 In-Reply-To: <20211222003751.2461466-1-bryan.odonoghue@linaro.org>
 References: <20211222003751.2461466-1-bryan.odonoghue@linaro.org>
@@ -69,8 +69,7 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 From: Jonathan Marek <jonathan@marek.ca>
 
-This isn't used and only works because devm_regulator_get() returns a dummy
-regulator.
+vfe->id isn't set yet, so use "id" instead here.
 
 Signed-off-by: Jonathan Marek <jonathan@marek.ca>
 Reviewed-by: Robert Foss <robert.foss@linaro.org>
@@ -78,40 +77,30 @@ Tested-by: Julian Grahsl <jgrahsl@snap.com>
 Tested-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
 Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
 ---
- drivers/media/platform/qcom/camss/camss.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ drivers/media/platform/qcom/camss/camss-vfe.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/drivers/media/platform/qcom/camss/camss.c b/drivers/media/platform/qcom/camss/camss.c
-index be091c50a3c0c..71c6109b05260 100644
---- a/drivers/media/platform/qcom/camss/camss.c
-+++ b/drivers/media/platform/qcom/camss/camss.c
-@@ -542,7 +542,7 @@ static const struct resources csiphy_res_845[] = {
- static const struct resources csid_res_845[] = {
- 	/* CSID0 */
- 	{
--		.regulator = { "vdda-csi0" },
-+		.regulator = { NULL },
- 		.clock = { "cpas_ahb", "cphy_rx_src", "slow_ahb_src",
- 				"soc_ahb", "vfe0", "vfe0_src",
- 				"vfe0_cphy_rx", "csi0",
-@@ -562,7 +562,7 @@ static const struct resources csid_res_845[] = {
+diff --git a/drivers/media/platform/qcom/camss/camss-vfe.c b/drivers/media/platform/qcom/camss/camss-vfe.c
+index 71f78b40e7f55..165b404761db5 100644
+--- a/drivers/media/platform/qcom/camss/camss-vfe.c
++++ b/drivers/media/platform/qcom/camss/camss-vfe.c
+@@ -1293,7 +1293,6 @@ int msm_vfe_subdev_init(struct camss *camss, struct vfe_device *vfe,
+ 	case CAMSS_660:
+ 		vfe->ops = &vfe_ops_4_8;
+ 		break;
+-
+ 	case CAMSS_845:
+ 		vfe->ops = &vfe_ops_170;
+ 		break;
+@@ -1321,7 +1320,7 @@ int msm_vfe_subdev_init(struct camss *camss, struct vfe_device *vfe,
  
- 	/* CSID1 */
- 	{
--		.regulator = { "vdda-csi1" },
-+		.regulator = { NULL },
- 		.clock = { "cpas_ahb", "cphy_rx_src", "slow_ahb_src",
- 				"soc_ahb", "vfe1", "vfe1_src",
- 				"vfe1_cphy_rx", "csi1",
-@@ -582,7 +582,7 @@ static const struct resources csid_res_845[] = {
- 
- 	/* CSID2 */
- 	{
--		.regulator = { "vdda-csi2" },
-+		.regulator = { NULL },
- 		.clock = { "cpas_ahb", "cphy_rx_src", "slow_ahb_src",
- 				"soc_ahb", "vfe_lite", "vfe_lite_src",
- 				"vfe_lite_cphy_rx", "csi2",
+ 	vfe->irq = r->start;
+ 	snprintf(vfe->irq_name, sizeof(vfe->irq_name), "%s_%s%d",
+-		 dev_name(dev), MSM_VFE_NAME, vfe->id);
++		 dev_name(dev), MSM_VFE_NAME, id);
+ 	ret = devm_request_irq(dev, vfe->irq, vfe->ops->isr,
+ 			       IRQF_TRIGGER_RISING, vfe->irq_name, vfe);
+ 	if (ret < 0) {
 -- 
 2.33.0
 
