@@ -2,91 +2,63 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5A19647D03A
-	for <lists+linux-media@lfdr.de>; Wed, 22 Dec 2021 11:47:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1C41747D08D
+	for <lists+linux-media@lfdr.de>; Wed, 22 Dec 2021 12:12:52 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244255AbhLVKrF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 22 Dec 2021 05:47:05 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39322 "EHLO
+        id S244418AbhLVLMu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 22 Dec 2021 06:12:50 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45224 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240018AbhLVKrF (ORCPT
+        with ESMTP id S235117AbhLVLMu (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 22 Dec 2021 05:47:05 -0500
-Received: from mail.turbocat.net (turbocat.net [IPv6:2a01:4f8:c17:6c4b::2])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F0CE8C061574
-        for <linux-media@vger.kernel.org>; Wed, 22 Dec 2021 02:47:04 -0800 (PST)
-Received: from [10.36.2.165] (unknown [178.17.145.105])
-        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-        (No client certificate requested)
-        by mail.turbocat.net (Postfix) with ESMTPSA id 6AB8C2601E9
-        for <linux-media@vger.kernel.org>; Wed, 22 Dec 2021 11:47:02 +0100 (CET)
-Message-ID: <06c00e24-cdad-8776-9fc1-2c0f3db5af9a@selasky.org>
-Date:   Wed, 22 Dec 2021 11:46:55 +0100
+        Wed, 22 Dec 2021 06:12:50 -0500
+Received: from mail-lf1-x12f.google.com (mail-lf1-x12f.google.com [IPv6:2a00:1450:4864:20::12f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1102CC06173F
+        for <linux-media@vger.kernel.org>; Wed, 22 Dec 2021 03:12:50 -0800 (PST)
+Received: by mail-lf1-x12f.google.com with SMTP id bp20so4585719lfb.6
+        for <linux-media@vger.kernel.org>; Wed, 22 Dec 2021 03:12:49 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=D2uGUnQwiQEQEOfYAr686Ldd6bWriaB9hJLk0O0gOzM=;
+        b=OGPZmItF4An+dQtRSrLe/AmLvPfekXjkwYHguvWd+nLhTdhcN/tvyOc2lMjG4joB0c
+         p7rDjorsQjuLp/a82LC7KjpJ1SYwpH2qLcPJ83eDh9DiyPGYPd1uugwK7WaEXm2vZAdj
+         S6n/zrrFBF9WwT56rspkoJLRsNNZkFncvA55Nu2FhBsdI9kaTEs+9V5mvv8ll5jMiJSX
+         7BRICKttqyPDkkhIhinyrF+SBCb0ayEcvmbQwc3ZCoFGRwicSuvPI0g9GR7FL9lkH8He
+         Tb/XBL/4zp5IFVk8TaqvJK6ZiaGzVBYIAn5elz3y1LtvA0MJdxOwTFlAgJuPcO61e9ck
+         PnAA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to;
+        bh=D2uGUnQwiQEQEOfYAr686Ldd6bWriaB9hJLk0O0gOzM=;
+        b=x52WcLm+vOgeBlh4gkHCs477I0FcW0ZLV5gnux8r5KVtLw5ac7VIXAZ/GMlGDTP9rD
+         +16UmcagDo7a7wVfhveQZDP9J9Sm3WjfPtPG20S5cbAno5vVQV8E3ignktX5FXC5txQ+
+         ivQi39AD1ASvPh929fYuGTvVP8hPmQX8u86ESn6PwPEwx21YpE3s6Xq7Aw4dPmAXPwUD
+         LROz+Cfbb3AzdS3Ch0Wm90h6VhvC1rpu4v/FyXLg9sGirhalKEo/Rxz88lizZwP4rZMs
+         Z/jVdix/2k0BHCNupxJz3Sg/mWiroOVZwJnOuorN4ozJ3TYXrnJ0DGQ1t6ODbjS5nAKM
+         TEfw==
+X-Gm-Message-State: AOAM533qiyETtRl84btw+In5zLrTsuQ/fme7TmzR6UI6/do64fY14K5U
+        sEU16eDqVBbWiRzzMBmk2zgfJzjr75xQNjLt7w==
+X-Google-Smtp-Source: ABdhPJzpVatGT9Miz9EF7Z+oGwG88yyNnzywGSEnCtZDqdJk1nRRr0h8fWOAt8S9Sv/EtOWVFY7RflK95hpCMFV9YSI=
+X-Received: by 2002:a19:5201:: with SMTP id m1mr2111363lfb.367.1640171567937;
+ Wed, 22 Dec 2021 03:12:47 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; FreeBSD amd64; rv:91.0) Gecko/20100101
- Thunderbird/91.4.1
-To:     linux-media@vger.kernel.org
-Content-Language: en-US
-From:   Hans Petter Selasky <hps@selasky.org>
-Subject: [PATCH] Make sure we parse really received data.
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Received: by 2002:a05:6504:30bc:0:0:0:0 with HTTP; Wed, 22 Dec 2021 03:12:47
+ -0800 (PST)
+Reply-To: evelyngaby76@gmail.com
+From:   Evelyn Gaby <evelyngaby313@gmail.com>
+Date:   Wed, 22 Dec 2021 11:12:47 +0000
+Message-ID: <CAA63f6xb2b74SiZNAY6g1vhRsT8GicPmzJ5JsLmTX66ASsP+DA@mail.gmail.com>
+Subject: Hello Dear
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi,
+.
+Please get back to me for more details,
+I like to disclose something very important to you,
 
-USB control requests may return less data than we ask for.
-Found using valgrind and webcamd on FreeBSD.
-
-==15522== Conditional jump or move depends on uninitialised value(s)
-==15522==    at 0x662EF4: uvc_fixup_video_ctrl (uvc_video.c:135)
-==15522==    by 0x662EF4: uvc_get_video_ctrl (uvc_video.c:297)
-==15522==    by 0x6640B0: uvc_video_init (uvc_video.c:2078)
-==15522==    by 0x65E79D: uvc_register_video (uvc_driver.c:2258)
-==15522==    by 0x65E79D: uvc_register_terms (uvc_driver.c:2300)
-==15522==    by 0x65E79D: uvc_register_chains (uvc_driver.c:2321)
-==15522==    by 0x65E79D: uvc_probe (uvc_driver.c:2463)
-==15522==    by 0x3C8F46: usb_linux_probe_p (linux_usb.c:449)
-==15522==    by 0x75B4B2: main (webcamd.c:1021)
-==15522==  Uninitialised value was created by a heap allocation
-==15522==    at 0x4853844: malloc (in 
-/usr/local/libexec/valgrind/vgpreload_memcheck-amd64-freebsd.so)
-==15522==    by 0x3BC8A4: kmalloc (linux_func.c:1807)
-==15522==    by 0x662C8C: uvc_get_video_ctrl (uvc_video.c:229)
-==15522==    by 0x6640B0: uvc_video_init (uvc_video.c:2078)
-==15522==    by 0x65E79D: uvc_register_video (uvc_driver.c:2258)
-==15522==    by 0x65E79D: uvc_register_terms (uvc_driver.c:2300)
-==15522==    by 0x65E79D: uvc_register_chains (uvc_driver.c:2321)
-==15522==    by 0x65E79D: uvc_probe (uvc_driver.c:2463)
-==15522==    by 0x3C8F46: usb_linux_probe_p (linux_usb.c:449)
-==15522==    by 0x75B4B2: main (webcamd.c:1021)
-
-Signed-off-by: Hans Petter Selasky <hps@selasky.org>
----
-  drivers/media/usb/uvc/uvc_video.c | 6 +++++-
-  1 file changed, 5 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/media/usb/uvc/uvc_video.c 
-b/drivers/media/usb/uvc/uvc_video.c
-index 9f37eaf28ce7..6233703f9a50 100644
---- a/drivers/media/usb/uvc/uvc_video.c
-+++ b/drivers/media/usb/uvc/uvc_video.c
-@@ -258,7 +258,11 @@ static int uvc_get_video_ctrl(struct uvc_streaming 
-*stream,
-  			query == UVC_GET_DEF)
-  		return -EIO;
-
--	data = kmalloc(size, GFP_KERNEL);
-+	/*
-+	 * Make sure we parse really received data
-+	 * by allocating a zeroed buffer.
-+	 */
-+	data = kzalloc(size, GFP_KERNEL);
-  	if (data == NULL)
-  		return -ENOMEM;
-
--- 
-2.34.1
+Mrs Evelyn Gaby.
