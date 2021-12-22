@@ -2,167 +2,187 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 99AC747CCE4
-	for <lists+linux-media@lfdr.de>; Wed, 22 Dec 2021 07:12:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9A65947CDE4
+	for <lists+linux-media@lfdr.de>; Wed, 22 Dec 2021 09:16:47 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239281AbhLVGMY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 22 Dec 2021 01:12:24 -0500
-Received: from twspam01.aspeedtech.com ([211.20.114.71]:7882 "EHLO
-        twspam01.aspeedtech.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239241AbhLVGMY (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Wed, 22 Dec 2021 01:12:24 -0500
-Received: from mail.aspeedtech.com ([192.168.0.24])
-        by twspam01.aspeedtech.com with ESMTP id 1BM66WDs065028;
-        Wed, 22 Dec 2021 14:06:32 +0800 (GMT-8)
-        (envelope-from jammy_huang@aspeedtech.com)
-Received: from [192.168.2.115] (192.168.2.115) by TWMBX02.aspeed.com
- (192.168.0.24) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Wed, 22 Dec
- 2021 14:11:58 +0800
-Message-ID: <d4eef96a-f714-6bb5-dd7f-3057d59e3a19@aspeedtech.com>
-Date:   Wed, 22 Dec 2021 14:11:58 +0800
+        id S243198AbhLVIQp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 22 Dec 2021 03:16:45 -0500
+Received: from comms.puri.sm ([159.203.221.185]:39570 "EHLO comms.puri.sm"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S243191AbhLVIQo (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 22 Dec 2021 03:16:44 -0500
+Received: from localhost (localhost [127.0.0.1])
+        by comms.puri.sm (Postfix) with ESMTP id 5D41BE114A;
+        Wed, 22 Dec 2021 00:16:44 -0800 (PST)
+Received: from comms.puri.sm ([127.0.0.1])
+        by localhost (comms.puri.sm [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id xQqZJwAZlcXR; Wed, 22 Dec 2021 00:16:43 -0800 (PST)
+Message-ID: <3b9f6d64007ff38ffbd36d2648dd827594cc9d59.camel@puri.sm>
+Subject: Re: [PATCH v3 1/2] media: imx: imx7-media-csi: add support for
+ imx8mq
+From:   Martin Kepplinger <martin.kepplinger@puri.sm>
+To:     laurent.pinchart@ideasonboard.com, mchehab@kernel.org,
+        rmfrfs@gmail.com
+Cc:     devicetree@vger.kernel.org, kernel@pengutronix.de, kernel@puri.sm,
+        linux-arm-kernel@lists.infradead.org, linux-imx@nxp.com,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        robh@kernel.org, shawnguo@kernel.org
+Date:   Wed, 22 Dec 2021 09:16:38 +0100
+In-Reply-To: <20211122072708.95269-1-martin.kepplinger@puri.sm>
+References: <20211122072708.95269-1-martin.kepplinger@puri.sm>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.38.3-1 
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.4.0
-Subject: Re: [PATCH 3/4] media: aspeed: Correct values for detected timing
-Content-Language: en-US
-To:     Joel Stanley <joel@jms.id.au>
-CC:     Eddie James <eajames@linux.ibm.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Andrew Jeffery <andrew@aj.id.au>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        OpenBMC Maillist <openbmc@lists.ozlabs.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        linux-aspeed <linux-aspeed@lists.ozlabs.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-References: <20211217095403.2618-1-jammy_huang@aspeedtech.com>
- <20211217095403.2618-4-jammy_huang@aspeedtech.com>
- <CACPK8Xf_5wZXzfDSrdLLxs_B_jX7BVHc5o2Thw1DJvYix1AA8Q@mail.gmail.com>
-From:   Jammy Huang <jammy_huang@aspeedtech.com>
-In-Reply-To: <CACPK8Xf_5wZXzfDSrdLLxs_B_jX7BVHc5o2Thw1DJvYix1AA8Q@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Originating-IP: [192.168.2.115]
-X-ClientProxiedBy: TWMBX02.aspeed.com (192.168.0.24) To TWMBX02.aspeed.com
- (192.168.0.24)
-X-DNSRBL: 
-X-MAIL: twspam01.aspeedtech.com 1BM66WDs065028
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Joel,
+Am Montag, dem 22.11.2021 um 08:27 +0100 schrieb Martin Kepplinger:
+> Modeled after the NXP driver mx6s_capture.c that this driver is based
+> on,
+> imx8mq needs different settings for the baseaddr_switch mechanism.
+> Define
+> the needed bits and set that for imx8mq.
+> 
+> Without these settings, the system will "sometimes" hang completely
+> when
+> starting to stream (the interrupt will never be called).
+> 
+> Signed-off-by: Martin Kepplinger <martin.kepplinger@puri.sm>
+> Acked-by: Rui Miguel Silva <rmfrfs@gmail.com>
+> ---
+> 
+> revision history
+> ----------------
+> v3:
+>  * fix compiler warning when assigning a 64 bit (void *) to an int
+>  * add Ruis' Acked-by tag
+> 
+> v2: (thank you Rui and Laurent)
+>  * rename function and enum
+>  * remove unrealted newline
+>  * add Laurents reviewed tag to the bindings patch
+>  https://lore.kernel.org/linux-media/20211118063347.3370678-1-martin.kepplinger@puri.sm/
+> 
+> v1:
+> https://lore.kernel.org/linux-media/20211117092710.3084034-1-martin.kepplinger@puri.sm/T/#t
+> 
+> 
+> 
+>  drivers/staging/media/imx/imx7-media-csi.c | 32
+> ++++++++++++++++++++--
+>  1 file changed, 30 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/staging/media/imx/imx7-media-csi.c
+> b/drivers/staging/media/imx/imx7-media-csi.c
+> index 2288dadb2683..32311fc0e2a4 100644
+> --- a/drivers/staging/media/imx/imx7-media-csi.c
+> +++ b/drivers/staging/media/imx/imx7-media-csi.c
+> @@ -12,6 +12,7 @@
+>  #include <linux/interrupt.h>
+>  #include <linux/mfd/syscon.h>
+>  #include <linux/module.h>
+> +#include <linux/of_device.h>
+>  #include <linux/of_graph.h>
+>  #include <linux/pinctrl/consumer.h>
+>  #include <linux/platform_device.h>
+> @@ -122,6 +123,10 @@
+>  #define BIT_DATA_FROM_MIPI             BIT(22)
+>  #define BIT_MIPI_YU_SWAP               BIT(21)
+>  #define BIT_MIPI_DOUBLE_CMPNT          BIT(20)
+> +#define BIT_MASK_OPTION_FIRST_FRAME    (0 << 18)
+> +#define BIT_MASK_OPTION_CSI_EN         (1 << 18)
+> +#define BIT_MASK_OPTION_SECOND_FRAME   (2 << 18)
+> +#define BIT_MASK_OPTION_ON_DATA                (3 << 18)
+>  #define BIT_BASEADDR_CHG_ERR_EN                BIT(9)
+>  #define BIT_BASEADDR_SWITCH_SEL                BIT(5)
+>  #define BIT_BASEADDR_SWITCH_EN         BIT(4)
+> @@ -154,6 +159,11 @@
+>  #define CSI_CSICR18                    0x48
+>  #define CSI_CSICR19                    0x4c
+>  
+> +enum imx_csi_model {
+> +       IMX7_CSI_IMX7 = 0,
+> +       IMX7_CSI_IMX8MQ,
+> +};
+> +
+>  struct imx7_csi {
+>         struct device *dev;
+>         struct v4l2_subdev sd;
+> @@ -189,6 +199,8 @@ struct imx7_csi {
+>         bool is_csi2;
+>  
+>         struct completion last_eof_completion;
+> +
+> +       enum imx_csi_model model;
+>  };
+>  
+>  static struct imx7_csi *
+> @@ -537,6 +549,16 @@ static void imx7_csi_deinit(struct imx7_csi
+> *csi,
+>         clk_disable_unprepare(csi->mclk);
+>  }
+>  
+> +static void imx7_csi_baseaddr_switch_on_second_frame(struct imx7_csi
+> *csi)
+> +{
+> +       u32 cr18 = imx7_csi_reg_read(csi, CSI_CSICR18);
+> +
+> +       cr18 |= BIT_BASEADDR_SWITCH_EN | BIT_BASEADDR_SWITCH_SEL |
+> +               BIT_BASEADDR_CHG_ERR_EN;
+> +       cr18 |= BIT_MASK_OPTION_SECOND_FRAME;
+> +       imx7_csi_reg_write(csi, cr18, CSI_CSICR18);
+> +}
+> +
+>  static void imx7_csi_enable(struct imx7_csi *csi)
+>  {
+>         /* Clear the Rx FIFO and reflash the DMA controller. */
+> @@ -552,6 +574,9 @@ static void imx7_csi_enable(struct imx7_csi *csi)
+>         /* Enable the RxFIFO DMA and the CSI. */
+>         imx7_csi_dmareq_rff_enable(csi);
+>         imx7_csi_hw_enable(csi);
+> +
+> +       if (csi->model == IMX7_CSI_IMX8MQ)
+> +               imx7_csi_baseaddr_switch_on_second_frame(csi);
+>  }
+>  
+>  static void imx7_csi_disable(struct imx7_csi *csi)
+> @@ -1155,6 +1180,8 @@ static int imx7_csi_probe(struct
+> platform_device *pdev)
+>         if (IS_ERR(csi->regbase))
+>                 return PTR_ERR(csi->regbase);
+>  
+> +       csi->model = (enum
+> imx_csi_model)(uintptr_t)of_device_get_match_data(&pdev->dev);
+> +
+>         spin_lock_init(&csi->irqlock);
+>         mutex_init(&csi->lock);
+>  
+> @@ -1249,8 +1276,9 @@ static int imx7_csi_remove(struct
+> platform_device *pdev)
+>  }
+>  
+>  static const struct of_device_id imx7_csi_of_match[] = {
+> -       { .compatible = "fsl,imx7-csi" },
+> -       { .compatible = "fsl,imx6ul-csi" },
+> +       { .compatible = "fsl,imx8mq-csi", .data = (void
+> *)IMX7_CSI_IMX8MQ },
+> +       { .compatible = "fsl,imx7-csi", .data = (void *)IMX7_CSI_IMX7
+> },
+> +       { .compatible = "fsl,imx6ul-csi", .data = (void
+> *)IMX7_CSI_IMX7 },
+>         { },
+>  };
+>  MODULE_DEVICE_TABLE(of, imx7_csi_of_match);
 
-OK, I will update in next patch as you advised.
-Thanks for your review.
+Laurent et al.
 
-On 2021/12/22 上午 09:31, Joel Stanley wrote:
-> On Fri, 17 Dec 2021 at 09:54, Jammy Huang <jammy_huang@aspeedtech.com> wrote:
->> Correct timing's fp/sync/bp value based on the information below.
->> It should be noticed that the calculation formula should be changed
->> per sync polarity.
->>
->> The sequence of signal: sync - backporch - video data - frontporch
->>
->> The following registers start counting from sync's rising edge:
->> 1. VR090: frame edge's left and right
->> 2. VR094: frame edge's top and bottom
->> 3. VR09C: counting from sync's rising edge to falling edge
->>
->>              +--+     +-------------------+     +--+
->>              |  |     |    v i d e o      |     |  |
->>           +--+  +-----+                   +-----+  +---+
->>
->>          sync+--+
->>      left/top+--------+
->> right/bottom+----------------------------+
->>
->>                    +-------------------+
->>                    |    v i d e o      |
->>        +--+  +-----+                   +-----+  +---+
->>           |  |                               |  |
->>           +--+                               +--+
->>          sync+-------------------------------+
->>      left/top+-----+
->> right/bottom+-------------------------+
-> This is a good explanation. Can you add detail that relates the names
-> you use here to to the variable names in your patch (or change them to
-> match)?
->
->> Signed-off-by: Jammy Huang <jammy_huang@aspeedtech.com>
->> ---
->>   drivers/media/platform/aspeed-video.c | 27 ++++++++++++++++++++++-----
->>   1 file changed, 22 insertions(+), 5 deletions(-)
->>
->> diff --git a/drivers/media/platform/aspeed-video.c b/drivers/media/platform/aspeed-video.c
->> index 581a4261f9b7..5ad3a20c5bac 100644
->> --- a/drivers/media/platform/aspeed-video.c
->> +++ b/drivers/media/platform/aspeed-video.c
->> @@ -988,10 +988,20 @@ static void aspeed_video_get_resolution(struct aspeed_video *video)
->>                                                  src_tb_edge);
->>                  video->frame_top = FIELD_GET(VE_SRC_TB_EDGE_DET_TOP,
->>                                               src_tb_edge);
->> -               det->vfrontporch = video->frame_top;
->> -               det->vbackporch = FIELD_GET(VE_MODE_DETECT_V_LINES, mds) -
->> -                       video->frame_bottom;
->>                  det->vsync = FIELD_GET(VE_SYNC_STATUS_VSYNC, sync);
->
-> Would it be clearer if you structured the code like this?
->
->   vsync = FIELD_GET(VE_SYNC_STATUS_VSYNC, sync);
->   vlines = FIELD_GET(VE_MODE_DETECT_V_LINES, mds);
->
->   if (det->polarities & V4L2_DV_VSYNC_POS_POL)) {
->      det->vbackporch = video->frame_top - vsync;
->      det->vfrontporch = vlines - video->frame_bottom;
->      det->vsync = vsync;
->   } else {
->      det->vbackporch = video->frame_top;
->      det->vfrontporch = vlines - video->frame_bottom - vsync;
->      det->vsync = vlines - vsync;
->
-> }
->
->
->> +               if (det->polarities & V4L2_DV_VSYNC_POS_POL) {
->> +                       det->vbackporch = video->frame_top - det->vsync;
->> +                       det->vfrontporch =
->> +                               FIELD_GET(VE_MODE_DETECT_V_LINES, mds) -
->> +                               video->frame_bottom;
->> +               } else {
->> +                       det->vsync = FIELD_GET(VE_MODE_DETECT_V_LINES, mds) -
->> +                                              det->vsync;
->> +                       det->vbackporch = video->frame_top;
->> +                       det->vfrontporch =
->> +                               FIELD_GET(VE_MODE_DETECT_V_LINES, mds) -
->> +                               video->frame_bottom - det->vsync;
->> +               }
->>                  if (video->frame_top > video->frame_bottom)
->>                          continue;
->>
->> @@ -999,9 +1009,16 @@ static void aspeed_video_get_resolution(struct aspeed_video *video)
->>                                                 src_lr_edge);
->>                  video->frame_left = FIELD_GET(VE_SRC_LR_EDGE_DET_LEFT,
->>                                                src_lr_edge);
->> -               det->hfrontporch = video->frame_left;
->> -               det->hbackporch = htotal - video->frame_right;
->>                  det->hsync = FIELD_GET(VE_SYNC_STATUS_HSYNC, sync);
->> +               if (det->polarities & V4L2_DV_HSYNC_POS_POL) {
->> +                       det->hbackporch = video->frame_left - det->hsync;
->> +                       det->hfrontporch = htotal - video->frame_right;
->> +               } else {
->> +                       det->hsync = htotal - det->hsync;
->> +                       det->hbackporch = video->frame_left;
->> +                       det->hfrontporch = htotal - video->frame_right -
->> +                                          det->hsync;
->> +               }
->>                  if (video->frame_left > video->frame_right)
->>                          continue;
->>
->> --
->> 2.25.1
->>
--- 
-Best Regards
-Jammy
+Any doubts about this? I run it for a long time now an it fixes the
+driver on imx8mq.
+
+thank you and all the best,
+
+                             martin
+
 
