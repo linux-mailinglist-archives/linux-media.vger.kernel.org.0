@@ -2,226 +2,179 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A862C47D87F
-	for <lists+linux-media@lfdr.de>; Wed, 22 Dec 2021 22:05:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 382D747D889
+	for <lists+linux-media@lfdr.de>; Wed, 22 Dec 2021 22:08:43 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230063AbhLVVFu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 22 Dec 2021 16:05:50 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38886 "EHLO
+        id S234122AbhLVVIm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 22 Dec 2021 16:08:42 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39490 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229600AbhLVVFt (ORCPT
+        with ESMTP id S232830AbhLVVIj (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 22 Dec 2021 16:05:49 -0500
-Received: from mail-ed1-x533.google.com (mail-ed1-x533.google.com [IPv6:2a00:1450:4864:20::533])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0EBC8C061574
-        for <linux-media@vger.kernel.org>; Wed, 22 Dec 2021 13:05:49 -0800 (PST)
-Received: by mail-ed1-x533.google.com with SMTP id f5so13406162edq.6
-        for <linux-media@vger.kernel.org>; Wed, 22 Dec 2021 13:05:48 -0800 (PST)
+        Wed, 22 Dec 2021 16:08:39 -0500
+Received: from mail-ed1-x531.google.com (mail-ed1-x531.google.com [IPv6:2a00:1450:4864:20::531])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5FDBCC061574
+        for <linux-media@vger.kernel.org>; Wed, 22 Dec 2021 13:08:39 -0800 (PST)
+Received: by mail-ed1-x531.google.com with SMTP id y22so13515133edq.2
+        for <linux-media@vger.kernel.org>; Wed, 22 Dec 2021 13:08:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=ffwll.ch; s=google;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=IQ8ss5cLkN0OPC63IPdBeU3liG7P/Ww64z/LebsIY2w=;
-        b=jOAFEbuBAhj/reb9IQTIUNL+eVriPEapr96s9Pcjc8dBjFsapOITkfRryqtSr8GJqg
-         qW8h7sFiaY16oLLhjNKiIQKkSM/bI1XMZJ04Cie4CYLGobuvnju/nMu6cr7NI0Zmz7rk
-         4ZK3+roGl3rxTOtfUcZcrgQ5ZAxykXjXUr4dE=
+        bh=GK96n6BYD0Hx1AhmkJkZJ0h4Yucg5xDH+N9i+w3wheU=;
+        b=YVoz0a2B3XYq+O/vOi56jCgxQ4aoOR67vshk1MBkEFAMiW4UjN3/bkZTjC6a0Nhe4b
+         MxkrH08Sp0nAl5EFqIBUX5P0q2sHHqJWeqGVrZQuGVGqs6EZMky7tv2DCoYq2wB/6Dbl
+         W7x/D7eKF3ZTlztUgt88zoQAlWm+AyutNPINo=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:content-transfer-encoding
          :in-reply-to;
-        bh=IQ8ss5cLkN0OPC63IPdBeU3liG7P/Ww64z/LebsIY2w=;
-        b=qrbr++ptePc5BgpOeg5xdOJsvc+5HfvSxp3lX/vAG/QGTKt8582+vy4NPMTOygL3io
-         8xw+HavR3twhBNaGXL3X4VCDmHQhmZpvvYvCW1kB5Cg/J4P3wXT4JhAE8u+14kQ2PPfc
-         6q1p/O6+E4Ujo3f9pI7LMjJq81gWa/94h7dsneeDzTDhHN0dkjVsSJMD3bjYF/UtuLU3
-         YSl5IEBEzxqD8406JMXUPgyBafWhTO8e5wrg0c69o6QxmfNSnUnEDhOFulqiU5Si8xjg
-         CeTJA4L7cVl8j0iv0BSN3mmviL2wPkJaCpNjDYronn3fEYBIMwNUlcr4JxKjYACGwSQP
-         PnAg==
-X-Gm-Message-State: AOAM532DWRwuwfsH7hVDBbWq/2KwqHgaPkJYi2ck21baUFoNG4+3VXiR
-        0Bli5+x97wqJExVcfJLAgJzN1w==
-X-Google-Smtp-Source: ABdhPJy16fia4p0Y93NWGi3JF1DLRQj6DXz7tKsGUA5K+83EAZceIlpmfFearrRDhArZk+srL2QzXg==
-X-Received: by 2002:a05:6402:518c:: with SMTP id q12mr4542433edd.312.1640207147443;
-        Wed, 22 Dec 2021 13:05:47 -0800 (PST)
+        bh=GK96n6BYD0Hx1AhmkJkZJ0h4Yucg5xDH+N9i+w3wheU=;
+        b=gS/GawYnZODVCRbhG8n2uOSjWkxZ2/VrAbjcI5Y9dZE/0QpnEUrUH4OHZwe3zYwYf4
+         H1E6gGKEUqGJWEjYMaoE9xrlOlQk+9uFHQB1TjlNR0CCS3LMfAETSCLMp2pd+SjsgHfU
+         bjk6f3/koxoHU2QN7X40oDD8J2MyY87qPaCW5SfmFDjHrimfeKDbsakuryuMUWzdit+G
+         hTcMtAt6TOp5ik7lAt769pYG0IQvXiT+54sV0orQlf/KWvgsIE8PIreC1YNNa/UbBTFI
+         DXuOZ/W29y/VLDH+ovYy6znY0QxAotbEcKZ+Akr2w8BP7HOMa7iatRJykR31ht8LG3M0
+         FWxA==
+X-Gm-Message-State: AOAM531fQfINuy8xstP/8IFazZDRx14CH9zWNd8cB49hPpLZF5fLbQY8
+        BldvjmCQeEp/aPrGkE3/3OgDEQ==
+X-Google-Smtp-Source: ABdhPJwPsRkORZ18V8N5cjsZrqAnrGvLcv5o+Hrr8SNqd8RLauUArVrOCM6TxPp9cbCV4D0/KrLH0Q==
+X-Received: by 2002:a05:6402:195:: with SMTP id r21mr4510534edv.174.1640207317822;
+        Wed, 22 Dec 2021 13:08:37 -0800 (PST)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
-        by smtp.gmail.com with ESMTPSA id o1sm1274867edv.2.2021.12.22.13.05.46
+        by smtp.gmail.com with ESMTPSA id hb17sm1033215ejc.195.2021.12.22.13.08.37
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 22 Dec 2021 13:05:47 -0800 (PST)
-Date:   Wed, 22 Dec 2021 22:05:45 +0100
+        Wed, 22 Dec 2021 13:08:37 -0800 (PST)
+Date:   Wed, 22 Dec 2021 22:08:35 +0100
 From:   Daniel Vetter <daniel@ffwll.ch>
 To:     Christian =?iso-8859-1?Q?K=F6nig?= 
         <ckoenig.leichtzumerken@gmail.com>
 Cc:     daniel@ffwll.ch, dri-devel@lists.freedesktop.org,
         linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
-Subject: Re: [PATCH 01/24] dma-buf: add dma_resv_replace_fences
-Message-ID: <YcOTKYkEcu7MG2sY@phenom.ffwll.local>
+Subject: Re: [PATCH 02/24] dma-buf: finally make the dma_resv_list private
+Message-ID: <YcOT0z79tB2u/QeX@phenom.ffwll.local>
 References: <20211207123411.167006-1-christian.koenig@amd.com>
- <20211207123411.167006-2-christian.koenig@amd.com>
+ <20211207123411.167006-3-christian.koenig@amd.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20211207123411.167006-2-christian.koenig@amd.com>
+In-Reply-To: <20211207123411.167006-3-christian.koenig@amd.com>
 X-Operating-System: Linux phenom 5.10.0-8-amd64 
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Dec 07, 2021 at 01:33:48PM +0100, Christian König wrote:
-> This function allows to replace fences from the shared fence list when
-> we can gurantee that the operation represented by the original fence has
-> finished or no accesses to the resources protected by the dma_resv
-> object any more when the new fence finishes.
-> 
-> Then use this function in the amdkfd code when BOs are unmapped from the
-> process.
+On Tue, Dec 07, 2021 at 01:33:49PM +0100, Christian König wrote:
+> Drivers should never touch this directly.
 > 
 > Signed-off-by: Christian König <christian.koenig@amd.com>
 > ---
->  drivers/dma-buf/dma-resv.c                    | 43 ++++++++++++++++
->  .../gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c  | 49 +++----------------
->  include/linux/dma-resv.h                      |  2 +
->  3 files changed, 52 insertions(+), 42 deletions(-)
+>  drivers/dma-buf/dma-resv.c | 26 ++++++++++++++++++++++++++
+>  include/linux/dma-resv.h   | 26 +-------------------------
+>  2 files changed, 27 insertions(+), 25 deletions(-)
 > 
 > diff --git a/drivers/dma-buf/dma-resv.c b/drivers/dma-buf/dma-resv.c
-> index 4deea75c0b9c..a688dbded3d3 100644
+> index a688dbded3d3..a12a3a39f280 100644
 > --- a/drivers/dma-buf/dma-resv.c
 > +++ b/drivers/dma-buf/dma-resv.c
-> @@ -284,6 +284,49 @@ void dma_resv_add_shared_fence(struct dma_resv *obj, struct dma_fence *fence)
->  }
->  EXPORT_SYMBOL(dma_resv_add_shared_fence);
+> @@ -56,6 +56,19 @@
+>  DEFINE_WD_CLASS(reservation_ww_class);
+>  EXPORT_SYMBOL(reservation_ww_class);
 >  
 > +/**
-> + * dma_resv_replace_fences - replace fences in the dma_resv obj
-> + * @obj: the reservation object
-> + * @context: the context of the fences to replace
-> + * @replacement: the new fence to use instead
-> + *
-> + * Replace fences with a specified context with a new fence. Only valid if the
-> + * operation represented by the original fences is completed or has no longer
-> + * access to the resources protected by the dma_resv object when the new fence
-> + * completes.
+> + * struct dma_resv_list - a list of shared fences
+> + * @rcu: for internal use
+> + * @shared_count: table of shared fences
+> + * @shared_max: for growing shared fence table
+> + * @shared: shared fence table
 > + */
-> +void dma_resv_replace_fences(struct dma_resv *obj, uint64_t context,
-> +			     struct dma_fence *replacement)
-> +{
-> +	struct dma_resv_list *list;
-> +	struct dma_fence *old;
-> +	unsigned int i;
-> +
-> +	dma_resv_assert_held(obj);
-> +
-> +	write_seqcount_begin(&obj->seq);
-> +
-> +	old = dma_resv_excl_fence(obj);
-> +	if (old->context == context) {
-> +		RCU_INIT_POINTER(obj->fence_excl, dma_fence_get(replacement));
-> +		dma_fence_put(old);
-> +	}
-> +
-> +	list = dma_resv_shared_list(obj);
-> +	for (i = 0; list && i < list->shared_count; ++i) {
-> +		old = rcu_dereference_protected(list->shared[i],
-> +						dma_resv_held(obj));
-> +		if (old->context != context)
-> +			continue;
-> +
-> +		rcu_assign_pointer(list->shared[i], dma_fence_get(replacement));
-> +		dma_fence_put(old);
 
-Since the fences are all guaranteed to be from the same context, maybe we
-should have a WARN_ON(__dma_fence_is_later()); here just to be safe?
+Imo drop the kerneldoc here and just make these comments before the right
+member if you feel like keeping them. Imo it's obvious enough what's going
+on that the comments aren't necessary, and we don't kerneldoc document
+internals generally at all - only interfaces relevant by drivers and
+things outside of a subsystem.
 
-With that added:
+> +struct dma_resv_list {
+> +	struct rcu_head rcu;
+> +	u32 shared_count, shared_max;
+> +	struct dma_fence __rcu *shared[];
+> +};
+> +
+>  /**
+>   * dma_resv_list_alloc - allocate fence list
+>   * @shared_max: number of fences we need space for
+> @@ -133,6 +146,19 @@ void dma_resv_fini(struct dma_resv *obj)
+>  }
+>  EXPORT_SYMBOL(dma_resv_fini);
+>  
+> +/**
+> + * dma_resv_shared_list - get the reservation object's shared fence list
+> + * @obj: the reservation object
+> + *
+> + * Returns the shared fence list. Caller must either hold the objects
+> + * through dma_resv_lock() or the RCU read side lock through rcu_read_lock(),
+> + * or one of the variants of each
+> + */
+
+Same here. With that:
 
 Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
 
-> +	}
-> +
-> +	write_seqcount_end(&obj->seq);
+> +static inline struct dma_resv_list *dma_resv_shared_list(struct dma_resv *obj)
+> +{
+> +	return rcu_dereference_check(obj->fence, dma_resv_held(obj));
 > +}
-> +EXPORT_SYMBOL(dma_resv_replace_fences);
 > +
 >  /**
->   * dma_resv_add_excl_fence - Add an exclusive fence.
->   * @obj: the reservation object
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c
-> index 71acd577803e..b558ef0f8c4a 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c
-> @@ -236,53 +236,18 @@ void amdgpu_amdkfd_release_notify(struct amdgpu_bo *bo)
->  static int amdgpu_amdkfd_remove_eviction_fence(struct amdgpu_bo *bo,
->  					struct amdgpu_amdkfd_fence *ef)
->  {
-> -	struct dma_resv *resv = bo->tbo.base.resv;
-> -	struct dma_resv_list *old, *new;
-> -	unsigned int i, j, k;
-> +	struct dma_fence *replacement;
->  
->  	if (!ef)
->  		return -EINVAL;
->  
-> -	old = dma_resv_shared_list(resv);
-> -	if (!old)
-> -		return 0;
-> -
-> -	new = kmalloc(struct_size(new, shared, old->shared_max), GFP_KERNEL);
-> -	if (!new)
-> -		return -ENOMEM;
-> -
-> -	/* Go through all the shared fences in the resevation object and sort
-> -	 * the interesting ones to the end of the list.
-> +	/* TODO: Instead of block before we should use the fence of the page
-> +	 * table update and TLB flush here directly.
->  	 */
-> -	for (i = 0, j = old->shared_count, k = 0; i < old->shared_count; ++i) {
-> -		struct dma_fence *f;
-> -
-> -		f = rcu_dereference_protected(old->shared[i],
-> -					      dma_resv_held(resv));
-> -
-> -		if (f->context == ef->base.context)
-> -			RCU_INIT_POINTER(new->shared[--j], f);
-> -		else
-> -			RCU_INIT_POINTER(new->shared[k++], f);
-> -	}
-> -	new->shared_max = old->shared_max;
-> -	new->shared_count = k;
-> -
-> -	/* Install the new fence list, seqcount provides the barriers */
-> -	write_seqcount_begin(&resv->seq);
-> -	RCU_INIT_POINTER(resv->fence, new);
-> -	write_seqcount_end(&resv->seq);
-> -
-> -	/* Drop the references to the removed fences or move them to ef_list */
-> -	for (i = j; i < old->shared_count; ++i) {
-> -		struct dma_fence *f;
-> -
-> -		f = rcu_dereference_protected(new->shared[i],
-> -					      dma_resv_held(resv));
-> -		dma_fence_put(f);
-> -	}
-> -	kfree_rcu(old, rcu);
-> -
-> +	replacement = dma_fence_get_stub();
-> +	dma_resv_replace_fences(bo->tbo.base.resv, ef->base.context,
-> +				replacement);
-> +	dma_fence_put(replacement);
->  	return 0;
->  }
->  
+>   * dma_resv_reserve_shared - Reserve space to add shared fences to
+>   * a dma_resv.
 > diff --git a/include/linux/dma-resv.h b/include/linux/dma-resv.h
-> index eebf04325b34..e0be34265eae 100644
+> index e0be34265eae..3baf2a4a9a0d 100644
 > --- a/include/linux/dma-resv.h
 > +++ b/include/linux/dma-resv.h
-> @@ -457,6 +457,8 @@ void dma_resv_init(struct dma_resv *obj);
+> @@ -47,18 +47,7 @@
+>  
+>  extern struct ww_class reservation_ww_class;
+>  
+> -/**
+> - * struct dma_resv_list - a list of shared fences
+> - * @rcu: for internal use
+> - * @shared_count: table of shared fences
+> - * @shared_max: for growing shared fence table
+> - * @shared: shared fence table
+> - */
+> -struct dma_resv_list {
+> -	struct rcu_head rcu;
+> -	u32 shared_count, shared_max;
+> -	struct dma_fence __rcu *shared[];
+> -};
+> +struct dma_resv_list;
+>  
+>  /**
+>   * struct dma_resv - a reservation object manages fences for a buffer
+> @@ -440,19 +429,6 @@ dma_resv_excl_fence(struct dma_resv *obj)
+>  	return rcu_dereference_check(obj->fence_excl, dma_resv_held(obj));
+>  }
+>  
+> -/**
+> - * dma_resv_shared_list - get the reservation object's shared fence list
+> - * @obj: the reservation object
+> - *
+> - * Returns the shared fence list. Caller must either hold the objects
+> - * through dma_resv_lock() or the RCU read side lock through rcu_read_lock(),
+> - * or one of the variants of each
+> - */
+> -static inline struct dma_resv_list *dma_resv_shared_list(struct dma_resv *obj)
+> -{
+> -	return rcu_dereference_check(obj->fence, dma_resv_held(obj));
+> -}
+> -
+>  void dma_resv_init(struct dma_resv *obj);
 >  void dma_resv_fini(struct dma_resv *obj);
 >  int dma_resv_reserve_shared(struct dma_resv *obj, unsigned int num_fences);
->  void dma_resv_add_shared_fence(struct dma_resv *obj, struct dma_fence *fence);
-> +void dma_resv_replace_fences(struct dma_resv *obj, uint64_t context,
-> +			     struct dma_fence *fence);
->  void dma_resv_add_excl_fence(struct dma_resv *obj, struct dma_fence *fence);
->  int dma_resv_get_fences(struct dma_resv *obj, struct dma_fence **pfence_excl,
->  			unsigned *pshared_count, struct dma_fence ***pshared);
 > -- 
 > 2.25.1
 > 
