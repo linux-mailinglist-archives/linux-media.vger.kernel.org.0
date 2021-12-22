@@ -2,52 +2,52 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9F64947CA4C
-	for <lists+linux-media@lfdr.de>; Wed, 22 Dec 2021 01:35:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3D14347CA4E
+	for <lists+linux-media@lfdr.de>; Wed, 22 Dec 2021 01:35:53 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239600AbhLVAft (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 21 Dec 2021 19:35:49 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44342 "EHLO
+        id S239626AbhLVAfv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 21 Dec 2021 19:35:51 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44350 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239485AbhLVAft (ORCPT
+        with ESMTP id S239557AbhLVAfu (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 21 Dec 2021 19:35:49 -0500
-Received: from mail-wr1-x42e.google.com (mail-wr1-x42e.google.com [IPv6:2a00:1450:4864:20::42e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 20D90C061574
-        for <linux-media@vger.kernel.org>; Tue, 21 Dec 2021 16:35:49 -0800 (PST)
-Received: by mail-wr1-x42e.google.com with SMTP id d9so1430434wrb.0
-        for <linux-media@vger.kernel.org>; Tue, 21 Dec 2021 16:35:49 -0800 (PST)
+        Tue, 21 Dec 2021 19:35:50 -0500
+Received: from mail-wm1-x335.google.com (mail-wm1-x335.google.com [IPv6:2a00:1450:4864:20::335])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 36128C061574
+        for <linux-media@vger.kernel.org>; Tue, 21 Dec 2021 16:35:50 -0800 (PST)
+Received: by mail-wm1-x335.google.com with SMTP id n14-20020a7bcbce000000b00332f4abf43fso1733979wmi.0
+        for <linux-media@vger.kernel.org>; Tue, 21 Dec 2021 16:35:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=aVnKjjfoMlWOYQorgJz5dVMTeV/85OY8LLZz6SkWXLo=;
-        b=yr71G2JKx3ZVmqqySQbjemfvCIKKbVIgMyLMbdnkrNDHq8wY3Ve8fWwgFD/m8XAfEY
-         +uyYzQBBunWsEp1+1jOqJ5rLKmvJtt+caPNqWELsCqkxp2a7DNMJh8/aS90kzVDLvalK
-         1YTfq0LQtxzdbSaWhLfRYLtGmBPkXqrtn7NpDMRmud9v+THzXH8L6Nbm1G1Zo1wCstLE
-         X0/kc96msWhcCXsco+4YXv4v7l/h06xwqW+f05b81ZtJSr1dcE4ZLnZsGVkEzHlYRim+
-         XlTCumTG9MYCaYztp0cQMfifoKJIfYxeUY4C6YCdpICbDswmmaHXIxGBDaRjcZh3L363
-         zvuw==
+        bh=aCn2AUBf+s4jY/6QkYpdOWBiS0aWpq/nnEFl+kmOZ6w=;
+        b=KtYVbbf6yElUHr9DwyQmSWVnWcRdQPhYlopqPNqShRjkTrlIq6XqsPZCWdEvLUxo/C
+         x5W8t7WhiUGtAVNesl7hnO9oLiCiZ7yABZIR7jIhGl3cSg0e6qH95mj1JFhQfYO2GwfB
+         V1o2RLytaQ8dp/KII0m+BXMHGwoPWuQG11UkneSy7sCUzrh//hnQNIoA0i8Vtt1Rg1uD
+         JqtHZnD4SsYqlEmJlCTAPHcicBfRgOOFf3DgowPO0BzDZmwDNpMdIAfkIYzUTvwbdhnv
+         lbKAtyGRek6CSb2jhF03VMlEppV5GccWx85mBkrUwTJPSlyG5HV/SOmsLCnYa2uA7fsP
+         8IqQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=aVnKjjfoMlWOYQorgJz5dVMTeV/85OY8LLZz6SkWXLo=;
-        b=PbxAtTab+WMwVOk/w7Y2e/W7uSgeNC7hxdn5/cfYFNd+Ycf40hmRLDMH7cPMSMl+vb
-         kJDB+8FSv1wdwAvhk3XBKRSWD/WlJ5Lek1AKFBXy14L41IrJWQ2jFLNJs/KOH169rZc/
-         4ZSjkzeGC06OsWs8G+VcqnYPWNSCIT/g8BdFC3tkVjbHV4Hv6R3seOBhY0L768gf0NpW
-         /TCZND/oMNjP2kBDZzBx4RrlByHRsIDZ4QrMXgQCpG+IMTzZij4lCGNgHF7ltgkQ3eY8
-         rDC6oTWDc35u9x6XhoWc4nLzNeJM9XJCne146rXQNNolw0FnILvzNbRgpNS1tdV12qdu
-         Qz8Q==
-X-Gm-Message-State: AOAM532DZKObRtVwwdEfr0gvbGPRL0f/1WoL1vQibfBp7+TwiWPlLyIg
-        D/XY/7GO72q374XTt1TEnMGvzQ==
-X-Google-Smtp-Source: ABdhPJxCkJKPNyUP5zGNfZgGF/ZFQsdsuhOsIUW37s5n+JTSnni/B6DaGwswSq6ujDp2ccO7gYz5ZQ==
-X-Received: by 2002:a5d:6d05:: with SMTP id e5mr407022wrq.46.1640133347679;
-        Tue, 21 Dec 2021 16:35:47 -0800 (PST)
+        bh=aCn2AUBf+s4jY/6QkYpdOWBiS0aWpq/nnEFl+kmOZ6w=;
+        b=LgjgyHTr82dEZGtyiKkHVUDRiS1sObdn+BFTsKZA0B2unfdgghAD10Lyb7vigGEMiA
+         9sQiMsmm0eYcjzhZDbAJwjZcoU02b8kFr8RnUcQy1/SIN/d1JWtIHXOUQACgte+KddpS
+         Xms0Z/BFWS8vOF4Gw6djqFQ8KZ8PqdDKxv2vuk2NYngGWS9kcj80p3Il2iUFO1coIGBF
+         OwzeYP1TGhcVZE8pYlBq8ste8N1BdKjru51T8oHP5T0vMcadDFIn3zb1Vf8coDEJ3UWS
+         dmWnaDZ9gXRtzNEU325VydWKwZ1E8heDaVpWSqjtl+jgiUyMWqXZelJGjn7JAbodIv7y
+         +6GA==
+X-Gm-Message-State: AOAM533M8AI0m+wC4sNKCURAbEwnpKnzlpCPAKeYeVZV3dumpXRsSr6y
+        sSBv4+PZ7i3AFnnTPf3/ci6B1g==
+X-Google-Smtp-Source: ABdhPJxZhxI+jcdPrQ2s8dolyyTSY1KfK1+qE2zjnz63UM6BC8Wx0DyqGh62jCT/08VHfwdi5KafnA==
+X-Received: by 2002:a1c:1bd8:: with SMTP id b207mr632991wmb.114.1640133348857;
+        Tue, 21 Dec 2021 16:35:48 -0800 (PST)
 Received: from sagittarius-a.chello.ie (188-141-3-169.dynamic.upc.ie. [188.141.3.169])
-        by smtp.gmail.com with ESMTPSA id n7sm282825wms.45.2021.12.21.16.35.46
+        by smtp.gmail.com with ESMTPSA id n7sm282825wms.45.2021.12.21.16.35.47
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 21 Dec 2021 16:35:47 -0800 (PST)
+        Tue, 21 Dec 2021 16:35:48 -0800 (PST)
 From:   Bryan O'Donoghue <bryan.odonoghue@linaro.org>
 To:     linux-arm-msm@vger.kernel.org, linux-media@vger.kernel.org,
         mchehab@kernel.org, hverkuil@xs4all.nl, robert.foss@linaro.org
@@ -55,9 +55,9 @@ Cc:     jonathan@marek.ca, andrey.konovalov@linaro.org,
         todor.too@gmail.com, agross@kernel.org, bjorn.andersson@linaro.org,
         jgrahsl@snap.com, hfink@snap.com, vladimir.zapolskiy@linaro.org,
         dmitry.baryshkov@linaro.org, bryan.odonoghue@linaro.org
-Subject: [PATCH v3 02/19] media: camss: csiphy-3ph: don't print HW version as an error
-Date:   Wed, 22 Dec 2021 00:37:34 +0000
-Message-Id: <20211222003751.2461466-3-bryan.odonoghue@linaro.org>
+Subject: [PATCH v3 03/19] media: camss: csiphy-3ph: disable interrupts
+Date:   Wed, 22 Dec 2021 00:37:35 +0000
+Message-Id: <20211222003751.2461466-4-bryan.odonoghue@linaro.org>
 X-Mailer: git-send-email 2.33.0
 In-Reply-To: <20211222003751.2461466-1-bryan.odonoghue@linaro.org>
 References: <20211222003751.2461466-1-bryan.odonoghue@linaro.org>
@@ -69,8 +69,8 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 From: Jonathan Marek <jonathan@marek.ca>
 
-Avoid unnecessary noise in normal usage (it prints every time CSIPHY is
-powered on).
+The driver does nothing with the interrupts, so set the irq mask registers
+to zero to avoid wasting CPU time for nothing.
 
 Signed-off-by: Jonathan Marek <jonathan@marek.ca>
 Reviewed-by: Robert Foss <robert.foss@linaro.org>
@@ -78,22 +78,55 @@ Tested-by: Julian Grahsl <jgrahsl@snap.com>
 Tested-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
 Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
 ---
- drivers/media/platform/qcom/camss/camss-csiphy-3ph-1-0.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ .../qcom/camss/camss-csiphy-3ph-1-0.c         | 35 ++-----------------
+ 1 file changed, 3 insertions(+), 32 deletions(-)
 
 diff --git a/drivers/media/platform/qcom/camss/camss-csiphy-3ph-1-0.c b/drivers/media/platform/qcom/camss/camss-csiphy-3ph-1-0.c
-index e318c822ab04c..5948abdcd2206 100644
+index 5948abdcd2206..783b65295d20b 100644
 --- a/drivers/media/platform/qcom/camss/camss-csiphy-3ph-1-0.c
 +++ b/drivers/media/platform/qcom/camss/camss-csiphy-3ph-1-0.c
-@@ -163,7 +163,7 @@ static void csiphy_hw_version_read(struct csiphy_device *csiphy,
- 	hw_version |= readl_relaxed(csiphy->base +
- 				   CSIPHY_3PH_CMN_CSI_COMMON_STATUSn(15)) << 24;
+@@ -352,38 +352,9 @@ static void csiphy_lanes_enable(struct csiphy_device *csiphy,
+ 	else if (csiphy->camss->version == CAMSS_845)
+ 		csiphy_gen2_config_lanes(csiphy, settle_cnt);
  
--	dev_err(dev, "CSIPHY 3PH HW Version = 0x%08x\n", hw_version);
-+	dev_dbg(dev, "CSIPHY 3PH HW Version = 0x%08x\n", hw_version);
+-	val = 0xff;
+-	writel_relaxed(val, csiphy->base + CSIPHY_3PH_CMN_CSI_COMMON_CTRLn(11));
+-
+-	val = 0xff;
+-	writel_relaxed(val, csiphy->base + CSIPHY_3PH_CMN_CSI_COMMON_CTRLn(12));
+-
+-	val = 0xfb;
+-	writel_relaxed(val, csiphy->base + CSIPHY_3PH_CMN_CSI_COMMON_CTRLn(13));
+-
+-	val = 0xff;
+-	writel_relaxed(val, csiphy->base + CSIPHY_3PH_CMN_CSI_COMMON_CTRLn(14));
+-
+-	val = 0x7f;
+-	writel_relaxed(val, csiphy->base + CSIPHY_3PH_CMN_CSI_COMMON_CTRLn(15));
+-
+-	val = 0xff;
+-	writel_relaxed(val, csiphy->base + CSIPHY_3PH_CMN_CSI_COMMON_CTRLn(16));
+-
+-	val = 0xff;
+-	writel_relaxed(val, csiphy->base + CSIPHY_3PH_CMN_CSI_COMMON_CTRLn(17));
+-
+-	val = 0xef;
+-	writel_relaxed(val, csiphy->base + CSIPHY_3PH_CMN_CSI_COMMON_CTRLn(18));
+-
+-	val = 0xff;
+-	writel_relaxed(val, csiphy->base + CSIPHY_3PH_CMN_CSI_COMMON_CTRLn(19));
+-
+-	val = 0xff;
+-	writel_relaxed(val, csiphy->base + CSIPHY_3PH_CMN_CSI_COMMON_CTRLn(20));
+-
+-	val = 0xff;
+-	writel_relaxed(val, csiphy->base + CSIPHY_3PH_CMN_CSI_COMMON_CTRLn(21));
++	/* IRQ_MASK registers - disable all interrupts */
++	for (i = 11; i < 22; i++)
++		writel_relaxed(0, csiphy->base + CSIPHY_3PH_CMN_CSI_COMMON_CTRLn(i));
  }
  
- /*
+ static void csiphy_lanes_disable(struct csiphy_device *csiphy,
 -- 
 2.33.0
 
