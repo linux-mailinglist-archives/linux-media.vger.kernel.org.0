@@ -2,388 +2,184 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 526B447CEFA
-	for <lists+linux-media@lfdr.de>; Wed, 22 Dec 2021 10:17:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DD7B747CF42
+	for <lists+linux-media@lfdr.de>; Wed, 22 Dec 2021 10:31:10 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243833AbhLVJR2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 22 Dec 2021 04:17:28 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47470 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243827AbhLVJR0 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Wed, 22 Dec 2021 04:17:26 -0500
-Received: from mail-yb1-xb30.google.com (mail-yb1-xb30.google.com [IPv6:2607:f8b0:4864:20::b30])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F2442C061574;
-        Wed, 22 Dec 2021 01:17:25 -0800 (PST)
-Received: by mail-yb1-xb30.google.com with SMTP id y68so4802940ybe.1;
-        Wed, 22 Dec 2021 01:17:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=s7u4eqnJsEEr9EvH93DeWfQDx3AvMJFDo66OtlSTfoA=;
-        b=KB2ICITcRqgTlzBuJ1Q9vHFskm454LnHCvnRzQYDe1i923obK7XmMQI5kZAnO822VS
-         /6hc9cX5fWBT3qFNq6hNgwm4MbdzsmPNWBPA0vvSMg4IqRLHmQ8HlJ+B5jAVF7plMqXQ
-         LYFd1rl/5vi3k2gHnu3OoOiH4n2K90U+ResC6+VIHH78oiZluw84lixq+BsppkYiMyZn
-         +yF/Z+F73Uz4v8Cy47MBcT/4OyN+dlzrua5jOzxOl3iCp5Xy2HTk3egjpq/6BtINcwSC
-         ygtseyDErMp8FpsDCzAuTlmj3EBcotRPmqw+F77fFWQ8cMaYZ9fSYkmayU4LhY01rgZ9
-         AZRw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=s7u4eqnJsEEr9EvH93DeWfQDx3AvMJFDo66OtlSTfoA=;
-        b=Djv6buKFQzcLE1hpdi4EEOtbxiLTsLumOaTCgrO8k44flb7HK+sofe4OlbuaGKaUYU
-         yyfELn/akeEd6XHqez4IeSLvA9igspkIOnbBaT8EwHvhmYGOcogXnItHU4AVd3Gx1V3Z
-         ksJc+B69qs6S+8LgobS+B69uzAVIlNiwSb4e50ay0bRUfArMcXMtAYQsU1dA28bVn8w5
-         tQfu0TjO4FqYGZjEGdjYUFeUByR9WRdSdsE9HqQCQd9Ykef6VFNkXZrpGaD3tmtNJW9W
-         6ymKbKAnG+EOj54kirWi2VzQLfblNLvUD+hNGlnX15PKM9zNv8/ziSFUzDygjiVok3YZ
-         2c6g==
-X-Gm-Message-State: AOAM533jx1Y+IlkhY+abMcVmkWt/X6Sqo7F2IkB49XeTaFYrnXnpm4hA
-        JRPXp6LMd7YID3LU8eKS/kcWMf7Vu5QHX+sr8cG/Ij6Uaix9PA==
-X-Google-Smtp-Source: ABdhPJxbR1UVqoWLclbsrkCaVSzA6zi1SiEBcXYK3pNkMTlAxG0GzZZqQrIsQ4KwqHr3A8Ev+XV14x6TuTT1cw7qB7g=
-X-Received: by 2002:a25:4213:: with SMTP id p19mr2968537yba.41.1640164645164;
- Wed, 22 Dec 2021 01:17:25 -0800 (PST)
-MIME-Version: 1.0
-References: <20211207012351.15754-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20211207012351.15754-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <YbfQIPS270So+jUh@robh.at.kernel.org> <CA+V-a8tHL-DwNz3USQwh5NieTRvPhUAjZV-GqFsK67fgU+kF_w@mail.gmail.com>
- <YcGUmvq32fUXOMTo@pendragon.ideasonboard.com>
-In-Reply-To: <YcGUmvq32fUXOMTo@pendragon.ideasonboard.com>
-From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date:   Wed, 22 Dec 2021 09:16:59 +0000
-Message-ID: <CA+V-a8v9UnBBpoB7RneCQE+pf1ytWw6pyXHoH-n_J+2ry6yiQw@mail.gmail.com>
-Subject: Re: [RFC PATCH 1/3] media: dt-bindings: media: Document RZ/G2L CRU block
+        id S243929AbhLVJbK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 22 Dec 2021 04:31:10 -0500
+Received: from mga14.intel.com ([192.55.52.115]:60298 "EHLO mga14.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S231653AbhLVJbJ (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 22 Dec 2021 04:31:09 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1640165469; x=1671701469;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=rQ/Cai9x0R34onPyQIivWXgGskbH+Wuk+cpaqorNtU4=;
+  b=QcKN9ueXhVRDgwn0/T73PoxNqUpRMOPhLx+DvjdVdcCziyhTI3r4IERc
+   nx9zMsaD9hgcLPSyeli2esbspxeRzrh4KhFQ02zhs2uxP2rflYOXPWGjw
+   YVq+SvXA+sapIxePTdWGpuIeP0ANpdDECahrQZPdKtSJhJfhuOYYlp8Y7
+   Ymb4AaGGZctSKrbLXU9vAXFNy1OLGFJxHrRojfYgGHrAbBWruIFtYitZ5
+   TDOiG//WOYSzSHqqc/i9kJvs+gdowMboLiRY2t4RjVqHDPkcMkU1qMNn4
+   mSvNB6Bqyw3m++DShh0+O8WCAwIBkHHx12sBlvSyssj0Ue/0kNm71bDZE
+   w==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10205"; a="240809227"
+X-IronPort-AV: E=Sophos;i="5.88,226,1635231600"; 
+   d="scan'208";a="240809227"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Dec 2021 01:31:09 -0800
+X-IronPort-AV: E=Sophos;i="5.88,226,1635231600"; 
+   d="scan'208";a="664223439"
+Received: from paasikivi.fi.intel.com ([10.237.72.42])
+  by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Dec 2021 01:31:08 -0800
+Received: from paasikivi.fi.intel.com (localhost [127.0.0.1])
+        by paasikivi.fi.intel.com (Postfix) with SMTP id 42B72201AA;
+        Wed, 22 Dec 2021 11:31:06 +0200 (EET)
+Date:   Wed, 22 Dec 2021 11:31:06 +0200
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
 To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Rob Herring <robh@kernel.org>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        =?UTF-8?Q?Niklas_S=C3=B6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        linux-media <linux-media@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>, LKML <linux-kernel@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Biju Das <biju.das.jz@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
+Cc:     linux-media@vger.kernel.org,
+        Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+Subject: Re: [PATCH v2 2/2] media: i2c: IMX296 camera sensor driver
+Message-ID: <YcLwWiBL2fU8Zwui@paasikivi.fi.intel.com>
+References: <20211219220948.28953-1-laurent.pinchart@ideasonboard.com>
+ <20211219220948.28953-3-laurent.pinchart@ideasonboard.com>
+ <YcHOmEVxvcDwx+M4@paasikivi.fi.intel.com>
+ <YcH5RufWI398s232@pendragon.ideasonboard.com>
+ <YcJYBKB+Z4XYANgi@paasikivi.fi.intel.com>
+ <YcJa53KRgdcEVX2/@pendragon.ideasonboard.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YcJa53KRgdcEVX2/@pendragon.ideasonboard.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
 Hi Laurent,
 
-Thank you for the review.
+On Wed, Dec 22, 2021 at 12:53:27AM +0200, Laurent Pinchart wrote:
+> Hi Sakari,
+> 
+> On Wed, Dec 22, 2021 at 12:41:08AM +0200, Sakari Ailus wrote:
+> > On Tue, Dec 21, 2021 at 05:56:54PM +0200, Laurent Pinchart wrote:
+> > 
+> > ,,,
+> > 
+> > > > > +static int imx296_ctrls_init(struct imx296 *sensor)
+> > > > > +{
+> > > > > +	struct v4l2_fwnode_device_properties props;
+> > > > > +	unsigned int hblank;
+> > > > > +	int ret;
+> > > > > +
+> > > > > +	ret = v4l2_fwnode_device_parse(sensor->dev, &props);
+> > > > > +	if (ret < 0)
+> > > > > +		return ret;
+> > > > > +
+> > > > > +	v4l2_ctrl_handler_init(&sensor->ctrls, 9);
+> > > > > +
+> > > > > +	v4l2_ctrl_new_std(&sensor->ctrls, &imx296_ctrl_ops,
+> > > > > +			  V4L2_CID_EXPOSURE, 1, 1048575, 1, 1104);
+> > > > > +	v4l2_ctrl_new_std(&sensor->ctrls, &imx296_ctrl_ops,
+> > > > > +			  V4L2_CID_ANALOGUE_GAIN, IMX296_GAIN_MIN,
+> > > > > +			  IMX296_GAIN_MAX, 1, IMX296_GAIN_MIN);
+> > > > > +
+> > > > > +	/*
+> > > > > +	 * Horizontal blanking is controlled through the HMAX register, which
+> > > > > +	 * contains a line length in INCK clock units. The INCK frequency is
+> > > > > +	 * fixed to 74.25 MHz. The HMAX value is currently fixed to 1100,
+> > > > 
+> > > > It seems the driver supports other values, too. Shouldn't this be the
+> > > > actual frequency?
+> > > 
+> > > That's not clear to me from the documentation I have access to :-( It's
+> > > quite convoluted, there are a few examples from which I tried to infer
+> > > what was going on, but no clear explanation. My board uses a fixed clock
+> > > frequency of 37.125MHz so I can't test other values.
+> > > 
+> > > Can we start with this and update it later if we can figure out more
+> > > (assuming there's an issue, it may actually be correct already) ?
+> > 
+> > Sounds reasonable. I was just wondering.
+> > 
+> > > > > +	 * convert it to a number of pixels based on the nominal pixel rate.
+> > > > > +	 */
+> > > > > +	hblank = 1100 * 1188000000ULL / 10 / 74250000
+> > > > > +	       - IMX296_PIXEL_ARRAY_WIDTH;
+> > > > > +	sensor->hblank = v4l2_ctrl_new_std(&sensor->ctrls, &imx296_ctrl_ops,
+> > > > > +					   V4L2_CID_HBLANK, hblank, hblank, 1,
+> > > > > +					   hblank);
+> > > > > +	if (sensor->hblank)
+> > > > > +		sensor->hblank->flags |= V4L2_CTRL_FLAG_READ_ONLY;
+> > > > > +
+> > > > > +	sensor->vblank = v4l2_ctrl_new_std(&sensor->ctrls, &imx296_ctrl_ops,
+> > > > > +					   V4L2_CID_VBLANK, 30,
+> > > > > +					   1048575 - IMX296_PIXEL_ARRAY_HEIGHT,
+> > > > > +					   1, 30);
+> > > > > +	/*
+> > > > > +	 * The sensor calculates the MIPI timings internally to achieve a bit
+> > > > > +	 * rate between 1122 and 1198 Mbps. The exact value is unfortunately not
+> > > > > +	 * reported, at least according to the documentation. Report a nominal
+> > > > > +	 * rate of 1188 Mbps as that is used by the datasheet in multiple
+> > > > > +	 * examples.
+> > > > > +	 */
+> > > > > +	v4l2_ctrl_new_std(&sensor->ctrls, NULL, V4L2_CID_PIXEL_RATE,
+> > > > > +			  1122000000 / 10, 1198000000 / 10, 1, 1188000000 / 10);
+> > > > 
+> > > > What about the link frequency?
+> > > > 
+> > > > Is this value constant for the sensor? Or should there be a list of
+> > > > hardware supported link frequencies?
+> > > 
+> > > It seems to be constant, but again the documentation is fairly unclear.
+> > 
+> > Ack.
+> > 
+> > ...
+> > 
+> > > > > +static int __maybe_unused imx296_runtime_resume(struct device *dev)
+> > > > > +{
+> > > > > +	struct i2c_client *client = to_i2c_client(dev);
+> > > > > +	struct v4l2_subdev *subdev = i2c_get_clientdata(client);
+> > > > > +	struct imx296 *sensor = to_imx296(subdev);
+> > > > > +
+> > > > > +	return imx296_power_on(sensor);
+> > > > > +}
+> > > > > +
+> > > > > +static int __maybe_unused imx296_runtime_suspend(struct device *dev)
+> > > > > +{
+> > > > > +	struct i2c_client *client = to_i2c_client(dev);
+> > > > > +	struct v4l2_subdev *subdev = i2c_get_clientdata(client);
+> > > > > +	struct imx296 *sensor = to_imx296(subdev);
+> > > > > +
+> > > > > +	imx296_power_off(sensor);
+> > > > > +
+> > > > > +	return 0;
+> > > > 
+> > > > I'd merge these two with imx296_power_o{n,ff}.
+> > > 
+> > > That would require calling imx296_runtime_resume() and
+> > > imx296_runtime_suspend() in probe() and remove(), which I don't really
+> > > like. I'd prefer keeping the functions separate.
+> > 
+> > You could keep calling the functions imx296_power_o{n,ff}. There's really
+> > no need for two pairs of functions doing the same things.
+> 
+> imx296_power_on() is called in probe() before the subdev is initialized,
+> so the i2c_get_clientdata() call in imx296_runtime_resume() would fail.
+> It may be possible to refactor the probe() function to fix this, but I
+> think that explicit power on/off calls in probe() are clearer than
+> calling the pm runtime resume and suspend handlers.
 
-On Tue, Dec 21, 2021 at 8:47 AM Laurent Pinchart
-<laurent.pinchart@ideasonboard.com> wrote:
->
-> Hi Prabhakar,
->
-> Thank you for the patch.
->
-> On Tue, Dec 14, 2021 at 12:07:14PM +0000, Lad, Prabhakar wrote:
-> > On Mon, Dec 13, 2021 at 10:58 PM Rob Herring wrote:
-> > > On Tue, Dec 07, 2021 at 01:23:49AM +0000, Lad Prabhakar wrote:
-> > > > Document the CRU block found on Renesas RZ/G2L SoC's.
-> > > >
-> > > > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > > > ---
-> > > >  .../bindings/media/renesas,rzg2l-cru.yaml     | 227 ++++++++++++++++++
-> > > >  1 file changed, 227 insertions(+)
-> > > >  create mode 100644 Documentation/devicetree/bindings/media/renesas,rzg2l-cru.yaml
-> > > >
-> > > > diff --git a/Documentation/devicetree/bindings/media/renesas,rzg2l-cru.yaml b/Documentation/devicetree/bindings/media/renesas,rzg2l-cru.yaml
-> > > > new file mode 100644
-> > > > index 000000000000..7b2835810516
-> > > > --- /dev/null
-> > > > +++ b/Documentation/devicetree/bindings/media/renesas,rzg2l-cru.yaml
-> > > > @@ -0,0 +1,227 @@
-> > > > +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-> > > > +# Copyright (C) 2021 Renesas Electronics Corp.
-> > > > +%YAML 1.2
-> > > > +---
-> > > > +$id: http://devicetree.org/schemas/media/renesas,rzg2l-cru.yaml#
-> > > > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > > > +
-> > > > +title: Renesas RZ/G2L Camera Data Receiving Unit (CRU)
-> > > > +
-> > > > +maintainers:
-> > > > +  - Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > > > +
-> > > > +description:
-> > > > +  The RZ/G2L Camera Data Receiving Unit (CRU) device provides video input
-> > > > +  capabilities for the Renesas RZ/G2L family of devices.
-> > > > +
-> > > > +  Depending on the instance the Image Processing input is connected to
-> > > > +  external SoC pins or to a CSI-2 receiver.
-> > > > +
-> > > > +properties:
-> > > > +  compatible:
-> > > > +    oneOf:
-> > > > +      - items:
-> > >
-> > > Don't need oneOf with only 1 entry.
-> >
-> > I added this as there will be couple of more SoC's using this driver.
->
-> Will that be SoCs not compatible tieh the rzg2l-cru compatible string ?
->
-Soc will be compatible with  rzg2l-cru but we will be adding SoC
-specific string and then fallback to "renesas,rzg2l-cru" likewise done
-for "renesas,r9a07g044-cru"
+They're doing exactly the same things, powering the device on and off. The
+fact that it's used as a runtime PM callback as well as called directly
+doesn't change its nature.
 
-> If so oneOf may be needed, but you can also add it later.
->
-Ive already added oneOf.
+Most other drivers do it this way actually. What it'd take is a call to
+v4l2_i2c_subdev_init() before powering the sensor on.
 
-> > > > +          - enum:
-> > > > +              - renesas,r9a07g044-cru     # RZ/G2{L,LC}
-> > > > +          - const: renesas,rzg2l-cru
-> > > > +
-> > > > +  reg:
-> > > > +    maxItems: 1
-> > > > +
-> > > > +  interrupts:
-> > > > +    maxItems: 4
-> > > > +
-> > > > +  interrupt-names:
-> > > > +    items:
-> > > > +      - const: csi2_link_int
->
-> I'm not thrilled by this. It looks like the CSI-2 receiver and the image
-> processing block are separate IP cores. Can we model them as separate DT
-> nodes ? I expect the CSI-2 receiver to possibly be reused in other SoCs
-> with a different integration.
->
-The main reason for doing so is the registers for CSI are in same
-block as CRU and the clock for register access is single. I'll have to
-make the clock as shared and then can split this into a separate node.
+-- 
+Kind regards,
 
-> > > > +      - const: image_conv_int
-> > > > +      - const: image_conv_err_int
-> > > > +      - const: axi_mst_err_int
-> > >
-> > > _int is redundant.
-> >
-> > Agreed will drop "_int".
-> >
-> > > > +
-> > > > +  clocks:
-> > > > +    items:
-> > > > +      - description: Internal clock for connecting CRU and MIPI
-> > > > +      - description: CRU Main clock
-> > > > +      - description: CPU Register access clock
-> > > > +      - description: CRU image transfer clock
-> > > > +
-> > > > +  clock-names:
-> > > > +    items:
-> > > > +      - const: sysclk
-> > > > +      - const: vclk
-> > > > +      - const: pclk
-> > > > +      - const: aclk
-> > > > +
-> > > > +  power-domains:
-> > > > +    maxItems: 1
-> > > > +
-> > > > +  resets:
-> > > > +    items:
-> > > > +      - description: CRU_CMN_RSTB reset terminal
-> > > > +      - description: CRU_PRESETN reset terminal
-> > > > +      - description: CRU_ARESETN reset terminal
-> > > > +
-> > > > +  reset-names:
-> > > > +    items:
-> > > > +      - const: cmn-rstb
-> > > > +      - const: presetn
-> > > > +      - const: aresetn
-> > > > +
-> > > > +  ports:
-> > > > +    $ref: /schemas/graph.yaml#/properties/ports
-> > > > +
-> > > > +    properties:
-> > > > +      port@0:
-> > > > +        $ref: /schemas/graph.yaml#/$defs/port-base
-> > > > +        unevaluatedProperties: false
-> > > > +        description:
-> > > > +          Input port node, single endpoint describing a parallel input source.
-> > > > +
-> > > > +        properties:
-> > > > +          endpoint:
-> > > > +            $ref: video-interfaces.yaml#
-> > > > +            unevaluatedProperties: false
-> > > > +
-> > > > +            properties:
-> > > > +              hsync-active: true
-> > > > +
-> > > > +              vsync-active: true
-> > > > +
-> > > > +              bus-width: true
-> > > > +
-> > > > +              data-shift: true
->
-> No need for a blank line between all properties.
->
-OK.
-
-> > > > +
-> > > > +      port@1:
-> > > > +        $ref: /schemas/graph.yaml#/$defs/port-base
-> > > > +        unevaluatedProperties: false
-> > > > +        description:
-> > > > +          Input port node, single endpoint describing the CSI-2 transmitter.
-> > > > +
-> > > > +        properties:
-> > > > +          endpoint:
-> > > > +            $ref: video-interfaces.yaml#
-> > > > +            unevaluatedProperties: false
-> > > > +
-> > > > +            properties:
-> > > > +              clock-lanes:
-> > > > +                maxItems: 1
->
-> If lane reordering isn't supported, you could omit this.
->
-OK will drop it.
-
-> > > > +
-> > > > +              data-lanes:
-> > > > +                maxItems: 1
->
-> Doesn't the CSI-2 receiver support more than one lane ?
->
-my bad it should be enum with [1, 2, 4].
-
-Cheers,
-Prabhakar
-> > > > +
-> > > > +            required:
-> > > > +              - clock-lanes
-> > > > +              - data-lanes
-> > > > +
-> > > > +      port@2:
-> > > > +        $ref: /schemas/graph.yaml#/properties/port
-> > > > +        description:
-> > > > +          Output port node, describing the RZ/G2L Image Processing module
-> > > > +          connected the CSI-2 receiver
-> > > > +
-> > > > +        properties:
-> > > > +          endpoint@0:
-> > >
-> > > Unless you have mutiple endpoints to define or endpoint properties to
-> > > add, you don't need to specify anything more than the port.
-> >
-> > Agreed will drop it.
-> >
-> > > > +            $ref: /schemas/graph.yaml#/properties/endpoint
-> > > > +            description: Endpoint connected to CSI2.
-> > > > +
-> > > > +        anyOf:
-> > > > +          - required:
-> > > > +              - endpoint@0
-> > > > +
-> > > > +      port@3:
-> > > > +        $ref: /schemas/graph.yaml#/properties/port
-> > > > +        description:
-> > > > +          Input port node, describing the RZ/G2L CSI-2 module connected the
-> > > > +          Image Processing block.
-> > > > +
-> > > > +        properties:
-> > > > +          endpoint@0:
-> > > > +            $ref: /schemas/graph.yaml#/properties/endpoint
-> > > > +            description: Endpoint connected to CSI2.
-> > > > +
-> > > > +        anyOf:
-> > > > +          - required:
-> > > > +              - endpoint@0
-> > > > +
-> > > > +required:
-> > > > +  - compatible
-> > > > +  - reg
-> > > > +  - interrupts
-> > > > +  - interrupt-names
-> > > > +  - clocks
-> > > > +  - clock-names
-> > > > +  - resets
-> > > > +  - reset-names
-> > > > +  - power-domains
-> > > > +
-> > > > +additionalProperties: false
-> > > > +
-> > > > +examples:
-> > > > +  # Device node example with CSI-2
-> > > > +  - |
-> > > > +    #include <dt-bindings/clock/r9a07g044-cpg.h>
-> > > > +    #include <dt-bindings/interrupt-controller/arm-gic.h>
-> > > > +
-> > > > +    cru: video@10830000 {
-> > > > +            compatible = "renesas,r9a07g044-cru", "renesas,rzg2l-cru";
-> > > > +            reg = <0x10830000 0x10000>;
-> > > > +            interrupts = <GIC_SPI 166 IRQ_TYPE_LEVEL_HIGH>,
-> > > > +                         <GIC_SPI 167 IRQ_TYPE_LEVEL_HIGH>,
-> > > > +                         <GIC_SPI 168 IRQ_TYPE_LEVEL_HIGH>,
-> > > > +                         <GIC_SPI 169 IRQ_TYPE_LEVEL_HIGH>;
-> > > > +            interrupt-names = "csi2_link_int", "image_conv_int",
-> > > > +                              "image_conv_err_int", "axi_mst_err_int";
-> > > > +            clocks = <&cpg CPG_MOD R9A07G044_CRU_SYSCLK>,
-> > > > +                     <&cpg CPG_MOD R9A07G044_CRU_VCLK>,
-> > > > +                     <&cpg CPG_MOD R9A07G044_CRU_PCLK>,
-> > > > +                     <&cpg CPG_MOD R9A07G044_CRU_ACLK>;
-> > > > +            clock-names = "sysclk", "vclk", "pclk", "aclk";
-> > > > +            power-domains = <&cpg>;
-> > > > +            resets = <&cpg R9A07G044_CRU_CMN_RSTB>,
-> > > > +                     <&cpg R9A07G044_CRU_PRESETN>,
-> > > > +                     <&cpg R9A07G044_CRU_ARESETN>;
-> > > > +            reset-names = "cmn-rstb", "presetn", "aresetn";
-> > > > +
-> > > > +            ports {
-> > > > +                    #address-cells = <1>;
-> > > > +                    #size-cells = <0>;
-> > > > +
-> > > > +                    port@1 {
-> > > > +                            #address-cells = <1>;
-> > > > +                            #size-cells = <0>;
-> > > > +
-> > > > +                            reg = <1>;
-> > > > +
-> > > > +                            csi2_in: endpoint@0 {
-> > > > +                                    reg = <0>;
-> > > > +                                    clock-lanes = <0>;
-> > > > +                                    data-lanes = <1 2>;
-> > > > +                                    remote-endpoint = <&ov5645_ep>;
-> > > > +                            };
-> > > > +                    };
-> > > > +
-> > > > +                    port@2 {
-> > > > +                            #address-cells = <1>;
-> > > > +                            #size-cells = <0>;
-> > > > +
-> > > > +                            reg = <2>;
-> > > > +
-> > > > +                            csi2cru: endpoint@0 {
-> > > > +                                    reg = <0>;
-> > > > +                                    remote-endpoint= <&crucsi2>;
-> > > > +                            };
-> > > > +                    };
-> > > > +
-> > > > +                    port@3 {
-> > > > +                            #address-cells = <1>;
-> > > > +                            #size-cells = <0>;
-> > > > +
-> > > > +                            reg = <3>;
-> > > > +
-> > > > +                            crucsi2: endpoint@0 {
-> > > > +                                    reg = <0>;
-> > > > +                                    remote-endpoint= <&csi2cru>;
-> > > > +                            };
-> > > > +                    };
-> > > > +            };
-> > > > +    };
->
-> --
-> Regards,
->
-> Laurent Pinchart
+Sakari Ailus
