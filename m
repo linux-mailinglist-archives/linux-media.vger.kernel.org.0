@@ -2,141 +2,141 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3BAB847D8E4
-	for <lists+linux-media@lfdr.de>; Wed, 22 Dec 2021 22:39:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4A13C47D8E8
+	for <lists+linux-media@lfdr.de>; Wed, 22 Dec 2021 22:43:34 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237255AbhLVVjp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 22 Dec 2021 16:39:45 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46426 "EHLO
+        id S232199AbhLVVnd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 22 Dec 2021 16:43:33 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47252 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236922AbhLVVjo (ORCPT
+        with ESMTP id S229656AbhLVVnd (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 22 Dec 2021 16:39:44 -0500
-Received: from mail-ed1-x52e.google.com (mail-ed1-x52e.google.com [IPv6:2a00:1450:4864:20::52e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 37149C061574
-        for <linux-media@vger.kernel.org>; Wed, 22 Dec 2021 13:39:44 -0800 (PST)
-Received: by mail-ed1-x52e.google.com with SMTP id j21so13657220edt.9
-        for <linux-media@vger.kernel.org>; Wed, 22 Dec 2021 13:39:44 -0800 (PST)
+        Wed, 22 Dec 2021 16:43:33 -0500
+Received: from mail-ed1-x52f.google.com (mail-ed1-x52f.google.com [IPv6:2a00:1450:4864:20::52f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DA50FC061574
+        for <linux-media@vger.kernel.org>; Wed, 22 Dec 2021 13:43:32 -0800 (PST)
+Received: by mail-ed1-x52f.google.com with SMTP id f5so13706463edq.6
+        for <linux-media@vger.kernel.org>; Wed, 22 Dec 2021 13:43:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=ffwll.ch; s=google;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=nw1vcdiLVYMep5XJh+Ei6gNWSN3eFbVTKO+rs9QcGRo=;
-        b=RxRjpCs+LV+PD3aTUZt8LIeQUugNN6d6TrlDTQGiX1TeQis+RnQFMDgGERl39W/0wC
-         VzOSPAgwgluxZfP/Pj920xnY9SYsf0yvGZ8Ohoq9CkK97Vgw8MD1tXbAn2fUWNbxk9G3
-         tNm7PkPIhHmJAemuv1m9wk9KhyuEAWzfQIQr4=
+        bh=rGFC189p0/EoAKk+SmDLGFHPVcyFlSei8zEewkFJCeM=;
+        b=Ji3RtVGcSaXXziXVZvdyWjy5OJnrLNDeKC0x5OT9/UGktaxejOUmlXezGaOy4t4wOV
+         9q8q6zw5UVHab8o7RzaGML1+u0p76ecrdjvF35UDmPrd1O4IR3yeAqeqF4GMnQq/uLdo
+         fmWTSdnwOKFNHbgIXtF3vjRpFEgSvZNVz0DTA=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:content-transfer-encoding
          :in-reply-to;
-        bh=nw1vcdiLVYMep5XJh+Ei6gNWSN3eFbVTKO+rs9QcGRo=;
-        b=IAw9K7j3500jqF3Dd7mQq8R4zBlC7bQFI+GulpMmLtfDw5tG14hwYoG9zeMZM44uZ4
-         cKSPcfKu96mBwaJE1Rpk6d0tASjU8ix7HZVZZj4iSlebW1MZQDNgrOG5EhILMsyUkaIo
-         WFmFuCLBR5tXRbD579JaU5hB63KzobAhcsRik0KOsKJkG5GGDEkqSda/HdSJz/Sov/NG
-         +3Wrc9JLlT1BPnN6uMfdYcE2zfIyZwpoQl/NX3V9BwBYVp6UVE41by5cXzGwnrbeWEyL
-         HKnMzf9xxvaPw7AHo+tXRpJ7eItbWjGnxTreoCTMk1uYvtNpSNOBkeyjwHJh8bevwNKQ
-         7iyQ==
-X-Gm-Message-State: AOAM5318Kfo+WdM1hcVbGI8zh4aP3MUl44XRncmAGU0zjQTwHNL3HeSF
-        rDJ47olAeT9zBsAQMfwgoKHVJA==
-X-Google-Smtp-Source: ABdhPJwaOEwtCD9whrD3kuNlue5gRJQNEOv3PNpX4Tnb5qb0tf2zPcUx8pT4PtRDHjgQEHclLKHTFw==
-X-Received: by 2002:a05:6402:11cf:: with SMTP id j15mr2428041edw.220.1640209182813;
-        Wed, 22 Dec 2021 13:39:42 -0800 (PST)
+        bh=rGFC189p0/EoAKk+SmDLGFHPVcyFlSei8zEewkFJCeM=;
+        b=X6dr8KiBoxxfqAEWCJgt+t5obd2wt5nByio2+ubqSDQVw/7hYx6YE2yZqTzIF27KCm
+         VkdnncClS4I8emEbKsj37utfqe5WuhtfIXuBNei7WV6jzUTcwWE+01SW1urQ03f8tAHh
+         /Ci/U9MPjG4QN0sRd5/X6ylrRYxU+FBynMsK06W7VyVlvHF6kVCTKirrtlC4oQNGCIH9
+         So0pIsMZvnmtdmCZd2Ihgy8igNLPjIFCtAaltA1OfNFIASTTk+RxLVO2Hazm0VVUuOUJ
+         9VdXscTq4tFlSTv+iHiVehK2E2V3vQZ5YBHKGk1KvfO+tc0nXxI7ESOipMLF7hTAj2r9
+         3/SA==
+X-Gm-Message-State: AOAM532ciw+/ze2vnM+W/augZzFQO9fkss3Igv14XSxj68vP00Y+na68
+        4REMfD3fY1up3zdPt1zS/MFHNQ==
+X-Google-Smtp-Source: ABdhPJyxT8KQWM8hWC2wsRK03dqYPtFEF4zFxsnHzxRKmkHsJr22wE0SHz/Id4iluMcIzDpRPDM8YQ==
+X-Received: by 2002:a05:6402:3490:: with SMTP id v16mr2838442edc.398.1640209411476;
+        Wed, 22 Dec 2021 13:43:31 -0800 (PST)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
-        by smtp.gmail.com with ESMTPSA id b10sm1325291ede.52.2021.12.22.13.39.42
+        by smtp.gmail.com with ESMTPSA id p4sm1083242eju.98.2021.12.22.13.43.30
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 22 Dec 2021 13:39:42 -0800 (PST)
-Date:   Wed, 22 Dec 2021 22:39:40 +0100
+        Wed, 22 Dec 2021 13:43:30 -0800 (PST)
+Date:   Wed, 22 Dec 2021 22:43:29 +0100
 From:   Daniel Vetter <daniel@ffwll.ch>
 To:     Christian =?iso-8859-1?Q?K=F6nig?= 
         <ckoenig.leichtzumerken@gmail.com>
 Cc:     daniel@ffwll.ch, dri-devel@lists.freedesktop.org,
         linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
-Subject: Re: [PATCH 12/24] dma-buf: finally make dma_resv_excl_fence private
-Message-ID: <YcObHJFmw7w8Hp3J@phenom.ffwll.local>
+Subject: Re: [PATCH 13/24] dma-buf: drop the DAG approach for the dma_resv
+ object
+Message-ID: <YcOcASxfAApIpbrf@phenom.ffwll.local>
 References: <20211207123411.167006-1-christian.koenig@amd.com>
- <20211207123411.167006-13-christian.koenig@amd.com>
+ <20211207123411.167006-14-christian.koenig@amd.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20211207123411.167006-13-christian.koenig@amd.com>
+In-Reply-To: <20211207123411.167006-14-christian.koenig@amd.com>
 X-Operating-System: Linux phenom 5.10.0-8-amd64 
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Dec 07, 2021 at 01:33:59PM +0100, Christian König wrote:
-> Drivers should never touch this directly.
+On Tue, Dec 07, 2021 at 01:34:00PM +0100, Christian König wrote:
+> So far we had the approach of using a directed acyclic
+> graph with the dma_resv obj.
+> 
+> This turned out to have many downsides, especially it means
+> that every single driver and user of this interface needs
+> to be aware of this restriction when adding fences. If the
+> rules for the DAG are not followed then we end up with
+> potential hard to debug memory corruption, information
+> leaks or even elephant big security holes because we allow
+> userspace to access freed up memory.
+> 
+> Since we already took a step back from that by always
+> looking at all fences we now go a step further and stop
+> dropping the shared fences when a new exclusive one is
+> added.
 > 
 > Signed-off-by: Christian König <christian.koenig@amd.com>
 > ---
->  drivers/dma-buf/dma-resv.c | 17 +++++++++++++++++
->  include/linux/dma-resv.h   | 17 -----------------
->  2 files changed, 17 insertions(+), 17 deletions(-)
+>  drivers/dma-buf/dma-resv.c | 13 -------------
+>  1 file changed, 13 deletions(-)
 > 
 > diff --git a/drivers/dma-buf/dma-resv.c b/drivers/dma-buf/dma-resv.c
-> index 694716a3d66d..9acceabc9399 100644
+> index 9acceabc9399..ecb2ff606bac 100644
 > --- a/drivers/dma-buf/dma-resv.c
 > +++ b/drivers/dma-buf/dma-resv.c
-> @@ -147,6 +147,23 @@ void dma_resv_fini(struct dma_resv *obj)
->  }
->  EXPORT_SYMBOL(dma_resv_fini);
+
+No doc update at all!
+
+I checked, we're not that shitty with docs, Minimally the DOC: section
+header and also the struct dma_resv kerneldoc. Also there's maybe more
+references and stuff I've missed on a quick look, please check for them
+(e.g. dma_buf.resv kerneldoc is rather important to keep correct too).
+
+Code itself does what it says in the commit message, but we really need
+the most accurate docs we can get for this stuff, or the confusion will
+persist :-/
+
+Cheers, Daniel
+
+> @@ -383,29 +383,16 @@ EXPORT_SYMBOL(dma_resv_replace_fences);
+>  void dma_resv_add_excl_fence(struct dma_resv *obj, struct dma_fence *fence)
+>  {
+>  	struct dma_fence *old_fence = dma_resv_excl_fence(obj);
+> -	struct dma_resv_list *old;
+> -	u32 i = 0;
 >  
-> +/**
-> + * dma_resv_excl_fence - return the object's exclusive fence
-> + * @obj: the reservation object
-> + *
-> + * Returns the exclusive fence (if any). Caller must either hold the objects
-> + * through dma_resv_lock() or the RCU read side lock through rcu_read_lock(),
-> + * or one of the variants of each
-> + *
-> + * RETURNS
-> + * The exclusive fence or NULL
-> + */
-
-Same thing with us not documenting internals, pls drop the comment
-outright it doesn't really explain anything. With that:
-
-Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-
-> +static inline struct dma_fence *
-> +dma_resv_excl_fence(struct dma_resv *obj)
-> +{
-> +	return rcu_dereference_check(obj->fence_excl, dma_resv_held(obj));
-> +}
-> +
->  /**
->   * dma_resv_shared_list - get the reservation object's shared fence list
->   * @obj: the reservation object
-> diff --git a/include/linux/dma-resv.h b/include/linux/dma-resv.h
-> index cdfbbda6f600..40ac9d486f8f 100644
-> --- a/include/linux/dma-resv.h
-> +++ b/include/linux/dma-resv.h
-> @@ -412,23 +412,6 @@ static inline void dma_resv_unlock(struct dma_resv *obj)
->  	ww_mutex_unlock(&obj->lock);
->  }
+>  	dma_resv_assert_held(obj);
 >  
-> -/**
-> - * dma_resv_excl_fence - return the object's exclusive fence
-> - * @obj: the reservation object
-> - *
-> - * Returns the exclusive fence (if any). Caller must either hold the objects
-> - * through dma_resv_lock() or the RCU read side lock through rcu_read_lock(),
-> - * or one of the variants of each
-> - *
-> - * RETURNS
-> - * The exclusive fence or NULL
-> - */
-> -static inline struct dma_fence *
-> -dma_resv_excl_fence(struct dma_resv *obj)
-> -{
-> -	return rcu_dereference_check(obj->fence_excl, dma_resv_held(obj));
-> -}
+> -	old = dma_resv_shared_list(obj);
+> -	if (old)
+> -		i = old->shared_count;
 > -
->  void dma_resv_init(struct dma_resv *obj);
->  void dma_resv_fini(struct dma_resv *obj);
->  int dma_resv_reserve_shared(struct dma_resv *obj, unsigned int num_fences);
+>  	dma_fence_get(fence);
+>  
+>  	write_seqcount_begin(&obj->seq);
+>  	/* write_seqcount_begin provides the necessary memory barrier */
+>  	RCU_INIT_POINTER(obj->fence_excl, fence);
+> -	if (old)
+> -		old->shared_count = 0;
+>  	write_seqcount_end(&obj->seq);
+>  
+> -	/* inplace update, no shared fences */
+> -	while (i--)
+> -		dma_fence_put(rcu_dereference_protected(old->shared[i],
+> -						dma_resv_held(obj)));
+> -
+>  	dma_fence_put(old_fence);
+>  }
+>  EXPORT_SYMBOL(dma_resv_add_excl_fence);
 > -- 
 > 2.25.1
 > 
