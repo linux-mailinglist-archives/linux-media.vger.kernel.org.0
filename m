@@ -2,110 +2,61 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1AA5F47E7C3
-	for <lists+linux-media@lfdr.de>; Thu, 23 Dec 2021 19:48:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 09BAB47E7DA
+	for <lists+linux-media@lfdr.de>; Thu, 23 Dec 2021 20:03:39 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1349916AbhLWSsN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 23 Dec 2021 13:48:13 -0500
-Received: from relay8-d.mail.gandi.net ([217.70.183.201]:52795 "EHLO
-        relay8-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1349895AbhLWSsG (ORCPT
+        id S240480AbhLWTDi (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 23 Dec 2021 14:03:38 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51210 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S234110AbhLWTDi (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 23 Dec 2021 13:48:06 -0500
-Received: (Authenticated sender: jacopo@jmondi.org)
-        by relay8-d.mail.gandi.net (Postfix) with ESMTPSA id AF3ED1BF206;
-        Thu, 23 Dec 2021 18:48:01 +0000 (UTC)
-Date:   Thu, 23 Dec 2021 19:48:56 +0100
-From:   Jacopo Mondi <jacopo@jmondi.org>
-To:     Joe Perches <joe@perches.com>
-Cc:     Krzysztof =?utf-8?Q?Ha=C5=82asa?= <khalasa@piap.pl>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Sakari Ailus <sakari.ailus@iki.fi>
-Subject: Re: [PATCH v6 2/2] Driver for ON Semi AR0521 camera sensor
-Message-ID: <20211223184856.v34ecibwzepahsju@uno.localdomain>
-References: <m3ee63hkuu.fsf@t19.piap.pl>
- <m35yrfhkaf.fsf@t19.piap.pl>
- <cee1bbe6c8dda1c79ba19f7bbf68fc1d74558cae.camel@perches.com>
+        Thu, 23 Dec 2021 14:03:38 -0500
+Received: from mail-pj1-x1036.google.com (mail-pj1-x1036.google.com [IPv6:2607:f8b0:4864:20::1036])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 29CFCC061401
+        for <linux-media@vger.kernel.org>; Thu, 23 Dec 2021 11:03:38 -0800 (PST)
+Received: by mail-pj1-x1036.google.com with SMTP id f18-20020a17090aa79200b001ad9cb23022so6437613pjq.4
+        for <linux-media@vger.kernel.org>; Thu, 23 Dec 2021 11:03:37 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=PA5Eb3SKatYFaqsO/40bx9AAytaL07oA6ydkj8EAbzQ=;
+        b=eEyIbtCGXgWxGJGQ95w3bTfO6gWGwBJ0NobKyy+kiqLq5DJJU3Qd7VDmpM6CawOig1
+         u3Drh3jvQItEpSr1W5sAo0L1BGoZAcvQT7NC60xEuCZWNrgNW01oQg2ddu2GdjFHgB07
+         W/zh6YagB1xgTt0sUPAFObe5T2MxrKf8gFuK52yA/bau4aiWV2ejyqfDIdYpJ1+uZ/fi
+         FeAsMaPEMsj9VGJCEOogjjusIX1NLWaPEMf1ZnYAoJCYw8yiwSkfXpQbHwnSJ16TQAJe
+         ylHmL0vX2qnk97s9FHpmp+KwoKj2AFu92HerPkhx70nWhqlKwNj/xrhvzyBBs8rd721/
+         l8HQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to;
+        bh=PA5Eb3SKatYFaqsO/40bx9AAytaL07oA6ydkj8EAbzQ=;
+        b=d6QjHichmxWjDUiQf+EPvfXaj84K/wGcX+0wPr7jHQARsoYwznxzazytGsw3iVt6Wt
+         +PAsA0IF8LZWX4Oq87en08o+9E0e+oCsKDR8d89dovJgbF2jemCQMYtz7Ivfzlee3HdD
+         VccqsBU0QVELyMnBKCi8QiyOLqg3G6JK1oAizOUfGEu7HSKgNIDXkW1nXAFM+Hpsq3IB
+         8kYCAnurVS9UzpMzns8sFl4eyeSIkGwzjkFJ7PRvfRz8KvZW/vanlAfaHKbNqoHVgwqg
+         lv6xyYTmEktmud8UtfyZy8GHryYF7FdQCxi+ghsQ5Q6Mo8SfRtqfSevDIyr7udTAfMQE
+         fxjg==
+X-Gm-Message-State: AOAM532cnbCpKs7MgeC8rn8sZAQwaRo0KrZWjSVph7g0KftNtWrNjNV1
+        W0mrJyCL6dfFajtyIC9/XbRG5gVGe6l9hDNM/b0=
+X-Google-Smtp-Source: ABdhPJy9IGy93UCzKGElliOXT84ABDlWAKeBVwlUzdxMlHspuarDUed8/j5jXBm/bIzk+9XWFUtrLP12/A6ugJxkuuU=
+X-Received: by 2002:a17:90b:1b46:: with SMTP id nv6mr4029513pjb.161.1640286217252;
+ Thu, 23 Dec 2021 11:03:37 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <cee1bbe6c8dda1c79ba19f7bbf68fc1d74558cae.camel@perches.com>
+Received: by 2002:a05:6a20:789d:b0:68:7657:a7bf with HTTP; Thu, 23 Dec 2021
+ 11:03:36 -0800 (PST)
+Reply-To: revfrpaulwilliams2@gmail.com
+From:   "Rev. Fr. Paul Williams" <melindagatesfoundation53@gmail.com>
+Date:   Fri, 24 Dec 2021 00:33:36 +0530
+Message-ID: <CAMk=7STEs4evAGmk5u8=+VsBwgd1NY61spBxGHo+4Mgom+sUfQ@mail.gmail.com>
+Subject: Donation From Williams Foundation.
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Joe,
-  sorry to jump in
-
-On Thu, Dec 23, 2021 at 09:49:58AM -0800, Joe Perches wrote:
-> On Thu, 2021-12-23 at 08:06 +0100, Krzysztof Hałasa wrote:
-> > The driver has been extensively tested in an i.MX6-based system.
-> > AR0521 is a 5.7 mm x 4.3 mm, 5 MPix RGGB MIPI/HiSPi BSI CMOS sensor
-> > from On Semiconductor.
->
-> trivial notes:
->
-> > diff --git a/drivers/media/i2c/ar0521.c b/drivers/media/i2c/ar0521.c
-> []
-> > +/* External clock (extclk) frequencies */
-> > +#define AR0521_EXTCLK_MIN	  (10 * 1000 * 1000)
->
-> Generally, adding a prefix like AR0521_ to defines that are
-> locally defined in a single file unnecessarily increases
-> identifier length.
->
-> It makes using short line lengths difficult.
->
-> e.g. Using this identifier anywhere
->
-> > +#define AR0521_REG_HISPI_CONTROL_STATUS_FRAMER_TEST_MODE_ENABLE 0x80
->
-> Many of the 80 column line lengths and line wrapping used in this
-> file are not really nice to read.  I believe you don't have to be
-> strict about 80 column lines.
->
-
-Krzysztof first version had much longer lines, and in facts it has
-been asked by me to reduce them to 80 cols. The media subsystem
-requires to validate patches with
-
-        ./scripts/checkpatch.pl --strict --max-line-length=80
-
-We longly debated this and I believe it's now generally accepted to go
-over 80 when it makes sense, but not regularly span to 120 cols like
-in the previous version.
-
-I think this 80-cols limit not being an hard limit anymore is doing
-more worse than good, as each subsystem applies a different rule, and
-I know how frustrating is for Krzysztof to be pushed in different
-direction, as the same happened to me when I contributed to other
-subsystems and I've been asked to span to 100 cols while I was trying
-to stay in 80 no matter what.
-
-Thanks
-   j
-
-> > +#define be		cpu_to_be16
->
-> It's a pity there's no way to declare an array with all members
-> having a specific endianness.  Making sure all elements in these
-> arrays are declared with be() is tedious.
->
-> > +#define AR0521_NUM_SUPPLIES ARRAY_SIZE(ar0521_supply_names)
->
-> It's almost always better to use ARRAY_SIZE directly and not
-> use a #define for the array size.
->
-> > +static int ar0521_set_gains(struct ar0521_dev *sensor)
-> > +{
-> []
-> > +	dev_dbg(&sensor->i2c_client->dev, "%s()\n", __func__);
->
-> ftrace works and perhaps all the similar debug logging uses aren't
-> really necessary.
->
->
+Contact Rev. Fr. Paul Williams Immediately For A Charity Donation Of
+$6,200,000.00 United States Dollars At E-Mail:
+revfrpaulwilliams2@gmail.com
