@@ -2,141 +2,253 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 229A347E809
-	for <lists+linux-media@lfdr.de>; Thu, 23 Dec 2021 20:10:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 397BF47E80E
+	for <lists+linux-media@lfdr.de>; Thu, 23 Dec 2021 20:16:33 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229616AbhLWTKF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 23 Dec 2021 14:10:05 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52744 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236259AbhLWTKE (ORCPT
+        id S244778AbhLWTQa (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 23 Dec 2021 14:16:30 -0500
+Received: from lelv0143.ext.ti.com ([198.47.23.248]:48528 "EHLO
+        lelv0143.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229616AbhLWTQ3 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 23 Dec 2021 14:10:04 -0500
-Received: from mail-ed1-x534.google.com (mail-ed1-x534.google.com [IPv6:2a00:1450:4864:20::534])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 10DFFC061401
-        for <linux-media@vger.kernel.org>; Thu, 23 Dec 2021 11:10:04 -0800 (PST)
-Received: by mail-ed1-x534.google.com with SMTP id f5so25001839edq.6
-        for <linux-media@vger.kernel.org>; Thu, 23 Dec 2021 11:10:03 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=EWeO8NP8v5E5zUlHq5t/wKxLy6NSHQhAIjoiIwb3K9k=;
-        b=JQiiYIZrNtqInGMhwtn3ZjG0zbNsjPlJCa5DVGoIeSQqGgYHiBNhKQKoLkRtddQQPX
-         bhDRWKT8zVCfn6OOOOWIQVEgAuU2xp7BUQrkCCvvFwMle3GVxE1gFBIxpB9eELg1GFTB
-         2LFLyjZt6x17Q6Uq4p1Nv4XMC1kIBIzH5EkaI=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=EWeO8NP8v5E5zUlHq5t/wKxLy6NSHQhAIjoiIwb3K9k=;
-        b=WeTKr+KZDhWL6PUSsmJXd20/rdFp2h7BNFOkv74rG1TT5t2jj5mJpqKICDh4bjgdWd
-         nU5S0B6AgWDWgJGJfbdGbAVRSXjmGnnnpX2OHWcjJ/t3L/43F4WC96SkbQBkuVOBJ4jH
-         kcYKmUoxUar3dIbFya2+5CjtSG395mBPYupUiqyzfL6r3OMBPX/THNFu34AIlyJJcUV3
-         aBOi4eFn7xy60/deXGrJoM7FgyPStlB5qvoQV1uIjrks8tb//p0AUfs+Gjo2y67eOz8y
-         iM6HCHBIEgJ+l/ODf5DQS3QZUkezlMJ74aLPt/QqoKlmZVvck9ePVmTSdA2peGRk1g7v
-         Zs7Q==
-X-Gm-Message-State: AOAM5326yYYTdRrb8rmXEupv7flTbL+0OkPOYYILZcRMgfneuMv8lWo9
-        zKfuzeYUx5ZcUkp38GduVULDcJ7nFXXGlI9l
-X-Google-Smtp-Source: ABdhPJwYXOC1m2IcfFbJn+AQs4pj+T4UqPJM3fgUIw5uiAGU8gm1Y1MTIXqp6OwsaRDpulW5/2D2vA==
-X-Received: by 2002:a17:906:5502:: with SMTP id r2mr1824006ejp.627.1640286602586;
-        Thu, 23 Dec 2021 11:10:02 -0800 (PST)
-Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com. [209.85.208.42])
-        by smtp.gmail.com with ESMTPSA id ho9sm2000369ejc.86.2021.12.23.11.10.01
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 23 Dec 2021 11:10:02 -0800 (PST)
-Received: by mail-ed1-f42.google.com with SMTP id o20so24946477eds.10
-        for <linux-media@vger.kernel.org>; Thu, 23 Dec 2021 11:10:01 -0800 (PST)
-X-Received: by 2002:a17:906:6848:: with SMTP id a8mr2820960ejs.40.1640286601417;
- Thu, 23 Dec 2021 11:10:01 -0800 (PST)
+        Thu, 23 Dec 2021 14:16:29 -0500
+Received: from fllv0035.itg.ti.com ([10.64.41.0])
+        by lelv0143.ext.ti.com (8.15.2/8.15.2) with ESMTP id 1BNJGLM3031670;
+        Thu, 23 Dec 2021 13:16:21 -0600
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+        s=ti-com-17Q1; t=1640286981;
+        bh=HWecce5K+PtSFyyC/sq4ZKYXkl5vyL3jjvJgoGiicAE=;
+        h=From:To:CC:Subject:Date;
+        b=kMrUrFzifiGcxXX6nfm6qGa88jRUo9uZplgMg/dXs0xeCVy5E7Pg0HDwGqBIN5YLJ
+         +mvlmAWbF5hZPO2DZ3pGC4xTlfaHDdocGEb9/y/xwTZon7MLi8E/RZSj5Ez8ejBLWq
+         6JA3UfksWFtX/KWoAzAVR9lUHoW+WyiCFg7a3pls=
+Received: from DLEE102.ent.ti.com (dlee102.ent.ti.com [157.170.170.32])
+        by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 1BNJGLPu017910
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Thu, 23 Dec 2021 13:16:21 -0600
+Received: from DLEE103.ent.ti.com (157.170.170.33) by DLEE102.ent.ti.com
+ (157.170.170.32) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2308.14; Thu, 23
+ Dec 2021 13:16:20 -0600
+Received: from lelv0326.itg.ti.com (10.180.67.84) by DLEE103.ent.ti.com
+ (157.170.170.33) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2308.14 via
+ Frontend Transport; Thu, 23 Dec 2021 13:16:20 -0600
+Received: from pratyush-OptiPlex-790.dhcp.ti.com (ileax41-snat.itg.ti.com [10.172.224.153])
+        by lelv0326.itg.ti.com (8.15.2/8.15.2) with ESMTP id 1BNJGGQN006164;
+        Thu, 23 Dec 2021 13:16:17 -0600
+From:   Pratyush Yadav <p.yadav@ti.com>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>
+CC:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Nikhil Devshatwar <nikhil.nd@ti.com>,
+        Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+        Vignesh Raghavendra <vigneshr@ti.com>,
+        Benoit Parrot <bparrot@ti.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Pratyush Yadav <p.yadav@ti.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>,
+        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-media@vger.kernel.org>
+Subject: [PATCH v5 00/14] CSI2RX support on J721E
+Date:   Fri, 24 Dec 2021 00:46:01 +0530
+Message-ID: <20211223191615.17803-1-p.yadav@ti.com>
+X-Mailer: git-send-email 2.33.1.835.ge9e5ba39a7
 MIME-Version: 1.0
-References: <06c00e24-cdad-8776-9fc1-2c0f3db5af9a@selasky.org>
-In-Reply-To: <06c00e24-cdad-8776-9fc1-2c0f3db5af9a@selasky.org>
-From:   Ricardo Ribalda <ribalda@chromium.org>
-Date:   Thu, 23 Dec 2021 20:09:49 +0100
-X-Gmail-Original-Message-ID: <CANiDSCtB=mu6wtZxkck3E0GnJT7OOVXKDe+yzEFK+ygsDwoxKg@mail.gmail.com>
-Message-ID: <CANiDSCtB=mu6wtZxkck3E0GnJT7OOVXKDe+yzEFK+ygsDwoxKg@mail.gmail.com>
-Subject: Re: [PATCH] Make sure we parse really received data.
-To:     Hans Petter Selasky <hps@selasky.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     linux-media@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Hans
+Hi,
 
-Thanks for your patch
+This series adds support for CSI2 capture on J721E. It includes some
+fixes to the Cadence CSI2RX driver, re-structures the TI platform
+drivers, and finally adds the TI CSI2RX wrapper driver.
 
-On Thu, 23 Dec 2021 at 16:42, Hans Petter Selasky <hps@selasky.org> wrote:
->
-> Hi,
->
-> USB control requests may return less data than we ask for.
-> Found using valgrind and webcamd on FreeBSD.
+This series used to include the DPHY and DMA engine patches as well, but
+they have been split off to facilitate easier merging.
 
-If the usb control request returns less data, then the checks for
-ret!=size will trigger.
+Tested on TI's J721E with OV5640 sensor.
 
-Am I missing something obvious?
+The branch with all the patches needed to enable testing (dts nodes,
+OV5640 dropped patch, etc.) can be found here at
+https://github.com/prati0100/linux-next/ branch "capture".
 
-Best regards
+Changes in v5:
+- Cleanup notifier in csi2rx_parse_dt() after the call to
+  v4l2_async_nf_add_fwnode_remote().
+- Use YUV 1X16 formats instead of 2X8.
+- Only error out when phy_pm_runtime_get_sync() returns a negative
+  value. A positive value can be returned if the phy was already
+  resumed.
+- Do not query the source subdev for format. Use the newly added
+  internal format instead.
+- Make i unsigned.
+- Change %d to %u
+- Add dependency on PHY_CADENCE_DPHY_RX instead of PHY_CADENCE_DPHY
+  since the Rx mode DPHY now has a separate driver.
+- Drop ti_csi2rx_validate_pipeline(). Pipeline validation should be done
+  at media_pipeline_start().
+- Do not assign flags.
+- Fix error handling in ti_csi2rx_start_streaming(). Free up vb2 buffers
+  when media_pipeline_start() fails.
+- Move clock description in comments under the clocks property.
+- Make ports required.
+- Add link validation to cdns-csi2rx driver.
 
+Changes in v4:
+- Drop the call to set PHY submode. It is now being done via compatible
+  on the DPHY side.
+- Acquire the media device's graph_mutex before starting the graph walk.
+- Call media_graph_walk_init() and media_graph_walk_cleanup() when
+  starting and ending the graph walk respectively.
+- Reduce max frame height and width in enum_framesizes. Currently they
+  are set to UINT_MAX but they must be a multiple of step_width, so they
+  need to be rounded down. Also, these values are absurdly large which
+  causes some userspace applications like gstreamer to trip up. While it
+  is not generally right to change the kernel for an application bug, it
+  is not such a big deal here. This change is replacing one set of
+  absurdly large arbitrary values with another set of smaller but still
+  absurdly large arbitrary values. Both limits are unlikely to be hit in
+  practice.
+- Add power-domains property.
+- Drop maxItems from clock-names.
+- Drop the type for data-lanes.
+- Drop uniqueItems from data-lanes. Move it to video-interfaces.yaml
+  instead.
+- Drop OV5640 runtime pm patch. It seems to be a bit complicated and it
+  is not exactly necessary for this series. Any CSI-2 camera will work
+  just fine, OV5640 just happens to be the one I tested with. I don't
+  want it to block this series. I will submit it as a separate patch
+  later.
 
->
-> ==15522== Conditional jump or move depends on uninitialised value(s)
-> ==15522==    at 0x662EF4: uvc_fixup_video_ctrl (uvc_video.c:135)
-> ==15522==    by 0x662EF4: uvc_get_video_ctrl (uvc_video.c:297)
-> ==15522==    by 0x6640B0: uvc_video_init (uvc_video.c:2078)
-> ==15522==    by 0x65E79D: uvc_register_video (uvc_driver.c:2258)
-> ==15522==    by 0x65E79D: uvc_register_terms (uvc_driver.c:2300)
-> ==15522==    by 0x65E79D: uvc_register_chains (uvc_driver.c:2321)
-> ==15522==    by 0x65E79D: uvc_probe (uvc_driver.c:2463)
-> ==15522==    by 0x3C8F46: usb_linux_probe_p (linux_usb.c:449)
-> ==15522==    by 0x75B4B2: main (webcamd.c:1021)
-> ==15522==  Uninitialised value was created by a heap allocation
-> ==15522==    at 0x4853844: malloc (in
-> /usr/local/libexec/valgrind/vgpreload_memcheck-amd64-freebsd.so)
-> ==15522==    by 0x3BC8A4: kmalloc (linux_func.c:1807)
-> ==15522==    by 0x662C8C: uvc_get_video_ctrl (uvc_video.c:229)
-> ==15522==    by 0x6640B0: uvc_video_init (uvc_video.c:2078)
-> ==15522==    by 0x65E79D: uvc_register_video (uvc_driver.c:2258)
-> ==15522==    by 0x65E79D: uvc_register_terms (uvc_driver.c:2300)
-> ==15522==    by 0x65E79D: uvc_register_chains (uvc_driver.c:2321)
-> ==15522==    by 0x65E79D: uvc_probe (uvc_driver.c:2463)
-> ==15522==    by 0x3C8F46: usb_linux_probe_p (linux_usb.c:449)
-> ==15522==    by 0x75B4B2: main (webcamd.c:1021)
->
-> Signed-off-by: Hans Petter Selasky <hps@selasky.org>
-> ---
->   drivers/media/usb/uvc/uvc_video.c | 6 +++++-
->   1 file changed, 5 insertions(+), 1 deletion(-)
->
-> diff --git a/drivers/media/usb/uvc/uvc_video.c
-> b/drivers/media/usb/uvc/uvc_video.c
-> index 9f37eaf28ce7..6233703f9a50 100644
-> --- a/drivers/media/usb/uvc/uvc_video.c
-> +++ b/drivers/media/usb/uvc/uvc_video.c
-> @@ -258,7 +258,11 @@ static int uvc_get_video_ctrl(struct uvc_streaming
-> *stream,
->                         query == UVC_GET_DEF)
->                 return -EIO;
->
-> -       data = kmalloc(size, GFP_KERNEL);
-> +       /*
-> +        * Make sure we parse really received data
-> +        * by allocating a zeroed buffer.
-> +        */
-> +       data = kzalloc(size, GFP_KERNEL);
->         if (data == NULL)
->                 return -ENOMEM;
->
-> --
-> 2.34.1
+Changes in v3:
+- Use v4l2_get_link_freq() to calculate pixel clock.
+- Move DMA related fields in struct ti_csi2rx_dma.
+- Protect DMA buffer queue with a spinlock to make sure the queue buffer
+  and DMA callback don't race on it.
+- Track the current DMA state. It might go idle because of a lack of
+  buffers. This state can be used to restart it if needed.
+- Do not include the current buffer in the pending queue. It is slightly
+  better modelling than leaving it at the head of the pending queue.
+- Use the buffer as the callback argument, and add a reference to csi in it.
+- If queueing a buffer to DMA fails, the buffer gets leaked and DMA gets
+  stalled with. Instead, report the error to vb2 and queue the next
+  buffer in the pending queue.
+- DMA gets stalled if we run out of buffers since the callback is the
+  only one that fires subsequent transfers and it is no longer being
+  called. Check for that when queueing buffers and restart DMA if
+  needed.
+- Do not put of node until we are done using the fwnode.
+- Set inital format to UYVY 640x480.
+- Add compatible: contains: const: cdns,csi2rx to allow SoC specific
+  compatible.
+- Add more constraints for data-lanes property.
 
+Changes in v2:
+- Use phy_pm_runtime_get_sync() and phy_pm_runtime_put() before making
+  calls to set PHY mode, etc. to make sure it is ready.
+- Use dmaengine_get_dma_device() instead of directly accessing
+  dma->device->dev.
+- Do not set dst_addr_width when configuring slave DMA.
+- Move to a separate subdir and rename to j721e-csi2rx.c
+- Convert compatible to ti,j721e-csi2rx.
+- Move to use Media Controller centric APIs.
+- Improve cleanup in probe when one of the steps fails.
+- Add colorspace to formats database.
+- Set hw_revision on media_device.
+- Move video device initialization to probe time instead of register time.
+- Rename to ti,j721e-csi2rx.yaml
+- Add an entry in MAINTAINERS.
+- Add a description for the binding.
+- Change compatible to ti,j721e-csi2rx to make it SoC specific.
+- Remove description from dmas, reg, power-domains.
+- Remove a limit of 2 from #address-cells and #size-cells.
+- Fix add ^ to csi-bridge subnode regex.
+- Make ranges mandatory.
+- Add unit address in example.
+- Add a reference to cdns,csi2rx in csi-bridge subnode.
+- Expand the example to include the csi-bridge subnode as well.
+- Re-order subject prefixes.
+- Convert OV5640 to use runtime PM and drop Cadence CSI2RX s_power patch.
+- Drop subdev call wrappers from cdns-csi2rx.
+- Move VPE and CAL to a separate subdir.
+- Rename ti-csi2rx.c to j721e-csi2rx.c
 
+Pratyush Yadav (14):
+  media: cadence: csi2rx: Unregister v4l2 async notifier
+  media: cadence: csi2rx: Cleanup media entity properly
+  media: cadence: csi2rx: Add get_fmt and set_fmt pad ops
+  media: cadence: csi2rx: Add external DPHY support
+  media: cadence: csi2rx: Soft reset the streams before starting capture
+  media: cadence: csi2rx: Set the STOP bit when stopping a stream
+  media: cadence: csi2rx: Fix stream data configuration
+  media: cadence: csi2rx: Populate subdev devnode
+  media: cadence: csi2rx: Add link validation
+  media: Re-structure TI platform drivers
+  media: ti: Add CSI2RX support for J721E
+  media: dt-bindings: Make sure items in data-lanes are unique
+  media: dt-bindings: Add DT bindings for TI J721E CSI2RX driver
+  media: dt-bindings: Convert Cadence CSI2RX binding to YAML
+
+ .../devicetree/bindings/media/cdns,csi2rx.txt | 100 --
+ .../bindings/media/cdns,csi2rx.yaml           | 176 ++++
+ .../bindings/media/ti,j721e-csi2rx.yaml       | 101 ++
+ .../bindings/media/video-interfaces.yaml      |   1 +
+ MAINTAINERS                                   |  10 +-
+ drivers/media/platform/Kconfig                |  12 +
+ drivers/media/platform/Makefile               |   2 +-
+ drivers/media/platform/cadence/cdns-csi2rx.c  | 287 +++++-
+ drivers/media/platform/ti/Makefile            |   4 +
+ drivers/media/platform/ti/cal/Makefile        |   3 +
+ .../{ti-vpe => ti/cal}/cal-camerarx.c         |   0
+ .../platform/{ti-vpe => ti/cal}/cal-video.c   |   0
+ .../media/platform/{ti-vpe => ti/cal}/cal.c   |   0
+ .../media/platform/{ti-vpe => ti/cal}/cal.h   |   0
+ .../platform/{ti-vpe => ti/cal}/cal_regs.h    |   0
+ .../media/platform/ti/j721e-csi2rx/Makefile   |   2 +
+ .../platform/ti/j721e-csi2rx/j721e-csi2rx.c   | 913 ++++++++++++++++++
+ .../platform/{ti-vpe => ti/vpe}/Makefile      |   4 -
+ .../media/platform/{ti-vpe => ti/vpe}/csc.c   |   0
+ .../media/platform/{ti-vpe => ti/vpe}/csc.h   |   0
+ .../media/platform/{ti-vpe => ti/vpe}/sc.c    |   0
+ .../media/platform/{ti-vpe => ti/vpe}/sc.h    |   0
+ .../platform/{ti-vpe => ti/vpe}/sc_coeff.h    |   0
+ .../media/platform/{ti-vpe => ti/vpe}/vpdma.c |   0
+ .../media/platform/{ti-vpe => ti/vpe}/vpdma.h |   0
+ .../platform/{ti-vpe => ti/vpe}/vpdma_priv.h  |   0
+ .../media/platform/{ti-vpe => ti/vpe}/vpe.c   |   0
+ .../platform/{ti-vpe => ti/vpe}/vpe_regs.h    |   0
+ 28 files changed, 1494 insertions(+), 121 deletions(-)
+ delete mode 100644 Documentation/devicetree/bindings/media/cdns,csi2rx.txt
+ create mode 100644 Documentation/devicetree/bindings/media/cdns,csi2rx.yaml
+ create mode 100644 Documentation/devicetree/bindings/media/ti,j721e-csi2rx.yaml
+ create mode 100644 drivers/media/platform/ti/Makefile
+ create mode 100644 drivers/media/platform/ti/cal/Makefile
+ rename drivers/media/platform/{ti-vpe => ti/cal}/cal-camerarx.c (100%)
+ rename drivers/media/platform/{ti-vpe => ti/cal}/cal-video.c (100%)
+ rename drivers/media/platform/{ti-vpe => ti/cal}/cal.c (100%)
+ rename drivers/media/platform/{ti-vpe => ti/cal}/cal.h (100%)
+ rename drivers/media/platform/{ti-vpe => ti/cal}/cal_regs.h (100%)
+ create mode 100644 drivers/media/platform/ti/j721e-csi2rx/Makefile
+ create mode 100644 drivers/media/platform/ti/j721e-csi2rx/j721e-csi2rx.c
+ rename drivers/media/platform/{ti-vpe => ti/vpe}/Makefile (78%)
+ rename drivers/media/platform/{ti-vpe => ti/vpe}/csc.c (100%)
+ rename drivers/media/platform/{ti-vpe => ti/vpe}/csc.h (100%)
+ rename drivers/media/platform/{ti-vpe => ti/vpe}/sc.c (100%)
+ rename drivers/media/platform/{ti-vpe => ti/vpe}/sc.h (100%)
+ rename drivers/media/platform/{ti-vpe => ti/vpe}/sc_coeff.h (100%)
+ rename drivers/media/platform/{ti-vpe => ti/vpe}/vpdma.c (100%)
+ rename drivers/media/platform/{ti-vpe => ti/vpe}/vpdma.h (100%)
+ rename drivers/media/platform/{ti-vpe => ti/vpe}/vpdma_priv.h (100%)
+ rename drivers/media/platform/{ti-vpe => ti/vpe}/vpe.c (100%)
+ rename drivers/media/platform/{ti-vpe => ti/vpe}/vpe_regs.h (100%)
 
 -- 
-Ricardo Ribalda
+2.33.1.835.ge9e5ba39a7
+
