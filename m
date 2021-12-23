@@ -2,225 +2,110 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 504CF47E76B
-	for <lists+linux-media@lfdr.de>; Thu, 23 Dec 2021 19:05:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1AA5F47E7C3
+	for <lists+linux-media@lfdr.de>; Thu, 23 Dec 2021 19:48:17 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1349691AbhLWSFf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 23 Dec 2021 13:05:35 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38208 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233563AbhLWSFe (ORCPT
+        id S1349916AbhLWSsN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 23 Dec 2021 13:48:13 -0500
+Received: from relay8-d.mail.gandi.net ([217.70.183.201]:52795 "EHLO
+        relay8-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1349895AbhLWSsG (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 23 Dec 2021 13:05:34 -0500
-Received: from mail-ot1-x32a.google.com (mail-ot1-x32a.google.com [IPv6:2607:f8b0:4864:20::32a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 02FEBC061757
-        for <linux-media@vger.kernel.org>; Thu, 23 Dec 2021 10:05:34 -0800 (PST)
-Received: by mail-ot1-x32a.google.com with SMTP id r10-20020a056830080a00b0055c8fd2cebdso7904963ots.6
-        for <linux-media@vger.kernel.org>; Thu, 23 Dec 2021 10:05:33 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=1v9L4T41CwGiy712+i5FQLKiko4j+O1n9FYDtFOGNoU=;
-        b=HlaIv8e1qvy3wsrLeReJQH7FO3DX7fYc9QBZELRfuyUC3iXhmiKK4jQVo9DdDR2oJ4
-         GQNzKJCYCvExKUR3XcrkynxEszSZfANE3EBSZh/UjavaUaU923nbFDIkwYDPehTu9LRf
-         3H8DP5U69BGoqRdO+iC0KJdbYXvA1S+HsNM87VhuLf/uQ89QHTyNQZRa7j54lSVS/9Zr
-         wZc+YLl2Nm0bz5EE9p1mWVb5etdPQCopOCnwAc5Ry+U9jYjosyI4heA9loyfFZJLil/b
-         dh2m+PEZa3sLFbSjRXd9Oy1ekmpPiVV4Ke6MnmtaNH7zSkKeRj/VZezpe0edjLhRDWcd
-         Ty3w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=1v9L4T41CwGiy712+i5FQLKiko4j+O1n9FYDtFOGNoU=;
-        b=LzR92nID8kguyJjKAT0jlPNJcxuGQz98S6m9/BIccqitv/5YpS7M5jZ6276NRA3thB
-         Y4Na+wKdxpmQgOoaerIugPCo/UCfXeraBVCH2n+lpMSiqZl+OonsiBFlmGTvgmM+OSIa
-         Oi3/QNfrn0slS/hP1k0eK4/LtLZgFuqSNyYbrVmJ8HlDqVKzMjO2oo1wPtIVibj0LI2w
-         BOl0cqmiZlotRnyOuo2g+cMQcw0hFPmeTAxSXQeJfJ1kMgPrGC0uY/zPjqifctu4ppiu
-         t6Ov9AXnmOgEmfC8N5RQ6tLHPjMeshGL8qLOQe8P644Lmxugl998U03VacUj1vQiEITK
-         v3Dg==
-X-Gm-Message-State: AOAM531B62NjKaYJkAn9N9AQ6d9BjwXrk4ZdcCmDYYn3JudNWY3LCh69
-        GXdaSoJJHIKjTrcnz4oekTQrhA==
-X-Google-Smtp-Source: ABdhPJwMf+E+xKIgFWu/fxvD3O6pjtvJtMAtY6YGFU6Mx+dbyzCPksk6IqLrnj00vlCR48AzuMzEHg==
-X-Received: by 2002:a05:6830:43aa:: with SMTP id s42mr2201594otv.118.1640282733237;
-        Thu, 23 Dec 2021 10:05:33 -0800 (PST)
-Received: from ripper (104-57-184-186.lightspeed.austtx.sbcglobal.net. [104.57.184.186])
-        by smtp.gmail.com with ESMTPSA id x4sm1168770oiv.35.2021.12.23.10.05.32
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 23 Dec 2021 10:05:32 -0800 (PST)
-Date:   Thu, 23 Dec 2021 10:06:38 -0800
-From:   Bjorn Andersson <bjorn.andersson@linaro.org>
-To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Cc:     linux-media@vger.kernel.org, Robert Foss <robert.foss@linaro.org>,
-        Todor Tomov <todor.too@gmail.com>,
-        Andy Gross <agross@kernel.org>,
+        Thu, 23 Dec 2021 13:48:06 -0500
+Received: (Authenticated sender: jacopo@jmondi.org)
+        by relay8-d.mail.gandi.net (Postfix) with ESMTPSA id AF3ED1BF206;
+        Thu, 23 Dec 2021 18:48:01 +0000 (UTC)
+Date:   Thu, 23 Dec 2021 19:48:56 +0100
+From:   Jacopo Mondi <jacopo@jmondi.org>
+To:     Joe Perches <joe@perches.com>
+Cc:     Krzysztof =?utf-8?Q?Ha=C5=82asa?= <khalasa@piap.pl>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Rob Herring <robh+dt@kernel.org>, linux-kernel@vger.kernel.org,
-        Prabhakar <prabhakar.csengg@gmail.com>,
-        linux-renesas-soc@vger.kernel.org, linux-arm-msm@vger.kernel.org
-Subject: Re: [PATCH 02/13] media: camss: Use platform_get_irq_byname() to get
- the interrupt
-Message-ID: <YcS6rl+dFqhH7giF@ripper>
-References: <20211223173015.22251-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20211223173015.22251-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
+        Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Sakari Ailus <sakari.ailus@iki.fi>
+Subject: Re: [PATCH v6 2/2] Driver for ON Semi AR0521 camera sensor
+Message-ID: <20211223184856.v34ecibwzepahsju@uno.localdomain>
+References: <m3ee63hkuu.fsf@t19.piap.pl>
+ <m35yrfhkaf.fsf@t19.piap.pl>
+ <cee1bbe6c8dda1c79ba19f7bbf68fc1d74558cae.camel@perches.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20211223173015.22251-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <cee1bbe6c8dda1c79ba19f7bbf68fc1d74558cae.camel@perches.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu 23 Dec 09:30 PST 2021, Lad Prabhakar wrote:
+Hi Joe,
+  sorry to jump in
 
-> platform_get_resource_byname(pdev, IORESOURCE_IRQ, ..) relies on static
-> allocation of IRQ resources in DT core code, this causes an issue
-> when using hierarchical interrupt domains using "interrupts" property
-> in the node as this bypasses the hierarchical setup and messes up the
-> irq chaining.
-> 
-> In preparation for removal of static setup of IRQ resource from DT core
-> code use platform_get_irq_byname().
-> 
+On Thu, Dec 23, 2021 at 09:49:58AM -0800, Joe Perches wrote:
+> On Thu, 2021-12-23 at 08:06 +0100, Krzysztof Hałasa wrote:
+> > The driver has been extensively tested in an i.MX6-based system.
+> > AR0521 is a 5.7 mm x 4.3 mm, 5 MPix RGGB MIPI/HiSPi BSI CMOS sensor
+> > from On Semiconductor.
+>
+> trivial notes:
+>
+> > diff --git a/drivers/media/i2c/ar0521.c b/drivers/media/i2c/ar0521.c
+> []
+> > +/* External clock (extclk) frequencies */
+> > +#define AR0521_EXTCLK_MIN	  (10 * 1000 * 1000)
+>
+> Generally, adding a prefix like AR0521_ to defines that are
+> locally defined in a single file unnecessarily increases
+> identifier length.
+>
+> It makes using short line lengths difficult.
+>
+> e.g. Using this identifier anywhere
+>
+> > +#define AR0521_REG_HISPI_CONTROL_STATUS_FRAMER_TEST_MODE_ENABLE 0x80
+>
+> Many of the 80 column line lengths and line wrapping used in this
+> file are not really nice to read.  I believe you don't have to be
+> strict about 80 column lines.
+>
 
-Reviewed-by: Bjorn Andersson <bjorn.andersson@linaro.org>
+Krzysztof first version had much longer lines, and in facts it has
+been asked by me to reduce them to 80 cols. The media subsystem
+requires to validate patches with
 
-Regards,
-Bjorn
+        ./scripts/checkpatch.pl --strict --max-line-length=80
 
-> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> ---
->  drivers/media/platform/qcom/camss/camss-csid.c   | 12 ++++--------
->  drivers/media/platform/qcom/camss/camss-csiphy.c | 12 ++++--------
->  drivers/media/platform/qcom/camss/camss-ispif.c  | 12 ++++--------
->  drivers/media/platform/qcom/camss/camss-vfe.c    | 12 ++++--------
->  4 files changed, 16 insertions(+), 32 deletions(-)
-> 
-> diff --git a/drivers/media/platform/qcom/camss/camss-csid.c b/drivers/media/platform/qcom/camss/camss-csid.c
-> index a1637b78568b..ac3504e98668 100644
-> --- a/drivers/media/platform/qcom/camss/camss-csid.c
-> +++ b/drivers/media/platform/qcom/camss/camss-csid.c
-> @@ -544,7 +544,6 @@ int msm_csid_subdev_init(struct camss *camss, struct csid_device *csid,
->  {
->  	struct device *dev = camss->dev;
->  	struct platform_device *pdev = to_platform_device(dev);
-> -	struct resource *r;
->  	int i, j;
->  	int ret;
->  
-> @@ -571,14 +570,11 @@ int msm_csid_subdev_init(struct camss *camss, struct csid_device *csid,
->  
->  	/* Interrupt */
->  
-> -	r = platform_get_resource_byname(pdev, IORESOURCE_IRQ,
-> -					 res->interrupt[0]);
-> -	if (!r) {
-> -		dev_err(dev, "missing IRQ\n");
-> -		return -EINVAL;
-> -	}
-> +	ret = platform_get_irq_byname(pdev, res->interrupt[0]);
-> +	if (ret < 0)
-> +		return ret;
->  
-> -	csid->irq = r->start;
-> +	csid->irq = ret;
->  	snprintf(csid->irq_name, sizeof(csid->irq_name), "%s_%s%d",
->  		 dev_name(dev), MSM_CSID_NAME, csid->id);
->  	ret = devm_request_irq(dev, csid->irq, csid->ops->isr,
-> diff --git a/drivers/media/platform/qcom/camss/camss-csiphy.c b/drivers/media/platform/qcom/camss/camss-csiphy.c
-> index 24eec16197e7..6b225d06f35a 100644
-> --- a/drivers/media/platform/qcom/camss/camss-csiphy.c
-> +++ b/drivers/media/platform/qcom/camss/camss-csiphy.c
-> @@ -568,7 +568,6 @@ int msm_csiphy_subdev_init(struct camss *camss,
->  {
->  	struct device *dev = camss->dev;
->  	struct platform_device *pdev = to_platform_device(dev);
-> -	struct resource *r;
->  	int i, j;
->  	int ret;
->  
-> @@ -611,14 +610,11 @@ int msm_csiphy_subdev_init(struct camss *camss,
->  
->  	/* Interrupt */
->  
-> -	r = platform_get_resource_byname(pdev, IORESOURCE_IRQ,
-> -					 res->interrupt[0]);
-> -	if (!r) {
-> -		dev_err(dev, "missing IRQ\n");
-> -		return -EINVAL;
-> -	}
-> +	ret = platform_get_irq_byname(pdev, res->interrupt[0]);
-> +	if (ret < 0)
-> +		return ret;
->  
-> -	csiphy->irq = r->start;
-> +	csiphy->irq = ret;
->  	snprintf(csiphy->irq_name, sizeof(csiphy->irq_name), "%s_%s%d",
->  		 dev_name(dev), MSM_CSIPHY_NAME, csiphy->id);
->  
-> diff --git a/drivers/media/platform/qcom/camss/camss-ispif.c b/drivers/media/platform/qcom/camss/camss-ispif.c
-> index ba5d65f6ef34..4ee11bb979cd 100644
-> --- a/drivers/media/platform/qcom/camss/camss-ispif.c
-> +++ b/drivers/media/platform/qcom/camss/camss-ispif.c
-> @@ -1100,7 +1100,6 @@ int msm_ispif_subdev_init(struct camss *camss,
->  	struct device *dev = camss->dev;
->  	struct ispif_device *ispif = camss->ispif;
->  	struct platform_device *pdev = to_platform_device(dev);
-> -	struct resource *r;
->  	int i;
->  	int ret;
->  
-> @@ -1153,14 +1152,11 @@ int msm_ispif_subdev_init(struct camss *camss,
->  
->  	/* Interrupt */
->  
-> -	r = platform_get_resource_byname(pdev, IORESOURCE_IRQ, res->interrupt);
-> -
-> -	if (!r) {
-> -		dev_err(dev, "missing IRQ\n");
-> -		return -EINVAL;
-> -	}
-> +	ret = platform_get_irq_byname(pdev, res->interrupt);
-> +	if (ret < 0)
-> +		return ret;
->  
-> -	ispif->irq = r->start;
-> +	ispif->irq = ret;
->  	snprintf(ispif->irq_name, sizeof(ispif->irq_name), "%s_%s",
->  		 dev_name(dev), MSM_ISPIF_NAME);
->  	if (camss->version == CAMSS_8x16)
-> diff --git a/drivers/media/platform/qcom/camss/camss-vfe.c b/drivers/media/platform/qcom/camss/camss-vfe.c
-> index 71f78b40e7f5..7c2311d70546 100644
-> --- a/drivers/media/platform/qcom/camss/camss-vfe.c
-> +++ b/drivers/media/platform/qcom/camss/camss-vfe.c
-> @@ -1279,7 +1279,6 @@ int msm_vfe_subdev_init(struct camss *camss, struct vfe_device *vfe,
->  {
->  	struct device *dev = camss->dev;
->  	struct platform_device *pdev = to_platform_device(dev);
-> -	struct resource *r;
->  	int i, j;
->  	int ret;
->  
-> @@ -1312,14 +1311,11 @@ int msm_vfe_subdev_init(struct camss *camss, struct vfe_device *vfe,
->  
->  	/* Interrupt */
->  
-> -	r = platform_get_resource_byname(pdev, IORESOURCE_IRQ,
-> -					 res->interrupt[0]);
-> -	if (!r) {
-> -		dev_err(dev, "missing IRQ\n");
-> -		return -EINVAL;
-> -	}
-> +	ret = platform_get_irq_byname(pdev, res->interrupt[0]);
-> +	if (ret < 0)
-> +		return ret;
->  
-> -	vfe->irq = r->start;
-> +	vfe->irq = ret;
->  	snprintf(vfe->irq_name, sizeof(vfe->irq_name), "%s_%s%d",
->  		 dev_name(dev), MSM_VFE_NAME, vfe->id);
->  	ret = devm_request_irq(dev, vfe->irq, vfe->ops->isr,
-> -- 
-> 2.17.1
-> 
+We longly debated this and I believe it's now generally accepted to go
+over 80 when it makes sense, but not regularly span to 120 cols like
+in the previous version.
+
+I think this 80-cols limit not being an hard limit anymore is doing
+more worse than good, as each subsystem applies a different rule, and
+I know how frustrating is for Krzysztof to be pushed in different
+direction, as the same happened to me when I contributed to other
+subsystems and I've been asked to span to 100 cols while I was trying
+to stay in 80 no matter what.
+
+Thanks
+   j
+
+> > +#define be		cpu_to_be16
+>
+> It's a pity there's no way to declare an array with all members
+> having a specific endianness.  Making sure all elements in these
+> arrays are declared with be() is tedious.
+>
+> > +#define AR0521_NUM_SUPPLIES ARRAY_SIZE(ar0521_supply_names)
+>
+> It's almost always better to use ARRAY_SIZE directly and not
+> use a #define for the array size.
+>
+> > +static int ar0521_set_gains(struct ar0521_dev *sensor)
+> > +{
+> []
+> > +	dev_dbg(&sensor->i2c_client->dev, "%s()\n", __func__);
+>
+> ftrace works and perhaps all the similar debug logging uses aren't
+> really necessary.
+>
+>
