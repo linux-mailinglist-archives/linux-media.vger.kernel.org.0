@@ -2,293 +2,161 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E778247E0CB
-	for <lists+linux-media@lfdr.de>; Thu, 23 Dec 2021 10:20:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6EE9F47E1DB
+	for <lists+linux-media@lfdr.de>; Thu, 23 Dec 2021 11:59:24 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1347405AbhLWJUM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 23 Dec 2021 04:20:12 -0500
-Received: from www.linuxtv.org ([130.149.80.248]:44428 "EHLO www.linuxtv.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S239245AbhLWJUK (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 23 Dec 2021 04:20:10 -0500
-Received: from builder.linuxtv.org ([140.211.167.10])
-        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1n0KGe-00EYDL-W1; Thu, 23 Dec 2021 09:20:09 +0000
-Received: from [127.0.0.1] (helo=builder.linuxtv.org)
-        by builder.linuxtv.org with esmtp (Exim 4.94.2)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1n0KGc-004Unr-US; Thu, 23 Dec 2021 09:20:06 +0000
-Date:   Thu, 23 Dec 2021 09:20:06 +0000 (UTC)
-From:   Jenkins Builder Robot <jenkins@linuxtv.org>
-To:     mchehab@kernel.org, linux-media@vger.kernel.org
-Message-ID: <1328499186.0.1640251206348@builder.linuxtv.org>
-Subject: Build failed in Jenkins: media-build #3747
+        id S1347820AbhLWK7X (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 23 Dec 2021 05:59:23 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55278 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S243250AbhLWK7W (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Thu, 23 Dec 2021 05:59:22 -0500
+Received: from mail-lj1-x22f.google.com (mail-lj1-x22f.google.com [IPv6:2a00:1450:4864:20::22f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 19AD3C061756
+        for <linux-media@vger.kernel.org>; Thu, 23 Dec 2021 02:59:22 -0800 (PST)
+Received: by mail-lj1-x22f.google.com with SMTP id v15so8679231ljc.0
+        for <linux-media@vger.kernel.org>; Thu, 23 Dec 2021 02:59:21 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=c4iGsoh91KxrBrGqNFTJPQDy9ooHu40v3iiRctF/iBc=;
+        b=EBJc5nrK6p9j6veHdYAAn3scocsoVPD7XdVbJoxP1ulH2p7QyiOSCXbT2xZe8LSVTV
+         eWmj+4Y/y60m/gKXpQNTf8bad6tstfny3dEgun071F8N0Mfmka+sJ+HaBCSOPeifbZak
+         CtWe93t0S4TzF9yByovOrLtGFV/ONI8vREtX1ENZv/tOKJ3BKIupOTolTB2Na37easpO
+         9ht+6aDNfbUGeA83KmfB1tXduOx0LfqzRSUb9Dg69a3RvbHOmeba9K2eVzcj2QpdakZM
+         LJeBgFb9zaX/zk6FA2Is4luDkTzddWQAMqcKJBAHcPv2oxt0oAD9tcCyW2M5Z8R6OeXz
+         pJUw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=c4iGsoh91KxrBrGqNFTJPQDy9ooHu40v3iiRctF/iBc=;
+        b=XG3JN1I/UmxsABfYqICaMEGu2oYiDll/AE6YxMR3GeIRUrruP8apfoStLm5llfPLGT
+         DIraeV9ZIp9xV78nKN0NiIOI89Y3TYCe6ja6uwpo9VVLsm/U2bW6DNpMDGo5Op30qsGo
+         LoulMsgc+VAh8dc1VbhZ63EIXjkrkumzfzfsC6JpIwLlwPQ957FJYXuhgPqxLePNQSmA
+         dHsrkiHsW9ecYpZ3kLC4PTHpjttp8/RRl672IS+vm/4K9yyiol3srzUq+rh+pdp7gICJ
+         vx9tao8TULPMmUGOJ0PdT7excBkOc+dvTJy7F2G4/nRixFX/e4TlTInHVXaGQhLs/q2f
+         yRBQ==
+X-Gm-Message-State: AOAM533zQnla8hsuyf/uuZt0IyJqZvY/HQP92zFXsssko6vGy11c+6/p
+        LwLa94eYA/+R4FsG763wER7UHA==
+X-Google-Smtp-Source: ABdhPJzrM6Yg+3CEQag1QkRcx4LReAIp1OuWGROh3rLAvg9Pdp7MIzV4ecsfH5Te3AIhQWyFEDqZTg==
+X-Received: by 2002:a2e:9b88:: with SMTP id z8mr1325078lji.65.1640257160267;
+        Thu, 23 Dec 2021 02:59:20 -0800 (PST)
+Received: from [192.168.1.102] (88-113-46-102.elisa-laajakaista.fi. [88.113.46.102])
+        by smtp.gmail.com with ESMTPSA id m21sm452454ljp.66.2021.12.23.02.59.19
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 23 Dec 2021 02:59:20 -0800 (PST)
+Subject: Re: [PATCH v3 00/19] CAMSS: Add SM8250 support
+To:     Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+        linux-arm-msm@vger.kernel.org, linux-media@vger.kernel.org,
+        mchehab@kernel.org, hverkuil@xs4all.nl, robert.foss@linaro.org
+Cc:     jonathan@marek.ca, andrey.konovalov@linaro.org,
+        todor.too@gmail.com, agross@kernel.org, bjorn.andersson@linaro.org,
+        jgrahsl@snap.com, hfink@snap.com, dmitry.baryshkov@linaro.org
+References: <20211222003751.2461466-1-bryan.odonoghue@linaro.org>
+From:   Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
+Message-ID: <2f3eb25d-3af9-4339-acb2-8d5b01e5881d@linaro.org>
+Date:   Thu, 23 Dec 2021 12:59:19 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+In-Reply-To: <20211222003751.2461466-1-bryan.odonoghue@linaro.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-Instance-Identity: MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEApAf928QubrKEjMQ0IZR0WWXn8zG7uTdH33F2Idx4Xmlp6Z138NdNMQYNG71OKzmvn3/E1G4rpd9JsMls16nRZ2NAPgOWX0qfFr6HyOoQklLGZt+vkOFb0BvmBFfdI+00J5B1SPupxv4pT3bDLSiwbBNCOLY4sdB0gG1ng14mzu47G8zmH6l2ZE/9urEd6OLFhzrb6ym4vlkCE8uvNJAdAWbeafd1plHSLdU/TVqHMZELuM0wt9khqhUOkfE+dHr7h6DNrkFpvm/8j/5wTuy98ZwwWimP+pfjSQMgKrhXjwHcJJa2N9v1HdwrwlUaRYuA6o8fwUHNC9vLj7cCXM3qiwIDAQAB
-X-Jenkins-Job: media-build
-X-Jenkins-Result: FAILURE
-Auto-submitted: auto-generated
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-See <https://builder.linuxtv.org/job/media-build/3747/display/redirect>
+On 12/22/21 2:37 AM, Bryan O'Donoghue wrote:
+> V3:
+> Publishing this V3 to make it a bit easier to merge
+> 
+> - Adds Rob Herring's RB for the first DTS change
+> - Adds Robert Foss' RB for the final three patches
+> - Validated on latest 5.16-rc6 on rb3 and rb5
+> - No functional changes to v2
+> 
+> Link: https://git.linaro.org/people/bryan.odonoghue/kernel.git/commit/?h=v5.16-rc6-sm8250-camss-imx577-only-v3
+> Link: https://git.linaro.org/people/bryan.odonoghue/kernel.git/commit/?h=v5.16-rc3-sm8250-camss-imx577-only-v2
+> 
+> RESEND V2:
+> + Cc: devicetree@vger.kernel.org on first patch
+> 
+> V2:
+> - Adds Tested-by Julian Grahsl as indicated.
+> - Fixes low-level noise checkpatch --strict
+>    I ended up having to push defines into static inlines for this.
+> - Adds Reviewed-by Robert Foss.
+> - Adds VFE/CSID fix for sdm845 as explicit additional sdm845 specific
+>    patch per Robert's suggestion.
+> 
+> I took the time then to test out on sdm845 to ensure the new patch breaks
+> nothing "./cam -c 1 --capture=1 --file=capture.raw" continues to produce
+> expected data.
+> 
+> Link: https://git.linaro.org/people/bryan.odonoghue/kernel.git/commit/?h=v5.16-rc1-sm8250-camss-imx577-only
+> Link: https://git.linaro.org/people/bryan.odonoghue/kernel.git/commit/?h=v5.16-rc3-sm8250-camss-imx577-only-v2
+> 
+> git diff v5.16-rc1-sm8250-camss-imx577-only..v5.16-rc3-sm8250-camss-imx577-only-v2 -- drivers/media/platform/qcom/camss
+> 
+> V1/RESEND:
+> RESEND: git send-email --to=inux-arm-msm@vger.kernel.org -> --to=linux-arm-msm@vger.kernel.org
+> 
+> This series is imported from excellent enabling work contributed by
+> Jonathan Marek which we have picked up in Linaro for the RB5 project.
+> 
+> Link: https://patchwork.kernel.org/project/linux-arm-msm/patch/20210511180728.23781-2-jonathan@marek.ca/
+> Link: https://www.qualcomm.com/products/robotics-rb5-platform
+> Link: https://www.96boards.org/product/qualcomm-robotics-rb5
+> Link: https://www.thundercomm.com/app_en/product/1590131656070623?index=1&categoryId=category0&tabIndex=1
+> 
+> The RB5 has a slightly different sku I think to Jonathan's platform -
+> QRB5165 in our case with a different version of LK the relevant bootloader
+> for the board.
+> 
+> As a result we needed to make some additional updates to the provided
+> patcheset, included here.
+> 
+> The most notable changes are:
+> 
+> - Addition of clocks.
+> - Addition of bandwidth settings.
+> - Representing the dependency on a VFE for a given CSID so that V4L
+>    subdevs will come out of reset right when poked.
+> 
+> A full tree which is bootable and capable of producing pixel data from the
+> imx577 main sensor is available here, with this series being a sub-set of
+> the necessary patches on the SoC side only.
+> 
+> Link: https://git.linaro.org/people/bryan.odonoghue/kernel.git/log/?h=v5.16-rc1-sm8250-camss-imx577-only
+> 
+> media-ctl --reset
+> media-ctl -v -d /dev/media0 -V '"imx412 '20-001a'":0[fmt:SRGGB10/4056x3040 field:none]'
+> media-ctl -V '"msm_csiphy2":0[fmt:SRGGB10/4056x3040]'
+> media-ctl -V '"msm_csid0":0[fmt:SRGGB10/4056x3040]'
+> media-ctl -V '"msm_vfe0_rdi0":0[fmt:SRGGB10/4056x3040]'
+> media-ctl -l '"msm_csiphy2":1->"msm_csid0":0[1]'
+> media-ctl -l '"msm_csid0":1->"msm_vfe0_rdi0":0[1]'
+> 
+> yavta -B capture-mplane -c -I -n 5 -f SRGGB10P -s 4056x3040 -F /dev/video0
+> 
 
-Changes:
+Tested-by: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
 
+I've tested the series on top of v5.16-rc6 on RB5 board, image capturing
+from the imx577 sensor works fine, if I use the supplied rb5_defconfig.
+However I have to report that the camss driver is not probed successfully,
+if it is built-in, then there is an issue related to device link suppliers:
 
-------------------------------------------
-[...truncated 19.37 KB...]
-firmware/README
-firmware/isdbt_rio.inp
-firmware/dvb-usb-umt-010-02.fw
-firmware/sms1xxx-hcw-55xxx-dvbt-02.fw
-firmware/dvb-usb-terratec-h7-az6007.fw
-firmware/v4l-cx23885-avcore-01.fw
-******************
-* Start building *
-******************
-make -C <https://builder.linuxtv.org/job/media-build/ws/v4l> allyesconfig
-make[1]: Entering directory '<https://builder.linuxtv.org/job/media-build/ws/v4l'>
-No version yet, using 5.10.0-9-amd64
-make[2]: Entering directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
-Applying patches for kernel 5.10.0-9-amd64
-patch -s -f -N -p1 -i ../backports/api_version.patch
-patch -s -f -N -p1 -i ../backports/pr_fmt.patch
-patch -s -f -N -p1 -i ../backports/debug.patch
-patch -s -f -N -p1 -i ../backports/drx39xxj.patch
-patch -s -f -N -p1 -i ../backports/ccs.patch
-patch -s -f -N -p1 -i ../backports/rc-cec.patch
-patch -s -f -N -p1 -i ../backports/v5.15_container_of.patch
-patch -s -f -N -p1 -i ../backports/v5.14_bus_void_return.patch
-patch -s -f -N -p1 -i ../backports/v5.12_uvc.patch
-patch -s -f -N -p1 -i ../backports/v5.11_isa.patch
-patch -s -f -N -p1 -i ../backports/v5.10_vb2_dma_buf_map.patch
-Patched drivers/media/dvb-core/dvbdev.c
-Patched drivers/media/v4l2-core/v4l2-dev.c
-Patched drivers/media/rc/rc-main.c
-make[2]: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
-./scripts/make_kconfig.pl /lib/modules/5.10.0-9-amd64/build /lib/modules/5.10.0-9-amd64/source 1
-Preparing to compile for kernel version 5.10.0
+	platform ac6a000.camss: error -EPROBE_DEFER: wait for supplier camera@1a
+	platform ac6a000.camss: Added to deferred list
 
-***WARNING:*** You do not have the full kernel sources installed.
-This does not prevent you from building the v4l-dvb tree if you have the
-kernel headers, but the full kernel source may be required in order to use
-make menuconfig / xconfig / qconfig.
+This could be analyzed separately.
 
-If you are experiencing problems building the v4l-dvb tree, please try
-building against a vanilla kernel before reporting a bug.
-
-Vanilla kernels are available at http://kernel.org.
-On most distros, this will compile a newly downloaded kernel:
-
-cp /boot/config-`uname -r` <your kernel dir>/.config
-cd <your kernel dir>
-make all modules_install install
-
-Please see your distro's web site for instructions to build a new kernel.
-
-WARNING: This is the V4L/DVB backport tree, with experimental drivers
-	 backported to run on legacy kernels from the development tree at:
-		http://git.linuxtv.org/media-tree.git.
-	 It is generally safe to use it for testing a new driver or
-	 feature, but its usage on production environments is risky.
-	 Don't use it in production. You've been warned.
-CEC_CROS_EC: Requires at least kernel 9.255.255
-V4L2_H264: Requires at least kernel 9.255.255
-VIDEO_IPU3_CIO2: Requires at least kernel 9.255.255
-VIDEO_OMAP3: Requires at least kernel 9.255.255
-VIDEO_MEM2MEM_DEINTERLACE: Requires at least kernel 9.255.255
-VIDEO_IMX258: Requires at least kernel 9.255.255
-VIDEO_IMX274: Requires at least kernel 9.255.255
-VIDEO_IMX319: Requires at least kernel 9.255.255
-VIDEO_OV02A10: Requires at least kernel 9.255.255
-VIDEO_OV772X: Requires at least kernel 9.255.255
-VIDEO_OV9650: Requires at least kernel 9.255.255
-SND_BT87X: Requires at least kernel 9.255.255
-INTEL_ATOMISP: Requires at least kernel 9.255.255
-VIDEO_HANTRO: Requires at least kernel 9.255.255
-VIDEO_ROCKCHIP_VDEC: Requires at least kernel 9.255.255
-VIDEO_IPU3_IMGU: Requires at least kernel 9.255.255
-Created default (all yes) .config file
-./scripts/fix_kconfig.pl
-make[1]: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/v4l'>
-make -C <https://builder.linuxtv.org/job/media-build/ws/v4l> 
-make[1]: Entering directory '<https://builder.linuxtv.org/job/media-build/ws/v4l'>
-scripts/make_makefile.pl
-./scripts/make_myconfig.pl
-[ ! -f "./config-mycompat.h" ] && echo "/* empty config-mycompat.h */" > "./config-mycompat.h" || true
-perl scripts/make_config_compat.pl /lib/modules/5.10.0-9-amd64/source ./.myconfig ./config-compat.h
-creating symbolic links...
-Kernel build directory is /lib/modules/5.10.0-9-amd64/build
-make -C ../linux apply_patches
-make[2]: Entering directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
-Patches for 5.10.0-9-amd64 already applied.
-make[2]: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
-make -C /lib/modules/5.10.0-9-amd64/build M=<https://builder.linuxtv.org/job/media-build/ws/v4l>  modules
-make[2]: Entering directory '/usr/src/linux-headers-5.10.0-9-amd64'
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/msp3400-driver.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/msp3400-kthreads.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ccs-core.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ccs-reg-access.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ccs-quirk.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ccs-limits.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ccs-data.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/et8ek8_mode.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/et8ek8_driver.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/cx25840-core.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/cx25840-audio.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/cx25840-firmware.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/cx25840-vbi.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/cx25840-ir.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/m5mols_core.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/m5mols_controls.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/m5mols_capture.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/aptina-pll.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/tvaudio.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/tda7432.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/saa6588.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/tda9840.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/tda1997x.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/tea6415c.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/tea6420.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/saa7110.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/saa7115.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/saa717x.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/saa7127.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/saa7185.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/saa6752hs.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ad5820.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ak7375.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/dw9714.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/dw9768.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/dw9807-vcm.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/adv7170.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/adv7175.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/adv7180.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/adv7183.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/adv7343.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/adv7393.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/adv7604.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/adv7842.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ad9389b.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/adv7511-v4l2.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/vpx3220.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/vs6624.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/bt819.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/bt856.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/bt866.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ks0127.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ths7303.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ths8200.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/tvp5150.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/tvp514x.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/tvp7002.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/tw2804.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/tw9903.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/tw9906.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/tw9910.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/cs3308.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/cs5345.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/cs53l32a.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/m52790.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/tlv320aic23b.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/uda1342.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/wm8775.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/wm8739.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/vp27smpx.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/sony-btf-mpx.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/upd64031a.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/upd64083.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ov2640.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ov2680.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ov2685.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ov2740.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ov5647.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ov5648.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ov5670.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ov5675.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ov5693.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ov5695.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ov6650.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ov7251.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ov7640.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ov7670.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ov8856.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ov8865.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ov9640.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ov9734.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ov13858.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ov13b10.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/mt9m001.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/mt9m032.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/mt9m111.o>
-<https://builder.linuxtv.org/job/media-build/ws/v4l/ov2740.c>: In function 'ov2740_probe':
-<https://builder.linuxtv.org/job/media-build/ws/v4l/ov2740.c>:1165:15: error: implicit declaration of function 'acpi_dev_state_d0'; did you mean 'acpi_dev_suspend'? [-Werror=implicit-function-declaration]
- 1165 |  full_power = acpi_dev_state_d0(&client->dev);
-      |               ^~~~~~~~~~~~~~~~~
-      |               acpi_dev_suspend
-<https://builder.linuxtv.org/job/media-build/ws/v4l/ov2740.c>: At top level:
-<https://builder.linuxtv.org/job/media-build/ws/v4l/ov2740.c>:1248:3: error: 'struct i2c_driver' has no member named 'flags'
- 1248 |  .flags = I2C_DRV_ACPI_WAIVE_D0_PROBE,
-      |   ^~~~~
-<https://builder.linuxtv.org/job/media-build/ws/v4l/ov2740.c>:1248:11: error: 'I2C_DRV_ACPI_WAIVE_D0_PROBE' undeclared here (not in a function)
- 1248 |  .flags = I2C_DRV_ACPI_WAIVE_D0_PROBE,
-      |           ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-cc1: some warnings being treated as errors
-make[4]: *** [/usr/src/linux-headers-5.10.0-9-common/scripts/Makefile.build:285: <https://builder.linuxtv.org/job/media-build/ws/v4l/ov2740.o]> Error 1
-make[4]: *** Waiting for unfinished jobs....
-<https://builder.linuxtv.org/job/media-build/ws/v4l/ov5675.c>: In function 'ov5675_probe':
-<https://builder.linuxtv.org/job/media-build/ws/v4l/ov5675.c>:1185:15: error: implicit declaration of function 'acpi_dev_state_d0'; did you mean 'acpi_dev_suspend'? [-Werror=implicit-function-declaration]
- 1185 |  full_power = acpi_dev_state_d0(&client->dev);
-      |               ^~~~~~~~~~~~~~~~~
-      |               acpi_dev_suspend
-<https://builder.linuxtv.org/job/media-build/ws/v4l/ov5675.c>: At top level:
-<https://builder.linuxtv.org/job/media-build/ws/v4l/ov5675.c>:1264:3: error: 'struct i2c_driver' has no member named 'flags'
- 1264 |  .flags = I2C_DRV_ACPI_WAIVE_D0_PROBE,
-      |   ^~~~~
-<https://builder.linuxtv.org/job/media-build/ws/v4l/ov5675.c>:1264:11: error: 'I2C_DRV_ACPI_WAIVE_D0_PROBE' undeclared here (not in a function)
- 1264 |  .flags = I2C_DRV_ACPI_WAIVE_D0_PROBE,
-      |           ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-cc1: some warnings being treated as errors
-make[4]: *** [/usr/src/linux-headers-5.10.0-9-common/scripts/Makefile.build:285: <https://builder.linuxtv.org/job/media-build/ws/v4l/ov5675.o]> Error 1
-<https://builder.linuxtv.org/job/media-build/ws/v4l/ov5670.c>: In function 'ov5670_probe':
-<https://builder.linuxtv.org/job/media-build/ws/v4l/ov5670.c>:2493:15: error: implicit declaration of function 'acpi_dev_state_d0'; did you mean 'acpi_dev_suspend'? [-Werror=implicit-function-declaration]
- 2493 |  full_power = acpi_dev_state_d0(&client->dev);
-      |               ^~~~~~~~~~~~~~~~~
-      |               acpi_dev_suspend
-<https://builder.linuxtv.org/job/media-build/ws/v4l/ov5670.c>: At top level:
-<https://builder.linuxtv.org/job/media-build/ws/v4l/ov5670.c>:2596:3: error: 'struct i2c_driver' has no member named 'flags'
- 2596 |  .flags = I2C_DRV_ACPI_WAIVE_D0_PROBE,
-      |   ^~~~~
-<https://builder.linuxtv.org/job/media-build/ws/v4l/ov5670.c>:2596:11: error: 'I2C_DRV_ACPI_WAIVE_D0_PROBE' undeclared here (not in a function)
- 2596 |  .flags = I2C_DRV_ACPI_WAIVE_D0_PROBE,
-      |           ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-cc1: some warnings being treated as errors
-make[4]: *** [/usr/src/linux-headers-5.10.0-9-common/scripts/Makefile.build:285: <https://builder.linuxtv.org/job/media-build/ws/v4l/ov5670.o]> Error 1
-<https://builder.linuxtv.org/job/media-build/ws/v4l/ov8856.c>: In function 'ov8856_probe':
-<https://builder.linuxtv.org/job/media-build/ws/v4l/ov8856.c>:2489:15: error: implicit declaration of function 'acpi_dev_state_d0'; did you mean 'acpi_dev_suspend'? [-Werror=implicit-function-declaration]
- 2489 |  full_power = acpi_dev_state_d0(&client->dev);
-      |               ^~~~~~~~~~~~~~~~~
-      |               acpi_dev_suspend
-<https://builder.linuxtv.org/job/media-build/ws/v4l/ov8856.c>: At top level:
-<https://builder.linuxtv.org/job/media-build/ws/v4l/ov8856.c>:2580:3: error: 'struct i2c_driver' has no member named 'flags'
- 2580 |  .flags = I2C_DRV_ACPI_WAIVE_D0_PROBE,
-      |   ^~~~~
-<https://builder.linuxtv.org/job/media-build/ws/v4l/ov8856.c>:2580:11: error: 'I2C_DRV_ACPI_WAIVE_D0_PROBE' undeclared here (not in a function)
- 2580 |  .flags = I2C_DRV_ACPI_WAIVE_D0_PROBE,
-      |           ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-cc1: some warnings being treated as errors
-make[4]: *** [/usr/src/linux-headers-5.10.0-9-common/scripts/Makefile.build:285: <https://builder.linuxtv.org/job/media-build/ws/v4l/ov8856.o]> Error 1
-make[3]: *** [/usr/src/linux-headers-5.10.0-9-common/Makefile:1846: <https://builder.linuxtv.org/job/media-build/ws/v4l]> Error 2
-make[2]: *** [/usr/src/linux-headers-5.10.0-9-common/Makefile:185: __sub-make] Error 2
-make[2]: Leaving directory '/usr/src/linux-headers-5.10.0-9-amd64'
-make[1]: *** [Makefile:53: default] Error 2
-make[1]: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/v4l'>
-make: *** [Makefile:26: all] Error 2
-build failed at ./build line 533
-Build step 'Execute shell' marked build as failure
+--
+Best wishes,
+Vladimir
