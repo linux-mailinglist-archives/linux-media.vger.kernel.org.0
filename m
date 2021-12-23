@@ -2,392 +2,436 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0FBA547E835
-	for <lists+linux-media@lfdr.de>; Thu, 23 Dec 2021 20:17:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D89DC47E83F
+	for <lists+linux-media@lfdr.de>; Thu, 23 Dec 2021 20:19:07 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1350099AbhLWTR1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 23 Dec 2021 14:17:27 -0500
-Received: from lelv0142.ext.ti.com ([198.47.23.249]:47644 "EHLO
-        lelv0142.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1350033AbhLWTRW (ORCPT
+        id S235944AbhLWTTE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 23 Dec 2021 14:19:04 -0500
+Received: from relay032.a.hostedemail.com ([64.99.140.32]:53942 "EHLO
+        relay.hostedemail.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+        with ESMTP id S233253AbhLWTTE (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 23 Dec 2021 14:17:22 -0500
-Received: from fllv0034.itg.ti.com ([10.64.40.246])
-        by lelv0142.ext.ti.com (8.15.2/8.15.2) with ESMTP id 1BNJHHfX029577;
-        Thu, 23 Dec 2021 13:17:17 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-        s=ti-com-17Q1; t=1640287037;
-        bh=R0gbQOb2lXd5oxD5hSyV/eX7NgDQjbKY5xdCNgZr7z8=;
-        h=From:To:CC:Subject:Date:In-Reply-To:References;
-        b=eWrMicoyEfLy7sdhVLgl0kzL3Hr68QYL+MEruRS50eQcu+7OKRiHXWmmcnjzJ8ec8
-         AEq0KdzcAK0HmNMjqPWbkH/e4d2O7VbPkbvxF7fi8QRDRbEULzzDocAwg1G7kx1ya5
-         vtK2fxqC0kWSBMS4hgp+fXamraod/iBbPHc1KG68=
-Received: from DLEE105.ent.ti.com (dlee105.ent.ti.com [157.170.170.35])
-        by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 1BNJHGvE007561
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Thu, 23 Dec 2021 13:17:16 -0600
-Received: from DLEE101.ent.ti.com (157.170.170.31) by DLEE105.ent.ti.com
- (157.170.170.35) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2308.14; Thu, 23
- Dec 2021 13:17:16 -0600
-Received: from lelv0326.itg.ti.com (10.180.67.84) by DLEE101.ent.ti.com
- (157.170.170.31) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2308.14 via
- Frontend Transport; Thu, 23 Dec 2021 13:17:16 -0600
-Received: from pratyush-OptiPlex-790.dhcp.ti.com (ileax41-snat.itg.ti.com [10.172.224.153])
-        by lelv0326.itg.ti.com (8.15.2/8.15.2) with ESMTP id 1BNJGGQb006164;
-        Thu, 23 Dec 2021 13:17:13 -0600
-From:   Pratyush Yadav <p.yadav@ti.com>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>
-CC:     Pratyush Yadav <p.yadav@ti.com>,
+        Thu, 23 Dec 2021 14:19:04 -0500
+Received: from omf05.hostedemail.com (a10.router.float.18 [10.200.18.1])
+        by unirelay08.hostedemail.com (Postfix) with ESMTP id 7332A20303;
+        Thu, 23 Dec 2021 19:19:02 +0000 (UTC)
+Received: from [HIDDEN] (Authenticated sender: joe@perches.com) by omf05.hostedemail.com (Postfix) with ESMTPA id 5982520015;
+        Thu, 23 Dec 2021 19:18:55 +0000 (UTC)
+Message-ID: <228ca42e53c6db97d5972b90786f9dd30e3a56b5.camel@perches.com>
+Subject: Re: [PATCH v6 2/2] Driver for ON Semi AR0521 camera sensor
+From:   Joe Perches <joe@perches.com>
+To:     Jacopo Mondi <jacopo@jmondi.org>
+Cc:     Krzysztof =?UTF-8?Q?Ha=C5=82asa?= <khalasa@piap.pl>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
         Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Nikhil Devshatwar <nikhil.nd@ti.com>,
-        Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-        Vignesh Raghavendra <vigneshr@ti.com>,
-        Benoit Parrot <bparrot@ti.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>,
-        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-media@vger.kernel.org>
-Subject: [PATCH v5 14/14] media: dt-bindings: Convert Cadence CSI2RX binding to YAML
-Date:   Fri, 24 Dec 2021 00:46:15 +0530
-Message-ID: <20211223191615.17803-15-p.yadav@ti.com>
-X-Mailer: git-send-email 2.33.1.835.ge9e5ba39a7
-In-Reply-To: <20211223191615.17803-1-p.yadav@ti.com>
-References: <20211223191615.17803-1-p.yadav@ti.com>
+        Sakari Ailus <sakari.ailus@iki.fi>
+Date:   Thu, 23 Dec 2021 11:19:00 -0800
+In-Reply-To: <20211223184856.v34ecibwzepahsju@uno.localdomain>
+References: <m3ee63hkuu.fsf@t19.piap.pl> <m35yrfhkaf.fsf@t19.piap.pl>
+         <cee1bbe6c8dda1c79ba19f7bbf68fc1d74558cae.camel@perches.com>
+         <20211223184856.v34ecibwzepahsju@uno.localdomain>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.40.4-1ubuntu2 
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+X-Stat-Signature: py7xrhtk9fgs3zbiekogdxjf8ag7ipu1
+X-Rspamd-Server: rspamout04
+X-Rspamd-Queue-Id: 5982520015
+X-Spam-Status: No, score=-3.40
+X-Session-Marker: 6A6F6540706572636865732E636F6D
+X-Session-ID: U2FsdGVkX18vRg5YHdWx/vRQzPDIInnA/39bgJ0Yc4Q=
+X-HE-Tag: 1640287135-701640
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Convert the Cadence CSI2RX binding to use YAML schema.
+On Thu, 2021-12-23 at 19:48 +0100, Jacopo Mondi wrote:
+> Hi Joe,
+>   sorry to jump in
 
-Signed-off-by: Pratyush Yadav <p.yadav@ti.com>
-Reviewed-by: Rob Herring <robh@kernel.org>
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+No worries.  It's all just a bikeshed and doesn't really matter
+to the correctness of the code.
 
----
+> On Thu, Dec 23, 2021 at 09:49:58AM -0800, Joe Perches wrote:
+> > On Thu, 2021-12-23 at 08:06 +0100, Krzysztof Hałasa wrote:
+> > > The driver has been extensively tested in an i.MX6-based system.
+> > > AR0521 is a 5.7 mm x 4.3 mm, 5 MPix RGGB MIPI/HiSPi BSI CMOS sensor
+> > > from On Semiconductor.
+> > 
+> > trivial notes:
+> > 
+> > > diff --git a/drivers/media/i2c/ar0521.c b/drivers/media/i2c/ar0521.c
+> > []
+> > > +/* External clock (extclk) frequencies */
+> > > +#define AR0521_EXTCLK_MIN	  (10 * 1000 * 1000)
+> > 
+> > Generally, adding a prefix like AR0521_ to defines that are
+> > locally defined in a single file unnecessarily increases
+> > identifier length.
+> > 
+> > It makes using short line lengths difficult.
+> > 
+> > e.g. Using this identifier anywhere
+> > 
+> > > +#define AR0521_REG_HISPI_CONTROL_STATUS_FRAMER_TEST_MODE_ENABLE 0x80
+> > 
+> > Many of the 80 column line lengths and line wrapping used in this
+> > file are not really nice to read.  I believe you don't have to be
+> > strict about 80 column lines.
+> > 
+> 
+> Krzysztof first version had much longer lines, and in facts it has
+> been asked by me to reduce them to 80 cols. The media subsystem
+> requires to validate patches with
+> 
+>         ./scripts/checkpatch.pl --strict --max-line-length=80
+> 
+> We longly debated this and I believe it's now generally accepted to go
+> over 80 when it makes sense, but not regularly span to 120 cols like
+> in the previous version.
 
-Changes in v5:
-- Move clock description in comments under the clocks property.
-- Make ports required.
-- Add Rob's and Laurent's R-by.
+IMO: Many of the lines here could be lengthened to < 100 to
+improve readability.
 
-Changes in v4:
-- Add power-domains property.
-- Drop maxItems from clock-names.
-- Drop the type for data-lanes.
-- Drop uniqueItems from data-lanes. Move it to video-interfaces.yaml
-  instead.
+> I think this 80-cols limit not being an hard limit anymore is doing
+> more worse than good, as each subsystem applies a different rule, and
+> I know how frustrating is for Krzysztof to be pushed in different
+> direction, as the same happened to me when I contributed to other
+> subsystems and I've been asked to span to 100 cols while I was trying
+> to stay in 80 no matter what.
 
-Changes in v3:
-- Add compatible: contains: const: cdns,csi2rx to allow SoC specific
-  compatible.
-- Add more constraints for data-lanes property.
+Up to you all.
 
-Changes in v2:
-- New in v2.
+But there's a tension between long identifiers and short lines.
 
- .../devicetree/bindings/media/cdns,csi2rx.txt | 100 ----------
- .../bindings/media/cdns,csi2rx.yaml           | 176 ++++++++++++++++++
- 2 files changed, 176 insertions(+), 100 deletions(-)
- delete mode 100644 Documentation/devicetree/bindings/media/cdns,csi2rx.txt
- create mode 100644 Documentation/devicetree/bindings/media/cdns,csi2rx.yaml
+And anything using a 55 character identifier basically guarantees
+that the code will exceed 80 columns.
 
-diff --git a/Documentation/devicetree/bindings/media/cdns,csi2rx.txt b/Documentation/devicetree/bindings/media/cdns,csi2rx.txt
-deleted file mode 100644
-index 6b02a0657ad9..000000000000
---- a/Documentation/devicetree/bindings/media/cdns,csi2rx.txt
-+++ /dev/null
-@@ -1,100 +0,0 @@
--Cadence MIPI-CSI2 RX controller
--===============================
--
--The Cadence MIPI-CSI2 RX controller is a CSI-2 bridge supporting up to 4 CSI
--lanes in input, and 4 different pixel streams in output.
--
--Required properties:
--  - compatible: must be set to "cdns,csi2rx" and an SoC-specific compatible
--  - reg: base address and size of the memory mapped region
--  - clocks: phandles to the clocks driving the controller
--  - clock-names: must contain:
--    * sys_clk: main clock
--    * p_clk: register bank clock
--    * pixel_if[0-3]_clk: pixel stream output clock, one for each stream
--                         implemented in hardware, between 0 and 3
--
--Optional properties:
--  - phys: phandle to the external D-PHY, phy-names must be provided
--  - phy-names: must contain "dphy", if the implementation uses an
--               external D-PHY
--
--Required subnodes:
--  - ports: A ports node with one port child node per device input and output
--           port, in accordance with the video interface bindings defined in
--           Documentation/devicetree/bindings/media/video-interfaces.txt. The
--           port nodes are numbered as follows:
--
--           Port Description
--           -----------------------------
--           0    CSI-2 input
--           1    Stream 0 output
--           2    Stream 1 output
--           3    Stream 2 output
--           4    Stream 3 output
--
--           The stream output port nodes are optional if they are not
--           connected to anything at the hardware level or implemented
--           in the design.Since there is only one endpoint per port,
--           the endpoints are not numbered.
--
--
--Example:
--
--csi2rx: csi-bridge@0d060000 {
--	compatible = "cdns,csi2rx";
--	reg = <0x0d060000 0x1000>;
--	clocks = <&byteclock>, <&byteclock>
--		 <&coreclock>, <&coreclock>,
--		 <&coreclock>, <&coreclock>;
--	clock-names = "sys_clk", "p_clk",
--		      "pixel_if0_clk", "pixel_if1_clk",
--		      "pixel_if2_clk", "pixel_if3_clk";
--
--	ports {
--		#address-cells = <1>;
--		#size-cells = <0>;
--
--		port@0 {
--			reg = <0>;
--
--			csi2rx_in_sensor: endpoint {
--				remote-endpoint = <&sensor_out_csi2rx>;
--				clock-lanes = <0>;
--				data-lanes = <1 2>;
--			};
--		};
--
--		port@1 {
--			reg = <1>;
--
--			csi2rx_out_grabber0: endpoint {
--				remote-endpoint = <&grabber0_in_csi2rx>;
--			};
--		};
--
--		port@2 {
--			reg = <2>;
--
--			csi2rx_out_grabber1: endpoint {
--				remote-endpoint = <&grabber1_in_csi2rx>;
--			};
--		};
--
--		port@3 {
--			reg = <3>;
--
--			csi2rx_out_grabber2: endpoint {
--				remote-endpoint = <&grabber2_in_csi2rx>;
--			};
--		};
--
--		port@4 {
--			reg = <4>;
--
--			csi2rx_out_grabber3: endpoint {
--				remote-endpoint = <&grabber3_in_csi2rx>;
--			};
--		};
--	};
--};
-diff --git a/Documentation/devicetree/bindings/media/cdns,csi2rx.yaml b/Documentation/devicetree/bindings/media/cdns,csi2rx.yaml
-new file mode 100644
-index 000000000000..399fe619377d
---- /dev/null
-+++ b/Documentation/devicetree/bindings/media/cdns,csi2rx.yaml
-@@ -0,0 +1,176 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/media/cdns,csi2rx.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Cadence MIPI-CSI2 RX controller
-+
-+description: |
-+  The Cadence MIPI-CSI2 RX controller is a CSI-2 bridge supporting up to 4 CSI
-+  lanes in input, and 4 different pixel streams in output.
-+
-+maintainers:
-+  - Pratyush Yadav <p.yadav@ti.com>
-+
-+properties:
-+  compatible:
-+    contains:
-+      const: cdns,csi2rx
-+
-+  reg:
-+    maxItems: 1
-+
-+  clocks:
-+    minItems: 3
-+    items:
-+      - description: Main clock
-+      - description: Register bank clock
-+      - description: Pixel stream 0 output clock
-+      - description: Pixel stream 1 output clock
-+      - description: Pixel stream 2 output clock
-+      - description: Pixel stream 3 output clock
-+
-+  clock-names:
-+    minItems: 3
-+    items:
-+      - const: sys_clk
-+      - const: p_clk
-+      - const: pixel_if0_clk
-+      - const: pixel_if1_clk
-+      - const: pixel_if2_clk
-+      - const: pixel_if3_clk
-+
-+  phys:
-+    maxItems: 1
-+    description: phandle to the external D-PHY
-+
-+  phy-names:
-+    items:
-+      - const: dphy
-+
-+  power-domains:
-+    maxItems: 1
-+
-+  ports:
-+    $ref: /schemas/graph.yaml#/properties/ports
-+
-+    properties:
-+      port@0:
-+        $ref: /schemas/graph.yaml#/$defs/port-base
-+        unevaluatedProperties: false
-+        description: CSI-2 input
-+
-+        properties:
-+          endpoint:
-+            $ref: video-interfaces.yaml#
-+            unevaluatedProperties: false
-+
-+            properties:
-+              clock-lanes:
-+                maxItems: 1
-+
-+              data-lanes:
-+                minItems: 1
-+                maxItems: 4
-+                items:
-+                  maximum: 4
-+
-+            required:
-+              - clock-lanes
-+              - data-lanes
-+
-+      port@1:
-+        $ref: /schemas/graph.yaml#/properties/port
-+        description: Stream 0 output
-+
-+      port@2:
-+        $ref: /schemas/graph.yaml#/properties/port
-+        description: Stream 1 output
-+
-+      port@3:
-+        $ref: /schemas/graph.yaml#/properties/port
-+        description: Stream 2 output
-+
-+      port@4:
-+        $ref: /schemas/graph.yaml#/properties/port
-+        description: Stream 3 output
-+
-+    required:
-+      - port@0
-+
-+
-+dependencies:
-+  phys: [ 'phy-names' ]
-+  phy-names: [ 'phys' ]
-+
-+required:
-+  - compatible
-+  - reg
-+  - clocks
-+  - clock-names
-+  - ports
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+    csi2rx: csi-bridge@d060000 {
-+      compatible = "cdns,csi2rx";
-+      reg = <0x0d060000 0x1000>;
-+      clocks = <&byteclock>, <&byteclock>,
-+        <&coreclock>, <&coreclock>,
-+        <&coreclock>, <&coreclock>;
-+      clock-names = "sys_clk", "p_clk",
-+              "pixel_if0_clk", "pixel_if1_clk",
-+              "pixel_if2_clk", "pixel_if3_clk";
-+      phys = <&dphy0>;
-+      phy-names = "dphy";
-+
-+      ports {
-+        #address-cells = <1>;
-+        #size-cells = <0>;
-+
-+        port@0 {
-+          reg = <0>;
-+
-+          csi2rx_in_sensor: endpoint {
-+            remote-endpoint = <&sensor_out_csi2rx>;
-+            clock-lanes = <0>;
-+            data-lanes = <1 2>;
-+          };
-+        };
-+
-+        port@1 {
-+          reg = <1>;
-+
-+          csi2rx_out_grabber0: endpoint {
-+            remote-endpoint = <&grabber0_in_csi2rx>;
-+          };
-+        };
-+
-+        port@2 {
-+          reg = <2>;
-+
-+          csi2rx_out_grabber1: endpoint {
-+            remote-endpoint = <&grabber1_in_csi2rx>;
-+          };
-+        };
-+
-+        port@3 {
-+          reg = <3>;
-+
-+          csi2rx_out_grabber2: endpoint {
-+            remote-endpoint = <&grabber2_in_csi2rx>;
-+          };
-+        };
-+
-+        port@4 {
-+          reg = <4>;
-+
-+          csi2rx_out_grabber3: endpoint {
-+            remote-endpoint = <&grabber3_in_csi2rx>;
-+          };
-+        };
-+      };
-+    };
--- 
-2.33.1.835.ge9e5ba39a7
+Using identifiers with 10 character or so is generally OK, but
+there are dozens of longer identifiers specific to this code.
+
+I'd suggest because of these long identifiers that the code
+be restricted to 100 columns, but not strictly at 80.
+
+And there are quite a few long lines in drivers/media/i2c and
+espcially for drivers/media/
+
+A few of them are grotesquely long.
+Probably all of them are historic and don't warrant change.
+
+Just for i2c:
+
+$ git ls-files -- 'drivers/media/i2c/*.[ch]' | \
+  xargs awk '{print length($0); }' | \
+  sort -rn | uniq -c
+      2 143
+      1 141
+      1 123
+      4 118
+      2 114
+      1 111
+      1 110
+      1 109
+      1 107
+      1 105
+      4 104
+      2 102
+      3 101
+      1 100
+      2 99
+     11 98
+      7 97
+      8 96
+      4 95
+     11 94
+      8 93
+     19 92
+     13 91
+     28 90
+     20 89
+     28 88
+     39 87
+     18 86
+     33 85
+     42 84
+     86 83
+     38 82
+     47 81
+    167 80
+    110 79
+    155 78
+    363 77
+    230 76
+    219 75
+    217 74
+    427 73
+    695 72
+    471 71
+    538 70
+    525 69
+    679 68
+    661 67
+   1046 66
+    757 65
+   1002 64
+    942 63
+   1053 62
+    967 61
+   1018 60
+   1132 59
+   1307 58
+   1366 57
+   3206 56
+   1240 55
+   2191 54
+   1829 53
+   1719 52
+   1503 51
+   1795 50
+   1714 49
+   1640 48
+   1567 47
+   1550 46
+   1880 45
+   2155 44
+   1780 43
+   1880 42
+   1854 41
+   1962 40
+   2031 39
+   2009 38
+   2022 37
+   2240 36
+   2252 35
+   2152 34
+   2178 33
+   2074 32
+   2185 31
+   2462 30
+   2478 29
+   2186 28
+   1988 27
+   1846 26
+   1926 25
+   2177 24
+   2048 23
+   1804 22
+   1267 21
+   1414 20
+   1563 19
+   6154 18
+   3619 17
+   7222 16
+   1682 15
+   2685 14
+   3037 13
+   2142 12
+   1704 11
+   3013 10
+   3191 9
+   1609 8
+    230 7
+    461 6
+    571 5
+    878 4
+   2790 3
+   6524 2
+   7732 1
+  24729 0
+
+And for all of drivers/media:
+
+$ git ls-files -- 'drivers/media/*.[ch]' | \
+  xargs awk '{print length($0);}' | \
+  sort -rn | uniq -c
+      1 338
+      1 314
+      1 268
+      1 261
+      1 255
+      1 254
+      1 242
+      1 234
+      1 228
+      1 213
+      1 207
+      1 205
+      1 198
+      2 197
+      3 192
+      2 188
+      2 177
+      1 174
+      2 172
+      2 169
+      3 168
+      2 167
+      1 166
+      1 165
+      1 164
+      3 163
+      2 162
+      2 161
+      2 160
+      6 158
+     10 157
+      3 156
+      2 155
+      3 154
+      2 153
+     12 152
+      8 151
+     49 150
+      4 148
+      2 147
+      3 146
+      3 145
+      5 144
+      5 143
+      1 142
+      6 141
+      7 140
+      8 139
+      6 138
+     10 137
+     14 136
+     13 135
+     14 134
+     13 133
+     11 132
+      7 131
+      6 130
+     15 129
+     21 128
+     17 127
+     13 126
+     10 125
+     13 124
+     12 123
+     25 122
+     20 121
+     25 120
+     15 119
+     18 118
+     20 117
+     23 116
+     30 115
+     23 114
+     26 113
+     35 112
+     35 111
+     40 110
+     60 109
+     50 108
+     72 107
+     42 106
+     47 105
+    105 104
+     72 103
+     90 102
+    110 101
+    144 100
+     79 99
+    122 98
+    226 97
+    644 96
+    115 95
+    135 94
+    135 93
+    166 92
+    210 91
+    227 90
+    218 89
+    208 88
+    279 87
+    292 86
+   1260 85
+   1122 84
+    879 83
+   1288 82
+   1489 81
+   2505 80
+   6241 79
+   3653 78
+   5268 77
+   2012 76
+   2168 75
+   2279 74
+   3297 73
+   4343 72
+   3741 71
+   4018 70
+   4360 69
+   4487 68
+   4433 67
+   6014 66
+   6098 65
+   6547 64
+   6661 63
+   7312 62
+   7684 61
+   7610 60
+   8157 59
+   9052 58
+  10047 57
+  12064 56
+   9904 55
+  11075 54
+  11271 53
+  13259 52
+  11585 51
+  15036 50
+  13930 49
+  15159 48
+  14221 47
+  13349 46
+  14243 45
+  15887 44
+  17829 43
+  16620 42
+  17759 41
+  17569 40
+  16653 39
+  17386 38
+  17480 37
+  18296 36
+  18205 35
+  18782 34
+  18352 33
+  18137 32
+  19556 31
+  19229 30
+  19403 29
+  19570 28
+  19447 27
+  19581 26
+  19255 25
+  19300 24
+  17038 23
+  18523 22
+  15609 21
+  16188 20
+  14634 19
+  19426 18
+  20979 17
+  21548 16
+  13476 15
+  16713 14
+  18914 13
+  17577 12
+  12828 11
+  19525 10
+  21665 9
+  13912 8
+   3261 7
+   5375 6
+   6756 5
+   8260 4
+  23448 3
+  48708 2
+  55786 1
+ 182329 0
+
 
