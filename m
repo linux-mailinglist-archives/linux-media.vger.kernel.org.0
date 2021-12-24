@@ -2,115 +2,103 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0754947EDF7
-	for <lists+linux-media@lfdr.de>; Fri, 24 Dec 2021 10:43:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id CA44847EEBC
+	for <lists+linux-media@lfdr.de>; Fri, 24 Dec 2021 13:09:42 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1352324AbhLXJn0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 24 Dec 2021 04:43:26 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46270 "EHLO
+        id S1352643AbhLXMJl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 24 Dec 2021 07:09:41 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49688 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241614AbhLXJnY (ORCPT
+        with ESMTP id S232964AbhLXMJl (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 24 Dec 2021 04:43:24 -0500
-Received: from mail-qk1-x744.google.com (mail-qk1-x744.google.com [IPv6:2607:f8b0:4864:20::744])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 24C3FC061401
-        for <linux-media@vger.kernel.org>; Fri, 24 Dec 2021 01:43:24 -0800 (PST)
-Received: by mail-qk1-x744.google.com with SMTP id i187so5779457qkf.5
-        for <linux-media@vger.kernel.org>; Fri, 24 Dec 2021 01:43:24 -0800 (PST)
+        Fri, 24 Dec 2021 07:09:41 -0500
+Received: from mail-ed1-x536.google.com (mail-ed1-x536.google.com [IPv6:2a00:1450:4864:20::536])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 74EBDC061401;
+        Fri, 24 Dec 2021 04:09:40 -0800 (PST)
+Received: by mail-ed1-x536.google.com with SMTP id b13so32689736edd.8;
+        Fri, 24 Dec 2021 04:09:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=DA2RfWm5BfTc8dY4tRUxJejPvziWb2AgHmDwtjqgqi8=;
-        b=P5Qd+BPKTr3I+Do4OC70tdf0v+QiBCg7MTdO3Md1Zw9sg2dl/5Osd3vwjgi4sUbJMj
-         Hc6tHdBTOxud3jyCq3u5P9OE3vEioW4SLBGJo8++XSTQBofztcLCQ8kybgg8qtP9CSuH
-         4f9krOekkhy2eA2S7Rz466KDQvgZLCb8xGis/gZgz5Hi9JEaYcC5wo72XvSz9AQDU1D+
-         7S43zxju9VCRZPUFhoq/m9XGCad0b4ssi6GyvXslcwZvlM4zsQqtDWXAOanz/4WPK4HC
-         g0QvseeHBtUrsay0q/aX/8JHX5cyHvoqkK/rw3wuDFwhh9yJ8lRl2qAMSkFUSx60SPOQ
-         /DVg==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=MiMXbgOIp0SVuHAYNLqtLbjj/zPi/YpQLt8sEUphp+4=;
+        b=jLENgQqi0no/dZEXnAKsJ2z1g99Rhxy6jHlIV7wSERdGdYye0MkOnLfMFPwh6lRjcb
+         2mslvZtHsbOZJpZpDHtVNPvLqT40+qXvhPYJKQI51dRIkiba5Ymr52w+db7d0Kj+9H8v
+         i+wV1zMNFmCrevcyVIRDlPLh1BIrRlQl6eT66s1CGRrXYVJTy+8kDHLeaI+aJHF1imiK
+         GL7tbNc8MVrTmNkef7dL4mFd/AkSH+/rTM3/d4gpLg1E7zwtFKA4/Hw/p81X/P0YiKOw
+         nYo6g5wJ6AdYiVtWJQao4F8DaadiNX11Qoa9KfZ9E22oS91OLEQ8mdmicn32WPyyC5zE
+         Cx3Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=DA2RfWm5BfTc8dY4tRUxJejPvziWb2AgHmDwtjqgqi8=;
-        b=YJHgY+xzEucbh3l7rlrkQxftf18cM+8QMuvSyDEb+ernxj9UXUs1FCVLwnV0bEXyWd
-         PfaF6SZoerfGPmsHHyZ3tOGJqvg/Asnw4NQmfRfDR+qgSkaUYkRvzRStORfEXrW0Gb/e
-         Rnea7eR5dn8FlROdeQCvKkFnHFEqXg0S0xFyq1MXHULHsnR6kGl780hmsytO9B1GcBiI
-         5y+DhVHFWRXRE+iBDharoJYrQHcqnWoAr8HPbVFcvPYa9CoOHn3stQHIYrzF1p2v78C2
-         zAMjwGhPVe4FCdcme6sEP9roqxpitJaABYrFAdmsKlmJbbYi85LDoe7ftGU+O4we21KI
-         QP+Q==
-X-Gm-Message-State: AOAM530cZ13MaZkfBlOC9KnpGGv2IA7jXyMFYolrPOsaaaIDTJAZPmT8
-        WrHXi/AaIjLAaaQlfjeTarvMcIjO3i4M7RDN0QA=
-X-Google-Smtp-Source: ABdhPJxOFyIbcuUoQkqLEOD0blyfPHbVzcVEVXfZHHcBczjQlF33Osl6/5XOvTNmqVfOAoBi95lYkCmhB5ab67zHpAk=
-X-Received: by 2002:a05:620a:12e2:: with SMTP id f2mr4119057qkl.343.1640339003339;
- Fri, 24 Dec 2021 01:43:23 -0800 (PST)
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=MiMXbgOIp0SVuHAYNLqtLbjj/zPi/YpQLt8sEUphp+4=;
+        b=tICwhg1FFzlVNkpvEBEfw1YJ7rsWkdVJ2mqShltZI/AsRL4dqaI6N1R+IvHtI8YtyE
+         pvnAsMXvZVPWBXZ2n8iKad1MQoAYyq7yo3sn2WWMRNL9ncDUF683Ss6Ff/JxRUMn218z
+         Dc9GDbNGhS/NdYeC8Toz8YWdmQOvA4CKOCtFUaBcd//W7ssBdzoc837X0UcRr+ufTBtU
+         qK1CvZwEppdNi1icsnOzWTfnK2NzSA462J5jeVbwDWSx/VQL63dOpXlDISYMO7JspuA4
+         AElLQf8bNZKQ/eof8fWtSCoVUzcuBtwdYLBKCCsfwZlHgKjr+fXvxeXAGzPTg5t8bfnj
+         cZPQ==
+X-Gm-Message-State: AOAM531n7LXgdMA1hPrWbYBoIdhmX2MEBXumAi2A5fBb9dJfbgDhw2Wf
+        x4btTDnufjA5QzsUozDOVlJtxppX5q9/1pz1F3U=
+X-Google-Smtp-Source: ABdhPJxtlyzC5rs1/oMbGTnC43dJAQLxjW7WhWwQsQunbsjtMx5IexRP5EYp5YUQWrgVKHcj2qlmB/cu290g9TPAAAM=
+X-Received: by 2002:a05:6402:50cf:: with SMTP id h15mr5704494edb.318.1640347779006;
+ Fri, 24 Dec 2021 04:09:39 -0800 (PST)
 MIME-Version: 1.0
-Received: by 2002:ad4:5c62:0:0:0:0:0 with HTTP; Fri, 24 Dec 2021 01:43:23
- -0800 (PST)
-Reply-To: williamsreneta2019@gmail.com
-From:   MISS WILLIAMS <info.turvateealfastar@gmail.com>
-Date:   Fri, 24 Dec 2021 01:43:23 -0800
-Message-ID: <CAM-qQYZEpxxSx8D5OgQgnR0TbPk4tRuWJk3JOO_rqk2_US+_sA@mail.gmail.com>
-Subject: Greetings Dearest One,
-To:     undisclosed-recipients:;
+References: <202112061844.RuSQXzxk-lkp@intel.com> <CAK8P3a0wboR0evmNGL_VEsNNdLd9x_v8k3APH70t5gfu9D=A6w@mail.gmail.com>
+In-Reply-To: <CAK8P3a0wboR0evmNGL_VEsNNdLd9x_v8k3APH70t5gfu9D=A6w@mail.gmail.com>
+From:   Max Filippov <jcmvbkbc@gmail.com>
+Date:   Fri, 24 Dec 2021 04:09:27 -0800
+Message-ID: <CAMo8BfKa8xNEWdaeZCbLbyQ2ZgmNaLeNE8uB7Hntj9op0fTQ_w@mail.gmail.com>
+Subject: Re: ERROR: modpost: "__divsi3_table" [lib/lz4/lz4_compress.ko] undefined!
+To:     Arnd Bergmann <arnd@arndb.de>
+Cc:     kernel test robot <lkp@intel.com>, kbuild-all@lists.01.org,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        "open list:TENSILICA XTENSA PORT (xtensa)" 
+        <linux-xtensa@linux-xtensa.org>, Chris Zankel <chris@zankel.net>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Greetings Dearest One,
+Hi Arnd,
 
-How are you today, together with your family?Hope fine.I would like to
-use this opportunity to introduce myself to you. I am Miss Reneta
-Williams, From Benin Republic, West Africa. And my late parents are
-Mr. and Mrs. Dikko Williams; my father was a highly reputable business
-magnet who operated in Benin Republic during his days.
+On Mon, Dec 6, 2021 at 3:02 AM Arnd Bergmann <arnd@arndb.de> wrote:
+>
+> On Mon, Dec 6, 2021 at 11:30 AM kernel test robot <lkp@intel.com> wrote:
+> > First bad commit (maybe != root cause):
+> > commit: 570a82b9c36f76a5959b5e47900629b0d413931d media: i2c: select V4L2_ASYNC where needed
+>
+> Right, that is clearly unrelated.
+>
+> > If you fix the issue, kindly add following tag as appropriate
+> > Reported-by: kernel test robot <lkp@intel.com>
+> >
+> > All errors (new ones prefixed by >>, old ones prefixed by <<):
+> >
+> > >> ERROR: modpost: "__divsi3_table" [lib/lz4/lz4_compress.ko] undefined!
+>
+> lz4 was recently updated, and apparently now does a 32-bit division. I
+> assume this
+> is the decompressor, as arch/mips had similar problems.
+>
+> The possible fixes are:
+>
+> - disable lz4 compressed kernels on xtensa
+> - change lz4 to not perform any division
+> - change the xtensa decompressor to include the divsi3 helper code from the
+>   main kernel, see fbf3bce45821 ("MIPS: boot/compressed/: add __ashldi3 to
+>   target for ZSTD compression")
 
-I am writing this mail to you with tears and sorrow from my heart.
-With due respect trust and humanity, I know this mail will come to you
-as a surprise since we haven't known or come across each other before,
-considering the fact that I sourced your email contact through the
-Internet in search of trusted person who can be trusted and will
-assist me.
+I couldn't reproduce this on xtensa with 5.16-rc6 and I don't think there
+is such issue with xtensa because it has config-specific assembly
+implementation of __divsi3 that doesn't use __divsi3_table.
 
-It is sad to say that he passed away mysteriously in France during one
-of his business trips abroad. Though his sudden death was linked or
-rather suspected to have been masterminded by an uncle of his who
-traveled with him at that time. But God knows the truth! My mother
-died when I was just 6yrs old, and since then my father took me so
-special.
+Also the report is against nios2.
 
-Before his death, he called me and informed me that he has the sum of
-Eighteen Million Five Hundred , United State Dollar
-(USD$18.500,000.00) left in fixed deposit account in one of the
-leading banks in Africa. He further told me that he deposited the
-money in my name, and also gave me all the necessary but legal
-documents to this fund with the bank.
-
-I am 21 years old and a university undergraduate and really don't know
-what to do. Now I want an account overseas where I can transfer this
-funds and after the transaction I will come and reside permanently in
-your country till such a time that it will be convenient for me to
-return back home if I so desire.
-
-The death of my father actually brought sorrow to my life. I also want
-to invest the fund under your care because I am ignorant of business
-world. I am in a sincere desire of your humble assistance in this
-regards. Your suggestions and ideas will be highly regarded.
-
-Now permit me to ask these few questions:
-
-1. Can you honestly help me from your heart?
-
-2. Can I completely trust you?
-
-3. What percentage of the total amount in question will be good for
-you after the money is in your account?
-
-Please, consider this and get back to me as soon as
-possible.Immediately and confirm your willingness on this my
-email(williamsreneta2019@gmail.com), here is one of my Picture and
-also i will inform you more details involved in this matter.
-
-Regards,
-
-Miss Reneta Williams.
+-- 
+Thanks.
+-- Max
