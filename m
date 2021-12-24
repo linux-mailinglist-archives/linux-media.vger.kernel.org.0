@@ -2,186 +2,170 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C0F5447EABC
-	for <lists+linux-media@lfdr.de>; Fri, 24 Dec 2021 04:03:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 06BD947EBD3
+	for <lists+linux-media@lfdr.de>; Fri, 24 Dec 2021 06:51:08 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1351081AbhLXDDS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 23 Dec 2021 22:03:18 -0500
-Received: from mail-eopbgr80088.outbound.protection.outlook.com ([40.107.8.88]:25326
-        "EHLO EUR04-VI1-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1351076AbhLXDDR (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 23 Dec 2021 22:03:17 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=l1EVy3QwHE0g3W6yAAEHfgR1KTI7jQtrZYHO4DWL5H2z1SykP9ZMdhufnlIZv05ZtHlHpsiav4rPpVP5Go5lY6czNYSp98kbL+T2DwO/kRiI/muxskeIIImq8YBsMKzliVX3WB/YTR1RbU1+b7oh05vo82/sXC51WGsJDbjpcpW8geUWIa2M0biVUA10XZLsx6afKNbpe0ePwPlaydf3ceObXvGb3R5h3eUmVNFY1Kch5+fMTbv4xILJiwktpsemLaG3giOegzIh9UgM8XBsxlFupG98BDAAbZWvlgH2Ym2Bdg4kY0HIPk9RPBqJYaqq4WSziRrYxcTQnhoC2Nqu2Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=XivBjGzXt4JdBM8TWOFYepActdojMCZqmTiaYNXY5bw=;
- b=l/nhELycH8TWWQjRv8YnEPsqDghA7HEWg9nwASs9bl8kRdcwdSepbojA09S2LlfU5gahKr4qjjDD2IqOkApVGJG/XmUjQRU9fH9QLYzwsFB0okrYQtA3MY12tDd62Yvx1hpI+ba8QzqpeptFKSpv1CJK74PMpxZJzk7YsrSjneJDtMBXHdmrjeEMRZSI5BjeZ9HwRydMObwGHIm6O5revCmH3+40IJEKWTA9Nd8s1n65an3MEodZYM9ryaMlMhs+EyPHwDihtTgqXBtbSQN8ZQNHCx5RnGujP8w5qIlaKM17ECYl2S0oSaVKgbTn73B0wYXmx9LcEoe+hUktHqZDHQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=XivBjGzXt4JdBM8TWOFYepActdojMCZqmTiaYNXY5bw=;
- b=Ya/cpu6smEtQJJ0YJxMLSzlkzmV1EU5Wq1w0s9iDIY0CE8KupWB/BdokYMu6CIWcKHahT7vs9wjbMS+3lY2J2X1DePNb0x6qrIscOVdwLaXP9KSU9lenSSMe9PALhoMky2lgbKVU3LzCH1aCaM4bFplK7A1ViHhMjmShA/niM6E=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nxp.com;
-Received: from AM6PR04MB6341.eurprd04.prod.outlook.com (2603:10a6:20b:d8::14)
- by AM5PR04MB3266.eurprd04.prod.outlook.com (2603:10a6:206:6::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4801.19; Fri, 24 Dec
- 2021 03:03:15 +0000
-Received: from AM6PR04MB6341.eurprd04.prod.outlook.com
- ([fe80::b9f1:7371:3484:95b2]) by AM6PR04MB6341.eurprd04.prod.outlook.com
- ([fe80::b9f1:7371:3484:95b2%4]) with mapi id 15.20.4823.021; Fri, 24 Dec 2021
- 03:03:15 +0000
-From:   Ming Qian <ming.qian@nxp.com>
-To:     mchehab@kernel.org, shawnguo@kernel.org, s.hauer@pengutronix.de,
-        mirela.rabulea@oss.nxp.com
-Cc:     hverkuil-cisco@xs4all.nl, kernel@pengutronix.de,
-        festevam@gmail.com, linux-imx@nxp.com, linux-media@vger.kernel.org,
-        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org
-Subject: [PATCH v1] media: imx-jpeg: use NV12M to represent non contiguous NV12
-Date:   Fri, 24 Dec 2021 11:02:41 +0800
-Message-Id: <20211224030241.4624-1-ming.qian@nxp.com>
-X-Mailer: git-send-email 2.33.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: SG2PR02CA0059.apcprd02.prod.outlook.com
- (2603:1096:4:54::23) To AM6PR04MB6341.eurprd04.prod.outlook.com
- (2603:10a6:20b:d8::14)
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 4b347ee6-43fa-4a8e-9bf5-08d9c689ed82
-X-MS-TrafficTypeDiagnostic: AM5PR04MB3266:EE_
-X-Microsoft-Antispam-PRVS: <AM5PR04MB32664BEA26E20A08FFDDCA7EE77F9@AM5PR04MB3266.eurprd04.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:785;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: KsA2FZm0FsNh+PkTV3FzeSW5Su7cbFhuwxIV77t94xHq8l1K8BR+nkL8ULW8rxjufSYrdnlH8uWiH2tJq1ZbTBo9oRcdHydh62LA7JI8l9iwlMcpejFsXjvdJfz/C6uE91CGz165mpPFPi8AnF+7CiAoAN9i4V47b31J7TyJRz3weQ18Ii4zrcL1oN41qoJgM0QzTMWB9Cie0WBK6k2INVe1VCLiF5kwaT/IDTRpTGhP/SCyvD0S8ZAxZ1ogQVg/tREaoUgFjeehqmU052uFhkmIERRJtDuFInsk4d77hJLjBY801RULOtrCICHqnf/ETsnt4KS6Mt0UmMrSpfaH5OW79L5tf/LxD+Z0jhA5UCs7+3Cpasn1MHkXZ4BghLq4iDJHJWVAMzQUKPgm/QbbcNK3G+rpDvWGWcbg9GndQg3l7QTgtCdDhROhNlO/nRnQul9Ai6mqnIzE/mgHYHuamCBOX4fuIkkGR4GSjpsRg64IIFTUt/gEvo1AFoQpYjG0eiTAQVAT0+UrEyLLa2C+Pf1oNSDZh815lstfvVQSnFnTJhzxpy6BCohpv9xuI92bfE8Zyc8iXyKtouRMjOxTWSumK0JFVWb+DrjbVJsYFR8XUYa8GEaZT22nH1Tq6JtBNL33lTFbgf3qDeLIfIeweXfz15g+MF7q0t1Q7ZzHLbEjwPqyqTllALQ5BptCu4IXduJX4O0VcVjzBjd/0npU9g==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM6PR04MB6341.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(366004)(6486002)(86362001)(44832011)(6512007)(83380400001)(36756003)(2616005)(316002)(52116002)(1076003)(66556008)(8676002)(4326008)(6666004)(38100700002)(5660300002)(2906002)(66946007)(7416002)(6506007)(8936002)(186003)(26005)(38350700002)(508600001)(66476007);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?IwkKJdq9Ku5DEvI2pzsgWuf3hYD/E6QVMNzjXNQgtmByNUlcBkef5TuS7BwL?=
- =?us-ascii?Q?9+/tT6N5MVQobSzB7ENoWtW0dK2drKul89y+GFiNBgmcHLPPLlICIZj7JD/B?=
- =?us-ascii?Q?I9c26r706VpILRoxpNQsBVRNi1iRXiLB6m0Wwnj1JdQ50bCydZM1/gI1ux4U?=
- =?us-ascii?Q?FQYzUyGinlod36O8fTNxHGpGNVCM24ZJQVH7qVPFXdy/BLry5WWx2qd+XwB3?=
- =?us-ascii?Q?c5j4cDChFb2ns/DobYRInb1zLAuQXaEkBpm5KXzWF3T+JnMo3AN22glYTfvs?=
- =?us-ascii?Q?JbcL3N/tB+GJH3wer1JiYQbZRavRB4MdQnBFTULnEwefKo/+uIy0rUpBHpwH?=
- =?us-ascii?Q?8geK0UIEhX3PC773XKtYBAq2hIMwr38QSpj2O6kzB+MzI/ehuzfQahlmbdvb?=
- =?us-ascii?Q?EiZviI+nim4rw+c0ahZEUBle6OlTpw/VFqEJw7Z3IDjn4PhwmMRwT8mJILKn?=
- =?us-ascii?Q?SeAHtqVq2nRy4BXsNAKpv7Rqu/E4QmgRDCUFHJPycnJ9u/NpynaerIRI0hrD?=
- =?us-ascii?Q?zzmAZpLo4edmYoDkIjMdp7aGXJlGpcrglRSGXMiSLQLbGABpdiYkqE2YQUCX?=
- =?us-ascii?Q?u9gDHQ46n7+LBXppvXwUxsXhYHPmV8a2Swf+U2gZzkQEmBiRGMToNbT6Tgpf?=
- =?us-ascii?Q?hhZqjhQn4+xxgBbpxf5J2X/yZgCFlEwVHE1hlfRNyJMBPuyf2vvWhanvv3Pi?=
- =?us-ascii?Q?gQV44JWt6O85mXpxB+DgtGdGFTZQBxyG5ydJUYcnMLcs7+6ISxLXvmltaM8S?=
- =?us-ascii?Q?KVVFVNikFDEfZug+hQueJ09YaX6FxG0lIPg4MhIhODEmZlfg0ZIkMG08p5KR?=
- =?us-ascii?Q?69VsMkraogsvTodE/mE4mxR1Jeg0H+pTCr6M8V4URLck8Glo6ROeoF41Vc+M?=
- =?us-ascii?Q?8rvi++uD8Whwg84sQ3qliUzf/DDWg4gYSb5mTndRZHdFL4orevfkusK91FxP?=
- =?us-ascii?Q?JtsiJjeRSlJP4OWFDxggRjIt9KslXs3Ok7JYGUfkDrypSLRf39VBDJjmjcOr?=
- =?us-ascii?Q?zecEeT1tDLFOeHCCbDQUk9CKqOjIWZDGLl0u/retKqgAz1uat9wbW+c6mjeX?=
- =?us-ascii?Q?2gxZoC1gWX3W2rUaV/rlZxSP/mD+Ec5UffQs44SQ+pvfbxkWPeA39Bbkh+3f?=
- =?us-ascii?Q?uQV/+c6TaH9oF65h2absXslcApEws9I4u74p3p2C0A6RSltjakXRkr1PiM21?=
- =?us-ascii?Q?NgAj0eR7phDPNJGlhk56qWv6zaN1enFsIOyRBt/Bd62T96iOPdMfJ3g3Y8ui?=
- =?us-ascii?Q?f7EqDdw4mUQGUoafINmaIAPuJlt/0JXlVKqrV2w0+L0icMLjxydr+qNIOpOL?=
- =?us-ascii?Q?bWWh4OIm0G75Xo9eB5ZmSN096WMaWErfqeRatiNZnCN0KDR6pkF1D20TBj8v?=
- =?us-ascii?Q?h6/1h1xCPpQqvDF1XBq/n72xTiDsAvEkrd4Ql32pWotfMNsFhh25j0I+j7cs?=
- =?us-ascii?Q?nick1Z2NQR20fq8/cmdLuA1UKsHaWSG/gevusrw0O+XDDbuOFKejxqd99Sko?=
- =?us-ascii?Q?HXOurh7VNPGMgxbbHneX7iyN8tSY/svkB0CfxuvxUp1TeUthe412JuGH2s+z?=
- =?us-ascii?Q?mEDCJsRaXwPJh54cO0yaP1r8QzHPiTYXZSVsLZY26vca0GN5ZMw9KDnPYxhp?=
- =?us-ascii?Q?Wc77ZBvVb22b6W3JpVlB9z8=3D?=
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4b347ee6-43fa-4a8e-9bf5-08d9c689ed82
-X-MS-Exchange-CrossTenant-AuthSource: AM6PR04MB6341.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Dec 2021 03:03:14.9089
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: DK6sQXItDK0Xm+3d/+eGN+bJ6S243p16zvJlCPVA88/KXR+rA2060ZIVv3+5yxTtzQe9lVxN3U1xbW1CYGMABQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM5PR04MB3266
+        id S1351418AbhLXFvE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 24 Dec 2021 00:51:04 -0500
+Received: from ewsoutbound.kpnmail.nl ([195.121.94.184]:42881 "EHLO
+        ewsoutbound.kpnmail.nl" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1351410AbhLXFvD (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Fri, 24 Dec 2021 00:51:03 -0500
+X-KPN-MessageId: 73c68f1a-647c-11ec-b71a-005056994fde
+Received: from smtp.kpnmail.nl (unknown [10.31.155.5])
+        by ewsoutbound.so.kpn.org (Halon) with ESMTPS
+        id 73c68f1a-647c-11ec-b71a-005056994fde;
+        Fri, 24 Dec 2021 06:43:42 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=xs4all.nl; s=xs4all01;
+        h=subject:to:from:date:message-id;
+        bh=k4JIXNTptQ8zxz0cZ7UDYenIOqDgWc7Dr6KU4PzGu4Y=;
+        b=ToPTR0h23XQ77BTVVoKOhZTizoWNvezIxh88YT4OjyKnlXyNAmIE0OoUmE5tSim540JaGnIE9yRj2
+         oIzdC9W+eu4a1NOOXdDj4Y3xarX6gMUWrZKuKdAMDL5hfy8+LhocU6kTDINb4wN2s/I9HMTQaufEYD
+         wG4vyLlVZaxmP7D1OMfsFOyOLOhZupc2TWiW65RYOPrjRrIbT+aiwAJiuD4pzy1SkTlMCMftec1AgX
+         nczoZCjxR4LFjXo0iSZmTFNC7Cc8lIgQFOcH26JV7KUX9gR3n1VlQbF4WB8P7aBaQAwqzfF/x3tfAQ
+         W48d89sinrC+lGQn3q322QT8OyejgjQ==
+Message-ID: <871647a3-647c-11ec-8d65-00505699b758@smtp.kpnmail.nl>
+X-KPN-VerifiedSender: Yes
+X-CMASSUN: 33|3Si/ZyWc1HZYTxmxddc+XldiqGnSOouEdZjiICflS41f/Olsv7c/0PReAxVyoeA
+ 9nQ9N1yhDIrVqTlXnvT3c+Q==
+X-Originating-IP: 80.101.105.217
+Received: from localhost (marune.xs4all.nl [80.101.105.217])
+        by smtp.xs4all.nl (Halon) with ESMTPSA
+        id 86ec1df6-647c-11ec-8d65-00505699b758;
+        Fri, 24 Dec 2021 06:44:14 +0100 (CET)
+Date:   Fri, 24 Dec 2021 06:44:14 +0100
+From:   "Hans Verkuil" <hverkuil@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: WARNINGS
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-V4L2_PIX_FMT_NV12 requires num_planes equals to 1,
-V4L2_PIX_FMT_NV12M requires num_planes equals to 2.
-and mxc-jpeg supports 2 planes for nv12,
-so we should use 4L2_PIX_FMT_NV12M instead of V4L2_PIX_FMT_NV12,
-otherwise it will confuses gstreamer and prevent encoding and decoding.
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
 
-Signed-off-by: Ming Qian <ming.qian@nxp.com>
-Signed-off-by: Shijie Qin <shijie.qin@nxp.com>
-Signed-off-by: Zhou Peng <eagle.zhou@nxp.com>
-Reviewed-by: Mirela Rabulea <mirela.rabulea@oss.nxp.com>
----
- drivers/media/platform/imx-jpeg/mxc-jpeg.c | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
+Results of the daily build of media_tree:
 
-diff --git a/drivers/media/platform/imx-jpeg/mxc-jpeg.c b/drivers/media/platform/imx-jpeg/mxc-jpeg.c
-index 4ca96cf9def7..7c0366f5f801 100644
---- a/drivers/media/platform/imx-jpeg/mxc-jpeg.c
-+++ b/drivers/media/platform/imx-jpeg/mxc-jpeg.c
-@@ -96,7 +96,7 @@ static const struct mxc_jpeg_fmt mxc_formats[] = {
- 	},
- 	{
- 		.name		= "YUV420", /* 1st plane = Y, 2nd plane = UV */
--		.fourcc		= V4L2_PIX_FMT_NV12,
-+		.fourcc		= V4L2_PIX_FMT_NV12M,
- 		.subsampling	= V4L2_JPEG_CHROMA_SUBSAMPLING_420,
- 		.nc		= 3,
- 		.depth		= 12, /* 6 bytes (4Y + UV) for 4 pixels */
-@@ -404,7 +404,7 @@ static enum mxc_jpeg_image_format mxc_jpeg_fourcc_to_imgfmt(u32 fourcc)
- 		return MXC_JPEG_GRAY;
- 	case V4L2_PIX_FMT_YUYV:
- 		return MXC_JPEG_YUV422;
--	case V4L2_PIX_FMT_NV12:
-+	case V4L2_PIX_FMT_NV12M:
- 		return MXC_JPEG_YUV420;
- 	case V4L2_PIX_FMT_YUV24:
- 		return MXC_JPEG_YUV444;
-@@ -673,7 +673,7 @@ static int mxc_jpeg_fixup_sof(struct mxc_jpeg_sof *sof,
- 	_bswap16(&sof->width);
- 
- 	switch (fourcc) {
--	case V4L2_PIX_FMT_NV12:
-+	case V4L2_PIX_FMT_NV12M:
- 		sof->components_no = 3;
- 		sof->comp[0].v = 0x2;
- 		sof->comp[0].h = 0x2;
-@@ -709,7 +709,7 @@ static int mxc_jpeg_fixup_sos(struct mxc_jpeg_sos *sos,
- 	u8 *sof_u8 = (u8 *)sos;
- 
- 	switch (fourcc) {
--	case V4L2_PIX_FMT_NV12:
-+	case V4L2_PIX_FMT_NV12M:
- 		sos->components_no = 3;
- 		break;
- 	case V4L2_PIX_FMT_YUYV:
-@@ -1183,7 +1183,7 @@ static void mxc_jpeg_bytesperline(struct mxc_jpeg_q_data *q,
- 		/* bytesperline unused for compressed formats */
- 		q->bytesperline[0] = 0;
- 		q->bytesperline[1] = 0;
--	} else if (q->fmt->fourcc == V4L2_PIX_FMT_NV12) {
-+	} else if (q->fmt->fourcc == V4L2_PIX_FMT_NV12M) {
- 		/* When the image format is planar the bytesperline value
- 		 * applies to the first plane and is divided by the same factor
- 		 * as the width field for the other planes
-@@ -1215,7 +1215,7 @@ static void mxc_jpeg_sizeimage(struct mxc_jpeg_q_data *q)
- 	} else {
- 		q->sizeimage[0] = q->bytesperline[0] * q->h;
- 		q->sizeimage[1] = 0;
--		if (q->fmt->fourcc == V4L2_PIX_FMT_NV12)
-+		if (q->fmt->fourcc == V4L2_PIX_FMT_NV12M)
- 			q->sizeimage[1] = q->sizeimage[0] / 2;
- 	}
- }
+date:			Fri Dec 24 05:00:11 CET 2021
+media-tree git hash:	68b9bcc8a534cd11fe55f8bc82f948aae7d81b3c
+media_build git hash:	2fa76ec062aeaf93b647edbad1dd606e49fca4b3
+v4l-utils git hash:	6c905930e8e9bdf485f857ea8aadcaffbfd0943d
+edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
+gcc version:		i686-linux-gcc (GCC) 11.2.0
+sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
+sparse version:		v0.6.3-349-gb21d5e09
+smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
+smatch version:		v0.5.0-7537-ga9e379d05
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: 113d52660b1fa16141bccb95d4bdbd2a4bd90d26
+host hardware:		x86_64
+host os:		5.15.0-2-amd64
 
-base-commit: 68b9bcc8a534cd11fe55f8bc82f948aae7d81b3c
--- 
-2.33.0
+linux-git-sh: OK
+linux-git-arm-davinci: OK
+linux-git-arm-at91: OK
+linux-git-mips: OK
+linux-git-arm-stm32: OK
+linux-git-arm-pxa: OK
+linux-git-arm-multi: OK
+linux-git-arm64: OK
+linux-git-powerpc64: OK
+linux-git-i686: OK
+linux-git-x86_64: OK
+Check COMPILE_TEST: OK
+Check for strcpy/strncpy/strlcpy: OK
+linux-4.4.283-i686: OK
+linux-4.4.283-x86_64: OK
+linux-4.5.7-i686: OK
+linux-4.5.7-x86_64: OK
+linux-4.6.7-i686: OK
+linux-4.6.7-x86_64: OK
+linux-4.7.10-i686: OK
+linux-4.7.10-x86_64: OK
+linux-4.8.17-i686: OK
+linux-4.8.17-x86_64: OK
+linux-4.9.246-i686: OK
+linux-4.9.246-x86_64: OK
+linux-4.10.17-i686: OK
+linux-4.10.17-x86_64: OK
+linux-4.11.12-i686: OK
+linux-4.11.12-x86_64: OK
+linux-4.12.14-i686: OK
+linux-4.12.14-x86_64: OK
+linux-4.13.16-i686: OK
+linux-4.13.16-x86_64: OK
+linux-4.14.246-i686: OK
+linux-4.14.246-x86_64: OK
+linux-4.15.18-i686: OK
+linux-4.15.18-x86_64: OK
+linux-4.16.18-i686: OK
+linux-4.16.18-x86_64: OK
+linux-4.17.19-i686: OK
+linux-4.17.19-x86_64: OK
+linux-4.18.20-i686: OK
+linux-4.18.20-x86_64: OK
+linux-4.19.206-i686: OK
+linux-4.19.206-x86_64: OK
+linux-4.20.17-i686: OK
+linux-4.20.17-x86_64: OK
+linux-5.0.21-i686: OK
+linux-5.0.21-x86_64: OK
+linux-5.1.21-i686: OK
+linux-5.1.21-x86_64: OK
+linux-5.2.21-i686: OK
+linux-5.2.21-x86_64: OK
+linux-5.3.18-i686: OK
+linux-5.3.18-x86_64: OK
+linux-5.4.144-i686: OK
+linux-5.4.144-x86_64: OK
+linux-5.5.19-i686: OK
+linux-5.5.19-x86_64: OK
+linux-5.6.19-i686: OK
+linux-5.6.19-x86_64: OK
+linux-5.7.19-i686: OK
+linux-5.7.19-x86_64: OK
+linux-5.8.18-i686: OK
+linux-5.8.18-x86_64: OK
+linux-5.9.16-i686: OK
+linux-5.9.16-x86_64: OK
+linux-5.10.62-i686: OK
+linux-5.10.62-x86_64: OK
+linux-5.11.22-i686: OK
+linux-5.11.22-x86_64: OK
+linux-5.12.19-i686: OK
+linux-5.12.19-x86_64: OK
+linux-5.13.14-i686: OK
+linux-5.13.14-x86_64: OK
+linux-5.14.1-i686: OK
+linux-5.14.1-x86_64: OK
+linux-5.15.1-i686: OK
+linux-5.15.1-x86_64: OK
+linux-5.16-rc1-i686: OK
+linux-5.16-rc1-x86_64: OK
+apps: OK
+spec-git: OK
+virtme: OK: Final Summary: 2989, Succeeded: 2989, Failed: 0, Warnings: 0
+virtme-32: OK: Final Summary: 3100, Succeeded: 3100, Failed: 0, Warnings: 0
+sparse: WARNINGS
+smatch: WARNINGS
+kerneldoc: WARNINGS
 
+Detailed results are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Friday.log
+
+Detailed regression test results are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Friday-test-media.log
+http://www.xs4all.nl/~hverkuil/logs/Friday-test-media-32.log
+http://www.xs4all.nl/~hverkuil/logs/Friday-test-media-dmesg.log
+
+Full logs are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Friday.tar.bz2
+
+The Media Infrastructure API from this daily build is here:
+
+http://www.xs4all.nl/~hverkuil/spec/index.html
