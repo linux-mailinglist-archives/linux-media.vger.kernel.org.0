@@ -2,95 +2,115 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0611647EDB7
-	for <lists+linux-media@lfdr.de>; Fri, 24 Dec 2021 10:21:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0754947EDF7
+	for <lists+linux-media@lfdr.de>; Fri, 24 Dec 2021 10:43:29 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1352216AbhLXJVi (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 24 Dec 2021 04:21:38 -0500
-Received: from relay6-d.mail.gandi.net ([217.70.183.198]:50849 "EHLO
-        relay6-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1352184AbhLXJVg (ORCPT
+        id S1352324AbhLXJn0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 24 Dec 2021 04:43:26 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46270 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S241614AbhLXJnY (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 24 Dec 2021 04:21:36 -0500
-Received: (Authenticated sender: jacopo@jmondi.org)
-        by relay6-d.mail.gandi.net (Postfix) with ESMTPSA id 5A710C000C;
-        Fri, 24 Dec 2021 09:21:31 +0000 (UTC)
-Date:   Fri, 24 Dec 2021 10:22:26 +0100
-From:   Jacopo Mondi <jacopo@jmondi.org>
-To:     Joe Perches <joe@perches.com>
-Cc:     Krzysztof =?utf-8?Q?Ha=C5=82asa?= <khalasa@piap.pl>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Sakari Ailus <sakari.ailus@iki.fi>
-Subject: Re: [PATCH v6 2/2] Driver for ON Semi AR0521 camera sensor
-Message-ID: <20211224092226.vmqkmybpx4zodezt@uno.localdomain>
-References: <m3ee63hkuu.fsf@t19.piap.pl>
- <m35yrfhkaf.fsf@t19.piap.pl>
- <cee1bbe6c8dda1c79ba19f7bbf68fc1d74558cae.camel@perches.com>
- <20211223184856.v34ecibwzepahsju@uno.localdomain>
- <02c71d9fe95f72c5aa5a01adadda8fb7e756fae1.camel@perches.com>
+        Fri, 24 Dec 2021 04:43:24 -0500
+Received: from mail-qk1-x744.google.com (mail-qk1-x744.google.com [IPv6:2607:f8b0:4864:20::744])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 24C3FC061401
+        for <linux-media@vger.kernel.org>; Fri, 24 Dec 2021 01:43:24 -0800 (PST)
+Received: by mail-qk1-x744.google.com with SMTP id i187so5779457qkf.5
+        for <linux-media@vger.kernel.org>; Fri, 24 Dec 2021 01:43:24 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=DA2RfWm5BfTc8dY4tRUxJejPvziWb2AgHmDwtjqgqi8=;
+        b=P5Qd+BPKTr3I+Do4OC70tdf0v+QiBCg7MTdO3Md1Zw9sg2dl/5Osd3vwjgi4sUbJMj
+         Hc6tHdBTOxud3jyCq3u5P9OE3vEioW4SLBGJo8++XSTQBofztcLCQ8kybgg8qtP9CSuH
+         4f9krOekkhy2eA2S7Rz466KDQvgZLCb8xGis/gZgz5Hi9JEaYcC5wo72XvSz9AQDU1D+
+         7S43zxju9VCRZPUFhoq/m9XGCad0b4ssi6GyvXslcwZvlM4zsQqtDWXAOanz/4WPK4HC
+         g0QvseeHBtUrsay0q/aX/8JHX5cyHvoqkK/rw3wuDFwhh9yJ8lRl2qAMSkFUSx60SPOQ
+         /DVg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to;
+        bh=DA2RfWm5BfTc8dY4tRUxJejPvziWb2AgHmDwtjqgqi8=;
+        b=YJHgY+xzEucbh3l7rlrkQxftf18cM+8QMuvSyDEb+ernxj9UXUs1FCVLwnV0bEXyWd
+         PfaF6SZoerfGPmsHHyZ3tOGJqvg/Asnw4NQmfRfDR+qgSkaUYkRvzRStORfEXrW0Gb/e
+         Rnea7eR5dn8FlROdeQCvKkFnHFEqXg0S0xFyq1MXHULHsnR6kGl780hmsytO9B1GcBiI
+         5y+DhVHFWRXRE+iBDharoJYrQHcqnWoAr8HPbVFcvPYa9CoOHn3stQHIYrzF1p2v78C2
+         zAMjwGhPVe4FCdcme6sEP9roqxpitJaABYrFAdmsKlmJbbYi85LDoe7ftGU+O4we21KI
+         QP+Q==
+X-Gm-Message-State: AOAM530cZ13MaZkfBlOC9KnpGGv2IA7jXyMFYolrPOsaaaIDTJAZPmT8
+        WrHXi/AaIjLAaaQlfjeTarvMcIjO3i4M7RDN0QA=
+X-Google-Smtp-Source: ABdhPJxOFyIbcuUoQkqLEOD0blyfPHbVzcVEVXfZHHcBczjQlF33Osl6/5XOvTNmqVfOAoBi95lYkCmhB5ab67zHpAk=
+X-Received: by 2002:a05:620a:12e2:: with SMTP id f2mr4119057qkl.343.1640339003339;
+ Fri, 24 Dec 2021 01:43:23 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <02c71d9fe95f72c5aa5a01adadda8fb7e756fae1.camel@perches.com>
+Received: by 2002:ad4:5c62:0:0:0:0:0 with HTTP; Fri, 24 Dec 2021 01:43:23
+ -0800 (PST)
+Reply-To: williamsreneta2019@gmail.com
+From:   MISS WILLIAMS <info.turvateealfastar@gmail.com>
+Date:   Fri, 24 Dec 2021 01:43:23 -0800
+Message-ID: <CAM-qQYZEpxxSx8D5OgQgnR0TbPk4tRuWJk3JOO_rqk2_US+_sA@mail.gmail.com>
+Subject: Greetings Dearest One,
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Joe
+Greetings Dearest One,
 
-On Thu, Dec 23, 2021 at 12:13:10PM -0800, Joe Perches wrote:
-> On Thu, 2021-12-23 at 19:48 +0100, Jacopo Mondi wrote:
-> > The media subsystem requires to validate patches with
-> >
-> >         ./scripts/checkpatch.pl --strict --max-line-length=80
-> >
-> > We longly debated this and I believe it's now generally accepted to go
-> > over 80 when it makes sense, but not regularly span to 120 cols like
-> > in the previous version.
->
-> Where is this documented and do you have a link to the debate?
+How are you today, together with your family?Hope fine.I would like to
+use this opportunity to introduce myself to you. I am Miss Reneta
+Williams, From Benin Republic, West Africa. And my late parents are
+Mr. and Mrs. Dikko Williams; my father was a highly reputable business
+magnet who operated in Benin Republic during his days.
 
-It's in the subsystem maintainer profile
-Documentation/driver-api/media/maintainer-entry-profile.rst
+I am writing this mail to you with tears and sorrow from my heart.
+With due respect trust and humanity, I know this mail will come to you
+as a surprise since we haven't known or come across each other before,
+considering the fact that I sourced your email contact through the
+Internet in search of trusted person who can be trusted and will
+assist me.
 
-Where of course some exceptions are listed but it's anyway enforced
-that "efforts should be made towards staying within 80
-characters per line"
+It is sad to say that he passed away mysteriously in France during one
+of his business trips abroad. Though his sudden death was linked or
+rather suspected to have been masterminded by an uncle of his who
+traveled with him at that time. But God knows the truth! My mother
+died when I was just 6yrs old, and since then my father took me so
+special.
 
-    - on strings, as they shouldn't be broken due to line length limits;
-    - when a function or variable name need to have a big identifier name,
-      which keeps hard to honor the 80 columns limit;
-    - on arithmetic expressions, when breaking lines makes them harder to
-      read;
-    - when they avoid a line to end with an open parenthesis or an open
-      bracket.
+Before his death, he called me and informed me that he has the sum of
+Eighteen Million Five Hundred , United State Dollar
+(USD$18.500,000.00) left in fixed deposit account in one of the
+leading banks in Africa. He further told me that he deposited the
+money in my name, and also gave me all the necessary but legal
+documents to this fund with the bank.
 
-The debate I mentioned was specifically on the previous version of the
-driver where me and Krzysztof shown quite different understanding of
-coding style requirements.
-https://patchwork.linuxtv.org/project/linux-media/patch/m3fstfoexa.fsf@t19.piap.pl/
+I am 21 years old and a university undergraduate and really don't know
+what to do. Now I want an account overseas where I can transfer this
+funds and after the transaction I will come and reside permanently in
+your country till such a time that it will be convenient for me to
+return back home if I so desire.
 
-That lead me to submit this
-https://patchwork.linuxtv.org/project/linux-media/patch/20211013092005.14268-1-jacopo@jmondi.org/
-which I never managed to re-send, my bad.
+The death of my father actually brought sorrow to my life. I also want
+to invest the fund under your care because I am ignorant of business
+world. I am in a sincere desire of your humble assistance in this
+regards. Your suggestions and ideas will be highly regarded.
 
+Now permit me to ask these few questions:
 
->
-> The archive for the i2c mailing list doesn't show much debate:
->
-> https://lore.kernel.org/linux-i2c/?q=%2280+columns%22
-> https://lore.kernel.org/linux-i2c/?q=%22line+length%22
->
-> Perhaps there should be a MAINTAINERS P: entry for this requirement.
->
-> From MAINTAINERS:
->
-> 	P: Subsystem Profile document for more details submitting
-> 	   patches to the given subsystem. This is either an in-tree file,
-> 	   or a URI. See Documentation/maintainer/maintainer-entry-profile.rst
-> 	   for details.
->
->
+1. Can you honestly help me from your heart?
+
+2. Can I completely trust you?
+
+3. What percentage of the total amount in question will be good for
+you after the money is in your account?
+
+Please, consider this and get back to me as soon as
+possible.Immediately and confirm your willingness on this my
+email(williamsreneta2019@gmail.com), here is one of my Picture and
+also i will inform you more details involved in this matter.
+
+Regards,
+
+Miss Reneta Williams.
