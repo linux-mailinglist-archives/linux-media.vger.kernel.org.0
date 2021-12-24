@@ -2,87 +2,92 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 22AE647E8C2
-	for <lists+linux-media@lfdr.de>; Thu, 23 Dec 2021 21:27:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D84C347EA42
+	for <lists+linux-media@lfdr.de>; Fri, 24 Dec 2021 02:29:47 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1350221AbhLWU1m (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 23 Dec 2021 15:27:42 -0500
-Received: from relay034.a.hostedemail.com ([64.99.140.34]:59301 "EHLO
-        relay.hostedemail.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S234114AbhLWU1m (ORCPT
+        id S1350736AbhLXB3O (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 23 Dec 2021 20:29:14 -0500
+Received: from twspam01.aspeedtech.com ([211.20.114.71]:41278 "EHLO
+        twspam01.aspeedtech.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229995AbhLXB3M (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 23 Dec 2021 15:27:42 -0500
-Received: from omf03.hostedemail.com (a10.router.float.18 [10.200.18.1])
-        by unirelay02.hostedemail.com (Postfix) with ESMTP id 02B37217FD;
-        Thu, 23 Dec 2021 20:27:39 +0000 (UTC)
-Received: from [HIDDEN] (Authenticated sender: joe@perches.com) by omf03.hostedemail.com (Postfix) with ESMTPA id 6C5576000D;
-        Thu, 23 Dec 2021 20:27:34 +0000 (UTC)
-Message-ID: <2135f71822711698ecfdaa5f0267e0324e424248.camel@perches.com>
-Subject: Re: [PATCH v6 2/2] Driver for ON Semi AR0521 camera sensor
-From:   Joe Perches <joe@perches.com>
-To:     Jacopo Mondi <jacopo@jmondi.org>
-Cc:     Krzysztof =?UTF-8?Q?Ha=C5=82asa?= <khalasa@piap.pl>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Sakari Ailus <sakari.ailus@iki.fi>
-Date:   Thu, 23 Dec 2021 12:27:36 -0800
-In-Reply-To: <02c71d9fe95f72c5aa5a01adadda8fb7e756fae1.camel@perches.com>
-References: <m3ee63hkuu.fsf@t19.piap.pl> <m35yrfhkaf.fsf@t19.piap.pl>
-         <cee1bbe6c8dda1c79ba19f7bbf68fc1d74558cae.camel@perches.com>
-         <20211223184856.v34ecibwzepahsju@uno.localdomain>
-         <02c71d9fe95f72c5aa5a01adadda8fb7e756fae1.camel@perches.com>
-Content-Type: text/plain; charset="ISO-8859-1"
-User-Agent: Evolution 3.40.4-1ubuntu2 
+        Thu, 23 Dec 2021 20:29:12 -0500
+Received: from mail.aspeedtech.com ([192.168.0.24])
+        by twspam01.aspeedtech.com with ESMTP id 1BO1M7jM007688;
+        Fri, 24 Dec 2021 09:22:07 +0800 (GMT-8)
+        (envelope-from jammy_huang@aspeedtech.com)
+Received: from JammyHuang-PC.aspeed.com (192.168.2.115) by TWMBX02.aspeed.com
+ (192.168.0.24) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Fri, 24 Dec
+ 2021 09:27:37 +0800
+From:   Jammy Huang <jammy_huang@aspeedtech.com>
+To:     <hverkuil-cisco@xs4all.nl>, <sakari.ailus@linux.intel.com>,
+        <gregkh@linuxfoundation.org>, <eajames@linux.ibm.com>,
+        <mchehab@kernel.org>, <joel@jms.id.au>, <andrew@aj.id.au>,
+        <linux-media@vger.kernel.org>, <openbmc@lists.ozlabs.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-aspeed@lists.ozlabs.org>, <linux-kernel@vger.kernel.org>
+Subject: [PATCH v8 0/4] add aspeed-jpeg support for aspeed-video
+Date:   Fri, 24 Dec 2021 09:27:34 +0800
+Message-ID: <20211224012738.1551-1-jammy_huang@aspeedtech.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-Rspamd-Queue-Id: 6C5576000D
-X-Spam-Status: No, score=-3.40
-X-Stat-Signature: oryznni7orai4xz5hpb9rarsuzeeq18h
-X-Rspamd-Server: rspamout02
-X-Session-Marker: 6A6F6540706572636865732E636F6D
-X-Session-ID: U2FsdGVkX1/LvrMcnUh7u0lsb7sYPZ7gbjNPuYXMEfA=
-X-HE-Tag: 1640291254-457205
+Content-Transfer-Encoding: 7BIT
+Content-Type:   text/plain; charset=US-ASCII
+X-Originating-IP: [192.168.2.115]
+X-ClientProxiedBy: TWMBX02.aspeed.com (192.168.0.24) To TWMBX02.aspeed.com
+ (192.168.0.24)
+X-DNSRBL: 
+X-MAIL: twspam01.aspeedtech.com 1BO1M7jM007688
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, 2021-12-23 at 12:13 -0800, Joe Perches wrote:
-> On Thu, 2021-12-23 at 19:48 +0100, Jacopo Mondi wrote:
-> > The media subsystem requires to validate patches with
-> > 
-> >         ./scripts/checkpatch.pl --strict --max-line-length=80
-> > 
-> > We longly debated this and I believe it's now generally accepted to go
-> > over 80 when it makes sense, but not regularly span to 120 cols like
-> > in the previous version.
-[]
-> Perhaps there should be a MAINTAINERS P: entry for this requirement.
-> 
-> From MAINTAINERS:
-> 
-> 	P: Subsystem Profile document for more details submitting
-> 	   patches to the given subsystem. This is either an in-tree file,
-> 	   or a URI. See Documentation/maintainer/maintainer-entry-profile.rst
-> 	   for details.
+The aim of this series is to add aspeed-jpeg support for aspeed-video
+driver. aspeed-jpeg is a per-frame differential jpeg format which only
+compress the parts which are different from the previous frame. In this
+way, it reduces both the amount of data to be transferred by network and
+those to be decoded on the client side.
 
-Perhaps:
----
- MAINTAINERS | 1 +
- 1 file changed, 1 insertion(+)
+In the last, debugfs information is also updated per this change.
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index cd55b83878e05..bbfcb8e7eef06 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -11977,6 +11977,7 @@ L:	linux-media@vger.kernel.org
- S:	Maintained
- W:	https://linuxtv.org
- Q:	http://patchwork.kernel.org/project/linux-media/list/
-+P:	https://linuxtv.org/downloads/v4l-dvb-apis-new/driver-api/maintainer-entry-profile.html
- T:	git git://linuxtv.org/media_tree.git
- F:	Documentation/admin-guide/media/
- F:	Documentation/devicetree/bindings/media/
+Changes in v8:
+ - Add information of decoder's implementation
+ 
+Changes in v7:
+ - Separate other patches alone from aspeed-jpeg series
+ - for Aspeed-jpeg, generate an I frame every 8 frames
+ - rename compression_mode as compression_scheme
+ - Add more reference for aspeed-jpeg
+ - Update debugfs message
 
+Changes in v6:
+ - Update description for new format, aspeed-jpeg, in Documentation.
+
+Changes in v5:
+ - Use model data to tell different soc
+
+Changes in v4:
+ - Add definition for the Aspeed JPEG format
+ - Reserve controls for ASPEED
+ - Use s_fmt to update format rather than new control
+ - Update aspeed hq quality range, 1 ~ 12
+
+
+Jammy Huang (4):
+  media: v4l: Add definition for the Aspeed JPEG format
+  media: v4l2-ctrls: Reserve controls for ASPEED
+  media: aspeed: Support aspeed mode to reduce compressed data
+  media: aspeed: Extend debug message
+
+ .../media/uapi/v4l/pixfmt-reserved.rst        |  17 ++
+ drivers/media/platform/aspeed-video.c         | 287 ++++++++++++++++--
+ drivers/media/v4l2-core/v4l2-ioctl.c          |   1 +
+ include/uapi/linux/aspeed-video.h             |  15 +
+ include/uapi/linux/v4l2-controls.h            |   5 +
+ include/uapi/linux/videodev2.h                |   1 +
+ 6 files changed, 307 insertions(+), 19 deletions(-)
+ create mode 100644 include/uapi/linux/aspeed-video.h
+
+-- 
+2.25.1
 
