@@ -2,129 +2,71 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9797F47F416
-	for <lists+linux-media@lfdr.de>; Sat, 25 Dec 2021 18:32:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5FB5947F48E
+	for <lists+linux-media@lfdr.de>; Sat, 25 Dec 2021 23:06:45 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232521AbhLYRcz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 25 Dec 2021 12:32:55 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33390 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229488AbhLYRcy (ORCPT
+        id S231714AbhLYWGl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 25 Dec 2021 17:06:41 -0500
+Received: from hosting.gsystem.sk ([212.5.213.30]:38276 "EHLO
+        hosting.gsystem.sk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230259AbhLYWGl (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 25 Dec 2021 12:32:54 -0500
-Received: from mail-ed1-x52c.google.com (mail-ed1-x52c.google.com [IPv6:2a00:1450:4864:20::52c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6678FC061401;
-        Sat, 25 Dec 2021 09:32:54 -0800 (PST)
-Received: by mail-ed1-x52c.google.com with SMTP id x15so44830624edv.1;
-        Sat, 25 Dec 2021 09:32:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=7hA3vEaUDHtlb/RnlEjxAhRWJLgHlZ5Yq9n1C69h8n8=;
-        b=WlISJVC80nmEzfyrb0cNoo5UNH86bU7vaS7ppzOX3dYAzEEv98k+Q1R3qK0IkdlI8+
-         FXJBWS7j7iICn2GJIjD/g2wRRvujzmUxYYUzaDoxI7O3qxhsfVkFyxfnU36OxTFj1JzL
-         O++gPG8eI0qOCddWpK3cU+hMMzlLl19jfBH5meXCvQ5r7ddC36ZdsM0d6FZpX2nSd+ec
-         UISEBT/CZUSjK4/WlGbmN/KTSsdZhPzVExw60cVMrTEt4wme4GkjDZn9FLv9VmnDCOcA
-         2j+gX+MJAbKDiakC7uNnwbdFkK97QVrHfoTm+UdnMj5O7MXEVR5SXoMu1zbBeJ5KUCYV
-         D6Tg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=7hA3vEaUDHtlb/RnlEjxAhRWJLgHlZ5Yq9n1C69h8n8=;
-        b=oFsZgd0L0Oh3cVkn/DgWCNJUj81U6DDmQ5srEPCOjVTzebllLudM1TiMKQPC/cCNGb
-         tvnQV6wweEx/HVxBeIf3typvId72sre80qY1D/ldUIn/wOatdMdFa9WutYOwBzKKNYJO
-         cKx5fxBbEcm94FabIVFGhzSozzszi5t/Fxi6a0sleChR6VItmH4mP09iJLK6fYg98V1z
-         c99XHCBGNzmSLoF3c26mXH6yWbmTcsPZ3MAmsZzAR5NFqZhX1cMdbr7JtxSWnGJMaumD
-         3oum1fi1arS+54J53SA1djH6blTrn/yhgapEDCDe7+TALGJVKWAcRuc+4sGPwuosH66a
-         P9XA==
-X-Gm-Message-State: AOAM5310BXBdpJAvwpRUGMVZugkHQUe6HScZLxXNLcMPyc4G+UpAY2KY
-        cRFGKWY4i5+eXizpAsUvm3akRlKZcP7B+x2HRGc=
-X-Google-Smtp-Source: ABdhPJxCn9ixI/IpsGfA5APrN63l1h69JQwI08xALHCyy0+eotTLl5H85EUZyjZqIut7zSx3mKcQ8iknsdMvFmcM/3Y=
-X-Received: by 2002:a17:906:a3c6:: with SMTP id ca6mr8546557ejb.639.1640453572898;
- Sat, 25 Dec 2021 09:32:52 -0800 (PST)
+        Sat, 25 Dec 2021 17:06:41 -0500
+X-Greylist: delayed 452 seconds by postgrey-1.27 at vger.kernel.org; Sat, 25 Dec 2021 17:06:40 EST
+Received: from gsql.ggedos.sk (off-20.infotel.telecom.sk [212.5.213.20])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by hosting.gsystem.sk (Postfix) with ESMTPSA id 7E1447A0156;
+        Sat, 25 Dec 2021 22:59:07 +0100 (CET)
+From:   Ondrej Zary <linux@zary.sk>
+To:     Hans Verkuil <hverkuil@xs4all.nl>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] bttv: fix WARNING regression on tunerless devices
+Date:   Sat, 25 Dec 2021 22:58:44 +0100
+Message-Id: <20211225215844.24189-1-linux@zary.sk>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-References: <20211223173015.22251-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <20211223173015.22251-7-prabhakar.mahadev-lad.rj@bp.renesas.com>
-In-Reply-To: <20211223173015.22251-7-prabhakar.mahadev-lad.rj@bp.renesas.com>
-From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Sat, 25 Dec 2021 19:32:16 +0200
-Message-ID: <CAHp75VeCwR-eP930s3miv-ux8=_P+vmdkhN+K=weTL1nwNA1ig@mail.gmail.com>
-Subject: Re: [PATCH 06/13] media: davinci: vpif: Use platform_get_irq_optional()
- to get the interrupt
-To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
-        "Lad, Prabhakar" <prabhakar.csengg@gmail.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Rob Herring <robh+dt@kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Sat, Dec 25, 2021 at 3:04 AM Lad Prabhakar
-<prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
->
-> platform_get_resource(pdev, IORESOURCE_IRQ, ..) relies on static
-> allocation of IRQ resources in DT core code, this causes an issue
-> when using hierarchical interrupt domains using "interrupts" property
-> in the node as this bypasses the hierarchical setup and messes up the
-> irq chaining.
->
-> In preparation for removal of static setup of IRQ resource from DT core
-> code use platform_get_irq_optional().
->
-> Also this patch propagates error code in case devm_request_irq()
-> fails instead of returing -EINVAL.
+Commit 2161536516ed ("media: media/pci: set device_caps in struct video_device")
+introduced a regression: V4L2_CAP_TUNER is always present in device_caps,
+even when the device has no tuner.
 
-returning
+This causes a warning:
+WARNING: CPU: 0 PID: 249 at drivers/media/v4l2-core/v4l2-ioctl.c:1102 v4l_querycap+0xa0/0xb0 [videodev]
 
-...
+Fixes: 2161536516ed ("media: media/pci: set device_caps in struct video_device")
+Signed-off-by: Ondrej Zary <linux@zary.sk>
+---
+ drivers/media/pci/bt8xx/bttv-driver.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-> +       res_irq->flags = IORESOURCE_IRQ | irq_get_trigger_type(irq);
-> +       res_irq->start = irq;
-> +       res_irq->end = irq;
-> +       res_irq->name = dev_of_node(&pdev->dev) ? of_node_full_name(pdev->dev.of_node) : NULL;
-
-If you convert DEFINE_RES_NAMED() to return a compound literal, then
-you may use it here like
-
-res_irq = DEFINE_RES_NAMED(...);
-
-or even do like this
-
-if (dev_of_node(...))
-  res_irq = DEFINE_RES_IRQ_NAMED(...)
-else
-  res_irq = DEFINE_RES_IRQ(...);
-res_irq->flags |= irq_get_trigger_type(irq);
-
-I'm not sure why you can't simply use the NAMED variant in both cases
-(yes, I see that of_node_full_name() will return something, not NULL).
-
-...
-
-> +       while ((err = platform_get_irq_optional(pdev, res_idx)) != -ENXIO) {
-> +               if (err < 0)
-> +                       goto vpif_unregister;
-
-Needs a better error checking, i.e. consider 0 as no-IRQ (equivalent
-to -ENXIO (note, OF code never returns 0 as valid vIRQ).
-
->                 res_idx++;
->         }
-
-...
-
-> +       while ((err = platform_get_irq_optional(pdev, res_idx)) != -ENXIO) {
-> +               if (err < 0)
-> +                       goto vpif_unregister;
-
-Ditto.
-
+diff --git a/drivers/media/pci/bt8xx/bttv-driver.c b/drivers/media/pci/bt8xx/bttv-driver.c
+index 0e9df8b35ac6..661ebfa7bf3f 100644
+--- a/drivers/media/pci/bt8xx/bttv-driver.c
++++ b/drivers/media/pci/bt8xx/bttv-driver.c
+@@ -3890,7 +3890,7 @@ static int bttv_register_video(struct bttv *btv)
+ 
+ 	/* video */
+ 	vdev_init(btv, &btv->video_dev, &bttv_video_template, "video");
+-	btv->video_dev.device_caps = V4L2_CAP_VIDEO_CAPTURE | V4L2_CAP_TUNER |
++	btv->video_dev.device_caps = V4L2_CAP_VIDEO_CAPTURE |
+ 				     V4L2_CAP_READWRITE | V4L2_CAP_STREAMING;
+ 	if (btv->tuner_type != TUNER_ABSENT)
+ 		btv->video_dev.device_caps |= V4L2_CAP_TUNER;
+@@ -3911,7 +3911,7 @@ static int bttv_register_video(struct bttv *btv)
+ 	/* vbi */
+ 	vdev_init(btv, &btv->vbi_dev, &bttv_video_template, "vbi");
+ 	btv->vbi_dev.device_caps = V4L2_CAP_VBI_CAPTURE | V4L2_CAP_READWRITE |
+-				   V4L2_CAP_STREAMING | V4L2_CAP_TUNER;
++				   V4L2_CAP_STREAMING;
+ 	if (btv->tuner_type != TUNER_ABSENT)
+ 		btv->vbi_dev.device_caps |= V4L2_CAP_TUNER;
+ 
 -- 
-With Best Regards,
-Andy Shevchenko
+Ondrej Zary
+
