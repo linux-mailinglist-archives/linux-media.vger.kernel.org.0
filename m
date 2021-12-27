@@ -2,145 +2,248 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4E80947F83B
-	for <lists+linux-media@lfdr.de>; Sun, 26 Dec 2021 17:33:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DB9B447FA8B
+	for <lists+linux-media@lfdr.de>; Mon, 27 Dec 2021 07:36:36 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231195AbhLZQd6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 26 Dec 2021 11:33:58 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46928 "EHLO
+        id S235348AbhL0Ggc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 27 Dec 2021 01:36:32 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58370 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229987AbhLZQd5 (ORCPT
+        with ESMTP id S235318AbhL0Ggc (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 26 Dec 2021 11:33:57 -0500
-Received: from mail-qt1-x82b.google.com (mail-qt1-x82b.google.com [IPv6:2607:f8b0:4864:20::82b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BF252C06173E
-        for <linux-media@vger.kernel.org>; Sun, 26 Dec 2021 08:33:56 -0800 (PST)
-Received: by mail-qt1-x82b.google.com with SMTP id m18so11284262qtk.3
-        for <linux-media@vger.kernel.org>; Sun, 26 Dec 2021 08:33:56 -0800 (PST)
+        Mon, 27 Dec 2021 01:36:32 -0500
+Received: from mail-wm1-x333.google.com (mail-wm1-x333.google.com [IPv6:2a00:1450:4864:20::333])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3DA65C06173E;
+        Sun, 26 Dec 2021 22:36:30 -0800 (PST)
+Received: by mail-wm1-x333.google.com with SMTP id g132so9083094wmg.2;
+        Sun, 26 Dec 2021 22:36:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=vanguardiasur-com-ar.20210112.gappssmtp.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=zZoHskxxN8uGpMitWoUyROPhaBv9eU7NFpts0SGB6Y4=;
-        b=YjiWxTyTeVTzSWi9xioHbeV4aonLvky5fZsBeFJ7XqtO8AxT7G6aHoDy3lEFWWvclD
-         YVbdkTJTepFtIOWLwQmnMt+EwE3L6UaruTdHohDIiqhxDi0PJ2sxY6MF+0rQLClPU9Lp
-         cGdKXP47OBxstkiHz6rgp1Mv9nEcKebhLtXOPww8yQKbh10GPSwY2wv2sDWmDEnDHG7S
-         sKrMoJRnH5kkCFkzJGYAUb4i54Y9C/ruxL5uu8G2YKtQRHPuCen1XCoby4mNKETVN+Fl
-         Uum3ZW1kiIaGw9rPgX97Td5sd0lMEhIY5mgYMCyqls3ZpvoS+txBVNddcJfRy/ukDxze
-         ax4w==
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=aVsAoP2T3tzUodu4VGKyNEW0sphmTDDncHzes2frrOs=;
+        b=bQQ8nvrhuvCETjMeJ9h0Eb9hkbJIrbr4SKihusqXFjU+d5gf0mXDgdRUp+z7hJfvQb
+         JjxSVDl8TXXdkcyei7e9eeEp6Dztxbw6yS2hMjGq2t1ICy3jp5FK3pozZB49Y1Dj/gyD
+         4kK9mVxp06A19aXks8CQ4v9NgZBMA0pYoWRPuu5z62JbZQz7+37zEzdA6WRxblez0GvE
+         fTTkwV99WTStkviHBP2J6Af8V8mTbbXWgg1WVdK6mpv1fmmV1ao0zImxMmExWnaUGnYO
+         /Hly8+mtu6fqnqt0ElKuwfknZ2WQ80kP6dhOAetBMLRAqA5nkKYWteI+mo0xYyJBNFDp
+         ltwg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=zZoHskxxN8uGpMitWoUyROPhaBv9eU7NFpts0SGB6Y4=;
-        b=qfcwQs2ddP/hoFjaWnVjjMwGh7+MiDbTBykl/LgypSiuFlCpjLXKFafXxEsXYfDL/7
-         kqTaWTWnPFuOwhEZsh/RVOeB2Chw8svDBCO4MShlX9RiocIWQkgaSNP/FRX82aPMTl96
-         nlONG4IFDQijs9DJA9Dy+suutc6UgsJinjj9mOLOog2Pf90Q/9d2srULZUBMPLc1tAQK
-         OsrwE8Abh30U6wk+dG+B7ZIDMC05S1gUB8O4kDMNV6kT4zbrazBzO/qHW9IcPTcXhkMJ
-         /Ze0TSurC8qJGGVHLmmw/vcHJMx3mELT4A3iMreOZMT6KZGgIF58TmQ9hlyaCpt86LF/
-         2lhw==
-X-Gm-Message-State: AOAM5325gsSy6cHyu6paInxjXTBQHvX4FyRTspxz3PmrWLxXJ/vYEplU
-        uMbq2xb+E+AF0DYJg7FplQtwzg==
-X-Google-Smtp-Source: ABdhPJwVVrktToZ/gNMXR1o9FvXwu8OdTH/Hk6BcQOE58abV4vSun5eteZNn+gSjKbtT0zBdzdiE6g==
-X-Received: by 2002:ac8:5f4e:: with SMTP id y14mr12219600qta.620.1640536435884;
-        Sun, 26 Dec 2021 08:33:55 -0800 (PST)
-Received: from eze-laptop ([186.122.18.30])
-        by smtp.gmail.com with ESMTPSA id f12sm11132002qtj.93.2021.12.26.08.33.48
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=aVsAoP2T3tzUodu4VGKyNEW0sphmTDDncHzes2frrOs=;
+        b=U1kSKX7Zf9G1e7Px0yhPs77flEWITo/i9s3CcIu/e2Yv9SF14OrsSunjiNP2l8m5Sd
+         04Vb+lFhy86E1o4Zt/wm3h/r0dMdOKrPYrc5LBVBJCIj4OC/6F4NBmLdguj4CkW4ziCt
+         MfseP3PtN4e75egN2NBLW9GU4vZndoGTruoQH+n6XNW2xpY8Ipy8pJu3aENHccsrTsop
+         nydJEKWpCyMThjuMLkjMOdDriZX+zvqxZnKqIRGPHNMWb2WYk7W0HkKhXrxksz6H+TDP
+         VkaXMP/Ngcu6GeDw0E+pdoPdgGZNdspR5fJLvPOYmAkXd6hgs4fy6HbXDLH/IGGjGnF9
+         veCA==
+X-Gm-Message-State: AOAM531zbbeT1kWeQBKBliUsS7Jcj2/gAxEpQZCfW04Cmq0moSPat4IH
+        h14OpIBH6GYs/pMGZTT3a6s=
+X-Google-Smtp-Source: ABdhPJysdnMAvIRMu3NQjqh3TRsP70+m9zCz27aJbE26CBqDoMBfIJyJ9lkILTCCw6d9dhVfu1YpMg==
+X-Received: by 2002:a1c:494:: with SMTP id 142mr12441200wme.191.1640586988638;
+        Sun, 26 Dec 2021 22:36:28 -0800 (PST)
+Received: from ownia.. ([103.105.48.220])
+        by smtp.gmail.com with ESMTPSA id g8sm14153982wmh.17.2021.12.26.22.36.25
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 26 Dec 2021 08:33:52 -0800 (PST)
-Date:   Sun, 26 Dec 2021 13:33:43 -0300
-From:   Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
-To:     Chen-Yu Tsai <wenst@chromium.org>
-Cc:     Philipp Zabel <p.zabel@pengutronix.de>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Tomasz Figa <tfiga@chromium.org>, linux-media@vger.kernel.org,
-        linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH RFT 5/7] media: hantro: jpeg: Add COM segment to JPEG
- header to align image scan
-Message-ID: <YciZZ2hA4uMveN2l@eze-laptop>
-References: <20211224084248.3070568-1-wenst@chromium.org>
- <20211224084248.3070568-6-wenst@chromium.org>
+        Sun, 26 Dec 2021 22:36:28 -0800 (PST)
+From:   Weizhao Ouyang <o451686892@gmail.com>
+To:     Sumit Semwal <sumit.semwal@linaro.org>,
+        Benjamin Gaignard <benjamin.gaignard@linaro.org>,
+        Liam Mark <lmark@codeaurora.org>,
+        Laura Abbott <labbott@redhat.com>,
+        Brian Starkey <Brian.Starkey@arm.com>,
+        John Stultz <john.stultz@linaro.org>, christian.koenig@amd.com
+Cc:     linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org,
+        Weizhao Ouyang <o451686892@gmail.com>
+Subject: [PATCH] dma-buf: heaps: Fix mutex lock area and generalize struct dma_heap_attachment
+Date:   Mon, 27 Dec 2021 14:36:19 +0800
+Message-Id: <20211227063619.215692-1-o451686892@gmail.com>
+X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20211224084248.3070568-6-wenst@chromium.org>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi,
+Fix cma_heap_buffer mutex lock area to protect vmap_cnt and vaddr. And
+move struct dma_heap_attachment to dma-heap.h so that vendor dma heaps
+can use it, the same behaviour as struct dma_buf_attachment.
 
-On Fri, Dec 24, 2021 at 04:42:46PM +0800, Chen-Yu Tsai wrote:
-> The JPEG header size is not 64-bit aligned. This makes the driver
-> require a bounce buffer for the encoded JPEG image scan output.
-> 
-> Add a COM (comment) segment to the JPEG header so that the header size
-> is a multiple of 64 bits. This will then allow dropping the use of the
-> bounce buffer, and instead have the hardware write out to the capture
-> buffer directly.
-> 
-> Signed-off-by: Chen-Yu Tsai <wenst@chromium.org>
-> ---
->  drivers/staging/media/hantro/hantro_jpeg.c | 3 +++
->  drivers/staging/media/hantro/hantro_jpeg.h | 2 +-
->  2 files changed, 4 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/staging/media/hantro/hantro_jpeg.c b/drivers/staging/media/hantro/hantro_jpeg.c
-> index 7d4018bd6876..51e67e5cf86f 100644
-> --- a/drivers/staging/media/hantro/hantro_jpeg.c
-> +++ b/drivers/staging/media/hantro/hantro_jpeg.c
-> @@ -247,6 +247,9 @@ static const unsigned char hantro_jpeg_header[JPEG_HEADER_SIZE] = {
->  	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
->  	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
->  
-> +	/* COM */
-> +	0xff, 0xfe, 0x00, 0x03, 0x00,
-> +
->  	/* SOS */
->  	0xff, 0xda, 0x00, 0x0c, 0x03, 0x01, 0x00, 0x02,
->  	0x11, 0x03, 0x11, 0x00, 0x3f, 0x00,
-> diff --git a/drivers/staging/media/hantro/hantro_jpeg.h b/drivers/staging/media/hantro/hantro_jpeg.h
-> index f33c492134e4..0b49d0b82caa 100644
-> --- a/drivers/staging/media/hantro/hantro_jpeg.h
-> +++ b/drivers/staging/media/hantro/hantro_jpeg.h
-> @@ -1,6 +1,6 @@
->  /* SPDX-License-Identifier: GPL-2.0+ */
->  
-> -#define JPEG_HEADER_SIZE	619
-> +#define JPEG_HEADER_SIZE	624
+Fixes: a5d2d29e24be ("dma-buf: heaps: Move heap-helper logic into the cma_heap implementation")
+Signed-off-by: Weizhao Ouyang <o451686892@gmail.com>
+---
+ drivers/dma-buf/heaps/cma_heap.c    | 25 ++++++++++---------------
+ drivers/dma-buf/heaps/system_heap.c | 12 ++----------
+ include/linux/dma-heap.h            | 15 +++++++++++++++
+ 3 files changed, 27 insertions(+), 25 deletions(-)
 
-Can we add some compile-time check for the 8-byte alignment,
-so this is always enforced?
-
-Perhaps getting rid of the JPEG_HEADER_SIZE macro,
-something like this....
-
-
-@@ -140,7 +140,7 @@ static const unsigned char chroma_ac_table[] = {
-  * and we'll use fixed offsets to change the width, height
-  * quantization tables, etc.
-  */
--static const unsigned char hantro_jpeg_header[JPEG_HEADER_SIZE] = {
-+static const unsigned char hantro_jpeg_header[] = {
-        /* SOI */
-        0xff, 0xd8,
-
-@@ -304,8 +304,13 @@ void hantro_jpeg_header_assemble(struct hantro_jpeg_ctx *ctx)
+diff --git a/drivers/dma-buf/heaps/cma_heap.c b/drivers/dma-buf/heaps/cma_heap.c
+index 0c05b79870f9..23dad5b6421e 100644
+--- a/drivers/dma-buf/heaps/cma_heap.c
++++ b/drivers/dma-buf/heaps/cma_heap.c
+@@ -40,13 +40,6 @@ struct cma_heap_buffer {
+ 	void *vaddr;
+ };
+ 
+-struct dma_heap_attachment {
+-	struct device *dev;
+-	struct sg_table table;
+-	struct list_head list;
+-	bool mapped;
+-};
+-
+ static int cma_heap_attach(struct dma_buf *dmabuf,
+ 			   struct dma_buf_attachment *attachment)
  {
-        char *buf = ctx->buffer;
-
--       memcpy(buf, hantro_jpeg_header,
--              sizeof(hantro_jpeg_header));
-+       /*
-+        * THE JPEG buffer is prepended with the JPEG header,
-+        * so 64-bit alignment is needed for DMA.
-+        */
-+       BUILD_BUG_ON(!IS_ALIGNED(sizeof(hantro_jpeg_header), 8));
+@@ -58,7 +51,7 @@ static int cma_heap_attach(struct dma_buf *dmabuf,
+ 	if (!a)
+ 		return -ENOMEM;
+ 
+-	ret = sg_alloc_table_from_pages(&a->table, buffer->pages,
++	ret = sg_alloc_table_from_pages(a->table, buffer->pages,
+ 					buffer->pagecount, 0,
+ 					buffer->pagecount << PAGE_SHIFT,
+ 					GFP_KERNEL);
+@@ -90,7 +83,7 @@ static void cma_heap_detach(struct dma_buf *dmabuf,
+ 	list_del(&a->list);
+ 	mutex_unlock(&buffer->lock);
+ 
+-	sg_free_table(&a->table);
++	sg_free_table(a->table);
+ 	kfree(a);
+ }
+ 
+@@ -98,12 +91,12 @@ static struct sg_table *cma_heap_map_dma_buf(struct dma_buf_attachment *attachme
+ 					     enum dma_data_direction direction)
+ {
+ 	struct dma_heap_attachment *a = attachment->priv;
+-	struct sg_table *table = &a->table;
++	struct sg_table *table = a->table;
+ 	int ret;
+ 
+ 	ret = dma_map_sgtable(attachment->dev, table, direction, 0);
+ 	if (ret)
+-		return ERR_PTR(-ENOMEM);
++		return ERR_PTR(ret);
+ 	a->mapped = true;
+ 	return table;
+ }
+@@ -124,14 +117,15 @@ static int cma_heap_dma_buf_begin_cpu_access(struct dma_buf *dmabuf,
+ 	struct cma_heap_buffer *buffer = dmabuf->priv;
+ 	struct dma_heap_attachment *a;
+ 
++	mutex_lock(&buffer->lock);
 +
-+       memcpy(buf, hantro_jpeg_header, sizeof(hantro_jpeg_header));
+ 	if (buffer->vmap_cnt)
+ 		invalidate_kernel_vmap_range(buffer->vaddr, buffer->len);
+ 
+-	mutex_lock(&buffer->lock);
+ 	list_for_each_entry(a, &buffer->attachments, list) {
+ 		if (!a->mapped)
+ 			continue;
+-		dma_sync_sgtable_for_cpu(a->dev, &a->table, direction);
++		dma_sync_sgtable_for_cpu(a->dev, a->table, direction);
+ 	}
+ 	mutex_unlock(&buffer->lock);
+ 
+@@ -144,14 +138,15 @@ static int cma_heap_dma_buf_end_cpu_access(struct dma_buf *dmabuf,
+ 	struct cma_heap_buffer *buffer = dmabuf->priv;
+ 	struct dma_heap_attachment *a;
+ 
++	mutex_lock(&buffer->lock);
++
+ 	if (buffer->vmap_cnt)
+ 		flush_kernel_vmap_range(buffer->vaddr, buffer->len);
+ 
+-	mutex_lock(&buffer->lock);
+ 	list_for_each_entry(a, &buffer->attachments, list) {
+ 		if (!a->mapped)
+ 			continue;
+-		dma_sync_sgtable_for_device(a->dev, &a->table, direction);
++		dma_sync_sgtable_for_device(a->dev, a->table, direction);
+ 	}
+ 	mutex_unlock(&buffer->lock);
+ 
+diff --git a/drivers/dma-buf/heaps/system_heap.c b/drivers/dma-buf/heaps/system_heap.c
+index ab7fd896d2c4..aac8fc660ea6 100644
+--- a/drivers/dma-buf/heaps/system_heap.c
++++ b/drivers/dma-buf/heaps/system_heap.c
+@@ -17,7 +17,6 @@
+ #include <linux/highmem.h>
+ #include <linux/mm.h>
+ #include <linux/module.h>
+-#include <linux/scatterlist.h>
+ #include <linux/slab.h>
+ #include <linux/vmalloc.h>
+ 
+@@ -33,13 +32,6 @@ struct system_heap_buffer {
+ 	void *vaddr;
+ };
+ 
+-struct dma_heap_attachment {
+-	struct device *dev;
+-	struct sg_table *table;
+-	struct list_head list;
+-	bool mapped;
+-};
+-
+ #define LOW_ORDER_GFP (GFP_HIGHUSER | __GFP_ZERO | __GFP_COMP)
+ #define MID_ORDER_GFP (LOW_ORDER_GFP | __GFP_NOWARN)
+ #define HIGH_ORDER_GFP  (((GFP_HIGHUSER | __GFP_ZERO | __GFP_NOWARN \
+@@ -68,7 +60,7 @@ static struct sg_table *dup_sg_table(struct sg_table *table)
+ 	ret = sg_alloc_table(new_table, table->orig_nents, GFP_KERNEL);
+ 	if (ret) {
+ 		kfree(new_table);
+-		return ERR_PTR(-ENOMEM);
++		return ERR_PTR(ret);
+ 	}
+ 
+ 	new_sg = new_table->sgl;
+@@ -94,7 +86,7 @@ static int system_heap_attach(struct dma_buf *dmabuf,
+ 	table = dup_sg_table(&buffer->sg_table);
+ 	if (IS_ERR(table)) {
+ 		kfree(a);
+-		return -ENOMEM;
++		return PTR_ERR(table);
+ 	}
+ 
+ 	a->table = table;
+diff --git a/include/linux/dma-heap.h b/include/linux/dma-heap.h
+index 0c05561cad6e..7d02aefe0e78 100644
+--- a/include/linux/dma-heap.h
++++ b/include/linux/dma-heap.h
+@@ -11,6 +11,7 @@
+ 
+ #include <linux/cdev.h>
+ #include <linux/types.h>
++#include <linux/scatterlist.h>
+ 
+ struct dma_heap;
+ 
+@@ -41,6 +42,20 @@ struct dma_heap_export_info {
+ 	void *priv;
+ };
+ 
++/**
++ * struct dma_heap_attachment - holds device-heap attachment data
++ * @dev:	device attached to the heap
++ * @table:	sgtables for tracking the associated pages
++ * @list:	list of dma_heap_attachment
++ * @mapped:	true if attachment is actually mapped on the device
++ */
++struct dma_heap_attachment {
++	struct device *dev;
++	struct sg_table *table;
++	struct list_head list;
++	bool mapped;
++};
++
+ /**
+  * dma_heap_get_drvdata() - get per-heap driver data
+  * @heap: DMA-Heap to retrieve private data for
+-- 
+2.32.0
 
-Thanks,
-Ezequiel
