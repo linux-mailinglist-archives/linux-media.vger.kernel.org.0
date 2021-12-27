@@ -2,62 +2,62 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9E60F47FAB7
-	for <lists+linux-media@lfdr.de>; Mon, 27 Dec 2021 08:13:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A1BE747FAB8
+	for <lists+linux-media@lfdr.de>; Mon, 27 Dec 2021 08:14:57 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235450AbhL0HNm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 27 Dec 2021 02:13:42 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38224 "EHLO
+        id S231164AbhL0HO5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 27 Dec 2021 02:14:57 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38486 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229550AbhL0HNm (ORCPT
+        with ESMTP id S229550AbhL0HO4 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 27 Dec 2021 02:13:42 -0500
-Received: from mail-pg1-x52a.google.com (mail-pg1-x52a.google.com [IPv6:2607:f8b0:4864:20::52a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BC588C06173E
-        for <linux-media@vger.kernel.org>; Sun, 26 Dec 2021 23:13:41 -0800 (PST)
-Received: by mail-pg1-x52a.google.com with SMTP id l10so12922529pgm.7
-        for <linux-media@vger.kernel.org>; Sun, 26 Dec 2021 23:13:41 -0800 (PST)
+        Mon, 27 Dec 2021 02:14:56 -0500
+Received: from mail-pj1-x102b.google.com (mail-pj1-x102b.google.com [IPv6:2607:f8b0:4864:20::102b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 657DCC06173E
+        for <linux-media@vger.kernel.org>; Sun, 26 Dec 2021 23:14:56 -0800 (PST)
+Received: by mail-pj1-x102b.google.com with SMTP id k6-20020a17090a7f0600b001ad9d73b20bso13632297pjl.3
+        for <linux-media@vger.kernel.org>; Sun, 26 Dec 2021 23:14:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=Mn5z8Yw7iLT0GibyNVJxOywmkk9xNTM1BsrsY50wxA0=;
-        b=Fmu3inELwWGRoc+/d047G0g91Zv/JR90W9NOSw/paEwBvKsD/seV2kd6KMhmQMyjEP
-         VxxFHzhHRq85jeUM+nCTmXkBEnRGxQJodRABLc7BfGzPji+Jo1iD+h8ZKO8Esce8q2XT
-         3W8yFRUP3uzfuiVQK6DTrBiiFl5jnApeNlSf0=
+        bh=5NO1al33KK9AHVngYVbDZ//RPzqF3GCVIYpihpM+V6E=;
+        b=nbcXBPQ/7er1rZWmEfpq0TF/KSxhRx0TV39wk5WBswwtHGHRf13BjvS4oPacEr2phQ
+         GIJJy0KN5yms6XcELwEfT95jAlJN7EB7BY+C6lw6M5lJdZeOXtIG2OmMEIY3KnwigNDC
+         veTXyaLZUBkBlsHd+/DsjCiRoAdZZcCPGBV6U=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=Mn5z8Yw7iLT0GibyNVJxOywmkk9xNTM1BsrsY50wxA0=;
-        b=1azrbiCn+1isxMORpudk3xliFnRXvuRmdaYik0DET70SvWmf4Lj87Gs3gTDvtQcKmT
-         4xGZOfPZNiTmAECBvqGINUR4KxCGkdV9QLhMvh5bY5cJNC3ym/grggmPKuf9HJko2Thl
-         duRok4lEPu0fd1NSjI9SJy6XP0uMoxlsLRxr+P0KOjSTszFxzCGGwx2XukH/s3bE2kcU
-         E0SAi/pFbeiQdQUe7XixaYWGpY7/kqFggZHnhYhEgKNu103Mrjir4wtAzIrzRLQAhEY9
-         PK1GEW+HOUXm/MhuzVuN55P4LwQ61A7UFM9qrSLPEPHVaMKielv47PWRzKfqgodDR1UF
-         IXWg==
-X-Gm-Message-State: AOAM530dh/aFKHe/VmyYtQ7NziHgizxK03pGPNbKbbS328DkauakT609
-        uYXaee0/sJ8UpftvaSUcPUlcMT2hw3YXPw==
-X-Google-Smtp-Source: ABdhPJwvWZ/SiX54EvgZ4EoS4vWhYo4CJx3BVrqR8INQjlwz5PJRnqu2tf6MNXtfB+tD6m7vR4UppQ==
-X-Received: by 2002:a63:1e1e:: with SMTP id e30mr14447909pge.153.1640589221178;
-        Sun, 26 Dec 2021 23:13:41 -0800 (PST)
-Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com. [209.85.216.53])
-        by smtp.gmail.com with ESMTPSA id j16sm17655494pfj.16.2021.12.26.23.13.41
+        bh=5NO1al33KK9AHVngYVbDZ//RPzqF3GCVIYpihpM+V6E=;
+        b=6to1ADs7c75pefh9cZ0MTLUh2toTulpIkuNJkVicxcHc0uYRCF71J/CUADL+Fr4BRn
+         CxGaSKN4CeUIbqBcRPLecLS+3d2RaUQqLG0dNJRyHI8njEIOo0ends8qRWHC0Qsns0Ka
+         HUvaa+HUeAmCYuMEWWBzEDQh9sxNMPu4OwwgwMVStA1MzeIS+F+qsy2XcvB+RvDfuiMc
+         GF2Qs6lx9B4Nhy10amTPaQI8jTXhYIePs9DlY8Qe7TcYSP6jElo1st/1N+OsY9kuX9W3
+         Mis9pX4rckNNzi1yUBhrYqLRU6f3CR/0PduByPiQc8Kgk0EMWofOlmBXqlkX89xoopjJ
+         LNqA==
+X-Gm-Message-State: AOAM532x7p1egwnKXyMPAg/JIz1VtJ0Hf+TKvlqOHhTWLROH2bTVqwcF
+        PzSFQjpJbnRnBaQxgZDDux55sV5RXp4IJw==
+X-Google-Smtp-Source: ABdhPJxQtA65alacn6++B/nm/OlWjT/nyzxgXHsV3EL1O5Gwmsi3I4nIJGeFVjWJTpexyvRVOvnbVA==
+X-Received: by 2002:a17:902:8693:b0:148:a2e7:fb5a with SMTP id g19-20020a170902869300b00148a2e7fb5amr16268386plo.155.1640589295634;
+        Sun, 26 Dec 2021 23:14:55 -0800 (PST)
+Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com. [209.85.216.51])
+        by smtp.gmail.com with ESMTPSA id s2sm15606468pfe.103.2021.12.26.23.14.55
         for <linux-media@vger.kernel.org>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 26 Dec 2021 23:13:41 -0800 (PST)
-Received: by mail-pj1-f53.google.com with SMTP id a11-20020a17090a854b00b001b11aae38d6so13646191pjw.2
-        for <linux-media@vger.kernel.org>; Sun, 26 Dec 2021 23:13:41 -0800 (PST)
-X-Received: by 2002:a05:6102:2368:: with SMTP id o8mr4126408vsa.47.1640588796568;
- Sun, 26 Dec 2021 23:06:36 -0800 (PST)
+        Sun, 26 Dec 2021 23:14:55 -0800 (PST)
+Received: by mail-pj1-f51.google.com with SMTP id mj19so12760946pjb.3
+        for <linux-media@vger.kernel.org>; Sun, 26 Dec 2021 23:14:55 -0800 (PST)
+X-Received: by 2002:a05:6102:e89:: with SMTP id l9mr4547183vst.80.1640588810744;
+ Sun, 26 Dec 2021 23:06:50 -0800 (PST)
 MIME-Version: 1.0
-References: <20211117130635.11633-1-dafna.hirschfeld@collabora.com> <20211117130635.11633-7-dafna.hirschfeld@collabora.com>
-In-Reply-To: <20211117130635.11633-7-dafna.hirschfeld@collabora.com>
+References: <20211117130635.11633-1-dafna.hirschfeld@collabora.com> <20211117130635.11633-8-dafna.hirschfeld@collabora.com>
+In-Reply-To: <20211117130635.11633-8-dafna.hirschfeld@collabora.com>
 From:   Alexandre Courbot <acourbot@chromium.org>
-Date:   Mon, 27 Dec 2021 16:06:25 +0900
-X-Gmail-Original-Message-ID: <CAPBb6MXqwWDhCVrdvdUZ3U6P8-CJXo22mkQ_wrQ3_LLGacOvvg@mail.gmail.com>
-Message-ID: <CAPBb6MXqwWDhCVrdvdUZ3U6P8-CJXo22mkQ_wrQ3_LLGacOvvg@mail.gmail.com>
-Subject: Re: [PATCH v2 6/7] media: mtk-vcodec: don't check return val of mtk_venc_get_q_data
+Date:   Mon, 27 Dec 2021 16:06:39 +0900
+X-Gmail-Original-Message-ID: <CAPBb6MX8Yq5eoumOUxK+OmSEu6cQE8nqfABtHTz+UdAsRfXtvQ@mail.gmail.com>
+Message-ID: <CAPBb6MX8Yq5eoumOUxK+OmSEu6cQE8nqfABtHTz+UdAsRfXtvQ@mail.gmail.com>
+Subject: Re: [PATCH v2 7/7] meida: mtk-vcodec: remove unused func parameter
 To:     Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
 Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
         kernel@collabora.com, Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
@@ -83,143 +83,98 @@ X-Mailing-List: linux-media@vger.kernel.org
 On Wed, Nov 17, 2021 at 10:07 PM Dafna Hirschfeld
 <dafna.hirschfeld@collabora.com> wrote:
 >
-> The function mtk_venc_get_q_data always returns a reference
-> so there is no need to check if the return value is null.
-> In addition move the q_data initialization to the declaration
+> The prarameter bs_size to function vpu_enc_encode
+> is not used. Remove it.
 >
 > Signed-off-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+
+Indeed, it's an output parameter of the calling functions and has no
+business being passed to vpu_enc_encode.
+
+With the typo in the headline fixed,
 
 Reviewed-by: Alexandre Courbot <acourbot@chromium.org>
 
 
 > ---
->  .../platform/mtk-vcodec/mtk_vcodec_enc.c      | 39 ++++---------------
->  1 file changed, 7 insertions(+), 32 deletions(-)
+>  drivers/media/platform/mtk-vcodec/venc/venc_h264_if.c | 9 +++------
+>  drivers/media/platform/mtk-vcodec/venc/venc_vp8_if.c  | 3 +--
+>  drivers/media/platform/mtk-vcodec/venc_vpu_if.c       | 1 -
+>  drivers/media/platform/mtk-vcodec/venc_vpu_if.h       | 1 -
+>  4 files changed, 4 insertions(+), 10 deletions(-)
 >
-> diff --git a/drivers/media/platform/mtk-vcodec/mtk_vcodec_enc.c b/drivers/media/platform/mtk-vcodec/mtk_vcodec_enc.c
-> index be28f2401839..5caaeb4773ca 100644
-> --- a/drivers/media/platform/mtk-vcodec/mtk_vcodec_enc.c
-> +++ b/drivers/media/platform/mtk-vcodec/mtk_vcodec_enc.c
-> @@ -399,7 +399,7 @@ static int vidioc_venc_s_fmt_cap(struct file *file, void *priv,
->         struct mtk_vcodec_ctx *ctx = fh_to_ctx(priv);
->         const struct mtk_vcodec_enc_pdata *pdata = ctx->dev->venc_pdata;
->         struct vb2_queue *vq;
-> -       struct mtk_q_data *q_data;
-> +       struct mtk_q_data *q_data = mtk_venc_get_q_data(ctx, f->type);
->         int i, ret;
->         const struct mtk_video_fmt *fmt;
+> diff --git a/drivers/media/platform/mtk-vcodec/venc/venc_h264_if.c b/drivers/media/platform/mtk-vcodec/venc/venc_h264_if.c
+> index b6a4f2074fa5..bf03888a824f 100644
+> --- a/drivers/media/platform/mtk-vcodec/venc/venc_h264_if.c
+> +++ b/drivers/media/platform/mtk-vcodec/venc/venc_h264_if.c
+> @@ -367,8 +367,7 @@ static int h264_encode_sps(struct venc_h264_inst *inst,
 >
-> @@ -414,12 +414,6 @@ static int vidioc_venc_s_fmt_cap(struct file *file, void *priv,
->                 return -EBUSY;
->         }
+>         mtk_vcodec_debug_enter(inst);
 >
-> -       q_data = mtk_venc_get_q_data(ctx, f->type);
-> -       if (!q_data) {
-> -               mtk_v4l2_err("fail to get q data");
-> -               return -EINVAL;
-> -       }
-> -
->         fmt = mtk_venc_find_format(f->fmt.pix.pixelformat, pdata);
->         if (!fmt) {
->                 fmt = &ctx->dev->venc_pdata->capture_formats[0];
-> @@ -460,7 +454,7 @@ static int vidioc_venc_s_fmt_out(struct file *file, void *priv,
->         struct mtk_vcodec_ctx *ctx = fh_to_ctx(priv);
->         const struct mtk_vcodec_enc_pdata *pdata = ctx->dev->venc_pdata;
->         struct vb2_queue *vq;
-> -       struct mtk_q_data *q_data;
-> +       struct mtk_q_data *q_data = mtk_venc_get_q_data(ctx, f->type);
->         int ret, i;
->         const struct mtk_video_fmt *fmt;
+> -       ret = vpu_enc_encode(&inst->vpu_inst, H264_BS_MODE_SPS, NULL,
+> -                            bs_buf, bs_size, NULL);
+> +       ret = vpu_enc_encode(&inst->vpu_inst, H264_BS_MODE_SPS, NULL, bs_buf, NULL);
+>         if (ret)
+>                 return ret;
 >
-> @@ -475,12 +469,6 @@ static int vidioc_venc_s_fmt_out(struct file *file, void *priv,
->                 return -EBUSY;
->         }
+> @@ -394,8 +393,7 @@ static int h264_encode_pps(struct venc_h264_inst *inst,
 >
-> -       q_data = mtk_venc_get_q_data(ctx, f->type);
-> -       if (!q_data) {
-> -               mtk_v4l2_err("fail to get q data");
-> -               return -EINVAL;
-> -       }
-> -
->         fmt = mtk_venc_find_format(f->fmt.pix.pixelformat, pdata);
->         if (!fmt) {
->                 fmt = &ctx->dev->venc_pdata->output_formats[0];
-> @@ -520,14 +508,13 @@ static int vidioc_venc_g_fmt(struct file *file, void *priv,
->         struct v4l2_pix_format_mplane *pix = &f->fmt.pix_mp;
->         struct mtk_vcodec_ctx *ctx = fh_to_ctx(priv);
->         struct vb2_queue *vq;
-> -       struct mtk_q_data *q_data;
-> +       struct mtk_q_data *q_data = mtk_venc_get_q_data(ctx, f->type);
->         int i;
+>         mtk_vcodec_debug_enter(inst);
 >
->         vq = v4l2_m2m_get_vq(ctx->m2m_ctx, f->type);
->         if (!vq)
->                 return -EINVAL;
+> -       ret = vpu_enc_encode(&inst->vpu_inst, H264_BS_MODE_PPS, NULL,
+> -                            bs_buf, bs_size, NULL);
+> +       ret = vpu_enc_encode(&inst->vpu_inst, H264_BS_MODE_PPS, NULL, bs_buf, NULL);
+>         if (ret)
+>                 return ret;
 >
-> -       q_data = mtk_venc_get_q_data(ctx, f->type);
+> @@ -451,8 +449,7 @@ static int h264_encode_frame(struct venc_h264_inst *inst,
+>         mtk_vcodec_debug(inst, "frm_count = %d,skip_frm_count =%d,frm_type=%d.\n",
+>                          frame_info.frm_count, frame_info.skip_frm_count,
+>                          frame_info.frm_type);
+> -       ret = vpu_enc_encode(&inst->vpu_inst, H264_BS_MODE_FRAME, frm_buf,
+> -                            bs_buf, bs_size, &frame_info);
+> +       ret = vpu_enc_encode(&inst->vpu_inst, H264_BS_MODE_FRAME, frm_buf, bs_buf, &frame_info);
+>         if (ret)
+>                 return ret;
 >
->         pix->width = q_data->coded_width;
->         pix->height = q_data->coded_height;
-> @@ -596,15 +583,11 @@ static int vidioc_venc_g_selection(struct file *file, void *priv,
->                                      struct v4l2_selection *s)
+> diff --git a/drivers/media/platform/mtk-vcodec/venc/venc_vp8_if.c b/drivers/media/platform/mtk-vcodec/venc/venc_vp8_if.c
+> index 8267a9c4fd25..6b66957d5192 100644
+> --- a/drivers/media/platform/mtk-vcodec/venc/venc_vp8_if.c
+> +++ b/drivers/media/platform/mtk-vcodec/venc/venc_vp8_if.c
+> @@ -302,8 +302,7 @@ static int vp8_enc_encode_frame(struct venc_vp8_inst *inst,
+>
+>         mtk_vcodec_debug(inst, "->frm_cnt=%d", inst->frm_cnt);
+>
+> -       ret = vpu_enc_encode(&inst->vpu_inst, 0, frm_buf, bs_buf, bs_size,
+> -                            NULL);
+> +       ret = vpu_enc_encode(&inst->vpu_inst, 0, frm_buf, bs_buf, NULL);
+>         if (ret)
+>                 return ret;
+>
+> diff --git a/drivers/media/platform/mtk-vcodec/venc_vpu_if.c b/drivers/media/platform/mtk-vcodec/venc_vpu_if.c
+> index be6d8790a41e..e7899d8a3e4e 100644
+> --- a/drivers/media/platform/mtk-vcodec/venc_vpu_if.c
+> +++ b/drivers/media/platform/mtk-vcodec/venc_vpu_if.c
+> @@ -225,7 +225,6 @@ int vpu_enc_set_param(struct venc_vpu_inst *vpu,
+>  int vpu_enc_encode(struct venc_vpu_inst *vpu, unsigned int bs_mode,
+>                    struct venc_frm_buf *frm_buf,
+>                    struct mtk_vcodec_mem *bs_buf,
+> -                  unsigned int *bs_size,
+>                    struct venc_frame_info *frame_info)
 >  {
->         struct mtk_vcodec_ctx *ctx = fh_to_ctx(priv);
-> -       struct mtk_q_data *q_data;
-> +       struct mtk_q_data *q_data = mtk_venc_get_q_data(ctx, s->type);
+>         const bool is_ext = MTK_ENC_CTX_IS_EXT(vpu->ctx);
+> diff --git a/drivers/media/platform/mtk-vcodec/venc_vpu_if.h b/drivers/media/platform/mtk-vcodec/venc_vpu_if.h
+> index f9be9cab7ff7..f83bc1b3f2bf 100644
+> --- a/drivers/media/platform/mtk-vcodec/venc_vpu_if.h
+> +++ b/drivers/media/platform/mtk-vcodec/venc_vpu_if.h
+> @@ -45,7 +45,6 @@ int vpu_enc_set_param(struct venc_vpu_inst *vpu,
+>  int vpu_enc_encode(struct venc_vpu_inst *vpu, unsigned int bs_mode,
+>                    struct venc_frm_buf *frm_buf,
+>                    struct mtk_vcodec_mem *bs_buf,
+> -                  unsigned int *bs_size,
+>                    struct venc_frame_info *frame_info);
+>  int vpu_enc_deinit(struct venc_vpu_inst *vpu);
 >
->         if (s->type != V4L2_BUF_TYPE_VIDEO_OUTPUT)
->                 return -EINVAL;
->
-> -       q_data = mtk_venc_get_q_data(ctx, s->type);
-> -       if (!q_data)
-> -               return -EINVAL;
-> -
->         switch (s->target) {
->         case V4L2_SEL_TGT_CROP_DEFAULT:
->         case V4L2_SEL_TGT_CROP_BOUNDS:
-> @@ -630,15 +613,11 @@ static int vidioc_venc_s_selection(struct file *file, void *priv,
->                                      struct v4l2_selection *s)
->  {
->         struct mtk_vcodec_ctx *ctx = fh_to_ctx(priv);
-> -       struct mtk_q_data *q_data;
-> +       struct mtk_q_data *q_data = mtk_venc_get_q_data(ctx, s->type);
->
->         if (s->type != V4L2_BUF_TYPE_VIDEO_OUTPUT)
->                 return -EINVAL;
->
-> -       q_data = mtk_venc_get_q_data(ctx, s->type);
-> -       if (!q_data)
-> -               return -EINVAL;
-> -
->         switch (s->target) {
->         case V4L2_SEL_TGT_CROP:
->                 /* Only support crop from (0,0) */
-> @@ -805,11 +784,9 @@ static int vb2ops_venc_queue_setup(struct vb2_queue *vq,
->                                    struct device *alloc_devs[])
->  {
->         struct mtk_vcodec_ctx *ctx = vb2_get_drv_priv(vq);
-> -       struct mtk_q_data *q_data;
-> +       struct mtk_q_data *q_data = mtk_venc_get_q_data(ctx, vq->type);
->         unsigned int i;
->
-> -       q_data = mtk_venc_get_q_data(ctx, vq->type);
-> -
->         if (q_data == NULL)
->                 return -EINVAL;
->
-> @@ -829,11 +806,9 @@ static int vb2ops_venc_queue_setup(struct vb2_queue *vq,
->  static int vb2ops_venc_buf_prepare(struct vb2_buffer *vb)
->  {
->         struct mtk_vcodec_ctx *ctx = vb2_get_drv_priv(vb->vb2_queue);
-> -       struct mtk_q_data *q_data;
-> +       struct mtk_q_data *q_data = mtk_venc_get_q_data(ctx, vb->vb2_queue->type);
->         int i;
->
-> -       q_data = mtk_venc_get_q_data(ctx, vb->vb2_queue->type);
-> -
->         for (i = 0; i < q_data->fmt->num_planes; i++) {
->                 if (vb2_plane_size(vb, i) < q_data->sizeimage[i]) {
->                         mtk_v4l2_err("data will not fit into plane %d (%lu < %d)",
 > --
 > 2.17.1
 >
