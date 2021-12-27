@@ -2,179 +2,155 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A1BE747FAB8
-	for <lists+linux-media@lfdr.de>; Mon, 27 Dec 2021 08:14:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7081847FAC2
+	for <lists+linux-media@lfdr.de>; Mon, 27 Dec 2021 08:34:21 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231164AbhL0HO5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 27 Dec 2021 02:14:57 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38486 "EHLO
+        id S235472AbhL0HeD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 27 Dec 2021 02:34:03 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42568 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229550AbhL0HO4 (ORCPT
+        with ESMTP id S235468AbhL0HeC (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 27 Dec 2021 02:14:56 -0500
-Received: from mail-pj1-x102b.google.com (mail-pj1-x102b.google.com [IPv6:2607:f8b0:4864:20::102b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 657DCC06173E
-        for <linux-media@vger.kernel.org>; Sun, 26 Dec 2021 23:14:56 -0800 (PST)
-Received: by mail-pj1-x102b.google.com with SMTP id k6-20020a17090a7f0600b001ad9d73b20bso13632297pjl.3
-        for <linux-media@vger.kernel.org>; Sun, 26 Dec 2021 23:14:56 -0800 (PST)
+        Mon, 27 Dec 2021 02:34:02 -0500
+Received: from mail-lf1-x131.google.com (mail-lf1-x131.google.com [IPv6:2a00:1450:4864:20::131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1C15DC06173E
+        for <linux-media@vger.kernel.org>; Sun, 26 Dec 2021 23:34:02 -0800 (PST)
+Received: by mail-lf1-x131.google.com with SMTP id bp20so33105412lfb.6
+        for <linux-media@vger.kernel.org>; Sun, 26 Dec 2021 23:34:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=5NO1al33KK9AHVngYVbDZ//RPzqF3GCVIYpihpM+V6E=;
-        b=nbcXBPQ/7er1rZWmEfpq0TF/KSxhRx0TV39wk5WBswwtHGHRf13BjvS4oPacEr2phQ
-         GIJJy0KN5yms6XcELwEfT95jAlJN7EB7BY+C6lw6M5lJdZeOXtIG2OmMEIY3KnwigNDC
-         veTXyaLZUBkBlsHd+/DsjCiRoAdZZcCPGBV6U=
+        bh=IphlBiJuwkvTWlaGouUePkoncfLLkrJz0XZEERgcR1A=;
+        b=dh8+DTclQmyh7s+EcvCf2hb6WKEugyNKN35hHVMS7W2IhaMMhBDE2eTNN7ljhCdqWl
+         nVlqa/HZb8mFP+hbkB6K+htLaYpA4H08Hq6SNx43HLVAmXp4Duz3aov7sRt1jqK8fplL
+         Yhl4sZsFZbRbE4QD7FOSbDeIBbUdzm2KLRfv0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=5NO1al33KK9AHVngYVbDZ//RPzqF3GCVIYpihpM+V6E=;
-        b=6to1ADs7c75pefh9cZ0MTLUh2toTulpIkuNJkVicxcHc0uYRCF71J/CUADL+Fr4BRn
-         CxGaSKN4CeUIbqBcRPLecLS+3d2RaUQqLG0dNJRyHI8njEIOo0ends8qRWHC0Qsns0Ka
-         HUvaa+HUeAmCYuMEWWBzEDQh9sxNMPu4OwwgwMVStA1MzeIS+F+qsy2XcvB+RvDfuiMc
-         GF2Qs6lx9B4Nhy10amTPaQI8jTXhYIePs9DlY8Qe7TcYSP6jElo1st/1N+OsY9kuX9W3
-         Mis9pX4rckNNzi1yUBhrYqLRU6f3CR/0PduByPiQc8Kgk0EMWofOlmBXqlkX89xoopjJ
-         LNqA==
-X-Gm-Message-State: AOAM532x7p1egwnKXyMPAg/JIz1VtJ0Hf+TKvlqOHhTWLROH2bTVqwcF
-        PzSFQjpJbnRnBaQxgZDDux55sV5RXp4IJw==
-X-Google-Smtp-Source: ABdhPJxQtA65alacn6++B/nm/OlWjT/nyzxgXHsV3EL1O5Gwmsi3I4nIJGeFVjWJTpexyvRVOvnbVA==
-X-Received: by 2002:a17:902:8693:b0:148:a2e7:fb5a with SMTP id g19-20020a170902869300b00148a2e7fb5amr16268386plo.155.1640589295634;
-        Sun, 26 Dec 2021 23:14:55 -0800 (PST)
-Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com. [209.85.216.51])
-        by smtp.gmail.com with ESMTPSA id s2sm15606468pfe.103.2021.12.26.23.14.55
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 26 Dec 2021 23:14:55 -0800 (PST)
-Received: by mail-pj1-f51.google.com with SMTP id mj19so12760946pjb.3
-        for <linux-media@vger.kernel.org>; Sun, 26 Dec 2021 23:14:55 -0800 (PST)
-X-Received: by 2002:a05:6102:e89:: with SMTP id l9mr4547183vst.80.1640588810744;
- Sun, 26 Dec 2021 23:06:50 -0800 (PST)
+        bh=IphlBiJuwkvTWlaGouUePkoncfLLkrJz0XZEERgcR1A=;
+        b=Rl0L76mKrOIu0J0lhtMrKExtqM0S1/3rTumOpsb/kwAm8uvxOv6bDRHgKsDiBP/UnP
+         pYquFF8MpO5i7mHzExO081kDgec3rvHrOdHJIcjhjaACFGDXqzWsMER63J8UC1cCKkMt
+         9P8TMjKdW2h5lPRswiJyO6/ezYAR/+zHJUjcGB4g0Z76VPmAcPhYJb0m8NVv/anYXZa7
+         ot8I0LLduIgCQIKLtRFuND0u1GhAm6VxXo405+gDW8w0kUXqsIAK2mKhCvgAW134S7i6
+         pt143pyKyQo2gtNzNgYwmlcNQgqbGBRtpx+jNEFuK9A223I0UPeYBecPBbAZchVDqiVa
+         yt4A==
+X-Gm-Message-State: AOAM530ZXXgua09YG05E/rrtDTeVnGsCLtnoHuaxwjNgdxshaOgE1Wfr
+        DeWjzjUVRfJP3+ueNDXVV/00jEFYEsqTYioNlNhT+A==
+X-Google-Smtp-Source: ABdhPJwPi8ZEN4x6LJlIvtEv1S+Z2YOWAU1DTIc3KIzqBQAYjs6CY0YqUD8gntWVlxa80Y2Z49i7iuku7gad5jNfulE=
+X-Received: by 2002:a05:6512:202f:: with SMTP id s15mr15224264lfs.501.1640590439292;
+ Sun, 26 Dec 2021 23:33:59 -0800 (PST)
 MIME-Version: 1.0
-References: <20211117130635.11633-1-dafna.hirschfeld@collabora.com> <20211117130635.11633-8-dafna.hirschfeld@collabora.com>
-In-Reply-To: <20211117130635.11633-8-dafna.hirschfeld@collabora.com>
-From:   Alexandre Courbot <acourbot@chromium.org>
-Date:   Mon, 27 Dec 2021 16:06:39 +0900
-X-Gmail-Original-Message-ID: <CAPBb6MX8Yq5eoumOUxK+OmSEu6cQE8nqfABtHTz+UdAsRfXtvQ@mail.gmail.com>
-Message-ID: <CAPBb6MX8Yq5eoumOUxK+OmSEu6cQE8nqfABtHTz+UdAsRfXtvQ@mail.gmail.com>
-Subject: Re: [PATCH v2 7/7] meida: mtk-vcodec: remove unused func parameter
-To:     Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
-Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
-        kernel@collabora.com, Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
-        courbot@chromium.org, Dafna Hirschfeld <dafna3@gmail.com>,
-        eizan@chromium.org, houlong.wei@mediatek.com,
-        Hsin-Yi Wang <hsinyi@chromium.org>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Irui Wang <irui.wang@mediatek.com>,
-        LKML <linux-kernel@vger.kernel.org>,
-        "moderated list:ARM/Mediatek SoC support" 
-        <linux-mediatek@lists.infradead.org>,
-        =?UTF-8?B?TWFvZ3VhbmcgTWVuZyAo5a2f5q+b5bm/KQ==?= 
-        <maoguang.meng@mediatek.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
+References: <20211224084248.3070568-1-wenst@chromium.org> <20211224084248.3070568-6-wenst@chromium.org>
+ <YciZZ2hA4uMveN2l@eze-laptop>
+In-Reply-To: <YciZZ2hA4uMveN2l@eze-laptop>
+From:   Chen-Yu Tsai <wenst@chromium.org>
+Date:   Mon, 27 Dec 2021 15:33:48 +0800
+Message-ID: <CAGXv+5GJzZE1xDxxOqzV3Bq2XfuG2-aFuu-6hNxJ9S2YXFM_og@mail.gmail.com>
+Subject: Re: [PATCH RFT 5/7] media: hantro: jpeg: Add COM segment to JPEG
+ header to align image scan
+To:     Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
+Cc:     Philipp Zabel <p.zabel@pengutronix.de>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        minghsiu.tsai@mediatek.com, Tomasz Figa <tfiga@chromium.org>,
-        Tiffany Lin <tiffany.lin@mediatek.com>
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Tomasz Figa <tfiga@chromium.org>, linux-media@vger.kernel.org,
+        linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev,
+        linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Nov 17, 2021 at 10:07 PM Dafna Hirschfeld
-<dafna.hirschfeld@collabora.com> wrote:
+On Mon, Dec 27, 2021 at 12:33 AM Ezequiel Garcia
+<ezequiel@vanguardiasur.com.ar> wrote:
 >
-> The prarameter bs_size to function vpu_enc_encode
-> is not used. Remove it.
+> Hi,
 >
-> Signed-off-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+> On Fri, Dec 24, 2021 at 04:42:46PM +0800, Chen-Yu Tsai wrote:
+> > The JPEG header size is not 64-bit aligned. This makes the driver
+> > require a bounce buffer for the encoded JPEG image scan output.
+> >
+> > Add a COM (comment) segment to the JPEG header so that the header size
+> > is a multiple of 64 bits. This will then allow dropping the use of the
+> > bounce buffer, and instead have the hardware write out to the capture
+> > buffer directly.
+> >
+> > Signed-off-by: Chen-Yu Tsai <wenst@chromium.org>
+> > ---
+> >  drivers/staging/media/hantro/hantro_jpeg.c | 3 +++
+> >  drivers/staging/media/hantro/hantro_jpeg.h | 2 +-
+> >  2 files changed, 4 insertions(+), 1 deletion(-)
+> >
+> > diff --git a/drivers/staging/media/hantro/hantro_jpeg.c b/drivers/staging/media/hantro/hantro_jpeg.c
+> > index 7d4018bd6876..51e67e5cf86f 100644
+> > --- a/drivers/staging/media/hantro/hantro_jpeg.c
+> > +++ b/drivers/staging/media/hantro/hantro_jpeg.c
+> > @@ -247,6 +247,9 @@ static const unsigned char hantro_jpeg_header[JPEG_HEADER_SIZE] = {
+> >       0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+> >       0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+> >
+> > +     /* COM */
+> > +     0xff, 0xfe, 0x00, 0x03, 0x00,
+> > +
+> >       /* SOS */
+> >       0xff, 0xda, 0x00, 0x0c, 0x03, 0x01, 0x00, 0x02,
+> >       0x11, 0x03, 0x11, 0x00, 0x3f, 0x00,
+> > diff --git a/drivers/staging/media/hantro/hantro_jpeg.h b/drivers/staging/media/hantro/hantro_jpeg.h
+> > index f33c492134e4..0b49d0b82caa 100644
+> > --- a/drivers/staging/media/hantro/hantro_jpeg.h
+> > +++ b/drivers/staging/media/hantro/hantro_jpeg.h
+> > @@ -1,6 +1,6 @@
+> >  /* SPDX-License-Identifier: GPL-2.0+ */
+> >
+> > -#define JPEG_HEADER_SIZE     619
+> > +#define JPEG_HEADER_SIZE     624
+>
+> Can we add some compile-time check for the 8-byte alignment,
+> so this is always enforced?
 
-Indeed, it's an output parameter of the calling functions and has no
-business being passed to vpu_enc_encode.
+Ack.
 
-With the typo in the headline fixed,
+> Perhaps getting rid of the JPEG_HEADER_SIZE macro,
+> something like this....
 
-Reviewed-by: Alexandre Courbot <acourbot@chromium.org>
+I don't think that's doable. The other parts of the driver need to know
+how large the header is, and we can't use "sizeof(hantro_jpeg_header)"
+in those places unless the size is predetermined in the header declaration,
+or we move the definition into the header file. Otherwise we need to
+keep the macro and have another static assertion to check that
+JPEG_HEADER_SIZE == sizeof(hantro_jpeg_header).
 
-
-> ---
->  drivers/media/platform/mtk-vcodec/venc/venc_h264_if.c | 9 +++------
->  drivers/media/platform/mtk-vcodec/venc/venc_vp8_if.c  | 3 +--
->  drivers/media/platform/mtk-vcodec/venc_vpu_if.c       | 1 -
->  drivers/media/platform/mtk-vcodec/venc_vpu_if.h       | 1 -
->  4 files changed, 4 insertions(+), 10 deletions(-)
+> @@ -140,7 +140,7 @@ static const unsigned char chroma_ac_table[] = {
+>   * and we'll use fixed offsets to change the width, height
+>   * quantization tables, etc.
+>   */
+> -static const unsigned char hantro_jpeg_header[JPEG_HEADER_SIZE] = {
+> +static const unsigned char hantro_jpeg_header[] = {
+>         /* SOI */
+>         0xff, 0xd8,
 >
-> diff --git a/drivers/media/platform/mtk-vcodec/venc/venc_h264_if.c b/drivers/media/platform/mtk-vcodec/venc/venc_h264_if.c
-> index b6a4f2074fa5..bf03888a824f 100644
-> --- a/drivers/media/platform/mtk-vcodec/venc/venc_h264_if.c
-> +++ b/drivers/media/platform/mtk-vcodec/venc/venc_h264_if.c
-> @@ -367,8 +367,7 @@ static int h264_encode_sps(struct venc_h264_inst *inst,
->
->         mtk_vcodec_debug_enter(inst);
->
-> -       ret = vpu_enc_encode(&inst->vpu_inst, H264_BS_MODE_SPS, NULL,
-> -                            bs_buf, bs_size, NULL);
-> +       ret = vpu_enc_encode(&inst->vpu_inst, H264_BS_MODE_SPS, NULL, bs_buf, NULL);
->         if (ret)
->                 return ret;
->
-> @@ -394,8 +393,7 @@ static int h264_encode_pps(struct venc_h264_inst *inst,
->
->         mtk_vcodec_debug_enter(inst);
->
-> -       ret = vpu_enc_encode(&inst->vpu_inst, H264_BS_MODE_PPS, NULL,
-> -                            bs_buf, bs_size, NULL);
-> +       ret = vpu_enc_encode(&inst->vpu_inst, H264_BS_MODE_PPS, NULL, bs_buf, NULL);
->         if (ret)
->                 return ret;
->
-> @@ -451,8 +449,7 @@ static int h264_encode_frame(struct venc_h264_inst *inst,
->         mtk_vcodec_debug(inst, "frm_count = %d,skip_frm_count =%d,frm_type=%d.\n",
->                          frame_info.frm_count, frame_info.skip_frm_count,
->                          frame_info.frm_type);
-> -       ret = vpu_enc_encode(&inst->vpu_inst, H264_BS_MODE_FRAME, frm_buf,
-> -                            bs_buf, bs_size, &frame_info);
-> +       ret = vpu_enc_encode(&inst->vpu_inst, H264_BS_MODE_FRAME, frm_buf, bs_buf, &frame_info);
->         if (ret)
->                 return ret;
->
-> diff --git a/drivers/media/platform/mtk-vcodec/venc/venc_vp8_if.c b/drivers/media/platform/mtk-vcodec/venc/venc_vp8_if.c
-> index 8267a9c4fd25..6b66957d5192 100644
-> --- a/drivers/media/platform/mtk-vcodec/venc/venc_vp8_if.c
-> +++ b/drivers/media/platform/mtk-vcodec/venc/venc_vp8_if.c
-> @@ -302,8 +302,7 @@ static int vp8_enc_encode_frame(struct venc_vp8_inst *inst,
->
->         mtk_vcodec_debug(inst, "->frm_cnt=%d", inst->frm_cnt);
->
-> -       ret = vpu_enc_encode(&inst->vpu_inst, 0, frm_buf, bs_buf, bs_size,
-> -                            NULL);
-> +       ret = vpu_enc_encode(&inst->vpu_inst, 0, frm_buf, bs_buf, NULL);
->         if (ret)
->                 return ret;
->
-> diff --git a/drivers/media/platform/mtk-vcodec/venc_vpu_if.c b/drivers/media/platform/mtk-vcodec/venc_vpu_if.c
-> index be6d8790a41e..e7899d8a3e4e 100644
-> --- a/drivers/media/platform/mtk-vcodec/venc_vpu_if.c
-> +++ b/drivers/media/platform/mtk-vcodec/venc_vpu_if.c
-> @@ -225,7 +225,6 @@ int vpu_enc_set_param(struct venc_vpu_inst *vpu,
->  int vpu_enc_encode(struct venc_vpu_inst *vpu, unsigned int bs_mode,
->                    struct venc_frm_buf *frm_buf,
->                    struct mtk_vcodec_mem *bs_buf,
-> -                  unsigned int *bs_size,
->                    struct venc_frame_info *frame_info)
+> @@ -304,8 +304,13 @@ void hantro_jpeg_header_assemble(struct hantro_jpeg_ctx *ctx)
 >  {
->         const bool is_ext = MTK_ENC_CTX_IS_EXT(vpu->ctx);
-> diff --git a/drivers/media/platform/mtk-vcodec/venc_vpu_if.h b/drivers/media/platform/mtk-vcodec/venc_vpu_if.h
-> index f9be9cab7ff7..f83bc1b3f2bf 100644
-> --- a/drivers/media/platform/mtk-vcodec/venc_vpu_if.h
-> +++ b/drivers/media/platform/mtk-vcodec/venc_vpu_if.h
-> @@ -45,7 +45,6 @@ int vpu_enc_set_param(struct venc_vpu_inst *vpu,
->  int vpu_enc_encode(struct venc_vpu_inst *vpu, unsigned int bs_mode,
->                    struct venc_frm_buf *frm_buf,
->                    struct mtk_vcodec_mem *bs_buf,
-> -                  unsigned int *bs_size,
->                    struct venc_frame_info *frame_info);
->  int vpu_enc_deinit(struct venc_vpu_inst *vpu);
+>         char *buf = ctx->buffer;
 >
-> --
-> 2.17.1
+> -       memcpy(buf, hantro_jpeg_header,
+> -              sizeof(hantro_jpeg_header));
+> +       /*
+> +        * THE JPEG buffer is prepended with the JPEG header,
+> +        * so 64-bit alignment is needed for DMA.
+> +        */
+> +       BUILD_BUG_ON(!IS_ALIGNED(sizeof(hantro_jpeg_header), 8));
+
+Probably bikeshedding, but I was thinking more of a static assert just
+beneath hantro_jpeg_header[], along with some comments.
+
+
+ChenYu
+
+> +
+> +       memcpy(buf, hantro_jpeg_header, sizeof(hantro_jpeg_header));
 >
+> Thanks,
+> Ezequiel
