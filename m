@@ -2,215 +2,165 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C6157480776
-	for <lists+linux-media@lfdr.de>; Tue, 28 Dec 2021 09:42:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A06014807AB
+	for <lists+linux-media@lfdr.de>; Tue, 28 Dec 2021 10:15:42 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235730AbhL1ImY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 28 Dec 2021 03:42:24 -0500
-Received: from mga03.intel.com ([134.134.136.65]:53689 "EHLO mga03.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231670AbhL1ImX (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Tue, 28 Dec 2021 03:42:23 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1640680943; x=1672216943;
-  h=message-id:date:subject:to:cc:references:from:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=dSqxKZ+1S+aKG3rT8pMpa2DJ/Zsa+fcstG1zVVNVaNQ=;
-  b=GVPMVmv+UHMSrHuJf8Q/ob70vE9+dNQOTqJJ8mNJpBqaAjinGTk4a5XY
-   9REBLDdUzLJXEGzs2TItc3C4sHk7RqQce0011wBZ/WlCJYXBdJjIHmyqK
-   E8g5cb6hIIP+DP8sPAtpL4LS4JktlNcIvnT301eOAncxRqRxEocoaRTnn
-   UowYnmRi2b6dLg+rabu5PqFLMFvyE8roQ05ELAbtRkXCw+CIP804rRDM+
-   QkF161qebg2afv8mkrnJ3h5FkxsJY2zvbzsy9geztmkDM51L/EOhguTSw
-   dz0oWqDpBa5yrZM20JIopC2hwc1U+DcPQafXj4mUJ0Pm2wQnVRtaa0FAz
-   w==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10210"; a="241287091"
-X-IronPort-AV: E=Sophos;i="5.88,242,1635231600"; 
-   d="scan'208";a="241287091"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Dec 2021 00:42:22 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.88,242,1635231600"; 
-   d="scan'208";a="524493746"
-Received: from orsmsx604.amr.corp.intel.com ([10.22.229.17])
-  by fmsmga007.fm.intel.com with ESMTP; 28 Dec 2021 00:42:21 -0800
-Received: from orsmsx612.amr.corp.intel.com (10.22.229.25) by
- ORSMSX604.amr.corp.intel.com (10.22.229.17) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.20; Tue, 28 Dec 2021 00:42:21 -0800
-Received: from orsmsx603.amr.corp.intel.com (10.22.229.16) by
- ORSMSX612.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.20; Tue, 28 Dec 2021 00:42:21 -0800
-Received: from ORSEDG601.ED.cps.intel.com (10.7.248.6) by
- orsmsx603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.20 via Frontend Transport; Tue, 28 Dec 2021 00:42:21 -0800
-Received: from NAM12-DM6-obe.outbound.protection.outlook.com (104.47.59.169)
- by edgegateway.intel.com (134.134.137.102) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2308.20; Tue, 28 Dec 2021 00:42:18 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=E7O93CAlFjZrdvyy3ye6UIBnFlC7zQrvujvwY7VXYs9skLCkMVjsFWBXcKsPsR80JQ2FM0QGSpKEYfBVtAvwMWCbbzjtaFsxXRvazr2h1mTaIrME1DOWCJ2iYQEAmA27hulaPBCSlYyb0q7RqSPE3AwCoYPJ22EytX2jF1XKKpDejZOnEGt4+PltDaO91Z7tG8h+WYxs6N4mw9nsrMezA46mbcRKUZTn4lwQ/YKcsFUr/U8HsL+h+oN0ehoy7TbaQVSkCb197Oh1OguqqRHYS4YbpNZRh7BptIvpU2d4oJNrf1pBbv1tlZ2AJk02ETQiP4N8+y7Z+xeI0PJHmkG3rg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=s59yDK0Ev4BgbJvz4VNd9rOqVscBmFJXoBDVZLLZYrU=;
- b=HwV1gdbpAQKMFcDvaXIHtqNWqBdUXtd2MqyL6LuWqMQawhyTDg9UN2d2ePdi9lDRVpNV/nSvGIkmV24StTZ9RNZbn9orMNMGpAwPtqfS1Rpgu/1C1/ua6XZ3cUVvFd5eWmSsF7HzixLLLlTaT9+mm1iCpshg2QKHasNdtn5rtXpkeJfOcTJApexxom3I4WpCelQ9/mM8rnUkytiyvHe6FC51aajraLpCxz6I7Jbi43sQdQ+EqpGocDHH3DcP/yr9wWGU8T9AeCgAr9lyGF7g9OOmZOOhk6rYnjfKYaOgRjjZTvMuY0jmqVS4WOggxniBrLbC3XOVXr0r2B/hZdC8LQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from DM6PR11MB3180.namprd11.prod.outlook.com (2603:10b6:5:9::13) by
- DM6PR11MB3177.namprd11.prod.outlook.com (2603:10b6:5:c::28) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4823.22; Tue, 28 Dec 2021 08:42:16 +0000
-Received: from DM6PR11MB3180.namprd11.prod.outlook.com
- ([fe80::b47a:6157:f9b5:b01d]) by DM6PR11MB3180.namprd11.prod.outlook.com
- ([fe80::b47a:6157:f9b5:b01d%3]) with mapi id 15.20.4823.023; Tue, 28 Dec 2021
- 08:42:16 +0000
-Message-ID: <4197bba7-9827-7490-6ebd-f3c8da74b5ad@intel.com>
-Date:   Tue, 28 Dec 2021 09:42:10 +0100
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Firefox/91.0 Thunderbird/91.4.1
-Subject: Re: [PATCH 04/13] media: s5p-mfc: Use platform_get_irq() to get the
- interrupt
-Content-Language: en-US
-To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        <linux-media@vger.kernel.org>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-CC:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Rob Herring <robh+dt@kernel.org>,
-        <linux-kernel@vger.kernel.org>,
-        Prabhakar <prabhakar.csengg@gmail.com>,
-        <linux-renesas-soc@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>
-References: <20211223173015.22251-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20211223173015.22251-5-prabhakar.mahadev-lad.rj@bp.renesas.com>
-From:   Andrzej Hajda <andrzej.hajda@intel.com>
-Organization: Intel Technology Poland sp. z o.o. - ul. Slowackiego 173, 80-298
- Gdansk - KRS 101882 - NIP 957-07-52-316
-In-Reply-To: <20211223173015.22251-5-prabhakar.mahadev-lad.rj@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: AS9PR06CA0106.eurprd06.prod.outlook.com
- (2603:10a6:20b:465::14) To DM6PR11MB3180.namprd11.prod.outlook.com
- (2603:10b6:5:9::13)
+        id S235851AbhL1JPh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 28 Dec 2021 04:15:37 -0500
+Received: from dfw.source.kernel.org ([139.178.84.217]:56350 "EHLO
+        dfw.source.kernel.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S233036AbhL1JPe (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Tue, 28 Dec 2021 04:15:34 -0500
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 7E43C6117A;
+        Tue, 28 Dec 2021 09:15:33 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 36527C36AE7;
+        Tue, 28 Dec 2021 09:15:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1640682932;
+        bh=GhkQipbGlKDnWFYSWHR8QJ9jDw3XiA0zWUSH0TczCbE=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=dYWghGQbT+zkKYVLv1Zhab/gyFy9VpZvbxpbFRNzp3Lo5J6P/Q+Wf9wZJ3oL1Y4nF
+         96QRZWFgrpKChm6T6ENMeuTcDkoRMS//XW4vNdMJB4gLdNcNmX96GZTLdULruuieLb
+         emRGzvA33ANfq1HyCg7yWlEMSY81FT51jd/pZeMOMTkwWI2S8tmDueYyTyJr7hwGcG
+         yL5P+Au50kwMpsldooh4cVnB+oQkMDs7kWcv4culv3nNyxGHHdqsdStKVVXhf5e3AJ
+         K3RgIP6/xYabneVHyG9NqbWuq3dYLRaZSL3QAii2RDYrapQzGorXDljBWHF9TwGY4F
+         k139XXS0mA/xw==
+Date:   Tue, 28 Dec 2021 10:15:16 +0100
+From:   Mauro Carvalho Chehab <mchehab@kernel.org>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     Niklas Schnelle <schnelle@linux.ibm.com>,
+        Arnd Bergmann <arnd@kernel.org>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        John Garry <john.garry@huawei.com>,
+        Nick Hu <nickhu@andestech.com>,
+        Greentime Hu <green.hu@gmail.com>,
+        Vincent Chen <deanbo422@gmail.com>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>, Guo Ren <guoren@kernel.org>,
+        Damien Le Moal <damien.lemoal@opensource.wdc.com>,
+        Ian Abbott <abbotti@mev.co.uk>,
+        H Hartley Sweeten <hsweeten@visionengravers.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Bartosz Golaszewski <brgl@bgdev.pl>,
+        Jean Delvare <jdelvare@suse.com>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Karsten Keil <isdn@linux-pingi.de>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Sathya Prakash <sathya.prakash@broadcom.com>,
+        Sreekanth Reddy <sreekanth.reddy@broadcom.com>,
+        Suganath Prabu Subramani 
+        <suganath-prabu.subramani@broadcom.com>,
+        Michael Grzeschik <m.grzeschik@pengutronix.de>,
+        "David S. Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Jesse Brandeburg <jesse.brandeburg@intel.com>,
+        Tony Nguyen <anthony.l.nguyen@intel.com>,
+        Kalle Valo <kvalo@kernel.org>, Jouni Malinen <j@w1.fi>,
+        "James E.J. Bottomley" <jejb@linux.ibm.com>,
+        "Martin K. Petersen" <martin.petersen@oracle.com>,
+        Hannes Reinecke <hare@suse.com>,
+        Kashyap Desai <kashyap.desai@broadcom.com>,
+        Sumit Saxena <sumit.saxena@broadcom.com>,
+        Shivasharan S <shivasharan.srikanteshwara@broadcom.com>,
+        Nilesh Javali <njavali@marvell.com>,
+        GR-QLogic-Storage-Upstream@marvell.com,
+        Mark Brown <broonie@kernel.org>,
+        Sudip Mukherjee <sudipm.mukherjee@gmail.com>,
+        Teddy Wang <teddy.wang@siliconmotion.com>,
+        Forest Bond <forest@alittletooquiet.net>,
+        Jiri Slaby <jirislaby@kernel.org>,
+        Wim Van Sebroeck <wim@linux-watchdog.org>,
+        Jaroslav Kysela <perex@perex.cz>,
+        Takashi Iwai <tiwai@suse.com>, linux-kernel@vger.kernel.org,
+        linux-arch@vger.kernel.org, linux-pci@vger.kernel.org,
+        linux-riscv@lists.infradead.org, linux-csky@vger.kernel.org,
+        linux-ide@vger.kernel.org, linux-gpio@vger.kernel.org,
+        linux-hwmon@vger.kernel.org, linux-i2c@vger.kernel.org,
+        linux-input@vger.kernel.org, netdev@vger.kernel.org,
+        linux-media@vger.kernel.org, MPT-FusionLinux.pdl@broadcom.com,
+        linux-scsi@vger.kernel.org, intel-wired-lan@lists.osuosl.org,
+        linux-wireless@vger.kernel.org, megaraidlinux.pdl@broadcom.com,
+        linux-spi@vger.kernel.org, linux-fbdev@vger.kernel.org,
+        linux-staging@lists.linux.dev, linux-serial@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, linux-watchdog@vger.kernel.org,
+        alsa-devel@alsa-project.org
+Subject: Re: [RFC 01/32] Kconfig: introduce and depend on LEGACY_PCI
+Message-ID: <20211228101435.3a55b983@coco.lan>
+In-Reply-To: <YcrJAwsKIxxX18pW@kroah.com>
+References: <20211227164317.4146918-1-schnelle@linux.ibm.com>
+        <20211227164317.4146918-2-schnelle@linux.ibm.com>
+        <YcrJAwsKIxxX18pW@kroah.com>
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.30; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 891a8d9d-194c-422b-8772-08d9c9ddf381
-X-MS-TrafficTypeDiagnostic: DM6PR11MB3177:EE_
-X-Microsoft-Antispam-PRVS: <DM6PR11MB3177F9E09D11389AFF4D79CBEB439@DM6PR11MB3177.namprd11.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:5797;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: VbXmgpTY3GlfGu+MSQf31f3i8ppE/N7pYapl77/7xa0g8gKYQdlsVJoRXLlx0ywA4T1hMlBRRXA9KEsummG4jHVJsMq8ww1IVGY07ZF9FcGlSAfqF4dJSs3G4TOEPqFSE7L48qyVulzrkAqjU782sYDe3ewJK8gcfnVobqRzLYsxvuAMfgpF1pO4xj/pEcm9Uv3InG7bQ1/Xr3VqAynWmz9bM143zJ9o5c4cchbV+cvpm9TSqTP6rq7IR1KZSPnhixl158P5DSdclBN5RlKPNWi2RCHN9vRhplF4CGuOEySNKaJiiTaW+svIqngZXxpixvNQVdE5+umYFZ3VJLvvEO9KPisv0spAjR+T1rVfUH+rA+GsVjcL1Sq3cPkVH3oOGnkW4k+oINcMraNOFyJTb69v4sWxnWxywx0OHiKh9QHGDdbxc3qTyq4X+yQXXyonZ0II390yy0aUHwShbvVmClWMonsk8TjLQixWkICVbq/a6m/6+W0RUjidbRlq1OPuRsMScRUWDWSbpO3bNL1dXmOhBS4tD/7igJrLWz+wZ+ceYbJkXyeUFnHQtktt6uCEZH9zLn1xDvD5XIe1IiPSGRQ0x0hj/DqxQdE7rNZ20kcw4YJOf2e357AHWnzXMakWcytkbrFZ48fnaqj31G4PtHnMdN/mFY8485Us9nK9WqcPLLQkM+mqIexqijhL84Rgz9jWVreSqhxdcxQSZlIpskRgG+hALJQi+T+WNmnN+oUs5QsI7B7wqq8UQTHTwq0p
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR11MB3180.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(366004)(316002)(6486002)(83380400001)(66946007)(5660300002)(2616005)(110136005)(8936002)(508600001)(44832011)(66556008)(7416002)(66476007)(6512007)(38100700002)(53546011)(6506007)(26005)(186003)(36916002)(86362001)(31686004)(8676002)(2906002)(54906003)(36756003)(4326008)(6666004)(82960400001)(31696002)(15583001)(43740500002)(45980500001);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?NngzRGVBVkVESlQ1WlJDSk14RDZZS3YvWHd6YXZtM0NGeGJzVWlBQTRuU255?=
- =?utf-8?B?MXQxdWw0anNodVZ5MDlQTnhkNVY1TXFhTjFWMlErbURoamtwTEZqU213RlFs?=
- =?utf-8?B?eC9QZEtjYzJTSUhOejRqSGwvVWVaM21PV1R1bHI4Y21xdDNIQWV2RGRMbFI4?=
- =?utf-8?B?aXJLY00rWXFuQ2pkZTI1elhJOGYrRW1zbDJVVDRNUzh0VExkREoxN2pGaWRw?=
- =?utf-8?B?bTNCTmMxdVcvK09QdktmY1VxZHFPNzFDOWpURXlXa1RNT282S0EwZFVuTlNk?=
- =?utf-8?B?U3pBQnFxemRMNVZIOG9xTUF6SlhqemhzTzh0bkhPZzh4dVU3NTJsMkFHWkZz?=
- =?utf-8?B?Y1NSWFdlM3cyeG9wcDlXV2Nsb2huTk93aWpzMWtOUy9rTWc2eHJpSnlpVWZj?=
- =?utf-8?B?YzR3UHdRNEY3L0VabnhwY2RhUlJ0Vy83T2ZGVlBERHVoMGdFTElDM0pQMjFK?=
- =?utf-8?B?ZzNsbXhwK1FPTDhGdnFGNjErZnRrTWVXd3pNSHY3dWRrNlM0dTNET3JWNDhr?=
- =?utf-8?B?SC83TTU3ZG9oVUdqcitETDdpTE5rMUxqRG9qNFVNRkFNUnNmNFFtU0FQblkr?=
- =?utf-8?B?VjlwRnljUEpKODR3a3RtWWgrWEpZT1pDR3UwRzZEcm5MeDVqRHJxdld4T1BE?=
- =?utf-8?B?THBPQ2g1eFhhSGNOZ0liZS96WTZ4bVcwd3dVaHJyT1hOR3c0VHFDY0I2b2tO?=
- =?utf-8?B?NU95VHJXK3MrNml4MGs2UkQ5NjhYRjFmVUZFTEVDWWorbTlXNjEzemJtdG4z?=
- =?utf-8?B?MHczc2JQbjRJMG9LTEVST3FBSTN6T0Q5UXhZeW04WVNZS201STlXNndZdjg1?=
- =?utf-8?B?QUk1WGxzUTUyemRUaXoyQ0RrcEYzVHBvNEdEK1RxUENjdjdCRHhrVEoxb09T?=
- =?utf-8?B?RVdNSkNTVXQ4Ynd4Vm5FeHMrQzhKT1k5bm1OQTg0bVdmYi84YUFDbVpFOVZB?=
- =?utf-8?B?c052MkdTUmx2d3RUYkxScDJlQUZEQ1lyR2RwRE5oREhtVlY5L0RTTTZOWVla?=
- =?utf-8?B?VTF1ZHZ6eHhPRjNrTExKZ1pNTmFJVXBFc2pKQ3ZJZDNmY0hzaHd5bjQ4cmpr?=
- =?utf-8?B?QitaTUFaaVNCaUk4TU9iZkZLbmo4eDBPeHJzSmMvZm1TRE4yQlpzQ3NlNHZS?=
- =?utf-8?B?eVYzMUdqcjF4VHo0ZDhLdjJld2QxWDlTcC9XWThidTJwQVFQRk5aYW45Y1Y0?=
- =?utf-8?B?dFFHbExYTGZ3QXF1cDFabU5YZmNqQWFLTlhJM1VZTndOYmZrU0VuR0tQeEVz?=
- =?utf-8?B?T3hVRGhPNlRyYjFKRmxKUmQyb0tPNnhpcFMrb3BGK0Z2dmZhbkJJQ3NVK3hQ?=
- =?utf-8?B?em14U3pMM2FxRitkVmdDeGRha3NqamFyOGNoTDYySlQzc3V3Qmg4a3lyd1c5?=
- =?utf-8?B?TXFDdSthRk1sMGtXWU1TZXQrZVlocGdJYWl6dnJKb1BQV2ZiUW9UT1ZDRzZP?=
- =?utf-8?B?YTM2Mkw2VmpKRVprN3F3UFliSlY3WVB1WGtEbnlzN292WVlJV1dVc2RnMUhk?=
- =?utf-8?B?ZlJjUkZHMmlyc21GZUFwcFc5OHFFMzVMUHNnMTFzcFhwRU11bzJxcndKSWxK?=
- =?utf-8?B?R0Nsc0s3dG5NS2JPU1pPMVBKSkFsUXI4UmtyTDVtb3FWUU9FZ0t6ZjFpdzdG?=
- =?utf-8?B?N0VNQWRBRFpVWXBqOXRrTGg0UjZ5ckVXeTg5Nk5MdFlncS9JYmJYRWFsVVBG?=
- =?utf-8?B?MXdpU3NhOXNRbkNzdGF6OWt0Zm05N3huQnZTZjFzVTE3Q1NpTjJKVENVNkhi?=
- =?utf-8?B?WXFEMGlXdzBUNTlNMENyQWdMUytkRDJJNFBGdE5HMmtMclByMkk2U3FyZ2k1?=
- =?utf-8?B?R0V3cURHRkYyanBpNFd3NkVJTjJhaDFsclpIMUZGTjJBZHBHdGlpMmk0TXlU?=
- =?utf-8?B?ZU8wVG5pck80Rzd3VDZTc1FEZkRmL2ZpaWlmSWNmOVhXWnJjYWgyTExVbDVk?=
- =?utf-8?B?cDByZE9Xcjg1RHVoK3R5cWZQbEZ0eFhHcG5Rd0Jpa3BrUGJGeVZiYmhIS0Y2?=
- =?utf-8?B?R2hlT1BhanE1S1BvSllFY3JkM2ZBdzltYXE4eTlEOG9pbVU3ekh6NXFtakF2?=
- =?utf-8?B?SmZId1NaQW5wYTYvalpaZEY0T3p3ZGxUdHFaVFgxRkRwd1ZiUUlNK0xURDht?=
- =?utf-8?B?dER3anI5RUJMUW1WL0tTbzl3UkZML0FrMHdBcncwckhvTkRhUUhOMDNvOFl1?=
- =?utf-8?Q?6ehsVstEzKOjwFnoROLjK9w=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 891a8d9d-194c-422b-8772-08d9c9ddf381
-X-MS-Exchange-CrossTenant-AuthSource: DM6PR11MB3180.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Dec 2021 08:42:16.2599
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 3wreYAyrUGWxBjhfzaqXIb1fI+YZSHC02ZU3i/y87lhAVji8P4wfEhqo772A99L7FzSl7x9OHP/GQJPHp+fHdg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR11MB3177
-X-OriginatorOrg: intel.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Em Tue, 28 Dec 2021 09:21:23 +0100
+Greg Kroah-Hartman <gregkh@linuxfoundation.org> escreveu:
 
-On 23.12.2021 18:30, Lad Prabhakar wrote:
-> platform_get_resource(pdev, IORESOURCE_IRQ, ..) relies on static
-> allocation of IRQ resources in DT core code, this causes an issue
-> when using hierarchical interrupt domains using "interrupts" property
-> in the node as this bypasses the hierarchical setup and messes up the
-> irq chaining.
->
-> In preparation for removal of static setup of IRQ resource from DT core
-> code use platform_get_irq().
->
-> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> On Mon, Dec 27, 2021 at 05:42:46PM +0100, Niklas Schnelle wrote:
+> > --- a/drivers/pci/Kconfig
+> > +++ b/drivers/pci/Kconfig
+> > @@ -23,6 +23,17 @@ menuconfig PCI
+> >  
+> >  if PCI
+> >  
+> > +config LEGACY_PCI
+> > +	bool "Enable support for legacy PCI devices"
+> > +	depends on HAVE_PCI
+> > +	help
+> > +	   This option enables support for legacy PCI devices. This includes
+> > +	   PCI devices attached directly or via a bridge on a PCI Express bus.
+> > +	   It also includes compatibility features on PCI Express devices which
+> > +	   make use of legacy I/O spaces.  
 
-Reviewed-by: Andrzej Hajda <andrzej.hajda@intel.com>
+This Kconfig doesn't seem what it is needed there, as this should be an 
+arch-dependent feature, and not something that the poor user should be
+aware if a given architecture supports it or not. Also, the above will keep
+causing warnings or errors with randconfigs.
 
-Regards
+Also, the "depends on HAVE_CPI" is bogus, as PCI already depends on 
+HAVE_PCI:
 
-Andrzej
+	menuconfig PCI
+	bool "PCI support"
+	depends on HAVE_PCI
+	help
+	  This option enables support for the PCI local bus, including
+	  support for PCI-X and the foundations for PCI Express support.
+	  Say 'Y' here unless you know what you are doing.
 
-> ---
->   drivers/media/platform/s5p-mfc/s5p_mfc.c | 11 ++++-------
->   1 file changed, 4 insertions(+), 7 deletions(-)
->
-> diff --git a/drivers/media/platform/s5p-mfc/s5p_mfc.c b/drivers/media/platform/s5p-mfc/s5p_mfc.c
-> index f6732f031e96..761341934925 100644
-> --- a/drivers/media/platform/s5p-mfc/s5p_mfc.c
-> +++ b/drivers/media/platform/s5p-mfc/s5p_mfc.c
-> @@ -1268,7 +1268,6 @@ static int s5p_mfc_probe(struct platform_device *pdev)
->   {
->   	struct s5p_mfc_dev *dev;
->   	struct video_device *vfd;
-> -	struct resource *res;
->   	int ret;
->   
->   	pr_debug("%s++\n", __func__);
-> @@ -1294,12 +1293,10 @@ static int s5p_mfc_probe(struct platform_device *pdev)
->   	if (IS_ERR(dev->regs_base))
->   		return PTR_ERR(dev->regs_base);
->   
-> -	res = platform_get_resource(pdev, IORESOURCE_IRQ, 0);
-> -	if (!res) {
-> -		dev_err(&pdev->dev, "failed to get irq resource\n");
-> -		return -ENOENT;
-> -	}
-> -	dev->irq = res->start;
-> +	ret = platform_get_irq(pdev, 0);
-> +	if (ret < 0)
-> +		return ret;
-> +	dev->irq = ret;
->   	ret = devm_request_irq(&pdev->dev, dev->irq, s5p_mfc_irq,
->   					0, pdev->name, dev);
->   	if (ret) {
+So, instead, I would expect that a new HAVE_xxx option would be
+added at arch/*/Kconfig, like:
+
+	config X86
+		...
+		select HAVE_PCI_DIRECT_IO
+
+It would also make sense to document it at Documentation/features/.
+
+> 
+> All you really care about is the "legacy" I/O spaces here, this isn't
+> tied to PCI specifically at all, right?
+> 
+> So why not just have a OLD_STYLE_IO config option or something like
+> that, to show that it's the i/o functions we care about here, not PCI at
+> all?
+> 
+> And maybe not call it "old" or "legacy" as time constantly goes forward,
+> just describe it as it is, "DIRECT_IO"?
+
+Agreed. HAVE_PCI_DIRECT_IO (or something similar) seems a more appropriate
+name for it.
+
+Thanks,
+Mauro
