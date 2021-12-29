@@ -2,126 +2,124 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2219D4812F0
-	for <lists+linux-media@lfdr.de>; Wed, 29 Dec 2021 13:54:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B38A14813D8
+	for <lists+linux-media@lfdr.de>; Wed, 29 Dec 2021 15:11:29 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236590AbhL2Myv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 29 Dec 2021 07:54:51 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41706 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236046AbhL2Myv (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Wed, 29 Dec 2021 07:54:51 -0500
-Received: from mail-pl1-x62c.google.com (mail-pl1-x62c.google.com [IPv6:2607:f8b0:4864:20::62c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2C049C061574;
-        Wed, 29 Dec 2021 04:54:51 -0800 (PST)
-Received: by mail-pl1-x62c.google.com with SMTP id h1so12614447pls.11;
-        Wed, 29 Dec 2021 04:54:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=KfD9IjU5XhrIZFvgmHtHCmMnkDPWizpAU4g0ttDwCPo=;
-        b=faNUdExLq2iPl4pwYO49xHVJaZamVKlKmGQg++B5h/pGfAdU3AUfISQHCh6dRtBUzz
-         lFhd+xDB7tLz9rTBy4LYAkNZcotRtzldtB5tnbxdxtvyynmskyVuODaqIFfrz+bUK7Ts
-         spEyl6vLOEHcXMJ6FpnQStym7aXZZDgvydCnkInBOxBJx57WwtoljuOA6EuNpsZMutHB
-         OgeJwo6+8FWf4/QxmPPAWvKnRzlO+fOgXp4YYEsaqHLcquIyzD/WXWQBtgq0XY12vuwp
-         hrgT/Y33xB53I6G1iCETitBVN6eDwRid3jFwSz7YjxOhvR/5Ou93pGn6laUUSs9l8R6J
-         clmg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=KfD9IjU5XhrIZFvgmHtHCmMnkDPWizpAU4g0ttDwCPo=;
-        b=D6m2UtLpXsxl++crYBrICntE/8u7E1Atpv0z6FnCZTttPJUnFJsnaKAZohgetE134c
-         8MPsBu+XapvHuhjGFChvB8MQZW95sSJxhUZXbPVccmDCixYFTT+EeVmPaa1WvzNzWUOe
-         yv/LmGumUq/rwbAponAYw9nuWkbnTShZGoKQ4+lrcRxeP0ERI72rQ8QGF6pikfNqJIs5
-         EAEsHrwGQ4h7NEY4xnF3K86QGdJCekLKTWJbQp14M5Pi7Eu6Ht/VjdL/Aw32dpy27JXc
-         5oO2bxLyUzP9MxUd+KBZ9jTaWPe3NtMl94SQUcqZWy9Vb2UKJv+JeQPP1Fj5OnRmEjtm
-         Y5RA==
-X-Gm-Message-State: AOAM532UjYvRF7Mv4gfIdUGNHsm5KgisWV65GRNGWlElS0DlpnY/fxgt
-        o5VuerAfrji6SiXeo2f0vDM=
-X-Google-Smtp-Source: ABdhPJwiAFzAHUMNIaNixu7Ieio6O1Y3zH/lbKcIGj2OllRMxoSTStuhjQpt0ZU0d7m2JF3jpk7wSA==
-X-Received: by 2002:a17:90b:1c0b:: with SMTP id oc11mr32046979pjb.174.1640782490713;
-        Wed, 29 Dec 2021 04:54:50 -0800 (PST)
-Received: from [192.168.11.5] (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
-        by smtp.gmail.com with ESMTPSA id f8sm7678199pjs.47.2021.12.29.04.54.49
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 29 Dec 2021 04:54:50 -0800 (PST)
-Subject: Status of selection.svg update (was Re: [PATCH 0/3] docs:
- sphinx/kfigure.py: Improve conversion to PDF)
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        linux-media@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
-References: <de8def13-efbc-1d98-acb5-5cc1f6902e4b@gmail.com>
- <20211212113813.058e99fc@coco.lan>
- <8840a859-ca57-c49a-f542-0a37401ccdfc@gmail.com>
- <20211213073327.11191087@coco.lan>
- <60d50d23-e236-1105-dc2c-d6daca70e326@gmail.com>
-From:   Akira Yokosawa <akiyks@gmail.com>
-Message-ID: <e135a1fd-78df-d676-6678-9637a12ca8ec@gmail.com>
-Date:   Wed, 29 Dec 2021 21:54:47 +0900
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+        id S240032AbhL2OL2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 29 Dec 2021 09:11:28 -0500
+Received: from ni.piap.pl ([195.187.100.5]:45936 "EHLO ni.piap.pl"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S237129AbhL2OL1 (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 29 Dec 2021 09:11:27 -0500
+Received: from t19.piap.pl (OSB1819.piap.pl [10.0.9.19])
+        by ni.piap.pl (Postfix) with ESMTPSA id ADD66C3EDF3E;
+        Wed, 29 Dec 2021 15:11:22 +0100 (CET)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ni.piap.pl ADD66C3EDF3E
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=piap.pl; s=mail;
+        t=1640787083; bh=9zhor7CdxbsPCJIO83SEnIytnazMD9oMhN5rLvb/M4Q=;
+        h=From:To:Cc:Subject:References:Date:In-Reply-To:From;
+        b=HYayTqHPjS1OJrn7FnVeJLeW9slV/0uj2awpmgTAo3I/BIIT0EGClS5w6o5TOPoIS
+         OvOwrxape7QZ9KUYx2GnUM+DVdJvMRtCEaUcjIaRQAZoCoOonXPyV5Hm2CSVbhSU5/
+         3tkKyIXSA5gt3hGGWiWwJ6FCvI5viroqsuCOUVm0=
+From:   =?utf-8?Q?Krzysztof_Ha=C5=82asa?= <khalasa@piap.pl>
+To:     Joe Perches <joe@perches.com>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Sakari Ailus <sakari.ailus@iki.fi>,
+        Jacopo Mondi <jacopo@jmondi.org>
+Subject: Re: [PATCH v6 2/2] Driver for ON Semi AR0521 camera sensor
+References: <m3ee63hkuu.fsf@t19.piap.pl> <m35yrfhkaf.fsf@t19.piap.pl>
+        <cee1bbe6c8dda1c79ba19f7bbf68fc1d74558cae.camel@perches.com>
+Sender: khalasa@piap.pl
+Date:   Wed, 29 Dec 2021 15:11:22 +0100
+In-Reply-To: <cee1bbe6c8dda1c79ba19f7bbf68fc1d74558cae.camel@perches.com> (Joe
+        Perches's message of "Thu, 23 Dec 2021 09:49:58 -0800")
+Message-ID: <m3wnjnfqlx.fsf@t19.piap.pl>
 MIME-Version: 1.0
-In-Reply-To: <60d50d23-e236-1105-dc2c-d6daca70e326@gmail.com>
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
+X-KLMS-Rule-ID: 3
+X-KLMS-Message-Action: skipped
+X-KLMS-AntiSpam-Status: not scanned, whitelist
+X-KLMS-AntiPhishing: not scanned, whitelist
+X-KLMS-AntiVirus: Kaspersky Security for Linux Mail Server, version 8.0.3.30, not scanned, whitelist
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-[+Cc: linux-media, -Cc: lkml]
+Hello Joe,
 
-Hi Mauro,
+Joe Perches <joe@perches.com> writes:
 
-In case you are wondering what is going on in the update of
-selection.svg, here is a status report.
+>> +/* External clock (extclk) frequencies */
+>> +#define AR0521_EXTCLK_MIN	  (10 * 1000 * 1000)
+>
+> Generally, adding a prefix like AR0521_ to defines that are
+> locally defined in a single file unnecessarily increases
+> identifier length.
 
-On Mon, 13 Dec 2021 16:53:07 +0900, Akira Yokosawa wrote:
-> On Mon, 13 Dec 2021 07:33:27 +0100, Mauro Carvalho Chehab wrote:
-[...]
->> No matter if this is merged or not, if you find an issue at the images
->> at the media docs, please send them to linux-media@vger.org.
-> 
-> OK. I'll compose a proper change log for it and post it later this
-> week or next.
-> (I'm not a type of person who is good at doing several things in
-> parallel.)
+Right. In general, I don't do that (for that very reason), however in
+drivers/media this looks like a common practice and I didn't want to
+break it.
 
-I started the patch preparation, but I found the patch would be
-quite large in size (~500kB).
+> e.g. Using this identifier anywhere
+>
+>> +#define AR0521_REG_HISPI_CONTROL_STATUS_FRAMER_TEST_MODE_ENABLE 0x80
 
-This is because current selection.svg consists of pretty high-
-resolution raster images.
-I see you had done several attempts to reduce the complexity of
-the SVG, but it is still large (> 200kB) and conversion to PDF by
-convert(1) generates a PDF of more than 1MB!
-Even inkscape(1) generates a larger PDF (>1.3MB) with embedded
-raster images.
+Right. However, such a name helps looking this up in the docs.
+E.g. the register name in the docs is "hispi_control_status" and the
+bitfield is "framer_test_mode" or something like that.
+Since it's just one register (+ value) and it actually fits in 80
+columns without too much problems, I'd rather like to leave it
+unchanged.
 
-I don't believe what the figure wants to explain deserves such
-a large size.
-So, from my POV, adding another bitmap image to the SVG for the
-sake of browser compatibility is *not* the right thing to do.
+> Many of the 80 column line lengths and line wrapping used in this
+> file are not really nice to read.  I believe you don't have to be
+> strict about 80 column lines.
 
-Instead, my suggestion would be to get rid of the embedded raster
-images and to draw some simple vector-graphics-based figure
-instead.
+Well, personally I think we could all switch to VT100's 132 columns.
+Introduced in '78 :-) That's what I currently use for non-kernel tasks
+(not the VT100 but just the line length). OTOH I'm using that emacs
+wrapping mode so longer lines aren't a problem either.
+But here, in drivers/media, I'm told 80 column is strict.
 
-Am I missing something here?
+>> +#define be		cpu_to_be16
+>
+> It's a pity there's no way to declare an array with all members
+> having a specific endianness.  Making sure all elements in these
+> arrays are declared with be() is tedious.
 
-        Thanks, Akira
+Right. Unfortunately anything else would mean recoding.
 
-> 
-> And the most easy fix is to install Inkscape on your system for
-> the daily build.
-> Then, convert(1) picks inkscape(1) for SVG rendering and you will
-> see right ones (of raster images, though).
-> 
-> You know, ImageMagick prefers inkscape over rsvg-convert.
-> I think it is the right thing to do in kfigure.py as well.
-> 
-[...]
+>> +#define AR0521_NUM_SUPPLIES ARRAY_SIZE(ar0521_supply_names)
+>
+> It's almost always better to use ARRAY_SIZE directly and not
+> use a #define for the array size.
+
+It's another custom in drivers/media, but I guess I don't have to follow
+it closely, do I? I never liked the #define.
+
+>> +static int ar0521_set_gains(struct ar0521_dev *sensor)
+>> +{
+> []
+>> +	dev_dbg(&sensor->i2c_client->dev, "%s()\n", __func__);
+>
+> ftrace works and perhaps all the similar debug logging uses aren't
+> really necessary.
+
+TBH I've never used ftrace.
+It appears that it can't show the arguments, can it?
+If not, I'd rather leave these dev_dbg()s in place - like other
+drivers/media/* in fact.
+However obviously the code without deb_dbg()s would be cleaner, so if
+ftrace can show the (formatted) arguments, I'm all for it.
+
+Thanks for looking at this,
+--=20
+Krzysztof "Chris" Ha=C5=82asa
+
+Sie=C4=87 Badawcza =C5=81ukasiewicz
+Przemys=C5=82owy Instytut Automatyki i Pomiar=C3=B3w PIAP
+Al. Jerozolimskie 202, 02-486 Warszawa
