@@ -2,85 +2,97 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A6F4A480FB3
-	for <lists+linux-media@lfdr.de>; Wed, 29 Dec 2021 05:44:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D6A88481011
+	for <lists+linux-media@lfdr.de>; Wed, 29 Dec 2021 06:36:06 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238701AbhL2Eov (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 28 Dec 2021 23:44:51 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47450 "EHLO
+        id S238788AbhL2FgE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 29 Dec 2021 00:36:04 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58518 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238709AbhL2Eou (ORCPT
+        with ESMTP id S236777AbhL2FgD (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 28 Dec 2021 23:44:50 -0500
-Received: from mail-qk1-x72a.google.com (mail-qk1-x72a.google.com [IPv6:2607:f8b0:4864:20::72a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AFC4BC06173F
-        for <linux-media@vger.kernel.org>; Tue, 28 Dec 2021 20:44:50 -0800 (PST)
-Received: by mail-qk1-x72a.google.com with SMTP id b85so18957543qkc.1
-        for <linux-media@vger.kernel.org>; Tue, 28 Dec 2021 20:44:50 -0800 (PST)
+        Wed, 29 Dec 2021 00:36:03 -0500
+Received: from mail-pl1-x62e.google.com (mail-pl1-x62e.google.com [IPv6:2607:f8b0:4864:20::62e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8276EC06173F
+        for <linux-media@vger.kernel.org>; Tue, 28 Dec 2021 21:36:03 -0800 (PST)
+Received: by mail-pl1-x62e.google.com with SMTP id n16so15136220plc.2
+        for <linux-media@vger.kernel.org>; Tue, 28 Dec 2021 21:36:03 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=Qn/qIc+IdWDrpF18flmXoRQQTkgxgsIUgH+1qRMEjCs=;
-        b=MP4Bw8bSGHjBVZigYkLC58fVll36y0dQlPsgLsppOhzCyW8qenp/XoWFr3l/i0JY7g
-         x1Rj1WFUKL6KK7tgH/gY4+PT7MMPVTmYKvFsr3x0dYGUI0nE22xyip57MwLSGL9mzdD1
-         gdm2wdlQultX+fuX0Qqukedvyjvw/oRjtW3977LuTliMwgNGrlTNV8mJyFTLDgzqJ1wb
-         TeOHgJ2CrSue16+U5oI/zNm7a++7mE+nIexfrA8JbpBXRY23H4XCum8+iYbVTdqnOujG
-         0a2BPYykdnnlHzSw7wh0VA87E+IdTkvyacdxKty0K89QgGsd7KwfpwN9hd3KlvM+GH9M
-         NYVA==
+        d=google.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=LCWTLU499vgUIibOB7RC/Lf29OvyjLAfzziGpa9pprc=;
+        b=UHG2Wr/bUh9+RG3z6/wLDKvolZg27kHxzETT+w1PyYUO0M/sEDfnfDaXFK1/Fe+EgQ
+         EPmePdb9FtgIXRoeOSmBlqYRDCHjdVhn5U3zfC73wvgE9tX1KbrJH1jfp4d9PlDGU/XQ
+         WN/0TGLd8cDAoQlePh8eUjttGzfucKl1hZPjfzGSC0zx4iosSx7jERUbeqLcHxD1Cxfo
+         lcoILVOjDWFPER13QQjV2dxLhxvnSaNP2wnyqahYu84szMUf1fvfvQZr6YYtlaI5wHbk
+         RCareXx3mv9jLuqA1CDDe+stKGjbppVraM/vQFxLpzLq2BY9y8oEUIp+Z/T5s5sQNUgp
+         GWXA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=Qn/qIc+IdWDrpF18flmXoRQQTkgxgsIUgH+1qRMEjCs=;
-        b=pOdHgE0bG4fh+tCjz+uitfhtT/H6kNlKyqhpibsetkISun8S4elyf8yl6/Oy/Q9FF2
-         N6p7RJlLv+jn8edvRGlqouKquOU1P4fDWm4fyfgdkKxt7u/Gt1oXQhm2D54qG9KdZcD3
-         VqbYVsoM/fdyH+/j2Egg+r+mieXAhe1ZPogYRPvFE0PBXfrm0t/XrdBhep5DNj3jGT5e
-         9PONNQFDIVb6f9cdKo37blAghMuhM18OR/vRqbVd+RYXbVmAuiQI6p2m2gz8FHgy/vSD
-         BOjgmOKYbQC0I+SLuwut6Pu9ZBZRrgbvBlX3MxaerCygzZS20L+giwKMBbuBmKyPJKty
-         0qUg==
-X-Gm-Message-State: AOAM531tSIIgHxpr2ChW3zykUGinK2pcIZmz5piq7IzfXUasEXCAS9IV
-        qRmxSC5dfY9oAs/u0Dkt7tipviwYT4o2+r3yAd4=
-X-Google-Smtp-Source: ABdhPJwlQP9MFs65V5hIm27k9GgKwnQToph0gooxj5i4AA6YSU5EAqlHIHSc4Ts2u6OPdP6sfU6WN4inqVsPMqTonqE=
-X-Received: by 2002:a05:620a:404b:: with SMTP id i11mr17467238qko.585.1640753089738;
- Tue, 28 Dec 2021 20:44:49 -0800 (PST)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=LCWTLU499vgUIibOB7RC/Lf29OvyjLAfzziGpa9pprc=;
+        b=NJRcPLNHLXxNRpgGN2BNvz8LCCxPWiBdi1DSYgu0zy52umkGIlRGja/y/56C6mcu+p
+         xHU3IUifguJKPltY9as0z6BN/fO2+i5tElwK0j6+7pY5y6eVWml7hquv4OceOcnzblbb
+         vF8jihjv1ugIc5GFEx2Bqnf/1W0yDpd4KnmJRz39SW8QzMVZ18Z+qV0WOse9WffOPG+R
+         QyBFLakOBOqCNSRoFAQ1a058MeRmIv8rzX179hbXU9oKTn2+EbiK82fx2vw3kb3s0yto
+         x8FuW8DxoWex3xQXIkE99hbsZNl4a9Gz/24bNW36eWsy8TSSF3PFt8gMPrdHo/aHYNtT
+         96sA==
+X-Gm-Message-State: AOAM5310GM3HxZ8bomr1wUOJrhXo+nZ6083AyXyo/y6nXIKGiwAEE9QR
+        MJYSE0G/wP63rQDfOHZVG+4rnA==
+X-Google-Smtp-Source: ABdhPJwI3ybkjKJD6RZt2826LHFESA/M3BbWEhFyh7OncX6wgaoW14cNyMMqRzWh+NFFFl1UtWzOSA==
+X-Received: by 2002:a17:902:6b02:b0:149:7c20:c15b with SMTP id o2-20020a1709026b0200b001497c20c15bmr13898631plk.173.1640756162651;
+        Tue, 28 Dec 2021 21:36:02 -0800 (PST)
+Received: from google.com ([2401:fa00:1:10:4dea:2b20:ea89:724b])
+        by smtp.gmail.com with ESMTPSA id w7sm23509460pfu.180.2021.12.28.21.35.58
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 28 Dec 2021 21:36:02 -0800 (PST)
+Date:   Wed, 29 Dec 2021 13:35:57 +0800
+From:   Tzung-Bi Shih <tzungbi@google.com>
+To:     Yunfei Dong <yunfei.dong@mediatek.com>
+Cc:     Alexandre Courbot <acourbot@chromium.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Tzung-Bi Shih <tzungbi@chromium.org>,
+        Tiffany Lin <tiffany.lin@mediatek.com>,
+        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Tomasz Figa <tfiga@google.com>,
+        Hsin-Yi Wang <hsinyi@chromium.org>,
+        Fritz Koenig <frkoenig@chromium.org>,
+        Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
+        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        Irui Wang <irui.wang@mediatek.com>,
+        AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>,
+        Steve Cho <stevecho@chromium.org>, linux-media@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, srv_heupstream@mediatek.com,
+        linux-mediatek@lists.infradead.org,
+        Project_Global_Chrome_Upstream_Group@mediatek.com
+Subject: Re: [PATCH v2, 01/12] media: mtk-vcodec: Add vdec enable/disable
+ hardware helpers
+Message-ID: <YcvzvXQ2Yov3OSvZ@google.com>
+References: <20211228094146.20505-1-yunfei.dong@mediatek.com>
+ <20211228094146.20505-2-yunfei.dong@mediatek.com>
 MIME-Version: 1.0
-Received: by 2002:ad4:4e83:0:0:0:0:0 with HTTP; Tue, 28 Dec 2021 20:44:49
- -0800 (PST)
-Reply-To: jw257243@gmail.com
-From:   Ahmad Massoud <hervedodzi@gmail.com>
-Date:   Wed, 29 Dec 2021 05:44:49 +0100
-Message-ID: <CAG7OqbLtVzDB5wEnenErP05Nn7ywZwvAKJ6bs6vCG9n0uFpv=w@mail.gmail.com>
-Subject: Hello,
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20211228094146.20505-2-yunfei.dong@mediatek.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Peace be unto you.
+On Tue, Dec 28, 2021 at 05:41:35PM +0800, Yunfei Dong wrote:
+> From: Yunfei Dong <yunfei.dong@mediatek.corp-partner.google.com>
+> 
+> Lock, power and clock are highly coupled operations. Adds vdec
+> enable/disable hardware helpers and uses them.
+> 
+> Signed-off-by: Yunfei Dong <yunfei.dong@mediatek.com>
 
-Myself, Ahmad Massoud, from Afghanistan, a politician and government
-official working with the ministry of finance before the Talibans took
-control of Afghanistan. I plead for your help to receive and secure my
-luggage in your country.
-
-I want to send out my digital safe box containing my life savings, two
-million six hundred thousand dollars and some of my very important
-documents through diplomatic delivery from Afghanistan to your country
-for security reasons and for investment in your country.
-Unfortunately, I cannot send the money through bank because the
-Talibans has taken control of all the institutions in afghanistan. we
-are under imminent threat from massacres and targeted executions of
-government officials since the Talibans returned to power in our
-country and I have been in hiding to avoid the risk of deadly
-reprisals by the Talibans as I wait for paperwork to evacuate with my
-family.
-
-I hope to hear from you through email [ jw257243@gmail.com ] for my
-safety because the Talibans are tracking calls to find out our exact
-location in Kabul. For the delivery to your country, please send me
-your full name, address and telephone number.
-
-I look forward to hearing from you.
-
-Ahmad Massoud.
+Reviewed-by: Tzung-Bi Shih <tzungbi@google.com>
