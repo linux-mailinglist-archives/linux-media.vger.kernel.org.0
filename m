@@ -2,152 +2,179 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C0A544814D2
-	for <lists+linux-media@lfdr.de>; Wed, 29 Dec 2021 17:03:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7495A48151E
+	for <lists+linux-media@lfdr.de>; Wed, 29 Dec 2021 17:37:33 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237138AbhL2QDW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 29 Dec 2021 11:03:22 -0500
-Received: from dfw.source.kernel.org ([139.178.84.217]:54328 "EHLO
-        dfw.source.kernel.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229528AbhL2QDU (ORCPT
+        id S240795AbhL2Qhc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 29 Dec 2021 11:37:32 -0500
+Received: from perceval.ideasonboard.com ([213.167.242.64]:34658 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S240794AbhL2Qhb (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 29 Dec 2021 11:03:20 -0500
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id C75F16151F;
-        Wed, 29 Dec 2021 16:03:19 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C8504C36AE7;
-        Wed, 29 Dec 2021 16:03:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1640793799;
-        bh=JjpeFlX1D08ft528esGQ/Dmp3d8gak2dGxLVU5277kI=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:From;
-        b=JpP2t1WEsiIyRq1md3yeDJqKD5b+v6vPK3dQL5KYtPRU6IzcCE2hfeoejuHeG11gd
-         lC8IFpViEh+GNBkNBx4n5nW244Tql53dIjOETTsQ8i+5UfJvW9Ilc8EhjCT4Q4lOA4
-         QM42sYWxI3kXC/do4dsN3O/F/5QTnKyWIH4D+TjWyd3Qv8ZelIjD6sZhRig841ypqR
-         mTWsO71n3E7t2fJyuxqamjyrcVx+C0YBZwG9aCQStF11NC5RlZEPgKB5Mk28JwNuWp
-         wwR/on9msDkJi5KBJfEq5mX9Wm2DfRpIzk3oUTTCtQJyiHOzO2W6s1m8x+iPToCIeX
-         pL3LlEJMF3ouw==
-Date:   Wed, 29 Dec 2021 10:03:17 -0600
-From:   Bjorn Helgaas <helgaas@kernel.org>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     Niklas Schnelle <schnelle@linux.ibm.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Ettore Chimenti <ek5.chimenti@gmail.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Arnd Bergmann <arnd@kernel.org>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        John Garry <john.garry@huawei.com>,
-        Nick Hu <nickhu@andestech.com>,
-        Greentime Hu <green.hu@gmail.com>,
-        Vincent Chen <deanbo422@gmail.com>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>, Guo Ren <guoren@kernel.org>,
-        Damien Le Moal <damien.lemoal@opensource.wdc.com>,
-        Ian Abbott <abbotti@mev.co.uk>,
-        H Hartley Sweeten <hsweeten@visionengravers.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Bartosz Golaszewski <brgl@bgdev.pl>,
-        Jean Delvare <jdelvare@suse.com>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Karsten Keil <isdn@linux-pingi.de>,
-        Sathya Prakash <sathya.prakash@broadcom.com>,
-        Sreekanth Reddy <sreekanth.reddy@broadcom.com>,
-        Suganath Prabu Subramani 
-        <suganath-prabu.subramani@broadcom.com>,
-        Michael Grzeschik <m.grzeschik@pengutronix.de>,
-        "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Jesse Brandeburg <jesse.brandeburg@intel.com>,
-        Tony Nguyen <anthony.l.nguyen@intel.com>,
-        Kalle Valo <kvalo@kernel.org>, Jouni Malinen <j@w1.fi>,
-        "James E.J. Bottomley" <jejb@linux.ibm.com>,
-        "Martin K. Petersen" <martin.petersen@oracle.com>,
-        Hannes Reinecke <hare@suse.com>,
-        Kashyap Desai <kashyap.desai@broadcom.com>,
-        Sumit Saxena <sumit.saxena@broadcom.com>,
-        Shivasharan S <shivasharan.srikanteshwara@broadcom.com>,
-        Nilesh Javali <njavali@marvell.com>,
-        GR-QLogic-Storage-Upstream@marvell.com,
-        Mark Brown <broonie@kernel.org>,
-        Sudip Mukherjee <sudipm.mukherjee@gmail.com>,
-        Teddy Wang <teddy.wang@siliconmotion.com>,
-        Forest Bond <forest@alittletooquiet.net>,
-        Jiri Slaby <jirislaby@kernel.org>,
-        Wim Van Sebroeck <wim@linux-watchdog.org>,
-        Jaroslav Kysela <perex@perex.cz>,
-        Takashi Iwai <tiwai@suse.com>, linux-kernel@vger.kernel.org,
-        linux-arch@vger.kernel.org, linux-pci@vger.kernel.org,
-        linux-riscv@lists.infradead.org, linux-csky@vger.kernel.org,
-        linux-ide@vger.kernel.org, linux-gpio@vger.kernel.org,
-        linux-hwmon@vger.kernel.org, linux-i2c@vger.kernel.org,
-        linux-input@vger.kernel.org, netdev@vger.kernel.org,
-        linux-media@vger.kernel.org, MPT-FusionLinux.pdl@broadcom.com,
-        linux-scsi@vger.kernel.org, intel-wired-lan@lists.osuosl.org,
-        linux-wireless@vger.kernel.org, megaraidlinux.pdl@broadcom.com,
-        linux-spi@vger.kernel.org, linux-fbdev@vger.kernel.org,
-        linux-serial@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        linux-watchdog@vger.kernel.org
-Subject: Re: [RFC 01/32] Kconfig: introduce and depend on LEGACY_PCI
-Message-ID: <20211229160317.GA1681139@bhelgaas>
+        Wed, 29 Dec 2021 11:37:31 -0500
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 75850464;
+        Wed, 29 Dec 2021 17:37:30 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1640795850;
+        bh=gFylRxfG7J7G1h+jHQHPkz26zFUxJHgdlzsOV328hVM=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=oY19D5Nhkgq7XPhmtwQ0Jp/xSiFhI76niDhmOtT2RGP/V0zEjP4k6vwTXqsRmqSqW
+         aGjJW7Ul8S4/iw3QWrD9x+ITpxw2FfHn7AvCkhqjNvbx+2ojkjykeFujUJ1DTzTx9G
+         /EdjjcT6yj6L4Sbx5gixdqkfIA8xpnHqYFrA0ZDo=
+Date:   Wed, 29 Dec 2021 18:37:28 +0200
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc:     linux-media@vger.kernel.org,
+        Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+Subject: Re: [PATCH v2 2/2] media: i2c: IMX296 camera sensor driver
+Message-ID: <YcyOyGcj9MYZaix6@pendragon.ideasonboard.com>
+References: <20211219220948.28953-1-laurent.pinchart@ideasonboard.com>
+ <20211219220948.28953-3-laurent.pinchart@ideasonboard.com>
+ <YcHOmEVxvcDwx+M4@paasikivi.fi.intel.com>
+ <YcH5RufWI398s232@pendragon.ideasonboard.com>
+ <YcJYBKB+Z4XYANgi@paasikivi.fi.intel.com>
+ <YcJa53KRgdcEVX2/@pendragon.ideasonboard.com>
+ <YcLwWiBL2fU8Zwui@paasikivi.fi.intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20211229131207.1ac25424@coco.lan>
+In-Reply-To: <YcLwWiBL2fU8Zwui@paasikivi.fi.intel.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Dec 29, 2021 at 01:12:07PM +0100, Mauro Carvalho Chehab wrote:
-> Em Wed, 29 Dec 2021 12:45:38 +0100
-> Niklas Schnelle <schnelle@linux.ibm.com> escreveu:
-> > ...
+Hi Sakari,
 
-> > I do think we agree that once done correctly there is value in
-> > such an option independent of HAS_IOPORT only gating inb() etc uses.
-
-I'm not sure I'm convinced about this.  For s390, you could do this
-patch series, where you don't define inb() at all, and you add new
-dependencies to prevent compile errors.  Or you could define inb() to
-return ~0, which is what happens on other platforms when the device is
-not present.
-
-> Personally, I don't see much value on a Kconfig var for legacy PCI I/O 
-> space. From maintenance PoV, bots won't be triggered if someone use
-> HAS_IOPORT instead of the PCI specific one - or vice-versa. So, we
-> could end having a mix of both at the wrong places, in long term.
+On Wed, Dec 22, 2021 at 11:31:06AM +0200, Sakari Ailus wrote:
+> On Wed, Dec 22, 2021 at 12:53:27AM +0200, Laurent Pinchart wrote:
+> > On Wed, Dec 22, 2021 at 12:41:08AM +0200, Sakari Ailus wrote:
+> > > On Tue, Dec 21, 2021 at 05:56:54PM +0200, Laurent Pinchart wrote:
+> > > 
+> > > ,,,
+> > > 
+> > > > > > +static int imx296_ctrls_init(struct imx296 *sensor)
+> > > > > > +{
+> > > > > > +	struct v4l2_fwnode_device_properties props;
+> > > > > > +	unsigned int hblank;
+> > > > > > +	int ret;
+> > > > > > +
+> > > > > > +	ret = v4l2_fwnode_device_parse(sensor->dev, &props);
+> > > > > > +	if (ret < 0)
+> > > > > > +		return ret;
+> > > > > > +
+> > > > > > +	v4l2_ctrl_handler_init(&sensor->ctrls, 9);
+> > > > > > +
+> > > > > > +	v4l2_ctrl_new_std(&sensor->ctrls, &imx296_ctrl_ops,
+> > > > > > +			  V4L2_CID_EXPOSURE, 1, 1048575, 1, 1104);
+> > > > > > +	v4l2_ctrl_new_std(&sensor->ctrls, &imx296_ctrl_ops,
+> > > > > > +			  V4L2_CID_ANALOGUE_GAIN, IMX296_GAIN_MIN,
+> > > > > > +			  IMX296_GAIN_MAX, 1, IMX296_GAIN_MIN);
+> > > > > > +
+> > > > > > +	/*
+> > > > > > +	 * Horizontal blanking is controlled through the HMAX register, which
+> > > > > > +	 * contains a line length in INCK clock units. The INCK frequency is
+> > > > > > +	 * fixed to 74.25 MHz. The HMAX value is currently fixed to 1100,
+> > > > > 
+> > > > > It seems the driver supports other values, too. Shouldn't this be the
+> > > > > actual frequency?
+> > > > 
+> > > > That's not clear to me from the documentation I have access to :-( It's
+> > > > quite convoluted, there are a few examples from which I tried to infer
+> > > > what was going on, but no clear explanation. My board uses a fixed clock
+> > > > frequency of 37.125MHz so I can't test other values.
+> > > > 
+> > > > Can we start with this and update it later if we can figure out more
+> > > > (assuming there's an issue, it may actually be correct already) ?
+> > > 
+> > > Sounds reasonable. I was just wondering.
+> > > 
+> > > > > > +	 * convert it to a number of pixels based on the nominal pixel rate.
+> > > > > > +	 */
+> > > > > > +	hblank = 1100 * 1188000000ULL / 10 / 74250000
+> > > > > > +	       - IMX296_PIXEL_ARRAY_WIDTH;
+> > > > > > +	sensor->hblank = v4l2_ctrl_new_std(&sensor->ctrls, &imx296_ctrl_ops,
+> > > > > > +					   V4L2_CID_HBLANK, hblank, hblank, 1,
+> > > > > > +					   hblank);
+> > > > > > +	if (sensor->hblank)
+> > > > > > +		sensor->hblank->flags |= V4L2_CTRL_FLAG_READ_ONLY;
+> > > > > > +
+> > > > > > +	sensor->vblank = v4l2_ctrl_new_std(&sensor->ctrls, &imx296_ctrl_ops,
+> > > > > > +					   V4L2_CID_VBLANK, 30,
+> > > > > > +					   1048575 - IMX296_PIXEL_ARRAY_HEIGHT,
+> > > > > > +					   1, 30);
+> > > > > > +	/*
+> > > > > > +	 * The sensor calculates the MIPI timings internally to achieve a bit
+> > > > > > +	 * rate between 1122 and 1198 Mbps. The exact value is unfortunately not
+> > > > > > +	 * reported, at least according to the documentation. Report a nominal
+> > > > > > +	 * rate of 1188 Mbps as that is used by the datasheet in multiple
+> > > > > > +	 * examples.
+> > > > > > +	 */
+> > > > > > +	v4l2_ctrl_new_std(&sensor->ctrls, NULL, V4L2_CID_PIXEL_RATE,
+> > > > > > +			  1122000000 / 10, 1198000000 / 10, 1, 1188000000 / 10);
+> > > > > 
+> > > > > What about the link frequency?
+> > > > > 
+> > > > > Is this value constant for the sensor? Or should there be a list of
+> > > > > hardware supported link frequencies?
+> > > > 
+> > > > It seems to be constant, but again the documentation is fairly unclear.
+> > > 
+> > > Ack.
+> > > 
+> > > ...
+> > > 
+> > > > > > +static int __maybe_unused imx296_runtime_resume(struct device *dev)
+> > > > > > +{
+> > > > > > +	struct i2c_client *client = to_i2c_client(dev);
+> > > > > > +	struct v4l2_subdev *subdev = i2c_get_clientdata(client);
+> > > > > > +	struct imx296 *sensor = to_imx296(subdev);
+> > > > > > +
+> > > > > > +	return imx296_power_on(sensor);
+> > > > > > +}
+> > > > > > +
+> > > > > > +static int __maybe_unused imx296_runtime_suspend(struct device *dev)
+> > > > > > +{
+> > > > > > +	struct i2c_client *client = to_i2c_client(dev);
+> > > > > > +	struct v4l2_subdev *subdev = i2c_get_clientdata(client);
+> > > > > > +	struct imx296 *sensor = to_imx296(subdev);
+> > > > > > +
+> > > > > > +	imx296_power_off(sensor);
+> > > > > > +
+> > > > > > +	return 0;
+> > > > > 
+> > > > > I'd merge these two with imx296_power_o{n,ff}.
+> > > > 
+> > > > That would require calling imx296_runtime_resume() and
+> > > > imx296_runtime_suspend() in probe() and remove(), which I don't really
+> > > > like. I'd prefer keeping the functions separate.
+> > > 
+> > > You could keep calling the functions imx296_power_o{n,ff}. There's really
+> > > no need for two pairs of functions doing the same things.
+> > 
+> > imx296_power_on() is called in probe() before the subdev is initialized,
+> > so the i2c_get_clientdata() call in imx296_runtime_resume() would fail.
+> > It may be possible to refactor the probe() function to fix this, but I
+> > think that explicit power on/off calls in probe() are clearer than
+> > calling the pm runtime resume and suspend handlers.
 > 
-> Also, assuming that PCIe hardware will some day abandon support for 
-> "legacy" PCI I/O space, I guess some runtime logic would be needed, 
-> in order to work with both kinds of PCIe controllers. So, having a
-> Kconfig option won't help much, IMO.
+> They're doing exactly the same things, powering the device on and off. The
+> fact that it's used as a runtime PM callback as well as called directly
+> doesn't change its nature.
 > 
-> So, my personal preference would be to have just one Kconfig var, but
-> I'm ok if the PCI maintainers decide otherwise.
+> Most other drivers do it this way actually. What it'd take is a call to
+> v4l2_i2c_subdev_init() before powering the sensor on.
 
-I don't really like the "LEGACY_PCI" Kconfig option.  "Legacy" just
-means something old and out of favor; it doesn't say *what* that
-something is.
+I still really dislike it, sorry. I thought I could find a middle ground
+by using the runtime PM functions to power up the sensor in probe(), but
+that won't work if runtime PM is disabled.
 
-I think you're specifically interested in I/O port space usage, and it
-seems that you want all PCI drivers that *only* use I/O port space to
-depend on LEGACY_PCI?  Drivers that can use either I/O or memory
-space or both would not depend on LEGACY_PCI?  This seems a little
-murky and error-prone.
+It's fairly common for drivers to have internal functions called by
+wrappers whose only purpose is to convert the arguments, I don't see why
+it would be a problem here. I think it's actually cleaner and conveys
+the purpose better.
 
-What if you used the approach from [1] but just dropped the warning?
-The inb() would return ~0 if the platform doesn't support I/O port
-space.  Drivers should be prepared to handle that because that's what
-happens if the device doesn't exist.  
+-- 
+Regards,
 
-HAS_IOPORT and LEGACY_PCI is a lot of Kconfiggery that basically just
-avoids building drivers that aren't useful on s390.  I'm not sure the
-benefit outweighs the complication.
-
-Bjorn
-
-[1] https://lore.kernel.org/lkml/CAHk-=wg80je=K7madF4e7WrRNp37e3qh6y10Svhdc7O8SZ_-8g@mail.gmail.com/
-
+Laurent Pinchart
