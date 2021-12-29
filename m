@@ -2,250 +2,223 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 69561481096
-	for <lists+linux-media@lfdr.de>; Wed, 29 Dec 2021 08:09:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2489C4810A5
+	for <lists+linux-media@lfdr.de>; Wed, 29 Dec 2021 08:27:28 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239066AbhL2HJu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 29 Dec 2021 02:09:50 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50768 "EHLO
+        id S239100AbhL2H1Z (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 29 Dec 2021 02:27:25 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54516 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231551AbhL2HJt (ORCPT
+        with ESMTP id S239095AbhL2H1Y (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 29 Dec 2021 02:09:49 -0500
-Received: from mail-wr1-x42e.google.com (mail-wr1-x42e.google.com [IPv6:2a00:1450:4864:20::42e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 74618C061574;
-        Tue, 28 Dec 2021 23:09:49 -0800 (PST)
-Received: by mail-wr1-x42e.google.com with SMTP id a9so42585298wrr.8;
-        Tue, 28 Dec 2021 23:09:49 -0800 (PST)
+        Wed, 29 Dec 2021 02:27:24 -0500
+Received: from mail-pj1-x1036.google.com (mail-pj1-x1036.google.com [IPv6:2607:f8b0:4864:20::1036])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 004B7C06173F
+        for <linux-media@vger.kernel.org>; Tue, 28 Dec 2021 23:27:23 -0800 (PST)
+Received: by mail-pj1-x1036.google.com with SMTP id a11-20020a17090a854b00b001b11aae38d6so19193556pjw.2
+        for <linux-media@vger.kernel.org>; Tue, 28 Dec 2021 23:27:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=Ee3/Ct1G+mZzQD8p6bAGJfxmlHApZMCGVdI9a5DfxHc=;
-        b=VjqeyP1IDih5o+n1wQblN72N3hdhvMr6/Cm3trtcg9PG5yN29SeoxPW1ICtI8wJeNP
-         /Zm7BpbQwjpc4IKxVkZSkh2QHBQS2JAjUeVdDZyjtoR0Q1+zfrMPyxM/2hQp/Trx0fFX
-         /OZw/2PPWo3utgdKD58fKoe08OPjeVPNO2iZn8IsQTdT84kUj1Cvrej1aChOYZKYP18o
-         g93fJFFPJoxyiI3f4hJZx9106MDUvTZvZ3BrNpbUWDpMcu2BcDhSXCh7cyGUbKgTjROV
-         fvczXQgldr5CAbWeRrA5hvJbz54hAcyqfo04LP676hqRAotsq754QO/rf5cttP65GOz3
-         SKwQ==
+        d=google.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=eZSNki/251fDYLWVkOPn8gWn57CxzUzo65fAsecZzSY=;
+        b=C2b0u1tClTPmdQioW+rxkZ+V7pqKZXRaISlUmt8iCW927RhgQrOFUcbd6meMPzDYNJ
+         vx/XLkZIkznWTkZgvAJ0ypkuBP40ipDUo3JMy4vf3JbUxpYhuOGGxI3JuXXye7pCnNXn
+         OHFvXOdT2LXYXBGWmxRgIZgz0RV/Sdkl5FYD5J82qNlhU2jZNlaB03hEd6b34lmLCcpQ
+         YED6khoDbdY0+qbd/rqXiy3pREdcFpr0WizTcRnrPvPmpwUgw5+wkuXI7xO9d6X8xnTE
+         021Ucv5pypqtaIcTorUmLe52PUYDNHSXbPkhRRZ6tIZ/1Yr4jRcacTFc0vZ6xiGpSehi
+         KHCg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=Ee3/Ct1G+mZzQD8p6bAGJfxmlHApZMCGVdI9a5DfxHc=;
-        b=uUYBBBHeI9JX/EGFgeyqd+UbS4E8rodyY6cpEw8GzexrbTbwavvlYmOU+wdr8AypWB
-         fQWCoOL9m0UNfhCF/CS2ClzZNky8bgyuHlfSgDBqQpU0jSOePkpWJANFPCjQ+VDoVnGQ
-         M+DmWGWc9vM/2xnFhW3nEgCQxiGYXrMnQCqbb4GiAVZM31+F2BK3wp2oNpCLLtNyj+Z3
-         htPPzfXqO6vLHNDmMbg2M1IMF1R//hhV4g3nHhHqp0OaPERTEuDP5opAHi4Xd1mu5IsE
-         +ZNTGZLLWWUNE/1CHUZjZf5DftK2vhXkslqChuU7u2CosNp91O5M8pGranOfhf93ykQK
-         26uQ==
-X-Gm-Message-State: AOAM533jF0MLS8C7ll/PhaTzFGN1+AQUJG7glWIOFzHo0kCEdBEJ8f8M
-        ewaChNOGiKJXs6UQgC5J30SX340CJt/0W0j58CUNpw==
-X-Google-Smtp-Source: ABdhPJxf1SzzWoJyn1pial7eQY1+Pdnn8nufiqMGFLm/XWQGLh2FqKeMsG2/SNuuYi9JKb2o0igpcg==
-X-Received: by 2002:adf:da51:: with SMTP id r17mr20483402wrl.389.1640761787893;
-        Tue, 28 Dec 2021 23:09:47 -0800 (PST)
-Received: from ownia.. ([103.105.48.220])
-        by smtp.gmail.com with ESMTPSA id b2sm22515559wrd.35.2021.12.28.23.09.44
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 28 Dec 2021 23:09:47 -0800 (PST)
-From:   Weizhao Ouyang <o451686892@gmail.com>
-To:     Sumit Semwal <sumit.semwal@linaro.org>,
-        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-        Liam Mark <lmark@codeaurora.org>,
-        Laura Abbott <labbott@kernel.org>,
-        Brian Starkey <Brian.Starkey@arm.com>,
-        John Stultz <john.stultz@linaro.org>, christian.koenig@amd.com
-Cc:     linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org,
-        Weizhao Ouyang <o451686892@gmail.com>
-Subject: [PATCH RESEND] dma-buf: heaps: Fix mutex lock area and generalize struct dma_heap_attachment
-Date:   Wed, 29 Dec 2021 15:07:13 +0800
-Message-Id: <20211229070713.218548-1-o451686892@gmail.com>
-X-Mailer: git-send-email 2.32.0
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=eZSNki/251fDYLWVkOPn8gWn57CxzUzo65fAsecZzSY=;
+        b=TIRx/gaAnnNHm6AN5q2Ehu/FRPXaL1m+ebKGC54THb/UYsFd4EbDOqULrWcZhAU6ap
+         wP8CPuhRWoXsnHvGUAKksV+cSq5r1Z35Vb/7qlct7GXKd1ioyNSJIm/B/KkS6R9z7b8h
+         CEMttJL9cXlLT3L5XfJlrNN1J1kyxGthWahu18cQ8s0xV6GjPVzmTuscveVS9kC7E3xU
+         hClSUIo+On93FwV/ESIP4Y9xY9TCpgXUN33/uhog5M2EpznYQAqVVppauS+xTd5Yf3Tn
+         mcFv1Pv2xSQ3PUONCvdx3R70hA3tXo0epF+eFPxo3xga+sNKV28dHgUPasRgom2rKxrR
+         fVuQ==
+X-Gm-Message-State: AOAM5315gUO9aUWz709edoOVFM9K5/U8kr+d9hFneOsrk4sFwMtkfQrC
+        NUxVzFVa3TSl/ISd8JYS6oKGgaLEJtcQ4vgIRrsCbQ==
+X-Google-Smtp-Source: ABdhPJwdorV9rKsCXwNUTFsMyMCJcCadilIxzOqhyG+k64txb8IQphCdPdY79KAgaFh5MoE1tQRj+5vGer2dfAH87+8=
+X-Received: by 2002:a17:902:b591:b0:149:66d6:7589 with SMTP id
+ a17-20020a170902b59100b0014966d67589mr19576058pls.24.1640762843190; Tue, 28
+ Dec 2021 23:27:23 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20211228094146.20505-1-yunfei.dong@mediatek.com>
+ <20211228094146.20505-4-yunfei.dong@mediatek.com> <Ycvz4UrmbngVzIv2@google.com>
+ <8102ba18b3fdcc19e6b9f53c7a635ffc084c825b.camel@mediatek.com>
+In-Reply-To: <8102ba18b3fdcc19e6b9f53c7a635ffc084c825b.camel@mediatek.com>
+From:   Tzung-Bi Shih <tzungbi@google.com>
+Date:   Wed, 29 Dec 2021 15:27:11 +0800
+Message-ID: <CA+Px+wU2aU_t2F2XOsjf5vRUikQPaftRa9062CCCNwRJK-WA3w@mail.gmail.com>
+Subject: Re: [PATCH v2, 03/12] media: mtk-vcodec: get capture queue buffer
+ size from scp
+To:     "yunfei.dong@mediatek.com" <Yunfei.Dong@mediatek.com>
+Cc:     Alexandre Courbot <acourbot@chromium.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Tzung-Bi Shih <tzungbi@chromium.org>,
+        Tiffany Lin <tiffany.lin@mediatek.com>,
+        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Tomasz Figa <tfiga@google.com>,
+        Hsin-Yi Wang <hsinyi@chromium.org>,
+        Fritz Koenig <frkoenig@chromium.org>,
+        Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
+        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        Irui Wang <irui.wang@mediatek.com>,
+        AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>,
+        Steve Cho <stevecho@chromium.org>, linux-media@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, srv_heupstream@mediatek.com,
+        linux-mediatek@lists.infradead.org,
+        Project_Global_Chrome_Upstream_Group@mediatek.com
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Fix cma_heap_buffer mutex lock area to protect vmap_cnt and vaddr. And
-move struct dma_heap_attachment to dma-heap.h so that vendor dma heaps
-can use it, the same behaviour as struct dma_buf_attachment.
+On Wed, Dec 29, 2021 at 2:52 PM yunfei.dong@mediatek.com
+<yunfei.dong@mediatek.com> wrote:
+> On Wed, 2021-12-29 at 13:36 +0800, Tzung-Bi Shih wrote:
+> > On Tue, Dec 28, 2021 at 05:41:37PM +0800, Yunfei Dong wrote:
+> > > From: Yunfei Dong <yunfei.dong@mediatek.corp-partner.google.com>
+> >
+> > [...]
+> > > diff --git a/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec.c
+> > > b/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec.c
+> > > index 130ecef2e766..87891ebd7246 100644
+> > > --- a/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec.c
+> > > +++ b/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec.c
+> > > @@ -466,6 +466,8 @@ static int vidioc_vdec_s_fmt(struct file *file,
+> > > void *priv,
+> > >                     }
+> > >                     ctx->state = MTK_STATE_INIT;
+> > >             }
+> > > +   } else {
+> > > +           ctx->capture_fourcc = fmt->fourcc;
+> > >     }
+> > >
+> > >     /*
+> > > diff --git a/drivers/media/platform/mtk-vcodec/mtk_vcodec_drv.h
+> > > b/drivers/media/platform/mtk-vcodec/mtk_vcodec_drv.h
+> > > index a23a7646437c..95e07cf2cd3e 100644
+> > > --- a/drivers/media/platform/mtk-vcodec/mtk_vcodec_drv.h
+> > > +++ b/drivers/media/platform/mtk-vcodec/mtk_vcodec_drv.h
+> > > @@ -277,6 +277,7 @@ struct vdec_pic_info {
+> > >   *              to be used with encoder and stateful decoder.
+> > >   * @is_flushing: set to true if flushing is in progress.
+> > >   * @current_codec: current set input codec, in V4L2 pixel format
+> > > + * @capture_fourcc: capture queue type in V4L2 pixel format
+> > >   *
+> > >   * @colorspace: enum v4l2_colorspace; supplemental to pixelformat
+> > >   * @ycbcr_enc: enum v4l2_ycbcr_encoding, Y'CbCr encoding
+> > > @@ -322,6 +323,7 @@ struct mtk_vcodec_ctx {
+> > >     bool is_flushing;
+> > >
+> > >     u32 current_codec;
+> > > +   u32 capture_fourcc;
+> >
+> > What is the purpose of capture_fourcc?  It is not used.
+> >
+> Need to calculate each plane size according to capture fourcc type from
+> scp. The plane size of MM21 is different with MT21C. And the capture
+> fourcc type of different codec maybe different.
 
-Fixes: a5d2d29e24be ("dma-buf: heaps: Move heap-helper logic into the cma_heap implementation")
-Signed-off-by: Weizhao Ouyang <o451686892@gmail.com>
----
-Resend to correct email addresses.
+Purpose of capture_fourcc in the context is not obvious and looks
+irrelevant to the patch.  Could it move to somewhere patch that makes
+more sense?
 
- drivers/dma-buf/heaps/cma_heap.c    | 25 ++++++++++---------------
- drivers/dma-buf/heaps/system_heap.c | 12 ++----------
- include/linux/dma-heap.h            | 15 +++++++++++++++
- 3 files changed, 27 insertions(+), 25 deletions(-)
+> > > +/**
+> > > + * struct vdec_ap_ipi_get_param - for AP_IPIMSG_SET_PARAM
+> > > + * @msg_id : AP_IPIMSG_DEC_START
+> > > + * @inst_id     : instance ID. Used if the ABI version >= 2.
+> > > + * @data   : picture information
+> > > + * @param_type     : get param type
+> > > + * @codec_type     : Codec fourcc
+> > > + */
+> > > +struct vdec_ap_ipi_get_param {
+> > > +   uint32_t msg_id;
+> > > +   uint32_t inst_id;
+> > > +   uint32_t data[4];
+> > > +   uint32_t param_type;
+> > > +   uint32_t codec_type;
+> > > +};
+> >
+> > Are AP_IPIMSG_SET_PARAM and AP_IPIMSG_DEC_START typos?
+> >
+> It's getting message from scp side. It's looks much better to add one
+> new path from ap to scp.
 
-diff --git a/drivers/dma-buf/heaps/cma_heap.c b/drivers/dma-buf/heaps/cma_heap.c
-index 0c05b79870f9..23dad5b6421e 100644
---- a/drivers/dma-buf/heaps/cma_heap.c
-+++ b/drivers/dma-buf/heaps/cma_heap.c
-@@ -40,13 +40,6 @@ struct cma_heap_buffer {
- 	void *vaddr;
- };
- 
--struct dma_heap_attachment {
--	struct device *dev;
--	struct sg_table table;
--	struct list_head list;
--	bool mapped;
--};
--
- static int cma_heap_attach(struct dma_buf *dmabuf,
- 			   struct dma_buf_attachment *attachment)
- {
-@@ -58,7 +51,7 @@ static int cma_heap_attach(struct dma_buf *dmabuf,
- 	if (!a)
- 		return -ENOMEM;
- 
--	ret = sg_alloc_table_from_pages(&a->table, buffer->pages,
-+	ret = sg_alloc_table_from_pages(a->table, buffer->pages,
- 					buffer->pagecount, 0,
- 					buffer->pagecount << PAGE_SHIFT,
- 					GFP_KERNEL);
-@@ -90,7 +83,7 @@ static void cma_heap_detach(struct dma_buf *dmabuf,
- 	list_del(&a->list);
- 	mutex_unlock(&buffer->lock);
- 
--	sg_free_table(&a->table);
-+	sg_free_table(a->table);
- 	kfree(a);
- }
- 
-@@ -98,12 +91,12 @@ static struct sg_table *cma_heap_map_dma_buf(struct dma_buf_attachment *attachme
- 					     enum dma_data_direction direction)
- {
- 	struct dma_heap_attachment *a = attachment->priv;
--	struct sg_table *table = &a->table;
-+	struct sg_table *table = a->table;
- 	int ret;
- 
- 	ret = dma_map_sgtable(attachment->dev, table, direction, 0);
- 	if (ret)
--		return ERR_PTR(-ENOMEM);
-+		return ERR_PTR(ret);
- 	a->mapped = true;
- 	return table;
- }
-@@ -124,14 +117,15 @@ static int cma_heap_dma_buf_begin_cpu_access(struct dma_buf *dmabuf,
- 	struct cma_heap_buffer *buffer = dmabuf->priv;
- 	struct dma_heap_attachment *a;
- 
-+	mutex_lock(&buffer->lock);
-+
- 	if (buffer->vmap_cnt)
- 		invalidate_kernel_vmap_range(buffer->vaddr, buffer->len);
- 
--	mutex_lock(&buffer->lock);
- 	list_for_each_entry(a, &buffer->attachments, list) {
- 		if (!a->mapped)
- 			continue;
--		dma_sync_sgtable_for_cpu(a->dev, &a->table, direction);
-+		dma_sync_sgtable_for_cpu(a->dev, a->table, direction);
- 	}
- 	mutex_unlock(&buffer->lock);
- 
-@@ -144,14 +138,15 @@ static int cma_heap_dma_buf_end_cpu_access(struct dma_buf *dmabuf,
- 	struct cma_heap_buffer *buffer = dmabuf->priv;
- 	struct dma_heap_attachment *a;
- 
-+	mutex_lock(&buffer->lock);
-+
- 	if (buffer->vmap_cnt)
- 		flush_kernel_vmap_range(buffer->vaddr, buffer->len);
- 
--	mutex_lock(&buffer->lock);
- 	list_for_each_entry(a, &buffer->attachments, list) {
- 		if (!a->mapped)
- 			continue;
--		dma_sync_sgtable_for_device(a->dev, &a->table, direction);
-+		dma_sync_sgtable_for_device(a->dev, a->table, direction);
- 	}
- 	mutex_unlock(&buffer->lock);
- 
-diff --git a/drivers/dma-buf/heaps/system_heap.c b/drivers/dma-buf/heaps/system_heap.c
-index ab7fd896d2c4..aac8fc660ea6 100644
---- a/drivers/dma-buf/heaps/system_heap.c
-+++ b/drivers/dma-buf/heaps/system_heap.c
-@@ -17,7 +17,6 @@
- #include <linux/highmem.h>
- #include <linux/mm.h>
- #include <linux/module.h>
--#include <linux/scatterlist.h>
- #include <linux/slab.h>
- #include <linux/vmalloc.h>
- 
-@@ -33,13 +32,6 @@ struct system_heap_buffer {
- 	void *vaddr;
- };
- 
--struct dma_heap_attachment {
--	struct device *dev;
--	struct sg_table *table;
--	struct list_head list;
--	bool mapped;
--};
--
- #define LOW_ORDER_GFP (GFP_HIGHUSER | __GFP_ZERO | __GFP_COMP)
- #define MID_ORDER_GFP (LOW_ORDER_GFP | __GFP_NOWARN)
- #define HIGH_ORDER_GFP  (((GFP_HIGHUSER | __GFP_ZERO | __GFP_NOWARN \
-@@ -68,7 +60,7 @@ static struct sg_table *dup_sg_table(struct sg_table *table)
- 	ret = sg_alloc_table(new_table, table->orig_nents, GFP_KERNEL);
- 	if (ret) {
- 		kfree(new_table);
--		return ERR_PTR(-ENOMEM);
-+		return ERR_PTR(ret);
- 	}
- 
- 	new_sg = new_table->sgl;
-@@ -94,7 +86,7 @@ static int system_heap_attach(struct dma_buf *dmabuf,
- 	table = dup_sg_table(&buffer->sg_table);
- 	if (IS_ERR(table)) {
- 		kfree(a);
--		return -ENOMEM;
-+		return PTR_ERR(table);
- 	}
- 
- 	a->table = table;
-diff --git a/include/linux/dma-heap.h b/include/linux/dma-heap.h
-index 0c05561cad6e..7d02aefe0e78 100644
---- a/include/linux/dma-heap.h
-+++ b/include/linux/dma-heap.h
-@@ -11,6 +11,7 @@
- 
- #include <linux/cdev.h>
- #include <linux/types.h>
-+#include <linux/scatterlist.h>
- 
- struct dma_heap;
- 
-@@ -41,6 +42,20 @@ struct dma_heap_export_info {
- 	void *priv;
- };
- 
-+/**
-+ * struct dma_heap_attachment - holds device-heap attachment data
-+ * @dev:	device attached to the heap
-+ * @table:	sgtables for tracking the associated pages
-+ * @list:	list of dma_heap_attachment
-+ * @mapped:	true if attachment is actually mapped on the device
-+ */
-+struct dma_heap_attachment {
-+	struct device *dev;
-+	struct sg_table *table;
-+	struct list_head list;
-+	bool mapped;
-+};
-+
- /**
-  * dma_heap_get_drvdata() - get per-heap driver data
-  * @heap: DMA-Heap to retrieve private data for
--- 
-2.32.0
+Pardon me, I failed to understand it.  I thought the struct could be
+for AP_IPIMSG_DEC_GET_PARAM.
 
+> > > +/**
+> > > + * struct vdec_vpu_ipi_init_ack - for VPU_IPIMSG_DEC_INIT_ACK
+> > > + * @msg_id : VPU_IPIMSG_DEC_INIT_ACK
+> > > + * @status : VPU exeuction result
+> > > + * @ap_inst_addr   : AP vcodec_vpu_inst instance address
+> > > + * @data     : picture information from SCP.
+> > > + * @param_type     : get param type
+> > > + */
+> > > +struct vdec_vpu_ipi_get_param_ack {
+> > > +   uint32_t msg_id;
+> > > +   int32_t status;
+> > > +   uint64_t ap_inst_addr;
+> > > +   uint32_t data[4];
+> > > +   uint32_t param_type;
+> > > +   uint32_t reserved;
+> > > +};
+> >
+> > Same here: is VPU_IPIMSG_DEC_INIT_ACK a typo?
+> >
+> It's getting message from scp side. It's looks much better to add one new path from ap to scp.
+
+Same here: I thought it was for VPU_IPIMSG_DEC_GET_PARAM_ACK.
+
+> > > diff --git a/drivers/media/platform/mtk-vcodec/vdec_vpu_if.h
+> > > b/drivers/media/platform/mtk-vcodec/vdec_vpu_if.h
+> > > index 4cb3c7f5a3ad..963f8d4877b7 100644
+> > > --- a/drivers/media/platform/mtk-vcodec/vdec_vpu_if.h
+> > > +++ b/drivers/media/platform/mtk-vcodec/vdec_vpu_if.h
+> > > @@ -28,6 +28,8 @@ struct mtk_vcodec_ctx;
+> > >   * @wq          : wait queue to wait VPU message ack
+> > >   * @handler     : ipi handler for each decoder
+> > >   * @codec_type     : use codec type to separate different codecs
+> > > + * @capture_type    : used capture type to separate different
+> > > capture format
+> > > + * @fb_sz  : frame buffer size of each plane
+> > >   */
+> > >  struct vdec_vpu_inst {
+> > >     int id;
+> > > @@ -42,6 +44,8 @@ struct vdec_vpu_inst {
+> > >     wait_queue_head_t wq;
+> > >     mtk_vcodec_ipi_handler handler;
+> > >     unsigned int codec_type;
+> > > +   unsigned int capture_type;
+> > > +   unsigned int fb_sz[2];
+> > >  };
+> >
+> > capture_type is not used in the patch.
+> >
+> Capture type will be used in scp to get capture plane size according to
+> capture buffer type.
+
+Pardon me, I failed to understand it.  I may misunderstand, however,
+it doesn't look like a shared memory structure between AP and SCP.
+
+At least to me, capture_type is not used in the patch.  It could be
+better to move it to somewhere patch that makes more sense.
+
+> > Does fb_sz take effect in later patches?
+>
+> Don't have effect to later patches.
+
+Is the fb_sz used somewhere "later"?  The patch gets fb_sz from SCP,
+however, fb_sz is never used in some control or configuration paths.
