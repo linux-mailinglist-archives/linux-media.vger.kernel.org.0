@@ -2,109 +2,170 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id F274F48196A
-	for <lists+linux-media@lfdr.de>; Thu, 30 Dec 2021 05:47:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 02C844819D6
+	for <lists+linux-media@lfdr.de>; Thu, 30 Dec 2021 06:44:28 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236051AbhL3ErJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 29 Dec 2021 23:47:09 -0500
-Received: from perceval.ideasonboard.com ([213.167.242.64]:45560 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229834AbhL3ErI (ORCPT
+        id S229597AbhL3FoY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 30 Dec 2021 00:44:24 -0500
+Received: from ewsoutbound.kpnmail.nl ([195.121.94.170]:18408 "EHLO
+        ewsoutbound.kpnmail.nl" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229478AbhL3FoY (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 29 Dec 2021 23:47:08 -0500
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id C802D2A5;
-        Thu, 30 Dec 2021 05:47:06 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1640839627;
-        bh=G15gZW905KB243ho6yQhK1kDfRd85eBmtfZLhHsHCgA=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=MJztqi+xnek8fpdvPMxqTz6djSuCaRXg5AXhkb92AmgAxZGk2ohS32tQmjiu/Oxob
-         c5Vd9LIwRa9kVxpiKfq8mgLpZQrtTKStHcHoxHZUnCSHLRapjdA/Tcgc/mtzmGK7GA
-         p77dwRhzeCXxSzfkzhix/zxIshruzAT/PB4IC+h0=
-Date:   Thu, 30 Dec 2021 06:47:04 +0200
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Pratyush Yadav <p.yadav@ti.com>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Nikhil Devshatwar <nikhil.nd@ti.com>,
-        Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-        Vignesh Raghavendra <vigneshr@ti.com>,
-        Benoit Parrot <bparrot@ti.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Niklas =?utf-8?Q?S=C3=B6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org
-Subject: Re: [PATCH v5 09/14] media: cadence: csi2rx: Add link validation
-Message-ID: <Yc05yD/P/UQlSG8B@pendragon.ideasonboard.com>
-References: <20211223191615.17803-1-p.yadav@ti.com>
- <20211223191615.17803-10-p.yadav@ti.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20211223191615.17803-10-p.yadav@ti.com>
+        Thu, 30 Dec 2021 00:44:24 -0500
+X-KPN-MessageId: 605acad9-6933-11ec-8a6e-005056ab378f
+Received: from smtp.kpnmail.nl (unknown [10.31.155.40])
+        by ewsoutbound.so.kpn.org (Halon) with ESMTPS
+        id 605acad9-6933-11ec-8a6e-005056ab378f;
+        Thu, 30 Dec 2021 06:43:12 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=xs4all.nl; s=xs4all01;
+        h=subject:to:from:date:message-id;
+        bh=mWV7BYIHdhnoJabh+/RTRHNyLYvTTexdfTzpj6G9bCg=;
+        b=saqCweMOEIJPxTVqajhL+C8eoOe4Bv3pDSzMvlZ6u4XXl2Nlbx0tufgw1+m851+IvX9e2GC4JxKai
+         9y8ymkh7rEzGbmvkTn1z+HQtCtmXzzFZ5mk1ZBHry4M0EW6UYPBcw60LUprpHyI0pCd/pwjskFYgfp
+         +BdKndQUFMIEVRU92cxyLORPIyr5jg8k1gXUnVjhpKZ7iWn1pT1CW6B+282yadvA/iQfKlzjcyp0aj
+         i401Ahsav2VOO77bNuJ8NpOBUbyUfwFlymu3kZG9P+m9Ut1N1pnhLR7jImFjLz0o/1ghEV25ZyDprg
+         VAZbNckwMZ5q2Up9qgqgXWncM5V3OzA==
+Message-ID: <888ea109-6933-11ec-b76f-005056ab7584@smtp.kpnmail.nl>
+X-KPN-VerifiedSender: Yes
+X-CMASSUN: 33|P6TfUawqXamzEXjwIT3hI8+2+UruFtVh8pxujCrzABpe+typanheg16zvdBdlPN
+ W5wca2UTITEs8BfG/F39+sA==
+X-Originating-IP: 80.101.105.217
+Received: from localhost (marune.xs4all.nl [80.101.105.217])
+        by smtp.xs4all.nl (Halon) with ESMTPSA
+        id 885ce940-6933-11ec-b76f-005056ab7584;
+        Thu, 30 Dec 2021 06:44:19 +0100 (CET)
+Date:   Thu, 30 Dec 2021 06:44:19 +0100
+From:   "Hans Verkuil" <hverkuil@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: WARNINGS
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Pratyush,
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
 
-Thank you for the patch.
+Results of the daily build of media_tree:
 
-On Fri, Dec 24, 2021 at 12:46:10AM +0530, Pratyush Yadav wrote:
-> Add media link validation to make sure incorrectly configured pipelines
-> are caught. Since there is no support for transcoding, rely on the
-> default link validation function to make sure formats across source and
-> sink pads are the same.
+date:			Thu Dec 30 05:00:10 CET 2021
+media-tree git hash:	68b9bcc8a534cd11fe55f8bc82f948aae7d81b3c
+media_build git hash:	2fa76ec062aeaf93b647edbad1dd606e49fca4b3
+v4l-utils git hash:	d4b7017466a9f0d7603404629e8248c66007bfb9
+edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
+gcc version:		i686-linux-gcc (GCC) 11.2.0
+sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
+sparse version:		v0.6.3-349-gb21d5e09
+smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
+smatch version:		v0.5.0-7537-ga9e379d05
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: 113d52660b1fa16141bccb95d4bdbd2a4bd90d26
+host hardware:		x86_64
+host os:		5.15.0-2-amd64
 
-I think the commit message is a bit misleading. The default link
-validation function ensures that formats on the source and sink sides of
-a link match. It doesn't compare the formats on the sink and source pads
-of the subdev. Whether the subdev can transcode or not is thus not
-relevant here.
+linux-git-sh: OK
+linux-git-arm-at91: OK
+linux-git-arm-davinci: OK
+linux-git-mips: OK
+linux-git-arm-stm32: OK
+linux-git-arm-pxa: OK
+linux-git-arm-multi: OK
+linux-git-arm64: OK
+linux-git-powerpc64: OK
+linux-git-i686: OK
+linux-git-x86_64: OK
+Check COMPILE_TEST: OK
+Check for strcpy/strncpy/strlcpy: OK
+linux-4.4.283-i686: OK
+linux-4.4.283-x86_64: OK
+linux-4.5.7-i686: OK
+linux-4.5.7-x86_64: OK
+linux-4.6.7-i686: OK
+linux-4.6.7-x86_64: OK
+linux-4.7.10-i686: OK
+linux-4.7.10-x86_64: OK
+linux-4.8.17-i686: OK
+linux-4.8.17-x86_64: OK
+linux-4.9.246-i686: OK
+linux-4.9.246-x86_64: OK
+linux-4.10.17-i686: OK
+linux-4.10.17-x86_64: OK
+linux-4.11.12-i686: OK
+linux-4.11.12-x86_64: OK
+linux-4.12.14-i686: OK
+linux-4.12.14-x86_64: OK
+linux-4.13.16-i686: OK
+linux-4.13.16-x86_64: OK
+linux-4.14.246-i686: OK
+linux-4.14.246-x86_64: OK
+linux-4.15.18-i686: OK
+linux-4.15.18-x86_64: OK
+linux-4.16.18-i686: OK
+linux-4.16.18-x86_64: OK
+linux-4.17.19-i686: OK
+linux-4.17.19-x86_64: OK
+linux-4.18.20-i686: OK
+linux-4.18.20-x86_64: OK
+linux-4.19.206-i686: OK
+linux-4.19.206-x86_64: OK
+linux-4.20.17-i686: OK
+linux-4.20.17-x86_64: OK
+linux-5.0.21-i686: OK
+linux-5.0.21-x86_64: OK
+linux-5.1.21-i686: OK
+linux-5.1.21-x86_64: OK
+linux-5.2.21-i686: OK
+linux-5.2.21-x86_64: OK
+linux-5.3.18-i686: OK
+linux-5.3.18-x86_64: OK
+linux-5.4.144-i686: OK
+linux-5.4.144-x86_64: OK
+linux-5.5.19-i686: OK
+linux-5.5.19-x86_64: OK
+linux-5.6.19-i686: OK
+linux-5.6.19-x86_64: OK
+linux-5.7.19-i686: OK
+linux-5.7.19-x86_64: OK
+linux-5.8.18-i686: OK
+linux-5.8.18-x86_64: OK
+linux-5.9.16-i686: OK
+linux-5.9.16-x86_64: OK
+linux-5.10.62-i686: OK
+linux-5.10.62-x86_64: OK
+linux-5.11.22-i686: OK
+linux-5.11.22-x86_64: OK
+linux-5.12.19-i686: OK
+linux-5.12.19-x86_64: OK
+linux-5.13.14-i686: OK
+linux-5.13.14-x86_64: OK
+linux-5.14.1-i686: OK
+linux-5.14.1-x86_64: OK
+linux-5.15.1-i686: OK
+linux-5.15.1-x86_64: OK
+linux-5.16-rc1-i686: OK
+linux-5.16-rc1-x86_64: OK
+apps: OK
+spec-git: OK
+virtme: OK: Final Summary: 2989, Succeeded: 2989, Failed: 0, Warnings: 0
+virtme-32: OK: Final Summary: 3100, Succeeded: 3100, Failed: 0, Warnings: 0
+sparse: WARNINGS
+smatch: WARNINGS
+kerneldoc: WARNINGS
 
-> Signed-off-by: Pratyush Yadav <p.yadav@ti.com>
-> 
-> ---
-> 
-> Changes in v5:
-> - New in v5.
-> 
->  drivers/media/platform/cadence/cdns-csi2rx.c | 5 +++++
->  1 file changed, 5 insertions(+)
-> 
-> diff --git a/drivers/media/platform/cadence/cdns-csi2rx.c b/drivers/media/platform/cadence/cdns-csi2rx.c
-> index 53659776a906..119c7540c75a 100644
-> --- a/drivers/media/platform/cadence/cdns-csi2rx.c
-> +++ b/drivers/media/platform/cadence/cdns-csi2rx.c
-> @@ -492,6 +492,10 @@ static const struct v4l2_subdev_ops csi2rx_subdev_ops = {
->  	.pad		= &csi2rx_pad_ops,
->  };
->  
-> +static struct media_entity_operations csi2rx_media_ops = {
+Detailed results are available here:
 
-static const
+http://www.xs4all.nl/~hverkuil/logs/Thursday.log
 
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Detailed regression test results are available here:
 
-> +	.link_validate = v4l2_subdev_link_validate,
-> +};
-> +
->  static int csi2rx_async_bound(struct v4l2_async_notifier *notifier,
->  			      struct v4l2_subdev *s_subdev,
->  			      struct v4l2_async_subdev *asd)
-> @@ -691,6 +695,7 @@ static int csi2rx_probe(struct platform_device *pdev)
->  	for (i = CSI2RX_PAD_SOURCE_STREAM0; i < CSI2RX_PAD_MAX; i++)
->  		csi2rx->pads[i].flags = MEDIA_PAD_FL_SOURCE;
->  	csi2rx->subdev.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE;
-> +	csi2rx->subdev.entity.ops = &csi2rx_media_ops;
->  
->  	ret = media_entity_pads_init(&csi2rx->subdev.entity, CSI2RX_PAD_MAX,
->  				     csi2rx->pads);
+http://www.xs4all.nl/~hverkuil/logs/Thursday-test-media.log
+http://www.xs4all.nl/~hverkuil/logs/Thursday-test-media-32.log
+http://www.xs4all.nl/~hverkuil/logs/Thursday-test-media-dmesg.log
 
--- 
-Regards,
+Full logs are available here:
 
-Laurent Pinchart
+http://www.xs4all.nl/~hverkuil/logs/Thursday.tar.bz2
+
+The Media Infrastructure API from this daily build is here:
+
+http://www.xs4all.nl/~hverkuil/spec/index.html
