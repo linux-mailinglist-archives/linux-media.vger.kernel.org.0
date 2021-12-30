@@ -2,65 +2,109 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5E50C481CB8
-	for <lists+linux-media@lfdr.de>; Thu, 30 Dec 2021 15:04:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6E47E481D03
+	for <lists+linux-media@lfdr.de>; Thu, 30 Dec 2021 15:26:58 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239763AbhL3OEJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 30 Dec 2021 09:04:09 -0500
-Received: from mail-il1-f200.google.com ([209.85.166.200]:55240 "EHLO
-        mail-il1-f200.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234801AbhL3OEJ (ORCPT
+        id S240000AbhL3O04 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 30 Dec 2021 09:26:56 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38742 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S239988AbhL3O0y (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 30 Dec 2021 09:04:09 -0500
-Received: by mail-il1-f200.google.com with SMTP id g14-20020a92c7ce000000b002b1e78da1f9so14417211ilk.21
-        for <linux-media@vger.kernel.org>; Thu, 30 Dec 2021 06:04:09 -0800 (PST)
+        Thu, 30 Dec 2021 09:26:54 -0500
+Received: from mail-lf1-x12b.google.com (mail-lf1-x12b.google.com [IPv6:2a00:1450:4864:20::12b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4D0D2C061574;
+        Thu, 30 Dec 2021 06:26:54 -0800 (PST)
+Received: by mail-lf1-x12b.google.com with SMTP id h7so10222170lfu.4;
+        Thu, 30 Dec 2021 06:26:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=+tf4nBFZgti+nl0o1bJRk3qvXgnYx/HTJhgteUE1QXw=;
+        b=gH9FQ3nysBpaf6G5Z0BPfhrqQtpn+qTmTd9UB7DUm+POlRm9S/SWcJhtT6sWg8x5VG
+         5wF/wNm7rAkcswm9tYQ+CR7jZhIoTCyvDYLB7k3A7y1VmhocDh4hpQHOMgOns1Zs2jEp
+         a8xCGzZH9LvUYy31L0ngkPTIni39sm99s1tDL2lPqEJYEMz/R72swz7s82+NAfYC3Y2n
+         ZwN8MwlCkUqzY6M3n5PPQRrVfnVFwAL180ELTGvhAOdIpyXLvNDrhQN8zc6co8nNtpIC
+         3HzPMQFQk6TgJ+rS48DAfXKP2meFfw6HhUdjPeaS2dPj9EChx7KhfBUwex5IrnrVLfyx
+         UFsw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:date:in-reply-to:message-id:subject
-         :from:to;
-        bh=CLxA5XglfnNoz85p0aOYmSifVXQKJleW9SZsti4LBwI=;
-        b=t6ZFfjaKFqliXjb+McayT2HEvA0Mf4AVhKg2m4LPn0YghIO0q68HW0SHe2XGaIbbux
-         WcPV3GTZPvYFdzzXJoL7MkamHTaUVIc70jZb4F4gpEXlxamTH5Y4Z+NjYu4PU0HuqfBX
-         BEIgSQUfsh7ZzKrm6Q3K47Q9DOu/XtQx/jR18r/9MNpQiHYbilGhZTO8dZlFDsxAyvLN
-         M2jKWakU6LSjuZ7hchsSSsd32WV2dxV7GHhLZn8ZhU95yJIBjplAkw7FsF7QCiokg6s+
-         BAJGbDO9XqZIo1Pt6sL2hLYvIkmaLuwpHRs5Sm3ybwDsgysCmxP8BcMKqzX3aocWzLkk
-         CJKQ==
-X-Gm-Message-State: AOAM533dN19HPg4NPkLF2eTyq6g0S/2O3w8uSDjR4yA8f3RfECxqawVN
-        JRjlEqwF6hAfH7LXh6f2sgCsdCUxZgvY8RKT4i0H+BdBgiDR
-X-Google-Smtp-Source: ABdhPJx785tpqTHluOUoVroCRBPCP9AP06uygyiu8dMzkdRIbJk8+L32zGswOmo6KPDk/Bzwg41q3078PRkKkjGBHDoJUHfy5SA9
-MIME-Version: 1.0
-X-Received: by 2002:a02:9108:: with SMTP id a8mr9685404jag.284.1640873048481;
- Thu, 30 Dec 2021 06:04:08 -0800 (PST)
-Date:   Thu, 30 Dec 2021 06:04:08 -0800
-In-Reply-To: <83bf58b6-ace2-2db8-4f8b-322e78a3e198@gmail.com>
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <0000000000002d250205d45d87d6@google.com>
-Subject: Re: [syzbot] general protection fault in sg_alloc_append_table_from_pages
-From:   syzbot <syzbot+2c56b725ec547fa9cb29@syzkaller.appspotmail.com>
-To:     christian.koenig@amd.com, dri-devel@lists.freedesktop.org,
-        gurchetansingh@chromium.org, kraxel@redhat.com,
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=+tf4nBFZgti+nl0o1bJRk3qvXgnYx/HTJhgteUE1QXw=;
+        b=yYBJ9nwuCtOI3D27mvCuXbVH49RTT21amLxGzKi0JprPsoZ+aSB8pDbGr4ZOhC7Zad
+         xHxjOLNyl8YrnoEqfZ7j/4he1kc51mxIKvrzog8kUumNj8x4LqYH4hmZ2LLpulwMynoq
+         6omXtDqUETRjD42Dj7QAx+vh9Mh9VAsq2ltoub3I66Xw9KQwOcAdbla8RQJdUwsNzS0m
+         /PhJCXbafDQ2TE3O9ofsLCqb38glL7q0HK2URq4AGyfzllc27y2xIlURwDlDzIXwN+aK
+         aZhEr3wsOdPs+mrP7EqklQDSZ5VyEnj1ceyJqwqwQqPTN85t4gprXSEIbiwkuMJVTnw1
+         8RMQ==
+X-Gm-Message-State: AOAM530XCBXzGtFvHrrVcuocxLm/VA58+7q4bPRcqU5e6qyigYrpuMrT
+        Y1p52dqHvnS2VNRDe/+KagQ=
+X-Google-Smtp-Source: ABdhPJxxcwPDUWvaddgiXQGl/eGIsXz0jw20BcLQgPCKVg4rWRtMVdGV8LZ3Vvbkd2/qzkOSH5LouA==
+X-Received: by 2002:ac2:52a3:: with SMTP id r3mr28192890lfm.580.1640874412548;
+        Thu, 30 Dec 2021 06:26:52 -0800 (PST)
+Received: from localhost.localdomain ([94.103.235.97])
+        by smtp.gmail.com with ESMTPSA id v27sm2510259lfo.97.2021.12.30.06.26.51
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 30 Dec 2021 06:26:52 -0800 (PST)
+From:   Pavel Skripkin <paskripkin@gmail.com>
+To:     kraxel@redhat.com, sumit.semwal@linaro.org,
+        christian.koenig@amd.com, daniel.vetter@ffwll.ch
+Cc:     dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
         linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, paskripkin@gmail.com,
-        sumit.semwal@linaro.org, syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+        Pavel Skripkin <paskripkin@gmail.com>,
+        syzbot+2c56b725ec547fa9cb29@syzkaller.appspotmail.com
+Subject: [PATCH] udmabuf: validate ubuf->pagecount
+Date:   Thu, 30 Dec 2021 17:26:49 +0300
+Message-Id: <20211230142649.23022-1-paskripkin@gmail.com>
+X-Mailer: git-send-email 2.34.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hello,
+Syzbot has reported GPF in sg_alloc_append_table_from_pages(). The
+problem was in ubuf->pages == ZERO_PTR.
 
-syzbot has tested the proposed patch and the reproducer did not trigger any issue:
+ubuf->pagecount is calculated from arguments passed from user-space. If
+user creates udmabuf with list.size == 0 then ubuf->pagecount will be
+also equal to zero; it causes kmalloc_array() to return ZERO_PTR.
 
+Fix it by validating ubuf->pagecount before passing it to
+kmalloc_array().
+
+Fixes: fbb0de795078 ("Add udmabuf misc device")
 Reported-and-tested-by: syzbot+2c56b725ec547fa9cb29@syzkaller.appspotmail.com
+Signed-off-by: Pavel Skripkin <paskripkin@gmail.com>
+---
 
-Tested on:
+Happy New Year and Merry Christmas! :)
 
-commit:         eec4df26 Merge tag 's390-5.16-6' of git://git.kernel.o..
-git tree:       upstream
-kernel config:  https://syzkaller.appspot.com/x/.config?x=1bce7595e2f1eaf8
-dashboard link: https://syzkaller.appspot.com/bug?extid=2c56b725ec547fa9cb29
-compiler:       gcc (Debian 10.2.1-6) 10.2.1 20210110, GNU ld (GNU Binutils for Debian) 2.35.2
-patch:          https://syzkaller.appspot.com/x/patch.diff?x=14fe2f47b00000
 
-Note: testing is done by a robot and is best-effort only.
+With regards,
+Pavel Skripkin
+
+---
+ drivers/dma-buf/udmabuf.c | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+diff --git a/drivers/dma-buf/udmabuf.c b/drivers/dma-buf/udmabuf.c
+index c57a609db75b..e7330684d3b8 100644
+--- a/drivers/dma-buf/udmabuf.c
++++ b/drivers/dma-buf/udmabuf.c
+@@ -190,6 +190,10 @@ static long udmabuf_create(struct miscdevice *device,
+ 		if (ubuf->pagecount > pglimit)
+ 			goto err;
+ 	}
++
++	if (!ubuf->pagecount)
++		goto err;
++
+ 	ubuf->pages = kmalloc_array(ubuf->pagecount, sizeof(*ubuf->pages),
+ 				    GFP_KERNEL);
+ 	if (!ubuf->pages) {
+-- 
+2.34.1
+
