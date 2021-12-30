@@ -2,206 +2,128 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0F6FC481C1E
-	for <lists+linux-media@lfdr.de>; Thu, 30 Dec 2021 13:34:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3E486481CA7
+	for <lists+linux-media@lfdr.de>; Thu, 30 Dec 2021 14:53:28 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239331AbhL3Meu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 30 Dec 2021 07:34:50 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42274 "EHLO
+        id S239728AbhL3Nx1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 30 Dec 2021 08:53:27 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59596 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239200AbhL3Met (ORCPT
+        with ESMTP id S235821AbhL3Nx0 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 30 Dec 2021 07:34:49 -0500
-Received: from mail-ed1-x535.google.com (mail-ed1-x535.google.com [IPv6:2a00:1450:4864:20::535])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4C0A1C061574
-        for <linux-media@vger.kernel.org>; Thu, 30 Dec 2021 04:34:49 -0800 (PST)
-Received: by mail-ed1-x535.google.com with SMTP id j21so97479461edt.9
-        for <linux-media@vger.kernel.org>; Thu, 30 Dec 2021 04:34:49 -0800 (PST)
+        Thu, 30 Dec 2021 08:53:26 -0500
+Received: from mail-lf1-x12e.google.com (mail-lf1-x12e.google.com [IPv6:2a00:1450:4864:20::12e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2C3B6C061574;
+        Thu, 30 Dec 2021 05:53:26 -0800 (PST)
+Received: by mail-lf1-x12e.google.com with SMTP id u13so54510948lff.12;
+        Thu, 30 Dec 2021 05:53:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ragnatech-se.20210112.gappssmtp.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=7QMAbInQWbhdL1E+VTSWG9korXtCZ6MuxVQuJfwgF3c=;
-        b=AkSItWLccvNn24tFuxlyVWyM4dznvns4GQO+o/s/573FIurTAJIjUpqAoe/dxcv+pC
-         JB1sfAf0H4gLInAhKMcaXJ9sH54hgVea/Hd9oJsQSd3GhodvQXJ+6IytFAtBQwArmj6F
-         suMg71uW2iGCmSHXYKZduEcQqfWHs53uDEgLFYNbCaDF5aUhDCImd+EiMGLgWpScDJLW
-         MA7k3jJQ80Gp4FaN37Gw9ENiJu4PpA4Xfg655MfO/51dBWysla/+csS1EXC9MOEujkzC
-         C3T9sVtwq4NhKWir7Abj0TEHYQYtNQNESy31c7q5a9SVzyHRolT1vYdth1RJ5NQR/n84
-         lGHQ==
+        d=gmail.com; s=20210112;
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :references:from:in-reply-to;
+        bh=OTSybf/FehI6pYOln3P9eF9NWxZwb34ljQ3EhfbORfY=;
+        b=dVlRNmU91czZpmVfSBFodQPJyUm7fPAk9/SKokWAHQBr/mqCFDsQ/8CPrIqIuY+yzs
+         7EM082dH5CFiVciaNy2eab6C38Y3gmViomkTIC9i0N8OFtYir1oXkGgFZ/IbPKevSrH4
+         RJO7gzqdZb70khUL3IwucXOj0gL9oh7FIJX6IyUzckvlg+lO8+pCNmlXDy+iRlgatyAx
+         eNn8GsaFho2S6zdHS8xGcPEwU8GOCzIRhPkNUzZTQqv+YA2NjZGWKBgaCffDnGjfZuHF
+         dJMpcAk4t3KSTukWvptRb7BTiuC3PX80VlU0nXKUCtXRWk/j1iXjOrvprGjPzUf1+cCr
+         /5/w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=7QMAbInQWbhdL1E+VTSWG9korXtCZ6MuxVQuJfwgF3c=;
-        b=W0IMIbRa9QthdF15H+kagksVybD12NdsCg7b44hWOlE27azVx1CcqVnXBA86qLFNPW
-         MjzTZoSeMVaLTRsJ5s06WQT5Dxy0qDXAuVn6Lg54WNgRJLQa9FPCyNKOYzw5EP8TFLwG
-         gnTLduL8CyTsuMvs4avsh+bjZqAlaAqo1PwBJZBitzG5U5nFsUk8Le0/751jdlCg5inV
-         NoZsa27b3vrCVaxq+YcSAJh6RPCiKQsZ+bIU+2zlXjnFmvzEZZbNX0gsuXUSIsRrvsU8
-         CEnnMwMD+oWVWRqEFEzKBLCJ/1qlGKk6GM+JFffm1g+n0j4PGRl4KK0gLNu6Bjf22Pfr
-         B/Dw==
-X-Gm-Message-State: AOAM531A6xRvLufE54Gh0hF9ENE6Db+n67vvgba1WNsXFsuebIUmRXNt
-        LdYc/ZseWhKhS5EmCkEWvMF50A==
-X-Google-Smtp-Source: ABdhPJzRFuexvkjov6vVpqH/XtDVbbJxBNRBucQxsWwpIGPZbl170Nm6YMPoQ0sTGu9dp+RMAd/wwQ==
-X-Received: by 2002:a05:6402:42d5:: with SMTP id i21mr30081570edc.27.1640867687683;
-        Thu, 30 Dec 2021 04:34:47 -0800 (PST)
-Received: from localhost.localdomain ([185.224.57.161])
-        by smtp.googlemail.com with ESMTPSA id sb10sm7593634ejc.121.2021.12.30.04.34.46
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 30 Dec 2021 04:34:47 -0800 (PST)
-From:   =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>
-To:     Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org,
-        linux-media@vger.kernel.org
-Cc:     linux-renesas-soc@vger.kernel.org,
-        =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-Subject: [PATCH v3] dt-bindings: i2c: maxim,max96712: Add bindings for Maxim Integrated MAX96712
-Date:   Thu, 30 Dec 2021 13:33:54 +0100
-Message-Id: <20211230123354.623876-1-niklas.soderlund+renesas@ragnatech.se>
-X-Mailer: git-send-email 2.34.1
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:references:from:in-reply-to;
+        bh=OTSybf/FehI6pYOln3P9eF9NWxZwb34ljQ3EhfbORfY=;
+        b=NkLgCVHkYap6v/tNIQYInOH0XtpsTKAsatRmoeO3cNPfijnIC/wLJwVp5ZnybpRNXT
+         uxZnbSXCohUYLsbIQzg+O6EWE51JuU1Bbes7jUjfeSbGFOANo16CKoQf7hLHHoRCrlEi
+         6cf3ooRNp1lO2CCuCKUkO7ybr4nIrhlm3mC3loe0iIbIHtmfFYeKVj0LWfgy4Cbhs2Ky
+         RGzNkwGV+11aHpErvuv4VANgtClCIKyMq6k9+xUq5uBpLHShjpG4QZWxfnw+SQRuzBMu
+         agwARYQf0ZcVmmCbD2PzPRyrO6nOQlPvrKLFDXryavFcKzoo2D6VfvXknSe/TiTdqUOc
+         ymmQ==
+X-Gm-Message-State: AOAM531qM6Z8qjL9ghmCdDoKfxQYTc5cag/qGbwv39UiUN/XMuiABb/I
+        nlFdnrMqqkGDzFzZvbe9WY4=
+X-Google-Smtp-Source: ABdhPJzhYhe9+iV9lTrCPZXRK8GG575ZUASfEQaxOXdr+TjG+93c5iKi1GDwVUnRQE2jwCHvlE4ydw==
+X-Received: by 2002:a05:6512:2216:: with SMTP id h22mr26787332lfu.155.1640872404331;
+        Thu, 30 Dec 2021 05:53:24 -0800 (PST)
+Received: from [192.168.1.11] ([94.103.235.97])
+        by smtp.gmail.com with ESMTPSA id by6sm1346843ljb.78.2021.12.30.05.53.23
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 30 Dec 2021 05:53:23 -0800 (PST)
+Content-Type: multipart/mixed; boundary="------------dCX0IlaUbMjKeidKwYkueUP0"
+Message-ID: <83bf58b6-ace2-2db8-4f8b-322e78a3e198@gmail.com>
+Date:   Thu, 30 Dec 2021 16:53:21 +0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.4.1
+Subject: Re: [syzbot] general protection fault in
+ sg_alloc_append_table_from_pages
+Content-Language: en-US
+To:     syzbot <syzbot+2c56b725ec547fa9cb29@syzkaller.appspotmail.com>,
+        christian.koenig@amd.com, dri-devel@lists.freedesktop.org,
+        gurchetansingh@chromium.org, kraxel@redhat.com,
+        linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org, sumit.semwal@linaro.org,
+        syzkaller-bugs@googlegroups.com
+References: <000000000000b0a1a605ce3ec5ad@google.com>
+From:   Pavel Skripkin <paskripkin@gmail.com>
+In-Reply-To: <000000000000b0a1a605ce3ec5ad@google.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Add bindings for Maxim Integrated MAX96712 deserializer. The MAX96712
-deserializer converts GMSL2 or GMSL1 serial inputs into MIPI CSI-2 D-PHY
-or C-PHY formatted outputs.
+This is a multi-part message in MIME format.
+--------------dCX0IlaUbMjKeidKwYkueUP0
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
----
-* Changes since v1
-- Fixed spelling in binding description.
-- Drop 'staging' per Rob's suggestion.
+On 10/13/21 19:51, syzbot wrote:
+> Hello,
+> 
+> syzbot found the following issue on:
+> 
+> HEAD commit:    717478d89fe2 Merge tag 'riscv-for-linus-5.15-rc5' of git:/..
+> git tree:       upstream
+> console output: https://syzkaller.appspot.com/x/log.txt?x=12489abf300000
+> kernel config:  https://syzkaller.appspot.com/x/.config?x=32e6048063923b7b
+> dashboard link: https://syzkaller.appspot.com/bug?extid=2c56b725ec547fa9cb29
+> compiler:       gcc (Debian 10.2.1-6) 10.2.1 20210110, GNU ld (GNU Binutils for Debian) 2.35.2
+> syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=167b9e4f300000
+> 
+> The issue was bisected to:
+> 
+> commit 284562e1f34874e267d4f499362c3816f8f6bc3f
+> Author: Gurchetan Singh <gurchetansingh@chromium.org>
+> Date:   Tue Dec 3 01:36:27 2019 +0000
+> 
+>      udmabuf: implement begin_cpu_access/end_cpu_access hooks
+> 
+> bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=12d68447300000
+> final oops:     https://syzkaller.appspot.com/x/report.txt?x=11d68447300000
+> console output: https://syzkaller.appspot.com/x/log.txt?x=16d68447300000
+> 
 
-* Changes since v2
-- Fix the $id file path.
----
- .../bindings/media/i2c/maxim,max96712.yaml    | 111 ++++++++++++++++++
- 1 file changed, 111 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/media/i2c/maxim,max96712.yaml
+zero ubuf->pagecount will cause kmalloc_array() to return ZERO_PTR, that 
+is unsafe to deref
 
-diff --git a/Documentation/devicetree/bindings/media/i2c/maxim,max96712.yaml b/Documentation/devicetree/bindings/media/i2c/maxim,max96712.yaml
-new file mode 100644
-index 0000000000000000..444f24838d3d8992
---- /dev/null
-+++ b/Documentation/devicetree/bindings/media/i2c/maxim,max96712.yaml
-@@ -0,0 +1,111 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+# Copyright (C) 2021 Renesas Electronics Corp.
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/media/i2c/maxim,max96712.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Quad GMSL2 to CSI-2 Deserializer with GMSL1 Compatibility
-+
-+maintainers:
-+  - Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-+
-+description: |
-+  The MAX96712 deserializer converts GMSL2 or GMSL1 serial inputs into MIPI
-+  CSI-2 D-PHY or C-PHY formatted outputs. The device allows each link to
-+  simultaneously transmit bidirectional control-channel data while forward
-+  video transmissions are in progress. The MAX96712 can accommodate as many as
-+  four remotely located sensors using industry-standard coax or STP
-+  interconnects.
-+
-+  Each GMSL2 serial link operates at a fixed rate of 3Gbps or 6Gbps in the
-+  forward direction and 187.5Mbps in the reverse direction. In GMSL1 mode, the
-+  MAX96712 can be paired with first-generation 3.12Gbps or 1.5Gbps GMSL1
-+  serializers or operate up to 3.12Gbps with GMSL2 serializers in GMSL1 mode.
-+
-+properties:
-+  compatible:
-+    const: maxim,max96712
-+
-+  reg:
-+    description: I2C device address
-+    maxItems: 1
-+
-+  enable-gpios: true
-+
-+  ports:
-+    $ref: /schemas/graph.yaml#/properties/ports
-+
-+    properties:
-+      port@0:
-+        $ref: /schemas/graph.yaml#/properties/port
-+        description: GMSL Input 0
-+
-+      port@1:
-+        $ref: /schemas/graph.yaml#/properties/port
-+        description: GMSL Input 1
-+
-+      port@2:
-+        $ref: /schemas/graph.yaml#/properties/port
-+        description: GMSL Input 2
-+
-+      port@3:
-+        $ref: /schemas/graph.yaml#/properties/port
-+        description: GMSL Input 3
-+
-+      port@4:
-+        $ref: /schemas/graph.yaml#/$defs/port-base
-+        unevaluatedProperties: false
-+        description: CSI-2 Output
-+
-+        properties:
-+          endpoint:
-+            $ref: /schemas/media/video-interfaces.yaml#
-+            unevaluatedProperties: false
-+
-+            properties:
-+              data-lanes: true
-+
-+            required:
-+              - data-lanes
-+
-+    required:
-+      - port@4
-+
-+required:
-+  - compatible
-+  - reg
-+  - ports
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+    #include <dt-bindings/gpio/gpio.h>
-+
-+    i2c@e6508000 {
-+            #address-cells = <1>;
-+            #size-cells = <0>;
-+
-+            reg = <0 0xe6508000>;
-+
-+            gmsl0: gmsl-deserializer@49 {
-+                    compatible = "maxim,max96712";
-+                    reg = <0x49>;
-+                    enable-gpios = <&pca9654_a 0 GPIO_ACTIVE_HIGH>;
-+
-+                    ports {
-+                            #address-cells = <1>;
-+                            #size-cells = <0>;
-+
-+                            port@4 {
-+                                    reg = <4>;
-+                                    max96712_out0: endpoint {
-+                                            clock-lanes = <0>;
-+                                            data-lanes = <1 2 3 4>;
-+                                            remote-endpoint = <&csi40_in>;
-+                                    };
-+                            };
-+                    };
-+            };
-+    };
--- 
-2.34.1
+#syz test
+git://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 
+
+
+With regards,
+Pavel Skripkin
+--------------dCX0IlaUbMjKeidKwYkueUP0
+Content-Type: text/plain; charset=UTF-8; name="ph"
+Content-Disposition: attachment; filename="ph"
+Content-Transfer-Encoding: base64
+
+ZGlmZiAtLWdpdCBhL2RyaXZlcnMvZG1hLWJ1Zi91ZG1hYnVmLmMgYi9kcml2ZXJzL2RtYS1i
+dWYvdWRtYWJ1Zi5jCmluZGV4IGM1N2E2MDlkYjc1Yi4uZTczMzA2ODRkM2I4IDEwMDY0NAot
+LS0gYS9kcml2ZXJzL2RtYS1idWYvdWRtYWJ1Zi5jCisrKyBiL2RyaXZlcnMvZG1hLWJ1Zi91
+ZG1hYnVmLmMKQEAgLTE5MCw2ICsxOTAsMTAgQEAgc3RhdGljIGxvbmcgdWRtYWJ1Zl9jcmVh
+dGUoc3RydWN0IG1pc2NkZXZpY2UgKmRldmljZSwKIAkJaWYgKHVidWYtPnBhZ2Vjb3VudCA+
+IHBnbGltaXQpCiAJCQlnb3RvIGVycjsKIAl9CisKKwlpZiAoIXVidWYtPnBhZ2Vjb3VudCkK
+KwkJZ290byBlcnI7CisKIAl1YnVmLT5wYWdlcyA9IGttYWxsb2NfYXJyYXkodWJ1Zi0+cGFn
+ZWNvdW50LCBzaXplb2YoKnVidWYtPnBhZ2VzKSwKIAkJCQkgICAgR0ZQX0tFUk5FTCk7CiAJ
+aWYgKCF1YnVmLT5wYWdlcykgewo=
+
+--------------dCX0IlaUbMjKeidKwYkueUP0--
