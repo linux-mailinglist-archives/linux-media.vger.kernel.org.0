@@ -2,145 +2,206 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BE4F7481C17
-	for <lists+linux-media@lfdr.de>; Thu, 30 Dec 2021 13:33:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0F6FC481C1E
+	for <lists+linux-media@lfdr.de>; Thu, 30 Dec 2021 13:34:51 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239312AbhL3MdZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 30 Dec 2021 07:33:25 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41960 "EHLO
+        id S239331AbhL3Meu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 30 Dec 2021 07:34:50 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42274 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233745AbhL3MdZ (ORCPT
+        with ESMTP id S239200AbhL3Met (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 30 Dec 2021 07:33:25 -0500
-Received: from mail-yb1-xb33.google.com (mail-yb1-xb33.google.com [IPv6:2607:f8b0:4864:20::b33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EF0BAC061574;
-        Thu, 30 Dec 2021 04:33:24 -0800 (PST)
-Received: by mail-yb1-xb33.google.com with SMTP id e202so29070712ybf.4;
-        Thu, 30 Dec 2021 04:33:24 -0800 (PST)
+        Thu, 30 Dec 2021 07:34:49 -0500
+Received: from mail-ed1-x535.google.com (mail-ed1-x535.google.com [IPv6:2a00:1450:4864:20::535])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4C0A1C061574
+        for <linux-media@vger.kernel.org>; Thu, 30 Dec 2021 04:34:49 -0800 (PST)
+Received: by mail-ed1-x535.google.com with SMTP id j21so97479461edt.9
+        for <linux-media@vger.kernel.org>; Thu, 30 Dec 2021 04:34:49 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=vAnVuyhDyOqSDpVecpePDGpCLlrsb4u5oVIUyGQIigM=;
-        b=knbtVI06jsv3f7mpLlir2DoX+1gPdzxij/X8LvmrB46KFAEe8rX2cFKqghTrn2bv5R
-         0S/Wy8k62B4TwVwLkoYNks87y6ZorTAwTXJMbJhKFPrIj9/ubNgPCbQg/qZGWMyD/dD+
-         vpc2hKkJXaGCix3lpFMFqLSZ6Ll7nYI5v+X0GbFojHF97Eh5SOB6cmW64VAo5EixnRfg
-         +aQHwG9GhALUZJyGUYW+NFf2vMEQGARzgg/4fefGJJMxjhpOoHrpGHllbYTJIygoP/DZ
-         TUz7zTeE01LQuxQ6sueLmAzSiUdcpaswOmX1bLoEhaS+1YzTPNpN2txhwto106acNuQZ
-         0Ehw==
+        d=ragnatech-se.20210112.gappssmtp.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=7QMAbInQWbhdL1E+VTSWG9korXtCZ6MuxVQuJfwgF3c=;
+        b=AkSItWLccvNn24tFuxlyVWyM4dznvns4GQO+o/s/573FIurTAJIjUpqAoe/dxcv+pC
+         JB1sfAf0H4gLInAhKMcaXJ9sH54hgVea/Hd9oJsQSd3GhodvQXJ+6IytFAtBQwArmj6F
+         suMg71uW2iGCmSHXYKZduEcQqfWHs53uDEgLFYNbCaDF5aUhDCImd+EiMGLgWpScDJLW
+         MA7k3jJQ80Gp4FaN37Gw9ENiJu4PpA4Xfg655MfO/51dBWysla/+csS1EXC9MOEujkzC
+         C3T9sVtwq4NhKWir7Abj0TEHYQYtNQNESy31c7q5a9SVzyHRolT1vYdth1RJ5NQR/n84
+         lGHQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=vAnVuyhDyOqSDpVecpePDGpCLlrsb4u5oVIUyGQIigM=;
-        b=UhAeeAifo69ZZwwXBNKrhFc7H8UpanLkgaHUG1NhDZF8thWbVSfBgDiT4HxEIKhxjM
-         b6JDEgkzbCp0WEyspc29euQAO1Qasyd4hJPyqgqITyCxGeYezU6bai05rZc93pLrFAXy
-         RZ45kzEZ/gch61U/XsZR6+Ya8XgHBfneitgeqaER3bloNpMOv7DDZCe5s1fndVwObsW0
-         CkAYhW+ik2KrV+yiQtm3rPNpVjRjicbBJBuoXLyPP607g164+rOB/IG9bndhUlVSCeyL
-         WxdP1c467lOKRLzqd+lD65Pz6S2ZXfEwrUi+hLeHJff0BUGL7XC2+H6l4oUwADCD9est
-         EkFQ==
-X-Gm-Message-State: AOAM533xrrxxsfNWP38c32eida4dA2wLJjuQMGYhfWSa6degyHXVg0hR
-        mFs7pfUbPKiBrDIPsdfUwcRb3idAwxR8WY6mlceSM1KQWrpxhA==
-X-Google-Smtp-Source: ABdhPJztJjoCSt13eeXjnX/Dry1sgLWNmKKhFDSarqgwEZcaTtCTD+A7t7N4IP25u0VqHiGVCKCaecyMYicCG0uNLiM=
-X-Received: by 2002:a25:7509:: with SMTP id q9mr19566507ybc.315.1640867604209;
- Thu, 30 Dec 2021 04:33:24 -0800 (PST)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=7QMAbInQWbhdL1E+VTSWG9korXtCZ6MuxVQuJfwgF3c=;
+        b=W0IMIbRa9QthdF15H+kagksVybD12NdsCg7b44hWOlE27azVx1CcqVnXBA86qLFNPW
+         MjzTZoSeMVaLTRsJ5s06WQT5Dxy0qDXAuVn6Lg54WNgRJLQa9FPCyNKOYzw5EP8TFLwG
+         gnTLduL8CyTsuMvs4avsh+bjZqAlaAqo1PwBJZBitzG5U5nFsUk8Le0/751jdlCg5inV
+         NoZsa27b3vrCVaxq+YcSAJh6RPCiKQsZ+bIU+2zlXjnFmvzEZZbNX0gsuXUSIsRrvsU8
+         CEnnMwMD+oWVWRqEFEzKBLCJ/1qlGKk6GM+JFffm1g+n0j4PGRl4KK0gLNu6Bjf22Pfr
+         B/Dw==
+X-Gm-Message-State: AOAM531A6xRvLufE54Gh0hF9ENE6Db+n67vvgba1WNsXFsuebIUmRXNt
+        LdYc/ZseWhKhS5EmCkEWvMF50A==
+X-Google-Smtp-Source: ABdhPJzRFuexvkjov6vVpqH/XtDVbbJxBNRBucQxsWwpIGPZbl170Nm6YMPoQ0sTGu9dp+RMAd/wwQ==
+X-Received: by 2002:a05:6402:42d5:: with SMTP id i21mr30081570edc.27.1640867687683;
+        Thu, 30 Dec 2021 04:34:47 -0800 (PST)
+Received: from localhost.localdomain ([185.224.57.161])
+        by smtp.googlemail.com with ESMTPSA id sb10sm7593634ejc.121.2021.12.30.04.34.46
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 30 Dec 2021 04:34:47 -0800 (PST)
+From:   =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>
+To:     Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org,
+        linux-media@vger.kernel.org
+Cc:     linux-renesas-soc@vger.kernel.org,
+        =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Subject: [PATCH v3] dt-bindings: i2c: maxim,max96712: Add bindings for Maxim Integrated MAX96712
+Date:   Thu, 30 Dec 2021 13:33:54 +0100
+Message-Id: <20211230123354.623876-1-niklas.soderlund+renesas@ragnatech.se>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-References: <20211223173015.22251-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20211223173015.22251-2-prabhakar.mahadev-lad.rj@bp.renesas.com> <Ycz4Ba5P1Srx3ALv@pendragon.ideasonboard.com>
-In-Reply-To: <Ycz4Ba5P1Srx3ALv@pendragon.ideasonboard.com>
-From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date:   Thu, 30 Dec 2021 12:32:58 +0000
-Message-ID: <CA+V-a8vQnHH1ZEFRMxRCpB7NziGXz90zULXDJWDZOtTZkA-pJA@mail.gmail.com>
-Subject: Re: [PATCH 01/13] media: vsp1: Use platform_get_irq() to get the interrupt
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        linux-media <linux-media@vger.kernel.org>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Rob Herring <robh+dt@kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Laurent,
+Add bindings for Maxim Integrated MAX96712 deserializer. The MAX96712
+deserializer converts GMSL2 or GMSL1 serial inputs into MIPI CSI-2 D-PHY
+or C-PHY formatted outputs.
 
-Thank you for the review.
+Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+---
+* Changes since v1
+- Fixed spelling in binding description.
+- Drop 'staging' per Rob's suggestion.
 
-On Thu, Dec 30, 2021 at 12:06 AM Laurent Pinchart
-<laurent.pinchart@ideasonboard.com> wrote:
->
-> Hi Prabhakar,
->
-> Thank you for the patch.
->
-> On Thu, Dec 23, 2021 at 05:30:02PM +0000, Lad Prabhakar wrote:
-> > platform_get_resource(pdev, IORESOURCE_IRQ, ..) relies on static
-> > allocation of IRQ resources in DT core code, this causes an issue
-> > when using hierarchical interrupt domains using "interrupts" property
-> > in the node as this bypasses the hierarchical setup and messes up the
-> > irq chaining.
-> >
-> > In preparation for removal of static setup of IRQ resource from DT core
-> > code use platform_get_irq().
-> >
-> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
->
-> Will you get this merged with the whole series, or should I take it in
-> my tree ?
->
-I intend to get this merged with the whole series, just to make sure
-all of them are part of the same release. If there is an issue that's
-OK too.
+* Changes since v2
+- Fix the $id file path.
+---
+ .../bindings/media/i2c/maxim,max96712.yaml    | 111 ++++++++++++++++++
+ 1 file changed, 111 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/media/i2c/maxim,max96712.yaml
 
-> > ---
-> >  drivers/media/platform/vsp1/vsp1_drv.c | 13 +++++--------
-> >  1 file changed, 5 insertions(+), 8 deletions(-)
-> >
-> > diff --git a/drivers/media/platform/vsp1/vsp1_drv.c b/drivers/media/platform/vsp1/vsp1_drv.c
-> > index c9044785b903..bbba91a65a0f 100644
-> > --- a/drivers/media/platform/vsp1/vsp1_drv.c
-> > +++ b/drivers/media/platform/vsp1/vsp1_drv.c
-> > @@ -794,7 +794,6 @@ static int vsp1_probe(struct platform_device *pdev)
-> >  {
-> >       struct vsp1_device *vsp1;
-> >       struct device_node *fcp_node;
-> > -     struct resource *irq;
-> >       unsigned int i;
-> >       int ret;
-> >
-> > @@ -813,14 +812,12 @@ static int vsp1_probe(struct platform_device *pdev)
-> >       if (IS_ERR(vsp1->mmio))
-> >               return PTR_ERR(vsp1->mmio);
-> >
-> > -     irq = platform_get_resource(pdev, IORESOURCE_IRQ, 0);
-> > -     if (!irq) {
-> > -             dev_err(&pdev->dev, "missing IRQ\n");
-> > -             return -EINVAL;
-> > -     }
-> > +     ret = platform_get_irq(pdev, 0);
-> > +     if (ret < 0)
-> > +             return ret;
->
-> I'd use an int irq local variable, but it doesn't matter much. Up to
-> you.
->
-Anyway I plan to post a v2 for this series fixing a couple of comments
-from Andy. Will use a local variable irq then and include your RB tag.
+diff --git a/Documentation/devicetree/bindings/media/i2c/maxim,max96712.yaml b/Documentation/devicetree/bindings/media/i2c/maxim,max96712.yaml
+new file mode 100644
+index 0000000000000000..444f24838d3d8992
+--- /dev/null
++++ b/Documentation/devicetree/bindings/media/i2c/maxim,max96712.yaml
+@@ -0,0 +1,111 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++# Copyright (C) 2021 Renesas Electronics Corp.
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/media/i2c/maxim,max96712.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Quad GMSL2 to CSI-2 Deserializer with GMSL1 Compatibility
++
++maintainers:
++  - Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
++
++description: |
++  The MAX96712 deserializer converts GMSL2 or GMSL1 serial inputs into MIPI
++  CSI-2 D-PHY or C-PHY formatted outputs. The device allows each link to
++  simultaneously transmit bidirectional control-channel data while forward
++  video transmissions are in progress. The MAX96712 can accommodate as many as
++  four remotely located sensors using industry-standard coax or STP
++  interconnects.
++
++  Each GMSL2 serial link operates at a fixed rate of 3Gbps or 6Gbps in the
++  forward direction and 187.5Mbps in the reverse direction. In GMSL1 mode, the
++  MAX96712 can be paired with first-generation 3.12Gbps or 1.5Gbps GMSL1
++  serializers or operate up to 3.12Gbps with GMSL2 serializers in GMSL1 mode.
++
++properties:
++  compatible:
++    const: maxim,max96712
++
++  reg:
++    description: I2C device address
++    maxItems: 1
++
++  enable-gpios: true
++
++  ports:
++    $ref: /schemas/graph.yaml#/properties/ports
++
++    properties:
++      port@0:
++        $ref: /schemas/graph.yaml#/properties/port
++        description: GMSL Input 0
++
++      port@1:
++        $ref: /schemas/graph.yaml#/properties/port
++        description: GMSL Input 1
++
++      port@2:
++        $ref: /schemas/graph.yaml#/properties/port
++        description: GMSL Input 2
++
++      port@3:
++        $ref: /schemas/graph.yaml#/properties/port
++        description: GMSL Input 3
++
++      port@4:
++        $ref: /schemas/graph.yaml#/$defs/port-base
++        unevaluatedProperties: false
++        description: CSI-2 Output
++
++        properties:
++          endpoint:
++            $ref: /schemas/media/video-interfaces.yaml#
++            unevaluatedProperties: false
++
++            properties:
++              data-lanes: true
++
++            required:
++              - data-lanes
++
++    required:
++      - port@4
++
++required:
++  - compatible
++  - reg
++  - ports
++
++additionalProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/gpio/gpio.h>
++
++    i2c@e6508000 {
++            #address-cells = <1>;
++            #size-cells = <0>;
++
++            reg = <0 0xe6508000>;
++
++            gmsl0: gmsl-deserializer@49 {
++                    compatible = "maxim,max96712";
++                    reg = <0x49>;
++                    enable-gpios = <&pca9654_a 0 GPIO_ACTIVE_HIGH>;
++
++                    ports {
++                            #address-cells = <1>;
++                            #size-cells = <0>;
++
++                            port@4 {
++                                    reg = <4>;
++                                    max96712_out0: endpoint {
++                                            clock-lanes = <0>;
++                                            data-lanes = <1 2 3 4>;
++                                            remote-endpoint = <&csi40_in>;
++                                    };
++                            };
++                    };
++            };
++    };
+-- 
+2.34.1
 
-> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
->
-> >
-> > -     ret = devm_request_irq(&pdev->dev, irq->start, vsp1_irq_handler,
-> > -                           IRQF_SHARED, dev_name(&pdev->dev), vsp1);
-> > +     ret = devm_request_irq(&pdev->dev, ret, vsp1_irq_handler,
-> > +                            IRQF_SHARED, dev_name(&pdev->dev), vsp1);
-> >       if (ret < 0) {
-> >               dev_err(&pdev->dev, "failed to request IRQ\n");
-> >               return ret;
->
-Cheers,
-Prabhakar
