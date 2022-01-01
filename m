@@ -2,81 +2,120 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4C28A482890
-	for <lists+linux-media@lfdr.de>; Sat,  1 Jan 2022 22:29:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6C3F24828A4
+	for <lists+linux-media@lfdr.de>; Sat,  1 Jan 2022 23:01:56 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232729AbiAAV24 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 1 Jan 2022 16:28:56 -0500
-Received: from smtp05.smtpout.orange.fr ([80.12.242.127]:61102 "EHLO
-        smtp.smtpout.orange.fr" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232723AbiAAV2z (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Sat, 1 Jan 2022 16:28:55 -0500
-Received: from pop-os.home ([86.243.171.122])
-        by smtp.orange.fr with ESMTPA
-        id 3lvonPgP41yYB3lvpn11kX; Sat, 01 Jan 2022 22:28:54 +0100
-X-ME-Helo: pop-os.home
-X-ME-Auth: YWZlNiIxYWMyZDliZWIzOTcwYTEyYzlhMmU3ZiQ1M2U2MzfzZDfyZTMxZTBkMTYyNDBjNDJlZmQ3ZQ==
-X-ME-Date: Sat, 01 Jan 2022 22:28:54 +0100
-X-ME-IP: 86.243.171.122
-From:   Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-To:     tskd08@gmail.com, mchehab@kernel.org, andy.shevchenko@gmail.com,
-        kirill.shilimanov@huawei.com, novikov@ispras.ru
-Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        kernel-janitors@vger.kernel.org,
-        Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-Subject: [PATCH] media: pt3: Use dma_set_mask_and_coherent() and simplify code
-Date:   Sat,  1 Jan 2022 22:28:51 +0100
-Message-Id: <34f3a2b58d5f9078709b7d592536af0be49ea1d9.1641072450.git.christophe.jaillet@wanadoo.fr>
-X-Mailer: git-send-email 2.32.0
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+        id S230292AbiAAWBx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 1 Jan 2022 17:01:53 -0500
+Received: from mail-ua1-f50.google.com ([209.85.222.50]:35787 "EHLO
+        mail-ua1-f50.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230239AbiAAWBx (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Sat, 1 Jan 2022 17:01:53 -0500
+Received: by mail-ua1-f50.google.com with SMTP id v14so34320583uau.2;
+        Sat, 01 Jan 2022 14:01:52 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:in-reply-to:references:subject:date
+         :message-id;
+        bh=lddxkzvyR2RNCzBnkG0wcQa1iSF+UNFNK+adpNwi3JU=;
+        b=QolkBvi3/qiPCboA/RSSe6kKa9/EHu5E44DcMNVbhbfTWPihMfOntUgaPXm/95A962
+         RCfx7m0Kq8ArH5vJicafEHCZrDmSlq6eXHYj4DpMxnjdwGQA97fRvubt15iNRvEwdZdB
+         XT2WbL4WJQWpg7vU00ZuMRqAzvuddaLrZ+skMWmfPYFkk3xazbssnC5ToUis7rOCNEBU
+         3EP2aTxgl8qQ27j06MnwJDV64TpxmeQ3bvqSUmJVOhbVczVXWfRBiUyPdOY+xMkiKrwY
+         tG26/agmm82sAJ4S8SFjdjlVVBtqlxfjBDeKKSzZupkTOdoeKoXJROY0l57mkjKYDPQ7
+         4phQ==
+X-Gm-Message-State: AOAM531kAuYk+3tbzQ2NcnpjV2E42kHIGfhvigr8czmcgutq7cJJpK43
+        7XNE5Lfwpaj8AfVHLwbYZDB5Dz8P8moc
+X-Google-Smtp-Source: ABdhPJym/+/zZgVbmDtEGl+nxQcG5rFCzRXBd00GN3rsiKmd+EdnP5HDYrf8O6Z2JWCcycSUZ7a//g==
+X-Received: by 2002:a67:e303:: with SMTP id j3mr12426603vsf.33.1641074512146;
+        Sat, 01 Jan 2022 14:01:52 -0800 (PST)
+Received: from robh.at.kernel.org ([209.91.235.3])
+        by smtp.gmail.com with ESMTPSA id i62sm6165704vke.33.2022.01.01.14.01.50
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 01 Jan 2022 14:01:51 -0800 (PST)
+Received: (nullmailer pid 839555 invoked by uid 1000);
+        Sat, 01 Jan 2022 22:01:44 -0000
+From:   Rob Herring <robh@kernel.org>
+To:     Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+Cc:     devicetree@vger.kernel.org, Thomas Nizan <tnizan@witekio.com>,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        linux-renesas-soc@vger.kernel.org,
+        Rob Herring <robh+dt@kernel.org>,
+        =?utf-8?q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
+        Jacopo Mondi <jacopo@jmondi.org>, linux-media@vger.kernel.org
+In-Reply-To: <20220101182806.19311-3-laurent.pinchart+renesas@ideasonboard.com>
+References: <20220101182806.19311-1-laurent.pinchart+renesas@ideasonboard.com> <20220101182806.19311-3-laurent.pinchart+renesas@ideasonboard.com>
+Subject: Re: [PATCH v2 02/11] dt-bindings: media: i2c: max9286: Add property to select I2C speed
+Date:   Sat, 01 Jan 2022 18:01:44 -0400
+Message-Id: <1641074504.105647.839554.nullmailer@robh.at.kernel.org>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Use dma_set_mask_and_coherent() instead of unrolling it with some
-dma_set_mask()+dma_set_coherent_mask().
+On Sat, 01 Jan 2022 20:27:57 +0200, Laurent Pinchart wrote:
+> The I2C speed on the remote side (the I2C master bus of the connected
+> serializers) is configurable, and doesn't need to match the speed of the
+> local bus (the slave bus of the MAX9286). All remote buses must use the
+> same speed, and the MAX9286 needs to be programmed accordingly. Add a
+> new DT property to select the speed to make it configurable.
+> 
+> Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+> ---
+>  .../devicetree/bindings/media/i2c/maxim,max9286.yaml       | 7 +++++++
+>  1 file changed, 7 insertions(+)
+> 
 
-Moreover, as stated in [1], dma_set_mask() with a 64-bit mask will never
-fail if dev->dma_mask is non-NULL.
-So, if it fails, the 32 bits case will also fail for the same reason.
+My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
+on your patch (DT_CHECKER_FLAGS is new in v5.13):
 
-Simplify code and remove some dead code accordingly.
+yamllint warnings/errors:
 
-[1]: https://lkml.org/lkml/2021/6/7/398
+dtschema/dtc warnings/errors:
+/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/media/i2c/maxim,max9286.yaml: properties:maxim,i2c-clock-frequency: 'oneOf' conditional failed, one must be fixed:
+	'type' is a required property
+		hint: A vendor boolean property can use "type: boolean"
+	Additional properties are not allowed ('enum', 'default' were unexpected)
+		hint: A vendor boolean property can use "type: boolean"
+	Additional properties are not allowed ('default' was unexpected)
+		hint: A vendor string property with exact values has an implicit type
+	/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/media/i2c/maxim,max9286.yaml: properties:maxim,i2c-clock-frequency: 'oneOf' conditional failed, one must be fixed:
+		'$ref' is a required property
+		'allOf' is a required property
+		hint: A vendor property needs a $ref to types.yaml
+		from schema $id: http://devicetree.org/meta-schemas/vendor-props.yaml#
+	8470 is not of type 'string'
+		hint: A vendor string property with exact values has an implicit type
+	28300 is not of type 'string'
+		hint: A vendor string property with exact values has an implicit type
+	84700 is not of type 'string'
+		hint: A vendor string property with exact values has an implicit type
+	105000 is not of type 'string'
+		hint: A vendor string property with exact values has an implicit type
+	173000 is not of type 'string'
+		hint: A vendor string property with exact values has an implicit type
+	339000 is not of type 'string'
+		hint: A vendor string property with exact values has an implicit type
+	533000 is not of type 'string'
+		hint: A vendor string property with exact values has an implicit type
+	837000 is not of type 'string'
+		hint: A vendor string property with exact values has an implicit type
+	hint: Vendor specific properties must have a type and description unless they have a defined, common suffix.
+	from schema $id: http://devicetree.org/meta-schemas/vendor-props.yaml#
+/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/media/i2c/maxim,max9286.yaml: ignoring, error in schema: properties: maxim,i2c-clock-frequency
+Documentation/devicetree/bindings/media/i2c/maxim,max9286.example.dt.yaml:0:0: /example-0/i2c@e66d8000/gmsl-deserializer@2c: failed to match any schema with compatible: ['maxim,max9286']
 
-Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
----
- drivers/media/pci/pt3/pt3.c | 16 ++++------------
- 1 file changed, 4 insertions(+), 12 deletions(-)
+doc reference errors (make refcheckdocs):
 
-diff --git a/drivers/media/pci/pt3/pt3.c b/drivers/media/pci/pt3/pt3.c
-index 0d51bdf01f43..11f26cac0abc 100644
---- a/drivers/media/pci/pt3/pt3.c
-+++ b/drivers/media/pci/pt3/pt3.c
-@@ -707,18 +707,10 @@ static int pt3_probe(struct pci_dev *pdev, const struct pci_device_id *ent)
- 	if (ret < 0)
- 		return ret;
- 
--	ret = dma_set_mask(&pdev->dev, DMA_BIT_MASK(64));
--	if (ret == 0)
--		dma_set_coherent_mask(&pdev->dev, DMA_BIT_MASK(64));
--	else {
--		ret = dma_set_mask(&pdev->dev, DMA_BIT_MASK(32));
--		if (ret == 0)
--			dma_set_coherent_mask(&pdev->dev, DMA_BIT_MASK(32));
--		else {
--			dev_err(&pdev->dev, "Failed to set DMA mask\n");
--			return ret;
--		}
--		dev_info(&pdev->dev, "Use 32bit DMA\n");
-+	ret = dma_set_mask_and_coherent(&pdev->dev, DMA_BIT_MASK(64));
-+	if (ret) {
-+		dev_err(&pdev->dev, "Failed to set DMA mask\n");
-+		return ret;
- 	}
- 
- 	pt3 = devm_kzalloc(&pdev->dev, sizeof(*pt3), GFP_KERNEL);
--- 
-2.32.0
+See https://patchwork.ozlabs.org/patch/1574505
+
+This check can fail if there are any dependencies. The base for a patch
+series is generally the most recent rc1.
+
+If you already ran 'make dt_binding_check' and didn't see the above
+error(s), then make sure 'yamllint' is installed and dt-schema is up to
+date:
+
+pip3 install dtschema --upgrade
+
+Please check and re-submit.
 
