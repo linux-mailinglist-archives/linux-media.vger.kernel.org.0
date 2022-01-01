@@ -2,85 +2,81 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3D136482838
-	for <lists+linux-media@lfdr.de>; Sat,  1 Jan 2022 19:28:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4C28A482890
+	for <lists+linux-media@lfdr.de>; Sat,  1 Jan 2022 22:29:01 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232677AbiAAS2Y (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 1 Jan 2022 13:28:24 -0500
-Received: from perceval.ideasonboard.com ([213.167.242.64]:41396 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232663AbiAAS2W (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Sat, 1 Jan 2022 13:28:22 -0500
-Received: from pendragon.lan (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 083041C5E;
-        Sat,  1 Jan 2022 19:28:20 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1641061701;
-        bh=cC05pikczMfCTTejBalLAeTBNCIgo7s5Ewq7sBic6co=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=RlMDieVDtUBbeIj/ElXRXtut9fZhpj1eBDyS8t1afgEQUkZXqK0OAmBk3Qiwa/Ar+
-         bcn/yoEsMnlN3UdWFfD6H6XUiLWHh4dfFGP5fzba/Zlmq6kR+QD6nJAlwE++AFHT4j
-         IAzChoTwBJdgSV9zHc2Sok7xkBWdueljuj5SFbSQ=
-From:   Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-To:     linux-media@vger.kernel.org
-Cc:     linux-renesas-soc@vger.kernel.org,
-        Jacopo Mondi <jacopo@jmondi.org>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
-        Thomas Nizan <tnizan@witekio.com>
-Subject: [PATCH v2 11/11] media: i2c: max9286: Select HS as data enable signal
-Date:   Sat,  1 Jan 2022 20:28:06 +0200
-Message-Id: <20220101182806.19311-12-laurent.pinchart+renesas@ideasonboard.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220101182806.19311-1-laurent.pinchart+renesas@ideasonboard.com>
-References: <20220101182806.19311-1-laurent.pinchart+renesas@ideasonboard.com>
+        id S232729AbiAAV24 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 1 Jan 2022 16:28:56 -0500
+Received: from smtp05.smtpout.orange.fr ([80.12.242.127]:61102 "EHLO
+        smtp.smtpout.orange.fr" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232723AbiAAV2z (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Sat, 1 Jan 2022 16:28:55 -0500
+Received: from pop-os.home ([86.243.171.122])
+        by smtp.orange.fr with ESMTPA
+        id 3lvonPgP41yYB3lvpn11kX; Sat, 01 Jan 2022 22:28:54 +0100
+X-ME-Helo: pop-os.home
+X-ME-Auth: YWZlNiIxYWMyZDliZWIzOTcwYTEyYzlhMmU3ZiQ1M2U2MzfzZDfyZTMxZTBkMTYyNDBjNDJlZmQ3ZQ==
+X-ME-Date: Sat, 01 Jan 2022 22:28:54 +0100
+X-ME-IP: 86.243.171.122
+From:   Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+To:     tskd08@gmail.com, mchehab@kernel.org, andy.shevchenko@gmail.com,
+        kirill.shilimanov@huawei.com, novikov@ispras.ru
+Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        kernel-janitors@vger.kernel.org,
+        Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+Subject: [PATCH] media: pt3: Use dma_set_mask_and_coherent() and simplify code
+Date:   Sat,  1 Jan 2022 22:28:51 +0100
+Message-Id: <34f3a2b58d5f9078709b7d592536af0be49ea1d9.1641072450.git.christophe.jaillet@wanadoo.fr>
+X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-GMSL can transport three synchronization signals: VSync, HSync and Data
-Enable. The MAX9286 can select either HS or DE as a line valid signal.
+Use dma_set_mask_and_coherent() instead of unrolling it with some
+dma_set_mask()+dma_set_coherent_mask().
 
-Not all serializers (and transmission formats) support the DE signal.
-The MAX9271, used by the RDACM20 and RDACM21 cameras, doesn't document
-DE support. Nonetheless, the max9286 driver selects the DE signal as
-line valid in register 0x0c (by not setting the DESEL bit). It's not
-clear why this works. As HS is a more common line valid qualifier, set
-the DESEL bit by default. This is needed to support the onsemi MARS
-cameras.
+Moreover, as stated in [1], dma_set_mask() with a 64-bit mask will never
+fail if dev->dma_mask is non-NULL.
+So, if it fails, the 32 bits case will also fail for the same reason.
 
-If a camera requires usage of the DE signal in the future, this will
-need to be made configurable.
+Simplify code and remove some dead code accordingly.
 
-Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+[1]: https://lkml.org/lkml/2021/6/7/398
+
+Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
 ---
- drivers/media/i2c/max9286.c | 9 ++++++---
- 1 file changed, 6 insertions(+), 3 deletions(-)
+ drivers/media/pci/pt3/pt3.c | 16 ++++------------
+ 1 file changed, 4 insertions(+), 12 deletions(-)
 
-diff --git a/drivers/media/i2c/max9286.c b/drivers/media/i2c/max9286.c
-index 07ebb01640a1..446fc238d642 100644
---- a/drivers/media/i2c/max9286.c
-+++ b/drivers/media/i2c/max9286.c
-@@ -563,9 +563,12 @@ static void max9286_set_video_format(struct max9286_priv *priv,
- 		      MAX9286_CSILANECNT(priv->csi2_data_lanes) |
- 		      info->datatype);
+diff --git a/drivers/media/pci/pt3/pt3.c b/drivers/media/pci/pt3/pt3.c
+index 0d51bdf01f43..11f26cac0abc 100644
+--- a/drivers/media/pci/pt3/pt3.c
++++ b/drivers/media/pci/pt3/pt3.c
+@@ -707,18 +707,10 @@ static int pt3_probe(struct pci_dev *pdev, const struct pci_device_id *ent)
+ 	if (ret < 0)
+ 		return ret;
  
--	/* Enable HS/VS encoding, use D14/15 for HS/VS, invert VS. */
--	max9286_write(priv, 0x0c, MAX9286_HVEN | MAX9286_INVVS |
--		      MAX9286_HVSRC_D14);
-+	/*
-+	 * Enable HS/VS encoding, use HS as line valid source, use D14/15 for
-+	 * HS/VS, invert VS.
-+	 */
-+	max9286_write(priv, 0x0c, MAX9286_HVEN | MAX9286_DESEL |
-+		      MAX9286_INVVS | MAX9286_HVSRC_D14);
- }
+-	ret = dma_set_mask(&pdev->dev, DMA_BIT_MASK(64));
+-	if (ret == 0)
+-		dma_set_coherent_mask(&pdev->dev, DMA_BIT_MASK(64));
+-	else {
+-		ret = dma_set_mask(&pdev->dev, DMA_BIT_MASK(32));
+-		if (ret == 0)
+-			dma_set_coherent_mask(&pdev->dev, DMA_BIT_MASK(32));
+-		else {
+-			dev_err(&pdev->dev, "Failed to set DMA mask\n");
+-			return ret;
+-		}
+-		dev_info(&pdev->dev, "Use 32bit DMA\n");
++	ret = dma_set_mask_and_coherent(&pdev->dev, DMA_BIT_MASK(64));
++	if (ret) {
++		dev_err(&pdev->dev, "Failed to set DMA mask\n");
++		return ret;
+ 	}
  
- static void max9286_set_fsync_period(struct max9286_priv *priv)
+ 	pt3 = devm_kzalloc(&pdev->dev, sizeof(*pt3), GFP_KERNEL);
 -- 
-Regards,
-
-Laurent Pinchart
+2.32.0
 
