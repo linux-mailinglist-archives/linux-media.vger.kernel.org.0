@@ -2,80 +2,83 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0336E482B19
-	for <lists+linux-media@lfdr.de>; Sun,  2 Jan 2022 13:35:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1776E482BA4
+	for <lists+linux-media@lfdr.de>; Sun,  2 Jan 2022 16:05:43 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232348AbiABMfH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 2 Jan 2022 07:35:07 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41360 "EHLO
+        id S232286AbiABPFl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 2 Jan 2022 10:05:41 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45498 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229658AbiABMfG (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Sun, 2 Jan 2022 07:35:06 -0500
-Received: from mail-qt1-x82d.google.com (mail-qt1-x82d.google.com [IPv6:2607:f8b0:4864:20::82d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 61222C061574
-        for <linux-media@vger.kernel.org>; Sun,  2 Jan 2022 04:35:06 -0800 (PST)
-Received: by mail-qt1-x82d.google.com with SMTP id l17so27898423qtk.7
-        for <linux-media@vger.kernel.org>; Sun, 02 Jan 2022 04:35:06 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:reply-to:from:date:message-id:subject:to
-         :content-transfer-encoding;
-        bh=tTTCFnK6tSpIS8bzLojbls/JRFJLIRrxtIqDhM48ItY=;
-        b=EMeQ+qHKPmCKPSy0iHyR5CGolBnwbWZiEpGIoQEf5G70Cg3PrKLBMphkWpR/1Pmk1T
-         W4gYJSJWw9uDb51b1zUq1AwXZZ0PqPUq7SR4Hm6YzJQLRMf9qcfPRs9NJFgGtkkv6/dt
-         EjUKYvi3KHZHlWuZaOy2BM9xsuo1VOSCAnfAVMilRRHAfUpRrRmJ/jyHXddpxkXpU+IT
-         s8DGVcRWyTyg6AA1gz5yEsctXLPOt0oDsII1npQMErA2inqXUwafN4WZZBQ6CHsXz2FV
-         VoAtRMqXKu8qf/RXejbj9Ym/XFK3dQEtAFruukQWq38YmchfYYvfcvsNU33FbM94HRs4
-         OGhg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to:content-transfer-encoding;
-        bh=tTTCFnK6tSpIS8bzLojbls/JRFJLIRrxtIqDhM48ItY=;
-        b=5/LcdE4BjgAkCAq+FybJOklo7GDe7vwG0OR+T3IccZIg5zesAmwCWXSuhcV2jdTrsh
-         HGkI3wTar94StyO/MCkm6XZCjNrbhddw9EQaN+/Bpesgf+bB0phR8ruyfur+P/ChgsXt
-         sVdlYYFq9azuNXyU9YkgipEja6nURVoVxaFRRuuvT8WmHgSbOfLoJu3nMruVLnW61/YD
-         3Y6wIH40NEgbNmKxjy460hUy1rearLIX6ANIhgky8m4yoDb9NZ7aVX9JulhNeVkWwp82
-         xd3vZtt7mhnZwq3l/qdHnuIzpapf03ju3amdjgN1q4KaT516X1kLBJgGxx/TOG1+1Itg
-         hYjQ==
-X-Gm-Message-State: AOAM531pq6MP0psVGOt2Dd3+vMvWZjcOtkaFkOZKQd2PDkRq6M6wMeKk
-        cQxuCN1lVXhmUrX9092cmedUjqywcBH4lr4UBh0=
-X-Google-Smtp-Source: ABdhPJw79axDybC36gCSERtyQduU+2DYs+XX3dER1Wa+tkPtN4h+3kBhJrRb0COeV7n9ItPEAjdjd6Cm6yceD3wRnA0=
-X-Received: by 2002:ac8:5743:: with SMTP id 3mr36678567qtx.440.1641126904595;
- Sun, 02 Jan 2022 04:35:04 -0800 (PST)
+        with ESMTP id S229647AbiABPFl (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Sun, 2 Jan 2022 10:05:41 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 48B2AC061761;
+        Sun,  2 Jan 2022 07:05:41 -0800 (PST)
+Received: from pendragon.ideasonboard.com (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id F34DFCC;
+        Sun,  2 Jan 2022 16:05:38 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1641135939;
+        bh=fJUql0xL3bIUQQNjEt84f8/xY0BgrY2+ihdVlTf48hg=;
+        h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
+        b=gBAzRUx1AbIGePeXsOerPS2ljh6c/m5eJnz0EBj5K1PTeNKUraaeQo2n613jRZ9J9
+         H1UAOLRu1ar5KHELI7lgTYVa7iMg3WqphweR171BLBsXk+pxnORwLL3CsVdn8Tljqi
+         cl+2W2GfxJ7rt94qG5myZFKDaea9EQcJYT0GXj/k=
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Received: by 2002:ad4:576e:0:0:0:0:0 with HTTP; Sun, 2 Jan 2022 04:35:02 -0800 (PST)
-Reply-To: gabrieledgal47@gmail.com
-From:   Gabriel Edgal <deemaabdel4@gmail.com>
-Date:   Sun, 2 Jan 2022 04:35:02 -0800
-Message-ID: <CAJmAw-25iOmzeNLARyCAT_FM+5yytLh+321VEZfg-VXjxV1h8A@mail.gmail.com>
-Subject: 
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20220101173540.9090-1-laurent.pinchart+renesas@ideasonboard.com>
+References: <20220101173540.9090-1-laurent.pinchart+renesas@ideasonboard.com>
+Subject: Re: [PATCH] media: i2c: rdacm20: Fix indentation in comment
+From:   Kieran Bingham <kieran.bingham@ideasonboard.com>
+Cc:     linux-renesas-soc@vger.kernel.org,
+        Jacopo Mondi <jacopo@jmondi.org>,
+        Niklas =?utf-8?q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+        linux-media@vger.kernel.org
+Date:   Sun, 02 Jan 2022 15:05:35 +0000
+Message-ID: <164113593594.2704318.17445520556422868596@Monstersaurus>
+User-Agent: alot/0.10
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
---=20
-Lieber Freund.
+Quoting Laurent Pinchart (2022-01-01 17:35:40)
+> From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+>=20
+> Fix a small indentation issue in a comment block.
 
-Ich bin Herr Gabriel Edgal, ich bin der Chief Internal Auditor der Btci
-Bank, ich habe
-ein aufgegebener Fonds in H=C3=B6he von 9,5 Millionen US-Dollar, der an Sie
-=C3=BCberwiesen wird, wie wir es tun werden
-Teile 50:50. Sie werden nur als Angeh=C3=B6riger meines verstorbenen
-Klienten dastehen, da
-tr=C3=A4gt den gleichen Nachnamen wie SIE, das Guthaben wurde bei unserer
-Bank hinterlegt f=C3=BCr
-vor vielen Jahren von meinem verstorbenen Kunden, der mit seinem
-ganzen ganzen gestorben ist
-Familie bei einem Autounfall im Jahr 2010. Ich m=C3=B6chte Sie als Ausl=C3=
-=A4nder einladen
-Partner als n=C3=A4chster Angeh=C3=B6riger des verstorbenen Klienten zu ste=
-hen, damit wir
-wird das eingezahlte Guthaben in Anspruch nehmen und zwischen den
-zwei aufteilen
-von
-uns jeweils 50:50. Ich m=C3=B6chte, dass Sie mir sofort antworten, um
-weitere Informationen zu erhalten
+Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+
+
+> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> ---
+>  drivers/media/i2c/rdacm20.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>=20
+> diff --git a/drivers/media/i2c/rdacm20.c b/drivers/media/i2c/rdacm20.c
+> index 025a610de893..e1eff4678ab3 100644
+> --- a/drivers/media/i2c/rdacm20.c
+> +++ b/drivers/media/i2c/rdacm20.c
+> @@ -463,8 +463,8 @@ static int rdacm20_initialize(struct rdacm20_device *=
+dev)
+>                 return ret;
+> =20
+>         /*
+> -        *  Ensure that we have a good link configuration before attempti=
+ng to
+> -        *  identify the device.
+> +        * Ensure that we have a good link configuration before attemptin=
+g to
+> +        * identify the device.
+>          */
+>         ret =3D max9271_configure_i2c(&dev->serializer,
+>                                     MAX9271_I2CSLVSH_469NS_234NS |
+>=20
+> base-commit: 68b9bcc8a534cd11fe55f8bc82f948aae7d81b3c
+> --=20
+> Regards,
+>=20
+> Laurent Pinchart
+>
