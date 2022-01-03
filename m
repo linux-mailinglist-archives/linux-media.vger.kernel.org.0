@@ -2,132 +2,99 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6B17A4830FC
-	for <lists+linux-media@lfdr.de>; Mon,  3 Jan 2022 13:24:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 365C5483157
+	for <lists+linux-media@lfdr.de>; Mon,  3 Jan 2022 14:19:28 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231555AbiACMYi (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 3 Jan 2022 07:24:38 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39618 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229586AbiACMYi (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 3 Jan 2022 07:24:38 -0500
-Received: from mail-wm1-x336.google.com (mail-wm1-x336.google.com [IPv6:2a00:1450:4864:20::336])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9324BC061761
-        for <linux-media@vger.kernel.org>; Mon,  3 Jan 2022 04:24:37 -0800 (PST)
-Received: by mail-wm1-x336.google.com with SMTP id g191-20020a1c9dc8000000b0032fbf912885so18185843wme.4
-        for <linux-media@vger.kernel.org>; Mon, 03 Jan 2022 04:24:37 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-transfer-encoding:content-language;
-        bh=fPyh02WKyhlLdOzBJxhe/AtlHRa+RMJ3Fx1lN0POwGI=;
-        b=jCfJIyv5VYDTqzr3GLGtL0BeIbN25t8cts/aGkGFVXFxxI2nkmwNrN/YKYniFKokGl
-         T5jYBTHsPz0Op5SQG5n0AGMbkeZvGVaOr1gSJmcGyZPT5Tc+v4esBs/B9v5mETH0Lmp1
-         /Jdn2+vuSMYiKSA3X2wo3gutG+lJY8VDXgbd6yBGdq/ruNpYs4r4j4Idkc5xGdeRmZc9
-         xgdm0gUern3AH9tIRT3l6J2jHAyhYI3ZRO9EZLoNDbjmvpUljljZiMTiw5R/CTKaQrpq
-         TSaOT+2bZsVFrpFF60N6L7LuUq5qb5cz9192VGVuVKp2/5ybm96q9vEx4O/WcdZaatej
-         9HAg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-transfer-encoding
-         :content-language;
-        bh=fPyh02WKyhlLdOzBJxhe/AtlHRa+RMJ3Fx1lN0POwGI=;
-        b=E1h+FwcEIJhBeSRJgwmcVNjGZHQj7SrlNJP1/5ubD1vdCRsUPs1sVd0H1FFwkCXTr1
-         /G7h5ZILyugOjATU/S0S3I1MadyL0Bklbl3vLuFpJCZkhpNHdktIpsK4AFMI0QZCKolM
-         eoUv7uzvrU2rHSWo0lbJUC3jZLbh236FRujkqzC2gsx+TblgXjXxFSFWsX8GwTVpB7bJ
-         BXxd06ou5pDiaeL4w1UqoIj+SWaHfajwuEcy7ConTsj0IbukEMsGA2yTuW9HwfuTTDoc
-         YnGNSM7z96cZNGN1cBD72v/izWLIzvw+8mZRO0T4YyAGgGcosu445wjiDIAvidcE8lic
-         Lc8g==
-X-Gm-Message-State: AOAM531EqTB+AKmRFgq7Cd2Z/2h4EWpGVllI4QJj6jZRQdsiUW4/utqo
-        x6tv0YEeKFxNhsOJ6WkgPA94TgB7u1U=
-X-Google-Smtp-Source: ABdhPJxFptxVTR9FMOpISbuLIGa/Nbhx38Xp92VKcc2aenJW0S8G6mDTOJ0duIdmv0C747lM25+H0A==
-X-Received: by 2002:a05:600c:4e08:: with SMTP id b8mr38529644wmq.31.1641212676161;
-        Mon, 03 Jan 2022 04:24:36 -0800 (PST)
-Received: from ?IPv6:2a02:908:1252:fb60:4bf5:8542:f955:f736? ([2a02:908:1252:fb60:4bf5:8542:f955:f736])
-        by smtp.gmail.com with ESMTPSA id p11sm39567159wru.99.2022.01.03.04.24.34
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 03 Jan 2022 04:24:35 -0800 (PST)
-Subject: Re: [PATCH 11/24] drm/amdgpu: use dma_resv_for_each_fence for CS
- workaround
-To:     Daniel Vetter <daniel@ffwll.ch>
-Cc:     dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
-        linaro-mm-sig@lists.linaro.org
-References: <20211207123411.167006-1-christian.koenig@amd.com>
- <20211207123411.167006-12-christian.koenig@amd.com>
- <YcOapBWDYQj5hKRn@phenom.ffwll.local>
-From:   =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
-Message-ID: <10dd0d62-b80a-f7ef-4964-e0e13fe12400@gmail.com>
-Date:   Mon, 3 Jan 2022 13:24:33 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+        id S232041AbiACNT0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 3 Jan 2022 08:19:26 -0500
+Received: from perceval.ideasonboard.com ([213.167.242.64]:54832 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229793AbiACNT0 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 3 Jan 2022 08:19:26 -0500
+Received: from pendragon.ideasonboard.com (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 3DC1ACC;
+        Mon,  3 Jan 2022 14:19:25 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1641215965;
+        bh=kTaRcPMm3N395s867HkAzbQgnt4Vy2IYqZPfdoqmHkQ=;
+        h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
+        b=qC0LdkI4JotvbVW4+ee3V5iRLz49qGLYomhCuVNIStj74IpA/cEf2hXUKMzeFbbN0
+         J66qbeBW3ai1JriJnMqOgErx6+J8q4nKqhCQSgqcAfdxlOwTVVwxaQIC/GqRhBwAzi
+         MiWVH2Kulkwbee4kqdH0v9ViGtoOVd9HimTUw9w8=
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-In-Reply-To: <YcOapBWDYQj5hKRn@phenom.ffwll.local>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20220103110922.715065-1-petko.manolov@konsulko.com>
+References: <20220103110922.715065-1-petko.manolov@konsulko.com>
+Subject: Re: [PATCH v2 0/5] adds ovm6211 driver to staging
+From:   Kieran Bingham <kieran.bingham@ideasonboard.com>
+Cc:     Petko Manolov <petko.manolov@konsulko.com>
+To:     Petko Manolov <petko.manolov@konsulko.com>,
+        linux-media@vger.kernel.org
+Date:   Mon, 03 Jan 2022 13:19:22 +0000
+Message-ID: <164121596292.3986460.16005535544209529901@Monstersaurus>
+User-Agent: alot/0.10
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Hi Petko,
+
+Quoting Petko Manolov (2022-01-03 11:09:17)
+> v2: Removes an unused function (ovm6211_set_pix_clk) and this patch serie=
+s is
+> now based on media/master; Didn't receive any comments about the RFC vers=
+ion,
+> thus i assume everything is perfect... :P
+
+Did you see
+https://lore.kernel.org/linux-media/Ya9XHiz%2FPm4CjQ13@valkosipuli.retiisi.=
+eu/?
+
+Sakari provided quite a few review comments to consider.
+
+I don't think we need to add new sensor drivers to the staging directory
+which would simplify your series quite a bit, and Sakari also stated the
+ovm6211 KConfig and Makefile entry should be in the patch along with the
+new driver code (not in staging).
+
+So you would need to refactor this series to a single patch adding the
+driver do drivers/media/i2c/, and a second patch which adds the
+DT-bindings accordingly.
+
+--
+Kieran
 
 
-Am 22.12.21 um 22:37 schrieb Daniel Vetter:
-> On Tue, Dec 07, 2021 at 01:33:58PM +0100, Christian König wrote:
->> Get the write fence using dma_resv_for_each_fence instead of accessing
->> it manually.
->>
->> Signed-off-by: Christian König <christian.koenig@amd.com>
->> ---
->>   drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c | 9 ++++++---
->>   1 file changed, 6 insertions(+), 3 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
->> index 53e407ea4c89..7facd614e50a 100644
->> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
->> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
->> @@ -1268,6 +1268,8 @@ static int amdgpu_cs_submit(struct amdgpu_cs_parser *p,
->>   	amdgpu_bo_list_for_each_entry(e, p->bo_list) {
->>   		struct dma_resv *resv = e->tv.bo->base.resv;
->>   		struct dma_fence_chain *chain = e->chain;
->> +		struct dma_resv_iter cursor;
->> +		struct dma_fence *fence;
->>   
->>   		if (!chain)
->>   			continue;
->> @@ -1277,9 +1279,10 @@ static int amdgpu_cs_submit(struct amdgpu_cs_parser *p,
->>   		 * submission in a dma_fence_chain and add it as exclusive
->>   		 * fence.
->>   		 */
->> -		dma_fence_chain_init(chain, dma_resv_excl_fence(resv),
->> -				     dma_fence_get(p->fence), 1);
->> -
->> +		dma_resv_for_each_fence(&cursor, resv, false, fence) {
->> +			break;
->> +		}
->> +		dma_fence_chain_init(chain, fence, dma_fence_get(p->fence), 1);
-> Uh this needs a TODO. I'm assuming you'll fix this up later on when
-> there's more than write fence, but in case of bisect or whatever this is a
-> bit too clever. Like you just replace one "dig around in dma-resv
-> implementation details" with one that's not even a documented interface
-> :-)
-
-Ah, yes. There is a rather big TODO just above this, but I should 
-probably make that even more stronger.
-
+>                                                                          =
+                                                                           =
+                                 =20
+> This patch adds ovm6211 driver into the staging directory.  It also creat=
+es
+> media/i2c entry, where ovm6211.c lives for now, to mimic the generic media
+> source tree.
+>                                                                          =
+                                                                           =
+                                 =20
+> Petko Manolov (5):
+>   adds ovm6211 driver to staging
+>   adds ovm6211 entry to Kconfig
+>   adds ovm6211 entry to Makefile
+>   adds drivers/staging/media/i2c/Kconfig entry
+>   adds i2c/ explicitly to Makefile
+>=20
+>  drivers/staging/media/Kconfig       |    2 +
+>  drivers/staging/media/Makefile      |    1 +
+>  drivers/staging/media/i2c/Kconfig   |    9 +
+>  drivers/staging/media/i2c/Makefile  |    1 +
+>  drivers/staging/media/i2c/ovm6211.c | 1143 +++++++++++++++++++++++++++
+>  5 files changed, 1156 insertions(+)
+>  create mode 100644 drivers/staging/media/i2c/Kconfig
+>  create mode 100644 drivers/staging/media/i2c/Makefile
+>  create mode 100644 drivers/staging/media/i2c/ovm6211.c
+>=20
+>=20
+> base-commit: 68b9bcc8a534cd11fe55f8bc82f948aae7d81b3c
+> --=20
+> 2.30.2
 >
-> With an adequately loud comment added interim:
->
-> Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-
-Thanks,
-Christian.
-
->
->>   		rcu_assign_pointer(resv->fence_excl, &chain->base);
->>   		e->chain = NULL;
->>   	}
->> -- 
->> 2.25.1
->>
-
