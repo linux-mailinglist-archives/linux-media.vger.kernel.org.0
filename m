@@ -2,99 +2,115 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 365C5483157
-	for <lists+linux-media@lfdr.de>; Mon,  3 Jan 2022 14:19:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DB8B0483163
+	for <lists+linux-media@lfdr.de>; Mon,  3 Jan 2022 14:29:56 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232041AbiACNT0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 3 Jan 2022 08:19:26 -0500
-Received: from perceval.ideasonboard.com ([213.167.242.64]:54832 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229793AbiACNT0 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 3 Jan 2022 08:19:26 -0500
-Received: from pendragon.ideasonboard.com (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 3DC1ACC;
-        Mon,  3 Jan 2022 14:19:25 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1641215965;
-        bh=kTaRcPMm3N395s867HkAzbQgnt4Vy2IYqZPfdoqmHkQ=;
-        h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
-        b=qC0LdkI4JotvbVW4+ee3V5iRLz49qGLYomhCuVNIStj74IpA/cEf2hXUKMzeFbbN0
-         J66qbeBW3ai1JriJnMqOgErx6+J8q4nKqhCQSgqcAfdxlOwTVVwxaQIC/GqRhBwAzi
-         MiWVH2Kulkwbee4kqdH0v9ViGtoOVd9HimTUw9w8=
-Content-Type: text/plain; charset="utf-8"
+        id S233108AbiACN3z (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 3 Jan 2022 08:29:55 -0500
+Received: from ni.piap.pl ([195.187.100.5]:39880 "EHLO ni.piap.pl"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S232003AbiACN3z (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Mon, 3 Jan 2022 08:29:55 -0500
+Received: from t19.piap.pl (OSB1819.piap.pl [10.0.9.19])
+        by ni.piap.pl (Postfix) with ESMTPSA id 558A6C3F3EF3;
+        Mon,  3 Jan 2022 14:29:50 +0100 (CET)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ni.piap.pl 558A6C3F3EF3
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=piap.pl; s=mail;
+        t=1641216590; bh=mfyAdXWtmPvCapwW6ECM4ZOcBgpyLK52Q0plxKcKvnE=;
+        h=From:To:Cc:Subject:Date:From;
+        b=MzhBhW+1EiUOLPTs3G4054CEkn8Ck8na9bkyopM7OMBtNagdIeI3xyGCOgDAuTWHw
+         OqCoOPt+FwuDyULEFVKUcwlsaNbnvwJa4W/tDRJnoOzpVB93mYlHcGzGG5vXTw5EeR
+         miCrGOQXvggKbS3fW+aPccdp8oAEo1V06TqlMKOg=
+From:   =?utf-8?Q?Krzysztof_Ha=C5=82asa?= <khalasa@piap.pl>
+To:     Rob Herring <robh+dt@kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     devicetree@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Sakari Ailus <sakari.ailus@iki.fi>,
+        Jacopo Mondi <jacopo@jmondi.org>, Joe Perches <joe@perches.com>
+Subject: [PATCH v7 0/2] On Semi AR0521 sensor driver
+Sender: khalasa@piap.pl
+Date:   Mon, 03 Jan 2022 14:29:50 +0100
+Message-ID: <m3czl9eylt.fsf@t19.piap.pl>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <20220103110922.715065-1-petko.manolov@konsulko.com>
-References: <20220103110922.715065-1-petko.manolov@konsulko.com>
-Subject: Re: [PATCH v2 0/5] adds ovm6211 driver to staging
-From:   Kieran Bingham <kieran.bingham@ideasonboard.com>
-Cc:     Petko Manolov <petko.manolov@konsulko.com>
-To:     Petko Manolov <petko.manolov@konsulko.com>,
-        linux-media@vger.kernel.org
-Date:   Mon, 03 Jan 2022 13:19:22 +0000
-Message-ID: <164121596292.3986460.16005535544209529901@Monstersaurus>
-User-Agent: alot/0.10
+X-KLMS-Rule-ID: 3
+X-KLMS-Message-Action: skipped
+X-KLMS-AntiSpam-Status: not scanned, whitelist
+X-KLMS-AntiPhishing: not scanned, whitelist
+X-KLMS-AntiVirus: Kaspersky Security for Linux Mail Server, version 8.0.3.30, not scanned, whitelist
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Petko,
+Rob, Mauro, media subsystem reviewers,
 
-Quoting Petko Manolov (2022-01-03 11:09:17)
-> v2: Removes an unused function (ovm6211_set_pix_clk) and this patch serie=
-s is
-> now based on media/master; Didn't receive any comments about the RFC vers=
-ion,
-> thus i assume everything is perfect... :P
-
-Did you see
-https://lore.kernel.org/linux-media/Ya9XHiz%2FPm4CjQ13@valkosipuli.retiisi.=
-eu/?
-
-Sakari provided quite a few review comments to consider.
-
-I don't think we need to add new sensor drivers to the staging directory
-which would simplify your series quite a bit, and Sakari also stated the
-ovm6211 KConfig and Makefile entry should be in the patch along with the
-new driver code (not in staging).
-
-So you would need to refactor this series to a single patch adding the
-driver do drivers/media/i2c/, and a second patch which adds the
-DT-bindings accordingly.
-
---
-Kieran
+This is the 7th version of my On Semi AR0521 sensor driver.
+Is there anything here that should be changed in order to get it merged?
 
 
->                                                                          =
-                                                                           =
-                                 =20
-> This patch adds ovm6211 driver into the staging directory.  It also creat=
-es
-> media/i2c entry, where ovm6211.c lives for now, to mimic the generic media
-> source tree.
->                                                                          =
-                                                                           =
-                                 =20
-> Petko Manolov (5):
->   adds ovm6211 driver to staging
->   adds ovm6211 entry to Kconfig
->   adds ovm6211 entry to Makefile
->   adds drivers/staging/media/i2c/Kconfig entry
->   adds i2c/ explicitly to Makefile
->=20
->  drivers/staging/media/Kconfig       |    2 +
->  drivers/staging/media/Makefile      |    1 +
->  drivers/staging/media/i2c/Kconfig   |    9 +
->  drivers/staging/media/i2c/Makefile  |    1 +
->  drivers/staging/media/i2c/ovm6211.c | 1143 +++++++++++++++++++++++++++
->  5 files changed, 1156 insertions(+)
->  create mode 100644 drivers/staging/media/i2c/Kconfig
->  create mode 100644 drivers/staging/media/i2c/Makefile
->  create mode 100644 drivers/staging/media/i2c/ovm6211.c
->=20
->=20
-> base-commit: 68b9bcc8a534cd11fe55f8bc82f948aae7d81b3c
-> --=20
-> 2.30.2
->
+
+The documentation patch (1/2) hasn't been changed from v4:
+
+ onnn,ar0521.yaml |  112
+ 1 file changed, 112 insertions(+)
+
+The actual driver (2/2) stats:
+
+ MAINTAINERS                |    7
+ drivers/media/i2c/Kconfig  |   13
+ drivers/media/i2c/Makefile |    1
+ drivers/media/i2c/ar0521.c | 1093
+ 4 files changed, 1114 insertions
+
+v7:
+- removed AR0521_NUM_SUPPLIES macro: ARRAY_SIZE(ar0521_supply_names)
+  is now used directly.
+
+- fixed ar0521_power_off() return type, reported-by: kernel test robot
+  <lkp@intel.com> (apparently can't add this tag for the whole patch).
+
+- moved pm_runtime_get_if_in_use()/pm_runtime_put() up the stack.
+  The old way was causing problems when used in sensor power_on(),
+  before initial pm_runtime setup.
+
+- clearer REGS() macro
+
+v6:
+- I reformatted the code to fit in 80 columns. Nobody should be asked to
+  make his code worse (and the 80-column version IS worse), and multiple
+  high-profile Linux developers (including the top one) appear to share
+  my opinion, but nevertheless - if it's something that will make it go
+  in, I won't care.
+
+- Basically the same applies to the // comments.
+
+- I have removed the "interval" support (frames per second).
+  Unfortunately this cripples the driver further a bit - the userspace
+  will not be able to set precise frame timings needed for broadcast
+  quality video. I will have to keep a private patch for that.
+  Another effect of this change is that the pixel clock is now fixed at
+  184 MHz, which by default produces ca. 30 FPS at 2560x1920. This may
+  be problematic on systems with less than 4 MIPI lanes, and/or on ones
+  which can't support higher frequency MIPI bus (the previous version
+  used a calculated clock). Perhaps it will be possible to fix this
+  issue in the future, with a couple of core V4L2 changes.
+
+- the driver now provides the .pre_streamon() for setting LP-11 state on
+  MIPI data and clock lanes. This is compatible with i.MX6 receiver.
+
+- s_power() converted to SET_RUNTIME_PM_OPS().
+
+- the "initial" I2C registers have been all converted to a table of
+  multi-register files, to minimize time spent on I2C bus.
+
+And a lot of smaller changes suggested by Laurent, Sakari, Jacopo, Joe
+and possibly others.
+--=20
+Krzysztof "Chris" Ha=C5=82asa
+
+Sie=C4=87 Badawcza =C5=81ukasiewicz
+Przemys=C5=82owy Instytut Automatyki i Pomiar=C3=B3w PIAP
+Al. Jerozolimskie 202, 02-486 Warszawa
