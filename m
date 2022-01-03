@@ -2,89 +2,124 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1A03A483726
-	for <lists+linux-media@lfdr.de>; Mon,  3 Jan 2022 19:45:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 80A85483744
+	for <lists+linux-media@lfdr.de>; Mon,  3 Jan 2022 19:57:46 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235574AbiACSpp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 3 Jan 2022 13:45:45 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42356 "EHLO
+        id S235917AbiACS5p (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 3 Jan 2022 13:57:45 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45020 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235763AbiACSpm (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 3 Jan 2022 13:45:42 -0500
-Received: from mail-lj1-x231.google.com (mail-lj1-x231.google.com [IPv6:2a00:1450:4864:20::231])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0795EC061761
-        for <linux-media@vger.kernel.org>; Mon,  3 Jan 2022 10:45:42 -0800 (PST)
-Received: by mail-lj1-x231.google.com with SMTP id u22so57031440lju.7
-        for <linux-media@vger.kernel.org>; Mon, 03 Jan 2022 10:45:41 -0800 (PST)
+        with ESMTP id S235910AbiACS5o (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 3 Jan 2022 13:57:44 -0500
+Received: from mail-lj1-x229.google.com (mail-lj1-x229.google.com [IPv6:2a00:1450:4864:20::229])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 74AA9C061784
+        for <linux-media@vger.kernel.org>; Mon,  3 Jan 2022 10:57:44 -0800 (PST)
+Received: by mail-lj1-x229.google.com with SMTP id t14so28705563ljh.8
+        for <linux-media@vger.kernel.org>; Mon, 03 Jan 2022 10:57:44 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=Bon2TzEaMZw9jM9XFv0NkWrGKfLJEYEyxT5WK0i6Teo=;
-        b=T0+jz4Nr1t/1nhvRN719ZQEzSnmTKGHWI14rsGCizTeJ9+Pq3NHRf5WGkkBIO3ig2R
-         WEsBXXSQUumOIlOM7VuWzBFKL3XVzl9phxO8l1rI60pEVA/jSbtEaqxaJ5xr+AqjiaTt
-         V9YIkBrs6otgasLbADTppCmlu1+FupQanbqJzLXAR5Eb9dk4wSNwxdb2YVBB6/edLiSM
-         yP6IneGgi3bV2TB7qc7sEDq7nMdaK0G8wYCotW4G9m8bxica4CM8Nj1zV09OSfnYcZEf
-         CoWh/VuEeptwK1vuokWGTagQcKog6rUY02+q62DhRTQirM0coloCuZSgJV1+0r1q9z2e
-         8n5g==
+        bh=MMhWstZ09q6Cszqpd54WHd2qjsYduZF9Gp6qbEFoKEg=;
+        b=CYPX06mYYQ2+cOhSoLGgV/rWQWqKCDXJJ9Iw+5ssEOfXIYPGzUj7v+4rgZWAs1vh9q
+         5dxy3dqwPKsdPh8M3wwJtoHaqrBWQUbMh0A78AgqwE65oMtsmJWN3KeAWc/54E/cAKAr
+         Af4lQCwRkQcSkAYn+OL6rnmExbIWZFSFNvDj7/ZAPCsUj/Rz2SXUD2thJ9cfusFoDFQr
+         QGbuXD9mOwVVPjgcFZxbjvS/9OAAV9ib3h9azZpUnhYbKgMGsSu28tLpirCWUJjnPYR+
+         xzbw3RM5EoVWXwBcFP6EaXw9vEwmSo8tRcQaG21dwkUF+pAPRLaunXbEMhCn4sM7w1Y6
+         xpLA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=Bon2TzEaMZw9jM9XFv0NkWrGKfLJEYEyxT5WK0i6Teo=;
-        b=a9xpD45UFr01FXtogji6HUOnkKKVrT6/R+l3h87wV6Oe4d+1zKcq7VNIowzJxPO1cs
-         Itc6z5/fgO49DtS4dLlJRc9IPpRqP5xE9nBevpKeR0x1kD7SKL5cmss6+a1TWAiuL4T6
-         uzcAdejeeD/fV58hLNHgXnIc4v0B0RQeNgVvAyKBUHf4ECphuKwDXUVV7S1y60CThZwK
-         8stsIOIji9yd8Y/wVd6dSLZFn6NgTLWgQ0xjc9XG31SQnds2EBG2X7mpytd150m875pl
-         BWf9mMs0Fi051tHUX3wFHQQd0ybaxOAaHVLrsqAX9K01hbzbF6GvSnkD4gKdauxqfP/u
-         jSMw==
-X-Gm-Message-State: AOAM530t9bSnkZjbNwBBjKbC14RpJNg3G5QG9eQIgwiCNP/oMb0prE3t
-        nYmdtPOrO+xzh0GuedT/wV5SBpJ3uQYHYWQkN3IVdQ==
-X-Google-Smtp-Source: ABdhPJxEiB7uEhwcBh4Wz3syBaOYchuUr3Jz8MrBaTyqxDV1Dd7a0xiGHe0W7YzjhL4RNXWQ2n1CRmRoSgK8Vl+S02s=
-X-Received: by 2002:a2e:2e18:: with SMTP id u24mr11896473lju.492.1641235540346;
- Mon, 03 Jan 2022 10:45:40 -0800 (PST)
+        bh=MMhWstZ09q6Cszqpd54WHd2qjsYduZF9Gp6qbEFoKEg=;
+        b=WhuoYWRetnIaVdRzUMQTgXdKjtCGsZOT4C8N66vTiHrFtzF9TdF+ndm2EliM5c3sEc
+         MFDuDim51wsX1xQlQePt/Af5ol6aRv9Nb8ViP6fvB+Hw3G/WmXeunkK8lqedczfqSGK0
+         rRHuC5g3ZkjiOs+YgKz/8NQQtzWWgraaDLzDH63GJ4463Qm4iTf+Ik2af7BOHOdYEkIb
+         grvQmPduUIjaoyJvjg6Am4Hj3SKSLSsjPNwhxIBJkS5lc6aNLFz9Zr/TxxL/9545t8e+
+         sFT7a7493OjL+xA1CJECbh1Sw/FJ3i9tyLykY8kUcUkar8KYKiey2xhs25zUrriBdKTk
+         1EGA==
+X-Gm-Message-State: AOAM532b9Y88CMAB23Z+1d2bvegtIDwL1nS/vH4h4OwKrcua7g0UfA79
+        PuGA3jpxvKVDU0tl1SpxkcquU2cmVfnA58BH3jyp4g==
+X-Google-Smtp-Source: ABdhPJxESlTLF6vDjNiq9g3jYw19mn2gjb5KvscdlznFgTwwArdG339mJObBz8nFkUB+6pOx0s4aqg8oPJhp9SWaWGY=
+X-Received: by 2002:a2e:9b96:: with SMTP id z22mr37955720lji.427.1641236262660;
+ Mon, 03 Jan 2022 10:57:42 -0800 (PST)
 MIME-Version: 1.0
-References: <20211229070713.218548-1-o451686892@gmail.com>
-In-Reply-To: <20211229070713.218548-1-o451686892@gmail.com>
+References: <20211217094104.24977-1-guangming.cao@mediatek.com> <20211227095102.6054-1-guangming.cao@mediatek.com>
+In-Reply-To: <20211227095102.6054-1-guangming.cao@mediatek.com>
 From:   John Stultz <john.stultz@linaro.org>
-Date:   Mon, 3 Jan 2022 10:45:28 -0800
-Message-ID: <CALAqxLXtUcign2gETHg=z24qYOFSALRjWNnJqqY6rk=gsfVwaw@mail.gmail.com>
-Subject: Re: [PATCH RESEND] dma-buf: heaps: Fix mutex lock area and generalize
- struct dma_heap_attachment
-To:     Weizhao Ouyang <o451686892@gmail.com>
+Date:   Mon, 3 Jan 2022 10:57:30 -0800
+Message-ID: <CALAqxLVA4jUk-2o28RZobrPDUnuXfV1xN77Pt8Pu1o27V3aUQQ@mail.gmail.com>
+Subject: Re: [PATCH v2] dma-buf: dma-heap: Add a size check for allocation
+To:     guangming.cao@mediatek.com
 Cc:     Sumit Semwal <sumit.semwal@linaro.org>,
-        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+        Benjamin Gaignard <benjamin.gaignard@linaro.org>,
         Liam Mark <lmark@codeaurora.org>,
-        Laura Abbott <labbott@kernel.org>,
+        Laura Abbott <labbott@redhat.com>,
         Brian Starkey <Brian.Starkey@arm.com>,
-        christian.koenig@amd.com, linux-media@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
-        linux-kernel@vger.kernel.org
+        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        "open list:DMA-BUF HEAPS FRAMEWORK" <linux-media@vger.kernel.org>,
+        "open list:DMA-BUF HEAPS FRAMEWORK" <dri-devel@lists.freedesktop.org>,
+        "moderated list:DMA-BUF HEAPS FRAMEWORK" 
+        <linaro-mm-sig@lists.linaro.org>,
+        open list <linux-kernel@vger.kernel.org>,
+        "moderated list:ARM/Mediatek SoC support" 
+        <linux-arm-kernel@lists.infradead.org>,
+        "moderated list:ARM/Mediatek SoC support" 
+        <linux-mediatek@lists.infradead.org>,
+        Bo Song <bo.song@mediatek.com>,
+        Libo Kang <libo.kang@mediatek.com>,
+        jianjiao zeng <jianjiao.zeng@mediatek.com>,
+        mingyuan ma <mingyuan.ma@mediatek.com>,
+        Yunfei Wang <yf.wang@mediatek.com>, wsd_upstream@mediatek.com
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Dec 28, 2021 at 11:09 PM Weizhao Ouyang <o451686892@gmail.com> wrote:
+On Mon, Dec 27, 2021 at 1:52 AM <guangming.cao@mediatek.com> wrote:
 >
-> Fix cma_heap_buffer mutex lock area to protect vmap_cnt and vaddr. And
-> move struct dma_heap_attachment to dma-heap.h so that vendor dma heaps
-> can use it, the same behaviour as struct dma_buf_attachment.
+> From: Guangming <Guangming.Cao@mediatek.com>
 >
 
-Hey!
-  Thanks for submitting this patch! Apologies for the slow reply (was
-out for the holidays).
+Thanks for submitting this!
 
-This patch is combining two changes in one patch, so they need to be
-split up. The locking change looks sane, but moving the
-dma_heap_attachment may need some extra justification as changing
-upstream code just to support out of tree code isn't usually done (if
-there was some benefit to the in-tree code, that would be fine
-though).
+> Add a size check for allcation since the allocation size is
 
-I'd also be eager to try to get the vendor heap to be merged, assuming
-we can also merge an upstream user for it.
+nit: "allocation" above.
+
+> always less than the total DRAM size.
+
+In general, it might be good to add more context to the commit message
+to better answer *why* this change is needed rather than what the
+change is doing.  ie: What negative thing happens without this change?
+And so how does this change avoid or improve things?
+
+
+> Signed-off-by: Guangming <Guangming.Cao@mediatek.com>
+> Signed-off-by: jianjiao zeng <jianjiao.zeng@mediatek.com>
+> ---
+> v2: 1. update size limitation as total_dram page size.
+>     2. update commit message
+> ---
+>  drivers/dma-buf/dma-heap.c | 2 ++
+>  1 file changed, 2 insertions(+)
+>
+> diff --git a/drivers/dma-buf/dma-heap.c b/drivers/dma-buf/dma-heap.c
+> index 56bf5ad01ad5..e39d2be98d69 100644
+> --- a/drivers/dma-buf/dma-heap.c
+> +++ b/drivers/dma-buf/dma-heap.c
+> @@ -55,6 +55,8 @@ static int dma_heap_buffer_alloc(struct dma_heap *heap, size_t len,
+>         struct dma_buf *dmabuf;
+>         int fd;
+>
+> +       if (len / PAGE_SIZE > totalram_pages())
+> +               return -EINVAL;
+
+This seems sane. I know ION used to have some 1/2 of memory cap to
+avoid unnecessary memory pressure on crazy allocations.
+
+Could you send again with an improved commit message?
 
 thanks
 -john
