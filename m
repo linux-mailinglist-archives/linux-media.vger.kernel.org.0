@@ -2,99 +2,75 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 751F0483657
-	for <lists+linux-media@lfdr.de>; Mon,  3 Jan 2022 18:41:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 34495483724
+	for <lists+linux-media@lfdr.de>; Mon,  3 Jan 2022 19:45:30 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233537AbiACRlT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 3 Jan 2022 12:41:19 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56126 "EHLO
+        id S235673AbiACSp3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 3 Jan 2022 13:45:29 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42290 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233427AbiACRlS (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 3 Jan 2022 12:41:18 -0500
-Received: from mail-oi1-x22f.google.com (mail-oi1-x22f.google.com [IPv6:2607:f8b0:4864:20::22f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CB414C061761;
-        Mon,  3 Jan 2022 09:41:17 -0800 (PST)
-Received: by mail-oi1-x22f.google.com with SMTP id s73so55960135oie.5;
-        Mon, 03 Jan 2022 09:41:17 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=PX+r/4GPJoULnjzCN3QguRNvA76vq0GHYjHcEMnDNHk=;
-        b=QBo8FGPIErTnDaPOUO+V1UZUpJmBN53itHS+ssQgzOvdbuVVhdiyFARdcyeXo/lNXk
-         FsBuO7Xa5qG1lzoeu6E6NSsGrc0GKKLyVN3BUAw6Fx1todd+8EEcXH9ZCxOc5F63c9KU
-         GNGb6SgzpoUivRh3RuufBcjEI17yqA7sLo5x8fDmpzma1isfHjID4qbqZOaO+2x6Ddl2
-         rSLjF1m4/LfZ/OJsXQCd7SHO2klLD4MGu16fA/EoHCfijEpSoDbR9nGFGZR1Qd3ywzU1
-         /cBbukM6edQ4rFOSXyoYrSD8/DV8q80HTQhV6phUTZzMfMKMaHr7UD8uLQ4WkoW+bBYC
-         0iOg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=PX+r/4GPJoULnjzCN3QguRNvA76vq0GHYjHcEMnDNHk=;
-        b=3hc2Lvdr7IzEN6JUnp18ZR/7UUZOVdmAQ0HQsRFH8suO0dCfpCUKDkSp1T/a6/Nj99
-         VERPsGMi5wZ1ZijDsllsADBuwPeFwoIxRH2BDWVt4RHVR0UJbJAQMi1ufvVscgRSt/kT
-         B8f7HjQ+KnIJp+JlGU0y8HCiDK3gaVjrIpFbRf3Fzc/TokJepkK35zpQ1JzZGV8bWdbP
-         MwJuvoJQz/DXiiRt0jYbdmqcRIEACgBI3D/a8CAGUQXCmgL1VrhvNVxuNHmcwwshR//G
-         wz69zWmVdekTtgxXe5UqhMQNPrJhw/PkM3Ctdm5vYuqOsXpzpxdBD8FS94YNMZpEetiJ
-         xP7Q==
-X-Gm-Message-State: AOAM533F0AfXUVrta740ECPwY868MLG4V5PHbJF5+vUYh7eNuB3zq7I7
-        K5Q7u3ve6REcv9ornBzzVFfgV5IURTk=
-X-Google-Smtp-Source: ABdhPJwvw6H+cCKImuwiy6SfQz3ArlRSXHygzeGhqXXrh+/vi/d0nJ/jRgUGZ2x8fh5iIJfMbwmkAQ==
-X-Received: by 2002:aca:44c5:: with SMTP id r188mr38082488oia.177.1641231676809;
-        Mon, 03 Jan 2022 09:41:16 -0800 (PST)
-Received: from wintermute.localdomain (cpe-76-183-134-35.tx.res.rr.com. [76.183.134.35])
-        by smtp.gmail.com with ESMTPSA id s6sm9368864ois.3.2022.01.03.09.41.15
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 03 Jan 2022 09:41:16 -0800 (PST)
-From:   Chris Morgan <macroalpha82@gmail.com>
-To:     dri-devel@lists.freedesktop.org
-Cc:     devicetree@vger.kernel.org, thierry.reding@gmail.com,
-        sam@ravnborg.org, airlied@linux.ie, daniel@ffwll.ch,
-        robh+dt@kernel.org, mchehab@kernel.org, emma@anholt.net,
-        mripard@kernel.org, linux-media@vger.kernel.org,
-        Chris Morgan <macromorgan@hotmail.com>
-Subject: [PATCH 5/5] drm/vc4: dpi: Support DPI interface in mode3 for RGB565
-Date:   Mon,  3 Jan 2022 11:41:06 -0600
-Message-Id: <20220103174106.907-6-macroalpha82@gmail.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220103174106.907-1-macroalpha82@gmail.com>
-References: <20220103174106.907-1-macroalpha82@gmail.com>
+        with ESMTP id S229796AbiACSp2 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 3 Jan 2022 13:45:28 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 64D44C061761;
+        Mon,  3 Jan 2022 10:45:28 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 10F14B81094;
+        Mon,  3 Jan 2022 18:45:27 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5A988C36AEE;
+        Mon,  3 Jan 2022 18:45:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1641235525;
+        bh=1nf0LLVBuyKdqNzhtLsgYxgDKiFETVjOaaMe10ks6B0=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=MMcd71laQfvXEel6ekWVbeuhX8uOKjua/mZDpGCSsVu+zmArX/lcZPAyVaBIiDcz3
+         Lk07fpFgAN4eEGytixxDJPLPBNoUE6XAcIy9PV+Ofzp0oyTiH1VCm6B6/l1zQo6lr+
+         iMuxYcIzSQIMEcEMg8BFGQuD8SQ/L6JJy3qjPoXXpgg7qN1bITWK7zH+J82pe2lWGB
+         YHgUEE+g+G9Z6nkhgy23z9Ps8enZhKUY2uSclamNmSpvO658mvaJRo0/+yWFfpIRug
+         6Cnp6C3UuVeBiA/LBH2KSR5FZTPAadUxSAuD1TMLjvu8C0ySfZRo+7IfTbVGjxMX9e
+         knp4VbiXgtclw==
+Date:   Mon, 3 Jan 2022 11:45:21 -0700
+From:   Nathan Chancellor <nathan@kernel.org>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        llvm@lists.linux.dev
+Subject: Re: [GIT PULL for v5.17-rc1] New year's media updates
+Message-ID: <YdNEQbgpBJP2lIiP@archlinux-ax161>
+References: <20220101024250.39c9b5b6@coco.lan>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220101024250.39c9b5b6@coco.lan>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Chris Morgan <macromorgan@hotmail.com>
+Hi Mauro,
 
-Add support for the VC4 DPI driver to utilize DPI mode 3. This is
-defined here as xxxRRRRRxxGGGGGGxxxBBBBB:
+On Sat, Jan 01, 2022 at 02:42:50AM +0100, Mauro Carvalho Chehab wrote:
+>       media: atomisp: shift some structs from input_system_local
 
-https://www.raspberrypi.com/documentation/computers/raspberry-pi.html#parallel-display-interface-dpi
+Please consider applying my patch that fixes this one to avoid breaking
+certain distribution configurations when CONFIG_WERROR is enabled:
 
-This mode is required to use the Geekworm MZP280 DPI display.
+https://lore.kernel.org/r/20211227164243.2329724-1-nathan@kernel.org/
 
-Signed-off-by: Chris Morgan <macromorgan@hotmail.com>
----
- drivers/gpu/drm/vc4/vc4_dpi.c | 4 ++++
- 1 file changed, 4 insertions(+)
+I know there has not been much time between when I sent it and now but
+there have been two reports about it from the kernel test robot (one was
+back in November) and it is rather noisy in a build.
 
-diff --git a/drivers/gpu/drm/vc4/vc4_dpi.c b/drivers/gpu/drm/vc4/vc4_dpi.c
-index c180eb60bee8..3c58ade2549e 100644
---- a/drivers/gpu/drm/vc4/vc4_dpi.c
-+++ b/drivers/gpu/drm/vc4/vc4_dpi.c
-@@ -173,6 +173,10 @@ static void vc4_dpi_encoder_enable(struct drm_encoder *encoder)
- 			dpi_c |= VC4_SET_FIELD(DPI_FORMAT_16BIT_565_RGB_3,
- 					       DPI_FORMAT);
- 			break;
-+		case MEDIA_BUS_FMT_RGB565_1X24_CPADHI:
-+			dpi_c |= VC4_SET_FIELD(DPI_FORMAT_16BIT_565_RGB_2,
-+					       DPI_FORMAT);
-+			break;
- 		default:
- 			DRM_ERROR("Unknown media bus format %d\n", bus_format);
- 			break;
--- 
-2.25.1
+https://lore.kernel.org/r/202111182229.beNw3l9E-lkp@intel.com/
+https://lore.kernel.org/r/202112311809.bEKUPkjh-lkp@intel.com/
 
+If it cannot be applied now because the tag has been created and the
+pull has been sent, could you make sure it makes it in a fixes pull
+request?
+
+Thank you!
+Nathan
