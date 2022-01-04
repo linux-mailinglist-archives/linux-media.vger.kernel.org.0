@@ -2,115 +2,96 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D91B648412F
-	for <lists+linux-media@lfdr.de>; Tue,  4 Jan 2022 12:49:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5B861484167
+	for <lists+linux-media@lfdr.de>; Tue,  4 Jan 2022 13:01:34 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232635AbiADLtm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 4 Jan 2022 06:49:42 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45330 "EHLO
+        id S229587AbiADMBd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 4 Jan 2022 07:01:33 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48076 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232708AbiADLtj (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 4 Jan 2022 06:49:39 -0500
-Received: from mail-wr1-x429.google.com (mail-wr1-x429.google.com [IPv6:2a00:1450:4864:20::429])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A3A6CC061784
-        for <linux-media@vger.kernel.org>; Tue,  4 Jan 2022 03:49:37 -0800 (PST)
-Received: by mail-wr1-x429.google.com with SMTP id j18so75630663wrd.2
-        for <linux-media@vger.kernel.org>; Tue, 04 Jan 2022 03:49:37 -0800 (PST)
+        with ESMTP id S229669AbiADMBb (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 4 Jan 2022 07:01:31 -0500
+Received: from mail-yb1-xb31.google.com (mail-yb1-xb31.google.com [IPv6:2607:f8b0:4864:20::b31])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2F057C061761
+        for <linux-media@vger.kernel.org>; Tue,  4 Jan 2022 04:01:31 -0800 (PST)
+Received: by mail-yb1-xb31.google.com with SMTP id j83so88729269ybg.2
+        for <linux-media@vger.kernel.org>; Tue, 04 Jan 2022 04:01:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=raspberrypi.com; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=PiTilpP3Bz7ZjAJItTFQ1+Dz34boNVjYl6oKFRhtc0Q=;
-        b=cOMhcn1J5UlEZAXKJ/boZKiXhSdYW0iQdmir3Lf7e0SFW9q/l+RopOiaiLZ/S0Alxs
-         gEf633aU3NlLjANWptKdh4co9gtW5bF+hEjxr7b/A9+qun1msWjq4PeGV2Wpr5Yw83mP
-         3dXiGu4MIgvfFTLT5oQsPtt3H1t+J6qvx07neFri5llTtxTZvWUQC7Y+nlFp1FjsOAYd
-         STouFIXVzVy+PyihnanDhLKrpte0VGecj5I9mst+uIx7x20aGroXzQS3XAik6pZlS7jC
-         NTrezHR88ebJQRr5Yzt2Qs1YoGPBInj/oRHX3gdepplon5JQqrjw510KCaQ+v7g99dCq
-         Mhiw==
+        d=gmail.com; s=20210112;
+        h=mime-version:from:date:message-id:subject:to;
+        bh=XK475c3Kog66bgLVsQ2DOT53h3U+7E2ZlMjED6i84X4=;
+        b=JZpc4uyKozZ+zDtLuvLFdLHD1jhZ8gxxZvvPwE86Sui+aSyG8aEe75eg0Cu+u3OICB
+         fPTdgFSpB4DZ71r0C18Ob0if2KCf74mq6T+LlJOfenjxsS8XoYHh8/q1SpMRU+yZMj9T
+         +1QacMat3lEeLpcXi0MzW8JGcl+IHGQ5spimUFQHfy2fgNodCXmY0qY0nZojG5zLT6I5
+         nkr627qPDg4L7PCHwmCwKT8y+ZAveSbG9GN3OEvku4ENzxSfYfTYgqPwt4nI1DusK8RG
+         9Cyv4j2hEqcA3pZICaLIIMGHRmLDgK4eFUd10KrAUZXT983qKrFdp+7FmntwZuwT8Y3T
+         +J2w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=PiTilpP3Bz7ZjAJItTFQ1+Dz34boNVjYl6oKFRhtc0Q=;
-        b=7I4WOkQQH9mMXDQdx7g3RNiq4vZv8S+hchse7KTdIengnMinjnZ5CDybuuX2ukBtRn
-         StnAwEv40P8oCw9NUfcyK/U/wuqlfxARgIynzOw/PWPhFQvVzkso0Xmne+eBOaE7rzAL
-         659ar2HEjen2OORbG2cUYNyXugZOhJieaZvJaSfgGuW+RhQfHWrvoHipZfBw57Y/tl0k
-         p5pBgWzN8UZB/ixXUDOghdHs4e295qY844KeAWEqod7m30eOjnoI8GjrgA0jxTjsp4wk
-         Ib2dprQUrGlahQ8TeVWS7UjWH5G4xT45PAtvkUkcYVf/4yA+tinuirNYeLJmv+yL+H3h
-         LOAQ==
-X-Gm-Message-State: AOAM533kaV7zB2dknqB1tfUccc4VfouzrZMuzTesKdof/9DBDAIwYfub
-        Xp0RD4PIq7FT+gbCyMSlW8mqHRjPx5K8SE8BNcLj4A==
-X-Google-Smtp-Source: ABdhPJyzYo76mmymNn/EFfKFV7mnbuF4LgFaafKZxybUkpDr4UVPBcKKdYvt9QGRf/C/CTigqQ5SvaZ4CjZx+Ig5Kn0=
-X-Received: by 2002:a5d:58f6:: with SMTP id f22mr41092618wrd.638.1641296976219;
- Tue, 04 Jan 2022 03:49:36 -0800 (PST)
+        h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+        bh=XK475c3Kog66bgLVsQ2DOT53h3U+7E2ZlMjED6i84X4=;
+        b=pae2y0NQflUundScjG5baX/Mpmg9bleFjPMMEFxRP2Jgd6QdIBDpA1k4zxwZZc4Pa1
+         FY23X9GiuUvrKypsUc08RLeH+sERB9cK2P9tIQ5ezQwzGtx1OuH5ZcYwtzrIBU8bW10Z
+         Oe/Gg53pQ9MfjrGZpBz8pv5a7uJYY3IFIyBAw4nMRVYJ7M1uq3z3E+I8qEqlsKyvXqe2
+         1t1RbsofmewO9YzU8pzV2PNwE+l7zcSvomK3K8oCVHS6V5S7iAMR4UsEK3EKLMRgcYMC
+         VeavnHR6jpynkSlabhIvDDNzIvGU/5Me3xnkh4GIj/KR8vqeiea0qq7Xu7mFgEAVQVst
+         6oVg==
+X-Gm-Message-State: AOAM530TswWosaoLl6EWXC2HigjFR2JCHnJjVYw0icJchvcSpC5nnyF0
+        ObCnFhHIbj04ZPpq01Ppo1wb618nD2jrlwvV/PIaH9QGFekjUg==
+X-Google-Smtp-Source: ABdhPJwBhVQQ39hwVFRKCjI6zQc3/Oq0eWdqRntT1HiaWjK4ksttVbJn8OnoHYBSnq0xmX+gUFGuMVKohPcFW7LrZ9w=
+X-Received: by 2002:a25:c841:: with SMTP id y62mr12270623ybf.196.1641297690316;
+ Tue, 04 Jan 2022 04:01:30 -0800 (PST)
 MIME-Version: 1.0
-References: <20220103174106.907-1-macroalpha82@gmail.com> <20220103174106.907-6-macroalpha82@gmail.com>
-In-Reply-To: <20220103174106.907-6-macroalpha82@gmail.com>
-From:   Dave Stevenson <dave.stevenson@raspberrypi.com>
-Date:   Tue, 4 Jan 2022 11:49:23 +0000
-Message-ID: <CAPY8ntARq9_2=mLRhG2eKR2Dt-y4xT5uKs+nKznBxOyiW37-Ag@mail.gmail.com>
-Subject: Re: [PATCH 5/5] drm/vc4: dpi: Support DPI interface in mode3 for RGB565
-To:     Chris Morgan <macroalpha82@gmail.com>
-Cc:     DRI Development <dri-devel@lists.freedesktop.org>,
-        devicetree@vger.kernel.org,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Sam Ravnborg <sam@ravnborg.org>,
-        David Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Eric Anholt <emma@anholt.net>,
-        Maxime Ripard <mripard@kernel.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Chris Morgan <macromorgan@hotmail.com>
+From:   Vedant Paranjape <vedantparanjape160201@gmail.com>
+Date:   Tue, 4 Jan 2022 17:31:19 +0530
+Message-ID: <CACGrz-PxtZOn27MzzMtxTdfVird6Ccax2SR6+yqoRB2ufJ0LFQ@mail.gmail.com>
+Subject: v4l2-ctl --stream-out-dmabuf example not working
+To:     linux-media@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Chris
+Hello,
+I am using the master version of v4l2-utils, found the example to
+Stream video from a capture video device (/dev/video1) to an output
+video device (/dev/video2) here:
+https://manpages.debian.org/unstable/v4l-utils/v4l2-ctl.1.en.html
 
-Thanks for the patch.
+Here are the steps I have followed.
+1) sudo modprobe vivid
+2) v4l2-ctl -d0 --stream-mmap --out-device /dev/video3 --stream-out-dmabuf
 
-On Mon, 3 Jan 2022 at 17:41, Chris Morgan <macroalpha82@gmail.com> wrote:
->
-> From: Chris Morgan <macromorgan@hotmail.com>
->
-> Add support for the VC4 DPI driver to utilize DPI mode 3. This is
-> defined here as xxxRRRRRxxGGGGGGxxxBBBBB:
->
-> https://www.raspberrypi.com/documentation/computers/raspberry-pi.html#parallel-display-interface-dpi
->
-> This mode is required to use the Geekworm MZP280 DPI display.
->
-> Signed-off-by: Chris Morgan <macromorgan@hotmail.com>
+Here's the output v4l2-ctl --list-devices
+<snip>
+vivid (platform:vivid-000):
+        /dev/video2
+        /dev/video3
+        /dev/radio0
+        /dev/radio1
+        /dev/vbi0
+        /dev/vbi1
+        /dev/swradio0
+        /dev/media1
 
-Reviewed-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
+HD WebCam: HD WebCam (usb-0000:00:14.0-7):
+        /dev/video0
+        /dev/video1
+        /dev/media0
+</snip>
 
-The other patches all look valid to me, but I'll leave those for the
-more experienced maintainers.
+Error out on running the program:
+<snip>
+                VIDIOC_G_FMT returned -1 (Invalid argument)
+<VIDIOC_QBUF: failed: Invalid argument
+handle out -1
+handle out2in -1
 
-  Dave
+</snip>
 
-> ---
->  drivers/gpu/drm/vc4/vc4_dpi.c | 4 ++++
->  1 file changed, 4 insertions(+)
->
-> diff --git a/drivers/gpu/drm/vc4/vc4_dpi.c b/drivers/gpu/drm/vc4/vc4_dpi.c
-> index c180eb60bee8..3c58ade2549e 100644
-> --- a/drivers/gpu/drm/vc4/vc4_dpi.c
-> +++ b/drivers/gpu/drm/vc4/vc4_dpi.c
-> @@ -173,6 +173,10 @@ static void vc4_dpi_encoder_enable(struct drm_encoder *encoder)
->                         dpi_c |= VC4_SET_FIELD(DPI_FORMAT_16BIT_565_RGB_3,
->                                                DPI_FORMAT);
->                         break;
-> +               case MEDIA_BUS_FMT_RGB565_1X24_CPADHI:
-> +                       dpi_c |= VC4_SET_FIELD(DPI_FORMAT_16BIT_565_RGB_2,
-> +                                              DPI_FORMAT);
-> +                       break;
->                 default:
->                         DRM_ERROR("Unknown media bus format %d\n", bus_format);
->                         break;
-> --
-> 2.25.1
->
+> https://git.linuxtv.org/v4l-utils.git/tree/utils/v4l2-ctl/v4l2-ctl-streaming.cpp#n2669
+While I was able to solve the VIDIOC_G_FMT returned -1 (Invalid
+argument) by  changing the "fd.g_fmt" to "out_fd.g_fmt"
+
+Regards,
+Vedant
