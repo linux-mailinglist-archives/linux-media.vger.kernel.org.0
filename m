@@ -2,85 +2,100 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8FC7E4844B7
-	for <lists+linux-media@lfdr.de>; Tue,  4 Jan 2022 16:34:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 47F2B4845AB
+	for <lists+linux-media@lfdr.de>; Tue,  4 Jan 2022 16:56:42 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232420AbiADPez (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 4 Jan 2022 10:34:55 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41614 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230166AbiADPey (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 4 Jan 2022 10:34:54 -0500
-Received: from mail-wr1-x42c.google.com (mail-wr1-x42c.google.com [IPv6:2a00:1450:4864:20::42c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ED61FC061761;
-        Tue,  4 Jan 2022 07:34:53 -0800 (PST)
-Received: by mail-wr1-x42c.google.com with SMTP id s1so76962993wra.6;
-        Tue, 04 Jan 2022 07:34:53 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=wUmxQ2CKmUZwcrN5uTGmilHnj2rnj+XkjhOUMtgeq20=;
-        b=g1LECz3y5ju9IcfvJz5hsPoUyZBUz3pK133gvGgSNX9xGSyfnT5Xf8AKEV2I5QLFjS
-         JZ2B7xSbgx66c+MdQOs90WCC/SB4Ka2PI7xMyyCMeHnzxxJUWNf4AB1zAkEQdaLGrW19
-         R/4btO4fvefAdXbNEEJ9gzf9sTM7CTnZ+ubtjbb2PVu1ThQDuE90+J9527wL33LJnTFt
-         bGFOmylU6fuC8e1peLPpEeMQ86qQm6wEMeXMdtGmNB1lVm4smgmBnVBiEX2QWjtUk3Wd
-         LvDmJgcSw+qKUJiKl/ZhD11vp6mhJ+K0K5/PQ7/zOraEoN8kZR1y1lIGVDqINr3om+pV
-         3IQw==
+        id S235366AbiADP4Z (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 4 Jan 2022 10:56:25 -0500
+Received: from mail-oi1-f177.google.com ([209.85.167.177]:37477 "EHLO
+        mail-oi1-f177.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S235330AbiADP4V (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 4 Jan 2022 10:56:21 -0500
+Received: by mail-oi1-f177.google.com with SMTP id i9so51832629oih.4;
+        Tue, 04 Jan 2022 07:56:20 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=wUmxQ2CKmUZwcrN5uTGmilHnj2rnj+XkjhOUMtgeq20=;
-        b=jmR22teU9ObtuJsSqvVxvw1argTaxP5C5zsWCdxS6zOw6EmFdrpudu85RCdRtzsKMr
-         0ucCM8RFN67UpOxt+0TSCjSFJcSPxL5w4vQoaIKFwQv5yqyd/uADfR0f5CvnUo5G+die
-         Hok6qT2dInA6IzMrjitZR237oWUGScn7pkoAVmZtzL72pY5UeM9udxyv6+P13o5EWY/J
-         v9eXBXgBKLlOlBRfwoObtSBEkkyh6IMf2/G87UkwDVuH2tSylSgaA0EMsq1GVcBqCdoZ
-         HWLOnGSgvNHmiDBvQfRgMqH8xU9B9slvAB7RCe452YZA4wQD3CCpUwFDJLrdvrIHByNH
-         nUGQ==
-X-Gm-Message-State: AOAM53012Cd1BqLeFCqRhi+tKzFsHWNFEFb1mWdiq/3m4UINT6NBJv6m
-        bEs2ygfGzn3zqZfUJZ6WOrk=
-X-Google-Smtp-Source: ABdhPJyA3hAT/SXsiTH53fThRpj8xpD7XnHj0ABuWCmDtywvBXdrguCfCeInuOOSKLyak3B6lG3qsw==
-X-Received: by 2002:a05:6000:38b:: with SMTP id u11mr43379975wrf.408.1641310492643;
-        Tue, 04 Jan 2022 07:34:52 -0800 (PST)
-Received: from kista.localnet (cpe-86-58-32-107.static.triera.net. [86.58.32.107])
-        by smtp.gmail.com with ESMTPSA id 11sm48820119wrz.63.2022.01.04.07.34.51
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=UDkI8c4C+W3C1L2xmnxS2iQML1CaWO7g4jG+vK+lDSI=;
+        b=WDoPrwLU/vU1GbwZJaX4UncrgmRQgvCPW8woQei7MVKt7He7yyx9ZZBILPROPkNig2
+         sMFz3gbQBkGfzMKvvF1LdYRPxg1WAhdSyqJCRJ8RBRsoFWWJkEYqQICYncD3+DaJkSo5
+         kfe8bx2sXEWIemkhcuPRRkkzvkrtij/3yttuuwjDlCrDWEkPBz6w8lzbw+pKuCBK55gh
+         JD3cWm+62ok2AD6ilvROaQjIiWRkUzjzuwplECv7drui9glXku/MpwHy0CcaWP/qQOab
+         iwuSgz8d80WUCOyjTvJN1C84QAq+1kLBYtmb97W6jB/zwMc9Y7iEsHDDn6GbeDqv70i3
+         C99g==
+X-Gm-Message-State: AOAM532twftKz/kz0eCYhPpakgZCjfUQKiE/A3Cb/1cEZUXaANZcUlVo
+        qxL3r9PL0QjE80Kbc90Xba9LGHfBOA==
+X-Google-Smtp-Source: ABdhPJzMUwln+0FhAWxpm99txJ5a4ASzL30GX9qoEHQOsvtBhmaj/cyoH/K2ZuGq8KgJoNmy89YqDA==
+X-Received: by 2002:aca:1818:: with SMTP id h24mr39881146oih.174.1641311780194;
+        Tue, 04 Jan 2022 07:56:20 -0800 (PST)
+Received: from robh.at.kernel.org (66-90-148-213.dyn.grandenetworks.net. [66.90.148.213])
+        by smtp.gmail.com with ESMTPSA id k1sm8213397otj.61.2022.01.04.07.56.19
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 04 Jan 2022 07:34:52 -0800 (PST)
-From:   Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To:     mchehab@kernel.org, ezequiel@vanguardiasur.com.ar,
-        p.zabel@pengutronix.de, gregkh@linuxfoundation.org,
-        hverkuil-cisco@xs4all.nl, nicolas.dufresne@collabora.co.uk,
-        Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-staging@lists.linux.dev, kernel@collabora.com,
-        Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Subject: Re: [PATCH v4 1/2] media: hevc: Remove RPS named flags
-Date:   Tue, 04 Jan 2022 16:34:51 +0100
-Message-ID: <2610538.mvXUDI8C0e@kista>
-In-Reply-To: <20220104073842.1791639-2-benjamin.gaignard@collabora.com>
-References: <20220104073842.1791639-1-benjamin.gaignard@collabora.com> <20220104073842.1791639-2-benjamin.gaignard@collabora.com>
+        Tue, 04 Jan 2022 07:56:19 -0800 (PST)
+Received: (nullmailer pid 915707 invoked by uid 1000);
+        Tue, 04 Jan 2022 15:56:18 -0000
+Date:   Tue, 4 Jan 2022 09:56:18 -0600
+From:   Rob Herring <robh@kernel.org>
+To:     Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+Cc:     linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Jacopo Mondi <jacopo@jmondi.org>,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        Niklas =?iso-8859-1?Q?S=F6derlund?= 
+        <niklas.soderlund@ragnatech.se>, Thomas Nizan <tnizan@witekio.com>,
+        devicetree@vger.kernel.org
+Subject: Re: [PATCH v2 02/11] dt-bindings: media: i2c: max9286: Add property
+ to select I2C speed
+Message-ID: <YdRuIgC5sHI6TSUg@robh.at.kernel.org>
+References: <20220101182806.19311-1-laurent.pinchart+renesas@ideasonboard.com>
+ <20220101182806.19311-3-laurent.pinchart+renesas@ideasonboard.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220101182806.19311-3-laurent.pinchart+renesas@ideasonboard.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Benjamin!
-
-Dne torek, 04. januar 2022 ob 08:38:41 CET je Benjamin Gaignard napisal(a):
-> Marking a picture as long-term reference is valid for DPB but not for RPS.
-> Change flag name to match with it description in HEVC spec chapiter
-> "8.3.2 Decoding process for reference picture set".
-> Remove the other unused RPS flags.
+On Sat, Jan 01, 2022 at 08:27:57PM +0200, Laurent Pinchart wrote:
+> The I2C speed on the remote side (the I2C master bus of the connected
+> serializers) is configurable, and doesn't need to match the speed of the
+> local bus (the slave bus of the MAX9286). All remote buses must use the
+> same speed, and the MAX9286 needs to be programmed accordingly. Add a
+> new DT property to select the speed to make it configurable.
 > 
-> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+> Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+> ---
+>  .../devicetree/bindings/media/i2c/maxim,max9286.yaml       | 7 +++++++
+>  1 file changed, 7 insertions(+)
+> 
+> diff --git a/Documentation/devicetree/bindings/media/i2c/maxim,max9286.yaml b/Documentation/devicetree/bindings/media/i2c/maxim,max9286.yaml
+> index c20557b52e45..5d3e99027a79 100644
+> --- a/Documentation/devicetree/bindings/media/i2c/maxim,max9286.yaml
+> +++ b/Documentation/devicetree/bindings/media/i2c/maxim,max9286.yaml
+> @@ -50,6 +50,13 @@ properties:
+>    '#gpio-cells':
+>      const: 2
+>  
+> +  maxim,i2c-clock-frequency:
 
-Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+Use '-hz'. I don't see much reason to align with 'clock-frequency'.
 
-Best regards,
-Jernej
+Actually, I'd make this 'maxim,i2c-remote-bus-hz' or similar to be a bit 
+more self-describing.
 
-
+> +    enum: [ 8470, 28300, 84700, 105000, 173000, 339000, 533000, 837000 ]
+> +    default: 105000
+> +    description: |
+> +      The I2C clock frequency for the remote I2C buses. The value must match
+> +      the configuration of the remote serializers.
+> +
+>    maxim,reverse-channel-microvolt:
+>      minimum: 30000
+>      maximum: 200000
+> -- 
+> Regards,
+> 
+> Laurent Pinchart
+> 
+> 
