@@ -2,243 +2,295 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D98E4483EF6
-	for <lists+linux-media@lfdr.de>; Tue,  4 Jan 2022 10:17:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7B3C5483F08
+	for <lists+linux-media@lfdr.de>; Tue,  4 Jan 2022 10:19:38 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230004AbiADJRX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 4 Jan 2022 04:17:23 -0500
-Received: from mailgw01.mediatek.com ([60.244.123.138]:33186 "EHLO
-        mailgw01.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
-        with ESMTP id S229568AbiADJRX (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 4 Jan 2022 04:17:23 -0500
-X-UUID: 3249bc093bca44a79f833d59ff8edd5c-20220104
-X-UUID: 3249bc093bca44a79f833d59ff8edd5c-20220104
-Received: from mtkexhb02.mediatek.inc [(172.21.101.103)] by mailgw01.mediatek.com
-        (envelope-from <moudy.ho@mediatek.com>)
-        (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
-        with ESMTP id 1225953322; Tue, 04 Jan 2022 17:17:21 +0800
-Received: from mtkexhb02.mediatek.inc (172.21.101.103) by
- mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.792.3;
- Tue, 4 Jan 2022 17:17:20 +0800
-Received: from mtkcas11.mediatek.inc (172.21.101.40) by mtkexhb02.mediatek.inc
- (172.21.101.103) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Tue, 4 Jan
- 2022 17:17:19 +0800
-Received: from mtksdccf07.mediatek.inc (172.21.84.99) by mtkcas11.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Tue, 4 Jan 2022 17:17:18 +0800
-From:   Moudy Ho <moudy.ho@mediatek.com>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Jernej Skrabec <jernej.skrabec@siol.net>
-CC:     Chun-Kuang Hu <chunkuang.hu@kernel.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Rob Landley <rob@landley.net>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-mediatek@lists.infradead.org>,
-        <linux-kernel@vger.kernel.org>,
-        Alexandre Courbot <acourbot@chromium.org>,
-        <tfiga@chromium.org>, <drinkcat@chromium.org>,
-        <pihsun@chromium.org>, <hsinyi@google.com>,
-        AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>,
-        Maoguang Meng <maoguang.meng@mediatek.com>,
-        daoyuan huang <daoyuan.huang@mediatek.com>,
-        Ping-Hsun Wu <ping-hsun.wu@mediatek.com>,
-        <menghui.lin@mediatek.com>, <sj.huang@mediatek.com>,
-        <allen-kh.cheng@mediatek.com>, <randy.wu@mediatek.com>,
-        <moudy.ho@mediatek.com>, <jason-jh.lin@mediatek.com>,
-        <roy-cw.yeh@mediatek.com>, <river.cheng@mediatek.com>,
-        <srv_heupstream@mediatek.com>
-Subject: [PATCH v11 4/4] soc: mediatek: mutex: add functions that operate registers by CMDQ
-Date:   Tue, 4 Jan 2022 17:17:12 +0800
-Message-ID: <20220104091712.25670-5-moudy.ho@mediatek.com>
-X-Mailer: git-send-email 2.18.0
-In-Reply-To: <20220104091712.25670-1-moudy.ho@mediatek.com>
-References: <20220104091712.25670-1-moudy.ho@mediatek.com>
+        id S230216AbiADJTh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 4 Jan 2022 04:19:37 -0500
+Received: from www.linuxtv.org ([130.149.80.248]:36828 "EHLO www.linuxtv.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229568AbiADJTh (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 4 Jan 2022 04:19:37 -0500
+Received: from builder.linuxtv.org ([140.211.167.10])
+        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1n4fyh-00D4As-Cf; Tue, 04 Jan 2022 09:19:35 +0000
+Received: from [127.0.0.1] (helo=builder.linuxtv.org)
+        by builder.linuxtv.org with esmtp (Exim 4.94.2)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1n4fyf-005WER-IN; Tue, 04 Jan 2022 09:19:33 +0000
+Date:   Tue, 4 Jan 2022 09:19:32 +0000 (UTC)
+From:   Jenkins Builder Robot <jenkins@linuxtv.org>
+To:     mchehab@kernel.org, linux-media@vger.kernel.org
+Message-ID: <1876797702.0.1641287973003@builder.linuxtv.org>
+In-Reply-To: <1130208946.0.1641201573323@builder.linuxtv.org>
+References: <1130208946.0.1641201573323@builder.linuxtv.org>
+Subject: Build failed in Jenkins: media-build #3759
 MIME-Version: 1.0
-Content-Type: text/plain
-X-MTK:  N
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Instance-Identity: MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEApAf928QubrKEjMQ0IZR0WWXn8zG7uTdH33F2Idx4Xmlp6Z138NdNMQYNG71OKzmvn3/E1G4rpd9JsMls16nRZ2NAPgOWX0qfFr6HyOoQklLGZt+vkOFb0BvmBFfdI+00J5B1SPupxv4pT3bDLSiwbBNCOLY4sdB0gG1ng14mzu47G8zmH6l2ZE/9urEd6OLFhzrb6ym4vlkCE8uvNJAdAWbeafd1plHSLdU/TVqHMZELuM0wt9khqhUOkfE+dHr7h6DNrkFpvm/8j/5wTuy98ZwwWimP+pfjSQMgKrhXjwHcJJa2N9v1HdwrwlUaRYuA6o8fwUHNC9vLj7cCXM3qiwIDAQAB
+X-Jenkins-Job: media-build
+X-Jenkins-Result: FAILURE
+Auto-submitted: auto-generated
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Considering that some functions have timing requirements
-in specific situation, this patch adds several interface that
-operate registers by CMDQ.
+See <https://builder.linuxtv.org/job/media-build/3759/display/redirect>
 
-Signed-off-by: Moudy Ho <moudy.ho@mediatek.com>
----
- drivers/soc/mediatek/mtk-mutex.c       | 72 +++++++++++++++++++++++++-
- include/linux/soc/mediatek/mtk-mutex.h |  6 +++
- 2 files changed, 76 insertions(+), 2 deletions(-)
+Changes:
 
-diff --git a/drivers/soc/mediatek/mtk-mutex.c b/drivers/soc/mediatek/mtk-mutex.c
-index 64a4f79e432e..615c42260a50 100644
---- a/drivers/soc/mediatek/mtk-mutex.c
-+++ b/drivers/soc/mediatek/mtk-mutex.c
-@@ -7,10 +7,14 @@
- #include <linux/iopoll.h>
- #include <linux/module.h>
- #include <linux/of_device.h>
-+#include <linux/of_address.h>
- #include <linux/platform_device.h>
- #include <linux/regmap.h>
- #include <linux/soc/mediatek/mtk-mmsys.h>
- #include <linux/soc/mediatek/mtk-mutex.h>
-+#include <linux/soc/mediatek/mtk-cmdq.h>
-+
-+#define MTK_MUTEX_ENABLE			BIT(0)
- 
- #define MT2701_MUTEX0_MOD0			0x2c
- #define MT2701_MUTEX0_SOF0			0x30
-@@ -156,6 +160,7 @@ struct mtk_mutex_data {
- 	const unsigned int mutex_mdp_mod_mask;
- 	const unsigned int mutex_mdp_sof_mask;
- 	const bool no_clk;
-+	const bool has_gce_client_reg;
- };
- 
- struct mtk_mutex_ctx {
-@@ -164,6 +169,8 @@ struct mtk_mutex_ctx {
- 	void __iomem			*regs;
- 	struct mtk_mutex		mutex[10];
- 	const struct mtk_mutex_data	*data;
-+	phys_addr_t			addr;
-+	struct cmdq_client_reg		cmdq_reg;
- };
- 
- static const unsigned int mt2701_mutex_mod[DDP_COMPONENT_ID_MAX] = {
-@@ -338,6 +345,7 @@ static const struct mtk_mutex_data mt8183_mutex_driver_data = {
- 	.mutex_mdp_mod_mask = MT8183_MUTEX_MDP_MOD_MASK,
- 	.mutex_mdp_sof_mask = MT8183_MUTEX_MDP_SOF_MASK,
- 	.no_clk = true,
-+	.has_gce_client_reg = true,
- };
- 
- static const struct mtk_mutex_data mt8192_mutex_driver_data = {
-@@ -510,6 +518,25 @@ u32 mtk_mutex_get_mdp_mod(struct mtk_mutex *mutex, enum mtk_mdp_comp_id id)
- }
- EXPORT_SYMBOL_GPL(mtk_mutex_get_mdp_mod);
- 
-+void mtk_mutex_add_mod_by_cmdq(struct mtk_mutex *mutex, u32 mod,
-+			       struct mmsys_cmdq_cmd *cmd)
-+{
-+	struct mtk_mutex_ctx *mtx = container_of(mutex, struct mtk_mutex_ctx,
-+						 mutex[mutex->id]);
-+	unsigned int offset;
-+
-+	WARN_ON(&mtx->mutex[mutex->id] != mutex);
-+
-+	offset = DISP_REG_MUTEX_MOD(mtx->data->mutex_mod_reg, mutex->id);
-+	cmdq_pkt_write_mask(cmd->pkt, mtx->cmdq_reg.subsys, mtx->addr + offset,
-+			    mod, mtx->data->mutex_mdp_mod_mask);
-+
-+	offset = DISP_REG_MUTEX_SOF(mtx->data->mutex_sof_reg, mutex->id);
-+	cmdq_pkt_write_mask(cmd->pkt, mtx->cmdq_reg.subsys, mtx->addr + offset,
-+			    0, mtx->data->mutex_mdp_sof_mask);
-+}
-+EXPORT_SYMBOL_GPL(mtk_mutex_add_mod_by_cmdq);
-+
- void mtk_mutex_enable(struct mtk_mutex *mutex)
- {
- 	struct mtk_mutex_ctx *mtx = container_of(mutex, struct mtk_mutex_ctx,
-@@ -521,6 +548,20 @@ void mtk_mutex_enable(struct mtk_mutex *mutex)
- }
- EXPORT_SYMBOL_GPL(mtk_mutex_enable);
- 
-+void mtk_mutex_enable_by_cmdq(struct mtk_mutex *mutex,
-+			      struct mmsys_cmdq_cmd *cmd)
-+{
-+	struct mtk_mutex_ctx *mtx = container_of(mutex, struct mtk_mutex_ctx,
-+						 mutex[mutex->id]);
-+
-+	WARN_ON(&mtx->mutex[mutex->id] != mutex);
-+
-+	cmdq_pkt_write_mask(cmd->pkt, mtx->cmdq_reg.subsys,
-+			    mtx->addr + DISP_REG_MUTEX_EN(mutex->id),
-+			    MTK_MUTEX_ENABLE, MTK_MUTEX_ENABLE);
-+}
-+EXPORT_SYMBOL_GPL(mtk_mutex_enable_by_cmdq);
-+
- void mtk_mutex_disable(struct mtk_mutex *mutex)
- {
- 	struct mtk_mutex_ctx *mtx = container_of(mutex, struct mtk_mutex_ctx,
-@@ -532,6 +573,20 @@ void mtk_mutex_disable(struct mtk_mutex *mutex)
- }
- EXPORT_SYMBOL_GPL(mtk_mutex_disable);
- 
-+void mtk_mutex_disable_by_cmdq(struct mtk_mutex *mutex,
-+			       struct mmsys_cmdq_cmd *cmd)
-+{
-+	struct mtk_mutex_ctx *mtx = container_of(mutex, struct mtk_mutex_ctx,
-+						 mutex[mutex->id]);
-+
-+	WARN_ON(&mtx->mutex[mutex->id] != mutex);
-+
-+	cmdq_pkt_write_mask(cmd->pkt, mtx->cmdq_reg.subsys,
-+			    mtx->addr + DISP_REG_MUTEX_EN(mutex->id),
-+			    0x0, MTK_MUTEX_ENABLE);
-+}
-+EXPORT_SYMBOL_GPL(mtk_mutex_disable_by_cmdq);
-+
- void mtk_mutex_acquire(struct mtk_mutex *mutex)
- {
- 	struct mtk_mutex_ctx *mtx = container_of(mutex, struct mtk_mutex_ctx,
-@@ -559,8 +614,8 @@ static int mtk_mutex_probe(struct platform_device *pdev)
- {
- 	struct device *dev = &pdev->dev;
- 	struct mtk_mutex_ctx *mtx;
--	struct resource *regs;
--	int i;
-+	struct resource *regs, addr;
-+	int i, ret;
- 
- 	mtx = devm_kzalloc(dev, sizeof(*mtx), GFP_KERNEL);
- 	if (!mtx)
-@@ -580,6 +635,19 @@ static int mtk_mutex_probe(struct platform_device *pdev)
- 		}
- 	}
- 
-+	if (of_address_to_resource(dev->of_node, 0, &addr) < 0)
-+		mtx->addr = 0L;
-+	else
-+		mtx->addr = addr.start;
-+
-+	if (mtx->data->has_gce_client_reg) {
-+		ret = cmdq_dev_get_client_reg(dev, &mtx->cmdq_reg, 0);
-+		if (ret) {
-+			dev_err(dev, "No mediatek,gce-client-reg!\n");
-+			return ret;
-+		}
-+	}
-+
- 	regs = platform_get_resource(pdev, IORESOURCE_MEM, 0);
- 	mtx->regs = devm_ioremap_resource(dev, regs);
- 	if (IS_ERR(mtx->regs)) {
-diff --git a/include/linux/soc/mediatek/mtk-mutex.h b/include/linux/soc/mediatek/mtk-mutex.h
-index b2608f4220ee..05de7ad4a124 100644
---- a/include/linux/soc/mediatek/mtk-mutex.h
-+++ b/include/linux/soc/mediatek/mtk-mutex.h
-@@ -17,8 +17,14 @@ int mtk_mutex_prepare(struct mtk_mutex *mutex);
- void mtk_mutex_add_comp(struct mtk_mutex *mutex,
- 			enum mtk_ddp_comp_id id);
- u32 mtk_mutex_get_mdp_mod(struct mtk_mutex *mutex, enum mtk_mdp_comp_id id);
-+void mtk_mutex_add_mod_by_cmdq(struct mtk_mutex *mutex, u32 mod,
-+			       struct mmsys_cmdq_cmd *cmd);
- void mtk_mutex_enable(struct mtk_mutex *mutex);
-+void mtk_mutex_enable_by_cmdq(struct mtk_mutex *mutex,
-+			      struct mmsys_cmdq_cmd *cmd);
- void mtk_mutex_disable(struct mtk_mutex *mutex);
-+void mtk_mutex_disable_by_cmdq(struct mtk_mutex *mutex,
-+			       struct mmsys_cmdq_cmd *cmd);
- void mtk_mutex_remove_comp(struct mtk_mutex *mutex,
- 			   enum mtk_ddp_comp_id id);
- void mtk_mutex_unprepare(struct mtk_mutex *mutex);
--- 
-2.18.0
 
+------------------------------------------
+[...truncated 7.61 KB...]
+firmware/dvb-fe-xc5000-1.6.114.fw
+firmware/cmmb_vega_12mhz.inp
+firmware/dvb-usb-it9135-01.fw
+firmware/isdbt_nova_12mhz_b0.inp
+firmware/dvb-ttpci-01.fw-261a
+firmware/dvb-ttpci-01.fw-261b
+firmware/dvb-ttpci-01.fw-261d
+firmware/README
+firmware/isdbt_rio.inp
+firmware/dvb-usb-umt-010-02.fw
+firmware/sms1xxx-hcw-55xxx-dvbt-02.fw
+firmware/dvb-usb-terratec-h7-az6007.fw
+firmware/v4l-cx23885-avcore-01.fw
+******************
+* Start building *
+******************
+make -C <https://builder.linuxtv.org/job/media-build/ws/v4l> allyesconfig
+make[1]: Entering directory '<https://builder.linuxtv.org/job/media-build/ws/v4l'>
+No version yet, using 5.10.0-9-amd64
+make[2]: Entering directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
+Applying patches for kernel 5.10.0-9-amd64
+patch -s -f -N -p1 -i ../backports/api_version.patch
+patch -s -f -N -p1 -i ../backports/pr_fmt.patch
+patch -s -f -N -p1 -i ../backports/debug.patch
+patch -s -f -N -p1 -i ../backports/drx39xxj.patch
+patch -s -f -N -p1 -i ../backports/ccs.patch
+patch -s -f -N -p1 -i ../backports/rc-cec.patch
+patch -s -f -N -p1 -i ../backports/v5.15_container_of.patch
+patch -s -f -N -p1 -i ../backports/v5.14_bus_void_return.patch
+patch -s -f -N -p1 -i ../backports/v5.12_uvc.patch
+patch -s -f -N -p1 -i ../backports/v5.11_isa.patch
+patch -s -f -N -p1 -i ../backports/v5.10_vb2_dma_buf_map.patch
+Patched drivers/media/dvb-core/dvbdev.c
+Patched drivers/media/v4l2-core/v4l2-dev.c
+Patched drivers/media/rc/rc-main.c
+make[2]: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
+./scripts/make_kconfig.pl /lib/modules/5.10.0-9-amd64/build /lib/modules/5.10.0-9-amd64/source 1
+Preparing to compile for kernel version 5.10.0
+
+***WARNING:*** You do not have the full kernel sources installed.
+This does not prevent you from building the v4l-dvb tree if you have the
+kernel headers, but the full kernel source may be required in order to use
+make menuconfig / xconfig / qconfig.
+
+If you are experiencing problems building the v4l-dvb tree, please try
+building against a vanilla kernel before reporting a bug.
+
+Vanilla kernels are available at http://kernel.org.
+On most distros, this will compile a newly downloaded kernel:
+
+cp /boot/config-`uname -r` <your kernel dir>/.config
+cd <your kernel dir>
+make all modules_install install
+
+Please see your distro's web site for instructions to build a new kernel.
+
+WARNING: This is the V4L/DVB backport tree, with experimental drivers
+	 backported to run on legacy kernels from the development tree at:
+		http://git.linuxtv.org/media-tree.git.
+	 It is generally safe to use it for testing a new driver or
+	 feature, but its usage on production environments is risky.
+	 Don't use it in production. You've been warned.
+CEC_CROS_EC: Requires at least kernel 9.255.255
+V4L2_H264: Requires at least kernel 9.255.255
+VIDEO_IPU3_CIO2: Requires at least kernel 9.255.255
+VIDEO_OMAP3: Requires at least kernel 9.255.255
+VIDEO_MEM2MEM_DEINTERLACE: Requires at least kernel 9.255.255
+VIDEO_IMX258: Requires at least kernel 9.255.255
+VIDEO_IMX274: Requires at least kernel 9.255.255
+VIDEO_IMX319: Requires at least kernel 9.255.255
+VIDEO_OV02A10: Requires at least kernel 9.255.255
+VIDEO_OV772X: Requires at least kernel 9.255.255
+VIDEO_OV9650: Requires at least kernel 9.255.255
+SND_BT87X: Requires at least kernel 9.255.255
+INTEL_ATOMISP: Requires at least kernel 9.255.255
+VIDEO_HANTRO: Requires at least kernel 9.255.255
+VIDEO_ROCKCHIP_VDEC: Requires at least kernel 9.255.255
+VIDEO_IPU3_IMGU: Requires at least kernel 9.255.255
+Created default (all yes) .config file
+./scripts/fix_kconfig.pl
+make[1]: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/v4l'>
+make -C <https://builder.linuxtv.org/job/media-build/ws/v4l> 
+make[1]: Entering directory '<https://builder.linuxtv.org/job/media-build/ws/v4l'>
+scripts/make_makefile.pl
+./scripts/make_myconfig.pl
+[ ! -f "./config-mycompat.h" ] && echo "/* empty config-mycompat.h */" > "./config-mycompat.h" || true
+perl scripts/make_config_compat.pl /lib/modules/5.10.0-9-amd64/source ./.myconfig ./config-compat.h
+creating symbolic links...
+Kernel build directory is /lib/modules/5.10.0-9-amd64/build
+make -C ../linux apply_patches
+make[2]: Entering directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
+Patches for 5.10.0-9-amd64 already applied.
+make[2]: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
+make -C /lib/modules/5.10.0-9-amd64/build M=<https://builder.linuxtv.org/job/media-build/ws/v4l>  modules
+make[2]: Entering directory '/usr/src/linux-headers-5.10.0-9-amd64'
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/msp3400-driver.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/msp3400-kthreads.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ccs-core.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ccs-reg-access.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ccs-quirk.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ccs-limits.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ccs-data.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/et8ek8_mode.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/et8ek8_driver.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/cx25840-core.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/cx25840-audio.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/cx25840-firmware.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/cx25840-vbi.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/cx25840-ir.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/m5mols_core.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/m5mols_controls.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/m5mols_capture.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/aptina-pll.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/tvaudio.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/tda7432.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/saa6588.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/tda9840.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/tda1997x.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/tea6415c.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/tea6420.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/saa7110.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/saa7115.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/saa717x.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/saa7127.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/saa7185.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/saa6752hs.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ad5820.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ak7375.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/dw9714.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/dw9768.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/dw9807-vcm.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/adv7170.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/adv7175.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/adv7180.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/adv7183.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/adv7343.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/adv7393.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/adv7604.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/adv7842.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ad9389b.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/adv7511-v4l2.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/vpx3220.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/vs6624.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/bt819.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/bt856.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/bt866.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ks0127.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ths7303.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ths8200.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/tvp5150.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/tvp514x.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/tvp7002.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/tw2804.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/tw9903.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/tw9906.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/tw9910.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/cs3308.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/cs5345.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/cs53l32a.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/m52790.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/tlv320aic23b.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/uda1342.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/wm8775.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/wm8739.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/vp27smpx.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/sony-btf-mpx.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/upd64031a.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/upd64083.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ov2640.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ov2680.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ov2685.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ov2740.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ov5647.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ov5648.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ov5670.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ov5675.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ov5693.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ov5695.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ov6650.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ov7251.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ov7640.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ov7670.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ov8856.o>
+<https://builder.linuxtv.org/job/media-build/ws/v4l/ov2740.c>: In function 'ov2740_probe':
+<https://builder.linuxtv.org/job/media-build/ws/v4l/ov2740.c>:1165:15: error: implicit declaration of function 'acpi_dev_state_d0'; did you mean 'acpi_dev_suspend'? [-Werror=implicit-function-declaration]
+ 1165 |  full_power = acpi_dev_state_d0(&client->dev);
+      |               ^~~~~~~~~~~~~~~~~
+      |               acpi_dev_suspend
+<https://builder.linuxtv.org/job/media-build/ws/v4l/ov2740.c>: At top level:
+<https://builder.linuxtv.org/job/media-build/ws/v4l/ov2740.c>:1248:3: error: 'struct i2c_driver' has no member named 'flags'
+ 1248 |  .flags = I2C_DRV_ACPI_WAIVE_D0_PROBE,
+      |   ^~~~~
+<https://builder.linuxtv.org/job/media-build/ws/v4l/ov2740.c>:1248:11: error: 'I2C_DRV_ACPI_WAIVE_D0_PROBE' undeclared here (not in a function)
+ 1248 |  .flags = I2C_DRV_ACPI_WAIVE_D0_PROBE,
+      |           ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+cc1: some warnings being treated as errors
+make[4]: *** [/usr/src/linux-headers-5.10.0-9-common/scripts/Makefile.build:285: <https://builder.linuxtv.org/job/media-build/ws/v4l/ov2740.o]> Error 1
+make[4]: *** Waiting for unfinished jobs....
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ov8865.o>
+<https://builder.linuxtv.org/job/media-build/ws/v4l/ov5675.c>: In function 'ov5675_probe':
+<https://builder.linuxtv.org/job/media-build/ws/v4l/ov5675.c>:1185:15: error: implicit declaration of function 'acpi_dev_state_d0'; did you mean 'acpi_dev_suspend'? [-Werror=implicit-function-declaration]
+ 1185 |  full_power = acpi_dev_state_d0(&client->dev);
+      |               ^~~~~~~~~~~~~~~~~
+      |               acpi_dev_suspend
+<https://builder.linuxtv.org/job/media-build/ws/v4l/ov5675.c>: At top level:
+<https://builder.linuxtv.org/job/media-build/ws/v4l/ov5675.c>:1264:3: error: 'struct i2c_driver' has no member named 'flags'
+ 1264 |  .flags = I2C_DRV_ACPI_WAIVE_D0_PROBE,
+      |   ^~~~~
+<https://builder.linuxtv.org/job/media-build/ws/v4l/ov5675.c>:1264:11: error: 'I2C_DRV_ACPI_WAIVE_D0_PROBE' undeclared here (not in a function)
+ 1264 |  .flags = I2C_DRV_ACPI_WAIVE_D0_PROBE,
+      |           ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+cc1: some warnings being treated as errors
+make[4]: *** [/usr/src/linux-headers-5.10.0-9-common/scripts/Makefile.build:285: <https://builder.linuxtv.org/job/media-build/ws/v4l/ov5675.o]> Error 1
+<https://builder.linuxtv.org/job/media-build/ws/v4l/ov5670.c>: In function 'ov5670_probe':
+<https://builder.linuxtv.org/job/media-build/ws/v4l/ov5670.c>:2493:15: error: implicit declaration of function 'acpi_dev_state_d0'; did you mean 'acpi_dev_suspend'? [-Werror=implicit-function-declaration]
+ 2493 |  full_power = acpi_dev_state_d0(&client->dev);
+      |               ^~~~~~~~~~~~~~~~~
+      |               acpi_dev_suspend
+<https://builder.linuxtv.org/job/media-build/ws/v4l/ov5670.c>: At top level:
+<https://builder.linuxtv.org/job/media-build/ws/v4l/ov5670.c>:2596:3: error: 'struct i2c_driver' has no member named 'flags'
+ 2596 |  .flags = I2C_DRV_ACPI_WAIVE_D0_PROBE,
+      |   ^~~~~
+<https://builder.linuxtv.org/job/media-build/ws/v4l/ov5670.c>:2596:11: error: 'I2C_DRV_ACPI_WAIVE_D0_PROBE' undeclared here (not in a function)
+ 2596 |  .flags = I2C_DRV_ACPI_WAIVE_D0_PROBE,
+      |           ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+cc1: some warnings being treated as errors
+make[4]: *** [/usr/src/linux-headers-5.10.0-9-common/scripts/Makefile.build:285: <https://builder.linuxtv.org/job/media-build/ws/v4l/ov5670.o]> Error 1
+<https://builder.linuxtv.org/job/media-build/ws/v4l/ov8856.c>: In function 'ov8856_probe':
+<https://builder.linuxtv.org/job/media-build/ws/v4l/ov8856.c>:2489:15: error: implicit declaration of function 'acpi_dev_state_d0'; did you mean 'acpi_dev_suspend'? [-Werror=implicit-function-declaration]
+ 2489 |  full_power = acpi_dev_state_d0(&client->dev);
+      |               ^~~~~~~~~~~~~~~~~
+      |               acpi_dev_suspend
+<https://builder.linuxtv.org/job/media-build/ws/v4l/ov8856.c>: At top level:
+<https://builder.linuxtv.org/job/media-build/ws/v4l/ov8856.c>:2580:3: error: 'struct i2c_driver' has no member named 'flags'
+ 2580 |  .flags = I2C_DRV_ACPI_WAIVE_D0_PROBE,
+      |   ^~~~~
+<https://builder.linuxtv.org/job/media-build/ws/v4l/ov8856.c>:2580:11: error: 'I2C_DRV_ACPI_WAIVE_D0_PROBE' undeclared here (not in a function)
+ 2580 |  .flags = I2C_DRV_ACPI_WAIVE_D0_PROBE,
+      |           ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+cc1: some warnings being treated as errors
+make[4]: *** [/usr/src/linux-headers-5.10.0-9-common/scripts/Makefile.build:285: <https://builder.linuxtv.org/job/media-build/ws/v4l/ov8856.o]> Error 1
+make[3]: *** [/usr/src/linux-headers-5.10.0-9-common/Makefile:1846: <https://builder.linuxtv.org/job/media-build/ws/v4l]> Error 2
+make[2]: *** [/usr/src/linux-headers-5.10.0-9-common/Makefile:185: __sub-make] Error 2
+make[2]: Leaving directory '/usr/src/linux-headers-5.10.0-9-amd64'
+make[1]: *** [Makefile:53: default] Error 2
+make[1]: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/v4l'>
+make: *** [Makefile:26: all] Error 2
+build failed at ./build line 533
+Build step 'Execute shell' marked build as failure
