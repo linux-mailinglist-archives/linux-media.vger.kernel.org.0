@@ -2,277 +2,110 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E5BF2483BDE
-	for <lists+linux-media@lfdr.de>; Tue,  4 Jan 2022 07:21:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D0900483CFB
+	for <lists+linux-media@lfdr.de>; Tue,  4 Jan 2022 08:36:17 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231716AbiADGVn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 4 Jan 2022 01:21:43 -0500
-Received: from fllv0016.ext.ti.com ([198.47.19.142]:55892 "EHLO
-        fllv0016.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231374AbiADGVm (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 4 Jan 2022 01:21:42 -0500
-Received: from lelv0265.itg.ti.com ([10.180.67.224])
-        by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 2046LYkG041456;
-        Tue, 4 Jan 2022 00:21:34 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-        s=ti-com-17Q1; t=1641277294;
-        bh=1+Nt70oI0/J32ZtC+2bBxnkdjxh5ylh7BjLRr4Hm0mc=;
-        h=Date:From:To:CC:Subject:References:In-Reply-To;
-        b=avzG1KddJNN1oOHB8zJk1/xfuveTwP/Vc7XwdvVrjo5ub2hxN2Ju7RUE05TT6fCYY
-         b83Uq2UxsjPF9ZAOuxBeEQq9NTUFNUlSYUpdmtt17tDSawtyQgKOxqLOMs8rELUqkx
-         BM4TJKs1ChcdBPyK4MoHtsIN699ZH+k7zplBde78=
-Received: from DLEE114.ent.ti.com (dlee114.ent.ti.com [157.170.170.25])
-        by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 2046LYEA128806
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Tue, 4 Jan 2022 00:21:34 -0600
-Received: from DLEE109.ent.ti.com (157.170.170.41) by DLEE114.ent.ti.com
- (157.170.170.25) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2308.14; Tue, 4
- Jan 2022 00:21:34 -0600
-Received: from fllv0039.itg.ti.com (10.64.41.19) by DLEE109.ent.ti.com
- (157.170.170.41) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2308.14 via
- Frontend Transport; Tue, 4 Jan 2022 00:21:34 -0600
-Received: from localhost (ileax41-snat.itg.ti.com [10.172.224.153])
-        by fllv0039.itg.ti.com (8.15.2/8.15.2) with ESMTP id 2046LXO8100186;
-        Tue, 4 Jan 2022 00:21:34 -0600
-Date:   Tue, 4 Jan 2022 11:51:33 +0530
-From:   Pratyush Yadav <p.yadav@ti.com>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-CC:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Nikhil Devshatwar <nikhil.nd@ti.com>,
-        Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-        Vignesh Raghavendra <vigneshr@ti.com>,
-        Benoit Parrot <bparrot@ti.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Niklas =?iso-8859-1?Q?S=F6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>,
-        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-media@vger.kernel.org>
-Subject: Re: [PATCH v5 03/14] media: cadence: csi2rx: Add get_fmt and set_fmt
- pad ops
-Message-ID: <20220104062131.72exlmnzp6t2xv6o@ti.com>
-References: <20211223191615.17803-1-p.yadav@ti.com>
- <20211223191615.17803-4-p.yadav@ti.com>
- <Yc02WlMLA+mafKDo@pendragon.ideasonboard.com>
+        id S232148AbiADHgQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 4 Jan 2022 02:36:16 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43658 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230366AbiADHgP (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 4 Jan 2022 02:36:15 -0500
+Received: from mail-wr1-x433.google.com (mail-wr1-x433.google.com [IPv6:2a00:1450:4864:20::433])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 12017C061761;
+        Mon,  3 Jan 2022 23:36:15 -0800 (PST)
+Received: by mail-wr1-x433.google.com with SMTP id k18so37587397wrg.11;
+        Mon, 03 Jan 2022 23:36:14 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=5QgurAW0lNK9DtZ5aiYOIjTcb84ucRlepZxkJq+T308=;
+        b=GatvyyE/kBqheoYQ/d13MygNqovRYyBIG1SdlHBTM1JWbwgDE3yn5BdZmHzV8HNnvD
+         rmimV5S7wUikeOcwGIyS15JbLAw7OU1rycZIfjDo20/Z+pwuC3BigTkotG+zY4Z3RYi2
+         e3Na7QyiJiekB7fK2RCVkTJKTz/P8RzAoNvkGvsJH8h2hE7U8ECkMOXtgytKJdpoqgOF
+         IUTKXMadctzVM8Lvz9v06fMMeae/oeEe4C8ta1Fai/ggwnhkSQ1ORvJy7e4G5uk+p81v
+         nPgtzhQqJCGHo8e/zXUhVqDmmFor3xL5Wzpl6GyWhqpLJmRwhIxS2YHwtQMLBUXGuPg5
+         ITsQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=5QgurAW0lNK9DtZ5aiYOIjTcb84ucRlepZxkJq+T308=;
+        b=fwkO3w4qBVxfEnYKVSHXXG0gLl4LWmViTXYzsLVDoiDgJCUqiVagc2Vy8IGcXGl34o
+         cOd0xkfIOdoK/lmQybhkEhgjBCXnkAJYAxI6nqpwOttQmX0P7K1ldETBEcR9t1xrOJr0
+         7Yw9xsvL+EVl/8NZkJXk/C7BBLLHw6QwKq/Lqh4giU5bDV0pcyE9oao5n2xstGvFov0M
+         ikLPSke6vkqa4aJ3Yc7Hl+FVxDapxn4EKihUSDOl9lHLllZvYi+NecwTWhhZ6LOGHEss
+         ZOi2YYOT0MY8MgZEo606DmJ+YVeH1Df/EfJ8RD7h786uJQNNAyFHenrSA86pAf12ydfO
+         C7Ng==
+X-Gm-Message-State: AOAM531hh8XUocCJZ0oJN/fTZHO6N5iKIXFhZ3BBoZzI9RzyzX/A1z5U
+        lOEfd0Sgy7JDkWOPzjT4ies=
+X-Google-Smtp-Source: ABdhPJwWuBVqvqiAa6SL5fPaQqllfHGw/SdK0Uc5+CN6wLMv/wwUKJbrSULom+MJXNBTgh1mRkzIPw==
+X-Received: by 2002:a05:6000:2aa:: with SMTP id l10mr42207978wry.518.1641281773701;
+        Mon, 03 Jan 2022 23:36:13 -0800 (PST)
+Received: from ownia.. ([103.105.48.220])
+        by smtp.gmail.com with ESMTPSA id l12sm43064477wmq.2.2022.01.03.23.36.10
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 03 Jan 2022 23:36:13 -0800 (PST)
+From:   Weizhao Ouyang <o451686892@gmail.com>
+To:     Sumit Semwal <sumit.semwal@linaro.org>,
+        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+        Liam Mark <lmark@codeaurora.org>,
+        Laura Abbott <labbott@kernel.org>,
+        Brian Starkey <Brian.Starkey@arm.com>,
+        John Stultz <john.stultz@linaro.org>, christian.koenig@amd.com
+Cc:     linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org,
+        Weizhao Ouyang <o451686892@gmail.com>
+Subject: [PATCH] dma-buf: cma_heap: Fix mutex locking section
+Date:   Tue,  4 Jan 2022 15:35:45 +0800
+Message-Id: <20220104073545.124244-1-o451686892@gmail.com>
+X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <Yc02WlMLA+mafKDo@pendragon.ideasonboard.com>
-User-Agent: NeoMutt/20171215
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Laurent,
+Fix cma_heap_buffer mutex locking critical section to protect vmap_cnt
+and vaddr.
 
-On 30/12/21 06:32AM, Laurent Pinchart wrote:
-> Hi Pratyush,
-> 
-> Thank you for the patch.
-> 
-> On Fri, Dec 24, 2021 at 12:46:04AM +0530, Pratyush Yadav wrote:
-> > The format is needed to calculate the link speed for the external DPHY
-> > configuration. It is not right to query the format from the source
-> > subdev. Add get_fmt and set_fmt pad operations so that the format can be
-> > configured and correct bpp be selected.
-> > 
-> > Signed-off-by: Pratyush Yadav <p.yadav@ti.com>
-> > 
-> > ---
-> > 
-> > Changes in v5:
-> > - Use YUV 1X16 formats instead of 2X8.
-> > - New in v5.
-> > 
-> >  drivers/media/platform/cadence/cdns-csi2rx.c | 137 +++++++++++++++++++
-> >  1 file changed, 137 insertions(+)
-> > 
-> > diff --git a/drivers/media/platform/cadence/cdns-csi2rx.c b/drivers/media/platform/cadence/cdns-csi2rx.c
-> > index 2547903f2e8e..4a2a5a9d019b 100644
-> > --- a/drivers/media/platform/cadence/cdns-csi2rx.c
-> > +++ b/drivers/media/platform/cadence/cdns-csi2rx.c
-> > @@ -54,6 +54,11 @@ enum csi2rx_pads {
-> >  	CSI2RX_PAD_MAX,
-> >  };
-> >  
-> > +struct csi2rx_fmt {
-> > +	u32				code;
-> > +	u8				bpp;
-> > +};
-> > +
-> >  struct csi2rx_priv {
-> >  	struct device			*dev;
-> >  	unsigned int			count;
-> > @@ -79,12 +84,43 @@ struct csi2rx_priv {
-> >  	struct v4l2_subdev		subdev;
-> >  	struct v4l2_async_notifier	notifier;
-> >  	struct media_pad		pads[CSI2RX_PAD_MAX];
-> > +	struct v4l2_mbus_framefmt	fmt;
-> >  
-> >  	/* Remote source */
-> >  	struct v4l2_subdev		*source_subdev;
-> >  	int				source_pad;
-> >  };
-> >  
-> > +static const struct csi2rx_fmt formats[] = {
-> > +	{
-> > +		.code	= MEDIA_BUS_FMT_YUYV8_1X16,
-> > +		.bpp	= 16,
-> > +	},
-> > +	{
-> > +		.code	= MEDIA_BUS_FMT_UYVY8_1X16,
-> > +		.bpp	= 16,
-> > +	},
-> > +	{
-> > +		.code	= MEDIA_BUS_FMT_YVYU8_1X16,
-> > +		.bpp	= 16,
-> > +	},
-> > +	{
-> > +		.code	= MEDIA_BUS_FMT_VYUY8_1X16,
-> > +		.bpp	= 16,
-> > +	},
-> > +};
-> 
-> bpp isn't used. Unless you need it in a subsequent patch in the series,
-> you can turn the formats array into a u32 array.
+Fixes: a5d2d29e24be ("dma-buf: heaps: Move heap-helper logic into the cma_heap implementation")
+Signed-off-by: Weizhao Ouyang <o451686892@gmail.com>
+---
+ drivers/dma-buf/heaps/cma_heap.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-It is used in the next patch for calculating DPHY parameters.
-
-> 
-> > +
-> > +static const struct csi2rx_fmt *csi2rx_get_fmt_by_code(u32 code)
-> > +{
-> > +	unsigned int i;
-> > +
-> > +	for (i = 0; i < ARRAY_SIZE(formats); i++)
-> > +		if (formats[i].code == code)
-> > +			return &formats[i];
-> > +
-> > +	return NULL;
-> > +}
-> > +
-> >  static inline
-> >  struct csi2rx_priv *v4l2_subdev_to_csi2rx(struct v4l2_subdev *subdev)
-> >  {
-> > @@ -236,12 +272,109 @@ static int csi2rx_s_stream(struct v4l2_subdev *subdev, int enable)
-> >  	return ret;
-> >  }
-> >  
-> > +static struct v4l2_mbus_framefmt *
-> > +csi2rx_get_pad_format(struct csi2rx_priv *csi2rx,
-> > +		      struct v4l2_subdev_state *state,
-> > +		      unsigned int pad, u32 which)
-> > +{
-> > +	switch (which) {
-> > +	case V4L2_SUBDEV_FORMAT_TRY:
-> > +		return v4l2_subdev_get_try_format(&csi2rx->subdev, state, pad);
-> > +	case V4L2_SUBDEV_FORMAT_ACTIVE:
-> > +		return &csi2rx->fmt;
-> > +	default:
-> > +		return NULL;
-> > +	}
-> > +}
-> > +
-> > +static int csi2rx_get_fmt(struct v4l2_subdev *subdev,
-> > +			  struct v4l2_subdev_state *state,
-> > +			  struct v4l2_subdev_format *format)
-> > +{
-> > +	struct csi2rx_priv *csi2rx = v4l2_subdev_to_csi2rx(subdev);
-> > +	struct v4l2_mbus_framefmt *framefmt;
-> > +
-> > +	mutex_lock(&csi2rx->lock);
-> > +
-> > +	framefmt = csi2rx_get_pad_format(csi2rx, state, format->pad,
-> > +					 format->which);
-> > +	mutex_unlock(&csi2rx->lock);
-> > +
-> > +	if (!framefmt)
-> > +		return -EINVAL;
-> 
-> This can't happen, you can drop the check.
-
-The function returns NULL when format->which is neither 
-V4L2_SUBDEV_FORMAT_TRY nor V4L2_SUBDEV_FORMAT_ACTIVE. Does V4L2 core 
-verify that which is always one of TRY or ACTIVE, and nothing else. Does 
-it also guarantee that this would *never* change (like adding a new 
-value for example)? If so, I am fine with dropping this check. Otherwise 
-I would like to keep it.
-
-> 
-> > +
-> > +	format->format = *framefmt;
-> 
-> This is the assignment that needs to be protected by the lock.
-> csi2rx_get_pad_format() returns a pointer to the storage, it doesn't
-> modify it.
-> 
-> 	framefmt = csi2rx_get_pad_format(csi2rx, state, format->pad,
-> 					 format->which);
-> 
-> 	mutex_lock(&csi2rx->lock);
-> 	format->format = *framefmt;
-> 	mutex_unlock(&csi2rx->lock);
-
-Ah, you're right. I feel very stupid now ;-)
-
-> 
-> Same comments for csi2rx_set_fmt().
-
-The assignment is csi2rx_set_fmt() is done under the lock. But I should 
-move the lock to after csi2rx_get_pad_format() is called so we only hold 
-the lock for as little as possible:
-
-	framefmt = csi2rx_get_pad_format(csi2rx, state, format->pad,
-					 format->which);
-	if (!framefmt) {
-		mutex_unlock(&csi2rx->lock);
-		return -EINVAL;
-	}
-
-	mutex_lock(&csi2rx->lock);
-	*framefmt = format->format;
-	mutex_unlock(&csi2rx->lock);
-
-
-> 
-> > +
-> > +	return 0;
-> > +}
-> > +
-> > +static int csi2rx_set_fmt(struct v4l2_subdev *subdev,
-> > +			  struct v4l2_subdev_state *state,
-> > +			  struct v4l2_subdev_format *format)
-> > +{
-> > +	struct csi2rx_priv *csi2rx = v4l2_subdev_to_csi2rx(subdev);
-> > +	struct v4l2_mbus_framefmt *framefmt;
-> > +	const struct csi2rx_fmt *fmt;
-> > +
-> > +	/* No transcoding, source and sink formats must match. */
-> > +	if (format->pad != CSI2RX_PAD_SINK)
-> > +		return csi2rx_get_fmt(subdev, state, format);
-> > +
-> > +	fmt = csi2rx_get_fmt_by_code(format->format.code);
-> > +	if (!fmt)
-> > +		return -EOPNOTSUPP;
-> 
-> This should not return an error, but instead adjust the code:
-> 
-> 	if (!csi2rx_get_fmt_by_code(format->format.code))
-> 		format->format.code = formats[0].code;
-
-Ok. I figured it would be better to fail loudly if an unsupported format 
-is requested. But if this behavior is preferred that is also fine.
-
-> 
-> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-
-Thanks.
-
+diff --git a/drivers/dma-buf/heaps/cma_heap.c b/drivers/dma-buf/heaps/cma_heap.c
+index 0c05b79870f9..83f02bd51dda 100644
+--- a/drivers/dma-buf/heaps/cma_heap.c
++++ b/drivers/dma-buf/heaps/cma_heap.c
+@@ -124,10 +124,11 @@ static int cma_heap_dma_buf_begin_cpu_access(struct dma_buf *dmabuf,
+ 	struct cma_heap_buffer *buffer = dmabuf->priv;
+ 	struct dma_heap_attachment *a;
+ 
++	mutex_lock(&buffer->lock);
++
+ 	if (buffer->vmap_cnt)
+ 		invalidate_kernel_vmap_range(buffer->vaddr, buffer->len);
+ 
+-	mutex_lock(&buffer->lock);
+ 	list_for_each_entry(a, &buffer->attachments, list) {
+ 		if (!a->mapped)
+ 			continue;
+@@ -144,10 +145,11 @@ static int cma_heap_dma_buf_end_cpu_access(struct dma_buf *dmabuf,
+ 	struct cma_heap_buffer *buffer = dmabuf->priv;
+ 	struct dma_heap_attachment *a;
+ 
++	mutex_lock(&buffer->lock);
++
+ 	if (buffer->vmap_cnt)
+ 		flush_kernel_vmap_range(buffer->vaddr, buffer->len);
+ 
+-	mutex_lock(&buffer->lock);
+ 	list_for_each_entry(a, &buffer->attachments, list) {
+ 		if (!a->mapped)
+ 			continue;
 -- 
-Regards,
-Pratyush Yadav
-Texas Instruments Inc.
+2.32.0
+
