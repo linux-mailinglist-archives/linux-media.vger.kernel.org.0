@@ -2,128 +2,159 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5C55B4842AF
-	for <lists+linux-media@lfdr.de>; Tue,  4 Jan 2022 14:42:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B76CE48443C
+	for <lists+linux-media@lfdr.de>; Tue,  4 Jan 2022 16:08:24 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230183AbiADNm5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 4 Jan 2022 08:42:57 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43248 "EHLO
+        id S233390AbiADPIY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 4 Jan 2022 10:08:24 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35394 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229821AbiADNm4 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 4 Jan 2022 08:42:56 -0500
-Received: from mail-lf1-x135.google.com (mail-lf1-x135.google.com [IPv6:2a00:1450:4864:20::135])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5C520C061784
-        for <linux-media@vger.kernel.org>; Tue,  4 Jan 2022 05:42:56 -0800 (PST)
-Received: by mail-lf1-x135.google.com with SMTP id g26so81790468lfv.11
-        for <linux-media@vger.kernel.org>; Tue, 04 Jan 2022 05:42:56 -0800 (PST)
+        with ESMTP id S232106AbiADPIX (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 4 Jan 2022 10:08:23 -0500
+Received: from mail-wr1-x436.google.com (mail-wr1-x436.google.com [IPv6:2a00:1450:4864:20::436])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2483CC061761
+        for <linux-media@vger.kernel.org>; Tue,  4 Jan 2022 07:08:23 -0800 (PST)
+Received: by mail-wr1-x436.google.com with SMTP id s1so76902261wrg.1
+        for <linux-media@vger.kernel.org>; Tue, 04 Jan 2022 07:08:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
+        d=gmail.com; s=20210112;
         h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=CVpeJhNnnVKJagaPYcbOi0NCayI2FL47sRRfcXPZVY0=;
-        b=nGS6WRAzk1GweADb0QgD4jM8kaUNtROiC5ChudlWBAaqc+8BNYezI+kaKnjXP/eWzn
-         jnDE8cgRzdLj1TUlNXLBj3l1dj6WVJV8p/Zf6LSPJQaN+pT/7xh6DyASYDpzUS8Rr7//
-         t1L/YWFa2QiaGMc7na3FbYO7V0fHPNg2e/DxHVfYDKqT8e4NxruZ4JLF/GeubPaKqOQo
-         wnFcxCXASFwWhWupkjJ1oV6jg21umYStFLlDbKSmvy5MW8X/ilW6rSKXfoEoH3EGwOmf
-         IXPQCEtdbx68ONS1BYIwAT4g7NMs00s5pXjm6nZ1F/LddCIZzM6TVIwER8HXefKF1nYR
-         iZxA==
+         :mime-version:in-reply-to:content-transfer-encoding:content-language;
+        bh=W9Bh3fUgumLp+/q/W4dvepebJC6o+IFE+HMv/nLlfio=;
+        b=EFPEi1FUlJs6XPlFFfpKYRwWHX4RTpssWRFTbpKn1N5Fyq3bqyz5XabLFJqNv62XfB
+         0cEqyJDxfBZmXXA0FEud20NLTAI1FoF7/xfAVYTaf5owDMGZU/9NWIkxGMxcsxnoKBfl
+         CfDgi/O6Aq/PXRly1pl4GWco5U5S0YfyOu4/AxagKflnFYxxsTPcwsYnP5ZPoeCRXEdY
+         k7HdbEy6lRrVcoXxVotVskERr6a3NLmnG+KeSVgIFDGqj+L+1TzGsTfAtYONWPnVYOKT
+         TExmhBJs4zSgcrs+GsvWxe1UgufFwfqlAVQtrCy4EJBNWnyKcYENh5hdUgx/f3fEpicj
+         TIsg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=CVpeJhNnnVKJagaPYcbOi0NCayI2FL47sRRfcXPZVY0=;
-        b=htpO+w3UbtvOU1hSuSvTm/civg2iuHl9H9riLs0iigclvPE7iyHUlSsx6mwI2Q0FLf
-         4MJJdDxnX4H02WfBzeHfOhGya/3R6AN/Ev39eo9z2rub49ZsaMgowM5/+dS4YbcASzZs
-         YYpWHJ2R5VMGpKOdRkj4dzCQn9STlegWDVygNo3q1ia4dPZOLourk/Te2Z+8oUQiIAY1
-         Q83rB6ELgj9yhZwss7DlzRjjb11Xy6V9WT6o75XStU///VPQUye8JELxLFuK8EtqHaAs
-         OreqNmOJgmBWm3X0uSd1BblV2qpzDP/E7b21ThKiSSFtE6GYV7Eh7pAzhwiCnYn5DopI
-         SCvg==
-X-Gm-Message-State: AOAM5338P18L7KN+8tVPbzxxpYVx5Da4fL41yg2V0vnBPvBvHrX9+/4g
-        Ntp8PzYkJCb7kAM4DoJ+62drbZy9XiPgtLf5
-X-Google-Smtp-Source: ABdhPJz0WetOli7nYV+1tu6Agc/xaocYrri7GSX5u0JaXCXv71asXwe9UZqJdXYUvIGXJK/jpHUjWg==
-X-Received: by 2002:ac2:4c54:: with SMTP id o20mr45357532lfk.369.1641303774586;
-        Tue, 04 Jan 2022 05:42:54 -0800 (PST)
-Received: from [192.168.1.102] (88-113-46-102.elisa-laajakaista.fi. [88.113.46.102])
-        by smtp.gmail.com with ESMTPSA id i7sm3414551lfu.175.2022.01.04.05.42.54
+         :user-agent:mime-version:in-reply-to:content-transfer-encoding
+         :content-language;
+        bh=W9Bh3fUgumLp+/q/W4dvepebJC6o+IFE+HMv/nLlfio=;
+        b=SB0sjo2ZgH2VChFzPPXXsjMZz8EiNvU9a/3KeHzcOXZfrWVOVn3b4+I2wvbv0dpUkr
+         7mbEhmzKHG3vC3ln9pxvGDJaPmPopXcPBoftKJfaxYn8rJmWYreVqjf2rXPBaY6oJNAZ
+         UFWyIZeB89v0sBzVzj3FVLqSq5x9iDqOiuO+/yi7eEOroGBMttOXpNPyXT0zsp+iWQS5
+         xBZ1hbain9pqDD4z5cI3orCuN+mJc9gyAVNFQVBJlHV/B0jRRVpg1FzbFDiV3B1TiWSR
+         gp+6joR+DpVNAFvxGFmUgTv96USMOm1QSZwVZ3O/VgGICyYgzvpZ4P+L4ReGOd+PWCQL
+         VX7w==
+X-Gm-Message-State: AOAM530YGtbLAMr5q8x4gyiOAoG4qK7anyO4N2eGt4U91KEzuUrZ2vny
+        0IHjFzLlTWj9O3Eh8Ulc4hE=
+X-Google-Smtp-Source: ABdhPJwSMJ+2xGsiLFU6tc5hin8MGLy37GABx1tG7xE5ec2i5KTv5TLhulFWgyy/psXnhTyX6WVnnQ==
+X-Received: by 2002:adf:f945:: with SMTP id q5mr12916536wrr.115.1641308901773;
+        Tue, 04 Jan 2022 07:08:21 -0800 (PST)
+Received: from ?IPv6:2a02:908:1252:fb60:6d5e:a071:be8b:acf5? ([2a02:908:1252:fb60:6d5e:a071:be8b:acf5])
+        by smtp.gmail.com with ESMTPSA id g5sm42662265wrd.100.2022.01.04.07.08.20
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 04 Jan 2022 05:42:54 -0800 (PST)
-Subject: Re: [PATCH v3 01/19] media: dt-bindings: media: camss: Add
- qcom,sm8250-camss binding
-To:     Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
-        Robert Foss <robert.foss@linaro.org>
-Cc:     jonathan@marek.ca, andrey.konovalov@linaro.org,
-        todor.too@gmail.com, agross@kernel.org, bjorn.andersson@linaro.org,
-        jgrahsl@snap.com, hfink@snap.com, dmitry.baryshkov@linaro.org,
-        devicetree@vger.kernel.org, Rob Herring <robh@kernel.org>,
-        hverkuil@xs4all.nl, mchehab@kernel.org,
-        linux-arm-msm@vger.kernel.org, linux-media@vger.kernel.org
-References: <20211222003751.2461466-1-bryan.odonoghue@linaro.org>
- <20211222003751.2461466-2-bryan.odonoghue@linaro.org>
-From:   Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
-Message-ID: <1d753716-ba3c-8fb6-eeaf-7c68ef0c6e5c@linaro.org>
-Date:   Tue, 4 Jan 2022 15:42:47 +0200
+        Tue, 04 Jan 2022 07:08:21 -0800 (PST)
+Subject: Re: [PATCH 13/24] dma-buf: drop the DAG approach for the dma_resv
+ object
+To:     Daniel Vetter <daniel@ffwll.ch>
+Cc:     dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
+        linaro-mm-sig@lists.linaro.org
+References: <20211207123411.167006-1-christian.koenig@amd.com>
+ <20211207123411.167006-14-christian.koenig@amd.com>
+ <YcOcASxfAApIpbrf@phenom.ffwll.local>
+From:   =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
+Message-ID: <d1fe9e3b-3d58-2aa8-36ae-9052192a2f0d@gmail.com>
+Date:   Tue, 4 Jan 2022 16:08:20 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.1
+ Thunderbird/78.14.0
 MIME-Version: 1.0
-In-Reply-To: <20211222003751.2461466-2-bryan.odonoghue@linaro.org>
+In-Reply-To: <YcOcASxfAApIpbrf@phenom.ffwll.local>
 Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Bryan, Robert,
+Am 22.12.21 um 22:43 schrieb Daniel Vetter:
+> On Tue, Dec 07, 2021 at 01:34:00PM +0100, Christian König wrote:
+>> So far we had the approach of using a directed acyclic
+>> graph with the dma_resv obj.
+>>
+>> This turned out to have many downsides, especially it means
+>> that every single driver and user of this interface needs
+>> to be aware of this restriction when adding fences. If the
+>> rules for the DAG are not followed then we end up with
+>> potential hard to debug memory corruption, information
+>> leaks or even elephant big security holes because we allow
+>> userspace to access freed up memory.
+>>
+>> Since we already took a step back from that by always
+>> looking at all fences we now go a step further and stop
+>> dropping the shared fences when a new exclusive one is
+>> added.
+>>
+>> Signed-off-by: Christian König <christian.koenig@amd.com>
+>> ---
+>>   drivers/dma-buf/dma-resv.c | 13 -------------
+>>   1 file changed, 13 deletions(-)
+>>
+>> diff --git a/drivers/dma-buf/dma-resv.c b/drivers/dma-buf/dma-resv.c
+>> index 9acceabc9399..ecb2ff606bac 100644
+>> --- a/drivers/dma-buf/dma-resv.c
+>> +++ b/drivers/dma-buf/dma-resv.c
+> No doc update at all!
 
-On 12/22/21 2:37 AM, Bryan O'Donoghue wrote:
-> From: Jonathan Marek <jonathan@marek.ca>
-> 
-> Add bindings for qcom,sm8250-camss in order to support the camera
-> subsystem for SM8250.
-> 
-> Cc: devicetree@vger.kernel.org
-> Signed-off-by: Jonathan Marek <jonathan@marek.ca>
-> Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-> Reviewed-by: Rob Herring <robh@kernel.org>
-> ---
->   .../bindings/media/qcom,sm8250-camss.yaml     | 450 ++++++++++++++++++
->   1 file changed, 450 insertions(+)
->   create mode 100644 Documentation/devicetree/bindings/media/qcom,sm8250-camss.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/media/qcom,sm8250-camss.yaml b/Documentation/devicetree/bindings/media/qcom,sm8250-camss.yaml
+Scratching my head I'm pretty sure I've updated at least the kerneldoc 
+for dma_resv_add_excl_fence(). Must have gone lost in some rebase.
 
-<snip>
+>
+> I checked, we're not that shitty with docs,
 
-> +required:
-> +  - clock-names
-> +  - clocks
-> +  - compatible
-> +  - interconnects
-> +  - interconnect-names
-> +  - interrupts
-> +  - interrupt-names
-> +  - iommus
-> +  - power-domains
-> +  - reg
-> +  - reg-names
-> +
-> +additionalProperties: false
+Well I wouldn't say shitty, but they are not perfect either.
 
-I've discovered that there is a noticeable difference between this bindings
-and all the previous ones, for instance see qcom,sdm845-camss.yaml
+>   Minimally the DOC: section
+> header and also the struct dma_resv kerneldoc. Also there's maybe more
+> references and stuff I've missed on a quick look, please check for them
+> (e.g. dma_buf.resv kerneldoc is rather important to keep correct too).
+>
+> Code itself does what it says in the commit message, but we really need
+> the most accurate docs we can get for this stuff, or the confusion will
+> persist :-/
 
-There is no required 'vdda-supply' property on the list, and fwiw I believe
-there should be two supply properties for 0p9 and 1p2 supplies in fact.
-Similarly, two separate supplies should be present in sdm845 camss bindings.
+Yeah completely agree, going to fix that.
 
-At the moment the driver operates with 'vdda' supply only, commit 9e5d1581
-introduced undocumented 'vdd_sec' for sdm660, but, if I'm not mistaken,
-it's unused.
+Thanks,
+Christian.
 
-In my opinion now it's a convenient moment to add descriptions and support
-of two vdda regulators, comments are more than welcome.
+>
+> Cheers, Daniel
+>
+>> @@ -383,29 +383,16 @@ EXPORT_SYMBOL(dma_resv_replace_fences);
+>>   void dma_resv_add_excl_fence(struct dma_resv *obj, struct dma_fence *fence)
+>>   {
+>>   	struct dma_fence *old_fence = dma_resv_excl_fence(obj);
+>> -	struct dma_resv_list *old;
+>> -	u32 i = 0;
+>>   
+>>   	dma_resv_assert_held(obj);
+>>   
+>> -	old = dma_resv_shared_list(obj);
+>> -	if (old)
+>> -		i = old->shared_count;
+>> -
+>>   	dma_fence_get(fence);
+>>   
+>>   	write_seqcount_begin(&obj->seq);
+>>   	/* write_seqcount_begin provides the necessary memory barrier */
+>>   	RCU_INIT_POINTER(obj->fence_excl, fence);
+>> -	if (old)
+>> -		old->shared_count = 0;
+>>   	write_seqcount_end(&obj->seq);
+>>   
+>> -	/* inplace update, no shared fences */
+>> -	while (i--)
+>> -		dma_fence_put(rcu_dereference_protected(old->shared[i],
+>> -						dma_resv_held(obj)));
+>> -
+>>   	dma_fence_put(old_fence);
+>>   }
+>>   EXPORT_SYMBOL(dma_resv_add_excl_fence);
+>> -- 
+>> 2.25.1
+>>
 
---
-Best wishes,
-Vladimir
