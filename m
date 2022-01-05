@@ -2,91 +2,50 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1839E4855FB
-	for <lists+linux-media@lfdr.de>; Wed,  5 Jan 2022 16:37:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 11E72485678
+	for <lists+linux-media@lfdr.de>; Wed,  5 Jan 2022 17:09:28 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241536AbiAEPhW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 5 Jan 2022 10:37:22 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57824 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241550AbiAEPhL (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 5 Jan 2022 10:37:11 -0500
-Received: from mail-ed1-x52c.google.com (mail-ed1-x52c.google.com [IPv6:2a00:1450:4864:20::52c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A719DC061245;
-        Wed,  5 Jan 2022 07:37:10 -0800 (PST)
-Received: by mail-ed1-x52c.google.com with SMTP id f5so163669506edq.6;
-        Wed, 05 Jan 2022 07:37:10 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id;
-        bh=IUKwGI9uAX6PYPoRB8Gc90h0oTgFN8Bu0rvMiUFNi5U=;
-        b=IuI8aayf6o1krrqgG9a5vwEePOnTfQJSqNzjVMpcnIF62P887eUSC9vfNVM6sIRPPN
-         4RoSlU2mO7p4Ik7kzXr1Q2VFdQFNmSXo857a4Bs8C29L0NM75oFStF38+vEJV7R6wx6t
-         h1WLeYSapuQXxItef4iV/vX/VPCIj2MGWNqHqVKtmYqB7T/TxtcvGLvWJMVv4kb0jkOz
-         VRFnnGce+rr7tK6i85H0e7uB7bTS/xLJY9k+zhyDTDeI2ONgsIoFL/21+jCCzqEF2Q6b
-         RrDJwJfn/PF6NNLRV47IHRrVB8HSwI3MzxXNqM4/6FvGte589oARnjEBCmtcHXRkYHX7
-         OD9g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=IUKwGI9uAX6PYPoRB8Gc90h0oTgFN8Bu0rvMiUFNi5U=;
-        b=6cwTmLcCeJruehL6ZCKpce8yXNsfUcF2Rm4RGlVFZAHeHzlfTNh/j9bkCjgtFng/Vw
-         49YvOojqp5nXN2uFmuX9bqaQ/KJ2zZv+0hIC/c7V1DH08zXAC/A/4k5JRY/3rARqx2fZ
-         dIZkQ+UlV+tIBS1Mp2bfhgjZ43oervuxKw1vTqvWWEydAwXyruWNqYIMG/xGfgCpt+2e
-         F41V6ykaDq/mdOlxGOeP1cFo95QjcHdqjsdyuXhVRSA0Ub1YMSu1MqGKaY+vVb2Ic+OT
-         6r4yXBnw+nrnRGwbD2S8c6ifC39Qer8UAiD0H8Iwj+IWSA6AV//8JWFOlhogqW9DbuW4
-         Ak2w==
-X-Gm-Message-State: AOAM533DnPUXa//RJO3Wy9XOAkfcrTL8+0v2ngHw7mYEvlPcT5ep16fk
-        TRUQ0WHHBScXS4+LCrVYGLZF5F5Ti/E=
-X-Google-Smtp-Source: ABdhPJy1fi1qZja7Sbk+Q2F5UOdV+lzqZVrjT3Y3y12frTUZVirNIov72AFlPPyZAuQDDMslXK9SMQ==
-X-Received: by 2002:a50:fd9a:: with SMTP id o26mr14488918edt.199.1641397029323;
-        Wed, 05 Jan 2022 07:37:09 -0800 (PST)
-Received: from localhost.localdomain ([46.249.74.23])
-        by smtp.gmail.com with ESMTPSA id d7sm307621edt.74.2022.01.05.07.37.07
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 05 Jan 2022 07:37:08 -0800 (PST)
-From:   Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>
-To:     tomba@kernel.org, sumit.semwal@linaro.org, christian.koenig@amd.com
-Cc:     openpvrsgx-devgroup@letux.org, merlijn@wizzup.org,
-        philipp@uvos.xyz, airlied@linux.ie, daniel@ffwll.ch,
-        dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-omap@vger.kernel.org,
-        Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>
-Subject: [PATCH] drm: omapdrm: Fix implicit dma_buf fencing
-Date:   Wed,  5 Jan 2022 17:36:58 +0200
-Message-Id: <1641397018-29872-1-git-send-email-ivo.g.dimitrov.75@gmail.com>
-X-Mailer: git-send-email 1.9.1
+        id S241837AbiAEQJZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 5 Jan 2022 11:09:25 -0500
+Received: from slot0.cofercan.com ([194.99.46.247]:36791 "EHLO
+        slot0.cofercan.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S241809AbiAEQJZ (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 5 Jan 2022 11:09:25 -0500
+X-Greylist: delayed 639 seconds by postgrey-1.27 at vger.kernel.org; Wed, 05 Jan 2022 11:09:11 EST
+DKIM-Signature: v=1; a=rsa-sha1; c=relaxed/relaxed; s=dkim; d=cofercan.com;
+ h=Reply-To:From:To:Subject:Date:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding; i=khi.hod@cofercan.com;
+ bh=YA9Ev6KBsaZSztxrpBo4tmgf8zQ=;
+ b=CtI2L5yiEyM5NOxOlgmMitnwIi4Mo+SN0MuA0FTS/Rn6ZNGFJXgYGe63r7EYuh38Y6pB9UacmKeF
+   rZSwNK7mxiMkNuCyg3ckbbM6y8ol8vZzLUysz5RqPZiWWvRrCuE9ft4MDkCHOpMc4EGI9arST+y+
+   Uuur66JIBkaffZTXrhjaM2x2gR9FIgQIxYHGZyvyTepMeWc/XZAttlNyJZMPV9HS1NBqPhbv8NFz
+   chcOTC4xKmc8r6KDRExEp/gQcKFrHoxXXp3yzBFHQluB6DrNB6K/15A/9+irNS0GRNb9Afkf++US
+   1NnoW02OTMJRK//IdCvgPgbhHRiaAXD7UtAwvw==
+DomainKey-Signature: a=rsa-sha1; c=nofws; q=dns; s=dkim; d=cofercan.com;
+ b=UMT80IzWejTxKvch/SLPZxKtWbu8pnNSWM5f1Ymt8LquRcfSyMKNG+X5Fn948ftPlCMeVm4r315T
+   mE2yQAlCdSBkiGqcRXLoH4kPNPF08qcfPPOcD4FPpQJ1KsxEiOd46wFCOJy34s9evS9WgaYwBtva
+   8PiUaoYsNsACYWw1k7zC4L+S0Bi7lQb77x4DlwkgYVLuI6BXncSNcVSi6C8LO9p3r8iiqY45b4GP
+   Ximwe7pyv0g7Ghgc0vKQsjSVVB56RGvJxB9tTd0OaWAUsTXfrGB23FJs2oqJHo5yaa2qWPWOo17V
+   W0JGXJXSU8oXzWIPTVdOKjANmg2fCVAikHGGFA==;
+Reply-To: inbox.mustafaa@gmail.com
+From:   "Mustafa Ayvaz" <khi.hod@cofercan.com>
+To:     linux-media@vger.kernel.org
+Subject: MES: 
+Date:   5 Jan 2022 15:49:41 +0000
+Message-ID: <20220105154941.926AA0DB7CF2A452@cofercan.com>
+MIME-Version: 1.0
+Content-Type: text/plain;
+        charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Currently omapdrm driver does not initialize dma_buf_export_info resv
-member, which leads to a new dma_resv being allocated and attached to
-the exported dma_buf. This leads to the issue that fences created on
-dma_buf objects imported by other drivers are ignored by omapdrm, as only
-fences in gem object resv are waited on. This leads to various issues like
-displaying incomplete frames.
+Hello linux-media,
 
-Fix that by initializing dma_buf resv to the resv of the gem object being
-exported.
+I was only wondering if you got my previous email? I have been=20
+trying to reach you on your email linux-media@vger.kernel.org ,=20
+kindly get back to me swiftly, it is very important.
 
-Signed-off-by: Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>
----
- drivers/gpu/drm/omapdrm/omap_gem_dmabuf.c | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/drivers/gpu/drm/omapdrm/omap_gem_dmabuf.c b/drivers/gpu/drm/omapdrm/omap_gem_dmabuf.c
-index f1f93cabb61e..a111e5c91925 100644
---- a/drivers/gpu/drm/omapdrm/omap_gem_dmabuf.c
-+++ b/drivers/gpu/drm/omapdrm/omap_gem_dmabuf.c
-@@ -88,6 +88,7 @@ struct dma_buf *omap_gem_prime_export(struct drm_gem_object *obj, int flags)
- 	exp_info.size = omap_gem_mmap_size(obj);
- 	exp_info.flags = flags;
- 	exp_info.priv = obj;
-+	exp_info.resv = obj->resv;
- 
- 	return drm_gem_dmabuf_export(obj->dev, &exp_info);
- }
--- 
-2.20.1
-
+Thanks
+Mustafa Ayvaz
+mustafa@ayvazburosu.com
