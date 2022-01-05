@@ -2,188 +2,177 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 384A34858CF
-	for <lists+linux-media@lfdr.de>; Wed,  5 Jan 2022 20:03:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A15E4485967
+	for <lists+linux-media@lfdr.de>; Wed,  5 Jan 2022 20:47:58 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243292AbiAETDH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 5 Jan 2022 14:03:07 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48506 "EHLO
+        id S243666AbiAETrz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 5 Jan 2022 14:47:55 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58756 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243289AbiAETDC (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 5 Jan 2022 14:03:02 -0500
-Received: from lahtoruutu.iki.fi (lahtoruutu.iki.fi [IPv6:2a0b:5c81:1c1::37])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 961E1C061201;
-        Wed,  5 Jan 2022 11:03:01 -0800 (PST)
-Received: from hillosipuli.retiisi.eu (89-27-103-169.bb.dnainternet.fi [89.27.103.169])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        with ESMTP id S243651AbiAETrx (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 5 Jan 2022 14:47:53 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AE3FAC061245;
+        Wed,  5 Jan 2022 11:47:52 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        (Authenticated sender: sailus)
-        by lahtoruutu.iki.fi (Postfix) with ESMTPSA id 7F04B1B0022A;
-        Wed,  5 Jan 2022 21:02:56 +0200 (EET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=lahtoruutu;
-        t=1641409376;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=0vzccKNKahp6NIlsGUb99SK9e2Mzf8IhCz8xEvjy7b8=;
-        b=vMcUFaIEtfLdO/MF9Buz4/saehC7kH3MlZ4dFkicDEYy2WhqsLh/kPsHYxUrQgyVpaqmTh
-        SPMTM+ZBSdpm2elhbN1EaQ/QyxP5R+U7KsYoUkdKv0uJOSaW6WxtV9ZnxLYwLYNaahNLxI
-        C5hFUuSjfzI7zoFKYOJPnULtR2KcdgEVnqoIRPg/nkny9Gr6fxNbav3OEpisB+l6FMXjDF
-        z1oRroWynC8wYJyPI4x3qYjBRD3i7773P8zNkKB4pYeiddinbKzz06TKgj1kKuu+2wJCKj
-        E+bzl4Ii3Pg9TZ8gJROr50GWjI3HCxoUiNMcQCW+GX4AkFWC1Ycvt97n4UvZHg==
-Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 17211634C90;
-        Wed,  5 Jan 2022 21:02:56 +0200 (EET)
-Date:   Wed, 5 Jan 2022 21:02:55 +0200
-From:   Sakari Ailus <sakari.ailus@iki.fi>
-To:     Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-Cc:     linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        by ams.source.kernel.org (Postfix) with ESMTPS id C357DB81D6D;
+        Wed,  5 Jan 2022 19:47:50 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4F8F0C36AE0;
+        Wed,  5 Jan 2022 19:47:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1641412069;
+        bh=t/Luv/nk2DzaSNkJU//u39w5XVRhppoSx5pKsM3k/v4=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:From;
+        b=VUv9O2qdqKxA+jG4CFc2u3LsBBtVCfotavPXFO/fA1pTVEWrxgynepfFoNwDmpPe3
+         gm6mzSwrf0Mu9v8LI0ep1L8d0gF07n+txTEieNZIGWxOqW9SiL4CAOcvJbfSVMhQ+3
+         AXwKESLwYk/C/VLxQ9B09ONeiabtURx+gn19Ju8IEKSa/0hYllteATy6HWhv5F/Jtp
+         78FWTCTutn0mw70OCHpRgC8L6tBrcnnp3ILK1zuW9o6rgJRHSCKyS7qdLXCdCEZ3Sf
+         pZgJlDurZwMThwqJkqgUgnGVT16YwqrnJM1KhaMG1e1LQ7K8PhR9cgiSRWv4dC4Mip
+         cFT1uhvBqjObQ==
+Date:   Wed, 5 Jan 2022 13:47:48 -0600
+From:   Bjorn Helgaas <helgaas@kernel.org>
+To:     John Garry <john.garry@huawei.com>
+Cc:     Niklas Schnelle <schnelle@linux.ibm.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Arnd Bergmann <arnd@arndb.de>,
         Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        Jacopo Mondi <jacopo@jmondi.org>,
-        Niklas =?iso-8859-1?Q?S=F6derlund?= 
-        <niklas.soderlund@ragnatech.se>,
-        Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-        Janusz Krzysztofik <jmkrzyszt@gmail.com>,
-        Lars-Peter Clausen <lars@metafoo.de>,
-        Mats Randgaard <matrandg@cisco.com>
-Subject: Re: [RFC PATCH 8/8] media: v4l2-mediabus: Drop
- V4L2_MBUS_CSI2_CONTINUOUS_CLOCK flag
-Message-ID: <YdXrX9VLOm3W3YBl@valkosipuli.retiisi.eu>
-References: <20220103162414.27723-1-laurent.pinchart+renesas@ideasonboard.com>
- <20220103162414.27723-9-laurent.pinchart+renesas@ideasonboard.com>
+        Ettore Chimenti <ek5.chimenti@gmail.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Arnd Bergmann <arnd@kernel.org>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        Nick Hu <nickhu@andestech.com>,
+        Greentime Hu <green.hu@gmail.com>,
+        Vincent Chen <deanbo422@gmail.com>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>, Guo Ren <guoren@kernel.org>,
+        Damien Le Moal <damien.lemoal@opensource.wdc.com>,
+        Ian Abbott <abbotti@mev.co.uk>,
+        H Hartley Sweeten <hsweeten@visionengravers.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Bartosz Golaszewski <brgl@bgdev.pl>,
+        Jean Delvare <jdelvare@suse.com>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Karsten Keil <isdn@linux-pingi.de>,
+        Sathya Prakash <sathya.prakash@broadcom.com>,
+        Sreekanth Reddy <sreekanth.reddy@broadcom.com>,
+        Suganath Prabu Subramani 
+        <suganath-prabu.subramani@broadcom.com>,
+        Michael Grzeschik <m.grzeschik@pengutronix.de>,
+        "David S. Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Jesse Brandeburg <jesse.brandeburg@intel.com>,
+        Tony Nguyen <anthony.l.nguyen@intel.com>,
+        Kalle Valo <kvalo@kernel.org>, Jouni Malinen <j@w1.fi>,
+        "James E.J. Bottomley" <jejb@linux.ibm.com>,
+        "Martin K. Petersen" <martin.petersen@oracle.com>,
+        Hannes Reinecke <hare@suse.com>,
+        Kashyap Desai <kashyap.desai@broadcom.com>,
+        Sumit Saxena <sumit.saxena@broadcom.com>,
+        Shivasharan S <shivasharan.srikanteshwara@broadcom.com>,
+        Nilesh Javali <njavali@marvell.com>,
+        GR-QLogic-Storage-Upstream@marvell.com,
+        Mark Brown <broonie@kernel.org>,
+        Sudip Mukherjee <sudipm.mukherjee@gmail.com>,
+        Teddy Wang <teddy.wang@siliconmotion.com>,
+        Forest Bond <forest@alittletooquiet.net>,
+        Jiri Slaby <jirislaby@kernel.org>,
+        Wim Van Sebroeck <wim@linux-watchdog.org>,
+        Jaroslav Kysela <perex@perex.cz>,
+        Takashi Iwai <tiwai@suse.com>, linux-kernel@vger.kernel.org,
+        linux-arch@vger.kernel.org, linux-pci@vger.kernel.org,
+        linux-riscv@lists.infradead.org, linux-csky@vger.kernel.org,
+        linux-ide@vger.kernel.org, linux-gpio@vger.kernel.org,
+        linux-hwmon@vger.kernel.org, linux-i2c@vger.kernel.org,
+        linux-input@vger.kernel.org, netdev@vger.kernel.org,
+        linux-media@vger.kernel.org, MPT-FusionLinux.pdl@broadcom.com,
+        linux-scsi@vger.kernel.org, intel-wired-lan@lists.osuosl.org,
+        linux-wireless@vger.kernel.org, megaraidlinux.pdl@broadcom.com,
+        linux-spi@vger.kernel.org, linux-fbdev@vger.kernel.org,
+        linux-serial@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linux-watchdog@vger.kernel.org
+Subject: Re: [RFC 01/32] Kconfig: introduce and depend on LEGACY_PCI
+Message-ID: <20220105194748.GA215560@bhelgaas>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220103162414.27723-9-laurent.pinchart+renesas@ideasonboard.com>
-ARC-Seal: i=1; s=lahtoruutu; d=iki.fi; t=1641409376; a=rsa-sha256;
-        cv=none;
-        b=jR+TIiFwSqozwtguptbm9VvQkzYD91UmCBCd/IzK1u7RAXlxnP4orkPbocA8FzX/OfYRQo
-        aPO8gLIKsltom6jDQ0Q59si/K1LpeK6Q9UCWG3Uwb/YL2nb+/FEH5NI79xsoY1tJPn/BzK
-        VvY3yQM0cxdr9kY+u1j9sc4OxEkzt/A9ej8bLC1SkIBd1HpWjASWmYzxq/480YvW3umegF
-        h/kCYuBKr9xSE1bAhXViqjOC9rdWqQVU2zXcCDoefraN1aDrIUT590Q7BdTafm6hCMY9rm
-        At5+va3Q2/aJD6qbKXmhHFYDd1XZwMjIexn2Kxsh5JNHWqn9F+F9jmwuGuoryg==
-ARC-Authentication-Results: i=1;
-        ORIGINATING;
-        auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
-        s=lahtoruutu; t=1641409376;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=0vzccKNKahp6NIlsGUb99SK9e2Mzf8IhCz8xEvjy7b8=;
-        b=LIo5BGhwWtZmVRjidjfXc+aBtNSBzZfw0Gg1q7RVSn5pX22OdQ2I8hipilY28kB8gNvcUb
-        /cn4jcA9QWbmWeStSUfAT++paZP5I8oqNH2hmdHz6DT6HH59zNJEVOcsU6yP0dhQeBlF6n
-        CZX13/5cEnlIxLyXyMic0R1fQcPxCH0NC3BnXmdnJwEvS0Cn0C3AfEEAftP15RrXeXB8oK
-        dxS7yY0GKkKWMhfeArZDND+GphcHCn+ETy4kpeb7b4r9kGpMploVrZO4r2WySU0mGS+lB8
-        8o6StC16eAiv6NIt/fSVbObmUGO2wuqsWAlpeO1z0k7db3iJ0UNQeYcA5w/wwA==
+In-Reply-To: <3f39d8a2-2e57-a671-2926-eb4f2bf20c76@huawei.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Laurent,
+On Wed, Jan 05, 2022 at 05:42:16PM +0000, John Garry wrote:
+> On 29/12/2021 16:55, Niklas Schnelle wrote:
+> > On Wed, 2021-12-29 at 10:03 -0600, Bjorn Helgaas wrote:
+> > > On Wed, Dec 29, 2021 at 01:12:07PM +0100, Mauro Carvalho Chehab wrote:
+> > > > Em Wed, 29 Dec 2021 12:45:38 +0100
+> > > > Niklas Schnelle<schnelle@linux.ibm.com>  escreveu:
+> > > > > ...
+> > > > > I do think we agree that once done correctly there is value in
+> > > > > such an option independent of HAS_IOPORT only gating inb() etc uses.
+> > > I'm not sure I'm convinced about this.  For s390, you could do this
+> > > patch series, where you don't define inb() at all, and you add new
+> > > dependencies to prevent compile errors.  Or you could define inb() to
+> > > return ~0, which is what happens on other platforms when the device is
+> > > not present.
+> > > 
+> > > > Personally, I don't see much value on a Kconfig var for legacy PCI I/O
+> > > > space. From maintenance PoV, bots won't be triggered if someone use
+> > > > HAS_IOPORT instead of the PCI specific one - or vice-versa. So, we
+> > > > could end having a mix of both at the wrong places, in long term.
+> > > > 
+> > > > Also, assuming that PCIe hardware will some day abandon support for
+> > > > "legacy" PCI I/O space, I guess some runtime logic would be needed,
+> > > > in order to work with both kinds of PCIe controllers. So, having a
+> > > > Kconfig option won't help much, IMO.
+> > > > 
+> > > > So, my personal preference would be to have just one Kconfig var, but
+> > > > I'm ok if the PCI maintainers decide otherwise.
+> > > I don't really like the "LEGACY_PCI" Kconfig option.  "Legacy" just
+> > > means something old and out of favor; it doesn't say*what*  that
+> > > something is.
+> > > 
+> > > I think you're specifically interested in I/O port space usage, and it
+> > > seems that you want all PCI drivers that *only* use I/O port space to
+> > > depend on LEGACY_PCI?  Drivers that can use either I/O or memory
+> > > space or both would not depend on LEGACY_PCI?  This seems a little
+> > > murky and error-prone.
+> > I'd like to hear Arnd's opinion on this but you're the PCI maintainer
+> > so of course your buy-in would be quite important for such an option.
 
-On Mon, Jan 03, 2022 at 06:24:14PM +0200, Laurent Pinchart wrote:
-> MIPI CSI-2 continuous and non-continuous clock modes are mutually
-> exclusive. Drop the V4L2_MBUS_CSI2_CONTINUOUS_CLOCK flag and use
-> V4L2_MBUS_CSI2_NONCONTINUOUS_CLOCK only.
+I'd like to hear Arnd's opinion, too.  If we do add LEGACY_PCI, I
+think we need a clear guide for when to use it, e.g., "a PCI driver
+that uses inb() must depend on LEGACY_PCI" or whatever it is.
+
+I must be missing something because I don't see what we gain from
+this.  We have PCI drivers, e.g., megaraid [1], for devices that have
+either MEM or I/O BARs.  I think we want to build drivers like that on
+any arch that supports PCI.
+
+If the arch doesn't support I/O port space, devices that only have I/O
+BARs won't work, of course, and hopefully the PCI core and driver can
+figure that out and gracefully fail the probe.
+
+But that same driver should still work with devices that have MEM
+BARs.  If inb() isn't always present, I guess we could litter these
+drivers with #ifdefs, but that would be pretty ugly.  IMO inb() should
+be present but do something innocuous like return ~0, as it would if
+I/O port space is supported but there's no device at that address.
+
+[1] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/drivers/scsi/megaraid.c?id=v5.15#n4210
+
+> I can't see the value in the LEGACY_PCI config - however I don't really
+> understand Arnd's original intention.
 > 
-> Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-> ---
->  drivers/media/i2c/adv7180.c           | 3 +--
->  drivers/media/i2c/tc358743.c          | 6 +++---
->  drivers/media/v4l2-core/v4l2-fwnode.c | 4 +---
->  include/media/v4l2-mediabus.h         | 3 +--
->  4 files changed, 6 insertions(+), 10 deletions(-)
+> It was written that it would allow us to control "whether we have any
+> pre-PCIe devices or those PCIe drivers that need PIO accessors other than
+> ioport_map()/pci_iomap()".
 > 
-> diff --git a/drivers/media/i2c/adv7180.c b/drivers/media/i2c/adv7180.c
-> index 3ff37a550810..4f5db195e66d 100644
-> --- a/drivers/media/i2c/adv7180.c
-> +++ b/drivers/media/i2c/adv7180.c
-> @@ -785,8 +785,7 @@ static int adv7180_get_mbus_config(struct v4l2_subdev *sd,
->  	if (state->chip_info->flags & ADV7180_FLAG_MIPI_CSI2) {
->  		cfg->type = V4L2_MBUS_CSI2_DPHY;
->  		cfg->bus.mipi_csi2.num_data_lanes = 1;
-> -		cfg->bus.mipi_csi2.flags =
-> -				V4L2_MBUS_CSI2_CONTINUOUS_CLOCK;
-> +		cfg->bus.mipi_csi2.flags = 0;
->  	} else {
->  		/*
->  		 * The ADV7180 sensor supports BT.601/656 output modes.
-> diff --git a/drivers/media/i2c/tc358743.c b/drivers/media/i2c/tc358743.c
-> index dfbc42675143..e18b8947ad7e 100644
-> --- a/drivers/media/i2c/tc358743.c
-> +++ b/drivers/media/i2c/tc358743.c
-> @@ -717,7 +717,7 @@ static void tc358743_set_csi(struct v4l2_subdev *sd)
->  			((lanes > 3) ? MASK_D3M_HSTXVREGEN : 0x0));
->  
->  	i2c_wr32(sd, TXOPTIONCNTRL, (state->bus.flags &
-> -		 V4L2_MBUS_CSI2_CONTINUOUS_CLOCK) ? MASK_CONTCLKMODE : 0);
-> +		 V4L2_MBUS_CSI2_NONCONTINUOUS_CLOCK) ? 0 : MASK_CONTCLKMODE);
->  	i2c_wr32(sd, STARTCNTRL, MASK_START);
->  	i2c_wr32(sd, CSI_START, MASK_STRT);
->  
-> @@ -1613,7 +1613,7 @@ static int tc358743_get_mbus_config(struct v4l2_subdev *sd,
->  	cfg->type = V4L2_MBUS_CSI2_DPHY;
->  
->  	/* Support for non-continuous CSI-2 clock is missing in the driver */
-> -	cfg->bus.mipi_csi2.flags = V4L2_MBUS_CSI2_CONTINUOUS_CLOCK;
-> +	cfg->bus.mipi_csi2.flags = 0;
->  	cfg->bus.mipi_csi2.num_data_lanes = state->csi_lanes_in_use;
->  
->  	return 0;
-> @@ -2039,7 +2039,7 @@ static int tc358743_probe(struct i2c_client *client)
->  	/* platform data */
->  	if (pdata) {
->  		state->pdata = *pdata;
-> -		state->bus.flags = V4L2_MBUS_CSI2_CONTINUOUS_CLOCK;
-> +		state->bus.flags = 0;
->  	} else {
->  		err = tc358743_probe_of(state);
->  		if (err == -ENODEV)
-> diff --git a/drivers/media/v4l2-core/v4l2-fwnode.c b/drivers/media/v4l2-core/v4l2-fwnode.c
-> index 9ff3ebb230e7..9aad860cde6c 100644
-> --- a/drivers/media/v4l2-core/v4l2-fwnode.c
-> +++ b/drivers/media/v4l2-core/v4l2-fwnode.c
-> @@ -207,13 +207,11 @@ static int v4l2_fwnode_endpoint_parse_csi2_bus(struct fwnode_handle *fwnode,
->  	if (fwnode_property_present(fwnode, "clock-noncontinuous")) {
->  		flags |= V4L2_MBUS_CSI2_NONCONTINUOUS_CLOCK;
->  		pr_debug("non-continuous clock\n");
-> -	} else {
-> -		flags |= V4L2_MBUS_CSI2_CONTINUOUS_CLOCK;
->  	}
->  
->  	if (bus_type == V4L2_MBUS_CSI2_DPHY ||
->  	    bus_type == V4L2_MBUS_CSI2_CPHY || lanes_used ||
-> -	    have_clk_lane || (flags & ~V4L2_MBUS_CSI2_CONTINUOUS_CLOCK)) {
-> +	    have_clk_lane || (flags & V4L2_MBUS_CSI2_NONCONTINUOUS_CLOCK)) {
-
-This should be just plains flags (i.e. without bitwise and) as we're just
-figuring out whether any properties related to CSI-2 were found.
-
->  		/* Only D-PHY has a clock lane. */
->  		unsigned int dfl_data_lane_index =
->  			bus_type == V4L2_MBUS_CSI2_DPHY;
-> diff --git a/include/media/v4l2-mediabus.h b/include/media/v4l2-mediabus.h
-> index c6626a22b394..e0db3bcff9ed 100644
-> --- a/include/media/v4l2-mediabus.h
-> +++ b/include/media/v4l2-mediabus.h
-> @@ -68,8 +68,7 @@
->  
->  /* Serial flags */
->  /* Clock non-continuous mode support. */
-> -#define V4L2_MBUS_CSI2_CONTINUOUS_CLOCK		BIT(8)
-> -#define V4L2_MBUS_CSI2_NONCONTINUOUS_CLOCK	BIT(9)
-> +#define V4L2_MBUS_CSI2_NONCONTINUOUS_CLOCK	BIT(0)
->  
->  #define V4L2_MBUS_CSI2_MAX_DATA_LANES		8
->  
-
--- 
-Kind regards,
-
-Sakari Ailus
+> However I just don't see why CONFIG_PCI=y and CONFIG_HAS_IOPORT=y aren't
+> always the gating factor here. Arnd?
+> 
+> Thanks,
+> John
