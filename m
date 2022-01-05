@@ -2,158 +2,158 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5B31F48577C
-	for <lists+linux-media@lfdr.de>; Wed,  5 Jan 2022 18:42:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 515F54857E4
+	for <lists+linux-media@lfdr.de>; Wed,  5 Jan 2022 19:05:14 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242441AbiAERmk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 5 Jan 2022 12:42:40 -0500
-Received: from frasgout.his.huawei.com ([185.176.79.56]:4352 "EHLO
-        frasgout.his.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242412AbiAERmi (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 5 Jan 2022 12:42:38 -0500
-Received: from fraeml707-chm.china.huawei.com (unknown [172.18.147.226])
-        by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4JTcDP1FRwz67w73;
-        Thu,  6 Jan 2022 01:39:17 +0800 (CST)
-Received: from lhreml724-chm.china.huawei.com (10.201.108.75) by
- fraeml707-chm.china.huawei.com (10.206.15.35) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.20; Wed, 5 Jan 2022 18:42:31 +0100
-Received: from [10.47.27.56] (10.47.27.56) by lhreml724-chm.china.huawei.com
- (10.201.108.75) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.20; Wed, 5 Jan
- 2022 17:42:28 +0000
-From:   John Garry <john.garry@huawei.com>
-Subject: Re: [RFC 01/32] Kconfig: introduce and depend on LEGACY_PCI
-To:     Niklas Schnelle <schnelle@linux.ibm.com>,
-        Bjorn Helgaas <helgaas@kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        "Arnd Bergmann" <arnd@arndb.de>
-CC:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Ettore Chimenti <ek5.chimenti@gmail.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Arnd Bergmann <arnd@kernel.org>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        Nick Hu <nickhu@andestech.com>,
-        Greentime Hu <green.hu@gmail.com>,
-        Vincent Chen <deanbo422@gmail.com>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        "Palmer Dabbelt" <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>, Guo Ren <guoren@kernel.org>,
-        Damien Le Moal <damien.lemoal@opensource.wdc.com>,
-        "Ian Abbott" <abbotti@mev.co.uk>,
-        H Hartley Sweeten <hsweeten@visionengravers.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Bartosz Golaszewski <brgl@bgdev.pl>,
-        Jean Delvare <jdelvare@suse.com>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        "Karsten Keil" <isdn@linux-pingi.de>,
-        Sathya Prakash <sathya.prakash@broadcom.com>,
-        Sreekanth Reddy <sreekanth.reddy@broadcom.com>,
-        Suganath Prabu Subramani 
-        <suganath-prabu.subramani@broadcom.com>,
-        Michael Grzeschik <m.grzeschik@pengutronix.de>,
-        "David S. Miller" <davem@davemloft.net>,
-        "Jakub Kicinski" <kuba@kernel.org>,
-        Jesse Brandeburg <jesse.brandeburg@intel.com>,
-        Tony Nguyen <anthony.l.nguyen@intel.com>,
-        Kalle Valo <kvalo@kernel.org>, Jouni Malinen <j@w1.fi>,
-        "James E.J. Bottomley" <jejb@linux.ibm.com>,
-        "Martin K. Petersen" <martin.petersen@oracle.com>,
-        Hannes Reinecke <hare@suse.com>,
-        Kashyap Desai <kashyap.desai@broadcom.com>,
-        Sumit Saxena <sumit.saxena@broadcom.com>,
-        Shivasharan S <shivasharan.srikanteshwara@broadcom.com>,
-        Nilesh Javali <njavali@marvell.com>,
-        <GR-QLogic-Storage-Upstream@marvell.com>,
-        Mark Brown <broonie@kernel.org>,
-        Sudip Mukherjee <sudipm.mukherjee@gmail.com>,
-        "Teddy Wang" <teddy.wang@siliconmotion.com>,
-        Forest Bond <forest@alittletooquiet.net>,
-        Jiri Slaby <jirislaby@kernel.org>,
-        "Wim Van Sebroeck" <wim@linux-watchdog.org>,
-        Jaroslav Kysela <perex@perex.cz>,
-        "Takashi Iwai" <tiwai@suse.com>, <linux-kernel@vger.kernel.org>,
-        <linux-arch@vger.kernel.org>, <linux-pci@vger.kernel.org>,
-        <linux-riscv@lists.infradead.org>, <linux-csky@vger.kernel.org>,
-        <linux-ide@vger.kernel.org>, <linux-gpio@vger.kernel.org>,
-        <linux-hwmon@vger.kernel.org>, <linux-i2c@vger.kernel.org>,
-        <linux-input@vger.kernel.org>, <netdev@vger.kernel.org>,
-        <linux-media@vger.kernel.org>, <MPT-FusionLinux.pdl@broadcom.com>,
-        <linux-scsi@vger.kernel.org>, <intel-wired-lan@lists.osuosl.org>,
-        <linux-wireless@vger.kernel.org>, <megaraidlinux.pdl@broadcom.com>,
-        <linux-spi@vger.kernel.org>, <linux-fbdev@vger.kernel.org>,
-        <linux-serial@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
-        <linux-watchdog@vger.kernel.org>
-References: <20211229160317.GA1681139@bhelgaas>
- <e0877e91d7d50299ea5a3ffcee2cf1016458ce10.camel@linux.ibm.com>
-Message-ID: <3f39d8a2-2e57-a671-2926-eb4f2bf20c76@huawei.com>
-Date:   Wed, 5 Jan 2022 17:42:16 +0000
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.1
+        id S242710AbiAESFC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 5 Jan 2022 13:05:02 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35076 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S242711AbiAESE3 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 5 Jan 2022 13:04:29 -0500
+Received: from meesny.iki.fi (meesny.iki.fi [IPv6:2001:67c:2b0:1c1::201])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B9807C061245
+        for <linux-media@vger.kernel.org>; Wed,  5 Jan 2022 10:04:28 -0800 (PST)
+Received: from hillosipuli.retiisi.eu (89-27-103-169.bb.dnainternet.fi [89.27.103.169])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: sailus)
+        by meesny.iki.fi (Postfix) with ESMTPSA id CBB40201E7;
+        Wed,  5 Jan 2022 20:04:24 +0200 (EET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=meesny;
+        t=1641405864;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=D6JKEUyk1h45e2hzJe1Dq4YTYoDOj5f1dnIGBzf/+Gc=;
+        b=YKTJsWMpy6ETFyCVpI/SUHfzyrBFlUFdUGoAR9FKvcSsZXr8+DnLkUwhJIL0/NTp1iWsId
+        LCGddCGGP2bSBHA+CnFe5952SKg1xTlAuDHDnS0rk+IZQTmvpeMQEWlZ1mdxSdqKfCOrWC
+        M7xV4dQxcg8VdbPN1mjByXUXkk3aVAI=
+Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 5D1FE634C90;
+        Wed,  5 Jan 2022 20:04:24 +0200 (EET)
+Date:   Wed, 5 Jan 2022 20:04:24 +0200
+From:   Sakari Ailus <sakari.ailus@iki.fi>
+To:     Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+Cc:     linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        Jacopo Mondi <jacopo@jmondi.org>,
+        Niklas =?iso-8859-1?Q?S=F6derlund?= 
+        <niklas.soderlund@ragnatech.se>,
+        Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+        Janusz Krzysztofik <jmkrzyszt@gmail.com>
+Subject: Re: [RFC PATCH 2/8] media: i2c: ov6650: Drop implementation of
+ .set_mbus_config()
+Message-ID: <YdXdqJLKzDduVdex@valkosipuli.retiisi.eu>
+References: <20220103162414.27723-1-laurent.pinchart+renesas@ideasonboard.com>
+ <20220103162414.27723-3-laurent.pinchart+renesas@ideasonboard.com>
 MIME-Version: 1.0
-In-Reply-To: <e0877e91d7d50299ea5a3ffcee2cf1016458ce10.camel@linux.ibm.com>
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.47.27.56]
-X-ClientProxiedBy: lhreml736-chm.china.huawei.com (10.201.108.87) To
- lhreml724-chm.china.huawei.com (10.201.108.75)
-X-CFilter-Loop: Reflected
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220103162414.27723-3-laurent.pinchart+renesas@ideasonboard.com>
+ARC-Authentication-Results: i=1;
+        ORIGINATING;
+        auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
+ARC-Seal: i=1; s=meesny; d=iki.fi; t=1641405864; a=rsa-sha256; cv=none;
+        b=duFVSUAwaPfigf+3SLO6VL0FVdCi6xQ5c4lAXDTTDrozVKBI4RqiFftFjTSDggxOMUJFQ9
+        YA7p1PYzDVdNDLZRhqXYezBSbCAZnmisPfU5YJYQuFugIgM/etLxQnULfoZosoJnJXuE7P
+        nl2clvAZ4ensvtsYE/ztKDqEbLNU/vM=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
+        s=meesny; t=1641405864;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=D6JKEUyk1h45e2hzJe1Dq4YTYoDOj5f1dnIGBzf/+Gc=;
+        b=S2C1J6oKEwoftUtHn0dIBNm4ZhQUcRGakvjuV5JypyRik89BUiNl9G+s4uwFBUYiLX5A13
+        8qkX4WaWZY3c4pGP87ut28H4w0abOc2xdZgbmaC7io0MfBn2GbPBl2CG6qQyFQIyNG4j8x
+        v+6Qks38Vqxhw2zmqW4rRV+QRrVwoUA=
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 29/12/2021 16:55, Niklas Schnelle wrote:
-> On Wed, 2021-12-29 at 10:03 -0600, Bjorn Helgaas wrote:
->> On Wed, Dec 29, 2021 at 01:12:07PM +0100, Mauro Carvalho Chehab wrote:
->>> Em Wed, 29 Dec 2021 12:45:38 +0100
->>> Niklas Schnelle<schnelle@linux.ibm.com>  escreveu:
->>>> ...
->>>> I do think we agree that once done correctly there is value in
->>>> such an option independent of HAS_IOPORT only gating inb() etc uses.
->> I'm not sure I'm convinced about this.  For s390, you could do this
->> patch series, where you don't define inb() at all, and you add new
->> dependencies to prevent compile errors.  Or you could define inb() to
->> return ~0, which is what happens on other platforms when the device is
->> not present.
->>
->>> Personally, I don't see much value on a Kconfig var for legacy PCI I/O
->>> space. From maintenance PoV, bots won't be triggered if someone use
->>> HAS_IOPORT instead of the PCI specific one - or vice-versa. So, we
->>> could end having a mix of both at the wrong places, in long term.
->>>
->>> Also, assuming that PCIe hardware will some day abandon support for
->>> "legacy" PCI I/O space, I guess some runtime logic would be needed,
->>> in order to work with both kinds of PCIe controllers. So, having a
->>> Kconfig option won't help much, IMO.
->>>
->>> So, my personal preference would be to have just one Kconfig var, but
->>> I'm ok if the PCI maintainers decide otherwise.
->> I don't really like the "LEGACY_PCI" Kconfig option.  "Legacy" just
->> means something old and out of favor; it doesn't say*what*  that
->> something is.
->>
->> I think you're specifically interested in I/O port space usage, and it
->> seems that you want all PCI drivers that*only*  use I/O port space to
->> depend on LEGACY_PCI?  Drivers that can use either I/O or memory
->> space or both would not depend on LEGACY_PCI?  This seems a little
->> murky and error-prone.
-> I'd like to hear Arnd's opinion on this but you're the PCI maintainer
-> so of course your buy-in would be quite important for such an option.
+Hi Laurent,
+
+Thanks for the set.
+
+On Mon, Jan 03, 2022 at 06:24:08PM +0200, Laurent Pinchart wrote:
+> The subdev .set_mbus_config() operation is deprecated. No code in the
+> kernel calls it, so drop its implementation from the ov6650 driver.
 > 
+> Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+> ---
+>  drivers/media/i2c/ov6650.c | 37 -------------------------------------
+>  1 file changed, 37 deletions(-)
+> 
+> diff --git a/drivers/media/i2c/ov6650.c b/drivers/media/i2c/ov6650.c
+> index f67412150b16..455a627e35a0 100644
+> --- a/drivers/media/i2c/ov6650.c
+> +++ b/drivers/media/i2c/ov6650.c
+> @@ -944,42 +944,6 @@ static int ov6650_get_mbus_config(struct v4l2_subdev *sd,
+>  	return 0;
+>  }
+>  
+> -/* Alter bus settings on camera side */
+> -static int ov6650_set_mbus_config(struct v4l2_subdev *sd,
+> -				  unsigned int pad,
+> -				  struct v4l2_mbus_config *cfg)
+> -{
+> -	struct i2c_client *client = v4l2_get_subdevdata(sd);
+> -	int ret = 0;
+> -
+> -	if (cfg->flags & V4L2_MBUS_PCLK_SAMPLE_RISING)
+> -		ret = ov6650_reg_rmw(client, REG_COMJ, COMJ_PCLK_RISING, 0);
+> -	else if (cfg->flags & V4L2_MBUS_PCLK_SAMPLE_FALLING)
+> -		ret = ov6650_reg_rmw(client, REG_COMJ, 0, COMJ_PCLK_RISING);
 
-Hi Niklas,
+I think this configuration should come from the endpoint which the driver
+currently does not parse. In fact, there are no even DT bindings for the
+device.
 
-I can't see the value in the LEGACY_PCI config - however I don't really 
-understand Arnd's original intention.
+I wonder what kind of environment it is used in --- assuming it works
+somewhere.
 
-It was written that it would allow us to control "whether we have any 
-pre-PCIe devices or those PCIe drivers that need PIO accessors other 
-than ioport_map()/pci_iomap()".
+> -	if (ret)
+> -		return ret;
+> -
+> -	if (cfg->flags & V4L2_MBUS_HSYNC_ACTIVE_LOW)
+> -		ret = ov6650_reg_rmw(client, REG_COMF, COMF_HREF_LOW, 0);
+> -	else if (cfg->flags & V4L2_MBUS_HSYNC_ACTIVE_HIGH)
+> -		ret = ov6650_reg_rmw(client, REG_COMF, 0, COMF_HREF_LOW);
+> -	if (ret)
+> -		return ret;
+> -
+> -	if (cfg->flags & V4L2_MBUS_VSYNC_ACTIVE_HIGH)
+> -		ret = ov6650_reg_rmw(client, REG_COMJ, COMJ_VSYNC_HIGH, 0);
+> -	else if (cfg->flags & V4L2_MBUS_VSYNC_ACTIVE_LOW)
+> -		ret = ov6650_reg_rmw(client, REG_COMJ, 0, COMJ_VSYNC_HIGH);
+> -	if (ret)
+> -		return ret;
+> -
+> -	/*
+> -	 * Update the configuration to report what is actually applied to
+> -	 * the hardware.
+> -	 */
+> -	return ov6650_get_mbus_config(sd, pad, cfg);
+> -}
+> -
+>  static const struct v4l2_subdev_video_ops ov6650_video_ops = {
+>  	.s_stream	= ov6650_s_stream,
+>  	.g_frame_interval = ov6650_g_frame_interval,
+> @@ -993,7 +957,6 @@ static const struct v4l2_subdev_pad_ops ov6650_pad_ops = {
+>  	.get_fmt	= ov6650_get_fmt,
+>  	.set_fmt	= ov6650_set_fmt,
+>  	.get_mbus_config = ov6650_get_mbus_config,
+> -	.set_mbus_config = ov6650_set_mbus_config,
+>  };
+>  
+>  static const struct v4l2_subdev_ops ov6650_subdev_ops = {
 
-However I just don't see why CONFIG_PCI=y and CONFIG_HAS_IOPORT=y aren't 
-always the gating factor here. Arnd?
+-- 
+Kind regards,
 
-Thanks,
-John
+Sakari Ailus
