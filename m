@@ -2,83 +2,142 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 04161484CDC
-	for <lists+linux-media@lfdr.de>; Wed,  5 Jan 2022 04:26:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7D14D484E69
+	for <lists+linux-media@lfdr.de>; Wed,  5 Jan 2022 07:36:01 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233506AbiAED0g (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 4 Jan 2022 22:26:36 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33750 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230020AbiAED0g (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 4 Jan 2022 22:26:36 -0500
-Received: from mail-qk1-x742.google.com (mail-qk1-x742.google.com [IPv6:2607:f8b0:4864:20::742])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E6F5DC061761
-        for <linux-media@vger.kernel.org>; Tue,  4 Jan 2022 19:26:35 -0800 (PST)
-Received: by mail-qk1-x742.google.com with SMTP id l11so36921604qke.11
-        for <linux-media@vger.kernel.org>; Tue, 04 Jan 2022 19:26:35 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=raA+A3yR+FO3lPYn83sikHH2lCImxlG0NOcFLJQE9Rk=;
-        b=CcY4iOrLuSs768siSUSk67wKuwAYZPxGbk2VUZ2cfNH2M6pkliPxw5hU9pqAy44MRW
-         N+itbHpzEypYxxZ+gbSsP66IqlXwT/h3PxYHmoxgrY1jfQbkZ8ud3Wt6uaQRJrBl371G
-         v679Qt6A4fkFBH/L5Yon45UIZFKPAdYqJTh+F5rPp6unkvUI0FWntJtrdBVJfT3JmI1o
-         gePslrzi8a6HF/ED06elFEdiNlIZY8jjFVcHg2lJxGCRnLLKVXc5HYsoLotWzF2QfYzr
-         LPYfkj/57ALQJ1vN8adGTdB/igxx3pB72xQIfWTZUiD73GkLtk9nGZyjwPIKgNUx6wHT
-         2pew==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=raA+A3yR+FO3lPYn83sikHH2lCImxlG0NOcFLJQE9Rk=;
-        b=XDI8mWUVOXm0SpjGxCC8ncOK4q1ydfH3t7ZticSr0jU84AfAiYiL3/mw9EWk7PFbry
-         jzcOcTZAFBBeZvGIgIu2guW0hxBkDdJsVeLmRr0eA92R4zTPLvX6XxkIn+X13cWgXQo4
-         yFCZJqBI/XywA6YRWle8XdQgwdHklmACa/UUkEu45ZqnQj4QMvvbHgmL8/FV1geO13j9
-         wQ7Y04NvhlAzzntbQQOhyt00dejsy9jUwCV8+Li2GXnoKuEiz4D+60raYJNGNqdtS6b4
-         FxJgGOO7yVv4KsDb2yNzqUjnT8g5RKHuNBduDFAIoUeMtIe3r2+j9z2Mab38EDz1zlQS
-         H55w==
-X-Gm-Message-State: AOAM533ObTjtO3/aYJbyib9Qb4TlrC1FjB/EaPiRPcng53g2X8aYfvb4
-        JbW/NiZy+3FoseJqbEsc824kp0zybeDDmlAfghY=
-X-Google-Smtp-Source: ABdhPJzZZ7nIBf+SLx1b301jPpg1TkaIFxdNRREYUjxXssdqRWtCAeYRNeqehSDFdLedy6Qq7+7OPqp1MBtGQ5vb0js=
-X-Received: by 2002:a05:620a:2808:: with SMTP id f8mr37064375qkp.402.1641353194730;
- Tue, 04 Jan 2022 19:26:34 -0800 (PST)
+        id S233241AbiAEGgA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 5 Jan 2022 01:36:00 -0500
+Received: from mailgw02.mediatek.com ([210.61.82.184]:54224 "EHLO
+        mailgw02.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
+        with ESMTP id S231960AbiAEGgA (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 5 Jan 2022 01:36:00 -0500
+X-UUID: 74e77be901fe420393d4d2238783a093-20220105
+X-UUID: 74e77be901fe420393d4d2238783a093-20220105
+Received: from mtkmbs10n2.mediatek.inc [(172.21.101.183)] by mailgw02.mediatek.com
+        (envelope-from <guangming.cao@mediatek.com>)
+        (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+        with ESMTP id 295248893; Wed, 05 Jan 2022 14:35:55 +0800
+Received: from mtkcas11.mediatek.inc (172.21.101.40) by
+ mtkmbs10n1.mediatek.inc (172.21.101.34) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ 15.2.792.15; Wed, 5 Jan 2022 14:35:54 +0800
+Received: from mszswglt01.gcn.mediatek.inc (10.16.20.20) by
+ mtkcas11.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
+ 15.0.1497.2 via Frontend Transport; Wed, 5 Jan 2022 14:35:53 +0800
+From:   <guangming.cao@mediatek.com>
+To:     <christian.koenig@amd.com>
+CC:     <Brian.Starkey@arm.com>, <benjamin.gaignard@linaro.org>,
+        <bo.song@mediatek.com>, <dri-devel@lists.freedesktop.org>,
+        <guangming.cao@mediatek.com>, <jianjiao.zeng@mediatek.com>,
+        <john.stultz@linaro.org>, <labbott@redhat.com>,
+        <libo.kang@mediatek.com>, <linaro-mm-sig@lists.linaro.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-kernel@vger.kernel.org>, <linux-media@vger.kernel.org>,
+        <linux-mediatek@lists.infradead.org>, <lmark@codeaurora.org>,
+        <matthias.bgg@gmail.com>, <mingyuan.ma@mediatek.com>,
+        <sumit.semwal@linaro.org>, <wsd_upstream@mediatek.com>,
+        <yf.wang@mediatek.com>
+Subject: Re: [PATCH v2] dma-buf: dma-heap: Add a size check for allocation
+Date:   Wed, 5 Jan 2022 14:36:43 +0800
+Message-ID: <20220105063643.119874-1-guangming.cao@mediatek.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <c05749d0-4c24-8763-a459-27257b2524ed@amd.com>
+References: <c05749d0-4c24-8763-a459-27257b2524ed@amd.com>
 MIME-Version: 1.0
-Received: by 2002:ad4:4e83:0:0:0:0:0 with HTTP; Tue, 4 Jan 2022 19:26:34 -0800 (PST)
-Reply-To: rev.essok227@gmail.com
-From:   Revi Eissa <hervedodzi@gmail.com>
-Date:   Wed, 5 Jan 2022 04:26:34 +0100
-Message-ID: <CAG7OqbJgchdcjFFvtXj3Ym8jYU1GSG1b4Y5b1CCHJ03a2=NYJQ@mail.gmail.com>
-Subject: Hello,
-To:     undisclosed-recipients:;
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-MTK:  N
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Peace be unto you.
+From: Guangming.Cao <guangming.cao@mediatek.com>
 
-Myself, Revi Eissa, from Afghanistan, a politician and government
-official working with the ministry of finance before the Talibans took
-control of Afghanistan.
-I plead for your help to receive and secure my luggage in your country.
+On Tue, 2022-01-04 at 08:47 +0100, Christian K鰊ig wrote:
+> Am 03.01.22 um 19:57 schrieb John Stultz:
+> > On Mon, Dec 27, 2021 at 1:52 AM <guangming.cao@mediatek.com> wrote:
+> > > From: Guangming <Guangming.Cao@mediatek.com>
+> > > 
+> > 
+> > Thanks for submitting this!
+> > 
+> > > Add a size check for allcation since the allocation size is
+> > 
+> > nit: "allocation" above.
+> > 
+> > > always less than the total DRAM size.
+> > 
+> > In general, it might be good to add more context to the commit
+> > message
+> > to better answer *why* this change is needed rather than what the
+> > change is doing.  ie: What negative thing happens without this
+> > change?
+> > And so how does this change avoid or improve things?
+> 
+> Completely agree, just one little addition: Could you also add this
+> why 
+> as comment to the code?
+> 
+> When we stumble over this five years from now it is absolutely not 
+> obvious why we do this.
+> 
+> Thanks,
+> Christian.
+> 
+Thanks for your reply!
+I will update the related reason in the patch later.
 
-I want to send out my digital safe box containing my life savings, two
-million six hundred thousand dollars and some of my very important
-documents through diplomatic delivery from Afghanistan to your country
-for security reasons and for investment in your country.
-Unfortunately, I cannot send the money through bank because the
-Talibans has taken control of all the institutions in afghanistan. We
-are under imminent threat from massacres and targeted executions of
-government officials since the Talibans returned to power in our
-country and I have been in hiding to avoid the risk of deadly
-reprisals by the Talibans as I wait for paperwork to evacuate with my
-family.
+The reason for adding this check is that we met a case that the user
+sent an invalid size(It seems it's a negative value, MSB is 0xff, it's
+larger than DRAM size after convert it to size_t) to dma-heap to alloc
+memory, and this allocation was running on a process(such as "gralloc"
+on Android device) can't be killed by OOM flow, and we also couldn't
+find the related dmabuf in "dma_buf_debug_show" because the related
+dmabuf was not exported yet since the allocation is still on going.
 
-I hope to hear from you through email [ rev.essok227@gmail.com ] for
-my safety because the Talibans are tracking calls to find out our
-exact location in Kabul. For the delivery to your country, please send
-me your full name, address and telephone number.
+Since this invalid argument case can be prevented at dma-heap side, so,
+I added this size check, and moreover, to let debug it easily, I also
+added logs when size is bigger than a threshold we set in mtk system
+heap.
+If you think that print logs in dma-heap framework is better, I will
+update it in next version.
 
-I look forward to hearing from you.
+If you have better solution(such as dump the size under allocating
+in "dma_buf_debug_show", which maybe need add global variable to record
+it), please kindly let me know.
+Thanks :)
+Guangming
 
-Revi Eissa.
+> > 
+> > 
+> > > Signed-off-by: Guangming <Guangming.Cao@mediatek.com>
+> > > Signed-off-by: jianjiao zeng <jianjiao.zeng@mediatek.com>
+> > > ---
+> > > v2: 1. update size limitation as total_dram page size.
+> > >      2. update commit message
+> > > ---
+> > >   drivers/dma-buf/dma-heap.c | 2 ++
+> > >   1 file changed, 2 insertions(+)
+> > > 
+> > > diff --git a/drivers/dma-buf/dma-heap.c b/drivers/dma-buf/dma-
+> > > heap.c
+> > > index 56bf5ad01ad5..e39d2be98d69 100644
+> > > --- a/drivers/dma-buf/dma-heap.c
+> > > +++ b/drivers/dma-buf/dma-heap.c
+> > > @@ -55,6 +55,8 @@ static int dma_heap_buffer_alloc(struct
+> > > dma_heap *heap, size_t len,
+> > >          struct dma_buf *dmabuf;
+> > >          int fd;
+> > > 
+> > > +       if (len / PAGE_SIZE > totalram_pages())
+> > > +               return -EINVAL;
+> > 
+> > This seems sane. I know ION used to have some 1/2 of memory cap to
+> > avoid unnecessary memory pressure on crazy allocations.
+> > 
+> > Could you send again with an improved commit message?
+> > 
+> > thanks
+> > -john
+> 
+> 
