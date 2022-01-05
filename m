@@ -2,69 +2,91 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CD82A485586
-	for <lists+linux-media@lfdr.de>; Wed,  5 Jan 2022 16:13:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1839E4855FB
+	for <lists+linux-media@lfdr.de>; Wed,  5 Jan 2022 16:37:30 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236755AbiAEPNM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 5 Jan 2022 10:13:12 -0500
-Received: from dfw.source.kernel.org ([139.178.84.217]:51674 "EHLO
-        dfw.source.kernel.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230064AbiAEPNM (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 5 Jan 2022 10:13:12 -0500
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 93F4A61796;
-        Wed,  5 Jan 2022 15:13:11 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 56238C36AE3;
-        Wed,  5 Jan 2022 15:13:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1641395591;
-        bh=csHd2/XILH40OtDlIaymp0IPflgaFvIcWeXacWTGf88=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=qIm66gBBLhBxMefhANoTb1PxtN7iaJ8FKqlY0bi88E2irezQd9yT6f26Xth+cC8dp
-         Lej17FBhU8KKBDCE+PQdCdVnQQW+1aJS5wOR06l76gXG3b7x7MdxEtgswElM7eZXuB
-         pQ8ee1pUlmh3Wf65OXlQyoXfIXAk1noEqLrfxEa0=
-Date:   Wed, 5 Jan 2022 16:13:08 +0100
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Hridya Valsaraju <hridya@google.com>
-Cc:     Sumit Semwal <sumit.semwal@linaro.org>,
-        Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-        Daniel Vetter <daniel.vetter@ffwll.ch>,
-        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org,
-        john.stultz@linaro.org, surenb@google.com, kaleshsingh@google.com,
-        tjmercier@google.com, keescook@google.com
-Subject: Re: [PATCH] dma-buf: Move sysfs work out of DMA-BUF export/release
- path
-Message-ID: <YdW1hPRvKYjfORvp@kroah.com>
-References: <20220104235148.21320-1-hridya@google.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220104235148.21320-1-hridya@google.com>
+        id S241536AbiAEPhW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 5 Jan 2022 10:37:22 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57824 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S241550AbiAEPhL (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 5 Jan 2022 10:37:11 -0500
+Received: from mail-ed1-x52c.google.com (mail-ed1-x52c.google.com [IPv6:2a00:1450:4864:20::52c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A719DC061245;
+        Wed,  5 Jan 2022 07:37:10 -0800 (PST)
+Received: by mail-ed1-x52c.google.com with SMTP id f5so163669506edq.6;
+        Wed, 05 Jan 2022 07:37:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id;
+        bh=IUKwGI9uAX6PYPoRB8Gc90h0oTgFN8Bu0rvMiUFNi5U=;
+        b=IuI8aayf6o1krrqgG9a5vwEePOnTfQJSqNzjVMpcnIF62P887eUSC9vfNVM6sIRPPN
+         4RoSlU2mO7p4Ik7kzXr1Q2VFdQFNmSXo857a4Bs8C29L0NM75oFStF38+vEJV7R6wx6t
+         h1WLeYSapuQXxItef4iV/vX/VPCIj2MGWNqHqVKtmYqB7T/TxtcvGLvWJMVv4kb0jkOz
+         VRFnnGce+rr7tK6i85H0e7uB7bTS/xLJY9k+zhyDTDeI2ONgsIoFL/21+jCCzqEF2Q6b
+         RrDJwJfn/PF6NNLRV47IHRrVB8HSwI3MzxXNqM4/6FvGte589oARnjEBCmtcHXRkYHX7
+         OD9g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=IUKwGI9uAX6PYPoRB8Gc90h0oTgFN8Bu0rvMiUFNi5U=;
+        b=6cwTmLcCeJruehL6ZCKpce8yXNsfUcF2Rm4RGlVFZAHeHzlfTNh/j9bkCjgtFng/Vw
+         49YvOojqp5nXN2uFmuX9bqaQ/KJ2zZv+0hIC/c7V1DH08zXAC/A/4k5JRY/3rARqx2fZ
+         dIZkQ+UlV+tIBS1Mp2bfhgjZ43oervuxKw1vTqvWWEydAwXyruWNqYIMG/xGfgCpt+2e
+         F41V6ykaDq/mdOlxGOeP1cFo95QjcHdqjsdyuXhVRSA0Ub1YMSu1MqGKaY+vVb2Ic+OT
+         6r4yXBnw+nrnRGwbD2S8c6ifC39Qer8UAiD0H8Iwj+IWSA6AV//8JWFOlhogqW9DbuW4
+         Ak2w==
+X-Gm-Message-State: AOAM533DnPUXa//RJO3Wy9XOAkfcrTL8+0v2ngHw7mYEvlPcT5ep16fk
+        TRUQ0WHHBScXS4+LCrVYGLZF5F5Ti/E=
+X-Google-Smtp-Source: ABdhPJy1fi1qZja7Sbk+Q2F5UOdV+lzqZVrjT3Y3y12frTUZVirNIov72AFlPPyZAuQDDMslXK9SMQ==
+X-Received: by 2002:a50:fd9a:: with SMTP id o26mr14488918edt.199.1641397029323;
+        Wed, 05 Jan 2022 07:37:09 -0800 (PST)
+Received: from localhost.localdomain ([46.249.74.23])
+        by smtp.gmail.com with ESMTPSA id d7sm307621edt.74.2022.01.05.07.37.07
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Wed, 05 Jan 2022 07:37:08 -0800 (PST)
+From:   Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>
+To:     tomba@kernel.org, sumit.semwal@linaro.org, christian.koenig@amd.com
+Cc:     openpvrsgx-devgroup@letux.org, merlijn@wizzup.org,
+        philipp@uvos.xyz, airlied@linux.ie, daniel@ffwll.ch,
+        dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-omap@vger.kernel.org,
+        Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>
+Subject: [PATCH] drm: omapdrm: Fix implicit dma_buf fencing
+Date:   Wed,  5 Jan 2022 17:36:58 +0200
+Message-Id: <1641397018-29872-1-git-send-email-ivo.g.dimitrov.75@gmail.com>
+X-Mailer: git-send-email 1.9.1
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Jan 04, 2022 at 03:51:48PM -0800, Hridya Valsaraju wrote:
-> Recently, we noticed an issue where a process went into direct reclaim
-> while holding the kernfs rw semaphore for sysfs in write(exclusive)
-> mode. This caused processes who were doing DMA-BUF exports and releases
-> to go into uninterruptible sleep since they needed to acquire the same
-> semaphore for the DMA-BUF sysfs entry creation/deletion. In order to avoid
-> blocking DMA-BUF export/release for an indeterminate amount of time
-> while another process is holding the sysfs rw semaphore in exclusive
-> mode, this patch moves the per-buffer sysfs file creation/deleteion to
-> a kthread.
-> 
-> Fixes: bdb8d06dfefd ("dmabuf: Add the capability to expose DMA-BUF stats in sysfs")
-> Signed-off-by: Hridya Valsaraju <hridya@google.com>
-> ---
->  drivers/dma-buf/dma-buf-sysfs-stats.c | 343 ++++++++++++++++++++++++--
->  include/linux/dma-buf.h               |  46 ++++
->  2 files changed, 366 insertions(+), 23 deletions(-)
+Currently omapdrm driver does not initialize dma_buf_export_info resv
+member, which leads to a new dma_resv being allocated and attached to
+the exported dma_buf. This leads to the issue that fences created on
+dma_buf objects imported by other drivers are ignored by omapdrm, as only
+fences in gem object resv are waited on. This leads to various issues like
+displaying incomplete frames.
 
-Crazy, but if this works in your testing, it looks ok to me.  Nice work.
+Fix that by initializing dma_buf resv to the resv of the gem object being
+exported.
 
-Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Signed-off-by: Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>
+---
+ drivers/gpu/drm/omapdrm/omap_gem_dmabuf.c | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/drivers/gpu/drm/omapdrm/omap_gem_dmabuf.c b/drivers/gpu/drm/omapdrm/omap_gem_dmabuf.c
+index f1f93cabb61e..a111e5c91925 100644
+--- a/drivers/gpu/drm/omapdrm/omap_gem_dmabuf.c
++++ b/drivers/gpu/drm/omapdrm/omap_gem_dmabuf.c
+@@ -88,6 +88,7 @@ struct dma_buf *omap_gem_prime_export(struct drm_gem_object *obj, int flags)
+ 	exp_info.size = omap_gem_mmap_size(obj);
+ 	exp_info.flags = flags;
+ 	exp_info.priv = obj;
++	exp_info.resv = obj->resv;
+ 
+ 	return drm_gem_dmabuf_export(obj->dev, &exp_info);
+ }
+-- 
+2.20.1
+
