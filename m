@@ -2,151 +2,133 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id EC54248569A
-	for <lists+linux-media@lfdr.de>; Wed,  5 Jan 2022 17:24:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 12EDC485772
+	for <lists+linux-media@lfdr.de>; Wed,  5 Jan 2022 18:41:37 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241901AbiAEQYK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 5 Jan 2022 11:24:10 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40346 "EHLO
+        id S242415AbiAERle (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 5 Jan 2022 12:41:34 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57980 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231290AbiAEQYH (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 5 Jan 2022 11:24:07 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 97270C061245;
-        Wed,  5 Jan 2022 08:24:07 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 3719A61804;
-        Wed,  5 Jan 2022 16:24:07 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9488CC36AEF;
-        Wed,  5 Jan 2022 16:24:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1641399846;
-        bh=D0rtMVXuXMmUWBMa4J5OtDKJwvzjFcYkZkPaaIZc6mM=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=XXxEs+bvODAOdzI/uFkSnfQrBoH2EClb57Ao0xFI3dtfvKAEM3Z2X11qWdNn5VYr5
-         +YbYcjVDB5pQuvYEN9mgDNc30c4pvWgHAAKM2NSJkbfxAdTXlj26MKXFYNHLQlZNDb
-         7txpG9hDFQU3sB+QN8ls/pfSVeeUIrofA0V0r6yINi8ibhEUSdpqEeKC/Fqn9hhVYF
-         3zRagylZF/bd865vYLIq/NM7km+dwB0sV5cZEkQj84Lu9pNb73T6Rze7Tkx5l2cyBF
-         YKzCJi1E0iVlF8sMUsb57XuLrcQW0Xib59tetmhl32p2dJPM6BlB+Q9IFxqbg2CMTF
-         HXQEGlofjSEKQ==
-Received: by mail-ed1-f53.google.com with SMTP id k15so1149935edk.13;
-        Wed, 05 Jan 2022 08:24:06 -0800 (PST)
-X-Gm-Message-State: AOAM5324dNGYnxEWAr3okmEZgWzalOo9xE31d9eVzu1i4rxCrYmm15Uf
-        lU/M+cN6bbBqk+4m4EGoVqTPSjrnchiMdQixwQ==
-X-Google-Smtp-Source: ABdhPJz5VVwi03tRm0U13TScGgTT7GNYvhHXOBDK8IpQTLIsJYlrKfqJYWDuhEBYHgXnTXGmYNJNekP/aGrkJ6tqO6E=
-X-Received: by 2002:a17:906:229b:: with SMTP id p27mr43028591eja.264.1641399844761;
- Wed, 05 Jan 2022 08:24:04 -0800 (PST)
+        with ESMTP id S242422AbiAERlb (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 5 Jan 2022 12:41:31 -0500
+Received: from mail-yb1-xb29.google.com (mail-yb1-xb29.google.com [IPv6:2607:f8b0:4864:20::b29])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6C99DC061201;
+        Wed,  5 Jan 2022 09:41:31 -0800 (PST)
+Received: by mail-yb1-xb29.google.com with SMTP id g80so198139ybf.0;
+        Wed, 05 Jan 2022 09:41:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=qbHD0gYAIoitPUpuBDV9i/xceBmOqhFt1pELPqca6H0=;
+        b=ESgr1l0hGAJX5g5oyeU1dOk4fenMTeCZTmxTLRt2abbO1r1HDPLiSK2bbiG9t/04eY
+         WRq4eFs941zfenUz0LMmNP4lXrx21I6ACYWeOa3fc0qZ36Vvtl/jnI3LT8zOlc59BTuS
+         4XDtAmejk75DrpFuYwuQERoBucIMoQp+QRqmhkLqT53Jqz8dDcIO49BHDlxc8MDnj7h0
+         /E8cwwXLMLNDqI00G+Y9trnIGsxjkFO/tUJ7dA1uz/56j+/x1H8r0tJi0l93zW6SSni6
+         pO0SGAmoQ9G2MGTwl+mGfd0o6cG0Tg0dND3hJklV/bfcPIUeAu9xudTUZSPKYX9CF1Xi
+         m6CQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=qbHD0gYAIoitPUpuBDV9i/xceBmOqhFt1pELPqca6H0=;
+        b=dYWP+2OfWPZ2da9Wk2jiZerdmPdkbzyL8D9VBWbplKiZ+3IR1QGJYKbJtKrssn1D3J
+         j+hUqa8EbpCjnAe1YoV4DDH0NzmwylbzH5XTgexidAdxrwnYjUkNFTNeMTE/AXZe0U7H
+         eqhmzn+2SVdgllJWVICXbZJ7QxBK+AsOes5tNxgLZQNgVvXwtfBWAo6T6bDeEU6/iPNY
+         mWE4dYSzAJvDdf6o2CbeU+eD7LyU5w889/GvaF66L32DSR/UUompX/dmRGwkQxcTHcNu
+         nV8vEUAm8JMgwML2385USELsFJ9xB37G+lNVJaDggCh3+EmDsfqY9pYoWBzfSSv9laXV
+         fKTQ==
+X-Gm-Message-State: AOAM531qpkDjrNLDgjyU+2pq45Vvg8HlG/baPTglfIZouJ5FypudgIkK
+        AF87LXRSB2B0GrhBCtqptIxWEzeAOUxU8JXn8Op6XInzYFg5bg==
+X-Google-Smtp-Source: ABdhPJy50op9faytW1nMGI0o9/Zk32cgCI1NnztJBSnbR8QQLer3y/8z8k1b1rNCGk9P5s3Cy2Kju1T+b3mIbGvXMYU=
+X-Received: by 2002:a25:98c4:: with SMTP id m4mr70030652ybo.613.1641404490652;
+ Wed, 05 Jan 2022 09:41:30 -0800 (PST)
 MIME-Version: 1.0
-References: <20210906102837.2190387-1-martin.kepplinger@puri.sm>
- <20210906102837.2190387-3-martin.kepplinger@puri.sm> <CAL_JsqJQAutUp9cB2LaoOQQX7mToCc5MkGm59oOmh65yZG0xZQ@mail.gmail.com>
-In-Reply-To: <CAL_JsqJQAutUp9cB2LaoOQQX7mToCc5MkGm59oOmh65yZG0xZQ@mail.gmail.com>
-From:   Rob Herring <robh@kernel.org>
-Date:   Wed, 5 Jan 2022 10:23:53 -0600
-X-Gmail-Original-Message-ID: <CAL_JsqKzaZC0A4OwnMyAuEWm2pCcHyQxHyrBVtkiPNUeMDd+oA@mail.gmail.com>
-Message-ID: <CAL_JsqKzaZC0A4OwnMyAuEWm2pCcHyQxHyrBVtkiPNUeMDd+oA@mail.gmail.com>
-Subject: Re: [PATCH v9 2/4] dt-bindings: media: document SK Hynix Hi-846 MIPI
- CSI-2 8M pixel sensor
-To:     Martin Kepplinger <martin.kepplinger@puri.sm>,
-        Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Pavel Machek <pavel@ucw.cz>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sakari Ailus <sakari.ailus@iki.fi>, devicetree@vger.kernel.org,
-        Purism Kernel Team <kernel@puri.sm>,
-        Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+References: <20211223173015.22251-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20211223173015.22251-7-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <CAHp75VeCwR-eP930s3miv-ux8=_P+vmdkhN+K=weTL1nwNA1ig@mail.gmail.com>
+ <CA+V-a8snJU6YYtfcN_mWCJGxYnbNGrLdU+Y5g06mjV4dhsABMw@mail.gmail.com> <CAHp75Vck43wj650k70MsUNvmb+_-PUCd5mSy=dvmuX7MaAwr2w@mail.gmail.com>
+In-Reply-To: <CAHp75Vck43wj650k70MsUNvmb+_-PUCd5mSy=dvmuX7MaAwr2w@mail.gmail.com>
+From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date:   Wed, 5 Jan 2022 17:41:04 +0000
+Message-ID: <CA+V-a8uRqfs2h82_y6yk7MZnt8K5iKii5DZZpFgDDy0Hw2ieXA@mail.gmail.com>
+Subject: Re: [PATCH 06/13] media: davinci: vpif: Use platform_get_irq_optional()
+ to get the interrupt
+To:     Andy Shevchenko <andy.shevchenko@gmail.com>
+Cc:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
         Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
-        phone-devel@vger.kernel.org, Shawn Tu <shawnx.tu@intel.com>
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Rob Herring <robh+dt@kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, Dec 3, 2021 at 10:19 AM Rob Herring <robh@kernel.org> wrote:
->
-> On Mon, Sep 6, 2021 at 5:29 AM Martin Kepplinger
-> <martin.kepplinger@puri.sm> wrote:
-> >
-> > Document the bindings used for the SK Hynix Hi-846 CMOS camera driver.
-> >
-> > Signed-off-by: Martin Kepplinger <martin.kepplinger@puri.sm>
-> > Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> > Reviewed-by: Rob Herring <robh@kernel.org>
-> > ---
-> >  .../bindings/media/i2c/hynix,hi846.yaml       | 120 ++++++++++++++++++
-> >  1 file changed, 120 insertions(+)
-> >  create mode 100644 Documentation/devicetree/bindings/media/i2c/hynix,hi846.yaml
-> >
-> > diff --git a/Documentation/devicetree/bindings/media/i2c/hynix,hi846.yaml b/Documentation/devicetree/bindings/media/i2c/hynix,hi846.yaml
-> > new file mode 100644
-> > index 000000000000..85a8877c2f38
-> > --- /dev/null
-> > +++ b/Documentation/devicetree/bindings/media/i2c/hynix,hi846.yaml
-> > @@ -0,0 +1,120 @@
-> > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> > +%YAML 1.2
-> > +---
-> > +$id: http://devicetree.org/schemas/media/i2c/hynix,hi846.yaml#
-> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > +
-> > +title: SK Hynix Hi-846 1/4" 8M Pixel MIPI CSI-2 sensor
-> > +
-> > +maintainers:
-> > +  - Martin Kepplinger <martin.kepplinger@puri.sm>
-> > +
-> > +description: |-
-> > +  The Hi-846 is a raw image sensor with an MIPI CSI-2 image data
-> > +  interface and CCI (I2C compatible) control bus. The output format
-> > +  is raw Bayer.
-> > +
-> > +properties:
-> > +  compatible:
-> > +    const: hynix,hi846
-> > +
-> > +  reg:
-> > +    maxItems: 1
-> > +
-> > +  clocks:
-> > +    items:
-> > +      - description: Reference to the mclk clock.
-> > +
-> > +  assigned-clocks:
-> > +    maxItems: 1
-> > +
-> > +  assigned-clock-rates:
-> > +    maxItems: 1
-> > +
-> > +  reset-gpios:
-> > +    description: Reference to the GPIO connected to the RESETB pin. Active low.
-> > +    maxItems: 1
-> > +
-> > +  shutdown-gpios:
-> > +    description: Reference to the GPIO connected to the XSHUTDOWN pin. Active low.
-> > +    maxItems: 1
-> > +
-> > +  vddio-supply:
-> > +    description: Definition of the regulator used for the VDDIO power supply.
-> > +
-> > +  vdda-supply:
-> > +    description: Definition of the regulator used for the VDDA power supply.
-> > +
-> > +  vddd-supply:
-> > +    description: Definition of the regulator used for the VDDD power supply.
-> > +
-> > +  port:
-> > +    $ref: /schemas/graph.yaml#/properties/port
->
-> This needs to be:
->
-> $ref: /schemas/graph.yaml#/$defs/port-base
->
-> to fix the warning reported. You have to use the 'main' branch of
-> dtschema which has unevaluatedProperties support. I'll be making a
-> release soonish.
+Hi Andy,
 
-This is still failing, can you please fix it.
+On Wed, Jan 5, 2022 at 9:43 AM Andy Shevchenko
+<andy.shevchenko@gmail.com> wrote:
+>
+> On Tue, Jan 4, 2022 at 7:23 PM Lad, Prabhakar
+> <prabhakar.csengg@gmail.com> wrote:
+> > On Sat, Dec 25, 2021 at 5:32 PM Andy Shevchenko
+> > <andy.shevchenko@gmail.com> wrote:
+> > > On Sat, Dec 25, 2021 at 3:04 AM Lad Prabhakar
+> > > <prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
+>
+> ...
+>
+> > > > +       res_irq->flags = IORESOURCE_IRQ | irq_get_trigger_type(irq);
+> > > > +       res_irq->start = irq;
+> > > > +       res_irq->end = irq;
+> > > > +       res_irq->name = dev_of_node(&pdev->dev) ? of_node_full_name(pdev->dev.of_node) : NULL;
+> > >
+> > > If you convert DEFINE_RES_NAMED() to return a compound literal, then
+> > > you may use it here like
+> > >
+> > > res_irq = DEFINE_RES_NAMED(...);
+> > >
+> > > or even do like this
+> > >
+> > > if (dev_of_node(...))
+> > >   res_irq = DEFINE_RES_IRQ_NAMED(...)
+> > > else
+> > >   res_irq = DEFINE_RES_IRQ(...);
+> > > res_irq->flags |= irq_get_trigger_type(irq);
+> > >
+> > There are quite a few users of DEFINE_RES_IRQ_NAMED()/DEFINE_RES_IRQ()
+> > changing this macos just for this single user tree wide doesn't make
+> > sense. Let me know if you think otherwise.
+>
+> Converting them to produce compound literal is straightforward and
+> does not require changes in the users. But on the other hand it allows
+> you to use it and convert existing users to use that form directly.
+> You may conduct research on how macros in the property.h were morphing
+> towards that.
+>
+Thank you for the pointer. I did the below change for this.
 
-Rob
+diff --git a/include/linux/ioport.h b/include/linux/ioport.h
+index 8359c50f9988..da1208e8f164 100644
+--- a/include/linux/ioport.h
++++ b/include/linux/ioport.h
+@@ -153,7 +153,7 @@ enum {
+
+ /* helpers to define resources */
+ #define DEFINE_RES_NAMED(_start, _size, _name, _flags)                 \
+-       {                                                               \
++       (struct resource) {                                     \
+                .start = (_start),                                      \
+                .end = (_start) + (_size) - 1,                          \
+                .name = (_name),                                        \
+
+But there are some instances which need to be touched, for example
+vexpress-sysreg.c [1]. Are you OK with files to be changed?
+
+[1] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/drivers/mfd/vexpress-sysreg.c?h=v5.16-rc8#n65
+
+Cheers,
+Prabhakar
