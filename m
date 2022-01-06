@@ -2,223 +2,138 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 14DA7486B32
-	for <lists+linux-media@lfdr.de>; Thu,  6 Jan 2022 21:30:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9F958486C14
+	for <lists+linux-media@lfdr.de>; Thu,  6 Jan 2022 22:45:32 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243793AbiAFUaw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 6 Jan 2022 15:30:52 -0500
-Received: from ams.source.kernel.org ([145.40.68.75]:51710 "EHLO
-        ams.source.kernel.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243719AbiAFUaw (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 6 Jan 2022 15:30:52 -0500
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id D7E84B823E0;
-        Thu,  6 Jan 2022 20:30:50 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5FEA9C36AE3;
-        Thu,  6 Jan 2022 20:30:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1641501049;
-        bh=K8mTTccfCj509MFPxiApJokBHf56ZuhckMHO+0tHFVs=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=VBHhjFHLgckiN9DF1RAqUQyHflKADFj7JiQG6B+vWXMb0unQLsZmiAFLUpnADQlD1
-         TYQZbgssqP5myvzSm4LkuDvcyD+oLGzcpLpsCkf8EimWcDxC8Nv5Bssm2hKZYkgPU6
-         aCnTmggn9tXCh6qdHt4GWi7NngM20juQlKMSAZsAV6Iw/ppHuAAG+e0TJ/gH7FuCbo
-         F1iMO7iINSenb2emWbAoK9/Tv0uDHv/SwG3JhUn5A6CZyvR3A7noUKq33Fpl0FM976
-         6FjaCJ66eEfYXR2SAft+EYLcLKhusbnh5d31jnB+KzIjmyfk8bN41OSsRp4vDlvUa1
-         +R+1tGtubTtHQ==
-Date:   Thu, 6 Jan 2022 21:30:45 +0100
-From:   Mauro Carvalho Chehab <mchehab@kernel.org>
-To:     Robert Schlabbach <Robert.Schlabbach@gmx.net>
-Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Antti Palosaari <crope@iki.fi>, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org
-Subject: Re: [PATCH 2/3] media: si2157: add support for 1.7MHz and 6.1 MHz
-Message-ID: <20220106213045.6afe5a35@coco.lan>
-In-Reply-To: <trinity-59d726d3-993c-43c9-9e44-5be5cdfae74d-1641493525223@3c-app-gmx-bap38>
-References: <cover.1639140967.git.mchehab+huawei@kernel.org>
-        <76c2ea87882c87bd35066a85cb48292a36a79fce.1639140967.git.mchehab+huawei@kernel.org>
-        <trinity-b5cc1284-ccc2-477c-ac90-56ee40da91af-1641483579446@3c-app-gmx-bs50>
-        <trinity-59d726d3-993c-43c9-9e44-5be5cdfae74d-1641493525223@3c-app-gmx-bap38>
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.31; x86_64-redhat-linux-gnu)
+        id S244413AbiAFVpa (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 6 Jan 2022 16:45:30 -0500
+Received: from smtp07.smtpout.orange.fr ([80.12.242.129]:53723 "EHLO
+        smtp.smtpout.orange.fr" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S244393AbiAFVpa (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 6 Jan 2022 16:45:30 -0500
+Received: from pop-os.home ([90.11.185.88])
+        by smtp.orange.fr with ESMTPA
+        id 5aZQntTbg2lVY5aZRnSkzN; Thu, 06 Jan 2022 22:45:28 +0100
+X-ME-Helo: pop-os.home
+X-ME-Auth: YWZlNiIxYWMyZDliZWIzOTcwYTEyYzlhMmU3ZiQ1M2U2MzfzZDfyZTMxZTBkMTYyNDBjNDJlZmQ3ZQ==
+X-ME-Date: Thu, 06 Jan 2022 22:45:28 +0100
+X-ME-IP: 90.11.185.88
+From:   Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+To:     arnd@arndb.de, hch@infradead.org, akpm@linux-foundation.org,
+        rth@twiddle.net, ink@jurassic.park.msu.ru, mattst88@gmail.com,
+        mpe@ellerman.id.au, benh@kernel.crashing.org, paulus@samba.org,
+        davem@davemloft.net, airlied@linux.ie, vkoul@kernel.org,
+        hao.wu@intel.com, trix@redhat.com, mdf@kernel.org,
+        yilun.xu@intel.com, awalls@md.metrocast.net, mchehab@kernel.org,
+        sathya.prakash@broadcom.com, sreekanth.reddy@broadcom.com,
+        suganath-prabu.subramani@broadcom.com, mporter@kernel.crashing.org,
+        alex.bou9@gmail.com, bhelgaas@google.com
+Cc:     linux-alpha@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+        sparclinux@vger.kernel.org, dmaengine@vger.kernel.org,
+        linux-fpga@vger.kernel.org, linux-media@vger.kernel.org,
+        MPT-FusionLinux.pdl@broadcom.com, linux-scsi@vger.kernel.org,
+        linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org,
+        kernel-janitors@vger.kernel.org,
+        Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+Subject: [PATCH 00/16] Remove usage of the deprecated "pci-dma-compat.h" API
+Date:   Thu,  6 Jan 2022 22:45:13 +0100
+Message-Id: <cover.1641500561.git.christophe.jaillet@wanadoo.fr>
+X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Em Thu, 6 Jan 2022 19:25:25 +0100
-Robert Schlabbach <Robert.Schlabbach@gmx.net> escreveu:
+This serie axes all the remaining usages of the deprecated "pci-dma-compat.h"
+API.
 
-> It turns out there are actually two bugs in there:
-> =C2=A0
-> + if (SUPPORTS_1700KHz(dev) && c->bandwidth_hz <=3D 6100000)
-> + bandwidth =3D 0x10;
->=20
-> The si2157 code for bandwidth 6.1MHz is _decimal_ 10, not
-> hexadecimal 0x10. Removing the "0x" from the above line makes
-> the tuner work again, even with the other bug that makes it use
-> the 6.1MHz setting when 6MHz is requested.
+All these patches have already been posted.
 
-Gah, true.
+They have been generated with a coccinelle script.
+The tricky parts are patches that use dma_alloc_coherent() because the correct
+GFP flag has to be used in place of the previous embedded GFP_ATOMIC.
 
-> Another issue with the bandwidth setting: The si2157 code is
-> also stored in dev->bandwidth and returned in the get_bandwidth()
-> call. Now this was not well before, because the call is supposed
-> to return the bandwidth in Hz, not in MHz, but now it can return
-> 9 and 10, but those do not correspond to 9 and 10MHz.
+Patches 1-3 are already Reviewed. References to the corresponding mail is
+given below the ---
 
-I suspect that the entire get_bandwidth() code on drivers are
-dead code, as the core doesn't call it anymore. This used to be
-needed before DVBv5 API.
+Patch 1-2,4-10 are just generated from the coccinelle script. Only too long
+lines have been hand modified. dma_alloc_coherent() modification are NOT part
+of these patches.
 
-Probably, the right fix here would be to simply strip this function
-from all drivers.
+Patch 3 also includes some 'dma_set_mask_and_coherent()' instead of
+'pci_set_dma_mask()/pci_set_consistent_dma_mask()'.
+I've left this additional modification because it was reviewed with it.
 
-> Also, the default case uses si2157 code 0x0f, which also seems
-> like a bad idea.
+Patch 10-15 are the tricky parts. Explanation of which GFP flag is the right one
+is given in each patch. It has been divided in several patches to ease review.
 
-Yes. it should default to the maximum bandwidth (8MHz on those
-chipsets).
+Patch 15 is the only one I'm slighly unsure with. The old code was using a
+GFP_USER flag in the function. I'm not familiar with it.
+I *guess*  that GFP_KERNEL is fine, but maybe it should also be GFP_USER or left
+as GFP_ATOMIC so that nothing is changed.
 
-> And another, unrelated issue: The delivery_system switch is
-> missing case DVBC_ANNEX_C, even though it should operate just as
-> DVBC_ANNEX_A.
-
-The rolloff is different for Annex/A and Annex/C. Annex/A uses
-1.15, while Annex/C uses 1.13.
-
-The DVB core already handles it when it calculates the bandwidth
-for a given symbol rate, though, so, it shouldn't make any
-difference at the tuner, except if the rolloff filter there
-can be adjusted.
-
-Btw, I suspect that the 6.1 MHz bandwidth could be there due to
-Annex/A and Annex/C differences.
-
-> I'll see if I can come up with a patch which addresses all of the
-> above.
-
-OK! I'll wait for your patch.
-
->=20
-> Best Regards,
-> -Robert Schlabbach=C2=A0
->=20
->=20
-> Gesendet:=C2=A0Donnerstag, 06. Januar 2022 um 16:39 Uhr
-> Von:=C2=A0"Robert Schlabbach" <Robert.Schlabbach@gmx.net>
-> An:=C2=A0"Mauro Carvalho Chehab" <mchehab+huawei@kernel.org>
-> Cc:=C2=A0mauro.chehab@huawei.com, "Antti Palosaari" <crope@iki.fi>, linux=
--kernel@vger.kernel.org, linux-media@vger.kernel.org
-> Betreff:=C2=A0Re: [PATCH 2/3] media: si2157: add support for 1.7MHz and 6=
-.1 MHz
->=20
-> Sorry for the late test and response, but there is a BAD BUG in this patc=
-h:
-> =C2=A0
-> + if (SUPPORTS_1700KHz(dev) && c->bandwidth_hz <=3D 1700000)
-> + bandwidth =3D 0x09;
-> if (c->bandwidth_hz <=3D 6000000)
-> bandwidth =3D 0x06;
-> + if (SUPPORTS_1700KHz(dev) && c->bandwidth_hz <=3D 6100000)
-> + bandwidth =3D 0x10;
-> else if (c->bandwidth_hz <=3D 7000000)
-> bandwidth =3D 0x07;
-> else if (c->bandwidth_hz <=3D 8000000)
->=20
-> The additions omitted the "else", which resulted in the bandwidth setting=
- for
-> 6MHz being overwritten with the one for 6.1MHz - and that completely brea=
-ks
-> 6MHz channels, as the tuner then refuses to accept the tune command!
->=20
-> As a result, e.g. MCNS aka ClearQAM aka DVB-C Annex B no longer works aft=
-er
-> this patch.
->=20
-> I don't know if the 1.7Mhz and 6.1MHz settings are even usable, if the tu=
-ner
-> (in my case, the Si2157-A30) then no longer accepts the tune command. May=
-be
-> they're not suited for frequency-based tuning, but only for channel-based
-> tuning? That would not fit the DVB-API, I think.
->=20
-> And the 1.7MHz bandwidth setting currently can't do any harm, as it is al=
-ways
-> overwritten by the 6MHz bandwidth setting, also due to an "else" missing.
->=20
-> Best Regards,
-> -Robert Schlabbach
-> =C2=A0
-> =C2=A0
->=20
-> Gesendet:=C2=A0Freitag, 10. Dezember 2021 um 13:59 Uhr
-> Von:=C2=A0"Mauro Carvalho Chehab" <mchehab+huawei@kernel.org>
-> An:=C2=A0unlisted-recipients:;
-> Cc:=C2=A0linuxarm@huawei.com, mauro.chehab@huawei.com, "Mauro Carvalho Ch=
-ehab" <mchehab+huawei@kernel.org>, "Antti Palosaari" <crope@iki.fi>, "Mauro=
- Carvalho Chehab" <mchehab@kernel.org>, linux-kernel@vger.kernel.org, linux=
--media@vger.kernel.org
-> Betreff:=C2=A0[PATCH 2/3] media: si2157: add support for 1.7MHz and 6.1 M=
-Hz
-> Some tuners allow setting the bandwidth filter to 1.7MHz and
-> 6.1 MHz. Add support for it upstream, as the narrower is the
-> bandwidth filter, the better.
->=20
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-> ---
->=20
-> To avoid mailbombing on a large number of people, only mailing lists were=
- C/C on the cover.
-> See [PATCH 0/3] at: https://lore.kernel.org/all/cover.1639140967.git.mche=
-hab+huawei@kernel.org/
->=20
-> drivers/media/tuners/si2157.c | 4 ++++
-> drivers/media/tuners/si2157_priv.h | 5 +++++
-> 2 files changed, 9 insertions(+)
->=20
-> diff --git a/drivers/media/tuners/si2157.c b/drivers/media/tuners/si2157.c
-> index aeecb38b147f..2d3937af4f5f 100644
-> --- a/drivers/media/tuners/si2157.c
-> +++ b/drivers/media/tuners/si2157.c
-> @@ -458,8 +458,12 @@ static int si2157_set_params(struct dvb_frontend *fe)
-> goto err;
-> }
->=20
-> + if (SUPPORTS_1700KHz(dev) && c->bandwidth_hz <=3D 1700000)
-> + bandwidth =3D 0x09;
-> if (c->bandwidth_hz <=3D 6000000)
-> bandwidth =3D 0x06;
-> + if (SUPPORTS_1700KHz(dev) && c->bandwidth_hz <=3D 6100000)
-> + bandwidth =3D 0x10;
-> else if (c->bandwidth_hz <=3D 7000000)
-> bandwidth =3D 0x07;
-> else if (c->bandwidth_hz <=3D 8000000)
-> diff --git a/drivers/media/tuners/si2157_priv.h b/drivers/media/tuners/si=
-2157_priv.h
-> index df17a5f03561..24849c8ed398 100644
-> --- a/drivers/media/tuners/si2157_priv.h
-> +++ b/drivers/media/tuners/si2157_priv.h
-> @@ -66,6 +66,11 @@ struct si2157_cmd {
-> unsigned rlen;
-> };
->=20
-> +#define SUPPORTS_1700KHz(dev) (((dev)->part_id =3D=3D SI2141) || \
-> + ((dev)->part_id =3D=3D SI2147) || \
-> + ((dev)->part_id =3D=3D SI2157) || \
-> + ((dev)->part_id =3D=3D SI2177))
-> +
-> /* Old firmware namespace */
-> #define SI2158_A20_FIRMWARE "dvb-tuner-si2158-a20-01.fw"
-> #define SI2141_A10_FIRMWARE "dvb-tuner-si2141-a10-01.fw"
-> --
-> 2.33.1
-> =C2=A0
+Patch 16 is the last step that remove "pci-dma-compat.h" and its only usage.
 
 
+All patches, exept 1-2,6 that are architecture specific, have been compile tested.
 
-Thanks,
-Mauro
+
+After all that, a few rst files, 1 or 2 strings in error messages and some
+error branching labels should still need some attention. 
+This is some minor issues.
+
+
+Only the cover letter is sent to every one. Each patch is sent to the
+corresponding maintainer(s) + Andrew Morton, Christoph Hellwig and Arnd Bergmann.
+
+
+Best regards.
+
+
+Christophe JAILLET (16):
+  alpha: Remove usage of the deprecated "pci-dma-compat.h" API
+  floppy: Remove usage of the deprecated "pci-dma-compat.h" API
+  fpga: dfl: pci: Remove usage of the deprecated "pci-dma-compat.h" API
+  media: Remove usage of the deprecated "pci-dma-compat.h" API
+  agp/intel: Remove usage of the deprecated "pci-dma-compat.h" API
+  sparc: Remove usage of the deprecated "pci-dma-compat.h" API
+  dmaengine: pch_dma: Remove usage of the deprecated "pci-dma-compat.h"
+    API
+  rapidio/tsi721: Remove usage of the deprecated "pci-dma-compat.h" API
+  media: v4l2-pci-skeleton: Remove usage of the deprecated
+    "pci-dma-compat.h" API
+  scsi: message: fusion: Remove usage of the deprecated
+    "pci-dma-compat.h" API
+  scsi: mptbase: Use dma_alloc_coherent() in 'mpt_alloc_fw_memory()'
+  scsi: mptbase: Use dma_alloc_coherent()
+  scsi: mptsas: Use dma_alloc_coherent() in
+    mptsas_exp_repmanufacture_info()
+  scsi: mptsas: Use dma_alloc_coherent()
+  scsi: mptctl: Use dma_alloc_coherent()
+  PCI: Remove usage of the deprecated "pci-dma-compat.h" API
+
+ arch/alpha/include/asm/floppy.h     |   7 +-
+ arch/alpha/kernel/pci_iommu.c       |  12 +--
+ arch/powerpc/include/asm/floppy.h   |   8 +-
+ arch/sparc/kernel/ioport.c          |   2 +-
+ drivers/char/agp/intel-gtt.c        |  26 ++---
+ drivers/dma/pch_dma.c               |   2 +-
+ drivers/fpga/dfl-pci.c              |  14 +--
+ drivers/media/pci/cx18/cx18-queue.h |   6 +-
+ drivers/media/pci/ivtv/ivtv-queue.h |  25 +++--
+ drivers/media/pci/ivtv/ivtv-udma.h  |   8 +-
+ drivers/message/fusion/mptbase.c    | 149 ++++++++++++++++------------
+ drivers/message/fusion/mptctl.c     |  82 +++++++++------
+ drivers/message/fusion/mptlan.c     |  90 +++++++++--------
+ drivers/message/fusion/mptsas.c     |  94 +++++++++---------
+ drivers/rapidio/devices/tsi721.c    |   8 +-
+ include/linux/pci-dma-compat.h      | 129 ------------------------
+ include/linux/pci.h                 |   3 -
+ samples/v4l/v4l2-pci-skeleton.c     |   2 +-
+ 18 files changed, 289 insertions(+), 378 deletions(-)
+ delete mode 100644 include/linux/pci-dma-compat.h
+
+-- 
+2.32.0
+
