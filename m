@@ -2,177 +2,75 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 936FD486CB3
-	for <lists+linux-media@lfdr.de>; Thu,  6 Jan 2022 22:50:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4596C486D5B
+	for <lists+linux-media@lfdr.de>; Thu,  6 Jan 2022 23:48:16 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244490AbiAFVuN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 6 Jan 2022 16:50:13 -0500
-Received: from smtp07.smtpout.orange.fr ([80.12.242.129]:60688 "EHLO
-        smtp.smtpout.orange.fr" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S244455AbiAFVuM (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 6 Jan 2022 16:50:12 -0500
-Received: from pop-os.home ([90.11.185.88])
-        by smtp.orange.fr with ESMTPA
-        id 5aeAntVBq2lVY5aeBnSlMk; Thu, 06 Jan 2022 22:50:11 +0100
-X-ME-Helo: pop-os.home
-X-ME-Auth: YWZlNiIxYWMyZDliZWIzOTcwYTEyYzlhMmU3ZiQ1M2U2MzfzZDfyZTMxZTBkMTYyNDBjNDJlZmQ3ZQ==
-X-ME-Date: Thu, 06 Jan 2022 22:50:11 +0100
-X-ME-IP: 90.11.185.88
-From:   Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-To:     arnd@arndb.de, hch@infradead.org, akpm@linux-foundation.org,
-        awalls@md.metrocast.net, mchehab@kernel.org
-Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        kernel-janitors@vger.kernel.org,
-        Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-Subject: [PATCH 04/16] media: Remove usage of the deprecated "pci-dma-compat.h" API
-Date:   Thu,  6 Jan 2022 22:50:07 +0100
-Message-Id: <e89f4b29b9f7e0c711a3ccc16a009f49f416e1fc.1641500561.git.christophe.jaillet@wanadoo.fr>
-X-Mailer: git-send-email 2.32.0
-In-Reply-To: <cover.1641500561.git.christophe.jaillet@wanadoo.fr>
-References: <cover.1641500561.git.christophe.jaillet@wanadoo.fr>
+        id S245208AbiAFWsP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 6 Jan 2022 17:48:15 -0500
+Received: from mout.gmx.net ([212.227.17.22]:35047 "EHLO mout.gmx.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S245167AbiAFWsP (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 6 Jan 2022 17:48:15 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
+        s=badeba3b8450; t=1641509290;
+        bh=2YuChdkLlpiNoE8Q7Y7yh3Y+E/O33DNnmQ7FR8fwyyk=;
+        h=X-UI-Sender-Class:From:To:Cc:Subject:Date;
+        b=gU3mXs723sCZr9GbHOyCdL9qPwowY2zP4QUVurSxR0Voj0GfIzRTRMeqJ2mKoIshW
+         shMwRGRd0P36qcfTi8s2kuX6WG7tcb8d8h5aI/1gGPOx+KipSgnI/D14ajej5phW5l
+         Hr3qaEKL899VsKhJczrIQnSxvs/nvrqLY+44vK/M=
+X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
+Received: from [91.65.60.26] ([91.65.60.26]) by web-mail.gmx.net
+ (3c-app-gmx-bap68.server.lan [172.19.172.68]) (via HTTP); Thu, 6 Jan 2022
+ 23:48:10 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Message-ID: <trinity-597c1df9-5f5a-4de5-9a5f-82b0fc8069c3-1641509290301@3c-app-gmx-bap68>
+From:   Robert Schlabbach <robert_s@gmx.net>
+To:     linux-media@vger.kernel.org
+Cc:     mchehab@kernel.org
+Subject: [PATCH 0/3] media: si2157: fix bandwidth set/get, add DVB-C Annex C
+Content-Type: text/plain; charset=UTF-8
+Date:   Thu, 6 Jan 2022 23:48:10 +0100
+Importance: normal
+Sensitivity: Normal
+X-Priority: 3
+X-Provags-ID: V03:K1:piEMFPOCDH4sUydQdqbwVrdDpgqC3LThO7nIWOVEIT/lqvQCaUdbcJr5CbAKuH/kRHhmD
+ 3/Mj2y0ylKyFSjJbVzpCjwpCuBiu5yN5lR1h600BojR0X7z7XSBB3Jk2iZSrG66RwiSHHJU8lOcg
+ 4wuJDdH/GXE6EJXmMIIgjBBLZwZ32vEurYQ+MXwfaQ3poana9lfOI1LMglesl/FS8j5KXJl37p1v
+ GD6RdUyAdSpObE6x/aWdE1DlCVfazusmEajWBUVetHCv6eYKkO5irD8Kq5+qpnsfJC8g2LOBqeoM
+ Oo=
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:nfZDiPq7fPA=:QGghBaRc3vAjg1XVug5GAm
+ fvx6wQc+ZeOj8cM2uL1VH3Jj6Wq2OPdUi7IC6xlvsEvjl2OEFt/krSFvnQNocUxPq/jr7SUdp
+ yM6dMdhjxQebyi+E2fo9NcSe5C/hEVRzgQB/LEKXoI1ovq08nZSRYlJzLpYZECBuqhp0l9L0D
+ jg2aLGJZs6mKVPUYAIMwQQadOLgma+vQQ5lRDjlCxZegqIFOuYx0aGKWQNmJ4Fx8xYVj4Cg6I
+ NgaVxZsVwBC82WShocVs2ia4ckXCYAS61xP8pLvYiZjqukg5PjJVs/7FFKWcV4eeydxEE3ZDU
+ Bt7FUnqfskYl/m4cP/1rCXgxNob9Lmbi0uNUWchAV4fcpWDux6L2lVUiSKDIA3MHd/q3p4WnY
+ Q+3NcWqrOisoQz7JjwMu4yTo5+7fqYc99Ha1evVtAGkBaBJDu8QU67ky0iQYse3vPnyvn7N92
+ /zSgO3nNkWj3FrsJieHkxJzNYj0pekcFCrVqd5C69FE5kSjogMM2Kf7NYxbxesj1R62tOhDYa
+ xGRZn68gy/tLForccBrDHj/zPZGnXG7hr+piDgTcmovQ2Min5pTq/+juDRAyYYQiXDMiM6xzS
+ jlYRvEqpbyUQjf8gV8EO62JtA4i3EQRKRXOGqiaEH9Lt20fW/u7aILVRMyk6SBFYtCMR4N8Mg
+ Ol8b2A39cZto4W/HypYfOBWmC2Ydld2W/nSXBAGedQwbnAm2ZtQ4DhxLvE6pbuZz/YgTwy29U
+ 8R6EreDRw2sGxkfF234lKcyqHUiIsSDTeyv6P0xKMen+4X01BzUPmkiT0+HBtiNKLD/YM6hL0
+ MUyQjXc
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-In [1], Christoph Hellwig has proposed to remove the wrappers in
-include/linux/pci-dma-compat.h.
+The si2157 driver was recently broken so that trying to tune to channels
+with a bandwidth of less than 7MHz always resulted in an error. Getting
+the bandwidth after digital tuning has always returned erroneous values.
+Furthermore, tune requests for DVB-C Annex C were rejected with -EINVAL,
+although it should work with the same settings as for DVB-C Annex A.
 
-Some reasons why this API should be removed have been given by Julia
-Lawall in [2].
+The following three patches address all these issues.
 
-A coccinelle script has been used to perform the needed transformation.
-It can be found in [3].
+With all three patches applied, the driver has been verified with a
+Si2157-A30 to successfully:
 
-[1]: https://lore.kernel.org/kernel-janitors/20200421081257.GA131897@infradead.org/
-[2]: https://lore.kernel.org/kernel-janitors/alpine.DEB.2.22.394.2007120902170.2424@hadrien/
-[3]: https://lore.kernel.org/kernel-janitors/20200716192821.321233-1-christophe.jaillet@wanadoo.fr/
+- accept tune requests for DVB-C Annex A/B/C, DVB-T/T2 and ISDB-T
+- receive actual 8MHz DVB-C Annex A, DVB-T and DVB-T2 signals
 
-Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
----
- drivers/media/pci/cx18/cx18-queue.h |  6 +++---
- drivers/media/pci/ivtv/ivtv-queue.h | 25 ++++++++++++++-----------
- drivers/media/pci/ivtv/ivtv-udma.h  |  8 ++++----
- 3 files changed, 21 insertions(+), 18 deletions(-)
+I do not have any DVB-C Annex B/C nor ISDB-T signals available.
 
-diff --git a/drivers/media/pci/cx18/cx18-queue.h b/drivers/media/pci/cx18/cx18-queue.h
-index e0a34bd6539e..26f2097c0496 100644
---- a/drivers/media/pci/cx18/cx18-queue.h
-+++ b/drivers/media/pci/cx18/cx18-queue.h
-@@ -15,15 +15,15 @@
- static inline void cx18_buf_sync_for_cpu(struct cx18_stream *s,
- 	struct cx18_buffer *buf)
- {
--	pci_dma_sync_single_for_cpu(s->cx->pci_dev, buf->dma_handle,
-+	dma_sync_single_for_cpu(&s->cx->pci_dev->dev, buf->dma_handle,
- 				s->buf_size, s->dma);
- }
- 
- static inline void cx18_buf_sync_for_device(struct cx18_stream *s,
- 	struct cx18_buffer *buf)
- {
--	pci_dma_sync_single_for_device(s->cx->pci_dev, buf->dma_handle,
--				s->buf_size, s->dma);
-+	dma_sync_single_for_device(&s->cx->pci_dev->dev, buf->dma_handle,
-+				   s->buf_size, s->dma);
- }
- 
- void _cx18_mdl_sync_for_device(struct cx18_stream *s, struct cx18_mdl *mdl);
-diff --git a/drivers/media/pci/ivtv/ivtv-queue.h b/drivers/media/pci/ivtv/ivtv-queue.h
-index 586b0bf63c26..b8fc2669a358 100644
---- a/drivers/media/pci/ivtv/ivtv-queue.h
-+++ b/drivers/media/pci/ivtv/ivtv-queue.h
-@@ -17,20 +17,20 @@
- 
- static inline int ivtv_might_use_pio(struct ivtv_stream *s)
- {
--	return s->dma == PCI_DMA_NONE || (SLICED_VBI_PIO && s->type == IVTV_ENC_STREAM_TYPE_VBI);
-+	return s->dma == DMA_NONE || (SLICED_VBI_PIO && s->type == IVTV_ENC_STREAM_TYPE_VBI);
- }
- 
- static inline int ivtv_use_pio(struct ivtv_stream *s)
- {
- 	struct ivtv *itv = s->itv;
- 
--	return s->dma == PCI_DMA_NONE ||
-+	return s->dma == DMA_NONE ||
- 	    (SLICED_VBI_PIO && s->type == IVTV_ENC_STREAM_TYPE_VBI && itv->vbi.sliced_in->service_set);
- }
- 
- static inline int ivtv_might_use_dma(struct ivtv_stream *s)
- {
--	return s->dma != PCI_DMA_NONE;
-+	return s->dma != DMA_NONE;
- }
- 
- static inline int ivtv_use_dma(struct ivtv_stream *s)
-@@ -41,15 +41,16 @@ static inline int ivtv_use_dma(struct ivtv_stream *s)
- static inline void ivtv_buf_sync_for_cpu(struct ivtv_stream *s, struct ivtv_buffer *buf)
- {
- 	if (ivtv_use_dma(s))
--		pci_dma_sync_single_for_cpu(s->itv->pdev, buf->dma_handle,
--				s->buf_size + 256, s->dma);
-+		dma_sync_single_for_cpu(&s->itv->pdev->dev, buf->dma_handle,
-+					s->buf_size + 256, s->dma);
- }
- 
- static inline void ivtv_buf_sync_for_device(struct ivtv_stream *s, struct ivtv_buffer *buf)
- {
- 	if (ivtv_use_dma(s))
--		pci_dma_sync_single_for_device(s->itv->pdev, buf->dma_handle,
--				s->buf_size + 256, s->dma);
-+		dma_sync_single_for_device(&s->itv->pdev->dev,
-+					   buf->dma_handle, s->buf_size + 256,
-+					   s->dma);
- }
- 
- int ivtv_buf_copy_from_user(struct ivtv_stream *s, struct ivtv_buffer *buf, const char __user *src, int copybytes);
-@@ -70,15 +71,17 @@ void ivtv_stream_free(struct ivtv_stream *s);
- static inline void ivtv_stream_sync_for_cpu(struct ivtv_stream *s)
- {
- 	if (ivtv_use_dma(s))
--		pci_dma_sync_single_for_cpu(s->itv->pdev, s->sg_handle,
--			sizeof(struct ivtv_sg_element), PCI_DMA_TODEVICE);
-+		dma_sync_single_for_cpu(&s->itv->pdev->dev, s->sg_handle,
-+					sizeof(struct ivtv_sg_element),
-+					DMA_TO_DEVICE);
- }
- 
- static inline void ivtv_stream_sync_for_device(struct ivtv_stream *s)
- {
- 	if (ivtv_use_dma(s))
--		pci_dma_sync_single_for_device(s->itv->pdev, s->sg_handle,
--			sizeof(struct ivtv_sg_element), PCI_DMA_TODEVICE);
-+		dma_sync_single_for_device(&s->itv->pdev->dev, s->sg_handle,
-+					   sizeof(struct ivtv_sg_element),
-+					   DMA_TO_DEVICE);
- }
- 
- #endif
-diff --git a/drivers/media/pci/ivtv/ivtv-udma.h b/drivers/media/pci/ivtv/ivtv-udma.h
-index 0eef104e03b9..12b9426b2db2 100644
---- a/drivers/media/pci/ivtv/ivtv-udma.h
-+++ b/drivers/media/pci/ivtv/ivtv-udma.h
-@@ -23,14 +23,14 @@ void ivtv_udma_start(struct ivtv *itv);
- 
- static inline void ivtv_udma_sync_for_device(struct ivtv *itv)
- {
--	pci_dma_sync_single_for_device(itv->pdev, itv->udma.SG_handle,
--		sizeof(itv->udma.SGarray), PCI_DMA_TODEVICE);
-+	dma_sync_single_for_device(&itv->pdev->dev, itv->udma.SG_handle,
-+				   sizeof(itv->udma.SGarray), DMA_TO_DEVICE);
- }
- 
- static inline void ivtv_udma_sync_for_cpu(struct ivtv *itv)
- {
--	pci_dma_sync_single_for_cpu(itv->pdev, itv->udma.SG_handle,
--		sizeof(itv->udma.SGarray), PCI_DMA_TODEVICE);
-+	dma_sync_single_for_cpu(&itv->pdev->dev, itv->udma.SG_handle,
-+				sizeof(itv->udma.SGarray), DMA_TO_DEVICE);
- }
- 
- #endif
--- 
-2.32.0
-
+Tested-by: Robert Schlabbach <robert_s@gmx.net>
+Signed-off-by: Robert Schlabbach <robert_s@gmx.net>
