@@ -2,127 +2,205 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 33D6E486978
-	for <lists+linux-media@lfdr.de>; Thu,  6 Jan 2022 19:14:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 702024869CD
+	for <lists+linux-media@lfdr.de>; Thu,  6 Jan 2022 19:25:50 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242570AbiAFSOQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 6 Jan 2022 13:14:16 -0500
-Received: from dfw.source.kernel.org ([139.178.84.217]:57816 "EHLO
-        dfw.source.kernel.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241192AbiAFSOM (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 6 Jan 2022 13:14:12 -0500
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 4870561D17;
-        Thu,  6 Jan 2022 18:14:11 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4A780C36AEB;
-        Thu,  6 Jan 2022 18:14:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1641492850;
-        bh=pk9c3vFsS24A9H9YRNmuoLU04tTgveyiSfxz/RguLrg=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:From;
-        b=tWL9ah320xPJ7ZLvQrLFkjIeV1LTlPrJ2qSY/t0fKFbU+5MxnpWBBUesVfIjO0xOO
-         l+Yvi8TANgRjNK2vReZYRlLqehfzP4qE2oNJarfvWixIS0OfQkuKWpI6rrQEfWGn25
-         oroVHI/IQA8JEpMkHqxWMkHxAKg+IVXn/Zqji7RoVtpWyymeRt5WcM4qay0A7EFOWe
-         jnI4JpbaAmAttF9a/Yhl/wWUUgx6A1s8zF9Wpc8ft5Y9hFSMLv91rRujQQ/od6scnA
-         LsHiF+8iYMGoQ6RcvIn/+ZU8WqHN0Y3LnsXMJdYHRbXi/+K/WGfnGi+pM9zExj10bs
-         +smYL/+iBYHZg==
-Date:   Thu, 6 Jan 2022 12:14:09 -0600
-From:   Bjorn Helgaas <helgaas@kernel.org>
-To:     John Garry <john.garry@huawei.com>
-Cc:     Niklas Schnelle <schnelle@linux.ibm.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Ettore Chimenti <ek5.chimenti@gmail.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Arnd Bergmann <arnd@kernel.org>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        Nick Hu <nickhu@andestech.com>,
-        Greentime Hu <green.hu@gmail.com>,
-        Vincent Chen <deanbo422@gmail.com>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>, Guo Ren <guoren@kernel.org>,
-        Damien Le Moal <damien.lemoal@opensource.wdc.com>,
-        Ian Abbott <abbotti@mev.co.uk>,
-        H Hartley Sweeten <hsweeten@visionengravers.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Bartosz Golaszewski <brgl@bgdev.pl>,
-        Jean Delvare <jdelvare@suse.com>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Karsten Keil <isdn@linux-pingi.de>,
-        Sathya Prakash <sathya.prakash@broadcom.com>,
-        Sreekanth Reddy <sreekanth.reddy@broadcom.com>,
-        Suganath Prabu Subramani 
-        <suganath-prabu.subramani@broadcom.com>,
-        Michael Grzeschik <m.grzeschik@pengutronix.de>,
-        "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Jesse Brandeburg <jesse.brandeburg@intel.com>,
-        Tony Nguyen <anthony.l.nguyen@intel.com>,
-        Kalle Valo <kvalo@kernel.org>, Jouni Malinen <j@w1.fi>,
-        "James E.J. Bottomley" <jejb@linux.ibm.com>,
-        "Martin K. Petersen" <martin.petersen@oracle.com>,
-        Hannes Reinecke <hare@suse.com>,
-        Kashyap Desai <kashyap.desai@broadcom.com>,
-        Sumit Saxena <sumit.saxena@broadcom.com>,
-        Shivasharan S <shivasharan.srikanteshwara@broadcom.com>,
-        Nilesh Javali <njavali@marvell.com>,
-        GR-QLogic-Storage-Upstream@marvell.com,
-        Mark Brown <broonie@kernel.org>,
-        Sudip Mukherjee <sudipm.mukherjee@gmail.com>,
-        Teddy Wang <teddy.wang@siliconmotion.com>,
-        Forest Bond <forest@alittletooquiet.net>,
-        Jiri Slaby <jirislaby@kernel.org>,
-        Wim Van Sebroeck <wim@linux-watchdog.org>,
-        Jaroslav Kysela <perex@perex.cz>,
-        Takashi Iwai <tiwai@suse.com>, linux-kernel@vger.kernel.org,
-        linux-arch@vger.kernel.org, linux-pci@vger.kernel.org,
-        linux-riscv@lists.infradead.org, linux-csky@vger.kernel.org,
-        linux-ide@vger.kernel.org, linux-gpio@vger.kernel.org,
-        linux-hwmon@vger.kernel.org, linux-i2c@vger.kernel.org,
-        linux-input@vger.kernel.org, netdev@vger.kernel.org,
-        linux-media@vger.kernel.org, MPT-FusionLinux.pdl@broadcom.com,
-        linux-scsi@vger.kernel.org, intel-wired-lan@lists.osuosl.org,
-        linux-wireless@vger.kernel.org, megaraidlinux.pdl@broadcom.com,
-        linux-spi@vger.kernel.org, linux-fbdev@vger.kernel.org,
-        linux-serial@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        linux-watchdog@vger.kernel.org
-Subject: Re: [RFC 01/32] Kconfig: introduce and depend on LEGACY_PCI
-Message-ID: <20220106181409.GA297735@bhelgaas>
+        id S242882AbiAFSZo (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 6 Jan 2022 13:25:44 -0500
+Received: from mout.gmx.net ([212.227.17.20]:40229 "EHLO mout.gmx.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S242804AbiAFSZh (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 6 Jan 2022 13:25:37 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
+        s=badeba3b8450; t=1641493525;
+        bh=mC8sD6/rtcD8JtEMZrKMAq28bMVHVi0Aa915QHg3OCE=;
+        h=X-UI-Sender-Class:From:To:Cc:Subject:Date:In-Reply-To:References;
+        b=B4q2c5Bx81oslkkmHZ5q9K/Wd/pgyZYZWjPvU6uQ7S3zCZkYWrs5eqSMbROjWHIfq
+         Ghq/eyAjJTbsTWXACRy00x06uD4hoVLP1aL7Ne3gbeRLcCItYOARB42XaRe+9kYzOm
+         IPZfvIQ5jQaxRlPsvGqHQCeG+GsI/Wxw7PuZsshE=
+X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
+Received: from [91.65.60.26] ([91.65.60.26]) by web-mail.gmx.net
+ (3c-app-gmx-bap38.server.lan [172.19.172.108]) (via HTTP); Thu, 6 Jan 2022
+ 19:25:25 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <74bf4fde-3972-1c36-ca04-58089da0d82b@huawei.com>
+Message-ID: <trinity-59d726d3-993c-43c9-9e44-5be5cdfae74d-1641493525223@3c-app-gmx-bap38>
+From:   Robert Schlabbach <Robert.Schlabbach@gmx.net>
+To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc:     Antti Palosaari <crope@iki.fi>, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org
+Subject: Re: [PATCH 2/3] media: si2157: add support for 1.7MHz and 6.1 MHz
+Content-Type: text/plain; charset=UTF-8
+Date:   Thu, 6 Jan 2022 19:25:25 +0100
+Importance: normal
+Sensitivity: Normal
+In-Reply-To: <trinity-b5cc1284-ccc2-477c-ac90-56ee40da91af-1641483579446@3c-app-gmx-bs50>
+References: <cover.1639140967.git.mchehab+huawei@kernel.org>
+ <76c2ea87882c87bd35066a85cb48292a36a79fce.1639140967.git.mchehab+huawei@kernel.org>
+ <trinity-b5cc1284-ccc2-477c-ac90-56ee40da91af-1641483579446@3c-app-gmx-bs50>
+Content-Transfer-Encoding: quoted-printable
+X-UI-Message-Type: mail
+X-Priority: 3
+X-Provags-ID: V03:K1:kIiuH7K4RPeU4wYVbB2/6TWJKHpFJwHBqKitCCeSTmdBvilKvklwlFZpYJY6gfJN5w2K+
+ UbWN8Kijohb8z5ZV4HAXyObOZjgUKcRkWmc5W38UPFvmyVENcoWUkPqTvtLsCzbk0XddCRQPODiC
+ piPVzeyo5DM1OUM23PJlZwh2JIctcVB2lxRKQPcB7+jj/9TRnmii2/OLvuSTmkPQoxq/l6eR811Y
+ FHiv/JWtWOSwMEmUdYjbrVf/x06UWBRDdbmcVaJrnElkyF27K3fo1ZjHssDN9OVBLdKMUtyCCN9W
+ Rg=
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:2wmkk7kkf1k=:ecIAMKYQp7bOuIK+ImVpuh
+ Z66eOQ9coWpZ9jrkudeek7EgWnniUO+fi1WDLr3UQWwYjGLS0TDmBdFerd00W1lrm2k32QFgK
+ 29eyj9CebzopuvrDoMoJcZKuZ//GPegSfcS7DQfkD0fficxlYu/DVdcHzmgOaTbgpTAwsFRFH
+ a6ArstouscTwUkRAvgZQ7M8ULsvcnaT4dW2zbpO2bprBP3VTIDDLI5/T8OhRUInwHco9jrGDa
+ nNL9BzMR+sN9rkIy5qYfs3/WDVlj1y1HNiQzW/EnWJe4jCv6mzcmM4kAPkBxtkmgsH6226SmQ
+ YeBVcsE4C7zd/Yxf3lOKQNt6hiK+pYkApFK1u0K0Z6bKovPbtDd4ABgdJOpKjCU7xfKErog9V
+ dfY8VFrTVExi6FxKneDEZOaHhIQSIVVyltdbLKzaHLde0exRv4VqPQAi+jKw2YXWFZfrkjCsS
+ +hB52dq998NQ16iLH4TrZCwvBpd2V2FDODa/D6c6CN4yxCPHZk4GYUsIaFTCenkKOvmdhDiVU
+ LfTM5dyIQeL/xwWMmLm2nVvGS/DBRwmvZqra9QfW4QBBY4LBm1Ji+Tq23JA0lJECsal7A+afP
+ /DBgmg2cojwHHAsJEp1ALa+Ia125W509VoYwqlftkomugtCFsUlReUiEsDgFd7jdB4phRwJmH
+ DEHiRAu99Y1DzngPhZGvcmOUeCnz3RefnyW9NA7XAf65Bh64dRRE5I1e3lr+0tx3ndfvYe6hw
+ Us7gq5upjBGAY6LTPWGAr8sl2g5TJXkOPegVlZWzf7ut++hDxESyR+B7gyiXx2uiJuf8O/Ds3
+ 8UOG0kW
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, Jan 06, 2022 at 05:41:00PM +0000, John Garry wrote:
-> On 05/01/2022 19:47, Bjorn Helgaas wrote:
+It turns out there are actually two bugs in there:
+=C2=A0
++ if (SUPPORTS_1700KHz(dev) && c->bandwidth_hz <=3D 6100000)
++ bandwidth =3D 0x10;
 
-> > IMO inb() should
-> > be present but do something innocuous like return ~0, as it would if
-> > I/O port space is supported but there's no device at that address.
-> > 
-> > [1]https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/drivers/scsi/megaraid.c?id=v5.15#n4210
-> > 
-> 
-> That driver would prob not be used on systems which does not support PIO,
-> and so could have a HAS_IOPORT dependency. But it is not strictly necessary.
+The si2157 code for bandwidth 6=2E1MHz is _decimal_ 10, not
+hexadecimal 0x10=2E Removing the "0x" from the above line makes
+the tuner work again, even with the other bug that makes it use
+the 6=2E1MHz setting when 6MHz is requested=2E
 
-I don't want the path of "this driver isn't needed because the device
-is unlikely to be used on this arch."
+Another issue with the bandwidth setting: The si2157 code is
+also stored in dev->bandwidth and returned in the get_bandwidth()
+call=2E Now this was not well before, because the call is supposed
+to return the bandwidth in Hz, not in MHz, but now it can return
+9 and 10, but those do not correspond to 9 and 10MHz=2E
 
-Maybe it's not _always_ possible, but if the device can be plugged
-into the platform, I think we should be able to build the driver for
-it.
+Also, the default case uses si2157 code 0x0f, which also seems
+like a bad idea=2E
 
-If the device requires I/O port space and the platform doesn't support
-it, the PCI core or the driver should detect that and give a useful
-diagnostic.
+And another, unrelated issue: The delivery_system switch is
+missing case DVBC_ANNEX_C, even though it should operate just as
+DVBC_ANNEX_A=2E
 
-Bjorn
+I'll see if I can come up with a patch which addresses all of the
+above=2E
+
+Best Regards,
+-Robert Schlabbach=C2=A0
+
+
+Gesendet:=C2=A0Donnerstag, 06=2E Januar 2022 um 16:39 Uhr
+Von:=C2=A0"Robert Schlabbach" <Robert=2ESchlabbach@gmx=2Enet>
+An:=C2=A0"Mauro Carvalho Chehab" <mchehab+huawei@kernel=2Eorg>
+Cc:=C2=A0mauro=2Echehab@huawei=2Ecom, "Antti Palosaari" <crope@iki=2Efi>, =
+linux-kernel@vger=2Ekernel=2Eorg, linux-media@vger=2Ekernel=2Eorg
+Betreff:=C2=A0Re: [PATCH 2/3] media: si2157: add support for 1=2E7MHz and =
+6=2E1 MHz
+
+Sorry for the late test and response, but there is a BAD BUG in this patch=
+:
+=C2=A0
++ if (SUPPORTS_1700KHz(dev) && c->bandwidth_hz <=3D 1700000)
++ bandwidth =3D 0x09;
+if (c->bandwidth_hz <=3D 6000000)
+bandwidth =3D 0x06;
++ if (SUPPORTS_1700KHz(dev) && c->bandwidth_hz <=3D 6100000)
++ bandwidth =3D 0x10;
+else if (c->bandwidth_hz <=3D 7000000)
+bandwidth =3D 0x07;
+else if (c->bandwidth_hz <=3D 8000000)
+
+The additions omitted the "else", which resulted in the bandwidth setting =
+for
+6MHz being overwritten with the one for 6=2E1MHz - and that completely bre=
+aks
+6MHz channels, as the tuner then refuses to accept the tune command!
+
+As a result, e=2Eg=2E MCNS aka ClearQAM aka DVB-C Annex B no longer works =
+after
+this patch=2E
+
+I don't know if the 1=2E7Mhz and 6=2E1MHz settings are even usable, if the=
+ tuner
+(in my case, the Si2157-A30) then no longer accepts the tune command=2E Ma=
+ybe
+they're not suited for frequency-based tuning, but only for channel-based
+tuning? That would not fit the DVB-API, I think=2E
+
+And the 1=2E7MHz bandwidth setting currently can't do any harm, as it is a=
+lways
+overwritten by the 6MHz bandwidth setting, also due to an "else" missing=
+=2E
+
+Best Regards,
+-Robert Schlabbach
+=C2=A0
+=C2=A0
+
+Gesendet:=C2=A0Freitag, 10=2E Dezember 2021 um 13:59 Uhr
+Von:=C2=A0"Mauro Carvalho Chehab" <mchehab+huawei@kernel=2Eorg>
+An:=C2=A0unlisted-recipients:;
+Cc:=C2=A0linuxarm@huawei=2Ecom, mauro=2Echehab@huawei=2Ecom, "Mauro Carval=
+ho Chehab" <mchehab+huawei@kernel=2Eorg>, "Antti Palosaari" <crope@iki=2Efi=
+>, "Mauro Carvalho Chehab" <mchehab@kernel=2Eorg>, linux-kernel@vger=2Ekern=
+el=2Eorg, linux-media@vger=2Ekernel=2Eorg
+Betreff:=C2=A0[PATCH 2/3] media: si2157: add support for 1=2E7MHz and 6=2E=
+1 MHz
+Some tuners allow setting the bandwidth filter to 1=2E7MHz and
+6=2E1 MHz=2E Add support for it upstream, as the narrower is the
+bandwidth filter, the better=2E
+
+Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel=2Eorg>
+---
+
+To avoid mailbombing on a large number of people, only mailing lists were =
+C/C on the cover=2E
+See [PATCH 0/3] at: https://lore=2Ekernel=2Eorg/all/cover=2E1639140967=2Eg=
+it=2Emchehab+huawei@kernel=2Eorg/
+
+drivers/media/tuners/si2157=2Ec | 4 ++++
+drivers/media/tuners/si2157_priv=2Eh | 5 +++++
+2 files changed, 9 insertions(+)
+
+diff --git a/drivers/media/tuners/si2157=2Ec b/drivers/media/tuners/si2157=
+=2Ec
+index aeecb38b147f=2E=2E2d3937af4f5f 100644
+--- a/drivers/media/tuners/si2157=2Ec
++++ b/drivers/media/tuners/si2157=2Ec
+@@ -458,8 +458,12 @@ static int si2157_set_params(struct dvb_frontend *fe)
+goto err;
+}
+
++ if (SUPPORTS_1700KHz(dev) && c->bandwidth_hz <=3D 1700000)
++ bandwidth =3D 0x09;
+if (c->bandwidth_hz <=3D 6000000)
+bandwidth =3D 0x06;
++ if (SUPPORTS_1700KHz(dev) && c->bandwidth_hz <=3D 6100000)
++ bandwidth =3D 0x10;
+else if (c->bandwidth_hz <=3D 7000000)
+bandwidth =3D 0x07;
+else if (c->bandwidth_hz <=3D 8000000)
+diff --git a/drivers/media/tuners/si2157_priv=2Eh b/drivers/media/tuners/s=
+i2157_priv=2Eh
+index df17a5f03561=2E=2E24849c8ed398 100644
+--- a/drivers/media/tuners/si2157_priv=2Eh
++++ b/drivers/media/tuners/si2157_priv=2Eh
+@@ -66,6 +66,11 @@ struct si2157_cmd {
+unsigned rlen;
+};
+
++#define SUPPORTS_1700KHz(dev) (((dev)->part_id =3D=3D SI2141) || \
++ ((dev)->part_id =3D=3D SI2147) || \
++ ((dev)->part_id =3D=3D SI2157) || \
++ ((dev)->part_id =3D=3D SI2177))
++
+/* Old firmware namespace */
+#define SI2158_A20_FIRMWARE "dvb-tuner-si2158-a20-01=2Efw"
+#define SI2141_A10_FIRMWARE "dvb-tuner-si2141-a10-01=2Efw"
+--
+2=2E33=2E1
+=C2=A0
