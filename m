@@ -2,206 +2,116 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7E0BC48676B
-	for <lists+linux-media@lfdr.de>; Thu,  6 Jan 2022 17:11:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6A1A3486796
+	for <lists+linux-media@lfdr.de>; Thu,  6 Jan 2022 17:26:38 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241030AbiAFQLO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 6 Jan 2022 11:11:14 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51714 "EHLO
+        id S241192AbiAFQ0h (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 6 Jan 2022 11:26:37 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55166 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241031AbiAFQLO (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 6 Jan 2022 11:11:14 -0500
-Received: from mail-yb1-xb2d.google.com (mail-yb1-xb2d.google.com [IPv6:2607:f8b0:4864:20::b2d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 13A9BC061245;
-        Thu,  6 Jan 2022 08:11:14 -0800 (PST)
-Received: by mail-yb1-xb2d.google.com with SMTP id y130so8762408ybe.8;
-        Thu, 06 Jan 2022 08:11:14 -0800 (PST)
+        with ESMTP id S241167AbiAFQ0g (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 6 Jan 2022 11:26:36 -0500
+Received: from mail-ed1-x534.google.com (mail-ed1-x534.google.com [IPv6:2a00:1450:4864:20::534])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 133A7C061245;
+        Thu,  6 Jan 2022 08:26:36 -0800 (PST)
+Received: by mail-ed1-x534.google.com with SMTP id a18so10464221edj.7;
+        Thu, 06 Jan 2022 08:26:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=XvSsMCLogFe3D5aW/knGLRzhhrYq3IReN0YLQDq/yDc=;
-        b=QW/AKSUexoaYJJ+nb4h2WgcsFcslnhOaLB0qtD3oYf+c4T+9W4o2WPi24NKS3qkQL2
-         F+IOsn2Pex3DATl/KbSDZh9TlrfyaGso1/ZJ9Vh/II/Rcum8tIJXFypjXGA0eXoa3Oiz
-         02aqf/P6M12NRvGr9/MyAZPgH4UG98AkeFfGS4c9u0oE3LWP/7O3/UIhI66CyurfuHIq
-         WnJ5kTZnv3YFtkNdgnRoukvJSnzDEeVecL8/aQ5k8hQt71CXYgEPWNhJSAz//oo1haxU
-         DBExs4k4OB0Yb6PZozER/vjfp4bv8IQ64tpKjBpuzg9IBaKP71W42atZS1WU3XSW5dkE
-         CfsQ==
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=M3WBgNvuzR0WIM72X4IIZhdl+Kt7G0oeF/Hg+m6AnQQ=;
+        b=fgiBBLNYIvYGIfdhyPt4wlDj5rXuxLmRzyNOioyVzzAUKj4l3Caq6fqK9F2EsIHX4I
+         X4HlCLY/Z0X8Imh4hK8c/IUQPlTTteF7PV185QA3p/gtCMS8jBTLoWndm5NQzRo/HhKl
+         Nfzm/wEL6Ug8PUl+nFhKfaKS3Cpa6qigrWMjJAfV+Xa4uF1t37FKDYU6hygy3FTxu6EW
+         WFKpGeFU44cT3zVqQYXSpvR9MVqTYHAxqj0OSdHqrtgmm7ILScJav6crXJFK1Vdfcy2z
+         L4MlteqfpRl/3cODA32ciAsahNPrTnXuUftywFoc6esuJKy8l5MlM+G4Gzn7okOim+Wz
+         xnYA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=XvSsMCLogFe3D5aW/knGLRzhhrYq3IReN0YLQDq/yDc=;
-        b=ZBitxmVDLPwa3ZC0bi43cm55sngXwc85osd6hsGqj/PvbX1XndXVbiRk1KlxNigZAZ
-         w6owmGSywPeJSL/khR11F4khntBXH+BEBX/nPZeiyeXM6dhxmIvXTMTfcvTAKizr8wTR
-         jChPGpxuqNrg0OORkqBXhhMvidHAIth5lI9WROAlvzpuwZhxG+H6lJyITgJMDhYl+yRj
-         twSUxqoYs8amFzZH46dt95f5twS4YPrYIaET1Ms4xnPuqKAli+hDrE39q2WTTv++HTWH
-         kZU50JD7XJCqDJkn+MNMHa3OVAlAG3IBCsO04ivu6/JRKZQ5DOI+UMv5pBUb//tLWxTc
-         OJxQ==
-X-Gm-Message-State: AOAM531qCRK/2vU9XCLUtAbUmUYasodOb2+Gr+dhCStkpZMK/AXFL9U3
-        dXFRUzMN0TbScpZ2k8ksEBC+yZ8q3KJ+MbNPR+ImCGwIk5He9w==
-X-Google-Smtp-Source: ABdhPJwNH6AGPwkLCQVEPge9bIMxQ1PEykUJVFWzZxm+4APTsakBiJ+bztbJiRXfhwUloIiV2G3K/kAzMzxc/xXFZto=
-X-Received: by 2002:a25:98c4:: with SMTP id m4mr75809982ybo.613.1641485473351;
- Thu, 06 Jan 2022 08:11:13 -0800 (PST)
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=M3WBgNvuzR0WIM72X4IIZhdl+Kt7G0oeF/Hg+m6AnQQ=;
+        b=gl6vccp8vhMkyaFnzhryIv0zTKbG9F2bRVHYoGVX4B/6FsJ9L9xUbLjfg44oE3vPGM
+         zeRKsnWewTPDuE1XgEasY4M9iTku1MU9QcHenBsHU5IKRikuMB1dI7TsrLx/NoK0KcPI
+         1scnwZ2lr8yqlJpk09qFJV9cnw2XP+kUyXzqmpRbAuBduott6M1qJmG1RbGqYGKzNUKV
+         KkzcBzTGJLmAdwswaBDjjRPWARBNhb051g68FWdCGay34DKBAQvTZqPVLLY75k6n/cxt
+         nUjLklx/93emLmQeVWMu2p3GcWILP3KqR9KsBD01U07lRXyk1YqrMNo6s3vSDzB/2Siy
+         PXSQ==
+X-Gm-Message-State: AOAM530nbyUAdq2KRkbWt0E8plkEqKimv4YilvjCVvrf7V9MPCwcDoGv
+        P7wB+34pT0p5jm0C68jvfZ01NEIQrco=
+X-Google-Smtp-Source: ABdhPJzkLPEDxZ+Q9y6t19YtLkNWFcwnXI5cBQncyffs1BgDiayMRg1pyYzUb7voCgh6Ar0CWePj4w==
+X-Received: by 2002:a17:907:97cd:: with SMTP id js13mr46470367ejc.497.1641486388365;
+        Thu, 06 Jan 2022 08:26:28 -0800 (PST)
+Received: from [192.168.1.10] ([46.249.74.23])
+        by smtp.googlemail.com with ESMTPSA id p8sm889653edq.46.2022.01.06.08.26.26
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Thu, 06 Jan 2022 08:26:27 -0800 (PST)
+Subject: Re: [PATCH] drm: omapdrm: Fix implicit dma_buf fencing
+To:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+        sumit.semwal@linaro.org, christian.koenig@amd.com
+Cc:     openpvrsgx-devgroup@letux.org, merlijn@wizzup.org,
+        philipp@uvos.xyz, airlied@linux.ie, daniel@ffwll.ch,
+        dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-omap@vger.kernel.org
+References: <1641397018-29872-1-git-send-email-ivo.g.dimitrov.75@gmail.com>
+ <0ba4b947-57e0-8a80-68d6-a481d5145ab4@ideasonboard.com>
+From:   Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>
+Message-ID: <e55b3d0f-2217-c949-f166-63ca738b44f6@gmail.com>
+Date:   Thu, 6 Jan 2022 18:26:22 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Firefox/60.0 Thunderbird/60.6.1
 MIME-Version: 1.0
-References: <20211223173015.22251-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20211223173015.22251-7-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <CAHp75VeCwR-eP930s3miv-ux8=_P+vmdkhN+K=weTL1nwNA1ig@mail.gmail.com>
- <CA+V-a8snJU6YYtfcN_mWCJGxYnbNGrLdU+Y5g06mjV4dhsABMw@mail.gmail.com>
- <CAHp75Vck43wj650k70MsUNvmb+_-PUCd5mSy=dvmuX7MaAwr2w@mail.gmail.com>
- <CA+V-a8uRqfs2h82_y6yk7MZnt8K5iKii5DZZpFgDDy0Hw2ieXA@mail.gmail.com>
- <CAHp75VdiTw7R=MSM=4nzn8m863tomSza+yxx7pXLU-Xj8aouOg@mail.gmail.com>
- <CAHp75VexoYCBBJ1BFgnsb38Q79jG6NB2xBBHmAafTK2FHkTsbQ@mail.gmail.com>
- <CA+V-a8sbcebVnqGaLOxVhG_0wm3cM4bu0SebAa1Mkuv9GNBGnQ@mail.gmail.com> <CAHp75Vfy0M_mF0+2V0dzrQNnZ2wz4bSEnvUj=WeQ7EgwwVy_CA@mail.gmail.com>
-In-Reply-To: <CAHp75Vfy0M_mF0+2V0dzrQNnZ2wz4bSEnvUj=WeQ7EgwwVy_CA@mail.gmail.com>
-From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date:   Thu, 6 Jan 2022 16:10:47 +0000
-Message-ID: <CA+V-a8sYQ+7Wcsh5qyPjcQbJ8UGpBXoecqC3Vhqvn_3tsTMN2Q@mail.gmail.com>
-Subject: Re: [PATCH 06/13] media: davinci: vpif: Use platform_get_irq_optional()
- to get the interrupt
-To:     Andy Shevchenko <andy.shevchenko@gmail.com>
-Cc:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Rob Herring <robh+dt@kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <0ba4b947-57e0-8a80-68d6-a481d5145ab4@ideasonboard.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-GB
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Andy,
+Hi,
 
-On Thu, Jan 6, 2022 at 4:02 PM Andy Shevchenko
-<andy.shevchenko@gmail.com> wrote:
->
-> On Thu, Jan 6, 2022 at 5:27 PM Lad, Prabhakar
-> <prabhakar.csengg@gmail.com> wrote:
-> > On Thu, Jan 6, 2022 at 2:15 PM Andy Shevchenko
-> > <andy.shevchenko@gmail.com> wrote:
-> > > On Thu, Jan 6, 2022 at 3:43 PM Andy Shevchenko
-> > > <andy.shevchenko@gmail.com> wrote:
-> > > > On Wed, Jan 5, 2022 at 7:41 PM Lad, Prabhakar
-> > > > <prabhakar.csengg@gmail.com> wrote:
-> > > > > On Wed, Jan 5, 2022 at 9:43 AM Andy Shevchenko
->
-> ...
->
-> > > > >  #define DEFINE_RES_NAMED(_start, _size, _name, _flags)          =
-       \
-> > > > > -       {                                                        =
-       \
-> > > > > +       (struct resource) {                                     \
-> > > >
-> > > > Yep, that's it.
-> > > >
-> > > > >                 .start =3D (_start),                             =
-         \
-> > > > >                 .end =3D (_start) + (_size) - 1,                 =
-         \
-> > > > >                 .name =3D (_name),                               =
-         \
-> > > > >
-> > > > > But there are some instances which need to be touched, for exampl=
-e
-> > > > > vexpress-sysreg.c [1]. Are you OK with files to be changed?
-> > > >
-> > > > Nice! That's exactly my point and you can sell it to the community
-> > > > because there are already users of it like this.
-> > > >
-> > > > Yes, I'm fine, but it seems it needs to be done treewide in one pat=
-ch.
-> > > > Btw, how many of those already in use?
-> > >
-> > > Actually you don't need to change that. It's an array of resources an=
-d
-> > > everything should be kept as is there.
-> > >
-> > I do get below build failures, with the above literal change for
-> > vexpress-sysreg.c.
-> >
-> > drivers/mfd/vexpress-sysreg.c: At top level:
-> > drivers/mfd/vexpress-sysreg.c:64:37: error: initialiser element is not =
-constant
-> >    64 |   .resources =3D (struct resource []) {
-> >       |                                     ^
-> > drivers/mfd/vexpress-sysreg.c:64:37: note: (near initialisation for
-> > =E2=80=98vexpress_sysreg_cells[0]=E2=80=99)
-> > drivers/mfd/vexpress-sysreg.c:73:37: error: initialiser element is not =
-constant
-> >    73 |   .resources =3D (struct resource []) {
-> >       |                                     ^
-> > drivers/mfd/vexpress-sysreg.c:73:37: note: (near initialisation for
-> > =E2=80=98vexpress_sysreg_cells[1]=E2=80=99)
-> > drivers/mfd/vexpress-sysreg.c:82:37: error: initialiser element is not =
-constant
-> >    82 |   .resources =3D (struct resource []) {
-> >       |                                     ^
-> > drivers/mfd/vexpress-sysreg.c:82:37: note: (near initialisation for
-> > =E2=80=98vexpress_sysreg_cells[2]=E2=80=99)
-> > drivers/mfd/vexpress-sysreg.c:90:37: error: initialiser element is not =
-constant
-> >    90 |   .resources =3D (struct resource []) {
-> >       |                                     ^
-> > drivers/mfd/vexpress-sysreg.c:90:37: note: (near initialisation for
-> > =E2=80=98vexpress_sysreg_cells[3]=E2=80=99)
-> > drivers/mfd/vexpress-sysreg.c:93:2: warning: missing initialiser for
-> > field =E2=80=98ignore_resource_conflicts=E2=80=99 of =E2=80=98struct mf=
-d_cell=E2=80=99
-> > [-Wmissing-field-initializers]
-> >    93 |  }
->
-> Hmm... Interesting, so I suppose the fix is to drop (struct resource
-> []) parts from the driver?
->
-A bit more than that like something below:
+On 6.01.22 г. 15:43 ч., Tomi Valkeinen wrote:
+> Hi,
+> 
+> On 05/01/2022 17:36, Ivaylo Dimitrov wrote:
+>> Currently omapdrm driver does not initialize dma_buf_export_info resv
+>> member, which leads to a new dma_resv being allocated and attached to
+>> the exported dma_buf. This leads to the issue that fences created on
+>> dma_buf objects imported by other drivers are ignored by omapdrm, as only
+>> fences in gem object resv are waited on. This leads to various issues 
+>> like
+>> displaying incomplete frames.
+>>
+>> Fix that by initializing dma_buf resv to the resv of the gem object being
+>> exported.
+>>
+>> Signed-off-by: Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>
+>> ---
+>>   drivers/gpu/drm/omapdrm/omap_gem_dmabuf.c | 1 +
+>>   1 file changed, 1 insertion(+)
+>>
+>> diff --git a/drivers/gpu/drm/omapdrm/omap_gem_dmabuf.c 
+>> b/drivers/gpu/drm/omapdrm/omap_gem_dmabuf.c
+>> index f1f93cabb61e..a111e5c91925 100644
+>> --- a/drivers/gpu/drm/omapdrm/omap_gem_dmabuf.c
+>> +++ b/drivers/gpu/drm/omapdrm/omap_gem_dmabuf.c
+>> @@ -88,6 +88,7 @@ struct dma_buf *omap_gem_prime_export(struct 
+>> drm_gem_object *obj, int flags)
+>>       exp_info.size = omap_gem_mmap_size(obj);
+>>       exp_info.flags = flags;
+>>       exp_info.priv = obj;
+>> +    exp_info.resv = obj->resv;
+>>       return drm_gem_dmabuf_export(obj->dev, &exp_info);
+>>   }
+> 
+> Thanks! Pushed to drm-misc-next.
+> 
 
-diff --git a/drivers/mfd/vexpress-sysreg.c b/drivers/mfd/vexpress-sysreg.c
-index aaf24af287dd..eab82619ec31 100644
---- a/drivers/mfd/vexpress-sysreg.c
-+++ b/drivers/mfd/vexpress-sysreg.c
-@@ -61,35 +61,27 @@ static struct mfd_cell vexpress_sysreg_cells[] =3D {
-  .name =3D "basic-mmio-gpio",
-  .of_compatible =3D "arm,vexpress-sysreg,sys_led",
-  .num_resources =3D 1,
-- .resources =3D (struct resource []) {
-- DEFINE_RES_MEM_NAMED(SYS_LED, 0x4, "dat"),
-- },
-+ .resources =3D &DEFINE_RES_MEM_NAMED(SYS_LED, 0x4, "dat"),
-  .platform_data =3D &vexpress_sysreg_sys_led_pdata,
-  .pdata_size =3D sizeof(vexpress_sysreg_sys_led_pdata),
-  }, {
-  .name =3D "basic-mmio-gpio",
-  .of_compatible =3D "arm,vexpress-sysreg,sys_mci",
-  .num_resources =3D 1,
-- .resources =3D (struct resource []) {
-- DEFINE_RES_MEM_NAMED(SYS_MCI, 0x4, "dat"),
-- },
-+ .resources =3D &DEFINE_RES_MEM_NAMED(SYS_MCI, 0x4, "dat"),
-  .platform_data =3D &vexpress_sysreg_sys_mci_pdata,
-  .pdata_size =3D sizeof(vexpress_sysreg_sys_mci_pdata),
-  }, {
-  .name =3D "basic-mmio-gpio",
-  .of_compatible =3D "arm,vexpress-sysreg,sys_flash",
-  .num_resources =3D 1,
-- .resources =3D (struct resource []) {
-- DEFINE_RES_MEM_NAMED(SYS_FLASH, 0x4, "dat"),
-- },
-+ .resources =3D &DEFINE_RES_MEM_NAMED(SYS_FLASH, 0x4, "dat"),
-  .platform_data =3D &vexpress_sysreg_sys_flash_pdata,
-  .pdata_size =3D sizeof(vexpress_sysreg_sys_flash_pdata),
-  }, {
-  .name =3D "vexpress-syscfg",
-  .num_resources =3D 1,
-- .resources =3D (struct resource []) {
-- DEFINE_RES_MEM(SYS_MISC, 0x4c),
-- },
-+ .resources =3D &DEFINE_RES_MEM(SYS_MISC, 0x4c),
-  }
- };
+Thanks,
 
-Cheers,
-Prabhakar
+I think lts kernels shall get that fix too, but I have no idea how :) .
+
+Ivo.
