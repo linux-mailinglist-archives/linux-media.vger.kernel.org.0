@@ -2,165 +2,154 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A09C14866D1
-	for <lists+linux-media@lfdr.de>; Thu,  6 Jan 2022 16:40:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2D57A486733
+	for <lists+linux-media@lfdr.de>; Thu,  6 Jan 2022 17:02:10 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240540AbiAFPkB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 6 Jan 2022 10:40:01 -0500
-Received: from mout.gmx.net ([212.227.15.18]:35575 "EHLO mout.gmx.net"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S240507AbiAFPkA (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 6 Jan 2022 10:40:00 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
-        s=badeba3b8450; t=1641483579;
-        bh=vIrJWvg04ZaFIVyjjc5fJS3aJR7MuLf8gGPQLxNZun0=;
-        h=X-UI-Sender-Class:From:To:Cc:Subject:Date:In-Reply-To:References;
-        b=hA613tt0yMEnkLqhskIv+EFijhS6slo3ysvAOnSkip4cTTRvZeTMvxP0deiiVNGMD
-         OewXmKCTZufbL406zaC7NMgN0MKjgzQE+a/H9TbsOmxQbqx+I2UQEScxvmNO3EbWv5
-         ZRHa6DNZsL4iOETM9fEl0g9OtI+llUvJmZ0y7g5I=
-X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
-Received: from [91.65.60.26] ([91.65.60.26]) by web-mail.gmx.net
- (3c-app-gmx-bs50.server.lan [172.19.170.103]) (via HTTP); Thu, 6 Jan 2022
- 16:39:39 +0100
+        id S240628AbiAFQCI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 6 Jan 2022 11:02:08 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49544 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S233888AbiAFQCI (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 6 Jan 2022 11:02:08 -0500
+Received: from mail-ed1-x52d.google.com (mail-ed1-x52d.google.com [IPv6:2a00:1450:4864:20::52d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EEE47C061245;
+        Thu,  6 Jan 2022 08:02:07 -0800 (PST)
+Received: by mail-ed1-x52d.google.com with SMTP id m21so11417984edc.0;
+        Thu, 06 Jan 2022 08:02:07 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=rXu2YItLMhbJCn/wLSUvVzudPr5vKPIGhzbFRYRK3ps=;
+        b=qBO4Eyt2JBk/SoNU57cqB9io256llKSbGNrGxFe7QF5gKHEGJCD4AtF6rbdPsHwFSj
+         Eo5wq99dTXcC2/eq3G0eClR6DgPhJCln+9NlGGa+ouQxNJe1HHJfIRz942rOsLbyqbve
+         ULk3IybYx2En17mTVtsSTIZLTVdjFxcYvdvBNHxbzAageR6dkPSEPD0778xPzws2O5NI
+         fgDx6PonHAh2E7m/jEWWipzclI9fa+HpWnPwbJ+kwzHhiuOJ7GZsngwOacll+TV0OglN
+         JHDGZpIOCoddlCicsQd2uRbiDlIY9wSC/cn2Q+9vJV+KD3J5bdIHTgQ6n1F3MwcRn3nH
+         4e7A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=rXu2YItLMhbJCn/wLSUvVzudPr5vKPIGhzbFRYRK3ps=;
+        b=Py/p4Udt5mlmNBcqYtF7OrQStTKlk4OYM2RwxD+7YIen2TK32Kb2rC0IJIYvV2sat8
+         epgtQpzNnIfqGhHVPPXd8F50VYQzUI86FHpgf2fqL1DWgQ1pbjLxOolzhU/5xEMyf1ly
+         div+9W1+r48I51i8JDHdnZjeq+0ZH5r9AHqkG+mCyZ6GwpVLtTzEbGTN+AmYWjyvHDGT
+         YlPxyXE3O7GZ1ffehbFDZnOSzhWL8AMjWqa7Q4GQlpoh1pl62rdyD5+2osdP0YftB//+
+         KiekPqndHTeLkCUbnu20Z4P0XnuLoI6MJ5+pqa8ukjEf0lFpC5ZE/RGjCRiweyucVVVl
+         xu2g==
+X-Gm-Message-State: AOAM530ogBtdoacxtYXT+tnaGYvMOvwsBYvuKzCsmpkXiWPmYg7L71kw
+        Tey3vde/zF+EJsxCEtgqZCY15guT/s7CXbSgoXk=
+X-Google-Smtp-Source: ABdhPJypnTPZJfyvhqkEcjJFyHUyZydtubj5K4y6mAKJ5kbw+gGHWuV/p/sdJoAaoMLI83xLaVERs6JXFrIq8mrZr+U=
+X-Received: by 2002:a17:906:2b07:: with SMTP id a7mr2699705ejg.77.1641484926334;
+ Thu, 06 Jan 2022 08:02:06 -0800 (PST)
 MIME-Version: 1.0
-Message-ID: <trinity-b5cc1284-ccc2-477c-ac90-56ee40da91af-1641483579446@3c-app-gmx-bs50>
-From:   Robert Schlabbach <Robert.Schlabbach@gmx.net>
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc:     mauro.chehab@huawei.com, Antti Palosaari <crope@iki.fi>,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
-Subject: Re: [PATCH 2/3] media: si2157: add support for 1.7MHz and 6.1 MHz
-Content-Type: text/plain; charset=UTF-8
-Date:   Thu, 6 Jan 2022 16:39:39 +0100
-Importance: normal
-Sensitivity: Normal
-In-Reply-To: <76c2ea87882c87bd35066a85cb48292a36a79fce.1639140967.git.mchehab+huawei@kernel.org>
-References: <cover.1639140967.git.mchehab+huawei@kernel.org>
- <76c2ea87882c87bd35066a85cb48292a36a79fce.1639140967.git.mchehab+huawei@kernel.org>
+References: <20211223173015.22251-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20211223173015.22251-7-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <CAHp75VeCwR-eP930s3miv-ux8=_P+vmdkhN+K=weTL1nwNA1ig@mail.gmail.com>
+ <CA+V-a8snJU6YYtfcN_mWCJGxYnbNGrLdU+Y5g06mjV4dhsABMw@mail.gmail.com>
+ <CAHp75Vck43wj650k70MsUNvmb+_-PUCd5mSy=dvmuX7MaAwr2w@mail.gmail.com>
+ <CA+V-a8uRqfs2h82_y6yk7MZnt8K5iKii5DZZpFgDDy0Hw2ieXA@mail.gmail.com>
+ <CAHp75VdiTw7R=MSM=4nzn8m863tomSza+yxx7pXLU-Xj8aouOg@mail.gmail.com>
+ <CAHp75VexoYCBBJ1BFgnsb38Q79jG6NB2xBBHmAafTK2FHkTsbQ@mail.gmail.com> <CA+V-a8sbcebVnqGaLOxVhG_0wm3cM4bu0SebAa1Mkuv9GNBGnQ@mail.gmail.com>
+In-Reply-To: <CA+V-a8sbcebVnqGaLOxVhG_0wm3cM4bu0SebAa1Mkuv9GNBGnQ@mail.gmail.com>
+From:   Andy Shevchenko <andy.shevchenko@gmail.com>
+Date:   Thu, 6 Jan 2022 18:01:29 +0200
+Message-ID: <CAHp75Vfy0M_mF0+2V0dzrQNnZ2wz4bSEnvUj=WeQ7EgwwVy_CA@mail.gmail.com>
+Subject: Re: [PATCH 06/13] media: davinci: vpif: Use platform_get_irq_optional()
+ to get the interrupt
+To:     "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Cc:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Rob Herring <robh+dt@kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-UI-Message-Type: mail
-X-Priority: 3
-X-Provags-ID: V03:K1:kldg5sfH0lV7+OmAzzqHh7Fc/OmVasLESqyiyvqWj5bm2mYaY/6veO5+h93IbIu37QZp8
- ypnvoaMfT9+dRWcPxlOnlL6sKsqs4pAqoYdgx/M+alOiJhM+kHcKGTtVh/mf6hsMWR7LZ+WO0iLY
- QE8F7q/qhKNetVw2usxYHCEQAW2D15d5PPr0OdLyY70EEY0mmmp13YfL0FU/R7J2RahGzQc/WfWN
- mUXABJSI9miE2c1qBu6XpNnMVVn4NERNPbsfl85os579ho2ep7xgMqeAOtQDJaKScM/Rv7YK2nsG
- Ww=
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:8z48HhBFc3k=:oCq2ZPzR0F1BBdFEgwbG8F
- pzosLK3kqzFB+jfWKh9t6cEqH8NATdYZZY/yzayzZTaYPGeoqiqNVBK451MIuXGqborfUpy6A
- sIqd4EFCNH6Atl8rYpKtk7YzsPchiQPR1kg3wcu3QY8h1/J+l/D8+L0pu5OclkDkEVlCPmvEr
- imS487EhFYAahFWHhnguby1XzNzkV8wjPlGqaxJVUP84DO3psEhqVhnbcGpk1bXYkUSXtrRxg
- 4/e4LoRhW3mZTRtq6C3u5l43aTcQpnNhRUtfbwWPfUUeEIWMyNk1Wiu8u34cIZK0bmngf09wx
- ZHAP0mNY1rIaZOzX4BUsUxchE4BcT9eXj5dojYXah+ZnVkJBlv6924jkLvI0adK1eJm/bJ1tv
- kWYh6EleVFKVu1TccAnGXU0isIjDgmG8uCIIzHji/OD0aP/z4CHcDINTzoadi40CyRjGMvnaX
- FP2GtNGFmOWIMWGk4EzasceoPoUsiq+1c3KxkKdQeLt+TWeiB3irNegtynLZusoHgqwGaH0z2
- zDabRn2lg9OXZ7HAb+YUHKeY2Yl13XqF8C5LevC9c98cbdG2sL8kdHt9zk5TDTarFlYSdfIvy
- cQr2u5QpBV1fe9EuwW7ELD75CeXV06mjTAqmvt2GXQYqvHgUjX4aW39cDF5c4ToaJwURhtlTM
- sk/O77QQ6El7/d2z53ZF2r6K3MEve3DvckGqQ2n0Lp6iyeWvgtZUmLcJVIv3O4N4qyok+rPal
- s2+j4mCybDmh6YbfthCi/vJk8Y4iVHPTVJxYfcioptaqMzeppjsdI4e+r5/9ojFmY9lku78Zc
- rvk+bmQ
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Sorry for the late test and response, but there is a BAD BUG in this patch:
-=C2=A0
-+ if (SUPPORTS_1700KHz(dev) && c->bandwidth_hz <=3D 1700000)
-+ bandwidth =3D 0x09;
-if (c->bandwidth_hz <=3D 6000000)
-bandwidth =3D 0x06;
-+ if (SUPPORTS_1700KHz(dev) && c->bandwidth_hz <=3D 6100000)
-+ bandwidth =3D 0x10;
-else if (c->bandwidth_hz <=3D 7000000)
-bandwidth =3D 0x07;
-else if (c->bandwidth_hz <=3D 8000000)
+On Thu, Jan 6, 2022 at 5:27 PM Lad, Prabhakar
+<prabhakar.csengg@gmail.com> wrote:
+> On Thu, Jan 6, 2022 at 2:15 PM Andy Shevchenko
+> <andy.shevchenko@gmail.com> wrote:
+> > On Thu, Jan 6, 2022 at 3:43 PM Andy Shevchenko
+> > <andy.shevchenko@gmail.com> wrote:
+> > > On Wed, Jan 5, 2022 at 7:41 PM Lad, Prabhakar
+> > > <prabhakar.csengg@gmail.com> wrote:
+> > > > On Wed, Jan 5, 2022 at 9:43 AM Andy Shevchenko
 
-The additions omitted the "else", which resulted in the bandwidth setting =
-for
-6MHz being overwritten with the one for 6=2E1MHz - and that completely bre=
-aks
-6MHz channels, as the tuner then refuses to accept the tune command!
+...
 
-As a result, e=2Eg=2E MCNS aka ClearQAM aka DVB-C Annex B no longer works =
-after
-this patch=2E
+> > > >  #define DEFINE_RES_NAMED(_start, _size, _name, _flags)            =
+     \
+> > > > -       {                                                          =
+     \
+> > > > +       (struct resource) {                                     \
+> > >
+> > > Yep, that's it.
+> > >
+> > > >                 .start =3D (_start),                               =
+       \
+> > > >                 .end =3D (_start) + (_size) - 1,                   =
+       \
+> > > >                 .name =3D (_name),                                 =
+       \
+> > > >
+> > > > But there are some instances which need to be touched, for example
+> > > > vexpress-sysreg.c [1]. Are you OK with files to be changed?
+> > >
+> > > Nice! That's exactly my point and you can sell it to the community
+> > > because there are already users of it like this.
+> > >
+> > > Yes, I'm fine, but it seems it needs to be done treewide in one patch=
+.
+> > > Btw, how many of those already in use?
+> >
+> > Actually you don't need to change that. It's an array of resources and
+> > everything should be kept as is there.
+> >
+> I do get below build failures, with the above literal change for
+> vexpress-sysreg.c.
+>
+> drivers/mfd/vexpress-sysreg.c: At top level:
+> drivers/mfd/vexpress-sysreg.c:64:37: error: initialiser element is not co=
+nstant
+>    64 |   .resources =3D (struct resource []) {
+>       |                                     ^
+> drivers/mfd/vexpress-sysreg.c:64:37: note: (near initialisation for
+> =E2=80=98vexpress_sysreg_cells[0]=E2=80=99)
+> drivers/mfd/vexpress-sysreg.c:73:37: error: initialiser element is not co=
+nstant
+>    73 |   .resources =3D (struct resource []) {
+>       |                                     ^
+> drivers/mfd/vexpress-sysreg.c:73:37: note: (near initialisation for
+> =E2=80=98vexpress_sysreg_cells[1]=E2=80=99)
+> drivers/mfd/vexpress-sysreg.c:82:37: error: initialiser element is not co=
+nstant
+>    82 |   .resources =3D (struct resource []) {
+>       |                                     ^
+> drivers/mfd/vexpress-sysreg.c:82:37: note: (near initialisation for
+> =E2=80=98vexpress_sysreg_cells[2]=E2=80=99)
+> drivers/mfd/vexpress-sysreg.c:90:37: error: initialiser element is not co=
+nstant
+>    90 |   .resources =3D (struct resource []) {
+>       |                                     ^
+> drivers/mfd/vexpress-sysreg.c:90:37: note: (near initialisation for
+> =E2=80=98vexpress_sysreg_cells[3]=E2=80=99)
+> drivers/mfd/vexpress-sysreg.c:93:2: warning: missing initialiser for
+> field =E2=80=98ignore_resource_conflicts=E2=80=99 of =E2=80=98struct mfd_=
+cell=E2=80=99
+> [-Wmissing-field-initializers]
+>    93 |  }
 
-I don't know if the 1=2E7Mhz and 6=2E1MHz settings are even usable, if the=
- tuner
-(in my case, the Si2157-A30) then no longer accepts the tune command=2E Ma=
-ybe
-they're not suited for frequency-based tuning, but only for channel-based
-tuning? That would not fit the DVB-API, I think=2E
+Hmm... Interesting, so I suppose the fix is to drop (struct resource
+[]) parts from the driver?
 
-And the 1=2E7MHz bandwidth setting currently can't do any harm, as it is a=
-lways
-overwritten by the 6MHz bandwidth setting, also due to an "else" missing=
-=2E
 
-Best Regards,
--Robert Schlabbach
-=C2=A0
-=C2=A0
-
-Gesendet:=C2=A0Freitag, 10=2E Dezember 2021 um 13:59 Uhr
-Von:=C2=A0"Mauro Carvalho Chehab" <mchehab+huawei@kernel=2Eorg>
-An:=C2=A0unlisted-recipients:;
-Cc:=C2=A0linuxarm@huawei=2Ecom, mauro=2Echehab@huawei=2Ecom, "Mauro Carval=
-ho Chehab" <mchehab+huawei@kernel=2Eorg>, "Antti Palosaari" <crope@iki=2Efi=
->, "Mauro Carvalho Chehab" <mchehab@kernel=2Eorg>, linux-kernel@vger=2Ekern=
-el=2Eorg, linux-media@vger=2Ekernel=2Eorg
-Betreff:=C2=A0[PATCH 2/3] media: si2157: add support for 1=2E7MHz and 6=2E=
-1 MHz
-Some tuners allow setting the bandwidth filter to 1=2E7MHz and
-6=2E1 MHz=2E Add support for it upstream, as the narrower is the
-bandwidth filter, the better=2E
-
-Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel=2Eorg>
----
-
-To avoid mailbombing on a large number of people, only mailing lists were =
-C/C on the cover=2E
-See [PATCH 0/3] at: https://lore=2Ekernel=2Eorg/all/cover=2E1639140967=2Eg=
-it=2Emchehab+huawei@kernel=2Eorg/
-
-drivers/media/tuners/si2157=2Ec | 4 ++++
-drivers/media/tuners/si2157_priv=2Eh | 5 +++++
-2 files changed, 9 insertions(+)
-
-diff --git a/drivers/media/tuners/si2157=2Ec b/drivers/media/tuners/si2157=
-=2Ec
-index aeecb38b147f=2E=2E2d3937af4f5f 100644
---- a/drivers/media/tuners/si2157=2Ec
-+++ b/drivers/media/tuners/si2157=2Ec
-@@ -458,8 +458,12 @@ static int si2157_set_params(struct dvb_frontend *fe)
-goto err;
-}
-
-+ if (SUPPORTS_1700KHz(dev) && c->bandwidth_hz <=3D 1700000)
-+ bandwidth =3D 0x09;
-if (c->bandwidth_hz <=3D 6000000)
-bandwidth =3D 0x06;
-+ if (SUPPORTS_1700KHz(dev) && c->bandwidth_hz <=3D 6100000)
-+ bandwidth =3D 0x10;
-else if (c->bandwidth_hz <=3D 7000000)
-bandwidth =3D 0x07;
-else if (c->bandwidth_hz <=3D 8000000)
-diff --git a/drivers/media/tuners/si2157_priv=2Eh b/drivers/media/tuners/s=
-i2157_priv=2Eh
-index df17a5f03561=2E=2E24849c8ed398 100644
---- a/drivers/media/tuners/si2157_priv=2Eh
-+++ b/drivers/media/tuners/si2157_priv=2Eh
-@@ -66,6 +66,11 @@ struct si2157_cmd {
-unsigned rlen;
-};
-
-+#define SUPPORTS_1700KHz(dev) (((dev)->part_id =3D=3D SI2141) || \
-+ ((dev)->part_id =3D=3D SI2147) || \
-+ ((dev)->part_id =3D=3D SI2157) || \
-+ ((dev)->part_id =3D=3D SI2177))
-+
-/* Old firmware namespace */
-#define SI2158_A20_FIRMWARE "dvb-tuner-si2158-a20-01=2Efw"
-#define SI2141_A10_FIRMWARE "dvb-tuner-si2141-a10-01=2Efw"
---
-2=2E33=2E1
-=C2=A0
+--=20
+With Best Regards,
+Andy Shevchenko
