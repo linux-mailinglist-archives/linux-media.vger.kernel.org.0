@@ -2,94 +2,115 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2AEF2486D9B
-	for <lists+linux-media@lfdr.de>; Fri,  7 Jan 2022 00:16:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6C8BB486E15
+	for <lists+linux-media@lfdr.de>; Fri,  7 Jan 2022 00:53:38 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S245416AbiAFXQv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 6 Jan 2022 18:16:51 -0500
-Received: from mout.gmx.net ([212.227.17.21]:57147 "EHLO mout.gmx.net"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S234795AbiAFXQu (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 6 Jan 2022 18:16:50 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
-        s=badeba3b8450; t=1641511005;
-        bh=dtKmWOKwmhw3GyJH8aLuqusRCC79nzKh129S11UDiU4=;
-        h=X-UI-Sender-Class:From:To:Cc:Subject:Date:In-Reply-To:References;
-        b=N8ILPoh5QRP384xq03E21UMiEMwZzOOOE/ALfg/yr646QyNEIBjxlSIToVmDRia2V
-         ybk2dzBf+ZVadVYwraOSyAd3iuavwGjULb+sRGl6F+mCcdEI+enQFqDXQaKhmAd9O+
-         6+XaAV9DxaWSwEbDrILNRb6lRxcXsrA2Ii9sIT2g=
-X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
-Received: from [91.65.60.26] ([91.65.60.26]) by web-mail.gmx.net
- (3c-app-gmx-bs01.server.lan [172.19.170.50]) (via HTTP); Fri, 7 Jan 2022
- 00:16:45 +0100
+        id S1343569AbiAFXxf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 6 Jan 2022 18:53:35 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45000 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S245661AbiAFXxd (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 6 Jan 2022 18:53:33 -0500
+Received: from mail-wr1-x42a.google.com (mail-wr1-x42a.google.com [IPv6:2a00:1450:4864:20::42a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 92A8BC061212
+        for <linux-media@vger.kernel.org>; Thu,  6 Jan 2022 15:53:32 -0800 (PST)
+Received: by mail-wr1-x42a.google.com with SMTP id s1so7843109wra.6
+        for <linux-media@vger.kernel.org>; Thu, 06 Jan 2022 15:53:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=MxTgX/T4Utod2KZDrFfy1v9Xj8U2o1FdEpdtHIXf/tc=;
+        b=VveWvexS79tlh3xTyCuziU0DJrT/8bd0ZDdVhhn5Vvd2c8pW7ZpF5+74My+aQ4C5bM
+         lTiHSrek91iiuEmpa78dS7ISiPN0YYdZlLn0DA2xLhW6kesLQ6ZmWfgdOrqJt7taYJod
+         zSW0QTkSNvKoiupXpTGgjp3UUf2094gvHPgqpMFERabyKuYW+Pyim/++hdQfGnsotedF
+         UN1VAmSQ3YmP2RqPhRs1f911NOr9eFeNjKGNI7TTVARdw7PVWWWnfEEsKOJN1C859DYy
+         OdlSBBScXqbHD1pKXbGJsZeEGHuLe2DrBD0P9ZM1du0EJfML7xvagPaYOk6hEJZKH+tN
+         lPAQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=MxTgX/T4Utod2KZDrFfy1v9Xj8U2o1FdEpdtHIXf/tc=;
+        b=678AxyOLQoDYflrcPlTM2m4a+2h5x25RFK8Aojzohb9cc3Qw7N33N3R0LTSY9+y0vK
+         07PHV6iNDvr01Ve1pw3BGtE2ql4pdsv10I8q0ccRqWw4LzrxynYMk7FutKLc1LEsFyaG
+         Pzr6WJl9yAyDHcekw+KhPdBBIiAYh5yJoqCAg8nZPy0JIKH6L6GUjfl7WIbr+KLb6QEC
+         FEkoQyI6tiyICBwXb+Y8/RbkFIUduFTVJIj/6rs63cmqdCcvFACujDOAXPiTR8a7reYi
+         h8T0rJ7tjWcvcGOpVJVSMgGJ1Hf68V9PGmtW0A86Y45gO854y7iAEEkODwfuK0SKxd+9
+         tRHw==
+X-Gm-Message-State: AOAM531S+DeZyh25M7Iem6i+aUa2l7wfWp16UkAh1rLGjLV7rmnN6V1E
+        y7wmvAzSrTTSW83GQPhX7jCXNw==
+X-Google-Smtp-Source: ABdhPJw3Dfccs1phmLL74BlOgzIIEhit9dxt/GP15nBfKiHac2L/oOJVj6t9G2WJ9A1ktG5c+VEY3w==
+X-Received: by 2002:a05:6000:1acb:: with SMTP id i11mr51015251wry.244.1641513211224;
+        Thu, 06 Jan 2022 15:53:31 -0800 (PST)
+Received: from sagittarius-a.chello.ie (188-141-3-169.dynamic.upc.ie. [188.141.3.169])
+        by smtp.gmail.com with ESMTPSA id a71sm335893wme.39.2022.01.06.15.53.29
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 06 Jan 2022 15:53:30 -0800 (PST)
+From:   Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+To:     linux-arm-msm@vger.kernel.org, linux-media@vger.kernel.org,
+        mchehab@kernel.org, hverkuil@xs4all.nl, robert.foss@linaro.org
+Cc:     jonathan@marek.ca, andrey.konovalov@linaro.org,
+        todor.too@gmail.com, agross@kernel.org, bjorn.andersson@linaro.org,
+        jgrahsl@snap.com, hfink@snap.com, vladimir.zapolskiy@linaro.org,
+        dmitry.baryshkov@linaro.org, bryan.odonoghue@linaro.org
+Subject: [PATCH 0/7] camss: Fixup multiple VDDA regulator support
+Date:   Thu,  6 Jan 2022 23:55:33 +0000
+Message-Id: <20220106235540.1567839-1-bryan.odonoghue@linaro.org>
+X-Mailer: git-send-email 2.33.0
 MIME-Version: 1.0
-Message-ID: <trinity-59385619-7f83-4302-a304-c5346098c3a1-1641511005761@3c-app-gmx-bs01>
-From:   Robert Schlabbach <robert_s@gmx.net>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     linux-media@vger.kernel.org
-Subject: Re: [PATCH 2/3] media: si2157: add support for 1.7MHz and 6.1 MHz
-Content-Type: text/plain; charset=UTF-8
-Date:   Fri, 7 Jan 2022 00:16:45 +0100
-Importance: normal
-Sensitivity: Normal
-In-Reply-To: <20220106213045.6afe5a35@coco.lan>
-References: <cover.1639140967.git.mchehab+huawei@kernel.org>
- <76c2ea87882c87bd35066a85cb48292a36a79fce.1639140967.git.mchehab+huawei@kernel.org>
- <trinity-b5cc1284-ccc2-477c-ac90-56ee40da91af-1641483579446@3c-app-gmx-bs50>
- <trinity-59d726d3-993c-43c9-9e44-5be5cdfae74d-1641493525223@3c-app-gmx-bap38>
- <20220106213045.6afe5a35@coco.lan>
-X-UI-Message-Type: mail
-X-Priority: 3
-X-Provags-ID: V03:K1:xCBDe7lZdYaFckT1qv6ui/fo7meaUckuE59yOHr/72nb/yomlgVScGOOvedX04LQAFXOG
- s+GQQzUQ5s96uJxHKGyslfNdk0zf2gcWCZQm5EzsR6KZDnpZBT4vinPWAOiA8NukLqG8gl7lMxlN
- ggjZV+RwUHV9u7dYuiHRoGDAVbISIFBIyBdNbRpPwW1avVNQFNl01gCSBdIx5jVUZVWKbTPJnoo0
- JrTE+DBS8sdH6pA2hyYItWlwM37ziMRgt/nT5iLYkLFTiNCuVzY45Q12GfFyurvwDH4EKdDCE7h7
- 0w=
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:UpJ2rQ4DR2s=:EN88hLnZnjUflu7PCweA7c
- lWLXlg8CwN23WFV/4jB/nkYRIfzApoONehQIFEYXoQwvBeZemGsmRO2++RuofZLPvu37DcxqR
- OlYp/CeN9BVNkN3Rz/83WzdcC1rGxDVlSjMbZ6P0BYQutQSAcDZkdL/qexfR0Pi9F9ffh8wdf
- hdGmofd/Wr0vlDHpA1q7LqGi1PdKgHOhbOjLYSq9hTp0/GAMDbFzYfAyRGc77o4fkNjjjsOCX
- K6TWKEMFvk1Z6tFhgz/4TLym3+BGpeb6OOYSaFUerf9QLCu72ri4lzh4bS7lLrFCwNeBCt0dx
- SvWneWxfx4lSFJK21tPhucyNESVTnBEq496W0Xyx3LvkJUvlscETg2FIKGSLG8xkyVG5zDzxX
- g+CHwLDPEi1Ow2plUFpMGBC+UD0IvKJ8xzpJSkuWgU80anCPOi4+4A5VRkI++lKErnPvdfOq+
- lhN9E6LQFxUY0PalA5jqn4gHHWQVavbqW15TQWwg1/obuVxbbxwUbnLcRyOBmoilBeOyXJSqA
- VI8Z9jYJMjqfHYyAcmoPE5qSztgO8azWoGF96Wn4RW5cjMGcLzE7gKx003cw51zUohfb4GHUz
- HjY5J56kETQK6WVYcE68+jV3jzpi06PgCs+H0kTl2bT3pEK7AFle0PbXefL3n6/RqMcE/T6UR
- QKoN95tev25M0DIeHea+LEuWQA1Avfr6sx22+aiqPpKPAYba6uGeeFWkHI2za0esQSP1S6dEg
- d1K/vVwnboWc2S133ExCQ0HKgSwq68BvO1vqoUMZmqZ2AFl/326UnVLB98EI7iFmcJbXz3UjN
- jtw6rpr
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-"Mauro Carvalho Chehab" <mchehab@kernel.org> wrote:
-> I suspect that the entire get_bandwidth() code on drivers are
-> dead code, as the core doesn't call it anymore. This used to be
-> needed before DVBv5 API.
->
-> Probably, the right fix here would be to simply strip this function
-> from all drivers.
+Following on from comments from Vladimir on the sm8250 CAMSS patches I had
+a look through the RB3 and RB5 schematics.
 
-Hmm, I am actually doing this in a frontend driver I'm currently
-developing, in the get_frontend() callback function:
+Here we see the CSI PHY connects to the same VDDA power-rails as USB, PCIe,
+UFS and the DSI PHYs.
 
-if (fe->ops.tuner_ops.get_bandwidth) {
-	ret =3D fe->ops.tuner_ops.get_bandwidth(fe, &bandwidth);
-	if (ret)
-		goto err;
-	props->bandwidth_hz =3D bandwidth;
-}
+Right now CAMSS works on SDM845 and SM8250 because one of the USB, PCIe,
+or UFS has enabled the relevant VDDA supplies, prior to the CAMSS driver
+running.
 
-The documentation for get_frontend() states that it should return
-the parameters actually in use. And these might differ from the
-requested ones. So I see some value in filling in the actually
-applied bandwidth filter there.
+The solution is to
+- Fix the describing YAML
+- Add in regulator_bulk_enable()/regulator_bulk_disable()
+- Update the DTS to point at the necessary regulators
 
-> OK! I'll wait for your patch.
+I have an SDM660 board on-order so when it arrives I can also look into the
+vdda_sec regulator if nobody else has.
 
-Posted. Thanks for your time and patience.
+For now this series addresses the fundamental gap in the CSI PHY power
+rails and remediates the situation for the two boards I have schematics for
+and can test, RB3/SDM845 and RB5/SM8250.
 
-Best Regards,
--Robert Schlabbach
+This patch applies on top of
+git.linuxtv.org/hverkuil/media_tree.git  / br-v5.17j
+
+Bootable and testable tree for both RB3 and RB5 here:
+git.linaro.org/people/bryan.odonoghue/kernel.git / br-v5.17j+camss-fixes
+
+Bryan O'Donoghue (7):
+  media: dt-bindings: media: camss: Fixup vdda regulator descriptions
+    sdm845
+  media: dt-bindings: media: camss: Add vdda supply declarations sm8250
+  arm64: dts: qcom: sdm845: Rename camss vdda-supply to vdda-phy-supply
+  arm64: dts: qcom: sdm845: Add camss vdda-pll-supply
+  media: camss: Add regulator_bulk support
+  media: camss: Point sdm845 at the correct vdda regulators
+  media: camss: Point sm8250 at the correct vdda regulators
+
+ .../bindings/media/qcom,sdm845-camss.yaml     | 14 ++-
+ .../bindings/media/qcom,sm8250-camss.yaml     | 13 +++
+ arch/arm64/boot/dts/qcom/sdm845-db845c.dts    |  3 +-
+ .../media/platform/qcom/camss/camss-csid.c    | 40 +++++---
+ .../media/platform/qcom/camss/camss-csid.h    |  3 +-
+ drivers/media/platform/qcom/camss/camss.c     | 94 +++++++++----------
+ drivers/media/platform/qcom/camss/camss.h     |  2 +-
+ 7 files changed, 100 insertions(+), 69 deletions(-)
+
+-- 
+2.33.0
+
