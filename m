@@ -2,138 +2,177 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9F958486C14
-	for <lists+linux-media@lfdr.de>; Thu,  6 Jan 2022 22:45:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 936FD486CB3
+	for <lists+linux-media@lfdr.de>; Thu,  6 Jan 2022 22:50:14 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244413AbiAFVpa (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 6 Jan 2022 16:45:30 -0500
-Received: from smtp07.smtpout.orange.fr ([80.12.242.129]:53723 "EHLO
+        id S244490AbiAFVuN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 6 Jan 2022 16:50:13 -0500
+Received: from smtp07.smtpout.orange.fr ([80.12.242.129]:60688 "EHLO
         smtp.smtpout.orange.fr" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S244393AbiAFVpa (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 6 Jan 2022 16:45:30 -0500
+        with ESMTP id S244455AbiAFVuM (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 6 Jan 2022 16:50:12 -0500
 Received: from pop-os.home ([90.11.185.88])
         by smtp.orange.fr with ESMTPA
-        id 5aZQntTbg2lVY5aZRnSkzN; Thu, 06 Jan 2022 22:45:28 +0100
+        id 5aeAntVBq2lVY5aeBnSlMk; Thu, 06 Jan 2022 22:50:11 +0100
 X-ME-Helo: pop-os.home
 X-ME-Auth: YWZlNiIxYWMyZDliZWIzOTcwYTEyYzlhMmU3ZiQ1M2U2MzfzZDfyZTMxZTBkMTYyNDBjNDJlZmQ3ZQ==
-X-ME-Date: Thu, 06 Jan 2022 22:45:28 +0100
+X-ME-Date: Thu, 06 Jan 2022 22:50:11 +0100
 X-ME-IP: 90.11.185.88
 From:   Christophe JAILLET <christophe.jaillet@wanadoo.fr>
 To:     arnd@arndb.de, hch@infradead.org, akpm@linux-foundation.org,
-        rth@twiddle.net, ink@jurassic.park.msu.ru, mattst88@gmail.com,
-        mpe@ellerman.id.au, benh@kernel.crashing.org, paulus@samba.org,
-        davem@davemloft.net, airlied@linux.ie, vkoul@kernel.org,
-        hao.wu@intel.com, trix@redhat.com, mdf@kernel.org,
-        yilun.xu@intel.com, awalls@md.metrocast.net, mchehab@kernel.org,
-        sathya.prakash@broadcom.com, sreekanth.reddy@broadcom.com,
-        suganath-prabu.subramani@broadcom.com, mporter@kernel.crashing.org,
-        alex.bou9@gmail.com, bhelgaas@google.com
-Cc:     linux-alpha@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
-        sparclinux@vger.kernel.org, dmaengine@vger.kernel.org,
-        linux-fpga@vger.kernel.org, linux-media@vger.kernel.org,
-        MPT-FusionLinux.pdl@broadcom.com, linux-scsi@vger.kernel.org,
-        linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org,
+        awalls@md.metrocast.net, mchehab@kernel.org
+Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
         kernel-janitors@vger.kernel.org,
         Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-Subject: [PATCH 00/16] Remove usage of the deprecated "pci-dma-compat.h" API
-Date:   Thu,  6 Jan 2022 22:45:13 +0100
-Message-Id: <cover.1641500561.git.christophe.jaillet@wanadoo.fr>
+Subject: [PATCH 04/16] media: Remove usage of the deprecated "pci-dma-compat.h" API
+Date:   Thu,  6 Jan 2022 22:50:07 +0100
+Message-Id: <e89f4b29b9f7e0c711a3ccc16a009f49f416e1fc.1641500561.git.christophe.jaillet@wanadoo.fr>
 X-Mailer: git-send-email 2.32.0
+In-Reply-To: <cover.1641500561.git.christophe.jaillet@wanadoo.fr>
+References: <cover.1641500561.git.christophe.jaillet@wanadoo.fr>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This serie axes all the remaining usages of the deprecated "pci-dma-compat.h"
-API.
+In [1], Christoph Hellwig has proposed to remove the wrappers in
+include/linux/pci-dma-compat.h.
 
-All these patches have already been posted.
+Some reasons why this API should be removed have been given by Julia
+Lawall in [2].
 
-They have been generated with a coccinelle script.
-The tricky parts are patches that use dma_alloc_coherent() because the correct
-GFP flag has to be used in place of the previous embedded GFP_ATOMIC.
+A coccinelle script has been used to perform the needed transformation.
+It can be found in [3].
 
-Patches 1-3 are already Reviewed. References to the corresponding mail is
-given below the ---
+[1]: https://lore.kernel.org/kernel-janitors/20200421081257.GA131897@infradead.org/
+[2]: https://lore.kernel.org/kernel-janitors/alpine.DEB.2.22.394.2007120902170.2424@hadrien/
+[3]: https://lore.kernel.org/kernel-janitors/20200716192821.321233-1-christophe.jaillet@wanadoo.fr/
 
-Patch 1-2,4-10 are just generated from the coccinelle script. Only too long
-lines have been hand modified. dma_alloc_coherent() modification are NOT part
-of these patches.
+Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+---
+ drivers/media/pci/cx18/cx18-queue.h |  6 +++---
+ drivers/media/pci/ivtv/ivtv-queue.h | 25 ++++++++++++++-----------
+ drivers/media/pci/ivtv/ivtv-udma.h  |  8 ++++----
+ 3 files changed, 21 insertions(+), 18 deletions(-)
 
-Patch 3 also includes some 'dma_set_mask_and_coherent()' instead of
-'pci_set_dma_mask()/pci_set_consistent_dma_mask()'.
-I've left this additional modification because it was reviewed with it.
-
-Patch 10-15 are the tricky parts. Explanation of which GFP flag is the right one
-is given in each patch. It has been divided in several patches to ease review.
-
-Patch 15 is the only one I'm slighly unsure with. The old code was using a
-GFP_USER flag in the function. I'm not familiar with it.
-I *guess*  that GFP_KERNEL is fine, but maybe it should also be GFP_USER or left
-as GFP_ATOMIC so that nothing is changed.
-
-Patch 16 is the last step that remove "pci-dma-compat.h" and its only usage.
-
-
-All patches, exept 1-2,6 that are architecture specific, have been compile tested.
-
-
-After all that, a few rst files, 1 or 2 strings in error messages and some
-error branching labels should still need some attention. 
-This is some minor issues.
-
-
-Only the cover letter is sent to every one. Each patch is sent to the
-corresponding maintainer(s) + Andrew Morton, Christoph Hellwig and Arnd Bergmann.
-
-
-Best regards.
-
-
-Christophe JAILLET (16):
-  alpha: Remove usage of the deprecated "pci-dma-compat.h" API
-  floppy: Remove usage of the deprecated "pci-dma-compat.h" API
-  fpga: dfl: pci: Remove usage of the deprecated "pci-dma-compat.h" API
-  media: Remove usage of the deprecated "pci-dma-compat.h" API
-  agp/intel: Remove usage of the deprecated "pci-dma-compat.h" API
-  sparc: Remove usage of the deprecated "pci-dma-compat.h" API
-  dmaengine: pch_dma: Remove usage of the deprecated "pci-dma-compat.h"
-    API
-  rapidio/tsi721: Remove usage of the deprecated "pci-dma-compat.h" API
-  media: v4l2-pci-skeleton: Remove usage of the deprecated
-    "pci-dma-compat.h" API
-  scsi: message: fusion: Remove usage of the deprecated
-    "pci-dma-compat.h" API
-  scsi: mptbase: Use dma_alloc_coherent() in 'mpt_alloc_fw_memory()'
-  scsi: mptbase: Use dma_alloc_coherent()
-  scsi: mptsas: Use dma_alloc_coherent() in
-    mptsas_exp_repmanufacture_info()
-  scsi: mptsas: Use dma_alloc_coherent()
-  scsi: mptctl: Use dma_alloc_coherent()
-  PCI: Remove usage of the deprecated "pci-dma-compat.h" API
-
- arch/alpha/include/asm/floppy.h     |   7 +-
- arch/alpha/kernel/pci_iommu.c       |  12 +--
- arch/powerpc/include/asm/floppy.h   |   8 +-
- arch/sparc/kernel/ioport.c          |   2 +-
- drivers/char/agp/intel-gtt.c        |  26 ++---
- drivers/dma/pch_dma.c               |   2 +-
- drivers/fpga/dfl-pci.c              |  14 +--
- drivers/media/pci/cx18/cx18-queue.h |   6 +-
- drivers/media/pci/ivtv/ivtv-queue.h |  25 +++--
- drivers/media/pci/ivtv/ivtv-udma.h  |   8 +-
- drivers/message/fusion/mptbase.c    | 149 ++++++++++++++++------------
- drivers/message/fusion/mptctl.c     |  82 +++++++++------
- drivers/message/fusion/mptlan.c     |  90 +++++++++--------
- drivers/message/fusion/mptsas.c     |  94 +++++++++---------
- drivers/rapidio/devices/tsi721.c    |   8 +-
- include/linux/pci-dma-compat.h      | 129 ------------------------
- include/linux/pci.h                 |   3 -
- samples/v4l/v4l2-pci-skeleton.c     |   2 +-
- 18 files changed, 289 insertions(+), 378 deletions(-)
- delete mode 100644 include/linux/pci-dma-compat.h
-
+diff --git a/drivers/media/pci/cx18/cx18-queue.h b/drivers/media/pci/cx18/cx18-queue.h
+index e0a34bd6539e..26f2097c0496 100644
+--- a/drivers/media/pci/cx18/cx18-queue.h
++++ b/drivers/media/pci/cx18/cx18-queue.h
+@@ -15,15 +15,15 @@
+ static inline void cx18_buf_sync_for_cpu(struct cx18_stream *s,
+ 	struct cx18_buffer *buf)
+ {
+-	pci_dma_sync_single_for_cpu(s->cx->pci_dev, buf->dma_handle,
++	dma_sync_single_for_cpu(&s->cx->pci_dev->dev, buf->dma_handle,
+ 				s->buf_size, s->dma);
+ }
+ 
+ static inline void cx18_buf_sync_for_device(struct cx18_stream *s,
+ 	struct cx18_buffer *buf)
+ {
+-	pci_dma_sync_single_for_device(s->cx->pci_dev, buf->dma_handle,
+-				s->buf_size, s->dma);
++	dma_sync_single_for_device(&s->cx->pci_dev->dev, buf->dma_handle,
++				   s->buf_size, s->dma);
+ }
+ 
+ void _cx18_mdl_sync_for_device(struct cx18_stream *s, struct cx18_mdl *mdl);
+diff --git a/drivers/media/pci/ivtv/ivtv-queue.h b/drivers/media/pci/ivtv/ivtv-queue.h
+index 586b0bf63c26..b8fc2669a358 100644
+--- a/drivers/media/pci/ivtv/ivtv-queue.h
++++ b/drivers/media/pci/ivtv/ivtv-queue.h
+@@ -17,20 +17,20 @@
+ 
+ static inline int ivtv_might_use_pio(struct ivtv_stream *s)
+ {
+-	return s->dma == PCI_DMA_NONE || (SLICED_VBI_PIO && s->type == IVTV_ENC_STREAM_TYPE_VBI);
++	return s->dma == DMA_NONE || (SLICED_VBI_PIO && s->type == IVTV_ENC_STREAM_TYPE_VBI);
+ }
+ 
+ static inline int ivtv_use_pio(struct ivtv_stream *s)
+ {
+ 	struct ivtv *itv = s->itv;
+ 
+-	return s->dma == PCI_DMA_NONE ||
++	return s->dma == DMA_NONE ||
+ 	    (SLICED_VBI_PIO && s->type == IVTV_ENC_STREAM_TYPE_VBI && itv->vbi.sliced_in->service_set);
+ }
+ 
+ static inline int ivtv_might_use_dma(struct ivtv_stream *s)
+ {
+-	return s->dma != PCI_DMA_NONE;
++	return s->dma != DMA_NONE;
+ }
+ 
+ static inline int ivtv_use_dma(struct ivtv_stream *s)
+@@ -41,15 +41,16 @@ static inline int ivtv_use_dma(struct ivtv_stream *s)
+ static inline void ivtv_buf_sync_for_cpu(struct ivtv_stream *s, struct ivtv_buffer *buf)
+ {
+ 	if (ivtv_use_dma(s))
+-		pci_dma_sync_single_for_cpu(s->itv->pdev, buf->dma_handle,
+-				s->buf_size + 256, s->dma);
++		dma_sync_single_for_cpu(&s->itv->pdev->dev, buf->dma_handle,
++					s->buf_size + 256, s->dma);
+ }
+ 
+ static inline void ivtv_buf_sync_for_device(struct ivtv_stream *s, struct ivtv_buffer *buf)
+ {
+ 	if (ivtv_use_dma(s))
+-		pci_dma_sync_single_for_device(s->itv->pdev, buf->dma_handle,
+-				s->buf_size + 256, s->dma);
++		dma_sync_single_for_device(&s->itv->pdev->dev,
++					   buf->dma_handle, s->buf_size + 256,
++					   s->dma);
+ }
+ 
+ int ivtv_buf_copy_from_user(struct ivtv_stream *s, struct ivtv_buffer *buf, const char __user *src, int copybytes);
+@@ -70,15 +71,17 @@ void ivtv_stream_free(struct ivtv_stream *s);
+ static inline void ivtv_stream_sync_for_cpu(struct ivtv_stream *s)
+ {
+ 	if (ivtv_use_dma(s))
+-		pci_dma_sync_single_for_cpu(s->itv->pdev, s->sg_handle,
+-			sizeof(struct ivtv_sg_element), PCI_DMA_TODEVICE);
++		dma_sync_single_for_cpu(&s->itv->pdev->dev, s->sg_handle,
++					sizeof(struct ivtv_sg_element),
++					DMA_TO_DEVICE);
+ }
+ 
+ static inline void ivtv_stream_sync_for_device(struct ivtv_stream *s)
+ {
+ 	if (ivtv_use_dma(s))
+-		pci_dma_sync_single_for_device(s->itv->pdev, s->sg_handle,
+-			sizeof(struct ivtv_sg_element), PCI_DMA_TODEVICE);
++		dma_sync_single_for_device(&s->itv->pdev->dev, s->sg_handle,
++					   sizeof(struct ivtv_sg_element),
++					   DMA_TO_DEVICE);
+ }
+ 
+ #endif
+diff --git a/drivers/media/pci/ivtv/ivtv-udma.h b/drivers/media/pci/ivtv/ivtv-udma.h
+index 0eef104e03b9..12b9426b2db2 100644
+--- a/drivers/media/pci/ivtv/ivtv-udma.h
++++ b/drivers/media/pci/ivtv/ivtv-udma.h
+@@ -23,14 +23,14 @@ void ivtv_udma_start(struct ivtv *itv);
+ 
+ static inline void ivtv_udma_sync_for_device(struct ivtv *itv)
+ {
+-	pci_dma_sync_single_for_device(itv->pdev, itv->udma.SG_handle,
+-		sizeof(itv->udma.SGarray), PCI_DMA_TODEVICE);
++	dma_sync_single_for_device(&itv->pdev->dev, itv->udma.SG_handle,
++				   sizeof(itv->udma.SGarray), DMA_TO_DEVICE);
+ }
+ 
+ static inline void ivtv_udma_sync_for_cpu(struct ivtv *itv)
+ {
+-	pci_dma_sync_single_for_cpu(itv->pdev, itv->udma.SG_handle,
+-		sizeof(itv->udma.SGarray), PCI_DMA_TODEVICE);
++	dma_sync_single_for_cpu(&itv->pdev->dev, itv->udma.SG_handle,
++				sizeof(itv->udma.SGarray), DMA_TO_DEVICE);
+ }
+ 
+ #endif
 -- 
 2.32.0
 
