@@ -2,91 +2,69 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2CCC04876E4
-	for <lists+linux-media@lfdr.de>; Fri,  7 Jan 2022 12:54:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 76651487801
+	for <lists+linux-media@lfdr.de>; Fri,  7 Jan 2022 14:12:28 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238118AbiAGLyS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 7 Jan 2022 06:54:18 -0500
-Received: from perceval.ideasonboard.com ([213.167.242.64]:35174 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238150AbiAGLyQ (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 7 Jan 2022 06:54:16 -0500
-Received: from pendragon.lan (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 25E1311C0;
-        Fri,  7 Jan 2022 12:54:15 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1641556455;
-        bh=7rBw2HOdpszYgRN6LrFZbhrd2rx6/hAruNsikishtUI=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=AseO3VDTuN8vlP+Nfc3pYHPXxAIFHhIYueznMh63kSxl268mDgk5MJ/drcUA3MC+n
-         flSswGteATbHurmM+TwtmU82p10Q79JLIRX57ZtyjKVPHsHx0eaJRures1Dq7X7TWO
-         POMJXI0WT2CEh20Gl6ywDs1e0+P9ytntSOPJG8iA=
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     linux-media@vger.kernel.org
-Cc:     Rui Miguel Silva <rmfrfs@gmail.com>,
-        Steve Longerbeam <slongerbeam@gmail.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        =?UTF-8?q?J=C3=A9r=C3=B4me=20Brunet?= <jbrunet@baylibre.com>
-Subject: [PATCH v2 3/3] staging: media: imx: imx7-mipi-csis: Make subdev name unique
-Date:   Fri,  7 Jan 2022 13:54:01 +0200
-Message-Id: <20220107115401.31698-4-laurent.pinchart@ideasonboard.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220107115401.31698-1-laurent.pinchart@ideasonboard.com>
-References: <20220107115401.31698-1-laurent.pinchart@ideasonboard.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+        id S1347477AbiAGNM0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 7 Jan 2022 08:12:26 -0500
+Received: from alexa-out.qualcomm.com ([129.46.98.28]:65434 "EHLO
+        alexa-out.qualcomm.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1347437AbiAGNMZ (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 7 Jan 2022 08:12:25 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
+  t=1641561146; x=1673097146;
+  h=from:to:cc:subject:date:message-id;
+  bh=ffI7Hi0JpP4eF3pXBsfDbjI+KQUWpO3SykudXjPeFsA=;
+  b=Z1v5ojLenVH4MMhnpgRru9yytkyOPrEJQ5NZ9WZAricc94xlzpFdBkdx
+   08ADmPuekR4uchnvOTFM4uLbNgZ769trU+yqaRykPDzfbqMKJo0yxSk56
+   Lcc6HoIt2NQDYxJ26egmaNSOTMpjxnFFzGoTYgFKuzHCGWbMa0i67slZv
+   I=;
+Received: from ironmsg08-lv.qualcomm.com ([10.47.202.152])
+  by alexa-out.qualcomm.com with ESMTP; 07 Jan 2022 05:12:25 -0800
+X-QCInternal: smtphost
+Received: from ironmsg01-blr.qualcomm.com ([10.86.208.130])
+  by ironmsg08-lv.qualcomm.com with ESMTP/TLS/AES256-SHA; 07 Jan 2022 05:12:24 -0800
+X-QCInternal: smtphost
+Received: from hu-dikshita-hyd.qualcomm.com (HELO hu-sgudaval-hyd.qualcomm.com) ([10.213.110.13])
+  by ironmsg01-blr.qualcomm.com with ESMTP; 07 Jan 2022 18:42:13 +0530
+Received: by hu-sgudaval-hyd.qualcomm.com (Postfix, from userid 347544)
+        id B5BBA422C; Fri,  7 Jan 2022 18:42:11 +0530 (+0530)
+From:   Dikshita Agarwal <quic_dikshita@quicinc.com>
+To:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org
+Cc:     hverkuil-cisco@xs4all.nl, ezequiel@collabora.com,
+        vgarodia@codeaurora.org, stanimir.varbanov@linaro.org,
+        Dikshita Agarwal <quic_dikshita@quicinc.com>
+Subject: [PATCH 0/2] Intra-refresh type control
+Date:   Fri,  7 Jan 2022 18:42:02 +0530
+Message-Id: <1641561124-19476-1-git-send-email-quic_dikshita@quicinc.com>
+X-Mailer: git-send-email 2.7.4
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-When multiple CSIS instances are present in a single graph, they are
-currently all named "imx7-mipi-csis.0", which breaks the entity name
-uniqueness requirement. Fix it by using the device name to create the
-subdev name.
+Hi,
 
-Fixes: 7807063b862b ("media: staging/imx7: add MIPI CSI-2 receiver subdev for i.MX7")
-Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Reviewed-by: Rui Miguel Silva <rmfrfs@gmail.com>
-Reviewed-by: Sakari Ailus <sakari.ailus@linux.intel.com>
----
- drivers/staging/media/imx/imx7-mipi-csis.c | 6 ++----
- 1 file changed, 2 insertions(+), 4 deletions(-)
+This series add a new intra-refresh type control for encoders.
+this can be used to specify which intra refresh to be enabled,
+random, cyclic or none. 
 
-diff --git a/drivers/staging/media/imx/imx7-mipi-csis.c b/drivers/staging/media/imx/imx7-mipi-csis.c
-index d2f60403eb41..a8710dc24560 100644
---- a/drivers/staging/media/imx/imx7-mipi-csis.c
-+++ b/drivers/staging/media/imx/imx7-mipi-csis.c
-@@ -32,7 +32,6 @@
- #include <media/v4l2-subdev.h>
- 
- #define CSIS_DRIVER_NAME			"imx7-mipi-csis"
--#define CSIS_SUBDEV_NAME			CSIS_DRIVER_NAME
- 
- #define CSIS_PAD_SINK				0
- #define CSIS_PAD_SOURCE				1
-@@ -313,7 +312,6 @@ struct csi_state {
- 	struct reset_control *mrst;
- 	struct regulator *mipi_phy_regulator;
- 	const struct mipi_csis_info *info;
--	u8 index;
- 
- 	struct v4l2_subdev sd;
- 	struct media_pad pads[CSIS_PADS_NUM];
-@@ -1329,8 +1327,8 @@ static int mipi_csis_subdev_init(struct csi_state *state)
- 
- 	v4l2_subdev_init(sd, &mipi_csis_subdev_ops);
- 	sd->owner = THIS_MODULE;
--	snprintf(sd->name, sizeof(sd->name), "%s.%d",
--		 CSIS_SUBDEV_NAME, state->index);
-+	snprintf(sd->name, sizeof(sd->name), "csis-%s",
-+		 dev_name(state->dev));
- 
- 	sd->flags |= V4L2_SUBDEV_FL_HAS_DEVNODE;
- 	sd->ctrl_handler = NULL;
+Thanks,
+Dikshita
+
+Dikshita Agarwal (2):
+  media: v4l2-ctrls: Add intra-refresh type control
+  venus: venc: Add support for intra-refresh mode
+
+ .../userspace-api/media/v4l/ext-ctrls-codec.rst    | 27 ++++++++++++++++++++++
+ drivers/media/platform/qcom/venus/core.h           |  1 +
+ drivers/media/platform/qcom/venus/venc.c           |  3 ++-
+ drivers/media/platform/qcom/venus/venc_ctrls.c     | 10 ++++++++
+ drivers/media/v4l2-core/v4l2-ctrls-defs.c          | 10 ++++++++
+ include/uapi/linux/v4l2-controls.h                 |  6 +++++
+ 6 files changed, 56 insertions(+), 1 deletion(-)
+
 -- 
-Regards,
-
-Laurent Pinchart
+2.7.4
 
