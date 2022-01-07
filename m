@@ -2,25 +2,25 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0D7A14876E3
+	by mail.lfdr.de (Postfix) with ESMTP id 2CCC04876E4
 	for <lists+linux-media@lfdr.de>; Fri,  7 Jan 2022 12:54:20 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238152AbiAGLyR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 7 Jan 2022 06:54:17 -0500
-Received: from perceval.ideasonboard.com ([213.167.242.64]:35172 "EHLO
+        id S238118AbiAGLyS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 7 Jan 2022 06:54:18 -0500
+Received: from perceval.ideasonboard.com ([213.167.242.64]:35174 "EHLO
         perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238118AbiAGLyQ (ORCPT
+        with ESMTP id S238150AbiAGLyQ (ORCPT
         <rfc822;linux-media@vger.kernel.org>); Fri, 7 Jan 2022 06:54:16 -0500
 Received: from pendragon.lan (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 5CEE411BB;
-        Fri,  7 Jan 2022 12:54:14 +0100 (CET)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 25E1311C0;
+        Fri,  7 Jan 2022 12:54:15 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1641556454;
-        bh=5hyInP/pgovyuPft9jtWEHHo2/5D1rAUhOlTmZUz8Ek=;
+        s=mail; t=1641556455;
+        bh=7rBw2HOdpszYgRN6LrFZbhrd2rx6/hAruNsikishtUI=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=Dxe1gyXI6wjUHZpMllfUS0i7Mlwt5mMfS9UOVlymrFnEb5EdT8aTfLExgyJmgKeSm
-         MBpBZvneDgGYLTSsIWZTo5b2fGvRIf9toBk7Ngt3v5dtbOcnISyz0cxatc1y0+a1lX
-         ezkhACUT0++qz5p0hnrhUDmL04IdkrbK1USjnOPI=
+        b=AseO3VDTuN8vlP+Nfc3pYHPXxAIFHhIYueznMh63kSxl268mDgk5MJ/drcUA3MC+n
+         flSswGteATbHurmM+TwtmU82p10Q79JLIRX57ZtyjKVPHsHx0eaJRures1Dq7X7TWO
+         POMJXI0WT2CEh20Gl6ywDs1e0+P9ytntSOPJG8iA=
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To:     linux-media@vger.kernel.org
 Cc:     Rui Miguel Silva <rmfrfs@gmail.com>,
@@ -29,9 +29,9 @@ Cc:     Rui Miguel Silva <rmfrfs@gmail.com>,
         Pengutronix Kernel Team <kernel@pengutronix.de>,
         NXP Linux Team <linux-imx@nxp.com>,
         =?UTF-8?q?J=C3=A9r=C3=B4me=20Brunet?= <jbrunet@baylibre.com>
-Subject: [PATCH v2 2/3] staging: media: imx: imx7_mipi_csis: Add timings override through debugfs
-Date:   Fri,  7 Jan 2022 13:54:00 +0200
-Message-Id: <20220107115401.31698-3-laurent.pinchart@ideasonboard.com>
+Subject: [PATCH v2 3/3] staging: media: imx: imx7-mipi-csis: Make subdev name unique
+Date:   Fri,  7 Jan 2022 13:54:01 +0200
+Message-Id: <20220107115401.31698-4-laurent.pinchart@ideasonboard.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220107115401.31698-1-laurent.pinchart@ideasonboard.com>
 References: <20220107115401.31698-1-laurent.pinchart@ideasonboard.com>
@@ -41,112 +41,50 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Add two debugfs files, ths_settle and tclk_settle, to allow overriding
-the corresponding timing parameters for test purpose.
+When multiple CSIS instances are present in a single graph, they are
+currently all named "imx7-mipi-csis.0", which breaks the entity name
+uniqueness requirement. Fix it by using the device name to create the
+subdev name.
 
+Fixes: 7807063b862b ("media: staging/imx7: add MIPI CSI-2 receiver subdev for i.MX7")
 Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Reviewed-by: Rui Miguel Silva <rmfrfs@gmail.com>
+Reviewed-by: Sakari Ailus <sakari.ailus@linux.intel.com>
 ---
-Changes since v1:
-
-- Rename csi_state.debug.debug to csi_state.debug.enable
----
- drivers/staging/media/imx/imx7-mipi-csis.c | 35 ++++++++++++++++++----
- 1 file changed, 29 insertions(+), 6 deletions(-)
+ drivers/staging/media/imx/imx7-mipi-csis.c | 6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
 
 diff --git a/drivers/staging/media/imx/imx7-mipi-csis.c b/drivers/staging/media/imx/imx7-mipi-csis.c
-index c9c0089ad816..d2f60403eb41 100644
+index d2f60403eb41..a8710dc24560 100644
 --- a/drivers/staging/media/imx/imx7-mipi-csis.c
 +++ b/drivers/staging/media/imx/imx7-mipi-csis.c
-@@ -333,7 +333,11 @@ struct csi_state {
- 	spinlock_t slock;	/* Protect events */
- 	struct mipi_csis_event events[MIPI_CSIS_NUM_EVENTS];
- 	struct dentry *debugfs_root;
--	bool debug;
-+	struct {
-+		bool enable;
-+		u32 hs_settle;
-+		u32 clk_settle;
-+	} debug;
- };
+@@ -32,7 +32,6 @@
+ #include <media/v4l2-subdev.h>
  
- /* -----------------------------------------------------------------------------
-@@ -543,6 +547,18 @@ static int mipi_csis_calculate_params(struct csi_state *state)
- 	dev_dbg(state->dev, "lane rate %u, Tclk_settle %u, Ths_settle %u\n",
- 		lane_rate, state->clk_settle, state->hs_settle);
+ #define CSIS_DRIVER_NAME			"imx7-mipi-csis"
+-#define CSIS_SUBDEV_NAME			CSIS_DRIVER_NAME
  
-+	if (state->debug.hs_settle < 0xff) {
-+		dev_dbg(state->dev, "overriding Ths_settle with %u\n",
-+			state->debug.hs_settle);
-+		state->hs_settle = state->debug.hs_settle;
-+	}
-+
-+	if (state->debug.clk_settle < 4) {
-+		dev_dbg(state->dev, "overriding Tclk_settle with %u\n",
-+			state->debug.clk_settle);
-+		state->clk_settle = state->debug.clk_settle;
-+	}
-+
- 	return 0;
- }
+ #define CSIS_PAD_SINK				0
+ #define CSIS_PAD_SOURCE				1
+@@ -313,7 +312,6 @@ struct csi_state {
+ 	struct reset_control *mrst;
+ 	struct regulator *mipi_phy_regulator;
+ 	const struct mipi_csis_info *info;
+-	u8 index;
  
-@@ -659,7 +675,7 @@ static irqreturn_t mipi_csis_irq_handler(int irq, void *dev_id)
- 	spin_lock_irqsave(&state->slock, flags);
+ 	struct v4l2_subdev sd;
+ 	struct media_pad pads[CSIS_PADS_NUM];
+@@ -1329,8 +1327,8 @@ static int mipi_csis_subdev_init(struct csi_state *state)
  
- 	/* Update the event/error counters */
--	if ((status & MIPI_CSIS_INT_SRC_ERRORS) || state->debug) {
-+	if ((status & MIPI_CSIS_INT_SRC_ERRORS) || state->debug.enable) {
- 		for (i = 0; i < MIPI_CSIS_NUM_EVENTS; i++) {
- 			struct mipi_csis_event *event = &state->events[i];
+ 	v4l2_subdev_init(sd, &mipi_csis_subdev_ops);
+ 	sd->owner = THIS_MODULE;
+-	snprintf(sd->name, sizeof(sd->name), "%s.%d",
+-		 CSIS_SUBDEV_NAME, state->index);
++	snprintf(sd->name, sizeof(sd->name), "csis-%s",
++		 dev_name(state->dev));
  
-@@ -749,7 +765,7 @@ static void mipi_csis_log_counters(struct csi_state *state, bool non_errors)
- 	spin_lock_irqsave(&state->slock, flags);
- 
- 	for (i = 0; i < num_events; ++i) {
--		if (state->events[i].counter > 0 || state->debug)
-+		if (state->events[i].counter > 0 || state->debug.enable)
- 			dev_info(state->dev, "%s events: %d\n",
- 				 state->events[i].name,
- 				 state->events[i].counter);
-@@ -801,12 +817,19 @@ DEFINE_SHOW_ATTRIBUTE(mipi_csis_dump_regs);
- 
- static void mipi_csis_debugfs_init(struct csi_state *state)
- {
-+	state->debug.hs_settle = UINT_MAX;
-+	state->debug.clk_settle = UINT_MAX;
-+
- 	state->debugfs_root = debugfs_create_dir(dev_name(state->dev), NULL);
- 
- 	debugfs_create_bool("debug_enable", 0600, state->debugfs_root,
--			    &state->debug);
-+			    &state->debug.enable);
- 	debugfs_create_file("dump_regs", 0600, state->debugfs_root, state,
- 			    &mipi_csis_dump_regs_fops);
-+	debugfs_create_u32("tclk_settle", 0600, state->debugfs_root,
-+			   &state->debug.clk_settle);
-+	debugfs_create_u32("ths_settle", 0600, state->debugfs_root,
-+			   &state->debug.hs_settle);
- }
- 
- static void mipi_csis_debugfs_exit(struct csi_state *state)
-@@ -867,7 +890,7 @@ static int mipi_csis_s_stream(struct v4l2_subdev *sd, int enable)
- 			ret = 0;
- 		mipi_csis_stop_stream(state);
- 		state->state &= ~ST_STREAMING;
--		if (state->debug)
-+		if (state->debug.enable)
- 			mipi_csis_log_counters(state, true);
- 	}
- 
-@@ -1064,7 +1087,7 @@ static int mipi_csis_log_status(struct v4l2_subdev *sd)
- 
- 	mutex_lock(&state->lock);
- 	mipi_csis_log_counters(state, true);
--	if (state->debug && (state->state & ST_POWERED))
-+	if (state->debug.enable && (state->state & ST_POWERED))
- 		mipi_csis_dump_regs(state);
- 	mutex_unlock(&state->lock);
- 
+ 	sd->flags |= V4L2_SUBDEV_FL_HAS_DEVNODE;
+ 	sd->ctrl_handler = NULL;
 -- 
 Regards,
 
