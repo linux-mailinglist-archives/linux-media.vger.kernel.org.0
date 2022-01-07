@@ -2,697 +2,476 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DF36E487C05
-	for <lists+linux-media@lfdr.de>; Fri,  7 Jan 2022 19:18:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6B53D487D56
+	for <lists+linux-media@lfdr.de>; Fri,  7 Jan 2022 20:52:16 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240861AbiAGSSW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 7 Jan 2022 13:18:22 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39924 "EHLO
+        id S232248AbiAGTwP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 7 Jan 2022 14:52:15 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33436 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1348806AbiAGSSQ (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 7 Jan 2022 13:18:16 -0500
-Received: from mail-yb1-xb36.google.com (mail-yb1-xb36.google.com [IPv6:2607:f8b0:4864:20::b36])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 319A3C061401
-        for <linux-media@vger.kernel.org>; Fri,  7 Jan 2022 10:18:16 -0800 (PST)
-Received: by mail-yb1-xb36.google.com with SMTP id m6so8724045ybc.9
-        for <linux-media@vger.kernel.org>; Fri, 07 Jan 2022 10:18:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=m6dcpQatpjeU845+ufvzQySgxRZD48bb6LyjJ3DclOI=;
-        b=l5cwDvVHxY1j1Hn4kDP2e8sdIWNedk8zfLjO7wQOWxDYdXoW9KdNKxbK+03HNQgEjF
-         13oJ+2oNuiu3tHfwKBYJZquyo9OAMQ21kSRF/YttoFh7nAkrWkrv+objlzlZhvSD//ut
-         fGh6U1Ing0v8x5sZo4zp0AS9Xe02n9dYWYJBWRdV0OuM28M01+pthZnpexkh498DgTGL
-         f/G/SbIwqUJTljB0jWNRKpJ8neeut2iHyB6rQ3Z6/GoLgMRi8HcIccoVVgI98kKi8FAH
-         OQPv0+NHraFMsbeRy5mKWijFLCkhCZyq9IToQ7wIl3DMlFWlauQzCV3oV3+Tc5wzMX7F
-         ejTg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=m6dcpQatpjeU845+ufvzQySgxRZD48bb6LyjJ3DclOI=;
-        b=m3kwKvJezXDV6agOaMlkdEBfhzFhcQKEI4T7+hGiXqBZwXQ9LZiF+uZ+WlbErP6B0k
-         WKABf+WcKuNsVD4yCxxjx/QB4cWC5c4+shmK4Z6pR511NkcFHGK+WzlXGOpoBswDeJoo
-         oDZFzcNEl/RckMxSpkIz8V6+uHn3492oqWNssmRKM2mfyMTX4h+7hbJ7CYTwdwccicN0
-         nkBChYPREJgjmHnVouO8a8/uzwi4J9nQid88Faq0l7AUJr/Gw540nWJka4o5/saDgtci
-         rDV8aPNjyNco3PMRz2I79bbt8IEUCEIdjOFOd2JGVOTYssxQxs4QL09ZhswOa4HTTTq9
-         +98w==
-X-Gm-Message-State: AOAM5308Z4J285hRvXW7XihoXp+UC+iabcYmbgO3rrLBJrlEQPGG4t6g
-        kY+9COb9kdm+k4/4DDCCUGj5DhZt/95vF/y+i5fzBg==
-X-Google-Smtp-Source: ABdhPJzv/air1dcF1g15MIJpVIQvJ+4wuCCuwp4zxiBwWsSBhOJaqrGSg8sM2BAw5raTJYJAv2mNoaj4waGH0gYb7oQ=
-X-Received: by 2002:a25:db0e:: with SMTP id g14mr65350368ybf.322.1641579494968;
- Fri, 07 Jan 2022 10:18:14 -0800 (PST)
+        with ESMTP id S231377AbiAGTwP (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 7 Jan 2022 14:52:15 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 37AD0C061574
+        for <linux-media@vger.kernel.org>; Fri,  7 Jan 2022 11:52:15 -0800 (PST)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id CF1BE8D7;
+        Fri,  7 Jan 2022 20:52:11 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1641585132;
+        bh=xcMcLkCbzjT74wqw63f9Zu5Lzr15hpw9+QBAVWo+mmY=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=jp9qm4hPvc2IlxQmnEajo7vbIAvbM3ZhybtUQd+ClGFhmgDzyuDVp4rzq9ezqhCPn
+         D4TCmeIZln+9HCFNctn9NsCa4hXvRfLlEdvt7pMM1uJLa86HFrJ8a+Vb0fsfUfKh+Q
+         XFzitbq4dmbQjOw/yIGNgjRGO2LKL3LHNDZ9kFeE=
+Date:   Fri, 7 Jan 2022 21:52:04 +0200
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Cc:     linux-media@vger.kernel.org, sakari.ailus@linux.intel.com,
+        Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        niklas.soderlund+renesas@ragnatech.se,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Pratyush Yadav <p.yadav@ti.com>
+Subject: Re: [PATCH v10 12/38] media: entity: Move the pipeline from entity
+ to pads
+Message-ID: <YdiZ5GPHUNvy5JRi@pendragon.ideasonboard.com>
+References: <20211130141536.891878-1-tomi.valkeinen@ideasonboard.com>
+ <20211130141536.891878-13-tomi.valkeinen@ideasonboard.com>
 MIME-Version: 1.0
-References: <20220104235148.21320-1-hridya@google.com> <49b29081-42df-ffcd-8fea-bd819499ff1b@amd.com>
- <CA+wgaPMWT0s0KNo_wM7jU+bH626OAVtn77f7_WX=E1wyU8aBzg@mail.gmail.com> <3a29914d-0c7b-1f10-49cb-dbc1cc6e52b0@amd.com>
-In-Reply-To: <3a29914d-0c7b-1f10-49cb-dbc1cc6e52b0@amd.com>
-From:   Hridya Valsaraju <hridya@google.com>
-Date:   Fri, 7 Jan 2022 10:17:38 -0800
-Message-ID: <CA+wgaPOmRTAuXiSRRmj-s=3d2W6ny=EMFtroOShYKrp0u+xF+g@mail.gmail.com>
-Subject: Re: [PATCH] dma-buf: Move sysfs work out of DMA-BUF export/release path
-To:     =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-Cc:     Sumit Semwal <sumit.semwal@linaro.org>,
-        Daniel Vetter <daniel.vetter@ffwll.ch>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org,
-        john.stultz@linaro.org, surenb@google.com, kaleshsingh@google.com,
-        tjmercier@google.com, keescook@google.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20211130141536.891878-13-tomi.valkeinen@ideasonboard.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, Jan 7, 2022 at 2:22 AM Christian K=C3=B6nig <christian.koenig@amd.c=
-om> wrote:
->
-> Am 06.01.22 um 20:04 schrieb Hridya Valsaraju:
-> > On Thu, Jan 6, 2022 at 12:59 AM Christian K=C3=B6nig
-> > <christian.koenig@amd.com> wrote:
-> >> Am 05.01.22 um 00:51 schrieb Hridya Valsaraju:
-> >>> Recently, we noticed an issue where a process went into direct reclai=
-m
-> >>> while holding the kernfs rw semaphore for sysfs in write(exclusive)
-> >>> mode. This caused processes who were doing DMA-BUF exports and releas=
-es
-> >>> to go into uninterruptible sleep since they needed to acquire the sam=
-e
-> >>> semaphore for the DMA-BUF sysfs entry creation/deletion. In order to =
-avoid
-> >>> blocking DMA-BUF export/release for an indeterminate amount of time
-> >>> while another process is holding the sysfs rw semaphore in exclusive
-> >>> mode, this patch moves the per-buffer sysfs file creation/deleteion t=
-o
-> >>> a kthread.
-> >> Well I absolutely don't think that this is justified.
-> >>
-> >> You adding tons of complexity here just to avoid the overhead of
-> >> creating the sysfs files while exporting DMA-bufs which is an operatio=
-n
-> >> which should be done exactly once in the lifecycle for the most common
-> >> use case.
-> >>
-> >> Please explain further why that should be necessary.
-> > Hi Christian,
-> >
-> > We noticed that the issue sometimes causes the exporting process to go
-> > to the uninterrupted sleep state for tens of milliseconds which
-> > unfortunately leads to user-perceptible UI jank. This is the reason
-> > why we are trying to move the sysfs entry creation and deletion out of
-> > the DMA-BUF export/release path. I will update the commit message to
-> > include the same in the next revision.
->
-> That is still not a justification for this change. The question is why
-> do you need that in the first place?
->
-> Exporting a DMA-buf should be something would should be very rarely,
-> e.g. only at the start of an application.
+Hi Tomi and Sakari,
 
-Hi Christian,
+Thank you for the patch.
 
-Yes, that is correct. Noticeable jank caused by the issue is not
-present at all times and happens on UI transitions(for example during
-app launches and exits) when there are several DMA-BUFs being exported
-and released. This is especially true in the case of the camera app
-since it exports and releases a relatively larger number of DMA-BUFs
-during launch and exit respectively.
+On Tue, Nov 30, 2021 at 04:15:10PM +0200, Tomi Valkeinen wrote:
+> From: Sakari Ailus <sakari.ailus@linux.intel.com>
+> 
+> This moves the pipe and stream_count fields from struct media_entity to
+> struct media_pad. Effectively streams become pad-specific rather than
+> being entity specific, allowing several independent streams to traverse a
+> single entity and an entity to be part of several streams.
+> 
+> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+> 
+> - Update documentation to use 'pads'
+> - Use the media pad iterator in media_entity.c
+> - Update rcar-dma.c to use the new per-pad stream count
+> Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
+> 
+> - Fix cleanup in the error path of __media_pipeline_start()
+> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> ---
+>  drivers/media/mc/mc-entity.c                  | 68 +++++++++++--------
+>  drivers/media/platform/exynos4-is/fimc-isp.c  |  2 +-
+>  drivers/media/platform/exynos4-is/fimc-lite.c |  2 +-
+>  drivers/media/platform/omap3isp/isp.c         |  2 +-
+>  drivers/media/platform/omap3isp/ispvideo.c    |  2 +-
+>  drivers/media/platform/omap3isp/ispvideo.h    |  2 +-
+>  drivers/media/platform/rcar-vin/rcar-core.c   | 16 +++--
+>  drivers/media/platform/rcar-vin/rcar-dma.c    |  2 +-
+>  drivers/media/platform/xilinx/xilinx-dma.c    |  2 +-
+>  drivers/media/platform/xilinx/xilinx-dma.h    |  2 +-
+>  drivers/staging/media/imx/imx-media-utils.c   |  2 +-
+>  drivers/staging/media/omap4iss/iss.c          |  2 +-
+>  drivers/staging/media/omap4iss/iss_video.c    |  2 +-
+>  drivers/staging/media/omap4iss/iss_video.h    |  2 +-
+>  include/media/media-entity.h                  | 21 +++---
+>  15 files changed, 74 insertions(+), 55 deletions(-)
+> 
+> diff --git a/drivers/media/mc/mc-entity.c b/drivers/media/mc/mc-entity.c
+> index 2b438c481812..8ad4cb845f4a 100644
+> --- a/drivers/media/mc/mc-entity.c
+> +++ b/drivers/media/mc/mc-entity.c
+> @@ -424,24 +424,30 @@ __must_check int __media_pipeline_start(struct media_entity *entity,
+>  
+>  	while ((pad = media_graph_walk_next(graph))) {
+>  		struct media_entity *entity = pad->entity;
+> +		bool skip_validation = pad->pipe != NULL;
+> +		struct media_pad *iter;
+>  
+>  		DECLARE_BITMAP(active, MEDIA_ENTITY_MAX_PADS);
+>  		DECLARE_BITMAP(has_no_links, MEDIA_ENTITY_MAX_PADS);
+>  
+> -		entity->stream_count++;
+> +		ret = 0;
+>  
+> -		if (entity->pipe && entity->pipe != pipe) {
+> -			pr_err("Pipe active for %s. Can't start for %s\n",
+> -				entity->name,
+> -				pad_err->entity->name);
+> -			ret = -EBUSY;
+> -			goto error;
+> +		media_entity_for_each_pad(entity, iter) {
+> +			if (iter->pipe && iter->pipe != pipe) {
+> +				pr_err("Pipe active for %s. Can't start for %s\n",
+> +				       entity->name, iter->entity->name);
 
+'iter' is a pad of 'entity'. As 'entity' is set to 'pad->entity',
+'entity' and 'iter->entity' are the same. The message should be
+reworked.
+
+> +				ret = -EBUSY;
+> +			} else {
+> +				iter->pipe = pipe;
+> +			}
+> +			iter->stream_count++;
+>  		}
+>  
+> -		entity->pipe = pipe;
+> +		if (ret)
+> +			goto error;
+>  
+> -		/* Already streaming --- no need to check. */
+> -		if (entity->stream_count > 1)
+> +		/* Already part of the pipeline, skip validation. */
+> +		if (skip_validation)
+>  			continue;
+>  
+>  		if (!entity->ops || !entity->ops->link_validate)
+> @@ -510,20 +516,23 @@ __must_check int __media_pipeline_start(struct media_entity *entity,
+>  	media_graph_walk_start(graph, pad_err);
+>  
+>  	while ((pad_err = media_graph_walk_next(graph))) {
+> -		struct media_entity *entity_err = pad_err->entity;
+> -
+> -		/* Sanity check for negative stream_count */
+> -		if (!WARN_ON_ONCE(entity_err->stream_count <= 0)) {
+> -			entity_err->stream_count--;
+> -			if (entity_err->stream_count == 0)
+> -				entity_err->pipe = NULL;
+> +		struct media_entity *entity = pad_err->entity;
+> +		struct media_pad *iter;
+> +
+> +		media_entity_for_each_pad(entity, iter) {
+> +			/* Sanity check for negative stream_count */
+> +			if (!WARN_ON_ONCE(iter->stream_count <= 0)) {
+> +				--iter->stream_count;
+> +				if (iter->stream_count == 0)
+> +					iter->pipe = NULL;
+> +			}
+>  		}
+>  
+>  		/*
+>  		 * We haven't increased stream_count further than this
+>  		 * so we quit here.
+>  		 */
+> -		if (pad_err == pad)
+> +		if (pad_err->entity == pad->entity)
+>  			break;
+>  	}
+>  
+> @@ -550,7 +559,7 @@ EXPORT_SYMBOL_GPL(media_pipeline_start);
+>  
+>  void __media_pipeline_stop(struct media_entity *entity)
+>  {
+> -	struct media_pipeline *pipe = entity->pipe;
+> +	struct media_pipeline *pipe = entity->pads->pipe;
+>  	struct media_graph *graph = &pipe->graph;
+>  	struct media_pad *pad;
+>  
+> @@ -565,12 +574,15 @@ void __media_pipeline_stop(struct media_entity *entity)
+>  
+>  	while ((pad = media_graph_walk_next(graph))) {
+>  		struct media_entity *entity = pad->entity;
+> -
+> -		/* Sanity check for negative stream_count */
+> -		if (!WARN_ON_ONCE(entity->stream_count <= 0)) {
+> -			entity->stream_count--;
+> -			if (entity->stream_count == 0)
+> -				entity->pipe = NULL;
+> +		struct media_pad *iter;
+> +
+> +		media_entity_for_each_pad(entity, iter) {
+> +			/* Sanity check for negative stream_count */
+> +			if (!WARN_ON_ONCE(iter->stream_count <= 0)) {
+> +				iter->stream_count--;
+> +				if (iter->stream_count == 0)
+> +					iter->pipe = NULL;
+> +			}
+>  		}
+>  	}
+>  
+> @@ -840,7 +852,7 @@ int __media_entity_setup_link(struct media_link *link, u32 flags)
+>  {
+>  	const u32 mask = MEDIA_LNK_FL_ENABLED;
+>  	struct media_device *mdev;
+> -	struct media_entity *source, *sink;
+> +	struct media_pad *source, *sink;
+>  	int ret = -EBUSY;
+>  
+>  	if (link == NULL)
+> @@ -856,8 +868,8 @@ int __media_entity_setup_link(struct media_link *link, u32 flags)
+>  	if (link->flags == flags)
+>  		return 0;
+>  
+> -	source = link->source->entity;
+> -	sink = link->sink->entity;
+> +	source = link->source;
+> +	sink = link->sink;
+>  
+>  	if (!(link->flags & MEDIA_LNK_FL_DYNAMIC) &&
+>  	    (source->stream_count || sink->stream_count))
+> diff --git a/drivers/media/platform/exynos4-is/fimc-isp.c b/drivers/media/platform/exynos4-is/fimc-isp.c
+> index 855235bea46d..80274e29ccc5 100644
+> --- a/drivers/media/platform/exynos4-is/fimc-isp.c
+> +++ b/drivers/media/platform/exynos4-is/fimc-isp.c
+> @@ -226,7 +226,7 @@ static int fimc_isp_subdev_set_fmt(struct v4l2_subdev *sd,
+>  			}
+>  		}
+>  	} else {
+> -		if (sd->entity.stream_count == 0) {
+> +		if (sd->entity.pads->stream_count == 0) {
+>  			if (fmt->pad == FIMC_ISP_SD_PAD_SINK) {
+>  				struct v4l2_subdev_format format = *fmt;
+>  
+> diff --git a/drivers/media/platform/exynos4-is/fimc-lite.c b/drivers/media/platform/exynos4-is/fimc-lite.c
+> index aaa3af0493ce..67bfb1ad2ba2 100644
+> --- a/drivers/media/platform/exynos4-is/fimc-lite.c
+> +++ b/drivers/media/platform/exynos4-is/fimc-lite.c
+> @@ -1073,7 +1073,7 @@ static int fimc_lite_subdev_set_fmt(struct v4l2_subdev *sd,
+>  	mutex_lock(&fimc->lock);
+>  
+>  	if ((atomic_read(&fimc->out_path) == FIMC_IO_ISP &&
+> -	    sd->entity.stream_count > 0) ||
+> +	    sd->entity.pads->stream_count > 0) ||
+>  	    (atomic_read(&fimc->out_path) == FIMC_IO_DMA &&
+>  	    vb2_is_busy(&fimc->vb_queue))) {
+>  		mutex_unlock(&fimc->lock);
+> diff --git a/drivers/media/platform/omap3isp/isp.c b/drivers/media/platform/omap3isp/isp.c
+> index 20f59c59ff8a..28aab16d7662 100644
+> --- a/drivers/media/platform/omap3isp/isp.c
+> +++ b/drivers/media/platform/omap3isp/isp.c
+> @@ -936,7 +936,7 @@ static int isp_pipeline_is_last(struct media_entity *me)
+>  	struct isp_pipeline *pipe;
+>  	struct media_pad *pad;
+>  
+> -	if (!me->pipe)
+> +	if (!me->pads->pipe)
+>  		return 0;
+>  	pipe = to_isp_pipeline(me);
+>  	if (pipe->stream_state == ISP_PIPELINE_STREAM_STOPPED)
+> diff --git a/drivers/media/platform/omap3isp/ispvideo.c b/drivers/media/platform/omap3isp/ispvideo.c
+> index 5c1cbb1a9003..a8438040c4aa 100644
+> --- a/drivers/media/platform/omap3isp/ispvideo.c
+> +++ b/drivers/media/platform/omap3isp/ispvideo.c
+> @@ -1094,7 +1094,7 @@ isp_video_streamon(struct file *file, void *fh, enum v4l2_buf_type type)
+>  	/* Start streaming on the pipeline. No link touching an entity in the
+>  	 * pipeline can be activated or deactivated once streaming is started.
+>  	 */
+> -	pipe = video->video.entity.pipe
+> +	pipe = video->video.entity.pads->pipe
+>  	     ? to_isp_pipeline(&video->video.entity) : &video->pipe;
+>  
+>  	ret = media_entity_enum_init(&pipe->ent_enum, &video->isp->media_dev);
+> diff --git a/drivers/media/platform/omap3isp/ispvideo.h b/drivers/media/platform/omap3isp/ispvideo.h
+> index a0908670c0cf..4c9c5b719ec5 100644
+> --- a/drivers/media/platform/omap3isp/ispvideo.h
+> +++ b/drivers/media/platform/omap3isp/ispvideo.h
+> @@ -100,7 +100,7 @@ struct isp_pipeline {
+>  };
+>  
+>  #define to_isp_pipeline(__e) \
+> -	container_of((__e)->pipe, struct isp_pipeline, pipe)
+> +	container_of((__e)->pads->pipe, struct isp_pipeline, pipe)
+>  
+>  static inline int isp_pipeline_ready(struct isp_pipeline *pipe)
+>  {
+> diff --git a/drivers/media/platform/rcar-vin/rcar-core.c b/drivers/media/platform/rcar-vin/rcar-core.c
+> index 33957cc9118c..e59453d6b7c3 100644
+> --- a/drivers/media/platform/rcar-vin/rcar-core.c
+> +++ b/drivers/media/platform/rcar-vin/rcar-core.c
+> @@ -132,13 +132,17 @@ static int rvin_group_link_notify(struct media_link *link, u32 flags,
+>  		return 0;
+>  
+>  	/*
+> -	 * Don't allow link changes if any entity in the graph is
+> -	 * streaming, modifying the CHSEL register fields can disrupt
+> -	 * running streams.
+> +	 * Don't allow link changes if any stream in the graph is active as
+> +	 * modifying the CHSEL register fields can disrupt running streams.
+>  	 */
+> -	media_device_for_each_entity(entity, &group->mdev)
+> -		if (entity->stream_count)
+> -			return -EBUSY;
+> +	media_device_for_each_entity(entity, &group->mdev) {
+> +		struct media_pad *iter;
+> +
+> +		media_entity_for_each_pad(entity, iter) {
+> +			if (iter->stream_count)
+> +				return -EBUSY;
+> +		}
+> +	}
+>  
+>  	mutex_lock(&group->lock);
+>  
+> diff --git a/drivers/media/platform/rcar-vin/rcar-dma.c b/drivers/media/platform/rcar-vin/rcar-dma.c
+> index f5f722ab1d4e..80b7ae47d165 100644
+> --- a/drivers/media/platform/rcar-vin/rcar-dma.c
+> +++ b/drivers/media/platform/rcar-vin/rcar-dma.c
+> @@ -1231,7 +1231,7 @@ static int rvin_set_stream(struct rvin_dev *vin, int on)
+>  	 */
+>  	mdev = vin->vdev.entity.graph_obj.mdev;
+>  	mutex_lock(&mdev->graph_mutex);
+> -	pipe = sd->entity.pipe ? sd->entity.pipe : &vin->vdev.pipe;
+> +	pipe = sd->entity.pads->pipe ? sd->entity.pads->pipe : &vin->vdev.pipe;
+>  	ret = __media_pipeline_start(&vin->vdev.entity, pipe);
+>  	mutex_unlock(&mdev->graph_mutex);
+>  	if (ret)
+> diff --git a/drivers/media/platform/xilinx/xilinx-dma.c b/drivers/media/platform/xilinx/xilinx-dma.c
+> index d33f99c6ffa4..03ee19d00041 100644
+> --- a/drivers/media/platform/xilinx/xilinx-dma.c
+> +++ b/drivers/media/platform/xilinx/xilinx-dma.c
+> @@ -402,7 +402,7 @@ static int xvip_dma_start_streaming(struct vb2_queue *vq, unsigned int count)
+>  	 * Use the pipeline object embedded in the first DMA object that starts
+>  	 * streaming.
+>  	 */
+> -	pipe = dma->video.entity.pipe
+> +	pipe = dma->video.entity.pads->pipe
+>  	     ? to_xvip_pipeline(&dma->video.entity) : &dma->pipe;
+>  
+>  	ret = media_pipeline_start(&dma->video.entity, &pipe->pipe);
+> diff --git a/drivers/media/platform/xilinx/xilinx-dma.h b/drivers/media/platform/xilinx/xilinx-dma.h
+> index 2378bdae57ae..69ced71a5696 100644
+> --- a/drivers/media/platform/xilinx/xilinx-dma.h
+> +++ b/drivers/media/platform/xilinx/xilinx-dma.h
+> @@ -47,7 +47,7 @@ struct xvip_pipeline {
+>  
+>  static inline struct xvip_pipeline *to_xvip_pipeline(struct media_entity *e)
+>  {
+> -	return container_of(e->pipe, struct xvip_pipeline, pipe);
+> +	return container_of(e->pads->pipe, struct xvip_pipeline, pipe);
+>  }
+>  
+>  /**
+> diff --git a/drivers/staging/media/imx/imx-media-utils.c b/drivers/staging/media/imx/imx-media-utils.c
+> index 6f90acf9c725..535da4dda3c6 100644
+> --- a/drivers/staging/media/imx/imx-media-utils.c
+> +++ b/drivers/staging/media/imx/imx-media-utils.c
+> @@ -913,7 +913,7 @@ int imx_media_pipeline_set_stream(struct imx_media_dev *imxmd,
+>  			__media_pipeline_stop(entity);
+>  	} else {
+>  		v4l2_subdev_call(sd, video, s_stream, 0);
+> -		if (entity->pipe)
+> +		if (entity->pads->pipe)
+>  			__media_pipeline_stop(entity);
+>  	}
+>  
+> diff --git a/drivers/staging/media/omap4iss/iss.c b/drivers/staging/media/omap4iss/iss.c
+> index 68588e9dab0b..4c6f25aa8b57 100644
+> --- a/drivers/staging/media/omap4iss/iss.c
+> +++ b/drivers/staging/media/omap4iss/iss.c
+> @@ -548,7 +548,7 @@ static int iss_pipeline_is_last(struct media_entity *me)
+>  	struct iss_pipeline *pipe;
+>  	struct media_pad *pad;
+>  
+> -	if (!me->pipe)
+> +	if (!me->pads->pipe)
+>  		return 0;
+>  	pipe = to_iss_pipeline(me);
+>  	if (pipe->stream_state == ISS_PIPELINE_STREAM_STOPPED)
+> diff --git a/drivers/staging/media/omap4iss/iss_video.c b/drivers/staging/media/omap4iss/iss_video.c
+> index 8c25ad73a81e..b74f7891711d 100644
+> --- a/drivers/staging/media/omap4iss/iss_video.c
+> +++ b/drivers/staging/media/omap4iss/iss_video.c
+> @@ -871,7 +871,7 @@ iss_video_streamon(struct file *file, void *fh, enum v4l2_buf_type type)
+>  	 * Start streaming on the pipeline. No link touching an entity in the
+>  	 * pipeline can be activated or deactivated once streaming is started.
+>  	 */
+> -	pipe = pad->entity->pipe
+> +	pipe = pad->pipe
+>  	     ? to_iss_pipeline(pad->entity) : &video->pipe;
+>  	pipe->external = NULL;
+>  	pipe->external_rate = 0;
+> diff --git a/drivers/staging/media/omap4iss/iss_video.h b/drivers/staging/media/omap4iss/iss_video.h
+> index 526281bf0051..9b8ec27bf87d 100644
+> --- a/drivers/staging/media/omap4iss/iss_video.h
+> +++ b/drivers/staging/media/omap4iss/iss_video.h
+> @@ -91,7 +91,7 @@ struct iss_pipeline {
+>  };
+>  
+>  #define to_iss_pipeline(__e) \
+> -	container_of((__e)->pipe, struct iss_pipeline, pipe)
+> +	container_of((__e)->pads->pipe, struct iss_pipeline, pipe)
+>  
+>  static inline int iss_pipeline_ready(struct iss_pipeline *pipe)
+>  {
+> diff --git a/include/media/media-entity.h b/include/media/media-entity.h
+> index 5f6eed24e63f..c9d97c902d05 100644
+> --- a/include/media/media-entity.h
+> +++ b/include/media/media-entity.h
+> @@ -180,15 +180,24 @@ enum media_pad_signal_type {
+>   *
+>   * @graph_obj:	Embedded structure containing the media object common data
+>   * @entity:	Entity this pad belongs to
+> + * @pipe:	Pipeline this pad belongs to
+> + * @stream_count: Stream count for the pad
+>   * @index:	Pad index in the entity pads array, numbered from 0 to n
+>   * @sig_type:	Type of the signal inside a media pad
+>   * @flags:	Pad flags, as defined in
+>   *		:ref:`include/uapi/linux/media.h <media_header>`
+>   *		(seek for ``MEDIA_PAD_FL_*``)
+> + * .. note::
+> + *
+> + *    @stream_count reference count must never be negative, but is a signed
+> + *    integer on purpose: a simple ``WARN_ON(<0)`` check can be used to
+> + *    detect reference count bugs that would make it negative.
+>   */
+>  struct media_pad {
+>  	struct media_gobj graph_obj;	/* must be first field in struct */
+>  	struct media_entity *entity;
+> +	struct media_pipeline *pipe;
+> +	int stream_count;
+>  	u16 index;
+>  	enum media_pad_signal_type sig_type;
+>  	unsigned long flags;
+> @@ -267,9 +276,7 @@ enum media_entity_type {
+>   * @pads:	Pads array with the size defined by @num_pads.
+>   * @links:	List of data links.
+>   * @ops:	Entity operations.
+> - * @stream_count: Stream count for the entity.
+>   * @use_count:	Use count for the entity.
+> - * @pipe:	Pipeline this entity belongs to.
+>   * @info:	Union with devnode information.  Kept just for backward
+>   *		compatibility.
+>   * @info.dev:	Contains device major and minor info.
+> @@ -282,10 +289,9 @@ enum media_entity_type {
+>   *
+>   * .. note::
+>   *
+> - *    @stream_count and @use_count reference counts must never be
+> - *    negative, but are signed integers on purpose: a simple ``WARN_ON(<0)``
+> - *    check can be used to detect reference count bugs that would make them
+> - *    negative.
+> + *    @use_count reference count must never be negative, but is a signed
+> + *    integer on purpose: a simple ``WARN_ON(<0)`` check can be used to
+> + *    detect reference count bugs that would make it negative.
+>   */
+>  struct media_entity {
+>  	struct media_gobj graph_obj;	/* must be first field in struct */
+> @@ -304,11 +310,8 @@ struct media_entity {
+>  
+>  	const struct media_entity_operations *ops;
+>  
+> -	int stream_count;
+>  	int use_count;
+>  
+> -	struct media_pipeline *pipe;
+> -
+>  	union {
+>  		struct {
+>  			u32 major;
+
+-- 
 Regards,
-Hridya
 
->
-> So this strongly looks like you are trying to optimize for an use case
-> where we should probably rethink what userspace is doing here instead.
->
-> If we would want to go down this route you would need to change all the
-> drivers implementing the DMA-buf export functionality to avoid
-> uninterruptible sleep as well and that is certainly something I would NAK=
-.
->
-> Regards,
-> Christian.
->
-> >
-> > Thanks,
-> > Hridya
-> >
-> >
-> >> Regards,
-> >> Christian.
-> >>
-> >>> Fixes: bdb8d06dfefd ("dmabuf: Add the capability to expose DMA-BUF st=
-ats in sysfs")
-> >>> Signed-off-by: Hridya Valsaraju <hridya@google.com>
-> >>> ---
-> >>>    drivers/dma-buf/dma-buf-sysfs-stats.c | 343 ++++++++++++++++++++++=
-++--
-> >>>    include/linux/dma-buf.h               |  46 ++++
-> >>>    2 files changed, 366 insertions(+), 23 deletions(-)
-> >>>
-> >>> diff --git a/drivers/dma-buf/dma-buf-sysfs-stats.c b/drivers/dma-buf/=
-dma-buf-sysfs-stats.c
-> >>> index 053baadcada9..3251fdf2f05f 100644
-> >>> --- a/drivers/dma-buf/dma-buf-sysfs-stats.c
-> >>> +++ b/drivers/dma-buf/dma-buf-sysfs-stats.c
-> >>> @@ -7,13 +7,39 @@
-> >>>
-> >>>    #include <linux/dma-buf.h>
-> >>>    #include <linux/dma-resv.h>
-> >>> +#include <linux/freezer.h>
-> >>>    #include <linux/kobject.h>
-> >>> +#include <linux/kthread.h>
-> >>> +#include <linux/list.h>
-> >>>    #include <linux/printk.h>
-> >>> +#include <linux/sched/signal.h>
-> >>>    #include <linux/slab.h>
-> >>>    #include <linux/sysfs.h>
-> >>>
-> >>>    #include "dma-buf-sysfs-stats.h"
-> >>>
-> >>> +struct dmabuf_kobj_work {
-> >>> +     struct list_head list;
-> >>> +     struct dma_buf_sysfs_entry *sysfs_entry;
-> >>> +     struct dma_buf_sysfs_entry_metadata *sysfs_metadata;
-> >>> +     unsigned long uid;
-> >>> +};
-> >>> +
-> >>> +/* Both kobject setup and teardown work gets queued on the list. */
-> >>> +static LIST_HEAD(dmabuf_kobj_work_list);
-> >>> +
-> >>> +/* dmabuf_kobj_list_lock protects dmabuf_kobj_work_list. */
-> >>> +static DEFINE_SPINLOCK(dmabuf_kobj_list_lock);
-> >>> +
-> >>> +/*
-> >>> + * dmabuf_sysfs_show_lock prevents a race between a DMA-BUF sysfs fi=
-le being
-> >>> + * read and the DMA-BUF being freed by protecting sysfs_entry->dmabu=
-f.
-> >>> + */
-> >>> +static DEFINE_SPINLOCK(dmabuf_sysfs_show_lock);
-> >>> +
-> >>> +static struct task_struct *dmabuf_kobject_task;
-> >>> +static wait_queue_head_t dmabuf_kobject_waitqueue;
-> >>> +
-> >>>    #define to_dma_buf_entry_from_kobj(x) container_of(x, struct dma_b=
-uf_sysfs_entry, kobj)
-> >>>
-> >>>    /**
-> >>> @@ -64,15 +90,26 @@ static ssize_t dma_buf_stats_attribute_show(struc=
-t kobject *kobj,
-> >>>        struct dma_buf_stats_attribute *attribute;
-> >>>        struct dma_buf_sysfs_entry *sysfs_entry;
-> >>>        struct dma_buf *dmabuf;
-> >>> +     int ret;
-> >>>
-> >>>        attribute =3D to_dma_buf_stats_attr(attr);
-> >>>        sysfs_entry =3D to_dma_buf_entry_from_kobj(kobj);
-> >>> +
-> >>> +     /*
-> >>> +      * acquire dmabuf_sysfs_show_lock to prevent a race with the DM=
-A-BUF
-> >>> +      * being freed while sysfs_entry->dmabuf is being accessed.
-> >>> +      */
-> >>> +     spin_lock(&dmabuf_sysfs_show_lock);
-> >>>        dmabuf =3D sysfs_entry->dmabuf;
-> >>>
-> >>> -     if (!dmabuf || !attribute->show)
-> >>> +     if (!dmabuf || !attribute->show) {
-> >>> +             spin_unlock(&dmabuf_sysfs_show_lock);
-> >>>                return -EIO;
-> >>> +     }
-> >>>
-> >>> -     return attribute->show(dmabuf, attribute, buf);
-> >>> +     ret =3D attribute->show(dmabuf, attribute, buf);
-> >>> +     spin_unlock(&dmabuf_sysfs_show_lock);
-> >>> +     return ret;
-> >>>    }
-> >>>
-> >>>    static const struct sysfs_ops dma_buf_stats_sysfs_ops =3D {
-> >>> @@ -118,33 +155,275 @@ static struct kobj_type dma_buf_ktype =3D {
-> >>>        .default_groups =3D dma_buf_stats_default_groups,
-> >>>    };
-> >>>
-> >>> -void dma_buf_stats_teardown(struct dma_buf *dmabuf)
-> >>> +/* Statistics files do not need to send uevents. */
-> >>> +static int dmabuf_sysfs_uevent_filter(struct kset *kset, struct kobj=
-ect *kobj)
-> >>>    {
-> >>> -     struct dma_buf_sysfs_entry *sysfs_entry;
-> >>> +     return 0;
-> >>> +}
-> >>>
-> >>> -     sysfs_entry =3D dmabuf->sysfs_entry;
-> >>> -     if (!sysfs_entry)
-> >>> -             return;
-> >>> +static const struct kset_uevent_ops dmabuf_sysfs_no_uevent_ops =3D {
-> >>> +     .filter =3D dmabuf_sysfs_uevent_filter,
-> >>> +};
-> >>> +
-> >>> +/* setup of sysfs entries done asynchronously in the worker thread. =
-*/
-> >>> +static void dma_buf_sysfs_stats_setup_work(struct dmabuf_kobj_work *=
-kobject_work)
-> >>> +{
-> >>> +     struct dma_buf_sysfs_entry *sysfs_entry =3D kobject_work->sysfs=
-_entry;
-> >>> +     struct dma_buf_sysfs_entry_metadata *sysfs_metadata =3D
-> >>> +                     kobject_work->sysfs_metadata;
-> >>> +     bool free_metadata =3D false;
-> >>> +
-> >>> +     int ret =3D kobject_init_and_add(&sysfs_entry->kobj, &dma_buf_k=
-type, NULL,
-> >>> +                                    "%lu", kobject_work->uid);
-> >>> +     if (ret) {
-> >>> +             kobject_put(&sysfs_entry->kobj);
-> >>> +
-> >>> +             spin_lock(&sysfs_metadata->sysfs_entry_lock);
-> >>> +             if (sysfs_metadata->status =3D=3D SYSFS_ENTRY_INIT_ABOR=
-TED) {
-> >>> +                     /*
-> >>> +                      * SYSFS_ENTRY_INIT_ABORTED means that the DMA-=
-BUF has already
-> >>> +                      * been freed. At this point, its safe to free =
-the memory for
-> >>> +                      * the sysfs_metadata;
-> >>> +                      */
-> >>> +                     free_metadata =3D true;
-> >>> +             } else {
-> >>> +                     /*
-> >>> +                      * The DMA-BUF has not yet been freed, set the =
-status to
-> >>> +                      * sysfs_entry_error so that when the DMA-BUF g=
-ets
-> >>> +                      * freed, we know there is no need to teardown =
-the sysfs
-> >>> +                      * entry.
-> >>> +                      */
-> >>> +                     sysfs_metadata->status =3D SYSFS_ENTRY_ERROR;
-> >>> +             }
-> >>> +             goto unlock;
-> >>> +     }
-> >>> +
-> >>> +     /*
-> >>> +      * If the DMA-BUF has not yet been released, status would still=
- be
-> >>> +      * SYSFS_ENTRY_INIT_IN_PROGRESS. We set the status as initializ=
-ed.
-> >>> +      */
-> >>> +     spin_lock(&sysfs_metadata->sysfs_entry_lock);
-> >>> +     if (sysfs_metadata->status =3D=3D SYSFS_ENTRY_INIT_IN_PROGRESS)=
- {
-> >>> +             sysfs_metadata->status =3D SYSFS_ENTRY_INITIALIZED;
-> >>> +             goto unlock;
-> >>> +     }
-> >>>
-> >>> +     /*
-> >>> +      * At this point the status is SYSFS_ENTRY_INIT_ABORTED which m=
-eans
-> >>> +      * that the DMA-BUF has already been freed. Hence, we cleanup t=
-he
-> >>> +      * sysfs_entry and its metadata since neither of them are neede=
-d
-> >>> +      * anymore.
-> >>> +      */
-> >>> +     free_metadata =3D true;
-> >>>        kobject_del(&sysfs_entry->kobj);
-> >>>        kobject_put(&sysfs_entry->kobj);
-> >>> +
-> >>> +unlock:
-> >>> +     spin_unlock(&sysfs_metadata->sysfs_entry_lock);
-> >>> +     if (free_metadata) {
-> >>> +             kfree(kobject_work->sysfs_metadata);
-> >>> +             kobject_work->sysfs_metadata =3D NULL;
-> >>> +     }
-> >>>    }
-> >>>
-> >>> +/* teardown of sysfs entries done asynchronously in the worker threa=
-d. */
-> >>> +static void dma_buf_sysfs_stats_teardown_work(struct dmabuf_kobj_wor=
-k *kobject_work)
-> >>> +{
-> >>> +     struct dma_buf_sysfs_entry *sysfs_entry =3D kobject_work->sysfs=
-_entry;
-> >>>
-> >>> -/* Statistics files do not need to send uevents. */
-> >>> -static int dmabuf_sysfs_uevent_filter(struct kset *kset, struct kobj=
-ect *kobj)
-> >>> +     kobject_del(&sysfs_entry->kobj);
-> >>> +     kobject_put(&sysfs_entry->kobj);
-> >>> +
-> >>> +     kfree(kobject_work->sysfs_metadata);
-> >>> +     kobject_work->sysfs_metadata =3D NULL;
-> >>> +}
-> >>> +
-> >>> +/* do setup or teardown of sysfs entries as required */
-> >>> +static void do_kobject_work(struct dmabuf_kobj_work *kobject_work)
-> >>>    {
-> >>> +     struct dma_buf_sysfs_entry_metadata *sysfs_metadata;
-> >>> +     bool setup_needed =3D false;
-> >>> +     bool teardown_needed =3D false;
-> >>> +
-> >>> +     sysfs_metadata =3D kobject_work->sysfs_metadata;
-> >>> +     spin_lock(&sysfs_metadata->sysfs_entry_lock);
-> >>> +     if (sysfs_metadata->status =3D=3D SYSFS_ENTRY_UNINITIALIZED) {
-> >>> +             setup_needed =3D true;
-> >>> +             sysfs_metadata->status =3D SYSFS_ENTRY_INIT_IN_PROGRESS=
-;
-> >>> +     } else if (sysfs_metadata->status =3D=3D SYSFS_ENTRY_INITIALIZE=
-D) {
-> >>> +             teardown_needed =3D true;
-> >>> +     }
-> >>> +
-> >>> +     /*
-> >>> +      * It is ok to release the sysfs_entry_lock here.
-> >>> +      *
-> >>> +      * If setup_needed is true, we check the status again after the=
- kobject
-> >>> +      * initialization to see if it has been set to SYSFS_ENTRY_INIT=
-_ABORTED
-> >>> +      * and if so teardown the kobject.
-> >>> +      *
-> >>> +      * If teardown_needed is true, there are no more changes expect=
-ed to the
-> >>> +      * status.
-> >>> +      *
-> >>> +      * If neither setup_needed nor teardown needed are true, it
-> >>> +      * means the DMA-BUF was freed before we got around to setting =
-up the
-> >>> +      * sysfs entry and hence we just need to release the metadata a=
-nd
-> >>> +      * return.
-> >>> +      */
-> >>> +     spin_unlock(&kobject_work->sysfs_metadata->sysfs_entry_lock);
-> >>> +
-> >>> +     if (setup_needed)
-> >>> +             dma_buf_sysfs_stats_setup_work(kobject_work);
-> >>> +     else if (teardown_needed)
-> >>> +             dma_buf_sysfs_stats_teardown_work(kobject_work);
-> >>> +     else
-> >>> +             kfree(kobject_work->sysfs_metadata);
-> >>> +
-> >>> +     kfree(kobject_work);
-> >>> +}
-> >>> +
-> >>> +static struct dmabuf_kobj_work *get_next_kobj_work(void)
-> >>> +{
-> >>> +     struct dmabuf_kobj_work *kobject_work;
-> >>> +
-> >>> +     spin_lock(&dmabuf_kobj_list_lock);
-> >>> +     kobject_work =3D list_first_entry_or_null(&dmabuf_kobj_work_lis=
-t,
-> >>> +                                             struct dmabuf_kobj_work=
-, list);
-> >>> +     if (kobject_work)
-> >>> +             list_del(&kobject_work->list);
-> >>> +     spin_unlock(&dmabuf_kobj_list_lock);
-> >>> +     return kobject_work;
-> >>> +}
-> >>> +
-> >>> +static int kobject_work_thread(void *data)
-> >>> +{
-> >>> +     struct dmabuf_kobj_work *kobject_work;
-> >>> +
-> >>> +     while (1) {
-> >>> +             wait_event_freezable(dmabuf_kobject_waitqueue,
-> >>> +                                  (kobject_work =3D get_next_kobj_wo=
-rk()));
-> >>> +             do_kobject_work(kobject_work);
-> >>> +     }
-> >>> +
-> >>>        return 0;
-> >>>    }
-> >>>
-> >>> -static const struct kset_uevent_ops dmabuf_sysfs_no_uevent_ops =3D {
-> >>> -     .filter =3D dmabuf_sysfs_uevent_filter,
-> >>> -};
-> >>> +static int kobject_worklist_init(void)
-> >>> +{
-> >>> +     init_waitqueue_head(&dmabuf_kobject_waitqueue);
-> >>> +     dmabuf_kobject_task =3D kthread_run(kobject_work_thread, NULL,
-> >>> +                                       "%s", "dmabuf-kobject-worker"=
-);
-> >>> +     if (IS_ERR(dmabuf_kobject_task)) {
-> >>> +             pr_err("Creating thread for deferred sysfs entry creati=
-on/deletion failed\n");
-> >>> +             return PTR_ERR(dmabuf_kobject_task);
-> >>> +     }
-> >>> +     sched_set_normal(dmabuf_kobject_task, MAX_NICE);
-> >>> +
-> >>> +     return 0;
-> >>> +}
-> >>> +
-> >>> +static void deferred_kobject_create(struct dmabuf_kobj_work *kobject=
-_work)
-> >>> +{
-> >>> +     INIT_LIST_HEAD(&kobject_work->list);
-> >>> +
-> >>> +     spin_lock(&dmabuf_kobj_list_lock);
-> >>> +
-> >>> +     list_add_tail(&kobject_work->list, &dmabuf_kobj_work_list);
-> >>> +
-> >>> +     spin_unlock(&dmabuf_kobj_list_lock);
-> >>> +
-> >>> +     wake_up(&dmabuf_kobject_waitqueue);
-> >>> +}
-> >>> +
-> >>> +
-> >>> +void dma_buf_stats_teardown(struct dma_buf *dmabuf)
-> >>> +{
-> >>> +     struct dma_buf_sysfs_entry *sysfs_entry;
-> >>> +     struct dma_buf_sysfs_entry_metadata *sysfs_metadata;
-> >>> +     struct dmabuf_kobj_work *kobj_work;
-> >>> +
-> >>> +     sysfs_entry =3D dmabuf->sysfs_entry;
-> >>> +     if (!sysfs_entry)
-> >>> +             return;
-> >>> +
-> >>> +     sysfs_metadata =3D dmabuf->sysfs_entry_metadata;
-> >>> +     if (!sysfs_metadata)
-> >>> +             return;
-> >>> +
-> >>> +     spin_lock(&sysfs_metadata->sysfs_entry_lock);
-> >>> +
-> >>> +     if (sysfs_metadata->status =3D=3D SYSFS_ENTRY_UNINITIALIZED ||
-> >>> +         sysfs_metadata->status =3D=3D SYSFS_ENTRY_INIT_IN_PROGRESS)=
- {
-> >>> +             /*
-> >>> +              * The sysfs entry for this buffer has not yet been ini=
-tialized,
-> >>> +              * we set the status to SYSFS_ENTRY_INIT_ABORTED to abo=
-rt the
-> >>> +              * initialization.
-> >>> +              */
-> >>> +             sysfs_metadata->status =3D SYSFS_ENTRY_INIT_ABORTED;
-> >>> +             spin_unlock(&sysfs_metadata->sysfs_entry_lock);
-> >>> +
-> >>> +             /*
-> >>> +              * In case kobject initialization completes right as we=
- release
-> >>> +              * the sysfs_entry_lock, disable show() for the sysfs e=
-ntry by
-> >>> +              * setting sysfs_entry->dmabuf to NULL to prevent a rac=
-e.
-> >>> +              */
-> >>> +             spin_lock(&dmabuf_sysfs_show_lock);
-> >>> +             sysfs_entry->dmabuf =3D NULL;
-> >>> +             spin_unlock(&dmabuf_sysfs_show_lock);
-> >>> +
-> >>> +             return;
-> >>> +     }
-> >>> +
-> >>> +     if (sysfs_metadata->status =3D=3D SYSFS_ENTRY_INITIALIZED) {
-> >>> +             /*
-> >>> +              * queue teardown work only if sysfs_entry is fully ini=
-titalized.
-> >>> +              * It is ok to release the sysfs_entry_lock here since =
-the
-> >>> +              * status can no longer change.
-> >>> +              */
-> >>> +             spin_unlock(&sysfs_metadata->sysfs_entry_lock);
-> >>> +
-> >>> +             /*
-> >>> +              * Meanwhile disable show() for the sysfs entry to avoi=
-d a race
-> >>> +              * between teardown and show().
-> >>> +              */
-> >>> +             spin_lock(&dmabuf_sysfs_show_lock);
-> >>> +             sysfs_entry->dmabuf =3D NULL;
-> >>> +             spin_unlock(&dmabuf_sysfs_show_lock);
-> >>> +
-> >>> +             kobj_work =3D kzalloc(sizeof(struct dmabuf_kobj_work), =
-GFP_KERNEL);
-> >>> +             if (!kobj_work) {
-> >>> +                     /* do the teardown immediately. */
-> >>> +                     kobject_del(&sysfs_entry->kobj);
-> >>> +                     kobject_put(&sysfs_entry->kobj);
-> >>> +                     kfree(sysfs_metadata);
-> >>> +             } else {
-> >>> +                     /* queue teardown work. */
-> >>> +                     kobj_work->sysfs_entry =3D dmabuf->sysfs_entry;
-> >>> +                     kobj_work->sysfs_metadata =3D dmabuf->sysfs_ent=
-ry_metadata;
-> >>> +                     deferred_kobject_create(kobj_work);
-> >>> +             }
-> >>> +
-> >>> +             return;
-> >>> +     }
-> >>> +
-> >>> +     /*
-> >>> +      * status is SYSFS_ENTRY_INIT_ERROR so we only need to free the
-> >>> +      * metadata.
-> >>> +      */
-> >>> +     spin_unlock(&sysfs_metadata->sysfs_entry_lock);
-> >>> +     kfree(dmabuf->sysfs_entry_metadata);
-> >>> +     dmabuf->sysfs_entry_metadata =3D NULL;
-> >>> +}
-> >>>
-> >>>    static struct kset *dma_buf_stats_kset;
-> >>>    static struct kset *dma_buf_per_buffer_stats_kset;
-> >>>    int dma_buf_init_sysfs_statistics(void)
-> >>>    {
-> >>> +     int ret;
-> >>> +
-> >>> +     ret =3D kobject_worklist_init();
-> >>> +     if (ret)
-> >>> +             return ret;
-> >>> +
-> >>>        dma_buf_stats_kset =3D kset_create_and_add("dmabuf",
-> >>>                                                 &dmabuf_sysfs_no_ueve=
-nt_ops,
-> >>>                                                 kernel_kobj);
-> >>> @@ -171,7 +450,8 @@ void dma_buf_uninit_sysfs_statistics(void)
-> >>>    int dma_buf_stats_setup(struct dma_buf *dmabuf)
-> >>>    {
-> >>>        struct dma_buf_sysfs_entry *sysfs_entry;
-> >>> -     int ret;
-> >>> +     struct dma_buf_sysfs_entry_metadata *sysfs_metadata;
-> >>> +     struct dmabuf_kobj_work *kobj_work;
-> >>>
-> >>>        if (!dmabuf || !dmabuf->file)
-> >>>                return -EINVAL;
-> >>> @@ -188,18 +468,35 @@ int dma_buf_stats_setup(struct dma_buf *dmabuf)
-> >>>        sysfs_entry->kobj.kset =3D dma_buf_per_buffer_stats_kset;
-> >>>        sysfs_entry->dmabuf =3D dmabuf;
-> >>>
-> >>> +     sysfs_metadata =3D kzalloc(sizeof(struct dma_buf_sysfs_entry_me=
-tadata),
-> >>> +                              GFP_KERNEL);
-> >>> +     if (!sysfs_metadata) {
-> >>> +             kfree(sysfs_entry);
-> >>> +             return -ENOMEM;
-> >>> +     }
-> >>> +
-> >>>        dmabuf->sysfs_entry =3D sysfs_entry;
-> >>>
-> >>> -     /* create the directory for buffer stats */
-> >>> -     ret =3D kobject_init_and_add(&sysfs_entry->kobj, &dma_buf_ktype=
-, NULL,
-> >>> -                                "%lu", file_inode(dmabuf->file)->i_i=
-no);
-> >>> -     if (ret)
-> >>> -             goto err_sysfs_dmabuf;
-> >>> +     sysfs_metadata->status =3D SYSFS_ENTRY_UNINITIALIZED;
-> >>> +     spin_lock_init(&sysfs_metadata->sysfs_entry_lock);
-> >>>
-> >>> -     return 0;
-> >>> +     dmabuf->sysfs_entry_metadata =3D sysfs_metadata;
-> >>>
-> >>> -err_sysfs_dmabuf:
-> >>> -     kobject_put(&sysfs_entry->kobj);
-> >>> -     dmabuf->sysfs_entry =3D NULL;
-> >>> -     return ret;
-> >>> +     kobj_work =3D kzalloc(sizeof(struct dmabuf_kobj_work), GFP_KERN=
-EL);
-> >>> +     if (!kobj_work) {
-> >>> +             kfree(sysfs_entry);
-> >>> +             kfree(sysfs_metadata);
-> >>> +             return -ENOMEM;
-> >>> +     }
-> >>> +
-> >>> +     kobj_work->sysfs_entry =3D dmabuf->sysfs_entry;
-> >>> +     kobj_work->sysfs_metadata =3D dmabuf->sysfs_entry_metadata;
-> >>> +     /*
-> >>> +      * stash the inode number in struct dmabuf_kobj_work since setu=
-p
-> >>> +      * might race with DMA-BUF teardown.
-> >>> +      */
-> >>> +     kobj_work->uid =3D file_inode(dmabuf->file)->i_ino;
-> >>> +
-> >>> +     deferred_kobject_create(kobj_work);
-> >>> +     return 0;
-> >>>    }
-> >>> diff --git a/include/linux/dma-buf.h b/include/linux/dma-buf.h
-> >>> index 7ab50076e7a6..0597690023a0 100644
-> >>> --- a/include/linux/dma-buf.h
-> >>> +++ b/include/linux/dma-buf.h
-> >>> @@ -287,6 +287,50 @@ struct dma_buf_ops {
-> >>>        void (*vunmap)(struct dma_buf *dmabuf, struct dma_buf_map *map=
-);
-> >>>    };
-> >>>
-> >>> +#ifdef CONFIG_DMABUF_SYSFS_STATS
-> >>> +enum sysfs_entry_status {
-> >>> +     SYSFS_ENTRY_UNINITIALIZED,
-> >>> +     SYSFS_ENTRY_INIT_IN_PROGRESS,
-> >>> +     SYSFS_ENTRY_ERROR,
-> >>> +     SYSFS_ENTRY_INIT_ABORTED,
-> >>> +     SYSFS_ENTRY_INITIALIZED,
-> >>> +};
-> >>> +
-> >>> +/*
-> >>> + * struct dma_buf_sysfs_entry_metadata - Holds the current status fo=
-r the
-> >>> + * DMA-BUF sysfs entry.
-> >>> + *
-> >>> + * @status: holds the current status for the DMA-BUF sysfs entry. Th=
-e status of
-> >>> + * the sysfs entry has the following path.
-> >>> + *
-> >>> + *                   SYSFS_ENTRY_UNINITIALIZED
-> >>> + *            __________________|____________________
-> >>> + *           |                                       |
-> >>> + *     SYSFS_ENTRY_INIT_IN_PROGRESS      SYSFS_ENTRY_INIT_ABORTED (D=
-MA-BUF
-> >>> + *           |                                                     g=
-ets freed
-> >>> + *           |                                                     b=
-efore
-> >>> + *           |                                                     i=
-nit)
-> >>> + *   ________|_____________________________________
-> >>> + *   |                         |                   |
-> >>> + * SYSFS_ENTRY_INITIALIZED     |       SYSFS_ENTRY_INIT_ABORTED
-> >>> + *                             |               (DMA-BUF gets freed d=
-uring kobject
-> >>> + *                             |               init)
-> >>> + *                             |
-> >>> + *                             |
-> >>> + *                 SYSFS_ENTRY_ERROR
-> >>> + *                 (error during kobject init)
-> >>> + *
-> >>> + * @sysfs_entry_lock: protects access to @status.
-> >>> + */
-> >>> +struct dma_buf_sysfs_entry_metadata {
-> >>> +     enum sysfs_entry_status status;
-> >>> +     /*
-> >>> +      * Protects sysfs_entry_metadata->status
-> >>> +      */
-> >>> +     spinlock_t sysfs_entry_lock;
-> >>> +};
-> >>> +#endif
-> >>> +
-> >>>    /**
-> >>>     * struct dma_buf - shared buffer object
-> >>>     *
-> >>> @@ -452,6 +496,8 @@ struct dma_buf {
-> >>>                struct kobject kobj;
-> >>>                struct dma_buf *dmabuf;
-> >>>        } *sysfs_entry;
-> >>> +
-> >>> +     struct dma_buf_sysfs_entry_metadata *sysfs_entry_metadata;
-> >>>    #endif
-> >>>    };
-> >>>
->
+Laurent Pinchart
