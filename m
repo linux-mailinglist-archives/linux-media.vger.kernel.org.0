@@ -2,102 +2,169 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 17F694875C4
-	for <lists+linux-media@lfdr.de>; Fri,  7 Jan 2022 11:38:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 93295487663
+	for <lists+linux-media@lfdr.de>; Fri,  7 Jan 2022 12:21:23 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237436AbiAGKiy (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 7 Jan 2022 05:38:54 -0500
-Received: from mout.gmx.net ([212.227.17.21]:35437 "EHLO mout.gmx.net"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1346870AbiAGKin (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Fri, 7 Jan 2022 05:38:43 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
-        s=badeba3b8450; t=1641551918;
-        bh=6edd3ULFRvW2/vmQ7CEyfXzeRvulVLWK5gMjeggnUWk=;
-        h=X-UI-Sender-Class:From:To:Cc:Subject:Date:In-Reply-To:References;
-        b=eB59ScooN3hkHCBZTLpDeYAjAFPO1mePQdz/7TovRROVFa6ZaUGiBN8zeq/ZVz8t2
-         Ow3G/XNFNPMPy98k7iFMlQKNhneGh3TS1zZRMz151OLqgPdQR+zSL7XYNnXWvwxiAP
-         zT+jpqWZfPQnzjN/Fsd17BDYv7WJTrkTk/ecSe+c=
-X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
-Received: from [91.65.60.26] ([91.65.60.26]) by web-mail.gmx.net
- (3c-app-gmx-bap54.server.lan [172.19.172.124]) (via HTTP); Fri, 7 Jan 2022
- 11:38:37 +0100
+        id S1347018AbiAGLVW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 7 Jan 2022 06:21:22 -0500
+Received: from perceval.ideasonboard.com ([213.167.242.64]:34860 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S237534AbiAGLVV (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 7 Jan 2022 06:21:21 -0500
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 2744D8D7;
+        Fri,  7 Jan 2022 12:21:19 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1641554479;
+        bh=bVpJR1wF3s5NtA+h5U2QF6/aihbJ++2CjlgWwOZfgIY=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=rsQm9dxmnHzbqoi0LxQW/0X4U0EOlJMKIASOMQl/zxNmIVWVCrPL9w16DLso37w86
+         g/KUvZ+PJEZvSs0Qa5sUnp/xbX/05dSngspuehALvQlx/ORQXVslwQmz8xwMmdUqEh
+         gRyvI9IgF2g3UDBVN4esH7Zwi4344h7zjHcZPBA0=
+Date:   Fri, 7 Jan 2022 13:21:11 +0200
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Rui Miguel Silva <rmfrfs@gmail.com>
+Cc:     linux-media@vger.kernel.org,
+        Steve Longerbeam <slongerbeam@gmail.com>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        =?utf-8?B?SsOpcsO0bWU=?= Brunet <jbrunet@baylibre.com>
+Subject: Re: [PATCH v1 2/3] staging: media: imx: imx7_mipi_csis: Add timings
+ override through debugfs
+Message-ID: <YdgiJwNMNPUXfxfh@pendragon.ideasonboard.com>
+References: <20220106172441.7399-1-laurent.pinchart@ideasonboard.com>
+ <20220106172441.7399-3-laurent.pinchart@ideasonboard.com>
+ <CGZDCQ28LN5P.1C0GI87K2SRRI@arch-thunder>
 MIME-Version: 1.0
-Message-ID: <trinity-37466cd2-8684-4e53-a4a3-7ed406945e90-1641551917644@3c-app-gmx-bap54>
-From:   Robert Schlabbach <robert_s@gmx.net>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     linux-media@vger.kernel.org
-Subject: Aw: Re: [PATCH 2/3] media: si2157: add support for 1.7MHz and 6.1
- MHz
-Content-Type: text/plain; charset=UTF-8
-Date:   Fri, 7 Jan 2022 11:38:37 +0100
-Importance: normal
-Sensitivity: Normal
-In-Reply-To: <20220107080625.00547988@coco.lan>
-References: <cover.1639140967.git.mchehab+huawei@kernel.org>
- <76c2ea87882c87bd35066a85cb48292a36a79fce.1639140967.git.mchehab+huawei@kernel.org>
- <trinity-b5cc1284-ccc2-477c-ac90-56ee40da91af-1641483579446@3c-app-gmx-bs50>
- <trinity-59d726d3-993c-43c9-9e44-5be5cdfae74d-1641493525223@3c-app-gmx-bap38>
- <20220106213045.6afe5a35@coco.lan>
- <trinity-59385619-7f83-4302-a304-c5346098c3a1-1641511005761@3c-app-gmx-bs01>
- <20220107080625.00547988@coco.lan>
-X-UI-Message-Type: mail
-X-Priority: 3
-X-Provags-ID: V03:K1:mQCgeaJWNJFq6xfQGBfZT9YC2ruqX3N+vTpHXhz5B13biGmx3fUg63YQU8hrPz/hUyVjW
- aXLAJMlrMAJPzv0ILuYtrMDyF9Yr4GF+bOtqV9Euigp/pdtBunk8yS2dN/drBBCJXLiUCRkNRu2p
- cN8GOt4Z85T9mM+uf87eip+QD1JzQOEkyBAWQBFQHkYtFG0EA+pfRL8aSG0+Kz50hJ2ZkkifyT+E
- yeXmyyxAdK/dU3DBkkTgoqa7J+iDHQgCj6p1KBMsmuqdUojIcvI9xYerw96o9sitSxui2sMVYRJK
- WY=
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:Q9eW4VF7LbY=:aks1ftFRE2It3hYQ4yWZfk
- gNddOmJS8ev+i5glC8fvI+qP++iUFFcxSC+BK8W7XkUKFr7Y1VKW6yvvMNAbcFoyyLhtYKuyJ
- 9tEN91JhUpOVFidMm/99DWX02KQkucqz39Sx2AOL2GwzTjGQlHfgW9G54RstD3uoXjHF0BlVI
- Yzovt+2Qgku1/LB9xsO3O/7SODIC5Z8gjcnBWlDPv8a1eA2jCAMKQpBHTfrKFg8ZI5cKWvES0
- VhdpzAvwjQOyX7+0Jn7X8MweUnlFOBNM2z1S2gqXbD9RFLTI/EjCHUrPzevuzL3UZ0WP63pJp
- ADPizr/wnNUab9uGPVSnCsEWT8MnJ3BVhFi/7izs5ySmdkgNAIdCDkMDhJGXauWW57x1KCqwN
- 0NerrEkASzR+J2QSX6EsB9Ovv2QAzjucsvNioX2X/1IkSi63BaWfTmugECc0aBoBfwK8DpsG9
- iP2zb5dqO4k0U6Lj433zkGKOdqyTXf61EBCMZJRYnDiA4KMU6MnVM31SDoeXkJNbEE+wAHWB8
- acWWMz5xGbM2bvy+sA7am9a/Ip4kMV1XaHJ64zBFQJ5a3pH+mgPWv+OeoNOu+T1a6nktwiYav
- Re3OvhyttrOnWsk51h3TpRXuST65xlQkogQLRHMKJZCofIBj9SAfSjOJxZvYYAU3T/BHvMmGn
- FRmIdvAEcu8DnV0PqntkHF48UeJTT9nwwUy9CB6joi47Zoj7zKwKLPoTaAhzHBVHkBUryl0G5
- o7bRpXxmTHNkDp7Ah2gBkhsZE5PVVtqKlkI3tXwHTHrt9axaQO/13mAt7ZfOSwr/37XIyqEPX
- Ig3L5kK
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <CGZDCQ28LN5P.1C0GI87K2SRRI@arch-thunder>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-"Mauro Carvalho Chehab" <mchehab@kernel.org> wrote:
+Hi Rui,
 
-> As the DVB core already stores the bandwidth used to tune at props,
-> since the introduction of DVBv5 API, any get calls will return the
-> tuned bandwidth.
+On Fri, Jan 07, 2022 at 10:27:31AM +0000, Rui Miguel Silva wrote:
+> Hi Laurent,
+> thanks for the patch.
+> 
+> On Thu Jan 6, 2022 at 5:24 PM WET, Laurent Pinchart wrote:
+> 
+> > Add two debugfs files, ths_settle and tclk_settle, to allow overriding
+> > the corresponding timing parameters for test purpose.
+> >
+> > Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> > ---
+> >  drivers/staging/media/imx/imx7-mipi-csis.c | 35 ++++++++++++++++++----
+> >  1 file changed, 29 insertions(+), 6 deletions(-)
+> >
+> > diff --git a/drivers/staging/media/imx/imx7-mipi-csis.c b/drivers/staging/media/imx/imx7-mipi-csis.c
+> > index c9c0089ad816..d7bcfb1a0c52 100644
+> > --- a/drivers/staging/media/imx/imx7-mipi-csis.c
+> > +++ b/drivers/staging/media/imx/imx7-mipi-csis.c
+> > @@ -333,7 +333,11 @@ struct csi_state {
+> >  	spinlock_t slock;	/* Protect events */
+> >  	struct mipi_csis_event events[MIPI_CSIS_NUM_EVENTS];
+> >  	struct dentry *debugfs_root;
+> > -	bool debug;
+> > +	struct {
+> > +		bool debug;
+> 
+> I think here would make more sense to call it "enable", I think
+> state->debug.enable is more readable than state->debug.debug.
 
-No, not the _tuned_ bandwidth, the "requested" bandwidth, that was
-estimated. I see no value in that information, as the user app can
-easily calculate that by itself. This is not information that the
-kernel or driver needs to provide, as it is solely derived from
-the information the application has given.
+Good idea, I'll do that.
 
-Whereas the _actually applied_ bandwidth filter is an information
-that only the tuner driver can deliver. For example, there are 5MHz
-DVB-T2 channels, but the si2157 only offers a 6MHz bandwidth filter.
+> Other than this LGTM
+> 
+> Reviewed-by: Rui Miguel Silva <rmfrfs@gmail.com>
+> 
+> > +		u32 hs_settle;
+> > +		u32 clk_settle;
+> > +	} debug;
+> >  };
+> >  
+> >  /* -----------------------------------------------------------------------------
+> > @@ -543,6 +547,18 @@ static int mipi_csis_calculate_params(struct csi_state *state)
+> >  	dev_dbg(state->dev, "lane rate %u, Tclk_settle %u, Ths_settle %u\n",
+> >  		lane_rate, state->clk_settle, state->hs_settle);
+> >  
+> > +	if (state->debug.hs_settle < 0xff) {
+> > +		dev_dbg(state->dev, "overriding Ths_settle with %u\n",
+> > +			state->debug.hs_settle);
+> > +		state->hs_settle = state->debug.hs_settle;
+> > +	}
+> > +
+> > +	if (state->debug.clk_settle < 4) {
+> > +		dev_dbg(state->dev, "overriding Tclk_settle with %u\n",
+> > +			state->debug.clk_settle);
+> > +		state->clk_settle = state->debug.clk_settle;
+> > +	}
+> > +
+> >  	return 0;
+> >  }
+> >  
+> > @@ -659,7 +675,7 @@ static irqreturn_t mipi_csis_irq_handler(int irq, void *dev_id)
+> >  	spin_lock_irqsave(&state->slock, flags);
+> >  
+> >  	/* Update the event/error counters */
+> > -	if ((status & MIPI_CSIS_INT_SRC_ERRORS) || state->debug) {
+> > +	if ((status & MIPI_CSIS_INT_SRC_ERRORS) || state->debug.debug) {
+> >  		for (i = 0; i < MIPI_CSIS_NUM_EVENTS; i++) {
+> >  			struct mipi_csis_event *event = &state->events[i];
+> >  
+> > @@ -749,7 +765,7 @@ static void mipi_csis_log_counters(struct csi_state *state, bool non_errors)
+> >  	spin_lock_irqsave(&state->slock, flags);
+> >  
+> >  	for (i = 0; i < num_events; ++i) {
+> > -		if (state->events[i].counter > 0 || state->debug)
+> > +		if (state->events[i].counter > 0 || state->debug.debug)
+> >  			dev_info(state->dev, "%s events: %d\n",
+> >  				 state->events[i].name,
+> >  				 state->events[i].counter);
+> > @@ -801,12 +817,19 @@ DEFINE_SHOW_ATTRIBUTE(mipi_csis_dump_regs);
+> >  
+> >  static void mipi_csis_debugfs_init(struct csi_state *state)
+> >  {
+> > +	state->debug.hs_settle = UINT_MAX;
+> > +	state->debug.clk_settle = UINT_MAX;
+> > +
+> >  	state->debugfs_root = debugfs_create_dir(dev_name(state->dev), NULL);
+> >  
+> >  	debugfs_create_bool("debug_enable", 0600, state->debugfs_root,
+> > -			    &state->debug);
+> > +			    &state->debug.debug);
+> >  	debugfs_create_file("dump_regs", 0600, state->debugfs_root, state,
+> >  			    &mipi_csis_dump_regs_fops);
+> > +	debugfs_create_u32("tclk_settle", 0600, state->debugfs_root,
+> > +			   &state->debug.clk_settle);
+> > +	debugfs_create_u32("ths_settle", 0600, state->debugfs_root,
+> > +			   &state->debug.hs_settle);
+> >  }
+> >  
+> >  static void mipi_csis_debugfs_exit(struct csi_state *state)
+> > @@ -867,7 +890,7 @@ static int mipi_csis_s_stream(struct v4l2_subdev *sd, int enable)
+> >  			ret = 0;
+> >  		mipi_csis_stop_stream(state);
+> >  		state->state &= ~ST_STREAMING;
+> > -		if (state->debug)
+> > +		if (state->debug.debug)
+> >  			mipi_csis_log_counters(state, true);
+> >  	}
+> >  
+> > @@ -1064,7 +1087,7 @@ static int mipi_csis_log_status(struct v4l2_subdev *sd)
+> >  
+> >  	mutex_lock(&state->lock);
+> >  	mipi_csis_log_counters(state, true);
+> > -	if (state->debug && (state->state & ST_POWERED))
+> > +	if (state->debug.debug && (state->state & ST_POWERED))
+> >  		mipi_csis_dump_regs(state);
+> >  	mutex_unlock(&state->lock);
+> >  
 
-What should get_frontend() return, the requested/nominal 5MHz, or
-the actually used 6MHz?
+-- 
+Regards,
 
-Reading the include file, the answer seems clear to me:
-
-https://git.linuxtv.org/media_tree.git/tree/include/media/dvb_frontend.h
-
-> * @get_frontend:	callback function used to inform the parameters
-> *			actuall in use.
-
-So following that documentation, I would say the actually used 6MHz
-should be put into the property cache by that callback.
-
-> Thanks, patches look sane on my eyes.
-
-Thanks for your quick review.
-
-Best Regards,
--Robert Schlabbach
+Laurent Pinchart
