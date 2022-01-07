@@ -2,476 +2,654 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6B53D487D56
-	for <lists+linux-media@lfdr.de>; Fri,  7 Jan 2022 20:52:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7E9BA487D55
+	for <lists+linux-media@lfdr.de>; Fri,  7 Jan 2022 20:51:58 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232248AbiAGTwP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 7 Jan 2022 14:52:15 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33436 "EHLO
+        id S233600AbiAGTv5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 7 Jan 2022 14:51:57 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33360 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231377AbiAGTwP (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 7 Jan 2022 14:52:15 -0500
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 37AD0C061574
-        for <linux-media@vger.kernel.org>; Fri,  7 Jan 2022 11:52:15 -0800 (PST)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id CF1BE8D7;
-        Fri,  7 Jan 2022 20:52:11 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1641585132;
-        bh=xcMcLkCbzjT74wqw63f9Zu5Lzr15hpw9+QBAVWo+mmY=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=jp9qm4hPvc2IlxQmnEajo7vbIAvbM3ZhybtUQd+ClGFhmgDzyuDVp4rzq9ezqhCPn
-         D4TCmeIZln+9HCFNctn9NsCa4hXvRfLlEdvt7pMM1uJLa86HFrJ8a+Vb0fsfUfKh+Q
-         XFzitbq4dmbQjOw/yIGNgjRGO2LKL3LHNDZ9kFeE=
-Date:   Fri, 7 Jan 2022 21:52:04 +0200
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Cc:     linux-media@vger.kernel.org, sakari.ailus@linux.intel.com,
-        Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        niklas.soderlund+renesas@ragnatech.se,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Pratyush Yadav <p.yadav@ti.com>
-Subject: Re: [PATCH v10 12/38] media: entity: Move the pipeline from entity
- to pads
-Message-ID: <YdiZ5GPHUNvy5JRi@pendragon.ideasonboard.com>
-References: <20211130141536.891878-1-tomi.valkeinen@ideasonboard.com>
- <20211130141536.891878-13-tomi.valkeinen@ideasonboard.com>
+        with ESMTP id S233583AbiAGTv4 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 7 Jan 2022 14:51:56 -0500
+Received: from mail-oo1-xc29.google.com (mail-oo1-xc29.google.com [IPv6:2607:f8b0:4864:20::c29])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BF652C06173E
+        for <linux-media@vger.kernel.org>; Fri,  7 Jan 2022 11:51:55 -0800 (PST)
+Received: by mail-oo1-xc29.google.com with SMTP id k15-20020a4a850f000000b002dc3cdb0256so1347705ooh.3
+        for <linux-media@vger.kernel.org>; Fri, 07 Jan 2022 11:51:55 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=VvmNzmjc2WEotJx4JTnHryRS0wiwmcvORbMIh69FTm0=;
+        b=mHAD+sPLoXpkc9VpPoHX/GdzZGd56s9sTSdFb9t7oX8F/RO2TslxQoboNkosPsl/aG
+         q3trh94drZqprgQZKGiig0vWqcjqjKpEKJKCHEtliBXiQSE37v4AKjHihsSVCphd2Js/
+         lkyoE8ByeXCppoFP653HLXPp8XKLGZLXbylXLdEdcGfyGomlHSahm+a7ma8rTh2CVi5T
+         5AEMuwpQ0mTsgHlw67AyDSgwgKrq44rv2xlqQ9AXX2dglyg1EPIxEaX7JuaF28agU07N
+         rmm+uvhibsXvzQ/6Ag0n3RH19dPjdVjM18cpb9okrnMT/vqn0c6470C6itoTCOm2Xthn
+         4GWw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=VvmNzmjc2WEotJx4JTnHryRS0wiwmcvORbMIh69FTm0=;
+        b=Y9H3RlaPhpJChbvJJuA5eGKhwxYIhj/BBga/TRhf9fO4e40uPjei19y+NmSwjR4oTq
+         gKEyzaPvzAv0t4GiLHEAg6x0FDAucN5SksAepPF9bdbXkNyrVxbj/q7VkUWczpXDYIRJ
+         0ju02V9S1LXib/Ki8DaAxIiTYKYZIcOnXQ0MkTtsM1WuOlubdnqBW+HRZS0klrrghuLf
+         ZUGFyppuJOkADNofsGlyc7Sk9G+36HPdS4vtTa0vV4l/lpWgV4OKs7/iKrrkHogk7SIL
+         buyNZToVoH6P/nAADJPjhOpUrLE1WnCSHN7/s8p94WV0rBR3HIrh2Mm9Unf0X2BK1cWZ
+         Pzpg==
+X-Gm-Message-State: AOAM530mkEmcdZMJFwuovyBfwJexNe70bt33L7c5VEi+s2vXvicdzPcA
+        FMxvkr/AxvwY/LCuLm/6vUYcqw==
+X-Google-Smtp-Source: ABdhPJwaUgAptayEIJY2k+FJLE1hIhKGUgNC2BS9eOAelcDNmnv6GkahYlUlK++07L1qyahdx+0iBg==
+X-Received: by 2002:a4a:cb95:: with SMTP id y21mr2161390ooq.54.1641585114839;
+        Fri, 07 Jan 2022 11:51:54 -0800 (PST)
+Received: from ripper (104-57-184-186.lightspeed.austtx.sbcglobal.net. [104.57.184.186])
+        by smtp.gmail.com with ESMTPSA id e6sm1011213oot.6.2022.01.07.11.51.53
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 07 Jan 2022 11:51:54 -0800 (PST)
+Date:   Fri, 7 Jan 2022 11:52:43 -0800
+From:   Bjorn Andersson <bjorn.andersson@linaro.org>
+To:     Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+Cc:     linux-arm-msm@vger.kernel.org, linux-media@vger.kernel.org,
+        mchehab@kernel.org, hverkuil@xs4all.nl, robert.foss@linaro.org,
+        jonathan@marek.ca, andrey.konovalov@linaro.org,
+        todor.too@gmail.com, agross@kernel.org, jgrahsl@snap.com,
+        hfink@snap.com, vladimir.zapolskiy@linaro.org,
+        dmitry.baryshkov@linaro.org
+Subject: Re: [PATCH 5/7] media: camss: Add regulator_bulk support
+Message-ID: <YdiaC9eS05qna0Hm@ripper>
+References: <20220106235540.1567839-1-bryan.odonoghue@linaro.org>
+ <20220106235540.1567839-6-bryan.odonoghue@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20211130141536.891878-13-tomi.valkeinen@ideasonboard.com>
+In-Reply-To: <20220106235540.1567839-6-bryan.odonoghue@linaro.org>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Tomi and Sakari,
+On Thu 06 Jan 15:55 PST 2022, Bryan O'Donoghue wrote:
 
-Thank you for the patch.
-
-On Tue, Nov 30, 2021 at 04:15:10PM +0200, Tomi Valkeinen wrote:
-> From: Sakari Ailus <sakari.ailus@linux.intel.com>
+> Add the ability to enable or disable multiple regulators in bulk with
+> camss. This is useful for sm8250, sdm845 and it looks like sdm660 where we
+> have more than one CSI regulator to do at once.
 > 
-> This moves the pipe and stream_count fields from struct media_entity to
-> struct media_pad. Effectively streams become pad-specific rather than
-> being entity specific, allowing several independent streams to traverse a
-> single entity and an entity to be part of several streams.
+> It should just work for standalone existing vdda regulators and parts which
+> don't have an explicitly defined CSI regulator.
 > 
-> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-> 
-> - Update documentation to use 'pads'
-> - Use the media pad iterator in media_entity.c
-> - Update rcar-dma.c to use the new per-pad stream count
-> Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
-> 
-> - Fix cleanup in the error path of __media_pipeline_start()
-> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+> Reported-by: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
 > ---
->  drivers/media/mc/mc-entity.c                  | 68 +++++++++++--------
->  drivers/media/platform/exynos4-is/fimc-isp.c  |  2 +-
->  drivers/media/platform/exynos4-is/fimc-lite.c |  2 +-
->  drivers/media/platform/omap3isp/isp.c         |  2 +-
->  drivers/media/platform/omap3isp/ispvideo.c    |  2 +-
->  drivers/media/platform/omap3isp/ispvideo.h    |  2 +-
->  drivers/media/platform/rcar-vin/rcar-core.c   | 16 +++--
->  drivers/media/platform/rcar-vin/rcar-dma.c    |  2 +-
->  drivers/media/platform/xilinx/xilinx-dma.c    |  2 +-
->  drivers/media/platform/xilinx/xilinx-dma.h    |  2 +-
->  drivers/staging/media/imx/imx-media-utils.c   |  2 +-
->  drivers/staging/media/omap4iss/iss.c          |  2 +-
->  drivers/staging/media/omap4iss/iss_video.c    |  2 +-
->  drivers/staging/media/omap4iss/iss_video.h    |  2 +-
->  include/media/media-entity.h                  | 21 +++---
->  15 files changed, 74 insertions(+), 55 deletions(-)
+>  .../media/platform/qcom/camss/camss-csid.c    | 40 +++++---
+>  .../media/platform/qcom/camss/camss-csid.h    |  3 +-
+>  drivers/media/platform/qcom/camss/camss.c     | 94 +++++++++----------
+>  drivers/media/platform/qcom/camss/camss.h     |  2 +-
+>  4 files changed, 75 insertions(+), 64 deletions(-)
 > 
-> diff --git a/drivers/media/mc/mc-entity.c b/drivers/media/mc/mc-entity.c
-> index 2b438c481812..8ad4cb845f4a 100644
-> --- a/drivers/media/mc/mc-entity.c
-> +++ b/drivers/media/mc/mc-entity.c
-> @@ -424,24 +424,30 @@ __must_check int __media_pipeline_start(struct media_entity *entity,
+> diff --git a/drivers/media/platform/qcom/camss/camss-csid.c b/drivers/media/platform/qcom/camss/camss-csid.c
+> index 32f82e471bae1..786a18bd9571c 100644
+> --- a/drivers/media/platform/qcom/camss/camss-csid.c
+> +++ b/drivers/media/platform/qcom/camss/camss-csid.c
+> @@ -173,7 +173,8 @@ static int csid_set_power(struct v4l2_subdev *sd, int on)
+>  		if (ret < 0)
+>  			return ret;
 >  
->  	while ((pad = media_graph_walk_next(graph))) {
->  		struct media_entity *entity = pad->entity;
-> +		bool skip_validation = pad->pipe != NULL;
-> +		struct media_pad *iter;
+> -		ret = csid->vdda ? regulator_enable(csid->vdda) : 0;
+> +		ret = regulator_bulk_enable(csid->num_supplies,
+> +					    csid->supplies);
+>  		if (ret < 0) {
+>  			pm_runtime_put_sync(dev);
+>  			return ret;
+> @@ -181,16 +182,16 @@ static int csid_set_power(struct v4l2_subdev *sd, int on)
 >  
->  		DECLARE_BITMAP(active, MEDIA_ENTITY_MAX_PADS);
->  		DECLARE_BITMAP(has_no_links, MEDIA_ENTITY_MAX_PADS);
->  
-> -		entity->stream_count++;
-> +		ret = 0;
->  
-> -		if (entity->pipe && entity->pipe != pipe) {
-> -			pr_err("Pipe active for %s. Can't start for %s\n",
-> -				entity->name,
-> -				pad_err->entity->name);
-> -			ret = -EBUSY;
-> -			goto error;
-> +		media_entity_for_each_pad(entity, iter) {
-> +			if (iter->pipe && iter->pipe != pipe) {
-> +				pr_err("Pipe active for %s. Can't start for %s\n",
-> +				       entity->name, iter->entity->name);
-
-'iter' is a pad of 'entity'. As 'entity' is set to 'pad->entity',
-'entity' and 'iter->entity' are the same. The message should be
-reworked.
-
-> +				ret = -EBUSY;
-> +			} else {
-> +				iter->pipe = pipe;
-> +			}
-> +			iter->stream_count++;
+>  		ret = csid_set_clock_rates(csid);
+>  		if (ret < 0) {
+> -			if (csid->vdda)
+> -				regulator_disable(csid->vdda);
+> +			regulator_bulk_disable(csid->num_supplies,
+> +					       csid->supplies);
+>  			pm_runtime_put_sync(dev);
+>  			return ret;
 >  		}
 >  
-> -		entity->pipe = pipe;
-> +		if (ret)
-> +			goto error;
->  
-> -		/* Already streaming --- no need to check. */
-> -		if (entity->stream_count > 1)
-> +		/* Already part of the pipeline, skip validation. */
-> +		if (skip_validation)
->  			continue;
->  
->  		if (!entity->ops || !entity->ops->link_validate)
-> @@ -510,20 +516,23 @@ __must_check int __media_pipeline_start(struct media_entity *entity,
->  	media_graph_walk_start(graph, pad_err);
->  
->  	while ((pad_err = media_graph_walk_next(graph))) {
-> -		struct media_entity *entity_err = pad_err->entity;
-> -
-> -		/* Sanity check for negative stream_count */
-> -		if (!WARN_ON_ONCE(entity_err->stream_count <= 0)) {
-> -			entity_err->stream_count--;
-> -			if (entity_err->stream_count == 0)
-> -				entity_err->pipe = NULL;
-> +		struct media_entity *entity = pad_err->entity;
-> +		struct media_pad *iter;
-> +
-> +		media_entity_for_each_pad(entity, iter) {
-> +			/* Sanity check for negative stream_count */
-> +			if (!WARN_ON_ONCE(iter->stream_count <= 0)) {
-> +				--iter->stream_count;
-> +				if (iter->stream_count == 0)
-> +					iter->pipe = NULL;
-> +			}
+>  		ret = camss_enable_clocks(csid->nclocks, csid->clock, dev);
+>  		if (ret < 0) {
+> -			if (csid->vdda)
+> -				regulator_disable(csid->vdda);
+> +			regulator_bulk_disable(csid->num_supplies,
+> +					       csid->supplies);
+>  			pm_runtime_put_sync(dev);
+>  			return ret;
 >  		}
->  
->  		/*
->  		 * We haven't increased stream_count further than this
->  		 * so we quit here.
->  		 */
-> -		if (pad_err == pad)
-> +		if (pad_err->entity == pad->entity)
->  			break;
->  	}
->  
-> @@ -550,7 +559,7 @@ EXPORT_SYMBOL_GPL(media_pipeline_start);
->  
->  void __media_pipeline_stop(struct media_entity *entity)
->  {
-> -	struct media_pipeline *pipe = entity->pipe;
-> +	struct media_pipeline *pipe = entity->pads->pipe;
->  	struct media_graph *graph = &pipe->graph;
->  	struct media_pad *pad;
->  
-> @@ -565,12 +574,15 @@ void __media_pipeline_stop(struct media_entity *entity)
->  
->  	while ((pad = media_graph_walk_next(graph))) {
->  		struct media_entity *entity = pad->entity;
-> -
-> -		/* Sanity check for negative stream_count */
-> -		if (!WARN_ON_ONCE(entity->stream_count <= 0)) {
-> -			entity->stream_count--;
-> -			if (entity->stream_count == 0)
-> -				entity->pipe = NULL;
-> +		struct media_pad *iter;
-> +
-> +		media_entity_for_each_pad(entity, iter) {
-> +			/* Sanity check for negative stream_count */
-> +			if (!WARN_ON_ONCE(iter->stream_count <= 0)) {
-> +				iter->stream_count--;
-> +				if (iter->stream_count == 0)
-> +					iter->pipe = NULL;
-> +			}
+> @@ -201,8 +202,8 @@ static int csid_set_power(struct v4l2_subdev *sd, int on)
+>  		if (ret < 0) {
+>  			disable_irq(csid->irq);
+>  			camss_disable_clocks(csid->nclocks, csid->clock);
+> -			if (csid->vdda)
+> -				regulator_disable(csid->vdda);
+> +			regulator_bulk_disable(csid->num_supplies,
+> +					       csid->supplies);
+>  			pm_runtime_put_sync(dev);
+>  			return ret;
 >  		}
->  	}
->  
-> @@ -840,7 +852,7 @@ int __media_entity_setup_link(struct media_link *link, u32 flags)
->  {
->  	const u32 mask = MEDIA_LNK_FL_ENABLED;
->  	struct media_device *mdev;
-> -	struct media_entity *source, *sink;
-> +	struct media_pad *source, *sink;
->  	int ret = -EBUSY;
->  
->  	if (link == NULL)
-> @@ -856,8 +868,8 @@ int __media_entity_setup_link(struct media_link *link, u32 flags)
->  	if (link->flags == flags)
->  		return 0;
->  
-> -	source = link->source->entity;
-> -	sink = link->sink->entity;
-> +	source = link->source;
-> +	sink = link->sink;
->  
->  	if (!(link->flags & MEDIA_LNK_FL_DYNAMIC) &&
->  	    (source->stream_count || sink->stream_count))
-> diff --git a/drivers/media/platform/exynos4-is/fimc-isp.c b/drivers/media/platform/exynos4-is/fimc-isp.c
-> index 855235bea46d..80274e29ccc5 100644
-> --- a/drivers/media/platform/exynos4-is/fimc-isp.c
-> +++ b/drivers/media/platform/exynos4-is/fimc-isp.c
-> @@ -226,7 +226,7 @@ static int fimc_isp_subdev_set_fmt(struct v4l2_subdev *sd,
->  			}
->  		}
+> @@ -211,7 +212,8 @@ static int csid_set_power(struct v4l2_subdev *sd, int on)
 >  	} else {
-> -		if (sd->entity.stream_count == 0) {
-> +		if (sd->entity.pads->stream_count == 0) {
->  			if (fmt->pad == FIMC_ISP_SD_PAD_SINK) {
->  				struct v4l2_subdev_format format = *fmt;
->  
-> diff --git a/drivers/media/platform/exynos4-is/fimc-lite.c b/drivers/media/platform/exynos4-is/fimc-lite.c
-> index aaa3af0493ce..67bfb1ad2ba2 100644
-> --- a/drivers/media/platform/exynos4-is/fimc-lite.c
-> +++ b/drivers/media/platform/exynos4-is/fimc-lite.c
-> @@ -1073,7 +1073,7 @@ static int fimc_lite_subdev_set_fmt(struct v4l2_subdev *sd,
->  	mutex_lock(&fimc->lock);
->  
->  	if ((atomic_read(&fimc->out_path) == FIMC_IO_ISP &&
-> -	    sd->entity.stream_count > 0) ||
-> +	    sd->entity.pads->stream_count > 0) ||
->  	    (atomic_read(&fimc->out_path) == FIMC_IO_DMA &&
->  	    vb2_is_busy(&fimc->vb_queue))) {
->  		mutex_unlock(&fimc->lock);
-> diff --git a/drivers/media/platform/omap3isp/isp.c b/drivers/media/platform/omap3isp/isp.c
-> index 20f59c59ff8a..28aab16d7662 100644
-> --- a/drivers/media/platform/omap3isp/isp.c
-> +++ b/drivers/media/platform/omap3isp/isp.c
-> @@ -936,7 +936,7 @@ static int isp_pipeline_is_last(struct media_entity *me)
->  	struct isp_pipeline *pipe;
->  	struct media_pad *pad;
->  
-> -	if (!me->pipe)
-> +	if (!me->pads->pipe)
->  		return 0;
->  	pipe = to_isp_pipeline(me);
->  	if (pipe->stream_state == ISP_PIPELINE_STREAM_STOPPED)
-> diff --git a/drivers/media/platform/omap3isp/ispvideo.c b/drivers/media/platform/omap3isp/ispvideo.c
-> index 5c1cbb1a9003..a8438040c4aa 100644
-> --- a/drivers/media/platform/omap3isp/ispvideo.c
-> +++ b/drivers/media/platform/omap3isp/ispvideo.c
-> @@ -1094,7 +1094,7 @@ isp_video_streamon(struct file *file, void *fh, enum v4l2_buf_type type)
->  	/* Start streaming on the pipeline. No link touching an entity in the
->  	 * pipeline can be activated or deactivated once streaming is started.
->  	 */
-> -	pipe = video->video.entity.pipe
-> +	pipe = video->video.entity.pads->pipe
->  	     ? to_isp_pipeline(&video->video.entity) : &video->pipe;
->  
->  	ret = media_entity_enum_init(&pipe->ent_enum, &video->isp->media_dev);
-> diff --git a/drivers/media/platform/omap3isp/ispvideo.h b/drivers/media/platform/omap3isp/ispvideo.h
-> index a0908670c0cf..4c9c5b719ec5 100644
-> --- a/drivers/media/platform/omap3isp/ispvideo.h
-> +++ b/drivers/media/platform/omap3isp/ispvideo.h
-> @@ -100,7 +100,7 @@ struct isp_pipeline {
->  };
->  
->  #define to_isp_pipeline(__e) \
-> -	container_of((__e)->pipe, struct isp_pipeline, pipe)
-> +	container_of((__e)->pads->pipe, struct isp_pipeline, pipe)
->  
->  static inline int isp_pipeline_ready(struct isp_pipeline *pipe)
->  {
-> diff --git a/drivers/media/platform/rcar-vin/rcar-core.c b/drivers/media/platform/rcar-vin/rcar-core.c
-> index 33957cc9118c..e59453d6b7c3 100644
-> --- a/drivers/media/platform/rcar-vin/rcar-core.c
-> +++ b/drivers/media/platform/rcar-vin/rcar-core.c
-> @@ -132,13 +132,17 @@ static int rvin_group_link_notify(struct media_link *link, u32 flags,
->  		return 0;
->  
->  	/*
-> -	 * Don't allow link changes if any entity in the graph is
-> -	 * streaming, modifying the CHSEL register fields can disrupt
-> -	 * running streams.
-> +	 * Don't allow link changes if any stream in the graph is active as
-> +	 * modifying the CHSEL register fields can disrupt running streams.
->  	 */
-> -	media_device_for_each_entity(entity, &group->mdev)
-> -		if (entity->stream_count)
-> -			return -EBUSY;
-> +	media_device_for_each_entity(entity, &group->mdev) {
-> +		struct media_pad *iter;
-> +
-> +		media_entity_for_each_pad(entity, iter) {
-> +			if (iter->stream_count)
-> +				return -EBUSY;
-> +		}
-> +	}
->  
->  	mutex_lock(&group->lock);
->  
-> diff --git a/drivers/media/platform/rcar-vin/rcar-dma.c b/drivers/media/platform/rcar-vin/rcar-dma.c
-> index f5f722ab1d4e..80b7ae47d165 100644
-> --- a/drivers/media/platform/rcar-vin/rcar-dma.c
-> +++ b/drivers/media/platform/rcar-vin/rcar-dma.c
-> @@ -1231,7 +1231,7 @@ static int rvin_set_stream(struct rvin_dev *vin, int on)
->  	 */
->  	mdev = vin->vdev.entity.graph_obj.mdev;
->  	mutex_lock(&mdev->graph_mutex);
-> -	pipe = sd->entity.pipe ? sd->entity.pipe : &vin->vdev.pipe;
-> +	pipe = sd->entity.pads->pipe ? sd->entity.pads->pipe : &vin->vdev.pipe;
->  	ret = __media_pipeline_start(&vin->vdev.entity, pipe);
->  	mutex_unlock(&mdev->graph_mutex);
->  	if (ret)
-> diff --git a/drivers/media/platform/xilinx/xilinx-dma.c b/drivers/media/platform/xilinx/xilinx-dma.c
-> index d33f99c6ffa4..03ee19d00041 100644
-> --- a/drivers/media/platform/xilinx/xilinx-dma.c
-> +++ b/drivers/media/platform/xilinx/xilinx-dma.c
-> @@ -402,7 +402,7 @@ static int xvip_dma_start_streaming(struct vb2_queue *vq, unsigned int count)
->  	 * Use the pipeline object embedded in the first DMA object that starts
->  	 * streaming.
->  	 */
-> -	pipe = dma->video.entity.pipe
-> +	pipe = dma->video.entity.pads->pipe
->  	     ? to_xvip_pipeline(&dma->video.entity) : &dma->pipe;
->  
->  	ret = media_pipeline_start(&dma->video.entity, &pipe->pipe);
-> diff --git a/drivers/media/platform/xilinx/xilinx-dma.h b/drivers/media/platform/xilinx/xilinx-dma.h
-> index 2378bdae57ae..69ced71a5696 100644
-> --- a/drivers/media/platform/xilinx/xilinx-dma.h
-> +++ b/drivers/media/platform/xilinx/xilinx-dma.h
-> @@ -47,7 +47,7 @@ struct xvip_pipeline {
->  
->  static inline struct xvip_pipeline *to_xvip_pipeline(struct media_entity *e)
->  {
-> -	return container_of(e->pipe, struct xvip_pipeline, pipe);
-> +	return container_of(e->pads->pipe, struct xvip_pipeline, pipe);
->  }
->  
->  /**
-> diff --git a/drivers/staging/media/imx/imx-media-utils.c b/drivers/staging/media/imx/imx-media-utils.c
-> index 6f90acf9c725..535da4dda3c6 100644
-> --- a/drivers/staging/media/imx/imx-media-utils.c
-> +++ b/drivers/staging/media/imx/imx-media-utils.c
-> @@ -913,7 +913,7 @@ int imx_media_pipeline_set_stream(struct imx_media_dev *imxmd,
->  			__media_pipeline_stop(entity);
->  	} else {
->  		v4l2_subdev_call(sd, video, s_stream, 0);
-> -		if (entity->pipe)
-> +		if (entity->pads->pipe)
->  			__media_pipeline_stop(entity);
+>  		disable_irq(csid->irq);
+>  		camss_disable_clocks(csid->nclocks, csid->clock);
+> -		ret = csid->vdda ? regulator_disable(csid->vdda) : 0;
+> +		regulator_bulk_disable(csid->num_supplies,
+> +				       csid->supplies);
+>  		pm_runtime_put_sync(dev);
+>  		if (version == CAMSS_8250 || version == CAMSS_845)
+>  			vfe_put(vfe);
+> @@ -660,14 +662,22 @@ int msm_csid_subdev_init(struct camss *camss, struct csid_device *csid,
 >  	}
 >  
-> diff --git a/drivers/staging/media/omap4iss/iss.c b/drivers/staging/media/omap4iss/iss.c
-> index 68588e9dab0b..4c6f25aa8b57 100644
-> --- a/drivers/staging/media/omap4iss/iss.c
-> +++ b/drivers/staging/media/omap4iss/iss.c
-> @@ -548,7 +548,7 @@ static int iss_pipeline_is_last(struct media_entity *me)
->  	struct iss_pipeline *pipe;
->  	struct media_pad *pad;
->  
-> -	if (!me->pipe)
-> +	if (!me->pads->pipe)
->  		return 0;
->  	pipe = to_iss_pipeline(me);
->  	if (pipe->stream_state == ISS_PIPELINE_STREAM_STOPPED)
-> diff --git a/drivers/staging/media/omap4iss/iss_video.c b/drivers/staging/media/omap4iss/iss_video.c
-> index 8c25ad73a81e..b74f7891711d 100644
-> --- a/drivers/staging/media/omap4iss/iss_video.c
-> +++ b/drivers/staging/media/omap4iss/iss_video.c
-> @@ -871,7 +871,7 @@ iss_video_streamon(struct file *file, void *fh, enum v4l2_buf_type type)
->  	 * Start streaming on the pipeline. No link touching an entity in the
->  	 * pipeline can be activated or deactivated once streaming is started.
->  	 */
-> -	pipe = pad->entity->pipe
-> +	pipe = pad->pipe
->  	     ? to_iss_pipeline(pad->entity) : &video->pipe;
->  	pipe->external = NULL;
->  	pipe->external_rate = 0;
-> diff --git a/drivers/staging/media/omap4iss/iss_video.h b/drivers/staging/media/omap4iss/iss_video.h
-> index 526281bf0051..9b8ec27bf87d 100644
-> --- a/drivers/staging/media/omap4iss/iss_video.h
-> +++ b/drivers/staging/media/omap4iss/iss_video.h
-> @@ -91,7 +91,7 @@ struct iss_pipeline {
->  };
->  
->  #define to_iss_pipeline(__e) \
-> -	container_of((__e)->pipe, struct iss_pipeline, pipe)
-> +	container_of((__e)->pads->pipe, struct iss_pipeline, pipe)
->  
->  static inline int iss_pipeline_ready(struct iss_pipeline *pipe)
->  {
-> diff --git a/include/media/media-entity.h b/include/media/media-entity.h
-> index 5f6eed24e63f..c9d97c902d05 100644
-> --- a/include/media/media-entity.h
-> +++ b/include/media/media-entity.h
-> @@ -180,15 +180,24 @@ enum media_pad_signal_type {
->   *
->   * @graph_obj:	Embedded structure containing the media object common data
->   * @entity:	Entity this pad belongs to
-> + * @pipe:	Pipeline this pad belongs to
-> + * @stream_count: Stream count for the pad
->   * @index:	Pad index in the entity pads array, numbered from 0 to n
->   * @sig_type:	Type of the signal inside a media pad
->   * @flags:	Pad flags, as defined in
->   *		:ref:`include/uapi/linux/media.h <media_header>`
->   *		(seek for ``MEDIA_PAD_FL_*``)
-> + * .. note::
-> + *
-> + *    @stream_count reference count must never be negative, but is a signed
-> + *    integer on purpose: a simple ``WARN_ON(<0)`` check can be used to
-> + *    detect reference count bugs that would make it negative.
->   */
->  struct media_pad {
->  	struct media_gobj graph_obj;	/* must be first field in struct */
->  	struct media_entity *entity;
-> +	struct media_pipeline *pipe;
-> +	int stream_count;
->  	u16 index;
->  	enum media_pad_signal_type sig_type;
->  	unsigned long flags;
-> @@ -267,9 +276,7 @@ enum media_entity_type {
->   * @pads:	Pads array with the size defined by @num_pads.
->   * @links:	List of data links.
->   * @ops:	Entity operations.
-> - * @stream_count: Stream count for the entity.
->   * @use_count:	Use count for the entity.
-> - * @pipe:	Pipeline this entity belongs to.
->   * @info:	Union with devnode information.  Kept just for backward
->   *		compatibility.
->   * @info.dev:	Contains device major and minor info.
-> @@ -282,10 +289,9 @@ enum media_entity_type {
->   *
->   * .. note::
->   *
-> - *    @stream_count and @use_count reference counts must never be
-> - *    negative, but are signed integers on purpose: a simple ``WARN_ON(<0)``
-> - *    check can be used to detect reference count bugs that would make them
-> - *    negative.
-> + *    @use_count reference count must never be negative, but is a signed
-> + *    integer on purpose: a simple ``WARN_ON(<0)`` check can be used to
-> + *    detect reference count bugs that would make it negative.
->   */
->  struct media_entity {
->  	struct media_gobj graph_obj;	/* must be first field in struct */
-> @@ -304,11 +310,8 @@ struct media_entity {
->  
->  	const struct media_entity_operations *ops;
->  
-> -	int stream_count;
->  	int use_count;
->  
-> -	struct media_pipeline *pipe;
+>  	/* Regulator */
 > -
->  	union {
->  		struct {
->  			u32 major;
+> -	csid->vdda = NULL;
+> -	if (res->regulator[0])
+> -		csid->vdda = devm_regulator_get(dev, res->regulator[0]);
+> -	if (IS_ERR(csid->vdda)) {
+> -		dev_err(dev, "could not get regulator\n");
+> -		return PTR_ERR(csid->vdda);
+> +	for (i = 0; i < ARRAY_SIZE(res->regulators); i++) {
+> +		if (res->regulators[i])
+> +			csid->num_supplies++;
+>  	}
+> +	csid->supplies = devm_kmalloc_array(camss->dev, csid->num_supplies,
+> +					    sizeof(csid->supplies), GFP_KERNEL);
 
--- 
+When res->regulators is empty num_supplies will be 0 and you will get
+ZERO_SIZE_PTR back here, so this works just fine - but I had to read the
+code to learn what kzalloc(0) returns.
+
+Perhaps it would be nice to be explicit and make the allocation
+conditional on num_supplies? And leave csid->supplies NULL when this
+happens?
+
+> +	if (!csid->supplies)
+> +		return -ENOMEM;
+> +
+> +	for (i = 0; i < csid->num_supplies; i++)
+> +		csid->supplies[i].supply = res->regulators[i];
+> +
+> +	ret = devm_regulator_bulk_get(camss->dev, csid->num_supplies,
+> +				      csid->supplies);
+> +	if (ret)
+> +		return ret;
+>  
+>  	init_completion(&csid->reset_complete);
+>  
+> diff --git a/drivers/media/platform/qcom/camss/camss-csid.h b/drivers/media/platform/qcom/camss/camss-csid.h
+> index 17a50fa426be1..f06040e44c515 100644
+> --- a/drivers/media/platform/qcom/camss/camss-csid.h
+> +++ b/drivers/media/platform/qcom/camss/camss-csid.h
+> @@ -152,7 +152,8 @@ struct csid_device {
+>  	char irq_name[30];
+>  	struct camss_clock *clock;
+>  	int nclocks;
+> -	struct regulator *vdda;
+> +	struct regulator_bulk_data *supplies;
+> +	int num_supplies;
+>  	struct completion reset_complete;
+>  	struct csid_testgen_config testgen;
+>  	struct csid_phy_config phy;
+> diff --git a/drivers/media/platform/qcom/camss/camss.c b/drivers/media/platform/qcom/camss/camss.c
+> index d9905e737d88d..419c48c4f1d52 100644
+> --- a/drivers/media/platform/qcom/camss/camss.c
+> +++ b/drivers/media/platform/qcom/camss/camss.c
+> @@ -34,7 +34,7 @@
+>  static const struct resources csiphy_res_8x16[] = {
+>  	/* CSIPHY0 */
+>  	{
+> -		.regulator = { NULL },
+> +		.regulators = { NULL },
+
+To me this indicates that regulators is an array of 1 element and we set
+it to NULL, which based on how above is written must have been the case
+at some point.
+
+But I would have preferred this was written as:
+
+		.regulators = {},
+
+Perhaps the maintainer can chime in with a verdict if this would be okay
+to do as part of this change?
+
 Regards,
+Bjorn
 
-Laurent Pinchart
+>  		.clock = { "top_ahb", "ispif_ahb", "ahb", "csiphy0_timer" },
+>  		.clock_rate = { { 0 },
+>  				{ 0 },
+> @@ -46,7 +46,7 @@ static const struct resources csiphy_res_8x16[] = {
+>  
+>  	/* CSIPHY1 */
+>  	{
+> -		.regulator = { NULL },
+> +		.regulators = { NULL },
+>  		.clock = { "top_ahb", "ispif_ahb", "ahb", "csiphy1_timer" },
+>  		.clock_rate = { { 0 },
+>  				{ 0 },
+> @@ -60,7 +60,7 @@ static const struct resources csiphy_res_8x16[] = {
+>  static const struct resources csid_res_8x16[] = {
+>  	/* CSID0 */
+>  	{
+> -		.regulator = { "vdda" },
+> +		.regulators = { "vdda" },
+>  		.clock = { "top_ahb", "ispif_ahb", "csi0_ahb", "ahb",
+>  			   "csi0", "csi0_phy", "csi0_pix", "csi0_rdi" },
+>  		.clock_rate = { { 0 },
+> @@ -77,7 +77,7 @@ static const struct resources csid_res_8x16[] = {
+>  
+>  	/* CSID1 */
+>  	{
+> -		.regulator = { "vdda" },
+> +		.regulators = { "vdda" },
+>  		.clock = { "top_ahb", "ispif_ahb", "csi1_ahb", "ahb",
+>  			   "csi1", "csi1_phy", "csi1_pix", "csi1_rdi" },
+>  		.clock_rate = { { 0 },
+> @@ -107,7 +107,7 @@ static const struct resources_ispif ispif_res_8x16 = {
+>  static const struct resources vfe_res_8x16[] = {
+>  	/* VFE0 */
+>  	{
+> -		.regulator = { NULL },
+> +		.regulators = { NULL },
+>  		.clock = { "top_ahb", "vfe0", "csi_vfe0",
+>  			   "vfe_ahb", "vfe_axi", "ahb" },
+>  		.clock_rate = { { 0 },
+> @@ -129,7 +129,7 @@ static const struct resources vfe_res_8x16[] = {
+>  static const struct resources csiphy_res_8x96[] = {
+>  	/* CSIPHY0 */
+>  	{
+> -		.regulator = { NULL },
+> +		.regulators = { NULL },
+>  		.clock = { "top_ahb", "ispif_ahb", "ahb", "csiphy0_timer" },
+>  		.clock_rate = { { 0 },
+>  				{ 0 },
+> @@ -141,7 +141,7 @@ static const struct resources csiphy_res_8x96[] = {
+>  
+>  	/* CSIPHY1 */
+>  	{
+> -		.regulator = { NULL },
+> +		.regulators = { NULL },
+>  		.clock = { "top_ahb", "ispif_ahb", "ahb", "csiphy1_timer" },
+>  		.clock_rate = { { 0 },
+>  				{ 0 },
+> @@ -153,7 +153,7 @@ static const struct resources csiphy_res_8x96[] = {
+>  
+>  	/* CSIPHY2 */
+>  	{
+> -		.regulator = { NULL },
+> +		.regulators = { NULL },
+>  		.clock = { "top_ahb", "ispif_ahb", "ahb", "csiphy2_timer" },
+>  		.clock_rate = { { 0 },
+>  				{ 0 },
+> @@ -167,7 +167,7 @@ static const struct resources csiphy_res_8x96[] = {
+>  static const struct resources csid_res_8x96[] = {
+>  	/* CSID0 */
+>  	{
+> -		.regulator = { "vdda" },
+> +		.regulators = { "vdda" },
+>  		.clock = { "top_ahb", "ispif_ahb", "csi0_ahb", "ahb",
+>  			   "csi0", "csi0_phy", "csi0_pix", "csi0_rdi" },
+>  		.clock_rate = { { 0 },
+> @@ -184,7 +184,7 @@ static const struct resources csid_res_8x96[] = {
+>  
+>  	/* CSID1 */
+>  	{
+> -		.regulator = { "vdda" },
+> +		.regulators = { "vdda" },
+>  		.clock = { "top_ahb", "ispif_ahb", "csi1_ahb", "ahb",
+>  			   "csi1", "csi1_phy", "csi1_pix", "csi1_rdi" },
+>  		.clock_rate = { { 0 },
+> @@ -201,7 +201,7 @@ static const struct resources csid_res_8x96[] = {
+>  
+>  	/* CSID2 */
+>  	{
+> -		.regulator = { "vdda" },
+> +		.regulators = { "vdda" },
+>  		.clock = { "top_ahb", "ispif_ahb", "csi2_ahb", "ahb",
+>  			   "csi2", "csi2_phy", "csi2_pix", "csi2_rdi" },
+>  		.clock_rate = { { 0 },
+> @@ -218,7 +218,7 @@ static const struct resources csid_res_8x96[] = {
+>  
+>  	/* CSID3 */
+>  	{
+> -		.regulator = { "vdda" },
+> +		.regulators = { "vdda" },
+>  		.clock = { "top_ahb", "ispif_ahb", "csi3_ahb", "ahb",
+>  			   "csi3", "csi3_phy", "csi3_pix", "csi3_rdi" },
+>  		.clock_rate = { { 0 },
+> @@ -249,7 +249,7 @@ static const struct resources_ispif ispif_res_8x96 = {
+>  static const struct resources vfe_res_8x96[] = {
+>  	/* VFE0 */
+>  	{
+> -		.regulator = { NULL },
+> +		.regulators = { NULL },
+>  		.clock = { "top_ahb", "ahb", "vfe0", "csi_vfe0", "vfe_ahb",
+>  			   "vfe0_ahb", "vfe_axi", "vfe0_stream"},
+>  		.clock_rate = { { 0 },
+> @@ -267,7 +267,7 @@ static const struct resources vfe_res_8x96[] = {
+>  
+>  	/* VFE1 */
+>  	{
+> -		.regulator = { NULL },
+> +		.regulators = { NULL },
+>  		.clock = { "top_ahb", "ahb", "vfe1", "csi_vfe1", "vfe_ahb",
+>  			   "vfe1_ahb", "vfe_axi", "vfe1_stream"},
+>  		.clock_rate = { { 0 },
+> @@ -287,7 +287,7 @@ static const struct resources vfe_res_8x96[] = {
+>  static const struct resources csiphy_res_660[] = {
+>  	/* CSIPHY0 */
+>  	{
+> -		.regulator = { NULL },
+> +		.regulators = { NULL },
+>  		.clock = { "top_ahb", "ispif_ahb", "ahb", "csiphy0_timer",
+>  			   "csi0_phy", "csiphy_ahb2crif" },
+>  		.clock_rate = { { 0 },
+> @@ -301,7 +301,7 @@ static const struct resources csiphy_res_660[] = {
+>  
+>  	/* CSIPHY1 */
+>  	{
+> -		.regulator = { NULL },
+> +		.regulators = { NULL },
+>  		.clock = { "top_ahb", "ispif_ahb", "ahb", "csiphy1_timer",
+>  			   "csi1_phy", "csiphy_ahb2crif" },
+>  		.clock_rate = { { 0 },
+> @@ -315,7 +315,7 @@ static const struct resources csiphy_res_660[] = {
+>  
+>  	/* CSIPHY2 */
+>  	{
+> -		.regulator = { NULL },
+> +		.regulators = { NULL },
+>  		.clock = { "top_ahb", "ispif_ahb", "ahb", "csiphy2_timer",
+>  			   "csi2_phy", "csiphy_ahb2crif" },
+>  		.clock_rate = { { 0 },
+> @@ -331,7 +331,7 @@ static const struct resources csiphy_res_660[] = {
+>  static const struct resources csid_res_660[] = {
+>  	/* CSID0 */
+>  	{
+> -		.regulator = { "vdda", "vdd_sec" },
+> +		.regulators = { "vdda", "vdd_sec" },
+>  		.clock = { "top_ahb", "ispif_ahb", "csi0_ahb", "ahb",
+>  			   "csi0", "csi0_phy", "csi0_pix", "csi0_rdi",
+>  			   "cphy_csid0" },
+> @@ -351,7 +351,7 @@ static const struct resources csid_res_660[] = {
+>  
+>  	/* CSID1 */
+>  	{
+> -		.regulator = { "vdda", "vdd_sec" },
+> +		.regulators = { "vdda", "vdd_sec" },
+>  		.clock = { "top_ahb", "ispif_ahb", "csi1_ahb", "ahb",
+>  			   "csi1", "csi1_phy", "csi1_pix", "csi1_rdi",
+>  			   "cphy_csid1" },
+> @@ -371,7 +371,7 @@ static const struct resources csid_res_660[] = {
+>  
+>  	/* CSID2 */
+>  	{
+> -		.regulator = { "vdda", "vdd_sec" },
+> +		.regulators = { "vdda", "vdd_sec" },
+>  		.clock = { "top_ahb", "ispif_ahb", "csi2_ahb", "ahb",
+>  			   "csi2", "csi2_phy", "csi2_pix", "csi2_rdi",
+>  			   "cphy_csid2" },
+> @@ -391,7 +391,7 @@ static const struct resources csid_res_660[] = {
+>  
+>  	/* CSID3 */
+>  	{
+> -		.regulator = { "vdda", "vdd_sec" },
+> +		.regulators = { "vdda", "vdd_sec" },
+>  		.clock = { "top_ahb", "ispif_ahb", "csi3_ahb", "ahb",
+>  			   "csi3", "csi3_phy", "csi3_pix", "csi3_rdi",
+>  			   "cphy_csid3" },
+> @@ -425,7 +425,7 @@ static const struct resources_ispif ispif_res_660 = {
+>  static const struct resources vfe_res_660[] = {
+>  	/* VFE0 */
+>  	{
+> -		.regulator = { NULL },
+> +		.regulators = { NULL },
+>  		.clock = { "throttle_axi", "top_ahb", "ahb", "vfe0",
+>  			   "csi_vfe0", "vfe_ahb", "vfe0_ahb", "vfe_axi",
+>  			   "vfe0_stream"},
+> @@ -446,7 +446,7 @@ static const struct resources vfe_res_660[] = {
+>  
+>  	/* VFE1 */
+>  	{
+> -		.regulator = { NULL },
+> +		.regulators = { NULL },
+>  		.clock = { "throttle_axi", "top_ahb", "ahb", "vfe1",
+>  			   "csi_vfe1", "vfe_ahb", "vfe1_ahb", "vfe_axi",
+>  			   "vfe1_stream"},
+> @@ -469,7 +469,7 @@ static const struct resources vfe_res_660[] = {
+>  static const struct resources csiphy_res_845[] = {
+>  	/* CSIPHY0 */
+>  	{
+> -		.regulator = { NULL },
+> +		.regulators = { NULL },
+>  		.clock = { "camnoc_axi", "soc_ahb", "slow_ahb_src",
+>  				"cpas_ahb", "cphy_rx_src", "csiphy0",
+>  				"csiphy0_timer_src", "csiphy0_timer" },
+> @@ -487,7 +487,7 @@ static const struct resources csiphy_res_845[] = {
+>  
+>  	/* CSIPHY1 */
+>  	{
+> -		.regulator = { NULL },
+> +		.regulators = { NULL },
+>  		.clock = { "camnoc_axi", "soc_ahb", "slow_ahb_src",
+>  				"cpas_ahb", "cphy_rx_src", "csiphy1",
+>  				"csiphy1_timer_src", "csiphy1_timer" },
+> @@ -505,7 +505,7 @@ static const struct resources csiphy_res_845[] = {
+>  
+>  	/* CSIPHY2 */
+>  	{
+> -		.regulator = { NULL },
+> +		.regulators = { NULL },
+>  		.clock = { "camnoc_axi", "soc_ahb", "slow_ahb_src",
+>  				"cpas_ahb", "cphy_rx_src", "csiphy2",
+>  				"csiphy2_timer_src", "csiphy2_timer" },
+> @@ -523,7 +523,7 @@ static const struct resources csiphy_res_845[] = {
+>  
+>  	/* CSIPHY3 */
+>  	{
+> -		.regulator = { NULL },
+> +		.regulators = { NULL },
+>  		.clock = { "camnoc_axi", "soc_ahb", "slow_ahb_src",
+>  				"cpas_ahb", "cphy_rx_src", "csiphy3",
+>  				"csiphy3_timer_src", "csiphy3_timer" },
+> @@ -543,7 +543,7 @@ static const struct resources csiphy_res_845[] = {
+>  static const struct resources csid_res_845[] = {
+>  	/* CSID0 */
+>  	{
+> -		.regulator = { NULL },
+> +		.regulators = { NULL },
+>  		.clock = { "cpas_ahb", "cphy_rx_src", "slow_ahb_src",
+>  				"soc_ahb", "vfe0", "vfe0_src",
+>  				"vfe0_cphy_rx", "csi0",
+> @@ -563,7 +563,7 @@ static const struct resources csid_res_845[] = {
+>  
+>  	/* CSID1 */
+>  	{
+> -		.regulator = { NULL },
+> +		.regulators = { NULL },
+>  		.clock = { "cpas_ahb", "cphy_rx_src", "slow_ahb_src",
+>  				"soc_ahb", "vfe1", "vfe1_src",
+>  				"vfe1_cphy_rx", "csi1",
+> @@ -583,7 +583,7 @@ static const struct resources csid_res_845[] = {
+>  
+>  	/* CSID2 */
+>  	{
+> -		.regulator = { NULL },
+> +		.regulators = { NULL },
+>  		.clock = { "cpas_ahb", "cphy_rx_src", "slow_ahb_src",
+>  				"soc_ahb", "vfe_lite", "vfe_lite_src",
+>  				"vfe_lite_cphy_rx", "csi2",
+> @@ -605,7 +605,7 @@ static const struct resources csid_res_845[] = {
+>  static const struct resources vfe_res_845[] = {
+>  	/* VFE0 */
+>  	{
+> -		.regulator = { NULL },
+> +		.regulators = { NULL },
+>  		.clock = { "camnoc_axi", "cpas_ahb", "slow_ahb_src",
+>  				"soc_ahb", "vfe0", "vfe0_axi",
+>  				"vfe0_src", "csi0",
+> @@ -625,7 +625,7 @@ static const struct resources vfe_res_845[] = {
+>  
+>  	/* VFE1 */
+>  	{
+> -		.regulator = { NULL },
+> +		.regulators = { NULL },
+>  		.clock = { "camnoc_axi", "cpas_ahb", "slow_ahb_src",
+>  				"soc_ahb", "vfe1", "vfe1_axi",
+>  				"vfe1_src", "csi1",
+> @@ -645,7 +645,7 @@ static const struct resources vfe_res_845[] = {
+>  
+>  	/* VFE-lite */
+>  	{
+> -		.regulator = { NULL },
+> +		.regulators = { NULL },
+>  		.clock = { "camnoc_axi", "cpas_ahb", "slow_ahb_src",
+>  				"soc_ahb", "vfe_lite",
+>  				"vfe_lite_src", "csi2",
+> @@ -666,7 +666,7 @@ static const struct resources vfe_res_845[] = {
+>  static const struct resources csiphy_res_8250[] = {
+>  	/* CSIPHY0 */
+>  	{
+> -		.regulator = { NULL },
+> +		.regulators = { NULL },
+>  		.clock = { "csiphy0", "csiphy0_timer" },
+>  		.clock_rate = { { 400000000 },
+>  				{ 300000000 } },
+> @@ -675,7 +675,7 @@ static const struct resources csiphy_res_8250[] = {
+>  	},
+>  	/* CSIPHY1 */
+>  	{
+> -		.regulator = { NULL },
+> +		.regulators = { NULL },
+>  		.clock = { "csiphy1", "csiphy1_timer" },
+>  		.clock_rate = { { 400000000 },
+>  				{ 300000000 } },
+> @@ -684,7 +684,7 @@ static const struct resources csiphy_res_8250[] = {
+>  	},
+>  	/* CSIPHY2 */
+>  	{
+> -		.regulator = { NULL },
+> +		.regulators = { NULL },
+>  		.clock = { "csiphy2", "csiphy2_timer" },
+>  		.clock_rate = { { 400000000 },
+>  				{ 300000000 } },
+> @@ -693,7 +693,7 @@ static const struct resources csiphy_res_8250[] = {
+>  	},
+>  	/* CSIPHY3 */
+>  	{
+> -		.regulator = { NULL },
+> +		.regulators = { NULL },
+>  		.clock = { "csiphy3", "csiphy3_timer" },
+>  		.clock_rate = { { 400000000 },
+>  				{ 300000000 } },
+> @@ -702,7 +702,7 @@ static const struct resources csiphy_res_8250[] = {
+>  	},
+>  	/* CSIPHY4 */
+>  	{
+> -		.regulator = { NULL },
+> +		.regulators = { NULL },
+>  		.clock = { "csiphy4", "csiphy4_timer" },
+>  		.clock_rate = { { 400000000 },
+>  				{ 300000000 } },
+> @@ -711,7 +711,7 @@ static const struct resources csiphy_res_8250[] = {
+>  	},
+>  	/* CSIPHY5 */
+>  	{
+> -		.regulator = { NULL },
+> +		.regulators = { NULL },
+>  		.clock = { "csiphy5", "csiphy5_timer" },
+>  		.clock_rate = { { 400000000 },
+>  				{ 300000000 } },
+> @@ -723,7 +723,7 @@ static const struct resources csiphy_res_8250[] = {
+>  static const struct resources csid_res_8250[] = {
+>  	/* CSID0 */
+>  	{
+> -		.regulator = { NULL },
+> +		.regulators = { NULL },
+>  		.clock = { "vfe0_csid", "vfe0_cphy_rx", "vfe0", "vfe0_areg", "vfe0_ahb" },
+>  		.clock_rate = { { 400000000 },
+>  				{ 400000000 },
+> @@ -735,7 +735,7 @@ static const struct resources csid_res_8250[] = {
+>  	},
+>  	/* CSID1 */
+>  	{
+> -		.regulator = { NULL },
+> +		.regulators = { NULL },
+>  		.clock = { "vfe1_csid", "vfe1_cphy_rx", "vfe1", "vfe1_areg", "vfe1_ahb" },
+>  		.clock_rate = { { 400000000 },
+>  				{ 400000000 },
+> @@ -747,7 +747,7 @@ static const struct resources csid_res_8250[] = {
+>  	},
+>  	/* CSID2 */
+>  	{
+> -		.regulator = { NULL },
+> +		.regulators = { NULL },
+>  		.clock = { "vfe_lite_csid", "vfe_lite_cphy_rx", "vfe_lite",  "vfe_lite_ahb" },
+>  		.clock_rate = { { 400000000 },
+>  				{ 400000000 },
+> @@ -758,7 +758,7 @@ static const struct resources csid_res_8250[] = {
+>  	},
+>  	/* CSID3 */
+>  	{
+> -		.regulator = { NULL },
+> +		.regulators = { NULL },
+>  		.clock = { "vfe_lite_csid", "vfe_lite_cphy_rx", "vfe_lite",  "vfe_lite_ahb" },
+>  		.clock_rate = { { 400000000 },
+>  				{ 400000000 },
+> @@ -772,7 +772,7 @@ static const struct resources csid_res_8250[] = {
+>  static const struct resources vfe_res_8250[] = {
+>  	/* VFE0 */
+>  	{
+> -		.regulator = { NULL },
+> +		.regulators = { NULL },
+>  		.clock = { "camnoc_axi_src", "slow_ahb_src", "cpas_ahb",
+>  			   "camnoc_axi", "vfe0_ahb", "vfe0_areg", "vfe0",
+>  			   "vfe0_axi", "cam_hf_axi" },
+> @@ -790,7 +790,7 @@ static const struct resources vfe_res_8250[] = {
+>  	},
+>  	/* VFE1 */
+>  	{
+> -		.regulator = { NULL },
+> +		.regulators = { NULL },
+>  		.clock = { "camnoc_axi_src", "slow_ahb_src", "cpas_ahb",
+>  			   "camnoc_axi", "vfe1_ahb", "vfe1_areg", "vfe1",
+>  			   "vfe1_axi", "cam_hf_axi" },
+> @@ -808,7 +808,7 @@ static const struct resources vfe_res_8250[] = {
+>  	},
+>  	/* VFE2 (lite) */
+>  	{
+> -		.regulator = { NULL },
+> +		.regulators = { NULL },
+>  		.clock = { "camnoc_axi_src", "slow_ahb_src", "cpas_ahb",
+>  			   "camnoc_axi", "vfe_lite_ahb", "vfe_lite_axi",
+>  			   "vfe_lite", "cam_hf_axi" },
+> @@ -825,7 +825,7 @@ static const struct resources vfe_res_8250[] = {
+>  	},
+>  	/* VFE3 (lite) */
+>  	{
+> -		.regulator = { NULL },
+> +		.regulators = { NULL },
+>  		.clock = { "camnoc_axi_src", "slow_ahb_src", "cpas_ahb",
+>  			   "camnoc_axi", "vfe_lite_ahb", "vfe_lite_axi",
+>  			   "vfe_lite", "cam_hf_axi" },
+> diff --git a/drivers/media/platform/qcom/camss/camss.h b/drivers/media/platform/qcom/camss/camss.h
+> index 9c644e638a948..c9b3e0df5be8f 100644
+> --- a/drivers/media/platform/qcom/camss/camss.h
+> +++ b/drivers/media/platform/qcom/camss/camss.h
+> @@ -42,7 +42,7 @@
+>  #define CAMSS_RES_MAX 17
+>  
+>  struct resources {
+> -	char *regulator[CAMSS_RES_MAX];
+> +	char *regulators[CAMSS_RES_MAX];
+>  	char *clock[CAMSS_RES_MAX];
+>  	u32 clock_rate[CAMSS_RES_MAX][CAMSS_RES_MAX];
+>  	char *reg[CAMSS_RES_MAX];
+> -- 
+> 2.33.0
+> 
