@@ -2,145 +2,87 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 30F6B4879EA
-	for <lists+linux-media@lfdr.de>; Fri,  7 Jan 2022 16:50:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 195DB4879F3
+	for <lists+linux-media@lfdr.de>; Fri,  7 Jan 2022 16:55:07 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1348136AbiAGPuU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 7 Jan 2022 10:50:20 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34490 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239713AbiAGPuU (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 7 Jan 2022 10:50:20 -0500
-Received: from mail-yb1-xb36.google.com (mail-yb1-xb36.google.com [IPv6:2607:f8b0:4864:20::b36])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B48F3C061574;
-        Fri,  7 Jan 2022 07:50:19 -0800 (PST)
-Received: by mail-yb1-xb36.google.com with SMTP id p5so10590697ybd.13;
-        Fri, 07 Jan 2022 07:50:19 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=1OhZbkZC6Q/vRS5LzzFYge2UROcV5To4d6Z9LDg9hRU=;
-        b=Z6PACJQR+qBcCqi/W3s8z/EJl6kS8xU6PePoWWLLjSPyPhxMSB+KOjeqSwoWQhqBtb
-         yBHM+bgRC5CC4p0Z7beU5C4nXVWZMNB075KIx6vqqp96AJadNK5xTMX7GUeco5Y1SRu2
-         iBoeohvkMHgJfdpKajo4mTuIHzPG+wg2XUKgurhV2kzpaSuvxp8DuxXvFRnjt5rYg2R/
-         NU5TLgw5HLeCPimsUpra46NVDXq3hdk2SgJ9TSX3AXqrShLkhj7BqtxfAsOkIBX3BRy2
-         evJMxCCq0+mV28ObTtkWe1gr2403Qwm2GSdD/fhiANwjbVwGJrfU7Y7sARijdOfH4qR+
-         7txA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=1OhZbkZC6Q/vRS5LzzFYge2UROcV5To4d6Z9LDg9hRU=;
-        b=NhCqRrSe1eIGz/nu93ydzsM9u4I8AW18WUB5n73NwlKEiGfudAnTfHo/9YyK7+bawe
-         d3XFyYBk9G+N47WHK8ERczf+/87UnkgEoPso6/N1VNn11f6vavq5NXjsIzZEvluVTfNk
-         5h2xwd0bwFsGtQG4mN5zmoMLmFkGPLquFXZB92e2P10zUEHW1pf+ZmNN1RE96VFwTwmh
-         d3M3lnbjM5VwdqwS6j8h28Zt+0vccsc9Vylb1P17THE1r3rTE5PLw/PtqvEr8nG/hSPw
-         B7SdrJNKBQh+CohHHBjw6LW6nzRihjBgf5kWrfG16cwFeW8BkozPaKdBScMV9nReJ6l6
-         VBbw==
-X-Gm-Message-State: AOAM533i18GT08MXyRxy5n8VeipPAY/jpN5Q64db5qR7jAXXZhw7F2nw
-        /O3ggEpXDvfSiFNZ8xMDf1Ih60B4RSfAI8MbHWw=
-X-Google-Smtp-Source: ABdhPJx5FnRmyjoFHwgvfNs7zgSpqJ1ZbFZcA3E/g23QncWcbtpUDOtPHnSWcm8psKTtAJnD+Y4SUfY9LmrdU43vrGc=
-X-Received: by 2002:a25:c794:: with SMTP id w142mr51978239ybe.690.1641570618829;
- Fri, 07 Jan 2022 07:50:18 -0800 (PST)
+        id S1348154AbiAGPzG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 7 Jan 2022 10:55:06 -0500
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:41682 "EHLO
+        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1348145AbiAGPzF (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 7 Jan 2022 10:55:05 -0500
+Received: from benjamin-XPS-13-9310.. (unknown [IPv6:2a01:e0a:120:3210:21c7:4f13:8afa:4f9f])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        (Authenticated sender: benjamin.gaignard)
+        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id A575C1F4649A;
+        Fri,  7 Jan 2022 15:55:03 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+        s=mail; t=1641570904;
+        bh=JnP8ldrXuGP6Z9VtKebQAcp4jKsdWLuoyiXQLwhWEP8=;
+        h=From:To:Cc:Subject:Date:From;
+        b=bEz3SFMy1UKdFwO9JqK7VzOJZtaKPE+ltUmdOHd5tzgdYUa+yW3FpcM1WLzhX4Ape
+         /qalMd7Sca8mexxEoTAkygsK8CA+2dh7AJysC+7XYbo6C4LNJPy4JM5dlScOW5TnEd
+         yaJsCFwdOTf0EmR5ZBk2HrS7U7xKsVAyPUYv7epYQWFeP03B7KmCJaYG62gzTBprZZ
+         0fPJfDRgt/SIzGVm363XM+VbdGgLalKPVN76ZsRQFE2shbAAyJgqVPsx/VZpI2373i
+         /Mta0sXiHlbhJud0JEHW7d2V1mBrEm+RhCIXBs9sSgmHpE2x7LgiDTRPfWxOHl2lk2
+         pn2R4OuVwVlFQ==
+From:   Benjamin Gaignard <benjamin.gaignard@collabora.com>
+To:     mchehab@kernel.org, ezequiel@vanguardiasur.com.ar,
+        p.zabel@pengutronix.de, gregkh@linuxfoundation.org,
+        hverkuil-cisco@xs4all.nl, jernej.skrabec@gmail.com,
+        nicolas.dufresne@collabora.co.uk
+Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-staging@lists.linux.dev, kernel@collabora.com,
+        Benjamin Gaignard <benjamin.gaignard@collabora.com>
+Subject: [PATCH v5 0/2] media: HEVC: RPS clean up
+Date:   Fri,  7 Jan 2022 16:54:53 +0100
+Message-Id: <20220107155455.604536-1-benjamin.gaignard@collabora.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-References: <20200904201835.5958-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20200904201835.5958-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <8b5d4928-2921-b876-7d1e-04bb42eff4fa@st.com> <3b54ab9b-4ffd-ab32-d495-fad6132ea504@microchip.com>
- <5c56c87d-ca48-5573-0606-da1441fab7ff@microchip.com> <CA+V-a8uk3h95aL7n7cDjYdXJBbE6GWF_LkiAVMOFtVzv-83ZpQ@mail.gmail.com>
- <450850f6-9296-e505-4b92-c71ed190b95f@microchip.com> <CA+V-a8vsX9Ei8dS+fJQe9jqcFXmvfeVb==-HhDkXFnajQYT6tg@mail.gmail.com>
- <e6cfb1fd-7132-0b5c-9e85-dd9c8dfd6d79@microchip.com> <CA+V-a8vOOk4WunS-27d5hrvhLbs3YqAUoGX+Mcan7e6kuHkajQ@mail.gmail.com>
-In-Reply-To: <CA+V-a8vOOk4WunS-27d5hrvhLbs3YqAUoGX+Mcan7e6kuHkajQ@mail.gmail.com>
-From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date:   Fri, 7 Jan 2022 15:49:52 +0000
-Message-ID: <CA+V-a8u51keKGMaVg=E5vZsoL2ntFg=q-UrNw=4JY4ykPXdm0g@mail.gmail.com>
-Subject: Re: [PATCH v4 1/6] media: i2c: ov5640: Remain in power down for DVP
- mode unless streaming
-To:     Eugen Hristev <Eugen.Hristev@microchip.com>
-Cc:     Hugues Fruchet <hugues.fruchet@st.com>,
-        "Lad, Prabhakar" <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Steve Longerbeam <slongerbeam@gmail.com>,
-        Paul <paul.kocialkowski@bootlin.com>,
-        linux-media <linux-media@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Biju Das <biju.das.jz@bp.renesas.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Jan 4, 2022 at 9:57 AM Lad, Prabhakar
-<prabhakar.csengg@gmail.com> wrote:
->
-> Hi Eugen,
->
-> On Mon, Jan 3, 2022 at 11:29 AM <Eugen.Hristev@microchip.com> wrote:
-> >
-> > On 12/21/21 5:11 PM, Lad, Prabhakar wrote:
-> > > Hi Eugen,
-> > >
-<snip>
-> > > could you give it a shot with yavta please.
-> >
-> > Hello Lad,
-> >
-> > I debugged this further, and I have some news:
-> >
-> > It looks like the 'write 0x2 to SYS_CLTR0' does not fail itself, rather
-> > the sensor refuses to accept a power up.
-> >
-> > I tried to read the register before the write, and it reads 0x42.
-> > Then, I tried to write 0x42 back, and it works fine.
-> > So, I do not think there is a problem with i2c communication.
-> > The only problem is that the sensor refuses to power up (accept the 0x2
-> > into the SYS_CTRL_0 ), due to an unknown (to me) reason.
-> >
-> That's strange.
->
-> > If the power up is performed at the initialization phase, it works.
-> >
-> > I also tried to capture with v4l2-ctl, and the result is the same.
-> >
-> you mean yavta ?
->
-> > Which of the init configuration set of registers your test is using?
-> I have been testing 320x240 and 640x480. Could you give that a try please=
-?
->
-> > It may be that it does not work in a specific config .
-> >
-> > The datasheet which I have does not claim that the 'power up' might fai=
-l
-> > in some circumstances.
-> >
-> Let me check if I can ping OmniVision FAE.
->
-Fyi.. I got the below feedback from OmniVision FAE.
+This series aims to clean up Reference Picture Set usage and flags.
 
-SW standby bit is working as expected from my side.
+Long term flag was named with RPS prefix while it is not used for RPS
+but for mark long term references in DBP. Remane it and remove the two
+other useless RPS flags.
+
+Clarify documentation about RPS lists content and make sure that Hantro
+driver use them correctly (i.e without look up in DBP).
+
+version 5:
+- rework commit message as suggested by Ezequiel
+- improve V4L2_HEVC_DPB_ENTRY_LONG_TERM_REFERENCE documentation
+  with reference to HEVC ITU spec.
+- add review-by tags from Jernej and Ezequiel
+
+version 4:
+- check flags with & and not ==
+- remove the 2 last patches which becomes useless since VPU ctrl-blk
+  driver introduction.
+
+version 3:
+- rebased on top of v5.16-rc1
+
+version 2:
+- change DPB field name from rps to flags
 
 
-As far as the sensor initialization is concerned  we use HW power up
-sequence defined in the datasheet followed by SW initialization.
+Benjamin Gaignard (2):
+  media: hevc: Remove RPS named flags
+  media: hevc: Embedded indexes in RPS
 
-SW initialization consist of the following :-
+ .../media/v4l/ext-ctrls-codec.rst             | 16 +++++------
+ .../staging/media/hantro/hantro_g2_hevc_dec.c | 27 +++++--------------
+ .../staging/media/sunxi/cedrus/cedrus_h265.c  |  2 +-
+ include/media/hevc-ctrls.h                    |  6 ++---
+ 4 files changed, 18 insertions(+), 33 deletions(-)
 
-78 3103  11    ;  I2C timing ( do not modify)
-78 3008  82  ;   SW reset
-78 3008  42  ;   Stop streaming
-78 =E2=80=A6=E2=80=A6.            Sensor settings for required mode
+-- 
+2.30.2
 
-78 3008  02  ;   Start  streaming
-
-Note:-  0x3008[7]  SW reset bit is volatile, as soon as a reset is
-applied the  all the bits  are  cleared  and  0x3008[7:0] set to
-default value hence  should read  0x2
-
-Cheers,
-Prabhakar
