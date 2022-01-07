@@ -2,124 +2,83 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4FD24486E24
-	for <lists+linux-media@lfdr.de>; Fri,  7 Jan 2022 00:53:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E581B486F13
+	for <lists+linux-media@lfdr.de>; Fri,  7 Jan 2022 01:51:54 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1343558AbiAFXxu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 6 Jan 2022 18:53:50 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45026 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S245687AbiAFXxm (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 6 Jan 2022 18:53:42 -0500
-Received: from mail-wr1-x42a.google.com (mail-wr1-x42a.google.com [IPv6:2a00:1450:4864:20::42a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 320F9C0611FF
-        for <linux-media@vger.kernel.org>; Thu,  6 Jan 2022 15:53:41 -0800 (PST)
-Received: by mail-wr1-x42a.google.com with SMTP id w20so7820008wra.9
-        for <linux-media@vger.kernel.org>; Thu, 06 Jan 2022 15:53:41 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=zbDm820lh/1R1PbuB190FVHw4DIJK+VMDUkanKQM9EE=;
-        b=Wxd9AYxtNoH54uR9HIPhb6G3I/Uk4pQ9JLrSQSxPECaZG12JuitteUjLWJU4r0lyMG
-         5o9CSl64XRyhb8lQEAT22AQ1jACr/EYMduigI7D0pQWy8H7hPCX8g2cHPrLSIh7kHuU0
-         by5/Ks/sSWoVX7pPXg/fQvFb9sZw2c4rXgPTWAXcpoaE4Ixi+7c1KbnGHEVSy/ke8Y3y
-         j4m0TRPxgiGOi145LYmF5E/NQKavuRMl+vHeed5/AjxchhzOV4KkXoYTDKZoxT4IqnpI
-         eP7jRpMcSr2TxVFCxrYdFWrYTn+tKwaRqY9nZcs6fOwsCKKmWlV836FIf0DybHlfLCki
-         oTTQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=zbDm820lh/1R1PbuB190FVHw4DIJK+VMDUkanKQM9EE=;
-        b=bLhWWv8fT3QVJtL4rpu+2O5dLzPr+YtnUp1hWNH/DvNAbflCLSwYnpp4BnfjbF3e1N
-         Bkn1aqH+NNJdNBzNKtDc4kLWC2xcYx3D2PTGqueHEd4rG2zLA/lozLJyQ475BAP1IdX3
-         vcmD4oc+pHJZYoz6PU8vdLCpANcQ4Knf9x5YNQJ7lG3kAoCbT0DFgX736bAEUcSyqCTg
-         azxE3/nWrUrva4TlUp5LL+4at7gHzrhLrwy7P2tgGiYFdTF2ABeZYKwjfyxg7UeB8q1k
-         /ow6b8KeA97todSBLjvVmCN627QZNcEr5jQdoLZkgpv5Wpcc89OUJ2d2QmTQWJngDhmR
-         vMhw==
-X-Gm-Message-State: AOAM53293uSe5n/KuwU0hNirgrJZm8Oku2KzW0OJXHfFDw6ZawIhPa2A
-        T3pn+AlY44/P5lJK+1Fx7v8Jx5s74N/FGw==
-X-Google-Smtp-Source: ABdhPJwxKvFJozRXC/w3qW/s98oTYefv/EmsOBswZrNPNGeLKEzptFAhz78oPiSj+GGeEx8a7hUPCA==
-X-Received: by 2002:a5d:5610:: with SMTP id l16mr29866184wrv.418.1641513219863;
-        Thu, 06 Jan 2022 15:53:39 -0800 (PST)
-Received: from sagittarius-a.chello.ie (188-141-3-169.dynamic.upc.ie. [188.141.3.169])
-        by smtp.gmail.com with ESMTPSA id a71sm335893wme.39.2022.01.06.15.53.38
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 06 Jan 2022 15:53:39 -0800 (PST)
-From:   Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-To:     linux-arm-msm@vger.kernel.org, linux-media@vger.kernel.org,
-        mchehab@kernel.org, hverkuil@xs4all.nl, robert.foss@linaro.org
-Cc:     jonathan@marek.ca, andrey.konovalov@linaro.org,
-        todor.too@gmail.com, agross@kernel.org, bjorn.andersson@linaro.org,
-        jgrahsl@snap.com, hfink@snap.com, vladimir.zapolskiy@linaro.org,
-        dmitry.baryshkov@linaro.org, bryan.odonoghue@linaro.org
-Subject: [PATCH 7/7] media: camss: Point sm8250 at the correct vdda regulators
-Date:   Thu,  6 Jan 2022 23:55:40 +0000
-Message-Id: <20220106235540.1567839-8-bryan.odonoghue@linaro.org>
-X-Mailer: git-send-email 2.33.0
-In-Reply-To: <20220106235540.1567839-1-bryan.odonoghue@linaro.org>
-References: <20220106235540.1567839-1-bryan.odonoghue@linaro.org>
+        id S1344529AbiAGAvw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 6 Jan 2022 19:51:52 -0500
+Received: from mout.kundenserver.de ([212.227.17.24]:60753 "EHLO
+        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1343978AbiAGAvw (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 6 Jan 2022 19:51:52 -0500
+Received: from mail-wm1-f52.google.com ([209.85.128.52]) by
+ mrelayeu.kundenserver.de (mreue108 [213.165.67.113]) with ESMTPSA (Nemesis)
+ id 1M9WmQ-1n09J41MW4-005WCs; Fri, 07 Jan 2022 01:51:50 +0100
+Received: by mail-wm1-f52.google.com with SMTP id f189-20020a1c1fc6000000b00347ac5ccf6cso36492wmf.3;
+        Thu, 06 Jan 2022 16:51:50 -0800 (PST)
+X-Gm-Message-State: AOAM530JXeCunWgC14kNAntx869YryWbY/IS/8diWBuSzOkhXeGAZwET
+        g/gtrdDUkEspc90YpZ93GKi0HBLi9CeJX863z3Q=
+X-Google-Smtp-Source: ABdhPJxaOooSi6JuNuFqsiQf70TarUb7k59G6O1fatVVJVQP6kddZ7utdE6PGLlDcAYxwZk5b9AxJWt6LAM83gxSrd0=
+X-Received: by 2002:a7b:c190:: with SMTP id y16mr8483309wmi.35.1641516709979;
+ Thu, 06 Jan 2022 16:51:49 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <cover.1641500561.git.christophe.jaillet@wanadoo.fr> <e89f4b29b9f7e0c711a3ccc16a009f49f416e1fc.1641500561.git.christophe.jaillet@wanadoo.fr>
+In-Reply-To: <e89f4b29b9f7e0c711a3ccc16a009f49f416e1fc.1641500561.git.christophe.jaillet@wanadoo.fr>
+From:   Arnd Bergmann <arnd@arndb.de>
+Date:   Thu, 6 Jan 2022 19:51:47 -0500
+X-Gmail-Original-Message-ID: <CAK8P3a0w51bnDy2whAC8WOCx2=9UB1ViX3veOfhSmQwwLr3VNQ@mail.gmail.com>
+Message-ID: <CAK8P3a0w51bnDy2whAC8WOCx2=9UB1ViX3veOfhSmQwwLr3VNQ@mail.gmail.com>
+Subject: Re: [PATCH 04/16] media: Remove usage of the deprecated
+ "pci-dma-compat.h" API
+To:     Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+Cc:     Arnd Bergmann <arnd@arndb.de>,
+        Christoph Hellwig <hch@infradead.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        awalls@md.metrocast.net,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        kernel-janitors <kernel-janitors@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Provags-ID: V03:K1:xYiG2GR/hmv7XwdTZf69kHeOBGd9/1CmiJMtN+/LJx73FDb0km1
+ K3uMGRLJLzptbOiB6Tyc1CwlUoIjb3EDmwLamoC/W8hcq7emjVtOGJze4q48QgoketJdw/n
+ 3YqKcz4+xAWQPUPVKa5FLRULsPD+uKb0jRSA0WuNRl0K73pkH+DG/4zDxskldlAeBProp1I
+ 0Dup8FkH6f8VvYT1HzjVQ==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:thErucJKSqk=:Gys1v3E2yQEJcL+DNPrBRT
+ +uqmBWAqehiHSCNUQqaOT1HI8ucgq1t0y1MEx7IDX0BN0NySa2teh9h09puCwWLwbbKD1iSVs
+ JbRu9VV/OxdsQIVCA+ocPbKm9pRyVJ7tunWpjoAWaPzNZRtPry3Y+Ksxh+/M2dvQGpUA/SaQE
+ gcEcpuKJWn+RomGR1SU2Kthrb9acxBS/CySx+YOdnGIfEBHHxnL1fWax65VSIUQjeuKh304QB
+ u4/jRwS3MXJmHRSSmI6J3TKqMM4s6JxbUv/6oTJtdC8atU/IRBy3AKQc7PyzqCMHT5vels+uX
+ t0TXX19F0oLuPhDzc4+K6T90RmvR3MFOG6u5KRfGcJ+aBTshTfjCb+xoqVdQRST39eRMT1NsS
+ tJ1gLaKNDgZ6Ud19stmR6UlBEJcPMEL79R/iO62Zv0hToLp0oKLsbKOagFd+wBtSInZpI4joq
+ U1v4Oc2MZSzI83x7fRlJehKx7FFDq83E+4J+b2rPB7OU1wK2LnVa4Xn1Ei8ic2lo3CSPKYtki
+ /IwuaZ27wW+AkllEq8/homa6P5sjKA0IqjOq70mtslxMg65tzj3iv+WJ7/D+lB3cx9ETvXut2
+ 0ZO0lsRD/TX0Rqmnyn8mzgKpNamfWpQb1x1ccOIMzpvWTmxb6u+BvErj8TIlDEUrKYpNaRoDp
+ mROp0tldm+lls41DaIOLAIKWVmCbE364VoInI24g6jqzVIAoNGv//glGIWBn9DjO7aDo=
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Reviewing the RB5 schematic its clear that we have missed out on defining
-both of the power-rails associated with the CSI PHY.
+On Thu, Jan 6, 2022 at 4:50 PM Christophe JAILLET
+<christophe.jaillet@wanadoo.fr> wrote:
+>
+> In [1], Christoph Hellwig has proposed to remove the wrappers in
+> include/linux/pci-dma-compat.h.
+>
+> Some reasons why this API should be removed have been given by Julia
+> Lawall in [2].
+>
+> A coccinelle script has been used to perform the needed transformation.
+> It can be found in [3].
+>
+> [1]: https://lore.kernel.org/kernel-janitors/20200421081257.GA131897@infradead.org/
+> [2]: https://lore.kernel.org/kernel-janitors/alpine.DEB.2.22.394.2007120902170.2424@hadrien/
+> [3]: https://lore.kernel.org/kernel-janitors/20200716192821.321233-1-christophe.jaillet@wanadoo.fr/
+>
+> Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
 
-Other PHYs such as the UFS, PCIe and USB connect to these rails and define
-each regulator individually.
+Reviewed-by: Arnd Bergmann <arnd@arndb.de>
 
-This means if we were to switch off the other various PHYs which enable
-these rails, the CAMSS would not appropriately power-on the CSI PHY.
-
-Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
----
- drivers/media/platform/qcom/camss/camss.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
-
-diff --git a/drivers/media/platform/qcom/camss/camss.c b/drivers/media/platform/qcom/camss/camss.c
-index 6de257502e88b..412c8ee7c182d 100644
---- a/drivers/media/platform/qcom/camss/camss.c
-+++ b/drivers/media/platform/qcom/camss/camss.c
-@@ -723,7 +723,7 @@ static const struct resources csiphy_res_8250[] = {
- static const struct resources csid_res_8250[] = {
- 	/* CSID0 */
- 	{
--		.regulators = { NULL },
-+		.regulators = { "vdda-phy", "vdda-pll" },
- 		.clock = { "vfe0_csid", "vfe0_cphy_rx", "vfe0", "vfe0_areg", "vfe0_ahb" },
- 		.clock_rate = { { 400000000 },
- 				{ 400000000 },
-@@ -735,7 +735,7 @@ static const struct resources csid_res_8250[] = {
- 	},
- 	/* CSID1 */
- 	{
--		.regulators = { NULL },
-+		.regulators = { "vdda-phy", "vdda-pll" },
- 		.clock = { "vfe1_csid", "vfe1_cphy_rx", "vfe1", "vfe1_areg", "vfe1_ahb" },
- 		.clock_rate = { { 400000000 },
- 				{ 400000000 },
-@@ -747,7 +747,7 @@ static const struct resources csid_res_8250[] = {
- 	},
- 	/* CSID2 */
- 	{
--		.regulators = { NULL },
-+		.regulators = { "vdda-phy", "vdda-pll" },
- 		.clock = { "vfe_lite_csid", "vfe_lite_cphy_rx", "vfe_lite",  "vfe_lite_ahb" },
- 		.clock_rate = { { 400000000 },
- 				{ 400000000 },
-@@ -758,7 +758,7 @@ static const struct resources csid_res_8250[] = {
- 	},
- 	/* CSID3 */
- 	{
--		.regulators = { NULL },
-+		.regulators = { "vdda-phy", "vdda-pll" },
- 		.clock = { "vfe_lite_csid", "vfe_lite_cphy_rx", "vfe_lite",  "vfe_lite_ahb" },
- 		.clock_rate = { { 400000000 },
- 				{ 400000000 },
--- 
-2.33.0
-
+Mauro, could you pick this up directly? It has no dependencies on the rest of
+the series.
