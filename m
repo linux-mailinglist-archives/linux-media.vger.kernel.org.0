@@ -2,169 +2,127 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 93295487663
-	for <lists+linux-media@lfdr.de>; Fri,  7 Jan 2022 12:21:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DBBD14876DB
+	for <lists+linux-media@lfdr.de>; Fri,  7 Jan 2022 12:52:56 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1347018AbiAGLVW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 7 Jan 2022 06:21:22 -0500
-Received: from perceval.ideasonboard.com ([213.167.242.64]:34860 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237534AbiAGLVV (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 7 Jan 2022 06:21:21 -0500
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 2744D8D7;
-        Fri,  7 Jan 2022 12:21:19 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1641554479;
-        bh=bVpJR1wF3s5NtA+h5U2QF6/aihbJ++2CjlgWwOZfgIY=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=rsQm9dxmnHzbqoi0LxQW/0X4U0EOlJMKIASOMQl/zxNmIVWVCrPL9w16DLso37w86
-         g/KUvZ+PJEZvSs0Qa5sUnp/xbX/05dSngspuehALvQlx/ORQXVslwQmz8xwMmdUqEh
-         gRyvI9IgF2g3UDBVN4esH7Zwi4344h7zjHcZPBA0=
-Date:   Fri, 7 Jan 2022 13:21:11 +0200
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Rui Miguel Silva <rmfrfs@gmail.com>
-Cc:     linux-media@vger.kernel.org,
+        id S1347267AbiAGLww (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 7 Jan 2022 06:52:52 -0500
+Received: from lahtoruutu.iki.fi ([185.185.170.37]:50744 "EHLO
+        lahtoruutu.iki.fi" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1347264AbiAGLwu (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 7 Jan 2022 06:52:50 -0500
+X-Greylist: delayed 146990 seconds by postgrey-1.27 at vger.kernel.org; Fri, 07 Jan 2022 06:52:50 EST
+Received: from hillosipuli.retiisi.eu (89-27-103-169.bb.dnainternet.fi [89.27.103.169])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: sailus)
+        by lahtoruutu.iki.fi (Postfix) with ESMTPSA id A5B0D1B0030E;
+        Fri,  7 Jan 2022 13:52:46 +0200 (EET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=lahtoruutu;
+        t=1641556366;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=KOoOMFuSXGaXVTzv7o4JhkgOfDNKguyFVVADd8MxT6U=;
+        b=OV+kTXtHKd9OK6W0DB9EiooZuo7Ux7vz3R3G0oRHAcL1UfBfZivqTCJNkd3cUNIepJ1E/s
+        InstB0N4p4oVle4zms+7Gb8md2VsD9wS93o/Htms0BkjSXU17jtb2MTNMUs6ZgWl4WhHdP
+        uXFs7Zumftax1gRm7NqPW2gpoMN7LPSHcXBKOF/OjWJRn4QojGysngCTO/AiRvsZHaHiUa
+        qUAlNYfBtCZMhJ8rdj96/57g01h2xVj7fg9pvMAAKrZGmEhkXU4Syl5N7D3szHePbxYsmH
+        xcLHpD7NJ0CZNquYqfhBV717Bz0kWyjGoTlwpIi0zXIwCGK0/L14tTuwEJ28/Q==
+Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 2BDEB634C90;
+        Fri,  7 Jan 2022 13:52:46 +0200 (EET)
+Date:   Fri, 7 Jan 2022 13:52:45 +0200
+From:   Sakari Ailus <sakari.ailus@iki.fi>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     linux-media@vger.kernel.org, Rui Miguel Silva <rmfrfs@gmail.com>,
         Steve Longerbeam <slongerbeam@gmail.com>,
         Philipp Zabel <p.zabel@pengutronix.de>,
         Pengutronix Kernel Team <kernel@pengutronix.de>,
         NXP Linux Team <linux-imx@nxp.com>,
-        =?utf-8?B?SsOpcsO0bWU=?= Brunet <jbrunet@baylibre.com>
-Subject: Re: [PATCH v1 2/3] staging: media: imx: imx7_mipi_csis: Add timings
- override through debugfs
-Message-ID: <YdgiJwNMNPUXfxfh@pendragon.ideasonboard.com>
+        =?iso-8859-1?B?Suly9G1l?= Brunet <jbrunet@baylibre.com>
+Subject: Re: [PATCH v1 3/3] staging: media: imx: imx7-mipi-csis: Make subdev
+ name unique
+Message-ID: <Ydgpjd1sfayQfP5j@valkosipuli.retiisi.eu>
 References: <20220106172441.7399-1-laurent.pinchart@ideasonboard.com>
- <20220106172441.7399-3-laurent.pinchart@ideasonboard.com>
- <CGZDCQ28LN5P.1C0GI87K2SRRI@arch-thunder>
+ <20220106172441.7399-4-laurent.pinchart@ideasonboard.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CGZDCQ28LN5P.1C0GI87K2SRRI@arch-thunder>
+In-Reply-To: <20220106172441.7399-4-laurent.pinchart@ideasonboard.com>
+ARC-Seal: i=1; s=lahtoruutu; d=iki.fi; t=1641556366; a=rsa-sha256;
+        cv=none;
+        b=A1/zCW1Ei1d7RyrB5un5Gxh4csfLlsDvhJIFkJUP0pjQu1Qfib2yAZrTmFTxH1qLU4RFhF
+        2AXKY7s3YBlDA+p3l0IzNo216ED3kRp+Ys/G6tmSaxTDLV3SZTrna5YvzlKQcfbvwk5s5k
+        735nH1JpElkpsx7bN71j1Ri1AdM4dO0ylMY22Mb3Knf+fS8ZBxEsk5Cmp3+PM+ghAwGvq+
+        rzBUuB/Qca9vcy2uchKIdpWb9bcGLMrXcfAYz6w52LnKAA6Uy239fI2QGq2FD6etvnPFt4
+        NexVxFgC0ciEd8OWHxGHo6CFp9SxPHTvNAr2iKtIPrZ3YM9QIakexdbWovfwNA==
+ARC-Authentication-Results: i=1;
+        ORIGINATING;
+        auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
+        s=lahtoruutu; t=1641556366;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=KOoOMFuSXGaXVTzv7o4JhkgOfDNKguyFVVADd8MxT6U=;
+        b=V8HTnv9h2pnWIJ0wioKLu7xdgg9xKKe/qDf9O7zRA3v4GCv5jNx6RNZy3P4mJ6pbjjetHy
+        f/qPXz3v6Y/vl+ZtbVoFozyjTwxlEmOE5UcirG50S6qBj7sLZ5ckiP3xsVhO2awQ9m1nFM
+        2VlAPKKir5DhO1wEBY+zdmAWK4ap1KoeHyVo6h4tfJjzK2385qYM94MCPzj/Z/QA1VOj+d
+        JMDFb6gLpiZVuKR3I5wUPQAhP7F2WIRdgnvxB33kQQEEBgOOUCkxIJ5Hhmkt4aNQ3LycVl
+        Lhwgt6zCprzP5SbEhuBwIcnuFNRfhGQ8++3v8Ciz6rSp3Q48Xr7zqp55EM6ejw==
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Rui,
+On Thu, Jan 06, 2022 at 07:24:41PM +0200, Laurent Pinchart wrote:
+> When multiple CSIS instances are present in a single graph, they are
+> currently all named "imx7-mipi-csis.0", which breaks the entity name
+> uniqueness requirement. Fix it by using the device name to create the
+> subdev name.
+> 
+> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> ---
+>  drivers/staging/media/imx/imx7-mipi-csis.c | 6 ++----
+>  1 file changed, 2 insertions(+), 4 deletions(-)
+> 
+> diff --git a/drivers/staging/media/imx/imx7-mipi-csis.c b/drivers/staging/media/imx/imx7-mipi-csis.c
+> index d7bcfb1a0c52..6443cca817fe 100644
+> --- a/drivers/staging/media/imx/imx7-mipi-csis.c
+> +++ b/drivers/staging/media/imx/imx7-mipi-csis.c
+> @@ -32,7 +32,6 @@
+>  #include <media/v4l2-subdev.h>
+>  
+>  #define CSIS_DRIVER_NAME			"imx7-mipi-csis"
+> -#define CSIS_SUBDEV_NAME			CSIS_DRIVER_NAME
+>  
+>  #define CSIS_PAD_SINK				0
+>  #define CSIS_PAD_SOURCE				1
+> @@ -313,7 +312,6 @@ struct csi_state {
+>  	struct reset_control *mrst;
+>  	struct regulator *mipi_phy_regulator;
+>  	const struct mipi_csis_info *info;
+> -	u8 index;
+>  
+>  	struct v4l2_subdev sd;
+>  	struct media_pad pads[CSIS_PADS_NUM];
+> @@ -1329,8 +1327,8 @@ static int mipi_csis_subdev_init(struct csi_state *state)
+>  
+>  	v4l2_subdev_init(sd, &mipi_csis_subdev_ops);
+>  	sd->owner = THIS_MODULE;
+> -	snprintf(sd->name, sizeof(sd->name), "%s.%d",
+> -		 CSIS_SUBDEV_NAME, state->index);
+> +	snprintf(sd->name, sizeof(sd->name), "csis-%s",
+> +		 dev_name(state->dev));
+>  
+>  	sd->flags |= V4L2_SUBDEV_FL_HAS_DEVNODE;
+>  	sd->ctrl_handler = NULL;
 
-On Fri, Jan 07, 2022 at 10:27:31AM +0000, Rui Miguel Silva wrote:
-> Hi Laurent,
-> thanks for the patch.
-> 
-> On Thu Jan 6, 2022 at 5:24 PM WET, Laurent Pinchart wrote:
-> 
-> > Add two debugfs files, ths_settle and tclk_settle, to allow overriding
-> > the corresponding timing parameters for test purpose.
-> >
-> > Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> > ---
-> >  drivers/staging/media/imx/imx7-mipi-csis.c | 35 ++++++++++++++++++----
-> >  1 file changed, 29 insertions(+), 6 deletions(-)
-> >
-> > diff --git a/drivers/staging/media/imx/imx7-mipi-csis.c b/drivers/staging/media/imx/imx7-mipi-csis.c
-> > index c9c0089ad816..d7bcfb1a0c52 100644
-> > --- a/drivers/staging/media/imx/imx7-mipi-csis.c
-> > +++ b/drivers/staging/media/imx/imx7-mipi-csis.c
-> > @@ -333,7 +333,11 @@ struct csi_state {
-> >  	spinlock_t slock;	/* Protect events */
-> >  	struct mipi_csis_event events[MIPI_CSIS_NUM_EVENTS];
-> >  	struct dentry *debugfs_root;
-> > -	bool debug;
-> > +	struct {
-> > +		bool debug;
-> 
-> I think here would make more sense to call it "enable", I think
-> state->debug.enable is more readable than state->debug.debug.
-
-Good idea, I'll do that.
-
-> Other than this LGTM
-> 
-> Reviewed-by: Rui Miguel Silva <rmfrfs@gmail.com>
-> 
-> > +		u32 hs_settle;
-> > +		u32 clk_settle;
-> > +	} debug;
-> >  };
-> >  
-> >  /* -----------------------------------------------------------------------------
-> > @@ -543,6 +547,18 @@ static int mipi_csis_calculate_params(struct csi_state *state)
-> >  	dev_dbg(state->dev, "lane rate %u, Tclk_settle %u, Ths_settle %u\n",
-> >  		lane_rate, state->clk_settle, state->hs_settle);
-> >  
-> > +	if (state->debug.hs_settle < 0xff) {
-> > +		dev_dbg(state->dev, "overriding Ths_settle with %u\n",
-> > +			state->debug.hs_settle);
-> > +		state->hs_settle = state->debug.hs_settle;
-> > +	}
-> > +
-> > +	if (state->debug.clk_settle < 4) {
-> > +		dev_dbg(state->dev, "overriding Tclk_settle with %u\n",
-> > +			state->debug.clk_settle);
-> > +		state->clk_settle = state->debug.clk_settle;
-> > +	}
-> > +
-> >  	return 0;
-> >  }
-> >  
-> > @@ -659,7 +675,7 @@ static irqreturn_t mipi_csis_irq_handler(int irq, void *dev_id)
-> >  	spin_lock_irqsave(&state->slock, flags);
-> >  
-> >  	/* Update the event/error counters */
-> > -	if ((status & MIPI_CSIS_INT_SRC_ERRORS) || state->debug) {
-> > +	if ((status & MIPI_CSIS_INT_SRC_ERRORS) || state->debug.debug) {
-> >  		for (i = 0; i < MIPI_CSIS_NUM_EVENTS; i++) {
-> >  			struct mipi_csis_event *event = &state->events[i];
-> >  
-> > @@ -749,7 +765,7 @@ static void mipi_csis_log_counters(struct csi_state *state, bool non_errors)
-> >  	spin_lock_irqsave(&state->slock, flags);
-> >  
-> >  	for (i = 0; i < num_events; ++i) {
-> > -		if (state->events[i].counter > 0 || state->debug)
-> > +		if (state->events[i].counter > 0 || state->debug.debug)
-> >  			dev_info(state->dev, "%s events: %d\n",
-> >  				 state->events[i].name,
-> >  				 state->events[i].counter);
-> > @@ -801,12 +817,19 @@ DEFINE_SHOW_ATTRIBUTE(mipi_csis_dump_regs);
-> >  
-> >  static void mipi_csis_debugfs_init(struct csi_state *state)
-> >  {
-> > +	state->debug.hs_settle = UINT_MAX;
-> > +	state->debug.clk_settle = UINT_MAX;
-> > +
-> >  	state->debugfs_root = debugfs_create_dir(dev_name(state->dev), NULL);
-> >  
-> >  	debugfs_create_bool("debug_enable", 0600, state->debugfs_root,
-> > -			    &state->debug);
-> > +			    &state->debug.debug);
-> >  	debugfs_create_file("dump_regs", 0600, state->debugfs_root, state,
-> >  			    &mipi_csis_dump_regs_fops);
-> > +	debugfs_create_u32("tclk_settle", 0600, state->debugfs_root,
-> > +			   &state->debug.clk_settle);
-> > +	debugfs_create_u32("ths_settle", 0600, state->debugfs_root,
-> > +			   &state->debug.hs_settle);
-> >  }
-> >  
-> >  static void mipi_csis_debugfs_exit(struct csi_state *state)
-> > @@ -867,7 +890,7 @@ static int mipi_csis_s_stream(struct v4l2_subdev *sd, int enable)
-> >  			ret = 0;
-> >  		mipi_csis_stop_stream(state);
-> >  		state->state &= ~ST_STREAMING;
-> > -		if (state->debug)
-> > +		if (state->debug.debug)
-> >  			mipi_csis_log_counters(state, true);
-> >  	}
-> >  
-> > @@ -1064,7 +1087,7 @@ static int mipi_csis_log_status(struct v4l2_subdev *sd)
-> >  
-> >  	mutex_lock(&state->lock);
-> >  	mipi_csis_log_counters(state, true);
-> > -	if (state->debug && (state->state & ST_POWERED))
-> > +	if (state->debug.debug && (state->state & ST_POWERED))
-> >  		mipi_csis_dump_regs(state);
-> >  	mutex_unlock(&state->lock);
-> >  
+Reviewed-by: Sakari Ailus <sakari.ailus@linux.intel.com>
 
 -- 
-Regards,
-
-Laurent Pinchart
+Sakari Ailus
