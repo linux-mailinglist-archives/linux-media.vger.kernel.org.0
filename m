@@ -2,82 +2,136 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BE5894886C6
-	for <lists+linux-media@lfdr.de>; Sat,  8 Jan 2022 23:33:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5735F4886E9
+	for <lists+linux-media@lfdr.de>; Sun,  9 Jan 2022 00:31:14 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234942AbiAHWdh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 8 Jan 2022 17:33:37 -0500
-Received: from dfw.source.kernel.org ([139.178.84.217]:43482 "EHLO
-        dfw.source.kernel.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229899AbiAHWdh (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Sat, 8 Jan 2022 17:33:37 -0500
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 1BC1860E8C
-        for <linux-media@vger.kernel.org>; Sat,  8 Jan 2022 22:33:37 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id ACE8CC36AE9;
-        Sat,  8 Jan 2022 22:33:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1641681216;
-        bh=lE0J8q/dkhaiPBpvvFs6h0fzYvZj9RQpcxwnH+n4glc=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=tUquw66uH4k4FUBrJwsu0XnTpBpVLfBluYWEg+I0Jk72zm8Bd+Rwhs/qQg5HbbgEp
-         PW+95dxkzdUGM8my1UwTqo7RrkQRsDkHF6gDLlPENrNvlzFz57lcpmMSIjfjEayEYE
-         8IbAXXX1UecmZ/ngZRlH4b4fV+GBgsLL7k6pfbJqu+VOcQ8RhSHHV06XuxHOmMRi2h
-         NYpVskbY6agg+7MQz3eoI6D+4F8uAKfBpSUyTi+yS821gjG6tKYbKe4VyBI17zDI4B
-         VM+zldYC76yGPbEvMpGGLdEEhiltHFhxG0ZDfFdm/zGL6YqXBbVOl614Bw5H0HwPZ0
-         Xp4cHVr3IC2LQ==
-Date:   Sat, 8 Jan 2022 23:33:32 +0100
-From:   Mauro Carvalho Chehab <mchehab@kernel.org>
-To:     Adam Stylinski <kungfujesus06@gmail.com>
-Cc:     linux-media@vger.kernel.org
-Subject: Re: DVB mmap API
-Message-ID: <20220108233326.364c1edf@coco.lan>
-In-Reply-To: <CAJwHY9W2ewhq7oUvgxUZpMJ77=9J=JavG=P2Q1pZC0b1XZiriw@mail.gmail.com>
-References: <CAJwHY9W2ewhq7oUvgxUZpMJ77=9J=JavG=P2Q1pZC0b1XZiriw@mail.gmail.com>
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.31; x86_64-redhat-linux-gnu)
+        id S234957AbiAHXbL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 8 Jan 2022 18:31:11 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56772 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229761AbiAHXbK (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Sat, 8 Jan 2022 18:31:10 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7DD48C06173F
+        for <linux-media@vger.kernel.org>; Sat,  8 Jan 2022 15:31:10 -0800 (PST)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id C101AA1B;
+        Sun,  9 Jan 2022 00:31:08 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1641684669;
+        bh=Ql6qoOkpaHgHtSqgtVilQRl45AqiQPtRwMB1iE8pm34=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=mvb3AIGpK3ya53sszSHKwseunCaLHZivL3RilMt0Y/iuBF40u9T2XW4jx+LoOL358
+         xZLuMcwItVnBTyxKhH+ps+U9BBOy8w0PW48Q7NdVk0MjOLva6vSWWmX/dBGbftCoum
+         nar2bUa0zn9bFhJjrbsx6Gn4aMWwrJ8tIPRF21JY=
+Date:   Sun, 9 Jan 2022 01:31:00 +0200
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Cc:     linux-media@vger.kernel.org, sakari.ailus@linux.intel.com,
+        Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        niklas.soderlund+renesas@ragnatech.se,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Pratyush Yadav <p.yadav@ti.com>,
+        Michal Simek <michal.simek@xilinx.com>
+Subject: Re: [PATCH v10 15/38] media: entity: Add media_entity_has_route()
+ function
+Message-ID: <YdoetFOzx099fajp@pendragon.ideasonboard.com>
+References: <20211130141536.891878-1-tomi.valkeinen@ideasonboard.com>
+ <20211130141536.891878-16-tomi.valkeinen@ideasonboard.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20211130141536.891878-16-tomi.valkeinen@ideasonboard.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Em Sat, 8 Jan 2022 12:34:59 -0500
-Adam Stylinski <kungfujesus06@gmail.com> escreveu:
+Hello Tomi,
 
-> Hello,
+Thank you for the patch.
+
+On Tue, Nov 30, 2021 at 04:15:13PM +0200, Tomi Valkeinen wrote:
+> From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 > 
-> I'm probably just looking for a project of unnecessary complexity to
-> take on but I couldn't help but notice there's been driver support for
-> mmap on DVB devices in the Linux kernel now for a pretty long time.  I
-> also noticed that it's been marked experimental since inception and
-> that nothing seems to use it or have a real example of it for the DVB
-> spec (v4lutils' dvb wrappers included).  Is there a grave reason this
-> thing is still marked experimental?  It seems in theory like a good
-> way to prevent context switches.
-
-There's no grave reason why it is marked as experimental... it is just
-that userspace apps don't use it yet, except for dvbv5-zap, when passing
-an extra option to enable it.
-
-> I'm nearly considering experimenting with modifying mythtv's DVB
-> demuxing, tuning, and streaming routines to use this.  Not because I
-> need to, mind you, it's just an ancient system and I'm trying to
-> prevent every ounce of the occasional hiccup that happens.
+> This is a wrapper around the media entity has_route operation.
 > 
-> https://www.kernel.org/doc/html/v5.15/userspace-api/media/dvb/dmx-mmap.html
+> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> Signed-off-by: Michal Simek <michal.simek@xilinx.com>
+> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
+> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+> ---
+>  drivers/media/mc/mc-entity.c | 19 +++++++++++++++++++
+>  include/media/media-entity.h | 17 +++++++++++++++++
+>  2 files changed, 36 insertions(+)
+> 
+> diff --git a/drivers/media/mc/mc-entity.c b/drivers/media/mc/mc-entity.c
+> index b44ab423b49b..a83f004efd37 100644
+> --- a/drivers/media/mc/mc-entity.c
+> +++ b/drivers/media/mc/mc-entity.c
+> @@ -229,6 +229,25 @@ EXPORT_SYMBOL_GPL(media_entity_pads_init);
+>   * Graph traversal
+>   */
+>  
+> +bool media_entity_has_route(struct media_entity *entity, unsigned int pad0,
+> +			    unsigned int pad1)
+> +{
+> +	if (pad0 >= entity->num_pads || pad1 >= entity->num_pads)
+> +		return false;
+> +
+> +	if (pad0 == pad1)
+> +		return true;
+> +
+> +	if (!entity->ops || !entity->ops->has_route)
+> +		return true;
+> +
+> +	if (entity->pads[pad1].index < entity->pads[pad0].index)
+> +		swap(pad0, pad1);
+> +
+> +	return entity->ops->has_route(entity, pad0, pad1);
+> +}
+> +EXPORT_SYMBOL_GPL(media_entity_has_route);
 
-It would be nice if MythTV and other apps would support MMAP.
+As this function is only used in mc-entity.c, can we avoid exposing it
+for now ? It's a new API, and I'd rather be notified if drivers start
+using it directly by requiring a patch to expose the function at that
+point.
 
-If you have time, and want to do that, It sounds great to me.
-You could also add support for it on Kaffeine - with already uses
-libdvbv5 - so maybe it could be simpler to add support for it too.
+> +
+>  static struct media_pad *
+>  media_pad_other(struct media_pad *pad, struct media_link *link)
+>  {
+> diff --git a/include/media/media-entity.h b/include/media/media-entity.h
+> index ad4020b2df65..b3069eef7fdb 100644
+> --- a/include/media/media-entity.h
+> +++ b/include/media/media-entity.h
+> @@ -904,6 +904,23 @@ int media_entity_get_fwnode_pad(struct media_entity *entity,
+>  __must_check int media_graph_walk_init(
+>  	struct media_graph *graph, struct media_device *mdev);
+>  
+> +/**
+> + * media_entity_has_route - Check if two entity pads are connected internally
+> + *
+> + * @entity: The entity
+> + * @pad0: The first pad index
+> + * @pad1: The second pad index
+> + *
+> + * This function can be used to check whether two pads of an entity are
+> + * connected internally in the entity.
+> + *
+> + * The caller must hold entity->graph_obj.mdev->mutex.
+> + *
+> + * Return: true if the pads are connected internally and false otherwise.
+> + */
+> +bool media_entity_has_route(struct media_entity *entity, unsigned int pad0,
+> +			    unsigned int pad1);
+> +
+>  /**
+>   * media_graph_walk_cleanup - Release resources used by graph walk.
+>   *
 
-Anyway, from my side it sounds welcomed to have userspace apps using
-it. Once we have some application using it for a couple Kernel versions,
-I guess I could just remove "experimental" from the Kernel drivers.
+-- 
+Regards,
 
-Thanks,
-Mauro
+Laurent Pinchart
