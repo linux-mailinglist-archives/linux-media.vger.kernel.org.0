@@ -2,70 +2,82 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4549D4884F8
-	for <lists+linux-media@lfdr.de>; Sat,  8 Jan 2022 18:35:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BE5894886C6
+	for <lists+linux-media@lfdr.de>; Sat,  8 Jan 2022 23:33:38 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233137AbiAHRfL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 8 Jan 2022 12:35:11 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35876 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230402AbiAHRfK (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Sat, 8 Jan 2022 12:35:10 -0500
-Received: from mail-vk1-xa2d.google.com (mail-vk1-xa2d.google.com [IPv6:2607:f8b0:4864:20::a2d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8611CC06173F
-        for <linux-media@vger.kernel.org>; Sat,  8 Jan 2022 09:35:10 -0800 (PST)
-Received: by mail-vk1-xa2d.google.com with SMTP id bj47so615066vkb.13
-        for <linux-media@vger.kernel.org>; Sat, 08 Jan 2022 09:35:10 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:from:date:message-id:subject:to;
-        bh=rvET/fvWzhpToB747MDUFiFjig4Ir0KMz/xxf5A99jU=;
-        b=QrX7lzXx933R1/zza9CDOcbNQRd8CDNcb9zRaOA1EYbU6WK3p5t53cAZtXf8NRNnJl
-         BI7dVeYV5EZMY93S0qzqe3y+FkfmZqEWh+ubOeyzHPkm4E0vVuSoxCHzZUuxLlk1ueau
-         uZKB5KTjbG6U5jL2AqBcWLOQ2Ww3T521nwbJ6PVsaF19P7whX79B1OJrXwsxq0tuIeto
-         E2fqNjJZDWaxB1V3Ul93hh35WbLfYiVp0vbI4bq0egA+ZyqkjhQ859WnPGGYnSvqmFRm
-         Mvi/JWxX1BeyJFVEVEAWFeGFXBKSkrC5rv5xND8Eir8g5i3K97fY1TOwjxhIFWQBgn+p
-         MjXg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
-        bh=rvET/fvWzhpToB747MDUFiFjig4Ir0KMz/xxf5A99jU=;
-        b=jyYfbM3iKiy+y5j043bChusQadBlThcnLepuqXSdGaXMVVx2HE/mhzyG4x+SEyFnoR
-         9luDlwe4mUX9pP/1POfDxLl2qIUi1gggsjpQ5wzcNmvfZZo/KWl5fu8d7GJLl+/jU/QS
-         QYu4x7RvwcP2/mi4brpqjtaIQNRqUi5BRhIRAXqlj1XWf7owMrAH4MOZsevezhATyBjA
-         OS7wKPB1UNaMWC9gLcSyPHbLoKtmnVvFW8F85tgnYQKYmfJ/+aBg/IF2dm4VO+fpGwgo
-         Fuw9wXSoO16Of2SUVPUMC05Nm+W/BndGeB6yd8txzMDAk4BMbCnqVmxwe9WDNDquXCyU
-         Fnsw==
-X-Gm-Message-State: AOAM531yXkUOwda43lKDItH6EWtzB7c/4wv81T4Kc6VDfHGNeubbV8yS
-        0fgg/NtuPJvBu8mCv9bO6j3QpXglMkMArVo7AogTwyFamOQ=
-X-Google-Smtp-Source: ABdhPJxPDz2dba3152KA+EfjgEgTPSquQpSM6vyo4daSMKLrN4KVL773s4yPQxce4wC3Qa4MbZQkT5Oy+mchPyggfeY=
-X-Received: by 2002:ac5:c848:: with SMTP id g8mr25168716vkm.3.1641663309546;
- Sat, 08 Jan 2022 09:35:09 -0800 (PST)
+        id S234942AbiAHWdh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 8 Jan 2022 17:33:37 -0500
+Received: from dfw.source.kernel.org ([139.178.84.217]:43482 "EHLO
+        dfw.source.kernel.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229899AbiAHWdh (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Sat, 8 Jan 2022 17:33:37 -0500
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 1BC1860E8C
+        for <linux-media@vger.kernel.org>; Sat,  8 Jan 2022 22:33:37 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id ACE8CC36AE9;
+        Sat,  8 Jan 2022 22:33:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1641681216;
+        bh=lE0J8q/dkhaiPBpvvFs6h0fzYvZj9RQpcxwnH+n4glc=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=tUquw66uH4k4FUBrJwsu0XnTpBpVLfBluYWEg+I0Jk72zm8Bd+Rwhs/qQg5HbbgEp
+         PW+95dxkzdUGM8my1UwTqo7RrkQRsDkHF6gDLlPENrNvlzFz57lcpmMSIjfjEayEYE
+         8IbAXXX1UecmZ/ngZRlH4b4fV+GBgsLL7k6pfbJqu+VOcQ8RhSHHV06XuxHOmMRi2h
+         NYpVskbY6agg+7MQz3eoI6D+4F8uAKfBpSUyTi+yS821gjG6tKYbKe4VyBI17zDI4B
+         VM+zldYC76yGPbEvMpGGLdEEhiltHFhxG0ZDfFdm/zGL6YqXBbVOl614Bw5H0HwPZ0
+         Xp4cHVr3IC2LQ==
+Date:   Sat, 8 Jan 2022 23:33:32 +0100
+From:   Mauro Carvalho Chehab <mchehab@kernel.org>
+To:     Adam Stylinski <kungfujesus06@gmail.com>
+Cc:     linux-media@vger.kernel.org
+Subject: Re: DVB mmap API
+Message-ID: <20220108233326.364c1edf@coco.lan>
+In-Reply-To: <CAJwHY9W2ewhq7oUvgxUZpMJ77=9J=JavG=P2Q1pZC0b1XZiriw@mail.gmail.com>
+References: <CAJwHY9W2ewhq7oUvgxUZpMJ77=9J=JavG=P2Q1pZC0b1XZiriw@mail.gmail.com>
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.31; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-From:   Adam Stylinski <kungfujesus06@gmail.com>
-Date:   Sat, 8 Jan 2022 12:34:59 -0500
-Message-ID: <CAJwHY9W2ewhq7oUvgxUZpMJ77=9J=JavG=P2Q1pZC0b1XZiriw@mail.gmail.com>
-Subject: DVB mmap API
-To:     linux-media@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hello,
+Em Sat, 8 Jan 2022 12:34:59 -0500
+Adam Stylinski <kungfujesus06@gmail.com> escreveu:
 
-I'm probably just looking for a project of unnecessary complexity to
-take on but I couldn't help but notice there's been driver support for
-mmap on DVB devices in the Linux kernel now for a pretty long time.  I
-also noticed that it's been marked experimental since inception and
-that nothing seems to use it or have a real example of it for the DVB
-spec (v4lutils' dvb wrappers included).  Is there a grave reason this
-thing is still marked experimental?  It seems in theory like a good
-way to prevent context switches.
+> Hello,
+> 
+> I'm probably just looking for a project of unnecessary complexity to
+> take on but I couldn't help but notice there's been driver support for
+> mmap on DVB devices in the Linux kernel now for a pretty long time.  I
+> also noticed that it's been marked experimental since inception and
+> that nothing seems to use it or have a real example of it for the DVB
+> spec (v4lutils' dvb wrappers included).  Is there a grave reason this
+> thing is still marked experimental?  It seems in theory like a good
+> way to prevent context switches.
 
-I'm nearly considering experimenting with modifying mythtv's DVB
-demuxing, tuning, and streaming routines to use this.  Not because I
-need to, mind you, it's just an ancient system and I'm trying to
-prevent every ounce of the occasional hiccup that happens.
+There's no grave reason why it is marked as experimental... it is just
+that userspace apps don't use it yet, except for dvbv5-zap, when passing
+an extra option to enable it.
 
-https://www.kernel.org/doc/html/v5.15/userspace-api/media/dvb/dmx-mmap.html
+> I'm nearly considering experimenting with modifying mythtv's DVB
+> demuxing, tuning, and streaming routines to use this.  Not because I
+> need to, mind you, it's just an ancient system and I'm trying to
+> prevent every ounce of the occasional hiccup that happens.
+> 
+> https://www.kernel.org/doc/html/v5.15/userspace-api/media/dvb/dmx-mmap.html
+
+It would be nice if MythTV and other apps would support MMAP.
+
+If you have time, and want to do that, It sounds great to me.
+You could also add support for it on Kaffeine - with already uses
+libdvbv5 - so maybe it could be simpler to add support for it too.
+
+Anyway, from my side it sounds welcomed to have userspace apps using
+it. Once we have some application using it for a couple Kernel versions,
+I guess I could just remove "experimental" from the Kernel drivers.
+
+Thanks,
+Mauro
