@@ -2,61 +2,111 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E9A264883E5
-	for <lists+linux-media@lfdr.de>; Sat,  8 Jan 2022 15:02:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4346B4884C6
+	for <lists+linux-media@lfdr.de>; Sat,  8 Jan 2022 18:04:45 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229619AbiAHOC2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 8 Jan 2022 09:02:28 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46126 "EHLO
+        id S234792AbiAHREo (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 8 Jan 2022 12:04:44 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57466 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229486AbiAHOC2 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Sat, 8 Jan 2022 09:02:28 -0500
-Received: from mail-ot1-x32c.google.com (mail-ot1-x32c.google.com [IPv6:2607:f8b0:4864:20::32c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 191B7C061574
-        for <linux-media@vger.kernel.org>; Sat,  8 Jan 2022 06:02:28 -0800 (PST)
-Received: by mail-ot1-x32c.google.com with SMTP id a23-20020a9d4717000000b0056c15d6d0caso9841337otf.12
-        for <linux-media@vger.kernel.org>; Sat, 08 Jan 2022 06:02:28 -0800 (PST)
+        with ESMTP id S232235AbiAHREo (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Sat, 8 Jan 2022 12:04:44 -0500
+Received: from mail-wr1-x42b.google.com (mail-wr1-x42b.google.com [IPv6:2a00:1450:4864:20::42b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 96B87C06173F;
+        Sat,  8 Jan 2022 09:04:43 -0800 (PST)
+Received: by mail-wr1-x42b.google.com with SMTP id e9so16141985wra.2;
+        Sat, 08 Jan 2022 09:04:43 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=c/glLvohbFB55IWi8Rp94oOnuRuWlRXM8ti7eehICjU=;
-        b=CGqQVE2wyIsrqopoi26GYtcxNptprUgfiykHBxKnFiWDCSZl4RgGSer7s3krycL9X9
-         eZureAIsIZ2qxEjsgMfYfxH5e2t+KVd1fSwixk9EfntI1i7KwLfYheppH2RTOVesDhC9
-         ZvskeGPCp3VqTyhbcYojJVzAHJlPhGUPrfjcpv5ikQGvs0BxI7407fuKhyyAcUR42KCr
-         IuAQ59ac5JnwspKtHEOUFf8qQ+J2MzI5eRtaCy+Bm24UUYCw18RLGugWfe9T8dvJy0bp
-         qp8M8mkZqkv/sfN2LNpBWqLwqkHcQKmyTR9CRhnhkS5KYVAKADJiGcl+3Ya1EUu80fFm
-         cz0w==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=D0S+D/FQRGuVQki4kVkJvs2fOsfa72Dpr2oChnts0Ws=;
+        b=ReWSbFnVM+asKsJH7t3pVj9MX+erLTHsb5AizEdt6MprV9Ez3Dk2sloGNYQc4QMEZJ
+         uyAWXuIUVxj2T5YPvWceQsp6/jAejpvj+UuaHH3B8dXewNkxpuC3ZC1BY2vB1cDq2rC2
+         GEb2t8LDeO+ZvpAcIohyyl0+eu3Db6qN3N6SD3zQD51OJDXAzN/ZAPm5ykwHqjdVTzqa
+         ipIeY61+Uqr9g+bUipWws92I8p7lVrxgjPqPODm7lNx3wmO7fYDilw/INXuJ30T7P0om
+         D9M2E5av6BUFQhKiVgsJfg+/JFcTyFUEjVNT2fkPoQtrqUnMP0LNNW/QLxfp4mVCbw2t
+         HEsw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=c/glLvohbFB55IWi8Rp94oOnuRuWlRXM8ti7eehICjU=;
-        b=7/gTTr6IQh3MRmTBqv+25zJUoCdMfTQKFFTlk3owkEENN+cNnoUGOtCZZXcRlJoaYK
-         6AkZCbdIiDLQ47PARVh74MZXLj22BWJ5/V8njSUTPazW/AxDm3QF8hcwHWO/A/GhYiZE
-         fcf2ANeabjBbPopEElTqYgAu8djVY+1p8n1he7IWDuaFuG6Xzl98rpBAGcfo3hUD0H18
-         AW2SzqMTIdbprfxYgXFvJWxPDSlAJc/TtZ7d2a+oBdEMxlu8YSY8TRf4cIPtiwnw4f5T
-         OvwBNR+pvPOuft1Dt8EdcJlaqWemE0A1FbdFPuaDk5A6wyjU8NYCfzGU6IptRRUFVdsi
-         2U6g==
-X-Gm-Message-State: AOAM530hgt/+MFLoAwDKlmsjADoOonLOA1DO/oeMYonC6oY9aF4GI5hj
-        QoGv4KrLxbxFYNkpAU2alJAtGD9yNzV69Q6Wmm8=
-X-Google-Smtp-Source: ABdhPJy4U8VdcBBbQOav5RotMT6g52E66REbnPvk8z2vt47UrWUJprxHVjyfpWaL3jLifzS3/N8fiXqpyG5zMNP8elQ=
-X-Received: by 2002:a9d:4d90:: with SMTP id u16mr47782225otk.86.1641650547477;
- Sat, 08 Jan 2022 06:02:27 -0800 (PST)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=D0S+D/FQRGuVQki4kVkJvs2fOsfa72Dpr2oChnts0Ws=;
+        b=Dxu2ctGrkkmkESTnfXvFtKAfVlXwjhBBClPXD4ZDJV411dCsaFevI5ybr6ZgNnXGYj
+         hXLemEFJvi3e7niaFLnPI761T5C0LlEr8LuJLUMismIPtS4wdi72hsW080ePffHrHTrw
+         nrNSFCRrnOEyRRE7Gg9jWNckm4w3dxaZ6SIz0eslU0eU972aezAvupaAjiHpE+MaZzxW
+         9WBDHdgf65GKsvO8dBaS1qbpBaVSbqf4COFUosjpRdhykI6Ctp0/dqWsJOhZtTS8qypQ
+         frHDx3db6MdGgwxEj3I18WGoqU2xVE2UrLFvqEipZ/52+ANQ5lJGazCMP0xzgRE0eHwV
+         EHag==
+X-Gm-Message-State: AOAM5327vzlC6WKPhLUHDQbrWjgp0pyJogRj29SEqVHEeOFAHTXCOI8V
+        metP0QxO3Rx3eVJ/pKodylk5CiJoFkIIWQ==
+X-Google-Smtp-Source: ABdhPJy0wEyg+On4sfjTIHisEZxONTaD+blK8YcC2BhPE2gEa/aGuUPNG3VD6DN+a2niO7vwxOmWpA==
+X-Received: by 2002:adf:d1e5:: with SMTP id g5mr58250673wrd.94.1641661482190;
+        Sat, 08 Jan 2022 09:04:42 -0800 (PST)
+Received: from localhost.localdomain ([217.113.240.86])
+        by smtp.gmail.com with ESMTPSA id n15sm2455935wmc.0.2022.01.08.09.04.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 08 Jan 2022 09:04:41 -0800 (PST)
+From:   =?UTF-8?q?Jos=C3=A9=20Exp=C3=B3sito?= <jose.exposito89@gmail.com>
+To:     laurent.pinchart@ideasonboard.com
+Cc:     mchehab@kernel.org, linux-media@vger.kernel.org,
+        linux-kernel@vger.kernel.org, ribalda@chromium.org,
+        =?UTF-8?q?Jos=C3=A9=20Exp=C3=B3sito?= <jose.exposito89@gmail.com>
+Subject: [PATCH RESEND v2] media: uvcvideo: Fix memory leak in uvc_gpio_parse
+Date:   Sat,  8 Jan 2022 18:04:39 +0100
+Message-Id: <20220108170439.49984-1-jose.exposito89@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Received: by 2002:aca:4b17:0:0:0:0:0 with HTTP; Sat, 8 Jan 2022 06:02:27 -0800 (PST)
-Reply-To: abraaahammorrison1980@gmail.com
-From:   Abraham Morrison <drjameswilliams1924@gmail.com>
-Date:   Sat, 8 Jan 2022 06:02:27 -0800
-Message-ID: <CAPBADDHREpGbUNsurDCUtgOR9_8TRfaF=0Han+ngFKe=S6=Dfg@mail.gmail.com>
-Subject: Good day!
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hello!, I am Barrister. Abraham Morrison, Did you receive my previous
-message? I have an important information for you. So if you are
-interested please get back to me for more details
-Thank you.
-Barrister. Abraham Morrison.
+Previously the unit buffer was allocated before checking the IRQ for
+privacy GPIO.
+In case of error, the unit buffer was leaked.
+
+Allocate the unit buffer after the IRQ to avoid it.
+
+Addresses-Coverity-ID: 1474639 ("Resource leak")
+Fixes: 2886477ff987 ("media: uvcvideo: Implement UVC_EXT_GPIO_UNIT")
+Signed-off-by: José Expósito <jose.exposito89@gmail.com>
+Reviewed-by: Ricardo Ribalda <ribalda@chromium.org>
+
+---
+
+v2: Add Fixes and Reviewed-by tags
+---
+ drivers/media/usb/uvc/uvc_driver.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
+
+diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc_driver.c
+index 7c007426e082..9e83e2002710 100644
+--- a/drivers/media/usb/uvc/uvc_driver.c
++++ b/drivers/media/usb/uvc/uvc_driver.c
+@@ -1533,10 +1533,6 @@ static int uvc_gpio_parse(struct uvc_device *dev)
+ 	if (IS_ERR_OR_NULL(gpio_privacy))
+ 		return PTR_ERR_OR_ZERO(gpio_privacy);
+ 
+-	unit = uvc_alloc_entity(UVC_EXT_GPIO_UNIT, UVC_EXT_GPIO_UNIT_ID, 0, 1);
+-	if (!unit)
+-		return -ENOMEM;
+-
+ 	irq = gpiod_to_irq(gpio_privacy);
+ 	if (irq < 0) {
+ 		if (irq != EPROBE_DEFER)
+@@ -1545,6 +1541,10 @@ static int uvc_gpio_parse(struct uvc_device *dev)
+ 		return irq;
+ 	}
+ 
++	unit = uvc_alloc_entity(UVC_EXT_GPIO_UNIT, UVC_EXT_GPIO_UNIT_ID, 0, 1);
++	if (!unit)
++		return -ENOMEM;
++
+ 	unit->gpio.gpio_privacy = gpio_privacy;
+ 	unit->gpio.irq = irq;
+ 	unit->gpio.bControlSize = 1;
+-- 
+2.25.1
+
