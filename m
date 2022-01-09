@@ -2,46 +2,50 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3985A4888F8
-	for <lists+linux-media@lfdr.de>; Sun,  9 Jan 2022 12:46:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8D64C4888FB
+	for <lists+linux-media@lfdr.de>; Sun,  9 Jan 2022 12:47:13 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231277AbiAILqW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 9 Jan 2022 06:46:22 -0500
-Received: from relay11.mail.gandi.net ([217.70.178.231]:49507 "EHLO
-        relay11.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230364AbiAILqV (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Sun, 9 Jan 2022 06:46:21 -0500
+        id S233810AbiAILrM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 9 Jan 2022 06:47:12 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44532 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230364AbiAILrM (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Sun, 9 Jan 2022 06:47:12 -0500
+Received: from relay11.mail.gandi.net (relay11.mail.gandi.net [IPv6:2001:4b98:dc4:8::231])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A1CD4C06173F;
+        Sun,  9 Jan 2022 03:47:11 -0800 (PST)
 Received: (Authenticated sender: jacopo@jmondi.org)
-        by relay11.mail.gandi.net (Postfix) with ESMTPSA id DBB3E100002;
-        Sun,  9 Jan 2022 11:46:18 +0000 (UTC)
-Date:   Sun, 9 Jan 2022 12:47:19 +0100
+        by relay11.mail.gandi.net (Postfix) with ESMTPSA id 1B06A100007;
+        Sun,  9 Jan 2022 11:47:07 +0000 (UTC)
+Date:   Sun, 9 Jan 2022 12:48:08 +0100
 From:   Jacopo Mondi <jacopo@jmondi.org>
 To:     Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 Cc:     linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
         Kieran Bingham <kieran.bingham@ideasonboard.com>,
         Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
         Thomas Nizan <tnizan@witekio.com>,
-        Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org
-Subject: Re: [PATCH v2 03/11] dt-bindings: media: i2c: max9286: Add property
- to select bus width
-Message-ID: <20220109114719.x6zuqtfukgjae3to@uno.localdomain>
+        Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org,
+        Mark Brown <broonie@kernel.org>,
+        Liam Girdwood <lgirdwood@gmail.com>
+Subject: Re: [PATCH v2 01/11] dt-bindings: media: i2c: max9286: Add support
+ for per-port supplies
+Message-ID: <20220109114808.rg2yjdnkmw4rl33x@uno.localdomain>
 References: <20220101182806.19311-1-laurent.pinchart+renesas@ideasonboard.com>
- <20220101182806.19311-4-laurent.pinchart+renesas@ideasonboard.com>
+ <20220101182806.19311-2-laurent.pinchart+renesas@ideasonboard.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20220101182806.19311-4-laurent.pinchart+renesas@ideasonboard.com>
+In-Reply-To: <20220101182806.19311-2-laurent.pinchart+renesas@ideasonboard.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
 Hi Laurent,
 
-On Sat, Jan 01, 2022 at 08:27:58PM +0200, Laurent Pinchart wrote:
-> The GMSL serial data bus width is normally selected by the BWS pin, but
-> it can also be configured by software. Add a DT property that allows
-> overriding the value of the BWS-selected bus width to support systems
-> whose BWS pin doesn't result in the correct value.
+On Sat, Jan 01, 2022 at 08:27:56PM +0200, Laurent Pinchart wrote:
+> Power supplies for the ports can be controlled per port depending on the
+> hardware design. Support per-port supplies in the DT bindings, mutually
+> exclusive with the global supply.
 >
 > Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 
@@ -51,27 +55,52 @@ Thanks
   j
 
 > ---
->  .../devicetree/bindings/media/i2c/maxim,max9286.yaml       | 7 +++++++
->  1 file changed, 7 insertions(+)
+> Changes since v1:
+>
+> - Simplify mutual exclusion condition
+> ---
+>  .../bindings/media/i2c/maxim,max9286.yaml          | 14 +++++++++++++-
+>  1 file changed, 13 insertions(+), 1 deletion(-)
 >
 > diff --git a/Documentation/devicetree/bindings/media/i2c/maxim,max9286.yaml b/Documentation/devicetree/bindings/media/i2c/maxim,max9286.yaml
-> index 5d3e99027a79..123e98cdb7b6 100644
+> index 02f656e78700..c20557b52e45 100644
 > --- a/Documentation/devicetree/bindings/media/i2c/maxim,max9286.yaml
 > +++ b/Documentation/devicetree/bindings/media/i2c/maxim,max9286.yaml
-> @@ -50,6 +50,13 @@ properties:
->    '#gpio-cells':
->      const: 2
+> @@ -39,7 +39,7 @@ properties:
+>      maxItems: 1
 >
-> +  maxim,bus-width:
-> +    enum: [ 24, 27, 32 ]
-> +    description: |
-> +      The GMSL serial data bus width. This setting is normally controlled by
-> +      the BWS pin, but may be overridden with this property. The value must
-> +      match the configuration of the remote serializers.
+>    poc-supply:
+> -    description: Regulator providing Power over Coax to the cameras
+> +    description: Regulator providing Power over Coax to all the ports
+>
+>    enable-gpios:
+>      description: GPIO connected to the \#PWDN pin with inverted polarity
+> @@ -160,6 +160,10 @@ properties:
+>
+>              additionalProperties: false
+>
+> +patternProperties:
+> +  "^port[0-3]-poc-supply$":
+> +    description: Regulator providing Power over Coax for a particular port
 > +
->    maxim,i2c-clock-frequency:
->      enum: [ 8470, 28300, 84700, 105000, 173000, 339000, 533000, 837000 ]
->      default: 105000
+>  required:
+>    - compatible
+>    - reg
+> @@ -167,6 +171,14 @@ required:
+>    - i2c-mux
+>    - gpio-controller
+>
+> +allOf:
+> +  - if:
+> +      required:
+> +        - poc-supply
+> +    then:
+> +      patternProperties:
+> +        "^port[0-3]-poc-supply$": false
+> +
+>  additionalProperties: false
+>
+>  examples:
 > --
 > Regards,
 >
