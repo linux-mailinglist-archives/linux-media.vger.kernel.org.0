@@ -2,77 +2,66 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D72C2488A42
-	for <lists+linux-media@lfdr.de>; Sun,  9 Jan 2022 16:35:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E0D34488BE4
+	for <lists+linux-media@lfdr.de>; Sun,  9 Jan 2022 20:02:03 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235899AbiAIPfb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 9 Jan 2022 10:35:31 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37946 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231642AbiAIPfb (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Sun, 9 Jan 2022 10:35:31 -0500
-Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::224])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C1C7AC06173F;
-        Sun,  9 Jan 2022 07:35:30 -0800 (PST)
-Received: (Authenticated sender: jacopo@jmondi.org)
-        by relay4-d.mail.gandi.net (Postfix) with ESMTPSA id ABD47E0008;
-        Sun,  9 Jan 2022 15:35:27 +0000 (UTC)
-Date:   Sun, 9 Jan 2022 16:36:28 +0100
-From:   Jacopo Mondi <jacopo@jmondi.org>
-To:     Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-Cc:     linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Subject: Re: [PATCH] media: i2c: rdacm20: Fix indentation in comment
-Message-ID: <20220109153628.lyn62toisoln67jy@uno.localdomain>
-References: <20220101173540.9090-1-laurent.pinchart+renesas@ideasonboard.com>
+        id S229984AbiAITCC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 9 Jan 2022 14:02:02 -0500
+Received: from relay026.a.hostedemail.com ([64.99.140.26]:60567 "EHLO
+        relay.hostedemail.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+        with ESMTP id S229582AbiAITCC (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Sun, 9 Jan 2022 14:02:02 -0500
+Received: from omf09.hostedemail.com (a10.router.float.18 [10.200.18.1])
+        by unirelay01.hostedemail.com (Postfix) with ESMTP id 08E33604A7;
+        Sun,  9 Jan 2022 19:01:59 +0000 (UTC)
+Received: from [HIDDEN] (Authenticated sender: joe@perches.com) by omf09.hostedemail.com (Postfix) with ESMTPA id 5772F20024;
+        Sun,  9 Jan 2022 19:01:53 +0000 (UTC)
+Message-ID: <9011348fd53b35857afb6a65f5d3163adec9a923.camel@perches.com>
+Subject: Re: [PATCH v7 2/2] Driver for ON Semi AR0521 camera sensor
+From:   Joe Perches <joe@perches.com>
+To:     Jacopo Mondi <jacopo@jmondi.org>,
+        Krzysztof =?UTF-8?Q?Ha=C5=82asa?= <khalasa@piap.pl>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Sakari Ailus <sakari.ailus@iki.fi>
+Date:   Sun, 09 Jan 2022 11:01:52 -0800
+In-Reply-To: <20220109153439.bfnfigocaeeeghmp@uno.localdomain>
+References: <m3czl9eylt.fsf@t19.piap.pl> <m34k6leyb1.fsf@t19.piap.pl>
+         <20220109153439.bfnfigocaeeeghmp@uno.localdomain>
+Content-Type: text/plain; charset="ISO-8859-1"
+User-Agent: Evolution 3.40.4-1ubuntu2 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20220101173540.9090-1-laurent.pinchart+renesas@ideasonboard.com>
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=0.87
+X-Stat-Signature: 6bg6f45dt746mue5c8rib6zi6pe6efb6
+X-Rspamd-Server: rspamout05
+X-Rspamd-Queue-Id: 5772F20024
+X-Session-Marker: 6A6F6540706572636865732E636F6D
+X-Session-ID: U2FsdGVkX1/BA1xNhmFMhCYZ8dmyxVvDk5TbaYHhH3E=
+X-HE-Tag: 1641754913-479941
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Laurent
+On Sun, 2022-01-09 at 16:34 +0100, Jacopo Mondi wrote:
+> Hi Krzysztof
 
-On Sat, Jan 01, 2022 at 07:35:40PM +0200, Laurent Pinchart wrote:
-> From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
->
-> Fix a small indentation issue in a comment block.
->
-> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Hi Jacopo
 
-Ups :)
-Reviewed-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
+Can you please trim your replies to just the sections that
+you are commenting on?
 
-Thanks
-  j
+Finding the reply in the duplicated reply content isn't easy.
 
-> ---
->  drivers/media/i2c/rdacm20.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->
-> diff --git a/drivers/media/i2c/rdacm20.c b/drivers/media/i2c/rdacm20.c
-> index 025a610de893..e1eff4678ab3 100644
-> --- a/drivers/media/i2c/rdacm20.c
-> +++ b/drivers/media/i2c/rdacm20.c
-> @@ -463,8 +463,8 @@ static int rdacm20_initialize(struct rdacm20_device *dev)
->  		return ret;
->
->  	/*
-> -	 *  Ensure that we have a good link configuration before attempting to
-> -	 *  identify the device.
-> +	 * Ensure that we have a good link configuration before attempting to
-> +	 * identify the device.
->  	 */
->  	ret = max9271_configure_i2c(&dev->serializer,
->  				    MAX9271_I2CSLVSH_469NS_234NS |
->
-> base-commit: 68b9bcc8a534cd11fe55f8bc82f948aae7d81b3c
-> --
-> Regards,
->
-> Laurent Pinchart
->
+> > +	// access the sensor only if it's powered up
+> > +	if (!pm_runtime_get_if_in_use(&sensor->i2c_client->dev))
+> 
+> As you correctly do not access the chip's registers if it's powered
+> off, you have to call __v4l2_ctrl_handler_setup() at power on time to
+> make sure controls are actually set.
+
+It was 25 pages down in the reply to find this.
+
+
