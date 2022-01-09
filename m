@@ -2,239 +2,216 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 135E64888A3
-	for <lists+linux-media@lfdr.de>; Sun,  9 Jan 2022 11:03:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E79034888B0
+	for <lists+linux-media@lfdr.de>; Sun,  9 Jan 2022 11:25:17 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235268AbiAIKDR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 9 Jan 2022 05:03:17 -0500
-Received: from relay9-d.mail.gandi.net ([217.70.183.199]:39525 "EHLO
-        relay9-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235266AbiAIKDR (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Sun, 9 Jan 2022 05:03:17 -0500
+        id S230333AbiAIKZQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 9 Jan 2022 05:25:16 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55218 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229840AbiAIKZP (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Sun, 9 Jan 2022 05:25:15 -0500
+X-Greylist: delayed 1319 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Sun, 09 Jan 2022 02:25:14 PST
+Received: from relay7-d.mail.gandi.net (relay7-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::227])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A698EC06173F;
+        Sun,  9 Jan 2022 02:25:14 -0800 (PST)
 Received: (Authenticated sender: jacopo@jmondi.org)
-        by relay9-d.mail.gandi.net (Postfix) with ESMTPSA id CCDA3FF803;
-        Sun,  9 Jan 2022 10:03:11 +0000 (UTC)
-Date:   Sun, 9 Jan 2022 11:04:12 +0100
+        by relay7-d.mail.gandi.net (Postfix) with ESMTPSA id B0C3120002;
+        Sun,  9 Jan 2022 10:25:11 +0000 (UTC)
+Date:   Sun, 9 Jan 2022 11:26:11 +0100
 From:   Jacopo Mondi <jacopo@jmondi.org>
 To:     Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 Cc:     linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
         Kieran Bingham <kieran.bingham@ideasonboard.com>,
         Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
-        Thomas Nizan <tnizan@witekio.com>,
-        Mark Brown <broonie@kernel.org>,
-        Liam Girdwood <lgirdwood@gmail.com>
-Subject: Re: [PATCH v2 04/11] media: i2c: max9286: Add support for port
- regulators
-Message-ID: <20220109100412.z2twzgkeum4fzbaw@uno.localdomain>
+        Thomas Nizan <tnizan@witekio.com>
+Subject: Re: [PATCH v2 05/11] media: i2c: max9286: Support manual framesync
+ operation
+Message-ID: <20220109102611.w2vae4eeavbwpfwj@uno.localdomain>
 References: <20220101182806.19311-1-laurent.pinchart+renesas@ideasonboard.com>
- <20220101182806.19311-5-laurent.pinchart+renesas@ideasonboard.com>
+ <20220101182806.19311-6-laurent.pinchart+renesas@ideasonboard.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20220101182806.19311-5-laurent.pinchart+renesas@ideasonboard.com>
+In-Reply-To: <20220101182806.19311-6-laurent.pinchart+renesas@ideasonboard.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
 Hi Laurent,
 
-On Sat, Jan 01, 2022 at 08:27:59PM +0200, Laurent Pinchart wrote:
-> From: Thomas Nizan <tnizan@witekio.com>
+On Sat, Jan 01, 2022 at 08:28:00PM +0200, Laurent Pinchart wrote:
+> The MAX9286 can generate a framesync signal to synchronize the cameras,
+> using an internal timer. Support this mode of operation and configure it
+> through the .s_frameinterval() operation. If the frame interval is not
+> 0, framesync is switched to manual mode with the specified interval,
+> otherwise automatic mode is used.
 >
-> Allow users to use one PoC regulator per port, instead of a global
-> regulator.
->
-> The properties '^port[0-3]-poc-supply$' in the DT node are used to
-> indicate the regulators for individual ports.
->
-> Signed-off-by: Thomas Nizan <tnizan@witekio.com>
 > Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-
-The patch looks almost good, but it will really conflict with gpio-poc work I
-have on the list. Should we decide an ordering and send a single
-series with both efforts in to ease collecting it ?
-
 > ---
 > Changes since v1:
 >
-> - Use to_index()
-> - Use dev_err_probe()
-> - Fix error path in probe()
-> - Use devm_regulator_get_optional() instead of
->   devm_regulator_get_exclusive()
+> - Use pixel rate to calculate frame sync counter
 > ---
->  drivers/media/i2c/max9286.c | 107 +++++++++++++++++++++++++++++++-----
->  1 file changed, 94 insertions(+), 13 deletions(-)
+
+Reviewed-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
+
+Thanks
+  j
+
+>  drivers/media/i2c/max9286.c | 84 +++++++++++++++++++++++++++++++++----
+>  1 file changed, 75 insertions(+), 9 deletions(-)
 >
 > diff --git a/drivers/media/i2c/max9286.c b/drivers/media/i2c/max9286.c
-> index eb2b8e42335b..15c80034e3a4 100644
+> index 15c80034e3a4..75374034724f 100644
 > --- a/drivers/media/i2c/max9286.c
 > +++ b/drivers/media/i2c/max9286.c
-> @@ -138,6 +138,7 @@
->  struct max9286_source {
->  	struct v4l2_subdev *sd;
->  	struct fwnode_handle *fwnode;
-> +	struct regulator *regulator;
->  };
+> @@ -170,9 +170,11 @@ struct max9286_priv {
+>  	u32 rev_chan_mv;
 >
->  struct max9286_asd {
-> @@ -1071,6 +1072,49 @@ static int max9286_register_gpio(struct max9286_priv *priv)
->  	return ret;
->  }
+>  	struct v4l2_ctrl_handler ctrls;
+> -	struct v4l2_ctrl *pixelrate;
+> +	struct v4l2_ctrl *pixelrate_ctrl;
+> +	unsigned int pixelrate;
 >
-> +static int max9286_poc_power_on(struct max9286_priv *priv)
-> +{
-> +	struct max9286_source *source;
-> +	unsigned int enabled = 0;
-> +	int ret;
-> +
-> +	/* Enable the global regulator if available. */
-> +	if (priv->regulator)
-> +		return regulator_enable(priv->regulator);
-> +
-> +	/* Otherwise use the per-port regulators. */
-> +	for_each_source(priv, source) {
-> +		ret = regulator_enable(source->regulator);
-> +		if (ret < 0)
-> +			goto error;
-> +
-> +		enabled |= BIT(to_index(priv, source));
-> +	}
-> +
-> +	return 0;
-> +
-> +error:
-> +	for_each_source(priv, source) {
-> +		if (enabled & BIT(to_index(priv, source)))
-> +			regulator_disable(source->regulator);
-> +	}
-> +
-> +	return ret;
-> +}
-> +
-> +static void max9286_poc_power_off(struct max9286_priv *priv)
-> +{
-> +	struct max9286_source *source;
-> +
-> +	if (priv->regulator) {
-> +		regulator_disable(priv->regulator);
-> +		return;
-> +	}
-> +
-> +	for_each_source(priv, source)
-> +		regulator_disable(source->regulator);
-> +}
-> +
->  static int max9286_init(struct device *dev)
->  {
->  	struct max9286_priv *priv;
-> @@ -1081,9 +1125,9 @@ static int max9286_init(struct device *dev)
->  	priv = i2c_get_clientdata(client);
+>  	struct v4l2_mbus_framefmt fmt[MAX9286_N_SINKS];
+> +	struct v4l2_fract interval;
 >
->  	/* Enable the bus power. */
-> -	ret = regulator_enable(priv->regulator);
-> +	ret = max9286_poc_power_on(priv);
->  	if (ret < 0) {
-> -		dev_err(&client->dev, "Unable to turn PoC on\n");
-> +		dev_err(dev, "Unable to turn PoC on\n");
->  		return ret;
->  	}
->
-> @@ -1117,7 +1161,7 @@ static int max9286_init(struct device *dev)
->  err_v4l2_register:
->  	max9286_v4l2_unregister(priv);
->  err_regulator:
-> -	regulator_disable(priv->regulator);
-> +	max9286_poc_power_off(priv);
->
->  	return ret;
->  }
-> @@ -1248,6 +1292,47 @@ static int max9286_parse_dt(struct max9286_priv *priv)
+>  	/* Protects controls and fmt structures */
+>  	struct mutex mutex;
+> @@ -473,6 +475,40 @@ static int max9286_check_config_link(struct max9286_priv *priv,
 >  	return 0;
 >  }
 >
-> +static int max9286_get_poc_supplies(struct max9286_priv *priv)
+> +static void max9286_set_fsync_period(struct max9286_priv *priv)
 > +{
-> +	struct device *dev = &priv->client->dev;
-> +	struct max9286_source *source;
-> +	int ret;
+> +	u32 fsync;
 > +
-> +	/* Start by getting the global regulator. */
-> +	priv->regulator = devm_regulator_get_optional(dev, "poc");
-> +	if (!IS_ERR(priv->regulator))
-> +		return 0;
-> +
-> +	if (PTR_ERR(priv->regulator) != -ENODEV) {
-> +		if (PTR_ERR(priv->regulator) != -EPROBE_DEFER)
-> +			dev_err(dev, "Unable to get PoC regulator: %ld\n",
-> +				PTR_ERR(priv->regulator));
-> +		return PTR_ERR(priv->regulator);
+> +	if (!priv->interval.numerator || !priv->interval.denominator) {
+> +		/*
+> +		 * Special case, a null interval enables automatic FRAMESYNC
+> +		 * mode. FRAMESYNC is taken from the slowest link.
+> +		 */
+> +		max9286_write(priv, 0x01, MAX9286_FSYNCMODE_INT_HIZ |
+> +			      MAX9286_FSYNCMETH_AUTO);
+> +		return;
 > +	}
 > +
-> +	/* If there's no global regulator, get per-port regulators. */
-> +	dev_dbg(dev,
-> +		"No global PoC regulator, looking for per-port regulators\n");
-> +	priv->regulator = NULL;
+> +	/*
+> +	 * Manual FRAMESYNC
+> +	 *
+> +	 * The FRAMESYNC generator is configured with a period expressed as a
+> +	 * number of PCLK periods.
+> +	 */
+> +	fsync = div_u64((u64)priv->pixelrate * priv->interval.numerator,
+> +			priv->interval.denominator);
 > +
-> +	for_each_source(priv, source) {
-> +		unsigned int index = to_index(priv, source);
-> +		char name[10];
+> +	dev_dbg(&priv->client->dev, "fsync period %u (pclk %u)\n", fsync,
+> +		priv->pixelrate);
 > +
-> +		snprintf(name, sizeof(name), "port%u-poc", index);
-> +		source->regulator = devm_regulator_get(dev, name);
-
-Are you ok with a dummy being returned ?
-
-> +		if (IS_ERR(source->regulator)) {
-> +			ret = PTR_ERR(source->regulator);
-> +			dev_err_probe(dev, ret,
-> +				      "Unable to get port %u PoC regulator\n",
-> +				      index);
-> +			return ret;
-> +		}
-> +	}
+> +	max9286_write(priv, 0x01, MAX9286_FSYNCMODE_INT_OUT |
+> +		      MAX9286_FSYNCMETH_MANUAL);
+> +
+> +	max9286_write(priv, 0x06, (fsync >> 0) & 0xff);
+> +	max9286_write(priv, 0x07, (fsync >> 8) & 0xff);
+> +	max9286_write(priv, 0x08, (fsync >> 16) & 0xff);
+> +}
+> +
+>  /* -----------------------------------------------------------------------------
+>   * V4L2 Subdev
+>   */
+> @@ -511,11 +547,13 @@ static int max9286_set_pixelrate(struct max9286_priv *priv)
+>  		return -EINVAL;
+>  	}
+>
+> +	priv->pixelrate = pixelrate;
+> +
+>  	/*
+>  	 * The CSI-2 transmitter pixel rate is the single source rate multiplied
+>  	 * by the number of available sources.
+>  	 */
+> -	return v4l2_ctrl_s_ctrl_int64(priv->pixelrate,
+> +	return v4l2_ctrl_s_ctrl_int64(priv->pixelrate_ctrl,
+>  				      pixelrate * priv->nsources);
+>  }
+>
+> @@ -655,6 +693,8 @@ static int max9286_s_stream(struct v4l2_subdev *sd, int enable)
+>  	int ret;
+>
+>  	if (enable) {
+> +		max9286_set_fsync_period(priv);
+> +
+>  		/*
+>  		 * The frame sync between cameras is transmitted across the
+>  		 * reverse channel as GPIO. We must open all channels while
+> @@ -714,6 +754,32 @@ static int max9286_s_stream(struct v4l2_subdev *sd, int enable)
+>  	return 0;
+>  }
+>
+> +static int max9286_g_frame_interval(struct v4l2_subdev *sd,
+> +				    struct v4l2_subdev_frame_interval *interval)
+> +{
+> +	struct max9286_priv *priv = sd_to_max9286(sd);
+> +
+> +	if (interval->pad != MAX9286_SRC_PAD)
+> +		return -EINVAL;
+> +
+> +	interval->interval = priv->interval;
 > +
 > +	return 0;
 > +}
 > +
->  static int max9286_probe(struct i2c_client *client)
->  {
->  	struct max9286_priv *priv;
-> @@ -1292,17 +1377,13 @@ static int max9286_probe(struct i2c_client *client)
->  	if (ret)
->  		goto err_powerdown;
->
-> -	priv->regulator = devm_regulator_get(&client->dev, "poc");
-> -	if (IS_ERR(priv->regulator)) {
-> -		ret = PTR_ERR(priv->regulator);
-> -		dev_err_probe(&client->dev, ret,
-> -			      "Unable to get PoC regulator\n");
-> -		goto err_powerdown;
-> -	}
-> -
->  	ret = max9286_parse_dt(priv);
->  	if (ret)
-> -		goto err_powerdown;
-> +		goto err_cleanup_dt;
-
-Shouldn't this be still err_powerdown ?
-
+> +static int max9286_s_frame_interval(struct v4l2_subdev *sd,
+> +				    struct v4l2_subdev_frame_interval *interval)
+> +{
+> +	struct max9286_priv *priv = sd_to_max9286(sd);
 > +
-> +	ret = max9286_get_poc_supplies(priv);
-> +	if (ret)
-> +		goto err_cleanup_dt;
+> +	if (interval->pad != MAX9286_SRC_PAD)
+> +		return -EINVAL;
+> +
+> +	priv->interval = interval->interval;
+> +
+> +	return 0;
+> +}
+> +
+>  static int max9286_enum_mbus_code(struct v4l2_subdev *sd,
+>  				  struct v4l2_subdev_state *sd_state,
+>  				  struct v4l2_subdev_mbus_code_enum *code)
+> @@ -805,6 +871,8 @@ static int max9286_get_fmt(struct v4l2_subdev *sd,
 >
->  	ret = max9286_init(&client->dev);
->  	if (ret < 0)
-> @@ -1326,7 +1407,7 @@ static int max9286_remove(struct i2c_client *client)
+>  static const struct v4l2_subdev_video_ops max9286_video_ops = {
+>  	.s_stream	= max9286_s_stream,
+> +	.g_frame_interval = max9286_g_frame_interval,
+> +	.s_frame_interval = max9286_s_frame_interval,
+>  };
 >
->  	max9286_v4l2_unregister(priv);
+>  static const struct v4l2_subdev_pad_ops max9286_pad_ops = {
+> @@ -885,10 +953,10 @@ static int max9286_v4l2_register(struct max9286_priv *priv)
+>  	priv->sd.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE;
 >
-> -	regulator_disable(priv->regulator);
-> +	max9286_poc_power_off(priv);
+>  	v4l2_ctrl_handler_init(&priv->ctrls, 1);
+> -	priv->pixelrate = v4l2_ctrl_new_std(&priv->ctrls,
+> -					    &max9286_ctrl_ops,
+> -					    V4L2_CID_PIXEL_RATE,
+> -					    1, INT_MAX, 1, 50000000);
+> +	priv->pixelrate_ctrl = v4l2_ctrl_new_std(&priv->ctrls,
+> +						 &max9286_ctrl_ops,
+> +						 V4L2_CID_PIXEL_RATE,
+> +						 1, INT_MAX, 1, 50000000);
 >
->  	gpiod_set_value_cansleep(priv->gpiod_pwdn, 0);
+>  	priv->sd.ctrl_handler = &priv->ctrls;
+>  	ret = priv->ctrls.error;
+> @@ -997,9 +1065,7 @@ static int max9286_setup(struct max9286_priv *priv)
+>  		      MAX9286_CSILANECNT(priv->csi2_data_lanes) |
+>  		      MAX9286_DATATYPE_YUV422_8BIT);
 >
+> -	/* Automatic: FRAMESYNC taken from the slowest Link. */
+> -	max9286_write(priv, 0x01, MAX9286_FSYNCMODE_INT_HIZ |
+> -		      MAX9286_FSYNCMETH_AUTO);
+> +	max9286_set_fsync_period(priv);
+>
+>  	/* Enable HS/VS encoding, use D14/15 for HS/VS, invert VS. */
+>  	max9286_write(priv, 0x0c, MAX9286_HVEN | MAX9286_INVVS |
 > --
 > Regards,
 >
