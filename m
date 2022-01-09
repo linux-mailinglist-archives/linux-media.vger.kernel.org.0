@@ -2,198 +2,124 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E077448875D
-	for <lists+linux-media@lfdr.de>; Sun,  9 Jan 2022 03:37:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 530B9488764
+	for <lists+linux-media@lfdr.de>; Sun,  9 Jan 2022 03:47:06 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235077AbiAICh4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 8 Jan 2022 21:37:56 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40182 "EHLO
+        id S235098AbiAICrD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 8 Jan 2022 21:47:03 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42116 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235073AbiAICh4 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Sat, 8 Jan 2022 21:37:56 -0500
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C6155C06173F;
-        Sat,  8 Jan 2022 18:37:55 -0800 (PST)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id DC239A1B;
-        Sun,  9 Jan 2022 03:37:52 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1641695873;
-        bh=YwkqTsKpwmOYLZyRtFf55UVjGVEw87S7jM1hquu8O0w=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=babASa11W7ya1NUIxGTJ7CWcrlLhiSmr9ohiNiwiQ76oFjE4JvKoByg9qwgA2QPpD
-         ue8DoVwDh2Ebgh6i9SejEauRhfJ9SxkRwlAkyXFw0iSj+cZ3O4rapOYksAlljKziCk
-         /1uQNtHPCOw8Bd2wt6MucCm6t4SvceAeEcWVgsLs=
-Date:   Sun, 9 Jan 2022 04:37:44 +0200
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Janusz Krzysztofik <jmkrzyszt@gmail.com>
-Cc:     Sakari Ailus <sakari.ailus@iki.fi>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        linux-renesas-soc@vger.kernel.org,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        Jacopo Mondi <jacopo@jmondi.org>,
-        Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
-        Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Subject: Re: [RFC PATCH 2/8] media: i2c: ov6650: Drop implementation of
- .set_mbus_config()
-Message-ID: <YdpKeBD3N6hraRxt@pendragon.ideasonboard.com>
-References: <20220103162414.27723-1-laurent.pinchart+renesas@ideasonboard.com>
- <20220103162414.27723-3-laurent.pinchart+renesas@ideasonboard.com>
- <YdXdqJLKzDduVdex@valkosipuli.retiisi.eu>
- <YdX9ZaFJVSVrh41A@pendragon.ideasonboard.com>
- <CAGfqbt5ZyVAjCggqmQxp+2028Yaz+e=O6RqkfWH6LpDBm_MsSA@mail.gmail.com>
- <YdYQztLGsEAqL6l+@pendragon.ideasonboard.com>
- <CAGfqbt6X_Zpe0q4B1BRePU68yLoGDke=ix6fvYQ75dUnO7kVgQ@mail.gmail.com>
+        with ESMTP id S235095AbiAICrD (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Sat, 8 Jan 2022 21:47:03 -0500
+Received: from mail-wr1-x42b.google.com (mail-wr1-x42b.google.com [IPv6:2a00:1450:4864:20::42b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ABCA2C061401
+        for <linux-media@vger.kernel.org>; Sat,  8 Jan 2022 18:47:02 -0800 (PST)
+Received: by mail-wr1-x42b.google.com with SMTP id r9so17737341wrg.0
+        for <linux-media@vger.kernel.org>; Sat, 08 Jan 2022 18:47:02 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=ahieVunNz1L5RwgZkbcTvDbrJmk7YBTvpA8mBTZ3k+w=;
+        b=QNH+e9xHF5CHb0AhCOJkT0sZr07SvYDmV5wpnlrxnTqi91QFCvG2G5GtOkANztVjAj
+         ayfeWDE/Rs5VAMPalT5a5Tu6peyNG2gXejDAkIc/VWi1zmezWQ29TbzwlvTp11JM68Qg
+         ozulzbnPAinMNzS8gKBEI+dxW44RLbI62q50cCp84AFX8CPx+XeyJ6/4KbwgEE7dXieD
+         K/pejXi710oy3rRSRhsw0s+YCLVP1EEolgeSrRPBZWfB/BDLjKJdWi/2KBiKRqMs+3aU
+         oGkmkFnuFZDmYHZauWlsK7dr+uhf0D6k5aOFWveSfEu4dr+niZl2pqAfivd7WEfVxtUE
+         NFUA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=ahieVunNz1L5RwgZkbcTvDbrJmk7YBTvpA8mBTZ3k+w=;
+        b=M5TZVmmuNzfIJLWWu2K/ldCiGd5Cue+yRaf3ZRfhD9dZQXzkwxTObwbOiwt7BB9LiA
+         HHjU9FtGc+s8fL+mxyofrU4IODmAlXWJ7JLNWH2RcXTCuxb4iEUqkNCQwg30xs7KHmss
+         3iJTGfsTiJ8eA5tEeYgIbrEnjixzIznF1+4tIf4XAqR6WSjPOnUuUjMjzlo4/l7B/0py
+         JvL3NvggIx+idRsdNtm/Z7CxJJ1mrKTIVKLqYKFPRDC3DEGZh2Ir2/S3RpSlmhhz94Wt
+         Fx5BV34RZInwoHOElc1mcwQghAkSdZrluJfw23R2sVi/L+pZkUXvNxD4KpLfndoE0eQL
+         k3Mg==
+X-Gm-Message-State: AOAM5321TlnO1P+6Qj97PhX+cNixnAydzRzOV/wMTrw6mrUMOTn+5GW7
+        rdRiXGErK44qastpxScuCwUbyQ==
+X-Google-Smtp-Source: ABdhPJwI3Ik3ndftSWgxF1nbKPaxjahuvvpNwDymNwgKl48haPX8IhPBIIw1WQfLaU64LWWAfqgitQ==
+X-Received: by 2002:a5d:64eb:: with SMTP id g11mr29376202wri.135.1641696421236;
+        Sat, 08 Jan 2022 18:47:01 -0800 (PST)
+Received: from sagittarius-a.chello.ie (188-141-3-169.dynamic.upc.ie. [188.141.3.169])
+        by smtp.gmail.com with ESMTPSA id l13sm3341748wrs.73.2022.01.08.18.47.00
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 08 Jan 2022 18:47:00 -0800 (PST)
+From:   Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+To:     linux-arm-msm@vger.kernel.org, linux-media@vger.kernel.org,
+        mchehab@kernel.org, hverkuil@xs4all.nl, robert.foss@linaro.org
+Cc:     jonathan@marek.ca, andrey.konovalov@linaro.org,
+        todor.too@gmail.com, agross@kernel.org, bjorn.andersson@linaro.org,
+        jgrahsl@snap.com, hfink@snap.com, vladimir.zapolskiy@linaro.org,
+        dmitry.baryshkov@linaro.org, bryan.odonoghue@linaro.org
+Subject: [PATCH v2 0/8] camss: Fixup multiple VDDA regulator support
+Date:   Sun,  9 Jan 2022 02:49:02 +0000
+Message-Id: <20220109024910.2041763-1-bryan.odonoghue@linaro.org>
+X-Mailer: git-send-email 2.33.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <CAGfqbt6X_Zpe0q4B1BRePU68yLoGDke=ix6fvYQ75dUnO7kVgQ@mail.gmail.com>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Janusz,
+V2:
+- Only do array allocation when num_supplies > 0 - Bjorn
+- Set unused regulators to {} instead of { NULL } - Bjorn
 
-On Thu, Jan 06, 2022 at 01:13:56AM +0100, Janusz Krzysztofik wrote:
-> On Wednesday, 5 January 2022 22:42:38 CET Laurent Pinchart wrote:
-> > On Wed, Jan 05, 2022 at 10:31:41PM +0100, Janusz Krzysztofik wrote:
-> > > On Wednesday, 5 January 2022 21:19:49 CET Laurent Pinchart wrote:
-> > > > On Wed, Jan 05, 2022 at 08:04:24PM +0200, Sakari Ailus wrote:
-> > > > > On Mon, Jan 03, 2022 at 06:24:08PM +0200, Laurent Pinchart wrote:
-> > > > > > The subdev .set_mbus_config() operation is deprecated. No code in the
-> > > > > > kernel calls it, so drop its implementation from the ov6650 driver.
-> > > > > >
-> > > > > > Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-> > > > > > ---
-> > > > > >  drivers/media/i2c/ov6650.c | 37 -------------------------------------
-> > > > > >  1 file changed, 37 deletions(-)
-> > > > > >
-> > > > > > diff --git a/drivers/media/i2c/ov6650.c b/drivers/media/i2c/ ov6650.c
-> > > > > > index f67412150b16..455a627e35a0 100644
-> > > > > > --- a/drivers/media/i2c/ov6650.c
-> > > > > > +++ b/drivers/media/i2c/ov6650.c
-> > > > > > @@ -944,42 +944,6 @@ static int ov6650_get_mbus_config(struct v4l2_subdev *sd,
-> > > > > >   return 0;
-> > > > > >  }
-> > > > > >
-> > > > > > -/* Alter bus settings on camera side */
-> > > > > > -static int ov6650_set_mbus_config(struct v4l2_subdev *sd,
-> > > > > > -                           unsigned int pad,
-> > > > > > -                           struct v4l2_mbus_config *cfg)
-> > > > > > -{
-> > > > > > - struct i2c_client *client = v4l2_get_subdevdata(sd);
-> > > > > > - int ret = 0;
-> > > > > > -
-> > > > > > - if (cfg->flags & V4L2_MBUS_PCLK_SAMPLE_RISING)
-> > > > > > -         ret = ov6650_reg_rmw(client, REG_COMJ, COMJ_PCLK_RISING, 0);
-> > > > > > - else if (cfg->flags & V4L2_MBUS_PCLK_SAMPLE_FALLING)
-> > > > > > -         ret = ov6650_reg_rmw(client, REG_COMJ, 0, COMJ_PCLK_RISING);
-> > > > >
-> > > > > I think this configuration should come from the endpoint which the driver
-> > > > > currently does not parse. In fact, there are no even DT bindings for the
-> > > > > device.
-> > > >
-> > > > There's also no OF match table. While this isn't strictly required, it
-> > > > may indicate that the sensor hasn't been tested much on DT-based
-> > > > systems.
-> > > >
-> > > > I agree that the configuration should come from the device tree, but I
-> > > > can't test that, so I'm tempted to let someone else implement it if the
-> > > > driver is actually still in use (I can also write a patch if someone can
-> > > > test it).
-> > >
-> > > This driver was used with omap1_camera, removed from the tree a few years
-> > > ago by Hans, despite my attempts to refresh it.  I tried to keep ov6650
-> > > updated but I gave up due to lack of response to my submissions.  That also
-> > > blocked my attempts to rework and reintroduce omap1_camera.
-> > >
-> > > I think I'm still able to update my local (v4l2, non-mc) version of
-> > > omap1_camera to the extent required to test any changes to ov6650.
-> > > However, the OMAP1 platform does not support DT, and will probably never
-> > > do.  Then,  I think that it makes sense to spend my time on that only if
-> > > you (media maintainers) are not going to depreciate non-DT support any
-> > > soon.  Are you?
-> >
-> > Thank you for the quick reply, and for the offer to test this. I
-> > understand your frustration, and the impossibility (with reasonable
-> > effort) to move OMAP1 to DT.
-> 
-> I forgot to mention one more limitation of OMAP1 platform: it does not
-> support CCF.  With removal of v4l2-clk support from ov6650 a year ago, the
-> driver is probably no longer usable with OMAP1 boards.
+Bootable and testable tree for both RB3 and RB5 here:
+git.linaro.org/people/bryan.odonoghue/kernel.git / br-v5.17j+camss-fixes-v2
 
-Ouch, that's even worse indeed :-(
+V1:
+Following on from comments from Vladimir on the sm8250 CAMSS patches I had
+a look through the RB3 and RB5 schematics.
 
-> > This means that we would need to add
-> > platform data support to the ov6650 driver, and specify the platform
-> > data in the corresponding board file. On the ov6650 driver side I have
-> > no issue with that, and while platform data is deprecated for new
-> > platforms, it can be kept around for older ones as long as needed. I
-> > however don't know if changes to board files in arch/arm/mach-omap1
-> > would be accepted.
-> 
-> I think that shouldn't be a problem, I could take care.
-> 
-> > I also don't see any mention of ov6650 there,
-> 
-> Respective i2c_board_info was removed from arch/arm/mach-omap1/board-ams-
-> delta.c together with removal of soc_camera support.  I had a patch in my
-> queue that was registering the sensor info with I2C sybsystem at boot time
-> for v4l2_async use but that alone wouldn't help much.
-> 
-> > leading
-> > me to believe nobody can use this driver with the mainline kernel
-> > without resurecting the omap1_camera driver. I'm thus wondering if this
-> > would be a good use of your time, or if we should just merge this patch
-> > as-is.
-> 
-> Yes, please feel free to merge it.
-> 
-> Acked-by: Janusz Krzysztofik <jmkrzyszt@gmail.com>
+Here we see the CSI PHY connects to the same VDDA power-rails as USB, PCIe,
+UFS and the DSI PHYs.
 
-Thank you.
+Right now CAMSS works on SDM845 and SM8250 because one of the USB, PCIe,
+or UFS has enabled the relevant VDDA supplies, prior to the CAMSS driver
+running.
 
-> > > > > I wonder what kind of environment it is used in --- assuming it works
-> > > > > somewhere.
-> > > > >
-> > > > > > - if (ret)
-> > > > > > -         return ret;
-> > > > > > -
-> > > > > > - if (cfg->flags & V4L2_MBUS_HSYNC_ACTIVE_LOW)
-> > > > > > -         ret = ov6650_reg_rmw(client, REG_COMF, COMF_HREF_LOW, 0);
-> > > > > > - else if (cfg->flags & V4L2_MBUS_HSYNC_ACTIVE_HIGH)
-> > > > > > -         ret = ov6650_reg_rmw(client, REG_COMF, 0, COMF_HREF_LOW);
-> > > > > > - if (ret)
-> > > > > > -         return ret;
-> > > > > > -
-> > > > > > - if (cfg->flags & V4L2_MBUS_VSYNC_ACTIVE_HIGH)
-> > > > > > -         ret = ov6650_reg_rmw(client, REG_COMJ, COMJ_VSYNC_HIGH, 0);
-> > > > > > - else if (cfg->flags & V4L2_MBUS_VSYNC_ACTIVE_LOW)
-> > > > > > -         ret = ov6650_reg_rmw(client, REG_COMJ, 0, COMJ_VSYNC_HIGH);
-> > > > > > - if (ret)
-> > > > > > -         return ret;
-> > > > > > -
-> > > > > > - /*
-> > > > > > -  * Update the configuration to report what is actually applied to
-> > > > > > -  * the hardware.
-> > > > > > -  */
-> > > > > > - return ov6650_get_mbus_config(sd, pad, cfg);
-> > > > > > -}
-> > > > > > -
-> > > > > >  static const struct v4l2_subdev_video_ops ov6650_video_ops = {
-> > > > > >   .s_stream       = ov6650_s_stream,
-> > > > > >   .g_frame_interval = ov6650_g_frame_interval,
-> > > > > > @@ -993,7 +957,6 @@ static const struct v4l2_subdev_pad_ops ov6650_pad_ops = {
-> > > > > >   .get_fmt        = ov6650_get_fmt,
-> > > > > >   .set_fmt        = ov6650_set_fmt,
-> > > > > >   .get_mbus_config = ov6650_get_mbus_config,
-> > > > > > - .set_mbus_config = ov6650_set_mbus_config,
-> > > > > >  };
-> > > > > >
-> > > > > >  static const struct v4l2_subdev_ops ov6650_subdev_ops = {
+The solution is to
+- Fix the describing YAML
+- Add in regulator_bulk_enable()/regulator_bulk_disable()
+- Update the DTS to point at the necessary regulators
+
+I have an SDM660 board on-order so when it arrives I can also look into the
+vdda_sec regulator if nobody else has.
+
+For now this series addresses the fundamental gap in the CSI PHY power
+rails and remediates the situation for the two boards I have schematics for
+and can test, RB3/SDM845 and RB5/SM8250.
+
+This patch applies on top of
+git.linuxtv.org/hverkuil/media_tree.git  / br-v5.17j
+
+Bootable and testable tree for both RB3 and RB5 here:
+git.linaro.org/people/bryan.odonoghue/kernel.git / br-v5.17j+camss-fixes
+
+Bryan O'Donoghue (8):
+  media: dt-bindings: media: camss: Fixup vdda regulator descriptions
+    sdm845
+  media: dt-bindings: media: camss: Add vdda supply declarations sm8250
+  arm64: dts: qcom: sdm845: Rename camss vdda-supply to vdda-phy-supply
+  arm64: dts: qcom: sdm845: Add camss vdda-pll-supply
+  media: camss: Add regulator_bulk support
+  media: camss: Set unused regulators to the empty set
+  media: camss: Point sdm845 at the correct vdda regulators
+  media: camss: Point sm8250 at the correct vdda regulators
+
+ .../bindings/media/qcom,sdm845-camss.yaml     | 14 ++-
+ .../bindings/media/qcom,sm8250-camss.yaml     | 13 +++
+ arch/arm64/boot/dts/qcom/sdm845-db845c.dts    |  3 +-
+ .../media/platform/qcom/camss/camss-csid.c    | 43 ++++++---
+ .../media/platform/qcom/camss/camss-csid.h    |  3 +-
+ drivers/media/platform/qcom/camss/camss.c     | 94 +++++++++----------
+ drivers/media/platform/qcom/camss/camss.h     |  2 +-
+ 7 files changed, 104 insertions(+), 68 deletions(-)
 
 -- 
-Regards,
+2.33.0
 
-Laurent Pinchart
