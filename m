@@ -2,46 +2,46 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 647FA4888F0
-	for <lists+linux-media@lfdr.de>; Sun,  9 Jan 2022 12:43:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3985A4888F8
+	for <lists+linux-media@lfdr.de>; Sun,  9 Jan 2022 12:46:23 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235334AbiAILnE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 9 Jan 2022 06:43:04 -0500
-Received: from relay1-d.mail.gandi.net ([217.70.183.193]:48485 "EHLO
-        relay1-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233810AbiAILnE (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Sun, 9 Jan 2022 06:43:04 -0500
+        id S231277AbiAILqW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 9 Jan 2022 06:46:22 -0500
+Received: from relay11.mail.gandi.net ([217.70.178.231]:49507 "EHLO
+        relay11.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230364AbiAILqV (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Sun, 9 Jan 2022 06:46:21 -0500
 Received: (Authenticated sender: jacopo@jmondi.org)
-        by relay1-d.mail.gandi.net (Postfix) with ESMTPSA id 2DFBF240003;
-        Sun,  9 Jan 2022 11:43:00 +0000 (UTC)
-Date:   Sun, 9 Jan 2022 12:44:01 +0100
+        by relay11.mail.gandi.net (Postfix) with ESMTPSA id DBB3E100002;
+        Sun,  9 Jan 2022 11:46:18 +0000 (UTC)
+Date:   Sun, 9 Jan 2022 12:47:19 +0100
 From:   Jacopo Mondi <jacopo@jmondi.org>
 To:     Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 Cc:     linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        Niklas =?utf-8?Q?S=C3=B6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>,
-        Thomas Nizan <tnizan@witekio.com>
-Subject: Re: [PATCH v2 12/11] media: i2c: max9286: Print power-up GMSL link
- configuration
-Message-ID: <20220109114401.bjrdkys3ojcfpiy3@uno.localdomain>
+        Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
+        Thomas Nizan <tnizan@witekio.com>,
+        Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org
+Subject: Re: [PATCH v2 03/11] dt-bindings: media: i2c: max9286: Add property
+ to select bus width
+Message-ID: <20220109114719.x6zuqtfukgjae3to@uno.localdomain>
 References: <20220101182806.19311-1-laurent.pinchart+renesas@ideasonboard.com>
- <20220101232637.32104-1-laurent.pinchart+renesas@ideasonboard.com>
+ <20220101182806.19311-4-laurent.pinchart+renesas@ideasonboard.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20220101232637.32104-1-laurent.pinchart+renesas@ideasonboard.com>
+In-Reply-To: <20220101182806.19311-4-laurent.pinchart+renesas@ideasonboard.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Laurent
+Hi Laurent,
 
-On Sun, Jan 02, 2022 at 01:26:37AM +0200, Laurent Pinchart wrote:
-> The power-up GMSL link configuration is controlled by the HIM and BWS
-> pins, whose state is reflected in register 0x1c. Print the detected
-> power-up config in a debug message to help debugging.
+On Sat, Jan 01, 2022 at 08:27:58PM +0200, Laurent Pinchart wrote:
+> The GMSL serial data bus width is normally selected by the BWS pin, but
+> it can also be configured by software. Add a DT property that allows
+> overriding the value of the BWS-selected bus width to support systems
+> whose BWS pin doesn't result in the correct value.
 >
 > Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 
@@ -51,55 +51,27 @@ Thanks
   j
 
 > ---
->  drivers/media/i2c/max9286.c | 23 +++++++++++++----------
->  1 file changed, 13 insertions(+), 10 deletions(-)
+>  .../devicetree/bindings/media/i2c/maxim,max9286.yaml       | 7 +++++++
+>  1 file changed, 7 insertions(+)
 >
-> diff --git a/drivers/media/i2c/max9286.c b/drivers/media/i2c/max9286.c
-> index 446fc238d642..f7cbfdde436e 100644
-> --- a/drivers/media/i2c/max9286.c
-> +++ b/drivers/media/i2c/max9286.c
-> @@ -1147,6 +1147,7 @@ static int max9286_setup(struct max9286_priv *priv)
->  		(2 << 6) | (1 << 4) | (0 << 2) | (3 << 0), /* 210x */
->  		(3 << 6) | (2 << 4) | (1 << 2) | (0 << 0), /* 3210 */
->  	};
-> +	int cfg;
+> diff --git a/Documentation/devicetree/bindings/media/i2c/maxim,max9286.yaml b/Documentation/devicetree/bindings/media/i2c/maxim,max9286.yaml
+> index 5d3e99027a79..123e98cdb7b6 100644
+> --- a/Documentation/devicetree/bindings/media/i2c/maxim,max9286.yaml
+> +++ b/Documentation/devicetree/bindings/media/i2c/maxim,max9286.yaml
+> @@ -50,6 +50,13 @@ properties:
+>    '#gpio-cells':
+>      const: 2
 >
->  	/*
->  	 * Set the I2C bus speed.
-> @@ -1168,21 +1169,23 @@ static int max9286_setup(struct max9286_priv *priv)
->  	max9286_set_video_format(priv, &max9286_default_format);
->  	max9286_set_fsync_period(priv);
->
-> +	cfg = max9286_read(priv, 0x1c);
-> +	if (cfg < 0)
-> +		return cfg;
+> +  maxim,bus-width:
+> +    enum: [ 24, 27, 32 ]
+> +    description: |
+> +      The GMSL serial data bus width. This setting is normally controlled by
+> +      the BWS pin, but may be overridden with this property. The value must
+> +      match the configuration of the remote serializers.
 > +
-> +	dev_dbg(&priv->client->dev, "power-up config: %s immunity, %u-bit bus\n",
-> +		cfg & MAX9286_HIGHIMM(0) ? "high" : "legacy",
-> +		cfg & MAX9286_BWS ? 32 : cfg & MAX9286_HIBW ? 27 : 24);
-> +
->  	if (priv->bus_width) {
-> -		int val;
-> -
-> -		val = max9286_read(priv, 0x1c);
-> -		if (val < 0)
-> -			return val;
-> -
-> -		val &= ~(MAX9286_HIBW | MAX9286_BWS);
-> +		cfg &= ~(MAX9286_HIBW | MAX9286_BWS);
->
->  		if (priv->bus_width == 27)
-> -			val |= MAX9286_HIBW;
-> +			cfg |= MAX9286_HIBW;
->  		else if (priv->bus_width == 32)
-> -			val |= MAX9286_BWS;
-> +			cfg |= MAX9286_BWS;
->
-> -		max9286_write(priv, 0x1c, val);
-> +		max9286_write(priv, 0x1c, cfg);
->  	}
->
->  	/*
+>    maxim,i2c-clock-frequency:
+>      enum: [ 8470, 28300, 84700, 105000, 173000, 339000, 533000, 837000 ]
+>      default: 105000
 > --
 > Regards,
 >
