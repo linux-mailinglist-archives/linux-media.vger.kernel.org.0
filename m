@@ -2,88 +2,104 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 024CA4888ED
-	for <lists+linux-media@lfdr.de>; Sun,  9 Jan 2022 12:41:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 647FA4888F0
+	for <lists+linux-media@lfdr.de>; Sun,  9 Jan 2022 12:43:05 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235333AbiAILls (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 9 Jan 2022 06:41:48 -0500
-Received: from relay11.mail.gandi.net ([217.70.178.231]:44747 "EHLO
-        relay11.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235337AbiAILlr (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Sun, 9 Jan 2022 06:41:47 -0500
+        id S235334AbiAILnE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 9 Jan 2022 06:43:04 -0500
+Received: from relay1-d.mail.gandi.net ([217.70.183.193]:48485 "EHLO
+        relay1-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S233810AbiAILnE (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Sun, 9 Jan 2022 06:43:04 -0500
 Received: (Authenticated sender: jacopo@jmondi.org)
-        by relay11.mail.gandi.net (Postfix) with ESMTPSA id B5D37100005;
-        Sun,  9 Jan 2022 11:41:44 +0000 (UTC)
-Date:   Sun, 9 Jan 2022 12:42:45 +0100
+        by relay1-d.mail.gandi.net (Postfix) with ESMTPSA id 2DFBF240003;
+        Sun,  9 Jan 2022 11:43:00 +0000 (UTC)
+Date:   Sun, 9 Jan 2022 12:44:01 +0100
 From:   Jacopo Mondi <jacopo@jmondi.org>
 To:     Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 Cc:     linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
+        Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        Niklas =?utf-8?Q?S=C3=B6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>,
         Thomas Nizan <tnizan@witekio.com>
-Subject: Re: [PATCH v2 11/11] media: i2c: max9286: Select HS as data enable
- signal
-Message-ID: <20220109114245.nihfmnnhgk2eh7qd@uno.localdomain>
+Subject: Re: [PATCH v2 12/11] media: i2c: max9286: Print power-up GMSL link
+ configuration
+Message-ID: <20220109114401.bjrdkys3ojcfpiy3@uno.localdomain>
 References: <20220101182806.19311-1-laurent.pinchart+renesas@ideasonboard.com>
- <20220101182806.19311-12-laurent.pinchart+renesas@ideasonboard.com>
+ <20220101232637.32104-1-laurent.pinchart+renesas@ideasonboard.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20220101182806.19311-12-laurent.pinchart+renesas@ideasonboard.com>
+In-Reply-To: <20220101232637.32104-1-laurent.pinchart+renesas@ideasonboard.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Laurent,
+Hi Laurent
 
-On Sat, Jan 01, 2022 at 08:28:06PM +0200, Laurent Pinchart wrote:
-> GMSL can transport three synchronization signals: VSync, HSync and Data
-> Enable. The MAX9286 can select either HS or DE as a line valid signal.
+On Sun, Jan 02, 2022 at 01:26:37AM +0200, Laurent Pinchart wrote:
+> The power-up GMSL link configuration is controlled by the HIM and BWS
+> pins, whose state is reflected in register 0x1c. Print the detected
+> power-up config in a debug message to help debugging.
 >
-> Not all serializers (and transmission formats) support the DE signal.
-> The MAX9271, used by the RDACM20 and RDACM21 cameras, doesn't document
-> DE support. Nonetheless, the max9286 driver selects the DE signal as
-> line valid in register 0x0c (by not setting the DESEL bit). It's not
-> clear why this works. As HS is a more common line valid qualifier, set
-> the DESEL bit by default. This is needed to support the onsemi MARS
-> cameras.
->
-> If a camera requires usage of the DE signal in the future, this will
-> need to be made configurable.
-
-Tested-by: Jacopo Mondi <jacopo@jmondi.org>
-On Eagle V3M with RDACM20
+> Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 
 Reviewed-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
 
 Thanks
-   j
->
-> Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+  j
+
 > ---
->  drivers/media/i2c/max9286.c | 9 ++++++---
->  1 file changed, 6 insertions(+), 3 deletions(-)
+>  drivers/media/i2c/max9286.c | 23 +++++++++++++----------
+>  1 file changed, 13 insertions(+), 10 deletions(-)
 >
 > diff --git a/drivers/media/i2c/max9286.c b/drivers/media/i2c/max9286.c
-> index 07ebb01640a1..446fc238d642 100644
+> index 446fc238d642..f7cbfdde436e 100644
 > --- a/drivers/media/i2c/max9286.c
 > +++ b/drivers/media/i2c/max9286.c
-> @@ -563,9 +563,12 @@ static void max9286_set_video_format(struct max9286_priv *priv,
->  		      MAX9286_CSILANECNT(priv->csi2_data_lanes) |
->  		      info->datatype);
+> @@ -1147,6 +1147,7 @@ static int max9286_setup(struct max9286_priv *priv)
+>  		(2 << 6) | (1 << 4) | (0 << 2) | (3 << 0), /* 210x */
+>  		(3 << 6) | (2 << 4) | (1 << 2) | (0 << 0), /* 3210 */
+>  	};
+> +	int cfg;
 >
-> -	/* Enable HS/VS encoding, use D14/15 for HS/VS, invert VS. */
-> -	max9286_write(priv, 0x0c, MAX9286_HVEN | MAX9286_INVVS |
-> -		      MAX9286_HVSRC_D14);
-> +	/*
-> +	 * Enable HS/VS encoding, use HS as line valid source, use D14/15 for
-> +	 * HS/VS, invert VS.
-> +	 */
-> +	max9286_write(priv, 0x0c, MAX9286_HVEN | MAX9286_DESEL |
-> +		      MAX9286_INVVS | MAX9286_HVSRC_D14);
->  }
+>  	/*
+>  	 * Set the I2C bus speed.
+> @@ -1168,21 +1169,23 @@ static int max9286_setup(struct max9286_priv *priv)
+>  	max9286_set_video_format(priv, &max9286_default_format);
+>  	max9286_set_fsync_period(priv);
 >
->  static void max9286_set_fsync_period(struct max9286_priv *priv)
+> +	cfg = max9286_read(priv, 0x1c);
+> +	if (cfg < 0)
+> +		return cfg;
+> +
+> +	dev_dbg(&priv->client->dev, "power-up config: %s immunity, %u-bit bus\n",
+> +		cfg & MAX9286_HIGHIMM(0) ? "high" : "legacy",
+> +		cfg & MAX9286_BWS ? 32 : cfg & MAX9286_HIBW ? 27 : 24);
+> +
+>  	if (priv->bus_width) {
+> -		int val;
+> -
+> -		val = max9286_read(priv, 0x1c);
+> -		if (val < 0)
+> -			return val;
+> -
+> -		val &= ~(MAX9286_HIBW | MAX9286_BWS);
+> +		cfg &= ~(MAX9286_HIBW | MAX9286_BWS);
+>
+>  		if (priv->bus_width == 27)
+> -			val |= MAX9286_HIBW;
+> +			cfg |= MAX9286_HIBW;
+>  		else if (priv->bus_width == 32)
+> -			val |= MAX9286_BWS;
+> +			cfg |= MAX9286_BWS;
+>
+> -		max9286_write(priv, 0x1c, val);
+> +		max9286_write(priv, 0x1c, cfg);
+>  	}
+>
+>  	/*
 > --
 > Regards,
 >
