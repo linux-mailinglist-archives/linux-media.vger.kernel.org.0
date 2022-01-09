@@ -2,169 +2,127 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8041748882A
-	for <lists+linux-media@lfdr.de>; Sun,  9 Jan 2022 06:52:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 76A73488849
+	for <lists+linux-media@lfdr.de>; Sun,  9 Jan 2022 08:09:25 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231261AbiAIFwS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 9 Jan 2022 00:52:18 -0500
-Received: from ewsoutbound.kpnmail.nl ([195.121.94.169]:29286 "EHLO
-        ewsoutbound.kpnmail.nl" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229960AbiAIFwQ (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Sun, 9 Jan 2022 00:52:16 -0500
-X-KPN-MessageId: b824fc86-710f-11ec-9abf-005056abad63
-Received: from smtp.kpnmail.nl (unknown [10.31.155.37])
-        by ewsoutbound.so.kpn.org (Halon) with ESMTPS
-        id b824fc86-710f-11ec-9abf-005056abad63;
-        Sun, 09 Jan 2022 06:48:06 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=xs4all.nl; s=xs4all01;
-        h=subject:to:from:date:message-id;
-        bh=6v1Jt3OvuqPlvblNROnZwijbZ5mKetvg0D4lC5NxML0=;
-        b=DnBS+NrU4RMUnCcWHat1jx90ojFFBnrfDhq89ErBsoz0qP5gvXK4CBB/0ZehNNdRLDvfWlg29y+GX
-         w83Zu2TlYPCBsG3MKkSticOhPZKUO71FlD9pLfWbE2L8Az2jLc5tsFgnB96hbdqG37XAHq2JchG+X7
-         FI6R7x141cPsfonvxayfG3odEtzJO6upoiCg9/sIG7K+0lp6XrMRc8iCbaMZdEjtdQqUaAT1/tFUjD
-         S78VFPqNWoKKZ2Y54vwaGb4ZTwoam2bcb2OmGPrkpDYHv0QsL3n+IkQQ7XaQAHPU/s+S/ycXAaeaS7
-         EqBcIC77r71l36EgV7ExD6mUcSDnixg==
-Message-ID: <4afb64bb-7110-11ec-83ab-005056ab1411@smtp.kpnmail.nl>
-X-KPN-VerifiedSender: Yes
-X-CMASSUN: 33|TtOyzQqonCcqCSJ2GV1j7GkI9YCmeaisFibs6NBd+yxsZSJ/VpcBDAqdgqLYyts
- COUw1RjsHzcOF85cCUUiJ1Q==
-X-Originating-IP: 193.91.129.219
-Received: from localhost (cdb815bc1.dhcp.as2116.net [193.91.129.219])
-        by smtp.xs4all.nl (Halon) with ESMTPSA
-        id 4ab6849b-7110-11ec-83ab-005056ab1411;
-        Sun, 09 Jan 2022 06:52:13 +0100 (CET)
-Date:   Sun, 09 Jan 2022 06:52:12 +0100
-From:   "Hans Verkuil" <hverkuil@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: ERRORS
+        id S232616AbiAIHJV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 9 Jan 2022 02:09:21 -0500
+Received: from ams.source.kernel.org ([145.40.68.75]:43158 "EHLO
+        ams.source.kernel.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230106AbiAIHJV (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Sun, 9 Jan 2022 02:09:21 -0500
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 192EFB80AE6
+        for <linux-media@vger.kernel.org>; Sun,  9 Jan 2022 07:09:20 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F418CC36AE3;
+        Sun,  9 Jan 2022 07:09:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1641712158;
+        bh=BJvgcOCRjHC0aJy4FQE/LvByHoNBhu/yu3uIuovjkTo=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=pbgbjGqVmA/M75Ie8bvavVV5uq6EX009IjtZhoENhoQum/7Rlmm/Y5XerkGmxKbbD
+         15IyxRD2l9phYjEDJ9k4Z84SsHTb8FM3EyCQ3WWHEVr823HleRQEhGo8DAuDEJiqgO
+         z36rBOtUFj5l1n5lscPkIYRkeEUEtErfFsaIhYy6QVaJjx7CfYBkzcj4KS6xe0SR67
+         gpkca1WbVah91xsxku57/wTlVStATHeZBdHUE2vnURaCZih5QY7YdqlAG671HqOqfS
+         GPwXdWZzs1LjI/pHOrfAduW1FJI3ajCyyTKH79GIoHB6fJGC2vJFTaZBF33/XOXMVe
+         LCnFNHxqxwixQ==
+Date:   Sun, 9 Jan 2022 08:09:14 +0100
+From:   Mauro Carvalho Chehab <mchehab@kernel.org>
+To:     Robert Schlabbach <robert_s@gmx.net>
+Cc:     linux-media@vger.kernel.org
+Subject: Re: [PATCH 2/3] media: si2157: add support for 1.7MHz and 6.1 MHz
+Message-ID: <20220109080914.53e31572@sal.lan>
+In-Reply-To: <trinity-37466cd2-8684-4e53-a4a3-7ed406945e90-1641551917644@3c-app-gmx-bap54>
+References: <cover.1639140967.git.mchehab+huawei@kernel.org>
+        <76c2ea87882c87bd35066a85cb48292a36a79fce.1639140967.git.mchehab+huawei@kernel.org>
+        <trinity-b5cc1284-ccc2-477c-ac90-56ee40da91af-1641483579446@3c-app-gmx-bs50>
+        <trinity-59d726d3-993c-43c9-9e44-5be5cdfae74d-1641493525223@3c-app-gmx-bap38>
+        <20220106213045.6afe5a35@coco.lan>
+        <trinity-59385619-7f83-4302-a304-c5346098c3a1-1641511005761@3c-app-gmx-bs01>
+        <20220107080625.00547988@coco.lan>
+        <trinity-37466cd2-8684-4e53-a4a3-7ed406945e90-1641551917644@3c-app-gmx-bap54>
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.31; x86_64-redhat-linux-gnu)
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the kernels and architectures in the list below.
+Em Fri, 7 Jan 2022 11:38:37 +0100
+Robert Schlabbach <robert_s@gmx.net> escreveu:
 
-Results of the daily build of media_tree:
+> "Mauro Carvalho Chehab" <mchehab@kernel.org> wrote:
+> 
+> > As the DVB core already stores the bandwidth used to tune at props,
+> > since the introduction of DVBv5 API, any get calls will return the
+> > tuned bandwidth.  
+> 
+> No, not the _tuned_ bandwidth, the "requested" bandwidth, that was
+> estimated. I see no value in that information, as the user app can
+> easily calculate that by itself. This is not information that the
+> kernel or driver needs to provide, as it is solely derived from
+> the information the application has given.
+> 
+> Whereas the _actually applied_ bandwidth filter is an information
+> that only the tuner driver can deliver. For example, there are 5MHz
+> DVB-T2 channels, but the si2157 only offers a 6MHz bandwidth filter.
+> 
+> What should get_frontend() return, the requested/nominal 5MHz, or
+> the actually used 6MHz?
+> 
+> Reading the include file, the answer seems clear to me:
+> 
+> https://git.linuxtv.org/media_tree.git/tree/include/media/dvb_frontend.h
+> 
+> > * @get_frontend:	callback function used to inform the parameters
+> > *			actuall in use.  
+> 
+> So following that documentation, I would say the actually used 6MHz
+> should be put into the property cache by that callback.
 
-date:			Sun Jan  9 05:00:19 CET 2022
-media-tree git hash:	68b9bcc8a534cd11fe55f8bc82f948aae7d81b3c
-media_build git hash:	7a9f6b78c746e1ad87a8a46736851a3078cd5a92
-v4l-utils git hash:	d4b7017466a9f0d7603404629e8248c66007bfb9
-edid-decode git hash:	6514c9d9b18160fe9f09d3d70f99dda85d6fca71
-gcc version:		i686-linux-gcc (GCC) 11.2.0
-sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
-sparse version:		0.6.3
-smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
-smatch version:		0.6.3
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: 113d52660b1fa16141bccb95d4bdbd2a4bd90d26
-host hardware:		x86_64
-host os:		5.15.0-2-amd64
+For the better or for the worse, the userspace API clearly states that,
+for DVB-C/S/S2, it should return the estimated bandwidth, calculated from
+Roll-off and signal rate. So, at least for such delivery systems,
+props->bandwidh_hz should not be touched by drivers.
 
-linux-git-sh: OK
-linux-git-arm-davinci: OK
-linux-git-arm-at91: OK
-linux-git-arm-stm32: OK
-linux-git-arm-pxa: OK
-linux-git-mips: OK
-linux-git-powerpc64: OK
-linux-git-arm-multi: OK
-linux-git-arm64: OK
-linux-git-i686: OK
-linux-git-x86_64: OK
-Check COMPILE_TEST: OK
-Check for strcpy/strncpy/strlcpy: OK
-linux-4.4.283-i686: OK
-linux-4.4.283-x86_64: OK
-linux-4.5.7-i686: OK
-linux-4.5.7-x86_64: OK
-linux-4.6.7-i686: OK
-linux-4.6.7-x86_64: OK
-linux-4.7.10-i686: OK
-linux-4.7.10-x86_64: OK
-linux-4.8.17-i686: OK
-linux-4.8.17-x86_64: OK
-linux-4.9.246-i686: OK
-linux-4.9.246-x86_64: OK
-linux-4.10.17-i686: ERRORS
-linux-4.10.17-x86_64: ERRORS
-linux-4.11.12-i686: ERRORS
-linux-4.11.12-x86_64: ERRORS
-linux-4.12.14-i686: ERRORS
-linux-4.12.14-x86_64: ERRORS
-linux-4.13.16-i686: ERRORS
-linux-4.13.16-x86_64: ERRORS
-linux-4.14.246-i686: ERRORS
-linux-4.14.246-x86_64: ERRORS
-linux-4.15.18-i686: ERRORS
-linux-4.15.18-x86_64: ERRORS
-linux-4.16.18-i686: ERRORS
-linux-4.16.18-x86_64: ERRORS
-linux-4.17.19-i686: ERRORS
-linux-4.17.19-x86_64: ERRORS
-linux-4.18.20-i686: ERRORS
-linux-4.18.20-x86_64: ERRORS
-linux-4.19.206-i686: ERRORS
-linux-4.19.206-x86_64: ERRORS
-linux-4.20.17-i686: ERRORS
-linux-4.20.17-x86_64: ERRORS
-linux-5.0.21-i686: ERRORS
-linux-5.0.21-x86_64: ERRORS
-linux-5.1.21-i686: ERRORS
-linux-5.1.21-x86_64: ERRORS
-linux-5.2.21-i686: ERRORS
-linux-5.2.21-x86_64: ERRORS
-linux-5.3.18-i686: ERRORS
-linux-5.3.18-x86_64: ERRORS
-linux-5.4.144-i686: ERRORS
-linux-5.4.144-x86_64: ERRORS
-linux-5.5.19-i686: ERRORS
-linux-5.5.19-x86_64: ERRORS
-linux-5.6.19-i686: ERRORS
-linux-5.6.19-x86_64: ERRORS
-linux-5.7.19-i686: ERRORS
-linux-5.7.19-x86_64: ERRORS
-linux-5.8.18-i686: ERRORS
-linux-5.8.18-x86_64: ERRORS
-linux-5.9.16-i686: ERRORS
-linux-5.9.16-x86_64: ERRORS
-linux-5.10.62-i686: ERRORS
-linux-5.10.62-x86_64: ERRORS
-linux-5.11.22-i686: ERRORS
-linux-5.11.22-x86_64: ERRORS
-linux-5.12.19-i686: ERRORS
-linux-5.12.19-x86_64: ERRORS
-linux-5.13.14-i686: ERRORS
-linux-5.13.14-x86_64: ERRORS
-linux-5.14.1-i686: ERRORS
-linux-5.14.1-x86_64: ERRORS
-linux-5.15.1-i686: ERRORS
-linux-5.15.1-x86_64: ERRORS
-linux-5.16-rc1-i686: OK
-linux-5.16-rc1-x86_64: OK
-apps: OK
-spec-git: OK
-virtme: Warnings: Final Summary: 2989, Succeeded: 2989, Failed: 0, Warnings: 1
-virtme-32: Errors: Final Summary: 3100, Succeeded: 3089, Failed: 11, Warnings: 0
-sparse: WARNINGS
-smatch: WARNINGS
-kerneldoc: WARNINGS
+There's actually a couple of reasons why bandwidth_hz is calculated
+at the core:
 
-Detailed results are available here:
+1. It helps to have the minimum required bandwidth filter on a single
+   place at the core;
+2. It helped to address issues with DVB-C Annex-C;
+3. It is interesting to allow checking what bandwidth the Kernel actually
+   requested the driver, when debugging them. I used this a couple of
+   times when fixing Annex-C support on some drivers (I used to have
+   a DVB-C Annex-C 6MHz-spaced cable).
 
-http://www.xs4all.nl/~hverkuil/logs/Sunday.log
+For DVB-T/T2, it is even worse, as the properties returned by
+FE_GET_PROPERTY are used to store the channel properties to userspace
+by tools like dvbv5-scan. Those should reflect the channel 
+properties/requirements, not the actual bandwidth filter applied by the
+tuner, as the same channel configs can be used by different tuners.
 
-Detailed regression test results are available here:
+So, a change like that for DVB-T/T2 can actually cause regressions and
+bad channel reports when an user is sending patches to the DTV channel
+settings on this git tree:
 
-http://www.xs4all.nl/~hverkuil/logs/Sunday-test-media.log
-http://www.xs4all.nl/~hverkuil/logs/Sunday-test-media-32.log
-http://www.xs4all.nl/~hverkuil/logs/Sunday-test-media-dmesg.log
+	https://git.linuxtv.org/dtv-scan-tables.git/
 
-Full logs are available here:
+-
 
-http://www.xs4all.nl/~hverkuil/logs/Sunday.tar.bz2
+Now, get_frontend is an internal kAPI. If I'm not mistaken, it was
+designed to be used between tuners and demods, for the cases where the
+demod would need to know what was the bandwidth set at the tuner.
+So, I'm OK if it returns the actually applied bandwidth, provided that
+such value is not returned to userspace via DTV_BANDWIDTH_HZ. So,
+props->bandwidth_hz should not be updated after its call.
 
-The Media Infrastructure API from this daily build is here:
+Now, if you think it would be worth to pass the actual bandwidth set
+by the hardware to userspace (frankly, I don't know why userspace
+might need it), then another DTV property is needed.
 
-http://www.xs4all.nl/~hverkuil/spec/index.html
+Regards,
+Mauro
