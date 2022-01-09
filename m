@@ -2,202 +2,259 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2A51F488CEC
-	for <lists+linux-media@lfdr.de>; Sun,  9 Jan 2022 23:56:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8B541488D2B
+	for <lists+linux-media@lfdr.de>; Mon, 10 Jan 2022 00:17:21 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235627AbiAIW4B (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 9 Jan 2022 17:56:01 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49434 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232267AbiAIW4A (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Sun, 9 Jan 2022 17:56:00 -0500
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 85B46C06173F;
-        Sun,  9 Jan 2022 14:56:00 -0800 (PST)
+        id S237440AbiAIXRO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 9 Jan 2022 18:17:14 -0500
+Received: from perceval.ideasonboard.com ([213.167.242.64]:47342 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S237422AbiAIXRD (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Sun, 9 Jan 2022 18:17:03 -0500
 Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 09177E2C;
-        Sun,  9 Jan 2022 23:55:56 +0100 (CET)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id B0A6AA50;
+        Mon, 10 Jan 2022 00:17:01 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1641768957;
-        bh=Qula6demTXiGrFgnLVbrD5tnWwfL1wSdlO3lf9B2F3g=;
+        s=mail; t=1641770221;
+        bh=hQDxtbcfqidk/cK3riMEgyRwIZhW3dpXJanGTiW8AmI=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=ZHPRD4t4Iwb+78ZkYhRWrqYpem/TmBzj0/fLCoJmJfCpaz5D/b1gvu/LgjMcVPsxp
-         A5AwTblLdH9pSjrMjj+joHUv4LRWY7liIH5zdVDtvhku+uSPtu7dozByl/NLvhi9Db
-         qsDPyOu/40wl6tlxw0HKjGZd6L2RgYTDFui82z4M=
-Date:   Mon, 10 Jan 2022 00:55:48 +0200
+        b=btq5Fr1SS/4Cz/k4SDLHVjogcTTtwFKGuwNptuysUKq1xSgCNsfXLCO0H7rTyMBky
+         ms5XMxUPM4ky2owcRByx6tzuIrhnNqK+yg/yvmH7s4rFHUP8Fc6c/YKCC+Kd4xQ3ZH
+         DV2jEZ1dtvVXz06fJBIeqW3KvRqeCQUnM/5HbvB4=
+Date:   Mon, 10 Jan 2022 01:16:52 +0200
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To:     Jacopo Mondi <jacopo@jmondi.org>
 Cc:     linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        Sakari Ailus <sakari.ailus@iki.fi>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
         Kieran Bingham <kieran.bingham@ideasonboard.com>,
         Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
-        Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-        Janusz Krzysztofik <jmkrzyszt@gmail.com>
-Subject: Re: [RFC PATCH 0/8] media: Drop .set_mbus_config(), improve
- .get_mbus_config()
-Message-ID: <Ydtn9JIAHMFuZSju@pendragon.ideasonboard.com>
-References: <20220103162414.27723-1-laurent.pinchart+renesas@ideasonboard.com>
- <20220109143624.p25busbiwi2z4buk@uno.localdomain>
+        Thomas Nizan <tnizan@witekio.com>,
+        Mark Brown <broonie@kernel.org>,
+        Liam Girdwood <lgirdwood@gmail.com>
+Subject: Re: [PATCH v2 04/11] media: i2c: max9286: Add support for port
+ regulators
+Message-ID: <Ydts5Da3mHdvBIng@pendragon.ideasonboard.com>
+References: <20220101182806.19311-1-laurent.pinchart+renesas@ideasonboard.com>
+ <20220101182806.19311-5-laurent.pinchart+renesas@ideasonboard.com>
+ <20220109100412.z2twzgkeum4fzbaw@uno.localdomain>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20220109143624.p25busbiwi2z4buk@uno.localdomain>
+In-Reply-To: <20220109100412.z2twzgkeum4fzbaw@uno.localdomain>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
 Hi Jacopo,
 
-On Sun, Jan 09, 2022 at 03:36:24PM +0100, Jacopo Mondi wrote:
-> On Mon, Jan 03, 2022 at 06:24:06PM +0200, Laurent Pinchart wrote:
-> > Hello,
+On Sun, Jan 09, 2022 at 11:04:12AM +0100, Jacopo Mondi wrote:
+> On Sat, Jan 01, 2022 at 08:27:59PM +0200, Laurent Pinchart wrote:
+> > From: Thomas Nizan <tnizan@witekio.com>
 > >
-> > This patch series reworks the V4L2 subdev .get_mbus_config() and
-> > .set_mbus_config() operations to improve the former and drop the latter.
+> > Allow users to use one PoC regulator per port, instead of a global
+> > regulator.
 > >
-> > These subdev operations originate from soc-camera (for those who
-> > remember the framework), and were designed to let a transmitter and a
-> > receiver negotiate the physical configuration of the bus that connects
-> > them. The operations use bitflags to represent bus parameters, with
-> > supported options set by the caller of .set_mbus_config(), and selected
-> > options among those returned by the callee. This mechanism is
-> > deprecated, as selection of the bus configuration has long been moved to
-> > the firmware interface (DT or ACPI), and usage of bitflags prevents from
-> > adding more complex configuration parameters (timings in particular).
+> > The properties '^port[0-3]-poc-supply$' in the DT node are used to
+> > indicate the regulators for individual ports.
 > >
-> > As .set_mbus_config() is deprecated and used by one pair of drivers only
-> > (pxa_camera and ov6650), it wasn't difficult to drop usage of that
-> > operation in patches 1/8 and 2/8, and remove the operation itself in
-> > patch 3/8.
-> >
-> > With that operation gone, .get_mbus_config() can be moved from bitflags
-> > to structures. It turned out that the needed data structures were
-> > already present in v4l2_fwnode.h. Patch 4/8 moves them to
-> > v4l2_mediabus.h (and renames them to drop the fwnode mention, as they're
-> > not specific to the fwnode API), and patch 5/8 makes use of them.
+> > Signed-off-by: Thomas Nizan <tnizan@witekio.com>
+> > Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 > 
-> great, when the soc_camera version was dropped, the next thing to do
-> was to move away from bitflags and move to structure fields...
+> The patch looks almost good, but it will really conflict with gpio-poc work I
+> have on the list. Should we decide an ordering and send a single
+> series with both efforts in to ease collecting it ?
 
-There's an endless supply of cleanups to be done.
+I'm fine with any order, and I'm also fine merging the two series. I
+don't mind rebasing on top of your gpio-poc series at all, would that
+help ?
 
-> > Patches 6/8 to 8/8 then removes media bus configuration bitflags that
-> > are unneeded (and now unused).
-> 
-> Parallel might require a bit more of work, but csi2 already has a
-> single flag
-> 
-> /* Clock non-continuous mode support. */
-> #define V4L2_MBUS_CSI2_NONCONTINUOUS_CLOCK	BIT(0)
-> 
-> so it should be trivial to replace 'flags' with a boolean
-> 'clock_noncontinuous' field.
-> 
-> One things leaves me a bit confused: we're now mixing run-time
-> configurable paramters (eg the number of data lanes in use in the
-> current streaming sessions) and paramters which come from DT and are
-> usually fixed by the HW design like lanes ordering.
-> 
-> Is this ok in your opinion ?
-
-The .get_mbus_config() operation is meant to report the runtime
-configuration, which is constrained by hardware limitations (for
-instance the number of data lanes routed on the board, as expressed in
-DT, or the ability to support non-continuous clock mode, which is an
-intrinsic property of the device, known by the driver). When multiple
-options are possible within the constraints of the platform, how to
-select between them is currently unspecified. If the need arises, we'll
-have to study the use cases and find a solution.
-
-> > The series is an RFC as not everything has been converted from bitflags
-> > to named fields in structures. In particular, the parallel bus flags
-> > haven't been touched at all. Patch 8/8 shows how mutually exclusive
-> > flags can be reworked to drop one of them. We then need to decide
-> > whether to keep expressing the flag as macros, or move to C bitfields
-> > with dedicated structure member names. I didn't want to include this
-> > change in the RFC before getting feedback on the general approach
-> > (feedback on those specific questions will also be appreciated).
-> 
-> There's also an opportunity to use v4l2_mbus_config as part of
-> v4l2_fwnode_endpoint instead of repeating the same fields ?
-> 
-> struct v4l2_fwnode_endpoint {
-> 	struct fwnode_endpoint base;
-> 	/*
-> 	 * Fields below this line will be zeroed by
-> 	 * v4l2_fwnode_endpoint_parse()
-> 	 */
->         -------------------------------------------------------------
-> 	enum v4l2_mbus_type bus_type;
-> 	struct {
-> 		struct v4l2_mbus_config_parallel parallel;
-> 		struct v4l2_mbus_config_mipi_csi1 mipi_csi1;
-> 		struct v4l2_mbus_config_mipi_csi2 mipi_csi2;
-> 	} bus;
->         -------------------------------------------------------------
-> 	u64 *link_frequencies;
-> 	unsigned int nr_of_link_frequencies;
-> };
-> 
-> struct v4l2_mbus_config {
-> 	enum v4l2_mbus_type type;
-> 	union {
-> 		struct v4l2_mbus_config_parallel parallel;
-> 		struct v4l2_mbus_config_mipi_csi1 mipi_csi1;
-> 		struct v4l2_mbus_config_mipi_csi2 mipi_csi2;
-> 	} bus;
-> };
-
-I've thought about it, but not that the former groups the bus-specific
-data in a struct, while the latter uses a union. Whether or not we could
-use the same in both cases is an issue I have decided not to think about
-at this stage :-)
-
-> > Laurent Pinchart (8):
-> >   media: pxa_camera: Drop usage of .set_mbus_config()
-> >   media: i2c: ov6650: Drop implementation of .set_mbus_config()
-> >   media: v4l2-subdev: Drop .set_mbus_config() operation
-> >   media: v4l2-fwnode: Move bus config structure to v4l2_mediabus.h
-> >   media: v4l2-mediabus: Use structures to describe bus configuration
-> >   media: v4l2-mediabus: Drop legacy V4L2_MBUS_CSI2_*_LANE flags
-> >   media: v4l2-mediabus: Drop legacy V4L2_MBUS_CSI2_CHANNEL_* flags
-> >   media: v4l2-mediabus: Drop V4L2_MBUS_CSI2_CONTINUOUS_CLOCK flag
+> > ---
+> > Changes since v1:
 > >
-> >  drivers/gpu/ipu-v3/ipu-csi.c                  |   6 +-
-> >  drivers/media/i2c/adv7180.c                   |  10 +-
-> >  drivers/media/i2c/adv748x/adv748x-csi2.c      |  18 +--
-> >  drivers/media/i2c/ml86v7667.c                 |   5 +-
-> >  drivers/media/i2c/mt9m001.c                   |   8 +-
-> >  drivers/media/i2c/mt9m111.c                   |  16 +--
-> >  drivers/media/i2c/ov5648.c                    |   4 +-
-> >  drivers/media/i2c/ov6650.c                    |  51 ++-------
-> >  drivers/media/i2c/ov8865.c                    |   4 +-
-> >  drivers/media/i2c/ov9640.c                    |   8 +-
-> >  drivers/media/i2c/tc358743.c                  |  26 +----
-> >  drivers/media/i2c/tvp5150.c                   |   6 +-
-> >  drivers/media/platform/pxa_camera.c           |  21 ++--
-> >  drivers/media/platform/qcom/camss/camss.c     |   2 +-
-> >  drivers/media/platform/rcar-vin/rcar-csi2.c   |  16 +--
-> >  drivers/media/platform/rcar-vin/rcar-vin.h    |   2 +-
-> >  drivers/media/platform/stm32/stm32-dcmi.c     |   2 +-
-> >  .../platform/sunxi/sun4i-csi/sun4i_csi.h      |   2 +-
-> >  .../platform/sunxi/sun4i-csi/sun4i_dma.c      |   2 +-
-> >  drivers/media/platform/ti-vpe/cal-camerarx.c  |   6 +-
-> >  drivers/media/v4l2-core/v4l2-fwnode.c         |  16 ++-
-> >  drivers/media/v4l2-core/v4l2-subdev.c         |   8 --
-> >  drivers/staging/media/imx/imx-media-csi.c     |   7 +-
-> >  drivers/staging/media/imx/imx6-mipi-csi2.c    |  25 +----
-> >  drivers/staging/media/imx/imx7-mipi-csis.c    |   2 +-
-> >  drivers/staging/media/imx/imx8mq-mipi-csi2.c  |   2 +-
-> >  drivers/staging/media/max96712/max96712.c     |   2 +-
-> >  include/media/v4l2-fwnode.h                   |  61 +---------
-> >  include/media/v4l2-mediabus.h                 | 104 ++++++++++++------
-> >  include/media/v4l2-subdev.h                   |  13 ---
-> >  30 files changed, 168 insertions(+), 287 deletions(-)
+> > - Use to_index()
+> > - Use dev_err_probe()
+> > - Fix error path in probe()
+> > - Use devm_regulator_get_optional() instead of
+> >   devm_regulator_get_exclusive()
+> > ---
+> >  drivers/media/i2c/max9286.c | 107 +++++++++++++++++++++++++++++++-----
+> >  1 file changed, 94 insertions(+), 13 deletions(-)
 > >
+> > diff --git a/drivers/media/i2c/max9286.c b/drivers/media/i2c/max9286.c
+> > index eb2b8e42335b..15c80034e3a4 100644
+> > --- a/drivers/media/i2c/max9286.c
+> > +++ b/drivers/media/i2c/max9286.c
+> > @@ -138,6 +138,7 @@
+> >  struct max9286_source {
+> >  	struct v4l2_subdev *sd;
+> >  	struct fwnode_handle *fwnode;
+> > +	struct regulator *regulator;
+> >  };
 > >
-> > base-commit: 68b9bcc8a534cd11fe55f8bc82f948aae7d81b3c
+> >  struct max9286_asd {
+> > @@ -1071,6 +1072,49 @@ static int max9286_register_gpio(struct max9286_priv *priv)
+> >  	return ret;
+> >  }
+> >
+> > +static int max9286_poc_power_on(struct max9286_priv *priv)
+> > +{
+> > +	struct max9286_source *source;
+> > +	unsigned int enabled = 0;
+> > +	int ret;
+> > +
+> > +	/* Enable the global regulator if available. */
+> > +	if (priv->regulator)
+> > +		return regulator_enable(priv->regulator);
+> > +
+> > +	/* Otherwise use the per-port regulators. */
+> > +	for_each_source(priv, source) {
+> > +		ret = regulator_enable(source->regulator);
+> > +		if (ret < 0)
+> > +			goto error;
+> > +
+> > +		enabled |= BIT(to_index(priv, source));
+> > +	}
+> > +
+> > +	return 0;
+> > +
+> > +error:
+> > +	for_each_source(priv, source) {
+> > +		if (enabled & BIT(to_index(priv, source)))
+> > +			regulator_disable(source->regulator);
+> > +	}
+> > +
+> > +	return ret;
+> > +}
+> > +
+> > +static void max9286_poc_power_off(struct max9286_priv *priv)
+> > +{
+> > +	struct max9286_source *source;
+> > +
+> > +	if (priv->regulator) {
+> > +		regulator_disable(priv->regulator);
+> > +		return;
+> > +	}
+> > +
+> > +	for_each_source(priv, source)
+> > +		regulator_disable(source->regulator);
+> > +}
+> > +
+> >  static int max9286_init(struct device *dev)
+> >  {
+> >  	struct max9286_priv *priv;
+> > @@ -1081,9 +1125,9 @@ static int max9286_init(struct device *dev)
+> >  	priv = i2c_get_clientdata(client);
+> >
+> >  	/* Enable the bus power. */
+> > -	ret = regulator_enable(priv->regulator);
+> > +	ret = max9286_poc_power_on(priv);
+> >  	if (ret < 0) {
+> > -		dev_err(&client->dev, "Unable to turn PoC on\n");
+> > +		dev_err(dev, "Unable to turn PoC on\n");
+> >  		return ret;
+> >  	}
+> >
+> > @@ -1117,7 +1161,7 @@ static int max9286_init(struct device *dev)
+> >  err_v4l2_register:
+> >  	max9286_v4l2_unregister(priv);
+> >  err_regulator:
+> > -	regulator_disable(priv->regulator);
+> > +	max9286_poc_power_off(priv);
+> >
+> >  	return ret;
+> >  }
+> > @@ -1248,6 +1292,47 @@ static int max9286_parse_dt(struct max9286_priv *priv)
+> >  	return 0;
+> >  }
+> >
+> > +static int max9286_get_poc_supplies(struct max9286_priv *priv)
+> > +{
+> > +	struct device *dev = &priv->client->dev;
+> > +	struct max9286_source *source;
+> > +	int ret;
+> > +
+> > +	/* Start by getting the global regulator. */
+> > +	priv->regulator = devm_regulator_get_optional(dev, "poc");
+> > +	if (!IS_ERR(priv->regulator))
+> > +		return 0;
+> > +
+> > +	if (PTR_ERR(priv->regulator) != -ENODEV) {
+> > +		if (PTR_ERR(priv->regulator) != -EPROBE_DEFER)
+> > +			dev_err(dev, "Unable to get PoC regulator: %ld\n",
+> > +				PTR_ERR(priv->regulator));
+> > +		return PTR_ERR(priv->regulator);
+> > +	}
+> > +
+> > +	/* If there's no global regulator, get per-port regulators. */
+> > +	dev_dbg(dev,
+> > +		"No global PoC regulator, looking for per-port regulators\n");
+> > +	priv->regulator = NULL;
+> > +
+> > +	for_each_source(priv, source) {
+> > +		unsigned int index = to_index(priv, source);
+> > +		char name[10];
+> > +
+> > +		snprintf(name, sizeof(name), "port%u-poc", index);
+> > +		source->regulator = devm_regulator_get(dev, name);
+> 
+> Are you ok with a dummy being returned ?
+
+I think that's fine. It would mean that there's no global regulator nor
+per-port regulator specified in DT, which shouldn't happen even if the
+supply is alwaus on. From a driver point of view it won't hurt I think.
+
+> > +		if (IS_ERR(source->regulator)) {
+> > +			ret = PTR_ERR(source->regulator);
+> > +			dev_err_probe(dev, ret,
+> > +				      "Unable to get port %u PoC regulator\n",
+> > +				      index);
+> > +			return ret;
+> > +		}
+> > +	}
+> > +
+> > +	return 0;
+> > +}
+> > +
+> >  static int max9286_probe(struct i2c_client *client)
+> >  {
+> >  	struct max9286_priv *priv;
+> > @@ -1292,17 +1377,13 @@ static int max9286_probe(struct i2c_client *client)
+> >  	if (ret)
+> >  		goto err_powerdown;
+> >
+> > -	priv->regulator = devm_regulator_get(&client->dev, "poc");
+> > -	if (IS_ERR(priv->regulator)) {
+> > -		ret = PTR_ERR(priv->regulator);
+> > -		dev_err_probe(&client->dev, ret,
+> > -			      "Unable to get PoC regulator\n");
+> > -		goto err_powerdown;
+> > -	}
+> > -
+> >  	ret = max9286_parse_dt(priv);
+> >  	if (ret)
+> > -		goto err_powerdown;
+> > +		goto err_cleanup_dt;
+> 
+> Shouldn't this be still err_powerdown ?
+
+I don't think so, max9286_parse_dt() may have populated the fwnode of
+part of the sources before failing.
+
+> > +
+> > +	ret = max9286_get_poc_supplies(priv);
+> > +	if (ret)
+> > +		goto err_cleanup_dt;
+> >
+> >  	ret = max9286_init(&client->dev);
+> >  	if (ret < 0)
+> > @@ -1326,7 +1407,7 @@ static int max9286_remove(struct i2c_client *client)
+> >
+> >  	max9286_v4l2_unregister(priv);
+> >
+> > -	regulator_disable(priv->regulator);
+> > +	max9286_poc_power_off(priv);
+> >
+> >  	gpiod_set_value_cansleep(priv->gpiod_pwdn, 0);
+> >
 
 -- 
 Regards,
