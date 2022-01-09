@@ -2,484 +2,196 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 531A4488720
-	for <lists+linux-media@lfdr.de>; Sun,  9 Jan 2022 01:58:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E077448875D
+	for <lists+linux-media@lfdr.de>; Sun,  9 Jan 2022 03:37:58 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235065AbiAIA6c (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 8 Jan 2022 19:58:32 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47252 "EHLO
+        id S235077AbiAICh4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 8 Jan 2022 21:37:56 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40182 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234669AbiAIA6a (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Sat, 8 Jan 2022 19:58:30 -0500
+        with ESMTP id S235073AbiAICh4 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Sat, 8 Jan 2022 21:37:56 -0500
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7C7BAC06173F
-        for <linux-media@vger.kernel.org>; Sat,  8 Jan 2022 16:58:30 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C6155C06173F;
+        Sat,  8 Jan 2022 18:37:55 -0800 (PST)
 Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id EDDDDA1B;
-        Sun,  9 Jan 2022 01:58:27 +0100 (CET)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id DC239A1B;
+        Sun,  9 Jan 2022 03:37:52 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1641689908;
-        bh=r9W5LcjLmIdnHSUVNluVBlbNMB1tUZuSk+Znl+97aRo=;
+        s=mail; t=1641695873;
+        bh=YwkqTsKpwmOYLZyRtFf55UVjGVEw87S7jM1hquu8O0w=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=ZJ7SPPQJO40XHIODjvqUYLV+qLTDH8zmGjj3CfknH2PjhwRTeVAK43TrWCEvg9o27
-         Ik2SwYQaopukGrJmW6qLD/bMBuNwgL9hC1eFB9B2QEYLdJw0KkQ7IlWWmPn9R+nExw
-         J0pFmDxWSbVLypP964808SG1lQNO9czr2j5sNR0E=
-Date:   Sun, 9 Jan 2022 02:58:19 +0200
+        b=babASa11W7ya1NUIxGTJ7CWcrlLhiSmr9ohiNiwiQ76oFjE4JvKoByg9qwgA2QPpD
+         ue8DoVwDh2Ebgh6i9SejEauRhfJ9SxkRwlAkyXFw0iSj+cZ3O4rapOYksAlljKziCk
+         /1uQNtHPCOw8Bd2wt6MucCm6t4SvceAeEcWVgsLs=
+Date:   Sun, 9 Jan 2022 04:37:44 +0200
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Cc:     linux-media@vger.kernel.org, sakari.ailus@linux.intel.com,
-        Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        niklas.soderlund+renesas@ragnatech.se,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
+To:     Janusz Krzysztofik <jmkrzyszt@gmail.com>
+Cc:     Sakari Ailus <sakari.ailus@iki.fi>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        linux-renesas-soc@vger.kernel.org,
         Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Pratyush Yadav <p.yadav@ti.com>
-Subject: Re: [PATCH v10 12/38] media: entity: Move the pipeline from entity
- to pads
-Message-ID: <YdozK8RyGxoFoblT@pendragon.ideasonboard.com>
-References: <20211130141536.891878-1-tomi.valkeinen@ideasonboard.com>
- <20211130141536.891878-13-tomi.valkeinen@ideasonboard.com>
- <YdiZ5GPHUNvy5JRi@pendragon.ideasonboard.com>
+        Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        Jacopo Mondi <jacopo@jmondi.org>,
+        Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
+        Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Subject: Re: [RFC PATCH 2/8] media: i2c: ov6650: Drop implementation of
+ .set_mbus_config()
+Message-ID: <YdpKeBD3N6hraRxt@pendragon.ideasonboard.com>
+References: <20220103162414.27723-1-laurent.pinchart+renesas@ideasonboard.com>
+ <20220103162414.27723-3-laurent.pinchart+renesas@ideasonboard.com>
+ <YdXdqJLKzDduVdex@valkosipuli.retiisi.eu>
+ <YdX9ZaFJVSVrh41A@pendragon.ideasonboard.com>
+ <CAGfqbt5ZyVAjCggqmQxp+2028Yaz+e=O6RqkfWH6LpDBm_MsSA@mail.gmail.com>
+ <YdYQztLGsEAqL6l+@pendragon.ideasonboard.com>
+ <CAGfqbt6X_Zpe0q4B1BRePU68yLoGDke=ix6fvYQ75dUnO7kVgQ@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <YdiZ5GPHUNvy5JRi@pendragon.ideasonboard.com>
+In-Reply-To: <CAGfqbt6X_Zpe0q4B1BRePU68yLoGDke=ix6fvYQ75dUnO7kVgQ@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Tomi and Sakari,
+Hi Janusz,
 
-Another comment (probably more annoying).
-
-On Fri, Jan 07, 2022 at 09:52:06PM +0200, Laurent Pinchart wrote:
-> On Tue, Nov 30, 2021 at 04:15:10PM +0200, Tomi Valkeinen wrote:
-> > From: Sakari Ailus <sakari.ailus@linux.intel.com>
-> > 
-> > This moves the pipe and stream_count fields from struct media_entity to
-> > struct media_pad. Effectively streams become pad-specific rather than
-> > being entity specific, allowing several independent streams to traverse a
-> > single entity and an entity to be part of several streams.
-> > 
-> > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> > Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-> > 
-> > - Update documentation to use 'pads'
-> > - Use the media pad iterator in media_entity.c
-> > - Update rcar-dma.c to use the new per-pad stream count
-> > Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
-> > 
-> > - Fix cleanup in the error path of __media_pipeline_start()
-> > Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-> > Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> > ---
-> >  drivers/media/mc/mc-entity.c                  | 68 +++++++++++--------
-> >  drivers/media/platform/exynos4-is/fimc-isp.c  |  2 +-
-> >  drivers/media/platform/exynos4-is/fimc-lite.c |  2 +-
-> >  drivers/media/platform/omap3isp/isp.c         |  2 +-
-> >  drivers/media/platform/omap3isp/ispvideo.c    |  2 +-
-> >  drivers/media/platform/omap3isp/ispvideo.h    |  2 +-
-> >  drivers/media/platform/rcar-vin/rcar-core.c   | 16 +++--
-> >  drivers/media/platform/rcar-vin/rcar-dma.c    |  2 +-
-> >  drivers/media/platform/xilinx/xilinx-dma.c    |  2 +-
-> >  drivers/media/platform/xilinx/xilinx-dma.h    |  2 +-
-> >  drivers/staging/media/imx/imx-media-utils.c   |  2 +-
-> >  drivers/staging/media/omap4iss/iss.c          |  2 +-
-> >  drivers/staging/media/omap4iss/iss_video.c    |  2 +-
-> >  drivers/staging/media/omap4iss/iss_video.h    |  2 +-
-> >  include/media/media-entity.h                  | 21 +++---
-> >  15 files changed, 74 insertions(+), 55 deletions(-)
-> > 
-> > diff --git a/drivers/media/mc/mc-entity.c b/drivers/media/mc/mc-entity.c
-> > index 2b438c481812..8ad4cb845f4a 100644
-> > --- a/drivers/media/mc/mc-entity.c
-> > +++ b/drivers/media/mc/mc-entity.c
-> > @@ -424,24 +424,30 @@ __must_check int __media_pipeline_start(struct media_entity *entity,
-> >  
-> >  	while ((pad = media_graph_walk_next(graph))) {
-> >  		struct media_entity *entity = pad->entity;
-> > +		bool skip_validation = pad->pipe != NULL;
-> > +		struct media_pad *iter;
-> >  
-> >  		DECLARE_BITMAP(active, MEDIA_ENTITY_MAX_PADS);
-> >  		DECLARE_BITMAP(has_no_links, MEDIA_ENTITY_MAX_PADS);
-> >  
-> > -		entity->stream_count++;
-> > +		ret = 0;
-> >  
-> > -		if (entity->pipe && entity->pipe != pipe) {
-> > -			pr_err("Pipe active for %s. Can't start for %s\n",
-> > -				entity->name,
-> > -				pad_err->entity->name);
-> > -			ret = -EBUSY;
-> > -			goto error;
-> > +		media_entity_for_each_pad(entity, iter) {
-> > +			if (iter->pipe && iter->pipe != pipe) {
-> > +				pr_err("Pipe active for %s. Can't start for %s\n",
-> > +				       entity->name, iter->entity->name);
+On Thu, Jan 06, 2022 at 01:13:56AM +0100, Janusz Krzysztofik wrote:
+> On Wednesday, 5 January 2022 22:42:38 CET Laurent Pinchart wrote:
+> > On Wed, Jan 05, 2022 at 10:31:41PM +0100, Janusz Krzysztofik wrote:
+> > > On Wednesday, 5 January 2022 21:19:49 CET Laurent Pinchart wrote:
+> > > > On Wed, Jan 05, 2022 at 08:04:24PM +0200, Sakari Ailus wrote:
+> > > > > On Mon, Jan 03, 2022 at 06:24:08PM +0200, Laurent Pinchart wrote:
+> > > > > > The subdev .set_mbus_config() operation is deprecated. No code in the
+> > > > > > kernel calls it, so drop its implementation from the ov6650 driver.
+> > > > > >
+> > > > > > Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+> > > > > > ---
+> > > > > >  drivers/media/i2c/ov6650.c | 37 -------------------------------------
+> > > > > >  1 file changed, 37 deletions(-)
+> > > > > >
+> > > > > > diff --git a/drivers/media/i2c/ov6650.c b/drivers/media/i2c/ ov6650.c
+> > > > > > index f67412150b16..455a627e35a0 100644
+> > > > > > --- a/drivers/media/i2c/ov6650.c
+> > > > > > +++ b/drivers/media/i2c/ov6650.c
+> > > > > > @@ -944,42 +944,6 @@ static int ov6650_get_mbus_config(struct v4l2_subdev *sd,
+> > > > > >   return 0;
+> > > > > >  }
+> > > > > >
+> > > > > > -/* Alter bus settings on camera side */
+> > > > > > -static int ov6650_set_mbus_config(struct v4l2_subdev *sd,
+> > > > > > -                           unsigned int pad,
+> > > > > > -                           struct v4l2_mbus_config *cfg)
+> > > > > > -{
+> > > > > > - struct i2c_client *client = v4l2_get_subdevdata(sd);
+> > > > > > - int ret = 0;
+> > > > > > -
+> > > > > > - if (cfg->flags & V4L2_MBUS_PCLK_SAMPLE_RISING)
+> > > > > > -         ret = ov6650_reg_rmw(client, REG_COMJ, COMJ_PCLK_RISING, 0);
+> > > > > > - else if (cfg->flags & V4L2_MBUS_PCLK_SAMPLE_FALLING)
+> > > > > > -         ret = ov6650_reg_rmw(client, REG_COMJ, 0, COMJ_PCLK_RISING);
+> > > > >
+> > > > > I think this configuration should come from the endpoint which the driver
+> > > > > currently does not parse. In fact, there are no even DT bindings for the
+> > > > > device.
+> > > >
+> > > > There's also no OF match table. While this isn't strictly required, it
+> > > > may indicate that the sensor hasn't been tested much on DT-based
+> > > > systems.
+> > > >
+> > > > I agree that the configuration should come from the device tree, but I
+> > > > can't test that, so I'm tempted to let someone else implement it if the
+> > > > driver is actually still in use (I can also write a patch if someone can
+> > > > test it).
+> > >
+> > > This driver was used with omap1_camera, removed from the tree a few years
+> > > ago by Hans, despite my attempts to refresh it.  I tried to keep ov6650
+> > > updated but I gave up due to lack of response to my submissions.  That also
+> > > blocked my attempts to rework and reintroduce omap1_camera.
+> > >
+> > > I think I'm still able to update my local (v4l2, non-mc) version of
+> > > omap1_camera to the extent required to test any changes to ov6650.
+> > > However, the OMAP1 platform does not support DT, and will probably never
+> > > do.  Then,  I think that it makes sense to spend my time on that only if
+> > > you (media maintainers) are not going to depreciate non-DT support any
+> > > soon.  Are you?
+> >
+> > Thank you for the quick reply, and for the offer to test this. I
+> > understand your frustration, and the impossibility (with reasonable
+> > effort) to move OMAP1 to DT.
 > 
-> 'iter' is a pad of 'entity'. As 'entity' is set to 'pad->entity',
-> 'entity' and 'iter->entity' are the same. The message should be
-> reworked.
+> I forgot to mention one more limitation of OMAP1 platform: it does not
+> support CCF.  With removal of v4l2-clk support from ov6650 a year ago, the
+> driver is probably no longer usable with OMAP1 boards.
+
+Ouch, that's even worse indeed :-(
+
+> > This means that we would need to add
+> > platform data support to the ov6650 driver, and specify the platform
+> > data in the corresponding board file. On the ov6650 driver side I have
+> > no issue with that, and while platform data is deprecated for new
+> > platforms, it can be kept around for older ones as long as needed. I
+> > however don't know if changes to board files in arch/arm/mach-omap1
+> > would be accepted.
 > 
-> > +				ret = -EBUSY;
-> > +			} else {
-> > +				iter->pipe = pipe;
-> > +			}
-> > +			iter->stream_count++;
-> >  		}
-> >  
-> > -		entity->pipe = pipe;
-> > +		if (ret)
-> > +			goto error;
-> >  
-> > -		/* Already streaming --- no need to check. */
-> > -		if (entity->stream_count > 1)
-> > +		/* Already part of the pipeline, skip validation. */
-> > +		if (skip_validation)
-> >  			continue;
-> >  
-> >  		if (!entity->ops || !entity->ops->link_validate)
-> > @@ -510,20 +516,23 @@ __must_check int __media_pipeline_start(struct media_entity *entity,
-> >  	media_graph_walk_start(graph, pad_err);
-> >  
-> >  	while ((pad_err = media_graph_walk_next(graph))) {
-> > -		struct media_entity *entity_err = pad_err->entity;
-> > -
-> > -		/* Sanity check for negative stream_count */
-> > -		if (!WARN_ON_ONCE(entity_err->stream_count <= 0)) {
-> > -			entity_err->stream_count--;
-> > -			if (entity_err->stream_count == 0)
-> > -				entity_err->pipe = NULL;
-> > +		struct media_entity *entity = pad_err->entity;
-> > +		struct media_pad *iter;
-> > +
-> > +		media_entity_for_each_pad(entity, iter) {
-> > +			/* Sanity check for negative stream_count */
-> > +			if (!WARN_ON_ONCE(iter->stream_count <= 0)) {
-> > +				--iter->stream_count;
-> > +				if (iter->stream_count == 0)
-> > +					iter->pipe = NULL;
-> > +			}
-> >  		}
-> >  
-> >  		/*
-> >  		 * We haven't increased stream_count further than this
-> >  		 * so we quit here.
-> >  		 */
-> > -		if (pad_err == pad)
-> > +		if (pad_err->entity == pad->entity)
-> >  			break;
-> >  	}
-> >  
-> > @@ -550,7 +559,7 @@ EXPORT_SYMBOL_GPL(media_pipeline_start);
-> >  
-> >  void __media_pipeline_stop(struct media_entity *entity)
-> >  {
-> > -	struct media_pipeline *pipe = entity->pipe;
-> > +	struct media_pipeline *pipe = entity->pads->pipe;
-> >  	struct media_graph *graph = &pipe->graph;
-> >  	struct media_pad *pad;
-> >  
-> > @@ -565,12 +574,15 @@ void __media_pipeline_stop(struct media_entity *entity)
-> >  
-> >  	while ((pad = media_graph_walk_next(graph))) {
-> >  		struct media_entity *entity = pad->entity;
-> > -
-> > -		/* Sanity check for negative stream_count */
-> > -		if (!WARN_ON_ONCE(entity->stream_count <= 0)) {
-> > -			entity->stream_count--;
-> > -			if (entity->stream_count == 0)
-> > -				entity->pipe = NULL;
-> > +		struct media_pad *iter;
-> > +
-> > +		media_entity_for_each_pad(entity, iter) {
-> > +			/* Sanity check for negative stream_count */
-> > +			if (!WARN_ON_ONCE(iter->stream_count <= 0)) {
-> > +				iter->stream_count--;
-> > +				if (iter->stream_count == 0)
-> > +					iter->pipe = NULL;
-> > +			}
-> >  		}
-> >  	}
-> >  
-> > @@ -840,7 +852,7 @@ int __media_entity_setup_link(struct media_link *link, u32 flags)
-> >  {
-> >  	const u32 mask = MEDIA_LNK_FL_ENABLED;
-> >  	struct media_device *mdev;
-> > -	struct media_entity *source, *sink;
-> > +	struct media_pad *source, *sink;
-> >  	int ret = -EBUSY;
-> >  
-> >  	if (link == NULL)
-> > @@ -856,8 +868,8 @@ int __media_entity_setup_link(struct media_link *link, u32 flags)
-> >  	if (link->flags == flags)
-> >  		return 0;
-> >  
-> > -	source = link->source->entity;
-> > -	sink = link->sink->entity;
-> > +	source = link->source;
-> > +	sink = link->sink;
-> >  
-> >  	if (!(link->flags & MEDIA_LNK_FL_DYNAMIC) &&
-> >  	    (source->stream_count || sink->stream_count))
-> > diff --git a/drivers/media/platform/exynos4-is/fimc-isp.c b/drivers/media/platform/exynos4-is/fimc-isp.c
-> > index 855235bea46d..80274e29ccc5 100644
-> > --- a/drivers/media/platform/exynos4-is/fimc-isp.c
-> > +++ b/drivers/media/platform/exynos4-is/fimc-isp.c
-> > @@ -226,7 +226,7 @@ static int fimc_isp_subdev_set_fmt(struct v4l2_subdev *sd,
-> >  			}
-> >  		}
-> >  	} else {
-> > -		if (sd->entity.stream_count == 0) {
-> > +		if (sd->entity.pads->stream_count == 0) {
-> >  			if (fmt->pad == FIMC_ISP_SD_PAD_SINK) {
-> >  				struct v4l2_subdev_format format = *fmt;
-> >  
-> > diff --git a/drivers/media/platform/exynos4-is/fimc-lite.c b/drivers/media/platform/exynos4-is/fimc-lite.c
-> > index aaa3af0493ce..67bfb1ad2ba2 100644
-> > --- a/drivers/media/platform/exynos4-is/fimc-lite.c
-> > +++ b/drivers/media/platform/exynos4-is/fimc-lite.c
-> > @@ -1073,7 +1073,7 @@ static int fimc_lite_subdev_set_fmt(struct v4l2_subdev *sd,
-> >  	mutex_lock(&fimc->lock);
-> >  
-> >  	if ((atomic_read(&fimc->out_path) == FIMC_IO_ISP &&
-> > -	    sd->entity.stream_count > 0) ||
-> > +	    sd->entity.pads->stream_count > 0) ||
-> >  	    (atomic_read(&fimc->out_path) == FIMC_IO_DMA &&
-> >  	    vb2_is_busy(&fimc->vb_queue))) {
-> >  		mutex_unlock(&fimc->lock);
-> > diff --git a/drivers/media/platform/omap3isp/isp.c b/drivers/media/platform/omap3isp/isp.c
-> > index 20f59c59ff8a..28aab16d7662 100644
-> > --- a/drivers/media/platform/omap3isp/isp.c
-> > +++ b/drivers/media/platform/omap3isp/isp.c
-> > @@ -936,7 +936,7 @@ static int isp_pipeline_is_last(struct media_entity *me)
-> >  	struct isp_pipeline *pipe;
-> >  	struct media_pad *pad;
-> >  
-> > -	if (!me->pipe)
-> > +	if (!me->pads->pipe)
-> >  		return 0;
-> >  	pipe = to_isp_pipeline(me);
-> >  	if (pipe->stream_state == ISP_PIPELINE_STREAM_STOPPED)
-> > diff --git a/drivers/media/platform/omap3isp/ispvideo.c b/drivers/media/platform/omap3isp/ispvideo.c
-> > index 5c1cbb1a9003..a8438040c4aa 100644
-> > --- a/drivers/media/platform/omap3isp/ispvideo.c
-> > +++ b/drivers/media/platform/omap3isp/ispvideo.c
-> > @@ -1094,7 +1094,7 @@ isp_video_streamon(struct file *file, void *fh, enum v4l2_buf_type type)
-> >  	/* Start streaming on the pipeline. No link touching an entity in the
-> >  	 * pipeline can be activated or deactivated once streaming is started.
-> >  	 */
-> > -	pipe = video->video.entity.pipe
-> > +	pipe = video->video.entity.pads->pipe
-> >  	     ? to_isp_pipeline(&video->video.entity) : &video->pipe;
-> >  
-> >  	ret = media_entity_enum_init(&pipe->ent_enum, &video->isp->media_dev);
-> > diff --git a/drivers/media/platform/omap3isp/ispvideo.h b/drivers/media/platform/omap3isp/ispvideo.h
-> > index a0908670c0cf..4c9c5b719ec5 100644
-> > --- a/drivers/media/platform/omap3isp/ispvideo.h
-> > +++ b/drivers/media/platform/omap3isp/ispvideo.h
-> > @@ -100,7 +100,7 @@ struct isp_pipeline {
-> >  };
-> >  
-> >  #define to_isp_pipeline(__e) \
-> > -	container_of((__e)->pipe, struct isp_pipeline, pipe)
-> > +	container_of((__e)->pads->pipe, struct isp_pipeline, pipe)
-> >  
-> >  static inline int isp_pipeline_ready(struct isp_pipeline *pipe)
-> >  {
-> > diff --git a/drivers/media/platform/rcar-vin/rcar-core.c b/drivers/media/platform/rcar-vin/rcar-core.c
-> > index 33957cc9118c..e59453d6b7c3 100644
-> > --- a/drivers/media/platform/rcar-vin/rcar-core.c
-> > +++ b/drivers/media/platform/rcar-vin/rcar-core.c
-> > @@ -132,13 +132,17 @@ static int rvin_group_link_notify(struct media_link *link, u32 flags,
-> >  		return 0;
-> >  
-> >  	/*
-> > -	 * Don't allow link changes if any entity in the graph is
-> > -	 * streaming, modifying the CHSEL register fields can disrupt
-> > -	 * running streams.
-> > +	 * Don't allow link changes if any stream in the graph is active as
-> > +	 * modifying the CHSEL register fields can disrupt running streams.
-> >  	 */
-> > -	media_device_for_each_entity(entity, &group->mdev)
-> > -		if (entity->stream_count)
-> > -			return -EBUSY;
-> > +	media_device_for_each_entity(entity, &group->mdev) {
-> > +		struct media_pad *iter;
-> > +
-> > +		media_entity_for_each_pad(entity, iter) {
-> > +			if (iter->stream_count)
-> > +				return -EBUSY;
-> > +		}
-> > +	}
-> >  
-> >  	mutex_lock(&group->lock);
-> >  
-> > diff --git a/drivers/media/platform/rcar-vin/rcar-dma.c b/drivers/media/platform/rcar-vin/rcar-dma.c
-> > index f5f722ab1d4e..80b7ae47d165 100644
-> > --- a/drivers/media/platform/rcar-vin/rcar-dma.c
-> > +++ b/drivers/media/platform/rcar-vin/rcar-dma.c
-> > @@ -1231,7 +1231,7 @@ static int rvin_set_stream(struct rvin_dev *vin, int on)
-> >  	 */
-> >  	mdev = vin->vdev.entity.graph_obj.mdev;
-> >  	mutex_lock(&mdev->graph_mutex);
-> > -	pipe = sd->entity.pipe ? sd->entity.pipe : &vin->vdev.pipe;
-> > +	pipe = sd->entity.pads->pipe ? sd->entity.pads->pipe : &vin->vdev.pipe;
-> >  	ret = __media_pipeline_start(&vin->vdev.entity, pipe);
-> >  	mutex_unlock(&mdev->graph_mutex);
-> >  	if (ret)
-> > diff --git a/drivers/media/platform/xilinx/xilinx-dma.c b/drivers/media/platform/xilinx/xilinx-dma.c
-> > index d33f99c6ffa4..03ee19d00041 100644
-> > --- a/drivers/media/platform/xilinx/xilinx-dma.c
-> > +++ b/drivers/media/platform/xilinx/xilinx-dma.c
-> > @@ -402,7 +402,7 @@ static int xvip_dma_start_streaming(struct vb2_queue *vq, unsigned int count)
-> >  	 * Use the pipeline object embedded in the first DMA object that starts
-> >  	 * streaming.
-> >  	 */
-> > -	pipe = dma->video.entity.pipe
-> > +	pipe = dma->video.entity.pads->pipe
-> >  	     ? to_xvip_pipeline(&dma->video.entity) : &dma->pipe;
-> >  
-> >  	ret = media_pipeline_start(&dma->video.entity, &pipe->pipe);
-> > diff --git a/drivers/media/platform/xilinx/xilinx-dma.h b/drivers/media/platform/xilinx/xilinx-dma.h
-> > index 2378bdae57ae..69ced71a5696 100644
-> > --- a/drivers/media/platform/xilinx/xilinx-dma.h
-> > +++ b/drivers/media/platform/xilinx/xilinx-dma.h
-> > @@ -47,7 +47,7 @@ struct xvip_pipeline {
-> >  
-> >  static inline struct xvip_pipeline *to_xvip_pipeline(struct media_entity *e)
-> >  {
-> > -	return container_of(e->pipe, struct xvip_pipeline, pipe);
-> > +	return container_of(e->pads->pipe, struct xvip_pipeline, pipe);
-> >  }
-> >  
-> >  /**
-> > diff --git a/drivers/staging/media/imx/imx-media-utils.c b/drivers/staging/media/imx/imx-media-utils.c
-> > index 6f90acf9c725..535da4dda3c6 100644
-> > --- a/drivers/staging/media/imx/imx-media-utils.c
-> > +++ b/drivers/staging/media/imx/imx-media-utils.c
-> > @@ -913,7 +913,7 @@ int imx_media_pipeline_set_stream(struct imx_media_dev *imxmd,
-> >  			__media_pipeline_stop(entity);
-> >  	} else {
-> >  		v4l2_subdev_call(sd, video, s_stream, 0);
-> > -		if (entity->pipe)
-> > +		if (entity->pads->pipe)
-> >  			__media_pipeline_stop(entity);
-> >  	}
-> >  
-> > diff --git a/drivers/staging/media/omap4iss/iss.c b/drivers/staging/media/omap4iss/iss.c
-> > index 68588e9dab0b..4c6f25aa8b57 100644
-> > --- a/drivers/staging/media/omap4iss/iss.c
-> > +++ b/drivers/staging/media/omap4iss/iss.c
-> > @@ -548,7 +548,7 @@ static int iss_pipeline_is_last(struct media_entity *me)
-> >  	struct iss_pipeline *pipe;
-> >  	struct media_pad *pad;
-> >  
-> > -	if (!me->pipe)
-> > +	if (!me->pads->pipe)
-> >  		return 0;
-> >  	pipe = to_iss_pipeline(me);
-> >  	if (pipe->stream_state == ISS_PIPELINE_STREAM_STOPPED)
-> > diff --git a/drivers/staging/media/omap4iss/iss_video.c b/drivers/staging/media/omap4iss/iss_video.c
-> > index 8c25ad73a81e..b74f7891711d 100644
-> > --- a/drivers/staging/media/omap4iss/iss_video.c
-> > +++ b/drivers/staging/media/omap4iss/iss_video.c
-> > @@ -871,7 +871,7 @@ iss_video_streamon(struct file *file, void *fh, enum v4l2_buf_type type)
-> >  	 * Start streaming on the pipeline. No link touching an entity in the
-> >  	 * pipeline can be activated or deactivated once streaming is started.
-> >  	 */
-> > -	pipe = pad->entity->pipe
-> > +	pipe = pad->pipe
-> >  	     ? to_iss_pipeline(pad->entity) : &video->pipe;
-> >  	pipe->external = NULL;
-> >  	pipe->external_rate = 0;
-> > diff --git a/drivers/staging/media/omap4iss/iss_video.h b/drivers/staging/media/omap4iss/iss_video.h
-> > index 526281bf0051..9b8ec27bf87d 100644
-> > --- a/drivers/staging/media/omap4iss/iss_video.h
-> > +++ b/drivers/staging/media/omap4iss/iss_video.h
-> > @@ -91,7 +91,7 @@ struct iss_pipeline {
-> >  };
-> >  
-> >  #define to_iss_pipeline(__e) \
-> > -	container_of((__e)->pipe, struct iss_pipeline, pipe)
-> > +	container_of((__e)->pads->pipe, struct iss_pipeline, pipe)
-> >  
-> >  static inline int iss_pipeline_ready(struct iss_pipeline *pipe)
-> >  {
-> > diff --git a/include/media/media-entity.h b/include/media/media-entity.h
-> > index 5f6eed24e63f..c9d97c902d05 100644
-> > --- a/include/media/media-entity.h
-> > +++ b/include/media/media-entity.h
-> > @@ -180,15 +180,24 @@ enum media_pad_signal_type {
-> >   *
-> >   * @graph_obj:	Embedded structure containing the media object common data
-> >   * @entity:	Entity this pad belongs to
-> > + * @pipe:	Pipeline this pad belongs to
-> > + * @stream_count: Stream count for the pad
-> >   * @index:	Pad index in the entity pads array, numbered from 0 to n
-> >   * @sig_type:	Type of the signal inside a media pad
-> >   * @flags:	Pad flags, as defined in
-> >   *		:ref:`include/uapi/linux/media.h <media_header>`
-> >   *		(seek for ``MEDIA_PAD_FL_*``)
-> > + * .. note::
-> > + *
-> > + *    @stream_count reference count must never be negative, but is a signed
-> > + *    integer on purpose: a simple ``WARN_ON(<0)`` check can be used to
-> > + *    detect reference count bugs that would make it negative.
-> >   */
-> >  struct media_pad {
-> >  	struct media_gobj graph_obj;	/* must be first field in struct */
-> >  	struct media_entity *entity;
-> > +	struct media_pipeline *pipe;
-> > +	int stream_count;
+> I think that shouldn't be a problem, I could take care.
+> 
+> > I also don't see any mention of ov6650 there,
+> 
+> Respective i2c_board_info was removed from arch/arm/mach-omap1/board-ams-
+> delta.c together with removal of soc_camera support.  I had a patch in my
+> queue that was registering the sensor info with I2C sybsystem at boot time
+> for v4l2_async use but that alone wouldn't help much.
+> 
+> > leading
+> > me to believe nobody can use this driver with the mainline kernel
+> > without resurecting the omap1_camera driver. I'm thus wondering if this
+> > would be a good use of your time, or if we should just merge this patch
+> > as-is.
+> 
+> Yes, please feel free to merge it.
+> 
+> Acked-by: Janusz Krzysztofik <jmkrzyszt@gmail.com>
 
-This doesn't seem enough to me. When carrying multiple streams, it seems
-to me that a pad can be part of multiple pipelines. This can be the case
-for instance of the source pad of a CSI-2 transmitter or the sink pad of
-a CSI-2 receiver.
+Thank you.
 
-What do you think ?
-
-> >  	u16 index;
-> >  	enum media_pad_signal_type sig_type;
-> >  	unsigned long flags;
-> > @@ -267,9 +276,7 @@ enum media_entity_type {
-> >   * @pads:	Pads array with the size defined by @num_pads.
-> >   * @links:	List of data links.
-> >   * @ops:	Entity operations.
-> > - * @stream_count: Stream count for the entity.
-> >   * @use_count:	Use count for the entity.
-> > - * @pipe:	Pipeline this entity belongs to.
-> >   * @info:	Union with devnode information.  Kept just for backward
-> >   *		compatibility.
-> >   * @info.dev:	Contains device major and minor info.
-> > @@ -282,10 +289,9 @@ enum media_entity_type {
-> >   *
-> >   * .. note::
-> >   *
-> > - *    @stream_count and @use_count reference counts must never be
-> > - *    negative, but are signed integers on purpose: a simple ``WARN_ON(<0)``
-> > - *    check can be used to detect reference count bugs that would make them
-> > - *    negative.
-> > + *    @use_count reference count must never be negative, but is a signed
-> > + *    integer on purpose: a simple ``WARN_ON(<0)`` check can be used to
-> > + *    detect reference count bugs that would make it negative.
-> >   */
-> >  struct media_entity {
-> >  	struct media_gobj graph_obj;	/* must be first field in struct */
-> > @@ -304,11 +310,8 @@ struct media_entity {
-> >  
-> >  	const struct media_entity_operations *ops;
-> >  
-> > -	int stream_count;
-> >  	int use_count;
-> >  
-> > -	struct media_pipeline *pipe;
-> > -
-> >  	union {
-> >  		struct {
-> >  			u32 major;
+> > > > > I wonder what kind of environment it is used in --- assuming it works
+> > > > > somewhere.
+> > > > >
+> > > > > > - if (ret)
+> > > > > > -         return ret;
+> > > > > > -
+> > > > > > - if (cfg->flags & V4L2_MBUS_HSYNC_ACTIVE_LOW)
+> > > > > > -         ret = ov6650_reg_rmw(client, REG_COMF, COMF_HREF_LOW, 0);
+> > > > > > - else if (cfg->flags & V4L2_MBUS_HSYNC_ACTIVE_HIGH)
+> > > > > > -         ret = ov6650_reg_rmw(client, REG_COMF, 0, COMF_HREF_LOW);
+> > > > > > - if (ret)
+> > > > > > -         return ret;
+> > > > > > -
+> > > > > > - if (cfg->flags & V4L2_MBUS_VSYNC_ACTIVE_HIGH)
+> > > > > > -         ret = ov6650_reg_rmw(client, REG_COMJ, COMJ_VSYNC_HIGH, 0);
+> > > > > > - else if (cfg->flags & V4L2_MBUS_VSYNC_ACTIVE_LOW)
+> > > > > > -         ret = ov6650_reg_rmw(client, REG_COMJ, 0, COMJ_VSYNC_HIGH);
+> > > > > > - if (ret)
+> > > > > > -         return ret;
+> > > > > > -
+> > > > > > - /*
+> > > > > > -  * Update the configuration to report what is actually applied to
+> > > > > > -  * the hardware.
+> > > > > > -  */
+> > > > > > - return ov6650_get_mbus_config(sd, pad, cfg);
+> > > > > > -}
+> > > > > > -
+> > > > > >  static const struct v4l2_subdev_video_ops ov6650_video_ops = {
+> > > > > >   .s_stream       = ov6650_s_stream,
+> > > > > >   .g_frame_interval = ov6650_g_frame_interval,
+> > > > > > @@ -993,7 +957,6 @@ static const struct v4l2_subdev_pad_ops ov6650_pad_ops = {
+> > > > > >   .get_fmt        = ov6650_get_fmt,
+> > > > > >   .set_fmt        = ov6650_set_fmt,
+> > > > > >   .get_mbus_config = ov6650_get_mbus_config,
+> > > > > > - .set_mbus_config = ov6650_set_mbus_config,
+> > > > > >  };
+> > > > > >
+> > > > > >  static const struct v4l2_subdev_ops ov6650_subdev_ops = {
 
 -- 
 Regards,
