@@ -2,96 +2,78 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7B73D489684
-	for <lists+linux-media@lfdr.de>; Mon, 10 Jan 2022 11:38:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 108AB4896BD
+	for <lists+linux-media@lfdr.de>; Mon, 10 Jan 2022 11:51:17 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244099AbiAJKin (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 10 Jan 2022 05:38:43 -0500
-Received: from mxout02.lancloud.ru ([45.84.86.82]:41394 "EHLO
-        mxout02.lancloud.ru" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S244041AbiAJKh4 (ORCPT
+        id S244248AbiAJKvN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 10 Jan 2022 05:51:13 -0500
+Received: from mail-ua1-f49.google.com ([209.85.222.49]:36384 "EHLO
+        mail-ua1-f49.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S244239AbiAJKvC (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 10 Jan 2022 05:37:56 -0500
-Received: from LanCloud
-DKIM-Filter: OpenDKIM Filter v2.11.0 mxout02.lancloud.ru 5C867233324C
-Received: from LanCloud
-Received: from LanCloud
-Received: from LanCloud
-Subject: Re: [PATCH v2 08/11] media: i2c: max9286: Define macros for all bits
- of register 0x15
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Jacopo Mondi <jacopo@jmondi.org>
-CC:     <linux-media@vger.kernel.org>, <linux-renesas-soc@vger.kernel.org>,
-        "Kieran Bingham" <kieran.bingham@ideasonboard.com>,
-        =?UTF-8?Q?Niklas_S=c3=b6derlund?= <niklas.soderlund@ragnatech.se>,
-        Thomas Nizan <tnizan@witekio.com>
-References: <20220101182806.19311-1-laurent.pinchart+renesas@ideasonboard.com>
- <20220101182806.19311-9-laurent.pinchart+renesas@ideasonboard.com>
- <20220109103738.fqyehzvj4hgggu6w@uno.localdomain>
- <Ydtt+TsZ56qv8G27@pendragon.ideasonboard.com>
-From:   Sergey Shtylyov <s.shtylyov@omp.ru>
-Organization: Open Mobile Platform
-Message-ID: <4ef0af5a-36cd-fd40-73f0-3e5c746e7882@omp.ru>
-Date:   Mon, 10 Jan 2022 13:37:51 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+        Mon, 10 Jan 2022 05:51:02 -0500
+Received: by mail-ua1-f49.google.com with SMTP id r15so22642855uao.3;
+        Mon, 10 Jan 2022 02:51:01 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=7lKB7LPyy07fwqNZkXQvWdDl8rNbAh7GVFzkcYGJL+4=;
+        b=mQsTZmFZMJkGpHWM/8TRQT2yiMq2Cn9i8F40fUl/frZX3ciRsn7jtZudPEa8br4RDC
+         0IpyAiJIsZ2G9jxb/A5t4RVDutrI92gGzjvHPD4Aeq4kbio26BIONjzOq4m9E2WuYwvy
+         eVkfl8+mHzayxmiEtnCs+sqqhDjwsWROApCBC+gjXW7p8Ion678Lk8RfNKghjFTeZHK7
+         VGeeVq54sovTKoaRlttYDyLbT3ajDTmspwzKVNtY6IqqqGNn7cuIUJRn386DnoIQ60OY
+         NxYtE0oZQh+MiBNry28fsnon3Dq0murYNlA/MR5vZURqpmkY8P41anwk+0zP352sKjAb
+         QriQ==
+X-Gm-Message-State: AOAM531RHmJ5DwKHUyUcy1otdJ4nNzX3KdjC2SzoKZZ3m+9Wh/lVy7kD
+        s9PyPze+pHDiNvl0gkzPFG6eGuOQP0NGvg==
+X-Google-Smtp-Source: ABdhPJxSxprVygfc8AWWx8au9xHjS4fasIuLCIrGmc582S07e1DSVdbNzW75hhRoFjYLv1Yd3iOxOA==
+X-Received: by 2002:a05:6102:304f:: with SMTP id w15mr24355992vsa.82.1641811860809;
+        Mon, 10 Jan 2022 02:51:00 -0800 (PST)
+Received: from mail-vk1-f176.google.com (mail-vk1-f176.google.com. [209.85.221.176])
+        by smtp.gmail.com with ESMTPSA id s12sm3904796vsj.26.2022.01.10.02.51.00
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 10 Jan 2022 02:51:00 -0800 (PST)
+Received: by mail-vk1-f176.google.com with SMTP id b77so7809946vka.11;
+        Mon, 10 Jan 2022 02:51:00 -0800 (PST)
+X-Received: by 2002:a1f:384b:: with SMTP id f72mr807514vka.0.1641811860022;
+ Mon, 10 Jan 2022 02:51:00 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <Ydtt+TsZ56qv8G27@pendragon.ideasonboard.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [192.168.11.198]
-X-ClientProxiedBy: LFEXT02.lancloud.ru (fd00:f066::142) To
- LFEX1907.lancloud.ru (fd00:f066::207)
+References: <20220102224803.27463-1-laurent.pinchart+renesas@ideasonboard.com> <164116567398.210256.8635439327374336545@Monstersaurus>
+In-Reply-To: <164116567398.210256.8635439327374336545@Monstersaurus>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Mon, 10 Jan 2022 11:50:49 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdX_D2Dn0q9y4T=nOe7j1C+EECg=xg_VSvmpgrL-svoD4w@mail.gmail.com>
+Message-ID: <CAMuHMdX_D2Dn0q9y4T=nOe7j1C+EECg=xg_VSvmpgrL-svoD4w@mail.gmail.com>
+Subject: Re: [PATCH] media: i2c: max9271: Add header include guards to max9271.h
+To:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Cc:     Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        =?UTF-8?Q?Niklas_S=C3=B6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hello!
+Hi Kieran,
 
-On 1/10/22 2:21 AM, Laurent Pinchart wrote:
+On Mon, Jan 3, 2022 at 8:48 AM Kieran Bingham
+<kieran.bingham+renesas@ideasonboard.com> wrote:
+> I wonder if we'll ever #pragma once outside of /tools/testing/selftests.
 
->>> Macros are easier to read than numerical values.
->>>
->>> Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
->>> ---
->>>  drivers/media/i2c/max9286.c | 27 ++++++++++++++++++---------
->>>  1 file changed, 18 insertions(+), 9 deletions(-)
->>>
->>> diff --git a/drivers/media/i2c/max9286.c b/drivers/media/i2c/max9286.c
->>> index 24c2bf4fda53..4b69bd036ca6 100644
->>> --- a/drivers/media/i2c/max9286.c
->>> +++ b/drivers/media/i2c/max9286.c
-[...]
->>> @@ -810,13 +815,17 @@ static int max9286_s_stream(struct v4l2_subdev *sd, int enable)
->>>  		}
->>>
->>>  		/*
->>> -		 * Enable CSI output, VC set according to link number.
->>> -		 * Bit 7 must be set (chip manual says it's 0 and reserved).
->>> +		 * Configure the CSI-2 output to line interleaved mode (W x (N
->>> +		 * x H), as opposed to the (N x W) x H mode that outputs the
->>> +		 * images stitched side-by-side) and enable it.
->>>  		 */
->>> -		max9286_write(priv, 0x15, 0x80 | MAX9286_VCTYPE |
->>> -			      MAX9286_CSIOUTEN | MAX9286_0X15_RESV);
->>> +		max9286_write(priv, 0x15, MAX9286_CSI_IMAGE_TYP | MAX9286_VCTYPE |
->>> +			      MAX9286_CSIOUTEN | MAX9286_EN_CCBSYB_CLK_STR |
->>> +			      MAX9286_EN_GPI_CCBSYB);
->>>  	} else {
->>> -		max9286_write(priv, 0x15, MAX9286_VCTYPE | MAX9286_0X15_RESV);
->>> +		max9286_write(priv, 0x15, MAX9286_VCTYPE |
->>> +			      MAX9286_EN_CCBSYB_CLK_STR |
->>> +			      MAX9286_EN_GPI_CCBSYB);
->>
->> Probably fits better on two lines only.
-> 
-> That would be over the 80 columns limit, which is a soft limit now, but
-> still often requested by reviewers (including myself in quite a few
-> cases :-)).
+Probably not anytime soon
+https://lore.kernel.org/all/CAHk-=wi13+FLcRo4zmnRUmmY=AAns-Yd5NR_mVdcAd6ZrPq2fA@mail.gmail.com/
 
-    The new limit is 100 columns, not 80. :-)
+Gr{oetje,eeting}s,
 
-[...]
+                        Geert
 
-MBR, Sergey
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
