@@ -2,110 +2,115 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 58FB4489785
-	for <lists+linux-media@lfdr.de>; Mon, 10 Jan 2022 12:32:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2534C489787
+	for <lists+linux-media@lfdr.de>; Mon, 10 Jan 2022 12:32:53 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244833AbiAJLco (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 10 Jan 2022 06:32:44 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49568 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S244775AbiAJLcX (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Mon, 10 Jan 2022 06:32:23 -0500
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ED904C061748;
-        Mon, 10 Jan 2022 03:32:22 -0800 (PST)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 4ED32A50;
-        Mon, 10 Jan 2022 12:32:21 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1641814341;
-        bh=eX1/BiYxwQ831RKDWij1jdfm+j8FhRTuyLRMBWLOFbs=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=vyidJal6AHQtZvJVED6aOq3txhCXObIZfiokmM61zuo3EBWwesnpZUvSIkD7RGpNU
-         044bGVDvAjH4eaVuVRmyLgmqbemMD8O0quQAOzj74BP48W9iaoBjWNVSz3Ww9fGP0I
-         uUYXmNaupd3NLM6Yc7mKswGzHVCCadSiPtFifse4=
-Date:   Mon, 10 Jan 2022 13:32:12 +0200
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Sergey Shtylyov <s.shtylyov@omp.ru>
-Cc:     Jacopo Mondi <jacopo@jmondi.org>, linux-media@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
-        Thomas Nizan <tnizan@witekio.com>
-Subject: Re: [PATCH v2 08/11] media: i2c: max9286: Define macros for all bits
- of register 0x15
-Message-ID: <YdwZPCCULRGg5w/E@pendragon.ideasonboard.com>
-References: <20220101182806.19311-1-laurent.pinchart+renesas@ideasonboard.com>
- <20220101182806.19311-9-laurent.pinchart+renesas@ideasonboard.com>
- <20220109103738.fqyehzvj4hgggu6w@uno.localdomain>
- <Ydtt+TsZ56qv8G27@pendragon.ideasonboard.com>
- <4ef0af5a-36cd-fd40-73f0-3e5c746e7882@omp.ru>
+        id S244740AbiAJLcs (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 10 Jan 2022 06:32:48 -0500
+Received: from mga12.intel.com ([192.55.52.136]:13228 "EHLO mga12.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S244768AbiAJLck (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Mon, 10 Jan 2022 06:32:40 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1641814359; x=1673350359;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=evoguys23ZwUlcMQh2P7qtEhP0idRPkbItUq9JkHZWk=;
+  b=WFLTweBMxtR2VjYDjXd9Voi7f6647j8wiiYdtMfqIv+aznz4MBtnPiIQ
+   lT4JwWENuA7cLjIn6TQ+QRf7Hv2PkbPiMZhFlMd4QiWoTEzZRNoMSbdor
+   Z4Refv7OaKoIXN/7O5LiwvMnbvjBWs+n0RZtvpEpNgz6CwLuxnjrhoslK
+   NI446qCiUbJHvq2o1oZxVWK6mnaUr0LGbFCq8adOYqQumJOqIKDthWspT
+   uqs/FPCi9Ff7h5O2h/Bv6f8AnNV60jnXn+nZS5KVqbKGYklf2sN8G2rHz
+   ZGj6ftTsjFwg2bdJ8Wpv3rPri4U77nLpFlDcp5s7QOG68MSCBalo6bUcx
+   Q==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10222"; a="223187807"
+X-IronPort-AV: E=Sophos;i="5.88,276,1635231600"; 
+   d="scan'208";a="223187807"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jan 2022 03:32:38 -0800
+X-IronPort-AV: E=Sophos;i="5.88,276,1635231600"; 
+   d="scan'208";a="690546947"
+Received: from paasikivi.fi.intel.com ([10.237.72.42])
+  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jan 2022 03:32:36 -0800
+Received: from paasikivi.fi.intel.com (localhost [127.0.0.1])
+        by paasikivi.fi.intel.com (Postfix) with SMTP id 0C447202B9;
+        Mon, 10 Jan 2022 13:32:34 +0200 (EET)
+Date:   Mon, 10 Jan 2022 13:32:34 +0200
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     "Cao, Bingbu" <bingbu.cao@intel.com>
+Cc:     "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+        "Tu, ShawnX" <shawnx.tu@intel.com>,
+        "senozhatsky@chromium.org" <senozhatsky@chromium.org>,
+        "tfiga@chromium.org" <tfiga@chromium.org>,
+        "bingbu.cao@linux.intel.com" <bingbu.cao@linux.intel.com>,
+        "Yeh, Andy" <andy.yeh@intel.com>
+Subject: Re: [PATCH] media: ov5675: use group write to update digital gain
+Message-ID: <YdwZUqoXnTmlveF6@paasikivi.fi.intel.com>
+References: <1640768259-18070-1-git-send-email-bingbu.cao@intel.com>
+ <YcwtTaenpE1OK0TP@paasikivi.fi.intel.com>
+ <DM8PR11MB565373D28B23D9D36C0560EE99449@DM8PR11MB5653.namprd11.prod.outlook.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <4ef0af5a-36cd-fd40-73f0-3e5c746e7882@omp.ru>
+In-Reply-To: <DM8PR11MB565373D28B23D9D36C0560EE99449@DM8PR11MB5653.namprd11.prod.outlook.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Sergey,
-
-On Mon, Jan 10, 2022 at 01:37:51PM +0300, Sergey Shtylyov wrote:
-> Hello!
+On Wed, Dec 29, 2021 at 10:00:43AM +0000, Cao, Bingbu wrote:
+> Hi Sakari, 
 > 
-> On 1/10/22 2:21 AM, Laurent Pinchart wrote:
+> Thanks for your review.
 > 
-> >>> Macros are easier to read than numerical values.
-> >>>
-> >>> Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-> >>> ---
-> >>>  drivers/media/i2c/max9286.c | 27 ++++++++++++++++++---------
-> >>>  1 file changed, 18 insertions(+), 9 deletions(-)
-> >>>
-> >>> diff --git a/drivers/media/i2c/max9286.c b/drivers/media/i2c/max9286.c
-> >>> index 24c2bf4fda53..4b69bd036ca6 100644
-> >>> --- a/drivers/media/i2c/max9286.c
-> >>> +++ b/drivers/media/i2c/max9286.c
-> [...]
-> >>> @@ -810,13 +815,17 @@ static int max9286_s_stream(struct v4l2_subdev *sd, int enable)
-> >>>  		}
-> >>>
-> >>>  		/*
-> >>> -		 * Enable CSI output, VC set according to link number.
-> >>> -		 * Bit 7 must be set (chip manual says it's 0 and reserved).
-> >>> +		 * Configure the CSI-2 output to line interleaved mode (W x (N
-> >>> +		 * x H), as opposed to the (N x W) x H mode that outputs the
-> >>> +		 * images stitched side-by-side) and enable it.
-> >>>  		 */
-> >>> -		max9286_write(priv, 0x15, 0x80 | MAX9286_VCTYPE |
-> >>> -			      MAX9286_CSIOUTEN | MAX9286_0X15_RESV);
-> >>> +		max9286_write(priv, 0x15, MAX9286_CSI_IMAGE_TYP | MAX9286_VCTYPE |
-> >>> +			      MAX9286_CSIOUTEN | MAX9286_EN_CCBSYB_CLK_STR |
-> >>> +			      MAX9286_EN_GPI_CCBSYB);
-> >>>  	} else {
-> >>> -		max9286_write(priv, 0x15, MAX9286_VCTYPE | MAX9286_0X15_RESV);
-> >>> +		max9286_write(priv, 0x15, MAX9286_VCTYPE |
-> >>> +			      MAX9286_EN_CCBSYB_CLK_STR |
-> >>> +			      MAX9286_EN_GPI_CCBSYB);
-> >>
-> >> Probably fits better on two lines only.
+> ________________________
+> BRs,  
+> Bingbu Cao 
+> 
+> > -----Original Message-----
+> > From: Sakari Ailus <sakari.ailus@linux.intel.com>
+> > Sent: Wednesday, December 29, 2021 5:42 PM
+> > To: Cao, Bingbu <bingbu.cao@intel.com>
+> > Cc: linux-media@vger.kernel.org; Tu, ShawnX <shawnx.tu@intel.com>;
+> > senozhatsky@chromium.org; tfiga@chromium.org; bingbu.cao@linux.intel.com;
+> > Yeh, Andy <andy.yeh@intel.com>
+> > Subject: Re: [PATCH] media: ov5675: use group write to update digital
+> > gain
 > > 
-> > That would be over the 80 columns limit, which is a soft limit now, but
-> > still often requested by reviewers (including myself in quite a few
-> > cases :-)).
+> > Hi Bingbu,
+> > 
+> > On Wed, Dec 29, 2021 at 04:57:39PM +0800, Bingbu Cao wrote:
+> > > MWB gain register are used to set gain for each mwb channel mannually.
+> > > However, it will involve some artifacts at low light environment as
+> > > gain cannot be applied to each channel synchronously. Update the
+> > > driver to use group write for digital gain to make the sure RGB
+> > > digital gain be applied together at frame boundary.
+> > 
+> > How about the analogue gain and exposure time?
+> > 
+> > Shouldn't they be applied similarly as well? Adding two more writes
+> > increases the probability of missing a frame there.
 > 
->     The new limit is 100 columns, not 80. :-)
+> We did not meet issue related to analog gain as the it was applied by only
+> 1 reg write, it looks like same issue we found on ov8856, changing to set
+> digital gain by only 1 global gain write will fix the problem.
 
-That's the new hard limit, yes :-) I do occasionally write lines wider
-than 80 columns and am often asked to change that. In this specific case
-it doesn't matter much to me, I'll happily pick whatever option
-reviewers will want to give me a Reviewed-by as both are equally
-readable for me.
+That device is different in its support for global digital gain. This patch
+sets the gain for each component separately.
 
-> [...]
+Adding more writes on a given frame increases the probability of slipping
+to the following frame. Doing the exposure and gain updates in the same 
+group write would alleviate that a little.
+
+> 
+> > 
+> > This is of course a trick since the control framework doesn't really
+> > support this, but I think this support should be added.
+> > 
+> > --
+> > Regards,
+> > 
+> > Sakari Ailus
 
 -- 
-Regards,
-
-Laurent Pinchart
+Sakari Ailus
