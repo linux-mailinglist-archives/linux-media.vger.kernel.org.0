@@ -2,140 +2,91 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 99399489961
-	for <lists+linux-media@lfdr.de>; Mon, 10 Jan 2022 14:11:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 51652489B86
+	for <lists+linux-media@lfdr.de>; Mon, 10 Jan 2022 15:46:06 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231531AbiAJNLr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 10 Jan 2022 08:11:47 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44356 "EHLO
+        id S235708AbiAJOqE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 10 Jan 2022 09:46:04 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38058 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230436AbiAJNLq (ORCPT
+        with ESMTP id S234981AbiAJOqE (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 10 Jan 2022 08:11:46 -0500
-Received: from mail-wr1-x432.google.com (mail-wr1-x432.google.com [IPv6:2a00:1450:4864:20::432])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 18217C06175A
-        for <linux-media@vger.kernel.org>; Mon, 10 Jan 2022 05:11:46 -0800 (PST)
-Received: by mail-wr1-x432.google.com with SMTP id s1so26706563wra.6
-        for <linux-media@vger.kernel.org>; Mon, 10 Jan 2022 05:11:46 -0800 (PST)
+        Mon, 10 Jan 2022 09:46:04 -0500
+Received: from mail-pl1-x632.google.com (mail-pl1-x632.google.com [IPv6:2607:f8b0:4864:20::632])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 65594C061748
+        for <linux-media@vger.kernel.org>; Mon, 10 Jan 2022 06:46:04 -0800 (PST)
+Received: by mail-pl1-x632.google.com with SMTP id t18so2635895plg.9
+        for <linux-media@vger.kernel.org>; Mon, 10 Jan 2022 06:46:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=STst/NZz7XpLuhkw/fjT1YooCLQUEgoChj9j28RAYfs=;
-        b=Bgie3w5lZXcUpEJsNUNnYT9D80sz6831OKMgWSWMpAMR4c04HQM1hwHkoZ1AqHgJ5M
-         pQJfhFBsNTGc+jfMsWTuSDXhNBe5XPwJ8/UQZKbYcWTDQ68Eu4MBBVsHf0V3Baa+27Pp
-         IUJW/950IUGNsTto2NnsTW49/Cy4Vf+KfgzDT0+KZ2gcb/QkEKg3LEIj8qPJpiII0Qbk
-         buE3CbPl0T8T6omQLXT3KYJBxN98pPIrfxDam1Qs0diPFN43pWVugWbd8LU8WaIGviK3
-         O/t/NLMKhR03EdE8rMi5c8T5epCw09Yzc4YmAU5QrO9ZaREbayNwAtpm1SWYSR1IiBuY
-         5w9A==
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=3u/nL4+caw2Jc6IrZh81voTa4JaYMHLEUh8UW2kMetU=;
+        b=Coa54SP3EZ0u2iOAHnQzPsnXwqYKLKpQ+Ogki3z4yqL5nrh9xPva9o39S5DdVOXTrG
+         DL0vfNmNXJR9hkJKx2aitxhyM/LM0epvyQfLadl0aq2T8ysglO2Uvc3Mr4iMsvrKgwiC
+         3ad4wPTW1lmpbHwdgyc8m+n10Y7P/k+EuDHWuubOOUurVLWZoB5nf9zcHnrPRTtFfsHR
+         jLWzTJFZzEz2dxH4r9qXDdWoZxaNzROuiSooR/BlHrHuYChtrqDuUmCrQNnS5TbhMqsX
+         MiJRlxqvaM5w3frycJuGyZL3P4gE9nogsii/JeakVAwO0LJk7G8xLZzbHGFIZ/t44FgR
+         4AwA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=STst/NZz7XpLuhkw/fjT1YooCLQUEgoChj9j28RAYfs=;
-        b=C3zUvKWcYunLz2YWzjkkPLUapbUw8KsPT1tNz6+qWxrGHgLvmvCslAd+dFsQuV/qYh
-         b6ZZvezqcgx700SrW5ERU9A5ymA+prEpTnmUjyVADMxaCw+odkuy2XbB62yYaZW9e/vc
-         s5XtQc1+uPPUxQWbOHyrU0eO25XOoY5csfPoaWdt2CswHal0sT+XPb/vQdTQDjxH6ch7
-         MyaVdKKyuVSpPqR123vkV8Dc2EoupF84W00YIuHoaS9s1l+p6Ka9d861xR8WMWPLLfNI
-         pQIL8bUKfDLexUcJOSoazyEuRK226ljly08sOR+R9KP28bTRTogwRP0lSwEE/VzmHsv2
-         3+MA==
-X-Gm-Message-State: AOAM532wXCJAPPnbeiZZKnfQ0gK2/gbFs7+p75BQjN1PZkUaYMyerJ2A
-        cd0ABpqtaCLxgIc7djxuaqTu+5IllFgkd1Sj3y5pjdJiSNc=
-X-Google-Smtp-Source: ABdhPJyUuzfRq9+VAp3YIslVsNF7E8r6u+SDvjtiaFw6sfTA9uOxrmlrl9JDay/jDh10uqplhgk07a+YHTpM3Ge0znw=
-X-Received: by 2002:ac2:4c51:: with SMTP id o17mr60639917lfk.558.1641820293776;
- Mon, 10 Jan 2022 05:11:33 -0800 (PST)
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=3u/nL4+caw2Jc6IrZh81voTa4JaYMHLEUh8UW2kMetU=;
+        b=iVZWpVxBjtlD+rAUutVsKl/vssoT1eNcDM9YyRLZFJpHrR2PSgeMXUc1DQH9DndvQa
+         Rzx4J0D+wYOJCYjV7zAQo3rz/rZSqbsdGzkB3bibzVySzmpktvAIj+owQVrxyRdBWiY6
+         9VfO3aTWmpFX6gAEk35aB62Cv4ezsBbry5fnowd6Uds+XIFfLAtK0yqEq+oVYxG1vLSt
+         olWrqu5GCNc3JyizSImXoCwk4JLjMXP+VRk6wbQ9obsW9d6Oq+8gsvrqRE5us7A6Kfm6
+         ++cONb9GjjfUz4k84rpFpHxO2xsbTHYiBNPmzMAvVGcWdJhqPPwnSRRL9ctZPNUfQuDn
+         FKWg==
+X-Gm-Message-State: AOAM5333kNmGuRuMp8cowGGdIog/8hz/cFHhOp24RzyoNjQ3xwMtS6Zl
+        MLM+18Y6GQbR/H9CG/zyJK7jSmqT+ocD1bA0ysTDuQ==
+X-Google-Smtp-Source: ABdhPJxkj9vZBJ5acFie1CWTAvpX5sUJm13cdTZeiLum3gzwMZ/po9/Md+Al1zj/iwQZKt4Gu/OrmhQMbpQTwrE22fU=
+X-Received: by 2002:a17:90a:5295:: with SMTP id w21mr28949560pjh.179.1641825963818;
+ Mon, 10 Jan 2022 06:46:03 -0800 (PST)
 MIME-Version: 1.0
-Received: by 2002:a05:6504:15d1:0:0:0:0 with HTTP; Mon, 10 Jan 2022 05:11:32
- -0800 (PST)
-Reply-To: gtbank107@yahoo.com
-From:   Barr Robert Richter <westernunion.benin982@gmail.com>
-Date:   Mon, 10 Jan 2022 14:11:32 +0100
-Message-ID: <CAP=nHBK9zHzp_=-EVswWQiLxEoc+HV4oqddgtnEqf-9qYab_4Q@mail.gmail.com>
-Subject: Contact GT Bank-Benin to receive your transfer amount of $18.5m US Dollars.
-To:     undisclosed-recipients:;
+References: <20220109024910.2041763-1-bryan.odonoghue@linaro.org> <20220109024910.2041763-5-bryan.odonoghue@linaro.org>
+In-Reply-To: <20220109024910.2041763-5-bryan.odonoghue@linaro.org>
+From:   Robert Foss <robert.foss@linaro.org>
+Date:   Mon, 10 Jan 2022 15:45:52 +0100
+Message-ID: <CAG3jFyu3XuKjFM7Vv7nE+EomCCf7rDXtA+Zgt0pN=MCDmDcp_Q@mail.gmail.com>
+Subject: Re: [PATCH v2 4/8] arm64: dts: qcom: sdm845: Add camss vdda-pll-supply
+To:     "Bryan O'Donoghue" <bryan.odonoghue@linaro.org>
+Cc:     linux-arm-msm@vger.kernel.org, linux-media@vger.kernel.org,
+        mchehab@kernel.org, hverkuil@xs4all.nl, jonathan@marek.ca,
+        andrey.konovalov@linaro.org, todor.too@gmail.com,
+        agross@kernel.org, bjorn.andersson@linaro.org, jgrahsl@snap.com,
+        hfink@snap.com, vladimir.zapolskiy@linaro.org,
+        dmitry.baryshkov@linaro.org
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Attn,Dear
-I need you to know that the fear of the LORD is
-the beginning of wisdom, and knowledge of the Holy One is
-understanding. As power of God Most High. And This is the confidence
-we have in approaching God, that if we ask anything according to his
-will, he hears us. I will make you know that Slow and steady wins the race.
-It is your turn to receive your overdue compensation funds total
-amount $18.5Milion  USD.
-I actualized that you will receive your transfer today without any more delay
-No More fee OK, Believe me , I am your Attorney standing here on your favor.
-I just concluded conversation with the Gt Bank Director, Mrs Mary Gate
-And She told me that your transfer is ready today
+On Sun, 9 Jan 2022 at 03:47, Bryan O'Donoghue
+<bryan.odonoghue@linaro.org> wrote:
+>
+> Add in the missing vdda-pll-supply rail description.
+>
+> Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+> ---
+>  arch/arm64/boot/dts/qcom/sdm845-db845c.dts | 1 +
+>  1 file changed, 1 insertion(+)
+>
+> diff --git a/arch/arm64/boot/dts/qcom/sdm845-db845c.dts b/arch/arm64/boot/dts/qcom/sdm845-db845c.dts
+> index c4db88dbf8766..f7bfd69b13620 100644
+> --- a/arch/arm64/boot/dts/qcom/sdm845-db845c.dts
+> +++ b/arch/arm64/boot/dts/qcom/sdm845-db845c.dts
+> @@ -1116,6 +1116,7 @@ &cci {
+>
+>  &camss {
+>         vdda-phy-supply = <&vreg_l1a_0p875>;
+> +       vdda-pll-supply = <&vreg_l26a_1p2>;
+>
+>         status = "ok";
+>
+> --
+> 2.33.0
+>
 
-So the Bank Asked you to contact them immediately by re-confirming
-your Bank details asap.
-Because this is the Only thing holding this transfer
-If you did not trust me and Mrs Mary Gate,Who Else will you Trust?
-For we are the ones trying to protect your funds here
-and make sure that your funds is secure.
-So Promisingly, I am here to assure you, that Grate Miracle is coming on
-your way, and this funds total amount of $18.500,000 is your
-compensation, entitlement inheritance overdue funds on your name.
-Which you cannot let anything delay you from receiving your funds now,
-
-Finally i advised you to try your possible best and contact Gt Bank Benin
-once you get this message to receive your transfer $18.5 USD today.
-I know that a journey of thousand miles begins with a single step.
-Always put your best foot forward
-Try as hard as you can, God give you best.
-take my advice and follow the due process of your payment, the
-transfer will be released to
-you smoothly without any hitches or hindrance.
-
-Contact DR.MRS MARY GATE, Director Gt bank-Benin to receive your
-transfer amount of $18.5m US Dollars
-It was deposited and registered to your name this morning.
-Contact the Bank now to know when they will transfer to your
-country today
-
-Email id: gtbank107@yahoo.com
-Tel/mobile, +229 99069872
-Contact person, Mrs Mary Gate,Director Gt bank-Benin.
-Among the blind the one-eyed man is king
-
-As you sow, so you shall reap, i want you to receive your funds
-Best things in life are free
-Send to her your Bank Details as i listed here.
-
-Your account name-------------
-Your Bank Name----------------
-Account Number----------
-your Bank address----------
-Country-----------
-Your private phone number---------
-Routing Numbers-------------
-Swift Code-----------
-
-Note, Your funds is %100 Percent ready for
-transfer.
-Everything you do remember that Good things come to those who wait.
-I have done this work for you with my personally effort, Honesty is
-the best policy.
-now your transfer is currently deposited with paying bank this morning.
-It is by the grace of God that I received Christ, having known the truth.
-I had no choice than to do what is lawful and justice in the
-sight of God for eternal life and in the sight of man for witness of
-God & His Mercies and glory upon my life.
-
-send this needed bank details to the bank today, so that you receive
-your transfer today as
-it is available for your confirmation today.
-Please do your best as a serious person and send the fee urgent, Note
-that this transfer of $18.500.000 M USD is a Gift from God to Bless
-you.
-
-If you did not contact the bank urgent, finally the Bank will release
-your transfer of $18.500.000M USD to  Mr. David Bollen as your
-representative.
-So not allow another to claim your Money.
-Thanks For your Understanding.
-
-Barr Robert Richter, UN Attorney At Law Court-Benin
+Reviewed-by: Robert Foss <robert.foss@linaro.org>
