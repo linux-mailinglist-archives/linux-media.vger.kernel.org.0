@@ -2,66 +2,72 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 065ED489C99
-	for <lists+linux-media@lfdr.de>; Mon, 10 Jan 2022 16:49:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 055FB489D35
+	for <lists+linux-media@lfdr.de>; Mon, 10 Jan 2022 17:11:59 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236496AbiAJPtk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 10 Jan 2022 10:49:40 -0500
-Received: from perceval.ideasonboard.com ([213.167.242.64]:36146 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236551AbiAJPtf (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Mon, 10 Jan 2022 10:49:35 -0500
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 95A18A1B
-        for <linux-media@vger.kernel.org>; Mon, 10 Jan 2022 16:49:33 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1641829773;
-        bh=Gi7U96viMIMIWVS30+WYfwYREK5dTLxA8gfF6NMPPTU=;
-        h=Date:From:To:Subject:From;
-        b=AODM9K6JDKKkOvTwIgbtv98gP8E0G6jX33sYOEtN/+yDoxBl+mGK2OqSGD0k1QVSz
-         T4GX55RziIFz5T4H6s+Atshgx2xq3y19i44Jho2F6ezBEQODUjAPMukUaQ8TXbeGuW
-         EJULCYrfoOg8vWigzxMiaY/WLVsTU4jX290AXc/c=
-Date:   Mon, 10 Jan 2022 17:49:25 +0200
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     linux-media@vger.kernel.org
-Subject: [GIT PULL FOR v5.18] Miscellaneous changes to the i.MX7 CSI-2
- receiver driver
-Message-ID: <YdxVhUUepPr0EEyI@pendragon.ideasonboard.com>
+        id S237067AbiAJQL5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 10 Jan 2022 11:11:57 -0500
+Received: from www.linuxtv.org ([130.149.80.248]:46230 "EHLO www.linuxtv.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S237075AbiAJQL4 (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Mon, 10 Jan 2022 11:11:56 -0500
+Received: from builder.linuxtv.org ([140.211.167.10] helo=slave0)
+        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1n6xH1-003tf7-44; Mon, 10 Jan 2022 16:11:55 +0000
+Received: from ip6-localhost ([::1] helo=localhost.localdomain)
+        by slave0 with esmtp (Exim 4.94.2)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1n6xGy-00EAKk-Dp; Mon, 10 Jan 2022 16:11:52 +0000
+From:   Jenkins <jenkins@linuxtv.org>
+To:     mchehab+samsung@kernel.org, linux-media@vger.kernel.org
+Cc:     builder@linuxtv.org
+Subject: Re: [GIT PULL FOR v5.18] Miscellaneous changes to the i.MX7 CSI-2 (#79866)
+Date:   Mon, 10 Jan 2022 16:11:52 +0000
+Message-Id: <20220110161152.3376268-1-jenkins@linuxtv.org>
+X-Mailer: git-send-email 2.30.2
+In-Reply-To: <YdxVhUUepPr0EEyI@pendragon.ideasonboard.com>
+References: 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Mauro,
+From: builder@linuxtv.org
 
-The following changes since commit 68b9bcc8a534cd11fe55f8bc82f948aae7d81b3c:
+Pull request: https://patchwork.linuxtv.org/project/linux-media/patch/YdxVhUUepPr0EEyI@pendragon.ideasonboard.com/
+Build log: https://builder.linuxtv.org/job/patchwork/172914/
+Build time: 00:18:06
+Link: https://lore.kernel.org/linux-media/YdxVhUUepPr0EEyI@pendragon.ideasonboard.com
 
-  media: ipu3-cio2: Add support for instantiating i2c-clients for VCMs (2021-12-16 20:58:56 +0100)
+gpg: Signature made Mon 10 Jan 2022 03:46:33 PM UTC
+gpg:                using RSA key CB9D6877529820CD53099B1B65F89C37BC54210D
+gpg:                issuer "laurent.pinchart@ideasonboard.com"
+gpg: Can't check signature: No public key
 
-are available in the Git repository at:
+Summary: got 1/3 patches with issues, being 1 at build time, plus one error when buinding PDF document
 
-  git://linuxtv.org/pinchartl/media.git tags/imx-next-20220110
+Error/warnings:
 
-for you to fetch changes up to d8ad3113de69488a7aadc94399c5c3d751c26d49:
+patches/0001-staging-media-imx-imx7-mipi-csis-Dump-MIPI_CSIS_FRAM.patch:
 
-  staging: media: imx: imx7-mipi-csis: Make subdev name unique (2022-01-10 17:45:25 +0200)
+    allyesconfig: return code #0:
+	../scripts/genksyms/parse.y: warning: 9 shift/reduce conflicts [-Wconflicts-sr]
+	../scripts/genksyms/parse.y: warning: 5 reduce/reduce conflicts [-Wconflicts-rr]
+	../scripts/genksyms/parse.y: note: rerun with option '-Wcounterexamples' to generate conflict counterexamples
 
-----------------------------------------------------------------
-imx7-mipi-csis miscellaneous changes
+    allyesconfig: return code #0:
+	../drivers/media/rc/meson-ir-tx.c:22: warning: expecting prototype for meson(). Prototype was for DEVICE_NAME() instead
+	SMATCH:../drivers/media/usb/siano/smsusb.c ../drivers/media/usb/siano/smsusb.c:53:38: :warning: array of flexible structures
+	SPARSE:../drivers/media/usb/siano/smsusb.c ../drivers/media/usb/siano/smsusb.c:53:38: warning: array of flexible structures
+	../drivers/media/i2c/ov8865.c: ../drivers/media/i2c/ov8865.c:2843 ov8865_get_selection() warn: inconsistent indenting
+	../drivers/media/test-drivers/vivid/vivid-core.c: ../drivers/media/test-drivers/vivid/vivid-core.c:1981 vivid_create_instance() parse error: turning off implications after 60 seconds
+	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2625 dvb_register() parse error: turning off implications after 60 seconds
+	../drivers/media/platform/qcom/venus/helpers.c: ../drivers/media/platform/qcom/venus/helpers.c:658 venus_helper_get_bufreq() error: we previously assumed 'req' could be null (see line 654)
+	../drivers/media/usb/em28xx/em28xx-video.c: ../drivers/media/usb/em28xx/em28xx-video.c:2894 em28xx_v4l2_init() parse error: turning off implications after 60 seconds
 
-----------------------------------------------------------------
-Laurent Pinchart (3):
-      staging: media: imx: imx7-mipi-csis: Dump MIPI_CSIS_FRAME_COUNTER_CH0 register
-      staging: media: imx: imx7_mipi_csis: Add timings override through debugfs
-      staging: media: imx: imx7-mipi-csis: Make subdev name unique
 
- drivers/staging/media/imx/imx7-mipi-csis.c | 44 +++++++++++++++++++++++-------
- 1 file changed, 34 insertions(+), 10 deletions(-)
+Error #512 when building PDF docs
 
--- 
-Regards,
-
-Laurent Pinchart
