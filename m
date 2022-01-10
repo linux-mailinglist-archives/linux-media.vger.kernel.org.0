@@ -2,33 +2,34 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 138C54897D1
-	for <lists+linux-media@lfdr.de>; Mon, 10 Jan 2022 12:46:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 181524897D5
+	for <lists+linux-media@lfdr.de>; Mon, 10 Jan 2022 12:46:36 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S245103AbiAJLqS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 10 Jan 2022 06:46:18 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52352 "EHLO
+        id S245121AbiAJLq2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 10 Jan 2022 06:46:28 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52418 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S244944AbiAJLoS (ORCPT
+        with ESMTP id S244969AbiAJLog (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 10 Jan 2022 06:44:18 -0500
+        Mon, 10 Jan 2022 06:44:36 -0500
 Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CE2FCC06173F;
-        Mon, 10 Jan 2022 03:44:17 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4C51FC061756;
+        Mon, 10 Jan 2022 03:44:36 -0800 (PST)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
         (Authenticated sender: kholk11)
-        with ESMTPSA id 1EC331F436F1
+        with ESMTPSA id 9DDD61F436F1
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1641815056;
-        bh=sVloC0dkqoMasFv1fJjOkQcxMXUqU480+H//BOCz3X0=;
+        s=mail; t=1641815075;
+        bh=bFgbf+SKJkohaV9z0g5mte5KBBwjvSAxwUBFmODWAhw=;
         h=Subject:To:References:From:Date:In-Reply-To:From;
-        b=gM6CRcbhHFtc5HMOBQ5/CcpPa4EH3fQGSibLTqHMNkxNxLpQvmXB0fFppV7fZZtDo
-         6FMDayfy9xdsTnLnFkjx2rvqAzif9y2iVKpvqPCoyGKIlv09LnpYWD4GXxMvsdVwmS
-         L+WWUeyNJI46qvxMzvCHUWaF3P3Po8Pug6cgzAxuTRVmKYIVRZwQrhVuDaB+mamr/a
-         6WZDQjT6UAnU4HNwFeMEafcUR+BTACjY9V55Jm0TSNw4WEn8aCSH4a9f4TUakQ4e+E
-         g5EVhNBIPIzMvohnjhtRq2bapylkjzIdtUrvU8DekyP7h0B0Hx4SNZyEPirXY3EHoU
-         nFwfwq/z2janw==
-Subject: Re: [PATCH v2 4/5] iommu/mediatek: Add tlb_lock in tlb_flush_all
+        b=A36shmdnUkCoT+7gAJ2/CGJwPNCabWozqEZZ9fjIIuYwqcVPk/UMBvFRy2be4+kif
+         S5I0K/Iwz86gHF8Jgf723v59h823VxwMt7ma+AaJY51gSC9x26au8pPG6FljzkjG3v
+         dwuyNHdZJSBxuBW2lzEmTKIlGpsPwZs7qDd24ryylKt0dxtApNGE5kxriJngIilpOz
+         aYQFNR6wXZ1X3F5+/9Q4xIj2RaSMJA7ZM9cT9L403tggtJS4BsdvreAtjhW6NDQFWq
+         Znx+L7JLG9xCyjCLMxN5vByA+LB15SehaRO0wVwr2Smxl5oSP8kU5aDyL7tjaGkO4t
+         TiiGHl+BI6daA==
+Subject: Re: [PATCH v2 5/5] iommu/mediatek: Always tlb_flush_all when each PM
+ resume
 To:     Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
         iommu@lists.linux-foundation.org, Yong Wu <yong.wu@mediatek.com>,
         Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
@@ -40,15 +41,15 @@ To:     Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
         open list <linux-kernel@vger.kernel.org>, kernel@collabora.com,
         linux-media@vger.kernel.org, sebastian.reichel@collabora.com
 References: <20211208120744.2415-1-dafna.hirschfeld@collabora.com>
- <20211208120744.2415-5-dafna.hirschfeld@collabora.com>
+ <20211208120744.2415-6-dafna.hirschfeld@collabora.com>
 From:   AngeloGioacchino Del Regno 
         <angelogioacchino.delregno@collabora.com>
-Message-ID: <283e584d-ab72-a3cb-f97e-71eeb16f7834@collabora.com>
-Date:   Mon, 10 Jan 2022 12:44:14 +0100
+Message-ID: <02719a0f-9725-abc5-f5c4-acbb4bfac08d@collabora.com>
+Date:   Mon, 10 Jan 2022 12:44:32 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.13.0
 MIME-Version: 1.0
-In-Reply-To: <20211208120744.2415-5-dafna.hirschfeld@collabora.com>
+In-Reply-To: <20211208120744.2415-6-dafna.hirschfeld@collabora.com>
 Content-Type: text/plain; charset=iso-8859-15; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -59,13 +60,24 @@ X-Mailing-List: linux-media@vger.kernel.org
 Il 08/12/21 13:07, Dafna Hirschfeld ha scritto:
 > From: Yong Wu <yong.wu@mediatek.com>
 > 
-> The tlb_flush_all touches the registers controlling tlb operations.
-> Protect it with the tlb_lock spinlock.
-> This also require the range_sync func to release that spinlock before
-> calling tlb_flush_all.
+> Prepare for 2 HWs that sharing pgtable in different power-domains.
+> 
+> When there are 2 M4U HWs, it may has problem in the flush_range in which
+> we get the pm_status via the m4u dev, BUT that function don't reflect the
+> real power-domain status of the HW since there may be other HW also use
+> that power-domain.
+> 
+> DAM allocation is often done while the allocating device is runtime
+> suspended. In such a case the iommu will also be suspended and partial
+> flushing of the tlb will not be executed.
+> Therefore, we add a tlb_flush_all in the pm_runtime_resume to make
+> sure the tlb is always clean.
+> 
+> In other case, the iommu's power should be active via device
+> link with smi.
 > 
 > Signed-off-by: Yong Wu <yong.wu@mediatek.com>
-> [refactor commit log]
+> [move the call to mtk_iommu_tlb_flush_all to the bottom of resume cb, improve doc/log]
 > Signed-off-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
 
 Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
