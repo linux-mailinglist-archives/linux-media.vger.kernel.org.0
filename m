@@ -2,92 +2,68 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7C81748A468
-	for <lists+linux-media@lfdr.de>; Tue, 11 Jan 2022 01:24:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0C52B48A60B
+	for <lists+linux-media@lfdr.de>; Tue, 11 Jan 2022 04:06:30 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1346011AbiAKAYl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 10 Jan 2022 19:24:41 -0500
-Received: from relmlor1.renesas.com ([210.160.252.171]:21170 "EHLO
-        relmlie5.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1345934AbiAKAYE (ORCPT
+        id S243698AbiAKDG2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 10 Jan 2022 22:06:28 -0500
+Received: from ams.source.kernel.org ([145.40.68.75]:37374 "EHLO
+        ams.source.kernel.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S243417AbiAKDGZ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 10 Jan 2022 19:24:04 -0500
-X-IronPort-AV: E=Sophos;i="5.88,278,1635174000"; 
-   d="scan'208";a="106050208"
-Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie5.idc.renesas.com with ESMTP; 11 Jan 2022 09:24:03 +0900
-Received: from localhost.localdomain (unknown [10.226.36.204])
-        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 07C1F4157D34;
-        Tue, 11 Jan 2022 09:24:00 +0900 (JST)
-From:   Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-To:     linux-media@vger.kernel.org,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        NXP Linux Team <linux-imx@nxp.com>
-Cc:     Rob Herring <robh+dt@kernel.org>,
-        Andy Shevchenko <andy.shevchenko@gmail.com>,
-        Prabhakar <prabhakar.csengg@gmail.com>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v2 13/13] media: coda: Use platform_get_irq() to get the interrupt
-Date:   Tue, 11 Jan 2022 00:23:14 +0000
-Message-Id: <20220111002314.15213-14-prabhakar.mahadev-lad.rj@bp.renesas.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20220111002314.15213-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-References: <20220111002314.15213-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+        Mon, 10 Jan 2022 22:06:25 -0500
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 55B46B8180E;
+        Tue, 11 Jan 2022 03:06:21 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 06282C36AE5;
+        Tue, 11 Jan 2022 03:06:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1641870380;
+        bh=Et5aazlokOGYri0UZ0VH3BjwcXHJDDaN0GuoXE1ouEc=;
+        h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
+        b=XD2rRjsLKG3b4CzkUMZFfA1c2lotptHSVbXaAQDKCIKaxUtii538tN2muAq7vpOVe
+         jDtv7PN8fkus9yP5QctcNrpmKTrTcaVVSbIL6VGxGzG+IwP7esEviYjy9dlITWZiUp
+         +z5AJzjPj0cgV01LQbPdOp2UcYE2o4d3EMBaCqRk7WsEogaPKfybTgW4dny5+Ct5Fz
+         iE/cnpbQVUZW/RLe1RttXy6vfwgYriJ0um3Z/8PZ8EQ6MtSrkbMiIAGiGT/GYlehqd
+         stD/lT3WCbHkqkHWmftPXMZ/16Qg9Ouif7FPD1pC9/YzD7sUgzbBs/tww9qxi4OAHA
+         vYFN/KRcCQPiw==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id E6C5EF6078C;
+        Tue, 11 Jan 2022 03:06:19 +0000 (UTC)
+Subject: Re: [GIT PULL for v5.17-rc1] New year's media updates
+From:   pr-tracker-bot@kernel.org
+In-Reply-To: <20220101022920.62f31d16@coco.lan>
+References: <20220101022920.62f31d16@coco.lan>
+X-PR-Tracked-List-Id: <linux-media.vger.kernel.org>
+X-PR-Tracked-Message-Id: <20220101022920.62f31d16@coco.lan>
+X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/mchehab/linux-media tags/media/v5.17-1
+X-PR-Tracked-Commit-Id: 68b9bcc8a534cd11fe55f8bc82f948aae7d81b3c
+X-PR-Merge-Tree: torvalds/linux.git
+X-PR-Merge-Refname: refs/heads/master
+X-PR-Merge-Commit-Id: 9bcbf894b6872216ef61faf17248ec234e3db6bc
+Message-Id: <164187037993.10909.9606250087478653304.pr-tracker-bot@kernel.org>
+Date:   Tue, 11 Jan 2022 03:06:19 +0000
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-platform_get_resource(pdev, IORESOURCE_IRQ, ..) relies on static
-allocation of IRQ resources in DT core code, this causes an issue
-when using hierarchical interrupt domains using "interrupts" property
-in the node as this bypasses the hierarchical setup and messes up the
-irq chaining.
+The pull request you sent on Sat, 1 Jan 2022 02:29:36 +0100:
 
-In preparation for removal of static setup of IRQ resource from DT core
-code use platform_get_irq().
+> git://git.kernel.org/pub/scm/linux/kernel/git/mchehab/linux-media tags/media/v5.17-1
 
-Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
----
-v1->v2
-* No change.
----
- drivers/media/platform/coda/imx-vdoa.c | 9 ++++-----
- 1 file changed, 4 insertions(+), 5 deletions(-)
+has been merged into torvalds/linux.git:
+https://git.kernel.org/torvalds/c/9bcbf894b6872216ef61faf17248ec234e3db6bc
 
-diff --git a/drivers/media/platform/coda/imx-vdoa.c b/drivers/media/platform/coda/imx-vdoa.c
-index 00643f37b3e6..c70871bae193 100644
---- a/drivers/media/platform/coda/imx-vdoa.c
-+++ b/drivers/media/platform/coda/imx-vdoa.c
-@@ -284,7 +284,6 @@ EXPORT_SYMBOL(vdoa_context_configure);
- static int vdoa_probe(struct platform_device *pdev)
- {
- 	struct vdoa_data *vdoa;
--	struct resource *res;
- 	int ret;
- 
- 	ret = dma_set_coherent_mask(&pdev->dev, DMA_BIT_MASK(32));
-@@ -309,10 +308,10 @@ static int vdoa_probe(struct platform_device *pdev)
- 	if (IS_ERR(vdoa->regs))
- 		return PTR_ERR(vdoa->regs);
- 
--	res = platform_get_resource(pdev, IORESOURCE_IRQ, 0);
--	if (!res)
--		return -EINVAL;
--	ret = devm_request_threaded_irq(&pdev->dev, res->start, NULL,
-+	ret = platform_get_irq(pdev, 0);
-+	if (ret < 0)
-+		return ret;
-+	ret = devm_request_threaded_irq(&pdev->dev, ret, NULL,
- 					vdoa_irq_handler, IRQF_ONESHOT,
- 					"vdoa", vdoa);
- 	if (ret < 0) {
+Thank you!
+
 -- 
-2.17.1
-
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/prtracker.html
