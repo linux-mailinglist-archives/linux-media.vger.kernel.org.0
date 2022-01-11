@@ -2,195 +2,186 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5E2E848B7AD
-	for <lists+linux-media@lfdr.de>; Tue, 11 Jan 2022 20:55:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5A3BF48B8B9
+	for <lists+linux-media@lfdr.de>; Tue, 11 Jan 2022 21:37:12 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240933AbiAKTzl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 11 Jan 2022 14:55:41 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49374 "EHLO
+        id S243820AbiAKUhL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 11 Jan 2022 15:37:11 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58972 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236475AbiAKTzk (ORCPT
+        with ESMTP id S233821AbiAKUhK (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 11 Jan 2022 14:55:40 -0500
-Received: from mail-qk1-x72d.google.com (mail-qk1-x72d.google.com [IPv6:2607:f8b0:4864:20::72d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 383ECC061751
-        for <linux-media@vger.kernel.org>; Tue, 11 Jan 2022 11:55:40 -0800 (PST)
-Received: by mail-qk1-x72d.google.com with SMTP id g2so49773qkp.1
-        for <linux-media@vger.kernel.org>; Tue, 11 Jan 2022 11:55:40 -0800 (PST)
+        Tue, 11 Jan 2022 15:37:10 -0500
+Received: from mail-lf1-x135.google.com (mail-lf1-x135.google.com [IPv6:2a00:1450:4864:20::135])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 583ECC06173F;
+        Tue, 11 Jan 2022 12:37:10 -0800 (PST)
+Received: by mail-lf1-x135.google.com with SMTP id br17so820030lfb.6;
+        Tue, 11 Jan 2022 12:37:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ndufresne-ca.20210112.gappssmtp.com; s=20210112;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :user-agent:mime-version:content-transfer-encoding;
-        bh=4UkALJo42zyNVJNxiAZxEL17ovop2sEjH0povRmnj1A=;
-        b=JlKqfCOeysMqlHnuqY++ZmDpdFM97icn5cmQu4EmLRpBUDXZOx+S08RK8aGzNsNcy5
-         pnf3ELRLIWxhIi1zMOdGfgjLavGmc3wEmSCJQihL1Yi6clc1Zu5EpfN3Y/JnRyAbl+Ns
-         sVoFNDKrWsd5gzlEr4lJn5eI5Yu5lwB3QEsB0VYD0/lRJtgyLY0pqeW8b1LeQK2t3YuR
-         CFVPUSaNbHQTPp+f9w6RzFKsXnZFaaNqzTa2fJRh9qyC1HZeNACl5lvo4GzT88+pbXnq
-         fi3Te4GcybtCQW+Fp7Uo9x5Xne9VLHIheYBq2qZkpmXtdr/T4pjOQK4enu5gipc7ZxLR
-         fBPg==
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=IQDameqITU1NojR7HvknVY2IQ36ItvkGUfxcogAKzgo=;
+        b=HI/ZMy4fGfeiE8fpirPiZx960CweGnA2lPkrcWv+I061XY7LPXy4Z4u4TaXwJ8eGNM
+         juohAD87i6Z/4l8CzRu8LVUUXbP+udrLNeaANXETUuEc2tMhRDPEIh+woCcm7rOrp0Nb
+         qi0NEvxwA9b0MLpWkO5oAI5c87dVGoYAb3Oimp8RVKvKmz1jEHWmr9LjKS6IpzcLlgIh
+         kA6pyvlG+QzfPoENGKXq+LQaOS1Q0Rq7oKOIK/MXWFTbtsg9SCMGvnQUmF262Gh05yKC
+         EfH8yUf347r0xIlGR/yBJZWr5a3iGGov7Kwm6oatCd8gdXgGUnGY9yRN/0BqyjRS2cIN
+         ePiQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=4UkALJo42zyNVJNxiAZxEL17ovop2sEjH0povRmnj1A=;
-        b=N5Qd3UWU+M8NbY6ppD0Oy9vYOIexn8guNCqhpr5Hbr9SbD0OxfPoWepzpRUWZcPH/U
-         2mssmrytBsim3UfzTtZKRDCqOlz+JPJR3dfoW6Wl2cf5NHA+SZoBPNkK6wwGfeOFCa2q
-         6XUqidlD7aRPumpC4kvyIrtVnLShj4zT8CH3ijYhX2mHdiJ4diUbeNoMaqD4xCERHGt/
-         okKFH0Ptxdnh+GHXcRmaRCtxKwiW4gBunO/a3jqV1k750keegUTd3t/uLm7JFkIvODaQ
-         1U9dRj4gOeRs5TwrpkNWAK/9YcW4iXpA5w4Dwv3n6ekENVb3nHzTN+g+d+YUIUlbWus7
-         eYHg==
-X-Gm-Message-State: AOAM532CknJ6DTwxe0AchJtK4IBxTKpG2rAfYMKGkVxKsN4N40hIBd8e
-        CISZKHpgJ8rYQyP76O4dWQVJNw==
-X-Google-Smtp-Source: ABdhPJw8dTHlooGde6P0GPheEh0aByt4tzNuOPVs95bnwX/Ye4l3dIP0O99YINdvrXfK851DNqYdPw==
-X-Received: by 2002:a05:620a:2702:: with SMTP id b2mr4221539qkp.299.1641930939261;
-        Tue, 11 Jan 2022 11:55:39 -0800 (PST)
-Received: from nicolas-tpx395.localdomain (mtl.collabora.ca. [66.171.169.34])
-        by smtp.gmail.com with ESMTPSA id g5sm7610395qtb.97.2022.01.11.11.55.36
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=IQDameqITU1NojR7HvknVY2IQ36ItvkGUfxcogAKzgo=;
+        b=zDnazc9gOZoIx2mGpGyVu6r5rqCEtcBaKfc8JnmKMrCwUyBgF6w4N3F/IZV49q2lEh
+         Q/eMlqmBkhcUCcgAGoCyB06vlsa0Ts9OmHaveEJcm5OgUYmY9u8v0o8uL/DlQYkg3WYN
+         58JEREVKzq7G20QBuJIi++xurNeakE8aN1m0U5wwkzHNLWDqswX/SjmVYg5lqetP203c
+         R4nUGd38MK4q/7bF3sQyo/kS7eKTCkLMbL1R3ArHB0vMCJp6r0Heob9s9wkXZ+Yj4S8P
+         aB5BwhKUCJnvIf27mmHXnTN33+PpJWXFDN6lyHFSZAHnkR2goMzXwN8s2RkWFBfEo9C7
+         WRSQ==
+X-Gm-Message-State: AOAM5333zz6jOON7rPkP909Nrx9exkbFlMH3tRtAaTAjkSf8hWXp+vjH
+        V1kTfeogRRsaKPAoOD8RGP4=
+X-Google-Smtp-Source: ABdhPJzcc5xBDRuDlV1jTOEXPFMYCtnn7xBlwNB/0/n8RaIUYL+VDFmfvWgaYbfXpSZmjttO0f1wzw==
+X-Received: by 2002:ac2:47f8:: with SMTP id b24mr4119768lfp.49.1641933428702;
+        Tue, 11 Jan 2022 12:37:08 -0800 (PST)
+Received: from dell.intranet (178235254230.gdansk.vectranet.pl. [178.235.254.230])
+        by smtp.gmail.com with ESMTPSA id b23sm1122987lfv.84.2022.01.11.12.37.07
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 11 Jan 2022 11:55:38 -0800 (PST)
-Message-ID: <91a41f3a17f94d25f84054daa1854603d113ecaf.camel@ndufresne.ca>
-Subject: Re: [PATCH v4, 00/15] media: mtk-vcodec: support for MT8192 decoder
-From:   Nicolas Dufresne <nicolas@ndufresne.ca>
-To:     Yunfei Dong <yunfei.dong@mediatek.com>,
-        Alexandre Courbot <acourbot@chromium.org>,
+        Tue, 11 Jan 2022 12:37:08 -0800 (PST)
+From:   Janusz Krzysztofik <jmkrzyszt@gmail.com>
+To:     Sakari Ailus <sakari.ailus@iki.fi>
+Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        linux-renesas-soc@vger.kernel.org,
         Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Tzung-Bi Shih <tzungbi@chromium.org>,
-        Tiffany Lin <tiffany.lin@mediatek.com>,
-        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Tomasz Figa <tfiga@google.com>
-Cc:     George Sun <george.sun@mediatek.com>,
-        Xiaoyong Lu <xiaoyong.lu@mediatek.com>,
-        Hsin-Yi Wang <hsinyi@chromium.org>,
-        Fritz Koenig <frkoenig@chromium.org>,
-        Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
-        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        Irui Wang <irui.wang@mediatek.com>,
-        AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>,
-        Steve Cho <stevecho@chromium.org>, linux-media@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, srv_heupstream@mediatek.com,
-        linux-mediatek@lists.infradead.org,
-        Project_Global_Chrome_Upstream_Group@mediatek.com
-Date:   Tue, 11 Jan 2022 14:55:35 -0500
-In-Reply-To: <20220110083442.32604-1-yunfei.dong@mediatek.com>
-References: <20220110083442.32604-1-yunfei.dong@mediatek.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.42.2 (3.42.2-1.fc35) 
+        Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        Jacopo Mondi <jacopo@jmondi.org>,
+        Niklas =?ISO-8859-1?Q?S=F6derlund?= 
+        <niklas.soderlund@ragnatech.se>,
+        Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Subject: Re: [RFC PATCH 2/8] media: i2c: ov6650: Drop implementation of .set_mbus_config()
+Date:   Tue, 11 Jan 2022 21:37:06 +0100
+Message-ID: <3111564.aV6nBDHxoP@dell>
+In-Reply-To: <Yd1vhs+3F2ISkW9S@valkosipuli.retiisi.eu>
+References: <20220103162414.27723-1-laurent.pinchart+renesas@ideasonboard.com> <1808044.CQOukoFCf9@dell> <Yd1vhs+3F2ISkW9S@valkosipuli.retiisi.eu>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hello Yunfei,
+Hi Sakari,
 
-Le lundi 10 janvier 2022 à 16:34 +0800, Yunfei Dong a écrit :
-> This series adds support for mt8192 h264/vp8/vp9 decoder drivers. Firstly, refactor
-> power/clock/interrupt interfaces for mt8192 is lat and core architecture.
+On Tuesday, 11 January 2022 12:52:38 CET Sakari Ailus wrote:
+> Hi Janusz,
 > 
-> Secondly, add new functions to get frame buffer size and resolution according
-> to decoder capability from scp side. Then add callback function to get/put
-> capture buffer in order to enable lat and core decoder in parallel. 
+> On Mon, Jan 10, 2022 at 07:11:45PM +0100, Janusz Krzysztofik wrote:
+> > Hi Sakari,
+> > 
+> > On Friday, 7 January 2022 14:41:51 CET Sakari Ailus wrote:
+> > > Hi Janusz,
+> > > 
+> > > On Wed, Jan 05, 2022 at 10:31:41PM +0100, Janusz Krzysztofik wrote:
+> > > > Hi Laurent,
+> > > > 
+> > > > On Wednesday, 5 January 2022 21:19:49 CET Laurent Pinchart wrote:
+> > > > > Hi Sakari,
+> > > > >
+> > > > > On Wed, Jan 05, 2022 at 08:04:24PM +0200, Sakari Ailus wrote:
+> > > > > > On Mon, Jan 03, 2022 at 06:24:08PM +0200, Laurent Pinchart wrote:
+> > > > > > > The subdev .set_mbus_config() operation is deprecated. No code in the
+> > > > > > > kernel calls it, so drop its implementation from the ov6650 driver.
+> > > > > > >
+> > > > > > > Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+> > > > > > > ---
+> > > > > > >  drivers/media/i2c/ov6650.c | 37 -------------------------------------
+> > > > > > >  1 file changed, 37 deletions(-)
+> > > > > > >
+> > > > > > > diff --git a/drivers/media/i2c/ov6650.c b/drivers/media/i2c/ov6650.c
+> > > > > > > index f67412150b16..455a627e35a0 100644
+> > > > > > > --- a/drivers/media/i2c/ov6650.c
+> > > > > > > +++ b/drivers/media/i2c/ov6650.c
+> > > > > > > @@ -944,42 +944,6 @@ static int ov6650_get_mbus_config(struct v4l2_subdev *sd,
+> > > > > > >   return 0;
+> > > > > > >  }
+> > > > > > >
+> > > > > > > -/* Alter bus settings on camera side */
+> > > > > > > -static int ov6650_set_mbus_config(struct v4l2_subdev *sd,
+> > > > > > > -                           unsigned int pad,
+> > > > > > > -                           struct v4l2_mbus_config *cfg)
+> > > > > > > -{
+> > > > > > > - struct i2c_client *client = v4l2_get_subdevdata(sd);
+> > > > > > > - int ret = 0;
+> > > > > > > -
+> > > > > > > - if (cfg->flags & V4L2_MBUS_PCLK_SAMPLE_RISING)
+> > > > > > > -         ret = ov6650_reg_rmw(client, REG_COMJ, COMJ_PCLK_RISING, 0);
+> > > > > > > - else if (cfg->flags & V4L2_MBUS_PCLK_SAMPLE_FALLING)
+> > > > > > > -         ret = ov6650_reg_rmw(client, REG_COMJ, 0, COMJ_PCLK_RISING);
+> > > > > >
+> > > > > > I think this configuration should come from the endpoint which the driver
+> > > > > > currently does not parse. In fact, there are no even DT bindings for the
+> > > > > > device.
+> > > > >
+> > > > > There's also no OF match table. While this isn't strictly required, it
+> > > > > may indicate that the sensor hasn't been tested much on DT-based
+> > > > > systems.
+> > > > >
+> > > > > I agree that the configuration should come from the device tree, but I
+> > > > > can't test that, so I'm tempted to let someone else implement it if the
+> > > > > driver is actually still in use (I can also write a patch if someone can
+> > > > > test it).
+> > > > 
+> > > > This driver was used with omap1_camera, removed from the tree a few years
+> > > > ago by Hans, despite my attempts to refresh it.  I tried to keep ov6650
+> > > > updated but I gave up due to lack of response to my submissions.  That also
+> > > > blocked my attempts to rework and reintroduce omap1_camera.
+> > > 
+> > > My apologies for this --- I indeed to see a set of unreviewed ov6650 patches
+> > > from you. Please do ping me if you expect an answer but do not get one.
+> > 
+> > OK, thanks.
+> > 
+> > > > I think I'm still able to update my local (v4l2, non-mc) version of
+> > > > omap1_camera to the extent required to test any changes to ov6650.
+> > > > However, the OMAP1 platform does not support DT, and will probably never
+> > > > do.  Then,  I think that it makes sense to spend my time on that only if
+> > > > you (media maintainers) are not going to depreciate non-DT support any
+> > > > soon.  Are you?
+> > > 
+> > > Commenting just this and not the discussion later in this thread --- it is
+> > > possible to support such sensor drivers without DT or ACPI nowadays,
+> > > through software nodes. See e.g. drivers/media/pci/intel/ipu3/cio2-bridge.c
+> > 
+> > Thanks for bringing this possibility to my awareness, I didn't know it 
+> > existed.  AFAICS, I2C sensor drivers like ov6650 can now be provided by 
+> > board files with device properties via i2c_board_info.swnode.
 > 
-> Then add to support MT21C compressed mode and fix v4l2-compliance fail.
+> Looking at i2c_new_client_device(), it only takes a single software node.
+> For an endpoint at least three are required, meaning you'll need to do that
+> separately. At least that seems to be the case at the moment.
 
-Perhaps you wanted to append the referred v4l2-compliance output (fixed) ?
+Thanks, I'll take a closer look.
 
-As we started doing with other codec driver submission (just did last month for
-NXP), can you state which software this driver was tested with ? I have started
-receiving feedback from third party that MTK driver support is not reproducible,
-I would like to work with you to fix the situation.
+> > 
+> > If I find a solution to implement a non-v4l2-clk clock device in 
+> > omap1_camera driver, I'll try to get back to updating ov6650 as time 
+> > permits.
+> 
+> Looking forward to that. Btw. I've taken the four patches you posted
+> earlier, rebased them a little and pushed them here:
+> 
+> <URL:https://git.linuxtv.org/sailus/media_tree.git/log/>
+> 
+> Let me know if they're (not) fine.
 
-regards,
-Nicolas
+Should be fine, thank you.
+
+Janusz
 
 > 
-> Next, extract H264 request api driver to let mt8183 and mt8192 use the same
-> code, and adds mt8192 frame based h264 driver for stateless decoder.
 > 
-> Lastly, add vp8 and vp9 stateless decoder drivers.
-> 
-> Patches 1 to refactor power/clock/interrupt interface.
-> Patches 2~4 get frame buffer size and resolution according to decoder capability.
-> Patches 5~6 enable lat and core decode in parallel.
-> Patch 7~10 add to support MT21C compressed mode and fix v4l2-compliance fail.
-> patch 11 record capture queue format type.
-> Patch 12~13 extract h264 driver and add mt8192 frame based driver for h264 decoder.
-> Patch 14~15 add vp8 and vp9 stateless decoder drivers.
-> ----
-> Dependents on "Support multi hardware decode using of_platform_populate"[1].
-> 
-> This patches are the second part used to add mt8192 h264 decoder. And the base part is [1].
-> 
-> [1]https://patchwork.linuxtv.org/project/linux-media/cover/20211215061552.8523-1-yunfei.dong@mediatek.com/
-> ---
-> changes compared with v3:
-> - remove enum mtk_chip for patch 2.
-> - add vp8 stateless decoder drivers for patch 14.
-> - add vp9 stateless decoder drivers for patch 15.
-> changes compared with v2:
-> - add new patch 11 to record capture queue format type.
-> - separate patch 4 according to tzung-bi's suggestion.
-> - re-write commit message for patch 5 according to tzung-bi's suggestion.
-> changes compared with v1:
-> - rewrite commit message for patch 12.
-> - rewrite cover-letter message.
-> ---
-> Yunfei Dong (15):
->   media: mtk-vcodec: Add vdec enable/disable hardware helpers
->   media: mtk-vcodec: Using firmware type to separate different firmware
->     architecture
->   media: mtk-vcodec: get capture queue buffer size from scp
->   media: mtk-vcodec: Read max resolution from dec_capability
->   media: mtk-vcodec: Call v4l2_m2m_set_dst_buffered() set capture buffer
->     buffered
->   media: mtk-vcodec: Refactor get and put capture buffer flow
->   media: mtk-vcodec: Refactor supported vdec formats and framesizes
->   media: mtk-vcodec: Add format to support MT21C
->   media: mtk-vcodec: disable vp8 4K capability
->   media: mtk-vcodec: Fix v4l2-compliance fail
->   media: mtk-vcodec: record capture queue format type
->   media: mtk-vcodec: Extract H264 common code
->   media: mtk-vcodec: Add h264 decoder driver for mt8192
->   media: mtk-vcodec: Add vp8 decoder driver for mt8192
->   media: mtk-vcodec: Add vp9 decoder driver for mt8192
-> 
->  drivers/media/platform/mtk-vcodec/Makefile    |    4 +
->  .../platform/mtk-vcodec/mtk_vcodec_dec.c      |   49 +-
->  .../platform/mtk-vcodec/mtk_vcodec_dec_drv.c  |    5 -
->  .../platform/mtk-vcodec/mtk_vcodec_dec_pm.c   |  168 +-
->  .../platform/mtk-vcodec/mtk_vcodec_dec_pm.h   |    6 +-
->  .../mtk-vcodec/mtk_vcodec_dec_stateful.c      |   14 +-
->  .../mtk-vcodec/mtk_vcodec_dec_stateless.c     |  284 ++-
->  .../platform/mtk-vcodec/mtk_vcodec_drv.h      |   40 +-
->  .../platform/mtk-vcodec/mtk_vcodec_enc_drv.c  |    5 -
->  .../media/platform/mtk-vcodec/mtk_vcodec_fw.c |    6 +
->  .../media/platform/mtk-vcodec/mtk_vcodec_fw.h |    1 +
->  .../mtk-vcodec/vdec/vdec_h264_req_common.c    |  311 +++
->  .../mtk-vcodec/vdec/vdec_h264_req_common.h    |  254 ++
->  .../mtk-vcodec/vdec/vdec_h264_req_if.c        |  416 +---
->  .../mtk-vcodec/vdec/vdec_h264_req_multi_if.c  |  605 +++++
->  .../mtk-vcodec/vdec/vdec_vp8_req_if.c         |  445 ++++
->  .../mtk-vcodec/vdec/vdec_vp9_req_lat_if.c     | 2066 +++++++++++++++++
->  .../media/platform/mtk-vcodec/vdec_drv_if.c   |   36 +-
->  .../media/platform/mtk-vcodec/vdec_drv_if.h   |    3 +
->  .../media/platform/mtk-vcodec/vdec_ipi_msg.h  |   37 +
->  .../platform/mtk-vcodec/vdec_msg_queue.c      |    2 +
->  .../media/platform/mtk-vcodec/vdec_vpu_if.c   |   54 +-
->  .../media/platform/mtk-vcodec/vdec_vpu_if.h   |   15 +
->  .../media/platform/mtk-vcodec/venc_vpu_if.c   |    2 +-
->  include/linux/remoteproc/mtk_scp.h            |    2 +
->  25 files changed, 4248 insertions(+), 582 deletions(-)
->  create mode 100644 drivers/media/platform/mtk-vcodec/vdec/vdec_h264_req_common.c
->  create mode 100644 drivers/media/platform/mtk-vcodec/vdec/vdec_h264_req_common.h
->  create mode 100644 drivers/media/platform/mtk-vcodec/vdec/vdec_h264_req_multi_if.c
->  create mode 100644 drivers/media/platform/mtk-vcodec/vdec/vdec_vp8_req_if.c
->  create mode 100644 drivers/media/platform/mtk-vcodec/vdec/vdec_vp9_req_lat_if.c
-> 
+
+
+
 
