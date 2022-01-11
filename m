@@ -2,94 +2,106 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C6FE148A945
-	for <lists+linux-media@lfdr.de>; Tue, 11 Jan 2022 09:22:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 93E3048A953
+	for <lists+linux-media@lfdr.de>; Tue, 11 Jan 2022 09:28:15 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1348877AbiAKIWn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 11 Jan 2022 03:22:43 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57086 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231130AbiAKIWm (ORCPT
+        id S1348899AbiAKI2O (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 11 Jan 2022 03:28:14 -0500
+Received: from relay6-d.mail.gandi.net ([217.70.183.198]:44751 "EHLO
+        relay6-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1348889AbiAKI2O (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 11 Jan 2022 03:22:42 -0500
-Received: from mail-pj1-x1036.google.com (mail-pj1-x1036.google.com [IPv6:2607:f8b0:4864:20::1036])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8CDC0C06173F;
-        Tue, 11 Jan 2022 00:22:42 -0800 (PST)
-Received: by mail-pj1-x1036.google.com with SMTP id rj2-20020a17090b3e8200b001b1944bad25so4491230pjb.5;
-        Tue, 11 Jan 2022 00:22:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=to:cc:reply-to:from:subject:message-id:date:user-agent:mime-version
-         :content-language:content-transfer-encoding;
-        bh=8s/ubBm4CMzoy773ZTaMXyvoXj9Suifczp18+PqTu/Y=;
-        b=nQdpHA+fTsW6/Matv1kTvyM0o0t/GciHubOzxYrt0P60VF5Sh4Ekps2nSoyTA7AANA
-         waUCVMOcluHfUdunRqaLnyXbxAfIt3ZOy1lGeCWcinSU5kJO0ZxjEJbU1210/OVFtkLU
-         3hN0KjarGxvUYFlqFvmUPgRixwXknGKy7yARmTlN0WiPM5fHX3+gTJtnCfvfRvY6Xrd8
-         M3xLj4bEV26JHWXoQezXegxn4FoeZPSJPo9YSZk0ZerpmnFVjsIyMEkQPa+j+aWpqzYF
-         EeNdDmq177m+fO3gbq4fgdtwWRCEHA1l/2QTu/6f2glnkQMiuE5PItKevSsgJxZRpgJ9
-         xjDw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:to:cc:reply-to:from:subject:message-id:date
-         :user-agent:mime-version:content-language:content-transfer-encoding;
-        bh=8s/ubBm4CMzoy773ZTaMXyvoXj9Suifczp18+PqTu/Y=;
-        b=fJWsadFEaUxUa5VF0BQGjhbxCTlEHV3CQIl4Ca1xN6TGQM43HYHE/W5t1ALZhLlvnc
-         +yHMpd4fELYaKCxjpfAx5q+w84d5/kftqtsPjhu4lJzq9My6YDJ0Oby+mZdJDlV323kY
-         fzdqyu2EDhqub92QzOXaSqomhesXQWAVmFQLKZHdpOGvdooJpp9lE4Ryba7vMQmjCj6u
-         W/8/2RHTF1AUS/nGkwyDKNKwgXkt/0OtBLNcsA3lOum5jaH2iCmmMIEHDNyjaDYG/sOP
-         jdOvIyQucg5pQxunipcK79OYf+VKE6N3gUio0Z5nRH4JQbtx3sPpKZ37IKaME/5+4Rf4
-         rUjg==
-X-Gm-Message-State: AOAM530nmlMMmAwfc8Y3Tr/f3+Y7UALriBCthKk9FJF7IqPaXRBVQwqX
-        MyaFnZjVXftysxlrwFydP0M=
-X-Google-Smtp-Source: ABdhPJw1SZvgOJwJjhIAzsckFYxYtbdwTEnTvshufFf3hc5ZjORHdDxLQ99Q2bO6bxiPBO5PsO4OcQ==
-X-Received: by 2002:a05:6a00:216f:b0:49f:dcb7:2bf2 with SMTP id r15-20020a056a00216f00b0049fdcb72bf2mr3421948pff.19.1641889362075;
-        Tue, 11 Jan 2022 00:22:42 -0800 (PST)
-Received: from [192.168.1.7] ([124.123.173.144])
-        by smtp.gmail.com with ESMTPSA id e20sm9262184pfd.104.2022.01.11.00.22.37
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 11 Jan 2022 00:22:41 -0800 (PST)
-To:     Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-Cc:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org,
-        Mark Rutland <mark.rutland@arm.com>,
-        Heiko Stuebner <heiko@sntech.de>,
-        Rob Herring <robh+dt@kernel.org>,
-        Hans Verkuil <hansverk@cisco.com>,
-        Jacob Chen <jacob-chen@iotwrt.com>,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Ezequiel Garcia <ezequiel@collabora.com>
-Reply-To: 20200416115047.233720-1-paul.kocialkowski@bootlin.com
-From:   Suniel Mahesh <suniel.spartan@gmail.com>
-Subject: [PATCH 0/4] media: rockchip: rga: PX30 support and YUV2YUV fix
-Message-ID: <9e7aa8de-30cf-e3e0-4c5f-e4b989ea8b48@gmail.com>
-Date:   Tue, 11 Jan 2022 13:52:34 +0530
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+        Tue, 11 Jan 2022 03:28:14 -0500
+Received: (Authenticated sender: paul.kocialkowski@bootlin.com)
+        by relay6-d.mail.gandi.net (Postfix) with ESMTPSA id 88C98C000D;
+        Tue, 11 Jan 2022 08:28:12 +0000 (UTC)
+Date:   Tue, 11 Jan 2022 09:28:12 +0100
+From:   Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc:     linux-media@vger.kernel.org
+Subject: Re: [PATCH 1/1] ov5648: Don't pack controls struct
+Message-ID: <Yd0/nL7iQityle6P@aptenodytes>
+References: <20220110224831.266749-1-sakari.ailus@linux.intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="Y3bK95cwuUGkI+Qf"
+Content-Disposition: inline
+In-Reply-To: <20220110224831.266749-1-sakari.ailus@linux.intel.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Paul/All,
 
-I have added this patch series onto linux-next and testing RGA on PX30.
+--Y3bK95cwuUGkI+Qf
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Log Snippet:
-root@px30-engicam-px30-core-ctouch2:/# dmesg | grep rga
-rockchip-rga ff480000.rga: HW Version: 0x04.00
-rockchip-rga ff480000.rga: Registered rockchip-rga as /dev/video0
+Hi Sakari,
 
-How do I test this ? In the email you mentioned:
+On Tue 11 Jan 22, 00:48, Sakari Ailus wrote:
+> Don't pack the driver specific struct containing control pointers. This
+> lead to potential alignment issues when working with the pointers.
 
-I tested it with a standalone utility setting V4L2_PIX_FMT_YUV420 on 
-both output and capture. The issue should be pretty easy to reproduce.
+Thanks for looking into the report and making this fix.
 
-Can you please share more information/any procedure on how to test.
+Honestly I was a bit puzzled because I explicitly added the __packed
+to avoid possible holes in the structures that could be problematic
+when using v4l2_ctrl_auto_cluster and I think the problem still stands.
 
-Thanks and Regards
-Suniel Mahesh
+I feel like solving both issues at once would require having the controls
+that belong in the same cluster declared as an array and not individual
+members of the struct.
+
+What do you think?
+
+Cheers,
+
+Paul
+
+> Reported-by: kernel test robot <lkp@intel.com>
+> Fixes: e43ccb0a045f ("media: i2c: Add support for the OV5648 image sensor=
+")
+> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> ---
+>  drivers/media/i2c/ov5648.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>=20
+> diff --git a/drivers/media/i2c/ov5648.c b/drivers/media/i2c/ov5648.c
+> index 87f9b724cd7f..3478650ee732 100644
+> --- a/drivers/media/i2c/ov5648.c
+> +++ b/drivers/media/i2c/ov5648.c
+> @@ -639,7 +639,7 @@ struct ov5648_ctrls {
+>  	struct v4l2_ctrl *pixel_rate;
+> =20
+>  	struct v4l2_ctrl_handler handler;
+> -} __packed;
+> +};
+> =20
+>  struct ov5648_sensor {
+>  	struct device *dev;
+> --=20
+> 2.30.2
+>=20
+
+--=20
+Paul Kocialkowski, Bootlin
+Embedded Linux and kernel engineering
+https://bootlin.com
+
+--Y3bK95cwuUGkI+Qf
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEJZpWjZeIetVBefti3cLmz3+fv9EFAmHdP5wACgkQ3cLmz3+f
+v9F6lggAlMudsgmlm4Mn27vG0xY4cbwu/7fQDdSImITCp/EegVkpsMAsBU/Gb+VA
+178x4wB2tmtbe0rCr6IfPIsQX7vxz3RXxuaaY4vuWwzoE6oNXp6Ayfjvn07ehhyL
+Qvs4QlEVIdJfw/6AcIf5ojwnN8adtesLxV91qTwHRljJ0bWJ1rsIDLfJdBgoPO/m
+ji2+eZ0nwJfzdMWwdYwKpozQDplBcMjz9VRW8D0ZgtKwauUwIRYBPg6d4hiV7EzU
+tE+6APRItRI8ujWuRlpnkTGjLs5Ul+2EtIm1K/aDimws9r6OZNzpP0I6RUzGiwvb
+Xn9nlZZwMfkGSpWkrS2cmQGEPU5fcQ==
+=husr
+-----END PGP SIGNATURE-----
+
+--Y3bK95cwuUGkI+Qf--
