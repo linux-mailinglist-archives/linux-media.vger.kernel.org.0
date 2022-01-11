@@ -2,217 +2,186 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id F07B448B773
-	for <lists+linux-media@lfdr.de>; Tue, 11 Jan 2022 20:40:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E536A48B7A0
+	for <lists+linux-media@lfdr.de>; Tue, 11 Jan 2022 20:49:14 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236969AbiAKTk0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 11 Jan 2022 14:40:26 -0500
-Received: from relmlor1.renesas.com ([210.160.252.171]:10234 "EHLO
-        relmlie5.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S236898AbiAKTk0 (ORCPT
+        id S239643AbiAKTtN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 11 Jan 2022 14:49:13 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47926 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S239066AbiAKTtN (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 11 Jan 2022 14:40:26 -0500
-X-IronPort-AV: E=Sophos;i="5.88,279,1635174000"; 
-   d="scan'208";a="106150611"
-Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie5.idc.renesas.com with ESMTP; 12 Jan 2022 04:40:24 +0900
-Received: from localhost.localdomain (unknown [10.226.36.204])
-        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 0B34540FE059;
-        Wed, 12 Jan 2022 04:40:22 +0900 (JST)
-From:   Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        "Lad, Prabhakar" <prabhakar.csengg@gmail.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     Andy Shevchenko <andy.shevchenko@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v3] media: davinci: vpif: Use platform_get_irq_optional() to get the interrupt
-Date:   Tue, 11 Jan 2022 19:40:13 +0000
-Message-Id: <20220111194014.5908-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-X-Mailer: git-send-email 2.17.1
+        Tue, 11 Jan 2022 14:49:13 -0500
+Received: from mail-qt1-x82f.google.com (mail-qt1-x82f.google.com [IPv6:2607:f8b0:4864:20::82f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EBD03C06173F
+        for <linux-media@vger.kernel.org>; Tue, 11 Jan 2022 11:49:12 -0800 (PST)
+Received: by mail-qt1-x82f.google.com with SMTP id h4so422236qth.11
+        for <linux-media@vger.kernel.org>; Tue, 11 Jan 2022 11:49:12 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ndufresne-ca.20210112.gappssmtp.com; s=20210112;
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :user-agent:mime-version:content-transfer-encoding;
+        bh=YqrRa12A2dOCgNRdJD8niKrGy7BorSiXU7Pz1gVSSqw=;
+        b=sYFJQYLkBAWGCMf7IJC8E0nfk9THaHhkHCaaJUxFXTYOlqpafhhRwpJXn5LZpqqBbk
+         eATWyLkamKg+bBaRAVN1gSTqLhaOE+Jny3X+bgRtl3E4O2J/KDY9Rl38HyjtDktOOmp2
+         shP6MzJ+xf2Vw52XEUOHpnuHexDLdkPfNWpBijuwk/T0u9ZJaFTmk2Opj4+dh6pXC+pr
+         jnZvLVNZrcD82fdVw96ZpbZR0M+aV5lE2113ue4Du6qz/Q55tWnzD7eMpsVKGWzfPPlE
+         x2pMXq4jKm1r4Za6xuhXk2sNdsGJeVsYcpkqAYvDoGfAGzFKWGMeQ3GX61FnYGekv9jP
+         xxhw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=YqrRa12A2dOCgNRdJD8niKrGy7BorSiXU7Pz1gVSSqw=;
+        b=h1bKpSMMtIBkTfPnhXSKn/5QUAuR1O87+LeXaZ6oEk4Ha9l/Wi2Wp0Mld3TUKFYn96
+         Ro2vXvX09mH38ARucoB/8QDXcUa2ajjgHUudzUTQ842WHjii6N0peE/PNMuyNmyJEfGW
+         pzetkO55SK0P91TeeLn4fvCiKBB4ZQRB+XRE/1vRv3YyyruuePLv87b7tfaA2O0qoSiO
+         4veSZ1qs95/LKa/KEXLQ5oaB0TN7ToE7k76LUI4MjsWomiHd6IDCJZUdPAExVwmJ8Bxr
+         hcR4TZHHgLWSxbgMZqIUDLCLB2Lqqa6toxG48ZTtlq9PoI9X16a352D/FhpyG+qam+9i
+         9wjg==
+X-Gm-Message-State: AOAM532M50RXSWEsYeMbcOu+xkRxCxK0ObNMjU4X4TXrOCMaiW0nXE4K
+        ed3eFBETnxqb0G6ucMyhsQuvtQ==
+X-Google-Smtp-Source: ABdhPJxn1aXvwlh12nmUzySizEvQ1SnqQ5KyJRZ/h/ecY76YDViQiteOu3/2rM79//oaZ2lpUdK73A==
+X-Received: by 2002:ac8:5b92:: with SMTP id a18mr5081449qta.262.1641930551687;
+        Tue, 11 Jan 2022 11:49:11 -0800 (PST)
+Received: from nicolas-tpx395.localdomain (mtl.collabora.ca. [66.171.169.34])
+        by smtp.gmail.com with ESMTPSA id j22sm5607330qko.46.2022.01.11.11.49.10
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 11 Jan 2022 11:49:11 -0800 (PST)
+Message-ID: <8deeca52c1b482d738c9c888194c84549d00424f.camel@ndufresne.ca>
+Subject: Re: [PATCH 1/2] media: v4l2-ctrls: Add intra-refresh type control
+From:   Nicolas Dufresne <nicolas@ndufresne.ca>
+To:     Dikshita Agarwal <quic_dikshita@quicinc.com>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org
+Cc:     hverkuil-cisco@xs4all.nl, ezequiel@collabora.com,
+        vgarodia@codeaurora.org, stanimir.varbanov@linaro.org
+Date:   Tue, 11 Jan 2022 14:49:08 -0500
+In-Reply-To: <1641561124-19476-2-git-send-email-quic_dikshita@quicinc.com>
+References: <1641561124-19476-1-git-send-email-quic_dikshita@quicinc.com>
+         <1641561124-19476-2-git-send-email-quic_dikshita@quicinc.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.42.2 (3.42.2-1.fc35) 
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-platform_get_resource(pdev, IORESOURCE_IRQ, ..) relies on static
-allocation of IRQ resources in DT core code, this causes an issue
-when using hierarchical interrupt domains using "interrupts" property
-in the node as this bypasses the hierarchical setup and messes up the
-irq chaining.
+Le vendredi 07 janvier 2022 à 18:42 +0530, Dikshita Agarwal a écrit :
+> Add a control to set intra-refresh type.
+> 
+> Signed-off-by: Dikshita Agarwal <quic_dikshita@quicinc.com>
+> ---
+>  .../userspace-api/media/v4l/ext-ctrls-codec.rst    | 27 ++++++++++++++++++++++
+>  drivers/media/v4l2-core/v4l2-ctrls-defs.c          | 10 ++++++++
+>  include/uapi/linux/v4l2-controls.h                 |  6 +++++
+>  3 files changed, 43 insertions(+)
+> 
+> diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+> index e141f0e..ce0201b 100644
+> --- a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+> +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+> @@ -1180,6 +1180,33 @@ enum v4l2_mpeg_video_h264_entropy_mode -
+>      is set to non zero value.
+>      Applicable to H264, H263 and MPEG4 encoder.
+>  
+> +``V4L2_CID_MPEG_VIDEO_INTRA_REFRESH_TYPE (enum)``
+> +
+> +enum v4l2_mpeg_video_intra_refresh_type -
+> +    Sets the type of intra refresh. The period to refresh
+> +    the whole frame is specified by V4L2_CID_MPEG_VIDEO_INTRA_REFRESH_PERIOD.
+> +    Note if the client sets this control to either ``V4L2_MPEG_VIDEO_INTRA_REFRESH_RANDOM``
+> +    or ``V4L2_MPEG_VIDEO_INTRA_REFRESH_CYCLIC`` the ``V4L2_CID_MPEG_VIDEO_CYCLIC_INTRA_REFRESH_MB``
+> +    control shall be ignored.
+> +    If the client sets this control to ``V4L2_MPEG_VIDEO_INTRA_REFRESH_NONE`` the
+> +    V4L2_CID_MPEG_VIDEO_CYCLIC_INTRA_REFRESH_MB control shall not be ignored.
+> +    Applicable to H264, H263 and MPEG4 encoder. Possible values are:
+> +
+> +.. tabularcolumns:: |p{9.6cm}|p{7.9cm}|
+> +
+> +.. flat-table::
+> +    :header-rows:  0
+> +    :stub-columns: 0
+> +
+> +    * - ``V4L2_MPEG_VIDEO_INTRA_REFRESH_NONE``
+> +      - Intra refresh is disabled.
 
-In preparation for removal of static setup of IRQ resource from DT core
-code use platform_get_irq_optional().
+Slight annoyance, we now have two mechanism to disable intra refresh. Disabling
+intra-refresh was previously documented as "Note that this control will not take
+effect when V4L2_CID_MPEG_VIDEO_INTRA_REFRESH_PERIOD control is set to non zero
+value."
 
-While at it, propagate error code in case devm_request_irq() fails
-instead of returning -EINVAL.
+Perhaps we should drop this and add a similar line in this control documentation
+?
 
-Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
----
-Hi All,
-
-This patch is part of series [0], instead of resending the entire series
-I am re-sending this alone patch after rebasing on patch series [1].
-
-[0] https://patchwork.linuxtv.org/project/linux-media/list/?series=7073
-[1] https://patchwork.linuxtv.org/project/linux-media/list/?series=7000
-
-Cheers,
-Prabhakar
----
- drivers/media/platform/davinci/vpif.c         | 18 ++++++++------
- drivers/media/platform/davinci/vpif_capture.c | 24 ++++++++++++-------
- drivers/media/platform/davinci/vpif_display.c | 21 ++++++++++------
- 3 files changed, 40 insertions(+), 23 deletions(-)
-
-diff --git a/drivers/media/platform/davinci/vpif.c b/drivers/media/platform/davinci/vpif.c
-index 03b4e51bb13a..97ef770266af 100644
---- a/drivers/media/platform/davinci/vpif.c
-+++ b/drivers/media/platform/davinci/vpif.c
-@@ -20,8 +20,10 @@
- #include <linux/err.h>
- #include <linux/init.h>
- #include <linux/io.h>
-+#include <linux/irq.h>
- #include <linux/kernel.h>
- #include <linux/module.h>
-+#include <linux/of.h>
- #include <linux/platform_device.h>
- #include <linux/pm_runtime.h>
- #include <linux/spinlock.h>
-@@ -437,11 +439,12 @@ static void vpif_pdev_release(struct device *dev)
- 
- static int vpif_probe(struct platform_device *pdev)
- {
--	static struct resource *res_irq;
-+	static struct resource res_irq;
- 	struct platform_device *pdev_capture, *pdev_display;
- 	struct device_node *endpoint = NULL;
- 	struct vpif_data *data;
- 	int ret;
-+	int irq;
- 
- 	vpif_base = devm_platform_ioremap_resource(pdev, 0);
- 	if (IS_ERR(vpif_base))
-@@ -471,12 +474,13 @@ static int vpif_probe(struct platform_device *pdev)
- 	 * For DT platforms, manually create platform_devices for
- 	 * capture/display drivers.
- 	 */
--	res_irq = platform_get_resource(pdev, IORESOURCE_IRQ, 0);
--	if (!res_irq) {
--		dev_warn(&pdev->dev, "Missing IRQ resource.\n");
--		ret = -EINVAL;
-+	irq = platform_get_irq(pdev, 0);
-+	if (irq < 0) {
-+		ret = irq;
- 		goto err_put_rpm;
- 	}
-+	res_irq = (struct resource)DEFINE_RES_IRQ_NAMED(irq, of_node_full_name(pdev->dev.of_node));
-+	res_irq.flags |= irq_get_trigger_type(irq);
- 
- 	pdev_capture = kzalloc(sizeof(*pdev_capture), GFP_KERNEL);
- 	if (!pdev_capture) {
-@@ -486,7 +490,7 @@ static int vpif_probe(struct platform_device *pdev)
- 
- 	pdev_capture->name = "vpif_capture";
- 	pdev_capture->id = -1;
--	pdev_capture->resource = res_irq;
-+	pdev_capture->resource = &res_irq;
- 	pdev_capture->num_resources = 1;
- 	pdev_capture->dev.dma_mask = pdev->dev.dma_mask;
- 	pdev_capture->dev.coherent_dma_mask = pdev->dev.coherent_dma_mask;
-@@ -505,7 +509,7 @@ static int vpif_probe(struct platform_device *pdev)
- 
- 	pdev_display->name = "vpif_display";
- 	pdev_display->id = -1;
--	pdev_display->resource = res_irq;
-+	pdev_display->resource = &res_irq;
- 	pdev_display->num_resources = 1;
- 	pdev_display->dev.dma_mask = pdev->dev.dma_mask;
- 	pdev_display->dev.coherent_dma_mask = pdev->dev.coherent_dma_mask;
-diff --git a/drivers/media/platform/davinci/vpif_capture.c b/drivers/media/platform/davinci/vpif_capture.c
-index 8fe55374c5a3..aaf8a0ec98ff 100644
---- a/drivers/media/platform/davinci/vpif_capture.c
-+++ b/drivers/media/platform/davinci/vpif_capture.c
-@@ -1607,7 +1607,6 @@ static __init int vpif_probe(struct platform_device *pdev)
- {
- 	struct vpif_subdev_info *subdevdata;
- 	struct i2c_adapter *i2c_adap;
--	struct resource *res;
- 	int subdev_count;
- 	int res_idx = 0;
- 	int i, err;
-@@ -1632,15 +1631,22 @@ static __init int vpif_probe(struct platform_device *pdev)
- 		goto vpif_free;
- 	}
- 
--	while ((res = platform_get_resource(pdev, IORESOURCE_IRQ, res_idx))) {
--		err = devm_request_irq(&pdev->dev, res->start, vpif_channel_isr,
--					IRQF_SHARED, VPIF_DRIVER_NAME,
--					(void *)(&vpif_obj.dev[res_idx]->
--					channel_id));
--		if (err) {
--			err = -EINVAL;
-+	while (1) {
-+		int irq;
-+
-+		err = platform_get_irq_optional(pdev, res_idx);
-+		if (err < 0 && err != -ENXIO)
-+			goto vpif_unregister;
-+		if (err > 0)
-+			irq = err;
-+		else
-+			break;
-+
-+		err = devm_request_irq(&pdev->dev, irq, vpif_channel_isr,
-+				       IRQF_SHARED, VPIF_DRIVER_NAME,
-+				       (void *)(&vpif_obj.dev[res_idx]->channel_id));
-+		if (err)
- 			goto vpif_unregister;
--		}
- 		res_idx++;
- 	}
- 
-diff --git a/drivers/media/platform/davinci/vpif_display.c b/drivers/media/platform/davinci/vpif_display.c
-index 59f6b782e104..c4a0c4a4448c 100644
---- a/drivers/media/platform/davinci/vpif_display.c
-+++ b/drivers/media/platform/davinci/vpif_display.c
-@@ -1221,7 +1221,6 @@ static __init int vpif_probe(struct platform_device *pdev)
- {
- 	struct vpif_subdev_info *subdevdata;
- 	struct i2c_adapter *i2c_adap;
--	struct resource *res;
- 	int subdev_count;
- 	int res_idx = 0;
- 	int i, err;
-@@ -1245,13 +1244,21 @@ static __init int vpif_probe(struct platform_device *pdev)
- 		goto vpif_free;
- 	}
- 
--	while ((res = platform_get_resource(pdev, IORESOURCE_IRQ, res_idx))) {
--		err = devm_request_irq(&pdev->dev, res->start, vpif_channel_isr,
--					IRQF_SHARED, VPIF_DRIVER_NAME,
--					(void *)(&vpif_obj.dev[res_idx]->
--					channel_id));
-+	while (1) {
-+		int irq;
-+
-+		err = platform_get_irq_optional(pdev, res_idx);
-+		if (err < 0 && err != -ENXIO)
-+			goto vpif_unregister;
-+		if (err > 0)
-+			irq = err;
-+		else
-+			break;
-+
-+		err = devm_request_irq(&pdev->dev, irq, vpif_channel_isr,
-+				       IRQF_SHARED, VPIF_DRIVER_NAME,
-+				       (void *)(&vpif_obj.dev[res_idx]->channel_id));
- 		if (err) {
--			err = -EINVAL;
- 			vpif_err("VPIF IRQ request failed\n");
- 			goto vpif_unregister;
- 		}
--- 
-2.17.1
+> +    * - ``V4L2_MPEG_VIDEO_INTRA_REFRESH_RANDOM``
+> +      - The whole frame is completely refreshed randomly
+> +      after the specified period.
+> +    * - ``V4L2_MPEG_VIDEO_INTRA_REFRESH_CYCLIC``
+> +      - The whole frame MBs are completely refreshed in cyclic order
+> +      after the specified period.
+> +
+>  ``V4L2_CID_MPEG_VIDEO_INTRA_REFRESH_PERIOD (integer)``
+>      Intra macroblock refresh period. This sets the period to refresh
+>      the whole frame. In other words, this defines the number of frames
+> diff --git a/drivers/media/v4l2-core/v4l2-ctrls-defs.c b/drivers/media/v4l2-core/v4l2-ctrls-defs.c
+> index 54ca4e6..403c77b 100644
+> --- a/drivers/media/v4l2-core/v4l2-ctrls-defs.c
+> +++ b/drivers/media/v4l2-core/v4l2-ctrls-defs.c
+> @@ -572,6 +572,12 @@ const char * const *v4l2_ctrl_get_menu(u32 id)
+>  		"VBV/CPB Limit",
+>  		NULL,
+>  	};
+> +	static const char * const intra_refresh_type[] = {
+> +		"None"
+> +		"Random",
+> +		"Cyclic",
+> +		NULL,
+> +	};
+>  
+>  	switch (id) {
+>  	case V4L2_CID_MPEG_AUDIO_SAMPLING_FREQ:
+> @@ -705,6 +711,8 @@ const char * const *v4l2_ctrl_get_menu(u32 id)
+>  		return hevc_start_code;
+>  	case V4L2_CID_CAMERA_ORIENTATION:
+>  		return camera_orientation;
+> +	case V4L2_CID_MPEG_VIDEO_INTRA_REFRESH_TYPE:
+> +		return intra_refresh_type;
+>  	default:
+>  		return NULL;
+>  	}
+> @@ -834,6 +842,7 @@ const char *v4l2_ctrl_get_name(u32 id)
+>  	case V4L2_CID_MPEG_VIDEO_DECODER_SLICE_INTERFACE:	return "Decoder Slice Interface";
+>  	case V4L2_CID_MPEG_VIDEO_DECODER_MPEG4_DEBLOCK_FILTER:	return "MPEG4 Loop Filter Enable";
+>  	case V4L2_CID_MPEG_VIDEO_CYCLIC_INTRA_REFRESH_MB:	return "Number of Intra Refresh MBs";
+> +	case V4L2_CID_MPEG_VIDEO_INTRA_REFRESH_TYPE:		return "Intra Refresh Type";
+>  	case V4L2_CID_MPEG_VIDEO_INTRA_REFRESH_PERIOD:		return "Intra Refresh Period";
+>  	case V4L2_CID_MPEG_VIDEO_FRAME_RC_ENABLE:		return "Frame Level Rate Control Enable";
+>  	case V4L2_CID_MPEG_VIDEO_MB_RC_ENABLE:			return "H264 MB Level Rate Control";
+> @@ -1360,6 +1369,7 @@ void v4l2_ctrl_fill(u32 id, const char **name, enum v4l2_ctrl_type *type,
+>  	case V4L2_CID_STATELESS_H264_DECODE_MODE:
+>  	case V4L2_CID_STATELESS_H264_START_CODE:
+>  	case V4L2_CID_CAMERA_ORIENTATION:
+> +	case V4L2_CID_MPEG_VIDEO_INTRA_REFRESH_TYPE:
+>  		*type = V4L2_CTRL_TYPE_MENU;
+>  		break;
+>  	case V4L2_CID_LINK_FREQ:
+> diff --git a/include/uapi/linux/v4l2-controls.h b/include/uapi/linux/v4l2-controls.h
+> index c8e0f84..5429c25 100644
+> --- a/include/uapi/linux/v4l2-controls.h
+> +++ b/include/uapi/linux/v4l2-controls.h
+> @@ -443,6 +443,12 @@ enum v4l2_mpeg_video_multi_slice_mode {
+>  #define V4L2_CID_MPEG_VIDEO_USE_LTR_FRAMES		(V4L2_CID_CODEC_BASE+234)
+>  #define V4L2_CID_MPEG_VIDEO_DEC_CONCEAL_COLOR		(V4L2_CID_CODEC_BASE+235)
+>  #define V4L2_CID_MPEG_VIDEO_INTRA_REFRESH_PERIOD	(V4L2_CID_CODEC_BASE+236)
+> +#define V4L2_CID_MPEG_VIDEO_INTRA_REFRESH_TYPE		(V4L2_CID_CODEC_BASE+237)
+> +enum v4l2_mpeg_video_intra_refresh_type {
+> +	V4L2_CID_MPEG_VIDEO_INTRA_REFRESH_NONE		= 0,
+> +	V4L2_CID_MPEG_VIDEO_INTRA_REFRESH_RANDOM	= 1,
+> +	V4L2_CID_MPEG_VIDEO_INTRA_REFRESH_CYCLIC	= 2,
+> +};
+>  
+>  /* CIDs for the MPEG-2 Part 2 (H.262) codec */
+>  #define V4L2_CID_MPEG_VIDEO_MPEG2_LEVEL			(V4L2_CID_CODEC_BASE+270)
 
