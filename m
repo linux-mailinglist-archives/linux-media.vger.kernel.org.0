@@ -2,97 +2,102 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 89EBD48AAF2
-	for <lists+linux-media@lfdr.de>; Tue, 11 Jan 2022 10:58:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 43AA348AB00
+	for <lists+linux-media@lfdr.de>; Tue, 11 Jan 2022 11:06:36 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237370AbiAKJ6N (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 11 Jan 2022 04:58:13 -0500
-Received: from ewsoutbound.kpnmail.nl ([195.121.94.167]:35446 "EHLO
+        id S237459AbiAKKGf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 11 Jan 2022 05:06:35 -0500
+Received: from ewsoutbound.kpnmail.nl ([195.121.94.169]:19977 "EHLO
         ewsoutbound.kpnmail.nl" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237240AbiAKJ6N (ORCPT
+        with ESMTP id S234586AbiAKKGe (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 11 Jan 2022 04:58:13 -0500
-X-KPN-MessageId: e6ac5070-72c4-11ec-9a2e-005056abbe64
-Received: from smtp.kpnmail.nl (unknown [10.31.155.38])
+        Tue, 11 Jan 2022 05:06:34 -0500
+X-KPN-MessageId: 91723933-72c5-11ec-9abf-005056abad63
+Received: from smtp.kpnmail.nl (unknown [10.31.155.37])
         by ewsoutbound.so.kpn.org (Halon) with ESMTPS
-        id e6ac5070-72c4-11ec-9a2e-005056abbe64;
-        Tue, 11 Jan 2022 10:57:35 +0100 (CET)
+        id 91723933-72c5-11ec-9abf-005056abad63;
+        Tue, 11 Jan 2022 11:02:21 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=xs4all.nl; s=xs4all01;
         h=content-type:from:to:subject:mime-version:date:message-id;
-        bh=jo6b7F0s56P5whxkE0nVB9Lu6HPIV5nff044lDrbMHw=;
-        b=qShTBxdKKkYe8pW5zNwLfJNR91BviYblHUpIfsDn6AziZDvtuwMf+gV/FwE0zyW+LPbxq4abd7dg1
-         EGrduDC/9pwsEUkV6tSR3/xFSGvmwVfZjenBKo9pdEVdfJPCnTh37LgeVWh43oFNlUoz9vHBH/OnfY
-         bK028ITchkyEY5cjhgAhKcqGFcejFzJtbqFUzPLyVlZ3JHYppd8Q/tSQ9DbddO/WvWMk9WOl5c6yQl
-         JnzVyOBZX+YocVb5mZ7i9Eo5TLsS4Iv5QkKC3r5gZdzbmlzlmeiQS3+3apSfztp6jJ2ujOJlv0lJjb
-         Cc5kkV+/NTUdrrHwRDouBstkq6jFLzg==
+        bh=EOOETbO5vVkzJvkYRefdFpbwIcgaffoiRwWeCBDL1IU=;
+        b=EB4emMjTutQ5p/O2frDouI7woZeQ6UwrWzBsxvqKMf9O27C4B6ORqzonlEqrNQj2GCpjYj5Smc/+c
+         Oez1wciRqNhUzH+TjwA5Fdh5tZ0n2Gqi/E9veEoERegrPTAJH6IuulNSZzhDEYkVSoJkltywaMhSv8
+         0PrBOLmUBkL/koLhBrhYS7FiOEhlQY2Q8C+L/Ih9D5mqebsMfnIUsCh+SEAB6/dZYr2JNCwFFvd62Z
+         A7ZzRvbOj3hOTWV66iHepka0xz6SfYI+Mkc0rMAZOnAD+dt0PKnlSdbbTvFTZubnHsRZfWEbSFhWY/
+         xhPgBcZyQtbVEsN3AB77jDSY7ON9kKA==
 X-KPN-VerifiedSender: Yes
-X-CMASSUN: 33|PkIO3M7ubySwyEWU2rcIR5NS34PjDje/MsJXDmzBZ3SD39S/lWby54vF8bH7FHy
- Bmycr+zEGRvdOIUAwgKZZTA==
+X-CMASSUN: 33|krUIAOf9223901/Cn5TDSEEe2BQSGzbiaK6pCTWBl7LNTDJiMMNUwIkuLTuZv6X
+ Z63O71jM+B2B17uAgHAP2zg==
 X-Originating-IP: 193.91.129.219
 Received: from [192.168.2.10] (cdb815bc1.dhcp.as2116.net [193.91.129.219])
         by smtp.xs4all.nl (Halon) with ESMTPSA
-        id fc28e89e-72c4-11ec-94d2-005056abf0db;
-        Tue, 11 Jan 2022 10:58:11 +0100 (CET)
-Message-ID: <ab107cb4-3ba5-9d22-2e40-fada05c3579f@xs4all.nl>
-Date:   Tue, 11 Jan 2022 10:58:10 +0100
+        id 26f41c1e-72c6-11ec-83ab-005056ab1411;
+        Tue, 11 Jan 2022 11:06:33 +0100 (CET)
+Message-ID: <5454a150-7b11-dbce-02c4-d300c6629b1e@xs4all.nl>
+Date:   Tue, 11 Jan 2022 11:06:32 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Firefox/91.0 Thunderbird/91.4.1
-Subject: Re: [PATCH] media: vidtv: Check for null return of vzalloc
+Subject: Re: [PATCH] media: coda: Fix missing put_device() call in
+ coda_get_vdoa_data
 Content-Language: en-US
-To:     Jiasheng Jiang <jiasheng@iscas.ac.cn>, dwlsalmeida@gmail.com,
-        mchehab@kernel.org
-Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20211231075019.1894177-1-jiasheng@iscas.ac.cn>
+To:     Miaoqian Lin <linmq006@gmail.com>
+Cc:     Philipp Zabel <p.zabel@pengutronix.de>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Michael Tretter <m.tretter@pengutronix.de>,
+        Hans Verkuil <hans.verkuil@cisco.com>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20220107081829.15108-1-linmq006@gmail.com>
 From:   Hans Verkuil <hverkuil@xs4all.nl>
-In-Reply-To: <20211231075019.1894177-1-jiasheng@iscas.ac.cn>
+In-Reply-To: <20220107081829.15108-1-linmq006@gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 31/12/2021 08:50, Jiasheng Jiang wrote:
-> As the possible failure of the vzalloc(), e->encoder_buf might be NULL.
-> Therefore, it should be better to check it like the kzalloc() in order
-> to guarantee the success of the initialization.
+On 07/01/2022 09:18, Miaoqian Lin wrote:
+> The reference taken by 'of_find_device_by_node()' must be released when
+> not needed anymore.
+> Add the corresponding 'put_device()' in the error handling path.
 > 
-> Fixes: f90cf6079bf6 ("media: vidtv: add a bridge driver")
-> Signed-off-by: Jiasheng Jiang <jiasheng@iscas.ac.cn>
+> Fixes: e7f3c5481035 ("[media] coda: use VDOA for un-tiling custom macroblock format")
+> Signed-off-by: Miaoqian Lin <linmq006@gmail.com>
 > ---
->  drivers/media/test-drivers/vidtv/vidtv_s302m.c | 5 +++++
->  1 file changed, 5 insertions(+)
+>  drivers/media/platform/coda/coda-common.c | 6 +++++-
+>  1 file changed, 5 insertions(+), 1 deletion(-)
 > 
-> diff --git a/drivers/media/test-drivers/vidtv/vidtv_s302m.c b/drivers/media/test-drivers/vidtv/vidtv_s302m.c
-> index d79b65854627..d7907f1ae530 100644
-> --- a/drivers/media/test-drivers/vidtv/vidtv_s302m.c
-> +++ b/drivers/media/test-drivers/vidtv/vidtv_s302m.c
-> @@ -455,6 +455,11 @@ struct vidtv_encoder
->  		e->name = kstrdup(args.name, GFP_KERNEL);
+> diff --git a/drivers/media/platform/coda/coda-common.c b/drivers/media/platform/coda/coda-common.c
+> index 0e312b0842d7..579849082488 100644
+> --- a/drivers/media/platform/coda/coda-common.c
+> +++ b/drivers/media/platform/coda/coda-common.c
+> @@ -405,9 +405,13 @@ static struct vdoa_data *coda_get_vdoa_data(void)
+>  		goto out;
 >  
->  	e->encoder_buf = vzalloc(VIDTV_S302M_BUF_SZ);
-> +	if (!e->encoder_buf) {
+>  	vdoa_data = platform_get_drvdata(vdoa_pdev);
+> -	if (!vdoa_data)
+> +	if (!vdoa_data) {
+>  		vdoa_data = ERR_PTR(-EPROBE_DEFER);
+> +		goto put;
 
-This doesn't free e->name!
+Why the goto put? Just drop the goto...
 
-Actually, the same issue is also present later in this function:
+> +	}
+>  
+> +put:
 
-        ctx = kzalloc(priv_sz, GFP_KERNEL);
-        if (!ctx) {
-                kfree(e);
-                return NULL;
-        }
+...and this label.
+
+> +	put_device(&vdoa_pdev->dev);
+
+This is the real fix :-)
 
 Regards,
 
 	Hans
 
-> +		kfree(e);
-> +		return NULL;
-> +	}
-> +
->  	e->encoder_buf_sz = VIDTV_S302M_BUF_SZ;
->  	e->encoder_buf_offset = 0;
+>  out:
+>  	of_node_put(vdoa_node);
 >  
 
