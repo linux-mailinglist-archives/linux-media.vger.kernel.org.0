@@ -2,270 +2,117 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B2A6248ABA4
-	for <lists+linux-media@lfdr.de>; Tue, 11 Jan 2022 11:45:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BB26748ABAA
+	for <lists+linux-media@lfdr.de>; Tue, 11 Jan 2022 11:47:22 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1349332AbiAKKpX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 11 Jan 2022 05:45:23 -0500
-Received: from ewsoutbound.kpnmail.nl ([195.121.94.170]:64112 "EHLO
-        ewsoutbound.kpnmail.nl" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1349316AbiAKKpW (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Tue, 11 Jan 2022 05:45:22 -0500
-X-KPN-MessageId: 654e8b14-72cb-11ec-8a6e-005056ab378f
-Received: from smtp.kpnmail.nl (unknown [10.31.155.39])
-        by ewsoutbound.so.kpn.org (Halon) with ESMTPS
-        id 654e8b14-72cb-11ec-8a6e-005056ab378f;
-        Tue, 11 Jan 2022 11:44:04 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=xs4all.nl; s=xs4all01;
-        h=content-type:from:to:subject:mime-version:date:message-id;
-        bh=DNU5kyg9B76HoPrKsJCxW+1fueB3ZwD8DJg/bPrU7pM=;
-        b=h72ZZvTTXnoYGdZA6Aqo1MMIIrbzULHcDFvU9oLX/FtUvtgS8jJmnneVO6MydfFr2QPHISnrl8+1R
-         yq5OLQL+J4NQ2PrH+GXeJOdrqdUN2P9LP9J409fzr4qGMUXGTR47XunszGUZqqmD+zTs1JjgP2puPB
-         0+zX8YGXclXA3ly8Mgp4tC9Jvxo1cZ2ltqWbUbmGzMxP5rsUrM6uZgDcVV4BZRur5SPa7/2pHlX7kn
-         nfgZtZH5GrFevKgLsiiwQhtoK7EcZDeYjA2g9seZ9GB+brFTIfnuRhqzP7hj+nxdVzogDqNI2X6YJw
-         wzVd5t2nM+98WttizLta1LqdMrPTTwg==
-X-KPN-VerifiedSender: No
-X-CMASSUN: 33|u+I40HJwljc7t/vrfbWCoa3s1rnHlR1pvCkPFfCONUmOtYPt5AS+8NPSibTnred
- pu0KQPa73n2utS+ZLHXqrSg==
-X-Originating-IP: 193.91.129.219
-Received: from [192.168.2.10] (cdb815bc1.dhcp.as2116.net [193.91.129.219])
-        by smtp.xs4all.nl (Halon) with ESMTPSA
-        id 9298eb8d-72cb-11ec-81f5-005056ab7447;
-        Tue, 11 Jan 2022 11:45:20 +0100 (CET)
-Message-ID: <df687e82-3e9e-4df6-ac3c-ee2e1355779c@xs4all.nl>
-Date:   Tue, 11 Jan 2022 11:45:20 +0100
+        id S1349341AbiAKKrW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 11 Jan 2022 05:47:22 -0500
+Received: from mga03.intel.com ([134.134.136.65]:42244 "EHLO mga03.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S237719AbiAKKrV (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 11 Jan 2022 05:47:21 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1641898041; x=1673434041;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=Of1OeOiopXZF3jY0xuMFS3B9PzaXhsKLmSXZRcOhBG0=;
+  b=Eta9aVajNtVbfWEc9ciwhhg41/dk5BaKPmOCQxZz+i6Y/JA21fLTRKlu
+   TJQwaUzGj0+Y/F+oVySbvmN4vCKNesJ6vtdUSlZyOkYAGnOwOyMWqtXtP
+   w4Ip2FKs/U7FIbvHhmBt/TXPlCEElq3s6jZBYEol4hkJTXELSDmpPBtlP
+   HN52oih+C9wQ+QYo03cdEWIP8sTTBpXiLWHDkVxT1q2ewAsU3Q1i46blF
+   KwTsx3xTY9+wYJX9taVEqnIFc3rDxI7/4bubkaIV15zSkWMjlrFr2nzJB
+   wQrpdqtAWE1zoPTaPujeSkxOdUNIxF1mMSPosVakUcmZcnwu1QFftaH1r
+   w==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10223"; a="243410969"
+X-IronPort-AV: E=Sophos;i="5.88,279,1635231600"; 
+   d="scan'208";a="243410969"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jan 2022 02:47:20 -0800
+X-IronPort-AV: E=Sophos;i="5.88,279,1635231600"; 
+   d="scan'208";a="690955190"
+Received: from paasikivi.fi.intel.com ([10.237.72.42])
+  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jan 2022 02:47:19 -0800
+Received: from paasikivi.fi.intel.com (localhost [127.0.0.1])
+        by paasikivi.fi.intel.com (Postfix) with SMTP id 736A82017F;
+        Tue, 11 Jan 2022 12:47:17 +0200 (EET)
+Date:   Tue, 11 Jan 2022 12:47:17 +0200
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     Nick Desaulniers <ndesaulniers@google.com>
+Cc:     linux-media@vger.kernel.org,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        hverkuil@xs4all.nl
+Subject: Re: [PATCH 1/1] v4l: Avoid unaligned access warnings when printing
+ 4cc modifiers
+Message-ID: <Yd1gNZR4rr36ivZV@paasikivi.fi.intel.com>
+References: <20220110224656.266536-1-sakari.ailus@linux.intel.com>
+ <CAKwvOdnfX1DzgkzCPY7N4LiJDJTGxsKNQbRMmmkt7o5z5O-W9w@mail.gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Firefox/91.0 Thunderbird/91.4.1
-Subject: Re: [PATCH v2 06/13] media: davinci: vpif: Use
- platform_get_irq_optional() to get the interrupt
-Content-Language: en-US
-To:     "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Cc:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        linux-media <linux-media@vger.kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Andy Shevchenko <andy.shevchenko@gmail.com>,
-        LKML <linux-kernel@vger.kernel.org>
-References: <20220111002314.15213-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20220111002314.15213-7-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <0bfff433-e216-6f9d-d225-9f07ac48013a@xs4all.nl>
- <CA+V-a8sszaUP6o6LJgDX49oPGVQFOc6G0vtY3p6sz4JNm=xB4A@mail.gmail.com>
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-In-Reply-To: <CA+V-a8sszaUP6o6LJgDX49oPGVQFOc6G0vtY3p6sz4JNm=xB4A@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAKwvOdnfX1DzgkzCPY7N4LiJDJTGxsKNQbRMmmkt7o5z5O-W9w@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 11/01/2022 11:43, Lad, Prabhakar wrote:
-> Hi Hans,
+Hi Nick,
+
+On Mon, Jan 10, 2022 at 03:11:18PM -0800, Nick Desaulniers wrote:
+> On Mon, Jan 10, 2022 at 2:48 PM Sakari Ailus
+> <sakari.ailus@linux.intel.com> wrote:
+> >
+> > Pointers V4L2 pixelformat and dataformat fields in a few packed structs
+> > are directly passed to printk family of functions.
 > 
-> On Tue, Jan 11, 2022 at 10:25 AM Hans Verkuil <hverkuil-cisco@xs4all.nl> wrote:
->>
->> Hi Prabhakar,
->>
->> On 11/01/2022 01:23, Lad Prabhakar wrote:
->>> platform_get_resource(pdev, IORESOURCE_IRQ, ..) relies on static
->>> allocation of IRQ resources in DT core code, this causes an issue
->>> when using hierarchical interrupt domains using "interrupts" property
->>> in the node as this bypasses the hierarchical setup and messes up the
->>> irq chaining.
->>>
->>> In preparation for removal of static setup of IRQ resource from DT core
->>> code use platform_get_irq_optional().
->>>
->>> While at it, propagate error code in case devm_request_irq() fails
->>> instead of returning -EINVAL in vpif_display.c.
->>
->> Please note that this patch clashes with [1], for which I just posted a PR [2].
->>
-> Ouch, I think I had a comment for patch#2 which needed to be addressed
-> (I was nitpicking anyway) so I was hoping this will go in first.
-
-Patch 2 was fine since that change makes sense when looking at patch 3.
-
+> I would rephrase the below statement...
 > 
->> So once [2] is merged you'll need to rebase this patch.
->>
-> Ok, do you want me to just re-send this patch alone or the entire series?
+> > This could result in an
+> > unaligned access albeit no such possibility appears to exist at the
+> > moment i.e. this clang warning appears to be a false positive.
+> 
+> ...to:
+> 
+> warning: taking address of packed member 'pixelformat' of class or
+> structure 'v4l2_pix_format_mplane' may result in an unaligned pointer
+> value [-Waddress-of-packed-member]
+> 
+> The warning is correct; because `struct v4l2_pix_format_mplane` is
+> __packed, it's members also have __aligned(1).  Taking the address of
+> such members results in the use of underaligned pointers which is UB
+> and may be caught by UBSAN or fault on architectures without unaligned
+> loads should the struct instance happen to be allocated without any
+> natural alignment.
 
-Either works.
+Wouldn't that be the case only if the __packed attribute resulted in a
+different memory layout than not having that attribute?
 
-Regards,
-
-	Hans
+All these fields are aligned by 4 so I don't see how this could be an
+actual problem.
 
 > 
-> Cheers,
-> Prabhakar
+> >
+> > Address the warning by copying the pixelformat or dataformat value to a
+> > local variable first.
+> >
+> > Reported-by: kernel test robot <lkp@intel.com>
+> > Fixes: e927e1e0f0dd ("v4l: ioctl: Use %p4cc printk modifier to print FourCC codes")
+> > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> > ---
+> > Hi Andy, Nick,
+> >
+> > How about this one?
+> >
+> > I believe it does address the clang warning although I haven't tested it.
 > 
->> Regards,
->>
->>         Hans
->>
->> [1] https://patchwork.linuxtv.org/project/linux-media/list/?series=7000
->> [2] https://patchwork.linuxtv.org/project/linux-media/patch/63d723aa-b6a3-ff42-c3e4-f1fcb979be11@xs4all.nl/
->>
->>>
->>> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
->>> ---
->>> v1->v2
->>> * Used DEFINE_RES_IRQ_NAMED() macro
->>> * Considered IRQ0 as no IRQ.
->>> ---
->>>  drivers/media/platform/davinci/vpif.c         | 18 ++++++++------
->>>  drivers/media/platform/davinci/vpif_capture.c | 24 ++++++++++++-------
->>>  drivers/media/platform/davinci/vpif_display.c | 21 ++++++++++------
->>>  3 files changed, 40 insertions(+), 23 deletions(-)
->>>
->>> diff --git a/drivers/media/platform/davinci/vpif.c b/drivers/media/platform/davinci/vpif.c
->>> index 5a89d885d0e3..2dbb464399cc 100644
->>> --- a/drivers/media/platform/davinci/vpif.c
->>> +++ b/drivers/media/platform/davinci/vpif.c
->>> @@ -20,8 +20,10 @@
->>>  #include <linux/err.h>
->>>  #include <linux/init.h>
->>>  #include <linux/io.h>
->>> +#include <linux/irq.h>
->>>  #include <linux/kernel.h>
->>>  #include <linux/module.h>
->>> +#include <linux/of.h>
->>>  #include <linux/platform_device.h>
->>>  #include <linux/pm_runtime.h>
->>>  #include <linux/spinlock.h>
->>> @@ -425,9 +427,10 @@ EXPORT_SYMBOL(vpif_channel_getfid);
->>>
->>>  static int vpif_probe(struct platform_device *pdev)
->>>  {
->>> -     static struct resource *res_irq;
->>> +     static struct resource res_irq;
->>>       struct platform_device *pdev_capture, *pdev_display;
->>>       struct device_node *endpoint = NULL;
->>> +     int irq;
->>>
->>>       vpif_base = devm_platform_ioremap_resource(pdev, 0);
->>>       if (IS_ERR(vpif_base))
->>> @@ -453,19 +456,20 @@ static int vpif_probe(struct platform_device *pdev)
->>>        * For DT platforms, manually create platform_devices for
->>>        * capture/display drivers.
->>>        */
->>> -     res_irq = platform_get_resource(pdev, IORESOURCE_IRQ, 0);
->>> -     if (!res_irq) {
->>> -             dev_warn(&pdev->dev, "Missing IRQ resource.\n");
->>> +     irq = platform_get_irq(pdev, 0);
->>> +     if (irq < 0) {
->>>               pm_runtime_put(&pdev->dev);
->>> -             return -EINVAL;
->>> +             return irq;
->>>       }
->>> +     res_irq = (struct resource)DEFINE_RES_IRQ_NAMED(irq, of_node_full_name(pdev->dev.of_node));
->>> +     res_irq.flags |= irq_get_trigger_type(irq);
->>>
->>>       pdev_capture = devm_kzalloc(&pdev->dev, sizeof(*pdev_capture),
->>>                                   GFP_KERNEL);
->>>       if (pdev_capture) {
->>>               pdev_capture->name = "vpif_capture";
->>>               pdev_capture->id = -1;
->>> -             pdev_capture->resource = res_irq;
->>> +             pdev_capture->resource = &res_irq;
->>>               pdev_capture->num_resources = 1;
->>>               pdev_capture->dev.dma_mask = pdev->dev.dma_mask;
->>>               pdev_capture->dev.coherent_dma_mask = pdev->dev.coherent_dma_mask;
->>> @@ -480,7 +484,7 @@ static int vpif_probe(struct platform_device *pdev)
->>>       if (pdev_display) {
->>>               pdev_display->name = "vpif_display";
->>>               pdev_display->id = -1;
->>> -             pdev_display->resource = res_irq;
->>> +             pdev_display->resource = &res_irq;
->>>               pdev_display->num_resources = 1;
->>>               pdev_display->dev.dma_mask = pdev->dev.dma_mask;
->>>               pdev_display->dev.coherent_dma_mask = pdev->dev.coherent_dma_mask;
->>> diff --git a/drivers/media/platform/davinci/vpif_capture.c b/drivers/media/platform/davinci/vpif_capture.c
->>> index 8fe55374c5a3..aaf8a0ec98ff 100644
->>> --- a/drivers/media/platform/davinci/vpif_capture.c
->>> +++ b/drivers/media/platform/davinci/vpif_capture.c
->>> @@ -1607,7 +1607,6 @@ static __init int vpif_probe(struct platform_device *pdev)
->>>  {
->>>       struct vpif_subdev_info *subdevdata;
->>>       struct i2c_adapter *i2c_adap;
->>> -     struct resource *res;
->>>       int subdev_count;
->>>       int res_idx = 0;
->>>       int i, err;
->>> @@ -1632,15 +1631,22 @@ static __init int vpif_probe(struct platform_device *pdev)
->>>               goto vpif_free;
->>>       }
->>>
->>> -     while ((res = platform_get_resource(pdev, IORESOURCE_IRQ, res_idx))) {
->>> -             err = devm_request_irq(&pdev->dev, res->start, vpif_channel_isr,
->>> -                                     IRQF_SHARED, VPIF_DRIVER_NAME,
->>> -                                     (void *)(&vpif_obj.dev[res_idx]->
->>> -                                     channel_id));
->>> -             if (err) {
->>> -                     err = -EINVAL;
->>> +     while (1) {
->>> +             int irq;
->>> +
->>> +             err = platform_get_irq_optional(pdev, res_idx);
->>> +             if (err < 0 && err != -ENXIO)
->>> +                     goto vpif_unregister;
->>> +             if (err > 0)
->>> +                     irq = err;
->>> +             else
->>> +                     break;
->>> +
->>> +             err = devm_request_irq(&pdev->dev, irq, vpif_channel_isr,
->>> +                                    IRQF_SHARED, VPIF_DRIVER_NAME,
->>> +                                    (void *)(&vpif_obj.dev[res_idx]->channel_id));
->>> +             if (err)
->>>                       goto vpif_unregister;
->>> -             }
->>>               res_idx++;
->>>       }
->>>
->>> diff --git a/drivers/media/platform/davinci/vpif_display.c b/drivers/media/platform/davinci/vpif_display.c
->>> index 59f6b782e104..c4a0c4a4448c 100644
->>> --- a/drivers/media/platform/davinci/vpif_display.c
->>> +++ b/drivers/media/platform/davinci/vpif_display.c
->>> @@ -1221,7 +1221,6 @@ static __init int vpif_probe(struct platform_device *pdev)
->>>  {
->>>       struct vpif_subdev_info *subdevdata;
->>>       struct i2c_adapter *i2c_adap;
->>> -     struct resource *res;
->>>       int subdev_count;
->>>       int res_idx = 0;
->>>       int i, err;
->>> @@ -1245,13 +1244,21 @@ static __init int vpif_probe(struct platform_device *pdev)
->>>               goto vpif_free;
->>>       }
->>>
->>> -     while ((res = platform_get_resource(pdev, IORESOURCE_IRQ, res_idx))) {
->>> -             err = devm_request_irq(&pdev->dev, res->start, vpif_channel_isr,
->>> -                                     IRQF_SHARED, VPIF_DRIVER_NAME,
->>> -                                     (void *)(&vpif_obj.dev[res_idx]->
->>> -                                     channel_id));
->>> +     while (1) {
->>> +             int irq;
->>> +
->>> +             err = platform_get_irq_optional(pdev, res_idx);
->>> +             if (err < 0 && err != -ENXIO)
->>> +                     goto vpif_unregister;
->>> +             if (err > 0)
->>> +                     irq = err;
->>> +             else
->>> +                     break;
->>> +
->>> +             err = devm_request_irq(&pdev->dev, irq, vpif_channel_isr,
->>> +                                    IRQF_SHARED, VPIF_DRIVER_NAME,
->>> +                                    (void *)(&vpif_obj.dev[res_idx]->channel_id));
->>>               if (err) {
->>> -                     err = -EINVAL;
->>>                       vpif_err("VPIF IRQ request failed\n");
->>>                       goto vpif_unregister;
->>>               }
->>
+> LGTM. Thanks Sakari and Andy for pursuing this. Just a minor nit on my
+> side about the framing of this warning being a false positive; I don't
+> think it is.  With that amended,
+> 
+> Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
 
+Thanks!
+
+-- 
+Kind regards,
+
+Sakari Ailus
