@@ -2,151 +2,79 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 51E0748AA5B
-	for <lists+linux-media@lfdr.de>; Tue, 11 Jan 2022 10:22:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BF92B48AAA6
+	for <lists+linux-media@lfdr.de>; Tue, 11 Jan 2022 10:38:08 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1349244AbiAKJWE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 11 Jan 2022 04:22:04 -0500
-Received: from ewsoutbound.kpnmail.nl ([195.121.94.167]:18424 "EHLO
-        ewsoutbound.kpnmail.nl" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1349232AbiAKJWE (ORCPT
+        id S1349298AbiAKJiF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 11 Jan 2022 04:38:05 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46122 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S236860AbiAKJiD (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 11 Jan 2022 04:22:04 -0500
-X-KPN-MessageId: d8a489b8-72bf-11ec-9a2e-005056abbe64
-Received: from smtp.kpnmail.nl (unknown [10.31.155.37])
-        by ewsoutbound.so.kpn.org (Halon) with ESMTPS
-        id d8a489b8-72bf-11ec-9a2e-005056abbe64;
-        Tue, 11 Jan 2022 10:21:24 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=xs4all.nl; s=xs4all01;
-        h=content-type:from:to:subject:mime-version:date:message-id;
-        bh=5Sh28daInKdSrTtTbo1IllF4LAspOVNfmE0WTw8SsuY=;
-        b=k8Hwk2yhwyDOfys9oOd7vUMlstyMIPld0IcBSbmMe7hV0UWUtf8JKGDLFKCR17KQ88/J5MBZtvk5a
-         E8swFAcCwZ+iFGUDgrkF96S2WOQY6rcwR8xm/4OMttImPezRrj+NoAYaMhBnZL8B+G939SE43kjgux
-         t+cn0Nwh9WDCuCGR1fOm0BgrN6gY8yRfBZm1cLzYkBSq7eeTFYeyg7YM7uvI363HZThnEPodO87m0u
-         86oGj0+OE6CJCjd0MAuH++/sLVhmjOTHbMCXaAMmTAtmzUI8pVJfhTqhjlloFnpbYaSqqe33MD0fbf
-         Hr0FXllOnvg9DKcjtZ+fdwNpe6K9Klg==
-X-KPN-VerifiedSender: Yes
-X-CMASSUN: 33|U8cdX9RsavCbkQ3kMX9Mu2MjmqZw1w5tLJ0A3sY+zAvKFHwpE0XEEUuu7hzPmlg
- TYwqXS0jv+xJ2qM2JRoT2ng==
-X-Originating-IP: 193.91.129.219
-Received: from [192.168.2.10] (cdb815bc1.dhcp.as2116.net [193.91.129.219])
-        by smtp.xs4all.nl (Halon) with ESMTPSA
-        id ee04d578-72bf-11ec-83ab-005056ab1411;
-        Tue, 11 Jan 2022 10:22:00 +0100 (CET)
-Message-ID: <03dbdbe8-ea08-ef62-c09d-67b3baab6401@xs4all.nl>
-Date:   Tue, 11 Jan 2022 10:21:59 +0100
+        Tue, 11 Jan 2022 04:38:03 -0500
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8A2A5C06173F;
+        Tue, 11 Jan 2022 01:38:03 -0800 (PST)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: kholk11)
+        with ESMTPSA id 667821F443C8
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+        s=mail; t=1641893882;
+        bh=b8Xg2TY9K50GlJfbze5lcpegIc1dskT5b3FS7WqdRO4=;
+        h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
+        b=i2PLvZs8vfmY7doeiSC5KcbrBqFDVWWMHoFXb5TKCQPOKkk8wx9Axe4UyVrX2rQuP
+         etjlE/X1sacDQCNP8Mr5JosCt8FbdgnJNlV0IM/Oe1Q9HwvCC10WbH+3qjazZxpmPt
+         3XyaPez4hN30Q1GLQ7mXfWgQSOR7Gym4eLktEiSGzlhYokbAUdAztk3YP3zBkJj+cY
+         q8sp6tp91sIiabYJIdTPi03NFt0rMxCUMz1NedBnhsWoIokznXadvQRZRY+1TNVfc+
+         5Gkkcgdf3gvb+jX9cNzhpi3nZVrST1alH/lf6tSRn70UiMYpKj9a6TPlGK4DFUQYt0
+         N3udFBEvvmZjg==
+Subject: Re: [PATCH v11 4/4] soc: mediatek: mutex: add functions that operate
+ registers by CMDQ
+To:     Moudy Ho <moudy.ho@mediatek.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Jernej Skrabec <jernej.skrabec@siol.net>
+Cc:     Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Rob Landley <rob@landley.net>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
+        Alexandre Courbot <acourbot@chromium.org>, tfiga@chromium.org,
+        drinkcat@chromium.org, pihsun@chromium.org, hsinyi@google.com,
+        Maoguang Meng <maoguang.meng@mediatek.com>,
+        daoyuan huang <daoyuan.huang@mediatek.com>,
+        Ping-Hsun Wu <ping-hsun.wu@mediatek.com>,
+        menghui.lin@mediatek.com, sj.huang@mediatek.com,
+        allen-kh.cheng@mediatek.com, randy.wu@mediatek.com,
+        jason-jh.lin@mediatek.com, roy-cw.yeh@mediatek.com,
+        river.cheng@mediatek.com, srv_heupstream@mediatek.com
+References: <20220104091712.25670-1-moudy.ho@mediatek.com>
+ <20220104091712.25670-5-moudy.ho@mediatek.com>
+From:   AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>
+Message-ID: <a78a4654-2442-e4b1-8e81-2a6d399407ec@collabora.com>
+Date:   Tue, 11 Jan 2022 10:37:57 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Firefox/91.0 Thunderbird/91.4.1
-Subject: Re: [PATCH v2] media: meson: vdec: potential dereference of null
- pointer
+In-Reply-To: <20220104091712.25670-5-moudy.ho@mediatek.com>
+Content-Type: text/plain; charset=iso-8859-15; format=flowed
 Content-Language: en-US
-To:     Jiasheng Jiang <jiasheng@iscas.ac.cn>, narmstrong@baylibre.com,
-        mchehab@kernel.org, gregkh@linuxfoundation.org,
-        khilman@baylibre.com, jbrunet@baylibre.com,
-        martin.blumenstingl@googlemail.com, p.zabel@pengutronix.de
-Cc:     linux-media@vger.kernel.org, linux-amlogic@lists.infradead.org,
-        linux-staging@lists.linux.dev,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-References: <20211210015620.2143555-1-jiasheng@iscas.ac.cn>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-In-Reply-To: <20211210015620.2143555-1-jiasheng@iscas.ac.cn>
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 10/12/2021 02:56, Jiasheng Jiang wrote:
-> The return value of kzalloc() needs to be checked.
-> To avoid use of null pointer in case of the failure of alloc.
-
-Same issue as with Zhou's patch: this is almost identical to Neil's patch,
-but without any mention of his name.
-
-I very much prefer it if Neil just posts his patch so I can pick that up.
-
-Regards,
-
-	Hans
-
+Il 04/01/22 10:17, Moudy Ho ha scritto:
+> Considering that some functions have timing requirements
+> in specific situation, this patch adds several interface that
+> operate registers by CMDQ.
 > 
-> Fixes: 876f123b8956 ("media: meson: vdec: bring up to compliance")
-> Signed-off-by: Jiasheng Jiang <jiasheng@iscas.ac.cn>
-> ---
-> Changelog:
-> 
-> v1 -> v2
-> 
-> *Change 1. Change the return type of amvdec_add_ts from void to int.
-> *Change 2. Return -ENOMEN if alloc fail and return 0 if not.
-> *Change 3. Modify the caller to deal with the error.
-> ---
->  drivers/staging/media/meson/vdec/esparser.c     | 6 +++++-
->  drivers/staging/media/meson/vdec/vdec_helpers.c | 5 ++++-
->  drivers/staging/media/meson/vdec/vdec_helpers.h | 2 +-
->  3 files changed, 10 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/staging/media/meson/vdec/esparser.c b/drivers/staging/media/meson/vdec/esparser.c
-> index db7022707ff8..7e78288cc551 100644
-> --- a/drivers/staging/media/meson/vdec/esparser.c
-> +++ b/drivers/staging/media/meson/vdec/esparser.c
-> @@ -328,9 +328,13 @@ esparser_queue(struct amvdec_session *sess, struct vb2_v4l2_buffer *vbuf)
->  
->  	offset = esparser_get_offset(sess);
->  
-> -	amvdec_add_ts(sess, vb->timestamp, vbuf->timecode, offset, vbuf->flags);
-> +	ret = amvdec_add_ts(sess, vb->timestamp, vbuf->timecode, offset, vbuf->flags);
->  	dev_dbg(core->dev, "esparser: ts = %llu pld_size = %u offset = %08X flags = %08X\n",
->  		vb->timestamp, payload_size, offset, vbuf->flags);
-> +	if (ret) {
-> +		v4l2_m2m_buf_done(vbuf, VB2_BUF_STATE_ERROR);
-> +		return ret;
-> +	}
->  
->  	vbuf->flags = 0;
->  	vbuf->field = V4L2_FIELD_NONE;
-> diff --git a/drivers/staging/media/meson/vdec/vdec_helpers.c b/drivers/staging/media/meson/vdec/vdec_helpers.c
-> index 7f07a9175815..972a1d1a12a5 100644
-> --- a/drivers/staging/media/meson/vdec/vdec_helpers.c
-> +++ b/drivers/staging/media/meson/vdec/vdec_helpers.c
-> @@ -227,13 +227,15 @@ int amvdec_set_canvases(struct amvdec_session *sess,
->  }
->  EXPORT_SYMBOL_GPL(amvdec_set_canvases);
->  
-> -void amvdec_add_ts(struct amvdec_session *sess, u64 ts,
-> +int amvdec_add_ts(struct amvdec_session *sess, u64 ts,
-> +		  struct v4l2_timecode tc, u32 offset, u32 vbuf_flags)
->  {
->  	struct amvdec_timestamp *new_ts;
->  	unsigned long flags;
->  
->  	new_ts = kzalloc(sizeof(*new_ts), GFP_KERNEL);
-> +	if (!new_ts)
-> +		return -ENOMEM;
->  	new_ts->ts = ts;
->  	new_ts->tc = tc;
->  	new_ts->offset = offset;
-> @@ -242,6 +244,7 @@ void amvdec_add_ts(struct amvdec_session *sess, u64 ts,
->  	spin_lock_irqsave(&sess->ts_spinlock, flags);
->  	list_add_tail(&new_ts->list, &sess->timestamps);
->  	spin_unlock_irqrestore(&sess->ts_spinlock, flags);
-> +	return 0;
->  }
->  EXPORT_SYMBOL_GPL(amvdec_add_ts);
->  
-> diff --git a/drivers/staging/media/meson/vdec/vdec_helpers.h b/drivers/staging/media/meson/vdec/vdec_helpers.h
-> index cfaed52ab526..1bcb697290de 100644
-> --- a/drivers/staging/media/meson/vdec/vdec_helpers.h
-> +++ b/drivers/staging/media/meson/vdec/vdec_helpers.h
-> @@ -55,7 +55,7 @@ void amvdec_dst_buf_done_offset(struct amvdec_session *sess,
->   * @offset: offset in the VIFIFO where the associated packet was written
->   * @flags the vb2_v4l2_buffer flags
->   */
-> -void amvdec_add_ts(struct amvdec_session *sess, u64 ts,
-> +int amvdec_add_ts(struct amvdec_session *sess, u64 ts,
-> +		  struct v4l2_timecode tc, u32 offset, u32 flags);
->  void amvdec_remove_ts(struct amvdec_session *sess, u64 ts);
->  
+> Signed-off-by: Moudy Ho <moudy.ho@mediatek.com>
+
+Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 
