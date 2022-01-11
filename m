@@ -2,212 +2,188 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 38B3948AF4B
-	for <lists+linux-media@lfdr.de>; Tue, 11 Jan 2022 15:16:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7C02E48AFE3
+	for <lists+linux-media@lfdr.de>; Tue, 11 Jan 2022 15:49:35 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240955AbiAKOQa (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 11 Jan 2022 09:16:30 -0500
-Received: from ewsoutbound.kpnmail.nl ([195.121.94.168]:16683 "EHLO
-        ewsoutbound.kpnmail.nl" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241536AbiAKOQ3 (ORCPT
+        id S239887AbiAKOtd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 11 Jan 2022 09:49:33 -0500
+Received: from mailout1.w1.samsung.com ([210.118.77.11]:26492 "EHLO
+        mailout1.w1.samsung.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S239774AbiAKOtd (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 11 Jan 2022 09:16:29 -0500
-X-KPN-MessageId: f944a448-72e8-11ec-8862-005056aba152
-Received: from smtp.kpnmail.nl (unknown [10.31.155.40])
-        by ewsoutbound.so.kpn.org (Halon) with ESMTPS
-        id f944a448-72e8-11ec-8862-005056aba152;
-        Tue, 11 Jan 2022 15:15:48 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=xs4all.nl; s=xs4all01;
-        h=content-type:from:to:subject:mime-version:date:message-id;
-        bh=0VNHAXmWU74HlVywLpBKiaxyg46pA23UY0SoqLaG6rU=;
-        b=mFdYG6vHnU9LbERWdm5ctMR2F5pBOl9Ufgvj2YuOnHFM2Z7q8V4NPYaJWt9x3T0Du6Kevmt1qUzig
-         7HL2OQekUBJQRVyqXBRhvmqmcuLpwEJ+sjkowaKxUrx8uOVpjtHHzP0qz8b37IdvWkguR03jyP0JWn
-         HdWHCTy+NM112pLQb57Y3OwBVqioASyIAI//wRbC78exLR322uU9mRvRqSaQ201wT7eREcrFD9kzd+
-         jWRygC8vtraW7J2bd+/TKwjBqDX4+dr9IBCPjaLBeccvBQ+0xYzb1pVw6ZrTnVzJ/YLMkclECIIfdv
-         ygje6yAtzy/Qd/mgPg4lxsYNHsIy77A==
-X-KPN-VerifiedSender: No
-X-CMASSUN: 33|yZYDlZXeIZBo9OtHYHcgDzc/TtG6Zx8qH+yW8co0HGT55eQuQhTlxkwey6vlUFL
- wRxKLdYCshLDirdj2eLKy7Q==
-X-Originating-IP: 193.91.129.219
-Received: from [192.168.2.10] (cdb815bc1.dhcp.as2116.net [193.91.129.219])
-        by smtp.xs4all.nl (Halon) with ESMTPSA
-        id 10aab5fe-72e9-11ec-b76f-005056ab7584;
-        Tue, 11 Jan 2022 15:16:28 +0100 (CET)
-Message-ID: <d46884f0-5c7f-aeb2-71b3-2fd664ab81aa@xs4all.nl>
-Date:   Tue, 11 Jan 2022 15:16:27 +0100
+        Tue, 11 Jan 2022 09:49:33 -0500
+Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
+        by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id 20220111144931euoutp017c61f93e95ae727b39fe2ca9a3942953~JPsi9hgGB1643016430euoutp01z;
+        Tue, 11 Jan 2022 14:49:31 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com 20220111144931euoutp017c61f93e95ae727b39fe2ca9a3942953~JPsi9hgGB1643016430euoutp01z
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+        s=mail20170921; t=1641912571;
+        bh=rI0jF1+gw7Mi1ZYnk9EKut/wbj5ldZkbbhSeA9GHrlM=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=BXszf5/lY1yYY/MWUa99lzOxJf/6Lr/9AdRk1Ng4ShiES6yNXMLPjsa6r+BTjKLOa
+         h7wmyBZ+g+B01B8edVxEfxeS/q0Na3aqt347k8CLAsi3DjUdITsmsX811bH4/iU3YI
+         TCe+iA/rkClfRc8qmj6CQhZuHkysvV5Wyj6IDK5c=
+Received: from eusmges1new.samsung.com (unknown [203.254.199.242]) by
+        eucas1p2.samsung.com (KnoxPortal) with ESMTP id
+        20220111144930eucas1p2fc5d22af34d0e26398f58d6ae299e618~JPsizuqVP2832428324eucas1p2H;
+        Tue, 11 Jan 2022 14:49:30 +0000 (GMT)
+Received: from eucas1p2.samsung.com ( [182.198.249.207]) by
+        eusmges1new.samsung.com (EUCPMTA) with SMTP id B6.52.10009.AF89DD16; Tue, 11
+        Jan 2022 14:49:30 +0000 (GMT)
+Received: from eusmtrp2.samsung.com (unknown [182.198.249.139]) by
+        eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
+        20220111144930eucas1p1d538f02d731983b1cd1b56472163eda4~JPsib6aD71250812508eucas1p1o;
+        Tue, 11 Jan 2022 14:49:30 +0000 (GMT)
+Received: from eusmgms2.samsung.com (unknown [182.198.249.180]) by
+        eusmtrp2.samsung.com (KnoxPortal) with ESMTP id
+        20220111144930eusmtrp2e04b3ccf6ab62397be424b6d47f5c9cf~JPsibIdMx0347903479eusmtrp24;
+        Tue, 11 Jan 2022 14:49:30 +0000 (GMT)
+X-AuditID: cbfec7f2-e7fff70000002719-65-61dd98fa65b8
+Received: from eusmtip2.samsung.com ( [203.254.199.222]) by
+        eusmgms2.samsung.com (EUCPMTA) with SMTP id C6.A1.09404.AF89DD16; Tue, 11
+        Jan 2022 14:49:30 +0000 (GMT)
+Received: from localhost (unknown [106.120.51.46]) by eusmtip2.samsung.com
+        (KnoxPortal) with ESMTPA id
+        20220111144930eusmtip2d5cc5d1ed83c9a9de793fab32226ddae~JPsiQZodF2525125251eusmtip2G;
+        Tue, 11 Jan 2022 14:49:30 +0000 (GMT)
+From:   Lukasz Stelmach <l.stelmach@samsung.com>
+To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Cc:     linux-media@vger.kernel.org,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Rob Herring <robh+dt@kernel.org>,
+        Andy Shevchenko <andy.shevchenko@gmail.com>,
+        Prabhakar <prabhakar.csengg@gmail.com>,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 11/13] media: s5p-g2d: Use platform_get_irq() to get
+ the interrupt
+Date:   Tue, 11 Jan 2022 15:49:06 +0100
+In-Reply-To: <20220111002314.15213-12-prabhakar.mahadev-lad.rj@bp.renesas.com>
+        (Lad Prabhakar's message of "Tue, 11 Jan 2022 00:23:12 +0000")
+Message-ID: <dleftjtuea8h0d.fsf%l.stelmach@samsung.com>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Firefox/91.0 Thunderbird/91.4.1
-Subject: Re: [PATCH v3] media: meson: vdec: Fix a NULL pointer dereference in
- amvdec_add_ts()
-Content-Language: en-US
-To:     Qingyang Zhou <zhou1615@umn.edu>,
-        Jiasheng Jiang <jiasheng@iscas.ac.cn>,
-        Neil Armstrong <narmstrong@baylibre.com>
-Cc:     Kangjie Lu <kjlu@umn.edu>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Kevin Hilman <khilman@baylibre.com>,
-        Jerome Brunet <jbrunet@baylibre.com>,
-        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-        Maxime Jourdan <mjourdan@baylibre.com>,
-        linux-media@vger.kernel.org
-References: <20211214144613.35fec82a@coco.lan>
- <20211215033535.40422-1-zhou1615@umn.edu>
- <368bc1b7-ff86-beaa-6749-afbe5960eaeb@xs4all.nl>
- <CA+Cm_xSOv5NnW5GXcKKGi8bQSvT45iH6=65YJk3EG6uW0c5_Vw@mail.gmail.com>
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-In-Reply-To: <CA+Cm_xSOv5NnW5GXcKKGi8bQSvT45iH6=65YJk3EG6uW0c5_Vw@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; boundary="=-=-="; micalg="pgp-sha256";
+        protocol="application/pgp-signature"
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFjrMKsWRmVeSWpSXmKPExsWy7djP87q/ZtxNNFjeoWfxcsJhRouLM++y
+        WGx6fI3V4vKuOWwWPRu2slos2/SHyeLl/RXMFn1v1jFbtO49wu7A6bHyxWx2j52z7rJ7bFrV
+        yeaxeUm9x+dNch6nvn5mD2CL4rJJSc3JLEst0rdL4MrY+3oSc8FF4Yo93/azNzCeFehi5OSQ
+        EDCRmP/2IHMXIxeHkMAKRokrh/dDOV8YJbp7N7NCOJ8ZJWY/amaDaTnS+IwVxBYSWM4o8fGs
+        CkTRc0aJrZOvARVxcLAJ6EmsXRsBUiMiYC3ReW4PO0gNs8BeJomF63qZQRLCAtESc7/MBBvE
+        IqAqMePIDyaQIk6BfkaJFYvOsYAkeAXMJS6eesAOYosKWEr8efaRHSIuKHFy5hOwGmaBXImZ
+        598wgjRLCPRzSiycc4MZ4lQXiW/fzzBC2MISr45vYYewZST+75zPBHKphEC9xORJZhC9PYwS
+        2+b8YIGosZa4c+4X1MuOEqubv7JB1PNJ3HgrCLGXT2LStunMEGFeiY42IYhqFYl1/XugpkhJ
+        9L5awQhR4iExrZ8fEm4LGSXWnk2cwKgwC8kzs5A8Mwuog1lAU2L9Ln2IsLbEsoWvmSFsW4l1
+        696zLGBkXcUonlpanJueWmyYl1quV5yYW1yal66XnJ+7iRGYtk7/O/5pB+PcVx/1DjEycTAe
+        YlQBan60YfUFRimWvPy8VCUR3rKYu4lCvCmJlVWpRfnxRaU5qcWHGKU5WJTEeZMzNyQKCaQn
+        lqRmp6YWpBbBZJk4OKUamKLiIp01JE6UyPkt1LNQNW1hsdXtE7n3qUrU90nUp9weabXJnFab
+        mLSaLcrCEptbRTw42nSFL0/ff8v+7PUfuf8cP8Z0r+zYzipU/1F8+a7HZs/7nYL3C8xYejT3
+        6DLeD2v3Fjywvb0v6uyuTLHN0cVTIx4++2qlYCJ1/L24p8QHMbOJs10m9ZVGG3ZU/Xrc1mB2
+        vu/jPqe0PQkflnpvnFYr6ftk6r1bH0Oaw0qKrtk/e5HPefXH9fKJXdfytkp3iYe2r+qsmvqh
+        OT4qPEGx8di8aOOnpsJLFfeUzKi6+j/j59KUV1eWLypW69/7gLW6tkpsz/9y2UttT/9+epr1
+        O4/RXXDb9YtPdXj2SHhmK7EUZyQaajEXFScCABqTBRLWAwAA
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrDIsWRmVeSWpSXmKPExsVy+t/xe7q/ZtxNNGhYJmXxcsJhRouLM++y
+        WGx6fI3V4vKuOWwWPRu2slos2/SHyeLl/RXMFn1v1jFbtO49wu7A6bHyxWx2j52z7rJ7bFrV
+        yeaxeUm9x+dNch6nvn5mD2CL0rMpyi8tSVXIyC8usVWKNrQw0jO0tNAzMrHUMzQ2j7UyMlXS
+        t7NJSc3JLEst0rdL0MvY+3oSc8FF4Yo93/azNzCeFehi5OSQEDCRONL4jLWLkYtDSGApo8S6
+        M42MXYwcQAkpiZVz0yFqhCX+XOtig6h5yijRcv4IE0gNm4CexNq1ESA1IgLWEp3n9rCD1DAL
+        7GOSuHujiwUkISwQLTH3y0xWkHohAV+JxpfuIGEWAVWJGUd+MIHUcwr0M0qsWHQOrJ5XwFzi
+        4qkH7CC2qIClxJ9nH9kh4oISJ2c+AathFsiW+Lr6OfMERoFZSFKzkKRmAa1jFtCUWL9LHyKs
+        LbFs4WtmCNtWYt269ywLGFlXMYqklhbnpucWG+kVJ+YWl+al6yXn525iBEbdtmM/t+xgXPnq
+        o94hRiYOxkOMKkCdjzasvsAoxZKXn5eqJMJbFnM3UYg3JbGyKrUoP76oNCe1+BCjKdBvE5ml
+        RJPzgekgryTe0MzA1NDEzNLA1NLMWEmc17OgI1FIID2xJDU7NbUgtQimj4mDU6qBaV98rtci
+        QxHXRz8OaOQyN66XXrIkUt1GSqyxSL5aNletYtmiu0kn/1f0Gs9pKli97/mkiOuyRcohTyW7
+        EzZcenzMTTArRXVi4wPOTatnx13azWFmqpI78aHk0WuGU5xLFWwjV+1Z5RT0IP/eSQkD3VMZ
+        Ospb/+d0NUjOvuuWOv0Xh+ie1KhS84hLP3cnza6XXtKfxPWOOfhj/JM9T1P/GH75tnKxVV6b
+        ++nosg2J1W/uX7/l+H1t8vVYu6bfbQUZ03m5+R2O9ikKJHQ9U/s9qebNtw3L62bcmHtA44tR
+        5PU0ltyvHDO9kz/tKndsmMcQMD+qSWx+3fS4o7VuxbElJ+tNmRwb1fe+jeYyT5ZQYinOSDTU
+        Yi4qTgQAMepTl08DAAA=
+X-CMS-MailID: 20220111144930eucas1p1d538f02d731983b1cd1b56472163eda4
+X-Msg-Generator: CA
+X-RootMTR: 20220111144930eucas1p1d538f02d731983b1cd1b56472163eda4
+X-EPHeader: CA
+CMS-TYPE: 201P
+X-CMS-RootMailID: 20220111144930eucas1p1d538f02d731983b1cd1b56472163eda4
+References: <20220111002314.15213-12-prabhakar.mahadev-lad.rj@bp.renesas.com>
+        <CGME20220111144930eucas1p1d538f02d731983b1cd1b56472163eda4@eucas1p1.samsung.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 11/01/2022 14:03, Qingyang Zhou wrote:
-> Hi Hans:
-> 
-> Here I certify that this is an origin patch I wrote. I did not copy Neil's patch, and I did not know his patch.
-> 
-> Neil, please post your original patch here, so everyone can see both patches.
+--=-=-=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
 
-OK, so I have three variants:
+It was <2022-01-11 wto 00:23>, when Lad Prabhakar wrote:
+> platform_get_resource(pdev, IORESOURCE_IRQ, ..) relies on static
+> allocation of IRQ resources in DT core code, this causes an issue
+> when using hierarchical interrupt domains using "interrupts" property
+> in the node as this bypasses the hierarchical setup and messes up the
+> irq chaining.
+>
+> In preparation for removal of static setup of IRQ resource from DT core
+> code use platform_get_irq().
+>
+> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> ---
+> v1->v2
+> * No change.
+> ---
+>  drivers/media/platform/s5p-g2d/g2d.c | 10 +++-------
+>  1 file changed, 3 insertions(+), 7 deletions(-)
+>
 
-Yours:
+Acked-by: =C5=81ukasz Stelmach <l.stelmach@samsung.com>
 
-https://patchwork.linuxtv.org/project/linux-media/patch/20211215033535.40422-1-zhou1615@umn.edu/
+> diff --git a/drivers/media/platform/s5p-g2d/g2d.c b/drivers/media/platfor=
+m/s5p-g2d/g2d.c
+> index fa0bb31bd2b9..dd8864779a7c 100644
+> --- a/drivers/media/platform/s5p-g2d/g2d.c
+> +++ b/drivers/media/platform/s5p-g2d/g2d.c
+> @@ -623,7 +623,6 @@ static int g2d_probe(struct platform_device *pdev)
+>  {
+>  	struct g2d_dev *dev;
+>  	struct video_device *vfd;
+> -	struct resource *res;
+>  	const struct of_device_id *of_id;
+>  	int ret =3D 0;
+>=20=20
+> @@ -664,14 +663,11 @@ static int g2d_probe(struct platform_device *pdev)
+>  		goto put_clk_gate;
+>  	}
+>=20=20
+> -	res =3D platform_get_resource(pdev, IORESOURCE_IRQ, 0);
+> -	if (!res) {
+> -		dev_err(&pdev->dev, "failed to find IRQ\n");
+> -		ret =3D -ENXIO;
+> +	ret =3D platform_get_irq(pdev, 0);
+> +	if (ret < 0)
+>  		goto unprep_clk_gate;
+> -	}
+>=20=20
+> -	dev->irq =3D res->start;
+> +	dev->irq =3D ret;
+>=20=20
+>  	ret =3D devm_request_irq(&pdev->dev, dev->irq, g2d_isr,
+>  						0, pdev->name, dev);
 
-v2 from Jiasheng Jiang:
+=2D-=20
+=C5=81ukasz Stelmach
+Samsung R&D Institute Poland
+Samsung Electronics
 
-https://patchwork.linuxtv.org/project/linux-media/patch/20211210015620.2143555-1-jiasheng@iscas.ac.cn/
+--=-=-=
+Content-Type: application/pgp-signature; name="signature.asc"
 
-And v1 from Jiasheng Jiang which in the reply contains Neil's patch which is almost identical to
-both Jiasheng's v2 and your v3 (it's just missing a return 0).
+-----BEGIN PGP SIGNATURE-----
 
-https://patchwork.linuxtv.org/project/linux-media/patch/20211209085840.2081024-1-jiasheng@iscas.ac.cn/
-
-So this is a case of parallel evolution. But regardless, I do prefer it if Neil can
-post the patch: he's the driver maintainer, so I'd be happiest with a patch from him.
-
-Regards,
-
-	Hans
-
-> 
-> Yours 
-> Zhou Qingyang.
-> 
-> On Tue, Jan 11, 2022 at 5:16 PM Hans Verkuil <hverkuil-cisco@xs4all.nl <mailto:hverkuil-cisco@xs4all.nl>> wrote:
-> 
->     Zhou Qingyang, this is exactly the patch Neil wrote, except you just stuck your
->     name on it. Not nice.
-> 
->     Neil, can you post your patch with your own Signed-off-by, then I'll take that one.
-> 
->     Regards,
-> 
->             Hans
-> 
->     On 15/12/2021 04:35, Zhou Qingyang wrote:
->     > In amvdec_add_ts(), there is a dereference of kzalloc(), which could lead
->     > to a NULL pointer dereference on failure of kzalloc().
->     >
->     > Fix this bug by adding a NULL check of new_ts.
->     >
->     > This bug was found by a static analyzer[1].
->     >
->     > Builds with CONFIG_VIDEO_MESON_VDEC=m show no new warnings,
->     > and our static analyzer no longer warns about this code.
->     >
->     > Fixes: 876f123b8956 ("media: meson: vdec: bring up to compliance")
->     > Signed-off-by: Zhou Qingyang <zhou1615@umn.edu <mailto:zhou1615@umn.edu>>
->     > ---
->     >
->     > [1] The analysis employs differential checking to identify inconsistent
->     > security operations (e.g., checks or kfrees) between two code paths and
->     > confirms that the inconsistent operations are not recovered in the
->     > current function or the callers, so they constitute bugs.
->     >
->     > Note that, as a bug found by static analysis, it can be a false
->     > positive or hard to trigger. Multiple researchers have cross-reviewed
->     > the bug.
->     >
->     > Changes in v3:
->     >   -  Change the description of patch
->     >   -  Turn the return type from 'void' to 'int'
->     >   -  Check the return value in the caller 'esparser_queue()'
->     >
->     > Changes in v2:
->     >   -  Delete dev_err() message
->     >
->     >  drivers/staging/media/meson/vdec/esparser.c     | 7 ++++++-
->     >  drivers/staging/media/meson/vdec/vdec_helpers.c | 8 ++++++--
->     >  drivers/staging/media/meson/vdec/vdec_helpers.h | 4 ++--
->     >  3 files changed, 14 insertions(+), 5 deletions(-)
->     >
->     > diff --git a/drivers/staging/media/meson/vdec/esparser.c b/drivers/staging/media/meson/vdec/esparser.c
->     > index db7022707ff8..095100a50da8 100644
->     > --- a/drivers/staging/media/meson/vdec/esparser.c
->     > +++ b/drivers/staging/media/meson/vdec/esparser.c
->     > @@ -328,7 +328,12 @@ esparser_queue(struct amvdec_session *sess, struct vb2_v4l2_buffer *vbuf)
->     > 
->     >       offset = esparser_get_offset(sess);
->     > 
->     > -     amvdec_add_ts(sess, vb->timestamp, vbuf->timecode, offset, vbuf->flags);
->     > +     ret = amvdec_add_ts(sess, vb->timestamp, vbuf->timecode, offset, vbuf->flags);
->     > +     if (!ret) {
->     > +             v4l2_m2m_buf_done(vbuf, VB2_BUF_STATE_ERROR);
->     > +             return ret;
->     > +     }
->     > +
->     >       dev_dbg(core->dev, "esparser: ts = %llu pld_size = %u offset = %08X flags = %08X\n",
->     >               vb->timestamp, payload_size, offset, vbuf->flags);
->     > 
->     > diff --git a/drivers/staging/media/meson/vdec/vdec_helpers.c b/drivers/staging/media/meson/vdec/vdec_helpers.c
->     > index b9125c295d1d..06fd66539797 100644
->     > --- a/drivers/staging/media/meson/vdec/vdec_helpers.c
->     > +++ b/drivers/staging/media/meson/vdec/vdec_helpers.c
->     > @@ -227,13 +227,16 @@ int amvdec_set_canvases(struct amvdec_session *sess,
->     >  }
->     >  EXPORT_SYMBOL_GPL(amvdec_set_canvases);
->     > 
->     > -void amvdec_add_ts(struct amvdec_session *sess, u64 ts,
->     > -                struct v4l2_timecode tc, u32 offset, u32 vbuf_flags)
->     > +int amvdec_add_ts(struct amvdec_session *sess, u64 ts,
->     > +               struct v4l2_timecode tc, u32 offset, u32 vbuf_flags)
->     >  {
->     >       struct amvdec_timestamp *new_ts;
->     >       unsigned long flags;
->     > 
->     >       new_ts = kzalloc(sizeof(*new_ts), GFP_KERNEL);
->     > +     if (!new_ts)
->     > +             return -ENOMEM;
->     > +
->     >       new_ts->ts = ts;
->     >       new_ts->tc = tc;
->     >       new_ts->offset = offset;
->     > @@ -242,6 +245,7 @@ void amvdec_add_ts(struct amvdec_session *sess, u64 ts,
->     >       spin_lock_irqsave(&sess->ts_spinlock, flags);
->     >       list_add_tail(&new_ts->list, &sess->timestamps);
->     >       spin_unlock_irqrestore(&sess->ts_spinlock, flags);
->     > +     return 0;
->     >  }
->     >  EXPORT_SYMBOL_GPL(amvdec_add_ts);
->     > 
->     > diff --git a/drivers/staging/media/meson/vdec/vdec_helpers.h b/drivers/staging/media/meson/vdec/vdec_helpers.h
->     > index 88137d15aa3a..4bf3e61d081b 100644
->     > --- a/drivers/staging/media/meson/vdec/vdec_helpers.h
->     > +++ b/drivers/staging/media/meson/vdec/vdec_helpers.h
->     > @@ -56,8 +56,8 @@ void amvdec_dst_buf_done_offset(struct amvdec_session *sess,
->     >   * @offset: offset in the VIFIFO where the associated packet was written
->     >   * @flags: the vb2_v4l2_buffer flags
->     >   */
->     > -void amvdec_add_ts(struct amvdec_session *sess, u64 ts,
->     > -                struct v4l2_timecode tc, u32 offset, u32 flags);
->     > +int amvdec_add_ts(struct amvdec_session *sess, u64 ts,
->     > +               struct v4l2_timecode tc, u32 offset, u32 flags);
->     >  void amvdec_remove_ts(struct amvdec_session *sess, u64 ts);
->     > 
->     >  /**
-> 
-
+iQEzBAEBCAAdFiEEXpuyqjq9kGEVr9UQsK4enJilgBAFAmHdmOIACgkQsK4enJil
+gBCanwf6Aru4u2Ip5vQSlbsLmuYJXeqaKjnZarh/si7gSktxJKWL9tl+cfJlVnq6
+vcsePMsFPuHU/nkLTgJRNnKXaM/nkftkZfsZ42rZ9yQe3iD2C8qeZFsLiF+g4jlR
+CDn+M0YYM+aLgWqj+MotiX/ZHzouMGepc8P/9N2KyV84T1BVWKAFVXZEJFBk8oh0
+7HO0nuFsTiX9jA1QBGFc3mIasm9xRWqfHt93g3YyEKZr9vomGLNhbGGdjlA03pts
+ZXrx9vXU5aLRXQWvwbkFY2wp6Rny8kQBEeqrratzVL3roNHWDKHnv/Z+H3dm7vhz
+XNToe3GrDtW9mLwdSrt7oA5NTURIsw==
+=7fYZ
+-----END PGP SIGNATURE-----
+--=-=-=--
