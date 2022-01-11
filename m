@@ -2,106 +2,108 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 07B8048AD9A
-	for <lists+linux-media@lfdr.de>; Tue, 11 Jan 2022 13:28:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5E54848AD9E
+	for <lists+linux-media@lfdr.de>; Tue, 11 Jan 2022 13:29:23 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239930AbiAKM2e (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 11 Jan 2022 07:28:34 -0500
-Received: from mga03.intel.com ([134.134.136.65]:48811 "EHLO mga03.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S239846AbiAKM2e (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Tue, 11 Jan 2022 07:28:34 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1641904114; x=1673440114;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=tF0ggi96Itc/hDjk9VM4zasKGTuLQL6egPHigOPMXKc=;
-  b=SeaKQMbIWKahKHP+Q6ZO2864YwRmuUuY6htpsv4YSfEL/P2fkWjb0chr
-   qws1ZvspDDEKgI09NKaahaNyxck2CJPxNPoG0GreElFdWMoqm44JrVByq
-   qrKe+rTzB9YF4Ugtowew9yixZwgQVqIWKuVQt7Q8jYtH97KoHcMRPzRU+
-   PTNKBqaYXbdhB4Y9iVryp1kjaO1sHalCQl1ghSS09OQ/lIM6ZLEquG2ir
-   3mW2ofykBXgfZWRNXXhWCLNxqnZ4lPd84tlVI2fbVd7Cahe5ZwxQvpKFA
-   02aeQI81znNL3ks4ZNHmOVQvj8VLPvI803JZh+2pye6zndyLSlzrGZlxd
-   w==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10223"; a="243427551"
-X-IronPort-AV: E=Sophos;i="5.88,279,1635231600"; 
-   d="scan'208";a="243427551"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jan 2022 04:28:33 -0800
-X-IronPort-AV: E=Sophos;i="5.88,279,1635231600"; 
-   d="scan'208";a="619811978"
-Received: from smile.fi.intel.com ([10.237.72.61])
-  by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jan 2022 04:28:32 -0800
-Received: from andy by smile.fi.intel.com with local (Exim 4.95)
-        (envelope-from <andriy.shevchenko@linux.intel.com>)
-        id 1n7GFC-009Dyp-OY;
-        Tue, 11 Jan 2022 14:27:18 +0200
-Date:   Tue, 11 Jan 2022 14:27:18 +0200
-From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc:     Nick Desaulniers <ndesaulniers@google.com>,
-        linux-media@vger.kernel.org, hverkuil@xs4all.nl
-Subject: Re: [PATCH 1/1] v4l: Avoid unaligned access warnings when printing
- 4cc modifiers
-Message-ID: <Yd13pim2nuelGjRq@smile.fi.intel.com>
-References: <20220110224656.266536-1-sakari.ailus@linux.intel.com>
- <CAKwvOdnfX1DzgkzCPY7N4LiJDJTGxsKNQbRMmmkt7o5z5O-W9w@mail.gmail.com>
- <Yd1gNZR4rr36ivZV@paasikivi.fi.intel.com>
+        id S239968AbiAKM3V (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 11 Jan 2022 07:29:21 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57010 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S239959AbiAKM3V (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Tue, 11 Jan 2022 07:29:21 -0500
+Received: from mail-vk1-xa2a.google.com (mail-vk1-xa2a.google.com [IPv6:2607:f8b0:4864:20::a2a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3AFE7C06173F
+        for <linux-media@vger.kernel.org>; Tue, 11 Jan 2022 04:29:21 -0800 (PST)
+Received: by mail-vk1-xa2a.google.com with SMTP id m57so2123935vkf.9
+        for <linux-media@vger.kernel.org>; Tue, 11 Jan 2022 04:29:21 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=vanguardiasur-com-ar.20210112.gappssmtp.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=fv7pt9678shE7Q7gg0kgK0x1MbtUotyBshoy1BPYoNU=;
+        b=gt0NMyRVmbPiSVLgHGoeirMn+6K8VRHjq5Z3bFtL/fdPTkq1tVYaM3/cBdxVPx1Vx9
+         pwgDJcrxZ3wbfWmLcpJ/V7uxO3uFu/Oh7SuamB6Y9aK07us2006uvJALmV6I4jwvHOrM
+         UUkk8Z2MuGVDo7ObjCmHRsesbL66x5g9Js09FgF51JJqECpPQm99SB1Iu9O1XS30M0SA
+         JYNG3SaeUJ6mJLeY0f2aWpctQfo9yxaL/V+mnXmtHsTZtkCNc+fjZfL1rtJm5FJZxIOb
+         zT55++Tyo+PHL+ZFLfmTvJHdz4+7NcOsct0cr3UV54Yms+0iBHH3lF2KKyvBB5g189Ww
+         DQow==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=fv7pt9678shE7Q7gg0kgK0x1MbtUotyBshoy1BPYoNU=;
+        b=5v6kYGrC0VM5Hrb+BmIRdsmt9BtXsvvc67+o/OJpZ4urt+T2f0lROYeCy+mXZBKQSk
+         hKaPXKcreJf/9feOBhNdXkr3+jKl3aNaZFbjrRbfjwkIPCxwOsTkh2FBdMsUOjJ4FWHS
+         uAtRTYpGZggwlgov+VRlsPl+t3OBGw9tok6alTYDQL+WS4Zun7qZfHtjb1CAuFdX1TMl
+         s7AKBhA6XvDElSLpTwywvyGtvdSnKxl6iLebPy/4X103pzWlxsBJ/hptiOQ/v98L1vvg
+         1YFoN33qBhPRZfcdM7sdveCjF5GZ3OYAcRDKw1ADnlxxf4g7R7LmOC/zhkulZ+82aBd7
+         S6tQ==
+X-Gm-Message-State: AOAM5301A4/MJMCmM7qYgFj3YBmPP155HjRcgsRjrutomUiuDEvedAEI
+        hU06PPxyS2YxLHibP8WFdjH7OQ==
+X-Google-Smtp-Source: ABdhPJzdUf+2AyxBnCeYQvC08RwhDHivZ77KBn3JZgwWiYrkhZac07pExSkBYc60YwwSdyiiG4m9dQ==
+X-Received: by 2002:ac5:cc4f:: with SMTP id l15mr1818832vkm.2.1641904160330;
+        Tue, 11 Jan 2022 04:29:20 -0800 (PST)
+Received: from eze-laptop ([190.190.187.46])
+        by smtp.gmail.com with ESMTPSA id w62sm5403336vkd.47.2022.01.11.04.29.17
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 11 Jan 2022 04:29:19 -0800 (PST)
+Date:   Tue, 11 Jan 2022 09:29:14 -0300
+From:   Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
+To:     Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+Cc:     linux-media@vger.kernel.org, laurent.pinchart@ideasonboard.com,
+        hverkuil@xs4all.nl, ribalda@chromium.org, tfiga@chromium.org,
+        senozhatsky@google.com, hch@lst.de, kernel@collabora.com
+Subject: Re: [PATCH 2/3] media: stk1160: move transfer_buffer and urb to same
+ struct 'stk1160_urb'
+Message-ID: <Yd14Gqq7Nmjhlihx@eze-laptop>
+References: <20220111065505.6323-1-dafna.hirschfeld@collabora.com>
+ <20220111065505.6323-3-dafna.hirschfeld@collabora.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <Yd1gNZR4rr36ivZV@paasikivi.fi.intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+In-Reply-To: <20220111065505.6323-3-dafna.hirschfeld@collabora.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Jan 11, 2022 at 12:47:17PM +0200, Sakari Ailus wrote:
-> Hi Nick,
+Hi Dafna,
+
+On Tue, Jan 11, 2022 at 08:55:04AM +0200, Dafna Hirschfeld wrote:
+> Instead of having two separated arrays, one for the urbs and
+> one for their buffers, have one array of a struct containing both.
+> In addition, the array is just 16 pointers, no need to dynamically
+> allocate it.
 > 
-> On Mon, Jan 10, 2022 at 03:11:18PM -0800, Nick Desaulniers wrote:
-> > On Mon, Jan 10, 2022 at 2:48 PM Sakari Ailus
-> > <sakari.ailus@linux.intel.com> wrote:
-> > >
-> > > Pointers V4L2 pixelformat and dataformat fields in a few packed structs
-> > > are directly passed to printk family of functions.
-> > 
-> > I would rephrase the below statement...
-> > 
-> > > This could result in an
-> > > unaligned access albeit no such possibility appears to exist at the
-> > > moment i.e. this clang warning appears to be a false positive.
-> > 
-> > ...to:
-> > 
-> > warning: taking address of packed member 'pixelformat' of class or
-> > structure 'v4l2_pix_format_mplane' may result in an unaligned pointer
-> > value [-Waddress-of-packed-member]
-> > 
-> > The warning is correct; because `struct v4l2_pix_format_mplane` is
-> > __packed, it's members also have __aligned(1).  Taking the address of
-> > such members results in the use of underaligned pointers which is UB
-> > and may be caught by UBSAN or fault on architectures without unaligned
-> > loads should the struct instance happen to be allocated without any
-> > natural alignment.
+> Signed-off-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+> ---
+>  drivers/media/usb/stk1160/stk1160-v4l.c   |  2 +-
+>  drivers/media/usb/stk1160/stk1160-video.c | 50 ++++++++---------------
+>  drivers/media/usb/stk1160/stk1160.h       | 11 ++---
+>  3 files changed, 23 insertions(+), 40 deletions(-)
 > 
-> Wouldn't that be the case only if the __packed attribute resulted in a
-> different memory layout than not having that attribute?
-> 
-> All these fields are aligned by 4 so I don't see how this could be an
-> actual problem.
+> diff --git a/drivers/media/usb/stk1160/stk1160-v4l.c b/drivers/media/usb/stk1160/stk1160-v4l.c
+> index 6a4eb616d516..a06030451db4 100644
+> --- a/drivers/media/usb/stk1160/stk1160-v4l.c
+> +++ b/drivers/media/usb/stk1160/stk1160-v4l.c
+> @@ -232,7 +232,7 @@ static int stk1160_start_streaming(struct stk1160 *dev)
+>  
+>  	/* submit urbs and enables IRQ */
+>  	for (i = 0; i < dev->isoc_ctl.num_bufs; i++) {
+> -		rc = usb_submit_urb(dev->isoc_ctl.urb[i], GFP_KERNEL);
+> +		rc = usb_submit_urb(dev->isoc_ctl.stk1160_urb[i].urb, GFP_KERNEL);
 
-packed means two things and developers often forgot about the second one:
-- the gaps between members in the data structures are removed
-- the instance of the data object may be on unaligned address
+The "stk1160_urb" field is a member of struct stk1160_isoc_ctl,
+so it's not really needed to name it "stk1160_urb", you could just
+name it "urb_ctl" or something like that.
 
-Here is the second one which results in the warning.
+I think the result should be saner:
 
-That's why my patch against vsprintf as I explained in that thread.
+		rc = usb_submit_urb(dev->isoc_ctl.urb_ctl[i].urb,
+				    GFP_KERNEL);
 
--- 
-With Best Regards,
-Andy Shevchenko
+Also, please make sure you run some regression tests with this patch alone
+applied (without 3/3). It's easy to make a mistake on this kind of cleanups.
 
-
+Thanks,
+Ezequiel
