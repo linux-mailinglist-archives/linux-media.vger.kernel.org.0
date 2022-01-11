@@ -2,92 +2,131 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7B04D48AB07
-	for <lists+linux-media@lfdr.de>; Tue, 11 Jan 2022 11:09:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id AE7A348AB40
+	for <lists+linux-media@lfdr.de>; Tue, 11 Jan 2022 11:21:10 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1348324AbiAKKJO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 11 Jan 2022 05:09:14 -0500
-Received: from mga07.intel.com ([134.134.136.100]:28936 "EHLO mga07.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S237384AbiAKKJO (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Tue, 11 Jan 2022 05:09:14 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1641895754; x=1673431754;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=mm9lVFvRELv89E3e5Oa9C0YgAjSQS+ErIvfkr22LQPg=;
-  b=htNW3FBOD0NHMwiBF6t699u3/QtDVNbg+4SO7fL1SH3484WzVx9IBl7K
-   1F1vBzjwmFbuQ1jezabul7svEAkELHGPMuwv+KNyOpX05646q9RQ1YISM
-   AacDFMoQZ8G+P/VuF9gn3DuKxMVv+36KeDqYl2qNamv2Yg98i0e8gFOgW
-   W2YF0uSsxVFE2J8axQ4DbYwiwTuSMIx0VIRaDs/9XmqYfEauR6vpAO50s
-   Fg36DNrd4v/LUq1JoaGHjCGPMYDfjflFABrzyRMdyRdGFdiCDXd9G1TpS
-   kQ5/kwG3YZ/ECzSQDNgeOnfe2jtHp835Se6wUW2Y8QXasCaS8FVY1lh2L
-   A==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10223"; a="306802583"
-X-IronPort-AV: E=Sophos;i="5.88,279,1635231600"; 
-   d="scan'208";a="306802583"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jan 2022 02:09:13 -0800
-X-IronPort-AV: E=Sophos;i="5.88,279,1635231600"; 
-   d="scan'208";a="515042873"
-Received: from smile.fi.intel.com ([10.237.72.61])
-  by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jan 2022 02:09:11 -0800
-Received: from andy by smile.fi.intel.com with local (Exim 4.95)
-        (envelope-from <andriy.shevchenko@linux.intel.com>)
-        id 1n7E4M-009BUO-6i;
-        Tue, 11 Jan 2022 12:07:58 +0200
-Date:   Tue, 11 Jan 2022 12:07:57 +0200
-From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To:     Nick Desaulniers <ndesaulniers@google.com>
-Cc:     Sakari Ailus <sakari.ailus@linux.intel.com>,
-        linux-media@vger.kernel.org, hverkuil@xs4all.nl
-Subject: Re: [PATCH 1/1] v4l: Avoid unaligned access warnings when printing
- 4cc modifiers
-Message-ID: <Yd1W/cQ1G4/HpFMi@smile.fi.intel.com>
-References: <20220110224656.266536-1-sakari.ailus@linux.intel.com>
- <CAKwvOdnfX1DzgkzCPY7N4LiJDJTGxsKNQbRMmmkt7o5z5O-W9w@mail.gmail.com>
+        id S237686AbiAKKVK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 11 Jan 2022 05:21:10 -0500
+Received: from ewsoutbound.kpnmail.nl ([195.121.94.168]:15844 "EHLO
+        ewsoutbound.kpnmail.nl" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S233911AbiAKKVJ (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Tue, 11 Jan 2022 05:21:09 -0500
+X-KPN-MessageId: 192b4fd6-72c8-11ec-8862-005056aba152
+Received: from smtp.kpnmail.nl (unknown [10.31.155.40])
+        by ewsoutbound.so.kpn.org (Halon) with ESMTPS
+        id 192b4fd6-72c8-11ec-8862-005056aba152;
+        Tue, 11 Jan 2022 11:20:28 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=xs4all.nl; s=xs4all01;
+        h=content-type:subject:from:to:mime-version:date:message-id;
+        bh=dVmFmEDq1afgSKpuiMRhnhBmpOd71gU4scMwlu4YAe8=;
+        b=YizzTfAkTJMTwyiEYexRruhNZiob77bAk6hFrCMD8/drMUHm8vJkoER054Q5+pqoUCDYD490CSyT2
+         YFvpIRQTEToG9hHw7OntP7nH2nNnmbIr+ax3QN91k5Sl+sxuUSVIbQSajFhOm/DwktIOPNHy6X/CnH
+         1qlGYHsehiVfIoAcvLf1+CVEG+Z3NuypRcN8U7nwy50GoyJrQCu21ZJ2q5biKHgCfWeK0TEUcEuBUp
+         v6IFIqHs/CwagAHkeCpuOMH3LNZ06nLlufCl923vK4v7JVi5giarCobfl+DCXpkELpapVTIHhoNaZ0
+         aGQj3BMfsOEDWGAtmzELOH1i2ECAmMg==
+X-KPN-VerifiedSender: Yes
+X-CMASSUN: 33|NSKFleKpnTKcohEGnY0Y88mlgJkBef/C42uBdRfNfeOzTjzwt4d5KAdsQK4PgQk
+ eSUvOZam2bVU4u0S5kOUohA==
+X-Originating-IP: 193.91.129.219
+Received: from [192.168.2.10] (cdb815bc1.dhcp.as2116.net [193.91.129.219])
+        by smtp.xs4all.nl (Halon) with ESMTPSA
+        id 30dfd402-72c8-11ec-b76f-005056ab7584;
+        Tue, 11 Jan 2022 11:21:08 +0100 (CET)
+Message-ID: <63d723aa-b6a3-ff42-c3e4-f1fcb979be11@xs4all.nl>
+Date:   Tue, 11 Jan 2022 11:21:08 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAKwvOdnfX1DzgkzCPY7N4LiJDJTGxsKNQbRMmmkt7o5z5O-W9w@mail.gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Firefox/91.0 Thunderbird/91.4.1
+Content-Language: en-US
+To:     Linux Media Mailing List <linux-media@vger.kernel.org>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Subject: [GIT PULL FOR v5.18] Various fixes
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, Jan 10, 2022 at 03:11:18PM -0800, Nick Desaulniers wrote:
-> On Mon, Jan 10, 2022 at 2:48 PM Sakari Ailus
-> <sakari.ailus@linux.intel.com> wrote:
-> >
-> > Pointers V4L2 pixelformat and dataformat fields in a few packed structs
-> > are directly passed to printk family of functions.
-> 
-> I would rephrase the below statement...
-> 
-> > This could result in an
-> > unaligned access albeit no such possibility appears to exist at the
-> > moment i.e. this clang warning appears to be a false positive.
-> 
-> ...to:
-> 
-> warning: taking address of packed member 'pixelformat' of class or
-> structure 'v4l2_pix_format_mplane' may result in an unaligned pointer
-> value [-Waddress-of-packed-member]
-> 
-> The warning is correct;
+The following changes since commit 68b9bcc8a534cd11fe55f8bc82f948aae7d81b3c:
 
-Exactly. I'm going to repeat that in the comment to my patch.
+  media: ipu3-cio2: Add support for instantiating i2c-clients for VCMs (2021-12-16 20:58:56 +0100)
 
-> because `struct v4l2_pix_format_mplane` is
-> __packed, it's members also have __aligned(1).  Taking the address of
-> such members results in the use of underaligned pointers which is UB
-> and may be caught by UBSAN or fault on architectures without unaligned
-> loads should the struct instance happen to be allocated without any
-> natural alignment.
+are available in the Git repository at:
 
--- 
-With Best Regards,
-Andy Shevchenko
+  git://linuxtv.org/hverkuil/media_tree.git tags/br-v5.18a
 
+for you to fetch changes up to 675fd0b04a0c48eefcc853d6c2189ddd4f5e8d15:
 
+  media: stm32: dcmi: create a dma scatterlist based on DMA max_sg_burst value (2022-01-11 11:09:57 +0100)
+
+----------------------------------------------------------------
+Tag branch
+
+----------------------------------------------------------------
+Alain Volmat (1):
+      media: stm32: dcmi: create a dma scatterlist based on DMA max_sg_burst value
+
+Chen-Yu Tsai (2):
+      media: docs: vidioc-dqbuf: State all remaining fields are filled by driver
+      media: v4l2-mem2mem: Apply DST_QUEUE_OFF_BASE on MMAP buffers across ioctls
+
+Colin Ian King (3):
+      media: gspca: make array regs_to_read static const
+      media: media/radio: make array probe_ports static const
+      media: v4l2-ctrls: make array range static
+
+Dafna Hirschfeld (1):
+      media: rkisp1: fix grey format iommu page faults
+
+Deborah Brouwer (1):
+      media: vivid: fix timestamp and sequence wrapping
+
+Jiasheng Jiang (1):
+      media: mtk-vcodec: potential dereference of null pointer
+
+Johan Hovold (4):
+      media: davinci: vpif: fix unbalanced runtime PM get
+      media: davinci: vpif: fix unbalanced runtime PM enable
+      media: davinci: vpif: fix use-after-free on driver unbind
+      media: davinci: vpif: drop probe printk
+
+Martin Kepplinger (2):
+      media: imx: imx8mq-mipi-csi2: remove wrong irq config write operation
+      media: imx: imx8mq-mipi_csi2: fix system resume
+
+Ming Qian (1):
+      media: imx-jpeg: use NV12M to represent non contiguous NV12
+
+Ondrej Zary (1):
+      bttv: fix WARNING regression on tunerless devices
+
+Yang Guang (1):
+      media: saa7134: use swap() to make code cleaner
+
+Zhuohao Lee (1):
+      media: platform: cros-ec: Add brask to the match table
+
+ Documentation/userspace-api/media/v4l/vidioc-qbuf.rst   |   2 +-
+ drivers/media/cec/platform/cros-ec/cros-ec-cec.c        |   2 +
+ drivers/media/pci/bt8xx/bttv-driver.c                   |   4 +-
+ drivers/media/pci/saa7134/saa7134-video.c               |   9 ++--
+ drivers/media/platform/davinci/vpif.c                   | 111 +++++++++++++++++++++++++++++++------------
+ drivers/media/platform/imx-jpeg/mxc-jpeg.c              |  12 ++---
+ drivers/media/platform/mtk-vcodec/mtk_vcodec_fw_vpu.c   |   2 +
+ drivers/media/platform/rockchip/rkisp1/rkisp1-capture.c |  28 ++++++++---
+ drivers/media/platform/stm32/stm32-dcmi.c               |  51 +++++++++++++++-----
+ drivers/media/radio/radio-sf16fmi.c                     |   2 +-
+ drivers/media/test-drivers/vivid/vivid-core.h           |   5 +-
+ drivers/media/test-drivers/vivid/vivid-ctrls.c          |  32 ++++++-------
+ drivers/media/test-drivers/vivid/vivid-kthread-cap.c    |   7 ++-
+ drivers/media/test-drivers/vivid/vivid-kthread-out.c    |   9 ++--
+ drivers/media/test-drivers/vivid/vivid-kthread-touch.c  |   7 +++
+ drivers/media/test-drivers/vivid/vivid-sdr-cap.c        |  12 +++--
+ drivers/media/test-drivers/vivid/vivid-touch-cap.c      |   2 +-
+ drivers/media/usb/gspca/jl2005bcd.c                     |   4 +-
+ drivers/media/v4l2-core/v4l2-ctrls-core.c               |   2 +-
+ drivers/media/v4l2-core/v4l2-mem2mem.c                  |  53 ++++++++++++++++-----
+ drivers/staging/media/imx/imx8mq-mipi-csi2.c            |  74 ++++++++++++++++++-----------
+ 21 files changed, 294 insertions(+), 136 deletions(-)
