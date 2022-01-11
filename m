@@ -2,115 +2,121 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C66F548AC3E
-	for <lists+linux-media@lfdr.de>; Tue, 11 Jan 2022 12:16:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1710448AC48
+	for <lists+linux-media@lfdr.de>; Tue, 11 Jan 2022 12:18:25 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238579AbiAKLQ6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 11 Jan 2022 06:16:58 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40420 "EHLO
+        id S238331AbiAKLSX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 11 Jan 2022 06:18:23 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40744 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232637AbiAKLQ5 (ORCPT
+        with ESMTP id S238292AbiAKLSU (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 11 Jan 2022 06:16:57 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A4908C06173F;
-        Tue, 11 Jan 2022 03:16:57 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 3513861596;
-        Tue, 11 Jan 2022 11:16:57 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0B931C36AE3;
-        Tue, 11 Jan 2022 11:16:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1641899816;
-        bh=Ih4XNkfQCbJ3g/tQh7glo+kyu5MaCrOm3tNTG01znjs=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=M21rEXm/nbRu43fGrxd8N3k5B+1BCzABIZNlPUzQNkpJmqKIPDLPcQ5sYDCdwI/Hc
-         44a/9IOdoDUMh4xsGnE2YyILZiwez6eTnAzZirGbN0/ywBdMQz1AjNmO5qrs9DCyhE
-         SYMObuf1FJ3dK4mweeCf4DwEkqjpUSz76WXaU5qI=
-Date:   Tue, 11 Jan 2022 12:16:54 +0100
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
-Cc:     Daniel Vetter <daniel.vetter@ffwll.ch>,
-        Hridya Valsaraju <hridya@google.com>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org,
-        john.stultz@linaro.org, surenb@google.com, kaleshsingh@google.com,
-        tjmercier@google.com, keescook@google.com
-Subject: Re: [PATCH] dma-buf: Move sysfs work out of DMA-BUF export/release
- path
-Message-ID: <Yd1nJqmHXULnccNF@kroah.com>
-References: <20220104235148.21320-1-hridya@google.com>
- <49b29081-42df-ffcd-8fea-bd819499ff1b@amd.com>
- <CA+wgaPMWT0s0KNo_wM7jU+bH626OAVtn77f7_WX=E1wyU8aBzg@mail.gmail.com>
- <3a29914d-0c7b-1f10-49cb-dbc1cc6e52b0@amd.com>
- <CA+wgaPOmRTAuXiSRRmj-s=3d2W6ny=EMFtroOShYKrp0u+xF+g@mail.gmail.com>
- <CA+wgaPO81R+NckRt0nzZazxs9fqSC_V_wyChU=kcMqJ01WxXNw@mail.gmail.com>
- <5a6bd742-10ca-2e88-afaa-3744731c2c0c@amd.com>
- <CA+wgaPPdCMPi1t+ObyO4+cqsk7Xx3E=K5BOPM37=QAviQDAfmw@mail.gmail.com>
- <CAKMK7uGRUrP+0PcY-yxTweb_K_QacHJchgPoa0K9K_kwGO+K3g@mail.gmail.com>
- <934ac18c-d53e-beeb-48c1-015a5936e713@amd.com>
+        Tue, 11 Jan 2022 06:18:20 -0500
+Received: from mail-wm1-x32d.google.com (mail-wm1-x32d.google.com [IPv6:2a00:1450:4864:20::32d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CECADC061748
+        for <linux-media@vger.kernel.org>; Tue, 11 Jan 2022 03:18:19 -0800 (PST)
+Received: by mail-wm1-x32d.google.com with SMTP id a83-20020a1c9856000000b00344731e044bso1596850wme.1
+        for <linux-media@vger.kernel.org>; Tue, 11 Jan 2022 03:18:19 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=yIkz+qG4BbYTrRYFXUhW1f3GZfdv3394CoSG7W9Tr1Y=;
+        b=hnQp0rmeww3oljFdQ2YMsZSe/wFs5dOMBvjlVGwOMszISR/IV5Rl8Gn1DjmZPKD8w0
+         tJ4uVrq5ZetY3uEfcm+kEgw3Blgmz8JbyxlrcMIDOApvHTnNWsrFlQLjpGoDJJoc4kL+
+         NLhTlyWfSrtyqugtTBCEwFrohJq2XBOGSDdsM10C3BJcoBjKmwkNCYzy+bVWTdXhawQl
+         xOMDCYu2WHP51RjcBJgOm1fSGYq63ftNHaR992N5zSiPoro14EnE9jAPHUaiDjIYsMnx
+         zD4o3hB/1dFGWJfk52Mabc1xeVXLbXqxoNaKKOeGB6PIRdawnidItwevCBVd7tiUul1n
+         t8HQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=yIkz+qG4BbYTrRYFXUhW1f3GZfdv3394CoSG7W9Tr1Y=;
+        b=4TV4cbTBoyI3kSzATBjBpMyUrDni3P1dt3vNPGuppz6pLp8keOasSTSRTvEKBRGFGh
+         wDh463QNPq4eln9+QXQ+xxjSdlK86sfnZe/Pp0V030MUJVMZsX8pCePkHKGxOYIS85I+
+         87CUg7LL7STtJYlIlej9LBMbp28Afi2nO3/MnNtzS8KyKpMOhMYCGoBQWE3bCIVfYdV5
+         BOkqjnvsrIAMObGpjC5wYPcDfQ9TNBYPxiB1XPiCgsdZVRjR3007H6lzSzQjcFK4PdI9
+         AYailCqbe3jYWC4UuS3IrUUnU54cUj0KLLgvfi5kQqeeeGJKYGggy1G6RtFwkxNpxutH
+         9V1g==
+X-Gm-Message-State: AOAM530dV4Gu+/1vTlBZDUUIUgcGiz2Z1lak79lJrGDY2C47gMzZflzv
+        Pi7eGO0zxbf4IYh/cUmYCXFTiQ==
+X-Google-Smtp-Source: ABdhPJxd6eO4mogiAjrZXXzdIdsfvigrJ0tKFvmqZ9eeT+foxlMTHfh6y8jNfXCi1uHcz3kpaq/7Mw==
+X-Received: by 2002:a05:600c:3489:: with SMTP id a9mr2008586wmq.45.1641899898395;
+        Tue, 11 Jan 2022 03:18:18 -0800 (PST)
+Received: from [192.168.0.162] (188-141-3-169.dynamic.upc.ie. [188.141.3.169])
+        by smtp.gmail.com with ESMTPSA id u17sm72949wrt.37.2022.01.11.03.18.17
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 11 Jan 2022 03:18:17 -0800 (PST)
+Message-ID: <bff073f3-4763-cbfb-b462-40e7d55dc1ee@linaro.org>
+Date:   Tue, 11 Jan 2022 11:20:29 +0000
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <934ac18c-d53e-beeb-48c1-015a5936e713@amd.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.1.1
+Subject: Re: [PATCH v2 5/8] media: camss: Add regulator_bulk support
+Content-Language: en-US
+To:     Robert Foss <robert.foss@linaro.org>
+Cc:     linux-arm-msm@vger.kernel.org, linux-media@vger.kernel.org,
+        mchehab@kernel.org, hverkuil@xs4all.nl, jonathan@marek.ca,
+        andrey.konovalov@linaro.org, todor.too@gmail.com,
+        agross@kernel.org, bjorn.andersson@linaro.org, jgrahsl@snap.com,
+        hfink@snap.com, vladimir.zapolskiy@linaro.org,
+        dmitry.baryshkov@linaro.org
+References: <20220109024910.2041763-1-bryan.odonoghue@linaro.org>
+ <20220109024910.2041763-6-bryan.odonoghue@linaro.org>
+ <CAG3jFysaEh=ACt0SYun+8bgkMgts0JrgXkgt+VCtHBvqtUXj3Q@mail.gmail.com>
+From:   Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+In-Reply-To: <CAG3jFysaEh=ACt0SYun+8bgkMgts0JrgXkgt+VCtHBvqtUXj3Q@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Jan 11, 2022 at 11:58:07AM +0100, Christian König wrote:
-> > > This is also not a problem due to the high number of DMA-BUF
-> > > exports during launch time, as even a single export can be delayed for
-> > > an unpredictable amount of time. We cannot eliminate DMA-BUF exports
-> > > completely during app-launches and we are unfortunately seeing reports
-> > > of the exporting process occasionally sleeping long enough to cause
-> > > user-visible jankiness :(
-> > > 
-> > > We also looked at whether any optimizations are possible from the
-> > > kernfs implementation side[1] but the semaphore is used quite extensively
-> > > and it looks like the best way forward would be to remove sysfs
-> > > creation/teardown from the DMA-BUF export/release path altogether. We
-> > > have some ideas on how we can reduce the code-complexity in the
-> > > current patch. If we manage to
-> > > simplify it considerably, would the approach of offloading sysfs
-> > > creation and teardown into a separate thread be acceptable Christian?
+On 10/01/2022 15:17, Robert Foss wrote:
+>> +       for (i = 0; i < ARRAY_SIZE(res->regulators); i++) {
+>> +               if (res->regulators[i])
+>> +                       csid->num_supplies++;
+>> +       }
+> With the cleanup that Bjorn suggested, and was submitted as v2 6/8, I
+> would like to see the above snippet simplified to the below.
 > 
-> At bare minimum I suggest to use a work_struct instead of re-inventing that
-> with kthread.
+> csid->num_supplies = ARRAY_SIZE(res->regulators);
 > 
-> And then only put the exporting of buffers into the background and not the
-> teardown.
-> 
-> > > Thank you for the guidance!
-> > One worry I have here with doing this async that now userspace might
-> > have a dma-buf, but the sysfs entry does not yet exist, or the dma-buf
-> > is gone, but the sysfs entry still exists. That's a bit awkward wrt
-> > semantics.
-> > 
-> > Also I'm pretty sure that if we can hit this, then other subsystems
-> > using kernfs have similar problems, so trying to fix this in kernfs
-> > with slightly more fine-grained locking sounds like a much more solid
-> > approach. The linked patch talks about how the big delays happen due
-> > to direct reclaim, and that might be limited to specific code paths
-> > that we need to look at? As-is this feels a bit much like papering
-> > over kernfs issues in hackish ways in sysfs users, instead of tackling
-> > the problem at its root.
-> 
-> Which is exactly my feeling as well, yes.
 
-More and more people are using sysfs/kernfs now for things that it was
-never designed for (i.e. high-speed statistic gathering).  That's not
-the fault of kernfs, it's the fault of people thinking it can be used
-for stuff like that :)
+res->regulators is declared as
 
-But delays like this is odd, tearing down sysfs attributes should
-normally _never_ be a fast-path that matters to system throughput.  So
-offloading it to a workqueue makes sense as the attributes here are for
-objects that are on the fast-path.
+char *regulators[CAMSS_RES_MAX];
 
-thanks,
+which means ARRAY_SIZE(regulators) == CAMSS_RES_MAX
 
-greg k-h
+I could do something like this
+
+  struct resources {
+-       char *regulator[CAMSS_RES_MAX];
++       char **regulators;
+         char *clock[CAMSS_RES_MAX];
+         u32 clock_rate[CAMSS_RES_MAX][CAMSS_RES_MAX];
+         char *reg[CAMSS_RES_MAX];
+
++static const char const *csid_res_8x16_regulators = { "vdda" };
+  static const struct resources csid_res_8x16[] = {
+         /* CSID0 */
+         {
+-               .regulator = { "vdda" },
++               .regulators = csid_res_8x16_regulators,
+
+  static const struct resources vfe_res_8x16[] = {
+         /* VFE0 */
+         {
+-               .regulator = {},
++               .regulators = NULL,
+
+then the ARRAY_SIZE() thing would work
+
+If that change is made - then it would also make sense to change up 
+*clock[CAMSS_RES_MAX]; *reg[CAMSS_RES_MAX]..
+
+---
+bod
