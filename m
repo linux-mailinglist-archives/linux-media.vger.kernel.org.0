@@ -2,81 +2,89 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AEC9948AAAD
-	for <lists+linux-media@lfdr.de>; Tue, 11 Jan 2022 10:38:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5361948AAB4
+	for <lists+linux-media@lfdr.de>; Tue, 11 Jan 2022 10:41:36 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237452AbiAKJip (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 11 Jan 2022 04:38:45 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46292 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236860AbiAKJip (ORCPT
+        id S233661AbiAKJle (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 11 Jan 2022 04:41:34 -0500
+Received: from ewsoutbound.kpnmail.nl ([195.121.94.169]:65054 "EHLO
+        ewsoutbound.kpnmail.nl" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232195AbiAKJle (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 11 Jan 2022 04:38:45 -0500
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D2D2BC06173F;
-        Tue, 11 Jan 2022 01:38:44 -0800 (PST)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: kholk11)
-        with ESMTPSA id 769901F443C8
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1641893923;
-        bh=Q/6Me6ojHK+rFOvurOL4GOexW3JhCSYadj07qWCpmxE=;
-        h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
-        b=bkXPEBQax6aQFrFKuKmdW/MnM/6LD8uYLLroGHSqlmSh+MmqBwb+AbrViUzS6wS0N
-         pq112rFRNhah3eBTk/KiqBkAt9U15FluP+2Aqpj1wL6w8CyQRVOY9Ysr4dRhOY1oMt
-         yhtTkuKgsxLAvRuOZgwbtRbq//QzWs//aMFR/mJbr+QTQtzSDrDQZLU9oesg7HGqNc
-         upJnAE2MibKDANZVTSV7uv27vjHt5ZFm3gfcAwYLkPzFFJndvb/wjB121UJ0OXK4M2
-         plESTxwCCI1vWbS88X1x2GwCPBWtJY2+o1Y1Aeb892nITs8rZt3EDbbX8F3cAMBYIy
-         xW748duNx3lGg==
-Subject: Re: [PATCH v11 1/4] soc: mediatek: mmsys: add CMDQ write register
- function
-To:     Moudy Ho <moudy.ho@mediatek.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Jernej Skrabec <jernej.skrabec@siol.net>
-Cc:     Chun-Kuang Hu <chunkuang.hu@kernel.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Rob Landley <rob@landley.net>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
-        Alexandre Courbot <acourbot@chromium.org>, tfiga@chromium.org,
-        drinkcat@chromium.org, pihsun@chromium.org, hsinyi@google.com,
-        Maoguang Meng <maoguang.meng@mediatek.com>,
-        daoyuan huang <daoyuan.huang@mediatek.com>,
-        Ping-Hsun Wu <ping-hsun.wu@mediatek.com>,
-        menghui.lin@mediatek.com, sj.huang@mediatek.com,
-        allen-kh.cheng@mediatek.com, randy.wu@mediatek.com,
-        jason-jh.lin@mediatek.com, roy-cw.yeh@mediatek.com,
-        river.cheng@mediatek.com, srv_heupstream@mediatek.com
-References: <20220104091712.25670-1-moudy.ho@mediatek.com>
- <20220104091712.25670-2-moudy.ho@mediatek.com>
-From:   AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>
-Message-ID: <39e4ab28-be15-f06c-e444-5f84cf08aa52@collabora.com>
-Date:   Tue, 11 Jan 2022 10:38:39 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+        Tue, 11 Jan 2022 04:41:34 -0500
+X-KPN-MessageId: 1361e7e9-72c2-11ec-9abf-005056abad63
+Received: from smtp.kpnmail.nl (unknown [10.31.155.38])
+        by ewsoutbound.so.kpn.org (Halon) with ESMTPS
+        id 1361e7e9-72c2-11ec-9abf-005056abad63;
+        Tue, 11 Jan 2022 10:37:21 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=xs4all.nl; s=xs4all01;
+        h=content-type:from:to:subject:mime-version:date:message-id;
+        bh=wx8es6Sa9R3UcDRmVMXh+J0gt+hanItmvkh9hiFzidA=;
+        b=qYo5XO4K2Rjo1gOKwp8+6anqIIHeXCM4fT4PnYe8fwqVKbF7/yYwYk6DqEj8XyeARArmH3VCAubTX
+         dETR3OjSJ47t7NAAk5yfCwCisPJATBm6hlUv4kOSaQ5lJjn0VKMw06y3ALjgt8sohvJWh0X4zOhxhv
+         QEQCuMn+VEOg5uJpcjcEckMMlgqKpO4y+eymQ7hF22/HrKQzAqgosxx226/wJZYPcInVLSP8OPNSfz
+         +gJmbKzv9WkuyoHJtgEh/7TqrxBI8rX6KjZdygZqkcgZQUHNxqgamLIn2N6829o93OLcA06zklDhnQ
+         dbPN3IK2C3rLYuSMjtuM80AFkn8L09A==
+X-KPN-VerifiedSender: No
+X-CMASSUN: 33|7RRAhfMlvMNJYg11WBWh7fsEFhTdvaun8Tj9AkDLsTb9IYq39A8DZ+a5JS+cLx3
+ p5cmT2Dey3IeL1KENajadWA==
+X-Originating-IP: 193.91.129.219
+Received: from [192.168.2.10] (cdb815bc1.dhcp.as2116.net [193.91.129.219])
+        by smtp.xs4all.nl (Halon) with ESMTPSA
+        id a9071312-72c2-11ec-94d2-005056abf0db;
+        Tue, 11 Jan 2022 10:41:33 +0100 (CET)
+Message-ID: <5fd4efe8-2fa2-d691-adac-8c9272555d86@xs4all.nl>
+Date:   Tue, 11 Jan 2022 10:41:32 +0100
 MIME-Version: 1.0
-In-Reply-To: <20220104091712.25670-2-moudy.ho@mediatek.com>
-Content-Type: text/plain; charset=iso-8859-15; format=flowed
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Firefox/91.0 Thunderbird/91.4.1
+Subject: Re: [PATCH v2] media: platform: Add brask to the match table
 Content-Language: en-US
+To:     Zhuohao Lee <zhuohao@chromium.org>, mchehab@kernel.org,
+        bleung@chromium.org, groeck@chromium.org, levinale@chromium.org
+Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20211221095326.383055-1-zhuohao@chromium.org>
+From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
+In-Reply-To: <20211221095326.383055-1-zhuohao@chromium.org>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Il 04/01/22 10:17, Moudy Ho ha scritto:
-> Adding the interface of writing MMSYS register via CMDQ,
-> users do not need to parse related dts information.
+On 21/12/2021 10:53, Zhuohao Lee wrote:
+> The Google Brask device uses the same approach as the Google Fizz
+> which enables the HDMI CEC via the cros-ec-cec driver.
+
+For future reference, please add the driver name in the subject as well.
+
+A patch with just "media: platform:" as prefix suggests a patch that
+touches on many drivers in media/platform.
+
+I've manually updated the prefix, so no need for you to do anything.
+
+Regards,
+
+	Hans
+
 > 
-> Signed-off-by: Moudy Ho <moudy.ho@mediatek.com>
-
-Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-
-
-
+> Signed-off-by: Zhuohao Lee <zhuohao@chromium.org>
+> ---
+>  drivers/media/cec/platform/cros-ec/cros-ec-cec.c | 2 ++
+>  1 file changed, 2 insertions(+)
+> 
+> diff --git a/drivers/media/cec/platform/cros-ec/cros-ec-cec.c b/drivers/media/cec/platform/cros-ec/cros-ec-cec.c
+> index 2d95e16cd248..8c8d8fc5e63e 100644
+> --- a/drivers/media/cec/platform/cros-ec/cros-ec-cec.c
+> +++ b/drivers/media/cec/platform/cros-ec/cros-ec-cec.c
+> @@ -215,6 +215,8 @@ struct cec_dmi_match {
+>  static const struct cec_dmi_match cec_dmi_match_table[] = {
+>  	/* Google Fizz */
+>  	{ "Google", "Fizz", "0000:00:02.0", "Port B" },
+> +	/* Google Brask */
+> +	{ "Google", "Brask", "0000:00:02.0", "Port B" },
+>  };
+>  
+>  static struct device *cros_ec_cec_find_hdmi_dev(struct device *dev,
 
