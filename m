@@ -2,82 +2,83 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A1B5E48ABB9
-	for <lists+linux-media@lfdr.de>; Tue, 11 Jan 2022 11:53:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8FC1048ABC1
+	for <lists+linux-media@lfdr.de>; Tue, 11 Jan 2022 11:57:41 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238049AbiAKKxZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 11 Jan 2022 05:53:25 -0500
-Received: from www.linuxtv.org ([130.149.80.248]:38166 "EHLO www.linuxtv.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S238087AbiAKKxY (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Tue, 11 Jan 2022 05:53:24 -0500
-Received: from builder.linuxtv.org ([140.211.167.10] helo=slave0)
-        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1n7EmJ-004x9n-Cb; Tue, 11 Jan 2022 10:53:23 +0000
-Received: from ip6-localhost ([::1] helo=localhost.localdomain)
-        by slave0 with esmtp (Exim 4.94.2)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1n7EmH-00HUyT-9v; Tue, 11 Jan 2022 10:53:21 +0000
-From:   Jenkins <jenkins@linuxtv.org>
-To:     mchehab+samsung@kernel.org, linux-media@vger.kernel.org
-Cc:     builder@linuxtv.org
-Subject: Re: [GIT PULL FOR v5.18] Various fixes (#79890)
-Date:   Tue, 11 Jan 2022 10:53:20 +0000
-Message-Id: <20220111105320.4170595-1-jenkins@linuxtv.org>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <63d723aa-b6a3-ff42-c3e4-f1fcb979be11@xs4all.nl>
-References: 
+        id S238053AbiAKK5j (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 11 Jan 2022 05:57:39 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35890 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S237950AbiAKK5j (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Tue, 11 Jan 2022 05:57:39 -0500
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5104CC06173F;
+        Tue, 11 Jan 2022 02:57:39 -0800 (PST)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: kholk11)
+        with ESMTPSA id BCEA41F43A23
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+        s=mail; t=1641898657;
+        bh=AnrcqKE4XACqfTEKBdzJAV+YhQuBaL3ashwC8Npkc5I=;
+        h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
+        b=T91Pm299omhIhyxST+Gatc1uRwa3a0bysXNGmBFyko7I+QoIqFFGtn5opN9dZE2WA
+         4KFRmlC/ff1RCaQAYqZUgVKJa0V07DxGMx6tnDB2q70H5wgPAOmVvCBKaqbzlzzy39
+         51qWTtkJ9lUoZc1zca8sTI6VyAh86u2ofP1l/jh18RIP8gOPyifhPskmEestq49I0A
+         x/Eh8ETp838KE2tRTH3tVPq7g2kG7TpBuFf3vOj4CEIQHljSq8tnfaUfzcD2FXV04d
+         POujJ+S821mXOecIWRgB4u47moT9ahriffHiaS/v3rgxXOR/S7gqAVOwvRR2rsaFhF
+         UdGEKjjfK8/qQ==
+Subject: Re: [PATCH v9 15/15] arm64: dts: mediatek: Get rid of mediatek, larb
+ for MM nodes
+To:     Yong Wu <yong.wu@mediatek.com>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Joerg Roedel <joro@8bytes.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
+        David Airlie <airlied@linux.ie>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
+        Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+        Will Deacon <will.deacon@arm.com>,
+        dri-devel@lists.freedesktop.org, yf.wang@mediatek.com,
+        anthony.huang@mediatek.com, youlin.pei@mediatek.com,
+        Evan Green <evgreen@chromium.org>,
+        Eizan Miyamoto <eizan@chromium.org>,
+        Matthias Kaehlcke <mka@chromium.org>,
+        linux-arm-kernel@lists.infradead.org, mingyuan.ma@mediatek.com,
+        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        Philipp Zabel <p.zabel@pengutronix.de>, libo.kang@mediatek.com,
+        yi.kuo@mediatek.com, linux-mediatek@lists.infradead.org,
+        Hsin-Yi Wang <hsinyi@chromium.org>,
+        Tiffany Lin <tiffany.lin@mediatek.com>, anan.sun@mediatek.com,
+        srv_heupstream@mediatek.com, acourbot@chromium.org,
+        linux-kernel@vger.kernel.org, Tomasz Figa <tfiga@chromium.org>,
+        iommu@lists.linux-foundation.org, Daniel Vetter <daniel@ffwll.ch>,
+        Robin Murphy <robin.murphy@arm.com>
+References: <20211112105509.12010-1-yong.wu@mediatek.com>
+ <20211112105509.12010-16-yong.wu@mediatek.com>
+From:   AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>
+Message-ID: <231368ef-2619-9556-68fd-45c11e8f7290@collabora.com>
+Date:   Tue, 11 Jan 2022 11:57:32 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20211112105509.12010-16-yong.wu@mediatek.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: builder@linuxtv.org
+Il 12/11/21 11:55, Yong Wu ha scritto:
+> After adding device_link between the IOMMU consumer and smi,
+> the mediatek,larb is unnecessary now.
+> 
+> CC: Matthias Brugger <matthias.bgg@gmail.com>
+> Signed-off-by: Yong Wu <yong.wu@mediatek.com>
+> Reviewed-by: Evan Green <evgreen@chromium.org>
 
-Pull request: https://patchwork.linuxtv.org/project/linux-media/patch/63d723aa-b6a3-ff42-c3e4-f1fcb979be11@xs4all.nl/
-Build log: https://builder.linuxtv.org/job/patchwork/173134/
-Build time: 00:25:01
-Link: https://lore.kernel.org/linux-media/63d723aa-b6a3-ff42-c3e4-f1fcb979be11@xs4all.nl
-
-gpg: Signature made Tue 11 Jan 2022 10:19:41 AM UTC
-gpg:                using RSA key AAA7FFBA4D2D77EF4CAEA1421326E0CD23ABDCE5
-gpg: Good signature from "Hans Verkuil <hverkuil-cisco@xs4all.nl>" [unknown]
-gpg:                 aka "Hans Verkuil <hverkuil@xs4all.nl>" [unknown]
-gpg: WARNING: This key is not certified with a trusted signature!
-gpg:          There is no indication that the signature belongs to the owner.
-Primary key fingerprint: 052C DE7B C215 053B 689F  1BCA BD2D 6148 6614 3B4C
-     Subkey fingerprint: AAA7 FFBA 4D2D 77EF 4CAE  A142 1326 E0CD 23AB DCE5
-
-Summary: got 2/19 patches with issues, being 1 at build time, plus one error when buinding PDF document
-
-Error/warnings:
-
-patches/0001-media-rkisp1-fix-grey-format-iommu-page-faults.patch:
-
-    allyesconfig: return code #0:
-	../scripts/genksyms/parse.y: warning: 9 shift/reduce conflicts [-Wconflicts-sr]
-	../scripts/genksyms/parse.y: warning: 5 reduce/reduce conflicts [-Wconflicts-rr]
-	../scripts/genksyms/parse.y: note: rerun with option '-Wcounterexamples' to generate conflict counterexamples
-
-    allyesconfig: return code #0:
-	SMATCH:../drivers/media/usb/siano/smsusb.c ../drivers/media/usb/siano/smsusb.c:53:38: :warning: array of flexible structures
-	SPARSE:../drivers/media/usb/siano/smsusb.c ../drivers/media/usb/siano/smsusb.c:53:38: warning: array of flexible structures
-	../drivers/media/rc/meson-ir-tx.c:22: warning: expecting prototype for meson(). Prototype was for DEVICE_NAME() instead
-	../drivers/media/test-drivers/vivid/vivid-core.c: ../drivers/media/test-drivers/vivid/vivid-core.c:1981 vivid_create_instance() parse error: turning off implications after 60 seconds
-	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2625 dvb_register() parse error: turning off implications after 60 seconds
-	../drivers/media/i2c/ov8865.c: ../drivers/media/i2c/ov8865.c:2843 ov8865_get_selection() warn: inconsistent indenting
-	../drivers/media/platform/qcom/venus/helpers.c: ../drivers/media/platform/qcom/venus/helpers.c:658 venus_helper_get_bufreq() error: we previously assumed 'req' could be null (see line 654)
-	../drivers/media/usb/em28xx/em28xx-video.c: ../drivers/media/usb/em28xx/em28xx-video.c:2874 em28xx_v4l2_init() parse error: turning off implications after 60 seconds
-
-patches/0015-bttv-fix-WARNING-regression-on-tunerless-devices.patch:
-
-   checkpatch.pl:
-	$ cat patches/0015-bttv-fix-WARNING-regression-on-tunerless-devices.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
-	-:6: WARNING: Possible unwrapped commit description (prefer a maximum 75 chars per line)
-
-
-Error #512 when building PDF docs
+Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 
