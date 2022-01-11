@@ -2,188 +2,329 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0479B48AD09
-	for <lists+linux-media@lfdr.de>; Tue, 11 Jan 2022 12:53:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 03BA948AD10
+	for <lists+linux-media@lfdr.de>; Tue, 11 Jan 2022 12:54:42 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239323AbiAKLxA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 11 Jan 2022 06:53:00 -0500
-Received: from lahtoruutu.iki.fi ([185.185.170.37]:58930 "EHLO
-        lahtoruutu.iki.fi" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239285AbiAKLwn (ORCPT
+        id S239216AbiAKLyk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 11 Jan 2022 06:54:40 -0500
+Received: from ewsoutbound.kpnmail.nl ([195.121.94.170]:46300 "EHLO
+        ewsoutbound.kpnmail.nl" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S239003AbiAKLyk (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 11 Jan 2022 06:52:43 -0500
-Received: from hillosipuli.retiisi.eu (dkvn5pty0gzs3nltj987t-3.rev.dnainternet.fi [IPv6:2001:14ba:4457:9640:1e2d:1f75:a607:ef37])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-        (No client certificate requested)
-        (Authenticated sender: sailus)
-        by lahtoruutu.iki.fi (Postfix) with ESMTPSA id 8244C1B00056;
-        Tue, 11 Jan 2022 13:52:39 +0200 (EET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=lahtoruutu;
-        t=1641901959;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=2SirRMDX3hGebQVAnY8e3MT0zjnGkkczJi2lAJ1SLIE=;
-        b=LQ4nQTJoxqp7ZbbnkA7tcIQZZBXx+3g1lGq48v1KrF/qc5aZnKp7/W/nBEhoiF2rYMnhaP
-        /ZXZmvmZbcl3cb01zJ6DknsHCBR/aNhBd59l++pnOnJlc16HyeoYidUNGJg5zPwTENb9Vc
-        jj2qoBcRzNjrMQssAe+3Qe5OBJSiP8emohpB6+x9i+BhMoNKgjDoEYIKOw8MoD4d0P3x4l
-        5AVIg0pqOkFuXMFfyKEEF+zdnjuJ7F8dqX+uypONDnMvFUMxCx8pe8IpQdSw14n2uq7jy7
-        3Tr/XUrtw3N9GB7WKcdlyxxdjUGuq0LG+g1fCNw1Ck+YA6KSU/Zj5oIQcmzsBw==
-Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 794C3634C90;
-        Tue, 11 Jan 2022 13:52:38 +0200 (EET)
-Date:   Tue, 11 Jan 2022 13:52:38 +0200
-From:   Sakari Ailus <sakari.ailus@iki.fi>
-To:     Janusz Krzysztofik <jmkrzyszt@gmail.com>
-Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        linux-renesas-soc@vger.kernel.org,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        Jacopo Mondi <jacopo@jmondi.org>,
-        Niklas =?iso-8859-1?Q?S=F6derlund?= 
-        <niklas.soderlund@ragnatech.se>,
-        Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Subject: Re: [RFC PATCH 2/8] media: i2c: ov6650: Drop implementation of
- .set_mbus_config()
-Message-ID: <Yd1vhs+3F2ISkW9S@valkosipuli.retiisi.eu>
-References: <20220103162414.27723-1-laurent.pinchart+renesas@ideasonboard.com>
- <CAGfqbt5ZyVAjCggqmQxp+2028Yaz+e=O6RqkfWH6LpDBm_MsSA@mail.gmail.com>
- <YdhDH/HmJ44B3Rxa@valkosipuli.retiisi.eu>
- <1808044.CQOukoFCf9@dell>
+        Tue, 11 Jan 2022 06:54:40 -0500
+X-KPN-MessageId: 13338c38-72d5-11ec-8a6e-005056ab378f
+Received: from smtp.kpnmail.nl (unknown [10.31.155.38])
+        by ewsoutbound.so.kpn.org (Halon) with ESMTPS
+        id 13338c38-72d5-11ec-8a6e-005056ab378f;
+        Tue, 11 Jan 2022 12:53:21 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=xs4all.nl; s=xs4all01;
+        h=content-type:to:subject:from:mime-version:date:message-id;
+        bh=/TBE5uKlUP188ttXEBb4J34YsYc8HtJkkzpRXLiudtk=;
+        b=HO8k0D3VFILmegv/0a7ENV9L/DZ/zyS8G5inB5wabvAJGehusaRPPU8ZETAb5ktXgTG2Y6nsBsCvF
+         yNoBKwcEkNVlhvBFdJg+NITVJPmwHSIk9h+uNpkYQu5pMZFxktM4SdOdfjIR6UJMhPvqOfqBOpwToz
+         XI5GKD0mv2z4sq0nLre5nIyx65cuIcEbvrTAlGSx9EmnzGT3wfftOyUFQyh8yucNoRicuAtwAQB6VN
+         Uzc5ccNadmPBReBb7LVcaW7kKUV2rmjzwVu8OIMAVb4U2opDZcv/9DZdNHpXVws1l6C7ANmJXHHGlo
+         xLfOlTsAU+f+tnYUMGEB2nVa2ZJ9rFQ==
+X-KPN-VerifiedSender: No
+X-CMASSUN: 33|WMSeif3BzJY4EJLyy1bvXOb7/Bqk4WEgxY9r7sp0/q5gtYG6PZ++mE4CbzdVguG
+ UvJXrd0tlL9CPb5G+HQkDRA==
+X-Originating-IP: 193.91.129.219
+Received: from [192.168.2.10] (cdb815bc1.dhcp.as2116.net [193.91.129.219])
+        by smtp.xs4all.nl (Halon) with ESMTPSA
+        id 409245c2-72d5-11ec-94d2-005056abf0db;
+        Tue, 11 Jan 2022 12:54:38 +0100 (CET)
+Message-ID: <0c91a86d-aa5b-4948-4c75-082cab7f4e31@xs4all.nl>
+Date:   Tue, 11 Jan 2022 12:54:37 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1808044.CQOukoFCf9@dell>
-ARC-Seal: i=1; s=lahtoruutu; d=iki.fi; t=1641901959; a=rsa-sha256;
-        cv=none;
-        b=Z0bFyWucmUdvBN39Sku994sVYuZ8i74GgfArqrc9Ipoj4AynBaE7l4TOJKvazWzJnSdJdL
-        8AY1JY2BhnPypiPr0uKdPwUp+BKqdKioU0//Dky7SFphxS6yYVYeOFB+IjxuPXYRkjJZG8
-        +6ZJx8gcXPEJhPyNopTr26qhhUQSh7gXCZDjnZUI7saBQy8f7XpxyjJS+LLgYE6CQxTPoh
-        fvDJ8fzK3/GfwhDtt0TZoURyi6HY0OtlBKdrsamInbOpUkcVQmHiwU256aDuQvKXCRNzxA
-        3VtxLKhslQqZ8rD7Zol0oHU8DcwSYdqusK9O+epMGLsPqh23hyOgcPtMUDUxoA==
-ARC-Authentication-Results: i=1;
-        ORIGINATING;
-        auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
-        s=lahtoruutu; t=1641901959;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=2SirRMDX3hGebQVAnY8e3MT0zjnGkkczJi2lAJ1SLIE=;
-        b=aktGZh9XuUb8olwHqHpW89dwGu56F1DNKk+gnmBrTFlHk27Fb81JKMWKVnnYSVRnHoVxow
-        o56o2Lfxzdo2ztnXBXHdSKQCGhCnieDl+n5GasqGqfmFEVB8tCy4xJjoiMaemj1ltZA15U
-        CoZjPInrVTaJfvMSMHGLr9NUyWurQsrSb1R0tlWO8hWCqo/kE4+0ha0ptj+00Z81Vy6Xep
-        grDyqyg+zBMAafuTnHJVFn2hFXZUGU7hgOpc7mX9YdN4Vdv1VIvSc6tYI/jwfsKT/KmRm9
-        /hbK/FCMGR0Yrikg3tDDSmyof6p43zeeP39u/DpNv80I+Q1qwpQshHhBMWvJ9Q==
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Firefox/91.0 Thunderbird/91.4.1
+From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Subject: Re: [PATCH v17, 00/19] Support multi hardware decode using
+ of_platform_populate
+To:     Yunfei Dong <yunfei.dong@mediatek.com>,
+        Alexandre Courbot <acourbot@chromium.org>,
+        Tzung-Bi Shih <tzungbi@chromium.org>
+Cc:     AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>,
+        linux-media@vger.kernel.org
+References: <20211217015530.23720-1-yunfei.dong@mediatek.com>
+Content-Language: en-US
+In-Reply-To: <20211217015530.23720-1-yunfei.dong@mediatek.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Janusz,
+Hi Yunfei,
 
-On Mon, Jan 10, 2022 at 07:11:45PM +0100, Janusz Krzysztofik wrote:
-> Hi Sakari,
+On 17/12/2021 02:55, Yunfei Dong wrote:
+> This series adds support for multi hardware decode into mtk-vcodec, by first adding use
+> of_platform_populate to manage each hardware information: interrupt, clock, register
+> bases and power. Secondly add core work queue to deal with core hardware message,
+> at the same time, add msg queue for different hardware share messages. Lastly, the
+> architecture of different specs are not the same, using specs type to separate them.
 > 
-> On Friday, 7 January 2022 14:41:51 CET Sakari Ailus wrote:
-> > Hi Janusz,
-> > 
-> > On Wed, Jan 05, 2022 at 10:31:41PM +0100, Janusz Krzysztofik wrote:
-> > > Hi Laurent,
-> > > 
-> > > On Wednesday, 5 January 2022 21:19:49 CET Laurent Pinchart wrote:
-> > > > Hi Sakari,
-> > > >
-> > > > On Wed, Jan 05, 2022 at 08:04:24PM +0200, Sakari Ailus wrote:
-> > > > > On Mon, Jan 03, 2022 at 06:24:08PM +0200, Laurent Pinchart wrote:
-> > > > > > The subdev .set_mbus_config() operation is deprecated. No code in the
-> > > > > > kernel calls it, so drop its implementation from the ov6650 driver.
-> > > > > >
-> > > > > > Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-> > > > > > ---
-> > > > > >  drivers/media/i2c/ov6650.c | 37 -------------------------------------
-> > > > > >  1 file changed, 37 deletions(-)
-> > > > > >
-> > > > > > diff --git a/drivers/media/i2c/ov6650.c b/drivers/media/i2c/ov6650.c
-> > > > > > index f67412150b16..455a627e35a0 100644
-> > > > > > --- a/drivers/media/i2c/ov6650.c
-> > > > > > +++ b/drivers/media/i2c/ov6650.c
-> > > > > > @@ -944,42 +944,6 @@ static int ov6650_get_mbus_config(struct v4l2_subdev *sd,
-> > > > > >   return 0;
-> > > > > >  }
-> > > > > >
-> > > > > > -/* Alter bus settings on camera side */
-> > > > > > -static int ov6650_set_mbus_config(struct v4l2_subdev *sd,
-> > > > > > -                           unsigned int pad,
-> > > > > > -                           struct v4l2_mbus_config *cfg)
-> > > > > > -{
-> > > > > > - struct i2c_client *client = v4l2_get_subdevdata(sd);
-> > > > > > - int ret = 0;
-> > > > > > -
-> > > > > > - if (cfg->flags & V4L2_MBUS_PCLK_SAMPLE_RISING)
-> > > > > > -         ret = ov6650_reg_rmw(client, REG_COMJ, COMJ_PCLK_RISING, 0);
-> > > > > > - else if (cfg->flags & V4L2_MBUS_PCLK_SAMPLE_FALLING)
-> > > > > > -         ret = ov6650_reg_rmw(client, REG_COMJ, 0, COMJ_PCLK_RISING);
-> > > > >
-> > > > > I think this configuration should come from the endpoint which the driver
-> > > > > currently does not parse. In fact, there are no even DT bindings for the
-> > > > > device.
-> > > >
-> > > > There's also no OF match table. While this isn't strictly required, it
-> > > > may indicate that the sensor hasn't been tested much on DT-based
-> > > > systems.
-> > > >
-> > > > I agree that the configuration should come from the device tree, but I
-> > > > can't test that, so I'm tempted to let someone else implement it if the
-> > > > driver is actually still in use (I can also write a patch if someone can
-> > > > test it).
-> > > 
-> > > This driver was used with omap1_camera, removed from the tree a few years
-> > > ago by Hans, despite my attempts to refresh it.  I tried to keep ov6650
-> > > updated but I gave up due to lack of response to my submissions.  That also
-> > > blocked my attempts to rework and reintroduce omap1_camera.
-> > 
-> > My apologies for this --- I indeed to see a set of unreviewed ov6650 patches
-> > from you. Please do ping me if you expect an answer but do not get one.
+> This series has been tested with both MT8183 and MT8173. Decoding was working for both chips.
 > 
-> OK, thanks.
+> Patches 1~3 rewrite get register bases and power on/off interface.
+> Patches 4 export decoder pm interfaces.
+> Patches 5 add to support 8192.
+> Patch 6 support multi hardware.
+> Patch 7 separate video encoder and decoder document
+> Patch 8-17 add interfaces to support core hardware.
+> Patch 18-19 remove mtk_vcodec_release_dec/enc_pm interfaces.
+
+I'm getting quite a few warnings from scripts/checkpatch.pl --strict when I
+run that over the patches. Please fix the reported issues where it makes sense
+to do so.
+
+I'm also getting a sparse warning:
+
+drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_hw.c:22:27: warning: symbol 'mtk_vdec_hw_match' was not declared. Should it be static?
+
+And a smatch warning:
+
+drivers/media/platform/mtk-vcodec/vdec_msg_queue.c:273 vdec_msg_queue_init() warn: missing error code 'err'
+
+There are also a few kerneldoc errors/warnings:
+
+drivers/media/platform/mtk-vcodec/vdec_msg_queue.h:38: warning: Function parameter or member 'ready_to_use' not described in
+'vdec_msg_queue_ctx'
+drivers/media/platform/mtk-vcodec/mtk_vcodec_drv.h:108: error: Cannot parse struct or union!
+drivers/media/platform/mtk-vcodec/mtk_vcodec_drv.h:118: error: Cannot parse struct or union!
+drivers/media/platform/mtk-vcodec/mtk_vcodec_drv.h:351: error: Cannot parse struct or union!
+drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_hw.h:27: warning: Enum value 'VDEC_HW_SYS' not described in enum 'mtk_vdec_hw_reg_idx'
+drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_hw.h:27: warning: Enum value 'VDEC_HW_MISC' not described in enum 'mtk_vdec_hw_reg_idx'
+drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_hw.h:27: warning: Enum value 'VDEC_HW_MAX' not described in enum 'mtk_vdec_hw_reg_idx'
+
+Other than these issues this series looks about ready to be merged. Let me know when
+you post v18 whether it is indeed ready to be merged or if you need more reviews from
+people.
+
+Regards,
+
+	Hans
+
+PS: I had to delete a bunch of CCs. For some reason my smtp server had problems with it. Sorry about that.
+
+> ---
+> changes compared with v16:
+> - fix build warning for patch 13.
 > 
-> > > I think I'm still able to update my local (v4l2, non-mc) version of
-> > > omap1_camera to the extent required to test any changes to ov6650.
-> > > However, the OMAP1 platform does not support DT, and will probably never
-> > > do.  Then,  I think that it makes sense to spend my time on that only if
-> > > you (media maintainers) are not going to depreciate non-DT support any
-> > > soon.  Are you?
-> > 
-> > Commenting just this and not the discussion later in this thread --- it is
-> > possible to support such sensor drivers without DT or ACPI nowadays,
-> > through software nodes. See e.g. drivers/media/pci/intel/ipu3/cio2-bridge.c
+> changes compared with v15:
+> - add Reviewed-by for patch 10.
 > 
-> Thanks for bringing this possibility to my awareness, I didn't know it 
-> existed.  AFAICS, I2C sensor drivers like ov6650 can now be provided by 
-> board files with device properties via i2c_board_info.swnode.
-
-Looking at i2c_new_client_device(), it only takes a single software node.
-For an endpoint at least three are required, meaning you'll need to do that
-separately. At least that seems to be the case at the moment.
-
+> changes compared with v14:
+> - rebase to latest media stage.
 > 
-> If I find a solution to implement a non-v4l2-clk clock device in 
-> omap1_camera driver, I'll try to get back to updating ov6650 as time 
-> permits.
+> changes compared with v13:
+> - change some function position in case of ko dependency for patch 15.
+> - add reviewed-by for patch 06/13/15.
+> 
+> changes compared with v12:
+> - fix comments from rob for patch 15.
+> - fix comments from steve for 06 and 13.
+> 
+> changes compared with v11:
+> - fix comments from AngeloGioacchino for patch 09~11/19.
+> - fix comments from steve for patch 03/19.
+> 
+> changes compared with v10:
+> - fix comments from tzung-bi for patch 06/19.
+> - add more detail information for hardware block diagram 15/19
+> 
+> changes compared with v9:
+> - need not to build ko, just export pm interfaces for patch 04/19.
+> - fix comments for patch 06/19
+> 
+> changes compared with v8:
+> - add new patch 18~19 to remove mtk_vcodec_release_de/enc_pm interfaces.
+> - fix spelling mistakes for patch 17/19
+> - fix yaml comments for patch 15/19
+> 
+> Changes compared with v7:
+> - add new patch 4 to build decoder pm file as module
+> - add new patch 5 to support 8192
+> - fix comments for patch 6/17
+> - change some logic for using work queue instead of create thread for core hardware decode for patch 10/17
+> - using work queue for hardware decode instead of create thread for patch 13/17
+> - add returen value for patch 14/17
+> - fix yaml check fail 15/17
+> 
+> Changes compared with v6:
+> - Use of_platform_populate to manage multi hardware, not component framework for patch 4/15
+> - Re-write dtsi document for hardware architecture changed for patch 13/15 -The dtsi will write like below in patch 13/15:
+>     vcodec_dec: vcodec_dec@16000000 {
+>         compatible = "mediatek,mt8192-vcodec-dec";
+>         #address-cells = <2>;
+>         #size-cells = <2>;
+>         ranges;
+>         reg = <0 0x16000000 0 0x1000>;		/* VDEC_SYS */
+>         mediatek,scp = <&scp>;
+>         iommus = <&iommu0 M4U_PORT_L4_VDEC_MC_EXT>;
+>         dma-ranges = <0x1 0x0 0x0 0x40000000 0x0 0xfff00000>;
+>         vcodec_lat {
+>             compatible = "mediatek,mtk-vcodec-lat";
+>             reg = <0 0x16010000 0 0x800>;		/* VDEC_MISC */
+>             reg-name = "reg-misc";
+>             interrupts = <GIC_SPI 426 IRQ_TYPE_LEVEL_HIGH 0>;
+>             iommus = <&iommu0 M4U_PORT_L5_VDEC_LAT0_VLD_EXT>,
+>                  <&iommu0 M4U_PORT_L5_VDEC_LAT0_VLD2_EXT>,
+>                  <&iommu0 M4U_PORT_L5_VDEC_LAT0_AVC_MV_EXT>,
+>                  <&iommu0 M4U_PORT_L5_VDEC_LAT0_PRED_RD_EXT>,
+>                  <&iommu0 M4U_PORT_L5_VDEC_LAT0_TILE_EXT>,
+>                  <&iommu0 M4U_PORT_L5_VDEC_LAT0_WDMA_EXT>,
+>                  <&iommu0 M4U_PORT_L5_VDEC_LAT0_RG_CTRL_DMA_EXT>,
+>                  <&iommu0 M4U_PORT_L5_VDEC_UFO_ENC_EXT>;
+>             clocks = <&topckgen CLK_TOP_VDEC_SEL>,
+>                  <&vdecsys_soc CLK_VDEC_SOC_VDEC>,
+>                  <&vdecsys_soc CLK_VDEC_SOC_LAT>,
+>                  <&vdecsys_soc CLK_VDEC_SOC_LARB1>,
+>                  <&topckgen CLK_TOP_MAINPLL_D4>;
+>             clock-names = "vdec-sel", "vdec-soc-vdec", "vdec-soc-lat",
+>                   "vdec-vdec", "vdec-top";
+>             assigned-clocks = <&topckgen CLK_TOP_VDEC_SEL>;
+>             assigned-clock-parents = <&topckgen CLK_TOP_MAINPLL_D4>;
+>             power-domains = <&spm MT8192_POWER_DOMAIN_VDEC>;
+>         };
+> 
+>         vcodec_core {
+>             compatible = "mediatek,mtk-vcodec-core";
+>             reg = <0 0x16025000 0 0x1000>;		/* VDEC_CORE_MISC */
+>             reg-names = "reg-misc";
+>             interrupts = <GIC_SPI 425 IRQ_TYPE_LEVEL_HIGH 0>;
+>             iommus = <&iommu0 M4U_PORT_L4_VDEC_MC_EXT>,
+>                  <&iommu0 M4U_PORT_L4_VDEC_UFO_EXT>,
+>                  <&iommu0 M4U_PORT_L4_VDEC_PP_EXT>,
+>                  <&iommu0 M4U_PORT_L4_VDEC_PRED_RD_EXT>,
+>                  <&iommu0 M4U_PORT_L4_VDEC_PRED_WR_EXT>,
+>                  <&iommu0 M4U_PORT_L4_VDEC_PPWRAP_EXT>,
+>                  <&iommu0 M4U_PORT_L4_VDEC_TILE_EXT>,
+>                  <&iommu0 M4U_PORT_L4_VDEC_VLD_EXT>,
+>                  <&iommu0 M4U_PORT_L4_VDEC_VLD2_EXT>,
+>                  <&iommu0 M4U_PORT_L4_VDEC_AVC_MV_EXT>,
+>                  <&iommu0 M4U_PORT_L4_VDEC_RG_CTRL_DMA_EXT>;
+>             clocks = <&topckgen CLK_TOP_VDEC_SEL>,
+>                  <&vdecsys CLK_VDEC_VDEC>,
+>                  <&vdecsys CLK_VDEC_LAT>,
+>                  <&vdecsys CLK_VDEC_LARB1>,
+>                  <&topckgen CLK_TOP_MAINPLL_D4>;
+>             clock-names = "vdec-sel", "vdec-soc-vdec", "vdec-soc-lat",
+>                   "vdec-vdec", "vdec-top";
+>             assigned-clocks = <&topckgen CLK_TOP_VDEC_SEL>;
+>             assigned-clock-parents = <&topckgen CLK_TOP_MAINPLL_D4>;
+>             power-domains = <&spm MT8192_POWER_DOMAIN_VDEC2>;
+>         };
+>     };
+> 
+> Changes compared with v5:
+> - Add decoder hardware block diagram for patch 13/15
+> 
+> Changes compared with v4:
+> - Fix comments for patch 4/15
+>   >> +     if (dev->is_comp_supported) {
+>   >> +             ret = mtk_vcodec_init_master(dev);
+>   >> +             if (ret < 0)
+>   >> +                     goto err_component_match;
+>   >> +     } else {
+>   >> +             platform_set_drvdata(pdev, dev);
+>   >> +     }
+>   Fix platform_set_drvdata.
+> - Fix build error for patch 9/15
+> - Add depend patch in case of error header file for patch 13/15
+> 
+> Changes compared with v3:
+> - Fix return value for patch 1/15
+> - Fix comments for patch 4/15
+>   > Looking up "mediatek,mtk-vcodec-core" to determine if it uses component framwork sounds like...
+>   Add prameter in pdata, for all platform will use compoent after mt8183
+> 
+>   >> +     if (dev->is_comp_supported) {
+>   >> +             ret = mtk_vcodec_init_master(dev);
+>   >> +             if (ret < 0)
+>   >> +                     goto err_component_match;
+>   >> +     } else {
+>   >> +             platform_set_drvdata(pdev, dev);
+>   >> +     }
+>   > + Has asked the same question in [1].  Why it removes the
+>   > +platform_set_drvdata() above?  mtk_vcodec_init_master() also calls platform_set_drvdata().
+>   Must call component_master_add_with_match after platform_set_drvdata for component architecture.
+> - Fix yaml files check fail for patch 5/15
+> - Fix yaml file check fail for patch 14/15
+> 
+> Changes compared with v1:
+> - Fix many comments for patch 3/14
+> - Remove unnecessary code for patch 4/14
+> - Using enum mtk_vdec_hw_count instead of magic numbers for patch 6/14
+> - Reconstructed get/put lat buffer for lat and core hardware for patch 7/14
+> - Using yaml format to instead of txt file for patch 12/14
+> 
+> Yunfei Dong (19):
+>   media: mtk-vcodec: Get numbers of register bases from DT
+>   media: mtk-vcodec: Align vcodec wake up interrupt interface
+>   media: mtk-vcodec: Refactor vcodec pm interface
+>   media: mtk-vcodec: export decoder pm functions
+>   media: mtk-vcodec: Support MT8192
+>   media: mtk-vcodec: Add to support multi hardware decode
+>   dt-bindings: media: mtk-vcodec: Separate video encoder and decoder
+>     dt-bindings
+>   media: mtk-vcodec: Use pure single core for MT8183
+>   media: mtk-vcodec: Add irq interface for multi hardware
+>   media: mtk-vcodec: Add msg queue feature for lat and core architecture
+>   media: mtk-vcodec: Generalize power and clock on/off interfaces
+>   media: mtk-vcodec: Add new interface to lock different hardware
+>   media: mtk-vcodec: Add work queue for core hardware decode
+>   media: mtk-vcodec: Support 34bits dma address for vdec
+>   dt-bindings: media: mtk-vcodec: Adds decoder dt-bindings for mt8192
+>   media: mtk-vcodec: Add core dec and dec end ipi msg
+>   media: mtk-vcodec: Use codec type to separate different hardware
+>   media: mtk-vcodec: Remove mtk_vcodec_release_dec_pm
+>   media: mtk-vcodec: Remove mtk_vcodec_release_enc_pm
+> 
+>  .../media/mediatek,vcodec-decoder.yaml        | 176 +++++++++++
+>  .../media/mediatek,vcodec-encoder.yaml        | 187 ++++++++++++
+>  .../media/mediatek,vcodec-subdev-decoder.yaml | 265 ++++++++++++++++
+>  .../bindings/media/mediatek-vcodec.txt        | 131 --------
+>  drivers/media/platform/mtk-vcodec/Makefile    |   6 +-
+>  .../platform/mtk-vcodec/mtk_vcodec_dec.c      |   4 +-
+>  .../platform/mtk-vcodec/mtk_vcodec_dec.h      |   1 +
+>  .../platform/mtk-vcodec/mtk_vcodec_dec_drv.c  | 177 ++++++++---
+>  .../platform/mtk-vcodec/mtk_vcodec_dec_hw.c   | 201 ++++++++++++
+>  .../platform/mtk-vcodec/mtk_vcodec_dec_hw.h   |  53 ++++
+>  .../platform/mtk-vcodec/mtk_vcodec_dec_pm.c   | 104 +++++--
+>  .../platform/mtk-vcodec/mtk_vcodec_dec_pm.h   |  12 +-
+>  .../mtk-vcodec/mtk_vcodec_dec_stateful.c      |   2 +
+>  .../mtk-vcodec/mtk_vcodec_dec_stateless.c     |  21 ++
+>  .../platform/mtk-vcodec/mtk_vcodec_drv.h      |  73 ++++-
+>  .../platform/mtk-vcodec/mtk_vcodec_enc_drv.c  |  21 +-
+>  .../platform/mtk-vcodec/mtk_vcodec_enc_pm.c   |  10 +-
+>  .../platform/mtk-vcodec/mtk_vcodec_enc_pm.h   |   3 +-
+>  .../platform/mtk-vcodec/mtk_vcodec_intr.c     |  27 +-
+>  .../platform/mtk-vcodec/mtk_vcodec_intr.h     |   4 +-
+>  .../platform/mtk-vcodec/mtk_vcodec_util.c     |  59 +++-
+>  .../platform/mtk-vcodec/mtk_vcodec_util.h     |   8 +-
+>  .../platform/mtk-vcodec/vdec/vdec_h264_if.c   |   2 +-
+>  .../mtk-vcodec/vdec/vdec_h264_req_if.c        |   2 +-
+>  .../platform/mtk-vcodec/vdec/vdec_vp8_if.c    |   2 +-
+>  .../platform/mtk-vcodec/vdec/vdec_vp9_if.c    |   2 +-
+>  .../media/platform/mtk-vcodec/vdec_drv_if.c   |  21 +-
+>  .../media/platform/mtk-vcodec/vdec_ipi_msg.h  |  16 +-
+>  .../platform/mtk-vcodec/vdec_msg_queue.c      | 289 ++++++++++++++++++
+>  .../platform/mtk-vcodec/vdec_msg_queue.h      | 143 +++++++++
+>  .../media/platform/mtk-vcodec/vdec_vpu_if.c   |  46 ++-
+>  .../media/platform/mtk-vcodec/vdec_vpu_if.h   |  22 ++
+>  .../platform/mtk-vcodec/venc/venc_h264_if.c   |   2 +-
+>  .../platform/mtk-vcodec/venc/venc_vp8_if.c    |   2 +-
+>  34 files changed, 1800 insertions(+), 294 deletions(-)
+>  create mode 100644 Documentation/devicetree/bindings/media/mediatek,vcodec-decoder.yaml
+>  create mode 100644 Documentation/devicetree/bindings/media/mediatek,vcodec-encoder.yaml
+>  create mode 100644 Documentation/devicetree/bindings/media/mediatek,vcodec-subdev-decoder.yaml
+>  delete mode 100644 Documentation/devicetree/bindings/media/mediatek-vcodec.txt
+>  create mode 100644 drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_hw.c
+>  create mode 100644 drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_hw.h
+>  create mode 100644 drivers/media/platform/mtk-vcodec/vdec_msg_queue.c
+>  create mode 100644 drivers/media/platform/mtk-vcodec/vdec_msg_queue.h
+> 
 
-Looking forward to that. Btw. I've taken the four patches you posted
-earlier, rebased them a little and pushed them here:
-
-<URL:https://git.linuxtv.org/sailus/media_tree.git/log/>
-
-Let me know if they're (not) fine.
-
--- 
-Kind regards,
-
-Sakari Ailus
