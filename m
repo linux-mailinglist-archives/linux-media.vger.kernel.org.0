@@ -2,117 +2,82 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BB26748ABAA
-	for <lists+linux-media@lfdr.de>; Tue, 11 Jan 2022 11:47:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A1B5E48ABB9
+	for <lists+linux-media@lfdr.de>; Tue, 11 Jan 2022 11:53:25 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1349341AbiAKKrW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 11 Jan 2022 05:47:22 -0500
-Received: from mga03.intel.com ([134.134.136.65]:42244 "EHLO mga03.intel.com"
+        id S238049AbiAKKxZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 11 Jan 2022 05:53:25 -0500
+Received: from www.linuxtv.org ([130.149.80.248]:38166 "EHLO www.linuxtv.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S237719AbiAKKrV (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Tue, 11 Jan 2022 05:47:21 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1641898041; x=1673434041;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Of1OeOiopXZF3jY0xuMFS3B9PzaXhsKLmSXZRcOhBG0=;
-  b=Eta9aVajNtVbfWEc9ciwhhg41/dk5BaKPmOCQxZz+i6Y/JA21fLTRKlu
-   TJQwaUzGj0+Y/F+oVySbvmN4vCKNesJ6vtdUSlZyOkYAGnOwOyMWqtXtP
-   w4Ip2FKs/U7FIbvHhmBt/TXPlCEElq3s6jZBYEol4hkJTXELSDmpPBtlP
-   HN52oih+C9wQ+QYo03cdEWIP8sTTBpXiLWHDkVxT1q2ewAsU3Q1i46blF
-   KwTsx3xTY9+wYJX9taVEqnIFc3rDxI7/4bubkaIV15zSkWMjlrFr2nzJB
-   wQrpdqtAWE1zoPTaPujeSkxOdUNIxF1mMSPosVakUcmZcnwu1QFftaH1r
-   w==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10223"; a="243410969"
-X-IronPort-AV: E=Sophos;i="5.88,279,1635231600"; 
-   d="scan'208";a="243410969"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jan 2022 02:47:20 -0800
-X-IronPort-AV: E=Sophos;i="5.88,279,1635231600"; 
-   d="scan'208";a="690955190"
-Received: from paasikivi.fi.intel.com ([10.237.72.42])
-  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jan 2022 02:47:19 -0800
-Received: from paasikivi.fi.intel.com (localhost [127.0.0.1])
-        by paasikivi.fi.intel.com (Postfix) with SMTP id 736A82017F;
-        Tue, 11 Jan 2022 12:47:17 +0200 (EET)
-Date:   Tue, 11 Jan 2022 12:47:17 +0200
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Nick Desaulniers <ndesaulniers@google.com>
-Cc:     linux-media@vger.kernel.org,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        hverkuil@xs4all.nl
-Subject: Re: [PATCH 1/1] v4l: Avoid unaligned access warnings when printing
- 4cc modifiers
-Message-ID: <Yd1gNZR4rr36ivZV@paasikivi.fi.intel.com>
-References: <20220110224656.266536-1-sakari.ailus@linux.intel.com>
- <CAKwvOdnfX1DzgkzCPY7N4LiJDJTGxsKNQbRMmmkt7o5z5O-W9w@mail.gmail.com>
+        id S238087AbiAKKxY (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 11 Jan 2022 05:53:24 -0500
+Received: from builder.linuxtv.org ([140.211.167.10] helo=slave0)
+        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1n7EmJ-004x9n-Cb; Tue, 11 Jan 2022 10:53:23 +0000
+Received: from ip6-localhost ([::1] helo=localhost.localdomain)
+        by slave0 with esmtp (Exim 4.94.2)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1n7EmH-00HUyT-9v; Tue, 11 Jan 2022 10:53:21 +0000
+From:   Jenkins <jenkins@linuxtv.org>
+To:     mchehab+samsung@kernel.org, linux-media@vger.kernel.org
+Cc:     builder@linuxtv.org
+Subject: Re: [GIT PULL FOR v5.18] Various fixes (#79890)
+Date:   Tue, 11 Jan 2022 10:53:20 +0000
+Message-Id: <20220111105320.4170595-1-jenkins@linuxtv.org>
+X-Mailer: git-send-email 2.30.2
+In-Reply-To: <63d723aa-b6a3-ff42-c3e4-f1fcb979be11@xs4all.nl>
+References: 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAKwvOdnfX1DzgkzCPY7N4LiJDJTGxsKNQbRMmmkt7o5z5O-W9w@mail.gmail.com>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Nick,
+From: builder@linuxtv.org
 
-On Mon, Jan 10, 2022 at 03:11:18PM -0800, Nick Desaulniers wrote:
-> On Mon, Jan 10, 2022 at 2:48 PM Sakari Ailus
-> <sakari.ailus@linux.intel.com> wrote:
-> >
-> > Pointers V4L2 pixelformat and dataformat fields in a few packed structs
-> > are directly passed to printk family of functions.
-> 
-> I would rephrase the below statement...
-> 
-> > This could result in an
-> > unaligned access albeit no such possibility appears to exist at the
-> > moment i.e. this clang warning appears to be a false positive.
-> 
-> ...to:
-> 
-> warning: taking address of packed member 'pixelformat' of class or
-> structure 'v4l2_pix_format_mplane' may result in an unaligned pointer
-> value [-Waddress-of-packed-member]
-> 
-> The warning is correct; because `struct v4l2_pix_format_mplane` is
-> __packed, it's members also have __aligned(1).  Taking the address of
-> such members results in the use of underaligned pointers which is UB
-> and may be caught by UBSAN or fault on architectures without unaligned
-> loads should the struct instance happen to be allocated without any
-> natural alignment.
+Pull request: https://patchwork.linuxtv.org/project/linux-media/patch/63d723aa-b6a3-ff42-c3e4-f1fcb979be11@xs4all.nl/
+Build log: https://builder.linuxtv.org/job/patchwork/173134/
+Build time: 00:25:01
+Link: https://lore.kernel.org/linux-media/63d723aa-b6a3-ff42-c3e4-f1fcb979be11@xs4all.nl
 
-Wouldn't that be the case only if the __packed attribute resulted in a
-different memory layout than not having that attribute?
+gpg: Signature made Tue 11 Jan 2022 10:19:41 AM UTC
+gpg:                using RSA key AAA7FFBA4D2D77EF4CAEA1421326E0CD23ABDCE5
+gpg: Good signature from "Hans Verkuil <hverkuil-cisco@xs4all.nl>" [unknown]
+gpg:                 aka "Hans Verkuil <hverkuil@xs4all.nl>" [unknown]
+gpg: WARNING: This key is not certified with a trusted signature!
+gpg:          There is no indication that the signature belongs to the owner.
+Primary key fingerprint: 052C DE7B C215 053B 689F  1BCA BD2D 6148 6614 3B4C
+     Subkey fingerprint: AAA7 FFBA 4D2D 77EF 4CAE  A142 1326 E0CD 23AB DCE5
 
-All these fields are aligned by 4 so I don't see how this could be an
-actual problem.
+Summary: got 2/19 patches with issues, being 1 at build time, plus one error when buinding PDF document
 
-> 
-> >
-> > Address the warning by copying the pixelformat or dataformat value to a
-> > local variable first.
-> >
-> > Reported-by: kernel test robot <lkp@intel.com>
-> > Fixes: e927e1e0f0dd ("v4l: ioctl: Use %p4cc printk modifier to print FourCC codes")
-> > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> > ---
-> > Hi Andy, Nick,
-> >
-> > How about this one?
-> >
-> > I believe it does address the clang warning although I haven't tested it.
-> 
-> LGTM. Thanks Sakari and Andy for pursuing this. Just a minor nit on my
-> side about the framing of this warning being a false positive; I don't
-> think it is.  With that amended,
-> 
-> Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
+Error/warnings:
 
-Thanks!
+patches/0001-media-rkisp1-fix-grey-format-iommu-page-faults.patch:
 
--- 
-Kind regards,
+    allyesconfig: return code #0:
+	../scripts/genksyms/parse.y: warning: 9 shift/reduce conflicts [-Wconflicts-sr]
+	../scripts/genksyms/parse.y: warning: 5 reduce/reduce conflicts [-Wconflicts-rr]
+	../scripts/genksyms/parse.y: note: rerun with option '-Wcounterexamples' to generate conflict counterexamples
 
-Sakari Ailus
+    allyesconfig: return code #0:
+	SMATCH:../drivers/media/usb/siano/smsusb.c ../drivers/media/usb/siano/smsusb.c:53:38: :warning: array of flexible structures
+	SPARSE:../drivers/media/usb/siano/smsusb.c ../drivers/media/usb/siano/smsusb.c:53:38: warning: array of flexible structures
+	../drivers/media/rc/meson-ir-tx.c:22: warning: expecting prototype for meson(). Prototype was for DEVICE_NAME() instead
+	../drivers/media/test-drivers/vivid/vivid-core.c: ../drivers/media/test-drivers/vivid/vivid-core.c:1981 vivid_create_instance() parse error: turning off implications after 60 seconds
+	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2625 dvb_register() parse error: turning off implications after 60 seconds
+	../drivers/media/i2c/ov8865.c: ../drivers/media/i2c/ov8865.c:2843 ov8865_get_selection() warn: inconsistent indenting
+	../drivers/media/platform/qcom/venus/helpers.c: ../drivers/media/platform/qcom/venus/helpers.c:658 venus_helper_get_bufreq() error: we previously assumed 'req' could be null (see line 654)
+	../drivers/media/usb/em28xx/em28xx-video.c: ../drivers/media/usb/em28xx/em28xx-video.c:2874 em28xx_v4l2_init() parse error: turning off implications after 60 seconds
+
+patches/0015-bttv-fix-WARNING-regression-on-tunerless-devices.patch:
+
+   checkpatch.pl:
+	$ cat patches/0015-bttv-fix-WARNING-regression-on-tunerless-devices.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
+	-:6: WARNING: Possible unwrapped commit description (prefer a maximum 75 chars per line)
+
+
+Error #512 when building PDF docs
+
