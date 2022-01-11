@@ -2,101 +2,106 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D0E1648AD80
-	for <lists+linux-media@lfdr.de>; Tue, 11 Jan 2022 13:22:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 07B8048AD9A
+	for <lists+linux-media@lfdr.de>; Tue, 11 Jan 2022 13:28:36 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238656AbiAKMWA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 11 Jan 2022 07:22:00 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55350 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237953AbiAKMWA (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Tue, 11 Jan 2022 07:22:00 -0500
-Received: from mail-ua1-x92c.google.com (mail-ua1-x92c.google.com [IPv6:2607:f8b0:4864:20::92c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1F970C06173F
-        for <linux-media@vger.kernel.org>; Tue, 11 Jan 2022 04:21:59 -0800 (PST)
-Received: by mail-ua1-x92c.google.com with SMTP id p37so29306721uae.8
-        for <linux-media@vger.kernel.org>; Tue, 11 Jan 2022 04:21:59 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=vanguardiasur-com-ar.20210112.gappssmtp.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=1rlMK0T7Ps8lD4c9LWmMq0r2/WoIONY/RtilvKlpf+o=;
-        b=PLPqs6Qo+LMxsfoEoc15XLvPfasP+AhhykAZ/D5wsE7vx3wXsQwzr4qgbfVi5MJ4uX
-         xa/ic4HrtrVUPOFotGLryeUDJ3w6dFmRlixDtEqDXR7DXF1B0SZqMqqih7JitgiipWyx
-         mvoxge2WM0URvkA5n+sE/k6RFT/KTzEhqbi05UKsYVsEuG1lxI/pZc7xHyeumr4NWsrK
-         +Sv26QnMCmH+fH1QIxK4YsMXj7Z2KFTqy8xRvVTjfmwqTxqJlIkEeoNQXyjuKxpIaiMI
-         akkqXbwSniyfvZlDPcneFtcVG+BuhLW2/tyU2YgeMgchY9gWzwe5WYL0iL89y05u/N+Z
-         BonA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=1rlMK0T7Ps8lD4c9LWmMq0r2/WoIONY/RtilvKlpf+o=;
-        b=3hjMzuZxgPlpbh2y/VZ6iWR1agQNdyQplGzKTepC+bXmFGTpWmiGqR2wMDvV8rOBSj
-         plplqDcv8AZyBLTpOqo1mfIeEqCnjJ+gdXsCrjqcHovWTPVn6rIBSDzCejZ7ZT6gKAOd
-         JD6Qr3zcSHT+4kt/7YQZ7KdwufIzwrpiUbvmGXAwwpX04XZMBAC6keZw7rt+oxpE+K1D
-         jP2Demhuxx/iIp3iUKY0RfiomxEXKAQ8CL15yES8AlNWgoZYL74YGxnnd/KEYGAgsogf
-         6S0yazoMnWOTjHGYu2Yfztu9z/7GjfqU2aXIoMqZk55HMjVL3LpznVcj2zvNe5Mgf9ic
-         c0Cg==
-X-Gm-Message-State: AOAM5329x7U73iB+yOIwM/HH5I7stg9pYUC5KPhYA3A9bzIcJq5G93hd
-        mQeWktfkvRxRiSamPIw8K/3hMmyALo5jUA==
-X-Google-Smtp-Source: ABdhPJxs23O+UiL13OJhiy0JgYOD3ahMI8FRvxJLvkd4IZ0OG6IVusXUTx1H4eM3/e2XEekncWyXfQ==
-X-Received: by 2002:ab0:6444:: with SMTP id j4mr1739929uap.138.1641903718845;
-        Tue, 11 Jan 2022 04:21:58 -0800 (PST)
-Received: from eze-laptop ([190.190.187.46])
-        by smtp.gmail.com with ESMTPSA id u8sm6126782vsi.18.2022.01.11.04.21.56
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 11 Jan 2022 04:21:58 -0800 (PST)
-Date:   Tue, 11 Jan 2022 09:21:53 -0300
-From:   Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
-To:     Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
-Cc:     linux-media@vger.kernel.org, laurent.pinchart@ideasonboard.com,
-        hverkuil@xs4all.nl, ribalda@chromium.org, tfiga@chromium.org,
-        senozhatsky@google.com, hch@lst.de, kernel@collabora.com
-Subject: Re: [PATCH 1/3] media: stk1160: fix number of buffers in case not
- all buffers are created
-Message-ID: <Yd12Ydvs67FCEnSi@eze-laptop>
-References: <20220111065505.6323-1-dafna.hirschfeld@collabora.com>
- <20220111065505.6323-2-dafna.hirschfeld@collabora.com>
+        id S239930AbiAKM2e (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 11 Jan 2022 07:28:34 -0500
+Received: from mga03.intel.com ([134.134.136.65]:48811 "EHLO mga03.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S239846AbiAKM2e (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 11 Jan 2022 07:28:34 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1641904114; x=1673440114;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=tF0ggi96Itc/hDjk9VM4zasKGTuLQL6egPHigOPMXKc=;
+  b=SeaKQMbIWKahKHP+Q6ZO2864YwRmuUuY6htpsv4YSfEL/P2fkWjb0chr
+   qws1ZvspDDEKgI09NKaahaNyxck2CJPxNPoG0GreElFdWMoqm44JrVByq
+   qrKe+rTzB9YF4Ugtowew9yixZwgQVqIWKuVQt7Q8jYtH97KoHcMRPzRU+
+   PTNKBqaYXbdhB4Y9iVryp1kjaO1sHalCQl1ghSS09OQ/lIM6ZLEquG2ir
+   3mW2ofykBXgfZWRNXXhWCLNxqnZ4lPd84tlVI2fbVd7Cahe5ZwxQvpKFA
+   02aeQI81znNL3ks4ZNHmOVQvj8VLPvI803JZh+2pye6zndyLSlzrGZlxd
+   w==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10223"; a="243427551"
+X-IronPort-AV: E=Sophos;i="5.88,279,1635231600"; 
+   d="scan'208";a="243427551"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jan 2022 04:28:33 -0800
+X-IronPort-AV: E=Sophos;i="5.88,279,1635231600"; 
+   d="scan'208";a="619811978"
+Received: from smile.fi.intel.com ([10.237.72.61])
+  by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jan 2022 04:28:32 -0800
+Received: from andy by smile.fi.intel.com with local (Exim 4.95)
+        (envelope-from <andriy.shevchenko@linux.intel.com>)
+        id 1n7GFC-009Dyp-OY;
+        Tue, 11 Jan 2022 14:27:18 +0200
+Date:   Tue, 11 Jan 2022 14:27:18 +0200
+From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc:     Nick Desaulniers <ndesaulniers@google.com>,
+        linux-media@vger.kernel.org, hverkuil@xs4all.nl
+Subject: Re: [PATCH 1/1] v4l: Avoid unaligned access warnings when printing
+ 4cc modifiers
+Message-ID: <Yd13pim2nuelGjRq@smile.fi.intel.com>
+References: <20220110224656.266536-1-sakari.ailus@linux.intel.com>
+ <CAKwvOdnfX1DzgkzCPY7N4LiJDJTGxsKNQbRMmmkt7o5z5O-W9w@mail.gmail.com>
+ <Yd1gNZR4rr36ivZV@paasikivi.fi.intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220111065505.6323-2-dafna.hirschfeld@collabora.com>
+In-Reply-To: <Yd1gNZR4rr36ivZV@paasikivi.fi.intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Jan 11, 2022 at 08:55:03AM +0200, Dafna Hirschfeld wrote:
-> In case we fail to allocate a transfer_buffer then we
-> break the buffers creation loop and update the number of
-> buffers to the number of successfully allocated which should
-> be 'i' and not 'i - 1'
+On Tue, Jan 11, 2022 at 12:47:17PM +0200, Sakari Ailus wrote:
+> Hi Nick,
 > 
-> Signed-off-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+> On Mon, Jan 10, 2022 at 03:11:18PM -0800, Nick Desaulniers wrote:
+> > On Mon, Jan 10, 2022 at 2:48 PM Sakari Ailus
+> > <sakari.ailus@linux.intel.com> wrote:
+> > >
+> > > Pointers V4L2 pixelformat and dataformat fields in a few packed structs
+> > > are directly passed to printk family of functions.
+> > 
+> > I would rephrase the below statement...
+> > 
+> > > This could result in an
+> > > unaligned access albeit no such possibility appears to exist at the
+> > > moment i.e. this clang warning appears to be a false positive.
+> > 
+> > ...to:
+> > 
+> > warning: taking address of packed member 'pixelformat' of class or
+> > structure 'v4l2_pix_format_mplane' may result in an unaligned pointer
+> > value [-Waddress-of-packed-member]
+> > 
+> > The warning is correct; because `struct v4l2_pix_format_mplane` is
+> > __packed, it's members also have __aligned(1).  Taking the address of
+> > such members results in the use of underaligned pointers which is UB
+> > and may be caught by UBSAN or fault on architectures without unaligned
+> > loads should the struct instance happen to be allocated without any
+> > natural alignment.
+> 
+> Wouldn't that be the case only if the __packed attribute resulted in a
+> different memory layout than not having that attribute?
+> 
+> All these fields are aligned by 4 so I don't see how this could be an
+> actual problem.
 
-Reviewed-by: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
+packed means two things and developers often forgot about the second one:
+- the gaps between members in the data structures are removed
+- the instance of the data object may be on unaligned address
 
-> ---
->  drivers/media/usb/stk1160/stk1160-video.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/media/usb/stk1160/stk1160-video.c b/drivers/media/usb/stk1160/stk1160-video.c
-> index 202b084f65a2..91bd6adccdd1 100644
-> --- a/drivers/media/usb/stk1160/stk1160-video.c
-> +++ b/drivers/media/usb/stk1160/stk1160-video.c
-> @@ -511,9 +511,9 @@ int stk1160_alloc_isoc(struct stk1160 *dev)
->  	usb_free_urb(dev->isoc_ctl.urb[i]);
->  	dev->isoc_ctl.urb[i] = NULL;
->  
-> -	stk1160_warn("%d urbs allocated. Trying to continue...\n", i - 1);
-> +	stk1160_warn("%d urbs allocated. Trying to continue...\n", i);
->  
-> -	dev->isoc_ctl.num_bufs = i - 1;
-> +	dev->isoc_ctl.num_bufs = i;
->  
->  	return 0;
->  
-> -- 
-> 2.17.1
-> 
+Here is the second one which results in the warning.
+
+That's why my patch against vsprintf as I explained in that thread.
+
+-- 
+With Best Regards,
+Andy Shevchenko
+
+
