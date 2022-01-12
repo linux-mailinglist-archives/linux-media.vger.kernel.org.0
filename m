@@ -2,118 +2,120 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3D9A248C304
-	for <lists+linux-media@lfdr.de>; Wed, 12 Jan 2022 12:21:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 13C4548C339
+	for <lists+linux-media@lfdr.de>; Wed, 12 Jan 2022 12:34:28 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239699AbiALLVW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 12 Jan 2022 06:21:22 -0500
-Received: from mga11.intel.com ([192.55.52.93]:56505 "EHLO mga11.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S238953AbiALLVV (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 12 Jan 2022 06:21:21 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1641986481; x=1673522481;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=F0BLIE+tzd4Tbc75p5Ii5oL4I5Vl57Q3ivIPMfyyIQU=;
-  b=JTZheXsgxtVeMCPRkI5wzjzzOGuiTbU8sxSveKJVD7Oja7VEdjrsu8Z2
-   Bp29jTdWrdCuTyrzVhP45/cJew3ZKjuapkAgKGcN9+2rZfRURF6aQVFzw
-   yoGzlB8wU/2Fy+d6U+s3f6FvBY0c+ZqnfvvUhP27DGgJV+3BjSjDyqu+t
-   F3GeaS45Id7OgRIrPmQrf5hZplL2zKXxX/OL82mj+I0WM6FKyk2kCNJaY
-   RFiYIJeb+wDHCIJ9OfNsd5ZHWxIXISkLH3kkzK0t8bCORzkG19WxPBO3L
-   j4J9ZIWiiEhCgp87roRSbFr+17Z3BvKH1vXyJBp2EQIAXvK5tq2LPnG20
-   w==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10224"; a="241267101"
-X-IronPort-AV: E=Sophos;i="5.88,282,1635231600"; 
-   d="scan'208";a="241267101"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jan 2022 03:21:20 -0800
-X-IronPort-AV: E=Sophos;i="5.88,282,1635231600"; 
-   d="scan'208";a="490707267"
-Received: from paasikivi.fi.intel.com ([10.237.72.42])
-  by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jan 2022 03:21:19 -0800
-Received: from paasikivi.fi.intel.com (localhost [127.0.0.1])
-        by paasikivi.fi.intel.com (Postfix) with SMTP id DD2542017F;
-        Wed, 12 Jan 2022 13:21:16 +0200 (EET)
-Date:   Wed, 12 Jan 2022 13:21:16 +0200
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-Cc:     linux-media@vger.kernel.org
-Subject: Re: [PATCH 1/1] ov5648: Don't pack controls struct
-Message-ID: <Yd65rCQpHFyh8nXt@paasikivi.fi.intel.com>
-References: <20220110224831.266749-1-sakari.ailus@linux.intel.com>
- <Yd0/nL7iQityle6P@aptenodytes>
- <Yd1sOmFjJfsFHrT2@paasikivi.fi.intel.com>
- <Yd62+tGrH+ep7bAS@aptenodytes>
+        id S1352876AbiALLe1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 12 Jan 2022 06:34:27 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35306 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S240155AbiALLe0 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Wed, 12 Jan 2022 06:34:26 -0500
+Received: from mail-ed1-x52c.google.com (mail-ed1-x52c.google.com [IPv6:2a00:1450:4864:20::52c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 79933C06173F;
+        Wed, 12 Jan 2022 03:34:25 -0800 (PST)
+Received: by mail-ed1-x52c.google.com with SMTP id 30so8767561edv.3;
+        Wed, 12 Jan 2022 03:34:25 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=tGJ0ER/hWalpuO1RB5LPpHjUQJ/Sj/+tHVIicyDHTvg=;
+        b=EbPV5yzYcN2EET3MshMIxIVliAPwygxATaEJVHQwVRI+jzl0gBc6rcftHUDIOkAQEm
+         efS2/v1R79nkxdWpLbxg1zgGKAsjXXPuAbFO9IbSNEl57kaj5JWyAYxEpgr8PTHUESMJ
+         Tf7m636cXpsL5gW5QIMe90WsHXpMXCobp+DinLA32XcWSNZ0hnqe1oA+/tno7LkBVBQP
+         qmnPux+A8jnefr6Ac2QfrUDwNvcGLCilwFMWHFjYwd6wtnAWMKiiCdUPEg+BjV8TOD+g
+         0TtXz5tV+VvJlRGtTarUYcA1E5XD2MwDFPoWTFLdQfg5wpShDVqnnZg8P47f002YRjix
+         utPw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=tGJ0ER/hWalpuO1RB5LPpHjUQJ/Sj/+tHVIicyDHTvg=;
+        b=O7E2feioy3rpT3WWlKZk4ptWndCcMqbyYwCgteeRyWW9l/ZACL/L3Kr+nY/tcDr99w
+         wNKegS2ftK18SxZU4cwCDEc8BjKQzUPGvlqCHMJqoZpvi0M19bQLiLSsP6nImrD1iIMo
+         qeUYU6UB0cqbnNqynLWOypOiIhPfBnQlPnKo90Yooiwh/+/lG4SZY2jB9n3gWCZjrmG/
+         Egl428+0DoHcJnPYmol2YVEtqL6gk04+4JLNWvhxawUfND639z5qIOkzBooTFz5cbIIk
+         6P6l37cZOytGo2cvwhBiqki6DHxFXnsb5tZXN+dN77IEfkoZMs7Mo5P1oVdEqtUaxxp1
+         YBkg==
+X-Gm-Message-State: AOAM530G0smWggekirmwxgo9l6x8fttOIgbq1Qz2YX6/L9s9bPaMV9s9
+        3+72CzFGV8+ThshefVIN5iY2+x5dIscfEMyeZzMZnFy9Aes=
+X-Google-Smtp-Source: ABdhPJyzEzUNR58VtS1x2+uXaIGf8JNmjGqtdD/tlbP80SJhfLpiJ0YwmU2+FGg+Kl6O0S7+x+or+OSMmXVf3Aq4VNA=
+X-Received: by 2002:a17:906:b24d:: with SMTP id ce13mr2287183ejb.44.1641987263958;
+ Wed, 12 Jan 2022 03:34:23 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Yd62+tGrH+ep7bAS@aptenodytes>
+References: <20220111194014.5908-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <20220111194014.5908-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+From:   Andy Shevchenko <andy.shevchenko@gmail.com>
+Date:   Wed, 12 Jan 2022 13:32:37 +0200
+Message-ID: <CAHp75VdL_v3vZwQfCqNUwg3oQbvWpq4HCL2KGbaob88-4w9RNw@mail.gmail.com>
+Subject: Re: [PATCH v3] media: davinci: vpif: Use platform_get_irq_optional()
+ to get the interrupt
+To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        "Lad, Prabhakar" <prabhakar.csengg@gmail.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Paul,
+On Tue, Jan 11, 2022 at 9:40 PM Lad Prabhakar
+<prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
+>
+> platform_get_resource(pdev, IORESOURCE_IRQ, ..) relies on static
+> allocation of IRQ resources in DT core code, this causes an issue
+> when using hierarchical interrupt domains using "interrupts" property
+> in the node as this bypasses the hierarchical setup and messes up the
+> irq chaining.
+>
+> In preparation for removal of static setup of IRQ resource from DT core
+> code use platform_get_irq_optional().
+>
+> While at it, propagate error code in case devm_request_irq() fails
+> instead of returning -EINVAL.
 
-On Wed, Jan 12, 2022 at 12:09:46PM +0100, Paul Kocialkowski wrote:
-> Hi Sakari,
-> 
-> On Tue 11 Jan 22, 13:38, Sakari Ailus wrote:
-> > Hi Paul,
-> > 
-> > On Tue, Jan 11, 2022 at 09:28:12AM +0100, Paul Kocialkowski wrote:
-> > > Hi Sakari,
-> > > 
-> > > On Tue 11 Jan 22, 00:48, Sakari Ailus wrote:
-> > > > Don't pack the driver specific struct containing control pointers. This
-> > > > lead to potential alignment issues when working with the pointers.
-> > > 
-> > > Thanks for looking into the report and making this fix.
-> > > 
-> > > Honestly I was a bit puzzled because I explicitly added the __packed
-> > > to avoid possible holes in the structures that could be problematic
-> > > when using v4l2_ctrl_auto_cluster and I think the problem still stands.
-> > > 
-> > > I feel like solving both issues at once would require having the controls
-> > > that belong in the same cluster declared as an array and not individual
-> > > members of the struct.
-> > > 
-> > > What do you think?
-> > 
-> > No architecture used in Linux requires adding padding between two pointers
-> > to my knowledge --- generally the alignment is at most the size of the
-> > data: otherwise arrays would not work either. Therefore packing isn't
-> > required.
-> 
-> I was under the impression that padding may happen in structures generally
-> speaking. Are you saying that because it's pointers, there will most likely
-> be no padding required?
+...
 
-Not really just pointers; the same goes for any data type.
+> +       while (1) {
 
-> 
-> Also there's a struct v4l2_ctrl_handler at the end of the struct
-> (not a pointer), maybe that can somehow play a role too and introduce padding?
+The infinite loop use is discouraged.
 
-There could be padding added at the end of the struct. (But that depends on
-what comes after the struct.)
+> +               int irq;
+> +
+> +               err = platform_get_irq_optional(pdev, res_idx);
+> +               if (err < 0 && err != -ENXIO)
+> +                       goto vpif_unregister;
+> +               if (err > 0)
+> +                       irq = err;
+> +               else
+> +                       break;
+> +
+> +               err = devm_request_irq(&pdev->dev, irq, vpif_channel_isr,
+> +                                      IRQF_SHARED, VPIF_DRIVER_NAME,
+> +                                      (void *)(&vpif_obj.dev[res_idx]->channel_id));
+> +               if (err)
+>                         goto vpif_unregister;
+> -               }
+>                 res_idx++;
+>         }
 
-> 
-> My feeling was that there's no strong guarantee here, so packing the struct
-> would be the safe thing to do. I also don't see how unaligned access can occur
-> in the packed struct in that case (pointers should always offset to something
-> properly aligned, shouldn't they?).
+Slightly better
 
-My understanding is this is a false positive warning from clang. Gcc does
-not complain but I'm not sure it's capable of doing that either.
+  do {
+  ...
+  } while (++res_idx);
 
-Of course it would be the best to fix clang but until that happens or we
-change the code, we'll be permanent targets of these e-mails.
+...
 
-Still __packed isn't needed here.
+> +       while (1) {
+
+Ditto.
 
 -- 
-Kind regards,
-
-Sakari Ailus
+With Best Regards,
+Andy Shevchenko
