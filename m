@@ -2,201 +2,114 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 38CD448BB8A
-	for <lists+linux-media@lfdr.de>; Wed, 12 Jan 2022 00:39:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BF3F748BC07
+	for <lists+linux-media@lfdr.de>; Wed, 12 Jan 2022 01:52:08 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243719AbiAKXjt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 11 Jan 2022 18:39:49 -0500
-Received: from perceval.ideasonboard.com ([213.167.242.64]:60986 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243308AbiAKXjs (ORCPT
+        id S1347407AbiALAwH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 11 Jan 2022 19:52:07 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32990 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1343866AbiALAwH (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 11 Jan 2022 18:39:48 -0500
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id A9A2793;
-        Wed, 12 Jan 2022 00:39:46 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1641944386;
-        bh=2DxS72P96FLKGp7Ar+o8vAUmCMvkuvBoOt6cYnG/7HQ=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=PpN3tEfLXLUDSpgNIpt6hGPCBCB63vQqeTDT7ty2XfP3Fqcwntc5TiLGsZelzjwWq
-         CvYmIMdbtOywws6mSTyu2Cmg/Oh9wFCzdiDMQuUC32dLWYAsdnhxjOsCNwbfefef2t
-         YiCmeZSSyrHWFjwP34G+jabFE4YqDQLo3moqXgw4=
-Date:   Wed, 12 Jan 2022 01:39:36 +0200
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Cc:     linux-media@vger.kernel.org, sakari.ailus@linux.intel.com,
-        Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        niklas.soderlund+renesas@ragnatech.se,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Pratyush Yadav <p.yadav@ti.com>
-Subject: Re: [PATCH v10 13/38] media: entity: Use pad as the starting point
- for a pipeline
-Message-ID: <Yd4VOOf5HwRtVXwm@pendragon.ideasonboard.com>
-References: <20211130141536.891878-1-tomi.valkeinen@ideasonboard.com>
- <20211130141536.891878-14-tomi.valkeinen@ideasonboard.com>
+        Tue, 11 Jan 2022 19:52:07 -0500
+Received: from mail-qv1-xf36.google.com (mail-qv1-xf36.google.com [IPv6:2607:f8b0:4864:20::f36])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CD304C06173F;
+        Tue, 11 Jan 2022 16:52:06 -0800 (PST)
+Received: by mail-qv1-xf36.google.com with SMTP id t7so1284239qvj.0;
+        Tue, 11 Jan 2022 16:52:06 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=jms.id.au; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=+BgWpZzbxCgBoKpAYDSuqEtaMBxXySjsMaStwtkHZLg=;
+        b=OB80mjKifIvc9EHx5zG+SkcH7yRMZSrRQfy3eaWc/DKzOeWK4e5uBMsZJIbVO0f/Cl
+         i+w7LX3TWzIbpkY+IWG4ncOGaxh0UkPRtJfoB4B5ybQtzvpgkKu15LlSR3n8tl2Q8N3b
+         mEvoTmZxcExs8mBAlxOFbFFwDWYaZ/bzYvD/o=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=+BgWpZzbxCgBoKpAYDSuqEtaMBxXySjsMaStwtkHZLg=;
+        b=tM1N17+mIhL8GjNUcKN23UE5u3fCSsBNzXmZgZOsrIEwiL5u1U2Jrfar96htBpNLuc
+         XxlA/pcysIpvdKiICAfficvl4+6ycXtbVBaIQ9cppJD7CszPbQwKpZzLc4fMQyR8fl5x
+         kxDJGm+epFOrD0oR8L70lInbEokEE/YuoZIn8qDhSuSn5UtEKvrVox/iuM9YvnfqDPB2
+         1cop/Oa2PCca+Ty8yPxW6QnHhz1BKS5GGJSG9/fbIqr3WfJeJp4tu8lO+HSPTKhPeTFu
+         cIxpR+dxUJW2AaU+VKy/Ty1KAJBAkDLA1ulAt6NTqJhq4K3NYJOmlTotJWJN2Q7Hw0pj
+         Ftug==
+X-Gm-Message-State: AOAM5330TB1OeZQ7bn7jDfSrHkKnwX2CTypUvnjRreLFkN3cB+ou/icb
+        9o8gaenz60MIutSB3JI/3RgVxBM7nlsp+p93IAqWIIzXGoE=
+X-Google-Smtp-Source: ABdhPJzJOUMABjpc3ziYwOsfvzN8V0NbNaMl+QXw963PVYPbHL58cyH5UiA1U0TR38v7QS3biobyspuPT3SSX4zmMi0=
+X-Received: by 2002:ad4:5dce:: with SMTP id m14mr5680680qvh.130.1641948725803;
+ Tue, 11 Jan 2022 16:52:05 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20211130141536.891878-14-tomi.valkeinen@ideasonboard.com>
+References: <20211214045348.13702-1-jammy_huang@aspeedtech.com>
+In-Reply-To: <20211214045348.13702-1-jammy_huang@aspeedtech.com>
+From:   Joel Stanley <joel@jms.id.au>
+Date:   Wed, 12 Jan 2022 00:51:53 +0000
+Message-ID: <CACPK8XfkXi6M=gzfkYcuoga6WxnzSm2+mspBt4gjop7Ytm+VCA@mail.gmail.com>
+Subject: Re: [PATCH] media: aspeed: Fix no complete irq for non-64-aligned width
+To:     Jammy Huang <jammy_huang@aspeedtech.com>
+Cc:     Eddie James <eajames@linux.ibm.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Andrew Jeffery <andrew@aj.id.au>, linux-media@vger.kernel.org,
+        OpenBMC Maillist <openbmc@lists.ozlabs.org>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        linux-aspeed <linux-aspeed@lists.ozlabs.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Tomi and Sakari,
-
-Thank you for the patch.
-
-On Tue, Nov 30, 2021 at 04:15:11PM +0200, Tomi Valkeinen wrote:
-> From: Sakari Ailus <sakari.ailus@linux.intel.com>
-> 
-> The pipeline has been moved from the entity to the pads; reflect this in
-> the media pipeline function API.
-> 
-> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> Reviewed-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
-> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+On Tue, 14 Dec 2021 at 04:53, Jammy Huang <jammy_huang@aspeedtech.com> wrote:
+>
+> In ast2500, engine will stop occasionally for 1360x768.
+>
+> This is a bug which has been addressed, but the workaround is specific
+> for 1680 only. Here we make it more complete.
+>
+> Signed-off-by: Jammy Huang <jammy_huang@aspeedtech.com>
 > ---
->  Documentation/driver-api/media/mc-core.rst    |  9 +++--
->  drivers/media/mc/mc-entity.c                  | 24 ++++++-------
->  drivers/media/pci/intel/ipu3/ipu3-cio2-main.c |  6 ++--
->  .../media/platform/exynos4-is/fimc-capture.c  |  8 ++---
->  .../platform/exynos4-is/fimc-isp-video.c      |  8 ++---
->  drivers/media/platform/exynos4-is/fimc-lite.c |  8 ++---
->  drivers/media/platform/omap3isp/ispvideo.c    |  6 ++--
->  .../media/platform/qcom/camss/camss-video.c   |  6 ++--
->  drivers/media/platform/rcar-vin/rcar-dma.c    |  6 ++--
->  .../platform/rockchip/rkisp1/rkisp1-capture.c |  6 ++--
->  .../media/platform/s3c-camif/camif-capture.c  |  6 ++--
->  drivers/media/platform/stm32/stm32-dcmi.c     |  6 ++--
->  .../platform/sunxi/sun4i-csi/sun4i_dma.c      |  6 ++--
->  .../platform/sunxi/sun6i-csi/sun6i_video.c    |  6 ++--
->  drivers/media/platform/ti-vpe/cal-video.c     |  6 ++--
->  drivers/media/platform/vsp1/vsp1_video.c      |  6 ++--
->  drivers/media/platform/xilinx/xilinx-dma.c    |  6 ++--
->  .../media/test-drivers/vimc/vimc-capture.c    |  6 ++--
->  drivers/media/usb/au0828/au0828-core.c        |  8 ++---
->  drivers/staging/media/imx/imx-media-utils.c   |  6 ++--
->  drivers/staging/media/ipu3/ipu3-v4l2.c        |  6 ++--
->  drivers/staging/media/omap4iss/iss_video.c    |  6 ++--
->  drivers/staging/media/tegra-video/tegra210.c  |  6 ++--
->  include/media/media-entity.h                  | 34 +++++++++----------
->  24 files changed, 99 insertions(+), 102 deletions(-)
+>  drivers/media/platform/aspeed-video.c | 12 +++++++-----
+>  1 file changed, 7 insertions(+), 5 deletions(-)
+>
+> diff --git a/drivers/media/platform/aspeed-video.c b/drivers/media/platform/aspeed-video.c
+> index 793b2adaa0f5..4d3e6b105d44 100644
+> --- a/drivers/media/platform/aspeed-video.c
+> +++ b/drivers/media/platform/aspeed-video.c
+> @@ -1055,18 +1055,20 @@ static void aspeed_video_set_resolution(struct aspeed_video *video)
+>         /* Set capture/compression frame sizes */
+>         aspeed_video_calc_compressed_size(video, size);
+>
+> -       if (video->active_timings.width == 1680) {
+> +       if (!IS_ALIGNED(act->width, 64)) {
+>                 /*
+>                  * This is a workaround to fix a silicon bug on A1 and A2
 
-[snip]
+Please add:  "a AST2500 silicon bug" so we know which A1/A2 this is
+referring to.
 
-> diff --git a/drivers/media/platform/s3c-camif/camif-capture.c b/drivers/media/platform/s3c-camif/camif-capture.c
-> index 140854ab4dd8..0189b8a33032 100644
-> --- a/drivers/media/platform/s3c-camif/camif-capture.c
-> +++ b/drivers/media/platform/s3c-camif/camif-capture.c
-> @@ -848,13 +848,13 @@ static int s3c_camif_streamon(struct file *file, void *priv,
->  	if (s3c_vp_active(vp))
->  		return 0;
->  
-> -	ret = media_pipeline_start(sensor, camif->m_pipeline);
-> +	ret = media_pipeline_start(sensor->pads, camif->m_pipeline);
+With that added, you can add:
 
-This isn't an issue intruced by this patch, but shouldn't this use
-camif->vdev.entity.pads instead of sensor->pads ? Most drivers start the
-pipeline from the video node (with a couple of exceptions, see below).
+ Reviewed-by: Joel Stanley <joel@jms.id.au>
 
->  	if (ret < 0)
->  		return ret;
->  
->  	ret = camif_pipeline_validate(camif);
->  	if (ret < 0) {
-> -		media_pipeline_stop(sensor);
-> +		media_pipeline_stop(sensor->pads);
->  		return ret;
->  	}
->  
-> @@ -878,7 +878,7 @@ static int s3c_camif_streamoff(struct file *file, void *priv,
->  
->  	ret = vb2_streamoff(&vp->vb_queue, type);
->  	if (ret == 0)
-> -		media_pipeline_stop(&camif->sensor.sd->entity);
-> +		media_pipeline_stop(camif->sensor.sd->entity.pads);
->  	return ret;
->  }
->  
+>                  * revisions. Since it doesn't break capturing operation of
+>                  * other revisions, use it for all revisions without checking
+> -                * the revision ID. It picked 1728 which is a very next
+> -                * 64-pixels aligned value to 1680 to minimize memory bandwidth
+> +                * the revision ID. It picked new width which is a very next
+> +                * 64-pixels aligned value to minimize memory bandwidth
+>                  * and to get better access speed from video engine.
+>                  */
+> +               u32 width = ALIGN(act->width, 64);
+> +
+>                 aspeed_video_write(video, VE_CAP_WINDOW,
+> -                                  1728 << 16 | act->height);
+> -               size += (1728 - 1680) * video->active_timings.height;
+> +                                  width << 16 | act->height);
+> +               size = width * act->height;
 
-[snip]
+You could make it clearer by putting the write on one line:
 
-> diff --git a/drivers/media/usb/au0828/au0828-core.c b/drivers/media/usb/au0828/au0828-core.c
-> index caefac07af92..877e85a451cb 100644
-> --- a/drivers/media/usb/au0828/au0828-core.c
-> +++ b/drivers/media/usb/au0828/au0828-core.c
-> @@ -410,7 +410,7 @@ static int au0828_enable_source(struct media_entity *entity,
->  		goto end;
->  	}
->  
-> -	ret = __media_pipeline_start(entity, pipe);
-> +	ret = __media_pipeline_start(entity->pads, pipe);
-
-This I'd be happy to just ignore.
-
->  	if (ret) {
->  		pr_err("Start Pipeline: %s->%s Error %d\n",
->  			source->name, entity->name, ret);
-> @@ -501,12 +501,12 @@ static void au0828_disable_source(struct media_entity *entity)
->  				return;
->  
->  			/* stop pipeline */
-> -			__media_pipeline_stop(dev->active_link_owner);
-> +			__media_pipeline_stop(dev->active_link_owner->pads);
->  			pr_debug("Pipeline stop for %s\n",
->  				dev->active_link_owner->name);
->  
->  			ret = __media_pipeline_start(
-> -					dev->active_link_user,
-> +					dev->active_link_user->pads,
->  					dev->active_link_user_pipe);
->  			if (ret) {
->  				pr_err("Start Pipeline: %s->%s %d\n",
-> @@ -532,7 +532,7 @@ static void au0828_disable_source(struct media_entity *entity)
->  			return;
->  
->  		/* stop pipeline */
-> -		__media_pipeline_stop(dev->active_link_owner);
-> +		__media_pipeline_stop(dev->active_link_owner->pads);
->  		pr_debug("Pipeline stop for %s\n",
->  			dev->active_link_owner->name);
->  
-> diff --git a/drivers/staging/media/imx/imx-media-utils.c b/drivers/staging/media/imx/imx-media-utils.c
-> index 535da4dda3c6..74218af45551 100644
-> --- a/drivers/staging/media/imx/imx-media-utils.c
-> +++ b/drivers/staging/media/imx/imx-media-utils.c
-> @@ -905,16 +905,16 @@ int imx_media_pipeline_set_stream(struct imx_media_dev *imxmd,
->  	mutex_lock(&imxmd->md.graph_mutex);
->  
->  	if (on) {
-> -		ret = __media_pipeline_start(entity, &imxmd->pipe);
-> +		ret = __media_pipeline_start(entity->pads, &imxmd->pipe);
-
-And this should be easy to switch to using the video device pad.
-
->  		if (ret)
->  			goto out;
->  		ret = v4l2_subdev_call(sd, video, s_stream, 1);
->  		if (ret)
-> -			__media_pipeline_stop(entity);
-> +			__media_pipeline_stop(entity->pads);
->  	} else {
->  		v4l2_subdev_call(sd, video, s_stream, 0);
->  		if (entity->pads->pipe)
-> -			__media_pipeline_stop(entity);
-> +			__media_pipeline_stop(entity->pads);
->  	}
->  
->  out:
-
-[snip]
-
--- 
-Regards,
-
-Laurent Pinchart
+                aspeed_video_write(video, VE_CAP_WINDOW, width << 16 |
+act->height);
