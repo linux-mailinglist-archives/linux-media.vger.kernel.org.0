@@ -2,65 +2,112 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AEF6848BE71
-	for <lists+linux-media@lfdr.de>; Wed, 12 Jan 2022 06:52:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A01AB48BE78
+	for <lists+linux-media@lfdr.de>; Wed, 12 Jan 2022 07:06:57 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236741AbiALFwL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 12 Jan 2022 00:52:11 -0500
-Received: from www.linuxtv.org ([130.149.80.248]:55184 "EHLO www.linuxtv.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S236614AbiALFwL (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 12 Jan 2022 00:52:11 -0500
-Received: from builder.linuxtv.org ([140.211.167.10] helo=slave0)
-        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1n7WYL-00606n-Pe; Wed, 12 Jan 2022 05:52:09 +0000
-Received: from ip6-localhost ([::1] helo=localhost.localdomain)
-        by slave0 with esmtp (Exim 4.94.2)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1n7WYJ-002V3A-95; Wed, 12 Jan 2022 05:52:07 +0000
-From:   Jenkins <jenkins@linuxtv.org>
-To:     mchehab+samsung@kernel.org, linux-media@vger.kernel.org
-Cc:     builder@linuxtv.org
-Subject: Re: [GIT PULL for v5.17-rc1] media fixes (#79918)
-Date:   Wed, 12 Jan 2022 05:52:07 +0000
-Message-Id: <20220112055207.595966-1-jenkins@linuxtv.org>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20220112064909.1ec47504@coco.lan>
-References: 
+        id S237269AbiALGGl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 12 Jan 2022 01:06:41 -0500
+Received: from twspam01.aspeedtech.com ([211.20.114.71]:11502 "EHLO
+        twspam01.aspeedtech.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S237360AbiALGGj (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Wed, 12 Jan 2022 01:06:39 -0500
+Received: from mail.aspeedtech.com ([192.168.0.24])
+        by twspam01.aspeedtech.com with ESMTP id 20C5x3q2088074;
+        Wed, 12 Jan 2022 13:59:03 +0800 (GMT-8)
+        (envelope-from jammy_huang@aspeedtech.com)
+Received: from [192.168.2.115] (192.168.2.115) by TWMBX02.aspeed.com
+ (192.168.0.24) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Wed, 12 Jan
+ 2022 14:05:40 +0800
+Message-ID: <a779f1c1-e5b0-5d55-bc6c-5f253d03525d@aspeedtech.com>
+Date:   Wed, 12 Jan 2022 14:05:41 +0800
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.4.0
+Subject: Re: [PATCH] media: aspeed: Fix no complete irq for non-64-aligned
+ width
+Content-Language: en-US
+To:     Joel Stanley <joel@jms.id.au>
+CC:     Eddie James <eajames@linux.ibm.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Andrew Jeffery <andrew@aj.id.au>,
+        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+        OpenBMC Maillist <openbmc@lists.ozlabs.org>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        linux-aspeed <linux-aspeed@lists.ozlabs.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+References: <20211214045348.13702-1-jammy_huang@aspeedtech.com>
+ <CACPK8XfkXi6M=gzfkYcuoga6WxnzSm2+mspBt4gjop7Ytm+VCA@mail.gmail.com>
+From:   Jammy Huang <jammy_huang@aspeedtech.com>
+In-Reply-To: <CACPK8XfkXi6M=gzfkYcuoga6WxnzSm2+mspBt4gjop7Ytm+VCA@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
+X-Originating-IP: [192.168.2.115]
+X-ClientProxiedBy: TWMBX02.aspeed.com (192.168.0.24) To TWMBX02.aspeed.com
+ (192.168.0.24)
+X-DNSRBL: 
+X-MAIL: twspam01.aspeedtech.com 20C5x3q2088074
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: builder@linuxtv.org
+Hi Joel,
 
-Pull request: https://patchwork.linuxtv.org/project/linux-media/patch/20220112064909.1ec47504@coco.lan/
-Build log: https://builder.linuxtv.org/job/patchwork/173363/
-Build time: 00:00:00
-Link: https://lore.kernel.org/linux-media/20220112064909.1ec47504@coco.lan
+OK, thanks for your review. I will send another updated patch per your 
+advice.
 
-gpg: Signature made Wed 12 Jan 2022 05:46:00 AM UTC
-gpg:                using RSA key F909AE68FC11DF09C1755C00085F3EBD8EE4E115
-gpg: Good signature from "Mauro Carvalho Chehab <mchehab+huawei@kernel.org>" [unknown]
-gpg:                 aka "Mauro Carvalho Chehab <mchehab@kernel.org>" [unknown]
-gpg:                 aka "Mauro Carvalho Chehab <m.chehab@samsung.com>" [unknown]
-gpg:                 aka "Mauro Carvalho Chehab <mchehab@osg.samsung.com>" [unknown]
-gpg:                 aka "Mauro Carvalho Chehab <mchehab@s-opensource.com>" [unknown]
-gpg:                 aka "[jpeg image of size 3594]" [unknown]
-gpg:                 aka "Mauro Carvalho Chehab <mchehab+samsung@kernel.org>" [unknown]
-gpg: WARNING: This key is not certified with a trusted signature!
-gpg:          There is no indication that the signature belongs to the owner.
-Primary key fingerprint: F909 AE68 FC11 DF09 C175  5C00 085F 3EBD 8EE4 E115
+On 2022/1/12 上午 08:51, Joel Stanley wrote:
+> On Tue, 14 Dec 2021 at 04:53, Jammy Huang <jammy_huang@aspeedtech.com> wrote:
+>> In ast2500, engine will stop occasionally for 1360x768.
+>>
+>> This is a bug which has been addressed, but the workaround is specific
+>> for 1680 only. Here we make it more complete.
+>>
+>> Signed-off-by: Jammy Huang <jammy_huang@aspeedtech.com>
+>> ---
+>>   drivers/media/platform/aspeed-video.c | 12 +++++++-----
+>>   1 file changed, 7 insertions(+), 5 deletions(-)
+>>
+>> diff --git a/drivers/media/platform/aspeed-video.c b/drivers/media/platform/aspeed-video.c
+>> index 793b2adaa0f5..4d3e6b105d44 100644
+>> --- a/drivers/media/platform/aspeed-video.c
+>> +++ b/drivers/media/platform/aspeed-video.c
+>> @@ -1055,18 +1055,20 @@ static void aspeed_video_set_resolution(struct aspeed_video *video)
+>>          /* Set capture/compression frame sizes */
+>>          aspeed_video_calc_compressed_size(video, size);
+>>
+>> -       if (video->active_timings.width == 1680) {
+>> +       if (!IS_ALIGNED(act->width, 64)) {
+>>                  /*
+>>                   * This is a workaround to fix a silicon bug on A1 and A2
+> Please add:  "a AST2500 silicon bug" so we know which A1/A2 this is
+> referring to.
+>
+> With that added, you can add:
+>
+>   Reviewed-by: Joel Stanley <joel@jms.id.au>
+>
+>>                   * revisions. Since it doesn't break capturing operation of
+>>                   * other revisions, use it for all revisions without checking
+>> -                * the revision ID. It picked 1728 which is a very next
+>> -                * 64-pixels aligned value to 1680 to minimize memory bandwidth
+>> +                * the revision ID. It picked new width which is a very next
+>> +                * 64-pixels aligned value to minimize memory bandwidth
+>>                   * and to get better access speed from video engine.
+>>                   */
+>> +               u32 width = ALIGN(act->width, 64);
+>> +
+>>                  aspeed_video_write(video, VE_CAP_WINDOW,
+>> -                                  1728 << 16 | act->height);
+>> -               size += (1728 - 1680) * video->active_timings.height;
+>> +                                  width << 16 | act->height);
+>> +               size = width * act->height;
+> You could make it clearer by putting the write on one line:
+>
+>                  aspeed_video_write(video, VE_CAP_WINDOW, width << 16 |
+> act->height);
 
-
-Build aborted due to a fatal error:
-FAILED: patch patch patches/0001-media-atomisp-Do-not-define-input_system_cfg2400_t-t.patch doesn't apply:
-Applying patch patches/0001-media-atomisp-Do-not-define-input_system_cfg2400_t-t.patch
-patching file drivers/staging/media/atomisp/pci/isp2400_input_system_local.h
-Hunk #1 FAILED at 29.
-1 out of 1 hunk FAILED -- rejects in file drivers/staging/media/atomisp/pci/isp2400_input_system_local.h
-Patch patches/0001-media-atomisp-Do-not-define-input_system_cfg2400_t-t.patch can be reverse-applied
+-- 
+Best Regards
+Jammy
 
