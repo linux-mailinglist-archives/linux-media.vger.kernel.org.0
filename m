@@ -2,112 +2,87 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A01AB48BE78
-	for <lists+linux-media@lfdr.de>; Wed, 12 Jan 2022 07:06:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 921BC48BE7C
+	for <lists+linux-media@lfdr.de>; Wed, 12 Jan 2022 07:07:21 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237269AbiALGGl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 12 Jan 2022 01:06:41 -0500
-Received: from twspam01.aspeedtech.com ([211.20.114.71]:11502 "EHLO
+        id S1347923AbiALGHU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 12 Jan 2022 01:07:20 -0500
+Received: from twspam01.aspeedtech.com ([211.20.114.71]:26761 "EHLO
         twspam01.aspeedtech.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237360AbiALGGj (ORCPT
+        with ESMTP id S1347912AbiALGHR (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 12 Jan 2022 01:06:39 -0500
+        Wed, 12 Jan 2022 01:07:17 -0500
 Received: from mail.aspeedtech.com ([192.168.0.24])
-        by twspam01.aspeedtech.com with ESMTP id 20C5x3q2088074;
-        Wed, 12 Jan 2022 13:59:03 +0800 (GMT-8)
+        by twspam01.aspeedtech.com with ESMTP id 20C60Bfr088741;
+        Wed, 12 Jan 2022 14:00:11 +0800 (GMT-8)
         (envelope-from jammy_huang@aspeedtech.com)
-Received: from [192.168.2.115] (192.168.2.115) by TWMBX02.aspeed.com
+Received: from JammyHuang-PC.aspeed.com (192.168.2.115) by TWMBX02.aspeed.com
  (192.168.0.24) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Wed, 12 Jan
- 2022 14:05:40 +0800
-Message-ID: <a779f1c1-e5b0-5d55-bc6c-5f253d03525d@aspeedtech.com>
-Date:   Wed, 12 Jan 2022 14:05:41 +0800
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.4.0
-Subject: Re: [PATCH] media: aspeed: Fix no complete irq for non-64-aligned
- width
-Content-Language: en-US
-To:     Joel Stanley <joel@jms.id.au>
-CC:     Eddie James <eajames@linux.ibm.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Andrew Jeffery <andrew@aj.id.au>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        OpenBMC Maillist <openbmc@lists.ozlabs.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        linux-aspeed <linux-aspeed@lists.ozlabs.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-References: <20211214045348.13702-1-jammy_huang@aspeedtech.com>
- <CACPK8XfkXi6M=gzfkYcuoga6WxnzSm2+mspBt4gjop7Ytm+VCA@mail.gmail.com>
+ 2022 14:06:48 +0800
 From:   Jammy Huang <jammy_huang@aspeedtech.com>
-In-Reply-To: <CACPK8XfkXi6M=gzfkYcuoga6WxnzSm2+mspBt4gjop7Ytm+VCA@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
+To:     <eajames@linux.ibm.com>, <mchehab@kernel.org>, <joel@jms.id.au>,
+        <andrew@aj.id.au>, <linux-media@vger.kernel.org>,
+        <openbmc@lists.ozlabs.org>, <linux-arm-kernel@lists.infradead.org>,
+        <linux-aspeed@lists.ozlabs.org>, <linux-kernel@vger.kernel.org>
+Subject: [PATCH v2] media: aspeed: Fix no complete irq for non-64-aligned width
+Date:   Wed, 12 Jan 2022 14:07:25 +0800
+Message-ID: <20220112060725.13751-1-jammy_huang@aspeedtech.com>
+X-Mailer: git-send-email 2.25.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7BIT
+Content-Type:   text/plain; charset=US-ASCII
 X-Originating-IP: [192.168.2.115]
 X-ClientProxiedBy: TWMBX02.aspeed.com (192.168.0.24) To TWMBX02.aspeed.com
  (192.168.0.24)
 X-DNSRBL: 
-X-MAIL: twspam01.aspeedtech.com 20C5x3q2088074
+X-MAIL: twspam01.aspeedtech.com 20C60Bfr088741
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Joel,
+In ast2500, engine will stop occasionally for 1360x768.
 
-OK, thanks for your review. I will send another updated patch per your 
-advice.
+This is a bug which has been addressed, but the workaround is specific
+for 1680 only. Here we make it more complete.
 
-On 2022/1/12 上午 08:51, Joel Stanley wrote:
-> On Tue, 14 Dec 2021 at 04:53, Jammy Huang <jammy_huang@aspeedtech.com> wrote:
->> In ast2500, engine will stop occasionally for 1360x768.
->>
->> This is a bug which has been addressed, but the workaround is specific
->> for 1680 only. Here we make it more complete.
->>
->> Signed-off-by: Jammy Huang <jammy_huang@aspeedtech.com>
->> ---
->>   drivers/media/platform/aspeed-video.c | 12 +++++++-----
->>   1 file changed, 7 insertions(+), 5 deletions(-)
->>
->> diff --git a/drivers/media/platform/aspeed-video.c b/drivers/media/platform/aspeed-video.c
->> index 793b2adaa0f5..4d3e6b105d44 100644
->> --- a/drivers/media/platform/aspeed-video.c
->> +++ b/drivers/media/platform/aspeed-video.c
->> @@ -1055,18 +1055,20 @@ static void aspeed_video_set_resolution(struct aspeed_video *video)
->>          /* Set capture/compression frame sizes */
->>          aspeed_video_calc_compressed_size(video, size);
->>
->> -       if (video->active_timings.width == 1680) {
->> +       if (!IS_ALIGNED(act->width, 64)) {
->>                  /*
->>                   * This is a workaround to fix a silicon bug on A1 and A2
-> Please add:  "a AST2500 silicon bug" so we know which A1/A2 this is
-> referring to.
->
-> With that added, you can add:
->
->   Reviewed-by: Joel Stanley <joel@jms.id.au>
->
->>                   * revisions. Since it doesn't break capturing operation of
->>                   * other revisions, use it for all revisions without checking
->> -                * the revision ID. It picked 1728 which is a very next
->> -                * 64-pixels aligned value to 1680 to minimize memory bandwidth
->> +                * the revision ID. It picked new width which is a very next
->> +                * 64-pixels aligned value to minimize memory bandwidth
->>                   * and to get better access speed from video engine.
->>                   */
->> +               u32 width = ALIGN(act->width, 64);
->> +
->>                  aspeed_video_write(video, VE_CAP_WINDOW,
->> -                                  1728 << 16 | act->height);
->> -               size += (1728 - 1680) * video->active_timings.height;
->> +                                  width << 16 | act->height);
->> +               size = width * act->height;
-> You could make it clearer by putting the write on one line:
->
->                  aspeed_video_write(video, VE_CAP_WINDOW, width << 16 |
-> act->height);
+Signed-off-by: Jammy Huang <jammy_huang@aspeedtech.com>
+Reviewed-by: Joel Stanley <joel@jms.id.au>
+---
+ drivers/media/platform/aspeed-video.c | 17 +++++++++--------
+ 1 file changed, 9 insertions(+), 8 deletions(-)
 
+diff --git a/drivers/media/platform/aspeed-video.c b/drivers/media/platform/aspeed-video.c
+index 4c75dc58a33c..4f5f5dd364ee 100644
+--- a/drivers/media/platform/aspeed-video.c
++++ b/drivers/media/platform/aspeed-video.c
+@@ -1068,18 +1068,19 @@ static void aspeed_video_set_resolution(struct aspeed_video *video)
+ 	/* Set capture/compression frame sizes */
+ 	aspeed_video_calc_compressed_size(video, size);
+ 
+-	if (video->active_timings.width == 1680) {
++	if (!IS_ALIGNED(act->width, 64)) {
+ 		/*
+-		 * This is a workaround to fix a silicon bug on A1 and A2
+-		 * revisions. Since it doesn't break capturing operation of
++		 * This is a workaround to fix a AST2500 silicon bug on A1 and
++		 * A2 revisions. Since it doesn't break capturing operation of
+ 		 * other revisions, use it for all revisions without checking
+-		 * the revision ID. It picked 1728 which is a very next
+-		 * 64-pixels aligned value to 1680 to minimize memory bandwidth
++		 * the revision ID. It picked new width which is a very next
++		 * 64-pixels aligned value to minimize memory bandwidth
+ 		 * and to get better access speed from video engine.
+ 		 */
+-		aspeed_video_write(video, VE_CAP_WINDOW,
+-				   1728 << 16 | act->height);
+-		size += (1728 - 1680) * video->active_timings.height;
++		u32 width = ALIGN(act->width, 64);
++
++		aspeed_video_write(video, VE_CAP_WINDOW, width << 16 | act->height);
++		size = width * act->height;
+ 	} else {
+ 		aspeed_video_write(video, VE_CAP_WINDOW,
+ 				   act->width << 16 | act->height);
 -- 
-Best Regards
-Jammy
+2.25.1
 
