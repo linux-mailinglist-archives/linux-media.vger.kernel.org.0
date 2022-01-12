@@ -2,107 +2,92 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1F6AC48C5EB
-	for <lists+linux-media@lfdr.de>; Wed, 12 Jan 2022 15:25:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7B9E848C75D
+	for <lists+linux-media@lfdr.de>; Wed, 12 Jan 2022 16:40:22 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1354068AbiALOZH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 12 Jan 2022 09:25:07 -0500
-Received: from www.linuxtv.org ([130.149.80.248]:49630 "EHLO www.linuxtv.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S239105AbiALOZF (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 12 Jan 2022 09:25:05 -0500
-Received: from builder.linuxtv.org ([140.211.167.10] helo=slave0)
-        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1n7eYi-006Uvv-D7; Wed, 12 Jan 2022 14:25:04 +0000
-Received: from ip6-localhost ([::1] helo=localhost.localdomain)
-        by slave0 with esmtp (Exim 4.94.2)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1n7eYg-004f1V-9F; Wed, 12 Jan 2022 14:25:02 +0000
-From:   Jenkins <jenkins@linuxtv.org>
-To:     mchehab+samsung@kernel.org, linux-media@vger.kernel.org
-Cc:     builder@linuxtv.org
-Subject: Re: [GIT PULL FOR v5.18] Add microchip csi2dc, atmel fixes, HEVC staging (#79945)
-Date:   Wed, 12 Jan 2022 14:25:02 +0000
-Message-Id: <20220112142502.1110959-1-jenkins@linuxtv.org>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <282f0afd-0ed1-008d-1c0b-5a547fdb3d5e@xs4all.nl>
-References: 
+        id S245681AbiALPkV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 12 Jan 2022 10:40:21 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35864 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229874AbiALPkT (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Wed, 12 Jan 2022 10:40:19 -0500
+Received: from mail-lf1-x12f.google.com (mail-lf1-x12f.google.com [IPv6:2a00:1450:4864:20::12f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BB627C06173F;
+        Wed, 12 Jan 2022 07:40:18 -0800 (PST)
+Received: by mail-lf1-x12f.google.com with SMTP id d3so9403987lfv.13;
+        Wed, 12 Jan 2022 07:40:18 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=7YzcHELoQHE6lsWBBlYzNlfti5+qLJvr6LQTidmKO20=;
+        b=A/K8h4Hb+/kmC14dRYp4GUa5XZrjznZgoK+QJ0/eZYRVzxAZ4YrO7RFViyjOu6tYa+
+         NL224hlp/f2CwFEh49nizaxrbPFUPvL6ClidPqYzGLm8J4qOH1PQM6Y2GdGkGZ6R7fzE
+         Vxl0Fk2Oz57Pn0WIpYO6iPijYsDktxfEAmNDuEZG02KBB2wv7OJtUaYAx8GJmCgYzYcf
+         jsgcLDI+eQwa2CSwDxUl+ccEJVip92Y38PgBpbBYBbxmax7S/2KR6fc16FxhSvXfGEWw
+         8kIPbJX1dkqLt2+yN6iG5ABRZCt3fP/CXHpwes6uHzSt87l2zHz4WRO7tG9oYE5SxLua
+         i9xQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=7YzcHELoQHE6lsWBBlYzNlfti5+qLJvr6LQTidmKO20=;
+        b=vlQGPJC/qb1of1wqJWy3P+2Z0t8MBzgZQZmhoa2lEEv4c6fmAJkDarPYByAh0gqCAY
+         sc4CgobUGlR9HvOaijRY31vAyElivh5d1OjvrJwD850cVE/4XXegoigzUK8Zo3kYHfsN
+         lx4nCDYbzWOaDzfp6bTT1yMTGF3+KmEdjcQH/I5usPHb76sQIDOaMrmUk8aPwyTBk03i
+         92y/HIhXBIBSVAjA7ybn66EM9uKDeIVuEhG95JZ8T+T2cZzMM8qPHnX3n0nAcd3sOmVl
+         gbTepmCKMUg30HHrYV5eyY5gaS+iTchdyh5PNdIbfMSo5SRxUnEiqxjOCnur/4ynmFlR
+         NaXQ==
+X-Gm-Message-State: AOAM532MEUCXHb7A/1qU47k9/2CnV8mvWZa7+NuqkTE+krJkge1e7/OH
+        RVrLnCtbsS4TQ/Gx/B/KlhM=
+X-Google-Smtp-Source: ABdhPJwOEEebyuP7EAEmCPtKjHEQiyeb0fgrZNYFW9s4PnlrOT82YWv562fvSljJ0XzY3hXketcblw==
+X-Received: by 2002:a2e:8695:: with SMTP id l21mr76627lji.452.1642002017185;
+        Wed, 12 Jan 2022 07:40:17 -0800 (PST)
+Received: from localhost.localdomain (94-29-62-108.dynamic.spd-mgts.ru. [94.29.62.108])
+        by smtp.gmail.com with ESMTPSA id f27sm20173lfk.266.2022.01.12.07.40.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 12 Jan 2022 07:40:16 -0800 (PST)
+From:   Dmitry Osipenko <digetx@gmail.com>
+To:     Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Nicolas Dufresne <nicolas@ndufresne.ca>
+Cc:     linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH v1 0/2] Add V4L stateless video decoder API support to NVIDIA Tegra driver
+Date:   Wed, 12 Jan 2022 18:39:50 +0300
+Message-Id: <20220112153952.1291-1-digetx@gmail.com>
+X-Mailer: git-send-email 2.33.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: builder@linuxtv.org
+Support V4L stateless video decoder API by NVIDIA Tegra decoder driver.
+Tested using GStreamer [1] and libvdpau-tegra [2].
 
-Pull request: https://patchwork.linuxtv.org/project/linux-media/patch/282f0afd-0ed1-008d-1c0b-5a547fdb3d5e@xs4all.nl/
-Build log: https://builder.linuxtv.org/job/patchwork/173458/
-Build time: 00:36:27
-Link: https://lore.kernel.org/linux-media/282f0afd-0ed1-008d-1c0b-5a547fdb3d5e@xs4all.nl
+[1] https://github.com/grate-driver/gstreamer/commit/b8509bdbb69b534e61419ea1798f32f9ad2f3597
+[2] https://github.com/grate-driver/libvdpau-tegra/commit/f822e95911e5e0c39f8ba19f843ddc1e0138d5ce
 
-gpg: Signature made Wed 12 Jan 2022 01:35:11 PM UTC
-gpg:                using RSA key AAA7FFBA4D2D77EF4CAEA1421326E0CD23ABDCE5
-gpg: Good signature from "Hans Verkuil <hverkuil-cisco@xs4all.nl>" [unknown]
-gpg:                 aka "Hans Verkuil <hverkuil@xs4all.nl>" [unknown]
-gpg: WARNING: This key is not certified with a trusted signature!
-gpg:          There is no indication that the signature belongs to the owner.
-Primary key fingerprint: 052C DE7B C215 053B 689F  1BCA BD2D 6148 6614 3B4C
-     Subkey fingerprint: AAA7 FFBA 4D2D 77EF 4CAE  A142 1326 E0CD 23AB DCE5
+Dmitry Osipenko (2):
+  media: staging: tegra-vde: Factor out H.264 code
+  media: staging: tegra-vde: Support V4L stateless video decoder API
 
-Summary: got 5/15 patches with issues, being 2 at build time, plus one error when buinding PDF document
+ drivers/staging/media/tegra-vde/Kconfig       |    7 +
+ drivers/staging/media/tegra-vde/Makefile      |    2 +-
+ drivers/staging/media/tegra-vde/h264.c        |  988 ++++++++++++++++
+ drivers/staging/media/tegra-vde/h264_reader.c |  264 +++++
+ drivers/staging/media/tegra-vde/v4l2.c        | 1013 +++++++++++++++++
+ drivers/staging/media/tegra-vde/vde.c         |  700 ++----------
+ drivers/staging/media/tegra-vde/vde.h         |  129 +++
+ 7 files changed, 2487 insertions(+), 616 deletions(-)
+ create mode 100644 drivers/staging/media/tegra-vde/h264.c
+ create mode 100644 drivers/staging/media/tegra-vde/h264_reader.c
+ create mode 100644 drivers/staging/media/tegra-vde/v4l2.c
 
-Error/warnings:
-
-patches/0001-MAINTAINERS-add-microchip-csi2dc.patch:
-
-    allyesconfig: return code #0:
-	../scripts/genksyms/parse.y: warning: 9 shift/reduce conflicts [-Wconflicts-sr]
-	../scripts/genksyms/parse.y: warning: 5 reduce/reduce conflicts [-Wconflicts-rr]
-	../scripts/genksyms/parse.y: note: rerun with option '-Wcounterexamples' to generate conflict counterexamples
-
-    allyesconfig: return code #0:
-	../drivers/media/rc/meson-ir-tx.c:22: warning: expecting prototype for meson(). Prototype was for DEVICE_NAME() instead
-	../drivers/media/i2c/ov8865.c: ../drivers/media/i2c/ov8865.c:2843 ov8865_get_selection() warn: inconsistent indenting
-	SMATCH:../drivers/media/usb/siano/smsusb.c ../drivers/media/usb/siano/smsusb.c:53:38: :warning: array of flexible structures
-	SPARSE:../drivers/media/usb/siano/smsusb.c ../drivers/media/usb/siano/smsusb.c:53:38: warning: array of flexible structures
-	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2625 dvb_register() parse error: turning off implications after 60 seconds
-	../drivers/media/test-drivers/vivid/vivid-core.c: ../drivers/media/test-drivers/vivid/vivid-core.c:1981 vivid_create_instance() parse error: turning off implications after 60 seconds
-	../drivers/media/platform/qcom/venus/helpers.c: ../drivers/media/platform/qcom/venus/helpers.c:658 venus_helper_get_bufreq() error: we previously assumed 'req' could be null (see line 654)
-	../drivers/media/usb/em28xx/em28xx-video.c: ../drivers/media/usb/em28xx/em28xx-video.c:2894 em28xx_v4l2_init() parse error: turning off implications after 60 seconds
-
-patches/0002-dt-bindings-media-atmel-csi2dc-add-bindings-for-micr.patch:
-
-   checkpatch.pl:
-	$ cat patches/0002-dt-bindings-media-atmel-csi2dc-add-bindings-for-micr.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
-	-:22: WARNING: added, moved or deleted file(s), does MAINTAINERS need updating?
-
-patches/0003-media-atmel-introduce-microchip-csi2dc-driver.patch:
-
-   checkpatch.pl:
-	$ cat patches/0003-media-atmel-introduce-microchip-csi2dc-driver.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
-	-:66: WARNING: added, moved or deleted file(s), does MAINTAINERS need updating?
-
-patches/0009-media-atmel-atmel-isc-base-fix-bytesperline-value-fo.patch:
-
-   checkpatch.pl:
-	$ cat patches/0009-media-atmel-atmel-isc-base-fix-bytesperline-value-fo.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
-	-:152: WARNING: please, no spaces at the start of a line
-	-:152: ERROR: spaces required around that ':' (ctx:VxW)
-	-:152: CHECK: Avoid CamelCase: <Bytes>
-	-:153: WARNING: Avoid multiple line dereference - prefer 'v4l2.This'
-	-:153: CHECK: Avoid CamelCase: <This>
-
-patches/0014-media-hevc-Remove-RPS-named-flags.patch:
-
-    allyesconfig: return code #0:
-	../drivers/media/test-drivers/vivid/vivid-core.c: ../drivers/media/test-drivers/vivid/vivid-core.c:1981 vivid_create_instance() parse error: turning off implications after 60 seconds
-	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2625 dvb_register() parse error: turning off implications after 60 seconds
-	../drivers/media/i2c/ov8865.c: ../drivers/media/i2c/ov8865.c:2843 ov8865_get_selection() warn: inconsistent indenting
-	../drivers/media/usb/em28xx/em28xx-video.c: ../drivers/media/usb/em28xx/em28xx-video.c:2868 em28xx_v4l2_init() parse error: turning off implications after 60 seconds
-	../drivers/media/platform/qcom/venus/helpers.c: ../drivers/media/platform/qcom/venus/helpers.c:658 venus_helper_get_bufreq() error: we previously assumed 'req' could be null (see line 654)
-
-
-Error #512 when building PDF docs
+-- 
+2.33.1
 
