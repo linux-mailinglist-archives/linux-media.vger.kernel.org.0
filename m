@@ -2,153 +2,86 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7562F48C3B4
-	for <lists+linux-media@lfdr.de>; Wed, 12 Jan 2022 13:07:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3069248C405
+	for <lists+linux-media@lfdr.de>; Wed, 12 Jan 2022 13:31:09 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1347251AbiALMHY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 12 Jan 2022 07:07:24 -0500
-Received: from ewsoutbound.kpnmail.nl ([195.121.94.168]:63906 "EHLO
-        ewsoutbound.kpnmail.nl" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237350AbiALMHX (ORCPT
+        id S1353147AbiALMae (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 12 Jan 2022 07:30:34 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47970 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S238102AbiALMae (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 12 Jan 2022 07:07:23 -0500
-X-KPN-MessageId: 1a08e1aa-73a0-11ec-8862-005056aba152
-Received: from smtp.kpnmail.nl (unknown [10.31.155.38])
-        by ewsoutbound.so.kpn.org (Halon) with ESMTPS
-        id 1a08e1aa-73a0-11ec-8862-005056aba152;
-        Wed, 12 Jan 2022 13:06:41 +0100 (CET)
+        Wed, 12 Jan 2022 07:30:34 -0500
+Received: from mail-ed1-x542.google.com (mail-ed1-x542.google.com [IPv6:2a00:1450:4864:20::542])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AFA1DC06173F
+        for <linux-media@vger.kernel.org>; Wed, 12 Jan 2022 04:30:33 -0800 (PST)
+Received: by mail-ed1-x542.google.com with SMTP id t24so9280502edi.8
+        for <linux-media@vger.kernel.org>; Wed, 12 Jan 2022 04:30:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=xs4all.nl; s=xs4all01;
-        h=content-type:from:to:subject:mime-version:date:message-id;
-        bh=/kks0r5w0KQ+v/Z4xSIKSyUZglpRSXpEXnyxk0dWxHs=;
-        b=QwNvnV8ptaBl5hdUox1MrT/sZ7vpMV3AtJ5+lvI3D3frKBaxzIyrAawowMzSS/BIH1hG1Yd64Pfll
-         lXn3tgghw6FwwXbFQq9mT/cnG3hYTKpud7T3tzCvnX4HnC+57ZnpuKa83h7lqQYybH3xWo7FAPjVVv
-         LHHes9RyBXDa0WXDgIkjUayc+sTzuu8A+T7N0dqeICBHokXN/JZSEFCRZiyfWxqppBjIsSCe7vjNdX
-         Xi0kyjzUXzyoqXy+TWExZZKD//H9T0jQtMW9PgVdtSsYfnNmZeMa6iEbuPvdpztB3recriTIjGnqKA
-         trHb0jWKGAzjqDDRoAfwFh9uIFYuk7Q==
-X-KPN-VerifiedSender: Yes
-X-CMASSUN: 33|eElTae1qMUScSWAJAAoK/LhQS6rs1AfjpYhHrZqvSg6sfxxF7FyxxDhQ2/PJpVZ
- 7RyYmCLWUfmdzADkftIvGvA==
-X-Originating-IP: 193.91.129.219
-Received: from [192.168.2.10] (cdb815bc1.dhcp.as2116.net [193.91.129.219])
-        by smtp.xs4all.nl (Halon) with ESMTPSA
-        id 31bf7742-73a0-11ec-94d2-005056abf0db;
-        Wed, 12 Jan 2022 13:07:21 +0100 (CET)
-Message-ID: <50bb6274-b004-eff7-56d5-68ec8e10d3c4@xs4all.nl>
-Date:   Wed, 12 Jan 2022 13:07:20 +0100
+        d=qtec.com; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=tMyBqSUDkCcX244moqJOyoACTSWTsFlXT0+usdF38Uc=;
+        b=M1fdbA6ulSnk0eOrAwZY2FxY0yoxmX9LmqhdBG5zgWo9iECDIlLOhKXOVkr+DZfrHU
+         EgKH1RD1c/+Ig2NoCJfTpIA3906Mg9YDB7LzQR0PjnTMbUzsu8eSGTXD0oC2qyUuM3Xm
+         ixuUSIkeQPLiiOYdCKWrNax0XPIxBX8+j8DKEeWC6Xr7YfTCpE7oML5NyBN1cPhqMr/X
+         z+DubXDzPhWftWZSqglex+yJw6qJoSRwhNJE6KlrVHUUazXCSpiEDTEhfxIGdFDMvdMA
+         tmMUsbpzuBtyaeE2ehMcZCegutn3xjkmzHfltcuf/QAM4I+XVD+L/lffRTl9mI2LldC1
+         fjxw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=tMyBqSUDkCcX244moqJOyoACTSWTsFlXT0+usdF38Uc=;
+        b=zl4eXuhZFnTmrm3EEoLE/1nuKhThHJ1IhL4TMoprXqi+jr7gs8qygB6vDh9Tn3koe5
+         tNZT4ioEO+6niNiEx+qSB9rwzakIxiOYhG3Zn88Dpt0BU5hIH2P6eGMxPa6hMLKX6AkU
+         Nvc6YyGK2/i8CR/A3AXqqn+BTuCFdrJV+SK67dqZa8K5VpDQ0XBcF8lvK/q+NfgHxzQ8
+         R0TXW+o8oHABGM0nNpt94pF4yb6ZGloq9zWxhSKguRoTyM0+9NHEqQZMcqOu0H4s1N1T
+         EX8QUI56xGUjD/h8eExMl/euL1/NXvJ4DWAyWDqpqFhkisY6XzHKF0uDc+WdpkUm8qei
+         OxdQ==
+X-Gm-Message-State: AOAM533yEVN/L7cHiDspEJkTLde1jqtGIrxrt6f3CtW3svsh/WZgeMm+
+        VqdynMU9UA/2asflKutxUERhCtH/1nhCpArvo6KPADevJ/OxqcRwsDAwwzt2yLXWbF6mB6d5YLK
+        i68hoDnsHthpSuyqnK2xAa6YSXQHa3wjmyb1oj8tQnotp+3wwFcH67slAAw+SFes0UjkGE3EL
+X-Google-Smtp-Source: ABdhPJzw68UmWoiCziOjxxI/XNCwPMGIGztXt5QGLV4JRvjemWhHPXxrWxQakSIx/A3XDwXCL/TcxQ==
+X-Received: by 2002:a05:6402:35d2:: with SMTP id z18mr8579686edc.100.1641990632057;
+        Wed, 12 Jan 2022 04:30:32 -0800 (PST)
+Received: from nixos.qtec.com (cpe.ge-3-0-8-100.ryvnqe10.dk.customer.tdc.net. [80.197.57.18])
+        by smtp.gmail.com with ESMTPSA id hp18sm4473123ejc.120.2022.01.12.04.30.31
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 12 Jan 2022 04:30:31 -0800 (PST)
+From:   Daniel Lundberg Pedersen <dlp@qtec.com>
+To:     linux-media@vger.kernel.org, mchehab@kernel.org
+Cc:     Daniel Lundberg Pedersen <dlp@qtec.com>
+Subject: [PATCH v2] media: docs: v4l2grab.c.rst: change unintended assignment
+Date:   Wed, 12 Jan 2022 13:28:09 +0100
+Message-Id: <20220112122809.9244-1-dlp@qtec.com>
+X-Mailer: git-send-email 2.33.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Firefox/91.0 Thunderbird/91.4.1
-Subject: Re: [PATCH v3 00/23] media: atmel: atmel-isc: implement media
- controller
-Content-Language: en-US
-To:     Eugen Hristev <eugen.hristev@microchip.com>,
-        linux-media@vger.kernel.org, robh+dt@kernel.org, jacopo@jmondi.org,
-        laurent.pinchart@ideasonboard.com, sakari.ailus@iki.fi
-Cc:     devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, nicolas.ferre@microchip.com
-References: <20211213134940.324266-1-eugen.hristev@microchip.com>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-In-Reply-To: <20211213134940.324266-1-eugen.hristev@microchip.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Eugen,
+Example should be comparing errno to EINTR instead of doing assignment.
 
-On 13/12/2021 14:49, Eugen Hristev wrote:
-> This series is the v3 of the series that attempts to support media controller
-> in the atmel ISC and XISC drivers.
-> This series also includes the csi2dc driver which was previously sent in a
-> separate series:
-> https://www.spinics.net/lists/linux-media/msg181042.html
-> https://www.spinics.net/lists/linux-media/msg181044.html
-> The driver now addresses comments received in latest v5 series from last year.
-> 
-> The series includes some minor changes and fixes that improve the isc common
-> code base, like removing the enum frameintervals VIDIOC, fixing bytesperline
-> for planar formats, etc.
-> 
-> Many thanks to folks from libcamera who helped a lot with understanding
-> how a media controller driver should behave.
-> 
-> Feedback is welcome !
-> 
-> Changes in v3:
-> - change in bindings, small fixes in csi2dc driver and conversion to mc
-> for the isc-base.
-> - removed some MAINTAINERS patches and used patterns in MAINTAINERS
-> 
-> Changes in v2:
-> - integrated many changes suggested by Jacopo in the review of the v1 series.
-> - add a few new patches
+Signed-off-by: Daniel Lundberg Pedersen <dlp@qtec.com>
+---
+ Documentation/userspace-api/media/v4l/v4l2grab.c.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Based on the current review status I think it would make sense to add
-the following patches from this series to a PR:
-
-1-6, 8-9, 11, 16, 18-22.
-
-Are there any patches (esp. 11 and later) that require other patches
-not in this list? In other words, does this make sense?
-
-Regards,
-
-	Hans
-
-> 
-> 
-> Eugen Hristev (23):
->   MAINTAINERS: add microchip csi2dc
->   dt-bindings: media: atmel: csi2dc: add bindings for microchip csi2dc
->   media: atmel: introduce microchip csi2dc driver
->   media: atmel: atmel-isc: split the clock code into separate source
->     file
->   media: atmel: atmel-isc: replace video device name with module name
->   media: atmel: atmel-sama7g5-isc: fix ispck leftover
->   media: atmel: atmel-isc-base: use streaming status when queueing
->     buffers
->   media: atmel: atmel-isc-base: remove frameintervals VIDIOC
->   media: atmel: atmel-isc-base: report frame sizes as full supported
->     range
->   media: atmel: atmel-isc-base: implement mbus_code support in enumfmt
->   media: atmel: atmel-isc-base: fix bytesperline value for planar
->     formats
->   media: atmel: atmel-isc: implement media controller
->   ARM: dts: at91: sama7g5: add nodes for video capture
->   ARM: configs: at91: sama7: add xisc and csi2dc
->   ARM: multi_v7_defconfig: add atmel video pipeline modules
->   media: atmel: atmel-sama5d2-isc: fix wrong mask in YUYV format check
->   media: atmel: atmel-isc-base: use mutex to lock awb workqueue from
->     streaming
->   media: atmel: atmel-isc-base: add wb debug messages
->   media: atmel: atmel-isc-base: clamp wb gain coefficients
->   media: atmel: atmel-sama7g5-isc: fix UYVY input format mbus_code typo
->   media: atmel: atmel-isc: add raw Bayer 8bit 10bit output formats
->   media: atmel: atmel-isc: compact the controller formats list
->   media: atmel: atmel-isc: change format propagation to subdev into only
->     verification
-> 
->  .../bindings/media/microchip,csi2dc.yaml      | 197 +++++
->  MAINTAINERS                                   |  14 +-
->  arch/arm/boot/dts/sama7g5.dtsi                |  48 ++
->  arch/arm/configs/multi_v7_defconfig           |   3 +
->  arch/arm/configs/sama7_defconfig              |   2 +
->  drivers/media/platform/Makefile               |   1 +
->  drivers/media/platform/atmel/Kconfig          |  15 +
->  drivers/media/platform/atmel/Makefile         |   4 +-
->  drivers/media/platform/atmel/atmel-isc-base.c | 790 ++++++-----------
->  drivers/media/platform/atmel/atmel-isc-clk.c  | 311 +++++++
->  drivers/media/platform/atmel/atmel-isc-mc.c   | 287 +++++++
->  drivers/media/platform/atmel/atmel-isc.h      |  49 ++
->  .../media/platform/atmel/atmel-sama5d2-isc.c  |  59 +-
->  .../media/platform/atmel/atmel-sama7g5-isc.c  |  72 +-
->  .../media/platform/atmel/microchip-csi2dc.c   | 806 ++++++++++++++++++
->  15 files changed, 2085 insertions(+), 573 deletions(-)
->  create mode 100644 Documentation/devicetree/bindings/media/microchip,csi2dc.yaml
->  create mode 100644 drivers/media/platform/atmel/atmel-isc-clk.c
->  create mode 100644 drivers/media/platform/atmel/atmel-isc-mc.c
->  create mode 100644 drivers/media/platform/atmel/microchip-csi2dc.c
-> 
+diff --git a/Documentation/userspace-api/media/v4l/v4l2grab.c.rst b/Documentation/userspace-api/media/v4l/v4l2grab.c.rst
+index eaa0f95048e7..c98a78d63a8b 100644
+--- a/Documentation/userspace-api/media/v4l/v4l2grab.c.rst
++++ b/Documentation/userspace-api/media/v4l/v4l2grab.c.rst
+@@ -134,7 +134,7 @@ file: media/v4l/v4l2grab.c
+ 			    tv.tv_usec = 0;
+ 
+ 			    r = select(fd + 1, &fds, NULL, NULL, &tv);
+-		    } while ((r == -1 && (errno = EINTR)));
++		    } while ((r == -1 && (errno == EINTR)));
+ 		    if (r == -1) {
+ 			    perror("select");
+ 			    return errno;
+-- 
+2.33.1
 
