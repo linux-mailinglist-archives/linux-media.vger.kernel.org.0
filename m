@@ -2,292 +2,184 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D0BF748C083
-	for <lists+linux-media@lfdr.de>; Wed, 12 Jan 2022 09:57:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 30DDF48C088
+	for <lists+linux-media@lfdr.de>; Wed, 12 Jan 2022 09:57:47 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1351836AbiALI5T (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 12 Jan 2022 03:57:19 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56160 "EHLO
+        id S1351856AbiALI5p (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 12 Jan 2022 03:57:45 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56280 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238174AbiALI5N (ORCPT
+        with ESMTP id S1351893AbiALI5k (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 12 Jan 2022 03:57:13 -0500
-Received: from mail-wr1-x42e.google.com (mail-wr1-x42e.google.com [IPv6:2a00:1450:4864:20::42e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CE8EEC06173F
-        for <linux-media@vger.kernel.org>; Wed, 12 Jan 2022 00:57:12 -0800 (PST)
-Received: by mail-wr1-x42e.google.com with SMTP id x4so2849844wru.7
-        for <linux-media@vger.kernel.org>; Wed, 12 Jan 2022 00:57:12 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20210112.gappssmtp.com; s=20210112;
-        h=subject:to:cc:references:from:organization:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=HhvZ3uKij/5andIsYWXWjb4Izd/6e/PP/vgXNxLfogY=;
-        b=5kf6KDQr39SrKewfAropcE6gWWCr/MgoEwhYKIcc1ZpTzaQk53nBFiKLuQJB5uA8GP
-         6XEz3aWy2A1TcXRAncBzuNdR79AVjVUY10aS14chzi5ajrOe51PgYYYTpaeDSCkX2Qcn
-         mpIfnN22bTAe20qyIGLZeU5tyAECgoy9xUcKNmIyg8TFgRhfAvE/A1F4nKCg4Tc6EUXb
-         g2J++gp5Zm5wzoWxZHRVZ/FsDfgD18oikdxH33L9pjSu02UNseeuxXcVbbUu2GoaRC/P
-         HgzVbt6b6vzpbK3AteWBtDxTWWyfZMrizjp62EYFKmHjtDxx4vHd3gNU/LZvdenzT2IU
-         hFCw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:subject:to:cc:references:from:organization
-         :message-id:date:user-agent:mime-version:in-reply-to
-         :content-language:content-transfer-encoding;
-        bh=HhvZ3uKij/5andIsYWXWjb4Izd/6e/PP/vgXNxLfogY=;
-        b=rHJzIJ9oV2B+WfXrEYCoUu3Ed/4nRVkmdWycx8k6VpUZas+3BkUINkorvJA8zIpBx0
-         0+NJMLDKLQSZFlXkgS7bC9bioSJTsNyoRzM9B0YGbyrThPiAhihwPMVWV6BeK0EVD1uG
-         SoVD6JYOyVNP5dtI0JlY6aR0rdQmgrMt506jGjlU3iM73bQ9adMN8fCAidAsiVw+bbt5
-         ZtecW/9isK8yOtk3gFkt33JO6j1Ed16ppTygmOe6g4OTrWXG5KgOc3PfyKLzzV/frXUm
-         Xlzmgf42aHX5qSo0QmV5geVp0ScQcORs6bArF/s0KUsWAzi/Hjtx1bFy8jAk1USQMvEN
-         hbaA==
-X-Gm-Message-State: AOAM532+pvrvkJlT61+tl5c3BXJjA7Ac23Q4n0rFkFv67YGqFB8aCXYk
-        ceZRWncyF5tjjGfAgxBx7QTVGq03UNm2BQ==
-X-Google-Smtp-Source: ABdhPJxoppz080L/K51cmR/DK3+uH3HTamW+P2BTnZcrNLMIGJdrepJU9AzsphtY3FXV8DqUpuNMZw==
-X-Received: by 2002:a5d:4905:: with SMTP id x5mr7075999wrq.30.1641977831283;
-        Wed, 12 Jan 2022 00:57:11 -0800 (PST)
-Received: from ?IPv6:2001:861:44c0:66c0:381b:6e50:a892:5269? ([2001:861:44c0:66c0:381b:6e50:a892:5269])
-        by smtp.gmail.com with ESMTPSA id n1sm12619238wri.46.2022.01.12.00.57.10
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 12 Jan 2022 00:57:10 -0800 (PST)
-Subject: Re: [PATCH v3] media: meson: vdec: Fix a NULL pointer dereference in
- amvdec_add_ts()
-To:     Qingyang Zhou <zhou1615@umn.edu>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Cc:     Kangjie Lu <kjlu@umn.edu>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Kevin Hilman <khilman@baylibre.com>,
-        Jerome Brunet <jbrunet@baylibre.com>,
-        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-        Maxime Jourdan <mjourdan@baylibre.com>,
-        linux-media@vger.kernel.org, linux-amlogic@lists.infradead.org,
-        linux-staging@lists.linux.dev,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-References: <20211214144613.35fec82a@coco.lan>
- <20211215033535.40422-1-zhou1615@umn.edu>
- <368bc1b7-ff86-beaa-6749-afbe5960eaeb@xs4all.nl>
- <CA+Cm_xSOv5NnW5GXcKKGi8bQSvT45iH6=65YJk3EG6uW0c5_Vw@mail.gmail.com>
-From:   Neil Armstrong <narmstrong@baylibre.com>
-Organization: Baylibre
-Message-ID: <7e9f1b17-7087-3513-84b9-f5dd25211b87@baylibre.com>
-Date:   Wed, 12 Jan 2022 09:57:10 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+        Wed, 12 Jan 2022 03:57:40 -0500
+Received: from relay6-d.mail.gandi.net (relay6-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::226])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A4EFDC06173F
+        for <linux-media@vger.kernel.org>; Wed, 12 Jan 2022 00:57:38 -0800 (PST)
+Received: (Authenticated sender: jacopo@jmondi.org)
+        by relay6-d.mail.gandi.net (Postfix) with ESMTPSA id A6F29C0006;
+        Wed, 12 Jan 2022 08:57:34 +0000 (UTC)
+Date:   Wed, 12 Jan 2022 09:58:35 +0100
+From:   Jacopo Mondi <jacopo@jmondi.org>
+To:     Eugen Hristev <eugen.hristev@microchip.com>
+Cc:     linux-media@vger.kernel.org, robh+dt@kernel.org,
+        laurent.pinchart@ideasonboard.com, sakari.ailus@iki.fi,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, nicolas.ferre@microchip.com
+Subject: Re: [PATCH v3 17/23] media: atmel: atmel-isc-base: use mutex to lock
+ awb workqueue from streaming
+Message-ID: <20220112085835.twjhxjnigl3uhgqj@uno.localdomain>
+References: <20211213134940.324266-1-eugen.hristev@microchip.com>
+ <20211213134940.324266-18-eugen.hristev@microchip.com>
 MIME-Version: 1.0
-In-Reply-To: <CA+Cm_xSOv5NnW5GXcKKGi8bQSvT45iH6=65YJk3EG6uW0c5_Vw@mail.gmail.com>
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Disposition: inline
+In-Reply-To: <20211213134940.324266-18-eugen.hristev@microchip.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi,
+Hi Eugen
 
-On 11/01/2022 14:03, Qingyang Zhou wrote:
-> Hi Hans:
-> 
-> Here I certify that this is an origin patch I wrote. I did not copy Neil's patch, and I did not know his patch.
-> 
-> Neil, please post your original patch here, so everyone can see both patches.
-> 
-> Yours 
-> Zhou Qingyang.
-> 
-> On Tue, Jan 11, 2022 at 5:16 PM Hans Verkuil <hverkuil-cisco@xs4all.nl <mailto:hverkuil-cisco@xs4all.nl>> wrote:
-> 
->     Zhou Qingyang, this is exactly the patch Neil wrote, except you just stuck your
->     name on it. Not nice.
-> 
->     Neil, can you post your patch with your own Signed-off-by, then I'll take that one.
-> 
->     Regards,
-> 
->             Hans
-> 
->     On 15/12/2021 04:35, Zhou Qingyang wrote:
->     > In amvdec_add_ts(), there is a dereference of kzalloc(), which could lead
->     > to a NULL pointer dereference on failure of kzalloc().
->     >
->     > Fix this bug by adding a NULL check of new_ts.
->     >
->     > This bug was found by a static analyzer[1].
->     >
->     > Builds with CONFIG_VIDEO_MESON_VDEC=m show no new warnings,
->     > and our static analyzer no longer warns about this code.
->     >
->     > Fixes: 876f123b8956 ("media: meson: vdec: bring up to compliance")
->     > Signed-off-by: Zhou Qingyang <zhou1615@umn.edu <mailto:zhou1615@umn.edu>>
->     > ---
->     >
->     > [1] The analysis employs differential checking to identify inconsistent
->     > security operations (e.g., checks or kfrees) between two code paths and
->     > confirms that the inconsistent operations are not recovered in the
->     > current function or the callers, so they constitute bugs.
->     >
->     > Note that, as a bug found by static analysis, it can be a false
->     > positive or hard to trigger. Multiple researchers have cross-reviewed
->     > the bug.
->     >
->     > Changes in v3:
->     >   -  Change the description of patch
->     >   -  Turn the return type from 'void' to 'int'
->     >   -  Check the return value in the caller 'esparser_queue()'
->     >
->     > Changes in v2:
->     >   -  Delete dev_err() message
->     >
->     >  drivers/staging/media/meson/vdec/esparser.c     | 7 ++++++-
->     >  drivers/staging/media/meson/vdec/vdec_helpers.c | 8 ++++++--
->     >  drivers/staging/media/meson/vdec/vdec_helpers.h | 4 ++--
->     >  3 files changed, 14 insertions(+), 5 deletions(-)
->     >
->     > diff --git a/drivers/staging/media/meson/vdec/esparser.c b/drivers/staging/media/meson/vdec/esparser.c
->     > index db7022707ff8..095100a50da8 100644
->     > --- a/drivers/staging/media/meson/vdec/esparser.c
->     > +++ b/drivers/staging/media/meson/vdec/esparser.c
->     > @@ -328,7 +328,12 @@ esparser_queue(struct amvdec_session *sess, struct vb2_v4l2_buffer *vbuf)
->     > 
->     >       offset = esparser_get_offset(sess);
->     > 
->     > -     amvdec_add_ts(sess, vb->timestamp, vbuf->timecode, offset, vbuf->flags);
->     > +     ret = amvdec_add_ts(sess, vb->timestamp, vbuf->timecode, offset, vbuf->flags);
->     > +     if (!ret) {
->     > +             v4l2_m2m_buf_done(vbuf, VB2_BUF_STATE_ERROR);
->     > +             return ret;
->     > +     }
->     > +
->     >       dev_dbg(core->dev, "esparser: ts = %llu pld_size = %u offset = %08X flags = %08X\n",
->     >               vb->timestamp, payload_size, offset, vbuf->flags);
->     > 
->     > diff --git a/drivers/staging/media/meson/vdec/vdec_helpers.c b/drivers/staging/media/meson/vdec/vdec_helpers.c
->     > index b9125c295d1d..06fd66539797 100644
->     > --- a/drivers/staging/media/meson/vdec/vdec_helpers.c
->     > +++ b/drivers/staging/media/meson/vdec/vdec_helpers.c
->     > @@ -227,13 +227,16 @@ int amvdec_set_canvases(struct amvdec_session *sess,
->     >  }
->     >  EXPORT_SYMBOL_GPL(amvdec_set_canvases);
->     > 
->     > -void amvdec_add_ts(struct amvdec_session *sess, u64 ts,
->     > -                struct v4l2_timecode tc, u32 offset, u32 vbuf_flags)
->     > +int amvdec_add_ts(struct amvdec_session *sess, u64 ts,
->     > +               struct v4l2_timecode tc, u32 offset, u32 vbuf_flags)
->     >  {
->     >       struct amvdec_timestamp *new_ts;
->     >       unsigned long flags;
->     > 
->     >       new_ts = kzalloc(sizeof(*new_ts), GFP_KERNEL);
->     > +     if (!new_ts)
->     > +             return -ENOMEM;
->     > +
->     >       new_ts->ts = ts;
->     >       new_ts->tc = tc;
->     >       new_ts->offset = offset;
->     > @@ -242,6 +245,7 @@ void amvdec_add_ts(struct amvdec_session *sess, u64 ts,
->     >       spin_lock_irqsave(&sess->ts_spinlock, flags);
->     >       list_add_tail(&new_ts->list, &sess->timestamps);
->     >       spin_unlock_irqrestore(&sess->ts_spinlock, flags);
->     > +     return 0;
->     >  }
->     >  EXPORT_SYMBOL_GPL(amvdec_add_ts);
->     > 
->     > diff --git a/drivers/staging/media/meson/vdec/vdec_helpers.h b/drivers/staging/media/meson/vdec/vdec_helpers.h
->     > index 88137d15aa3a..4bf3e61d081b 100644
->     > --- a/drivers/staging/media/meson/vdec/vdec_helpers.h
->     > +++ b/drivers/staging/media/meson/vdec/vdec_helpers.h
->     > @@ -56,8 +56,8 @@ void amvdec_dst_buf_done_offset(struct amvdec_session *sess,
->     >   * @offset: offset in the VIFIFO where the associated packet was written
->     >   * @flags: the vb2_v4l2_buffer flags
->     >   */
->     > -void amvdec_add_ts(struct amvdec_session *sess, u64 ts,
->     > -                struct v4l2_timecode tc, u32 offset, u32 flags);
->     > +int amvdec_add_ts(struct amvdec_session *sess, u64 ts,
->     > +               struct v4l2_timecode tc, u32 offset, u32 flags);
->     >  void amvdec_remove_ts(struct amvdec_session *sess, u64 ts);
->     > 
->     >  /**
-> 
+On Mon, Dec 13, 2021 at 03:49:34PM +0200, Eugen Hristev wrote:
+> The AWB workqueue runs in a kernel thread and needs to be synchronized
+> w.r.t. the streaming status.
+> It is possible that streaming is stopped while the AWB workq is running.
+> In this case it is likely that the check for isc->stop is done at one point
+> in time, but the AWB computations are done later, including a call to
+> isc_update_profile, which requires streaming to be started.
+> Thus , isc_update_profile will fail if during this operation sequence the
+> streaming was stopped.
+> To solve this issue, a mutex is added, that will serialize the awb work and
+> streaming stopping, with the mention that either streaming is stopped
+> completely including termination of the last frame is done, and after that
+> the AWB work can check stream status and stop; either first AWB work is
+> completed and after that the streaming can stop correctly.
+> The awb spin lock cannot be used since this spinlock is taken in the same
+> context and using it in the stop streaming will result in a recursion BUG.
+>
+> Signed-off-by: Eugen Hristev <eugen.hristev@microchip.com>
+> ---
+>  drivers/media/platform/atmel/atmel-isc-base.c | 31 ++++++++++++++++---
+>  drivers/media/platform/atmel/atmel-isc.h      |  1 +
+>  2 files changed, 28 insertions(+), 4 deletions(-)
+>
+> diff --git a/drivers/media/platform/atmel/atmel-isc-base.c b/drivers/media/platform/atmel/atmel-isc-base.c
+> index b0c3ed21f372..53cac1aac0fd 100644
+> --- a/drivers/media/platform/atmel/atmel-isc-base.c
+> +++ b/drivers/media/platform/atmel/atmel-isc-base.c
+> @@ -401,6 +401,7 @@ static void isc_stop_streaming(struct vb2_queue *vq)
+>  	struct isc_buffer *buf;
+>  	int ret;
+>
+> +	mutex_lock(&isc->awb_mutex);
+>  	v4l2_ctrl_activate(isc->do_wb_ctrl, false);
+>
+>  	isc->stop = true;
+> @@ -410,6 +411,8 @@ static void isc_stop_streaming(struct vb2_queue *vq)
+>  		v4l2_err(&isc->v4l2_dev,
+>  			 "Timeout waiting for end of the capture\n");
+>
+> +	mutex_unlock(&isc->awb_mutex);
+> +
+>  	/* Disable DMA interrupt */
+>  	regmap_write(isc->regmap, ISC_INTDIS, ISC_INT_DDONE);
+>
+> @@ -1416,10 +1419,6 @@ static void isc_awb_work(struct work_struct *w)
+>  	u32 min, max;
+>  	int ret;
+>
+> -	/* streaming is not active anymore */
+> -	if (isc->stop)
+> -		return;
+> -
+>  	if (ctrls->hist_stat != HIST_ENABLED)
+>  		return;
+>
+> @@ -1470,7 +1469,24 @@ static void isc_awb_work(struct work_struct *w)
+>  	}
+>  	regmap_write(regmap, ISC_HIS_CFG + isc->offsets.his,
+>  		     hist_id | baysel | ISC_HIS_CFG_RAR);
 
-Let's inspect:
+isc_stop_streaming() calls runtime_put and here you access the hw.
 
-I posted a probable solution the 09/12/2021 in a reply to 20211209085840.2081024-1-jiasheng@iscas.ac.cn :
+Feels like it's safer to hold the mutex for the whole duration of the
+AWB routine ?
 
-===================><=============================
-diff --git a/drivers/staging/media/meson/vdec/esparser.c b/drivers/staging/media/meson/vdec/esparser.c
-index db7022707ff8..df733eff9ac7 100644
---- a/drivers/staging/media/meson/vdec/esparser.c
-+++ b/drivers/staging/media/meson/vdec/esparser.c
-@@ -328,7 +328,11 @@ esparser_queue(struct amvdec_session *sess, struct vb2_v4l2_buffer *vbuf)
-
-        offset = esparser_get_offset(sess);
-
--       amvdec_add_ts(sess, vb->timestamp, vbuf->timecode, offset, vbuf->flags);
-+       ret = amvdec_add_ts(sess, vb->timestamp, vbuf->timecode, offset, vbuf->flags);
-+       if (ret) {
-+               v4l2_m2m_buf_done(vbuf, VB2_BUF_STATE_ERROR);
-+               return ret;
-+       }
-        dev_dbg(core->dev, "esparser: ts = %llu pld_size = %u offset = %08X flags = %08X\n",
-                vb->timestamp, payload_size, offset, vbuf->flags);
-
-diff --git a/drivers/staging/media/meson/vdec/vdec_helpers.c b/drivers/staging/media/meson/vdec/vdec_helpers.c
-index b9125c295d1d..593b2ccbece2 100644
---- a/drivers/staging/media/meson/vdec/vdec_helpers.c
-+++ b/drivers/staging/media/meson/vdec/vdec_helpers.c
-@@ -227,13 +227,15 @@ int amvdec_set_canvases(struct amvdec_session *sess,
- }
- EXPORT_SYMBOL_GPL(amvdec_set_canvases);
-
--void amvdec_add_ts(struct amvdec_session *sess, u64 ts,
--                  struct v4l2_timecode tc, u32 offset, u32 vbuf_flags)
-+int amvdec_add_ts(struct amvdec_session *sess, u64 ts,
-+                 struct v4l2_timecode tc, u32 offset, u32 vbuf_flags)
- {
-        struct amvdec_timestamp *new_ts;
-        unsigned long flags;
-
-        new_ts = kzalloc(sizeof(*new_ts), GFP_KERNEL);
-+       if (!new_ts)
-+               return -ENOMEM;
-        new_ts->ts = ts;
-        new_ts->tc = tc;
-        new_ts->offset = offset;
-diff --git a/drivers/staging/media/meson/vdec/vdec_helpers.h b/drivers/staging/media/meson/vdec/vdec_helpers.h
-index 88137d15aa3a..4bf3e61d081b 100644
---- a/drivers/staging/media/meson/vdec/vdec_helpers.h
-+++ b/drivers/staging/media/meson/vdec/vdec_helpers.h
-@@ -56,8 +56,8 @@ void amvdec_dst_buf_done_offset(struct amvdec_session *sess,
-  * @offset: offset in the VIFIFO where the associated packet was written
-  * @flags: the vb2_v4l2_buffer flags
-  */
--void amvdec_add_ts(struct amvdec_session *sess, u64 ts,
--                  struct v4l2_timecode tc, u32 offset, u32 flags);
-+int amvdec_add_ts(struct amvdec_session *sess, u64 ts,
-+                 struct v4l2_timecode tc, u32 offset, u32 flags);
- void amvdec_remove_ts(struct amvdec_session *sess, u64 ts);
-===================><=============================
-
-
-Then the patches were sent:
-- 20211210015620.2143555-1-jiasheng@iscas.ac.cn on 10/12/2021
-- 20211215033535.40422-1-zhou1615@umn.edu on 15/12/2021
-
-They are extremely close but not similar, mostly indenting differs.
-
-Both patches have the missing final "return 0" in amvdec_add_ts which is missing in my proposal.
-
-But only 20211210015620.2143555-1-jiasheng@iscas.ac.cn has the correct "if (ret)" in esparser_queue().
-Patch 20211215033535.40422-1-zhou1615@umn.ed has a wrong "if (!ret)".
-
-But when comparing, 20211215033535.40422-1-zhou1615@umn.edu is an almost exact copy of my proposal, minus the fixes and the bogus return check.
-
-To be honest, there is a limited way to fix this, it's probable 20211215033535.40422-1-zhou1615@umn.edu was written independently from
-my proposal since there is a bug return check, and 20211210015620.2143555-1-jiasheng@iscas.ac.cn was rewritten from my proposal.
-
-Since 20211215033535.40422-1-zhou1615@umn.ed has a bogus return check, it should be naked.
-
-I'll only ask 20211210015620.2143555-1-jiasheng@iscas.ac.cn to be resent with a "Suggested-by" and indentation fixed like my proposal.
-
-Neil
-
+> +
+> +	/*
+> +	 * We have to make sure the streaming has not stopped meanwhile.
+> +	 * ISC requires a frame to clock the internal profile update.
+> +	 * To avoid issues, lock the sequence with a mutex
+> +	 */
+> +	mutex_lock(&isc->awb_mutex);
+> +
+> +	/* streaming is not active anymore */
+> +	if (isc->stop) {
+> +		mutex_unlock(&isc->awb_mutex);
+> +		return;
+> +	};
+> +
+>  	isc_update_profile(isc);
+> +
+> +	mutex_unlock(&isc->awb_mutex);
+> +
+>  	/* if awb has been disabled, we don't need to start another histogram */
+>  	if (ctrls->awb)
+>  		regmap_write(regmap, ISC_CTRLEN, ISC_CTRL_HISREQ);
+> @@ -1549,6 +1565,8 @@ static int isc_s_awb_ctrl(struct v4l2_ctrl *ctrl)
+>
+>  		isc_update_awb_ctrls(isc);
+>
+> +		mutex_lock(&isc->awb_mutex);
+> +
+>  		if (!isc->stop) {
+>  			/*
+>  			 * If we are streaming, we can update profile to
+> @@ -1563,6 +1581,7 @@ static int isc_s_awb_ctrl(struct v4l2_ctrl *ctrl)
+>  			 */
+>  			v4l2_ctrl_activate(isc->do_wb_ctrl, false);
+>  		}
+> +		mutex_unlock(&isc->awb_mutex);
+>
+>  		/* if we have autowhitebalance on, start histogram procedure */
+>  		if (ctrls->awb == ISC_WB_AUTO && !isc->stop &&
+> @@ -1754,6 +1773,7 @@ static void isc_async_unbind(struct v4l2_async_notifier *notifier,
+>  {
+>  	struct isc_device *isc = container_of(notifier->v4l2_dev,
+>  					      struct isc_device, v4l2_dev);
+> +	mutex_destroy(&isc->awb_mutex);
+>  	cancel_work_sync(&isc->awb_work);
+>  	video_unregister_device(&isc->video_dev);
+>  	v4l2_ctrl_handler_free(&isc->ctrls.handler);
+> @@ -1866,6 +1886,8 @@ static int isc_async_complete(struct v4l2_async_notifier *notifier)
+>  	isc->current_subdev = container_of(notifier,
+>  					   struct isc_subdev_entity, notifier);
+>  	mutex_init(&isc->lock);
+> +	mutex_init(&isc->awb_mutex);
+> +
+>  	init_completion(&isc->comp);
+>
+>  	/* Initialize videobuf2 queue */
+> @@ -1941,6 +1963,7 @@ static int isc_async_complete(struct v4l2_async_notifier *notifier)
+>  	video_unregister_device(vdev);
+>
+>  isc_async_complete_err:
+> +	mutex_destroy(&isc->awb_mutex);
+>  	mutex_destroy(&isc->lock);
+>  	return ret;
+>  }
+> diff --git a/drivers/media/platform/atmel/atmel-isc.h b/drivers/media/platform/atmel/atmel-isc.h
+> index 0b6370d7775f..c2cb805faff3 100644
+> --- a/drivers/media/platform/atmel/atmel-isc.h
+> +++ b/drivers/media/platform/atmel/atmel-isc.h
+> @@ -307,6 +307,7 @@ struct isc_device {
+>  	struct work_struct	awb_work;
+>
+>  	struct mutex		lock; /* serialize access to file operations */
+> +	struct mutex		awb_mutex; /* serialize access to streaming status from awb work queue */
+>  	spinlock_t		awb_lock; /* serialize access to DMA buffers from awb work queue */
+>
+>  	struct regmap_field	*pipeline[ISC_PIPE_LINE_NODE_NUM];
+> --
+> 2.25.1
+>
