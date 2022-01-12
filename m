@@ -2,118 +2,107 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E998048C508
-	for <lists+linux-media@lfdr.de>; Wed, 12 Jan 2022 14:40:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1F6AC48C5EB
+	for <lists+linux-media@lfdr.de>; Wed, 12 Jan 2022 15:25:33 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1353686AbiALNkW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 12 Jan 2022 08:40:22 -0500
-Received: from ewsoutbound.kpnmail.nl ([195.121.94.168]:42138 "EHLO
-        ewsoutbound.kpnmail.nl" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1353678AbiALNkU (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Wed, 12 Jan 2022 08:40:20 -0500
-X-KPN-MessageId: 15e615a0-73ad-11ec-8862-005056aba152
-Received: from smtp.kpnmail.nl (unknown [10.31.155.40])
-        by ewsoutbound.so.kpn.org (Halon) with ESMTPS
-        id 15e615a0-73ad-11ec-8862-005056aba152;
-        Wed, 12 Jan 2022 14:39:37 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=xs4all.nl; s=xs4all01;
-        h=content-type:subject:from:to:mime-version:date:message-id;
-        bh=kUw1q8lYwah89IDezIDUJ5tamVST3Smh2th+4LRUzSk=;
-        b=hKI8x2uQLED5pMZKIJjSBa6NMdbzsUR0IEbx5p/T1084+wikW42D8L731h9+Iny+nOqMXVPQvsFge
-         dMbmI6oH9WT1VuZzH81Kykw/VKPwOcrQjSALlGumWvGdznz1TFnRO1ot/ZQvFBDyNeQUdxXLtmLSec
-         HCADzn5hoR3ZQ2Dhryiypuw43Wgtm0M9eKWasPaXJI3Ma3XxkE6S/wmjyRT9PiLCIXljS5GDw+Asmk
-         SIDJ26w5b+thXN9+L31QUYJcJX+NxqdV76W9K3V0afh1vybMxQoinX5rWoeoXhlbWgOZ2e4ONCnvzj
-         NAVto8Mc2NWUc88Z6tlEcxg2PgwrxPg==
-X-KPN-VerifiedSender: Yes
-X-CMASSUN: 33|+XjcYsfKoQv15JYK2X9t1a/X4V3u7I/N7+7UvK4tFyskXuQ6Al7doij9RmeV5DL
- aN3hHnugXgV/hVCrcc/ZYHw==
-X-Originating-IP: 193.91.129.219
-Received: from [192.168.2.10] (cdb815bc1.dhcp.as2116.net [193.91.129.219])
-        by smtp.xs4all.nl (Halon) with ESMTPSA
-        id 2dc28d95-73ad-11ec-b76f-005056ab7584;
-        Wed, 12 Jan 2022 14:40:18 +0100 (CET)
-Message-ID: <282f0afd-0ed1-008d-1c0b-5a547fdb3d5e@xs4all.nl>
-Date:   Wed, 12 Jan 2022 14:40:17 +0100
+        id S1354068AbiALOZH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 12 Jan 2022 09:25:07 -0500
+Received: from www.linuxtv.org ([130.149.80.248]:49630 "EHLO www.linuxtv.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S239105AbiALOZF (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 12 Jan 2022 09:25:05 -0500
+Received: from builder.linuxtv.org ([140.211.167.10] helo=slave0)
+        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1n7eYi-006Uvv-D7; Wed, 12 Jan 2022 14:25:04 +0000
+Received: from ip6-localhost ([::1] helo=localhost.localdomain)
+        by slave0 with esmtp (Exim 4.94.2)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1n7eYg-004f1V-9F; Wed, 12 Jan 2022 14:25:02 +0000
+From:   Jenkins <jenkins@linuxtv.org>
+To:     mchehab+samsung@kernel.org, linux-media@vger.kernel.org
+Cc:     builder@linuxtv.org
+Subject: Re: [GIT PULL FOR v5.18] Add microchip csi2dc, atmel fixes, HEVC staging (#79945)
+Date:   Wed, 12 Jan 2022 14:25:02 +0000
+Message-Id: <20220112142502.1110959-1-jenkins@linuxtv.org>
+X-Mailer: git-send-email 2.30.2
+In-Reply-To: <282f0afd-0ed1-008d-1c0b-5a547fdb3d5e@xs4all.nl>
+References: 
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Firefox/91.0 Thunderbird/91.4.1
-Content-Language: en-US
-To:     Linux Media Mailing List <linux-media@vger.kernel.org>
-Cc:     "Eugen.Hristev@microchip.com" <Eugen.Hristev@microchip.com>,
-        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-        Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Subject: [GIT PULL FOR v5.18] Add microchip csi2dc, atmel fixes, HEVC staging
- fixes
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Note that the patches from Eugen are cherry-picked from this larger series:
+From: builder@linuxtv.org
 
-https://patchwork.linuxtv.org/project/linux-media/cover/20211213134940.324266-1-eugen.hristev@microchip.com/
+Pull request: https://patchwork.linuxtv.org/project/linux-media/patch/282f0afd-0ed1-008d-1c0b-5a547fdb3d5e@xs4all.nl/
+Build log: https://builder.linuxtv.org/job/patchwork/173458/
+Build time: 00:36:27
+Link: https://lore.kernel.org/linux-media/282f0afd-0ed1-008d-1c0b-5a547fdb3d5e@xs4all.nl
 
-Specifically I picked patches 1-6, 8-9, 11, 16 and 18-22.
+gpg: Signature made Wed 12 Jan 2022 01:35:11 PM UTC
+gpg:                using RSA key AAA7FFBA4D2D77EF4CAEA1421326E0CD23ABDCE5
+gpg: Good signature from "Hans Verkuil <hverkuil-cisco@xs4all.nl>" [unknown]
+gpg:                 aka "Hans Verkuil <hverkuil@xs4all.nl>" [unknown]
+gpg: WARNING: This key is not certified with a trusted signature!
+gpg:          There is no indication that the signature belongs to the owner.
+Primary key fingerprint: 052C DE7B C215 053B 689F  1BCA BD2D 6148 6614 3B4C
+     Subkey fingerprint: AAA7 FFBA 4D2D 77EF 4CAE  A142 1326 E0CD 23AB DCE5
 
-Regards,
+Summary: got 5/15 patches with issues, being 2 at build time, plus one error when buinding PDF document
 
-	Hans
+Error/warnings:
 
-The following changes since commit 68b9bcc8a534cd11fe55f8bc82f948aae7d81b3c:
+patches/0001-MAINTAINERS-add-microchip-csi2dc.patch:
 
-  media: ipu3-cio2: Add support for instantiating i2c-clients for VCMs (2021-12-16 20:58:56 +0100)
+    allyesconfig: return code #0:
+	../scripts/genksyms/parse.y: warning: 9 shift/reduce conflicts [-Wconflicts-sr]
+	../scripts/genksyms/parse.y: warning: 5 reduce/reduce conflicts [-Wconflicts-rr]
+	../scripts/genksyms/parse.y: note: rerun with option '-Wcounterexamples' to generate conflict counterexamples
 
-are available in the Git repository at:
+    allyesconfig: return code #0:
+	../drivers/media/rc/meson-ir-tx.c:22: warning: expecting prototype for meson(). Prototype was for DEVICE_NAME() instead
+	../drivers/media/i2c/ov8865.c: ../drivers/media/i2c/ov8865.c:2843 ov8865_get_selection() warn: inconsistent indenting
+	SMATCH:../drivers/media/usb/siano/smsusb.c ../drivers/media/usb/siano/smsusb.c:53:38: :warning: array of flexible structures
+	SPARSE:../drivers/media/usb/siano/smsusb.c ../drivers/media/usb/siano/smsusb.c:53:38: warning: array of flexible structures
+	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2625 dvb_register() parse error: turning off implications after 60 seconds
+	../drivers/media/test-drivers/vivid/vivid-core.c: ../drivers/media/test-drivers/vivid/vivid-core.c:1981 vivid_create_instance() parse error: turning off implications after 60 seconds
+	../drivers/media/platform/qcom/venus/helpers.c: ../drivers/media/platform/qcom/venus/helpers.c:658 venus_helper_get_bufreq() error: we previously assumed 'req' could be null (see line 654)
+	../drivers/media/usb/em28xx/em28xx-video.c: ../drivers/media/usb/em28xx/em28xx-video.c:2894 em28xx_v4l2_init() parse error: turning off implications after 60 seconds
 
-  git://linuxtv.org/hverkuil/media_tree.git tags/br-v5.18c
+patches/0002-dt-bindings-media-atmel-csi2dc-add-bindings-for-micr.patch:
 
-for you to fetch changes up to d95a0064b13926fc42d6da65a1ada0e98c8fdb13:
+   checkpatch.pl:
+	$ cat patches/0002-dt-bindings-media-atmel-csi2dc-add-bindings-for-micr.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
+	-:22: WARNING: added, moved or deleted file(s), does MAINTAINERS need updating?
 
-  media: hevc: Embedded indexes in RPS (2022-01-12 12:59:50 +0100)
+patches/0003-media-atmel-introduce-microchip-csi2dc-driver.patch:
 
-----------------------------------------------------------------
-Tag branch
+   checkpatch.pl:
+	$ cat patches/0003-media-atmel-introduce-microchip-csi2dc-driver.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
+	-:66: WARNING: added, moved or deleted file(s), does MAINTAINERS need updating?
 
-----------------------------------------------------------------
-Benjamin Gaignard (2):
-      media: hevc: Remove RPS named flags
-      media: hevc: Embedded indexes in RPS
+patches/0009-media-atmel-atmel-isc-base-fix-bytesperline-value-fo.patch:
 
-Eugen Hristev (13):
-      MAINTAINERS: add microchip csi2dc
-      dt-bindings: media: atmel: csi2dc: add bindings for microchip csi2dc
-      media: atmel: introduce microchip csi2dc driver
-      media: atmel: atmel-isc: split the clock code into separate source file
-      media: atmel: atmel-isc: replace video device name with module name
-      media: atmel: atmel-sama7g5-isc: fix ispck leftover
-      media: atmel: atmel-isc-base: remove frameintervals VIDIOC
-      media: atmel: atmel-isc-base: report frame sizes as full supported range
-      media: atmel: atmel-isc-base: fix bytesperline value for planar formats
-      media: atmel: atmel-isc-base: add wb debug messages
-      media: atmel: atmel-isc-base: clamp wb gain coefficients
-      media: atmel: atmel-sama7g5-isc: fix UYVY input format mbus_code typo
-      media: atmel: atmel-isc: add raw Bayer 8bit 10bit output formats
+   checkpatch.pl:
+	$ cat patches/0009-media-atmel-atmel-isc-base-fix-bytesperline-value-fo.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
+	-:152: WARNING: please, no spaces at the start of a line
+	-:152: ERROR: spaces required around that ':' (ctx:VxW)
+	-:152: CHECK: Avoid CamelCase: <Bytes>
+	-:153: WARNING: Avoid multiple line dereference - prefer 'v4l2.This'
+	-:153: CHECK: Avoid CamelCase: <This>
 
- Documentation/devicetree/bindings/media/microchip,csi2dc.yaml | 197 +++++++++
- Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst     |  16 +-
- MAINTAINERS                                                   |  14 +-
- drivers/media/platform/Makefile                               |   1 +
- drivers/media/platform/atmel/Kconfig                          |  15 +
- drivers/media/platform/atmel/Makefile                         |   4 +-
- drivers/media/platform/atmel/atmel-isc-base.c                 | 397 +++---------------
- drivers/media/platform/atmel/atmel-isc-clk.c                  | 311 ++++++++++++++
- drivers/media/platform/atmel/atmel-isc.h                      |  11 +
- drivers/media/platform/atmel/atmel-sama5d2-isc.c              |  24 ++
- drivers/media/platform/atmel/atmel-sama7g5-isc.c              |  32 +-
- drivers/media/platform/atmel/microchip-csi2dc.c               | 806 +++++++++++++++++++++++++++++++++++++
- drivers/staging/media/hantro/hantro_g2_hevc_dec.c             |  27 +-
- drivers/staging/media/sunxi/cedrus/cedrus_h265.c              |   2 +-
- include/media/hevc-ctrls.h                                    |   6 +-
- 15 files changed, 1470 insertions(+), 393 deletions(-)
- create mode 100644 Documentation/devicetree/bindings/media/microchip,csi2dc.yaml
- create mode 100644 drivers/media/platform/atmel/atmel-isc-clk.c
- create mode 100644 drivers/media/platform/atmel/microchip-csi2dc.c
+patches/0014-media-hevc-Remove-RPS-named-flags.patch:
+
+    allyesconfig: return code #0:
+	../drivers/media/test-drivers/vivid/vivid-core.c: ../drivers/media/test-drivers/vivid/vivid-core.c:1981 vivid_create_instance() parse error: turning off implications after 60 seconds
+	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2625 dvb_register() parse error: turning off implications after 60 seconds
+	../drivers/media/i2c/ov8865.c: ../drivers/media/i2c/ov8865.c:2843 ov8865_get_selection() warn: inconsistent indenting
+	../drivers/media/usb/em28xx/em28xx-video.c: ../drivers/media/usb/em28xx/em28xx-video.c:2868 em28xx_v4l2_init() parse error: turning off implications after 60 seconds
+	../drivers/media/platform/qcom/venus/helpers.c: ../drivers/media/platform/qcom/venus/helpers.c:658 venus_helper_get_bufreq() error: we previously assumed 'req' could be null (see line 654)
+
+
+Error #512 when building PDF docs
+
