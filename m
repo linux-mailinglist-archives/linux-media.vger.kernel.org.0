@@ -2,68 +2,110 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3DAB048C21B
-	for <lists+linux-media@lfdr.de>; Wed, 12 Jan 2022 11:17:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E363748C26F
+	for <lists+linux-media@lfdr.de>; Wed, 12 Jan 2022 11:40:24 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1352452AbiALKRn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 12 Jan 2022 05:17:43 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46362 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1352445AbiALKRm (ORCPT
+        id S1352580AbiALKkX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 12 Jan 2022 05:40:23 -0500
+Received: from ewsoutbound.kpnmail.nl ([195.121.94.168]:27025 "EHLO
+        ewsoutbound.kpnmail.nl" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S239535AbiALKkX (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 12 Jan 2022 05:17:42 -0500
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F1CBBC06173F
-        for <linux-media@vger.kernel.org>; Wed, 12 Jan 2022 02:17:41 -0800 (PST)
-Received: from pendragon.ideasonboard.com (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 27470340;
-        Wed, 12 Jan 2022 11:17:39 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1641982659;
-        bh=xg8hUjW0G86ICuP5ZJLuJAtkXeYYmT8qPztByCPcPVs=;
-        h=In-Reply-To:References:Subject:From:To:Date:From;
-        b=ZT+9XMuPcAFCoM5hljr/HJmCen8m5b3zrtNO3U+s5w4NV0cpyRJLmWw890Hlob2uP
-         WrUr1HVndYCrssxbY/xJt6m0z+k3pl1Kc1nIRlhsW933gF51QmTFy2vdfiz91GebeM
-         YeAeK4ce7kAwuzYE/2KeGloT/A9uB1QwLLZTz7lM=
-Content-Type: text/plain; charset="utf-8"
+        Wed, 12 Jan 2022 05:40:23 -0500
+X-KPN-MessageId: f3084771-7393-11ec-8862-005056aba152
+Received: from smtp.kpnmail.nl (unknown [10.31.155.40])
+        by ewsoutbound.so.kpn.org (Halon) with ESMTPS
+        id f3084771-7393-11ec-8862-005056aba152;
+        Wed, 12 Jan 2022 11:39:41 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=xs4all.nl; s=xs4all01;
+        h=content-type:from:to:subject:mime-version:date:message-id;
+        bh=voSopkAronjPx45Y/VkX9JuTht6XzWdHYo7PEeArGJg=;
+        b=oaLLvqidFpUL8rjrwf9yQkvRfCIL7wMgk9mYzuIRDIfKAqnjZ66xBzP4P5BMd9yv+H3uzOxm0/NmM
+         6fNUEewAcEYIOqQNDtnPCs8tCm5pZ2RSkhH/TsRewBeQYLlzWZV3hlJOzaBIqA8lqFZ8BAQAe+2v62
+         jL9r07ahWxZwilCoUg3TG9VMMbCplKRx1WUi4wiShpv6IUGIbORUTNaswy6jDnlF07S3aH1Ep1nkJb
+         r6hvksSeZb3ZXmnduy7i71SMxfNV1eBPS900RYKgrln0kxAeU/4msavT0rF+1JlKjqw6e9jmi4xcqA
+         f1XJXs1FNrTNEnVbot0aK2meKsF+7Vw==
+X-KPN-VerifiedSender: Yes
+X-CMASSUN: 33|6qsLJ4w6h9J4dXQ7gC/oaAQX5AeFSDdTcYlEynEYxKgBcWROHqV1fAYIiuZTc9d
+ +LJ2/Dh7oQIDNb5sVTB1JwQ==
+X-Originating-IP: 193.91.129.219
+Received: from [192.168.2.10] (cdb815bc1.dhcp.as2116.net [193.91.129.219])
+        by smtp.xs4all.nl (Halon) with ESMTPSA
+        id 0ad95271-7394-11ec-b76f-005056ab7584;
+        Wed, 12 Jan 2022 11:40:22 +0100 (CET)
+Message-ID: <bb786c06-c198-f5c8-5ea8-7e617a00bb0a@xs4all.nl>
+Date:   Wed, 12 Jan 2022 11:40:21 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <385a88ad-54b6-97eb-9e08-c9cbb2c564e8@qtec.com>
-References: <20220111164855.147487-1-dlp@qtec.com> <164192283176.10801.16438722671029975593@Monstersaurus> <385a88ad-54b6-97eb-9e08-c9cbb2c564e8@qtec.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Firefox/91.0 Thunderbird/91.4.1
 Subject: Re: [PATCH] media: docs: Change unintended assignment in v4l
-From:   Kieran Bingham <kieran.bingham@ideasonboard.com>
-To:     Daniel Lundberg Pedersen <dlp@qtec.com>,
+Content-Language: en-US
+To:     Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        Daniel Lundberg Pedersen <dlp@qtec.com>,
         linux-media@vger.kernel.org, mchehab@kernel.org
-Date:   Wed, 12 Jan 2022 10:17:36 +0000
-Message-ID: <164198265662.10801.11036576762133741693@Monstersaurus>
-User-Agent: alot/0.10
+References: <20220111164855.147487-1-dlp@qtec.com>
+ <164192283176.10801.16438722671029975593@Monstersaurus>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+In-Reply-To: <164192283176.10801.16438722671029975593@Monstersaurus>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Quoting Daniel Lundberg Pedersen (2022-01-12 09:43:49)
-> > Ouch - that's not helpful in documentation indeed.
-> > Good spot, and fix.
->=20
-> Thanks :)
->=20
-> > It might help to say 'in v4l2grab' in the $SUBJECT rather than 'v4l' as
-> > that would be a bit more specific.
->=20
-> Should I make a V2 with an updated subject?
-> Eg.: 'media: docs: Fix unintended assignment in v4l2grap'
+On 11/01/2022 18:40, Kieran Bingham wrote:
+> Quoting Daniel Lundberg Pedersen (2022-01-11 16:48:55)
+>> Example should be comparing errno to EINTR instead of doing assignment.
+>>
+> 
+> Ouch - that's not helpful in documentation indeed.
+> Good spot, and fix.
+> 
+> It might help to say 'in v4l2grab' in the $SUBJECT rather than 'v4l' as
+> that would be a bit more specific.
 
-Up to you and Mauro, I would expect it could be handled when applying
-for such a small change.=20
+Yes, ideally something like this:
 
-"media: docs: Fix unintended assignment in v4l2grab"
+"media: docs: v4l2grab.c.rst: change unintended assignment"
 
-would indeed be a better title.
+I see way too often patches that do NOT specify the driver (or in this
+case the specific file) that has been changed. Just saying "media: docs:"
+suggests a 'media docs'-wide change.
 
---
-Kieran
+Please post a v2 with the correct subject, I want to crack down on this
+practice.
 
+While easy enough to fix, the problem is that by not mentioning what
+was changed the correct maintainers won't see the patch. Not a big
+deal here, but much more serious with driver patches.
 
->=20
->=20
-> Regards Daniel
+Regards,
+
+	Hans
+
+> 
+> Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+> 
+>> Signed-off-by: Daniel Lundberg Pedersen <dlp@qtec.com>
+>> ---
+>>  Documentation/userspace-api/media/v4l/v4l2grab.c.rst | 2 +-
+>>  1 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>> diff --git a/Documentation/userspace-api/media/v4l/v4l2grab.c.rst b/Documentation/userspace-api/media/v4l/v4l2grab.c.rst
+>> index eaa0f95048e7..c98a78d63a8b 100644
+>> --- a/Documentation/userspace-api/media/v4l/v4l2grab.c.rst
+>> +++ b/Documentation/userspace-api/media/v4l/v4l2grab.c.rst
+>> @@ -134,7 +134,7 @@ file: media/v4l/v4l2grab.c
+>>                             tv.tv_usec = 0;
+>>  
+>>                             r = select(fd + 1, &fds, NULL, NULL, &tv);
+>> -                   } while ((r == -1 && (errno = EINTR)));
+>> +                   } while ((r == -1 && (errno == EINTR)));
+>>                     if (r == -1) {
+>>                             perror("select");
+>>                             return errno;
+>> -- 
+>> 2.33.1
+>>
+
