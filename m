@@ -2,244 +2,388 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id ABA0D48C1A3
-	for <lists+linux-media@lfdr.de>; Wed, 12 Jan 2022 10:52:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B51D448C1AC
+	for <lists+linux-media@lfdr.de>; Wed, 12 Jan 2022 10:53:29 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238791AbiALJwX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 12 Jan 2022 04:52:23 -0500
-Received: from ewsoutbound.kpnmail.nl ([195.121.94.170]:44017 "EHLO
-        ewsoutbound.kpnmail.nl" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238636AbiALJwU (ORCPT
+        id S239027AbiALJx2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 12 Jan 2022 04:53:28 -0500
+Received: from mailgw02.mediatek.com ([210.61.82.184]:52980 "EHLO
+        mailgw02.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
+        with ESMTP id S239096AbiALJxT (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 12 Jan 2022 04:52:20 -0500
-X-KPN-MessageId: 25afc66f-738d-11ec-8a6e-005056ab378f
-Received: from smtp.kpnmail.nl (unknown [10.31.155.40])
-        by ewsoutbound.so.kpn.org (Halon) with ESMTPS
-        id 25afc66f-738d-11ec-8a6e-005056ab378f;
-        Wed, 12 Jan 2022 10:51:00 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=xs4all.nl; s=xs4all01;
-        h=content-type:from:to:subject:mime-version:date:message-id;
-        bh=JWV9gpnOFZc5xqMt+Kp1anWOuCekvScaCFHfyCKDtJ4=;
-        b=aKmLJTiY/rzEC8L6ExjRdR9TmpFTd+HlQrLDLWRiFI7ckQwyn9zPH0oFNGg9/P4GhbKZGojBaQ89U
-         A4/pPJRNcgjtS4nV298zVqq09YwJHjHV4Iz3iC3VKBycBzcY11t7RhqqYQowwmwKr6X1i+LdCJoOlK
-         LT0Axb8NYnyFL3kcLcD6n2HLHp0cK4tFchrlOWZkwLH9A97cba29cVuLf70fMKX3ZCS8JPAPUop8Oe
-         HudyOpuoYqKCUjtaapqYHUrmtBixpiuSsOqLOuh2Wo3jMPtBY3NNPmzaeHrAXgO2E+ZHm/Nvmo1x2P
-         OQk0Cjzku1Pqdvhl0VPGgS9OsgezGcQ==
-X-KPN-VerifiedSender: Yes
-X-CMASSUN: 33|RLFpkIQPsU3qAFZRoqXIb9KHg5nVlp/BoYgvbV+K8SrPJ2k9g7x+BVKOIX7aW3X
- CqRvmVOypiPVvIeAstMxE9g==
-X-Originating-IP: 193.91.129.219
-Received: from [192.168.2.10] (cdb815bc1.dhcp.as2116.net [193.91.129.219])
-        by smtp.xs4all.nl (Halon) with ESMTPSA
-        id 5352fe80-738d-11ec-b76f-005056ab7584;
-        Wed, 12 Jan 2022 10:52:17 +0100 (CET)
-Message-ID: <aaa692f7-174a-83a9-8aae-64cda91044cb@xs4all.nl>
-Date:   Wed, 12 Jan 2022 10:52:16 +0100
+        Wed, 12 Jan 2022 04:53:19 -0500
+X-UUID: c3b44232d1f64d2b8a06dfb85739a3a5-20220112
+X-UUID: c3b44232d1f64d2b8a06dfb85739a3a5-20220112
+Received: from mtkcas11.mediatek.inc [(172.21.101.40)] by mailgw02.mediatek.com
+        (envelope-from <yunfei.dong@mediatek.com>)
+        (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
+        with ESMTP id 1978393128; Wed, 12 Jan 2022 17:53:17 +0800
+Received: from mtkexhb01.mediatek.inc (172.21.101.102) by
+ mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.792.3;
+ Wed, 12 Jan 2022 17:53:16 +0800
+Received: from mtkcas11.mediatek.inc (172.21.101.40) by mtkexhb01.mediatek.inc
+ (172.21.101.102) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Wed, 12 Jan
+ 2022 17:53:15 +0800
+Received: from mhfsdcap04 (10.17.3.154) by mtkcas11.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
+ Transport; Wed, 12 Jan 2022 17:53:15 +0800
+Message-ID: <34d6ebd0ee9380af12841aea654a20371e32662f.camel@mediatek.com>
+Subject: Re: [PATCH v17, 00/19] Support multi hardware decode using
+ of_platform_populate
+From:   "yunfei.dong@mediatek.com" <yunfei.dong@mediatek.com>
+To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Alexandre Courbot <acourbot@chromium.org>,
+        Tzung-Bi Shih <tzungbi@chromium.org>
+CC:     AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>,
+        <linux-media@vger.kernel.org>
+Date:   Wed, 12 Jan 2022 17:53:15 +0800
+In-Reply-To: <0c91a86d-aa5b-4948-4c75-082cab7f4e31@xs4all.nl>
+References: <20211217015530.23720-1-yunfei.dong@mediatek.com>
+         <0c91a86d-aa5b-4948-4c75-082cab7f4e31@xs4all.nl>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Firefox/91.0 Thunderbird/91.4.1
-Subject: Re: [PATCH v3 07/23] media: atmel: atmel-isc-base: use streaming
- status when queueing buffers
-Content-Language: en-US
-To:     Eugen.Hristev@microchip.com, jacopo@jmondi.org,
-        laurent.pinchart@ideasonboard.com
-Cc:     linux-media@vger.kernel.org, robh+dt@kernel.org,
-        sakari.ailus@iki.fi, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, Nicolas.Ferre@microchip.com
-References: <20211213134940.324266-1-eugen.hristev@microchip.com>
- <20211213134940.324266-8-eugen.hristev@microchip.com>
- <c6adb59e-4554-dc08-3772-148eb22c29ba@xs4all.nl>
- <5e4f591b-9105-9de0-5067-2bd82dc04983@microchip.com>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-In-Reply-To: <5e4f591b-9105-9de0-5067-2bd82dc04983@microchip.com>
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
+X-MTK:  N
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 11/01/2022 17:38, Eugen.Hristev@microchip.com wrote:
-> On 1/11/22 5:53 PM, Hans Verkuil wrote:
->> On 13/12/2021 14:49, Eugen Hristev wrote:
->>> During experiments with libcamera, it looks like vb2_is_streaming returns
->>> true before our start streaming is called.
->>> Order of operations is streamon -> queue -> start_streaming
->>> ISC would have started the DMA immediately when a buffer is being added
->>> to the vbqueue if the queue is streaming.
->>> It is more safe to start the DMA after the start streaming of the driver is
->>> called.
->>> Thus, even if vb2queue is streaming, add the buffer to the dma queue of the
->>> driver instead of actually starting the DMA process, if the start streaming
->>> has not been called yet.
->>>
->>> Signed-off-by: Eugen Hristev <eugen.hristev@microchip.com>
->>> ---
->>>   drivers/media/platform/atmel/atmel-isc-base.c | 17 ++++++++++-------
->>>   1 file changed, 10 insertions(+), 7 deletions(-)
->>>
->>> diff --git a/drivers/media/platform/atmel/atmel-isc-base.c b/drivers/media/platform/atmel/atmel-isc-base.c
->>> index 26a6090f056c..e6c9071c04f0 100644
->>> --- a/drivers/media/platform/atmel/atmel-isc-base.c
->>> +++ b/drivers/media/platform/atmel/atmel-isc-base.c
->>> @@ -441,12 +441,14 @@ static void isc_buffer_queue(struct vb2_buffer *vb)
->>>        unsigned long flags;
->>>
->>>        spin_lock_irqsave(&isc->dma_queue_lock, flags);
->>> -     if (!isc->cur_frm && list_empty(&isc->dma_queue) &&
->>> -             vb2_is_streaming(vb->vb2_queue)) {
->>> +
->>> +     if (!isc->cur_frm && list_empty(&isc->dma_queue) && !isc->stop) {
->>>                isc->cur_frm = buf;
->>>                isc_start_dma(isc);
->>> -     } else
->>> +     } else {
->>>                list_add_tail(&buf->list, &isc->dma_queue);
->>> +     }
->>> +
->>>        spin_unlock_irqrestore(&isc->dma_queue_lock, flags);
->>>   }
->>
->> Both the old and new code doesn't make a lot of sense.
+Hi Hans,
+
+Thanks for your suggestion.
+
+I already send v18 to review. Could you please help to review again?
+
+Best Regards,
+Yunfei Dong
+
+On Tue, 2022-01-11 at 12:54 +0100, Hans Verkuil wrote:
+> Hi Yunfei,
 > 
-> Hello Hans,
+> On 17/12/2021 02:55, Yunfei Dong wrote:
+> > This series adds support for multi hardware decode into mtk-vcodec, 
+> > by first adding use
+> > of_platform_populate to manage each hardware information:
+> > interrupt, clock, register
+> > bases and power. Secondly add core work queue to deal with core
+> > hardware message,
+> > at the same time, add msg queue for different hardware share
+> > messages. Lastly, the
+> > architecture of different specs are not the same, using specs type
+> > to separate them.
+> > 
+> > This series has been tested with both MT8183 and MT8173. Decoding
+> > was working for both chips.
+> > 
+> > Patches 1~3 rewrite get register bases and power on/off interface.
+> > Patches 4 export decoder pm interfaces.
+> > Patches 5 add to support 8192.
+> > Patch 6 support multi hardware.
+> > Patch 7 separate video encoder and decoder document
+> > Patch 8-17 add interfaces to support core hardware.
+> > Patch 18-19 remove mtk_vcodec_release_dec/enc_pm interfaces.
 > 
-> I debated this a bit with Laurent when I initially wrote the patch.
+> I'm getting quite a few warnings from scripts/checkpatch.pl --strict
+> when I
+> run that over the patches. Please fix the reported issues where it
+> makes sense
+> to do so.
 > 
-> The problem with the current code, or the current way things are 
-> working, is the fact that vb2_is_streaming returns true from the moment 
-> of streamon.
-> The DMA engine of the ISC is being started at the moment of 
-> start_streaming, and if buffers are being sent earlier/later, they are 
-> just added to the queue and DMA engine is restarted if it finished 
-> previously.
-> However if frames are added beforehand, like, first streamon, then add 
-
-beforehand -> afterwards?
-
-> some frames, and then later call the start_streaming, ISC will crash. 
-> (as I said, DMA engine is prepared at start_streaming).
-> To avoid this, I changed the vb2_is_streaming calls to keeping an 
-> internal state of the streaming.
-> Do you think I should try another different approach to solve this ?
-> Perhaps do not prepare the ISC dma engine at start_streaming, but at 
-> another place ?
+> I'm also getting a sparse warning:
 > 
-> Laurent do you remember the talk we had about this problem a while back ?
+> drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_hw.c:22:27: warning:
+> symbol 'mtk_vdec_hw_match' was not declared. Should it be static?
 > 
->>
->> buf_queue is only called by vb2 if start_streaming has already been called or is
->> about to be called.
+> And a smatch warning:
 > 
-> That's a huge difference for ISC driver as it is today. start_streaming 
-> being called afterwards, means the ISC DMA engine is not started (not 
-> started streaming), hence a crash.
-
-The start_streaming op is called when streamon is called and if there are
-sufficient buffers (>= q->min_buffers_needed). If there are insufficient
-buffers at streamon time, then start_streaming is only called when the number
-of queued buffers reaches the minimum.
-
-vb2 has three different state checks that you can use:
-
-vb2_is_busy() is true if buffers are allocated. Typically this means that you
-can no longer do format changes or anything that might change the buffer
-sizes or layout.
-
-vb2_is_streaming() is true if streamon was called. If this is true, then vb2_is_busy()
-is also true.
-
-And finally vb2_start_streaming_called() is true if the start_streaming op
-was called (i.e. DMA is in progress). If this is true, then vb2_is_streaming is
-also true.
-
-Basically vb2_is_streaming() reports the streaming state that userspace sees,
-while vb2_start_streaming_called() reports the internal DMA streaming state.
-
-The confusion is probably that you were using vb2_is_streaming instead of
-vb2_start_streaming_called.
-
+> drivers/media/platform/mtk-vcodec/vdec_msg_queue.c:273
+> vdec_msg_queue_init() warn: missing error code 'err'
 > 
->>
->> Typically all that the buf_queue op does is to call list_add_tail(&buf->list, &isc->dma_queue);
->> inside the spinlock.
->>
->>>
->>> @@ -1014,7 +1016,7 @@ static int isc_s_fmt_vid_cap(struct file *file, void *priv,
->>>   {
->>>        struct isc_device *isc = video_drvdata(file);
->>>
->>> -     if (vb2_is_streaming(&isc->vb2_vidq))
->>> +     if (!isc->stop)
->>
->> This is weird as well. Normally this calls vb2_is_busy to check if the
->> queue is busy (that really means that buffers are already allocated, so
->> changing the format isn't allowed anymore).
+> There are also a few kerneldoc errors/warnings:
 > 
-> You think the query to the streaming status makes no sense here hence it 
-> should be removed completely ?
-
-Right. And instead check vb2_is_busy().
-
-I actually think that this is something that would fail with v4l2-compliance.
-
-Do you still run v4l2-compliance?
-
-> I can do that with a prequel patch if it's the case.
-
-Probably wise.
-
-Regards,
-
-	Hans
-
+> drivers/media/platform/mtk-vcodec/vdec_msg_queue.h:38: warning:
+> Function parameter or member 'ready_to_use' not described in
+> 'vdec_msg_queue_ctx'
+> drivers/media/platform/mtk-vcodec/mtk_vcodec_drv.h:108: error: Cannot
+> parse struct or union!
+> drivers/media/platform/mtk-vcodec/mtk_vcodec_drv.h:118: error: Cannot
+> parse struct or union!
+> drivers/media/platform/mtk-vcodec/mtk_vcodec_drv.h:351: error: Cannot
+> parse struct or union!
+> drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_hw.h:27: warning:
+> Enum value 'VDEC_HW_SYS' not described in enum 'mtk_vdec_hw_reg_idx'
+> drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_hw.h:27: warning:
+> Enum value 'VDEC_HW_MISC' not described in enum 'mtk_vdec_hw_reg_idx'
+> drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_hw.h:27: warning:
+> Enum value 'VDEC_HW_MAX' not described in enum 'mtk_vdec_hw_reg_idx'
 > 
-> Thanks for reviewing,
+> Other than these issues this series looks about ready to be merged.
+> Let me know when
+> you post v18 whether it is indeed ready to be merged or if you need
+> more reviews from
+> people.
 > 
-> Eugen
+> Regards,
 > 
->>
->>>                return -EBUSY;
->>>
->>>        return isc_set_fmt(isc, f);
->>> @@ -1536,7 +1538,7 @@ static int isc_s_awb_ctrl(struct v4l2_ctrl *ctrl)
->>>
->>>                isc_update_awb_ctrls(isc);
->>>
->>> -             if (vb2_is_streaming(&isc->vb2_vidq)) {
->>> +             if (!isc->stop) {
->>
->> Ditto.
->>
->>>                        /*
->>>                         * If we are streaming, we can update profile to
->>>                         * have the new settings in place.
->>> @@ -1552,8 +1554,7 @@ static int isc_s_awb_ctrl(struct v4l2_ctrl *ctrl)
->>>                }
->>>
->>>                /* if we have autowhitebalance on, start histogram procedure */
->>> -             if (ctrls->awb == ISC_WB_AUTO &&
->>> -                 vb2_is_streaming(&isc->vb2_vidq) &&
->>> +             if (ctrls->awb == ISC_WB_AUTO && !isc->stop &&
->>>                    ISC_IS_FORMAT_RAW(isc->config.sd_format->mbus_code))
->>>                        isc_set_histogram(isc, true);
->>>
->>> @@ -1829,6 +1830,8 @@ static int isc_async_complete(struct v4l2_async_notifier *notifier)
->>>        struct vb2_queue *q = &isc->vb2_vidq;
->>>        int ret = 0;
->>>
->>> +     isc->stop = true;
->>> +
->>
->> I'm really not sure that you need the stop bool at all.
->>
->>>        INIT_WORK(&isc->awb_work, isc_awb_work);
->>>
->>>        ret = v4l2_device_register_subdev_nodes(&isc->v4l2_dev);
->>
->> Regards,
->>
->>          Hans
->>
+> 	Hans
+> 
+> PS: I had to delete a bunch of CCs. For some reason my smtp server
+> had problems with it. Sorry about that.
+> 
+> > ---
+> > changes compared with v16:
+> > - fix build warning for patch 13.
+> > 
+> > changes compared with v15:
+> > - add Reviewed-by for patch 10.
+> > 
+> > changes compared with v14:
+> > - rebase to latest media stage.
+> > 
+> > changes compared with v13:
+> > - change some function position in case of ko dependency for patch
+> > 15.
+> > - add reviewed-by for patch 06/13/15.
+> > 
+> > changes compared with v12:
+> > - fix comments from rob for patch 15.
+> > - fix comments from steve for 06 and 13.
+> > 
+> > changes compared with v11:
+> > - fix comments from AngeloGioacchino for patch 09~11/19.
+> > - fix comments from steve for patch 03/19.
+> > 
+> > changes compared with v10:
+> > - fix comments from tzung-bi for patch 06/19.
+> > - add more detail information for hardware block diagram 15/19
+> > 
+> > changes compared with v9:
+> > - need not to build ko, just export pm interfaces for patch 04/19.
+> > - fix comments for patch 06/19
+> > 
+> > changes compared with v8:
+> > - add new patch 18~19 to remove mtk_vcodec_release_de/enc_pm
+> > interfaces.
+> > - fix spelling mistakes for patch 17/19
+> > - fix yaml comments for patch 15/19
+> > 
+> > Changes compared with v7:
+> > - add new patch 4 to build decoder pm file as module
+> > - add new patch 5 to support 8192
+> > - fix comments for patch 6/17
+> > - change some logic for using work queue instead of create thread
+> > for core hardware decode for patch 10/17
+> > - using work queue for hardware decode instead of create thread for
+> > patch 13/17
+> > - add returen value for patch 14/17
+> > - fix yaml check fail 15/17
+> > 
+> > Changes compared with v6:
+> > - Use of_platform_populate to manage multi hardware, not component
+> > framework for patch 4/15
+> > - Re-write dtsi document for hardware architecture changed for
+> > patch 13/15 -The dtsi will write like below in patch 13/15:
+> >     vcodec_dec: vcodec_dec@16000000 {
+> >         compatible = "mediatek,mt8192-vcodec-dec";
+> >         #address-cells = <2>;
+> >         #size-cells = <2>;
+> >         ranges;
+> >         reg = <0 0x16000000 0 0x1000>;		/* VDEC_SYS */
+> >         mediatek,scp = <&scp>;
+> >         iommus = <&iommu0 M4U_PORT_L4_VDEC_MC_EXT>;
+> >         dma-ranges = <0x1 0x0 0x0 0x40000000 0x0 0xfff00000>;
+> >         vcodec_lat {
+> >             compatible = "mediatek,mtk-vcodec-lat";
+> >             reg = <0 0x16010000 0 0x800>;		/* VDEC_MISC */
+> >             reg-name = "reg-misc";
+> >             interrupts = <GIC_SPI 426 IRQ_TYPE_LEVEL_HIGH 0>;
+> >             iommus = <&iommu0 M4U_PORT_L5_VDEC_LAT0_VLD_EXT>,
+> >                  <&iommu0 M4U_PORT_L5_VDEC_LAT0_VLD2_EXT>,
+> >                  <&iommu0 M4U_PORT_L5_VDEC_LAT0_AVC_MV_EXT>,
+> >                  <&iommu0 M4U_PORT_L5_VDEC_LAT0_PRED_RD_EXT>,
+> >                  <&iommu0 M4U_PORT_L5_VDEC_LAT0_TILE_EXT>,
+> >                  <&iommu0 M4U_PORT_L5_VDEC_LAT0_WDMA_EXT>,
+> >                  <&iommu0 M4U_PORT_L5_VDEC_LAT0_RG_CTRL_DMA_EXT>,
+> >                  <&iommu0 M4U_PORT_L5_VDEC_UFO_ENC_EXT>;
+> >             clocks = <&topckgen CLK_TOP_VDEC_SEL>,
+> >                  <&vdecsys_soc CLK_VDEC_SOC_VDEC>,
+> >                  <&vdecsys_soc CLK_VDEC_SOC_LAT>,
+> >                  <&vdecsys_soc CLK_VDEC_SOC_LARB1>,
+> >                  <&topckgen CLK_TOP_MAINPLL_D4>;
+> >             clock-names = "vdec-sel", "vdec-soc-vdec", "vdec-soc-
+> > lat",
+> >                   "vdec-vdec", "vdec-top";
+> >             assigned-clocks = <&topckgen CLK_TOP_VDEC_SEL>;
+> >             assigned-clock-parents = <&topckgen
+> > CLK_TOP_MAINPLL_D4>;
+> >             power-domains = <&spm MT8192_POWER_DOMAIN_VDEC>;
+> >         };
+> > 
+> >         vcodec_core {
+> >             compatible = "mediatek,mtk-vcodec-core";
+> >             reg = <0 0x16025000 0 0x1000>;		/*
+> > VDEC_CORE_MISC */
+> >             reg-names = "reg-misc";
+> >             interrupts = <GIC_SPI 425 IRQ_TYPE_LEVEL_HIGH 0>;
+> >             iommus = <&iommu0 M4U_PORT_L4_VDEC_MC_EXT>,
+> >                  <&iommu0 M4U_PORT_L4_VDEC_UFO_EXT>,
+> >                  <&iommu0 M4U_PORT_L4_VDEC_PP_EXT>,
+> >                  <&iommu0 M4U_PORT_L4_VDEC_PRED_RD_EXT>,
+> >                  <&iommu0 M4U_PORT_L4_VDEC_PRED_WR_EXT>,
+> >                  <&iommu0 M4U_PORT_L4_VDEC_PPWRAP_EXT>,
+> >                  <&iommu0 M4U_PORT_L4_VDEC_TILE_EXT>,
+> >                  <&iommu0 M4U_PORT_L4_VDEC_VLD_EXT>,
+> >                  <&iommu0 M4U_PORT_L4_VDEC_VLD2_EXT>,
+> >                  <&iommu0 M4U_PORT_L4_VDEC_AVC_MV_EXT>,
+> >                  <&iommu0 M4U_PORT_L4_VDEC_RG_CTRL_DMA_EXT>;
+> >             clocks = <&topckgen CLK_TOP_VDEC_SEL>,
+> >                  <&vdecsys CLK_VDEC_VDEC>,
+> >                  <&vdecsys CLK_VDEC_LAT>,
+> >                  <&vdecsys CLK_VDEC_LARB1>,
+> >                  <&topckgen CLK_TOP_MAINPLL_D4>;
+> >             clock-names = "vdec-sel", "vdec-soc-vdec", "vdec-soc-
+> > lat",
+> >                   "vdec-vdec", "vdec-top";
+> >             assigned-clocks = <&topckgen CLK_TOP_VDEC_SEL>;
+> >             assigned-clock-parents = <&topckgen
+> > CLK_TOP_MAINPLL_D4>;
+> >             power-domains = <&spm MT8192_POWER_DOMAIN_VDEC2>;
+> >         };
+> >     };
+> > 
+> > Changes compared with v5:
+> > - Add decoder hardware block diagram for patch 13/15
+> > 
+> > Changes compared with v4:
+> > - Fix comments for patch 4/15
+> >   >> +     if (dev->is_comp_supported) {
+> >   >> +             ret = mtk_vcodec_init_master(dev);
+> >   >> +             if (ret < 0)
+> >   >> +                     goto err_component_match;
+> >   >> +     } else {
+> >   >> +             platform_set_drvdata(pdev, dev);
+> >   >> +     }
+> >   Fix platform_set_drvdata.
+> > - Fix build error for patch 9/15
+> > - Add depend patch in case of error header file for patch 13/15
+> > 
+> > Changes compared with v3:
+> > - Fix return value for patch 1/15
+> > - Fix comments for patch 4/15
+> >   > Looking up "mediatek,mtk-vcodec-core" to determine if it uses
+> > component framwork sounds like...
+> >   Add prameter in pdata, for all platform will use compoent after
+> > mt8183
+> > 
+> >   >> +     if (dev->is_comp_supported) {
+> >   >> +             ret = mtk_vcodec_init_master(dev);
+> >   >> +             if (ret < 0)
+> >   >> +                     goto err_component_match;
+> >   >> +     } else {
+> >   >> +             platform_set_drvdata(pdev, dev);
+> >   >> +     }
+> >   > + Has asked the same question in [1].  Why it removes the
+> >   > +platform_set_drvdata() above?  mtk_vcodec_init_master() also
+> > calls platform_set_drvdata().
+> >   Must call component_master_add_with_match after
+> > platform_set_drvdata for component architecture.
+> > - Fix yaml files check fail for patch 5/15
+> > - Fix yaml file check fail for patch 14/15
+> > 
+> > Changes compared with v1:
+> > - Fix many comments for patch 3/14
+> > - Remove unnecessary code for patch 4/14
+> > - Using enum mtk_vdec_hw_count instead of magic numbers for patch
+> > 6/14
+> > - Reconstructed get/put lat buffer for lat and core hardware for
+> > patch 7/14
+> > - Using yaml format to instead of txt file for patch 12/14
+> > 
+> > Yunfei Dong (19):
+> >   media: mtk-vcodec: Get numbers of register bases from DT
+> >   media: mtk-vcodec: Align vcodec wake up interrupt interface
+> >   media: mtk-vcodec: Refactor vcodec pm interface
+> >   media: mtk-vcodec: export decoder pm functions
+> >   media: mtk-vcodec: Support MT8192
+> >   media: mtk-vcodec: Add to support multi hardware decode
+> >   dt-bindings: media: mtk-vcodec: Separate video encoder and
+> > decoder
+> >     dt-bindings
+> >   media: mtk-vcodec: Use pure single core for MT8183
+> >   media: mtk-vcodec: Add irq interface for multi hardware
+> >   media: mtk-vcodec: Add msg queue feature for lat and core
+> > architecture
+> >   media: mtk-vcodec: Generalize power and clock on/off interfaces
+> >   media: mtk-vcodec: Add new interface to lock different hardware
+> >   media: mtk-vcodec: Add work queue for core hardware decode
+> >   media: mtk-vcodec: Support 34bits dma address for vdec
+> >   dt-bindings: media: mtk-vcodec: Adds decoder dt-bindings for
+> > mt8192
+> >   media: mtk-vcodec: Add core dec and dec end ipi msg
+> >   media: mtk-vcodec: Use codec type to separate different hardware
+> >   media: mtk-vcodec: Remove mtk_vcodec_release_dec_pm
+> >   media: mtk-vcodec: Remove mtk_vcodec_release_enc_pm
+> > 
+> >  .../media/mediatek,vcodec-decoder.yaml        | 176 +++++++++++
+> >  .../media/mediatek,vcodec-encoder.yaml        | 187 ++++++++++++
+> >  .../media/mediatek,vcodec-subdev-decoder.yaml | 265
+> > ++++++++++++++++
+> >  .../bindings/media/mediatek-vcodec.txt        | 131 --------
+> >  drivers/media/platform/mtk-vcodec/Makefile    |   6 +-
+> >  .../platform/mtk-vcodec/mtk_vcodec_dec.c      |   4 +-
+> >  .../platform/mtk-vcodec/mtk_vcodec_dec.h      |   1 +
+> >  .../platform/mtk-vcodec/mtk_vcodec_dec_drv.c  | 177 ++++++++---
+> >  .../platform/mtk-vcodec/mtk_vcodec_dec_hw.c   | 201 ++++++++++++
+> >  .../platform/mtk-vcodec/mtk_vcodec_dec_hw.h   |  53 ++++
+> >  .../platform/mtk-vcodec/mtk_vcodec_dec_pm.c   | 104 +++++--
+> >  .../platform/mtk-vcodec/mtk_vcodec_dec_pm.h   |  12 +-
+> >  .../mtk-vcodec/mtk_vcodec_dec_stateful.c      |   2 +
+> >  .../mtk-vcodec/mtk_vcodec_dec_stateless.c     |  21 ++
+> >  .../platform/mtk-vcodec/mtk_vcodec_drv.h      |  73 ++++-
+> >  .../platform/mtk-vcodec/mtk_vcodec_enc_drv.c  |  21 +-
+> >  .../platform/mtk-vcodec/mtk_vcodec_enc_pm.c   |  10 +-
+> >  .../platform/mtk-vcodec/mtk_vcodec_enc_pm.h   |   3 +-
+> >  .../platform/mtk-vcodec/mtk_vcodec_intr.c     |  27 +-
+> >  .../platform/mtk-vcodec/mtk_vcodec_intr.h     |   4 +-
+> >  .../platform/mtk-vcodec/mtk_vcodec_util.c     |  59 +++-
+> >  .../platform/mtk-vcodec/mtk_vcodec_util.h     |   8 +-
+> >  .../platform/mtk-vcodec/vdec/vdec_h264_if.c   |   2 +-
+> >  .../mtk-vcodec/vdec/vdec_h264_req_if.c        |   2 +-
+> >  .../platform/mtk-vcodec/vdec/vdec_vp8_if.c    |   2 +-
+> >  .../platform/mtk-vcodec/vdec/vdec_vp9_if.c    |   2 +-
+> >  .../media/platform/mtk-vcodec/vdec_drv_if.c   |  21 +-
+> >  .../media/platform/mtk-vcodec/vdec_ipi_msg.h  |  16 +-
+> >  .../platform/mtk-vcodec/vdec_msg_queue.c      | 289
+> > ++++++++++++++++++
+> >  .../platform/mtk-vcodec/vdec_msg_queue.h      | 143 +++++++++
+> >  .../media/platform/mtk-vcodec/vdec_vpu_if.c   |  46 ++-
+> >  .../media/platform/mtk-vcodec/vdec_vpu_if.h   |  22 ++
+> >  .../platform/mtk-vcodec/venc/venc_h264_if.c   |   2 +-
+> >  .../platform/mtk-vcodec/venc/venc_vp8_if.c    |   2 +-
+> >  34 files changed, 1800 insertions(+), 294 deletions(-)
+> >  create mode 100644
+> > Documentation/devicetree/bindings/media/mediatek,vcodec-
+> > decoder.yaml
+> >  create mode 100644
+> > Documentation/devicetree/bindings/media/mediatek,vcodec-
+> > encoder.yaml
+> >  create mode 100644
+> > Documentation/devicetree/bindings/media/mediatek,vcodec-subdev-
+> > decoder.yaml
+> >  delete mode 100644
+> > Documentation/devicetree/bindings/media/mediatek-vcodec.txt
+> >  create mode 100644 drivers/media/platform/mtk-
+> > vcodec/mtk_vcodec_dec_hw.c
+> >  create mode 100644 drivers/media/platform/mtk-
+> > vcodec/mtk_vcodec_dec_hw.h
+> >  create mode 100644 drivers/media/platform/mtk-
+> > vcodec/vdec_msg_queue.c
+> >  create mode 100644 drivers/media/platform/mtk-
+> > vcodec/vdec_msg_queue.h
+> > 
+> 
 > 
 
