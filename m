@@ -2,110 +2,92 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E363748C26F
-	for <lists+linux-media@lfdr.de>; Wed, 12 Jan 2022 11:40:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DCDAF48C2CE
+	for <lists+linux-media@lfdr.de>; Wed, 12 Jan 2022 12:06:03 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1352580AbiALKkX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 12 Jan 2022 05:40:23 -0500
-Received: from ewsoutbound.kpnmail.nl ([195.121.94.168]:27025 "EHLO
-        ewsoutbound.kpnmail.nl" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239535AbiALKkX (ORCPT
+        id S1352719AbiALLGC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 12 Jan 2022 06:06:02 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57196 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S239350AbiALLGA (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 12 Jan 2022 05:40:23 -0500
-X-KPN-MessageId: f3084771-7393-11ec-8862-005056aba152
-Received: from smtp.kpnmail.nl (unknown [10.31.155.40])
-        by ewsoutbound.so.kpn.org (Halon) with ESMTPS
-        id f3084771-7393-11ec-8862-005056aba152;
-        Wed, 12 Jan 2022 11:39:41 +0100 (CET)
+        Wed, 12 Jan 2022 06:06:00 -0500
+Received: from mail-pj1-x1034.google.com (mail-pj1-x1034.google.com [IPv6:2607:f8b0:4864:20::1034])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 307D6C06173F;
+        Wed, 12 Jan 2022 03:06:00 -0800 (PST)
+Received: by mail-pj1-x1034.google.com with SMTP id pf13so4175734pjb.0;
+        Wed, 12 Jan 2022 03:06:00 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=xs4all.nl; s=xs4all01;
-        h=content-type:from:to:subject:mime-version:date:message-id;
-        bh=voSopkAronjPx45Y/VkX9JuTht6XzWdHYo7PEeArGJg=;
-        b=oaLLvqidFpUL8rjrwf9yQkvRfCIL7wMgk9mYzuIRDIfKAqnjZ66xBzP4P5BMd9yv+H3uzOxm0/NmM
-         6fNUEewAcEYIOqQNDtnPCs8tCm5pZ2RSkhH/TsRewBeQYLlzWZV3hlJOzaBIqA8lqFZ8BAQAe+2v62
-         jL9r07ahWxZwilCoUg3TG9VMMbCplKRx1WUi4wiShpv6IUGIbORUTNaswy6jDnlF07S3aH1Ep1nkJb
-         r6hvksSeZb3ZXmnduy7i71SMxfNV1eBPS900RYKgrln0kxAeU/4msavT0rF+1JlKjqw6e9jmi4xcqA
-         f1XJXs1FNrTNEnVbot0aK2meKsF+7Vw==
-X-KPN-VerifiedSender: Yes
-X-CMASSUN: 33|6qsLJ4w6h9J4dXQ7gC/oaAQX5AeFSDdTcYlEynEYxKgBcWROHqV1fAYIiuZTc9d
- +LJ2/Dh7oQIDNb5sVTB1JwQ==
-X-Originating-IP: 193.91.129.219
-Received: from [192.168.2.10] (cdb815bc1.dhcp.as2116.net [193.91.129.219])
-        by smtp.xs4all.nl (Halon) with ESMTPSA
-        id 0ad95271-7394-11ec-b76f-005056ab7584;
-        Wed, 12 Jan 2022 11:40:22 +0100 (CET)
-Message-ID: <bb786c06-c198-f5c8-5ea8-7e617a00bb0a@xs4all.nl>
-Date:   Wed, 12 Jan 2022 11:40:21 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Firefox/91.0 Thunderbird/91.4.1
-Subject: Re: [PATCH] media: docs: Change unintended assignment in v4l
-Content-Language: en-US
-To:     Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        Daniel Lundberg Pedersen <dlp@qtec.com>,
-        linux-media@vger.kernel.org, mchehab@kernel.org
-References: <20220111164855.147487-1-dlp@qtec.com>
- <164192283176.10801.16438722671029975593@Monstersaurus>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-In-Reply-To: <164192283176.10801.16438722671029975593@Monstersaurus>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references;
+        bh=efnCwJ4wgzV+ae0TxSAq8p0i4hZZzCH5LWLiMt2dAJE=;
+        b=f/1n3avpzsj/EuXCiZYRr48U0S3OM7RPnCSuk27DXVwMQM7Ju+p8IUkhwDhgg6Ml4j
+         Gj5IFn5u3bC9FduiQO+qhtHpneaxd4WstAIuj6KV58CNEiN5gfaF5m/WY6fCmSE8iwKg
+         o8C/HzigxznDVMQ8XvaWb0N/dvbVUMcsaMBsKYc+UQ924jXYs2guYlYwlcBsOn9GVmW4
+         3txrEZ3xiOb8TrziW5OO/M04KJsTURXSMIcsdodIobGfi6KrooqAgqhUJ651FECGBhRQ
+         P4Wb+ccLav2WUBa6T92m39vulNuoLCkLyj43bK2Yekkmby/5xiTmXVmkw8FxZCv9qjvf
+         bv2g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references;
+        bh=efnCwJ4wgzV+ae0TxSAq8p0i4hZZzCH5LWLiMt2dAJE=;
+        b=yL7z+6ZpCYKMPTAR/ut3iVY0FM4Ydvlqt0gZUgdgq7Xd7og/Ry+TySvKgfVpAGIIMr
+         liURm9wvhdvCCn9Csre5neeiH7YddBFDyqhx/He6tvsdZpuyljFOHpzApDtH4tMSPvVF
+         nZYPK0ACcWzzokXKfEBDZUlTUqgEVMczRw/JsbDEFxG0+unC5AG4MqUIC18OeRbj52Cm
+         cLR+S1qO+b5B0Rh0lNewFJscF+8atzEZ6np5cTJNS2tCe9U+ymMvCJC2LfNnk+i2WPcJ
+         97wnTF5udeJo8QgxFKWvJ7GBbO3PTOYXcPYQ359B5SWo73rcra77OKEzBwxiyK7b9but
+         IflQ==
+X-Gm-Message-State: AOAM533f/C6BL3Rw5DH8MQrPf5qS8P3g9dJy7WZoWQ7l0TtiO2zmiDUQ
+        ozkOyQURzxhfasY0j2eUhaA=
+X-Google-Smtp-Source: ABdhPJwZ7JmlpvrmkxPo12gxEGrApToWsgG2LYg4nmFl+Su9WKF1tD+v6QwVtUq2UJN2XeJ7stIizA==
+X-Received: by 2002:a05:6a00:8cc:b0:4a8:262:49e1 with SMTP id s12-20020a056a0008cc00b004a8026249e1mr8715366pfu.28.1641985559757;
+        Wed, 12 Jan 2022 03:05:59 -0800 (PST)
+Received: from localhost.localdomain ([159.226.95.43])
+        by smtp.googlemail.com with ESMTPSA id l3sm2291605pgs.74.2022.01.12.03.05.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 12 Jan 2022 03:05:59 -0800 (PST)
+From:   Miaoqian Lin <linmq006@gmail.com>
+To:     hverkuil@xs4all.nl
+Cc:     hans.verkuil@cisco.com, linmq006@gmail.com,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        m.tretter@pengutronix.de, mchehab@kernel.org,
+        p.zabel@pengutronix.de
+Subject: [PATCH v2] media: coda: Fix missing put_device() call in coda_get_vdoa_data
+Date:   Wed, 12 Jan 2022 11:05:54 +0000
+Message-Id: <20220112110554.1862-1-linmq006@gmail.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <5454a150-7b11-dbce-02c4-d300c6629b1e@xs4all.nl>
+References: <5454a150-7b11-dbce-02c4-d300c6629b1e@xs4all.nl>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 11/01/2022 18:40, Kieran Bingham wrote:
-> Quoting Daniel Lundberg Pedersen (2022-01-11 16:48:55)
->> Example should be comparing errno to EINTR instead of doing assignment.
->>
-> 
-> Ouch - that's not helpful in documentation indeed.
-> Good spot, and fix.
-> 
-> It might help to say 'in v4l2grab' in the $SUBJECT rather than 'v4l' as
-> that would be a bit more specific.
+The reference taken by 'of_find_device_by_node()' must be released when
+not needed anymore.
+Add the corresponding 'put_device()' in the error handling path.
 
-Yes, ideally something like this:
+Fixes: e7f3c5481035 ("[media] coda: use VDOA for un-tiling custom macroblock format")
+Signed-off-by: Miaoqian Lin <linmq006@gmail.com>
+---
+Changes in v2:
+- remove the goto and unused label.
+---
+ drivers/media/platform/coda/coda-common.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-"media: docs: v4l2grab.c.rst: change unintended assignment"
-
-I see way too often patches that do NOT specify the driver (or in this
-case the specific file) that has been changed. Just saying "media: docs:"
-suggests a 'media docs'-wide change.
-
-Please post a v2 with the correct subject, I want to crack down on this
-practice.
-
-While easy enough to fix, the problem is that by not mentioning what
-was changed the correct maintainers won't see the patch. Not a big
-deal here, but much more serious with driver patches.
-
-Regards,
-
-	Hans
-
-> 
-> Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-> 
->> Signed-off-by: Daniel Lundberg Pedersen <dlp@qtec.com>
->> ---
->>  Documentation/userspace-api/media/v4l/v4l2grab.c.rst | 2 +-
->>  1 file changed, 1 insertion(+), 1 deletion(-)
->>
->> diff --git a/Documentation/userspace-api/media/v4l/v4l2grab.c.rst b/Documentation/userspace-api/media/v4l/v4l2grab.c.rst
->> index eaa0f95048e7..c98a78d63a8b 100644
->> --- a/Documentation/userspace-api/media/v4l/v4l2grab.c.rst
->> +++ b/Documentation/userspace-api/media/v4l/v4l2grab.c.rst
->> @@ -134,7 +134,7 @@ file: media/v4l/v4l2grab.c
->>                             tv.tv_usec = 0;
->>  
->>                             r = select(fd + 1, &fds, NULL, NULL, &tv);
->> -                   } while ((r == -1 && (errno = EINTR)));
->> +                   } while ((r == -1 && (errno == EINTR)));
->>                     if (r == -1) {
->>                             perror("select");
->>                             return errno;
->> -- 
->> 2.33.1
->>
+diff --git a/drivers/media/platform/coda/coda-common.c b/drivers/media/platform/coda/coda-common.c
+index 0e312b0842d7..c3942b0abb00 100644
+--- a/drivers/media/platform/coda/coda-common.c
++++ b/drivers/media/platform/coda/coda-common.c
+@@ -408,6 +408,7 @@ static struct vdoa_data *coda_get_vdoa_data(void)
+ 	if (!vdoa_data)
+ 		vdoa_data = ERR_PTR(-EPROBE_DEFER);
+ 
++	put_device(&vdoa_pdev->dev);
+ out:
+ 	of_node_put(vdoa_node);
+ 
+-- 
+2.17.1
 
