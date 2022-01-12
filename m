@@ -2,75 +2,140 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D252348CC7A
-	for <lists+linux-media@lfdr.de>; Wed, 12 Jan 2022 20:53:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6CE0548CCD5
+	for <lists+linux-media@lfdr.de>; Wed, 12 Jan 2022 21:07:39 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1345817AbiALTwa (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 12 Jan 2022 14:52:30 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38044 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1357452AbiALTvg (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Wed, 12 Jan 2022 14:51:36 -0500
-Received: from mail-lf1-x141.google.com (mail-lf1-x141.google.com [IPv6:2a00:1450:4864:20::141])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5B032C0611FD
-        for <linux-media@vger.kernel.org>; Wed, 12 Jan 2022 11:51:13 -0800 (PST)
-Received: by mail-lf1-x141.google.com with SMTP id br17so11904408lfb.6
-        for <linux-media@vger.kernel.org>; Wed, 12 Jan 2022 11:51:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=L77wWZOzoJ83FWnS0rTBXLliJsYhOTdAIZIl+/oApzA=;
-        b=FY9bi352w6703ixKMonx3kFMmK5q3xPjiNXixG4R4zyUkw+T88s3XQ4ndwne6ZcVnY
-         kumQF7bnYl2vYDlw7onYUtcDDRmzGYgV/xYrzOpgicPTW7hqqlKAECIDc/gouktfHzaP
-         waPf9D/eIlAYnEgld3D51zWObQ7b5wfIEd2/BnXG9R+3gdL/gZnXKhTerr17kc1fA03w
-         obls8vRl50AYXertjbCRnWN5HE3Sz8j8F2b2SuMMM0RyMpAeAVOfC5ft6EuOG93Xj6vC
-         ISiKVt80y9OznrKe4tXWmI3wRvy/oLFBXywx8q2kvNi5qEdm/BX+zlPOYawYR1mxwbsX
-         wP6Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=L77wWZOzoJ83FWnS0rTBXLliJsYhOTdAIZIl+/oApzA=;
-        b=K280AJu8PagrHEkmPbqUSC+y8uOD4kxTEjax8N7nd7vzuyzvAaUYY2nGFe2LaSakzr
-         IfzB8M8SymqsE+SvYwq4n9qurtwywJSkTa24igGrTD7+F2yelALxeP616mQRp5+7r1s7
-         FCeUlZ412zwPnZbn56mBgaPoTIbuTcsqOp9PKFrHtgtZI2btMUn31T+KMrNsdovYTCsw
-         FxmJkMuZXvQSdOzMfQ+iBt2ukoGJuN7AgSoT/W9HPk0/BnbNzBMgkbEK2P09vDKANRrJ
-         RHgXeOIZe09YWrVX2H/6IoS4rEtbqQ2SFz+LwGWbRcP+OfLFhUMSyGAuDOWr2wOUTNVR
-         BAdQ==
-X-Gm-Message-State: AOAM53149EDeIQvsGQt1aROBq+svEQC+VlIC3roOGkG0H0J+1PhGASc/
-        o/KG8w+YTq50ZC3ql4byI7q+8w57Pyjs7xP6bwU=
-X-Google-Smtp-Source: ABdhPJzVMzN4Ii8k9Ygj/+A4UZie70WWop0tzyKkdq8kzOoCExc3T4jeqXdopyg9q7Bulu3swyAqYRDdaLyrEVXtnhQ=
-X-Received: by 2002:a2e:8545:: with SMTP id u5mr756891ljj.188.1642017071652;
- Wed, 12 Jan 2022 11:51:11 -0800 (PST)
+        id S1357553AbiALUGx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 12 Jan 2022 15:06:53 -0500
+Received: from mga17.intel.com ([192.55.52.151]:55170 "EHLO mga17.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1350575AbiALUGu (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 12 Jan 2022 15:06:50 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1642018010; x=1673554010;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=HZa09u9oFrEepW3RlnsTTR34qux46eYE9UxSgDHjXJ8=;
+  b=UYH0FH7wvgXop8Urwxh//RbptRM4+J6gXKbJ4Ib1y9pFWvZZB2rCpsFB
+   wv0+zE308KdHmdP5OSsy3X884lWbBRzj5gcp3bZclygOphISP/Q0vnTWX
+   r8zkbD+SJVD47mupgqVvPg7VuY2UPZX65arH+KUcjFPSuy14q4JE51OCQ
+   I5VftFZhIRW13d8iXiiT5HxPN5JAezRDvW4ZYmKcUOouc0wpGOG2m+ERd
+   dbfiCRO3MpqSK+rEReBvwp6NTAiHSAKhC15i+TxEDwWMDkfL7mmePBrge
+   hl1tTYOTcHC+TYnwgoQCIhtLUTQzh2dd8jTKW7s1r0/UanxBtxdux6/+I
+   Q==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10225"; a="224535857"
+X-IronPort-AV: E=Sophos;i="5.88,282,1635231600"; 
+   d="scan'208";a="224535857"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jan 2022 12:06:14 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.88,282,1635231600"; 
+   d="scan'208";a="623595596"
+Received: from lkp-server01.sh.intel.com (HELO 276f1b88eecb) ([10.239.97.150])
+  by orsmga004.jf.intel.com with ESMTP; 12 Jan 2022 12:06:11 -0800
+Received: from kbuild by 276f1b88eecb with local (Exim 4.92)
+        (envelope-from <lkp@intel.com>)
+        id 1n7jso-0006Ko-96; Wed, 12 Jan 2022 20:06:10 +0000
+Date:   Thu, 13 Jan 2022 04:05:18 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Dmitry Osipenko <digetx@gmail.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Nicolas Dufresne <nicolas@ndufresne.ca>
+Cc:     kbuild-all@lists.01.org, linux-media@vger.kernel.org,
+        linux-staging@lists.linux.dev, linux-tegra@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v1 2/2] media: staging: tegra-vde: Support V4L stateless
+ video decoder API
+Message-ID: <202201130310.BFtsDEXe-lkp@intel.com>
+References: <20220112153952.1291-3-digetx@gmail.com>
 MIME-Version: 1.0
-Received: by 2002:a2e:bf23:0:0:0:0:0 with HTTP; Wed, 12 Jan 2022 11:51:10
- -0800 (PST)
-Reply-To: gabrieledgal47@gmail.com
-From:   Gabriel Edgal <koffidorathy@gmail.com>
-Date:   Wed, 12 Jan 2022 11:51:10 -0800
-Message-ID: <CAOnqLJA6KL006wyzDM=Uk0LqWdzFjpDS6n6XwGkAnZ3MjT999g@mail.gmail.com>
-Subject: NICE TO MEET
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220112153952.1291-3-digetx@gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
--- 
-Dear friend.
+Hi Dmitry,
 
-I'm Mr. Gabriel Edgal, I'm the chief internal auditor of Btci Bank, I have
-an abandoned fund $ 9.5 million dollars to transfer to you, as we shall
-parts 50:50. You will only stand as a relative of my deceased client as
-bears the same surname as you, the fund was deposited in our bank for
-many years back by my deceased client who died with his whole
-family in a car accident in 2010. I would like to invite you as a foreigner
-partner to stand as the next of kin of the deceased client, so that we
-will place a claim on the deposited fund and divide it between the two
-of
-us 50:50 each. I want you to answer me immediately for more information
+I love your patch! Perhaps something to improve:
+
+[auto build test WARNING on media-tree/master]
+[also build test WARNING on next-20220112]
+[cannot apply to v5.16]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch]
+
+url:    https://github.com/0day-ci/linux/commits/Dmitry-Osipenko/Add-V4L-stateless-video-decoder-API-support-to-NVIDIA-Tegra-driver/20220112-234115
+base:   git://linuxtv.org/media_tree.git master
+config: powerpc-randconfig-s031-20220112 (https://download.01.org/0day-ci/archive/20220113/202201130310.BFtsDEXe-lkp@intel.com/config)
+compiler: powerpc-linux-gcc (GCC) 11.2.0
+reproduce:
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # apt-get install sparse
+        # sparse version: v0.6.4-dirty
+        # https://github.com/0day-ci/linux/commit/3b11791070fd9de6cd368f28578ebab731386a83
+        git remote add linux-review https://github.com/0day-ci/linux
+        git fetch --no-tags linux-review Dmitry-Osipenko/Add-V4L-stateless-video-decoder-API-support-to-NVIDIA-Tegra-driver/20220112-234115
+        git checkout 3b11791070fd9de6cd368f28578ebab731386a83
+        # save the config file to linux build tree
+        mkdir build_dir
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-11.2.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=powerpc SHELL=/bin/bash drivers/staging/media/tegra-vde/
+
+If you fix the issue, kindly add following tag as appropriate
+Reported-by: kernel test robot <lkp@intel.com>
 
 
-With best regards,
-Mr. Gabriel Edgal
+sparse warnings: (new ones prefixed by >>)
+>> drivers/staging/media/tegra-vde/h264_reader.c:57:15: sparse: sparse: cast to restricted __be32
+>> drivers/staging/media/tegra-vde/h264_reader.c:57:15: sparse: sparse: cast to restricted __be32
+>> drivers/staging/media/tegra-vde/h264_reader.c:57:15: sparse: sparse: cast to restricted __be32
+>> drivers/staging/media/tegra-vde/h264_reader.c:57:15: sparse: sparse: cast to restricted __be32
+
+vim +57 drivers/staging/media/tegra-vde/h264_reader.c
+
+    44	
+    45	static inline u8 emulation_escape(struct bitstream_reader *reader, u32 offset,
+    46					  u8 data, bool inc_offset, bool *escaped)
+    47	{
+    48		u32 seq;
+    49	
+    50		if (data != 0x03 || !reader->rbsp_mode)
+    51			return data;
+    52	
+    53		if (offset < 2 || offset == reader->bitstream_end)
+    54			return data;
+    55	
+    56		seq = *((u32 *)(reader->data_ptr + offset - 2));
+  > 57		seq = be32_to_cpu(seq);
+    58	
+    59		switch (seq) {
+    60		case 0x00000300:
+    61		case 0x00000301:
+    62		case 0x00000302:
+    63		case 0x00000303:
+    64			if (inc_offset)
+    65				reader->data_offset++;
+    66	
+    67			if (escaped)
+    68				*escaped = true;
+    69	
+    70			return seq & 0xFF;
+    71		default:
+    72			break;
+    73		}
+    74	
+    75		return data;
+    76	}
+    77	
+
+---
+0-DAY CI Kernel Test Service, Intel Corporation
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
