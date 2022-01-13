@@ -2,26 +2,26 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BAECF48DA52
-	for <lists+linux-media@lfdr.de>; Thu, 13 Jan 2022 16:01:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1C68248DA55
+	for <lists+linux-media@lfdr.de>; Thu, 13 Jan 2022 16:01:08 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235910AbiAMPBA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 13 Jan 2022 10:01:00 -0500
-Received: from perceval.ideasonboard.com ([213.167.242.64]:42096 "EHLO
+        id S235913AbiAMPBB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 13 Jan 2022 10:01:01 -0500
+Received: from perceval.ideasonboard.com ([213.167.242.64]:42104 "EHLO
         perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234021AbiAMPBA (ORCPT
+        with ESMTP id S233641AbiAMPBA (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
         Thu, 13 Jan 2022 10:01:00 -0500
 Received: from pendragon.lan (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 51723A1B;
-        Thu, 13 Jan 2022 16:00:58 +0100 (CET)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 1E5ABE81;
+        Thu, 13 Jan 2022 16:00:59 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1642086058;
-        bh=KjvT+MAEol07EXKHMKPunVawSIKnzYLj6XO8aA/7EjU=;
+        s=mail; t=1642086059;
+        bh=I4B4eDk1TbuJnwrMhQfHOYenxD6XdfiTPCciEvfpguI=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=Iodjq7kyrVvDVuQcqnnk5bkOlxy0aizhCZrMIUmRrm1k8okP87IowXfqOOhvFvgQ5
-         3KImywV1EsBB1CEiIG6RQ4tpxl/ht1k9sqWyBOEoIIBkjZvH2NGLIFtBlGm3FDEGdh
-         e60gGHR5sLc1D5VlzNDJ7F4JgjqNmlfZECEKH0mQ=
+        b=GbkMU+DcVllLZcEN66xdZ4CbmVqo7qOUecz+B2AzX3mlJdUWqZ8B4wjdTKa+nNGUq
+         usr3y+VkcDLXw+CmbDuCyy3Hd5b7JgajPrZ6QuTbzIPj4jCKnaxoDtfuJDCc3zJV6u
+         vZ+9/4yUm+zQpStqp0JHcgva3FYLVXIb6rEDDXxY=
 From:   Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 To:     linux-media@vger.kernel.org
 Cc:     linux-renesas-soc@vger.kernel.org,
@@ -30,9 +30,9 @@ Cc:     linux-renesas-soc@vger.kernel.org,
         Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
         Jacopo Mondi <jacopo@jmondi.org>,
         Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Subject: [PATCH 1/2] media: media-entity: Add media_pad_is_streaming() helper function
-Date:   Thu, 13 Jan 2022 17:00:41 +0200
-Message-Id: <20220113150042.15630-2-laurent.pinchart+renesas@ideasonboard.com>
+Subject: [PATCH 2/2] media: media-entity: Simplify media_pipeline_start()
+Date:   Thu, 13 Jan 2022 17:00:42 +0200
+Message-Id: <20220113150042.15630-3-laurent.pinchart+renesas@ideasonboard.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220113150042.15630-1-laurent.pinchart+renesas@ideasonboard.com>
 References: <20220113150042.15630-1-laurent.pinchart+renesas@ideasonboard.com>
@@ -44,124 +44,195 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
-Add a function to test if a pad is part of a pipeline currently
-streaming, and use it through drivers to replace direct access to the
-stream_count field. This will help reworking pipeline start/stop without
-disturbing drivers.
+The media_pipeline_start() function has two purposes: it constructs a
+pipeline by recording the entities that are part of it, gathered from a
+graph walk, and validate the media links. The pipeline pointer is stored
+in the media_entity structure as part of this process, and the entity's
+stream count is increased, to record that the entity is streaming.
+
+When multiple video nodes are present in a pipeline,
+media_pipeline_start() is typically called on all of them, with the same
+pipeline pointer. This is taken into account in media_pipeline_start()
+by skipping validation for entities that are already part of the
+pipeline, while returning an error if an entity is part of a different
+pipeline.
+
+It turns out that this process is overly complicated. When
+media_pipeline_start() is called for the first time, it constructs the
+full pipeline, adding all entities and validating all the links.
+Subsequent calls to media_pipeline_start() are then nearly no-ops, they
+only increase the stream count on the pipeline and on all entities.
+
+The media_entity stream_count field is used for two purposes: checking
+if the entity is streaming, and detecting when a call to
+media_pipeline_stop() balances needs to reset the entity pipe pointer to
+NULL. The former can easily be replaced by a check of the pipe pointer.
+
+Simplify media_pipeline_start() by avoiding the pipeline walk on all
+calls but the first one, and drop the media_entity stream_count field.
+media_pipeline_stop() is updated accordingly.
 
 Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 ---
- drivers/media/mc/mc-entity.c                  |  3 ++-
- drivers/media/platform/exynos4-is/common.c    |  5 ++++-
- drivers/media/platform/exynos4-is/fimc-isp.c  |  2 +-
- drivers/media/platform/exynos4-is/fimc-lite.c |  6 +++---
- drivers/media/platform/rcar-vin/rcar-core.c   |  2 +-
- include/media/media-entity.h                  | 12 ++++++++++++
- 6 files changed, 23 insertions(+), 7 deletions(-)
+ drivers/media/mc/mc-entity.c | 52 +++++++++++++++---------------------
+ include/media/media-entity.h | 11 +++-----
+ 2 files changed, 26 insertions(+), 37 deletions(-)
 
 diff --git a/drivers/media/mc/mc-entity.c b/drivers/media/mc/mc-entity.c
-index b411f9796191..f83e043f0f3b 100644
+index f83e043f0f3b..8ab0913d8d82 100644
 --- a/drivers/media/mc/mc-entity.c
 +++ b/drivers/media/mc/mc-entity.c
-@@ -834,7 +834,8 @@ int __media_entity_setup_link(struct media_link *link, u32 flags)
- 	sink = link->sink->entity;
+@@ -396,20 +396,21 @@ __must_check int __media_pipeline_start(struct media_entity *entity,
+ 	struct media_link *link;
+ 	int ret;
  
- 	if (!(link->flags & MEDIA_LNK_FL_DYNAMIC) &&
--	    (source->stream_count || sink->stream_count))
-+	    (media_entity_is_streaming(source) ||
-+	     media_entity_is_streaming(sink)))
- 		return -EBUSY;
+-	if (!pipe->streaming_count++) {
+-		ret = media_graph_walk_init(&pipe->graph, mdev);
+-		if (ret)
+-			goto error_graph_walk_start;
++	if (pipe->streaming_count) {
++		pipe->streaming_count++;
++		return 0;
+ 	}
  
- 	mdev = source->graph_obj.mdev;
-diff --git a/drivers/media/platform/exynos4-is/common.c b/drivers/media/platform/exynos4-is/common.c
-index 944b224eb621..023f624d29d5 100644
---- a/drivers/media/platform/exynos4-is/common.c
-+++ b/drivers/media/platform/exynos4-is/common.c
-@@ -10,7 +10,10 @@
- #include <media/drv-intf/exynos-fimc.h>
- #include "common.h"
++	ret = media_graph_walk_init(&pipe->graph, mdev);
++	if (ret)
++		return ret;
++
+ 	media_graph_walk_start(&pipe->graph, entity);
  
--/* Called with the media graph mutex held or entity->stream_count > 0. */
-+/*
-+ * Called with the media graph mutex held or media_entity_is_streaming(entity)
-+ * true.
-+ */
- struct v4l2_subdev *fimc_find_remote_sensor(struct media_entity *entity)
- {
- 	struct media_pad *pad = &entity->pads[0];
-diff --git a/drivers/media/platform/exynos4-is/fimc-isp.c b/drivers/media/platform/exynos4-is/fimc-isp.c
-index 855235bea46d..b85986e50f46 100644
---- a/drivers/media/platform/exynos4-is/fimc-isp.c
-+++ b/drivers/media/platform/exynos4-is/fimc-isp.c
-@@ -226,7 +226,7 @@ static int fimc_isp_subdev_set_fmt(struct v4l2_subdev *sd,
- 			}
+ 	while ((entity = media_graph_walk_next(graph))) {
+ 		DECLARE_BITMAP(active, MEDIA_ENTITY_MAX_PADS);
+ 		DECLARE_BITMAP(has_no_links, MEDIA_ENTITY_MAX_PADS);
+ 
+-		entity->stream_count++;
+-
+ 		if (entity->pipe && entity->pipe != pipe) {
+ 			pr_err("Pipe active for %s. Can't start for %s\n",
+ 				entity->name,
+@@ -418,12 +419,12 @@ __must_check int __media_pipeline_start(struct media_entity *entity,
+ 			goto error;
  		}
- 	} else {
--		if (sd->entity.stream_count == 0) {
-+		if (!media_entity_is_streaming(&sd->entity)) {
- 			if (fmt->pad == FIMC_ISP_SD_PAD_SINK) {
- 				struct v4l2_subdev_format format = *fmt;
  
-diff --git a/drivers/media/platform/exynos4-is/fimc-lite.c b/drivers/media/platform/exynos4-is/fimc-lite.c
-index aaa3af0493ce..386ee3948ac6 100644
---- a/drivers/media/platform/exynos4-is/fimc-lite.c
-+++ b/drivers/media/platform/exynos4-is/fimc-lite.c
-@@ -1073,7 +1073,7 @@ static int fimc_lite_subdev_set_fmt(struct v4l2_subdev *sd,
- 	mutex_lock(&fimc->lock);
+-		entity->pipe = pipe;
+-
+ 		/* Already streaming --- no need to check. */
+-		if (entity->stream_count > 1)
++		if (entity->pipe)
+ 			continue;
  
- 	if ((atomic_read(&fimc->out_path) == FIMC_IO_ISP &&
--	    sd->entity.stream_count > 0) ||
-+	    media_entity_is_streaming(&sd->entity)) ||
- 	    (atomic_read(&fimc->out_path) == FIMC_IO_DMA &&
- 	    vb2_is_busy(&fimc->vb_queue))) {
- 		mutex_unlock(&fimc->lock);
-@@ -1197,8 +1197,8 @@ static int fimc_lite_subdev_s_stream(struct v4l2_subdev *sd, int on)
- 	 * Find sensor subdev linked to FIMC-LITE directly or through
- 	 * MIPI-CSIS. This is required for configuration where FIMC-LITE
- 	 * is used as a subdev only and feeds data internally to FIMC-IS.
--	 * The pipeline links are protected through entity.stream_count
--	 * so there is no need to take the media graph mutex here.
-+	 * The pipeline links are protected through entity.pipe so there is no
-+	 * need to take the media graph mutex here.
- 	 */
- 	fimc->sensor = fimc_find_remote_sensor(&sd->entity);
++		entity->pipe = pipe;
++
+ 		if (!entity->ops || !entity->ops->link_validate)
+ 			continue;
  
-diff --git a/drivers/media/platform/rcar-vin/rcar-core.c b/drivers/media/platform/rcar-vin/rcar-core.c
-index 0186ae235113..5117a7a3b5ec 100644
---- a/drivers/media/platform/rcar-vin/rcar-core.c
-+++ b/drivers/media/platform/rcar-vin/rcar-core.c
-@@ -816,7 +816,7 @@ static int rvin_csi2_link_notify(struct media_link *link, u32 flags,
- 	 * running streams.
- 	 */
- 	media_device_for_each_entity(entity, &group->mdev)
--		if (entity->stream_count)
-+		if (media_entity_is_streaming(entity))
- 			return -EBUSY;
+@@ -479,6 +480,8 @@ __must_check int __media_pipeline_start(struct media_entity *entity,
+ 		}
+ 	}
  
- 	mutex_lock(&group->lock);
++	pipe->streaming_count++;
++
+ 	return 0;
+ 
+ error:
+@@ -489,24 +492,17 @@ __must_check int __media_pipeline_start(struct media_entity *entity,
+ 	media_graph_walk_start(graph, entity_err);
+ 
+ 	while ((entity_err = media_graph_walk_next(graph))) {
+-		/* Sanity check for negative stream_count */
+-		if (!WARN_ON_ONCE(entity_err->stream_count <= 0)) {
+-			entity_err->stream_count--;
+-			if (entity_err->stream_count == 0)
+-				entity_err->pipe = NULL;
+-		}
++		entity_err->pipe = NULL;
+ 
+ 		/*
+-		 * We haven't increased stream_count further than this
+-		 * so we quit here.
++		 * We haven't started entities further than this so we quit
++		 * here.
+ 		 */
+ 		if (entity_err == entity)
+ 			break;
+ 	}
+ 
+-error_graph_walk_start:
+-	if (!--pipe->streaming_count)
+-		media_graph_walk_cleanup(graph);
++	media_graph_walk_cleanup(graph);
+ 
+ 	return ret;
+ }
+@@ -537,19 +533,15 @@ void __media_pipeline_stop(struct media_entity *entity)
+ 	if (WARN_ON(!pipe))
+ 		return;
+ 
++	if (--pipe->streaming_count)
++		return;
++
+ 	media_graph_walk_start(graph, entity);
+ 
+-	while ((entity = media_graph_walk_next(graph))) {
+-		/* Sanity check for negative stream_count */
+-		if (!WARN_ON_ONCE(entity->stream_count <= 0)) {
+-			entity->stream_count--;
+-			if (entity->stream_count == 0)
+-				entity->pipe = NULL;
+-		}
+-	}
++	while ((entity = media_graph_walk_next(graph)))
++		entity->pipe = NULL;
+ 
+-	if (!--pipe->streaming_count)
+-		media_graph_walk_cleanup(graph);
++	media_graph_walk_cleanup(graph);
+ 
+ }
+ EXPORT_SYMBOL_GPL(__media_pipeline_stop);
 diff --git a/include/media/media-entity.h b/include/media/media-entity.h
-index fea489f03d57..8546f13c42a9 100644
+index 8546f13c42a9..e3c4fd1e3623 100644
 --- a/include/media/media-entity.h
 +++ b/include/media/media-entity.h
-@@ -858,6 +858,18 @@ struct media_link *media_entity_find_link(struct media_pad *source,
-  */
- struct media_pad *media_entity_remote_pad(const struct media_pad *pad);
- 
-+/**
-+ * media_entity_is_streaming - Test if an entity is part of a streaming pipeline
-+ * @entity: The entity
-+ *
-+ * Return: True if the entity is part of a pipeline started with the
-+ * media_pipeline_start() function, false otherwise.
-+ */
-+static inline bool media_entity_is_streaming(const struct media_entity *entity)
-+{
-+	return entity->stream_count > 0;
-+}
-+
- /**
-  * media_entity_get_fwnode_pad - Get pad number from fwnode
+@@ -268,7 +268,6 @@ enum media_entity_type {
+  * @pads:	Pads array with the size defined by @num_pads.
+  * @links:	List of data links.
+  * @ops:	Entity operations.
+- * @stream_count: Stream count for the entity.
+  * @use_count:	Use count for the entity.
+  * @pipe:	Pipeline this entity belongs to.
+  * @info:	Union with devnode information.  Kept just for backward
+@@ -283,10 +282,9 @@ enum media_entity_type {
   *
+  * .. note::
+  *
+- *    @stream_count and @use_count reference counts must never be
+- *    negative, but are signed integers on purpose: a simple ``WARN_ON(<0)``
+- *    check can be used to detect reference count bugs that would make them
+- *    negative.
++ *    The @use_count reference count must never be negative, but is a signed
++ *    integer on purpose: a simple ``WARN_ON(<0)`` check can be used to detect
++ *    reference count bugs that would make it negative.
+  */
+ struct media_entity {
+ 	struct media_gobj graph_obj;	/* must be first field in struct */
+@@ -305,7 +303,6 @@ struct media_entity {
+ 
+ 	const struct media_entity_operations *ops;
+ 
+-	int stream_count;
+ 	int use_count;
+ 
+ 	struct media_pipeline *pipe;
+@@ -867,7 +864,7 @@ struct media_pad *media_entity_remote_pad(const struct media_pad *pad);
+  */
+ static inline bool media_entity_is_streaming(const struct media_entity *entity)
+ {
+-	return entity->stream_count > 0;
++	return entity->pipe != NULL;
+ }
+ 
+ /**
 -- 
 Regards,
 
