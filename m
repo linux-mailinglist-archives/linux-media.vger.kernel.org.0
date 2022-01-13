@@ -2,84 +2,80 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BF8CB48D4E1
-	for <lists+linux-media@lfdr.de>; Thu, 13 Jan 2022 10:50:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DAD8F48D4FC
+	for <lists+linux-media@lfdr.de>; Thu, 13 Jan 2022 10:50:09 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232022AbiAMJPy (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 13 Jan 2022 04:15:54 -0500
-Received: from ewsoutbound.kpnmail.nl ([195.121.94.168]:43775 "EHLO
-        ewsoutbound.kpnmail.nl" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233749AbiAMJPu (ORCPT
+        id S232978AbiAMJ15 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 13 Jan 2022 04:27:57 -0500
+Received: from perceval.ideasonboard.com ([213.167.242.64]:35690 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232318AbiAMJ15 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 13 Jan 2022 04:15:50 -0500
-X-KPN-MessageId: 4d6d0fcc-7451-11ec-8862-005056aba152
-Received: from smtp.kpnmail.nl (unknown [10.31.155.39])
-        by ewsoutbound.so.kpn.org (Halon) with ESMTPS
-        id 4d6d0fcc-7451-11ec-8862-005056aba152;
-        Thu, 13 Jan 2022 10:15:08 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=xs4all.nl; s=xs4all01;
-        h=content-type:from:to:subject:mime-version:date:message-id;
-        bh=TQ7FE+1TjZcJGjtMAVu+kQkmET1q3eqI0l54ENHmGms=;
-        b=jFf9n6j//i//fR56AiPlDynZ5khCa/Ljcw/Yt4FgbewWc/i2aPGiFWvWVsoXoZjB/HBm5L3SbTrkm
-         Y0qsxmF37VlCoisr3jpi92BDbo2ESimXFnxZOJiArFQh0Anwdkvi9usan9rjVN/znOR80LqJ12CwzU
-         Abs+Gssx4iIi5jgvG2BLE5tYVhQzype7PcoA9RHQm8qdB3F436fBdJklfTQV0yXUL78LvR8jGtG1Ku
-         0xjSRvMZHFkc695HkSdDXz5g9fymKV2EaVTmPkE2DGbLsn8sgDh70p31pkMqFzvNqr1e1O2u3e3CnJ
-         2LN6yCYd9JhW2JxS5lMKoGZrrx7wDpg==
-X-KPN-VerifiedSender: Yes
-X-CMASSUN: 33|NoljMPYKvCOOH3Wb/96mqwbwjcPoL5W9Jbh+BtI7FHq1T2UXLepcez+3Q9QFmcq
- MD9v85OzErt64FGF0rMeP4w==
-X-Originating-IP: 193.91.129.219
-Received: from [192.168.2.10] (cdb815bc1.dhcp.as2116.net [193.91.129.219])
-        by smtp.xs4all.nl (Halon) with ESMTPSA
-        id 65606294-7451-11ec-81f5-005056ab7447;
-        Thu, 13 Jan 2022 10:15:48 +0100 (CET)
-Message-ID: <be18b2bb-f334-1f31-50df-9935929281f6@xs4all.nl>
-Date:   Thu, 13 Jan 2022 10:15:48 +0100
+        Thu, 13 Jan 2022 04:27:57 -0500
+Received: from [IPV6:2a01:e0a:169:7140:2ab9:bf59:c61a:cf11] (unknown [IPv6:2a01:e0a:169:7140:2ab9:bf59:c61a:cf11])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 9754797;
+        Thu, 13 Jan 2022 10:27:55 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1642066075;
+        bh=jZwNUuB0RkUpIVsIVx20fm0PYu8Gumih0ZisNs+gWYA=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=shMJ3AUPJ5hsEZfKXmibxhQXzMG4eW7UCuGEmtiGXjHlkRUy8DKq/e6gL9zcg7uJR
+         P4fLr5rGZJYeQC97lDW57wWNWKfn2YqwzwPNOUYTEJFLhuWLDWi3l8NzG3jIsSdQmi
+         nfNooz+kJa8L4LNiafM0z9f1VKSRf4QaIpicTb38=
+Message-ID: <bcd1b7f6-e18c-d01c-aaea-b98026056c71@ideasonboard.com>
+Date:   Thu, 13 Jan 2022 10:27:53 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Firefox/91.0 Thunderbird/91.4.1
+ Thunderbird/91.3.1
 Subject: Re: [PATCH 0/3] Add 12bit and 14bit luma-only formats
 Content-Language: en-US
-To:     Jean-Michel Hautbois <jeanmichel.hautbois@ideasonboard.com>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+To:     Hans Verkuil <hverkuil@xs4all.nl>, linux-media@vger.kernel.org,
+        linux-kernel@vger.kernel.org
 Cc:     laurent.pinchart@ideasonboard.com, mchehab@kernel.org,
         dave.stevenson@raspberrypi.com
 References: <20220112161014.972076-1-jeanmichel.hautbois@ideasonboard.com>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-In-Reply-To: <20220112161014.972076-1-jeanmichel.hautbois@ideasonboard.com>
-Content-Type: text/plain; charset=UTF-8
+ <be18b2bb-f334-1f31-50df-9935929281f6@xs4all.nl>
+From:   Jean-Michel Hautbois <jeanmichel.hautbois@ideasonboard.com>
+In-Reply-To: <be18b2bb-f334-1f31-50df-9935929281f6@xs4all.nl>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Jean-Michel,
+Hi Hans !
 
-On 12/01/2022 17:10, Jean-Michel Hautbois wrote:
-> Hello,
+On 13/01/2022 10:15, Hans Verkuil wrote:
+> Hi Jean-Michel,
 > 
-> While working on adding the V4L2-PIX-FMT-Y12P and V4L2-PIX-FMT-Y14P
-> formats, I noticed an issue in the way V4L2-PIX-FMT-Y10P is described.
-> This series aims to solve it before adding Y12P and Y14P.
+> On 12/01/2022 17:10, Jean-Michel Hautbois wrote:
+>> Hello,
+>>
+>> While working on adding the V4L2-PIX-FMT-Y12P and V4L2-PIX-FMT-Y14P
+>> formats, I noticed an issue in the way V4L2-PIX-FMT-Y10P is described.
+>> This series aims to solve it before adding Y12P and Y14P.
+>>
+>> Those two formats are needed for the next-to-come bcm2835 unicam driver.
+>>
+>> Jean-Michel Hautbois (3):
+>>    media: doc: pixfmt-yuv: Fix V4L2-PIX-FMT-Y10P format
+>>    media: v4l: Add V4L2-PIX-FMT-Y12P format
+>>    media: v4l: Add V4L2-PIX-FMT-Y14P format
+>>
+>>   .../media/v4l/pixfmt-yuv-luma.rst             | 48 ++++++++++++++++++-
+>>   drivers/media/v4l2-core/v4l2-ioctl.c          |  2 +
+>>   include/uapi/linux/videodev2.h                |  2 +
+>>   3 files changed, 50 insertions(+), 2 deletions(-)
+>>
 > 
-> Those two formats are needed for the next-to-come bcm2835 unicam driver.
-> 
-> Jean-Michel Hautbois (3):
->   media: doc: pixfmt-yuv: Fix V4L2-PIX-FMT-Y10P format
->   media: v4l: Add V4L2-PIX-FMT-Y12P format
->   media: v4l: Add V4L2-PIX-FMT-Y14P format
-> 
->  .../media/v4l/pixfmt-yuv-luma.rst             | 48 ++++++++++++++++++-
->  drivers/media/v4l2-core/v4l2-ioctl.c          |  2 +
->  include/uapi/linux/videodev2.h                |  2 +
->  3 files changed, 50 insertions(+), 2 deletions(-)
-> 
+> I'll take the first patch, but it is better to add patches 2 and 3 to the unicam RFC
+> series. Adding pixelformats that are not used by any existing driver isn't a good idea
+> and I'd like to avoid that.
 
-I'll take the first patch, but it is better to add patches 2 and 3 to the unicam RFC
-series. Adding pixelformats that are not used by any existing driver isn't a good idea
-and I'd like to avoid that.
+Thanks, I will take those two patches back in the unicam RFC v2 series then.
 
-Regards,
-
-	Hans
+> 
+> Regards,
+> 
+> 	Hans
+> 
