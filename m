@@ -2,90 +2,74 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9934948D88F
-	for <lists+linux-media@lfdr.de>; Thu, 13 Jan 2022 14:13:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8813E48D9E0
+	for <lists+linux-media@lfdr.de>; Thu, 13 Jan 2022 15:45:03 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235032AbiAMNNT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 13 Jan 2022 08:13:19 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46658 "EHLO
+        id S233888AbiAMOpC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 13 Jan 2022 09:45:02 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39504 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229931AbiAMNNP (ORCPT
+        with ESMTP id S233723AbiAMOpB (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 13 Jan 2022 08:13:15 -0500
-Received: from mail-yb1-xb2e.google.com (mail-yb1-xb2e.google.com [IPv6:2607:f8b0:4864:20::b2e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B2591C06173F;
-        Thu, 13 Jan 2022 05:13:14 -0800 (PST)
-Received: by mail-yb1-xb2e.google.com with SMTP id i68so96362ybg.7;
-        Thu, 13 Jan 2022 05:13:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=2g1mOmaucLb7XHs8JQUVqK6opVNl2Di7/j45TJR+WOs=;
-        b=GUkpUVFLcgKxF9APCPN+kpP9/OgHaz3ibPzyeczCSWzl/VApI+iGGZcYDqvSgtz3PP
-         GOYVr9+LmHsvoCh8KyhOxLq8jDf00dyNAoGIqH62Y2flIeUN+Mzsj8Hs6C8g7CHRt8di
-         UGZ+NFc5kCHdgCRoVW4O5s9TWtT8sr4YONnBSXyK5PjVLMxMuN2WbksYpkkomFYy4HwT
-         5Y0LPfRNOkUHbFCWJbf2azHgrxE7NH0qOS7qDJF6Kwa+IBzTfs3M4r4uMPggO1VZzCLZ
-         AGk3DrXcTriTZhqluocUNWIa9s9+fVvuDUt9bI35ghl8pefvyjvGIuV2eYFdTAnPsNwd
-         2WUA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=2g1mOmaucLb7XHs8JQUVqK6opVNl2Di7/j45TJR+WOs=;
-        b=XZzMaOUQdF2GepUxQZXcDMjEgFutsGz/w0lXr2avjM5qCc1W0JWX6koO5F5OBIqR3v
-         F2dA3lJdP3j+yHnteW/jTVBoG0dJAiBI55B0WGkVzMgV/hP0j2oeQ9KuIRgE/c0Z10Me
-         Jico3jqOHajJ1XlUXOBHs31dqGxixeasKsfY0M0DcwORqMIQwC4IAMIVB74e59xymKwS
-         gHx9KNhN33I02K00yhlKeSm4GBCrd1sSObRbg0fEdbCTKIkBuO8B4SxBeZr0AflGqYWn
-         8sG499UA27MxKM1BSXQDQiS4xsNUf+aDzbRlFy0K0I5lRqP46t2MsJfSTRhSwODRNviL
-         7Npw==
-X-Gm-Message-State: AOAM533SX/qY1izRqHMMvQHBeTc0oLT4piJ6Gwe5RDDcHRiQfk58YY5h
-        Izd5OPfijyLkMaflaQbHKANyhWXolcTB5oYj+88=
-X-Google-Smtp-Source: ABdhPJy6/bFgiqUi0Vw/oTvUtA1ZdJOqxBOpdRCOAxD3OyBZrdffGioQDjLfY1gmbMNtOi5Sw1oQ0oJ7FIxILzyauSs=
-X-Received: by 2002:a5b:281:: with SMTP id x1mr5627475ybl.41.1642079593957;
- Thu, 13 Jan 2022 05:13:13 -0800 (PST)
+        Thu, 13 Jan 2022 09:45:01 -0500
+X-Greylist: delayed 500 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Thu, 13 Jan 2022 06:45:01 PST
+Received: from mail.kmu-office.ch (mail.kmu-office.ch [IPv6:2a02:418:6a02::a2])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 903F2C06161C
+        for <linux-media@vger.kernel.org>; Thu, 13 Jan 2022 06:45:01 -0800 (PST)
+Received: from webmail.kmu-office.ch (unknown [IPv6:2a02:418:6a02::a3])
+        by mail.kmu-office.ch (Postfix) with ESMTPSA id 363275C0B80;
+        Thu, 13 Jan 2022 15:36:38 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=agner.ch; s=dkim;
+        t=1642084598;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:in-reply-to:
+         references; bh=5n71jSuoFLuEKrBHezy69s2vTc49LY/8zOhitBWkCgw=;
+        b=JHP9uwLLxU2tkBUC5EGVPSx2ysRA7JShnh0Xf/uHj+GYg+soSp/SlK2+Fw4MUIyMm3X7cf
+        FnnB74Gd2lckJSdOQc/DR8UbfZIVuN/1dEdVN7mh9bIVeBnE2VsBRWg8y46mDIw8F1XUs0
+        r9m3mg8TF/LTL6NWuhUDfQUkTwJmQ6Y=
 MIME-Version: 1.0
-References: <20220111002314.15213-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20220111002314.15213-10-prabhakar.mahadev-lad.rj@bp.renesas.com> <d66a7182-825f-b9a3-afc9-c0117ea846a2@xs4all.nl>
-In-Reply-To: <d66a7182-825f-b9a3-afc9-c0117ea846a2@xs4all.nl>
-From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date:   Thu, 13 Jan 2022 13:12:48 +0000
-Message-ID: <CA+V-a8s9s9Q=-NiwZYhpUNuiHyTzREqzMrH60mkdcR9uUYN+2A@mail.gmail.com>
-Subject: Re: [PATCH v2 09/13] media: mtk-vcodec: Drop unnecessary call to platform_get_resource()
-To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Cc:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        linux-media <linux-media@vger.kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Tiffany Lin <tiffany.lin@mediatek.com>,
-        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Andy Shevchenko <andy.shevchenko@gmail.com>,
-        LAK <linux-arm-kernel@lists.infradead.org>,
-        "moderated list:ARM/Mediatek SoC support" 
-        <linux-mediatek@lists.infradead.org>,
-        LKML <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Date:   Thu, 13 Jan 2022 15:36:38 +0100
+From:   Stefan Agner <stefan@agner.ch>
+To:     narmstrong@baylibre.com, linux-amlogic@lists.infradead.org,
+        linux-media@vger.kernel.org
+Subject: HDMI CEC on ODROID-N2+
+User-Agent: Roundcube Webmail/1.4.9
+Message-ID: <d2ef8936c54567c9c2652b3c53a82f68@agner.ch>
+X-Sender: stefan@agner.ch
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Hans,
+Hi Neil,
 
-On Thu, Jan 13, 2022 at 1:05 PM Hans Verkuil <hverkuil-cisco@xs4all.nl> wrote:
->
-> Hi Prabhakar,
->
-> I'm skipping this patch since if I am not mistaken this patch fixes this as well
-> (as part of a larger overhaul):
->
-> https://patchwork.linuxtv.org/project/linux-media/patch/20220113041055.25213-9-yunfei.dong@mediatek.com/
->
-> I posted a PR for that series, so that's on the way in.
->
-> Please confirm so I can mark your patch as Superseded.
->
-Ack.
+I am trying to use HDMI CEC on ODROID-N2+ using Linux 5.10.91. However,
+I was unsuccessful: As far as I can tell cec-client uses the right
+device (I disabled CONFIG_DRM_DW_HDMI_CEC since my kernel is still
+missing your patch "drm/meson: dw-hdmi: disable DW-HDMI CEC
+sub-driver"). But communication won't work, and dmesg prints timeout
+messages:
 
-Cheers,
-Prabhakar
+[   68.831253] cec-meson_g12a_ao_cec: message ff 84 20 00 06 timed out
+[   71.134987] cec-meson_g12a_ao_cec: message ff 87 00 15 82 timed out
+[   73.438826] cec-meson_g12a_ao_cec: message f0 timed out
+[   75.742677] cec-meson_g12a_ao_cec: message f0 timed out
+[   78.046555] cec-meson_g12a_ao_cec: message f0 timed out
+[   80.350446] cec-meson_g12a_ao_cec: message f0 timed out
+[   82.654358] cec-meson_g12a_ao_cec: message 11 timed out
+[   84.958285] cec-meson_g12a_ao_cec: message 11 timed out
+[   87.262194] cec-meson_g12a_ao_cec: message 11 timed out
+[   89.566130] cec-meson_g12a_ao_cec: message 11 timed out
+
+I did a quick test with CoreELEC which uses the 4.9 downstream kernel,
+CEC seems to work there. So it does not seem to be my hardware setup.
+
+A quick test with the latest Linux 5.16 shows the same errors.
+
+Do you happen to have an idea? Do you know if HDMI CEC using upstream
+kernels worked at one point on that particular platform?
+
+--
+Stefan
