@@ -2,83 +2,97 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AA54848DC45
-	for <lists+linux-media@lfdr.de>; Thu, 13 Jan 2022 17:56:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 46AC448DCD0
+	for <lists+linux-media@lfdr.de>; Thu, 13 Jan 2022 18:20:46 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236927AbiAMQ4o (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 13 Jan 2022 11:56:44 -0500
-Received: from www.linuxtv.org ([130.149.80.248]:47944 "EHLO www.linuxtv.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231269AbiAMQ4o (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 13 Jan 2022 11:56:44 -0500
-Received: from builder.linuxtv.org ([140.211.167.10] helo=slave0)
-        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1n83P1-0081jn-1y; Thu, 13 Jan 2022 16:56:43 +0000
-Received: from ip6-localhost ([::1] helo=localhost.localdomain)
-        by slave0 with esmtp (Exim 4.94.2)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1n83Oy-00AHHe-Rb; Thu, 13 Jan 2022 16:56:40 +0000
-From:   Jenkins <jenkins@linuxtv.org>
-To:     mchehab+samsung@kernel.org, linux-media@vger.kernel.org
-Cc:     builder@linuxtv.org
-Subject: Re: [GIT PULL FOR v5.18] More various fixes/enhancements (#79994)
-Date:   Thu, 13 Jan 2022 16:56:40 +0000
-Message-Id: <20220113165640.2449672-1-jenkins@linuxtv.org>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <09d9ade9-e6fd-8c77-68d6-d392a4948c6a@xs4all.nl>
-References: 
+        id S231868AbiAMRUm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 13 Jan 2022 12:20:42 -0500
+Received: from mx08-00178001.pphosted.com ([91.207.212.93]:52271 "EHLO
+        mx07-00178001.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S231493AbiAMRUm (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Thu, 13 Jan 2022 12:20:42 -0500
+Received: from pps.filterd (m0046660.ppops.net [127.0.0.1])
+        by mx07-00178001.pphosted.com (8.16.1.2/8.16.1.2) with ESMTP id 20DCZAsk024268;
+        Thu, 13 Jan 2022 18:20:15 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=from : to : cc :
+ subject : date : message-id : mime-version : content-type :
+ content-transfer-encoding; s=selector1;
+ bh=aXxo7+n1UdqA+CufFuU2xisAC4iUYIAOyjkRa57TNqs=;
+ b=6gKrEgO2jIIWOJuf6loGN9ovQSZuVG8XWpBdBVt01lQ5EGU5IzwapltboXUg+K2oFzRg
+ xdkM0rUWwb9545hVqjvIsieQ8I+5osKHW+ZafqhLF5/LCG/K2pg8K6nOsk76cz1lNh4F
+ o9b+emqBxV820hFyf0bJEBfJykuyoOIdY/io9/XadBvVpWOIkEBhxv3gDgXVgCo4hwVf
+ JJmSBerES7VU+m+xJZrzjCzRPX5OcQ2FC86iQCX5YzWTuZgF5m5F4sBv3qNBhe8gC7gm
+ Mkp5iSTnwe+Y668xM1kMEyTSEcMk3EmFoJwhdbPeAcuHF6G3IWrqR8OMX5bN018F2tuE BA== 
+Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
+        by mx07-00178001.pphosted.com (PPS) with ESMTPS id 3djfywtwjn-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Thu, 13 Jan 2022 18:20:15 +0100
+Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
+        by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 4F3BA10002A;
+        Thu, 13 Jan 2022 18:20:13 +0100 (CET)
+Received: from Webmail-eu.st.com (sfhdag2node2.st.com [10.75.127.5])
+        by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 336862194F9;
+        Thu, 13 Jan 2022 18:20:13 +0100 (CET)
+Received: from localhost (10.75.127.45) by SFHDAG2NODE2.st.com (10.75.127.5)
+ with Microsoft SMTP Server (TLS) id 15.0.1497.26; Thu, 13 Jan 2022 18:20:12
+ +0100
+From:   Philippe Cornu <philippe.cornu@foss.st.com>
+To:     Yannick Fertre <yannick.fertre@foss.st.com>,
+        Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>,
+        Philippe Cornu <philippe.cornu@foss.st.com>,
+        David Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        Alexandre Torgue <alexandre.torgue@foss.st.com>,
+        Alain Volmat <alain.volmat@foss.st.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+        Liam Mark <lmark@codeaurora.org>,
+        Laura Abbott <labbott@redhat.com>,
+        Brian Starkey <Brian.Starkey@arm.com>,
+        John Stultz <john.stultz@linaro.org>,
+        Christian Konig <christian.koenig@amd.com>, <soc@kernel.org>
+CC:     <dri-devel@lists.freedesktop.org>,
+        <linux-stm32@st-md-mailman.stormreply.com>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-kernel@vger.kernel.org>, <linux-media@vger.kernel.org>,
+        <linaro-mm-sig@lists.linaro.org>
+Subject: [PATCH 0/2] MAINTAINERS: update various stm & sti maintainer names
+Date:   Thu, 13 Jan 2022 18:19:19 +0100
+Message-ID: <20220113171921.17466-1-philippe.cornu@foss.st.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.75.127.45]
+X-ClientProxiedBy: SFHDAG2NODE2.st.com (10.75.127.5) To SFHDAG2NODE2.st.com
+ (10.75.127.5)
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.816,Hydra:6.0.425,FMLib:17.11.62.513
+ definitions=2022-01-13_08,2022-01-13_01,2021-12-02_01
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: builder@linuxtv.org
+This short serie contains the maintainer status update sent recently by
+Benjamin Gaignard (see [1] for details) and add new maintainers for
+various stm & sti files.
 
-Pull request: https://patchwork.linuxtv.org/project/linux-media/patch/09d9ade9-e6fd-8c77-68d6-d392a4948c6a@xs4all.nl/
-Build log: https://builder.linuxtv.org/job/patchwork/173768/
-Build time: 00:24:27
-Link: https://lore.kernel.org/linux-media/09d9ade9-e6fd-8c77-68d6-d392a4948c6a@xs4all.nl
-
-gpg: Signature made Thu 13 Jan 2022 01:25:59 PM UTC
-gpg:                using RSA key AAA7FFBA4D2D77EF4CAEA1421326E0CD23ABDCE5
-gpg: Good signature from "Hans Verkuil <hverkuil-cisco@xs4all.nl>" [unknown]
-gpg:                 aka "Hans Verkuil <hverkuil@xs4all.nl>" [unknown]
-gpg: WARNING: This key is not certified with a trusted signature!
-gpg:          There is no indication that the signature belongs to the owner.
-Primary key fingerprint: 052C DE7B C215 053B 689F  1BCA BD2D 6148 6614 3B4C
-     Subkey fingerprint: AAA7 FFBA 4D2D 77EF 4CAE  A142 1326 E0CD 23AB DCE5
-
-Summary: got 2/23 patches with issues, being 1 at build time, plus one error when buinding PDF document
-
-Error/warnings:
-
-patches/0001-dt-bindings-media-max9286-Re-indent-example.patch:
-
-    allyesconfig: return code #0:
-	../scripts/genksyms/parse.y: warning: 9 shift/reduce conflicts [-Wconflicts-sr]
-	../scripts/genksyms/parse.y: warning: 5 reduce/reduce conflicts [-Wconflicts-rr]
-	../scripts/genksyms/parse.y: note: rerun with option '-Wcounterexamples' to generate conflict counterexamples
-
-    allyesconfig: return code #0:
-	../drivers/media/rc/meson-ir-tx.c:22: warning: expecting prototype for meson(). Prototype was for DEVICE_NAME() instead
-	SMATCH:../drivers/media/usb/siano/smsusb.c ../drivers/media/usb/siano/smsusb.c:53:38: :warning: array of flexible structures
-	SPARSE:../drivers/media/usb/siano/smsusb.c ../drivers/media/usb/siano/smsusb.c:53:38: warning: array of flexible structures
-	../drivers/media/i2c/ov8865.c: ../drivers/media/i2c/ov8865.c:2843 ov8865_get_selection() warn: inconsistent indenting
-	../drivers/media/usb/em28xx/em28xx-video.c: ../drivers/media/usb/em28xx/em28xx-video.c:2864 em28xx_v4l2_init() parse error: turning off implications after 60 seconds
-	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2625 dvb_register() parse error: turning off implications after 60 seconds
-	../drivers/media/test-drivers/vivid/vivid-core.c: ../drivers/media/test-drivers/vivid/vivid-core.c:1981 vivid_create_instance() parse error: turning off implications after 60 seconds
-	../drivers/media/platform/qcom/venus/helpers.c: ../drivers/media/platform/qcom/venus/helpers.c:658 venus_helper_get_bufreq() error: we previously assumed 'req' could be null (see line 654)
-
-patches/0020-media-imx-imx7-media-csi-add-support-for-imx8mq.patch:
-
-   checkpatch.pl:
-	$ cat patches/0020-media-imx-imx7-media-csi-add-support-for-imx8mq.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
-	-:37: CHECK: Prefer using the BIT macro
-	-:106: WARNING: DT compatible string "fsl,imx8mq-csi" appears un-documented -- check ./Documentation/devicetree/bindings/
+[1] https://lore.kernel.org/lkml/20210706163033.795805-1-benjamin.gaignard@collabora.com/
 
 
-Error #512 when building PDF docs
+Benjamin Gaignard (1):
+  MAINTAINERS: Update Benjamin Gaignard maintainer status
+
+Philippe Cornu (1):
+  MAINTAINERS: update drm/stm drm/sti and cec/sti maintainers
+
+ MAINTAINERS | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
+
+-- 
+2.17.1
 
