@@ -2,80 +2,85 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 76A4548DAAF
-	for <lists+linux-media@lfdr.de>; Thu, 13 Jan 2022 16:28:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 42D4648DB23
+	for <lists+linux-media@lfdr.de>; Thu, 13 Jan 2022 16:55:59 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236115AbiAMP2T (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 13 Jan 2022 10:28:19 -0500
-Received: from perceval.ideasonboard.com ([213.167.242.64]:42956 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236108AbiAMP2Q (ORCPT
+        id S234589AbiAMPz6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 13 Jan 2022 10:55:58 -0500
+Received: from [194.99.46.92] ([194.99.46.92]:46874 "EHLO
+        slot0.bluewaterleisure.com" rhost-flags-FAIL-FAIL-OK-OK)
+        by vger.kernel.org with ESMTP id S233549AbiAMPz5 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 13 Jan 2022 10:28:16 -0500
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 386FF97;
-        Thu, 13 Jan 2022 16:28:15 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1642087695;
-        bh=Q1ChUMa1rotERKSUZgs47MthEWRVLkH0DCnedxthV1w=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=J0skv+0xKEav9jW+6FbDdTt8eefreh1v1uDkK6/eS/yrdY9a1wc4t1rOy/q3x4eqV
-         3gcSk4F92MvCgSCPQqtqnynw301awWNqyD4BC/NraJtKFnB1i+tNYhE199VSgZ0OVn
-         +QU53UX3rXb9n6TeieknR/jvKT71Vwe08eY84xZg=
-Date:   Thu, 13 Jan 2022 17:28:03 +0200
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+        Thu, 13 Jan 2022 10:55:57 -0500
+X-Greylist: delayed 608 seconds by postgrey-1.27 at vger.kernel.org; Thu, 13 Jan 2022 10:55:57 EST
+DKIM-Signature: v=1; a=rsa-sha1; c=relaxed/relaxed; s=dkim; d=bluewaterleisure.com;
+ h=Reply-To:From:To:Subject:Date:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding; i=ker.mon@bluewaterleisure.com;
+ bh=r3BQuCr4TfnoNcBsY2yXVbGxSzc=;
+ b=Yug7jaj45Q+D7ZgAYXz+9vLz0aeN36/BHNY5Tl6+phtA/EbDNZO0Ff4flGcjzSpvU5yc4vxyCg0i
+   bsmFJXMiBMnAEz2mrxisCQvhEOIs9Y1V5naX59eg2/X99kn1QU+YVQESwDJfEiJoAwaMO6r9FpdH
+   oMfWSBhWK/QNWWILLOlSIZSUyExI1bCSr19lUyM7Iv5je1loBE9LUfoLI1vJOqXqiYUSSnGuF0NZ
+   MBDvB4cJSyGIDn8vDskZ7kozf4CnBHyaiXRerByRUE3vFqmI9BUkeyuBmDW88G2FpfmMH9ZHwvUC
+   7xuhJemEzzbTHUnDtKaK8j4oEdTY/+zg+GmdIA==
+DomainKey-Signature: a=rsa-sha1; c=nofws; q=dns; s=dkim; d=bluewaterleisure.com;
+ b=e3q4Q3ATBx5Fjx2hlvnxXg04CdM8g9eOF821j1qLpp4M+FefpulfquqDkBjwq1MkQzFS8frmA8Xw
+   pw5C3VdEkOYL4/CnXO6w89Rutu933sV4HEVwLoRXCWhG1t9j/LcerL1h48WdecKHLwiWMIyezP74
+   rR8g5MaOXTpk6ikX+0pHRVyx57TpkQ8A5uOTDXFFmT6noNWFSMuz2lcA1c+JbYLra+Z6O2eWDH+k
+   Dwp2iugGwiEo51HDxC0gKnFxlaVT0dpU+9GTrv+PHMsuVC6Stjy82QYY+WXKa0VaCqYmdlYmJ+ZE
+   Gze8upxqo9yoBSYq4GUEg+otV6726kFEMSJCiA==;
+Reply-To: mustafa.ayvaz@ayvazburosu.com
+From:   "Barrister Mustafa" <ker.mon@bluewaterleisure.com>
 To:     linux-media@vger.kernel.org
-Cc:     linux-renesas-soc@vger.kernel.org,
-        Sakari Ailus <sakari.ailus@iki.fi>,
-        Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
-        Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-        Jacopo Mondi <jacopo@jmondi.org>
-Subject: Re: [PATCH 0/2] media: mc: Simplify media pipeline start/stop
-Message-ID: <YeBFA4M6svBcF+Nr@pendragon.ideasonboard.com>
-References: <20220113150042.15630-1-laurent.pinchart+renesas@ideasonboard.com>
+Subject: Achtung:
+Date:   13 Jan 2022 16:36:02 +0100
+Message-ID: <20220113163602.CB3D7050E38B0C5E@bluewaterleisure.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20220113150042.15630-1-laurent.pinchart+renesas@ideasonboard.com>
+Content-Type: text/plain;
+        charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, Jan 13, 2022 at 05:00:40PM +0200, Laurent Pinchart wrote:
-> Hello,
-> 
-> This small series simplifies the implementation of the
-> media_pipeline_start() function (and to a lesser extend, the
-> media_pipeline_stop() function as well) by avoiding unnecessary graph
-> walks.
-> 
-> Patch 1/2 adds a small inline helper function to avoid direct access to
-> the media_entity.stream_count field in drivers, making it easier in
-> patch 2/2 to rework the implementation (dropping the stream_count field)
-> without disturbing drivers. Please see patch 2/2 for a detailed
-> explanation of the simplification.
+Dear linux-media,
 
-I forgot to mention that I've tested this with the Renesas R-Car VSP1
-test suite that has pipeline with multiple output and capture video
-nodes, as well on a Xilinx platform with a pipeline that has two capture
-video nodes.
+Ich bin Barrister Mustafa Ayvaz, ein pers=C3=B6nlicher Anwalt des=20
+verstorbenen Mr.
+Anderson, der an der Coronavirus-Krankheit starb, die er
+w=C3=A4hrend seiner Gesch=C3=A4ftsreise in China unter Vertrag genommen.=20=
 
-> Laurent Pinchart (2):
->   media: media-entity: Add media_pad_is_streaming() helper function
->   media: media-entity: Simplify media_pipeline_start()
-> 
->  drivers/media/mc/mc-entity.c                  | 55 ++++++++-----------
->  drivers/media/platform/exynos4-is/common.c    |  5 +-
->  drivers/media/platform/exynos4-is/fimc-isp.c  |  2 +-
->  drivers/media/platform/exynos4-is/fimc-lite.c |  6 +-
->  drivers/media/platform/rcar-vin/rcar-core.c   |  2 +-
->  include/media/media-entity.h                  | 21 +++++--
->  6 files changed, 48 insertions(+), 43 deletions(-)
-> 
-> 
-> base-commit: 68b9bcc8a534cd11fe55f8bc82f948aae7d81b3c
+Ich m=C3=B6chte, dass Sie freundlich sind und mit mir=20
+zusammenarbeiten, um das Geld zu sichern, das er hier in der=20
+T=C3=BCrkei auf der Bank hinterlassen hat, das sind drei Millionen=20
+dreihundertneunzigtausend Dollar.
 
--- 
-Regards,
+Ich habe nach den n=C3=A4chsten Angeh=C3=B6rigen meines Verstorbenen=20
+gesucht
+Kunde, sind aber gescheitert, da ich seinen aktuellen Wohnsitz=20
+nicht habe
+und Kontaktdaten. Auf der Suche bin ich auf dich gesto=C3=9Fen
+Profil mit dem gleichen Nachnamen und am gleichen Ort mit
+die n=C3=A4chsten Angeh=C3=B6rigen. Ich habe mich entschieden, dich zu=20
+kontaktieren und dich als den
+Bonafide n=C3=A4chster Verwandter.
 
-Laurent Pinchart
+Ich erbitte Ihre Zustimmung, Sie als N=C3=A4chsten meiner Verwandten=20
+hervorzubringen
+verstorbener Kunde, da Sie beide denselben Nachnamen tragen. Der
+das Geld wird dann an Sie als Beg=C3=BCnstigten =C3=BCberwiesen und
+geteilt gem=C3=A4=C3=9F einem vorgeschlagenen Sharing-Muster/Verh=C3=A4ltni=
+s von=20
+60:40
+das sind 60 % f=C3=BCr mich und 40 % f=C3=BCr dich. Freundlich
+kontaktieren Sie mich sofort f=C3=BCr weitere Informationen.
+
+Danach schicke ich Ihnen die Details der Transaktion
+wird beginnen, Kontaktieren Sie mich f=C3=BCr weitere Informationen=20
+=C3=BCber mein
+E-Mail-Adressen unten.
+
+Gr=C3=BC=C3=9Fe
+Mustafa Ayvaz
+
+E-Mail: mustafa.ayvaz@ayvazburosu.com
+oder
+ayvazmustafa231@gmail.com
