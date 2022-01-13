@@ -2,230 +2,176 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 14F8848D5F5
-	for <lists+linux-media@lfdr.de>; Thu, 13 Jan 2022 11:44:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3B01548D602
+	for <lists+linux-media@lfdr.de>; Thu, 13 Jan 2022 11:48:07 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231773AbiAMKo3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 13 Jan 2022 05:44:29 -0500
-Received: from relmlor2.renesas.com ([210.160.252.172]:61794 "EHLO
-        relmlie6.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S231667AbiAMKo2 (ORCPT
+        id S232947AbiAMKsC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 13 Jan 2022 05:48:02 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41466 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229635AbiAMKsB (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 13 Jan 2022 05:44:28 -0500
-X-IronPort-AV: E=Sophos;i="5.88,284,1635174000"; 
-   d="scan'208";a="106939323"
-Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
-  by relmlie6.idc.renesas.com with ESMTP; 13 Jan 2022 19:44:27 +0900
-Received: from localhost.localdomain (unknown [10.226.36.204])
-        by relmlir5.idc.renesas.com (Postfix) with ESMTP id C76B640001C2;
-        Thu, 13 Jan 2022 19:44:25 +0900 (JST)
-From:   Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-To:     linux-media@vger.kernel.org,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Cc:     Rob Herring <robh+dt@kernel.org>,
-        Andy Shevchenko <andy.shevchenko@gmail.com>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH v4] media: davinci: vpif: Use platform_get_irq_optional() to get the interrupt
-Date:   Thu, 13 Jan 2022 10:44:15 +0000
-Message-Id: <20220113104416.32352-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-X-Mailer: git-send-email 2.17.1
+        Thu, 13 Jan 2022 05:48:01 -0500
+Received: from gofer.mess.org (gofer.mess.org [IPv6:2a02:8011:d000:212::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 66153C06173F
+        for <linux-media@vger.kernel.org>; Thu, 13 Jan 2022 02:48:01 -0800 (PST)
+Received: by gofer.mess.org (Postfix, from userid 1000)
+        id B0DE3101C2F; Thu, 13 Jan 2022 10:47:57 +0000 (UTC)
+From:   Sean Young <sean@mess.org>
+To:     linux-media@vger.kernel.org
+Subject: [PATCH] media: lirc: remove unused lirc features
+Date:   Thu, 13 Jan 2022 10:47:57 +0000
+Message-Id: <20220113104757.179130-1-sean@mess.org>
+X-Mailer: git-send-email 2.30.2
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-platform_get_resource(pdev, IORESOURCE_IRQ, ..) relies on static
-allocation of IRQ resources in DT core code, this causes an issue
-when using hierarchical interrupt domains using "interrupts" property
-in the node as this bypasses the hierarchical setup and messes up the
-irq chaining.
+These features have never been implemented by any lirc driver, including
+staging or out of tree drivers. The ioctls for these feaures were removed
+in commit d55f09abe24b ("[media] lirc.h: remove several unused ioctls").
 
-In preparation for removal of static setup of IRQ resource from DT core
-code use platform_get_irq_optional().
+So, we can safely remove them.
 
-While at it, propagate error code in case devm_request_irq() fails
-instead of returning -EINVAL.
+Also ensure that the lirc.h files in tools directory is synced.
 
-Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Signed-off-by: Sean Young <sean@mess.org>
 ---
-Hi All,
+ .../media/rc/lirc-get-features.rst             | 18 ------------------
+ include/uapi/linux/lirc.h                      |  4 ----
+ tools/include/uapi/linux/lirc.h                | 11 +++++------
+ 3 files changed, 5 insertions(+), 28 deletions(-)
 
-This patch is part of series [0], instead of resending the entire series
-I am re-sending this alone patch after rebasing on patch series [1].
-
-[0] https://patchwork.linuxtv.org/project/linux-media/list/?series=7073
-[1] https://patchwork.linuxtv.org/project/linux-media/list/?series=7000
-
-v3->v4
-* Replaced loop with do while.
-
-Cheers,
-Prabhakar
----
- drivers/media/platform/davinci/vpif.c         | 18 ++++++++-----
- drivers/media/platform/davinci/vpif_capture.c | 27 +++++++++++--------
- drivers/media/platform/davinci/vpif_display.c | 24 ++++++++++-------
- 3 files changed, 42 insertions(+), 27 deletions(-)
-
-diff --git a/drivers/media/platform/davinci/vpif.c b/drivers/media/platform/davinci/vpif.c
-index 03b4e51bb13a..97ef770266af 100644
---- a/drivers/media/platform/davinci/vpif.c
-+++ b/drivers/media/platform/davinci/vpif.c
-@@ -20,8 +20,10 @@
- #include <linux/err.h>
- #include <linux/init.h>
- #include <linux/io.h>
-+#include <linux/irq.h>
- #include <linux/kernel.h>
- #include <linux/module.h>
-+#include <linux/of.h>
- #include <linux/platform_device.h>
- #include <linux/pm_runtime.h>
- #include <linux/spinlock.h>
-@@ -437,11 +439,12 @@ static void vpif_pdev_release(struct device *dev)
+diff --git a/Documentation/userspace-api/media/rc/lirc-get-features.rst b/Documentation/userspace-api/media/rc/lirc-get-features.rst
+index 4bf25860f932..545137620ead 100644
+--- a/Documentation/userspace-api/media/rc/lirc-get-features.rst
++++ b/Documentation/userspace-api/media/rc/lirc-get-features.rst
+@@ -102,12 +102,6 @@ LIRC features
+     The driver supports setting the receive carrier frequency using
+     :ref:`ioctl LIRC_SET_REC_CARRIER <LIRC_SET_REC_CARRIER>`.
  
- static int vpif_probe(struct platform_device *pdev)
- {
--	static struct resource *res_irq;
-+	static struct resource res_irq;
- 	struct platform_device *pdev_capture, *pdev_display;
- 	struct device_node *endpoint = NULL;
- 	struct vpif_data *data;
- 	int ret;
-+	int irq;
+-.. _LIRC-CAN-SET-REC-DUTY-CYCLE-RANGE:
+-
+-``LIRC_CAN_SET_REC_DUTY_CYCLE_RANGE``
+-
+-    Unused. Kept just to avoid breaking uAPI.
+-
+ .. _LIRC-CAN-SET-REC-CARRIER-RANGE:
  
- 	vpif_base = devm_platform_ioremap_resource(pdev, 0);
- 	if (IS_ERR(vpif_base))
-@@ -471,12 +474,13 @@ static int vpif_probe(struct platform_device *pdev)
- 	 * For DT platforms, manually create platform_devices for
- 	 * capture/display drivers.
- 	 */
--	res_irq = platform_get_resource(pdev, IORESOURCE_IRQ, 0);
--	if (!res_irq) {
--		dev_warn(&pdev->dev, "Missing IRQ resource.\n");
--		ret = -EINVAL;
-+	irq = platform_get_irq(pdev, 0);
-+	if (irq < 0) {
-+		ret = irq;
- 		goto err_put_rpm;
- 	}
-+	res_irq = (struct resource)DEFINE_RES_IRQ_NAMED(irq, of_node_full_name(pdev->dev.of_node));
-+	res_irq.flags |= irq_get_trigger_type(irq);
+ ``LIRC_CAN_SET_REC_CARRIER_RANGE``
+@@ -129,12 +123,6 @@ LIRC features
+     The driver supports
+     :ref:`ioctl LIRC_SET_REC_TIMEOUT <LIRC_SET_REC_TIMEOUT>`.
  
- 	pdev_capture = kzalloc(sizeof(*pdev_capture), GFP_KERNEL);
- 	if (!pdev_capture) {
-@@ -486,7 +490,7 @@ static int vpif_probe(struct platform_device *pdev)
+-.. _LIRC-CAN-SET-REC-FILTER:
+-
+-``LIRC_CAN_SET_REC_FILTER``
+-
+-    Unused. Kept just to avoid breaking uAPI.
+-
+ .. _LIRC-CAN-MEASURE-CARRIER:
  
- 	pdev_capture->name = "vpif_capture";
- 	pdev_capture->id = -1;
--	pdev_capture->resource = res_irq;
-+	pdev_capture->resource = &res_irq;
- 	pdev_capture->num_resources = 1;
- 	pdev_capture->dev.dma_mask = pdev->dev.dma_mask;
- 	pdev_capture->dev.coherent_dma_mask = pdev->dev.coherent_dma_mask;
-@@ -505,7 +509,7 @@ static int vpif_probe(struct platform_device *pdev)
+ ``LIRC_CAN_MEASURE_CARRIER``
+@@ -149,12 +137,6 @@ LIRC features
+     The driver supports learning mode using
+     :ref:`ioctl LIRC_SET_WIDEBAND_RECEIVER <LIRC_SET_WIDEBAND_RECEIVER>`.
  
- 	pdev_display->name = "vpif_display";
- 	pdev_display->id = -1;
--	pdev_display->resource = res_irq;
-+	pdev_display->resource = &res_irq;
- 	pdev_display->num_resources = 1;
- 	pdev_display->dev.dma_mask = pdev->dev.dma_mask;
- 	pdev_display->dev.coherent_dma_mask = pdev->dev.coherent_dma_mask;
-diff --git a/drivers/media/platform/davinci/vpif_capture.c b/drivers/media/platform/davinci/vpif_capture.c
-index 8fe55374c5a3..bf76c5c83743 100644
---- a/drivers/media/platform/davinci/vpif_capture.c
-+++ b/drivers/media/platform/davinci/vpif_capture.c
-@@ -1607,7 +1607,6 @@ static __init int vpif_probe(struct platform_device *pdev)
- {
- 	struct vpif_subdev_info *subdevdata;
- 	struct i2c_adapter *i2c_adap;
--	struct resource *res;
- 	int subdev_count;
- 	int res_idx = 0;
- 	int i, err;
-@@ -1632,17 +1631,23 @@ static __init int vpif_probe(struct platform_device *pdev)
- 		goto vpif_free;
- 	}
+-.. _LIRC-CAN-NOTIFY-DECODE:
+-
+-``LIRC_CAN_NOTIFY_DECODE``
+-
+-    Unused. Kept just to avoid breaking uAPI.
+-
+ .. _LIRC-CAN-SEND-RAW:
  
--	while ((res = platform_get_resource(pdev, IORESOURCE_IRQ, res_idx))) {
--		err = devm_request_irq(&pdev->dev, res->start, vpif_channel_isr,
--					IRQF_SHARED, VPIF_DRIVER_NAME,
--					(void *)(&vpif_obj.dev[res_idx]->
--					channel_id));
--		if (err) {
--			err = -EINVAL;
-+	do {
-+		int irq;
-+
-+		err = platform_get_irq_optional(pdev, res_idx);
-+		if (err < 0 && err != -ENXIO)
- 			goto vpif_unregister;
--		}
--		res_idx++;
--	}
-+		if (err > 0)
-+			irq = err;
-+		else
-+			break;
-+
-+		err = devm_request_irq(&pdev->dev, irq, vpif_channel_isr,
-+				       IRQF_SHARED, VPIF_DRIVER_NAME,
-+				       (void *)(&vpif_obj.dev[res_idx]->channel_id));
-+		if (err)
-+			goto vpif_unregister;
-+	} while (++res_idx);
+ ``LIRC_CAN_SEND_RAW``
+diff --git a/include/uapi/linux/lirc.h b/include/uapi/linux/lirc.h
+index 9919f2062b14..a1f9c26ea537 100644
+--- a/include/uapi/linux/lirc.h
++++ b/include/uapi/linux/lirc.h
+@@ -72,11 +72,9 @@
+ #define LIRC_CAN_SET_REC_CARRIER       (LIRC_CAN_SET_SEND_CARRIER << 16)
+ #define LIRC_CAN_SET_REC_DUTY_CYCLE    (LIRC_CAN_SET_SEND_DUTY_CYCLE << 16)
  
- 	vpif_obj.config = pdev->dev.platform_data;
+-#define LIRC_CAN_SET_REC_DUTY_CYCLE_RANGE 0x40000000
+ #define LIRC_CAN_SET_REC_CARRIER_RANGE    0x80000000
+ #define LIRC_CAN_GET_REC_RESOLUTION       0x20000000
+ #define LIRC_CAN_SET_REC_TIMEOUT          0x10000000
+-#define LIRC_CAN_SET_REC_FILTER           0x08000000
  
-diff --git a/drivers/media/platform/davinci/vpif_display.c b/drivers/media/platform/davinci/vpif_display.c
-index 59f6b782e104..fca148b66471 100644
---- a/drivers/media/platform/davinci/vpif_display.c
-+++ b/drivers/media/platform/davinci/vpif_display.c
-@@ -1221,7 +1221,6 @@ static __init int vpif_probe(struct platform_device *pdev)
- {
- 	struct vpif_subdev_info *subdevdata;
- 	struct i2c_adapter *i2c_adap;
--	struct resource *res;
- 	int subdev_count;
- 	int res_idx = 0;
- 	int i, err;
-@@ -1245,18 +1244,25 @@ static __init int vpif_probe(struct platform_device *pdev)
- 		goto vpif_free;
- 	}
+ #define LIRC_CAN_MEASURE_CARRIER          0x02000000
+ #define LIRC_CAN_USE_WIDEBAND_RECEIVER    0x04000000
+@@ -84,8 +82,6 @@
+ #define LIRC_CAN_SEND(x) ((x)&LIRC_CAN_SEND_MASK)
+ #define LIRC_CAN_REC(x) ((x)&LIRC_CAN_REC_MASK)
  
--	while ((res = platform_get_resource(pdev, IORESOURCE_IRQ, res_idx))) {
--		err = devm_request_irq(&pdev->dev, res->start, vpif_channel_isr,
--					IRQF_SHARED, VPIF_DRIVER_NAME,
--					(void *)(&vpif_obj.dev[res_idx]->
--					channel_id));
-+	do {
-+		int irq;
-+
-+		err = platform_get_irq_optional(pdev, res_idx);
-+		if (err < 0 && err != -ENXIO)
-+			goto vpif_unregister;
-+		if (err > 0)
-+			irq = err;
-+		else
-+			break;
-+
-+		err = devm_request_irq(&pdev->dev, irq, vpif_channel_isr,
-+				       IRQF_SHARED, VPIF_DRIVER_NAME,
-+				       (void *)(&vpif_obj.dev[res_idx]->channel_id));
- 		if (err) {
--			err = -EINVAL;
- 			vpif_err("VPIF IRQ request failed\n");
- 			goto vpif_unregister;
- 		}
--		res_idx++;
--	}
-+	} while (++res_idx);
+-#define LIRC_CAN_NOTIFY_DECODE            0x01000000
+-
+ /*** IOCTL commands for lirc driver ***/
  
- 	vpif_obj.config = pdev->dev.platform_data;
- 	subdev_count = vpif_obj.config->subdev_count;
+ #define LIRC_GET_FEATURES              _IOR('i', 0x00000000, __u32)
+diff --git a/tools/include/uapi/linux/lirc.h b/tools/include/uapi/linux/lirc.h
+index 45fcbf99d72e..a1f9c26ea537 100644
+--- a/tools/include/uapi/linux/lirc.h
++++ b/tools/include/uapi/linux/lirc.h
+@@ -1,7 +1,6 @@
+ /* SPDX-License-Identifier: GPL-2.0 WITH Linux-syscall-note */
+ /*
+  * lirc.h - linux infrared remote control header file
+- * last modified 2010/07/13 by Jarod Wilson
+  */
+ 
+ #ifndef _LINUX_LIRC_H
+@@ -73,11 +72,9 @@
+ #define LIRC_CAN_SET_REC_CARRIER       (LIRC_CAN_SET_SEND_CARRIER << 16)
+ #define LIRC_CAN_SET_REC_DUTY_CYCLE    (LIRC_CAN_SET_SEND_DUTY_CYCLE << 16)
+ 
+-#define LIRC_CAN_SET_REC_DUTY_CYCLE_RANGE 0x40000000
+ #define LIRC_CAN_SET_REC_CARRIER_RANGE    0x80000000
+ #define LIRC_CAN_GET_REC_RESOLUTION       0x20000000
+ #define LIRC_CAN_SET_REC_TIMEOUT          0x10000000
+-#define LIRC_CAN_SET_REC_FILTER           0x08000000
+ 
+ #define LIRC_CAN_MEASURE_CARRIER          0x02000000
+ #define LIRC_CAN_USE_WIDEBAND_RECEIVER    0x04000000
+@@ -85,8 +82,6 @@
+ #define LIRC_CAN_SEND(x) ((x)&LIRC_CAN_SEND_MASK)
+ #define LIRC_CAN_REC(x) ((x)&LIRC_CAN_REC_MASK)
+ 
+-#define LIRC_CAN_NOTIFY_DECODE            0x01000000
+-
+ /*** IOCTL commands for lirc driver ***/
+ 
+ #define LIRC_GET_FEATURES              _IOR('i', 0x00000000, __u32)
+@@ -139,7 +134,7 @@
+  */
+ #define LIRC_GET_REC_TIMEOUT	       _IOR('i', 0x00000024, __u32)
+ 
+-/*
++/**
+  * struct lirc_scancode - decoded scancode with protocol for use with
+  *	LIRC_MODE_SCANCODE
+  *
+@@ -195,6 +190,8 @@ struct lirc_scancode {
+  * @RC_PROTO_RCMM12: RC-MM protocol 12 bits
+  * @RC_PROTO_RCMM24: RC-MM protocol 24 bits
+  * @RC_PROTO_RCMM32: RC-MM protocol 32 bits
++ * @RC_PROTO_XBOX_DVD: Xbox DVD Movie Playback Kit protocol
++ * @RC_PROTO_MAX: Maximum value of enum rc_proto
+  */
+ enum rc_proto {
+ 	RC_PROTO_UNKNOWN	= 0,
+@@ -224,6 +221,8 @@ enum rc_proto {
+ 	RC_PROTO_RCMM12		= 24,
+ 	RC_PROTO_RCMM24		= 25,
+ 	RC_PROTO_RCMM32		= 26,
++	RC_PROTO_XBOX_DVD	= 27,
++	RC_PROTO_MAX		= RC_PROTO_XBOX_DVD,
+ };
+ 
+ #endif
 -- 
-2.17.1
+2.34.1
 
