@@ -2,70 +2,171 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5EB9448D80C
-	for <lists+linux-media@lfdr.de>; Thu, 13 Jan 2022 13:34:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D94D648D852
+	for <lists+linux-media@lfdr.de>; Thu, 13 Jan 2022 13:57:57 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232068AbiAMMe5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 13 Jan 2022 07:34:57 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37940 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231645AbiAMMe5 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Thu, 13 Jan 2022 07:34:57 -0500
-Received: from mail-pl1-x62a.google.com (mail-pl1-x62a.google.com [IPv6:2607:f8b0:4864:20::62a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7C1AEC06173F
-        for <linux-media@vger.kernel.org>; Thu, 13 Jan 2022 04:34:56 -0800 (PST)
-Received: by mail-pl1-x62a.google.com with SMTP id t18so9529803plg.9
-        for <linux-media@vger.kernel.org>; Thu, 13 Jan 2022 04:34:56 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=z7S+WoAeewe+evENxRmugDyi2UMRp34iK32ErxvL3wo=;
-        b=LF3A5UzdKmL8auLvLZFxwWNidQ4kE80vWuOVuJbg369nzTk5jeIhO+ulRgiGu2vzy3
-         /fpoEtaOQr/I3ft24dMtQBfrm2TvyUlgDtJDGN4pa83wBk0fMDvdXvmHeJrmhnw9wdDk
-         n8uy+645lvjUUKyt+lsTIOczt2orQ8LQ5u6Aq0Pwrox8aCitvNT9GZGf5gVsBFN1jko9
-         K/Q/G/JjIxZl1HX7Za+zcHu3d4ed3fT+SaRczDPG3LGaQuxJYRJYzIIyfIpQyEOu/t5R
-         TnBO+Fz4AKrY4GuziMqb+nClThvWvDrhfM0MLFEJ/CKHahRQxo5sr9EarSxLIit4r6rk
-         mLMQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=z7S+WoAeewe+evENxRmugDyi2UMRp34iK32ErxvL3wo=;
-        b=xHlPSByfA1wKMuSAi1PrldqElD5OO4RI3Q+O36ySLiuY0TRZmxsLGVxPwREk6TrkYn
-         bOl/2XIluJVUXq1TNpMxa5t7PqmWoUOfXvadSEOlHUCizewmCX5f0Bp9a0P3bB41LjoL
-         THgrMxF/EWpxXosePN2gJ0C0J0oP3SEZ5IBjRtxVBnVBI4sKa41Q/iPUQv9zmAuv7dvl
-         9qtqz78nCP3Fs9QIb3LVHKUdXRqvWih9HdeA8uU6gKsEh27cNAWN19zsCnjMg/mSDzoT
-         aekBMYvF2xB+B1EZEV8UE/cLDu0vgg6ALFtOAxC+rDPp/1ZnZuLPZT4KIJJAq3okX1NI
-         3smA==
-X-Gm-Message-State: AOAM531V1Ju92SpqInB3TBpvFlRZR6QoVvXEwNZluLT/VeL1A4uN8CAc
-        5sud82rzjgjSDi1nfwyXFtaE+VB1szaRbXuGhN8=
-X-Google-Smtp-Source: ABdhPJzfV0ZIpArw5s95TqXWvKFOnrWLlehAd1rP6JzfZJSkTfrbGYNPJymmpnIC6+tH7sMeP/+zuBFIzaktvsCE1u0=
-X-Received: by 2002:a63:9dc8:: with SMTP id i191mr3737584pgd.601.1642077295845;
- Thu, 13 Jan 2022 04:34:55 -0800 (PST)
+        id S234831AbiAMM54 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 13 Jan 2022 07:57:56 -0500
+Received: from mga09.intel.com ([134.134.136.24]:35525 "EHLO mga09.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S234818AbiAMM5x (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 13 Jan 2022 07:57:53 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1642078673; x=1673614673;
+  h=from:to:cc:subject:date:message-id:references:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=iycjm2C+Mf7QsOANPLMYnMeG7Nklub2C0BsuRJJMnhc=;
+  b=jJaTHLTlG0OEH0zaRjpsLlQH+DyQNr0GXLCZYehDZZDSYYusknLhP+Jx
+   8kB9plpM8nWZdADWsMkC5ytTLBgiAmuXWhJjxO6oTgeKcvWW5IBNoEGqB
+   IrSwW+1VsXsU9iWCgKOGGXz51JNJ8/40upNCVq5u/FdDze4eXo4yYPGPX
+   SKQ/DB02yx/X1Zfip2DTfNGaZLeiFxZtmSANgxJRuTtyYXYzk2hOqXG8s
+   9L6W5Nfah3I0WmcifJ3iKJdK9+adGXo4J6UZZuEcc8YjyNQuYuiNJ5aqk
+   S3yV7rlLtD3g8pnAXMMwFroM6YW8cgt77eEZtFsdEmvQpsiO8XRCDTx+3
+   Q==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10225"; a="243798547"
+X-IronPort-AV: E=Sophos;i="5.88,286,1635231600"; 
+   d="scan'208";a="243798547"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jan 2022 04:57:52 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.88,286,1635231600"; 
+   d="scan'208";a="691791936"
+Received: from orsmsx606.amr.corp.intel.com ([10.22.229.19])
+  by orsmga005.jf.intel.com with ESMTP; 13 Jan 2022 04:57:52 -0800
+Received: from orsmsx612.amr.corp.intel.com (10.22.229.25) by
+ ORSMSX606.amr.corp.intel.com (10.22.229.19) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.20; Thu, 13 Jan 2022 04:57:51 -0800
+Received: from orsmsx611.amr.corp.intel.com (10.22.229.24) by
+ ORSMSX612.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.20; Thu, 13 Jan 2022 04:57:51 -0800
+Received: from orsmsx611.amr.corp.intel.com ([10.22.229.24]) by
+ ORSMSX611.amr.corp.intel.com ([10.22.229.24]) with mapi id 15.01.2308.020;
+ Thu, 13 Jan 2022 04:57:51 -0800
+From:   "Ruhl, Michael J" <michael.j.ruhl@intel.com>
+To:     "guangming.cao@mediatek.com" <guangming.cao@mediatek.com>,
+        "sumit.semwal@linaro.org" <sumit.semwal@linaro.org>
+CC:     "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>,
+        "mingyuan.ma@mediatek.com" <mingyuan.ma@mediatek.com>,
+        "wsd_upstream@mediatek.com" <wsd_upstream@mediatek.com>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+        "linaro-mm-sig@lists.linaro.org" <linaro-mm-sig@lists.linaro.org>,
+        "yf.wang@mediatek.com" <yf.wang@mediatek.com>,
+        "libo.kang@mediatek.com" <libo.kang@mediatek.com>,
+        "benjamin.gaignard@linaro.org" <benjamin.gaignard@linaro.org>,
+        "bo.song@mediatek.com" <bo.song@mediatek.com>,
+        "matthias.bgg@gmail.com" <matthias.bgg@gmail.com>,
+        "linux-mediatek@lists.infradead.org" 
+        <linux-mediatek@lists.infradead.org>,
+        "lmark@codeaurora.org" <lmark@codeaurora.org>,
+        "labbott@redhat.com" <labbott@redhat.com>,
+        "christian.koenig@amd.com" <christian.koenig@amd.com>,
+        "jianjiao.zeng@mediatek.com" <jianjiao.zeng@mediatek.com>,
+        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>
+Subject: RE: [PATCH v3] dma-buf: dma-heap: Add a size check for allocation
+Thread-Topic: [PATCH v3] dma-buf: dma-heap: Add a size check for allocation
+Thread-Index: AQHYCHnKJjUnVmCmlECrXD1d8qRuLKxg6T0Q
+Date:   Thu, 13 Jan 2022 12:57:51 +0000
+Message-ID: <4f88205c1b344aea8608960e2f85b8f4@intel.com>
+References: <CAO_48GF=ttKqSOm9GRoA3Mq+-RQOtRjWp449XPcz-wH=kjaTjw@mail.gmail.com>
+ <20220113123406.11520-1-guangming.cao@mediatek.com>
+In-Reply-To: <20220113123406.11520-1-guangming.cao@mediatek.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+dlp-product: dlpe-windows
+dlp-reaction: no-action
+dlp-version: 11.6.200.16
+x-originating-ip: [10.1.200.100]
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Received: by 2002:a05:6a10:6787:0:0:0:0 with HTTP; Thu, 13 Jan 2022 04:34:55
- -0800 (PST)
-Reply-To: salemchantal@mail.ee
-From:   MRS Salem Chantal Lawrence <westernunionheadoffice544@gmail.com>
-Date:   Thu, 13 Jan 2022 04:34:55 -0800
-Message-ID: <CAA8cJM9ZBWDij=o_hEJVnoVJ_ukohdVH22iys3-QCGVa3nDHOg@mail.gmail.com>
-Subject: Receive Your Compensation!
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Attention
 
+>-----Original Message-----
+>From: dri-devel <dri-devel-bounces@lists.freedesktop.org> On Behalf Of
+>guangming.cao@mediatek.com
+>Sent: Thursday, January 13, 2022 7:34 AM
+>To: sumit.semwal@linaro.org
+>Cc: linux-arm-kernel@lists.infradead.org; mingyuan.ma@mediatek.com;
+>Guangming <Guangming.Cao@mediatek.com>;
+>wsd_upstream@mediatek.com; linux-kernel@vger.kernel.org; dri-
+>devel@lists.freedesktop.org; linaro-mm-sig@lists.linaro.org;
+>yf.wang@mediatek.com; libo.kang@mediatek.com;
+>benjamin.gaignard@linaro.org; bo.song@mediatek.com;
+>matthias.bgg@gmail.com; linux-mediatek@lists.infradead.org;
+>lmark@codeaurora.org; labbott@redhat.com; christian.koenig@amd.com;
+>jianjiao.zeng@mediatek.com; linux-media@vger.kernel.org
+>Subject: [PATCH v3] dma-buf: dma-heap: Add a size check for allocation
+>
+>From: Guangming <Guangming.Cao@mediatek.com>
+>
+>Add a size check for allocation since the allocation size is
+>always less than the total DRAM size.
+>
+>Without this check, once the invalid size allocation runs on a process tha=
+t
+>can't be killed by OOM flow(such as "gralloc" on Android devices), it will
+>cause a kernel exception, and to make matters worse, we can't find who are
+>using
+>so many memory with "dma_buf_debug_show" since the relevant dma-buf
+>hasn't exported.
+>
+>To make OOM issue easier, maybe need dma-buf framework to dump the
+>buffer size
+>under allocating in "dma_buf_debug_show".
+>
+>Signed-off-by: Guangming <Guangming.Cao@mediatek.com>
+>Signed-off-by: jianjiao zeng <jianjiao.zeng@mediatek.com>
+>---
+>v3: 1. update patch, use right shift to replace division.
+>    2. update patch, add reason in code and commit message.
+>v2: 1. update size limitation as total_dram page size.
+>    2. update commit message
+>---
+> drivers/dma-buf/dma-heap.c | 10 ++++++++++
+> 1 file changed, 10 insertions(+)
+>
+>diff --git a/drivers/dma-buf/dma-heap.c b/drivers/dma-buf/dma-heap.c
+>index 56bf5ad01ad5..1fd382712584 100644
+>--- a/drivers/dma-buf/dma-heap.c
+>+++ b/drivers/dma-buf/dma-heap.c
+>@@ -55,6 +55,16 @@ static int dma_heap_buffer_alloc(struct dma_heap
+>*heap, size_t len,
+> 	struct dma_buf *dmabuf;
+> 	int fd;
+>
+>+	/*
+>+	 * Invalid size check. The "len" should be less than totalram.
+>+	 *
+>+	 * Without this check, once the invalid size allocation runs on a proces=
+s
+>that
+>+	 * can't be killed by OOM flow(such as "gralloc" on Android devices), it
+>will
+>+	 * cause a kernel exception, and to make matters worse, we can't find
+>who are using
+>+	 * so many memory with "dma_buf_debug_show" since the relevant
+>dma-buf hasn't exported.
+>+	 */
+>+	if (len >> PAGE_SHIFT > totalram_pages())
 
-You have Been Compensated with the sum of 4.6 million dollars in this
-United Nation the Payment will be issue into Atm Visa Card and send to you
+If your "heap" is from cma, is this still a valid check?
 
-from the Santander Bank of Spain we need your address, Passport and your
-Whatsapp Number.
+M
 
+>+		return -EINVAL;
+> 	/*
+> 	 * Allocations from all heaps have to begin
+> 	 * and end on page boundaries.
+>--
+>2.17.1
 
-THANKS
-MRS Salem Chantal Lawrence
