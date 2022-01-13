@@ -2,110 +2,150 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3D16F48DB09
-	for <lists+linux-media@lfdr.de>; Thu, 13 Jan 2022 16:52:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 874BF48DB63
+	for <lists+linux-media@lfdr.de>; Thu, 13 Jan 2022 17:10:24 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234645AbiAMPw0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 13 Jan 2022 10:52:26 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55112 "EHLO
+        id S229766AbiAMQKW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 13 Jan 2022 11:10:22 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59222 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231585AbiAMPwZ (ORCPT
+        with ESMTP id S229580AbiAMQKV (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 13 Jan 2022 10:52:25 -0500
-Received: from mail-wm1-x330.google.com (mail-wm1-x330.google.com [IPv6:2a00:1450:4864:20::330])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 64EE7C061574
-        for <linux-media@vger.kernel.org>; Thu, 13 Jan 2022 07:52:25 -0800 (PST)
-Received: by mail-wm1-x330.google.com with SMTP id c126-20020a1c9a84000000b00346f9ebee43so3939324wme.4
-        for <linux-media@vger.kernel.org>; Thu, 13 Jan 2022 07:52:25 -0800 (PST)
+        Thu, 13 Jan 2022 11:10:21 -0500
+Received: from mail-wm1-x331.google.com (mail-wm1-x331.google.com [IPv6:2a00:1450:4864:20::331])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4ED18C061574;
+        Thu, 13 Jan 2022 08:10:21 -0800 (PST)
+Received: by mail-wm1-x331.google.com with SMTP id bg19-20020a05600c3c9300b0034565e837b6so2693708wmb.1;
+        Thu, 13 Jan 2022 08:10:21 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20210112.gappssmtp.com; s=20210112;
-        h=subject:to:references:from:organization:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=SgcOpXh1pxlgSzIp3XmGJm83Ks9LbrZSIgOjQSvINJQ=;
-        b=Fp9xvKquNaJTX3rici5+6iSTVYL3Hs7wNSK2RAegVEBpZybov9/HTaRj0/uOLSRF5j
-         m4sV9lRXCRXNQtVXf5pcgA2dBgVTXKRBfsu7plcUMDq2APkoJ54otJ5ukd2c0SpbDoZq
-         R4NGRcwXnZyeKyo1lNEhfoQcE+56Z49XUy/GuwZTBQQophNDaESUQdXhhxS8BtlPzAZ0
-         Ugp0sBcdCQs/ragzy9tPmE4gzgjPaEWcOnJ+L/fEIeYeFhblhR4UcWVy/A8no4V1oz39
-         YoHLTK/xwBi4mg+opWnyifzxAUxmmasDx1vWf2kvuMTKrudBoTtxntb7QxQYYMAPsh11
-         XchA==
+        d=gmail.com; s=20210112;
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=SPmaJub/jt94ihGwagtrfHtir8UBrBvypTKNKojeyrA=;
+        b=BVBB+Qut1wf0yDLs2pgabC7QOG2Sq+20jm8ssrux8M/cL6yIEQ1cLoONRsJ3tAFOB7
+         mAVtexOZomadjCBu5HS3//ck38nB8thHf4Vsb7B2Gu4SmYo1PXrWLt2A/RhTYRAs6chT
+         A2yuc9kt7p1baJ7py4FCWgs7rw24L85tVk/4W8LVfElgZ03rT963kaaa4VkbN1DiwUXJ
+         qnZsvby+F23F9gT8jaP+rJib0mnv6iej7oPfza94pno6s+bMVe/moC6XsPcGH0KE1brn
+         /SZzMZYnKFEdbiVSWGxvCwwKgWv2AzgqwSWAiyOixbcDRB9AlAXLXpExApLKl7EkW3Oy
+         FPkA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:subject:to:references:from:organization
-         :message-id:date:user-agent:mime-version:in-reply-to
-         :content-language:content-transfer-encoding;
-        bh=SgcOpXh1pxlgSzIp3XmGJm83Ks9LbrZSIgOjQSvINJQ=;
-        b=4vRL3NZXlUgt1bRfBYOfkiqShi4CEA/CDTcAFIj49l2AZk6yVlQ9eN46dTs+0dZ9Km
-         fEuB3xRyq0Xn9DI/LXDHWeqoQV42rBpyXEtzRilVmPVlEclH+OJZruG2ZuZSqJf9sQ+S
-         7u1auBtmcX+/IplUKaQJ4Q5wOtAu2o9wHIlXzjyR2oaDbtGeWny92z2zexkYwuR3Z97f
-         satLWpH94JyLUdHMYeNWcGc1z03/Y6i+wVwWKnGqsXaay1afHGnkvGYBTGhFLM6d8c7/
-         04umGHIlbtV08mijMsPR/zaq2nyfVadeDfq8c3bIn3aH8mpRCW2Gfw77e9pqLqEX3Mig
-         x2Qg==
-X-Gm-Message-State: AOAM530Kwl3WAOkRmjFu5ATlhpOLx36RANtOdsHjsR6baT2+bC+Vkx+n
-        G92UaTUKEK6rIeBemdh/0zDjACQ1OK/tKw==
-X-Google-Smtp-Source: ABdhPJxIJlhMMRkRBs4lCyJQrSjKQdyEa7ANS0wTvwh090E2AO2Wghq3FXxFQlLu93nX5hYpEhEeSQ==
-X-Received: by 2002:a7b:c310:: with SMTP id k16mr11687718wmj.169.1642089143464;
-        Thu, 13 Jan 2022 07:52:23 -0800 (PST)
-Received: from ?IPv6:2001:861:44c0:66c0:bece:ab45:7469:4195? ([2001:861:44c0:66c0:bece:ab45:7469:4195])
-        by smtp.gmail.com with ESMTPSA id j11sm4009125wmq.23.2022.01.13.07.52.22
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=SPmaJub/jt94ihGwagtrfHtir8UBrBvypTKNKojeyrA=;
+        b=dQ9gccG12CqSEiKpACY/C7PlAQsCRfgUwgp+Bteq+i+dB7o5j5Ri4KT5fI+opJurTs
+         PdHFowPUowmxG3eMVriz8esY88HfXtcT28LAN9uei6Myj+AdnFiK475ryG0TQ1Tpl97I
+         ON3MJeNOGiRohnUnGiItUnOXcmz6MM6kj8OJkBZORxEHGnQdglk0rTGmKUGtjQdQ9wwj
+         NANXyilOXCc7MIU6sV+UroMbd28xbzkzPHKl5/uuUlnHMGmaV9eDIyRs+uvc/24lSkon
+         vU9YOr0AczNd3q9g+Fcl2vyKZYnHGntE/CjKZjB1eGARHaUszPn+A7+1E/WGWwAPUZVr
+         l9tA==
+X-Gm-Message-State: AOAM5303p1AsrO0DFLP1dLf9K8sPyg08jhuFkew6mhKnwh26ZHhhO5At
+        39qBRm93aYtSsk82PmWs+nc=
+X-Google-Smtp-Source: ABdhPJz71D45GcRwagirhvSlyWM52OERaCgTDonsBE7CR9XIAMLCsE2GIYUK2N2X+W/NKuR3LQ9Flg==
+X-Received: by 2002:a1c:7316:: with SMTP id d22mr11718665wmb.5.1642090219767;
+        Thu, 13 Jan 2022 08:10:19 -0800 (PST)
+Received: from [192.168.0.18] (81.172.62.207.dyn.user.ono.com. [81.172.62.207])
+        by smtp.gmail.com with ESMTPSA id f8sm9488614wmg.3.2022.01.13.08.10.17
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 13 Jan 2022 07:52:22 -0800 (PST)
-Subject: Re: HDMI CEC on ODROID-N2+
-To:     Stefan Agner <stefan@agner.ch>, linux-amlogic@lists.infradead.org,
-        linux-media@vger.kernel.org
-References: <d2ef8936c54567c9c2652b3c53a82f68@agner.ch>
-From:   Neil Armstrong <narmstrong@baylibre.com>
-Organization: Baylibre
-Message-ID: <a072cbe4-f922-a98f-14d9-270fc4c72d8e@baylibre.com>
-Date:   Thu, 13 Jan 2022 16:52:22 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+        Thu, 13 Jan 2022 08:10:19 -0800 (PST)
+Message-ID: <e940d705-2057-4d5e-0a21-8464ca04caaf@gmail.com>
+Date:   Thu, 13 Jan 2022 17:10:17 +0100
 MIME-Version: 1.0
-In-Reply-To: <d2ef8936c54567c9c2652b3c53a82f68@agner.ch>
-Content-Type: text/plain; charset=utf-8
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.2.0
+Subject: Re: [PATCH v9 12/15] media: mtk-vcodec: enc: Remove
+ mtk_vcodec_release_enc_pm
 Content-Language: en-US
+To:     Hans Verkuil <hverkuil@xs4all.nl>,
+        AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>,
+        Yong Wu <yong.wu@mediatek.com>, Joerg Roedel <joro@8bytes.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
+        David Airlie <airlied@linux.ie>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
+        Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+        Will Deacon <will.deacon@arm.com>,
+        dri-devel@lists.freedesktop.org, yf.wang@mediatek.com,
+        anthony.huang@mediatek.com, youlin.pei@mediatek.com,
+        Irui Wang <irui.wang@mediatek.com>,
+        Evan Green <evgreen@chromium.org>,
+        Eizan Miyamoto <eizan@chromium.org>,
+        Matthias Kaehlcke <mka@chromium.org>,
+        linux-arm-kernel@lists.infradead.org, mingyuan.ma@mediatek.com,
+        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        Philipp Zabel <p.zabel@pengutronix.de>, libo.kang@mediatek.com,
+        yi.kuo@mediatek.com, linux-mediatek@lists.infradead.org,
+        Hsin-Yi Wang <hsinyi@chromium.org>,
+        Tiffany Lin <tiffany.lin@mediatek.com>, anan.sun@mediatek.com,
+        srv_heupstream@mediatek.com, acourbot@chromium.org,
+        linux-kernel@vger.kernel.org, Tomasz Figa <tfiga@chromium.org>,
+        iommu@lists.linux-foundation.org, Daniel Vetter <daniel@ffwll.ch>,
+        Robin Murphy <robin.murphy@arm.com>
+References: <20211112105509.12010-1-yong.wu@mediatek.com>
+ <20211112105509.12010-13-yong.wu@mediatek.com>
+ <68c3a573-8453-38e9-93b2-2067bedcd06f@collabora.com>
+ <4bd9e849-96dd-6f1c-2841-979459366ee5@collabora.com>
+ <fa9b2b73-c6bb-5737-93ac-ba2ab6b3b771@xs4all.nl>
+From:   Matthias Brugger <matthias.bgg@gmail.com>
+In-Reply-To: <fa9b2b73-c6bb-5737-93ac-ba2ab6b3b771@xs4all.nl>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi,
+Hi Hans,
 
-
-On 13/01/2022 15:36, Stefan Agner wrote:
-> Hi Neil,
+On 13/01/2022 11:15, Hans Verkuil wrote:
+> On 13/01/2022 11:11, AngeloGioacchino Del Regno wrote:
+>> Il 11/01/22 11:57, AngeloGioacchino Del Regno ha scritto:
+>>> Il 12/11/21 11:55, Yong Wu ha scritto:
+>>>> After this patchset, mtk_vcodec_release_enc_pm has only one line.
+>>>> then remove that function, use pm_runtime_disable instead.
+>>>>
+>>>> meanwhile, mtk_vcodec_init_enc_pm only operate for the clocks,
+>>>> rename it from the _pm to _clk.
+>>>>
+>>>> No functional change.
+>>>>
+>>>> CC: Tiffany Lin <tiffany.lin@mediatek.com>
+>>>> CC: Irui Wang <irui.wang@mediatek.com>
+>>>> Signed-off-by: Yong Wu <yong.wu@mediatek.com>
+>>>
+>>> Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+>>>
+>>
+>> Hello Yong,
+>> the mtk-vcodec patches were merged in Yunfei's vcodec patch series and Hans has
+>> scheduled that for v5.18.
+>>
+>> Can you please send a v10 and drop patches 10/15, 11/15, 12/15 (all of the
+>> media: mtk-vcodec: *) from this series?
+>>
+>> For the records, I think that after sending v10 this series is ready to be merged,
+>> as it was well reviewed and also tested on many MTK platforms.
 > 
-> I am trying to use HDMI CEC on ODROID-N2+ using Linux 5.10.91. However,
-> I was unsuccessful: As far as I can tell cec-client uses the right
-> device (I disabled CONFIG_DRM_DW_HDMI_CEC since my kernel is still
-> missing your patch "drm/meson: dw-hdmi: disable DW-HDMI CEC
-> sub-driver"). But communication won't work, and dmesg prints timeout
-> messages:
+> Good to know. When I have the v10 I'll try to prioritize reviewing it and running
+> my usual tests.
 > 
-> [   68.831253] cec-meson_g12a_ao_cec: message ff 84 20 00 06 timed out
-> [   71.134987] cec-meson_g12a_ao_cec: message ff 87 00 15 82 timed out
-> [   73.438826] cec-meson_g12a_ao_cec: message f0 timed out
-> [   75.742677] cec-meson_g12a_ao_cec: message f0 timed out
-> [   78.046555] cec-meson_g12a_ao_cec: message f0 timed out
-> [   80.350446] cec-meson_g12a_ao_cec: message f0 timed out
-> [   82.654358] cec-meson_g12a_ao_cec: message 11 timed out
-> [   84.958285] cec-meson_g12a_ao_cec: message 11 timed out
-> [   87.262194] cec-meson_g12a_ao_cec: message 11 timed out
-> [   89.566130] cec-meson_g12a_ao_cec: message 11 timed out
-> 
-> I did a quick test with CoreELEC which uses the 4.9 downstream kernel,
-> CEC seems to work there. So it does not seem to be my hardware setup.
-> 
-> A quick test with the latest Linux 5.16 shows the same errors.
-> 
-> Do you happen to have an idea? Do you know if HDMI CEC using upstream
-> kernels worked at one point on that particular platform?
-
-I was reported it works on Yukawa 5.10 kernel, I'll have a check it still works.
-
-Neil
-
-> 
-> --
-> Stefan
+> Yong, please make sure you run 'checkpatch.pl --strict' over the v10 patches and fix
+> any issues (using common sense).
 > 
 
+Can you please take me in the look when you take the patches. I'll take the DTS 
+related as soon as you queue up the others.
+
+Thanks!
+Matthias
+
+> Regards,
+> 
+> 	Hans
+> 
+>>
+>> Thank you,
+>> - Angelo
+> 
