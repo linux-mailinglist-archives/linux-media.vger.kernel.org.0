@@ -2,80 +2,101 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DAD8F48D4FC
-	for <lists+linux-media@lfdr.de>; Thu, 13 Jan 2022 10:50:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 601A648D517
+	for <lists+linux-media@lfdr.de>; Thu, 13 Jan 2022 10:50:19 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232978AbiAMJ15 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 13 Jan 2022 04:27:57 -0500
-Received: from perceval.ideasonboard.com ([213.167.242.64]:35690 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232318AbiAMJ15 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Thu, 13 Jan 2022 04:27:57 -0500
-Received: from [IPV6:2a01:e0a:169:7140:2ab9:bf59:c61a:cf11] (unknown [IPv6:2a01:e0a:169:7140:2ab9:bf59:c61a:cf11])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 9754797;
-        Thu, 13 Jan 2022 10:27:55 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1642066075;
-        bh=jZwNUuB0RkUpIVsIVx20fm0PYu8Gumih0ZisNs+gWYA=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=shMJ3AUPJ5hsEZfKXmibxhQXzMG4eW7UCuGEmtiGXjHlkRUy8DKq/e6gL9zcg7uJR
-         P4fLr5rGZJYeQC97lDW57wWNWKfn2YqwzwPNOUYTEJFLhuWLDWi3l8NzG3jIsSdQmi
-         nfNooz+kJa8L4LNiafM0z9f1VKSRf4QaIpicTb38=
-Message-ID: <bcd1b7f6-e18c-d01c-aaea-b98026056c71@ideasonboard.com>
-Date:   Thu, 13 Jan 2022 10:27:53 +0100
+        id S233250AbiAMJio (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 13 Jan 2022 04:38:44 -0500
+Received: from www.linuxtv.org ([130.149.80.248]:35692 "EHLO www.linuxtv.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S233239AbiAMJin (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 13 Jan 2022 04:38:43 -0500
+Received: from builder.linuxtv.org ([140.211.167.10] helo=slave0)
+        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1n7wZ8-007bRO-53; Thu, 13 Jan 2022 09:38:42 +0000
+Received: from ip6-localhost ([::1] helo=localhost.localdomain)
+        by slave0 with esmtp (Exim 4.94.2)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1n7wZ4-008B9b-Vf; Thu, 13 Jan 2022 09:38:39 +0000
+From:   Jenkins <jenkins@linuxtv.org>
+To:     mchehab+samsung@kernel.org, linux-media@vger.kernel.org
+Cc:     builder@linuxtv.org
+Subject: Re: [GIT PULL FOR v5.18] Support multi hardware decode using (#79985)
+Date:   Thu, 13 Jan 2022 09:38:38 +0000
+Message-Id: <20220113093838.1949453-1-jenkins@linuxtv.org>
+X-Mailer: git-send-email 2.30.2
+In-Reply-To: <bcc30b33-9ff6-6802-c2f4-440131b161dc@xs4all.nl>
+References: 
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.1
-Subject: Re: [PATCH 0/3] Add 12bit and 14bit luma-only formats
-Content-Language: en-US
-To:     Hans Verkuil <hverkuil@xs4all.nl>, linux-media@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Cc:     laurent.pinchart@ideasonboard.com, mchehab@kernel.org,
-        dave.stevenson@raspberrypi.com
-References: <20220112161014.972076-1-jeanmichel.hautbois@ideasonboard.com>
- <be18b2bb-f334-1f31-50df-9935929281f6@xs4all.nl>
-From:   Jean-Michel Hautbois <jeanmichel.hautbois@ideasonboard.com>
-In-Reply-To: <be18b2bb-f334-1f31-50df-9935929281f6@xs4all.nl>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Hans !
+From: builder@linuxtv.org
 
-On 13/01/2022 10:15, Hans Verkuil wrote:
-> Hi Jean-Michel,
-> 
-> On 12/01/2022 17:10, Jean-Michel Hautbois wrote:
->> Hello,
->>
->> While working on adding the V4L2-PIX-FMT-Y12P and V4L2-PIX-FMT-Y14P
->> formats, I noticed an issue in the way V4L2-PIX-FMT-Y10P is described.
->> This series aims to solve it before adding Y12P and Y14P.
->>
->> Those two formats are needed for the next-to-come bcm2835 unicam driver.
->>
->> Jean-Michel Hautbois (3):
->>    media: doc: pixfmt-yuv: Fix V4L2-PIX-FMT-Y10P format
->>    media: v4l: Add V4L2-PIX-FMT-Y12P format
->>    media: v4l: Add V4L2-PIX-FMT-Y14P format
->>
->>   .../media/v4l/pixfmt-yuv-luma.rst             | 48 ++++++++++++++++++-
->>   drivers/media/v4l2-core/v4l2-ioctl.c          |  2 +
->>   include/uapi/linux/videodev2.h                |  2 +
->>   3 files changed, 50 insertions(+), 2 deletions(-)
->>
-> 
-> I'll take the first patch, but it is better to add patches 2 and 3 to the unicam RFC
-> series. Adding pixelformats that are not used by any existing driver isn't a good idea
-> and I'd like to avoid that.
+Pull request: https://patchwork.linuxtv.org/project/linux-media/patch/bcc30b33-9ff6-6802-c2f4-440131b161dc@xs4all.nl/
+Build log: https://builder.linuxtv.org/job/patchwork/173684/
+Build time: 00:25:23
+Link: https://lore.kernel.org/linux-media/bcc30b33-9ff6-6802-c2f4-440131b161dc@xs4all.nl
 
-Thanks, I will take those two patches back in the unicam RFC v2 series then.
+gpg: Signature made Thu 13 Jan 2022 08:58:24 AM UTC
+gpg:                using RSA key AAA7FFBA4D2D77EF4CAEA1421326E0CD23ABDCE5
+gpg: Good signature from "Hans Verkuil <hverkuil-cisco@xs4all.nl>" [unknown]
+gpg:                 aka "Hans Verkuil <hverkuil@xs4all.nl>" [unknown]
+gpg: WARNING: This key is not certified with a trusted signature!
+gpg:          There is no indication that the signature belongs to the owner.
+Primary key fingerprint: 052C DE7B C215 053B 689F  1BCA BD2D 6148 6614 3B4C
+     Subkey fingerprint: AAA7 FFBA 4D2D 77EF 4CAE  A142 1326 E0CD 23AB DCE5
 
-> 
-> Regards,
-> 
-> 	Hans
-> 
+Summary: got 5/19 patches with issues, being 1 at build time, plus one error when buinding PDF document
+
+Error/warnings:
+
+patches/0001-media-mtk-vcodec-Get-numbers-of-register-bases-from-.patch:
+
+    allyesconfig: return code #0:
+	../scripts/genksyms/parse.y: warning: 9 shift/reduce conflicts [-Wconflicts-sr]
+	../scripts/genksyms/parse.y: warning: 5 reduce/reduce conflicts [-Wconflicts-rr]
+	../scripts/genksyms/parse.y: note: rerun with option '-Wcounterexamples' to generate conflict counterexamples
+
+    allyesconfig: return code #0:
+	../drivers/media/rc/meson-ir-tx.c:22: warning: expecting prototype for meson(). Prototype was for DEVICE_NAME() instead
+	../drivers/media/i2c/ov8865.c: ../drivers/media/i2c/ov8865.c:2843 ov8865_get_selection() warn: inconsistent indenting
+	../drivers/media/test-drivers/vivid/vivid-core.c: ../drivers/media/test-drivers/vivid/vivid-core.c:1981 vivid_create_instance() parse error: turning off implications after 60 seconds
+	SMATCH:../drivers/media/usb/siano/smsusb.c ../drivers/media/usb/siano/smsusb.c:53:38: :warning: array of flexible structures
+	SPARSE:../drivers/media/usb/siano/smsusb.c ../drivers/media/usb/siano/smsusb.c:53:38: warning: array of flexible structures
+	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2625 dvb_register() parse error: turning off implications after 60 seconds
+	../drivers/media/usb/em28xx/em28xx-video.c: ../drivers/media/usb/em28xx/em28xx-video.c:2868 em28xx_v4l2_init() parse error: turning off implications after 60 seconds
+	../drivers/media/platform/qcom/venus/helpers.c: ../drivers/media/platform/qcom/venus/helpers.c:658 venus_helper_get_bufreq() error: we previously assumed 'req' could be null (see line 654)
+
+patches/0005-dt-bindings-media-mtk-vcodec-Separate-video-encoder-.patch:
+
+   checkpatch.pl:
+	$ cat patches/0005-dt-bindings-media-mtk-vcodec-Separate-video-encoder-.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
+	-:21: WARNING: added, moved or deleted file(s), does MAINTAINERS need updating?
+	-:399: WARNING: DT binding docs and includes should be a separate patch. See: Documentation/devicetree/bindings/submitting-patches.rst
+
+patches/0006-dt-bindings-media-mtk-vcodec-Adds-decoder-dt-binding.patch:
+
+   checkpatch.pl:
+	$ cat patches/0006-dt-bindings-media-mtk-vcodec-Adds-decoder-dt-binding.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
+	-:17: WARNING: added, moved or deleted file(s), does MAINTAINERS need updating?
+
+patches/0008-media-mtk-vcodec-Add-to-support-multi-hardware-decod.patch:
+
+   checkpatch.pl:
+	$ cat patches/0008-media-mtk-vcodec-Add-to-support-multi-hardware-decod.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
+	-:192: WARNING: added, moved or deleted file(s), does MAINTAINERS need updating?
+
+patches/0011-media-mtk-vcodec-Add-msg-queue-feature-for-lat-and-c.patch:
+
+   checkpatch.pl:
+	$ cat patches/0011-media-mtk-vcodec-Add-msg-queue-feature-for-lat-and-c.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
+	-:84: WARNING: added, moved or deleted file(s), does MAINTAINERS need updating?
+
+
+Error #512 when building PDF docs
+
