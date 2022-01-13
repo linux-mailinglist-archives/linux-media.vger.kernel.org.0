@@ -2,101 +2,70 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4E50048D804
-	for <lists+linux-media@lfdr.de>; Thu, 13 Jan 2022 13:33:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5EB9448D80C
+	for <lists+linux-media@lfdr.de>; Thu, 13 Jan 2022 13:34:58 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234537AbiAMMd0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 13 Jan 2022 07:33:26 -0500
-Received: from mailgw02.mediatek.com ([210.61.82.184]:38102 "EHLO
-        mailgw02.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
-        with ESMTP id S233633AbiAMMd0 (ORCPT
+        id S232068AbiAMMe5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 13 Jan 2022 07:34:57 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37940 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231645AbiAMMe5 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 13 Jan 2022 07:33:26 -0500
-X-UUID: a357bcd85de4422e9e90e55554a8dd4d-20220113
-X-UUID: a357bcd85de4422e9e90e55554a8dd4d-20220113
-Received: from mtkcas11.mediatek.inc [(172.21.101.40)] by mailgw02.mediatek.com
-        (envelope-from <guangming.cao@mediatek.com>)
-        (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
-        with ESMTP id 1167861225; Thu, 13 Jan 2022 20:33:19 +0800
-Received: from mtkcas11.mediatek.inc (172.21.101.40) by
- mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.792.3;
- Thu, 13 Jan 2022 20:33:17 +0800
-Received: from mszswglt01.gcn.mediatek.inc (10.16.20.20) by
- mtkcas11.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
- 15.0.1497.2 via Frontend Transport; Thu, 13 Jan 2022 20:33:16 +0800
-From:   <guangming.cao@mediatek.com>
-To:     <sumit.semwal@linaro.org>
-CC:     <benjamin.gaignard@linaro.org>, <bo.song@mediatek.com>,
-        <brian.starkey@arm.com>, <christian.koenig@amd.com>,
-        <dri-devel@lists.freedesktop.org>, <guangming.cao@mediatek.com>,
-        <jianjiao.zeng@mediatek.com>, <john.stultz@linaro.org>,
-        <labbott@redhat.com>, <libo.kang@mediatek.com>,
-        <linaro-mm-sig@lists.linaro.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-kernel@vger.kernel.org>, <linux-media@vger.kernel.org>,
-        <linux-mediatek@lists.infradead.org>, <lmark@codeaurora.org>,
-        <matthias.bgg@gmail.com>, <mingyuan.ma@mediatek.com>,
-        <wsd_upstream@mediatek.com>, <yf.wang@mediatek.com>,
-        Guangming <Guangming.Cao@mediatek.com>
-Subject: [PATCH v3] dma-buf: dma-heap: Add a size check for allocation
-Date:   Thu, 13 Jan 2022 20:34:06 +0800
-Message-ID: <20220113123406.11520-1-guangming.cao@mediatek.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <CAO_48GF=ttKqSOm9GRoA3Mq+-RQOtRjWp449XPcz-wH=kjaTjw@mail.gmail.com>
-References: <CAO_48GF=ttKqSOm9GRoA3Mq+-RQOtRjWp449XPcz-wH=kjaTjw@mail.gmail.com>
+        Thu, 13 Jan 2022 07:34:57 -0500
+Received: from mail-pl1-x62a.google.com (mail-pl1-x62a.google.com [IPv6:2607:f8b0:4864:20::62a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7C1AEC06173F
+        for <linux-media@vger.kernel.org>; Thu, 13 Jan 2022 04:34:56 -0800 (PST)
+Received: by mail-pl1-x62a.google.com with SMTP id t18so9529803plg.9
+        for <linux-media@vger.kernel.org>; Thu, 13 Jan 2022 04:34:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=z7S+WoAeewe+evENxRmugDyi2UMRp34iK32ErxvL3wo=;
+        b=LF3A5UzdKmL8auLvLZFxwWNidQ4kE80vWuOVuJbg369nzTk5jeIhO+ulRgiGu2vzy3
+         /fpoEtaOQr/I3ft24dMtQBfrm2TvyUlgDtJDGN4pa83wBk0fMDvdXvmHeJrmhnw9wdDk
+         n8uy+645lvjUUKyt+lsTIOczt2orQ8LQ5u6Aq0Pwrox8aCitvNT9GZGf5gVsBFN1jko9
+         K/Q/G/JjIxZl1HX7Za+zcHu3d4ed3fT+SaRczDPG3LGaQuxJYRJYzIIyfIpQyEOu/t5R
+         TnBO+Fz4AKrY4GuziMqb+nClThvWvDrhfM0MLFEJ/CKHahRQxo5sr9EarSxLIit4r6rk
+         mLMQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to;
+        bh=z7S+WoAeewe+evENxRmugDyi2UMRp34iK32ErxvL3wo=;
+        b=xHlPSByfA1wKMuSAi1PrldqElD5OO4RI3Q+O36ySLiuY0TRZmxsLGVxPwREk6TrkYn
+         bOl/2XIluJVUXq1TNpMxa5t7PqmWoUOfXvadSEOlHUCizewmCX5f0Bp9a0P3bB41LjoL
+         THgrMxF/EWpxXosePN2gJ0C0J0oP3SEZ5IBjRtxVBnVBI4sKa41Q/iPUQv9zmAuv7dvl
+         9qtqz78nCP3Fs9QIb3LVHKUdXRqvWih9HdeA8uU6gKsEh27cNAWN19zsCnjMg/mSDzoT
+         aekBMYvF2xB+B1EZEV8UE/cLDu0vgg6ALFtOAxC+rDPp/1ZnZuLPZT4KIJJAq3okX1NI
+         3smA==
+X-Gm-Message-State: AOAM531V1Ju92SpqInB3TBpvFlRZR6QoVvXEwNZluLT/VeL1A4uN8CAc
+        5sud82rzjgjSDi1nfwyXFtaE+VB1szaRbXuGhN8=
+X-Google-Smtp-Source: ABdhPJzfV0ZIpArw5s95TqXWvKFOnrWLlehAd1rP6JzfZJSkTfrbGYNPJymmpnIC6+tH7sMeP/+zuBFIzaktvsCE1u0=
+X-Received: by 2002:a63:9dc8:: with SMTP id i191mr3737584pgd.601.1642077295845;
+ Thu, 13 Jan 2022 04:34:55 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain
-X-MTK:  N
+Received: by 2002:a05:6a10:6787:0:0:0:0 with HTTP; Thu, 13 Jan 2022 04:34:55
+ -0800 (PST)
+Reply-To: salemchantal@mail.ee
+From:   MRS Salem Chantal Lawrence <westernunionheadoffice544@gmail.com>
+Date:   Thu, 13 Jan 2022 04:34:55 -0800
+Message-ID: <CAA8cJM9ZBWDij=o_hEJVnoVJ_ukohdVH22iys3-QCGVa3nDHOg@mail.gmail.com>
+Subject: Receive Your Compensation!
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Guangming <Guangming.Cao@mediatek.com>
+Attention
 
-Add a size check for allocation since the allocation size is
-always less than the total DRAM size.
 
-Without this check, once the invalid size allocation runs on a process that
-can't be killed by OOM flow(such as "gralloc" on Android devices), it will
-cause a kernel exception, and to make matters worse, we can't find who are using
-so many memory with "dma_buf_debug_show" since the relevant dma-buf hasn't exported.
+You have Been Compensated with the sum of 4.6 million dollars in this
+United Nation the Payment will be issue into Atm Visa Card and send to you
 
-To make OOM issue easier, maybe need dma-buf framework to dump the buffer size
-under allocating in "dma_buf_debug_show".
+from the Santander Bank of Spain we need your address, Passport and your
+Whatsapp Number.
 
-Signed-off-by: Guangming <Guangming.Cao@mediatek.com>
-Signed-off-by: jianjiao zeng <jianjiao.zeng@mediatek.com>
----
-v3: 1. update patch, use right shift to replace division.
-    2. update patch, add reason in code and commit message.
-v2: 1. update size limitation as total_dram page size.
-    2. update commit message
----
- drivers/dma-buf/dma-heap.c | 10 ++++++++++
- 1 file changed, 10 insertions(+)
 
-diff --git a/drivers/dma-buf/dma-heap.c b/drivers/dma-buf/dma-heap.c
-index 56bf5ad01ad5..1fd382712584 100644
---- a/drivers/dma-buf/dma-heap.c
-+++ b/drivers/dma-buf/dma-heap.c
-@@ -55,6 +55,16 @@ static int dma_heap_buffer_alloc(struct dma_heap *heap, size_t len,
- 	struct dma_buf *dmabuf;
- 	int fd;
- 
-+	/*
-+	 * Invalid size check. The "len" should be less than totalram.
-+	 *
-+	 * Without this check, once the invalid size allocation runs on a process that
-+	 * can't be killed by OOM flow(such as "gralloc" on Android devices), it will
-+	 * cause a kernel exception, and to make matters worse, we can't find who are using
-+	 * so many memory with "dma_buf_debug_show" since the relevant dma-buf hasn't exported.
-+	 */
-+	if (len >> PAGE_SHIFT > totalram_pages())
-+		return -EINVAL;
- 	/*
- 	 * Allocations from all heaps have to begin
- 	 * and end on page boundaries.
--- 
-2.17.1
-
+THANKS
+MRS Salem Chantal Lawrence
