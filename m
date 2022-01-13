@@ -2,74 +2,113 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8813E48D9E0
-	for <lists+linux-media@lfdr.de>; Thu, 13 Jan 2022 15:45:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8475648DA20
+	for <lists+linux-media@lfdr.de>; Thu, 13 Jan 2022 15:51:10 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233888AbiAMOpC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 13 Jan 2022 09:45:02 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39504 "EHLO
+        id S232252AbiAMOvJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 13 Jan 2022 09:51:09 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41010 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233723AbiAMOpB (ORCPT
+        with ESMTP id S230016AbiAMOvJ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 13 Jan 2022 09:45:01 -0500
-X-Greylist: delayed 500 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Thu, 13 Jan 2022 06:45:01 PST
-Received: from mail.kmu-office.ch (mail.kmu-office.ch [IPv6:2a02:418:6a02::a2])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 903F2C06161C
-        for <linux-media@vger.kernel.org>; Thu, 13 Jan 2022 06:45:01 -0800 (PST)
-Received: from webmail.kmu-office.ch (unknown [IPv6:2a02:418:6a02::a3])
-        by mail.kmu-office.ch (Postfix) with ESMTPSA id 363275C0B80;
-        Thu, 13 Jan 2022 15:36:38 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=agner.ch; s=dkim;
-        t=1642084598;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:in-reply-to:
-         references; bh=5n71jSuoFLuEKrBHezy69s2vTc49LY/8zOhitBWkCgw=;
-        b=JHP9uwLLxU2tkBUC5EGVPSx2ysRA7JShnh0Xf/uHj+GYg+soSp/SlK2+Fw4MUIyMm3X7cf
-        FnnB74Gd2lckJSdOQc/DR8UbfZIVuN/1dEdVN7mh9bIVeBnE2VsBRWg8y46mDIw8F1XUs0
-        r9m3mg8TF/LTL6NWuhUDfQUkTwJmQ6Y=
+        Thu, 13 Jan 2022 09:51:09 -0500
+Received: from gofer.mess.org (gofer.mess.org [IPv6:2a02:8011:d000:212::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F2108C06161C
+        for <linux-media@vger.kernel.org>; Thu, 13 Jan 2022 06:51:08 -0800 (PST)
+Received: by gofer.mess.org (Postfix, from userid 1000)
+        id 57627101C2F; Thu, 13 Jan 2022 14:51:07 +0000 (UTC)
+From:   Sean Young <sean@mess.org>
+To:     linux-media@vger.kernel.org
+Subject: [PATCH] media: lirc: simplify gap calculation
+Date:   Thu, 13 Jan 2022 14:51:07 +0000
+Message-Id: <20220113145107.181211-1-sean@mess.org>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-Date:   Thu, 13 Jan 2022 15:36:38 +0100
-From:   Stefan Agner <stefan@agner.ch>
-To:     narmstrong@baylibre.com, linux-amlogic@lists.infradead.org,
-        linux-media@vger.kernel.org
-Subject: HDMI CEC on ODROID-N2+
-User-Agent: Roundcube Webmail/1.4.9
-Message-ID: <d2ef8936c54567c9c2652b3c53a82f68@agner.ch>
-X-Sender: stefan@agner.ch
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Neil,
+When a driver reports a timeout, no more IR activity will be reported
+until the next pulse. A space is inserted between the timeout and the
+next pulse, based on ktime.
 
-I am trying to use HDMI CEC on ODROID-N2+ using Linux 5.10.91. However,
-I was unsuccessful: As far as I can tell cec-client uses the right
-device (I disabled CONFIG_DRM_DW_HDMI_CEC since my kernel is still
-missing your patch "drm/meson: dw-hdmi: disable DW-HDMI CEC
-sub-driver"). But communication won't work, and dmesg prints timeout
-messages:
+The timeout reports already a duration, so this duration should not be
+added to the gap. Otherwise there is no change to the functionality.
 
-[   68.831253] cec-meson_g12a_ao_cec: message ff 84 20 00 06 timed out
-[   71.134987] cec-meson_g12a_ao_cec: message ff 87 00 15 82 timed out
-[   73.438826] cec-meson_g12a_ao_cec: message f0 timed out
-[   75.742677] cec-meson_g12a_ao_cec: message f0 timed out
-[   78.046555] cec-meson_g12a_ao_cec: message f0 timed out
-[   80.350446] cec-meson_g12a_ao_cec: message f0 timed out
-[   82.654358] cec-meson_g12a_ao_cec: message 11 timed out
-[   84.958285] cec-meson_g12a_ao_cec: message 11 timed out
-[   87.262194] cec-meson_g12a_ao_cec: message 11 timed out
-[   89.566130] cec-meson_g12a_ao_cec: message 11 timed out
+Signed-off-by: Sean Young <sean@mess.org>
+---
+ drivers/media/rc/lirc_dev.c | 19 ++++++-------------
+ include/media/rc-core.h     |  6 +-----
+ 2 files changed, 7 insertions(+), 18 deletions(-)
 
-I did a quick test with CoreELEC which uses the 4.9 downstream kernel,
-CEC seems to work there. So it does not seem to be my hardware setup.
+diff --git a/drivers/media/rc/lirc_dev.c b/drivers/media/rc/lirc_dev.c
+index c7c5157725f8..a080291c4b06 100644
+--- a/drivers/media/rc/lirc_dev.c
++++ b/drivers/media/rc/lirc_dev.c
+@@ -60,32 +60,25 @@ void lirc_raw_event(struct rc_dev *dev, struct ir_raw_event ev)
+ 
+ 	/* Packet end */
+ 	} else if (ev.timeout) {
+-		if (dev->gap)
+-			return;
+-
+ 		dev->gap_start = ktime_get();
+-		dev->gap = true;
+-		dev->gap_duration = ev.duration;
+ 
+ 		sample = LIRC_TIMEOUT(ev.duration);
+ 		dev_dbg(&dev->dev, "timeout report (duration: %d)\n", sample);
+ 
+ 	/* Normal sample */
+ 	} else {
+-		if (dev->gap) {
+-			dev->gap_duration += ktime_to_us(ktime_sub(ktime_get(),
+-							 dev->gap_start));
++		if (dev->gap_start) {
++			u64 duration = ktime_us_delta(ktime_get(),
++						      dev->gap_start);
+ 
+ 			/* Cap by LIRC_VALUE_MASK */
+-			dev->gap_duration = min_t(u64, dev->gap_duration,
+-						  LIRC_VALUE_MASK);
++			duration = min_t(u64, duration, LIRC_VALUE_MASK);
+ 
+ 			spin_lock_irqsave(&dev->lirc_fh_lock, flags);
+ 			list_for_each_entry(fh, &dev->lirc_fh, list)
+-				kfifo_put(&fh->rawir,
+-					  LIRC_SPACE(dev->gap_duration));
++				kfifo_put(&fh->rawir, LIRC_SPACE(duration));
+ 			spin_unlock_irqrestore(&dev->lirc_fh_lock, flags);
+-			dev->gap = false;
++			dev->gap_start = 0;
+ 		}
+ 
+ 		sample = ev.pulse ? LIRC_PULSE(ev.duration) :
+diff --git a/include/media/rc-core.h b/include/media/rc-core.h
+index ab9d3b7cd799..33b3f7fcf92e 100644
+--- a/include/media/rc-core.h
++++ b/include/media/rc-core.h
+@@ -130,9 +130,7 @@ struct lirc_fh {
+  * @tx_resolution: resolution (in us) of output sampler
+  * @lirc_dev: lirc device
+  * @lirc_cdev: lirc char cdev
+- * @gap_start: time when gap starts
+- * @gap_duration: duration of initial gap
+- * @gap: true if we're in a gap
++ * @gap_start: start time for gap after timeout if non-zero
+  * @lirc_fh_lock: protects lirc_fh list
+  * @lirc_fh: list of open files
+  * @registered: set to true by rc_register_device(), false by
+@@ -201,8 +199,6 @@ struct rc_dev {
+ 	struct device			lirc_dev;
+ 	struct cdev			lirc_cdev;
+ 	ktime_t				gap_start;
+-	u64				gap_duration;
+-	bool				gap;
+ 	spinlock_t			lirc_fh_lock;
+ 	struct list_head		lirc_fh;
+ #endif
+-- 
+2.34.1
 
-A quick test with the latest Linux 5.16 shows the same errors.
-
-Do you happen to have an idea? Do you know if HDMI CEC using upstream
-kernels worked at one point on that particular platform?
-
---
-Stefan
