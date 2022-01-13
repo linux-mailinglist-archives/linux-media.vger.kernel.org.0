@@ -2,159 +2,90 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B3A0248D878
-	for <lists+linux-media@lfdr.de>; Thu, 13 Jan 2022 14:05:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9934948D88F
+	for <lists+linux-media@lfdr.de>; Thu, 13 Jan 2022 14:13:21 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234970AbiAMNFx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 13 Jan 2022 08:05:53 -0500
-Received: from ewsoutbound.kpnmail.nl ([195.121.94.167]:40663 "EHLO
-        ewsoutbound.kpnmail.nl" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234962AbiAMNFw (ORCPT
+        id S235032AbiAMNNT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 13 Jan 2022 08:13:19 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46658 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229931AbiAMNNP (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 13 Jan 2022 08:05:52 -0500
-X-KPN-MessageId: 7231cf3a-7471-11ec-9a2e-005056abbe64
-Received: from smtp.kpnmail.nl (unknown [10.31.155.37])
-        by ewsoutbound.so.kpn.org (Halon) with ESMTPS
-        id 7231cf3a-7471-11ec-9a2e-005056abbe64;
-        Thu, 13 Jan 2022 14:05:13 +0100 (CET)
+        Thu, 13 Jan 2022 08:13:15 -0500
+Received: from mail-yb1-xb2e.google.com (mail-yb1-xb2e.google.com [IPv6:2607:f8b0:4864:20::b2e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B2591C06173F;
+        Thu, 13 Jan 2022 05:13:14 -0800 (PST)
+Received: by mail-yb1-xb2e.google.com with SMTP id i68so96362ybg.7;
+        Thu, 13 Jan 2022 05:13:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=xs4all.nl; s=xs4all01;
-        h=content-type:from:to:subject:mime-version:date:message-id;
-        bh=8tarm9Eb2y0/4J8TWFMDOhVvR61nl2RNq4vCSEnRqMs=;
-        b=c/Zkifzu63OHemWejBDo8h2ACmUytM5X8rOL2ThWoirMgkKL+PpsM8zIDqnfe56no560NqAMlTS/d
-         PUv2zs0cNhdlGecj/xXMtNjOet1e9c8R6ruLneDvLebx+vpY34e9kAWdOu6BpbrlUn8eSNLAuHMr2P
-         JmbcCTGOZ73xmhfKIPtalRV8cWnwzSSB1/mdmfSFTO3o5takA2rVaRie3tEYycAX7vatcGDX2+aqd3
-         w/MzTmobswtua7Jh/E/hF6qDrPBK1CF4ReX9sMbmAd+QDFptvspXs58W0VioHqweriN2GIhT0bOIvU
-         0V0qBPWoEMScwjAmwS+4fJtSlfP/BXg==
-X-KPN-VerifiedSender: No
-X-CMASSUN: 33|SkHocp79pq2s1h7HGJF5ETDSzAV9Gk+XSv+yl7/l4u7ozfQ8zlQl05YyLtTqFcm
- vHE1B3bvHwCBPHQrpa+0rmQ==
-X-Originating-IP: 193.91.129.219
-Received: from [192.168.2.10] (cdb815bc1.dhcp.as2116.net [193.91.129.219])
-        by smtp.xs4all.nl (Halon) with ESMTPSA
-        id 87f19937-7471-11ec-83ab-005056ab1411;
-        Thu, 13 Jan 2022 14:05:51 +0100 (CET)
-Message-ID: <d66a7182-825f-b9a3-afc9-c0117ea846a2@xs4all.nl>
-Date:   Thu, 13 Jan 2022 14:05:49 +0100
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=2g1mOmaucLb7XHs8JQUVqK6opVNl2Di7/j45TJR+WOs=;
+        b=GUkpUVFLcgKxF9APCPN+kpP9/OgHaz3ibPzyeczCSWzl/VApI+iGGZcYDqvSgtz3PP
+         GOYVr9+LmHsvoCh8KyhOxLq8jDf00dyNAoGIqH62Y2flIeUN+Mzsj8Hs6C8g7CHRt8di
+         UGZ+NFc5kCHdgCRoVW4O5s9TWtT8sr4YONnBSXyK5PjVLMxMuN2WbksYpkkomFYy4HwT
+         5Y0LPfRNOkUHbFCWJbf2azHgrxE7NH0qOS7qDJF6Kwa+IBzTfs3M4r4uMPggO1VZzCLZ
+         AGk3DrXcTriTZhqluocUNWIa9s9+fVvuDUt9bI35ghl8pefvyjvGIuV2eYFdTAnPsNwd
+         2WUA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=2g1mOmaucLb7XHs8JQUVqK6opVNl2Di7/j45TJR+WOs=;
+        b=XZzMaOUQdF2GepUxQZXcDMjEgFutsGz/w0lXr2avjM5qCc1W0JWX6koO5F5OBIqR3v
+         F2dA3lJdP3j+yHnteW/jTVBoG0dJAiBI55B0WGkVzMgV/hP0j2oeQ9KuIRgE/c0Z10Me
+         Jico3jqOHajJ1XlUXOBHs31dqGxixeasKsfY0M0DcwORqMIQwC4IAMIVB74e59xymKwS
+         gHx9KNhN33I02K00yhlKeSm4GBCrd1sSObRbg0fEdbCTKIkBuO8B4SxBeZr0AflGqYWn
+         8sG499UA27MxKM1BSXQDQiS4xsNUf+aDzbRlFy0K0I5lRqP46t2MsJfSTRhSwODRNviL
+         7Npw==
+X-Gm-Message-State: AOAM533SX/qY1izRqHMMvQHBeTc0oLT4piJ6Gwe5RDDcHRiQfk58YY5h
+        Izd5OPfijyLkMaflaQbHKANyhWXolcTB5oYj+88=
+X-Google-Smtp-Source: ABdhPJy6/bFgiqUi0Vw/oTvUtA1ZdJOqxBOpdRCOAxD3OyBZrdffGioQDjLfY1gmbMNtOi5Sw1oQ0oJ7FIxILzyauSs=
+X-Received: by 2002:a5b:281:: with SMTP id x1mr5627475ybl.41.1642079593957;
+ Thu, 13 Jan 2022 05:13:13 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Firefox/91.0 Thunderbird/91.4.1
-Subject: Re: [PATCH v2 09/13] media: mtk-vcodec: Drop unnecessary call to
- platform_get_resource()
-Content-Language: en-US
-To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        linux-media@vger.kernel.org,
+References: <20220111002314.15213-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20220111002314.15213-10-prabhakar.mahadev-lad.rj@bp.renesas.com> <d66a7182-825f-b9a3-afc9-c0117ea846a2@xs4all.nl>
+In-Reply-To: <d66a7182-825f-b9a3-afc9-c0117ea846a2@xs4all.nl>
+From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date:   Thu, 13 Jan 2022 13:12:48 +0000
+Message-ID: <CA+V-a8s9s9Q=-NiwZYhpUNuiHyTzREqzMrH60mkdcR9uUYN+2A@mail.gmail.com>
+Subject: Re: [PATCH v2 09/13] media: mtk-vcodec: Drop unnecessary call to platform_get_resource()
+To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Cc:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        linux-media <linux-media@vger.kernel.org>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         Tiffany Lin <tiffany.lin@mediatek.com>,
         Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>
-Cc:     Rob Herring <robh+dt@kernel.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
         Andy Shevchenko <andy.shevchenko@gmail.com>,
-        Prabhakar <prabhakar.csengg@gmail.com>,
-        linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org
-References: <20220111002314.15213-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20220111002314.15213-10-prabhakar.mahadev-lad.rj@bp.renesas.com>
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-In-Reply-To: <20220111002314.15213-10-prabhakar.mahadev-lad.rj@bp.renesas.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+        LAK <linux-arm-kernel@lists.infradead.org>,
+        "moderated list:ARM/Mediatek SoC support" 
+        <linux-mediatek@lists.infradead.org>,
+        LKML <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Prabhakar,
+Hi Hans,
 
-I'm skipping this patch since if I am not mistaken this patch fixes this as well
-(as part of a larger overhaul):
+On Thu, Jan 13, 2022 at 1:05 PM Hans Verkuil <hverkuil-cisco@xs4all.nl> wrote:
+>
+> Hi Prabhakar,
+>
+> I'm skipping this patch since if I am not mistaken this patch fixes this as well
+> (as part of a larger overhaul):
+>
+> https://patchwork.linuxtv.org/project/linux-media/patch/20220113041055.25213-9-yunfei.dong@mediatek.com/
+>
+> I posted a PR for that series, so that's on the way in.
+>
+> Please confirm so I can mark your patch as Superseded.
+>
+Ack.
 
-https://patchwork.linuxtv.org/project/linux-media/patch/20220113041055.25213-9-yunfei.dong@mediatek.com/
-
-I posted a PR for that series, so that's on the way in.
-
-Please confirm so I can mark your patch as Superseded.
-
-Regards,
-
-	Hans
-
-On 11/01/2022 01:23, Lad Prabhakar wrote:
-> mtk_vcodec_probe() calls platform_get_resource(pdev, IORESOURCE_IRQ, ..)
-> to check if IRQ resource exists and later calls platform_get_irq(pdev, ..)
-> to get the actual IRQ.
-> 
-> This patch drops an unnecessary call to platform_get_resource() and
-> checks the return value of platform_get_irq(pdev, ..) to check if the
-> IRQ line is valid.
-> 
-> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> ---
-> v1->v2
-> * No change.
-> ---
->  .../media/platform/mtk-vcodec/mtk_vcodec_dec_drv.c    | 11 ++++-------
->  .../media/platform/mtk-vcodec/mtk_vcodec_enc_drv.c    | 10 +++-------
->  2 files changed, 7 insertions(+), 14 deletions(-)
-> 
-> diff --git a/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_drv.c b/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_drv.c
-> index 40c39e1e596b..1509c2a4de84 100644
-> --- a/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_drv.c
-> +++ b/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_drv.c
-> @@ -200,7 +200,6 @@ static int mtk_vcodec_probe(struct platform_device *pdev)
->  {
->  	struct mtk_vcodec_dev *dev;
->  	struct video_device *vfd_dec;
-> -	struct resource *res;
->  	phandle rproc_phandle;
->  	enum mtk_vcodec_fw_type fw_type;
->  	int i, ret;
-> @@ -244,14 +243,12 @@ static int mtk_vcodec_probe(struct platform_device *pdev)
->  		mtk_v4l2_debug(2, "reg[%d] base=%p", i, dev->reg_base[i]);
->  	}
->  
-> -	res = platform_get_resource(pdev, IORESOURCE_IRQ, 0);
-> -	if (res == NULL) {
-> -		dev_err(&pdev->dev, "failed to get irq resource");
-> -		ret = -ENOENT;
-> +	ret = platform_get_irq(pdev, 0);
-> +	if (ret < 0)
->  		goto err_res;
-> -	}
->  
-> -	dev->dec_irq = platform_get_irq(pdev, 0);
-> +	dev->dec_irq = ret;
-> +
->  	irq_set_status_flags(dev->dec_irq, IRQ_NOAUTOEN);
->  	ret = devm_request_irq(&pdev->dev, dev->dec_irq,
->  			mtk_vcodec_dec_irq_handler, 0, pdev->name, dev);
-> diff --git a/drivers/media/platform/mtk-vcodec/mtk_vcodec_enc_drv.c b/drivers/media/platform/mtk-vcodec/mtk_vcodec_enc_drv.c
-> index aeaecb8d416e..86e70d826754 100644
-> --- a/drivers/media/platform/mtk-vcodec/mtk_vcodec_enc_drv.c
-> +++ b/drivers/media/platform/mtk-vcodec/mtk_vcodec_enc_drv.c
-> @@ -236,7 +236,6 @@ static int mtk_vcodec_probe(struct platform_device *pdev)
->  {
->  	struct mtk_vcodec_dev *dev;
->  	struct video_device *vfd_enc;
-> -	struct resource *res;
->  	phandle rproc_phandle;
->  	enum mtk_vcodec_fw_type fw_type;
->  	int ret;
-> @@ -280,14 +279,11 @@ static int mtk_vcodec_probe(struct platform_device *pdev)
->  		goto err_res;
->  	}
->  
-> -	res = platform_get_resource(pdev, IORESOURCE_IRQ, 0);
-> -	if (res == NULL) {
-> -		dev_err(&pdev->dev, "failed to get irq resource");
-> -		ret = -ENOENT;
-> +	ret = platform_get_irq(pdev, 0);
-> +	if (ret < 0)
->  		goto err_res;
-> -	}
->  
-> -	dev->enc_irq = platform_get_irq(pdev, 0);
-> +	dev->enc_irq = ret;
->  	irq_set_status_flags(dev->enc_irq, IRQ_NOAUTOEN);
->  	ret = devm_request_irq(&pdev->dev, dev->enc_irq,
->  			       mtk_vcodec_enc_irq_handler,
-
+Cheers,
+Prabhakar
