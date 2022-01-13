@@ -2,75 +2,83 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2BB3B48DF39
-	for <lists+linux-media@lfdr.de>; Thu, 13 Jan 2022 21:52:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2738B48E076
+	for <lists+linux-media@lfdr.de>; Thu, 13 Jan 2022 23:40:20 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232844AbiAMUwH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 13 Jan 2022 15:52:07 -0500
-Received: from perceval.ideasonboard.com ([213.167.242.64]:47174 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232824AbiAMUwH (ORCPT
+        id S238034AbiAMWkT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 13 Jan 2022 17:40:19 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34696 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S233645AbiAMWkS (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 13 Jan 2022 15:52:07 -0500
-Received: from pendragon.lan (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id E2FA697;
-        Thu, 13 Jan 2022 21:52:04 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1642107125;
-        bh=bFToEwprWlKwzICKEYX76GXGv1yT21Krk7pe7uj0/mY=;
-        h=From:To:Cc:Subject:Date:From;
-        b=iteBaJ3nE9JRqleaUSWLMCiayOdvPJGTDoXWZ+IpDbAtVcZd61u63z8yjKTA1lktg
-         uQhq/zJm5lOr+ROkmOORhSIU1o5xm+ZpFOtWmc/KvOyYoFlPqI58sVJP26RPKPPgTv
-         BLNV9EzoE9zWGH21D43cMO9qbU02K0kB8B2htB1I=
-From:   Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-To:     linux-media@vger.kernel.org
-Cc:     linux-renesas-soc@vger.kernel.org,
-        Jacopo Mondi <jacopo@jmondi.org>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>
-Subject: [PATCH] media: i2c: max9286: Implement media entity .link_validate() operation
-Date:   Thu, 13 Jan 2022 22:51:50 +0200
-Message-Id: <20220113205150.6533-1-laurent.pinchart+renesas@ideasonboard.com>
-X-Mailer: git-send-email 2.34.1
+        Thu, 13 Jan 2022 17:40:18 -0500
+Received: from mail-pg1-x544.google.com (mail-pg1-x544.google.com [IPv6:2607:f8b0:4864:20::544])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2D373C061574
+        for <linux-media@vger.kernel.org>; Thu, 13 Jan 2022 14:40:18 -0800 (PST)
+Received: by mail-pg1-x544.google.com with SMTP id c5so1161427pgk.12
+        for <linux-media@vger.kernel.org>; Thu, 13 Jan 2022 14:40:18 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=YbEI3Q/NEjCtDTVCV1jkA7nYNYBH/Wfa2wk3IkVyJko=;
+        b=ZlSRx/K8iNxyK+K4/3l8Sv9T7tvkY61YZnjHe8PtfB7PbqFpxzsESl5taWVJBuFDcs
+         QFpWA76ih4e4GTa50FK3I3z5IysWygqjgZOxh0EmbUnh1HDkFszb6jz0o2CM0og21c4F
+         ZHvLQxWRZ8QGIALLMKJhLIjnqhGOE8DbB+55nAGIKz7Er7PEy+kMimW2HH1iCd/I7mKk
+         t81pas1cNWM9Eh/zEtNcLYff0GtwZle63DeU62BxAWrQLrYqgRksuph0IVGqk50mQ0/F
+         ptwtYEYSDsDMELzreAdvssEJ22f/D0tnkgaTP7qiyq4kOkbs2CSYfQIkjzNKYFqhyCf+
+         18jA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to;
+        bh=YbEI3Q/NEjCtDTVCV1jkA7nYNYBH/Wfa2wk3IkVyJko=;
+        b=h3R2JRHdoIZ5nfUqhHLPoF6OYkWK3vlLGw3IJ7QqpFIM8vF42DQGreRNG/i8QQLLZJ
+         DLOuq7f+ACz7yzuH025NlR9qF77xpkRFK2uu44qP8LH/P9alejKx542nFpmjOiRbiMdo
+         UZq8PhQGOFvNbEC9RPaKdckzQ2kpERUxq7VH0VXBvrWZbV478mMaEbDORAJLG2AWhyjQ
+         mLLgFfxhVj/L+syQ2U0dWnya5yrNj/fbDARDNbnANepOug6nxQjeH9kChna5hZHis9HR
+         8hlwzET0OaTQFWOXinoGQ4PGbPmVKvcQktxDpDbgu3hreHE62A54GyxaoFvfphONBQsx
+         z6Ng==
+X-Gm-Message-State: AOAM530/WlhgAYTcHJDce8pu0LiNH3H3ZlbVGCaiM8/Ay4HRZKzcSnq4
+        DzYjiuslwVJP3RR/YZ7EiNFWrqIMXyp1FIKRozM=
+X-Google-Smtp-Source: ABdhPJzAYo+xMDkkN2sHH5tXTEsjIpOYrUiTwWTn/Z4iFCHUrNiTAmXfsirbcZqPojAxh6/cyOvt+DSWap9gwh1A0iM=
+X-Received: by 2002:a63:78cd:: with SMTP id t196mr5685577pgc.503.1642113617633;
+ Thu, 13 Jan 2022 14:40:17 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Received: by 2002:a05:6a10:f38c:0:0:0:0 with HTTP; Thu, 13 Jan 2022 14:40:17
+ -0800 (PST)
+Reply-To: mchristophdaniel@gmail.com
+From:   Marcus Galois <marcus.galois@gmail.com>
+Date:   Thu, 13 Jan 2022 23:40:17 +0100
+Message-ID: <CANqBaXXLm_OabYqfa0Jab7SpdLnQ2cHPp5JXdO3jnx6q0vZ4rA@mail.gmail.com>
+Subject: Good News Finally.
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The MAX9286 has sink pads, so it should implement .link_validate(). Do
-so.
+Hello friend.
 
-Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
----
- drivers/media/i2c/max9286.c | 5 +++++
- 1 file changed, 5 insertions(+)
+You might find it so difficult to remember me, though it is indeed a
+very long time, I am much delighted to contact you again after a long
+period of time, I remember you despite circumstances that made things
+not worked out as we projected then. I want to inform you that the
+transaction we're doing together then finally worked out and I decided
+to contact you and to let you know because of your tremendous effort
+to make things work out then.
 
-diff --git a/drivers/media/i2c/max9286.c b/drivers/media/i2c/max9286.c
-index eb2b8e42335b..b4885d3b3059 100644
---- a/drivers/media/i2c/max9286.c
-+++ b/drivers/media/i2c/max9286.c
-@@ -846,6 +846,10 @@ static const struct v4l2_subdev_internal_ops max9286_subdev_internal_ops = {
- 	.open = max9286_open,
- };
- 
-+static const struct media_entity_operations max9286_media_ops = {
-+	.link_validate = v4l2_subdev_link_validate
-+};
-+
- static int max9286_s_ctrl(struct v4l2_ctrl *ctrl)
- {
- 	switch (ctrl->id) {
-@@ -895,6 +899,7 @@ static int max9286_v4l2_register(struct max9286_priv *priv)
- 		goto err_async;
- 
- 	priv->sd.entity.function = MEDIA_ENT_F_VID_IF_BRIDGE;
-+	priv->sd.entity.ops = &max9286_media_ops;
- 
- 	priv->pads[MAX9286_SRC_PAD].flags = MEDIA_PAD_FL_SOURCE;
- 	for (i = 0; i < MAX9286_SRC_PAD; i++)
--- 
+Meanwhile I must inform you that I'm presently in Caribbean Island for
+numerous business negotiation with some partners. with my sincere
+heart i have decided to compensate you with USD$900,000 for your
+dedication then on our transaction, you tried so much that period and
+I appreciated your effort. I wrote a cheque/check on your name, as
+soon as you receive it, you let me know.
+
+Contact my secretary now on his email: mchristophdaniel@gmail.com
+Name: Mr. Christoph Daniel
+
+You are to forward to him your Name........ Address.......,Phone
+number......for shipment/dispatch of the cheque/Check to you
+
 Regards,
-
-Laurent Pinchart
-
+Mr. Marcus Galois
