@@ -2,92 +2,116 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id EB9CC48E1B6
-	for <lists+linux-media@lfdr.de>; Fri, 14 Jan 2022 01:45:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 54D3148E440
+	for <lists+linux-media@lfdr.de>; Fri, 14 Jan 2022 07:29:31 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235789AbiANAp4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 13 Jan 2022 19:45:56 -0500
-Received: from mout.kundenserver.de ([212.227.17.13]:53311 "EHLO
-        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229816AbiANApz (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Thu, 13 Jan 2022 19:45:55 -0500
-Received: from mail-wm1-f44.google.com ([209.85.128.44]) by
- mrelayeu.kundenserver.de (mreue107 [213.165.67.113]) with ESMTPSA (Nemesis)
- id 1MhCq4-1mdniy0CUU-00eLMS; Fri, 14 Jan 2022 01:45:54 +0100
-Received: by mail-wm1-f44.google.com with SMTP id q9-20020a7bce89000000b00349e697f2fbso5808385wmj.0;
-        Thu, 13 Jan 2022 16:45:53 -0800 (PST)
-X-Gm-Message-State: AOAM530IseZt5Cd1ojFne4E5sd3mKnagXNvf0T7o892i5AZ0w/nXKVHp
-        U/8z0swTeoPudeNshluO69zLnG7JNaGgA/8vQCs=
-X-Google-Smtp-Source: ABdhPJwV4G3A5mpFnAW11HwlY/Tf7y1xRC36rwdQkkqDkkOWfKAxxiuv8Puk8O7tRRiiu1Ah39q+R3OAJUeOa6nnmfM=
-X-Received: by 2002:a05:600c:287:: with SMTP id 7mr6081734wmk.98.1642121153661;
- Thu, 13 Jan 2022 16:45:53 -0800 (PST)
+        id S239366AbiANG3B (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 14 Jan 2022 01:29:01 -0500
+Received: from smtp23.cstnet.cn ([159.226.251.23]:50566 "EHLO cstnet.cn"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S239342AbiANG3A (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Fri, 14 Jan 2022 01:29:00 -0500
+Received: from localhost.localdomain (unknown [124.16.138.126])
+        by APP-03 (Coremail) with SMTP id rQCowAAXHloZGOFhzqGFBQ--.12322S2;
+        Fri, 14 Jan 2022 14:28:41 +0800 (CST)
+From:   Jiasheng Jiang <jiasheng@iscas.ac.cn>
+To:     hverkuil@xs4all.nl, dwlsalmeida@gmail.com, mchehab@kernel.org
+Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Jiasheng Jiang <jiasheng@iscas.ac.cn>
+Subject: [PATCH v3] media: vidtv: Check for null return of vzalloc
+Date:   Fri, 14 Jan 2022 14:28:40 +0800
+Message-Id: <20220114062840.1246544-1-jiasheng@iscas.ac.cn>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20220113171921.17466-1-philippe.cornu@foss.st.com> <20220113171921.17466-2-philippe.cornu@foss.st.com>
-In-Reply-To: <20220113171921.17466-2-philippe.cornu@foss.st.com>
-From:   Arnd Bergmann <arnd@arndb.de>
-Date:   Fri, 14 Jan 2022 01:45:37 +0100
-X-Gmail-Original-Message-ID: <CAK8P3a0Nn3fwEMtb9f0DZhbyY+mLva5XR332XfXqX=WSmB9a8w@mail.gmail.com>
-Message-ID: <CAK8P3a0Nn3fwEMtb9f0DZhbyY+mLva5XR332XfXqX=WSmB9a8w@mail.gmail.com>
-Subject: Re: [PATCH 1/2] MAINTAINERS: Update Benjamin Gaignard maintainer status
-To:     Philippe Cornu <philippe.cornu@foss.st.com>
-Cc:     Yannick Fertre <yannick.fertre@foss.st.com>,
-        Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>,
-        David Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        Alexandre Torgue <alexandre.torgue@foss.st.com>,
-        Alain Volmat <alain.volmat@foss.st.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-        Liam Mark <lmark@codeaurora.org>,
-        Laura Abbott <labbott@redhat.com>,
-        Brian Starkey <Brian.Starkey@arm.com>,
-        John Stultz <john.stultz@linaro.org>,
-        Christian Konig <christian.koenig@amd.com>,
-        SoC Team <soc@kernel.org>,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        linux-stm32@st-md-mailman.stormreply.com,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        linaro-mm-sig@lists.linaro.org
-Content-Type: text/plain; charset="UTF-8"
-X-Provags-ID: V03:K1:214a73NjFh8gp4Qg1UmUh7s6YWPisKC8VfpqQQIsyvQo2AMqWLk
- W/actafV9S3p75x8tZatcLm14aHoiMZhR8FQlwUD0Rhlpyd1kv941DI6jlQIKkJRCrp+d1q
- QQ5QEO+M/S6XXtDG9R6CLA9SxKLVqRlMBTwFtKDe2aEBwCF69EP1XzptR354JSr7W7XQzKE
- hNOesE61wS96qOWn4zJnA==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:AhqHA3kxghE=:tAvJ+cxH3TRypMG55ZoCYd
- k1ow0WoWlgKdWm5oSimoYfDnHNrYdgK7G02EnKrdcnDvioHFwFpkjfReYrAnJDS4BIhKWijuD
- WTPGHNZY/OeZH0zfXQadcZ30HtcYdTXKojw/SYtawbbrOwu9herpAEWLMRpIPwDVDsUCIK5Y9
- g9B6NXd/Np1fQWTEQoLhnicjuc3WdbSNC1MLd3hmF7TddO3YKi/W4TiUJaYK03PDab4N0zdJ6
- PjxNVtEzw85tgYiXTcfmD+yZU1tkaVWYYXnArRlqKLUNQhDmFvinKMui/4W0Yn+Nei5BnbEGY
- Y8bXEzvsfCj35FgEaKfuYaL74dsS3jVUYbmrnnGxI1z+FNAWWqE/l017bAT7BhyOO+JdkfEDp
- zU4uBw/meBUaGXIldeSeLNHUoIPjdJwLVUju1hpAPddrxIWuWGBk5/spN9ISua4Dr4GC7xGk7
- bq5cvCirqHytAIIsostIHvH24F8eOmT7EzrrAb8ToNMyP8IWl2vE1ZuuU3tdTGby6y2t+uTK5
- JB07uXKIRkxq4HxpHkstsQyfuAW6d8qhIQuVqkrArzz8T3cQZcelI6CQREg/Y/EkKPue8epdu
- aGdsqkIWQbZiBnl0IbyU+xNYefJKVZneIl/HNiWaqDSljuzECYa1pDwUK3nFg1dLoNO8l2YDQ
- lWeCdMw2RowWM5/Jgs95iMw3EAUtDIgIMlNwQBQ8LCQTSouZfnvLcCaBkzr9st76a70Glqvxr
- rLNnr7uL9osHrFkATxNKv+HkuOC1bf09dJYeDsmFC/7/1eiEzBiLewx5I37UH+QMEAWXOxtuP
- nM9pnz3+3RXmVOdGYJWBE99aqeJMe+8iEQW0y/CbDGc7ro9Crw=
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: rQCowAAXHloZGOFhzqGFBQ--.12322S2
+X-Coremail-Antispam: 1UD129KBjvJXoW7CFWrXFW7GF15tFWrKry5CFg_yoW8AFW3pF
+        Z2qr90kry8Jw1fW3WUAw1UJFy5Kan7KFW3K3yI93s7u343Zr17KrZ0yFyUGr4kCa9YqrWx
+        tF1DZFy7Wr1UCr7anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+        9KBjDU0xBIdaVrnRJUUUkm14x267AKxVWUJVW8JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+        rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+        1l84ACjcxK6xIIjxv20xvE14v26ryj6F1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j
+        6F4UM28EF7xvwVC2z280aVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Cr
+        1j6rxdM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj
+        6xIIjxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr
+        0_Gr1lF7xvr2IYc2Ij64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7MxkIecxEwVAFwVW8
+        AwCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r
+        1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_JF0_Jw1lIxkGc2Ij
+        64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Jr
+        0_Gr1lIxAIcVCF04k26cxKx2IYs7xG6rW3Jr0E3s1lIxAIcVC2z280aVAFwI0_Jr0_Gr1l
+        IxAIcVC2z280aVCY1x0267AKxVWUJVW8JbIYCTnIWIevJa73UjIFyTuYvjfU8xR6UUUUU
+X-Originating-IP: [124.16.138.126]
+X-CM-SenderInfo: pmld2xxhqjqxpvfd2hldfou0/
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, Jan 13, 2022 at 6:19 PM Philippe Cornu
-<philippe.cornu@foss.st.com> wrote:
->
->  DRM DRIVERS FOR STI
-> -M:     Benjamin Gaignard <benjamin.gaignard@linaro.org>
->  L:     dri-devel@lists.freedesktop.org
->  S:     Maintained
->  T:     git git://anongit.freedesktop.org/drm/drm-misc
+As the possible failure of the vzalloc(), e->encoder_buf might be NULL.
+Therefore, it should be better to check it in order
+to guarantee the success of the initialization.
+If fails, we need to free not only 'e' but also 'e->name'.
+Also, if the allocation for ctx fails, we need to free 'e->encoder_buf'
+else.
 
-If there is no longer a maintainer, I suppose it should also be marked as
+Fixes: f90cf6079bf6 ("media: vidtv: add a bridge driver")
+Signed-off-by: Jiasheng Jiang <jiasheng@iscas.ac.cn>
+---
+Changelog
 
-S: Orphaned
+v1 -> v2
 
-         Arnd
+* Change 1. Add 'kfree(e->name)' if fails.
+
+v2 -> v3
+
+* Change 1. Fix the potential memory leak if ctx fails.
+* Change 2. Use goto to instead of duplicating kfree()s.
+---
+ drivers/media/test-drivers/vidtv/vidtv_s302m.c | 17 +++++++++++++----
+ 1 file changed, 13 insertions(+), 4 deletions(-)
+
+diff --git a/drivers/media/test-drivers/vidtv/vidtv_s302m.c b/drivers/media/test-drivers/vidtv/vidtv_s302m.c
+index d79b65854627..4676083cee3b 100644
+--- a/drivers/media/test-drivers/vidtv/vidtv_s302m.c
++++ b/drivers/media/test-drivers/vidtv/vidtv_s302m.c
+@@ -455,6 +455,9 @@ struct vidtv_encoder
+ 		e->name = kstrdup(args.name, GFP_KERNEL);
+ 
+ 	e->encoder_buf = vzalloc(VIDTV_S302M_BUF_SZ);
++	if (!e->encoder_buf)
++		goto out_kfree_e;
++
+ 	e->encoder_buf_sz = VIDTV_S302M_BUF_SZ;
+ 	e->encoder_buf_offset = 0;
+ 
+@@ -467,10 +470,8 @@ struct vidtv_encoder
+ 	e->is_video_encoder = false;
+ 
+ 	ctx = kzalloc(priv_sz, GFP_KERNEL);
+-	if (!ctx) {
+-		kfree(e);
+-		return NULL;
+-	}
++	if (!ctx)
++		goto out_kfree_buf;
+ 
+ 	e->ctx = ctx;
+ 	ctx->last_duration = 0;
+@@ -498,6 +499,14 @@ struct vidtv_encoder
+ 	e->next = NULL;
+ 
+ 	return e;
++
++out_kfree_buf:
++	kfree(e->encoder_buf);
++
++out_kfree_e:
++	kfree(e->name);
++	kfree(e);
++	return NULL;
+ }
+ 
+ void vidtv_s302m_encoder_destroy(struct vidtv_encoder *e)
+-- 
+2.25.1
+
