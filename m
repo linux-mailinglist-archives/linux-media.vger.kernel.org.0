@@ -2,120 +2,92 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 73DC548E15B
-	for <lists+linux-media@lfdr.de>; Fri, 14 Jan 2022 01:03:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id EB9CC48E1B6
+	for <lists+linux-media@lfdr.de>; Fri, 14 Jan 2022 01:45:57 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238330AbiANADS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 13 Jan 2022 19:03:18 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53240 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229995AbiANADR (ORCPT
+        id S235789AbiANAp4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 13 Jan 2022 19:45:56 -0500
+Received: from mout.kundenserver.de ([212.227.17.13]:53311 "EHLO
+        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229816AbiANApz (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 13 Jan 2022 19:03:17 -0500
-Received: from mail-wr1-x434.google.com (mail-wr1-x434.google.com [IPv6:2a00:1450:4864:20::434])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E6456C061574;
-        Thu, 13 Jan 2022 16:03:16 -0800 (PST)
-Received: by mail-wr1-x434.google.com with SMTP id t20so5477159wrb.4;
-        Thu, 13 Jan 2022 16:03:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=xeb8BB1cpN1nYesO18sPn85Vpoz+RkUXTsIXMMFImvc=;
-        b=bLMZ1TqvvLNFvVAVgBDmouUw9sU3HcZxtVRDKZLokvVnf7LMy6D989YTwRX3/PvpLx
-         5qu1sv0Qa+T3TWI1qc+Xa85cCue/erI6zAdqqeVtASYLle3zGfop+2SB0IFgw7RFmDRp
-         AdoG+lp8zY9PSI6Je/qrmlsOIsNAgDZIztk2eGGJOcpY8yA8zo6bj2DIsa7cXTxv3PRy
-         UQSRWEUngwEN48esjSKHabj1A7zQWxlAWHgk2G05mknlbSz7PdRW4nEqfaP2myULtIkI
-         4FsniOeGvClqgQEHgHwgCjN8/VxBQvYx0+LiaEutVOyiUmByv1WUg2Ktf24pHvOGX1Q+
-         zCtw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=xeb8BB1cpN1nYesO18sPn85Vpoz+RkUXTsIXMMFImvc=;
-        b=eypxsigtMO6dBHoWmgT780UdMnHvLSZA4X23MZGneK44e/1P5gnHfLIoxLc9+Xsz6s
-         LE3AobEUhkPeKs/aYCgpmW8GsjkDEa6bqxXsNkKQdD0tRUC4sWZx8iI1JhYyJg03muyJ
-         cXX3EbJAoMT8jQ4bB+U20IoCkEkbhcKua74eqrdFPaMgQSL9cA1Q2l8qnBJXAuzA0DGl
-         NfMv5kGjFCQ+1XA/4hOby3xCXc0WbOkxfoQLXzl5PQeeTky+OYDn5T+jp18176aE4WxN
-         B0PyJuLAdF4G6VmtaAXBDVhsrG9gJr4nxnHgSZIwzZ5fGpFRP5SWdLDKk0KERpSdyBnU
-         2Sbg==
-X-Gm-Message-State: AOAM531gUjUBPdk0krEvRuKg0f2o9pbK/RKLVjBoGWn3G8qRMqLX1cRa
-        bXetksWdYQhF650q7tzRNKA=
-X-Google-Smtp-Source: ABdhPJwChFaDLk5S17TPUC+w1V3JwNw7aGSUYFBfiQbfhdUgKRHNTAL3/JRTGnUMNbKROow1Dmhg0A==
-X-Received: by 2002:a05:6000:154a:: with SMTP id 10mr6019554wry.9.1642118595582;
-        Thu, 13 Jan 2022 16:03:15 -0800 (PST)
-Received: from [192.168.0.16] (cpc141996-chfd3-2-0-cust928.12-3.cable.virginm.net. [86.13.91.161])
-        by smtp.gmail.com with ESMTPSA id i82sm5169740wma.23.2022.01.13.16.03.14
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 13 Jan 2022 16:03:15 -0800 (PST)
-Subject: Re: [PATCH] media: i2c: remove unneeded variable
-To:     cgel.zte@gmail.com
-Cc:     mchehab@kernel.org, linux-media@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Changcheng Deng <deng.changcheng@zte.com.cn>,
-        Zeal Robot <zealci@zte.com.cn>, hverkuil@xs4all.nl
-References: <20220112091718.668278-1-deng.changcheng@zte.com.cn>
-From:   Daniel Scally <djrscally@gmail.com>
-Message-ID: <ad934c70-171e-61c1-2ec8-85c7a106c656@gmail.com>
-Date:   Fri, 14 Jan 2022 00:03:13 +0000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+        Thu, 13 Jan 2022 19:45:55 -0500
+Received: from mail-wm1-f44.google.com ([209.85.128.44]) by
+ mrelayeu.kundenserver.de (mreue107 [213.165.67.113]) with ESMTPSA (Nemesis)
+ id 1MhCq4-1mdniy0CUU-00eLMS; Fri, 14 Jan 2022 01:45:54 +0100
+Received: by mail-wm1-f44.google.com with SMTP id q9-20020a7bce89000000b00349e697f2fbso5808385wmj.0;
+        Thu, 13 Jan 2022 16:45:53 -0800 (PST)
+X-Gm-Message-State: AOAM530IseZt5Cd1ojFne4E5sd3mKnagXNvf0T7o892i5AZ0w/nXKVHp
+        U/8z0swTeoPudeNshluO69zLnG7JNaGgA/8vQCs=
+X-Google-Smtp-Source: ABdhPJwV4G3A5mpFnAW11HwlY/Tf7y1xRC36rwdQkkqDkkOWfKAxxiuv8Puk8O7tRRiiu1Ah39q+R3OAJUeOa6nnmfM=
+X-Received: by 2002:a05:600c:287:: with SMTP id 7mr6081734wmk.98.1642121153661;
+ Thu, 13 Jan 2022 16:45:53 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20220112091718.668278-1-deng.changcheng@zte.com.cn>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+References: <20220113171921.17466-1-philippe.cornu@foss.st.com> <20220113171921.17466-2-philippe.cornu@foss.st.com>
+In-Reply-To: <20220113171921.17466-2-philippe.cornu@foss.st.com>
+From:   Arnd Bergmann <arnd@arndb.de>
+Date:   Fri, 14 Jan 2022 01:45:37 +0100
+X-Gmail-Original-Message-ID: <CAK8P3a0Nn3fwEMtb9f0DZhbyY+mLva5XR332XfXqX=WSmB9a8w@mail.gmail.com>
+Message-ID: <CAK8P3a0Nn3fwEMtb9f0DZhbyY+mLva5XR332XfXqX=WSmB9a8w@mail.gmail.com>
+Subject: Re: [PATCH 1/2] MAINTAINERS: Update Benjamin Gaignard maintainer status
+To:     Philippe Cornu <philippe.cornu@foss.st.com>
+Cc:     Yannick Fertre <yannick.fertre@foss.st.com>,
+        Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>,
+        David Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        Alexandre Torgue <alexandre.torgue@foss.st.com>,
+        Alain Volmat <alain.volmat@foss.st.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+        Liam Mark <lmark@codeaurora.org>,
+        Laura Abbott <labbott@redhat.com>,
+        Brian Starkey <Brian.Starkey@arm.com>,
+        John Stultz <john.stultz@linaro.org>,
+        Christian Konig <christian.koenig@amd.com>,
+        SoC Team <soc@kernel.org>,
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        linux-stm32@st-md-mailman.stormreply.com,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        linaro-mm-sig@lists.linaro.org
+Content-Type: text/plain; charset="UTF-8"
+X-Provags-ID: V03:K1:214a73NjFh8gp4Qg1UmUh7s6YWPisKC8VfpqQQIsyvQo2AMqWLk
+ W/actafV9S3p75x8tZatcLm14aHoiMZhR8FQlwUD0Rhlpyd1kv941DI6jlQIKkJRCrp+d1q
+ QQ5QEO+M/S6XXtDG9R6CLA9SxKLVqRlMBTwFtKDe2aEBwCF69EP1XzptR354JSr7W7XQzKE
+ hNOesE61wS96qOWn4zJnA==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:AhqHA3kxghE=:tAvJ+cxH3TRypMG55ZoCYd
+ k1ow0WoWlgKdWm5oSimoYfDnHNrYdgK7G02EnKrdcnDvioHFwFpkjfReYrAnJDS4BIhKWijuD
+ WTPGHNZY/OeZH0zfXQadcZ30HtcYdTXKojw/SYtawbbrOwu9herpAEWLMRpIPwDVDsUCIK5Y9
+ g9B6NXd/Np1fQWTEQoLhnicjuc3WdbSNC1MLd3hmF7TddO3YKi/W4TiUJaYK03PDab4N0zdJ6
+ PjxNVtEzw85tgYiXTcfmD+yZU1tkaVWYYXnArRlqKLUNQhDmFvinKMui/4W0Yn+Nei5BnbEGY
+ Y8bXEzvsfCj35FgEaKfuYaL74dsS3jVUYbmrnnGxI1z+FNAWWqE/l017bAT7BhyOO+JdkfEDp
+ zU4uBw/meBUaGXIldeSeLNHUoIPjdJwLVUju1hpAPddrxIWuWGBk5/spN9ISua4Dr4GC7xGk7
+ bq5cvCirqHytAIIsostIHvH24F8eOmT7EzrrAb8ToNMyP8IWl2vE1ZuuU3tdTGby6y2t+uTK5
+ JB07uXKIRkxq4HxpHkstsQyfuAW6d8qhIQuVqkrArzz8T3cQZcelI6CQREg/Y/EkKPue8epdu
+ aGdsqkIWQbZiBnl0IbyU+xNYefJKVZneIl/HNiWaqDSljuzECYa1pDwUK3nFg1dLoNO8l2YDQ
+ lWeCdMw2RowWM5/Jgs95iMw3EAUtDIgIMlNwQBQ8LCQTSouZfnvLcCaBkzr9st76a70Glqvxr
+ rLNnr7uL9osHrFkATxNKv+HkuOC1bf09dJYeDsmFC/7/1eiEzBiLewx5I37UH+QMEAWXOxtuP
+ nM9pnz3+3RXmVOdGYJWBE99aqeJMe+8iEQW0y/CbDGc7ro9Crw=
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hello
+On Thu, Jan 13, 2022 at 6:19 PM Philippe Cornu
+<philippe.cornu@foss.st.com> wrote:
+>
+>  DRM DRIVERS FOR STI
+> -M:     Benjamin Gaignard <benjamin.gaignard@linaro.org>
+>  L:     dri-devel@lists.freedesktop.org
+>  S:     Maintained
+>  T:     git git://anongit.freedesktop.org/drm/drm-misc
 
-On 12/01/2022 09:17, cgel.zte@gmail.com wrote:
-> From: Changcheng Deng <deng.changcheng@zte.com.cn>
-> 
-> Remove unneeded variable used to store return value.
-> 
-> Reported-by: Zeal Robot <zealci@zte.com.cn>
-> Signed-off-by: Changcheng Deng <deng.changcheng@zte.com.cn>
+If there is no longer a maintainer, I suppose it should also be marked as
 
-Yeah good catch. With Hans' comment about the subject line addressed:
+S: Orphaned
 
-Reviewed-by: Daniel Scally <djrscally@gmail.com>
-
-> ---
->  drivers/media/i2c/ov5693.c | 5 ++---
->  1 file changed, 2 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/media/i2c/ov5693.c b/drivers/media/i2c/ov5693.c
-> index 2784fcf67f3b..a55910f6283a 100644
-> --- a/drivers/media/i2c/ov5693.c
-> +++ b/drivers/media/i2c/ov5693.c
-> @@ -950,7 +950,6 @@ static int ov5693_set_fmt(struct v4l2_subdev *sd,
->  	unsigned int width, height;
->  	unsigned int hblank;
->  	int exposure_max;
-> -	int ret = 0;
->  
->  	crop = __ov5693_get_pad_crop(ov5693, state, format->pad, format->which);
->  
-> @@ -982,7 +981,7 @@ static int ov5693_set_fmt(struct v4l2_subdev *sd,
->  	format->format = *fmt;
->  
->  	if (format->which == V4L2_SUBDEV_FORMAT_TRY)
-> -		return ret;
-> +		return 0;
->  
->  	mutex_lock(&ov5693->lock);
->  
-> @@ -1012,7 +1011,7 @@ static int ov5693_set_fmt(struct v4l2_subdev *sd,
->  				     exposure_max));
->  
->  	mutex_unlock(&ov5693->lock);
-> -	return ret;
-> +	return 0;
->  }
->  
->  static int ov5693_get_selection(struct v4l2_subdev *sd,
-> 
+         Arnd
