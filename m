@@ -2,99 +2,92 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A4DB748E8C9
-	for <lists+linux-media@lfdr.de>; Fri, 14 Jan 2022 12:02:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8723E48EC29
+	for <lists+linux-media@lfdr.de>; Fri, 14 Jan 2022 16:04:47 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240649AbiANLCp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 14 Jan 2022 06:02:45 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59486 "EHLO
+        id S235794AbiANPD5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 14 Jan 2022 10:03:57 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58646 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239554AbiANLCo (ORCPT
+        with ESMTP id S235747AbiANPD4 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 14 Jan 2022 06:02:44 -0500
-Received: from mail-ed1-x536.google.com (mail-ed1-x536.google.com [IPv6:2a00:1450:4864:20::536])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F1DCBC06173E
-        for <linux-media@vger.kernel.org>; Fri, 14 Jan 2022 03:02:43 -0800 (PST)
-Received: by mail-ed1-x536.google.com with SMTP id 30so33688137edv.3
-        for <linux-media@vger.kernel.org>; Fri, 14 Jan 2022 03:02:43 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=fairphone.com; s=fair;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=nfTpTGejjbs1/IGPoPayvAsK5HXiDgr01tfB1Ox12/o=;
-        b=F4kAU5sR4g6LVo0JnWblWrXfyVfC4H454DjEzaz7/ozw0szvs3R1q3Y91nZ1hCi9dh
-         zx/WWapKaJ3nGVMZzcVilNc5dPgRr4A8TEK3h9GBFI/m4/LWda1yVgFQg7CmHg8E6XAC
-         FdZbhGUyGHbK/UYiDHMZ/o5JHdXDmY1m4WI61dRVsRNfwGyHFDwvsHRuNb4qRiLop0mh
-         Y90+yFSHNiyAMKqkCxHKrojCHqVEaCTPG03p5PTnnfVG8w2z8fuh5h9dq3sEjyppfa4o
-         9YkZ+snIayxn0AD5clE9HBui221LF9ToMbKcnX0tyMaLkLQ9ht5hph4jwJrQ2dg1NrCJ
-         Zx1g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=nfTpTGejjbs1/IGPoPayvAsK5HXiDgr01tfB1Ox12/o=;
-        b=fqegcQxqOj18kj/0xJ3o3o2S+/JUk1Whnbz/3smlYa/0rk5mRoKIH2YCNvEddXUyPF
-         8MG7x6K/VHEPXm91/HJia8MK9xgR72YyKuyGKCSYSsVgFGAXrtuRujhIeSjMzdFBxHk1
-         6gdMNcR8e+wVnrnx6e3YBiElJtkSLV3z4lDrl7sAnsxsuGUB8HOYnjxG/1Eo9BHcJ/ED
-         0ktgoN9gmBILqwjCKLFVdtHvmkp6qBpzQH6uSCZVlkW/GUdsPMPlki4ywTbCW/0U0u6F
-         C8ug+/A02F083SDV7p6kfSnbJm7f5uBz7MdGYFMR3lRTn3cbTvfCfeoOHQFRk8EyAA8I
-         +X2Q==
-X-Gm-Message-State: AOAM533PPfn/PGWxdq2d4kFR8jCByEQtVUMTATWHtx/4dxWmtN8RY7MU
-        egWqTQANieY2+p7l6WsRdB7KnA==
-X-Google-Smtp-Source: ABdhPJxrqLroV1LJ+YyoXVnpa0G8hJgPhVutmPuZ1ZhswksM4KJynfcwHTX4uevBrPH9BDYmLyIFdg==
-X-Received: by 2002:a17:906:9b8e:: with SMTP id dd14mr6629836ejc.307.1642158162583;
-        Fri, 14 Jan 2022 03:02:42 -0800 (PST)
-Received: from localhost.localdomain ([2a02:a210:20c5:8c80:7d0a:cd68:c339:f426])
-        by smtp.gmail.com with ESMTPSA id 21sm1725718ejz.24.2022.01.14.03.02.37
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 14 Jan 2022 03:02:41 -0800 (PST)
-From:   Luca Weiss <luca.weiss@fairphone.com>
-To:     linux-arm-msm@vger.kernel.org
-Cc:     ~postmarketos/upstreaming@lists.sr.ht,
-        Luca Weiss <luca.weiss@fairphone.com>,
-        Stanimir Varbanov <stanimir.varbanov@linaro.org>,
-        Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH 2/2] media: venus: hfi: avoid null dereference in deinit
-Date:   Fri, 14 Jan 2022 12:02:26 +0100
-Message-Id: <20220114110226.130380-2-luca.weiss@fairphone.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220114110226.130380-1-luca.weiss@fairphone.com>
-References: <20220114110226.130380-1-luca.weiss@fairphone.com>
+        Fri, 14 Jan 2022 10:03:56 -0500
+Received: from gofer.mess.org (gofer.mess.org [IPv6:2a02:8011:d000:212::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 55594C06161C
+        for <linux-media@vger.kernel.org>; Fri, 14 Jan 2022 07:03:56 -0800 (PST)
+Received: by gofer.mess.org (Postfix, from userid 1000)
+        id 7BC37101C2F; Fri, 14 Jan 2022 15:03:53 +0000 (UTC)
+From:   Sean Young <sean@mess.org>
+To:     linux-media@vger.kernel.org, linux-mediatek@lists.infradead.org
+Cc:     Sean Wang <sean.wang@mediatek.com>,
+        Matthias Brugger <matthias.bgg@gmail.com>
+Subject: [PATCH 1/2] media: mtk-cir: reduce message end to fix nec repeats
+Date:   Fri, 14 Jan 2022 15:03:52 +0000
+Message-Id: <20220114150353.195192-1-sean@mess.org>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-If venus_probe fails at pm_runtime_put_sync the error handling first
-calls hfi_destroy and afterwards hfi_core_deinit. As hfi_destroy sets
-core->ops to NULL, hfi_core_deinit cannot call the core_deinit function
-anymore.
+The ir receiver generates an interrupt with the IR data, once a space of
+at least ok_count is has been seen. Currently this is about 110ms; when
+holding down a button on a nec remote, no such space is generated until
+a button is released. This means nothing happens until you release the
+button.
 
-Avoid this null pointer derefence by skipping the call when necessary.
+The sample rate is fixed at 46us, so the maximum space that can be
+encoded is about 12ms. So, the set ok_count above that at 23ms.
 
-Signed-off-by: Luca Weiss <luca.weiss@fairphone.com>
+Cc: Sean Wang <sean.wang@mediatek.com>
+Cc: Matthias Brugger <matthias.bgg@gmail.com>
+Signed-off-by: Sean Young <sean@mess.org>
 ---
- drivers/media/platform/qcom/venus/hfi.c | 3 +++
- 1 file changed, 3 insertions(+)
+ drivers/media/rc/mtk-cir.c | 9 +++++----
+ 1 file changed, 5 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/media/platform/qcom/venus/hfi.c b/drivers/media/platform/qcom/venus/hfi.c
-index 4e2151fb47f0..1968f09ad177 100644
---- a/drivers/media/platform/qcom/venus/hfi.c
-+++ b/drivers/media/platform/qcom/venus/hfi.c
-@@ -104,6 +104,9 @@ int hfi_core_deinit(struct venus_core *core, bool blocking)
- 		mutex_lock(&core->lock);
- 	}
+diff --git a/drivers/media/rc/mtk-cir.c b/drivers/media/rc/mtk-cir.c
+index 840e7aec5c21..746d43fdc17a 100644
+--- a/drivers/media/rc/mtk-cir.c
++++ b/drivers/media/rc/mtk-cir.c
+@@ -24,7 +24,8 @@
+  * Register to setting ok count whose unit based on hardware sampling period
+  * indicating IR receiving completion and then making IRQ fires
+  */
+-#define MTK_OK_COUNT(x)		  (((x) & GENMASK(23, 16)) << 16)
++#define MTK_OK_COUNT_MASK	  (GENMASK(22, 16))
++#define MTK_OK_COUNT(x)		  ((x) << 16)
  
-+	if (!core->ops)
-+		goto unlock;
-+
- 	ret = core->ops->core_deinit(core);
+ /* Bit to enable IR hardware function */
+ #define MTK_IR_EN		  BIT(0)
+@@ -268,7 +269,7 @@ static irqreturn_t mtk_ir_irq(int irqno, void *dev_id)
+ static const struct mtk_ir_data mt7623_data = {
+ 	.regs = mt7623_regs,
+ 	.fields = mt7623_fields,
+-	.ok_count = 0xf,
++	.ok_count = 3,
+ 	.hw_period = 0xff,
+ 	.div	= 4,
+ };
+@@ -276,7 +277,7 @@ static const struct mtk_ir_data mt7623_data = {
+ static const struct mtk_ir_data mt7622_data = {
+ 	.regs = mt7622_regs,
+ 	.fields = mt7622_fields,
+-	.ok_count = 0xf,
++	.ok_count = 3,
+ 	.hw_period = 0xffff,
+ 	.div	= 32,
+ };
+@@ -400,7 +401,7 @@ static int mtk_ir_probe(struct platform_device *pdev)
+ 	mtk_w32_mask(ir, MTK_DG_CNT(1), MTK_DG_CNT_MASK, MTK_IRTHD);
  
- 	if (!ret)
+ 	/* Enable IR and PWM */
+-	val = mtk_r32(ir, MTK_CONFIG_HIGH_REG);
++	val = mtk_r32(ir, MTK_CONFIG_HIGH_REG) & ~MTK_OK_COUNT_MASK;
+ 	val |= MTK_OK_COUNT(ir->data->ok_count) |  MTK_PWM_EN | MTK_IR_EN;
+ 	mtk_w32(ir, val, MTK_CONFIG_HIGH_REG);
+ 
 -- 
 2.34.1
 
