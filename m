@@ -2,136 +2,120 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 56C2448E0DA
-	for <lists+linux-media@lfdr.de>; Fri, 14 Jan 2022 00:27:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 73DC548E15B
+	for <lists+linux-media@lfdr.de>; Fri, 14 Jan 2022 01:03:20 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238213AbiAMX1C (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 13 Jan 2022 18:27:02 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45088 "EHLO
+        id S238330AbiANADS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 13 Jan 2022 19:03:18 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53240 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238209AbiAMX1B (ORCPT
+        with ESMTP id S229995AbiANADR (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 13 Jan 2022 18:27:01 -0500
-Received: from mail-lf1-x12d.google.com (mail-lf1-x12d.google.com [IPv6:2a00:1450:4864:20::12d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CF5B9C06161C
-        for <linux-media@vger.kernel.org>; Thu, 13 Jan 2022 15:27:00 -0800 (PST)
-Received: by mail-lf1-x12d.google.com with SMTP id s30so24900175lfo.7
-        for <linux-media@vger.kernel.org>; Thu, 13 Jan 2022 15:27:00 -0800 (PST)
+        Thu, 13 Jan 2022 19:03:17 -0500
+Received: from mail-wr1-x434.google.com (mail-wr1-x434.google.com [IPv6:2a00:1450:4864:20::434])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E6456C061574;
+        Thu, 13 Jan 2022 16:03:16 -0800 (PST)
+Received: by mail-wr1-x434.google.com with SMTP id t20so5477159wrb.4;
+        Thu, 13 Jan 2022 16:03:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=Br5WfYiTc37TH3IA3cWwwQvBdeV/BPdpfjqxoTbjUg8=;
-        b=W5TpqtMMfX5D0g3MqtnYghqkOFySoHX8V7Y3CDIEk/QzE1qbCwAEJgPpiJrTJPckV+
-         6N2Vqv9WJ3XylOrXOadOYeXgV1y464f5VNQVaG+8o2Glkx36tVcTGtTSSygXE9SjYxv1
-         RnoyaBK5nCwB6EOFL7/mwCLnckkE1s60MGfxHeQCmCJhhJZOBIv+VRduC1HOrb6bkNsL
-         FVwFtXFQXUD8Gx/cQQ5XhZOwds/VF/zUQ0OARSiZM0Xy9Ppb3w6T0wwLrYPxiySAyUbE
-         20XLOCa+lmlXMZ8C2ul6MEW+k28ADcena2T1vx5h/MaIhRGddm0bLJivZ074kU2ydzvf
-         0q+w==
+        d=gmail.com; s=20210112;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=xeb8BB1cpN1nYesO18sPn85Vpoz+RkUXTsIXMMFImvc=;
+        b=bLMZ1TqvvLNFvVAVgBDmouUw9sU3HcZxtVRDKZLokvVnf7LMy6D989YTwRX3/PvpLx
+         5qu1sv0Qa+T3TWI1qc+Xa85cCue/erI6zAdqqeVtASYLle3zGfop+2SB0IFgw7RFmDRp
+         AdoG+lp8zY9PSI6Je/qrmlsOIsNAgDZIztk2eGGJOcpY8yA8zo6bj2DIsa7cXTxv3PRy
+         UQSRWEUngwEN48esjSKHabj1A7zQWxlAWHgk2G05mknlbSz7PdRW4nEqfaP2myULtIkI
+         4FsniOeGvClqgQEHgHwgCjN8/VxBQvYx0+LiaEutVOyiUmByv1WUg2Ktf24pHvOGX1Q+
+         zCtw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=Br5WfYiTc37TH3IA3cWwwQvBdeV/BPdpfjqxoTbjUg8=;
-        b=GAf19XtTYaQyW2/LkEgSLSon6wT6jPVRFD1XUoJwj3x5JWM3i5amaypxfLpqQRXxhd
-         wCxZe3Bj8PgSHO6iAe3KprydjXJ5nvvIPwKu7VuYnBcdpJe/RwFl4SP9UnPr//fh/oA7
-         +tLYN+p2PJC/nIUp++iF3NgAauB6PvcMWZh7D3+zKOkJbl+QyFKNyYFXP0KAg8g5NpIa
-         +7XQkznW2YDe+bUaz05TxYUnx2ItUo4rLRdUbQ4gl5Qljtm6NWtD7mFQkXVSYElx3fkS
-         iEJd/vIh1XmupnFmeLHGHIY9kh5Qs26kKcdaLuTPLT3WK4KVeLRkAJUbXZ091AHykwCd
-         iueQ==
-X-Gm-Message-State: AOAM531teVISSPx5SeyUIi1ThVYJ/bAGbAN35g5m4+l6PRljOo5ntFei
-        pdli4XR7aEsYaZ4SR8MbIOPeGLisDPjrXelUOpYzow==
-X-Google-Smtp-Source: ABdhPJxQ6vukwqgYAso2HtDl4olPJlAPhHEDkugkY9sHGK03iZx+0X4RXJF67ZQjXjdGFfz53L/S+5nppyW0SRY2Ae4=
-X-Received: by 2002:a2e:9346:: with SMTP id m6mr4880056ljh.130.1642116419137;
- Thu, 13 Jan 2022 15:26:59 -0800 (PST)
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=xeb8BB1cpN1nYesO18sPn85Vpoz+RkUXTsIXMMFImvc=;
+        b=eypxsigtMO6dBHoWmgT780UdMnHvLSZA4X23MZGneK44e/1P5gnHfLIoxLc9+Xsz6s
+         LE3AobEUhkPeKs/aYCgpmW8GsjkDEa6bqxXsNkKQdD0tRUC4sWZx8iI1JhYyJg03muyJ
+         cXX3EbJAoMT8jQ4bB+U20IoCkEkbhcKua74eqrdFPaMgQSL9cA1Q2l8qnBJXAuzA0DGl
+         NfMv5kGjFCQ+1XA/4hOby3xCXc0WbOkxfoQLXzl5PQeeTky+OYDn5T+jp18176aE4WxN
+         B0PyJuLAdF4G6VmtaAXBDVhsrG9gJr4nxnHgSZIwzZ5fGpFRP5SWdLDKk0KERpSdyBnU
+         2Sbg==
+X-Gm-Message-State: AOAM531gUjUBPdk0krEvRuKg0f2o9pbK/RKLVjBoGWn3G8qRMqLX1cRa
+        bXetksWdYQhF650q7tzRNKA=
+X-Google-Smtp-Source: ABdhPJwChFaDLk5S17TPUC+w1V3JwNw7aGSUYFBfiQbfhdUgKRHNTAL3/JRTGnUMNbKROow1Dmhg0A==
+X-Received: by 2002:a05:6000:154a:: with SMTP id 10mr6019554wry.9.1642118595582;
+        Thu, 13 Jan 2022 16:03:15 -0800 (PST)
+Received: from [192.168.0.16] (cpc141996-chfd3-2-0-cust928.12-3.cable.virginm.net. [86.13.91.161])
+        by smtp.gmail.com with ESMTPSA id i82sm5169740wma.23.2022.01.13.16.03.14
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 13 Jan 2022 16:03:15 -0800 (PST)
+Subject: Re: [PATCH] media: i2c: remove unneeded variable
+To:     cgel.zte@gmail.com
+Cc:     mchehab@kernel.org, linux-media@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Changcheng Deng <deng.changcheng@zte.com.cn>,
+        Zeal Robot <zealci@zte.com.cn>, hverkuil@xs4all.nl
+References: <20220112091718.668278-1-deng.changcheng@zte.com.cn>
+From:   Daniel Scally <djrscally@gmail.com>
+Message-ID: <ad934c70-171e-61c1-2ec8-85c7a106c656@gmail.com>
+Date:   Fri, 14 Jan 2022 00:03:13 +0000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 MIME-Version: 1.0
-References: <CAO_48GF=ttKqSOm9GRoA3Mq+-RQOtRjWp449XPcz-wH=kjaTjw@mail.gmail.com>
- <20220113123406.11520-1-guangming.cao@mediatek.com> <4f88205c1b344aea8608960e2f85b8f4@intel.com>
- <e657f5257cbf4955817b0bbf037de9f9@intel.com> <24157767-dc29-bbdd-5428-d89ecc6b9606@amd.com>
-In-Reply-To: <24157767-dc29-bbdd-5428-d89ecc6b9606@amd.com>
-From:   John Stultz <john.stultz@linaro.org>
-Date:   Thu, 13 Jan 2022 15:26:47 -0800
-Message-ID: <CALAqxLXRtYDNQ8y1efVGa4SwUH_oAaHviZFjsOVSNFmUHnCCeQ@mail.gmail.com>
-Subject: Re: [PATCH v3] dma-buf: dma-heap: Add a size check for allocation
-To:     =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-Cc:     "Ruhl, Michael J" <michael.j.ruhl@intel.com>,
-        "guangming.cao@mediatek.com" <guangming.cao@mediatek.com>,
-        "sumit.semwal@linaro.org" <sumit.semwal@linaro.org>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>,
-        "wsd_upstream@mediatek.com" <wsd_upstream@mediatek.com>,
-        "libo.kang@mediatek.com" <libo.kang@mediatek.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
-        "yf.wang@mediatek.com" <yf.wang@mediatek.com>,
-        "linaro-mm-sig@lists.linaro.org" <linaro-mm-sig@lists.linaro.org>,
-        "linux-mediatek@lists.infradead.org" 
-        <linux-mediatek@lists.infradead.org>,
-        "lmark@codeaurora.org" <lmark@codeaurora.org>,
-        "benjamin.gaignard@linaro.org" <benjamin.gaignard@linaro.org>,
-        "bo.song@mediatek.com" <bo.song@mediatek.com>,
-        "matthias.bgg@gmail.com" <matthias.bgg@gmail.com>,
-        "labbott@redhat.com" <labbott@redhat.com>,
-        "mingyuan.ma@mediatek.com" <mingyuan.ma@mediatek.com>,
-        "jianjiao.zeng@mediatek.com" <jianjiao.zeng@mediatek.com>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20220112091718.668278-1-deng.changcheng@zte.com.cn>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, Jan 13, 2022 at 5:05 AM Christian K=C3=B6nig
-<christian.koenig@amd.com> wrote:
-> Am 13.01.22 um 14:00 schrieb Ruhl, Michael J:
-> >> -----Original Message-----
-> >> From: dri-devel <dri-devel-bounces@lists.freedesktop.org> On Behalf Of
-> >> Ruhl, Michael J
-> >>> -----Original Message-----
-> >>> From: dri-devel <dri-devel-bounces@lists.freedesktop.org> On Behalf O=
-f
-> >>> guangming.cao@mediatek.com
-> >>> +   /*
-> >>> +    * Invalid size check. The "len" should be less than totalram.
-> >>> +    *
-> >>> +    * Without this check, once the invalid size allocation runs on a=
- process
-> >>> that
-> >>> +    * can't be killed by OOM flow(such as "gralloc" on Android devic=
-es), it
-> >>> will
-> >>> +    * cause a kernel exception, and to make matters worse, we can't =
-find
-> >>> who are using
-> >>> +    * so many memory with "dma_buf_debug_show" since the relevant
-> >>> dma-buf hasn't exported.
-> >>> +    */
-> >>> +   if (len >> PAGE_SHIFT > totalram_pages())
-> >> If your "heap" is from cma, is this still a valid check?
-> > And thinking a bit further, if I create a heap from something else (say=
- device memory),
-> > you will need to be able to figure out the maximum allowable check for =
-the specific
-> > heap.
-> >
-> > Maybe the heap needs a callback for max size?
->
-> Well we currently maintain a separate allocator and don't use dma-heap,
-> but yes we have systems with 16GiB device and only 8GiB system memory so
-> that check here is certainly not correct.
+Hello
 
-Good point.
+On 12/01/2022 09:17, cgel.zte@gmail.com wrote:
+> From: Changcheng Deng <deng.changcheng@zte.com.cn>
+> 
+> Remove unneeded variable used to store return value.
+> 
+> Reported-by: Zeal Robot <zealci@zte.com.cn>
+> Signed-off-by: Changcheng Deng <deng.changcheng@zte.com.cn>
 
-> In general I would rather let the system run into -ENOMEM or -EINVAL
-> from the allocator instead.
+Yeah good catch. With Hans' comment about the subject line addressed:
 
-Probably the simpler solution is to push the allocation check to the
-heap driver, rather than doing it at the top level here.
+Reviewed-by: Daniel Scally <djrscally@gmail.com>
 
-For CMA or other contiguous heaps, letting the allocator fail is fast
-enough. For noncontiguous buffers, like the system heap, the
-allocation can burn a lot of time and consume a lot of memory (causing
-other trouble) before a large allocation might naturally fail.
-
-thanks
--john
+> ---
+>  drivers/media/i2c/ov5693.c | 5 ++---
+>  1 file changed, 2 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/media/i2c/ov5693.c b/drivers/media/i2c/ov5693.c
+> index 2784fcf67f3b..a55910f6283a 100644
+> --- a/drivers/media/i2c/ov5693.c
+> +++ b/drivers/media/i2c/ov5693.c
+> @@ -950,7 +950,6 @@ static int ov5693_set_fmt(struct v4l2_subdev *sd,
+>  	unsigned int width, height;
+>  	unsigned int hblank;
+>  	int exposure_max;
+> -	int ret = 0;
+>  
+>  	crop = __ov5693_get_pad_crop(ov5693, state, format->pad, format->which);
+>  
+> @@ -982,7 +981,7 @@ static int ov5693_set_fmt(struct v4l2_subdev *sd,
+>  	format->format = *fmt;
+>  
+>  	if (format->which == V4L2_SUBDEV_FORMAT_TRY)
+> -		return ret;
+> +		return 0;
+>  
+>  	mutex_lock(&ov5693->lock);
+>  
+> @@ -1012,7 +1011,7 @@ static int ov5693_set_fmt(struct v4l2_subdev *sd,
+>  				     exposure_max));
+>  
+>  	mutex_unlock(&ov5693->lock);
+> -	return ret;
+> +	return 0;
+>  }
+>  
+>  static int ov5693_get_selection(struct v4l2_subdev *sd,
+> 
