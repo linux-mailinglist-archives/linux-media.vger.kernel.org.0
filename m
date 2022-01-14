@@ -2,126 +2,78 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8284048EED0
-	for <lists+linux-media@lfdr.de>; Fri, 14 Jan 2022 17:59:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 37E2648F0E0
+	for <lists+linux-media@lfdr.de>; Fri, 14 Jan 2022 21:23:27 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243640AbiANQ5n (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 14 Jan 2022 11:57:43 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57682 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243550AbiANQ5n (ORCPT
+        id S244242AbiANUXY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 14 Jan 2022 15:23:24 -0500
+Received: from slot0.cofercan.com ([194.99.46.247]:52911 "EHLO
+        slot0.cofercan.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232761AbiANUXV (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 14 Jan 2022 11:57:43 -0500
-Received: from mail-wr1-x42e.google.com (mail-wr1-x42e.google.com [IPv6:2a00:1450:4864:20::42e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CD23AC06161C
-        for <linux-media@vger.kernel.org>; Fri, 14 Jan 2022 08:57:42 -0800 (PST)
-Received: by mail-wr1-x42e.google.com with SMTP id r28so16677933wrc.3
-        for <linux-media@vger.kernel.org>; Fri, 14 Jan 2022 08:57:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ffwll.ch; s=google;
-        h=date:from:to:cc:subject:message-id:mail-followup-to:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=8tlmhR9a+oSiQxYgTs9TSjEyT0cpPnO4gBCG7leedNI=;
-        b=QcCsaXmaZFWsArkyS5ubMHNqwdV+bONwmyEp85ScjOc2CF/42wJGz4jjT+ad/Ry611
-         083GxGtKg4TJ79eMUo3dC2J+XtNJ9+5FfgSuwjcmtvOR/4zwkboYinLPZ2YyT7IQEcX6
-         O4+0Ww9RTbJquWrvJBsU4RGpdabqbKvq6Eo4w=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id
-         :mail-followup-to:references:mime-version:content-disposition
-         :in-reply-to;
-        bh=8tlmhR9a+oSiQxYgTs9TSjEyT0cpPnO4gBCG7leedNI=;
-        b=ig7yGGw/KQPRmdYZycAKZExOPKEoL8HEYCHgJENp7O6jYbFSyY0X+8ZLuwFDH3mTTA
-         psq0RY78mIYdj5iyVtjqLrkRyXDR8q8zJpluQuA/TspPUXaJbagunMAS2n6whah9OSpE
-         wq7xjsIAjH2CS+GMpxgr6OQqg5Q3BGmlqegqYu2a3QHlUqeIqozNlg3wmhqoiBU+1P8q
-         PhamSV2i4qVH7D2kkiKr0eh/ETtsXqKz7V7npMVpWxmpNQPlz62RrmOQrzahhSsOiduO
-         0LrAsD5d37SwyJqivjto+qMxhJftoO4recOwa8XeMv6HdDjyjJWK6fHX51c1yAvvqmA3
-         WRsA==
-X-Gm-Message-State: AOAM533gg27yEs2bGR92d3X/KKUiywNJRq6fiEWEMyEEQaT3GeuE6LGd
-        dfEps/pjjt6YaSv1hg1WIVxYdg==
-X-Google-Smtp-Source: ABdhPJwJs+M7uqymw5kPe5LWbLvcWEC9656nwi+iTRgHPrTpBHgrVMtYX3b6p8Xz5qk20YpoKPr0gw==
-X-Received: by 2002:a5d:6e09:: with SMTP id h9mr9098120wrz.116.1642179461451;
-        Fri, 14 Jan 2022 08:57:41 -0800 (PST)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
-        by smtp.gmail.com with ESMTPSA id s10sm10546434wmr.30.2022.01.14.08.57.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 14 Jan 2022 08:57:40 -0800 (PST)
-Date:   Fri, 14 Jan 2022 17:57:38 +0100
-From:   Daniel Vetter <daniel@ffwll.ch>
-To:     Pavel Skripkin <paskripkin@gmail.com>
-Cc:     kraxel@redhat.com, sumit.semwal@linaro.org,
-        christian.koenig@amd.com, daniel.vetter@ffwll.ch,
-        dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
-        linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org,
-        syzbot+2c56b725ec547fa9cb29@syzkaller.appspotmail.com
-Subject: Re: [PATCH] udmabuf: validate ubuf->pagecount
-Message-ID: <YeGrgs+4PXM2ud+n@phenom.ffwll.local>
-Mail-Followup-To: Pavel Skripkin <paskripkin@gmail.com>, kraxel@redhat.com,
-        sumit.semwal@linaro.org, christian.koenig@amd.com,
-        dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
-        linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org,
-        syzbot+2c56b725ec547fa9cb29@syzkaller.appspotmail.com
-References: <20211230142649.23022-1-paskripkin@gmail.com>
- <c5ae2a68-070f-884c-c82a-2d3f4b8e06b1@gmail.com>
+        Fri, 14 Jan 2022 15:23:21 -0500
+DKIM-Signature: v=1; a=rsa-sha1; c=relaxed/relaxed; s=dkim; d=cofercan.com;
+ h=Reply-To:From:To:Subject:Date:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding; i=khi.hod@cofercan.com;
+ bh=BahV5f3otBSEso+hO+1d/QV6KuA=;
+ b=hKpxtIEjkrKwzW8YrTKZ89KCCJaTd6vp9+FBgkFtjfYnmuhl5KHO+V/f0PtfWNVwilMKSwvFbm4V
+   Jfov6wzBzSZMHckWp6k5qI+VQu/9pNYtif899KQOv5etsdagSdAeatEaGM1qhzY7N420gvn3joBe
+   /mw0xtDrMUxImAu95sc4y5gXEzIiF+HS7N6ou8Kln0eP3KH038upqt71TbJaSXzpas4Ihzs2jSVM
+   5jiZStXFfxhNSEzYu1RXjwXaG95rkkVoelY8vtClgychCFM3wMYr6cKxVMVi/xK2Pemg/sLXQqub
+   wDRyM1CHf7GfZlOwqpkCloIwZBCwAXEPCON5Eg==
+DomainKey-Signature: a=rsa-sha1; c=nofws; q=dns; s=dkim; d=cofercan.com;
+ b=T+0y8Ss1+lUX7MAUu36EtSTQBxZ7ciL2Dlse6GU7Pns3XNx4tZwuS71It8PuUxW90exr8dZMvbpA
+   XagJuwhjfO08z8zhcQ+Biq3tvTaNEDdx4nYlw6JCqQG/EuxP9YonnBL/JzgdrnnywufjRMeqVpm+
+   J/rDyk93GYWQWAXdjtkWSiqOGM7nsASh6ukb5jxr4/KxpPYkshYQY0un4qg5B9wCVR+swUniin5W
+   uuE0iJrQNu3txmLCAiOzTZfNhCrLdpd9VZCoWphUdPA82pczaI9euBgf/CAWRw2CD9gat1+hgiGW
+   3y88ReUga51pxH5YDwCZxCSiyY4RgtFmDqGDhw==;
+Reply-To: inbox.mustafaa@gmail.com
+From:   Mustafa Ayvaz <khi.hod@cofercan.com>
+To:     linux-media@vger.kernel.org
+Subject: Guten Abend!
+Date:   14 Jan 2022 20:23:19 +0000
+Message-ID: <20220114202319.2A8C30456CC89985@cofercan.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <c5ae2a68-070f-884c-c82a-2d3f4b8e06b1@gmail.com>
-X-Operating-System: Linux phenom 5.10.0-8-amd64 
+Content-Type: text/plain;
+        charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Jan 12, 2022 at 09:08:46PM +0300, Pavel Skripkin wrote:
-> On 12/30/21 17:26, Pavel Skripkin wrote:
-> > Syzbot has reported GPF in sg_alloc_append_table_from_pages(). The
-> > problem was in ubuf->pages == ZERO_PTR.
-> > 
-> > ubuf->pagecount is calculated from arguments passed from user-space. If
-> > user creates udmabuf with list.size == 0 then ubuf->pagecount will be
-> > also equal to zero; it causes kmalloc_array() to return ZERO_PTR.
-> > 
-> > Fix it by validating ubuf->pagecount before passing it to
-> > kmalloc_array().
-> > 
-> > Fixes: fbb0de795078 ("Add udmabuf misc device")
-> > Reported-and-tested-by: syzbot+2c56b725ec547fa9cb29@syzkaller.appspotmail.com
-> > Signed-off-by: Pavel Skripkin <paskripkin@gmail.com>
-> > ---
-> > 
-> 
-> Gentle ping :)
+Lieber linux-media, 
 
-Gerd Hoffmann should pick this one up, pls holler again if it doesn't
-happen.
--Daniel
+Ich bin Barrister Mustafa Ayvaz, ein pers=C3=B6nlicher Anwalt des=20
+verstorbenen Herrn Robert, der sein Leben aufgrund einer=20
+Coronavirus-Krankheit verloren hat, die er sich w=C3=A4hrend seiner=20
+Gesch=C3=A4ftsreise in China zugezogen hat. Ich habe Sie kontaktiert,=20
+um mit mir zusammenzuarbeiten, um die =C3=9Cberweisung eines Fonds=20
+sicherzustellen: Vier Millionen vierhundertzwanzigtausend Dollar,=20
+von ihm hinterlassenes Verm=C3=A4chtnis.
 
-> 
-> > 
-> > ---
-> >   drivers/dma-buf/udmabuf.c | 4 ++++
-> >   1 file changed, 4 insertions(+)
-> > 
-> > diff --git a/drivers/dma-buf/udmabuf.c b/drivers/dma-buf/udmabuf.c
-> > index c57a609db75b..e7330684d3b8 100644
-> > --- a/drivers/dma-buf/udmabuf.c
-> > +++ b/drivers/dma-buf/udmabuf.c
-> > @@ -190,6 +190,10 @@ static long udmabuf_create(struct miscdevice *device,
-> >   		if (ubuf->pagecount > pglimit)
-> >   			goto err;
-> >   	}
-> > +
-> > +	if (!ubuf->pagecount)
-> > +		goto err;
-> > +
-> >   	ubuf->pages = kmalloc_array(ubuf->pagecount, sizeof(*ubuf->pages),
-> >   				    GFP_KERNEL);
-> >   	if (!ubuf->pages) {
-> 
-> With regards,
-> Pavel Skripkin
+Ich habe gr=C3=BCndlich nach den n=C3=A4chsten Angeh=C3=B6rigen meines=20
+verstorbenen Klienten gesucht, bin aber gescheitert, da ich=20
+seinen aktuellen Wohnsitz und seine Kontaktdaten nicht habe. Bei=20
+meiner Suche bin ich auf Ihr Profil gesto=C3=9Fen, das den gleichen=20
+Nachnamen hat und sich in der gleichen Gegend wie die n=C3=A4chsten=20
+Angeh=C3=B6rigen befindet. Ich beschloss, Sie zu kontaktieren und Sie=20
+als Bonafide-N=C3=A4chsten zu verwenden.
 
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+Ich erbitte Ihr Einverst=C3=A4ndnis, Sie als n=C3=A4chsten Angeh=C3=B6rigen=
+=20
+meines verstorbenen Mandanten vorzustellen, da Sie beide=20
+denselben Nachnamen tragen. Die Gelder werden dann an Sie als=20
+Beg=C3=BCnstigten =C3=BCberwiesen und gem=C3=A4=C3=9F einem vorgeschlagenen=
+=20
+Aufteilungsmuster / Verh=C3=A4ltnis von 60:40 geteilt, d.h. 60 % f=C3=BCr=
+=20
+mich und 40 % f=C3=BCr Sie. F=C3=BCr weitere Informationen kontaktieren Sie=
+=20
+mich bitte sofort f=C3=BCr weitere Informationen.
+
+Danach sende ich Ihnen die Einzelheiten zum Beginn der=20
+Transaktion. Kontaktieren Sie mich f=C3=BCr weitere Informationen =C3=BCber=
+=20
+meine E-Mail-Adresse.
+
+Gr=C3=BC=C3=9Fe
+Mustafa Ayvaz
