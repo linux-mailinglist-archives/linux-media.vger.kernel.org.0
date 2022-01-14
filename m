@@ -2,133 +2,144 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A938848E871
-	for <lists+linux-media@lfdr.de>; Fri, 14 Jan 2022 11:42:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4B5C248E8B5
+	for <lists+linux-media@lfdr.de>; Fri, 14 Jan 2022 11:58:15 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240449AbiANKl4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 14 Jan 2022 05:41:56 -0500
-Received: from mx07-00178001.pphosted.com ([185.132.182.106]:43752 "EHLO
-        mx07-00178001.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S233947AbiANKlz (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Fri, 14 Jan 2022 05:41:55 -0500
-Received: from pps.filterd (m0288072.ppops.net [127.0.0.1])
-        by mx07-00178001.pphosted.com (8.16.1.2/8.16.1.2) with ESMTP id 20E9K1Y7028639;
-        Fri, 14 Jan 2022 11:41:10 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=subject : to : cc :
- references : from : message-id : date : mime-version : in-reply-to :
- content-type : content-transfer-encoding; s=selector1;
- bh=Db8QoLf2xpm+lVoXBntS8ts6R2As6iUdm19chCVqc50=;
- b=YnGikFqXTkWXyKKI6gP9Hdz6hNUbt8VIMw4oFehA6YMpaIGn5VhmHtKn79MMXAsFPSNW
- ++ywwrN9bYLBgipIHKnNNIdTEh6e3zbryXjbawXxOSng1j/7bb8fWEMg4g/3H0dDdg2p
- la50Lc+9ujAG6kr7kj7cBoNstHn6WZ76bsHCFzF5pcwMouAYa1HaTYWw2ZVoWUVrsP+z
- a46wuBZ/VEwvQtjGPM5XI/JoYtXy9kdqtDGplfFKe5w44RaAx1EbtU2NRJjyoajASj3v
- Ft9Hl9/UXGQRPSC14GLETN95FZQx0lv3Oqg+fVXbruPEKar8EAqawewUz7nNKNHVZV9l 2A== 
-Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
-        by mx07-00178001.pphosted.com (PPS) with ESMTPS id 3dk6eygfch-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Fri, 14 Jan 2022 11:41:10 +0100
-Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
-        by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id E71BB100034;
-        Fri, 14 Jan 2022 11:41:09 +0100 (CET)
-Received: from Webmail-eu.st.com (sfhdag2node2.st.com [10.75.127.5])
-        by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id DC5AA21231F;
-        Fri, 14 Jan 2022 11:41:09 +0100 (CET)
-Received: from lmecxl1137.lme.st.com (10.75.127.46) by SFHDAG2NODE2.st.com
- (10.75.127.5) with Microsoft SMTP Server (TLS) id 15.0.1497.26; Fri, 14 Jan
- 2022 11:41:08 +0100
-Subject: Re: [PATCH 2/2] MAINTAINERS: update drm/stm drm/sti and cec/sti
- maintainers
-To:     Philippe Cornu <philippe.cornu@foss.st.com>,
-        Yannick Fertre <yannick.fertre@foss.st.com>,
-        David Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        Alexandre Torgue <alexandre.torgue@foss.st.com>,
-        Alain Volmat <alain.volmat@foss.st.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-        Liam Mark <lmark@codeaurora.org>,
-        Laura Abbott <labbott@redhat.com>,
-        Brian Starkey <Brian.Starkey@arm.com>,
-        John Stultz <john.stultz@linaro.org>,
-        Christian Konig <christian.koenig@amd.com>, <soc@kernel.org>
-CC:     <dri-devel@lists.freedesktop.org>,
-        <linux-stm32@st-md-mailman.stormreply.com>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-kernel@vger.kernel.org>, <linux-media@vger.kernel.org>,
-        <linaro-mm-sig@lists.linaro.org>
-References: <20220113171921.17466-1-philippe.cornu@foss.st.com>
- <20220113171921.17466-3-philippe.cornu@foss.st.com>
-From:   Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>
-Message-ID: <7bd3229c-8b66-6a4f-4fed-cd1929f2c397@foss.st.com>
-Date:   Fri, 14 Jan 2022 11:41:08 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
-MIME-Version: 1.0
-In-Reply-To: <20220113171921.17466-3-philippe.cornu@foss.st.com>
-Content-Type: text/plain; charset="utf-8"
+        id S238001AbiANK6N (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 14 Jan 2022 05:58:13 -0500
+Received: from mail-eopbgr70082.outbound.protection.outlook.com ([40.107.7.82]:4932
+        "EHLO EUR04-HE1-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S237803AbiANK6L (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Fri, 14 Jan 2022 05:58:11 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=jUADj5XZ5YTl4I2F0nuT6ZpZpP4exo7MMI92pmfyPpgRjXH/RDrNUZin37ZV9oAEZLQixN3ivbiuunWJbsrEplMg4jXc+FZCNCdrqFQQIlh3zq9KWO5jBtnLrSHT3X8lbhb7flB6YCYABdR0Tqudyu52W2hzYg6EaV4X9jCjCkDLnTVlvaSgCH0xnrCya1jB9DL7BDbAJIyX3DB8lY65QQ+pzxukW64L/i8BQ+xXHXyDlHoIlLrowZHOXD0IPU2cV292UVlKovGNw6NjHXGVW8TKVycwTOARPKPsd13UL+OwBlylf+MuCZA9juXR0ze8dJNoytwQ3DIGlJOHnxV7qg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=YIu+JeCdxa3gIXiPdXmRZS+0hjA4wgMyM3ginypIAbM=;
+ b=M2lDcIMrbn4oLjWhH2pN0FsFKYhBw48Eszxg247FoU1cOHLtdEDE63rmk3Wjj77HYZclScCMrVmEh7GUbUlgxae/Iqxf/p7Ke3N8o0bp693YHoE+WkRCPKv0xX7hOwQy6bc4S1P+5C2RgGKdFI/+0cCFVosRcUBF2SrYYE5bB2gIlximArQoNqC4BeO5mKLYAMPDUK/9nJRM5On/biCkcMsoEl+wdfXv2AQ6MLZQ3gGAo/iHTItrXJKBrbxF8n5WK8xbVuV4vvAcXGdgz9WEqH3DLgBvBHuvQ6PHSCpTnBcbgqq1knezvHf9bw39Zv+SnI9j7iQDjVmyRkXyiJuBwg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=wolfvision.net; dmarc=pass action=none
+ header.from=wolfvision.net; dkim=pass header.d=wolfvision.net; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wolfvision.net;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=YIu+JeCdxa3gIXiPdXmRZS+0hjA4wgMyM3ginypIAbM=;
+ b=pz0jfjkisqedeeF8PrgiDzQQrmx7sHtoyltY4B+HzYxNJm++k9hmE+gH+Ly2UAXEOyYDAgLjRVhOdqN5aXA8ahyw4Fp3rdjF19T0DEXNtiBurOjoX14EDer2NWCY2GppZlU217rKNpmwZvzSbFdUIXF+k8iTCDRDOXa2q1vgOVI=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=wolfvision.net;
+Received: from HE1PR0802MB2426.eurprd08.prod.outlook.com (2603:10a6:3:e1::23)
+ by HE1PR0802MB2282.eurprd08.prod.outlook.com (2603:10a6:3:c9::21) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4888.11; Fri, 14 Jan
+ 2022 10:58:07 +0000
+Received: from HE1PR0802MB2426.eurprd08.prod.outlook.com
+ ([fe80::809:72af:1fb6:1294]) by HE1PR0802MB2426.eurprd08.prod.outlook.com
+ ([fe80::809:72af:1fb6:1294%4]) with mapi id 15.20.4867.012; Fri, 14 Jan 2022
+ 10:58:07 +0000
+From:   Michael Riesch <michael.riesch@wolfvision.net>
+To:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+        Jacopo Mondi <jacopo@jmondi.org>,
+        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+        Daniel Scally <djrscally@gmail.com>,
+        =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>,
+        Michael Riesch <michael.riesch@wolfvision.net>
+Subject: [PATCH 0/2] media: v4l2-mediabus: add support for dual edge sampling
+Date:   Fri, 14 Jan 2022 11:57:53 +0100
+Message-Id: <20220114105755.730200-1-michael.riesch@wolfvision.net>
+X-Mailer: git-send-email 2.30.2
 Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-X-Originating-IP: [10.75.127.46]
-X-ClientProxiedBy: SFHDAG2NODE2.st.com (10.75.127.5) To SFHDAG2NODE2.st.com
- (10.75.127.5)
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.816,Hydra:6.0.425,FMLib:17.11.62.513
- definitions=2022-01-14_04,2022-01-14_01,2021-12-02_01
+Content-Type: text/plain
+X-ClientProxiedBy: VI1PR06CA0115.eurprd06.prod.outlook.com
+ (2603:10a6:803:8c::44) To HE1PR0802MB2426.eurprd08.prod.outlook.com
+ (2603:10a6:3:e1::23)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: b87d65c9-7c78-49ae-d2df-08d9d74cbe9e
+X-MS-TrafficTypeDiagnostic: HE1PR0802MB2282:EE_
+X-Microsoft-Antispam-PRVS: <HE1PR0802MB2282C2D185ADB2E2B1CEDDD4F2549@HE1PR0802MB2282.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:7691;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: oRUuagdO2trZ+T/7AF+iX1hRhM7t3DIBKWYkWgd9pjao+hypUmmUJfhT6EeUZl0K7K+Zp08WLcyLtWJ5fIed4+Tu+hPjaOqNENXKbj/npm5KVmgzU5FlVy8kgq3+uloyx5Mc9Zn4IaRvHCvFyaMWxvZKfLavupz5oQPCzA3t4bTO8qUy4Dk2VGplrTA/IzdNIEuuRmmyyrnYPntK3oBsyI3HGwvch4mh8UfTM3UYaOR/RCIOkU/5TLrUNsrsTzTlEhf6oAeTjIHV0nUl3dMmIZm2eN4ELnTFfBEslCAlarw90cSdZ9tdF2lsLnXExKqdF73R5guG4Y5wEwBJLSB+9UQv8g8f5K3zYvT1ZVorV606MKDY+x4EM0ZRXRu16CRjOhoCuKlJsWhTBDerNEeM/yNbCy7EStaeZN66cBQMzio7TUOVI6VO8ZMgaZKlcJqcXBUfHuJt2EeBLh5L8A0HxRGc56KQSDQST1UIto75x1fAOkQHiDmQYLdaGCkPgzzIPG2GgxEIjizRIxrIadtL2f7787uxnsz14wo7pl98PzmG/2gunkt9qa3pE+dfPJMDlaDfIVxi8UhE+A7uRdE51hEZJpdPl0k4I9QI0XtriZCseUshhzxvtsrcIFBpPy3SFMlKgjq3JruAZkyJCKEPHQ==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:HE1PR0802MB2426.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(136003)(396003)(376002)(39840400004)(366004)(346002)(316002)(66946007)(6512007)(8936002)(6486002)(8676002)(508600001)(52116002)(86362001)(5660300002)(4326008)(2906002)(107886003)(66476007)(54906003)(4744005)(36756003)(6506007)(186003)(1076003)(38100700002)(6666004)(2616005)(66556008)(44832011)(83380400001)(7416002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?QwdQZkfPjHNcsIdJp3BxWSplv3sGvTNvP1sqaX9baPX6S/ZObuWDimGhKhdo?=
+ =?us-ascii?Q?TgRCjIeRGUPMqICDtJPHEP2uJxD75LI1WLdqMrYg+xKFgAhamUgJKmLVsKww?=
+ =?us-ascii?Q?IVJ/p3d0E1FgsvTp9WqIR/etptiShphJ8sApL1/HM4GbekclJDIIc8hij9iM?=
+ =?us-ascii?Q?2mPhHdV5ehlqkB8/89Owqm1nizWxP8Ao/fVZJqDK4VGcHjzvd5LGSj4tdiVq?=
+ =?us-ascii?Q?b3hU2O2wRbIaWtPNor2ovF4h5PgiXJL3NIzNpMDUbPs4Ve7/b0hVQ1o2K2Pm?=
+ =?us-ascii?Q?5Cy9hVuDrLuyX6eqT39CKCcg0v2t6Uy7+OFJCRJc8yAzM1gVnUaFkH+Hhquf?=
+ =?us-ascii?Q?G57Yc/ngH99jUPj+QpxAkYzvNxJk0WJKzn8Jj4boqb3A/0HWQ/j16pRNSgd4?=
+ =?us-ascii?Q?tAVFBotEUgOjZNL8Zx2uxGnFU/jD/uOV8rD46csJs7j1+kpuoS9GERadzzBY?=
+ =?us-ascii?Q?qLE6z9VGm1Q4bEdZ/oQlJW3oHnJSq8Yjy7TmOn9kqm3Gf6D6Qv3iU9oohHyS?=
+ =?us-ascii?Q?UDI2QMSyBp6qJ+sXtttouD+1/f16Ol0M4fLFcsu5jEP74I9W/zD/GYqpyGmN?=
+ =?us-ascii?Q?TeXMQwGhNuiXGbmUrE0UpcE1UXQ56A9lOXZW73cYYkcb9eUXb+/H8HjOZmJS?=
+ =?us-ascii?Q?spylVvq+L0xQyNxS7F3hN6rGE4Z7RhJQvq1dqv5o3CUHk99YULosevmAicN2?=
+ =?us-ascii?Q?ZIIXVKAPb9Gz3IgfRwVfZfu/4T6KL3lRW1RQ+oToBYBMWUB+2/BQ4rQKIugB?=
+ =?us-ascii?Q?uT8T4YdoTJzwxbCoSyRNq5P6M1ylgFFJ3oUGp3GYPuiVm5x87NDXEv82V0MH?=
+ =?us-ascii?Q?biUZ069I8xxVSDcjCsVmXW5GHu7a7UKpeWnVotmpnBmwgnOo5rrJhWPzmDMr?=
+ =?us-ascii?Q?YnN08QVNHwNbMwL9sq2237/Rd2IQst2hbJpuNoKILavpiv97fD+Ocro+bP2x?=
+ =?us-ascii?Q?wCdOgmKtxR7ILFfh99Yo92GlIGD/gj5FR7uOxanCI9C26t0ldgBvNjtMEZmn?=
+ =?us-ascii?Q?GHbZg0+bGurZrsrOsKXTTaBVyFzLsfOzMg3SNbkxY+lEV50k91i2L+ox7p8K?=
+ =?us-ascii?Q?WJzxF9bXOr91IANiOWqpvvTDYWNwKj9zatF/Ao9nPkNOG5wgM3KWTvcvmWXK?=
+ =?us-ascii?Q?dYUX2ockC8ed3RSE9oZUcrLYTcfx8j9m5GOdKcdYiCGP1c4Tcl4UZHd1tH40?=
+ =?us-ascii?Q?KVl6l2X4lTKDpRC3vzYeyfEEKtjyC1Zuwjq2AD8Q4itZZXSXnzHwEySqvnvE?=
+ =?us-ascii?Q?6ocJofImI3o4jPU1kmHZDI7YfkUD0fzUPjjGXg2YBwyQS4kZHMUn37zB31Ef?=
+ =?us-ascii?Q?wyRVRhkZvE00thhrpFbkQe2Pkr1mDjuZgX+1BIYXd5xjHJek1mIndMb06dyU?=
+ =?us-ascii?Q?dS84t09khz2xRDH90P2yNQqChzBLguPO0h0xxUP+utSFV1YG82k4zDnfPB6O?=
+ =?us-ascii?Q?M/g0bbI5KQB1AQ81PCZh7uNr3L/4E+gQTQ5X/4AiZcpGlajrEPN4XzumEPQx?=
+ =?us-ascii?Q?i27BXQTarNyJR7TKB4THkFuW42dFTXUJmBR789wD7pG2VAryDpp2o59mJUwJ?=
+ =?us-ascii?Q?ZJqYcD+FC+jFg7I9yOox9OvjGkz4zmYjn0bqo2Vkf3Rx1xmXyb5oNPkQ2Gfk?=
+ =?us-ascii?Q?JjmdgYK0hX4JYwaxOjfb5QlPtx9WguyrPt++968+NvAyWc8i5fSfzhzHZFKS?=
+ =?us-ascii?Q?prSE6cP9MWnU/2OTsRAkBmiAOp71ZhERsYWiHMThKOrR+P6oxZR5N+m4osmm?=
+ =?us-ascii?Q?mWMYACngEA=3D=3D?=
+X-OriginatorOrg: wolfvision.net
+X-MS-Exchange-CrossTenant-Network-Message-Id: b87d65c9-7c78-49ae-d2df-08d9d74cbe9e
+X-MS-Exchange-CrossTenant-AuthSource: HE1PR0802MB2426.eurprd08.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Jan 2022 10:58:06.8795
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: e94ec9da-9183-471e-83b3-51baa8eb804f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: +RrW/Fggmhlee7ODWx6fub9NBQ1Xiqj43RkMMyzKgTd6vaJmcg0k8pXHmqMLSevK7eFLmboOPdY2WwI2CRifVovmC2XEhGdONEH+bDcuf9U=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: HE1PR0802MB2282
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Hi all,
 
-On 1/13/22 6:19 PM, Philippe Cornu wrote:
-> Add Alain as sti maintainer for both drm/sti & cec/sti.
-> Add Raphaël as stm maintainer for drm/stm.
->
-> Signed-off-by: Philippe Cornu <philippe.cornu@foss.st.com>
-> ---
->  MAINTAINERS | 3 +++
->  1 file changed, 3 insertions(+)
+Some devices (such as the Rockchip Video Input Processor (VIP) or the IT6801
+HDMI receiver) support sampling of the parallel data at both edges of the
+interface pixel clock in order to reduce the pixel clock by two.
+This series adds support for this feature by using the pclk-sample device
+tree property.
 
+Looking forward to your comments!
 
-Hi Philippe,
+Best regards,
+Michael
 
+Michael Riesch (2):
+  dt-bindings: media: video-interfaces: add support for dual edge
+    sampling
+  media: v4l2-mediabus: add support for dual edge sampling
 
-Reviewed-by: Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>
+ .../bindings/media/video-interfaces.yaml      |  5 ++--
+ drivers/media/v4l2-core/v4l2-fwnode.c         | 23 +++++++++++++++----
+ include/media/v4l2-mediabus.h                 | 17 +++++++-------
+ 3 files changed, 31 insertions(+), 14 deletions(-)
 
+-- 
+2.30.2
 
-Thank you ! :D
-Raphaël
-
-
->
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 6bea080d0159..708f8c86e4c9 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -6423,6 +6423,7 @@ F:	Documentation/devicetree/bindings/display/rockchip/
->  F:	drivers/gpu/drm/rockchip/
->  
->  DRM DRIVERS FOR STI
-> +M:	Alain Volmat <alain.volmat@foss.st.com>
->  L:	dri-devel@lists.freedesktop.org
->  S:	Maintained
->  T:	git git://anongit.freedesktop.org/drm/drm-misc
-> @@ -6431,6 +6432,7 @@ F:	drivers/gpu/drm/sti
->  
->  DRM DRIVERS FOR STM
->  M:	Yannick Fertre <yannick.fertre@foss.st.com>
-> +M:	Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>
->  M:	Philippe Cornu <philippe.cornu@foss.st.com>
->  L:	dri-devel@lists.freedesktop.org
->  S:	Maintained
-> @@ -18152,6 +18154,7 @@ F:	Documentation/devicetree/bindings/sound/st,sti-asoc-card.txt
->  F:	sound/soc/sti/
->  
->  STI CEC DRIVER
-> +M:	Alain Volmat <alain.volmat@foss.st.com>
->  S:	Maintained
->  F:	Documentation/devicetree/bindings/media/stih-cec.txt
->  F:	drivers/media/cec/platform/sti/
