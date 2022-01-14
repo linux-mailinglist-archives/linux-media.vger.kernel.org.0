@@ -2,250 +2,199 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B308248E449
-	for <lists+linux-media@lfdr.de>; Fri, 14 Jan 2022 07:31:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id CC63E48E4CB
+	for <lists+linux-media@lfdr.de>; Fri, 14 Jan 2022 08:16:51 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236586AbiANGbl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 14 Jan 2022 01:31:41 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53776 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234063AbiANGbk (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Fri, 14 Jan 2022 01:31:40 -0500
-Received: from lahtoruutu.iki.fi (lahtoruutu.iki.fi [IPv6:2a0b:5c81:1c1::37])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3AFA7C061574
-        for <linux-media@vger.kernel.org>; Thu, 13 Jan 2022 22:31:40 -0800 (PST)
-Received: from jyty (dsl-hkibng31-58c389-173.dhcp.inet.fi [88.195.137.173])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
-        (No client certificate requested)
-        (Authenticated sender: msmakela)
-        by lahtoruutu.iki.fi (Postfix) with ESMTPSA id B87A71B000FB;
-        Fri, 14 Jan 2022 08:31:36 +0200 (EET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=lahtoruutu;
-        t=1642141896;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=W5EJb7mBSaPyfeDGt6/hZ1YAhqX8qY0ZQifEsg76r+Q=;
-        b=HwdgeJ4LwwH97RHB3su+y7lyTJkfQNTZRhy62dGVIBBtk0z5GjKU1Y2X80L5xyy8kKNVkV
-        PAYywIVPdhCQrcvtZXU7h+KNg53onzmnbz4aOxSoHLXDLR74F46AeMukRW0zm6M5L0fO4H
-        HD/UIWn16rxhNkGlY2jqkLJuq76pXwx/f3cLDMJOLNNS/s62xUEhkn65zv3BxHNY9WuSF6
-        tc8Ogq8MNqY+r2G2krV1Y8AxywvlRpsPb2NIteTWDsQKLGU7L4Ff4OqELfaPmXuebVfFVY
-        x7wp8nqXN0LR+ZQcwKv7VJjnjyRxDCkbsOAGYtby1TvN/QYiHvp9jklrv8ZBfg==
-Date:   Fri, 14 Jan 2022 08:31:35 +0200
-From:   Marko =?iso-8859-1?B?TeRrZWzk?= <marko.makela@iki.fi>
-To:     Sean Young <sean@mess.org>
-Cc:     linux-media@vger.kernel.org
-Subject: Re: Inconsistent RC5 ir-keytable events
-Message-ID: <YeEYxwUkCV7rSa0A@jyty>
-References: <YdKdPosyzj2urFpS@jyty>
- <20220103092123.GA21115@gofer.mess.org>
- <YdLRa86ddm2T4xew@jyty>
- <20220103110743.GA22001@gofer.mess.org>
- <YdLqL2ViSwWzS/Ig@jyty>
- <YdRwqt1pwb8osT6V@jyty>
- <20220105095355.GA6428@gofer.mess.org>
- <YdbVfObDZZnFIDc3@jyty>
- <YeBZmM0ISnFGcsVa@gofer.mess.org>
+        id S239476AbiANHQu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 14 Jan 2022 02:16:50 -0500
+Received: from mail-mw2nam12on2073.outbound.protection.outlook.com ([40.107.244.73]:62752
+        "EHLO NAM12-MW2-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S239477AbiANHQn (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Fri, 14 Jan 2022 02:16:43 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Tp4Dc/mzMZbYOLnvrNS6lcYeu/ojPqn/jji5HNQsYkHmTJhpQkYZzx02qOyKqZ6t4kjIPwSee1QTZ3CEM6fnFwJayPRX9L6VtZIqYTZ4peKAD2Duck7sMB2DOElTqOvTWnlNTyNwoIlw79urXcZ666QycwxlrJ5rgNbvAAxeCf7LhboblIAdhlzq2X6r6U0Kn2BdRwsGCKF+rK5gxT1g8edgY9ksrcWpuLQKdYUiyP8eT7zSRpgE9wErJQRMC4vjbnnqisScxEUntbMz3nTf/hXpzeubMcJlbsBGDJnR91GHL6Nl5ctdnBnMjm1qM+7ILy3yZhFX6yLaZsqeFnX1Cg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=m4YGYzpqhydG50UG1r0lJhuJ/hvrWmb6ePIQFPRI8Do=;
+ b=mkgibP7U+wHpOeSoknKhMMPgNVEYjUWnJxV5ish6/JTnHQKbCCQqzpB7okRvvz7UFXxMhz3MXvcf5drKarB+HhlQhmzfJUg6de9sxzH681SuZrZBZWWSOvXWzGW/FQQNdhrLOgecl2GYX0xnZLM15MB8EOLF5MMw+kpFBGL9M+kEHWreV5lIGV9j/fiqxPcfaqGTAQpiZPKaV93vKEB7DbE8cmzk+CS218Eozijen83VRsevKna2D1BrxadV2hZYs8nzzUVUMdWyhIjwGttcRPo6E5Qam4HMGYyHZSMSSVLTHSd958skgFS+ztoUCKmpdA7FYuhPWhmlRqfyhOmsVA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=m4YGYzpqhydG50UG1r0lJhuJ/hvrWmb6ePIQFPRI8Do=;
+ b=oCm8e8wIsNhQeClCnouj2QrZOAb1FZ6lbOL+UGZtn9LyqZKmB/5LGffnwKrelTmRlI56DepLHz+Zf6npA3tmZ6U7eOopLAO0v8TulaGLJBPsn/DZVek7uu2ZOOgiJuWoc8+l8YomGq0BTHcZ3HhD2oz+ladTFqHa4dPpZBw7vkc=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from MWHPR1201MB0192.namprd12.prod.outlook.com
+ (2603:10b6:301:5a::14) by BN6PR1201MB0210.namprd12.prod.outlook.com
+ (2603:10b6:405:59::13) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4888.9; Fri, 14 Jan
+ 2022 07:16:41 +0000
+Received: from MWHPR1201MB0192.namprd12.prod.outlook.com
+ ([fe80::b4d6:f148:3798:6246]) by MWHPR1201MB0192.namprd12.prod.outlook.com
+ ([fe80::b4d6:f148:3798:6246%7]) with mapi id 15.20.4888.010; Fri, 14 Jan 2022
+ 07:16:40 +0000
+Subject: Re: [PATCH v3] dma-buf: dma-heap: Add a size check for allocation
+To:     John Stultz <john.stultz@linaro.org>
+Cc:     "Ruhl, Michael J" <michael.j.ruhl@intel.com>,
+        "guangming.cao@mediatek.com" <guangming.cao@mediatek.com>,
+        "sumit.semwal@linaro.org" <sumit.semwal@linaro.org>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>,
+        "wsd_upstream@mediatek.com" <wsd_upstream@mediatek.com>,
+        "libo.kang@mediatek.com" <libo.kang@mediatek.com>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+        "yf.wang@mediatek.com" <yf.wang@mediatek.com>,
+        "linaro-mm-sig@lists.linaro.org" <linaro-mm-sig@lists.linaro.org>,
+        "linux-mediatek@lists.infradead.org" 
+        <linux-mediatek@lists.infradead.org>,
+        "lmark@codeaurora.org" <lmark@codeaurora.org>,
+        "benjamin.gaignard@linaro.org" <benjamin.gaignard@linaro.org>,
+        "bo.song@mediatek.com" <bo.song@mediatek.com>,
+        "matthias.bgg@gmail.com" <matthias.bgg@gmail.com>,
+        "labbott@redhat.com" <labbott@redhat.com>,
+        "mingyuan.ma@mediatek.com" <mingyuan.ma@mediatek.com>,
+        "jianjiao.zeng@mediatek.com" <jianjiao.zeng@mediatek.com>,
+        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>
+References: <CAO_48GF=ttKqSOm9GRoA3Mq+-RQOtRjWp449XPcz-wH=kjaTjw@mail.gmail.com>
+ <20220113123406.11520-1-guangming.cao@mediatek.com>
+ <4f88205c1b344aea8608960e2f85b8f4@intel.com>
+ <e657f5257cbf4955817b0bbf037de9f9@intel.com>
+ <24157767-dc29-bbdd-5428-d89ecc6b9606@amd.com>
+ <CALAqxLXRtYDNQ8y1efVGa4SwUH_oAaHviZFjsOVSNFmUHnCCeQ@mail.gmail.com>
+From:   =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+Message-ID: <6b8182a1-7cdc-7369-5c34-e6d0c24efcca@amd.com>
+Date:   Fri, 14 Jan 2022 08:16:30 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
+In-Reply-To: <CALAqxLXRtYDNQ8y1efVGa4SwUH_oAaHviZFjsOVSNFmUHnCCeQ@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+X-ClientProxiedBy: AM6P192CA0026.EURP192.PROD.OUTLOOK.COM
+ (2603:10a6:209:83::39) To MWHPR1201MB0192.namprd12.prod.outlook.com
+ (2603:10b6:301:5a::14)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii; format=flowed
-Content-Disposition: inline
-In-Reply-To: <YeBZmM0ISnFGcsVa@gofer.mess.org>
-ARC-Authentication-Results: i=1;
-        ORIGINATING;
-        auth=pass smtp.auth=msmakela smtp.mailfrom=marko.makela@iki.fi
-ARC-Seal: i=1; s=lahtoruutu; d=iki.fi; t=1642141896; a=rsa-sha256;
-        cv=none;
-        b=tXJt1gsuaCQcq3gt5v91jbTkcbsQB/3kYxHahEe7Y3Mu28f5v2PY2fgtHlVA1JigSJdNTz
-        VySZ0haJO5luDXYR1arf5YxdR/HneuecRfNoKl4vwG7DjZ+5ScgSwtOt0v4LmHMmNPX0lI
-        RjpXfyEBesmDOIaRW32lcconqUoOQm2KtM0oBzd6cwmLOLZDwBRta5qsOvSsewNYslSHsk
-        9+EBtC4KnS4dQOPhkor7+bjhPSp6q+JE/dp+5TILx1QCQuy6+enuVfaP6ka7VIfZhRxt9k
-        HILsnRLDYQmf1oDF1nce/sfl1Qjo9/SK7UPYGEYK4opSLJAFD7SVjVn1hsgbMA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
-        s=lahtoruutu; t=1642141896;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=W5EJb7mBSaPyfeDGt6/hZ1YAhqX8qY0ZQifEsg76r+Q=;
-        b=BNW6FDoQoNTIw5z9ukXE2M4QpSyNT/c3oM/D6cwETs67P9bt+uKzMVQSN0d5MBgChKSHPT
-        LQ99vclvZoGt1PN8nCY6l1m0akLfLP7DpqHBaJf5XU2rZjzugIOR9PMd9x70bLwIFBDuil
-        50lY/qvfc8IuLLSxmm0uX5piQfAyp3tsRyDUp+Bd0vDdxD9nSI8kf3zMvLP7qXe7Jj8FkH
-        b7/wHWGZInck1CJVWF14EFYqeTBgTDEfebySenzgARTIRa6soAU4vUutdkZYU8mqvnWkVb
-        dGTIwBzDcHqHBHB9mrsUFn278QYtKWxrjyiOcP3pMYDg5xfG0k9zmi+qdUaFfg==
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 523cd04d-5346-49f8-7d54-08d9d72dcf9a
+X-MS-TrafficTypeDiagnostic: BN6PR1201MB0210:EE_
+X-Microsoft-Antispam-PRVS: <BN6PR1201MB0210240F26477824A724CD3983549@BN6PR1201MB0210.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:8882;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: O8bpkGMVZfLgbmZAVdz2ZF7t8c4nmVEBlmPdwzoiIclJaC9gfgKwQZuVQvoxupboHBUCcBrKcZhe1ZThWBebHdLfvPvoVlehXOyxKK8ZgZNed7rkj0on1rPL4o3t1Lgxh2+/LIdDnaJ49+mRIzyXt1FfR1DqMG97AK/aofvfcG+qyWh4zKZxbsCjAPKnVGPRZp4QKw5LKy8fwFjzx1R2pjOfmwHvGyB3+9kxlUOqYeVznGxBK1bKF9NHy+KlKr3ei6ZHOgqTt0B9uuCEh28wFNfEmFtXeNH+BcPyXAt6C1OMDXIjybZK3G3wrhWZ5uqnEAtiPZ1Z+H6KypqH9RSjmRCux1nk4ENmGzbqdoOOBtBNlb1FBqiT5JcKr8bG/y2/8KxUpko76wIwPK6MCcmWKEFeXdmbr1E/io6iRU/hF9Vv5lHiY171znb+NOd2LqKS5ZunmIMJtByGoIyZgQmfjv9OAlzCUhJFdApl8PtjQDzlSFL4OBb+p4zTFPdLNSsDT9PjLn3JLEKo23QtgmHP4LqgLThJkGx/HhsfJic5UIJ5XyPVWPJrJYPEkp8+1QlOpccEFAgjUxiNBeMxkvnu9En8iFHeSzMe9XrTi9pWhVXS8r6+xijfLX0uk+usJS5DylQ/8Q/fSVwO0Ghz7BS0J40de/lwmeOf+Xwr8Mup2fBSSV12wjE6sK/j81GtAlEVa1tvdTQITu/wjcJrNl5VzOe97zhRYIEsJD9AUQqBMzEP8Ghy63KL2BqhrEUuudiV
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MWHPR1201MB0192.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(366004)(66556008)(26005)(66476007)(8676002)(5660300002)(54906003)(8936002)(2906002)(66946007)(6916009)(186003)(83380400001)(4326008)(36756003)(2616005)(6512007)(31696002)(7416002)(508600001)(316002)(6486002)(31686004)(86362001)(38100700002)(53546011)(6666004)(6506007)(45980500001)(43740500002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?cDNnVUwva1Y2MmdzeUdNRXowa3dTYWVoR0kyM0ZKQy80eEJIbXFhR3hUeTQ3?=
+ =?utf-8?B?ckRzKzdFMUZCZ3BZNEJWQ0V2WUYyblFabTc3a3JZNTJVSXBPRkgzQU5mNHJX?=
+ =?utf-8?B?NEl5azg0MmpuampjVWZTZmVGd01iNUVxeUxkdm5DRFdUa1RBVjBZMmRLMS94?=
+ =?utf-8?B?ZlJMY0hQTTk3YzNsbityU3pXajZMV2RDY2hKSFY0aVB6UEhGQ1FIZ1lFeW42?=
+ =?utf-8?B?aklZcTVzemNGbEpqamhtbUhqT05hMm5NSTBXdGFzb2tsMzNUTVNRMEhTMmVq?=
+ =?utf-8?B?OUU2QWp2RlVycGFzOWUyNEhPZ2RJZGJhZE9FYVF5QkcwTWpxZzAyeVQ1Uk85?=
+ =?utf-8?B?MDNNNFRSa3lvU3QvbjVnWnpJNHBVZUFBazFQMHpwN2kwTzQvOTdEQjZrZWtU?=
+ =?utf-8?B?ZUcrdWplZ3lTalNVMkVrSHFpN2hqdEpnSDVYU3JhVWYyRXJDQzdYempTQjBu?=
+ =?utf-8?B?U0V2TFZyMjlQVEpEM3A1WUx5VkpnOE50ekREcHRlenVuS0ExWE00cHlTK2p1?=
+ =?utf-8?B?QS8yWnltSWRibnBrM1JaMG1PSzNtaUFUYVQrcVorMnM4ZmIvNC9GSTl3VlJh?=
+ =?utf-8?B?eHR0MzYzcGxPeUowOTlubEdTdVZnM3ZOUVJya3ZkeGd3ZlNOUmNIaWJyVUhs?=
+ =?utf-8?B?Ky9tU2NZZEd2ZlFqOGJCSXZhZkt1aExYN0RLdnhDMUZ0bHhQRDNSRnREczVs?=
+ =?utf-8?B?YU0xbFFsQUp1c2tOck9vV3M2WWVCbE85YkhGRUhSTjdRUnJXanR2RW1DazRS?=
+ =?utf-8?B?QkhpdlFlclNZSzBqMndkNm5NWHdjMUJLN3NOZTY0dTBSY0RsN2RhM2lzM1lS?=
+ =?utf-8?B?bTQ1VU9lYWxKODdqS01mdDZzNWwrUlRJcERaWjlDcmEwckcvZERla0lMRnhP?=
+ =?utf-8?B?K0J0VjNMeHVEUjA1RFFqSmgxQ1JzSmp1MDBVczNMb25CbzE3WVdjT1EwS0V0?=
+ =?utf-8?B?QVlEQURXRE5aUndzQ3VjV0dhMm40NGpKOFFJeFZwNTNFTU45YzU0WEcyZmRX?=
+ =?utf-8?B?MEZ0SjlpaW11dEVPMjZGK3pYT0R0cmh2RU5hZTBJemwwckQwUXd2ZGU2NE1p?=
+ =?utf-8?B?VzdMZlNhS0wvYjhLWVJqSHhqYjNPMi9wSkt5Ui91R1NmT3hJYU80bTFIbHFK?=
+ =?utf-8?B?MzMwdzNYNXRKTUJKdCtMRkNjMjQ5NDBrMVpxZmc3K1JveWxzTlpkZi9XMUFW?=
+ =?utf-8?B?UXlFVmdweldEeGFUeTlYNkZhWllVNkxiZ3drQ2tPVkE2c2ZFZFVrZmtZMGZL?=
+ =?utf-8?B?Mm5wNU5iVjhxVlFmSUdQNkpSZ3VWMnJuVnlTNUJxeEJQOFRBeWg4dzlBOGJQ?=
+ =?utf-8?B?MUg0bGI5VEY1VkZCUWlkL2tpVEs3ZDBVcmtKZWtObllNaGJyU296Y3Z3VmI1?=
+ =?utf-8?B?Q08vcXQvUFBwNzAveEJTcUhGWGNkRWEwNE9LT1g5YXVEZ0FzRDdrblpVUWNS?=
+ =?utf-8?B?dXFOOXhRNDFYVkpFSnpwODFiTytBb05jK3VxRmpqYm5lUVVBcm5CVXNJUHJZ?=
+ =?utf-8?B?Rk1BZ1NPRVB5UW5uK1Rtck4zLzVPTTJZQmhWbHdhblZzZjVwaFpjYS9USVVQ?=
+ =?utf-8?B?UHViVVl2RnVSQzlFSzd6c2pLakxzNWp3dnFCUlFPdlViUFpkeGxpNDFJdmdR?=
+ =?utf-8?B?OC80bmhtNGhUbTNKYy9ZZnlhRGxhVWh0KzZBUFBpaTJVOVh3Rk5ZNG9LZ3Iz?=
+ =?utf-8?B?OUp3em1wN2w5Mmh6VENyVWJadUgrUTJRanVLZDBzYWpDeGVvYWRwcHZIL1Zx?=
+ =?utf-8?B?bDcxVGlrZmxmRG1wSGNMSlVJaUdWbGtCaXB5RzNaQS8veDlkQUVSQVJWL2xK?=
+ =?utf-8?B?NjVUOWpiWnR2R0gyNmM1NHVWRWQ5eHN6WmZaeTZ4ZTJiblY4bmY2OG1pVHov?=
+ =?utf-8?B?M1BOWmc0ZnNCeC9RVG5VSEtvMU5RdjRvajNtbC8rQy9oRHlPU2ZDc1ZMZG8r?=
+ =?utf-8?B?aXlRNjBhZ1l2L1NhTjQ2cDFTYkU1UUlJY0g5ZG9JUXFrKzJCbnpCVWU2SEgx?=
+ =?utf-8?B?WGxWcndncm5hUDRwR1dZcnM5U3U4LytnVFlwVVRsTzJ2YWFkWU1aUkZnM01H?=
+ =?utf-8?B?dU05eHZyR1NFUk9icU1NRXBsSEN6aU1wbnNMZnRyQkRDV3RuZHd2VTl3MWZi?=
+ =?utf-8?Q?BoLI=3D?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 523cd04d-5346-49f8-7d54-08d9d72dcf9a
+X-MS-Exchange-CrossTenant-AuthSource: MWHPR1201MB0192.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Jan 2022 07:16:40.8175
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: RPy5XcfbxMexvhvTV6UrXBjMOLo17XYewv0gQDBGswg7pUNAEydXCY+xMyebvhiM
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN6PR1201MB0210
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Thu, Jan 13, 2022 at 04:55:52PM +0000, Sean Young wrote:
->So I had to dig around for a while, but I have the same device here.  
->After some experimenting I've written a patch. Please could test it out 
->for me, a `Tested-by:` would be appreciated (if it works of course!).
+Am 14.01.22 um 00:26 schrieb John Stultz:
+> On Thu, Jan 13, 2022 at 5:05 AM Christian König
+> <christian.koenig@amd.com> wrote:
+>> Am 13.01.22 um 14:00 schrieb Ruhl, Michael J:
+>>>> -----Original Message-----
+>>>> From: dri-devel <dri-devel-bounces@lists.freedesktop.org> On Behalf Of
+>>>> Ruhl, Michael J
+>>>>> -----Original Message-----
+>>>>> From: dri-devel <dri-devel-bounces@lists.freedesktop.org> On Behalf Of
+>>>>> guangming.cao@mediatek.com
+>>>>> +   /*
+>>>>> +    * Invalid size check. The "len" should be less than totalram.
+>>>>> +    *
+>>>>> +    * Without this check, once the invalid size allocation runs on a process
+>>>>> that
+>>>>> +    * can't be killed by OOM flow(such as "gralloc" on Android devices), it
+>>>>> will
+>>>>> +    * cause a kernel exception, and to make matters worse, we can't find
+>>>>> who are using
+>>>>> +    * so many memory with "dma_buf_debug_show" since the relevant
+>>>>> dma-buf hasn't exported.
+>>>>> +    */
+>>>>> +   if (len >> PAGE_SHIFT > totalram_pages())
+>>>> If your "heap" is from cma, is this still a valid check?
+>>> And thinking a bit further, if I create a heap from something else (say device memory),
+>>> you will need to be able to figure out the maximum allowable check for the specific
+>>> heap.
+>>>
+>>> Maybe the heap needs a callback for max size?
+>> Well we currently maintain a separate allocator and don't use dma-heap,
+>> but yes we have systems with 16GiB device and only 8GiB system memory so
+>> that check here is certainly not correct.
+> Good point.
+>
+>> In general I would rather let the system run into -ENOMEM or -EINVAL
+>> from the allocator instead.
+> Probably the simpler solution is to push the allocation check to the
+> heap driver, rather than doing it at the top level here.
+>
+> For CMA or other contiguous heaps, letting the allocator fail is fast
+> enough. For noncontiguous buffers, like the system heap, the
+> allocation can burn a lot of time and consume a lot of memory (causing
+> other trouble) before a large allocation might naturally fail.
 
-It is significantly better for the bundled remote control unit (using 
-the NEC protocol). But it can still lose events. I tested by holding 
-down the VOL+ and VOL- keys. Also the GNOME Desktop was listening to 
-those events, so I got some additional visual feedback.
+Yeah, letting a alloc_page() loop run for a while is usually not nice at 
+all :)
 
-Here is a trace from ir-keytable -t, using the NEC protocol:
+You can still do a sanity check here, e.g. the size should never have 
+the most significant bit set for example.
 
-Testing events. Please, press CTRL-C to abort.
-261.125938: lirc protocol(nec): scancode = 0x1e
-261.125959: event type EV_MSC(0x04): scancode = 0x1e
-261.125959: event type EV_KEY(0x01) key_down: KEY_VOLUMEUP(0x0073)
-261.125959: event type EV_SYN(0x00).
-261.189926: lirc protocol(nec): scancode = 0x1e repeat
-261.189939: event type EV_MSC(0x04): scancode = 0x1e
-261.189939: event type EV_SYN(0x00).
-261.309891: lirc protocol(nec): scancode = 0x1e repeat
-261.309905: event type EV_MSC(0x04): scancode = 0x1e
-261.309905: event type EV_SYN(0x00).
-261.429960: lirc protocol(nec): scancode = 0x1e repeat
-261.429973: event type EV_MSC(0x04): scancode = 0x1e
-261.429973: event type EV_SYN(0x00).
-261.553908: lirc protocol(nec): scancode = 0x1e repeat
-261.553923: event type EV_MSC(0x04): scancode = 0x1e
-261.553923: event type EV_SYN(0x00).
-261.617911: lirc protocol(nec): scancode = 0x1e repeat
-261.617924: event type EV_MSC(0x04): scancode = 0x1e
-261.617924: event type EV_SYN(0x00).
-261.628041: event type EV_KEY(0x01) key_down: KEY_VOLUMEUP(0x0073)
-261.628041: event type EV_SYN(0x00).
-261.737970: lirc protocol(nec): scancode = 0x1e repeat
-261.628041: event type EV_MSC(0x04): scancode = 0x1e
-261.628041: event type EV_SYN(0x00).
-261.760048: event type EV_KEY(0x01) key_down: KEY_VOLUMEUP(0x0073)
-261.760048: event type EV_SYN(0x00).
-261.857958: lirc protocol(nec): scancode = 0x1e repeat
-261.760048: event type EV_MSC(0x04): scancode = 0x1e
-261.760048: event type EV_SYN(0x00).
-261.892056: event type EV_KEY(0x01) key_down: KEY_VOLUMEUP(0x0073)
-261.892056: event type EV_SYN(0x00).
+Regards,
+Christian.
 
-So far, so good. The initial delay between the key_down events is 500ms.  
-But, keep reading:
+>
+> thanks
+> -john
 
-262.024055: event type EV_KEY(0x01) key_down: KEY_VOLUMEUP(0x0073)
-262.024055: event type EV_SYN(0x00).
-262.045960: lirc protocol(nec): scancode = 0x1e repeat
-262.024055: event type EV_MSC(0x04): scancode = 0x1e
-262.024055: event type EV_SYN(0x00).
-262.156052: event type EV_KEY(0x01) key_down: KEY_VOLUMEUP(0x0073)
-262.156052: event type EV_SYN(0x00).
-262.156052: event type EV_KEY(0x01) key_up: KEY_VOLUMEUP(0x0073)
-262.156052: event type EV_SYN(0x00).
-264.074505: lirc protocol(nec): scancode = 0x1e repeat
-264.074524: event type EV_MSC(0x04): scancode = 0x1e
-264.074524: event type EV_SYN(0x00).
-264.137961: lirc protocol(nec): scancode = 0xa
-264.137979: event type EV_MSC(0x04): scancode = 0x0a
-264.137979: event type EV_KEY(0x01) key_down: KEY_VOLUMEDOWN(0x0072)
-264.137979: event type EV_SYN(0x00).
-264.324062: event type EV_KEY(0x01) key_up: KEY_VOLUMEDOWN(0x0072)
-264.324062: event type EV_SYN(0x00).
-264.325944: lirc protocol(nec): scancode = 0xa repeat
-264.325960: event type EV_MSC(0x04): scancode = 0x0a
-264.325960: event type EV_SYN(0x00).
-264.445972: lirc protocol(nec): scancode = 0xa repeat
-264.445988: event type EV_MSC(0x04): scancode = 0x0a
-264.445988: event type EV_SYN(0x00).
-264.565937: lirc protocol(nec): scancode = 0xa repeat
-264.565952: event type EV_MSC(0x04): scancode = 0x0a
-[snip]
-266.585974: lirc protocol(nec): scancode = 0xa repeat
-266.585989: event type EV_MSC(0x04): scancode = 0x0a
-266.585989: event type EV_SYN(0x00).
-267.270556: lirc protocol(nec): scancode = 0xa repeat
-267.270571: event type EV_MSC(0x04): scancode = 0x0a
-267.270571: event type EV_SYN(0x00).
-267.389958: lirc protocol(nec): scancode = 0xa
-267.389976: event type EV_MSC(0x04): scancode = 0x0a
-267.389976: event type EV_KEY(0x01) key_down: KEY_VOLUMEDOWN(0x0072)
-267.389976: event type EV_SYN(0x00).
-267.509941: lirc protocol(nec): scancode = 0xa repeat
-267.509957: event type EV_MSC(0x04): scancode = 0x0a
-267.509957: event type EV_SYN(0x00).
-267.629971: lirc protocol(nec): scancode = 0xa repeat
-267.629986: event type EV_MSC(0x04): scancode = 0x0a
-267.629986: event type EV_SYN(0x00).
-267.749948: lirc protocol(nec): scancode = 0xa repeat
-267.749963: event type EV_MSC(0x04): scancode = 0x0a
-267.749963: event type EV_SYN(0x00).
-267.873963: lirc protocol(nec): scancode = 0xa repeat
-267.873978: event type EV_MSC(0x04): scancode = 0x0a
-267.873978: event type EV_SYN(0x00).
-267.900054: event type EV_KEY(0x01) key_down: KEY_VOLUMEDOWN(0x0072)
-267.900054: event type EV_SYN(0x00).
-267.937934: lirc protocol(nec): scancode = 0xa repeat
-267.900054: event type EV_MSC(0x04): scancode = 0x0a
-267.900054: event type EV_SYN(0x00).
-268.032044: event type EV_KEY(0x01) key_down: KEY_VOLUMEDOWN(0x0072)
-268.032044: event type EV_SYN(0x00).
-
-Why was there a key_up event at 264.324062 even though I continued to 
-hold down that button? Maybe shortly before another key_down was finally 
-generated, I had let the button go and pressed it again.
-
-All in all, I long-pressed VOL+, VOL-, VOL+, VOL-, and only for the 
-second press (VOL-) I failed to get proper repeat events. So, it almost 
-works. For comparison, I used the stock kernel module, which never 
-generated repeat events for the NEC protocol.
-
-Then, I loaded the hauppauge.toml and tested with RC5. It was fairly OK, 
-except for an anomaly: When I pressed Vol- or Vol+ after just having 
-long-pressed the other key, I got one more event for the previous key!  
-Here is a trace of that:
-
-1471.642128: event type EV_MSC(0x04): scancode = 0x1e10
-1471.642128: event type EV_SYN(0x00).
-1471.676071: event type EV_KEY(0x01) key_down: KEY_VOLUMEUP(0x0073)
-1471.676071: event type EV_SYN(0x00).
-1471.808059: event type EV_KEY(0x01) key_down: KEY_VOLUMEUP(0x0073)
-1471.808059: event type EV_SYN(0x00).
-1471.808059: event type EV_KEY(0x01) key_up: KEY_VOLUMEUP(0x0073)
-1471.808059: event type EV_SYN(0x00).
-1472.266096: lirc protocol(rc5): scancode = 0x1e10 toggle=1
-1472.266113: event type EV_MSC(0x04): scancode = 0x1e10
-1472.266113: event type EV_KEY(0x01) key_down: KEY_VOLUMEUP(0x0073)
-1472.266113: event type EV_SYN(0x00).
-1472.386062: lirc protocol(rc5): scancode = 0x1e11
-1472.386079: event type EV_KEY(0x01) key_up: KEY_VOLUMEUP(0x0073)
-1472.386079: event type EV_MSC(0x04): scancode = 0x1e11
-1472.386079: event type EV_KEY(0x01) key_down: KEY_VOLUMEDOWN(0x0072)
-1472.386079: event type EV_SYN(0x00).
-1472.450104: lirc protocol(rc5): scancode = 0x1e11
-1472.450118: event type EV_MSC(0x04): scancode = 0x1e11
-1472.450118: event type EV_SYN(0x00).
-1472.570090: lirc protocol(rc5): scancode = 0x1e11
-1472.570105: event type EV_MSC(0x04): scancode = 0x1e11
-1472.570105: event type EV_SYN(0x00).
-1472.760061: event type EV_KEY(0x01) key_up: KEY_VOLUMEDOWN(0x0072)
-1472.760061: event type EV_SYN(0x00).
-
-The events between 1472.266096 and 1472.386079 are fake. I only pressed 
-and released Vol+ once. Once I started to press Vol- I got fake key_down 
-and key_up for KEY_VOLUMEUP instead of getting the initial message for 
-KEY_VOLUMEDOWN.
-
-I tried this also with short presses, pressing Vol- and Vol+ 
-alternatively. Almost all of the time, the GNOME volume control widget 
-reacted by getting exactly the wrong event (from the previous key 
-press).
-
->From f860a05c35a7b0e7b331e61e1b61674c2a9279f0 Mon Sep 17 00:00:00 2001
->From: Sean Young <sean@mess.org>
->Date: Thu, 13 Jan 2022 16:33:13 +0000
->Subject: [PATCH] media: rtl28xxu: improve IR receiver
-
-In my opinion, this patch is a significant improvement for decoding the 
-NEC protocol, as well as for the RC5 protocol, because for that one it 
-no longer sends key_up events before each repeated key_down event for a 
-held-down button.
-
-But, for the RC5 decoder, there appears to be a serious regression that 
-instead of sending the event for the last received message, it will 
-repeat an event for the previously pressed button.
-
-Best regards,
-
-	Marko
