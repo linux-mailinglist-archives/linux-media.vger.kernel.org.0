@@ -2,170 +2,137 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A7D7448F550
-	for <lists+linux-media@lfdr.de>; Sat, 15 Jan 2022 06:57:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id AEB8A48F63A
+	for <lists+linux-media@lfdr.de>; Sat, 15 Jan 2022 11:02:16 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230228AbiAOF5o (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 15 Jan 2022 00:57:44 -0500
-Received: from ewsoutbound.kpnmail.nl ([195.121.94.169]:24301 "EHLO
-        ewsoutbound.kpnmail.nl" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229801AbiAOF5o (ORCPT
+        id S232748AbiAOKCN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 15 Jan 2022 05:02:13 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57340 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230099AbiAOKCN (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 15 Jan 2022 00:57:44 -0500
-X-KPN-MessageId: 712308ab-75c7-11ec-9abf-005056abad63
-Received: from smtp.kpnmail.nl (unknown [10.31.155.40])
-        by ewsoutbound.so.kpn.org (Halon) with ESMTPS
-        id 712308ab-75c7-11ec-9abf-005056abad63;
-        Sat, 15 Jan 2022 06:53:19 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=xs4all.nl; s=xs4all01;
-        h=subject:to:from:date:message-id;
-        bh=48vUxiDk12cc1KiVB1GOwWbzC5IqXcE93lJ3S4Bh5HM=;
-        b=e8Xjhhl2gpmqED7IIi8xFINnbhKzd1WE41J2T+ANaQAOH+SlX/DL1uMf5bbtNIZgpxfYw2MSQuWQ4
-         kZSq5KzfJFvftO/uMYL+DebeY2gNXpersa7OkL2vUfgC6ZcmSxVDVKbVI6Fa1uo2WPeGVMHcQOvWhW
-         60Yly3qOMbYYiStsDMNsDMXOIYC11sCOk6qfmd6tF89IGSed9q/c+n0P6CUvVFiYU+Mv63Il4RQDod
-         ZMEw3GbThj2ckUaNUT3UtaBwMBz1PNVV9xMOV8O4wRqB3MKea/zRarM0XOeRSur3hKZ4elPmsK8RdU
-         C5R/ny6Lc0nOt7BEA5y5nsyxBRLAkhg==
-Message-ID: <0ca359ba-75c8-11ec-b76f-005056ab7584@smtp.kpnmail.nl>
-X-KPN-VerifiedSender: Yes
-X-CMASSUN: 33|GFyz7NmZL1zdrqvpao3DOyH1rQIJZs7uw84lDjw22BYhePgn67XrPOGTr9emZh6
- U5eFutMcScu3rhVWjfLqqTg==
-X-Originating-IP: 193.91.129.219
-Received: from localhost (cdb815bc1.dhcp.as2116.net [193.91.129.219])
-        by smtp.xs4all.nl (Halon) with ESMTPSA
-        id 0c5c8a0c-75c8-11ec-b76f-005056ab7584;
-        Sat, 15 Jan 2022 06:57:40 +0100 (CET)
-Date:   Sat, 15 Jan 2022 06:57:40 +0100
-From:   "Hans Verkuil" <hverkuil@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: WARNINGS
+        Sat, 15 Jan 2022 05:02:13 -0500
+Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org [IPv6:2001:67c:2050::465:202])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D3AB5C061574
+        for <linux-media@vger.kernel.org>; Sat, 15 Jan 2022 02:02:12 -0800 (PST)
+Received: from smtp1.mailbox.org (smtp1.mailbox.org [80.241.60.240])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-384) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4JbYcL4zfnzQkj9;
+        Sat, 15 Jan 2022 11:02:10 +0100 (CET)
+X-Virus-Scanned: amavisd-new at heinlein-support.de
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+        t=1642240929;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=5mV8JB5Mv7mEJpvXolPt6WJu8Thn285DJtkcJA/v4eE=;
+        b=dPW5dsQd4H4YJsfnJTRoMTk4Qf036eLFC3oBfNGLV5odndoPRauRpZMCWzFpgpL2AmihV9
+        yzUYt1YdEsUV523rvimtXoXj/TRmq/jmBa63evXU14WexRMGmYpLjmseTIXk7Va+Nq7rB+
+        9ZZu3aqenCeV2q5t/of4YH/4l2X/ciAciTV45fSBbhXh3nZnLqxQCvBg0nYKZuRL6vIFS8
+        S1Fg3iK+IZwtCsctNskHKzNRBrSm1tzkYMaxF182JIn6NQMMZSEMaPUOXjCn9vhgOys0pk
+        6qmMllWTRYtxv4805g9Rez/qgDqB34c29irMQUlrlrRVnb+RQanYRVuvoF+9Ag==
+From:   Alexander Stein <alexander.stein@mailbox.org>
+To:     Stefan Agner <stefan@agner.ch>
+Cc:     narmstrong@baylibre.com, linux-amlogic@lists.infradead.org,
+        linux-media@vger.kernel.org
+Subject: Re: (EXT) HDMI CEC on ODROID-N2+
+Date:   Sat, 15 Jan 2022 11:02:04 +0100
+Message-ID: <5560050.DvuYhMxLoT@kongar>
+In-Reply-To: <d2ef8936c54567c9c2652b3c53a82f68@agner.ch>
+References: <d2ef8936c54567c9c2652b3c53a82f68@agner.ch>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the kernels and architectures in the list below.
+Hi Stefan,
 
-Results of the daily build of media_tree:
+Am Donnerstag, 13. Januar 2022, 15:36:38 CET schrieb Stefan Agner:
+> Hi Neil,
+> 
+> I am trying to use HDMI CEC on ODROID-N2+ using Linux 5.10.91. However,
+> I was unsuccessful: As far as I can tell cec-client uses the right
+> device (I disabled CONFIG_DRM_DW_HDMI_CEC since my kernel is still
+> missing your patch "drm/meson: dw-hdmi: disable DW-HDMI CEC
+> sub-driver"). But communication won't work, and dmesg prints timeout
+> messages:
+> 
+> [   68.831253] cec-meson_g12a_ao_cec: message ff 84 20 00 06 timed out
+> [   71.134987] cec-meson_g12a_ao_cec: message ff 87 00 15 82 timed out
+> [   73.438826] cec-meson_g12a_ao_cec: message f0 timed out
+> [   75.742677] cec-meson_g12a_ao_cec: message f0 timed out
+> [   78.046555] cec-meson_g12a_ao_cec: message f0 timed out
+> [   80.350446] cec-meson_g12a_ao_cec: message f0 timed out
+> [   82.654358] cec-meson_g12a_ao_cec: message 11 timed out
+> [   84.958285] cec-meson_g12a_ao_cec: message 11 timed out
+> [   87.262194] cec-meson_g12a_ao_cec: message 11 timed out
+> [   89.566130] cec-meson_g12a_ao_cec: message 11 timed out
+> 
+> I did a quick test with CoreELEC which uses the 4.9 downstream kernel,
+> CEC seems to work there. So it does not seem to be my hardware setup.
+> 
+> A quick test with the latest Linux 5.16 shows the same errors.
+> 
+> Do you happen to have an idea? Do you know if HDMI CEC using upstream
+> kernels worked at one point on that particular platform?
 
-date:			Sat Jan 15 05:00:16 CET 2022
-media-tree git hash:	5da908b7af4c3ebd6748069d7223dc7a1a98d834
-media_build git hash:	2fa76ec062aeaf93b647edbad1dd606e49fca4b3
-v4l-utils git hash:	9f0eab72e17e4167c2d4df790c7e384240ce5c37
-edid-decode git hash:	6514c9d9b18160fe9f09d3d70f99dda85d6fca71
-gcc version:		i686-linux-gcc (GCC) 11.2.0
-sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
-sparse version:		0.6.3
-smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
-smatch version:		0.6.3
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: 113d52660b1fa16141bccb95d4bdbd2a4bd90d26
-host hardware:		x86_64
-host os:		5.15.0-2-amd64
+I'm using Arch Linux on my ODROID-n2 (non-plus) and HDMI CEC works as 
+expected.
+Currently I'm running a 5.15.13-1-aarch64-ARCH kernel. AFAICS the mentioned 
+patch is mainline since v5.14. I can see my TV without issues. I have to add 
+that not every cable is suitable for HDMI CEC, I have one where CEC does not 
+work (in general).
 
-linux-git-sh: OK
-linux-git-arm-at91: OK
-linux-git-arm-davinci: OK
-linux-git-mips: OK
-linux-git-arm-stm32: OK
-linux-git-arm-pxa: OK
-linux-git-arm-multi: OK
-linux-git-arm64: OK
-linux-git-powerpc64: OK
-linux-git-i686: OK
-linux-git-x86_64: OK
-Check COMPILE_TEST: OK
-Check for strcpy/strncpy/strlcpy: OK
-linux-4.4.283-i686: OK
-linux-4.4.283-x86_64: OK
-linux-4.5.7-i686: OK
-linux-4.5.7-x86_64: OK
-linux-4.6.7-i686: OK
-linux-4.6.7-x86_64: OK
-linux-4.7.10-i686: OK
-linux-4.7.10-x86_64: OK
-linux-4.8.17-i686: OK
-linux-4.8.17-x86_64: OK
-linux-4.9.246-i686: OK
-linux-4.9.246-x86_64: OK
-linux-4.10.17-i686: OK
-linux-4.10.17-x86_64: OK
-linux-4.11.12-i686: OK
-linux-4.11.12-x86_64: OK
-linux-4.12.14-i686: OK
-linux-4.12.14-x86_64: OK
-linux-4.13.16-i686: OK
-linux-4.13.16-x86_64: OK
-linux-4.14.246-i686: OK
-linux-4.14.246-x86_64: OK
-linux-4.15.18-i686: OK
-linux-4.15.18-x86_64: OK
-linux-4.16.18-i686: OK
-linux-4.16.18-x86_64: OK
-linux-4.17.19-i686: OK
-linux-4.17.19-x86_64: OK
-linux-4.18.20-i686: OK
-linux-4.18.20-x86_64: OK
-linux-4.19.206-i686: OK
-linux-4.19.206-x86_64: OK
-linux-4.20.17-i686: OK
-linux-4.20.17-x86_64: OK
-linux-5.0.21-i686: OK
-linux-5.0.21-x86_64: OK
-linux-5.1.21-i686: OK
-linux-5.1.21-x86_64: OK
-linux-5.2.21-i686: OK
-linux-5.2.21-x86_64: OK
-linux-5.3.18-i686: OK
-linux-5.3.18-x86_64: OK
-linux-5.4.144-i686: OK
-linux-5.4.144-x86_64: OK
-linux-5.5.19-i686: OK
-linux-5.5.19-x86_64: OK
-linux-5.6.19-i686: OK
-linux-5.6.19-x86_64: OK
-linux-5.7.19-i686: OK
-linux-5.7.19-x86_64: OK
-linux-5.8.18-i686: OK
-linux-5.8.18-x86_64: OK
-linux-5.9.16-i686: OK
-linux-5.9.16-x86_64: OK
-linux-5.10.62-i686: OK
-linux-5.10.62-x86_64: OK
-linux-5.11.22-i686: OK
-linux-5.11.22-x86_64: OK
-linux-5.12.19-i686: OK
-linux-5.12.19-x86_64: OK
-linux-5.13.14-i686: OK
-linux-5.13.14-x86_64: OK
-linux-5.14.1-i686: OK
-linux-5.14.1-x86_64: OK
-linux-5.15.1-i686: OK
-linux-5.15.1-x86_64: OK
-linux-5.16-rc1-i686: OK
-linux-5.16-rc1-x86_64: OK
-apps: OK
-spec-git: OK
-virtme: Warnings: Final Summary: 2989, Succeeded: 2989, Failed: 0, Warnings: 2
-virtme-32: Errors: Final Summary: 3100, Succeeded: 3089, Failed: 11, Warnings: 0
-sparse: WARNINGS
-smatch: WARNINGS
-kerneldoc: WARNINGS
+HTH
+Alexander
+------
+$ cec-ctl --playback
+$ cec-ctl -S
+Driver Info:
+        Driver Name                : meson-ao-cec-g12a
+        Adapter Name               : meson_g12a_ao_cec
+        Capabilities               : 0x0000011e
+                Logical Addresses
+                Transmit
+                Passthrough
+                Remote Control Support
+                Connector Info
+        Driver version             : 5.15.13
+        Available Logical Addresses: 4
+        DRM Connector Info         : card 1, connector 32
+        Physical Address           : 1.0.0.0
+        Logical Address Mask       : 0x0010
+        CEC Version                : 2.0
+        Vendor ID                  : 0x000c03 (HDMI)
+        OSD Name                   : 'Playback'
+        Logical Addresses          : 1 (Allow RC Passthrough)
 
-Detailed results are available here:
+          Logical Address          : 4 (Playback Device 1)
+            Primary Device Type    : Playback
+            Logical Address Type   : Playback
+            All Device Types       : Playback
+            RC TV Profile          : None
+            Device Features        :
+                None
 
-http://www.xs4all.nl/~hverkuil/logs/Saturday.log
+        System Information for device 0 (TV) from device 4 (Playback Device 
+1):
+                CEC Version                : 1.4
+                Physical Address           : 0.0.0.0
+                Primary Device Type        : TV
+                Vendor ID                  : 0x080046 (Sony)
+                OSD Name                   : 'TV'
+                Power Status               : Standby
 
-Detailed regression test results are available here:
+        Topology:
 
-http://www.xs4all.nl/~hverkuil/logs/Saturday-test-media.log
-http://www.xs4all.nl/~hverkuil/logs/Saturday-test-media-32.log
-http://www.xs4all.nl/~hverkuil/logs/Saturday-test-media-dmesg.log
+            0.0.0.0: TV
+                1.0.0.0: Playback Device 1
 
-Full logs are available here:
 
-http://www.xs4all.nl/~hverkuil/logs/Saturday.tar.bz2
 
-The Media Infrastructure API from this daily build is here:
-
-http://www.xs4all.nl/~hverkuil/spec/index.html
