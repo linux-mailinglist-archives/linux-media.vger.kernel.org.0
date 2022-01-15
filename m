@@ -2,140 +2,286 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C982448F71A
-	for <lists+linux-media@lfdr.de>; Sat, 15 Jan 2022 14:28:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0088848F882
+	for <lists+linux-media@lfdr.de>; Sat, 15 Jan 2022 18:39:41 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231788AbiAON2G (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 15 Jan 2022 08:28:06 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45442 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229946AbiAON2F (ORCPT
+        id S230189AbiAORjk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 15 Jan 2022 12:39:40 -0500
+Received: from lahtoruutu.iki.fi ([185.185.170.37]:52658 "EHLO
+        lahtoruutu.iki.fi" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230087AbiAORjh (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 15 Jan 2022 08:28:05 -0500
-Received: from mail.kmu-office.ch (mail.kmu-office.ch [IPv6:2a02:418:6a02::a2])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BB238C061574
-        for <linux-media@vger.kernel.org>; Sat, 15 Jan 2022 05:28:04 -0800 (PST)
-Received: from webmail.kmu-office.ch (unknown [IPv6:2a02:418:6a02::a3])
-        by mail.kmu-office.ch (Postfix) with ESMTPSA id BD8F25C2F4F;
-        Sat, 15 Jan 2022 14:28:01 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=agner.ch; s=dkim;
-        t=1642253281;
+        Sat, 15 Jan 2022 12:39:37 -0500
+Received: from hillosipuli.retiisi.eu (dkvn5pty0gzs3nltj987t-3.rev.dnainternet.fi [IPv6:2001:14ba:4457:9640:1e2d:1f75:a607:ef37])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: sailus)
+        by lahtoruutu.iki.fi (Postfix) with ESMTPSA id CE3EC1B0001D;
+        Sat, 15 Jan 2022 19:39:34 +0200 (EET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=lahtoruutu;
+        t=1642268375;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=psCj3yYz2JzB8Myw+pQ9GhPT5gIxMQVgGkHm8xE4YQs=;
-        b=mz+CybejpGgsAXbzhE+DZqNS0sMhJy/Z+Y5EY7YFHxpDMxn9j/g9gwR8ntwy+n6HpPppai
-        uDURKDGACiD+bJNKid89O6bIkOk32DyF23yWSCjNCxalVOGYsLLB/eKRMdf18SbYMwfPan
-        rIEiMsH6aFYyrPXzGs/jifyJ7aLZVKc=
+        bh=sXN6p9jLjwe+USTc7f0W8mcq7XPw7sgdQPIhsZam0FE=;
+        b=QxszX1aOWwItmCyiaojeHN39hs7cGiLOFZPLrpTuEQzDyjLMAgLPDnNS1ueBuPiS6cLsdm
+        E1U3NANyx6B4UMmX3nZQTTcUGDuiYqbKlFnrUueWGUr/i3yiGuEsfkKTI1luVd3udedD79
+        dc1h4LNrm34faRaT1UpCA1bsk1TUdhZxxWwuRuZbro4qDLE4LdW13jNSt8cnkK/s7n8fIK
+        MlJUx2LeWaxFPe+SiRx2bq2ODN+7MIl2y4yqoeFXFkx0GHhdHd/Og5MSTnNHke4tg4PA/3
+        h55FheX1Yu1WRyQj+nbJPEIhz4cmQ1dDiBW0OSGwKVpPLlK7JDjaYTAPOh2/fg==
+Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 464BA634C90;
+        Sat, 15 Jan 2022 19:39:34 +0200 (EET)
+Date:   Sat, 15 Jan 2022 19:39:33 +0200
+From:   Sakari Ailus <sakari.ailus@iki.fi>
+To:     Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+Cc:     linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Niklas =?iso-8859-1?Q?S=F6derlund?= 
+        <niklas.soderlund@ragnatech.se>,
+        Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+        Jacopo Mondi <jacopo@jmondi.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Subject: Re: [PATCH 2/2] media: media-entity: Simplify media_pipeline_start()
+Message-ID: <YeMG1Xgtnq0Qu9ar@valkosipuli.retiisi.eu>
+References: <20220113150042.15630-1-laurent.pinchart+renesas@ideasonboard.com>
+ <20220113150042.15630-3-laurent.pinchart+renesas@ideasonboard.com>
 MIME-Version: 1.0
-Date:   Sat, 15 Jan 2022 14:28:01 +0100
-From:   Stefan Agner <stefan@agner.ch>
-To:     Alexander Stein <alexander.stein@mailbox.org>
-Cc:     narmstrong@baylibre.com, linux-amlogic@lists.infradead.org,
-        linux-media@vger.kernel.org
-Subject: Re: (EXT) HDMI CEC on ODROID-N2+
-In-Reply-To: <8112d37eaed169735ca8b46e5d587210@agner.ch>
-References: <d2ef8936c54567c9c2652b3c53a82f68@agner.ch>
- <5560050.DvuYhMxLoT@kongar> <8112d37eaed169735ca8b46e5d587210@agner.ch>
-User-Agent: Roundcube Webmail/1.4.9
-Message-ID: <772e1613cd49ddac3941ae584e0e89c2@agner.ch>
-X-Sender: stefan@agner.ch
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220113150042.15630-3-laurent.pinchart+renesas@ideasonboard.com>
+ARC-Authentication-Results: i=1;
+        ORIGINATING;
+        auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
+ARC-Seal: i=1; s=lahtoruutu; d=iki.fi; t=1642268375; a=rsa-sha256;
+        cv=none;
+        b=owIo3q/vV15oTYrvxCOhIX8Lgxnyje2On+ZFfy7m4DP4TEgk4KnI2Al5IguhaOFGsug/uL
+        zagre8Ra4nnSjvUprK2lWgReSeT+fImQcZkuHmjHEkkaAIcVexT9njhBGIXa5zA7cjas/J
+        /AfpmuK2vnGlXz2tMB7rhsATGw7qdw4jRqNqRpHCo633Q4upjGR68U0WH2KIfzttmJfj1z
+        GloFdbp4U9dKX3vdaHmJ/DWmEhZdNS9aE4rd7o1F48moJhXq+2Ag6BWCbBPEsabiRw2bZx
+        3IzkNGI4Pt1XVcskTFWf3EL6ittEwsWimfdAX0NQLPYobXEGpe844CoNWGtdlA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
+        s=lahtoruutu; t=1642268375;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=sXN6p9jLjwe+USTc7f0W8mcq7XPw7sgdQPIhsZam0FE=;
+        b=KO4Bqeme41tXQpceiE4UVK3SIUc6X99uCmq4NBKfVh7dYRxw9rH/ygNTTgMqevJd6FbSqO
+        GZBzkig+7qxTV6MDVPirvpRJ5DSDbeSrd1QLGEu2Yj+33OLf57TU6XM2EXUyGdJ+9Rn5WA
+        t+ZH2CYhv4mSzF9l9OBUGjmjloaQrOepgCWve5rcQ9SlJKbEiRS3E0fdZasrS3tHRgrjmf
+        fpK9iAGGL9fPeQNKZg8/OwmCWcuTOLfmXu6DD4kM5K/AXEVEDJSU8XKGFT7q32FqdPY8ng
+        ErqxM9NvGO9EHdIZVVEypd073dQI8N6nGOMZp3Ibq7Yfd7tK4KguFnj75Enqpg==
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Alexander, Hi Neil,
+Moi,
 
-On 2022-01-15 11:52, Stefan Agner wrote:
-> Hi Alexander,
+Thanks for the set.
+
+On Thu, Jan 13, 2022 at 05:00:42PM +0200, Laurent Pinchart wrote:
+> From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 > 
-> On 2022-01-15 11:02, Alexander Stein wrote:
->> Hi Stefan,
->>
->> Am Donnerstag, 13. Januar 2022, 15:36:38 CET schrieb Stefan Agner:
->>> Hi Neil,
->>>
->>> I am trying to use HDMI CEC on ODROID-N2+ using Linux 5.10.91. However,
->>> I was unsuccessful: As far as I can tell cec-client uses the right
->>> device (I disabled CONFIG_DRM_DW_HDMI_CEC since my kernel is still
->>> missing your patch "drm/meson: dw-hdmi: disable DW-HDMI CEC
->>> sub-driver"). But communication won't work, and dmesg prints timeout
->>> messages:
->>>
->>> [   68.831253] cec-meson_g12a_ao_cec: message ff 84 20 00 06 timed out
->>> [   71.134987] cec-meson_g12a_ao_cec: message ff 87 00 15 82 timed out
->>> [   73.438826] cec-meson_g12a_ao_cec: message f0 timed out
->>> [   75.742677] cec-meson_g12a_ao_cec: message f0 timed out
->>> [   78.046555] cec-meson_g12a_ao_cec: message f0 timed out
->>> [   80.350446] cec-meson_g12a_ao_cec: message f0 timed out
->>> [   82.654358] cec-meson_g12a_ao_cec: message 11 timed out
->>> [   84.958285] cec-meson_g12a_ao_cec: message 11 timed out
->>> [   87.262194] cec-meson_g12a_ao_cec: message 11 timed out
->>> [   89.566130] cec-meson_g12a_ao_cec: message 11 timed out
->>>
->>> I did a quick test with CoreELEC which uses the 4.9 downstream kernel,
->>> CEC seems to work there. So it does not seem to be my hardware setup.
->>>
->>> A quick test with the latest Linux 5.16 shows the same errors.
->>>
->>> Do you happen to have an idea? Do you know if HDMI CEC using upstream
->>> kernels worked at one point on that particular platform?
->>
->> I'm using Arch Linux on my ODROID-n2 (non-plus) and HDMI CEC works as
->> expected.
->> Currently I'm running a 5.15.13-1-aarch64-ARCH kernel. AFAICS the mentioned
->> patch is mainline since v5.14. I can see my TV without issues. I have to add
->> that not every cable is suitable for HDMI CEC, I have one where CEC does not
->> work (in general).
+> The media_pipeline_start() function has two purposes: it constructs a
+> pipeline by recording the entities that are part of it, gathered from a
+> graph walk, and validate the media links. The pipeline pointer is stored
+> in the media_entity structure as part of this process, and the entity's
+> stream count is increased, to record that the entity is streaming.
 > 
-> Hm, interesting, thanks for the datapoint!
+> When multiple video nodes are present in a pipeline,
+> media_pipeline_start() is typically called on all of them, with the same
+> pipeline pointer. This is taken into account in media_pipeline_start()
+> by skipping validation for entities that are already part of the
+> pipeline, while returning an error if an entity is part of a different
+> pipeline.
 > 
-> I tried to reproduce your findings, unfortunately I am not successful in
-> booting mainline using Arch Linux ARM so far. It seems it comes with
-> downstream 4.9 kernel by default (where CEC seems to work in this case
-> too). I then installed linux-aarch64 and adjusted the device tree, but
-> it seems that the downstream U-Boot 2015.01-10 has some hardcoded
-> "rsvmem" command which fails. How are you booting v5.14?
-
-FWIW, adjusted U-Boot load addresses fixed that issue:
-# Set load addresses
-setenv dtb_loadaddr "0x20000000"
-setenv loadaddr "0x1080000"
-setenv initrd_loadaddr "0x4080000"
-
-And I can confirm, HDMI CEC works with Arch Linux 5.15.13 kernel!
-
+> It turns out that this process is overly complicated. When
+> media_pipeline_start() is called for the first time, it constructs the
+> full pipeline, adding all entities and validating all the links.
+> Subsequent calls to media_pipeline_start() are then nearly no-ops, they
+> only increase the stream count on the pipeline and on all entities.
 > 
-> It is a bit surprising that 5.15.13 works for you but 5.16 didn't for
-> me. That makes me wonder, could it be bootloader dependent? Are you
-> using downstream U-Boot?
+> The media_entity stream_count field is used for two purposes: checking
+> if the entity is streaming, and detecting when a call to
+> media_pipeline_stop() balances needs to reset the entity pipe pointer to
+> NULL. The former can easily be replaced by a check of the pipe pointer.
+> 
+> Simplify media_pipeline_start() by avoiding the pipeline walk on all
+> calls but the first one, and drop the media_entity stream_count field.
+> media_pipeline_stop() is updated accordingly.
+> 
+> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> ---
+>  drivers/media/mc/mc-entity.c | 52 +++++++++++++++---------------------
+>  include/media/media-entity.h | 11 +++-----
+>  2 files changed, 26 insertions(+), 37 deletions(-)
+> 
+> diff --git a/drivers/media/mc/mc-entity.c b/drivers/media/mc/mc-entity.c
+> index f83e043f0f3b..8ab0913d8d82 100644
+> --- a/drivers/media/mc/mc-entity.c
+> +++ b/drivers/media/mc/mc-entity.c
+> @@ -396,20 +396,21 @@ __must_check int __media_pipeline_start(struct media_entity *entity,
+>  	struct media_link *link;
+>  	int ret;
+>  
+> -	if (!pipe->streaming_count++) {
+> -		ret = media_graph_walk_init(&pipe->graph, mdev);
+> -		if (ret)
+> -			goto error_graph_walk_start;
+> +	if (pipe->streaming_count) {
+> +		pipe->streaming_count++;
+> +		return 0;
+>  	}
+>  
+> +	ret = media_graph_walk_init(&pipe->graph, mdev);
+> +	if (ret)
+> +		return ret;
+> +
+>  	media_graph_walk_start(&pipe->graph, entity);
+>  
+>  	while ((entity = media_graph_walk_next(graph))) {
+>  		DECLARE_BITMAP(active, MEDIA_ENTITY_MAX_PADS);
+>  		DECLARE_BITMAP(has_no_links, MEDIA_ENTITY_MAX_PADS);
+>  
+> -		entity->stream_count++;
+> -
+>  		if (entity->pipe && entity->pipe != pipe) {
+>  			pr_err("Pipe active for %s. Can't start for %s\n",
+>  				entity->name,
+> @@ -418,12 +419,12 @@ __must_check int __media_pipeline_start(struct media_entity *entity,
+>  			goto error;
+>  		}
+>  
+> -		entity->pipe = pipe;
+> -
+>  		/* Already streaming --- no need to check. */
+> -		if (entity->stream_count > 1)
+> +		if (entity->pipe)
+>  			continue;
+>  
+> +		entity->pipe = pipe;
+> +
+>  		if (!entity->ops || !entity->ops->link_validate)
+>  			continue;
+>  
+> @@ -479,6 +480,8 @@ __must_check int __media_pipeline_start(struct media_entity *entity,
+>  		}
+>  	}
+>  
+> +	pipe->streaming_count++;
+> +
+>  	return 0;
+>  
+>  error:
+> @@ -489,24 +492,17 @@ __must_check int __media_pipeline_start(struct media_entity *entity,
+>  	media_graph_walk_start(graph, entity_err);
+>  
+>  	while ((entity_err = media_graph_walk_next(graph))) {
+> -		/* Sanity check for negative stream_count */
+> -		if (!WARN_ON_ONCE(entity_err->stream_count <= 0)) {
+> -			entity_err->stream_count--;
+> -			if (entity_err->stream_count == 0)
+> -				entity_err->pipe = NULL;
+> -		}
+> +		entity_err->pipe = NULL;
+>  
+>  		/*
+> -		 * We haven't increased stream_count further than this
+> -		 * so we quit here.
+> +		 * We haven't started entities further than this so we quit
+> +		 * here.
+>  		 */
+>  		if (entity_err == entity)
+>  			break;
+>  	}
+>  
+> -error_graph_walk_start:
+> -	if (!--pipe->streaming_count)
+> -		media_graph_walk_cleanup(graph);
+> +	media_graph_walk_cleanup(graph);
+>  
+>  	return ret;
+>  }
+> @@ -537,19 +533,15 @@ void __media_pipeline_stop(struct media_entity *entity)
+>  	if (WARN_ON(!pipe))
+>  		return;
+>  
+> +	if (--pipe->streaming_count)
+> +		return;
+> +
+>  	media_graph_walk_start(graph, entity);
+>  
+> -	while ((entity = media_graph_walk_next(graph))) {
+> -		/* Sanity check for negative stream_count */
+> -		if (!WARN_ON_ONCE(entity->stream_count <= 0)) {
+> -			entity->stream_count--;
+> -			if (entity->stream_count == 0)
+> -				entity->pipe = NULL;
+> -		}
+> -	}
+> +	while ((entity = media_graph_walk_next(graph)))
+> +		entity->pipe = NULL;
+>  
+> -	if (!--pipe->streaming_count)
+> -		media_graph_walk_cleanup(graph);
+> +	media_graph_walk_cleanup(graph);
+>  
+>  }
+>  EXPORT_SYMBOL_GPL(__media_pipeline_stop);
+> diff --git a/include/media/media-entity.h b/include/media/media-entity.h
+> index 8546f13c42a9..e3c4fd1e3623 100644
+> --- a/include/media/media-entity.h
+> +++ b/include/media/media-entity.h
+> @@ -268,7 +268,6 @@ enum media_entity_type {
+>   * @pads:	Pads array with the size defined by @num_pads.
+>   * @links:	List of data links.
+>   * @ops:	Entity operations.
+> - * @stream_count: Stream count for the entity.
+>   * @use_count:	Use count for the entity.
+>   * @pipe:	Pipeline this entity belongs to.
+>   * @info:	Union with devnode information.  Kept just for backward
+> @@ -283,10 +282,9 @@ enum media_entity_type {
+>   *
+>   * .. note::
+>   *
+> - *    @stream_count and @use_count reference counts must never be
+> - *    negative, but are signed integers on purpose: a simple ``WARN_ON(<0)``
+> - *    check can be used to detect reference count bugs that would make them
+> - *    negative.
+> + *    The @use_count reference count must never be negative, but is a signed
+> + *    integer on purpose: a simple ``WARN_ON(<0)`` check can be used to detect
+> + *    reference count bugs that would make it negative.
+>   */
+>  struct media_entity {
+>  	struct media_gobj graph_obj;	/* must be first field in struct */
+> @@ -305,7 +303,6 @@ struct media_entity {
+>  
+>  	const struct media_entity_operations *ops;
+>  
+> -	int stream_count;
+>  	int use_count;
+>  
+>  	struct media_pipeline *pipe;
+> @@ -867,7 +864,7 @@ struct media_pad *media_entity_remote_pad(const struct media_pad *pad);
+>   */
+>  static inline bool media_entity_is_streaming(const struct media_entity *entity)
+>  {
+> -	return entity->stream_count > 0;
+> +	return entity->pipe != NULL;
 
-That assumption turned out to be wrong: I used our mainline based U-Boot
-2021.10 instead of the Arch Linux ARM U-Boot, and HDMI CEC continued to
-work.
+I'd drop "!= NULL" part; it's redundant.
 
-I then moved to 5.15.13 as well to rule out any kernel changes. But
-still, in our configuration HDMI CEC did not work. I ended up diffing
-configuration, and noticed that we are using built-in CONFIG_CEC_CORE
-whereas Arch Linux uses it as a module. To build CONFIG_CEC_CORE as a
-module I had to change some other configuration from built-in to module,
-namely:
+I'll do that when applying if that's fine.
 
-- CONFIG_CEC_CORE=m
-- CONFIG_DRM_DW_HDMI=m
-- CONFIG_DRM_MESON=m
-- CONFIG_DRM_MESON_DW_HDMI=m
 
-With that change, HDMI CEC started to work in my builds too!
+>  }
+>  
+>  /**
 
-With that change, it also works on Linux 5.10.
+-- 
+Kind regards,
 
-I guess there is some ordering issue or something which makes it fail
-when those drivers are built-in? Note that I did not change
-CONFIG_CEC_MESON_G12A_AO, that driver was already a module before.
-
---
-Stefan
+Sakari Ailus
