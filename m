@@ -2,121 +2,91 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 92145490BF8
-	for <lists+linux-media@lfdr.de>; Mon, 17 Jan 2022 16:58:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DE36149103E
+	for <lists+linux-media@lfdr.de>; Mon, 17 Jan 2022 19:28:49 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237409AbiAQP6g (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 17 Jan 2022 10:58:36 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58892 "EHLO
+        id S242555AbiAQS1G (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 17 Jan 2022 13:27:06 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37522 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232951AbiAQP6f (ORCPT
+        with ESMTP id S242520AbiAQS1E (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 17 Jan 2022 10:58:35 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 24640C061574;
-        Mon, 17 Jan 2022 07:58:35 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id B920261034;
-        Mon, 17 Jan 2022 15:58:34 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3A645C36AE3;
-        Mon, 17 Jan 2022 15:58:33 +0000 (UTC)
-Message-ID: <deda9499-91c2-5173-9437-a0f8e2f099e5@xs4all.nl>
-Date:   Mon, 17 Jan 2022 16:58:31 +0100
+        Mon, 17 Jan 2022 13:27:04 -0500
+Received: from mail-ed1-x533.google.com (mail-ed1-x533.google.com [IPv6:2a00:1450:4864:20::533])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 468AAC06161C
+        for <linux-media@vger.kernel.org>; Mon, 17 Jan 2022 10:27:03 -0800 (PST)
+Received: by mail-ed1-x533.google.com with SMTP id c71so69218038edf.6
+        for <linux-media@vger.kernel.org>; Mon, 17 Jan 2022 10:27:03 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=b9HA3D5cyg5bWD4oDuWcsu/JI+Ptg0MH6REy+Ohif9Y=;
+        b=Il4OMKbfGUBg+KEZ8BqjoIiJr683lIB6ibS0Pu4uvQCReg90DgRUeFmHtzHAo2NQiP
+         lDB0uJTMU3jrxRp+HJHjxbnVumispoBOCBdDFTJJd1tGtJbFGA9MlF1ByHhhUwgigm07
+         uo7WSc88WAwHTkClkWZZtaKWFcTwWuZrZj9cM=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=b9HA3D5cyg5bWD4oDuWcsu/JI+Ptg0MH6REy+Ohif9Y=;
+        b=v+bGLDqMbPz/Rv5QVvcBNCHnSKpkBvIr8jZNyLq8ZzN4q1K1fbc5DXtfRVHx725EFt
+         b6bTHxbHXfMFS+nysIWoHzERpompdps/Sj63Y8Gq83OilL5wt/klcT3NPLxF+bzKYFR9
+         Sm/rgc41ew0P85GThFkOKvjlhOGcBAXSXB4JZIiX3FipAyYFnpmt0FMnJBVEhTZs0Fta
+         3DUxlaESzZfM/Agy7yyRhpS7E61M1UucWN7WUKlQCF2qo8hzP04ldpuQgrenSwR4tZMr
+         45v3K5kvxAt8PzB69U90IgR1pVJBhQvOOIHeOZge/8awaJoRAQgcASeHRGtg77Mn2jFp
+         IRXw==
+X-Gm-Message-State: AOAM531vGeWa0p7M21oaOFwPtmENJ8ztM60l4UnxQLYtjbkHU6SyuJv/
+        NhCqo2zU9JHJACViyb0Eg2c/dg==
+X-Google-Smtp-Source: ABdhPJygt0WIpchrr1rvDqfltJQ+Blld3kZPdfWt/rTvDRLMTtskJ+nGQlmZOemOQn02z6VguxaraA==
+X-Received: by 2002:a17:907:72cb:: with SMTP id du11mr3863542ejc.703.1642444021819;
+        Mon, 17 Jan 2022 10:27:01 -0800 (PST)
+Received: from alco.lan (80.71.134.83.ipv4.parknet.dk. [80.71.134.83])
+        by smtp.gmail.com with ESMTPSA id la10sm4657462ejc.22.2022.01.17.10.27.00
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 17 Jan 2022 10:27:01 -0800 (PST)
+From:   Ricardo Ribalda <ribalda@chromium.org>
+To:     Nicolas Dufresne <nicolas@ndufresne.ca>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        tfiga@chromium.org,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc:     Ricardo Ribalda <ribalda@chromium.org>
+Subject: [PATCH v3 0/3] Add Meta: to Metadata devices
+Date:   Mon, 17 Jan 2022 19:26:55 +0100
+Message-Id: <20220117182658.468993-1-ribalda@chromium.org>
+X-Mailer: git-send-email 2.34.1.703.g22d0c6ccf7-goog
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.4.1
-Subject: Re: [PATCH v3 1/6] v4l: Add Qualcomm custom compressed pixel formats
-Content-Language: en-US
-To:     Stanimir Varbanov <stanimir.varbanov@linaro.org>,
-        linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-api@vger.kernel.org
-References: <20220117155559.234026-1-stanimir.varbanov@linaro.org>
- <20220117155559.234026-2-stanimir.varbanov@linaro.org>
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-In-Reply-To: <20220117155559.234026-2-stanimir.varbanov@linaro.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Stan,
+Metadata devices usually companion "real" devices. In order to
+distinguish them properly, add the Meta: prefix to their names.
 
-On 1/17/22 16:55, Stanimir Varbanov wrote:
-> Add custom Qualcomm raw compressed pixel formats. They are
-> used in Qualcomm SoCs to optimize the interconnect bandwidth.
-> 
-> Signed-off-by: Stanimir Varbanov <stanimir.varbanov@linaro.org>
+Also, add a unique suffix to all the uvc devices, to multisensor cameras
+do not show the same names for all their devices (IR, RBG....).
 
-Looks good:
+v3:
 
-Acked-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+- Add the meta logic to the core
 
-Regards,
 
-	Hans
+v2: uvc: Restore old vdev name
 
-> ---
->  .../media/v4l/pixfmt-reserved.rst             | 19 +++++++++++++++++++
->  drivers/media/v4l2-core/v4l2-ioctl.c          |  2 ++
->  include/uapi/linux/videodev2.h                |  2 ++
->  3 files changed, 23 insertions(+)
-> 
-> diff --git a/Documentation/userspace-api/media/v4l/pixfmt-reserved.rst b/Documentation/userspace-api/media/v4l/pixfmt-reserved.rst
-> index 2f2133b4cd9c..929bd0dc0ba3 100644
-> --- a/Documentation/userspace-api/media/v4l/pixfmt-reserved.rst
-> +++ b/Documentation/userspace-api/media/v4l/pixfmt-reserved.rst
-> @@ -245,6 +245,25 @@ please make a proposal on the linux-media mailing list.
->        - Non-compressed, tiled two-planar format used by Mediatek MT8183.
->  	This is an opaque intermediate format and the MDP3 hardware can be
->  	used to convert it to other formats.
-> +    * .. _V4L2-PIX-FMT-QC08C:
-> +
-> +      - ``V4L2_PIX_FMT_QC08C``
-> +      - 'QC08C'
-> +      - Compressed Macro-tile 8-Bit YUV420 format used by Qualcomm platforms.
-> +        It is an opaque intermediate format. The used compression is lossless
-> +        and it is used by various multimedia hardware blocks like GPU, display
-> +        controllers, ISP and video accelerators.
-> +        It contains four planes for progressive video and eight planes for
-> +        interlaced video.
-> +    * .. _V4L2-PIX-FMT-QC10C:
-> +
-> +      - ``V4L2_PIX_FMT_QC10C``
-> +      - 'QC10C'
-> +      - Compressed Macro-tile 10-Bit YUV420 format used by Qualcomm platforms.
-> +        It is an opaque intermediate format. The used compression is lossless
-> +        and it is used by various multimedia hardware blocks like GPU, display
-> +        controllers, ISP and video accelerators.
-> +        It contains four planes for progressive video.
->  
->  .. raw:: latex
->  
-> diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-core/v4l2-ioctl.c
-> index 9ac557b8e146..1b6462f9ad7e 100644
-> --- a/drivers/media/v4l2-core/v4l2-ioctl.c
-> +++ b/drivers/media/v4l2-core/v4l2-ioctl.c
-> @@ -1437,6 +1437,8 @@ static void v4l_fill_fmtdesc(struct v4l2_fmtdesc *fmt)
->  		case V4L2_PIX_FMT_SE401:	descr = "GSPCA SE401"; break;
->  		case V4L2_PIX_FMT_S5C_UYVY_JPG:	descr = "S5C73MX interleaved UYVY/JPEG"; break;
->  		case V4L2_PIX_FMT_MT21C:	descr = "Mediatek Compressed Format"; break;
-> +		case V4L2_PIX_FMT_QC08C:	descr = "QCOM Compressed 8-bit Format"; break;
-> +		case V4L2_PIX_FMT_QC10C:	descr = "QCOM Compressed 10-bit Format"; break;
->  		default:
->  			if (fmt->description[0])
->  				return;
-> diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
-> index df8b9c486ba1..e710903185bd 100644
-> --- a/include/uapi/linux/videodev2.h
-> +++ b/include/uapi/linux/videodev2.h
-> @@ -744,6 +744,8 @@ struct v4l2_pix_format {
->  #define V4L2_PIX_FMT_INZI     v4l2_fourcc('I', 'N', 'Z', 'I') /* Intel Planar Greyscale 10-bit and Depth 16-bit */
->  #define V4L2_PIX_FMT_CNF4     v4l2_fourcc('C', 'N', 'F', '4') /* Intel 4-bit packed depth confidence information */
->  #define V4L2_PIX_FMT_HI240    v4l2_fourcc('H', 'I', '2', '4') /* BTTV 8-bit dithered RGB */
-> +#define V4L2_PIX_FMT_QC08C    v4l2_fourcc('Q', '0', '8', 'C') /* Qualcomm 8-bit compressed */
-> +#define V4L2_PIX_FMT_QC10C    v4l2_fourcc('Q', '1', '0', 'C') /* Qualcomm 10-bit compressed */
->  
->  /* 10bit raw bayer packed, 32 bytes for every 25 pixels, last LSB 6 bits unused */
->  #define V4L2_PIX_FMT_IPU3_SBGGR10	v4l2_fourcc('i', 'p', '3', 'b') /* IPU3 packed 10-bit BGGR bayer */
+Ricardo Ribalda (3):
+  media: v4l2-dev.c: Add Meta: to the name of metadata devices
+  media: Documentation/driver-api: Document device name
+  media: uvcvideo: Add a unique suffix to camera names
+
+ Documentation/driver-api/media/v4l2-dev.rst | 4 +++-
+ drivers/media/usb/uvc/uvc_driver.c          | 3 ++-
+ drivers/media/v4l2-core/v4l2-dev.c          | 9 +++++++++
+ 3 files changed, 14 insertions(+), 2 deletions(-)
+
+-- 
+2.34.1.703.g22d0c6ccf7-goog
+
