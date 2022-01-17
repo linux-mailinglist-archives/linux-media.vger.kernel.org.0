@@ -2,106 +2,93 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 399FE490B75
-	for <lists+linux-media@lfdr.de>; Mon, 17 Jan 2022 16:35:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 099DD490BEC
+	for <lists+linux-media@lfdr.de>; Mon, 17 Jan 2022 16:56:56 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240488AbiAQPfq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 17 Jan 2022 10:35:46 -0500
-Received: from mail-oi1-f176.google.com ([209.85.167.176]:44686 "EHLO
-        mail-oi1-f176.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240489AbiAQPfp (ORCPT
+        id S240692AbiAQP4a (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 17 Jan 2022 10:56:30 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58310 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S240690AbiAQP43 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 17 Jan 2022 10:35:45 -0500
-Received: by mail-oi1-f176.google.com with SMTP id s9so23894945oib.11;
-        Mon, 17 Jan 2022 07:35:45 -0800 (PST)
+        Mon, 17 Jan 2022 10:56:29 -0500
+Received: from mail-wm1-x32e.google.com (mail-wm1-x32e.google.com [IPv6:2a00:1450:4864:20::32e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AD427C061747
+        for <linux-media@vger.kernel.org>; Mon, 17 Jan 2022 07:56:27 -0800 (PST)
+Received: by mail-wm1-x32e.google.com with SMTP id l12-20020a7bc34c000000b003467c58cbdfso25420146wmj.2
+        for <linux-media@vger.kernel.org>; Mon, 17 Jan 2022 07:56:27 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=DsqyxsAVSlOxkHs/ktXlOIw0yzzlQm8nxft+ufPq6ZE=;
+        b=Be35HJXMEKMEDeYomL0vE4JSstxzgh5Pw2+y6BLt5xqr0tVHCBQFkkRvcdoCQqw5P4
+         G7uvxNF3mp3szyL3Mi+c6BcbUa37AR9OGg4+Qa7PS1NfWmg3LQGttAfgDkeFc594M3M0
+         EdikTcg36rkSP0F1f1tm0IPUXyZiAC4RaB5Y2SW621B8M/3o+AT0+dRmEE4GPYa3EyRd
+         GZS3V7skrUj+cf6DY0jiDSrDsj0FmMu/IlkKQ8Yk6dfO/axKpgAWNMtJI3KtQZ2nxu2B
+         s1Tjg1IP8mbOChCX/usmY9i6c5bNTzQ72nqPt2AFQd9MZbvIvmVDBb2JZ+fF4At0VKI6
+         jwQQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:in-reply-to:references:subject:date
-         :message-id;
-        bh=PdccHlgr3Zdp1814HhFMrvJGIRgozixSM54SKvkFpnA=;
-        b=O9OfO7H6ehw2Fz7bnljDHfrVq+M8DdT3STpMcAPMhr3l6vcDBCK7ikieQ1t4bFINlN
-         Q9FbMmcxrqTqjz2p71JlE8aegdBOK9qsVFRGlWn77Ntwr6WGe690W/aNOOiexuRPVnE1
-         J/S7g25jn7wfTDPkn0o5aXG0leQfx6sA/ES/aarBlqmun4xIeryx2tdkzlOrMEsVd9xQ
-         0m+aQayb+88/6vvPg1FcqeVZMeyvd3GTpAXlSL4P9nNZbqOOz9X/2xISZ7s2YRKWEuwG
-         iKy80YesuUI8GlX6MBDSPfwlC/itByEnoOTxGbWnbuTzsRyh6e0/+BvE+z+Lz/xYFwBQ
-         CHig==
-X-Gm-Message-State: AOAM530+EKqZer71pICWhIK5nsrU+m8346X/iS27DwoQMpUl32PWad6N
-        MsPnogSdMdHQFLeg/26koQ==
-X-Google-Smtp-Source: ABdhPJyI7ICuL0OHDG+r1tYSyFFYh4imjg3J5ue8rDUn7lNU4uKpyUkRvJ3l09fkM1OiRFnGsbLg2A==
-X-Received: by 2002:a54:4402:: with SMTP id k2mr9876742oiw.131.1642433744862;
-        Mon, 17 Jan 2022 07:35:44 -0800 (PST)
-Received: from robh.at.kernel.org (66-90-148-213.dyn.grandenetworks.net. [66.90.148.213])
-        by smtp.gmail.com with ESMTPSA id a28sm6389929oiy.4.2022.01.17.07.35.43
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=DsqyxsAVSlOxkHs/ktXlOIw0yzzlQm8nxft+ufPq6ZE=;
+        b=M2mhaw8hzj2XjRrQEi59NYHVxEXbHyWxhaNReGToeV2AQxJRyKMz9MfptLQPNO+4TA
+         sHTqkWsWtNvyxxc/6ECAaM7+XlLSbmPu1m90+QOwRp53RBKutKKh4VPvI+tMg8upXjGd
+         gveLneukOvXajqmneEwYY+2F2gbfco7ZdKXGoRh57pft/ZqBsBv/04vNDYK0W4hyZrUv
+         uEtZWGotEFAxpffDsyH98dzqX0xQ0XEsbnamXSWOb9CKezbvbbU8zqWKWpx+gUQSVIW4
+         KOIHNtmu22aikP3Nagpxbx3p0hSODMtsmHuColDQ9v8n/g0WMKJdUebRxErU+1ciDIkG
+         XL7g==
+X-Gm-Message-State: AOAM5337Zse70HcgRMklFJo43Ddj8T32VQQnSlj4wiTWHczPzdNouX13
+        0AsHYLRQ2yew8bFFLH5VIOp96t23qJawow==
+X-Google-Smtp-Source: ABdhPJzahs8bcHSsKhULSprSsbqUAigoWScg0qPNCMMBkhA12fU/iySVFVyEzZ9GkhQKC/nO+JwuRQ==
+X-Received: by 2002:a5d:6dd1:: with SMTP id d17mr21161718wrz.520.1642434986037;
+        Mon, 17 Jan 2022 07:56:26 -0800 (PST)
+Received: from localhost.localdomain (hst-221-60.medicom.bg. [84.238.221.60])
+        by smtp.gmail.com with ESMTPSA id i82sm15542900wma.23.2022.01.17.07.56.25
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 17 Jan 2022 07:35:44 -0800 (PST)
-Received: (nullmailer pid 3923084 invoked by uid 1000);
-        Mon, 17 Jan 2022 15:35:42 -0000
-From:   Rob Herring <robh@kernel.org>
-To:     Irui Wang <irui.wang@mediatek.com>
-Cc:     Hsin-Yi Wang <hsinyi@chromium.org>, linux-media@vger.kernel.org,
-        angelogioacchino.delregno@collabora.com,
-        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Tiffany Lin <tiffany.lin@mediatek.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Yunfei Dong <yunfei.dong@mediatek.com>,
-        linux-kernel@vger.kernel.org, Tzung-Bi Shih <tzungbi@chromium.org>,
-        Alexandre Courbot <acourbot@chromium.org>,
-        Project_Global_Chrome_Upstream_Group@mediatek.com,
-        devicetree@vger.kernel.org, srv_heupstream@mediatek.com,
-        Tomasz Figa <tfiga@google.com>, Yong Wu <yong.wu@mediatek.com>,
-        Maoguang Meng <maoguang.meng@mediatek.com>,
-        Longfei Wang <longfei.wang@mediatek.com>,
-        linux-mediatek@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org,
-        Fritz Koenig <frkoenig@chromium.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>
-In-Reply-To: <20220117120615.21687-4-irui.wang@mediatek.com>
-References: <20220117120615.21687-1-irui.wang@mediatek.com> <20220117120615.21687-4-irui.wang@mediatek.com>
-Subject: Re: [PATCH v2, 03/10] dt-bindings: media: mtk-vcodec: Adds encoder cores dt-bindings for mt8195
-Date:   Mon, 17 Jan 2022 09:35:42 -0600
-Message-Id: <1642433742.919482.3923083.nullmailer@robh.at.kernel.org>
+        Mon, 17 Jan 2022 07:56:25 -0800 (PST)
+From:   Stanimir Varbanov <stanimir.varbanov@linaro.org>
+To:     linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-api@vger.kernel.org
+Cc:     hverkuil-cisco@xs4all.nl,
+        Stanimir Varbanov <stanimir.varbanov@linaro.org>
+Subject: [PATCH v3 0/6] Qualcomm custom compressed pixfmt
+Date:   Mon, 17 Jan 2022 17:55:53 +0200
+Message-Id: <20220117155559.234026-1-stanimir.varbanov@linaro.org>
+X-Mailer: git-send-email 2.25.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, 17 Jan 2022 20:06:08 +0800, Irui Wang wrote:
-> Adds encoder cores dt-bindings for mt8195
-> 
-> Signed-off-by: Irui Wang <irui.wang@mediatek.com>
-> ---
->  .../media/mediatek,vcodec-encoder-core.yaml   | 214 ++++++++++++++++++
->  1 file changed, 214 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/media/mediatek,vcodec-encoder-core.yaml
-> 
+Changes since v2:
 
-My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
-on your patch (DT_CHECKER_FLAGS is new in v5.13):
+- 1/6, Added a phrase that the format is opaque (Hans).
+- 6/6, new patch to address an issue with reconfigure.
 
-yamllint warnings/errors:
+regards,
+Stan
 
-dtschema/dtc warnings/errors:
-Documentation/devicetree/bindings/media/mediatek,vcodec-encoder-core.example.dts:20:18: fatal error: dt-bindings/memory/mt8195-memory-port.h: No such file or directory
-   20 |         #include <dt-bindings/memory/mt8195-memory-port.h>
-      |                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-compilation terminated.
-make[1]: *** [scripts/Makefile.lib:373: Documentation/devicetree/bindings/media/mediatek,vcodec-encoder-core.example.dt.yaml] Error 1
-make[1]: *** Waiting for unfinished jobs....
-make: *** [Makefile:1413: dt_binding_check] Error 2
+Stanimir Varbanov (6):
+  v4l: Add Qualcomm custom compressed pixel formats
+  venus: helpers: Add helper to check supported pixel formats
+  venus: Add a handling of QC08C compressed format
+  venus: hfi_platform: Correct supported compressed format
+  venus: Add a handling of QC10C compressed format
+  venus: vdec: Use output resolution on reconfigure
 
-doc reference errors (make refcheckdocs):
+ .../media/v4l/pixfmt-reserved.rst             | 19 +++++++
+ drivers/media/platform/qcom/venus/helpers.c   | 51 +++++++++++--------
+ drivers/media/platform/qcom/venus/helpers.h   |  1 +
+ .../platform/qcom/venus/hfi_platform_v4.c     |  4 +-
+ .../platform/qcom/venus/hfi_platform_v6.c     |  4 +-
+ drivers/media/platform/qcom/venus/vdec.c      | 35 +++++++++++--
+ drivers/media/v4l2-core/v4l2-ioctl.c          |  2 +
+ include/uapi/linux/videodev2.h                |  2 +
+ 8 files changed, 87 insertions(+), 31 deletions(-)
 
-See https://patchwork.ozlabs.org/patch/1580741
-
-This check can fail if there are any dependencies. The base for a patch
-series is generally the most recent rc1.
-
-If you already ran 'make dt_binding_check' and didn't see the above
-error(s), then make sure 'yamllint' is installed and dt-schema is up to
-date:
-
-pip3 install dtschema --upgrade
-
-Please check and re-submit.
+-- 
+2.25.1
 
