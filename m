@@ -2,200 +2,172 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6F34648FFAB
-	for <lists+linux-media@lfdr.de>; Mon, 17 Jan 2022 00:57:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id ED57D490013
+	for <lists+linux-media@lfdr.de>; Mon, 17 Jan 2022 03:01:31 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236455AbiAPX5X (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 16 Jan 2022 18:57:23 -0500
-Received: from mga07.intel.com ([134.134.136.100]:6306 "EHLO mga07.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S236448AbiAPX5U (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Sun, 16 Jan 2022 18:57:20 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1642377439; x=1673913439;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=m+eksH4Z3VDFmbqZqXMcQR7273i5vhsghkYH3f7+ImE=;
-  b=duU3Zz4LBvBb9lHpj3KKVynffB3Ui48bJXE51bkDrZikaTPQDOSqRRAU
-   XWMPvHxkuWDIfI3b/AdaXI4o2WsmB1miuLw/5I5jhoqiMU4xPSGFGgRgG
-   YiMHaNDoQ1q3brnt3sluddz9P0BmRgHYOAATUHVNw1HEdIF4hHaFf/lXO
-   1ln9oAV7d5nvwzzaebmuz2ubvHwU4PToH6VNmKeszkCZDf6iUblAdYvXc
-   7X5wKK8Yqdcokop85qOlWC/lO9BVP8jaqwZGlfywn4h5LMZDOh6yIn0/3
-   BTDn+EEzo3yn4HUAlRslwwpToCkGlnIoqnlgTjD44k2ZlzLDKb+LXOcGP
-   w==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10229"; a="307864505"
-X-IronPort-AV: E=Sophos;i="5.88,294,1635231600"; 
-   d="scan'208";a="307864505"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jan 2022 15:57:19 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.88,294,1635231600"; 
-   d="scan'208";a="474266090"
-Received: from lkp-server01.sh.intel.com (HELO 276f1b88eecb) ([10.239.97.150])
-  by orsmga003.jf.intel.com with ESMTP; 16 Jan 2022 15:57:17 -0800
-Received: from kbuild by 276f1b88eecb with local (Exim 4.92)
-        (envelope-from <lkp@intel.com>)
-        id 1n9FOe-000B4A-Uq; Sun, 16 Jan 2022 23:57:16 +0000
-Date:   Mon, 17 Jan 2022 07:56:38 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-Cc:     llvm@lists.linux.dev, kbuild-all@lists.01.org,
-        linux-kernel@vger.kernel.org,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org,
-        Sakari Ailus <sakari.ailus@linux.intel.com>
-Subject: drivers/media/i2c/ov5648.c:2035:39: warning: taking address of
- packed member 'handler' of class or structure 'ov5648_ctrls' may result in
- an unaligned pointer value
-Message-ID: <202201170727.bHmScZS3-lkp@intel.com>
+        id S234049AbiAQCBZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 16 Jan 2022 21:01:25 -0500
+Received: from twspam01.aspeedtech.com ([211.20.114.71]:62930 "EHLO
+        twspam01.aspeedtech.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S233986AbiAQCBZ (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Sun, 16 Jan 2022 21:01:25 -0500
+Received: from mail.aspeedtech.com ([192.168.0.24])
+        by twspam01.aspeedtech.com with ESMTP id 20H1rPTO046430;
+        Mon, 17 Jan 2022 09:53:25 +0800 (GMT-8)
+        (envelope-from jammy_huang@aspeedtech.com)
+Received: from [192.168.2.115] (192.168.2.115) by TWMBX02.aspeed.com
+ (192.168.0.24) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Mon, 17 Jan
+ 2022 10:00:17 +0800
+Message-ID: <609cfe9e-2fd8-b31a-9d71-b83d61693f84@aspeedtech.com>
+Date:   Mon, 17 Jan 2022 09:59:58 +0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-User-Agent: Mutt/1.10.1 (2018-07-13)
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.4.1
+Subject: Re: [PATCH v8 1/4] media: v4l: Add definition for the Aspeed JPEG
+ format
+Content-Language: en-US
+To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        "sakari.ailus@linux.intel.com" <sakari.ailus@linux.intel.com>,
+        "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
+        "eajames@linux.ibm.com" <eajames@linux.ibm.com>,
+        "mchehab@kernel.org" <mchehab@kernel.org>,
+        "joel@jms.id.au" <joel@jms.id.au>,
+        "andrew@aj.id.au" <andrew@aj.id.au>,
+        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+        "openbmc@lists.ozlabs.org" <openbmc@lists.ozlabs.org>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>,
+        "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+References: <20211224012738.1551-1-jammy_huang@aspeedtech.com>
+ <20211224012738.1551-2-jammy_huang@aspeedtech.com>
+ <703ff71e-c76a-9df1-c644-04efed0199ca@xs4all.nl>
+From:   Jammy Huang <jammy_huang@aspeedtech.com>
+In-Reply-To: <703ff71e-c76a-9df1-c644-04efed0199ca@xs4all.nl>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [192.168.2.115]
+X-ClientProxiedBy: TWMBX02.aspeed.com (192.168.0.24) To TWMBX02.aspeed.com
+ (192.168.0.24)
+X-DNSRBL: 
+X-MAIL: twspam01.aspeedtech.com 20H1rPTO046430
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Paul,
+Hi Hans,
 
-FYI, the error/warning still remains.
+On 2022/1/14 下午 04:11, Hans Verkuil wrote:
+> On 24/12/2021 02:27, Jammy Huang wrote:
+>> This introduces support for the Aspeed JPEG format, where the new frame
+>> can refer to previous frame to reduce the amount of compressed data. The
+>> concept is similar to I/P frame of video compression. It will compare the
+>> new frame with previous one to decide which macroblock's data is
+>> changed, and only the changed macroblocks will be compressed.
+>>
+>> This Aspeed JPEG format is used by the video engine on Aspeed platforms,
+>> which is generally adapted for remote KVM.
+>>
+>> Signed-off-by: Jammy Huang <jammy_huang@aspeedtech.com>
+>> ---
+>> v8:
+>>    - Add decoder information for aspeed-jpeg
+>> v7:
+>>    - Add more information for aspeed-jpeg
+>> v6:
+>>    - Update description for new format, aspeed-jpeg, in Documentation.
+>> v5:
+>>    - no update
+>> v4:
+>>    - new
+>> ---
+>>   .../media/uapi/v4l/pixfmt-reserved.rst          | 17 +++++++++++++++++
+>>   drivers/media/v4l2-core/v4l2-ioctl.c            |  1 +
+>>   include/uapi/linux/videodev2.h                  |  1 +
+>>   3 files changed, 19 insertions(+)
+>>
+>> diff --git a/Documentation/media/uapi/v4l/pixfmt-reserved.rst b/Documentation/media/uapi/v4l/pixfmt-reserved.rst
+> This is the wrong file! It should be:
+>
+> Documentation/userspace-api/media/v4l/pixfmt-reserved.rst
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   79e06c4c4950be2abd8ca5d2428a8c915aa62c24
-commit: e43ccb0a045f34838b786e8021dc4838b4af5c38 media: i2c: Add support for the OV5648 image sensor
-date:   1 year ago
-config: mips-randconfig-r002-20220116 (https://download.01.org/0day-ci/archive/20220117/202201170727.bHmScZS3-lkp@intel.com/config)
-compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project c63a3175c2947e8c1a2d3bbe16a8586600705c54)
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # install mips cross compiling tool for clang build
-        # apt-get install binutils-mips-linux-gnu
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=e43ccb0a045f34838b786e8021dc4838b4af5c38
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout e43ccb0a045f34838b786e8021dc4838b4af5c38
-        # save the config file to linux build tree
-        mkdir build_dir
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=mips SHELL=/bin/bash drivers/hid/ drivers/iio/adc/ drivers/media/i2c/ drivers/media/v4l2-core/ drivers/usb/gadget/
+Thanks, I just used git format-patch to generate the cover-letter and 
+didn't notice this.
 
-If you fix the issue, kindly add following tag as appropriate
-Reported-by: kernel test robot <lkp@intel.com>
+It looks like the file, pixfmt-reserved.rst, has different path in 
+different Linux kernel,
 
-All warnings (new ones prefixed by >>):
+* 5.4:           Documentation/media/uapi/v4l/pixfmt-reserved.rst
 
->> drivers/media/i2c/ov5648.c:2035:39: warning: taking address of packed member 'handler' of class or structure 'ov5648_ctrls' may result in an unaligned pointer value [-Waddress-of-packed-member]
-           struct v4l2_ctrl_handler *handler = &ctrls->handler;
-                                                ^~~~~~~~~~~~~~
->> drivers/media/i2c/ov5648.c:2054:29: warning: taking address of packed member 'exposure_auto' of class or structure 'ov5648_ctrls' may result in an unaligned pointer value [-Waddress-of-packed-member]
-           v4l2_ctrl_auto_cluster(2, &ctrls->exposure_auto, 1, true);
-                                      ^~~~~~~~~~~~~~~~~~~~
->> drivers/media/i2c/ov5648.c:2064:29: warning: taking address of packed member 'gain_auto' of class or structure 'ov5648_ctrls' may result in an unaligned pointer value [-Waddress-of-packed-member]
-           v4l2_ctrl_auto_cluster(2, &ctrls->gain_auto, 0, true);
-                                      ^~~~~~~~~~~~~~~~
->> drivers/media/i2c/ov5648.c:2080:29: warning: taking address of packed member 'white_balance_auto' of class or structure 'ov5648_ctrls' may result in an unaligned pointer value [-Waddress-of-packed-member]
-           v4l2_ctrl_auto_cluster(3, &ctrls->white_balance_auto, 0, false);
-                                      ^~~~~~~~~~~~~~~~~~~~~~~~~
-   4 warnings generated.
+* 5.10/5.15: Documentation/userspace-api/media/v4l/pixfmt-reserved.rst
 
+5.4 is the one I based to submit the patches.
 
-vim +2035 drivers/media/i2c/ov5648.c
+Could you suggest the kernel that I should based to submit these patches??
 
-  2031	
-  2032	static int ov5648_ctrls_init(struct ov5648_sensor *sensor)
-  2033	{
-  2034		struct ov5648_ctrls *ctrls = &sensor->ctrls;
-> 2035		struct v4l2_ctrl_handler *handler = &ctrls->handler;
-  2036		const struct v4l2_ctrl_ops *ops = &ov5648_ctrl_ops;
-  2037		int ret;
-  2038	
-  2039		v4l2_ctrl_handler_init(handler, 32);
-  2040	
-  2041		/* Use our mutex for ctrl locking. */
-  2042		handler->lock = &sensor->mutex;
-  2043	
-  2044		/* Exposure */
-  2045	
-  2046		ctrls->exposure_auto = v4l2_ctrl_new_std_menu(handler, ops,
-  2047							      V4L2_CID_EXPOSURE_AUTO,
-  2048							      V4L2_EXPOSURE_MANUAL, 0,
-  2049							      V4L2_EXPOSURE_AUTO);
-  2050	
-  2051		ctrls->exposure = v4l2_ctrl_new_std(handler, ops, V4L2_CID_EXPOSURE,
-  2052						    16, 1048575, 16, 512);
-  2053	
-> 2054		v4l2_ctrl_auto_cluster(2, &ctrls->exposure_auto, 1, true);
-  2055	
-  2056		/* Gain */
-  2057	
-  2058		ctrls->gain_auto =
-  2059			v4l2_ctrl_new_std(handler, ops, V4L2_CID_AUTOGAIN, 0, 1, 1, 1);
-  2060	
-  2061		ctrls->gain = v4l2_ctrl_new_std(handler, ops, V4L2_CID_GAIN, 16, 1023,
-  2062						16, 16);
-  2063	
-> 2064		v4l2_ctrl_auto_cluster(2, &ctrls->gain_auto, 0, true);
-  2065	
-  2066		/* White Balance */
-  2067	
-  2068		ctrls->white_balance_auto =
-  2069			v4l2_ctrl_new_std(handler, ops, V4L2_CID_AUTO_WHITE_BALANCE, 0,
-  2070					  1, 1, 1);
-  2071	
-  2072		ctrls->red_balance = v4l2_ctrl_new_std(handler, ops,
-  2073						       V4L2_CID_RED_BALANCE, 0, 4095,
-  2074						       1, 1024);
-  2075	
-  2076		ctrls->blue_balance = v4l2_ctrl_new_std(handler, ops,
-  2077							V4L2_CID_BLUE_BALANCE, 0, 4095,
-  2078							1, 1024);
-  2079	
-> 2080		v4l2_ctrl_auto_cluster(3, &ctrls->white_balance_auto, 0, false);
-  2081	
-  2082		/* Flip */
-  2083	
-  2084		v4l2_ctrl_new_std(handler, ops, V4L2_CID_HFLIP, 0, 1, 1, 0);
-  2085		v4l2_ctrl_new_std(handler, ops, V4L2_CID_VFLIP, 0, 1, 1, 0);
-  2086	
-  2087		/* Test Pattern */
-  2088	
-  2089		v4l2_ctrl_new_std_menu_items(handler, ops, V4L2_CID_TEST_PATTERN,
-  2090					     ARRAY_SIZE(ov5648_test_pattern_menu) - 1,
-  2091					     0, 0, ov5648_test_pattern_menu);
-  2092	
-  2093		/* MIPI CSI-2 */
-  2094	
-  2095		ctrls->link_freq =
-  2096			v4l2_ctrl_new_int_menu(handler, NULL, V4L2_CID_LINK_FREQ,
-  2097					       ARRAY_SIZE(ov5648_link_freq_menu) - 1,
-  2098					       0, ov5648_link_freq_menu);
-  2099	
-  2100		ctrls->pixel_rate =
-  2101			v4l2_ctrl_new_std(handler, NULL, V4L2_CID_PIXEL_RATE, 1,
-  2102					  INT_MAX, 1, 1);
-  2103	
-  2104		if (handler->error) {
-  2105			ret = handler->error;
-  2106			goto error_ctrls;
-  2107		}
-  2108	
-  2109		ctrls->exposure->flags |= V4L2_CTRL_FLAG_VOLATILE;
-  2110		ctrls->gain->flags |= V4L2_CTRL_FLAG_VOLATILE;
-  2111	
-  2112		ctrls->link_freq->flags |= V4L2_CTRL_FLAG_READ_ONLY;
-  2113		ctrls->pixel_rate->flags |= V4L2_CTRL_FLAG_READ_ONLY;
-  2114	
-  2115		sensor->subdev.ctrl_handler = handler;
-  2116	
-  2117		return 0;
-  2118	
-  2119	error_ctrls:
-  2120		v4l2_ctrl_handler_free(handler);
-  2121	
-  2122		return ret;
-  2123	}
-  2124	
+I will need to change the number of V4L2_CID_USER_ASPEED_BASE per different
 
----
-0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+linux kernel as well.
+
+>
+> Regards,
+>
+> 	Hans
+>
+>> index b2cd155e691b..1d0dc8d86ed7 100644
+>> --- a/Documentation/media/uapi/v4l/pixfmt-reserved.rst
+>> +++ b/Documentation/media/uapi/v4l/pixfmt-reserved.rst
+>> @@ -264,6 +264,23 @@ please make a proposal on the linux-media mailing list.
+>>   	of tiles, resulting in 32-aligned resolutions for the luminance plane
+>>   	and 16-aligned resolutions for the chrominance plane (with 2x2
+>>   	subsampling).
+>> +    * .. _V4L2-PIX-FMT-AJPG:
+>> +
+>> +      - ``V4L2_PIX_FMT_AJPG``
+>> +      - 'AJPG'
+>> +      - ASPEED JPEG format used by the aspeed-video driver on Aspeed platforms,
+>> +        which is generally adapted for remote KVM.
+>> +        On each frame compression, I will compare the new frame with previous
+>> +        one to decide which macroblock's data is changed, and only the changed
+>> +        macroblocks will be compressed.
+>> +
+>> +        The implementation is based on AST2600 A3 datasheet, revision 0.9, which
+>> +        is not publicly available. Or you can reference Video stream data format
+>> +        – ASPEED mode compression of SDK_User_Guide which available on
+>> +        AspeedTech-BMC/openbmc/releases.
+>> +
+>> +        Decoder's implementation can be found here,
+>> +        `https://github.com/AspeedTech-BMC/aspeed_codec/ <https://github.com/AspeedTech-BMC/aspeed_codec/>`__
+>>   
+>>   .. tabularcolumns:: |p{6.6cm}|p{2.2cm}|p{8.7cm}|
+>>   
+>> diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-core/v4l2-ioctl.c
+>> index 24db33f803c0..00dde01d2f97 100644
+>> --- a/drivers/media/v4l2-core/v4l2-ioctl.c
+>> +++ b/drivers/media/v4l2-core/v4l2-ioctl.c
+>> @@ -1378,6 +1378,7 @@ static void v4l_fill_fmtdesc(struct v4l2_fmtdesc *fmt)
+>>   		case V4L2_PIX_FMT_S5C_UYVY_JPG:	descr = "S5C73MX interleaved UYVY/JPEG"; break;
+>>   		case V4L2_PIX_FMT_MT21C:	descr = "Mediatek Compressed Format"; break;
+>>   		case V4L2_PIX_FMT_SUNXI_TILED_NV12: descr = "Sunxi Tiled NV12 Format"; break;
+>> +		case V4L2_PIX_FMT_AJPG:		descr = "Aspeed JPEG"; break;
+>>   		default:
+>>   			if (fmt->description[0])
+>>   				return;
+>> diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
+>> index 3210b3c82a4a..994eb6155ea9 100644
+>> --- a/include/uapi/linux/videodev2.h
+>> +++ b/include/uapi/linux/videodev2.h
+>> @@ -726,6 +726,7 @@ struct v4l2_pix_format {
+>>   #define V4L2_PIX_FMT_INZI     v4l2_fourcc('I', 'N', 'Z', 'I') /* Intel Planar Greyscale 10-bit and Depth 16-bit */
+>>   #define V4L2_PIX_FMT_SUNXI_TILED_NV12 v4l2_fourcc('S', 'T', '1', '2') /* Sunxi Tiled NV12 Format */
+>>   #define V4L2_PIX_FMT_CNF4     v4l2_fourcc('C', 'N', 'F', '4') /* Intel 4-bit packed depth confidence information */
+>> +#define V4L2_PIX_FMT_AJPG     v4l2_fourcc('A', 'J', 'P', 'G') /* Aspeed JPEG */
+>>   
+>>   /* 10bit raw bayer packed, 32 bytes for every 25 pixels, last LSB 6 bits unused */
+>>   #define V4L2_PIX_FMT_IPU3_SBGGR10	v4l2_fourcc('i', 'p', '3', 'b') /* IPU3 packed 10-bit BGGR bayer */
+
+-- 
+Best Regards
+Jammy
+
