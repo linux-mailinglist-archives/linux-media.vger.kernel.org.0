@@ -2,161 +2,146 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5292F490551
-	for <lists+linux-media@lfdr.de>; Mon, 17 Jan 2022 10:42:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7320A490596
+	for <lists+linux-media@lfdr.de>; Mon, 17 Jan 2022 11:00:17 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238082AbiAQJlp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 17 Jan 2022 04:41:45 -0500
-Received: from mailgw02.mediatek.com ([210.61.82.184]:39042 "EHLO
-        mailgw02.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
-        with ESMTP id S238561AbiAQJlZ (ORCPT
+        id S238429AbiAQJ7o (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 17 Jan 2022 04:59:44 -0500
+Received: from relay5-d.mail.gandi.net ([217.70.183.197]:43215 "EHLO
+        relay5-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S238416AbiAQJ7m (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 17 Jan 2022 04:41:25 -0500
-X-UUID: dd2a1725b31d4dfe9851067031719254-20220117
-X-UUID: dd2a1725b31d4dfe9851067031719254-20220117
-Received: from mtkmbs10n1.mediatek.inc [(172.21.101.34)] by mailgw02.mediatek.com
-        (envelope-from <yong.wu@mediatek.com>)
-        (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
-        with ESMTP id 476358148; Mon, 17 Jan 2022 17:41:22 +0800
-Received: from mtkcas11.mediatek.inc (172.21.101.40) by
- mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.792.3;
- Mon, 17 Jan 2022 17:41:20 +0800
-Received: from mhfsdcap04 (10.17.3.154) by mtkcas11.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Mon, 17 Jan 2022 17:41:19 +0800
-Message-ID: <ebbe29162688b230aec208a45762f795c850e396.camel@mediatek.com>
-Subject: Re: [PATCH v9 12/15] media: mtk-vcodec: enc: Remove
- mtk_vcodec_release_enc_pm
-From:   Yong Wu <yong.wu@mediatek.com>
-To:     Matthias Brugger <matthias.bgg@gmail.com>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>
-CC:     Joerg Roedel <joro@8bytes.org>, Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
-        David Airlie <airlied@linux.ie>,
+        Mon, 17 Jan 2022 04:59:42 -0500
+Received: (Authenticated sender: jacopo@jmondi.org)
+        by mail.gandi.net (Postfix) with ESMTPSA id 26CF01C0010;
+        Mon, 17 Jan 2022 09:59:37 +0000 (UTC)
+Date:   Mon, 17 Jan 2022 11:00:40 +0100
+From:   Jacopo Mondi <jacopo@jmondi.org>
+To:     Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>
+Cc:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        "Dafna Hirschfeld" <dafna.hirschfeld@collabora.com>,
-        Chun-Kuang Hu <chunkuang.hu@kernel.org>,
-        Will Deacon <will.deacon@arm.com>,
-        <dri-devel@lists.freedesktop.org>, <yf.wang@mediatek.com>,
-        <anthony.huang@mediatek.com>, <youlin.pei@mediatek.com>,
-        Irui Wang <irui.wang@mediatek.com>,
-        Evan Green <evgreen@chromium.org>,
-        Eizan Miyamoto <eizan@chromium.org>,
-        Matthias Kaehlcke <mka@chromium.org>,
-        <linux-arm-kernel@lists.infradead.org>, <mingyuan.ma@mediatek.com>,
-        <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        <libo.kang@mediatek.com>, <yi.kuo@mediatek.com>,
-        <linux-mediatek@lists.infradead.org>,
-        Hsin-Yi Wang <hsinyi@chromium.org>,
-        Tiffany Lin <tiffany.lin@mediatek.com>,
-        <anan.sun@mediatek.com>, <srv_heupstream@mediatek.com>,
-        <acourbot@chromium.org>, <linux-kernel@vger.kernel.org>,
-        Tomasz Figa <tfiga@chromium.org>,
-        <iommu@lists.linux-foundation.org>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        "Robin Murphy" <robin.murphy@arm.com>
-Date:   Mon, 17 Jan 2022 17:41:18 +0800
-In-Reply-To: <e940d705-2057-4d5e-0a21-8464ca04caaf@gmail.com>
-References: <20211112105509.12010-1-yong.wu@mediatek.com>
-         <20211112105509.12010-13-yong.wu@mediatek.com>
-         <68c3a573-8453-38e9-93b2-2067bedcd06f@collabora.com>
-         <4bd9e849-96dd-6f1c-2841-979459366ee5@collabora.com>
-         <fa9b2b73-c6bb-5737-93ac-ba2ab6b3b771@xs4all.nl>
-         <e940d705-2057-4d5e-0a21-8464ca04caaf@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
+        Rob Herring <robh+dt@kernel.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Prabhakar <prabhakar.csengg@gmail.com>,
+        Biju Das <biju.das.jz@bp.renesas.com>,
+        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] media: dt-bindings: media: renesas,csi2: Update
+ data-lanes property
+Message-ID: <20220117100040.wa3ple6meahebtni@uno.localdomain>
+References: <20220113103215.27080-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20220117081110.bkwr3ttoexgr2wjt@uno.localdomain>
+ <YeU1kDee7L26QJ86@oden.dyn.berto.se>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-MTK:  N
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <YeU1kDee7L26QJ86@oden.dyn.berto.se>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, 2022-01-13 at 17:10 +0100, Matthias Brugger wrote:
-> Hi Hans,
-> 
-> On 13/01/2022 11:15, Hans Verkuil wrote:
-> > On 13/01/2022 11:11, AngeloGioacchino Del Regno wrote:
-> > > Il 11/01/22 11:57, AngeloGioacchino Del Regno ha scritto:
-> > > > Il 12/11/21 11:55, Yong Wu ha scritto:
-> > > > > After this patchset, mtk_vcodec_release_enc_pm has only one
-> > > > > line.
-> > > > > then remove that function, use pm_runtime_disable instead.
-> > > > > 
-> > > > > meanwhile, mtk_vcodec_init_enc_pm only operate for the
-> > > > > clocks,
-> > > > > rename it from the _pm to _clk.
-> > > > > 
-> > > > > No functional change.
-> > > > > 
-> > > > > CC: Tiffany Lin <tiffany.lin@mediatek.com>
-> > > > > CC: Irui Wang <irui.wang@mediatek.com>
-> > > > > Signed-off-by: Yong Wu <yong.wu@mediatek.com>
-> > > > 
-> > > > Reviewed-by: AngeloGioacchino Del Regno <
-> > > > angelogioacchino.delregno@collabora.com>
-> > > > 
-> > > 
-> > > Hello Yong,
-> > > the mtk-vcodec patches were merged in Yunfei's vcodec patch
-> > > series and Hans has
-> > > scheduled that for v5.18.
-> > > 
-> > > Can you please send a v10 and drop patches 10/15, 11/15, 12/15
-> > > (all of the
-> > > media: mtk-vcodec: *) from this series?
+Hi Niklas,
 
-Hi Angelo,
+On Mon, Jan 17, 2022 at 10:23:28AM +0100, Niklas Söderlund wrote:
+> Hello Jacopo,
+>
+> On 2022-01-17 09:11:10 +0100, Jacopo Mondi wrote:
+> > Hello Prabhakar,
+> >
+> > On Thu, Jan 13, 2022 at 10:32:14AM +0000, Lad Prabhakar wrote:
+> > > CSI-2 (CSI4LNK0) on R-Car and RZ/G2 supports 4-lane mode which is already
+> > > handled by rcar-csi2.c driver. This patch updates the data-lanes property
+> > > to describe the same.
+> > >
+> > > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > > ---
+> > >  .../devicetree/bindings/media/renesas,csi2.yaml          | 9 ++++++++-
+> > >  1 file changed, 8 insertions(+), 1 deletion(-)
+> > >
+> > > diff --git a/Documentation/devicetree/bindings/media/renesas,csi2.yaml b/Documentation/devicetree/bindings/media/renesas,csi2.yaml
+> > > index e6a036721082..064a0a4c5737 100644
+> > > --- a/Documentation/devicetree/bindings/media/renesas,csi2.yaml
+> > > +++ b/Documentation/devicetree/bindings/media/renesas,csi2.yaml
+> > > @@ -67,7 +67,14 @@ properties:
+> > >                  maxItems: 1
+> > >
+> > >                data-lanes:
+> > > -                maxItems: 1
+> > > +                items:
+> > > +                  minItems: 1
+> > > +                  maxItems: 4
+> > > +                  items:
+> > > +                    - const: 1
+> > > +                    - const: 2
+> > > +                    - const: 3
+> > > +                    - const: 4
+> >
+> > Seeing "maxItems: 1" there confuses me too, as the property is an
+> > array of data-lanes, but I'm afraid your change does not what you
+> > intend as it would allow you to specify the number of data lanes as an
+> > integer rather than as an array.
+> >
+> > I think it would probably be correct to set
+> >
+> >                 data-lanes: true
+> >
+> > (maybe maxItems: 1 is correct already)
+> >
+> > And restrict the number of valid combinations in the board DTS file
+> > with a construct like:
+> >
+> >     data-lanes:
+> >       oneOf:
+> >         - items:
+> >             - const: 1
+> >             - const: 2
+> >             - const: 3
+> >             - const: 4
+> >         - items:
+> >             - const: 1
+> >             - const: 2
+>
+> I don't think this is correct, what if data lanes 2 and 3 are used?
+>
 
-   I have dropped 11/15 and 12/15 in v10 and rebase 10/15 on media tree
-manually, thus I didn't keep your A-y for that one.
+These were examples that allow you to accept <1 2> and <1 2 3 4> as
+valid properties. If other combinations are accepted they can be
+specified there, in your example, <2 3> with
 
-   Please take a look at that one.
- 
-   Thanks.
+             - items:
+               - const: 2
+               - const: 3
 
-> > > 
-> > > For the records, I think that after sending v10 this series is
-> > > ready to be merged,
-> > > as it was well reviewed and also tested on many MTK platforms.
-> > 
-> > Good to know. When I have the v10 I'll try to prioritize reviewing
-> > it and running
-> > my usual tests.
+As lane re-reordering is quite unusual as a feature (afaik) there are
+usually just an handful of supported combinations for 1, 2 and 4 data
+lanes setups.
 
-Hi Hans/Matthias,
+If full lane re-ordering is supported then it's enough to set
+data-lanes: true and accepts all combinations.
 
-v10: 
-https://patchwork.linuxtv.org/project/linux-media/list/?series=7130
+Also, the reason why imho the property should go in the board DTS and
+not in the SoC .dtsi is that not all the available data lanes of the
+IP-core might be routed out on a specific board.
 
-Please help take a look that one.
+That's at least my understanding which I would be glad to be disproved
+as specifying the valid combinations in each board dts is rather
+un-convenient.
 
-> > 
-> > Yong, please make sure you run 'checkpatch.pl --strict' over the
-> > v10 patches and fix
-> > any issues (using common sense).
+Thanks
+   j
 
-   Have run this on v10.
-
-Thanks.
-> > 
-> 
-> Can you please take me in the look when you take the patches. I'll
-> take the DTS 
-> related as soon as you queue up the others.
-> 
-> Thanks!
-> Matthias
-> 
-> > Regards,
-> > 
-> > 	Hans
-> > 
-> > > 
-> > > Thank you,
-> > > - Angelo
-
+> >
+> > Thanks
+> >    j
+> >
+> > >
+> > >              required:
+> > >                - clock-lanes
+> > > --
+> > > 2.17.1
+> > >
+>
+> --
+> Kind Regards,
+> Niklas Söderlund
