@@ -2,207 +2,159 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 52EFB490503
-	for <lists+linux-media@lfdr.de>; Mon, 17 Jan 2022 10:38:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 77EE649050F
+	for <lists+linux-media@lfdr.de>; Mon, 17 Jan 2022 10:40:11 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235846AbiAQJi3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 17 Jan 2022 04:38:29 -0500
-Received: from twspam01.aspeedtech.com ([211.20.114.71]:52175 "EHLO
-        twspam01.aspeedtech.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235812AbiAQJi3 (ORCPT
+        id S237389AbiAQJkJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 17 Jan 2022 04:40:09 -0500
+Received: from mailgw01.mediatek.com ([60.244.123.138]:41346 "EHLO
+        mailgw01.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
+        with ESMTP id S237305AbiAQJkI (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 17 Jan 2022 04:38:29 -0500
-Received: from mail.aspeedtech.com ([192.168.0.24])
-        by twspam01.aspeedtech.com with ESMTP id 20H9UkAT086347;
-        Mon, 17 Jan 2022 17:30:46 +0800 (GMT-8)
-        (envelope-from jammy_huang@aspeedtech.com)
-Received: from [192.168.2.115] (192.168.2.115) by TWMBX02.aspeed.com
- (192.168.0.24) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Mon, 17 Jan
- 2022 17:37:40 +0800
-Message-ID: <dbfebef8-89e6-c2e1-e81a-57640f6764e7@aspeedtech.com>
-Date:   Mon, 17 Jan 2022 17:37:41 +0800
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH v8 1/4] media: v4l: Add definition for the Aspeed JPEG
- format
-Content-Language: en-US
-To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Joel Stanley <joel@jms.id.au>
-CC:     "sakari.ailus@linux.intel.com" <sakari.ailus@linux.intel.com>,
-        "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
-        "eajames@linux.ibm.com" <eajames@linux.ibm.com>,
-        "mchehab@kernel.org" <mchehab@kernel.org>,
-        "andrew@aj.id.au" <andrew@aj.id.au>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        "openbmc@lists.ozlabs.org" <openbmc@lists.ozlabs.org>,
-        "linux-arm-kernel@lists.infradead.org" 
+        Mon, 17 Jan 2022 04:40:08 -0500
+X-UUID: 6b819102e69b4197bb672c89dba08a31-20220117
+X-UUID: 6b819102e69b4197bb672c89dba08a31-20220117
+Received: from mtkmbs10n2.mediatek.inc [(172.21.101.183)] by mailgw01.mediatek.com
+        (envelope-from <yunfei.dong@mediatek.com>)
+        (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+        with ESMTP id 1225553134; Mon, 17 Jan 2022 17:40:04 +0800
+Received: from mtkcas11.mediatek.inc (172.21.101.40) by
+ mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.792.3;
+ Mon, 17 Jan 2022 17:40:03 +0800
+Received: from localhost.localdomain (10.17.3.154) by mtkcas11.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
+ Transport; Mon, 17 Jan 2022 17:40:02 +0800
+From:   Yunfei Dong <yunfei.dong@mediatek.com>
+To:     Yunfei Dong <yunfei.dong@mediatek.com>,
+        Alexandre Courbot <acourbot@chromium.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        "Tzung-Bi Shih" <tzungbi@chromium.org>,
+        Tiffany Lin <tiffany.lin@mediatek.com>,
+        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Tomasz Figa <tfiga@google.com>
+CC:     George Sun <george.sun@mediatek.com>,
+        Xiaoyong Lu <xiaoyong.lu@mediatek.com>,
+        Hsin-Yi Wang <hsinyi@chromium.org>,
+        Fritz Koenig <frkoenig@chromium.org>,
+        Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
+        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        Irui Wang <irui.wang@mediatek.com>,
+        AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>,
+        Steve Cho <stevecho@chromium.org>,
+        <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>,
         <linux-arm-kernel@lists.infradead.org>,
-        "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-References: <20211224012738.1551-1-jammy_huang@aspeedtech.com>
- <20211224012738.1551-2-jammy_huang@aspeedtech.com>
- <703ff71e-c76a-9df1-c644-04efed0199ca@xs4all.nl>
- <609cfe9e-2fd8-b31a-9d71-b83d61693f84@aspeedtech.com>
- <CACPK8XeJQHLWfVbBjArxV_QMDDnRXfccOeXdsn6aBEG7gd8yvw@mail.gmail.com>
- <98096e97-68cc-18fd-d2b6-3477f57f05bd@aspeedtech.com>
- <d4ccf803-3736-d95d-19a9-f3593465b81e@xs4all.nl>
-From:   Jammy Huang <jammy_huang@aspeedtech.com>
-In-Reply-To: <d4ccf803-3736-d95d-19a9-f3593465b81e@xs4all.nl>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [192.168.2.115]
-X-ClientProxiedBy: TWMBX02.aspeed.com (192.168.0.24) To TWMBX02.aspeed.com
- (192.168.0.24)
-X-DNSRBL: 
-X-MAIL: twspam01.aspeedtech.com 20H9UkAT086347
+        <srv_heupstream@mediatek.com>,
+        <linux-mediatek@lists.infradead.org>,
+        <Project_Global_Chrome_Upstream_Group@mediatek.com>
+Subject: [PATCH v5, 00/15] media: mtk-vcodec: support for MT8192 decoder
+Date:   Mon, 17 Jan 2022 17:39:46 +0800
+Message-ID: <20220117094001.20049-1-yunfei.dong@mediatek.com>
+X-Mailer: git-send-email 2.25.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7BIT
+Content-Type:   text/plain; charset=US-ASCII
+X-MTK:  N
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Hans,
+This series adds support for mt8192 h264/vp8/vp9 decoder drivers. Firstly, refactor
+power/clock/interrupt interfaces for mt8192 is lat and core architecture.
 
-On 2022/1/17 下午 05:28, Hans Verkuil wrote:
-> Hi Jammy,
->
-> On 1/17/22 08:18, Jammy Huang wrote:
->> On 2022/1/17 上午 10:24, Joel Stanley wrote:
->>> On Mon, 17 Jan 2022 at 02:00, Jammy Huang <jammy_huang@aspeedtech.com> wrote:
->>>> Hi Hans,
->>>>
->>>> On 2022/1/14 下午 04:11, Hans Verkuil wrote:
->>>>> On 24/12/2021 02:27, Jammy Huang wrote:
->>>>>> This introduces support for the Aspeed JPEG format, where the new frame
->>>>>> can refer to previous frame to reduce the amount of compressed data. The
->>>>>> concept is similar to I/P frame of video compression. It will compare the
->>>>>> new frame with previous one to decide which macroblock's data is
->>>>>> changed, and only the changed macroblocks will be compressed.
->>>>>>
->>>>>> This Aspeed JPEG format is used by the video engine on Aspeed platforms,
->>>>>> which is generally adapted for remote KVM.
->>>>>>
->>>>>> Signed-off-by: Jammy Huang <jammy_huang@aspeedtech.com>
->>>>>> ---
->>>>>> v8:
->>>>>>      - Add decoder information for aspeed-jpeg
->>>>>> v7:
->>>>>>      - Add more information for aspeed-jpeg
->>>>>> v6:
->>>>>>      - Update description for new format, aspeed-jpeg, in Documentation.
->>>>>> v5:
->>>>>>      - no update
->>>>>> v4:
->>>>>>      - new
->>>>>> ---
->>>>>>     .../media/uapi/v4l/pixfmt-reserved.rst          | 17 +++++++++++++++++
->>>>>>     drivers/media/v4l2-core/v4l2-ioctl.c            |  1 +
->>>>>>     include/uapi/linux/videodev2.h                  |  1 +
->>>>>>     3 files changed, 19 insertions(+)
->>>>>>
->>>>>> diff --git a/Documentation/media/uapi/v4l/pixfmt-reserved.rst b/Documentation/media/uapi/v4l/pixfmt-reserved.rst
->>>>> This is the wrong file! It should be:
->>>>>
->>>>> Documentation/userspace-api/media/v4l/pixfmt-reserved.rst
->>>> Thanks, I just used git format-patch to generate the cover-letter and
->>>> didn't notice this.
->>>>
->>>> It looks like the file, pixfmt-reserved.rst, has different path in
->>>> different Linux kernel,
->>>>
->>>> * 5.4:           Documentation/media/uapi/v4l/pixfmt-reserved.rst
->>>>
->>>> * 5.10/5.15: Documentation/userspace-api/media/v4l/pixfmt-reserved.rst
->>>>
->>>> 5.4 is the one I based to submit the patches.
->>>>
->>>> Could you suggest the kernel that I should based to submit these patches??
->>> You should always submit based on the latest release.
->>>
->>> There are sometimes exceptions where you will base your patches on
->>> something even newer, but generally you should grab the latest.
->>>
->>> Be sure to re-test on the latest kernel before submitting.
->> OK, thank you.
-> I recommend waiting until later this week. I hope to have a PR for other outstanding
-> aspeed patches ready in a few days. It is easiest if you base your v9 on top of that
-> series, this to avoid merge conflicts.
+Secondly, add new functions to get frame buffer size and resolution according
+to decoder capability from scp side. Then add callback function to get/put
+capture buffer in order to enable lat and core decoder in parallel. 
 
-Sure, no problem. Thanks for your help.
+Then add to support MT21C compressed mode and fix v4l2-compliance fail.
 
+Next, extract H264 request api driver to let mt8183 and mt8192 use the same
+code, and adds mt8192 frame based h264 driver for stateless decoder.
 
-Regards,
+Lastly, add vp8 and vp9 stateless decoder drivers.
 
-Jammy
+Patches 1 refactor power/clock/interrupt interface.
+Patches 2~4 get frame buffer size and resolution according to decoder capability.
+Patches 5~6 enable lat and core decode in parallel.
+Patch 7~10 add to support MT21C compressed mode and fix v4l2-compliance fail.
+patch 11 record capture queue format type.
+Patch 12~13 extract h264 driver and add mt8192 frame based driver for h264 decoder.
+Patch 14~15 add vp8 and vp9 stateless decoder drivers.
+---
+changes compared with v4:
+- fix checkpatch.pl fail.
+- fix kernel-doc fail.
+- rebase to the latest media codec driver.
+changes compared with v3:
+- remove enum mtk_chip for patch 2.
+- add vp8 stateless decoder drivers for patch 14.
+- add vp9 stateless decoder drivers for patch 15.
+changes compared with v2:
+- add new patch 11 to record capture queue format type.
+- separate patch 4 according to tzung-bi's suggestion.
+- re-write commit message for patch 5 according to tzung-bi's suggestion.
+changes compared with v1:
+- rewrite commit message for patch 12.
+- rewrite cover-letter message.
+---
+Yunfei Dong (15):
+  media: mtk-vcodec: Add vdec enable/disable hardware helpers
+  media: mtk-vcodec: Using firmware type to separate different firmware
+    architecture
+  media: mtk-vcodec: get capture queue buffer size from scp
+  media: mtk-vcodec: Read max resolution from dec_capability
+  media: mtk-vcodec: Call v4l2_m2m_set_dst_buffered() set capture buffer
+    buffered
+  media: mtk-vcodec: Refactor get and put capture buffer flow
+  media: mtk-vcodec: Refactor supported vdec formats and framesizes
+  media: mtk-vcodec: Add format to support MT21C
+  media: mtk-vcodec: disable vp8 4K capability
+  media: mtk-vcodec: Fix v4l2-compliance fail
+  media: mtk-vcodec: record capture queue format type
+  media: mtk-vcodec: Extract H264 common code
+  media: mtk-vcodec: support stateless H.264 decoding for mt8192
+  media: mtk-vcodec: support stateless VP8 decoding
+  media: mtk-vcodec: support stateless VP9 decoding
 
->
-> Regards,
->
-> 	Hans
->
->>> Cheers,
->>>
->>> Joel
->>>
->>>> I will need to change the number of V4L2_CID_USER_ASPEED_BASE per different
->>>>
->>>> linux kernel as well.
->>>>
->>>>> Regards,
->>>>>
->>>>>         Hans
->>>>>
->>>>>> index b2cd155e691b..1d0dc8d86ed7 100644
->>>>>> --- a/Documentation/media/uapi/v4l/pixfmt-reserved.rst
->>>>>> +++ b/Documentation/media/uapi/v4l/pixfmt-reserved.rst
->>>>>> @@ -264,6 +264,23 @@ please make a proposal on the linux-media mailing list.
->>>>>>        of tiles, resulting in 32-aligned resolutions for the luminance plane
->>>>>>        and 16-aligned resolutions for the chrominance plane (with 2x2
->>>>>>        subsampling).
->>>>>> +    * .. _V4L2-PIX-FMT-AJPG:
->>>>>> +
->>>>>> +      - ``V4L2_PIX_FMT_AJPG``
->>>>>> +      - 'AJPG'
->>>>>> +      - ASPEED JPEG format used by the aspeed-video driver on Aspeed platforms,
->>>>>> +        which is generally adapted for remote KVM.
->>>>>> +        On each frame compression, I will compare the new frame with previous
->>>>>> +        one to decide which macroblock's data is changed, and only the changed
->>>>>> +        macroblocks will be compressed.
->>>>>> +
->>>>>> +        The implementation is based on AST2600 A3 datasheet, revision 0.9, which
->>>>>> +        is not publicly available. Or you can reference Video stream data format
->>>>>> +        – ASPEED mode compression of SDK_User_Guide which available on
->>>>>> +        AspeedTech-BMC/openbmc/releases.
->>>>>> +
->>>>>> +        Decoder's implementation can be found here,
->>>>>> +        `https://github.com/AspeedTech-BMC/aspeed_codec/ <https://github.com/AspeedTech-BMC/aspeed_codec/>`__
->>>>>>
->>>>>>     .. tabularcolumns:: |p{6.6cm}|p{2.2cm}|p{8.7cm}|
->>>>>>
->>>>>> diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-core/v4l2-ioctl.c
->>>>>> index 24db33f803c0..00dde01d2f97 100644
->>>>>> --- a/drivers/media/v4l2-core/v4l2-ioctl.c
->>>>>> +++ b/drivers/media/v4l2-core/v4l2-ioctl.c
->>>>>> @@ -1378,6 +1378,7 @@ static void v4l_fill_fmtdesc(struct v4l2_fmtdesc *fmt)
->>>>>>                case V4L2_PIX_FMT_S5C_UYVY_JPG: descr = "S5C73MX interleaved UYVY/JPEG"; break;
->>>>>>                case V4L2_PIX_FMT_MT21C:        descr = "Mediatek Compressed Format"; break;
->>>>>>                case V4L2_PIX_FMT_SUNXI_TILED_NV12: descr = "Sunxi Tiled NV12 Format"; break;
->>>>>> +            case V4L2_PIX_FMT_AJPG:         descr = "Aspeed JPEG"; break;
->>>>>>                default:
->>>>>>                        if (fmt->description[0])
->>>>>>                                return;
->>>>>> diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
->>>>>> index 3210b3c82a4a..994eb6155ea9 100644
->>>>>> --- a/include/uapi/linux/videodev2.h
->>>>>> +++ b/include/uapi/linux/videodev2.h
->>>>>> @@ -726,6 +726,7 @@ struct v4l2_pix_format {
->>>>>>     #define V4L2_PIX_FMT_INZI     v4l2_fourcc('I', 'N', 'Z', 'I') /* Intel Planar Greyscale 10-bit and Depth 16-bit */
->>>>>>     #define V4L2_PIX_FMT_SUNXI_TILED_NV12 v4l2_fourcc('S', 'T', '1', '2') /* Sunxi Tiled NV12 Format */
->>>>>>     #define V4L2_PIX_FMT_CNF4     v4l2_fourcc('C', 'N', 'F', '4') /* Intel 4-bit packed depth confidence information */
->>>>>> +#define V4L2_PIX_FMT_AJPG     v4l2_fourcc('A', 'J', 'P', 'G') /* Aspeed JPEG */
->>>>>>
->>>>>>     /* 10bit raw bayer packed, 32 bytes for every 25 pixels, last LSB 6 bits unused */
->>>>>>     #define V4L2_PIX_FMT_IPU3_SBGGR10  v4l2_fourcc('i', 'p', '3', 'b') /* IPU3 packed 10-bit BGGR bayer */
->>>> -- 
->>>> Best Regards
->>>> Jammy
->>>>
+ drivers/media/platform/mtk-vcodec/Makefile    |    4 +
+ .../platform/mtk-vcodec/mtk_vcodec_dec.c      |   47 +-
+ .../platform/mtk-vcodec/mtk_vcodec_dec_drv.c  |    5 -
+ .../platform/mtk-vcodec/mtk_vcodec_dec_pm.c   |  168 +-
+ .../platform/mtk-vcodec/mtk_vcodec_dec_pm.h   |    6 +-
+ .../mtk-vcodec/mtk_vcodec_dec_stateful.c      |   14 +-
+ .../mtk-vcodec/mtk_vcodec_dec_stateless.c     |  281 ++-
+ .../platform/mtk-vcodec/mtk_vcodec_drv.h      |   40 +-
+ .../platform/mtk-vcodec/mtk_vcodec_enc_drv.c  |    5 -
+ .../media/platform/mtk-vcodec/mtk_vcodec_fw.c |    6 +
+ .../media/platform/mtk-vcodec/mtk_vcodec_fw.h |    1 +
+ .../mtk-vcodec/vdec/vdec_h264_req_common.c    |  307 +++
+ .../mtk-vcodec/vdec/vdec_h264_req_common.h    |  253 +++
+ .../mtk-vcodec/vdec/vdec_h264_req_if.c        |  411 +---
+ .../mtk-vcodec/vdec/vdec_h264_req_multi_if.c  |  599 +++++
+ .../mtk-vcodec/vdec/vdec_vp8_req_if.c         |  440 ++++
+ .../mtk-vcodec/vdec/vdec_vp9_req_lat_if.c     | 1973 +++++++++++++++++
+ .../media/platform/mtk-vcodec/vdec_drv_if.c   |   36 +-
+ .../media/platform/mtk-vcodec/vdec_drv_if.h   |    3 +
+ .../media/platform/mtk-vcodec/vdec_ipi_msg.h  |   36 +
+ .../platform/mtk-vcodec/vdec_msg_queue.c      |    2 +
+ .../media/platform/mtk-vcodec/vdec_vpu_if.c   |   53 +-
+ .../media/platform/mtk-vcodec/vdec_vpu_if.h   |   15 +
+ .../media/platform/mtk-vcodec/venc_vpu_if.c   |    2 +-
+ include/linux/remoteproc/mtk_scp.h            |    2 +
+ 25 files changed, 4128 insertions(+), 581 deletions(-)
+ create mode 100644 drivers/media/platform/mtk-vcodec/vdec/vdec_h264_req_common.c
+ create mode 100644 drivers/media/platform/mtk-vcodec/vdec/vdec_h264_req_common.h
+ create mode 100644 drivers/media/platform/mtk-vcodec/vdec/vdec_h264_req_multi_if.c
+ create mode 100644 drivers/media/platform/mtk-vcodec/vdec/vdec_vp8_req_if.c
+ create mode 100644 drivers/media/platform/mtk-vcodec/vdec/vdec_vp9_req_lat_if.c
+
+-- 
+2.25.1
+
