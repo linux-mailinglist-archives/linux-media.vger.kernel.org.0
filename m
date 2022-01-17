@@ -2,153 +2,106 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3A9A8490B7C
-	for <lists+linux-media@lfdr.de>; Mon, 17 Jan 2022 16:36:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 399FE490B75
+	for <lists+linux-media@lfdr.de>; Mon, 17 Jan 2022 16:35:52 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240498AbiAQPf7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 17 Jan 2022 10:35:59 -0500
-Received: from perceval.ideasonboard.com ([213.167.242.64]:37718 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240516AbiAQPf5 (ORCPT
+        id S240488AbiAQPfq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 17 Jan 2022 10:35:46 -0500
+Received: from mail-oi1-f176.google.com ([209.85.167.176]:44686 "EHLO
+        mail-oi1-f176.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S240489AbiAQPfp (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 17 Jan 2022 10:35:57 -0500
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 126D6596;
-        Mon, 17 Jan 2022 16:35:54 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1642433754;
-        bh=+0sC118Sqxrcy8++YCDmlivVP0FzUG/Me5JWU6u3sNM=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=izVqudxOc8ezO89d2nkLQ0lNms5sLOIvwd3QCWDLFz2tdeebwEPySzsg+tYbfvAjo
-         2Yb1ApJZx8N4Gz5CJvK3JUtp7S1W0g5MBo6j2GxS57B/qdRyi5YZ1lV4CBSpxOUQ1E
-         Qg8/w8jbWR5XNMaCD0jQeUyelwK3o7UNUOgFDiq4=
-Date:   Mon, 17 Jan 2022 17:35:41 +0200
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Hans de Goede <hdegoede@redhat.com>,
-        Sakari Ailus <sakari.ailus@iki.fi>
-Cc:     libcamera devel <libcamera-devel@lists.libcamera.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>
-Subject: Re: Firmware (devicetree/ACPI interface) for marking camera sensors
- being on the front/back of a device
-Message-ID: <YeWMzbq70ZDcWUB2@pendragon.ideasonboard.com>
-References: <31c05526-f6fc-f48f-a900-8103ac5c4215@redhat.com>
- <YeSaFXO1Z+F088LR@pendragon.ideasonboard.com>
- <179e8c32-a5f5-48a5-8410-e4f0a8f73bd2@redhat.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <179e8c32-a5f5-48a5-8410-e4f0a8f73bd2@redhat.com>
+        Mon, 17 Jan 2022 10:35:45 -0500
+Received: by mail-oi1-f176.google.com with SMTP id s9so23894945oib.11;
+        Mon, 17 Jan 2022 07:35:45 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:in-reply-to:references:subject:date
+         :message-id;
+        bh=PdccHlgr3Zdp1814HhFMrvJGIRgozixSM54SKvkFpnA=;
+        b=O9OfO7H6ehw2Fz7bnljDHfrVq+M8DdT3STpMcAPMhr3l6vcDBCK7ikieQ1t4bFINlN
+         Q9FbMmcxrqTqjz2p71JlE8aegdBOK9qsVFRGlWn77Ntwr6WGe690W/aNOOiexuRPVnE1
+         J/S7g25jn7wfTDPkn0o5aXG0leQfx6sA/ES/aarBlqmun4xIeryx2tdkzlOrMEsVd9xQ
+         0m+aQayb+88/6vvPg1FcqeVZMeyvd3GTpAXlSL4P9nNZbqOOz9X/2xISZ7s2YRKWEuwG
+         iKy80YesuUI8GlX6MBDSPfwlC/itByEnoOTxGbWnbuTzsRyh6e0/+BvE+z+Lz/xYFwBQ
+         CHig==
+X-Gm-Message-State: AOAM530+EKqZer71pICWhIK5nsrU+m8346X/iS27DwoQMpUl32PWad6N
+        MsPnogSdMdHQFLeg/26koQ==
+X-Google-Smtp-Source: ABdhPJyI7ICuL0OHDG+r1tYSyFFYh4imjg3J5ue8rDUn7lNU4uKpyUkRvJ3l09fkM1OiRFnGsbLg2A==
+X-Received: by 2002:a54:4402:: with SMTP id k2mr9876742oiw.131.1642433744862;
+        Mon, 17 Jan 2022 07:35:44 -0800 (PST)
+Received: from robh.at.kernel.org (66-90-148-213.dyn.grandenetworks.net. [66.90.148.213])
+        by smtp.gmail.com with ESMTPSA id a28sm6389929oiy.4.2022.01.17.07.35.43
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 17 Jan 2022 07:35:44 -0800 (PST)
+Received: (nullmailer pid 3923084 invoked by uid 1000);
+        Mon, 17 Jan 2022 15:35:42 -0000
+From:   Rob Herring <robh@kernel.org>
+To:     Irui Wang <irui.wang@mediatek.com>
+Cc:     Hsin-Yi Wang <hsinyi@chromium.org>, linux-media@vger.kernel.org,
+        angelogioacchino.delregno@collabora.com,
+        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Tiffany Lin <tiffany.lin@mediatek.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Yunfei Dong <yunfei.dong@mediatek.com>,
+        linux-kernel@vger.kernel.org, Tzung-Bi Shih <tzungbi@chromium.org>,
+        Alexandre Courbot <acourbot@chromium.org>,
+        Project_Global_Chrome_Upstream_Group@mediatek.com,
+        devicetree@vger.kernel.org, srv_heupstream@mediatek.com,
+        Tomasz Figa <tfiga@google.com>, Yong Wu <yong.wu@mediatek.com>,
+        Maoguang Meng <maoguang.meng@mediatek.com>,
+        Longfei Wang <longfei.wang@mediatek.com>,
+        linux-mediatek@lists.infradead.org,
+        linux-arm-kernel@lists.infradead.org,
+        Fritz Koenig <frkoenig@chromium.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>
+In-Reply-To: <20220117120615.21687-4-irui.wang@mediatek.com>
+References: <20220117120615.21687-1-irui.wang@mediatek.com> <20220117120615.21687-4-irui.wang@mediatek.com>
+Subject: Re: [PATCH v2, 03/10] dt-bindings: media: mtk-vcodec: Adds encoder cores dt-bindings for mt8195
+Date:   Mon, 17 Jan 2022 09:35:42 -0600
+Message-Id: <1642433742.919482.3923083.nullmailer@robh.at.kernel.org>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Hans,
-
-(CC'ing Sakari)
-
-On Mon, Jan 17, 2022 at 10:26:54AM +0100, Hans de Goede wrote:
-> On 1/16/22 23:20, Laurent Pinchart wrote:
-> > On Sun, Jan 16, 2022 at 10:43:25PM +0100, Hans de Goede wrote:
-> >> Hi All,
-> >>
-> >> IIRC there was some discussion about $subject a while ago,
-> >> esp. being pushed by the ChromeOS folks (IIRC). If you know what
-> >> I'm talking about, please add relevant folks to the Cc.
-> >>
-> >> While doing some work on atomisp support I noticed that the
-> >> ACPI device fwnode-s describing the sensors have an ACPI _PLD
-> >> method, which is a standardized ACPI method to retreive an
-> >> package (ACPI for struct) describing the location of things
-> >> like USB ports; and in this case of the camera sensors.
-> >>
-> >> And upon checking the Surface Go DSDT the sensors there seem to
-> >> have the _PLD bits to. And in both cases at least the following
-> >> PLD field (bits 67-69) seems to contain valid and relevant info,
-> >> quoting from the ACPI spec 6.2 version, page 329:
-> >>
-> >> """
-> >> Panel: Describes which panel surface of the system’s housing
-> >> the device connection point resides on:
-> >> 0 – Top
-> >> 1 – Bottom
-> >> 2 – Left
-> >> 3 – Right
-> >> 4 – Front
-> >> 5 – Back
-> >> 6 – Unknown
-> >> """
-> >>
-> >> This seems to be consistently set to 4 or 5 for the _PLD method
-> >> of the sensor ACPI nodes which I checked.
-> >>
-> >> So rather then defining a new devicetree property for this and
-> >> embedding that inside the ACPI tables, IMHO it would be best if
-> >> the ChromeOS devices would use the standardized _PLD ACPI method
-> >> for this too.
-> > 
-> > I have no specific objection to this, given that the _PLD is
-> > standardized. In your experience, is the rotation also populated
-> > correctly ? That's important information too.
+On Mon, 17 Jan 2022 20:06:08 +0800, Irui Wang wrote:
+> Adds encoder cores dt-bindings for mt8195
 > 
-> That is a good question, so I just checked what the IPU3 does and
-> it uses a field in the SSDB ACPI package for this.
+> Signed-off-by: Irui Wang <irui.wang@mediatek.com>
+> ---
+>  .../media/mediatek,vcodec-encoder-core.yaml   | 214 ++++++++++++++++++
+>  1 file changed, 214 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/media/mediatek,vcodec-encoder-core.yaml
 > 
-> And I'm not sure that the _PLD is the right place for this, the _PLD
-> is about how the ACPI object appears to the user, so that
-> the operating-system can describe e.g. external connectors in
-> a dialog box using this info. E.g. the _PLD also contains information
-> about the color of the connector.
-> 
-> And an upside-down sensor, does not look upside-down to the user when
-> looking at it from the outside of the device. So based on this reading
-> of the spec I don't expect the rotation field to contain what we are
-> looking for (as is shown by the IPU3 driver using a SSDB field for this).
 
-Your interpretation of the _PLD makes sense, but that's also the problem
-with ACPI: there are many interpretation that make sense (at least to
-the OEMs), leading to lack of standardization in practice :-S I suppose
-I'm a bit concerned that the _PLD rotation, defined in the spec, would
-be interpreted by some OEMs as being the right place to expose this
-information, while others would use a different mechanism. I don't care
-much about where the information ends up being stored, but I care about
-avoiding proliferation of different solutions as much as possible.
+My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
+on your patch (DT_CHECKER_FLAGS is new in v5.13):
 
-One think I do *not* want to see is all sensor drivers being poluted
-with OEM-specific code because an OEM has decided to store data using a
-custom representation.
+yamllint warnings/errors:
 
-One question here is if we should try to fix this at the ACPI level, to
-avoid every vendor coming up with its own SSDB-like solution, or leave
-it as-is. In the latter case, I wouldn't be surprised if some OEMs would
-end up not populating the location correctly in the _PLD. 
+dtschema/dtc warnings/errors:
+Documentation/devicetree/bindings/media/mediatek,vcodec-encoder-core.example.dts:20:18: fatal error: dt-bindings/memory/mt8195-memory-port.h: No such file or directory
+   20 |         #include <dt-bindings/memory/mt8195-memory-port.h>
+      |                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+compilation terminated.
+make[1]: *** [scripts/Makefile.lib:373: Documentation/devicetree/bindings/media/mediatek,vcodec-encoder-core.example.dt.yaml] Error 1
+make[1]: *** Waiting for unfinished jobs....
+make: *** [Makefile:1413: dt_binding_check] Error 2
 
-> > It we go in that direction, we should try to push OEMs to also populate
-> > the vertical offset and horizontal offset fields, as I expect it to
-> > become useful when multiple cameras are present in the same location.
-> 
-> That is a good point.
-> 
-> Note that my main reason for advertising using _PLD for the front/back
-> info is that that is what is already being used in Windows laptops
-> ACPI tables, so we need support for it regardless.
+doc reference errors (make refcheckdocs):
 
-Is the information available in the SSDB too, or only in the _PLD ? In
-the latter case, what should we do for systems that don't populate the
-_PLD correctly ?
+See https://patchwork.ozlabs.org/patch/1580741
 
-> Actually your rotation question made me wonder what we are doing
-> for IPU3 here and we already have code parsing the _PLD in
-> drivers/media/pci/intel/ipu3/cio2-bridge.c to set
-> V4L2_FWNODE_ORIENTATION_FRONT / V4L2_FWNODE_ORIENTATION_BACK :)
-> 
-> Since at least atomisp2 is going to need this to we probably need to
-> factor this out into some shared helper.
+This check can fail if there are any dependencies. The base for a patch
+series is generally the most recent rc1.
 
-I wonder if the atomisp2 driver will ever get out of staging. There's so
-much work to be done there.
+If you already ran 'make dt_binding_check' and didn't see the above
+error(s), then make sure 'yamllint' is installed and dt-schema is up to
+date:
 
--- 
-Regards,
+pip3 install dtschema --upgrade
 
-Laurent Pinchart
+Please check and re-submit.
+
