@@ -2,48 +2,48 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 043DF491C23
-	for <lists+linux-media@lfdr.de>; Tue, 18 Jan 2022 04:14:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8C962491D6D
+	for <lists+linux-media@lfdr.de>; Tue, 18 Jan 2022 04:36:47 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244791AbiARDN4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 17 Jan 2022 22:13:56 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39108 "EHLO
+        id S1353470AbiARDgW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 17 Jan 2022 22:36:22 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44802 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1346679AbiARDJA (ORCPT
+        with ESMTP id S1376480AbiARDcc (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 17 Jan 2022 22:09:00 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A49F9C06175E;
-        Mon, 17 Jan 2022 18:51:31 -0800 (PST)
+        Mon, 17 Jan 2022 22:32:32 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BCF89C033251;
+        Mon, 17 Jan 2022 19:08:39 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 2A60DB8125F;
-        Tue, 18 Jan 2022 02:51:31 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0A291C36AE3;
-        Tue, 18 Jan 2022 02:51:28 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 06CCF6093C;
+        Tue, 18 Jan 2022 03:08:39 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 474C2C36AEB;
+        Tue, 18 Jan 2022 03:08:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1642474290;
-        bh=YH7HfRmQPrQX2wNff6Hbvunfjo8I8OoZpWqxbVVvQtc=;
+        s=k20201202; t=1642475318;
+        bh=YIMLe/3p1ZJgH25RIuDqydanQaUzOC5cKLPXYArW3Fg=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=jxq0/irvn0F4VJP0wMOdZOzkZrz0K4O1mTYezpCJ1w60HQv2sNs5QHSdRuGBMo27o
-         Jx/WzwrFWca+FTvaYtV4AMI5tyEvMly6vzoysl5CLiz8qDPtSIdldpO9z1FwS1/jQg
-         6eeVDgxTCwJjvQ47Md5+6ZdBdv30Vp4bX1M749AhkaRfMQW6xMf/HmlrPoaW1Ci85F
-         RaWF+PeZ+3qOjJ4KBS7j4IPeXYiD6KNF3b00e8etWKiz8Z9sirBrB9FxJXGtgrYV5d
-         wRkNgjmONHTmtjT+1Ztl64Euq6v/grFzAtMMQS1+4TEIs6xVHQfp68zclXH6zO6KOB
-         NdKK+1eDMDIHQ==
+        b=Fxh7+rn+RM7tu2wtSLlKnsnmdfiiczRT50SN8Ab0Yn78RJTP+vA+96mr5iI/aLpOz
+         xi9rIp/XD4et5DS7M53tooU6dAL1fnJL6p4rhCQVilaEYlmNB5Hg7CfDg7Lgda/yxR
+         5RVk4gULdMMGrEIBGlUOs82dDgv2zBh2ogJzxS2xWyLIGTyvmeAqnAtLVdu6t5NXp0
+         gYIItW2FNUQwdKPuZE+7uuQa287NNcjZEyfbOzlacRZKm79T3gzaWA0xSZrF+/3q/G
+         Nn9/rqCdZNs8DWwbLU6PrhBeEei6dyrcEqHfDWlAEhNvqVfHzkhjPstrMrHQcCRyXF
+         FxR6Jnge+z+dw==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Zheyu Ma <zheyuma97@gmail.com>,
         Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         Sasha Levin <sashal@kernel.org>, mchehab@kernel.org,
         sean@mess.org, arnd@arndb.de, linux-media@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.9 06/33] media: b2c2: Add missing check in flexcop_pci_isr:
-Date:   Mon, 17 Jan 2022 21:50:48 -0500
-Message-Id: <20220118025116.1954375-6-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.4 05/29] media: b2c2: Add missing check in flexcop_pci_isr:
+Date:   Mon, 17 Jan 2022 22:07:58 -0500
+Message-Id: <20220118030822.1955469-5-sashal@kernel.org>
 X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220118025116.1954375-1-sashal@kernel.org>
-References: <20220118025116.1954375-1-sashal@kernel.org>
+In-Reply-To: <20220118030822.1955469-1-sashal@kernel.org>
+References: <20220118030822.1955469-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -187,7 +187,7 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 3 insertions(+)
 
 diff --git a/drivers/media/pci/b2c2/flexcop-pci.c b/drivers/media/pci/b2c2/flexcop-pci.c
-index 4cac1fc233f28..98e94cd8bfad7 100644
+index 8b5e0b3a92a0c..2f496c05a3316 100644
 --- a/drivers/media/pci/b2c2/flexcop-pci.c
 +++ b/drivers/media/pci/b2c2/flexcop-pci.c
 @@ -184,6 +184,8 @@ static irqreturn_t flexcop_pci_isr(int irq, void *dev_id)
