@@ -2,200 +2,110 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3DF3C4923CB
-	for <lists+linux-media@lfdr.de>; Tue, 18 Jan 2022 11:33:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 345B14923EF
+	for <lists+linux-media@lfdr.de>; Tue, 18 Jan 2022 11:43:41 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237496AbiARKdR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 18 Jan 2022 05:33:17 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58606 "EHLO
+        id S237770AbiARKnj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 18 Jan 2022 05:43:39 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60966 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237445AbiARKdM (ORCPT
+        with ESMTP id S230274AbiARKnj (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 18 Jan 2022 05:33:12 -0500
-Received: from mail-lf1-x12d.google.com (mail-lf1-x12d.google.com [IPv6:2a00:1450:4864:20::12d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A5B00C061574
-        for <linux-media@vger.kernel.org>; Tue, 18 Jan 2022 02:33:11 -0800 (PST)
-Received: by mail-lf1-x12d.google.com with SMTP id o12so52042761lfu.12
-        for <linux-media@vger.kernel.org>; Tue, 18 Jan 2022 02:33:11 -0800 (PST)
+        Tue, 18 Jan 2022 05:43:39 -0500
+Received: from mail-lf1-x12f.google.com (mail-lf1-x12f.google.com [IPv6:2a00:1450:4864:20::12f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AABF6C061574;
+        Tue, 18 Jan 2022 02:43:38 -0800 (PST)
+Received: by mail-lf1-x12f.google.com with SMTP id m3so54792451lfu.0;
+        Tue, 18 Jan 2022 02:43:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ragnatech-se.20210112.gappssmtp.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=nPt9N64IaDnBh7bjJWIKwHKKVjvabFOfHbFr+GEBwYs=;
-        b=TfPJquluQSbMwDcvHHqtZcvbQjYmPCvkq8cadU/kDGgsd5GrhblkHtkczwVoPL94GU
-         bO2xZw8LnjqPLON52DLB9Rve7Nfa3A0EF7Hfji/oAKdIhoZ4gN0VR3qUM4m/LvR7Q2+e
-         hr9Fre2K0UWmumptpXzQiZ9Ta12CdyfcC4eEcGAFbUew4YXEl+SfFZSWnBRI0KgFx3Ed
-         jGh1A0k4JI1OnNU7QgiSzQZa6tf94EULghl6+Ex0N1S2P5re60q18bZJwPU+0IQ4PF4g
-         j+EEDg27OPIaKLEIA76dAfTJ2r9nnowLtuGwsippyz+jl0+0ZEaeS9OYIPMTG7AESjIX
-         uyKg==
+        d=gmail.com; s=20210112;
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=Oq4iCc0Wwww95pZLDL+Et/XTeCWCBjBihbZj50b8h3M=;
+        b=b6JxSCncymDWIYKs/NDxFeWUhfO9T3aGxAmnNRbuKRFctelJmHrCxc4GgDoe3VLLb3
+         H+jk0CebLDbcWRvUDksG2L8oAF0Kd50Cd4Ccjby/eqY+ih62XseR6fDqnYjZOL1KcK5z
+         RZkJMoz5oyrO9S3yTNCbP+eVb++NDCh6RMaF/Gxo1gEn6vnh4IZOYV6iEqjvBd07fEC5
+         u0pEF3fZWNJlluEyfQCdEp0W9j+28v7/OrxvLtFvE0/O6v/0fWneShjpSDGDZzO+S5Tv
+         zEQoalJQmoyjPFcUIm99RMIPu4Ew29iK4JMB7TWEfmmJGy8H7VaroWLXy42yT2BiXqit
+         HTqg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=nPt9N64IaDnBh7bjJWIKwHKKVjvabFOfHbFr+GEBwYs=;
-        b=KzIXjwt/6pon2sef9xX5cZia7EHDmaIQfR+pYLEE8XqLipVIp+sC90iN9T/nGV3V3C
-         QC+FncCNmnUkB9Zhj3i8Dg7TlCfCpeWi4EVAOMnRY0QfjgGFZnCQvVZ4YKJiHrhrGhlP
-         o7ErWX4OW441941zFGKqm/AZCHPphfcTWhki5RMFTeUJda7nfxLDV+GUtwhpbLOAClGd
-         6tbuWIAmEnIYJ/577uabCBbqtlwNMcyE2vG/MsyMrt+glJFAx1Rk0ZlLIzlcRx/SRbEG
-         ZkXM8RbESPpFryDrbFwLf/uPQPFfISRQgW1IlO/X6byKnfOC9MCFJnb9koEUuTNBSd5y
-         KayA==
-X-Gm-Message-State: AOAM531y6h66ZhfAGQpfGt0xiJhRpwJs19GRB/DT2odsWo1fcntV/0qn
-        XRiwfAnmrf3ToaxskhldWO+es3fQuwtbiQ==
-X-Google-Smtp-Source: ABdhPJwA7A7zpmc4ThmmWmtw+pSJmj5zJ+ScssktIWiZz+OY41oO0kfTZpaHCvwLwJKw2olK/g/yzw==
-X-Received: by 2002:a2e:531c:: with SMTP id h28mr19125625ljb.400.1642501990022;
-        Tue, 18 Jan 2022 02:33:10 -0800 (PST)
-Received: from localhost (h-85-24-188-65.A463.priv.bahnhof.se. [85.24.188.65])
-        by smtp.gmail.com with ESMTPSA id h11sm1645652lfv.281.2022.01.18.02.33.09
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 18 Jan 2022 02:33:09 -0800 (PST)
-Date:   Tue, 18 Jan 2022 11:33:08 +0100
-From:   Niklas =?iso-8859-1?Q?S=F6derlund?= 
-        <niklas.soderlund@ragnatech.se>
-To:     Jacopo Mondi <jacopo@jmondi.org>
-Cc:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Prabhakar <prabhakar.csengg@gmail.com>,
-        Biju Das <biju.das.jz@bp.renesas.com>,
-        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] media: dt-bindings: media: renesas,csi2: Update
- data-lanes property
-Message-ID: <YeaXZO+3C/fUM7ex@oden.dyn.berto.se>
-References: <20220113103215.27080-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20220117081110.bkwr3ttoexgr2wjt@uno.localdomain>
- <YeU1kDee7L26QJ86@oden.dyn.berto.se>
- <20220117100040.wa3ple6meahebtni@uno.localdomain>
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=Oq4iCc0Wwww95pZLDL+Et/XTeCWCBjBihbZj50b8h3M=;
+        b=tRU+t8bKiSMcUWf2kBWh8+yNyMxFE/fU3P2edbUXXOabBAqX8bm6Ey5GgCtF5vVegk
+         urUAaVolSSsekUL3urULBvUe9j1KRuRcESvRY7VdL7g6KI2sijbHiBmhJSzdpoWaVpj+
+         pBRU3GzSLHjLxlYzcvoT/eYkG0xCkqRjr3tWLC6rPm9lXYNiaJUOVeVOWQVvm8nvtc88
+         Yer0Vx7adMKf1OZzLlLLup20RSoYxhXa4bb5Zn+ICk5FP8eGj49V2k0LaBv6cVlPUSmr
+         oWJ9b3+kfuadBmJyqI4lFQ0NP7JJTfy4kFSpe+OZXFENC1HWXiTHcHTeVWMW7dcmysEf
+         IzyA==
+X-Gm-Message-State: AOAM533GhQyTQVv67SFufiFB+fFjgbC663PDKSyqGsGUE1tBKCUei6dT
+        Aw6KYx7g0KSqvC5xSdYo5u4=
+X-Google-Smtp-Source: ABdhPJxLLjKJ5WZW73z7MJeySmPKJaTlIopLrMZq3VtSCkLPKbKCOllEW97jssTlrt8X8H4+5SYagg==
+X-Received: by 2002:a05:651c:19ab:: with SMTP id bx43mr9860035ljb.112.1642502617075;
+        Tue, 18 Jan 2022 02:43:37 -0800 (PST)
+Received: from [192.168.2.145] (46-138-227-157.dynamic.spd-mgts.ru. [46.138.227.157])
+        by smtp.googlemail.com with ESMTPSA id q9sm1374535lfd.266.2022.01.18.02.43.36
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 18 Jan 2022 02:43:36 -0800 (PST)
+Message-ID: <f73de032-6461-c665-940d-9cb0c5f63869@gmail.com>
+Date:   Tue, 18 Jan 2022 13:43:35 +0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH v1 2/2] media: staging: tegra-vde: Support V4L stateless
+ video decoder API
+Content-Language: en-US
+To:     Nicolas Dufresne <nicolas@ndufresne.ca>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil@xs4all.nl>
+Cc:     linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20220112153952.1291-1-digetx@gmail.com>
+ <20220112153952.1291-3-digetx@gmail.com>
+ <e5bcc0a6d283ce3ed0cfe7d318232fb878c1b47d.camel@ndufresne.ca>
+ <0ae51264-8578-0b4f-4348-7f7a239c98dc@gmail.com>
+ <26cd15bc1c5dfe3acf8bb280cf7542657cb8b291.camel@ndufresne.ca>
+From:   Dmitry Osipenko <digetx@gmail.com>
+In-Reply-To: <26cd15bc1c5dfe3acf8bb280cf7542657cb8b291.camel@ndufresne.ca>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20220117100040.wa3ple6meahebtni@uno.localdomain>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Jacopo,
+18.01.2022 05:43, Nicolas Dufresne пишет:
+> Le mercredi 12 janvier 2022 à 22:04 +0300, Dmitry Osipenko a écrit :
+>>> If so, I may suggest to drop this fallback, and propose an amendment to the
+>>> spec, we can require flagging KEYFRAME/PFRAME/BFRAME on the OUTPUT buffer,
+>>> this
+>>> won't break any drivers/userland on other HW, and will benefit possibly
+>>> other HW
+>>> in the future. I can volunteer to patch GStreamer and LibreELEC ffmpeg if we
+>>> agree to this. Not sure how it works for Chromium, or if it actually make
+>>> sense
+>>> to support here.
+>>>
+>>> (expecting feedback from Hans and Ezequiel here)
+>>
+>> Amending the spec will be great, although it's not clear how to flag
+>> frame that consists of slices having different types.
+> 
+> As per spec, all slices of a frame must be of the same type. In short, there is
+> no problem, adding new flags to the decode_params.flags is fine, and is backward
+> compatible. I had a second thought that I'd probably prefer this over using the
+> v4l2_buffer flags, but either way seems backward compatible.
+> 
+> In H264, but also other CODEC, slices are have two types of parameters, some of
+> the parameters are invariant between slices, but still duplicated so you can
+> decode some of the frame, even if the very first slice is lost. We tried our
+> best to place all the slice invariant parameters in decode_params to keep the
+> slice_params as small as we could.
 
-Thanks for your feedback.
+Could you please give a direct reference to the spec? (chapter / page or
+provide quote)
 
-On 2022-01-17 11:00:40 +0100, Jacopo Mondi wrote:
-> Hi Niklas,
-> 
-> On Mon, Jan 17, 2022 at 10:23:28AM +0100, Niklas S�derlund wrote:
-> > Hello Jacopo,
-> >
-> > On 2022-01-17 09:11:10 +0100, Jacopo Mondi wrote:
-> > > Hello Prabhakar,
-> > >
-> > > On Thu, Jan 13, 2022 at 10:32:14AM +0000, Lad Prabhakar wrote:
-> > > > CSI-2 (CSI4LNK0) on R-Car and RZ/G2 supports 4-lane mode which is already
-> > > > handled by rcar-csi2.c driver. This patch updates the data-lanes property
-> > > > to describe the same.
-> > > >
-> > > > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > > > ---
-> > > >  .../devicetree/bindings/media/renesas,csi2.yaml          | 9 ++++++++-
-> > > >  1 file changed, 8 insertions(+), 1 deletion(-)
-> > > >
-> > > > diff --git a/Documentation/devicetree/bindings/media/renesas,csi2.yaml b/Documentation/devicetree/bindings/media/renesas,csi2.yaml
-> > > > index e6a036721082..064a0a4c5737 100644
-> > > > --- a/Documentation/devicetree/bindings/media/renesas,csi2.yaml
-> > > > +++ b/Documentation/devicetree/bindings/media/renesas,csi2.yaml
-> > > > @@ -67,7 +67,14 @@ properties:
-> > > >                  maxItems: 1
-> > > >
-> > > >                data-lanes:
-> > > > -                maxItems: 1
-> > > > +                items:
-> > > > +                  minItems: 1
-> > > > +                  maxItems: 4
-> > > > +                  items:
-> > > > +                    - const: 1
-> > > > +                    - const: 2
-> > > > +                    - const: 3
-> > > > +                    - const: 4
-> > >
-> > > Seeing "maxItems: 1" there confuses me too, as the property is an
-> > > array of data-lanes, but I'm afraid your change does not what you
-> > > intend as it would allow you to specify the number of data lanes as an
-> > > integer rather than as an array.
-> > >
-> > > I think it would probably be correct to set
-> > >
-> > >                 data-lanes: true
-> > >
-> > > (maybe maxItems: 1 is correct already)
-> > >
-> > > And restrict the number of valid combinations in the board DTS file
-> > > with a construct like:
-> > >
-> > >     data-lanes:
-> > >       oneOf:
-> > >         - items:
-> > >             - const: 1
-> > >             - const: 2
-> > >             - const: 3
-> > >             - const: 4
-> > >         - items:
-> > >             - const: 1
-> > >             - const: 2
-> >
-> > I don't think this is correct, what if data lanes 2 and 3 are used?
-> >
-> 
-> These were examples that allow you to accept <1 2> and <1 2 3 4> as
-> valid properties. If other combinations are accepted they can be
-> specified there, in your example, <2 3> with
-> 
->              - items:
->                - const: 2
->                - const: 3
-> 
-> As lane re-reordering is quite unusual as a feature (afaik) there are
-> usually just an handful of supported combinations for 1, 2 and 4 data
-> lanes setups.
-
-R-Car CSI-2 hardware and driver supports full lane swapping, see the 
-LSWAP register and usage of struct rcar_csi2.lane_swap.
-
-I think it's a good idea to extend the binding description to limit the 
-data-lanes property to an array of max 4 items where each value use is 
-ether a 1, 2, 3 or 4. But it must allow for any combination of the 
-values.
-
-> 
-> If full lane re-ordering is supported then it's enough to set
-> data-lanes: true and accepts all combinations.
-> 
-> Also, the reason why imho the property should go in the board DTS and
-> not in the SoC .dtsi is that not all the available data lanes of the
-> IP-core might be routed out on a specific board.
-> 
-> That's at least my understanding which I would be glad to be disproved
-> as specifying the valid combinations in each board dts is rather
-> un-convenient.
-> 
-> Thanks
->    j
-> 
-> > >
-> > > Thanks
-> > >    j
-> > >
-> > > >
-> > > >              required:
-> > > >                - clock-lanes
-> > > > --
-> > > > 2.17.1
-> > > >
-> >
-> > --
-> > Kind Regards,
-> > Niklas S�derlund
-
--- 
-Kind Regards,
-Niklas S�derlund
+I'm vaguely recalling that x264 encoder was able to generate such frames.
