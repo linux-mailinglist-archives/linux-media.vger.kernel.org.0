@@ -2,41 +2,45 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 611DC49172B
-	for <lists+linux-media@lfdr.de>; Tue, 18 Jan 2022 03:38:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id F0CAB4918AD
+	for <lists+linux-media@lfdr.de>; Tue, 18 Jan 2022 03:47:59 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1345020AbiARCiN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 17 Jan 2022 21:38:13 -0500
-Received: from dfw.source.kernel.org ([139.178.84.217]:53330 "EHLO
-        dfw.source.kernel.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S245551AbiARCgJ (ORCPT
+        id S1349248AbiARCrv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 17 Jan 2022 21:47:51 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33478 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1347870AbiARCnS (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 17 Jan 2022 21:36:09 -0500
+        Mon, 17 Jan 2022 21:43:18 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 054E5C08E859;
+        Mon, 17 Jan 2022 18:37:13 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 51CF2612C7;
-        Tue, 18 Jan 2022 02:36:07 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F0E09C36AEB;
-        Tue, 18 Jan 2022 02:36:05 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id D161B612CC;
+        Tue, 18 Jan 2022 02:37:12 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8B21CC36AF5;
+        Tue, 18 Jan 2022 02:37:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1642473366;
-        bh=aXgAlWjFhuTYaGo0IQrs5NxFaBkHUtQAgDjh1OBwC9o=;
+        s=k20201202; t=1642473432;
+        bh=WPTVkbAlftiPDcELrGcS+39e8k3c46GZhJ5lqBJBBQE=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=FDwiQYEBieKEqf4Nc1SKtNB2N5AKE8NJ65bez4QWtFIvITO10eRptILvGqCueoD4Y
-         CRW7LsOcAx55ChIZrsu+KJudhM4mBz3GWS+uEedxJH8Nbts5Ujw76EgFs1vJfkQ3qH
-         j5Q/AYoKF0aTzmmD2fUgZSFK7zvzU5JiQG4uB58/nd46EpA3zOGGiU+hPjztl0Bd93
-         2YqJQ506HE6mDbYgcUzz+VbYy87zWrH9hpXoUb5vrc5xdPlGnLyPLkZqeOCiYlKFqK
-         nyVM5kQ5ddBjQ4WrHrK9CrT+wx84LjIbdbYmJqTLKcyn570l1Z/PXwUJVid3c8RnVE
-         Q1WlhgUkpYq7g==
+        b=J+vuK+LbjA9a3TVucVGRxGE9D1fSQOxNyafMNdoRBi5HBmQkc2iWrowTD+LADHInl
+         4hSeN4NgX/rKhyDZBM1Vh3b6W27qztp7vmQ+6y89bCIZ4aRdjFwe+MFV48Zw8yPcT2
+         aVVoaxZNAZgJqcNtLiwr9ST1GiEX52fK+bOV41Ndr/Ztr6c6jATfW+C7n1kHCYI+Ta
+         ihTFkOxMSeRAKosB+1o4Cbj0YC+UYwNTpXeTCP1UxqvfpmIWf+PhwM0ThZrxa8L9iW
+         ncOSCFp1qqaGyi1SkXFb3Li3BgtvA0XOSSaWCwvcmlU1nwfmMc3W+DIqCK6+vKhXbS
+         cDPAuysdm7Dtg==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        rkardell@mida.se, Sasha Levin <sashal@kernel.org>,
-        mchehab@kernel.org, linux-media@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.15 087/188] media: m920x: don't use stack on USB reads
-Date:   Mon, 17 Jan 2022 21:30:11 -0500
-Message-Id: <20220118023152.1948105-87-sashal@kernel.org>
+Cc:     Sean Young <sean@mess.org>,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Sasha Levin <sashal@kernel.org>, mchehab@kernel.org,
+        linux-media@vger.kernel.org
+Subject: [PATCH AUTOSEL 5.15 114/188] media: igorplugusb: receiver overflow should be reported
+Date:   Mon, 17 Jan 2022 21:30:38 -0500
+Message-Id: <20220118023152.1948105-114-sashal@kernel.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220118023152.1948105-1-sashal@kernel.org>
 References: <20220118023152.1948105-1-sashal@kernel.org>
@@ -48,57 +52,37 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+From: Sean Young <sean@mess.org>
 
-[ Upstream commit a2ab06d7c4d6bfd0b545a768247a70463e977e27 ]
+[ Upstream commit 8fede658e7ddb605bbd68ed38067ddb0af033db4 ]
 
-Using stack-allocated pointers for USB message data don't work.
-This driver is almost OK with that, except for the I2C read
-logic.
+Without this, some IR will be missing mid-stream and we might decode
+something which never really occurred.
 
-Fix it by using a temporary read buffer, just like on all other
-calls to m920x_read().
-
-Link: https://lore.kernel.org/all/ccc99e48-de4f-045e-0fe4-61e3118e3f74@mida.se/
-Reported-by: rkardell@mida.se
+Signed-off-by: Sean Young <sean@mess.org>
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/media/usb/dvb-usb/m920x.c | 12 +++++++++++-
- 1 file changed, 11 insertions(+), 1 deletion(-)
+ drivers/media/rc/igorplugusb.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/media/usb/dvb-usb/m920x.c b/drivers/media/usb/dvb-usb/m920x.c
-index 4bb5b82599a79..691e05833db19 100644
---- a/drivers/media/usb/dvb-usb/m920x.c
-+++ b/drivers/media/usb/dvb-usb/m920x.c
-@@ -274,6 +274,13 @@ static int m920x_i2c_xfer(struct i2c_adapter *adap, struct i2c_msg msg[], int nu
- 			/* Should check for ack here, if we knew how. */
- 		}
- 		if (msg[i].flags & I2C_M_RD) {
-+			char *read = kmalloc(1, GFP_KERNEL);
-+			if (!read) {
-+				ret = -ENOMEM;
-+				kfree(read);
-+				goto unlock;
-+			}
-+
- 			for (j = 0; j < msg[i].len; j++) {
- 				/* Last byte of transaction?
- 				 * Send STOP, otherwise send ACK. */
-@@ -281,9 +288,12 @@ static int m920x_i2c_xfer(struct i2c_adapter *adap, struct i2c_msg msg[], int nu
+diff --git a/drivers/media/rc/igorplugusb.c b/drivers/media/rc/igorplugusb.c
+index effaa5751d6c9..3e9988ee785f0 100644
+--- a/drivers/media/rc/igorplugusb.c
++++ b/drivers/media/rc/igorplugusb.c
+@@ -64,9 +64,11 @@ static void igorplugusb_irdata(struct igorplugusb *ir, unsigned len)
+ 	if (start >= len) {
+ 		dev_err(ir->dev, "receive overflow invalid: %u", overflow);
+ 	} else {
+-		if (overflow > 0)
++		if (overflow > 0) {
+ 			dev_warn(ir->dev, "receive overflow, at least %u lost",
+ 								overflow);
++			ir_raw_event_reset(ir->rc);
++		}
  
- 				if ((ret = m920x_read(d->udev, M9206_I2C, 0x0,
- 						      0x20 | stop,
--						      &msg[i].buf[j], 1)) != 0)
-+						      read, 1)) != 0)
- 					goto unlock;
-+				msg[i].buf[j] = read[0];
- 			}
-+
-+			kfree(read);
- 		} else {
- 			for (j = 0; j < msg[i].len; j++) {
- 				/* Last byte of transaction? Then send STOP. */
+ 		do {
+ 			rawir.duration = ir->buf_in[i] * 85;
 -- 
 2.34.1
 
