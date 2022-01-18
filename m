@@ -2,121 +2,78 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 115E1491D71
-	for <lists+linux-media@lfdr.de>; Tue, 18 Jan 2022 04:36:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 23CF1491F9A
+	for <lists+linux-media@lfdr.de>; Tue, 18 Jan 2022 07:57:31 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1346277AbiARDg2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 17 Jan 2022 22:36:28 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45032 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1353380AbiARDdX (ORCPT
+        id S243723AbiARG5E (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 18 Jan 2022 01:57:04 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:60046 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S243874AbiARG47 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 17 Jan 2022 22:33:23 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9041CC03700A;
-        Mon, 17 Jan 2022 19:09:08 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        Tue, 18 Jan 2022 01:56:59 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1642489017;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=I5up6dZy0ZUANufFKUFgvfkxOTraxEVper7GxcI8Tho=;
+        b=Bxj1wZSKhFzCRLL0uxIpRGLKoJ9q5JE9lAXDE+tw39x2wYHAqlRNaXiNayUNepevcV6Wmu
+        pUtk/u0AUYqXYtPpsOqZV1X2oYJyscRNIs9C4zluXQqc4QbKRTN9KwljKBfzBk4fz/faBK
+        oEAbXbbgDU5C+Urg5wWyZOaZNuOmqDE=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-550-OcFCS_5ROZqcaHB5-A-z2g-1; Tue, 18 Jan 2022 01:56:54 -0500
+X-MC-Unique: OcFCS_5ROZqcaHB5-A-z2g-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com [10.5.11.22])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 2DCB360C49;
-        Tue, 18 Jan 2022 03:09:08 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C0F64C36AEF;
-        Tue, 18 Jan 2022 03:09:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1642475347;
-        bh=C3A7l53Vz4Z6yLJ0779NqAjKBF2eewvXM/vs65DiBvY=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=q6fL3R7UH+cZyf9bj39AmsEOYRfRVt2dJXG+78XinvnLyiG51elIkIuHkZBTu/X4Z
-         D8dfLhUWYrdaOfmnRyz3oPIWcEtdl+G+Mx0ucPs4BDZi39Em1b+zcHlYQqRl/RwMZi
-         5P85ntST8eYkL33EhGTlB9OhU2J+I4xjRRUq3L6rG/Lt0TlH4ssUBq3pIi6/Fsz/CX
-         byQDwZtSUBEXvhTVUL2R7SJZMeJRpakAVvufLtG7UP9kwXoZjZ0InKo5jBkeGFRpkp
-         QjW1z9YDRbBEqYXME/xc0DX5e1drhHtXuFFK8HhvOwMSJjE2sBIn1knLsBHyTd/rcc
-         v/5HmgI8jzHjQ==
-From:   Sasha Levin <sashal@kernel.org>
-To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Zhou Qingyang <zhou1615@umn.edu>,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Sasha Levin <sashal@kernel.org>, hverkuil@xs4all.nl,
-        mchehab@kernel.org, linux-media@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.4 16/29] media: saa7146: hexium_gemini: Fix a NULL pointer dereference in hexium_attach()
-Date:   Mon, 17 Jan 2022 22:08:09 -0500
-Message-Id: <20220118030822.1955469-16-sashal@kernel.org>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220118030822.1955469-1-sashal@kernel.org>
-References: <20220118030822.1955469-1-sashal@kernel.org>
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 00B6B192AB76;
+        Tue, 18 Jan 2022 06:56:53 +0000 (UTC)
+Received: from sirius.home.kraxel.org (unknown [10.39.192.49])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id A4C5D10550B1;
+        Tue, 18 Jan 2022 06:56:52 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+        id F19FC18000A6; Tue, 18 Jan 2022 07:56:50 +0100 (CET)
+Date:   Tue, 18 Jan 2022 07:56:50 +0100
+From:   Gerd Hoffmann <kraxel@redhat.com>
+To:     Pavel Skripkin <paskripkin@gmail.com>
+Cc:     sumit.semwal@linaro.org, christian.koenig@amd.com,
+        daniel.vetter@ffwll.ch, dri-devel@lists.freedesktop.org,
+        linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
+        linux-kernel@vger.kernel.org,
+        syzbot+2c56b725ec547fa9cb29@syzkaller.appspotmail.com
+Subject: Re: [PATCH] udmabuf: validate ubuf->pagecount
+Message-ID: <20220118065650.fi74ebzqmmz4e5io@sirius.home.kraxel.org>
+References: <20211230142649.23022-1-paskripkin@gmail.com>
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20211230142649.23022-1-paskripkin@gmail.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Zhou Qingyang <zhou1615@umn.edu>
+On Thu, Dec 30, 2021 at 05:26:49PM +0300, Pavel Skripkin wrote:
+> Syzbot has reported GPF in sg_alloc_append_table_from_pages(). The
+> problem was in ubuf->pages == ZERO_PTR.
+> 
+> ubuf->pagecount is calculated from arguments passed from user-space. If
+> user creates udmabuf with list.size == 0 then ubuf->pagecount will be
+> also equal to zero; it causes kmalloc_array() to return ZERO_PTR.
+> 
+> Fix it by validating ubuf->pagecount before passing it to
+> kmalloc_array().
+> 
+> Fixes: fbb0de795078 ("Add udmabuf misc device")
+> Reported-and-tested-by: syzbot+2c56b725ec547fa9cb29@syzkaller.appspotmail.com
+> Signed-off-by: Pavel Skripkin <paskripkin@gmail.com>
+> ---
 
-[ Upstream commit 3af86b046933ba513d08399dba0d4d8b50d607d0 ]
+Pushed to drm-misc-next.
 
-In hexium_attach(dev, info), saa7146_vv_init() is called to allocate
-a new memory for dev->vv_data. saa7146_vv_release() will be called on
-failure of saa7146_register_device(). There is a dereference of
-dev->vv_data in saa7146_vv_release(), which could lead to a NULL
-pointer dereference on failure of saa7146_vv_init().
-
-Fix this bug by adding a check of saa7146_vv_init().
-
-This bug was found by a static analyzer. The analysis employs
-differential checking to identify inconsistent security operations
-(e.g., checks or kfrees) between two code paths and confirms that the
-inconsistent operations are not recovered in the current function or
-the callers, so they constitute bugs.
-
-Note that, as a bug found by static analysis, it can be a false
-positive or hard to trigger. Multiple researchers have cross-reviewed
-the bug.
-
-Builds with CONFIG_VIDEO_HEXIUM_GEMINI=m show no new warnings,
-and our static analyzer no longer warns about this code.
-
-Link: https://lore.kernel.org/linux-media/20211203154030.111210-1-zhou1615@umn.edu
-Signed-off-by: Zhou Qingyang <zhou1615@umn.edu>
-Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- drivers/media/common/saa7146/saa7146_fops.c | 2 +-
- drivers/media/pci/saa7146/hexium_gemini.c   | 7 ++++++-
- 2 files changed, 7 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/media/common/saa7146/saa7146_fops.c b/drivers/media/common/saa7146/saa7146_fops.c
-index df1e8c975cd82..6d0a0b08853b4 100644
---- a/drivers/media/common/saa7146/saa7146_fops.c
-+++ b/drivers/media/common/saa7146/saa7146_fops.c
-@@ -524,7 +524,7 @@ int saa7146_vv_init(struct saa7146_dev* dev, struct saa7146_ext_vv *ext_vv)
- 		ERR("out of memory. aborting.\n");
- 		kfree(vv);
- 		v4l2_ctrl_handler_free(hdl);
--		return -1;
-+		return -ENOMEM;
- 	}
- 
- 	saa7146_video_uops.init(dev,vv);
-diff --git a/drivers/media/pci/saa7146/hexium_gemini.c b/drivers/media/pci/saa7146/hexium_gemini.c
-index 343cd75fcd8d1..f09f311a316f5 100644
---- a/drivers/media/pci/saa7146/hexium_gemini.c
-+++ b/drivers/media/pci/saa7146/hexium_gemini.c
-@@ -296,7 +296,12 @@ static int hexium_attach(struct saa7146_dev *dev, struct saa7146_pci_extension_d
- 	hexium_set_input(hexium, 0);
- 	hexium->cur_input = 0;
- 
--	saa7146_vv_init(dev, &vv_data);
-+	ret = saa7146_vv_init(dev, &vv_data);
-+	if (ret) {
-+		i2c_del_adapter(&hexium->i2c_adapter);
-+		kfree(hexium);
-+		return ret;
-+	}
- 
- 	vv_data.vid_ops.vidioc_enum_input = vidioc_enum_input;
- 	vv_data.vid_ops.vidioc_g_input = vidioc_g_input;
--- 
-2.34.1
+thanks,
+  Gerd
 
