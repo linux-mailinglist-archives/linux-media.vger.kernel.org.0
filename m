@@ -2,104 +2,94 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C7BCC491B1B
-	for <lists+linux-media@lfdr.de>; Tue, 18 Jan 2022 04:04:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 73138491B22
+	for <lists+linux-media@lfdr.de>; Tue, 18 Jan 2022 04:04:12 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1346151AbiARDD6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 17 Jan 2022 22:03:58 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36084 "EHLO
+        id S1351980AbiARDEJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 17 Jan 2022 22:04:09 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37280 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1345536AbiARCxc (ORCPT
+        with ESMTP id S1344044AbiARC51 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 17 Jan 2022 21:53:32 -0500
-Received: from mail-qt1-x82c.google.com (mail-qt1-x82c.google.com [IPv6:2607:f8b0:4864:20::82c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 33901C02B8D8
-        for <linux-media@vger.kernel.org>; Mon, 17 Jan 2022 18:43:39 -0800 (PST)
-Received: by mail-qt1-x82c.google.com with SMTP id y17so20966139qtx.9
-        for <linux-media@vger.kernel.org>; Mon, 17 Jan 2022 18:43:39 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ndufresne-ca.20210112.gappssmtp.com; s=20210112;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :user-agent:mime-version:content-transfer-encoding;
-        bh=7X1Uvba4FRzkQNs3e8K7RvJSO7H6HBoP1FkghXLwh2c=;
-        b=sek46a/hazwPyMk4wZVq+CDV4DXbWpOPFHYhLYiac0qW5R9X8PC+vOBPuJJ4JiuRED
-         xoa95ljAZ9cBaVn0FL4qmVapGqBEKb1bdNvS7O3/woJEXd19uz44IxDyWj1c2i+KXA4L
-         61rF2Tz5gsSoldFd1ZDBtCS/UOhlxD4X1VHPGqnSJLp/9aNmbSNuBwyJmfSq9M68WBGo
-         uJoOwy5gyw0WXWcERPCo4U1BkMpkxTYkbVFbztGmvZzfOe6ljJDT+PN2Z7FyLRKLGFiK
-         JZ2EpM0xhjpEjoaIcpcuhKcL/760jVA5N8PbjcnG7EEaqavoCTpcFLsH16Hx+va7WLf/
-         8oDQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=7X1Uvba4FRzkQNs3e8K7RvJSO7H6HBoP1FkghXLwh2c=;
-        b=zeATiUbBwNMWnj6sYeZarX8MbMgJuVD8e1SL/ZmYYT5qKfNDSuzT2IEPIGA0J22DXd
-         /rl0zWtDSQHnJq+GxWk8GaRQQBzNGKo40mBbgofIJm+/mMeGVFp5V7a7xUT2CeNM89tc
-         4cs//rDd90MahIR1XpAD2M/L19Aq3WDKNx2vfDhBCiskAtqyewd8orccw4vrkFz1dxDt
-         stYm4+T02szQV9kBV1Lqk/S3j3/Ye4IofT9yKqPtlh0JWvala+TuVYmiZx1ZgdI9YgJD
-         kKjn1OmcK+7zWptZdXTYeZCtRPnPkWiforxZdXzd80l3vAUROlTWM7TQ8BMbk2xu70/G
-         C7BA==
-X-Gm-Message-State: AOAM5305RDaMAJMtaCtuI//MIpoO8RRt6yodA7lzlGT1opoy9KRqbcd0
-        gwt2nHKMNKf5hNiKl+BaJjeYGA==
-X-Google-Smtp-Source: ABdhPJwZsjq2fQPyjmZ+V+4fehDe7Yi6eO75Umlfh+sZ96vubkEVxgbNhUHzyQcaGPg2Ev5vHPupZA==
-X-Received: by 2002:ac8:5bd6:: with SMTP id b22mr18740815qtb.481.1642473818298;
-        Mon, 17 Jan 2022 18:43:38 -0800 (PST)
-Received: from nicolas-tpx395.localdomain (173-246-12-168.qc.cable.ebox.net. [173.246.12.168])
-        by smtp.gmail.com with ESMTPSA id g20sm3644704qtb.49.2022.01.17.18.43.37
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 17 Jan 2022 18:43:37 -0800 (PST)
-Message-ID: <26cd15bc1c5dfe3acf8bb280cf7542657cb8b291.camel@ndufresne.ca>
-Subject: Re: [PATCH v1 2/2] media: staging: tegra-vde: Support V4L stateless
- video decoder API
-From:   Nicolas Dufresne <nicolas@ndufresne.ca>
-To:     Dmitry Osipenko <digetx@gmail.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil@xs4all.nl>
-Cc:     linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
-        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
-Date:   Mon, 17 Jan 2022 21:43:36 -0500
-In-Reply-To: <0ae51264-8578-0b4f-4348-7f7a239c98dc@gmail.com>
-References: <20220112153952.1291-1-digetx@gmail.com>
-         <20220112153952.1291-3-digetx@gmail.com>
-         <e5bcc0a6d283ce3ed0cfe7d318232fb878c1b47d.camel@ndufresne.ca>
-         <0ae51264-8578-0b4f-4348-7f7a239c98dc@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.42.2 (3.42.2-1.fc35) 
+        Mon, 17 Jan 2022 21:57:27 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4D369C061347;
+        Mon, 17 Jan 2022 18:45:27 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id DF31F61310;
+        Tue, 18 Jan 2022 02:45:26 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8A142C36AF5;
+        Tue, 18 Jan 2022 02:45:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1642473926;
+        bh=qd+RMW3ekTWdd5Ghm7/F/Cbe9ZBpbdGE29aSnDE0Ntc=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=WPZ3esaDefDFFa+C0vPckj1O/Dox2clh33HPtYbhq6+rk2cS9dg/j3lZ5BUWsvBeA
+         WDYBfLTk/JmQj/r69tCJD7olH4ddwv5+mp+9tNwwCfZIUfssrT0sLCzobnutWC8szR
+         ncVu4WiCkyti49D+AhDYor1nPUqsWclaaih24LFWBmaJmzjAHsbSg9HDNenUieiJ4Q
+         8GD5LZ587dgHGjSVnt4qJSQC03fNw6UqjW4979ODG8m2i6xROvi+mDaJMSeHj3xAiV
+         xldsjVsVJADPBY9fhoDoyBhRiTlnTIv1KoFQtzvjgzWaGmq+50moPR1N8/b/Y/T4Jr
+         orGb67cseaiHg==
+From:   Sasha Levin <sashal@kernel.org>
+To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Cc:     James Hilliard <james.hilliard1@gmail.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Sasha Levin <sashal@kernel.org>, mchehab@kernel.org,
+        linux-media@vger.kernel.org
+Subject: [PATCH AUTOSEL 5.4 25/73] media: uvcvideo: Increase UVC_CTRL_CONTROL_TIMEOUT to 5 seconds.
+Date:   Mon, 17 Jan 2022 21:43:44 -0500
+Message-Id: <20220118024432.1952028-25-sashal@kernel.org>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20220118024432.1952028-1-sashal@kernel.org>
+References: <20220118024432.1952028-1-sashal@kernel.org>
 MIME-Version: 1.0
+X-stable: review
+X-Patchwork-Hint: Ignore
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Le mercredi 12 janvier 2022 à 22:04 +0300, Dmitry Osipenko a écrit :
-> > If so, I may suggest to drop this fallback, and propose an amendment to the
-> > spec, we can require flagging KEYFRAME/PFRAME/BFRAME on the OUTPUT buffer,
-> > this
-> > won't break any drivers/userland on other HW, and will benefit possibly
-> > other HW
-> > in the future. I can volunteer to patch GStreamer and LibreELEC ffmpeg if we
-> > agree to this. Not sure how it works for Chromium, or if it actually make
-> > sense
-> > to support here.
-> > 
-> > (expecting feedback from Hans and Ezequiel here)
-> 
-> Amending the spec will be great, although it's not clear how to flag
-> frame that consists of slices having different types.
+From: James Hilliard <james.hilliard1@gmail.com>
 
-As per spec, all slices of a frame must be of the same type. In short, there is
-no problem, adding new flags to the decode_params.flags is fine, and is backward
-compatible. I had a second thought that I'd probably prefer this over using the
-v4l2_buffer flags, but either way seems backward compatible.
+[ Upstream commit c8ed7d2f614cd8b315981d116c7a2fb01829500d ]
 
-In H264, but also other CODEC, slices are have two types of parameters, some of
-the parameters are invariant between slices, but still duplicated so you can
-decode some of the frame, even if the very first slice is lost. We tried our
-best to place all the slice invariant parameters in decode_params to keep the
-slice_params as small as we could.
+Some uvc devices appear to require the maximum allowed USB timeout
+for GET_CUR/SET_CUR requests.
 
-regards,
-Nicolas
+So lets just bump the UVC control timeout to 5 seconds which is the
+same as the usb ctrl get/set defaults:
+USB_CTRL_GET_TIMEOUT 5000
+USB_CTRL_SET_TIMEOUT 5000
+
+It fixes the following runtime warnings:
+   Failed to query (GET_CUR) UVC control 11 on unit 2: -110 (exp. 1).
+   Failed to query (SET_CUR) UVC control 3 on unit 2: -110 (exp. 2).
+
+Signed-off-by: James Hilliard <james.hilliard1@gmail.com>
+Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ drivers/media/usb/uvc/uvcvideo.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/uvcvideo.h
+index 24e3d8c647e77..5f137400bebd6 100644
+--- a/drivers/media/usb/uvc/uvcvideo.h
++++ b/drivers/media/usb/uvc/uvcvideo.h
+@@ -179,7 +179,7 @@
+ /* Maximum status buffer size in bytes of interrupt URB. */
+ #define UVC_MAX_STATUS_SIZE	16
+ 
+-#define UVC_CTRL_CONTROL_TIMEOUT	500
++#define UVC_CTRL_CONTROL_TIMEOUT	5000
+ #define UVC_CTRL_STREAMING_TIMEOUT	5000
+ 
+ /* Maximum allowed number of control mappings per device */
+-- 
+2.34.1
 
