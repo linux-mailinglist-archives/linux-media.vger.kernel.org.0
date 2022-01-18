@@ -2,80 +2,151 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 110D449263C
-	for <lists+linux-media@lfdr.de>; Tue, 18 Jan 2022 13:59:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B9EC4492962
+	for <lists+linux-media@lfdr.de>; Tue, 18 Jan 2022 16:07:29 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234632AbiARM6S (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 18 Jan 2022 07:58:18 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35526 "EHLO
+        id S242496AbiARPH2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 18 Jan 2022 10:07:28 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37484 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229379AbiARM6S (ORCPT
+        with ESMTP id S242180AbiARPH1 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 18 Jan 2022 07:58:18 -0500
-Received: from mail-ua1-x92e.google.com (mail-ua1-x92e.google.com [IPv6:2607:f8b0:4864:20::92e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BCB7EC061574
-        for <linux-media@vger.kernel.org>; Tue, 18 Jan 2022 04:58:17 -0800 (PST)
-Received: by mail-ua1-x92e.google.com with SMTP id r15so36354689uao.3
-        for <linux-media@vger.kernel.org>; Tue, 18 Jan 2022 04:58:17 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=kt7BSYvG+rr2bLEECwLOEMCvBVZotJIk44/4XcKD9H0=;
-        b=VgQhmlWVQ09mjFeODazc/hoqxEEWEnEk72yM29K7y+b1uokv9E/hL1LVVRaFU97pX1
-         wOj8mDoD5vbOjru7CLGkQeg7GNmMU5ABeCQljbXYG+Ey+7ecwm9JbfEtQrwBs0MJTTr5
-         QNwKS00IB2q1R9lCsx/tIbdYCcuACvCz+ts6Ko93dCwlcZ2c2rIM2TFQXn60RBBSxCfP
-         ZjMifk939HvCW/UtFVa0LOu8MRbdwvigj685vwtqTFcXLCzqeWuwW50DjOC7BKw+cAhI
-         Oe01cDevPuysBGPbjx9XdLRNY8Swgqs4SqY3f+5tdaiYkkJgSEornAsl9RD4KB6s2AQc
-         4ujw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=kt7BSYvG+rr2bLEECwLOEMCvBVZotJIk44/4XcKD9H0=;
-        b=fD67/W7vJJR/ekbl5hBkXyRNcETey6K8+x4Df0CMkMUF0fRN/0gjGpxqOdLAoZE+p8
-         gwRxOpfv8GxgQGubv8ttPJD/1Zg7M+EFowJt7CyMoTPYdKsKvC8NikT2MFBhH6H35dfS
-         6yv7C8bURzKk9deP5PjZWAREbGwANSx9y2TVfgvuEBsEZc1LPlN9uf85zFFtBklv9sSk
-         d85ovNgO2hb4n2177SDcmZtHHvz03Ti9OjNE31NnsPggdk1d15cNGmpVPbTnyDeDitHO
-         gpM9xXKoME+wkVvGCobF+8VqnXrgLYjCoPgeJB97PnKSuv2xhjx8BLx6zSpGk/2moHK8
-         avMg==
-X-Gm-Message-State: AOAM5316YC8Qws2VDJJajsqBCNSFyREtF4NT8/VmcEhlbLtnaDfTfbhw
-        gJ2uWrNjCE5bZ8rucvgdArXiEcGIZneN49PfVP8=
-X-Google-Smtp-Source: ABdhPJzIhOjJcnW+Vb/AVZvuKnOqjWuJ/GNkex961rjLXuFIAYid5SrzinT3rtuNqxRrCdkqnixHy5onG5hVghPcFRA=
-X-Received: by 2002:a67:fdcc:: with SMTP id l12mr8057328vsq.80.1642510696810;
- Tue, 18 Jan 2022 04:58:16 -0800 (PST)
+        Tue, 18 Jan 2022 10:07:27 -0500
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E7FEEC061574;
+        Tue, 18 Jan 2022 07:07:26 -0800 (PST)
+Received: from benjamin-XPS-13-9310.. (unknown [IPv6:2a01:e0a:120:3210:5aac:9ca0:e459:1f09])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        (Authenticated sender: benjamin.gaignard)
+        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 094531F43FCF;
+        Tue, 18 Jan 2022 15:07:25 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+        s=mail; t=1642518445;
+        bh=kcrKD5Lb4gNWfTjfNnB/gFNCNh+zasxQp0W3HPwbaz0=;
+        h=From:To:Cc:Subject:Date:From;
+        b=DGAF/BR7fGDn8mG6BppEiTu3g4eO7nd/N7901D40JmjlHXP8s2AU804QYHmPXOSkc
+         JsTU06IBE5hKL0L9Eb8T02BULIzirVylDOGndQg/H6/ZUWVfQFZk9GLBd8w3H1+wot
+         fFRP1xDFK1R5ehrgfPeBS+W837CnWvlsjvWt9S/c2ZMyuxYCiDFpOPcrVYQzln2Tk7
+         LIb2oH15UTwNTbTK4kulQOQMAToRMqrfiePaxEhwhMcNZcM7HbjYkMHE/IvJahSa08
+         Cl37Z6HWc6kvWvt07UiMnZY+5Z//dShe02vWHyUKYpzIM1ow1DiPHp01gBjC/HNRO9
+         +i25L23fssfMg==
+From:   Benjamin Gaignard <benjamin.gaignard@collabora.com>
+To:     tiffany.lin@mediatek.com, andrew-ct.chen@mediatek.com,
+        mchehab@kernel.org, matthias.bgg@gmail.com,
+        angelogioacchino.delregno@collabora.co.uk
+Cc:     linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
+        kernel@collabora.com,
+        Benjamin Gaignard <benjamin.gaignard@collabora.com>
+Subject: [PATCH] media: platform: mtk-vcodec: Do not force /dev/videoX node number
+Date:   Tue, 18 Jan 2022 16:07:17 +0100
+Message-Id: <20220118150717.706074-1-benjamin.gaignard@collabora.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-Received: by 2002:ab0:3793:0:0:0:0:0 with HTTP; Tue, 18 Jan 2022 04:58:16
- -0800 (PST)
-Reply-To: mohsheikhalhamed@gmail.com
-From:   bratikox <bratikox@gmail.com>
-Date:   Tue, 18 Jan 2022 13:58:16 +0100
-Message-ID: <CAFuXTSzuva4EHO8_uxEoZESCCPATrTRX+MLbrJJvBQ_vYsAsaw@mail.gmail.com>
-Subject: Salam Alaikum /ADIA LOAN OFFER
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Salam Alaikum,
+Let's v4l2 framework use a free /dev/videoX node for decode and encoder.
+For the decoder call video_register_device() before register the media
+controller device so the mapping between ins correctly done.
+Since the registering sequence has changed rework exiting errors case too.
 
-We are a United Arab Emirates based investment company known as Abu
-Dhabi Investment Authority working on expanding its portfolio globally
-and financing projects.
+Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+---
+ .../platform/mtk-vcodec/mtk_vcodec_dec_drv.c  | 27 +++++++++----------
+ .../platform/mtk-vcodec/mtk_vcodec_enc_drv.c  |  2 +-
+ 2 files changed, 13 insertions(+), 16 deletions(-)
 
-We are offering Corporate and Personal Loan at 3.5% Interest Rate for
-a duration of 5 to 10 years.
+diff --git a/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_drv.c b/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_drv.c
+index 86b639d82be8..a4a3f9631d04 100644
+--- a/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_drv.c
++++ b/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_drv.c
+@@ -374,7 +374,7 @@ static int mtk_vcodec_probe(struct platform_device *pdev)
+ 	if (IS_ERR((__force void *)dev->m2m_dev_dec)) {
+ 		mtk_v4l2_err("Failed to init mem2mem dec device");
+ 		ret = PTR_ERR((__force void *)dev->m2m_dev_dec);
+-		goto err_dec_mem_init;
++		goto err_dec_alloc;
+ 	}
+ 
+ 	dev->decode_workqueue =
+@@ -391,10 +391,16 @@ static int mtk_vcodec_probe(struct platform_device *pdev)
+ 					   &pdev->dev);
+ 		if (ret) {
+ 			mtk_v4l2_err("Main device of_platform_populate failed.");
+-			goto err_event_workq;
++			goto err_reg_cont;
+ 		}
+ 	}
+ 
++	ret = video_register_device(vfd_dec, VFL_TYPE_VIDEO, -1);
++	if (ret) {
++		mtk_v4l2_err("Failed to register video device");
++		goto err_reg_cont;
++	}
++
+ 	if (dev->vdec_pdata->uses_stateless_api) {
+ 		dev->mdev_dec.dev = &pdev->dev;
+ 		strscpy(dev->mdev_dec.model, MTK_VCODEC_DEC_NAME,
+@@ -408,7 +414,7 @@ static int mtk_vcodec_probe(struct platform_device *pdev)
+ 							 MEDIA_ENT_F_PROC_VIDEO_DECODER);
+ 		if (ret) {
+ 			mtk_v4l2_err("Failed to register media controller");
+-			goto err_reg_cont;
++			goto err_dec_mem_init;
+ 		}
+ 
+ 		ret = media_device_register(&dev->mdev_dec);
+@@ -419,30 +425,21 @@ static int mtk_vcodec_probe(struct platform_device *pdev)
+ 
+ 		mtk_v4l2_debug(0, "media registered as /dev/media%d", vfd_dec->minor);
+ 	}
+-	ret = video_register_device(vfd_dec, VFL_TYPE_VIDEO, 0);
+-	if (ret) {
+-		mtk_v4l2_err("Failed to register video device");
+-		goto err_dec_reg;
+-	}
+ 
+ 	mtk_v4l2_debug(0, "decoder registered as /dev/video%d", vfd_dec->minor);
+ 
+ 	return 0;
+ 
+-err_dec_reg:
+-	if (dev->vdec_pdata->uses_stateless_api)
+-		media_device_unregister(&dev->mdev_dec);
+ err_media_reg:
+-	if (dev->vdec_pdata->uses_stateless_api)
+-		v4l2_m2m_unregister_media_controller(dev->m2m_dev_dec);
++	v4l2_m2m_unregister_media_controller(dev->m2m_dev_dec);
++err_dec_mem_init:
++	video_unregister_device(vfd_dec);
+ err_reg_cont:
+ 	if (dev->vdec_pdata->uses_stateless_api)
+ 		media_device_cleanup(&dev->mdev_dec);
+ 	destroy_workqueue(dev->decode_workqueue);
+ err_event_workq:
+ 	v4l2_m2m_release(dev->m2m_dev_dec);
+-err_dec_mem_init:
+-	video_unregister_device(vfd_dec);
+ err_dec_alloc:
+ 	v4l2_device_unregister(&dev->v4l2_dev);
+ err_core_workq:
+diff --git a/drivers/media/platform/mtk-vcodec/mtk_vcodec_enc_drv.c b/drivers/media/platform/mtk-vcodec/mtk_vcodec_enc_drv.c
+index 507ad1ea2104..3975613b75b3 100644
+--- a/drivers/media/platform/mtk-vcodec/mtk_vcodec_enc_drv.c
++++ b/drivers/media/platform/mtk-vcodec/mtk_vcodec_enc_drv.c
+@@ -350,7 +350,7 @@ static int mtk_vcodec_probe(struct platform_device *pdev)
+ 	if (of_get_property(pdev->dev.of_node, "dma-ranges", NULL))
+ 		dma_set_mask_and_coherent(&pdev->dev, DMA_BIT_MASK(34));
+ 
+-	ret = video_register_device(vfd_enc, VFL_TYPE_VIDEO, 1);
++	ret = video_register_device(vfd_enc, VFL_TYPE_VIDEO, -1);
+ 	if (ret) {
+ 		mtk_v4l2_err("Failed to register video device");
+ 		goto err_enc_reg;
+-- 
+2.30.2
 
-Please get back to us on Email: mohsheikhalhamed@gmail.com ,if you are
-interested for further embellishment.
-
-We also pay 2% commission to brokers who introduce project owners for
-finance or other opportunities.
-
-
- Yours truly,
- Hamed Mohammad
- (Personal Assistant)
- Abu Dhabi Investment Authority
- 211 Corniche, P.O Box 3600
- Abu Dhabi,United Arab Emirates
