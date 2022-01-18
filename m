@@ -2,211 +2,104 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8055B491B20
-	for <lists+linux-media@lfdr.de>; Tue, 18 Jan 2022 04:04:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C7BCC491B1B
+	for <lists+linux-media@lfdr.de>; Tue, 18 Jan 2022 04:04:06 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1349247AbiARDEB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 17 Jan 2022 22:04:01 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37240 "EHLO
+        id S1346151AbiARDD6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 17 Jan 2022 22:03:58 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36084 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1347683AbiARC5T (ORCPT
+        with ESMTP id S1345536AbiARCxc (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 17 Jan 2022 21:57:19 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2B74BC0613BC;
-        Mon, 17 Jan 2022 18:44:59 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id BD4AF6130B;
-        Tue, 18 Jan 2022 02:44:58 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 30DE2C36AEB;
-        Tue, 18 Jan 2022 02:44:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1642473898;
-        bh=c48g0P2kXom32ZkWk2oniIOiwrvvjuNKadW20KYAa4o=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=FN5dP5C24G57DQWRnEWpYV6nt/qRzVSDcbGOkG4U0zX56rcsJvd0J54N54ssEXxaS
-         1Wr5ORETV24g4SIMArrCjVu94vrc1tbFt21vPQkFJpwakBwjy0vJIVp3SDt7CbMRZ1
-         fPYRaeqVndO2AHkfJ/IAnm3Ry0ue4jJXkr8OobUluupwHHv90cKbb5eM6o9SmAJaNr
-         Bl4i/2RnWtXfpzqbvKBR0jDqarHLvX0AhOHFH415VJz78/qDSJA7WA++0fGd2rTAGr
-         IcuHJx2xC32riRTAkZ6mxfM+RDG/59l/1yPn3gPWN55gEZgI/R9hzQyUJYRWkHbrX8
-         pJURySHSzMtRQ==
-From:   Sasha Levin <sashal@kernel.org>
-To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Zheyu Ma <zheyuma97@gmail.com>,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Sasha Levin <sashal@kernel.org>, mchehab@kernel.org,
-        sean@mess.org, arnd@arndb.de, linux-media@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.4 12/73] media: b2c2: Add missing check in flexcop_pci_isr:
-Date:   Mon, 17 Jan 2022 21:43:31 -0500
-Message-Id: <20220118024432.1952028-12-sashal@kernel.org>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220118024432.1952028-1-sashal@kernel.org>
-References: <20220118024432.1952028-1-sashal@kernel.org>
+        Mon, 17 Jan 2022 21:53:32 -0500
+Received: from mail-qt1-x82c.google.com (mail-qt1-x82c.google.com [IPv6:2607:f8b0:4864:20::82c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 33901C02B8D8
+        for <linux-media@vger.kernel.org>; Mon, 17 Jan 2022 18:43:39 -0800 (PST)
+Received: by mail-qt1-x82c.google.com with SMTP id y17so20966139qtx.9
+        for <linux-media@vger.kernel.org>; Mon, 17 Jan 2022 18:43:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ndufresne-ca.20210112.gappssmtp.com; s=20210112;
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :user-agent:mime-version:content-transfer-encoding;
+        bh=7X1Uvba4FRzkQNs3e8K7RvJSO7H6HBoP1FkghXLwh2c=;
+        b=sek46a/hazwPyMk4wZVq+CDV4DXbWpOPFHYhLYiac0qW5R9X8PC+vOBPuJJ4JiuRED
+         xoa95ljAZ9cBaVn0FL4qmVapGqBEKb1bdNvS7O3/woJEXd19uz44IxDyWj1c2i+KXA4L
+         61rF2Tz5gsSoldFd1ZDBtCS/UOhlxD4X1VHPGqnSJLp/9aNmbSNuBwyJmfSq9M68WBGo
+         uJoOwy5gyw0WXWcERPCo4U1BkMpkxTYkbVFbztGmvZzfOe6ljJDT+PN2Z7FyLRKLGFiK
+         JZ2EpM0xhjpEjoaIcpcuhKcL/760jVA5N8PbjcnG7EEaqavoCTpcFLsH16Hx+va7WLf/
+         8oDQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=7X1Uvba4FRzkQNs3e8K7RvJSO7H6HBoP1FkghXLwh2c=;
+        b=zeATiUbBwNMWnj6sYeZarX8MbMgJuVD8e1SL/ZmYYT5qKfNDSuzT2IEPIGA0J22DXd
+         /rl0zWtDSQHnJq+GxWk8GaRQQBzNGKo40mBbgofIJm+/mMeGVFp5V7a7xUT2CeNM89tc
+         4cs//rDd90MahIR1XpAD2M/L19Aq3WDKNx2vfDhBCiskAtqyewd8orccw4vrkFz1dxDt
+         stYm4+T02szQV9kBV1Lqk/S3j3/Ye4IofT9yKqPtlh0JWvala+TuVYmiZx1ZgdI9YgJD
+         kKjn1OmcK+7zWptZdXTYeZCtRPnPkWiforxZdXzd80l3vAUROlTWM7TQ8BMbk2xu70/G
+         C7BA==
+X-Gm-Message-State: AOAM5305RDaMAJMtaCtuI//MIpoO8RRt6yodA7lzlGT1opoy9KRqbcd0
+        gwt2nHKMNKf5hNiKl+BaJjeYGA==
+X-Google-Smtp-Source: ABdhPJwZsjq2fQPyjmZ+V+4fehDe7Yi6eO75Umlfh+sZ96vubkEVxgbNhUHzyQcaGPg2Ev5vHPupZA==
+X-Received: by 2002:ac8:5bd6:: with SMTP id b22mr18740815qtb.481.1642473818298;
+        Mon, 17 Jan 2022 18:43:38 -0800 (PST)
+Received: from nicolas-tpx395.localdomain (173-246-12-168.qc.cable.ebox.net. [173.246.12.168])
+        by smtp.gmail.com with ESMTPSA id g20sm3644704qtb.49.2022.01.17.18.43.37
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 17 Jan 2022 18:43:37 -0800 (PST)
+Message-ID: <26cd15bc1c5dfe3acf8bb280cf7542657cb8b291.camel@ndufresne.ca>
+Subject: Re: [PATCH v1 2/2] media: staging: tegra-vde: Support V4L stateless
+ video decoder API
+From:   Nicolas Dufresne <nicolas@ndufresne.ca>
+To:     Dmitry Osipenko <digetx@gmail.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil@xs4all.nl>
+Cc:     linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
+Date:   Mon, 17 Jan 2022 21:43:36 -0500
+In-Reply-To: <0ae51264-8578-0b4f-4348-7f7a239c98dc@gmail.com>
+References: <20220112153952.1291-1-digetx@gmail.com>
+         <20220112153952.1291-3-digetx@gmail.com>
+         <e5bcc0a6d283ce3ed0cfe7d318232fb878c1b47d.camel@ndufresne.ca>
+         <0ae51264-8578-0b4f-4348-7f7a239c98dc@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.42.2 (3.42.2-1.fc35) 
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Zheyu Ma <zheyuma97@gmail.com>
+Le mercredi 12 janvier 2022 à 22:04 +0300, Dmitry Osipenko a écrit :
+> > If so, I may suggest to drop this fallback, and propose an amendment to the
+> > spec, we can require flagging KEYFRAME/PFRAME/BFRAME on the OUTPUT buffer,
+> > this
+> > won't break any drivers/userland on other HW, and will benefit possibly
+> > other HW
+> > in the future. I can volunteer to patch GStreamer and LibreELEC ffmpeg if we
+> > agree to this. Not sure how it works for Chromium, or if it actually make
+> > sense
+> > to support here.
+> > 
+> > (expecting feedback from Hans and Ezequiel here)
+> 
+> Amending the spec will be great, although it's not clear how to flag
+> frame that consists of slices having different types.
 
-[ Upstream commit b13203032e679674c7c518f52a7ec0801ca3a829 ]
+As per spec, all slices of a frame must be of the same type. In short, there is
+no problem, adding new flags to the decode_params.flags is fine, and is backward
+compatible. I had a second thought that I'd probably prefer this over using the
+v4l2_buffer flags, but either way seems backward compatible.
 
-A out-of-bounds bug can be triggered by an interrupt, the reason for
-this bug is the lack of checking of register values.
+In H264, but also other CODEC, slices are have two types of parameters, some of
+the parameters are invariant between slices, but still duplicated so you can
+decode some of the frame, even if the very first slice is lost. We tried our
+best to place all the slice invariant parameters in decode_params to keep the
+slice_params as small as we could.
 
-In flexcop_pci_isr, the driver reads value from a register and uses it as
-a dma address. Finally, this address will be passed to the count parameter
-of find_next_packet. If this value is larger than the size of dma, the
-index of buffer will be out-of-bounds.
-
-Fix this by adding a check after reading the value of the register.
-
-The following KASAN report reveals it:
-
-BUG: KASAN: slab-out-of-bounds in find_next_packet
-drivers/media/dvb-core/dvb_demux.c:528 [inline]
-BUG: KASAN: slab-out-of-bounds in _dvb_dmx_swfilter
-drivers/media/dvb-core/dvb_demux.c:572 [inline]
-BUG: KASAN: slab-out-of-bounds in dvb_dmx_swfilter+0x3fa/0x420
-drivers/media/dvb-core/dvb_demux.c:603
-Read of size 1 at addr ffff8880608c00a0 by task swapper/2/0
-
-CPU: 2 PID: 0 Comm: swapper/2 Not tainted 4.19.177-gdba4159c14ef #25
-Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS
-rel-1.12.0-59-gc9ba5276e321-prebuilt.qemu.org 04/01/2014
-Call Trace:
- <IRQ>
- __dump_stack lib/dump_stack.c:77 [inline]
- dump_stack+0xec/0x156 lib/dump_stack.c:118
- print_address_description+0x78/0x290 mm/kasan/report.c:256
- kasan_report_error mm/kasan/report.c:354 [inline]
- kasan_report+0x25b/0x380 mm/kasan/report.c:412
- __asan_report_load1_noabort+0x19/0x20 mm/kasan/report.c:430
- find_next_packet drivers/media/dvb-core/dvb_demux.c:528 [inline]
- _dvb_dmx_swfilter drivers/media/dvb-core/dvb_demux.c:572 [inline]
- dvb_dmx_swfilter+0x3fa/0x420 drivers/media/dvb-core/dvb_demux.c:603
- flexcop_pass_dmx_data+0x2e/0x40 drivers/media/common/b2c2/flexcop.c:167
- flexcop_pci_isr+0x3d1/0x5d0 drivers/media/pci/b2c2/flexcop-pci.c:212
- __handle_irq_event_percpu+0xfb/0x770 kernel/irq/handle.c:149
- handle_irq_event_percpu+0x79/0x150 kernel/irq/handle.c:189
- handle_irq_event+0xac/0x140 kernel/irq/handle.c:206
- handle_fasteoi_irq+0x232/0x5c0 kernel/irq/chip.c:725
- generic_handle_irq_desc include/linux/irqdesc.h:155 [inline]
- handle_irq+0x230/0x3a0 arch/x86/kernel/irq_64.c:87
- do_IRQ+0xa7/0x1e0 arch/x86/kernel/irq.c:247
- common_interrupt+0xf/0xf arch/x86/entry/entry_64.S:670
- </IRQ>
-RIP: 0010:native_safe_halt+0x28/0x30 arch/x86/include/asm/irqflags.h:61
-Code: 00 00 55 be 04 00 00 00 48 c7 c7 00 62 2f 8c 48 89 e5 e8 fb 31
-e8 f8 8b 05 75 4f 8e 03 85 c0 7e 07 0f 00 2d 8a 61 66 00 fb f4 <5d> c3
-90 90 90 90 90 90 0f 1f 44 00 00 55 48 89 e5 41 57 41 56 41
-RSP: 0018:ffff88806b71fcc8 EFLAGS: 00000246 ORIG_RAX: ffffffffffffffde
-RAX: 0000000000000000 RBX: ffffffff8bde44c8 RCX: ffffffff88a11285
-RDX: 0000000000000000 RSI: 0000000000000004 RDI: ffffffff8c2f6200
-RBP: ffff88806b71fcc8 R08: fffffbfff185ec40 R09: fffffbfff185ec40
-R10: 0000000000000001 R11: fffffbfff185ec40 R12: 0000000000000002
-R13: ffffffff8be9d6e0 R14: 0000000000000000 R15: 0000000000000000
- arch_safe_halt arch/x86/include/asm/paravirt.h:94 [inline]
- default_idle+0x6f/0x360 arch/x86/kernel/process.c:557
- arch_cpu_idle+0xf/0x20 arch/x86/kernel/process.c:548
- default_idle_call+0x3b/0x60 kernel/sched/idle.c:93
- cpuidle_idle_call kernel/sched/idle.c:153 [inline]
- do_idle+0x2ab/0x3c0 kernel/sched/idle.c:263
- cpu_startup_entry+0xcb/0xe0 kernel/sched/idle.c:369
- start_secondary+0x3b8/0x4e0 arch/x86/kernel/smpboot.c:271
- secondary_startup_64+0xa4/0xb0 arch/x86/kernel/head_64.S:243
-
-Allocated by task 1:
- save_stack+0x43/0xd0 mm/kasan/kasan.c:448
- set_track mm/kasan/kasan.c:460 [inline]
- kasan_kmalloc+0xad/0xe0 mm/kasan/kasan.c:553
- kasan_slab_alloc+0x11/0x20 mm/kasan/kasan.c:490
- slab_post_alloc_hook mm/slab.h:445 [inline]
- slab_alloc_node mm/slub.c:2741 [inline]
- slab_alloc mm/slub.c:2749 [inline]
- kmem_cache_alloc+0xeb/0x280 mm/slub.c:2754
- kmem_cache_zalloc include/linux/slab.h:699 [inline]
- __kernfs_new_node+0xe2/0x6f0 fs/kernfs/dir.c:633
- kernfs_new_node+0x9a/0x120 fs/kernfs/dir.c:693
- __kernfs_create_file+0x5f/0x340 fs/kernfs/file.c:992
- sysfs_add_file_mode_ns+0x22a/0x4e0 fs/sysfs/file.c:306
- create_files fs/sysfs/group.c:63 [inline]
- internal_create_group+0x34e/0xc30 fs/sysfs/group.c:147
- sysfs_create_group fs/sysfs/group.c:173 [inline]
- sysfs_create_groups+0x9c/0x140 fs/sysfs/group.c:200
- driver_add_groups+0x3e/0x50 drivers/base/driver.c:129
- bus_add_driver+0x3a5/0x790 drivers/base/bus.c:684
- driver_register+0x1cd/0x410 drivers/base/driver.c:170
- __pci_register_driver+0x197/0x200 drivers/pci/pci-driver.c:1411
- cx88_audio_pci_driver_init+0x23/0x25 drivers/media/pci/cx88/cx88-alsa.c:
- 1017
- do_one_initcall+0xe0/0x610 init/main.c:884
- do_initcall_level init/main.c:952 [inline]
- do_initcalls init/main.c:960 [inline]
- do_basic_setup init/main.c:978 [inline]
- kernel_init_freeable+0x4d0/0x592 init/main.c:1145
- kernel_init+0x18/0x190 init/main.c:1062
- ret_from_fork+0x24/0x30 arch/x86/entry/entry_64.S:415
-
-Freed by task 0:
-(stack is not available)
-
-The buggy address belongs to the object at ffff8880608c0000
- which belongs to the cache kernfs_node_cache of size 160
-The buggy address is located 0 bytes to the right of
- 160-byte region [ffff8880608c0000, ffff8880608c00a0)
-The buggy address belongs to the page:
-page:ffffea0001823000 count:1 mapcount:0 mapping:ffff88806bed1e00
-index:0x0 compound_mapcount: 0
-flags: 0x100000000008100(slab|head)
-raw: 0100000000008100 dead000000000100 dead000000000200 ffff88806bed1e00
-raw: 0000000000000000 0000000000240024 00000001ffffffff 0000000000000000
-page dumped because: kasan: bad access detected
-
-Memory state around the buggy address:
- ffff8880608bff80: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
- ffff8880608c0000: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
->ffff8880608c0080: 00 00 00 00 fc fc fc fc fc fc fc fc 00 00 00 00
-                               ^
- ffff8880608c0100: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
- ffff8880608c0180: fc fc fc fc fc fc fc fc 00 00 00 00 00 00 00 00
-==================================================================
-
-Link: https://lore.kernel.org/linux-media/1620723603-30912-1-git-send-email-zheyuma97@gmail.com
-Reported-by: Zheyu Ma <zheyuma97@gmail.com>
-Signed-off-by: Zheyu Ma <zheyuma97@gmail.com>
-Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- drivers/media/pci/b2c2/flexcop-pci.c | 3 +++
- 1 file changed, 3 insertions(+)
-
-diff --git a/drivers/media/pci/b2c2/flexcop-pci.c b/drivers/media/pci/b2c2/flexcop-pci.c
-index a9d9520a94c6d..c9e6c7d663768 100644
---- a/drivers/media/pci/b2c2/flexcop-pci.c
-+++ b/drivers/media/pci/b2c2/flexcop-pci.c
-@@ -185,6 +185,8 @@ static irqreturn_t flexcop_pci_isr(int irq, void *dev_id)
- 		dma_addr_t cur_addr =
- 			fc->read_ibi_reg(fc,dma1_008).dma_0x8.dma_cur_addr << 2;
- 		u32 cur_pos = cur_addr - fc_pci->dma[0].dma_addr0;
-+		if (cur_pos > fc_pci->dma[0].size * 2)
-+			goto error;
- 
- 		deb_irq("%u irq: %08x cur_addr: %llx: cur_pos: %08x, last_cur_pos: %08x ",
- 				jiffies_to_usecs(jiffies - fc_pci->last_irq),
-@@ -225,6 +227,7 @@ static irqreturn_t flexcop_pci_isr(int irq, void *dev_id)
- 		ret = IRQ_NONE;
- 	}
- 
-+error:
- 	spin_unlock_irqrestore(&fc_pci->irq_lock, flags);
- 	return ret;
- }
--- 
-2.34.1
+regards,
+Nicolas
 
